@@ -1,0 +1,34 @@
+# The adit out of the Gemstone Mines, west pocket (DD-10A) onto D1 (lane A8, 2026-11-20). From the map's start just
+# inside the adit's mouth, the exit window (leave the Gemstone Mines?), OK: the party stands on D1 (Castleview Vale,
+# A6) below the timbered adit above the gemsmiths' row (thing:dd10a_adit, its face at -9728, 21470), at A6's return
+# point for D1's event 187, facing south, away from it, and walks on south. Run with --world xeen --map
+# xeen_dd10a.blv (output/studio_cal/dd10a/four.sh).
+id: xeen.dd10a.l4.exit_d1
+title: Gemstone Mines west pocket (DD-10A L4), out by the adit to D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd10a.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+  - assert: {map: xeen_dd10a.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: 192, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 19}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "log('arrival ' .. status())"}
+  - assert: {party_position: {x: -9728, y: 20480, radius: 128, z_min: 1560, z_max: 1660}}
+  # Facing south, away from the adit: walking on takes the party down the hill toward the gemsmiths' row.
+  - walk_to: {x: -9728, y: 20100, z: 1600, z_tolerance: 250, radius: 160, timeout_seconds: 30}
+  - assert: {map: xeen_d1.odm}

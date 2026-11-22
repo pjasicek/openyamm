@@ -1,0 +1,157 @@
+# Xeen X9's Dragon Clouds (Q-F1 on X9, D-57, D-59) in the installed map, with their amounts. A level-70 party from a
+# new game on X9, placed beside each thing at the Dragon Tower's foot (an open-air sky map).
+# - The four Ancient Books: refused before the Book of Languages (116240, xd07.book_languages), then IN, FI, NI, TY.
+# - The balls: a member with Intellect under 60 takes 70 Mind and Weakness; one with 60 (by console) reads it.
+# - The crystals: 3,000 / 4,000 experience to the clicking member once (player bits 11362, 11363), with the surge; a
+#   second touch has nothing more; another member is paid.
+# - The Well of Fantastic Skill: +20 to every statistic for all until rest; again the same day, only water.
+# - The Eye of the Dragon: a wrong answer ("Die fools!", 70 Energy to all, retryable), "Infinity": 8,000 each and the
+#   Elder Staff (12505), 114021; then its after-line.
+# Places: the stand points of `oymap things` on xeen_x9.blv. Quest logic: source/quests/q-f1.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_x9_dragon_clouds.yml --scenario-no-color
+id: xeen.hooks_x9_dragon_clouds
+title: "Xeen X9 hooks: the Ancient Books, the balls, the crystals, the well and the Eye of the Dragon"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_x9.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 70, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 70, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 70, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 70, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_x9.blv}
+  - set_pose: {map: xeen_x9.blv, x: 20776, y: 18350, z: 2048, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(6000))"}
+  - assert: {map: xeen_x9.blv}
+  - press_action: {action: select_member, member_index: 0}
+
+  # ---- The Ancient Books (events 46-49): refused without the Book of Languages; read with it.
+  - play_lua: {source: "click(47); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "You are unable to understand the strange Dragon Runes."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: {line: "qbit set 116240"}
+  - play_lua: {source: "click(47); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: IN"}}
+  - play_lua: {source: "close(); wait(0.3); click(46); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: FI"}}
+  - play_lua: {source: "close(); wait(0.3); click(48); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: NI"}}
+  - play_lua: {source: "close(); wait(0.3); click(49); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: TY"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The Mind of the Dragon (event 44): member 0 (Intellect under 60) is burnt and weakened.
+  - console: &cond {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(ActualIntellect, v + 1) do v = v + 1 end out = out .. v .. '/' .. tostring(IsAtLeast(Weak, 1)) .. ' ' end evt.ForPlayer(Players.Current) evt.StatusText('int ' .. out)", expect_contains: "Lua ran."}
+  - play_lua: {source: "log('before the balls: ' .. string.match(status(), 'int [^|]+'))"}
+  - play_lua: {source: "click(44); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "Your feeble mind tries to absorb the new wisdom but is found lacking."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: *cond
+  - play_lua:
+      source: |
+        local s = string.match(status(), "int [^|]+")
+        log("after the Mind ball: " .. s)
+        if not string.find(s, "int %d+/true ") then error("member 0 not weakened: " .. s) end
+  # Member 3 with Intellect raised to 60: the Future of the Dragon (event 43) is read.
+  - console: {line: "lua evt.ForPlayer(3) local v = 0 while v < 255 and IsAtLeast(ActualIntellect, v + 1) do v = v + 1 end if v < 60 then AddValue(BaseIntellect, 60 - v) end evt.ForPlayer(Players.Current)", expect_contains: "Lua ran."}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "click(43); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "The countless futures of the Dragon stream into your brain"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The crystals (events 50, 51): member 3, then again, then member 1.
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(50); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+3,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(50); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Power Crystal. It has nothing more for you.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(51); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+4,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(50); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+3,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local want = {0, 3000, 0, 7000}
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= want[i + 1] then error("the crystals paid member " .. i .. " " .. d .. ", wanted " .. want[i + 1]) end
+        end
+  - press_action: {action: select_member, member_index: 0}
+
+  # ---- The Well of Fantastic Skill (event 54): +20 to every statistic; again the same day, water.
+  - console: &might {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(MightBonus, v + 1) do v = v + 1 end out = out .. v .. '/' end evt.ForPlayer(Players.Current) evt.StatusText('mb ' .. out)", expect_contains: "Lua ran."}
+  - play_lua: {source: "local s = string.match(status(), 'mb ([%d/]+)'); remember('mb', s); log('Might bonus before the well: ' .. s)"}
+  - play_lua: {source: "click(54); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+20 to every statistic until you rest)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(55); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: *might
+  - play_lua:
+      source: |
+        local before = {}
+        for v in string.gmatch(recall("mb"), "%d+") do table.insert(before, tonumber(v)) end
+        local after = {}
+        for v in string.gmatch(string.match(status(), "mb ([%d/]+)"), "%d+") do table.insert(after, tonumber(v)) end
+        for i = 1, 4 do
+          if after[i] - before[i] ~= 20 then error("the well gave member " .. (i - 1) .. " " .. (after[i] - before[i])) end
+        end
+
+  # ---- The Eye of the Dragon (event 53): wrong, then "Infinity".
+  - play_lua: {source: "click(53); wait(0.4)"}
+  - answer_input: {text: "Gold"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Die fools!\""}}
+  - assert: {qbit_clear: [114021]}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do remember('x' .. i, experience(i)) end; click(53); wait(0.4)"}
+  - answer_input: {text: "Infinity"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [["Very good, mortals!"]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        while held() ~= 0 do stow() end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 8000 then error("the Eye paid member " .. i .. " " .. d) end
+        end
+        if not has_item(12505) then error("no Elder Staff") end
+        click(53); wait(0.4)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[It has nothing more to say, and it says so.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [114021]}

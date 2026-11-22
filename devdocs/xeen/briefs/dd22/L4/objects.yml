@@ -1,0 +1,421 @@
+format: 0
+start:
+  room: room:airlock
+  at: [0, -832]
+  facing: n
+  notes: "In the airlock 192 inside the hatch, facing north."
+arrivals:
+  - {entrance: entrance:d6_hatch, room: room:airlock, at: [0, -832], facing: n, notes: "From D6's hatch (door:dd22, A6; A3's d6.sheltem_hatch once m33.done)."}
+doors:
+  - id: door:airlock
+    opening: open:airlock_ring
+    kind: slide_left
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The airlock's inner door, north into the lower ring."
+  - id: door:blast
+    opening: open:blast
+    kind: slide_left
+    leaves: 2
+    pictures:
+      - [{texture: swdoora, size: [256, 256]}]
+    back_pictures:
+      - [{texture: swdoora, size: [256, 256]}]
+    notes: "The bridge's blast door: one riveted blast door (swdoora) over both leaves, parting in the middle (DD-17's Command Central pattern); sealed by the lockdown, opened for good by the security console (D-43)."
+  - id: door:brig
+    opening: open:ring_brig
+    kind: slide_left
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The brig's door.
+  - id: door:gun
+    opening: open:ring_gun
+    kind: slide_left
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The gun deck's door.
+  - id: door:maint
+    opening: open:ring_ladder
+    kind: slide_left
+    surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    notes: "The maintenance hatch in the lower ring's east arm (swtrpnl, DD-17's maintenance doors)."
+  - id: door:security
+    opening: open:brig_security
+    kind: slide_left
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The security post's door off the brig.
+  - id: door:stores
+    opening: open:shaft_stores
+    kind: slide_right
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The stores' door off the shaft's foot.
+lifts:
+  - id: lift:a
+    room: room:shaft0
+    at: [-160, 256]
+    size: [224, 256]
+    travel: 448
+    thickness: 16
+    speed: 224
+    surface: {texture: swfloor5a, size: [128, 128]}
+    notes: "Lift A: a red-gridded pad from the shaft's foot (deck 1, down) up through the middle ring's floor (deck 2, up, 448); 2 s."
+  - id: lift:b
+    room: room:ring1
+    at: [160, 256]
+    size: [224, 256]
+    travel: 448
+    thickness: 16
+    speed: 224
+    surface: {texture: swfloor5a, size: [128, 128]}
+    notes: "Lift B: from the middle ring (deck 2, down) up through the bridge landing's floor (deck 3, up, 896)."
+ladders:
+  - {id: ladder:maint, room: room:ladder, at: [960, 230], facing: n, height: 448, exit: [960, 320], surface: {texture: bemv, size: [32, 256], uneven: true}, notes: The maintenance ladder up through the gun deck's floor hatch (the loop).}
+sounds:
+  - {id: sound:alarm, room: room:security, at: [-896, 960], sound: xeen_pod_alarm, radius: 1300, inner_radius: 400, volume: 0.35, notes: "The security console's alarm (AU's two-tone beep, a loop): it stops when the lockdown is released (AmbientSound map variable)."}
+  - {id: sound:bed_bridge, room: room:bridge, at: [0, 1088], sound: humming, radius: 2000, inner_radius: 1000, volume: 0.2, notes: "The hum over deck 3, not panned.", pan: false}
+  - {id: sound:bed_deck1, room: room:shaft0, at: [0, 160], sound: humming, radius: 2200, inner_radius: 1100, volume: 0.22, notes: "The pod's cold hum over deck 1 (D-48: a bed, not panned).", pan: false}
+  - {id: sound:bed_deck2, room: room:ring1, at: [0, 0], sound: humming, radius: 2200, inner_radius: 1100, volume: 0.2, notes: "The hum over deck 2, not panned.", pan: false}
+lights:
+  - id: light:airlock_1
+    room: room:airlock
+    at: [0, -832]
+    height: 288
+    radius: 700
+    color: [200, 70, 55]
+    notes: The airlock's red emergency lamp.
+  - id: light:bridge_1
+    room: room:bridge
+    at: [0, 1056]
+    height: 700
+    radius: 1500
+    color: [235, 60, 50]
+    notes: The bridge's red light under the dome.
+  - id: light:bridge_2
+    room: room:bridge
+    at: [-640, 1088]
+    height: 320
+    radius: 900
+    color: [200, 70, 55]
+  - id: light:bridge_3
+    room: room:bridge
+    at: [640, 1088]
+    height: 320
+    radius: 900
+    color: [200, 70, 55]
+  - id: light:bridge_4
+    room: room:bridge
+    at: [-320, 1472]
+    height: 160
+    radius: 600
+    color: [235, 60, 50]
+    pulse: {intensity: [0.3, 1], frequency: 2.3}
+    notes: The main console flickering red.
+  - id: light:bridge_5
+    room: room:bridge
+    at: [320, 1472]
+    height: 160
+    radius: 600
+    color: [235, 60, 50]
+    pulse: {intensity: [0.3, 1], frequency: 1.7, phase: 0.4}
+    notes: The scanning console flickering red.
+  - id: light:bridge_6
+    room: room:bridge
+    at: [896, 1088]
+    height: 160
+    radius: 500
+    color: [110, 190, 190]
+    notes: The log computer's screen.
+  - id: light:bridge_ante_1
+    room: room:bridge_ante
+    at: [-64, 160]
+    height: 400
+    radius: 1000
+    color: [150, 175, 200]
+  - id: light:brig_1
+    room: room:brig
+    at: [-896, -128]
+    height: 288
+    radius: 1000
+    color: [110, 190, 190]
+  - id: light:brig_2
+    room: room:brig
+    at: [-1120, 0]
+    height: 128
+    radius: 500
+    color: [200, 70, 55]
+    notes: The dark cells' faint red.
+  - id: light:drive_1
+    room: room:drive
+    at: [-384, 896]
+    height: 288
+    radius: 900
+    color: [150, 175, 200]
+  - id: light:drive_2
+    room: room:drive
+    at: [384, 896]
+    height: 288
+    radius: 900
+    color: [150, 175, 200]
+  - id: light:drive_3
+    room: room:drive
+    at: [0, 896]
+    height: 24
+    radius: 800
+    color: [235, 60, 50]
+    pulse: {intensity: [0.6, 1], frequency: 0.25}
+    notes: The drive's red glow under the grilles.
+  - id: light:gun_deck_1
+    room: room:gun_deck
+    at: [832, -192]
+    height: 288
+    radius: 900
+    color: [150, 175, 200]
+  - id: light:gun_deck_2
+    room: room:gun_deck
+    at: [832, 448]
+    height: 288
+    radius: 900
+    color: [150, 175, 200]
+  - id: light:ladder_1
+    room: room:ladder
+    at: [960, 64]
+    height: 288
+    radius: 600
+    color: [150, 175, 200]
+  - id: light:ring0_1
+    room: room:ring0
+    at: [-352, -384]
+    height: 288
+    radius: 800
+    color: [150, 175, 200]
+  - id: light:ring0_2
+    room: room:ring0
+    at: [576, 0]
+    height: 288
+    radius: 800
+    color: [150, 175, 200]
+  - id: light:ring1_1
+    room: room:ring1
+    at: [0, -128]
+    height: 288
+    radius: 1000
+    color: [150, 175, 200]
+  - id: light:security_1
+    room: room:security
+    at: [-896, 832]
+    height: 288
+    radius: 900
+    color: [235, 60, 50]
+    pulse: {intensity: [0.35, 1], frequency: 1}
+    notes: The security post's alarm light.
+  - id: light:shaft0_1
+    room: room:shaft0
+    at: [0, 160]
+    height: 288
+    radius: 900
+    color: [150, 175, 200]
+  - id: light:stores_1
+    room: room:stores
+    at: [-640, 160]
+    height: 288
+    radius: 700
+    color: [150, 175, 200]
+switches:
+  - id: switch:lift_a1
+    room: room:shaft0
+    kind: button
+    at: [-160, 448]
+    height: 112
+    notes: "Lift A's button on the shaft's north wall, over the pad (deck 1)."
+  - id: switch:lift_a2
+    room: room:ring1
+    kind: button
+    at: [-160, 448]
+    height: 112
+    notes: "Lift A's button on the middle ring's north wall, over its well (deck 2)."
+  - id: switch:lift_b2
+    room: room:ring1
+    kind: button
+    at: [160, 448]
+    height: 112
+    notes: "Lift B's button on the middle ring's north wall, over the pad (deck 2)."
+  - id: switch:lift_b3
+    room: room:bridge_ante
+    kind: button
+    at: [160, 448]
+    height: 112
+    notes: "Lift B's button on the bridge landing's north wall, over its well (deck 3)."
+chests:
+  - id: chest:brig
+    room: room:brig
+    at: [-832, -464]
+    kind: gt002
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The guards' locker (T6), against the south wall."
+  - id: chest:couch
+    room: room:bridge
+    at: [0, 880]
+    kind: gt002
+    facing: w
+    treasure_level: 6
+    random_items: 3
+    gold: 6000
+    notes: "Sheltem's locker (T6), on the couch's dais under its high back."
+  - id: chest:stores
+    room: room:stores
+    at: [-640, 400]
+    kind: gt002
+    facing: w
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The pod's stores locker (T6), against the north wall."
+monsters:
+  - id: monster:bridge_annihilator_1
+    room: room:bridge
+    monster: 11611
+    at: [640, 896]
+    facing: 270
+    group: 1
+  - id: monster:bridge_ante_patrol_1
+    room: room:bridge_ante
+    monster: 11610
+    at: [-384, 0]
+    facing: 270
+    group: 1
+  - id: monster:bridge_ante_patrol_2
+    room: room:bridge_ante
+    monster: 11610
+    at: [-160, -64]
+    facing: 270
+    group: 1
+  - id: monster:bridge_patrol_1
+    room: room:bridge
+    monster: 11610
+    at: [-640, 896]
+    facing: 270
+    group: 1
+  - id: monster:brig_annihilator_1
+    room: room:brig
+    monster: 11611
+    at: [-960, 64]
+    facing: 270
+    group: 1
+  - id: monster:brig_patrol_1
+    room: room:brig
+    monster: 11610
+    at: [-896, -256]
+    facing: 270
+    group: 1
+  - id: monster:brig_patrol_2
+    room: room:brig
+    monster: 11610
+    at: [-768, 256]
+    facing: 270
+    group: 1
+  - id: monster:drive_annihilator_1
+    room: room:drive
+    monster: 11611
+    at: [0, 1184]
+    facing: 270
+    group: 1
+  - id: monster:drive_patrol_1
+    room: room:drive
+    monster: 11610
+    at: [-640, 896]
+    facing: 270
+    group: 1
+  - id: monster:drive_patrol_2
+    room: room:drive
+    monster: 11610
+    at: [512, 704]
+    facing: 270
+    group: 1
+  - id: monster:gun_deck_annihilator_1
+    room: room:gun_deck
+    monster: 11611
+    at: [1024, -192]
+    facing: 270
+    group: 1
+  - id: monster:gun_deck_patrol_1
+    room: room:gun_deck
+    monster: 11610
+    at: [768, -320]
+    facing: 270
+    group: 1
+  - id: monster:gun_deck_patrol_2
+    room: room:gun_deck
+    monster: 11610
+    at: [768, 576]
+    facing: 270
+    group: 1
+  - id: monster:ring0_patrol_1
+    room: room:ring0
+    monster: 11610
+    at: [-384, -384]
+    facing: 270
+    group: 1
+  - id: monster:ring0_patrol_2
+    room: room:ring0
+    monster: 11610
+    at: [256, -400]
+    facing: 270
+    group: 1
+  - id: monster:security_annihilator_1
+    room: room:security
+    monster: 11611
+    at: [-1024, 704]
+    facing: 270
+    group: 1
+  - id: monster:security_annihilator_2
+    room: room:security
+    monster: 11611
+    at: [-704, 768]
+    facing: 270
+    group: 1
+  - id: monster:security_patrol_1
+    room: room:security
+    monster: 11610
+    at: [-896, 864]
+    facing: 270
+    group: 1
+  - id: monster:stores_patrol_1
+    room: room:stores
+    monster: 11610
+    at: [-640, 64]
+    facing: 270
+    group: 1
+  - id: monster:stores_patrol_2
+    room: room:stores
+    monster: 11610
+    at: [-704, 256]
+    facing: 270
+    group: 1
+decorations:
+  - id: deco:stores_barrel_1
+    room: room:stores
+    decoration: bigbarel
+    at: [-784, -80]
+    notes: A pair of barrels in the stores' south-west corner.
+  - id: deco:stores_barrel_2
+    room: room:stores
+    decoration: bigbarel
+    at: [-784, 16]
+  - id: deco:stores_keg_1
+    room: room:stores
+    decoration: smlbarel
+    at: [-784, 400]
+    notes: Two small kegs in the north-west corner.
+  - id: deco:stores_keg_2
+    room: room:stores
+    decoration: smlbarel
+    at: [-784, 320]
+exits:
+  - id: exit:hatch
+    room: room:airlock
+    at: [0, -1024]
+    size: [256, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d6_hatch
+    notes: "The round hatch's inner face (the riveted swdoora with its boss): out to D6."
+notes: "DD-22's contents, written by output/studio_cal/dd22/tools/dress.py: 7 doors (the blast door a two-leaf pair) and the hatch's exit face, two lifts (A deck 1 to 2, B deck 2 to 3) with four call buttons, the maintenance ladder, 3 chests (T6), 20 placed robots (Patrol 11610 x14, Annihilator 11611 x6), the stores' barrels."

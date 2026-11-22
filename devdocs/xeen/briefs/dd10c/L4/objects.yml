@@ -1,0 +1,402 @@
+format: 0
+start:
+  room: room:adit
+  at: [0, 192]
+  facing: 90
+  notes: "Just inside the adit's mouth, facing in (north); D6's door into this map (phase 5, A6) lands the party here."
+doors:
+  - id: door:adit
+    opening: open:adit_lava
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The adit's plank door into the lava gallery.
+  - id: door:collapse
+    opening: open:lava_collapse
+    kind: hinged
+    hinge: right
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The plank door from the lava gallery into the collapse.
+  - id: door:grotto
+    opening: open:diamond_grotto
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The plank door from the diamond cavern into the crystal grotto.
+sounds:
+  - {id: sound:adit_wind, room: room:adit, at: [0, 96], sound: whistling wind, radius: 1000, inner_radius: 200, volume: 0.35, notes: Air drawn in at the boarded mouth.}
+  - {id: sound:collapse_rumble, room: room:collapse, at: [64, 2688], sound: rumble, radius: 1200, inner_radius: 300, volume: 0.3, notes: The roof settling.}
+  - {id: sound:diam_drip, room: room:diamond, at: [3712, 1920], sound: drip02, radius: 1300, inner_radius: 300, volume: 0.4, notes: Seepage in the cavern.}
+  - {id: sound:grotto_hum, room: room:grotto, at: [4928, 1344], sound: humming, radius: 800, inner_radius: 200, volume: 0.3, notes: The geode hums.}
+  - {id: sound:lava, room: room:lava, at: [1280, 880], sound: lava loop, radius: 1400, inner_radius: 400, volume: 0.45, notes: The seam bubbling as it cools.}
+lights:
+  - id: light:adit
+    room: room:adit
+    at: [0, 448]
+    height: 280
+    radius: 900
+    color: [255, 180, 110]
+  - id: light:collapse
+    room: room:collapse
+    at: [448, 2304]
+    height: 380
+    radius: 1100
+    color: [220, 190, 150]
+  - id: light:diam_e
+    room: room:diamond
+    at: [3840, 1408]
+    height: 520
+    radius: 1300
+    color: [210, 220, 255]
+  - id: light:diam_lava
+    room: room:diamond
+    at: [2496, 1344]
+    height: 200
+    radius: 700
+    color: [255, 120, 50]
+    notes: The lava's glow spilling in from the gallery.
+  - id: light:diam_w
+    room: room:diamond
+    at: [2880, 1280]
+    height: 520
+    radius: 1300
+    color: [210, 220, 255]
+  - id: light:diamond_1
+    room: room:diamond
+    at: [2515, 720]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: Diamond vein 1 glints.
+  - id: light:diamond_2
+    room: room:diamond
+    at: [2967, 445]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: Diamond vein 2 glints.
+  - id: light:diamond_3
+    room: room:diamond
+    at: [3689, 445]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: Diamond vein 3 glints.
+  - id: light:diamond_4
+    room: room:diamond
+    at: [4175, 755]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: Diamond vein 4 glints.
+  - id: light:diamond_5
+    room: room:diamond
+    at: [4151, 1890]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: Diamond vein 5 glints.
+  - id: light:false_vein
+    room: room:diamond
+    at: [2596, 2012]
+    height: 176
+    radius: 360
+    color: [220, 240, 255]
+    notes: The false vein glints like the rest.
+  - id: light:grotto
+    room: room:grotto
+    at: [4928, 1344]
+    height: 320
+    radius: 800
+    color: [170, 230, 255]
+    notes: The geode's cold glow.
+  - id: light:lava_e
+    room: room:lava
+    at: [1664, 864]
+    height: 112
+    radius: 900
+    color: [255, 110, 40]
+    notes: The seam's glow.
+  - id: light:lava_room
+    room: room:lava
+    at: [256, 1472]
+    height: 360
+    radius: 900
+    color: [220, 150, 110]
+  - id: light:lava_w
+    room: room:lava
+    at: [1024, 880]
+    height: 112
+    radius: 900
+    color: [255, 110, 40]
+    notes: The seam's glow.
+  - id: light:nest
+    room: room:nest
+    at: [2496, 2752]
+    height: 300
+    radius: 1400
+    color: [160, 200, 255]
+    notes: "The cold nest: a pale blue light on frost and dead ash (D-62 Q49, session 23)."
+chests:
+  - id: chest:grotto
+    room: room:grotto
+    at: [5240, 1344]
+    kind: ch3
+    facing: w
+    treasure_level: 5
+    random_items: 2
+    gold: 1500
+    notes: "The dead miner's chest in the geode (treasure 5, Act V: D-27)."
+monsters:
+  - id: monster:m01
+    room: room:lava
+    monster: 11570
+    at: [400, 1450]
+    facing: 270
+    group: 1
+  - id: monster:m02
+    room: room:lava
+    monster: 11570
+    at: [1000, 1500]
+    facing: 270
+    group: 1
+  - id: monster:m03
+    room: room:lava
+    monster: 11610
+    at: [1500, 1450]
+    facing: 270
+    group: 1
+  - id: monster:m04
+    room: room:lava
+    monster: 11570
+    at: [1900, 1400]
+    facing: 270
+    group: 1
+  - id: monster:m05
+    room: room:diamond
+    monster: 11570
+    at: [2700, 1100]
+    facing: 270
+    group: 2
+  - id: monster:m06
+    room: room:diamond
+    monster: 11570
+    at: [3300, 700]
+    facing: 270
+    group: 2
+  - id: monster:m07
+    room: room:diamond
+    monster: 11571
+    at: [3900, 900]
+    facing: 270
+    group: 2
+  - id: monster:m08
+    room: room:diamond
+    monster: 11570
+    at: [4000, 1600]
+    facing: 270
+    group: 2
+  - id: monster:m09
+    room: room:diamond
+    monster: 11571
+    at: [3400, 2000]
+    facing: 270
+    group: 2
+  - id: monster:m10
+    room: room:diamond
+    monster: 11570
+    at: [2700, 1900]
+    facing: 270
+    group: 2
+  - id: monster:m11
+    room: room:grotto
+    monster: 11571
+    at: [4800, 1344]
+    facing: 270
+    group: 3
+  - id: monster:m12
+    room: room:grotto
+    monster: 11570
+    at: [5050, 1300]
+    facing: 270
+    group: 3
+  - id: monster:m13
+    room: room:collapse
+    monster: 11570
+    at: [0, 2100]
+    facing: 270
+    group: 4
+  - id: monster:m14
+    room: room:collapse
+    monster: 11570
+    at: [600, 2300]
+    facing: 270
+    group: 4
+  - id: monster:m15
+    room: room:collapse
+    monster: 11610
+    at: [900, 2600]
+    facing: 270
+    group: 4
+  - id: monster:m16
+    room: room:collapse
+    monster: 11570
+    at: [500, 2950]
+    facing: 270
+    group: 4
+  - id: monster:m17
+    room: room:nest
+    monster: 11570
+    at: [1800, 2600]
+    facing: 270
+    group: 5
+  - id: monster:m18
+    room: room:nest
+    monster: 11570
+    at: [2400, 2700]
+    facing: 270
+    group: 5
+  - id: monster:m19
+    room: room:nest
+    monster: 11571
+    at: [3000, 2700]
+    facing: 270
+    group: 5
+  - id: monster:m20
+    room: room:nest
+    monster: 11570
+    at: [2800, 3000]
+    facing: 270
+    group: 5
+decorations:
+  - id: deco:adit_torch_w
+    room: room:adit
+    decoration: torch02
+    at: [-192, 448]
+    wall: west
+    notes: A miner's torch.
+  - id: deco:collapse_boulder
+    room: room:collapse
+    decoration: rock10
+    at: [-400, 2700]
+    notes: A boulder off the roof.
+  - id: deco:collapse_boulder_2
+    room: room:collapse
+    decoration: rock03
+    at: [176, 2960]
+    notes: A boulder off the roof.
+  - id: deco:collapse_rocks
+    room: room:collapse
+    decoration: 6rock03
+    at: [1000, 2950]
+  - id: deco:collapse_rocks_2
+    room: room:collapse
+    decoration: 6rock02
+    at: [-96, 2352]
+  - id: deco:collapse_torch
+    room: room:collapse
+    decoration: torch02
+    at: [-512, 2400]
+    wall: 6
+    notes: A torch the roof missed.
+  - id: deco:diam_crystal_e
+    room: room:diamond
+    decoration: crys5
+    at: [4310, 1680]
+  - id: deco:diam_crystal_s
+    room: room:diamond
+    decoration: crclstr
+    at: [3330, 400]
+    notes: Raw crystal under the south veins.
+  - id: deco:diam_skull
+    room: room:diamond
+    decoration: 7dec20
+    at: [3700, 2150]
+  - id: deco:diam_spoil
+    room: room:diamond
+    decoration: 6rock02
+    at: [2380, 1760]
+    notes: Spoil by the false vein.
+  - id: deco:grotto_crystal
+    room: room:grotto
+    decoration: crys6
+    at: [4660, 1180]
+  - id: deco:grotto_miner
+    room: room:grotto
+    decoration: dec05
+    at: [5180, 1460]
+    notes: "The dead miner, by his chest."
+  - id: deco:lava_rock_e
+    room: room:lava
+    decoration: Brnrock0
+    at: [2040, 1150]
+    notes: A glowing rock at the seam's east end.
+  - id: deco:lava_rock_w
+    room: room:lava
+    decoration: Brnrock0
+    at: [690, 900]
+    notes: A rock still glowing at the seam's west end.
+  - id: deco:lava_spoil
+    room: room:lava
+    decoration: 6rock01
+    at: [-400, 1600]
+    notes: Spoil in the gallery's north-west corner.
+  - id: deco:nest_ash_e
+    room: room:nest
+    decoration: 7dec11
+    at: [3350, 2600]
+    notes: Cold ash.
+  - id: deco:nest_ash_w
+    room: room:nest
+    decoration: 7dec11
+    at: [1600, 2350]
+    notes: Cold ash.
+  - id: deco:nest_bones
+    room: room:nest
+    decoration: dec29
+    at: [2900, 3150]
+    notes: What the brood was fed.
+  - id: deco:nest_coals
+    room: room:nest
+    decoration: 6rock03
+    at: [2250, 3120]
+    notes: "Cinders gone cold (D-62 Q49: no embers)."
+  - id: deco:nest_ice_e
+    room: room:nest
+    decoration: crclstr
+    at: [3440, 2830]
+    notes: Ice.
+  - id: deco:nest_ice_nw
+    room: room:nest
+    decoration: crys5
+    at: [2000, 3150]
+    notes: Ice.
+  - id: deco:nest_ice_sw
+    room: room:nest
+    decoration: crys6
+    at: [1560, 2320]
+    notes: Ice.
+exits:
+  - id: exit:d6
+    room: room:adit
+    wall: south
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [32, 64], scale: 5}
+    to: exit:d6_adit
+    notes: "The adit's mouth, boarded: out to D6 below the north adit."
+notes: "DD-10C's contents, written by output/studio_cal/dd10c/tools/gen.py: 3 plank doors, 1 chest, the exit to D6, 20 monsters (D-62: Floating Eye 11570 x14, Terrible Eye 11571 x4, Patrol 11610 x2 on MONSTER_SPOTS)."

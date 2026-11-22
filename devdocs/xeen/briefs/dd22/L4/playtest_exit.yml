@@ -1,0 +1,34 @@
+# Playtest of Sheltem's Pod's way out (DD-22, L4): from the airlock (the map's start, entrance:d6_hatch (0, -832, 0)
+# facing north), the hatch's inner face (the exit preset, evt:hatch 19, "Exit Escape Pod 2"): the game's leave window,
+# OK; out onto D6 at its named arrival entrance:dd22_hatch (7168, 12288, 1952) facing 1536 (south, away from the pod),
+# position and facing measured. Run with --world xeen (output/studio_cal/dd22/four.sh).
+id: xeen.dd22.l4.exit
+title: Sheltem's Pod (DD-22 L4), out by the hatch onto D6
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd22.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 58, skills: [], equipment: {}}
+  - assert: {map: xeen_dd22.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  # (A new game started in the map does not take the start's facing; playtest.yml asserts the arrival's facing.)
+  - assert: {party_position: {x: 0, y: -832, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: -930, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 19}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "log('D6 arrival: ' .. status() .. ' / ' .. party())"}
+  - clear_hostiles: {radius: 6000}
+  - advance_runtime: {seconds: 2.0}
+  - assert: {party_position: {x: 7168, y: 12288, radius: 128, z_min: 1900, z_max: 2000, facing: 1536, facing_within: 64}}

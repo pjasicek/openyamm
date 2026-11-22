@@ -1,0 +1,45 @@
+format: 0
+id: xeen_fd01
+name: Alamar Depths
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: FD-01
+units: {plan_grid: 512}
+extent: {footprint_cells: [21, 17], climbs: n}
+map_stats:
+  id: 9179
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 50
+  environment: stoneroom
+  lock_difficulty: 20
+neighbours:
+  - id: exit:d6_stair
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:fd01_stair
+    arrival_hint: "On D6 before the ruin of Castle Alamar, facing south down the ramp (A6's entrance:fd01_stair, (-6656, 4608, 2208) facing 1536)."
+    notes: "D6's thing:fd01_stair (a pit hatch in the broken gatehouse's floor, m39.depths_door) names this map's entrance:d6_stair once A6 lifts DUNGEON['fd01'] = False. The way out is the exit preset at the stair's head (the leave window, D-24)."
+  - id: exit:d7_roof
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:fd01_roof
+    arrival_hint: "On Castle Alamar's roof on D7's Skyroads, by the hatch (A6's entrance:fd01_roof, (-18688, 8448, 1536) facing 1024)."
+    notes: "Q-D26 (D-69 change 5): the ladder's foot in the rubble shaft asks the map's own Yes/No 'Climb up through the hatch?'; Yes calls q-d26.depths_hatch ('Bolted from above.' until roof_unlocked 113521); true leaves at once to D7's entrance:fd01_roof. D7's hatch (q-d26.hatch, after m33.done) names this map's entrance:d7_roof."
+qbits:
+  arrived_from_d7: 117846
+  grate_bolt: 117843
+  key_box: 117844
+  m39_darkstone_key: 111780
+  m39_done: 111781
+  q_d26_roof_unlocked: 113521
+  skull_door_open: 117845
+  slab_east: 117842
+  slab_west: 117841
+  statue_spoken: 117840
+notes: "Xeen design brief for a new map: FD-01 Alamar Depths (the source's dark maze0052, aaze0052: Castle Alamar's dungeon) as one BLV under the ruin of Castle Alamar on D6, the main level at z 0 and Roland's stasis vault a lift (768) below. Story M39 Prince Roland (A3's m39 hooks), Q-F1's Key to the Dragon Tower (12376, the map's find) and Q-D26's way up to D7 (q-d26.depths_hatch). Class M: 20-45 sectors, 30-90 M units squared, 6-16 doors, 3-7 chests; party 58-61. Graph devdocs/xeen/mockups/act6_graphs/fd01.graph.yml with decider D-69 (mockups/act6_fd01_decisions.md, which wins): Annihilator 11611 62 x28 and Autobot 11612 75 x6, 34, kill XP 163,242 for the party, 40.81k per member (D-57 Q7's exception: 34 under M's 45). Rest encounters 0 (Q71: A2's row 9179, encounter 0, treasure 6; no slots). Map qbits 117840-117846; map_stats 9179, music 50."

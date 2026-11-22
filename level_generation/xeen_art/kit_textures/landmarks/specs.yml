@@ -1,0 +1,240 @@
+# New face textures of the Xeen landmark kits (A6, 2026-11-20): royal_castle (xk), towers (xt), ancient (xa).
+# Made with level_generation/textures_xeen/xtex.py --project level_generation/xeen_art/kit_textures/landmarks.
+# Only what no shipped MM6-MM8 texture covers; the kits and their shipped textures: level_generation/xeen_art/kits/.
+# One entry per texture (same format as level_generation/textures_xeen/specs.yml):
+#   size: [w, h]     logical texels; the master is 4x that, x2 and x1 are reductions.
+#   art: [w, h]      the aspect the picture is seen at, when it differs from size.
+#   kind:            sign, picture (full-bleed single picture), tile (full-bleed, made seamless by a seam pass), edit,
+#                    cutout (on magenta, keyed to alpha)
+#   refs:            family masters sent as references (level_generation/textures_x4/masters/<world>/<name>.png)
+#   tone:            {like: [names], factor: f} the linear mean luma of those masters times f; or {luma: L}
+#                    (pictures: f set after a first finish so the wall or marble round the motif matches its master)
+#   family:          the family in words; what: the content, in the prompt's words
+#   dungeon:         the kit (its family_words below)
+dungeons:
+  royal_castle:
+    family_words: >-
+      Castle Ironfist of Might and Magic VI, a royal castle of white stone: pale cream and white ashlar blocks with
+      warm orange-tan carved trims, quoins and crenellations, Gothic lancet windows with green glass, carved oak doors
+      with iron straps; inside, the cream marble halls of the Titans' Stronghold of Might and Magic VII with carved
+      knotwork dados, tapestries and banners
+  towers:
+    family_words: >-
+      the wizard towers of Bracada and the towers of Mount Nighon of Might and Magic VII: grey rubble stone and
+      slate-blue coursed stone under black timber friezes and posts, black plank roofs, carved dark oak, a witch's or
+      wizard's tower of dark timber and slate
+  ancient:
+    family_words: >-
+      the Control Center of Might and Magic VI and the crashed starship of Might and Magic VII, the technology of the
+      Ancients: dark teal-grey and verdigris steel panels with rust streaks, riveted plates, pipes and conduits,
+      glowing green, red and cyan energy grids and light strips, dark glass consoles
+textures:
+  # ---------------------------------------------------------------- royal_castle
+  xkarrow:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm6/hcwall, mm6/hcwindo, mm6/csaro128]
+    tone: {like: [mm6/hcwall], factor: 0.89}
+    family: MM6 Castle Ironfist hcwall
+    where: towers, battlements and gatehouses of Castle Burlock, Kalindra and Newcastle (the hc set has no arrow slit)
+    standin: csaro128 (grey stone)
+    what: >-
+      A section of castle wall seen straight on, the same pale cream and white ashlar blocks as the first reference,
+      the same block size and mortar. In the middle of the wall one tall narrow arrow slit: a dark vertical opening
+      about one tenth of the width wide and half the height tall, with a short cross slot near its middle (a cross
+      loop), framed by dressed cream stones and a small orange-tan carved sill and head stone like the second
+      reference's window trim. The wall continues to all four edges, blocks cut by the edges.
+  xkportc:
+    dungeon: royal_castle
+    size: [256, 256]
+    kind: cutout
+    refs: [mm6/hclgdr, mm6/csdoor, mm7/ch004i]
+    tone: {like: [mm6/hcdoor32], factor: 0.8}
+    family: MM6 Castle Ironfist gates (iron)
+    where: Castle Burlock's Crusaders' gate and the castle gatehouses (a lowering portcullis on a door mover)
+    standin: none (an open gate)
+    what: >-
+      a castle portcullis seen exactly straight on, filling the whole canvas edge to edge: a grid of heavy dark iron
+      bars, five vertical and five horizontal, riveted where they cross, the vertical bars ending in pointed spikes
+      along the bottom edge, dark weathered iron with a little rust. Through every opening between the bars only
+      flat magenta (#FF00FF) shows.
+  xkburcrst:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm6/hcwall, mm6/hcuniq2, mm6/hcw1ctr]
+    tone: {like: [mm6/hcwall], factor: 0.87}
+    family: MM6 Castle Ironfist hcwall
+    where: beside or above Castle Burlock's gates (gatehouse, Crusaders' gate, keep door), the throne room's dais wall
+    standin: hcuniq3 (statue niche)
+    what: >-
+      The coat of arms of King Burlock set into a castle wall of pale cream and white ashlar blocks like the first
+      reference: a large heraldic shield carved in relief from the white stone and painted, in a frame of
+      orange-tan carved stone like the references' trims. On the shield, on a bright heraldic red field, a golden
+      griffin rampant facing left: an eagle's head with an open beak, spread wings raised behind, a lion's body
+      reared up on one hind leg with the forelegs and talons clawing forward and a long curling tail; drawn in bold
+      heraldic outline; a thin gold border. Above the shield a small carved stone crown finial. The ashlar wall
+      shows round it to all four edges.
+  xkkalcrst:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm6/hcwall, mm6/hcuniq2, mm6/hcw1ctr]
+    tone: {like: [mm6/hcwall], factor: 0.8}
+    family: MM6 Castle Ironfist hcwall
+    where: Castle Kalindra's gates and throne room (Darkside), Castleview's gate towers
+    standin: hcuniq2 (statue niche)
+    what: >-
+      The coat of arms of Queen Kalindra set into a castle wall of pale cream and white ashlar blocks like the first
+      reference: a large heraldic shield carved in relief from the white stone and painted, in a frame of
+      orange-tan carved stone like the references' trims. On the shield, on a deep purple field, a silver crescent
+      moon with its horns up, and inside its curve a silver rose; a thin silver border. Above the shield a small
+      carved stone coronet. The ashlar wall shows round it to all four edges.
+  xkburban:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/t3s2b1, mm7/chb1p6, mm7/chb1p7]
+    tone: {like: [mm7/t3s2b1], factor: 0.64}
+    family: MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)
+    where: Castle Burlock's throne room, great hall and gallery of arms (on the white marble walls)
+    standin: chb1p6 (an Erathian lion banner on brown cobble)
+    what: >-
+      A long cloth banner hanging flat against a wall of cream marble panels with a carved dark knotwork band at the
+      bottom, like the first reference; the marble shows on both sides and below. The banner, like the second
+      reference's, hangs from a dark wooden pole with brass ends across the top: bright heraldic red cloth with a
+      gold fringe, a swallow-tailed lower end (two long points), and on it the arms of King Burlock: a golden
+      griffin rampant facing left, eagle's head with open beak, wings raised, a lion's body reared on one hind leg,
+      forelegs clawing forward, tail curling, in bold heraldic outline.
+  xkkalban:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/t3s2b1, mm7/chb1p6, mm7/chb1p7]
+    tone: {like: [mm7/t3s2b1], factor: 0.56}
+    family: MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)
+    where: Castle Kalindra's throne room and restored wings
+    standin: chb1p7
+    what: >-
+      A long cloth banner hanging flat against a wall of cream marble panels with a carved dark knotwork band at the
+      bottom, like the first reference; the marble shows on both sides and below. The banner, like the second
+      reference's, hangs from a dark wooden pole with silver ends across the top: deep purple cloth with a silver
+      fringe, a pointed lower end, and on it the arms of Queen Kalindra: a silver crescent moon with its horns up
+      and inside its curve a silver rose.
+  xkncscrst:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm6/hcwall, mm6/hcuniq2, mm6/hcw1ctr]
+    family: MM6 Castle Ironfist hcwall
+    where: Newcastle's gate and keep (XD-13, X3), from stage 2
+    made_by: derive_d3.py (a Codex edit of the first xkburcrst, work/d3_before/, with the crowns taken off; D-3.1)
+    what: >-
+      The arms of Newcastle, the party's castle, in the white ashlar wall: on a royal blue shield a white castle
+      tower with three battlements, a thin gold border, under a plain carved stone cap (no crown).
+  xkncsban:
+    dungeon: royal_castle
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/t3s2b1, mm7/chb1p6, mm7/chb1p7]
+    family: MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)
+    where: Newcastle's great hall (XD-13), from stage 2
+    made_by: derive_d3.py (a Codex edit of the first xkburban, work/d3_before/, with the crown taken off; D-3.1)
+    what: >-
+      Newcastle's banner on the cream marble wall: royal blue cloth with a gold fringe and a swallow-tailed end, a
+      white castle tower with three battlements on it (no crown).
+  # ---------------------------------------------------------------- towers
+  xtslate:
+    dungeon: towers
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm7/hwm2rf, mm7/hkm3b, mm8/t19a05b]
+    tone: {like: [mm7/hwm2rf, mm7/hkm3b], factor: 1.0}
+    family: MM7 Bracada hwm2 / Nighon hkm3 (slate)
+    where: tower roofs and cones (witch and wizard towers, Towers of Mok, Ellinger's), castle tower cones
+    standin: hwm2rf (black planks)
+    what: >-
+      A roof of dark blue-grey slates, repeating: rows of thin rectangular slates laid in overlapping courses like
+      the third reference's roof scales but square-cut, each course offset by half a slate, slate-blue and charcoal
+      with a few greenish and rust-brown slates, small chips at the corners, a little pale lichen; the colour of the
+      second reference's blue stone. Six courses of slates from top to bottom, all the same height.
+  xtslatew:
+    dungeon: towers
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/hkm3b, mm7/hwm2wall, mm7/hwm2rf]
+    tone: {like: [mm7/hkm3b], factor: 0.95}
+    family: MM7 Nighon hkm3 (slate) with Bracada hwm2 timber
+    where: upper storeys of the towers (slate-hung walls between the stone base and the roof)
+    standin: hkm3b
+    what: >-
+      A slate-hung tower wall seen straight on, repeating: small rectangular slates hung in overlapping horizontal
+      courses on the wall, each course offset by half a slate, dark slate-blue and charcoal like the first
+      reference's stones, with a few darker and a few greenish slates, the slates' lower edges slightly lifted and
+      chipped. About twelve even courses from top to bottom. No timber, no window.
+  # ---------------------------------------------------------------- ancient
+  xahull:
+    dungeon: ancient
+    size: [256, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/swankdk, mm6/swall1, mm6/swgirder]
+    tone: {like: [mm6/swankdk], factor: 0.9}
+    family: MM6 Control Center sw (outer plating)
+    where: outer surfacing of Castle Alamar (Darkside north-west), the escape pods' hulls, Castle Xeen's machines,
+      the travel pyramids' cladding, outdoor walls at house-kit scale (256)
+    standin: mm8/gn_mtl02 (plain metal)
+    what: >-
+      Large outer hull plating of an ancient machine-fortress, repeating: big rectangular dull teal-grey steel plates
+      of three sizes fitted edge to edge with thin dark seams, rows of round rivet heads along the seams like the
+      third reference, a few recessed square access panels and narrow vents, verdigris and brown rust streaks
+      running down from the rivets, scuffs and dents; the colours of the first reference.
+  xahullbn:
+    dungeon: ancient
+    size: [256, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/swankdk, mm6/swgirder, mm6/swceilf]
+    tone: {like: [mm6/swankdk], factor: 0.6}
+    family: MM6 Control Center sw (outer plating, burnt)
+    where: the crashed escape pods (Corak's, Sheltem's) in the Forbidden Zone's lava field; Alamar's damaged faces
+    standin: mm8/gn_mtl03
+    what: >-
+      The same large teal-grey riveted outer hull plating of an ancient machine, repeating, but scorched and burnt by
+      re-entry and lava: the plates blackened with soot, heat-tinted in straw, bronze and blue bands, buckled at the
+      seams, a few rivets missing, crusts of black slag and dark orange rust, small cracks; patches of the original
+      teal-grey steel still showing.
+  xafield:
+    dungeon: ancient
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/swflora, mm6/swll3dk, mm7/a4b]
+    tone: {luma: 80}
+    family: MM6 Control Center sw (energy)
+    where: Alamar's energy fields and shield walls, Castle Xeen's barriers (dropped by the generators), the
+      Parabolic Barrier's curtain (a translucent or liquid face)
+    standin: swflora (green grid)
+    what: >-
+      A wall of shimmering energy, repeating: a glowing translucent field of pale cyan and electric blue light, with a
+      faint regular hexagonal lattice of brighter lines across it, soft ripples and a few thin white crackling arcs,
+      darker blue between the lines; it glows evenly from itself, with no source of light outside it.
+  xaenergy:
+    dungeon: ancient
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm6/swll4dk, mm6/swll3dk, mm7/a1b]
+    tone: {like: [mm6/swll4dk], factor: 1.3}
+    family: MM6 Control Center sw (energy panels)
+    where: Castle Xeen's elemental generators, Alamar's conveyor halls and sundial chambers, the Parabolic Barrier's
+      pylons, pod engine rooms
+    standin: swll3dk (green tubes)
+    what: >-
+      A machine wall panel, repeating vertically and horizontally: dark teal-grey steel with thin riveted frames like
+      the first reference, and down its middle a recessed vertical channel holding a glowing conduit of bright cyan
+      and white energy, flanked by two thin copper pipes and small dark ports with tiny green lights. The channel
+      and pipes run off the top and bottom edges.

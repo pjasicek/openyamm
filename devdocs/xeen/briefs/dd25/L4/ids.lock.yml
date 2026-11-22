@@ -1,0 +1,81 @@
+format: 0
+sectors:
+  room:burrow_lane: 1
+  room:forge_bay: 2
+  room:gate_hall: 3
+  room:gate_passage: 4
+  room:great_hall: 5
+  room:guild_hall: 6
+  room:guild_stair: 7
+  room:kings_steps: 8
+  room:smiths_gallery: 9
+  room:throne_hall: 10
+events:
+  evt:alehall: 1
+  evt:arrive: 2
+  evt:chalice: 3
+  evt:exit_gate_left: 4
+  evt:exit_gate_right: 5
+  evt:forge: 6
+  evt:guild_earth: 7
+  evt:kings_hall: 8
+  evt:mailwright: 9
+  evt:studio_peaceful_groups: 15
+  evt:throne: 10
+  evt:throne_back: 11
+  evt:throne_leaves: 12
+  evt:tinker: 13
+  evt:well: 14
+doors:
+  door:throne_leaves: 1
+  door:throne_leaves.leaf2: 2
+map_vars:
+  once.arrive: 0
+lights:
+  light:forge_bay_1: 1
+  light:great_hall_3: 2
+  light:great_hall_7: 4
+  light:smiths_gallery_5: 6
+  light:throne_hall_2: 3
+  light:throne_hall_4: 5
+sounds:
+  sound:alehall: 1
+  sound:anvil: 2
+  sound:bed_guild: 3
+  sound:bed_hall: 4
+  sound:bed_throne: 5
+  sound:forge_fire: 6
+  sound:hearth: 7
+decorations:
+  deco:ale_barrel_1: 0
+  deco:ale_barrel_2: 1
+  deco:brazier_n: 2
+  deco:brazier_s: 3
+  deco:chalice: 4
+  deco:chandelier_e: 5
+  deco:chandelier_w: 6
+  deco:cup_1: 7
+  deco:cup_2: 8
+  deco:cup_3: 9
+  deco:cup_4: 10
+  deco:forge_fire: 11
+  deco:guild_lamp_1: 12
+  deco:guild_lamp_2: 13
+  deco:hearth_fire: 14
+  deco:sconce_1: 15
+  deco:sconce_10: 16
+  deco:sconce_11: 17
+  deco:sconce_12: 18
+  deco:sconce_13: 19
+  deco:sconce_14: 20
+  deco:sconce_2: 21
+  deco:sconce_3: 22
+  deco:sconce_4: 23
+  deco:sconce_5: 24
+  deco:sconce_6: 25
+  deco:sconce_7: 26
+  deco:sconce_8: 27
+  deco:sconce_9: 28
+  deco:vein_1: 29
+  deco:vein_2: 30
+  deco:vein_3: 31

@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely recolor the first input (paint_mask_guide.png), retaining its exact transparent alpha stencil, all margins and all ten tiny silhouettes. 1536x2048 portrait atlas, 3 columns x 4 equal rows. Never zoom to content. Other inputs supply design and colors only. Each motif is centered in its original 512px tile. Row 1: tiny circular gold end view, tiny circular gold end view, thin horizontal staff with handle on left. Row 2: thin horizontal staff with handle on right, thin vertical staff with handle at top, empty. In rows 1\u20132 paint unlit base color: long dark wooden shaft with subtle swirling grain, emerald green faceted jeweled handle with fine veins, gold bands and small gold endcaps. Follow master details at guide scale. Row 3 and row 4 exactly repeat placement and silhouette of rows 1 and 2, respectively, in flat material ID colors only: all gold parts pure red #FF0000, all wood pure yellow #FFFF00, emerald pure opaque black #000000. Both tiny circles in row 3 pure solid red. Flat exact fills, crisp material boundaries, no blended colors inside masks. Preserve all guide gaps fully transparent. No shadows, lighting, highlight, outline, ground, halo, labels or grid. Output only edited guide.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "5a16228b58e0689c8d17600cd3e73c05c4b1f044c88794769775e324b119ff21"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "cdc25f85410cd39f1bf4b27da999e8479c90503aea9a28bde44beb4d8d5ac9d3"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "e67a287f92498b5785c5346c0f102ffb972c7e66a6a02651484313a3ff6c63e5"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92a-9cb4-7f42-965f-35bff4346343/exec-80b0d1c6-7e01-47da-916b-d50893665f48.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

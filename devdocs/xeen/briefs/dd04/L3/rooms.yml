@@ -1,0 +1,261 @@
+format: 0
+themes:
+  - id: theme:ashlar
+    wall: {texture: t09a01, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t09b11b, size: [128, 32]}}
+    floor: {texture: t09a02b, size: [128, 128]}
+    ceiling: {texture: t09a02a, size: [128, 128]}
+    reveal: {texture: t09a01, size: [128, 256]}
+    door: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    notes: "The wall's footings: D1's t09 grey ashlar (t09a01 over its base course t09b11b), the town's flags t09a02b underfoot, the smooth grey t09a02a overhead, the arched plank door t09a03c."
+  - id: theme:burrow
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    door: {texture: t09a10b, size: [64, 64]}
+    notes: "The burrows: MM7 Tularean Caves (7d08) red-brown earth cwb1 on walls and roofs, its floor cfb1."
+  - id: theme:court
+    wall: {texture: t09a01, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t09b11b, size: [128, 32]}}
+    floor: {texture: t09a02b, size: [128, 128]}
+    ceiling: {texture: t09a10a, size: [64, 64]}
+    reveal: {texture: t09a01, size: [128, 256]}
+    door: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    notes: "The court: D1's t09 ashlar under a coffered oak roof (t09a10a), the town's flags underfoot."
+  - id: theme:mud
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: wtrtyl, size: [128, 128], liquid: water, flow: down}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    notes: "The sappers' last dig: 7d08 earth round a pool of seeping water (MM8 wtrtyl, the fluid bit)."
+  - id: theme:waiting
+    wall: {texture: t09a01, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t09b11b, size: [128, 32]}}
+    floor: {texture: t09a05b, size: [128, 128]}
+    ceiling: {texture: t09a02a, size: [128, 128]}
+    reveal: {texture: t09a01, size: [128, 256]}
+    door: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    notes: "The waiting room: t09 ashlar over a herringbone plank floor (t09a05b, stolen from a town house)."
+defaults: {theme: theme:burrow, ambient: 16}
+rooms:
+  - id: room:barracks
+    name: The mighty army
+    outline: [[1792, 896], [2816, 896], [3072, 1152], [3072, 1920], [2816, 2176], [1792, 2176], [1536, 1920], [1536, 1152]]
+    floor: -384
+    rough: {step: 192, depth: 32}
+    ceiling: 96
+    ceiling_points: [[2304, 1536, 192]]
+    theme: theme:burrow
+    ambient: 15
+    notes: "Gettlewaithe's 'mighty army' in a cave 1,536 by 1,280 under the burrow: straw for beds, toy catapults, the pay chest; the bolt-hole comes down west, the sappers' tunnel leaves north."
+  - id: room:bolt_hole
+    name: Bolt-hole
+    path: [[576, 1664], [1408, 1664]]
+    width: 320
+    floor: 0
+    slope: {to: -384}
+    ceiling: 288
+    theme: theme:burrow
+    ambient: 12
+    notes: "A steep earthen ramp 832 long, dropping 384 east from the burrow to the army's barracks."
+  - id: room:burrow
+    name: The burrow
+    outline: [[-192, 640], [192, 640], [192, 1088], [448, 1344], [448, 2048], [192, 2304], [-192, 2304], [-192, 1984], [64, 1728], [64, 1472], [-192, 1216]]
+    floor: 0
+    rough: {step: 192, depth: 32}
+    ceiling: 416
+    ceiling_points: [[256, 1700, 480], [0, 1000, 448]]
+    theme: theme:burrow
+    ambient: 16
+    notes: "A crooked passage dug through the wall's rubble core, 384 to 640 wide, lit by stolen lanterns; the bolt-hole drops away east, the hall of pranks opens north."
+  - id: room:cellar
+    name: The wall's old cellar
+    outline: [[896, 2304], [1920, 2304], [1920, 3584], [1664, 3584], [1664, 4608], [1152, 4608], [1152, 3584], [896, 3584]]
+    floor: 0
+    ceiling: 448
+    ceiling_points: [[1408, 2944, 544], [1408, 4096, 512]]
+    theme: theme:ashlar
+    ambient: 18
+    notes: "A store in the wall's footings forgotten by the town and found by the gremlins: a hall 1,024 by 1,280 and a vaulted arm north to the larder's door; the hall of pranks through an arch west."
+  - id: room:court
+    name: The Gremlin Court
+    outline: [[-896, 4224], [896, 4224], [896, 5760], [-896, 5760]]
+    floor: 0
+    ceiling: 704
+    ceiling_points: [[0, 4992, 832]]
+    theme: theme:court
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:portrait, at: centre, length: 256, bottom: 320, height: 256, surface: {texture: xdmayor, size: [128, 128], scale: 2}, notes: "Mayor Snarfblad's portrait with a moustache added (A6's xdmayor), hung behind the throne."}
+    platforms:
+      - {id: platform:carpet, at: [0, 4880], size: [384, 1024], rise: 2, surface: {texture: t68a13a, size: [64, 64], scale: 2}, top_surface: {texture: t68a13a, size: [64, 64], scale: 2}, notes: A carpet of the mill's sails from the door to the dais.}
+      - {id: platform:dais, at: [0, 5560], size: [768, 352], rise: 32, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t68a13a, size: [64, 64], scale: 2}, notes: "The dais, planks from the bridge, sailcloth on top."}
+      - {id: platform:throne, at: [0, 5640], size: [192, 128], rise: 72, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10a, size: [64, 64]}, base: 32, notes: "The throne: a seat of chairs stacked three high."}
+      - {id: platform:throne_back, at: [0, 5716], size: [192, 24], rise: 216, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10b, size: [64, 64]}, base: 32, notes: "The throne's back, a fourth chair on end."}
+      - {id: platform:chair_1, at: [-208, 5672], size: [64, 64], rise: 56, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10a, size: [64, 64]}, base: 32, notes: A spare chair of the throne's pile.}
+      - {id: platform:chair_2, at: [-208, 5672], size: [56, 56], rise: 56, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10a, size: [64, 64]}, base: 88, notes: A chair on the chair.}
+    ambient: 24
+    notes: "The hall of the court in the wall's footings, 1,792 by 1,536 under a coffered roof: a carpet of the mill's sails to a dais, Gettlewaithe's throne of stacked chairs, the Mayor's improved portrait above it; the waiting room's door south, the servants' hatch in the east wall by the dais."
+  - id: room:door
+    name: The tiny door
+    outline: [[-160, 0], [160, 0], [160, 640], [-160, 640]]
+    floor: 0
+    ceiling: 240
+    theme: theme:burrow
+    ambient: 14
+    notes: "Just inside the tiny door: a low earthen passage 320 wide and 240 high (the party stoops, by the look of it; 240 clears its 192), opening into the burrow after 640."
+  - id: room:larder
+    name: The larder
+    outline: [[1024, 4864], [1664, 4864], [1664, 5632], [1024, 5632]]
+    floor: 0
+    ceiling: 384
+    theme: theme:ashlar
+    platforms:
+      - {id: platform:table, at: [1560, 5056], size: [128, 256], rise: 64, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10b, size: [64, 64]}, notes: "The larder table: Pip's melons, a ham, the Mayor's cheese."}
+    ambient: 20
+    notes: "A cool room 640 by 768: the gremlins' larder. The cellar's door south, the trapdoor stair down to the sappers' tunnel east, the servants' hatch into the court west."
+  - id: room:mud
+    name: The sappers' last dig
+    outline: [[2496, 6272], [2944, 6272], [3072, 6528], [2880, 6784], [2560, 6784], [2368, 6528]]
+    floor: -400
+    ceiling: -48
+    theme: theme:mud
+    ambient: 9
+    notes: "Where the sappers gave up: the tunnel's end, its floor a pool of seeping water; the drains beyond."
+  - id: room:plunder
+    name: Hall of pranks
+    outline: [[-640, 2304], [640, 2304], [640, 3328], [-640, 3328]]
+    floor: 0
+    rough: {step: 192, depth: 32}
+    ceiling: 544
+    ceiling_points: [[0, 2816, 640]]
+    theme: theme:burrow
+    platforms:
+      - {id: platform:gears, rise: 40, surface: {texture: t09a10b, size: [64, 64]}, outline: [[-424, 3104], [-336, 3104], [-272, 3168], [-272, 3256], [-336, 3304], [-424, 3304], [-488, 3256], [-488, 3168]], top_surface: {texture: t09a10a, size: [64, 64]}, notes: "The mill's great gear wheel, laid flat by the north wall with the smaller gears on it."}
+      - {id: platform:wheel, rise: 24, surface: {texture: t09a10b, size: [64, 64]}, outline: [[-536, 2392], [-472, 2392], [-432, 2432], [-432, 2496], [-472, 2536], [-536, 2536], [-576, 2496], [-576, 2432]], top_surface: {texture: t09a10b, size: [64, 64]}, notes: "A wheel off Cole's cart, in the south-west corner."}
+    ambient: 18
+    notes: "A dug hall about 1,280 by 1,024 heaped with Castleview's missing things: the mill's gears, bell clappers, a bucket of Ingrid's chain rings, a wheel off Cole's cart; the waiting room's door north, the wall's old cellar through an arch east."
+  - id: room:sap
+    name: Sappers' tunnel
+    path: [[2560, 2304], [2560, 3072], [2848, 3520], [2848, 4416], [2720, 4864], [2720, 6144]]
+    width: 320
+    smooth: 1
+    floor: -384
+    ceiling: -32
+    theme: theme:burrow
+    ambient: 10
+    notes: "A tunnel shored with stakes, dug north under the town towards the sewers and given up where it met water; the trapdoor stair to the larder leaves its west side."
+  - id: room:sap_stair
+    name: Trapdoor stair
+    outline: [[1792, 5184], [2432, 5184], [2432, 5504], [1792, 5504]]
+    floor: -384
+    slope: {to: 0, toward: west, steps: 12}
+    ceiling: 352
+    theme: theme:burrow
+    ambient: 12
+    notes: Twelve earthen steps up west from the sappers' tunnel to the larder's trapdoor.
+  - id: room:waiting
+    name: The waiting room
+    outline: [[-384, 3456], [384, 3456], [384, 4096], [-384, 4096]]
+    floor: 0
+    ceiling: 416
+    theme: theme:waiting
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:sign, at: centre, length: 192, bottom: 176, height: 96, surface: {texture: t09b11a, size: [128, 64], scale: 1.5}, notes: "The sign: 'Wait here. Forever.'"}
+    platforms:
+      - {id: platform:bench_w, at: [-336, 3712], size: [64, 320], rise: 40, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10b, size: [64, 64]}, notes: "A petitioners' bench along the west wall, much too small."}
+      - {id: platform:bench_e, at: [336, 3776], size: [64, 384], rise: 40, surface: {texture: t09a10b, size: [64, 64]}, top_surface: {texture: t09a10b, size: [64, 64]}, notes: "A petitioners' bench along the east wall, much too small."}
+    ambient: 22
+    notes: "A square room in the wall's footings, 768 by 640: two benches built for gremlins, a sign, heralds; the plank door south to the hall of pranks, the court's door north."
+openings:
+  - id: open:barracks_sap
+    from: room:barracks
+    to: room:sap
+    link: link:barracks_sap
+    width: full
+    height: 320
+  - id: open:bolt_barracks
+    from: room:bolt_hole
+    to: room:barracks
+    link: link:bolt_barracks
+    width: full
+    height: 288
+  - id: open:burrow_bolt
+    from: room:burrow
+    to: room:bolt_hole
+    link: link:burrow_bolt
+    width: full
+    height: 288
+    notes: The bolt-hole's mouth in the burrow's east wall.
+  - id: open:burrow_plunder
+    from: room:burrow
+    to: room:plunder
+    link: link:burrow_plunder
+    width: full
+    height: 384
+  - id: open:cellar_larder
+    from: room:cellar
+    to: room:larder
+    link: link:cellar_larder
+    width: 192
+    height: 352
+    notes: The larder's door.
+  - id: open:door_burrow
+    from: room:door
+    to: room:burrow
+    link: link:door_burrow
+    width: full
+    height: 240
+  - id: open:larder_court
+    from: room:larder
+    to: room:court
+    link: link:larder_court
+    width: 160
+    height: 224
+    notes: "The servants' hatch, a low secret door."
+  - id: open:plunder_cellar
+    from: room:plunder
+    to: room:cellar
+    link: link:plunder_cellar
+    width: 512
+    height: 384
+    notes: A broken arch from the dug hall into the wall's old cellar.
+  - id: open:plunder_waiting
+    from: room:plunder
+    to: room:waiting
+    link: link:plunder_waiting
+    width: 192
+    height: 352
+    notes: The waiting room's plank door.
+  - id: open:sap_mud
+    from: room:sap
+    to: room:mud
+    link: link:sap_mud
+    width: full
+    height: 320
+  - id: open:sap_stair
+    from: room:sap
+    to: room:sap_stair
+    link: link:sap_larder
+    width: 288
+    height: 320
+  - id: open:stair_larder
+    from: room:sap_stair
+    to: room:larder
+    link: link:sap_larder
+    width: 224
+    height: 288
+    notes: The trapdoor (a plank door) at the stair's head.
+  - id: open:waiting_court
+    from: room:waiting
+    to: room:court
+    link: link:waiting_court
+    width: 192
+    height: 352
+    notes: The court's door.
+notes: "DD-04 at L3/L4: twelve rooms in the plan's frame (x east, y north, the tiny door's sill at y 0). Written by output/studio_cal/dd04/tools/gen.py."

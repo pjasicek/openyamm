@@ -1,0 +1,121 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# Staged map: links carry the stage that opens (or closes) them; QUESTS §4.1 names the stages.
+format: mu6-0
+map: XD-13
+key: xd13
+name: Newcastle Keep (staged)
+stands_on: X3 Lifeforce Lagoon
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [14, 16]
+monsters:
+  levels: [16, 24]
+  boss: null
+  count: 28
+  groups: [2, 3]
+  families:
+    - "Material golems A: Wood Golem 18 (stage 0, the ruined foundation; the source's)"
+    - "Swamp things A: Swamp Thing 20 (stage 3, seeped into the flooded cellar)"
+    - "Magic constructs B: Guardian 24 (stage 3, the scientists' vault guards)"
+treasure: {level: 2, hoard: 3}
+role: "Story M8 (deed), M9 walls, M11 keep, M22 dungeon, M23 the Xeen Slayer Sword; the party's Cloudside home (QUESTS §4.1)"
+role_short: "Story M8–M23 (staged)"
+set_piece: "A ruin that becomes a castle stage by stage; the sword vault behind the password door ('laboratory')"
+stages:
+  - {id: stage:0, qbit: newcastle_deed, quest: M8, what: "Deed bought: the ruin opens. Wood golems in the hall and the foundation pit; side doors are rubble; the dungeon stair is blocked."}
+  - {id: stage:1, qbit: newcastle_walls, quest: M9, what: "Walls (outdoors only, X3). Nothing changes inside."}
+  - {id: stage:2, qbit: newcastle_keep, quest: M11, what: "Keep: the hall is roofed and lit, the pit floored over, golems gone; smithy and training hall open (houses)."}
+  - {id: stage:3, qbit: newcastle_dungeon, quest: M22, what: "Dungeon: chapel (temple) and counting room (bank) open, YOUR well flows, the dungeon stair is cleared."}
+floors:
+  - {floor: 0, name: "The keep", height: 0}
+  - {floor: -1, name: "Foundation and dungeon", height: -640}
+spaces:
+  - {id: room:gate, name: Keep gate, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Stage 0 a rubble-choked doorway; from stage 2 a new gate with Newcastle's banner."}
+  - {id: room:great_hall, name: Great hall, kind: hall, size: L, floor: 0, at: [2, 0], monsters: 6,
+     population: [{family: Material golems, count: 6, strength: pack, rank: a, stage: [0, 1]}],
+     purpose: "Stage 0 roofless: woodpile, rubble, bones, note 'la'. Stage 2 the lord's hall."}
+  - {id: room:statue_court, name: Statue court, kind: room, size: M, floor: 0, at: [3, 0], monsters: 4,
+     population: [{family: Material golems, count: 4, strength: light, rank: a, stage: [0, 1]}],
+     purpose: "The statue 'Built in honor of Great Adventurers.'; note 'ra'; from stage 3 YOUR well."}
+  - {id: room:chapel, name: Chapel, kind: room, size: M, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "Stage 3: the temple (house door)."}
+  - {id: room:pantry, name: Pantry, kind: room, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "'Food. Fill pack?'; note 'bo' under a sack."}
+  - {id: room:smithy, name: Smithy, kind: room, size: M, floor: 0, at: [0, 1], monsters: 0,
+     purpose: "Stage 2: the smith by the gate (house door)."}
+  - {id: room:training, name: Training hall, kind: room, size: M, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "Stage 2: training (house door)."}
+  - {id: room:counting, name: Counting room, kind: room, size: S, floor: 0, at: [5, 0], monsters: 0,
+     purpose: "Stage 3: the bank (house door)."}
+  - {id: room:dungeon_stair, name: Dungeon stair, kind: stair, size: S, floor: 0, at: [3, 1], monsters: 0,
+     purpose: "Until stage 3: 'A short distance down the stairs you find the way blocked with rubble.'"}
+  - {id: room:foundation_pit, name: Foundation pit, kind: cave, size: M, floor: -1, at: [2, 0], chest: 2, monsters: 5,
+     population: [{family: Material golems, count: 5, strength: pack, rank: a, stage: [0, 1]}],
+     purpose: "Stage 0-1 only: where the hall floor fell in; wood golems grown out of the old beams; the scientists' strongbox."}
+  - {id: room:cellar, name: Flooded cellar, kind: cave, size: M, floor: -1, at: [3, 0], monsters: 6,
+     population: [{family: Swamp things, count: 6, strength: pack, rank: a, stage: [3]}],
+     purpose: "Lagoon water seeped in; swamp things; note 'to' on a shelf."}
+  - {id: room:old_lab, name: Old laboratory, kind: room, size: M, floor: -1, at: [4, 0], chest: 2, monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: light, rank: b, stage: [3]}],
+     purpose: "The scientists' wrecked workshop (Crodo's dreams came here); note 'ry'; their notebooks."}
+  - {id: room:vault_door, name: Vault door, kind: corridor, size: S, floor: -1, at: [5, 0], monsters: 3,
+     population: [{family: Magic constructs, count: 3, strength: heavy, rank: b, stage: [3]}],
+     purpose: "A steel door with a speaking grille: 'What is the password?'"}
+  - {id: room:sword_vault, name: Sword vault, kind: room, size: S, floor: -1, at: [6, 0], set_piece: true, goal: true,
+     monsters: 0, purpose: "The pedestal and the experimental Xeen Slayer Sword (M23)."}
+links:
+  - {id: link:gate_hall, from: room:gate, to: room:great_hall, kind: open, label: "stage 0 (deed)", opened_by: state:stage0}
+  - {id: link:hall_pantry, from: room:great_hall, to: room:pantry, kind: door}
+  - {id: link:hall_court, from: room:great_hall, to: room:statue_court, kind: open}
+  - {id: link:gate_smithy, from: room:gate, to: room:smithy, kind: door, label: "stage 2", opened_by: state:stage2}
+  - {id: link:court_training, from: room:statue_court, to: room:training, kind: door, label: "stage 2 (keep)", opened_by: state:stage2}
+  - {id: link:court_chapel, from: room:statue_court, to: room:chapel, kind: door, label: "stage 3", opened_by: state:stage3}
+  - {id: link:chapel_counting, from: room:chapel, to: room:counting, kind: door, label: "stage 3", opened_by: state:stage3}
+  - {id: link:court_stair, from: room:statue_court, to: room:dungeon_stair, kind: open}
+  - {id: link:hall_pit, from: room:great_hall, to: room:foundation_pit, kind: drop, label: "until stage 2",
+     notes: "The broken floor; floored over at stage 2 (faces shown by qbit)."}
+  - {id: link:pit_pantry, from: room:foundation_pit, to: room:pantry, kind: stair, label: "rubble slope",
+     notes: "The way back up, into the pantry; closed at stage 2 with the pit."}
+  - {id: link:stair_cellar, from: room:dungeon_stair, to: room:cellar, kind: stair, label: "stage 3 (dungeon)",
+     opened_by: state:stage3, notes: "Rubble shown until the qbit."}
+  - {id: link:cellar_lab, from: room:cellar, to: room:old_lab, kind: open}
+  - {id: link:lab_vaultdoor, from: room:old_lab, to: room:vault_door, kind: open}
+  - {id: link:vault, from: room:vault_door, to: room:sword_vault, kind: door, label: "password: laboratory",
+     opened_by: state:password}
+states:
+  - {id: state:stage0, kind: stage, where: "X3, Ebenezer (M8)", what: "Deed bought: qbit newcastle_deed.", opens: [link:gate_hall]}
+  - {id: state:stage2, kind: stage, where: "Castle Burlock, Emerson (M11)", what: "Keep built: qbit newcastle_keep. Opens smithy and training; closes the pit and its slope; removes the golems.",
+     opens: [link:gate_smithy, link:court_training]}
+  - {id: state:stage3, kind: stage, where: "Castle Burlock, Artemus's permit and Emerson (M22)", what: "Dungeon dug: qbit newcastle_dungeon. Opens chapel, bank and the dungeon stair; brings the cellar's monsters.",
+     opens: [link:court_chapel, link:chapel_counting, link:stair_cellar]}
+  - {id: state:password, kind: password, where: room:old_lab,
+     what: "The word 'laboratory': its syllables on five notes (la hall, bo pantry, ra statue court, to cellar, ry laboratory); said outright by Elona in Shangri-La; proposed: also by Crodo when freed (M21).",
+     opens: [link:vault], draw: false}
+exits:
+  - {id: exit:x3_site, space: room:gate, at: [0, 0], kind: both, label: "X3: Newcastle site",
+     neighbour: "Door on X3's Newcastle site, inside the walls once stage 1 stands"}
+critical_path: [room:gate, room:great_hall, room:statue_court, room:dungeon_stair, room:cellar, room:old_lab, room:vault_door, room:sword_vault]
+stage_paths:
+  stage0: [room:gate, room:great_hall, room:pantry, room:great_hall, room:statue_court, room:dungeon_stair, room:great_hall, room:foundation_pit, room:pantry]
+  stage2: [room:gate, room:smithy, room:gate, room:great_hall, room:statue_court, room:training]
+  stage3: [room:gate, room:great_hall, room:statue_court, room:chapel, room:counting, room:chapel, room:statue_court, room:dungeon_stair, room:cellar, room:old_lab, room:vault_door, room:sword_vault]
+loops:
+  - {id: loop:pit, spaces: [room:great_hall, room:foundation_pit, room:pantry], notes: "Stage 0-1: down through the broken floor, up the rubble slope."}
+lines:
+  - {text: "Woodpile / Rubble / Bones", ref: "aaze0072:1,3,5", where: room:great_hall}
+  - {text: "You find a message that reads: \"la\".", ref: "aaze0073:1", where: room:great_hall}
+  - {text: "Food.  Fill pack?", ref: "aaze0073:0", where: room:pantry}
+  - {text: "A plaque at the base of the statue reads: Built in honor of Great Adventurers.", ref: "aaze0073:3", where: room:statue_court}
+  - {text: "A short distance down the stairs you find the way blocked with rubble. You are unable to continue down, so you come back up.", ref: "aaze0073:7", where: room:dungeon_stair}
+  - {text: "YOUR well / Even your well's water is cool and refreshing.", ref: "aaze0073:8,9", where: room:statue_court}
+  - {text: "You find a note which reads:  \"to\". / \"ry\".", ref: "aaze0074:0,1", where: "room:cellar, room:old_lab"}
+  - {text: "What is the password? / Incorrect!", ref: "aaze0073:15,16", where: room:vault_door}
+  - {text: "The pedestal is cool to the touch.", ref: "aaze0073:12", where: room:sword_vault}
+open_questions:
+  - "Stage 3 comes after M21 (Darzog's Tower, party about 33-36), but MAPS sets XD-13 at 14-16 with monsters 16-24. The cellar and vault would be trivial then. Raise the stage-3 groups to the Act IV band (about 30-45), or make the dungeon a quiet walk to the sword?"
+  - "The password's answer-givers: the five syllable notes (two only reachable at stage 3) and Elona in Shangri-La, which the party reaches in Act V, after M23. Add Crodo saying the word when freed (M21)? Proposed yes."
+  - "Should the syllable notes be numbered (1 la ... 5 ry) so their order is plain?"
+  - "The keep's services as house doors inside a BLV (smithy, training, temple, bank): check the engine opens houses from BLV doors (MM7's castle does); otherwise they move outdoors on X3."
+  - "YOUR well: the source's +20 AC; proposed a day-long AC buff of MM6-8 size, set by A2."

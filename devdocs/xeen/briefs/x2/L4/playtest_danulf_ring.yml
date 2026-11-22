@@ -1,0 +1,68 @@
+# Danulf's ring after D-85 (A5, 2026-11-21, hand-written): a fresh load, an Act II party (level 9) set down at the
+# ring with no clear; nobody gains a condition in the first 5 s (no sprite marker within 5,888 of Danulf), and Danulf
+# (actor 51, NPC 4154) talks. Before D-85 the party was cursed and stoned within 2-16 s (A3-promo, probe 03).
+id: xeen.x2.l4.danulf_ring
+title: 'X2 Danulf''s ring: no sprite reaches the party in the first 5 s, and Danulf talks (D-85)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x2.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 9
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 9
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 9
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 9
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(1); close()
+- note: The party at the ring, before Danulf (A3-promo's pose), no clear_hostiles
+- set_pose:
+    map: xeen_x2.odm
+    x: -3277
+    y: -8909
+    z: 1044
+    yaw: -2.16
+    pitch: 0.0
+- play_lua:
+    source: "for i = 0, 3 do local c = conditions(i); if c ~= '' then error('member ' .. i .. ' already has ' .. c) end end"
+- advance_runtime:
+    seconds: 5.0
+- play_lua:
+    source: "for i = 0, 3 do local c = conditions(i); log('member ' .. i .. ' after 5 s: [' .. c .. ']'); if c ~= '' then error('member ' .. i .. ' gained ' .. c .. ' within 5 s at the ring') end end"
+- assert:
+    party_position:
+      x: -3277
+      y: -8909
+      radius: 256
+- note: Danulf the Faery King (actor 51) talks
+- interact_actor:
+    actor_index: 51
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4154
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3

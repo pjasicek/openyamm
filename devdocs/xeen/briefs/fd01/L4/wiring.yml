@@ -1,0 +1,482 @@
+format: 0
+variables: [in_visit, visit]
+events:
+  - id: evt:arrival
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: visit}
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      local dx, dy = x - (-7744), y - (7168)
+      if dx * dx + dy * dy < 409600 then
+          XeenQuests.hook("m39.shaft_arrival")
+      end
+    effects:
+      - set:
+          var:
+            map_var: visit
+          value: 0
+    notes: "D-69 change 5: on a real entry at the shaft's foot (within 640 of entrance:d7_roof) A3's m39.shaft_arrival (once per game, 117846, its status line, no line before it); a D6 arrival (the stair's foot) says nothing here (the statue speaks)."
+  - id: evt:chest_assembly
+    preset: chest
+    source: chest:assembly
+    title: Chest
+  - id: evt:chest_pyramid
+    preset: chest
+    source: chest:pyramid
+    title: Chest
+  - id: evt:chest_stasis
+    preset: chest
+    source: chest:stasis
+    title: Chest
+  - id: evt:chest_warden
+    preset: chest
+    source: chest:warden
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"m39.darkstone_key\")"
+    notes: "The warden's chest (T6): m39.darkstone_key (111780, the key on its cushion; then 'An empty velvet cushion.')."
+  - id: evt:coffin
+    preset: switch
+    source: platform:coffin
+    title: Coffin
+    condition: {not: {qbit: m39_done}}
+    opens: [mover:field, mover:lid]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - lights_off: light:field
+      - lua: "evt.SetMapVar(\"AmbientSound3\", 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+    notes: "D-69 change 2: the coffin, its lid and the field all carry the click and 'Coffin' (aaze0052:7); m39.roland (done 111781, the amulet 12372, the award, 40,000) drops the field and slides the lid back; after it the hook's else line ('An empty stasis coffin, still faintly cold.')."
+  - id: evt:coffin_load
+    preset: switch
+    trigger: load
+    condition: {qbit: m39_done}
+    opens: [mover:field, mover:lid]
+    effects:
+      - lights_off: light:field
+      - lua: "evt.SetMapVar(\"AmbientSound3\", 2)"
+    notes: "Every load with m39.done (111781): the field down, the lid open, the hum and the glow off."
+  - id: evt:door_gallery
+    preset: door
+    source: door:gallery
+    title: Door
+  - id: evt:door_guard
+    preset: door
+    source: door:guard
+    title: Door
+  - id: evt:door_north
+    preset: door
+    source: door:north
+    title: Door
+  - id: evt:door_shaft
+    preset: door
+    source: door:shaft
+    title: Door
+  - id: evt:door_vault
+    preset: door
+    source: door:vault
+    title: Stasis vault
+  - id: evt:door_warden
+    preset: door
+    source: door:warden
+    title: Door
+  - id: evt:door_works
+    preset: door
+    source: door:works
+    title: Door
+  - id: evt:exit_hatch
+    preset: exit
+    source: exit:hatch
+    title: Exit Alamar Depths
+    notes: "The gatehouse hatch at the stair's head (D-24): the leave window, out to D6's entrance:fd01_stair (-6656, 4608, 2208) facing 1536."
+  - id: evt:field
+    preset: switch
+    source: mover:field
+    title: Coffin
+    condition: {not: {qbit: m39_done}}
+    opens: [mover:field, mover:lid]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - lights_off: light:field
+      - lua: "evt.SetMapVar(\"AmbientSound3\", 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+    notes: "D-69 change 2: the coffin, its lid and the field all carry the click and 'Coffin' (aaze0052:7); m39.roland (done 111781, the amulet 12372, the award, 40,000) drops the field and slides the lid back; after it the hook's else line ('An empty stasis coffin, still faintly cold.')."
+  - id: evt:grate_bolt
+    preset: switch
+    source: door:grate
+    side: room:workshop
+    title: Grate
+    condition: {not: {qbit: grate_bolt}}
+    locked_text: The grate stands open.
+    opens: [door:grate]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.grate_bolt\")"
+    notes: "D-69 change 4: the workshop's face: m39.grate_bolt ('You draw the bolt.', 117843) and the leaf rises for good."
+  - id: evt:grate_bolted
+    preset: script
+    source: door:grate
+    side: room:south
+    title: Grate
+    condition: {not: {qbit: grate_bolt}}
+    locked_text: The grate stands open.
+    effects:
+      - lua: "XeenQuests.hook(\"m39.grate_bolted\")"
+    notes: "The south gallery's face while the bolt is in: m39.grate_bolted ('Bolted from the other side.'); the leaf stays shut."
+  - id: evt:grate_load
+    preset: switch
+    trigger: load
+    condition: {qbit: grate_bolt}
+    opens: [door:grate]
+    notes: The grate stays open on every load after the bolt.
+  - id: evt:keybox
+    preset: script
+    source: platform:keybox
+    title: Box
+    condition: {not: {qbit: key_box}}
+    effects:
+      - give_item: 12376
+      - qbit: key_box
+      - message: "Inside the box, alone on its rack: a black key with a dragon's eye for a bow. The Key to the Dragon Tower."
+    else_effects:
+      - text: Nothing here.
+    notes: "The key vault's box (aaze0052:2): the Key to the Dragon Tower 12376 once (key_box 117844; q-f1.tower_key's map_gives, D-57 Q23), then 'Nothing here.' (:16)."
+  - id: evt:ladder
+    preset: script
+    source: panel:ladder
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "D-69 change 5; F16 (2026-11-22): q-d26.depths_hatch first ('Bolted from above.' until roof_unlocked 113521), then the standard entrance window (OK/Close, no Yes/No); OK moves to D7's entrance:fd01_roof (-18688, 8448, 1536) facing 1024, Close stays."
+  - id: evt:ladder_rail_n
+    preset: script
+    source: platform:ladder_rail_n
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rail_s
+    preset: script
+    source: platform:ladder_rail_s
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_01
+    preset: script
+    source: platform:ladder_rung_01
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_02
+    preset: script
+    source: platform:ladder_rung_02
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_03
+    preset: script
+    source: platform:ladder_rung_03
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_04
+    preset: script
+    source: platform:ladder_rung_04
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_05
+    preset: script
+    source: platform:ladder_rung_05
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_06
+    preset: script
+    source: platform:ladder_rung_06
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_07
+    preset: script
+    source: platform:ladder_rung_07
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_08
+    preset: script
+    source: platform:ladder_rung_08
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_09
+    preset: script
+    source: platform:ladder_rung_09
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_10
+    preset: script
+    source: platform:ladder_rung_10
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_11
+    preset: script
+    source: platform:ladder_rung_11
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_12
+    preset: script
+    source: platform:ladder_rung_12
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_13
+    preset: script
+    source: platform:ladder_rung_13
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_14
+    preset: script
+    source: platform:ladder_rung_14
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_15
+    preset: script
+    source: platform:ladder_rung_15
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:ladder_rung_16
+    preset: script
+    source: platform:ladder_rung_16
+    title: Ladder
+    condition: {lua: "XeenQuests.hook(\"q-d26.depths_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The same as evt:ladder, clicked on the ladder's rails and rungs (D-71 P1)."
+  - id: evt:lever_east
+    preset: switch
+    source: mover:lever_east_arm
+    title: Lever
+    condition: {not: {qbit: slab_east}}
+    opens: [door:slab_east, mover:lever_east_arm]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.lever_east\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.lever_east\")"
+    notes: "D-69 change 1: the first pull grinds (the source's FX 35: the shipped stone grind), throws the lever down (D-71 P2) and calls m39.lever_east (the status line naming the direction, 117842); the slab drops for good; after it the hook's 'The lever won't budge.' (:17)."
+  - id: evt:lever_east_boss
+    preset: switch
+    source: platform:lever_east_boss
+    title: Lever
+    condition: {not: {qbit: slab_east}}
+    opens: [door:slab_east, mover:lever_east_arm]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.lever_east\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.lever_east\")"
+    notes: "The same as evt:lever_east, clicked on the lever's boss."
+  - id: evt:lever_west
+    preset: switch
+    source: mover:lever_west_arm
+    title: Lever
+    condition: {not: {qbit: slab_west}}
+    opens: [door:slab_west, mover:lever_west_arm]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.lever_west\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.lever_west\")"
+    notes: "D-69 change 1: the first pull grinds (the source's FX 35: the shipped stone grind), throws the lever down (D-71 P2) and calls m39.lever_west (the status line naming the direction, 117841); the slab drops for good; after it the hook's 'The lever won't budge.' (:17)."
+  - id: evt:lever_west_boss
+    preset: switch
+    source: platform:lever_west_boss
+    title: Lever
+    condition: {not: {qbit: slab_west}}
+    opens: [door:slab_west, mover:lever_west_arm]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.lever_west\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.lever_west\")"
+    notes: "The same as evt:lever_west, clicked on the lever's boss."
+  - id: evt:lid
+    preset: switch
+    source: mover:lid
+    title: Coffin
+    condition: {not: {qbit: m39_done}}
+    opens: [mover:field, mover:lid]
+    effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - lights_off: light:field
+      - lua: "evt.SetMapVar(\"AmbientSound3\", 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.roland\")"
+    notes: "D-69 change 2: the coffin, its lid and the field all carry the click and 'Coffin' (aaze0052:7); m39.roland (done 111781, the amulet 12372, the award, 40,000) drops the field and slides the lid back; after it the hook's else line ('An empty stasis coffin, still faintly cold.')."
+  - id: evt:lift_foot
+    preset: switch
+    source: switch:lift_foot
+    title: Lift
+    toggles: [lift:cage]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -1216, 3904, -768)"
+    notes: The cage between the lift head (0) and the lift foot (-768).
+  - id: evt:lift_head
+    preset: switch
+    source: switch:lift_head
+    title: Lift
+    toggles: [lift:cage]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -1216, 3904, 0)"
+    notes: The cage between the lift head (0) and the lift foot (-768).
+  - id: evt:plaque_fewaee
+    preset: text
+    source: panel:plaque_fewaee
+    title: Plaque
+    text: |-
+      The message on the plaque reads: FEWAEEFFWAEFAWEEWWEFAW
+      Remember: A = Air, E = Earth, F = Fire, W = Water.
+    window: true
+    notes: "aaze0052:14 (map-local; lore, the order of DD-17's belts)."
+  - id: evt:plaque_nine
+    preset: script
+    source: panel:plaque_nine
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"m39.plaque_nine\")"
+    notes: "'Nine is the time.' (aaze0052:12)."
+  - id: evt:pyramid
+    preset: script
+    source: platform:pyramid
+    title: Pyramid
+    effects:
+      - lua: "XeenQuests.hook(\"m39.pyramid\")"
+    notes: "Q70 (a): 'Its light is out. Its twin stands outside the gate.' (m39.pyramid)."
+  - id: evt:skull_door
+    preset: switch
+    source: door:skull
+    title: Skull door
+    condition: {lua: "XeenQuests.can(\"m39.skull_door\")"}
+    opens: [door:skull]
+    sets: {qbit: skull_door_open}
+    effects:
+      - lua: "XeenQuests.hook(\"m39.skull_door\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m39.skull_door\")"
+    notes: "m39.skull_door: with the Cube 'Access granted.', the door rises for good (117845); without it the source's 'Access denied! You do not have the proper I.D.' (aaze0052:3) and it stays shut."
+  - id: evt:skull_load
+    preset: switch
+    trigger: load
+    condition: {qbit: skull_door_open}
+    opens: [door:skull]
+    notes: The skull door stays open on every load after the Cube.
+  - id: evt:slab_east
+    preset: text
+    source: door:slab_east
+    title: Bulkhead
+    text: A shut bulkhead. Nothing on this side moves it.
+    notes: The slab before its lever is pulled (map-local line).
+  - id: evt:slab_east_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_east}
+    opens: [door:slab_east, mover:lever_east_arm]
+    notes: "Every load after the east lever: its slab stays down and the lever stays thrown."
+  - id: evt:slab_west
+    preset: text
+    source: door:slab_west
+    title: Bulkhead
+    text: A shut bulkhead. Nothing on this side moves it.
+    notes: The slab before its lever is pulled (map-local line).
+  - id: evt:slab_west_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_west}
+    opens: [door:slab_west, mover:lever_west_arm]
+    notes: "Every load after the west lever: its slab stays down and the lever stays thrown."
+  - id: evt:statue
+    preset: script
+    source: deco:statue
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m39.statue\")"
+    notes: "The statue's click calls the same hook: the boast if the plate has not run yet; after it the hook's else line on the status bar, 'The statue says nothing more. Alamar has had his say.' (A3's else_text, D-71 item 5)."
+  - id: evt:statue_near
+    preset: script
+    source: plate:statue
+    trigger: step
+    condition: {not: {qbit: statue_spoken}}
+    effects:
+      - lua: "XeenQuests.hook(\"m39.statue\")"
+    notes: "D-69 change 8: the boast as the party first comes near (m39.statue, aaze0052:13), once per game (the hook sets 117840; the map's condition guards it too)."
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: Leaving by any way ends the visit.
+  - id: evt:visit_load
+    preset: script
+    trigger: load
+    condition: {not: {map_var: in_visit}}
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+      - set:
+          var:
+            map_var: visit
+          value: 1
+    notes: "A real entry (in_visit clear, as leaving left it) arms evt:arrival once; a game saved inside and loaded finds in_visit set and arms nothing."
+notes: "FD-01's events, written by output/studio_cal/fd01/tools/dress.py."

@@ -1,0 +1,300 @@
+format: 0
+themes:
+  - id: theme:culvert
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: cfb1, size: [128, 128]}
+    door: {texture: xwcage, size: [128, 256]}
+    notes: "MM7 Erathian Sewers' stone-channel face: dark grey blocks (wall) under rough rock (cfb1), grey flag walkways (tfb07)."
+  - id: theme:den
+    wall: {texture: cwb, size: [128, 256]}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: cfb1, size: [128, 128]}
+    door: {texture: hhm1d, size: [128, 256]}
+    notes: "Cyrano's den: d01's dressed light stone (cwb), the flags, the rough vault."
+  - id: theme:marble
+    wall: {texture: t3s2b1, size: [128, 256]}
+    bands:
+      - {height: 256, surface: {texture: t3s2b, size: [128, 256]}}
+    floor: {texture: tfb07, size: [128, 128]}
+    ceiling: {texture: t3s2b1, size: [128, 256]}
+    door: {texture: hhm1d, size: [128, 256]}
+    notes: "The gods' marble (the royal kit's t3s2: knot-band dado t3s2b, pale panels t3s2b1 above and over the vault) over d01's grey flags (tfb07): the stair, the south conduit, the cistern, the tribble door's landing."
+  - id: theme:temple
+    wall: {texture: gtempw1, size: [128, 256]}
+    floor: {texture: gtempflr, size: [128, 128]}
+    ceiling: {texture: gtemprf, size: [128, 128]}
+    door: {texture: gcs05a, size: [128, 256]}
+    notes: "The offering vault: MM8 Temple of the Sun's pale marble (gtempw1, gtempflr) under gold-knotted coffers (gtemprf)."
+defaults: {theme: theme:culvert, ambient: 14}
+rooms:
+  - id: room:cistern
+    name: The gods' cistern
+    outline: [[-2432, 1984], [2432, 1984], [2432, 3008], [-2432, 3008]]
+    floor: 0
+    ceiling: 768
+    theme: theme:marble
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:drain_3, at: centre, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "Drain 3: BL (aaze0038:3, 117803)."}
+    levels:
+      - id: level:basin
+        outline: [[-1408, 2304], [1408, 2304], [1408, 2688], [-1408, 2688]]
+        floor: -256
+        bank: [0, 288, 0, 288]
+        edge: {texture: t3s2b1, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The gods' cistern: clear water sunk 256, its ends sloping up to the walkways."
+    notes: "The ring's north side: a deep clear basin under a high marble vault, walkways 320 wide round it; drain 3 in the north wall; the tribble door's landing off the east wall."
+  - id: room:conduit
+    name: South conduit
+    outline: [[-1792, 192], [1792, 192], [1792, 832], [-1792, 832]]
+    floor: 0
+    ceiling: 512
+    theme: theme:marble
+    levels:
+      - id: level:conduit_west
+        outline: [[-1440, 448], [-352, 448], [-352, 576], [-1440, 576]]
+        floor: -128
+        bank: [0, 160, 0, 160]
+        edge: {texture: t3s2b1, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The conduit's channel, west run: sky-water sunk 128 down the middle, walkways both sides."
+      - id: level:conduit_east
+        outline: [[352, 448], [1440, 448], [1440, 576], [352, 576]]
+        floor: -128
+        bank: [0, 160, 0, 160]
+        edge: {texture: t3s2b1, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The conduit's channel, east run."
+    notes: "The main channel under the gods' row, east to west: its water down the middle in two runs, walkways 256 wide on both banks, a dry crossing between the stair and the den's door."
+  - id: room:den
+    name: Pets Unlimited
+    outline: [[-640, 960], [640, 960], [640, 1856], [-640, 1856]]
+    floor: 0
+    ceiling: 448
+    theme: theme:den
+    walls:
+      - wall: n
+        panels:
+          - {id: door:pets_unlimited, at: centre, length: 160, bottom: 0, height: 320, surface: {texture: hhm1d, size: [128, 256], fit: true}, notes: "Cyrano's counter door (A4's house 4815 'Pets Unlimited'): the residence's door between the counter's two halves."}
+    platforms:
+      - {id: platform:counter_1, at: [-400, 1808], size: [352, 96], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "Cyrano's counter along the north wall (cages on it), either side of his door."}
+      - {id: platform:counter_2, at: [400, 1808], size: [352, 96], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "Cyrano's counter along the north wall (cages on it), either side of his door."}
+      - {id: platform:bed, at: [464, 1216], size: [288, 160], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, end_surface: {texture: 7trimd, size: [128, 256], fit: false}, top_surface: {texture: t2bedsht, size: [128, 256], fit: true}, notes: "Cyrano's bed, its head against the east wall: hover 'Bed' (aaze0038:16)."}
+      - {at: [624, 1216], size: [32, 160], rise: 192, surface: {texture: 7trimd, size: [128, 256], fit: false}, end_surface: {texture: 7trimd, size: [128, 256], fit: false}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The bed's plank headboard against the east wall.}
+    notes: "Cyrano Jones's den in the ring's middle: his counter and door on the north wall (tribble cages on it and by the walls), his bed in the east corner."
+  - id: room:east
+    name: East culvert
+    outline: [[1920, 192], [2432, 192], [2432, 1856], [1920, 1856]]
+    floor: 0
+    ceiling: 448
+    theme: theme:culvert
+    levels:
+      - id: level:east_south
+        outline: [[2240, 480], [2416, 480], [2416, 736], [2240, 736]]
+        floor: -128
+        bank: [160, 0, 160, 0]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The east culvert's channel along its outer wall, south run."
+      - id: level:east_north
+        outline: [[2240, 1440], [2416, 1440], [2416, 1568], [2240, 1568]]
+        floor: -128
+        bank: [160, 0, 160, 0]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The east culvert's channel, north run (it breaks at the outfall's grate)."
+    notes: "The ring's east side, its channel along the outer wall; the outfall's grate where it breaks."
+  - id: room:outfall
+    name: The outfall
+    outline: [[2464, 704], [3104, 704], [3104, 1472], [2464, 1472]]
+    floor: 0
+    ceiling: 448
+    theme: theme:culvert
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:outfall_bars, at: centre, length: 160, bottom: 32, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: "The barred mouth: the water falls away into cloud beyond it (no way out)."}
+      - wall: n
+        panels:
+          - {id: panel:drain_4, offset: 400, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "Drain 4: ES (aaze0038:4, 117804)."}
+    levels:
+      - id: level:outfall_pool
+        outline: [[2912, 768], [3088, 768], [3088, 1408], [2912, 1408]]
+        floor: -128
+        bank: [0, 0, 0, 160]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The pool along the east wall that the sewer falls through, out of the island's edge."
+    notes: "The sewer's mouth on the island's edge behind its grate: a pool, the barred mouth, drain 4."
+  - id: room:spill
+    name: West spillway
+    outline: [[-3104, 704], [-2464, 704], [-2464, 1472], [-3104, 1472]]
+    floor: 0
+    ceiling: 448
+    theme: theme:culvert
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:drain_2, offset: 400, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "Drain 2: IB (aaze0038:2, 117802)."}
+    platforms:
+      - {id: platform:weir, at: [-2624, 1408], size: [256, 128], rise: 64, surface: {texture: wall, size: [128, 256]}, top_surface: {texture: tfb07, size: [128, 128]}, notes: "The weir's dry ledge in the north-east corner: the chest on it."}
+    levels:
+      - id: level:weir_pool
+        outline: [[-3088, 768], [-2912, 768], [-2912, 1408], [-3088, 1408]]
+        floor: -128
+        bank: [0, 160, 0, 0]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The overflow pool below the weir along the west wall, its east side sloping up."
+    notes: "The overflow weir behind its grate: a pool along the west wall, a dry ledge with a T6 chest, drain 2."
+  - id: room:stair
+    name: Marble stair
+    outline: [[-320, -1216], [320, -1216], [320, 64], [-320, 64]]
+    floor: 0
+    ceiling: 896
+    theme: theme:marble
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:scroll, offset: 208, length: 96, bottom: 112, height: 96, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "A scroll pinned to the stair's wall by the foot: hover 'Scroll' (aaze0038:10), click 'Search the drains.' (:11)."}
+    platforms:
+      - {id: platform:stair_head, rise: 32, surface: {texture: t3s2b1, size: [128, 256]}, outline: [[-320, -1216], [320, -1216], [320, -1024], [-320, -1024]], top_surface: {texture: tfb07, size: [128, 128]}, bottom_surface: {texture: t3s2b1, size: [128, 256]}, base: 416, notes: The stair's head (448) under the grate up to Olympus.}
+    flights:
+      - {from: [0, -256], to: [0, -1024], open_below: 32, to_height: 448, width: 320, steps: 14, notes: Fourteen marble steps of 32 up south from the foot to the head.}
+    notes: "The marble stair under D7's grate in the gods' row: the arrival at its foot facing north into the conduit; the stair climbs south to the grate (the way out)."
+  - id: room:tdoor
+    name: Tribble door
+    outline: [[2560, 2304], [3072, 2304], [3072, 2816], [2560, 2816]]
+    floor: 0
+    ceiling: 640
+    theme: theme:marble
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:voice, at: centre, length: 64, bottom: 464, height: 128, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: "The grille mouth over the bronze pair, where the voice comes from."}
+    notes: "The landing before the bronze pair under its marble lintel; the voice's grille above."
+  - id: room:vault
+    name: Offering vault
+    outline: [[3200, 2048], [4352, 2048], [4352, 3072], [3200, 3072]]
+    floor: 0
+    ceiling: 512
+    theme: theme:temple
+    platforms:
+      - {id: platform:vault_ledge, at: [4288, 2560], size: [128, 384], rise: 64, surface: {texture: gtempw1, size: [128, 256]}, end_surface: {texture: gtempw1, size: [128, 256], fit: false}, top_surface: {texture: gtemprf, size: [128, 128]}, notes: The ledge on the east wall where the offerings' chest stands.}
+    notes: "The undercroft where Olympus's offerings wash down: gilded cups and bags of coin by the walls, a gilt statue, the T6 chest on its ledge."
+  - id: room:west
+    name: West culvert
+    outline: [[-2432, 192], [-1920, 192], [-1920, 1856], [-2432, 1856]]
+    floor: 0
+    ceiling: 448
+    theme: theme:culvert
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:drain_1, offset: 1264, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "Drain 1: TR (aaze0038:1, 117801)."}
+    levels:
+      - id: level:west_south
+        outline: [[-2416, 480], [-2240, 480], [-2240, 736], [-2416, 736]]
+        floor: -128
+        bank: [160, 0, 160, 0]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The west culvert's channel along its outer wall, south run."
+      - id: level:west_north
+        outline: [[-2416, 1440], [-2240, 1440], [-2240, 1568], [-2416, 1568]]
+        floor: -128
+        bank: [160, 0, 160, 0]
+        edge: {texture: wall, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The west culvert's channel, north run (it breaks at the spillway's grate)."
+    notes: "The ring's west side: its channel along the outer wall, broken at the spillway's grate; the walkway 320 wide along the inner wall; drain 1 in the inner wall."
+openings:
+  - id: open:cistern_east
+    from: room:cistern
+    to: room:east
+    from_wall: s
+    to_wall: n
+    link: link:6
+    width: 320
+    height: 320
+  - id: open:cistern_tdoor
+    from: room:cistern
+    to: room:tdoor
+    from_wall: e
+    to_wall: w
+    link: link:9
+    width: 320
+    height: 384
+  - id: open:conduit_den
+    from: room:conduit
+    to: room:den
+    from_wall: n
+    to_wall: s
+    link: link:2
+    width: 256
+    height: 320
+    notes: "The den's plank door in the conduit's north wall, at the dry crossing: 'Cyrano sells the password.'"
+  - id: open:conduit_west
+    from: room:conduit
+    to: room:west
+    from_wall: w
+    to_wall: e
+    link: link:3
+    width: 320
+    height: 320
+  - id: open:east_conduit
+    from: room:east
+    to: room:conduit
+    from_wall: w
+    to_wall: e
+    link: link:7
+    width: 320
+    height: 320
+  - id: open:east_outfall
+    from: room:east
+    to: room:outfall
+    from_wall: e
+    to_wall: w
+    link: link:8
+    width: 256
+    height: 384
+    notes: "The outfall's grate in the east culvert's outer wall, where its channel breaks."
+  - id: open:stair_conduit
+    from: room:stair
+    to: room:conduit
+    from_wall: n
+    to_wall: s
+    link: link:1
+    width: 320
+    height: 384
+    notes: "The stair's foot opens north onto the conduit's south walkway, at the dry crossing."
+  - id: open:tdoor_vault
+    from: room:tdoor
+    to: room:vault
+    from_wall: e
+    to_wall: w
+    link: link:10
+    width: 384
+    height: 384
+    notes: "The tribble door: a bronze two-leaf pair under a marble lintel, the voice's grille above."
+  - id: open:west_cistern
+    from: room:west
+    to: room:cistern
+    from_wall: n
+    to_wall: s
+    link: link:5
+    width: 320
+    height: 320
+  - id: open:west_spill
+    from: room:west
+    to: room:spill
+    from_wall: w
+    to_wall: e
+    link: link:4
+    width: 256
+    height: 384
+    notes: "The spillway's grate in the west culvert's outer wall, where its channel breaks."
+notes: "DD-26 Olympus Sewer: one level at z 0 (channels sunk 128, the cistern 256), x east, y north, z up. Written by output/studio_cal/dd26/tools/gen.py (geo.py)."

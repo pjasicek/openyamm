@@ -1,0 +1,673 @@
+format: 0
+themes:
+  - id: theme:knights
+    wall: {texture: dchb1, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: 7trimd, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The knights' own rooms (D-61, A6's accent: MM7 Castle Gryphonheart 7d33): dark rough stone dchb1, brown flags 7tfb1, plaster ceilings tfb2, dark plank jambs 7trimd."
+  - id: theme:stair
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gcstflor, size: [128, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The core, the wall stairs and the gatehouse: the same ashlar, grey cobbles gcstflor."
+  - id: theme:tower
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The Mok tower's own rooms (MM8 Castle of Air d27, as DD-05): green-grey ashlar gston1wl over a green marble skirting gstntilev, scale-pattern flags gston1fl, panelled stone ceilings gstn1cl, the stone doors gcstdoor."
+defaults: {theme: theme:tower, ambient: 12}
+rooms:
+  - id: room:antechamber
+    name: Antechamber of the voice
+    outline: [[-1664, 1280], [1664, 1280], [1664, 1920], [-1664, 1920]]
+    floor: 1344
+    ceiling: 1728
+    theme: theme:tower
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:mask, offset: 1824, length: 192, bottom: 96, height: 192, surface: {texture: xvkmask, size: [128, 128], fit: true}, notes: The voice's mask (xvkmask).}
+  - id: room:chalice_room
+    name: Chalice room
+    outline: [[-640, 2048], [640, 2048], [640, 2688], [-640, 2688]]
+    floor: 1344
+    ceiling: 1728
+    theme: theme:tower
+    platforms:
+      - {id: platform:stand, at: [0, 2496], size: [128, 128], rise: 112, surface: {texture: gstn1bot, size: [128, 256]}, top_surface: {texture: gston1fl, size: [128, 128]}, notes: The Chalice's stand (q-d17.chalice).}
+    notes: "Behind the iron door: the Chalice of Protection on its stand under one lamp."
+  - id: room:chapter_hall
+    name: Chapter hall
+    outline: [[-2304, -128], [-768, -128], [-768, 1152], [-2304, 1152]]
+    floor: 1344
+    ceiling: 1856
+    theme: theme:knights
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:plaque, offset: 896, length: 256, bottom: 160, height: 64, surface: {texture: sign22, size: [256, 64], fit: true}, notes: The order's plaque (q-d17.oath).}
+          - {offset: 704, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+          - {offset: 1280, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+      - wall: e
+        panels:
+          - {offset: 960, length: 256, bottom: 336, height: 64, surface: {texture: xdvowel, size: [256, 64], fit: true}, notes: "Over the doors inside: GRND RDR F VWLSS KNGHTS (xdvowel)."}
+      - wall: w
+        panels:
+          - {id: panel:niche_1, offset: 160, length: 256, bottom: 0, height: 384, surface: {texture: 7tfb11, size: [128, 128]}, notes: "A niche of dark stone: a knight of the order stands here after the oath."}
+          - {id: panel:niche_2, offset: 800, length: 256, bottom: 0, height: 384, surface: {texture: 7tfb11, size: [128, 128]}, notes: "A niche of dark stone: a knight of the order stands here after the oath."}
+      - wall: s
+        panels:
+          - {id: panel:niche_3, offset: 192, length: 256, bottom: 0, height: 384, surface: {texture: 7tfb11, size: [128, 128]}, notes: "A niche of dark stone: a knight of the order stands here after the oath."}
+          - {id: panel:niche_4, offset: 1088, length: 256, bottom: 0, height: 384, surface: {texture: 7tfb11, size: [128, 128]}, notes: "A niche of dark stone: a knight of the order stands here after the oath."}
+  - id: room:core
+    name: Great stair
+    space: room:core0
+    outline: [[-640, -128], [640, -128], [640, 1152], [-640, 1152]]
+    floor: 0
+    ceiling: 832
+    theme: theme:stair
+    platforms:
+      - {id: platform:great_head, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-640, 768], [640, 768], [640, 1152], [-640, 1152]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gston1wl, size: [128, 256]}, base: 416, notes: "The great stair's head (448) across the core's north end: the L2 landing, the armouries' doors west and east."}
+    flights:
+      - {from: [0, 128], to: [0, 768], open_below: 32, to_height: 448, width: 320, steps: 14, sides: {height: 48, thickness: 16, surface: {texture: gston1wl, size: [128, 256]}}, notes: "The great stair: fourteen steps of 32 up the middle of the core, rising north to its head."}
+    notes: "The central core's foot: arches south (the Hall of Arms), west and east (the galleries); the great stair up the middle to its head (L2)."
+  - id: room:core2
+    name: Stair of Silence
+    outline: [[-640, -128], [640, -128], [640, 1152], [-640, 1152]]
+    floor: 896
+    ceiling: 1728
+    theme: theme:stair
+    platforms:
+      - {id: platform:silence_head, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-640, 768], [640, 768], [640, 1152], [-640, 1152]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: gston1wl, size: [128, 256]}, base: 416, notes: "The Stair of Silence's head (1344) across the core's north end: the chapter hall's doors west, the Hall of Thrones' arch east."}
+    flights:
+      - {from: [0, 128], to: [0, 768], open_below: 32, to_height: 1344, width: 320, steps: 14, sides: {height: 48, thickness: 16, surface: {texture: gston1wl, size: [128, 256]}}, notes: "The Stair of Silence: fourteen steps up the middle of the core to the sanctum."}
+    notes: "The core again, above the great stair's vault: arcades west and east onto the drill hall, the upper flight to L4."
+  - id: room:dormitory0
+    name: Dormitory
+    outline: [[768, 1280], [1920, 1280], [1920, 2048], [768, 2048]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+    platforms:
+      - {at: [1728, 1472], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_laughs_last, at: [1728, 1472], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+      - {id: platform:bed_dorm0_1, at: [896, 1856], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_dorm0_2, at: [1120, 1856], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_dorm0_3, at: [1344, 1856], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_dorm0_4, at: [1568, 1856], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+  - id: room:drill_e
+    name: Drill hall (east)
+    outline: [[768, -128], [1664, -128], [1664, 1152], [768, 1152]]
+    floor: 896
+    ceiling: 1280
+    theme: theme:tower
+  - id: room:drill_s
+    name: Drill yard (south)
+    outline: [[-1664, -1152], [1664, -1152], [1664, -256], [-1664, -256]]
+    floor: 896
+    ceiling: 1280
+    theme: theme:tower
+    walls:
+      - wall: s
+        panels:
+          - {offset: 768, length: 128, bottom: 64, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: An arrow slit.}
+          - {offset: 1600, length: 128, bottom: 64, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: An arrow slit.}
+          - {offset: 2432, length: 128, bottom: 64, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: An arrow slit.}
+  - id: room:drill_w
+    name: Drill hall (west)
+    outline: [[-1664, -128], [-768, -128], [-768, 1152], [-1664, 1152]]
+    floor: 896
+    ceiling: 1280
+    theme: theme:tower
+  - id: room:dunce
+    name: Alcove of the Dunce
+    outline: [[1280, -768], [1920, -768], [1920, -256], [1280, -256]]
+    floor: 1344
+    ceiling: 1728
+    theme: theme:knights
+    notes: "The Throne of the Dunce alone in its alcove (aaze0072:10): S's throne model (dress.py)."
+  - id: room:east_dorm
+    name: Knights' cells (east)
+    outline: [[2432, -128], [3200, -128], [3200, 1152], [2432, 1152]]
+    floor: 1344
+    ceiling: 1728
+    theme: theme:knights
+    platforms:
+      - {id: platform:bed_lesson_1, at: [3008, 64], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_lesson_2, at: [3008, 320], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_lesson_3, at: [3008, 704], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_lesson_4, at: [3008, 960], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+  - id: room:east_study
+    name: East study
+    outline: [[1408, 1408], [2176, 1408], [2176, 2048], [1408, 2048]]
+    floor: 896
+    ceiling: 1280
+    theme: theme:tower
+    platforms:
+      - {at: [1728, 1856], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_fool_and_money, at: [1728, 1856], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+  - id: room:egal
+    name: East gallery
+    space: room:east_gallery
+    outline: [[768, -128], [1664, -128], [1664, 1152], [768, 1152]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+  - id: room:estair
+    name: East wall stair
+    space: room:estair1
+    outline: [[1792, -512], [2176, -512], [2176, 1280], [1792, 1280]]
+    floor: 448
+    ceiling: 1280
+    theme: theme:stair
+    walls:
+      - wall: e
+        panels:
+          - {offset: 1536, length: 128, bottom: 512, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: The slit by the seventh book.}
+    platforms:
+      - {id: platform:estair_head, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[1792, 768], [2176, 768], [2176, 1280], [1792, 1280]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gston1wl, size: [128, 256]}, base: 416, notes: "The east wall stair's head (896): the drill hall west, the east study north, the seventh book by the slit."}
+      - {at: [1984, -320], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_love_of_money, at: [1984, -320], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+      - {at: [2112, 1088], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_wishes_horses, at: [2112, 1088], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+    flights:
+      - {from: [1984, 128], to: [1984, 768], open_below: 32, to_height: 896, width: 256, steps: 14, sides: {height: 48, thickness: 16, surface: {texture: gston1wl, size: [128, 256]}}, notes: "Fourteen steps in the east wall's thickness, rising north."}
+    notes: "The east twin from L2 to L3; the fourth book on its landing, the seventh on its head."
+  - id: room:gatehouse
+    name: Gatehouse
+    outline: [[-512, -1408], [512, -1408], [512, -896], [-512, -896]]
+    floor: 0
+    ceiling: 384
+    theme: theme:stair
+    notes: "Inside the gate: the arrival (entrance:d5_tower), the arch north into the Hall of Arms."
+  - id: room:hall
+    name: Hall of Arms
+    space: room:hall_of_arms
+    outline: [[-1664, -768], [1664, -768], [1664, -256], [-1664, -256]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:banner_hall_1, offset: 320, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+          - {id: panel:banner_hall_2, offset: 2880, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+          - {id: panel:shield_find, offset: 1024, length: 128, bottom: 160, height: 128, surface: {texture: 7sgarm, size: [64, 64], fit: true}, notes: "A shield and helm hung on the wall: a find (117654)."}
+          - {offset: 2176, length: 128, bottom: 160, height: 128, surface: {texture: armormid, size: [64, 64], fit: true}, notes: A helm hung on the wall.}
+    platforms:
+      - {id: platform:statue, at: [-768, -416], size: [192, 192], rise: 64, surface: {texture: gstn1bot, size: [128, 256]}, top_surface: {texture: gston1fl, size: [128, 128]}, notes: "The founder's statue's plinth (its plaque, aaze0069:2)."}
+    notes: "The Hall of Arms across the tower's south side: the founder's statue by the north wall, banners and hung pieces on the south wall either side of the gate's arch."
+  - id: room:helms
+    name: West armoury
+    outline: [[-1664, -128], [-768, -128], [-768, 1152], [-1664, 1152]]
+    floor: 448
+    ceiling: 832
+    theme: theme:tower
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:helm_find, offset: 384, length: 128, bottom: 160, height: 128, surface: {texture: armorrch, size: [64, 64], fit: true}, notes: "A helm on a peg: a find (117655)."}
+          - {offset: 768, length: 128, bottom: 160, height: 128, surface: {texture: armorpor, size: [64, 64], fit: true}, notes: A helm on a peg.}
+  - id: room:lectern_w0
+    name: West lectern room
+    outline: [[-1664, 1280], [-768, 1280], [-768, 1920], [-1664, 1920]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+    platforms:
+      - {at: [-1216, 1728], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_sleeping_dogs, at: [-1216, 1728], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+  - id: room:mail
+    name: East armoury
+    outline: [[768, -128], [1664, -128], [1664, 1152], [768, 1152]]
+    floor: 448
+    ceiling: 832
+    theme: theme:tower
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:mail_find, offset: 384, length: 128, bottom: 160, height: 128, surface: {texture: armormid, size: [64, 64], fit: true}, notes: "Black plate on its stand: a find (117656)."}
+          - {offset: 896, length: 128, bottom: 160, height: 128, surface: {texture: armorpor, size: [64, 64], fit: true}, notes: Black plate on its stand.}
+  - id: room:niche_e
+    name: East niche
+    outline: [[2304, 1536], [2816, 1536], [2816, 1920], [2304, 1920]]
+    floor: 896
+    ceiling: 1248
+    theme: theme:tower
+  - id: room:niche_w
+    name: West niche
+    outline: [[-2816, 1536], [-2304, 1536], [-2304, 1920], [-2816, 1920]]
+    floor: 896
+    ceiling: 1248
+    theme: theme:tower
+  - id: room:north_gallery1
+    name: North gallery
+    outline: [[-1664, 1280], [1664, 1280], [1664, 1920], [-1664, 1920]]
+    floor: 448
+    ceiling: 832
+    theme: theme:tower
+    walls:
+      - wall: n
+        panels:
+          - {offset: 896, length: 128, bottom: 64, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: An arrow slit.}
+          - {offset: 2304, length: 128, bottom: 64, height: 256, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: An arrow slit.}
+  - id: room:porch
+    name: Porch
+    outline: [[-320, -1792], [320, -1792], [320, -1536], [-320, -1536]]
+    floor: 0
+    ceiling: 384
+    theme: theme:stair
+    notes: "Behind the gate's leaves: never entered (the gate's click is the exit)."
+  - id: room:quartermaster
+    name: Quartermaster's store
+    outline: [[768, -768], [1664, -768], [1664, -256], [768, -256]]
+    floor: 448
+    ceiling: 832
+    theme: theme:tower
+    notes: "The store: crates, sacks and paired barrels by the walls, the strongbox in the corner."
+  - id: room:refectory
+    name: Refectory
+    outline: [[1792, -768], [2688, -768], [2688, 1024], [1792, 1024]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+    platforms:
+      - {at: [2368, -128], size: [512, 128], rise: 80, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A long table.}
+      - {at: [2368, 832], size: [512, 128], rise: 80, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A long table.}
+      - {at: [2368, -288], size: [512, 64], rise: 40, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A bench.}
+      - {at: [2368, 672], size: [512, 64], rise: 40, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A bench.}
+      - {id: platform:pulpit, at: [2560, -640], size: [128, 128], rise: 144, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "The silent reader's pulpit: no book on it."}
+    notes: "Long tables and benches pushed in; the silent reader's pulpit without a book."
+  - id: room:roof_loft
+    name: Ladder loft
+    outline: [[2432, 1280], [2944, 1280], [2944, 1792], [2432, 1792]]
+    floor: 1344
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:roof_hatch, at: [2688, 1536], size: [160, 160], rise: 32, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 416, notes: "The roof trapdoor: a plank leaf shut in the ceiling (D-58: up to D7 after m30.done)."}
+    notes: A small room under the roof trapdoor (d7.roof_dd08).
+  - id: room:thrones
+    name: Hall of Thrones
+    outline: [[768, -128], [2304, -128], [2304, 1152], [768, 1152]]
+    floor: 1344
+    ceiling: 1856
+    theme: theme:knights
+    walls:
+      - wall: e
+        panels:
+          - {offset: 160, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+          - {offset: 1088, length: 128, bottom: 64, height: 256, surface: {texture: xvkban, size: [128, 256], fit: true}, notes: A Voweless banner (xvkban).}
+    platforms:
+      - {id: platform:dais, at: [1536, 384], size: [512, 512], rise: 48, surface: {texture: dchb1, size: [128, 256]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: The Euphoria Throne's dais.}
+    notes: "Four Emotion Thrones round the raised Euphoria Throne (aaze0072:8-9); the Dunce's alcove south."
+  - id: room:west_dorm
+    name: Knights' cells (west)
+    outline: [[-3072, -128], [-2432, -128], [-2432, 1152], [-3072, 1152]]
+    floor: 1344
+    ceiling: 1728
+    theme: theme:knights
+    platforms:
+      - {id: platform:bed_lesson_5, at: [-2880, 64], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_lesson_6, at: [-2880, 384], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_lesson_7, at: [-2880, 896], size: [384, 192], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+  - id: room:west_study
+    name: West study
+    outline: [[-2176, 1408], [-1408, 1408], [-1408, 2048], [-2176, 2048]]
+    floor: 896
+    ceiling: 1280
+    theme: theme:tower
+    platforms:
+      - {at: [-1728, 1856], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_gift_horse, at: [-1728, 1856], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+  - id: room:wgal
+    name: West gallery
+    space: room:west_gallery
+    outline: [[-1664, -128], [-768, -128], [-768, 1152], [-1664, 1152]]
+    floor: 0
+    ceiling: 384
+    theme: theme:tower
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:mirror, at: centre, length: 128, bottom: 32, height: 288, surface: {texture: xkmirror, size: [128, 128]}, notes: "The dead mirror (xkmirror, D-37)."}
+  - id: room:wstair
+    name: West wall stair
+    space: room:wstair1
+    outline: [[-2176, -512], [-1792, -512], [-1792, 1280], [-2176, 1280]]
+    floor: 448
+    ceiling: 1280
+    theme: theme:stair
+    platforms:
+      - {id: platform:wstair_head, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-2176, 768], [-1792, 768], [-1792, 1280], [-2176, 1280]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gston1wl, size: [128, 256]}, base: 416, notes: "The west wall stair's head (896): the drill hall east, the west study north."}
+      - {at: [-1984, -320], size: [96, 96], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The lectern's post.}
+      - {id: platform:book_needs_of_many, at: [-1984, -320], size: [128, 128], rise: 16, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 96, notes: "A lectern: a book of the Voweless Knights."}
+    flights:
+      - {from: [-1984, 128], to: [-1984, 768], open_below: 32, to_height: 896, width: 256, steps: 14, sides: {height: 48, thickness: 16, surface: {texture: gston1wl, size: [128, 256]}}, notes: "Fourteen steps in the west wall's thickness, rising north."}
+    notes: "The stair in the west wall's thickness from L2 to L3; the third book on its landing."
+openings:
+  - id: open:ante_thrones
+    from: room:antechamber
+    to: room:thrones
+    from_wall: s
+    to_wall: n
+    link: link:ante_thrones
+    width: 384
+    height: 320
+  - id: open:chapter
+    from: room:core2
+    to: room:chapter_hall
+    from_wall: w
+    to_wall: e
+    link: link:core3_chapter
+    along: 0.15
+    width: 320
+    height: 320
+    notes: "The chapter hall's doors: two leaves (chb1dl|chb1dr); xdvowel over them inside."
+  - id: open:chapter_ante
+    from: room:chapter_hall
+    to: room:antechamber
+    from_wall: n
+    to_wall: s
+    link: link:chapter_ante
+    width: 384
+    height: 320
+  - id: open:chapter_wdorm
+    from: room:chapter_hall
+    to: room:west_dorm
+    from_wall: w
+    to_wall: e
+    link: link:chapter_wdorm
+    width: 160
+    height: 320
+  - id: open:core2_drille
+    from: room:core2
+    to: room:drill_e
+    from_wall: e
+    to_wall: w
+    link: link:core2_drille
+    along: 0.2
+    width: 384
+    height: 320
+  - id: open:core2_drillw
+    from: room:core2
+    to: room:drill_w
+    from_wall: w
+    to_wall: e
+    link: link:drillw_core2
+    along: 0.8
+    width: 384
+    height: 320
+    notes: The Stair of Silence's west arcade onto the drill hall.
+  - id: open:core3_thrones
+    from: room:core2
+    to: room:thrones
+    from_wall: e
+    to_wall: w
+    link: link:core3_thrones
+    along: 0.85
+    width: 320
+    height: 320
+  - id: open:core_egal
+    from: room:core
+    to: room:egal
+    from_wall: e
+    to_wall: w
+    link: link:core0_egal
+    along: 0.15
+    width: 320
+    height: 320
+  - id: open:core_helms
+    from: room:core
+    to: room:helms
+    from_wall: w
+    to_wall: e
+    link: link:core1_helms
+    along: 0.15
+    width: 160
+    height: 320
+  - id: open:core_mail
+    from: room:core
+    to: room:mail
+    from_wall: e
+    to_wall: w
+    link: link:core1_mail
+    along: 0.85
+    width: 160
+    height: 320
+  - id: open:drills_e
+    from: room:drill_s
+    to: room:drill_e
+    from_wall: n
+    to_wall: s
+    link: link:drills_e
+    width: 640
+    height: 320
+  - id: open:drillw_s
+    from: room:drill_w
+    to: room:drill_s
+    from_wall: s
+    to_wall: n
+    link: link:drillw_s
+    width: 640
+    height: 320
+  - id: open:edorm_loft
+    from: room:east_dorm
+    to: room:roof_loft
+    from_wall: n
+    to_wall: s
+    link: link:edorm_loft
+    width: 320
+    height: 320
+  - id: open:egal_dorm
+    from: room:egal
+    to: room:dormitory0
+    from_wall: n
+    to_wall: s
+    link: link:egal_dorm
+    width: 384
+    height: 320
+  - id: open:egal_refec
+    from: room:egal
+    to: room:refectory
+    from_wall: e
+    to_wall: w
+    link: link:egal_refec
+    along: 0.5556
+    width: 384
+    height: 320
+  - id: open:estair_drill
+    from: room:estair
+    to: room:drill_e
+    from_wall: w
+    to_wall: e
+    link: link:drille_estair
+    along: 0.15
+    width: 256
+    height: 320
+    notes: The east wall stair's head (896) onto the drill hall.
+  - id: open:estair_study
+    from: room:estair
+    to: room:east_study
+    from_wall: n
+    to_wall: s
+    link: link:estair_study
+    along: 0.7083
+    width: 160
+    height: 320
+  - id: open:estudy_niche
+    from: room:east_study
+    to: room:niche_e
+    from_wall: e
+    to_wall: w
+    link: link:estudy_niche
+    width: 192
+    height: 288
+    notes: The sliding wall (117653).
+  - id: open:gate
+    from: room:gatehouse
+    to: room:porch
+    from_wall: s
+    to_wall: n
+    link: link:gate
+    width: 320
+    height: 320
+    notes: "The gate (two leaves, hkm1dl|hkm1dr mirrored) in the gatehouse's south wall: clicked, 'Exit the Knight's Tower?'."
+  - id: open:gate_hall
+    from: room:gatehouse
+    to: room:hall
+    from_wall: n
+    to_wall: s
+    link: link:gate_hall
+    width: 384
+    height: 320
+  - id: open:hall_core
+    from: room:hall
+    to: room:core
+    from_wall: n
+    to_wall: s
+    link: link:hall_core0
+    width: 384
+    height: 320
+    notes: The core's south arch onto the great stair's foot.
+  - id: open:hall_wgal
+    from: room:hall
+    to: room:wgal
+    from_wall: n
+    to_wall: s
+    link: link:hall_wgal
+    width: 384
+    height: 320
+  - id: open:helms_north
+    from: room:helms
+    to: room:north_gallery1
+    from_wall: n
+    to_wall: s
+    link: link:helms_north
+    width: 384
+    height: 320
+  - id: open:helms_wstair
+    from: room:helms
+    to: room:wstair
+    from_wall: w
+    to_wall: e
+    link: link:helms_wstair
+    along: 0.875
+    width: 256
+    height: 320
+    notes: Into the west wall stair's landing (L2).
+  - id: open:iron
+    from: room:antechamber
+    to: room:chalice_room
+    from_wall: n
+    to_wall: s
+    link: link:ante_chalice
+    along: 0.3
+    width: 160
+    height: 320
+    notes: "The iron door to the chalice room, beside the voice's mask."
+  - id: open:mail_estair
+    from: room:mail
+    to: room:estair
+    from_wall: e
+    to_wall: w
+    link: link:mail_estair
+    along: 0.125
+    width: 256
+    height: 320
+    notes: Into the east wall stair's landing (L2).
+  - id: open:mail_qm
+    from: room:mail
+    to: room:quartermaster
+    from_wall: s
+    to_wall: n
+    link: link:mail_qm
+    width: 160
+    height: 320
+  - id: open:north_mail
+    from: room:north_gallery1
+    to: room:mail
+    from_wall: s
+    to_wall: n
+    link: link:north_mail
+    width: 384
+    height: 320
+  - id: open:refec_hall
+    from: room:refectory
+    to: room:hall
+    from_wall: w
+    to_wall: e
+    link: link:refec_hall
+    width: 160
+    height: 320
+  - id: open:thrones_dunce
+    from: room:thrones
+    to: room:dunce
+    from_wall: s
+    to_wall: n
+    link: link:thrones_dunce
+    width: 384
+    height: 320
+  - id: open:thrones_edorm
+    from: room:thrones
+    to: room:east_dorm
+    from_wall: e
+    to_wall: w
+    link: link:thrones_edorm
+    width: 160
+    height: 320
+  - id: open:wgal_core
+    from: room:wgal
+    to: room:core
+    from_wall: e
+    to_wall: w
+    link: link:wgal_core0
+    along: 0.15
+    width: 320
+    height: 320
+  - id: open:wgal_lect
+    from: room:wgal
+    to: room:lectern_w0
+    from_wall: n
+    to_wall: s
+    link: link:wgal_lect
+    width: 160
+    height: 320
+  - id: open:wstair_drill
+    from: room:wstair
+    to: room:drill_w
+    from_wall: e
+    to_wall: w
+    link: link:wstair_drill
+    along: 0.85
+    width: 256
+    height: 320
+    notes: The west wall stair's head (896) onto the drill hall.
+  - id: open:wstair_study
+    from: room:wstair
+    to: room:west_study
+    from_wall: n
+    to_wall: s
+    link: link:wstair_study
+    width: 160
+    height: 320
+  - id: open:wstudy_niche
+    from: room:west_study
+    to: room:niche_w
+    from_wall: w
+    to_wall: e
+    link: link:wstudy_niche
+    width: 192
+    height: 288
+    notes: The sliding wall (117652).
+notes: "DD-08 Northern Tower: L1 at 0, L2 at 448, L3 at 896, L4 at 1344, in one frame (x east, y north, z up). Written by output/studio_cal/dd08/tools/gen.py (geo.py)."

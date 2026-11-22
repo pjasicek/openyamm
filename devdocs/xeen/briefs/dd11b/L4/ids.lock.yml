@@ -1,0 +1,62 @@
+format: 0
+sectors:
+  room:adventurers: 1
+  room:brewers: 2
+  room:burrow: 3
+  room:fungus: 4
+  room:gallery: 5
+  room:pens: 6
+  room:pit: 7
+  room:stair: 8
+  room:vat_cave: 9
+  room:vat_rim: 10
+events:
+  evt:arrive: 1
+  evt:brewers_door: 2
+  evt:chest_brewers: 3
+  evt:chest_strongbox: 4
+  evt:flap: 5
+  evt:gallery_end: 6
+  evt:hatch: 7
+  evt:juice: 8
+  evt:landed: 9
+  evt:root: 10
+  evt:satchel: 11
+  evt:skeleton_1: 12
+  evt:skeleton_2: 13
+  evt:skeleton_3: 14
+  evt:skeleton_4: 15
+  evt:vat_seen: 16
+doors:
+  door:brewers: 1
+  door:flap: 2
+  door:root: 3
+containers:
+  chest:brewers: 0
+  chest:strongbox: 1
+map_vars:
+  once.arrive: 0
+  once.gallery_end: 1
+  once.landed: 2
+  once.vat_seen: 3
+sounds:
+  sound:drip: 1
+  sound:wind: 2
+decorations:
+  deco:brewers_bones: 0
+  deco:mush_1: 1
+  deco:mush_2: 2
+  deco:mush_3: 3
+  deco:mush_4: 4
+  deco:mush_6: 5
+  deco:pens_bones: 6
+  deco:pit_bones: 7
+  deco:pit_corpse: 8
+  deco:skeleton_1: 9
+  deco:skeleton_2: 10
+  deco:skeleton_3: 11
+  deco:skeleton_4: 12
+  deco:vat_bones: 13
+  deco:vat_mush: 14
+  deco:vat_skull_1: 15
+  deco:vat_skull_2: 16

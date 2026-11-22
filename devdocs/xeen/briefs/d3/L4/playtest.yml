@@ -1,0 +1,1893 @@
+# Written by output/studio_cal/d3/tools/gen_walk.py from the built map (A5, 2026-11-20).
+id: xeen.d3.walk
+title: 'D3 Sandcaster and the Aging Forest: every door, the gates, the quarter and the ways out'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d3.odm
+- assert:
+    map: xeen_d3.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -14336
+      y: 17408
+      radius: 128
+- note: The Mirror of Sandcaster (Xeen.useMirror 4612)
+- execute_event:
+    id: 116
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: Omid's deep well (+5 Intellect, temporary)
+- execute_event:
+    id: 117
+- advance_runtime:
+    seconds: 0.5
+- note: The Vulture Repellant board (dark/aaze0031:19, :25)
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The wizards' warning at the quarter stair (dark/aaze0031:29)
+- execute_event:
+    id: 119
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Aladdin''s Lamps (building:sc_magic, house 4603): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15360
+    y: 18708
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Vulture Repellant and Other Remedies (building:sc_alchemist, house 4604): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -13184
+    y: 18708
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Temple of the Desert Sun (building:sc_temple, house 4605): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -16916
+    y: 19072
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Barticus'' Gym (building:sc_training, house 4607): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -16900
+    y: 17280
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sandcaster Guild of Mind (building:sc_guild_mind, house 4608): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -16768
+    y: 20548
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sandcaster Guild of Spirit (building:sc_guild_spirit, house 4609): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15232
+    y: 20548
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sandcaster Guild of Light (building:sc_guild_light, house 4610): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -13696
+    y: 20548
+    z: 1511
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Thirsty Camel (building:sc_tavern, house 4606): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -14340
+    y: 14208
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sandsteel Blades (building:sc_weapons, house 4601): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11776
+    y: 16364
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Brass Scale (building:sc_armour, house 4602): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10496
+    y: 16364
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Astra''s House (building:sc_houses#1, house 4618): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -12800
+    y: 20756
+    z: 1519
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Natasha the Enchantress (building:sc_houses#2, house 4619): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -14208
+    y: 18964
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Madame Gloriana''s (building:sc_houses#3, house 4620): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15636
+    y: 18432
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'School of Trade (building:sc_houses#4, house 4621): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15636
+    y: 17408
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'School of Letters (building:sc_houses#5, house 4622): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15636
+    y: 16640
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Quiet House (building:sc_houses#6, house 4623): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -18304
+    y: 15380
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'School of Navigation (building:sc_houses#7, house 4624): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -17684
+    y: 14848
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'School of Tongues (building:sc_houses#8, house 4625): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -18304
+    y: 14316
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Knife House (building:sc_houses#9, house 4626): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -17408
+    y: 14316
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Saffron House (building:sc_houses#10, house 4627): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -15636
+    y: 15232
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Archer''s House (building:sc_houses#11, house 4628): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -16512
+    y: 13804
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Dune House (building:sc_houses#12, house 4629): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9472
+    y: 16364
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Dyer''s (building:sc_houses#13, house 4630): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -13548
+    y: 15104
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Glassblower''s House (building:sc_houses#14, house 4631): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -13548
+    y: 13952
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Water Seller''s (building:sc_houses#15, house 4632): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11648
+    y: 15084
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Camel House (building:sc_houses#16, house 4633): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10496
+    y: 15084
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Scribe''s House (building:sc_houses#17, house 4634): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9964
+    y: 14592
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Potter''s Yard (building:sc_houses#18, house 4635): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11392
+    y: 13804
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Tax House (building:sc_houses#19, house 4636): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9856
+    y: 13804
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Courtyard House (building:sc_houses#20, house 4637): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11904
+    y: 17428
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sandal Maker''s (building:sc_houses#21, house 4638): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10240
+    y: 17428
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Date Palm House (building:sc_houses#22, house 4639): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9216
+    y: 17428
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Well House (building:sc_houses#23, house 4640): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -16768
+    y: 20460
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'DD-18''s street shaft by Barticus'' Gym: down to the ladder''s foot (entrance:d3_shaft)'
+- execute_event:
+    id: 130
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd18.blv
+- assert:
+    party_position:
+      x: 0
+      y: 128
+      radius: 300
+      z_min: -80
+      z_max: 120
+- load_map:
+    map: xeen_d3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'Lucio''s Jetty (building:sc_lucio_jetty, house 4649): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -18176
+    y: 20996
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- setup_shortcut:
+    kind: set_qbit
+    id: 111600
+    value: true
+- note: 'm30.done (111600): Lucio''s Jetty opens'
+- note: 'Lucio''s Jetty (building:sc_lucio_jetty, house 4649): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -18176
+    y: 20996
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Up the quarter stair
+- walk_to:
+    x: -11008
+    y: 17510
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -11008
+    y: 19251
+    z: 1728
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Guild of Night (building:wq_guild_dark, house 4613): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10820
+    y: 21760
+    z: 1728
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'Esoterica (building:wq_magic, house 4614): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9472
+    y: 21316
+    z: 1728
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The Mindwright''s Tower (building:wq_houses#1, house 4615): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11056
+    y: 19584
+    z: 1728
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The Appraiser''s Tower (building:wq_houses#2, house 4616): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10368
+    y: 20176
+    z: 1728
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The Alembic Tower (building:wq_houses#3, house 4617): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9936
+    y: 20352
+    z: 1728
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The guild gate: the entrance window with trans 5053 (F16); Close stays, then OK'
+- play_lua:
+    source: click(124); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: sensitive to insults
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_d3.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: click(124); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: sensitive to insults
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd19.blv
+- assert:
+    party_position:
+      x: 0
+      y: 384
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: DD-19's guild gate (evt:exit_gate) back to D3 inside the quarter
+- execute_event:
+    id: 23
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: -10752
+      y: 22016
+      radius: 300
+      z_min: 1648
+      z_max: 1888
+- setup_shortcut:
+    kind: set_qbit
+    id: 113281
+    value: true
+- note: 'q-d14.done (113281): the quarter opens'
+- note: 'The Guild of Night (building:wq_guild_dark, house 4613): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10820
+    y: 21760
+    z: 1728
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Esoterica (building:wq_magic, house 4614): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9472
+    y: 21316
+    z: 1728
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Mindwright''s Tower (building:wq_houses#1, house 4615): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -11056
+    y: 19584
+    z: 1728
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Appraiser''s Tower (building:wq_houses#2, house 4616): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -10368
+    y: 20176
+    z: 1728
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Alembic Tower (building:wq_houses#3, house 4617): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -9936
+    y: 20352
+    z: 1728
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Inside the south gate: the inner leaf opens from inside'
+- set_pose:
+    map: xeen_d3.odm
+    x: -14080
+    y: 13568
+    z: 1488
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The gate swings open (no pass needed from inside)
+- execute_event:
+    id: 190
+- advance_runtime:
+    seconds: 0.5
+- note: Out through the south gate
+- walk_to:
+    x: -14080
+    y: 11520
+    z: 1328
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -14080
+      y: 11520
+      radius: 400
+- note: 'Sandcaster Caravans (building:sc_stables, house 4611): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -12284
+    y: 11648
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- load_map:
+    map: xeen_d3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'Back at the south gate from outside after a reload (the gate shut): refused without the pass'
+- set_pose:
+    map: xeen_d3.odm
+    x: -14080
+    y: 11520
+    z: 1328
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'q-d8.sandcaster_gate without the pass: the guards'' line'
+- execute_event:
+    id: 188
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- grant_item:
+    item_id: 12335
+    member_index: 0
+- note: With the Sandcaster Pass (12335) the outer leaf opens
+- note: The gate swings open
+- execute_event:
+    id: 188
+- advance_runtime:
+    seconds: 0.5
+- note: In through the south gate
+- walk_to:
+    x: -14080
+    y: 14336
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -14080
+      y: 14336
+      radius: 400
+- note: The east gate from inside
+- set_pose:
+    map: xeen_d3.odm
+    x: -9472
+    y: 16640
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The east gate swings open
+- execute_event:
+    id: 194
+- advance_runtime:
+    seconds: 0.5
+- note: Out through the east gate
+- walk_to:
+    x: -7424
+    y: 16640
+    z: 1512
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The obelisk (obelisks.d3)
+- execute_event:
+    id: 134
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Crossroads
+- set_pose:
+    map: xeen_d3.odm
+    x: -2048
+    y: 8448
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Crossroads' well
+- execute_event:
+    id: 132
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Food Stall (building:xr_stall#1, house 4641): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -2596
+    y: 9216
+    z: 1248
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Robes and Cloaks (building:xr_stall#2, house 4642): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -2852
+    y: 10752
+    z: 1248
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Necklaces of Note (building:xr_stall#3, house 4643): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -2560
+    y: 11044
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Belts and Buckles (building:xr_stall#4, house 4644): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -1500
+    y: 11264
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Boots for the Road (building:xr_stall#5, house 4645): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -1244
+    y: 9728
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Caleb''s Workshop (building:xr_stall#6, house 4646): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: -1664
+    y: 9436
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Celia and Derek''s Cottage (building:celia_derek_cottage, house 4647): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: 384
+    y: 8212
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- setup_shortcut:
+    kind: set_qbit
+    id: 112442
+    value: true
+- note: 'q-c22.done (112442): the cottage hook moves Celia and Derek in (q-c22.moved 112443)'
+- note: 'Celia and Derek''s Cottage (building:celia_derek_cottage, house 4647): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: 384
+    y: 8212
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(112443) then error("q-c22.moved not set") end
+- note: 'The cottage again (s25): q-c22.moved (112443) set, the door enters house 4647 without the hook'
+- note: 'Celia and Derek''s Cottage (building:celia_derek_cottage, house 4647): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: 384
+    y: 8212
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Vespar's ruin by the caravan road
+- set_pose:
+    map: xeen_d3.odm
+    x: -9728
+    y: 9216
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'q-d8.handle: the emerald handle'
+- execute_event:
+    id: 135
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(113161) then error("q-d8.handle_found not set") end
+- note: Cornelius the Leprechaun in his glade (Perception)
+- walk_to:
+    x: -11776
+    y: -4403
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 32
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The great oak by its lane
+- set_pose:
+    map: xeen_d3.odm
+    x: -6400
+    y: 205
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The great oak (+5 Personality, temporary)
+- execute_event:
+    id: 147
+- advance_runtime:
+    seconds: 0.5
+- note: 'The fig hut: +2 Intellect (base) and Insane, once per character (player bit fruit_fig); the line is status text'
+- lua_event:
+    source: SetValue(BaseIntellect, 20)
+- play_lua:
+    source: click(143); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+- lua_event:
+    source: if not IsAtLeast(BaseIntellect, 22) or IsAtLeast(BaseIntellect, 23) then error('Intellect is not 22') end; if
+      not IsAtLeast(Insane, 1) then error('not Insane') end
+- note: 'The same character again: the nothing-more line, no second +2'
+- play_lua:
+    source: click(143); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+- lua_event:
+    source: if IsAtLeast(BaseIntellect, 23) then error('the fig worked twice') end
+- note: The caravan well
+- set_pose:
+    map: xeen_d3.odm
+    x: -256
+    y: 17408
+    z: 1616
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The caravan well (+5 Endurance)
+- execute_event:
+    id: 153
+- advance_runtime:
+    seconds: 0.5
+- note: The Wrath Spring on the gorge lip
+- set_pose:
+    map: xeen_d3.odm
+    x: 10752
+    y: 20890
+    z: 1696
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The Wrath Spring (+5 Might)
+- execute_event:
+    id: 137
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Lakeside road north to the edge: D4 (A2''s row: ''down'', 7 days)'
+- set_pose:
+    map: xeen_d3.odm
+    x: 12288
+    y: 21760
+    z: 1824
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 12288
+    y: 32512
+    z: 1760
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 12288
+      y: -20992
+      radius: 400
+- note: On D4's south start (entrance:south_road); back south over D4's south edge to D3's north start
+- walk_to:
+    x: 12288
+    y: -32563
+    z: 1632
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: 12288
+      y: 22528
+      radius: 400
+- note: The Eastern Tower on its knoll
+- set_pose:
+    map: xeen_d3.odm
+    x: 14848
+    y: 8960
+    z: 1792
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'D-89: the Eastern Tower is open to all (no key)'
+- note: q-d18.tower_door (always passes, D-89), into DD-07 at entrance:d3_door
+- execute_event:
+    id: 104
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+      text_contains: smug
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd07.blv
+- assert:
+    party_position:
+      x: -2496
+      y: 0
+      radius: 300
+      z_min: -80
+      z_max: 160
+- play_lua:
+    source: if not qbit(113360) then error("q-d18.started not set") end
+- note: DD-07's tower door (evt:exit) back to D3 before the Eastern Tower
+- execute_event:
+    id: 28
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: 15360
+      y: 9216
+      radius: 300
+      z_min: 1780
+      z_max: 2080
+- note: The pear hut on the south bank
+- set_pose:
+    map: xeen_d3.odm
+    x: 11264
+    y: -768
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The pear hut: +2 Might (base) and Weak, once per character (player bit fruit_pear); the line is status text'
+- lua_event:
+    source: SetValue(BaseMight, 20)
+- play_lua:
+    source: click(142); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+- lua_event:
+    source: if not IsAtLeast(BaseMight, 22) or IsAtLeast(BaseMight, 23) then error('Might is not 22') end; if not IsAtLeast(Weak,
+      1) then error('not Weak') end
+- note: 'The same character again: the nothing-more line, no second +2'
+- play_lua:
+    source: click(142); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+- lua_event:
+    source: if IsAtLeast(BaseMight, 23) then error('the pear worked twice') end
+- note: Thaddeus's yard by Venom Pond
+- set_pose:
+    map: xeen_d3.odm
+    x: 7680
+    y: -5376
+    z: 976
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Fountain Keeper''s Hut (building:thaddeus_hut, house 4648): before its door, open it'
+- set_pose:
+    map: xeen_d3.odm
+    x: 8468
+    y: -5504
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Fountain of Youth before q-d18.done: venom'
+- execute_event:
+    id: 144
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- setup_shortcut:
+    kind: set_qbit
+    id: 113364
+    value: true
+- note: 'After q-d18.done: unnatural aging removed'
+- execute_event:
+    id: 144
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The caravan road west to the edge: D2'
+- set_pose:
+    map: xeen_d3.odm
+    x: -22016
+    y: 10240
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -24064
+    y: 10240
+    z: 1312
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 21504
+      y: 10240
+      radius: 400
+- note: On D2's east road end; back east over D2's east edge to D3's west start (edge_spans)
+- walk_to:
+    x: 23552
+    y: 10240
+    z: 1312
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: -22528
+      y: 10240
+      radius: 400

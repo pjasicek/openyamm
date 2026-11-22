@@ -1,0 +1,28 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d1/L4"
+revision: "732bce804db773be212679b80276c04d"
+lock_hash: "d1fcc1b932b54bf959eb13601b5972bc"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-512, 4096, 1152], facing: 512}
+  - {name: "entrance:castleview_pyramid", at: [-1024, 13312, 1248], facing: 1792}
+  - {name: "entrance:castleview_square", at: [-512, 4096, 1160], facing: 512}
+  - {name: "entrance:castleview_stables", at: [3584, 5120, 1152], facing: 0}
+  - {name: "entrance:castleview_temple", at: [2560, 2048, 1152], facing: 0}
+  - {name: "entrance:d7_fall", at: [-6656, 6144, 1152], facing: 1536}
+  - {name: "entrance:d7_rope", at: [-8192, 14336, 1088], facing: 768}
+  - {name: "entrance:dd01_hatch", at: [1024, 3072, 1152], facing: 0}
+  - {name: "entrance:dd01_outfall", at: [8192, 8192, 832], facing: 0}
+  - {name: "entrance:dd02_tower", at: [2560, 9216, 1152], facing: 0}
+  - {name: "entrance:dd03_gate", at: [-9728, -3072, 1664], facing: 1024}
+  - {name: "entrance:dd04_burrow", at: [2048, 11264, 1152], facing: 1536}
+  - {name: "entrance:dd05_door", at: [-16896, 14848, 1600], facing: 1536}
+  - {name: "entrance:dd05_rope", at: [-16896, 16896, 1600], facing: 512}
+  - {name: "entrance:dd10a_adit", at: [-9728, 20480, 1600], facing: 512}
+  - {name: "entrance:east_road", at: [21504, 2048, 1088], facing: 1024}
+  - {name: "entrance:kalindra_gate", at: [-9216, -3072, 1664], facing: 1024}
+  - {name: "entrance:lucio_jetty", at: [-6656, 5120, 1152], facing: 1024}
+  - {name: "entrance:north_gate", at: [-512, 10752, 1152], facing: 1536}
+  - {name: "entrance:north_road", at: [0, 22016, 1504], facing: 1536}
+  - {name: "entrance:queens_gate", at: [-6656, 0, 1152], facing: 256}

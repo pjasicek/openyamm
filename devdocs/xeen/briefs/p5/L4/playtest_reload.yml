@@ -1,0 +1,90 @@
+# A visit after the ending.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.reload
+title: 'Clouds of the Ancients (P5): a visit after m42.done shows the wedding state (figures, gift) and the quiet shrine'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111840
+- setup_shortcut:
+    kind: set_qbit
+    id: 111841
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- play_lua:
+    source: wait(1.5); close()
+- assert:
+    map: xeen_p5.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 11920
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 11921
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 11919
+      hidden: false
+- walk_to:
+    x: 0
+    y: -900
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 520
+    z_tolerance: 200
+- play_lua:
+    source: click(37); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: somebody has left cake
+- play_lua:
+    source: if not close() then error('evt:shrine showed no window') end

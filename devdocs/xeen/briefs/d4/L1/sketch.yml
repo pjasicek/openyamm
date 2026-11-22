@@ -1,0 +1,472 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "D4 Lakeside and Blackfang, MU-3 to-scale plan (A6, 2026-11-20), for the phase 4 review: composition, scale and density only. Cells [x, y], x east, y south. Heights above the stars below the rim (0): the lake 1,056, Lakeside 1,100-1,150, the forest 1,200-1,700, the heath 1,500-1,900 (D3's spans), the uplands to 2,400, Blackfang's crag 3,100, Magic Mountain 4,100. Written by level_generation/xeen_art/phase4/d4_brief.py. The later L3 adds plots' detail, ground, scatter and structures."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: south, span: [82, 94], neighbour: edge:south, notes: "The Lakeside road runs out to y 127 at x 88 (D3's north edge, D-28)."}
+    - {side: west, span: [72, 88], neighbour: edge:west, notes: The desert road runs out to x 0 at y 80 (proposed for D5).}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 24; below, water at 0 stands for the stars."}
+    - {side: east, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at x 104 (D3's east rim continues); the lake falls over it at y 67."}
+    - {side: south, span: [0, 24], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: "D3's north edge [0, 24]: the last Gemstone crags."}
+    - {side: south, span: [24, 82], form: ridge, height: [1500, 2000], floor: 1400, crest: 10, roughness: 80, notes: "D3's north edge [24, 82]: dunes of the desert edge."}
+    - {side: south, span: [82, 94], form: level, height: 1750, meet: 6, notes: "D3's north edge [82, 94]: the Lakeside road (D3's bed 1,760 at x 88)."}
+    - {side: south, span: [94, 104], form: ridge, height: [1900, 2400], floor: 1700, crest: 8, roughness: 100, notes: "D3's north edge [94, 104]: the Wrath crest's north shoulder."}
+    - {side: south, span: [104, 128], form: level, height: 0, meet: 1, notes: "D3's north edge [104, 128]: the rim."}
+    - {side: west, span: [0, 24], form: level, height: 0, meet: 1, notes: The north rim's west end.}
+    - {side: west, span: [24, 60], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: "Magic Mountain's west flank, on into D5's highlands."}
+    - {side: west, span: [60, 72], form: ridge, height: [1800, 2300], floor: 1500, crest: 8, roughness: 80, notes: Forested hills.}
+    - {side: west, span: [72, 88], form: level, height: 1500, meet: 6, notes: "The desert road's valley, open to D5."}
+    - {side: west, span: [88, 104], form: ridge, height: [1500, 2000], floor: 1400, crest: 10, roughness: 80, notes: Dunes of the desert edge (D5's Perishing Sands beyond).}
+    - {side: west, span: [104, 128], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: The last Gemstone crags (D3's north-west corner).}
+  edge: {height: 1500, north: 0, east: 0}
+heights:
+  points:
+    - {at: [88, 108], h: 1760, notes: "the road at the D3 edge (D3's bed 1,760)"}
+    - {at: [88, 105], h: 2050, notes: "the D3 arrival, climbing"}
+    - {at: [88, 102], h: 2300, notes: "Lakeside Brow: the lake country opens below"}
+    - {at: [87, 99], h: 1950}
+    - {at: [86, 97], h: 1650}
+    - {at: [86, 95], h: 1450, notes: Well Fork}
+    - {at: [84, 92], h: 1180}
+    - {at: [81, 103], h: 2150, notes: the brow's west shoulder}
+    - {at: [94, 102], h: 2300}
+    - {at: [80, 106], h: 1750, notes: "D3's border here 1,700-1,760"}
+    - {at: [74, 104], h: 2000, notes: Gallows Knoll}
+    - {at: [72, 105], h: 1700}
+    - {at: [60, 105], h: 1600}
+    - {at: [46, 105], h: 1500, notes: "D3's border here 1,350-1,500"}
+    - {at: [34, 105], h: 1400}
+    - {at: [24, 105], h: 1300, notes: "D3's border here 1,200-1,300 (its crags stand west of x 16)"}
+    - {at: [21, 100], h: 1450}
+    - {at: [52, 99], h: 1650, notes: the heath wagon}
+    - {at: [40, 98], h: 1600}
+    - {at: [30, 95], h: 1550}
+    - {at: [62, 100], h: 1750}
+    - {at: [98, 92], h: 2000}
+    - {at: [100, 99], h: 2350, notes: the Rimward crags}
+    - {at: [97, 106], h: 1950, notes: "D3's border here 1,880-1,980"}
+    - {at: [101, 106], h: 1750}
+    - {at: [101, 88], h: 1900}
+    - {at: [95, 86], h: 1500}
+    - {at: [72, 90], h: 1120, notes: Lakeside's square}
+    - {at: [64, 89], h: 1130}
+    - {at: [80, 89], h: 1140}
+    - {at: [72, 95], h: 1160}
+    - {at: [62, 95], h: 1200}
+    - {at: [82, 95], h: 1220}
+    - {at: [90, 84], h: 1150, notes: the cairn}
+    - {at: [95, 76], h: 1150, notes: Mirabeth Point}
+    - {at: [97, 82], h: 1300}
+    - {at: [101, 75], h: 1500}
+    - {at: [101, 66], h: 1150, notes: the falls' race}
+    - {at: [102, 60], h: 1700}
+    - {at: [72, 69], h: 1400, notes: the Isle's tower knoll}
+    - {at: [70, 71], h: 1250}
+    - {at: [75, 70], h: 1250}
+    - {at: [72, 73], h: 1120, notes: the Isle's jetty}
+    - {at: [69, 68], h: 1180}
+    - {at: [76, 67], h: 1200}
+    - {at: [61, 70], h: 1130, notes: the West Skerry}
+    - {at: [89, 70], h: 1140, notes: the East Skerry}
+    - {at: [53, 58], h: 1350}
+    - {at: [57, 81], h: 1180, notes: "Gull Knoll: the obelisk"}
+    - {at: [52, 66], h: 1200}
+    - {at: [53, 69], h: 1100, notes: the cauldron reeds}
+    - {at: [57, 81], h: 1100}
+    - {at: [50, 84], h: 1300}
+    - {at: [50, 90], h: 1450, notes: the Witches' Circle}
+    - {at: [24, 80], h: 1500, notes: the D5 arrival}
+    - {at: [36, 81], h: 1450, notes: Ector's Fork}
+    - {at: [44, 83], h: 1350}
+    - {at: [34, 72], h: 1450, notes: Ector's cabin}
+    - {at: [42, 61], h: 1500, notes: Leafpoint's grove}
+    - {at: [30, 66], h: 1650}
+    - {at: [24, 70], h: 1700}
+    - {at: [22, 88], h: 1650}
+    - {at: [40, 74], h: 1400}
+    - {at: [46, 66], h: 1450}
+    - {at: [30, 36], h: 4100, notes: Magic Mountain}
+    - {at: [38, 31], h: 3700}
+    - {at: [24, 30], h: 3500}
+    - {at: [45, 36], h: 3200}
+    - {at: [36, 43], h: 3000, notes: the Wizard's Seat (genie)}
+    - {at: [28, 50], h: 2300, notes: the wizards' camp}
+    - {at: [48, 51], h: 1900, notes: the woodpile}
+    - {at: [46, 42], h: 2700, notes: the gargoyle lair (DD-23)}
+    - {at: [50, 45], h: 2400}
+    - {at: [52, 34], h: 2600}
+    - {at: [40, 50], h: 2600}
+    - {at: [33, 56], h: 1800}
+    - {at: [22, 52], h: 2400}
+    - {at: [20, 42], h: 3000}
+    - {at: [61, 30], h: 2300, notes: the Snow Springs}
+    - {at: [56, 28], h: 2500}
+    - {at: [68, 28], h: 2400}
+    - {at: [70, 33], h: 2200, notes: the roc nest}
+    - {at: [64, 40], h: 1900}
+    - {at: [58, 44], h: 1700, notes: the rapids}
+    - {at: [66, 46], h: 1600}
+    - {at: [74, 44], h: 1800}
+    - {at: [76, 32], h: 2100}
+    - {at: [86, 30], h: 2000}
+    - {at: [94, 31], h: 1900}
+    - {at: [100, 38], h: 1800, notes: the resilience fountain}
+    - {at: [60, 52], h: 1150, notes: the Snow River bridge}
+    - {at: [68, 54], h: 1120}
+    - {at: [78, 54], h: 1180, notes: Blackfang's gate}
+    - {at: [86, 49], h: 3100, notes: Castle Blackfang}
+    - {at: [83, 46], h: 2800}
+    - {at: [90, 46], h: 2900}
+    - {at: [88, 54], h: 2700}
+    - {at: [82, 53], h: 2300}
+    - {at: [93, 52], h: 2600}
+    - {at: [92, 42], h: 2300}
+  bands:
+    - band: band:rim_sea
+      space: zone:rim
+      polygon: [[0, 0], [128, 0], [128, 128], [104, 128], [104, 24], [0, 24]]
+    - band: band:peaks
+      space: zone:magic_mountain
+      polygon: [[19, 24], [44, 24], [54, 28], [56, 40], [54, 48], [46, 54], [36, 56], [26, 57], [19, 58]]
+    - band: band:uplands
+      space: zone:snow_uplands
+      polygon: [[44, 24], [96, 24], [96, 38], [92, 38], [84, 38], [78, 42], [77, 50], [70, 53], [62, 52], [58, 50], [56, 40], [54, 28]]
+    - band: band:uplands
+      space: zone:rim_corner
+      polygon: [[96, 24], [104, 24], [104, 58], [98, 60], [96, 44], [96, 38]]
+    - band: band:crag
+      space: zone:blackfang_crag
+      polygon: [[78, 42], [84, 38], [92, 38], [96, 44], [98, 60], [95, 59], [90, 60], [84, 60], [79, 59], [77, 50]]
+    - band: band:shore
+      space: zone:north_shore
+      polygon: [[56, 50], [62, 52], [70, 53], [77, 50], [79, 59], [76, 57], [71, 56], [66, 55], [61, 55], [57, 57], [55, 56]]
+    - band: band:forest
+      space: zone:forest_of_peril
+      polygon: [[19, 58], [26, 57], [36, 56], [46, 54], [46, 70], [50, 80], [56, 84], [58, 88], [56, 94], [44, 94], [32, 92], [19, 92]]
+    - band: band:shore
+      space: zone:west_shore
+      polygon: [[46, 54], [54, 48], [56, 50], [55, 56], [55, 60], [54, 65], [54, 71], [56, 76], [60, 79], [60, 82], [56, 84], [50, 80], [46, 70]]
+    - band: band:heath
+      space: zone:desert_heath
+      polygon: [[19, 92], [32, 92], [44, 94], [56, 94], [60, 97], [62, 102], [80, 100], [84, 101], [84, 109], [19, 109]]
+    - band: band:heath
+      space: zone:lakeside_brow
+      polygon: [[84, 97], [92, 97], [92, 109], [84, 109]]
+    - band: band:shore
+      space: town:lakeside
+      polygon: [[60, 82], [85, 82], [86, 97], [60, 97]]
+    - band: band:shore
+      space: zone:east_shore
+      polygon: [[85, 82], [90, 81], [94, 80], [95, 78], [93, 76], [95, 73], [98, 72], [100, 69], [104, 69], [104, 84], [92, 86], [86, 90], [85, 86]]
+    - band: band:uplands
+      space: zone:rimward_crags
+      polygon: [[92, 86], [104, 84], [104, 109], [92, 109]]
+    - band: band:shore
+      space: zone:isle
+      polygon: [[67, 66], [70, 64], [74, 64], [77, 66], [78, 69], [76, 72], [73, 74], [70, 73], [67, 71]]
+  cliffs:
+    - line: [[0, 24], [104, 24], [104, 128]]
+      drop: 1500
+      down: left
+      notes: "The world rim, north then east (drawn west to east and north to south, the low side outward); the lake's outflow falls over it at (104, 67)."
+    - line: [[79, 59], [84, 60], [90, 60], [95, 59]]
+      drop: 1400
+      down: right
+      notes: "Blackfang's crag: its south face straight into the lake."
+    - line: [[40, 44], [44, 48], [48, 47]]
+      drop: 500
+      down: right
+      notes: "The crags over the woodcutters' clearing, DD-23's cave in their foot at (46, 41.5)."
+  ridges:
+    - {line: [[22, 30], [30, 36], [38, 31], [45, 36]], height: 3600, width: 2, slope: 4, notes: Magic Mountain's crest.}
+    - {line: [[95, 88], [100, 96], [99, 104]], height: 2300, width: 2, slope: 3, notes: "The Rimward crags, D3's Wrath shoulder running on north."}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 128], [104, 128], [104, 24], [0, 24]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:octopod_lake
+      kind: lake
+      level: 1056
+      polygon: [[57, 57], [61, 55], [66, 55], [71, 56], [76, 57], [79, 59], [84, 60], [90, 60], [95, 59], [98, 61], [100, 64], [100, 69], [98, 72], [95, 73], [93, 76], [95, 78], [94, 80], [90, 81], [85, 82], [80, 81], [76, 81], [72, 82], [68, 82], [64, 81], [60, 79], [56, 76], [54, 71], [54, 65], [55, 60]]
+      notes: "Octopod Lake. The Isle of Lost Souls and the two skerries are height points inside it (an islet in water is a height point). Deep water: the west basin (56-70, 58-76) and the east basin (80-98, 61-78)."
+    - id: water:snow_springs
+      kind: pond
+      level: 2270
+      polygon: [[60, 29], [63, 29], [64, 31], [62, 32], [60, 31]]
+      notes: The Snow Springs' tarn under the snowfield.
+  rivers:
+    - id: water:snow_river
+      line: [[62, 31], [62, 34], [61, 38], [60, 42], [59, 46], [59, 50], [60, 53], [59, 56]]
+      width_cells: 1.5
+      notes: "The Snow River: rapids from the springs (2,270) down a rocky cut to the lake's north-west bay (1,056); the timber bridge at (59.5, 52)."
+    - id: water:outflow
+      line: [[100, 67], [102, 67], [104, 67]]
+      width_cells: 2
+      level: 1056
+      notes: "The race from the lake to the rim, where it falls into the stars."
+roads:
+  - link: link:sandcaster_road
+    line: [[88, 109], [88, 104], [87.5, 100], [86.5, 96.5], [86, 95]]
+    width: road
+    surface: road_pebbles
+  - link: link:town_road_east
+    line: [[86, 95], [85, 92.5], [84, 91.5], [81.5, 91.5], [78, 91]]
+    width: road
+    surface: road_pebbles
+  - link: link:desert_road
+    line: [[19, 80], [24, 80], [30, 80], [36, 81]]
+    width: road
+    surface: soil_stony
+  - link: link:forest_road
+    line: [[36, 81], [42, 82], [47, 84], [52, 86.5], [56, 88.5], [59.5, 90], [63, 91.5], [68, 91.5]]
+    width: road
+    surface: soil_stony
+  - link: link:shore_path
+    line: [[86, 95], [88, 91], [89.5, 87], [90.5, 84.5], [92, 80.5], [93.5, 77.5], [94.5, 76]]
+    width: lane
+    surface: soil
+  - link: link:west_shore_track
+    line: [[61, 83], [58, 81], [56, 78.5], [54.5, 75], [53, 70], [52.5, 64], [53.5, 59], [56, 55], [59.5, 52]]
+    width: lane
+    surface: soil
+  - link: link:north_shore_track
+    line: [[59.5, 52], [63, 53], [68, 53.5], [73, 54], [77, 54]]
+    width: lane
+    surface: soil
+  - link: link:snow_track
+    line: [[59.5, 52], [57.5, 48], [57, 44], [58.5, 39], [60, 34], [61, 31.5], [66, 30], [72, 30.5], [80, 32], [88, 31.5], [94, 33], [98, 36], [100, 38]]
+    width: lane
+    surface: soil_stony
+  - link: link:forest_lane
+    line: [[36, 81], [35, 77], [34.5, 74], [36, 69], [38.5, 65.5], [41, 62.5]]
+    width: lane
+    surface: soil
+  - link: link:camp_lane
+    line: [[36, 69], [33, 64], [30.5, 60], [32, 56.5], [29.5, 54], [28, 52.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:seat_path
+    line: [[29.5, 48.5], [32, 46.5], [34.5, 44.5], [36, 43.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:woodpile_lane
+    line: [[43.5, 60], [45, 56.5], [46.5, 53], [47.5, 51.5]]
+    width: lane
+    surface: soil
+  - link: link:lair_path
+    line: [[47.5, 51], [48.5, 48], [47.5, 45], [46.5, 42.5]]
+    width: lane
+    surface: soil_stony
+districts:
+  - space: town:lakeside
+    polygon: [[60, 82], [85, 82], [86, 97], [60, 97]]
+    plots:
+      - {building: building:lk_guild, at: [63.5, 87], facing: e, door_to: zone:lakeside_square}
+      - {building: building:lk_smithy, at: [78.5, 87.5], facing: w, door_to: zone:lakeside_square}
+      - {building: building:lk_tavern, at: [69, 93.5], facing: n, door_to: zone:lakeside_square}
+      - {building: building:lk_temple, at: [73.5, 93.5], facing: n, door_to: zone:lakeside_square}
+      - {building: building:lk_yachts, at: [70.5, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+      - {building: building:lk_houses, index: 1, at: [61, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+      - {building: building:lk_houses, index: 2, at: [60, 92], facing: e, door_to: town:lakeside}
+      - {building: building:lk_houses, index: 3, at: [64, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+      - {building: building:lk_houses, index: 4, at: [64.5, 94.5], facing: n, door_to: town:lakeside}
+      - {building: building:lk_houses, index: 5, at: [75, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+      - {building: building:lk_houses, index: 6, at: [79, 93.5], facing: n, door_to: town:lakeside}
+      - {building: building:lk_houses, index: 7, at: [60.5, 87], facing: e, door_to: town:lakeside}
+      - {building: building:lk_houses, index: 8, at: [67, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+      - {building: building:lk_houses, index: 9, at: [82.5, 87.5], facing: w, door_to: town:lakeside}
+      - {building: building:lk_houses, index: 10, at: [78, 83.5], facing: n, door_to: zone:lakeside_waterfront}
+    notes: "A4's d4.yml: the guild 4651 (west of the square, its double door east), the smithy 4653 (east), the tavern 4652 and the temple 4654 (south), Lakeside Yachts 4655 on the waterfront with the jetty at x 72, ten houses 4657-4666 along the waterfront and the edges; the mirror 4656 on the square with Naomi's stocks."
+  - space: zone:magic_mountain
+    polygon: [[19, 24], [44, 24], [54, 28], [56, 40], [54, 48], [46, 54], [36, 56], [26, 57], [19, 58]]
+  - space: zone:wizard_camp
+    polygon: [[24, 47], [32, 47], [32, 53], [24, 53]]
+  - space: zone:woodcutters_clearing
+    polygon: [[45, 49], [50, 49], [50, 54], [45, 54]]
+  - space: zone:snow_uplands
+    polygon: [[44, 24], [96, 24], [96, 38], [92, 38], [84, 38], [78, 42], [77, 50], [70, 53], [62, 52], [58, 50], [56, 40], [54, 28]]
+  - space: zone:rim_corner
+    polygon: [[96, 24], [104, 24], [104, 58], [98, 60], [96, 44], [96, 38]]
+  - space: zone:blackfang_crag
+    polygon: [[78, 42], [84, 38], [92, 38], [96, 44], [98, 60], [95, 59], [90, 60], [84, 60], [79, 59], [77, 50]]
+  - space: zone:north_shore
+    polygon: [[56, 50], [62, 52], [70, 53], [77, 50], [79, 59], [76, 57], [71, 56], [66, 55], [61, 55], [57, 57], [55, 56]]
+  - space: zone:west_shore
+    polygon: [[46, 54], [54, 48], [56, 50], [55, 56], [55, 60], [54, 65], [54, 71], [56, 76], [60, 79], [60, 82], [56, 84], [50, 80], [46, 70]]
+  - space: zone:forest_of_peril
+    polygon: [[19, 58], [26, 57], [36, 56], [46, 54], [46, 70], [50, 80], [56, 84], [58, 88], [56, 94], [44, 94], [32, 92], [19, 92]]
+  - space: zone:leafpoint_grove
+    polygon: [[39, 58], [45, 58], [45, 64], [39, 64]]
+  - space: zone:ector_clearing
+    polygon: [[31, 69], [37, 69], [37, 74], [31, 74]]
+  - space: zone:west_edge
+    polygon: [[19, 75], [28, 75], [28, 85], [19, 85]]
+  - space: zone:desert_heath
+    polygon: [[19, 92], [32, 92], [44, 94], [56, 94], [60, 97], [62, 102], [80, 100], [84, 101], [84, 109], [19, 109]]
+  - space: zone:lakeside_brow
+    polygon: [[84, 97], [92, 97], [92, 109], [84, 109]]
+  - space: zone:lakeside_square
+    polygon: [[68, 87], [78, 87], [78, 93], [68, 93]]
+  - space: zone:lakeside_waterfront
+    polygon: [[60, 82], [85, 82], [85, 84], [60, 84]]
+  - space: zone:east_shore
+    polygon: [[85, 82], [90, 81], [94, 80], [95, 78], [93, 76], [95, 73], [98, 72], [100, 69], [104, 69], [104, 84], [92, 86], [86, 90], [85, 86]]
+  - space: zone:mirabeth_point
+    polygon: [[92, 73], [97, 73], [97, 78], [92, 78]]
+  - space: zone:rimward_crags
+    polygon: [[92, 86], [104, 84], [104, 109], [92, 109]]
+  - space: zone:falls_lip
+    polygon: [[99, 62], [104, 62], [104, 72], [99, 72]]
+  - space: zone:isle
+    polygon: [[67, 66], [70, 64], [74, 64], [77, 66], [78, 69], [76, 72], [73, 74], [70, 73], [67, 71]]
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 128], [104, 128], [104, 24], [0, 24]]
+points:
+  - {id: entrance:south_road, at: [88, 105], facing: n}
+  - {id: entrance:west_road, at: [23, 80], facing: e}
+  - {id: entrance:lakeside_square, at: [72, 90], facing: n}
+  - {id: entrance:lakeside_dock, at: [72, 82], facing: s}
+  - {id: entrance:isle_landing, at: [72, 73], facing: n}
+  - {id: entrance:dd12_door, at: [72, 67], facing: s}
+  - {id: entrance:dd20_guild, at: [68, 89], facing: e}
+  - {id: entrance:dd20_shaft, at: [69, 83], facing: n}
+  - {id: entrance:dd23_lair, at: [46, 42], facing: s}
+  - {id: entrance:blackfang_gate, at: [79, 54], facing: w}
+  - {id: junction:well_fork, at: [86, 95]}
+  - {id: junction:ector_fork, at: [36, 81]}
+  - {id: junction:snow_bridge, at: [60, 52]}
+  - {id: poi:obelisk, at: [57, 81]}
+  - {id: poi:fountain_magic, at: [29, 49]}
+  - {id: poi:warding_well, at: [88, 97]}
+  - {id: poi:fountain_resilience, at: [100, 38]}
+  - {id: poi:woodpile, at: [48, 51]}
+  - {id: poi:cairn, at: [91, 84]}
+  - {id: poi:mirabeth, at: [95, 76]}
+  - {id: poi:genie_seat, at: [36, 44]}
+  - {id: poi:genie_skerry, at: [89, 70]}
+  - {id: poi:witches_circle, at: [50, 91]}
+  - {id: poi:reed_cauldron, at: [53, 69]}
+  - {id: poi:beached_boat, at: [82, 82]}
+  - {id: poi:roc_nest, at: [70, 33]}
+  - {id: poi:frozen_pilgrim, at: [63, 30]}
+  - {id: poi:skerry_strongbox, at: [61, 70]}
+  - {id: poi:roc_hunter, at: [100, 99]}
+  - {id: poi:heath_wagon, at: [52, 100]}
+  - {id: poi:circle_chest, at: [51, 91]}
+  - {id: poi:hunters_hide, at: [24, 64]}
+  - {id: poi:falls_chest, at: [101, 63]}
+  - {id: poi:gibbet, at: [74, 104]}
+  - {id: poi:isle_boat, at: [73, 74]}
+  - {id: poi:animal_trap, at: [38, 67]}
+  - {id: poi:animal_trap, at: [30, 85]}
+  - {id: poi:signposts, at: [87, 95]}
+  - {id: poi:signposts, at: [37, 82]}
+  - {id: poi:signposts, at: [60, 53]}
+  - {id: poi:naomi, at: [75, 90]}
+  - {id: poi:slibo, at: [27, 51]}
+  - {id: poi:leafpoint, at: [42, 61]}
+  - {id: poi:ector, at: [34, 73]}
+  - {id: poi:mirror, at: [73, 88]}
+  - {id: landmark:blackfang, at: [86, 48]}
+  - {id: landmark:isle, at: [72, 69]}
+  - {id: landmark:magic_mountain, at: [30, 36]}
+  - {id: landmark:octopod_falls, at: [104, 67]}
+  - {id: landmark:rapids, at: [58, 44]}
+areas:
+  - id: pop:mountain_gargoyles
+    count: 13
+    slot: 1
+    polygon: [[21, 26], [38, 25], [52, 28], [56, 38], [54, 46], [44, 48], [34, 45], [31, 44], [21, 44]]
+    notes: "E1: Mountain Gargoyles 30, Sentinels 38, an Overlord 45 (Dif 2) on the perches round DD-23; none on the camp's shelf (x < 32) or in the woodcutters' clearing."
+  - id: pop:snow_rocs
+    count: 12
+    slot: 2
+    polygon: [[56, 26], [103, 26], [103, 56], [98, 57], [95, 44], [93, 38], [84, 38], [77, 43], [70, 47], [62, 47], [58, 41], [56, 33]]
+    notes: "E2: Vulture Rocs 30 (Rocs 38, Griffins 48 rare) over the uplands, the rapids and the rim corner behind Blackfang's crag (the resilience fountain is reached past them)."
+  - id: pop:rimward_rocs
+    count: 8
+    slot: 2
+    polygon: [[93, 86], [103, 82], [103, 108], [93, 108]]
+    notes: "E3: Vulture Rocs 30 on the crags east of the road; the first fight from D3 (2,600 off)."
+  - id: pop:heath_rocs
+    count: 14
+    slot: 2
+    polygon: [[20, 89], [31, 89], [43, 96], [58, 97], [60, 108], [20, 108]]
+    notes: "E5: Vulture Rocs over the desert edge; the first fight from D5 (about 4,600 off)."
+  - id: pop:circle_witches
+    kind: encounter
+    count: 8
+    slot: 3
+    polygon: [[46, 87], [55, 88], [55, 94], [46, 94]]
+    notes: "E4a: the Witches' Circle, 8 placed (not markers): Witch 32 x5, Coven Witch 40 x2, Coven Mother 50."
+  - id: pop:reed_witches
+    kind: encounter
+    count: 6
+    slot: 3
+    polygon: [[49, 64], [56, 64], [57, 73], [50, 73]]
+    notes: "E4b: the cauldron in the reeds, 6 placed: Witch 32 x4, Coven Witch 40 x2."
+  - id: pop:octopods
+    kind: encounter
+    count: 2
+    slot: 2
+    polygon: [[56, 58], [70, 57], [68, 62], [62, 72], [57, 73]]
+    notes: "E6 (west basin): placed octopods in the deep water only; see actors."
+  - id: pop:octopods_east
+    kind: encounter
+    count: 3
+    slot: 2
+    polygon: [[81, 61], [97, 61], [99, 68], [92, 73], [86, 78], [81, 72]]
+    notes: E6 (east basin).
+  - id: zone:lakeside_brow
+    kind: keep_clear
+    polygon: [[83, 99], [93, 99], [93, 109], [83, 109]]
+    notes: The D3 arrival.
+  - id: zone:west_edge
+    kind: keep_clear
+    polygon: [[19, 75], [29, 75], [29, 86], [19, 86]]
+    notes: The D5 arrival.
+  - id: town:lakeside
+    kind: keep_clear
+    polygon: [[55, 77], [90, 77], [91, 102], [55, 102]]
+    notes: "Lakeside and its buffer (about 2,500 round the doors)."
+  - id: zone:isle
+    kind: keep_clear
+    polygon: [[67, 66], [70, 64], [74, 64], [77, 66], [78, 69], [76, 72], [73, 74], [70, 73], [67, 71]]
+  - id: zone:wizard_camp
+    kind: keep_clear
+    polygon: [[24, 47], [32, 47], [32, 53], [24, 53]]
+  - id: zone:leafpoint_grove
+    kind: keep_clear
+    polygon: [[39, 58], [45, 58], [45, 64], [39, 64]]
+  - id: zone:ector_clearing
+    kind: keep_clear
+    polygon: [[31, 69], [37, 69], [37, 74], [31, 74]]
+  - id: zone:mirabeth_point
+    kind: keep_clear
+    polygon: [[92, 73], [97, 73], [97, 78], [92, 78]]
+  - id: zone:woodcutters_clearing
+    kind: keep_clear
+    polygon: [[45, 49], [50, 49], [50, 54], [45, 54]]
+views:
+  - {id: view:arrival, at: [88, 102], height: 180, look: [82, 70], purpose: "MU-4 arrival view: from the brow on the D3 road, looking north: the road down to Lakeside's slate roofs and jetty on the shore at the left, the lake opening up beyond with the Isle of Lost Souls, Castle Blackfang on its crag across the water, the falls at the east rim at the right, Magic Mountain's snow far left over the Forest of Peril."}
+  - {id: view:signature, at: [72, 80], height: 180, look: [82, 50], purpose: "MU-4 signature view (about 60 degrees): from the ferry jetty's end, looking north-north-east over the water: the Isle of Lost Souls with its ruined round tower and dead trees ahead-left, and beyond it Castle Blackfang on its black crag in the storm of bats, its sealed gatehouse at the crag's foot; the rapids and the snowfield at the far left; the glow above the north-east rim."}
+actors:
+  - {monster: "11170", at: [50, 90], count: 5, spread: 2, group: 1, hostile: true, notes: "The Witches' Circle: Witches 32; hidden at load once q-d22.done."}
+  - {monster: "11171", at: [51, 91], count: 2, spread: 1, group: 1, hostile: true, notes: Coven Witches 40.}
+  - {monster: "11172", at: [50.5, 90.5], count: 1, spread: 0, group: 1, hostile: true, notes: A Coven Mother 50 at the cauldron.}
+  - {monster: "11170", at: [53, 68], count: 4, spread: 2, group: 2, hostile: true, notes: "The cauldron in the reeds: Witches 32; hidden at load once q-d22.done."}
+  - {monster: "11171", at: [53.5, 69.5], count: 2, spread: 1, group: 2, hostile: true}
+  - {monster: "11470", at: [59, 65], count: 1, spread: 0, group: 3, hostile: true, notes: "An Octopod 50 in the west basin's deep water (A2/A1: a swimmer, it never leaves the deep)."}
+  - {monster: "11470", at: [64, 60], count: 1, spread: 0, group: 4, hostile: true}
+  - {monster: "11471", at: [87, 66], count: 1, spread: 0, group: 5, hostile: true, notes: "A Great Octopod 60 in the east basin, by the East Skerry's lamp."}
+  - {monster: "11470", at: [94, 67], count: 1, spread: 0, group: 6, hostile: true}
+  - {monster: "11471", at: [84, 74], count: 1, spread: 0, group: 7, hostile: true}
+  - {monster: Peasant, at: [74.5, 89.5], count: 1, spread: 0, group: 8, hostile: false, npc: 5318, notes: "Naomi (talking actor 5318) in the stocks on the square, facing the guild's door (Q-D22)."}
+  - {monster: Peasant, at: [26.5, 51], count: 1, spread: 0, group: 9, hostile: false, npc: 5317, notes: "Slibo (5317) by the tents (Q-C24, Q-D2)."}
+  - {monster: Peasant, at: [33.5, 72.5], count: 1, spread: 0, group: 10, hostile: false, npc: 5320, notes: Ector (5320) at his chopping block (Q-D21).}

@@ -1,0 +1,86 @@
+# The way in from D6 (live since A6's 08:39 D6 install): with the Cube and m33.done (111662, the ruin shown), D6's
+# thing:fd01_stair (its event number read from D6's ids.lock.yml when this file was written: rewrite it with
+# tools/tests.py after a D6 rebuild), m39.depths_door, then FD-01's entrance:d6_stair (0, 0, 0) facing 1024. No question
+# before the move: an ODM hatch into a BLV shows no window (D-72).
+# Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
+id: xeen.fd01.l4.in
+title: 'Alamar Depths (FD-01 L4): in from D6 by the gatehouse stair'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Paladin
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12365
+- lua_event:
+    source: SetQBit(QBit(111662))
+- lua_event:
+    source: evt.MoveToMap(-6656, 4608, 2208, 1536, 0, 0, 0, 0, "xeen_d6.odm")
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+    follow_map_move: true
+- play_lua:
+    source: for i = 1, 3 do if not close() then break end wait(0.5) end
+- assert:
+    map: xeen_d6.odm
+- note: 'D6''s thing:fd01_stair is D6''s event 70 (devdocs/xeen/briefs/d6/L4/ids.lock.yml); m39.depths_door (the Cube), then
+    the move to entrance:d6_stair (no question: D-72).'
+- play_lua:
+    source: click(70); wait(0.8)
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+    follow_map_move: true
+- advance_runtime:
+    seconds: 1
+    follow_map_move: true
+- play_lua:
+    source: for i = 1, 3 do if not close() then break end wait(0.5) end
+- assert:
+    map: xeen_fd01.blv
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 64
+      z_min: -8
+      z_max: 8
+      facing: 1024
+      facing_within: 64
+- play_lua:
+    source: 'log(''entrance:d6_stair: '' .. party())'

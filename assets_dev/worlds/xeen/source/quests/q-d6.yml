@@ -1,0 +1,177 @@
+# Q-D6 The Heretics of Mok (QUESTS 2.2 Q-D6, 3.2: Crusader -> Hero, Priest -> Priest of Light). Owner: A3.
+# Heretics hold the Western Tower of Mok (DD-05). Its key lies on the top floor, so the way in is from above: the
+# heretics haul their supplies up a rope on the tower's north wall, on D1 (D-9.3: `tower_rope` on D1, the
+# party arrives on DD-05's top floor; no Skyroads). Kill the Cult Leader, take the key, open the ground door for
+# Dreyfus (from inside, on the way out, or from outside with the key). Humble (L2) and Pious (L3), two heretic
+# clerics, beg for mercy; sparing them is noted and Dreyfus remarks on it. Floors as the source's: L1 the ground floor
+# (front door, alcoves, the Pegasus), L2 Humble's, L3 Pious's, L4 the top (the rope window, the Cult Leader, the key).
+# Energy Disks (M18: 2): the L1 alcoves (map_gives). The Pegasus statuette on L1 is Q-D20's hook.
+# Experience: 9,000 per member (Dreyfus's reward; the promotion pays nothing extra).
+id: Q-D6
+title: The Heretics of Mok
+act: IV
+kind: side
+status: full
+giver: 4905          # Dreyfus, High Priest of Mok (Temple of Mok, 4455)
+maps: [D1, DD-05]
+level: 30
+block: 86
+after: []
+source: "QUESTS Q-D6; dark/aaze0003:22-26 (Dreyfus, the rope), dark/aaze0060:7-9 (the reward), dark/aaze0057:3-5 (L1 alcoves), dark/aaze0058:5-10 and aaze0059:5-10 (Humble, Pious)"
+
+qbits:
+  dd05_arrived_once: {id: 117360, map: DD-05, note: "the map's own: first arrival in DD-05 (A8; block 117360-117399, provisional)"}
+  started: {id: 113120, journal: "Heretics have cast Dreyfus, High Priest of Mok, out of his Western Tower. They haul their supplies up a rope on the north wall.",
+            until: [done]}
+  rope_climbed: {id: 113121}
+  leader_slain: {id: 113123}
+  humble_spared: {id: 113124}
+  tower_opened: {id: 113125, note: "the tower's front door opened with the key (DD-05 L1 from inside, or D1 from outside; A8/A6)"}
+  alcove_disks: {id: 113126}
+  done: {id: 113127, note: "Dreyfus rewarded the party; Hero and Priest of Light promotions"}
+  pious_spared: {id: 113128}
+  humble_slain: {id: 117361, map: DD-05, note: "the map's own: Yes at Humble's question (L2), the source's kill line; his bed then shows the source's 'lifeless body' line (A8)"}
+  pious_slain: {id: 117362, map: DD-05, note: "the map's own: Yes at Pious's question (L3), as Humble's (A8)"}
+
+player_bits:         # DD-05's four fountains, once per character (D-42); the hooks decide and raise the drinking member
+  fountain_fire: {id: 11341, map: DD-05, note: "the second floor's first fountain: +5 Fire resistance"}
+  fountain_air: {id: 11342, map: DD-05, note: "the second floor's second fountain: +5 Air resistance"}
+  fountain_water: {id: 11343, map: DD-05, note: "the third floor's first fountain: +5 Water resistance"}
+  fountain_body: {id: 11344, map: DD-05, note: "the third floor's second fountain: +5 Body resistance"}
+
+autonotes:
+  rope: {id: 4460, text: "The Western Tower's key is on its top floor. The heretics haul their supplies up a rope on the tower's north wall.", category: Misc}
+  door: {id: 4461, text: "The Western Tower's ground door is open. Dreyfus waits for news in the Temple of Mok.", category: Misc}
+
+awards:
+  dreyfus: {id: 446, text: "Helped Dreyfus, High Priest of Mok", sort: 2}
+
+items:
+  west_tower_key: "the key to the Western Tower, on DD-05's top floor; opens the ground door (D1)"
+  energy_disk: "2 in DD-05 L1's alcoves (M18)"
+
+npcs:
+  4905:              # Dreyfus
+    topics:
+      - n: 1
+        label: Heretics
+        states:
+          - when: {qbit: done}
+            text: "It is always pleasing to be honored with your presence, my friends."
+          - when: {all: [{qbit: tower_opened}, {qbit: leader_slain}]}
+            text: "Thank you for your help in the battle against the heretics. Ours is the true religion, and Mok has sided with the righteous. Those of you who serve the light, Mok raises up; the rest of you get gold."
+            do: [{set: done}, {award: dreyfus}, {xp: 9000}, {gold: 3000}, {promote: heretics}]
+          - when: {qbit: tower_opened}
+            text: "My door is open, but the Cult Leader still preaches on the top floor. Mok does not share a tower."
+          - when: {qbit: rope_climbed}
+            text: "You went up their rope? Good. The key to my door is on the top floor, by their altar. Bring it down and let me in."
+          - when: {qbit: started}
+            text: "Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf."
+          - text: "Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."
+            do: [{set: started}, {autonote: rope}]
+      - n: 2
+        label: The clerics
+        show: {all: [{qbit: done}, {any: [{qbit: humble_spared}, {qbit: pious_spared}]}]}
+        text: "Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough."
+
+hooks:
+  tower_rope:
+    map: D1
+    where: "the heretics' rope on the Western Tower's north wall (D-9.3). The map's event asks \"A rope hangs from a window near the tower's top. Climb?\"; yes calls this hook and moves the party to DD-05's top-floor arrival"
+    sets: [rope_climbed]
+    status: true       # a status line: the map moves the party right after the hook (A6), a message box never shows
+    text: "Hand over hand, past the arrow slits. Nobody looks out. The window at the top is open: heretics trust their wards, not their windows."
+  tower_key:
+    map: DD-05
+    where: "the key on the Cult Leader's altar, top floor: a ground item since D-90 (c) (A8, DD-05 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the key)"
+    map_gives: {west_tower_key: 1}
+  cult_leader:
+    map: DD-05
+    where: "the Cult Leader's death (top floor, A8: his group)"
+    sets: [leader_slain]
+  humble:
+    map: DD-05
+    where: "Humble the Cleric's room on L2: he begs for mercy (the map's question \"Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?\"). No calls this hook (he turns peaceful and leaves); yes is the map's own kill line (dark/aaze0058:9-10) and its humble_slain 117361"
+    sets: [humble_spared]
+    once: true
+    text: "Thank you for sparing my life. I shall be going now."
+    else_text: "Nothing here."
+  pious:
+    map: DD-05
+    where: "Pious the Cleric's room on L3: the same plea and question as Humble's; no calls this hook, yes is the map's own kill line (dark/aaze0059:9-10) and its pious_slain 117362"
+    sets: [pious_spared]
+    once: true
+    text: "Thank you for sparing my life. I shall be going now."
+    else_text: "Nothing here."
+  front_door:
+    map: DD-05
+    gate: shortcut   # the front door opened from inside with the key found at the top
+    where: "the tower's front door on L1, from inside (the party comes down from the top with the key and lets Dreyfus in)"
+    needs: [west_tower_key]
+    sets: [tower_opened]
+    once: true
+    do: [{autonote: door}]
+    text: "The key turns and the heretics' wards on the door die with a small, sulky pop."
+    fail_text: "Locked, and warded from both sides. The key is upstairs, with the heretics."
+    else_text: "The front door stands open."
+  front_door_outside:
+    map: D1
+    entrance: DD-05
+    sealed: "the key lies inside at the top; the heretics' rope on the north wall is open"
+    where: "the Western Tower's ground door on D1, from outside (D-23): the door opens when this returns true"
+    needs: [west_tower_key]
+    sets: [tower_opened]
+    once: true
+    do: [{autonote: door}]
+    text: "The key turns and the heretics' wards on the door die with a small, sulky pop."
+    fail_text: "Locked, and warded from both sides. The key is upstairs, with the heretics. A rope hangs from a window on the north wall."
+    else_text: "The front door stands open."
+  l1_alcoves:
+    map: DD-05
+    where: "the alcoves of the first floor (not the Pegasus alcove): the map places 2 Energy Disks (M18)"
+    sets: [alcove_disks]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "Disc. Two of them, Energy Disks, set in the alcoves like offerings. Mok will not miss them."
+    else_text: "The alcove is empty."
+
+  fountain_fire:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-05
+    where: "a fountain on the second floor (dark/aaze0058): the map only calls this; the hook decides for the clicking member (player bit 11341)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11341))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain. The water is cool and refreshing, and the heat of the tower seems to step back from you. (+5 Fire resistance, permanent)"
+        do: [{lua: "AddValue(FireResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11341))"}]
+  fountain_air:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-05
+    where: "the other fountain on the second floor (dark/aaze0058): the map only calls this; the hook decides for the clicking member (player bit 11342)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11342))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain. The water is cool and refreshing, and it crackles on the way down. (+5 Air resistance, permanent)"
+        do: [{lua: "AddValue(AirResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11342))"}]
+  fountain_water:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-05
+    where: "a fountain on the third floor (dark/aaze0059): the map only calls this; the hook decides for the clicking member (player bit 11343)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11343))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain. The water is cool and refreshing, and colder than it looks. (+5 Water resistance, permanent)"
+        do: [{lua: "AddValue(WaterResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11343))"}]
+  fountain_body:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-05
+    where: "the other fountain on the third floor (dark/aaze0059): the map only calls this; the hook decides for the clicking member (player bit 11344)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11344))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain. The water is cool and refreshing, with a bitter end that your stomach decides to like. (+5 Body resistance, permanent)"
+        do: [{lua: "AddValue(BodyResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11344))"}]
+rewards: {xp: 9000, gold: 3000, award: "Helped Dreyfus", promotion: "Crusader -> Hero, Priest -> Priest of Light (Light)"}
+notes:
+  - "relations.yml (A2): the heretics of DD-05 are hostile; Humble and Pious are peaceful talkers until the map's question (A8)."
+playthrough: "D1: Dreyfus (Heretics). D1: the tower rope (climb). DD-05 L4: the Cult Leader, the key; L3 Pious, L2 Humble (spare them); L1 the alcoves, the front door. Dreyfus (Heretics; The clerics)."

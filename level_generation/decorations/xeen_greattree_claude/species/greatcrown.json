@@ -1,0 +1,263 @@
+{
+ "note": "D2 (Sprite Forest) great tree crown, decision D-23: the crown only, on A6's 16-sided BModel trunk (top radius ~547 units at 3,048 units). Model origin = centre of the stub's base; placed ~200 units below the trunk top. Metres (81.7 units/m).",
+ "height_m": 44.0,
+ "envelope": {
+  "stub_r": 6.6,
+  "stub_top": 2.5,
+  "fork_z": 7.0,
+  "fork_r": 10.0,
+  "rim_z": 7.5,
+  "rim_r": 20.0,
+  "widest_z": 16.0,
+  "widest_r": 26.0,
+  "shoulder": 0.85,
+  "tiers": [
+   [
+    0.08,
+    9.0,
+    0.6
+   ],
+   [
+    0.03,
+    3.7,
+    1.9
+   ]
+  ],
+  "seed": 4242
+ },
+ "limbs": {
+  "seed": 77,
+  "stub": {
+   "radius": 6.6,
+   "top": 5.2,
+   "cap": 2.0,
+   "sides": 16,
+   "around_tiles": 26
+  },
+  "main": {
+   "count": 6,
+   "leader": 1,
+   "z": [
+    2.6,
+    5.0
+   ],
+   "offset": 2.6,
+   "radius": [
+    2.7,
+    3.3
+   ],
+   "length": [
+    27,
+    33
+   ],
+   "tilt": [
+    26,
+    38
+   ],
+   "tilt_end": [
+    58,
+    72
+   ],
+   "leader_tilt": [
+    8,
+    22
+   ],
+   "leader_length": 30,
+   "tip_radius": 0.3,
+   "wander": 6
+  },
+  "sub": {
+   "count": [
+    4,
+    6
+   ],
+   "t": [
+    0.3,
+    0.92
+   ],
+   "radius": [
+    0.5,
+    0.62
+   ],
+   "length": [
+    10,
+    15
+   ],
+   "spread": [
+    35,
+    60
+   ],
+   "up": 0.25,
+   "tip_radius": 0.12,
+   "wander": 10
+  },
+  "branch": {
+   "count": [
+    3,
+    5
+   ],
+   "t": [
+    0.25,
+    1.0
+   ],
+   "radius": [
+    0.45,
+    0.6
+   ],
+   "length": [
+    4.0,
+    7.0
+   ],
+   "spread": [
+    30,
+    60
+   ],
+   "up": 0.3,
+   "tip_radius": 0.06,
+   "wander": 14
+  },
+  "rings_per_m": [
+   0.35,
+   0.22,
+   0.12
+  ],
+  "sides": [
+   [
+    1.6,
+    12
+   ],
+   [
+    0.8,
+    10
+   ],
+   [
+    0.4,
+    8
+   ],
+   [
+    0.15,
+    6
+   ],
+   [
+    0,
+    4
+   ]
+  ]
+ },
+ "crown": {
+  "canopy_low": 0.17,
+  "centre": 0.55,
+  "underside": 0.5,
+  "clumps": 750,
+  "inner_clumps": 150,
+  "gap": 0.8,
+  "outer_radius": [
+   1.9,
+   2.9
+  ],
+  "inner_radius": [
+   1.6,
+   2.3
+  ],
+  "card": [
+   2.6,
+   3.2
+  ],
+  "coverage": 0.45,
+  "flatten": 0.8,
+  "card_up": 0.2,
+  "shell_radial": 0.8,
+  "low_keep": 0.7,
+  "gen_cards": 10000,
+  "keep": 0.45,
+  "shell": {
+   "cores": [
+    280,
+    140,
+    50
+   ],
+   "lum": 0.3,
+   "core": 0.62
+  },
+  "lobes_az": [
+   [
+    0.06,
+    3,
+    0.4
+   ],
+   [
+    0.035,
+    5,
+    1.7
+   ]
+  ],
+  "gaps": {
+   "count": 9,
+   "radius": [
+    12,
+    19
+   ],
+   "elevation": [
+    -25,
+    40
+   ],
+   "seed": 31
+  }
+ },
+ "occlusion": {
+  "floor": 0.38,
+  "range": 0.62,
+  "hue": [
+   1.15,
+   1.0,
+   0.95
+  ],
+  "rays": 24,
+  "leaf_floor": 0.07
+ },
+ "leaves": {
+  "cells": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "target_srgb": [
+   58,
+   190,
+   108
+  ]
+ },
+ "lod": {
+  "tone": [
+   1.0,
+   0.92,
+   [
+    1.54,
+    2.16,
+    1.74
+   ]
+  ],
+  "lod2_card_scale": 0.82,
+  "lod2_vertical": 2,
+  "lod2_capacity": 0.7,
+  "grow": [
+   1.0,
+   1.3,
+   1.6
+  ]
+ },
+ "placement": {
+  "trunk_top": 3048,
+  "overlap": 200,
+  "trunk_r_top": 547,
+  "trunk_r_base": 760,
+  "foot": 448,
+  "eye": 180
+ },
+ "impostor_tone": [
+  1.28,
+  1.91,
+  1.47
+ ]
+}

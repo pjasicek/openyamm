@@ -1,0 +1,103 @@
+{
+ "_note": "D7's set pieces (lane S session 10): the Merchants of the Elements' sky-barges (4051-4054) and Lucio's celestial boat (4055). Sprites 27051-27055, bindings in worlds/xeen/models/indoor_decorations.yml.",
+ "rows": [
+  {
+   "row": 4051,
+   "sprite": 27051,
+   "name": "xeen_skybarge_fire",
+   "hint": "sky-barge",
+   "radius": 0,
+   "height": 721,
+   "model": "worlds/xeen/models/xeen_deco_skybarge_fire.glb",
+   "binding_height": 721.0,
+   "yaw_offset": -1.570796327,
+   "comment": [
+    "D7's Merchant of the Elements' gilded sky-barge, fire tint (red-orange sail, canopy, pennant and glow; the smoke",
+    "merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt",
+    "frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,",
+    "a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352",
+    "out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =",
+    "the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so",
+    "the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank."
+   ]
+  },
+  {
+   "row": 4052,
+   "sprite": 27052,
+   "name": "xeen_skybarge_air",
+   "hint": "sky-barge",
+   "radius": 0,
+   "height": 721,
+   "model": "worlds/xeen/models/xeen_deco_skybarge_air.glb",
+   "binding_height": 721.0,
+   "yaw_offset": -1.570796327,
+   "comment": [
+    "D7's Merchant of the Elements' gilded sky-barge, air tint (pale silver-white sail, canopy, pennant and glow; the dust",
+    "merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt",
+    "frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,",
+    "a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352",
+    "out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =",
+    "the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so",
+    "the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank."
+   ]
+  },
+  {
+   "row": 4053,
+   "sprite": 27053,
+   "name": "xeen_skybarge_earth",
+   "hint": "sky-barge",
+   "radius": 0,
+   "height": 721,
+   "model": "worlds/xeen/models/xeen_deco_skybarge_earth.glb",
+   "binding_height": 721.0,
+   "yaw_offset": -1.570796327,
+   "comment": [
+    "D7's Merchant of the Elements' gilded sky-barge, earth tint (amber-bronze sail, canopy, pennant and glow; the mud",
+    "merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt",
+    "frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,",
+    "a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352",
+    "out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =",
+    "the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so",
+    "the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank."
+   ]
+  },
+  {
+   "row": 4054,
+   "sprite": 27054,
+   "name": "xeen_skybarge_water",
+   "hint": "sky-barge",
+   "radius": 0,
+   "height": 721,
+   "model": "worlds/xeen/models/xeen_deco_skybarge_water.glb",
+   "binding_height": 721.0,
+   "yaw_offset": -1.570796327,
+   "comment": [
+    "D7's Merchant of the Elements' gilded sky-barge, water tint (sea-green sail, canopy, pennant and glow; the steam",
+    "merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt",
+    "frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,",
+    "a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352",
+    "out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =",
+    "the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so",
+    "the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank."
+   ]
+  },
+  {
+   "row": 4055,
+   "sprite": 27055,
+   "name": "xeen_skyboat",
+   "hint": "celestial boat",
+   "radius": 0,
+   "height": 569,
+   "model": "worlds/xeen/models/xeen_deco_skyboat.glb",
+   "binding_height": 569.3,
+   "yaw_offset": -1.570796327,
+   "comment": [
+    "D7's celestial boat at Lucio's dock (the boat that brought the party up; lane S,",
+    "level_generation/decorations/xeen_skybarge_claude): the sky-barges' family, smaller: plank hull, carved gilt",
+    "frieze and rail, gilt scroll posts, a mast with a pale-blue sail and glowing sigil, two thwarts. 736 long,",
+    "266 wide, 569 tall (keel -144, mast orb +425). Origin = the deck's centre at deck height (48 under the",
+    "jetty's top). Facing = the way the prow points. Radius 0 (no collision; nobody boards it)."
+   ]
+  }
+ ]
+}

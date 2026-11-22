@@ -1,0 +1,43 @@
+# Act II, Rivercity's side quests (tools/xeen/quest_stub.py). Owner: A3.
+name: Act II, Rivercity
+party: [Sorcerer, Archer, DarkElf, Knight]
+steps:
+  - talk: [4151, Pendant]
+  - talk: [4131, Barok]
+  - hook: x2.ad_customers
+  - hook: q-c2.strongbox
+  - give: baroks_pendant   # D-90 (b): the strongbox is a chest (map_gives)
+  - hook: [q-c2.strongbox, false]
+  - talk: [4151, Pendant]
+  - expect: {qbit: q-c2.done, item: "engine:429", class: [0, Wizard], xp: 14000}
+  - expect: {class: [1, WarriorMage]}
+  - hidden: [4131, Barok]
+  - hidden: [4151, Promotion]
+  - class: [3, Sorcerer]
+  - talk: [4151, Promotion]
+  - expect: {class: [3, Wizard], xp: 14000}
+  - talk: [4152, Lake beasts]
+  - hook: q-c13.medin_boat
+  - set: q-c13.lake_beasts_slain
+  - hook: q-c13.medin_boat
+  - talk: [4152, Lake beasts]
+  - expect: {qbit: q-c13.done, xp: 20000}
+  - talk: [4154, Wand]
+  - hook: q-c17.nest
+  - talk: [4154, Wand]
+  - expect: {qbit: [q-c17.done, q-c17.faery_wand], class: [2, Patriarch], no_item: wand_of_faery_magic, xp: 24000}
+  - talk: [4153, Holy Book]
+  - give: holy_book   # D-90 (c): a ground item (q-c18.book is a map_gives record)
+  - talk: [4153, Holy Book]
+  - expect: {qbit: q-c18.done, xp: 29000}
+  - talk: [4155, Skull]
+  - give: ligonos_skull   # D-90 (c): a ground item (q-c19.skull is a map_gives record)
+  - talk: [4155, Skull]
+  - hidden: [4155, Skull]
+  - expect: {qbit: q-c19.done, item: "engine:427", xp: 33000}
+  - talk: [4113, Ogres]
+  - set: q-c23.ogre_lair_destroyed
+  - talk: [4113, Ogres]
+  - expect: {qbit: q-c23.done, xp: 37000, gold: 6500}
+  - hook: x2.bank_chest
+  - hook: [x2.bank_chest, false]

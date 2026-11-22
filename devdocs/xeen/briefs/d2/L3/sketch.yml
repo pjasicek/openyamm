@@ -1,0 +1,4014 @@
+format: 0
+grid: 512
+notes: "D2 Sprite Forest and Ogre Pass, written by output/studio_cal/d2/tools/gen.py. Cells [x, y], x east, y south. Heights are map units above the stars below the rim (0): the forest floor 920-1,100 to the rim at y 104, the foothills 1,200-2,100, Ogre Pass's saddle 2,050, the Gemstone Range to 4,400."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: west, span: [52, 68], neighbour: edge:west, notes: The Castleview road runs out to x 0 at y 60 (fixed with D1).}
+    - {side: east, span: [36, 52], neighbour: edge:east, notes: "The caravan road runs out to x 127 at y 44 (A5, D3)."}
+  rim:
+    - {side: south, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 104 (D-23); below, water at 0 stands for the stars."}
+    - {side: north, form: ridge, height: [3400, 4400], floor: 2600, crest: 10, roughness: 140, notes: "The Gemstone Range: slate crags with crystal veins."}
+    - {side: west, span: [0, 50], form: ridge, height: [1900, 2600], floor: 1600, crest: 10, roughness: 100, notes: The foothills go on into D1's north-east.}
+    - {side: west, span: [50, 70], form: level, height: 1000, meet: 6, notes: "The road's valley, open to D1."}
+    - {side: west, span: [70, 104], form: ridge, height: [1150, 1450], floor: 1000, crest: 8, roughness: 60, notes: Wooded rises toward D1's south-east.}
+    - {side: west, span: [104, 128], form: level, height: 0, meet: 1}
+    - {side: east, span: [0, 32], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: The range's east end.}
+    - {side: east, span: [32, 56], form: level, height: 1300, meet: 6, notes: "The caravan road's valley, open to D3."}
+    - {side: east, span: [56, 104], form: ridge, height: [1300, 1700], floor: 1100, crest: 8, roughness: 80, notes: Wooded hills toward the Aging Forest.}
+    - {side: east, span: [104, 128], form: level, height: 0, meet: 1}
+  edge: {height: 1500, east: 1300, south: 0, west: 1000}
+heights:
+  points:
+    - {at: [44, 8], h: 4200, notes: the range's highest crystal crag}
+    - {at: [88, 12], h: 4400, notes: the spur's root}
+    - {at: [24, 10], h: 3800}
+    - {at: [62, 10], h: 3900}
+    - {at: [106, 12], h: 3700}
+    - {at: [80, 25], h: 3400, notes: the spur's north peak}
+    - {at: [100, 30], h: 2300, notes: the genie's ledge}
+    - {at: [48, 28], h: 2000, notes: the crystal seam}
+  cliffs:
+    - line: [[0, 104], [128, 104]]
+      drop: 940
+      down: right
+      notes: "The world rim, south (D-23: y 104); the Glimmerbrook falls over it at x 58 (Sprite Falls)."
+    - line: [[74, 48], [73, 55], [74, 61]]
+      drop: 500
+      down: right
+      notes: The spur's west face over the Whispering Glades.
+    - line: [[31, 30], [37, 30]]
+      drop: 300
+      down: right
+      notes: The rock face with the mines' adit.
+  ridges:
+    - {line: [[30, 28.5], [34, 28], [38, 28.5]], height: [2250, 2350, 2250], width: 2, slope: 1, notes: The rock the east adit is cut into (its face the cliff at y 30).}
+    - {line: [[80, 18], [80, 24], [80, 29], [80, 32.5]], height: [3600, 3400, 3200, 2600], width: 3, slope: 2, notes: The Gemstone Spur north of the pass.}
+    - {line: [[80, 40.5], [80, 44], [80, 48], [79, 54], [77.5, 59.5]], height: [2600, 3100, 3000, 2600, 1800], width: 3, slope: 2, notes: "The spur south of the pass, falling to crags over the forest track."}
+  terraces:
+    - polygon: [[76.5, 34.2], [81.5, 34.2], [81.5, 38.8], [76.5, 38.8]]
+      height: 2050
+      slope: 3
+      notes: "Ogre Pass's saddle: Graalg's parley fire."
+    - polygon: [[69.2, 30.8], [74.8, 30.8], [74.8, 36.4], [69.2, 36.4]]
+      height: 2000
+      slope: 3
+      notes: The west fort's knoll.
+    - polygon: [[84.2, 42], [89.8, 42], [89.8, 47.6], [84.2, 47.6]]
+      height: 2150
+      slope: 3
+      notes: The east fort's knoll.
+    - polygon: [[19, 80], [39, 80], [39, 98], [19, 98]]
+      height: 980
+      slope: 4
+      notes: Sharla's treehouse village and its green.
+    - polygon: [[36, 72], [48, 72], [48, 85], [36, 85]]
+      height: 1000
+      slope: 4
+      notes: The glade of the great tree.
+    - polygon: [[90, 76], [100, 76], [100, 85], [90, 85]]
+      height: 1050
+      slope: 3
+      notes: The Southern Tower's clearing.
+    - polygon: [[101.5, 91], [106.5, 91], [106.5, 96.5], [101.5, 96.5]]
+      height: 1000
+      slope: 2
+      notes: The Shrine of the Elements.
+    - polygon: [[55, 87], [61, 87], [61, 93], [55, 93]]
+      height: 950
+      slope: 2
+      notes: The Forbidden Fruit clearing.
+    - polygon: [[31, 30.6], [37, 30.6], [37, 35], [31, 35]]
+      height: 1700
+      slope: 2
+      notes: The ground before the east adit (DD-10B).
+    - polygon: [[98.5, 28.6], [101.5, 28.6], [101.5, 31.4], [98.5, 31.4]]
+      height: 2300
+      slope: 2
+      notes: The genie's ledge.
+    - polygon: [[34.5, 49.5], [37.5, 49.5], [37.5, 52.5], [34.5, 52.5]]
+      height: 1260
+      slope: 2
+      notes: The obelisk's knoll.
+    - polygon: [[17, 55], [26, 55], [26, 65], [17, 65]]
+      height: 1000
+      slope: 3
+      notes: The D1 arrival at the forest edge.
+    - polygon: [[101, 40], [111, 40], [111, 48], [101, 48]]
+      height: 1300
+      slope: 3
+      notes: "The D3 arrival: the Sandcaster road's end."
+  grid:
+    step: 4
+    unit: 32
+    rows: [[102, 101, 91, 89, 99, 104, 96, 87, 89, 103, 115, 109, 94, 91, 100, 103, 95, 86, 84, 89, 96, 103, 103, 97, 95, 96, 93, 88, 88, 95, 97, 89], [102, 98, 90, 96, 112, 113, 100, 90, 90, 102, 123, 124, 103, 94, 105, 116, 103, 87, 84, 92, 107, 121, 120, 105, 96, 99, 104, 100, 95, 97, 99, 94], [92, 91, 87, 93, 112, 112, 93, 85, 86, 94, 110, 110, 99, 95, 100, 113, 101, 91, 88, 89, 106, 134, 133, 103, 90, 103, 115, 107, 93, 96, 100, 96], [77, 79, 84, 87, 90, 87, 82, 83, 82, 83, 86, 85, 89, 85, 79, 80, 87, 88, 89, 87, 93, 112, 114, 94, 84, 90, 104, 98, 84, 80, 90, 92], [78, 81, 83, 81, 81, 79, 79, 82, 84, 81, 80, 82, 91, 82, 76, 79, 90, 88, 85, 83, 85, 89, 88, 86, 87, 87, 84, 80, 77, 78, 80, 80], [76, 80, 83, 74, 72, 76, 83, 86, 80, 76, 75, 74, 78, 74, 77, 85, 91, 81, 81, 87, 88, 83, 81, 83, 88, 87, 78, 73, 77, 87, 85, 79], [71, 64, 60, 64, 65, 69, 74, 75, 70, 66, 65, 64, 68, 67, 70, 76, 76, 70, 74, 92, 95, 82, 74, 76, 79, 77, 69, 67, 77, 85, 79, 74], [62, 61, 59, 58, 58, 63, 64, 60, 56, 60, 62, 63, 64, 67, 68, 66, 68, 68, 71, 85, 87, 79, 72, 67, 72, 71, 67, 62, 65, 67, 66, 65], [53, 55, 61, 62, 57, 53, 55, 56, 53, 54, 57, 61, 61, 58, 56, 59, 64, 63, 64, 70, 72, 67, 66, 65, 64, 63, 63, 65, 61, 57, 57, 62], [51, 52, 54, 55, 54, 49, 48, 52, 56, 55, 52, 54, 58, 54, 50, 52, 60, 63, 64, 65, 67, 62, 62, 59, 55, 54, 53, 54, 52, 53, 54, 54], [49, 49, 47, 44, 45, 48, 52, 51, 50, 51, 48, 46, 47, 50, 53, 53, 57, 60, 64, 78, 76, 63, 60, 59, 51, 45, 42, 46, 42, 44, 49, 44], [50, 45, 39, 39, 43, 44, 46, 46, 44, 45, 43, 42, 41, 45, 50, 52, 54, 52, 59, 75, 76, 67, 63, 55, 53, 45, 42, 45, 44, 48, 48, 39], [42, 39, 36, 37, 41, 44, 45, 40, 40, 40, 44, 42, 37, 42, 48, 49, 44, 47, 59, 75, 77, 65, 58, 52, 49, 48, 46, 43, 43, 48, 47, 42], [34, 34, 38, 43, 39, 38, 39, 40, 39, 39, 39, 42, 43, 42, 40, 41, 46, 48, 56, 65, 63, 53, 45, 47, 46, 45, 48, 48, 46, 43, 42, 46], [27, 34, 41, 39, 34, 32, 35, 33, 34, 39, 36, 34, 40, 40, 35, 38, 47, 52, 54, 49, 51, 45, 36, 41, 40, 42, 48, 48, 44, 43, 44, 49], [30, 34, 39, 35, 33, 32, 34, 33, 33, 37, 37, 36, 36, 36, 37, 44, 48, 50, 50, 46, 45, 43, 42, 46, 41, 39, 44, 46, 44, 44, 47, 51], [40, 37, 31, 28, 33, 35, 36, 36, 37, 37, 34, 33, 36, 38, 41, 45, 47, 44, 43, 45, 47, 44, 39, 41, 45, 44, 39, 38, 45, 51, 50, 46], [38, 36, 31, 28, 33, 39, 40, 34, 31, 33, 31, 33, 33, 37, 42, 41, 38, 37, 40, 42, 42, 40, 35, 37, 41, 43, 41, 39, 42, 49, 50, 44], [35, 32, 32, 34, 35, 34, 35, 34, 34, 33, 32, 33, 35, 35, 31, 32, 35, 36, 37, 36, 37, 37, 34, 36, 40, 42, 42, 43, 45, 45, 43, 43], [31, 35, 38, 37, 33, 31, 32, 34, 34, 33, 31, 32, 32, 35, 31, 31, 33, 40, 39, 33, 31, 36, 37, 34, 35, 40, 45, 44, 42, 41, 43, 46], [32, 35, 40, 38, 31, 32, 33, 33, 33, 33, 32, 32, 31, 31, 30, 32, 33, 30, 34, 33, 31, 34, 36, 33, 34, 35, 40, 43, 42, 40, 43, 50], [39, 38, 34, 32, 32, 33, 32, 31, 32, 32, 30, 29, 30, 31, 31, 33, 33, 30, 31, 30, 34, 38, 37, 35, 35, 36, 35, 36, 40, 44, 45, 44], [39, 37, 32, 32, 32, 32, 31, 31, 31, 30, 33, 31, 28, 29, 30, 32, 30, 26, 29, 34, 37, 35, 34, 34, 34, 33, 33, 34, 37, 41, 42, 40], [38, 33, 28, 31, 36, 33, 32, 31, 31, 30, 31, 32, 32, 30, 31, 32, 30, 27, 28, 35, 39, 33, 27, 29, 35, 31, 32, 33, 37, 38, 35, 34], [31, 31, 33, 34, 34, 34, 31, 30, 30, 32, 33, 31, 32, 32, 29, 29, 29, 30, 35, 33, 31, 31, 31, 31, 32, 33, 32, 34, 33, 33, 35, 37], [33, 32, 32, 33, 33, 32, 30, 29, 30, 32, 32, 32, 32, 31, 28, 29, 30, 31, 32, 33, 31, 30, 31, 33, 33, 32, 31, 32, 34, 35, 36, 38], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    notes: Written by gen.py from its land function.
+  peaks:
+    - {polygon: [[4, 4], [124, 4], [124, 19], [4, 19]], count: 26, height: [3000, 4400], radius: [2, 4], profile: cone, spacing: 4, seed: 3, notes: "The Gemstone Range broken into crags, its foot at y 19-22 seen from the forest and the pass."}
+    - {polygon: [[78, 18], [82, 18], [82, 31], [78, 31]], count: 4, height: [3200, 3700], radius: [1.5, 2.5], profile: cone, spacing: 3, seed: 5, notes: The spur's crest north of the saddle broken into tops.}
+    - {polygon: [[78, 41], [82, 41], [82, 52], [78, 52]], count: 3, height: [2900, 3300], radius: [1.5, 2.5], profile: cone, spacing: 3, seed: 7, notes: The spur's crest south of the saddle.}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 105], [128, 105], [128, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars (the game draws no void)."
+  rivers:
+    - id: water:brook
+      line: [[52, 21], [52, 26], [52, 32], [52, 40], [51, 48], [49, 56], [48, 64], [48, 70], [49, 76], [51, 82], [53, 88], [55, 94], [57, 100], [58, 104]]
+      width_cells: 1.5
+      notes: "The Glimmerbrook: from the range's foot (52, 21) under the caravan road's log bridge (51, 48) and the forest track's footbridge (48.5, 70), past the great tree, over the rim at x 58 (Sprite Falls). It touches no map edge (D-23)."
+roads:
+  - link: link:castleview_road
+    line: [[0, 60], [10, 60], [21, 60], [27, 60], [32, 60]]
+    width: road
+    surface: soil_stony
+  - link: link:caravan_west
+    line: [[32, 60], [37, 57], [42, 54], [47, 51], [51, 48], [56, 45.5], [61, 43], [66, 41], [71, 39.5], [75, 37.5], [79, 37]]
+    width: road
+    surface: soil_stony
+    notes: Over the Glimmerbrook by the log bridge (thing:log_bridge).
+  - link: link:caravan_east
+    line: [[79, 37], [83, 38], [87, 40.5], [92, 41.5], [97, 42.5], [102, 43.5], [106, 44], [116, 44], [128, 44]]
+    width: road
+    surface: soil_stony
+  - link: link:forest_track
+    line: [[32, 60], [35, 64], [38, 67], [42, 70]]
+    width: lane
+  - link: link:glade_track
+    line: [[42, 70], [46, 70], [48.5, 70], [51, 70], [54, 69], [60, 67], [66, 66], [72, 66.5], [78, 67.5], [83, 64], [87, 61], [90, 58]]
+    width: lane
+    notes: Over the Glimmerbrook by the footbridge (thing:footbridge).
+  - link: link:south_climb
+    line: [[90, 58], [92, 54], [94, 50], [96, 46], [97, 42.5]]
+    width: lane
+  - link: link:village_lane
+    line: [[42, 70], [39, 72], [36, 75], [33.5, 79], [31.5, 83], [30, 86.5]]
+    width: lane
+  - link: link:tower_lane
+    line: [[90, 58], [91, 64], [92, 70], [93.5, 75], [94.5, 78.5]]
+    width: lane
+  - link: link:shrine_path
+    line: [[93.5, 75], [97, 82], [100, 87], [103, 91], [103.5, 92.5]]
+    width: lane
+  - link: link:mine_lane
+    line: [[42, 54], [40, 48], [37, 42], [35, 36], [34, 32.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:fruit_lane
+    line: [[54, 69], [55, 74], [56, 80], [57, 86], [57.5, 88.5]]
+    width: lane
+  - link: link:brink_path
+    line: [[57.5, 88.5], [59, 93], [60, 97], [61, 101], [61, 102.5]]
+    width: lane
+districts:
+  - space: town:sprite_village
+    polygon: [[19, 80], [39, 80], [39, 98], [19, 98]]
+    plots:
+      - {building: building:sharla_tree, at: [24, 82.5], facing: s, turn: -39, parts: [{id: foot, shape: round, at: [768, 768], radius: 440, sides: 12, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 320, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 220, height: 288, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10]}, door_height: 256}, {id: trunk, shape: round, at: [768, 768], radius: 440, sides: 12, bottom: 320, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 1150, windows: none, roof: flat}, {id: deck, shape: round, at: [768, 768], radius: 740, sides: 12, bottom: 640, textures: {roof: t68a13mm, trim: t68a13mm, wall: t68a13mm}, wall_height: 32, windows: none, roof: flat}], floor: 980, textures: {trim: xdbark, window: xdbark}, house: 4553, title: Sharla's Treehouse, kit: timber, door: {part: foot, wall: "0"}}
+      - {building: building:sprite_guild_light, at: [33.5, 82.5], facing: s, turn: 42, parts: [{id: foot, shape: round, at: [512, 512], radius: 400, sides: 12, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 320, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 200, height: 288, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10]}, door_height: 256}, {id: trunk, shape: round, at: [512, 512], radius: 400, sides: 12, bottom: 320, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 1050, windows: none, roof: flat}, {id: deck, shape: round, at: [512, 512], radius: 620, sides: 12, bottom: 720, railing: {height: 112, posts: 16, every: 160}, textures: {rail: t68a13mm, railing: t68a13mm, roof: t68a13mm, trim: t68a13mm, wall: t68a13mm}, wall_height: 32, windows: none, roof: flat}], floor: 980, textures: {trim: xdbark, window: xdbark}, house: 4552, title: Light Guild of the Treetops, kit: timber, door: {part: foot, wall: "0"}}
+      - {building: building:sprite_potions, at: [22, 88.5], facing: s, turn: -94, parts: [{id: foot, shape: round, at: [512, 512], radius: 380, sides: 12, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 320, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 190, height: 288, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10]}, door_height: 256}, {id: trunk, shape: round, at: [512, 512], radius: 380, sides: 12, bottom: 320, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 980, windows: none, roof: flat}, {id: deck, shape: round, at: [512, 512], radius: 600, sides: 12, bottom: 700, railing: {height: 112, posts: 16, every: 160}, textures: {rail: t68a13mm, railing: t68a13mm, roof: t68a13mm, trim: t68a13mm, wall: t68a13mm}, wall_height: 32, windows: none, roof: flat}], floor: 980, textures: {trim: xdbark, window: xdbark}, house: 4551, title: Dewdrop Potions, kit: timber, door: {part: foot, wall: "0"}}
+      - {building: building:sprite_houses, index: 1, at: [33.5, 88.5], facing: s, turn: 96, parts: [{id: foot, shape: round, at: [512, 512], radius: 360, sides: 12, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 320, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 180, height: 288, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10]}, door_height: 256}, {id: trunk, shape: round, at: [512, 512], radius: 360, sides: 12, bottom: 320, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 940, windows: none, roof: flat}, {id: deck, shape: round, at: [512, 512], radius: 580, sides: 12, bottom: 680, railing: {height: 112, posts: 16, every: 160}, textures: {rail: t68a13mm, railing: t68a13mm, roof: t68a13mm, trim: t68a13mm, wall: t68a13mm}, wall_height: 32, windows: none, roof: flat}], floor: 980, textures: {trim: xdbark, window: xdbark}, house: 4554, title: Mossbell's Bower, kit: timber, door: {part: foot, wall: "0"}}
+      - {building: building:sprite_houses, index: 2, at: [28, 93.5], facing: s, turn: -175, parts: [{id: foot, shape: round, at: [512, 512], radius: 360, sides: 12, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 320, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 180, height: 288, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10]}, door_height: 256}, {id: trunk, shape: round, at: [512, 512], radius: 360, sides: 12, bottom: 320, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 960, windows: none, roof: flat}, {id: deck, shape: round, at: [512, 512], radius: 580, sides: 12, bottom: 700, railing: {height: 112, posts: 16, every: 160}, textures: {rail: t68a13mm, railing: t68a13mm, roof: t68a13mm, trim: t68a13mm, wall: t68a13mm}, wall_height: 32, windows: none, roof: flat}], floor: 980, textures: {trim: xdbark, window: xdbark}, house: 4555, title: Thistledown's Bower, kit: timber, door: {part: foot, wall: "0"}}
+  - space: zone:village_green
+    polygon: [[26, 86], [33, 86], [33, 92], [26, 92]]
+  - space: zone:bark_glade
+    polygon: [[34, 67], [48, 67], [48, 80], [34, 80]]
+    plots:
+      - {building: building:nibbler_hollow, at: [45, 75], facing: s, turn: 90, parts: [{id: foot, shape: round, at: [256, 256], radius: 224, sides: 10, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 288, windows: none, roof: flat, buttresses: {count: 1, width: 112, depth: 112, height: 256, walls: [2, 3, 4, 5, 6, 7, 8]}, door_height: 256}, {id: trunk, shape: round, at: [256, 256], radius: 224, sides: 10, bottom: 288, taper: 0.6, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 160, windows: none, roof: flat}], floor: 1000, textures: {trim: xdbark, window: xdbark}, house: 4556, title: Nibbler's Hollow, kit: timber, door: {part: foot, wall: "0"}}
+  - space: zone:west_edge
+    polygon: [[0, 54], [24, 54], [36, 52], [40, 56], [34, 64], [16, 66], [0, 68]]
+  - space: zone:range
+    polygon: [[0, 0], [128, 0], [128, 22], [116, 22], [104, 19], [96, 21], [88, 17], [80, 20], [72, 18], [62, 17], [50, 15], [38, 17], [26, 15], [14, 19], [0, 21]]
+  - space: zone:foothills
+    polygon: [[0, 21], [14, 19], [26, 15], [38, 17], [50, 15], [62, 17], [72, 18], [74, 30], [60, 30], [60, 40], [52, 44], [44, 48], [36, 52], [24, 54], [0, 54]]
+  - space: zone:mine_mouth
+    polygon: [[30, 28], [38, 28], [38, 35], [30, 35]]
+  - space: zone:ogre_pass
+    polygon: [[60, 30], [98, 30], [100, 48], [86, 48], [70, 48], [60, 46]]
+  - space: zone:pass_saddle
+    polygon: [[76, 34], [82, 34], [82, 39], [76, 39]]
+  - space: zone:spur_crags
+    polygon: [[72, 48], [88, 48], [86, 58], [80, 65], [73, 62], [70, 54]]
+  - space: zone:whispering_glades
+    polygon: [[44, 48], [52, 44], [60, 40], [60, 46], [70, 48], [70, 54], [73, 62], [68, 62], [56, 63], [46, 60], [40, 56]]
+  - space: zone:east_descent
+    polygon: [[98, 30], [104, 19], [116, 22], [128, 22], [128, 52], [100, 50], [100, 48]]
+  - space: zone:east_meadow
+    polygon: [[100, 38], [112, 38], [112, 49], [100, 49]]
+  - space: zone:sprite_forest
+    polygon: [[0, 68], [16, 66], [34, 64], [40, 56], [46, 60], [56, 63], [68, 62], [73, 62], [80, 65], [82, 70], [82, 104], [0, 104]]
+  - space: zone:west_glades
+    polygon: [[17, 66], [28, 66], [32, 72], [27, 78], [17, 78]]
+  - space: zone:troll_country
+    polygon: [[50, 73], [66, 70], [78, 70], [82, 78], [82, 103], [64, 103], [52, 98], [49, 90]]
+  - space: zone:fruit_clearing
+    polygon: [[55, 87], [61, 87], [61, 93], [55, 93]]
+  - space: zone:brink
+    polygon: [[56, 99], [65, 99], [65, 104], [56, 104]]
+  - space: zone:southern_woods
+    polygon: [[86, 48], [100, 48], [100, 50], [128, 52], [128, 104], [82, 104], [82, 70], [80, 65], [86, 58]]
+  - space: zone:tower_clearing
+    polygon: [[89, 75], [101, 75], [101, 86], [89, 86]]
+  - space: zone:shrine_glade
+    polygon: [[101, 90], [107, 90], [107, 97], [101, 97]]
+  - space: zone:rim
+    polygon: [[0, 104], [128, 104], [128, 128], [0, 128]]
+points:
+  - {id: entrance:west_road, at: [21, 60], facing: e}
+  - {id: entrance:d7_fall, at: [95, 77], facing: s}
+  - {id: entrance:forest_edge, at: [22, 60], facing: e}
+  - {id: entrance:east_road, at: [106, 44], facing: w}
+  - {id: entrance:dd09_door, at: [42, 77], facing: n}
+  - {id: entrance:dd13_west, at: [72, 37], facing: s}
+  - {id: entrance:dd13_east, at: [87, 41], facing: n}
+  - {id: entrance:dd06_door, at: [95, 79], facing: n}
+  - {id: entrance:dd10b_adit, at: [34, 32], facing: s}
+  - {id: entrance:dd11a_hole, at: [60, 76], facing: w}
+  - {id: entrance:dd11b_hole, at: [70, 84], facing: w}
+  - {id: entrance:dd11c_hole, at: [67, 98], facing: w}
+  - {id: junction:forest_fork, at: [32, 60]}
+  - {id: junction:bark_glade, at: [42, 70]}
+  - {id: junction:south_fork, at: [90, 58]}
+  - {id: junction:pass_saddle, at: [79, 37]}
+  - {id: landmark:great_tree, at: [42, 79]}
+  - {id: landmark:range, at: [88, 12]}
+  - {id: landmark:west_fort, at: [72, 34]}
+  - {id: landmark:east_fort, at: [87, 45]}
+  - {id: landmark:southern_tower, at: [95, 81]}
+  - {id: landmark:sprite_falls, at: [58, 104]}
+  - {id: poi:obelisk, at: [36, 51]}
+  - {id: poi:shrine_elements, at: [104, 94]}
+  - {id: poi:forbidden_fruit, at: [58, 90]}
+  - {id: poi:genie_lamp, at: [100, 30]}
+  - {id: poi:pot_of_gold, at: [106, 101]}
+  - {id: poi:graalg, at: [79, 36]}
+  - {id: poi:treehouse_chest, at: [26, 84]}
+  - {id: poi:kramer_wagon, at: [59, 46]}
+  - {id: poi:crystal_seam, at: [48, 28]}
+  - {id: poi:fairy_ring, at: [16, 88]}
+  - {id: poi:dead_adventurer, at: [71, 85]}
+  - {id: poi:thieves_drop, at: [98, 83]}
+  - {id: poi:brink_bench, at: [61, 103]}
+  - {id: poi:signposts, index: 1, at: [33, 61]}
+  - {id: poi:signposts, index: 2, at: [43, 69]}
+  - {id: poi:signposts, index: 3, at: [91, 59]}
+  - {id: poi:signposts, index: 4, at: [80, 38]}
+areas:
+  - id: pop:foothill_wolves
+    index: 1
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [22, 26], r: 1.5}
+  - id: pop:foothill_wolves
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [16, 38], r: 1}
+  - id: pop:foothill_wolves
+    index: 3
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [29, 41], r: 1.5}
+  - id: pop:foothill_wolves
+    index: 4
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [41, 24], r: 1.5}
+  - id: pop:foothill_wolves
+    index: 5
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [46, 40], r: 1.5}
+  - id: pop:foothill_wolves
+    index: 6
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [56, 23], r: 1.5}
+  - id: pop:foothill_wolves
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [62, 33], r: 1}
+  - id: pop:foothill_wolves
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [28, 101], r: 1}
+  - id: pop:west_sprites
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [22, 72], r: 1}
+  - id: pop:west_sprites
+    index: 2
+    kind: encounter
+    count: 2
+    slot: 3
+    circle: {at: [27, 73], r: 1.5}
+  - id: pop:west_sprites
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [20, 76], r: 1}
+  - id: pop:glade_sprites
+    index: 1
+    kind: encounter
+    count: 2
+    slot: 3
+    circle: {at: [46, 56], r: 1.2}
+  - id: pop:glade_sprites
+    index: 2
+    kind: encounter
+    count: 2
+    slot: 3
+    circle: {at: [58, 52], r: 1.5}
+  - id: pop:glade_sprites
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [64, 56], r: 1}
+  - id: pop:glade_sprites
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [55, 59], r: 1}
+  - id: pop:trolls
+    index: 1
+    kind: encounter
+    count: 2
+    slot: 2
+    circle: {at: [58, 79], r: 1.5}
+  - id: pop:trolls
+    index: 2
+    kind: encounter
+    count: 2
+    slot: 2
+    circle: {at: [66, 80], r: 1.5}
+  - id: pop:trolls
+    index: 3
+    kind: encounter
+    count: 2
+    slot: 2
+    circle: {at: [72, 89], r: 1.5}
+  - id: pop:trolls
+    index: 4
+    kind: encounter
+    count: 2
+    slot: 2
+    circle: {at: [63, 96], r: 1.5}
+  - id: pop:trolls
+    index: 5
+    kind: encounter
+    count: 2
+    slot: 2
+    circle: {at: [76, 98], r: 1.5}
+  - id: pop:trolls
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [78, 78], r: 1}
+  - id: pop:trolls
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [51, 93], r: 1}
+  - id: pop:trolls
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [70, 76], r: 1}
+  - id: pop:trolls
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [73, 94], r: 1}
+  - id: pop:woods_wolves
+    index: 1
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [100, 54], r: 1.5}
+  - id: pop:woods_wolves
+    index: 2
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [90, 66], r: 1.5}
+  - id: pop:woods_wolves
+    index: 3
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [105, 64], r: 1.5}
+  - id: pop:woods_wolves
+    index: 4
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [86, 91], r: 1.5}
+  - id: pop:woods_wolves
+    index: 5
+    kind: encounter
+    count: 2
+    slot: 1
+    circle: {at: [112, 80], r: 1.5}
+  - id: pop:woods_wolves
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [118, 95], r: 1}
+  - id: pop:woods_wolves
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [97, 100], r: 1}
+  - id: pop:woods_wolves
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [104, 24], r: 1}
+  - id: pop:woods_wolves
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [94, 94], r: 1}
+  - id: zone:west_edge
+    kind: keep_clear
+    polygon: [[17, 54], [30, 54], [30, 65], [17, 65]]
+    notes: The D1 arrival.
+  - id: town:sprite_village
+    kind: keep_clear
+    polygon: [[17, 78], [41, 78], [41, 100], [17, 100]]
+    notes: The village and its buffer.
+  - id: zone:bark_glade
+    kind: keep_clear
+    polygon: [[34, 67], [48, 67], [48, 82], [34, 82]]
+    notes: "The great tree, Nibbler, the temple door."
+  - id: zone:mine_mouth
+    kind: keep_clear
+    polygon: [[30, 28], [38, 28], [38, 35], [30, 35]]
+  - id: zone:pass_saddle
+    kind: keep_clear
+    polygon: [[75, 32], [84, 32], [84, 41], [75, 41]]
+    notes: Graalg's parley ground.
+  - id: zone:east_meadow
+    kind: keep_clear
+    polygon: [[100, 38], [112, 38], [112, 49], [100, 49]]
+    notes: The D3 arrival.
+  - id: zone:fruit_clearing
+    kind: keep_clear
+    polygon: [[55, 87], [61, 87], [61, 93], [55, 93]]
+  - id: zone:tower_clearing
+    kind: keep_clear
+    polygon: [[89, 75], [101, 75], [101, 86], [89, 86]]
+  - id: zone:shrine_glade
+    kind: keep_clear
+    polygon: [[101, 90], [107, 90], [107, 97], [101, 97]]
+  - id: zone:brink
+    kind: open
+    polygon: [[56, 99], [65, 99], [65, 104], [56, 104]]
+    notes: The lookout over the stars.
+views:
+  - {id: view:arrival, at: [21, 60], height: 180, look: [40, 70], purpose: "From the D1 arrival: the road into the forest's edge, the great tree's crown south-east."}
+  - {id: view:pass, at: [60, 44], height: 180, look: [84, 37], purpose: "The signature view: the caravan road climbing into Ogre Pass between the two forts."}
+  - {id: view:village, at: [42, 70], height: 180, look: [28, 88], purpose: "The great tree's trunk at the left, the village lane to the treehouse trunks."}
+scatter:
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 6
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[16, 66], [16, 66], [33, 64], [36, 66], [36, 66]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 19
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[0.5, 67], [16, 66], [16, 66], [36, 66], [36, 66], [35.33, 68], [0.5, 68]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 21
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[35.33, 68], [34.67, 70], [0.5, 70], [0.5, 68]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 20
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[34.67, 70], [34, 72], [34, 72], [0.5, 72], [0.5, 70]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 20
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[34, 72], [34, 72], [33.71, 74], [0.5, 74], [0.5, 72]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 20
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[33.71, 74], [33.43, 76], [0.5, 76], [0.5, 74]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 20
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[33.43, 76], [33.14, 78], [0.5, 78], [0.5, 76]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 15
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[33.14, 78], [33, 79], [18, 79], [18, 80], [0.5, 80], [0.5, 78]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 80], [18, 82], [0.5, 82], [0.5, 80]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 82], [18, 84], [0.5, 84], [0.5, 82]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 8
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[13.5, 86], [0.5, 86], [0.5, 84], [13.5, 84]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 8
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[13.5, 88], [0.5, 88], [0.5, 86], [13.5, 86]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18.5, 88], [40, 88], [40, 86], [47, 86], [47.34, 88], [18.5, 88]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 8
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[13.5, 90], [0.5, 90], [0.5, 88], [13.5, 88]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18.5, 90], [40, 90], [40, 88], [47.34, 88], [47.69, 90], [18.5, 90]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 8
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[13.5, 92], [0.5, 92], [0.5, 90], [13.5, 90]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18.5, 92], [40, 92], [40, 90], [47.69, 90], [48.03, 92], [18.5, 92]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 15
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 92], [18, 94], [40, 94], [40, 92], [48.03, 92], [48.37, 94], [0.5, 94], [0.5, 92]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 16
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 94], [18, 96], [40, 96], [40, 94], [48.37, 94], [48.71, 96], [0.5, 96], [0.5, 94]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 16
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 96], [18, 98], [40, 98], [40, 96], [48.71, 96], [49.06, 98], [0.5, 98], [0.5, 96]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 17
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[18, 98], [18, 99], [38.5, 99], [38.5, 100], [0.5, 100], [0.5, 98]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[42.5, 98], [49.06, 98], [49.4, 100], [42.5, 100]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[19, 102], [0.5, 102], [0.5, 100], [19, 100]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[38.5, 102], [22, 102], [22, 100], [38.5, 100]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[49.4, 100], [49.74, 102], [42.5, 102], [42.5, 100]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 8
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[19, 103.5], [0.5, 103.5], [0.5, 102], [19, 102]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[38.5, 103.5], [22, 103.5], [22, 102], [38.5, 102]]
+  - id: scatter:forest_west
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 3
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[49.74, 102], [50, 103.5], [42.5, 103.5], [42.5, 102]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[34, 66], [48, 66], [48, 68], [34, 68]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[48, 68], [48, 70], [34, 70], [34, 68]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[48, 70], [48, 72], [34, 72], [34, 70]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 74], [34, 74], [34, 72], [38.5, 72]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 76], [34, 76], [34, 74], [38.5, 74]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 78], [34, 78], [34, 76], [38.5, 76]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 80], [34, 80], [34, 78], [38.5, 78]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 82], [34, 82], [34, 80], [38.5, 80]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[38.5, 84], [34, 84], [34, 82], [38.5, 82]]
+  - id: scatter:bark_glade
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[48, 84], [48, 86], [34, 86], [34, 84]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 6
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[56.4, 71], [66, 69.5], [78, 70], [79.75, 71]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 17
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[50, 72], [56.4, 71], [79.75, 71], [81.5, 72], [81.5, 73], [49.88, 73]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[58.8, 75], [49.62, 75], [49.88, 73], [58.8, 73]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 73], [81.5, 75], [62.8, 75], [62.8, 73]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[58.8, 77], [49.38, 77], [49.62, 75], [58.8, 75]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 75], [81.5, 77], [62.8, 77], [62.8, 75]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[58.8, 79], [49.12, 79], [49.38, 77], [58.8, 77]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 10
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 77], [81.5, 79], [62.8, 79], [62.8, 77]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 18
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 79], [81.5, 81], [48.88, 81], [49.12, 79]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[68.8, 83], [48.62, 83], [48.88, 81], [68.8, 81]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 81], [81.5, 83], [73.3, 83], [73.3, 81]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[68.8, 85], [48.38, 85], [48.62, 83], [68.8, 83]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 83], [81.5, 85], [73.3, 85], [73.3, 83]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[54.5, 87], [48.12, 87], [48.38, 85], [54.5, 85]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[68.8, 87], [61.5, 87], [61.5, 85], [68.8, 85]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 5
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 85], [81.5, 87], [73.3, 87], [73.3, 85]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 4
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[54.5, 89], [48.26, 89], [48, 88], [48.12, 87], [54.5, 87]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 87], [81.5, 89], [61.5, 89], [61.5, 87]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 3
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[54.5, 91], [48.77, 91], [48.26, 89], [54.5, 89]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 89], [81.5, 91], [61.5, 91], [61.5, 89]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 3
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[54.5, 93], [49.29, 93], [48.77, 91], [54.5, 91]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 91], [81.5, 93], [61.5, 93], [61.5, 91]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 3
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[54.5, 95], [49.81, 95], [49.29, 93], [54.5, 93]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 11
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 93], [81.5, 95], [61.5, 95], [61.5, 93]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 9
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[65.8, 97], [50.32, 97], [49.81, 95], [65.8, 95]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 95], [81.5, 97], [69.8, 97], [69.8, 95]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 3
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[55.5, 99], [50.84, 99], [50.32, 97], [55.5, 97]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 97], [81.5, 99], [69.8, 99], [69.8, 97]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[55.5, 101], [51.35, 101], [50.84, 99], [55.5, 99]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 7
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 99], [81.5, 101], [69.8, 101], [69.8, 99]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[55.5, 103], [51.87, 103], [51.35, 101], [55.5, 101]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 9
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 101], [81.5, 103], [65.5, 103], [65.5, 101]]
+  - id: scatter:troll_country
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 3
+      tree61a: 1
+      tree62a: 3
+    count: 2
+    spacing: 1.05
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.8
+    polygon: [[81.5, 103], [81.5, 103.5], [65.5, 103.5], [65.5, 103]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 13
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[86, 50], [100, 50], [122, 52], [86, 52]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 21
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[122, 52], [127.5, 52.5], [127.5, 54], [86, 54], [86, 52]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 54], [127.5, 56], [86, 56], [86, 54]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 56], [127.5, 58], [86, 58], [86, 56]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 58], [127.5, 60], [86, 60], [86, 60], [86, 58]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 60], [127.5, 62], [85.3, 62], [86, 60], [86, 60]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 62], [127.5, 64], [84.6, 64], [85.3, 62]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 22
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 64], [127.5, 66], [83.9, 66], [84.6, 64]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 66], [127.5, 68], [83.2, 68], [83.9, 66]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 68], [127.5, 70], [82.5, 70], [82.5, 70], [83.2, 68]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 70], [127.5, 72], [82.5, 72], [82.5, 70], [82.5, 70]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 72], [127.5, 74], [82.5, 74], [82.5, 72]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 76], [82.5, 76], [82.5, 74], [89.5, 74]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 74], [127.5, 76], [100.5, 76], [100.5, 74]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 78], [82.5, 78], [82.5, 76], [89.5, 76]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 76], [127.5, 78], [100.5, 78], [100.5, 76]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 80], [82.5, 80], [82.5, 78], [89.5, 78]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 78], [127.5, 80], [100.5, 80], [100.5, 78]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 82], [82.5, 82], [82.5, 80], [89.5, 80]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 80], [127.5, 82], [100.5, 82], [100.5, 80]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 84], [82.5, 84], [82.5, 82], [89.5, 82]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 82], [127.5, 84], [100.5, 84], [100.5, 82]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 4
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[89.5, 86], [82.5, 86], [82.5, 84], [89.5, 84]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 14
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 84], [127.5, 86], [100.5, 86], [100.5, 84]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 86], [127.5, 88], [82.5, 88], [82.5, 86]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 23
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 88], [127.5, 90], [82.5, 90], [82.5, 88]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[101, 92], [82.5, 92], [82.5, 90], [101, 90]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 90], [127.5, 92], [107, 92], [107, 90]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[101, 94], [82.5, 94], [82.5, 92], [101, 92]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 92], [127.5, 94], [107, 94], [107, 92]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[101, 96], [82.5, 96], [82.5, 94], [101, 94]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 94], [127.5, 96], [107, 96], [107, 94]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[101, 98], [82.5, 98], [82.5, 96], [101, 96]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 96], [127.5, 98], [107, 98], [107, 96]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[103.5, 100], [82.5, 100], [82.5, 98], [103.5, 98]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 98], [127.5, 100], [108.5, 100], [108.5, 98]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 11
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[103.5, 102], [82.5, 102], [82.5, 100], [103.5, 100]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 10
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 100], [127.5, 102], [108.5, 102], [108.5, 100]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 8
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[103.5, 103.5], [82.5, 103.5], [82.5, 102], [103.5, 102]]
+  - id: scatter:southern_woods
+    kinds:
+      tree10: 1
+      tree12: 2
+      tree30: 2
+      tree60a: 2
+      tree62a: 2
+    count: 7
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.15
+    close_spacing: 0.85
+    polygon: [[127.5, 102], [127.5, 103.5], [108.5, 103.5], [108.5, 102]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[46, 47], [50, 45], [57.5, 45], [57.5, 47]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[44, 48], [46, 47], [57.5, 47], [57.5, 49], [43.5, 49]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60.5, 47], [65, 47], [70, 48], [70.25, 49], [60.5, 49]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 51], [42.5, 51], [43.5, 49], [60, 49]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[70.25, 49], [70.75, 51], [62.5, 51], [62.5, 49]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 53], [41.5, 53], [42.5, 51], [60, 51]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[70.75, 51], [71.25, 53], [62.5, 53], [62.5, 51]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[71.25, 53], [71.75, 55], [40.5, 55], [41.5, 53]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 3
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[71.75, 55], [72, 56], [72.17, 57], [41.5, 57], [40, 56], [40.5, 55]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[72.17, 57], [72.5, 59], [44.5, 59], [41.5, 57]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[72.5, 59], [72.83, 61], [49.33, 61], [46, 60], [44.5, 59]]
+  - id: scatter:glades
+    kinds:
+      tree11: 1
+      tree25: 2
+      tree62a: 2
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[72.83, 61], [73, 62], [56, 63], [49.33, 61]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 2
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[18, 18], [26, 16], [38, 17], [50, 16], [62, 17], [72, 18], [72, 18]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[7.25, 20], [14, 19], [18, 18], [72, 18], [72, 18], [72.33, 20]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[0.5, 21], [7.25, 20], [72.33, 20], [72.67, 22], [0.5, 22]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[72.67, 22], [73, 24], [0.5, 24], [0.5, 22]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[73, 24], [73.33, 26], [0.5, 26], [0.5, 24]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[30.5, 28], [0.5, 28], [0.5, 26], [30.5, 26]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[73.33, 26], [73.67, 28], [49.5, 28], [49.5, 26]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[30.5, 30], [0.5, 30], [0.5, 28], [30.5, 28]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[73.67, 28], [74, 30], [60, 30], [60, 30], [49.5, 30], [49.5, 28]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[30.5, 32], [0.5, 32], [0.5, 30], [30.5, 30]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[68.5, 30], [60, 30], [60, 32], [37.5, 32], [37.5, 30], [68.5, 30]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[30.5, 34], [0.5, 34], [0.5, 32], [30.5, 32]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 32], [60, 34], [37.5, 34], [37.5, 32]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[30.5, 36], [0.5, 36], [0.5, 34], [30.5, 34]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 34], [60, 36], [37.5, 36], [37.5, 34]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 36], [60, 38], [0.5, 38], [0.5, 36]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 38], [60, 40], [60, 40], [0.5, 40], [0.5, 38]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[60, 40], [60, 40], [56, 42], [0.5, 42], [0.5, 40]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 3
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[56, 42], [52, 44], [52, 44], [0.5, 44], [0.5, 42]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 2
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[52, 44], [52, 44], [48, 46], [0.5, 46], [0.5, 44]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 2
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[48, 46], [44, 48], [44, 48], [0.5, 48], [0.5, 46]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 2
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[34, 50], [0.5, 50], [0.5, 48], [34, 48]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 2
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[34, 52], [0.5, 52], [0.5, 50], [34, 50]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 1
+      tree25: 3
+      tree62a: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[34, 52.33], [24, 54], [0.5, 54], [0.5, 52], [34, 52]]
+  - id: scatter:foothill_rocks
+    decoration: rock16
+    count: 50
+    clusters: 16
+    polygon: [[0.5, 21], [14, 19], [26, 16], [38, 17], [50, 16], [62, 17], [72, 18], [74, 30], [60, 30], [60, 40], [52, 44], [44, 48], [36, 52], [24, 54], [0.5, 54]]
+  - id: scatter:foothill_rocks
+    decoration: 6rock07
+    count: 40
+    clusters: 12
+    steep: true
+    polygon: [[0.5, 21], [14, 19], [26, 16], [38, 17], [50, 16], [62, 17], [72, 18], [74, 30], [60, 30], [60, 40], [52, 44], [44, 48], [36, 52], [24, 54], [0.5, 54]]
+  - id: scatter:foothill_crystals
+    decoration: crys5
+    count: 18
+    clusters: 7
+    polygon: [[0.5, 21], [14, 19], [26, 16], [38, 17], [50, 16], [62, 17], [72, 18], [74, 30], [60, 30], [60, 40], [52, 44], [44, 48], [36, 52], [24, 54], [0.5, 54]]
+  - id: scatter:foothill_crystals
+    decoration: crys6
+    count: 12
+    clusters: 5
+    polygon: [[0.5, 21], [14, 19], [26, 16], [38, 17], [50, 16], [62, 17], [72, 18], [74, 30], [60, 30], [60, 40], [52, 44], [44, 48], [36, 52], [24, 54], [0.5, 54]]
+  - id: scatter:range_rocks
+    decoration: 6rock07
+    count: 60
+    clusters: 18
+    steep: true
+    polygon: [[0.5, 0.5], [127.5, 0.5], [127.5, 21], [0.5, 21]]
+  - id: scatter:range_crystals
+    decoration: crclstr
+    count: 14
+    clusters: 6
+    polygon: [[0.5, 0.5], [127.5, 0.5], [127.5, 21], [0.5, 21]]
+  - id: scatter:pass_rocks
+    decoration: rock16
+    count: 40
+    clusters: 12
+    polygon: [[60, 30], [98, 30], [100, 48], [86, 48], [70, 48], [60, 46]]
+  - id: scatter:pass_rocks
+    decoration: 6rock07
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[60, 30], [98, 30], [100, 48], [86, 48], [70, 48], [60, 46]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[75.5, 30], [98, 30], [98, 30], [98, 32], [75.5, 32]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[98.22, 32], [98.44, 34], [82.5, 34], [82.5, 32]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[98.44, 34], [98.67, 36], [82.5, 36], [82.5, 34]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[98.67, 36], [98.89, 38], [82.5, 38], [82.5, 36]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[98.89, 38], [99.11, 40], [82.5, 40], [82.5, 38]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[83.5, 42], [66, 42], [66, 40], [83.5, 40]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[83.5, 44], [66, 44], [66, 42], [83.5, 42]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[83.5, 46], [60.5, 46], [60.5, 44], [83.5, 44]]
+  - id: scatter:pass_trees
+    kinds:
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[83.5, 48], [70, 48], [60.5, 46.1], [60.5, 46], [83.5, 46]]
+  - id: scatter:spur_rocks
+    decoration: 6rock07
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[72, 48], [88, 48], [86, 58], [80, 65], [73, 62], [70, 54]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[102.91, 21], [104, 19], [119.67, 21]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[101.82, 23], [102.91, 21], [119.67, 21], [127.5, 22], [127.5, 23]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[100.73, 25], [101.82, 23], [127.5, 23], [127.5, 25]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[99.64, 27], [100.73, 25], [127.5, 25], [127.5, 27]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[102, 27], [127.5, 27], [127.5, 29], [102, 29]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[102, 29], [127.5, 29], [127.5, 31], [102, 31]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 31], [127.5, 33], [102, 33], [102, 31]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 33], [127.5, 35], [98.56, 35], [98.33, 33]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 35], [127.5, 37], [98.78, 37], [98.56, 35]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 37], [127.5, 39], [99, 39], [98.78, 37]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 39], [127.5, 41], [108.5, 41], [108.5, 39]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 2
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 47], [127.5, 49], [100, 49], [100, 48], [99.89, 47]]
+  - id: scatter:east_trees
+    kinds:
+      tree12: 1
+      tree25: 2
+      tree62a: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[127.5, 49], [127.5, 51], [113.75, 51], [100, 50], [100, 49]]
+  - id: scatter:east_rocks
+    decoration: rock16
+    count: 30
+    clusters: 10
+    polygon: [[98, 30], [104, 19], [127.5, 22], [127.5, 52], [100, 50], [100, 48]]
+  - id: scatter:undergrowth_w
+    decoration: plant32
+    count: 110
+    clusters: 36
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:undergrowth_w
+    decoration: plant05
+    count: 130
+    clusters: 40
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:undergrowth_w
+    decoration: bush03
+    count: 45
+    clusters: 18
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:plants_w
+    decoration: plant47
+    count: 30
+    clusters: 12
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:caps_w
+    decoration: mushrm01
+    count: 140
+    clusters: 34
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:caps_w
+    decoration: mushrm02
+    count: 60
+    clusters: 20
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:caps_w
+    decoration: mushrm03
+    count: 90
+    clusters: 24
+    polygon: [[0.5, 67], [16, 66], [33, 64], [36, 66], [34, 72], [33, 79], [18, 79], [18, 99], [40, 99], [40, 86], [47, 86], [50, 103.5], [0.5, 103.5]]
+  - id: scatter:undergrowth_e
+    decoration: plant32
+    count: 110
+    clusters: 36
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:undergrowth_e
+    decoration: plant05
+    count: 130
+    clusters: 40
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:undergrowth_e
+    decoration: bush03
+    count: 45
+    clusters: 18
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:plants_e
+    decoration: plant47
+    count: 30
+    clusters: 12
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:caps_e
+    decoration: mushrm01
+    count: 140
+    clusters: 34
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:caps_e
+    decoration: mushrm02
+    count: 60
+    clusters: 20
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:caps_e
+    decoration: mushrm03
+    count: 90
+    clusters: 24
+    polygon: [[50, 72], [66, 69.5], [78, 70], [81.5, 72], [81.5, 103.5], [52, 103.5], [48, 88]]
+  - id: scatter:undergrowth_s
+    decoration: plant32
+    count: 110
+    clusters: 36
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:undergrowth_s
+    decoration: plant05
+    count: 130
+    clusters: 40
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:undergrowth_s
+    decoration: bush03
+    count: 45
+    clusters: 18
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:plants_s
+    decoration: plant47
+    count: 30
+    clusters: 12
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:caps_s
+    decoration: mushrm01
+    count: 140
+    clusters: 34
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:caps_s
+    decoration: mushrm02
+    count: 60
+    clusters: 20
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:caps_s
+    decoration: mushrm03
+    count: 90
+    clusters: 24
+    polygon: [[86, 50], [100, 50], [127.5, 52.5], [127.5, 103.5], [82.5, 103.5], [82.5, 70], [86, 60]]
+  - id: scatter:lip_rocks
+    decoration: rock16
+    count: 40
+    line: [[1, 103.4], [126.5, 103.4]]
+  - id: scatter:sea_stacks
+    decoration: 6rock07
+    count: 14
+    on: water
+    polygon: [[4, 106], [124, 106], [124, 112], [4, 112]]
+ground:
+  - material: grass
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "The forest floor and the meadows: grass (darkened in D2's terrain materials)."
+  - material: dirt
+    polygon: [[0, 0], [128, 0], [128, 22], [0, 22]]
+    notes: "The range: bare stone."
+  - material: dirt
+    polygon: [[69, 31], [75, 31], [75, 37], [69, 37]]
+    notes: "The west fort: trodden."
+  - material: dirt
+    polygon: [[84, 42], [90, 42], [90, 48], [84, 48]]
+    notes: "The east fort: trodden."
+  - material: dirt
+    polygon: [[76, 34], [82, 34], [82, 39], [76, 39]]
+    notes: Graalg's saddle.
+  - material: dirt
+    polygon: [[31, 30], [37, 30], [37, 35], [31, 35]]
+    notes: The adit's spoil.
+  - material: dirt
+    steeper_than: 560
+    polygon: [[0, 0], [128, 0], [128, 104], [0, 104]]
+    notes: Bare rock on the steep slopes.
+  - material: dirt
+    polygon: [[26, 86], [33, 86], [33, 92], [26, 92]]
+    notes: "The village green: moss and trodden earth."
+  - material: dirt
+    line: [[32, 60], [35, 64], [38, 67], [42, 70]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[42, 70], [46, 70], [48.5, 70], [51, 70], [54, 69], [60, 67], [66, 66], [72, 66.5], [78, 67.5], [83, 64], [87, 61], [90, 58]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[90, 58], [92, 54], [94, 50], [96, 46], [97, 42.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[42, 70], [39, 72], [36, 75], [33.5, 79], [31.5, 83], [30, 86.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[90, 58], [91, 64], [92, 70], [93.5, 75], [94.5, 78.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[93.5, 75], [97, 82], [100, 87], [103, 91], [103.5, 92.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[42, 54], [40, 48], [37, 42], [35, 36], [34, 32.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[54, 69], [55, 74], [56, 80], [57, 86], [57.5, 88.5]]
+    width: 1
+    notes: a forest track
+  - material: dirt
+    line: [[57.5, 88.5], [59, 93], [60, 97], [61, 101], [61, 102.5]]
+    width: 1
+    notes: a forest track
+structures:
+  - id: thing:lantern_sharla_tree_l
+    kind: decoration
+    at: [25.648, 85.375]
+    decoration: dec06
+  - id: thing:lantern_sharla_tree_r
+    kind: decoration
+    at: [26.814, 84.431]
+    decoration: dec06
+  - id: thing:crown_sharla_tree
+    kind: decoration
+    at: [25.5, 84]
+    raise: 570
+    decoration: tree69
+  - id: thing:crown_sharla_tree_1
+    kind: decoration
+    at: [25.973, 84.008]
+    raise: 1090
+    decoration: tree12
+  - id: thing:crown_sharla_tree_2
+    kind: decoration
+    at: [25.027, 83.992]
+    raise: 1090
+    decoration: tree62a
+  - id: thing:lantern_sprite_guild_light_l
+    kind: decoration
+    at: [33.26, 83.756]
+    decoration: dec06
+  - id: thing:lantern_sprite_guild_light_r
+    kind: decoration
+    at: [34.375, 84.759]
+    decoration: dec06
+  - id: thing:crown_sprite_guild_light
+    kind: decoration
+    at: [34.5, 83.5]
+    raise: 470
+    decoration: tree69
+  - id: thing:crown_sprite_guild_light_1
+    kind: decoration
+    at: [34.56, 83.926]
+    raise: 990
+    decoration: tree12
+  - id: thing:crown_sprite_guild_light_2
+    kind: decoration
+    at: [34.44, 83.074]
+    raise: 990
+    decoration: tree62a
+  - id: thing:lantern_sprite_houses_1_l
+    kind: decoration
+    at: [33.713, 88.663]
+    decoration: dec06
+  - id: thing:lantern_sprite_houses_1_r
+    kind: decoration
+    at: [33.557, 90.155]
+    decoration: dec06
+  - id: thing:crown_sprite_houses_1
+    kind: decoration
+    at: [34.5, 89.5]
+    raise: 760
+    decoration: tree12
+  - id: thing:crown_sprite_houses_1_1
+    kind: decoration
+    at: [34.222, 89.769]
+    raise: 880
+    decoration: tree12
+  - id: thing:crown_sprite_houses_1_2
+    kind: decoration
+    at: [34.778, 89.231]
+    raise: 880
+    decoration: tree62a
+  - id: thing:lantern_sprite_houses_2_l
+    kind: decoration
+    at: [29.823, 93.699]
+    decoration: dec06
+  - id: thing:lantern_sprite_houses_2_r
+    kind: decoration
+    at: [28.329, 93.568]
+    decoration: dec06
+  - id: thing:crown_sprite_houses_2
+    kind: decoration
+    at: [29, 94.5]
+    raise: 780
+    decoration: tree10
+  - id: thing:crown_sprite_houses_2_1
+    kind: decoration
+    at: [28.727, 94.227]
+    raise: 900
+    decoration: tree12
+  - id: thing:crown_sprite_houses_2_2
+    kind: decoration
+    at: [29.273, 94.773]
+    raise: 900
+    decoration: tree62a
+  - id: thing:lantern_sprite_potions_l
+    kind: decoration
+    at: [23.996, 90.182]
+    decoration: dec06
+  - id: thing:lantern_sprite_potions_r
+    kind: decoration
+    at: [23.891, 88.686]
+    decoration: dec06
+  - id: thing:crown_sprite_potions
+    kind: decoration
+    at: [23, 89.5]
+    raise: 800
+    decoration: tree62a
+  - id: thing:crown_sprite_potions_1
+    kind: decoration
+    at: [23.24, 89.17]
+    raise: 920
+    decoration: tree12
+  - id: thing:crown_sprite_potions_2
+    kind: decoration
+    at: [22.76, 89.83]
+    raise: 920
+    decoration: tree62a
+  - id: thing:sharla_stair
+    kind: walkway
+    line: [[24.569, 82.509, 996], [24.301, 82.714, 1107], [24.078, 82.967, 1219], [23.907, 83.257, 1330], [23.794, 83.575, 1330], [23.745, 83.908, 1441], [23.759, 84.245, 1553], [23.838, 84.572, 1664]]
+    width: 192
+    thickness: 48
+    kerb: 64
+    textures: {post: t68a13mm, top: t68a13mm, under: t68a13mm, wall: t68a13mm}
+    title: Sharla's stair
+    notes: "The one way up in the village (D-23): to the deck with the chest. An open plank flight round the trunk on posts."
+    kerb_width: 16
+    pier_every: 256
+    pier_radius: 16
+    pier_above: 144
+  - id: thing:sharla_stair_head
+    kind: walkway
+    line: [[23.735, 84.818, 1666], [23.905, 84.739, 1666], [24.206, 84.599, 1666]]
+    width: 192
+    thickness: 48
+    kerb: 0
+    piers: 0
+    textures: {top: t68a13mm, under: t68a13mm, wall: t68a13mm}
+    title: Sharla's stair
+  - id: thing:sharla_stair_rail_outer
+    kind: walkway
+    line: [[24.453, 82.324, 1212], [24.152, 82.554, 1323], [23.901, 82.838, 1435], [23.709, 83.165, 1546], [23.582, 83.522, 1546], [23.526, 83.897, 1657], [23.543, 84.275, 1769], [23.631, 84.644, 1880]]
+    width: 64
+    thickness: 16
+    kerb: 0
+    piers: 0
+    textures: {top: t68a13mm, under: t68a13mm, wall: t68a13mm}
+    title: Sharla's stair
+  - id: thing:sharla_stair_rail_inner
+    kind: walkway
+    line: [[24.684, 82.695, 1212], [24.45, 82.874, 1323], [24.255, 83.095, 1435], [24.105, 83.35, 1546], [24.007, 83.628, 1546], [23.963, 83.919, 1657], [23.976, 84.214, 1769], [24.045, 84.501, 1880]]
+    width: 64
+    thickness: 16
+    kerb: 0
+    piers: 0
+    textures: {top: t68a13mm, under: t68a13mm, wall: t68a13mm}
+    title: Sharla's stair
+  - id: thing:treehouse_chest
+    kind: chest
+    at: [24.447, 83.486]
+    raise: 672
+    title: A sprite's chest
+    chest: {level: 3, random_items: 1}
+    condition: {lua: "XeenQuests.hook(\"q-d10.treehouse\")"}
+    effects:
+      - give_item: energy_disk
+      - give_item: energy_disk
+    notes: "q-d10.treehouse: the robbery route's two Energy Disks (map_gives) once the village is slain; else A3's lines."
+  - id: thing:rope_walk_1
+    kind: bridge
+    line: [[34.5, 84.611], [34.5, 88.467]]
+    height: 1692
+    width: 128
+    rise: -64
+    piers: 0
+    textures: {deck: t68a13mm, side: t68a13mm}
+    title: Rope walk
+    railing: rope
+    railing_height: 144
+    rope: 24
+  - id: thing:rope_walk_2
+    kind: bridge
+    line: [[23.823, 90.186], [28.207, 93.839]]
+    height: 1712
+    width: 128
+    rise: -64
+    piers: 0
+    textures: {deck: t68a13mm, side: t68a13mm}
+    title: Rope walk
+    railing: rope
+    railing_height: 144
+    rope: 24
+  - id: thing:rope_walk_3
+    kind: bridge
+    line: [[33.736, 90.195], [29.764, 93.805]]
+    height: 1692
+    width: 128
+    rise: -64
+    piers: 0
+    textures: {deck: t68a13mm, side: t68a13mm}
+    title: Rope walk
+    railing: rope
+    railing_height: 144
+    rope: 24
+  - id: thing:green_cap_1
+    kind: decoration
+    at: [31.1, 89]
+    decoration: mushrm04
+  - id: thing:green_cap_2
+    kind: decoration
+    at: [30.794, 89.94]
+    decoration: mushrm05
+  - id: thing:green_cap_3
+    kind: decoration
+    at: [29.994, 90.522]
+    decoration: mushrm06
+  - id: thing:green_cap_4
+    kind: decoration
+    at: [29.006, 90.522]
+    decoration: mushrm04
+  - id: thing:green_cap_5
+    kind: decoration
+    at: [28.206, 89.94]
+    decoration: mushrm05
+  - id: thing:green_cap_6
+    kind: decoration
+    at: [27.9, 89]
+    decoration: mushrm06
+  - id: thing:green_cap_7
+    kind: decoration
+    at: [28.206, 88.06]
+    decoration: mushrm04
+  - id: thing:green_cap_8
+    kind: decoration
+    at: [29.006, 87.478]
+    decoration: mushrm05
+  - id: thing:green_cap_9
+    kind: decoration
+    at: [29.994, 87.478]
+    decoration: mushrm06
+  - id: thing:green_cap_10
+    kind: decoration
+    at: [30.794, 88.06]
+    decoration: mushrm04
+  - id: thing:great_tree
+    kind: building
+    at: [40, 77]
+    size: [4, 4]
+    turn: 168.75
+    kit: timber
+    textures: {trim: xdbark, window: xdbark}
+    facing: s
+    parts:
+      - {id: foot, shape: round, at: [1024, 1024], radius: 760, sides: 16, textures: {door: tavsmdr, roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 448, windows: none, roof: flat, buttresses: {count: 1, width: 192, depth: 360, height: 416, walls: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}, door_height: 352}
+      - {id: trunk, shape: round, at: [1024, 1024], radius: 760, sides: 16, bottom: 448, taper: 0.72, textures: {roof: xdbark, trim: xdbark, wall: xdbark, window: xdbark}, wall_height: 2600, windows: none, roof: flat}
+    floor: 1000
+    door:
+      part: foot
+      wall: "0"
+    title: The great tree of Bark
+    into: {map: xeen_dd09.blv, arrival: entrance:d2_trunk, screen: {text: 5037}}
+    condition: {lua: "XeenQuests.hook(\"q-d9.bark_door\")"}
+    hint: The great tree of Bark
+    notes: "DD-09's door in the trunk (q-d9.bark_door, bark_key 12342). S's crown on top (D-23)."
+  - id: thing:great_crown
+    kind: decoration
+    at: [42, 79]
+    raise: 2848
+    decoration: xeen_greatcrown
+  - id: thing:root_caps_1
+    kind: decoration
+    at: [44.161, 79.787]
+    decoration: mushrm07
+  - id: thing:root_caps_2
+    kind: decoration
+    at: [42.752, 81.067]
+    decoration: mushrm05
+  - id: thing:root_caps_3
+    kind: decoration
+    at: [40.161, 80.543]
+    decoration: mushrm06
+  - id: thing:root_caps_4
+    kind: decoration
+    at: [39.839, 78.213]
+    decoration: mushrm04
+  - id: thing:root_caps_5
+    kind: decoration
+    at: [40.444, 77.444]
+    decoration: mushrm07
+  - id: thing:root_caps_6
+    kind: decoration
+    at: [43.839, 77.457]
+    decoration: mushrm05
+  - id: thing:nibbler_bowl
+    kind: decoration
+    at: [45.2, 76.4]
+    decoration: 7dec18
+    title: Nibbler's bowl (empty)
+  - id: thing:sprite_falls
+    kind: waterfall
+    line: [[58, 103.7], [58, 107]]
+    width: 448
+    rise: 48
+    textures: {rock: swpcnr2}
+    title: Sprite Falls
+    notes: The Glimmerbrook falls off the world's edge (D-23).
+    top: 860
+    foot: 0
+  - id: thing:brink_bench
+    kind: decoration
+    at: [61, 103]
+    decoration: stump5a
+    title: The sprites' lookout
+    effects:
+      - lua: "evt.SimpleMessage(\"A bench of living root at the very edge of the world. Below, the Glimmerbrook falls and falls into a sky full of stars, and never lands.\")"
+  - id: thing:woodcutter_chest
+    kind: chest
+    at: [40.6, 62.6]
+    title: A woodcutter's box
+    chest: {level: 2, random_items: 2}
+  - id: thing:woodcutter_stump
+    kind: decoration
+    at: [41.4, 62.2]
+    decoration: stump5a
+  - id: thing:dewdrop_spring
+    kind: fountain
+    at: [40.5, 100.5]
+    textures: {wall: swpcnr2}
+    tiers: [[64, 24]]
+    title: Dewdrop Spring
+    effects:
+      - add:
+          var: SP
+          value: 100
+      - text: Cold water with starlight in it. +100 Spell points
+  - id: thing:rim_cairn
+    kind: sign
+    at: [20.5, 102.6]
+    height: 160
+    width: 128
+    title: A cairn
+    effects:
+      - lua: "evt.SimpleMessage(\"Scratched on the top stone: HERE THE WORLD ENDS. MIND THE STEP.\")"
+  - id: thing:milestone
+    kind: sign
+    at: [106.5, 40.6]
+    height: 192
+    width: 128
+    title: A milestone
+    effects:
+      - lua: "evt.SimpleMessage(\"SANDCASTER. Under it, newer: OGRES IN THE PASS. PAY OR GO ROUND. There is no round.\")"
+  - id: thing:whispering_stone
+    kind: decoration
+    at: [75.4, 65.4]
+    decoration: rock16
+    title: The Whispering Stone
+    effects:
+      - text: "You put your ear to the stone. It whispers: 'Beneath.' Then, rudely: 'Go away.'"
+  - id: thing:glimmer_pool
+    kind: well
+    at: [61, 51]
+    title: The Glimmer Pool
+    condition: {not: {lua: "Xeen.usedToday(\"d2_glimmer_pool\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"d2_glimmer_pool\")"
+      - lua: evt.ForPlayer(Players.All)
+      - add:
+          var: LuckBonus
+          value: 20
+      - text: "+20 Luck until you rest."
+  - id: thing:landmark_crystals_1
+    kind: decoration
+    at: [72, 21.5]
+    decoration: crclstr
+  - id: thing:landmark_crystals_2
+    kind: decoration
+    at: [80, 21]
+    decoration: crclstr
+  - id: thing:landmark_crystals_3
+    kind: decoration
+    at: [88, 22.5]
+    decoration: crclstr
+  - id: thing:landmark_crystals_4
+    kind: decoration
+    at: [77, 54]
+    decoration: crclstr
+  - id: thing:landmark_crystals_5
+    kind: decoration
+    at: [76.5, 61.5]
+    decoration: crclstr
+  - id: thing:landmark_crystals_6
+    kind: decoration
+    at: [75.5, 49.5]
+    decoration: crclstr
+  - id: thing:landmark_crystals_7
+    kind: decoration
+    at: [108, 22]
+    decoration: crclstr
+  - id: thing:footbridge
+    kind: bridge
+    line: [[46.5, 70], [50.5, 70]]
+    width: 256
+    rise: 32
+    kerb: 32
+    textures: {deck: t68a13mm}
+    title: Footbridge
+  - id: thing:log_bridge
+    kind: bridge
+    line: [[49.2, 49.4], [52.8, 46.6]]
+    width: 448
+    rise: 32
+    kerb: 48
+    textures: {deck: t68a13mm}
+    title: Log bridge
+  - id: thing:dd11a_hole
+    kind: hatch
+    at: [61, 76]
+    size: [512, 512]
+    height: 48
+    textures: {door: 7solid01, wall: 7dirttyl}
+    title: Troll Hole
+    into: {map: xeen_dd11a.blv, arrival: entrance:d2_hole, screen: {text: 5041}}
+    condition: {lua: "XeenQuests.hook(\"q-d13.troll_holes\")"}
+    hint: Troll Hole
+    notes: "DD-11A (A7): one way in and out per pocket."
+    form: pit
+  - id: thing:dd11b_hole
+    kind: hatch
+    at: [71, 84]
+    size: [512, 512]
+    height: 48
+    textures: {door: 7solid01, wall: 7dirttyl}
+    title: Troll Hole
+    into: {map: xeen_dd11b.blv, arrival: entrance:d2_hole, screen: {text: 5042}}
+    condition: {lua: "XeenQuests.hook(\"q-d13.troll_holes\")"}
+    hint: Troll Hole
+    notes: "DD-11B (A7): one way in and out per pocket."
+    form: pit
+  - id: thing:dd11c_hole
+    kind: hatch
+    at: [68, 98]
+    size: [512, 512]
+    height: 48
+    textures: {door: 7solid01, wall: 7dirttyl}
+    title: Troll Hole
+    into: {map: xeen_dd11c.blv, arrival: entrance:d2_hole, screen: {text: 5043}}
+    condition: {lua: "XeenQuests.hook(\"q-d13.troll_holes\")"}
+    hint: Troll Hole
+    notes: "DD-11C (A7): one way in and out per pocket."
+    form: pit
+  - id: thing:dd11b_pack
+    kind: decoration
+    at: [72, 85.4]
+    decoration: 7dec41
+    title: A dead adventurer's pack
+  - id: thing:dead_adventurer
+    kind: chest
+    at: [72.5, 85]
+    title: A dead adventurer's pack
+    chest: {level: 3, random_items: 2}
+  - id: thing:hole_bones_1
+    kind: decoration
+    at: [59, 77.3]
+    decoration: 7dec18
+  - id: thing:hole_bones_2
+    kind: decoration
+    at: [61.2, 74.8]
+    decoration: dec05
+  - id: thing:hole_bones_3
+    kind: decoration
+    at: [69, 85.4]
+    decoration: 7dec18
+  - id: thing:hole_bones_4
+    kind: decoration
+    at: [71.2, 82.8]
+    decoration: dec05
+  - id: thing:hole_bones_5
+    kind: decoration
+    at: [66, 99.2]
+    decoration: 7dec18
+  - id: thing:hole_bones_6
+    kind: decoration
+    at: [68.4, 96.8]
+    decoration: dec05
+  - id: thing:fruit_hut
+    kind: building
+    at: [55.2, 88.4]
+    size: [1.4, 1.5]
+    kit: poor
+    facing: e
+    parts:
+      - {id: hut, at: [64, 64], size: [589, 640], posts: 32, post_every: 352, sill: 208, sill_walls: [n, s, w], textures: {door: t06a03, gable: t06a01, post: t06a10, post_left: t06a09, post_right: t06a08, ridge: t06a10, roof: xlslatemos, sill: t06a01, trim: t06a10, wall: t06a01, window: t06a01}, wall_height: 256, windows: none, roof: gable, roof_pitch: 40, eaves: 48, ridge_along: ew}
+    door: none
+    title: A hut in the clearing
+  - id: thing:fruit_counter
+    kind: platform
+    at: [55.85, 89.915]
+    size: [384, 112]
+    height: 80
+    textures: {top: t68a13mm, wall: t68a13mm}
+    title: A plank counter
+  - id: thing:fruit_barrel_1
+    kind: decoration
+    at: [55.32, 89.875]
+    decoration: bigbarel
+  - id: thing:fruit_barrel_2
+    kind: decoration
+    at: [55.15, 89.875]
+    decoration: bigbarel
+  - id: thing:fruit_coconut
+    kind: decoration
+    at: [55.58, 89.915]
+    raise: 80
+    decoration: foodbowl
+    title: "Forbidden Fruit: a coconut"
+    effects:
+      - add:
+          var: BasePersonality
+          value: 2
+      - set:
+          var: Insane
+          value: 1
+      - text: "You realize that you shouldn't have eaten the coconut of confusion. (+2 Personality, permanent)"
+    once: true
+  - id: thing:fruit_plum
+    kind: decoration
+    at: [55.76, 89.915]
+    raise: 80
+    decoration: foodbowl
+    title: "Forbidden Fruit: a plum"
+    effects:
+      - add:
+          var: BaseSpeed
+          value: 2
+      - set:
+          var: Unconscious
+          value: 1
+      - text: "Yuk! The plum of unconsciousness. (+2 Speed, permanent)"
+    once: true
+  - id: thing:fruit_fig
+    kind: decoration
+    at: [55.94, 89.915]
+    raise: 80
+    decoration: foodbowl
+    title: "Forbidden Fruit: an orange"
+    effects:
+      - add:
+          var: BaseIntellect
+          value: 2
+      - set:
+          var: Asleep
+          value: 1
+      - text: "Yuk! The orange of sleepiness. (+2 Intellect, permanent)"
+    once: true
+  - id: thing:fruit_pear
+    kind: decoration
+    at: [56.12, 89.915]
+    raise: 80
+    decoration: foodbowl
+    title: "Forbidden Fruit: a pear"
+    effects:
+      - add:
+          var: BaseEndurance
+          value: 2
+      - set:
+          var: Paralyzed
+          value: 1
+      - text: "Yuk! The pear of paralysis. (+2 Endurance, permanent)"
+    once: true
+  - id: thing:fruit_sign
+    kind: sign
+    at: [56.35000000000001, 89.89500000000001]
+    height: 192
+    width: 128
+    title: A label
+    effects:
+      - lua: "evt.SimpleMessage(\"Inside the hut you find a basket labeled \\\"Forbidden Fruit\\\".\")"
+  - id: thing:fairy_cap_1
+    kind: decoration
+    at: [17.1, 88]
+    decoration: mushrm07
+  - id: thing:fairy_cap_2
+    kind: decoration
+    at: [16.843, 88.707]
+    decoration: mushrm06
+  - id: thing:fairy_cap_3
+    kind: decoration
+    at: [16.191, 89.083]
+    decoration: mushrm04
+  - id: thing:fairy_cap_4
+    kind: decoration
+    at: [15.45, 88.953]
+    decoration: mushrm07
+  - id: thing:fairy_cap_5
+    kind: decoration
+    at: [14.966, 88.376]
+    decoration: mushrm06
+  - id: thing:fairy_cap_6
+    kind: decoration
+    at: [14.966, 87.624]
+    decoration: mushrm04
+  - id: thing:fairy_cap_7
+    kind: decoration
+    at: [15.45, 87.047]
+    decoration: mushrm07
+  - id: thing:fairy_cap_8
+    kind: decoration
+    at: [16.191, 86.917]
+    decoration: mushrm06
+  - id: thing:fairy_cap_9
+    kind: decoration
+    at: [16.843, 87.293]
+    decoration: mushrm04
+  - id: thing:fairy_ring
+    kind: decoration
+    at: [16, 88]
+    decoration: mushrm05
+    title: The fairy ring
+    effects:
+      - add:
+          var: HP
+          value: 200
+      - set:
+          var: PoisonedGreen
+          value: 0
+      - text: "The caps glow brighter as you step into the ring. +200 Hit points; poison cured."
+  - id: thing:obelisk
+    kind: obelisk
+    at: [36, 51]
+    height: 768
+    textures: {wall: cswl128}
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.d2\")"
+  - id: thing:dd10b_adit
+    kind: doorway
+    at: [34, 30.2]
+    height: 320
+    width: 256
+    depth: 256
+    hood: 64
+    textures: {door: 7solid01, wall: t68a13mm}
+    floor: 1700
+    title: Gemstone Mines
+    into: {map: xeen_dd10b.blv, arrival: entrance:adit, screen: {text: 5039}}
+    hint: Gemstone Mines
+    notes: "DD-10B Gemstone Mines' east adit (A7/A8): a timbered door in the foothill rock face."
+  - id: thing:adit_spoil_1
+    kind: decoration
+    at: [32.6, 32.6]
+    decoration: rock16
+  - id: thing:adit_spoil_2
+    kind: decoration
+    at: [35.6, 32.8]
+    decoration: rock16
+  - id: thing:adit_spoil_3
+    kind: decoration
+    at: [36.2, 31.8]
+    decoration: 7dec41
+  - id: thing:crystal_seam
+    kind: decoration
+    at: [48, 28]
+    decoration: crclstr
+    title: A seam of glowing crystal
+    condition: {stat: {name: BaseMight, at_least: 30}}
+    else_effects:
+      - text: The crystal is set hard in the rock. (Might 30)
+    effects:
+      - gold: 1500
+      - text: "You chip a handful of glowing crystals out of the seam. (+1,500 gold)"
+    once: true
+  - id: thing:seam_crystal_1
+    kind: decoration
+    at: [47.4, 27.6]
+    decoration: crys5
+  - id: thing:seam_crystal_2
+    kind: decoration
+    at: [48.6, 28.5]
+    decoration: crys6
+  - id: thing:seam_crystal_3
+    kind: decoration
+    at: [47.8, 28.7]
+    decoration: crys5
+  - id: thing:genie_lamp
+    kind: decoration
+    at: [100, 30]
+    decoration: dec05
+    title: A genie's lamp
+    condition: {not: {map_var: genie_lamp_rubbed}}
+    else_effects:
+      - text: The lamp is cold. Its genie has gone back in for good.
+    effects:
+      - set:
+          var:
+            map_var: genie_lamp_rubbed
+          value: 1
+      - gold: 5000
+      - text: "You rub the lamp. A genie unfolds out of it, yawns, and grants you a small wish: 5,000 gold. 'Small wishes come true,' it says, and goes back in."
+  - id: thing:west_palisade
+    kind: wall
+    line: [[72.55, 36], [74.4, 36], [74.4, 31.200000000000003], [69.6, 31.200000000000003], [69.6, 36], [71.45, 36]]
+    height: 416
+    thickness: 64
+    textures: {top: t68a13mm, wall: t68a13mm}
+    battlements: true
+    title: Log palisade
+    notes: "Graalg's west fort: hides when q-d11.west_burned is set (D-23)."
+  - id: thing:west_blockhouse
+    kind: building
+    at: [70.4, 31.550000000000004]
+    size: [3.2, 1.6]
+    kit: timber
+    facing: s
+    parts:
+      - {id: b, at: [64, 64], size: [1536, 672], textures: {roof: hhp2rf, wall: t68a13mm}, wall_height: 448, windows: none, roof: gable, roof_pitch: 35}
+    floor: 2000
+    door: none
+    title: Ogre blockhouse
+  - id: thing:west_banner
+    kind: decoration
+    at: [73.9, 31.7]
+    decoration: dec60
+    title: Beacon fire
+  - id: thing:west_ruin
+    kind: building
+    at: [70.4, 31.550000000000004]
+    size: [3.2, 1.6]
+    kit: timber
+    facing: s
+    parts:
+      - {id: b, at: [64, 64], size: [1536, 672], textures: {wall: vlcwl2}, wall_height: 448, windows: none, roof: none}
+    floor: 2000
+    door: none
+    title: A burned blockhouse
+    hidden: true
+    ruin:
+      height: [64, 288]
+      gaps: 0.4
+      thickness: 48
+      seed: 7
+  - id: thing:west_char_1
+    kind: decoration
+    at: [74.4, 32]
+    decoration: stump5a
+    hidden: true
+  - id: thing:west_char_2
+    kind: decoration
+    at: [74.4, 35.1]
+    decoration: dec24x
+    hidden: true
+  - id: thing:west_char_3
+    kind: decoration
+    at: [69.6, 32.4]
+    decoration: stump5a
+    hidden: true
+  - id: thing:west_char_4
+    kind: decoration
+    at: [69.6, 35.3]
+    decoration: dec24x
+    hidden: true
+  - id: thing:west_char_5
+    kind: decoration
+    at: [73.1, 31.2]
+    decoration: stump5a
+    hidden: true
+  - id: thing:west_char_6
+    kind: decoration
+    at: [71, 31.2]
+    decoration: dec24x
+    hidden: true
+  - id: thing:west_char_7
+    kind: decoration
+    at: [73.3, 36]
+    decoration: stump5a
+    hidden: true
+  - id: thing:west_char_8
+    kind: decoration
+    at: [70.6, 36]
+    decoration: dec24x
+    hidden: true
+  - id: thing:dd13_west
+    kind: doorway
+    at: [72, 35.95]
+    turn: 0
+    height: 384
+    width: 320
+    depth: 128
+    textures: {door: 7solid01, wall: t68a13mm}
+    floor: 2000
+    title: Graalg's west fort
+    into: {map: xeen_dd13.blv, arrival: entrance:d2_west, screen: {text: 5045}}
+    notes: "DD-13 (A7): the west fort's gate; stays open after the fort burns (D-23)."
+  - id: thing:east_palisade
+    kind: wall
+    line: [[86.45, 42.2], [84.6, 42.2], [84.6, 47], [89.4, 47], [89.4, 42.2], [87.55, 42.2]]
+    height: 416
+    thickness: 64
+    textures: {top: t68a13mm, wall: t68a13mm}
+    battlements: true
+    title: Log palisade
+    notes: "Graalg's east fort: hides when q-d11.east_burned is set (D-23)."
+  - id: thing:east_blockhouse
+    kind: building
+    at: [85.4, 45.05]
+    size: [3.2, 1.6]
+    kit: timber
+    facing: n
+    parts:
+      - {id: b, at: [64, 64], size: [1536, 672], textures: {roof: hhp2rf, wall: t68a13mm}, wall_height: 448, windows: none, roof: gable, roof_pitch: 35}
+    floor: 2150
+    door: none
+    title: Ogre blockhouse
+  - id: thing:east_banner
+    kind: decoration
+    at: [85.1, 46.5]
+    decoration: dec60
+    title: Beacon fire
+  - id: thing:east_ruin
+    kind: building
+    at: [85.4, 45.05]
+    size: [3.2, 1.6]
+    kit: timber
+    facing: s
+    parts:
+      - {id: b, at: [64, 64], size: [1536, 672], textures: {wall: vlcwl2}, wall_height: 448, windows: none, roof: none}
+    floor: 2150
+    door: none
+    title: A burned blockhouse
+    hidden: true
+    ruin:
+      height: [64, 288]
+      gaps: 0.4
+      thickness: 48
+      seed: 9
+  - id: thing:east_char_1
+    kind: decoration
+    at: [89.4, 43]
+    decoration: stump5a
+    hidden: true
+  - id: thing:east_char_2
+    kind: decoration
+    at: [89.4, 46.1]
+    decoration: dec24x
+    hidden: true
+  - id: thing:east_char_3
+    kind: decoration
+    at: [84.6, 43.4]
+    decoration: stump5a
+    hidden: true
+  - id: thing:east_char_4
+    kind: decoration
+    at: [84.6, 46.3]
+    decoration: dec24x
+    hidden: true
+  - id: thing:east_char_5
+    kind: decoration
+    at: [88.1, 42.2]
+    decoration: stump5a
+    hidden: true
+  - id: thing:east_char_6
+    kind: decoration
+    at: [86, 42.2]
+    decoration: dec24x
+    hidden: true
+  - id: thing:east_char_7
+    kind: decoration
+    at: [88.3, 47]
+    decoration: stump5a
+    hidden: true
+  - id: thing:east_char_8
+    kind: decoration
+    at: [85.6, 47]
+    decoration: dec24x
+    hidden: true
+  - id: thing:dd13_east
+    kind: doorway
+    at: [87, 42.25]
+    turn: 180
+    height: 384
+    width: 320
+    depth: 128
+    textures: {door: 7solid01, wall: t68a13mm}
+    floor: 2150
+    title: Graalg's east fort
+    into: {map: xeen_dd13.blv, arrival: entrance:d2_east, screen: {text: 5045}}
+    notes: "DD-13 (A7): the east fort's gate; stays open after the fort burns (D-23)."
+  - id: thing:parley_fire
+    kind: decoration
+    at: [79.6, 37]
+    decoration: dec24
+    title: Graalg's fire
+  - id: thing:parley_stone_1
+    kind: decoration
+    at: [80.5, 37]
+    decoration: rock16
+  - id: thing:parley_stone_2
+    kind: decoration
+    at: [80.236, 37.636]
+    decoration: rock16
+  - id: thing:parley_stone_3
+    kind: decoration
+    at: [79.6, 37.9]
+    decoration: rock16
+  - id: thing:parley_stone_4
+    kind: decoration
+    at: [78.964, 37.636]
+    decoration: rock16
+  - id: thing:parley_stone_5
+    kind: decoration
+    at: [78.7, 37]
+    decoration: rock16
+  - id: thing:parley_stone_6
+    kind: decoration
+    at: [78.964, 36.364]
+    decoration: rock16
+  - id: thing:parley_stone_7
+    kind: decoration
+    at: [79.6, 36.1]
+    decoration: rock16
+  - id: thing:parley_stone_8
+    kind: decoration
+    at: [80.236, 36.364]
+    decoration: rock16
+  - id: thing:graalg_seat
+    kind: decoration
+    at: [78.5, 36.2]
+    decoration: stump5a
+    title: Graalg's log seat
+  - id: thing:parley_bones
+    kind: decoration
+    at: [80.8, 37.7]
+    decoration: 7dec18
+  - id: thing:kramer_wagon
+    kind: chest
+    at: [59, 46.2]
+    title: Kramer's strongbox
+    chest: {level: 3, random_items: 2}
+  - id: thing:wagon_wreck_1
+    kind: decoration
+    at: [58.2, 46.8]
+    decoration: dec24x
+  - id: thing:wagon_wreck_2
+    kind: decoration
+    at: [59.8, 46.9]
+    decoration: 7dec18
+  - id: thing:wagon_wreck_3
+    kind: decoration
+    at: [58.6, 45.6]
+    decoration: 7dec41
+  - id: thing:southern_tower
+    kind: building
+    at: [93.75, 79.75]
+    size: [2.5, 2.5]
+    turn: 180
+    kit: castle
+    facing: s
+    parts:
+      - {id: base, shape: round, at: [640, 640], radius: 420, sides: 10, textures: {door: 7solid01, trim: hcwall, wall: hcwall, window: hcwall}, wall_height: 1280, windows: none, roof: none}
+      - {id: top, shape: round, at: [640, 640], radius: 468, sides: 10, bottom: 1280, textures: {roof: xtslate, trim: hcwall, wall: hcwall, window: hcwall}, wall_height: 512, windows: none, roof: cone, roof_pitch: 70}
+    floor: 1050
+    door:
+      part: base
+      wall: "0"
+    title: The Southern Tower
+    into: {map: xeen_dd06.blv, arrival: entrance:d2_door, screen: {text: 5034}}
+    condition: {lua: "XeenQuests.hook(\"q-d19.tower_door\")"}
+    hint: The Southern Tower
+    notes: "DD-06 (A7): the door needs south_tower_key 12339 (q-d19.tower_door)."
+  - id: thing:tower_plate
+    kind: sign
+    at: [95.7, 79.9]
+    height: 160
+    width: 128
+    title: A brass plate
+    effects:
+      - lua: "evt.SimpleMessage(\"NO THIEVES.\")"
+  - id: thing:thieves_drop
+    kind: chest
+    at: [98.4, 83.4]
+    title: A hollow stump
+    chest: {level: 2, random_items: 2}
+  - id: thing:drop_stump
+    kind: decoration
+    at: [98, 83]
+    decoration: stump5a
+  - id: thing:shrine_ring
+    kind: stone_ring
+    at: [104, 93.8]
+    radius: 384
+    title: Shrine of the Elements
+    count: 4
+    lintel: false
+  - id: thing:shrine_altar
+    kind: decoration
+    at: [104, 93.8]
+    decoration: crys6
+    title: Shrine of the Elements
+    condition: {not: {map_var: shrine_used}}
+    else_effects:
+      - text: "The four stones hum, and nothing more."
+    effects:
+      - set:
+          var:
+            map_var: shrine_used
+          value: 1
+      - add:
+          var: FireResistance
+          value: 5
+      - add:
+          var: AirResistance
+          value: 5
+      - add:
+          var: WaterResistance
+          value: 5
+      - add:
+          var: EarthResistance
+          value: 5
+      - text: "+5 Fire, Air, Water and Earth resistance (permanent)"
+  - id: thing:pot_of_gold
+    kind: decoration
+    at: [106, 101]
+    decoration: rock16
+    title: A ring of rocks
+    condition: {all: [{stat: {name: PerceptionSkill, at_least: 4}}, {not: {map_var: pot_found}}]}
+    else_effects:
+      - text: A ring of rocks at the edge of the world.
+    effects:
+      - set:
+          var:
+            map_var: pot_found
+          value: 1
+      - gold: 3000
+      - text: "Under the rocks, a small iron pot full of gold, and a note: 'Finders keepers. -- L.' (+3,000 gold)"
+  - id: thing:pot_rocks_1
+    kind: decoration
+    at: [105.5, 100.6]
+    decoration: rock16
+  - id: thing:pot_rocks_2
+    kind: decoration
+    at: [106.5, 100.6]
+    decoration: rock16
+  - id: thing:pot_rocks_3
+    kind: decoration
+    at: [105.6, 101.5]
+    decoration: rock16
+  - id: thing:pot_rocks_4
+    kind: decoration
+    at: [106.5, 101.4]
+    decoration: rock16
+  - id: thing:sign_fork
+    kind: sign
+    at: [33, 60.8]
+    height: 256
+    arms:
+      - {title: Castleview, toward: w}
+      - {title: Ogre Pass, toward: e}
+      - {title: Bark Glade, toward: s}
+  - id: thing:sign_glade
+    kind: sign
+    at: [43, 69]
+    height: 256
+    arms:
+      - {title: Treehouse village, toward: w}
+      - {title: The great tree, toward: s}
+      - {title: Southern Woods, toward: e}
+  - id: thing:sign_south
+    kind: sign
+    at: [91, 58.8]
+    height: 256
+    arms:
+      - {title: Ogre Pass, toward: n}
+      - {title: Southern Tower, toward: s}
+      - {title: Bark Glade, toward: w}
+  - id: thing:sign_pass
+    kind: sign
+    at: [80.2, 38.4]
+    height: 256
+    arms:
+      - {title: Castleview, toward: w}
+      - {title: Sandcaster, toward: e}
+actors:
+  - {monster: "11066", at: [72, 34.6], count: 5, spread: 1, group: 1}
+  - {monster: "11067", at: [70.8, 34.800000000000004], count: 2, spread: 0.5, group: 1}
+  - {monster: "11068", at: [73.2, 34.800000000000004], count: 1, spread: 0, group: 1}
+  - {monster: "11066", at: [87, 43.6], count: 5, spread: 1, group: 2}
+  - {monster: "11067", at: [85.8, 43.4], count: 2, spread: 0.5, group: 2}
+  - {monster: "11068", at: [88.2, 43.4], count: 1, spread: 0, group: 2}
+  - {monster: "11066", at: [65.5, 40], count: 2, spread: 0.6, group: 3}
+  - {monster: "11067", at: [66.4, 39.4], count: 1, spread: 0, group: 3}
+  - {monster: "11066", at: [93.5, 40.6], count: 2, spread: 0.6, group: 4}
+  - {monster: "11067", at: [94.4, 40.2], count: 1, spread: 0, group: 4}
+  - {monster: "11064", at: [79, 36.4], spread: 0, group: 5, npc: 5108}
+  - {monster: "11065", at: [78.1, 35.699999999999996], spread: 0, group: 5}
+  - {monster: "11065", at: [79.9, 35.699999999999996], spread: 0, group: 5}
+  - {monster: "11537", at: [29.5, 89], count: 5, spread: 2, group: 6}
+  - {monster: "11538", at: [29, 88], count: 3, spread: 1.5, group: 6}
+sounds:
+  - {id: sound:bed_darkside_1, at: [27, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_10, at: [69, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_11, at: [97, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_2, at: [55, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_3, at: [41, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_4, at: [69, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_5, at: [97, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_6, at: [27, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_7, at: [55, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_8, at: [83, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_9, at: [41, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+events:
+  - id: evt:sprites_slain
+    trigger: timer
+    every: 5
+    condition: {kills: {group: 6}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d10.sprites_slain\")"
+    once: true
+    notes: "q-d10.sprites_slain: every village sprite dead."
+  - id: evt:west_fort_burned
+    trigger: load
+    condition: {qbit: west_fort_burned}
+    effects:
+      - hide: [thing:west_palisade, thing:west_blockhouse, thing:west_banner]
+      - show: [thing:west_ruin, thing:west_char_1, thing:west_char_2, thing:west_char_3, thing:west_char_4, thing:west_char_5, thing:west_char_6, thing:west_char_7, thing:west_char_8]
+    notes: "q-d11.west_fort_burned: the west fort outside as a charred ruin (D-23); its gate stays."
+  - id: evt:west_fort_ignite
+    trigger: load
+    condition: {qbit: west_fort_burned}
+    effects:
+      - lua: "if evt.GetMapVar(\"west_fort_fire_heard\", 0) == 0 then evt.SetMapVar(\"west_fort_fire_heard\", 1) evt.PlaySoundName(\"xeen_fire_ignite\", 4096, 15565, 2000) end"
+    notes: "AU (2026-11-20): xeen_fire_ignite at the west fort once after it burns (map variable west_fort_fire_heard)."
+  - id: evt:east_fort_burned
+    trigger: load
+    condition: {qbit: east_fort_burned}
+    effects:
+      - hide: [thing:east_palisade, thing:east_blockhouse, thing:east_banner]
+      - show: [thing:east_ruin, thing:east_char_1, thing:east_char_2, thing:east_char_3, thing:east_char_4, thing:east_char_5, thing:east_char_6, thing:east_char_7, thing:east_char_8]
+    notes: "q-d11.east_fort_burned: the east fort outside as a charred ruin (D-23); its gate stays."
+  - id: evt:east_fort_ignite
+    trigger: load
+    condition: {qbit: east_fort_burned}
+    effects:
+      - lua: "if evt.GetMapVar(\"east_fort_fire_heard\", 0) == 0 then evt.SetMapVar(\"east_fort_fire_heard\", 1) evt.PlaySoundName(\"xeen_fire_ignite\", 11776, 9933, 2150) end"
+    notes: "AU (2026-11-20): xeen_fire_ignite at the east fort once after it burns (map variable east_fort_fire_heard)."

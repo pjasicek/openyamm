@@ -1,0 +1,58 @@
+# Dimension Door's screen (the spell and the towns' dimensional travel pedestals, evt.OpenDimensionDoor): one door per
+# continent, left to right in the new-game screen's order. A mounted world adds its own doors (and screens) through
+# world.yml tableContributions `dimension_doors` (devdocs/xeen/lanes/TABLES.md).
+#
+# screens: one per door count. The screen shown is the one with the fewest places that has a place for every door.
+#   backdrop: the picture (640x480); places, left to right: where the lit door is drawn (picture) and the area the
+#   pointer lights it in (hover), each [x, y, width, height]; the hovered door's name shows on the status line. A place
+#   may also have `label`, a rect its door's name is printed in at all times (text style ui/gameplay/town_portal.yml
+#   TownPortalDoorName), but no screen uses it: the user removed the names under the portals on 2026-11-22. The lit
+#   pictures (the continents' card globes in the portals) are written by tools/ui/dimension_door_globes.py.
+# doors: key (new), label (English), place (new: the door's rank left to right, its continent's new-game card order,
+#   character_selection.yml `card.order`; the doors take the screen's places in this order, so a world's door can come
+#   first), pictures (the lit door on each screen, by its door count), landings: the first whose qbit the party has,
+#   the last without one; at [x, y, z] and direction (degrees), or no `at` for the map's start. A door whose last
+#   landing's map belongs to a world this installation or the ruleset lacks stays dark (it keeps its place). A world's
+#   entry with a known key and only `pictures` gives that door its picture on the world's screen of a new door count.
+screens:
+  # Four portals in a row (tpglobal4, 2026-11-06), each with a column of the screen as its hover zone.
+  - backdrop: ui/gameplay/dimensional_travel/tpglobal4
+    places:
+      - {picture: [17, 92, 126, 151], hover: [0, 0, 160, 480]}
+      - {picture: [177, 92, 126, 151], hover: [160, 0, 160, 480]}
+      - {picture: [337, 92, 126, 151], hover: [320, 0, 160, 480]}
+      - {picture: [498, 92, 126, 151], hover: [480, 0, 160, 480]}
+
+doors:
+  - key: enroth
+    label: Enroth
+    place: 2
+    pictures: {4: ui/gameplay/dimensional_travel/tpenroth4}
+    landings:
+      - {map: oute3.odm, at: [-9728, -11319, 160], direction: 90}
+  # Harmondale once Emerald Island is finished, else Emerald Island.
+  - key: antagarich
+    label: Antagarich
+    place: 3
+    pictures: {4: ui/gameplay/dimensional_travel/tpantagarich4}
+    landings:
+      - {qbit: 519, map: 7out02.odm, at: [-16832, 12512, 372], direction: 0}
+      - {map: 7out01.odm, at: [12552, 800, 193], direction: 90}
+  # Ravenshore once Dadeross's letter is delivered, else Dagger Wound's start.
+  - key: jadame
+    label: Jadame
+    place: 4
+    pictures: {4: ui/gameplay/dimensional_travel/tpjadame4}
+    landings:
+      - {qbit: 4, map: out02.odm, at: [10296, -12283, 1], direction: 0}
+      - {map: out01.odm}
+  # Once the party has left the Isle of Ashes, beside Sturmford City's dimensional travel pedestal
+  # (level_generation/projects/mm9r_sturmfordcity), facing it; before that, Ravensford's new-game start
+  # (continent_settings.txt, Chedian's start map).
+  - key: chedian
+    label: Chedian
+    place: 5
+    pictures: {4: ui/gameplay/dimensional_travel/tpchedian4}
+    landings:
+      - {qbit: 90028, map: sturmfordcity.blv, at: [1752, 54, 19703], direction: 180}
+      - {map: bootcamp.blv, at: [323, -8494, 1291], direction: 269}

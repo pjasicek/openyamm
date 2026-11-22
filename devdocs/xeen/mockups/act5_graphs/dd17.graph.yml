@@ -1,0 +1,344 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Castle Alamar Levels 1-3 (dark maze0049-0051, aaze0049-0051) as one BLV of three floors, 640 apart
+# (0, 640, 1280), in the castle's own frame (x east, y north, the gate on the south wall at y -3584). L1 holds the
+# gate, the Hall of Order and the source's four conveyor spirals (maze0049's TeleportAndContinue chains) ending at the
+# four Lava Heads ("Fire power field operational.", aaze0049:6-10); L2 the source's four sundials at the outer corners
+# and its four ring chasms round the true-name gate (maze0050: each dial sets which cell of its ring is solid; at nine
+# the four line up on the west); L3 the source's chequer deck of trapdoors (maze0051's FallToMap cells), Command
+# Central and the hatch to the Skyroads (maze0051 (4,8) -> Skyroad A1). Maze 52 (Castle Alamar Dungeon) is FD-01, not
+# this map. Four set pieces: the conveyor works, the dial hall, the trapdoor deck, Command Central.
+format: mu6-0
+map: DD-17
+key: dd17
+name: Castle Alamar
+stands_on: "D6 The Forbidden Zone (the fortress of teal Ancient steel on its mesa, ringed by the lava moat, D-49)"
+class: L
+band: "L: 50-75 sectors, 120-200 M units², four set pieces, §0's 70 monsters (no boss row), doors up to 25"
+size: "45 review rooms, about 66 sectors (the Hall of Order, the dial hall and the deck four each; the four belts two each; Command Central three); castle about 7,168 x 7,168; floor 0 about 62, floor 1 about 50, floor 2 about 34 M units²: about 146 M units²; 24 doors (four of them xafield leaves; the inner gate, the stair hall's doors, the true-name gate and Command Central's doors as two-leaf pairs) plus four bridge slabs"
+party: [52, 55]
+monsters:
+  levels: [50, 75]
+  boss: null
+  count: 70
+  groups: [2, 3]
+  families:
+    - "Robots (11610): Patrol 50, Annihilator 62, Autobot 75: Sheltem's garrison, the source's annihilators (QUESTS M33); 56 of the 70"
+    - "Elementals (11620, 11624-11626): two Lesser Elementals 55 of each element guard its Lava Head (fire, air, water, earth); A2 adds Castle Alamar to the family's `where`"
+    - "Eyes (11570): Gamma Gazer 65 as Sheltem's watchers in the posts and the windows ('every one of them is looking at you', m33.castle_door); A2 adds Castle Alamar to `where`"
+    - "Sheltem is not a fight (QUESTS M33: Corak confronts him): a placed peaceful figure shown by the cinematic, not counted (DECIDE 5)"
+  mix:
+    - {row: Patrol, id: 11610, level: 50, count: 30}
+    - {row: Annihilator, id: 11611, level: 62, count: 20}
+    - {row: Autobot, id: 11612, level: 75, count: 6}
+    - {row: Lesser Fire Elemental, id: 11620, level: 55, count: 2}
+    - {row: Lesser Air Elemental, id: 11624, level: 55, count: 2}
+    - {row: Lesser Water Elemental, id: 11625, level: 55, count: 2}
+    - {row: Lesser Earth Elemental, id: 11626, level: 55, count: 2}
+    - {row: Gamma Gazer, id: 11572, level: 65, count: 6}
+  characters:
+    - {row: "Sheltem (requested, 11924)", level: "-", count: 1, note: "placed, hidden, peaceful, immobile, unkillable, not counted; shown on the throne by the cinematic (DECIDE 5)"}
+    - {row: Corak, id: 11912, level: 50, count: 1, note: "DD-16's row placed hidden in Command Central; shown stepping out of the Soul Box by the cinematic"}
+  kill_xp: "68.85k per member (275,380 / 4): Patrols 90,000, Annihilators 89,280, Autobots 38,250, elementals 28,600, Gazers 29,250"
+  kill_xp_target: "67.9k (MAPS §0 row): +1.4 %"
+treasure: {level: 5, hoard: 6}
+role: "M33 Castle Alamar: the arrival without the Soul Box throws the party out (m33.arrival, Sheltem's voice the first time); four Lava Heads on L1 hold four energy fields over the L2 sundials; the four sundials to nine (Xeen.alamarSundial, m33.sundial_nine) raise the four bridges to the true-name gate; the gate asks Alamar's true name, Sheltem (m33.true_name_gate; the answer is Olympus's plaque, m31.true_name_plaque, and the Pharaoh's M28 line); the lift to L3, the trapdoor deck, Command Central: Corak out of the box confronts Sheltem (m33.sheltem, voiced), the self-destruct cinematic, the Cube of Power, out to D6. Q-D26's hatch on L3 to D7's roof (q-d26.alamar_hatch)"
+role_short: "M33, Sheltem, the Cube of Power"
+set_piece: "Four: the conveyor works (four belt halls on L1 that carry the party one way to four Lava Heads, each guarded by two elementals of its element; shutting a Head down drops its field on L2); the dial hall (four ring chasms round an island under the deck, a bridge slab per ring that rises only while its corner sundial reads nine, the crackling true-name statue and the gate on the island); the trapdoor deck (L3's chequer of teal and hatched plates over the dial hall's chasm: the hatched ones drop through to the sump); Command Central (Sheltem's throne on a dais under the castle's screens: the Soul Box, Corak, the self-destruct)"
+sounds: "AU requests: the belts' rumble loop (one placed sound per belt), a Lava Head hum per element (stops when shut down), the field crackle (xafield, stops when a field drops), a sundial's clank per turn and a slab's grind, the gate's two chimes (approved, denied), the trapdoor clang, the self-destruct klaxon and the castle's groan for the cinematic; D-38 voices xeen_vo_sheltem_refusal (m33.arrival fail, first time only, refused_once) and xeen_vo_sheltem_corak (m33.sheltem, the three lines); music 50 (maps.yml)"
+textures:
+  family: "Ancient: MM6 Control Center sci-fi.blv, the main sw set (dungeon_families pods: 'DD-17 Castle Alamar, FD-01 Alamar Depths: mm6/sci-fi.blv via the ancient kit (main sw set)'; ancient.yml per_site DD-17): swll4dk main walls, swll5dk, swall1-5, swfloor2b and swflora floors, swceilf ceilings, swr2dk/swr4dk belt beds and rollers in the conveyor halls, swgirder and swaled pillars, swhorzad trims, trekscrn and swor2 consoles in Command Central, swdoora/swdoorb leaves (the inner gate, the stair hall's and Command Central's as two-leaf pairs, D-49's gate family); xafield (translucent 0.5, D-51) for the four fields; xaenergy panels behind the Lava Heads and on the sundial plinths; xahull only where the outer shell shows (the hatch's shaft)"
+  cap: 70
+  planned: 36
+  new: 5
+  new_list: "proposed names, A6 decides: xalavahd and xalavahdx (a Lava Head's face in a xaenergy panel, lit and dark; one per Head, once per face, the element shown by its light colour), xasundial (a sundial face for the four plinths, once per face), xaglyph (the true-name gate's round glyph bulkhead in the sw palette; Hesper's htbulk is the fallback, counted as new), xatrapplt (a teal deck plate seamed like a hatch, for the trapdoors; a shipped sw grate if one reads as a hatch)"
+  distinct_from: "DD-22 Sheltem's Pod (the sw set with red accents swrdk2, swared, swfloor5a), FD-01 Alamar Depths (the sw set darker, swll5dk, swankdk, with xahullbn), DD-16 Corak's Pod (MM7 Lincoln 7d23), XD-19 Castle Xeen (MM8 d35 black stone and gold with the kit's machines), DD-15's lower Ancient levels (sandstone pyramid with sw rooms): Alamar is the bright teal sw set throughout, green grids lit, fields everywhere"
+floors:
+  - {floor: 2, name: "L3: the deck, Command Central", height: 1280}
+  - {floor: 1, name: "L2: the dial floor", height: 640}
+  - {floor: 0, name: "L1: the works", height: 0}
+spaces:
+  # floor 0, L1 (z 0): the gate, the Hall of Order, the conveyor works
+  - {id: room:gatehall, name: Gatehall, kind: room, size: M, floor: 0, at: [3, 2], monsters: 0,
+     purpose: "The arrival (entrance:d6_gate) behind the gate's inner leaves (swdoora pair); m33.arrival on every entry until m33.done: false moves the party back to D6. Teal walls, green grids, a slit window over the moat. Quiet (D-11.3)."}
+  - {id: room:hall_order, name: Hall of Order, kind: hall, size: L, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Patrol, level: 50, count: 3}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Pillared hall (swgirder), the first propaganda statue on a plinth against the north wall ('... protect Terra from interference from the Ancients', aaze0049:2, a step plate as the party approaches). Wards west and east, the stair hall's two leaves north."}
+  - {id: room:west_ward, name: West ward, kind: corridor, size: M, floor: 0, at: [2, 1], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Junction of the fire and water belts' mouths, the barracks and the west return gallery."}
+  - {id: room:east_ward, name: East ward, kind: corridor, size: M, floor: 0, at: [4, 1], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "The same on the east: the air and earth belts, the watch room, the parts store, the east return gallery."}
+  - {id: room:barracks, name: Robot barracks, kind: room, size: M, floor: 0, at: [2, 2], chest: 5, monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Dead end with a chest: charging racks along the walls."}
+  - {id: room:watch_se, name: Moat watch, kind: room, size: S, floor: 0, at: [4, 2], chest: 5, monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Gamma Gazer, level: 65, count: 1}],
+     purpose: "Dead end with a chest: a window slit over the gate road; a Gazer at the glass."}
+  - {id: room:store_ne, name: Parts store, kind: room, size: S, floor: 0, at: [4, 0], chest: 5, monsters: 2,
+     population: [{row: Annihilator, level: 62, count: 2}],
+     purpose: "Dead end with a chest: crates of plates and rollers in clumps (a storeroom)."}
+  - {id: room:belt_fire, name: Fire belt, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Conveyor hall (the source's north-west spiral): a long belt bed (swr2dk) between roller walls; the mouth plate carries the party to the far end (DECIDE 1); walking back up it carries it forward again."}
+  - {id: room:head_fire, name: Fire Head, kind: room, size: M, floor: 0, at: [0, 0], goal: true, monsters: 2,
+     population: [{row: Lesser Fire Elemental, level: 55, count: 2}],
+     purpose: "The belt's end: a Lava Head in a xaenergy panel, red light. Click: 'The Head speaks: \"Fire power field operational.\"' (aaze0049:7), then 'Shut the field down?' Yes: head_fire_off (117601), the Head goes dark, the fire field on L2 drops. The maintenance door to the west return opens from this side."}
+  - {id: room:belt_water, name: Water belt, kind: corridor, size: M, floor: 0, at: [1, 2], monsters: 0,
+     purpose: "Conveyor hall (the source's south-west spiral), as the fire belt."}
+  - {id: room:head_water, name: Water Head, kind: room, size: M, floor: 0, at: [0, 2], goal: true, monsters: 2,
+     population: [{row: Lesser Water Elemental, level: 55, count: 2}],
+     purpose: "Lava Head, blue light: 'Water power field operational.' (aaze0049:9); head_water_off (117603)."}
+  - {id: room:return_w, name: West return, kind: corridor, size: M, floor: 0, at: [0, 1], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "Maintenance gallery behind the two west Heads, back to the west ward; its doors into the Head rooms are bolted on the Heads' side ('A maintenance door. It is bolted on the other side.')."}
+  - {id: room:belt_air, name: Air belt, kind: corridor, size: M, floor: 0, at: [5, 0], monsters: 0,
+     purpose: "Conveyor hall (the source's north-east spiral)."}
+  - {id: room:head_air, name: Air Head, kind: room, size: M, floor: 0, at: [6, 0], goal: true, monsters: 2,
+     population: [{row: Lesser Air Elemental, level: 55, count: 2}],
+     purpose: "Lava Head, white light: 'Air power field operational.' (aaze0049:8); head_air_off (117602)."}
+  - {id: room:belt_earth, name: Earth belt, kind: corridor, size: M, floor: 0, at: [5, 2], monsters: 0,
+     purpose: "Conveyor hall (the source's south-east spiral)."}
+  - {id: room:head_earth, name: Earth Head, kind: room, size: M, floor: 0, at: [6, 2], goal: true, monsters: 2,
+     population: [{row: Lesser Earth Elemental, level: 55, count: 2}],
+     purpose: "Lava Head, green light: 'Earth power field operational.' (aaze0049:10); head_earth_off (117604)."}
+  - {id: room:return_e, name: East return, kind: corridor, size: M, floor: 0, at: [6, 1], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "The east maintenance gallery, as the west."}
+  - {id: room:stair_hall, name: Stair hall, kind: stair, size: M, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 1}],
+     purpose: "Behind the Hall of Order's two leaves: the stair up to the dial floor's south walk; the sump's door opens into it from the sump's side."}
+  - {id: room:sump, name: The sump, kind: cave, size: M, floor: 0, at: [2, 0], monsters: 0, find: true,
+     purpose: "Under the dial hall's chasm (640) and the deck's trapdoors (1,280): bent plates, the bones of earlier callers and a find (gems, T5). Reached only by falling; its door to the stair hall opens from inside (a lever by it)."}
+  # floor 1, L2 (z 640): the dial floor
+  - {id: room:landing, name: South walk, kind: stair, size: M, floor: 1, at: [3, 2], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "The stair head from L1, on the outer walk's south side; railings over the ring chasms (the bridges stand on the west line, out of reach from here)."}
+  - {id: room:bay_sw, name: South-west bay, kind: room, size: S, floor: 1, at: [1, 2], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}], purpose: "Corner of the outer walk; the water field closes the sundial alcove."}
+  - {id: room:dial_water, name: Water Time, kind: room, size: S, floor: 1, at: [0, 2], goal: true, monsters: 0,
+     purpose: "Sundial alcove behind the water field (xafield, translucent, dropped by head_water_off): a dial on a xaenergy plinth. 'Water Time. The sundial reads 7. Turn?' (aaze0050:4, :11; Xeen.alamarSundial(\"water\", ...), starts 7)."}
+  - {id: room:west_walk, name: West walk, kind: corridor, size: M, floor: 1, at: [1, 1], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 1}, {row: Annihilator, level: 62, count: 2}],
+     purpose: "The outer walk's west side: the bridge line starts here, east across the four rings to the island."}
+  - {id: room:bay_nw, name: North-west bay, kind: room, size: S, floor: 1, at: [1, 0], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}], purpose: "Corner; the fire field closes its sundial."}
+  - {id: room:dial_fire, name: Fire Time, kind: room, size: S, floor: 1, at: [0, 0], goal: true, monsters: 0,
+     purpose: "Sundial behind the fire field (head_fire_off). 'Fire Time. The sundial reads 3. Turn?' (aaze0050:1, starts 3)."}
+  - {id: room:north_walk, name: North walk, kind: corridor, size: M, floor: 1, at: [3, 0], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Gamma Gazer, level: 65, count: 1}],
+     purpose: "The second propaganda statue in a wall niche ('... Alamar's skillful rulership ...', aaze0049:3); railings over the rings."}
+  - {id: room:bay_ne, name: North-east bay, kind: room, size: S, floor: 1, at: [5, 0], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}], purpose: "Corner; the air field closes its sundial."}
+  - {id: room:dial_air, name: Air Time, kind: room, size: S, floor: 1, at: [6, 0], goal: true, monsters: 0,
+     purpose: "Sundial behind the air field (head_air_off). 'Air Time. The sundial reads 6. Turn?' (aaze0050:2, starts 6)."}
+  - {id: room:east_walk, name: East walk, kind: corridor, size: M, floor: 1, at: [5, 1], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "The outer walk's east side; the Gazers' post opens off it."}
+  - {id: room:gazer_post, name: "Watchers' post", kind: room, size: S, floor: 1, at: [6, 1], chest: 5, monsters: 3,
+     population: [{row: Gamma Gazer, level: 65, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Dead end with a chest: a glazed bay over the moat and the road."}
+  - {id: room:bay_se, name: South-east bay, kind: room, size: S, floor: 1, at: [5, 2], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}], purpose: "Corner; the earth field closes its sundial."}
+  - {id: room:dial_earth, name: Earth Time, kind: room, size: S, floor: 1, at: [6, 2], goal: true, monsters: 0,
+     purpose: "Sundial behind the earth field (head_earth_off). 'Earth Time. The sundial reads 12. Turn?' (aaze0050:3, starts 12)."}
+  - {id: room:rings, name: Dial hall, kind: hall, size: L, floor: 1, at: [2, 1], set_piece: true, monsters: 0,
+     purpose: "Four concentric ring chasms (water outermost, then air, fire, earth: the source's order) round the island, open down to the sump (640) and up to the deck's underside. On the west line one bridge slab per ring (a two-state slab, DECIDE 3) stands level only while its dial reads nine; each ring's lip is lit in its element's colour so a player sees which slab is which."}
+  - {id: room:island, name: Gate island, kind: room, size: S, floor: 1, at: [3, 1], monsters: 2,
+     population: [{row: Autobot, level: 75, count: 2}],
+     purpose: "The island in the chasm: the crackling true-name statue ('I am the statue dedicated to honoring Alamar's true name. It is: kdkiendlshj**:and dugli (crackle)...', aaze0049:5) and the true-name gate (xaglyph, two leaves). Two Autobots guard it."}
+  - {id: room:lift_core, name: Lift core, kind: stair, size: S, floor: 1, at: [4, 1], monsters: 0,
+     purpose: "Behind the gate: the lift up to the deck. It runs only once gate_open is set; before, from either end: 'Access to the upper floor is denied!' (aaze0050:0)."}
+  # floor 2, L3 (z 1280): the deck and Command Central
+  - {id: room:lift_top, name: Deck lift head, kind: stair, size: S, floor: 2, at: [4, 1], monsters: 0,
+     purpose: "The lift's top on the deck's east edge."}
+  - {id: room:deck, name: Command deck, kind: hall, size: L, floor: 2, at: [3, 1], set_piece: true, monsters: 5,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 1}],
+     purpose: "Over the dial hall: a chequer of teal plates and hatched plates (xatrapplt, the source's coloured squares); six hatched plates are trapdoors (lifts `trap`) that drop through the chasm to the sump, 1,280 (DECIDE 8). The first hatched plate inside the lift head's door has the hover 'A plate seamed like a hatch.'; the plain plates zig-zag across."}
+  - {id: room:robot_bay, name: Robot bay, kind: room, size: M, floor: 2, at: [4, 0], chest: 5, monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 1}],
+     purpose: "Dead end with a chest and a lever: 'Vault release. Pull?' (its hover names the strongroom by Command Central); one-way (D-43), vault_open 117605."}
+  - {id: room:gazer_watch, name: Screen room, kind: room, size: S, floor: 2, at: [3, 2], chest: 5, monsters: 2,
+     population: [{row: Gamma Gazer, level: 65, count: 2}],
+     purpose: "Wall screens (trekscrn) showing the Forbidden Zone; a chest; a back door to the hatch room."}
+  - {id: room:west_hall, name: Hall of Vengeance, kind: hall, size: M, floor: 2, at: [2, 1], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 1}],
+     purpose: "The third propaganda statue ('... Alamar's glorious vengeance against the Ancients ...', aaze0049:4). A step plate once: 'A voice bellows, \"Come to ME!\"' (aaze0051:2; 117606)."}
+  - {id: room:juice, name: Power juice, kind: room, size: S, floor: 2, at: [2, 0], monsters: 0, find: true,
+     purpose: "Dead end with a find: a dispenser labelled 'XEEN Power Juice' (aaze0051:0); once per character, rescaled (DECIDE 9)."}
+  - {id: room:hatch_room, name: Hatch room, kind: stair, size: S, floor: 2, at: [1, 2], monsters: 0,
+     purpose: "A ladder up a xahull shaft to the roof hatch (q-d26.alamar_hatch: 'Climb up through the hatch?'; 'Bolted from above.' until roof_unlocked 113521). The arrival from D7 (entrance:d7_roof) at the ladder's foot; quiet (D-11.3)."}
+  - {id: room:antechamber, name: Antechamber, kind: room, size: S, floor: 2, at: [1, 1], monsters: 0,
+     purpose: "Before Command Central's two leaves (hover 'Command Central', aaze0051:3); the vault's door in the north wall."}
+  - {id: room:vault, name: Strongroom, kind: room, size: S, floor: 2, at: [0, 0], chest: 6, monsters: 0,
+     purpose: "The hoard (T6), opened by the robot bay's lever."}
+  - {id: room:command, name: Command Central, kind: hall, size: L, floor: 2, at: [0, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "Sheltem's throne on a dais under banks of screens; the throne empty until the cinematic. A plate on the dais's first step asks 'Before the throne. Open the Soul Box?' (DECIDE 6); Yes calls m33.sheltem: Corak (11912, hidden) steps out, Sheltem (hidden figure) appears on the throne, the three voiced lines, the self-destruct cinematic, the Cube of Power, then a direct leave to D6 (DECIDE 4, 7)."}
+links:
+  # floor 0
+  - {id: link:gate_hall, from: room:gatehall, to: room:hall_order, kind: door, label: "Inner leaves (two)"}
+  - {id: link:hall_ww, from: room:hall_order, to: room:west_ward, kind: open}
+  - {id: link:hall_ew, from: room:hall_order, to: room:east_ward, kind: open}
+  - {id: link:hall_stair, from: room:hall_order, to: room:stair_hall, kind: door, label: "Two leaves"}
+  - {id: link:ww_barracks, from: room:west_ward, to: room:barracks, kind: door}
+  - {id: link:ew_watch, from: room:east_ward, to: room:watch_se, kind: door}
+  - {id: link:ew_store, from: room:east_ward, to: room:store_ne, kind: door}
+  - {id: link:ww_bfire, from: room:west_ward, to: room:belt_fire, kind: open}
+  - {id: link:ww_bwater, from: room:west_ward, to: room:belt_water, kind: open}
+  - {id: link:ew_bair, from: room:east_ward, to: room:belt_air, kind: open}
+  - {id: link:ew_bearth, from: room:east_ward, to: room:belt_earth, kind: open}
+  - {id: link:bfire_head, from: room:belt_fire, to: room:head_fire, kind: one_way, label: "Belt"}
+  - {id: link:bwater_head, from: room:belt_water, to: room:head_water, kind: one_way, label: "Belt"}
+  - {id: link:bair_head, from: room:belt_air, to: room:head_air, kind: one_way, label: "Belt"}
+  - {id: link:bearth_head, from: room:belt_earth, to: room:head_earth, kind: one_way, label: "Belt"}
+  - {id: link:hfire_ret, from: room:head_fire, to: room:return_w, kind: door, label: "Bolt (Head side)"}
+  - {id: link:hwater_ret, from: room:head_water, to: room:return_w, kind: door, label: "Bolt (Head side)"}
+  - {id: link:hair_ret, from: room:head_air, to: room:return_e, kind: door, label: "Bolt (Head side)"}
+  - {id: link:hearth_ret, from: room:head_earth, to: room:return_e, kind: door, label: "Bolt (Head side)"}
+  - {id: link:retw_ww, from: room:return_w, to: room:west_ward, kind: open}
+  - {id: link:rete_ew, from: room:return_e, to: room:east_ward, kind: open}
+  - {id: link:sump_stair, from: room:sump, to: room:stair_hall, kind: one_way, label: "Door (sump side)"}
+  # floor 0 to 1
+  - {id: link:stair_up, from: room:stair_hall, to: room:landing, kind: stair}
+  # floor 1
+  - {id: link:land_sw, from: room:landing, to: room:bay_sw, kind: open}
+  - {id: link:land_se, from: room:landing, to: room:bay_se, kind: open}
+  - {id: link:sw_ww, from: room:bay_sw, to: room:west_walk, kind: open}
+  - {id: link:ww_nw, from: room:west_walk, to: room:bay_nw, kind: open}
+  - {id: link:nw_nwalk, from: room:bay_nw, to: room:north_walk, kind: open}
+  - {id: link:nwalk_ne, from: room:north_walk, to: room:bay_ne, kind: open}
+  - {id: link:ne_ewalk, from: room:bay_ne, to: room:east_walk, kind: open}
+  - {id: link:ewalk_se, from: room:east_walk, to: room:bay_se, kind: open}
+  - {id: link:ewalk_post, from: room:east_walk, to: room:gazer_post, kind: door}
+  - {id: link:sw_dial, from: room:bay_sw, to: room:dial_water, kind: door, label: "Water field (water Head)", opened_by: state:head_water}
+  - {id: link:nw_dial, from: room:bay_nw, to: room:dial_fire, kind: door, label: "Fire field (fire Head)", opened_by: state:head_fire}
+  - {id: link:ne_dial, from: room:bay_ne, to: room:dial_air, kind: door, label: "Air field (air Head)", opened_by: state:head_air}
+  - {id: link:se_dial, from: room:bay_se, to: room:dial_earth, kind: door, label: "Earth field (earth Head)", opened_by: state:head_earth}
+  - {id: link:ww_rings, from: room:west_walk, to: room:rings, kind: open}
+  - {id: link:rings_island, from: room:rings, to: room:island, kind: door, label: "Bridges (dials at nine)", opened_by: state:dials}
+  - {id: link:island_lift, from: room:island, to: room:lift_core, kind: door, label: "True-name gate", opened_by: state:gate}
+  # floor 1 down to 0
+  - {id: link:rings_sump, from: room:rings, to: room:sump, kind: drop, label: "Chasm, 640"}
+  # floor 1 to 2
+  - {id: link:lift_up, from: room:lift_core, to: room:lift_top, kind: lift}
+  # floor 2
+  - {id: link:lift_deck, from: room:lift_top, to: room:deck, kind: open}
+  - {id: link:deck_bay, from: room:deck, to: room:robot_bay, kind: door}
+  - {id: link:deck_screen, from: room:deck, to: room:gazer_watch, kind: door}
+  - {id: link:deck_west, from: room:deck, to: room:west_hall, kind: open}
+  - {id: link:deck_drop, from: room:deck, to: room:rings, kind: drop, label: "Trapdoors"}
+  - {id: link:west_juice, from: room:west_hall, to: room:juice, kind: door}
+  - {id: link:west_ante, from: room:west_hall, to: room:antechamber, kind: door}
+  - {id: link:west_hatch, from: room:west_hall, to: room:hatch_room, kind: door}
+  - {id: link:screen_hatch, from: room:gazer_watch, to: room:hatch_room, kind: door}
+  - {id: link:ante_vault, from: room:antechamber, to: room:vault, kind: door, label: "Vault", opened_by: state:vault}
+  - {id: link:ante_command, from: room:antechamber, to: room:command, kind: door, label: "Two leaves"}
+states:
+  - {id: state:soul_box, kind: item, where: "D6 (m32.done: Corak in the Soul Box)", what: "m33.arrival needs soul_box_corak: false moves the party back to D6's entrance:dd17_gate (Sheltem's voice the first time, refused_once 111664); true sets m33.inside 111660.", opens: [], draw: false}
+  - {id: state:head_fire, kind: lever, where: room:head_fire, what: "The Fire Head's question, one-way (D-43): head_fire_off 117601; the Head goes dark, its hum stops; the map drops the fire field on L2 (a stage by qbit, also on load).", opens: [link:nw_dial], draw: false}
+  - {id: state:head_air, kind: lever, where: room:head_air, what: "head_air_off 117602: the air field drops.", opens: [link:ne_dial], draw: false}
+  - {id: state:head_water, kind: lever, where: room:head_water, what: "head_water_off 117603: the water field drops.", opens: [link:sw_dial], draw: false}
+  - {id: state:head_earth, kind: lever, where: room:head_earth, what: "head_earth_off 117604: the earth field drops.", opens: [link:se_dial], draw: false}
+  - {id: state:dials, kind: puzzle, where: room:dial_fire,
+     what: "The four sundials (Xeen.alamarSundial; map variables dd17_sundial_<element>, starts 3, 6, 12, 7). Each ring's slab stands level while its own dial reads nine (map qbits 117611-117614 dial_<element>_nine, requested from A3's helper, then stages by qbit); m33.sundial_nine 111663 while all four do. Answer-givers: Atlas in Olympus (npc 5611 topic Nine, 'Alamar's birth number is nine'), and each slab rising at nine.", opens: [link:rings_island], draw: false}
+  - {id: state:gate, kind: password, where: room:island,
+     what: "The true-name gate (a text prompt): with all four dials at nine it asks 'The time is right. What is Alamar's true name?' (aaze0050:19); 'Sheltem' calls m33.true_name_gate (gate_open 111661, autonote 4134), any other answer m33.true_name_wrong; before nine the hook's fail_text. Answer-givers: Olympus's plaque in Soul Storage (m31.true_name_plaque) and the Pharaoh (M28).", opens: [link:island_lift, link:lift_up]}
+  - {id: state:vault, kind: lever, where: room:robot_bay, what: "The vault release, one-way: vault_open 117605 opens the strongroom.", opens: [link:ante_vault]}
+  - {id: state:roof, kind: qbit, where: "D7 (Q-D26)", what: "q-d26.roof_unlocked 113521 (the Megadragon's key on D7's side): DD-17's hatch then works both ways (D-58 D-5).", opens: [], draw: false}
+  - {id: state:sheltem, kind: qbit, where: room:command, what: "The dais plate's Yes: m33.sheltem (requires gate_open and the box; takes the box, gives the Cube of Power, sets m33.done 111662, award 410, 35,000): evt.PlayCinematic (Corak and Sheltem shown, the voiced three lines, the self-destruct), then the direct leave to D6.", opens: [], draw: false}
+exits:
+  - {id: exit:d6_gate, space: room:gatehall, at: [3, 3], kind: both, label: "D6: Castle Alamar's gate",
+     arrival: "entrance:d6_gate: in the gatehall about 256 inside the leaves at about (0, -3328, 0), facing north (512), the Hall of Order ahead",
+     neighbour: "D6 (A6) door:dd17, the double gate on the approach (two leaves, swdoora family, D-49), m33.castle_door's question; out by the exit preset ('Exit Castle Alamar?', aaze0049:0 as its meaning) to D6's installed entrance:dd17_gate (-6656, 4608, 2208) facing south (1536): matches. The refusal (m33.arrival false) and the leave after the cinematic land there too"}
+  - {id: exit:d7_roof, space: room:hatch_room, at: [0, 2], kind: both, label: "D7: the roof hatch",
+     arrival: "entrance:d7_roof: at the ladder's foot in the hatch room, about (-2304, 1280, 1280), facing east (0)",
+     neighbour: "D7 (A6) poi:hatch_dd17 and entrance:dd17_roof (-18688, 8448, 1536) facing west (1024), D7's L1 NOTES; up only after roof_unlocked 113521 ('Bolted from above.' before, q-d26.alamar_hatch), then both ways while the castle stands (DECIDE 4)"}
+hooks:
+  - {hook: m33.castle_door, space: "D6 (A6)", how: "the gate's click on D6; listed for the pair, not placed here"}
+  - {hook: m33.robots_gone, space: "D6 (A6)", how: "D6's load event; not placed here"}
+  - {hook: m33.arrival, space: room:gatehall, how: "the arrival event at entrance:d6_gate on every entry until m33.done (and at entrance:d7_roof, DECIDE 4): false moves the party back out"}
+  - {hook: m33.sundials, space: "room:dial_fire, room:dial_air, room:dial_earth, room:dial_water", how: "each dial's event calls Xeen.alamarSundial(\"fire\"|\"air\"|\"earth\"|\"water\", eventId, continueStep), then the map sets its slab from dial_<element>_nine; no XeenQuests.hook call"}
+  - {hook: m33.true_name_gate, space: room:island, how: "the gate's text prompt: 'Sheltem'"}
+  - {hook: m33.true_name_wrong, space: room:island, how: "the gate's text prompt: any other answer"}
+  - {hook: m33.sheltem, space: room:command, how: "the dais plate's question, Yes (DECIDE 6); the cinematic and the leave are the map's"}
+  - {hook: q-d26.alamar_hatch, space: room:hatch_room, how: "the hatch's click; true goes on to the exit preset to D7's entrance:dd17_roof"}
+critical_path: [room:gatehall, room:hall_order, room:west_ward, room:belt_fire, room:head_fire, room:return_w, room:west_ward, room:belt_water, room:head_water, room:return_w, room:west_ward, room:hall_order, room:east_ward, room:belt_air, room:head_air, room:return_e, room:east_ward, room:belt_earth, room:head_earth, room:return_e, room:east_ward, room:hall_order, room:stair_hall, room:landing, room:bay_sw, room:dial_water, room:bay_sw, room:west_walk, room:bay_nw, room:dial_fire, room:bay_nw, room:north_walk, room:bay_ne, room:dial_air, room:bay_ne, room:east_walk, room:bay_se, room:dial_earth, room:bay_se, room:landing, room:bay_sw, room:west_walk, room:rings, room:island, room:lift_core, room:lift_top, room:deck, room:west_hall, room:antechamber, room:command]
+return_path: "None walked: m33.sheltem's cinematic ends with a direct leave to D6's entrance:dd17_gate (DECIDE 7). Before it the way back is the deck, the lift, the bridges (they stay up while the dials read nine), the stair and the gate; or the hatch once unlocked."
+loops:
+  - {id: loop:fire_belt, spaces: [room:west_ward, room:belt_fire, room:head_fire, room:return_w], notes: "One way round: the belt in, the bolted door out (then both ways)."}
+  - {id: loop:water_belt, spaces: [room:west_ward, room:belt_water, room:head_water, room:return_w]}
+  - {id: loop:air_belt, spaces: [room:east_ward, room:belt_air, room:head_air, room:return_e]}
+  - {id: loop:earth_belt, spaces: [room:east_ward, room:belt_earth, room:head_earth, room:return_e]}
+  - {id: loop:outer_walk, spaces: [room:landing, room:bay_sw, room:west_walk, room:bay_nw, room:north_walk, room:bay_ne, room:east_walk, room:bay_se], notes: "The dial floor's ring walk round the chasm."}
+  - {id: loop:chasm, spaces: [room:west_walk, room:rings, room:sump, room:stair_hall, room:landing, room:bay_sw], notes: "A fall from a bridge or a trapdoor comes back up by the stair hall."}
+  - {id: loop:deck, spaces: [room:deck, room:west_hall, room:hatch_room, room:gazer_watch], notes: "Round the deck's west end by the hatch room."}
+lines:
+  - {text: "Exit Castle Alamar?", ref: "dark/aaze0049:0", where: "room:gatehall (the exit preset's meaning, D-24)"}
+  - {text: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's efforts to protect Terra from interference from the Ancients. ... / ... Alamar's skillful rulership ... / ... Alamar's glorious vengeance against the Ancients ...", ref: "dark/aaze0049:2-4", where: "the three propaganda statues, one per floor (hall_order, north_walk, west_hall), shortened by A3"}
+  - {text: "I am the statue dedicated to honoring Alamar's true name. It is: kdkiendlshj**:and dugli (crackle)...", ref: "dark/aaze0049:5", where: "room:island, the crackling statue (verbatim)"}
+  - {text: "The Head speaks: \"Fire power field operational.\" (Air, Water, Earth)", ref: "dark/aaze0049:6-10", where: "the four Lava Heads (hover 'Lava Head')"}
+  - {text: "Fire Time / Air Time / Earth Time / Water Time. The sundial reads N. Turn?", ref: "dark/aaze0050:1-16", where: "the four sundials (Xeen.alamarSundial)"}
+  - {text: "The time is not right. Access denied! / The time is right. What is Alamar's true name? / Access approved! / Wrong! Access denied!", ref: "dark/aaze0050:17-21", where: "the true-name gate (m33 texts)"}
+  - {text: "Access to the upper floor is denied!", ref: "dark/aaze0050:0", where: "the lift before gate_open, from either end"}
+  - {text: "XEEN Power Juice / +5 levels (permanent).", ref: "dark/aaze0051:0-1", where: "room:juice; the label kept, the effect rescaled (DECIDE 9)"}
+  - {text: "A voice bellows, \"Come to ME!\"", ref: "dark/aaze0051:2", where: "room:west_hall, a step plate once"}
+  - {text: "Command Central", ref: "dark/aaze0051:3", where: "Command Central's door hover"}
+  - {text: "You Fools!", ref: "dark/aaze0051:4", where: "not placed: the source's line without the box; the refusal is A3's voiced line (D-38)"}
+open_questions:
+  - q: "1. Conveyor halls. No floor-current word exists (devdocs/map_studio PLAN §4 lists conveyors as a mechanism still to add; none in the studio)."
+    options: ["(a) a one-way ride: a step plate at the belt's mouth ('The floor lurches and carries you along.') moves the party in-map to the belt's far end (evt.MoveToMap within the map, facing along the belt, the rumble loop); a plate at the far end carries anyone walking back up the belt forward again; the bolted maintenance doors (opened from the Head side) close each loop",
+              "(b) the source's cell-by-cell carry: a chain of plates about 512 apart, each moving the party on to the next (maze0049's TeleportAndContinue chains); reads as being carried, but many events and camera snaps",
+              "(c) A1 adds a floor-current word (a sector floor that pushes the party along a direction)"]
+    recommend: "(a): existing words only; the source's point (carried one way into the Head's room) kept"
+    depends: "A1 only for (c); A1 confirms an in-map MoveToMap from a step plate keeps the facing given"
+  - q: "2. The energy fields (MAPS 'energy fields (shields)')."
+    options: ["(a) four xafield leaves (translucent ~0.5, D-51) close the four sundial alcoves on L2; each drops when its Lava Head on L1 is shut down (its question, one-way, D-43; qbits 117601-117604, stages by qbit, also on load). The Heads' own lines ('Fire power field operational.') say what they power",
+              "(b) the fields close the four Head rooms instead (no L1-to-L2 chain; the dials open at once)",
+              "(c) as (a), and the robots also carry monster energy shields (a new world shields.yml) while their wing's Head stands: needs an A1 word to drop shields by qbit"]
+    recommend: "(a)"
+    depends: "A3 (the Heads' question and 'offline' line); A1 only for (c)"
+  - q: "3. The rings and bridges (the source: each dial sets which of its ring's 12 cells is solid; at nine the four solid cells line up on the west)."
+    options: ["(a) one bridge slab per ring on the west line, a two-state slab (door) that stands level only while its dial reads nine (A3's helper also sets map qbits 117611-117614 per dial, the slabs as stages by qbit); the four ring lips lit in their elements' colours; a fall into a chasm drops 640 to the sump",
+              "(b) the source's clock: 12 slabs per ring, the one at the reading's hour standing (48 slabs)",
+              "(c) no rings: the gate alone checks the dials"]
+    recommend: "(a): the puzzle reads in the room (a slab rises at nine) and Atlas says why nine"
+    depends: "A3 (the helper's per-dial qbits); A1 confirms a horizontal floor slab can be a two-state door"
+  - q: "4. The castle after m33.done, and D-58's two-way hatch into a castle that self-destructs (Q-D26 is level 60, after m30.done; M33 is 53, so most parties open the hatch after the castle is gone)."
+    options: ["(a) DD-17 is entered only before m33.done: D6's gate is rubble with FD-01's stair (D-49); the hatch works both ways while the castle stands, its arrival also calls m33.arrival (no box: back up to D7's entrance:dd17_roof); after m33.done D7's hatch stays shut with a new line ('Below the hatch: smoke, and a long fall onto rubble. Castle Alamar is gone.'); the roof key is then a hoard trophy",
+              "(b) after m33.done D7's hatch leads down into FD-01 Alamar Depths (a second FD-01 entrance; the phase-6 lane decides its spot)",
+              "(c) DD-17 keeps a ruin stage after m33.done (monsters hidden, rubble blocks the L1 and L2 ways, the hatch reaches a wrecked L3 only)"]
+    recommend: "(a); (b) is the better use of Q-D26's key if FD-01's lane takes it"
+    depends: "A3 (q-d26.hatch reads m33.done; the D7 line; m33.arrival 'where' adds the hatch), A6 (D7), the FD-01 lane for (b), orchestrator (D-58 D-5 amended)"
+  - q: "5. What Sheltem is. There is no Sheltem row; the source has no fight (its Command Central ends the Darkside game)."
+    options: ["(a) a placed peaceful character row 'Sheltem' (11924, A2), hidden until the cinematic shows him on the throne, immobile, unkillable, not counted, its own look (S: a tall robed figure in teal and silver with a faceless glowing hood on an existing caster body); Corak 11912 placed hidden and shown stepping out of the box",
+              "(b) the cinematic only: no figures; a light and the voices on the throne",
+              "(c) a boss fight (a Sheltem row in the robots' or a new family)"]
+    recommend: "(a): the voiced lines need someone to look at; (c) breaks M33 (Corak fights him)"
+    depends: "A2 (row 11924), S (the look), A1 (hidden placed actors shown by an event, as D-47)"
+  - q: "6. How the confrontation starts (A3's hook says 'as the party comes into his presence')."
+    options: ["(a) Command Central is free to walk; a plate on the dais's first step asks 'Before the throne. Open the Soul Box?' and Yes calls m33.sheltem; the strongroom and every chest stay reachable before it", "(b) the hook on entering the room, no question"]
+    recommend: "(a), as D-47's scepter 'asks first': the map is gone afterwards"
+    depends: "A3 (the hook's 'where' and the question line)"
+  - q: "7. Where the cinematic sets the party down."
+    options: ["(a) D6's installed entrance:dd17_gate (the same point as the refusal and FD-01's stair), facing south away from the ruin", "(b) a new D6 point about 1,024 further down the approach ramp (entrance:dd17_escape), facing north so the ruin is in view"]
+    recommend: "(a): no D6 change"
+    depends: "A1 (a leave after evt.PlayCinematic, as XD-19's D-47 item), A6 for (b)"
+  - q: "8. The trapdoor deck (the source's chequer of FallToMap cells to four L1 points)."
+    options: ["(a) six hatched plates (lifts `trap`) among teal plates drop through the dial hall's chasm to the sump (1,280, fall damage); the hatched plate by the lift head has the hover 'A plate seamed like a hatch.'; a plain zig-zag crosses",
+              "(b) the trapdoors drop only to a ledge in the dial hall (640)", "(c) a plain deck"]
+    recommend: "(a): the seams are the answer; the fall costs hit points and a climb, not progress"
+    depends: "A1 confirms a `trap` lift may drop through two floors of open air"
+  - q: "9. The XEEN Power Juice (the source's +5 levels, permanent)."
+    options: ["(a) 2,500 experience once per character (DD-12's Soul Waters, D-42 Q5)", "(b) +2 Might once per character (D-4)", "(c) dropped; the dispenser is dressing"]
+    recommend: "(a)"
+    depends: "A3 (player bits, texts), A2 (Act V ledger)"
+  - q: "10. Monsters: 70 at 68.85k (+1.4 %)."
+    options: ["(a) as drawn: robots 56 (Patrol 30, Annihilator 20, Autobot 6), the eight Head elementals, six Gamma Gazers",
+              "(b) robots only (Patrol 34, Annihilator 28, Autobot 8: 69.50k, +2.4 %)"]
+    recommend: "(a): the elementals tie the Heads to the dials, the Gazers to the castle door's line"
+    depends: "A2 (Castle Alamar in the elementals' and eyes' `where`, Act V recount)"
+  - q: "11. Rest encounters."
+    options: ["(a) 10 % from the robots, one slot (A2 picks the Dif; at Dif 5 about 40 % Autobots, as D-46)", "(b) 0"]
+    recommend: "(a)"
+    depends: "A2"

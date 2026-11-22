@@ -1,0 +1,288 @@
+format: 0
+themes:
+  - id: theme:dirt
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: 7dirttyl, size: [128, 128], scale: 2}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The warren: X5's mouth shell, MM7's red-brown dirt cave (7dirttyl) on walls, roofs and floors; hide curtains (xohide) for doors."
+  - id: theme:straw
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The sleeping hollows and the whelping den: the same dirt, the floor deep in old straw (MM6 straw)."
+defaults: {theme: theme:dirt, ambient: 18}
+rooms:
+  - id: room:bone_hall
+    name: Gnawing hall
+    outline: [[-640, -2176], [640, -2176], [640, -896], [-640, -896]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 512
+    theme: theme:dirt
+    platforms:
+      - {id: platform:bark_gnawed, rise: 40, surface: {texture: xdbark, size: [128, 256]}, outline: [[-560, -1332], [-480, -1396], [-380, -1396], [-320, -1324], [-380, -1204], [-500, -1204]], top_surface: {texture: xdbark, size: [128, 256]}, notes: "Strips of the forest's bark, gnawed and spat out (Thickbark's complaint)."}
+      - {id: platform:bark_hall, rise: 40, surface: {texture: xdbark, size: [128, 256]}, outline: [[318, -1929], [393, -1988], [486, -1988], [542, -1922], [486, -1812], [374, -1812]], top_surface: {texture: xdbark, size: [128, 256]}, notes: "More gnawed bark, chewed to splinters."}
+    ambient: 18
+    notes: "A low hall of beaten dirt, 1,280 square, littered with bones and strips of gnawed bark; the tunnel down leaves its south wall."
+  - id: room:chimney
+    name: Smoke chimney
+    outline: [[2048, -6144], [2816, -6144], [2816, -5504], [2048, -5504]]
+    floor: -1024
+    ceiling: 384
+    theme: theme:dirt
+    platforms:
+      - {id: platform:fire_pit, rise: 24, surface: {texture: 7dirttyl, size: [128, 128]}, outline: [[2239, -5974], [2361, -5974], [2450, -5885], [2450, -5763], [2361, -5674], [2239, -5674], [2150, -5763], [2150, -5885]], top_surface: {texture: xoburn, size: [128, 128]}, notes: The trolls' fire pit under the chimney.}
+      - {id: platform:plug, rise: 48, surface: {texture: xohide, size: [128, 256]}, outline: [[2064, -6128], [2800, -6128], [2800, -5520], [2064, -5520]], top_surface: {texture: xohide, size: [128, 256]}, bottom_surface: {texture: xohide, size: [128, 256], uneven: true}, base: 480, notes: "Frozen hides rammed up the chimney over the fire pit: the burn takes them out (a destructible)."}
+    ambient: 12
+    notes: "The chimney, 768 by 640, rising 1,408 from the fire pit to the smoke hole in the mound's crown; until the burn its hides plug it over the fire. Roots on its east wall make a ladder up."
+  - id: room:crawl
+    name: Crawlway
+    path: [[-1200, -896], [-1200, -1920]]
+    width: 224
+    floor: 0
+    slope: {to: -512}
+    ceiling: 288
+    ceiling_slope: {to: -224}
+    theme: theme:dirt
+    ambient: 16
+    notes: A low crawlway falling 512 south from the larder to the cold spring.
+  - id: room:crown
+    name: Smoke hole
+    outline: [[2944, -6080], [3584, -6080], [3584, -5568], [2944, -5568]]
+    floor: 0
+    ceiling: 320
+    theme: theme:dirt
+    ambient: 26
+    notes: "The top of the chimney, 640 by 512, under the mound's crown: the smoke hole opens east to the snow."
+  - id: room:guard_tunnel
+    name: Guard tunnel
+    path: [[-2304, -3840], [-2304, -5632], [0, -5632]]
+    width: 384
+    floor: -1024
+    ceiling: -608
+    theme: theme:dirt
+    ambient: 16
+    notes: "The Matron's guards' tunnel, 384 wide: south from the slope, then east to her hearth's hide curtain; the whelping den's curtain in its south side."
+  - id: room:hearth
+    name: The Matron's hearth
+    outline: [[128, -6656], [1920, -6656], [1920, -5248], [128, -5248]]
+    floor: -1024
+    rough: {step: 192, depth: 40}
+    ceiling: -448
+    theme: theme:dirt
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:hides_hearth_n, offset: 384, length: 768, bottom: 32, height: 416, surface: {texture: xohide, size: [128, 256]}, notes: "The Matron's hides, hung along the north wall."}
+      - wall: south
+        panels:
+          - {id: panel:hides_hearth_s, offset: 896, length: 512, bottom: 32, height: 416, surface: {texture: xohide, size: [128, 256]}, notes: Hides hung behind her bedding.}
+    platforms:
+      - {id: platform:matron_bed, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[440, -6430], [614, -6530], [830, -6530], [960, -6417], [830, -6230], [570, -6230]], top_surface: {texture: straw, size: [256, 256]}, notes: The Matron's bedding of straw.}
+      - {id: platform:bark_hearth_1, rise: 40, surface: {texture: xdbark, size: [128, 256]}, outline: [[1060, -6450], [1140, -6510], [1240, -6510], [1300, -6442], [1240, -6330], [1120, -6330]], top_surface: {texture: xdbark, size: [128, 256]}, notes: Bark heaped round her bedding.}
+      - {id: platform:bark_hearth_2, rise: 40, surface: {texture: xdbark, size: [128, 256]}, outline: [[200, -6336], [267, -6410], [350, -6410], [400, -6327], [350, -6190], [250, -6190]], top_surface: {texture: xdbark, size: [128, 256]}, notes: Bark heaped round her bedding.}
+    ambient: 14
+    notes: "The deepest hall, 1,792 by 1,408, 1,024 under the mouth: the Matron's bedding of straw and bark along the south wall, her hides hung on the walls, her hoard; the chimney's mouth in the east wall over the fire pit."
+  - id: room:larder
+    name: Larder
+    outline: [[-1664, -768], [-448, -768], [-448, 0], [-1664, 0]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 384
+    theme: theme:dirt
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:larder_hides, offset: 256, length: 384, bottom: 64, height: 256, surface: {texture: xohide, size: [128, 256]}, notes: Hides hung up to dry over the carcasses.}
+    ambient: 16
+    notes: "Behind the hide flap, 1,216 by 768: frozen carcasses and hides; the crawlway down leaves its south wall."
+  - id: room:mouth
+    name: Warren mouth
+    outline: [[-320, -768], [320, -768], [320, 0], [-320, 0]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 416
+    theme: theme:dirt
+    platforms:
+      - {id: platform:barricade, rise: 32, surface: {texture: xdbark, size: [128, 256]}, outline: [[84, -141], [148, -184], [228, -184], [276, -136], [228, -56], [132, -56]], top_surface: {texture: xdbark, size: [128, 256]}, notes: "What is left of the barricade: frozen hides and gnawed poles dragged aside from the mouth."}
+    ambient: 24
+    notes: "Inside the mouth, 640 by 768: the barricade of bones and frozen hides the party dragged aside, and the stench. Daylight and snow behind; the gnawing hall opens south, a hide flap west."
+  - id: room:nursery
+    name: Whelping den
+    outline: [[-1792, -6912], [-768, -6912], [-768, -5952], [-1792, -5952]]
+    floor: -1024
+    rough: {step: 192, depth: 40}
+    ceiling: -608
+    theme: theme:straw
+    platforms:
+      - {id: platform:nest, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[-1500, -6610], [-1353, -6710], [-1170, -6710], [-1060, -6597], [-1170, -6410], [-1390, -6410]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest of rags and straw for the young trolls.}
+    ambient: 16
+    notes: "A dead-end den, 1,024 by 960, behind a hide curtain: the young trolls' nest of rags and straw, and the heap of shiny things they play with."
+  - id: room:rock_pile
+    name: Rock store
+    outline: [[1152, -4608], [1792, -4608], [1792, -3968], [1152, -3968]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: -128
+    theme: theme:dirt
+    ambient: 18
+    notes: "A dead-end hollow, 640 square, of what trolls find valuable: fist-sized rocks, bones, hides and a dead hunter's pack."
+  - id: room:sleeping
+    name: Sleeping hollows
+    outline: [[-1280, -5120], [1024, -5120], [1024, -3456], [-1280, -3456]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: -64
+    theme: theme:straw
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:hides_sleep_s, offset: 896, length: 512, bottom: 32, height: 320, surface: {texture: xohide, size: [128, 256]}, notes: Hides hung on the wall for warmth.}
+      - wall: west
+        panels:
+          - {id: panel:hides_sleep_w, offset: 896, length: 384, bottom: 32, height: 320, surface: {texture: xohide, size: [128, 256]}, notes: Hides hung on the wall for warmth.}
+    platforms:
+      - {id: platform:bed_1, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[-1150, -4916], [-1050, -4990], [-925, -4990], [-850, -4907], [-925, -4770], [-1075, -4770]], top_surface: {texture: straw, size: [256, 256]}, notes: A straw bed scooped into the floor.}
+      - {id: platform:bed_2, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[-710, -4936], [-610, -5010], [-485, -5010], [-410, -4927], [-485, -4790], [-635, -4790]], top_surface: {texture: straw, size: [256, 256]}, notes: A straw bed.}
+      - {id: platform:bed_3, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[-250, -4916], [-150, -4990], [-25, -4990], [50, -4907], [-25, -4770], [-175, -4770]], top_surface: {texture: straw, size: [256, 256]}, notes: A straw bed.}
+      - {id: platform:bed_4, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[590, -4906], [690, -4980], [815, -4980], [890, -4897], [815, -4760], [665, -4760]], top_surface: {texture: straw, size: [256, 256]}, notes: A straw bed.}
+      - {id: platform:bed_5, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[-1160, -4250], [-1086, -4350], [-995, -4350], [-940, -4237], [-995, -4050], [-1105, -4050]], top_surface: {texture: straw, size: [256, 256]}, notes: A straw bed against the west wall.}
+      - {id: platform:bark_sleeping, rise: 40, surface: {texture: xdbark, size: [128, 256]}, outline: [[670, -3726], [744, -3780], [835, -3780], [890, -3720], [835, -3620], [725, -3620]], top_surface: {texture: xdbark, size: [128, 256]}, notes: A gnawed bark pile for the morning.}
+    ambient: 16
+    notes: "The great sleeping cave, 2,304 by 1,664: straw beds scooped into the floor along its walls, hides hung for warmth; the tunnel from the gnawing hall comes in from the north, the cold spring opens north-west, the rock store east."
+  - id: room:slope
+    name: Slope down
+    path: [[-1920, -2688], [-2304, -2688], [-2304, -3712]]
+    width: 256
+    floor: -512
+    slope: {to: -1024}
+    ceiling: -192
+    ceiling_slope: {to: -704}
+    theme: theme:dirt
+    ambient: 16
+    notes: A tunnel falling 512 west and then south from the cold spring to the guard tunnel.
+  - id: room:spring
+    name: Cold spring
+    outline: [[-1792, -3328], [-768, -3328], [-768, -2048], [-1792, -2048]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: -64
+    theme: theme:dirt
+    levels:
+      - id: level:spring_pool
+        outline: [[-1531, -2752], [-1349, -2752], [-1216, -2638], [-1216, -2482], [-1349, -2368], [-1531, -2368], [-1664, -2482], [-1664, -2638]]
+        floor: -560
+        edge: {texture: 7dirttyl, size: [128, 128]}
+        surface: {texture: wtrtyl}
+        notes: The meltwater pool where the trolls lick their wounds.
+    ambient: 18
+    notes: "A cave 1,024 by 1,280 round a meltwater pool; the crawlway from the larder comes down its north wall, the slope down to the deep leaves its west wall, the sleeping hollows open south-east."
+  - id: room:tunnel_down
+    name: Tunnel down
+    path: [[0, -2304], [0, -3328]]
+    width: 256
+    floor: 0
+    slope: {to: -512}
+    ceiling: 320
+    ceiling_slope: {to: -192}
+    theme: theme:dirt
+    ambient: 18
+    notes: A dug tunnel falling 512 south from the gnawing hall to the sleeping hollows.
+openings:
+  - id: open:bone_tunnel
+    from: room:bone_hall
+    to: room:tunnel_down
+    link: link:bone_sleeping
+    width: 224
+    height: 288
+  - id: open:chimney_crown
+    from: room:chimney
+    to: room:crown
+    link: link:hearth_chimney
+    width: 192
+    height: 256
+    notes: "The top of the root ladder: a hole 1,024 up into the smoke hole."
+  - id: open:crawl_spring
+    from: room:crawl
+    to: room:spring
+    link: link:larder_spring
+    width: 192
+    height: 256
+  - id: open:guard_hearth
+    from: room:guard_tunnel
+    to: room:hearth
+    link: link:guard_hearth
+    width: 192
+    height: 288
+    notes: The hide curtain over the way into the Matron's hearth.
+  - id: open:guard_nursery
+    from: room:guard_tunnel
+    to: room:nursery
+    link: link:guard_nursery
+    width: 192
+    height: 256
+    notes: The whelping den's hide curtain.
+  - id: open:hearth_chimney
+    from: room:hearth
+    to: room:chimney
+    link: link:hearth_fire
+    width: 512
+    height: 448
+    notes: The chimney's mouth over the fire pit.
+  - id: open:larder_crawl
+    from: room:larder
+    to: room:crawl
+    link: link:larder_spring
+    width: 192
+    height: 256
+  - id: open:mouth_bone
+    from: room:mouth
+    to: room:bone_hall
+    link: link:mouth_bone
+    width: 384
+    height: 352
+  - id: open:mouth_larder
+    from: room:mouth
+    to: room:larder
+    link: link:mouth_larder
+    width: 192
+    height: 256
+    notes: The hide flap into the larder.
+  - id: open:sleeping_rocks
+    from: room:sleeping
+    to: room:rock_pile
+    link: link:sleeping_rocks
+    width: 256
+    height: 320
+  - id: open:slope_guard
+    from: room:slope
+    to: room:guard_tunnel
+    link: link:spring_guard
+    width: 224
+    height: 288
+  - id: open:spring_sleeping
+    from: room:spring
+    to: room:sleeping
+    link: link:sleeping_spring
+    width: 384
+    height: 384
+    notes: The spring's cave runs into the sleeping hollows.
+  - id: open:spring_slope
+    from: room:spring
+    to: room:slope
+    from_wall: west
+    to_wall: 5
+    link: link:spring_guard
+    width: 224
+    height: 288
+  - id: open:tunnel_sleeping
+    from: room:tunnel_down
+    to: room:sleeping
+    link: link:bone_sleeping
+    width: 224
+    height: 288
+notes: "XD-23 Troll Warren: three floors under X5's barrow mound (0, -512, -1024), the chimney from the hearth up to the smoke hole at 0; x east, y north. Written by output/studio_cal/xd23/tools/gen.py."

@@ -1,0 +1,567 @@
+format: 0
+start:
+  room: room:mouth
+  at: [0, -256]
+  facing: s
+  notes: "Just inside the mouth from X5's thing:warren, facing in (south); the exit's snow behind."
+doors:
+  - id: door:hearth_curtain
+    opening: open:guard_hearth
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 192
+    edge_surface: {texture: xdbark, size: [128, 256]}
+    pictures:
+      - [{texture: xohide, size: [128, 256]}, {texture: xohide, size: [128, 256], mirror: true}]
+    notes: The hide curtain over the way into the Matron's hearth.
+  - id: door:larder_flap
+    opening: open:mouth_larder
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 192
+    edge_surface: {texture: xdbark, size: [128, 256]}
+    pictures:
+      - [{texture: xohide, size: [128, 256]}, {texture: xohide, size: [128, 256], mirror: true}]
+    notes: The hide flap over the larder's doorway.
+  - id: door:nursery_curtain
+    opening: open:guard_nursery
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 192
+    edge_surface: {texture: xdbark, size: [128, 256]}
+    pictures:
+      - [{texture: xohide, size: [128, 256]}, {texture: xohide, size: [128, 256], mirror: true}]
+    notes: The hide curtain over the whelping den.
+floors:
+  - {id: floor:spring_pool, of: level:spring_pool, kind: water, notes: "The cold spring's water (wtrtyl, the fluid bit)."}
+ladders:
+  - {id: ladder:chimney, room: room:chimney, at: [2808, -5824], facing: e, height: 1024, floor_height: -1024, exit: [3070, -5824], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: "Roots for handholds up the chimney's east wall to the smoke hole; the hide plug stops the climb until the burn."}
+sounds:
+  - {id: sound:blaze, room: room:hearth, at: [1100, -5900], sound: raging fire loop, radius: 3600, inner_radius: 1200, volume: 0.9, on: false, notes: "The lair burning: on with the burn, off when the hearth's fire has burnt out."}
+  - {id: sound:drip, room: room:spring, at: [-1440, -2560], sound: drip01, radius: 1400, inner_radius: 400, volume: 0.6, loop: false, wait: [2, 6], notes: Meltwater dripping into the pool.}
+  - {id: sound:hearth_fire, room: room:chimney, at: [2300, -5824], sound: campfire, radius: 2400, inner_radius: 700, volume: 0.7, notes: "The trolls' fire in its pit (off once the lair is burnt: AmbientSound<n> = 2)."}
+  - {id: sound:wind, room: room:mouth, at: [0, -100], sound: whistling wind, radius: 1600, inner_radius: 400, volume: 0.5, notes: The wind over the snow at the mouth.}
+lights:
+  - id: light:blaze_hearth
+    room: room:hearth
+    at: [800, -6200]
+    height: 200
+    radius: 2000
+    color: [255, 140, 50]
+    pulse: {intensity: [0.7, 1], frequency: 1.3}
+    on: false
+    notes: "The burn: the Matron's bedding and hides ablaze."
+  - id: light:blaze_pit
+    room: room:chimney
+    at: [2300, -5824]
+    height: 200
+    radius: 2400
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 1.6}
+    on: false
+    notes: "The burn: the pit and the chimney's hides ablaze."
+  - id: light:bone_hall
+    room: room:bone_hall
+    at: [0, -1536]
+    height: 400
+    radius: 1200
+    color: [150, 135, 120]
+  - id: light:chimney_top
+    room: room:chimney
+    at: [2432, -5824]
+    height: 836
+    radius: 900
+    color: [190, 195, 210]
+    notes: Daylight down the chimney from the smoke hole (above the plug).
+  - id: light:crown
+    room: room:crown
+    at: [3264, -5824]
+    height: 260
+    radius: 900
+    color: [210, 215, 230]
+    notes: Snow light from the smoke hole.
+  - id: light:embers
+    room: room:chimney
+    at: [2300, -5824]
+    height: 60
+    radius: 700
+    color: [220, 80, 30]
+    pulse: {intensity: [1, 1], frequency: 0.1}
+    on: false
+    notes: Embers in the pit after the burn (that visit only).
+  - id: light:guard_e
+    room: room:guard_tunnel
+    at: [-1000, -5632]
+    height: 320
+    radius: 1200
+    color: [160, 120, 90]
+  - id: light:guard_n
+    room: room:guard_tunnel
+    at: [-2304, -4600]
+    height: 320
+    radius: 1100
+    color: [160, 120, 90]
+  - id: light:hearth
+    room: room:hearth
+    at: [1024, -5952]
+    height: 450
+    radius: 1500
+    color: [150, 110, 80]
+  - id: light:hearth_fire
+    room: room:chimney
+    at: [2300, -5824]
+    height: 120
+    radius: 1500
+    color: [255, 140, 60]
+    pulse: {intensity: [0.75, 1], frequency: 0.9}
+    notes: "The trolls' fire in the pit (a pulsing light: not baked; off once the lair is burnt)."
+  - id: light:larder
+    room: room:larder
+    at: [-1056, -384]
+    height: 300
+    radius: 900
+    color: [150, 150, 165]
+    notes: Cold light through the frozen hides.
+  - id: light:mouth
+    room: room:mouth
+    at: [0, -120]
+    height: 260
+    radius: 1000
+    color: [205, 212, 228]
+    notes: Grey snow light from the mouth.
+  - id: light:nursery
+    room: room:nursery
+    at: [-1280, -6432]
+    height: 320
+    radius: 1000
+    color: [160, 125, 95]
+  - id: light:rock_pile
+    room: room:rock_pile
+    at: [1472, -4288]
+    height: 300
+    radius: 800
+    color: [150, 135, 120]
+  - id: light:sleeping_e
+    room: room:sleeping
+    at: [512, -4288]
+    height: 360
+    radius: 1300
+    color: [170, 130, 95]
+  - id: light:sleeping_w
+    room: room:sleeping
+    at: [-640, -4288]
+    height: 360
+    radius: 1300
+    color: [170, 130, 95]
+  - id: light:spring
+    room: room:spring
+    at: [-1280, -2688]
+    height: 360
+    radius: 1100
+    color: [140, 155, 175]
+chests:
+  - id: chest:hoard
+    room: room:hearth
+    at: [1840, -6560]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1200
+    trap_level: 3
+    notes: "The Matron's hoard (the map's hoard, a level up)."
+  - id: chest:hunter
+    room: room:rock_pile
+    at: [1720, -4500]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 350
+    notes: A dead hunter's pack among the trolls' rocks.
+  - id: chest:shiny
+    room: room:nursery
+    at: [-860, -6820]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 400
+    notes: The heap of shiny things the young trolls play with.
+monsters:
+  - id: monster:bone_hall_1
+    room: room:bone_hall
+    monster: 11070
+    at: [-300, -1100]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:bone_hall_2
+    room: room:bone_hall
+    monster: 11070
+    at: [300, -1150]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:bone_hall_3
+    room: room:bone_hall
+    monster: 11070
+    at: [-200, -1800]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:bone_hall_4
+    room: room:bone_hall
+    monster: 11070
+    at: [250, -1700]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:guard_tunnel_1
+    room: room:guard_tunnel
+    monster: 11071
+    at: [-2304, -4500]
+    facing: 90
+    hostile: true
+    group: 17
+  - id: monster:guard_tunnel_2
+    room: room:guard_tunnel
+    monster: 11071
+    at: [-1500, -5632]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:guard_tunnel_3
+    room: room:guard_tunnel
+    monster: 11071
+    at: [-500, -5632]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:hearth_1
+    room: room:hearth
+    monster: 11071
+    at: [500, -5600]
+    facing: 180
+    hostile: true
+    group: 18
+  - id: monster:hearth_2
+    room: room:hearth
+    monster: 11071
+    at: [500, -6000]
+    facing: 180
+    hostile: true
+    group: 18
+  - id: monster:larder_1
+    room: room:larder
+    monster: 11070
+    at: [-1400, -200]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:larder_2
+    room: room:larder
+    monster: 11070
+    at: [-1100, -550]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:larder_3
+    room: room:larder
+    monster: 11070
+    at: [-800, -250]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:matron
+    room: room:hearth
+    monster: 11074
+    at: [1150, -5900]
+    facing: 180
+    hostile: true
+    group: 19
+    notes: "The Troll Matron 32 (A2's boss row 11074, frenzy below half health), by her fire."
+  - id: monster:mouth_1
+    room: room:mouth
+    monster: 11070
+    at: [-160, -640]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:mouth_2
+    room: room:mouth
+    monster: 11070
+    at: [160, -660]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:nursery_1
+    room: room:nursery
+    monster: 11070
+    at: [-1500, -6300]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:nursery_2
+    room: room:nursery
+    monster: 11070
+    at: [-1050, -6300]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:nursery_3
+    room: room:nursery
+    monster: 11070
+    at: [-1650, -6780]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:nursery_4
+    room: room:nursery
+    monster: 11070
+    at: [-930, -6560]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:rock_pile_1
+    room: room:rock_pile
+    monster: 11071
+    at: [1400, -4250]
+    facing: 180
+    hostile: true
+    group: 15
+  - id: monster:sleeping_1
+    room: room:sleeping
+    monster: 11070
+    at: [-800, -4300]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:sleeping_2
+    room: room:sleeping
+    monster: 11070
+    at: [-300, -4500]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:sleeping_3
+    room: room:sleeping
+    monster: 11070
+    at: [200, -4200]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:sleeping_4
+    room: room:sleeping
+    monster: 11070
+    at: [600, -4500]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:sleeping_5
+    room: room:sleeping
+    monster: 11070
+    at: [-100, -3900]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:spring_1
+    room: room:spring
+    monster: 11070
+    at: [-1100, -2400]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:spring_2
+    room: room:spring
+    monster: 11070
+    at: [-1600, -3050]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:spring_3
+    room: room:spring
+    monster: 11071
+    at: [-1000, -3000]
+    facing: 90
+    hostile: true
+    group: 13
+decorations:
+  - id: deco:bone_bones_1
+    room: room:bone_hall
+    decoration: 7dec18
+    at: [-560, -980]
+    floor_height: 0
+  - id: deco:bone_bones_2
+    room: room:bone_hall
+    decoration: dec29
+    at: [560, -1000]
+    floor_height: 0
+  - id: deco:bone_bones_3
+    room: room:bone_hall
+    decoration: 7dec18
+    at: [560, -1450]
+    floor_height: 0
+  - id: deco:bone_mite
+    room: room:bone_hall
+    decoration: stlmite2
+    at: [-560, -1650]
+    floor_height: 0
+  - id: deco:bone_skulls
+    room: room:bone_hall
+    decoration: sklplrev
+    at: [-560, -2080]
+    floor_height: 0
+  - id: deco:crown_bones
+    room: room:crown
+    decoration: dec29
+    at: [3020, -6010]
+    floor_height: 0
+  - id: deco:guard_bones
+    room: room:guard_tunnel
+    decoration: 7dec18
+    at: [-2420, -4000]
+    floor_height: -1024
+  - id: deco:guard_skulls
+    room: room:guard_tunnel
+    decoration: sklplrev
+    at: [-2420, -5500]
+    floor_height: -1024
+  - id: deco:hearth_bones_1
+    room: room:hearth
+    decoration: 7dec18
+    at: [210, -5330]
+    floor_height: -1024
+  - id: deco:hearth_bones_2
+    room: room:hearth
+    decoration: dec29
+    at: [1500, -6580]
+    floor_height: -1024
+  - id: deco:hearth_skulls
+    room: room:hearth
+    decoration: sklplrev
+    at: [1840, -5330]
+    floor_height: -1024
+  - id: deco:larder_bones_1
+    room: room:larder
+    decoration: dec29
+    at: [-1580, -80]
+    floor_height: 0
+  - id: deco:larder_bones_2
+    room: room:larder
+    decoration: 7dec18
+    at: [-1580, -680]
+    floor_height: 0
+  - id: deco:larder_skull
+    room: room:larder
+    decoration: 7dec20
+    at: [-540, -90]
+    floor_height: 0
+  - id: deco:mouth_bones
+    room: room:mouth
+    decoration: 7dec18
+    at: [-240, -100]
+    floor_height: 0
+  - id: deco:mouth_skull
+    room: room:mouth
+    decoration: 7dec20
+    at: [250, -500]
+    floor_height: 0
+  - id: deco:nursery_bones
+    room: room:nursery
+    decoration: dec29
+    at: [-1710, -6020]
+    floor_height: -1024
+  - id: deco:nursery_skull
+    room: room:nursery
+    decoration: 7dec20
+    at: [-850, -6030]
+    floor_height: -1024
+  - id: deco:rock_1
+    room: room:rock_pile
+    decoration: 6rock01
+    at: [1230, -4040]
+    floor_height: -512
+  - id: deco:rock_2
+    room: room:rock_pile
+    decoration: 6rock03
+    at: [1330, -4050]
+    floor_height: -512
+  - id: deco:rock_3
+    room: room:rock_pile
+    decoration: 6rock05
+    at: [1720, -4060]
+    floor_height: -512
+  - id: deco:rock_bones
+    room: room:rock_pile
+    decoration: 7dec18
+    at: [1230, -4530]
+    floor_height: -512
+  - id: deco:rock_corpse
+    room: room:rock_pile
+    decoration: Corpse05
+    at: [1600, -4520]
+    floor_height: -512
+  - id: deco:sleep_bones_1
+    room: room:sleeping
+    decoration: 7dec18
+    at: [960, -5050]
+    floor_height: -512
+  - id: deco:sleep_bones_2
+    room: room:sleeping
+    decoration: dec29
+    at: [-1200, -3540]
+    floor_height: -512
+  - id: deco:sleep_skulls
+    room: room:sleeping
+    decoration: sklplrev
+    at: [-1200, -4650]
+    floor_height: -512
+  - id: deco:spring_bones
+    room: room:spring
+    decoration: dec29
+    at: [-1710, -3250]
+    floor_height: -512
+  - id: deco:spring_mite_1
+    room: room:spring
+    decoration: stlmite1
+    at: [-1710, -2130]
+    floor_height: -512
+  - id: deco:spring_mite_2
+    room: room:spring
+    decoration: stlmite2
+    at: [-860, -2140]
+    floor_height: -512
+exits:
+  - id: exit:mouth
+    room: room:mouth
+    wall: north
+    size: [384, 320]
+    surface: {texture: 7solid01, size: [128, 128], fit: true, uneven: true}
+    to: exit:x5_mouth
+    notes: The mouth onto the Troll Forest's snow (X5).
+  - id: exit:smoke_hole
+    room: room:crown
+    wall: east
+    size: [256, 288]
+    surface: {texture: 7solid01, size: [128, 128], fit: true, uneven: true}
+    to: exit:x5_crown
+    notes: "The smoke hole: out on to the mound's crown (X5), one way."
+destructibles:
+  - {id: destructible:bark_gnawed, of: platform:bark_gnawed, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:bark_hall, of: platform:bark_hall, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:bark_hearth_1, of: platform:bark_hearth_1, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:bark_hearth_2, of: platform:bark_hearth_2, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:bark_sleeping, of: platform:bark_sleeping, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:barricade, of: platform:barricade, hp: 25, material: wood, notes: "A pile of gnawed bark: burns with the lair."}
+  - {id: destructible:bed_1, of: platform:bed_1, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:bed_2, of: platform:bed_2, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:bed_3, of: platform:bed_3, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:bed_4, of: platform:bed_4, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:bed_5, of: platform:bed_5, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:hearth_curtain, of: door:hearth_curtain, hp: 30, material: wood, notes: "A hide curtain: burns with the lair."}
+  - {id: destructible:larder_flap, of: door:larder_flap, hp: 30, material: wood, notes: "A hide curtain: burns with the lair."}
+  - {id: destructible:matron_bed, of: platform:matron_bed, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:nest, of: platform:nest, hp: 20, material: wood, notes: "A straw bed: burns with the lair."}
+  - {id: destructible:nursery_curtain, of: door:nursery_curtain, hp: 30, material: wood, notes: "A hide curtain: burns with the lair."}
+  - {id: destructible:plug, of: platform:plug, hp: 100, trigger_only: true, material: wood, effect_scale: 2, notes: "The chimney's hide plug: only the burn takes it out."}

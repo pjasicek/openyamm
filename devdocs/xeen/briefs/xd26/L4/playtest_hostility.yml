@@ -1,0 +1,39 @@
+# Hostility check of the Gargoyle Eyrie (XD-26): its gargoyles hostile to the party and no fights among them. After
+# XD-25's (output/studio_cal/hostility/gen_hostility_tests.py's pattern). The gargoyles are A2's rows (Gargoyle 11540 and
+# Gargoyle Lord 11541 from the slot's markers, Obsidian Gargoyle 11542 from the roost's markers and the two placed ones),
+# hostile by the world's relations.yml; the map places nobody peaceful.
+id: xeen.xd26.l4.hostility
+title: 'the Gargoyle Eyrie (XD-26): gargoyles hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd26.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11540, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11541, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11542, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11540, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11541, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11542, hostile: true, min: 4}}
+  - note: 'The three tiers side by side in the cave mouth, nearer each other than the party (a monster takes the nearest
+      of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11540, x: 1200, y: -500, z: 64}
+  - spawn_actor: {monster_id: 11542, x: 1480, y: -500, z: 64}
+  - spawn_actor: {monster_id: 11541, x: 1344, y: -400, z: 64}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11540, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11541, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11542, hurt: true, max: 0}}

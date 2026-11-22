@@ -1,0 +1,127 @@
+# Xeen playthrough, segment 75: the Soul Box (D7, D6, DD-16), M31 The Soul Box and M32 Corak in the Soul Box done.
+# On Lucio's dock in Olympus (D7; m31.arrival on the first landing: M31 started 111620). Soul Storage behind the temple
+# (its door stands open for the Chosen Ones, D7's load event): the plaque (Alamar's true name, 111622) and the last
+# shelf (m31.soul_storage: the Soul Box 12363, M31 done 111621, 8,000 each). Off the Griffin Watch's edge (zone AB12):
+# the fall onto D6's entrance:d7_fall before the Necropolis' gate, the way down a player takes (the boats only sail
+# up). D6: Corak's hatch on the crust into DD-16, the powered pod to the bridge; Corak: Soul Box (he hides in it: the
+# Soul Box with Corak 12364, M32 done 111640, 4,000 each, he leaves the pod); out by the hatch to D6's crust.
+# Routes: devdocs/xeen/briefs/d7/L4 (rooms.yml's vault, playtest_fall_ab12.yml), segment 71 (DD-16).
+# Quest logic: source/quests/m31.yml, m32.yml.
+#   python3 tests/playthrough/xeen/run.py 75
+id: xeen.playthrough.75_soul_box
+title: "Xeen playthrough 75: Olympus' Soul Storage, the fall to the Forbidden Zone, Corak hides in the Soul Box"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/73_chosen_ones.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {qbit_set: [111600]}
+  - assert: {qbit_clear: [111621, 111640]}
+  - play_lua: {source: "log('75 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end"}
+  # Along the jetty into town: the first landing's line (m31.arrival, a step on the jetty: M31 started).
+  - walk_to: {x: -640, y: 4200, z: 1800, z_tolerance: 200, radius: 96, timeout_seconds: 20, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Welcome to Olympus."}}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "log('jetty: ' .. (status() or '')); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [111620]}
+  # Soul Storage: in through its open door, the plaque, the last shelf.
+  - set_pose: {map: xeen_d7.blv, x: -6400, y: 9100, z: 1792, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -6400, y: 10200, z: 1792, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(126); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Alamar's true name, for instance, is Sheltem."}}
+  - play_lua: {source: "close(); if not qbit(111622) then error('m31.true_name 111622 not set') end; remember('xp', experience(0))"}
+  - play_lua: {source: "click(129); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Soul Box.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12363) then error("no Soul Box (12363)") end
+        if experience(0) - recall("xp") ~= 8000 then error("M31 paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111621]}
+  - play_lua: {source: "click(129); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Empty shelves.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # Off the Griffin Watch's edge (zone AB12) down to D6's entrance:d7_fall.
+  - movement_segment:
+      input: forward
+      seconds: 1.5
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: -16384, y: 19691, z: 1280, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: -16384, y: 19691, z: 1280, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40000
+      tolerance_z: 8000
+  - advance_runtime: {seconds: 3.0, follow_map_move: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: 13824, y: -7680, radius: 256}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Corak's hatch on the crust into DD-16.
+  - set_pose: {map: xeen_d6.odm, x: 5001, y: -2442, z: 1472, yaw: 2.3562, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(42); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd16.blv}
+  - assert: {party_position: {x: -832, y: 0, radius: 160}}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if door_state(1) ~= 'open' then error('blast door: ' .. door_state(1)) end"}
+  # Through the powered pod to the bridge.
+  - walk_to: {x: -720, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(6) ~= 'open' then click(13); wait(2) end; if door_state(6) ~= 'open' then error('inner door: ' .. door_state(6)) end"}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 2900, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  # Corak: Soul Box.
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Soul Box"}
+  - assert: {dialog: {active: true, text_contains: "Ah! A Soulbox! You have done well."}}
+  - play_lua:
+      source: |
+        close(); close(); wait(0.5); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if has_item(12363) then error("Corak did not take the Soul Box") end
+        if not has_item(12364) then error("no Soul Box with Corak (12364)") end
+        if experience(0) - recall("xp") ~= 4000 then error("M32 paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111640]}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 0, name: "Corak, Guardian", hidden: true}}
+  # Back to the airlock and out by the hatch to D6's crust.
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -832, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -940, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 16}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: 5120, y: -2560, radius: 160}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111620, 111621, 111622, 111640]}
+  - play_lua: {source: "log('75 done: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - save_game: {name: "75 The Soul Box", path: output/playthrough/xeen/checkpoints/75_soul_box.oysav}

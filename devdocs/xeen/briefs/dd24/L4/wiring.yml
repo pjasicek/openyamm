@@ -1,0 +1,121 @@
+format: 0
+variables: [war_arrived]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The People's hall. Everything is twice too big: the doors, the steps, the smell of meat and smoke."
+    seconds: 7
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+    condition: {lua: "XeenQuests.can(\"q-d16.hoard\")"}
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d16.hoard\")"
+    notes: "The hoard refuses at peace (A3's q-d16.hoard fail text 'Gurodel would notice.'); at war it opens."
+  - id: evt:chest_larder
+    preset: chest
+    source: chest:larder
+    title: Chest
+    notes: The larder chest opens at peace (D-47 Q22).
+  - id: evt:door_great
+    preset: door
+    source: door:great
+    title: Great doors
+  - id: evt:door_hoard
+    preset: door
+    source: door:hoard
+    title: Door
+  - id: evt:door_larder
+    preset: door
+    source: door:larder
+    title: Door
+  - id: evt:door_side
+    preset: door
+    source: door:side
+    title: Door
+  - id: evt:door_throne
+    preset: door
+    source: door:throne
+    title: Doors
+  - id: evt:hall_struck
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: d12_hostile}, {qbit: d12_camp_burned}]}}
+    lua: |-
+      local struck = false
+      for i = 0, 29 do
+          if evt.IsMapActorHostile(i) and not evt.IsMapActorDead(i) then struck = true end
+      end
+      if struck then XeenQuests.hook("q-d16.hall_attacked") end
+    notes: "D-47 Q22, D-37's timer pattern: a People giant struck at peace turns on the party; the timer sees it and calls A3's q-d16.hall_attacked (113323), which A2's relations read: the whole People turn, here and on D5. Every placed actor of the map is one of the People."
+  - id: evt:law_stone
+    preset: script
+    source: platform:law_stone
+    title: Law stone
+    effects:
+      - lua: "XeenQuests.hook(\"q-d16.law_stone\")"
+    notes: "dark/aaze0013:26 (close), A3's text."
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: The bloody throne
+    effects:
+      - lua: "XeenQuests.hook(\"q-d16.throne\")"
+    notes: "goal:throne: A3's q-d16.throne decides: at peace 'Gurodel would notice.'; at war two Energy Disks and 14,000 once, but not for a party with friends 113320 (D-47 Q22)."
+  - id: evt:throne_back
+    preset: script
+    source: platform:throne_back
+    title: The bloody throne
+    effects:
+      - lua: "XeenQuests.hook(\"q-d16.throne\")"
+  - id: evt:throne_seen
+    preset: text
+    source: room:throne_hall
+    trigger: step
+    once: true
+    text: "A throne of black wood, big enough for four of you, stands under the smoke hole. The wood is stained darker than it was cut."
+    seconds: 6
+  - id: evt:war_arrival
+    preset: script
+    trigger: load
+    condition: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: d12_hostile}, {qbit: d12_camp_burned}]}
+    effects:
+      - set:
+          var:
+            map_var: war_arrived
+          value: 1
+    notes: "The arrival (0, 384) stands inside room:threshold, so evt:war_line's step does not run on the way in (A3's q-d16 scenario, 2026-11-21), and a message from a load event is lost with the map's loading: entering at war marks war_arrived, and evt:war_arrival_say shows the People's challenge a moment later."
+  - id: evt:war_arrival_say
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: war_arrived}
+    effects:
+      - set:
+          var:
+            map_var: war_arrived
+          value: 0
+      - lua: |-
+          local x, y = evt.GetPartyPosition()
+          if x >= -512 and x <= 512 and y >= 0 and y <= 768 then
+              XeenQuests.hook("q-d16.war_threshold")
+          end
+    notes: "The first tick after a map load at war, if the party stands in room:threshold (the arrival from D5; a save loaded elsewhere in the hall shows nothing): A3's q-d16.war_threshold (once per war by war_announced 113324)."
+  - id: evt:war_line
+    preset: script
+    source: room:threshold
+    trigger: step
+    condition: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: d12_hostile}, {qbit: d12_camp_burned}]}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d16.war_threshold\")"
+    notes: "At war the People's challenge (dark/aaze0013:33), once per war: A3's q-d16.war_threshold decides (war_announced 113324)."
+  - id: evt:way_out
+    preset: exit
+    source: exit:mouth
+    title: Leave the Giants' Hall
+    notes: "Out to D5 (installed, A6) at its named arrival entrance:dd24_hold (11264, 10752, 2688) facing south (1536), before the great doors behind Gurodel's hold: the game's own leave window (D-24)."

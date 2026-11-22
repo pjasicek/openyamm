@@ -1,0 +1,43 @@
+# MAW in the World of Xeen (devdocs/maw/XEEN_SUPPORT.md): a MAW game starts in Vertigo, Xeen's level bank is the
+# fifth and survives a save, and Xeen's promotion quests promote MAW's four new class lines: the first tier (Seasons
+# Relay, Crusade, Barok's Pendant) to their middle step, the tier-2 quests of their themes to their final classes.
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/maw_new_game.yml --scenario-no-color
+id: xeen.maw_new_game
+title: "MAW in Xeen: a new game in Vertigo, the fifth bank, Xeen's promotions for MAW's new lines"
+world: xeen
+mode: faithful
+tags: [xeen, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 1000
+        food: 10
+        members:
+          - {name: Seraph, class: Seraphim, level: 20, skills: [], equipment: {}}
+          - {name: Knight, class: DeathKnight, level: 20, skills: [], equipment: {}}
+          - {name: Healer, class: Shaman, level: 20, skills: [], equipment: {}}
+          - {name: Caster, class: Elementalist, level: 20, skills: [], equipment: {}}
+  - assert:
+      map: xeen_x1.odm
+      ruleset: {id: maw, member_classes: [Seraphim, DeathKnight, Shaman, Elementalist]}
+  - console: {line: "ruleset", expect_contains: "banked levels 0/0/0/0/0"}
+  - console: {line: "ruleset banks 0 0 0 0 12", expect_contains: "banked levels 0/0/0/0/12"}
+  # Xeen's first tier: Seasons (q-c10.done), the Crusade (m4.done), Barok's Pendant (q-c2.done).
+  - console: {line: "qbit set 112201 110047 110204"}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      ruleset: {id: maw, member_classes: [Angel, DeathLord, Sekhem, ElementalAdept]}
+  # Tier 2: the Heretics of Mok, Dimitri's Test, Leafpoint's Grove, the Jewel of Ages.
+  - console: {line: "qbit set 113127 114522 114560 113365"}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      ruleset: {id: maw, member_classes: [Archangel, LichKing, Marabou, MasterOfElements]}
+  - save_game: maw_xeen_new_game
+  - load_game: maw_xeen_new_game
+  - advance_runtime: {seconds: 1}
+  - console: {line: "ruleset", expect_contains: "banked levels 0/0/0/0/12"}
+  - assert:
+      map: xeen_x1.odm
+      ruleset: {id: maw, member_classes: [Archangel, LichKing, Marabou, MasterOfElements]}

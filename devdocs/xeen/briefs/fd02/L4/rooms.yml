@@ -1,0 +1,339 @@
+format: 0
+themes:
+  - id: theme:body
+    wall: {texture: egywlj, size: [256, 256]}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+    floor: {texture: egyflorf, size: [256, 256]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egywalg1, size: [256, 256]}
+    door: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The body: the Tomb of VARN's fine golden blocks (egywlj) over a footing of rough blocks (egywla), pale sand flags (egyflorf), framed ceilings (egyceild)."
+  - id: theme:crypt
+    wall: {texture: egywld, size: [256, 256]}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egywalg1, size: [256, 256]}
+    reveal: {texture: egywalg1, size: [256, 256]}
+    door: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The crypt under the sand: carved hieroglyph walls (egywld), drifted sand, a brick vault."
+  - id: theme:head
+    wall: {texture: egywalgm, size: [128, 128]}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+    floor: {texture: egyflorf, size: [256, 256]}
+    ceiling: {texture: egyceila, size: [128, 128]}
+    reveal: {texture: egywalg1, size: [256, 256]}
+    door: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The head: smooth sandstone (egywalgm), the inlaid star ceiling (egyceila)."
+  - id: theme:pres
+    wall: {texture: egywlh, size: [256, 256]}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+    floor: {texture: egyflorf, size: [256, 256]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egywalg1, size: [256, 256]}
+    door: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The Preservation Rooms and the canopic chamber: plaster panels framed in hieroglyph borders (egywlh)."
+  - id: theme:run
+    wall: {texture: egywalg1, size: [256, 256]}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egywalg1, size: [256, 256]}
+    door: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The two death runs: plain brick (egywalg1), drifted sand underfoot (egyflord)."
+defaults: {theme: theme:body, ambient: 12}
+rooms:
+  - id: room:breast
+    name: Breast steps
+    outline: [[-896, -320], [0, -320], [0, 320], [-896, 320]]
+    floor: -256
+    ceiling: 448
+    theme: theme:body
+    levels:
+      - id: level:breast_top
+        outline: [[-320, -320], [0, -320], [0, 320], [-320, 320]]
+        floor: 0
+        surface: {texture: egyflord, size: [256, 256]}
+        notes: "The top step inside the leaves: sand blown in under the doors."
+    flights:
+      - {from: [-800, 0], to: [-320, 0], width: 512, steps: 8, riser: {texture: egywla, size: [256, 256]}, tread: {texture: egyflorf, size: [256, 256]}, notes: Eight broad steps down into the body.}
+    ambient: 16
+    notes: "The arrival (entrance:x6_door) on the top step inside the two leaves; eight broad steps down west into the body."
+  - id: room:canopic
+    name: Canopic chamber
+    outline: [[-6144, -576], [-5504, -576], [-5504, 576], [-6144, 576]]
+    floor: -256
+    ceiling: 320
+    theme: theme:pres
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:plaque_dragons, offset: 272, length: 128, bottom: 64, height: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, notes: "A rune plaque by the crypt arch: 'Don't feed the dragons.'"}
+    platforms:
+      - {at: [-5824, 528], size: [448, 64], rise: 128, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A shelf of sealed jars.}
+      - {at: [-5824, -528], size: [448, 64], rise: 128, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A shelf of sealed jars.}
+    ambient: 12
+    notes: "Where the two Preservation Rooms meet: shelves of sealed jars; the crypt's low arch (288) in its west wall."
+  - id: room:chopping
+    name: The Chopping Death
+    outline: [[-4608, -448], [-3328, -448], [-3328, -64], [-4608, -64]]
+    floor: -256
+    ceiling: 256
+    theme: theme:run
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:mask_chop, offset: 64, from: end, length: 256, bottom: 64, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: The toll-keeper's carved figures (egywlspb).}
+    ambient: 12
+    notes: "The southern run, the same length: three blades drop from slots in the ceiling; a plate under each; its own toll-keeper."
+  - id: room:crypt
+    name: Crypt of the dragons
+    outline: [[-8448, -768], [-6272, -768], [-6272, 768], [-8448, 768]]
+    floor: -1280
+    ceiling: 64
+    theme: theme:crypt
+    levels:
+      - id: level:crypt_gallery
+        outline: [[-6656, -768], [-6272, -768], [-6272, 768], [-6656, 768]]
+        floor: -256
+        edge: {texture: egywld, size: [256, 256]}
+        notes: "The gallery inside the arch, level with the canopic chamber."
+    flights:
+      - {from: [-7936, 0], to: [-6656, 0], width: 320, steps: 32, sides: {height: 64, thickness: 16, surface: {texture: egywla, size: [256, 256]}}, riser: {texture: egywla, size: [256, 256]}, tread: {texture: egyflord, size: [256, 256]}, notes: "The crypt steps: 32 down from the gallery to the crypt floor."}
+    parapets:
+      - path: [[-6640, 752], [-6640, 176]]
+        height: 96
+        surface: {texture: egywla, size: [256, 256]}
+      - path: [[-6640, -176], [-6640, -752]]
+        height: 96
+        surface: {texture: egywla, size: [256, 256]}
+    beams:
+      - path: [[-7936, -752], [-7936, 752]]
+        width: 64
+        depth: 96
+        bottom: -32
+        surface: {texture: egywalg1, size: [256, 256]}
+      - path: [[-7424, -752], [-7424, 752]]
+        width: 64
+        depth: 96
+        bottom: -32
+        surface: {texture: egywalg1, size: [256, 256]}
+      - path: [[-6912, -752], [-6912, 752]]
+        width: 64
+        depth: 96
+        bottom: -32
+        surface: {texture: egywalg1, size: [256, 256]}
+    ambient: 10
+    notes: "Set piece: a vault 2,176 by 1,536 and 1,344 high under brick ribs; the gallery inside the 288-high arch, the crypt steps down from it; four dragon mummies. The arch keeps them in (450 high, D-32). West the stalls."
+  - id: room:gallery_n
+    name: North sarcophagus gallery
+    outline: [[-1536, 3840], [-768, 3840], [-768, 4352], [-1536, 4352]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:pres
+    platforms:
+      - {at: [-1344, 4256], size: [192, 96], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "An open sarcophagus, its lid gone."}
+      - {at: [-1088, 4256], size: [192, 96], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "An open sarcophagus, its lid gone."}
+      - {id: platform:find_n, at: [-864, 4288], size: [96, 64], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "The third, empty niche's ledge: a fixed find."}
+    ambient: 12
+    notes: "A dead end in the nemes' north lappet: two empty sarcophagi, the Phase Mummies out of them; a find on the third niche's ledge."
+  - id: room:gallery_s
+    name: South sarcophagus gallery
+    outline: [[-1024, 2048], [-512, 2048], [-512, 2560], [-1024, 2560]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:pres
+    platforms:
+      - {at: [-576, 2176], size: [96, 192], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "An open sarcophagus, its lid gone."}
+      - {at: [-576, 2432], size: [96, 192], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "An open sarcophagus, its lid gone."}
+      - {id: platform:find_s, at: [-960, 2112], size: [64, 64], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "The empty niche's ledge: a fixed find."}
+    ambient: 12
+    notes: "The south lappet, the same: two Phase Mummies and a find."
+  - id: room:hall
+    name: Hall of embalming
+    outline: [[-3200, -448], [-1024, -448], [-1024, 448], [-3200, 448]]
+    floor: -256
+    ceiling: 384
+    theme: theme:body
+    platforms:
+      - {id: platform:table_n, at: [-2112, 352], size: [512, 128], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: An embalming table by the north wall.}
+      - {id: platform:table_s, at: [-2112, -352], size: [512, 128], rise: 96, surface: {texture: egytrmc, size: [64, 64]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "The embalmer's table by the south wall: the two flasks (118119)."}
+    ambient: 14
+    notes: "The body's long hall, 2,176 by 896 and 640 high: embalming tables by the walls, jars on them; the hub. West the two death runs, east the breast steps, the stair of the name north from its east end."
+  - id: room:home
+    name: Home of the Aged
+    outline: [[-1792, 2688], [-512, 2688], [-512, 3712], [-1792, 3712]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:head
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:eye_n, offset: 656, length: 96, bottom: 400, height: 96, surface: {texture: egyswbon, size: [32, 32], fit: true}, notes: "The sphinx's north eye: daylight."}
+          - {id: panel:eye_s, offset: 272, length: 96, bottom: 400, height: 96, surface: {texture: egyswbon, size: [32, 32], fit: true}, notes: The south eye.}
+    bands:
+      - {height: 64, surface: {texture: egywla, size: [256, 256]}}
+      - {height: 320, surface: {texture: xsshelf, size: [256, 256]}}
+      - {height: 640, surface: {texture: egywlh, size: [256, 256]}}
+    ambient: 18
+    notes: "Set piece: 1,280 by 1,024 under the carved face, shelves round the walls (xsshelf), two bars of light through the eyes in the east wall, four books on lecterns by the walls; at the far (west) end Picard the Aged by his very good chair."
+  - id: room:name_stair
+    name: Stair of the name
+    outline: [[-1536, 576], [-1152, 576], [-1152, 2560], [-1536, 2560]]
+    floor: -256
+    ceiling: 448
+    ceiling_slope: {to: 1280, toward: north}
+    theme: theme:body
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:plaque_name, offset: 64, from: end, length: 128, bottom: 64, height: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, notes: "A rune plaque at the stair's foot: 'Study the lessons to learn my name.'"}
+      - wall: n
+        panels:
+          - {offset: 0, length: 384, bottom: 1360, height: 160, surface: {texture: egymedb, size: [256, 256]}, notes: Fine brick over the door of the name's lintel.}
+    levels:
+      - id: level:landing
+        outline: [[-1536, 2048], [-1152, 2048], [-1152, 2560], [-1536, 2560]]
+        floor: 768
+        surface: {texture: egyflorf, size: [256, 256]}
+        notes: "The top landing: the voice asks the name here (every climb until named)."
+    flights:
+      - {from: [-1344, 640], to: [-1344, 2048], width: 352, steps: 32, riser: {texture: egywla, size: [256, 256]}, tread: {texture: egyflorf, size: [256, 256]}, notes: 32 steps of 32 up into the head.}
+    ambient: 14
+    notes: "From the hall's north-east corner a straight flight of 32 steps of 32, 352 wide, climbs 1,024 north into the head; on the top landing the door of the name."
+  - id: room:pres_n
+    name: Preservation Room (north)
+    outline: [[-5376, 64], [-4736, 64], [-4736, 704], [-5376, 704]]
+    floor: -256
+    ceiling: 320
+    theme: theme:pres
+    platforms:
+      - {id: platform:rune_p, at: [-5216, 656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter P."}
+      - {id: platform:rune_i, at: [-5056, 656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter I."}
+      - {id: platform:rune_c, at: [-4896, 656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter C."}
+    ambient: 14
+    notes: "Three rune stones by the north wall (P, I, C); the great sarcophagus by the south wall (Might 60)."
+  - id: room:pres_s
+    name: Preservation Room (south)
+    outline: [[-5376, -704], [-4736, -704], [-4736, -64], [-5376, -64]]
+    floor: -256
+    ceiling: 320
+    theme: theme:pres
+    platforms:
+      - {id: platform:rune_a, at: [-4896, -656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter A."}
+      - {id: platform:rune_r, at: [-5056, -656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter R."}
+      - {id: platform:rune_d, at: [-5216, -656], size: [96, 32], rise: 192, surface: {texture: xsrunes, size: [128, 256], fit: true}, end_surface: {texture: egywalgm, size: [128, 128], fit: false}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: "A rune stone: the lesson of the letter D."}
+    ambient: 14
+    notes: "Three rune stones by the south wall (A, R, D, read east to west on the way round); the second great sarcophagus."
+  - id: room:stalls
+    name: The dragon stalls
+    outline: [[-9984, -640], [-8576, -640], [-8576, 640], [-9984, 640]]
+    floor: -1280
+    ceiling: -256
+    theme: theme:crypt
+    pillars:
+      - {at: [-9216, 0], size: [896, 96], surface: {texture: egywld, size: [256, 256]}, notes: The wall between the two stalls.}
+    platforms:
+      - {at: [-9856, 0], size: [256, 1280], rise: 768, surface: {texture: egywld, size: [256, 256]}, bottom_surface: {texture: egywalg1, size: [256, 256]}, base: 256, notes: "The alcoves' low roof: 256 high under it, too low for a dragon."}
+      - {id: platform:heap, at: [-9888, 384], size: [160, 192], rise: 40, surface: {texture: xncoins, size: [128, 128]}, top_surface: {texture: xncoins, size: [128, 128]}, top_heights: [8, 8, 40, 40], notes: "A heap of gold: an illusion (aazex127:14)."}
+    ambient: 8
+    notes: "Two stalls off the crypt through a wide, high opening, a dragon mummy in each; at their far end two alcoves 256 high: the illusion heap (north) and the embalmer's chest (south)."
+  - id: room:swinging
+    name: The Swinging Death
+    outline: [[-4608, 64], [-3328, 64], [-3328, 448], [-4608, 448]]
+    floor: -256
+    ceiling: 256
+    theme: theme:run
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:mask_swing, offset: 64, length: 256, bottom: 64, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "The toll-keeper's carved figures (egywlspb): the mask that sells protection."}
+    ambient: 12
+    notes: "A run 1,280 by 384 west from the hall: four blades sweep out of slots in its north wall over the walk (the tell, in plain sight); a plate under each. The toll-keeper at its mouth."
+openings:
+  - id: open:breast_hall
+    from: room:breast
+    to: room:hall
+    link: link:breast_hall
+    width: 384
+    height: 320
+    threshold: {texture: egyflord, size: [256, 256]}
+    notes: "The body's doors at the breast steps' foot: a pair, so that no mummy of the hall sees or reaches the arrival (D-11.3)."
+  - id: open:canopic_crypt
+    from: room:canopic
+    to: room:crypt
+    link: link:canopic_crypt
+    width: 320
+    height: 288
+    notes: "The crypt steps' low arch: 288 high (D-57), so the 450-high dragon mummies stay below."
+  - id: open:chop_press
+    from: room:chopping
+    to: room:pres_s
+    link: link:chop_press
+    width: 160
+    height: 320
+  - id: open:crypt_stalls
+    from: room:crypt
+    to: room:stalls
+    link: link:crypt_stalls
+    width: 768
+    height: 640
+  - id: open:hall_chop
+    from: room:hall
+    to: room:chopping
+    link: link:hall_chop
+    width: full
+    height: 448
+  - id: open:hall_name
+    from: room:hall
+    to: room:name_stair
+    link: link:hall_name
+    width: full
+    height: 448
+  - id: open:hall_swing
+    from: room:hall
+    to: room:swinging
+    link: link:hall_swing
+    width: full
+    height: 448
+  - id: open:home_galn
+    from: room:home
+    to: room:gallery_n
+    link: link:home_galn
+    width: 160
+    height: 320
+  - id: open:home_gals
+    from: room:home
+    to: room:gallery_s
+    link: link:home_gals
+    width: 160
+    height: 320
+  - id: open:name_home
+    from: room:name_stair
+    to: room:home
+    link: link:name_home
+    width: 160
+    height: 320
+  - id: open:presn_canopic
+    from: room:pres_n
+    to: room:canopic
+    link: link:presn_canopic
+    width: 320
+    height: 384
+  - id: open:press_canopic
+    from: room:pres_s
+    to: room:canopic
+    link: link:press_canopic
+    width: 320
+    height: 384
+  - id: open:swing_presn
+    from: room:swinging
+    to: room:pres_n
+    link: link:swing_presn
+    width: 160
+    height: 320
+notes: "FD-02 Southern Sphinx: x east, y north; the breast (X6) east, the body's halls at -256 west of it, the head at 768 up the stair of the name, the crypt at -1,280 under the canopic chamber. Written by output/studio_cal/fd02/tools/gen.py."

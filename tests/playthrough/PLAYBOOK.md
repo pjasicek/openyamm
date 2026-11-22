@@ -46,6 +46,31 @@ These are the user's rules for the MM9 run; keep them unless a new playthrough i
 - **Every workaround is logged**: `log("ISSUE ...")` for a game problem the run steps around, `log("BLOCKER ...")`
   for one the run cannot pass without a cheat (and then the cheat right after it). The report shows them; a clean run
   has none.
+- **A `CONVENTION` line is a logged stand-in for progress the chain does not play** (optional stat sources, loot,
+  gear), never for a broken game: `log("CONVENTION stat-gate <quest> <stat>: member N <before> -> <gate>; gems <before>
+  -> <after>")`. It comes only after an honest try (the strongest member plays, a lost game is tried by every member)
+  and makes up only the shortfall: the playing member's statistic raised to exactly the gate's number as a temporary
+  bonus (a well's `AddValue(<Stat>Bonus, n)`, never the base statistic), and gems or gold only up to the fee. It must
+  switch itself off when the party is strong enough. A clean run may contain CONVENTION lines (the report lists them
+  in their own section), but no BLOCKER or ISSUE lines. Whether a gate can be reached by normal play is a balance
+  check of its own, not the chain's (Xeen: D-68, `tools/xeen/balance.py`'s stat-gate table).
+- A `CONVENTION prerequisite` line (branch chains and standalone scenarios only, never the main chain) sets one
+  quest-prerequisite qbit that no usable checkpoint carries: another named test must play that content and assert the
+  bit, the gate must read that bit alone, the segment first plays the gate closed and asserts the refusal, sets
+  nothing else, and asserts the bit clear at its start:
+  `log("CONVENTION prerequisite <quest>.<bit> (<id>): <why>; proven by <path>")` (Xeen: D-75).
+- A **test setup** line sets the state a step tests, not progress it skips: a member's class for a promoter
+  (`SetPlayerClass` in a `lua_event`), logged `CLASSES test setup: <classes>`, or
+  `CLASSES test setup later-member <quest>: member N <before> -> <class> …` when it stands for a member recruited
+  after the hand-in. The gate must read only the class and bits the test played. The nobody-eligible line is asserted
+  first, and the unpaid result after. The setup changes nothing but the class. It is not a CONVENTION and is not
+  listed as one (MM9 promotions; Xeen: D-75, D-77).
+- **The party ends every segment able to act**: no member Dead, Eradicated, Petrified, Paralyzed or Unconscious (the
+  game's own defeat list, `Party::hasActableMember`); `run.py` checks it before each segment's save and logs every
+  member's conditions. The Immortal cheat stops HP loss, not conditions. A member who is down is cured as a player
+  would, at a temple on the route (`heal_at_temple: {house, min: 0}`), or the cause is fought; neither is a
+  CONVENTION. Lesser conditions (Weak, Diseased, Cursed …) are logged; a step that depends on a member's statistics
+  cures first. A step that leaves nobody able to act fails (the game would run its defeat) (Xeen: D-82).
 - **A fixed bug never stays worked around**: when a BLOCKER or ISSUE is fixed, the segment goes back to the natural
   path (the crouch slot in segment 55 was a logged `set_pose` until the converter raised its ceiling).
 
@@ -59,15 +84,19 @@ All are documented in `tests/scenarios/README.md` (loader: `game/scenario/Scenar
 | `walk_to: {x, y, z \| to, via, radius, z_tolerance, timeout_seconds, clear_hostiles, expect_map, plan, node_limit, close_dialogs, expect: arrived\|dialog}` | Walks with the Forward key along a route from the monsters' indoor path map (`plan: false`: straight at each via point). Steers at a point about 96 ahead on the route. When stuck: aim further (400), jump, step left, step right, click what is straight ahead (a door, a lever, rubble; never a person), plan again; fails after 12 tries at one spot, naming it. Prints a `WALK` trail. A dialogue an event opens on the way ends the walk (`expect: dialog` wants that: an exit's prompt). |
 | `climb: {ladder, down, timeout_seconds}` | Walks to a scene ladder's foot (down: its top exit; needs `grab_at_top`), faces it and climbs with the movement keys through the game's ladder rules; fails unless the party takes hold within 3 s and lets go at the other end. |
 | `pick_up: {item_id, reach}` | Takes an item lying in the map: fails when the party's eye is further than `reach` (default 400) — walk closer —, turns the camera at it, presses the use key through the game's pick, checks the item reached the party. |
-| `play_lua: {source, max_seconds}` | A player's reasoning in Lua: `click(event)` (closes a talk that popped up first), `wait(s)`, `status()` (status lines since the last call), `qbit(id)`, `has_item(id)`, `item_count(id)`, `pack_items()`, `held()` (cursor item), `party()` (selected member, Mights, conditions), `mapvar(name)`, `door_state(id)`, `take_chest()`, `close()`, `discard(id)` (drop a spare item to make room), `clear_hostiles(radius)`, `log(text)`; helpers `open_door(event, door)` (waits for a self-closing or monster-opened door to stop, clicks it if shut, waits until open) and `loot_chest(event)` (clicks again after a trap goes off). |
+| `play_lua: {source, max_seconds}` | A player's reasoning in Lua: `click(event)` (closes a talk that popped up first), `wait(s)`, `status()` (status lines shown since its last call, in any step), `qbit(id)`, `has_item(id)`, `item_count(id)`, `pack_items()`, `held()` (cursor item), `party()` (selected member, Mights, conditions), `mapvar(name)`, `door_state(id)`, `take_chest()`, `close()`, `discard(id)` (drop a spare item to make room), `clear_hostiles(radius)`, `log(text)`; helpers `open_door(event, door)` (waits for a self-closing or monster-opened door to stop, clicks it if shut, waits until open) and `loot_chest(event)` (clicks again after a trap goes off). |
 | `party_defeat: {knock_out, wait_seconds, expect_map, expect_game_over}` | The game's own defeat and respawn (its movie skipped); `knock_out: true` downs the party at once; a world's game over (MM9's rule) needs `expect_game_over: true`. |
 | `reload: {expect_blocked}` | Saves and loads straight back, then dismisses what greets the party on arrival; skipped (logged) while a player could not save (a dialogue, a chest, a map that forbids saving such as an arena). `expect_blocked: "text"` fails unless it is refused for that reason. `run.py --reload` inserts it. |
-| `clear_hostiles: {radius, min}` | Kills the party's enemies near it through the normal damage path. |
+| `clear_hostiles: {radius, height, min}` | Kills the party's enemies near it through the normal damage path: within `radius` across the ground and `height` above or below the feet (default indoors 384, less than a storey, below a radius of 5,000; a map clear (5,000 or more) and outdoors: the radius). `walk_to` takes `clear_height`, Lua `clear_hostiles(radius, height)`. |
 | `setup_shortcut: {kind: immortal, value}` | The Immortal cheat for this run only. |
 | `save_game: {name, path}` / `load_game: {path}` | Checkpoints that outlive the run. |
 | `select_topic: {match_label}` | Picks a dialogue line by its text (exact, else the one line containing it); a miss lists the lines offered. |
 | `travel: {map, days}` | A boat trip or overland journey (outdoor shortcut), its days passed as the game's travel passes them (the party rests on the road: `applyTravelDaysSideEffects`). Keeps the cursor item, as a real map move does. |
 | `new_game_flow: {...}` | Starts a new game (party creation as the game does it). |
+
+A segment or side quest (tags `playthrough`, `side_quest`) fails at the first step after which no member can act
+(`PARTY DOWN after step N (the game would run its defeat here): member 0 <conditions> | ...`; D-82): the real game
+would run its defeat there. Every step but `party_defeat` is checked; `tests/scenarios/README.md` has the details.
 
 Plus the existing steps: `set_pose`, `interact_actor`, `press_interact`, `press_action: {action: cancel_dialog}`,
 `advance_runtime: {seconds, present_dialogs, follow_map_move}`, `movement_segment`, `assert`, `console`, `lua_event`.

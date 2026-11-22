@@ -1,0 +1,87 @@
+# Lane S (xeen-planes sub-agent, D-58 C7): the elemental planes' statues, test pedestals, return daises and P4's
+# Drowned Bell, for worlds/xeen/models/indoor_decorations.yml (the lane merges this fragment). Built in
+# level_generation/decorations/xeen_planes_claude. height = the model's real height (LOD0 bounds); yaw_offset makes
+# the map's facing the direction the model's front looks (as the P5 hands).
+  # Statue of Fire (P1, poi:statue): the MM6 fire elemental posed arms raised in a column of carved flames, dark red
+  # stone with ember crevices (subtle emission), on its own black plinth 448 square, 96 high, a plaque on the front
+  # face. Origin at the plinth's bottom centre. Collision radius 224 (the plinth).
+  - name: xeen_statue_fire
+    model: worlds/xeen/models/xeen_deco_statue_fire.glb
+    height: 673.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Air (P2): MM8's air elemental torso, one arm raised, on a streaming carved robe, with built wings; white
+  # marble. Origin at the plinth top's centre (z 0 = A6's plinth top, 448 x 448, top 96 over the floor). Wingspan 680.
+  - name: xeen_statue_air
+    model: worlds/xeen/models/xeen_deco_statue_air.glb
+    height: 540
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Earth (P3): MM8's earth elemental seated on a rough block, hands on its knees; grey-brown granite.
+  # Origin at the plinth top's centre (A6's plinth 512 x 512, top 112 over the floor). Footprint 332 x 336.
+  - name: xeen_statue_earth
+    model: worlds/xeen/models/xeen_deco_statue_earth.glb
+    height: 479.9
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Water (P4): MM7's water elemental, tail coiled on the plinth, pouring a jar; a carved stream falls past
+  # the plinth's front edge into the basin (84 below the plinth top). Green-veined stone. Origin at the plinth top's
+  # centre (A6's plinth 384 x 384, top 96 over the floor).
+  - name: xeen_statue_water
+    model: worlds/xeen/models/xeen_deco_statue_water.glb
+    height: 542
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Test pedestals: a fluted column 110 high, radius 48, the element's alchemical sign carved on its top; front = the
+  # sign's reading side (face the plate). Origin at the bottom centre.
+  - name: xeen_pedestal_fire
+    model: worlds/xeen/models/xeen_deco_pedestal_fire.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_air
+    model: worlds/xeen/models/xeen_deco_pedestal_air.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_earth
+    model: worlds/xeen/models/xeen_deco_pedestal_earth.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_water
+    model: worlds/xeen/models/xeen_deco_pedestal_water.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Return daises: P5's 12-sided disc in each element's stone, radius 226 (vertex), 10 high, carved rings and the
+  # element's sign. Origin at the bottom centre; placed at A6's dais disc's base, facing a multiple of 30 keeps the
+  # twelve sides on the geometry's (A6's ring has a vertex at +x). No collision; the party stands on the geometry.
+  - name: xeen_dais_fire
+    model: worlds/xeen/models/xeen_deco_dais_fire.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_air
+    model: worlds/xeen/models/xeen_deco_dais_air.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_earth
+    model: worlds/xeen/models/xeen_deco_dais_earth.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_water
+    model: worlds/xeen/models/xeen_deco_dais_water.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The Drowned Bell (P4, poi:bell): a bronze temple bell with verdigris lying on its side, 177 high, 232 long, mouth
+  # 180 across; its axis runs across the front (the mouth to the front's left), its back is the side to lay against
+  # the fallen frame's beam. Origin at its footprint's centre on the floor (sunk 4).
+  - name: xeen_drownedbell
+    model: worlds/xeen/models/xeen_deco_drownedbell.glb
+    height: 177
+    yaw: facing
+    yaw_offset: -1.570796327

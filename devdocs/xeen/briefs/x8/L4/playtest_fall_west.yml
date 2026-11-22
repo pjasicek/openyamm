@@ -1,0 +1,74 @@
+# The west zone's fall (D-6.4, X3 installed): off the Magic stair landing's west edge; set down in
+# X3's lagoon east of the Tower of High Magic's islet, at the surface, no damage.
+id: xeen.x8.l4.fall_west
+title: 'Cloudreach (X8): a fall off the Magic stair landing lands in X3''s lagoon by the Tower of High Magic (D-6.4)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x8.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 18
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(3); close()
+- clear_hostiles:
+    radius: 40000
+- movement_segment:
+    input: forward
+    seconds: 2.5
+    actor_collision: true
+    actor_ai: true
+    start:
+      map: xeen_x8.blv
+      x: -11440
+      y: -3072
+      z: 0
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_x8.blv
+      x: -11440
+      y: -3072
+      z: 0
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 4.0
+    follow_map_move: true
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    map: xeen_x3.odm
+- assert:
+    party_position:
+      x: 1536
+      y: -1280
+      radius: 700
+- assert:
+    party_health:
+      full: true

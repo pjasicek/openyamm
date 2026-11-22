@@ -1,0 +1,254 @@
+format: 1
+start:
+  room: room:valley
+  at: [-1280, -4736]
+  facing: n
+  notes: "entrance:xd16_way: out of the cave mouth, facing north into the valley (the map's start)."
+arrivals:
+  - {entrance: entrance:xd16_way, room: room:valley, at: [-1280, -4736], facing: n, notes: From XD-16's cool passage (A7's exit preset to this name).}
+  - {entrance: entrance:x7_cleft, room: room:passage, at: [-7296, 4224], facing: e, notes: "From X7's cleft once it is open (X7's door:xd17): 384 inside the stones, facing east down the passage."}
+  - {entrance: entrance:d6_pyramid, room: room:valley, at: [0, 3200], facing: s, notes: "From D6's pyramid outside Castle Alamar's gate (Xeen.PyramidArrivals.shangrila, (0, 3200, 256) facing south)."}
+sounds:
+  - {id: sound:birds_court, room: room:valley, at: [0, 512], height: 512, sound: bird08, radius: 3500, inner_radius: 800, volume: 0.6, wait: [7, 18], day_only: true}
+  - {id: sound:birds_north_west, room: room:valley, at: [-3584, 2816], height: 512, sound: bird11, radius: 3500, inner_radius: 800, volume: 0.6, wait: [8, 20], day_only: true}
+  - {id: sound:birds_orchard, room: room:valley, at: [4352, -2304], height: 512, sound: bird01, radius: 3500, inner_radius: 800, volume: 0.6, wait: [5, 14], day_only: true}
+  - {id: sound:birds_terrace, room: room:valley, at: [0, 4032], height: 768, sound: bird05, radius: 3500, inner_radius: 800, volume: 0.6, wait: [6, 15], day_only: true}
+  - {id: sound:birds_west, room: room:valley, at: [-3968, -256], height: 640, sound: bird03, radius: 3500, inner_radius: 800, volume: 0.6, wait: [6, 16], day_only: true}
+  - {id: sound:falls, room: room:valley, at: [6272, 2304], height: 256, sound: waterfall loop1, radius: 4500, inner_radius: 1200, volume: 0.6}
+  - {id: sound:forge, room: room:valley, at: [384, -3072], height: 128, sound: xeen_forge_hammer, radius: 2600, inner_radius: 500, volume: 0.5, wait: [2, 7], day_only: true}
+  - {id: sound:stream_north, room: room:valley, at: [5472, -768], height: 32, sound: rushing water loop, radius: 1800, inner_radius: 400, volume: 0.3}
+  - {id: sound:stream_south, room: room:valley, at: [5440, -2816], height: 32, sound: rushing water loop, radius: 1800, inner_radius: 400, volume: 0.3}
+  - {id: sound:tavern, room: room:valley, at: [-2112, -3072], height: 128, sound: xeen_amb_tavern, radius: 1800, inner_radius: 400, volume: 0.45}
+monsters:
+  - id: monster:lacey
+    room: room:valley
+    monster: 11915
+    at: [448, -384]
+    facing: 45
+    hostile: false
+    group: 1
+    npc: 4719
+    notes: "Lacey the unicorn (MM8's Unicorn A, NPC 4719), peaceful, not counted (D-50 Q2). She wanders as her row (Short): the studio has no indoor home radius, so not within D-50's 512 (open). Her talk (NPC 4719) waits on A1's npc word in the studio binary (NPC_WORD)."
+  - id: monster:stumpy
+    room: room:valley
+    monster: 11916
+    at: [4608, -2304]
+    facing: 180
+    hostile: false
+    group: 1
+    immobile: true
+    npc: 4718
+    notes: "Stumpy the tree (MM7's treant, NPC 4718), rooted in the orchard (stand), peaceful, not counted (D-50 Q2, D-36 (5)). His talk (NPC 4718) waits on A1's npc word in the studio binary (NPC_WORD)."
+decorations:
+  - id: deco:barrel_0_0
+    room: room:valley
+    decoration: smlbarel
+    at: [-2752, -3528]
+    notes: A barrel against the wall (a pair).
+  - id: deco:barrel_0_1
+    room: room:valley
+    decoration: smlbarel
+    at: [-2680, -3528]
+    notes: A barrel against the wall (a pair).
+  - id: deco:barrel_1_0
+    room: room:valley
+    decoration: smlbarel
+    at: [808, -3584]
+    notes: A barrel against the wall (a pair).
+  - id: deco:barrel_1_1
+    room: room:valley
+    decoration: smlbarel
+    at: [808, -3512]
+    notes: A barrel against the wall (a pair).
+  - id: deco:boulder_0
+    room: room:valley
+    decoration: 6rock01
+    at: [-6016, -1024]
+    notes: A boulder fallen from the cliff.
+  - id: deco:boulder_1
+    room: room:valley
+    decoration: 6rock02
+    at: [4864, -4096]
+    notes: A boulder fallen from the cliff.
+  - id: deco:boulder_2
+    room: room:valley
+    decoration: 6rock03
+    at: [5888, 1024]
+    notes: A boulder fallen from the cliff.
+  - id: deco:boulder_3
+    room: room:valley
+    decoration: 6rock04
+    at: [-3328, 4480]
+    notes: A boulder fallen from the cliff.
+  - id: deco:boulder_4
+    room: room:valley
+    decoration: 6rock05
+    at: [2688, -4736]
+    notes: A boulder fallen from the cliff.
+  - id: deco:falls
+    room: room:valley
+    decoration: xeen_waterfall
+    at: [6272, 2304]
+    facing: 200
+    notes: S's white fall down the east cliff into the pool (D-50 Q7).
+  - id: deco:flowers_0
+    room: room:valley
+    decoration: 6flower07
+    at: [1408, 3672]
+    notes: "Flowers against Murray's front wall, clear of his door."
+  - id: deco:flowers_1
+    room: room:valley
+    decoration: 6flower07
+    at: [2176, 3672]
+    notes: "Flowers against Murray's front wall, clear of his door."
+  - id: deco:orchard_0
+    room: room:valley
+    decoration: 6tree03
+    at: [3496, -3281]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_1
+    room: room:valley
+    decoration: 6tree07
+    at: [3499, -2907]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_10
+    room: room:valley
+    decoration: 6tree17
+    at: [4559, -1739]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_11
+    room: room:valley
+    decoration: 6tree19
+    at: [4528, -1359]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_12
+    room: room:valley
+    decoration: 6tree25
+    at: [5137, -2796]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_13
+    room: room:valley
+    decoration: 6tree27
+    at: [5085, -2330]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_14
+    room: room:valley
+    decoration: 7tree01
+    at: [5050, -1823]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_15
+    room: room:valley
+    decoration: 7tree16
+    at: [5121, -1307]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_2
+    room: room:valley
+    decoration: 6tree17
+    at: [3488, -1246]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_3
+    room: room:valley
+    decoration: 6tree19
+    at: [4142, -3306]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_4
+    room: room:valley
+    decoration: 6tree25
+    at: [4074, -2803]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_5
+    room: room:valley
+    decoration: 6tree27
+    at: [4060, -2318]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_6
+    room: room:valley
+    decoration: 7tree01
+    at: [4163, -1820]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_7
+    room: room:valley
+    decoration: 7tree16
+    at: [4154, -1242]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_8
+    room: room:valley
+    decoration: 6tree03
+    at: [4613, -3270]
+    notes: A fruit tree of the orchard.
+  - id: deco:orchard_9
+    room: room:valley
+    decoration: 6tree07
+    at: [4633, -2804]
+    notes: A fruit tree of the orchard.
+  - id: deco:tree_0
+    room: room:valley
+    decoration: 6tree19
+    at: [-4352, -3456]
+    notes: A tree on the valley floor.
+  - id: deco:tree_1
+    room: room:valley
+    decoration: 6tree25
+    at: [-5248, -2304]
+    notes: A tree on the valley floor.
+  - id: deco:tree_10
+    room: room:valley
+    decoration: 6tree27
+    at: [5632, 3584]
+    notes: A tree on the valley floor.
+  - id: deco:tree_2
+    room: room:valley
+    decoration: 6tree27
+    at: [-3072, 2304]
+    notes: A tree on the valley floor.
+  - id: deco:tree_3
+    room: room:valley
+    decoration: 7tree01
+    at: [-4224, 2560]
+    notes: A tree on the valley floor.
+  - id: deco:tree_4
+    room: room:valley
+    decoration: 7tree16
+    at: [2944, 4352]
+    notes: A tree on the valley floor.
+  - id: deco:tree_5
+    room: room:valley
+    decoration: 6tree03
+    at: [3712, 4352]
+    notes: A tree on the valley floor.
+  - id: deco:tree_6
+    room: room:valley
+    decoration: 6tree07
+    at: [-512, -4480]
+    notes: A tree on the valley floor.
+  - id: deco:tree_7
+    room: room:valley
+    decoration: 6tree17
+    at: [512, -4544]
+    notes: A tree on the valley floor.
+  - id: deco:tree_8
+    room: room:valley
+    decoration: 6tree19
+    at: [1536, -3968]
+    notes: A tree on the valley floor.
+  - id: deco:tree_9
+    room: room:valley
+    decoration: 6tree25
+    at: [-2944, 3968]
+    notes: A tree on the valley floor.
+exits:
+  - id: exit:cleft
+    room: room:passage
+    wall: west
+    size: [352, 352]
+    surface: {texture: 7solid01, size: [256, 256]}
+    to: exit:x7_cleft
+    notes: "The inside of the rockfall: on to X7's cleft."
+  - id: exit:throat
+    room: room:throat
+    wall: south
+    size: [352, 352]
+    surface: {texture: 7solid01, size: [16, 16], uneven: true}
+    to: exit:xd16_way
+    notes: "The throat's dark back: on to XD-16's cool passage."
+notes: "XD-17 Shangri-La, L4 objects: written by output/studio_cal/xd17/tools/gen.py."

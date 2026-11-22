@@ -1,0 +1,327 @@
+format: 0
+variables: [gong1, gong2, gong3, illusion, sesame]
+events:
+  - id: evt:alibaba
+    preset: chest
+    source: chest:alibaba
+    question: {ask: "What's the password?", answers: [open sesame, opensesame], message: "Ali Baba Chest. What's the password?"}
+    title: Chest
+    condition: {not: {map_var: sesame}}
+    effects:
+      - set:
+          var:
+            map_var: sesame
+          value: 1
+      - lua: "XeenQuests.hook(\"q-d19.ali_baba\")"
+    else_effects:
+      - open_chest: chest:alibaba
+    notes: "state:alibaba (aaze0063:6, answers :7-8): the password once, then the chest opens (the Eastern Tower key 12340 is its item, F15; A3's q-d19.ali_baba sets chest_opened 113383 and its status line); once the word is given it opens like any chest (else_effects); a wrong word does nothing."
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The Great Southern Tower. Someone has chalked a fresh mark on the inside of the door: the guild's sign."
+    seconds: 6
+    notes: "Arrival line (one-shot timer: the party arrives standing in the hall)."
+  - id: evt:bed
+    preset: text
+    source: platform:bed
+    title: Bed
+    text: Nothing here.
+    notes: aaze0064:7-8.
+  - id: evt:bedchamber
+    preset: door
+    source: door:bedchamber
+    title: Door
+  - id: evt:bunk_1
+    preset: text
+    source: platform:bunk_1
+    title: Bed
+    text: Nothing here.
+    notes: aaze0064:7-8 (the purse under the pillow is long gone).
+  - id: evt:bunk_2
+    preset: text
+    source: platform:bunk_2
+    title: Bed
+    text: Nothing here.
+    notes: aaze0064:7-8 (the purse under the pillow is long gone).
+  - id: evt:bunk_3
+    preset: text
+    source: platform:bunk_3
+    title: Bed
+    text: Nothing here.
+    notes: aaze0064:7-8 (the purse under the pillow is long gone).
+  - id: evt:bunk_4
+    preset: text
+    source: platform:bunk_4
+    title: Bed
+    text: Nothing here.
+    notes: aaze0064:7-8 (the purse under the pillow is long gone).
+  - id: evt:bunks
+    preset: door
+    source: door:bunks
+    title: Door
+  - id: evt:button
+    preset: switch
+    source: switch:button
+    title: Button
+    opens: [door:illusion]
+    effects:
+      - set:
+          var:
+            map_var: illusion
+          value: 1
+    text: "Click. The wall beside the tapestry is gone. An illusion!"
+    seconds: 5
+    notes: "state:button (aaze0061:5, :7): the false wall drops at once."
+  - id: evt:cards
+    preset: text
+    source: platform:card_table
+    title: Card table
+    text: A card game left in the middle of a hand. Every hand holds five aces.
+    seconds: 4
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_lockbox
+    preset: chest
+    source: chest:lockbox
+    title: Chest
+  - id: evt:chest_stash
+    preset: chest
+    source: chest:stash
+    title: Chest
+  - id: evt:chest_strongroom
+    preset: chest
+    source: chest:strongroom
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"q-d19.l3_disks\")"
+    notes: "goal:disks: the chest holds the 2 Energy Disks (q-d19.l3_disks map_gives); the hook sets tower_disks 113382 and says 'Energy Disc ...' (aaze0063:0) once."
+  - id: evt:counting
+    preset: door
+    source: door:counting
+    title: Door
+  - id: evt:front_door
+    preset: exit
+    source: exit:front_door
+    title: Tower door
+    text: You step out into the tower's clearing.
+    notes: "Out to D2's clearing in front of door:dd06 (A6's point; D-24: the exit preset, the source's 'Exit the Great Southern Tower?' is not used)."
+  - id: evt:gong1
+    preset: script
+    source: panel:gong1
+    question: {ask: "Ring gong how many times?", answers: ["3", three], wrong_text: "The gong booms, and the echo dies away.", wrong_effects: [{lua: "evt.PlaySoundName(\"xeen_gong\", -1270, -400, 256)"}]}
+    title: Gong
+    condition: {not: {map_var: gong1}}
+    opens: [door:gong1]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -1270, -400, 256)"
+      - set:
+          var:
+            map_var: gong1
+          value: 1
+      - lua: "XeenQuests.hook(\"q-d19.gongs\")"
+    else_effects:
+      - text: The gong still hums. The stair door beside it stands open.
+    notes: "state:gong1 (aaze0062:2, answers :3-4): 3 or three opens the stair door (A3's q-d19.gongs line); D-25 Q13: any other answer 'The gong booms, and the echo dies away.', the door stays shut, the next click asks again."
+  - id: evt:gong2
+    preset: script
+    source: panel:gong2
+    question: {ask: "Ring gong how many times?", answers: ["3", three], wrong_text: "The gong booms, and the echo dies away.", wrong_effects: [{lua: "evt.PlaySoundName(\"xeen_gong\", 1270, -96, 896)"}]}
+    title: Gong
+    condition: {not: {map_var: gong2}}
+    opens: [door:gong2]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 1270, -96, 896)"
+      - set:
+          var:
+            map_var: gong2
+          value: 1
+      - lua: "XeenQuests.hook(\"q-d19.gongs\")"
+    else_effects:
+      - text: The gong still hums. The stair door beside it stands open.
+    notes: "state:gong2 (aaze0062:2, answers :3-4): 3 or three opens the stair door (A3's q-d19.gongs line); D-25 Q13: any other answer 'The gong booms, and the echo dies away.', the door stays shut, the next click asks again."
+  - id: evt:gong3
+    preset: script
+    source: panel:gong3
+    question: {ask: "Ring gong how many times?", answers: ["3", three], wrong_text: "The gong booms, and the echo dies away.", wrong_effects: [{lua: "evt.PlaySoundName(\"xeen_gong\", -1270, 864, 1536)"}]}
+    title: Gong
+    condition: {not: {map_var: gong3}}
+    opens: [door:gong3]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -1270, 864, 1536)"
+      - set:
+          var:
+            map_var: gong3
+          value: 1
+      - lua: "XeenQuests.hook(\"q-d19.gongs\")"
+    else_effects:
+      - text: The gong still hums. The stair door beside it stands open.
+    notes: "state:gong3 (aaze0062:2, answers :3-4): 3 or three opens the stair door (A3's q-d19.gongs line); D-25 Q13: any other answer 'The gong booms, and the echo dies away.', the door stays shut, the next click asks again."
+  - id: evt:hall_guard
+    preset: door
+    source: door:hall_guard
+    title: Door
+  - id: evt:hatch
+    preset: teleport
+    source: platform:hatch
+    title: Trapdoor
+    to: [1760, 1780, 32]
+    direction: 180
+    text: "You drop through the trapdoor and slide down the polished chute, round and round inside the tower's wall, into a heap of straw."
+    seconds: 6
+    notes: "The getaway chute (one way down, no fall damage): from the top floor to the entrance hall's straw heap."
+  - id: evt:illusion
+    preset: door
+    source: door:illusion
+    title: Wall
+    condition: {map_var: illusion}
+    locked_text: Cold stone.
+    action: open
+    notes: "The false wall itself: clicked before the button, plain stone."
+  - id: evt:kennel_gate
+    preset: door
+    source: door:kennel_gate
+    title: Kennel gate
+  - id: evt:ledger
+    preset: script
+    source: platform:desk
+    title: Ledger
+    lua: "XeenQuests.hook(\"q-d19.ledger\")"
+    notes: "goal:ledger (aaze0062:1, A3's text): ledger_read 113381 and the autonote; later 'The ledger. The prices are obscene.'"
+  - id: evt:locks
+    preset: text
+    source: panel:locks
+    title: Practice locks
+    text: "A row of practice locks, each picked open and left hanging."
+    seconds: 4
+  - id: evt:manual
+    preset: script
+    source: platform:manual
+    title: Manual of Master Thievery
+    condition: {not: {player_bit: 11295}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d19.thievery_manual\")"
+      - add:
+          var: Experience
+          value: 1500
+      - player_bit: 11295
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d19.thievery_manual_again\")"
+    notes: "D-25 Q11 (aaze0064:0-1): 1,500 experience to the reading member once (player bit 11295); again: 'You learn nothing new'."
+  - id: evt:master_gone
+    preset: script
+    trigger: load
+    condition: {qbit: 113384}
+    effects:
+      - hide_actors: 31
+    notes: "A slain Master Thief stays dead after a refill: his group is hidden on entry once master_slain is set."
+  - id: evt:master_slain
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:master_thief}}
+    lua: "XeenQuests.hook(\"q-d19.master_thief\")"
+    once: true
+    notes: "A3's q-d19.master_thief on his death (master_slain 113384; the Dark promotion lost if not taken)."
+  - id: evt:memo
+    preset: script
+    source: panel:memo
+    title: Memo
+    lua: "XeenQuests.hook(\"q-d19.guild_memo\")"
+    notes: "The answer-giver for the gongs and the chest (A3's q-d19.guild_memo; 'A note reads: Three's the charm.', aaze0064:9)."
+  - id: evt:mess_fence
+    preset: door
+    source: door:mess_fence
+    title: Door
+  - id: evt:prince_book
+    preset: script
+    source: platform:prince_book
+    title: Prince Book
+    lua: "XeenQuests.hook(\"q-d19.prince_book\")"
+    notes: "D-25 (aaze0064:3-4): A3's q-d19.prince_book decides: a member with q-c9's throne_thieves (11302) reads it once for +2 Luck; others 'For the eyes of the prince only!'."
+  - id: evt:roof_trapdoor
+    preset: script
+    source: platform:roof_hatch
+    title: Roof trapdoor
+    lua: |-
+      if not XeenQuests.hook("d7.roof_dd06") then
+          return
+      end
+      evt.MoveToMap(5632, -14848, 710, 1536, 0, 0, 0, 1, "xeen_d7.blv")
+    notes: "D-58: A3's d7.roof_dd06 checked first (needs m30.done; else its 'The trapdoor is shut fast.'), then (F16, 2026-11-22) the game's standard entrance window (OK/Close) in place of the old Yes/No; OK goes one way up to D7's entrance:dd06_roof (5632, -14848, 710) facing 1536 at once (D7 is indoor: no leave window; the coordinates are D7's named arrival, written out because the move waits on the answer)."
+  - id: evt:stair_door1
+    preset: door
+    source: door:gong1
+    title: Stair door
+    condition: {map_var: gong1}
+    locked_text: The stone door will not move. A bronze gong hangs on the wall beside it.
+    action: open
+    notes: "The stair door: shut until gong 1 is answered; then it opens and stays open."
+  - id: evt:stair_door2
+    preset: door
+    source: door:gong2
+    title: Stair door
+    condition: {map_var: gong2}
+    locked_text: The stone door will not move. A bronze gong hangs on the wall beside it.
+    action: open
+    notes: "The stair door: shut until gong 2 is answered; then it opens and stays open."
+  - id: evt:stair_door3
+    preset: door
+    source: door:gong3
+    title: Stair door
+    condition: {map_var: gong3}
+    locked_text: The stone door will not move. A bronze gong hangs on the wall beside it.
+    action: open
+    notes: "The stair door: shut until gong 3 is answered; then it opens and stays open."
+  - id: evt:straw
+    preset: text
+    source: platform:straw_heap
+    title: Straw
+    text: "A heap of straw, flattened in the middle. A polished chute opens in the wall above it."
+    seconds: 4
+  - id: evt:strongroom
+    preset: door
+    source: door:strongroom
+    title: Iron door
+    condition: {item: strongroom_key}
+    locked_text: The iron door is locked. The keyhole is cut for a heavy key.
+    action: open
+    notes: "state:strong_key: the Strongroom key from the fence's lockbox (A2's item 12262)."
+  - id: evt:tapestry
+    preset: text
+    source: panel:tapestry_a
+    title: Tapestry
+    text: "Tapestry. A procession of Mok priests winds round the tower, faded almost to grey. At its north end, half hidden by the cloth, a button."
+    seconds: 5
+    notes: aaze0061:4.
+  - id: evt:tapestry_b
+    preset: text
+    source: panel:tapestry_b
+    title: Tapestry
+    text: "Tapestry. A procession of Mok priests winds round the tower, faded almost to grey. At its north end, half hidden by the cloth, a button."
+    seconds: 5
+    notes: aaze0061:4.
+  - id: evt:trap_plate_1
+    preset: text
+    source: plate:trap_1
+    trigger: step
+    text: "Click. A pressure plate, disarmed. Somebody here trusts you less than that."
+    seconds: 4
+  - id: evt:trap_plate_2
+    preset: text
+    source: plate:trap_2
+    trigger: step
+    text: "Click. Another pressure plate. Nothing happens, this time."
+    seconds: 4
+  - id: evt:trap_practice
+    preset: door
+    source: door:trap_practice
+    title: Door
+  - id: evt:treasury
+    preset: door
+    source: door:treasury
+    title: Door

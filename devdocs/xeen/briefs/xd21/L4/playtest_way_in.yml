@@ -1,0 +1,53 @@
+# The way in to the Robbers' Den (XD-21) from X2 (lane A8, 2026-11-20).
+# A new party on X2 stands on Rivercity's south quay in front of the den's door in the quay wall (DOORS.md, door:xd21:
+# the click face at 1280, 3772, 640, facing north; open, no key) and clicks it: X2's event "Enter the Robbers' Den"
+# loads xeen_xd21.blv at the map's own start, just inside the quay door (-2560, 320, 0), where A3's q-c3.arrival
+# window follows. Played from assets_dev in the Xeen world with X2 (A5) installed: build-xeen/game/openyamm
+# --asset-root assets_dev --world xeen (output/studio_cal/xd21/world_play.sh, no --map: the scenario starts on X2).
+id: xeen.xd21.l4.way_in
+title: Robbers' Den (XD-21 L4), in from X2's south quay
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 10, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 10, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 10, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 10, skills: [], equipment: {}}
+  - assert: {map: xeen_x2.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  # On the quay at the exit's arrival, then up to the door, facing it (south).
+  - set_pose: {map: xeen_x2.odm, x: 1280, y: 4172, z: 640, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 1280, y: 4172, radius: 64, z_min: 600, z_max: 700}}
+  - set_pose: {map: xeen_x2.odm, x: 1280, y: 3950, z: 640, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd21.blv}
+  - assert: {party_position: {x: -2560, y: 320, radius: 64, z_min: -8, z_max: 8}}
+  # First arrival only (lane A8, 2026-11-20): the window shows once (arrived_once 110304); leave by the quay door, come in
+  # again from X2's door, and no window opens.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The robbers' den, under the great bridge."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(110304) then error('the arrival window did not set arrived_once') end"}
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - set_pose: {map: xeen_x2.odm, x: 1280, y: 3950, z: 640, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd21.blv}
+  - assert: {party_position: {x: -2560, y: 320, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}

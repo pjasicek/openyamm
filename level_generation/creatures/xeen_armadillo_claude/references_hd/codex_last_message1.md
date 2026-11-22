@@ -1,0 +1,3 @@
+Saved the [three-quarter reference](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/00_three_quarter.png) and recorded both attempts in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/generation_runs.json).
+
+The selected PNG is the unresized 1536×1024 transparent output. The visible silhouette clears every edge by at least 103 px, including the tail ball. Faint alpha below 5/255 extends into the border, and the farther front foot and visible hind foot each show an extra claw.

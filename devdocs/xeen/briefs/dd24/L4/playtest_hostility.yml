@@ -1,0 +1,42 @@
+# Hostility check of the Giants' Hall (DD-24): the People (11083-11085, A2's faction xeen_giants_people) friendly at
+# load; at war (q-d16.war 113321) every one hostile, no fights among them, and they go for the party.
+id: xeen.dd24.l4.hostility
+title: "Giants' Hall (DD-24): the People friendly at peace, hostile at war, no fights among them"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11083, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11084, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11085, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11083, hostile: false, min: 9}}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, min: 17}}
+  - assert: {actor_count: {monster_id: 11085, hostile: false, min: 4}}
+  - setup_shortcut: {kind: set_qbit, id: 113321, value: true}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_count: {monster_id: 11083, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11085, hostile: false, max: 0}}
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11083, x: -200, y: 650, z: 0}
+  - spawn_actor: {monster_id: 11085, x: 200, y: 650, z: 0}
+  - spawn_actor: {monster_id: 11084, x: 0, y: 700, z: 0}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11083, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11084, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11085, hurt: true, max: 0}}

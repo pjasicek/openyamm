@@ -1,0 +1,87 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# One of three separate pockets under D2's troll holes (WORLD_DESIGN §6): one BLV each, no joined network. The party
+# falls in by the pocket's own hole and climbs out by one burrow that comes up a few hundred units beside that hole.
+format: mu6-0
+map: DD-11B
+key: dd11b
+name: Troll Holes, second pocket
+stands_on: D2 Sprite Forest and Ogre Pass
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [23, 27]
+monsters:
+  levels: [18, 28]
+  boss: null
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Trolls A-B: Troll 18 (12), Troll Guard 28 (8)"
+treasure: {level: 3}
+role: "Q-D13 side pocket: Troll Juice (a permanent stat), the fallen adventurers, the thieves' second letter naming the King's hole"
+role_short: "Q-D13 (Troll Juice)"
+set_piece: "The juice pit: a sunken vat of fermenting fungus and grubs, trolls ladling it out on a ledge round the rim"
+floors:
+  - {floor: 0, name: "The pocket", height: 0}
+  - {floor: -1, name: "The vats", height: -448}
+spaces:
+  # floor 0
+  - {id: room:pit, name: Pit bottom, kind: shaft, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Where the party lands, on a heap of torn packs and a snapped rope: other people fell in here first. Daylight 768 up."}
+  - {id: room:gallery, name: Gnawed gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a}],
+     purpose: "A long tunnel with tooth marks in the roots; at its far end the floor turns to wet clay and slides away down to the vats."}
+  - {id: room:adventurers, name: Expired adventurers, kind: cave, size: S, floor: 0, at: [3, 0], chest: 3, monsters: 0,
+     purpose: "Under a fallen root: the party that fell in before. Four skeletons in rusted mail ('Expired Adventurer', 'Nothing here.'), their strongbox, a thief's satchel with the guild's second letter."}
+  - {id: room:burrow, name: The burrow up, kind: stair, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "Root steps up a steep burrow to a sod hatch in the forest floor. 'Exit the Troll Hole?'"}
+  - {id: room:fungus, name: Fungus cave, kind: cave, size: M, floor: 0, at: [2, 1], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: pack, rank: a}],
+     purpose: "Pale caps as tall as a man, the trolls' crop for the vats; the root stair comes up here, the burrow starts here."}
+  # floor -1
+  - {id: room:grub_pens, name: Grub pens, kind: cave, size: M, floor: -1, at: [2, 0], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a}],
+     purpose: "Wicker pens of fat white grubs for the vats; a stair of roots back up to the fungus cave."}
+  - {id: room:vat_rim, name: Vat rim, kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a}],
+     purpose: "Where the clay slide lands: a ledge round the juice pit, the smell rising from below."}
+  - {id: room:vat_cave, name: Juice pit, kind: cave, size: L, floor: -1, at: [4, 0], set_piece: true, monsters: 5,
+     population: [{family: Trolls, count: 5, strength: pack, rank: b, notes: "Guards ladling and drinking; they fight on the ledge."}],
+     purpose: "A sunken vat of fungus, grubs and water, brewing; ladles and skulls for cups. 'Troll Juice': poisonous, but it improves you (one drink per character)."}
+  - {id: room:brewers, name: "Brewers' den", kind: cave, size: S, floor: -1, at: [5, 0], chest: 3, monsters: 3,
+     population: [{family: Trolls, count: 3, strength: pack, rank: b}],
+     purpose: "Behind a hide curtain and a log door: the brewers' beds and their stash (the chest)."}
+links:
+  - {id: link:pit_gallery, from: room:pit, to: room:gallery, kind: open}
+  - {id: link:gallery_adv, from: room:gallery, to: room:adventurers, kind: door, label: fallen root,
+     notes: "A fallen root across the crawl; it swings up when pushed (a hinged mover)."}
+  - {id: link:gallery_slide, from: room:gallery, to: room:vat_rim, kind: drop, label: "clay slide 448",
+     notes: "A slope too wet to climb: down only. The way back is the root stair."}
+  - {id: link:rim_vat, from: room:vat_rim, to: room:vat_cave, kind: open}
+  - {id: link:vat_brewers, from: room:vat_cave, to: room:brewers, kind: door}
+  - {id: link:rim_pens, from: room:vat_rim, to: room:grub_pens, kind: open}
+  - {id: link:pens_fungus, from: room:grub_pens, to: room:fungus, kind: stair, label: root stair}
+  - {id: link:fungus_gallery, from: room:fungus, to: room:gallery, kind: open}
+  - {id: link:fungus_burrow, from: room:fungus, to: room:burrow, kind: door, notes: "A hide flap over the burrow's foot."}
+states:
+  - {id: state:juice, kind: puzzle, where: room:vat_cave,
+     what: "Troll Juice: once per character, a permanent stat rise at MM6-MM8 size and the Poisoned condition (open question).",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d2_hole, space: room:pit, at: [0, 0], kind: in, label: "D2: second troll hole (fall in)",
+     neighbour: "D2 entrance:dd11b_hole (door:dd11b): the second pit, by the dead adventurer's pack"}
+  - {id: exit:d2_burrow, space: room:burrow, at: [0, 1], kind: out, label: "D2: beside the second hole",
+     neighbour: "D2, a sod hatch about 300 from the second pit's lip; the same door:dd11b, its return arrival"}
+critical_path: [room:pit, room:gallery, room:adventurers, room:gallery, room:vat_rim, room:vat_cave]
+return_path: [room:vat_cave, room:vat_rim, room:grub_pens, room:fungus, room:burrow]
+loops:
+  - {id: loop:slide, spaces: [room:gallery, room:vat_rim, room:grub_pens, room:fungus],
+     notes: "Down the clay slide, up the root stair: the slide is the only one-way."}
+lines:
+  - {text: "Troll Juice / This stuff is poisonous, but the experience improves you ... (permanent).", ref: "dark/aaze0040:1-2 (the +1 to all statistics rescaled)", where: room:vat_cave}
+  - {text: "Expired Adventurer / Nothing here.", ref: "dark/aaze0040:3-4", where: room:adventurers}
+  - {text: "A message on thieves' guild letterhead reads: To all members: Troll holes located by the Forbidden Fruit hut, by the dead adventurer's pack, and the wide one near the rim. The wide one is the King's.", ref: "dark/aaze0040:6-7 (close: the source's grid squares become D2's three holes)", where: room:adventurers}
+  - {text: "Exit the Troll Hole?", ref: "dark/aaze0040:12", where: room:burrow}
+open_questions:
+  - "Troll Juice: the source gives +1 to all seven statistics with poison. Options: (a) as the source, +1 to all seven; (b) +2 to one stat (Endurance) and Poisoned, the pools' size; (c) +2 Might. Proposed (b)."
+  - "The second letter is ours, a close paraphrase of the source's two letters of troll-hole squares. It names the King's hole, so a party that came down the wrong hole learns where Hobstadt is. Keep?"

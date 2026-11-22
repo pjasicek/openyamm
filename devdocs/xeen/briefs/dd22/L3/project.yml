@@ -1,0 +1,34 @@
+format: 0
+id: xeen_dd22
+name: Sheltem's Pod
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-22
+units: {plan_grid: 512}
+extent: {footprint_cells: [6, 6], climbs: n}
+map_stats:
+  id: 9175
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 20
+  slots:
+    - {monster: Xeen Robot, tier: 0, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:d6_hatch
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:dd22_hatch
+    arrival_hint: "On D6 (the Forbidden Zone) in the Ancient field, 1,024 south of the pod's centre and 384 off its hull, facing away from it (A6's entrance:dd22_hatch, (7168, 12288, 1952) facing 1536)."
+    notes: "D6 installed by A6: its door:dd22 (thing:sheltem_pod, the round hatch at the hull's base, A3's d6.sheltem_hatch, open once m33.done) is to arrive at this map's entrance:d6_hatch, the airlock (0, -832, 0) facing north (512); until DD-22's install it shows only the hook's line (A6 names the arrival and drops listed_only then). The way out is the exit preset on the hatch's inner face; 'Exit Escape Pod 2?' (aaze0088:1) is its meaning."
+qbits:
+  dd22_arrived_once: 117760
+  drive_find: 117762
+  lockdown_released: 117761
+notes: "Xeen design brief for a new map: DD-22 Sheltem's Pod (the source's Escape Pod 2, dark maze0088, aaze0088) as one BLV of three decks 448 apart round a lift spine, standing upright in its crater in D6's Ancient field: deck 1 (0) the airlock, the lower ring, the shaft's foot, the stores, the drive room, the maintenance ladder; deck 2 (448) the middle ring, the gun deck, the brig, the security post; deck 3 (896) the bridge landing and the bridge (the set piece). Optional lore for Act VI (A3's dd22 hooks: the security console, the blast door, the weapons, the drive rack's find, the log computer's six pages and autonote 4139 sheltem_log). Size S (MAPS.md section 0, D-62): at most 15 sectors and 20 M units squared, doors 3-8, levels 50-62 (band 48-65), party 56-60, treasure 6, music 46. Graph devdocs/xeen/mockups/act5_graphs/dd22.graph.yml with decider D-62 (mockups/act5_a8_decisions_b.md, which wins): 20 robots (Patrol 11610 50 x14, Annihilator 11611 62 x6), kill XP 68,784 for the party, 17.20k per member; three T6 chests and the drive rack's find (117762); the security console releases the bridge's blast door, one way (D-43, 117761). Rest encounters 10 %: the robots' Patrol at Dif 0 only (D-62 Q55, A2's row 9175). Map qbits 117760-117762 (block 117760-117799); map_stats 9175."

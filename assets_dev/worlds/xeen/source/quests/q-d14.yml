@@ -1,0 +1,117 @@
+# Q-D14 The Wizard Quarter (QUESTS 2.2 Q-D14, 3.2: Rogue -> Spy, Light). Owner: A3. Format: QUESTS_FORMAT.md.
+# Astra the Good Sorceress (5217, her house 4618, outside the quarter) was thrown out of the guilds by Xenoc the Wizard
+# and Morgana the Sorceress. They hold the wizard quarter (DD-19, A8; Xenoc level 60); there is no talking them down.
+# With both dead the quarter's houses open (A4: 4613-4617 `opens: q-d14.done`, set on Astra's hand-in) and Astra
+# names the party's Rogues Spies: they walked the guild halls unseen. Act IV, level 39 (D-16): 10,000 per member on the
+# hand-in, the promotion included.
+id: Q-D14
+title: The Wizard Quarter
+act: IV
+kind: side
+status: full
+giver: 5217          # Astra the Good Sorceress (Sandcaster, D3; Astra's House 4618)
+maps: [D3, DD-19]
+level: 39
+block: 94
+after: [m7.sigil]
+source: "QUESTS Q-D14; dark/aaze0031:74-80 (Astra), :29, :31, :50-51 (the wizards' temper)"
+
+qbits:
+  dd19_arrived_once: {id: 117520, map: DD-19, note: "the map's own: first arrival in DD-19 (A8; block 117520-117559, provisional)"}
+  started: {id: 113280, journal: "Xenoc the Wizard and Morgana the Sorceress have seized Sandcaster's guilds. Astra the Good Sorceress wants them defeated.",
+            until: [done]}
+  done: {id: 113281, note: "Astra's hand-in; A4's wizard quarter (houses 4613-4617) opens on it"}
+  asked: {id: 113282, note: "Astra has told her story and asked for help"}
+  xenoc_slain: {id: 113283, note: "DD-19, Xenoc's death (A8)"}
+  morgana_slain: {id: 113284, note: "DD-19, Morgana's death (A8)"}
+  refused: {id: 113285, note: "the party said no; Astra asks again"}
+  blastem_angered: {id: 113286, note: "Blastem's 'The lesson' (D-42 Q5): A8 swaps the talking Blastem (5248) for Sorcerer 11191, hostile (Valio's pattern)"}
+
+player_bits:         # DD-19's potion alcoves, once per character (D-42); the hooks decide and raise the drinking member
+  orange_potion: {id: 11350, map: DD-19, note: "the Orange Potion: +2 Intellect (base)"}
+  purple_potion: {id: 11351, map: DD-19, note: "the Purple Potion: +2 Speed (base)"}
+
+autonotes:
+  quarter: {id: 4540, text: "Xenoc the Wizard and Morgana the Sorceress rule Sandcaster's guilds from the wizard quarter. They cannot be talked down: defeat them, then see Astra.", category: Misc}
+  freed: {id: 4541, text: "Xenoc and Morgana are dead. The wizard quarter of Sandcaster is open: the Guild of Night, Esoterica and the three towers.", category: Misc}
+
+npcs:
+  5217:              # Astra
+    topics:
+      - n: 1
+        label: Xenoc and Morgana
+        states:
+          - when: {qbit: done}
+            text: "I am pleased to see you! Sandcaster will not forget your great deeds!"
+          - when: {all: [{qbit: xenoc_slain}, {qbit: morgana_slain}]}
+            text: "Thank you. You have done both me and Sandcaster a great service. The quarter is open again. And those of you who walked their halls unseen: the guilds have a word for people like you. Spies. Good ones."
+            do: [{set: done}, {autonote: freed}, {xp: 10000}, {promote: quarter}]
+          - when: {any: [{qbit: xenoc_slain}, {qbit: morgana_slain}]}
+            text: "One of them is gone. The other is still on a guild throne, and twice as careful. Finish it."
+          - when: {qbit: started}
+            text: "Every day that Sandcaster suffers under the rule of these evil masters is a day ill spent. Everyone is relying on you to put matters right."
+          - text: "Two years ago, Xenoc the Wizard and Morgana the Sorceress came to town with visions of conquest. They ruined my good name and made themselves heads of the guilds. Now I am dethroned, and the guilds are wicked. Will you help right the wrong?"
+            do: [{set: asked}]
+      - n: 2
+        label: We will help
+        show: {all: [{qbit: asked}, {not: {qbit: started}}]}
+        text: "Good. I fear that it will be impossible to talk them from their lofty positions, so you will have to defeat them in battle. They hold the quarter behind the guild gate. Good luck."
+        do: [{set: started}, {autonote: quarter}]
+      - n: 3
+        label: Not our affair
+        show: {all: [{qbit: asked}, {not: {qbit: started}}, {not: {qbit: refused}}]}
+        text: "I see. I had thought better of you. Perhaps you will change your minds after you talk to some of the townspeople and learn firsthand the evil these arrogant magicians have wrought."
+        do: [{set: refused}]
+
+  5248:              # Blastem the Wizard (DD-19, the Guild Common; a talking actor, greeting dark/aaze0031:51)
+    topics:
+      - n: 4
+        label: The lesson
+        show: {not: {qbit: blastem_angered}}
+        text: "\"I think we're ready for that lesson right now.\" Blastem smiles. It is not a nice smile."
+        do: [{set: blastem_angered}]
+      - n: 5
+        label: Boots licked
+        show: {not: {qbit: blastem_angered}}
+        text: "It's always a pleasure to be able to converse with other beings as intelligent as I. Xenoc keeps his door where nobody looks for it. Wizards like that never stop admiring themselves: try his mirror."
+
+hooks:
+  xenoc:
+    map: DD-19
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Xenoc's death in the Wizards' guild hall (his own monster row, level 60, A2/A8)"
+    sets: [xenoc_slain]
+    once: true
+    text: "Xenoc falls, still in the middle of a sentence about his betters."
+  morgana:
+    map: DD-19
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Morgana's death in the Sorceresses' hall (A2/A8)"
+    sets: [morgana_slain]
+    once: true
+    text: "Morgana is dead. Her robes keep glowing for a while, out of habit."
+
+  orange_potion:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-19
+    where: "the Orange Potion in an alcove at the foot of the Mirage stair (dark/aaze0031:57-58): the map only calls this; the hook decides for the drinking member (player bit 11350)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11350))"}
+        text: "You have had your fill."
+      - text: "Orange Potion. It tastes of marmalade and arithmetic. (+2 Intellect, permanent)"
+        do: [{lua: "AddValue(BaseIntellect, 2)"}, {lua: "SetPlayerBit(PlayerBit(11350))"}]
+  purple_potion:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-19
+    where: "the Purple Potion in the other alcove (dark/aaze0031:59-60): the map only calls this; the hook decides for the drinking member (player bit 11351)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11351))"}
+        text: "You have had your fill."
+      - text: "Purple Potion. Your feet are already halfway to the next room. (+2 Speed, permanent)"
+        do: [{lua: "AddValue(BaseSpeed, 2)"}, {lua: "SetPlayerBit(PlayerBit(11351))"}]
+  blastem:
+    map: DD-19
+    where: "Blastem's place in the Guild Common: once blastem_angered is set, A8 swaps the talking Blastem for Sorcerer 11191 (level 45), hostile, on this and every later load (Valio's pattern)"
+    reads: [blastem_angered]
+rewards: {xp: 10000, gold: 0, items: "the wizard quarter's houses", promotion: "Rogue -> Spy (Light, Astra's hand-in)"}
+playthrough: "D3: Astra (Xenoc and Morgana; We will help). D3: the guild gate. DD-19: kill Xenoc and Morgana. D3: Astra (Xenoc and Morgana)."

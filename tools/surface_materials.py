@@ -28,6 +28,11 @@ art whose relief is already painted with shading.
   tools/surface_materials.py verify [--world W]
   tools/surface_materials.py preview mm6/thlgdr OUT.png     maps and lit renders of one texture, for review
 
+  assets_dev/worlds/<w>/surface_materials_x4/glow_<w>.txt   the world's textures with any glowing texel (a class
+                                                             that glows), one stem per line: a world whose glow is
+                                                             content (world.yml surfaceGlowContent, D-55) loads
+                                                             only their normal maps with Surface materials off
+
 tools/cook_surface_textures.py runs the desktop cook and verify after its own, so the build's incremental cook
 (target openyamm_cook_surface_textures) keeps these current. Receipts: assets_source/.cook-cache/surface_materials/.
 """
@@ -211,6 +216,41 @@ def compute_maps(sources_root, world, stem, classes, settings):
     return master, height, indices, build_maps(master, height, indices, classes, settings)
 
 
+def texture_glows(sources_root, world, stem, classes):
+    """Whether any texel of the texture's class map is a glowing class (its normal map's b channel is then above 0)."""
+    glowing = [entry['key'] for entry in classes if entry['glow'] != 'none']
+    if not glowing:
+        return False
+    with Image.open(texture_inputs(sources_root, world, stem)[2]) as image:
+        rgb = np.asarray(image.convert('RGB'))
+    packed = (rgb[..., 0].astype(np.int32) << 16) | (rgb[..., 1].astype(np.int32) << 8) | rgb[..., 2]
+    return bool(np.isin(packed, [(r << 16) | (g << 8) | b for r, g, b in glowing]).any())
+
+
+def glow_list_path(output_root, world):
+    return output_root / 'worlds' / world / OUTPUT_TIER / f'glow_{world}.txt'
+
+
+def glow_list_text(world, stems):
+    return (f'# The {world} textures with glowing texels (tools/surface_materials.py; generated, never edited).\n'
+            + ''.join(f'{stem}\n' for stem in stems))
+
+
+def glowing_stems(sources_root, world, stems, classes, receipts):
+    """The stems that glow, from each receipt's glow flag (read from the class map once and kept there)."""
+    result = []
+    for stem in stems:
+        receipt = receipts.get(f'{world}/{stem}')
+        glows = receipt.get('glow') if receipt else None
+        if glows is None:
+            glows = texture_glows(sources_root, world, stem, classes)
+            if receipt:
+                receipt['glow'] = glows
+        if glows:
+            result.append(stem)
+    return result
+
+
 def sha256(path):
     digest = hashlib.sha256()
     with path.open('rb') as stream:
@@ -330,12 +370,24 @@ def cook(sources_root, output_root, cooker, only, force, plan, worlds):
         for world, stem, inputs, targets, _ in batch:
             if all(target in done for target in targets):
                 receipts[f'{world}/{stem}'] = {'inputs': inputs, 'outputs': [sha256(t) for t in targets],
-                                               'output_stats': [file_stat(t) for t in targets]}
+                                               'output_stats': [file_stat(t) for t in targets],
+                                               'glow': texture_glows(sources_root, world, stem, classes)}
             else:
                 failures += 1
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(receipts, indent=1, sort_keys=True) + '\n')
         print(f'  cooked {min(start + 64, len(pending))}/{len(pending)}', flush=True)
+    for world in worlds:
+        stems = authored(sources_root, world, None)
+        list_path = glow_list_path(output_root, world)
+        if not stems:
+            if list_path.is_file():
+                list_path.unlink()
+            continue
+        text = glow_list_text(world, glowing_stems(sources_root, world, stems, classes, receipts))
+        if not list_path.is_file() or list_path.read_text() != text:
+            list_path.parent.mkdir(parents=True, exist_ok=True)
+            list_path.write_text(text)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(receipts, indent=1, sort_keys=True) + '\n')
     if failures:
@@ -343,7 +395,9 @@ def cook(sources_root, output_root, cooker, only, force, plan, worlds):
 
 
 def verify(sources_root, output_root, worlds):
-    """Every authored texture has both cooked maps made from its current inputs, and none is orphaned."""
+    """Every authored texture has both cooked maps made from its current inputs, none is orphaned, and each world's
+    glow list is current."""
+    classes = load_classes()
     classes_hash = sha256(CLASSES)
     path = receipts_path(output_root)
     receipts = json.loads(path.read_text()) if path.is_file() else {}
@@ -368,6 +422,10 @@ def verify(sources_root, output_root, worlds):
             expected = {f'{stem}_{kind}.oytex' for stem in stems for kind in 'nd'}
             problems += [f'orphaned {p.relative_to(output_root)}' for p in sorted(output_dir.glob('*.oytex'))
                          if p.name not in expected]
+        list_path = glow_list_path(output_root, world)
+        if stems and (not list_path.is_file() or list_path.read_text()
+                      != glow_list_text(world, glowing_stems(sources_root, world, stems, classes, receipts))):
+            problems.append(f'stale {list_path.relative_to(output_root)}')
     for problem in problems[:40]:
         print(problem)
     print(f'surface materials: {len(problems)} problems')

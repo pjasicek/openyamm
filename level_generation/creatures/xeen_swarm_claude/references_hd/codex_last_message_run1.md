@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_swarm_claude/references_hd/00_three_quarter.png) as the unresized 1536×1024 transparent PNG. It shows one right-facing Stinger with six visible legs and four wings. Both built-in image generation attempts are recorded in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_swarm_claude/references_hd/generation_runs.json).
+
+The visible silhouette clears every edge by at least 125 pixels. Trace pixels with alpha at or below 8/255 extend into the margins.

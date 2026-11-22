@@ -1,0 +1,360 @@
+{
+ "plane": "P3",
+ "name": "Plane of Earth of Xeen",
+ "form": "a cavern-like bowl under a dust sky",
+ "room_cells": [
+  26,
+  26
+ ],
+ "room_units": [
+  13312,
+  13312
+ ],
+ "walkable_area_m": 49.5,
+ "walkable_share": 0.28,
+ "floor_bbox_cells": [
+  23.1,
+  22.6
+ ],
+ "low_area_m": 91.3,
+ "low_share": 0.648,
+ "bank_max": 4189,
+ "bank_p90": 3010,
+ "walk_length": 16870,
+ "walk_seconds": {
+  "walking": 44,
+  "running": 22
+ },
+ "stations": {
+  "poi:statue": {
+   "along": 3906,
+   "off_line": 107
+  },
+  "poi:test": {
+   "along": 10414,
+   "off_line": 0
+  },
+  "gate:sleeper": {
+   "along": 13563,
+   "off_line": 0
+  },
+  "poi:sleeper": {
+   "along": 15870,
+   "off_line": 128
+  },
+  "exit:dais": {
+   "along": 16870,
+   "off_line": 0
+  }
+ },
+ "walk_legs": {
+  "arrival_to_test": 10414,
+  "test_to_sleeper": 5456,
+  "sleeper_to_way_out": 1000
+ },
+ "groups": [
+  {
+   "id": "pop:statue_west",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    -1408,
+    2304
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:statue_east",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    384,
+    1280
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:quarry_elementals",
+   "actor": "Earth Elemental (11720)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    3840,
+    3584
+   ],
+   "space": "room:quarry"
+  },
+  {
+   "id": "pop:quarry_north",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    4480,
+    4352
+   ],
+   "space": "room:quarry"
+  },
+  {
+   "id": "pop:geodes_south",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    4096,
+    -768
+   ],
+   "space": "room:geodes"
+  },
+  {
+   "id": "pop:geodes_north",
+   "actor": "Earth Elemental (11720)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    4608,
+    896
+   ],
+   "space": "room:geodes"
+  },
+  {
+   "id": "pop:pillars_south",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    896,
+    -2048
+   ],
+   "space": "room:pillars"
+  },
+  {
+   "id": "pop:pillars_west",
+   "actor": "Lesser Earth Elemental (11626)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    -384,
+    -1152
+   ],
+   "space": "room:pillars"
+  },
+  {
+   "id": "pop:anvil_north",
+   "actor": "Earth Elemental (11720)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    -4224,
+    -512
+   ],
+   "space": "room:arena"
+  },
+  {
+   "id": "pop:fault_greater",
+   "actor": "Earth Blaster (11721)",
+   "count": 3,
+   "level": 70,
+   "at": [
+    -5376,
+    1024
+   ],
+   "space": "room:west_ledge"
+  }
+ ],
+ "field_hostiles": 27,
+ "test_hostiles": 3,
+ "placed_hostiles": 30,
+ "group_count": 11,
+ "group_sizes": [
+  2,
+  3
+ ],
+ "levels": [
+  55,
+  75
+ ],
+ "level_mean": 60.3,
+ "kill_xp_party": 128176,
+ "kill_xp_per_member": 32044,
+ "kill_xp_target_per_member": 31025,
+ "kill_xp_vs_target": 0.033,
+ "by_row": {
+  "Lesser Earth Elemental (11626)": 15,
+  "Earth Elemental (11720)": 9,
+  "Earth Blaster (11721)": 5,
+  "Sleeper's Guardian of Earth (11722)": 1
+ },
+ "first_fight": {
+  "straight": 2947,
+  "group": "pop:statue_west",
+  "along_walk": 2946
+ },
+ "landing_hostiles": 0,
+ "nearest_group_to_way_up": 3874,
+ "poi_census": 10,
+ "poi_spacing": {
+  "median": 2969,
+  "min": 1086,
+  "max": 5254
+ },
+ "chests": 2,
+ "hazard_cells": 9,
+ "hazard_on_critical": 0,
+ "hazard_on_links": 0,
+ "hazard_in_arena": 0,
+ "hazard_in_chamber": 0,
+ "p2": {
+  "approaches": {
+   "zone:scree": {
+    "lip_min": 256,
+    "samples": 289,
+    "what": "zone:scree"
+   },
+   "gate_flank": {
+    "lip_min": 384,
+    "samples": 19,
+    "what": "two monoliths of the Anvil's ring either side of the Root Stair's slab"
+   }
+  },
+  "lip_min": 256,
+  "drops_within_reach": [],
+  "higher_floors": [
+   {
+    "space": "room:arena",
+    "floor": -384,
+    "gap": 1146
+   },
+   {
+    "space": "room:pillars",
+    "floor": -320,
+    "gap": 1783
+   },
+   {
+    "space": "room:pillars",
+    "onto": "gate link",
+    "floor": -320,
+    "gap": 2174
+   }
+  ],
+  "holds": true
+ },
+ "off_floor": [],
+ "swimmers_on_floor": [],
+ "links": {
+  "link:ramp_n": {
+   "length": 1679,
+   "width": 768,
+   "rise": -128
+  },
+  "link:arch_e": {
+   "length": 2478,
+   "width": 640,
+   "rise": 64
+  },
+  "link:ramp_q": {
+   "length": 1260,
+   "width": 640,
+   "rise": -192
+  },
+  "link:ramp_g": {
+   "length": 1717,
+   "width": 640,
+   "rise": -64
+  },
+  "link:ramp_c": {
+   "length": 1192,
+   "width": 640,
+   "rise": -192
+  },
+  "link:ramp_a": {
+   "length": 1579,
+   "width": 640,
+   "rise": -64
+  },
+  "link:fault_n": {
+   "length": 1109,
+   "width": 512,
+   "rise": -192
+  },
+  "link:fault_s": {
+   "length": 540,
+   "width": 512,
+   "rise": -192
+  },
+  "link:root_stair": {
+   "length": 1202,
+   "width": 640,
+   "rise": -384
+  }
+ },
+ "floors": [
+  -768,
+  0
+ ],
+ "places": {
+  "entrance:d7_fall": [
+   -3840,
+   3968
+  ],
+  "exit:way_up": [
+   -4864,
+   4864
+  ],
+  "poi:statue": [
+   -512,
+   1920
+  ],
+  "poi:geode": [
+   4608,
+   256
+  ],
+  "poi:echo": [
+   1152,
+   -896
+  ],
+  "poi:test": [
+   -2432,
+   -1792
+  ],
+  "landmark:anvil": [
+   -3840,
+   -1792
+  ],
+  "gate:sleeper": [
+   -2816,
+   -3200
+  ],
+  "poi:sleeper": [
+   -2048,
+   -5504
+  ],
+  "poi:test_chest": [
+   -896,
+   -5376
+  ],
+  "exit:dais": [
+   -2816,
+   -4736
+  ],
+  "poi:quarry_cache": [
+   4736,
+   4480
+  ],
+  "poi:last_block": [
+   3584,
+   3200
+  ]
+ },
+ "camera": {
+  "at": [
+   -3456,
+   3584
+  ],
+  "z": 176,
+  "yaw_deg": -62.0,
+  "fov": 74.0
+ }
+}

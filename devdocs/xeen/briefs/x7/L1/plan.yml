@@ -1,0 +1,516 @@
+format: 0
+level: L1
+pitch: "Cloudside's north-east corner: the world's volcano. From Vertigo's hills the north road climbs red slopes past an abandoned dwarf watch and a dragon hermit's cave to the Firestone Gap; from there the whole north lies below, grey with ash: a lava river crossing the flats to a lava lake, the Volcano Cave and the Dragon Cave, a black tower on the rim, and Mount Firestone smoking over it all, its lava pouring off the edge of the world into the stars."
+purpose: "Act V's trap and endgame map (party 40-55; the south slopes from level 5): Sablewing's Dragon Master (D-5.2, levels 20-30), the seventh obelisk, the Orc Caves' back gate (XD-05), the Ever-Hot Lava Rock (Q-C14), the Volcano Cave (XD-16, Q-C26) and Shangri-La's back gate (XD-17), the Dragon Cave (XD-18, Q-C25, optional), the Dragon Tower (FD-04, Q-F1/Q-F2, optional), the Fire Reflector (M37, Act VI)."
+mood: "Grey ash drifting down through a dull red-brown light; heat shimmer over the flows; the roar of the crater and the hiss of lava; the south slopes merely dry and windy, the north scorched and still but for the wings overhead."
+datum: water:rim_sea
+spaces:
+  - id: edge:south_end
+    name: South edge (X1)
+    kind: road
+    part_of: zone:south_slopes
+    purpose: Where the north road leaves for X1.
+  - id: edge:west_end
+    name: West edge (X4)
+    kind: road
+    part_of: zone:red_dwarf_range
+    purpose: Where the Firestone road leaves for X4.
+  - id: junction:gap
+    name: The Gap
+    kind: junction
+    purpose: "The roads south to Vertigo and west to Burlock; the track north into the dragons' country."
+    signpost: true
+  - id: junction:lava_fork
+    name: Lava fork
+    kind: junction
+    purpose: "North of the Gap: the lake track west, the Volcano Cave east, the black bridge north to the Dragon Cave."
+    signpost: true
+  - id: junction:slope_fork
+    name: Slope fork
+    kind: junction
+    purpose: "On the north road: Sablewing's lane east, the shrine lane west."
+    signpost: true
+  - id: water:crater
+    name: The crater's lava pool
+    kind: water
+    part_of: zone:crater
+    purpose: Lava under the rim.
+  - id: water:lava_falls
+    name: The lava falls
+    kind: water
+    part_of: zone:firestone
+    purpose: The river's north arm over the lava cove's south wall into the stars.
+  - id: water:lava_lake
+    name: The lava lake
+    kind: water
+    part_of: zone:lava_basin
+    purpose: D1's lava lake (lava liquid).
+  - id: water:lava_river
+    name: The lava river
+    kind: water
+    part_of: zone:ash_flats
+    purpose: "From the crater down the west flank to the lava lake; one crossing, the black bridge."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the edge.
+  - id: zone:ash_flats
+    name: The ash flats
+    kind: wild
+    floor: [1900, 2500]
+    relief: uneven
+    purpose: "Grey ash plains and cooled flows below the Gap (source E1): the black bridge over the lava river, the Volcano Cave and Shangri-La's cleft at Firestone's west foot, the Dragon Cave's crag on the rim, a knight's remains by the tax road; hydras."
+    density: sparse
+    population:
+      - {id: pop:ash_flats, slot: 2, groups: 9, per_marker: [1, 3], levels: [45, 65], notes: "Encounter area: Hydras."}
+  - id: zone:crater
+    name: The crater
+    kind: zone
+    part_of: zone:firestone
+    floor: 4600
+    purpose: "A lava pool under the smoking rim (a landmark; nothing to take)."
+  - id: zone:dragon_crag
+    name: The Dragon Cave's crag
+    kind: zone
+    part_of: zone:ash_flats
+    floor: 2500
+    purpose: "XD-18: a cave in a black crag at the rim; the Dragon Tax Office inside its mouth."
+  - id: zone:dwarf_watch
+    name: The dwarves' watch
+    kind: district
+    part_of: zone:south_slopes
+    floor: 2100
+    purpose: "A stockade and a signal tower beside the road where the dwarves watched the north; abandoned since the dragons came south; its pay chest left behind."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:fire_corner
+    name: The Fire corner
+    kind: zone
+    part_of: zone:firestone
+    floor: 2900
+    purpose: "A rock spit where the north and east rims meet: the Fire Reflector (M37)."
+  - id: zone:firestone
+    name: Mount Firestone
+    kind: wild
+    floor: [2300, 5000]
+    relief: uneven
+    purpose: "The volcano (source F1): a black cone to 5,000 smoking under falling ash, the crater's lava pool, the lava river down its west flank and over the north rim, a dragon's hoard on its east shoulder, the Fire Reflector at the corner; dragons."
+    density: sparse
+    population:
+      - {id: pop:firestone, slot: 3, groups: 18, per_marker: [1, 2], levels: [60, 75], notes: "Encounter area: Dragons."}
+  - id: zone:lava_basin
+    name: The lava basin
+    kind: wild
+    floor: [1500, 2000]
+    relief: uneven
+    purpose: "D1's lava lake under the north rim: the cooled-flow island with the Ever-Hot Lava Rock and its lava golems, the hydras' wallow, the Dragon Tower on its crag at the rim; hydras."
+    density: sparse
+    population:
+      - {id: pop:lava_basin, slot: 2, groups: 10, per_marker: [1, 3], levels: [45, 65], notes: "Encounter area: Hydras."}
+  - id: zone:lava_island
+    name: The lava rock's island
+    kind: zone
+    part_of: zone:lava_basin
+    floor: 1560
+    purpose: "A tongue of cooled flow in the lava lake, a causeway to the south shore; the Ever-Hot Lava Rock (Q-C14); eight lava golems (placed)."
+  - id: zone:orc_outpost
+    name: The orc outpost
+    kind: zone
+    part_of: zone:south_slopes
+    floor: 2000
+    purpose: "An orc outpost on the west slopes (source E2): hides on poles round a fire, three placed orcs, a chest; burnable."
+  - id: zone:red_dwarf_range
+    name: The Red Dwarf Range
+    kind: wild
+    floor: [2000, 3200]
+    relief: uneven
+    purpose: "Bare red peaks across the map (source E2's north half): the line between the mild south and the deadly north; the Firestone road runs up its valley from X4 to the Gap; quiet by design."
+    density: sparse
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "North and east the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:sablewing_cave
+    name: Sablewing's cave
+    kind: district
+    part_of: zone:south_slopes
+    floor: 2050
+    purpose: "D-5.2: Sablewing the Dragon Hermit (4720) at his cave mouth under a red crag off the road from X1; Dragon Master (A4's teacher); the hoard heaped behind him (dressing)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:south_slopes
+    name: The south slopes
+    kind: wild
+    floor: [1700, 2300]
+    relief: slope
+    purpose: "The Red Dwarf Range's mild southern slopes (source E2, F2): red stony ground and dry scrub rising from X1's hills; the north road, the dwarves' watch, Sablewing's cave, the Shrine of Fire, the Well of Speed, an orc outpost to burn, the Orc Caves' back gate; orcs only."
+    density: sparse
+    population:
+      - {id: pop:west_slopes, slot: 1, groups: 5, per_marker: [2, 3], levels: [5, 10], notes: "Encounter area: Orcs."}
+      - {id: pop:red_river, slot: 1, groups: 5, per_marker: [2, 3], levels: [5, 10], notes: "Encounter area: Orcs."}
+  - id: zone:the_gap
+    name: The Firestone Gap
+    kind: zone
+    part_of: zone:red_dwarf_range
+    floor: 2300
+    purpose: "The pass where the north road and the Firestone road meet; the obelisk on its north lip; the whole north below: the ash flats, the lava river, Mount Firestone."
+  - id: zone:tower_crag
+    name: The Dragon Tower's crag
+    kind: zone
+    part_of: zone:lava_basin
+    floor: 2600
+    purpose: "FD-04: a tower of black stone on a crag over the lava lake at the rim (phase 6)."
+  - id: zone:volcano_mouth
+    name: The Volcano Cave's mouth
+    kind: zone
+    part_of: zone:ash_flats
+    floor: 2250
+    purpose: "XD-16: a cave mouth breathing heat between a demon idol and a devil idol."
+links:
+  - id: link:cleft_path
+    from: zone:volcano_mouth
+    to: zone:firestone
+    kind: path
+    notes: to Shangri-La's cleft
+  - id: link:firestone_path
+    from: zone:volcano_mouth
+    to: zone:fire_corner
+    kind: path
+    notes: round Firestone's south shoulder to the Fire corner
+  - id: link:firestone_road
+    from: edge:west_end
+    to: junction:gap
+    kind: road
+    purpose: "travel: X4"
+    notes: "up the valley under the range, past the cairn"
+  - id: link:gate_lane
+    from: link:north_road
+    to: zone:south_slopes
+    kind: path
+    notes: to the Orc Caves' back gate
+  - id: link:lake_track
+    from: junction:lava_fork
+    to: zone:lava_island
+    kind: path
+    notes: along the lake shore and over the causeway
+  - id: link:north_road
+    from: edge:south_end
+    to: junction:gap
+    kind: road
+    purpose: "travel: X1"
+    notes: "by the slope fork and the dwarves' watch, up to the Gap"
+  - id: link:north_track
+    from: junction:gap
+    to: zone:dragon_crag
+    kind: path
+    notes: "down to the lava fork, over the black bridge, the tax road to the Dragon Cave"
+  - id: link:outpost_track
+    from: link:west_track
+    to: zone:orc_outpost
+    kind: path
+  - id: link:sablewing_lane
+    from: junction:slope_fork
+    to: zone:sablewing_cave
+    kind: path
+  - id: link:shrine_lane
+    from: junction:slope_fork
+    to: zone:south_slopes
+    kind: path
+    notes: to the Shrine of Fire
+  - id: link:spring_lane
+    from: link:gate_lane
+    to: zone:south_slopes
+    kind: path
+    notes: to the hot spring
+  - id: link:tower_path
+    from: link:lake_track
+    to: zone:tower_crag
+    kind: path
+    notes: round the lake's west shore
+  - id: link:volcano_path
+    from: link:north_track
+    to: zone:volcano_mouth
+    kind: path
+  - id: link:west_track
+    from: link:shrine_lane
+    to: zone:south_slopes
+    kind: path
+    notes: to the Well of Speed
+entrances:
+  - id: entrance:fd04_door
+    space: zone:tower_crag
+    kind: both
+    neighbour: door:fd04
+    facing: s
+    how: "The Dragon Tower's gate (phase 6, optional)."
+  - id: entrance:south_road
+    space: edge:south_end
+    kind: both
+    neighbour: edge:south
+    facing: n
+    how: The north road from X1's hills.
+  - id: entrance:west_road
+    space: edge:west_end
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: The Firestone road from X4's lava fields.
+  - id: entrance:xd05_gate
+    space: zone:south_slopes
+    kind: both
+    neighbour: door:xd05
+    facing: w
+    how: "The Orc Caves' back gate: barred from inside until thrown (x1-tam.back_gate); before, \"A heavy door of logs in the hillside, barred from within.\""
+    condition: {qbit: orc_back_gate}
+  - id: entrance:xd16_mouth
+    space: zone:volcano_mouth
+    kind: both
+    neighbour: door:xd16
+    facing: w
+    how: "The cave mouth between the idols (\"Enter the Volcano Cave?\")."
+  - id: entrance:xd17_cleft
+    space: zone:firestone
+    kind: both
+    neighbour: door:xd17
+    facing: w
+    how: "Shangri-La's back gate: a cleft in the black rock, a warm green-smelling wind blowing out of it; before q-c26.done \"A cleft choked with fallen rock. Warm air seeps between the stones.\""
+    condition: {qbit: q_c26_done}
+  - id: entrance:xd18_mouth
+    space: zone:dragon_crag
+    kind: both
+    neighbour: door:xd18
+    facing: s
+    how: "\"The Dragon Cave smells pretty bad. Are you sure you wish to enter?\""
+critical_path: [edge:south_end, junction:slope_fork, zone:dwarf_watch, junction:gap, junction:lava_fork, zone:volcano_mouth]
+goals:
+  - id: goal:dragon_cave
+    space: zone:dragon_crag
+    kind: reach
+    what: "Pay the dragon tax at the Dragon Cave (Q-C25, optional)."
+    story: Q-C25
+  - id: goal:lava_rock
+    space: zone:lava_island
+    kind: use
+    what: Take the Ever-Hot Lava Rock past its golems (Q-C14).
+    story: Q-C14
+  - id: goal:obelisk
+    space: zone:the_gap
+    kind: use
+    what: Read the seventh Cloudside word (OBELISKS).
+    story: OBELISKS
+  - id: goal:reflector
+    space: zone:fire_corner
+    kind: use
+    what: "Wake the Fire Reflector (M37, after M36 starts)."
+    story: M37
+  - id: goal:sablewing
+    space: zone:sablewing_cave
+    kind: reach
+    what: Learn Dragon Master from Sablewing (D-5.2).
+    story: D-5.2
+  - id: goal:volcano
+    space: zone:volcano_mouth
+    kind: reach
+    what: "Enter the Volcano Cave; smash both skulls (Q-C26)."
+    story: Q-C26
+points_of_interest:
+  - id: poi:cairn
+    space: zone:red_dwarf_range
+    kind: device
+    behaviour: "The cairn of the unreturned: names scratched on the stones of those who went north. \"Add yours?\" +Luck, temporary, daily (\"The stones seem to wish you luck.\")"
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:demon_idols
+    space: zone:volcano_mouth
+    kind: device
+    behaviour: "Two idols at the Volcano Cave's mouth, a demon and a devil: \"Their skulls are not here. Someone has scratched an arrow pointing inside.\" (Q-C26's hint; no effect)."
+  - id: poi:dragon_hoard
+    space: zone:firestone
+    kind: chest
+    behaviour: "A dragon's hoard on Firestone's east shoulder, among scorched bones (a chest)."
+  - id: poi:fire_reflector
+    space: zone:fire_corner
+    kind: device
+    behaviour: "A3's m37.reflector_fire: \"Reflector. Activate?\"; after m36.started it hums (8,000 XP once); before, \"A machine of the Ancients, cold and silent.\""
+  - id: poi:hot_spring
+    space: zone:south_slopes
+    kind: fountain
+    behaviour: "The dwarves' hot spring: \"You soak until the ache leaves your bones.\" Heals Hit Points, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:hydra_wallow
+    space: zone:lava_basin
+    kind: chest
+    behaviour: "The hydras' wallow on the lake shore: bones and a pilgrim's pack (a chest)."
+  - id: poi:knight_remains
+    space: zone:ash_flats
+    kind: chest
+    behaviour: "A knight who came for the Dragon Cave, his armour run into the rock; his strongbox (a chest)."
+  - id: poi:lava_rock
+    space: zone:lava_island
+    kind: device
+    behaviour: "A3's q-c14.lava_rock: the Ever-Hot Lava Rock on the cooled flow (source E2: \"You have found a rock that is still hot from an ancient volcanic eruption! Strangely, you are able to pick it up without getting burnt.\"); once."
+  - id: poi:miner_cache
+    space: zone:red_dwarf_range
+    kind: chest
+    behaviour: "A dwarf miner's old adit beside the Firestone road, his cache behind a fallen prop (a chest)."
+  - id: poi:obelisk
+    space: zone:the_gap
+    kind: obelisk
+    behaviour: "Cloudside's seventh obelisk (A3's obelisks.x7: SPHINX)."
+    rule: native:obelisk
+    notes: "On the Gap's north lip, safe ground: an Act IV party collecting the words reaches it without a fight."
+  - id: poi:orc_den
+    space: zone:south_slopes
+    kind: chest
+    behaviour: "The gate pickets' den by the Orc Caves' back gate (source F2: \"Crude furnishings and filthy bedding tell you that orcs have been living in this cave. Pillage?\"): a chest."
+  - id: poi:orc_outpost
+    space: zone:orc_outpost
+    kind: camp
+    behaviour: "Source E2: \"You have found an Orc Outpost. Put it to the torch?\" / \"The Outpost burns well.\" Burns once (the source's +1,000 experience at MM6-MM8 scale, A3)."
+  - id: poi:outpost_chest
+    space: zone:orc_outpost
+    kind: chest
+    behaviour: The orcs' loot from the road (a chest).
+  - id: poi:sablewing
+    space: zone:sablewing_cave
+    kind: teacher
+    behaviour: "Sablewing the Dragon Hermit (4720): Dragon Master (A4's teachers; D-5.2); \"I came up the mountain to be alone. Then everyone came up the mountain to fight me.\""
+  - id: poi:shrine_fire
+    space: zone:south_slopes
+    kind: shrine
+    behaviour: "The Shrine of Fire (source E2: \"Shrine of Fire\" / \"You don't think anyone is listening.\"): +Fire resistance, temporary, daily (X4 already has a permanent Shrine of Fire; question 2)."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:signposts
+    spaces: [junction:gap, junction:lava_fork, junction:slope_fork]
+    count: 3
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:watch_chest
+    space: zone:dwarf_watch
+    kind: chest
+    behaviour: "The watch's pay chest, left when the dwarves ran (a chest)."
+  - id: poi:well_speed
+    space: zone:south_slopes
+    kind: well
+    behaviour: "The Well of Speed (source E2: \"The water is cool and refreshing.\"): +2 Speed, permanent, once per character (the map's permanent device; question 2)."
+    uses: {times: 1, per: character, reset: never}
+landmarks:
+  - id: landmark:black_bridge
+    space: zone:ash_flats
+    what: A bridge of black cooled flow arching over the lava river
+    seen_from: [zone:the_gap, zone:ash_flats]
+  - id: landmark:boundary_stone
+    space: zone:red_dwarf_range
+    what: A dwarf boundary stone carved with a dragon and a line
+    seen_from: [edge:west_end]
+  - id: landmark:charcoal_pits
+    space: zone:south_slopes
+    what: "The dwarves' charcoal pits, long cold"
+    seen_from: [zone:south_slopes]
+  - id: landmark:dragon_skull
+    space: zone:red_dwarf_range
+    what: A dragon's skull picked clean on the range's east end
+    seen_from: [zone:south_slopes]
+  - id: landmark:dragon_tower
+    space: zone:tower_crag
+    what: "A tower of black stone on a crag over the lava lake, the stars behind it"
+    seen_from: [zone:lava_basin, zone:the_gap, edge:west_end]
+  - id: landmark:east_lookout
+    space: zone:red_dwarf_range
+    what: "The dwarves' east lookout: a roofless stone hut on the crest, its spyglass mount pointing north"
+    seen_from: [zone:south_slopes, zone:dwarf_watch]
+  - id: landmark:fallen_cart
+    space: zone:south_slopes
+    what: An ore cart overturned beside the old west track
+    seen_from: [zone:south_slopes]
+  - id: landmark:firestone
+    space: zone:firestone
+    what: "A black volcanic cone to 5,000, smoke and ash streaming from its crater, red lava down its west flank"
+    seen_from: [zone:south_slopes, zone:the_gap, zone:ash_flats, zone:lava_basin, edge:west_end]
+  - id: landmark:lava_falls
+    space: zone:firestone
+    what: The lava river pouring over the north rim and falling glowing into the stars
+    seen_from: [zone:ash_flats, zone:dragon_crag, zone:the_gap]
+  - id: landmark:pony_shed
+    space: zone:south_slopes
+    what: "The watch's pony shed, its roof fallen in"
+    seen_from: [zone:dwarf_watch]
+  - id: landmark:red_dwarf_range
+    space: zone:red_dwarf_range
+    what: "Bare red peaks across the map, the Gap in them"
+    seen_from: [zone:south_slopes, edge:south_end, zone:ash_flats]
+  - id: landmark:slag_heaps
+    space: zone:south_slopes
+    what: The dwarves' old slag heaps and a fallen ore chute
+    seen_from: [zone:south_slopes]
+  - id: landmark:watch_tower
+    space: zone:dwarf_watch
+    what: "The dwarves' signal tower beside the road, its brazier cold"
+    seen_from: [edge:south_end, zone:south_slopes]
+sightlines:
+  - id: view:arrival
+    from: entrance:south_road
+    to: [landmark:watch_tower, landmark:red_dwarf_range, landmark:firestone]
+    what: "Arrival from X1: the road up the red slopes to the dwarves' watch, the range with the Gap, and Mount Firestone smoking beyond it."
+  - id: view:signature
+    from: zone:dragon_crag
+    to: [landmark:lava_falls, landmark:firestone]
+    what: "The signature view: the lava river pouring over the world's north rim into the stars, Mount Firestone smoking above it."
+height_bands:
+  - id: band:basin
+    range: [1500, 2600]
+    spaces: [zone:lava_basin, water:lava_lake]
+    notes: "The lava lake at 1,500; the Dragon Tower's crag to 2,600 at the rim."
+  - id: band:flats
+    range: [1900, 2700]
+    spaces: [zone:ash_flats, water:lava_river]
+  - id: band:range
+    range: [1300, 3200]
+    spaces: [zone:red_dwarf_range]
+    notes: "Peaks 2,800-3,200; the Gap 2,300; the west road's valley 1,300-2,300."
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+  - id: band:slopes
+    range: [1700, 2600]
+    spaces: [zone:south_slopes]
+  - id: band:volcano
+    range: [2300, 5000]
+    spaces: [zone:firestone, water:crater, water:lava_falls]
+states:
+  - id: state:cleft_shut
+    condition: {not: {qbit: q_c26_done}}
+    locks: [entrance:xd17_cleft]
+    atmosphere: "Fallen rock in the cleft; warm air between the stones."
+    notes: "Opens on q-c26.done (both skulls smashed in XD-16); question 3."
+  - id: state:reflector_cold
+    condition: {not: {qbit: m36_started}}
+    atmosphere: The Reflector cold and silent until M36 starts.
+  - id: state:rock_taken
+    condition: {qbit: rock_found}
+    atmosphere: "The cooled flow empty; the golems still there."
+  - id: state:xd05_barred
+    condition: {not: {qbit: orc_back_gate}}
+    locks: [entrance:xd05_gate]
+    atmosphere: The back gate barred from within.
+    notes: "Opened from inside XD-05 (x1-tam.back_gate, 110051); then a two-way shortcut to X1."
+landform:
+  relief: "The south slopes (1,800-2,200) rise from X1's hills to the Red Dwarf Range (peaks to 3,200, the Gap 2,300); the Firestone road climbs its valley from X4's 1,300. North of the range the ash flats (1,900-2,500) fall west to the lava lake (1,500) and rise east into Mount Firestone, a cone to 5,000 with a crater pool at 4,600. Inside the square: 1,500 to 5,000."
+  height_range: [1500, 5000]
+  water: "No water: the lava lake (about 250 cells), the crater pool, the lava river and its north arm (lava liquid)."
+  water_share: 0.04
+  caps:
+    - {kind: bare rock, share: 0.3, where: "the range, Mount Firestone, the crags, the rim cliffs"}
+    - {kind: ash and cooled flow, share: 0.3, where: the north}
+  rim: {notes: "The world rim along the whole north (y 24) and east (x 104): a cliff of 1,500-2,900 down to the stars; the lava falls pour over the north rim; the Dragon Tower and the Dragon Cave stand on crags at its edge, the Fire Reflector on the corner spit. West and south the land runs to the map edge; the roads run out to it."}
+atmosphere: "Sky: the shipped fair preset with the ashen theme (A6's world sky.yml already lists xeen_x7.odm: ashen); ash fall (WORLD_DESIGN 4: \"ash fall in X7\") from a weather row (engine weather.yml's per-map ash chance; the studio has no word for it: NOTES); no rain; music 26 (MM7 Mount Nighon). Lava hiss and the crater's rumble in the north, wind on the slopes (E9's ODM ambient sounds)."
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  dungeon_entrances: 5
+  encounter_areas: 5
+  hostiles_at_load: 101
+  outdoor_chests: 7
+  points_of_interest: 24
+  spawn_markers: 47
+notes: "MU-3 for the phase 5 review (A5, 2026-11-20). Source geography: Clouds E1, E2, F1, F2 and D1's lava lake (MAPS X7). Drawing and review board: output/studio_cal/x7/mockups/. Generated by output/studio_cal/x7/tools/gen_l1.py."

@@ -1,0 +1,125 @@
+# Xeen side quest Q-D27, Genie Lamps, D7's three (from a new game on D7, a level-60 party; the Skyroads are an open-air
+# sky map where the party is placed, as segment 75 and hooks_d7.yml do). The tired genie at the Griffin Watch (event 79,
+# q-d27.d7_tired, one wish left): Gems; the kind genie on the East Rest Stop's bench (event 78, q-d27.d7_kind):
+# Experience; each then cold. The angry genie on the Genie's Rock (event 77, q-d27.d7_angry), saved before it, member 2
+# clicking: "Take my friends" (the speaker cursed and weak, nobody else); the save loaded: "Make me king" (the speaker
+# turned to stone). hooks_d7.yml plays the tired lamp's Experience, the kind lamp's Gold and the angry "Take me".
+# Places: tests/scenarios/xeen/hooks_d7.yml. Quest logic: source/quests/q-d27.yml, Xeen.genieLamp in xeen_common.lua.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d27_genie_lamps_d7.yml --scenario-no-color
+id: xeen.side_quests.q-d27.d7
+title: "Xeen Q-D27: D7's genie lamps, Gems and Experience, and the angry genie's two other answers"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d7.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 60, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 60, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 60, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 60, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d7.blv}
+  - assert: {qbit_clear: [113545, 113546, 113547]}
+  # The tired genie at the Griffin Watch (event 79): Gems.
+  - set_pose: {map: xeen_d7.blv, x: -17088, y: 18176, z: 1280, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gems', item_count(180)); click(79); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "(yawn) The people before you used up two wishes. There's one left. Take your pick."}}
+  - assert: {dialog: {active: true, action_label_present: "Gems"}}
+  - answer_input: {text: "Gems"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "ten gems roll out of the lamp, still warm."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(180) - recall("gems") ~= 10 then error("d7_tired: Gems gave " .. (item_count(180) - recall("gems"))) end
+        if not qbit(113545) then error("q-d27.d7_tired 113545 not set") end
+        remember('gems', item_count(180))
+        click(79); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone back to sleep somewhere else."}}
+  - play_lua: {source: "close(); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(180) ~= recall('gems') then error('d7_tired: the cold lamp gave gems') end"}
+  # The kind genie on the East Rest Stop's bench (event 78): Experience.
+  - set_pose: {map: xeen_d7.blv, x: 17440, y: 18176, z: 1280, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(78); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Thank you for releasing me. I like you, and I will grant you one wish. Choose one."}}
+  - assert: {dialog: {active: true, action_label_present: "Gems"}}
+  - answer_input: {text: "Experience"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Things you never studied are suddenly familiar. (+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("d7_kind: Experience paid member " .. i .. " " .. d) end
+        end
+        if not qbit(113546) then error("q-d27.d7_kind 113546 not set") end
+        for i = 0, 3 do remember('x' .. i, experience(i)) end
+        click(78); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do if experience(i) ~= recall('x' .. i) then error('d7_kind: the cold lamp paid member ' .. i) end end"}
+  # The angry genie on the Genie's Rock (event 77), member 2 clicking; a save first. "Take my friends".
+  - set_pose: {map: xeen_d7.blv, x: -10240, y: -6784, z: 1120, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_action: {action: select_member, member_index: 2}
+  - save_game: {name: "Q-D27 at the angry lamp", path: output/xeen_sidequests/darkside_e/q-d27_d7_angry.oysav}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(77); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Two thousand years is simply unacceptable."}}
+  - assert: {dialog: {active: true, action_label_present: "Make me king"}}
+  - answer_input: {text: "Take my friends"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Die selfish scum!\" The genie's bolt finds the one who spoke"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(113547) then error("q-d27.d7_angry 113547 not set") end
+        local c = string.lower(conditions(2))
+        log("the speaker after Take my friends: " .. c)
+        if not string.find(c, "curse", 1, true) or not string.find(c, "weak", 1, true) then error("member 2 not cursed and weak: " .. c) end
+        for _, i in ipairs({0, 1, 3}) do
+          local o = string.lower(conditions(i))
+          if string.find(o, "curse", 1, true) then error("member " .. i .. " cursed too: " .. o) end
+        end
+        for i = 0, 3 do if experience(i) ~= recall("x" .. i) then error("Take my friends paid member " .. i) end end
+        click(77); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone, still angry."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The save loaded: "Make me king".
+  - load_game: {path: output/xeen_sidequests/darkside_e/q-d27_d7_angry.oysav}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113547]}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "click(77); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Two thousand years is simply unacceptable."}}
+  - answer_input: {text: "Make me king"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Your throne awaits!\" You sit down on it."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(113547) then error("q-d27.d7_angry 113547 not set") end
+        local c = string.lower(conditions(2))
+        log("the speaker after Make me king: " .. c)
+        if not string.find(c, "ston", 1, true) and not string.find(c, "petrif", 1, true) then error("member 2 not turned to stone: " .. c) end
+        for _, i in ipairs({0, 1, 3}) do
+          local o = string.lower(conditions(i))
+          if string.find(o, "ston", 1, true) or string.find(o, "petrif", 1, true) then error("member " .. i .. " stoned too: " .. o) end
+        end
+  - assert: {qbit_set: [113545, 113546, 113547]}

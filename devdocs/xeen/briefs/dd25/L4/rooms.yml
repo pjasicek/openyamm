@@ -1,0 +1,271 @@
+format: 0
+themes:
+  - id: theme:hall
+    wall: {texture: cwb1, size: [128, 256]}
+    bands:
+      - {height: 96, surface: {texture: cwb, size: [128, 256]}}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    door: {texture: hdr1dl, size: [128, 256]}
+    notes: "The dwarves' halls cut in 7d24's raw rock (cwb1) over a dressed-stone base course (cwb), under raw rock vaults; flag floors (7tfb1). Dressed stone only on the house fronts."
+  - id: theme:rock
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    door: {texture: hdr1dl, size: [128, 256]}
+    notes: "Dug rock: the burrow lane, the guild stair and the Deep Guild hall (cwb1 over cfb1)."
+  - id: theme:throne
+    wall: {texture: cwb, size: [128, 256]}
+    ends: {length: 32, surface: {texture: trim1_32, size: [32, 64]}}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    door: {texture: hdr1dl, size: [128, 256]}
+    notes: "The throne hall: as the halls, its dais and furniture in planks (7trimd, 7trimda)."
+defaults: {theme: theme:hall, ambient: 16}
+rooms:
+  - id: room:burrow_lane
+    name: Burrow lane
+    outline: [[-1280, -1408], [0, -1408], [0, -896], [-1280, -896]]
+    floor: 0
+    ceiling: 512
+    ceiling_points: [[-1280, -1152, 640], [0, -1152, 640]]
+    theme: theme:rock
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 400, length: 160, bottom: 0, height: 320, surface: {texture: hdp2b, size: [128, 256], fit: true}}
+          - {id: door:tinker, offset: 560, length: 160, bottom: 0, height: 320, surface: {texture: hdp2d, size: [128, 256], fit: true}, notes: "The Tinker's Burrow (house 4706): Gimble."}
+          - {offset: 720, length: 160, bottom: 0, height: 320, surface: {texture: hdp2b, size: [128, 256], fit: true}}
+          - {offset: 400, length: 480, bottom: 320, height: 80, surface: {texture: hhm1rf, size: [128, 128], scale: 0.625}}
+    notes: "Off the great hall's south side: the Tinker's Burrow on its south wall, the guild stair down from its west end. A raw rock vault over it."
+  - id: room:forge_bay
+    name: Forge bay
+    outline: [[512, 1536], [768, 1536], [768, 1792], [512, 1792]]
+    floor: 0
+    ceiling: 288
+    theme: theme:rock
+    notes: "The forge's hearth in a low bay behind the gallery's wall: its fire and glow inside it."
+  - id: room:gate_hall
+    name: Gate hall
+    outline: [[896, -512], [1664, -512], [1664, 768], [896, 768]]
+    floor: 0
+    ceiling: 640
+    theme: theme:hall
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 48, length: 160, bottom: 0, height: 320, surface: {texture: hdm2b, size: [128, 256], fit: true}}
+          - {id: door:alehall, offset: 208, length: 160, bottom: 0, height: 320, surface: {texture: hdm2d, size: [128, 256], fit: true}, notes: "The Alehall (house 4702): Brunna's tavern, the first door from the gate."}
+          - {offset: 368, length: 160, bottom: 0, height: 320, surface: {texture: hdm2b, size: [128, 256], fit: true}}
+          - {offset: 48, length: 480, bottom: 320, height: 80, surface: {texture: hhm1rf, size: [128, 128], scale: 0.625}}
+          - {offset: 240, length: 96, bottom: 416, height: 96, surface: {texture: 7sgtvrn, size: [64, 64], fit: true}}
+    notes: "The Alehall's front on the south wall, a pair of ale barrels beside it; the wide arch west into the great hall, the arch north into the smiths' gallery."
+  - id: room:gate_passage
+    name: Gate passage
+    outline: [[1792, -448], [2304, -448], [2304, 448], [1792, 448]]
+    floor: 0
+    ceiling: 384
+    theme: theme:hall
+    notes: "Inside the gate's two leaves (the exit to D5): the arrival 256 in from them; two of Bosco's guards in its corners by the gate."
+  - id: room:great_hall
+    name: Great hall
+    outline: [[-1280, -768], [768, -768], [768, 768], [-1280, 768]]
+    floor: 0
+    ceiling: 1024
+    ceiling_points: [[-1280, 0, 1344], [768, 0, 1344], [-256, 0, 1344]]
+    theme: theme:hall
+    pillars:
+      - {surface: {texture: cwb1, size: [128, 256]}, outline: [[-943, 386], [-990, 433], [-1058, 433], [-1105, 386], [-1105, 318], [-1058, 271], [-990, 271], [-943, 318]], notes: A pillar left standing when the hall was cut.}
+      - {surface: {texture: cwb1, size: [128, 256]}, outline: [[-943, -318], [-990, -271], [-1058, -271], [-1105, -318], [-1105, -386], [-1058, -433], [-990, -433], [-943, -386]], notes: A pillar left standing when the hall was cut.}
+      - {surface: {texture: cwb1, size: [128, 256]}, outline: [[465, 418], [418, 465], [350, 465], [303, 418], [303, 350], [350, 303], [418, 303], [465, 350]], notes: A pillar left standing when the hall was cut.}
+      - {surface: {texture: cwb1, size: [128, 256]}, outline: [[657, -286], [610, -239], [542, -239], [495, -286], [495, -354], [542, -401], [610, -401], [657, -354]], notes: A pillar left standing when the hall was cut.}
+    platforms:
+      - {id: platform:hearth, rise: 48, surface: {texture: 7cdb, size: [128, 256]}, outline: [[-32, 0], [-98, 158], [-256, 224], [-414, 158], [-480, 0], [-414, -158], [-256, -224], [-98, -158]], top_surface: {texture: cfb1, size: [128, 128]}, notes: "The round hearth in the middle of the hall (7cdb), its fire on top: the town's square."}
+      - {id: platform:well, at: [384, -656], size: [224, 224], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: "The well against the south wall: a stone kerb round cold water."}
+      - {at: [-832, 736], size: [512, 64], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A bench along the north wall.}
+      - {at: [-960, -736], size: [448, 64], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A bench along the south wall.}
+      - {at: [608, 736], size: [256, 64], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A short bench by the gallery arch.}
+    notes: "The town's square, 1,024 high under a raw rock vault (1,344 at its ridge) on four rock-cut pillars: the round hearth in the middle, the well against the south wall, benches by the walls, two chandeliers. Ways off: the gate hall (east), the smiths' gallery (north), the burrow lane (south), the King's steps (west)."
+  - id: room:guild_hall
+    name: Deep Guild hall
+    outline: [[-3840, -1792], [-2560, -1792], [-2560, -768], [-3840, -768]]
+    floor: -384
+    ceiling: 192
+    theme: theme:rock
+    walls:
+      - wall: 3
+        panels:
+          - {offset: 272, length: 160, bottom: 0, height: 320, surface: {texture: hdm1b, size: [128, 256], fit: true}}
+          - {id: door:guild_earth, offset: 432, length: 160, bottom: 0, height: 320, surface: {texture: hdm1d, size: [128, 256], fit: true}, notes: "The Deep Guild of Earth (house 4703): Stonebeard."}
+          - {offset: 592, length: 160, bottom: 0, height: 320, surface: {texture: hdm1b, size: [128, 256], fit: true}}
+          - {offset: 464, length: 96, bottom: 336, height: 96, surface: {texture: sgearth, size: [64, 64], fit: true}}
+    notes: "A raw-rock hall at the guild stair's foot: a vein of crystal by the north wall, floor lamps; the Deep Guild of Earth's door on the west wall under its sign."
+  - id: room:guild_stair
+    name: Guild stair
+    outline: [[-2432, -1312], [-1408, -1312], [-1408, -992], [-2432, -992]]
+    floor: 0
+    slope: {to: -384, toward: west, steps: 12}
+    ceiling: 384
+    ceiling_slope: {to: 0, toward: west}
+    theme: theme:rock
+    notes: The guild stair from the burrow lane's west end down to the Deep Guild hall (0 to -384).
+  - id: room:kings_steps
+    name: King's steps
+    outline: [[-1920, -384], [-1408, -384], [-1408, 384], [-1920, 384]]
+    floor: 0
+    slope: {to: 128, toward: west, steps: 4}
+    ceiling: 576
+    theme: theme:hall
+    notes: Four steps up (128) from the great hall to the throne hall's two leaves.
+  - id: room:smiths_gallery
+    name: Smiths' gallery
+    outline: [[-512, 896], [1664, 896], [1664, 1408], [-512, 1408]]
+    floor: 0
+    ceiling: 640
+    theme: theme:hall
+    walls:
+      - wall: 2
+        panels:
+          - {offset: 400, length: 160, bottom: 0, height: 320, surface: {texture: hdp2b, size: [128, 256], fit: true}}
+          - {id: door:mailwright, offset: 560, length: 160, bottom: 0, height: 320, surface: {texture: hdp2d, size: [128, 256], fit: true}, notes: "The Mailwright's Burrow (house 4705): Hilde Ringwright."}
+          - {offset: 720, length: 160, bottom: 0, height: 320, surface: {texture: hdp2b, size: [128, 256], fit: true}}
+          - {offset: 400, length: 480, bottom: 320, height: 80, surface: {texture: hhm1rf, size: [128, 128], scale: 0.625}}
+          - {offset: 1168, length: 160, bottom: 0, height: 320, surface: {texture: hdp1b, size: [128, 256], fit: true}}
+          - {id: door:forge, offset: 1328, length: 160, bottom: 0, height: 320, surface: {texture: hdp1d, size: [128, 256], fit: true}, notes: "Bosco's Forge (house 4701): Durgan Ironfist's weapon shop."}
+          - {offset: 1488, length: 160, bottom: 0, height: 320, surface: {texture: hdp1b, size: [128, 256], fit: true}}
+          - {offset: 1168, length: 480, bottom: 320, height: 80, surface: {texture: hhm1rf, size: [128, 128], scale: 0.625}}
+          - {offset: 1360, length: 96, bottom: 416, height: 96, surface: {texture: sgweapon, size: [64, 64], fit: true}}
+    platforms:
+      - {id: platform:anvil, at: [-192, 1360], size: [128, 64], rise: 48, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cwb1, size: [128, 256]}, notes: An anvil block by the wall beside the Forge's front.}
+      - {at: [512, 1248], size: [64, 48], rise: 48, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cwb1, size: [128, 256]}, notes: An anvil's stone block.}
+      - {at: [512, 1248], size: [96, 40], rise: 24, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 48, top_size: [128, 48], notes: "The anvil's iron, flaring to its face."}
+      - {at: [768, 1248], size: [64, 48], rise: 48, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cwb1, size: [128, 256]}, notes: An anvil's stone block.}
+      - {at: [768, 1248], size: [96, 40], rise: 24, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 48, top_size: [128, 48], notes: "The anvil's iron, flaring to its face."}
+    notes: "Along the north side, open at both ends: Bosco's Forge and the Mailwright's Burrow side by side on the north wall (768 apart), the forge bay's lit opening between them, an anvil by the wall. Two more anvils flank the bay's mouth in its glow."
+  - id: room:throne_hall
+    name: Throne hall
+    outline: [[-3584, -640], [-2048, -640], [-2048, 640], [-3584, 640]]
+    floor: 128
+    ceiling: 896
+    theme: theme:throne
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:banner, offset: 368, length: 160, bottom: 432, height: 320, surface: {texture: xdbosban, size: [128, 256], fit: true}, notes: "Bosco's banner over his throne (xdbosban, once)."}
+          - {offset: 688, length: 160, bottom: 96, height: 320, surface: {texture: hdr1b, size: [128, 256], fit: true}}
+          - {id: door:kings_hall, offset: 848, length: 160, bottom: 96, height: 320, surface: {texture: hdm1d, size: [128, 256], fit: true}, notes: "The King's Hall (house 4704): Bosco, behind the dais."}
+          - {offset: 1008, length: 160, bottom: 96, height: 320, surface: {texture: hdr1b, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:throne, at: [-3480, 192], size: [144, 160], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, base: 96, notes: "Bosco's throne, empty: its seat, on the dais's top."}
+      - {id: platform:throne_back, at: [-3568, 192], size: [32, 128], rise: 256, surface: {texture: hdr1b, size: [128, 256]}, end_surface: {texture: 7trimd, size: [128, 256], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, base: 96, notes: "The throne's high back against the wall, under the banner: a carved panel (hdr1b, once)."}
+      - {id: platform:table, at: [-2560, 560], size: [512, 96], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: "The long tasting table on the north wall: the King's cups."}
+      - {id: platform:stool, at: [-2560, 448], size: [64, 64], rise: 40, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: The taster's stool.}
+    levels:
+      - id: level:dais_1
+        outline: [[-3072, -640], [-3008, -640], [-3008, 640], [-3072, 640]]
+        floor: 160
+        edge: {texture: cwb, size: [128, 256]}
+        surface: {texture: 7tfb1, size: [128, 128]}
+        notes: "The dais: a step across the hall's west end."
+      - id: level:dais_2
+        outline: [[-3136, -640], [-3072, -640], [-3072, 640], [-3136, 640]]
+        floor: 192
+        edge: {texture: cwb, size: [128, 256]}
+        surface: {texture: 7tfb1, size: [128, 128]}
+        notes: "The dais: a step across the hall's west end."
+      - id: level:dais_3
+        outline: [[-3584, -640], [-3136, -640], [-3136, 640], [-3584, 640]]
+        floor: 224
+        edge: {texture: cwb, size: [128, 256]}
+        surface: {texture: 7tfb1, size: [128, 128]}
+        notes: "The dais: a step across the hall's west end."
+    notes: "Bosco's empty throne on a three-step dais at the west end under his banner, the King's Hall door behind the dais, the long tasting table on the north wall with its cups and the taster's stool, braziers on the floor by the dais."
+openings:
+  - id: open:gallery_bay
+    from: room:smiths_gallery
+    to: room:forge_bay
+    from_wall: 2
+    to_wall: 0
+    link: link:forge_bay
+    width: 160
+    height: 224
+  - id: open:gatehall_gallery
+    from: room:gate_hall
+    to: room:smiths_gallery
+    from_wall: 2
+    to_wall: 0
+    link: link:gatehall_gallery
+    width: 384
+    height: 384
+    shape: arch
+    apex: 480
+  - id: open:gatehall_great
+    from: room:gate_hall
+    to: room:great_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:gatehall_great
+    width: 640
+    height: 448
+    shape: arch
+    apex: 544
+  - id: open:great_gallery
+    from: room:great_hall
+    to: room:smiths_gallery
+    from_wall: 2
+    to_wall: 0
+    link: link:great_gallery
+    width: 512
+    height: 448
+    shape: arch
+    apex: 544
+  - id: open:great_lane
+    from: room:great_hall
+    to: room:burrow_lane
+    from_wall: 0
+    to_wall: 2
+    link: link:great_burrow
+    along: 0.7
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:great_steps
+    from: room:great_hall
+    to: room:kings_steps
+    from_wall: 3
+    to_wall: 1
+    link: link:great_steps
+    width: 512
+    height: 448
+    shape: arch
+    apex: 544
+  - id: open:lane_stair
+    from: room:burrow_lane
+    to: room:guild_stair
+    link: link:guild_stair
+    width: full
+    height: 352
+  - id: open:passage_hall
+    from: room:gate_passage
+    to: room:gate_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:gate_hall
+    width: 384
+    height: 320
+  - id: open:stair_guild
+    from: room:guild_stair
+    to: room:guild_hall
+    link: link:guild_stair
+    width: full
+    height: 352
+  - id: open:steps_throne
+    from: room:kings_steps
+    to: room:throne_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:steps_throne
+    width: 384
+    height: 320
+notes: "DD-25 Bosco's Hall: the hall at z 0, the throne hall at 128, the Deep Guild at -384, in one frame (x east, y north, heights from the gate's sill). Written by output/studio_cal/dd25/tools/gen.py (geo.py)."

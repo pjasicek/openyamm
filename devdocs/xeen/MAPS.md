@@ -9,9 +9,9 @@ so does this design. A sheet's monster band must contain its named families' A-t
 Density targets come from `research/MM678_CALIBRATION.md`, `research/MAP_CRAFT_CALIBRATION.md` §6 (the "not bland"
 checklist) and `reviews/SCALE_AND_DENSITY.md`. Every sheet must satisfy: exactly one obelisk, ≥ 4 kinds of interaction
 device with one permanent-effect device, the **POI budget** of its row (20–50 POIs 1,300–2,600 units apart, by map
-type), 3–6 dungeon entrances, 4–10 outdoor chests with a reason each (start pocket 8–12), 45–70 spawn markers,
+type; counted as the shipped games were, one point per spot merging anything within 400, service doors included, D-11.4), 3–6 dungeon entrances, 4–10 outdoor chests with a reason each (start pocket 8–12), 45–70 spawn markers,
 **hostiles at load as in the per-map table** (by map role, MONSTERS_AND_ITEMS §3), monsters in 3–8 **encounter areas**
-of 6–30 cells of 4,096 with at least a third of the land cells quiet, first fight 2,000–6,000 from each arrival, roads
+of 6–30 cells of 4,096 with at least a third of the land cells quiet, first fight 2,000–6,000 from each map-edge arrival and the new-game start (town arrivals keep the town buffer instead, D-15), roads
 on 1–4 % of land, height range ≥ 2,500.
 
 Family names refer to [MONSTERS_AND_ITEMS.md](MONSTERS_AND_ITEMS.md#2-monster-families). "Tres" is the map_stats
@@ -27,7 +27,7 @@ C-tier, boss after the comma. "Kill XP" is per member (four members), full clear
 
 | Map | Act | Party arrive → leave | Monsters A–C, boss | Groups | Tres | Monsters | Kill XP per member |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| X1 Vertigo Meadows | I | 1 → 4 | 2–12 | 2–4 (orcs 3–5) | 1 | 130 | 2.4k |
+| X1 Vertigo Meadows | I | 1 → 4 | 2–12 | 2–3, about 60 groups (orcs 3–5) | 1 | 175 | 3.3k |
 | XD-01 Joe's Warehouse | I | 1 → 3 | 2–6, Wobbles 4 (boss row) | 2–3 | 1 | 28 | 0.3k |
 | XD-02 Red Dwarf Mines | I | 3 → 5 | 3–10 | 2–3 | 1 | 55 | 1.1k |
 | XD-05 Orc Caves | I | 3 → 5 | 4–10, Drum-Master 12 | 2–3 | 1 | 40 | 0.9k |
@@ -41,7 +41,7 @@ C-tier, boss after the comma. "Kill XP" is per member (four members), full clear
 | XD-25 Asp Undercroft | II | 14 → 16 | 14–26 | 2–3 | 2 | 28 | 3.4k |
 | XD-26 Gargoyle Eyrie | II | 15 → 17 | 16–28 | 2–3 | 2 | 28 | 4.1k |
 | X3 Lifeforce Lagoon | II | 13 → 16 | 10–30 | 2–4 | 2 | 135 | 14.0k |
-| XD-13 Newcastle Keep (staged) | II–IV | 14 → 16 | 16–24 (wood golems) | 2–3 | 2 | 28 | 3.7k |
+| XD-13 Newcastle Keep (staged) | II–IV | 14 → 16 | 16–24 (wood golems) | 2–3 | 2 | 28: Act II 15, Act IV 10 (D-4; A2) | 5.6k: Act II 1.9k, Act IV 3.7k |
 | XD-06 Temple of Yak | II | 14 → 16 | 14–28, Yak Master 35 | 2–3 | 2 | 50 | 6.4k |
 | XD-08 Tomb of 1000 Terrors | II | 15 → 17 | 15–30 | 2–3 | 2 | 50 | 7.2k |
 | XD-09 Golem Dungeon | II | 16 → 18 | 18–40, Diamond Golem 50 | 1–2 | 3 | 45 | 9.6k |
@@ -49,43 +49,52 @@ C-tier, boss after the comma. "Kill XP" is per member (four members), full clear
 | XD-11 Tower of High Magic | II | 18 → 20 | 18–32 | 2–3 | 3 | 50 | 8.9k |
 | X8 Cloudreach (sky) | II | 18 → 20 | 14–30 (cloud golem 50 rare) | 2–3 | 3 | 60 | 8.1k |
 | D1 Castleview Vale | III | 18 → 21 | 14–30 | 2–4 | 2 | 135 | 18.3k |
-| DD-01 Castleview Sewer | III | 18 → 20 | 10–20 | 3–4 | 2 | 50 | 3.7k |
-| DD-04 Gremlin Court | III | 19 → 20 | 12–20, Gettlewaithe 24 | 2–4 | 2 | 28 | 2.5k |
+| DD-01 Castleview Sewer | III | 18 → 20 | 10–20, Rooka the Rat Queen 24 | 3–4 | 2 | 50 | 3.7k |
+| DD-04 Gremlin Court | III | 19 → 20 | 14–22, Gettlewaithe 24 | 2–4 | 2 | 28 | 2.5k |
 | DD-02 Ellinger's Tower | III | 20 → 22 | 14–24 | 2–3 | 2 | 50 | 5.7k |
 | D2 Sprite Forest | III | 21 → 25 | 16–38 | 2–4 | 3 | 135 | 24.9k |
 | DD-06, DD-09, DD-13 | III | 22 → 26 | 14–32 (Barkman 60 optional) | 2–3 | 3 | 120 | 17.1k |
-| DD-10, DD-11 (6 pockets) | III | 23 → 27 | 16–38, Hobstadt 42 | 2–3 | 3 | 120 | 22.1k |
+| DD-10, DD-11 (5 pockets; the north pocket in Act V, D-27) | III | 23 → 27 | 16–38, Hobstadt 42 | 2–3 | 3 | 100 | 22.1k |
 | X5 Winterkill Tundra | III | 24 → 28 | 16–40 (cyclops corner 36–50, trap) | 2–4 | 3 | 135 | 26.0k |
 | XD-22, XD-23, XD-24 | III | 25 → 29 | 18–40, Count Draco 45 | 2–3 | 3 | 84 | 17.9k |
-| D3 Sandcaster | III | 27 → 30 | 20–45 | 2–4 | 3 | 135 | 34.8k |
+| D3 Sandcaster | III | 27 → 30 | 22–45 (A 22–35, C 45; D-28) | 2–4 | 3 | 135 | 34.8k (planned 37.4k, +7 %, accepted by D-28) |
 | DD-18 Sandcaster Sewer | III | 28 → 30 | 25–40 | 2–3 | 3 | 50 | 14.6k |
 | X6 Desert of the Sphinx | IV | 30 → 33 | 22–50 | 2–4 | 3 | 135 | 41.5k |
-| XD-14, XD-15 | IV | 31 → 34 | 22–45 | 2–3 | 4 | 90 | 25.3k |
-| DD-03 Castle Kalindra (staged) | IV | 30 → 40 | 28–48 (Scraps 70 optional) | 2–3 | 4 | 55 | 20.6k |
+| XD-14, XD-15 | IV | 31 → 34 | 22–45 | 2–3 | 4 | 90 | 25.3k (D-39: 26.85k, +6 %) |
+| DD-03 Castle Kalindra (staged) | III–IV | 24 → 40 | 26–45 (Scraps 70 optional) | 2–3 | 4 | 54: Act III 24, Act IV 30 (D-26; A2) | 20.9k: Act III 6.8k, Act IV 14.1k |
 | XD-12 Darzog's Tower | IV | 33 → 36 | 30–48, Darzog 55 | 2–4 | 4 | 80 | 32.1k |
 | D4 Lakeside and Blackfang | IV | 35 → 38 | 26–50 (octopods 60, lake trap) | 2–4 | 4 | 120 | 43.0k |
-| DD-05, DD-20, DD-23 | IV | 35 → 39 | 24–45 | 2–3 | 4 | 100 | 30.5k |
-| DD-12 Dungeon of Lost Souls | IV | 37 → 39 | 35–55 | 2–3 | 4 | 45 | 23.5k |
-| DD-14 Castle Blackfang | IV | 39 → 42 | 36–58, Count Blackfang 70 | 2–4 | 4 (hoard 5) | 70 | 39.2k |
-| DD-19 Wizard Quarter | IV | 38 → 41 | 32–55, Xenoc 60 | 2–3 | 4 | 50 | 23.8k |
-| D5 Desert of Doom | V | 42 → 45 | 32–55 | 2–3 | 5 | 110 | 52.3k |
-| DD-15 Great Pyramid | V | 44 → 47 | 42–65 | 2–3 | 5 | 70 | 50.4k |
-| DD-16, DD-24 | V | 45 → 47 | 38–58 | 1–3 | 5 | 45 | 26.7k |
-| X9 Clouds of Xeen (sky) | V | 46 → 48 | 35–55 | 2–3 | 5 | 50 | 26.1k |
-| XD-19 Castle Xeen | V | 47 → 50 | 42–70, Xeen's Pet 75, Lord Xeen 85 | 2–3 | 5 (hoard 6) | 70 | 53.3k |
-| D6 The Forbidden Zone | V | 48 → 51 | 38–65 | 2–3 | 5 | 110 | 71.1k |
-| DD-07, DD-08, DD-21 | V | 49 → 52 | 40–62, Sandro 65 | 2–3 | 5 | 90 | 59.3k |
-| DD-17 Castle Alamar | V | 52 → 55 | 50–75 | 2–3 | 5 (hoard 6) | 70 | 67.9k |
-| X7 Mount Firestone (trap map) | V | 40 → 55 | south 6–12 orcs; north 40–85 | 1–3 | 5 | 90 | 76.4k |
-| XD-16 Volcano Cave | V | 48 → 52 | 42–58 | 2–3 | 5 | 40 | 26.6k |
-| D7 The Skyroads (sky) | VI | 55 → 58 | 50–75 (Megadragon 125, optional) | 1–3 | 6 | 50 | 48.5k |
-| P1–P4 planes | VI | 56 → 60 | 55–70, sleepers' guardians 75 | 2–3 | 6 | 4 × 30 | 124.1k |
-| FD-01, FD-02 | VI | 58 → 61 | 55–80 | 2–3 | 6 | 60 | 68.0k |
-| FD-03 Darkstone Tower | VI | 60 → 63 | 60–85 | 2–3 | 6 | 45 | 58.9k |
-| DD-22, DD-26 | VI | 56 → 60 | 48–65 | 2–3 | 6 | 40 | 33.5k |
-| XD-18 Dragon Cave (optional) | opt. | 60 → 64 | 65–100, Dragon King 110 | 1–2 | 6 | 40 | 64.6k |
-| FD-04 Dragon Tower and Dungeon of Death (optional) | opt. | 62 → 66 | 65–100 | 1–3 | 6 | 60 | 96.8k |
+| DD-05, DD-20, DD-23 | IV | 35 → 39 | 24–45, Cult Leader 45, Head Witch 45 | 2–3 | 4 | 105 (D-42) | 30.5k (D-39/D-42: 105 monsters, 32.84k, +7.7 %) |
+| DD-12 Dungeon of Lost Souls | IV | 37 → 39 | 35–55 | 2–3 | 4 | 45 | 23.5k (D-42: 23.79k, +1.2 %) |
+| DD-14 Castle Blackfang | IV | 39 → 42 | 36–58, Count Blackfang 70 | 2–4 | 4 (hoard 5) | 70 | 39.2k (D-42: 40.91k, +4.4 %) |
+| DD-19 Wizard Quarter | IV | 38 → 41 | 32–55, Xenoc 60, Morgana 60 | 2–3 | 4 | 50 | 23.8k (D-42: 24.7k, +3.8 %) |
+| D5 Desert of Doom | V | 42 → 45 | 30–62 (D-49) | 2–3 | 5 | 110 | 52.3k (L1 55.6k, +6 %, D-49) |
+| DD-15 Great Pyramid | V | 44 → 47 | 42–65 | 2–3 | 5 | 70 | 50.4k (51.92k, +3.0 %, D-61) |
+| DD-16, DD-24 | V | 45 → 47 | 38–58 (the People 38/50/58, D-47) | 1–3 | 5 | 37 (7 + 30, D-47) | 26.7k (25.59k, −4.2 %, D-47) |
+| X9 Clouds of Xeen (sky) | V | 46 → 48 | 35–55 | 2–3 | 5 | 50 | 26.1k (L1 26.0k, −0.4 %, D-50) |
+| XD-19 Castle Xeen | V | 47 → 50 | 42–70, Xeen's Pet 75, Lord Xeen 85 | 2–3 | 5 (hoard 6) | 70 | 53.3k (54.38k, +2.0 %; 57.99k with the bosses, D-47) |
+| D6 The Forbidden Zone | V | 48 → 51 | 30–75 (D-49) | 2–3 | 5 | 110 | 71.1k (L1 73.4k, +3 %, D-49) |
+| DD-10C Gemstone Mines, north pocket (D-27) | V | 48 → 51 | 40–50 (Floating Eye, Terrible Eye, Patrol) | 2–3 | 5 | 20 | 11.5k (11.50k, 0.0 %, D-62) |
+| DD-07 Eastern Tower (moved to Act IV, D-9.3) | IV | 36 → 40 | 28–48 | 2–3 | 4 | 30 | 11.2k (D-39: 11.57k, +3 %) |
+| DD-08, DD-21 | V | 49 → 52 | 40–62, Sandro 65 | 2–3 | 5 | 60 + Sandro (DD-08 45; DD-21 15 + Sandro, D-62) | 39.6k (41.84k, +5.7 %: DD-08 31.14k, DD-21 10.70k, D-62) |
+| DD-17 Castle Alamar | V | 52 → 55 | 50–75 | 2–3 | 5 (hoard 6) | 70 | 67.9k (68.85k, +1.4 %, D-61) |
+| X7 Mount Firestone (trap map) | V | 40 → 55 | south 5–10 orcs (counted in Act I, D-40); north 40–85 | 1–3 | 5 | 90 | 76.4k |
+| XD-16 Volcano Cave | V | 48 → 52 | 42–58 | 2–3 | 5 | 40 (under M's 45, D-47) | 26.6k (27.34k, +2.8 %, D-47) |
+| D7 The Skyroads (sky) | VI | 55 → 58 | 48–75 (griffins 48; Megadragon 125, optional; D-58) | 1–3 | 6 | 50 | 48.5k (L1 48.8k, +0.6 %, D-58) |
+| P1–P4 planes | VI | 56 → 60 | 55–70, sleepers' guardians 75 | 2–3 | 6 | 4 × 30 | 124.1k (L1 128.0k, +3.1 %, D-58) |
+| FD-01, FD-02 | VI | 58 → 61 | 55–80 | 2–3 | 6 | 60 (FD-02 26; FD-01 34, D-57, D-69) | 68.0k (71.88k, +5.7 %: FD-02 31.07k, FD-01 40.81k, D-69) |
+| FD-03 Darkstone Tower | VI | 60 → 63 | 60–85 | 2–3 | 6 | 45 | 58.9k (60.70k, +3.1 %, D-57) |
+| DD-22, DD-26 | VI | 56 → 60 | 48–65 | 2–3 | 6 | 40 (DD-22 20; DD-26 20, D-65) | 33.5k (35.96k, +7.3 %: DD-22 17.20k, DD-26 18.76k, D-65) |
+| XD-18 Dragon Cave (optional) | opt. | 60 → 64 | 65–100, Dragon King 110 | 1–2 | 6 | 40 (under M's 45, D-57) | 64.6k (66.64k, +3.2 %; 69.94k with the King, D-57) |
+| FD-04 Dragon Tower and Dungeon of Death (optional) | opt. | 62 → 66 | 65–100 | 1–3 | 6 | 60 | 96.8k (100.22k, +3.5 %, D-57) |
 | XD-20 Warzone | any | — | by tier | — | — | — | — |
+
+Correction (DECISIONS D-9.3, 2026-11-20, A2's recount at the table's rules): DD-07 moves to Act IV with 30 monsters
+at 28–48, 11.2k; DD-08 and DD-21 keep 60 monsters in Act V, 39.6k (the three were 90 monsters and 59.3k in Act V).
+Act IV's kill XP goes from 279.5k to 290.7k (+4 %), Act V's from 510.1k to 490.4k (−4 %): both inside the 15 % rule.
+
+Correction (DECISIONS D-1.3, 2026-11-20): X1 is fuller, about 175 hostiles (160–190) in about 60 groups of 2–3 near
+the roads, kill XP 3.3k (was 130 and 2.4k); Act I's kill budget becomes about 8.5k (was 7.6k).
 
 Changes against the review's table: XD-03 and XD-05 carry their built 40 monsters (they are M by the decision of
 2026-11-14; kill XP scaled); XD-06 is on X2 and FD-05 is merged into FD-04 (below), with unchanged numbers; XD-13,
@@ -143,11 +152,13 @@ Vertigo's squares.
 | Town | **Nightshadow** (cursed vampire town), **Newcastle** (the party's castle site). From day one, outside the curse: a tavern-and-temple at Ebenezer's camp (WORLD_DESIGN §5.1) |
 | Dungeons | Newcastle Keep (XD-13, staged), Tower of High Magic (XD-11), Tomb of a Thousand Terrors (XD-08), Nightshadow Crypt (XD-24) |
 | Outdoor content | Obelisk; Mirabeth's lagoon rock; 3 sundials in Nightshadow and a sign "The Count wakes at nine and sleeps at nine."; Ebenezer's tent; Emerson's work yard (barrels, crates); an evil-ranger camp; a well of temporary resistance; swamp food trees |
-| POI budget | Named items 15; add 11–16 generic devices to reach the swamp band of 25–30 |
+| POI budget | Named items 15; add generic devices to reach 30–40 (two settlements and a camp; D-15 replaced the swamp band of 25–30) |
 | Arrivals | X2 (east), X4 (north), X5 (west); mirror |
 | Original lines | Count Du Monay's fee for the living; the rhymes "Only at night can you put up a fight." / "If the Dials are properly set, The count will definitely be upset." |
 
 ### X4 Burlock Savannah
+
+POI band for this two-town map: 35–55 (MAP_CRAFT §6.2's town-hub band; D-20 replaced D-11.5's 30–45), counted as the shipped census counts (bound events chained within 400, one set piece one spot).
 
 | | |
 | --- | --- |
@@ -181,11 +192,11 @@ Vertigo's squares.
 | --- | --- |
 | Source | Clouds A1, A2, B1, B2 |
 | Biome and sky | Desert of dunes and red mesas; the Barbaric Mountains; Castle Basenji on a cliff. **West is the world rim**: dunes pouring over the edge into the stars, with sand streaming off in the wind (particles). `clear`, `arid` theme |
-| Monsters | A 22–30, C 50. **Scorpions** (crawlers) **and sand burrowers** (30–45; worms surface near travellers), **Sand golems** (ruins), **Werewolves** around Basenji. Party 30 → 33. 135 hostiles. Tres 3, L/T 8/4 |
+| Monsters | A 22–30, C 50. **Sand burrowers** (30–45; worms surface near travellers), **Sand and elemental golems** (ruins), **Werewolves** around Basenji (no scorpions, D-31). Party 30 → 33. 135 hostiles. Tres 3, L/T 8/4 |
 | Town | Saul's hermitage (urn), a caravan stop (tavern, stables); no full town: wilderness map |
 | Dungeons | Castle Basenji (XD-14), The Sphinx (XD-15), Warzone arena (XD-20), Southern Sphinx (FD-02, sealed until Roland's amulet) |
 | Outdoor content | Obelisk; oasis fountain (+2 permanent Endurance); Well of Accuracy; Shrine of Energy; bone fields; Arie's camp; Summer Druid; ruins with chests; the **Air Reflector** on the rim corner |
-| POI budget | Named items 17; add 7–12 generic devices to reach the desert band of 20–25 |
+| POI budget | Named items 17; the wilderness band 20–30, cap 30 at L4 (D-31) |
 | Arrivals | X4 (east), X5 (south); coach to the Warzone |
 
 ### X7 Mount Firestone: trap and endgame
@@ -193,9 +204,9 @@ Vertigo's squares.
 | | |
 | --- | --- |
 | Source | Clouds E1, E2, F1, F2 (and the Lava Lake of D1) |
-| Biome and sky | Volcanic badlands, lava rivers, ash fall; the Red Dwarf Range's southern slopes are mild and early (the Orc Caves' back exit, XD-05), the north is deadly. **North is the world rim** with lava falling into space. `ember` / `plane_fire` theme, ash |
-| Monsters | South slopes: orcs 5–12 (the trap map's safe edge). North: A 40–55, C 85: **acid and fire dragons**, **Lava golems**, **Great hydras**. 90 hostiles. Tres 5, L/T 10/5. Visible from X1 and X4; no main-path step before Act V |
-| Town | none (wilderness); a dwarf outpost on the south slope |
+| Biome and sky | Volcanic badlands, lava rivers, ash fall; the Red Dwarf Range's southern slopes are mild and early (the Orc Caves' back exit, XD-05), the north is deadly. **North is the world rim** with lava falling into space. fair (Cloudside preset), `ashen` theme, ash fall on ~40 % of days (D-40) |
+| Monsters | South slopes: orcs 5–10 (the trap map's safe edge; counted in Act I, D-40; D-5.2's "levels 20–30" is the party level for Sablewing's teaching). North: A 40–55, C 85: **acid and fire dragons**, **Lava golems**, **Great hydras**. 90 hostiles. Tres 5, L/T 10/5. Visible from X1 and X4; no main-path step before Act V |
+| Town | none (wilderness); the abandoned dwarves' watch on the south slope (a note at the pay chest, D-40); Shangri-La's cleft opens from inside after the first exit (D-40) |
 | Dungeons | Volcano Cave (XD-16) → **Shangri-La** (XD-17, hidden), **Dragon Cave** (XD-18, the hardest optional dungeon), **Dragon Tower and the Dungeon of Death** (FD-04, optional finale; the Dungeon of Death is its lower half, moved from X1), Orc Caves' back exit (XD-05, a back gate opened from inside) |
 | Outdoor content | Obelisk; Shrine of Fire; Well of Speed; the Ever-Hot Lava Rock (Q-C14) on an island in a lava lake; demon idols; the **Fire Reflector**; Shangri-La's pyramid is reached only through the valley |
 | POI budget | Named items 15; add 8–13 generic devices to reach the trap band of 22–28 |
@@ -231,7 +242,7 @@ Darkside maps share Darkside's sky: day and night, an amber day sky and a sun th
 | Monsters | A 16–22, C 38. **Sprites** (medusa and killer sprites, d2), **Dark wolves and sabertooths** (d2), **Ogres** (the pass, d3; peaceful if Q-D11). **Trolls** near the troll holes. Party 21 → 25. 135 hostiles. Tres 3, L/T 6/3 |
 | Town | Nibbler's hollow; Sharla's treehouse village (sprite vendors: potions, a Light guild branch); no human town |
 | Dungeons | Temple of Bark (DD-09), Troll Holes (DD-11, three pockets), Ogre Forts (DD-13), Southern Tower (DD-06), Gemstone Mines (DD-10, east entrance) |
-| Outdoor content | Obelisk; Shrine of the Elements (+resistances); Forbidden Fruit hut (+2 permanent stat and a condition); Monga melons; genie lamp; troll holes as pits in the forest floor; hidden Leprechaun's pot of gold |
+| Outdoor content | Obelisk; Shrine of the Elements (+resistances); Forbidden Fruit hut (+2 permanent stat and a condition); genie lamp (the Monga melons are D1's, q-d9); troll holes as pits in the forest floor; hidden Leprechaun's pot of gold |
 | POI budget | Named items 16; add 6–14 generic devices to reach the forest band of 22–30 |
 | Arrivals | D1 (west), D3 (east) |
 | Original lines | Sharla's three replies; the Forbidden Fruit messages ("the coconut of confusion", "the plum of unconsciousness") |
@@ -242,11 +253,11 @@ Darkside maps share Darkside's sky: day and night, an amber day sky and a sun th
 | --- | --- |
 | Source | Darkside E3, E4, F3, F4 |
 | Biome and sky | Sandstone city at the desert's edge; **the Crossroads**, an open market; the Aging Forest (old trees, leaves fall all year) and the Howling Woods; the River of Wrath; Venom Pond. **East edge: the rim**, with the bright face's glow above it |
-| Monsters | A 20–28, C 45. **Cobras** (30/38/45, d1), **Mantis ants** as the A tier of a 22/30/38 crawler family, **Hell hornets** (35–50, the Aging Forest only, d1), **Sand burrowers** (30–45, scrub). Party 27 → 30. 135 hostiles. Tres 3, L/T 8/4 |
+| Monsters | A 22–35, C 45 (D-28). **Cobras** (30/38/45, d1), **Mantis ants** as the A tier of a 22/30/38 crawler family, **Hell hornets** (35–50, the Aging Forest only, d1), **Sand burrowers** (30–45, scrub). Party 27 → 30. 135 hostiles. Tres 3, L/T 8/4 |
 | Town | **Sandcaster** (wizard-ruled city, wizard quarter closed), **Crossroads** market |
 | Dungeons | Sandcaster Sewer (DD-18), Wizard Quarter (DD-19), Eastern Tower (DD-07) |
 | Outdoor content | Obelisk; Thaddeus's Fountain of Youth (dry until Q-D18); Cornelius the Leprechaun (outdoor teacher); Fountain of Great Protection; Celia and Derek's cottage (Clouds award link); fruit huts; Vespar's emerald handle in a ruin |
-| POI budget | Named items 13; add 17–27 generic devices to reach the town-and-wilderness band of 30–40 |
+| POI budget | Named items 13; the two-town band 35–55 (D-28, as D-20's X4), cap 55 at L4 |
 | Arrivals | D2 (west), D4 (north); stables; Lucio's boat (late) |
 | Original lines | The Vulture Repellant stall and the street line that it does not work; Aladdin the Lamp Cleaner; Madame Gloriana the palm reader; the wizards' "sensitive to insults" warning; the bow teacher's "accuracy, accuracy, and accuracy" |
 
@@ -266,14 +277,16 @@ Darkside maps share Darkside's sky: day and night, an amber day sky and a sun th
 
 ### D5 Desert of Doom and the Great Pyramid
 
+D4–D5 crossing (D-36): at y 80, a level valley at 1,500 out of the Forest of Peril; D5's east edge continues D4's west border spans and heights, its arrival facing west.
+
 | | |
 | --- | --- |
 | Source | Darkside C1, C2, D1, D2 |
 | Biome and sky | The Desert of Doom and the Perishing Sands; the Quivering Forest on the highland edge; the Great Pyramid rising from the dunes; the Parabolic Barrier (a shimmering Ancient wall) in the north |
-| Monsters | A 32–42, C 55. **Iguanasaurus** (d3), **Giants** (the highlands; peaceful if Q-D16), **Griffins** (cliffs). Party 42 → 45. 110 hostiles. Tres 5, L/T 12/6 |
+| Monsters | A 30–42, C 62 (D-49). **Iguanasaurus** (d3), wild cyclopes in the Quivering Forest; the People at Gurodel's hold (peaceful until war, not counted at load; D-49), **Griffins** (cliffs), great birds. Party 42 → 45. 110 hostiles. Tres 5, L/T 12/6 |
 | Town | **Bosco's Hall** (dwarf hall, small BLV), Gurodel's giant hold |
 | Dungeons | Great Pyramid (DD-15), Northern Tower (DD-08), Giants' Hall (DD-24), Bosco's Hall (DD-25), the Sandcaster Sewer's far exit |
-| Outdoor content | Obelisk; the seven **enchanted boulders** (Q-D24); Shrine of Great Power; fountain of +2 permanent Endurance; broken travel pyramid (story prop); genie lamps |
+| Outdoor content | Obelisk; the seven **enchanted boulders** (Q-D24) in two clusters (D-49); Shrine of Great Power; the Last Water, +2 permanent Accuracy (D-49); broken travel pyramid (story prop); genie lamps |
 | POI budget | Named items 13; add 7–12 generic devices to reach the desert band of 20–25 |
 | Arrivals | D4 (east), D6 (west) |
 | Original lines | Gurodel's "Greetings, little ones." and the tax-collector reply choices verbatim; Bosco's "I dub thee royal taste tester" |
@@ -284,12 +297,12 @@ Darkside maps share Darkside's sky: day and night, an amber day sky and a sun th
 | --- | --- |
 | Source | Darkside A1, A2, B1, B2 |
 | Biome and sky | Volcanic waste and Ancient ruins; **two crashed escape pods**, one in a lava lake; Griffin Pass; the walled **Necropolis**; **Castle Alamar**, a fortress of metal and stone with energy fields. Ash fall. North-west corner: rim |
-| Monsters | A 38–50, C 65. **Gamma gazers** (Eyes 40/50/65), **Lava dwellers**, **Griffins**; robot patrols near Alamar. Party 48 → 51. 110 hostiles, few and strong. Tres 5, L/T 15/8 |
+| Monsters | A 30–50, C 75 (D-49). **Gamma gazers** (Eyes 40/50/65), **Lava dwellers**, **Griffins**; robot patrols near Alamar. Party 48 → 51. 110 hostiles, few and strong. Tres 5, L/T 15/8 |
 | Town | **Necropolis** (city of the dead, pass required), Ambrose's camp at Griffin Pass |
 | Dungeons | Castle Alamar (DD-17), Corak's Pod (DD-16), Sheltem's Pod (DD-22), Necropolis Sewer (DD-21), Alamar Depths (FD-01, after Alamar) |
-| Outdoor content | Obelisk; Fountain of Super Resilience (temporary HP); Freeda the Mountaineer's camp (outdoor teacher); barbarian archer camp; mine entrances to the Forbidden Zone mines (small BLV pockets of DD-10) |
+| Outdoor content | Obelisk; Fountain of Super Resilience (temporary HP); barbarian archer camp (rows 11104/11105, D-49); a travel pyramid outside Alamar's gate (to Shangri-La after M30, D-50); mine entrances to the Forbidden Zone mines (small BLV pockets of DD-10) |
 | POI budget | Named items 13; add 8–15 generic devices to reach the trap band of 22–28 |
-| Arrivals | D5 (east), D1 (south, a long mountain road); Lucio |
+| Arrivals | D5 (east), D1 (south, a long mountain road); mirror (no Lucio, D-5.3, D-49) |
 | Original lines | Necropolis: the aging books, the "Food for the dead, keep warm." barrel, the skull's story of the two necromancers; Sandro's two lines |
 
 ## 3. Sky maps, planes and finale (open-air BLVs)
@@ -301,10 +314,10 @@ the surface map underneath at the matching position.
 | Map | Content | Monsters (A–C) | Size | Notes |
 | --- | --- | --- | --- | --- |
 | **X8 Cloudreach** | Two archipelagos joined by a long rope bridge: the Witch Clouds (harpy nests, the explorer statue, offering statues) and the High Magic Clouds (flying feet, cloud golems, a sorcerer's observatory). Three rhyming statues | Harpies 14–24, Flying feet / Guardians 18–24, Cloud golems 50 (rare); 60 placed | ~ 60 % of an ODM | Reached from the Witch Tower (X1) and Tower of High Magic (X3) roofs; falls land on X1/X3 |
-| **X9 Clouds of Xeen** | Slick's carnival on a cloud plaza (Slick's patter verbatim); roc nests; Castle Xeen's gate; rhyming statues | 35–55; 50 placed | ~ 70 % of an ODM | Reached from Darzog's Tower roof (X2); falls land on X2. Later the Dragon Clouds (Q-F1) are a sealed island here |
-| **D7 The Skyroads** | Cloud roads linking floating rest stops; **Olympus** (city of the gods: "The people are so small they look like ants", Ligono waiting); the Sky Lake; elemental merchants; scarab sellers; sky bandits' toll ("This is a robbery …"); the **Megadragon** on the road to Alamar's roof | 50–75, Megadragon 125 (optional); 50 placed | ~ 1 ODM | Reached by the Dark Grove rope, tower roofs and Lucio's boats; the four corners lead to the planes |
-| **P1 Fire, P2 Air, P3 Earth, P4 Water** | One compact plane each ("the Plane of Fire of Xeen" …; WORLD_DESIGN §1.1): a test of the element and a sleeper's chamber | 55–70, guardians 75; 30 each | S–M dungeon scale each | MM8's planes were whole ODMs; these are deliberately small |
-| **P5 Clouds of the Ancients** | The finale: the Rest Stop signs naming New World Computing's games, the Pharaoh's "rest where you can" line by the last stop, the Pharaoh's shrine, the wedding pavilion | none (or a last guardian) | small | Ending cinematic (`evt.PlayCinematic`) |
+| **X9 Clouds of Xeen** | Slick's carnival on a cloud plaza (Slick's patter verbatim); roc nests; Castle Xeen's gate; rhyming statues | Rocs 38, Griffins 48, Cloud Golems 50; 50 placed (D-50) | ~ 70 % of an ODM | Reached from Darzog's Tower roof (X2); falls land on X2. Later the Dragon Clouds (Q-F1) are a sealed island here |
+| **D7 The Skyroads** | Cloud roads linking floating rest stops; **Olympus** (city of the gods: "The people are so small they look like ants", Ligono waiting); the Sky Lake; elemental merchants; scarab sellers; sky bandits' toll ("This is a robbery …"); the **Megadragon** on the road to Alamar's roof; three causeways to Olympus; four tolls with peaceful bandits; scarab sellers paying in gems (permanent resistances); the Megadragon on Alamar's roof hatch at the end of its own road (D-58) | 50–75, Megadragon 125 (optional); 50 placed | ~ 1 ODM | Reached by the Dark Grove rope, tower roofs and Lucio's boats; the four corners lead to the planes |
+| **P1 Fire, P2 Air, P3 Earth, P4 Water** | One compact plane each ("the Plane of Fire of Xeen" …; WORLD_DESIGN §1.1): a test of the element and a sleeper's chamber | 55–70, guardians 75; 30 each | S–M dungeon scale each | MM8's planes were whole ODMs; these are deliberately small: 26 × 26-cell open-air BLVs (Fire a lava crater, Air islands, Earth a bowl, Water a drowned temple); the test raises the guardians; the way up always open (D-58) |
+| **P5 Clouds of the Ancients** | The finale: one ring of cloud road (29,137 to the shrine) past three Rest Stop huts, ten billboards naming New World Computing's games and the closed observatory; the Pharaoh's 'long road' note at the start by the stair house; the Pharaoh's shrine; after the ceremony the wedding pavilion (Roland, Kalindra, a treasure-6 gift, a disc back to the crown) (D-56) | none | small | Open-air BLV; ending cinematic `unification` (`evt.PlayCinematic`), then the completion certificate; falls to X5's `entrance:p5_fall` (D-56) |
 
 ## Dungeons
 
@@ -332,12 +345,12 @@ as M; new S briefs carry the line "S: at most 15 sectors and 20 M units²" in th
 | XD-11 | Tower of High Magic | X3 | M | 18–32 | Story M13 | Alchemy floors with resistance brews; "Stairway to Heaven" to X8 |
 | XD-12 | Darzog's Tower | X2 | **L** | 30–48, Darzog 55 | Story M21 | No spells inside (map flag); trapdoor floors; the six study books (+5 stat, rescaled from +20); Crodo's secret room; roof to X9 |
 | XD-13 | Newcastle Keep | X3 | S (staged) | 16–24 (wood golems) | Story M8–M23 | Changes with each stage; the sword vault, password "laboratory" said plainly in Shangri-La |
-| XD-14 | Castle Basenji | X6 | M | 22–45 | Q-C8 | Werewolf kennels; readable scrolls (blessings and curses); "There wolf" door, its password on Arie's note |
-| XD-15 | The Sphinx | X6 | M | 28–45 | Q-C9 | Body, head and the hieroglyph dungeon as one BLV; the name riddle at the head (Arie or a Basenji prisoner says "Its name is Golux"); the thrones |
+| XD-14 | Castle Basenji | X6 | M | 24–45, Basenji Cult Leader 45 | Q-C8 | Werewolf kennels; readable scrolls (blessings and curses); "There wolf" door, its password on Arie's note |
+| XD-15 | The Sphinx | X6 | M | 22–45 | Q-C9 | Body, head and the hieroglyph dungeon as one BLV; the name riddle at the head (Arie or a Basenji prisoner says "Its name is Golux"); the thrones |
 | XD-16 | Volcano Cave | X7 | M | 42–58 | Q-C26 | The demon and devil skulls; exploding chests |
-| XD-17 | Shangri-La | X7 (hidden) | town | — | Q-C26 | Open-air BLV valley: a hidden town |
+| XD-17 | Shangri-La | X7 (hidden) | town | — | Q-C26 | Open-air BLV valley: a hidden town (5 services, 10 residences, no monsters); the well 15,000 experience once per character (D-50, D-53); the pyramid to D6's Alamar gate after M30 (D-50) |
 | XD-18 | Dragon Cave | X7 | M (few, strong) | 65–100, Dragon King 110 | Q-C25, optional | The dragon tax urn; the library of Dragon Lore; the Dragon King |
-| XD-19 | Castle Xeen | X9 | **L** | 42–70, Xeen's Pet 75, Lord Xeen 85 | Story M35 | Guard-making machines and elemental generators that drop barriers; Xeen's aviary; the Sixth Mirror |
+| XD-19 | Castle Xeen | X9 | **L** | 42–70, Xeen's Pet 75, Lord Xeen 85 | Story M35 | Guard-making machines and elemental generators (with elemental guards of four elements, D-47) that drop barriers; Xeen's aviary; the Sixth Mirror |
 | XD-20 | The Warzone | X6 | arena | by tier | Arena | MM6–MM8 arena |
 | XD-21 | Robbers' Den | X2 | S | 10–18 | Q-C3, Promo T1-E | Under the bridge; a vault with the tiara |
 | XD-22 | Ninja Pagoda | X5 | S | 20–40 | Q-C4, Promo T1-D / Ninja | Five-storey pagoda (vertical), paper walls (destructibles) |
@@ -351,40 +364,40 @@ as M; new S briefs carry the line "S: at most 15 sectors and 20 M units²" in th
 
 | Code | Dungeon | Map | Class | Monster levels | Role | Set piece |
 | --- | --- | --- | --- | --- | --- | --- |
-| DD-01 | Castleview Sewer | D1 | M | 10–20 (Rooka) | Story M16, Q-D5 | Five town shafts; the rat queen's nest |
+| DD-01 | Castleview Sewer | D1 | M | 10–20, Rooka the Rat Queen 24 | Story M16, Q-D5 | Five town shafts; the rat queen's nest |
 | DD-02 | Ellinger's Tower | D1 | M | 14–24 | Story M17 | The moral question at the door; beholder bats; the password at the top (Ellinger's own name, given by Oorla) |
-| DD-03 | Castle Kalindra | D1 | M (staged) | 28–48 (Scraps 70, optional) | Story M19–M27, Promo Champion | Out-of-phase wings behind shimmering walls; safes; the throne room |
-| DD-04 | The Gremlin Court | D1 | S | 12–20, Gettlewaithe 24 | Q-D1 | A three-round court dialogue or a fight |
-| DD-05 | Western Tower of Mok | D1 | M | 25–45 | Q-D6, Promo Hero/Priest of Light | Entered from the roof (rope → D7 → roof); the heretics' altar |
+| DD-03 | Castle Kalindra | D1 | M (staged) | 26–45 (Scraps 70, optional) | Story M19–M27, Promo Champion | Out-of-phase wings behind shimmering walls; safes; the throne room |
+| DD-04 | The Gremlin Court | D1 | S | 14–22, Gettlewaithe 24 | Q-D1 | A three-round court dialogue or a fight |
+| DD-05 | Western Tower of Mok | D1 | M | 25–45, Cult Leader 45 | Q-D6, Promo Hero/Priest of Light | Entered at the top by the heretics' rope on D1's north wall of the tower (D-9.3); the heretics' altar |
 | DD-06 | Southern Tower | D2 | M | 14–30 | Q-D19, Promo Assassin/Sniper | Thieves' den: gongs, the "open sesame" chest |
-| DD-07 | Eastern Tower | D3 | M | 40–60 | Q-D18, Promo Archmage | Floating mages; the Jewel of Ages |
-| DD-08 | Northern Tower | D5 | M | 40–62 | Q-D17, Promo Black Knight/Villain | The Voweless Knights' proverbs with the vowels removed (the answers' compilation sold in Castleview's library) |
+| DD-07 | Eastern Tower | D3 | M | 28–48 (Act IV, D-9.3) | Q-D18, Promo Archmage | Floating mages; the Jewel of Ages; the Griffin statuette (Q-D20, D-9.3) |
+| DD-08 | Northern Tower | D5 | M | 40–62 | Q-D17, Promo Black Knight/Villain | The Voweless Knights' proverbs with the vowels removed (the answers' compilation sold in Castleview's library); the knights friendly after the oath; Ormond sells the answers (D-61) |
 | DD-09 | Temple of Bark | D2 | M | 14–30 (Barkman 60, optional) | Q-D10, disks | A temple grown inside a giant tree; the "feed me" alcoves |
-| DD-10 | Gemstone Mines (3 pockets) | D1, D2, D6 | S ×3 | 16–28 | Q-D7 | Gem rock veins; the God of Minerals |
+| DD-10 | Gemstone Mines (3 pockets) | D1, D2, D6 | S ×3 | 16–28 (A, B, Act III); C 40–50 (Act V, D-27) | Q-D7 | Gem rock veins; the God of Minerals |
 | DD-11 | Troll Holes (3 pockets) | D2 | S ×3 | 18–38, Hobstadt 42 | Q-D13, Promo War Troll | You fall in; each pocket has one way out |
 | DD-12 | Dungeon of Lost Souls | D4 (isle) | M | 35–55 | Story M24, Promo Minotaur Lord | Five "think positive" gates (dialogue choices that open doors); the labyrinth; the songbird |
 | DD-13 | Ogre Forts | D2 | S | 18–30 | Q-D11 | Two forts in one BLV; burnable |
-| DD-14 | Castle Blackfang | D4 | M (large: 70 monsters, 40–45 sectors) | 36–58, Count Blackfang 70 | Story M27 | Griffin landing on the walls; coffins; the Queen in the dungeon |
-| DD-15 | Great Pyramid | D5 | **L** | 42–65 | Story M28–M30 | Torch levers, a number lock, a teleport maze, the Pharaoh |
-| DD-16 | Corak's Pod | D6 | S | 40–58 (few) | Story M29, M32 | Starship interior; the stasis cipher, shown in plain words on the console; log computers |
-| DD-17 | Castle Alamar | D6 | **L** | 50–75 | Story M33 | Conveyor halls (movers), element sundials, the true-name gate, energy fields (shields) |
-| DD-18 | Sandcaster Sewer | D3 | M | 25–40 | Q-D14 | Barticus' gym; the long tunnel to D5 |
-| DD-19 | Wizard Quarter | D3 | M | 32–55, Xenoc 60 | Q-D14, Promo Spy | Xenoc and Morgana's guild halls |
-| DD-20 | Lakeside Coven and Sewer | D4 | M | 24–45 | Q-D22, Promo Warlock | Five prisoners; the guild (membership sold, or Naomi says the word); the dragon statuette |
-| DD-21 | Necropolis Sewer | D6 | S | 40–62, Sandro 65 | Q-D23, Promo Lich/Priest of Dark | Sandro's heart |
-| DD-22 | Sheltem's Pod | D6 | S | 48–65 | Optional lore | The other ship's log |
-| DD-23 | Gargoyle Lair | D4 | S | 24–40 | Q-D15 | — |
-| DD-24 | Giants' Hall | D5 | S | 38–58 | Q-D16 | The bloody throne |
-| DD-25 | Bosco's Hall | D5 | town | — | Q-D17 | Dwarf hall with services |
-| DD-26 | Olympus Sewer | D7 | S | 48–65 | Q-D28 | The tribble door |
+| DD-14 | Castle Blackfang | D4 | M (large: 70 monsters, 40–45 sectors) | 36–58, Count Blackfang 70 | Story M27 | Griffin landing on the walls (Ambrose's griffin both ways from D4's gate, D-42); coffins; the Queen in the dungeon |
+| DD-15 | Great Pyramid | D5 | **L** | 42–65 | Story M28–M30 | Torch levers that wake the chapels' mummies, the registry lock (1701), a pad maze, the Pharaoh; optional number niches; the Pharaoh's lift after the first audience; the sky door to D7 after M30 (D-61) |
+| DD-16 | Corak's Pod | D6 | S | 40–55 (few: 7, D-47) | Story M29, M32 | Starship interior; the stasis cipher, shown in plain words on the console; log computers |
+| DD-17 | Castle Alamar | D6 | **L** | 50–75 | Story M33 | Conveyor rides to four Lava Heads that drop four energy fields; element sundials raising four bridges; the true-name gate; the trapdoor deck; Sheltem and Corak by cinematic; the roof hatch to D7 (D-61) |
+| DD-18 | Sandcaster Sewer | D3 | M | 25–40 | Optional: Barticus' members' room; the long tunnel to D5 | Barticus' gym; the long tunnel to D5 |
+| DD-19 | Wizard Quarter | D3 | M | 32–55, Xenoc 60, Morgana 60 | Q-D14, Promo Spy | Xenoc and Morgana's guild halls |
+| DD-20 | Lakeside Coven and Sewer | D4 | M | 25–45, Head Witch 45 | Q-D22, Promo Warlock | Five prisoners; the guild (membership sold, or Naomi says the word); the dragon statuette |
+| DD-21 | Necropolis Sewer | D6 | S | 40–62, Sandro 65 | Q-D23, Promo Lich/Priest of Dark | Sandro's heart in a green jar in the lowest culvert; Sandro falls once and waits, risen, by his bier (D-62) |
+| DD-22 | Sheltem's Pod | D6 | S | 48–65 | Optional lore | The other ship's log (six pages); opens after M33 (D-62) |
+| DD-23 | Gargoyle Lair | D4 | S | 30–45 | Q-D15 | Natural cave, no doors (D-39) |
+| DD-24 | Giants' Hall | D5 | S | 38–58 (the People: 38/50/58, D-47) | Q-D16 | The bloody throne |
+| DD-25 | Bosco's Hall | D5 | town | — | Q-D17 | Dwarf hall with services: a walk-in throne hall; forge, alehall, Earth guild and three residences (D-62) |
+| DD-26 | Olympus Sewer | D7 | S | 48–65 | Q-D28 | The tribble door; a marble ring of channels round Cyrano's Pets Unlimited; the tribble door opens the offering vault (D-65) |
 
 ### Finale
 
 | Code | Dungeon | Map | Class | Monster levels | Role |
 | --- | --- | --- | --- | --- | --- |
-| FD-01 | Alamar Depths | D6 | M | 55–80 | Story M39 (Roland) |
-| FD-02 | Southern Sphinx | X6 | S | 55–75 | Story M40 (Picard, the Chime) |
-| FD-03 | Darkstone Tower | X5 | M | 60–85 | Story M41 |
+| FD-01 | Alamar Depths | D6 | M | 55–80 (robots 62/75 placed, D-69) | Story M39 (Roland) | The castle's undercroft round the west maze: two levers, the Dragon Tower key, one skull door (the Cube), Roland's stasis vault a lift below, the bolted grate's way back; a second way in from D7's roof hatch after M33 (Q-D26's key, D-61) |
+| FD-02 | Southern Sphinx | X6 | S | 55–75 (62–72 placed, D-57) | Story M40 (Picard, the Chime) |
+| FD-03 | Darkstone Tower | X5 | M | 60–85 (onyx golems 62/72, Onyx Golem 85, D-57) | Story M41 |
 | FD-04 | Dragon Tower and the Dungeon of Death | X7 | M | 65–100 | Optional Q-F1 (the tower), Q-F2 (its lower half, opened with Sandro's key) |
 
 FD-05 is retired: the Dungeon of Death left X1 (decision of 2026-11-14) and is the lower half of FD-04, as
@@ -423,7 +436,7 @@ The dungeons' placements:
 | XD-09 | The plaque "Solve the wood, it's like a tree / Cut the branches and return to me …" |
 | XD-17 | The hint NPCs (the hidden-camera joke as "the hidden crystal in the wall", the "laboratory" password, "The moons will align …") |
 | XD-18 | The Dragon Tax urn's line and the Loremaster titles up to "Taxman Emeritus" |
-| XD-20 | The arena master's "No. Goodbye..." for the lowest tier |
+| XD-20 | The arena master's lines (aaze0085:0–4), incl. "No. Goodbye..." for the lowest tier |
 | DD-01 | Valio's diploma and "Hey, that's MY chest." |
 | DD-03 | Guido's note ("Try 10,11,12 on the tougher safes"); "Beware of Scraps!" signs |
 | DD-04 | Gettlewaithe's challenge and the three answers |
@@ -462,15 +475,15 @@ no Temple of Yak); the review page still shows the first version.
 ### D1 Castleview Vale
 
 ```text
- N   Western Tower [roof only]   Dark Grove (rope to the sky) |  barbarian camp (Yog)
+ N   Western Tower [top, by the heretics' rope]  Dark Grove (rope to the sky) |  barbarian camp (Yog)
         gemsmiths ^ ^ ^              arachnoids, electrapedes  |      Kramer's caravan
                  Acid Pond             PYRAMID (from Vertigo) |      Vespar's tower
  W  ---------------------------------- north gate ------------+------------ road ==> D2
-  rim   Luna's grove          [ CASTLEVIEW ]  walls, gremlins, |   Nibbler's hollow
-  edge                        Ellinger's Tower inside, sewer   |   melon fields
-        Falista's hut              south gate                  |   troll hole (pit)
+  rim   Luna's grove          [ CASTLEVIEW ]  walls, gremlins, |   melon fields
+  edge                        Ellinger's Tower inside, sewer   |   (Nibbler's hollow and the
+        Falista's hut   Queen's Gate (SW wall, D-23)           |   troll holes are D2's, d2.yml)
         Justine's camp                 |                       |
-               [CASTLE KALINDRA]  ghost castle on a rise       |   Hector's diamond shop
+  [CASTLE KALINDRA, SW of the town] ghost castle on a rise    |   Hector's diamond shop
         river ~~~~~~~ shipwreck ~~~~~~~~~~~ river ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  S                    Brother Reger's cell     prayer shrine   Well of Luck
 ```

@@ -1,0 +1,136 @@
+# Xeen promotion playthrough 85, block F (tier 2, Light): Q-D20 Luna's Statuettes, nobody promoted (README check 3:
+# the party has no Warrior Mage). From 81 (D4 outside the Guild; the Golden Griffin from the main chain's 65, the
+# Golden Dragon from 81). South off D4's edge to Sandcaster (D3), west through Sprite Forest (D2) to Castleview Vale
+# (D1): main 63's edges. The Western Tower's front door (D1 event 118, open since main 63's q-d6.tower_opened) into
+# DD-05; L1 walked from the door hall (main 63's way out, backwards): the hall of alcoves, the Pegasus on the
+# north ledge (a ground item since D-90, picked up); out by the front door (event 35). Luna in her grove (actor
+# 32): Statuettes three times (each statuette back on the altar: 3,000 experience each and an item), then The altar
+# (done; nobody to promote, the party's classes kept); the later topic The altar's light (T2-LATER) is not offered.
+# Quest logic: source/quests/q-d20.yml. Routes: main 63 (edges, DD-05 L1), devdocs/xeen/briefs/d1/L4/playtest.yml.
+#   python3 tests/playthrough/xeen/promotions/run.py 85
+id: xeen.promotions.85_luna_statuettes
+title: "Xeen promotions 85: Luna's Statuettes (Q-D20), nobody promoted"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/81_lakeside_coven.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d4.odm, qbit_set: [113403, 113125]}
+  - assert: {qbit_clear: [113401, 113407]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not (has_item(12350) and has_item(12351)) then error('no dragon and griffin') end; remember('classes', classes())"}
+  # South off D4's edge to D3, west off D3's edge to D2, west off D2's edge to D1.
+  - set_pose: {map: xeen_d4.odm, x: 12288, y: -20992, z: 2112, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12288, y: -32563, z: 1632, z_tolerance: 900, radius: 128, timeout_seconds: 150, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: -30208, y: 10240, z: 1312, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 10240, z: 1312, z_tolerance: 900, radius: 128, timeout_seconds: 90, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Western Tower's front door (event 118) into DD-05's door hall.
+  - set_pose: {map: xeen_d1.odm, x: -16896, y: 14234, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 118}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd05.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 0, y: -1536, radius: 96, z_min: -16, z_max: 16}}
+  # The door hall, the mirror hall, the hall of alcoves: the Pegasus (event 47).
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: -1150, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 400, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # D-90 (c), DD-05 rebuilt 2026-11-22 (A8): the Golden Pegasus stands on the north ledge as a ground item.
+  - play_lua: {source: "if ground_items(12349) ~= 1 then error('the Golden Pegasus is not on its ledge') end"}
+  - walk_to: {x: 0, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - pick_up: {item_id: 12349}
+  - play_lua: {source: "for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12349) ~= 1 then error('no Golden Pegasus') end; if ground_items(12349) ~= 0 then error('a second Pegasus') end"}
+  # Back to the door hall and out by the front door (event 35).
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(9) ~= 'open' then open_door(30, 9) end"}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 35}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # The Temple of Mok (house 4455) on Castleview's square, the first temple after Sprite Forest (D2), crossed on this
+  # segment's road (its Gorgon and Medusa Sprites; main 43 and 67): a member they turned to stone is cured as a player
+  # would before the hand-in (D-82 3); nothing happens when nobody is down.
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  # Luna in her grove: the three statuettes back on the altar, one by one (3,000 each, an item each).
+  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # D-82 point 5: no member down before Luna's hand-in (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 85 before Luna\\'s hand-in: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Luna\\'s hand-in (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 32}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_present: "Statuettes", action_label_absent: "The altar"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, text_contains: "You are truly great adventurers to have found this statuette"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, text_contains: "You are truly great adventurers to have found this statuette"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, text_contains: "You are truly great adventurers to have found this statuette"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, text_contains: "All three are on the altar."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 9000 then error("member " .. i .. ": the statuettes paid " .. xp .. " experience, not 9000") end
+        end
+        if has_item(12349) or has_item(12350) or has_item(12351) then error("a statuette was not taken") end
+        log("Q-D20 statuettes returned")
+  - assert: {qbit_set: [113404, 113405, 113406]}
+  # The altar: done; nobody fights with bow and spell alike, so nobody rises.
+  - select_topic: {match_label: "The altar"}
+  - assert: {dialog: {active: true, text_contains: "rise as Master Archers"}}
+  - play_lua: {source: "if classes() ~= recall('classes') then error('the altar promoted the party: ' .. classes()) end"}
+  - assert: {dialog: {active: true, action_label_absent: "The altar's light"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113407]}
+  # Again: her done line; the later topic is not offered (nobody eligible).
+  - interact_actor: {actor_index: 32}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_absent: "The altar's light"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {active: true, text_contains: "I'm pleased to see you again, friends."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('85 done: ' .. classes())"}
+  - save_game: {name: "P85 Luna's Statuettes", path: output/playthrough/xeen/promotions/checkpoints/85_luna_statuettes.oysav}

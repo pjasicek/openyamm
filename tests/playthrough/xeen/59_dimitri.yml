@@ -1,0 +1,207 @@
+# Xeen playthrough, segment 59: the Songbird for Dimitri (D4, D3, D2, D1, DD-03, DD-02), M24's end and M26's stage 3.
+# From Lakeside's jetty south off D4's edge to Sandcaster (D3), west through Sprite Forest (D2) to Castleview Vale (D1).
+# Castle Kalindra (stage 2): the Captain's Quarters, Dimitri (The Songbird: M24 done, the disk safes' combination
+# 64-52-31, M25 started); Megan (Thanks); the vaults' disk safe (64-52-31: four Energy Disks). Ellinger's Tower: five
+# disks (M26 stage 3: Castle Kalindra's dungeon returns). Out to D1.
+# Routes: d4/L4/playtest.yml (the D3 edge), segment 55 (the D3-D2-D1 edges, Ellinger's tower), dd03/L4/playtest.yml
+# (the vaults), segment 57 (the Captain's corridor).
+# Quest logic: source/quests/m24.yml, m26.yml.
+#   python3 tests/playthrough/xeen/run.py 59
+id: xeen.playthrough.59_dimitri
+title: "Xeen playthrough 59: the Songbird sings for Dimitri; the disk safe; Ellinger's third five"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/57_lost_souls.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d4.odm}
+  - assert: {qbit_set: [111480]}
+  - assert: {qbit_clear: [111481, 111483, 111521]}
+  # A3 s38: Current Quests: Megan's line (M20) is up until Dimitri is himself again
+  - journal: {shown: [111400], unstarted: [111500]}
+  - play_lua: {source: "log('59 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold() .. '; Energy Disks ' .. item_count(12334))"}
+  # South off D4's edge (the road up from Sandcaster) to D3, west off D3's edge to D2, west off D2's edge to D1.
+  - set_pose: {map: xeen_d4.odm, x: 12288, y: -20992, z: 2112, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12288, y: -32563, z: 1632, z_tolerance: 900, radius: 128, timeout_seconds: 150, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: -30208, y: 10240, z: 1312, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 10240, z: 1312, z_tolerance: 900, radius: 128, timeout_seconds: 90, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Castle Kalindra (D1 event 254), up the Cloud Stairs to the Captain's corridor.
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: -3072, z: 1664, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(254)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd03.blv}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 600, y: 3136, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  # The Captain's Quarters (house 4502, DD-03 event 21; Dimitri's talk opens): The Songbird (M24 done).
+  - walk_to: {x: 832, y: 3200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(21); wait(0.8)"}
+  - assert:
+      dialog: {active: true, source_id: 5004}
+  - select_topic: {match_label: "The Songbird"}
+  - assert:
+      dialog: {text_contains: "The disk safes on this floor open to 64, 52, 31"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if experience(0) - recall("xp") ~= 7000 then error("Dimitri paid " .. (experience(0) - recall("xp"))) end
+        if not has_item(12526) then error("the party lost the Songbird") end
+  - assert: {qbit_set: [111481, 111500]}
+  - journal: {gone: [111400, 111481], shown: [111500]}
+  # Megan's Room (event 27): Thanks.
+  - walk_to: {x: 1600, y: 3200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(27); wait(0.8)"}
+  - assert:
+      dialog: {active: true, source_id: 5005}
+  - select_topic: {match_label: "Thanks"}
+  - assert:
+      dialog: {text_contains: "Father laughed this morning"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if experience(0) - recall("xp") ~= 4000 then error("Megan's thanks paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111482]}
+  # The Sleeping Chambers, the phase gallery and the vaults: the disk safe (event 8), 64-52-31.
+  - walk_to: {x: 1152, y: 3136, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 13)"}
+  - walk_to: {x: 1152, y: 2500, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1700, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2304, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2304, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 18)"}
+  - walk_to: {x: 3400, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('disks', item_count(12334)); click(8); wait(0.5)"}
+  - answer_input: {text: "64-52-31"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[four Energy Disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12334) ~= recall("disks") + 4 then error("disks after the disk safe: " .. item_count(12334)) end
+  - assert: {qbit_set: [111483]}
+  # Back down and out by the gate (event 19).
+  - walk_to: {x: 2304, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2304, y: 2240, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: 2240, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1152, y: 2500, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 13)"}
+  - walk_to: {x: 1152, y: 3136, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 600, y: 3136, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1900, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Ellinger's Tower (D1 event 102), the lift (event 26), the study: Energy discs, five (M26 stage 3).
+  - set_pose: {map: xeen_d1.odm, x: 2560, y: 9216, z: 1152, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(102)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd02.blv}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(7)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: 1900, z_max: 1940}}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        remember("xp", experience(0)); remember("disks", item_count(12334))
+        if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
+        click(15); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Energy discs"}
+  - assert:
+      dialog: {text_contains: "The dungeon returns now"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.5); close()
+        if item_count(12334) ~= recall("disks") - 5 then error("Ellinger took " .. (recall("disks") - item_count(12334)) .. " disks") end
+        if experience(0) - recall("xp") ~= 4000 then error("M26's stage 3 paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111521]}
+  # Down the lift and out by the front door.
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1216, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1310, y: 640, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua:
+      source: |
+        wait(1); for _ = 1, 3 do if not close() then break end end
+        log("59 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [111481, 111482, 111483, 111500, 111521]}
+  # The Temple of Mok (house 4455) on Castleview's square: Sprite Forest (D2), crossed on this segment's road, can leave
+  # a member Petrified (its Gorgon and Medusa Sprites; A3 sessions 30-32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  - save_game: {name: "59 Dimitri", path: output/playthrough/xeen/checkpoints/59_dimitri.oysav}

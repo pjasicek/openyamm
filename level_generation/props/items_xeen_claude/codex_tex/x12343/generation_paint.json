@@ -1,0 +1,23 @@
+{
+  "prompt": "Recolor guide_atlas.png in place as a paint-only orthographic Monga Melon texture atlas. The first input (gray guide) defines the exact alpha stencil. Lock its canvas 1536x1024, 3x2 cells of 512px, each silhouette, polygonal outline, position and scale. Change only gray pixels to unlit albedo. Four squat side elevations with perfectly flattened bases, plus the overhead view. Front/back/left across row one, right/top/empty across row two. Keep all gaps and the bottom-right cell fully transparent. Use design_reference.png for the finely speckled yellow-green rind, irregular longitudinal deep-green stripes converging at the crown and the short olive stem. Depict the stem inside the existing silhouette only. icon_x8.png gives the palette; ignore magenta. Preserve consistent stripe spacing across views and radial convergence overhead. No directional lighting, shadows, AO, highlights, reflections, outlines, text or ground. Return transparent PNG. Correct the silhouette drift: all four side views have NO protruding stem. Paint only a small flush stem scar inside the top edge. Treat each gray polygon as a clipping mask for rind texture. Outer pixels are alpha zero throughout, absolutely no colored backdrop or halo. Trace the exact angular edges of the input polygons.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "326bae081e0b680ba2c25e38ef0999e66d3fa5aa4dc5ef138f10add5fe59a9db"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "b9d57e41a0f52e203775ae99ef69818421597fd90a283fbf359a95194d039893"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "84a78a1e614c54a99566f4de2d45272429b4618e1b0e8c696038a7f51ad8e772"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f932-1512-7c02-aeb2-491447d88f62/exec-890703cd-5a89-4118-8cef-1865b73acbcc.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

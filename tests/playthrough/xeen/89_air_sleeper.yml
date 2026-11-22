@@ -1,0 +1,160 @@
+# Xeen playthrough, segment 89: the Air Sleeper (D7, P2), M38 The Elemental Sleepers (Air).
+# On the Skyroads (D7) at the Fire Corner's Rest Stop (entrance:p1_return), the Fire Sleeper awake (111760). East along
+# the north road: the Griffin Watch, the North Crossing (Olympus' causeway leaves south), the north toll (event 120:
+# the Sky Bandits' "Pay us 10,000 gold or else!", paid: d7.toll_paid), the East Rest Stop, the Air Corner; its tip asks
+# "What do you seek?": "Air" (m38.corner_air) drops the party onto P2's arrival. P2 walked: across the south bridge to
+# the Wind Statue's island, its plaque (Step Two); the east bridge to the Eye of the Winds, the test's floor ("Accept
+# the test of Air?" Yes: m38.test_air, the three guardians rise); the guardians die (m38.test_air_passed: air_test
+# 111765, the curtain of wind stills); through the curtain and up the Stair of Wind into the Sleeper's Aerie; the Air
+# Sleeper on his couch (m38.sleeper_air: awake, 111761, the award Awakened the Air Sleeper 413, 10,500 each); the
+# return dais rises: "Step onto the dais and return to the Skyroads?" Yes, back to D7's entrance:p2_return by the Air
+# Corner's Rest Stop. Ends on D7. Earth (P3) and Water (P4) are the next segments.
+# Routes: devdocs/xeen/briefs/d7/L4/plan.yml (the north road), tests/scenarios/xeen/hooks_d7.yml (the north toll, the
+# Fire Corner's tip mirrored for the Air Corner's), devdocs/xeen/briefs/p2/L4/playtest*.yml.
+# Quest logic: source/npcs/d7.yml (the tolls), source/quests/m38.yml.
+#   python3 tests/playthrough/xeen/run.py 89
+id: xeen.playthrough.89_air_sleeper
+title: "Xeen playthrough 89: the north road and its toll, the Air Corner, the test of Air, the Air Sleeper"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/87_fire_sleeper.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -27456, y: 17728, radius: 256}}
+  - assert: {qbit_set: [111600, 111740, 111741, 111742, 111743, 111760]}
+  - assert: {qbit_clear: [111761, 111765]}
+  - play_lua: {source: "log('89 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # East along the north road: the Griffin Watch, the North Crossing, to the north toll's line.
+  - walk_to: {x: -16384, y: 18432, z: 1280, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 18432, z: 1280, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 4864, y: 18432, z: 1280, z_tolerance: 400, radius: 128, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  # The north toll (event 120), stepped onto: the Sky Bandits ask 10,000 gold; paid ("OK.").
+  - play_lua: {source: "remember('gold', gold())"}
+  - movement_segment:
+      input: forward
+      seconds: 1.2
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: 4864, y: 18432, z: 1290, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: 5632, y: 18432, z: 1280, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Pay us 10,000 gold or else!"}}
+  - select_topic: {match_label: "OK."}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Sky Bandits count the gold twice and wave you on."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if recall("gold") - gold() ~= 10000 then error("the north toll took " .. (recall("gold") - gold())) end
+        if mapvar("d7_toll_north") ~= 1 then error("d7_toll_north " .. tostring(mapvar("d7_toll_north"))) end
+  - assert: {actor_count: {monster_id: 11116, hostile: false, near: [5632, 18432, 1024], min: 2, max: 2}}
+  # On past the East Rest Stop to the Air Corner.
+  - walk_to: {x: 16384, y: 18432, z: 1280, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 28672, y: 18944, z: 1280, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 29978, y: 20063, z: 1288, z_tolerance: 400, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The Air Corner's tip (event 36): stepped onto, the sky asks "What do you seek?"
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: 29978, y: 20063, z: 1288, yaw_degrees: 41, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: 29978, y: 20063, z: 1288, yaw_degrees: 41, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "Air"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status() or ""
+        log("corner: " .. s)
+        if not string.find(s, "the nothing roars like a gale", 1, true) then error("no corner line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+  - assert: {map: xeen_p2.blv}
+  - setup_shortcut: {kind: immortal}
+  - assert: {party_position: {x: -4096, y: -4096, radius: 160, z_min: -8, z_max: 40}}
+  # P2: across the south bridge to the Wind Statue's island, its plaque (Step Two).
+  - walk_to: {x: -3300, y: -3750, z: 0, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2600, y: -3370, z: 32, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1700, y: -2780, z: 120, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -700, y: -2250, z: 128, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Step Two: Awaken the Four Sleepers of Darkside."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The east bridge to the Eye of the Winds.
+  - walk_to: {x: 500, y: -2380, z: 128, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1400, y: -2720, z: 200, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2200, y: -3060, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2600); if qbit(111765) then error('air_test set before the test') end"}
+  # The test's floor: "Accept the test of Air?" Yes; the three guardians rise and die.
+  - walk_to: {x: 2528, y: -3072, z: 260, z_tolerance: 60, radius: 48, timeout_seconds: 20, expect: dialog}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {dialog: {active: true, text_contains: "You accept the test of Air."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(111765) then error('air_test set before the guardians die') end"}
+  - assert: {actor_visible: {actor_index: 6, hidden: false}}
+  - assert: {actor_visible: {actor_index: 7, hidden: false}}
+  - assert: {actor_visible: {actor_index: 8, hidden: false}}
+  # The party fights its way on round the floor towards the gate's stones; the last guardian's fall stops it with its line.
+  - walk_to: {x: 3500, y: -3300, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 2600, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(111765) then error('air_test 111765 not set after the guardians died') end"}
+  - advance_runtime: {seconds: 2}
+  # Round the floor to the gate's stones, through the stilled curtain, up the Stair of Wind into the Sleeper's Aerie.
+  - walk_to: {x: 3500, y: -3300, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3700, y: -2000, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3968, y: -1698, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 3968, y: -838, z: 336, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 3968, y: 2210, z: 768, z_tolerance: 160, radius: 128, timeout_seconds: 90, close_dialogs: true}
+  - walk_to: {x: 4096, y: 2910, z: 768, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 4439, y: 3415, z: 776, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
+  # The Air Sleeper (event 27): awake, the Grunfeld field active (m38.sleeper_air's third state).
+  - play_lua: {source: "clear_hostiles(3000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(27); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Air Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local xp, xp3 = experience(0) - recall("xp"), experience(3) - recall("xp3")
+        if xp ~= 10500 or xp3 ~= 10500 then error("the Air Sleeper paid " .. xp .. " / " .. xp3 .. " experience, not 10,500 each") end
+        if gold() ~= recall("gold") then error("the Air Sleeper paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111761]}
+  - assert: {award_acquired: [{id: 413, member_index: 0}, {id: 413, member_index: 3}]}
+  # Asked again, he only repeats it (no second payment).
+  - play_lua: {source: "remember('xp', experience(0)); click(27); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Grunfeld field generator is active and reports 100% confidence.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= recall('xp') then error('the Air Sleeper paid twice') end"}
+  # The return dais rises (evt:dais_show): "Step onto the dais and return to the Skyroads?" Yes, to D7.
+  - advance_runtime: {seconds: 2.5}
+  - assert: {sprite_shown: [0]}
+  - walk_to: {x: 3800, y: 2950, z: 776, z_tolerance: 160, radius: 128, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: 27456, y: 17728, radius: 256}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111740, 111741, 111742, 111743, 111760, 111761, 111764, 111765]}
+  - assert: {qbit_clear: [111762, 111763]}
+  - play_lua:
+      source: |
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        log("89 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "89 The Air Sleeper", path: output/playthrough/xeen/checkpoints/89_air_sleeper.oysav}

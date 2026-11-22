@@ -1,0 +1,178 @@
+# The walk (D-58): arrival, the statue, the Eye, the curtain shut before the test.
+# Written by output/studio_cal/p2/tools/gen_playtests.py; run with --world xeen --map xeen_p2.blv.
+id: xeen.p2.l4.walk
+title: 'Plane of Air (P2): arrival, the statue''s island, the Eye; the curtain holds before the test'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p2.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p2.blv
+- assert:
+    party_position:
+      x: -4096
+      y: -4096
+      radius: 96
+      z_min: -8
+      z_max: 40
+- note: 'Across the south bridge to the Wind Statue (S: the statue, blocked; its plinth stands).'
+- walk_to:
+    x: -3300
+    y: -3750
+    z: 0
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -2600
+    y: -3370
+    z: 32
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -1700
+    y: -2780
+    z: 120
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -700
+    y: -2250
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- note: The east bridge to the Eye of the Winds, round the test's plate.
+- walk_to:
+    x: 500
+    y: -2380
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 1400
+    y: -2720
+    z: 200
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 2200
+    y: -3060
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 2500
+    y: -3500
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 3500
+    y: -3300
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 3700
+    y: -2000
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 3968
+    y: -1698
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- note: The curtain of wind holds before the test (D-64).
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p2.blv
+      x: 3968
+      y: -1698
+      z: 256
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_p2.blv
+      x: 3968
+      y: -1698
+      z: 256
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: 3968
+      y: -1558
+      radius: 110
+      z_min: 248
+      z_max: 272

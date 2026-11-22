@@ -1,0 +1,84 @@
+# Q-C5 The Snakes of Asp (QUESTS 2.1; WORLD_DESIGN 5.1 Asp). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The pedestals round the well open the field of light in XD-25; the transformer behind it ends the curse (Asp's stage
+# 1: A4's services by Xeen.stageOf("asp")). The crystals in its housing are Falagar's (Q-C11).
+id: Q-C5
+title: The Snakes of Asp
+act: II
+kind: side
+status: full
+giver: 4301          # Adam of Asp (A4: towns/x4.yml); Eve 4302
+maps: [X4, XD-25]
+level: 16
+block: 55
+after: []
+source: "QUESTS Q-C5; xeen/aaze0031:4-11, :22, :24"
+
+qbits:
+  started: {id: 112100, journal: "The people of Asp are turning into snakes. Adam and Eve say the stones round the well know how to stop it.",
+            until: [done]}
+  pedestals: {id: 112101, note: "the colours round Asp's well set right; the field of light in XD-25 drops"}
+  done: {id: 112102, note: "Asp liberated (Xeen.stageOf(\"asp\")); Asp's services open (A4)"}
+  rewarded: {id: 112103}
+  townsfolk_thanked: {id: 110840, map: XD-25, note: "the caged townsfolk thanked the party after done (XD-25's own event, A7)"}
+
+npcs:
+  4301:              # Adam
+    topics:
+      - n: 1
+        label: Curse
+        states:
+          - when: {qbit: rewarded}
+            text: "Thank you for saving us! Eve hasn't hissed in a week. I've started to miss it."
+          - when: {qbit: done}
+            text: "The curse is over. People are walking out of the cellars on two legs. Here: the town collected this for you. Some of it was in snakeskins."
+            do: [{set: rewarded}, {xp: 5000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "Still snakes. Eve says the stones round the well have something to say. Eve says a lot of things now, and all of them with an s."
+          - text: "A terrible thing has happened to Asp. A foul curse has been placed on the town that turns people into snakes. Please save us!"
+            do: [{set: started}]
+  4302:              # Eve
+    topics:
+      - n: 2
+        label: Transformer
+        states:
+          - when: {qbit: done}
+            text: "The curse is over! Thank you so much!"
+          - text: "There isss a transformer somewhere under town that is turning people into snakes. If you destroy it, the curse will surely end. The ssstones round the well open the way: start with the south-west stone, make it red, then every other one red all the way round."
+            do: [{set: started}]
+
+hooks:
+  pedestal_rhyme:
+    map: X4
+    where: "the stone at the well's head (touch): the rule of the pedestals"
+    text: "A message appears in the stone: The southwest corner is where to start / Begin with red to tell them apart. Alternate the colors around the well / Then the machine can no longer repel."
+  pedestal_touch:
+    map: X4
+    where: "each coloured pedestal round the well (the map lane's colour puzzle; its own events turn the colours)"
+    status: true
+    text: "The pedestal is cool to the touch."
+  pedestals:
+    map: X4
+    where: "the pedestals' colours set right: red at the south-west, the colours alternating round the well (the map's timer checks only the final pattern, not which pedestal was set first)"
+    sets: [pedestals]
+  field_gate:
+    map: XD-25
+    gate: puzzle
+    where: "the field of light before the transformer hall: drops once the pedestals are set"
+    requires: {qbit: pedestals}
+    fail_text: "A wall of coloured light hums across the passage. Somewhere above, the stones round the well decide whether it stays."
+  transformer:
+    map: XD-25
+    gate: puzzle
+    where: "the transformer machine (the source's question: \"You have found the transformer! Do you wish to destroy it?\")"
+    requires: {qbit: pedestals}
+    sets: [done]
+    once: true
+    text: "The transformer sparks, shudders and dies. Far above, in a cellar in Asp, someone stops hissing in mid-word."
+    else_text: "The transformer is scrap. The crystal housing behind it hangs open."
+
+riddles:
+  - {answer: "the pedestal pattern: red at the south-west, colours alternating round the well", where: "Asp's pedestals (X4)",
+     said_by: "the stone at the well's head (q-c5.pedestal_rhyme: xeen/aaze0031:6-7), which Eve tells the party to touch"}
+
+rewards: {xp: 5000, gold: 1500}
+playthrough: "X4: Adam (Curse), Eve (Transformer); the stone at the well; the pedestals. XD-25: the field drops; the transformer. X4: Adam (Curse)."

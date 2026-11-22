@@ -1,0 +1,349 @@
+# X1 Vertigo Meadows: Vertigo, the Toad Meadow hamlet and the people of the meadows.
+# Owner: A4 (devdocs/xeen/lanes/A4.md). Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# tools/xeen/gen_towns.py turns this file into table rows; tools/xeen/towns.py checks it.
+# Topics (quests, rumours, original lines) are A3's, in source/npcs/x1.yml, keyed by the npc ids below.
+key: X1
+stem: xeen_x1.odm
+town: Vertigo
+face: cloudside
+blocks:
+  houses: [4001, 4050]
+  npcs: [4001, 4100]
+
+# Where coaches, boats, mirrors and Town Portal set the party down on this map (world units; direction 0 east,
+# 512 north, 1024 west, 1536 south). Taken from the built map's playtest poses (briefs/x1/L4/playtest.yml).
+arrivals:
+  vertigo_square: {at: [-5120, 8704, 640], direction: 512, note: "the party start on the square"}
+  vertigo_stables: {at: [768, 9400, 640], direction: 512, note: "the stable yard, north of the stables' door"}
+  vertigo_creek: {at: [-7168, 4506, 640], direction: 0, note: "the creek bank where Nystor's boat lands (X2's event)"}
+
+houses:
+  # ---- services (WORLD_DESIGN 5.1: the start pocket gets the full set) ----
+  - id: 4001
+    door: building:weapon_shop
+    was: 9
+    kind: weapon_shop
+    name: Norman's Ironworks
+    owner: 4001
+    shop: {quality: 1, kinds: [sword, bow, axe, any]}
+  - id: 4002
+    door: building:armour_shop
+    was: 47
+    kind: armor_shop
+    name: Vertigo Armoury
+    owner: 4002
+    shop: {quality: 1}
+  - id: 4003
+    door: building:town_hall
+    was: 203
+    kind: town_hall
+    name: Vertigo Town Hall
+    owner: 4003
+  - id: 4004
+    door: building:magic_shop
+    was: 85
+    kind: magic_shop
+    name: Gilbert's Hexes
+    owner: 4004
+    shop: {quality: 1}
+  - id: 4005
+    door: building:tavern
+    was: 240
+    kind: tavern
+    name: Lady Geraldine's Tavern
+    owner: 4005
+    residents: [4030]
+  - id: 4006
+    door: building:bank
+    was: 286
+    kind: bank
+    name: Bank of Vertigo
+    owner: 4006
+  - id: 4007
+    door: building:inn
+    was: 1607
+    kind: inn
+    name: The Adventurer's Inn
+    owner: 4007
+    roster: vertigo
+  - id: 4008
+    door: building:alchemist
+    was: 117
+    kind: alchemist
+    name: Philters of Vertigo
+    owner: 4008
+    shop: {quality: 1}
+  - id: 4009
+    door: building:temple
+    was: 311
+    kind: temple
+    name: Slime Temple
+    owner: 4009
+    note: "WORLD_DESIGN 5.1: renamed after the pest quest. Before M2's qbit the door opens 4009, after it 4010."
+  - id: 4010
+    door: building:temple
+    alternate_of: 4009
+    after: m2.done
+    hook: m2.temple_name
+    kind: temple
+    name: Temple of Vertigo
+    owner: 4009
+  - id: 4011
+    door: building:guild_fire
+    was: 129
+    kind: fire_guild
+    name: Fire Guild of Vertigo
+    owner: 4011
+    guild: {spells: 4}
+  - id: 4012
+    door: building:guild_air
+    was: 135
+    kind: air_guild
+    name: Air Guild of Vertigo
+    owner: 4012
+    guild: {spells: 4}
+  - id: 4013
+    door: building:guild_water
+    was: 140
+    kind: water_guild
+    name: Water Guild of Vertigo
+    owner: 4013
+    guild: {spells: 4}
+  - id: 4014
+    door: building:guild_earth
+    was: 146
+    kind: earth_guild
+    name: Earth Guild of Vertigo
+    owner: 4014
+    guild: {spells: 4}
+  - id: 4015
+    door: building:training
+    was: 1571
+    kind: training
+    name: Thylon's Training
+    owner: 4015
+    training: {cap: 10, price: 10}
+  - id: 4016
+    door: building:stables
+    was: 461
+    kind: stables
+    name: Vertigo Stables
+    owner: 4016
+    routes:
+      - {id: 401, to: rivercity_stables, days: [mon, wed, fri], travel_days: 2}
+      - {id: 404, to: burlock_stables, days: [tue, sat], travel_days: 4}
+  - id: 4017
+    door: thing:mirror
+    kind: mirror
+    name: The Mirror of Vertigo
+    mirror: {face: cloudside, town: Vertigo, arrival: vertigo_square, qbit: 119001}
+
+  # ---- the eighteen town residences ----
+  - id: 4018
+    door: building:core_houses#1
+    was: 1106
+    kind: residence
+    name: Miller House
+    residents: [4018, 4019]
+  - id: 4019
+    door: building:core_houses#2
+    was: 1105
+    kind: residence
+    name: Ashby Residence
+    residents: [4020]
+  - id: 4020
+    door: building:core_houses#3
+    was: 1101
+    kind: residence
+    name: Gunther's House
+    residents: [4021]
+  - id: 4021
+    door: building:core_houses#4
+    was: 1102
+    kind: residence
+    name: Weaver Residence
+    residents: [4022]
+  - id: 4022
+    door: building:core_houses#5
+    was: 1103
+    kind: residence
+    name: Pike Residence
+    residents: [4023]
+  - id: 4023
+    door: building:core_houses#6
+    was: 1104
+    kind: residence
+    name: Thorne House
+    residents: [4024]
+  - id: 4024
+    door: building:core_houses#7
+    was: 1107
+    kind: residence
+    name: Cobb Residence
+    residents: [4025]
+  - id: 4025
+    door: building:core_houses#8
+    was: 1108
+    kind: residence
+    name: Bramble House
+    residents: [4026]
+  - id: 4026
+    door: building:core_houses#9
+    was: 1121
+    kind: residence
+    name: Fenwick Residence
+    residents: [4027]
+  - id: 4027
+    door: building:bank_houses#1
+    was: 1122
+    kind: residence
+    name: Vern's House
+    residents: [4028]
+  - id: 4028
+    door: building:bank_houses#2
+    was: 1123
+    kind: residence
+    name: Mylo's Maps
+    residents: [4029]
+  - id: 4029
+    door: building:bank_houses#3
+    was: 1126
+    kind: residence
+    name: Tanner House
+    residents: [4031]
+  - id: 4030
+    door: building:west_houses#1
+    was: 1127
+    kind: residence
+    name: Rialdo's Lodge
+    residents: [4032]
+  - id: 4031
+    door: building:west_houses#2
+    was: 1109
+    kind: residence
+    name: Cooper House
+    residents: [4033]
+  - id: 4032
+    door: building:west_houses#3
+    was: 1128
+    kind: residence
+    name: Fletcher Residence
+    residents: [4034, 4035]
+  - id: 4033
+    door: building:east_houses#1
+    was: 1129
+    kind: residence
+    name: Wren House
+    residents: [4036]
+  - id: 4034
+    door: building:east_houses#2
+    was: 1130
+    kind: residence
+    name: Marsh Residence
+    residents: [4037]
+  - id: 4035
+    door: building:east_houses#3
+    was: 1131
+    kind: residence
+    name: Hollis House
+    residents: [4038]
+
+  # ---- outside the walls: the meadows and the Toad Meadow hamlet ----
+  - id: 4036
+    door: building:oslo_hut
+    was: 1124
+    kind: residence
+    name: Oslo's Hut
+    outside: true
+    residents: [4039]
+  - id: 4037
+    door: building:celia_hut
+    was: 1126
+    kind: residence
+    name: Celia's Hut
+    outside: true
+    residents: [4041]
+  - id: 4038
+    door: building:myra_hut
+    was: 1125
+    kind: residence
+    name: Myra the Herbalist
+    outside: true
+    residents: [4042]
+  - id: 4039
+    door: building:hamlet_houses#1
+    was: 1122
+    kind: residence
+    name: Bog House
+    outside: true
+    residents: [4043]
+  - id: 4040
+    door: building:valia_cottage
+    kind: residence
+    name: Old Valia's Cottage
+    outside: true
+    residents: [4044]
+  - id: 4041
+    door: building:joes_shop
+    kind: residence
+    name: Joe's Exterminations
+    residents: [4045]
+
+npcs:
+  # ---- proprietors ----
+  - {id: 4001, name: Norman, title: Blacksmith, profession: Smith, greet: ["Norman's Ironworks. If it's sharp, I made it.", "Back for more steel?"]}
+  - {id: 4002, name: Gudrun, title: Armorer, profession: Armorer, greet: ["Mind the slime on your boots. Armour?", "Still in one piece, I see. Good."]}
+  - {id: 4003, name: Gunther, title: Mayor, talks: true, profession: Noble, greet: ["Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests.", "My favorite citizens, I'm always glad to see you."], source: "xeen/aaze0028:1, :5"}
+  - {id: 4004, name: Gilbert, title: Hexer, greet: ["Gilbert's Hexes. No refunds on curses.", "Ah, customers who survived."]}
+  - {id: 4005, name: Lady Geraldine, greet: ["Sit anywhere that isn't sticky.", "The usual table, then."]}
+  - {id: 4006, name: Mortimer, title: Banker, profession: Banker, greet: ["The Bank of Vertigo. Your gold is safer here than in Joe's hands.", "Deposits on the left, complaints nowhere."]}
+  - {id: 4007, name: Bartleby, title: Innkeeper, greet: ["Adventurers stop here between disasters. Looking for company?", "More friends for you upstairs."]}
+  - {id: 4008, name: Rosalind, title: Alchemist, profession: Alchemist, greet: ["Philters, tonics, cures. Slime remover is extra.", "Back already? Something must have bitten you."]}
+  - {id: 4009, name: Brother Silas, profession: Healer, greet: ["Welcome to the Slime Temple. The name was not our idea.", "Bless you. Wipe your feet."]}
+  - {id: 4011, name: Calder, title: Guildmaster, greet: ["The Fire Guild of Vertigo. Members only, and mind the curtains.", "Warm to see you."]}
+  - {id: 4012, name: Wynna, title: Guildmistress, greet: ["The Air Guild. Close the door, the scrolls blow away.", "Ah, the breeze is back."]}
+  - {id: 4013, name: Marina, title: Guildmistress, greet: ["The Water Guild of Vertigo. The creek is ours too, sadly.", "Welcome back."]}
+  - {id: 4014, name: Dunstan, title: Guildmaster, greet: ["The Earth Guild. Solid ground, solid spells.", "Still standing? Good."]}
+  - {id: 4015, name: Thylon, title: Instructor, profession: Instructor, greet: ["Thylon's Training. I can take you to tenth level, no further.", "Ready to sweat?"]}
+  - {id: 4016, name: Hob, title: Stablemaster, profession: Horseman, greet: ["Coaches to Rivercity, three days a week.", "The horses remember you."]}
+
+  # ---- residents of the town ----
+  - {id: 4018, name: Tobias Miller, profession: Miller, greet: ["The slimes got into the flour again.", "Mind the sacks."]}
+  - {id: 4019, name: Molly Miller, title: Peasant, profession: Peasant, greet: ["Tobias is out back, swearing at the flour.", "Hello again."]}
+  - {id: 4020, name: Edwina Ashby, title: Retired Guard, profession: Guard, teaches: [{skill: Shield, mastery: expert}], greet: ["Thirty years on the wall. I can teach you to hold a shield.", "Shield up, chin down."]}
+  - {id: 4021, name: Greta, title: Mayor's Wife, profession: Peasant, greet: ["Gunther is at the town hall. He is always at the town hall.", "Oh, it's you again."]}
+  - {id: 4022, name: Ilsa Weaver, profession: Weaver, greet: ["Doom bugs eat wool. Did you know that? I know that.", "Come in, mind the loom."]}
+  - {id: 4023, name: Sergeant Pike, title: Town Guard, profession: Guard, teaches: [{skill: Sword, mastery: expert}], greet: ["Pike. I keep the gates and teach the sword.", "Keeping your edge?"]}
+  - {id: 4024, name: Old Thorne, title: Sceptic, profession: Peasant, teaches: [{skill: Perception, mastery: expert}], greet: ["Some fool said money's now growing on trees. Ha!", "I've had my eye on you."], source: "xeen/aaze0028:24"}
+  - {id: 4025, name: Cobb, title: Cobbler, profession: Cobbler, teaches: [{skill: Repair Item, mastery: expert}], greet: ["Boots, buckles, broken things. I mend them all.", "What did you break this time?"]}
+  - {id: 4026, name: Bramble, title: Fire Mage, profession: Apprentice, teaches: [{skill: Fire Magic, mastery: expert}], greet: ["This place is deserted. You should go to Rivercity--Now there's a town full of action!", "Still here? So am I."], source: "xeen/aaze0028:25"}
+  - {id: 4027, name: Fenwick, title: Retired Cutpurse, profession: Beggar, teaches: [{skill: Dagger, mastery: expert}], greet: ["That Gunther, what a dunce! He paid that con man Joe a fortune to clean up this town.", "Keep your purse close. Habit."], source: "xeen/aaze0028:26"}
+  - {id: 4028, name: Vern, title: Guildman, profession: Clerk, services: [{guild_membership: elemental}], greet: ["I'll put anyone on the guild roll for free. Dues will cost 25 gold, though.", "Dues paid? Then off to the guild row."], source: "xeen/aaze0028:12-13"}
+  - {id: 4029, name: Mylo, title: Mapmaker, profession: Cartographer, greet: ["Mylo's Maps. I will teach anyone cartography for 100 gold. Nobody ever asks.", "Lost already?"], source: "xeen/aaze0028:8-9"}
+  - {id: 4030, name: Dudley, title: Tavern Patron, profession: Peasant, greet: ["Get Lost! Can't you see I'm drinkin'?", "(hic)"], source: "xeen/aaze0028:23"}
+  - {id: 4031, name: Agnes Tanner, profession: Tailor, teaches: [{skill: Leather, mastery: expert}], greet: ["Leather is just a cow with better manners. I teach it.", "Smell's not so bad once you're used to it."]}
+  - {id: 4032, name: Rialdo, title: Ranger, profession: Tracker, teaches: [{skill: Bow, mastery: expert}], greet: ["Rialdo the Ranger. I teach the bow to those who can hold still.", "Steady hands today?"], source: "xeen/aaze0028:10"}
+  - {id: 4033, name: Cooper, profession: Cooper, teaches: [{skill: Axe, mastery: expert}], greet: ["Barrels need staves, staves need an axe. I'll show you.", "Split anything lately?"]}
+  - {id: 4034, name: Fenn Fletcher, profession: Trader, greet: ["Arrows by the dozen. Rialdo buys most of them.", "Need fletching?"]}
+  - {id: 4035, name: Dora Fletcher, title: Peasant, profession: Peasant, greet: ["The orcs took our sheep. All of them.", "Any news of the orcs?"]}
+  - {id: 4036, name: Wren, title: Air Mage, profession: Apprentice, teaches: [{skill: Air Magic, mastery: expert}], greet: ["The wind tells me things. Mostly about weather.", "A good breeze today."]}
+  - {id: 4037, name: Odette Marsh, title: Water Mage, profession: Apprentice, teaches: [{skill: Water Magic, mastery: expert}], greet: ["The creek is full of slime. I teach water magic anyway.", "Dry feet? Lucky you."]}
+  - {id: 4038, name: Hollis, title: Earth Mage, profession: Stone Cutter, teaches: [{skill: Earth Magic, mastery: expert}], greet: ["Stone listens if you speak slowly.", "Back on solid ground."]}
+
+  # ---- residents outside the walls ----
+  - {id: 4039, name: Oslo, title: Farmer, profession: Farmer, greet: ["The orcs took my boy Tam to their caves in the hills.", "Any word of Tam?"]}
+  - {id: 4040, name: Tam, title: Oslo's Son, profession: Child, house: none, note: "Held in the Orc Caves (XD-05); A3 moves him to 4036 when he is freed.", greet: ["You came! Is it far to home?", "Thanks for getting me out."]}
+  - {id: 4041, name: Celia, title: Captive, profession: Peasant, greet: ["Untie me, please! Derek must be frantic.", "Derek is waiting for me."], note: "Q-C22: tied up in the hut in the zombie wood."}
+  - {id: 4042, name: Myra, title: Herbalist, profession: Alchemist, teaches: [{skill: Alchemy, mastery: expert}], greet: ["The witches of the meadow have been turning everyone they find into toads.", "Mind the toads. Some of them were people."], source: "xeen/aaze0023:0"}
+  - {id: 4043, name: Hedda Bogg, title: Peasant, profession: Farmer, greet: ["Toad Meadow. The toads were here first.", "Wipe your feet, it's a bog."]}
+  - {id: 4044, name: Old Valia, title: Wise Woman, profession: Peasant, greet: ["When I was still a young maiden, I fell asleep in Toad Meadow, and woke beside a unicorn.", "Sit, sit. I'll tell you of Falista."], source: "xeen/aaze0024:5"}
+  - {id: 4045, name: Joe, title: Exterminator, profession: Duper, greet: ["Two years ago, I came to this town on contract to control the vermin infestation. I've just about got the situation under control.", "Pest control by Joe!"], source: "xeen/aaze0028:7, :22"}
+
+  # ---- people outdoors and on the streets (no house; the map lane places them) ----
+  - {id: 4046, name: Derek, title: Ranger, profession: Tracker, house: none, place: "X1, Derek's camp (A5)", greet: ["My bride Celia is held in a hut in the zombie wood.", "Have you found Celia?"]}
+  - {id: 4047, name: Orothin, title: Hermit, profession: Mystic, house: none, place: "X1, by his island statues (A5)", greet: ["I lost my bone whistle in the creek. Without it the statues sleep.", "The whistle?"]}
+  - {id: 4048, name: The Spring Druid, profession: Mystic, house: none, place: "X1, Spring Druid's grove (A5)", greet: ["As I renew the year, so will I renew you.", "Spring comes to those who wait."], source: "xeen/aaze0019:15"}
+  - {id: 4049, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["Sinners must repent.", "Sinners must repent."], source: "xeen/aaze0028:17"}
+  - {id: 4050, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["The end is near.", "The end is near."], source: "xeen/aaze0028:18"}
+  - {id: 4051, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["The plague is upon us.", "The plague is upon us."], source: "xeen/aaze0028:19"}
+  - {id: 4052, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["Slime lords shall rule.", "Slime lords shall rule."], source: "xeen/aaze0028:21"}

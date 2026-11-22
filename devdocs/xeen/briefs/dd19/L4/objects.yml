@@ -1,0 +1,1023 @@
+format: 0
+start:
+  room: room:court
+  at: [0, 384]
+  facing: n
+  notes: "Inside the guild gate: the court's south side, 384 inside the gate, facing north (the gate at the party's back)."
+arrivals:
+  - {entrance: entrance:d3_guild_gate, room: room:court, at: [0, 384], facing: n, notes: "From D3's guild gate (thing:dd19_gate, q-d14.quarter_gate, A5): MoveToMap(0, 384, 0, 512)."}
+doors:
+  - id: door:alembic_back
+    opening: open:alembic_back
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: The alembic cellar onto the HQ's back stair.
+  - id: door:arcade_common
+    opening: open:arcade_common
+    kind: slide_left
+    surface: {texture: hcsmdr, size: [128, 256], fit: true}
+    notes: The Guild Common's door in the arcade's back wall.
+  - id: door:bridge
+    opening: open:hall_bridge
+    kind: slide_left
+    surface: {texture: d8dord, size: [128, 256], fit: true}
+    notes: "The bridge's west door, bolted on Xenoc's side (switch:bolt in the Hall of Mirages)."
+  - id: door:common_weights
+    opening: open:common_weights
+    kind: slide_left
+    surface: {texture: hcsmdr, size: [128, 256], fit: true}
+    notes: The tax office's door.
+  - id: door:court_hq
+    opening: open:court_hq
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: t07c03c, size: [128, 256]}, {texture: t07c03d, size: [128, 256]}]
+    back_pictures:
+      - [{texture: t07c03c, size: [128, 256]}, {texture: t07c03d, size: [128, 256]}]
+    notes: "The Sorceress HQ's great-hall doors on the court: two hinged leaves opening apart."
+  - id: door:court_mirage
+    opening: open:court_mirage
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: t07c03c, size: [128, 256]}, {texture: t07c03d, size: [128, 256]}]
+    back_pictures:
+      - [{texture: t07c03c, size: [128, 256]}, {texture: t07c03d, size: [128, 256]}]
+    notes: "The Mirage Guild's great-hall doors on the court: two hinged leaves (t07c03c|t07c03d) opening apart."
+  - id: door:hall_study
+    opening: open:hall_study
+    kind: slide_left
+    surface: {texture: d8dord, size: [128, 256], fit: true}
+    notes: Xenoc's study behind his chair.
+  - id: door:mirage
+    opening: open:mirage_wall
+    kind: slide_up
+    thickness: 16
+    speed: 120
+    surface: {texture: t3wspp, size: [128, 256], scale: 2}
+    back_surface: {texture: t3wbltd, size: [256, 256], scale: 2}
+    tile: true
+    notes: "The mirage: the gallery's blank wall that is not there (made passable at load, never opened)."
+  - id: door:qw_undercroft
+    opening: open:qw_undercroft
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: The wizards' quarters onto the undercroft.
+  - id: door:sanctum_wardrobe
+    opening: open:sanctum_wardrobe
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: Morgana's wardrobe.
+  - id: door:stair_robing
+    opening: open:stair_robing
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: The robing room's door off the HQ stair.
+  - id: door:undercroft_qe
+    opening: open:undercroft_qe
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: The sorceresses' quarters off the undercroft.
+  - id: door:vault
+    opening: open:vault
+    kind: slide_left
+    surface: {texture: cvdor3, size: [128, 256], fit: true}
+    notes: "The guild vault's iron door: the lever in Xenoc's study raises it."
+  - id: door:ward
+    opening: open:ward
+    kind: slide_down
+    fold: true
+    speed: 96
+    surface: {texture: xufield, size: [256, 256], translucent: 1}
+    tile: true
+    notes: "Morgana's door: a ward of light (XD-25's xufield, see-through) fed by two lamps; it sinks when both are out."
+sounds:
+  - {id: sound:alembic, room: room:alembic, at: [3200, 2304], sound: drip02, radius: 1600, inner_radius: 400, volume: 0.35, wait: [2, 6], notes: The still dripping.}
+  - {id: sound:court, room: room:court, at: [0, 768], sound: xeen_amb_sky, radius: 2000, inner_radius: 800, volume: 0.3, notes: The open air over the court., pan: false}
+  - {id: sound:court_wind, room: room:court, at: [0, 1024], sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.25, notes: Wind over the court.}
+  - {id: sound:hall, room: room:mirage_hall, at: [-1728, 1152], sound: xeen_amb_tower, radius: 1800, inner_radius: 600, volume: 0.35, notes: The Hall of Mirages' draughts., pan: false}
+  - {id: sound:quarters_w, room: room:quarters_w, at: [-2240, 2240], sound: drip02, radius: 1800, inner_radius: 400, volume: 0.35, wait: [2, 6], notes: Water dripping in the cells.}
+  - {id: sound:sanctum, room: room:morgana_sanctum, at: [3328, 2560], sound: xeen_amb_tower, radius: 1800, inner_radius: 600, volume: 0.35, notes: Morgana's sanctum., pan: false}
+  - {id: sound:undercroft, room: room:undercroft, at: [0, 2048], sound: drip03, radius: 2200, inner_radius: 500, volume: 0.4, wait: [3, 8], notes: Drips under the low vault.}
+lights:
+  - id: light:alcoves_1
+    room: room:alcoves
+    at: [-4480, 2000]
+    height: 384
+    radius: 1100
+    color: [190, 140, 150]
+  - id: light:alembic_1
+    room: room:alembic
+    at: [3008, 2304]
+    radius: 768
+    color: [170, 140, 110]
+  - id: light:arcade_1
+    room: room:arcade
+    at: [0, 1856]
+    height: 320
+    radius: 1228
+    color: [235, 175, 115]
+  - id: light:back_stair_1
+    room: room:back_stair
+    at: [4096, 2560]
+    height: 384
+    radius: 1100
+    color: [190, 140, 150]
+  - id: light:bridge_1
+    room: room:bridge
+    at: [0, 1856]
+    height: 320
+    radius: 1228
+    color: [235, 175, 115]
+  - id: light:common_1
+    room: room:common
+    at: [0, 2816]
+    height: 320
+    radius: 1228
+    color: [235, 175, 115]
+  - id: light:common_2
+    room: room:common
+    at: [-768, 3328]
+    height: 96
+    radius: 600
+    color: [240, 160, 90]
+    notes: The hearth's glow.
+  - id: light:court_1
+    room: room:court
+    at: [0, 768]
+    height: 320
+    radius: 1228
+    color: [170, 150, 160]
+  - id: light:guild_crystal
+    room: room:mirage_foyer
+    at: [-1728, 1344]
+    height: 162
+    radius: 600
+    color: [140, 170, 255]
+    notes: The guild's crystal glowing in its circle.
+  - id: light:hq_brazier_1
+    room: room:hq_foyer
+    at: [1344, 1920]
+    height: 360
+    radius: 1200
+    color: [170, 110, 240]
+    notes: A brazier burning violet in the Sorceress HQ.
+  - id: light:hq_brazier_2
+    room: room:hq_foyer
+    at: [2112, 1920]
+    height: 360
+    radius: 1200
+    color: [170, 110, 240]
+    notes: A brazier burning violet in the Sorceress HQ.
+  - id: light:hq_foyer_1
+    room: room:hq_foyer
+    at: [1728, 1152]
+    height: 320
+    radius: 1075
+    color: [190, 140, 150]
+  - id: light:hq_stair_1
+    room: room:hq_stair
+    at: [2688, 640]
+    height: 448
+    radius: 1100
+    color: [190, 140, 150]
+  - id: light:illusions_1
+    room: room:illusions
+    at: [-3008, 896]
+    height: 320
+    radius: 768
+    color: [150, 165, 200]
+  - id: light:lamp_robe
+    room: room:robing
+    at: [4544, 1472]
+    height: 288
+    radius: 700
+    color: [170, 110, 240]
+    notes: Ward lamp 2's cold violet flame on its bracket (out when snuffed).
+  - id: light:lamp_scry
+    room: room:scrying
+    at: [1728, 704]
+    height: 160
+    radius: 700
+    color: [170, 110, 240]
+    notes: Ward lamp 1's cold violet flame (out when snuffed).
+  - id: light:mirage_foyer_1
+    room: room:mirage_foyer
+    at: [-1728, 1152]
+    height: 320
+    radius: 1075
+    color: [150, 165, 200]
+  - id: light:mirage_hall_1
+    room: room:mirage_hall
+    at: [-1728, 1152]
+    height: 320
+    radius: 1075
+    color: [150, 165, 200]
+  - id: light:mirage_stair_1
+    room: room:mirage_stair
+    at: [-2752, 2400]
+    height: 448
+    radius: 1100
+    color: [150, 165, 200]
+  - id: light:mirror_gallery_1
+    room: room:mirror_gallery
+    at: [-2816, 896]
+    height: 320
+    radius: 768
+    color: [150, 165, 200]
+  - id: light:morgana_sanctum_1
+    room: room:morgana_sanctum
+    at: [3328, 2560]
+    height: 320
+    radius: 1075
+    color: [190, 140, 150]
+  - id: light:quarters_e_1
+    room: room:quarters_e
+    at: [1600, 2304]
+    radius: 844
+    color: [170, 140, 110]
+  - id: light:quarters_stair_1
+    room: room:quarters_stair
+    at: [-192, 4480]
+    height: 384
+    radius: 1100
+    color: [190, 140, 150]
+  - id: light:quarters_w_1
+    room: room:quarters_w
+    at: [-2912, 2240]
+    radius: 1209
+    color: [170, 140, 110]
+  - id: light:quarters_w_2
+    room: room:quarters_w
+    at: [-1568, 2240]
+    radius: 1209
+    color: [170, 140, 110]
+  - id: light:robing_1
+    room: room:robing
+    at: [4288, 896]
+    height: 320
+    radius: 768
+    color: [190, 140, 150]
+  - id: light:scrying_1
+    room: room:scrying
+    at: [1728, 1152]
+    height: 320
+    radius: 1075
+    color: [190, 140, 150]
+  - id: light:undercroft_1
+    room: room:undercroft
+    at: [0, 1248]
+    radius: 1324
+    color: [170, 140, 110]
+  - id: light:undercroft_2
+    room: room:undercroft
+    at: [0, 2720]
+    radius: 1324
+    color: [170, 140, 110]
+  - id: light:vault_1
+    room: room:vault
+    at: [0, -256]
+    radius: 768
+    color: [170, 140, 110]
+  - id: light:wardrobe_1
+    room: room:wardrobe
+    at: [4736, 2112]
+    height: 320
+    radius: 700
+    color: [190, 140, 150]
+  - id: light:weights_1
+    room: room:weights
+    at: [1600, 2560]
+    height: 320
+    radius: 700
+    color: [235, 175, 115]
+  - id: light:xenoc_study_1
+    room: room:xenoc_study
+    at: [-1856, -320]
+    height: 320
+    radius: 700
+    color: [150, 165, 200]
+switches:
+  - id: switch:bolt
+    room: room:mirage_hall
+    kind: lever
+    reach: 48
+    at: [-1152, 1600]
+    floor_height: 640
+    notes: "The bridge door's bolt, on the Hall of Mirages' east wall beside the door."
+  - id: switch:vault_lever
+    room: room:xenoc_study
+    kind: lever
+    reach: 48
+    at: [-1408, -320]
+    floor_height: 640
+    notes: "The lever under the guild's seal: the vault's iron door far below."
+chests:
+  - id: chest:hoard
+    room: room:vault
+    at: [0, -768]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 4000
+    notes: The guilds' hoard.
+  - id: chest:quarters_e
+    room: room:quarters_e
+    at: [2176, 2816]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 800
+    notes: The sorceresses' quarters' chest.
+  - id: chest:quarters_w
+    room: room:quarters_w
+    at: [-1024, 2688]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 800
+    notes: "The wizards' quarters' chest: opening it springs the ambush."
+  - id: chest:study
+    room: room:xenoc_study
+    at: [-2176, -640]
+    facing: e
+    treasure_level: 4
+    random_items: 2
+    gold: 1200
+    notes: Xenoc's chest beside his desk.
+  - id: chest:wardrobe
+    room: room:wardrobe
+    at: [4608, 2432]
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 1000
+    notes: Morgana's chest among her robes.
+  - id: chest:weights
+    room: room:weights
+    at: [1920, 2752]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1500
+    notes: The wizards' tax chest.
+monsters:
+  - id: monster:alcoves_wizard_1
+    room: room:alcoves
+    monster: 11190
+    at: [-4608, 1920]
+    floor_height: -512
+    facing: 270
+    group: 1
+  - id: monster:alcoves_wizard_2
+    room: room:alcoves
+    monster: 11190
+    at: [-4288, 2112]
+    floor_height: -512
+    facing: 270
+    group: 1
+  - id: monster:alembic_enchantress_1
+    room: room:alembic
+    monster: 11181
+    at: [2816, 2176]
+    facing: 270
+    group: 2
+  - id: monster:alembic_enchantress_2
+    room: room:alembic
+    monster: 11181
+    at: [3072, 2560]
+    facing: 270
+    group: 2
+  - id: monster:ambush_1
+    room: room:quarters_w
+    monster: 11190
+    at: [-3200, 2048]
+    facing: 90
+    group: 7
+    hidden: true
+    notes: "One of the four wizards in the cells (D-18): placed hidden, shown when the quarters' chest is opened (counted at load)."
+  - id: monster:ambush_2
+    room: room:quarters_w
+    monster: 11190
+    at: [-2560, 2048]
+    facing: 90
+    group: 7
+    hidden: true
+    notes: "One of the four wizards in the cells (D-18): placed hidden, shown when the quarters' chest is opened (counted at load)."
+  - id: monster:ambush_3
+    room: room:quarters_w
+    monster: 11190
+    at: [-1920, 2048]
+    facing: 90
+    group: 7
+    hidden: true
+    notes: "One of the four wizards in the cells (D-18): placed hidden, shown when the quarters' chest is opened (counted at load)."
+  - id: monster:ambush_4
+    room: room:quarters_w
+    monster: 11190
+    at: [-1408, 2048]
+    facing: 90
+    group: 7
+    hidden: true
+    notes: "One of the four wizards in the cells (D-18): placed hidden, shown when the quarters' chest is opened (counted at load)."
+  - id: monster:blastem
+    room: room:common
+    monster: 11191
+    at: [512, 3296]
+    facing: 270
+    hostile: false
+    group: 21
+    immobile: true
+    notes: "Blastem the Wizard's body (not counted): a peaceful Sorcerer stand-in behind his table until A2 gives him a row of his own; his table talks for him (NPC 5248). Hidden once blastem_angered (evt:blastem_swap, evt:blastem_load)."
+  - id: monster:blastem_angry
+    room: room:common
+    monster: 11191
+    at: [672, 3296]
+    facing: 270
+    group: 20
+    hidden: true
+    notes: "Blastem taking 'The lesson' (D-42 (5), the Valio pattern): Sorcerer 11191, hostile, shown in his body's place once blastem_angered (113286), on this and every later load."
+  - id: monster:bridge_hand_1
+    room: room:bridge
+    monster: 11602
+    at: [-384, 1856]
+    facing: 270
+    group: 3
+  - id: monster:bridge_hand_2
+    room: room:bridge
+    monster: 11602
+    at: [384, 1856]
+    facing: 270
+    group: 3
+  - id: monster:hq_foyer_enchantress_1
+    room: room:hq_foyer
+    monster: 11181
+    at: [1536, 640]
+    facing: 270
+    group: 2
+  - id: monster:hq_foyer_enchantress_2
+    room: room:hq_foyer
+    monster: 11181
+    at: [1920, 1280]
+    facing: 270
+    group: 2
+  - id: monster:hq_foyer_enchantress_3
+    room: room:hq_foyer
+    monster: 11181
+    at: [1536, 1664]
+    facing: 270
+    group: 2
+  - id: monster:hq_foyer_hand_1
+    room: room:hq_foyer
+    monster: 11602
+    at: [1920, 640]
+    facing: 270
+    group: 3
+  - id: monster:hq_foyer_hand_2
+    room: room:hq_foyer
+    monster: 11602
+    at: [1920, 1792]
+    facing: 270
+    group: 3
+  - id: monster:illusions_sorcerer_1
+    room: room:illusions
+    monster: 11191
+    at: [-2688, 1280]
+    facing: 270
+    group: 1
+  - id: monster:illusions_wizard_1
+    room: room:illusions
+    monster: 11190
+    at: [-3072, 512]
+    facing: 270
+    group: 1
+  - id: monster:illusions_wizard_2
+    room: room:illusions
+    monster: 11190
+    at: [-3072, 1280]
+    facing: 270
+    group: 1
+  - id: monster:illusions_wizard_3
+    room: room:illusions
+    monster: 11190
+    at: [-2816, 768]
+    facing: 270
+    group: 1
+  - id: monster:mirage_foyer_wizard_1
+    room: room:mirage_foyer
+    monster: 11190
+    at: [-1920, 640]
+    facing: 270
+    group: 1
+  - id: monster:mirage_foyer_wizard_2
+    room: room:mirage_foyer
+    monster: 11190
+    at: [-1536, 1152]
+    facing: 270
+    group: 1
+  - id: monster:mirage_foyer_wizard_3
+    room: room:mirage_foyer
+    monster: 11190
+    at: [-1920, 1664]
+    facing: 270
+    group: 1
+  - id: monster:mirage_foyer_wizard_4
+    room: room:mirage_foyer
+    monster: 11190
+    at: [-1472, 1856]
+    facing: 270
+    group: 1
+  - id: monster:mirror_gallery_hand_1
+    room: room:mirror_gallery
+    monster: 11602
+    at: [-2688, 704]
+    facing: 270
+    group: 3
+  - id: monster:mirror_gallery_hand_2
+    room: room:mirror_gallery
+    monster: 11602
+    at: [-2688, 1088]
+    facing: 270
+    group: 3
+  - id: monster:mirror_gallery_wizard_1
+    room: room:mirror_gallery
+    monster: 11190
+    at: [-2944, 512]
+    facing: 270
+    group: 1
+  - id: monster:mirror_gallery_wizard_2
+    room: room:mirror_gallery
+    monster: 11190
+    at: [-2944, 1216]
+    facing: 270
+    group: 1
+  - id: monster:mirror_gallery_wizard_3
+    room: room:mirror_gallery
+    monster: 11190
+    at: [-2688, 1408]
+    facing: 270
+    group: 1
+  - id: monster:morgana
+    room: room:morgana_sanctum
+    monster: 11183
+    at: [3328, 2944]
+    facing: 270
+    group: 6
+    immobile: true
+    notes: "Morgana keeps her place before her dais (she casts from it). Morgana (11183, 60 by D-42, own skin sorc_m, blink) before her dais: q-d14.morgana at her death."
+  - id: monster:morgana_grand_1
+    room: room:morgana_sanctum
+    monster: 11182
+    at: [2944, 3008]
+    facing: 270
+    group: 6
+    notes: One of Morgana's two Grand Sorceresses.
+  - id: monster:morgana_grand_2
+    room: room:morgana_sanctum
+    monster: 11182
+    at: [3712, 3008]
+    facing: 270
+    group: 6
+    notes: One of Morgana's two Grand Sorceresses.
+  - id: monster:quarters_e_hand_1
+    room: room:quarters_e
+    monster: 11602
+    at: [1280, 2176]
+    facing: 270
+    group: 3
+  - id: monster:quarters_e_hand_2
+    room: room:quarters_e
+    monster: 11602
+    at: [1920, 2176]
+    facing: 270
+    group: 3
+  - id: monster:robing_enchantress_1
+    room: room:robing
+    monster: 11181
+    at: [4096, 768]
+    facing: 270
+    group: 2
+  - id: monster:robing_enchantress_2
+    room: room:robing
+    monster: 11181
+    at: [4352, 1152]
+    facing: 270
+    group: 2
+  - id: monster:scrying_enchantress_1
+    room: room:scrying
+    monster: 11181
+    at: [1536, 1024]
+    facing: 270
+    group: 2
+  - id: monster:scrying_enchantress_2
+    room: room:scrying
+    monster: 11181
+    at: [1920, 1408]
+    facing: 270
+    group: 2
+  - id: monster:scrying_enchantress_3
+    room: room:scrying
+    monster: 11181
+    at: [1984, 832]
+    facing: 270
+    group: 2
+  - id: monster:undercroft_hand_1
+    room: room:undercroft
+    monster: 11602
+    at: [0, 1472]
+    facing: 270
+    group: 3
+  - id: monster:undercroft_hand_2
+    room: room:undercroft
+    monster: 11602
+    at: [0, 2752]
+    facing: 270
+    group: 3
+  - id: monster:undercroft_sorcerer_1
+    room: room:undercroft
+    monster: 11191
+    at: [0, 2112]
+    facing: 270
+    group: 1
+  - id: monster:vault_golem_1
+    room: room:vault
+    monster: 11582
+    at: [-320, -512]
+    facing: 270
+    group: 4
+  - id: monster:vault_golem_2
+    room: room:vault
+    monster: 11582
+    at: [320, -512]
+    facing: 270
+    group: 4
+  - id: monster:vault_golem_3
+    room: room:vault
+    monster: 11582
+    at: [-320, 0]
+    facing: 270
+    group: 4
+  - id: monster:vault_golem_4
+    room: room:vault
+    monster: 11582
+    at: [320, 0]
+    facing: 270
+    group: 4
+  - id: monster:weights_hand_1
+    room: room:weights
+    monster: 11602
+    at: [1408, 2432]
+    facing: 270
+    group: 3
+  - id: monster:weights_hand_2
+    room: room:weights
+    monster: 11602
+    at: [1792, 2432]
+    facing: 270
+    group: 3
+  - id: monster:xenoc
+    room: room:mirage_hall
+    monster: 11196
+    at: [-1984, 896]
+    facing: 90
+    group: 5
+    immobile: true
+    notes: "Xenoc (11196, 60, blink) before his chair, keeping his place (he casts from it): q-d14.xenoc at his death."
+  - id: monster:xenoc_sorcerer_1
+    room: room:mirage_hall
+    monster: 11191
+    at: [-1600, 640]
+    facing: 180
+    group: 5
+    notes: One of Xenoc's two Sorcerers.
+  - id: monster:xenoc_sorcerer_2
+    room: room:mirage_hall
+    monster: 11191
+    at: [-1600, 1152]
+    facing: 180
+    group: 5
+    notes: One of Xenoc's two Sorcerers.
+decorations:
+  - id: deco:common_chandelier
+    room: room:common
+    decoration: chndlir0
+    at: [0, 2816]
+    hangs: true
+  - id: deco:flame_robe
+    room: room:robing
+    decoration: torch02
+    wall: n
+    along: 0.2778
+    height: 288
+    notes: Ward lamp 2's flame on its bracket.
+  - id: deco:flame_scry
+    room: room:scrying
+    decoration: flamb00
+    at: [1728, 704]
+    floor_height: 688
+  - id: deco:guild_crystal
+    room: room:mirage_foyer
+    decoration: crystl0
+    at: [-1728, 1344]
+    floor_height: 98
+  - id: deco:hall_chandelier
+    room: room:mirage_hall
+    decoration: chndlir0
+    at: [-1728, 1280]
+    hangs: true
+  - id: deco:hearth_fire
+    room: room:common
+    decoration: flamb00
+    at: [-768, 3392]
+    floor_height: 48
+  - id: deco:hq_brazier_1
+    room: room:hq_foyer
+    decoration: brzier00
+    at: [1344, 1920]
+    height: 368
+    hangs: true
+  - id: deco:hq_brazier_2
+    room: room:hq_foyer
+    decoration: brzier00
+    at: [2112, 1920]
+    height: 368
+    hangs: true
+  - id: deco:hq_skull_1_1
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1584, 1944]
+    floor_height: 208
+  - id: deco:hq_skull_1_2
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1728, 1944]
+    floor_height: 208
+  - id: deco:hq_skull_1_3
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1872, 1944]
+    floor_height: 208
+  - id: deco:hq_skull_2_1
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1584, 1944]
+    floor_height: 336
+  - id: deco:hq_skull_2_2
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1728, 1944]
+    floor_height: 336
+  - id: deco:hq_skull_2_3
+    room: room:hq_foyer
+    decoration: 7dec20
+    at: [1872, 1944]
+    floor_height: 336
+  - id: deco:sanctum_chandelier
+    room: room:morgana_sanctum
+    decoration: chndlir0
+    at: [3328, 2432]
+    hangs: true
+  - id: deco:sconce_0
+    room: room:court
+    decoration: torch01
+    wall: w
+    along: 0.15
+    height: 192
+  - id: deco:sconce_1
+    room: room:court
+    decoration: torch01
+    wall: e
+    along: 0.85
+    height: 192
+  - id: deco:sconce_10
+    room: room:mirage_foyer
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:sconce_11
+    room: room:illusions
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sconce_12
+    room: room:mirage_stair
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_13
+    room: room:mirror_gallery
+    decoration: scon100
+    wall: e
+    along: 0.2
+    height: 192
+  - id: deco:sconce_14
+    room: room:mirror_gallery
+    decoration: scon100
+    wall: e
+    along: 0.8
+    height: 192
+  - id: deco:sconce_15
+    room: room:mirage_hall
+    decoration: scon100
+    wall: w
+    along: 0.2
+    height: 192
+  - id: deco:sconce_16
+    room: room:mirage_hall
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:sconce_17
+    room: room:xenoc_study
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_18
+    room: room:bridge
+    decoration: scon100
+    wall: n
+    along: 0.3
+    height: 192
+  - id: deco:sconce_19
+    room: room:bridge
+    decoration: scon100
+    wall: n
+    along: 0.7
+    height: 192
+  - id: deco:sconce_2
+    room: room:court
+    decoration: torch01
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_20
+    room: room:scrying
+    decoration: scon100
+    wall: w
+    along: 0.2
+    height: 192
+  - id: deco:sconce_21
+    room: room:hq_foyer
+    decoration: torch05
+    wall: e
+    along: 0.45
+    height: 192
+  - id: deco:sconce_22
+    room: room:hq_foyer
+    decoration: torch05
+    wall: e
+    along: 0.8
+    height: 192
+  - id: deco:sconce_23
+    room: room:hq_stair
+    decoration: scon100
+    wall: s
+    along: 0.2
+    height: 192
+  - id: deco:sconce_24
+    room: room:robing
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sconce_25
+    room: room:morgana_sanctum
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_26
+    room: room:morgana_sanctum
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_27
+    room: room:wardrobe
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_28
+    room: room:alcoves
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_29
+    room: room:quarters_w
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_3
+    room: room:court
+    decoration: torch01
+    wall: s
+    along: 0.7
+    height: 192
+  - id: deco:sconce_30
+    room: room:quarters_w
+    decoration: torch02
+    wall: s
+    along: 0.7
+    height: 192
+  - id: deco:sconce_31
+    room: room:undercroft
+    decoration: torch02
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:sconce_32
+    room: room:undercroft
+    decoration: torch02
+    wall: e
+    along: 0.7
+    height: 192
+  - id: deco:sconce_33
+    room: room:quarters_stair
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_34
+    room: room:quarters_e
+    decoration: torch02
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sconce_35
+    room: room:alembic
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_36
+    room: room:back_stair
+    decoration: torch02
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_37
+    room: room:vault
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_38
+    room: room:vault
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_4
+    room: room:arcade
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_5
+    room: room:arcade
+    decoration: scon100
+    wall: n
+    along: 0.75
+    height: 192
+  - id: deco:sconce_6
+    room: room:common
+    decoration: scon100
+    wall: w
+    along: 0.25
+    height: 192
+  - id: deco:sconce_7
+    room: room:common
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_8
+    room: room:weights
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_9
+    room: room:mirage_foyer
+    decoration: scon100
+    wall: w
+    along: 0.2
+    height: 192
+exits:
+  - id: exit:gate
+    room: room:court
+    at: [0, 0]
+    size: [256, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d3_gate
+    notes: "The guild gate's inside face (hclgdr once, as outside): the exit preset back to D3's entrance:dd19_gate."
+notes: "DD-19's contents, written by output/studio_cal/dd19/tools/dress.py: 14 doors (two great-hall double doors as hinged pairs, eight single doors, the bolted bridge door, the ward of light, the vault's iron door, the mirage), two levers, six chests, 50 placed monsters (16 Wizards, 4 Sorcerers, Xenoc, 10 Enchantresses, 2 Grand Sorceresses, Morgana, 12 Carnage Hands, 4 Iron Golems; four of the wizards hidden in the quarters' ambush) and Blastem (a peaceful body and his hidden hostile swap, not counted)."

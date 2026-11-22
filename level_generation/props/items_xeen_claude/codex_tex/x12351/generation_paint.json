@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint directly inside the locked alpha of image 1 (guide_atlas.png). Return the exact same 1536x1024 transparent PNG layout: three 512x512 columns by two rows. Preserve every grey object's exact outline, position, size, camera, pedestal and every transparent opening, pixel for pixel. Change only the grey surface colour. Front, back, left across the upper row; right, overhead, completely empty transparent cell across the lower row. Depict the small seated solid gold Golden Griffin Statuette on its little square base. Use image 2 solely for material and details (layered engraved feathers, facets, fine marks and inner swirls following the design scaled to each view), image 3 solely for gold colour, ignoring magenta. Paint unlit gold albedo only, restrained ochre and honey-gold variation. No lighting gradients, cast shadow, ambient occlusion, hot highlights, reflections, glow, halo, sparkles, ground, outline or text. Do not redraw, enlarge, move or redesign any part of the model. Correct the silhouette and empty cell: use the first supplied PNG as an immutable stencil. All background and holes must have alpha exactly zero, especially the entire lower right 512\u00d7512 square. Keep the precise edge of the guide even where feathers meet it. Apply flat base colour and internal engraved marks only.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "36e56f7b4ec8effb6292ddec59eee50dae4fbd78bf0c11add3b0fbe52f01151f"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "4abbfdfcca34cc02d66f0ebed880dae41fde2e4933a5cd6b72122055508cf0f2"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "ca24d7e4b61129ea27b2ababc49a43a2e13dc2245216a50bf8155ea2794e7186"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e7-6299-7d30-a3a9-d818405174aa/exec-a9a83168-1b2f-4f41-99b6-dce09e0baf3e.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

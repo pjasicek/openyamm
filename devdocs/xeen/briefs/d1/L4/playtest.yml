@@ -1,0 +1,2423 @@
+# Written by output/studio_cal/d1/tools/gen_walk.py from the built map (A6). Houses opened: yes.
+id: xeen.d1.walk
+title: 'D1 Castleview Vale: the town, both gates, the vale'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d1.odm
+- assert:
+    map: xeen_d1.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -512
+      y: 4096
+      radius: 160
+- note: 'M14: the arrival text (a timer, once)'
+- advance_runtime:
+    seconds: 4
+- assert:
+    dialog:
+      active: true
+      text_contains: You step out of the pyramid
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(111280) then error("m14.started (111280) not set") end
+- note: 'The Mirror of Castleview: asleep until Kalindra''s stage 4'
+- execute_event:
+    id: 144
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Lyle's bench beside the mirror (a status line)
+- execute_event:
+    id: 105
+- advance_runtime:
+    seconds: 0.5
+- note: The Drawkcab sign (q-d3.drawkcab_sign)
+- execute_event:
+    id: 146
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Palindrome
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The jail''s back window: Q-D2 not started (q-d2.jail_window''s fail text)'
+- execute_event:
+    id: 107
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The runaway chest scuttles off (m17.runaway_chest)
+- execute_event:
+    id: 165
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: brass feet
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Public Storage's numbered chests, shut 1 to 9 in order (q-d4.number_chests)
+- note: Chest 1
+- execute_event:
+    id: 227
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 2
+- execute_event:
+    id: 230
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 3
+- execute_event:
+    id: 225
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 4
+- execute_event:
+    id: 232
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 5
+- execute_event:
+    id: 229
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 6
+- execute_event:
+    id: 233
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 7
+- execute_event:
+    id: 226
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 8
+- execute_event:
+    id: 231
+- advance_runtime:
+    seconds: 0.5
+- note: Chest 9
+- execute_event:
+    id: 228
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(113081) then error("q-d4.numbers_closed (113081) not set") end
+- note: The lettered chests, P-I-T-C-H-F-O-R-K (q-d4.letter_chests)
+- note: 'Letter I first: the wrong order'
+- execute_event:
+    id: 241
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: I. It will not shut. All nine
+      lids spring open again.'', 1, true) then error(''status: '' .. s) end'
+- note: Letter P
+- execute_event:
+    id: 237
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: P. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: 'Letter P again: already shut'
+- execute_event:
+    id: 237
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''The P chest is shut.'', 1, true) then error(''status:
+      '' .. s) end'
+- note: Letter I
+- execute_event:
+    id: 241
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: I. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter T
+- execute_event:
+    id: 235
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: T. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter C
+- execute_event:
+    id: 239
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: C. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter H
+- execute_event:
+    id: 242
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: H. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter F
+- execute_event:
+    id: 234
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: F. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter O
+- execute_event:
+    id: 238
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: O. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter R
+- execute_event:
+    id: 240
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''A letter on the lid reads: R. The lid drops shut.'', 1,
+      true) then error(''status: '' .. s) end'
+- note: Letter K
+- execute_event:
+    id: 236
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(113082) then error("q-d4.letters_closed (113082) not set") end
+- note: 'Ellinger''s Tower (D-89: no lock): the entrance window with row 5029, Close'
+- execute_event:
+    id: 102
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Not now
+      action_label_present: Close
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      active: false
+- note: Outside the north gate, no pass (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -512
+    y: 11366
+    z: 1158
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Outside without a pass: m14.gate refuses'
+- execute_event:
+    id: 134
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: The gate stays shut
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Outside the Queen's Gate, no pass (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -6492
+    y: 230
+    z: 1152
+    yaw: 0.8
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Queen's Gate refuses too
+- execute_event:
+    id: 136
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: The gate stays shut
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: At Castleview's temple (castleview_temple), inside the walls, no pass (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 2560
+    y: 2048
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 2560
+      y: 2048
+      radius: 128
+- note: From the temple through the town to the north gate
+- walk_to:
+    x: -512
+    y: 9011
+    z: 1152
+    z_tolerance: 600
+    radius: 200
+    timeout_seconds: 60
+- play_lua:
+    source: status()
+- note: 'The inner north leaf before entry: the party is let out (m14.let_out)'
+- execute_event:
+    id: 135
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local t = status() if not string.find(t, "The guard unbars the gate and waves you out.", 1, true) then error("no
+      let-out line: " .. t) end'
+- assert:
+    party_position:
+      x: -512
+      y: 10752
+      radius: 128
+- play_lua:
+    source: if qbit(111281) then error("m14.entered (111281) set") end
+- note: 'Outside again: the outer leaf still asks for a pass'
+- execute_event:
+    id: 134
+- advance_runtime:
+    seconds: 0.5
+- note: Inside the Queen's Gate, no pass (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -5540
+    y: 1306
+    z: 1152
+    yaw: -2.3
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: status()
+- note: 'The Queen''s Gate''s inner leaf before entry: let out at its point'
+- execute_event:
+    id: 137
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local t = status() if not string.find(t, "The guard unbars the gate and waves you out.", 1, true) then error("no
+      let-out line: " .. t) end'
+- assert:
+    party_position:
+      x: -6656
+      y: 0
+      radius: 128
+- note: The Queen's Gate's outer leaf refuses
+- execute_event:
+    id: 136
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: The gate stays shut
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: A thousand gold for Justine's pass
+- lua_event:
+    source: AddValue(Gold, 1000)
+- note: Justine at her camp outside the north gate (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -3584
+    y: 11264
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 31
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: Passes
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not has_item(12330) then error("no pass from Justine") end remember("xp0", experience(0))
+- note: Outside the north gate with the pass (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -512
+    y: 11366
+    z: 1158
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'With the pass: m14.gate lets the party in (D-90: the status line)'
+- execute_event:
+    id: 134
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if not qbit(111281) then error("m14.entered (111281) not set") end if not qbit(119021) then error("world.inn_castleview
+      (119021) not set") end local d = experience(0) - recall("xp0") if d < 2000 then error("M14 gate XP " .. d) end log("M14
+      gate XP " .. d)
+- note: In through the open north gate
+- walk_to:
+    x: -512
+    y: 9114
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+- note: 'Save and load back: both gates stand open (evt:gates_open)'
+- reload: {}
+- play_lua:
+    source: if not qbit(111281) then error("m14.entered (111281) not set") end
+- note: 'The inner north leaf after entry: the gate opens, no move'
+- execute_event:
+    id: 135
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -512
+      y: 9114
+      radius: 200
+- note: Out through the north gate
+- walk_to:
+    x: -512
+    y: 11059
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+- note: And back in
+- walk_to:
+    x: -512
+    y: 9114
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+- note: Inside the Queen's Gate after entry (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -5540
+    y: 1306
+    z: 1152
+    yaw: -2.3
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Queen''s Gate''s inner leaf after entry: open, no move'
+- execute_event:
+    id: 137
+- advance_runtime:
+    seconds: 0.5
+- note: Out through the Queen's Gate
+- walk_to:
+    x: -6492
+    y: 230
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+- note: And back in
+- walk_to:
+    x: -5540
+    y: 1306
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+- note: Outside the north gate (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -512
+    y: 11520
+    z: 1168
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Mayor''s notice (q-d1.gate_notice: Q-D1 starts)'
+- execute_event:
+    id: 166
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(113020) then error("q-d1.started (113020) not set") end
+- note: Joe's sign (q-c24.joes_sign)
+- execute_event:
+    id: 167
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: MAPS BY JOE
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The travel pyramid without the Sigil: the moons are not aligned'
+- execute_event:
+    id: 109
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: not aligned
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The cut rope bridge (q-d1.sabotage)
+- execute_event:
+    id: 220
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: sawn
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The acid pond bites
+- execute_event:
+    id: 174
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Before the Western Tower's front door (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -16896
+    y: 14234
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The front door without the key (q-d6.front_door_outside refuses)
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: warded from both sides
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- grant_item:
+    item_id: 12338
+- note: 'The front door with the key, from outside: it opens (tower_opened)'
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: sulky pop
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(113125) then error("q-d6.tower_opened (113125) not set") end
+- note: 'The Western Tower''s front door: into DD-05 (entrance:d1_door) and out'
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd05.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 0
+      y: -1536
+      radius: 96
+      z_min: -16
+      z_max: 16
+- execute_event:
+    id: 35
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: -16896
+      y: 14848
+      radius: 128
+      z_min: 1541
+      z_max: 1761
+- note: 'The heretics'' rope (q-d6.tower_rope): climb into DD-05''s top floor (entrance:d1_rope) and down again'
+- play_lua:
+    source: click(121); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: near the tower's top
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd05.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(113121) then error("q-d6.rope_climbed (113121) not set") end
+- assert:
+    party_position:
+      x: 1376
+      y: 1472
+      radius: 96
+      z_min: 1904
+      z_max: 1936
+- execute_event:
+    id: 36
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: -16896
+      y: 16896
+      radius: 128
+      z_min: 1541
+      z_max: 1761
+- note: 'The rope into the sky: m30.grove_rope refuses before m30.done (its fail window)'
+- execute_event:
+    id: 117
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: takes only the Chosen
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The old west well: +10 Personality'
+- execute_event:
+    id: 186
+- advance_runtime:
+    seconds: 0.5
+- note: The Edge Stone
+- execute_event:
+    id: 185
+- advance_runtime:
+    seconds: 0.5
+- note: Castle Kalindra out of phase (m19.ghost_castle)
+- execute_event:
+    id: 123
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: not quite here
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The obelisk (obelisks.d1: DIG)'
+- execute_event:
+    id: 190
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: DIG
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(115050) then error("obelisks.dark_1 (115050) not set") end
+- note: The wild melons (q-d9.melons_south)
+- execute_event:
+    id: 194
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if not qbit(113182) then error("q-d9.melons_south (113182) not set") end if not has_item(12343) then error("no
+      melon") end
+- note: 'The Well of Might: +2 Might'
+- execute_event:
+    id: 193
+- advance_runtime:
+    seconds: 0.5
+- note: 'The outfall grate: barred from inside'
+- execute_event:
+    id: 222
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: barred from inside
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Joe at his stall (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 1024
+    y: 10957
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 30
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Justine at her camp (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -3584
+    y: 11264
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 31
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Luna in her grove (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -16691
+    y: 717
+    z: 1190
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 32
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Yog in the Sardaj camp (peaceful) (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 12800
+    y: 19866
+    z: 1536
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 29
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    actor_count:
+      monster_id: 11100
+      hostile: true
+      max: 0
+- note: 'The Sardaj tents: destroy (q-d12.camp)'
+- play_lua:
+    source: click(176); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Barbarian camp. Destroy?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(113244) then error("q-d12.camp_burned (113244) not set") end
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_count:
+      monster_id: 11100
+      hostile: true
+      min: 1
+- note: The east road to its end (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 21504
+    y: 2048
+    z: 1088
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Off D1''s east edge: the travel prompt (D2, 5 days), accepted; D2''s west start (-22016, 2048)'
+- walk_to:
+    x: 24064
+    y: 2048
+    z: 1088
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: -22016
+      y: 2048
+      radius: 700
+- note: 'Back west off D2''s west edge: accepted; D1''s east start (21504, 2048)'
+- walk_to:
+    x: -24576
+    y: 2048
+    z: 992
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: 21504
+      y: 2048
+      radius: 700
+- note: 'The Siege Smithy (house 4451, building:cv_weapons): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 308
+    y: 9363
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Mail (house 4452, building:cv_armour): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 68
+    y: 7424
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Amber Lamp (house 4453, building:cv_magic): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2308
+    y: 6329
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Zelda''s Herbs and Remedies (house 4454, building:cv_alchemist): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2676
+    y: 4992
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Temple of Mok (house 4455, building:cv_temple): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 3092
+    y: 2048
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Catapult and Crust (house 4456, building:cv_tavern): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -1140
+    y: 8960
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Strongroom (house 4457, building:cv_bank): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 1556
+    y: 4352
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Barracks Yard (house 4458, building:cv_training): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 3844
+    y: 7296
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Guild of Fire (house 4459, building:cv_guild_fire): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -5376
+    y: 3068
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Guild of Air (house 4460, building:cv_guild_air): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4025
+    y: 3068
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Guild of Water (house 4461, building:cv_guild_water): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2816
+    y: 2956
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Guild of Earth (house 4462, building:cv_guild_earth): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -1536
+    y: 3068
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Guild of Body (house 4463, building:cv_guild_body): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -256
+    y: 3052
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Kramer''s Caravans (house 4464, building:cv_stables): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 3844
+    y: 5376
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Adventurer''s Inn (4465): passed by (its roster screen cannot be closed by a scenario yet)'
+- note: 'Castleview Town Hall (house 4466, building:cv_town_hall): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 1540
+    y: 5888
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Jail (house 4468, building:cv_jail): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 1920
+    y: 8724
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Jethro''s Maps (house 4469, building:cv_houses#1): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4480
+    y: 6772
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4919
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Public Storage (house 4470, building:cv_public_storage): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 128
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4920
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Madame Oorla''s (house 4471, building:cv_houses#2): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2944
+    y: 6932
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4921
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Nadia''s House (house 4472, building:cv_houses#3): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4992
+    y: 4212
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4922
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Brother Otto''s Cell (house 4473, building:cv_drawkcab#1): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3584
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4923
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sister Hannah''s Cell (house 4474, building:cv_drawkcab#2): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3072
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4924
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Brother Bob''s Cell (house 4475, building:cv_drawkcab#3): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2560
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4925
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sister Ada''s Cell (house 4476, building:cv_drawkcab#4): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -2048
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4926
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Lyle''s House (house 4477, building:cv_houses#4): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4608
+    y: 7700
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4927
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Castleview Library (house 4478, building:cv_library): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4100
+    y: 5760
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4928
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Velana''s House (house 4479, building:cv_houses#5): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -5396
+    y: 5888
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4929
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Fletch House (house 4480, building:cv_houses#6): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4224
+    y: 8980
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4930
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Rope Walk (house 4481, building:cv_houses#7): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -5124
+    y: 7424
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4931
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Gatewarden''s House (house 4482, building:cv_houses#8): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3200
+    y: 9076
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4932
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Millhouse Ruin (house 4483, building:cv_houses#9): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 2304
+    y: 1516
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4933
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Pottage House (house 4484, building:cv_houses#10): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4480
+    y: 3188
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4934
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Wainwright''s (house 4485, building:cv_houses#11): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 1792
+    y: 7188
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4935
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Melon House (house 4486, building:cv_houses#12): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 3072
+    y: 1260
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4936
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Thatcher''s (house 4487, building:cv_houses#13): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3456
+    y: 3092
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4937
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Widow Grey''s (house 4488, building:cv_houses#14): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -5396
+    y: 4864
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4938
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Bellringer''s House (house 4489, building:cv_houses#15): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 2324
+    y: 7168
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4939
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Lamp House (house 4490, building:cv_houses#16): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -4096
+    y: 4116
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4940
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Saddler''s (house 4491, building:cv_houses#17): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 4372
+    y: 3840
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4941
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Ditchwater House (house 4492, building:cv_houses#18): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 4588
+    y: 640
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4942
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Wall House (house 4493, building:cv_houses#19): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -5504
+    y: 3092
+    z: 1152
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4943
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Pigeon Loft (house 4494, building:cv_houses#20): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3092
+    y: 8320
+    z: 1152
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4944
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Linus''s Ruby Works (house 4495, building:gemsmith#1): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -16275
+    y: 19764
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4945
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Simon''s Emerald Works (house 4496, building:gemsmith#2): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -14739
+    y: 19764
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4946
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Toby''s Sapphire Works (house 4497, building:gemsmith#3): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -13203
+    y: 19764
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4947
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Hector''s Diamond Works (house 4498, building:gemsmith#4): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -11667
+    y: 19764
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4948
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Vespar''s House (house 4499, building:vespar_house): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: 13828
+    y: 14664
+    z: 1344
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4949
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Brother Reger''s Cell (house 4500, building:reger_cell): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -3328
+    y: -15892
+    z: 1023
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Go visit the monks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Lucio''s Jetty (house 4901, building:cv_lucio_jetty): its door'
+- set_pose:
+    map: xeen_d1.odm
+    x: -6932
+    y: 5120
+    z: 1766
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: A jetty that ends in thin air.
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Beside the iron hatch on the square (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 819
+    y: 3328
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The sewer hatch: down into the Castleview Sewer (DD-01) and up again'
+- execute_event:
+    id: 145
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 0
+      y: -1088
+      radius: 96
+      z_min: -16
+      z_max: 16
+- execute_event:
+    id: 17
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: 1024
+      y: 3072
+      radius: 128
+      z_min: 1092
+      z_max: 1312
+- setup_shortcut:
+    kind: set_qbit
+    id: 117001
+    value: true
+- note: Before the outfall grate in the mill gorge (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 8038
+    y: 8192
+    z: 832
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The outfall grate unbarred (m16.outfall): into DD-01 and out again'
+- execute_event:
+    id: 222
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 4096
+      y: -4864
+      radius: 96
+      z_min: -528
+      z_max: -496
+- execute_event:
+    id: 18
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: 8192
+      y: 8192
+      radius: 128
+      z_min: 772
+      z_max: 992
+- grant_item:
+    item_id: 12333
+- note: Before Ellinger's Tower's door with Nadia's key (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 2714
+    y: 9267
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Ellinger''s Tower (m17.tower_door): into DD-02 and out again'
+- execute_event:
+    id: 102
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd02.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: -1216
+      y: 640
+      radius: 96
+      z_min: -16
+      z_max: 16
+- execute_event:
+    id: 17
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: 2560
+      y: 9216
+      radius: 128
+      z_min: 1092
+      z_max: 1312
+- note: Before the gemsmiths' adit in the mine hill (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -9728
+    y: 20480
+    z: 1600
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The gemsmiths'' adit: into the Gemstone Mines'' west pocket (DD-10A) and out'
+- execute_event:
+    id: 187
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd10a.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 0
+      y: 192
+      radius: 96
+      z_min: -16
+      z_max: 16
+- execute_event:
+    id: 19
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: -9728
+      y: 20480
+      radius: 128
+      z_min: 1540
+      z_max: 1760
+- play_lua:
+    source: if mapvar("kalindra_stage_shown") ~= 0 then error("stage shown " .. mapvar("kalindra_stage_shown")) end
+- setup_shortcut:
+    kind: set_qbit
+    id: 111381
+    value: true
+- note: 'Kalindra''s stage 1: the load events (phase sound, parts) run again'
+- execute_event:
+    id: 265
+- execute_event:
+    id: 256
+- execute_event:
+    id: 257
+- execute_event:
+    id: 258
+- execute_event:
+    id: 259
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'if mapvar("kalindra_stage_shown") ~= 1 then error("stage shown not 1: " .. mapvar("kalindra_stage_shown")) end
+      log("kalindra stage shown " .. mapvar("kalindra_stage_shown"))'
+- note: Before Castle Kalindra's restored gate (stage 1) (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: -10138
+    y: -3072
+    z: 1664
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Kalindra''s gate (m19.ghost_castle, stage 1): into DD-03 (entrance:gate) and out again'
+- execute_event:
+    id: 254
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd03.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: -1600
+      y: 0
+      radius: 96
+      z_min: -16
+      z_max: 16
+- execute_event:
+    id: 19
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- assert:
+    party_position:
+      x: -9728
+      y: -3072
+      radius: 128
+      z_min: 1604
+      z_max: 1824
+- play_lua:
+    source: if mapvar("kalindra_stage_shown") ~= 1 then error("stage shown not 1 after the return") end
+- note: Before the gremlins' burrow under the north wall (by teleport)
+- set_pose:
+    map: xeen_d1.odm
+    x: 2304
+    y: 11059
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The gremlins'' burrow (q-d1.court_entrance): into the Gremlin Court (DD-04 installed)'
+- execute_event:
+    id: 170
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: THE COURT
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd04.blv

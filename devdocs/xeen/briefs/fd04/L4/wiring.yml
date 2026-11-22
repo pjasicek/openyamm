@@ -1,0 +1,1170 @@
+format: 0
+variables: [alister_hidden, gong1, gong2, gong3, gong4, reset_pending]
+events:
+  - id: evt:alister_gone
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: alister_gone}, {not: {map_var: alister_hidden}}]}
+    effects:
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: alister_hidden
+          value: 1
+      - show: deco:lizard
+    notes: "The paying talk sets 118147 (A3's q-f1 topic 'Dragon egg'); the second after it closes he is hidden and the lizard shown in the same visit (D-57 Q27)."
+  - id: evt:alister_gone_load
+    preset: script
+    trigger: load
+    condition: {qbit: alister_gone}
+    effects:
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: alister_hidden
+          value: 1
+      - show: deco:lizard
+    notes: Gone on every load with 118147.
+  - id: evt:alister_load
+    preset: script
+    trigger: load
+    lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:alister\"), false)"
+    notes: "Alister cannot be killed: every hit on him is zeroed, on every load (D-52's word)."
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The Dragon Tower: warm black stone, and somewhere far above, something very large breathing."
+    seconds: 6
+    notes: "The arrival line (a new map line, no source text): the tower and its dragons."
+  - id: evt:bed_1
+    preset: text
+    source: platform:bed_1
+    title: Bed
+    text: Nothing here.
+    notes: aazex118:0-1.
+  - id: evt:bed_2
+    preset: text
+    source: platform:bed_2
+    title: Bed
+    text: Nothing here.
+    notes: aazex118:0-1.
+  - id: evt:bed_3
+    preset: text
+    source: platform:bed_3
+    title: Bed
+    text: Nothing here.
+    notes: aazex118:0-1.
+  - id: evt:bed_4
+    preset: text
+    source: platform:bed_4
+    title: Bed
+    text: Nothing here.
+    notes: aazex118:0-1.
+  - id: evt:bones_balls
+    preset: script
+    source: deco:bones_balls
+    title: Bones
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.note_balls\")"
+    notes: aazex119:5 (A3's q-f1.note_balls).
+  - id: evt:bones_eye
+    preset: script
+    source: deco:bones_eye
+    title: Bones
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.note_eye\")"
+    notes: aazex119:6 (A3's q-f1.note_eye).
+  - id: evt:bones_forever
+    preset: script
+    source: deco:bones_forever
+    title: Bones
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.note_forever\")"
+    notes: "aazex118:4 (A3's q-f1.note_forever: the Eye's answer hinted)."
+  - id: evt:bones_fraud
+    preset: script
+    source: deco:bones_fraud
+    title: Bones
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.note_fraud\")"
+    notes: aazex118:2-3 (A3's q-f1.note_fraud).
+  - id: evt:chest_climber
+    preset: chest
+    source: chest:climber
+    title: Chest
+  - id: evt:chest_crypt
+    preset: chest
+    source: chest:crypt
+    title: Chest
+  - id: evt:chest_dorm
+    preset: chest
+    source: chest:dorm
+    title: Chest
+  - id: evt:chest_gongs
+    preset: chest
+    source: chest:gongs
+    title: Chest
+    effects:
+      - lua: "if not IsQBitSet(QBit(118144)) and (IsAtLeast(MapVar(gong1), 1) or IsAtLeast(MapVar(gong2), 1) or IsAtLeast(MapVar(gong3), 1) or IsAtLeast(MapVar(gong4), 1)) then SetValue(MapVar(gong1), 0); SetValue(MapVar(gong2), 0); SetValue(MapVar(gong3), 0); SetValue(MapVar(gong4), 0); SetValue(MapVar(reset_pending), 1) end"
+    notes: "The source's 'Touch any treasure and you'll have to start over!' (aazex123:3): opened before the shutter is up with any gong rung, it clears the four gongs; evt:gongs_reset puts their lamps out."
+  - id: evt:chest_tome
+    preset: chest
+    source: chest:tome
+    title: Chest
+  - id: evt:clue_13a
+    preset: script
+    source: panel:clue_13a
+    question: {ask: "13 Across: Freed from spaceship. Answer?", answers: [Corak, The Corak, Corak., The Corak.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 13 Across
+    condition: {not: {qbit: word_13a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_13a\")"
+      - set_texture:
+          of: plate:cw_13a_10
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_13a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_13a_12
+          to: xfword
+      - lights_on: light:word_13a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "13 Across: Freed from spaceship. Corak."
+    notes: "aazex121:11-188's 13 Across (A3's q-f2.clue_13a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (CORAK) lights across the floor (118134)."
+  - id: evt:clue_13a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_13a}
+    effects:
+      - set_texture:
+          of: plate:cw_13a_10
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_13a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_13a_12
+          to: xfword
+      - lights_on: light:word_13a
+    notes: CORAK lit on every load with 118134.
+  - id: evt:clue_1a
+    preset: script
+    source: panel:clue_1a
+    question: {ask: "1 Across: King's Staff. Answer?", answers: [Scepter, Sceptre, The Scepter, The Sceptre, Scepter., Sceptre., The Scepter., The Sceptre., Xeen's Scepter, Xeens Scepter, Xeen’s Scepter, Xeen's Sceptre, Xeens Sceptre, Xeen’s Sceptre, The Xeen's Scepter, The Xeens Scepter, The Xeen’s Scepter, The Xeen's Sceptre, The Xeens Sceptre, The Xeen’s Sceptre, Xeen's Scepter., Xeens Scepter., Xeen’s Scepter., Xeen's Sceptre., Xeens Sceptre., Xeen’s Sceptre., The Xeen's Scepter., The Xeens Scepter., The Xeen’s Scepter., The Xeen's Sceptre., The Xeens Sceptre., The Xeen’s Sceptre., Scepter of Temporal Distortion, Sceptre of Temporal Distortion, The Scepter of Temporal Distortion, The Sceptre of Temporal Distortion, Scepter of Temporal Distortion., Sceptre of Temporal Distortion., The Scepter of Temporal Distortion., The Sceptre of Temporal Distortion.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 1 Across
+    condition: {not: {qbit: word_1a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_1a\")"
+      - set_texture:
+          of: plate:cw_1a_1
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_1a_47d
+          to: xfword
+      - set_texture:
+          of: plate:cw_1a_3
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_1a_45d
+          to: xfword
+      - lights_on: light:word_1a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "1 Across: King's Staff. Scepter."
+    notes: "aazex121:11-188's 1 Across (A3's q-f2.clue_1a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (SCEPTER) lights across the floor (118131)."
+  - id: evt:clue_1a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_1a}
+    effects:
+      - set_texture:
+          of: plate:cw_1a_1
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_1a_47d
+          to: xfword
+      - set_texture:
+          of: plate:cw_1a_3
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_1a_45d
+          to: xfword
+      - lights_on: light:word_1a
+    notes: SCEPTER lit on every load with 118131.
+  - id: evt:clue_21a
+    preset: script
+    source: panel:clue_21a
+    question: {ask: "21 Across: Castle beyond the Forbidden Zone. Answer?", answers: [Alamar, The Alamar, Alamar., The Alamar., Castle Alamar, The Castle Alamar, Castle Alamar., The Castle Alamar.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 21 Across
+    condition: {not: {qbit: word_21a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_21a\")"
+      - set_texture:
+          of: plate:cw_21a_13
+          to: xfword
+      - lights_on: light:word_21a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "21 Across: Castle beyond the Forbidden Zone. Alamar."
+    notes: "aazex121:11-188's 21 Across (A3's q-f2.clue_21a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (ALAMAR) lights across the floor (118135)."
+  - id: evt:clue_21a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_21a}
+    effects:
+      - set_texture:
+          of: plate:cw_21a_13
+          to: xfword
+      - lights_on: light:word_21a
+    notes: ALAMAR lit on every load with 118135.
+  - id: evt:clue_24a
+    preset: script
+    source: panel:clue_24a
+    question: {ask: "24 Across: City of the undead. Answer?", answers: [Necropolis, The Necropolis, Necropolis., The Necropolis.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 24 Across
+    condition: {not: {qbit: word_24a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_24a\")"
+      - set_texture:
+          of: plate:cw_24a_14
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_76d
+          to: xfword
+      - set_texture:
+          of: plate:cw_24a_16
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_24a_18
+          to: xfword
+      - lights_on: light:word_24a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "24 Across: City of the undead. Necropolis."
+    notes: "aazex121:11-188's 24 Across (A3's q-f2.clue_24a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (NECROPOLIS) lights across the floor (118136)."
+  - id: evt:clue_24a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_24a}
+    effects:
+      - set_texture:
+          of: plate:cw_24a_14
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_76d
+          to: xfword
+      - set_texture:
+          of: plate:cw_24a_16
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_24a_18
+          to: xfword
+      - lights_on: light:word_24a
+    notes: NECROPOLIS lit on every load with 118136.
+  - id: evt:clue_40a
+    preset: script
+    source: panel:clue_40a
+    question: {ask: "40 Across: City of sorcerers. Answer?", answers: [Sandcaster, The Sandcaster, Sandcaster., The Sandcaster.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 40 Across
+    condition: {not: {qbit: word_40a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_40a\")"
+      - set_texture:
+          of: plate:cw_40a_19
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_40a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_40a_21
+          to: xfword
+      - lights_on: light:word_40a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "40 Across: City of sorcerers. Sandcaster."
+    notes: "aazex121:11-188's 40 Across (A3's q-f2.clue_40a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (SANDCASTER) lights across the floor (118137)."
+  - id: evt:clue_40a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_40a}
+    effects:
+      - set_texture:
+          of: plate:cw_40a_19
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_40a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_40a_21
+          to: xfword
+      - lights_on: light:word_40a
+    notes: SANDCASTER lit on every load with 118137.
+  - id: evt:clue_44d
+    preset: script
+    source: panel:clue_44d
+    question: {ask: "44 Down: Ellinger's Tower is located here. Answer?", answers: [Castleview, The Castleview, Castleview., The Castleview., Castle View, The Castle View, Castle View., The Castle View.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 44 Down
+    condition: {not: {qbit: word_44d}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_44d\")"
+      - set_texture:
+          of: plate:cw_x_13a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_40a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_22
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_23
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_24
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_25
+          to: xfword
+      - lights_on: light:word_44d
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "44 Down: Ellinger's Tower is located here. Castleview."
+    notes: "aazex121:11-188's 44 Down (A3's q-f2.clue_44d; 'Correct!' / 'Wrong!', aazex121:7-8): the word (CASTLEVIEW) lights across the floor (118138)."
+  - id: evt:clue_44d_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_44d}
+    effects:
+      - set_texture:
+          of: plate:cw_x_13a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_24a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_40a_44d
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_22
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_23
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_24
+          to: xfword
+      - set_texture:
+          of: plate:cw_44d_25
+          to: xfword
+      - lights_on: light:word_44d
+    notes: CASTLEVIEW lit on every load with 118138.
+  - id: evt:clue_45d
+    preset: script
+    source: panel:clue_45d
+    question: {ask: "45 Down: City of Ghosts. Answer?", answers: [Winterkill, The Winterkill, Winterkill., The Winterkill.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 45 Down
+    condition: {not: {qbit: word_45d}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_45d\")"
+      - set_texture:
+          of: plate:cw_x_1a_45d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_45d_6a
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_26
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_27
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_28
+          to: xfword
+      - lights_on: light:word_45d
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "45 Down: City of Ghosts. Winterkill."
+    notes: "aazex121:11-188's 45 Down (A3's q-f2.clue_45d; 'Correct!' / 'Wrong!', aazex121:7-8): the word (WINTERKILL) lights across the floor (118139)."
+  - id: evt:clue_45d_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_45d}
+    effects:
+      - set_texture:
+          of: plate:cw_x_1a_45d
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_45d_6a
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_26
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_27
+          to: xfword
+      - set_texture:
+          of: plate:cw_45d_28
+          to: xfword
+      - lights_on: light:word_45d
+    notes: WINTERKILL lit on every load with 118139.
+  - id: evt:clue_47d
+    preset: script
+    source: panel:clue_47d
+    question: {ask: "47 Down: You need an amulet to gain entry. Answer?", answers: [Sphinx, The Sphinx, Sphinx., The Sphinx., Southern Sphinx, The Southern Sphinx, Southern Sphinx., The Southern Sphinx.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 47 Down
+    condition: {not: {qbit: word_47d}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_47d\")"
+      - set_texture:
+          of: plate:cw_x_1a_47d
+          to: xfword
+      - set_texture:
+          of: plate:cw_47d_29
+          to: xfword
+      - set_texture:
+          of: plate:cw_47d_30
+          to: xfword
+      - lights_on: light:word_47d
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "47 Down: You need an amulet to gain entry. Sphinx."
+    notes: "aazex121:11-188's 47 Down (A3's q-f2.clue_47d; 'Correct!' / 'Wrong!', aazex121:7-8): the word (SPHINX) lights across the floor (118140)."
+  - id: evt:clue_47d_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_47d}
+    effects:
+      - set_texture:
+          of: plate:cw_x_1a_47d
+          to: xfword
+      - set_texture:
+          of: plate:cw_47d_29
+          to: xfword
+      - set_texture:
+          of: plate:cw_47d_30
+          to: xfword
+      - lights_on: light:word_47d
+    notes: SPHINX lit on every load with 118140.
+  - id: evt:clue_5a
+    preset: script
+    source: panel:clue_5a
+    question: {ask: "5 Across: Count Blackfang. Answer?", answers: [Vampire, The Vampire, Vampire., The Vampire., Vampires, The Vampires, Vampires., The Vampires., A vampire, A vampire.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 5 Across
+    condition: {not: {qbit: word_5a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_5a\")"
+      - set_texture:
+          of: plate:cw_5a_5
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_5a_77d
+          to: xfword
+      - lights_on: light:word_5a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "5 Across: Count Blackfang. Vampire."
+    notes: "aazex121:11-188's 5 Across (A3's q-f2.clue_5a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (VAMPIRE) lights across the floor (118132)."
+  - id: evt:clue_5a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_5a}
+    effects:
+      - set_texture:
+          of: plate:cw_5a_5
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_5a_77d
+          to: xfword
+      - lights_on: light:word_5a
+    notes: VAMPIRE lit on every load with 118132.
+  - id: evt:clue_6a
+    preset: script
+    source: panel:clue_6a
+    question: {ask: "6 Across: Imprisoned Queen. Answer?", answers: [Kalindra, The Kalindra, Kalindra., The Kalindra., Kalindra's, Kalindras, Kalindra’s, The Kalindra's, The Kalindras, The Kalindra’s, Kalindra's., Kalindras., Kalindra’s., The Kalindra's., The Kalindras., The Kalindra’s., Queen Kalindra, The Queen Kalindra, Queen Kalindra., The Queen Kalindra.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 6 Across
+    condition: {not: {qbit: word_6a}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_6a\")"
+      - set_texture:
+          of: plate:cw_6a_7
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_45d_6a
+          to: xfword
+      - set_texture:
+          of: plate:cw_6a_9
+          to: xfword
+      - lights_on: light:word_6a
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "6 Across: Imprisoned Queen. Kalindra."
+    notes: "aazex121:11-188's 6 Across (A3's q-f2.clue_6a; 'Correct!' / 'Wrong!', aazex121:7-8): the word (KALINDRA) lights across the floor (118133)."
+  - id: evt:clue_6a_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_6a}
+    effects:
+      - set_texture:
+          of: plate:cw_6a_7
+          to: xfword
+      - set_texture:
+          of: plate:cw_x_45d_6a
+          to: xfword
+      - set_texture:
+          of: plate:cw_6a_9
+          to: xfword
+      - lights_on: light:word_6a
+    notes: KALINDRA lit on every load with 118133.
+  - id: evt:clue_76d
+    preset: script
+    source: panel:clue_76d
+    question: {ask: "76 Down: Way of transportation in the Land of Xeen. Answer?", answers: [Mirror, The Mirror, Mirror., The Mirror., Mirrors, The Mirrors, Mirrors., The Mirrors.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 76 Down
+    condition: {not: {qbit: word_76d}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_76d\")"
+      - set_texture:
+          of: plate:cw_x_24a_76d
+          to: xfword
+      - set_texture:
+          of: plate:cw_76d_31
+          to: xfword
+      - set_texture:
+          of: plate:cw_76d_32
+          to: xfword
+      - lights_on: light:word_76d
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "76 Down: Way of transportation in the Land of Xeen. Mirror."
+    notes: "aazex121:11-188's 76 Down (A3's q-f2.clue_76d; 'Correct!' / 'Wrong!', aazex121:7-8): the word (MIRROR) lights across the floor (118141)."
+  - id: evt:clue_76d_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_76d}
+    effects:
+      - set_texture:
+          of: plate:cw_x_24a_76d
+          to: xfword
+      - set_texture:
+          of: plate:cw_76d_31
+          to: xfword
+      - set_texture:
+          of: plate:cw_76d_32
+          to: xfword
+      - lights_on: light:word_76d
+    notes: MIRROR lit on every load with 118141.
+  - id: evt:clue_77d
+    preset: script
+    source: panel:clue_77d
+    question: {ask: "77 Down: He had a pet dragon. Answer?", answers: [Xeen, The Xeen, Xeen., The Xeen., Lord Xeen, The Lord Xeen, Lord Xeen., The Lord Xeen.], wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.clue_wrong\")"}]}
+    title: 77 Down
+    condition: {not: {qbit: word_77d}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.clue_77d\")"
+      - set_texture:
+          of: plate:cw_x_5a_77d
+          to: xfword
+      - set_texture:
+          of: plate:cw_77d_33
+          to: xfword
+      - set_texture:
+          of: plate:cw_77d_34
+          to: xfword
+      - lights_on: light:word_77d
+      - lua: "evt.PlaySoundName(\"xeen_mirror_touch\", 0, 2176, -900)"
+    else_effects:
+      - text: "77 Down: He had a pet dragon. Xeen."
+    notes: "aazex121:11-188's 77 Down (A3's q-f2.clue_77d; 'Correct!' / 'Wrong!', aazex121:7-8): the word (XEEN) lights across the floor (118142)."
+  - id: evt:clue_77d_load
+    preset: script
+    trigger: load
+    condition: {qbit: word_77d}
+    effects:
+      - set_texture:
+          of: plate:cw_x_5a_77d
+          to: xfword
+      - set_texture:
+          of: plate:cw_77d_33
+          to: xfword
+      - set_texture:
+          of: plate:cw_77d_34
+          to: xfword
+      - lights_on: light:word_77d
+    notes: XEEN lit on every load with 118142.
+  - id: evt:coffin_1
+    preset: script
+    source: platform:coffin_1
+    title: Coffin
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.coffin\")"
+    notes: "aazex122:5-7 (A3's q-f2.coffin): it stays shut (Q34)."
+  - id: evt:coffin_2
+    preset: script
+    source: platform:coffin_2
+    title: Coffin
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.coffin\")"
+    notes: "aazex122:5-7 (A3's q-f2.coffin): it stays shut (Q34)."
+  - id: evt:coffin_3
+    preset: script
+    source: platform:coffin_3
+    title: Coffin
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.coffin\")"
+    notes: "aazex122:5-7 (A3's q-f2.coffin): it stays shut (Q34)."
+  - id: evt:coffin_4
+    preset: script
+    source: platform:coffin_4
+    title: Coffin
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.coffin\")"
+    notes: "aazex122:5-7 (A3's q-f2.coffin): it stays shut (Q34)."
+  - id: evt:computer
+    preset: text
+    source: panel:computer
+    title: Computer
+    text: Its lights blink in an order you cannot follow.
+    notes: "aazex124:8 'Computer' (the hover; a new map line)."
+  - id: evt:descent
+    preset: script
+    source: door:descent
+    side: room:crossword
+    title: Gate
+    condition: {lua: "XeenQuests.can(\"q-f2.crossword\")"}
+    opens: [door:descent]
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.crossword\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-f2.crossword\")"
+    notes: "A3's q-f2.crossword: with the twelve words lit it pays once (118143) and the gate rises; before, 'Sorry, the crossword puzzle is not done yet.  You may not descend!' (aazex121:1)."
+  - id: evt:descent_below
+    preset: door
+    source: door:descent
+    side: room:descent
+    title: Gate
+    notes: From below the gate always opens.
+  - id: evt:descent_load
+    preset: switch
+    trigger: load
+    condition: {qbit: crossword_done}
+    opens: [door:descent]
+    notes: Open for good with 118143.
+  - id: evt:door_ballroom
+    preset: door
+    source: door:ballroom
+    title: Doors
+  - id: evt:door_control
+    preset: door
+    source: door:control
+    title: Door
+  - id: evt:door_crypt
+    preset: door
+    source: door:crypt
+    title: Do Not Disturb
+  - id: evt:door_dorm
+    preset: door
+    source: door:dorm
+    title: Door
+  - id: evt:door_roof
+    preset: door
+    source: door:roof
+    title: Door
+  - id: evt:door_tome
+    preset: door
+    source: door:tome
+    title: Door
+  - id: evt:egg
+    preset: script
+    source: platform:eggs
+    title: Dragon eggs
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.egg\")"
+      - hide: deco:egg_3
+    notes: "A3's q-f1.egg: the Dragon Egg once (118146)."
+  - id: evt:egg_load
+    preset: script
+    trigger: load
+    condition: {qbit: egg_taken}
+    effects:
+      - hide: deco:egg_3
+    notes: Two eggs left on every load with 118146.
+  - id: evt:fountain
+    preset: script
+    source: deco:fountain
+    title: Fountain
+    effects:
+      - lua: "for _, i in ipairs(PartyMembers()) do evt.ForPlayer(i); AddValue(HP, 1000); AddValue(SP, 1000) end"
+      - lua: "evt.PlaySoundName(\"xeen_well_drink\", 1600, 9280, -2460)"
+      - text: "Ahh, refreshing!"
+    notes: "aazex123:4-5: hit points and spell points restored, any time (D-4: a free fountain)."
+  - id: evt:gong_1
+    preset: script
+    source: panel:gong_1
+    title: Gong
+    condition: {not: {map_var: gong1}}
+    effects:
+      - set:
+          var:
+            map_var: gong1
+          value: 1
+      - lights_on: light:gong_1
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -1024, 8992, -2240)"
+      - text: "The gong rings, and the lamp under it flares up."
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -1024, 8992, -2240)"
+      - text: The gong rings again. Its lamp is already lit.
+    notes: "aazex123:0 'Gong' (the hover); the lines are new map lines. Map variable gong1, its lamp light:gong_1 (D-43: the state shows)."
+  - id: evt:gong_1_load
+    preset: script
+    trigger: load
+    condition: {map_var: gong1}
+    effects:
+      - lights_on: light:gong_1
+    notes: Gong 1's lamp lit on every load while it is rung.
+  - id: evt:gong_2
+    preset: script
+    source: panel:gong_2
+    title: Gong
+    condition: {not: {map_var: gong2}}
+    effects:
+      - set:
+          var:
+            map_var: gong2
+          value: 1
+      - lights_on: light:gong_2
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", -1024, 9568, -2240)"
+      - text: "The gong rings, and the lamp under it flares up."
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", -1024, 9568, -2240)"
+      - text: The gong rings again. Its lamp is already lit.
+    notes: "aazex123:0 'Gong' (the hover); the lines are new map lines. Map variable gong2, its lamp light:gong_2 (D-43: the state shows)."
+  - id: evt:gong_2_load
+    preset: script
+    trigger: load
+    condition: {map_var: gong2}
+    effects:
+      - lights_on: light:gong_2
+    notes: Gong 2's lamp lit on every load while it is rung.
+  - id: evt:gong_3
+    preset: script
+    source: panel:gong_3
+    title: Gong
+    condition: {not: {map_var: gong3}}
+    effects:
+      - set:
+          var:
+            map_var: gong3
+          value: 1
+      - lights_on: light:gong_3
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 1024, 9568, -2240)"
+      - text: "The gong rings, and the lamp under it flares up."
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 1024, 9568, -2240)"
+      - text: The gong rings again. Its lamp is already lit.
+    notes: "aazex123:0 'Gong' (the hover); the lines are new map lines. Map variable gong3, its lamp light:gong_3 (D-43: the state shows)."
+  - id: evt:gong_3_load
+    preset: script
+    trigger: load
+    condition: {map_var: gong3}
+    effects:
+      - lights_on: light:gong_3
+    notes: Gong 3's lamp lit on every load while it is rung.
+  - id: evt:gong_4
+    preset: script
+    source: panel:gong_4
+    title: Gong
+    condition: {not: {map_var: gong4}}
+    effects:
+      - set:
+          var:
+            map_var: gong4
+          value: 1
+      - lights_on: light:gong_4
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", 1024, 8992, -2240)"
+      - text: "The gong rings, and the lamp under it flares up."
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", 1024, 8992, -2240)"
+      - text: The gong rings again. Its lamp is already lit.
+    notes: "aazex123:0 'Gong' (the hover); the lines are new map lines. Map variable gong4, its lamp light:gong_4 (D-43: the state shows)."
+  - id: evt:gong_4_load
+    preset: script
+    trigger: load
+    condition: {map_var: gong4}
+    effects:
+      - lights_on: light:gong_4
+    notes: Gong 4's lamp lit on every load while it is rung.
+  - id: evt:gongs_reset
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: reset_pending}
+    effects:
+      - lights_off: [light:gong_1, light:gong_2, light:gong_3, light:gong_4]
+      - set:
+          var:
+            map_var: reset_pending
+          value: 0
+      - lua: "XeenQuests.hook(\"q-f2.gongs_reset\")"
+    notes: "The lamps go out with A3's 'The gongs fall silent.' (q-f2.gongs_reset, a status line)."
+  - id: evt:hatch
+    preset: script
+    source: exit:hatch
+    title: Climb onto the Dragon Clouds
+    lua: "evt.MoveToMap(20352, 17280, 2048, 512, 0, 0, 0, 1, \"xeen_x9.blv\")"
+    notes: "F16 (2026-11-22): the game's standard entrance window (OK/Close) in place of the map's old Yes/No. Was: Up onto X9 (A5's BLV, installed with entrance:fd04_roof, 03:49): the map's own Yes/No 'Climb up through the hatch?' (D-66: a roof or hatch exit into a BLV asks, as DD-15 and DD-08 do; no hook, so no text before it, D-65), then on Yes at once to entrance:fd04_roof [20352, 17280, 2048] facing north (D-57 Q36; the coordinates are X9's named arrival, written out because the move waits on the answer)."
+  - id: evt:lever
+    preset: switch
+    source: switch:lever
+    title: Lever
+    condition: {all: [{all: [{map_var: gong1}, {map_var: gong2}, {map_var: gong3}, {map_var: gong4}]}, {not: {qbit: shutter_up}}]}
+    opens: [door:shutter]
+    effects:
+      - qbit: shutter_up
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 0, 9984, -2360)"
+      - text: "The lever moves. Somewhere in the wall chains run, and the iron shutter rises."
+    else_effects:
+      - lua: "if IsQBitSet(QBit(118144)) then evt.StatusText(\"The lever is down.\") else evt.SimpleMessage(\"The lever won't budge.\\nA voice booms: Ring the four gongs and then pull the lever. Touch any treasure and you'll have to start over!\") end"
+    notes: "aazex123:1-3: before the four gongs 'The lever won't budge.' and the voice (one window); after them it raises the shutter for good (118144, D-43 one-way)."
+  - id: evt:machine
+    preset: script
+    source: platform:machine
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Lord Xeen Machine. Destroy?"}
+    title: Lord Xeen Machine
+    condition: {not: {destroyed: destructible:machine}}
+    effects:
+      - destroy: destructible:machine
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-f2.machine\")"
+    notes: "aazex124:0: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+  - id: evt:machine_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.machine\")"
+      - shake:
+          strength: 1.5
+          seconds: 3
+      - lights_off: [light:core_fire, light:core_water, light:core_air, light:core_earth]
+      - lua: "evt.SetMapVar(\"AmbientSound5\", 2)"
+      - set_texture:
+          of: platform:core_fire
+          to: swll4dk
+      - set_texture:
+          of: platform:core_water
+          to: swll4dk
+      - set_texture:
+          of: platform:core_air
+          to: swll4dk
+      - set_texture:
+          of: platform:core_earth
+          to: swll4dk
+    notes: "The machine broken: A3's q-f2.machine (118145, Q-F2 done), the hall shakes, the cores go dark and the machine's sound stops."
+  - id: evt:machine_load
+    preset: script
+    trigger: load
+    condition: {qbit: machine_broken}
+    effects:
+      - lights_off: [light:core_fire, light:core_water, light:core_air, light:core_earth]
+      - lua: "evt.SetMapVar(\"AmbientSound5\", 2)"
+      - set_texture:
+          of: platform:core_fire
+          to: swll4dk
+      - set_texture:
+          of: platform:core_water
+          to: swll4dk
+      - set_texture:
+          of: platform:core_air
+          to: swll4dk
+      - set_texture:
+          of: platform:core_earth
+          to: swll4dk
+    notes: Dark on every load with 118145.
+  - id: evt:note
+    preset: script
+    source: platform:note_table
+    title: Table
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.note\")"
+    notes: aazex122:24 (A3's q-f2.note).
+  - id: evt:papers
+    preset: text
+    source: platform:papers
+    title: Table
+    text: You find some papers that tell of the World of Xeen maintenance schedules...
+    notes: aazex124:1-2.
+  - id: evt:potion
+    preset: script
+    source: platform:potion_shelf
+    title: Potion
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.endurance\")"
+    notes: "aazex119:2-3: A3's q-f1.endurance decides for the clicking member (+2 Endurance once per character)."
+  - id: evt:sandro
+    preset: script
+    source: door:sandro
+    side: room:gate_hall
+    title: Black iron door
+    condition: {lua: "XeenQuests.can(\"q-f2.door\")"}
+    opens: [door:sandro]
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.door\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-f2.door\")"
+    notes: "A3's q-f2.door: with item 12354 the door opens for good (118130, the key kept); without it the refusal names the key; after it, the hook's else line."
+  - id: evt:sandro_below
+    preset: door
+    source: door:sandro
+    side: room:cellar_stair
+    title: Black iron door
+    notes: From below the door always opens (D-57 Q24).
+  - id: evt:sandro_load
+    preset: switch
+    trigger: load
+    condition: {qbit: door_open}
+    opens: [door:sandro]
+    notes: Open for good with 118130.
+  - id: evt:shrine_great
+    preset: script
+    source: platform:shrine_great
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Great Evil.  Destroy?"}
+    title: Shrine of Great Evil
+    condition: {not: {destroyed: destructible:shrine_great}}
+    effects:
+      - destroy: destructible:shrine_great
+    else_effects:
+      - text: The shrine lies broken.
+    notes: "aazex122:13: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+  - id: evt:shrine_great_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.shrine_great\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 1952, 6650, -1632)"
+    notes: "The Shrine of Great Evil broken (the question, a blow or a spell): A3's q-f2.shrine_great (its experience once)."
+  - id: evt:shrine_lesser
+    preset: script
+    source: platform:shrine_lesser
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Lesser Evil.  Destroy?"}
+    title: Shrine of Lesser Evil
+    condition: {not: {destroyed: destructible:shrine_lesser}}
+    effects:
+      - destroy: destructible:shrine_lesser
+    else_effects:
+      - text: The shrine lies broken.
+    notes: "aazex122:15: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+  - id: evt:shrine_lesser_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.shrine_lesser\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", -1952, 6650, -1632)"
+    notes: "The Shrine of Lesser Evil broken (the question, a blow or a spell): A3's q-f2.shrine_lesser (its experience once)."
+  - id: evt:shrine_minor
+    preset: script
+    source: platform:shrine_minor
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Minor Evil.  Destroy?"}
+    title: Shrine of Minor Evil
+    condition: {not: {destroyed: destructible:shrine_minor}}
+    effects:
+      - destroy: destructible:shrine_minor
+    else_effects:
+      - text: The shrine lies broken.
+    notes: "aazex122:17: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+  - id: evt:shrine_minor_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.shrine_minor\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", -1952, 7300, -1632)"
+    notes: "The Shrine of Minor Evil broken (the question, a blow or a spell): A3's q-f2.shrine_minor (its experience once)."
+  - id: evt:shrine_ultimate
+    preset: script
+    source: platform:shrine_ultimate
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Ultimate Evil. The walls seem to lean on it, and dust runs from the ceiling. Destroy?"}
+    title: Shrine of Ultimate Evil
+    condition: {all: [{not: {destroyed: destructible:shrine_ultimate}}, {not: {qbit: ultimate_broken}}]}
+    effects:
+      - destroy: destructible:shrine_ultimate
+    else_effects:
+      - text: The shrine lies broken.
+    notes: "aazex122:11 with A3's tell (D-57 Q26): a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+  - id: evt:shrine_ultimate_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.shrine_ultimate\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 1952, 7300, -1632)"
+      - shake:
+          strength: 2
+          seconds: 3
+      - leave: exit:x7_gate
+    notes: "The Shrine of Ultimate Evil broken (the question, a blow or a spell): A3's q-f2.shrine_ultimate (Fire damage about 20 %, the source's line, 118148), the camera shake, and out through X7's gate at once, no window (D-57 Q26, D-63 13)."
+  - id: evt:shrine_ultimate_load
+    preset: script
+    trigger: load
+    condition: {qbit: ultimate_broken}
+    effects:
+      - hide: platform:shrine_ultimate
+      - passable: platform:shrine_ultimate
+    notes: The Shrine of Ultimate Evil stays broken on every load with 118148 (D-57 Q26).
+  - id: evt:shutter_load
+    preset: switch
+    trigger: load
+    condition: {qbit: shutter_up}
+    opens: [door:shutter]
+    notes: Up on every load with 118144.
+  - id: evt:sign_ballroom
+    preset: text
+    source: room:ballroom
+    trigger: step
+    text: Ballroom
+    notes: aazex122:1.
+  - id: evt:sign_control
+    preset: text
+    source: room:control
+    trigger: step
+    text: Control Room
+    notes: aazex124:13.
+  - id: evt:sign_game_east
+    preset: text
+    source: room:game_east
+    trigger: step
+    text: Game Room
+    notes: aazex122:2.
+  - id: evt:sign_game_west
+    preset: text
+    source: room:game_west
+    trigger: step
+    text: Game Room
+    notes: aazex122:3.
+  - id: evt:sign_maintenance
+    preset: text
+    source: room:maintenance
+    trigger: step
+    text: Maintenance
+    notes: aazex124:12.
+  - id: evt:sign_welcome
+    preset: text
+    source: room:welcome
+    trigger: step
+    text: Welcome
+    notes: aazex122:0.
+  - id: evt:term_air
+    preset: script
+    source: platform:term_air
+    title: Terminal
+    condition: {not: {qbit: machine_broken}}
+    effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Air Core Operational
+    else_effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Air Core Offline
+    notes: "aazex124:5 ('Offline' after the machine: a new map line)."
+  - id: evt:term_earth
+    preset: script
+    source: platform:term_earth
+    title: Terminal
+    condition: {not: {qbit: machine_broken}}
+    effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Earth Core Operational
+    else_effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Earth Core Offline
+    notes: "aazex124:6 ('Offline' after the machine: a new map line)."
+  - id: evt:term_fire
+    preset: script
+    source: platform:term_fire
+    title: Terminal
+    condition: {not: {qbit: machine_broken}}
+    effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Fire Core Operational
+    else_effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Fire Core Offline
+    notes: "aazex124:3 ('Offline' after the machine: a new map line)."
+  - id: evt:term_water
+    preset: script
+    source: platform:term_water
+    title: Terminal
+    condition: {not: {qbit: machine_broken}}
+    effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Water Core Operational
+    else_effects:
+      - message: |-
+          A message flashes on the terminal screen:
+          Water Core Offline
+    notes: "aazex124:4 ('Offline' after the machine: a new map line)."
+  - id: evt:terminal
+    preset: script
+    source: panel:terminal
+    question: {ask: "Code?", answers: [Computer, "\"Computer\""], message: "Main Terminal\nEnter Code", wrong_effects: [{lua: "XeenQuests.hook(\"q-f2.terminal_wrong\")"}]}
+    title: Main Terminal
+    condition: {not: {qbit: code_entered}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f2.terminal\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-f2.terminal\")"
+    notes: "aazex124:7, :10-11 (A3's q-f2.terminal and terminal_wrong: Goober, then SUPER Goober). The code is FD-03's heads' (m41.plaques_l4)."
+  - id: evt:throne_dead
+    preset: text
+    source: platform:throne_dead
+    title: Throne of the Dead
+    text: You feel strange.
+    notes: "aazex122:8, :10."
+  - id: evt:throne_master
+    preset: text
+    source: platform:throne_master
+    title: The Master's Throne
+    text: You feel strange.
+    notes: aazex122:9-10.
+  - id: evt:tome
+    preset: script
+    source: platform:tome_stand
+    title: Tome of Great Experience
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.tome\")"
+    notes: "aazex120:2-4: A3's q-f1.tome (4,000 once per character)."
+  - id: evt:tome_bed
+    preset: text
+    source: platform:tome_bed
+    title: Bed
+    text: Nothing here.
+    notes: "aazex120:1, :0."
+  - id: evt:way_out
+    preset: exit
+    source: exit:gate
+    title: Exit Dragon Tower
+    notes: "Out to X7 (installed) at its named arrival entrance:fd04_door (-17920, 16384, 2592) facing south through the game's leave window (D-24; meaning aazex117:4 'Exit Dragon Tower?')."
+  - id: evt:wyrm_hall
+    preset: script
+    source: panel:wyrm_door
+    title: The Wyrm's Hall
+    effects:
+      - lua: evt.EnterHouse(4853)
+    notes: "A4's house 4853 (The Wyrm's Hall, Ashkaroth 5703, flavour only, D-5.2): the great door opens the house."

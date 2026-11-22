@@ -1,0 +1,14 @@
+A powerful dark sorcerer lord striking with magic: a deep cold contemptuous grunt, a surge of roaring dark fire and a heavy concussive blast, close
+
+kind: sfx
+duration: 1.5
+loop: false
+variants: 5
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 4
+loudness_db: -8
+score_bias: power

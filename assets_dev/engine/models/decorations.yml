@@ -1568,3 +1568,65 @@ decorations:
     height: 908
     height_jitter: 0.12
     lod_pixels: [650, 320, 180]
+  # --- Indoor models placed outdoors (2026-11-20, Xeen's towns; no shipped MM6-MM8 outdoor map places these) ---
+  # The same models and sizes as indoor_decorations.yml: barrels, casks, crates, skulls, the brazier, mushrooms.
+  - name: 7dec11
+    model: engine/models/mm7_deco_7dec11.glb
+    z_offset: 1
+    height: 185
+  - name: 7dec18
+    model: engine/models/mm7_deco_7dec18.glb
+    height: 58
+    height_jitter: 0.05
+  - name: 7dec20
+    model: engine/models/mm7_deco_7dec20.glb
+    height: 71
+  - name: 7dec21
+    model: engine/models/mm7_deco_7dec21.glb
+    height: 91
+  - name: 7dec32
+    model: engine/models/mm7_deco_7dec32.glb
+    height: 121
+    height_jitter: 0.05
+  - name: 7dec54
+    model: engine/models/mm7_deco_7dec54.glb
+    height: 169
+    yaw: facing
+    yaw_offset: -1.5708
+  - name: brazir2f
+    model: engine/models/mm6_deco_brazier_unlit.glb
+    height: 146
+    z_offset: 3.5
+  - name: mushrm01
+    model: engine/models/mm6_deco_mushrm01.glb
+    height: 106
+  - name: mushrm02
+    model: engine/models/mm6_deco_mushrm02.glb
+    height: 87
+  - name: mushrm03
+    model: engine/models/mm6_deco_mushrm03.glb
+    height: 79
+  - name: mushrm05
+    model: engine/models/mm6_deco_mushrm05.glb
+    height: 88
+  - name: 6tree09
+    model: engine/models/mm6_deco_tree09.glb
+    height: 512
+    height_jitter: 0.12
+    lod_pixels: [650, 320, 180]
+  # --- MM7 engine decorations first modelled for Xeen (2026-11-20, decorations/xeen_engine_props_claude/) ---
+  - name: haybale2
+    model: engine/models/mm7_deco_haybale2.glb
+    height: 188
+    height_jitter: 0.08
+    yaw: random
+  - name: 7dec12
+    model: engine/models/mm7_deco_7dec12.glb
+    height: 118
+    height_jitter: 0.06
+    yaw: random
+  - name: 7dec41
+    model: engine/models/mm7_deco_7dec41.glb
+    height: 92
+    height_jitter: 0.05
+    yaw: random

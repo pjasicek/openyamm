@@ -1,0 +1,68 @@
+# M15 The Dragon Pharaoh's Orb (QUESTS M15, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Zelda the Herbalist gives away the orb she found in a crater; Madame Oorla reads it ("first it must see Ellinger").
+# Oorla is Castleview's seer (QUESTS 4.3): her Fortune topic points at the next main step of Act III, and she says
+# the word of Ellinger's tower plainly (the riddle rule).
+id: M15
+title: The Dragon Pharaoh's Orb
+act: III
+kind: main
+status: full
+giver: 4904          # Zelda the Herbalist (her shop, 4454)
+maps: [D1]
+level: 19
+block: 15
+after: [m14.entered]
+source: "QUESTS M15; dark research 1 (steps 1-2)"
+
+qbits:
+  orb: {id: 111300, journal: "Zelda gave you a glowing orb she found in a crater. Madame Oorla the gypsy reads such things.",
+        until: [read]}
+  read: {id: 111301, journal: "Madame Oorla: the orb belongs to the Dragon Pharaoh, but first it must see Ellinger, the Queen's wizard, in his tower in Castleview.",
+         until: [m17.done]}
+
+autonotes:
+  oorla: {id: 4115, text: "Madame Oorla: the Dragon Pharaoh's orb must go to Ellinger first. His tower's word is his own name.", category: Misc}
+
+items:
+  pharaoh_orb: "the Dragon Pharaoh's Orb; Zelda gives it; the Pharaoh takes it (M28, Act V)."
+
+npcs:
+  4904:              # Zelda the Herbalist
+    topics:
+      - n: 1
+        label: The orb
+        states:
+          - when: {qbit: orb}
+            text: "Still have it? Good. Keep it away from my herbs. The mint went purple."
+          - text: "Something fell out of the sky last month and made a crater by the river. In the middle was this orb. It glows, it hums, and it looks at me. I don't want it. Take it to Madame Oorla; she reads things like that."
+            do: [{give: pharaoh_orb}, {set: orb}]
+  4921:              # Madame Oorla
+    topics:
+      - n: 2
+        label: The orb
+        show: {item: pharaoh_orb}
+        states:
+          - when: {qbit: read}
+            text: "The Pharaoh's orb wants to go home, but first it must see Ellinger. I don't make the rules. The orb does."
+          - text: "Let me see... This orb belongs to the Dragon Pharaoh, in his pyramid in the desert. But first it must see Ellinger, the Queen's wizard. He locked himself in his tower with traps, so you will need his key, and at the top his tower will ask whom you seek: say his name, 'Ellinger'."
+            do: [{set: read}, {autonote: oorla}, {xp: 3000}]
+      - n: 3
+        label: Fortune
+        states:
+          - when: {qbit: m20.started}
+            text: "I see a bird in a cage on an island, and a sad man in a castle. Free the one and the other will smile."
+          - when: {qbit: m19.stage1}
+            text: "I see the castle growing back, stone by stone. More disks. Always more disks."
+          - when: {qbit: m17.done}
+            text: "I see little round things that hum. Twenty of them. Gremlins, sprites, ogres, the towers. Ellinger counts them."
+          - when: {qbit: m16.key}
+            text: "I see a tower full of traps and a man at the top who loves his boots. Go up."
+          - when: {qbit: read}
+            text: "I see a woman who lost her necklace to the rats under the town, and holds a key she doesn't need. Nadia."
+          - text: "I see an orb. Somebody nearby has one. Zelda, the herbalist."
+
+riddles:
+  - {answer: Ellinger, where: "DD-02, the top of Ellinger's Tower (\"Who do you seek?\")", said_by: "Madame Oorla (The orb) and her autonote"}
+
+rewards: {xp: 3000, gold: 0}
+playthrough: "D1: Zelda (The orb); Madame Oorla (The orb)."

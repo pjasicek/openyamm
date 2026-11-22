@@ -1,0 +1,725 @@
+format: 0
+themes:
+  - id: theme:dark
+    wall: {texture: t1wl7ctb, size: [256, 256]}
+    bands:
+      - {height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    floor: {texture: t1f3, size: [128, 128]}
+    ceiling: {texture: t1c3, size: [64, 64], scale: 2}
+    reveal: {texture: t1wl4cts, size: [128, 256]}
+    door: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "The bat floors (roost, loft, trapped walk) and the back stair: 6d19's darker wall t1wl7ctb."
+  - id: theme:hall
+    wall: {texture: t1wl4cts, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t1trima, size: [32, 32]}}
+      - {height: 288, surface: {texture: t1wl9ctl, size: [256, 256]}}
+    floor: {texture: t1f2, size: [128, 128]}
+    ceiling: {texture: t1c3, size: [64, 64], scale: 2}
+    reveal: {texture: t1wl4cts, size: [128, 256]}
+    door: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "The great rooms (wards, library, study): 6d19's column wall t1wl9ctl once over the trim, the plain t1wl4cts above it, its floor t1f2."
+  - id: theme:stair
+    wall: {texture: t1wl4cts, size: [128, 256]}
+    floor: {texture: t1f3, size: [128, 128]}
+    ceiling: {texture: t1c3, size: [64, 64], scale: 2}
+    reveal: {texture: t1wl4cts, size: [128, 256]}
+    door: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "The stairs and the lift shaft: 6d19's narrow column wall t1wl4cts, floor t1f3."
+  - id: theme:tower
+    wall: {texture: t1wl0lg, size: [256, 256]}
+    bands:
+      - {height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    floor: {texture: t1f1, size: [128, 128]}
+    ceiling: {texture: t1c3, size: [64, 64], scale: 2}
+    reveal: {texture: t1wl4cts, size: [128, 256]}
+    door: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "Ellinger's tower: MM6 Agar's Laboratory (6d19) rose and white marble brick t1wl0lg over a trim t1trima, its floor t1f1, the dark marble ceiling t1c3, the door t1d3."
+defaults: {theme: theme:tower, ambient: 18}
+rooms:
+  - id: room:back1
+    name: Back stair (foot)
+    outline: [[3968, 448], [4256, 448], [4256, 832], [3968, 832]]
+    floor: 480
+    ceiling: 896
+    theme: theme:dark
+    ambient: 18
+    notes: "The servants' stair's foot, behind the tapestry gallery."
+  - id: room:back2
+    name: Back stair
+    outline: [[3968, 2240], [4608, 2240], [4608, 2624], [3968, 2624]]
+    floor: 960
+    ceiling: 1376
+    theme: theme:dark
+    ambient: 18
+    notes: The servants' stair's landing on the library floor.
+  - id: room:back3
+    name: Back stair (top)
+    outline: [[3968, 448], [4608, 448], [4608, 832], [3968, 832]]
+    floor: 1440
+    ceiling: 1856
+    theme: theme:dark
+    ambient: 18
+    notes: The servants' stair's head on the tapestry floor.
+  - id: room:backf1
+    name: Back stair (first flight)
+    outline: [[3968, 896], [4256, 896], [4256, 2176], [3968, 2176]]
+    floor: 480
+    slope: {to: 960, toward: north, steps: 15}
+    ceiling: 1376
+    theme: theme:stair
+    ambient: 16
+    notes: "The servants' stair, up north from the gauntlet floor to the library floor."
+  - id: room:backf2
+    name: Back stair (second flight)
+    outline: [[4320, 896], [4608, 896], [4608, 2176], [4320, 2176]]
+    floor: 960
+    slope: {to: 1440, toward: south, steps: 15}
+    ceiling: 1856
+    theme: theme:stair
+    ambient: 16
+    notes: "The servants' stair, up south from the library floor to the tapestry floor."
+  - id: room:boots
+    name: Boot closet
+    outline: [[-896, 3840], [256, 3840], [256, 4352], [-384, 4352]]
+    floor: 1920
+    ceiling: 2304
+    theme: theme:tower
+    walls:
+      - wall: 2
+        panels:
+          - {offset: 256, length: 128, bottom: 96, height: 192, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 224, length: 32, bottom: 64, height: 256, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 384, length: 32, bottom: 64, height: 256, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 256, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 256, length: 128, bottom: 288, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+      - wall: 3
+        panels:
+          - {offset: 298, length: 128, bottom: 96, height: 192, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 266, length: 32, bottom: 64, height: 256, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 426, length: 32, bottom: 64, height: 256, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 298, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 298, length: 128, bottom: 288, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    platforms:
+      - {id: platform:boots_rack, at: [64, 3904], size: [320, 64], rise: 160, surface: {texture: deskside, size: [64, 64], scale: 2.5}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: Racks of boots.}
+    ambient: 18
+    notes: "Racks of boots and the chest with a pair Ellinger outgrew, in the octagon's north-west corner: windows to the sky."
+  - id: room:crates
+    name: Crate room
+    outline: [[2944, 960], [4256, 960], [4256, 1792], [2944, 1792]]
+    floor: 1440
+    store: true
+    ceiling: 1856
+    theme: theme:dark
+    ambient: 14
+    notes: "A storeroom of barrels and sacks off the back stair; a chest."
+  - id: room:entry
+    name: Entry hall
+    outline: [[-1408, 0], [512, 0], [512, 1280], [-1408, 1280]]
+    floor: 0
+    ceiling: 640
+    theme: theme:tower
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:mirror, offset: 256, length: 192, bottom: 96, height: 288, surface: {texture: xkmirror, size: [128, 128]}, notes: "The dead mirror, silvered glass in a marble frame."}
+          - {id: panel:mirror_frame_w, offset: 224, length: 32, bottom: 64, height: 352, surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: The mirror's frame.}
+          - {id: panel:mirror_frame_e, offset: 448, length: 32, bottom: 64, height: 352, surface: {texture: t1c3, size: [64, 64], scale: 2}}
+          - {id: panel:mirror_frame_s, offset: 256, length: 192, bottom: 64, height: 32, surface: {texture: t1c3, size: [64, 64], scale: 2}}
+          - {id: panel:mirror_frame_n, offset: 256, length: 192, bottom: 384, height: 32, surface: {texture: t1c3, size: [64, 64], scale: 2}}
+    pillars:
+      - {at: [-1280, 1152], size: [96, 96], surface: {texture: t1spcla, size: [128, 256]}}
+      - {at: [384, 1152], size: [96, 96], surface: {texture: t1spcla, size: [128, 256]}}
+    ambient: 22
+    notes: "Inside the door from Castleview: a marble hall 1,920 by 1,280, the dead mirror on the north wall, the lift's cage north, the storeroom's door south, the Hall of the Question east."
+  - id: room:gallery2
+    name: Gargoyle gallery
+    outline: [[2944, 640], [3840, 640], [3840, 2624], [2944, 2624]]
+    floor: 960
+    ceiling: 1376
+    theme: theme:tower
+    pillars:
+      - {at: [3584, 1024], size: [96, 96], surface: {texture: t1spcla, size: [128, 256]}}
+      - {at: [3584, 1536], size: [96, 96], surface: {texture: t1spcla, size: [128, 256]}}
+      - {at: [3584, 2048], size: [96, 96], surface: {texture: t1spcla, size: [128, 256]}}
+    ambient: 18
+    notes: "A long gallery along the outer wall, columns making bays where the gargoyles stand."
+  - id: room:landing4
+    name: Top landing
+    outline: [[768, 2240], [1408, 2240], [1408, 2624], [768, 2624]]
+    floor: 1920
+    ceiling: 2336
+    theme: theme:stair
+    ambient: 18
+    notes: "The last stair's head; the last door west."
+  - id: room:library
+    name: The library
+    outline: [[1536, 128], [2816, 128], [2816, 2176], [1536, 2176]]
+    floor: 960
+    ceiling: 1376
+    theme: theme:hall
+    walls:
+      - wall: south
+        surface: {texture: bookcas2, size: [256, 256], scale: 1.625}
+        bands: false
+        notes: "A bookcase wall, one case floor to ceiling."
+    platforms:
+      - {id: platform:shelf_w1, at: [1600, 1152], size: [64, 448], rise: 288, surface: {texture: bookcas1, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A bookcase along the west wall.}
+      - {id: platform:shelf_e1, at: [2752, 384], size: [64, 384], rise: 288, surface: {texture: bookcas2, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A bookcase along the east wall.}
+      - {id: platform:shelf_n, at: [1856, 2112], size: [384, 64], rise: 288, surface: {texture: bookcas1, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: Bookcases either side of the reading room's door.}
+      - {id: platform:shelf_n2, at: [2560, 2112], size: [320, 64], rise: 288, surface: {texture: bookcas2, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}}
+      - {id: platform:stack_1, at: [2048, 768], size: [448, 64], rise: 224, surface: {texture: bookcas1, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A free-standing stack.}
+      - {id: platform:stack_2, at: [2048, 1536], size: [448, 64], rise: 224, surface: {texture: bookcas2, size: [256, 256]}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A free-standing stack.}
+      - {id: platform:lectern_fire, at: [1728, 640], size: [64, 48], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], offset: [96, 40]}, notes: The Book of Fire's lectern.}
+      - {id: platform:lectern_elec, at: [1728, 1792], size: [64, 48], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], offset: [96, 40]}, notes: The Book of Electricity's lectern.}
+      - {id: platform:lectern_sorc, at: [2560, 1152], size: [64, 48], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], offset: [32, 40]}, notes: The Book of Sorcerer's Knowledge's lectern.}
+    ambient: 20
+    notes: "Shelves round a reading floor, free-standing stacks, three lecterns; gargoyle bookends wake."
+  - id: room:lift_foot
+    name: Lift foot (the shaft)
+    outline: [[-1024, 1344], [-512, 1344], [-512, 1856], [-1024, 1856]]
+    floor: 0
+    ceiling: 2400
+    theme: theme:stair
+    ambient: 16
+    notes: "A closed shaft 512 square from the ground floor to above the study: the cage's two stops, no opening on the floors between (D-9.2, D-26)."
+  - id: room:lift_top
+    name: Lift head
+    outline: [[-1088, 1920], [-448, 1920], [-448, 2240], [-1088, 2240]]
+    floor: 1920
+    ceiling: 2336
+    theme: theme:stair
+    ambient: 20
+    notes: The lift's upper stop behind the study.
+  - id: room:loft
+    name: Beholder loft
+    outline: [[2944, 1920], [3840, 1920], [3840, 3072], [2944, 3072]]
+    floor: 1440
+    ceiling: 2112
+    theme: theme:dark
+    beams:
+      - path: [[2944, 2176], [3840, 2176]]
+        width: 48
+        depth: 48
+        bottom: 1888
+        surface: {texture: deskside, size: [64, 64]}
+      - path: [[2944, 2432], [3840, 2432]]
+        width: 48
+        depth: 48
+        bottom: 1888
+        surface: {texture: deskside, size: [64, 64]}
+      - path: [[2944, 2688], [3840, 2688]]
+        width: 48
+        depth: 48
+        bottom: 1888
+        surface: {texture: deskside, size: [64, 64]}
+    ambient: 12
+    notes: "Under the roof timbers: the red-eyed bats roost."
+  - id: room:pass_door
+    name: The last door
+    outline: [[128, 2240], [640, 2240], [640, 2624], [128, 2624]]
+    floor: 1920
+    ceiling: 2336
+    theme: theme:hall
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:mouth4, offset: 96, length: 128, bottom: 320, height: 96, surface: {texture: t1spclb, size: [128, 256]}, notes: A mouth carved over the last door.}
+    ambient: 22
+    notes: "A short passage before the study's door, which asks whom the party seeks."
+  - id: room:question
+    name: Hall of the Question
+    outline: [[640, 128], [1792, 128], [1792, 832], [640, 832]]
+    floor: 0
+    ceiling: 544
+    theme: theme:hall
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:mouth, offset: 816, length: 128, bottom: 368, height: 128, surface: {texture: t1spclb, size: [128, 256]}, notes: "A carved face over the stair door: the door's mouth."}
+    ambient: 22
+    notes: "A square hall before the stair door, which asks its question."
+  - id: room:reading
+    name: Reading room
+    outline: [[1536, 2304], [2816, 2304], [2816, 3072], [1536, 3072]]
+    floor: 960
+    ceiling: 1376
+    theme: theme:hall
+    platforms:
+      - {id: platform:reading_table, at: [2176, 2688], size: [256, 128], rise: 72, surface: {texture: deskside, size: [64, 64], scale: 1.125}, top_surface: {texture: desktop, size: [128, 64], scale: 2, offset: [0, 32]}, notes: A long reading table.}
+    ambient: 20
+    notes: "Armchairs, a long table and a locked reading chest."
+  - id: room:roost
+    name: Bat roost
+    outline: [[2944, 1920], [3840, 1920], [3840, 2816], [2944, 2816]]
+    floor: 480
+    ceiling: 896
+    theme: theme:dark
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:window, offset: 352, length: 192, bottom: 160, height: 192, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: "A broken window open to the sky: the bats' way in."}
+          - {offset: 384, length: 96, bottom: 352, height: 48, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}}
+          - {offset: 400, length: 128, bottom: 112, height: 48, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}}
+          - {offset: 304, length: 48, bottom: 208, height: 112, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}}
+          - {offset: 544, length: 32, bottom: 192, height: 96, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}}
+    ambient: 12
+    notes: "A cold room with a broken window: the bats' way in."
+  - id: room:stair1
+    name: Stair (gauntlet floor)
+    outline: [[768, 2240], [1408, 2240], [1408, 2624], [768, 2624]]
+    floor: 480
+    ceiling: 896
+    theme: theme:stair
+    ambient: 18
+    notes: The main stair's north landing on the gauntlet floor.
+  - id: room:stair1f
+    name: Main stair (ground to gauntlet)
+    outline: [[768, 896], [1056, 896], [1056, 2176], [768, 2176]]
+    floor: 0
+    slope: {to: 480, toward: north, steps: 15}
+    ceiling: 896
+    theme: theme:stair
+    ambient: 16
+    notes: Fifteen marble steps up north from the question's door to the gauntlet floor.
+  - id: room:stair2
+    name: Stair (library floor)
+    outline: [[768, 448], [1408, 448], [1408, 832], [768, 832]]
+    floor: 960
+    ceiling: 1376
+    theme: theme:stair
+    ambient: 18
+    notes: The main stair's south landing on the library floor.
+  - id: room:stair2f
+    name: Main stair (gauntlet to library)
+    outline: [[1120, 896], [1408, 896], [1408, 2176], [1120, 2176]]
+    floor: 480
+    slope: {to: 960, toward: south, steps: 15}
+    ceiling: 1376
+    theme: theme:stair
+    ambient: 16
+    notes: Fifteen steps up south to the library floor.
+  - id: room:stair3
+    name: Stair (tapestry floor)
+    outline: [[768, 2240], [1408, 2240], [1408, 2624], [768, 2624]]
+    floor: 1440
+    ceiling: 1856
+    theme: theme:stair
+    ambient: 18
+    notes: "The main stair's head: north landing of the tapestry floor."
+  - id: room:stair3f
+    name: Main stair (library to tapestry floor)
+    outline: [[768, 896], [1056, 896], [1056, 2176], [768, 2176]]
+    floor: 960
+    slope: {to: 1440, toward: north, steps: 15}
+    ceiling: 1856
+    theme: theme:stair
+    ambient: 16
+    notes: Fifteen steps up north to the tapestry floor.
+  - id: room:stair4
+    name: Last stair (foot)
+    outline: [[1120, -384], [1408, -384], [1408, 832], [1120, 832]]
+    floor: 1440
+    ceiling: 1856
+    theme: theme:dark
+    walls:
+      - wall: south
+        panels:
+          - {offset: 80, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 48, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 208, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 80, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 80, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    ambient: 18
+    notes: The trapped walk's west end and the foot of the last flight.
+  - id: room:stair4f
+    name: Last stair
+    outline: [[1120, 896], [1408, 896], [1408, 2176], [1120, 2176]]
+    floor: 1440
+    slope: {to: 1920, toward: north, steps: 15}
+    ceiling: 2336
+    theme: theme:stair
+    ambient: 16
+    notes: Fifteen steps up north from the trapped walk to the top landing.
+  - id: room:store
+    name: Storeroom
+    outline: [[-1152, -768], [256, -768], [256, -128], [-1152, -128]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower
+    ambient: 16
+    notes: "Cabinets and a chest; bats got in through the vent."
+  - id: room:study
+    name: Ellinger's study
+    outline: [[-1664, 2304], [0, 2304], [0, 3712], [-1024, 3712], [-1664, 3072]]
+    floor: 1920
+    ceiling: 2624
+    ceiling_points: [[-832, 3008, 2880]]
+    theme: theme:hall
+    walls:
+      - wall: 0
+        surface: {texture: bookcas2, size: [256, 256], scale: 1.375}
+        bands: false
+        notes: A bookcase wall.
+      - wall: 1
+        surface: {texture: bookcas1, size: [256, 256], scale: 1.375}
+        bands: false
+        notes: A bookcase wall.
+      - wall: 3
+        panels:
+          - {offset: 356, length: 192, bottom: 320, height: 288, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 324, length: 32, bottom: 288, height: 352, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 548, length: 32, bottom: 288, height: 352, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 356, length: 192, bottom: 288, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 356, length: 192, bottom: 608, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+      - wall: 4
+        panels:
+          - {offset: 288, length: 192, bottom: 320, height: 288, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 256, length: 32, bottom: 288, height: 352, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 480, length: 32, bottom: 288, height: 352, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 288, length: 192, bottom: 288, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 288, length: 192, bottom: 608, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    platforms:
+      - {id: platform:desk, at: [-704, 3264], size: [256, 128], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], scale: 2, offset: [32, 0]}, notes: "Ellinger's desk: the Book o' Boots."}
+      - {id: platform:list, at: [-1088, 3264], size: [128, 64], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], scale: 1, offset: [0, 32]}, notes: "A side table: his list of disk sources."}
+      - {id: platform:charts, at: [-1344, 2560], size: [192, 96], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], scale: 1.5, offset: [64, 11]}, notes: A table of star charts.}
+      - {id: platform:boot_rack, at: [-64, 3392], size: [64, 384], rise: 96, surface: {texture: deskside, size: [64, 64], scale: 1.5}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A rack of boots.}
+    ambient: 24
+    notes: "Ellinger among star charts and boots inside the tower's octagonal outer wall: bookcase walls, windows to the sky west and north-west, his desk, a list on a side table; the lift head south, the boot closet north."
+  - id: room:tapestries
+    name: Tapestry maze
+    outline: [[1536, 512], [3840, 512], [3840, 896], [2816, 896], [2816, 3328], [1536, 3328]]
+    floor: 1440
+    ceiling: 1952
+    theme: theme:tower
+    walls:
+      - wall: 0
+        panels:
+          - {id: panel:tap3_a, offset: 1984, length: 192, bottom: 48, height: 384, surface: {texture: tap1, size: [128, 256], scale: 1.5}}
+      - wall: west
+        panels:
+          - {id: panel:tap3_b, offset: 1600, length: 192, bottom: 48, height: 384, surface: {texture: tap4, size: [128, 256], scale: 1.5}}
+      - wall: north
+        panels:
+          - {id: panel:tap3_c, at: centre, length: 192, bottom: 48, height: 384, surface: {texture: tap7, size: [128, 256], scale: 1.5}}
+    platforms:
+      - {id: platform:hang_1, at: [1888, 2304], size: [640, 32], rise: 384, surface: {texture: tap4, size: [128, 256], scale: 1.5}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A hanging tapestry on a frame.}
+      - {id: platform:hang_2, at: [2464, 1792], size: [640, 32], rise: 384, surface: {texture: tap1, size: [128, 256], scale: 1.5}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A hanging tapestry on a frame.}
+      - {id: platform:hang_3, at: [1888, 1280], size: [640, 32], rise: 384, surface: {texture: tap7, size: [128, 256], scale: 1.5}, top_surface: {texture: t1c3, size: [64, 64], scale: 2}, notes: A hanging tapestry on a frame.}
+    ambient: 16
+    notes: "A hall divided by tapestries hung on frames, and an arm running east along the south wall; behind three wall tapestries a button: one opens the back stair, two do nothing."
+  - id: room:tapestry1
+    name: Tapestry gallery
+    outline: [[2944, 512], [3840, 512], [3840, 1792], [2944, 1792]]
+    floor: 480
+    ceiling: 896
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:tap1_a, offset: 160, length: 192, bottom: 48, height: 384, surface: {texture: tap1, size: [128, 256], scale: 1.5}}
+          - {id: panel:tap1_b, offset: 880, length: 192, bottom: 48, height: 384, surface: {texture: tap4, size: [128, 256], scale: 1.5}}
+      - wall: east
+        panels:
+          - {id: panel:tap1_c, offset: 384, length: 192, bottom: 48, height: 384, surface: {texture: tap7, size: [128, 256], scale: 1.5}}
+    ambient: 18
+    notes: "Tapestries of boots through the ages; a button behind one opens the back stair."
+  - id: room:trap_walk
+    name: Trapped walk
+    outline: [[1472, -384], [4352, -384], [5632, 896], [5632, 2560], [3904, 2560], [3904, 2240], [5312, 2240], [5312, 1024], [4224, -64], [1472, -64]]
+    floor: 1440
+    ceiling: 1856
+    theme: theme:dark
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 416, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 384, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 544, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 416, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 416, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1248, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 1216, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1376, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1248, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1248, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 2080, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 2048, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 2208, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 2080, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 2080, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+      - wall: 1
+        panels:
+          - {offset: 841, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 809, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 969, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 841, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 841, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+      - wall: 2
+        panels:
+          - {offset: 384, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 352, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 512, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 384, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 384, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1152, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 1120, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1280, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1152, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1152, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1440, length: 128, bottom: 96, height: 224, surface: {texture: t1c3, size: [64, 64], scale: 2, sky: true}, notes: A window to the sky.}
+          - {offset: 1408, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1568, length: 32, bottom: 64, height: 288, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1440, length: 128, bottom: 64, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+          - {offset: 1440, length: 128, bottom: 320, height: 32, surface: {texture: t1trima, size: [32, 32]}}
+    ambient: 12
+    notes: "The gauntlet's last stretch: a walk 320 wide round the tower's octagonal outer wall (its south, south-east and east sides, windows to the sky) from the loft to the last stair, its floor plates firing bolts."
+  - id: room:wards
+    name: Hall of Wards
+    outline: [[1536, 1280], [2816, 1280], [2816, 2816], [1536, 2816]]
+    floor: 480
+    ceiling: 896
+    theme: theme:hall
+    platforms:
+      - {id: platform:ward_1, at: [1920, 1792], size: [384, 384], rise: 2, surface: {texture: td1, size: [512, 512], scale: 0.75}, top_surface: {texture: td1, size: [512, 512], scale: 0.75}, notes: A warded circle in the floor.}
+      - {id: platform:ward_2, at: [2432, 2304], size: [384, 384], rise: 2, surface: {texture: td1, size: [512, 512], scale: 0.75}, top_surface: {texture: td1, size: [512, 512], scale: 0.75}, notes: A warded circle in the floor.}
+    ambient: 20
+    notes: "Ellinger's defences: warded circles in the floor and the constructs that keep spies out."
+openings:
+  - id: open:back1_bf1
+    from: room:back1
+    to: room:backf1
+    from_wall: north
+    to_wall: south
+    link: link:back1_back2
+    width: full
+    height: full
+  - id: open:back2_bf2
+    from: room:back2
+    to: room:backf2
+    from_wall: south
+    to_wall: north
+    link: link:back2_back3
+    width: full
+    height: full
+  - id: open:back3_crates
+    from: room:back3
+    to: room:crates
+    link: link:back3_crates
+    width: 224
+    height: 352
+  - id: open:bf1_back2
+    from: room:backf1
+    to: room:back2
+    from_wall: north
+    to_wall: south
+    link: link:back1_back2
+    width: full
+    height: full
+  - id: open:bf2_back3
+    from: room:backf2
+    to: room:back3
+    from_wall: south
+    to_wall: north
+    link: link:back2_back3
+    width: full
+    height: full
+  - id: open:entry_lift
+    from: room:entry
+    to: room:lift_foot
+    link: link:entry_lift
+    width: 224
+    height: 288
+    notes: The cage's gate at the ground floor.
+  - id: open:entry_question
+    from: room:entry
+    to: room:question
+    link: link:entry_question
+    width: 384
+    height: 384
+    shape: arch
+    apex: 480
+  - id: open:entry_store
+    from: room:entry
+    to: room:store
+    link: link:entry_store
+    width: 192
+    height: 320
+  - id: open:gallery_back2
+    from: room:gallery2
+    to: room:back2
+    link: link:gallery_back2
+    width: 256
+    height: 352
+  - id: open:l4_pass
+    from: room:landing4
+    to: room:pass_door
+    link: link:l4_door
+    width: 256
+    height: 352
+  - id: open:library_gallery
+    from: room:library
+    to: room:gallery2
+    link: link:library_gallery
+    width: 448
+    height: 384
+    shape: arch
+    apex: 400
+  - id: open:library_reading
+    from: room:library
+    to: room:reading
+    link: link:library_reading
+    width: 192
+    height: 352
+  - id: open:lift_top
+    from: room:lift_foot
+    to: room:lift_top
+    link: link:lift
+    width: 224
+    height: 288
+    notes: The cage's gate at the top.
+  - id: open:loft_trap
+    from: room:loft
+    to: room:trap_walk
+    link: link:loft_trap
+    width: 256
+    height: 352
+  - id: open:pass_study
+    from: room:pass_door
+    to: room:study
+    link: link:pass_study
+    width: 224
+    height: 320
+    notes: "The last door: 'Who do you seek?'"
+  - id: open:question_stair
+    from: room:question
+    to: room:stair1f
+    link: link:question_stair
+    width: 224
+    height: 352
+    notes: The question's door.
+  - id: open:roost_tap1
+    from: room:roost
+    to: room:tapestry1
+    link: link:roost_tap1
+    width: 384
+    height: 352
+  - id: open:s1_s2f
+    from: room:stair1
+    to: room:stair2f
+    from_wall: south
+    to_wall: north
+    link: link:s1_s2
+    width: full
+    height: full
+  - id: open:s1_wards
+    from: room:stair1
+    to: room:wards
+    link: link:s1_wards
+    width: 320
+    height: 352
+  - id: open:s1f_s1
+    from: room:stair1f
+    to: room:stair1
+    from_wall: north
+    to_wall: south
+    link: link:s1_s2
+    width: full
+    height: full
+  - id: open:s2_library
+    from: room:stair2
+    to: room:library
+    link: link:s2_library
+    width: 320
+    height: 352
+  - id: open:s2_s3f
+    from: room:stair2
+    to: room:stair3f
+    from_wall: north
+    to_wall: south
+    link: link:s2_s3
+    width: full
+    height: full
+  - id: open:s2f_s2
+    from: room:stair2f
+    to: room:stair2
+    from_wall: south
+    to_wall: north
+    link: link:s1_s2
+    width: full
+    height: full
+  - id: open:s3_tap
+    from: room:stair3
+    to: room:tapestries
+    link: link:s3_tap
+    width: 320
+    height: 384
+  - id: open:s3f_s3
+    from: room:stair3f
+    to: room:stair3
+    from_wall: north
+    to_wall: south
+    link: link:s2_s3
+    width: full
+    height: full
+  - id: open:s4_s4f
+    from: room:stair4
+    to: room:stair4f
+    from_wall: north
+    to_wall: south
+    link: link:trap_s4
+    width: full
+    height: full
+  - id: open:s4f_l4
+    from: room:stair4f
+    to: room:landing4
+    from_wall: north
+    to_wall: south
+    link: link:trap_s4
+    width: full
+    height: full
+  - id: open:study_boots
+    from: room:study
+    to: room:boots
+    link: link:study_boots
+    width: 192
+    height: 320
+  - id: open:study_lift
+    from: room:study
+    to: room:lift_top
+    link: link:study_lift
+    width: 384
+    height: 352
+  - id: open:tap1_back1
+    from: room:tapestry1
+    to: room:back1
+    link: link:tap1_back1
+    width: 192
+    height: 320
+    notes: The gallery's secret panel.
+  - id: open:tap_back3
+    from: room:tapestries
+    to: room:back3
+    link: link:tap_back3
+    width: 192
+    height: 320
+    notes: The tapestry floor's secret panel.
+  - id: open:tap_loft
+    from: room:tapestries
+    to: room:loft
+    link: link:tap_loft
+    width: 192
+    height: 352
+  - id: open:trap_s4
+    from: room:trap_walk
+    to: room:stair4
+    link: link:trap_s4
+    width: 224
+    height: 352
+  - id: open:wards_roost
+    from: room:wards
+    to: room:roost
+    link: link:wards_roost
+    width: 192
+    height: 352
+notes: "DD-02 at L3/L4: 32 rooms on five floors in the plan's frame (x east, y north). Written by output/studio_cal/dd02/tools/gen.py."

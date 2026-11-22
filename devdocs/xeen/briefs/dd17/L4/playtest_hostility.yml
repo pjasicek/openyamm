@@ -1,0 +1,217 @@
+# Hostility: 30 Patrols, 20 Annihilators, 6 Autobots, the eight Head elementals and 6 Gamma Gazers hostile at load,
+# none peaceful; Sheltem and Corak hidden and never hostile; after 20 s nobody has fallen to infighting.
+# Run with --world xeen --map xeen_dd17.blv (output/studio_cal/dd17/four.sh). Written by tools/tests.py.
+id: xeen.dd17.l4.playtest_hostility
+title: 'Castle Alamar (DD-17 L4): playtest_hostility'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 53
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12364
+- lua_event:
+    source: evt.MoveToMap(0, -4736, 0, 512, 0, 0, 0, 0, "xeen_dd17.blv")
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+    follow_map_move: true
+- play_lua:
+    source: close()
+- assert:
+    actor_count:
+      monster_id: 11610
+      hostile: true
+      min: 30
+      max: 30
+- assert:
+    actor_count:
+      monster_id: 11610
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11611
+      hostile: true
+      min: 20
+      max: 20
+- assert:
+    actor_count:
+      monster_id: 11611
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11612
+      hostile: true
+      min: 6
+      max: 6
+- assert:
+    actor_count:
+      monster_id: 11612
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11572
+      hostile: true
+      min: 6
+      max: 6
+- assert:
+    actor_count:
+      monster_id: 11572
+      hostile: false
+      max: 0
+- assert:
+    actor_visible:
+      actor_index: 54
+      monster_id: 11924
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 11912
+      hidden: true
+- assert:
+    actor_count:
+      monster_id: 11924
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11912
+      hostile: true
+      max: 0
+- note: 'No infighting: robots, elementals and gazers left alone for 20 s, the party out of reach.'
+- set_pose:
+    map: xeen_dd17.blv
+    x: 0
+    y: -4736
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11610
+      hostile: true
+      min: 30
+      max: 30
+- assert:
+    actor_count:
+      monster_id: 11611
+      hostile: true
+      min: 20
+      max: 20
+- assert:
+    actor_count:
+      monster_id: 11612
+      hostile: true
+      min: 6
+      max: 6
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: true
+      min: 2
+      max: 2
+- assert:
+    actor_count:
+      monster_id: 11572
+      hostile: true
+      min: 6
+      max: 6

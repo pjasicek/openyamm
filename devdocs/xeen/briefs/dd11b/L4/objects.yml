@@ -1,0 +1,339 @@
+format: 0
+start:
+  room: room:pit
+  at: [96, -32]
+  facing: e
+  notes: "Where D2's second troll hole drops the party: the pit's bottom beside the heap of packs, facing the gallery (east)."
+doors:
+  - id: door:brewers
+    opening: open:vat_brewers
+    kind: slide_right
+    thickness: 24
+    speed: 160
+    surface: {texture: xdbark, size: [128, 256]}
+    tile: true
+    notes: The brewers' door of lashed logs.
+  - id: door:flap
+    opening: open:fungus_burrow
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 192
+    surface: {texture: xohide, size: [128, 256]}
+    tile: true
+    notes: A hide flap over the burrow's foot.
+  - id: door:root
+    opening: open:gallery_adv
+    kind: hinged
+    hinge: left
+    swing: 90
+    thickness: 24
+    speed: 90
+    surface: {texture: xdbark, size: [128, 256]}
+    notes: "A fallen root across the crawl; it swings up out of the way when pushed."
+sounds:
+  - {id: sound:drip, room: room:pens, at: [2900, -1300], sound: drip01, radius: 1400, inner_radius: 400, volume: 0.5, loop: false, wait: [3, 7], notes: Water dripping on the pens.}
+  - {id: sound:wind, room: room:pit, at: [0, 0], sound: whistling wind, radius: 1100, inner_radius: 300, volume: 0.35, notes: Wind over the hole far above.}
+lights:
+  - id: light:adventurers
+    room: room:adventurers
+    at: [1408, 656]
+    height: 280
+    radius: 800
+    color: [140, 125, 110]
+  - id: light:brewers
+    room: room:brewers
+    at: [5568, -128]
+    height: 250
+    radius: 800
+    color: [160, 125, 95]
+  - id: light:burrow_top
+    room: room:burrow
+    at: [-640, -1152]
+    height: 200
+    radius: 900
+    color: [150, 140, 122]
+    notes: Daylight round the sod hatch.
+  - id: light:fungus
+    room: room:fungus
+    at: [960, -1040]
+    height: 420
+    radius: 1200
+    color: [150, 165, 140]
+    notes: A pale light off the fungus caps.
+  - id: light:gallery_e
+    room: room:gallery
+    at: [2300, 0]
+    height: 280
+    radius: 900
+    color: [160, 125, 95]
+  - id: light:gallery_w
+    room: room:gallery
+    at: [1100, 0]
+    height: 280
+    radius: 900
+    color: [160, 125, 95]
+  - id: light:pens
+    room: room:pens
+    at: [2944, -1280]
+    height: 270
+    radius: 1100
+    color: [150, 140, 120]
+  - id: light:pit_day
+    room: room:pit
+    at: [0, 0]
+    height: 700
+    radius: 1100
+    color: [150, 140, 122]
+    notes: Daylight down the shaft.
+  - id: light:rim
+    room: room:vat_rim
+    at: [2944, -128]
+    height: 270
+    radius: 1100
+    color: [160, 125, 95]
+  - id: light:stair
+    room: room:stair
+    at: [1920, -1344]
+    height: 160
+    radius: 800
+    color: [140, 120, 100]
+  - id: light:vat
+    room: room:vat_cave
+    at: [4352, -192]
+    height: 60
+    radius: 1600
+    color: [170, 160, 90]
+    notes: A sickly glow off the brewing juice.
+chests:
+  - id: chest:brewers
+    room: room:brewers
+    at: [5800, -420]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: The brewers' stash.
+  - id: chest:strongbox
+    room: room:adventurers
+    at: [1700, 930]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 350
+    notes: The fallen adventurers' strongbox.
+monsters:
+  - id: monster:brewers_1
+    room: room:brewers
+    monster: 11691
+    at: [5450, -300]
+    facing: 180
+    group: 15
+  - id: monster:brewers_2
+    room: room:brewers
+    monster: 11691
+    at: [5700, -100]
+    facing: 180
+    group: 15
+  - id: monster:brewers_3
+    room: room:brewers
+    monster: 11691
+    at: [5600, -400]
+    facing: 180
+    group: 15
+  - id: monster:fungus_1
+    room: room:fungus
+    monster: 11690
+    at: [800, -1000]
+    facing: 90
+    group: 11
+  - id: monster:fungus_2
+    room: room:fungus
+    monster: 11690
+    at: [1150, -700]
+    facing: 90
+    group: 11
+  - id: monster:fungus_3
+    room: room:fungus
+    monster: 11690
+    at: [1100, -1500]
+    facing: 90
+    group: 11
+  - id: monster:gallery_1
+    room: room:gallery
+    monster: 11690
+    at: [1000, 60]
+    facing: 180
+    group: 10
+  - id: monster:gallery_2
+    room: room:gallery
+    monster: 11690
+    at: [1700, -60]
+    facing: 180
+    group: 10
+  - id: monster:gallery_3
+    room: room:gallery
+    monster: 11690
+    at: [2250, 40]
+    facing: 180
+    group: 10
+  - id: monster:pens_1
+    room: room:pens
+    monster: 11690
+    at: [2700, -1100]
+    facing: 90
+    group: 12
+  - id: monster:pens_2
+    room: room:pens
+    monster: 11690
+    at: [3100, -1000]
+    facing: 90
+    group: 12
+  - id: monster:pens_3
+    room: room:pens
+    monster: 11690
+    at: [2650, -1450]
+    facing: 90
+    group: 12
+  - id: monster:vat_cave_1
+    room: room:vat_cave
+    monster: 11691
+    at: [3900, -750]
+    facing: 0
+    group: 14
+  - id: monster:vat_cave_2
+    room: room:vat_cave
+    monster: 11691
+    at: [4800, -750]
+    facing: 180
+    group: 14
+  - id: monster:vat_cave_3
+    room: room:vat_cave
+    monster: 11691
+    at: [3900, 400]
+    facing: 0
+    group: 14
+  - id: monster:vat_cave_4
+    room: room:vat_cave
+    monster: 11691
+    at: [4800, 400]
+    facing: 180
+    group: 14
+  - id: monster:vat_cave_5
+    room: room:vat_cave
+    monster: 11691
+    at: [4352, 450]
+    facing: 270
+    group: 14
+  - id: monster:vat_rim_1
+    room: room:vat_rim
+    monster: 11690
+    at: [2600, -450]
+    facing: 90
+    group: 13
+  - id: monster:vat_rim_2
+    room: room:vat_rim
+    monster: 11690
+    at: [3250, -450]
+    facing: 180
+    group: 13
+  - id: monster:vat_rim_3
+    room: room:vat_rim
+    monster: 11690
+    at: [3300, 250]
+    facing: 180
+    group: 13
+decorations:
+  - id: deco:brewers_bones
+    room: room:brewers
+    decoration: 7dec18
+    at: [5330, -430]
+    floor_height: -448
+  - id: deco:mush_1
+    room: room:fungus
+    decoration: mushrm01
+    at: [600, -400]
+    floor_height: 0
+  - id: deco:mush_2
+    room: room:fungus
+    decoration: mushrm02
+    at: [600, -1700]
+    floor_height: 0
+  - id: deco:mush_3
+    room: room:fungus
+    decoration: mushrm03
+    at: [1320, -1700]
+    floor_height: 0
+  - id: deco:mush_4
+    room: room:fungus
+    decoration: mushrm05
+    at: [1320, -380]
+    floor_height: 0
+  - id: deco:mush_6
+    room: room:fungus
+    decoration: mushrm01
+    at: [960, -1700]
+    floor_height: 0
+  - id: deco:pens_bones
+    room: room:pens
+    decoration: dec29
+    at: [2520, -1700]
+    floor_height: -448
+  - id: deco:pit_bones
+    room: room:pit
+    decoration: dec29
+    at: [-250, -230]
+    floor_height: 0
+  - id: deco:pit_corpse
+    room: room:pit
+    decoration: Corpse01
+    at: [230, 250]
+    floor_height: 0
+  - id: deco:skeleton_1
+    room: room:adventurers
+    decoration: dec05
+    at: [1110, 380]
+    floor_height: 0
+  - id: deco:skeleton_2
+    room: room:adventurers
+    decoration: dec05
+    at: [1110, 640]
+    floor_height: 0
+  - id: deco:skeleton_3
+    room: room:adventurers
+    decoration: dec05
+    at: [1450, 950]
+    floor_height: 0
+  - id: deco:skeleton_4
+    room: room:adventurers
+    decoration: dec05
+    at: [1700, 450]
+    floor_height: 0
+  - id: deco:vat_bones
+    room: room:vat_cave
+    decoration: dec29
+    at: [5030, 680]
+    floor_height: -448
+  - id: deco:vat_mush
+    room: room:vat_cave
+    decoration: mushrm03
+    at: [3680, 680]
+    floor_height: -448
+  - id: deco:vat_skull_1
+    room: room:vat_cave
+    decoration: 7dec20
+    at: [3680, -1060]
+    floor_height: -448
+  - id: deco:vat_skull_2
+    room: room:vat_cave
+    decoration: sklplrev
+    at: [5030, -1060]
+    floor_height: -448
+exits:
+  - id: exit:hatch
+    room: room:burrow
+    at: [-768, -1152]
+    size: [192, 224]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:d2_return
+    notes: "The sod hatch at the burrow's top: daylight through the roots (D2)."

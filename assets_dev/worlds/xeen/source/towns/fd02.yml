@@ -1,0 +1,17 @@
+# FD-02 the Southern Sphinx (X6, Act VI): Picard the Aged in the Home of the Aged at the top of the stair, who trades
+# the Chime of Opening for Halon's widget (M40, A3's topics). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# Planned (phase 6): ids fixed; Picard is a talking actor, no house (A7 places him in the room behind the stair's door,
+# m40's `stair` hook). Shares the dungeons' id block with xd02.yml, xd18.yml and fd04.yml.
+key: FD-02
+stem: xeen_fd02.blv
+town: The Southern Sphinx
+face: cloudside
+planned: true
+blocks:
+  houses: [4851, 4900]
+  npcs: [5701, 5800]
+
+houses: []
+
+npcs:
+  - {id: 5704, name: Picard the Aged, profession: Scholar, house: none, place: "FD-02, the Home of the Aged at the top of the stair, in a very good chair among the books (A7)", greet: ["Thousands of years I have sat here, and you are not the strangest thing I have seen.", "Back again? Sit. Not in my chair."], note: "M40 (A3): the Chime of Opening for a widget; D-57 confirms 5704 on A2's peaceful, placed-only, NoArena row", source: "dark/aazex126:0-8 (topics, A3)"}

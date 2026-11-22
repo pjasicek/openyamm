@@ -1,0 +1,175 @@
+# Acts IV-V main steps and their promotions (tools/xeen/quest_stub.py): M22 the permit, M23 the sword, M24 the
+# Songbird, T2-A Dimitri's Test, M27 the Queen, M29 Corak's pod, Q-C9 the Sphinx, Q-C25 the dragon tax. Outline steps
+# whose givers have no NPC id yet (M28 and M30 the Pharaoh, Q-C8 Arie) are `set:`/`give:` steps.
+# Owner: A3.
+name: Acts IV-V, main and promotions
+party: [Cavalier, Priest, Rogue, Wizard]
+steps:
+  # M22
+  - set: m21.crodo_freed
+  - set: m11.keep
+  - give: [megacredit, 5]
+  - hidden: [4403, Dungeon]
+  - talk: [4402, Lord Xeen]
+  - expect: {qbit: m22.started, item: excavation_permit, xp: 1000}
+  - talk: [4403, Dungeon]
+  - expect: {qbit: [m22.dungeon, m23.started], no_item: excavation_permit, count: [megacredit, 0], xp: 3000}
+  # M23 (the vault door is the gate; the sword is its chest's item, D-90 (b))
+  - hook: m23.syllable_la
+  - hook: m23.vault_door
+  - hook: m23.sword
+  - give: xeen_slayer_sword
+  - hook: [m23.sword, false]
+  - expect: {qbit: m23.done, item: xeen_slayer_sword, xp: 13000}
+  # M24
+  - set: m19.stage2
+  - set: m20.started
+  - hidden: [5004, The Songbird]
+  - hook: m24.arrival
+  - hook: m24.gate1
+  - hook: m24.gate_open
+  - hook: [m24.songbird, false]   # D-89: the cage wants Megan's key
+  - give: lost_souls_key
+  - hook: m24.songbird
+  - hook: [m24.disk_safes, false]
+  - talk: [5004, The Songbird]
+  - expect: {qbit: [m24.done, m25.started], item: songbird_of_serenity, award: m24.cheered, xp: 20000}
+  - hidden: [5004, The Queen]
+  - hook: m24.disk_safes
+  - expect: {qbit: m24.safes_opened}
+  - talk: [5005, Thanks]
+  - hidden: [5005, Thanks]
+  - expect: {qbit: m24.thanked, xp: 24000}
+  # T2-A
+  - hidden: [5004, The dungeon]
+  - set: m26.stage3
+  - talk: [5004, The dungeon]
+  - expect: {qbit: t2-a.started}
+  - hook: t2-a.cells
+  - hook: t2-a.liches
+  - talk: [5004, The dungeon]
+  - expect: {qbit: t2-a.done, class: [0, Champion], xp: 30000}
+  # M25: Ambrose on D6, Natasha on D3; his D6 topics are hidden on DD-14, his DD-14 topic only there (D-52)
+  - map: The Forbidden Zone
+  - talk: [5512, "Who sent you?"]
+  - expect: {qbit: m25.bridle_given, item: bridle}
+  - talk: [5512, The griffin]
+  - expect: {qbit: m25.bridle_given, not_qbit: m25.done, last: "Natasha, in Sandcaster"}
+  - gold: 5000
+  - map: Sandcaster
+  - talk: [5218, The bridle]
+  - expect: {qbit: m25.enchanted, item: enchanted_bridle, no_item: bridle}
+  - map: The Forbidden Zone
+  - talk: [5512, The griffin]
+  - expect: {qbit: m25.done, no_item: enchanted_bridle, xp: 35000}
+  - hidden: [5512, Fly us out]
+  - talk: [5512, Fly to Blackfang]
+  - expect: {last: "drops you on Castle Blackfang's walls"}
+  - map: Castle Blackfang
+  - hidden: [5512, The griffin]
+  - hidden: [5512, Fly to Blackfang]
+  - talk: [5512, Fly us out]
+  - expect: {last: "sets you down on the shore below the castle"}
+  # M27
+  - set: m26.stage4
+  - hook: m27.landing
+  - hook: m27.queen_cell
+  - hook: [m27.queen_cell, false]
+  - hook: [m27.dungeon_stair, false]
+  - hook: m27.blackfang
+  - hook: m27.dungeon_stair
+  - hook: [m27.crown_safe, false]
+  - talk: [5001, The crown]
+  - expect: {qbit: [m27.queen_found, m27.blackfang_slain], no_item: kalindra_crown}
+  - hook: m27.crown_safe
+  - talk: [5001, The crown]
+  - expect: {qbit: m27.done, item: pyramid_key, no_item: kalindra_crown, award: m27.queen, xp: 47000}
+  - hook: m27.ambrose_return
+  # M29 (M28's Pharaoh is an outline: set)
+  - hook: [m29.pod_door, false]
+  - set: m28.lava_cooled
+  - set: m28.done
+  - set: m29.started
+  - hook: m29.pod_door
+  - hook: m29.console
+  - hook: m29.stasis
+  - hook: [m29.stasis, false]
+  - expect: {qbit: [m29.done, m29.stasis_off], xp: 55000}
+  # D-47: DD-16's power, blast door, log pages, the alien device (once per character)
+  - hook: m29.blast_door
+  - hook: m29.power_console
+  - hook: m29.log_page_1
+  - hook: m29.log_page_5
+  - expect: {last: "May the Gods smile upon me."}
+  # Q-C8: Arie, XD-14's peasant (D-39), the password, the scrolls (D-39), the Scroll of Insight
+  - hook: q-c9.door   # D-89: the Sphinx is open
+  - talk: [4608, My master]
+  - expect: {qbit: q-c8.started}
+  - hook: q-c8.peasant
+  - hook: q-c8.peasant_freed
+  - hook: [q-c8.peasant_freed, false]
+  - expect: {qbit: q-c8.peasant_freed}
+  - hook: q-c8.l2_wrong
+  - hook: q-c8.l2_door
+  - hook: q-c8.scroll_intellect
+  - hook: q-c8.scroll_intellect
+  - expect: {player_bit: 11322, stat: [Intellect, 2], last: "You have read this scroll before"}
+  - hook: q-c8.scroll_fire
+  - hook: q-c8.scroll_energy
+  - expect: {stat: [FireResistance, 5], player_bit: 11328}
+  - hook: q-c8.scroll_faded
+  - expect: {last: "The writing has faded."}
+  - hook: q-c8.scroll_insanity
+  - hook: q-c8.scroll_aging
+  - hook: q-c8.scroll_aging
+  - expect: {stat: [Insane, 1]}
+  - expect: {stat: [Age, 20]}
+  - hook: q-c8.scroll
+  - give: scroll_of_insight   # D-90 (b): a chest item (map_gives)
+  - talk: [4608, My master]
+  - expect: {qbit: [q-c8.done, q-c8.password, q-c8.scroll_found], no_item: scroll_of_insight}
+  # Q-C9: the door, the name, the thrones (+2 once per character, D-39)
+  - hook: [q-c9.door, false]   # once
+  - hook: [q-c9.throne_king, false]
+  - hook: q-c9.riddle
+  - hook: q-c9.name_wrong
+  - hook: q-c9.name_right
+  - hook: q-c9.throne_king
+  - hook: q-c9.throne_king
+  - expect: {stat: [Might, 2], player_bit: 11300, last: "You have sat here before."}
+  - hook: q-c9.throne_thieves
+  - expect: {stat: [Accuracy, 2], player_bit: 11302}
+  - expect: {qbit: [q-c9.entered, q-c9.done], award: q-c9.sphinx, xp: 67500}
+  # Q-C25: a Dragon recruit
+  - class: [3, Dragon]
+  - hidden: [5702, Great Wyrm]
+  - expect: {no_journal: q-c25.asked}
+  - talk: [5702, The tax]
+  - expect: {not_qbit: q-c25.tax_paid, journal: q-c25.asked}     # A3 s38: the tax named shows in Current Quests
+  - hook: q-c25.urn
+  - expect: {last: "looks hungry"}
+  - hook: q-c25.inner_door   # D-89: the cave is open; the tax buys the King's door
+  - hook: [q-c25.king_door, false]
+  - expect: {last: "Tax first"}
+  - gold: 2000
+  - give: ["engine:177", 20]
+  - talk: [5702, The tax]
+  - expect: {qbit: q-c25.tax_paid, count: ["engine:177", 0], no_journal: q-c25.asked}
+  - hook: q-c25.king_door
+  - hook: q-c25.urn
+  - expect: {last: "empty and powerless"}
+  - hook: q-c25.receipt
+  - hook: q-c25.volume1
+  - talk: [5702, Great Wyrm]
+  - expect: {qbit: q-c25.wyrm, class: [3, GreatWyrm], award: q-c25.worms, xp: 81500}
+  - hook: [q-c25.taxation, false]
+  - hook: q-c25.volume2
+  - hook: q-c25.volume3
+  - hook: q-c25.volume4
+  - hook: q-c25.volume5
+  - hook: q-c25.taxation
+  - expect: {qbit: q-c25.taxation, award: q-c25.taxman, xp: 91500}
+  # D-47 Q18: DD-16's alien device, once per character (last: it raises every statistic)
+  - hook: m29.alien_device
+  - hook: m29.alien_device
+  - expect: {player_bit: 11352, last: "seems to be dormant"}

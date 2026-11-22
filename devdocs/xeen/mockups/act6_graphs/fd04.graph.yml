@@ -1,0 +1,338 @@
+# MU-6 dungeon graph, a review file for phase 6 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source: dark mazes 117-120 "Dragon Tower Level 1-4" (text dark/aazex117-120; their monsters read xeen.mon:
+# Acid, Fire and Frost Dragons and the Dragon King) and 121-124 "Dungeon of Death Level 1-4" (aazex121-124; each
+# level 32 x 32 with mazes 165-176). The tower: Alister the druid on L1 wants a Dragon Egg (:117:1-3); beds, bones with
+# two dead adventurers' notes on L2 (the druid is a fraud; "the secret of the dragon has something to do with forever,
+# or really, really big", 118:3-4); on L3 the egg's floor, a +40 Endurance potion and two more notes (crystal balls;
+# "The eye of the Dragon holds the Silver Key Card", 119:2-6); on L4 the Tome of Great Experience (120:2-4); the roof
+# to the Dragon Clouds (map 128: the Eye's riddle INFINITY, the runes IN/FI/NI/TY). The Dungeon of Death (Sandro's
+# old home): L1 a walk-in crossword of 89 Xeen clues that gates the descent (121:1-2, :11-188); L2 Welcome, Ballroom,
+# two Game Rooms, Do Not Disturb, coffins, the Throne of the Dead, the Master's Throne, four Shrines of Evil, four
+# dials, Sandro's note (122:0-25); L3 four gongs and a lever ("Ring the four gongs and then pull the lever. Touch any
+# treasure and you'll have to start over!"), a fountain (123:0-5); L4 the Lord Xeen Machine, four core terminals, the
+# main terminal, maintenance papers, the control room (124:0-13). Ours: one BLV, the tower's four floors above X7's
+# crag top and the Dungeon of Death's three below it, joined by Sandro's door in the gate hall's floor (Q-F2's key,
+# item 12354). Dragons (cloud rows 487 high, radius 238; dark rows 500 high; Fly Y) stay on their floors by low
+# openings (D-32: 288 or less); liches 180, knights 152, Autobots 228 tall.
+format: mu6-0
+map: FD-04
+key: fd04
+name: Dragon Tower and the Dungeon of Death
+stands_on: X7 Mount Firestone (the tower on its crag at the rim)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors (MAPS §0: 60 at 65-100, groups 1-3, 96.8k)"
+size: "32 review rooms, about 42 sectors (the ring hall, the nest, the high hall, the crown, the crossword, the ballroom and the machine hall two each); the tower's four round floors about 3,072 across (z 0 to 3,840, 1,280 apart: larger than X7's 1,024 shell, DECIDE 8), the dungeon's three floors about 4,600 x 3,200, 3,600 x 2,400 and 2,560 x 1,536 (z -1,024 to -2,560): about 58 M units²; 11 doors (the gate's inner leaves, the dormitory, the crown's low door, the tome room, the Wyrm's Hall's house door, Sandro's door, the descent's gate, the welcome hall's two leaves, Do Not Disturb, the iron shutter, the control room)"
+party: [62, 66]
+monsters:
+  levels: [65, 90]
+  boss: "Energy Dragon 100"
+  count: 60
+  groups: [1, 3]
+  families:
+    - "Tower (26), dragons: Acid Dragon 66 (6) and Fire Dragon 75 (8) on the lower floors, Frost Dragon 85 (6) round the nest and above it (the source's L2-L3 Acid, Fire and Frost, xeen.mon), Phase Dragon 90 (5, the dark dragons' tier C) on the top floor under the roof that leads to the Dragon Clouds, whose dragons they are; the Energy Dragon 100 (11653, a boss row) keeps the crown before the roof stair. The source's seven Dragon Kings on L4 stay XD-18's one King"
+    - "Dungeon (34): liches (11280) Lich Lord 65 (10), Power Lich 75 (6) and Skeletal Lich 85 (8, the source's L2 Skeletal Liches) through Sandro's halls; Doom Knights 75 (11152, 4) as the household guard of the two thrones; Autobots 75 (11612, 6, the source's L3 robots) round the gongs and the machine. No Screamer 58 (under the band; DECIDE 1 (b)), no Annihilator 62 (under), no Vampire King (DECIDE 13)"
+  mix:
+    - {row: Acid Dragon, id: 11641, level: 66, count: 6}
+    - {row: Fire Dragon, id: 11642, level: 75, count: 8}
+    - {row: Frost Dragon, id: 11643, level: 85, count: 6}
+    - {row: Phase Dragon, id: 11652, level: 90, count: 5}
+    - {row: Energy Dragon, id: 11653, level: 100, count: 1}
+    - {row: Lich Lord, id: 11282, level: 65, count: 10}
+    - {row: Power Lich, id: 11284, level: 75, count: 6}
+    - {row: Skeletal Lich, id: 11285, level: 85, count: 8}
+    - {row: Doom Knight, id: 11152, level: 75, count: 4}
+    - {row: Autobot, id: 11612, level: 75, count: 6}
+  kill_xp: "100.22k per member (400,896 / 4): the tower 46.39k (185,546 / 4), the dungeon 53.84k (215,350 / 4)"
+  kill_xp_target: "96.8k (MAPS §0, 60 monsters): +3.5 % (DECIDE 1)"
+  by_floor: "tower: floor 0 2 (Acid), floor 1 6 (Acid 4, Fire 2), floor 2 10 (Fire 6, Frost 4), floor 3 8 (Frost 2, Phase 5, Energy 1); dungeon: floor -1 2 (Lich Lord), floor -2 20 (Lich Lord 8, Power Lich 4, Skeletal Lich 6, Doom Knight 2; none in the crypt), floor -3 12 (Autobot 6, Doom Knight 2, Power Lich 2, Skeletal Lich 2)"
+treasure: {level: 6}
+role: "Optional finale. Q-F1 Alister and the Dragon Egg (the tower): Alister the druid in the gate hall wants the egg from the nest on floor 2; two dead adventurers' notes say he is a fraud and hint the Eye's answer; the roof stair to X9's Dragon Clouds, where the Eye of the Dragon's riddle (INFINITY, the runes IN/FI/NI/TY) pays an artifact (A5's X9, A3's Q-F1). Q-F2 The Dungeon of Death (the lower half): Sandro's key (Q-D23, item 12354) opens his door; the crossword, the four Shrines of Evil, the gongs, and the Lord Xeen Machine to destroy. Ashkaroth the Eldest Wyrm (house 4853) under the roof, flavour only (D-5.2)"
+role_short: "Q-F1 the egg and the roof; Q-F2 the Lord Xeen Machine"
+set_piece: "Four. The nest (tower floor 2): a round hall 1,152 high round a bowl of black rock where the eggs lie, Fire and Frost Dragons over it. The crown (floor 3): the top hall under the cone roof, the Energy Dragon before the roof stair, light falling from the cone's vent. The crossword (dungeon floor -1): a hall floored with a grid of pale and black tiles, the clues on plaques round the walls, solved words lighting up across the floor. The Lord Xeen Machine (floor -3): a round hall round a black and brass engine fed by four elemental cores, a terminal at each core"
+sounds: "the dragons' and liches' own monster sounds (xeen_energydragon for the crown); four gongs (a shipped gong); the machine's hum and its breaking (a shipped engine loop and explosion, camera shake); a chime and a buzz for the crossword's Correct!/Wrong! (shipped); the fountain's water; music 13 (maps.yml)"
+textures:
+  family: "None assigned (A6's towers.yml and dungeon_families.yml have none for FD-04): DECIDE 7. Proposed, one shipped family per area: the tower in MM6 Hall of the Fire Lord 6d04 (unused in Xeen; black volcanic block of the same vlc kit as X7's shell vlcwl3a: vlcwl2, vlcwl2b, vlcwl4, vlcwl4b walls, vlcflore, vlcflord, vlcflorc floors, vlctrm4, vlctrm6, vlctrm8 trims, vlcdora, vlcdorb doors); Sandro's halls and the crossword in MM8 Necromancers' Guild d19 (gnecwal1, gnecwal2, gnecwal3, gnecflr, gnecstpf, gnecstpt, gnecclg2, gn_mtl03, tws1h, tws1f, t1books1, t1beds2, trim9_32); the machine floor in MM6 Control Center sci-fi.blv (swll4dk, swll5dk, swfloor2b, swceilf, swr2dk, swdoora, swgirder, trekscrn), the four cores in XD-19's four new core textures (D-51 3(c), shared, not new here)"
+  cap: 45
+  planned: 36
+  new: 2
+  new_list: "xfgrid (the crossword's floor tile, pale and black squares), xfword (a glowing tile strip shown over a solved word, one picture for all twelve)"
+  distinct_from: "XD-18 Dragon Cave (X7, d17 rock and d16 worked rooms); XD-16 Volcano Cave (X7, 7d07); XD-09's iron level (X5, 6d18's vlcwl3a and vlcwl1: the same vlc kit, another map and face, 6d04's own vlcwl2/vlcwl4 tiles); FD-03 Darkstone Tower (X5, d29, whose shipped faces include gnecwal1 and gn_mtl03 but whose A6 set does not); DD-17, FD-01 and DD-22 (D6, the sci-fi set: Darkside, here only the machine floor)"
+floors:
+  - {floor: 3, name: "Tower top (under the cone roof)", height: 3840}
+  - {floor: 2, name: "The nest", height: 2560}
+  - {floor: 1, name: "The ring hall", height: 1280}
+  - {floor: 0, name: "Gate hall (X7's crag top 2,600)", height: 0}
+  - {floor: -1, name: "The crossword", height: -1024}
+  - {floor: -2, name: "Sandro's halls", height: -1792}
+  - {floor: -3, name: "The machine", height: -2560}
+spaces:
+  # tower floor 0 (z 0 = X7's crag top 2,600)
+  - {id: room:gate_hall, name: Gate hall, kind: hall, size: M, floor: 0, at: [1, 0], goal: true, monsters: 0,
+     purpose: "The arrival (entrance:x7_gate), behind the two black leaves: a round hall 512 high, the spiral stair's foot in the wall, Sandro's black iron door in the floor's cellar well (Q-F2). Alister the druid stands in its west alcove, a placed talking monster (`monsters[].npc`, peaceful, unkillable by the load event: q-f1.alister). Quiet (D-11.3)."}
+  - {id: room:scorched_hall, name: Scorched hall, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{row: Acid Dragon, level: 66, count: 2}],
+     purpose: "Behind a low opening (288: the pair stays in it) on the gate hall's east side: the tower's old stable, 1,024 high, scorched to the stone, an Acid pair. A dead end with a find: a broken dragon saddle and a lance (dressing) and the first of the tower's bones."}
+  # tower floor 1 (z 1,280)
+  - {id: room:landing1, name: First landing, kind: stair, size: S, floor: 1, at: [1, 0], monsters: 0,
+     purpose: "The spiral stair in the wall, 256 wide and 288 high (no dragon climbs it: each floor keeps its own); walked."}
+  - {id: room:ring_hall, name: Ring hall, kind: hall, size: L, floor: 1, at: [2, 0], monsters: 6,
+     population: [{row: Acid Dragon, level: 66, count: 4}, {row: Fire Dragon, level: 75, count: 2}],
+     purpose: "A round hall 2,560 across and 1,152 high round a thick central pier; three pairs. Low openings (288) to the landing, the dormitory and the bone alcove."}
+  - {id: room:bone_alcove, name: Bone alcove, kind: room, size: S, floor: 1, at: [3, 0], goal: true, monsters: 0,
+     purpose: "A dead end with finds: a dead adventurer's bones and diary (q-f1.note_fraud: 'I don't trust that druid guy ...', aazex118:3) and a second's (q-f1.note_forever: '... something to do with forever, or really, really big...', aazex118:4)."}
+  - {id: room:dormitory, name: Old dormitory, kind: room, size: S, floor: 1, at: [1, 1], chest: 6, monsters: 0,
+     purpose: "The tower keepers' old beds (aazex118:0 'Bed'; flavour), a chest by the wall (aazex118:5 'Treasure'). Two ways out: a door to the landing and a low opening to the ring hall (the floor-1 loop)."}
+  # tower floor 2 (z 2,560)
+  - {id: room:landing2, name: Second landing, kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0,
+     purpose: "The spiral stair; low openings to the nest and the hatchery."}
+  - {id: room:nest, name: The nest, kind: hall, size: L, floor: 2, at: [2, 0], set_piece: true, goal: true, monsters: 6,
+     population: [{row: Fire Dragon, level: 75, count: 4}, {row: Frost Dragon, level: 85, count: 2}],
+     purpose: "Set piece and goal: a round hall 2,816 across, 1,152 high, round a bowl of black rock where three eggs lie warm; one can be taken (q-f1.egg: the Dragon Egg item; the nest then shows two, map qbit 118146). Three pairs over it. Low openings only (288)."}
+  - {id: room:hatchery, name: Hatchery, kind: cave, size: M, floor: 2, at: [1, 1], monsters: 4,
+     population: [{row: Fire Dragon, level: 75, count: 2}, {row: Frost Dragon, level: 85, count: 2}],
+     purpose: "Shell shards and scorched straw in a vault 1,024 high, two pairs; joins the landing and the nest (the floor-2 loop)."}
+  - {id: room:dead_adventurer, name: The last climber, kind: room, size: S, floor: 2, at: [3, 0], chest: 6, monsters: 0,
+     purpose: "A dead end off the nest: bones and a note (q-f1.note_eye: 'You have to be pretty smart to survive a look in one of the crystal balls on the Dragon Cloud.' and 'The eye of the Dragon holds ...', aazex119:5-6, A3's reward word for 'Silver Key Card'), the source's potion on a shelf (q-f1.endurance: +2 Endurance once per character, the source's '+40 end. perm', aazex119:2-3) and a chest (aazex119:7)."}
+  # tower floor 3 (z 3,840)
+  - {id: room:landing3, name: Third landing, kind: stair, size: S, floor: 3, at: [1, 0], monsters: 0,
+     purpose: "The spiral stair's top; low openings to the high hall and the Wyrm's gallery."}
+  - {id: room:high_hall, name: High hall, kind: hall, size: L, floor: 3, at: [2, 0], monsters: 5,
+     population: [{row: Frost Dragon, level: 85, count: 2}, {row: Phase Dragon, level: 90, count: 3}],
+     purpose: "A round hall 2,560 across, 1,152 high: the dragons of the Clouds come down to roost here (Phase Dragons) beside a Frost pair. A low arch (288) east into the crown keeps both halls' flyers apart."}
+  - {id: room:wyrm_door, name: "Wyrm's gallery", kind: corridor, size: M, floor: 3, at: [2, 1], goal: true, monsters: 0,
+     purpose: "A curved gallery 384 high along the outer wall with the Wyrm's Hall's great door (door:wyrm_hall, house 4853: Ashkaroth 5703, the Eldest Wyrm, flavour only, D-5.2). Quiet; joins the landing and the crown (the floor-3 loop)."}
+  - {id: room:crown, name: The crown, kind: hall, size: L, floor: 3, at: [3, 0], set_piece: true, boss: true, boss_label: "Energy 100", monsters: 3,
+     population: [{row: Energy Dragon, level: 100, count: 1}, {row: Phase Dragon, level: 90, count: 2}],
+     purpose: "Set piece, the tower's boss: the top hall under the cone roof, 2,048 to the apex, light falling from the cone's vent; the Energy Dragon (11653, 100, own skin: DECIDE 9) and two Phase Dragons keep the roof stair. Every way out is low (288): the arch from the high hall, the gallery, the tome room's door and the roof stair's door."}
+  - {id: room:tome_room, name: Tome room, kind: room, size: S, floor: 3, at: [3, 1], chest: 6, monsters: 0,
+     purpose: "A dead end behind a door off the crown: a bed (aazex120:1), the Tome of Great Experience on a stand (q-f1.tome: fixed experience once per character, the source's '+10,000,000 exp'; 'You learn nothing new from the Tome', aazex120:2-4) and a chest (aazex120:5)."}
+  - {id: room:roof_stair, name: Roof stair, kind: stair, size: S, floor: 3, at: [4, 0], monsters: 0,
+     purpose: "Behind the crown's low door: steps up inside the cone to a hatch on the roof; its top is entrance:x9_clouds (the way down from the Dragon Clouds arrives here). Quiet."}
+  # dungeon floor -1 (z -1,024)
+  - {id: room:crossword, name: The crossword, kind: hall, size: L, floor: -1, at: [1, 0], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Lich Lord, level: 65, count: 2}],
+     purpose: "Set piece and goal: below Sandro's door, a hall 3,072 x 2,048, 768 high, floored with a grid of pale and black tiles (xfgrid), twelve clue plaques at the words' first cells (step plates and text prompts; 'Correct!' / 'Wrong!', aazex121:7-8; DECIDE 4); each solved word lights across the floor (a hidden xfword strip shown, a pulsing light under it). Two Lich Lords keep it."}
+  - {id: room:descent, name: The descent, kind: stair, size: S, floor: -1, at: [2, 0], monsters: 0,
+     purpose: "The stair down beyond the crossword's gate: until the twelve are solved, 'Sorry, the crossword puzzle is not done yet.  You may not descend!' (aazex121:1); the first pass gives q-f2.crossword's reward (the source's +5 levels as fixed experience, aazex121:2)."}
+  # dungeon floor -2 (z -1,792): Sandro's old home
+  - {id: room:welcome, name: Welcome hall, kind: room, size: M, floor: -2, at: [1, 0], monsters: 2,
+     population: [{row: Lich Lord, level: 65, count: 2}],
+     purpose: "A necromancer's front hall: 'Welcome' over the stair (aazex122:0), two leaves to the ballroom, the Do Not Disturb door to the side; two Lich Lords."}
+  - {id: room:crypt, name: Do Not Disturb, kind: room, size: S, floor: -2, at: [0, 0], chest: 6, monsters: 0,
+     purpose: "Behind a door signed 'Do Not Disturb' (aazex122:4): four coffins (aazex122:5; 'You try to open lid of the coffin but it is too heavy and you are too weak.', :7) and a chest. The vampires sleep and stay asleep (Sandro's note asks it; DECIDE 13). A dead end with a chest."}
+  - {id: room:ballroom, name: Ballroom, kind: hall, size: L, floor: -2, at: [2, 0], monsters: 4,
+     population: [{row: Skeletal Lich, level: 85, count: 4}],
+     purpose: "'Ballroom' (aazex122:1): a long hall 768 high under dead chandeliers (lamps on the ceiling), four Skeletal Liches in pairs on the floor; doors to the two game rooms (the ring)."}
+  - {id: room:game_east, name: Game room, kind: room, size: M, floor: -2, at: [3, 0], monsters: 3,
+     population: [{row: Lich Lord, level: 65, count: 2}, {row: Power Lich, level: 75, count: 1}],
+     purpose: "'Game Room' (aazex122:2): tables and cards by the walls (props off the walking line)."}
+  - {id: room:game_west, name: Game room, kind: room, size: M, floor: -2, at: [2, 1], monsters: 3,
+     population: [{row: Lich Lord, level: 65, count: 2}, {row: Power Lich, level: 75, count: 1}],
+     purpose: "'Game Room' (aazex122:3), the second."}
+  - {id: room:shrines_south, name: Shrines of Great Evil, kind: corridor, size: M, floor: -2, at: [4, 0], goal: true, monsters: 3,
+     population: [{row: Power Lich, level: 75, count: 2}, {row: Skeletal Lich, level: 85, count: 1}],
+     purpose: "A gallery with two shrine alcoves: the Shrine of Great Evil (q-f2.shrine_great, 'Shrine of Great Evil.  Destroy?', aazex122:13) and the Shrine of Ultimate Evil (q-f2.shrine_ultimate, :11-12, with its tell; DECIDE 5); destructibles."}
+  - {id: room:shrines_north, name: Shrines of Lesser Evil, kind: corridor, size: M, floor: -2, at: [3, 1], goal: true, monsters: 3,
+     population: [{row: Lich Lord, level: 65, count: 2}, {row: Skeletal Lich, level: 85, count: 1}],
+     purpose: "The Shrines of Minor and Lesser Evil (q-f2.shrine_minor, q-f2.shrine_lesser; aazex122:15, :17), destructibles in alcoves."}
+  - {id: room:throne_dead, name: Throne of the Dead, kind: room, size: M, floor: -2, at: [4, 1], monsters: 2,
+     population: [{row: Doom Knight, level: 75, count: 2}],
+     purpose: "Two thrones on a dais, the Throne of the Dead and the Master's Throne (aazex122:8-10: 'You feel strange.', flavour), two Doom Knights; on the table Sandro's note (q-f2.note: 'Gone to Necropolis, will return soon ... The vampires have requested their privacy, so leave them alone ...', aazex122:24). Both shrine galleries meet here (the ring's far end)."}
+  - {id: room:bone_stair, name: Bone stair, kind: stair, size: S, floor: -2, at: [5, 1], monsters: 0,
+     purpose: "A stair of fused bone down to the gongs; walked."}
+  # dungeon floor -3 (z -2,560)
+  - {id: room:gong_hall, name: Gong hall, kind: hall, size: M, floor: -3, at: [5, 0], goal: true, chest: 6, monsters: 2,
+     population: [{row: Autobot, level: 75, count: 2}],
+     purpose: "Four gongs hung on the walls (aazex123:0) and a lever by the iron shutter (:1); a chest in the middle of the floor. The lever before the four gongs: 'The lever won't budge.' and the voice: 'Ring the four gongs and then pull the lever. Touch any treasure and you'll have to start over!' (:2-3). Two Autobots."}
+  - {id: room:fountain, name: Fountain, kind: room, size: S, floor: -3, at: [6, 0], monsters: 0,
+     purpose: "A dead end with a find: a fountain (aazex123:4-5 'Ahh, refreshing!': heals hit points and spell points, any time)."}
+  - {id: room:maintenance, name: Maintenance, kind: room, size: M, floor: -3, at: [4, 0], monsters: 2,
+     population: [{row: Autobot, level: 75, count: 2}],
+     purpose: "'Maintenance' (aazex124:12): racks and a table with papers ('... the World of Xeen maintenance schedules...', aazex124:1-2); two Autobots. Ways to the machine hall and the control room (the loop)."}
+  - {id: room:control_room, name: Control room, kind: room, size: M, floor: -3, at: [3, 1], monsters: 2,
+     population: [{row: Doom Knight, level: 75, count: 2}],
+     purpose: "'Control Room' (aazex124:13): the main terminal (aazex124:7, :10-11, the Goober joke; DECIDE 12), a computer (:8), two Doom Knights; a window of thick glass onto the machine."}
+  - {id: room:machine, name: The Lord Xeen Machine, kind: hall, size: L, floor: -3, at: [3, 0], set_piece: true, goal: true, monsters: 6,
+     population: [{row: Autobot, level: 75, count: 2}, {row: Power Lich, level: 75, count: 2}, {row: Skeletal Lich, level: 85, count: 2}],
+     purpose: "Set piece and goal: a round hall 2,560 across and 1,024 high round a black and brass engine, four elemental cores at its quarters, a terminal by each ('Fire Core Operational' ..., aazex124:3-6). 'Lord Xeen Machine. Destroy?' (aazex124:0): Yes breaks the destructible, as blows and spells do (D-47 Q8); its on_destroyed calls q-f2.machine (camera shake, the cores and lights go dark, the terminals read 'Offline'). Guards: two Autobots, two Power Liches, two Skeletal Liches."}
+links:
+  - {id: link:gate_scorched, from: room:gate_hall, to: room:scorched_hall, kind: open, label: "Low opening"}
+  - {id: link:gate_up, from: room:gate_hall, to: room:landing1, kind: stair}
+  - {id: link:l1_ring, from: room:landing1, to: room:ring_hall, kind: open}
+  - {id: link:ring_dorm, from: room:ring_hall, to: room:dormitory, kind: open}
+  - {id: link:dorm_l1, from: room:dormitory, to: room:landing1, kind: door}
+  - {id: link:ring_bones, from: room:ring_hall, to: room:bone_alcove, kind: open}
+  - {id: link:l1_up, from: room:landing1, to: room:landing2, kind: stair}
+  - {id: link:l2_nest, from: room:landing2, to: room:nest, kind: open}
+  - {id: link:nest_hatch, from: room:nest, to: room:hatchery, kind: open}
+  - {id: link:hatch_l2, from: room:hatchery, to: room:landing2, kind: open}
+  - {id: link:nest_dead, from: room:nest, to: room:dead_adventurer, kind: open}
+  - {id: link:l2_up, from: room:landing2, to: room:landing3, kind: stair}
+  - {id: link:l3_high, from: room:landing3, to: room:high_hall, kind: open}
+  - {id: link:high_crown, from: room:high_hall, to: room:crown, kind: open, label: "Low arch"}
+  - {id: link:l3_gallery, from: room:landing3, to: room:wyrm_door, kind: open}
+  - {id: link:gallery_crown, from: room:wyrm_door, to: room:crown, kind: open}
+  - {id: link:crown_tome, from: room:crown, to: room:tome_room, kind: door}
+  - {id: link:crown_roof, from: room:crown, to: room:roof_stair, kind: door, label: "Low door"}
+  - {id: link:gate_crossword, from: room:gate_hall, to: room:crossword, kind: locked, label: "Sandro's door", opened_by: state:sandro_key}
+  - {id: link:crossword_descent, from: room:crossword, to: room:descent, kind: door, label: "The descent", opened_by: state:crossword}
+  - {id: link:descent_welcome, from: room:descent, to: room:welcome, kind: stair}
+  - {id: link:welcome_crypt, from: room:welcome, to: room:crypt, kind: door, label: "Do Not Disturb"}
+  - {id: link:welcome_ball, from: room:welcome, to: room:ballroom, kind: door}
+  - {id: link:ball_east, from: room:ballroom, to: room:game_east, kind: open}
+  - {id: link:ball_west, from: room:ballroom, to: room:game_west, kind: open}
+  - {id: link:east_south, from: room:game_east, to: room:shrines_south, kind: open}
+  - {id: link:west_north, from: room:game_west, to: room:shrines_north, kind: open}
+  - {id: link:south_throne, from: room:shrines_south, to: room:throne_dead, kind: open}
+  - {id: link:north_throne, from: room:shrines_north, to: room:throne_dead, kind: open}
+  - {id: link:throne_stair, from: room:throne_dead, to: room:bone_stair, kind: open}
+  - {id: link:stair_gongs, from: room:bone_stair, to: room:gong_hall, kind: stair}
+  - {id: link:gongs_fountain, from: room:gong_hall, to: room:fountain, kind: open}
+  - {id: link:gongs_maint, from: room:gong_hall, to: room:maintenance, kind: door, label: "Iron shutter", opened_by: state:gongs}
+  - {id: link:maint_machine, from: room:maintenance, to: room:machine, kind: open}
+  - {id: link:maint_control, from: room:maintenance, to: room:control_room, kind: door}
+  - {id: link:control_machine, from: room:control_room, to: room:machine, kind: open}
+states:
+  - {id: state:sandro_key, kind: item, where: room:gate_hall,
+     what: "Sandro's Key to the Dungeon of Death (item 12354, Q-D23's release in DD-21). The black iron door in the cellar well calls q-f2.door: with the key it opens for good (map qbit 118130; the key is kept); without it, a clear refusal naming the key (A3's fail_text, for example 'A black iron door with Sandro's mark, a skull with a keyhole for an eye. It answers only to his key.'). From below it always opens.",
+     opens: [link:gate_crossword], draw: false}
+  - {id: state:crossword, kind: puzzle, where: room:crossword,
+     what: "Twelve clue plaques (map qbits 118131-118142, one per word): each asks its clue (a text prompt); the right answer lights the word ('Correct!'), a wrong one 'Wrong!'. All twelve set 118143: the descent's gate opens and stays open (DECIDE 4).",
+     opens: [link:crossword_descent]}
+  - {id: state:gongs, kind: puzzle, where: room:gong_hall,
+     what: "Four gongs (map variables, rung or not); the lever with all four rung raises the iron shutter for good (map qbit 118144). Opening the hall's chest while the shutter is down clears the gongs ('The gongs fall silent.', A3's line), the source's rule told by the voice at the lever (aazex123:3).",
+     opens: [link:gongs_maint]}
+  - {id: state:machine, kind: qbit, where: room:machine,
+     what: "q-f2.machine (A3, proposed): the machine's on_destroyed sets Q-F2's done; map qbit 118145 draws the machine broken and the cores dark on every later load. Gates nothing.",
+     opens: [], draw: false}
+  - {id: state:egg, kind: qbit, where: room:nest,
+     what: "q-f1.egg (A3, proposed): the Dragon Egg item (A2) from the nest's bowl, once (map qbit 118146: two eggs shown after). Alister's topic takes it (q-f1.alister); Alister is hidden on later loads once paid (118147).",
+     opens: [], draw: false}
+exits:
+  - {id: exit:x7_gate, space: room:gate_hall, at: [0, 0], kind: both, label: "X7: the Dragon Tower's gate",
+     arrival: "entrance:x7_gate: in the gate hall about 256 inside the two leaves, facing north (512) into the tower",
+     neighbour: "X7 thing:fd04_gate (door:fd04) at [29, 31.62], gate (-17920, 16578, 2600), two leaves 384 x 448 facing south on the crag top (DECIDE 2: the key); out by the exit preset ('Exit Dragon Tower?', aazex117:4, as the window's meaning, D-24) to X7's entrance:fd04_door (29, 32) = (-17920, 16384, 2592) facing south (1536)"}
+  - {id: exit:x9_roof, space: room:roof_stair, at: [5, 0], kind: both, floor: 3, label: "X9: the Dragon Clouds",
+     arrival: "entrance:x9_clouds: on the roof stair's top step under the hatch, facing down the stair toward the crown's low door",
+     neighbour: "X9's entrance:fd04_roof on the Dragon Clouds (plan.yml (20864, 18304), floor 2,048, facing south; objects.yml marks it at [20352, 17280]: A5 confirms one): the roof hatch is the exit preset there (roof:fd04 in X9's project.yml, sealed until FD-04 exists). X9's way back: a stair down in the dragon-head rock ('Descend into Dragon Tower?', dark/aazex128:0) to this map's entrance:x9_clouds"}
+hooks:
+  - {hook: "q-f1.alister (proposed)", space: room:gate_hall, how: "Alister's talk (placed talking monster, A4's NPC id): the egg asked for; with the Dragon Egg, takes it and pays (aazex117:1-3)"}
+  - {hook: "q-f1.note_fraud (proposed)", space: room:bone_alcove, how: "the first bones (aazex118:3)"}
+  - {hook: "q-f1.note_forever (proposed)", space: room:bone_alcove, how: "the second bones (aazex118:4: the Eye's answer hinted)"}
+  - {hook: "q-f1.egg (proposed)", space: room:nest, how: "the bowl's egg: gives the Dragon Egg once"}
+  - {hook: "q-f1.note_eye (proposed)", space: room:dead_adventurer, how: "the bones (aazex119:5-6)"}
+  - {hook: "q-f1.endurance (proposed)", space: room:dead_adventurer, how: "the potion: +2 Endurance once per character (player bit)"}
+  - {hook: "q-f1.tome (proposed)", space: room:tome_room, how: "the Tome of Great Experience: fixed experience once per character"}
+  - {hook: "q-f2.door (proposed)", space: room:gate_hall, how: "Sandro's door: requires item 12354"}
+  - {hook: "q-f2.crossword (proposed)", space: room:crossword, how: "the twelve clue prompts (answers and lines A3's) and the descent's gate with its reward"}
+  - {hook: "q-f2.shrine_minor, q-f2.shrine_lesser (proposed)", space: room:shrines_north, how: "each destructible's 'Destroy?' and on_destroyed"}
+  - {hook: "q-f2.shrine_great, q-f2.shrine_ultimate (proposed)", space: room:shrines_south, how: "the same; the Ultimate's ejection (DECIDE 5)"}
+  - {hook: "q-f2.note (proposed)", space: room:throne_dead, how: "Sandro's note on the table (aazex122:24)"}
+  - {hook: "q-f2.machine (proposed)", space: room:machine, how: "'Lord Xeen Machine. Destroy?' and the destructible's on_destroyed: Q-F2 done"}
+  - {hook: "Ashkaroth 5703 (house 4853)", space: room:wyrm_door, how: "door:wyrm_hall, a house door (A4, flavour)"}
+  - {hook: "q-f1.eye, q-f1.runes (proposed, X9)", space: "X9's Dragon Clouds (A5)", how: "the Eye's riddle and the four rune books; listed for the pair, not placed here"}
+critical_path: [room:gate_hall, room:landing1, room:ring_hall, room:landing2, room:nest, room:landing3, room:high_hall, room:crown, room:roof_stair, room:gate_hall, room:crossword, room:descent, room:welcome, room:ballroom, room:game_east, room:shrines_south, room:throne_dead, room:bone_stair, room:gong_hall, room:maintenance, room:machine]
+return_path: [room:machine, room:control_room, room:maintenance, room:gong_hall, room:bone_stair, room:throne_dead, room:shrines_north, room:game_west, room:ballroom, room:welcome, room:descent, room:crossword, room:gate_hall]
+loops:
+  - {id: loop:ring1, spaces: [room:landing1, room:ring_hall, room:dormitory],
+     notes: "Floor 1: into the ring hall from the landing, or through the dormitory."}
+  - {id: loop:nest, spaces: [room:landing2, room:nest, room:hatchery],
+     notes: "Floor 2: the nest from the landing directly or round through the hatchery."}
+  - {id: loop:top, spaces: [room:landing3, room:high_hall, room:crown, room:wyrm_door],
+     notes: "Floor 3: to the crown through the high hall, or along the Wyrm's gallery."}
+  - {id: loop:sandro, spaces: [room:ballroom, room:game_east, room:shrines_south, room:throne_dead, room:shrines_north, room:game_west],
+     notes: "Sandro's halls: a ring from the ballroom through either game room and its shrine gallery to the thrones."}
+  - {id: loop:machine, spaces: [room:maintenance, room:machine, room:control_room],
+     notes: "The machine floor: into the machine hall from maintenance directly or through the control room."}
+lines:
+  - {text: "Alister the Druid; \"Ah, brave adventurers, perhaps you can help me.  I need a dragon egg ...\"", ref: "dark/aazex117:0-3 (the +1,000,000 experience dropped)", where: "room:gate_hall (Alister; A3's Q-F1 topics)"}
+  - {text: "Exit Dragon Tower?", ref: "dark/aazex117:4", where: "exit:x7_gate (the exit preset's meaning, D-24)"}
+  - {text: "I don't trust that druid guy. ... / I think the secret of the dragon has something to do with forever, or really, really big...", ref: "dark/aazex118:3-4", where: "room:bone_alcove"}
+  - {text: "You have to be pretty smart to survive a look in one of the crystal balls on the Dragon Cloud. / The eye of the Dragon holds the Silver Key Card.", ref: "dark/aazex119:5-6", where: "room:dead_adventurer"}
+  - {text: "Potion; +40 end. perm", ref: "dark/aazex119:2-3 (rescaled to +2, D-4)", where: "room:dead_adventurer"}
+  - {text: "Tome of Great Experience; You learn nothing new from the Tome", ref: "dark/aazex120:2-4 (the +10,000,000 dropped)", where: "room:tome_room"}
+  - {text: "Sorry, the crossword puzzle is not done yet.  You may not descend!", ref: "dark/aazex121:1", where: "room:descent"}
+  - {text: "Wrong! / Correct!", ref: "dark/aazex121:7-8", where: "room:crossword (the plaques)"}
+  - {text: "1 Across: King's Staff ... 77 Down: He had a pet dragon", ref: "dark/aazex121:11-188 (twelve of the 89 kept, DECIDE 4)", where: "room:crossword"}
+  - {text: "Welcome; Ballroom; Game Room; Do Not Disturb; Coffin", ref: "dark/aazex122:0-5", where: "the signs and hovers of floor -2"}
+  - {text: "Shrine of Minor/Lesser/Great/Ultimate Evil.  Destroy?; You destroy the shrine, which destroys this dungeon, taking you with it.", ref: "dark/aazex122:11-18 (the experience dropped; A3's sums)", where: "room:shrines_north, room:shrines_south"}
+  - {text: "Gone to Necropolis, will return soon. ... (signed) Sandro", ref: "dark/aazex122:24", where: "room:throne_dead"}
+  - {text: "A voice Booms: Ring the four gongs and then pull the lever. Touch any treasure and you'll have to start over!", ref: "dark/aazex123:3 (with :0-2)", where: "room:gong_hall"}
+  - {text: "Ahh, refreshing!", ref: "dark/aazex123:5", where: "room:fountain"}
+  - {text: "Lord Xeen Machine. Destroy?", ref: "dark/aazex124:0 (the +5,000,000 dropped, :9)", where: "room:machine"}
+  - {text: "Fire / Water / Air / Earth Core Operational", ref: "dark/aazex124:3-6", where: "room:machine (the four terminals)"}
+  - {text: "You find some papers that tell of the World of Xeen maintenance schedules...", ref: "dark/aazex124:2", where: "room:maintenance"}
+  - {text: "You are a Goober! / You are a SUPER Goober!", ref: "dark/aazex124:10-11", where: "room:control_room (the main terminal)"}
+open_questions:
+  - q: "1. Count and mix. MAPS §0: 60 at 65-100, groups 1-3, 96.8k."
+    options: ["(a) the tower 26 dragons (Acid 66 x 6, Fire 75 x 8, Frost 85 x 6, Phase 90 x 5, the Energy Dragon 100), the dungeon 34 (Lich Lord 65 x 10, Power Lich 75 x 6, Skeletal Lich 85 x 8, Doom Knight 75 x 4, Autobot 75 x 6): 100.22k (+3.5 %)",
+              "(b) as (a) with the source's Screamers as a new demons tier D (11635 'Screamer', 80, own recolour skin; a shared display name, D-42/D-47) for four Lich Lords (the welcome hall and the north shrines): 102.55k (+5.9 %)",
+              "(c) the tower with the Dragon Clouds' rows only (Cloud 70, Green 80, Phase 90, Energy 100) so the two X7 dragon maps share no tier: about the same XP"]
+    recommend: "(a): only rows in the band, the source's families, inside 10 %"
+    depends: "A2 (the Act VI recount; FD-04 added to the dark dragons', liches' and robots' `where`)"
+  - q: "2. The tower's door. The source's key came from Castle Alamar's dungeon (FD-01); our quests give none."
+    options: ["(a) a new item 'Key to the Dragon Tower' in FD-01 Alamar Depths (A8, the source's place, M39 on the main path), X7's door:fd04 needing it (A5's door; A3's hook with a refusal naming the key): FD-04 then opens after M39, as in the source",
+              "(b) no key: X7's door opens with a question ('The Dragon Tower. Enter?'), the levels on the north of X7 being the only gate",
+              "(c) the key in XD-18's King's hoard: FD-04 after the hardest optional dungeon"]
+    recommend: "(a): keeps the finale's order without a new gate of our own; (b) if A8 cannot place it"
+    depends: "A8 (FD-01), A2 (item), A3 (hook), A5 (X7's door)"
+  - q: "3. The join between the halves (Sandro's key, Q-D23)."
+    options: ["(a) a black iron door in the gate hall's cellar well over the stair down: q-f2.door with item 12354 opens it for good (118130), the key kept; without, a refusal naming Sandro's key; always opens from below",
+              "(b) the same door, the key taken"]
+    recommend: "(a)"
+    depends: "A3 (q-f2.door)"
+  - q: "4. The crossword (the source's 89 clues, '+5 Level Perm', gating the descent)."
+    options: ["(a) twelve clues whose answers the main path names, the source's wording: 1 Across King's Staff (Scepter), 5 Across Count Blackfang (Vampire), 6 Across Imprisoned Queen (Kalindra), 13 Across Freed from spaceship (Corak), 21 Across Castle beyond the Forbidden Zone (Alamar), 24 Across City of the undead (Necropolis), 40 Across City of sorcerers (Sandcaster), 42 Down Tower located in Troll Forest (Darkstone), 44 Down Ellinger's Tower is located here (Castleview), 47 Down You need an amulet to gain entry (Sphinx), 76 Down Way of transportation in the Land of Xeen (Mirror), 77 Down He had a pet dragon (Xeen); each a step plate and prompt; all twelve open the descent and pay fixed experience (A3)",
+              "(b) the same twelve, optional: the descent open, the crossword a reward only",
+              "(c) dropped: a plain hall"]
+    recommend: "(a): the source's gate, every answer a name the story has said"
+    depends: "A3 (the prompts, answers with spelling variants, the reward)"
+  - q: "5. The Shrine of Ultimate Evil ('You destroy the shrine, which destroys this dungeon, taking you with it.')."
+    options: ["(a) a tell in its question (A3, for example 'Shrine of Ultimate Evil. The walls seem to lean on it. Destroy?'); Yes: camera shake, falling dust, fire damage about 20 % of each member's hit points (never lethal to a healthy party), and {exit: x7} to entrance:fd04_door with the source's line; the shrine stays broken (118148), no experience; the dungeon is still there",
+              "(b) it refuses ('It will not break.'): dressing",
+              "(c) the source's: the party dies"]
+    recommend: "(a): the joke kept, a real choice that ends the visit asks first (D-24), never lethal"
+    depends: "A3 (the hook and lines)"
+  - q: "6. Alister and the egg (A3's Q-F1)."
+    options: ["(a) the source's: he takes the egg, pays fixed experience (A3's budget, not 1,000,000), 'Now I'll just drink this egg potion and...'; on the next load he is gone (118147) and a small lizard sits in his alcove (a decoration shown); the notes only warn",
+              "(b) he drinks it and becomes a Fire Dragon on the spot (a hidden placed dragon shown; 6,375 more kill XP)",
+              "(c) the egg can also go back to the nest for a reward"]
+    recommend: "(a)"
+    depends: "A3 (Q-F1), A2 (the Dragon Egg item, Alister's peaceful row), A4 (Alister's NPC id)"
+  - q: "7. Texture families (none assigned)."
+    options: ["(a) the tower in MM6 Hall of the Fire Lord 6d04 (the black vlc block of X7's shell, unused in Xeen); Sandro's halls and the crossword in MM8 Necromancers' Guild d19; the machine floor in MM6 Control Center sci-fi.blv with XD-19's four core textures; two new (xfgrid, xfword): about 36 of 45",
+              "(b) the tower in MM7 The Dragon's Lair 7d28 (t2bs, cfb1: thin), the halls in MM6 Castle Darkmoor cd2 (the d2 kit of XD-08 and DD-21)",
+              "(c) the ballroom and game rooms in MM7 The Haunted Mansion 7d37 as their own area, d19 elsewhere"]
+    recommend: "(a)"
+    depends: "A6 (the dungeon_families and towers lines; xfgrid and xfword registered)"
+  - q: "8. The tower's inside and the dragons' room (D-32)."
+    options: ["(a) the inside larger than X7's shell (1,024 across, 2,048 high): round floors about 3,072 across, 1,280 apart, halls 1,152 high (the crown 2,048), as DD-07's and XD-14's interiors (D-39 Q6); every way between halls and the spiral stair is 256 x 288, so each floor keeps its dragons; a headless check that a dragon stays on its floor",
+              "(b) a shell-sized tower: no dragon fits"]
+    recommend: "(a)"
+    depends: "nothing"
+  - q: "9. Looks. The Energy Dragon (11653) wears the dark dragons' m492 skin; Lich Lord, Power Lich, Skeletal Lich and Sandro all wear lch_c; Power and Skeletal Lich are A2 boss rows."
+    options: ["(a) own recolour skins for the Energy Dragon (for example violet-white on m492), the Power Lich and the Skeletal Lich (bone-white robes); A2 moves 11284 and 11285 from bosses to ordinary tiers D and E (several of each placed), no Meshy",
+              "(b) keep the shared skins"]
+    recommend: "(a): D-39/D-47's own skin per boss, and three lich tiers that read apart in one hall"
+    depends: "A2, S"
+  - q: "10. Rest encounters (map 9182)."
+    options: ["(a) 0: two halves of different families, Alister a peaceful row, and the liches' slot rolls Lich 35 and Greater Lich 50 under the band at low Dif (D-33/D-34)", "(b) 10 % from the cloud dragons at Dif 5"]
+    recommend: "(a)"
+    depends: "A2's row 9182"
+  - q: "11. Rewards at MM6-MM8 size (D-4)."
+    options: ["(a) +2 Endurance once per character (the source's +40); the Tome, the crossword (+5 levels), the three shrines (1M/2M/5M) and the machine (5M) as fixed experience inside A3's optional budget; the source's numbers stay in the ledger",
+              "(b) drop the Tome and the shrines' experience"]
+    recommend: "(a)"
+    depends: "A3, A2 (the Act VI ledgers)"
+  - q: "12. The main terminal ('Main Terminal Enter Code', then 'You are a Goober!' and 'SUPER Goober!'; no code exists)."
+    options: ["(a) no prompt: the click shows 'Main Terminal. ACCESS DENIED.' and the Goober line, the second click on the SUPER Goober; nothing suggests a code to look for",
+              "(b) the source's prompt with any answer wrong"]
+    recommend: "(a): no riddle the game does not answer"
+    depends: "A3 (lines)"
+  - q: "13. The vampires (the source's five Vampire Kings behind Do Not Disturb, Sandro's note: leave them alone)."
+    options: ["(a) the coffins stay shut (the source's 'too heavy' line) and the vampires never wake: flavour and a chest",
+              "(b) a new vampires tier E (11296 'Vampire King', 90, own skin) x 2 that wake when the crypt's chest is opened, two Lich Lords fewer elsewhere: about +2.1k"]
+    recommend: "(a): no new row for a joke the note already tells"
+    depends: "A2 for (b)"

@@ -1,0 +1,59 @@
+format: 0
+id: xeen_dd10a
+name: Gemstone Mines, west pocket
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-10A
+units:
+  plan_grid: 512
+extent:
+  footprint_cells: [11, 8]
+  climbs: n
+map_stats:
+  id: 9159
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 2
+  refill_days: 672
+  music: 18
+  environment: cave
+  lock_difficulty: 4
+  slots:
+  - monster: Xeen Arachnoid
+    tier: 5
+    per_marker: [2, 3]
+    weight: 40
+  - monster: Xeen Night Bat
+    tier: 5
+    per_marker: [2, 3]
+    weight: 35
+  - monster: Xeen Crawler
+    tier: 4
+    per_marker: [1, 2]
+    weight: 25
+neighbours:
+- id: exit:d1_adit
+  to: xeen_d1.odm
+  kind: door
+  arrival: [-9728, 20480, 1600]
+  arrival_hint: On D1, below the timbered adit above the gemsmiths' row (thing:dd10a_adit), at A6's return point, facing south,
+    away from it.
+  direction: 270
+  notes: 'D1 installed (A6). The adit''s face stands at (-9728, 21470); the party lands at A6''s return point for D1''s event
+    187, (-9728, 20480, 1600) facing 1536 (south). D1''s door into this map lands at this map''s start: (0, 192, 0), facing
+    north (90).'
+qbits:
+  arrived_once: 117160
+  refill_a: 113141
+  dug: 113144
+items:
+  ruby_rock: 12357
+  emerald_rock: 12358
+notes: 'Xeen design brief, DD-10A Gemstone Mines, west pocket (D1; Q-D7), class S, built from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd10a.graph.yml)
+  with decider D-27 (mockups/act3_a8_decisions_b.md). Party 23-27, band 16-28, 20 placed monsters on A2''s rows (no spawn
+  points: the slots are the map card''s only, encounter chance 0), treasure 3, music 18. Quest bits: q-d7.refill_a 113141,
+  q-d7.dug 113144 (A3); the map''s arrived_once 117160 (provisional block 117160-117199). Items: ruby rock 12357, emerald
+  rock 12358 (the hooks'' map_gives, one per vein).'

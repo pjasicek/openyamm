@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely recolor image 1, a transparent 1536x2048 3:4 atlas. Lock its existing alpha channel. Retain every pixel position, size, orientation, outline, opening and empty cell of the 3 columns by 4 rows of 512px cells. Only modify RGB within the gray shapes. Images 2 and 3 are material/detail and color references respectively. In rows 1 and 2 paint the exact five views in unlit base color with the reference's slightly curved steel blade, small round brass guard and fittings, dark brown cord wrapping and cream hide showing through diamonds. Follow facets and engraving at scale. Row 1 contains two tiny end-on views and a thin horizontal edge view pointing left. Row 2 contains an edge view pointing right, an upright side profile, and an empty cell. Rows 3 and 4 repeat identical silhouettes exactly 1024 pixels below their counterparts, but use exclusively solid unshaded material IDs: #FF0000 all metal including blade and fittings, #0000FF cloth/cord and hair, #00FF00 leather/hide and fur, #FFFF00 matte nonmetal solid, #000000 gemstone/glass/enamel/liquid. No antialiased color blends inside masks. Entire exterior including gaps transparent, no lighting, shadows, reflections, highlights, glow, outlines, ground or text. Preserve the guide's generous transparent margins and exact geometry including the narrow edge-on blades.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "d254456407cf52d1fabcbb95a052b75721a679c388817e892bcb60f8fc217c0b"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "31a743704cb5d606f8f7d5f81fa49275d100e8a1e0b023a4cfb8957c8df186f0"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "270ecf8b89719215fff55e4ca4258f16f2b0fe4ff285a8bd31da09cb4bdbf53c"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f912-d496-7522-ae1a-a2a9a7020bfc/exec-87b95181-9ac7-4294-9e3d-80ca004669e1.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

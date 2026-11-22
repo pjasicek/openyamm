@@ -1,0 +1,196 @@
+# Xeen promotion playthrough 63, racial: Q-D13 Hobstadt's Trolls (D2, DD-11A, DD-11C; Troll -> War Troll) on the
+# tribute ending. From a copy of the main chain's 49 (D2 at Sharla's treehouse; Q-D13 not started; the party Cavalier
+# Crusader Wizard RangerLord, about 57,000 gold). The tribute is the cheapest of the three endings: no Troll is needed
+# (the sacrifice needs one: a test setup), nobody fights (the fight needs Hobstadt killed and his kill timer), and the
+# party carries the 2,000 gold many times over. Troll hole A (D2 event 32: a status line, D-72) into DD-11A, walked
+# as A7's playtest: the root tunnel, the bone midden, up the bone slope past the boulder to the dead thief (event 10:
+# the guild's letter, q-d13.thieves_letter: started, autonote 4530); back down and through the sleeping hollow to the
+# burrow's sod hatch (event 7, OK). Troll hole C (event 34) into DD-11C: the log doors (the court lets the party pass),
+# the throne floor (event 2: Hobstadt speaks): "Give gold" (tribute: 2,000 paid); the sacks behind the throne
+# (q-d13.hoard: done, 4,000 experience each and the guild's 2,500 gold), the strongbox. Hobstadt again (actor 12):
+# "Give gold" and "Fight to the death" gone, "Thieves' gold" and "Sacrifice one" offered; nobody is a Troll, so
+# "Sacrifice one" says its no-troll line and promotes nobody (README check 3; the topic stays offered with that line:
+# its states, D-74 point 3). D-74's later path on this ending, by a logged test setup as class_table.py's (member 1 a
+# Troll, then member 2; the party's classes kept and put back): "Sacrifice one" promotes the first Troll (the
+# no-trial state: trial set, nothing paid), says "Hobstadt has his War Troll" with nobody left, and promotes the second
+# Troll by D-74's new state ("Another troll?"). Out by the burrow's sod hatch (event 12) to D2.
+# Quest logic: source/quests/q-d13.yml; devdocs/xeen/reviews/D74_DECISION.md point 3. Routes:
+# devdocs/xeen/briefs/d2/L4/playtest.yml (the holes), dd11a/L4/playtest.yml, dd11c/L4/playtest.yml. Prep: prep/F_racial.md.
+#   python3 tests/playthrough/xeen/promotions/run.py 63
+id: xeen.promotions.63_hobstadt_tribute
+title: "Xeen promotions 63: Hobstadt's tribute (Q-D13), nobody a Troll; Sacrifice one for later Trolls"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_49.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d2.odm}
+  - assert: {qbit_clear: [113260, 113261, 113262, 113263, 113264, 113265, 113266]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if classes() ~= 'Cavalier Crusader Wizard RangerLord' then error('party: ' .. classes()) end; if gold() < 2000 then error('gold ' .. gold()) end"}
+  # Troll hole A in the forest's south-east (D2 event 32): down into DD-11A's pit.
+  - set_pose: {map: xeen_d2.odm, x: -2048, y: -6144, z: 992, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  # The hole moves the party at once with q-d13.troll_holes' status line (D-72: an outdoor entrance asks nothing).
+  - play_lua: {source: "status(); click(32); wait(0.3); local s = status(); if not string.find(s, 'You let yourselves down into the troll hole.', 1, true) then error('D2 event 32: ' .. s) end"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd11a.blv}
+  - assert: {party_position: {x: 96, y: -32, radius: 200}}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end; wait(2)"}
+  # DD-11A: the root tunnel, the bone midden, up the bone slope; the boulder rolls aside.
+  - walk_to: {x: 1100, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 2656, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2656, y: 580, z: 160, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(2, 1)"}
+  - walk_to: {x: 2656, y: 920, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The dead thief (event 10): the Thieves' Guild's letter (q-d13.thieves_letter: started 113260, autonote 4530).
+  - walk_to: {x: 2560, y: 1020, z: 192, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The Trolls have stolen our gold. Get it back no matter the cost!"}}
+  - play_lua: {source: "close(); if not qbit(113260) then error('started 113260 not set') end"}
+  - assert: {autonote: {id: 4530}}
+  # Back down the bone slope, west through the root tunnel, the sleeping hollow and up the burrow to the sod hatch.
+  - walk_to: {x: 2656, y: 880, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2656, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1100, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1150, y: -1000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 720, y: -1088, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -620, y: -1088, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: -2048, y: -6144, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Troll hole C by the forest's rim (D2 event 34) into DD-11C, Hobstadt's hall.
+  - set_pose: {map: xeen_d2.odm, x: 1536, y: -17408, z: 928, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(34); wait(0.3); local s = status(); if not string.find(s, 'You let yourselves down into the troll hole.', 1, true) then error('D2 event 34: ' .. s) end"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd11c.blv}
+  - assert: {party_position: {x: 128, y: -64, radius: 200}}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end; wait(2); close()"}
+  - assert: {actor_count: {monster_id: 11073, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  # The log doors (the court lets the party through) and the throne floor: Hobstadt speaks (event 2, NPC 5110).
+  - walk_to: {x: 960, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The doors' step line (once a visit) may come and go before a reload; its map variable (4) is the check.
+  - play_lua: {source: "wait(1); close(); if mapvar(4) ~= 1 then error('the gate step event (map variable 4) did not fire: ' .. status()) end"}
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # D-82 point 5: no member down before Hobstadt's tribute (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 63 before Hobstadt\\'s tribute: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Hobstadt\\'s tribute (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; remember('gold', gold())"}
+  - walk_to: {x: 2750, y: 0, z: 0, radius: 64, timeout_seconds: 30, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5110, action_label_present: "Give gold"}}
+  - assert: {dialog: {active: true, action_label_present: "Sacrifice one"}}
+  - assert: {dialog: {active: true, action_label_present: "Fight to the death"}}
+  # Give gold (q-d13.tribute 113261: 2,000 paid).
+  - select_topic: {match_label: "Give gold"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt cannot count past two thousand. Good. Go where you like."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; wait(3); if not qbit(113261) then error('tribute 113261 not set') end; local paid = tonumber(recall('gold')) - gold(); if paid ~= 2000 then error('the tribute took ' .. paid .. ' gold') end"}
+  - assert: {actor_count: {monster_id: 11073, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  # The sacks behind the throne (event 15, q-d13.hoard): done 113266, 4,000 experience each, 2,500 gold; the strongbox.
+  - walk_to: {x: 3800, y: -320, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Sacks of gold, each stamped THIEVES' GUILD.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(113266) then error("done 113266 not set") end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 4000 then error("member " .. i .. ": Q-D13 paid " .. xp .. " experience, not 4000") end
+        end
+        local net = gold() - tonumber(recall("gold"))
+        if net ~= 500 then error("tribute and hoard: " .. net .. " gold, not -2,000 + 2,500") end
+        if classes() ~= "Cavalier Crusader Wizard RangerLord" then error("classes: " .. classes()) end
+        click(15); wait(1)
+  - assert: {dialog: {active: true, text_contains: "Empty sacks. Labelled."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4060, y: -500, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; log('strongbox: ' .. (gold() - g) .. ' gold')"}
+  # Hobstadt again (actor 12): his friends' topics; nobody is a Troll, so Sacrifice one promotes nobody.
+  - walk_to: {x: 3000, y: 120, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "status(); click(16); wait(0.5); local s = status(); if not string.find(s, 'Hobstadt stands before it', 1, true) then error('throne: ' .. s) end"}
+  - interact_actor: {actor_index: 12}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5110, action_label_present: "Thieves' gold"}}
+  - assert: {dialog: {active: true, action_label_absent: "Give gold"}}
+  - assert: {dialog: {active: true, action_label_absent: "Fight to the death"}}
+  - select_topic: {match_label: "Thieves' gold"}
+  - assert: {dialog: {active: true, text_contains: "Thief gold in back. Hobstadt not like thieves. Take."}}
+  - select_topic: {match_label: "Sacrifice one"}
+  - assert: {dialog: {active: true, text_contains: "No troll. Hobstadt not eat your kind. Too many bones. You paid. Go where you like."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Cavalier Crusader Wizard RangerLord' then error('classes: ' .. classes()) end; if qbit(113262) then error('trial set with no Troll') end"}
+  # D-74's later path on the tribute ending: a logged test setup (SetPlayerClass, as class_table.py), not play;
+  # each setup logged in D-77's fixed form (CLASSES test setup later-member ...).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+  - play_lua: {source: "log('CLASSES test setup later-member Q-D13: member 1 Crusader -> Troll by SetPlayerClass, standing for a Troll recruited after the tribute (D-74 3)')"}
+  - lua_event: {source: "if not SetPlayerClass(1, 'Troll') then error('SetPlayerClass(1, Troll)') end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; if classes() ~= 'Cavalier Troll Wizard RangerLord' then error('setup: ' .. classes()) end"}
+  - interact_actor: {actor_index: 12}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5110, action_label_present: "Sacrifice one"}}
+  - select_topic: {match_label: "Sacrifice one"}
+  - assert: {dialog: {active: true, text_contains: "Now he is War Troll. You are friends of Hobstadt."}}
+  - play_lua: {source: "if classes() ~= 'Cavalier WarTroll Wizard RangerLord' then error('the first Troll: ' .. classes()) end; if not qbit(113262) then error('trial 113262 not set') end"}
+  - select_topic: {match_label: "Sacrifice one"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt has his War Troll. Go where you like."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "log('CLASSES test setup later-member Q-D13: member 2 Wizard -> Troll by SetPlayerClass, standing for a Troll recruited after the tribute (D-74 3)')"}
+  - lua_event: {source: "if not SetPlayerClass(2, 'Troll') then error('SetPlayerClass(2, Troll)') end"}
+  - interact_actor: {actor_index: 12}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - select_topic: {match_label: "Sacrifice one"}
+  - assert: {dialog: {active: true, text_contains: "Another troll? Hobstadt take him too."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if classes() ~= "Cavalier WarTroll WarTroll RangerLord" then error("the second Troll: " .. classes()) end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 0 then error("member " .. i .. ": the later path paid " .. xp .. " experience") end
+        end
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  # Out: back through the hall and the log doors to the trolls' stair and the burrow's sod hatch (event 12).
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 960, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1650, y: 0, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: 1536, y: -17408, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('Q-D13 tribute: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - assert: {qbit_set: [113260, 113261, 113262, 113266]}
+  - assert: {qbit_clear: [113263, 113264, 113265]}
+  - save_game: {name: "P63 Hobstadt's tribute", path: output/playthrough/xeen/promotions/checkpoints/63_hobstadt_tribute.oysav}

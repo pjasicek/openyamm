@@ -1,0 +1,90 @@
+# Phase 5 map textures made by A6 (2026-11-21, decider D-49 on A6's D5 and D6 L1, devdocs/xeen/briefs/d5/L1/
+# D49_DECISION.md changes D5 8 and D6 11): the Great Pyramid's green-stone door wing (D5, mirrored on the pair), the
+# Voweless Knights' lintel over the Northern Tower's door (D5, once), Necropolis's gatehouse crest (D6, once) and the
+# Books of the Dead's open book on its lectern (D6, once). Made with level_generation/textures_xeen/xtex.py --project
+# level_generation/xeen_art/map_textures/phase5; registered in assets_dev/worlds/xeen/source/textures.yml.
+dungeons:
+  varn:
+    family_words: >-
+      the great sandstone blocks and dark green-stone doors of Might and Magic VI's Tomb of VARN (egybigb, egydrlgl):
+      warm ochre dressed stone, deep green polished stone, hand-painted in that game's warm muted palette
+  towers:
+    family_words: >-
+      the dark dressed grey stone of Might and Magic VII's Mount Nighon towers (hkm1): cool grey-brown blocks, sooty,
+      hand-painted
+  necropolis:
+    family_words: >-
+      the cool grey Darkside town ashlar of Might and Magic VIII's Regna and Shadowspire (t09a01): grey dressed
+      blocks with dark mortar, sombre and weathered, hand-painted
+textures:
+  xdpyrdor:
+    dungeon: varn
+    size: [128, 256]
+    kind: picture
+    refs: [mm6/egydrlgl, mm6/egybigb]
+    # v1: tone like egydrlgl (an ochre door, mean luma ~105) lifted the dark green 6.4x to lime, and the centred crop
+    # to 1:2 cut the ring pull off the right edge. v2: a fixed luma and the leaf drawn inside the canvas's middle.
+    tone: {luma: 88}
+    family: map D5; MM6 Tomb of VARN door (egydrlgl) in green stone, its blocks (egybigb)
+    where: the Great Pyramid's door at the foot of the north face (D5, m28.door into DD-15), the left leaf; the right leaf mirrored
+    standin: egydrlgl
+    what: >-
+      One leaf of a tall ancient tomb door, seen straight on and filling the whole canvas, tall and narrow: a single
+      slab of deep green polished stone like the first reference's door, with a raised border band a hand wide down
+      both long sides and across top and bottom, and in the upper middle of the slab a carved emblem in low relief:
+      half of a Pharaoh's sign, a stylised eye above a sun disc with rays, cut so that it ends at the right edge of
+      the canvas (the other leaf, mirrored, completes it). Below it two rows of small carved hieroglyph-like marks,
+      worn and shallow. The green stone is dark, with paler mottling and faint wear at the edges; the carving is
+      picked out only by soft shadow, no paint, no gold. A heavy bronze ring pull near the right edge at about
+      half height, well inside the leaf. The leaf is twice as tall as it is wide; it fills the canvas from top to
+      bottom, and across the width it fills only the middle three quarters, with the same plain green stone slab
+      continuing in the outer eighth on each side, so nothing of the border bands, the emblem or the ring lies in the
+      outer eighths. Deep dark green, never lime or bright. Flat even frontal light, no perspective, no doorway, no
+      frame of other stone, no floor.
+  xdvowel:
+    dungeon: towers
+    size: [256, 64]
+    kind: sign
+    refs: [mm7/hkm1b1, mm7/hkm1dl]
+    tone: {like: [mm7/hkm1b1], factor: 1.0}
+    family: map D5; MM7 Mount Nighon hkm1 dressed stone
+    where: the Northern Tower's lintel over its double door (D5, q-d17.tower_door into DD-08), placed once
+    standin: hkm1b1
+    what: >-
+      A long, low stone lintel block of the first reference's dark grey dressed stone, seen straight on and filling
+      the whole canvas, with an inscription cut deep into its face in one line of tall, plain, square-cut Roman
+      capitals: GRND RDR F VWLSS KNGHTS. The letters are evenly spaced across the full width, crisp, filled with
+      shadow, legible; nothing else is written. A thin raised moulding runs along the top and bottom edges. The stone
+      is worn and a little sooty at the ends. Flat even frontal light, no perspective, no frame, no wall around it.
+  xnpgate:
+    dungeon: necropolis
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/t09a01, mm7/hkm1b1]
+    tone: {like: [mm8/t09a01], factor: 1.0}
+    family: map D6; MM8 t09 grey ashlar (Necropolis's gatehouse)
+    where: Necropolis's gatehouse crest over the north gate (D6), placed once
+    standin: t09a01
+    what: >-
+      A carved stone crest panel set into the first reference's grey dressed ashlar, seen straight on: in the middle,
+      in deep low relief, a human skull seen from the front, and above it, carved across its brow, a single large
+      closed eye with long lashes, lid shut. Round them a plain carved circle. The relief is the same grey stone,
+      shaded only by soft shadow, weathered, a little dark in the hollows; no paint, no gold, no lettering. All round
+      the circle, out to every edge, the plain grey ashlar of the first reference continues unchanged, the same block
+      size, colour and dark mortar, so the crest sits in the wall without a border or frame. Sombre, not gory.
+  xnpbook:
+    dungeon: necropolis
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/t09a01, mm7/hkm1b1]
+    tone: {like: [mm8/t09a01], factor: 0.9}
+    family: map D6; a black book on a lectern of MM8 t09 grey stone (the Books of the Dead)
+    where: the Books of the Dead on Necropolis's square (D6), the slanted top face of each lectern, once per lectern
+    standin: t09a01
+    what: >-
+      Seen straight down onto the slanted top of a stone lectern, filling the canvas: a large old book lies open in
+      the middle, its two pages yellowed and stained, covered in dense lines of faded dark ink in an unreadable
+      cramped script, a small drawn skull at the head of the left page; its heavy covers are black leather, cracked
+      and worn, showing a little at the page edges, with dull iron corner fittings. A frayed black ribbon marker lies
+      across the right page. Round the book, out to every edge, the lectern's grey dressed stone of the first
+      reference, worn smooth. Flat even light, no perspective, no hands, no candle, no lettering a reader could read.

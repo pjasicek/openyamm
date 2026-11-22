@@ -1,0 +1,113 @@
+# Playtest of Bosco's Hall (DD-25, L4): a level-48 party arrives in the gate passage (entrance:d5_bosco, (2048, 0, 0)
+# facing west) and gets the first-arrival line once (A3's dd25.arrival, map qbit 117680); then the loop and every
+# house door: the Alehall (4702) in the gate hall, the Mailwright's Burrow (4705) and Bosco's Forge (4701) on the
+# smiths' gallery, the great hall's well (A3's dd25.well), the Tinker's Burrow (4706) on the burrow lane, down the
+# guild stair to the Deep Guild of Earth (4703), up again, the King's steps and the throne hall's two leaves, the throne
+# (A3's dd25.throne) and the King's Hall (4704) behind the dais; back by the great hall, the smiths' gallery and the gate
+# hall (the loop) to the gate, out through the leave window to D5's entrance:dd25_door (-512, 9216, 2688) facing east.
+# A second arrival says nothing. Numbers are ids.lock.yml's. Run with --world xeen --map xeen_dd25.blv
+# (output/studio_cal/dd25/four.sh).
+id: xeen.dd25.l4.walk
+title: Bosco's Hall (DD-25 L4), the arrival, the six houses, the throne, the well and the way out
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd25.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_dd25.blv}
+  # (a new game's start takes the map's start point; its facing is checked on the entry by D5's door at the end)
+  - assert: {party_position: {x: 2048, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The hall rings with hammers. A dwarf at the gate looks you over"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117680) then error('arrived_once not set') end"}
+  # The gate hall: the Alehall, the first door from the gate.
+  - walk_to: {x: 1600, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1184, y: -256, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(1)"}
+  - assert: {dialog: {house_dialog: true, source_id: 4702}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # North into the smiths' gallery: the Mailwright's Burrow, then Bosco's Forge.
+  - walk_to: {x: 1280, y: 600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1024, y: 1180, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(1)"}
+  # a residence with one resident opens straight onto the resident (the house id is not in the dialog)
+  - assert: {dialog: {active: true, source_id: 5405, title: "Hilde Ringwright, Mailwright"}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - walk_to: {x: 256, y: 1180, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(1)"}
+  # Bosco's Forge opens straight onto Durgan Ironfist, its one resident (since 2026-11-22 ~01:50; was the house window)
+  - assert: {dialog: {active: true, source_id: 5402, title: "Durgan Ironfist, Royal Axesmith"}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # Through the north arch into the great hall; the well by the south wall.
+  - walk_to: {x: 128, y: 1000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 384, y: -400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Cold and clean. The King had it tasted this morning."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The burrow lane: the Tinker's Burrow.
+  - walk_to: {x: -384, y: -550, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: -1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: -1180, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5406}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # Down the guild stair to the Deep Guild of Earth.
+  - walk_to: {x: -1150, y: -1152, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2600, y: -1152, z: -384, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3500, y: -1280, z: -384, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(1)"}
+  # the Deep Guild of Earth opens straight onto Stonebeard, its one resident (since 2026-11-22 ~01:50)
+  - assert: {dialog: {active: true, source_id: 5404, title: "Stonebeard, Earth Guildmaster"}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # Up again and west: the King's steps, the throne hall's two leaves.
+  - walk_to: {x: -2600, y: -1152, z: -384, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1150, y: -1152, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: -1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: -550, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1000, y: -128, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1820, y: 0, z: 128, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 1); if door_state(2) ~= 'open' then error('the second leaf did not open') end"}
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The throne (hover "Bosco's throne") and the King's Hall door behind the dais.
+  - walk_to: {x: -3250, y: 0, z: 224, z_tolerance: 64, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The King's throne, empty. He takes his meals in his chambers, where the cups can be watched."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: -3380, y: -288, z: 224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5401}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # Back round the loop: the great hall, the smiths' gallery, the gate hall, the gate.
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: 64, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "log('before the gate: ' .. status())"}
+  # Out by the gate: the game's leave window, then D5's entrance:dd25_door facing east.
+  - execute_event: {id: 4}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - assert: {party_position: {x: -512, y: 9216, radius: 96, z_min: 2600, z_max: 2800, facing: 0, facing_within: 64}}
+  # Back in (as D5's door will, A6): the arrival line does not come again.
+  - lua_event: {source: "evt.MoveToMap(2048, 0, 0, 1024, 0, 0, 0, 0, \"xeen_dd25.blv\")"}
+  - advance_runtime: {seconds: 3, follow_map_move: true, present_dialogs: true}
+  - assert: {map: xeen_dd25.blv}
+  - assert: {party_position: {x: 2048, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 1024, facing_within: 64}}
+  - assert: {dialog: {active: false}}

@@ -1,0 +1,98 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# The source's Warzone (xeen maze0085: one round arena, waves chosen by the arena master, the party sent home after a
+# win) as the engine's MM6-MM8 arena (game/gameplay/ArenaRuntime.cpp; the scene's `arena` block): the master's topic
+# 704 offers Page, Squire, Knight or Lord; the engine draws 6-20 opponents from the arena's monster id range by the
+# party's highest level and places them on at least 20 marks on the floor; the party is moved onto the floor; when all
+# are dead the master pays gold and an award. D-8.1: the party comes by Gorm's coach (or over the desert once the
+# yard's gate is open) and leaves by the floor's gate or the lodge's.
+format: mu6-0
+map: XD-20
+key: xd20
+name: The Warzone
+stands_on: X6 Desert of the Sphinx (the coach yard in the Barbaric cliffs)
+class: arena
+band: "arena: no class band (MAPS: by tier); MM7's arena 7d05 for size: one floor and its lodge"
+size: "3 review rooms, about 6 sectors (the floor one round sector under open sky, its gallery wall; the lodge two; the passage); the floor about 2,400 across, about 9 M units² in all; 3 doors"
+party: ["any", "any"]
+monsters:
+  levels: ["L/2", "2L"]
+  boss: null
+  count: "by tier"
+  groups: "by tier"
+  families:
+    - "None placed. Each challenge draws up to six kinds from the arena's id range (all Xeen rows, 11010-11699, less every row marked NoArena or Peasant) at levels set by the party's highest level L (the engine's rule): Page L/2-L, 6-8 opponents, gold 50 x L; Squire L/2-1.5L, 6-12, 100 x L; Knight L/2-2L, 10-20, 200 x L; Lord L-2L, 20, 500 x L"
+    - "Bosses, peaceful and placed-only rows (Wobbles ... Lord Xeen, King's Guard, Clan Survivor, Hobstadt's Guard, Inner Circle Guard, Kennel Sabertooth, Trapped Peasant ...), swimmers (octopods) and rows taller than the floor's open sky allows are marked NoArena by A2"
+  kill_xp: "not counted in any act (repeatable, the source's 'Repeatable battles'); the gold is the reward"
+treasure: {level: "gold by tier"}
+role: "Arena (QUESTS: MM6-MM8 arena with four tiers, Page to Lord), WORLD_DESIGN §3.3: always open, a coach once a week from Rivercity and Castleview; the Dragon Clouds' top tier late"
+role_short: "Arena, Page to Lord"
+set_piece: "The war floor: a round pit of sand in a crater of the Barbaric cliffs, open to the sky, ringed by a stone wall with four barred beast gates and the master's booth over the north gate; bones in the sand"
+sounds: "the engine's victory and entry sound (14060, MM7's heroism); the shipped crowd-less arena: no Xeen sound is needed. The AUDIO plan's 'arena gong' (batch 2) at a challenge's start would need a Lua hook the arena does not call (open question 4)"
+textures:
+  family: "MM7 The Arena 7d05 (the shipped arena: sandstone ring wall, sand floor, the stands' stone) for the floor and the lodge; the floor's sky through sky: true faces (X6's clear preset); the passage in X6's Barbaric red rock (A5's cliff texture) up to the inner door"
+  cap: 30
+  planned: 14
+  new: 0
+  distinct_from: "MM6's zarena and MM8's d42 stay unused; no other Xeen map uses 7d05"
+floors:
+  - {floor: 0, name: "The Warzone", height: 0}
+spaces:
+  - {id: room:gate_passage, name: Gate passage, kind: corridor, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The arrival (entrance:x6_yard): a passage cut into the cliff behind the portal's two leaves, two torches standing by its walls, the lodge's door ahead."}
+  - {id: room:lodge, name: Hall of the War Games, kind: hall, size: M, floor: 0, at: [2, 0], goal: true, monsters: 0,
+     purpose: "The lodge: benches by the walls, four banners (Page, Squire, Knight, Lord) over boards of champions; on the east wall the master's booth window (click: the Arena Master's topic 'Arena', the engine's tier choice; his greeting the source's 'You look like tough fighters. ...'). Wall sconces."}
+  - {id: room:floor, name: The war floor, kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, goal: true, monsters: 0, boss_label: "by tier",
+     purpose: "The arena: a round sand floor about 2,400 across, the ring wall 512 high with four barred beast gates (closed for good: dressing), open to the sky, at least 20 marks for the opponents round the ring and the party's mark in the middle facing north. The master's booth window over the north gate (the same click: the reward when all are dead, else 'The battle is not yet won!'). Bones in the sand by the wall ('Bones', 'There is nothing amongst the bones.'). The victors' gate on the west side: the exit."}
+links:
+  - {id: link:passage_lodge, from: room:gate_passage, to: room:lodge, kind: door}
+  - {id: link:lodge_floor, from: room:lodge, to: room:floor, kind: teleport, label: "Tier chosen", opened_by: state:challenge}
+states:
+  - {id: state:challenge, kind: map_var, where: room:lodge,
+     what: "The master's topic 704: the party picks Page, Squire, Knight or Lord; the engine draws the opponents, places them on the floor's marks and moves the party onto the floor's mark (the scene's arena.party_position). A map variable holds the tier and the reward; one challenge per visit ('You have already won this Arena challenge. Come back for another tournament.').",
+     opens: [link:lodge_floor], draw: false}
+  - {id: state:victory, kind: kill, where: room:floor,
+     what: "Every opponent dead: a click on the booth window pays the gold (50 / 100 / 200 / 500 x L), adds the tier's award (45 + tier: 46-49) and counts the win (ArenaWinsPage...). Before that the click puts the party back on its mark.",
+     opens: [], draw: false}
+exits:
+  - {id: exit:x6_yard, space: room:gate_passage, at: [0, 0], kind: both, label: "X6: the arena gate (coach yard)",
+     arrival: "entrance:x6_yard: in the gate passage about 256 inside the leaves, facing east (0), the lodge's door ahead",
+     neighbour: "X6 thing:arena_gate door ('Enter the War Zone?', xeen/aaze0006:4) at (12640, -15872, 1504), 384 x 256, facing west into the coach yard; out by the exit preset to X6 (12128, -15872, 1504) facing west (1024), on the yard's floor in front of the portal (Gorm's coach house and warzone_coach (11264, -16384) beside it)"}
+  - {id: exit:x6_victors, space: room:floor, at: [4, 0], kind: out, label: "X6: the coach yard (victors' gate)",
+     neighbour: "the victors' gate in the ring wall: the exit preset ('Exit the Warzone?', aaze0085:7) to the same point in the coach yard as the gate passage; out only (no arrival on the floor but the master's)"}
+hooks: []
+critical_path: [room:gate_passage, room:lodge, room:floor]
+return_path: [room:floor]
+loops: []
+lines:
+  - {text: "Enter the War Zone?", ref: "xeen/aaze0006:4", where: "X6's arena gate (A5's); here as the door's name"}
+  - {text: "You look like tough fighters.  Would you like to participate in the War Games?  The odds can be high but the thrill of victory is well worth the risk.", ref: "xeen/aaze0085:0", where: "room:lodge (the Arena Master's greeting, A4's NPC)"}
+  - {text: "If you didn't come to fight then you have no business being here!  Come back when you have the mettle to do battle for glory!", ref: "xeen/aaze0085:1", where: "room:lodge (the master when the party leaves the tier choice: open question 3)"}
+  - {text: "I knew that you were true adventurers!  Let the battle begin!", ref: "xeen/aaze0085:2", where: "room:floor (a step message when the party lands on its mark)"}
+  - {text: "Congratulations on your most spectacular victory!  This is the %d%s time that you have been triumphant in the War Games.  I will now send you back to Vertigo ... -> '... The gate is open. Gorm's coach waits in the yard.'", ref: "xeen/aaze0085:3 (adapted)", where: "room:floor (after the engine's reward line)"}
+  - {text: "The battle is not yet won!  Get back in there and either hold your head high in victory or die in a blaze of glory!", ref: "xeen/aaze0085:4", where: "room:floor (the booth window before the last opponent is dead)"}
+  - {text: "Bones / There is nothing amongst the bones.", ref: "xeen/aaze0085:6, :5", where: room:floor}
+  - {text: "Exit the Warzone?", ref: "xeen/aaze0085:7", where: "room:floor, the victors' gate (the exit preset's meaning, D-24)"}
+open_questions:
+  - q: "The arena's opponents. The engine draws from a monster id range; Xeen's rows are 11010-11699 and include every boss, the peaceful rows and the octopods."
+    options: ["(a) the range 11010-11699 with A2 marking NoArena on every boss row, every peaceful or placed-only tier, the octopods and Kraken (water-bound) and rows taller than about 500 (the open sky has no ceiling, but the beast gates and booth must not be overrun)",
+              "(b) a narrower range (e.g. only the Cloudside families) so Darkside monsters never appear on Cloudside"]
+    recommend: "(a): the whole world's bestiary, as MM7's arena draws from all; the four tiers scale with the party"
+    depends: "A2 (the NoArena column on the Xeen rows), the scene's arena block (A7 at L3)"
+  - q: "Its weight. The source's Warzone is repeatable with no story; MAPS gives it no count and no XP."
+    options: ["(a) kill XP not counted in any act, gold by the engine's tiers, the awards 46-49 (the engine's Page ... Lord wins)", "(b) a cap of one win per tier"]
+    recommend: "(a), as MM7"
+    depends: "A3: Xeen's award table holds rows 46-49 with Xeen wording (e.g. 'Won a Page's battle in the Warzone'); A2 nothing"
+  - q: "The arena master. The engine needs an NPC with topic 704 (Arena); the source's master is unnamed. MAPS's original-line row gives him \"No. Goodbye...\" for the lowest tier, which is not in the source's Warzone text (aaze0085)."
+    options: ["(a) A4 adds an NPC 'the Arena Master' (X6's block, e.g. 4609; profession Arena Master; no house), greeting aaze0085:0, topic 704; the lodge's booth window and the floor's window both call evt.SpeakNPC; MAPS's line replaced by aaze0085:0-4 (the decline line :1 as the greeting's second sentence, since the engine's own text closes the choice)",
+              "(b) keep MAPS's \"No. Goodbye...\" if A3 finds its source"]
+    recommend: "(a)"
+    depends: "A4 (NPC), A3 (ORIGINAL_LINES), the orchestrator (MAPS line 439)"
+  - q: "Sounds. AUDIO's batch 2 plans an arena gong; the engine plays MM7's heroism (14060) at the move onto the floor and at the reward, and calls no map event at a challenge's start."
+    options: ["(a) no Xeen sound: the engine's 14060 stays; the gong waits for A1 to add a map hook to the arena's start", "(b) a gong on the step onto the floor's mark (a step event; it would also ring when the party walks the floor after a win)"]
+    recommend: "(a)"
+    depends: "A1 (only if (b) or a start hook is wanted)"
+  - q: "The floor's open sky. The floor is a crater in the Barbaric cliffs (X6's coach yard sits against them); big opponents (dragons at Knight and Lord) need room, which a roofed hall would not give."
+    options: ["(a) the floor's ceiling is open sky (sky: true faces, X6's clear preset, as XD-13 and DD-13), the ring wall 512 high and the cliff above it", "(b) a roofed hall about 1,200 high with the tall rows NoArena"]
+    recommend: "(a)"
+    depends: "A1's open-sky BLV word (exists), A2's NoArena list"

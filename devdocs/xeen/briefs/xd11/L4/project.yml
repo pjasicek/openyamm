@@ -1,0 +1,50 @@
+format: 0
+id: xeen_xd11
+name: Tower of High Magic
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-11
+units: {plan_grid: 512}
+extent: {footprint_cells: [8, 8], climbs: n}
+map_stats:
+  id: 9127
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 34
+  environment: stone hall
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Construct, tier: 0, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x3_door
+    to: xeen_x3.odm
+    kind: door
+    arrival: [256, -1674, 992]
+    arrival_hint: "On X3 (Lifeforce Lagoon), in front of the Tower of High Magic's enchanted door in the swamp, facing away from it."
+    direction: 90
+    notes: "X3 installed (A5, 2026-11-20): the enchanted door asks 'Leave the Tower of High Magic?' and on Yes leaves for X3's islet in front of the door (briefs/x3/DOORS.md, thing:high_magic: 256, -1674, 992 facing north). X3's door needs the Enchanted Key 12306 (A3's m13.tower_door); leaving needs nothing."
+  - id: exit:x8_clouds
+    to: xeen_x8.blv
+    kind: roof
+    arrival: [-10752, -4337, 0]
+    arrival_hint: "On X8 (Cloudreach), the High Magic clouds' landing at the head of the Stairway to Heaven."
+    direction: 90
+    notes: "X8 installed (A6, 2026-11-20): the roof's cloud stair asks 'Stairway to Heaven. Climb?' and on Yes leaves for X8's High Magic clouds at -10752, -4337, 0 facing north (the orchestrator's explicit arrival). X8's falls land on X3 (X2 until X3 exists)."
+qbits:
+  arrived_once: 110680
+  skeleton_key_found: 111260
+items:
+  enchanted_key: 12306
+  librarian_key: 12260
+  prismatic_light: 483
+  skeleton_key: 12100
+notes: "Xeen design brief for a new map (no original): XD-11 Tower of High Magic, story step M13 (QUESTS.md; source/quests/m13.yml): the Skeleton Key to Darzog's Tower lies in the Archmage's study at the top. Size M (MAPS.md section 0 and Dungeons): 20-45 sectors, 30-90 M units squared, about 50 monsters at levels 18-32, party 18-20, Tres 3; graph devdocs/xeen/mockups/act2_graphs/xd11.graph.yml with decider D-4's decisions (mockups/act2_dungeon_decisions.md). Rows (A2): slot 1 Magic constructs (Xeen Construct; markers tier a, Flying Feet 11600, on the ground and first floors; tier b, Guardian 11601, above); placed Sorceresses 11180 and the Head Sorceress 11185 (carries the Librarian's Key 12260). Items: Librarian's Key 12260, Skeleton Key 12100 (given by A3's hook m13.skeleton_key), the Prismatic Light spellbook (engine 483). Player bits 11246-11251 (the six brews, +5 resistance once per character). Map_stats 9127 (source/maps.yml: music 34, treasure 3). Both neighbours are linked: the enchanted door to X3's islet, the cloud stair to X8 (NOTES.md, Exits)."
+identity:
+  shape: tower
+  family: 7d25
+  seen: ["an octagonal tower: slanted corner walls and windows to the sky on every floor, a crenellated roof", "six laboratories, each under its own coloured light, with benches of glassware and a brew", the Library of High Magic and the Archmage's study with his books across the tower's corner]

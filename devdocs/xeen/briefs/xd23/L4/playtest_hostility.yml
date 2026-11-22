@@ -1,0 +1,44 @@
+# Hostility check of the Troll Warren (XD-23): its trolls hostile to the party and no fights among them. After XD-26's
+# (output/studio_cal/hostility/gen_hostility_tests.py's pattern). The trolls are A2's rows (Troll 11070, Troll Guard
+# 11071, all placed) and the Troll Matron 11074, hostile by the world's relations.yml (D-25 Q7: the warren's trolls stay
+# hostile whatever Hobstadt's court does); the map places nobody peaceful. No window is open before the reload.
+id: xeen.xd23.l4.hostility
+title: 'the Troll Warren (XD-23): trolls hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd23.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11070, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11071, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11074, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11070, hostile: true, min: 20}}
+  - assert: {actor_count: {monster_id: 11071, hostile: true, min: 7}}
+  - assert: {actor_count: {monster_id: 11074, hostile: true, min: 1}}
+  # A save and load keeps them hostile (every window closed first, so the reload runs).
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11070, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11071, hostile: true, min: 7}}
+  - note: 'A Troll, a Troll Guard and the Troll Matron side by side in the gnawing hall, nearer each other than the
+      party (a monster takes the nearest of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11070, x: -200, y: -1500, z: 16}
+  - spawn_actor: {monster_id: 11074, x: 200, y: -1500, z: 16}
+  - spawn_actor: {monster_id: 11071, x: 0, y: -1350, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11070, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11071, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11074, hurt: true, max: 0}}

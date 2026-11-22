@@ -1,0 +1,75 @@
+# The disc back to the crown (D-56 7).
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.disc
+title: 'Clouds of the Ancients (P5): after the ending the disc moves the party to entrance:fd03_roof with A3''s line'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111840
+- setup_shortcut:
+    kind: set_qbit
+    id: 111841
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- play_lua:
+    source: wait(1.5); close()
+- assert:
+    map: xeen_p5.blv
+- walk_to:
+    x: 1216
+    y: 0
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(22); wait(0.5)
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: 'local s = status() or ''''; if not string.find(s, ''You step onto the disc'', 1, true) then error(''the disc
+      said: '' .. s) end'
+- assert:
+    map: xeen_p5.blv
+- assert:
+    party_position:
+      x: 4608
+      y: -3968
+      radius: 256

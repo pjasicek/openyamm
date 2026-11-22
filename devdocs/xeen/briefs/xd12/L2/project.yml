@@ -27,7 +27,7 @@ neighbours:
     to: X9
     kind: roof
     arrival_hint: "On the Clouds of Xeen (X9), at the foot of the cloud stair that rises from Darzog's roof."
-    condition: {qbit: m21_crodo_freed}
+    condition: {qbit: crodo_freed}
     one_way: true
     notes: "X9 is not built: a placeholder exit."
   - id: exit:lake_island
@@ -37,9 +37,9 @@ neighbours:
     condition: {item: skeleton_key}
     notes: "X2's door:xd12 (devdocs/xeen/briefs/x2/DOORS.md): the tower door opens from outside only to the Skeleton Key (M13); from inside it always opens. A fall from the keep also lands here."
 qbits:
+  crodo_freed: 110501
+  darzog_slain: 110500
   library_door_opened: 110502
-  m21_crodo_freed: 110501
-  m21_darzog_slain: 110500
 items:
   library_key: 12230
   skeleton_key: 12100

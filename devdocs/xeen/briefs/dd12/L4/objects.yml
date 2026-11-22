@@ -1,0 +1,1481 @@
+format: 0
+start:
+  room: room:entry
+  at: [0, -352]
+  facing: n
+  notes: "A step inside the tower's double door, facing north to the first gate (entrance:d4_isle)."
+arrivals:
+  - {entrance: entrance:d4_isle, room: room:entry, at: [0, -352], facing: n, notes: "D4's door:dd12 (m24.isle_door with the lost_souls_key): inside the double door, facing north."}
+doors:
+  - id: door:barracks
+    opening: open:plaque_barracks
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: c1d1, size: [128, 256], fit: true}
+    back_surface: {texture: c1d1, size: [128, 256], fit: true}
+    edge_surface: {texture: trim12_32, size: [32, 64]}
+    notes: The barracks door.
+  - id: door:cell1
+    opening: open:cell1
+    kind: slide_up
+    thickness: 8
+    speed: 96
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The first cell's bars (xwcage), raised by the north walk's lever."
+  - id: door:cell2
+    opening: open:cell2
+    kind: slide_up
+    thickness: 8
+    speed: 96
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The second cell's bars, raised by the south walk's lever."
+  - id: door:cell3
+    opening: open:cell3
+    kind: slide_up
+    thickness: 8
+    speed: 96
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The third cell's bars, raised by the second gate's lever."
+  - id: door:gate1
+    opening: open:gate1
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: xlsgate, size: [128, 256], fit: true}
+    back_surface: {texture: xlsgate, size: [128, 256], fit: true}
+    notes: "A 'think positive' gate: two hinged leaves of iron bars over a bronze half-sun (xlsgate), the right leaf mirrored, so the closed pair makes one smiling sun; they swing apart."
+  - id: door:gate2
+    opening: open:gate2
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: xlsgate, size: [128, 256], fit: true}
+    back_surface: {texture: xlsgate, size: [128, 256], fit: true}
+    notes: "A 'think positive' gate: two hinged leaves of iron bars over a bronze half-sun (xlsgate), the right leaf mirrored, so the closed pair makes one smiling sun; they swing apart."
+  - id: door:gate3
+    opening: open:gate3
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: xlsgate, size: [128, 256], fit: true}
+    back_surface: {texture: xlsgate, size: [128, 256], fit: true}
+    notes: "A 'think positive' gate: two hinged leaves of iron bars over a bronze half-sun (xlsgate), the right leaf mirrored, so the closed pair makes one smiling sun; they swing apart."
+  - id: door:gate4
+    opening: open:gate4
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: xlsgate, size: [128, 256], fit: true}
+    back_surface: {texture: xlsgate, size: [128, 256], fit: true}
+    notes: "A 'think positive' gate: two hinged leaves of iron bars over a bronze half-sun (xlsgate), the right leaf mirrored, so the closed pair makes one smiling sun; they swing apart."
+  - id: door:gate5
+    opening: open:gate5
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: xlsgate, size: [128, 256], fit: true}
+    back_surface: {texture: xlsgate, size: [128, 256], fit: true}
+    notes: "A 'think positive' gate: two hinged leaves of iron bars over a bronze half-sun (xlsgate), the right leaf mirrored, so the closed pair makes one smiling sun; they swing apart."
+  - id: door:gate_top
+    opening: open:lift_top
+    kind: slide_up
+    thickness: 8
+    speed: 60
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The cage's gate at the lift head: shut while the cage is down (a 2,560 drop), opened with the cage's climb."
+  - id: door:illusion
+    opening: open:illusion
+    kind: slide_down
+    thickness: 8
+    speed: 256
+    surface: {texture: eswamp, size: [128, 128]}
+    secret: true
+    back_surface: {texture: eswamp, size: [128, 128]}
+    tile: true
+    notes: "The illusory wall: 'An illusion!' and it is gone."
+  - id: door:reserve
+    opening: open:levers_reserve
+    kind: slide_up
+    thickness: 16
+    speed: 64
+    surface: {texture: c1d1, size: [128, 256]}
+    tile: true
+    notes: "The Reserve's iron portcullis (c1d1): raised by the riddle's lever, and stays up."
+  - id: door:store_a
+    opening: open:gallery_store_a
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: c1d1, size: [128, 256], fit: true}
+    back_surface: {texture: c1d1, size: [128, 256], fit: true}
+    edge_surface: {texture: trim12_32, size: [32, 64]}
+    notes: "A storeroom door: 'Minotaur Storage'."
+  - id: door:store_b
+    opening: open:store_b_stair
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: c1d1, size: [128, 256], fit: true}
+    back_surface: {texture: c1d1, size: [128, 256], fit: true}
+    edge_surface: {texture: trim12_32, size: [32, 64]}
+    notes: The north-east storeroom's door to the stair head.
+  - id: door:store_c
+    opening: open:gallery_store_c
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: c1d1, size: [128, 256], fit: true}
+    back_surface: {texture: c1d1, size: [128, 256], fit: true}
+    edge_surface: {texture: trim12_32, size: [32, 64]}
+    notes: "A storeroom door: 'Minotaur Storage'."
+  - id: door:vault
+    opening: open:vault
+    kind: slide_up
+    thickness: 16
+    speed: 64
+    surface: {texture: cwb, size: [128, 256]}
+    secret: true
+    back_surface: {texture: cwb, size: [128, 256]}
+    tile: true
+    notes: "The hourglass panel in the hall's west end: it grinds up once all four hourglasses are turned; from inside the vault it opens by hand."
+lifts:
+  - id: lift:cage
+    room: room:shaft
+    at: [-2304, 1312]
+    size: [448, 448]
+    travel: 2560
+    thickness: 16
+    speed: 480
+    surface: {texture: cfb1, size: [128, 128]}
+    notes: "The iron cage: a floor 448 square riding the shaft between the aviary (down, L5) and the lift head (up, L1). D-42 (2): it runs only once m24.bird_freed is set."
+sounds:
+  - {id: sound:bed_lower, room: room:levers4, at: [5504, -2048], sound: xeen_amb_mine, radius: 4200, inner_radius: 1800, volume: 0.3, notes: The bed for L4 and the maze's east half., pan: false}
+  - {id: sound:bed_maze, room: room:maze_l, at: [2336, 2560], sound: xeen_amb_mine, radius: 3600, inner_radius: 1500, volume: 0.3, notes: The bed for the maze's west half and the aviary., pan: false}
+  - {id: sound:bed_upper, room: room:statue_hall2, at: [2592, -1600], height: 0, sound: xeen_amb_mine, radius: 3800, inner_radius: 1800, volume: 0.3, notes: "The dungeon's bed (AUDIO.md xeen_amb_mine, drips and knocks): one source between L1 and L3, quiet.", pan: false}
+  - {id: sound:entry_wind, room: room:entry, at: [0, 0], height: 640, sound: whistling wind, radius: 1200, inner_radius: 400, volume: 0.35, notes: Wind over the broken roof.}
+  - {id: sound:pool, room: room:pool3, at: [-2560, -2048], sound: water lapping loop, radius: 1300, inner_radius: 300, volume: 0.3, notes: The stagnant pool.}
+  - {id: sound:soul3, room: room:soul3, at: [768, -1152], sound: water lapping loop, radius: 1000, inner_radius: 250, volume: 0.3, notes: The Soul Waters.}
+  - {id: sound:statues, room: room:statues5, at: [7440, 800], sound: campfire, radius: 1000, inner_radius: 200, volume: 0.3, notes: The braziers between Alamar's statues.}
+  - {id: sound:throne, room: room:maze_l, at: [2400, 1984], sound: campfire, radius: 900, inner_radius: 200, volume: 0.35, notes: The braziers by the horned throne.}
+lights:
+  - id: light:aviary
+    room: room:aviary
+    at: [-2672, 2304]
+    height: 420
+    radius: 1700
+    color: [255, 225, 190]
+  - id: light:barracks4
+    room: room:barracks4
+    at: [4864, -880]
+    height: 400
+    radius: 1782
+    color: [255, 200, 150]
+  - id: light:cell1
+    room: room:cell1
+    at: [704, -2832]
+    height: 300
+    radius: 732
+    color: [220, 170, 130]
+  - id: light:cell2
+    room: room:cell2
+    at: [1216, -2832]
+    height: 300
+    radius: 732
+    color: [220, 170, 130]
+  - id: light:cell3
+    room: room:cell3
+    at: [1728, -2832]
+    height: 300
+    radius: 732
+    color: [220, 170, 130]
+  - id: light:dials3
+    room: room:dials3
+    at: [-752, -1600]
+    height: 400
+    radius: 2214
+    color: [255, 200, 150]
+  - id: light:entry
+    room: room:entry
+    at: [0, 0]
+    height: 560
+    radius: 1500
+    color: [235, 205, 175]
+    notes: Failing Darkside daylight through the broken roof.
+  - id: light:flooded3
+    room: room:flooded3
+    at: [-768, -2816]
+    height: 300
+    radius: 2143
+    color: [220, 170, 130]
+  - id: light:gallery1
+    room: room:gallery1
+    at: [128, 784]
+    height: 400
+    radius: 4316
+    color: [255, 200, 150]
+  - id: light:gate_hall2
+    room: room:gate_hall2
+    at: [-48, -2048]
+    height: 400
+    radius: 1321
+    color: [255, 200, 150]
+  - id: light:gate_hall3
+    room: room:gate_hall3
+    at: [1776, -2048]
+    height: 400
+    radius: 1321
+    color: [255, 200, 150]
+  - id: light:gate_hall4
+    room: room:gate_hall4
+    at: [6912, -2304]
+    height: 400
+    radius: 1321
+    color: [255, 200, 150]
+  - id: light:gate_hall5
+    room: room:gate_hall5
+    at: [-1376, 2112]
+    height: 400
+    radius: 1321
+    color: [255, 200, 150]
+  - id: light:levers4
+    room: room:levers4
+    at: [5520, -2048]
+    height: 400
+    radius: 1984
+    color: [255, 200, 150]
+  - id: light:lift_head
+    room: room:lift_head
+    at: [-2320, 784]
+    height: 400
+    radius: 832
+    color: [255, 200, 150]
+  - id: light:maze_dead
+    room: room:maze_dead
+    at: [4640, 1504]
+    height: 300
+    radius: 991
+    color: [220, 170, 130]
+  - id: light:maze_e
+    room: room:maze_e
+    at: [1312, 1920]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:maze_e2
+    room: room:maze_e2
+    at: [4384, 1920]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:maze_h
+    room: room:maze_h
+    at: [288, 1920]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:maze_l
+    room: room:maze_l
+    at: [2464, 2048]
+    height: 300
+    radius: 900
+    color: [255, 170, 110]
+    notes: The braziers by the throne.
+  - id: light:maze_m
+    room: room:maze_m
+    at: [5408, 2944]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:maze_s
+    room: room:maze_s
+    at: [-736, 2944]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:maze_t
+    room: room:maze_t
+    at: [3360, 2944]
+    height: 300
+    radius: 1100
+    color: [220, 170, 130]
+  - id: light:negative3
+    room: room:negative3
+    at: [784, -2816]
+    height: 300
+    radius: 1221
+    color: [220, 170, 130]
+  - id: light:north_walk2
+    room: room:north_walk2
+    at: [1184, -1728]
+    height: 400
+    radius: 1840
+    color: [255, 200, 150]
+  - id: light:plaque4
+    room: room:plaque4
+    at: [4096, -2048]
+    height: 400
+    radius: 1782
+    color: [255, 200, 150]
+  - id: light:pool3
+    room: room:pool3
+    at: [-2560, -1700]
+    height: 400
+    radius: 1700
+    color: [190, 215, 255]
+  - id: light:reserve4
+    room: room:reserve4
+    at: [5504, -3344]
+    height: 400
+    radius: 1552
+    color: [255, 200, 150]
+  - id: light:shaft
+    room: room:shaft
+    at: [-2304, 1312]
+    height: 300
+    radius: 900
+    color: [220, 170, 130]
+  - id: light:side3a
+    room: room:side3a
+    at: [-1440, -2416]
+    height: 240
+    radius: 600
+    color: [220, 170, 130]
+  - id: light:side3b
+    room: room:side3b
+    at: [-256, -2416]
+    height: 240
+    radius: 600
+    color: [220, 170, 130]
+  - id: light:side3c
+    room: room:side3c
+    at: [-3216, -2560]
+    height: 240
+    radius: 600
+    color: [220, 170, 130]
+  - id: light:soul3
+    room: room:soul3
+    at: [768, -1400]
+    height: 400
+    radius: 1300
+    color: [190, 215, 255]
+  - id: light:south_walk2
+    room: room:south_walk2
+    at: [1184, -2368]
+    height: 400
+    radius: 1840
+    color: [255, 200, 150]
+  - id: light:stair1
+    room: room:stair1
+    at: [2608, 768]
+    height: 400
+    radius: 2012
+    color: [255, 200, 150]
+  - id: light:statue_hall2
+    room: room:statue_hall2
+    at: [2592, -1984]
+    height: 400
+    radius: 1494
+    color: [255, 200, 150]
+  - id: light:statues5
+    room: room:statues5
+    at: [7072, 784]
+    height: 400
+    radius: 2675
+    color: [255, 200, 150]
+  - id: light:store_a
+    room: room:store_a
+    at: [864, 1360]
+    height: 400
+    radius: 1264
+    color: [255, 200, 150]
+  - id: light:store_b
+    room: room:store_b
+    at: [1840, 1360]
+    height: 400
+    radius: 1235
+    color: [255, 200, 150]
+  - id: light:store_c
+    room: room:store_c
+    at: [1152, 192]
+    height: 400
+    radius: 1091
+    color: [255, 200, 150]
+  - id: light:store_d
+    room: room:store_d
+    at: [1936, 192]
+    height: 400
+    radius: 1062
+    color: [255, 200, 150]
+  - id: light:vault1
+    room: room:vault1
+    at: [-384, 1312]
+    height: 300
+    radius: 760
+    color: [220, 170, 130]
+switches:
+  - id: switch:call_foot
+    room: room:aviary
+    kind: button
+    at: [-2016, 1600]
+    height: 112
+    notes: Call button beside the cage's mouth in the aviary.
+  - id: switch:call_top
+    room: room:lift_head
+    kind: button
+    at: [-2560, 896]
+    height: 112
+    notes: Call button beside the cage's gate at the lift head.
+  - id: switch:lever1
+    room: room:north_walk2
+    kind: lever
+    at: [768, -1536]
+    notes: The first cell's lever.
+  - id: switch:lever2
+    room: room:south_walk2
+    kind: lever
+    at: [1600, -2176]
+    notes: The second cell's lever.
+  - id: switch:lever3
+    room: room:gate_hall2
+    kind: lever
+    at: [-480, -1664]
+    notes: "The third cell's lever, on the west wall beside the gate."
+  - id: switch:lever4
+    room: room:statue_hall2
+    kind: lever
+    at: [3200, -2304]
+    notes: "The fourth lever, by the statue: stuck."
+  - id: switch:post_11
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_11
+    side: s
+    height: 80
+    notes: "Lever 1 of row 1 (rows north to south, levers west to east)."
+  - id: switch:post_12
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_12
+    side: s
+    height: 80
+    notes: "Lever 2 of row 1 (rows north to south, levers west to east)."
+  - id: switch:post_13
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_13
+    side: s
+    height: 80
+    notes: "Lever 3 of row 1 (rows north to south, levers west to east)."
+  - id: switch:post_21
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_21
+    side: s
+    height: 80
+    notes: "Lever 1 of row 2 (rows north to south, levers west to east)."
+  - id: switch:post_22
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_22
+    side: s
+    height: 80
+    notes: "Lever 2 of row 2 (rows north to south, levers west to east)."
+  - id: switch:post_23
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_23
+    side: s
+    height: 80
+    notes: "Lever 3 of row 2 (rows north to south, levers west to east)."
+  - id: switch:post_31
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_31
+    side: s
+    height: 80
+    notes: "Lever 1 of row 3 (rows north to south, levers west to east)."
+  - id: switch:post_32
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_32
+    side: s
+    height: 80
+    notes: "Lever 2 of row 3 (rows north to south, levers west to east)."
+  - id: switch:post_33
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_33
+    side: s
+    height: 80
+    notes: "Lever 3 of row 3 (rows north to south, levers west to east)."
+  - id: switch:post_41
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_41
+    side: s
+    height: 80
+    notes: "Lever 1 of row 4 (rows north to south, levers west to east)."
+  - id: switch:post_42
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_42
+    side: s
+    height: 80
+    notes: "Lever 2 of row 4 (rows north to south, levers west to east)."
+  - id: switch:post_43
+    room: room:levers4
+    kind: lever
+    reach: 24
+    block: platform:post_43
+    side: s
+    height: 80
+    notes: "Lever 3 of row 4 (rows north to south, levers west to east)."
+  - id: switch:ride_down
+    room: room:shaft
+    kind: button
+    at: [-2560, 1312]
+    floor_height: -2560
+    height: 2672
+    notes: "Inside the shaft at the top, in reach of a rider on the raised cage."
+  - id: switch:ride_up
+    room: room:shaft
+    kind: button
+    at: [-2560, 1312]
+    floor_height: -2560
+    height: 112
+    notes: "Inside the shaft at the foot: sends the cage up."
+  - id: switch:soul_lever
+    room: room:soul3
+    kind: lever
+    at: [1088, -1024]
+    notes: The Soul Waters' lever beside the niche.
+chests:
+  - id: chest:cell3
+    room: room:cell3
+    at: [1728, -2992]
+    facing: n
+    treasure_level: 4
+    random_items: 2
+    gold: 900
+    notes: Taken from the last ones who answered No.
+  - id: chest:dead
+    room: room:maze_dead
+    at: [4944, 1344]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1000
+    notes: The lost adventurer's chest.
+  - id: chest:negative
+    room: room:negative3
+    at: [1200, -2560]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1200
+    notes: By the black waters.
+  - id: chest:reserve
+    room: room:reserve4
+    at: [5504, -2976]
+    facing: s
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The Minotaur's hoard (T5).
+  - id: chest:vault
+    room: room:vault1
+    at: [-384, 1488]
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 1500
+    notes: The minotaurs' strongbox behind the hourglass panel.
+monsters:
+  - id: monster:barracks4_1
+    room: room:barracks4
+    monster: 11091
+    at: [5100, -900]
+    facing: 270
+    group: 12
+  - id: monster:dials3_1
+    room: room:dials3
+    monster: 11090
+    at: [-1100, -1600]
+    facing: 270
+    group: 9
+  - id: monster:dials3_2
+    room: room:dials3
+    monster: 11090
+    at: [-600, -1600]
+    facing: 270
+    group: 9
+  - id: monster:dials3_3
+    room: room:dials3
+    monster: 11090
+    at: [-100, -1600]
+    facing: 270
+    group: 9
+  - id: monster:flooded3_1
+    room: room:flooded3
+    monster: 11091
+    at: [-1300, -2760]
+    facing: 270
+    group: 10
+  - id: monster:flooded3_2
+    room: room:flooded3
+    monster: 11091
+    at: [-600, -2760]
+    facing: 270
+    group: 10
+  - id: monster:flooded3_3
+    room: room:flooded3
+    monster: 11091
+    at: [0, -2760]
+    facing: 270
+    group: 10
+  - id: monster:gallery1_1
+    room: room:gallery1
+    monster: 11090
+    at: [1100, 768]
+    facing: 270
+    group: 1
+  - id: monster:gallery1_2
+    room: room:gallery1
+    monster: 11090
+    at: [1600, 700]
+    facing: 270
+    group: 1
+  - id: monster:gallery1_3
+    room: room:gallery1
+    monster: 11090
+    at: [1950, 840]
+    facing: 270
+    group: 1
+  - id: monster:gate_hall2_1
+    room: room:gate_hall2
+    monster: 11090
+    at: [-100, -1800]
+    facing: 270
+    group: 7
+  - id: monster:gate_hall2_2
+    room: room:gate_hall2
+    monster: 11090
+    at: [100, -2300]
+    facing: 270
+    group: 7
+  - id: monster:gate_hall5_1
+    room: room:gate_hall5
+    monster: 11092
+    at: [-1376, 2112]
+    facing: 270
+    group: 23
+    notes: "A Minotaur Lord (A2's 11092, level 55)."
+  - id: monster:levers4_1
+    room: room:levers4
+    monster: 11090
+    at: [4800, -1700]
+    facing: 270
+    group: 13
+  - id: monster:levers4_2
+    room: room:levers4
+    monster: 11090
+    at: [4800, -2500]
+    facing: 270
+    group: 13
+  - id: monster:levers4_3
+    room: room:levers4
+    monster: 11091
+    at: [6200, -1700]
+    facing: 270
+    group: 13
+  - id: monster:levers4_4
+    room: room:levers4
+    monster: 11091
+    at: [6200, -2500]
+    facing: 270
+    group: 13
+  - id: monster:maze_e2_1
+    room: room:maze_e2
+    monster: 11090
+    at: [4384, 2432]
+    facing: 270
+    group: 17
+  - id: monster:maze_e_1
+    room: room:maze_e
+    monster: 11090
+    at: [1312, 2432]
+    facing: 270
+    group: 20
+  - id: monster:maze_h_1
+    room: room:maze_h
+    monster: 11091
+    at: [544, 2432]
+    facing: 270
+    group: 21
+  - id: monster:maze_l_1
+    room: room:maze_l
+    monster: 11092
+    at: [2592, 2176]
+    facing: 270
+    group: 19
+    notes: "A Minotaur Lord (A2's 11092, level 55)."
+  - id: monster:maze_m_1
+    room: room:maze_m
+    monster: 11090
+    at: [5920, 2432]
+    facing: 270
+    group: 16
+  - id: monster:maze_s_1
+    room: room:maze_s
+    monster: 11090
+    at: [-480, 2432]
+    facing: 270
+    group: 22
+  - id: monster:maze_t_1
+    room: room:maze_t
+    monster: 11091
+    at: [3616, 2432]
+    facing: 270
+    group: 18
+  - id: monster:north_walk2_1
+    room: room:north_walk2
+    monster: 11090
+    at: [900, -1728]
+    facing: 270
+    group: 5
+  - id: monster:north_walk2_2
+    room: room:north_walk2
+    monster: 11090
+    at: [1500, -1728]
+    facing: 270
+    group: 5
+  - id: monster:plaque4_1
+    room: room:plaque4
+    monster: 11090
+    at: [3900, -1500]
+    facing: 270
+    group: 11
+  - id: monster:plaque4_2
+    room: room:plaque4
+    monster: 11090
+    at: [4350, -1500]
+    facing: 270
+    group: 11
+  - id: monster:plaque4_3
+    room: room:plaque4
+    monster: 11090
+    at: [4300, -2500]
+    facing: 270
+    group: 11
+  - id: monster:pool3_1
+    room: room:pool3
+    monster: 11090
+    at: [-2880, -1500]
+    facing: 270
+    group: 8
+  - id: monster:pool3_2
+    room: room:pool3
+    monster: 11090
+    at: [-2200, -1500]
+    facing: 270
+    group: 8
+  - id: monster:pool3_3
+    room: room:pool3
+    monster: 11090
+    at: [-2200, -2600]
+    facing: 270
+    group: 8
+  - id: monster:reserve4_1
+    room: room:reserve4
+    monster: 11092
+    at: [5504, -3300]
+    facing: 270
+    group: 14
+    notes: "A Minotaur Lord (A2's 11092, level 55)."
+  - id: monster:south_walk2_1
+    room: room:south_walk2
+    monster: 11091
+    at: [800, -2368]
+    facing: 270
+    group: 6
+  - id: monster:south_walk2_2
+    room: room:south_walk2
+    monster: 11091
+    at: [1500, -2368]
+    facing: 270
+    group: 6
+  - id: monster:statue_hall2_1
+    room: room:statue_hall2
+    monster: 11090
+    at: [2280, -1760]
+    facing: 270
+    group: 4
+  - id: monster:statue_hall2_2
+    room: room:statue_hall2
+    monster: 11090
+    at: [2880, -1760]
+    facing: 270
+    group: 4
+  - id: monster:statue_hall2_3
+    room: room:statue_hall2
+    monster: 11090
+    at: [2800, -2300]
+    facing: 270
+    group: 4
+  - id: monster:statues5_1
+    room: room:statues5
+    monster: 11091
+    at: [7000, 400]
+    facing: 270
+    group: 15
+  - id: monster:statues5_2
+    room: room:statues5
+    monster: 11091
+    at: [7000, 1200]
+    facing: 270
+    group: 15
+  - id: monster:store_a_1
+    room: room:store_a
+    monster: 11090
+    at: [700, 1340]
+    facing: 270
+    group: 2
+  - id: monster:store_a_2
+    room: room:store_a
+    monster: 11090
+    at: [1000, 1280]
+    facing: 270
+    group: 2
+  - id: monster:store_a_3
+    room: room:store_a
+    monster: 11090
+    at: [1150, 1400]
+    facing: 270
+    group: 2
+  - id: monster:store_c_1
+    room: room:store_c
+    monster: 11090
+    at: [1000, 160]
+    facing: 270
+    group: 3
+  - id: monster:store_c_2
+    room: room:store_c
+    monster: 11090
+    at: [1320, 260]
+    facing: 270
+    group: 3
+decorations:
+  - id: deco:alamar_1
+    room: room:statues5
+    decoration: 7dec55
+    at: [7392, -64]
+    floor_height: -2496
+    notes: "Alamar's statue on its plinth, verse 1."
+  - id: deco:alamar_2
+    room: room:statues5
+    decoration: 7dec55
+    at: [7392, 512]
+    floor_height: -2496
+    notes: "Alamar's statue on its plinth, verse 2."
+  - id: deco:alamar_3
+    room: room:statues5
+    decoration: 7dec55
+    at: [7392, 1088]
+    floor_height: -2496
+    notes: "Alamar's statue on its plinth, verse 3."
+  - id: deco:alamar_4
+    room: room:statues5
+    decoration: 7dec55
+    at: [7392, 1664]
+    floor_height: -2496
+    notes: "Alamar's statue on its plinth, verse 4."
+  - id: deco:aviary_lamp_1
+    room: room:aviary
+    decoration: chndlir0
+    at: [-2976, 2304]
+    hangs: true
+  - id: deco:aviary_lamp_2
+    room: room:aviary
+    decoration: chndlir0
+    at: [-2368, 2304]
+    hangs: true
+  - id: deco:barracks
+    room: room:barracks4
+    decoration: scon100
+    at: [5632, -896]
+    wall: east
+  - id: deco:barracks_straw_1
+    room: room:barracks4
+    decoration: 7dec11
+    at: [4352, -640]
+    notes: Old bedding straw.
+  - id: deco:barracks_straw_2
+    room: room:barracks4
+    decoration: trasheap
+    at: [5440, -640]
+    notes: A heap of straw and rubbish (the purse under it).
+  - id: deco:cagebird_1
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-3168, 3007]
+    height: 64
+    hangs: true
+    facing: 270
+    notes: "S's cage bird (row 4015, its perch idle) in cage 1: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_2
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-2784, 3007]
+    height: 64
+    hangs: true
+    facing: 270
+    notes: "S's cage bird (row 4015, its perch idle) in cage 2: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_3
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-2400, 3007]
+    height: 64
+    hangs: true
+    facing: 270
+    notes: "S's cage bird (row 4015, its perch idle) in cage 3: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_4
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-2016, 3007]
+    height: 64
+    hangs: true
+    facing: 270
+    notes: "S's cage bird (row 4015, its perch idle) in cage 4: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_5
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-3423, 2624]
+    height: 64
+    hangs: true
+    facing: 0
+    notes: "S's cage bird (row 4015, its perch idle) in cage 5: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_6
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-3423, 2240]
+    height: 64
+    hangs: true
+    facing: 0
+    notes: "S's cage bird (row 4015, its perch idle) in cage 6: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_7
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-3168, 1601]
+    height: 64
+    hangs: true
+    facing: 90
+    notes: "S's cage bird (row 4015, its perch idle) in cage 7: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cagebird_8
+    room: room:aviary
+    decoration: xeen_cagebird
+    at: [-2784, 1601]
+    height: 64
+    hangs: true
+    facing: 90
+    notes: "S's cage bird (row 4015, its perch idle) in cage 8: 1 in from the wall line (the build's inside test) at the panel's bottom, facing out."
+  - id: deco:cell1_bones
+    room: room:cell1
+    decoration: 7dec18
+    at: [704, -2880]
+    notes: "An adventurer's bones ('Bones', a find)."
+  - id: deco:cell2_bones
+    room: room:cell2
+    decoration: dec19
+    at: [1216, -2880]
+    notes: "An adventurer's bones ('Bones', a find)."
+  - id: deco:dead
+    room: room:maze_dead
+    decoration: scon100
+    at: [5024, 1504]
+    wall: east
+  - id: deco:dead_bones
+    room: room:maze_dead
+    decoration: dec29
+    at: [4352, 1344]
+    notes: A lost adventurer's bones.
+  - id: deco:dials_s1
+    room: room:dials3
+    decoration: scon100
+    at: [-960, -1856]
+    wall: south
+  - id: deco:dials_s2
+    room: room:dials3
+    decoration: scon100
+    at: [-192, -1856]
+    wall: south
+  - id: deco:entry_ne
+    room: room:entry
+    decoration: scon100
+    at: [474, 260]
+    wall: 5
+  - id: deco:entry_nw
+    room: room:entry
+    decoration: scon100
+    at: [-474, 260]
+    wall: 11
+  - id: deco:entry_rubble_1
+    room: room:entry
+    decoration: trasheap
+    at: [330, 320]
+    notes: Fallen masonry from the broken roof.
+  - id: deco:entry_rubble_2
+    room: room:entry
+    decoration: trasheap
+    at: [-330, -300]
+    notes: Fallen masonry.
+  - id: deco:entry_se
+    room: room:entry
+    decoration: scon100
+    at: [260, -474]
+    wall: 1
+    notes: A wall torch beside the door.
+  - id: deco:entry_sw
+    room: room:entry
+    decoration: scon100
+    at: [-260, -474]
+    wall: 15
+    notes: A wall torch beside the door.
+  - id: deco:flooded_n
+    room: room:flooded3
+    decoration: scon100
+    at: [-768, -2560]
+    wall: north
+  - id: deco:gallery_n1
+    room: room:gallery1
+    decoration: scon100
+    at: [0, 1024]
+    wall: north
+  - id: deco:gallery_n2
+    room: room:gallery1
+    decoration: scon100
+    at: [1344, 1024]
+    wall: north
+  - id: deco:gallery_s1
+    room: room:gallery1
+    decoration: scon100
+    at: [640, 512]
+    wall: south
+  - id: deco:gallery_s2
+    room: room:gallery1
+    decoration: scon100
+    at: [1984, 512]
+    wall: south
+  - id: deco:gallery_w
+    room: room:gallery1
+    decoration: scon100
+    at: [-1280, 1024]
+    wall: north
+  - id: deco:gate2_n
+    room: room:gate_hall2
+    decoration: scon100
+    at: [-64, -1536]
+    wall: north
+  - id: deco:gate2_s
+    room: room:gate_hall2
+    decoration: scon100
+    at: [-64, -2560]
+    wall: south
+  - id: deco:gate3_n
+    room: room:gate_hall3
+    decoration: scon100
+    at: [1792, -1536]
+    wall: north
+  - id: deco:gate3_s
+    room: room:gate_hall3
+    decoration: scon100
+    at: [1792, -2560]
+    wall: south
+  - id: deco:gate4_n
+    room: room:gate_hall4
+    decoration: scon100
+    at: [6912, -1792]
+    wall: north
+  - id: deco:gate4_s
+    room: room:gate_hall4
+    decoration: scon100
+    at: [6912, -2816]
+    wall: south
+  - id: deco:gate5_n
+    room: room:gate_hall5
+    decoration: scon100
+    at: [-1376, 2624]
+    wall: north
+  - id: deco:gate5_s
+    room: room:gate_hall5
+    decoration: scon100
+    at: [-1376, 1600]
+    wall: south
+  - id: deco:levers_n1
+    room: room:levers4
+    decoration: scon100
+    at: [6144, -1280]
+    wall: north
+  - id: deco:levers_s1
+    room: room:levers4
+    decoration: scon100
+    at: [4800, -2816]
+    wall: south
+  - id: deco:levers_s2
+    room: room:levers4
+    decoration: scon100
+    at: [6272, -2816]
+    wall: south
+  - id: deco:lift_head
+    room: room:lift_head
+    decoration: scon100
+    at: [-2560, 768]
+    wall: west
+  - id: deco:maze_e1
+    room: room:maze_e
+    decoration: scon100
+    at: [1184, 2688]
+    wall: 13
+  - id: deco:maze_e2_1
+    room: room:maze_e2
+    decoration: scon100
+    at: [4256, 2688]
+    wall: 1
+  - id: deco:maze_h1
+    room: room:maze_h
+    decoration: scon100
+    at: [544, 2304]
+    wall: 4
+  - id: deco:maze_m1
+    room: room:maze_m
+    decoration: scon100
+    at: [5920, 3072]
+    wall: 12
+  - id: deco:maze_rubble_1
+    room: room:maze_h
+    decoration: trasheap
+    at: [288, 1856]
+    notes: Fallen masonry from the maze's broken walls.
+  - id: deco:maze_rubble_2
+    room: room:maze_h
+    decoration: trasheap
+    at: [800, 3008]
+    notes: Fallen masonry from the maze's broken walls.
+  - id: deco:maze_rubble_3
+    room: room:maze_e
+    decoration: trasheap
+    at: [1888, 1920]
+    notes: Fallen masonry from the maze's broken walls.
+  - id: deco:maze_rubble_4
+    room: room:maze_m
+    decoration: trasheap
+    at: [5408, 1856]
+    notes: Fallen masonry from the maze's broken walls.
+  - id: deco:maze_rubble_5
+    room: room:maze_m
+    decoration: trasheap
+    at: [5920, 1856]
+    notes: Fallen masonry from the maze's broken walls.
+  - id: deco:maze_s1
+    room: room:maze_s
+    decoration: scon100
+    at: [-864, 2688]
+    wall: 7
+  - id: deco:maze_t1
+    room: room:maze_t
+    decoration: scon100
+    at: [3616, 3072]
+    wall: 4
+  - id: deco:negative_e
+    room: room:negative3
+    decoration: scon100
+    at: [1280, -2944]
+    wall: east
+  - id: deco:north_walk
+    room: room:north_walk2
+    decoration: scon100
+    at: [1184, -1920]
+    wall: south
+  - id: deco:plaque_e
+    room: room:plaque4
+    decoration: scon100
+    at: [4608, -2560]
+    wall: east
+  - id: deco:plaque_w
+    room: room:plaque4
+    decoration: scon100
+    at: [3584, -1536]
+    wall: west
+  - id: deco:pool_n
+    room: room:pool3
+    decoration: scon100
+    at: [-2432, -1280]
+    wall: north
+  - id: deco:pool_w
+    room: room:pool3
+    decoration: scon100
+    at: [-3072, -2048]
+    wall: west
+  - id: deco:reserve_cask_1
+    room: room:reserve4
+    decoration: bigbarel
+    at: [4960, -3744]
+  - id: deco:reserve_cask_2
+    room: room:reserve4
+    decoration: bigbarel
+    at: [4960, -3632]
+  - id: deco:reserve_cask_3
+    room: room:reserve4
+    decoration: bigbarel
+    at: [6048, -3744]
+  - id: deco:reserve_cask_4
+    room: room:reserve4
+    decoration: bigbarel
+    at: [6048, -3632]
+  - id: deco:reserve_e
+    room: room:reserve4
+    decoration: scon100
+    at: [6144, -3328]
+    wall: east
+  - id: deco:reserve_w
+    room: room:reserve4
+    decoration: scon100
+    at: [4864, -3328]
+    wall: west
+  - id: deco:side3a_bones
+    room: room:side3a
+    decoration: 7dec18
+    at: [-1552, -2368]
+    notes: A prisoner's bones.
+  - id: deco:side3b_bones
+    room: room:side3b
+    decoration: dec19
+    at: [-160, -2368]
+    notes: Bones.
+  - id: deco:side3c_skull
+    room: room:side3c
+    decoration: dec29
+    at: [-3280, -2464]
+    notes: A skull.
+  - id: deco:soul_e
+    room: room:soul3
+    decoration: scon100
+    at: [1280, -1280]
+    wall: east
+  - id: deco:soul_w
+    room: room:soul3
+    decoration: scon100
+    at: [288, -1152]
+    wall: west
+  - id: deco:south_walk
+    room: room:south_walk2
+    decoration: scon100
+    at: [896, -2176]
+    wall: north
+  - id: deco:stair1_e
+    room: room:stair1
+    decoration: scon100
+    at: [2880, 768]
+    wall: east
+  - id: deco:stair1_w
+    room: room:stair1
+    decoration: scon100
+    at: [2336, 800]
+    wall: west
+  - id: deco:statue2
+    room: room:statue_hall2
+    decoration: 7dec55
+    at: [2592, -2048]
+    floor_height: -576
+    notes: The speaking statue on its plinth.
+  - id: deco:statue2_e
+    room: room:statue_hall2
+    decoration: scon100
+    at: [3200, -1984]
+    wall: east
+  - id: deco:statue2_s
+    room: room:statue_hall2
+    decoration: scon100
+    at: [2592, -2560]
+    wall: south
+  - id: deco:statue3
+    room: room:dials3
+    decoration: 7dec55
+    at: [-1500, -1760]
+    floor_height: -1216
+    notes: The dial statue on its plinth.
+  - id: deco:statue4
+    room: room:plaque4
+    decoration: 7dec55
+    at: [4096, -1920]
+    floor_height: -1856
+    notes: The statue over the riddle's plaque.
+  - id: deco:statues_brazier_1
+    room: room:statues5
+    decoration: brzier00
+    at: [7440, 224]
+    height: 352
+    hangs: true
+    notes: A brazier hung between the statues.
+  - id: deco:statues_brazier_2
+    room: room:statues5
+    decoration: brzier00
+    at: [7440, 1376]
+    height: 352
+    hangs: true
+    notes: A brazier hung between the statues.
+  - id: deco:statues_w
+    room: room:statues5
+    decoration: scon100
+    at: [6560, 640]
+    wall: west
+  - id: deco:store_a
+    room: room:store_a
+    decoration: scon100
+    at: [384, 1344]
+    wall: west
+  - id: deco:store_a_barrel_1
+    room: room:store_a
+    decoration: bigbarel
+    at: [800, 1600]
+  - id: deco:store_a_barrel_2
+    room: room:store_a
+    decoration: bigbarel
+    at: [912, 1600]
+  - id: deco:store_a_sack_1
+    room: room:store_a
+    decoration: bag01
+    at: [448, 1600]
+  - id: deco:store_a_sack_2
+    room: room:store_a
+    decoration: floursac
+    at: [560, 1600]
+  - id: deco:store_a_sack_3
+    room: room:store_a
+    decoration: bag01
+    at: [448, 1488]
+  - id: deco:store_b
+    room: room:store_b
+    decoration: scon100
+    at: [2304, 1536]
+    wall: east
+  - id: deco:store_b_barrel_1
+    room: room:store_b
+    decoration: bigbarel
+    at: [1760, 1600]
+  - id: deco:store_b_barrel_2
+    room: room:store_b
+    decoration: bigbarel
+    at: [1872, 1600]
+  - id: deco:store_b_barrel_3
+    room: room:store_b
+    decoration: bigbarel
+    at: [1760, 1120]
+  - id: deco:store_b_barrel_4
+    room: room:store_b
+    decoration: bigbarel
+    at: [1872, 1120]
+  - id: deco:store_b_sack_1
+    room: room:store_b
+    decoration: floursac
+    at: [1960, 1600]
+  - id: deco:store_b_sack_2
+    room: room:store_b
+    decoration: bag01
+    at: [1960, 1120]
+  - id: deco:store_c
+    room: room:store_c
+    decoration: scon100
+    at: [768, 192]
+    wall: west
+  - id: deco:store_c_hay
+    room: room:store_c
+    decoration: 7dec11
+    at: [832, 384]
+    notes: Fodder straw.
+  - id: deco:store_c_sack
+    room: room:store_c
+    decoration: bag01
+    at: [1120, -48]
+  - id: deco:store_c_straw_1
+    room: room:store_c
+    decoration: 7dec11
+    at: [880, -32]
+    notes: Fodder straw.
+  - id: deco:store_d
+    room: room:store_d
+    decoration: scon100
+    at: [2304, -32]
+    wall: east
+  - id: deco:store_d_barrel_1
+    room: room:store_d
+    decoration: smlbarel
+    at: [1912, 448]
+  - id: deco:store_d_barrel_2
+    room: room:store_d
+    decoration: smlbarel
+    at: [1968, 448]
+  - id: deco:store_d_bones
+    room: room:store_d
+    decoration: 7dec18
+    at: [1648, 416]
+    notes: "A heap of bones ('Bones', a find)."
+  - id: deco:throne_brazier_1
+    room: room:maze_l
+    decoration: brzier00
+    at: [2592, 1856]
+    height: 224
+    hangs: true
+    notes: A brazier hung over the dais's side.
+  - id: deco:throne_brazier_2
+    room: room:maze_l
+    decoration: brzier00
+    at: [2272, 2176]
+    height: 224
+    hangs: true
+    notes: A brazier hung over the dais's side.
+  - id: deco:vault
+    room: room:vault1
+    decoration: scon100
+    at: [-384, 1568]
+    wall: north
+exits:
+  - id: exit:door_left
+    room: room:entry
+    at: [80, -512]
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d4_door
+    notes: "The tower door's left wing seen from inside (hkm1dl, as D4's leaves): out to the Isle."
+  - id: exit:door_right
+    room: room:entry
+    at: [-80, -512]
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d4_door
+    notes: "The tower door's right wing seen from inside (hkm1dr): out to the Isle."
+notes: "DD-12's contents, written by output/studio_cal/dd12/tools/gen.py: 16 doors (the five gates pairs of leaves), the lift, 16 levers, 5 chests, 45 placed monsters, no spawn points."

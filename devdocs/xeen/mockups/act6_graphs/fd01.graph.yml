@@ -1,0 +1,224 @@
+# MU-6 dungeon graph, a review file for phase 6 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# Lane A8, session 16 (2026-11-21), from D-57 Q7 (FD-01 + FD-02 = 60 monsters at 55-80, 68.0k; FD-02 took 26 at
+# 31.07k, so FD-01 plans 34 at 36.93k, room 30.1k-43.7k inside the row's +-10 %) and D-61 Q14 (D7's hatch leads into
+# FD-01 after m33.done).
+# The source's Castle Alamar Dungeon (dark maze0052, text aaze0052; entered by the stair at (15,1) from Castle Alamar
+# Level 1's (15,1), maze0049): a 16 x 16 maze read with output/studio_cal/fd01/tools/ascii_maze.py and regions.py.
+#   - The way in (15,1) and a long C of corridors round the west half: the south corridor y0 (a door at x11/12), the
+#     west corridor x0 (a door at y6/7), the north corridor y15 (a door at x6/7), the corridor x9 down to the hall of
+#     the plaque "Nine is the time." (8,8) and the lever hall (6,5)-(8,5).
+#   - The west lever (6,5) opens the wall at (4,5) into the west maze: a two-row workshop (y2-3, x2-10), a working
+#     travel pyramid at (2,2) (DoTownEvent 12), an empty box (11,2), the corridor x2 north to a block of halls (x2-7,
+#     y9-13) with Alamar's boasting statue (3,11) and the plaque FEWAEEFFWAEF... (5,12).
+#   - The east lever (8,5) opens (10,5), the maze's far end, into the east wing: the Key to Dragon Tower in a box (13,3),
+#     the Silver I.D. skull (15,5) that opens (13,6)-(13,8) into a room with the Key to Darkstone Tower (11,9), the Gold
+#     I.D. skull (15,9) that opens (13,10)-(13,12) into the last room: two Power Juice boxes and Prince Roland's stasis
+#     coffin (13,15) (aaze0052:9, the Amulet of the Southern Sphinx).
+#   - Five "XEEN Power Juice" boxes (+5 levels each; (15,13), (11,13), (10,15), (10,11), (10,7)).
+#   - Monsters (the .mob file): Annihilator x17 and Autobot x6, 13 in the C and the plaque hall, 10 in the west maze,
+#     none in the east wing. A tree: no loop.
+# Ours keeps the plan (the C round the west maze, the two levers, the east wing with both keys, the skull door, Roland
+# at the bottom) as the castle's undercroft after the self-destruct, one main level and the stasis vault a lift below.
+# Two ways in: D6's stair under the ruined gatehouse (m39.depths_door, the Cube) and D7's roof hatch down a rubble shaft
+# (D-61 Q14, after m33.done, opened by Q-D26's key).
+format: mu6-0
+map: FD-01
+key: fd01
+name: "Alamar Depths"
+stands_on: "D6 The Forbidden Zone (under the ruin of Castle Alamar on its mesa; the stair in the broken gatehouse's floor, D-49 Q5)"
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+size: "20 review rooms, about 27 sectors (the four galleries and the workshop two each); the main level at z 0 about 8,192 x 7,680 (a source cell taken as 512), the stasis vault 768 below: about 43 M units²; 11 doors (the gallery door, the guard door, the north door, the shaft door, the two lever walls, the bolted grate, the warden's door, the skull door, the assembly hall's door, the stasis vault's pair) plus the stasis field over Roland's coffin; one lift"
+party: [58, 61]
+monsters:
+  levels: [62, 75]
+  boss: null
+  count: 34
+  groups: [2, 3]
+  families:
+    - "Robots: Annihilator 62 (11611, robots tier B) x28 and Autobot 75 (11612, tier C) x6: the source's two families, still on guard in the castle's undercroft after the self-destruct; one faction; bodies bound (mm6_rob1 reuse, Xeen Robot B and C, 188 and 228 high, radius 63 capped at 60). Patrol 50 (tier A) is under the band 55-80 and is not placed"
+  mix:
+    - {row: Annihilator, id: 11611, level: 62, count: 28}
+    - {row: Autobot, id: 11612, level: 75, count: 6}
+  kill_xp: "40.81k per member (163,242 / 4): Annihilator 28 x 4,464 + Autobot 6 x 6,375"
+  kill_xp_target: "D-57: FD-01 34 at 36.93k (room 30.1k-43.7k). FD-02 31.07k + FD-01 40.81k = 71.88k against 68.0k, +5.7 % (open question 1 has 39.38k and 37.46k)"
+  exception: "34 monsters under M's 45: D-57 Q7's NOTES exception line, as XD-16 and XD-18"
+treasure: {level: 6}
+role: "M39 Prince Roland (A3's m39.yml): the Cube opens D6's stair (m39.depths_door); Alamar's statue boasts in the first hall (m39.statue); the plaque in the Hall of Nine (m39.plaque_nine); the two levers open the west maze and its far end; the Key to the Dragon Tower in the key vault (q-f1.tower_key, D-57 Q23); the Darkstone key chest in the warden's room (m39.darkstone_key); the skull door reads the Cube (m39.skull_door); Roland's stasis coffin a lift below (m39.roland: the Amulet of the Southern Sphinx, the award, 40,000). Q-D26: D7's hatch down the rubble shaft"
+role_short: "M39 (Roland); Q-F1's key; Q-D26's hatch"
+set_piece: "The stasis vault: a round chamber a lift below the warden's wing, cold and humming, Alamar's machine ring round a dais; on it Prince Roland's stasis coffin under a dark blue field leaf with cyan hex lines (xafield, D-51); the field drops when the coffin is clicked (m39.roland) and the lid lies open and empty after"
+sounds: "the castle's machine hum (DD-17's bed, pan: false) fainter and broken by groans of settling metal; the levers' grind (the source's PlayFX 35); the lift; the stasis coffin's cold hum, which stops with the field; wind and trickling grit down the rubble shaft"
+textures:
+  family: "A6's assign (dungeon_families pods: 'DD-17 Castle Alamar, FD-01 Alamar Depths: mm6/sci-fi.blv via the ancient kit'; ancient.yml per_site 'FD-01 Alamar Depths: the sw set darker (swll5dk, swankdk) with xahullbn'): swll5dk walls, swankdk floors, swceilf ceilings, swgirder and swaled pillars, swdoorb leaves, swtrpnl/swtrdk skull-mask panels for the skull door (the source's skulls), xahullbn scorched plating where the castle came down (the shaft, the galleries' broken ends, the rubble falls), swor2 and trekscrn in the warden's room and the stasis vault, xafield for the stasis field, swflora under the coffin's dais; rubble: gn_mtl03 slabs and a shipped rock in the shaft"
+  cap: 45
+  planned: 22
+  new: 0
+  new_names: []
+  distinct_from: "DD-17 Castle Alamar (the bright teal sw set, swll4dk, fields everywhere), DD-22 Sheltem's Pod (swll5dk walls with red accents swrdk2/swared and swfloor5a), DD-16 Corak's Pod (MM7 Lincoln), XD-19 (MM8 d35): FD-01 is the burnt, buckled bottom of Alamar, teal plate floors and scorched plating, no red accents (open question 10)"
+floors:
+  - {floor: 0, name: "The depths (the castle's undercroft)", height: 0}
+  - {floor: -1, name: "The stasis vault", height: -768}
+spaces:
+  # floor 0. The map's frame: x east, y north; the stair's foot at (0, 0, 0) in the south-east corner (the source's (15,1)).
+  - {id: room:stair, name: Ruin stair, kind: stair, size: S, floor: 0, at: [1, 4], monsters: 0,
+     purpose: "The arrival (entrance:d6_stair) at the stair's foot, facing west into the undercroft hall; the stair climbs east 640 to the underside of the gatehouse's hatch, where the exit preset takes the party up to D6 (the leave window, D-24). Quiet (D-11.3)."}
+  - {id: room:stairhall, name: Undercroft hall, kind: hall, size: S, floor: 0, at: [2, 4], monsters: 0,
+     purpose: "The first hall: cracked teal plates, a girder down across one corner. Alamar's statue by the north wall speaks when the party first comes near (m39.statue, aaze0052:13; once per game, map qbit 117840, then the hover 'Statue'). Quiet. The gallery door west."}
+  - {id: room:south, name: South gallery, kind: corridor, size: M, floor: 0, at: [2, 3], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 3}],
+     purpose: "The source's south corridor (y0), about 7,000 long and 512 wide, west from the gallery door; the bolted grate in its north wall about two thirds along opens from the workshop's side (state:bolt)."}
+  - {id: room:west, name: West gallery, kind: corridor, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 3}],
+     purpose: "The source's west corridor (x0), north from the south gallery's end through the guard door (the source's door at y6/7); three Annihilators stand behind it (the source's (0,7)-(0,9))."}
+  - {id: room:shaft, name: Rubble shaft, kind: shaft, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Where the castle above came down: a round shaft of buckled scorched plating (xahullbn) and rubble rising out of sight to D7's roof hatch, grey light far above (open sky, xeen_darkside_day). The arrival (entrance:d7_roof) at its foot, facing east to the shaft door; a ladder up the wall. Quiet; the door shuts it from the north gallery."}
+  - {id: room:north, name: North gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{row: Annihilator, level: 62, count: 2}],
+     purpose: "The source's north corridor (y15), east from the shaft door and the west gallery's end to the north door (the source's door at x6/7)."}
+  - {id: room:column, name: Long gallery, kind: corridor, size: M, floor: 0, at: [3, 0], monsters: 2,
+     population: [{row: Annihilator, level: 62, count: 2}],
+     purpose: "The source's corridor x9, south from the north door to the Hall of Nine; two side niches where the source kept Power Juice boxes (open question 7)."}
+  - {id: room:hub, name: Hall of Nine, kind: hall, size: M, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 2}],
+     purpose: "The source's plaque hall (x7-9, y7-9): a pillared hall, the plaque 'Nine is the time.' on its east wall (m39.plaque_nine, aaze0052:12; a hint for DD-17's sundials that came too late). Ways south to the lever hall and west down the sealed passage."}
+  - {id: room:levers, name: Lever hall, kind: room, size: S, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "The source's (6,5)-(8,5): two big levers on the west and east walls, hover 'Lever' (aaze0052:15). Pulled, each grinds (the source's sound) and opens its wall for good (map qbits 117841, 117842; open on every load); afterwards 'The lever won't budge.' (:17). Neither wall can be seen from here: the west one ends the sealed passage, the east one the workshop's east spur."}
+  - {id: room:spur, name: Sealed passage, kind: corridor, size: S, floor: 0, at: [3, 2], monsters: 0,
+     purpose: "The source's (4,6)-(6,7): from the Hall of Nine west and south to a blank teal wall, lever A's slab (a sliding wall door) that drops into the floor."}
+  - {id: room:workshop, name: Long workshop, kind: hall, size: M, floor: 0, at: [3, 3], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 3}],
+     purpose: "The source's two-row hall (y2-3, x2-10): machine benches and dead robot frames by the walls, the junction at its north-west end (the sealed passage, the west passage), the pyramid's nook at its west end, the east spur at its east end, and the bolted grate in its south wall: its bolt drawn from here (once, map qbit 117843) opens it for good, closing the ring with the south gallery."}
+  - {id: room:pyramid, name: Pyramid nook, kind: room, size: S, floor: 0, at: [3, 4], chest: 6, monsters: 0,
+     purpose: "Dead end: the source's second travel pyramid (2,2) as a small dark Ancient pyramid (open question 8), and a T6 chest."}
+  - {id: room:wpass, name: West passage, kind: corridor, size: M, floor: 0, at: [4, 4], monsters: 2,
+     population: [{row: Annihilator, level: 62, count: 2}],
+     purpose: "The source's corridor x2 north from the workshop's junction to the assembly hall's door."}
+  - {id: room:assembly, name: Assembly hall, kind: hall, size: M, floor: 0, at: [5, 4], chest: 6, monsters: 5,
+     population: [{row: Annihilator, level: 62, count: 3}, {row: Autobot, level: 75, count: 2}],
+     purpose: "Dead end: the source's block of halls (x2-7, y9-13) as Alamar's robot works: stalls of half-built frames along the walls, a T6 chest in the foreman's corner, and the plaque 'FEWAEEFFWAEFAWEEWWEFAW / Remember: A = Air, E = Earth, F = Fire, W = Water.' (aaze0052:14; lore, the order of DD-17's belts, no use here)."}
+  - {id: room:espur, name: East spur, kind: corridor, size: S, floor: 0, at: [4, 3], monsters: 0,
+     purpose: "The source's (10,4): a short dead-looking spur off the workshop's east end ending in a teal wall, lever B's slab."}
+  - {id: room:keyvault, name: Key vault, kind: room, size: M, floor: 0, at: [5, 3], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 3}],
+     purpose: "The source's east room behind (10,5)-(11,5): Alamar's strongroom, racks of sealed boxes. On the critical path, on the south wall facing the door (the source's (13,3)): a box, hover 'Box' (aaze0052:2): the Key to the Dragon Tower (12376, q-f1.tower_key's map_gives; once, map qbit 117844), then 'Nothing here.' (:16). The warden's door north."}
+  - {id: room:warden, name: "Warden's room", kind: room, size: M, floor: 0, at: [6, 3], chest: 6, monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Autobot, level: 75, count: 1}],
+     purpose: "The source's room behind the Silver I.D. skull (x12-14, y8-10): consoles (swor2, trekscrn) and the warden's chest on the west wall where the source's box hung (11,9): T6 and m39.darkstone_key (a key of black stone on a velvet cushion; A3's text). The skull door in the north wall."}
+  - {id: room:skull, name: Skull door, kind: stair, size: S, floor: 0, at: [7, 3], monsters: 0,
+     purpose: "The source's Gold I.D. skull (15,9): a door of skull-mask panels (swtrpnl, swtrdk). Its click calls m39.skull_door: with the Cube 'The skull sees the Cube of Power and says, \"Access granted.\"' and the door opens for good (map qbit 117845); without it the source's 'Access denied! You do not have the proper I.D.' (:3). Behind it the lift head: the cage goes down 768."}
+  # floor -1
+  - {id: room:liftfoot, name: Lift foot, kind: stair, size: S, floor: -1, at: [7, 0], monsters: 0,
+     purpose: "The cage's foot and a short cold passage; the stasis vault's pair of leaves (swdoorb, two wings mirrored) to the west."}
+  - {id: room:stasis, name: Stasis vault, kind: hall, size: M, floor: -1, at: [6, 0], set_piece: true, goal: true, chest: 6, monsters: 4,
+     population: [{row: Annihilator, level: 62, count: 3}, {row: Autobot, level: 75, count: 1}],
+     purpose: "The set piece (the source's last room, x12-14, y12-15): a round chamber, Alamar's machine ring round a dais; on the dais the stasis coffin, hover 'Coffin' (aaze0052:7), under a field leaf (xafield); a T6 chest by the wall. The coffin's click calls m39.roland: the field drops (it stays down with m39.done, 111781), Roland's speech (aaze0052:9 shortened, A3), the Amulet of the Southern Sphinx, the award, and he is gone home (open question 3); after: 'An empty stasis coffin, still faintly cold.'"}
+links:
+  - {id: link:1, from: room:stair, to: room:stairhall, kind: open}
+  - {id: link:2, from: room:stairhall, to: room:south, kind: door, label: "gallery door"}
+  - {id: link:3, from: room:south, to: room:west, kind: door, label: "guard door"}
+  - {id: link:4, from: room:west, to: room:north, kind: open}
+  - {id: link:5, from: room:shaft, to: room:north, kind: door, label: "shaft door"}
+  - {id: link:6, from: room:north, to: room:column, kind: door, label: "north door"}
+  - {id: link:7, from: room:column, to: room:hub, kind: open}
+  - {id: link:8, from: room:hub, to: room:levers, kind: open}
+  - {id: link:9, from: room:hub, to: room:spur, kind: open}
+  - {id: link:10, from: room:spur, to: room:workshop, kind: door, label: "west slab", opened_by: state:lever_a}
+  - {id: link:11, from: room:workshop, to: room:pyramid, kind: open}
+  - {id: link:12, from: room:workshop, to: room:wpass, kind: open}
+  - {id: link:13, from: room:wpass, to: room:assembly, kind: door, label: "works door"}
+  - {id: link:14, from: room:workshop, to: room:espur, kind: open}
+  - {id: link:15, from: room:espur, to: room:keyvault, kind: door, label: "east slab", opened_by: state:lever_b}
+  - {id: link:16, from: room:keyvault, to: room:warden, kind: door, label: "warden's door"}
+  - {id: link:17, from: room:warden, to: room:skull, kind: locked, label: "skull door (Cube)", opened_by: state:skull}
+  - {id: link:18, from: room:skull, to: room:liftfoot, kind: lift, label: "lift 768"}
+  - {id: link:19, from: room:liftfoot, to: room:stasis, kind: door, label: "vault pair"}
+  - {id: link:20, from: room:workshop, to: room:south, kind: door, label: "bolted grate", opened_by: state:bolt}
+states:
+  - {id: state:lever_a, kind: lever, where: room:levers,
+     what: "The west lever: 'Lever' (aaze0052:15); pulled, the grind and the sealed passage's slab drops for good (map qbit 117841; down on every load); then 'The lever won't budge.' (:17).",
+     opens: [link:10], draw: true}
+  - {id: state:lever_b, kind: lever, where: room:levers,
+     what: "The east lever: the same for the east spur's slab (117842). Pulled first, its slab is down before the party can reach it (as the source).",
+     opens: [link:15], draw: true}
+  - {id: state:bolt, kind: lever, where: room:workshop,
+     what: "The grate's bolt, drawn from the workshop's side (once, map qbit 117843; open on every load). From the south gallery before that: 'Bolted from the other side.' (map-local, A3). It closes the ring and gives the way back from the east wing (open question 4).",
+     opens: [link:20], draw: true}
+  - {id: state:skull, kind: item, where: room:warden,
+     what: "m39.skull_door: requires the Cube of Power (12365, M33's); opens the door for good (map qbit 117845). Every party that reached FD-01 carries the Cube (D6's stair asks it; D7's hatch leads here only after m33.done).",
+     opens: [link:17], draw: false}
+exits:
+  - {id: exit:d6_stair, space: room:stair, at: [0, 4], kind: both, label: "D6: the gatehouse stair",
+     arrival: "entrance:d6_stair: at the stair's foot, (0, 0, 0) in the map's frame, facing west (1024) into the undercroft hall; the stair climbs east from x 256 to the hatch's underside at x 1,280, z 640. The name is the one D6's gen.py already gives the door (ENTRANCE['fd01'], D-37)",
+     neighbour: "D6 thing:fd01_stair (a pit hatch in the broken gatehouse's floor at D6 cell (51, 52), ruin state only, condition m39.depths_door), sealed with a line whatever exists until A6 lifts DUNGEON['fd01'] = False. Out by the exit preset (the leave window, D-24; D6 is an ODM) to D6's installed entrance:fd01_stair (-6656, 4608, 2208) facing 1536, the point of DD-17's entrance:dd17_gate in front of the ruin, facing south down the ramp"}
+  - {id: exit:d7_roof, space: room:shaft, at: [0, 0], kind: both, label: "D7: Alamar's roof hatch",
+     arrival: "entrance:d7_roof: at the rubble shaft's foot, about (-7680, 7168, 0) in the map's frame (the source's north-west corner), facing east (0) to the shaft door. The name is the one D7's gen_objects.py already reads (LIVE['fd01'], D-61 Q14)",
+     neighbour: "D7 evt:hatch_dd17 (platform:hatch_dd17 under the Megadragon): after m33.done it asks 'Descend to Castle Alamar?' and moves to FD-01's entrance:d7_roof once FD-01 is installed (A3's q-d26.hatch decides; until then 'Castle Alamar is gone.'). Way up: the map's own Yes/No 'Climb up through the hatch?' (D-66), then A3's q-d26.alamar_hatch ('Bolted from above.' until roof_unlocked), then at once to D7's entrance:dd17_roof (-18688, 8448, 1536) facing 1024 (open question 5), the hatch's existing point"}
+hooks: [m39.depths_door, m39.statue, m39.plaque_nine, m39.skull_door, m39.darkstone_key, m39.roland, q-f1.tower_key, q-d26.alamar_hatch]
+critical_path: [room:stair, room:stairhall, room:south, room:west, room:north, room:column, room:hub, room:levers, room:hub, room:spur, room:workshop, room:espur, room:keyvault, room:warden, room:skull, room:liftfoot, room:stasis]
+return_path: [room:stasis, room:liftfoot, room:skull, room:warden, room:keyvault, room:espur, room:workshop, room:south, room:stairhall, room:stair]
+loops:
+  - {id: loop:ring, spaces: [room:south, room:west, room:north, room:column, room:hub, room:spur, room:workshop],
+     notes: "The galleries round the west maze, closed by the bolted grate once drawn from the workshop's side (the source is a tree). From D7's shaft the party joins the ring at the north gallery."}
+lines:
+  - {text: "The statue speaks as you approach: Not only is Alamar a wise and just ruler, Alamar is sporting, as well. ... And you WILL fail.", ref: "dark/aaze0052:13 (A3's m39.statue, shortened)", where: room:stairhall}
+  - {text: "The message on the plaque reads: Nine is the time.", ref: "dark/aaze0052:12 (m39.plaque_nine)", where: room:hub}
+  - {text: "Lever / The lever won't budge.", ref: "dark/aaze0052:15, :17", where: room:levers}
+  - {text: "The message on the plaque reads: FEWAEEFFWAEFAWEEWWEFAW / Remember: A = Air, E = Earth, F = Fire, W = Water.", ref: "dark/aaze0052:14", where: room:assembly}
+  - {text: "Box / Nothing here.", ref: "dark/aaze0052:2, :16", where: "room:keyvault (the Dragon Tower key's box)"}
+  - {text: "The skull says, \"Access denied! You do not have the proper I.D.\" / The skull sees the Cube of Power and says, \"Access granted.\"", ref: "dark/aaze0052:3, :4 rewritten (A3's m39.skull_door)", where: room:skull}
+  - {text: "Coffin / Prince Roland: Allow me to introduce myself. ...", ref: "dark/aaze0052:7, :8, :9 (A3's m39.roland, shortened)", where: room:stasis}
+open_questions:
+  - q: "Count and mix. D-57 Q7: FD-01 34 at 36.93k (room 30.1k-43.7k, the FD-01 + FD-02 row 68.0k +-10 %). The source placed Annihilator x17 and Autobot x6 (23). In the band 55-80 the robots have only Annihilator 62 and Autobot 75 (Patrol 50 is under it), so 34 robots cannot come under 37.94k."
+    options: ["(a) Annihilator 62 (11611) x28 and Autobot 75 (11612) x6, 34: 40.81k, row 71.88k (+5.7 %); the source's six Autobots",
+              "(b) Annihilator x31 and Autobot x3, 34: 39.38k, row 70.45k (+3.6 %)",
+              "(c) Annihilator x25 and Autobot x6, 31: 37.46k, row 68.53k (+0.8 %); the row's 60 becomes 57"]
+    recommend: "(a)"
+    depends: "A2 (Act VI recount; FD-01 in the robots' where)"
+  - q: "The skull doors. The source has two (Silver and Gold I.D.); our quests have no I.D. cards (FD-03 dropped the Gold one, D-57 Q18). A3's m39.yml has one skull door on the Cube."
+    options: ["(a) one skull door (A3's m39.skull_door, the Cube) before the stasis lift; the Silver skull's place is a plain warden's door",
+              "(b) two skull doors, both calling m39.skull_door (the same hook twice, each door its own map qbit)"]
+    recommend: "(a)"
+    depends: "A3 (skull_door's where)"
+  - q: "Prince Roland in the coffin. The source shows a coffin and a portrait talk."
+    options: ["(a) no figure: the coffin under a stasis field leaf (xafield); the field drops on m39.roland and the coffin lies open and empty; Roland exists only in the text (no row, no body)",
+              "(b) an upright stasis tube with Roland standing in it: a peaceful placed-only unkillable row (A2, characters block), a body (S, a shipped noble figure with his portrait's colours), hidden after the talk by a load event on m39.done (D-57 Q27's pattern)"]
+    recommend: "(a)"
+    depends: "A2 and S only under (b)"
+  - q: "The way back. The source is a tree: from Roland back round the whole C (about 60 cells)."
+    options: ["(a) a bolted grate between the long workshop and the south gallery, drawn from the workshop's side (once, 117843), which closes the ring and shortens the way back to the stair",
+              "(b) none, the source's tree"]
+    recommend: "(a)"
+    depends: "A3 (the grate's two map-local lines)"
+  - q: "D7's return point. D7 has entrance:dd17_roof at the hatch (-18688, 8448, 1536) facing 1024 for DD-17's way up; D-37 names an outside point after the map entered from."
+    options: ["(a) FD-01's way up uses D7's existing entrance:dd17_roof (no D7 change; the same hatch)",
+              "(b) A6 adds entrance:fd01_roof at the same point and FD-01 names it"]
+    recommend: "(a)"
+    depends: "A6 only under (b)"
+  - q: "The shaft's way up. DD-17's hatch reads 'Bolted from above.' until Q-D26's key opens it (q-d26.alamar_hatch). A party that came down D6's stair before killing the Megadragon would otherwise climb out onto its roost."
+    options: ["(a) the map's own Yes/No 'Climb up through the hatch?' (D-66), then A3's q-d26.alamar_hatch (FD-01 added to its where): 'Bolted from above.' until roof_unlocked",
+              "(b) always open from below after the Yes/No (the key only matters from D7's side)"]
+    recommend: "(a)"
+    depends: "A3 (the hook's where)"
+  - q: "The source's five XEEN Power Juice boxes (+5 levels each). DD-17 already has the juice (+2 Might once per character, D-61 Q19)."
+    options: ["(a) dropped; the long gallery's niches and the stasis vault are plain",
+              "(b) five spent boxes: hover 'Box' (aaze0052:2), click 'Nothing here.' (:16)",
+              "(c) five boxes, each a find of one random T6 potion once"]
+    recommend: "(a)"
+    depends: "A2 (treasure count only under (c))"
+  - q: "The source's second travel pyramid (2,2). Our second pair is Shangri-La's and the one outside Alamar's gate on D6 (D-50), a few hundred units above."
+    options: ["(a) a small dark Ancient pyramid in the nook, hover 'Pyramid', click 'Its light is out. Its twin stands outside the gate.' (A3, map-local); the nook's T6 chest beside it",
+              "(b) dropped; the nook keeps the chest",
+              "(c) a working one-way pad to D6's travel pyramid (entrance:xd17_pyramid), a shortcut out"]
+    recommend: "(a)"
+    depends: "A3 (the line), S (a shipped pyramid or obelisk decoration)"
+  - q: "Rest encounters (D-39, D-57). The robots' slot at Dif 0 rolls Patrol 50, under the band; higher Difs roll Patrols too."
+    options: ["(a) 0, as D-57 set for A7's Act VI maps", "(b) 10 % robots at Dif 0 (Patrol 50 only)"]
+    recommend: "(a)"
+    depends: "A2 (map row 9179: encounter 0, treasure 6)"
+  - q: "Textures. A6's per-site line: the sw set darker (swll5dk, swankdk) with xahullbn. DD-22 has used swll5dk walls since D-67."
+    options: ["(a) as A6's line: swll5dk walls, swankdk floors, xahullbn where the castle came down, swtrpnl/swtrdk for the skull door; about 22 of 45, 0 new; no red accents (DD-22's)",
+              "(b) swall4 (crossed braces, red grime) and swall2 as the main walls so the depths read apart from DD-22; the rest as (a)"]
+    recommend: "(a)"
+    depends: "A6 (the assign, the count)"

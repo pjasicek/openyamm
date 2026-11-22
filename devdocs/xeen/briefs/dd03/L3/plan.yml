@@ -1,0 +1,605 @@
+format: 0
+level: L3
+pitch: "Queen Kalindra's white castle, pulled out of phase by Alamar, comes back into the world a floor at a time as the party brings Ellinger Energy Disks. At first only the ground floor is solid: an empty throne under dust like snow, wings where spirits still pass through the walls, a closet whose back wall is not there. Then the Cloud Stairs take a foot and the second floor's people come back; then the dungeon stair, with caged liches, two dragons in the old well and a dragon called Scraps in his kennel; last the Queen's floor, where Count Blackfang's vampires wait for her, and the open stable yard with the castle's mirror."
+purpose: "Story M19 (stage 1-2: the throne room's safes), M24 (Dimitri, the disk safes 64-52-31), M26 (stage 3-4, the mirror switch), M27 (the crown safe 3-31-62), T2-A (the liches); A4's castle services by stage (houses 4501-4512). Party 30-40; 54 monsters at 26-45 (24 in Act III, 30 in Act IV), Scraps 70 optional; treasure 4, the kennel's hoard 5."
+mood: "Cream marble and purple banners, lamplit; cobbled wings where the walls shimmer violet and spirits drift; a dark dungeon of cells; wind in the bell tower and the open yard."
+datum: arrival
+spaces:
+  - id: room:armory
+    name: Armory
+    kind: room
+    size: M
+    extent: [1280, 1408]
+    floor: 0
+    clear_height: 512
+    purpose: "Racks; a tougher safe (10-11-12, Guido's tip)."
+    empty: true
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: "A tougher safe: three dials, 10-11-12 (Guido's tip)."}
+  - id: room:attic
+    name: Shimmering attic
+    kind: corridor
+    size: L
+    extent: [2176, 1152]
+    floor: 1280
+    clear_height: 384
+    purpose: "Rafters still half out of phase; the last spirits; the roof walk to the Queen's court. (stage 4)"
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    population:
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [3, 3], levels: [40, 40], placed: true}
+  - id: room:banquet
+    name: Banquet Hall
+    kind: room
+    size: M
+    extent: [1536, 1152]
+    floor: 0
+    clear_height: 576
+    purpose: "A table laid for a feast nobody ate; spirits."
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    population:
+      - {actor: Tomb Guard (11261), groups: 1, per_marker: [4, 4], levels: [26, 26], placed: true}
+  - id: room:bedchamber
+    name: Royal Bed Chamber
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    floor: 1280
+    clear_height: 512
+    purpose: "The crown safe behind the mirror (m27.crown_safe, 3-31-62); the Queen's Brew and the Knight's Brew (+2 Personality, +2 Might); 'Activate Mirror Portals?' (m26.mirror_switch). (stage 4)"
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:bell_tower
+    name: Bell tower
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    floor: 1280
+    clear_height: 1024
+    purpose: "Ropes and a cracked bell; the vampires' roost. (stage 4)"
+    theme: "Castle Ironfist's white ashlar hcwall, grey flags cstyl"
+    population:
+      - {actor: Vampire (11291), groups: 1, per_marker: [4, 4], levels: [40, 40], placed: true}
+      - {actor: Gnome Vampire (11290), groups: 1, per_marker: [4, 4], levels: [32, 32], placed: true}
+  - id: room:cells
+    name: The cell block
+    kind: room
+    size: L
+    extent: [2176, 1152]
+    floor: -640
+    clear_height: 512
+    purpose: "Five cells, five liches (T2-A: t2-a.liches when the group is dead). (stage 3)"
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    population:
+      - {actor: Lich (11280), groups: 1, per_marker: [5, 5], levels: [35, 35], placed: true}
+  - id: room:closet
+    name: Coat Closet
+    kind: room
+    size: S
+    extent: [512, 512]
+    floor: 0
+    clear_height: 448
+    purpose: "A dead end: its back wall is an illusion (Carl's 'just keep walking')."
+    empty: true
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+  - id: room:cloud_flight
+    name: Cloud Stairs (flight)
+    kind: corridor
+    size: S
+    extent: [512, 1024]
+    floor: [0, 640]
+    clear_height: 448
+    purpose: Up to the second floor (stage 2). (stage 2)
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:cloud_foot
+    name: Cloud Stairs
+    kind: room
+    size: M
+    extent: [1024, 640]
+    floor: 0
+    clear_height: 576
+    purpose: "The Cloud Stairs: 'Your foot passes through the stairs as though they were mist.' until stage 2."
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:court3
+    name: The Queen's court
+    kind: room
+    size: L
+    extent: [2048, 1408]
+    floor: 1280
+    clear_height: 576
+    purpose: "Five house doors (stage 4): 4506, 4507, 4508, 4509, 4511. (stage 4)"
+    empty: true
+    theme: "Royal kit restored: MM7 7d09 cream marble t3s2b1 over the knotwork dado t3s2b, floor t3s2fl1, ceiling t3s2c"
+  - id: room:dstair
+    name: Dungeon stair (flight)
+    kind: corridor
+    size: S
+    extent: [384, 1024]
+    floor: [0, -640]
+    clear_height: 448
+    purpose: Down to the guardroom (stage 3). (stage 3)
+    empty: true
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+  - id: room:dstair_head
+    name: Dungeon stair
+    kind: room
+    size: S
+    extent: [512, 384]
+    floor: 0
+    clear_height: 448
+    purpose: "Down: 'The dungeon stair ends in shimmering nothing.' until stage 3."
+    empty: true
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+  - id: room:entrance
+    name: Entrance hall
+    kind: room
+    size: L
+    extent: [1920, 1792]
+    floor: 0
+    clear_height: 768
+    purpose: "Doors to the throne room, the north wing and the stable yard's phase wall (stage 4)."
+    empty: true
+    theme: "Royal kit restored: MM7 7d09 cream marble t3s2b1 over the knotwork dado t3s2b, floor t3s2fl1, ceiling t3s2c"
+  - id: room:gate
+    name: Gate passage
+    kind: room
+    size: M
+    extent: [1024, 768]
+    floor: 0
+    clear_height: 512
+    purpose: "Arrival and the exit to D1 (the game's window, 'Exit Castle Kalindra?'); the portcullis up from stage 1; m19.first_entry once."
+    empty: true
+    safe: true
+    theme: "Castle Ironfist's white ashlar hcwall, grey flags cstyl"
+  - id: room:guardroom
+    name: Guardroom
+    kind: room
+    size: M
+    extent: [1152, 1152]
+    floor: -640
+    clear_height: 512
+    purpose: "The stair's foot; the prisoner ledger (t2-a.cells). (stage 3)"
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    population:
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [2, 2], levels: [40, 40], placed: true}
+  - id: room:kennel
+    name: Scraps' kennel
+    kind: room
+    size: L
+    extent: [2176, 1536]
+    floor: -1152
+    clear_height: 1024
+    purpose: "Scraps (70, optional) on the bones of his dinners; the castle's hoard (5). (stage 3)"
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    population:
+      - {actor: Scraps (11673), groups: 1, per_marker: [1, 1], levels: [70, 70], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, items: [2, 3], notes: "The castle's hoard (5), on Scraps' bones."}
+  - id: room:kennel_stair
+    name: Kennel stair
+    kind: corridor
+    size: S
+    extent: [192, 1152]
+    floor: [-640, -1152]
+    clear_height: 288
+    purpose: "A stair 288 high and 192 wide, lower than Scraps (D-32). (stage 3)"
+    empty: true
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+  - id: room:kitchen
+    name: Kitchen
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    floor: 0
+    clear_height: 512
+    purpose: "Barrels, a larder; Carl the Mason (5014): 'just keep walking'; the servants' passage to the throne."
+    empty: true
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+  - id: room:l2_landing
+    name: Second-floor landing
+    kind: room
+    size: S
+    extent: [1024, 512]
+    floor: 640
+    clear_height: 448
+    purpose: The Cloud Stairs' head. (stage 2)
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:l3_landing
+    name: Third-floor landing
+    kind: room
+    size: S
+    extent: [1152, 512]
+    floor: 1280
+    clear_height: 448
+    purpose: The upper stair's head. (stage 4)
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:maxsec
+    name: Maximum Security
+    kind: room
+    size: M
+    extent: [1152, 1408]
+    floor: -640
+    clear_height: 512
+    purpose: "Guido's Cell 4505; the kennel's portcullis and its lever; the three notes on Scraps. (stage 3)"
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    population:
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [4, 4], levels: [40, 40], placed: true}
+  - id: room:north_wing
+    name: North Wing
+    kind: corridor
+    size: M
+    extent: [2432, 384]
+    floor: 0
+    clear_height: 512
+    purpose: "Signed 'North Wing'; spirits in the half-phased wing."
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    population:
+      - {actor: Tomb Guard (11261), groups: 1, per_marker: [4, 4], levels: [26, 26], placed: true}
+  - id: room:phase_gallery
+    name: Phase gallery
+    kind: corridor
+    size: M
+    extent: [512, 1408]
+    floor: 640
+    clear_height: 448
+    purpose: "Its outer wall still shimmers; spirits. (stage 2)"
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    population:
+      - {actor: Tomb Guard (11261), groups: 1, per_marker: [4, 4], levels: [26, 26], placed: true}
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [2, 2], levels: [40, 40], placed: true}
+  - id: room:queens_gallery
+    name: The Queen's gallery
+    kind: room
+    size: L
+    extent: [2048, 1024]
+    floor: 1280
+    clear_height: 576
+    purpose: "Portraits of the Queen; Blackfang's servants waiting for her. (stage 4)"
+    theme: "Royal kit restored: MM7 7d09 cream marble t3s2b1 over the knotwork dado t3s2b, floor t3s2fl1, ceiling t3s2c"
+    population:
+      - {actor: Vampire (11291), groups: 1, per_marker: [4, 4], levels: [40, 40], placed: true}
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [2, 2], levels: [40, 40], placed: true}
+  - id: room:residences
+    name: Captain's corridor
+    kind: corridor
+    size: M
+    extent: [2560, 384]
+    floor: 640
+    clear_height: 448
+    purpose: "Captain's Quarters 4502 (Dimitri, M24, T2-A), Megan's Room 4503, the Observatory 4504. (stage 2)"
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:sleeping
+    name: Sleeping Chambers
+    kind: room
+    size: M
+    extent: [1536, 1152]
+    floor: 640
+    clear_height: 448
+    purpose: "The household's dormitory; spirits. (stage 2)"
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+    population:
+      - {actor: Ghost Rider (11263), groups: 1, per_marker: [4, 4], levels: [27, 27], placed: true}
+      - {actor: Tomb Terror (11262), groups: 1, per_marker: [2, 2], levels: [40, 40], placed: true}
+  - id: room:south_wing
+    name: South Wing
+    kind: corridor
+    size: M
+    extent: [3840, 384]
+    floor: 0
+    clear_height: 512
+    purpose: "Signed 'South Wing'; Ghost Riders."
+    theme: "MM7 Castle Gryphonheart 7d33: brown cobble chb1, flags 7tfb1, dark ceiling tfb2 (still out of phase)"
+    population:
+      - {actor: Ghost Rider (11263), groups: 1, per_marker: [4, 4], levels: [27, 27], placed: true}
+  - id: room:throne
+    name: Throne Room
+    kind: room
+    size: L
+    extent: [1792, 1792]
+    floor: 0
+    clear_height: 768
+    purpose: "The Empty Throne (house 4501's door: Gem, Errol); two trapped safes behind tapestries (m19.safes: two Energy Disks)."
+    empty: true
+    theme: "Royal kit restored: MM7 7d09 cream marble t3s2b1 over the knotwork dado t3s2b, floor t3s2fl1, ceiling t3s2c"
+    treasure:
+      - {kind: chest, count: 2, tier: 4, items: [2, 3], notes: "A thievery safe behind its tapestry (m19.safes: the first opened gives the two disks)."}
+  - id: room:upper_flight
+    name: Upper stair (flight)
+    kind: corridor
+    size: S
+    extent: [512, 1024]
+    floor: [640, 1280]
+    clear_height: 448
+    purpose: Up to the third floor (stage 4). (stage 4)
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:upper_foot
+    name: Upper stair
+    kind: room
+    size: S
+    extent: [1152, 512]
+    floor: 640
+    clear_height: 448
+    purpose: "Up to the third floor: the mist line until stage 4. (stage 2)"
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:vault_d
+    name: Dungeon vault
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    floor: -640
+    clear_height: 448
+    purpose: "Confiscated goods; a tougher safe (10-11-12); a secret door to Maximum Security. (stage 3)"
+    empty: true
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: "The dungeon vault's tougher safe: 10-11-12."}
+  - id: room:vaults
+    name: Vaults
+    kind: room
+    size: M
+    extent: [1024, 896]
+    floor: 640
+    clear_height: 448
+    purpose: "The disk safes (m24.disk_safes, 64-52-31, after Dimitri; 4 Energy Disks). (stage 2)"
+    empty: true
+    theme: The cream marble t3s2b1 over Castle Harmondale's flags tfb09
+  - id: room:well
+    name: Old well
+    kind: room
+    size: M
+    extent: [1280, 1408]
+    floor: -640
+    clear_height: 1024
+    purpose: "Two named Bone Dragons; its openings 256 high (D-32). (stage 3)"
+    theme: "7d33's dark cobble dchb1, dark flags 7tfb11"
+    population:
+      - {actor: Bone Dragon (11670), groups: 1, per_marker: [2, 2], levels: [45, 45], placed: true}
+  - id: room:yard
+    name: Stable yard
+    kind: room
+    size: L
+    extent: [2688, 2176]
+    floor: 0
+    clear_height: 1024
+    purpose: "Open sky behind the stage-4 phase wall: Kalindra Stables 4510, the Mirror of Castle Kalindra 4512. (stage 4)"
+    empty: true
+    theme: "Castle Ironfist's white ashlar hcwall, grey flags cstyl, open to the sky"
+links:
+  - id: link:armory_south
+    from: room:armory
+    to: room:south_wing
+    kind: door
+    motion: slide
+  - id: link:attic_court
+    from: room:attic
+    to: room:court3
+    kind: open
+  - id: link:banquet_kitchen
+    from: room:banquet
+    to: room:kitchen
+    kind: open
+  - id: link:bell_attic
+    from: room:bell_tower
+    to: room:attic
+    kind: open
+    notes: The roof walk.
+  - id: link:cells_maxsec
+    from: room:cells
+    to: room:maxsec
+    kind: open
+  - id: link:closet_armory
+    from: room:closet
+    to: room:armory
+    kind: secret_door
+    notes: "The illusory wall: walk through it."
+  - id: link:cloud
+    from: room:cloud_foot
+    to: room:l2_landing
+    kind: stairs
+    rise: 640
+    notes: "The Cloud Stairs (cloud_flight): the phase leaf at the foot opens at stage 2."
+  - id: link:dstair
+    from: room:guardroom
+    to: room:dstair_head
+    kind: stairs
+    rise: 640
+    notes: "The dungeon stair (dstair): the phase leaf at its head opens at stage 3."
+  - id: link:entrance_north
+    from: room:entrance
+    to: room:north_wing
+    kind: open
+  - id: link:entrance_throne
+    from: room:entrance
+    to: room:throne
+    kind: door
+    motion: slide
+    notes: Double doors.
+  - id: link:entrance_yard
+    from: room:entrance
+    to: room:yard
+    kind: door
+    motion: slide
+    notes: "The phase wall: open at stage 4."
+  - id: link:gallery_bed
+    from: room:queens_gallery
+    to: room:bedchamber
+    kind: door
+    motion: slide
+    notes: Double doors.
+  - id: link:gallery_court
+    from: room:queens_gallery
+    to: room:court3
+    kind: open
+  - id: link:gate_entrance
+    from: room:gate
+    to: room:entrance
+    kind: door
+    motion: slide
+    notes: "The portcullis: up from stage 1."
+  - id: link:guard_cells
+    from: room:guardroom
+    to: room:cells
+    kind: door
+    motion: slide
+  - id: link:guard_well
+    from: room:guardroom
+    to: room:well
+    kind: open
+    notes: 256 high (D-32).
+  - id: link:kennel
+    from: room:maxsec
+    to: room:kennel
+    kind: door
+    motion: slide
+    notes: "The kennel's portcullis (lever) and the low stair (kennel_stair), 288 high (D-32)."
+  - id: link:kitchen_throne
+    from: room:kitchen
+    to: room:throne
+    kind: open
+    notes: The servants' passage.
+  - id: link:l2_upper
+    from: room:l2_landing
+    to: room:upper_foot
+    kind: open
+  - id: link:l3_bell
+    from: room:l3_landing
+    to: room:bell_tower
+    kind: open
+  - id: link:l3_gallery
+    from: room:l3_landing
+    to: room:queens_gallery
+    kind: open
+  - id: link:maxsec_vault
+    from: room:maxsec
+    to: room:vault_d
+    kind: secret_door
+  - id: link:north_banquet
+    from: room:north_wing
+    to: room:banquet
+    kind: door
+    motion: slide
+    notes: Double doors.
+  - id: link:north_cloud
+    from: room:north_wing
+    to: room:cloud_foot
+    kind: open
+  - id: link:phase_vaults
+    from: room:phase_gallery
+    to: room:vaults
+    kind: door
+    motion: slide
+    notes: Iron double doors.
+  - id: link:res_sleeping
+    from: room:residences
+    to: room:sleeping
+    kind: door
+    motion: slide
+  - id: link:sleeping_phase
+    from: room:sleeping
+    to: room:phase_gallery
+    kind: open
+  - id: link:south_dhead
+    from: room:south_wing
+    to: room:dstair_head
+    kind: open
+  - id: link:throne_closet
+    from: room:throne
+    to: room:closet
+    kind: door
+    motion: slide
+  - id: link:throne_south
+    from: room:throne
+    to: room:south_wing
+    kind: open
+  - id: link:upper
+    from: room:upper_foot
+    to: room:l3_landing
+    kind: stairs
+    rise: 640
+    notes: "The upper stair (upper_flight): the phase leaf at its foot opens at stage 4."
+  - id: link:upper_res
+    from: room:upper_foot
+    to: room:residences
+    kind: open
+  - id: link:vault_well
+    from: room:vault_d
+    to: room:well
+    kind: open
+    notes: 256 high (D-32).
+loops:
+  - id: loop:dungeon
+    spaces: [room:guardroom, room:cells, room:maxsec, room:vault_d, room:well]
+    notes: Through the vault's secret door.
+  - id: loop:ground
+    spaces: [room:entrance, room:north_wing, room:banquet, room:kitchen, room:throne]
+    notes: Round the banquet hall by the servants' passage.
+  - id: loop:south
+    spaces: [room:throne, room:closet, room:armory, room:south_wing]
+    notes: Through the coat closet's illusory wall.
+  - id: loop:top
+    spaces: [room:l3_landing, room:queens_gallery, room:court3, room:attic, room:bell_tower]
+    notes: By the roof walk.
+entrances:
+  - id: entrance:gate
+    space: room:gate
+    kind: both
+    neighbour: exit:d1_gate
+    facing: e
+    how: "Inside Kalindra's gate, facing in."
+critical_path: [room:gate, room:entrance, room:throne, room:entrance, room:north_wing, room:cloud_foot, room:cloud_flight, room:l2_landing, room:upper_foot, room:residences, room:sleeping, room:phase_gallery, room:vaults]
+return_path: [room:vaults, room:phase_gallery, room:sleeping, room:residences, room:upper_foot, room:l2_landing, room:cloud_flight, room:cloud_foot, room:north_wing, room:entrance, room:gate]
+goals:
+  - id: goal:disk_safes
+    space: room:vaults
+    kind: take
+    what: Four Energy Disks at 64-52-31 (m24.disk_safes).
+  - id: goal:liches
+    space: room:cells
+    kind: kill
+    what: The five liches (t2-a.liches).
+  - id: goal:mirror
+    space: room:bedchamber
+    kind: use
+    what: "Activate Mirror Portals (m26.mirror_switch); the crown at 3-31-62 (m27.crown_safe)."
+  - id: goal:safes
+    space: room:throne
+    kind: take
+    what: The two Energy Disks in the throne room's safes (m19.safes).
+states:
+  - id: state:stage1
+    condition: {qbit: stage1}
+    opens: [link:gate_entrance]
+    notes: "m19.stage1 (5 disks): the gate and the ground floor solid (D1's gate refuses before it)."
+  - id: state:stage2
+    condition: {qbit: stage2}
+    opens: [link:cloud]
+    notes: "m19.stage2 (10 disks): the Cloud Stairs, the second floor and its spirits."
+  - id: state:stage3
+    condition: {qbit: stage3}
+    opens: [link:dstair]
+    notes: "m26.stage3 (15 disks): the dungeon stair; Guido; the liches, dragons and Scraps."
+  - id: state:stage4
+    condition: {qbit: stage4}
+    opens: [link:upper, link:entrance_yard]
+    notes: "m26.stage4 (20 disks): the upper stair and the stable yard; the services; the mirror."
+atmosphere: "Lamplit marble (ambient 18-22), the half-phased wings dim and violet (14), the dungeon dark (10-14), the stable yard open to Darkside's sky. Music 29. Sounds: the phase walls humming, a pot in the kitchen, wind in the bell tower, the yard and the old well."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 5
+  doors: 16
+  fixed_actors: 56
+  floor_area_millions: 50
+  loops: 4
+  monsters_about: 55
+  rooms: 34
+  sectors: 34
+  spawn_points: 0
+notes: "Class M (MAPS, Dungeons): 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors. The graph's 33 spaces as 34 rooms (each flight a room of its own, the kennel's low stair). D-26: each stage's monsters hidden until its qbit, every stage gate a leaf in xkshimmer, the liches named, two named Bone Dragons in the old well, Carl the Mason in the kitchen, the stable yard open to the sky."

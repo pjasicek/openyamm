@@ -1,0 +1,233 @@
+format: 0
+level: L2
+pitch: Escape Pod 1, a starship's lifeboat, lies nose-up and half sunk in the lava of the Forbidden Zone. Inside, red emergency
+  lamps, decks that slope, and the heat of the lava through the breached stern. The Main Power Console in the engine room
+  wakes the pod and unseals the bridge, where a figure hangs in a stasis field that answers only an Ancient phrase.
+purpose: 'M29 (the logs, the console, the stasis field: ''where no man has gone before'' wakes Corak) and M32 (Corak takes
+  the Soul Box). Party 45 to 47, 7 monsters 40-55 (D-47 Q17), treasure 5.'
+mood: 'Dead machinery coming back to life: red lamps, then white; the hum of the field; lava ticking against the hull.'
+datum: arrival
+spaces:
+- id: room:airlock
+  name: Hatch airlock
+  kind: room
+  size: S
+  floor: 0
+  purpose: 'The arrival (entrance:d6_hatch): the hatch''s inner face, the inner door ahead. Quiet (D-11.3).'
+  empty: true
+- id: room:main_deck
+  name: Main deck
+  kind: room
+  size: M
+  floor: 0
+  purpose: The round main hull, the hub; the scanning console's X.E.E.N. readout.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 40
+    - 40
+    notes: 2 Floating Eye 40 (placed).
+- id: room:gun_deck
+  name: Gun deck
+  kind: room
+  size: S
+  floor: 0
+  purpose: Phaser and photon controls, both disarmed; the weapons locker (chest); the service hatch.
+  empty: true
+- id: room:couches
+  name: Couch row
+  kind: corridor
+  size: M
+  floor: 0
+  purpose: The corridor tilted up to the bow; the blast door to the bridge at its top.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 50
+    - 50
+    notes: 1 Terrible Eye 50 (placed).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 40
+    - 40
+    notes: 1 Floating Eye 40 (placed).
+- id: room:bridge
+  name: The bridge
+  kind: room
+  size: M
+  floor: 256
+  purpose: The stasis field (m29.stasis), the main console (m29.console), three log computers; Corak after m29.done.
+  empty: true
+- id: room:stasis
+  name: Stasis alcove
+  kind: room
+  size: S
+  floor: 256
+  purpose: 'Behind the field: Corak in stasis.'
+  empty: true
+- id: room:stern_slope
+  name: Stern slope
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: A corridor sloping down into the heat.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 50
+    - 50
+    notes: 1 Terrible Eye 50 (placed).
+- id: room:engine_room
+  name: Engine room
+  kind: room
+  size: M
+  floor: -384
+  purpose: The breach onto the lava; the Main Power Console opens the bridge; the stores locker (chest).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 55
+    - 55
+    notes: 2 Lesser Elemental 55 (placed).
+- id: room:device_bay
+  name: Device bay
+  kind: room
+  size: S
+  floor: -384
+  purpose: The two strange energy devices (m29.alien_device, once per character).
+  empty: true
+- id: room:crawlway
+  name: Service crawlway
+  kind: corridor
+  size: S
+  floor: -384
+  purpose: 'From the engine room up a ladder to the gun deck''s floor hatch: the loop.'
+  empty: true
+links:
+- id: link:airlock_deck
+  from: room:airlock
+  to: room:main_deck
+  kind: door
+- id: link:deck_couches
+  from: room:main_deck
+  to: room:couches
+  kind: ramp
+- id: link:couches_bridge
+  from: room:couches
+  to: room:bridge
+  kind: door
+  notes: 'The blast door: opened by the Main Power Console (power_on 118080).'
+- id: link:bridge_stasis
+  from: room:bridge
+  to: room:stasis
+  kind: door
+  notes: 'The stasis field: down with m29.done.'
+- id: link:deck_gun
+  from: room:main_deck
+  to: room:gun_deck
+  kind: door
+- id: link:deck_slope
+  from: room:main_deck
+  to: room:stern_slope
+  kind: ramp
+- id: link:slope_engine
+  from: room:stern_slope
+  to: room:engine_room
+  kind: door
+- id: link:engine_device
+  from: room:engine_room
+  to: room:device_bay
+  kind: door
+- id: link:engine_crawl
+  from: room:engine_room
+  to: room:crawlway
+  kind: open
+- id: link:crawl_gun
+  from: room:crawlway
+  to: room:gun_deck
+  kind: ladder
+  notes: A ladder up through the gun deck's floor hatch.
+loops:
+- id: loop:crawl
+  spaces:
+  - room:main_deck
+  - room:stern_slope
+  - room:engine_room
+  - room:crawlway
+  - room:gun_deck
+  notes: 'Down the slope to the engines, up the service crawlway''s ladder to the gun deck and back to the main deck (the
+    ladder is one way up for monsters: they do not climb).'
+entrances:
+- id: entrance:d6_hatch
+  space: room:airlock
+  kind: both
+  facing: e
+  how: 'From D6''s crust through the hatch (A6''s m29.pod_door): 192 inside the hatch, facing east into the pod. Sealed until
+    D6 exists.'
+critical_path:
+- room:airlock
+- room:main_deck
+- room:stern_slope
+- room:engine_room
+- room:stern_slope
+- room:main_deck
+- room:couches
+- room:bridge
+return_path:
+- room:bridge
+- room:couches
+- room:main_deck
+- room:airlock
+goals:
+- id: goal:power
+  space: room:engine_room
+  kind: use
+  story: M29
+  what: 'The Main Power Console: lights up, consoles on, the blast door unseals (power_on 118080, m29.power_console).'
+- id: goal:stasis
+  space: room:bridge
+  kind: use
+  story: M29
+  what: 'The stasis field''s prompt ''To boldly go...'': ''where no man has gone before'' (m29.stasis, m29.done 111582).'
+  gives:
+    qbit: stasis_done
+set_pieces:
+- id: set:bridge
+  kind: scripted
+  spaces:
+  - room:bridge
+  - room:stasis
+  rule: The field (xafield, translucent) stands across the stasis alcove with Corak inside until m29.done, then is down on
+    every load; Corak by his console until m32.done, then gone.
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 10
+  sectors: 10
+  monsters_about: 7
+  chests: 2
+  doors: 6
+  loops: 1
+  floor_area_munits2: 6
+notes: 'Size S (at most 15 sectors and 20 M units², 15-30 monsters: D-47 Q17''s 7, one NOTES exception line). From act5_graphs/dd16.graph.yml
+  and D-47 (act5_a7_decisions.md, DD-16); the stasis alcove is its own room.'

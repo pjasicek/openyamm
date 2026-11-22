@@ -1,0 +1,221 @@
+# The Adventurer's Inn roster (WORLD_DESIGN 5.3): characters the party can recruit at Vertigo's inn (and later
+# Castleview's). Owner: A4. tools/xeen/gen_towns.py writes them as roster.txt rows (engine columns).
+# The engine keeps one inn list for the whole party: every row whose `qbit` is set appears in any Adventurer's Inn.
+# Vertigo's set opens at the start of a new game (qbit 119020, set by the world's new-game script, A3); Castleview's
+# set (ids 410-418, Darkside) with qbit 119021 (A3's world.inn_castleview: the party first enters Castleview's inn).
+# The Darkside set joins at level 15, as MM8's second roster tier (105,000 experience, Expert skills): the party
+# reaches Castleview at about level 15-18 (MAPS D1).
+# face: a party portrait id of engine character_data.txt (race and sex follow the face); voice: that face's default.
+# The first six are World of Xeen's own pre-made party (raw/xeen_initial_state/maze.chr): Arturius, Rebecca,
+# Seymour, Zippo, Badger and Tyro, on MM7 classes (Zippo, a gnome in the original, is a goblin: no gnomes, Q8).
+roster:
+  - id: 401
+    qbit: 119020
+    name: Arturius
+    class: Paladin
+    face: 50
+    born: 1146
+    stats: {might: 16, intelligence: 9, personality: 14, endurance: 15, speed: 11, accuracy: 12, luck: 9}
+    skills: {Sword: 2, Leather: 1, Shield: 1, Spirit: 1}
+    spells: {Spirit: 1}
+    items: [1, 84, 104]
+    blurb: "A knight of Newcastle's guard who woke in Vertigo with the rest of you. He still salutes the mayor."
+  - id: 402
+    qbit: 119020
+    name: Rebecca
+    class: Cleric
+    face: 51
+    born: 1149
+    stats: {might: 10, intelligence: 10, personality: 17, endurance: 13, speed: 11, accuracy: 10, luck: 12}
+    skills: {Mace: 2, Leather: 1, Spirit: 1, Body: 2, Mind: 1}
+    spells: {Spirit: 1, Body: 2, Mind: 1}
+    items: [66, 84, 222]
+    blurb: "She tends the sick of the Slime Temple for free, which the temple does not like."
+  - id: 403
+    qbit: 119020
+    name: Seymour
+    class: Sorcerer
+    face: 35
+    born: 1150
+    stats: {might: 8, intelligence: 18, personality: 10, endurance: 10, speed: 13, accuracy: 12, luck: 11}
+    skills: {Staff: 1, Leather: 1, Fire: 2, Air: 1}
+    spells: {Fire: 2, Air: 1}
+    items: [79, 84]
+    blurb: "An elf who reads in the bath. He has burnt three of Gilbert's hexes by accident and one on purpose."
+  - id: 404
+    qbit: 119020
+    name: Zippo
+    class: Thief
+    face: 57
+    born: 1151
+    stats: {might: 10, intelligence: 12, personality: 9, endurance: 11, speed: 17, accuracy: 15, luck: 14}
+    skills: {Dagger: 2, Leather: 1, Stealing: 1, Disarm Trap: 2}
+    items: [21, 84]
+    blurb: "Quick hands, quicker feet. Says she has never been to Rivercity. Rivercity says otherwise."
+  - id: 405
+    qbit: 119020
+    name: Badger
+    class: Ranger
+    face: 62
+    born: 1145
+    stats: {might: 15, intelligence: 10, personality: 9, endurance: 16, speed: 11, accuracy: 14, luck: 9}
+    skills: {Axe: 2, Bow: 1, Leather: 1, Perception: 1}
+    items: [31, 56, 84]
+    blurb: "A dwarf who left the Red Dwarf Mines before the Mad Clan came. He would like to go back with an axe."
+  - id: 406
+    qbit: 119020
+    name: Tyro
+    class: Knight
+    face: 56
+    born: 1150
+    stats: {might: 18, intelligence: 7, personality: 8, endurance: 17, speed: 12, accuracy: 12, luck: 8}
+    skills: {Sword: 2, Spear: 1, Chain: 1, Shield: 1}
+    items: [11, 89]
+    blurb: "Big, cheerful and new at this. Tyro hits what he aims at, eventually."
+  - id: 407
+    qbit: 119020
+    name: Lyssa
+    class: Archer
+    face: 53
+    born: 1149
+    stats: {might: 11, intelligence: 13, personality: 10, endurance: 11, speed: 14, accuracy: 17, luck: 10}
+    skills: {Bow: 2, Sword: 1, Leather: 1, Air: 1}
+    spells: {Air: 1}
+    items: [56, 1, 84]
+    blurb: "Rialdo's best pupil, and the first to say so."
+  - id: 408
+    qbit: 119020
+    name: Willow
+    class: Druid
+    face: 32
+    born: 1148
+    stats: {might: 9, intelligence: 14, personality: 15, endurance: 11, speed: 12, accuracy: 11, luck: 12}
+    skills: {Staff: 1, Leather: 1, Fire: 1, Water: 1, Body: 1}
+    spells: {Fire: 1, Water: 1, Body: 1}
+    items: [79, 84]
+    blurb: "She came from the meadows to ask the Spring Druid a question, and is still waiting for the answer."
+  - id: 409
+    qbit: 119020
+    name: Grim
+    class: Monk
+    face: 54
+    born: 1147
+    stats: {might: 13, intelligence: 10, personality: 11, endurance: 14, speed: 16, accuracy: 13, luck: 9}
+    skills: {Unarmed: 2, Dodging: 2, Staff: 1, Meditation: 1}
+    items: [79]
+    blurb: "Trained at Kai Wu's monastery in the snow. Does not explain the name."
+
+  # Castleview's set: Darkside people, not the pre-made party (Xeen's own six are in Vertigo).
+  - id: 410
+    qbit: 119021
+    name: Kalia
+    class: Knight
+    face: 51
+    born: 1142
+    level: 15
+    experience: 105000
+    stats: {might: 26, intelligence: 10, personality: 13, endurance: 22, speed: 16, accuracy: 18, luck: 11}
+    skills: {Sword: [E, 6], Spear: 3, Shield: [E, 4], Chain: [E, 5], Armsmaster: 3, Body Building: 2}
+    items: [14, 90, 102, 109]
+    blurb: "A guard of Queen Kalindra who was off duty the day the castle left. She has been off duty ever since."
+  - id: 411
+    qbit: 119021
+    name: Drusk
+    class: Dark Elf
+    face: 19
+    born: 1144
+    level: 15
+    experience: 105000
+    stats: {might: 15, intelligence: 22, personality: 11, endurance: 15, speed: 22, accuracy: 20, luck: 14}
+    skills: {Sword: [E, 4], Bow: [E, 5], Leather: 4, Fire: [E, 4], Air: 3, Dark Elf: 2, Merchant: 3}
+    spells: {Fire: 4, Air: 3, DarkElf: 2}
+    items: [3, 57, 86]
+    blurb: "An exile from the dark elves' hills. He came to Castleview to sell bows and stayed to use them."
+  - id: 412
+    qbit: 119021
+    name: Vespera
+    class: Vampire
+    face: 14
+    born: 1120
+    level: 15
+    experience: 105000
+    stats: {might: 21, intelligence: 12, personality: 22, endurance: 18, speed: 24, accuracy: 17, luck: 12}
+    skills: {Dagger: [E, 5], Leather: [E, 4], Spirit: 2, Mind: 3, Vampire: 2, Regeneration: [E, 4]}
+    spells: {Spirit: 2, Mind: 3, Vampire: 2}
+    items: [29, 87, 126]
+    blurb: "A vampire who hates vampires. She would like a word with whoever made her, and has packed a stake for it."
+  - id: 413
+    qbit: 119021
+    name: Ember
+    class: Dragon
+    face: 25
+    born: 1100
+    level: 15
+    experience: 105000
+    stats: {might: 45, intelligence: 21, personality: 9, endurance: 28, speed: 15, accuracy: 13, luck: 14}
+    skills: {Dragon: [E, 4], Perception: 3, Regeneration: 3, Body Building: [E, 4]}
+    spells: {Dragon: 2}
+    items: [138]
+    blurb: "A young dragon from the Desert of Doom. He left because the sand got into everything."
+  - id: 414
+    qbit: 119021
+    name: Nix
+    class: Thief
+    face: 56
+    born: 1149
+    level: 15
+    experience: 105000
+    stats: {might: 15, intelligence: 14, personality: 10, endurance: 15, speed: 25, accuracy: 22, luck: 20}
+    skills: {Dagger: [E, 5], Bow: 3, Leather: [E, 4], Stealing: [E, 5], Disarm Trap: [E, 5], Perception: 3}
+    items: [28, 61, 85]
+    blurb: "Says he is not a gremlin. The gremlins say the same about him."
+  - id: 415
+    qbit: 119021
+    name: Sister Hesketh
+    class: Cleric
+    face: 53
+    born: 1141
+    level: 15
+    experience: 105000
+    stats: {might: 16, intelligence: 12, personality: 25, endurance: 18, speed: 15, accuracy: 13, luck: 14}
+    skills: {Mace: [E, 5], Shield: 3, Chain: [E, 4], Spirit: [E, 5], Mind: 3, Body: [E, 5], Meditation: 3}
+    spells: {Spirit: 4, Mind: 3, Body: 4}
+    items: [68, 90, 105]
+    blurb: "She left the Temple of Mok over a disagreement about the weight of maces. She won the argument."
+  - id: 416
+    qbit: 119021
+    name: Rorik
+    class: Ranger
+    face: 63
+    born: 1138
+    level: 15
+    experience: 105000
+    stats: {might: 24, intelligence: 12, personality: 10, endurance: 24, speed: 14, accuracy: 20, luck: 11}
+    skills: {Axe: [E, 6], Bow: [E, 4], Chain: 4, Perception: [E, 4], Repair Item: 3, Identify Monster: 3}
+    items: [34, 58, 90]
+    blurb: "He worked the Gemstone Mines until the trolls moved in. He would like the trolls to move out."
+  - id: 417
+    qbit: 119021
+    name: Lyra
+    class: Sorcerer
+    face: 34
+    born: 1148
+    level: 15
+    experience: 105000
+    stats: {might: 10, intelligence: 27, personality: 12, endurance: 13, speed: 18, accuracy: 15, luck: 13}
+    skills: {Staff: [E, 4], Leather: 3, Fire: [E, 5], Air: [E, 5], Water: 3, Earth: 3, Learning: 3}
+    spells: {Fire: 5, Air: 4, Water: 3, Earth: 3}
+    items: [80, 85, 123]
+    blurb: "She studied in Sandcaster until the wizards there took over the guilds. Unlike them, she is not sensitive to insults."
+  - id: 418
+    qbit: 119021
+    name: Ogden
+    class: Monk
+    face: 52
+    born: 1143
+    level: 15
+    experience: 105000
+    stats: {might: 22, intelligence: 12, personality: 13, endurance: 20, speed: 24, accuracy: 18, luck: 12}
+    skills: {Unarmed: [E, 6], Dodging: [E, 6], Staff: 3, Meditation: 3, Perception: 2}
+    items: [81]
+    blurb: "He learned his kicks from the Drawkcab monks of Castleview. He speaks backwards and fights forwards."

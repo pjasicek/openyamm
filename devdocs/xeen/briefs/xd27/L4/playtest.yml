@@ -4,12 +4,15 @@
 # bar in the gate yard and opens the gate from inside, climbs the quarry ramp, walks down the boulder chute (the trap),
 # kills the Ogre Chieftain and his throwers on the throwing ledge, takes the larder key from his corpse, knocks the
 # boulder heap into the river (ogre_boulders_dumped), breaks the lair at the Chieftain's seat (ogre_lair_destroyed,
-# Q-C23), opens the larder with the key, loots the hoard, and leaves by the gate and the mouth onto X2 (played from
-# output/studio_cal/xd27/mount_play, this map with X2's current scratch build). Numbers are ids.lock.yml's (events, doors, map variables, containers);
-# actor 0 is the Ogre Chieftain.
+# Q-C23), opens the larder with the key, loots the hoard, and walks out by the gate to the mouth, takes the exit and
+# arrives on X2 (xeen_x2.odm, A5) at DOORS.md's outside arrival for door:xd27 (-20992, 17155, 1248, facing south, 400
+# in front of the cave mouth), then walks south down the bluff. Played from assets_dev with --world xeen --map
+# xeen_xd27.blv (the lair as the initial map; a new Xeen game would start on X1): the world's rows (Ogre 11060, Ogre Brute 11061, Dark Wolf 11410, the Ogre Chieftain 11063, the larder key
+# 12170) and A3's Q-C23 hooks (q-c23.arrival, .rack, .chieftain). Numbers are ids.lock.yml's (events, doors, map
+# variables, containers); actor 0 is the Ogre Chieftain.
 id: xeen.xd27.l4.walk
 title: Ogre Lair (XD-27 L4), mouth to the throwing ledge, the lair broken, out by the gate
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -25,9 +28,19 @@ steps:
   - assert: {map: xeen_xd27.blv}
   - setup_shortcut: {kind: immortal, value: true}
   - assert: {party_position: {x: 0, y: 448, radius: 64, z_min: -8, z_max: 8}}
-  # The arrival: why the party is here (a one-shot timer; the step asserts that it ran).
-  - play_lua: {source: "wait(3)"}
+  # The Xeen rows stand: the Chieftain the boss row, three Boulder Throwers among the Ogres, no stand-in rows.
+  - assert: {actor_count: {monster_id: 11063, min: 1, max: 1}}
+  - assert: {actor_count: {monster_id: 11060, min: 3}}
+  - assert: {actor_count: {monster_id: 11410, min: 2}}
+  - assert: {actor_count: {monster_id: 11061, min: 1}}
+  - assert: {actor_count: {monster_id: 592, max: 0}}
+  - assert: {actor_count: {monster_id: 593, max: 0}}
+  - assert: {actor_count: {monster_id: 86, max: 0}}
+  - assert: {actor_count: {monster_id: 106, max: 0}}
+  # The arrival: why the party is here, A3's hook q-c23.arrival from a one-shot timer.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
   - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {dialog: {active: true, text_contains: "The ogres' lair, in the river bluff."}}
   - play_lua: {source: "close()"}
   # The log gate is barred from inside: its message points at the midden crack.
   - walk_to: {x: 0, y: 940, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
@@ -97,17 +110,23 @@ steps:
   - advance_runtime: {seconds: 3.0}
   - assert: {state_dump_map_var: {index: 1, value: 1}}
   - interact_actor: {actor_index: 0}
-  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if not has_item(641) then error('the Chieftain\\'s corpse did not hold the larder key') end"}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if not has_item(12170) then error('the Chieftain\\'s corpse did not hold the larder key') end"}
   # The boulder rack: the heap goes into the slide.
   - walk_to: {x: 2752, y: 5800, z: 128, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # A3's hook q-c23.rack: its status line (D-90), then the quest's second bit; a second click its else text (a window).
+  - play_lua: {source: "click(18); wait(0.5)"}
   - play_lua:
       source: |
-        click(18); wait(0.5)
-        if not close() then error("the rack showed no message") end
+        local s = tostring(status())
+        if not string.find(s, [[That is the end of the ogres' ammunition.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
         wait(3)
         if door_state(4) ~= "open" or door_state(5) ~= "open" or door_state(7) ~= "open" then error("the heap did not roll: " .. door_state(4) .. " " .. door_state(5) .. " " .. door_state(7)) end
         if not qbit(110341) then error("ogre_boulders_dumped not set") end
         click(18); wait(1)
+  - assert: {dialog: {active: true, text_contains: "An empty rack."}}
+  - play_lua: {source: "if not close() then error('the empty rack showed no message') end"}
   # Back up the chute and the ramp to the feast cave; the Chieftain's den.
   - walk_to: {x: 2400, y: 6176, z: 128, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 2100, y: 6080, z: 140, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
@@ -124,7 +143,12 @@ steps:
   - play_lua: {source: "click(14); wait(0.5)"}
   - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
-  - play_lua: {source: "if not qbit(110340) then error('ogre_lair_destroyed not set') end; if not close() then error('the lair showed no message') end"}
+  # A3's hook q-c23.chieftain: the quest bit and the source's answer.
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You break everything you can find in the lair.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "if not qbit(110340) then error('ogre_lair_destroyed not set') end"}
   - walk_to: {x: -2336, y: 4150, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "loot_chest(4); wait(1); if held() ~= 0 then stow() end; close()"}
   # The larder: the key opens it; the boats' strongbox.
@@ -153,10 +177,10 @@ steps:
   - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "if not qbit(110340) or not qbit(110341) then error('a quest bit was lost') end"}
   - execute_event: {id: 8}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave Ogre Lair?"}}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  # On X2 in front of the lair's mouth (X2's final arrival for door:xd27; played from a mount that carries X2's
-  # final build beside this map: output/studio_cal/xd27/tools/play_mount.py).
   - assert: {map: xeen_x2.odm}
   - assert: {party_position: {x: -20992, y: 17155, radius: 160, z_min: 1150, z_max: 1350}}
-  - play_lua: {source: "if not qbit(110340) or not qbit(110341) then error('a quest bit was lost on the way out') end"}
+  - walk_to: {x: -20992, y: 16700, z: 1248, z_tolerance: 300, radius: 160, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {map: xeen_x2.odm}

@@ -1,0 +1,61 @@
+# Q-C2 Barok's Pendant; pays promotion T1-B (QUESTS 2.1, 3.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source's reward is the Enchant Item spell; OpenYAMM has no event that teaches a spell, so Barok gives its book.
+id: Q-C2
+title: Barok's Pendant
+act: II
+kind: side
+status: full
+giver: 4151          # Barok the Sorcerer (X2, his hut 4095)
+maps: [X2]
+level: 12
+block: 52
+after: []
+source: "QUESTS Q-C2; xeen/aaze0030:19, :21, :34-37"
+
+qbits:
+  started: {id: 112040, journal: "The sorceresses of Rivercity stole Barok's pendant. Barok wants it back.", until: [done]}
+  pendant_found: {id: 112041}
+  done: {id: 110204, map: X2, note: "was barok_pendant; the town fountain flows (built: thing:town_fountain reads it)"}
+
+items:
+  baroks_pendant: "Barok's pendant; the sorceresses' strongbox in Rivercity; Barok takes it."
+
+npcs:
+  4151:              # Barok
+    topics:
+      - n: 1
+        label: Pendant
+        states:
+          - when: {qbit: done}
+            text: "The fountain runs again and the tavern charges for water again. Rivercity is back to normal. I'm not sure that's a compliment."
+          - when: {item: baroks_pendant}
+            text: "Thank you for returning my pendant. Please accept the Enchant Item spell as your reward. I will also return the drinking fountain to normal. And the spellcasters among you have earned a better title than 'that lot with the pendant'."
+            do: [{take: baroks_pendant}, {set: done}, {clear: started}, {give: "engine:429"}, {xp: 4000},
+                 {promote: pendant}, {xp: 10000}]
+          - when: {qbit: started}
+            text: "No pendant, no reward."
+          - text: "The sorceresses of Rivercity have stolen a magical pendant of mine. I want it back, and I will reward you if you return it. They keep their loot in a strongbox on the south quay, outside their house."
+            do: [{set: started}]
+  4131:              # the tavern patron who misses the fountain (A4's greeting carries the source line)
+    topics:
+      - n: 2
+        label: Barok
+        show: {not: {qbit: done}}
+        text: "The tavern hired the sorceresses to run Barok out of town. Then they plugged the fountain, so now we buy our water here. Funny how that works."
+
+hooks:
+  strongbox:
+    map: X2
+    where: "the sorceresses' strongbox on the south quay outside their house: a chest since D-90 (b) (A5, X2 2026-11-22), the pendant its item; X2 event 215 calls this after it opens"
+    sets: [pendant_found]
+    map_gives: {baroks_pendant: 1}
+    once: true
+    status: true   # D-90: over the open chest; a window would close it
+    text: "Under a heap of curse dolls and unpaid bills: a pendant on a silver chain, humming faintly."
+  fountain:
+    map: X2
+    where: "Rivercity's town fountain: dry with a sorceress's plug until the pendant is back (built: thing:town_fountain)"
+    reads: [done]
+
+rewards: {xp: 14000, gold: 0}
+playthrough: "Barok (Pendant); the strongbox; Barok (Pendant): Sorcerers and Archers promoted; the fountain flows."

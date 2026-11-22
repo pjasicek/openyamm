@@ -1,0 +1,34 @@
+# T1-C The Seasons: Druid -> Great Druid, Cleric -> Priest (QUESTS 3.1). Owner: A3. Format: QUESTS_FORMAT.md.
+# Attached to Q-C10 since D-1 (2026-11-20): Carlawna's Scarab hand-in promotes every eligible member and pays the
+# promotion's experience (q-c10.yml). These topics promote members who join later or reach the class later, without a
+# second reward: Carlawna herself, and the Autumn Druid in his grove on the savannah (A4's 4321), once q-c10.done.
+id: T1-C
+title: The Seasons
+act: II
+kind: promotion
+status: full
+giver: 4303          # Carlawna the Cleric; also the Autumn Druid (4321)
+maps: [X4]
+level: 18
+block: 117
+after: [q-c10.done]
+source: "QUESTS 3.1; D-1 (devdocs/xeen/DECISIONS.md)"
+
+npcs:
+  4303:              # Carlawna
+    topics:
+      - n: 1
+        label: Ordination
+        show: {all: [{qbit: q-c10.done}, {promotable: seasons}]}
+        text: "Another one who heals and hasn't been ordained? Kneel. Druids rise as Great Druids, Clerics as Priests."
+        do: [{promote: seasons}]
+  4321:              # the Autumn Druid
+    topics:
+      - n: 2
+        label: The turning year
+        show: {all: [{qbit: q-c10.done}, {promotable: seasons}]}
+        text: "Carlawna sent word that you helped her. Leaves fall so the tree can grow. Druids rise as Great Druids, Clerics as Priests."
+        do: [{promote: seasons}]
+
+rewards: {xp: 0, gold: 0}
+playthrough: "After Q-C10 with a Druid or Cleric recruited later: Carlawna (Ordination) or the Autumn Druid (The turning year)."

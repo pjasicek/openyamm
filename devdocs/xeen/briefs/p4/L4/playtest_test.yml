@@ -1,0 +1,256 @@
+# The test (D-58 C3, C4, P-1).
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.test
+title: 'Plane of Water (P4): the test raises the guardians, their deaths set 111767 and still the Veil, kept over a reload'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- set_pose:
+    map: xeen_p4.blv
+    x: -2520
+    y: 1664
+    z: 136
+    yaw_degrees: 180
+    pitch: 0
+- clear_hostiles:
+    radius: 3000
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- note: 'Onto the test''s floor: ''Accept the test of Water?'' Yes.'
+- walk_to:
+    x: -2880
+    y: 1664
+    z: 132
+    z_tolerance: 60
+    radius: 48
+    timeout_seconds: 20
+    expect: dialog
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close(); wait(0.5); close()
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: false
+- play_lua:
+    source: if qbit(111767) then error('the test qbit is set before the guardians die') end
+- note: Before the kill the Veil still holds.
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: -4096
+      y: -124
+      radius: 120
+      z_min: 120
+      z_max: 144
+- note: 'The three guardians die (the scenario strikes them): Xeen.planeTestCheck sets 111767.'
+- damage_actor:
+    actor_index: 2
+    amount: 1000000
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if not qbit(111767) then error('qbit 111767 not set after the kill') end
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close(); wait(0.5); close()
+- note: 'The Veil stilled: along its colonnade into the Sleeper''s Grotto.'
+- walk_to:
+    x: -4096
+    y: 185
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: -934
+    z: 148
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: -2675
+    z: 192
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -3796
+    y: -3724
+    z: 192
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -3796
+      y: -3724
+      radius: 200
+      z_min: 184
+      z_max: 216
+- note: 'A save and a reload: the qbit kept, the guardians dead; the Veil passable again.'
+- reload: {}
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: if not qbit(111767) then error('qbit lost') end
+- set_pose:
+    map: xeen_p4.blv
+    x: -4096
+    y: 185
+    z: 136
+    yaw_degrees: -90
+    pitch: 0
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 2
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      dead: true
+- walk_to:
+    x: -4096
+    y: 185
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: -934
+    z: 148
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: -2675
+    z: 192
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -3796
+    y: -3724
+    z: 192
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -3796
+      y: -3724
+      radius: 200
+      z_min: 184
+      z_max: 216

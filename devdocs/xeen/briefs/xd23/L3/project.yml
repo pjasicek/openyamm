@@ -1,0 +1,41 @@
+format: 0
+id: xeen_xd23
+name: Troll Warren
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-23
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 14], climbs: n}
+map_stats:
+  id: 9146
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 8
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Troll, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x5_crown
+    to: xeen_x5.odm
+    kind: door
+    arrival: [768, -15616, 1645]
+    arrival_hint: "PROVISIONAL: on the mound's crown over its middle (768, -15616), 256 south of its crest (1,697 at y -15360), facing south, away from the mouth and the smoke hole; the ground there is 1,635 (measured 2026-11-20). Until A6 gives the point."
+    direction: 270
+    notes: One way out (the smoke hole).
+  - id: exit:x5_mouth
+    to: xeen_x5.odm
+    kind: door
+    arrival: [768, -14595, 1210]
+    arrival_hint: "X5's Troll Forest, 400 north of thing:warren's mouth face (768, -14995), facing away from it (north); the ground there is 1,201 (measured 2026-11-20)."
+    direction: 90
+    notes: "X5 (Winterkill Tundra, A6's): the barrow mound's mouth, thing:warren at cells [65.5, 94.5], turn 180 (its mouth faces north)."
+qbits:
+  lair_burnt: 112301
+  matron_dead: 110930
+notes: "Xeen design brief, level L3: XD-23 Troll Warren, the plan and the to-scale shell (rooms.yml)."

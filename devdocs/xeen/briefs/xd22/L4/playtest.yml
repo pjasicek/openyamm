@@ -1,0 +1,176 @@
+# Playtest of the Ninja Pagoda (XD-22, L4; lane A7, agent:xeen-a7-xd22): the critical path from the north door to the
+# clan master, his death, the rope down, then q-c4.done and a reload showing the clan's return. A level-27 party
+# arrives in the entry hall (the arrival from X5's thing:pagoda, the map's start): the bell and the broom (Kai Wu's
+# lines, aaze0003:15-16), the shrine hall, the altar mat (the hatch slides aside), down the cellar ladder to the clan's
+# stores and Shinobu's empty cushion, back up, the east stair to the sleeping loft, its paper wall broken into the dojo,
+# down the kitchen ladder and back up (the lower loop), the west stair to the Hall of Screens, round the paper maze, the
+# crane screen clicked (it breaks; the stair up behind it), the armoury, the moon gallery, the top stair and the clan
+# master's hall: the Clan Master and his Ninja Master killed (the kill timer runs A3's q-c4.clan_master:
+# clan_master_slain 112081), the gong, the strongbox; back down the top stair, along the gallery and down the clan's
+# rope into the Hall of Screens. Then q-c4.done (112082) is set as Kai Wu sets it on X5, every window is closed and the
+# game saved and loaded: the hostile ninjas are hidden, the hatch is open, Shinobu and the four survivors stand in the
+# cellar, friendly; Shinobu clicked speaks (her greeting and The clan), and clicked again talks again.
+# Numbers are ids.lock.yml's: events (click / execute_event), doors (open_door, door_state), chests (loot_chest), map
+# variables (state_dump_map_var), destructibles (console). Actor indices follow objects.yml's monsters sorted by id:
+# 0-1 the armoury, 2 the Clan Master, 3-7 the dojo, 8-10 the loft, 11-12 the gallery, 13-14 the kitchen, 15 the Ninja
+# Master, 16-17 the entry hall, 18-23 the Hall of Screens, 24 Shinobu, 25-27 the shrine, 28-31 the survivors.
+id: xeen.xd22.l4.walk
+title: Ninja Pagoda (XD-22 L4), the north door to the clan master, the rope down, and the clan's return
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd22.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - assert: {map: xeen_xd22.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: -256, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival line (a one-shot timer); the clan's survivors hidden, the ninjas shown, the screens standing.
+  - play_lua: {source: "wait(3); log('arrive: ' .. status()); close()"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {actor_visible: {actor_index: 16, hidden: false}}
+  - assert: {actor_visible: {actor_index: 24, hidden: true}}
+  - assert: {actor_visible: {actor_index: 28, hidden: true}}
+  - console: {line: destructible 1 state, expect_contains: standing}
+  - console: {line: destructible 7 state, expect_contains: standing}
+  # The entry hall's two ninjas; the monks' bell and Kai Wu's broom.
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 330, y: -220, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(1); local s = status(); log('bell: ' .. s); if not string.find(s, 'Evil Ninja clan', 1, true) then error('bell: ' .. s) end; close()"}
+  - walk_to: {x: -240, y: -470, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(1); local s = status(); log('broom: ' .. s); if not string.find(s, 'still Ninja in my Pagoda', 1, true) then error('broom: ' .. s) end; close()"}
+  # The shrine hall: its door, its three ninjas, the altar, the mat over the hatch.
+  - walk_to: {x: 0, y: -880, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 6)"}
+  - walk_to: {x: 0, y: -1350, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: -1560, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(4); local s = status(); log('mat: ' .. s); if not string.find(s, 'draught', 1, true) then error('mat: ' .. s) end; if door_state(7) ~= 'open' then error('the hatch did not open: ' .. door_state(7)) end; close()"}
+  # Down the cellar ladder: the clan's stores, its chest, Shinobu's cushion still empty.
+  - climb: {ladder: cellar, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: 0, y: -1700, radius: 160, z_min: -456, z_max: -440}}
+  - walk_to: {x: -560, y: -2380, z: -448, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - play_lua: {source: "loot_chest(7); close()"}
+  - walk_to: {x: -380, y: -2240, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(1); local s = status(); log('cushion: ' .. s); if not string.find(s, 'cushion', 1, true) then error('cushion: ' .. s) end; close()"}
+  - walk_to: {x: 0, y: -1700, z: -448, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: cellar, timeout_seconds: 40}
+  - assert: {party_position: {x: 0, y: -1520, radius: 100, z_min: -8, z_max: 8}}
+  # The east stair up to the sleeping loft and its three ninjas.
+  - walk_to: {x: 1120, y: -1300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1120, y: -950, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1120, y: -300, z: 480, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 820, y: -320, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The paper wall between the loft and the dojo: standing, then struck through (it breaks), and walked through.
+  - console: {line: destructible 7 state, expect_contains: standing}
+  - console: {line: destructible 7 damage 50}
+  - console: {line: destructible 7 state, expect_contains: broken}
+  - walk_to: {x: 640, y: -448, z: 512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 200, y: -448, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The dojo: five ninjas, a straw target; down the kitchen ladder to the kitchen's two and back up (the lower loop).
+  - walk_to: {x: -100, y: -900, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -40, y: -1620, z: 512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(1); local s = status(); log('target: ' .. s); if not string.find(s, 'shuriken', 1, true) then error('target: ' .. s) end; close()"}
+  - walk_to: {x: -520, y: -384, z: 512, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: kitchen, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: -700, y: -384, radius: 160, z_min: -8, z_max: 8}}
+  - walk_to: {x: -1000, y: -500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -700, y: -384, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: kitchen, timeout_seconds: 40}
+  - assert: {party_position: {x: -520, y: -384, radius: 100, z_min: 504, z_max: 520}}
+  # The west stair up to the Hall of Screens.
+  - walk_to: {x: -896, y: -450, z: 512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -800, z: 512, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -1520, z: 990, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -560, y: -1520, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  # The paper maze: the cells' Shadow Ninjas stand behind standing screens; round by the west gap and the middle band.
+  - console: {line: destructible 3 state, expect_contains: standing}
+  - console: {line: destructible 10 state, expect_contains: standing}
+  - walk_to: {x: -560, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 700, close_dialogs: true}
+  - walk_to: {x: 290, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 700, close_dialogs: true}
+  - walk_to: {x: 290, y: -1500, z: 1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -1530, z: 1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11120, hostile: false, max: 0}}
+  # The crane screen: clicked, it breaks; the stair up behind it.
+  - console: {line: destructible 1 state, expect_contains: standing}
+  - play_lua: {source: "click(11); wait(1); local s = status(); log('crane: ' .. s); if not string.find(s, 'crane falls away', 1, true) then error('crane: ' .. s) end; close()"}
+  - console: {line: destructible 1 state, expect_contains: broken}
+  - walk_to: {x: 672, y: -1200, z: 1040, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -700, z: 1480, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 360, y: -700, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The armoury: two Shadow Ninjas, its chest; the door out to the moon gallery and its two ninjas.
+  - walk_to: {x: -200, y: -760, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 100, y: -800, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(6); close()"}
+  - walk_to: {x: -680, y: -752, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 1)"}
+  - walk_to: {x: -1010, y: -752, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - clear_hostiles: {radius: 3000}
+  # The top stair to the clan master's hall: the Clan Master and his Ninja Master; the kill timer; the gong; the strongbox.
+  - walk_to: {x: -1010, y: -1184, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: -1184, z: 1536, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 60, y: -1184, z: 2010, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The Clan Master lives until the clear below since merge point 33 and steps up to the party: arrive beside him.
+  - walk_to: {x: 60, y: -960, z: 2048, radius: 128, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 2, hidden: false}}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "wait(4); log('clan master: ' .. status()); close()"}
+  - assert: {actor_visible: {actor_index: 2, dead: true}}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - play_lua: {source: "if not qbit(112081) then error('q-c4.clan_master_slain 112081 not set') end"}
+  - walk_to: {x: 120, y: -780, z: 2096, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(1); local s = status(); log('gong: ' .. s); if not string.find(s, 'five storeys', 1, true) then error('gong: ' .. s) end; close()"}
+  - walk_to: {x: 640, y: -800, z: 2048, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(8); close()"}
+  # Back down the top stair, along the gallery to its east end, and down the clan's rope into the Hall of Screens.
+  - walk_to: {x: 60, y: -960, z: 2048, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 40, y: -1184, z: 2000, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: -1184, z: 1540, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1010, y: -1184, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1010, y: -1568, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 900, y: -1568, z: 1536, radius: 40, timeout_seconds: 40, close_dialogs: true}
+  - climb: {ladder: rope, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: 1030, y: -1568, radius: 160, z_min: 1016, z_max: 1032}}
+  # q-c4.done (Kai Wu sets it on X5); every window closed, then a save and load: the clan's return.
+  - setup_shortcut: {kind: set_qbit, id: 112082, value: true}
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_visible: {actor_index: 24, hidden: false}}
+  - assert: {actor_visible: {actor_index: 28, hidden: false}}
+  - assert: {actor_visible: {actor_index: 31, hidden: false}}
+  - assert: {actor_visible: {actor_index: 20, hidden: true}}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11124, hostile: false, min: 5}}
+  - play_lua: {source: "if door_state(7) ~= 'open' then error('the hatch is not open at the done stage: ' .. door_state(7)) end"}
+  # Shinobu: clicked herself (actor 24, NPC 4530 by monsters[].npc) she greets the party and gives her topic; clicked
+  # again she talks again.
+  - set_pose: {map: xeen_xd22.blv, x: 0, y: -1560, z: 0, yaw_degrees: 270, pitch: 0}
+  - climb: {ladder: cellar, down: true, timeout_seconds: 40}
+  - walk_to: {x: -380, y: -2000, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - interact_actor: {actor_index: 24}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You walk loudly"}}
+  - select_topic: {match_label: "The clan"}
+  - assert: {dialog: {active: true, text_contains: "My father's killers"}}
+  - play_lua: {source: "close(); close()"}
+  - interact_actor: {actor_index: 24}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - play_lua: {source: "close(); close()"}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}

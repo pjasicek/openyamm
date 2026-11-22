@@ -1,0 +1,74 @@
+# Hostility check of the Necropolis Sewer (DD-21) (the XD-27 form; lane A8, 2026-11-21). The kinds: Cinder Roach 11363
+# (10, two of them hidden in the Dead Food barrel, counted at load), Greater Lich 11281 (3), Ghost Mummy 11273 (2) and
+# Sandro 11283 (1), all hostile at load, none peaceful; the risen Sandro (11926, actor 16) hidden at load and never
+# hostile. With sandro_fell 117727 set and a save and a load, the risen Sandro stands by his bier, peaceful; roaches,
+# liches, mummies and Sandro's own row spawned side by side in the crypt (nearer each other than the party) do not take
+# each other on, nor him; struck 40 times by the party he loses no hit points and stays peaceful. Run with --world xeen
+# --map xeen_dd21.blv (output/studio_cal/dd21/four.sh).
+id: xeen.dd21.l4.hostility
+title: 'Necropolis Sewer (DD-21): roaches, liches, mummies and Sandro hostile, no fights among them; the risen Sandro peaceful and unhurt'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd21.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+      - {name: Hild, class: Paladin, level: 50, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+      - {name: Sefa, class: Knight, level: 50, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival line).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11363, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11281, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11273, hostile: true, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 11283, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11363, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11281, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11273, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11283, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11926, hostile: true, max: 0}}
+- assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+- assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: false}}
+- assert: {actor_visible: {actor_index: 0, monster_id: 11363, hidden: true}}
+- assert: {actor_visible: {actor_index: 1, monster_id: 11363, hidden: true}}
+- note: After Sandro's fall (sandro_fell set, a save and a load) the risen Sandro stands by his bier, peaceful.
+- lua_event: {source: "SetQBit(QBit(117727))"}
+- save_game: {name: dd21_hostility}
+- load_game: {name: dd21_hostility}
+- advance_runtime: {seconds: 1}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: false}}
+- assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+- note: 'Kinds of the map side by side in the crypt, nearer each other than the party (a monster takes the nearest of
+    its foes): they must not take each other on, nor the risen Sandro.'
+- set_pose: {map: xeen_dd21.blv, x: 0, y: -2300, z: 0, yaw: -1.5708, pitch: 0.0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11363, x: -320, y: -3050, z: 32}
+- spawn_actor: {monster_id: 11281, x: -64, y: -3050, z: 32}
+- spawn_actor: {monster_id: 11273, x: 160, y: -3050, z: 32}
+- spawn_actor: {monster_id: 11283, x: 400, y: -3050, z: 32}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11363, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11281, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11273, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11283, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11926, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+- console: {line: arena trace off}
+- note: The party strikes the risen Sandro (the spawned kinds cleared first); he loses nothing and stays peaceful.
+- play_lua: {source: "clear_hostiles(2500)"}
+- advance_runtime: {seconds: 1}
+- walk_to: {x: 288, y: -2960, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+- lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+- press_action: {action: select_member, member_index: 0}
+- party_attack: {actor_index: 16, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 16, monster_id: 11926, dead: false, hp: 618, report_state: true}}
+- assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}

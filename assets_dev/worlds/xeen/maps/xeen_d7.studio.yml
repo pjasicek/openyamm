@@ -1,0 +1,27 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d7/L4"
+revision: "ffcb03a5f59a5ead597761470f8842ac"
+lock_hash: "7e4cd2383d416754e6c701ff7cfe30c1"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-24768, -6624, 1024], facing: 0}
+  - {name: "entrance:d1_rope", at: [-24768, -6624, 1024], facing: 0}
+  - {name: "entrance:dd02_roof", at: [-27136, -18432, 768], facing: 256}
+  - {name: "entrance:dd03_roof", at: [-27072, -19744, 1176], facing: 256}
+  - {name: "entrance:dd05_roof", at: [-27136, -5120, 1024], facing: 0}
+  - {name: "entrance:dd06_roof", at: [5632, -14848, 710], facing: 1536}
+  - {name: "entrance:dd07_roof", at: [27136, -6144, 1024], facing: 1024}
+  - {name: "entrance:dd08_roof", at: [5632, 15104, 1158], facing: 512}
+  - {name: "entrance:dd14_roof", at: [25088, 14624, 1152], facing: 256}
+  - {name: "entrance:dd15_sky", at: [11424, 2560, 1408], facing: 1024}
+  - {name: "entrance:dd17_roof", at: [-18688, 8448, 1536], facing: 1024}
+  - {name: "entrance:dd26_stair", at: [-8704, 8192, 1808], facing: 0}
+  - {name: "entrance:fd01_roof", at: [-18688, 8448, 1536], facing: 1024}
+  - {name: "entrance:olympus_dock", at: [-640, 3200, 1804], facing: 512}
+  - {name: "entrance:olympus_square", at: [-4608, 6400, 1808], facing: 512}
+  - {name: "entrance:p1_return", at: [-27456, 17728, 1280], facing: 1792}
+  - {name: "entrance:p2_return", at: [27456, 17728, 1286], facing: 1280}
+  - {name: "entrance:p3_return", at: [27136, -17408, 768], facing: 768}
+  - {name: "entrance:p4_return", at: [-27456, -17728, 768], facing: 256}
+hanging_decorations: [0, 1, 2, 3, 30]

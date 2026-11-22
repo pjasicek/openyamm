@@ -1,0 +1,152 @@
+# Xeen playthrough, segment 39: the land below (X2, X1, D1), the start of Act III. Bull's Tavern fills the packs;
+# the river road east to Vertigo; the travel pyramid on the knoll with the Pyramid Sigil (m7) to Castleview Vale on
+# the Darkside: the arrival (M14 started), the Mayor's notice (Q-D1 started), Justine's pass, the north gate (M14:
+# entered, the Castleview inn roster), Zelda's orb and Madame Oorla's reading (M15), Nadia's necklace (M16 started),
+# and Yog's barbarians in peace (Q-D12, food). M16 goes on in the Castleview Sewer (DD-01), not installed yet.
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (gates, doors, people), x2/L4/playtest.yml (Bull's Tavern).
+# Quest logic: source/quests/m14.yml, m15.yml, m16.yml, q-d1.yml, q-d12.yml.
+#   python3 tests/playthrough/xeen/run.py 39
+id: xeen.playthrough.39_the_land_below
+title: "Xeen playthrough 39: the travel pyramid to Castleview; the pass, the gate, the orb and the barbarians"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/37_darzogs_door.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  # Bull's Tavern on Rivercity's main street: packs filled for the road (14 days off X1, D-29).
+  - set_pose: {map: xeen_x2.odm, x: 768, y: 10868, z: 1024, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4056}
+  - select_topic: {match_label: "Bull, Innkeep"}
+  - select_topic: {match_label: "Fill packs to"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {food: 14}
+  # East along the river road to Vertigo (the X2-X1 edge, three days).
+  - travel: {map: xeen_x1.odm, days: 3}
+  - assert: {map: xeen_x1.odm}
+  # The travel pyramid on the knoll east of Vertigo: the Pyramid Sigil (m7.sigil) wakes it (m7.pyramid_x1).
+  - set_pose: {map: xeen_x1.odm, x: 9472, y: 8448, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2.0}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 103}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  # M14: the arrival under the amber sky (a one-shot timer).
+  # (Checked by its qbit: in --reload the save after the map move can come before or after the timer's window.)
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; wait(0.3)"}
+  - assert: {qbit_set: [111280]}
+  # The Mayor's notice beside the north gate (q-d1.gate_notice: Q-D1 starts, its autonote).
+  - set_pose: {map: xeen_d1.odm, x: -512, y: 11520, z: 1168, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 166}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, text_contains: "BY ORDER OF THE MAYOR"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113020]}
+  # The gate without a pass: refused (m14.gate's fail text).
+  - set_pose: {map: xeen_d1.odm, x: -512, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 134}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, text_contains: "No strangers!"}
+  - press_action: {action: cancel_dialog}
+  # Justine at her camp outside the gate (actor 31, NPC 4951): a pass for 1,000 gold.
+  - set_pose: {map: xeen_d1.odm, x: -3584, y: 11400, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold())"}
+  - interact_actor: {actor_index: 31}
+  - select_topic: {match_label: "Passes"}
+  - assert:
+      dialog: {text_contains: "One pass into Castleview"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not has_item(12330) then error("no Castleview pass from Justine: " .. pack_items()) end
+        if recall("gold") - gold() ~= 1000 then error("the pass cost " .. (recall("gold") - gold())) end
+  # The north gate with the pass (m14.gate): entered, 2,000 experience, the inn roster.
+  - set_pose: {map: xeen_d1.odm, x: -512, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 134}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The guard reads your pass twice]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}   # the line was on the status line (D-90)
+  - assert: {qbit_set: [111281, 119021]}
+  - walk_to: {x: -512, y: 9114, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 60, close_dialogs: true}
+  # Zelda's Herbs and Remedies (house 4454): Zelda (The orb), the Dragon Pharaoh's orb (M15).
+  - set_pose: {map: xeen_d1.odm, x: -2676, y: 4992, z: 1152, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4904}
+  - select_topic: {match_label: "The orb"}
+  - assert:
+      dialog: {text_contains: "Something fell out of the sky last month"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+  - assert: {qbit_set: [111300]}
+  # Madame Oorla's (house 4471): The orb (M15 read: Ellinger first; his tower's word is his name).
+  - set_pose: {map: xeen_d1.odm, x: -2944, y: 6932, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4921}
+  - select_topic: {match_label: "The orb"}
+  - assert:
+      dialog: {text_contains: "This orb belongs to the Dragon Pharaoh"}
+  - select_topic: {match_label: "Fortune"}
+  - assert:
+      dialog: {text_contains: "Nadia"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [111301]}
+  # Nadia's House (house 4472): Necklace (M16 started; the rats took it into the sewer).
+  - set_pose: {map: xeen_d1.odm, x: -4992, y: 4212, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4922}
+  - select_topic: {match_label: "Necklace"}
+  - assert:
+      dialog: {text_contains: "The rats came up the drain"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [111320]}
+  # Yog in the Sardaj camp north of the town (actor 29, NPC 4953): peace (Q-D12 done), then food against Alamar.
+  - set_pose: {map: xeen_d1.odm, x: 12800, y: 19866, z: 1536, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 29}
+  - select_topic: {match_label: "We come in peace"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113241]}
+  - interact_actor: {actor_index: 29}
+  - select_topic: {match_label: "Help against Alamar"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        for i = 0, 3 do
+          if string.find(conditions(i), "Weak", 1, true) then error("member " .. i .. " is Weak: " .. conditions(i)) end
+        end
+        log("39 done: classes " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - assert: {qbit_set: [111280, 111281, 111300, 111301, 111320, 113020, 113241]}
+  - save_game: {name: "39 The land below", path: output/playthrough/xeen/checkpoints/39_the_land_below.oysav}

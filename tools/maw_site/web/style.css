@@ -176,13 +176,15 @@ tr.group-row th .muted { font: 400 .8rem var(--font-body); margin-left: 6px; }
 .kv dd { margin: 0; min-width: 0; }
 
 /* Continents: one colour each, as a game tag and a row tint. */
-:root { --c-enroth: #5f9fe0; --c-antagarich: #d0664f; --c-jadame: #d9a441; --c-chedian: #4fb89a; }
+:root { --c-enroth: #5f9fe0; --c-antagarich: #d0664f; --c-jadame: #d9a441; --c-chedian: #4fb89a;
+  --c-xeen: #a98be6; }
 .cont { display: inline-block; padding: 0 5px; border-radius: 4px; font: 600 .7rem/1.6 var(--font-mono);
   color: #10140f; background: var(--cc); vertical-align: 1px; }
 .cont-enroth, .tint-enroth { --cc: var(--c-enroth); }
 .cont-antagarich, .tint-antagarich { --cc: var(--c-antagarich); }
 .cont-jadame, .tint-jadame { --cc: var(--c-jadame); }
 .cont-chedian, .tint-chedian { --cc: var(--c-chedian); }
+.cont-xeen, .tint-xeen { --cc: var(--c-xeen); }
 tr.tint td { background: color-mix(in srgb, var(--cc) 7%, transparent); }
 tr.tint td:first-child { box-shadow: inset 3px 0 0 var(--cc); }
 .nav-sub .nav-head { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted);

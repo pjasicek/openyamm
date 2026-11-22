@@ -1,0 +1,5 @@
+Replaced [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/00_three_quarter.png). The 1536×1024 cutout has **eight separate tentacle tips**, a right-facing head, and at least 99 fully transparent pixels on every side. I removed stray alpha around the silhouette while preserving its antialiased edge.
+
+I used one corrective generation, preserved the [rejected draft](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/raw/00_three_quarter_run1b_rejected_1.png), and appended both prompts and checks to [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/generation_runs.json).
+
+The camera elevation is a visual estimate. The dome still partly obscures the rear tentacle roots.

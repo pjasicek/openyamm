@@ -1,0 +1,446 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "D5 Desert of Doom, MU-3 to-scale plan (A6, 2026-11-20), for the phase 5 review: composition, scale and density only. Cells [x, y], x east, y south. Heights above the stars below the rim (0): the salt pan 1,000, the sands 1,100-1,700, the Desert of Doom 1,300-2,000, the cliffs' foot 1,500-1,600, the highlands 2,500-3,000, the crest 3,750, the Gemstone spurs 2,100-2,900. Border points one cell inside each border carry the border's heights (D4's x 19 column, edge_d5_d6.json, D2's y 19 row). Written by level_generation/xeen_art/phase5/d5_brief.py. The later L3 adds plots' detail, ground, scatter and structures."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [72, 88], neighbour: edge:east, notes: "The desert road runs out to x 127 at y 80 (D4's west edge, D-36)."}
+    - {side: west, span: [58, 70], neighbour: edge:west, notes: The road runs out to x 0 at y 64 over the pass (edge_d5_d6.json).}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 24; below, water at 0 stands for the stars."}
+    - {side: east, span: [0, 24], form: level, height: 0, meet: 1, notes: "D4's west edge [0, 24]: the north rim."}
+    - {side: east, span: [24, 60], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: "D4's west edge [24, 60]: Magic Mountain's west flank."}
+    - {side: east, span: [60, 72], form: ridge, height: [1800, 2300], floor: 1500, crest: 8, roughness: 80, notes: "D4's west edge [60, 72]: forested hills."}
+    - {side: east, span: [72, 88], form: level, height: 1500, meet: 6, notes: "D4's west edge [72, 88]: the desert road's valley into the Forest of Peril."}
+    - {side: east, span: [88, 104], form: ridge, height: [1500, 2000], floor: 1400, crest: 10, roughness: 80, notes: "D4's west edge [88, 104]: dunes of the desert edge."}
+    - {side: east, span: [104, 128], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: "D4's west edge [104, 128]: the last Gemstone crags (D3's north-west corner)."}
+    - {side: west, span: [0, 24], form: level, height: 0, meet: 1, notes: "The D5/D6 border [0, 24]: the north rim."}
+    - {side: west, span: [24, 58], form: ridge, height: [2600, 3300], floor: 2200, crest: 10, roughness: 120, notes: "The D5/D6 border [24, 58]: barren highlands of the Forbidden Zone."}
+    - {side: west, span: [58, 70], form: level, height: 1700, meet: 6, notes: "The D5/D6 border [58, 70]: the Forbidden Zone pass (1,700 at y 62-66)."}
+    - {side: west, span: [70, 128], form: ridge, height: [2500, 3000], floor: 2100, crest: 10, roughness: 120, notes: "The D5/D6 border [70, 128]: the Forbidden Zone's south-east hills."}
+    - {side: south, span: [0, 100], form: ridge, height: [3400, 4400], floor: 2600, crest: 10, roughness: 140, notes: "D2's north rim: the Gemstone Range, slate crags with crystal veins (no crossing)."}
+    - {side: south, span: [100, 128], form: ridge, height: [1500, 2400], floor: 1300, crest: 10, roughness: 80, notes: "The corner where D2, D3 and D4 meet: dunes of D4's desert edge, D3's crags beyond."}
+  edge: {height: 1500, north: 0}
+heights:
+  points:
+    - {at: [56, 28], h: 3200}
+    - {at: [64, 31], h: 3400}
+    - {at: [72, 31], h: 3550}
+    - {at: [80, 30], h: 3750, notes: "Gurodel's Crown, the crest"}
+    - {at: [90, 28], h: 3500}
+    - {at: [100, 27], h: 3350}
+    - {at: [69, 39], h: 3000, notes: the Northern Tower's knoll}
+    - {at: [62, 40], h: 2850}
+    - {at: [77, 40], h: 3100}
+    - {at: [86, 40], h: 3250, notes: "the hillside behind the hold: DD-24's doors in its foot"}
+    - {at: [86, 46], h: 2700, notes: Gurodel's fire}
+    - {at: [94, 42], h: 2950}
+    - {at: [102, 31], h: 3150, notes: the Fountain of Might}
+    - {at: [102, 40], h: 2900}
+    - {at: [61, 46], h: 2650, notes: Bosco's door}
+    - {at: [66, 44], h: 2800}
+    - {at: [76, 53], h: 2500, notes: Highland Fork}
+    - {at: [70, 50], h: 2600}
+    - {at: [84, 52], h: 2500}
+    - {at: [92, 52], h: 2450}
+    - {at: [102, 50], h: 2500, notes: the dwarf camp}
+    - {at: [28, 30], h: 3200}
+    - {at: [38, 28], h: 3150}
+    - {at: [47, 29], h: 2950, notes: the Fountain of Energy Resistance}
+    - {at: [35, 40], h: 2700, notes: the cyclopes' lair}
+    - {at: [26, 44], h: 2850}
+    - {at: [44, 40], h: 2850}
+    - {at: [50, 46], h: 2600}
+    - {at: [36, 50], h: 2450}
+    - {at: [26, 52], h: 2450}
+    - {at: [44, 50], h: 2500}
+    - {at: [50, 54], h: 2250, notes: the griffins' eyrie ledge}
+    - {at: [40, 57], h: 1850}
+    - {at: [60, 58], h: 1600}
+    - {at: [74, 61], h: 1600, notes: the switchbacks' foot}
+    - {at: [74, 57], h: 2050}
+    - {at: [86, 60], h: 1750}
+    - {at: [96, 60], h: 1950}
+    - {at: [30, 59], h: 2000}
+    - {at: [23, 64], h: 1700, notes: the D6 arrival}
+    - {at: [28, 65], h: 1620}
+    - {at: [34, 67], h: 1520}
+    - {at: [40, 68], h: 1450, notes: Doom Fork}
+    - {at: [46, 72], h: 1450, notes: the obelisk's knoll}
+    - {at: [44, 79], h: 1330, notes: the Last Water}
+    - {at: [36, 72], h: 1650}
+    - {at: [28, 77], h: 1550, notes: the prospector's wadi}
+    - {at: [31, 88], h: 1900, notes: the Shrine of Great Power's mesa}
+    - {at: [24, 84], h: 2300}
+    - {at: [24, 92], h: 2450}
+    - {at: [24, 98], h: 2350, notes: the ruined hill shrine (lamp)}
+    - {at: [38, 95], h: 1650}
+    - {at: [46, 88], h: 1450}
+    - {at: [50, 82], h: 1380}
+    - {at: [52, 96], h: 1500}
+    - {at: [64, 86], h: 1250, notes: "the Great Pyramid's plinth (its apex about 4,850)"}
+    - {at: [64, 79], h: 1260, notes: the pyramid's door}
+    - {at: [73, 93], h: 1300, notes: the robbers' camp}
+    - {at: [82, 98], h: 1550, notes: the signature dune crest}
+    - {at: [85, 96], h: 1500, notes: the lamp's dune}
+    - {at: [90, 92], h: 1000, notes: the salt pan}
+    - {at: [95, 91], h: 1080, notes: the caravan wreck}
+    - {at: [80, 90], h: 1300}
+    - {at: [60, 64], h: 1500}
+    - {at: [66, 68], h: 1450}
+    - {at: [56, 76], h: 1350}
+    - {at: [74, 66], h: 1500}
+    - {at: [86, 70], h: 1450}
+    - {at: [58, 97], h: 1450}
+    - {at: [68, 98], h: 1500}
+    - {at: [74, 87], h: 1350}
+    - {at: [85, 83], h: 1380, notes: the boulder field}
+    - {at: [80, 77], h: 1420, notes: Pyramid Fork}
+    - {at: [74, 73], h: 1450, notes: the cliff road's foot}
+    - {at: [56, 70], h: 1420}
+    - {at: [105, 80], h: 1520, notes: the D4 arrival}
+    - {at: [100, 79], h: 1500}
+    - {at: [95, 72], h: 1620, notes: the broken travel pyramid}
+    - {at: [102, 72], h: 1720}
+    - {at: [104, 66], h: 1820}
+    - {at: [102, 90], h: 1550}
+    - {at: [100, 96], h: 1420}
+    - {at: [101, 102], h: 1450, notes: the tunnel grate}
+    - {at: [30, 104], h: 2250}
+    - {at: [46, 104], h: 2150}
+    - {at: [62, 104], h: 2100}
+    - {at: [80, 105], h: 2900, notes: "the spur under D2's 3,550 peak"}
+    - {at: [90, 104], h: 2050}
+    - {at: [108, 26], h: 3200, notes: "D4's x 19 here 3,200"}
+    - {at: [20, 26], h: 3136, notes: "edge_d5_d6 here 3,136"}
+    - {at: [108, 30], h: 3296}
+    - {at: [20, 30], h: 3264}
+    - {at: [108, 34], h: 3104}
+    - {at: [20, 34], h: 3232}
+    - {at: [108, 38], h: 2944, notes: "D4's x 19 here 2,944"}
+    - {at: [20, 38], h: 3104, notes: "edge_d5_d6 here 3,104"}
+    - {at: [108, 42], h: 2912}
+    - {at: [20, 42], h: 2976}
+    - {at: [108, 46], h: 2720}
+    - {at: [20, 46], h: 2816}
+    - {at: [108, 50], h: 2432, notes: "D4's x 19 here 2,432"}
+    - {at: [20, 50], h: 2592, notes: "edge_d5_d6 here 2,592"}
+    - {at: [108, 54], h: 2336}
+    - {at: [20, 54], h: 2400}
+    - {at: [108, 58], h: 2080}
+    - {at: [20, 58], h: 1984}
+    - {at: [108, 62], h: 1824, notes: "D4's x 19 here 1,824"}
+    - {at: [20, 62], h: 1696, notes: "edge_d5_d6 here 1,696"}
+    - {at: [108, 66], h: 1824}
+    - {at: [20, 66], h: 1696}
+    - {at: [108, 70], h: 1760}
+    - {at: [20, 70], h: 1984}
+    - {at: [108, 74], h: 1760, notes: "D4's x 19 here 1,760"}
+    - {at: [20, 74], h: 2272, notes: "edge_d5_d6 here 2,272"}
+    - {at: [108, 78], h: 1536}
+    - {at: [20, 78], h: 2496}
+    - {at: [108, 82], h: 1504}
+    - {at: [20, 82], h: 2656}
+    - {at: [108, 86], h: 1568, notes: "D4's x 19 here 1,568"}
+    - {at: [20, 86], h: 2752, notes: "edge_d5_d6 here 2,752"}
+    - {at: [108, 90], h: 1600}
+    - {at: [20, 90], h: 2848}
+    - {at: [108, 94], h: 1696}
+    - {at: [20, 94], h: 2912}
+    - {at: [108, 98], h: 1504, notes: "D4's x 19 here 1,504"}
+    - {at: [20, 98], h: 2944, notes: "edge_d5_d6 here 2,944"}
+    - {at: [108, 102], h: 1344}
+    - {at: [20, 102], h: 2976}
+    - {at: [108, 106], h: 1248}
+    - {at: [20, 106], h: 2636}
+    - {at: [20, 107], h: 2440}
+    - {at: [20, 108], h: 2260, notes: "edge_d5_d6 here 2,260 (D-49 Q6, D1's corner)"}
+    - {at: [24, 108], h: 2592, notes: "D2's y 19 here 2,592"}
+    - {at: [30, 108], h: 2656}
+    - {at: [36, 108], h: 2688}
+    - {at: [42, 108], h: 2528, notes: "D2's y 19 here 2,528"}
+    - {at: [48, 108], h: 2720}
+    - {at: [54, 108], h: 2560}
+    - {at: [60, 108], h: 2464, notes: "D2's y 19 here 2,464"}
+    - {at: [66, 108], h: 2912}
+    - {at: [72, 108], h: 2720}
+    - {at: [78, 108], h: 3104, notes: "D2's y 19 here 3,104"}
+    - {at: [84, 108], h: 2752}
+    - {at: [90, 108], h: 2720}
+    - {at: [96, 108], h: 2752, notes: "D2's y 19 here 2,752"}
+    - {at: [102, 108], h: 2784}
+    - {at: [104, 108], h: 1700, notes: "the south-east corner falls to D4's 1,248"}
+  bands:
+    - band: band:rim_sea
+      space: zone:rim
+      polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+    - band: band:highlands
+      space: zone:highlands
+      polygon: [[46, 24], [109, 24], [109, 58], [100, 58], [92, 57], [80, 56], [66, 54], [60, 50], [55, 47], [54, 40], [51, 30]]
+    - band: band:forest
+      space: zone:quivering_forest
+      polygon: [[19, 24], [46, 24], [51, 30], [54, 40], [55, 47], [50, 51], [40, 53], [28, 56], [19, 57]]
+    - band: band:scarp
+      space: zone:escarpment
+      polygon: [[19, 57], [28, 56], [40, 53], [50, 51], [55, 47], [60, 50], [66, 54], [80, 56], [92, 57], [100, 58], [100, 62], [86, 62], [72, 61], [56, 60], [42, 60], [32, 61], [19, 60]]
+    - band: band:pass
+      space: zone:west_pass
+      polygon: [[19, 60], [32, 61], [34, 68], [19, 68]]
+    - band: band:doom
+      space: zone:desert_of_doom
+      polygon: [[19, 68], [34, 68], [32, 61], [42, 60], [56, 60], [56, 72], [52, 78], [54, 96], [52, 101], [19, 101]]
+    - band: band:sands
+      space: zone:perishing_sands
+      polygon: [[56, 60], [72, 61], [86, 62], [100, 62], [100, 74], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
+    - band: band:valley
+      space: zone:east_valley
+      polygon: [[100, 62], [109, 62], [109, 101], [102, 101], [100, 86], [100, 74]]
+    - band: band:hills
+      space: zone:south_hills
+      polygon: [[19, 101], [102, 101], [109, 101], [109, 109], [19, 109]]
+  cliffs:
+    - line: [[0, 24], [128, 24]]
+      drop: 2000
+      down: left
+      notes: "The world rim (drawn west to east, the low side outward)."
+    - line: [[30, 57], [40, 55], [50, 52], [56, 49], [62, 53], [70, 55]]
+      drop: 700
+      down: right
+      notes: "The Griffin Cliffs' west half (the eyrie's ledge at (50, 54))."
+    - line: [[78, 56], [86, 57], [94, 58]]
+      drop: 500
+      down: right
+      notes: "The Griffin Cliffs' east half, lower toward the valley."
+    - line: [[29, 86], [33, 86], [34, 90], [29, 90], [29, 86]]
+      drop: 350
+      down: right
+      notes: The shrine mesa's sides (its ramp on the north side).
+  ridges:
+    - {line: [[56, 28], [64, 31], [72, 31], [80, 30], [90, 28], [100, 27]], height: 3500, width: 2, slope: 4, notes: "The highlands' crest along the Barrier, Gurodel's Crown 3,750 at (80, 30)."}
+    - {line: [[62, 105], [72, 105], [80, 106], [90, 105]], height: 2700, width: 2, slope: 3, notes: "The Gemstone spurs under D2's 3,550 peak."}
+    - {line: [[86, 99], [82, 98], [77, 95], [70, 97]], height: 1550, width: 1, slope: 3, notes: The great dune's crest (the signature camera on it).}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:last_water
+      kind: pond
+      level: 1320
+      polygon: [[42, 77], [45, 77], [47, 79], [45, 81], [43, 80]]
+      notes: "The Last Water's spring pool (D-23: no river)."
+roads:
+  - link: link:desert_road
+    line: [[109, 80], [105, 80], [100, 79], [94, 78.5], [88, 78.5], [84, 78], [80, 77]]
+    width: road
+    surface: soil_stony
+  - link: link:west_road
+    line: [[80, 77], [76.5, 75], [74, 73], [70, 72.5], [64, 72], [58, 71.5], [52, 71], [47, 70.5], [43, 69.5], [40, 68], [36, 67], [32, 66], [28, 64.5], [24, 64], [19, 64]]
+    width: road
+    surface: soil_stony
+  - link: link:pyramid_track
+    line: [[80, 77], [77, 78.5], [72, 79], [68, 79], [65, 79]]
+    width: lane
+    surface: sand_ripples
+  - link: link:highland_road
+    line: [[74, 73], [74, 70], [72.5, 67], [75, 64.5], [72.5, 62], [75, 59.5], [73.5, 57], [75.5, 55], [76, 53]]
+    width: lane
+    surface: soil_stony
+  - link: link:hold_lane
+    line: [[76, 53], [79, 51], [82, 49], [85, 47.5], [86, 46.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:tower_lane
+    line: [[76, 53], [74.5, 49], [72, 45], [70, 42], [69.5, 40.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:bosco_lane
+    line: [[76, 53], [72, 52], [68, 50.5], [64.5, 48], [62, 46.5]]
+    width: lane
+    surface: soil_stony
+  - link: link:might_path
+    line: [[87, 46], [91, 43], [95, 39], [99, 35], [101.5, 32]]
+    width: lane
+    surface: soil_stony
+  - link: link:broken_lane
+    line: [[96, 79], [95.5, 77], [94.5, 75]]
+    width: lane
+    surface: soil_stony
+  - link: link:grate_track
+    line: [[100, 79], [100.5, 84], [100, 90], [100.5, 96], [101, 101]]
+    width: lane
+    surface: sand_ripples
+  - link: link:forest_track
+    line: [[30, 65.5], [31, 61], [33, 57], [34.5, 53], [35, 48], [34.5, 44], [35, 41]]
+    width: lane
+    surface: soil
+  - link: link:barrier_path
+    line: [[35, 40], [38, 36], [42, 33], [45.5, 30.5], [47, 29.5]]
+    width: lane
+    surface: soil
+  - link: link:oasis_track
+    line: [[40, 68], [41.5, 72], [43, 75], [44, 77]]
+    width: lane
+    surface: soil_stony
+  - link: link:shrine_path
+    line: [[44, 80], [40.5, 82], [37, 84.5], [34, 86.5], [32, 88]]
+    width: lane
+    surface: soil_stony
+districts:
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+  - space: zone:barrier_lee
+    polygon: [[46, 24], [52, 29], [58, 32], [64, 34], [70, 35], [76, 35], [82, 34], [88, 32], [94, 29], [100, 24]]
+  - space: zone:quivering_forest
+    polygon: [[19, 24], [46, 24], [51, 30], [54, 40], [55, 47], [50, 51], [40, 53], [28, 56], [19, 57]]
+  - space: zone:cyclops_lair
+    polygon: [[32, 37], [38, 37], [38, 42], [32, 42]]
+  - space: zone:highlands
+    polygon: [[46, 24], [109, 24], [109, 58], [100, 58], [92, 57], [80, 56], [66, 54], [60, 50], [55, 47], [54, 40], [51, 30]]
+  - space: zone:giants_hold
+    polygon: [[82, 43], [91, 43], [91, 49], [82, 49]]
+  - space: zone:tower_knoll
+    polygon: [[66, 36], [73, 36], [73, 42], [66, 42]]
+  - space: zone:bosco_terrace
+    polygon: [[58, 44], [64, 44], [64, 49], [58, 49]]
+  - space: zone:escarpment
+    polygon: [[19, 57], [28, 56], [40, 53], [50, 51], [55, 47], [60, 50], [66, 54], [80, 56], [92, 57], [100, 58], [100, 62], [86, 62], [72, 61], [56, 60], [42, 60], [32, 61], [19, 60]]
+  - space: zone:west_pass
+    polygon: [[19, 60], [32, 61], [34, 68], [19, 68]]
+  - space: zone:desert_of_doom
+    polygon: [[19, 68], [34, 68], [32, 61], [42, 60], [56, 60], [56, 72], [52, 78], [54, 96], [52, 101], [19, 101]]
+  - space: zone:oasis
+    polygon: [[40, 75], [48, 75], [48, 82], [40, 82]]
+  - space: zone:shrine_mesa
+    polygon: [[28, 85], [35, 85], [35, 91], [28, 91]]
+  - space: zone:perishing_sands
+    polygon: [[56, 60], [72, 61], [86, 62], [100, 62], [100, 74], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
+  - space: zone:pyramid_precinct
+    polygon: [[56, 77], [72, 77], [72, 94], [56, 94]]
+  - space: zone:boulder_field
+    polygon: [[82, 79], [88, 79], [88, 84], [82, 84]]
+  - space: zone:boulders_west
+    polygon: [[34, 68], [40, 68], [40, 73], [34, 73]]
+  - space: zone:east_valley
+    polygon: [[100, 62], [109, 62], [109, 101], [102, 101], [100, 86], [100, 74]]
+  - space: zone:south_hills
+    polygon: [[19, 101], [102, 101], [109, 101], [109, 109], [19, 109]]
+  - space: zone:grate_hollow
+    polygon: [[98, 99], [105, 99], [105, 104], [98, 104]]
+points:
+  - {id: entrance:d4_road, at: [105, 80], facing: w}
+  - {id: entrance:d6_pass, at: [23, 64], facing: e}
+  - {id: entrance:dd15_door, at: [64, 80], facing: n}
+  - {id: entrance:dd08_door, at: [69, 40], facing: s}
+  - {id: entrance:dd24_doors, at: [86, 42], facing: s}
+  - {id: entrance:dd25_door, at: [61, 46], facing: e}
+  - {id: entrance:dd18_grate, at: [101, 102], facing: n}
+  - {id: junction:pyramid_fork, at: [80, 77]}
+  - {id: junction:scarp_foot, at: [74, 73]}
+  - {id: junction:highland_fork, at: [76, 53]}
+  - {id: junction:doom_fork, at: [40, 68]}
+  - {id: poi:obelisk, at: [46, 72]}
+  - {id: poi:shrine_great_power, at: [31, 88]}
+  - {id: poi:last_water, at: [46, 79]}
+  - {id: poi:fountain_energy, at: [47, 29]}
+  - {id: poi:fountain_might, at: [102, 31]}
+  - {id: poi:capstone, at: [95, 73]}
+  - {id: poi:lamp_doom, at: [24, 98]}
+  - {id: poi:lamp_sands, at: [85, 96]}
+  - {id: poi:boulder_sign, at: [85, 80]}
+  - {id: poi:boulders, at: [85, 81]}
+  - {id: poi:boulders, at: [86, 81]}
+  - {id: poi:boulders, at: [86, 82]}
+  - {id: poi:boulders, at: [85, 82]}
+  - {id: poi:boulders_west, at: [37, 70]}
+  - {id: poi:boulders_west, at: [38, 70]}
+  - {id: poi:boulders_west, at: [37, 71]}
+  - {id: poi:giants_lair, at: [35, 40]}
+  - {id: poi:lair_hoard, at: [35, 40]}
+  - {id: poi:eyrie_nest, at: [50, 54]}
+  - {id: poi:caravan_wreck, at: [95, 91]}
+  - {id: poi:prospector, at: [28, 77]}
+  - {id: poi:dwarf_camp, at: [102, 50]}
+  - {id: poi:robbers_camp, at: [72, 93]}
+  - {id: poi:munchies, at: [38, 95]}
+  - {id: poi:munchies, at: [70, 99]}
+  - {id: poi:gurodel, at: [86, 46]}
+  - {id: poi:signposts, at: [81, 76]}
+  - {id: poi:signposts, at: [77, 52]}
+  - {id: poi:signposts, at: [41, 67]}
+  - {id: landmark:great_pyramid, at: [64, 86]}
+  - {id: landmark:barrier, at: [73, 35]}
+  - {id: landmark:barrier, at: [89, 32]}
+  - {id: landmark:barrier, at: [56, 31]}
+  - {id: landmark:broken_pyramid, at: [95, 72]}
+  - {id: landmark:northern_tower, at: [69, 38]}
+  - {id: landmark:giants_fire, at: [86, 45]}
+areas:
+  - id: pop:sands_lizards
+    count: 8
+    slot: 1
+    polygon: [[80, 88], [92, 86], [99, 85], [102, 90], [100, 97], [93, 97], [90, 104], [74, 105], [72, 96]]
+    notes: "E1: Iguanasaurus 42 (Great 50, Ancient 55; Dif 3) in the dunes east of the pyramid and round the salt pan; the first fight from D4 (about 4,400 off). The grate hollow kept clear."
+  - id: pop:pyramid_lizards
+    count: 7
+    slot: 1
+    polygon: [[48, 73], [57, 74], [56, 81], [55, 92], [71, 95], [72, 105], [52, 105], [48, 96], [50, 86]]
+    notes: "E2: the same west and south of the pyramid; none on the north door's apron or the track."
+  - id: pop:cliff_birds
+    count: 11
+    slot: 2
+    polygon: [[36, 51], [50, 49], [56, 49], [62, 53], [70, 55], [80, 56], [92, 57], [100, 57], [108, 56], [108, 64], [98, 64], [92, 62], [80, 62], [70, 61], [56, 61], [44, 61], [36, 62]]
+    notes: "E3: Vulture Rocs 30, Rocs 38, Griffins 48 (Dif 2) on the Griffin Cliffs, east to the valley's north slope at the D4 border; 3 Griffins placed at the eyrie (50, 54)."
+  - id: pop:forest_cyclopes
+    count: 11
+    slot: 3
+    polygon: [[21, 27], [43, 26], [44, 33], [51, 34], [54, 41], [53, 47], [44, 50], [32, 53], [21, 54]]
+    notes: "E4: wild Cyclopes 36 (Giants 50, Elder Giants 62 rare; Dif 1) in the Quivering Forest round their lair; the Barrier's west end and its fountain outside it."
+  - id: pop:doom_birds
+    count: 10
+    slot: 2
+    polygon: [[21, 70], [34, 70], [37, 76], [38, 84], [44, 92], [47, 101], [21, 104]]
+    notes: "E5: Vulture Rocs over the wadis, the mesa and the western hills; the first fight from D6 (about 3,300 off)."
+  - id: zone:east_valley
+    kind: keep_clear
+    polygon: [[99, 74], [109, 74], [109, 86], [99, 86]]
+    notes: The D4 arrival.
+  - id: zone:west_pass
+    kind: keep_clear
+    polygon: [[19, 60], [32, 61], [34, 68], [19, 68]]
+    notes: The D6 arrival.
+  - id: zone:giants_hold
+    kind: keep_clear
+    polygon: [[80, 40], [93, 40], [93, 51], [80, 51]]
+    notes: Gurodel's hold and DD-24's doors (peaceful People only).
+  - id: zone:bosco_terrace
+    kind: keep_clear
+    polygon: [[58, 44], [64, 44], [64, 49], [58, 49]]
+  - id: zone:tower_knoll
+    kind: keep_clear
+    polygon: [[66, 36], [73, 36], [73, 42], [66, 42]]
+  - id: zone:oasis
+    kind: keep_clear
+    polygon: [[40, 75], [48, 75], [48, 82], [40, 82]]
+  - id: zone:boulder_field
+    kind: keep_clear
+    polygon: [[82, 79], [88, 79], [88, 84], [82, 84]]
+  - id: zone:boulders_west
+    kind: keep_clear
+    polygon: [[34, 68], [40, 68], [40, 73], [34, 73]]
+  - id: zone:grate_hollow
+    kind: keep_clear
+    polygon: [[98, 99], [105, 99], [105, 104], [98, 104]]
+    notes: The DD-18 grate and its arrival.
+views:
+  - {id: view:arrival, at: [105, 80], height: 180, look: [64, 80], purpose: "MU-4 arrival view (about 76 degrees): from the D4 arrival in the level valley, looking west: the last firs of the Forest of Peril either side, the road running down to the boulder field, the dunes opening beyond, the Great Pyramid far off (about 21,000 away), the broken travel pyramid on the right-hand slope, the Griffin Cliffs and the highlands along the north (right)."}
+  - {id: view:signature, at: [82, 98], height: 180, look: [64, 85], purpose: "MU-4 signature view (about 60 degrees): from the dune crest south-east of the pyramid, looking north-west: the Great Pyramid rising from the dunes (about 11,300 away, its apex 15 degrees up), the robbers' tent at its foot, the pale small sun low in the amber band, the Griffin Cliffs and the Barrier's line faint beyond."}
+actors:
+  - {monster: "11562", at: [50, 54], count: 3, spread: 1, group: 1, hostile: true, notes: "The eyrie: three Griffins 48 on the nest ledge (great_birds C)."}
+  - {monster: "11083", at: [84, 47], count: 3, spread: 2, group: 3, hostile: false, notes: "The People at the hold (D-47, D-49 Q1: A2's rows 11083-11085, faction xeen_giants_people, shared with DD-24; one blow on either map turns both): Cyclops 38 x3, peaceful until q-d16.war / hall_attacked / q-d12. Not counted in the 110."}
+  - {monster: "11084", at: [88, 47], count: 2, spread: 1, group: 3, hostile: false, notes: Giant 50 x2 (People).}
+  - {monster: "11085", at: [89, 44], count: 1, spread: 0, group: 3, hostile: false, notes: Elder Giant 58 x1 by the doors (People).}
+  - {monster: "11085", at: [86, 46], count: 1, spread: 0, group: 2, hostile: false, npc: 5452, notes: "Gurodel, King of the People (talking actor 5452) at his fire, facing south (Q-D16), on the People's Elder Giant row (D-47); not a fighter in the count (his talk closes at war)."}

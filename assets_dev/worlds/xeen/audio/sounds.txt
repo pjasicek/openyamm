@@ -1,0 +1,267 @@
+/NAME	ID	TYPE	3D	COMMENTS
+/Xeen sounds (lane AU): written by level_generation/sounds/xeen_20261120/install.py from install.yml; do not edit.
+/Names are the files under worlds/xeen/audio/xeen/; ids are the world.yml sounds range (devdocs/xeen/AUDIO.md).
+xeen_toad_attack	62000	swap	0	Giant and Bog Toad attack (a tongue lash)
+xeen_toad_death	62001	swap	0	toads' death
+xeen_toad_wince	62002	swap	0	toads hurt
+xeen_toad_fidget	62003	swap	0	toads' idle fidget
+xeen_toad_c_attack	62004	swap	0	Swamp Toad (C) attack, the set two semitones down
+xeen_toad_c_death	62005	swap	0	Swamp Toad death
+xeen_toad_c_wince	62006	swap	0	Swamp Toad hurt
+xeen_toad_c_fidget	62007	swap	0	Swamp Toad fidget
+xeen_witch_attack	62010	swap	0	witches' attack (a hex flung)
+xeen_witch_death	62011	swap	0	witches' death
+xeen_witch_wince	62012	swap	0	witches hurt
+xeen_witch_fidget	62013	swap	0	witches' idle fidget
+xeen_witch_c_attack	62014	swap	0	Elder Witch, Head Witch, Coven Mother attack, the set 1.5 semitones down
+xeen_witch_c_death	62015	swap	0	Elder Witch and the heads' death
+xeen_witch_c_wince	62016	swap	0	Elder Witch and the heads hurt
+xeen_witch_c_fidget	62017	swap	0	Elder Witch and the heads' fidget
+xeen_sprite_attack	62020	swap	0	Medusa and Killer Sprites' attack
+xeen_sprite_death	62021	swap	0	sprites' death
+xeen_sprite_wince	62022	swap	0	sprites hurt
+xeen_sprite_fidget	62023	swap	0	sprites' idle fidget
+xeen_sprite_queen_attack	62024	swap	0	Sprite Queen and Sharla attack, the set two semitones down
+xeen_sprite_queen_death	62025	swap	0	Sprite Queen death
+xeen_sprite_queen_wince	62026	swap	0	Sprite Queen hurt
+xeen_sprite_queen_fidget	62027	swap	0	Sprite Queen fidget
+xeen_swarm_attack	62030	swap	0	swarms' attack
+xeen_swarm_death	62031	swap	0	swarms' death
+xeen_swarm_wince	62032	swap	0	swarms hurt
+xeen_swarm_fidget	62033	swap	0	swarms' idle fidget
+xeen_doombug_attack	62034	swap	0	Doom Bug (A, one big beetle) attack, the set three semitones down
+xeen_doombug_death	62035	swap	0	Doom Bug death
+xeen_doombug_wince	62036	swap	0	Doom Bug hurt
+xeen_doombug_fidget	62037	swap	0	Doom Bug fidget
+xeen_feet_attack	62040	swap	0	Flying Feet's attack (a kick)
+xeen_feet_death	62041	swap	0	Flying Feet's death
+xeen_feet_wince	62042	swap	0	Flying Feet hurt
+xeen_feet_fidget	62043	swap	0	Flying Feet's idle fidget
+xeen_guardian_attack	62050	swap	0	the Guardian's attack and its lightning shot
+xeen_guardian_death	62051	swap	0	the Guardian's death
+xeen_guardian_wince	62052	swap	0	the Guardian hurt
+xeen_guardian_fidget	62053	swap	0	the Guardian's idle fidget
+xeen_hand_attack	62060	swap	0	the Carnage Hand's attack (a crushing grab; it breaks armour)
+xeen_hand_death	62061	swap	0	the Carnage Hand's death
+xeen_hand_wince	62062	swap	0	the Carnage Hand hurt
+xeen_hand_fidget	62063	swap	0	the Carnage Hand's idle fidget
+xeen_mole_attack	62070	swap	0	Tiger and Rock Moles' attack
+xeen_mole_death	62071	swap	0	moles' death
+xeen_mole_wince	62072	swap	0	moles hurt
+xeen_mole_fidget	62073	swap	0	moles' idle fidget
+xeen_mole_c_attack	62074	swap	0	Tunnel Mole (C) attack, the set two semitones down
+xeen_mole_c_death	62075	swap	0	Tunnel Mole death
+xeen_mole_c_wince	62076	swap	0	Tunnel Mole hurt
+xeen_mole_c_fidget	62077	swap	0	Tunnel Mole fidget
+xeen_sorceress_attack	62080	swap	0	sorceresses' attack (a spell cast)
+xeen_sorceress_death	62081	swap	0	sorceresses' death
+xeen_sorceress_wince	62082	swap	0	sorceresses hurt
+xeen_sorceress_fidget	62083	swap	0	sorceresses' idle fidget
+xeen_sorceress_c_attack	62084	swap	0	Grand Sorceress and Morgana attack, the set a semitone down
+xeen_sorceress_c_death	62085	swap	0	Grand Sorceress death
+xeen_sorceress_c_wince	62086	swap	0	Grand Sorceress hurt
+xeen_sorceress_c_fidget	62087	swap	0	Grand Sorceress fidget
+xeen_orc_attack	62090	swap	0	orcs' attack
+xeen_orc_death	62091	swap	0	orcs' death
+xeen_orc_wince	62092	swap	0	orcs hurt
+xeen_orc_fidget	62093	swap	0	orcs' idle fidget
+xeen_orc_c_attack	62094	swap	0	Orc Guard, Orc Captain, Drum-Master, Shaalth attack, the set 1.5 semitones down
+xeen_orc_c_death	62095	swap	0	the big orcs' death
+xeen_orc_c_wince	62096	swap	0	the big orcs hurt
+xeen_orc_c_fidget	62097	swap	0	the big orcs' fidget
+xeen_golem_attack	62100	swap	0	golems' attack
+xeen_golem_death	62101	swap	0	golems' death
+xeen_golem_wince	62102	swap	0	golems hurt
+xeen_golem_fidget	62103	swap	0	golems' idle fidget
+xeen_golem_c_attack	62104	swap	0	Iron Golem, Diamond and Onyx Golems attack, the set two semitones down
+xeen_golem_c_death	62105	swap	0	the big golems' death
+xeen_golem_c_wince	62106	swap	0	the big golems hurt
+xeen_golem_c_fidget	62107	swap	0	the big golems' fidget
+xeen_madman_attack	62110	swap	0	madmen's attack
+xeen_madman_death	62111	swap	0	madmen's death
+xeen_madman_wince	62112	swap	0	madmen hurt
+xeen_madman_fidget	62113	swap	0	madmen's idle fidget
+xeen_harpy_attack	62120	swap	0	harpies' attack
+xeen_harpy_death	62121	swap	0	harpies' death
+xeen_harpy_wince	62122	swap	0	harpies hurt
+xeen_harpy_fidget	62123	swap	0	harpies' idle fidget
+xeen_harpy_c_attack	62124	swap	0	Harpy Queen (C) attack, the set 1.5 semitones down
+xeen_harpy_c_death	62125	swap	0	Harpy Queen death
+xeen_harpy_c_wince	62126	swap	0	Harpy Queen hurt
+xeen_harpy_c_fidget	62127	swap	0	Harpy Queen fidget
+xeen_lizard_attack	62130	swap	0	Iguanasaurs' attack
+xeen_lizard_death	62131	swap	0	Iguanasaurs' death
+xeen_lizard_wince	62132	swap	0	Iguanasaurs hurt
+xeen_lizard_fidget	62133	swap	0	Iguanasaurs' idle fidget
+xeen_lizard_c_attack	62134	swap	0	Ancient Iguanasaurus (C) attack, the set two semitones down
+xeen_lizard_c_death	62135	swap	0	Ancient Iguanasaurus death
+xeen_lizard_c_wince	62136	swap	0	Ancient Iguanasaurus hurt
+xeen_lizard_c_fidget	62137	swap	0	Ancient Iguanasaurus fidget
+xeen_worm_attack	62140	swap	0	Sand Worm attack
+xeen_worm_death	62141	swap	0	Sand Worm death
+xeen_worm_wince	62142	swap	0	Sand Worm hurt
+xeen_worm_fidget	62143	swap	0	Sand Worm idle fidget
+xeen_worm_c_attack	62144	swap	0	Great Worm (C) attack, the set two semitones down
+xeen_worm_c_death	62145	swap	0	Great Worm death
+xeen_worm_c_wince	62146	swap	0	Great Worm hurt
+xeen_worm_c_fidget	62147	swap	0	Great Worm fidget
+xeen_mummy_attack	62150	swap	0	pyramid mummies' attack
+xeen_mummy_death	62151	swap	0	pyramid mummies' death
+xeen_mummy_wince	62152	swap	0	pyramid mummies hurt
+xeen_mummy_fidget	62153	swap	0	pyramid mummies' idle fidget
+xeen_mummy_c_attack	62154	swap	0	Royal Mummy: pyramid mummies's attack, 2 semitones down
+xeen_mummy_c_death	62155	swap	0	Royal Mummy: pyramid mummies's death, 2 semitones down
+xeen_mummy_c_wince	62156	swap	0	Royal Mummy: pyramid mummies's wince, 2 semitones down
+xeen_mummy_c_fidget	62157	swap	0	Royal Mummy: pyramid mummies's fidget, 2 semitones down
+xeen_xguard_attack	62160	swap	0	Xeen's Guard's attack
+xeen_xguard_death	62161	swap	0	Xeen's Guard's death
+xeen_xguard_wince	62162	swap	0	Xeen's Guard hurt
+xeen_xguard_fidget	62163	swap	0	Xeen's Guard's idle fidget
+xeen_mage_attack	62170	swap	0	floating mages' attack
+xeen_mage_death	62171	swap	0	floating mages' death
+xeen_mage_wince	62172	swap	0	floating mages hurt
+xeen_mage_fidget	62173	swap	0	floating mages' idle fidget
+xeen_mage_c_attack	62174	swap	0	Mega Mage: floating mages's attack, 1.5 semitones down
+xeen_mage_c_death	62175	swap	0	Mega Mage: floating mages's death, 1.5 semitones down
+xeen_mage_c_wince	62176	swap	0	Mega Mage: floating mages's wince, 1.5 semitones down
+xeen_mage_c_fidget	62177	swap	0	Mega Mage: floating mages's fidget, 1.5 semitones down
+xeen_coven_attack	62180	swap	0	the coven's attack
+xeen_coven_death	62181	swap	0	the coven's death
+xeen_coven_wince	62182	swap	0	the coven hurt
+xeen_coven_fidget	62183	swap	0	the coven's idle fidget
+xeen_coven_c_attack	62184	swap	0	Coven Mother: the coven's attack, 1.5 semitones down
+xeen_coven_c_death	62185	swap	0	Coven Mother: the coven's death, 1.5 semitones down
+xeen_coven_c_wince	62186	swap	0	Coven Mother: the coven's wince, 1.5 semitones down
+xeen_coven_c_fidget	62187	swap	0	Coven Mother: the coven's fidget, 1.5 semitones down
+xeen_hornet_attack	62190	swap	0	hornets' attack
+xeen_hornet_death	62191	swap	0	hornets' death
+xeen_hornet_wince	62192	swap	0	hornets hurt
+xeen_hornet_fidget	62193	swap	0	hornets' idle fidget
+xeen_hornet_c_attack	62194	swap	0	Hornet Queen: hornets's attack, 2 semitones down
+xeen_hornet_c_death	62195	swap	0	Hornet Queen: hornets's death, 2 semitones down
+xeen_hornet_c_wince	62196	swap	0	Hornet Queen: hornets's wince, 2 semitones down
+xeen_hornet_c_fidget	62197	swap	0	Hornet Queen: hornets's fidget, 2 semitones down
+xeen_armadillo_attack	62200	swap	0	the Armadillo's attack
+xeen_armadillo_death	62201	swap	0	the Armadillo's death
+xeen_armadillo_wince	62202	swap	0	the Armadillo hurt
+xeen_armadillo_fidget	62203	swap	0	the Armadillo's idle fidget
+xeen_octopod_attack	62210	swap	0	octopods' attack
+xeen_octopod_death	62211	swap	0	octopods' death
+xeen_octopod_wince	62212	swap	0	octopods hurt
+xeen_octopod_fidget	62213	swap	0	octopods' idle fidget
+xeen_octopod_c_attack	62214	swap	0	Kraken: octopods's attack, 2 semitones down
+xeen_octopod_c_death	62215	swap	0	Kraken: octopods's death, 2 semitones down
+xeen_octopod_c_wince	62216	swap	0	Kraken: octopods's wince, 2 semitones down
+xeen_octopod_c_fidget	62217	swap	0	Kraken: octopods's fidget, 2 semitones down
+xeen_swamp_attack	62220	swap	0	swamp things' attack
+xeen_swamp_death	62221	swap	0	swamp things' death
+xeen_swamp_wince	62222	swap	0	swamp things hurt
+xeen_swamp_fidget	62223	swap	0	swamp things' idle fidget
+xeen_swamp_c_attack	62224	swap	0	Marsh Horror: swamp things's attack, 2 semitones down
+xeen_swamp_c_death	62225	swap	0	Marsh Horror: swamp things's death, 2 semitones down
+xeen_swamp_c_wince	62226	swap	0	Marsh Horror: swamp things's wince, 2 semitones down
+xeen_swamp_c_fidget	62227	swap	0	Marsh Horror: swamp things's fidget, 2 semitones down
+xeen_snakeman_attack	62230	swap	0	snake men's attack
+xeen_snakeman_death	62231	swap	0	snake men's death
+xeen_snakeman_wince	62232	swap	0	snake men hurt
+xeen_snakeman_fidget	62233	swap	0	snake men's idle fidget
+xeen_snakeman_c_attack	62234	swap	0	Snake Lord: snake men's attack, 1.5 semitones down
+xeen_snakeman_c_death	62235	swap	0	Snake Lord: snake men's death, 1.5 semitones down
+xeen_snakeman_c_wince	62236	swap	0	Snake Lord: snake men's wince, 1.5 semitones down
+xeen_snakeman_c_fidget	62237	swap	0	Snake Lord: snake men's fidget, 1.5 semitones down
+xeen_gong	62500	swap	0	the great gongs: XD-03 (now the shipped 6gong), DD-06, X5's ghost-wave gongs (Q-C6)
+xeen_gong_low	62501	swap	0	the larger gong (the second of a pair, or a deeper hall), the gong three semitones down
+xeen_mirror_touch	62502	swap	0	a town mirror touched (the mirror network: Xeen.useMirror, first touch and the 'Where to?' prompt)
+xeen_mirror_travel	62503	swap	0	the party steps through a mirror (before the move)
+xeen_pyramid_travel	62504	swap	0	an Ancient travel pyramid sends the party to the other face
+xeen_sandfall_loop	62505	swap	0	a sand-fall over the rim (X6's five xeen_sandfall, D-31): placed, looping, positional
+xeen_sphinx_stir	62506	swap	0	the Sphinx (X6, XD-15): the stone colossus stirs at the riddle and the door opens
+xeen_coffin_lid	62507	swap	0	Count Draco's coffin on Nightshadow's square (X3, the lid and stair into XD-24, D-11.3); crypt coffins
+xeen_reservoir_drain	62508	swap	0	XD-10's plug pulled: the reservoir drains (before the bed is revealed)
+xeen_lift	62509	swap	0	lifts: Ellinger's tower lift (DD-02) and any chain lift or moving platform
+xeen_winch	62510	swap	0	winches: XD-26's hoist and drawn ladder (D-17), XD-21's plank bridge, XD-12's works gate
+xeen_fortune	62511	swap	0	fortune tellers and seers (the Darkside palm reader, the gypsies): a reading
+xeen_spring_drink	62512	swap	0	the Lifeforce Spring (X3, +2 Endurance) and the other fountains and shrines that grant a lasting gift
+xeen_well_drink	62513	swap	0	wells: 'The water is cool and refreshing.' (every well's click)
+xeen_obelisk	62514	swap	0	the thirteen obelisks (A3's obelisks.<map>): an obelisk gives its word
+xeen_yard_gate	62515	swap	0	the Warzone coach yard gate (X6, D-8.1); other heavy wooden yard and fort gates
+xeen_fire_ignite	62516	swap	0	lairs and forts set alight (X1's orc outposts' drums, D2's burned ogre fort, the encampments): one-shot; the shipped 'raging fire loop' keeps burning
+xeen_phase_shift	62517	swap	0	Castle Kalindra out of phase (DD-03 stages, D1's castle hill): the castle flickers or a stage changes
+xeen_phase_loop	62518	swap	0	Castle Kalindra's phase shimmer, placed and looping where the castle stands out of phase
+xeen_sky_gust	62519	swap	0	the sky maps (X8, X9): a strong gust, placed with a wait over the shipped 'whistling wind'
+xeen_mirror_shatter	62520	swap	0	XD-19's scepter cinematic (D-47 Q14): the great mirror shatters
+xeen_castle_groan	62521	swap	0	XD-19 (D-47): Castle Xeen groans as it begins to fail (the cinematic after the mirror; the barrier falling)
+xeen_power_up	62522	swap	0	DD-16 (D-47, optional): the old machine powers up (the blast door's power restored)
+xeen_machine_stamp_loop	62523	swap	0	XD-19's machine halls (D-47): the stamping machines, placed and looping; off when the machines stop
+xeen_barrier_loop	62524	swap	0	XD-19's barrier fed by the four generators (D-47): placed and looping at the barrier; off when it falls
+xeen_lavafall_loop	62525	swap	0	D6's two lava falls over the rim (D-49), X7's lava falls (D-40's shared preset): placed, looping, panned
+xeen_forge_hammer	62526	swap	0	XD-17's Arm and Hammer (D-50): the smith at work, a placed one-shot with a wait, by day
+xeen_striker_ding	62527	swap	0	X9's high-striker (D-50, A3's m34.might_game): a win; the mallet, the puck and the bell
+xeen_chime_1	62528	swap	0	P5's unification: the first sleeper's far chime (cue in shot 2)
+xeen_chime_2	62529	swap	0	P5's unification: the second sleeper's far chime
+xeen_chime_3	62530	swap	0	P5's unification: the third sleeper's far chime
+xeen_chime_4	62531	swap	0	P5's unification: the fourth sleeper's far chime, the deepest
+xeen_wedding_fanfare	62532	swap	0	P5's unification (D-56): the wedding, as the pavilion fades in (the cinematic's fourth shot)
+xeen_dragon_call	62533	swap	0	D7 (D-58): a cloud dragon's call far off over the roads, a placed one-shot with a long wait
+xeen_megadragon_sleep	62534	swap	0	D7 (D-58, Q-D26): the Megadragon asleep on Castle Alamar's roof, a point loop at the roost (off on its kill)
+xeen_bandit_whistle	62535	swap	0	D7's tolls (D-58 D-6): the Sky Bandits' whistle when the party comes up to a toll
+xeen_trapdoor	62536	swap	0	DD-17's trapdoors (D-61 Q18): a hatched deck plate drops away under the party
+xeen_klaxon	62537	swap	0	DD-17's self-destruct (D-61 Q15/Q17): the castle's alarm, a cinematic cue (the groan follows)
+xeen_pod_alarm	62538	swap	0	DD-22's security console (D-62): the pod's alarm, a point loop, off when the lockdown is released
+xeen_log_chirp	62539	swap	0	DD-22's log (D-62): a page of the pod's log is read, an evt.PlaySoundName one-shot
+xeen_torch_light	62540	swap	0	DD-15's four torches (lit by their levers) and any wall torch lit by a script: a small flare, not a fire
+xeen_heartbeat_loop	62541	swap	0	DD-21's jar with Sandro's heart: a slow heartbeat at the jar, a point loop (off once the heart is taken)
+xeen_shaft_grit	62542	swap	0	FD-01's rubble shaft (D-69): grit and small stones trickling down, a point loop beside the shipped wind
+xeen_stasis_hum	62543	swap	0	FD-01's stasis coffin (D-69): its cold hum, a point loop, off when the field drops
+xeen_metal_groan	62544	swap	0	FD-01 (D-69, optional): settling metal groaning in the works, a placed one-shot with a long wait
+xeen_amb_sewer	62800	swap	0	sewers (DD-01 Castleview Sewer, DD-18 Sandcaster Sewer)
+xeen_amb_mine	62801	swap	0	mines (XD-02, XD-03, DD-10 Gemstone Mines)
+xeen_amb_tower	62802	swap	0	wizards' towers (XD-11 Tower of High Magic, XD-12 Darzog's Tower, DD-02 Ellinger's Tower, the towers of Mok)
+xeen_amb_sky	62803	swap	0	the sky maps (X8 Cloudreach, X9 Clouds of Xeen): the open-air bed under the gusts
+xeen_amb_meadow	62804	swap	0	Cloudside meadows (X1 Vertigo Meadows, X2's fields): waits on E9
+xeen_amb_lagoon	62805	swap	0	X3 Lifeforce Lagoon, D4's lake shore: waits on E9
+xeen_amb_tundra	62806	swap	0	X5 Winterkill Tundra: waits on E9
+xeen_amb_savannah	62807	swap	0	X4 Burlock Savannah: waits on E9
+xeen_amb_desert	62808	swap	0	X6 Desert of the Sphinx, D5 Desert of Doom: waits on E9
+xeen_amb_darkside	62809	swap	0	Darkside's surface under the amber, failing sun (D1-D4): waits on E9
+xeen_amb_aspen	62810	swap	0	D5's Quivering Forest (D-49): the aspens' tremble, a zone bed (pan: false)
+xeen_amb_necropolis	62811	swap	0	D6's Necropolis (D-49): the hushed walled city of the dead, a town bed (pan: false)
+xeen_amb_fair	62812	swap	0	X9's carnival plaza (D-50): Slick's fair, placed over the plaza (pan: false)
+xeen_amb_tavern	62813	swap	0	XD-17's Tavern Xanadu (D-50): the murmur heard by its door on the first street (a point sound, panned)
+xeen_amb_plane_fire	62814	swap	0	P1 the Elemental Plane of Fire (D-58): the bed over the crater (pan: false); D7's Fire Corner (panned)
+xeen_amb_plane_air	62815	swap	0	P2 the Elemental Plane of Air (D-58): the gale over the whole plane (pan: false); D7's Air Corner (panned)
+xeen_amb_plane_earth	62816	swap	0	P3 the Elemental Plane of Earth (D-58): the bed over the bowl (pan: false); D7's Earth Corner (panned)
+xeen_amb_plane_water	62817	swap	0	P4 the Elemental Plane of Water (D-58): the surf over the sea (pan: false); D7's Water Corner (panned)
+xeen_amb_volcano	62818	swap	0	X7 Volcano and Fire Corner (D-40): the bed over the ash flats, the basin and the crater (pan: false)
+xeen_amb_night	62819	swap	0	Cloudside meadows and plains at night (X1, X2, X4, X5's pocket): the night bed under the day beds (pan: false)
+xeen_forge_hall_loop	62820	swap	0	DD-25's forge bay (D-62): distant hammering, a point loop in place of the anvil one-shot
+xeen_tribble_purr	62821	swap	0	DD-26's den (D-65): the tribbles purring, a point loop (panned)
+xeen_vo_burlock_charge	63000	swap	0	m5 (aaze0064): the King charges the party (XD-07 throne room, the first audience)
+xeen_vo_burlock_no_mirror	63001	swap	0	m5 (aaze0064:13): every time the mirror topic is asked without it
+xeen_vo_burlock_thanks	63002	swap	0	m35 (aaze0064:14): after Lord Xeen falls
+xeen_vo_corak_soulbox	63010	swap	0	m32: Corak takes the Soul Box (DD-16, his pod)
+xeen_vo_sheltem_corak	63011	swap	0	m33: the Soul Box thrown down before Sheltem (DD-17): Corak, Sheltem, Corak in one sound
+xeen_vo_sheltem_refusal	63020	swap	0	m33: DD-17 door refusal without the Soul Box, first time only (refused_once)
+xeen_vo_lord_xeen_sight	63030	swap	0	m35 lord_xeen_sight: first sight of Lord Xeen on his throne (XD-19), once per save
+xeen_vo_lord_xeen_death	63031	swap	0	m35 lord_xeen: his death at the throne (XD-19), once per save
+xeen_vo_pharaoh_unification	63040	swap	0	M42: the unification at the shrine (the ending)
+xeen_lordxeen_attack	63100	swap	0	Lord Xeen's attack
+xeen_lordxeen_death	63101	swap	0	Lord Xeen's death
+xeen_lordxeen_wince	63102	swap	0	Lord Xeen hurt
+xeen_lordxeen_fidget	63103	swap	0	Lord Xeen's idle fidget
+xeen_dragonking_attack	63110	swap	0	the Dragon King's attack
+xeen_dragonking_death	63111	swap	0	the Dragon King's death
+xeen_dragonking_wince	63112	swap	0	the Dragon King hurt
+xeen_dragonking_fidget	63113	swap	0	the Dragon King's idle fidget
+xeen_dragonpet_attack	63114	swap	0	Xeen's Pet (smaller): the Dragon King's attack, 2 semitones up
+xeen_dragonpet_death	63115	swap	0	Xeen's Pet (smaller): the Dragon King's death, 2 semitones up
+xeen_dragonpet_wince	63116	swap	0	Xeen's Pet (smaller): the Dragon King's wince, 2 semitones up
+xeen_dragonpet_fidget	63117	swap	0	Xeen's Pet (smaller): the Dragon King's fidget, 2 semitones up
+xeen_energydragon_attack	63120	swap	0	the Energy Dragon's attack
+xeen_energydragon_death	63121	swap	0	the Energy Dragon's death
+xeen_energydragon_wince	63122	swap	0	the Energy Dragon hurt
+xeen_energydragon_fidget	63123	swap	0	the Energy Dragon's idle fidget
+xeen_megadragon_attack	63124	swap	0	the Megadragon: the Energy Dragon's attack, 3 semitones down
+xeen_megadragon_death	63125	swap	0	the Megadragon: the Energy Dragon's death, 3 semitones down
+xeen_megadragon_wince	63126	swap	0	the Megadragon: the Energy Dragon's wince, 3 semitones down
+xeen_megadragon_fidget	63127	swap	0	the Megadragon: the Energy Dragon's fidget, 3 semitones down

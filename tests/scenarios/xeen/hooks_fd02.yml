@@ -1,0 +1,159 @@
+# Xeen FD-02 (the Southern Sphinx) quest hooks in the installed map: M40 (D-57). A level-70 party from a new game in
+# the Sphinx; the party is placed beside each thing (a hooks check, not a playthrough segment).
+# - The toll-keepers' masks: the Chopping Death refused for want of 2,000 ("Well, maybe next time."), paid (2,000),
+#   then its clue offer (500, "There's one born every minute.") and No ("Begone, then!"); the Swinging Death paid;
+#   a clue with no gold left refused.
+# - The six rune stones (each its lesson and qbit), the summary after the sixth; the stair plaque; the crypt sign.
+# - The door of the name: a wrong name ("Wrong."), "Picard" (door 4, 111800),
+#   then the stair's line; the door stands open after a save and load.
+# - The embalming table (once, 118119: the two red draughts, Might Boosts 240), then its after-line; the alcove's
+#   illusion (once); the Throne of Legends.
+# Places: the stand points of `oymap things` (devdocs/xeen/briefs/fd02/L4/), A7's playtests there.
+# Quest logic: source/quests/m40.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_fd02.yml --scenario-no-color
+id: xeen.hooks_fd02
+title: "Xeen FD-02 hooks: the masks' tolls, the rune stones, the door of the name, the embalming table"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_fd02.blv
+      party:
+        gold: 1500
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 70, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 70, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 70, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 70, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_fd02.blv}
+  - assert: {qbit_clear: [111800, 118110, 118111, 118112, 118113, 118114, 118115, 118116, 118117, 118118, 118119]}
+
+  # ---- The Chopping Death's mask (event 24) with 1,500 gold: Yes is refused.
+  - set_pose: {map: xeen_fd02.blv, x: -3520, y: -218, z: -256, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); click(24); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Well, maybe next time.\""}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 1500 then error('the refusal took gold') end"}
+  - assert: {qbit_clear: [118117]}
+  # 4,000 more: paid, 2,000 taken.
+  - console: {line: "lua AddValue(Gold, 4000)", expect_contains: "Lua ran."}
+  - play_lua: {source: "click(24); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Overhead, the blades draw up into their slots and stay there."}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 3500 then error('the chopping mask left ' .. gold()) end"}
+  - assert: {qbit_set: [118117]}
+  # Again: the clue for 500; then No.
+  - play_lua: {source: "click(24); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"There's one born every minute.\""}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 3000 then error('the clue left ' .. gold()) end; click(24); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Begone, then!\""}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 3000 then error('No took gold') end"}
+  # ---- The Swinging Death's mask (event 25): paid; then its clue with 400 gold left: refused.
+  - set_pose: {map: xeen_fd02.blv, x: -3520, y: 218, z: -256, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "the blades swing slower, slower, and hang still."}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 1000 then error('the swinging mask left ' .. gold()) end"}
+  - assert: {qbit_set: [118116]}
+  - console: {line: "lua SubtractValue(Gold, 600)", expect_contains: "Lua ran."}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Well, maybe next time.\""}}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 400 then error('the refused clue took gold') end"}
+
+  # ---- The six rune stones (events 40-45): each its lesson; the summary after the last.
+  - set_pose: {map: xeen_fd02.blv, x: -4880, y: 656, z: -64, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log('cleared ' .. clear_hostiles(3000))
+        for _, ev in ipairs({40, 41, 42, 43, 44}) do
+          click(ev); wait(0.4); close(); wait(0.2)
+        end
+        log("runes: " .. tostring(qbit(118110)) .. tostring(qbit(118111)) .. tostring(qbit(118112))
+          .. tostring(qbit(118113)) .. tostring(qbit(118114)) .. tostring(qbit(118115)))
+        click(45); wait(0.4)
+  - assert: {dialog: {active: true, text_contains: "about the letter \"R\""}}
+  - assert: {dialog: {active: true, text_contains: "The lessons you have studied, in the order of the halls: P, I, C, A, R, D."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [118110, 118111, 118112, 118113, 118114, 118115]}
+  - set_pose: {map: xeen_fd02.blv, x: -1360, y: 704, z: -192, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(32); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "Study the lessons to learn my name."}}
+  - set_pose: {map: xeen_fd02.blv, x: -5968, y: 240, z: -256, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3); click(31); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "Don't feed the dragons."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The door of the name (event 26) and the Home of the Aged beyond it (event 23, stepped into once).
+  - set_pose: {map: xeen_fd02.blv, x: -1344, y: 2448, z: 768, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); click(26); wait(0.4)"}
+  - answer_input: {text: "Sandro"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Wrong.\""}}
+  - play_lua: {source: "close(); wait(0.3); click(26); wait(0.4)"}
+  - answer_input: {text: "Picard"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Correct, come on up!\""}}
+  - play_lua: {source: "close(); wait(2); if door_state(4) ~= 'open' then error('door 4 ' .. tostring(door_state(4))) end; click(23); wait(0.4)"}
+  - assert: {qbit_set: [111800]}
+  - assert: {dialog: {active: true, text_contains: "an old man in a very good chair."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_fd02.blv}
+  - play_lua:
+      source: |
+        wait(1)
+        if door_state(4) ~= "open" then error("door 4 after the reload: " .. tostring(door_state(4))) end
+        click(26); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "The door of the name stands open.", 1, true) then error("name door after: " .. s) end
+  # ---- The Throne of Legends (event 56 since FD-02's rebuild; it was 6).
+  - set_pose: {map: xeen_fd02.blv, x: -1592, y: 3200, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(56); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "It is a very good chair, and Picard would like it back."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The embalming table (event 50): once, the red draughts (Might Boosts 240); then its after-line.
+  - set_pose: {map: xeen_fd02.blv, x: -1651, y: -352, z: -256, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); remember('boosts', item_count(240)); click(50); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "two flasks of red draught, stoppered and still warm."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local n = 0
+        while held() ~= 0 and n < 4 do log("held " .. held()); stow(); n = n + 1 end
+        local got = item_count(240) - recall("boosts")
+        log("Might Boosts from the table: " .. got)
+        if got ~= 2 then error("the embalming table gave " .. got .. " Might Boosts, not 2") end
+        click(50); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "Jars of embalming fluid. Nothing you would drink."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [118119]}
+  # ---- The alcove's illusion (event 21): once.
+  - set_pose: {map: xeen_fd02.blv, x: -9888, y: 560, z: -1280, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "It was an illusion! An angry voice booms: \"No one steals from ME!\""}}
+  - play_lua: {source: "close(); wait(0.3); click(21); wait(0.5); log('illusion again: ' .. (status() or ''))"}
+  - assert: {qbit_set: [118118]}

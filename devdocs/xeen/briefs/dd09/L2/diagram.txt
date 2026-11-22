@@ -1,0 +1,22 @@
+THE LIMBS (1280)
+  [LIMB STAIR] -- [LIMB WALK: 3 limb alcoves] -- [FRUIT ROOMS] -- [THE CROWN: 4 fountains]
+                          |                                              |door
+                  [BARKMAN'S HOLLOW (hidden) $$] -- [TREASURE ROOM $] ---+
+        ^ limb climb (640 -> 1280)
+THE UPPER TRUNK (640)
+                         [CELL ROW: Snog, Alicia] <- back stair (0 -> 640) from the guardroom
+                                |
+  [RING LANDING] =door= [SHAALTH'S HALL $$ Shaalth, Sheewana's cage] =door= [TEA ROOM: kettle] =door= [CHAPEL OF ASCENSION: dials, lever, waters] =locked= [VAULT $]
+        ^ ring stair (0 -> 640)
+THE TRUNK BASE (0)
+  [CHAPEL OF SAP: flasks, books] =door= [GUARDROOM] -> back stair
+        |                                   |
+  [HALL OF THE TRUNK: the voice] =door= [ORC BARRACKS]
+        |                     \ ring stair
+  [TRUNK DOOR: arrival] -> D2 (exit)
+        root stair (0 -> -512) from the hall's west side
+THE ROOTS (-512)
+  [WEST ROOT ALCOVE: gem] -- [ROOT CELLAR] -- [EAST ROOT ALCOVE: gem]
+        |                        |door
+  [THE PENS: Nathan, Sky, lever] -- [SAP STORE $: barrel, ledger, vats]
+ $ chest   =door= door   =locked= opened by the Crystal Water (Disciples)

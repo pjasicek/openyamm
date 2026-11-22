@@ -1,0 +1,33 @@
+format: 0
+sectors:
+  room:floor: 1
+  room:gate_passage: 2
+  room:lodge: 3
+events:
+  evt:arrive: 10
+  evt:bones_ne: 1
+  evt:bones_se: 2
+  evt:bones_sw: 3
+  evt:booth_floor: 4
+  evt:booth_lodge: 5
+  evt:door_lodge: 11
+  evt:victors_l: 6
+  evt:victors_r: 7
+  evt:yard_l: 8
+  evt:yard_r: 9
+doors:
+  door:lodge: 1
+map_vars:
+  once.arrive: 0
+sounds:
+  sound:floor_wind: 1
+decorations:
+  deco:bones_ne: 0
+  deco:bones_se: 1
+  deco:bones_sw: 2
+  deco:lodge_torch_ne: 3
+  deco:lodge_torch_nw: 4
+  deco:lodge_torch_se: 5
+  deco:lodge_torch_sw: 6
+  deco:passage_torch_n: 7
+  deco:passage_torch_s: 8

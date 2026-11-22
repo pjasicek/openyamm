@@ -1,0 +1,152 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Planes p12</title><style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #6a3410; --card: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 2200px; padding: 28px 32px 36px; }
+h1 { font-size: 32px; margin: 0 0 4px; }
+h2 { font-size: 19px; margin: 22px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+h3 { font-size: 16px; margin: 12px 0 6px; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 2100px; }
+.row { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; margin-bottom: 18px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept { position: relative; }
+.concept img.c { width: 100%; display: block; border-radius: 4px; }
+.concept img.b { position: absolute; left: 22px; top: 52px; width: 270px; border: 3px solid #fff; }
+.concept p { margin: 6px 0 4px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 3px 7px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.q li { margin: 7px 0; font-size: 13.5px; } .q b { color: #5a2a08; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.small { font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+code { font-size: 12.5px; }
+</style></head><body><main>
+<h1>P1 Plane of Fire of Xeen and P2 Plane of Air of Xeen: phase 6 L1 (MU-3 plans, MU-4 concepts)</h1>
+<div class="sub">A6's planes sub-agent, 2026-11-21. One family for the four elemental planes: arrival from a D7 corner (quiet) &rarr; the statue and its plaque &rarr; the test of the element ('Accept the test?' raises the guardians: the Sleeper's Guardian 75 and two Greater elementals 70) &rarr; the sleeper's chamber behind the gate the test opens (the couch, the test's chest) &rarr; the return dais to D7; the way up at the arrival is always open. 27 placed in 10 groups of 2-3 plus the test's 3; the source's nine hazard squares; small M by floor. Plans drawn on the proposed defaults of the open questions. Briefs: <code>devdocs/xeen/briefs/p1/L1/</code>, <code>devdocs/xeen/briefs/p2/L1/</code> (oymap fmt, fmt --check, validate: clean).</div>
+<div class="legend small">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival (entrance:d7_fall)</span>
+<span><i class="sw" style="background:#111;border-radius:50%"></i>way up (to D7, always)</span>
+<span><i class="sw" style="background:#777;border-radius:50%"></i>return dais (to D7, after the sleeper)</span>
+<span><i class="sw" style="background:#7a1f6a"></i>statue and plaque</span>
+<span><i class="sw" style="background:#e0a800"></i>test pedestal</span>
+<span><i class="sw" style="background:#1d5fa8"></i>sleeper's couch</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#9b59b6;border-radius:50%"></i>device or find</span>
+<span><i class="sw" style="background:#d0302a;border-radius:50%"></i>group (count x level)</span>
+<span><i class="sw" style="background:#fff;border:2px dashed #7a0f0a;border-radius:50%"></i>the test's guardians</span>
+<span><i class="sw" style="background:#ffb020"></i>hazard cell</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px)"></i>quiet (no spawns)</span>
+<span><i class="sw" style="background:#ffe27a"></i>the walk (ticks every 2,048)</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.5"></i>MU-4 camera</span>
+<span><i class="sw" style="background:#000"></i>sleeper's gate (opens on the passed test)</span>
+</div>
+<h2>P1 Plane of Fire of Xeen: lava field in a crater</h2>
+<div class="row">
+<div class="card plan"><img src="p1/plan_p1.png"></div>
+<div>
+<div class="card concept">
+<img class="c" src="raw/p1_arrival_v1.png"><img class="b" src="p1/blockout_p1.png">
+<p>MU-4 arrival concept <code>raw/p1_arrival_v1.png</code> (one codex exec, no retry); inset: the blockout from the same camera.</p>
+<p style="color:#1d1d1f">`planes_concepts.py p1`: one `codex exec`, first attempt, 65 s; raw `planes/raw/p1_arrival_v1.png` with its prompt (.txt) and log (.log). References: the arrival blockout, D6&#x27;s lava concept (this world&#x27;s lava), MM6&#x27;s `orfyrlga` and MM8&#x27;s `gcav2flr`. It shows the Cinder Shelf&#x27;s cracked crust, the causeway left to the statue of flame on its plinth, the lava lake with crust plates and spurts, the hall&#x27;s ring of columns at the foot of the tallest spire, the Crucible&#x27;s black ring right of it, the basalt columns right and a lava fall in the crater wall. Against the plan (the plan wins at L2-L3): the crater wall reads as cut slabs (the blockout&#x27;s), L3 makes it ragged cliffs; the statue stands nearer and larger than drawn (about 3,700 away); two small gold boxes are the blockout&#x27;s pedestal and couch, not props; the Crucible&#x27;s ring is lower than the plan&#x27;s rise.</p></div>
+<div class="card" style="margin-top:12px"><p class="small" style="margin:0 0 6px">The Plane of Fire of Xeen: a lake of lava in a crater of black glass under a sky of red smoke. Causeways of cooled crust run between basalt shelves; vents flare underfoot. On its rise the Crucible, a ring of obsidian where the test of Fire waits; beyond it, in a hall cut into the tallest spire, the Fire Sleeper on his couch.</p><table><tr><th>Figure</th><th>Plan</th><th></th></tr>
+<tr><td>Form</td><td>lava field in a crater</td><td></td></tr>
+<tr><td>Room</td><td>26 x 26 cells; floors 21.4 x 21.2</td><td></td></tr>
+<tr><td>Walkable floor (S 7-20, M 30-90 M units)</td><td>50.9 M</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Lava lake</td><td>90.0 M, 64 % of the basin; farthest from a way out 3,396</td><td></td></tr>
+<tr><td>Placed hostiles (30)</td><td>30 = 27 in 10 groups + 3 in the test</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Levels (55-70, guardian 75)</td><td>55-75, mean 59.8</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Kill XP per member (31.0k)</td><td>31.54k (+1.7 %)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>First fight (1,500-4,000)</td><td>2,555</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Quiet arrival</td><td>0 on the landing</td><td><span class="ok">ok</span></td></tr>
+<tr><td>POIs (C8: 10-12)</td><td>10 (median spacing 2,589)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Chests (C8: 2)</td><td>2 (T6) + 1 find</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Hazard cells (source 9)</td><td>9, 0 on the walk</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Walk: arrival &gt; test &gt; sleeper &gt; out</td><td>8,836 + 6,068 + 923 = 15,827 (41 s)</td><td></td></tr>
+<tr><td>Textures (S cap 30, 4 new)</td><td>about 16, 2 new (xpfvent, xpfglass)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sky</td><td>plane_fire (shipped)</td><td></td></tr>
+</table>
+<table style="margin-top:8px"><tr><th>Hostiles by row</th><th class="n">n</th><th class="n">XP each</th></tr>
+<tr><td>Lesser Fire Elemental (11620)</td><td class="n">11</td><td class="n">3,575</td></tr>
+<tr><td>Lava Golem (11593)</td><td class="n">5</td><td class="n">3,575</td></tr>
+<tr><td>Fire Elemental (11621)</td><td class="n">9</td><td class="n">4,464</td></tr>
+<tr><td>Fire Blower (11622)</td><td class="n">4</td><td class="n">5,600</td></tr>
+<tr><td>Sleeper&#x27;s Guardian of Fire (11623)</td><td class="n">1</td><td class="n">6,375</td></tr>
+</table><h3>Hooks placed</h3><ul class="small"><li><code>m38.corner_fire</code> (D7's north-west corner) drops the party onto <code>entrance:d7_fall</code></li><li><code>m38.plaque_fire</code>: the statue's plaque (Step text)</li><li><code>m38.test_fire</code>: 'Accept the test of Fire?' at the pedestal; yes shows the guardians</li><li><code>m38.sleeper_fire</code>: the couch, three states; awake sets m38.fire and award 412</li><li>the way up and the return dais: exit presets to D7's <code>entrance:p1_return</code></li><li>new (A3): the map variable test_passed (the gate), the hazard line, device and find lines</li></ul></div>
+</div></div>
+<h2>P2 Plane of Air of Xeen: islands in open sky</h2>
+<div class="row">
+<div class="card plan"><img src="p2/plan_p2.png"></div>
+<div>
+<div class="card concept">
+<img class="c" src="raw/p2_arrival_v1.png"><img class="b" src="p2/blockout_p2.png">
+<p>MU-4 arrival concept <code>raw/p2_arrival_v1.png</code> (one codex exec, no retry); inset: the blockout from the same camera.</p>
+<p style="color:#1d1d1f">`planes_concepts.py p2`: one `codex exec`, first attempt, 69 s; raw `planes/raw/p2_arrival_v1.png` with its prompt and log. References: the arrival blockout, X9&#x27;s approved concept (D-50: this world&#x27;s sky and cloud-stone), MM8&#x27;s `gwsphlfl`. It shows the Gale Landing&#x27;s wind-scoured stone, the cloud-stone bridge to the winged statue of Air, the Singing Stones&#x27; pierced ring on its island left, the aerie&#x27;s open dome with the couch beyond, and the Eye of the Winds&#x27; standing stones right with leaves circling, every island on a tapering rock underside over open sky. Against the plan: the aerie stands too low (the plan puts it 768 over the arrival, the highest island); the gold posts and pennants along the bridge are not in the plan (L3 dressing may keep posts by the edge, never on the walk); the statue&#x27;s plinth stands on the bridge&#x27;s end, the plan puts it in the island&#x27;s middle.</p></div>
+<div class="card" style="margin-top:12px"><p class="small" style="margin:0 0 6px">The Plane of Air of Xeen: islands of wind-carved white stone hanging in a sky with no ground under it. Bridges of cloud-stone cross the gaps; the wind sings in a ring of hollow stones. In the south-east the Eye of the Winds, a ring of standing stones where the test of Air waits; from it the Stair of Wind climbs to the Sleeper&#x27;s Aerie, the highest island, where the Air Sleeper dreams.</p><table><tr><th>Figure</th><th>Plan</th><th></th></tr>
+<tr><td>Form</td><td>islands in open sky</td><td></td></tr>
+<tr><td>Room</td><td>26 x 26 cells; floors 21.8 x 20.2</td><td></td></tr>
+<tr><td>Walkable floor (S 7-20, M 30-90 M units)</td><td>45.0 M</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sky gaps</td><td>unbridged min 1,801; bridges 1,487-3,717</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Placed hostiles (30)</td><td>30 = 27 in 10 groups + 3 in the test</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Levels (55-70, guardian 75)</td><td>55-75, mean 60.3</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Kill XP per member (31.0k)</td><td>32.04k (+3.3 %)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>First fight (1,500-4,000)</td><td>2,947</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Quiet arrival</td><td>0 on the landing</td><td><span class="ok">ok</span></td></tr>
+<tr><td>POIs (C8: 10-12)</td><td>10 (median spacing 1,498)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Chests (C8: 2)</td><td>2 (T6) + 1 find</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Hazard cells (source 9)</td><td>9, 0 on the walk</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Walk: arrival &gt; test &gt; sleeper &gt; out</td><td>7,355 + 8,663 + 1,669 = 17,687 (46 s)</td><td></td></tr>
+<tr><td>Textures (S cap 30, 4 new)</td><td>about 14, 2 new (xpascorch, xpastone)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sky</td><td>plane_air (shipped)</td><td></td></tr>
+</table>
+<table style="margin-top:8px"><tr><th>Hostiles by row</th><th class="n">n</th><th class="n">XP each</th></tr>
+<tr><td>Lesser Air Elemental (11624)</td><td class="n">15</td><td class="n">3,575</td></tr>
+<tr><td>Air Elemental (11700)</td><td class="n">9</td><td class="n">4,464</td></tr>
+<tr><td>Whirlwind (11701)</td><td class="n">5</td><td class="n">5,600</td></tr>
+<tr><td>Sleeper&#x27;s Guardian of Air (11702)</td><td class="n">1</td><td class="n">6,375</td></tr>
+</table><h3>Hooks placed</h3><ul class="small"><li><code>m38.corner_air</code> (D7's north-east corner) drops the party onto <code>entrance:d7_fall</code></li><li><code>m38.plaque_air</code>: the statue's plaque (Step text)</li><li><code>m38.test_air</code>: 'Accept the test of Air?' at the pedestal; yes shows the guardians</li><li><code>m38.sleeper_air</code>: the couch, three states; awake sets m38.air and award 413</li><li>the way up and the return dais: exit presets to D7's <code>entrance:p2_return</code></li><li>new (A3): the map variable test_passed (the gate), the hazard line, device and find lines</li></ul></div>
+</div></div>
+<h2>Corner contract (corners.yml, unchanged) and the ways out</h2><div class="card"><table><tr><th>Plane</th><th>D7 corner</th><th>Hook</th><th>Arrives at</th><th>Returns to (D7)</th><th>Ways out (C5 default)</th><th>Falls</th></tr>
+<tr><td>P1 Fire</td><td>north-west (Sky A1)</td><td><code>m38.corner_fire</code></td><td><code>entrance:d7_fall</code> (C2: no damage)</td><td><code>entrance:p1_return</code></td><td>the way up (always) and the return dais (after the sleeper)</td><td>none (the crater wall)</td></tr>
+<tr><td>P2 Air</td><td>north-east (Sky F1)</td><td><code>m38.corner_air</code></td><td><code>entrance:d7_fall</code> (C2: no damage)</td><td><code>entrance:p2_return</code></td><td>the way up (always) and the return dais (after the sleeper)</td><td>caught: back to entrance:d7_fall (Q1)</td></tr>
+</table></div>
+<h2>Open questions (drawn on the defaults)</h2><div class="cols2"><div class="card"><h3>Common to all four (asked once, in P1's NOTES)</h3><ol class="q" style="list-style:none;padding-left:0">
+<li><b>C1 The plane as a map: size and form.</b> (a) One compact open-air BLV per plane (X9&#x27;s and P5&#x27;s route), a room of 26 x 26 cells with about 45-50 M units of walkable floor: a small M dungeon by floor and monsters, one element&#x27;s form each (Fire a lava crater, Air islands in open sky, Earth the `xeen_plane_earth` bowl, Water a flooded hall). (b) Smaller, S class (at most 20 M units, 15 sectors): the test and the chamber only. (c) MM8&#x27;s way: whole ODMs (1 ODM each). <i>Evidence:</i> MAPS §3: &#x27;S-M dungeon scale each; MM8&#x27;s planes were whole ODMs; these are deliberately small&#x27;. The source&#x27;s planes are 16 x 16 squares each, the same as a dungeon level. 30 monsters sit between S (15-30) and M (45-75). <b>Default: (a)</b> <i>Depends:</i> L2 geometry, the texture class (S cap 30), the walking length.</li>
+<li><b>C2 The arrival from D7: falling damage.</b> (a) None: the party lands standing on the arrival shelf (`entrance:d7_fall`); the drop is told by D7&#x27;s corner text (&#x27;You step off.&#x27;). (b) A short real fall: the party appears 768 above the shelf and takes the engine&#x27;s falling damage (Feather Fall none), D-6.2&#x27;s &#x27;a third of HP at most&#x27; rule. (c) Damage by script, one line. <i>Evidence:</i> The source&#x27;s corner square moves the party to the plane&#x27;s run position with no damage. D-6.2 and D-56 test every sky fall for survivability; a fall into an unknown arena would add a test per plane. <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s corner hooks (m38.corner_x) and D7&#x27;s corner script; the plane&#x27;s arrival test.</li>
+<li><b>C3 What the test of the element is.</b> (a) &#x27;Accept the test of X?&#x27; (A3&#x27;s m38.test_x) raises the guardians in the arena: the Sleeper&#x27;s Guardian (75) and two Greater elementals (70), the source&#x27;s own beast; killing the three passes the test (a map variable) and opens the gate to the sleeper&#x27;s chamber. Declining does nothing. (b) The source&#x27;s test: accepting costs every member 2,500 damage of the element (resistance applies; at party level 56-60 that kills); the guardians stand in the arena from the start. (c) (a), and the guardians also stand in the arena before the test (no click needed). <i>Evidence:</i> Source maze0025/26: the test square asks &#x27;Accept the test of Fire?&#x27; and deals 2,500 fire (2,500 electric on Air), setting a flag that stops the chest burning. m38.yml: &#x27;Yes calls the hook, the map opens the test (its arena and guardians)&#x27;. MAPS: &#x27;sleepers&#x27; guardians 75&#x27;. <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s m38.test_x text and the passed flag; A2&#x27;s guardian rows; the arena&#x27;s wiring.</li>
+<li><b>C4 What the passed test opens.</b> (a) The gate to the sleeper&#x27;s chamber, where the couch and the test&#x27;s chest stand: the test is the way to the sleeper. (b) The chest only, as the source (its chest burns until the test is passed); the sleeper&#x27;s chamber is open from the start. (c) Both separately: the chamber open, the chest sealed in the arena until the test. <i>Evidence:</i> The source&#x27;s sleeper does not check the test; only the chest does. The family names the guardians &#x27;Sleeper&#x27;s Guardian&#x27;. m38.sleeper_x needs only Chosen One and M37&#x27;s four reflectors. <b>Default: (a): the guardian guards the sleeper; one gate, no burning chest to explain.</b> <i>Depends:</i> The chamber gate (a door with a state), A3 (no new hook: the gate reads the map variable).</li>
+<li><b>C5 The way out (corners.yml default_way_out).</b> (a) Two ways, both to D7&#x27;s `entrance:pN_return` by the corner&#x27;s rest stop: the way up at the arrival, always open (the source&#x27;s exit square, a fall back to its Skyroad corner), and the sleeper&#x27;s return dais, shown once the sleeper is awake (no walk back). (b) The return dais only, after the sleeper (the corners.yml default as written); Town Portal and Lloyd&#x27;s Beacon before. (c) The way up only (the source). <i>Evidence:</i> maze0025 (13,2) and maze0026 (2,2) are fall squares to Skyroad A1 (3,13) and F1 (12,13): the source&#x27;s way back is always open. A party that cannot pass the test must not be stuck. <b>Default: (a)</b> <i>Depends:</i> D7&#x27;s p1_return ... p4_return arrivals; one exit preset per way (D-24).</li>
+<li><b>C6 The guardians and the greater elementals: rows and names.</b> (a) One family per element: A2 adds Air, Earth and Water rows for B (62), C (70) and the Sleeper&#x27;s Guardian (75) beside Fire&#x27;s 11621-11623 (11624-11626 exist as XD-19&#x27;s lesser elementals at 55), named as the family (&#x27;Greater Air Elemental&#x27;). (b) As (a), with the source&#x27;s names on the C rows: Fire Blower, Whirlwind, Earth Blaster, Tidal Terror. (c) One neutral Sleeper&#x27;s Guardian row for all four planes, skinned by element. <i>Evidence:</i> monsters.yml: the family is Fire-typed (11620-11623); XD-19&#x27;s lesser elementals of the other three elements exist (D-47). XEEN_SYSTEMS: the source&#x27;s planes hold eight of one greater elemental each. <b>Default: (b): the names are the source&#x27;s and read well in the Xeen voice.</b> <i>Depends:</i> A2&#x27;s rows; S&#x27;s skins (MM6&#x27;s air, MM7&#x27;s water and earth elementals as in D-47).</li>
+<li><b>C7 The sleepers and the statues: what stands there.</b> (a) One sleeper model for all four (a giant of the element lying in an Ancient stasis couch, its element in the couch&#x27;s glow), four skins; one statue model per element on a common plinth with the plaque (S). (b) The sleeper as a peaceful placed figure (an A2 row, unkillable as D-51) on a plain couch. (c) Decorations from shipped MM6-MM8 statues only. <i>Evidence:</i> Source: the same object sprite (46) for all four sleepers and (40) for all four statues; the sleepers speak of a &#x27;Grunfeld field generator&#x27; (Ancient technology). <b>Default: (a)</b> <i>Depends:</i> S models (4 statues, 1 sleeper with 4 skins, the couch, the pedestal, the dais).</li>
+<li><b>C8 Points of interest and chests per plane.</b> (a) The sparse-special band: 10-12 POIs (MAP_CRAFT §6: sparse special maps at least 10) and 2 chests (S&#x27;s 0-3; MM8&#x27;s planes 0-2): the test&#x27;s chest and one trapped cache, each with a reason, plus one find (a camp, a wreck) and one buff device. (b) The source: the test, the statue, the sleeper and one chest (4-5 POIs, 1 chest). (c) MM8&#x27;s planes: 0-3 POIs, 0-2 chests. <i>Evidence:</i> MM8 elemf 3 POIs and 2 chests, elema 1 and 1, elemw 0 and 0 (MAP_CRAFT_CALIBRATION); the source has one chest a plane. <b>Default: (a)</b> <i>Depends:</i> The census in totals; A2 treasure 6.</li>
+</ol></div><div class="card">
+<h3>P1</h3><ol class="q" style="list-style:none;padding-left:0">
+<li><b>P1 Q1 The lava: how much it hurts and how the party gets out.</b> (a) The lava is the floor: `lavtyl` faces burn as MM&#x27;s lava (fire damage while standing in it, Levitate none); every causeway and shelf edge within 64 of the lava has a crust bank to walk out; the raised shelves have ramps. (b) Lava kills (a death trigger, as the world rim). (c) Lava is decoration under invisible walls. <i>Evidence:</i> D-40/D6: `lavtyl`, never water, burns. The engine burns a floor face named lava*/lavtyl (IndoorMovementController) and Levitate lifts the party (as MM8). <b>Default: (a)</b> <i>Depends:</i> L2 banks and ramps; the measure lava_bank_max.</li>
+<li><b>P1 Q2 The vents.</b> (a) Nine small floor faces with the source&#x27;s rule (1 in 3: 50 fire to each member), marked by a glowing crack texture; five in the Vent Field, four on the loops; none on the critical causeways. (b) Vents erupt on a timer (a set piece every few seconds) with a visible spurt. (c) No vents. <i>Evidence:</i> maze0025: nine squares call one event: random 1-3, on 3 Damage 50 fire. <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s line; A1&#x27;s floor-event check; the new texture xpfvent.</li>
+<li><b>P1 Q3 Sky.</b> (a) MM8&#x27;s shipped `plane_fire` (engine library) by name. (b) A new Xeen preset `xeen_plane_fire` (A6): plane_fire with a lower ember glow and slow-drifting ash clouds. (c) The Darkside amber day (xeendark1). <i>Evidence:</i> WORLD_DESIGN §4: the planes&#x27; themes are plane_fire, plane_air, underwater and a new earth preset. plane_fire has no sun and no stars: a timeless plane. <b>Default: (a): shipped and cheapest to reverse.</b> <i>Depends:</i> atmosphere.yml; A6&#x27;s sky file.</li>
+</ol>
+<h3>P2</h3><ol class="q" style="list-style:none;padding-left:0">
+<li><b>P2 Q1 Falls off the islands.</b> (a) In the map: below -1,500 the wind throws the party back onto the Gale Landing (entrance:d7_fall) with falling damage (D-6.2&#x27;s rule); the test and the plane are not lost. (b) Out to D7&#x27;s entrance:p2_return with falling damage (as the way up, the hard way). (c) To the surface under D7&#x27;s north-east corner (D6), as every sky map falls to its surface. <i>Evidence:</i> The plane is not over the world: the source has no fall from it but its exit square (to Skyroad F1). X8, X9 and P5 fall to the surface because they hang over it. <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s Xeen.skyFall with an in-map target; P2&#x27;s fall tests (D-54&#x27;s shape).</li>
+<li><b>P2 Q2 The storm cells.</b> (a) Nine scorched floor faces with the source&#x27;s rule (1 in 3: 50 electrical to each member); none on bridges or in the Eye. (b) Lightning on a timer at the storm cairn only (a set piece). (c) None. <i>Evidence:</i> maze0026: nine squares call one event: random 1-3, on 3 Damage 50 type 3 (electrical). <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s line; xpascorch; A1&#x27;s floor-event check.</li>
+<li><b>P2 Q3 Sky.</b> (a) MM8&#x27;s shipped `plane_air` (engine library) by name: below_horizon sky. (b) `xeencloud` (xeen_cloud_sea) as every Xeen sky map. (c) A new Xeen preset `xeen_plane_air` (A6): plane_air with no cloud sea below, only blue. <i>Evidence:</i> WORLD_DESIGN §4 names plane_air for the plane. The plane must not look like X8/X9/D7&#x27;s cloud sea: there is no world under it. <b>Default: (a)</b> <i>Depends:</i> atmosphere.yml; A6&#x27;s sky file.</li>
+<li><b>P2 Q4 Only elementals on P2?.</b> (a) Yes: Lesser Air Elementals (55), Air Elementals (62), Greater Air Elementals (70), as the source (eight Whirlwinds); variety from the islands and the storm. (b) Add a pair of Sky Golems (11594, 75) guarding the Stair of Wind&#x27;s foot (over the band). (c) Add Cloud Golems (11592, 50) as the A tier (under the band). <i>Evidence:</i> monsters.yml: no other Air family at 55-70; rocs and griffins stop at 48. <b>Default: (a)</b> <i>Depends:</i> A2&#x27;s rows (C6); kill XP.</li>
+</ol>
+</div></div>
+<h2>Requests</h2><div class="card"><table><tr><th>Lane</th><th>For</th><th>What</th></tr>
+<tr><td>A2</td><td>all four</td><td>landed 2026-11-21: map_stats rows 9115-9118 as D-58&#x27;s ROWS, the nine C6 rows (Air 11700-11702, Water 11710-11712, Earth 11720-11722) and the Fire family&#x27;s new names (11620-11623); nothing more asked but treasure 6 for the two chests a plane.</td></tr>
+<tr><td>A3</td><td>all four</td><td>written by the sixteenth session&#x27;s start: m38.test_&lt;element&gt;_passed (qbits 111764-111767, through Xeen.planeTestCheck), m38.way_up_&lt;element&gt; and m38.dais_&lt;element&gt; (the exit presets&#x27; lines), Xeen.toPlane and Xeen.PlaneArrivals (C2), SkyFalls `p2`, and source/npcs/planes.yml (hazards, devices, finds, notes); still asked: ORIGINAL_LINES rows aaze0025:0, 2-8 and aaze0026-0028:0-7.</td></tr>
+<tr><td>S</td><td>all four</td><td>C7: one sleeper and one couch with four element skins, four statues from the elemental models on one plinth with a plaque, the pedestal and the dais (P5&#x27;s disc in each element&#x27;s stone), the way-up effects, the per-plane devices; the nine elemental tier skins (C6). Until they land, L4 builds their spots by name and marks them blocked (no stand-ins).</td></tr>
+<tr><td>D7</td><td>all four</td><td>the four corners&#x27; drops land on entrance:d7_fall here (Xeen.PlaneArrivals, A3); both ways out land on D7&#x27;s entrance:pN_return by the corner&#x27;s rest stop (corners.yml), facing the road.</td></tr>
+<tr><td>A1</td><td>all four</td><td>confirm only (D-58 relays 1, 2 and 4): hidden placed actors shown mid-visit in an open-air BLV, PressurePlate faces in an open-air sector, water volumes, constant currents and swimmers under an open-air BLV&#x27;s outdoor view.</td></tr>
+<tr><td>O</td><td>all four</td><td>openAirMaps for P1-P4 at install; MAPS §0 and §3&#x27;s P rows as D-58&#x27;s ROWS AND NUMBERS.</td></tr>
+<tr><td>A2</td><td>P1</td><td>row 9115: environment mountains, music 10; Lava Golem 11593 used at 55 (5 placed).</td></tr>
+<tr><td>A6</td><td>P1</td><td>new textures xpfvent and xpfglass (Q2), registered in source/textures.yml; plane_fire or a Xeen preset (Q3).</td></tr>
+<tr><td>S</td><td>P1</td><td>the statue of Fire; the Ember Font (a basin of liquid fire); the fire-walker&#x27;s camp (bedroll, kettle).</td></tr>
+<tr><td>A2</td><td>P2</td><td>row 9116: environment plains, music 9; the Air rows of C6 (62, 70, the guardian 75); Lesser Air Elemental 11624 used on P2 (15 placed).</td></tr>
+<tr><td>A6</td><td>P2</td><td>new textures xpascorch and xpastone, registered; plane_air or a Xeen preset (Q3).</td></tr>
+<tr><td>S</td><td>P2</td><td>the statue of Air; the Singing Stones (a ring of hollow standing stones); the wrecked basket; the Eye&#x27;s twelve standing stones (shipped menhirs if they fit).</td></tr>
+</table></div></main></body></html>

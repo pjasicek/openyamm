@@ -1,0 +1,1204 @@
+format: 0
+start:
+  room: room:gate_w
+  at: [0, -64]
+  facing: n
+  notes: "Inside the west fort's gate from D2's entrance:dd13_west, facing in (north): the blockhouse's double door ahead."
+doors:
+  - id: door:bunks_w
+    opening: open:hallw_bunks
+    kind: hinged
+    thickness: 24
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    notes: The bunkhouse's plank door.
+  - id: door:gate_e
+    opening: open:gate_e
+    kind: slide_left
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The east fort's log gate: two plank leaves that part in the middle."
+  - id: door:gate_w
+    opening: open:gate_w
+    kind: slide_left
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The west fort's log gate: two plank leaves (gkp103a/gkp103b, a mirrored pair) that part in the middle."
+  - id: door:graalg
+    opening: open:halle_graalg
+    kind: hinged
+    thickness: 24
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    notes: Graalg's plank door.
+  - id: door:graalg_trap
+    opening: open:graalg_cellar
+    kind: hinged
+    hinge: west
+    swing: 95
+    thickness: 16
+    surface: {texture: gkp1ceil, size: [256, 256]}
+    back_surface: {texture: gkp1ceil, size: [256, 256]}
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    notes: "Graalg's trapdoor: hinged on the hole's west side, it swings down into the east cellar clear of the ladder on the east."
+  - id: door:hall_e
+    opening: open:halle_gate
+    kind: slide_left
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "Graalg's hall's double door: two leaves that part in the middle."
+  - id: door:hall_w
+    opening: open:gatew_hall
+    kind: slide_left
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The west blockhouse's double door: two leaves that part in the middle."
+  - id: door:kennel
+    opening: open:halle_kennel
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: xopalis, size: [128, 256]}
+    tile: true
+    notes: "The kennel's gate of lashed logs (xopalis): it folds up into the lintel. (The see-through pole gate xopoles shows magenta speckle through its holes, as in XD-05: not used.)"
+  - id: door:plunder_trap
+    opening: open:plunder_cellar
+    kind: hinged
+    hinge: east
+    swing: 95
+    thickness: 16
+    surface: {texture: gkp1ceil, size: [256, 256]}
+    back_surface: {texture: gkp1ceil, size: [256, 256]}
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    notes: "The plunder store's trapdoor: hinged on the hole's east side, it swings down into the west cellar clear of the ladder on the west."
+  - id: door:plunder_w
+    opening: open:hallw_plunder
+    kind: hinged
+    thickness: 24
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: t66abc10a, size: [32, 128]}
+    notes: The plunder store's plank door.
+ladders:
+  - {id: ladder:bunks, room: room:cellar_w, at: [1958, 1472], facing: e, height: 512, floor_height: -512, exit: [2080, 1472], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: A pole ladder up the cellar's east wall into the bunkhouse.}
+  - {id: ladder:graalg, room: room:cellar_e, at: [5734, -1120], facing: e, height: 512, floor_height: -512, exit: [5856, -1120], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: A pole ladder up the cellar's north-east arm to Graalg's trapdoor.}
+  - {id: ladder:plunder, room: room:cellar_w, at: [-1958, 1472], facing: w, height: 512, floor_height: -512, exit: [-2080, 1472], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: A pole ladder up the cellar's west wall to the plunder store's trapdoor.}
+sounds:
+  - {id: sound:blaze_e, room: room:hall_e, at: [7552, -1856], floor_height: 24, sound: raging fire loop, radius: 3600, inner_radius: 1400, volume: 0.9, on: false, notes: The east fort burning.}
+  - {id: sound:blaze_w, room: room:hall_w, at: [0, 1856], floor_height: 24, sound: raging fire loop, radius: 3600, inner_radius: 1400, volume: 0.9, on: false, notes: The west fort burning.}
+  - {id: sound:drip, room: room:run, at: [2944, -192], sound: drip01, radius: 1400, inner_radius: 400, volume: 0.5, loop: false, wait: [3, 8], notes: Water through the run's timbers.}
+  - {id: sound:pit_e, room: room:hall_e, at: [7552, -1856], floor_height: 24, sound: campfire, radius: 2000, inner_radius: 600, volume: 0.7, notes: Graalg's fire.}
+  - {id: sound:pit_w, room: room:hall_w, at: [0, 1856], floor_height: 24, sound: campfire, radius: 2000, inner_radius: 600, volume: 0.7, notes: The west hall's fire.}
+  - {id: sound:wind_e, room: room:gateway_e, at: [7552, 500], sound: whistling wind, radius: 1200, inner_radius: 300, volume: 0.4, notes: The wind over the pass at the gateway.}
+  - {id: sound:wind_w, room: room:gateway_w, at: [0, -500], sound: whistling wind, radius: 1200, inner_radius: 300, volume: 0.4, notes: The wind over the pass at the gateway.}
+lights:
+  - id: light:blaze_e
+    room: room:hall_e
+    at: [7552, -1856]
+    floor_height: 24
+    height: 120
+    radius: 2600
+    color: [255, 140, 50]
+    pulse: {intensity: [0.7, 1], frequency: 1.5}
+    on: false
+    notes: "The burn: the pit's fire roaring up into the burning roof."
+  - id: light:blaze_e_ea
+    room: room:hall_e
+    at: [8424, -1440]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.6}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_e_n
+    room: room:hall_e
+    at: [7552, -664]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.4}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_e_s
+    room: room:hall_e
+    at: [7952, -2216]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.4}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_e_we
+    room: room:hall_e
+    at: [6680, -1440]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.6}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_w
+    room: room:hall_w
+    at: [0, 1856]
+    floor_height: 24
+    height: 120
+    radius: 2600
+    color: [255, 140, 50]
+    pulse: {intensity: [0.7, 1], frequency: 1.5}
+    on: false
+    notes: "The burn: the pit's fire roaring up into the burning roof."
+  - id: light:blaze_w_ea
+    room: room:hall_w
+    at: [872, 1440]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.6}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_w_n
+    room: room:hall_w
+    at: [0, 2216]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.4}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_w_s
+    room: room:hall_w
+    at: [400, 664]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.4}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:blaze_w_we
+    room: room:hall_w
+    at: [-872, 1440]
+    height: 240
+    radius: 1400
+    color: [255, 130, 40]
+    pulse: {intensity: [0.6, 1], frequency: 1.6}
+    on: false
+    notes: "The burn: the wall ablaze (a light on the burning wall)."
+  - id: light:day_e
+    room: room:gateway_e
+    at: [7552, 552]
+    height: 200
+    radius: 420
+    color: [96, 88, 76]
+    notes: The Darkside's dim daylight from the open gateway (on its wall).
+  - id: light:day_w
+    room: room:gateway_w
+    at: [0, -552]
+    height: 200
+    radius: 420
+    color: [96, 88, 76]
+    notes: The Darkside's dim daylight from the open gateway (on its wall).
+  - id: light:embers_e
+    room: room:hall_e
+    at: [7552, -1856]
+    floor_height: 24
+    height: 48
+    radius: 800
+    color: [220, 80, 30]
+    pulse: {intensity: [0.8, 1], frequency: 0.3}
+    on: false
+    notes: Embers in the pit after the burn.
+  - id: light:embers_w
+    room: room:hall_w
+    at: [0, 1856]
+    floor_height: 24
+    height: 48
+    radius: 800
+    color: [220, 80, 30]
+    pulse: {intensity: [0.8, 1], frequency: 0.3}
+    on: false
+    notes: Embers in the pit after the burn.
+  - id: light:pit_e
+    room: room:hall_e
+    at: [7552, -1856]
+    floor_height: 24
+    height: 88
+    radius: 1600
+    color: [255, 150, 70]
+    pulse: {intensity: [0.75, 1], frequency: 0.9}
+    notes: The fire in the pit (off once the fort has burned).
+  - id: light:pit_w
+    room: room:hall_w
+    at: [0, 1856]
+    floor_height: 24
+    height: 88
+    radius: 1600
+    color: [255, 150, 70]
+    pulse: {intensity: [0.75, 1], frequency: 0.9}
+    notes: The fire in the pit (off once the fort has burned).
+  - id: light:sky_bunks_w
+    room: room:bunks_w
+    at: [1600, 1408]
+    height: 488
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_gate_e
+    room: room:gate_e
+    at: [7552, -160]
+    height: 488
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_gate_w
+    room: room:gate_w
+    at: [0, 160]
+    height: 488
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_gateway_e
+    room: room:gateway_e
+    at: [7552, 448]
+    height: 424
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_gateway_w
+    room: room:gateway_w
+    at: [0, -448]
+    height: 424
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_graalg
+    room: room:graalg
+    at: [5952, -832]
+    height: 488
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_hall_e
+    room: room:hall_e
+    at: [7552, -1856]
+    floor_height: 0
+    height: 680
+    radius: 1700
+    color: [128, 120, 108]
+    on: false
+    notes: The Darkside's dim daylight down through the open smoke hole (the burned stage).
+  - id: light:sky_hall_w
+    room: room:hall_w
+    at: [0, 1856]
+    floor_height: 0
+    height: 680
+    radius: 1700
+    color: [128, 120, 108]
+    on: false
+    notes: The Darkside's dim daylight down through the open smoke hole (the burned stage).
+  - id: light:sky_kennel_e
+    room: room:kennel_e
+    at: [6300, -1856]
+    height: 424
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:sky_plunder_w
+    room: room:plunder_w
+    at: [-1600, 1408]
+    height: 488
+    radius: 1000
+    color: [118, 110, 100]
+    on: false
+    notes: The Darkside's dim daylight through the burnt roof (the burned stage).
+  - id: light:torch_bunks_s
+    room: room:bunks_w
+    at: [1900, 856]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_bunks_w
+    room: room:bunks_w
+    at: [1900, 1960]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cellar_e_s
+    room: room:cellar_e
+    at: [4700, -2216]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cellar_e_w
+    room: room:cellar_e
+    at: [4120, -1600]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cellar_w_n1
+    room: room:cellar_w
+    at: [-1200, 1768]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cellar_w_n2
+    room: room:cellar_w
+    at: [300, 1768]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cellar_w_s
+    room: room:cellar_w
+    at: [-400, 1176]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_e_e
+    room: room:gate_e
+    at: [8040, -160]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_e_w
+    room: room:gate_e
+    at: [7064, -160]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_w_e
+    room: room:gate_w
+    at: [488, 160]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_w_w
+    room: room:gate_w
+    at: [-488, 160]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_graalg_e
+    room: room:graalg
+    at: [6504, -500]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_graalg_n
+    room: room:graalg
+    at: [5800, -344]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gwy_e_e
+    room: room:gateway_e
+    at: [7912, 448]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gwy_e_w
+    room: room:gateway_e
+    at: [7192, 448]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gwy_w_e
+    room: room:gateway_w
+    at: [360, -448]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gwy_w_w
+    room: room:gateway_w
+    at: [-360, -448]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_e_e
+    room: room:hall_e
+    at: [8424, -1800]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_e_ne
+    room: room:hall_e
+    at: [8160, -664]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_e_nw
+    room: room:hall_e
+    at: [6944, -664]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_e_w
+    room: room:hall_e
+    at: [6680, -2050]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_w_e
+    room: room:hall_w
+    at: [872, 1900]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_w_se
+    room: room:hall_w
+    at: [600, 664]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_w_sw
+    room: room:hall_w
+    at: [-600, 664]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_w_w
+    room: room:hall_w
+    at: [-872, 1900]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_kennel_e
+    room: room:kennel_e
+    at: [6300, -1496]
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_loot_w
+    room: room:loot_cave
+    at: [2584, 500]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_plunder_e
+    room: room:plunder_w
+    at: [-1048, 1700]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_plunder_n
+    room: room:plunder_w
+    at: [-1600, 1960]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_run_n1
+    room: room:run
+    at: [2700, -56]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_run_s1
+    room: room:run
+    at: [3500, -328]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+chests:
+  - id: chest:loot
+    room: room:loot_cave
+    at: [2720, 740]
+    kind: gt002
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 500
+    notes: The Sardaj's spoils the brutes sit on.
+  - id: chest:plunder
+    room: room:plunder_w
+    at: [-2064, 1900]
+    kind: gt002
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    notes: Kramer's strongbox among his stolen cargo.
+  - id: chest:strongbox
+    room: room:graalg
+    at: [5520, -416]
+    kind: gt002
+    facing: s
+    treasure_level: 3
+    random_items: 1
+    gold: 800
+    items: [energy_disk, energy_disk]
+    notes: "Graalg's strongbox: the Sardaj's 2 Energy Disks (q-d11.fort_search), barred after a peace."
+monsters:
+  - id: monster:bunks_w_1
+    room: room:bunks_w
+    monster: 11066
+    at: [1250, 1200]
+    facing: 90
+    group: 10
+  - id: monster:bunks_w_2
+    room: room:bunks_w
+    monster: 11066
+    at: [1600, 1250]
+    facing: 180
+    group: 10
+  - id: monster:bunks_w_3
+    room: room:bunks_w
+    monster: 11066
+    at: [1300, 1600]
+    facing: 270
+    group: 10
+  - id: monster:bunks_w_4
+    room: room:bunks_w
+    monster: 11066
+    at: [1700, 1650]
+    facing: 180
+    group: 10
+  - id: monster:cellar_e_1
+    room: room:cellar_e
+    monster: 11066
+    at: [4600, -1200]
+    facing: 90
+    group: 14
+  - id: monster:cellar_e_2
+    room: room:cellar_e
+    monster: 11067
+    at: [4500, -1800]
+    facing: 0
+    group: 14
+  - id: monster:cellar_e_3
+    room: room:cellar_e
+    monster: 11067
+    at: [4900, -2000]
+    facing: 0
+    group: 14
+  - id: monster:cellar_w_1
+    room: room:cellar_w
+    monster: 11066
+    at: [-1100, 1500]
+    facing: 0
+    group: 12
+  - id: monster:cellar_w_2
+    room: room:cellar_w
+    monster: 11066
+    at: [0, 1400]
+    facing: 90
+    group: 12
+  - id: monster:cellar_w_3
+    room: room:cellar_w
+    monster: 11066
+    at: [900, 1550]
+    facing: 180
+    group: 12
+  - id: monster:graalg_1
+    room: room:graalg
+    monster: 11068
+    at: [6100, -900]
+    facing: 180
+    group: 17
+  - id: monster:graalg_2
+    room: room:graalg
+    monster: 11068
+    at: [6250, -1150]
+    facing: 180
+    group: 17
+  - id: monster:kennel_e_1
+    room: room:kennel_e
+    monster: 11413
+    at: [5750, -1700]
+    facing: 0
+    group: 16
+  - id: monster:kennel_e_2
+    room: room:kennel_e
+    monster: 11413
+    at: [6050, -1950]
+    facing: 0
+    group: 16
+  - id: monster:kennel_e_3
+    room: room:kennel_e
+    monster: 11413
+    at: [6250, -1700]
+    facing: 0
+    group: 16
+  - id: monster:kennel_e_4
+    room: room:kennel_e
+    monster: 11413
+    at: [5850, -2050]
+    facing: 0
+    group: 16
+  - id: monster:loot_cave_1
+    room: room:loot_cave
+    monster: 11067
+    at: [2800, 450]
+    facing: 270
+    group: 15
+  - id: monster:loot_cave_2
+    room: room:loot_cave
+    monster: 11067
+    at: [3100, 500]
+    facing: 270
+    group: 15
+  - id: monster:loot_cave_3
+    room: room:loot_cave
+    monster: 11067
+    at: [2950, 250]
+    facing: 270
+    group: 15
+  - id: monster:plunder_w_1
+    room: room:plunder_w
+    monster: 11066
+    at: [-1650, 1150]
+    facing: 90
+    group: 11
+  - id: monster:plunder_w_2
+    room: room:plunder_w
+    monster: 11066
+    at: [-1500, 1650]
+    facing: 0
+    group: 11
+  - id: monster:run_1
+    room: room:run
+    monster: 11066
+    at: [1536, 650]
+    facing: 90
+    group: 13
+  - id: monster:run_2
+    room: room:run
+    monster: 11066
+    at: [2700, -192]
+    facing: 180
+    group: 13
+  - id: monster:run_3
+    room: room:run
+    monster: 11067
+    at: [3200, -192]
+    facing: 180
+    group: 13
+  - id: monster:run_4
+    room: room:run
+    monster: 11067
+    at: [4352, -680]
+    facing: 90
+    group: 13
+decorations:
+  - id: deco:bunks_bones
+    room: room:bunks_w
+    decoration: dec29
+    at: [2110, 1000]
+  - id: deco:bunks_trash
+    room: room:bunks_w
+    decoration: trasheap
+    at: [2080, 1900]
+  - id: deco:cellar_e_barrel_1
+    room: room:cellar_e
+    decoration: bigbarel
+    at: [4170, -2170]
+    floor_height: -512
+  - id: deco:cellar_e_barrel_2
+    room: room:cellar_e
+    decoration: bigbarel
+    at: [4250, -2170]
+    floor_height: -512
+  - id: deco:cellar_e_cask_1
+    room: room:cellar_e
+    decoration: 7dec21
+    at: [4170, -1700]
+    floor_height: -512
+  - id: deco:cellar_e_cask_2
+    room: room:cellar_e
+    decoration: 7dec21
+    at: [4170, -1780]
+    floor_height: -512
+  - id: deco:cellar_w_barrel_1
+    room: room:cellar_w
+    decoration: bigbarel
+    at: [-1700, 1730]
+    floor_height: -512
+  - id: deco:cellar_w_barrel_2
+    room: room:cellar_w
+    decoration: bigbarel
+    at: [-1620, 1730]
+    floor_height: -512
+  - id: deco:cellar_w_barrel_3
+    room: room:cellar_w
+    decoration: smlbarel
+    at: [700, 1730]
+    floor_height: -512
+  - id: deco:cellar_w_barrel_4
+    room: room:cellar_w
+    decoration: smlbarel
+    at: [780, 1730]
+    floor_height: -512
+  - id: deco:cellar_w_meat
+    room: room:cellar_w
+    decoration: trasheap
+    at: [-600, 1720]
+    floor_height: -512
+  - id: deco:embers_e
+    room: room:hall_e
+    decoration: dec24x
+    at: [7552, -1856]
+    floor_height: 24
+    hidden: true
+    inside: deco:fire_e
+    notes: "The fire burnt down to charred logs, their ends still glowing (shown once the fort has burned)."
+  - id: deco:embers_w
+    room: room:hall_w
+    decoration: dec24x
+    at: [0, 1856]
+    floor_height: 24
+    hidden: true
+    inside: deco:fire_w
+    notes: "The fire burnt down to charred logs, their ends still glowing (shown once the fort has burned)."
+  - id: deco:fire_e
+    room: room:hall_e
+    decoration: ckfyr00
+    at: [7552, -1856]
+    floor_height: 24
+    notes: The ogres' fire in its pit.
+  - id: deco:fire_w
+    room: room:hall_w
+    decoration: ckfyr00
+    at: [0, 1856]
+    floor_height: 24
+    notes: The ogres' fire in its pit.
+  - id: deco:graalg_bones
+    room: room:graalg
+    decoration: 7dec18
+    at: [6440, -1250]
+  - id: deco:graalg_goblet
+    room: room:graalg
+    decoration: 7dec46
+    at: [6400, -560]
+    floor_height: 40
+  - id: deco:hall_e_bones
+    room: room:hall_e
+    decoration: dec29
+    at: [6750, -720]
+  - id: deco:hall_e_skull
+    room: room:hall_e
+    decoration: sklplrev
+    at: [8360, -2160]
+  - id: deco:hall_w_bones
+    room: room:hall_w
+    decoration: 7dec18
+    at: [800, 2160]
+  - id: deco:kennel_bones_1
+    room: room:kennel_e
+    decoration: dec29
+    at: [5450, -2160]
+  - id: deco:kennel_bones_2
+    room: room:kennel_e
+    decoration: 7dec18
+    at: [6000, -2170]
+  - id: deco:kennel_bowl
+    room: room:kennel_e
+    decoration: foodbowl
+    at: [6460, -2160]
+  - id: deco:loot_bones
+    room: room:loot_cave
+    decoration: dec29
+    at: [3240, 160]
+    floor_height: -512
+  - id: deco:loot_skull
+    room: room:loot_cave
+    decoration: sklplrev
+    at: [2620, 160]
+    floor_height: -512
+  - id: deco:plunder_bag_1
+    room: room:plunder_w
+    decoration: bag_A
+    at: [-1700, 900]
+  - id: deco:plunder_bag_2
+    room: room:plunder_w
+    decoration: bag01
+    at: [-1800, 900]
+  - id: deco:plunder_barrel_1
+    room: room:plunder_w
+    decoration: bigbarel
+    at: [-1500, 1920]
+  - id: deco:plunder_barrel_2
+    room: room:plunder_w
+    decoration: bigbarel
+    at: [-1420, 1920]
+  - id: deco:plunder_barrel_3
+    room: room:plunder_w
+    decoration: smlbarel
+    at: [-1460, 1850]
+  - id: deco:plunder_plates
+    room: room:plunder_w
+    decoration: dec39
+    at: [-1880, 1920]
+  - id: deco:plunder_sack_1
+    room: room:plunder_w
+    decoration: floursac
+    at: [-2100, 1200]
+  - id: deco:plunder_sack_2
+    room: room:plunder_w
+    decoration: bag01
+    at: [-2090, 1320]
+  - id: deco:plunder_sack_3
+    room: room:plunder_w
+    decoration: floursac
+    at: [-1980, 1160]
+  - id: deco:run_bones
+    room: room:run
+    decoration: 7dec18
+    at: [3900, -300]
+    floor_height: -512
+  - id: deco:table_plates_1
+    room: room:hall_w
+    decoration: dec37
+    at: [-640, 2080]
+    floor_height: 68
+  - id: deco:table_plates_2
+    room: room:hall_w
+    decoration: dec36
+    at: [-460, 2090]
+    floor_height: 68
+  - id: deco:table_plates_3
+    room: room:hall_w
+    decoration: dec39
+    at: [-320, 2070]
+    floor_height: 68
+  - id: deco:torch_bunks_s
+    room: room:bunks_w
+    decoration: torch01
+    at: [1900, 832]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_bunks_w
+    room: room:bunks_w
+    decoration: torch01
+    at: [1900, 1984]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_cellar_e_s
+    room: room:cellar_e
+    decoration: torch01
+    at: [4700, -2240]
+    floor_height: -512
+    wall: south
+    height: 160
+  - id: deco:torch_cellar_e_w
+    room: room:cellar_e
+    decoration: torch01
+    at: [4096, -1600]
+    floor_height: -512
+    wall: west
+    height: 160
+  - id: deco:torch_cellar_w_n1
+    room: room:cellar_w
+    decoration: torch01
+    at: [-1200, 1792]
+    floor_height: -512
+    wall: north
+    height: 160
+  - id: deco:torch_cellar_w_n2
+    room: room:cellar_w
+    decoration: torch01
+    at: [300, 1792]
+    floor_height: -512
+    wall: north
+    height: 160
+  - id: deco:torch_cellar_w_s
+    room: room:cellar_w
+    decoration: torch01
+    at: [-400, 1152]
+    floor_height: -512
+    wall: south
+    height: 160
+  - id: deco:torch_gate_e_e
+    room: room:gate_e
+    decoration: torch01
+    at: [8064, -160]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_gate_e_w
+    room: room:gate_e
+    decoration: torch01
+    at: [7040, -160]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_gate_w_e
+    room: room:gate_w
+    decoration: torch01
+    at: [512, 160]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_gate_w_w
+    room: room:gate_w
+    decoration: torch01
+    at: [-512, 160]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_graalg_e
+    room: room:graalg
+    decoration: torch01
+    at: [6528, -500]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_graalg_n
+    room: room:graalg
+    decoration: torch01
+    at: [5800, -320]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_gwy_e_e
+    room: room:gateway_e
+    decoration: torch01
+    at: [7936, 448]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_gwy_e_w
+    room: room:gateway_e
+    decoration: torch01
+    at: [7168, 448]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_gwy_w_e
+    room: room:gateway_w
+    decoration: torch01
+    at: [384, -448]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_gwy_w_w
+    room: room:gateway_w
+    decoration: torch01
+    at: [-384, -448]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_hall_e_e
+    room: room:hall_e
+    decoration: torch01
+    at: [8448, -1800]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_hall_e_ne
+    room: room:hall_e
+    decoration: torch01
+    at: [8160, -640]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_hall_e_nw
+    room: room:hall_e
+    decoration: torch01
+    at: [6944, -640]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_hall_e_w
+    room: room:hall_e
+    decoration: torch01
+    at: [6656, -2050]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_hall_w_e
+    room: room:hall_w
+    decoration: torch01
+    at: [896, 1900]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_hall_w_se
+    room: room:hall_w
+    decoration: torch01
+    at: [600, 640]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_hall_w_sw
+    room: room:hall_w
+    decoration: torch01
+    at: [-600, 640]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_hall_w_w
+    room: room:hall_w
+    decoration: torch01
+    at: [-896, 1900]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_kennel_e
+    room: room:kennel_e
+    decoration: torch01
+    at: [6300, -1472]
+    wall: north
+    height: 160
+  - id: deco:torch_loot_w
+    room: room:loot_cave
+    decoration: torch01
+    at: [2560, 500]
+    floor_height: -512
+    wall: west
+    height: 160
+  - id: deco:torch_plunder_e
+    room: room:plunder_w
+    decoration: torch01
+    at: [-1024, 1700]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_plunder_n
+    room: room:plunder_w
+    decoration: torch01
+    at: [-1600, 1984]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_run_n1
+    room: room:run
+    decoration: torch01
+    at: [2700, -32]
+    floor_height: -512
+    wall: north
+    height: 160
+  - id: deco:torch_run_s1
+    room: room:run
+    decoration: torch01
+    at: [3500, -352]
+    floor_height: -512
+    wall: south
+    height: 160
+exits:
+  - id: exit:gate_e
+    room: room:gateway_e
+    wall: north
+    size: [512, 256]
+    surface: {texture: 7solid01, size: [256, 128], fit: true}
+    to: exit:d2_east
+    notes: The open gateway onto the yard and the pass road (D2).
+  - id: exit:gate_w
+    room: room:gateway_w
+    wall: south
+    size: [512, 256]
+    surface: {texture: 7solid01, size: [256, 128], fit: true}
+    to: exit:d2_west
+    notes: The open gateway onto the yard and the pass road (D2).
+destructibles:
+  - {id: destructible:hide_e1, of: panel:hide_e1, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_e2, of: panel:hide_e2, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_e3, of: panel:hide_e3, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_e4, of: panel:hide_e4, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_e5, of: panel:hide_e5, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_e6, of: panel:hide_e6, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w1, of: panel:hide_w1, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w2, of: panel:hide_w2, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w3, of: panel:hide_w3, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w4, of: panel:hide_w4, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w5, of: panel:hide_w5, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:hide_w6, of: panel:hide_w6, hp: 20, material: wood, notes: "A hide on the hall's wall: burns away with the hall."}
+  - {id: destructible:table_leg_1, of: platform:table_leg_1, hp: 40, material: wood, notes: "The long table: burns with the west hall."}
+  - {id: destructible:table_leg_2, of: platform:table_leg_2, hp: 40, material: wood, notes: "The long table: burns with the west hall."}
+  - {id: destructible:table_leg_3, of: platform:table_leg_3, hp: 40, material: wood, notes: "The long table: burns with the west hall."}
+  - {id: destructible:table_leg_4, of: platform:table_leg_4, hp: 40, material: wood, notes: "The long table: burns with the west hall."}
+  - {id: destructible:table_w, of: platform:table_w, hp: 40, material: wood, notes: "The long table: burns with the west hall."}

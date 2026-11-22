@@ -1,0 +1,23 @@
+{
+  "prompt": "# Xeen's Scepter: paint + material mask view atlas\n\nScope: image generation only. Write ONLY into `level_generation/props/items_xeen_claude/codex_tex/x12366/`. Do not edit any other file, do not run builds.\n\nInputs (attached):\n- `paint_mask_guide.png`: 1536x2048 transparent sheet, three columns by FOUR rows of 512x512 cells. Rows 1-2 and rows\n  3-4 hold the same five grey orthographic renders of the exact 3D model: FRONT, BACK, LEFT / RIGHT, TOP, empty.\n\nTask: use your built-in image generation tool to paint the guide sheet. Output ONE PNG with a transparent background\nand a 3:4 canvas (1536x2048 or the tool's nearest 3:4 size), the same layout, each object in exactly the same position,\nsize and outline as its grey guide. Paint the grey objects only; never redraw, enlarge, move or redesign them.\n\n- Rows 1-2 (PAINT): the unlit base colour of the item on each view: Xeen's Scepter: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes.\n- Rows 3-4 (MATERIAL MASK): the same five silhouettes filled with FLAT pure colours only, no shading, no texture, no\n  outlines, no antialiased colour blends inside:\n  - pure red #FF0000: every metal part (steel, iron, chain mail, gold, silver, bronze, copper, brass)\n  - pure green #00FF00: every leather part (straps, padding, hide, suede) and fur\n  - pure blue #0000FF: every cloth part (tabards, quilting, linings, cords, ribbons) and hair\n  - pure yellow #FFFF00: every matte non-metal solid (wood, bone, horn, stone, parchment, paper, wax)\n  - pure black #000000: every gemstone, crystal, glass, pearl, enamel or liquid seen through glass\n  Every pixel of each silhouette gets exactly one of these colours; nothing outside the silhouettes.\n- `design_reference.png`: the approved HD painting or master of the item, the material and detail reference.\n- `icon_x8.png`: the original game icon (magenta is background), the colour reference.\n\nObject: Xeen's Scepter: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes\n\n- Facets, engravings, scrollwork and inner swirls follow the design reference, scaled to each view.\n- Keep every gap and opening exactly as in the guide and fully transparent.\n- Unlit base colour only: no lighting, no cast shadows, no ambient occlusion, no hot highlights or reflections, no\n  glow halo, sparkles or aura outside the silhouette, no ground, no outlines, no text.\n- The empty cells (column 3 of row 2 and row 4) stay empty and transparent.\n\nSave the generated image (copy the file the tool produced) to `level_generation/props/items_xeen_claude/codex_tex/x12366/paint_mask_raw_v1.png` and write\n`generation_paint.json` (prompt, inputs with sha256, original output path, output, size). At most one corrective\nregeneration, only if the silhouettes or layout are clearly wrong.\n\nFirst image is the exact alpha stencil. Lock its 3x4 registration. The face-on view ONLY occupies the middle column of rows 2 and 4. Row 1/3 left and center appear as tiny narrow horizontal spike profiles. All nonempty views are centered in their cells. Use yellow for the matte stone dial with red gold hands and markers in the mask.\nCorrection: previous attempt enlarged spikes and shifted edges and added stray red pixels. Treat the first input's actual alpha as immutable including every spike and every transparent pixel. Flood-fill masks using exact RGB integer values (255,0,0) and (255,255,0) at full opacity, flat digital segmentation. No noisy fringes.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "14418caa2a54f3aa0026da77c3298a9bb4b51035f5fe6c16249529e5112d974a"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "351c04aefc4ffb6fb8ec5eb2c55d70d8aa730ee23be119c4846ae9c3d075e2a3"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "77032738dcad5697047dc44b32e076cd1600ec06448bbbb79a9ac03c1ec0fb25"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f923-530b-7222-b725-bcefade21159/exec-9bc26b52-0c8f-47d0-84e1-921577b94f51.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,78 @@
+# Xeen playthrough, segment 19: the deed to Newcastle and the Yak Stone (X3). West along Rivercity's road to X2's west
+# edge and over it into Lifeforce Lagoon; Ebenezer in his tent at the Newcastle site (Newcastle, Buy the deed: M8 for
+# 12,000 gold); Mirabeth on her rock in the lagoon (Elixir: Q-C12 started, the Yak Stone that opens the Temple of Yak).
+# Outdoors the party is placed beside each person and walks the edge (PLAYBOOK §2).
+# Routes: devdocs/xeen/briefs/x2/L4/playtest.yml (the west edge), x3/L4/playtest.yml (Ebenezer's tent, event 73).
+# Quest logic: source/quests/m8.yml, q-c12.yml.
+#   python3 tests/playthrough/xeen/run.py 19
+id: xeen.playthrough.19_the_deed
+title: "Xeen playthrough 19: Ebenezer sells the deed to Newcastle; Mirabeth gives the Yak Stone"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/17_rivercity.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - assert: {qbit_set: [111100]}
+  - assert: {qbit_clear: [111160, 110101]}
+  - play_lua: {source: "log('gold before the deed: ' .. gold()); if gold() < 12000 then log('BLOCKER gold: short by ' .. (12000 - gold()) .. ' for the deed after Q-C23, Q-C2, Q-C17, Q-C13, XD-27 and XD-21') end"}
+  # West along the road to the edge: the travel prompt names Lifeforce Lagoon.
+  - set_pose: {map: xeen_x2.odm, x: -16896, y: 12288, z: 576, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -20480, y: 12288, z: 768, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -24064, y: 12288, z: 1664, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert:
+      dialog: {active: true, title: "Lifeforce Lagoon"}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "close()"}
+  # Ebenezer's Tent at the Newcastle site (event 73, house 4101): Newcastle, Buy the deed (M8).
+  - set_pose: {map: xeen_x3.odm, x: 11776, y: 9216, z: 1100, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 73}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4101}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Newcastle"}
+  - assert:
+      dialog: {text_contains: "Only twelve thousand gold!"}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "Buy the deed"}
+  - assert:
+      dialog: {text_contains: "Thanks a lot! You won't regret your decision."}
+  - assert:
+      dialog: {action_label_absent: "Buy the deed"}
+  - select_topic: {match_label: "Newcastle"}
+  - assert:
+      dialog: {text_contains: "you should see the King's engineers. Emerson"}
+  - press_action: {action: cancel_dialog}
+  # Food for the road: the tent is a tavern, and packs fill to 14 days off X1 (D-29: an outdoor map move costs 5 food).
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Fill packs to"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not has_item(12303) then error("no deed from Ebenezer") end
+        local paid = recall("gold") - gold()
+        if paid < 12000 or paid > 12035 then error("the deed and the food cost " .. paid) end
+  - assert: {qbit_set: [111160]}
+  # Mirabeth on her rock in the lagoon (actor 15, NPC 4202): Elixir (Q-C12 started, the Yak Stone).
+  - set_pose: {map: xeen_x3.odm, x: 11059, y: -8404, z: 900, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "The temple's door is never locked."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        log("19 done: experience " .. experience(0) .. ", gold " .. gold())
+  - assert: {food: 14}
+  - assert: {qbit_set: [110101]}
+  - save_game: {name: "19 The deed", path: output/playthrough/xeen/checkpoints/19_the_deed.oysav}

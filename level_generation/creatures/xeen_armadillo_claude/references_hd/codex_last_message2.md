@@ -1,0 +1,3 @@
+Run 2 produced all four requested masters. Each is an unresized 1536×1024 transparent PNG with at least 69 px of visible clearance on every side. The [five-view review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/selected_views_review.png) includes the accepted three-quarter master. I appended all six generations to [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/generation_runs.json).
+
+Both profiles used their one corrective pass. Some claws still overlap in profile, and the exposed tail appears shorter in the right view than in the left.

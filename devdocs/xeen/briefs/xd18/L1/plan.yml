@@ -1,0 +1,561 @@
+format: 0
+level: L1
+pitch: 'The dragons'' cave in Mount Firestone''s black crag, behind the tax road: a tax office in its mouth whose inner door
+  throws out anyone who has not paid, the upper halls, a roost through both floors, a hall broken open on the stars at the
+  world''s rim, and the library of Dragon Lore before the Dragon King''s door.'
+purpose: 'Q-C25 The Dragon Tax (optional): Scaldrith''s tax (house 4852, tax_paid 112500) or the throw (q-c25.inner_door);
+  Dragon Lore 1-5 and The Art of Taxation (q-c25.volume1-5, taxation); the Dragon King 110 (optional boss). Party 60 to 64,
+  monsters 66-85 (40 placed, D-57 Q1), treasure 6.'
+mood: Sulphur, old smoke and the smell of something very large; the clerks' cold stone at the mouth, then rock blackened by
+  breath, wings moving in the dark below the ledge, starlight through a broken wall.
+datum: arrival
+spaces:
+- id: room:mouth
+  name: Cave mouth
+  kind: room
+  size: M
+  floor: 0
+  purpose: The arrival (entrance:x7_mouth), X7's daylight behind; the office's front ahead. Quiet (D-11.3).
+  empty: true
+- id: room:tax_hall
+  name: Tax office hall
+  kind: room
+  size: M
+  floor: 0
+  purpose: 'Scaldrith''s door (house 4852: the tax, Great Wyrm, the Dragon Grandmaster), the urn on the counter (q-c25.urn),
+    the inner door (q-c25.inner_door: tax_paid opens it for good, 118100; else the throw to X7). Quiet.'
+  empty: true
+- id: room:waiting
+  name: Waiting room
+  kind: room
+  size: S
+  floor: 0
+  purpose: Dragon Lore, volume 1 on the lectern (q-c25.volume1). Quiet.
+  empty: true
+- id: room:scorch
+  name: Scorched passage
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: A low passage (288) behind the inner door. Quiet.
+  empty: true
+- id: room:bone_hall
+  name: Bone hall
+  kind: room
+  size: L
+  floor: 0
+  purpose: Four Acid Dragons (a pair by the road that flies onto the ledge); the dragon road up onto the roost ledge.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 66
+    - 66
+    notes: 4 Acid Dragon 66 (placed).
+- id: room:hollows
+  name: Acid hollows
+  kind: room
+  size: M
+  floor: 0
+  purpose: Three Acid Dragons.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 66
+    - 66
+    notes: 3 Acid Dragon 66 (placed).
+- id: room:last
+  name: The last taxpayer
+  kind: room
+  size: S
+  floor: 0
+  purpose: A knight's remains and his strongbox (T6), the receipt (q-c25.receipt).
+  empty: true
+- id: room:vents
+  name: Sulphur vents
+  kind: room
+  size: M
+  floor: 0
+  purpose: Two Acid Dragons in the steam (the floor-0 loop).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 66
+    - 66
+    notes: 2 Acid Dragon 66 (placed).
+- id: room:crossing
+  name: Fire crossing
+  kind: room
+  size: M
+  floor: 0
+  purpose: A Fire Dragon pair.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Fire Dragon 75 (placed).
+- id: room:egg
+  name: Egg cave
+  kind: room
+  size: S
+  floor: 0
+  purpose: The nest, the mother, a chest (T6).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 75
+    - 75
+    notes: 1 Fire Dragon 75 (placed).
+- id: room:head
+  name: Stair head
+  kind: room
+  size: S
+  floor: 0
+  purpose: The low tunnel to the walked stair.
+  empty: true
+- id: room:stair
+  name: The walked stair
+  kind: room
+  size: S
+  floor: 0
+  purpose: 32 steps down 1,024 (D-47).
+  empty: true
+- id: room:foot
+  name: Stair foot
+  kind: room
+  size: S
+  floor: -1024
+  purpose: Low openings into the roost and to the pools.
+  empty: true
+- id: room:roost
+  name: The great roost
+  kind: room
+  size: L
+  floor: -1024
+  purpose: 'Set piece: 2,048 high through both floors, the floor-0 ledge and its lip; four Fire and two Frost Dragons below;
+    the bone hall''s road pair flies onto the ledge.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 75
+    - 75
+    notes: 4 Fire Dragon 75 (placed).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed).
+- id: room:pools
+  name: Steaming pools
+  kind: room
+  size: M
+  floor: -1024
+  purpose: Three Fire Dragons.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 75
+    - 75
+    notes: 3 Fire Dragon 75 (placed).
+- id: room:den
+  name: East den
+  kind: room
+  size: M
+  floor: -1024
+  purpose: Two Fire Dragons, a chest (T6).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Fire Dragon 75 (placed).
+- id: room:old_roost
+  name: Old roost
+  kind: room
+  size: M
+  floor: -1024
+  purpose: Three Fire Dragons (the floor -1 east loop).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 75
+    - 75
+    notes: 3 Fire Dragon 75 (placed).
+- id: room:ember
+  name: Ember gallery
+  kind: corridor
+  size: M
+  floor: -1024
+  purpose: A dragon road to the library's east leaves; a Fire pair.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Fire Dragon 75 (placed).
+- id: room:library
+  name: Library of Dragon Lore
+  kind: room
+  size: L
+  floor: -1024
+  purpose: 'Set piece and goal: shelves 2-4 (q-c25.volume2-4) and the ledger stand (q-c25.taxation); two Frost Dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed).
+- id: room:kings_door
+  name: The King's door
+  kind: room
+  size: S
+  floor: -1024
+  purpose: Shelf 5 (q-c25.volume5) by the King's low door. Quiet.
+  empty: true
+- id: room:throne
+  name: The Dragon King's hall
+  kind: room
+  size: L
+  floor: -1024
+  purpose: The Dragon King 110 on his dais of gold, two Frost Dragons.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 110
+    - 110
+    notes: 1 Dragon King 110 (placed).
+- id: room:hoard
+  name: The King's hoard
+  kind: room
+  size: S
+  floor: -1024
+  purpose: 'Behind the grate, open at the King''s death (118101): the King''s chest (T6).'
+  empty: true
+- id: room:starwell
+  name: The starwell
+  kind: room
+  size: L
+  floor: -1024
+  purpose: 'Set piece: the slot of stars (sky: true); three Frost Dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 85
+    - 85
+    notes: 3 Frost Dragon 85 (placed).
+- id: room:frost
+  name: Frost den
+  kind: room
+  size: M
+  floor: -1024
+  purpose: A Frost pair (the library loop).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed).
+- id: room:rime
+  name: Rime cave
+  kind: room
+  size: S
+  floor: -1024
+  purpose: Three Frost Dragons, a chest (T6).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 85
+    - 85
+    notes: 3 Frost Dragon 85 (placed).
+links:
+- id: link:mouth_hall
+  from: room:mouth
+  to: room:tax_hall
+  kind: open
+- id: link:hall_waiting
+  from: room:tax_hall
+  to: room:waiting
+  kind: double_door
+- id: link:hall_scorch
+  from: room:tax_hall
+  to: room:scorch
+  kind: double_door
+- id: link:scorch_bone
+  from: room:scorch
+  to: room:bone_hall
+  kind: open
+- id: link:bone_hollows
+  from: room:bone_hall
+  to: room:hollows
+  kind: open
+- id: link:hollows_last
+  from: room:hollows
+  to: room:last
+  kind: open
+- id: link:hollows_vents
+  from: room:hollows
+  to: room:vents
+  kind: open
+- id: link:bone_ledge
+  from: room:bone_hall
+  to: room:roost
+  kind: open
+- id: link:ledge_crossing
+  from: room:roost
+  to: room:crossing
+  kind: open
+- id: link:crossing_egg
+  from: room:crossing
+  to: room:egg
+  kind: open
+- id: link:crossing_head
+  from: room:crossing
+  to: room:head
+  kind: open
+- id: link:vents_head
+  from: room:vents
+  to: room:head
+  kind: open
+- id: link:stair_down
+  from: room:head
+  to: room:stair
+  kind: stairs
+- id: link:stair_foot
+  from: room:stair
+  to: room:foot
+  kind: stairs
+- id: link:foot_roost
+  from: room:foot
+  to: room:roost
+  kind: open
+- id: link:foot_pools
+  from: room:foot
+  to: room:pools
+  kind: open
+- id: link:pools_den
+  from: room:pools
+  to: room:den
+  kind: open
+- id: link:pools_old
+  from: room:pools
+  to: room:old_roost
+  kind: open
+- id: link:old_roost
+  from: room:old_roost
+  to: room:roost
+  kind: open
+- id: link:roost_ember
+  from: room:roost
+  to: room:ember
+  kind: open
+- id: link:roost_starwell
+  from: room:roost
+  to: room:starwell
+  kind: open
+- id: link:ember_library
+  from: room:ember
+  to: room:library
+  kind: double_door
+- id: link:starwell_frost
+  from: room:starwell
+  to: room:frost
+  kind: open
+- id: link:frost_rime
+  from: room:frost
+  to: room:rime
+  kind: open
+- id: link:frost_library
+  from: room:frost
+  to: room:library
+  kind: double_door
+- id: link:library_kings
+  from: room:library
+  to: room:kings_door
+  kind: open
+- id: link:kings_throne
+  from: room:kings_door
+  to: room:throne
+  kind: double_door
+- id: link:throne_hoard
+  from: room:throne
+  to: room:hoard
+  kind: door
+loops:
+- id: loop:upper
+  spaces:
+  - room:bone_hall
+  - room:hollows
+  - room:vents
+  - room:head
+  - room:crossing
+  - room:roost
+  notes: 'Floor 0: from the bone hall to the stair head by the ledge and the fire crossing, or by the hollows and the vents.'
+- id: loop:pools
+  spaces:
+  - room:foot
+  - room:roost
+  - room:old_roost
+  - room:pools
+  notes: 'Floor -1 east: into the roost directly, or round by the pools and the old roost.'
+- id: loop:library
+  spaces:
+  - room:roost
+  - room:ember
+  - room:library
+  - room:frost
+  - room:starwell
+  notes: To the library by the ember gallery's leaves, or by the starwell and the frost den's leaves.
+entrances:
+- id: entrance:x7_mouth
+  space: room:mouth
+  kind: both
+  facing: e
+  how: 'From X7''s door:xd18 (A5) in the rim crag: 384 inside the mouth, facing east toward the office''s front.'
+critical_path:
+- room:mouth
+- room:tax_hall
+- room:scorch
+- room:bone_hall
+- room:roost
+- room:crossing
+- room:head
+- room:stair
+- room:foot
+- room:roost
+- room:ember
+- room:library
+- room:kings_door
+- room:throne
+return_path:
+- room:throne
+- room:kings_door
+- room:library
+- room:ember
+- room:roost
+- room:foot
+- room:stair
+- room:head
+- room:crossing
+- room:roost
+- room:bone_hall
+- room:scorch
+- room:tax_hall
+- room:mouth
+goals:
+- id: goal:tax
+  space: room:tax_hall
+  kind: use
+  story: Q-C25
+  what: Scaldrith's topic 'The tax' (tax_paid), then the inner door (q-c25.inner_door).
+- id: goal:lore
+  space: room:library
+  kind: use
+  story: Q-C25
+  what: Dragon Lore 2-5 and The Art of Taxation.
+- id: goal:king
+  space: room:throne
+  kind: kill
+  story: Q-C25
+  what: The Dragon King (optional boss); the grate rises (118101).
+set_pieces:
+- id: set:roost
+  kind: scripted
+  spaces:
+  - room:roost
+  rule: 'Through both floors: the ledge and its lip over the roost (D-57).'
+- id: set:starwell
+  kind: scripted
+  spaces:
+  - room:starwell
+  rule: 'The slot of stars over the void (sky: true); the dragons cannot leave by it (D-57).'
+- id: set:library
+  kind: scripted
+  spaces:
+  - room:library
+  - room:throne
+  rule: The library of Dragon Lore and the King's hall behind it.
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 25
+  sectors: 25
+  monsters_about: 41
+  chests: 5
+  doors: 7
+  loops: 3
+  floor_area_munits2: 55
+notes: Size M (20-45 sectors, 30-90 M units², 45-75 monsters (40 here, D-57 Q1), 3-7 chests, 6-16 doors). From act6_graphs/xd18.graph.yml
+  and D-57 (XD-18 APPROVAL, Q1-Q6).

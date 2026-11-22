@@ -1,0 +1,39 @@
+# Hostility check of the Tower of High Magic (XD-11), as XD-27's (lane A8, 2026-11-20): its foes hostile to the
+# party, its kinds not fighting each other. The kinds: Flying Feet 11600 and Guardian 11601 (slot 1, Magic
+# constructs, markers tier a and b), Sorceress 11180 (placed), the Head Sorceress 11185 (placed, boss row); the
+# world's relations.yml has the constructs and sorceresses long toward the party and no feud. Run with --world xeen
+# --map xeen_xd11.blv.
+id: xeen.xd11.l4.hostility
+title: 'the Tower of High Magic (XD-11): foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd11.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11600, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11601, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11180, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11185, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11600, hostile: true, min: 1}}
+- assert: {actor_count: {monster_id: 11601, hostile: true, min: 1}}
+- assert: {actor_count: {monster_id: 11180, hostile: true, min: 1}}
+- assert: {actor_count: {monster_id: 11185, hostile: true, min: 1}}
+- assert: {actor_count: {max: 60, min: 30}}
+- note: 'Kinds of the map side by side in the door room, nearer each other than the party: they must not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11600, x: -1600, y: -1400, z: 0}
+- spawn_actor: {monster_id: 11601, x: -1504, y: -1400, z: 0}
+- spawn_actor: {monster_id: 11180, x: -1408, y: -1400, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}

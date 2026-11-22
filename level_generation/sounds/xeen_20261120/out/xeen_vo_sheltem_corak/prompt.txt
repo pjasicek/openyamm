@@ -1,0 +1,10 @@
+derived: xeen_vo_part_corak_sheltem + xeen_vo_part_sheltem_time + xeen_vo_part_corak_cube
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+loudness_db: -9
+line: 'Corak: Sheltem. / Sheltem: Corak. You took your time. / Corak: The Cube! Take
+  it and run!'

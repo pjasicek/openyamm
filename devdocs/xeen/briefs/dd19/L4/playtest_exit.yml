@@ -1,0 +1,48 @@
+# The way out of the Wizard Quarter (DD-19) through the guild gate onto D3 (Sandcaster, A5), and the inside arrival it
+# pairs with (lane A8, 2026-11-21). From the map's start (entrance:d3_guild_gate, the court's south side 384 inside
+# the gate, facing north) the gate's inside face (exit:gate, event 23): the game's leave window, OK: the party stands on
+# D3 at A5's entrance:dd19_gate (-10752, 22016, 1728) facing 512. Then back in as D3's gate will move it (its
+# thing:dd19_gate is still sealed; A5's change is one move, evt.MoveToMap(0, 384, 0, 512, ..., "xeen_dd19.blv")):
+# the party stands at the arrival facing north, and no second arrival window. Each position is logged ("measured").
+# Run with --world xeen --map xeen_dd19.blv (output/studio_cal/dd19/four.sh).
+id: xeen.dd19.l4.exit
+title: Wizard Quarter (DD-19 L4), out by the guild gate to D3 and in again
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd19.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 40, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 40, skills: [], equipment: {}}
+  - assert: {map: xeen_dd19.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE WIZARD QUARTER"}}
+  - play_lua: {source: "close(); if not qbit(117520) then error('dd19_arrived_once not set') end"}
+  # (A new game's start takes no facing from the map; the arrival by the gate's move below is checked for its facing.)
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured start ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  # Out through the guild gate's inside face.
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 23}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured gate exit ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  - assert: {party_position: {x: -10752, y: 22016, radius: 128, z_min: 1680, z_max: 1800, facing: 512, facing_within: 64}}
+  # In again by D3's gate (its move, as A5 will wire thing:dd19_gate).
+  - lua_event: {source: "evt.MoveToMap(0, 384, 0, 512, 0, 0, 0, 0, \"xeen_dd19.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd19.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured gate arrival ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}

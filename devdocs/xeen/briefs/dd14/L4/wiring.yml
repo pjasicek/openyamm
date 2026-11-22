@@ -1,0 +1,643 @@
+format: 0
+variables: [bar_open, study_open, yard_gate_open, hatch_open, tower_purse, jewels_found, wine_found, coffin_ne_1, coffin_se_loot, coffin_dorm_w1, coffin_dorm_w2, coffin_dorm_w3, coffin_dorm_e1, coffin_dorm_e2, coffin_dorm_e3, coffin_crypt_dutchess, coffin_crypt_lady]
+events:
+  - id: evt:altar
+    preset: text
+    source: platform:altar
+    title: Altar
+    text: The altar cloth is embroidered with a black bat. The altar faces the wrong way.
+    window: false
+    notes: The black chapel's altar.
+  - id: evt:ambrose
+    preset: script
+    source: platform:perch
+    title: Griffin's perch
+    lua: |-
+      if continueStep == 1 then
+          XeenQuests.hook("m27.fly_out")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if not XeenQuests.can("m27.fly_out") then
+          evt.StatusText("A griffin's perch, empty.")
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Are you ready to leave this awful place, friends?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "The griffin's perch (D-42 Q1, D-52 (6)): from m25.done 'Are you ready to leave this awful place, friends?' (aaze0045:1): Yes calls m27.fly_out, whose own move sets the party down on D4 at entrance:dd14_griffin (6144, 5120, 1216) facing west; No: nothing. Before m25.done the perch is empty. Ambrose himself (monster:ambrose, npc 5512) talks when clicked."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: dd14_arrived_once}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m27.landing\")"
+      - qbit: dd14_arrived_once
+    notes: "m27.landing: the first arrival's text (A3's, a window: 'Castle Blackfang's battlements ... The way down is through the Count.'), once (dd14_arrived_once 117480)."
+  - id: evt:bar
+    preset: script
+    source: door:bar
+    title: Black iron bar
+    lua: |-
+      if IsQBitSet(QBit(111540)) then
+          evt.StatusText("The bar is lifted; the stair lies open.")
+          return
+      end
+      XeenQuests.hook("m27.dungeon_stair")
+    notes: "m27.dungeon_stair: until the Count is dead its fail text, the source's refusal (aaze0047:0, D-42 (6)); then a status line."
+  - id: evt:bar_lifts
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: blackfang_slain, not: {map_var: bar_open}}
+    opens: [door:bar]
+    effects:
+      - set:
+          var:
+            map_var: bar_open
+          value: 1
+    notes: "The bar lifts once blackfang_slain is set (at his death, and again after a refill)."
+  - id: evt:cask_find
+    preset: script
+    source: deco:cask_find
+    title: Cask
+    condition: {not: {map_var: wine_found}}
+    effects:
+      - set:
+          var:
+            map_var: wine_found
+          value: 1
+      - gold: 150
+      - text: Wine. Real wine. Somebody here still drinks it. A purse is tucked behind the cask. (+150 gold)
+    else_effects:
+      - text: Wine. The cask is nearly dry.
+    notes: "The cask cellar's find (the graph's line), once."
+  - id: evt:chest_cistern
+    preset: chest
+    source: chest:cistern
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_question
+    preset: chest
+    source: chest:question
+    title: Chest
+  - id: evt:chest_roost
+    preset: chest
+    source: chest:roost
+    title: Chest
+  - id: evt:chest_study
+    preset: chest
+    source: chest:study
+    title: Chest
+  - id: evt:coffin_crypt_count
+    preset: text
+    source: platform:coffin_crypt_count
+    title: Count Blackfang
+    text: "Count Blackfang's own coffin, lined with black silk. His strongbox stands at its foot."
+    window: false
+    notes: "The Count's coffin (aaze0047:8); the hoard is chest:hoard at its foot."
+  - id: evt:coffin_crypt_countess
+    preset: text
+    source: platform:coffin_crypt_countess
+    title: Countess Blackfang
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_crypt_dutchess
+    preset: script
+    source: platform:coffin_crypt_dutchess
+    title: Dutchess Blackfang
+    condition: {not: {map_var: coffin_crypt_dutchess}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_crypt_dutchess
+          value: 1
+      - show_actors: 14
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - gold: 500
+      - message: "The lid flies back and a vampire rises from the coffin! Grave goods: a purse of old coins. (+500 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A sleeper's coffin (D-18): the first opening shows group 14 (counted at load) and gives its find; then 'The coffin is empty.' (aaze0047:2). Still rises after the Count's death (D-42 (5))."
+  - id: evt:coffin_crypt_lady
+    preset: script
+    source: platform:coffin_crypt_lady
+    title: Lady Blackfang
+    condition: {not: {map_var: coffin_crypt_lady}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_crypt_lady
+          value: 1
+      - show_actors: 15
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - gold: 500
+      - message: "The lid flies back and a vampire rises from the coffin! Grave goods: a purse of old coins. (+500 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A sleeper's coffin (D-18): the first opening shows group 15 (counted at load) and gives its find; then 'The coffin is empty.' (aaze0047:2). Still rises after the Count's death (D-42 (5))."
+  - id: evt:coffin_dorm_e1
+    preset: script
+    source: platform:coffin_dorm_e1
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_e1}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_e1
+          value: 1
+      - gold: 200
+      - text: A few coins pressed into the dead wood. (+200 gold)
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A coffin with a find (once), then 'The coffin is empty.' (aaze0047:2)."
+  - id: evt:coffin_dorm_e2
+    preset: script
+    source: platform:coffin_dorm_e2
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_e2}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_e2
+          value: 1
+      - show_actors: 13
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - gold: 350
+      - message: "The lid flies back and a vampire rises from the coffin! Under the sleeper, a purse. (+350 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A sleeper's coffin (D-18): the first opening shows group 13 (counted at load) and gives its find; then 'The coffin is empty.' (aaze0047:2). Still rises after the Count's death (D-42 (5))."
+  - id: evt:coffin_dorm_e3
+    preset: script
+    source: platform:coffin_dorm_e3
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_e3}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_e3
+          value: 1
+      - gold: 250
+      - text: A purse of old coins under the shroud. (+250 gold)
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A coffin with a find (once), then 'The coffin is empty.' (aaze0047:2)."
+  - id: evt:coffin_dorm_w1
+    preset: script
+    source: platform:coffin_dorm_w1
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_w1}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_w1
+          value: 1
+      - show_actors: 11
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - gold: 300
+      - message: "The lid flies back and a vampire rises from the coffin! Under the sleeper, a purse. (+300 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A sleeper's coffin (D-18): the first opening shows group 11 (counted at load) and gives its find; then 'The coffin is empty.' (aaze0047:2). Still rises after the Count's death (D-42 (5))."
+  - id: evt:coffin_dorm_w2
+    preset: script
+    source: platform:coffin_dorm_w2
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_w2}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_w2
+          value: 1
+      - gold: 250
+      - text: A purse of old coins under the shroud. (+250 gold)
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A coffin with a find (once), then 'The coffin is empty.' (aaze0047:2)."
+  - id: evt:coffin_dorm_w3
+    preset: script
+    source: platform:coffin_dorm_w3
+    title: Coffin
+    condition: {not: {map_var: coffin_dorm_w3}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_dorm_w3
+          value: 1
+      - show_actors: 12
+      - lua: "evt.PlaySoundName(\"xeen_coffin_lid\")"
+      - gold: 300
+      - message: "The lid flies back and a vampire rises from the coffin! Under the sleeper, a purse. (+300 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A sleeper's coffin (D-18): the first opening shows group 12 (counted at load) and gives its find; then 'The coffin is empty.' (aaze0047:2). Still rises after the Count's death (D-42 (5))."
+  - id: evt:coffin_landing_1
+    preset: text
+    source: platform:coffin_landing_1
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_landing_2
+    preset: text
+    source: platform:coffin_landing_2
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_landing_3
+    preset: text
+    source: platform:coffin_landing_3
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_landing_4
+    preset: text
+    source: platform:coffin_landing_4
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_landing_5
+    preset: text
+    source: platform:coffin_landing_5
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_landing_6
+    preset: text
+    source: platform:coffin_landing_6
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_ne_1
+    preset: script
+    source: platform:coffin_ne_1
+    title: Coffin
+    condition: {not: {map_var: coffin_ne_1}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_ne_1
+          value: 1
+      - gold: 400
+      - text: A purse of coins and a dried rose. (+400 gold)
+    else_effects:
+      - text: The coffin is empty.
+    notes: "A coffin with a find (once), then 'The coffin is empty.' (aaze0047:2)."
+  - id: evt:coffin_ne_2
+    preset: text
+    source: platform:coffin_ne_2
+    title: Coffin
+    text: The coffin is empty.
+    window: false
+    notes: "'Coffin' / 'The coffin is empty.' (aaze0046:0, aaze0047:1-2)."
+  - id: evt:coffin_se_loot
+    preset: script
+    source: platform:coffin_se_loot
+    title: Coffin
+    condition: {not: {map_var: coffin_se_loot}}
+    effects:
+      - set:
+          var:
+            map_var: coffin_se_loot
+          value: 1
+      - gold: 1500
+      - give_item:
+          level: 4
+          kind: 40
+      - message: "Loot hidden in a coffin: a heap of gold and a ring. (+1500 gold)"
+    else_effects:
+      - text: The coffin is empty.
+    notes: "The south-east tower's coffin of loot (a find: gold and a ring), once."
+  - id: evt:count_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:count}}
+    lua: |-
+      XeenQuests.hook("m27.blackfang")
+      evt.PlaySoundName("xeen_coffin_lid")
+    once: true
+    notes: "goal:count: his death runs A3's m27.blackfang (blackfang_slain 111540, once: 'every coffin lid in the castle slams shut at once ...'); the lids' sound."
+  - id: evt:crest_great
+    preset: text
+    source: panel:crest_great
+    title: Blackfang's arms
+    text: "A black bat with one red fang on slate grey: the arms of Blackfang."
+    window: false
+    notes: xbfcrest on the great hall's end wall.
+  - id: evt:crest_throne
+    preset: text
+    source: panel:crest_throne
+    title: Blackfang's arms
+    text: "A black bat with one red fang on slate grey: the arms of Blackfang."
+    window: false
+    notes: xbfcrest over the throne.
+  - id: evt:door_cellar_kitchen
+    preset: door
+    source: door:cellar_kitchen
+    title: Door
+  - id: evt:door_countess_dorm
+    preset: door
+    source: door:countess_dorm
+    title: Door
+  - id: evt:door_dstair_question
+    preset: door
+    source: door:dstair_question
+    title: Door
+  - id: evt:door_gallery_chapel
+    preset: door
+    source: door:gallery_chapel
+    title: Double doors
+  - id: evt:door_north_keep
+    preset: door
+    source: door:north_keep
+    title: Door
+  - id: evt:door_stairhall_throne
+    preset: door
+    source: door:stairhall_throne
+    title: Double doors
+  - id: evt:door_throne_crypt
+    preset: door
+    source: door:throne_crypt
+    title: Door
+  - id: evt:door_yard_great
+    preset: door
+    source: door:yard_great
+    title: Double doors
+  - id: evt:door_yard_stairhall
+    preset: door
+    source: door:yard_stairhall
+    title: Double doors
+  - id: evt:figures_load
+    preset: script
+    trigger: load
+    lua: |-
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:ambrose"), false)
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:queen"), false)
+    notes: "D-52 (6), D-51's word: Ambrose and Queen Kalindra cannot be hurt; every hit on them is zeroed, on every load."
+  - id: evt:fire_1
+    preset: script
+    source: plate:fire_1
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [2400, -768, 1440]
+          to: [2048, -768, 1320]
+          mastery: expert
+          level: 8
+      - text: "Fire leaps from a slit in the merlons!"
+    notes: "poi:fire_plates: fire from the merlons' slits (the notes on the landing: 'Floor traps are regularly spaced')."
+  - id: evt:fire_2
+    preset: script
+    source: plate:fire_2
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [2400, -256, 1440]
+          to: [2048, -256, 1320]
+          mastery: expert
+          level: 8
+      - text: "Fire leaps from a slit in the merlons!"
+    notes: "poi:fire_plates: fire from the merlons' slits (the notes on the landing: 'Floor traps are regularly spaced')."
+  - id: evt:fire_3
+    preset: script
+    source: plate:fire_3
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [2400, 256, 1440]
+          to: [2048, 256, 1320]
+          mastery: expert
+          level: 8
+      - text: "Fire leaps from a slit in the merlons!"
+    notes: "poi:fire_plates: fire from the merlons' slits (the notes on the landing: 'Floor traps are regularly spaced')."
+  - id: evt:fire_4
+    preset: script
+    source: plate:fire_4
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [2400, 768, 1440]
+          to: [2048, 768, 1320]
+          mastery: expert
+          level: 8
+      - text: "Fire leaps from a slit in the merlons!"
+    notes: "poi:fire_plates: fire from the merlons' slits (the notes on the landing: 'Floor traps are regularly spaced')."
+  - id: evt:gong
+    preset: script
+    source: panel:gong
+    title: Gong
+    condition: {not: {map_var: study_open}}
+    opens: [door:study_panel]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\")"
+      - set:
+          var:
+            map_var: study_open
+          value: 1
+      - text: You hear a rumbling in the distance.
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\")"
+      - text: You hear a rumbling in the distance.
+    notes: "poi:gong (dark/aaze0045:6-7): the first stroke slides open the study's panel on L2 (study_open), for good."
+  - id: evt:griffin_load
+    preset: script
+    trigger: load
+    condition: {qbit: m25_done}
+    effects:
+      - show_actors: 30
+    else_effects:
+      - hide_actors: 30
+    notes: "Ambrose's griffin stands on its perch from m25.done (111503) on, on every load (D-42 Q1)."
+  - id: evt:hatch
+    preset: switch
+    source: mover:hatch
+    title: Trapdoor
+    condition: {not: {map_var: hatch_open}}
+    locked_text: The trapdoor lies open over a ladder.
+    effects:
+      - text: "A trapdoor in the floor, bolted from below."
+    notes: "From the cellar: 'A trapdoor in the floor, bolted from below.' until the bolt is drawn."
+  - id: evt:hatch_bolt
+    preset: switch
+    source: switch:hatch_bolt
+    title: Bolt
+    condition: {not: {map_var: hatch_open}}
+    locked_text: "The bolt is drawn; the trapdoor lies open."
+    opens: [mover:hatch]
+    sets: {map_var: hatch_open}
+    effects:
+      - text: You draw the bolt. The trapdoor at the ladder's top falls open.
+    notes: "poi:hatch_bolt: the trapdoor's bolt, drawn from the shaft, once."
+  - id: evt:jewel_box
+    preset: script
+    source: platform:dressing_table
+    title: Jewel box
+    condition: {not: {map_var: jewels_found}}
+    effects:
+      - set:
+          var:
+            map_var: jewels_found
+          value: 1
+      - gold: 800
+      - text: "The Countess's jewel box: rings and a jet brooch. No mirror anywhere. (+800 gold)"
+    else_effects:
+      - text: The jewel box is empty.
+    notes: "The Countess's rooms' find, once."
+  - id: evt:landing_bones
+    preset: text
+    source: deco:landing_bones
+    title: Bones
+    text: "You find a page of notes in the bones: Coffins contain treasure and vampires. Floor traps are regularly spaced. Remember to get Sorcerer to Jump us over them. The Count's magic keeps us from descending. Be sure to kill him when we get a chance."
+    window: true
+    notes: "poi:notes (dark/aaze0045:5): the traps' and the stair's answer-giver."
+  - id: evt:ledger
+    preset: text
+    source: platform:desk
+    title: Ledger
+    text: "The Count's ledger. The last entry reads: 'Received from Lord Xeen's man: one queen, crowned. Crown kept by her people. No matter.'"
+    window: true
+    notes: The study's ledger (the graph's line).
+  - id: evt:lineage
+    preset: text
+    source: platform:lectern
+    title: The Blackfang Lineage
+    text: "The Blackfang Lineage, in a dry hand: four names are copied out large on the last page, with a line for each coffin in the family crypt: Dutchess Blackfang, Countess Blackfang, Count Blackfang, Lady Blackfang."
+    window: true
+    notes: "The library's find: the crypt's four names."
+  - id: evt:portraits
+    preset: text
+    source: panel:portraits
+    title: Portraits
+    text: Four centuries of Blackfangs. In every portrait the mirror behind the sitter shows an empty chair.
+    window: false
+    notes: The long gallery's find.
+  - id: evt:queen
+    preset: script
+    source: platform:queen_bench
+    title: Bench
+    lua: |-
+      if IsQBitSet(QBit(111542)) then
+          evt.StatusText("The cell is empty. The Queen has gone home.")
+          return
+      end
+      evt.StatusText("A stone bench.")
+    notes: "The Queen's bench: after done 'The cell is empty. The Queen has gone home.' Queen Kalindra herself (monster:queen, npc 5001) talks when clicked: A3's The crown (queen_found, then done and m27.ambrose_return, the flight to D1)."
+  - id: evt:queen_cell
+    preset: script
+    source: room:queen_cell
+    trigger: step
+    condition: {not: {qbit: queen_seen}}
+    lua: "XeenQuests.hook(\"m27.queen_cell\")"
+    notes: "m27.queen_cell on the cell's entry (D-52, A3): its first text once (queen_seen 111544), while the Queen is there (the hook's own not-done)."
+  - id: evt:queen_load
+    preset: script
+    trigger: load
+    condition: {qbit: done}
+    effects:
+      - hide_actors: 31
+    notes: "Queen Kalindra is home once done 111542 is set (M27): her body is hidden on every load after."
+  - id: evt:rat_bones
+    preset: text
+    source: deco:rat_bones
+    title: Bones
+    text: "You find a diary in the bones, but it has mostly been devoured by rats. None of what remains is legible."
+    window: true
+    notes: poi:shaft_bones (dark/aaze0047:5).
+  - id: evt:roof_trapdoor
+    preset: text
+    source: platform:roof_trapdoor
+    title: Trapdoor
+    text: "A trapdoor in the roof, bolted from above. Wind howls over it."
+    window: false
+    notes: "poi:roof_trapdoor (D-42 (7)): drawn now, bolted; the D7 lane decides in phase 6."
+  - id: evt:stair_force
+    preset: script
+    source: plate:stair_force
+    trigger: step
+    condition: {not: {qbit: blackfang_slain}}
+    lua: "XeenQuests.hook(\"m27.dungeon_stair\")"
+    notes: "The step before the bar (m27.dungeon_stair's where): the force like wind, until the Count is dead."
+  - id: evt:study_panel
+    preset: script
+    source: door:study_panel
+    title: Panel
+    condition: {not: {map_var: study_open}}
+    effects:
+      - text: "The panel is set fast in the wall. Somewhere above, something must move it."
+    else_effects:
+      - text: The panel stands open.
+    notes: "The study's panel: shut until the gong."
+  - id: evt:table
+    preset: text
+    source: platform:long_table
+    title: Long table
+    text: Goblets laid for a feast. They have never held wine.
+    window: false
+    notes: The great hall's long table.
+  - id: evt:throne_seat
+    preset: text
+    source: platform:throne
+    title: Throne
+    text: A throne of black stone. The seat is cold.
+    window: false
+    notes: The Count's throne.
+  - id: evt:tower_bones
+    preset: script
+    source: deco:tower_bones
+    title: Bones
+    condition: {not: {map_var: tower_purse}}
+    effects:
+      - set:
+          var:
+            map_var: tower_purse
+          value: 1
+      - gold: 300
+      - message: "You find a diary in the bones: ...entering the black castle today. The Queen is captive somewhere within its walls, and we must remain inside the castle 'til nightfall or she would surely die once we brought her into the light. ... Beside it, a purse. (+300 gold)"
+    else_effects:
+      - message: "You find a diary in the bones: ...entering the black castle today. The Queen is captive somewhere within its walls, and we must remain inside the castle 'til nightfall or she would surely die once we brought her into the light. ..."
+    notes: poi:diary (dark/aaze0045:4) and a purse once (a find).
+  - id: evt:yard_bar
+    preset: switch
+    source: switch:yard_bar
+    title: Bar
+    condition: {not: {map_var: yard_gate_open}}
+    locked_text: "The bar is lifted; the gate stands open."
+    opens: [door:yard_gate]
+    sets: {map_var: yard_gate_open}
+    effects:
+      - text: You lift the bar. The gate swings up onto the landing.
+    notes: "poi:yard_bar: the yard gate's bar on the courtyard stair's side, lifted once."
+  - id: evt:yard_gate
+    preset: switch
+    source: door:yard_gate
+    title: Gate
+    condition: {not: {map_var: yard_gate_open}}
+    locked_text: The gate stands open.
+    effects:
+      - text: The gate is barred on the courtyard side.
+    notes: "The yard gate: barred from the stair's side until its bar is lifted."
+  - id: evt:zarkon_bones
+    preset: text
+    source: deco:zarkon_bones
+    title: Bones
+    text: "You find a diary in the bones: 1/9/753: Kloikus Thunbeard the Round came to a bad end today. He was struggling up a ladder in his ridiculous armor when one of those vampires grabbed for his ankles through a hole in the wall. He fell a good forty feet."
+    window: true
+    notes: poi:shaft_bones (dark/aaze0047:4).
+notes: "DD-14's events, written by output/studio_cal/dd14/tools/dress.py."

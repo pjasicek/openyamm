@@ -84,7 +84,7 @@ elements:
   - id: MainMenuContinueButton
     anchor: top_left
     offset_x: 587.7333
-    offset_y: 217.0667
+    offset_y: 211.0
     width: 182.4
     height: 28.8
     z_index: 10
@@ -106,9 +106,9 @@ elements:
   - id: MainMenuNewGameButton
     anchor: top_left
     offset_x: 587.7333
-    offset_y: 271.4667
+    offset_y: 262.0
     width: 182.4
-    height: 28.8
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -128,9 +128,9 @@ elements:
   - id: MainMenuLoadGameButton
     anchor: top_left
     offset_x: 587.7333
-    offset_y: 307.2
+    offset_y: 291.5
     width: 182.4
-    height: 28.8
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -147,12 +147,34 @@ elements:
       scale: 0.43333
       pad_x: 12.8
     notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MainMenuMultiplayerButton
+    anchor: top_left
+    offset_x: 587.7333
+    offset_y: 321.0
+    width: 182.4
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: Multiplayer
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
   - id: MainMenuSettingsButton
     anchor: top_left
     offset_x: 587.7333
-    offset_y: 342.9333
+    offset_y: 350.5
     width: 182.4
-    height: 28.8
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -216,7 +238,7 @@ elements:
   - id: MainMenuContinueInfo
     anchor: top_left
     offset_x: 587.7333
-    offset_y: 251.2
+    offset_y: 244.5
     width: 182.4
     height: 9.6
     z_index: 10

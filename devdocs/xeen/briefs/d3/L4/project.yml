@@ -1,0 +1,102 @@
+format: 0
+id: xeen_d3
+name: Sandcaster and the Aging Forest
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D3
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9110
+  continent: 7
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 4
+  perception_difficulty: 4
+  refill_days: 672
+  music: 39
+  environment: forest
+  lock_difficulty: 8
+  slots:
+    - {monster: Xeen Mantis, tier: 1, per_marker: [2, 3], weight: 50}
+    - {monster: Xeen Cobra, tier: 1, per_marker: [2, 3], weight: 26}
+    - {monster: Xeen Sand Worm, tier: 1, per_marker: [2, 3], weight: 24}
+neighbours:
+  - id: boat:lucio
+    to: xeen_d7.blv
+    kind: boat
+    service: "Lucio's Jetty (4649), route 425 to olympus_dock"
+    listed_only: true
+    condition: {qbit: lucio_open}
+    notes: "D-5.3 and D-28: the celestial boat to Olympus departs only (tue, fri), opens with m30.done; no boat lands here (no sandcaster_jetty arrival). The jetty is a timber deck with mooring posts on the top of the Sky Stair, a sandstone tower on the city's north-west corner."
+  - id: door:dd07
+    to: xeen_dd07.blv
+    kind: door
+    arrival_hint: "Inside the Eastern Tower's door, at the foot of its stair."
+    condition: {item: east_tower_key}
+    notes: "DD-07 Eastern Tower (A7, phase 4, D-9.3): the tower on its knoll by the east rim, north of the falls; A3's q-d18.tower_door needs Q-D19's key."
+  - id: door:dd18
+    to: xeen_dd18.blv
+    kind: door
+    arrival_hint: At the foot of the shaft ladder in the members' room (A8 gives the inside point).
+    notes: "DD-18 Sandcaster Sewer (A8, phase 3, optional; D-27): Barticus' members' room under the gym's sign, with a long tunnel to D5 bolted on the desert side. A street shaft against the gym's south-east corner (Barticus' Gym, 4607), off the west lane's walking line; the entrance preset (D-24: \"Descend to the sewer?\"), no question of its own. Sealed with a line (\"The iron lid is bolted from below.\") until A8 gives the inside point and DD-18 is installed."
+  - id: door:dd19
+    to: xeen_dd19.blv
+    kind: door
+    arrival_hint: "Inside the guild gate, in the guild halls' entry court."
+    notes: "DD-19 Wizard Quarter (A8, phase 4; Q-D14): the guild gate at the back of the wizard quarter (A3's q-d14.quarter_gate, open from the start; the quarter's five houses stay sealed until q-d14.done)."
+  - id: edge:north
+    to: xeen_d4.odm
+    kind: edge
+    side: north
+    days: 7
+    arrival_side: south
+    approach: "The Lakeside road in from the north edge at x 88, down the east bank of the River of Wrath."
+    notes: "D4 Lakeside and Blackfang (installed): the whole north edge leads to D4's south start entrance:south_road (88, 105) = (12288, -20992) facing north; D4's south edge lands at D3's entrance:north_road (88, 20) = (12288, 22528, 1760) facing south (A2's travel rows, 7 days each way). D-28 (6): the crossing at x 88 (units 12288); D4 continues D3's north-edge spans and heights: x 0-24 (-32768 to -20480) ridge 2,600-3,400: the last Gemstone crags; x 24-82 (-20480 to 9216) ridge 1,500-2,000: dunes of the desert edge; x 82-94 (9216 to 15360) level 1,750: the Lakeside road (the crossing at x 88, the road's bed 1,760); x 94-104 (15360 to 20480) ridge 1,900-2,400: the Wrath crest's north shoulder; x 104-128 (20480 to 32768) level 0: the rim: the land ends in the east cliff."
+  - id: edge:west
+    to: xeen_d2.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival: [21504, 10240, 1312]
+    span: [-32768, 32768]
+    arrival_side: east
+    approach: "The caravan road in from the west edge at y 44, down the dry valley under the last Gemstone crags."
+    direction: 180
+    notes: "D2 Sprite Forest and Ogre Pass (installed): D3's west edge arrives at D2's east start (106, 44) = (21504, 10240, about 1,300) facing west; D2's east edge arrives here at entrance:west_road (20, 44) = (-22528, 10240, 1312) facing east. A2 writes the travel row once both are installed; D2 opens its east road (D2_D3_LIVE) at its next install (A6)."
+  - id: stable:sandcaster_castleview
+    to: xeen_d1.odm
+    kind: stable
+    days: 3
+    schedule: {weekdays: [wednesday, saturday]}
+    service: "Sandcaster Caravans (4611), route 416"
+    listed_only: true
+    notes: "A4's d3.yml; the arrival is sandcaster_stables, the caravan yard outside the south gate."
+  - id: stable:sandcaster_lakeside
+    to: xeen_d4.odm
+    kind: stable
+    days: 3
+    schedule: {weekdays: [sunday]}
+    service: "Sandcaster Caravans (4611), route 417"
+    listed_only: true
+    notes: After D4 is built (A4).
+qbits:
+  celia_done: 112442
+  celia_moved: 112443
+  fountain_restored: 113364
+  handle_found: 113161
+  lucio_open: 111600
+  mirror_sandcaster: 119009
+  obelisk_dark_3: 115052
+  q_d18_started: 113360
+  quarter_open: 113281
+items:
+  east_tower_key: 12340
+  sandcaster_pass: 12335
+  vespars_handle: 12345
+rules:
+  weather: none
+  respawn: entrance:sandcaster_square
+  town_portal_anchor: entrance:sandcaster_square
+notes: "D3 Sandcaster and the Aging Forest (A5, 2026-11-20): Sandcaster on its terrace with the wizard quarter, the Crossroads, the Aging Forest, the Howling ridge, the River of Wrath from its gorge to the falls over the rim, the Wrath crest, Venom Pond. Built from the approved L1 with D-28. Written by output/studio_cal/d3/tools/gen.py; NOTES.md in L4."

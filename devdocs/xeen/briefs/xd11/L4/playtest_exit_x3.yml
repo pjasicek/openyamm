@@ -1,0 +1,31 @@
+# The enchanted door out of the Tower of High Magic (XD-11) onto X3's islet (lane A8, 2026-11-20). From the map's
+# start inside the door, the exit window (leave the Tower of High Magic?), OK: the party stands on X3
+# (Lifeforce Lagoon, A5) in front of the tower door, 400 north of it (briefs/x3/DOORS.md, thing:high_magic:
+# 256, -1674, 992, facing north). Run with --world xeen --map xeen_xd11.blv (output/studio_cal/xd11/four.sh).
+id: xeen.xd11.l4.exit_x3
+title: Tower of High Magic (XD-11 L4), out by the enchanted door to X3's islet
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd11.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_xd11.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1408, y: -1900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: 256, y: -1674, radius: 128, z_min: 900, z_max: 1100}}
+  # Facing north, away from the door: walking on takes the party up the islet, not back in.
+  - walk_to: {x: 256, y: -1400, z: 992, z_tolerance: 250, radius: 160, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {map: xeen_x3.odm}

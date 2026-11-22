@@ -1,0 +1,66 @@
+{
+ "xnpedblu": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.88,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.978,
+      1.033,
+      1.042
+     ],
+     "seam_shift": [
+      0,
+      1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xnpedblu_v1.txt",
+    "raw": "raw/xnpedblu_v1.png",
+    "refs": [
+     "refs/xnpedblu_v1_1.png",
+     "refs/xnpedblu_v1_2.png"
+    ],
+    "seam_raw": "raw/xnpedblu_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xnpedred": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.958,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.948,
+      1.023,
+      1.184
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xnpedred_v1.txt",
+    "raw": "raw/xnpedred_v1.png",
+    "refs": [
+     "refs/xnpedred_v1_1.png",
+     "refs/xnpedred_v1_2.png"
+    ],
+    "seam_raw": "raw/xnpedred_v1_seam.png",
+    "version": 1
+   }
+  ]
+ }
+}

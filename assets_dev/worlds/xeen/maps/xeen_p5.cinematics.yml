@@ -1,0 +1,90 @@
+format_version: 1
+kind: openyamm_cinematics
+source: "Written by oymap build from the Map Studio project \"xeen_p5\" (wiring.yml cinematics). Change the project, not this file."
+cinematics:
+  unification:
+    skippable: true
+    shots:
+      - duration: 8
+        easing: smooth
+        keys:
+          - at: 0
+            position: [0, -1884, 872]
+            look_at: [0, -184, 812]
+            fov: 60
+          - at: 8
+            position: [0, -1484, 812]
+            look_at: [0, -184, 832]
+            fov: 60
+      - duration: 10
+        easing: smooth
+        keys:
+          - at: 0
+            position: [0, -2184, 1212]
+            look_at: [0, 0, 712]
+            fov: 70
+          - at: 10
+            position: [600, -6400, 3200]
+            look_at: [0, 0, 512]
+            fov: 70
+      - duration: 6
+        easing: smooth
+        keys:
+          - at: 0
+            position: [600, -6400, 3200]
+            look_at: [0, 0, 512]
+            fov: 70
+          - at: 6
+            position: [300, -3000, 5600]
+            look_at: [0, 2000, 6000]
+            fov: 70
+      - duration: 8
+        easing: smooth
+        keys:
+          - at: 0
+            position: [700, -540, 932]
+            look_at: [0, 960, 712]
+            fov: 60
+          - at: 8
+            position: [300, -240, 812]
+            look_at: [0, 960, 692]
+            fov: 60
+      - duration: 3
+        party: true
+    cues:
+      - at: 0
+        fade: in
+        seconds: 1
+      - at: 0.5
+        event: 43
+      - at: 1.5
+        sound: xeen_vo_pharaoh_unification
+      - at: 1.5
+        subtitle: "The Dragon Pharaoh: \"Let the two faces of Xeen be one world again.\""
+        seconds: 5
+      - at: 9.5
+        sound: xeen_chime_1
+      - at: 11.5
+        sound: xeen_chime_2
+      - at: 13.5
+        sound: xeen_chime_3
+      - at: 15.5
+        sound: xeen_chime_4
+      - at: 19.5
+        fade: out
+        color: [255, 255, 255]
+        seconds: 2.5
+      - at: 22.5
+        event: 41
+      - at: 24
+        fade: in
+        color: [255, 255, 255]
+        seconds: 2
+      - at: 24.5
+        sound: xeen_wedding_fanfare
+      - at: 25
+        actor: 1
+        action: face
+        look_at: [0, 960, 632]
+        seconds: 1.5
+    note: "D-56 5: the ending, about 35 s, played by A3's m42.shrine (evt.PlayCinematic('unification', 42149)). The fade into the sky and back on the pavilion is white (FADE_COLOUR); the first fade in is from black. AU's chimes (9.5-15.5 s) and wedding fanfare (24.5 s)."

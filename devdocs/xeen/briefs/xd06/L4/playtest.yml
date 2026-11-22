@@ -8,9 +8,14 @@
 # buttons first: only block 1 rises; then button 2: all three), crosses, kills the Yak Master (the reliquary opens),
 # takes the Elixir, loots the hoard, climbs the Master's stair, opens the Master's door from below and leaves by the
 # porch. Numbers are ids.lock.yml's (events, doors, map variables); actor 3 is the Yak Master (actors by id).
+# Played from assets_dev in the Xeen world on the installed map (output/studio_cal/xd06/world_play.sh: --world xeen
+# --map xeen_xd06.blv, since the world's start map X1 is not installed yet and a new game loads it first) with the
+# world's rows (the Yak Master 11213, the Yak Elders 11212, the Cultists, Skeletons and Grave Ghouls of the map card),
+# its relations.yml and A3's hooks (m10.yak_arrival, m10.yak_treasury, q-c12.reliquary; m10.yak_master is the map's
+# own bit). Six King's Megacredits 12192 (five in the strongbox, one on the Master) and one Elixir 12191 (the hook's).
 id: xeen.xd06.l4.walk
 title: Temple of Yak (XD-06 L4), porch to the reliquary and back by the Master's stair
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -88,11 +93,14 @@ steps:
   - walk_to: {x: -704, y: 6150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua:
       source: |
-        for _, id in ipairs(pack_items()) do discard(id) end
+        for _, id in ipairs(pack_items()) do if id ~= 12191 and id ~= 12192 then while discard(id) do end end end
         loot_chest(19)
         if held() ~= 0 then stow() end
-        if item_count(1438) < 5 then error("the strongbox did not hold five Megacredits: " .. tostring(item_count(1438))) end
+        if item_count(12192) ~= 5 then error("the strongbox did not hold five Megacredits: " .. tostring(item_count(12192))) end
         if not qbit(110402) then error("treasury_opened was not set") end
+        close()
+  # On merge point 35 the strongbox's window is still open after loot_chest here: close it before walking on.
+  - assert: {chest_view: {open: false}}
   # The clerics' wing: the refectory, the dormitory and the hidden cell.
   - walk_to: {x: -704, y: 5300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -100,7 +108,7 @@ steps:
   - walk_to: {x: -2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
   - clear_hostiles: {radius: 3000}
   # The source's stock lines: the empty crate and a cot.
-  - walk_to: {x: -2560, y: 4672, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 5000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua:
       source: |
         status(); click(41); wait(0.5)
@@ -139,9 +147,7 @@ steps:
   - assert: {state_dump_map_var: {index: 6, value: 1}}
   # The Yak Pool's basin: +2 Endurance and disease.
   - walk_to: {x: -1600, y: 9150, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
-  - play_lua: {source: "click(40); wait(1)"}
-  - assert:
-      dialog: {text_contains: "Endurance"}
+  - play_lua: {source: "click(40); wait(0.5); local s = tostring(status()); if not string.find(s, '+2 Endurance', 1, true) then error('no Yak Pool line: ' .. s) end"}
   - play_lua:
       source: |
         close()
@@ -159,6 +165,9 @@ steps:
   - walk_to: {x: -1500, y: 9312, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
   # The causeway: all three buttons raise only block 1; button 2 then raises blocks 2 and 3.
   - walk_to: {x: -1480, y: 10080, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The bank's Skeleton Lords come down on the party at the kerb (the Xeen rows reach it; MM7's did not): clear them so
+  # that none stands in the way back along the bank.
+  - clear_hostiles: {radius: 2500}
   - play_lua:
       source: |
         for i = 1, 3 do if door_state(i) ~= "closed" then error("block " .. i .. " does not start sunk") end end
@@ -167,7 +176,7 @@ steps:
           error("buttons 1, 2, 3 should leave only block 1 up: " .. door_state(1) .. " " .. door_state(2) .. " " .. door_state(3)) end
         click(11); wait(3)
         for i = 1, 3 do if door_state(i) ~= "open" then error("block " .. i .. " is not up after button 2") end end
-  - walk_to: {x: -1450, y: 9696, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1450, y: 9696, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
   - walk_to: {x: -768, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 100, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
   - clear_hostiles: {radius: 3000}
@@ -185,16 +194,23 @@ steps:
         wait(5)
         if not qbit(110401) then error("yak_master_slain was not set") end
         if door_state(9) ~= "open" then error("the reliquary did not open on the Master's death") end
+  # The sixth Megacredit from the Master's corpse (actor 3: the scene lists placed monsters by id, the Elders 11212 first).
+  - walk_to: {x: 512, y: 12700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - interact_actor: {actor_index: 3}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if item_count(12192) ~= 6 then error('Megacredits after the Master: ' .. tostring(item_count(12192))) end"}
   - walk_to: {x: 150, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 512, y: 13620, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 512, y: 13950, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua:
       source: |
-        for _, id in ipairs(pack_items()) do discard(id) end
+        for _, id in ipairs(pack_items()) do if id ~= 12191 and id ~= 12192 then while discard(id) do end end end
         loot_chest(18)
         if held() ~= 0 then stow() end
-        if not has_item(1431) then error("no Elixir of Restoration in the packs") end
+        if item_count(12191) ~= 1 then error("Elixirs of Restoration in the packs: " .. tostring(item_count(12191))) end
         if not qbit(110400) then error("elixir_found was not set") end
+        close()
+  # On merge point 35 the chest's window is still open after loot_chest here too: close it before walking on.
+  - assert: {chest_view: {open: false}}
   # The Master's cell and his hoard.
   - walk_to: {x: 512, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 1500, y: 12480, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -221,10 +237,10 @@ steps:
   - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 0, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
-  # The way out to X2. X2 is not built yet (the game cannot resolve xeen_x2.odm), so the run stops at the game's
-  # question; the exit's handler is evt.MoveToMap(-1024, -17485, 896, 512, ..., "xeen_x2.odm") (DOORS.md's arrival).
+  # The way out to X2. X2 is not in the Xeen world yet (A5), so the run stops at the game's question; the exit's
+  # handler is evt.MoveToMap to xeen_x2.odm at -1024, -17840, 1053, facing north (DOORS.md's final arrival).
   - execute_event: {id: 20}
   - assert:
       dialog: {text_contains: "leave Temple of Yak"}
   - select_topic: {match_label: "Close"}
-  - play_lua: {source: "if not qbit(110400) or not qbit(110401) or not qbit(110402) then error('a quest bit was lost') end; if item_count(1438) < 5 or not has_item(1431) then error('the Megacredits or the Elixir were lost') end"}
+  - play_lua: {source: "if not qbit(110400) or not qbit(110401) or not qbit(110402) then error('a quest bit was lost') end; if item_count(12192) ~= 6 or item_count(12191) ~= 1 then error('Megacredits ' .. tostring(item_count(12192)) .. ', Elixirs ' .. tostring(item_count(12191)) .. ': six and one expected') end"}

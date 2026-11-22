@@ -1,0 +1,343 @@
+format: 1
+start:
+  room: room:air
+  at: [-4096, -4096]
+  floor_height: 0
+  facing: ne
+  notes: "entrance:d7_fall on the Gale Landing, facing north-east (Xeen.PlaneArrivals.air, Xeen.SkyFalls.p2)."
+arrivals:
+  - {entrance: entrance:d7_fall, room: room:air, at: [-4096, -4096], floor_height: 0, facing: ne, notes: "The drop from D7's north-east corner (Xeen.toPlane('air')); falls land here too (Xeen.skyFallTo('p2'))."}
+sounds:
+  - {id: sound:plane_bed, room: room:air, at: [0, 0], height: 512, sound: xeen_amb_plane_air, radius: 16000, inner_radius: 11000, volume: 0.4, pan: false}
+chests:
+  - id: chest:basket_cache
+    room: room:air
+    at: [-3824, 4400]
+    floor_height: 320
+    kind: ch1
+    facing: sw
+    treasure_level: 6
+    random_items: 2
+    gold: 1200
+    trap_level: 8
+    notes: "The balloonist's cache: his strongbox wedged in the basket's rocks (trapped), 209 north-west of the basket's middle, off the way from the bridge (session 25; it stood 1,400 away before)."
+  - id: chest:test
+    room: room:air
+    at: [3584, 4224]
+    floor_height: 768
+    kind: ch3
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 2500
+    notes: "The test's chest (aaze0026:4 'Chest'): the source's gold and three items, in the aerie past the gate."
+monsters:
+  - id: monster:arena_approach_1
+    room: room:air
+    monster: 11624
+    at: [4779, -3821]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 9
+    notes: "pop:arena_approach: 3 Lesser Air Elemental (55)."
+  - id: monster:arena_approach_2
+    room: room:air
+    monster: 11624
+    at: [4606, -3743]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 9
+  - id: monster:arena_approach_3
+    room: room:air
+    monster: 11624
+    at: [4606, -4014]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 9
+  - id: monster:arena_rim_1
+    room: room:air
+    monster: 11700
+    at: [4946, -2490]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "pop:arena_rim: 3 Air Elemental (62)."
+  - id: monster:arena_rim_2
+    room: room:air
+    monster: 11700
+    at: [4786, -2309]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:arena_rim_3
+    room: room:air
+    monster: 11700
+    at: [4786, -2581]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:guardian_1
+    room: room:air
+    monster: 11702
+    at: [3968, -3072]
+    floor_height: 258
+    facing: 180
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Sleeper's Guardian of Air (75): the test's hidden group 60 in the eye, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_2
+    room: room:air
+    monster: 11701
+    at: [3712, -3232]
+    floor_height: 258
+    facing: 180
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Whirlwind (70): the test's hidden group 60 in the eye, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_3
+    room: room:air
+    monster: 11701
+    at: [4224, -3232]
+    floor_height: 258
+    facing: 180
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Whirlwind (70): the test's hidden group 60 in the eye, shown by evt:test (D-58 C3)."
+  - id: monster:kite_elementals_1
+    room: room:air
+    monster: 11700
+    at: [-3360, 3200]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 6
+    notes: "pop:kite_elementals: 3 Air Elemental (62)."
+  - id: monster:kite_elementals_2
+    room: room:air
+    monster: 11700
+    at: [-3696, 3394]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 6
+  - id: monster:kite_elementals_3
+    room: room:air
+    monster: 11700
+    at: [-3696, 3006]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 6
+  - id: monster:kite_greater_1
+    room: room:air
+    monster: 11701
+    at: [-4384, 4224]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 8
+    notes: "pop:kite_greater: 3 Whirlwind (70)."
+  - id: monster:kite_greater_2
+    room: room:air
+    monster: 11701
+    at: [-4720, 4418]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 8
+  - id: monster:kite_greater_3
+    room: room:air
+    monster: 11701
+    at: [-4720, 4030]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 8
+  - id: monster:kite_south_1
+    room: room:air
+    monster: 11624
+    at: [-4256, 2560]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 7
+    notes: "pop:kite_south: 2 Lesser Air Elemental (55)."
+  - id: monster:kite_south_2
+    room: room:air
+    monster: 11624
+    at: [-4704, 2560]
+    floor_height: 320
+    facing: 0
+    hostile: true
+    group: 7
+  - id: monster:statue_east_1
+    room: room:air
+    monster: 11624
+    at: [427, -2086]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 2
+    notes: "pop:statue_east: 3 Lesser Air Elemental (55)."
+  - id: monster:statue_east_2
+    room: room:air
+    monster: 11624
+    at: [254, -1963]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:statue_east_3
+    room: room:air
+    monster: 11624
+    at: [209, -2212]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:statue_west_1
+    room: room:air
+    monster: 11624
+    at: [-1440, -2432]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 1
+    notes: "pop:statue_west: 2 Lesser Air Elemental (55)."
+  - id: monster:statue_west_2
+    room: room:air
+    monster: 11624
+    at: [-1362, -2253]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 1
+  - id: monster:stones_elementals_1
+    room: room:air
+    monster: 11700
+    at: [-230, 2432]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 3
+    notes: "pop:stones_elementals: 3 Air Elemental (62)."
+  - id: monster:stones_elementals_2
+    room: room:air
+    monster: 11700
+    at: [-624, 2754]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:stones_elementals_3
+    room: room:air
+    monster: 11700
+    at: [-343, 2165]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:stones_lip_1
+    room: room:air
+    monster: 11624
+    at: [936, 1248]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 5
+    notes: "pop:stones_lip: 2 Lesser Air Elemental (55)."
+  - id: monster:stones_lip_2
+    room: room:air
+    monster: 11624
+    at: [720, 1114]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 5
+  - id: monster:stones_north_1
+    room: room:air
+    monster: 11624
+    at: [778, 2957]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 4
+    notes: "pop:stones_north: 3 Lesser Air Elemental (55)."
+  - id: monster:stones_north_2
+    room: room:air
+    monster: 11624
+    at: [449, 3064]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:stones_north_3
+    room: room:air
+    monster: 11624
+    at: [528, 2878]
+    floor_height: 256
+    facing: 0
+    hostile: true
+    group: 4
+items:
+  - id: item:basket_potion1
+    room: room:air
+    item: 257
+    at: [-3616, 4160]
+    floor_height: 320
+    notes: "The basket's find: Air Resistance (257)."
+  - id: item:basket_potion2
+    room: room:air
+    item: 257
+    at: [-3552, 4224]
+    floor_height: 320
+decorations:
+  - id: deco:basket
+    room: room:air
+    decoration: xeen_balloonbasket
+    at: [-3712, 4224]
+    floor_height: 320
+    facing: 0
+    notes: "The wrecked basket (S, row 4058; radius 64, solid) on Kite Isle, its raised side on the rocks to the north; clicked, A3's planes.basket (the logbook). The find lies 115 and 160 from its middle, the cache 209 north-west."
+  - id: deco:dais
+    room: room:air
+    decoration: xeen_dais_air
+    at: [3456, 2944]
+    hidden: true
+    facing: 0
+    notes: "The return dais (S's disc over platform:dais): hidden until the Air Sleeper wakes (evt:dais_load, evt:dais_show)."
+  - id: deco:pedestal
+    room: room:air
+    decoration: xeen_pedestal_air
+    at: [2528, -2864]
+    facing: 270
+    notes: "The test's pedestal (S): beside the plate, facing it, off the walking line."
+  - id: deco:sleeper
+    room: room:air
+    decoration: xeen_sleeper_air
+    at: [4736, 3712]
+    floor_height: 768
+    facing: 225
+    notes: "The Air Sleeper on his couch (S, row 4023-4026; D-58 C7): the head on the left seen from the front; clicked, A3's m38.sleeper_air."
+  - id: deco:statue
+    room: room:air
+    decoration: xeen_statue_air
+    at: [-384, -1792]
+    facing: 225
+    notes: "The statue of Air (S, D-58 C7) on A6's plinth; clicked, A3's m38.plaque_air."
+  - id: deco:way_up
+    room: room:air
+    decoration: xeen_wayup_air
+    at: [-4931, -4723]
+    facing: 0
+    notes: "The way up's effect (S, no collision): clicked like the way up."
+notes: "P2 L4 objects (generated by output/studio_cal/p2/tools/gen.py): 27 placed hostiles in 10 groups and the test's three in the hidden group 60; two chests at treasure 6; the basket's find; S's pieces (session 20): sleeper and couch, statue, pedestal, return dais (hidden until he wakes), updraft; S's wrecked basket (session 25). No lights."

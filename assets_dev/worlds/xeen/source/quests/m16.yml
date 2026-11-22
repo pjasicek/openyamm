@@ -1,0 +1,65 @@
+# M16 Nadia's Necklace (QUESTS M16, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M16
+title: Nadia's Necklace
+act: III
+kind: main
+status: full
+giver: 4922          # Nadia (her house, 4472)
+maps: [D1, DD-01]
+level: 19
+block: 16
+after: [m15.read]
+source: "QUESTS M16; dark research 1 (step 3)"
+
+qbits:
+  started: {id: 111320, journal: "The sewer rats under Castleview took Nadia's onyx necklace. She will pay for it.",
+            until: [key]}
+  necklace_found: {id: 111321, note: "the rats' nest in DD-01 (hook m16.necklace)"}
+  key: {id: 111322}
+  outfall_unbarred: {id: 117001, map: DD-01, note: "DD-01's own (A8): the outfall's iron bar, a two-state lever, sets it when lifted and clears it when dropped (D-26); DD-01's outfall exit and D1's outfall grate (m16.outfall) read it"}
+  dd01_arrived_once: {id: 117000, map: DD-01, note: "the map's own: first arrival in DD-01 (A8)"}
+  guard_purse: {id: 117002, map: DD-01, note: "the map's own: the gate guard's bones under the grate, 150 gold once (A8)"}
+
+player_bits:         # DD-01's, once per character (A8)
+  red_liquid: {id: 11310, map: DD-01, note: "the Red Liquid: +2 Might (base)"}
+  green_liquid: {id: 11311, map: DD-01, note: "the Green Liquid: +2 Endurance (base)"}
+
+items:
+  onyx_necklace: "Nadia's onyx necklace; the rats' nest in DD-01; Nadia takes it."
+
+npcs:
+  4922:              # Nadia
+    topics:
+      - n: 1
+        label: Necklace
+        states:
+          - when: {qbit: key}
+            text: "I wear it every day now, and I don't go near the drains."
+          - when: {item: onyx_necklace}
+            text: "My necklace! It still smells of sewer, but it's mine. Here, for your trouble. And Ellinger owes me a favour. Tell him Nadia sent you."
+            do: [{take: onyx_necklace}, {set: key}, {clear: started}, {xp: 4000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "The rats have it down there somewhere. Big rats. Organised rats."
+          - text: "The rats came up the drain and took my onyx necklace right off the dresser. They live in the sewers under town. Bring it back and I'll make it worth your while."
+            do: [{set: started}]
+
+hooks:
+  necklace:
+    map: DD-01
+    where: "the rats' nest in Castleview Sewer, among their shiny things"
+    sets: [necklace_found]
+    gives: [onyx_necklace]
+    once: true
+    text: "In the rats' nest, among bottle caps and buttons: an onyx necklace on a silver chain."
+    else_text: "Bottle caps and buttons. Nothing worth the smell."
+  outfall:
+    map: D1
+    entrance: DD-01
+    gate: shortcut
+    where: "the outfall grate in the mill gorge's west wall, within 400 of the burnt mill (D-26): the door event enters DD-01 when this returns true"
+    requires: {qbit: outfall_unbarred}
+    reads: [outfall_unbarred]
+    fail_text: "An iron grate, barred from inside."
+
+rewards: {xp: 4000, gold: 0}
+playthrough: "D1: Nadia (Necklace). DD-01: the rats' nest. D1: Nadia (Necklace): gold."

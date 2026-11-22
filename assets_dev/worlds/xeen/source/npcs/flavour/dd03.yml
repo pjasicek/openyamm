@@ -1,0 +1,30 @@
+# DD-03 Castle Kalindra: flavour topics of the castle's people with no quest role (source/towns/dd03.yml), each in a
+# room that opens with its stage. Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only). Queen Kalindra, Dimitri,
+# Megan and Guido are A3's (M19-M27, the safes). The castle servants' lines of the source (Kenneth, Terry, Audrey)
+# are spoken by the castle's people here; Carl the Mason (5014, D-26) speaks his own in his greeting (towns/dd03.yml).
+map: DD-03
+block: 180
+source: "dark/aaze0041 (Castle Kalindra)"
+
+npcs:
+  5002:              # Gem, the throne room (stage 1)
+    topics:
+      - {n: 1, label: Empath, text: "As an empath, I am quite perceptive to my surroundings. Since you are on a quest to save the world, I'll teach you to be more aware of immediate danger.", source: "dark/aaze0041:13 (close: not for free)"}
+  5003:              # Errol, the throne room (stage 1)
+    topics:
+      - {n: 2, label: Armsmaster, text: "I am the castle Armsmaster. I will teach you to use your weapons more accurately in combat, if you like.", source: "dark/aaze0041:16 (close: not for free)"}
+  5006:              # Astronomer Tycho, the observatory (stage 2)
+    topics:
+      - {n: 3, label: Astrology, text: "The stars tell you what a thing is, if you know how to ask. Swords are easy. Rings lie."}
+  5009:              # Treasurer Abelard (stage 4)
+    topics:
+      - {n: 4, label: Out of phase, text: "Thanks for bringing the castle back to reality. We've been trapped here ever since Alamar moved the Castle out of phase. We were starting to run out of food!", source: "dark/aaze0041:19"}
+  5010:              # Lady Brienne (stage 4)
+    topics:
+      - {n: 5, label: Alamar, text: "Surely you must know what Alamar has done! No? Why, he slew the guards and stole the Cube of Power, that's what!", source: "dark/aaze0041:21"}
+  5012:              # Groom Wendell (stage 4)
+    topics:
+      - {n: 6, label: Lizard innards, text: "If it weren't for our large stockpile of sun dried lizard innards we surely would have starved to death. The horses ate them too. They were not pleased.", source: "dark/aaze0041:33 (close)"}
+  5013:              # Sir Roderic (stage 4)
+    topics:
+      - {n: 7, label: Alamar, text: "Alamar walked past twelve of my guards on his way out. They did not get up. I teach the shield so that it never happens again."}

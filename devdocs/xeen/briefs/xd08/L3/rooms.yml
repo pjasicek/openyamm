@@ -1,0 +1,486 @@
+format: 0
+themes:
+- id: theme:tomb
+  wall: &id001 {texture: t6s1bs, size: [128, 256]}
+  floor: &id002 {texture: t6s1fl, size: [128, 128]}
+  ceiling: &id003 {texture: t6s1c, size: [128, 128]}
+  reveal: *id001
+  door: &id004 {texture: t5d1, size: [128, 256], fit: true}
+  notes: 'The tomb proper: MM7''s Temple of Baa (d04) as it lays its set: brick t6s1bs, flagstones t6s1fl, the coffered ceiling
+    t6s1c, iron-bound doors t5d1.'
+- id: theme:tomb_tall
+  wall: *id001
+  floor: *id002
+  ceiling: *id003
+  reveal: *id001
+  door: *id004
+  notes: 'The tomb''s tall halls: the Baa set with its skull frieze t6s1b as a band under the ceiling (the room''s own bands).'
+- id: theme:torture
+  wall: &id006 {texture: t4s1fl, size: [128, 128]}
+  floor: *id002
+  ceiling: *id003
+  reveal: *id001
+  door: *id004
+  notes: 'The torture rooms (stocks, chains, maiden, cage): d04''s green-black slabs t4s1fl on the walls, the tomb''s flags,
+    iron (A6''s xwiron, xwcage, the kit''s xkportc).'
+- id: theme:crypt
+  wall: {texture: t5bs, size: [128, 256]}
+  floor: {texture: t2bs, size: [128, 256]}
+  ceiling: {texture: t4bs, size: [128, 256]}
+  door: *id004
+  notes: 'The crypts: MM7''s Barrow I (mdt03) as it lays them: sandy rock t5bs on walls, grey rock t2bs underfoot, green-black
+    rock t4bs overhead.'
+- id: theme:crypt_dressed
+  wall: {texture: hwp1b, size: [128, 256]}
+  floor: {texture: t2bs, size: [128, 256]}
+  ceiling: {texture: t4bs, size: [128, 256]}
+  door: *id004
+  notes: 'The dressed crypts (coffin vault, embalming room): Barrow I''s plastered wall hwp1b with its moulding.'
+- id: theme:ossuary
+  wall: {texture: hwp1b, size: [128, 256]}
+  floor: {texture: t2bs, size: [128, 256]}
+  ceiling: {texture: t4bs, size: [128, 256]}
+  door: *id004
+  notes: 'The ossuary: the dressed crypt wall under two bands of skulls (the tomb''s skull frieze t6s1b).'
+- id: theme:deep
+  wall: &id005 {texture: gcav1flr, size: [256, 256]}
+  floor: &id012 {texture: gcav2flr, size: [128, 128], scale: 2}
+  ceiling: *id005
+  door: *id004
+  notes: 'The deep: raw rock (MM8 Ogre Fortress d12''s gcav1flr, gcav2flr, as XD-05 and XD-07''s caves).'
+defaults: {theme: 'theme:tomb', ambient: 14}
+rooms:
+- id: room:door
+  name: Tomb door
+  outline: [[-384, 0], [384, 0], [384, 768], [-384, 768]]
+  floor: 0
+  ceiling: 512
+  theme: theme:tomb
+  ambient: 16
+  notes: 'Inside the tomb door (out to X3): the arrival.'
+- id: room:welcome
+  name: Hall of Welcome
+  outline: [[-768, 1024], [768, 1024], [768, 2304], [-768, 2304]]
+  floor: 0
+  ceiling: 768
+  theme: theme:tomb_tall
+  bands: [{height: 512, surface: *id001}, {height: 768, surface: &id007 {texture: t6s1b, size: [128, 256]}}]
+  platforms: [{id: 'platform:statue', at: [-512, 1664], size: [256, 256], rise: 48, surface: *id006, top_surface: *id002,
+      notes: 'The statue''s plinth (clicked: its plaque, m10.tomb_welcome).'}]
+  ambient: 16
+  notes: The statue on its plinth and its plaque ('Insanity is our fame, undead is our game.', m10.tomb_welcome); the gallery's
+    arch east, the west mourning hall's door north.
+- id: room:gallery
+  name: Gallery of Terrors
+  outline: [[1024, 1280], [4352, 1280], [4352, 2304], [1024, 2304]]
+  floor: 0
+  ceiling: 640
+  theme: theme:tomb_tall
+  bands: [{height: 384, surface: *id001}, {height: 640, surface: *id007}]
+  walls:
+  - wall: north
+    panels: [{id: 'panel:plaque_manacles', offset: 2624, length: 192, bottom: 160, height: 96, surface: &id008 {texture: sign128,
+          size: [256, 128], fit: true}, notes: '''Manacles'', east of the chain room''s arch.'}, {id: 'panel:plaque_maiden',
+        offset: 960, length: 192, bottom: 160, height: 96, surface: *id008, notes: '''Iron Maiden'', east of the maiden''s
+          niche.'}]
+  platforms: [{at: [1536, 1408], size: [256, 192], rise: 48, surface: *id006, top_surface: *id002, notes: 'A device on its
+        plinth: a bone cage.'}, {at: [2304, 1408], size: [256, 192], rise: 48, surface: *id006, top_surface: *id002, notes: 'A
+        device on its plinth: an empty cage.'}, {at: [3072, 1408], size: [256, 192], rise: 48, surface: *id006, top_surface: *id002,
+      notes: 'A device on its plinth: a gibbet cage.'}, {at: [3840, 1408], size: [256, 192], rise: 48, surface: *id006, top_surface: *id002,
+      notes: 'A device on its plinth: a noose.'}]
+  ambient: 14
+  notes: A long hall of devices on plinths along its south wall (a bone cage, an empty cage, a gibbet, a noose); the chain
+    room's and the maiden's arches north with their plaques; the east mourning hall's door east.
+- id: room:west_mourning
+  name: West mourning hall
+  outline: [[-1536, 2560], [256, 2560], [256, 3840], [-1536, 3840]]
+  floor: 0
+  ceiling: 640
+  theme: theme:tomb
+  platforms: [{id: 'platform:coffin_w1', at: [-1280, 3648], size: [128, 256], rise: 80, surface: *id006, top_surface: *id006,
+      notes: 'A stone coffin (clicked: ''The coffin is empty.'').'}, {at: [-896, 3648], size: [128, 256], rise: 80, surface: *id006,
+      top_surface: *id006, notes: A stone coffin.}, {id: 'platform:coffin_w2', at: [-512, 3648], size: [128, 256], rise: 80,
+      surface: *id006, top_surface: *id006, notes: 'A stone coffin (clicked: ''The coffin is empty.'').'}, {at: [-128, 3648],
+      size: [128, 256], rise: 80, surface: *id006, top_surface: *id006, notes: A stone coffin.}]
+  ambient: 14
+  notes: Four stone coffins along the north wall ('The coffin is empty.'), ghouls, a chest; the stocks yard west, the chain
+    room's door east.
+- id: room:stocks
+  name: Stocks yard
+  outline: [[-3072, 2560], [-1792, 2560], [-1792, 3840], [-3072, 3840]]
+  floor: 0
+  ceiling: 576
+  theme: theme:torture
+  walls:
+  - wall: north
+    panels: [{id: 'panel:plaque_stocks', offset: 544, length: 192, bottom: 160, height: 96, surface: *id008, notes: '''Stocks''.'}]
+  platforms: [{at: [-2560, 2816], size: [320, 48], rise: 112, surface: &id009 {texture: 7gt001a, size: [64, 64]}, top_surface: *id009,
+      notes: A pair of stocks (a timber board at neck height).}, {at: [-2560, 3200], size: [320, 48], rise: 112, surface: *id009,
+      top_surface: *id009, notes: A pair of stocks (a timber board at neck height).}, {at: [-2560, 3584], size: [320, 48],
+      rise: 112, surface: *id009, top_surface: *id009, notes: A pair of stocks (a timber board at neck height).}]
+  ambient: 14
+  notes: Three pairs of stocks with skeletons still in them; a chest under the last; the 'Stocks' plaque.
+- id: room:chain_room
+  name: Chain room
+  outline: [[512, 2560], [1536, 2560], [1536, 3328], [512, 3328]]
+  floor: 0
+  ceiling: 576
+  theme: theme:torture
+  pillars: [{at: [704, 3200], size: [8, 8], surface: &id010 {texture: xwiron, size: [128, 128]}}, {at: [864, 3200], size: [
+        8, 8], surface: *id010}, {at: [1184, 3200], size: [8, 8], surface: *id010}, {at: [1344, 3200], size: [8, 8], surface: *id010}]
+  ambient: 14
+  notes: Manacles on long chains running into the floor; pull them and the portcullis below rises.
+- id: room:maiden_niche
+  name: Iron maiden
+  outline: [[2560, 2560], [3328, 2560], [3328, 3328], [2560, 3328]]
+  floor: 0
+  ceiling: 576
+  theme: theme:torture
+  platforms: [{at: [2752, 3296], size: [64, 64], rise: 448, surface: *id010, top_surface: *id010, notes: 'The iron maiden''s
+        case, west of its door.'}, {at: [3136, 3296], size: [64, 64], rise: 448, surface: *id010, top_surface: *id010, notes: 'The
+        iron maiden''s case, east of its door.'}]
+  ambient: 14
+  notes: 'The iron maiden in the north wall between its iron case: it opens on a stair (a secret door).'
+- id: room:east_mourning
+  name: East mourning hall
+  outline: [[4608, 1024], [5888, 1024], [5888, 2560], [4608, 2560]]
+  floor: 0
+  ceiling: 640
+  theme: theme:tomb
+  platforms: [{at: [5504, 1280], size: [320, 128], rise: 64, surface: *id006, top_surface: *id002, notes: A bier.}, {at: [
+        5504, 1664], size: [320, 128], rise: 64, surface: *id006, top_surface: *id002, notes: A bier.}, {at: [5504, 2048],
+      size: [320, 128], rise: 64, surface: *id006, top_surface: *id002, notes: A bier.}]
+  ambient: 14
+  notes: Three biers with their dead; tomb guards; the hanging cage's arch north.
+- id: room:cage_room
+  name: Hanging cage
+  outline: [[4352, 2816], [5376, 2816], [5376, 3584], [4352, 3584]]
+  floor: 0
+  ceiling: 640
+  theme: theme:torture
+  walls:
+  - wall: north
+    panels: [{id: 'panel:plaque_cage', offset: 288, length: 192, bottom: 160, height: 96, surface: *id008, notes: '''Cage'',
+          east of the cage''s gate.'}]
+  ambient: 14
+  notes: The cage's gate in the north wall over the dark shaft; its call button and plaque.
+- id: room:shaft
+  name: Cage shaft
+  outline: [[4416, 3648], [4928, 3648], [4928, 4160], [4416, 4160]]
+  floor: -640
+  ceiling: 640
+  theme: theme:torture
+  ambient: 8
+  notes: 'The shaft the hanging cage rides, 512 square: its gate to the cage room at 0, to the cage pit at -640.'
+- id: room:maiden_stair
+  name: Maiden's stair
+  outline: [[2688, 3584], [3200, 3584], [3200, 4608], [2688, 4608]]
+  floor: 0
+  slope: {to: -640, toward: north, steps: 20}
+  ceiling: 448
+  ceiling_slope: {to: -192, toward: north}
+  theme: theme:crypt
+  ambient: 8
+  notes: Twenty steps down behind the iron maiden to the east crypt ring.
+- id: room:cage_pit
+  name: Cage pit
+  outline: [[3584, 4224], [5120, 4224], [5120, 5504], [3584, 5504]]
+  floor: -640
+  ceiling: -128
+  theme: theme:crypt
+  ambient: 10
+  notes: Where the cage lands; ghouls waiting for it; the call button by the lower gate.
+- id: room:crypt_ring_e
+  name: East crypt ring
+  outline: [[2560, 4864], [3328, 4864], [3328, 7168], [2560, 7168]]
+  floor: -640
+  ceiling: -192
+  theme: theme:crypt
+  ambient: 14
+  notes: 'The crypt ring''s east side: from the maiden''s stair and the cage pit to the portcullis way and the ossuary.'
+- id: room:crypt_ring_w
+  name: West crypt ring
+  outline: [[0, 4864], [768, 4864], [768, 7168], [0, 7168]]
+  floor: -640
+  ceiling: -192
+  theme: theme:crypt
+  ambient: 14
+  notes: 'The ring''s west side: the barracks'' and the embalming room''s doors, the deep stair north.'
+- id: room:portcullis
+  name: Portcullis way
+  outline: [[1024, 6656], [2304, 6656], [2304, 7168], [1024, 7168]]
+  floor: -640
+  ceiling: -192
+  theme: theme:crypt
+  ambient: 14
+  notes: The way before the coffin vault, closed by a portcullis that the manacles above raise.
+- id: room:ossuary
+  name: Ossuary
+  outline: [[1024, 4864], [2304, 4864], [2304, 6144], [1024, 6144]]
+  floor: -640
+  ceiling: -128
+  theme: theme:ossuary
+  bands: [{height: 64, surface: {texture: hwp1b, size: [128, 256]}}, {height: 320, surface: *id007}, {height: 512, surface: *id007}]
+  ambient: 14
+  notes: Skull walls; skull piles in the corners; bones that rise.
+- id: room:coffin_vault
+  name: Coffin vault
+  outline: [[1024, 7424], [3328, 7424], [3328, 9216], [1024, 9216]]
+  floor: -640
+  ceiling: -64
+  theme: theme:crypt_dressed
+  platforms: [{at: [1408, 7936], size: [128, 288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.},
+    {at: [1408, 8512], size: [128, 288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [1920,
+        7936], size: [128, 288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [1920, 8512],
+      size: [128, 288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [2432, 7936], size: [
+        128, 288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [2432, 8512], size: [128,
+        288], rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [2944, 7936], size: [128, 288],
+      rise: 96, surface: *id006, top_surface: *id006, notes: A heavy coffin.}, {at: [2944, 8512], size: [128, 288], rise: 96,
+      surface: *id006, top_surface: *id006, notes: A heavy coffin.}]
+  ambient: 14
+  notes: Rows of heavy coffins; the great coffin at the north wall holds the King's Megacredits (Might 30).
+- id: room:barracks
+  name: Tomb guards' barracks
+  outline: [[-1536, 6144], [-256, 6144], [-256, 7168], [-1536, 7168]]
+  floor: -640
+  ceiling: -128
+  theme: theme:crypt
+  platforms: [{at: [-1480, 6656], size: [48, 512], rise: 192, surface: *id009, top_surface: *id009, notes: A rack of rusted
+        halberds along the west wall.}]
+  ambient: 14
+  notes: The tomb guards' racks of rusted halberds, their stores and their pay chest (two Might Boosts).
+- id: room:embalming
+  name: Embalming room
+  outline: [[-1536, 4864], [-256, 4864], [-256, 5888], [-1536, 5888]]
+  floor: -640
+  ceiling: -128
+  theme: theme:crypt_dressed
+  platforms: [{id: 'platform:juice_red', at: [-1376, 5728], size: [192, 192], rise: 64, surface: &id011 {texture: t4s1fl,
+        size: [128, 128]}, top_surface: {texture: xjuicered, size: [128, 128], liquid: water}, notes: 'The red tomb juice''s
+        basin (clicked: +2 Might once per character).'}, {id: 'platform:juice_blue', at: [-1120, 5728], size: [192, 192],
+      rise: 64, surface: *id011, top_surface: {texture: xjuiceblu, size: [128, 128], liquid: water}, notes: 'The blue tomb
+        juice''s basin (clicked: +2 Personality once per character).'}, {id: 'platform:juice_orange', at: [-864, 5728], size: [
+        192, 192], rise: 64, surface: *id011, top_surface: {texture: xjuiceorg, size: [128, 128], liquid: water}, notes: 'The
+        orange tomb juice''s basin (clicked: +2 Intellect once per character).'}, {id: 'platform:juice_green', at: [-608,
+        5728], size: [192, 192], rise: 64, surface: *id011, top_surface: {texture: xjuicegrn, size: [128, 128], liquid: water},
+      notes: 'The green tomb juice''s basin (clicked: +2 Endurance once per character).'}, {id: 'platform:juice_yellow', at: [
+        -1376, 5024], size: [192, 192], rise: 64, surface: *id011, top_surface: {texture: xjuiceyel, size: [128, 128], liquid: water},
+      notes: 'The yellow tomb juice''s basin (clicked: +2 Accuracy once per character).'}, {id: 'platform:juice_purple', at: [
+        -1120, 5024], size: [192, 192], rise: 64, surface: *id011, top_surface: {texture: xjuicepur, size: [128, 128], liquid: water},
+      notes: 'The purple tomb juice''s basin (clicked: +2 Speed once per character).'}, {id: 'platform:juice_white', at: [
+        -864, 5024], size: [192, 192], rise: 64, surface: *id011, top_surface: {texture: xjuicewht, size: [128, 128], liquid: water},
+      notes: 'The white tomb juice''s basin (clicked: +2 Luck once per character).'}, {at: [-896, 5376], size: [384, 160],
+      rise: 80, surface: *id006, top_surface: *id006, notes: The embalming slab.}]
+  ambient: 14
+  notes: 'Seven basins of tomb juice round the embalming slab: red, blue, orange, green, yellow, purple, white.'
+- id: room:deep_stair
+  name: Deep stair
+  outline: [[128, 7424], [640, 7424], [640, 8448], [128, 8448]]
+  floor: -640
+  slope: {to: -1280, toward: north, steps: 20}
+  ceiling: -192
+  ceiling_slope: {to: -832, toward: north}
+  theme: theme:deep
+  ambient: 8
+  notes: Twenty steps down into the deep; cold air.
+- id: room:deep_crypt
+  name: Deep crypt
+  outline: [[-1024, 8704], [768, 8704], [768, 9984], [-1024, 9984]]
+  floor: -1280
+  ceiling: -768
+  theme: theme:deep
+  platforms: [{at: [-768, 9216], size: [128, 256], rise: 24, surface: {texture: t2bs, size: [128, 256]}, top_surface: {texture: t2bs,
+        size: [128, 256]}, notes: An old grave.}, {at: [-512, 9216], size: [128, 256], rise: 24, surface: {texture: t2bs,
+        size: [128, 256]}, top_surface: {texture: t2bs, size: [128, 256]}, notes: An old grave.}, {at: [-768, 9664], size: [
+        128, 256], rise: 24, surface: {texture: t2bs, size: [128, 256]}, top_surface: {texture: t2bs, size: [128, 256]}, notes: An
+        old grave.}, {at: [512, 9600], size: [128, 256], rise: 24, surface: {texture: t2bs, size: [128, 256]}, top_surface: {
+        texture: t2bs, size: [128, 256]}, notes: An old grave.}]
+  ambient: 8
+  notes: Raw rock and old graves; grave ghouls.
+- id: room:bone_pit
+  name: Bone pit
+  outline: [[-1024, 10240], [768, 10240], [768, 11520], [-1024, 11520]]
+  floor: -1280
+  ceiling: -704
+  theme: theme:deep
+  levels: [{id: 'level:pit_w', outline: [[-896, 10368], [-416, 10368], [-416, 11392], [-896, 11392]], floor: -1472, notes: 'The
+        west half of the bone pit, 192 down.'}, {id: 'level:pit_e', outline: [[160, 10368], [640, 10368], [640, 11392], [
+          160, 11392]], floor: -1472, notes: 'The east half of the bone pit, 192 down.'}]
+  flights: [{from: [-592, 10880], to: [-416, 10880], width: 160, steps: 6, riser: *id005, tread: *id012, notes: Steps out
+        of the west pit onto the ledge.}, {from: [336, 10880], to: [160, 10880], width: 160, steps: 6, riser: *id005, tread: *id012,
+      notes: Steps out of the east pit onto the ledge.}]
+  ambient: 8
+  notes: A pit of bones in two halves, crossed on a rock ledge; steps out of each half.
+- id: room:terror_hall
+  name: Hall of a Thousand Terrors
+  outline: [[-1536, 11776], [1280, 11776], [1280, 13824], [-1536, 13824]]
+  floor: -1280
+  ceiling: -384
+  theme: theme:tomb_tall
+  bands: [{height: 512, surface: *id006}, {height: 768, surface: *id007}]
+  pillars: [{at: [-832, 12544], size: [128, 128], surface: *id001}, {at: [-832, 13184], size: [128, 128], surface: *id001},
+    {at: [576, 12544], size: [128, 128], surface: *id001}, {at: [576, 13184], size: [128, 128], surface: *id001}]
+  platforms: [{at: [-128, 13632], size: [1024, 320], rise: 48, surface: *id006, top_surface: *id002, notes: The dais of the
+        throne.}, {at: [-128, 13696], size: [256, 160], rise: 128, surface: *id007, top_surface: *id002, notes: 'The throne
+        of skulls: its seat.'}, {at: [-128, 13776], size: [288, 64], rise: 448, surface: *id007, top_surface: *id006, notes: The
+        throne's tall back (skulls).}]
+  ambient: 12
+  notes: 'The tomb''s heart: the throne of skulls on its dais, braziers, four pillars, tomb guards, the hoard.'
+openings:
+- id: open:door_welcome
+  from: room:door
+  to: room:welcome
+  link: link:door_welcome
+  width: 384
+  height: 384
+- id: open:welcome_gallery
+  from: room:welcome
+  to: room:gallery
+  link: link:welcome_gallery
+  width: 384
+  height: 448
+- id: open:welcome_westm
+  from: room:welcome
+  to: room:west_mourning
+  link: link:welcome_westm
+  width: 256
+  height: 320
+- id: open:westm_stocks
+  from: room:west_mourning
+  to: room:stocks
+  link: link:westm_stocks
+  width: 384
+  height: 384
+- id: open:westm_chain
+  from: room:west_mourning
+  to: room:chain_room
+  link: link:westm_chain
+  width: 256
+  height: 320
+- id: open:gallery_chain
+  from: room:gallery
+  to: room:chain_room
+  link: link:gallery_chain
+  width: 384
+  height: 384
+- id: open:gallery_maiden
+  from: room:gallery
+  to: room:maiden_niche
+  link: link:gallery_maiden
+  width: 384
+  height: 384
+- id: open:gallery_eastm
+  from: room:gallery
+  to: room:east_mourning
+  link: link:gallery_eastm
+  width: 256
+  height: 320
+- id: open:eastm_cage
+  from: room:east_mourning
+  to: room:cage_room
+  link: link:eastm_cage
+  width: 384
+  height: 384
+- id: open:cage_shaft
+  from: room:cage_room
+  to: room:shaft
+  link: link:cage_lift
+  width: 320
+  height: 288
+  notes: 'The cage''s upper gate: 640 over the shaft''s floor.'
+- id: open:shaft_pit
+  from: room:shaft
+  to: room:cage_pit
+  link: link:cage_lift
+  width: 320
+  height: 288
+  notes: The cage's lower gate.
+- id: open:maiden_secret
+  from: room:maiden_niche
+  to: room:maiden_stair
+  link: link:maiden_stair
+  width: 256
+  height: 320
+  notes: Behind the iron maiden.
+- id: open:mstair_ringe
+  from: room:maiden_stair
+  to: room:crypt_ring_e
+  link: link:mstair_ringe
+  width: 384
+  height: 384
+- id: open:pit_ringe
+  from: room:cage_pit
+  to: room:crypt_ring_e
+  link: link:pit_ringe
+  width: 384
+  height: 384
+- id: open:ringe_portcullis
+  from: room:crypt_ring_e
+  to: room:portcullis
+  link: link:ringe_portcullis
+  width: 384
+  height: 384
+- id: open:ringe_ossuary
+  from: room:crypt_ring_e
+  to: room:ossuary
+  link: link:ringe_ossuary
+  width: 384
+  height: 384
+- id: open:ossuary_ringw
+  from: room:ossuary
+  to: room:crypt_ring_w
+  link: link:ossuary_ringw
+  width: 384
+  height: 384
+- id: open:ringw_portcullis
+  from: room:crypt_ring_w
+  to: room:portcullis
+  link: link:ringw_portcullis
+  width: 384
+  height: 384
+- id: open:portcullis_vault
+  from: room:portcullis
+  to: room:coffin_vault
+  link: link:portcullis_vault
+  width: 384
+  height: 384
+- id: open:ringw_barracks
+  from: room:crypt_ring_w
+  to: room:barracks
+  link: link:ringw_barracks
+  width: 256
+  height: 320
+- id: open:ringw_embalming
+  from: room:crypt_ring_w
+  to: room:embalming
+  link: link:ringw_embalming
+  width: 256
+  height: 320
+- id: open:ringw_deep
+  from: room:crypt_ring_w
+  to: room:deep_stair
+  link: link:ringw_deep
+  width: 384
+  height: 384
+- id: open:deep_crypt
+  from: room:deep_stair
+  to: room:deep_crypt
+  link: link:deep_crypt
+  width: 384
+  height: 384
+- id: open:crypt_bonepit
+  from: room:deep_crypt
+  to: room:bone_pit
+  link: link:crypt_bonepit
+  width: 512
+  height: 448
+- id: open:bonepit_terror
+  from: room:bone_pit
+  to: room:terror_hall
+  link: link:bonepit_terror
+  width: 448
+  height: 448
+notes: 'XD-08 Tomb of a Thousand Terrors at L4: the tomb at 0 (entry, Hall of Welcome, Gallery of Terrors, the two mourning
+  halls, the torture rooms: stocks, chains, iron maiden, hanging cage), the crypts at -640 (a ring round the ossuary, the
+  portcullis way and the coffin vault, barracks, embalming room, cage pit) and the deep at -1280 (deep crypt, bone pit, Hall
+  of a Thousand Terrors). The cage shaft joins 0 and -640. No room stands over another. Written by output/studio_cal/xd08/tools/gen.py.'

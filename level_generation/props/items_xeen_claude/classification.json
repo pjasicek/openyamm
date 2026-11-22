@@ -1,0 +1,920 @@
+{
+ "x12192": {
+  "icon": "xeen_item_12192",
+  "name": "King's Megacredit",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12192
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12192/paint_a.png",
+  "icon_file": "items/xeen_item_12192/icon_a_x2.png",
+  "description": "King's Megacredit: a thick round gold token, stamped on its face with King Burlock's crown, a little worn at the rim"
+ },
+ "x12301": {
+  "icon": "xeen_item_12301",
+  "name": "Yak Stone of Opening",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12301
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12301/paint_a.png",
+  "icon_file": "items/xeen_item_12301/icon_a_x2.png",
+  "description": "Yak Stone of Opening: a smooth palm-sized grey-green stone carved with a stylised yak's head; the carving lightly inlaid with dull gold"
+ },
+ "x12302": {
+  "icon": "xeen_item_12302",
+  "name": "Pyramid Sigil",
+  "family": "misc",
+  "route": "blender",
+  "builder": "outline_slab",
+  "items": [
+   12302
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12302/paint_a.png",
+  "icon_file": "items/xeen_item_12302/icon_a_x2.png",
+  "description": "Pyramid Sigil: a flat gold sigil plate shaped like a step pyramid, an eye engraved in its centre, a small loop at the top"
+ },
+ "x12304": {
+  "icon": "xeen_item_12304",
+  "name": "Stone of a Thousand Terrors",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12304
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12304/paint_a.png",
+  "icon_file": "items/xeen_item_12304/icon_a_x2.png",
+  "description": "Stone of a Thousand Terrors: a rough dark purple-black stone with a pale carved rune of a screaming face"
+ },
+ "x12305": {
+  "icon": "xeen_item_12305",
+  "name": "Golem Stone of Admittance",
+  "family": "misc",
+  "route": "blender",
+  "builder": "outline_slab",
+  "items": [
+   12305
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12305/paint_a.png",
+  "icon_file": "items/xeen_item_12305/icon_a_x2.png",
+  "description": "Golem Stone of Admittance: a squared grey granite tablet with a carved rune of a blocky golem figure"
+ },
+ "x12308": {
+  "icon": "xeen_item_12308",
+  "name": "Orothin's Bone Whistle",
+  "family": "staff",
+  "route": "blender",
+  "builder": "auto_weapon",
+  "items": [
+   12308
+  ],
+  "length": 55.8,
+  "master": "items/xeen_item_12308/paint_a.png",
+  "icon_file": "items/xeen_item_12308/icon_a_x2.png",
+  "description": "Orothin's Bone Whistle: a carved bone whistle, yellowed, with three finger holes and a leather loop at the top"
+ },
+ "x12309": {
+  "icon": "xeen_item_12309",
+  "name": "Phirna Root",
+  "family": "misc",
+  "route": "blender",
+  "builder": "outline_slab",
+  "items": [
+   12309
+  ],
+  "length": 55.8,
+  "master": "items/xeen_item_12309/paint_a.png",
+  "icon_file": "items/xeen_item_12309/icon_a_x2.png",
+  "description": "Phirna Root: a pale twisted forked root with fine root hairs and a few earth crumbs"
+ },
+ "x12310": {
+  "icon": "xeen_item_12310",
+  "name": "Wand of Faery Magic",
+  "family": "staff",
+  "route": "blender",
+  "builder": "auto_weapon",
+  "items": [
+   12310
+  ],
+  "length": 55.8,
+  "master": "items/xeen_item_12310/paint_a.png",
+  "icon_file": "items/xeen_item_12310/icon_a_x2.png",
+  "description": "Wand of Faery Magic: a short faery wand of pale silver-white wood, as thick as a finger, its head an open silver crescent moon holding a violet crystal, a faint sparkle around the crystal"
+ },
+ "x12311": {
+  "icon": "xeen_item_12311",
+  "name": "Ligono's Skull",
+  "family": "misc",
+  "route": "reuse",
+  "builder": "skull",
+  "items": [
+   12311
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12311/paint_a.png",
+  "icon_file": "items/xeen_item_12311/icon_a_x2.png",
+  "description": "Ligono's Skull: an old human skull, sea-worn and bleached, a few barnacles and a strand of seaweed on it"
+ },
+ "x12312": {
+  "icon": "xeen_item_12312",
+  "name": "Scarab of Imaging",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12312
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12312/paint_a.png",
+  "icon_file": "items/xeen_item_12312/icon_a_x2.png",
+  "description": "Scarab of Imaging: a jewelled scarab: a lapis-blue beetle body edged in gold, wings closed, seen from above"
+ },
+ "x12313": {
+  "icon": "xeen_item_12313",
+  "name": "Crystals of Piezoelectricity",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12313
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12313/paint_a.png",
+  "icon_file": "items/xeen_item_12313/icon_a_x2.png",
+  "description": "Crystals of Piezoelectricity: a cluster of three pale blue quartz crystals growing from a small grey rock base"
+ },
+ "x12314": {
+  "icon": "xeen_item_12314",
+  "name": "Ever-Hot Lava Rock",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12314
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12314/paint_a.png",
+  "icon_file": "items/xeen_item_12314/icon_a_x2.png",
+  "description": "Ever-Hot Lava Rock: a black volcanic rock with glowing orange-red cracks"
+ },
+ "x12315": {
+  "icon": "xeen_item_12315",
+  "name": "Widget",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12315
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12315/paint_a.png",
+  "icon_file": "items/xeen_item_12315/icon_a_x2.png",
+  "description": "Widget: a small brass gadget of gears, a spring and a tiny crank handle"
+ },
+ "x12331": {
+  "icon": "xeen_item_12331",
+  "name": "Dragon Pharaoh's Orb",
+  "family": "misc",
+  "route": "blender",
+  "builder": "sphere",
+  "items": [
+   12331
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12331/paint_a.png",
+  "icon_file": "items/xeen_item_12331/icon_a_x2.png",
+  "description": "Dragon Pharaoh's Orb: a polished glowing amber orb with a darker swirl inside"
+ },
+ "x12334": {
+  "icon": "xeen_item_12334",
+  "name": "Energy Disk",
+  "family": "misc",
+  "route": "blender",
+  "builder": "disc",
+  "items": [
+   12334
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12334/paint_a.png",
+  "icon_file": "items/xeen_item_12334/icon_a_x2.png",
+  "description": "Energy Disk: a thin round metal disk with a glowing blue-white core and engraved circuit-like lines"
+ },
+ "x12343": {
+  "icon": "xeen_item_12343",
+  "name": "Monga Melon",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12343
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12343/paint_a.png",
+  "icon_file": "items/xeen_item_12343/icon_a_x2.png",
+  "description": "Monga Melon: a striped green melon, round, with a short stem"
+ },
+ "x12345": {
+  "icon": "xeen_item_12345",
+  "name": "Vespar's Emerald Handle",
+  "family": "staff",
+  "route": "blender",
+  "builder": "auto_weapon",
+  "items": [
+   12345
+  ],
+  "length": 55.8,
+  "master": "items/xeen_item_12345/paint_a.png",
+  "icon_file": "items/xeen_item_12345/icon_a_x2.png",
+  "description": "Vespar's Emerald Handle: a short staff handle of carved emerald-green stone, banded with gold at both ends"
+ },
+ "x12346": {
+  "icon": "xeen_item_12346",
+  "name": "Bridle",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12346
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12346/paint_a.png",
+  "icon_file": "items/xeen_item_12346/icon_a_x2.png",
+  "description": "Bridle: a coiled brown leather bridle with brass buckles and a steel bit"
+ },
+ "x12347": {
+  "icon": "xeen_item_12347",
+  "name": "Enchanted Bridle",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12347
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12347/paint_a.png",
+  "icon_file": "items/xeen_item_12347/icon_a_x2.png",
+  "description": "Enchanted Bridle: a coiled brown leather bridle with brass buckles and a steel bit, enchanted: pale blue glowing runes along every strap and a soft pale blue light around the bit"
+ },
+ "x12349": {
+  "icon": "xeen_item_12349",
+  "name": "Golden Pegasus Statuette",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12349
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12349/paint_a.png",
+  "icon_file": "items/xeen_item_12349/icon_a_x2.png",
+  "description": "Golden Pegasus Statuette: a small solid gold statuette of a winged horse rearing on a little square base"
+ },
+ "x12350": {
+  "icon": "xeen_item_12350",
+  "name": "Golden Dragon Statuette",
+  "family": "misc",
+  "route": "reuse",
+  "builder": "statuet5",
+  "items": [
+   12350
+  ],
+  "length": 36.9,
+  "master": "items/xeen_item_12350/paint_a.png",
+  "icon_file": "items/xeen_item_12350/icon_a_x2.png",
+  "description": "Golden Dragon Statuette: a small solid gold statuette of a coiled dragon with spread wings on a little square base"
+ },
+ "x12351": {
+  "icon": "xeen_item_12351",
+  "name": "Golden Griffin Statuette",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12351
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12351/paint_a.png",
+  "icon_file": "items/xeen_item_12351/icon_a_x2.png",
+  "description": "Golden Griffin Statuette: a small solid gold statuette of a sitting griffin on a little square base"
+ },
+ "x12352": {
+  "icon": "xeen_item_12352",
+  "name": "Caleb's Magnifying Glass",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12352
+  ],
+  "length": 55.8,
+  "master": "items/xeen_item_12352/paint_a.png",
+  "icon_file": "items/xeen_item_12352/icon_a_x2.png",
+  "description": "Caleb's Magnifying Glass: a brass magnifying glass with a round lens and a turned wooden handle"
+ },
+ "x12353": {
+  "icon": "xeen_item_12353",
+  "name": "Sandro's Heart",
+  "family": "bottle",
+  "route": "blender",
+  "builder": "vessel_upright",
+  "items": [
+   12353
+  ],
+  "length": 23.4,
+  "master": "items/xeen_item_12353/paint_a.png",
+  "icon_file": "items/xeen_item_12353/icon_a_x2.png",
+  "description": "Sandro's Heart: a shrivelled dark red heart in a small stoppered glass jar"
+ },
+ "x12357": {
+  "icon": "xeen_item_12357",
+  "name": "Ruby Rock",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12357
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12357/paint_a.png",
+  "icon_file": "items/xeen_item_12357/icon_a_x2.png",
+  "description": "Ruby Rock: a rough grey rock veined with red ruby crystals"
+ },
+ "x12358": {
+  "icon": "xeen_item_12358",
+  "name": "Emerald Rock",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12358
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12358/paint_a.png",
+  "icon_file": "items/xeen_item_12358/icon_a_x2.png",
+  "description": "Emerald Rock: a rough grey rock veined with green emerald crystals"
+ },
+ "x12359": {
+  "icon": "xeen_item_12359",
+  "name": "Sapphire Rock",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12359
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12359/paint_a.png",
+  "icon_file": "items/xeen_item_12359/icon_a_x2.png",
+  "description": "Sapphire Rock: a rough grey rock veined with blue sapphire crystals"
+ },
+ "x12360": {
+  "icon": "xeen_item_12360",
+  "name": "Diamond Rock",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12360
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12360/paint_a.png",
+  "icon_file": "items/xeen_item_12360/icon_a_x2.png",
+  "description": "Diamond Rock: a rough grey rock studded with glittering clear white diamond crystals"
+ },
+ "x12362": {
+  "icon": "xeen_item_12362",
+  "name": "Tribble",
+  "family": "misc",
+  "route": "blender",
+  "builder": "rock",
+  "items": [
+   12362
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12362/paint_a.png",
+  "icon_file": "items/xeen_item_12362/icon_a_x2.png",
+  "description": "Tribble: a small round ball of soft tan and white fur, no face visible"
+ },
+ "x12363": {
+  "icon": "xeen_item_12363",
+  "name": "Soul Box",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12363
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12363/paint_a.png",
+  "icon_file": "items/xeen_item_12363/icon_a_x2.png",
+  "description": "Soul Box: a small dark iron box with a domed lid and tarnished silver corner fittings, a keyhole in front"
+ },
+ "x12364": {
+  "icon": "xeen_item_12364",
+  "name": "Soul Box (Corak)",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12364
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12364/paint_a.png",
+  "icon_file": "items/xeen_item_12364/icon_a_x2.png",
+  "description": "Soul Box (Corak): a small dark iron box with a domed lid and tarnished silver corner fittings, a pale blue-white light shining from the seam under the lid"
+ },
+ "x12365": {
+  "icon": "xeen_item_12365",
+  "name": "Cube of Power",
+  "family": "misc",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12365
+  ],
+  "length": 39.6,
+  "master": "items/xeen_item_12365/paint_a.png",
+  "icon_file": "items/xeen_item_12365/icon_a_x2.png",
+  "description": "Cube of Power: a cube of clear humming crystal with a faint violet light inside, edges bound in silver"
+ },
+ "x12366": {
+  "icon": "xeen_item_12366",
+  "name": "Xeen's Scepter",
+  "family": "mace",
+  "route": "blender",
+  "builder": "custom",
+  "items": [
+   12366
+  ],
+  "length": 48.6,
+  "master": "items/xeen_item_12366/paint_a.png",
+  "icon_file": "items/xeen_item_12366/icon_a_x2.png",
+  "description": "Xeen's Scepter: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes"
+ },
+ "x12367": {
+  "icon": "xeen_item_12367",
+  "name": "Might Doll",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12367
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12367/paint_a.png",
+  "icon_file": "items/xeen_item_12367/icon_a_x2.png",
+  "description": "Might Doll: a small stuffed cloth carnival-prize toy: a round-faced strongman doll in a red and white striped strongman suit, holding a tiny painted wooden barbell"
+ },
+ "x12368": {
+  "icon": "xeen_item_12368",
+  "name": "Speed Doll",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12368
+  ],
+  "length": 31.5,
+  "master": "items/xeen_item_12368/paint_a.png",
+  "icon_file": "items/xeen_item_12368/icon_a_x2.png",
+  "description": "Speed Doll: a small stuffed cloth carnival-prize toy: a round-faced runner doll in a green tunic with little white felt wings on its boots"
+ },
+ "x12369": {
+  "icon": "xeen_item_12369",
+  "name": "Endurance Doll",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12369
+  ],
+  "length": 30.6,
+  "master": "items/xeen_item_12369/paint_a.png",
+  "icon_file": "items/xeen_item_12369/icon_a_x2.png",
+  "description": "Endurance Doll: a small stuffed cloth carnival-prize toy: a round-faced knight doll in a grey felt helmet and a padded grey felt breastplate"
+ },
+ "x12370": {
+  "icon": "xeen_item_12370",
+  "name": "Accuracy Doll",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12370
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12370/paint_a.png",
+  "icon_file": "items/xeen_item_12370/icon_a_x2.png",
+  "description": "Accuracy Doll: a small stuffed cloth carnival-prize toy: a round-faced archer doll in a brown hood and green tunic holding a tiny wooden bow"
+ },
+ "x12371": {
+  "icon": "xeen_item_12371",
+  "name": "Lord Xeen Doll",
+  "family": "misc",
+  "route": "meshy",
+  "builder": "",
+  "items": [
+   12371
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12371/paint_a.png",
+  "icon_file": "items/xeen_item_12371/icon_a_x2.png",
+  "description": "Lord Xeen Doll: a small stuffed cloth carnival-prize toy of a grim lord: black felt spiked armour, a dark red felt cape, a stern stitched face"
+ },
+ "x12373": {
+  "icon": "xeen_item_12373",
+  "name": "Chime of Opening",
+  "family": "bottle",
+  "route": "blender",
+  "builder": "vessel_upright",
+  "items": [
+   12373
+  ],
+  "length": 28.8,
+  "master": "items/xeen_item_12373/paint_a.png",
+  "icon_file": "items/xeen_item_12373/icon_a_x2.png",
+  "description": "Chime of Opening: a small silver hand chime: a bell-shaped chime on a short silver handle"
+ },
+ "x12500": {
+  "icon": "xeen_item_12500",
+  "name": "Xeen Slayer Sword",
+  "family": "sword2h",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12500
+  ],
+  "length": 175.5,
+  "master": "items/xeen_item_12500/paint_a.png",
+  "icon_file": "items/xeen_item_12500/icon_a_x2.png",
+  "description": "Xeen Slayer Sword: a long two-handed sword whose blade is clear pale blue crystal edged with thin bright steel along both sides, the crystal visibly see-through and faintly lit from within; a plain steel cross guard and a long leather-wrapped grip"
+ },
+ "x12501": {
+  "icon": "xeen_item_12501",
+  "name": "Elder Long Sword",
+  "family": "sword",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12501
+  ],
+  "length": 142.2,
+  "master": "items/xeen_item_12501/paint_a.png",
+  "icon_file": "items/xeen_item_12501/icon_a_x2.png",
+  "description": "Elder Long Sword: an ornate long sword: bright steel blade, gold cross guard with curled ends, gold pommel set with a small blue stone"
+ },
+ "x12502": {
+  "icon": "xeen_item_12502",
+  "name": "Elder Dagger",
+  "family": "dagger",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12502
+  ],
+  "length": 110.7,
+  "master": "items/xeen_item_12502/paint_a.png",
+  "icon_file": "items/xeen_item_12502/icon_a_x2.png",
+  "description": "Elder Dagger: an ornate dagger: bright steel blade, gold guard with curled ends, gold pommel with a small blue stone"
+ },
+ "x12503": {
+  "icon": "xeen_item_12503",
+  "name": "Elder Mace",
+  "family": "mace",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12503
+  ],
+  "length": 151.2,
+  "master": "items/xeen_item_12503/paint_a.png",
+  "icon_file": "items/xeen_item_12503/icon_a_x2.png",
+  "description": "Elder Mace: an ornate flanged mace: steel flanges, gold bands on the haft, a small blue stone set in the head"
+ },
+ "x12504": {
+  "icon": "xeen_item_12504",
+  "name": "Elder Spear",
+  "family": "spear",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12504
+  ],
+  "length": 257.4,
+  "master": "items/xeen_item_12504/paint_a.png",
+  "icon_file": "items/xeen_item_12504/icon_a_x2.png",
+  "description": "Elder Spear: an ornate spear: leaf-shaped steel head, gold collar with a small blue stone, dark wood shaft"
+ },
+ "x12505": {
+  "icon": "xeen_item_12505",
+  "name": "Elder Staff",
+  "family": "staff",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12505
+  ],
+  "length": 259.2,
+  "master": "items/xeen_item_12505/paint_a.png",
+  "icon_file": "items/xeen_item_12505/icon_a_x2.png",
+  "description": "Elder Staff: an ornate staff: dark polished wood, gold bands, a gold crown-shaped head holding a blue stone"
+ },
+ "x12506": {
+  "icon": "xeen_item_12506",
+  "name": "Elder Long Bow",
+  "family": "bow",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12506
+  ],
+  "length": 179.1,
+  "master": "items/xeen_item_12506/paint_a.png",
+  "icon_file": "items/xeen_item_12506/icon_a_x2.png",
+  "description": "Elder Long Bow: an ornate long bow of dark wood, gold-capped tips and a gold grip set with a small blue stone"
+ },
+ "x12510": {
+  "icon": "xeen_item_12510",
+  "name": "Last Flower of Summer",
+  "family": "ring",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12510
+  ],
+  "length": 27.9,
+  "master": "items/xeen_item_12510/paint_a.png",
+  "icon_file": "items/xeen_item_12510/icon_a_x2.png",
+  "description": "Last Flower of Summer: a gold ring set with a small red flower of enamel petals"
+ },
+ "x12511": {
+  "icon": "xeen_item_12511",
+  "name": "Leaf of Autumn",
+  "family": "amulet",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12511
+  ],
+  "length": 45.9,
+  "master": "items/xeen_item_12511/paint_a.png",
+  "icon_file": "items/xeen_item_12511/icon_a_x2.png",
+  "description": "Leaf of Autumn: an amulet: a bronze autumn leaf pendant with fine veins, on a short chain loop"
+ },
+ "x12522": {
+  "icon": "xeen_item_12522",
+  "name": "Ector's Ring",
+  "family": "ring",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12522
+  ],
+  "length": 27.9,
+  "master": "items/xeen_item_12522/paint_a.png",
+  "icon_file": "items/xeen_item_12522/icon_a_x2.png",
+  "description": "Ector's Ring: a heavy plain iron signet ring with a square bezel"
+ },
+ "x12523": {
+  "icon": "xeen_item_12523",
+  "name": "Barok's Pendant",
+  "family": "amulet",
+  "route": "blender",
+  "builder": "amulet_generic",
+  "items": [
+   12523
+  ],
+  "length": 43.2,
+  "master": "items/xeen_item_12523/paint_a.png",
+  "icon_file": "items/xeen_item_12523/icon_a_x2.png",
+  "description": "Barok's Pendant: a silver pendant holding an oval violet stone, on a short chain loop"
+ },
+ "x12524": {
+  "icon": "xeen_item_12524",
+  "name": "Holy Book of Elvenkind",
+  "family": "book",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12524
+  ],
+  "length": 52.2,
+  "master": "items/xeen_item_12524/paint_a.png",
+  "icon_file": "items/xeen_item_12524/icon_a_x2.png",
+  "description": "Holy Book of Elvenkind: a closed white leather book with a gold leaf embossed on the cover and gold corner pieces"
+ },
+ "x12525": {
+  "icon": "xeen_item_12525",
+  "name": "Chalice of Protection",
+  "family": "misc",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12525
+  ],
+  "length": 36.0,
+  "master": "items/xeen_item_12525/paint_a.png",
+  "icon_file": "items/xeen_item_12525/icon_a_x2.png",
+  "description": "Chalice of Protection: a gold chalice with a broad cup, a knotted stem and a ring of small blue stones around the cup"
+ },
+ "x12526": {
+  "icon": "xeen_item_12526",
+  "name": "Songbird of Serenity",
+  "family": "misc",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12526
+  ],
+  "length": 50.0,
+  "master": "items/xeen_item_12526/paint_a.png",
+  "icon_file": "items/xeen_item_12526/icon_a_x2.png",
+  "description": "Songbird of Serenity: a small jewelled songbird of gold and green enamel, perched on a little silver twig, beak open in song"
+ },
+ "x12527": {
+  "icon": "xeen_item_12527",
+  "name": "Jewel of Ages",
+  "family": "misc",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12527
+  ],
+  "length": 34.2,
+  "master": "items/xeen_item_12527/paint_a.png",
+  "icon_file": "items/xeen_item_12527/icon_a_x2.png",
+  "description": "Jewel of Ages: a large many-faceted clear jewel, cut like a brilliant diamond, with faint rainbow glints"
+ },
+ "x12528": {
+  "icon": "xeen_item_12528",
+  "name": "Vespar's Staff",
+  "family": "staff",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12528
+  ],
+  "length": 259.2,
+  "master": "items/xeen_item_12528/paint_a.png",
+  "icon_file": "items/xeen_item_12528/icon_a_x2.png",
+  "description": "Vespar's Staff: a long dark wooden staff with an emerald-green stone handle banded in gold, topped by a small gold cap"
+ },
+ "x12530": {
+  "icon": "xeen_item_12530",
+  "name": "Wyrmfang",
+  "family": "sword2h",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12530
+  ],
+  "length": 171.5,
+  "master": "items/xeen_item_12530/paint_a.png",
+  "icon_file": "items/xeen_item_12530/icon_a_x2.png",
+  "description": "Wyrmfang: a two-handed sword whose blade is a single long curved dragon's tooth, ivory with a darker root, set in a gold and black hilt"
+ },
+ "xkatana": {
+  "icon": "xeen_item_katana",
+  "name": "Katana",
+  "family": "sword2h",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12600,
+   12601,
+   12602,
+   12603,
+   12604
+  ],
+  "length": 142.2,
+  "master": "items/xeen_item_katana/paint_a.png",
+  "icon_file": "items/xeen_item_katana/icon_a_x2.png",
+  "description": "Katana: a katana: a slightly curved single-edged steel blade, a small round guard, a long cord-wrapped grip"
+ },
+ "xscimitar": {
+  "icon": "xeen_item_scimitar",
+  "name": "Scimitar",
+  "family": "sword",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12610,
+   12611,
+   12612,
+   12613
+  ],
+  "length": 142.2,
+  "master": "items/xeen_item_scimitar/paint_a.png",
+  "icon_file": "items/xeen_item_scimitar/icon_a_x2.png",
+  "description": "Scimitar: a scimitar: a broad curved single-edged steel blade widening near the tip, a simple brass guard and a wooden grip"
+ },
+ "xflamberge": {
+  "icon": "xeen_item_flamberge",
+  "name": "Flamberge",
+  "family": "sword2h",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12620,
+   12621,
+   12622
+  ],
+  "length": 175.5,
+  "master": "items/xeen_item_flamberge/paint_a.png",
+  "icon_file": "items/xeen_item_flamberge/icon_a_x2.png",
+  "description": "Flamberge: a flamberge: a long two-handed sword with a wavy flame-shaped steel blade, straight cross guard, long leather grip"
+ },
+ "xnaginata": {
+  "icon": "xeen_item_naginata",
+  "name": "Naginata",
+  "family": "spear",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12630,
+   12631,
+   12632,
+   12633,
+   12634
+  ],
+  "length": 244.8,
+  "master": "items/xeen_item_naginata/paint_a.png",
+  "icon_file": "items/xeen_item_naginata/icon_a_x2.png",
+  "description": "Naginata: a naginata: a long curved single-edged blade on a long dark wooden shaft"
+ },
+ "xglaive": {
+  "icon": "xeen_item_glaive",
+  "name": "Glaive",
+  "family": "halberd",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12640,
+   12641,
+   12642,
+   12643
+  ],
+  "length": 253.8,
+  "master": "items/xeen_item_glaive/paint_a.png",
+  "icon_file": "items/xeen_item_glaive/icon_a_x2.png",
+  "description": "Glaive: a glaive: a broad single-edged blade with a small back hook, on a long wooden shaft"
+ },
+ "xgreat_axe": {
+  "icon": "xeen_item_great_axe",
+  "name": "Great Axe",
+  "family": "axe2h",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12650,
+   12651,
+   12652,
+   12653
+  ],
+  "length": 216.5,
+  "master": "items/xeen_item_great_axe/paint_a.png",
+  "icon_file": "items/xeen_item_great_axe/icon_a_x2.png",
+  "description": "Great Axe: a great axe: a double-bladed steel axe head on a LONG wooden haft bound with leather near the bottom; the haft about three times as long as the head is tall, like the reference two-handed axes"
+ },
+ "xflail": {
+  "icon": "xeen_item_flail",
+  "name": "Flail",
+  "family": "flail",
+  "route": "dropped",
+  "builder": "",
+  "items": [
+   12660,
+   12661,
+   12662,
+   12663
+  ],
+  "length": 145.8,
+  "master": "items/xeen_item_flail/paint_a.png",
+  "icon_file": "items/xeen_item_flail/icon_a_x2.png",
+  "description": "Flail: a flail: a wooden handle with an iron chain hanging from its top ending in a spiked iron ball"
+ },
+ "x12400": {
+  "icon": "xeen_item_12400",
+  "name": "Eerie's Guide to Cloudside",
+  "family": "book",
+  "route": "blender",
+  "builder": "book_generic",
+  "items": [
+   12400
+  ],
+  "length": 52.2,
+  "master": "items/xeen_item_12400/paint_a.png",
+  "icon_file": "items/xeen_item_12400/icon_a_x2.png",
+  "description": "Eerie's Guide to Cloudside: a small closed travel guidebook bound in green cloth, a gold-tooled map of a flat world with a cliff edge on its cover"
+ }
+}

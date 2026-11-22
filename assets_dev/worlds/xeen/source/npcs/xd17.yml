@@ -1,0 +1,95 @@
+# XD-17 Shangri-La: the hint lines that solve quests (A4's town file names them A3's: Maurice the sword, Alexander the
+# Sphinx's name, Princess Pilar the key, Elona the password, Psychic Sally the mirror and the seer). The first five
+# are the source's lines (xeen/aaze0049; ORIGINAL_LINES.md). Psychic Sally is also the Cloudside seer (QUESTS 4.3):
+# her Seer topic gives the next main-quest step, MM6/MM8 style. The cleft (D-40): the valley's back passage comes out
+# at a rockfall on X7 that opens from inside the first time a party leaves that way (cleft_open); from then on it is a
+# two-way door. Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: XD-17
+block: 157
+source: "xeen/aaze0049:8, :10, :12, :16, :20; D-40 (the cleft)"
+
+qbits:
+  cleft_open: {id: 116140, note: "D-40: set the first time the party leaves Shangri-La by XD-17's back passage (cleft_opened); X7's cleft door reads it (cleft)"}
+
+player_bits:
+  well_found: {id: 11358, map: XD-17, note: "D-50 Q1: Shangri-La's well drunk by this character (15,000 experience and the award, once; D-53)"}
+
+awards:
+  shangrila: {id: 421, text: "Found Shangri-La", sort: 3}
+
+npcs:
+  4710:              # Maurice the Know-it-All
+    topics:
+      - {n: 1, label: The sword, text: "Only one sword can slay Lord Xeen. It lies in the ruins of the dungeon under Newcastle."}
+  4711:              # Alexander the Brave
+    topics:
+      - {n: 2, label: The Sphinx, text: "The name of the Sphinx is Golux."}
+  4712:              # Princess Pilar
+    topics:
+      - {n: 3, label: The key, text: "The key to the Tower of High Magic lies in the Cave of Illusion."}
+  4714:              # Elona the Explorer
+    topics:
+      - {n: 4, label: The password, text: "I hear the secret password for Newcastle dungeon is 'laboratory'. Not much of a secret if you ask me."}
+  4716:              # Psychic Sally
+    topics:
+      - {n: 5, label: The mirror, text: "Lord Xeen already has the Sixth Mirror."}
+      - n: 6
+        label: Seer
+        states:
+          - when: {not: {qbit: m21.crodo_freed}}
+            text: "I see an old man in a tower on an island, and a baron who copies himself. Free the one; the others are all the same man."
+          - when: {not: {qbit: m23.done}}
+            text: "I see a sword under a castle you own, and a door that wants a word. You already know the word. You just don't know you know it."
+          - when: {not: {qbit: m27.done}}
+            text: "I see a queen who will not look at your neck, and a griffin who will not wear plain leather."
+          - when: {not: {qbit: m28.done}}
+            text: "I see a pyramid in a desert, and a reptile in it who wants his marble back."
+          - when: {not: {qbit: m29.done}}
+            text: "I see something that fell from the stars into lava, and is still waiting for someone to finish its sentence."
+          - when: {not: {qbit: m30.done}}
+            text: "I see the Pharaoh again. He has a title for you. He's had it ready for some time."
+          - text: "I see a city in the clouds, and a box with nobody in it yet. After that it gets crowded. I'll stop there."
+
+hooks:
+  arrival:
+    map: XD-17
+    where: "the first arrival in the valley, from XD-16's cool passage (entrance:xd16_way) or the pyramid (entrance:d6_pyramid) (the map's own once, its arrival bit)"
+    text: "Green grass, still air and a clear sky, in the middle of a volcano. Nobody here seems surprised to see you."
+  well:
+    map: XD-17
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the well in the court (the source's \"Well\", xeen/aaze0049:26-27, :4): the map only calls this; the hook decides for the clicking member (player bit 11358): once 15,000 experience (D-53) and the award Found Shangri-La (D-50 Q1, the source's +1 level as a fixed sum), after that the water"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11358))"}
+        text: "The water is cool and refreshing."
+      - text: "Congratulations, You found Shangri-La! The water tastes of every road that led here. (+15,000 experience)"
+        do: [{lua: "AddValue(Experience, 15000)"}, {lua: "SetAward(Award(421))"}, {lua: "SetPlayerBit(PlayerBit(11358))"}]
+  crystal:
+    map: XD-17
+    where: "the hidden crystal in the cliff by the cave mouth, at eye height (D-50 Q5): Benedict's joke paid off (xeen/aaze0049:14); every click"
+    text: "A crystal set in the rock at eye height, watching you. From somewhere behind it, Benedict's voice: \"Smile! You're being broadcast to millions.\""
+  pyramid:
+    map: XD-17
+    gate: shortcut
+    where: "the travel pyramid in the valley (to D6 outside Castle Alamar's gate, entrance:xd17_pyramid, D-50 Q9): its click calls this; after m30.done the pyramid moves the party (Xeen.travelPyramid(\"shangrila\")), before it the source's line (xeen/aaze0049:25). D6's own pyramid calls Xeen.travelPyramid(\"alamar_gate\") directly"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    do: [{lua: "Xeen.travelPyramid(\"shangrila\")"}]
+    fail_text: "The moons are not aligned. You are unable to pass."
+  cleft_opened:
+    map: XD-17
+    where: "the valley's back passage (XD-17's exit preset to X7's cleft at [73, 48], D-50 change 4; the window's meaning is the source's \"Leave Shangri-La?\", xeen/aaze0049:32): the first exit calls this, then moves the party to the cleft's arrival on X7; once (a status line: a message box after MoveToMap never shows)"
+    sets: [cleft_open]
+    once: true
+    status: true
+    text: "You shift the last stones from the inside. The cleft is open both ways now."
+  cleft:
+    map: X7
+    entrance: XD-17
+    gate: shortcut
+    where: "the rockfall in the cleft at [73, 48] (X7's side): the door calls XeenQuests.hook(\"xd17.cleft\") and enters XD-17 when it returns true (the closed text is a message box, the open one a status line); the rock shows open or closed by cleft_open"
+    requires: {qbit: cleft_open}
+    reads: [cleft_open]
+    fail_text: "Fallen rock chokes the cleft. Cool air, and a smell of grass, seeps between the stones."
+    status: true
+    text: "The cleft is clear. Cool air and a smell of grass come up from the valley."

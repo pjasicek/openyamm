@@ -1,0 +1,120 @@
+format: 0
+events:
+  - id: evt:antler
+    preset: door
+    source: door:antler
+    title: Antler door
+  - id: evt:approach
+    preset: script
+    source: plate:before_throne
+    trigger: step
+    condition: {lua: not IsQBitSet(QBit(113263)) and not IsQBitSet(QBit(113264))}
+    lua: evt.SpeakNPC(5110)
+    once: true
+    notes: "state:deal: the first time the party comes before the throne, Hobstadt speaks unasked (NPC 5110, A3's topics: Give gold, Sacrifice one, Fight to the death), as the source's step event before his throne does (aaze0040:10-11). Later talks: click Hobstadt himself (monsters[].npc)."
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "You land in the widest of the pits. Ahead, two great log doors carved with troll faces stand open."
+    seconds: 6
+    notes: "The landing (a one-shot timer: the party arrives standing at the pit's bottom)."
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+    condition: {lua: IsQBitSet(QBit(113261)) or IsQBitSet(QBit(113262)) or IsQBitSet(QBit(113264))}
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d13.hoard\")"
+    notes: "The trolls' strongbox (tier 4) behind the throne, gated as the sacks: until tribute, trial or his death the hook's fail text."
+  - id: evt:chest_ice
+    preset: chest
+    source: chest:ice
+    title: Chest
+  - id: evt:chest_trophy
+    preset: chest
+    source: chest:trophy
+    title: Chest
+  - id: evt:cold
+    preset: text
+    source: room:frost_seep
+    trigger: step
+    once: true
+    text: "The air turns bitter. Through cracks in the floor you see stars, far below."
+    seconds: 5
+  - id: evt:court_fight
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {any: [{kills: {group: 30, at_least: 1}}, {kills: {group: 31}}], not: {qbit: 113263}}
+    once: true
+    effects:
+      - qbit: 113263
+    text: The court roars. Every troll under the forest is your enemy now.
+    seconds: 5
+    notes: "D-25 Q7, 'a fight turns all': a court troll or Hobstadt killed without his 'Fight to the death' sets q-d13.hostile (113263), which turns the court and the holes' trolls (A2's relation rules)."
+  - id: evt:flap
+    preset: door
+    source: door:flap
+    title: Hide flap
+  - id: evt:gate_seen
+    preset: text
+    source: room:hall_gate
+    trigger: step
+    condition: {not: {qbit: 113263}}
+    once: true
+    text: The two trolls at the doors lean on their clubs and watch you pass. Nobody stops you.
+    seconds: 5
+  - id: evt:hall_doors
+    preset: door
+    source: door:hall
+    title: Log doors
+  - id: evt:hatch
+    preset: exit
+    source: exit:hatch
+    title: Sod hatch
+    notes: "D-24/D-25: the trolls' stair's top, the exit preset (the game's leave window, no 'Exit the Troll Hole?' question: aaze0040:12 stays in the ledger) to D2 beside the third hole (exit:d2_return, A6's return point)."
+  - id: evt:hobstadt_gone
+    preset: script
+    trigger: load
+    condition: {qbit: 113264}
+    effects:
+      - hide_actors: 31
+    notes: "A slain Hobstadt stays dead after a refill: his group is hidden on entry once hobstadt_slain is set."
+  - id: evt:hobstadt_slain
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:hobstadt}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"q-d13.hobstadt\")"
+    text: Hobstadt falls across the foot of his throne. The throne is vacant.
+    seconds: 5
+    notes: "state:fight: his death runs A3's q-d13.hobstadt (hobstadt_slain 113264), which opens the hoard and the throne."
+  - id: evt:sacks
+    preset: script
+    source: platform:sacks
+    title: Sacks
+    lua: "XeenQuests.hook(\"q-d13.hoard\")"
+    notes: "goal:hoard: A3's q-d13.hoard (done 113266, its gold and experience; until a deal or his death its fail text, after its else text)."
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: Throne
+    lua: |-
+      if IsQBitSet(QBit(113264)) then
+          XeenQuests.hook("q-d13.throne")
+      elseif IsQBitSet(QBit(113263)) then
+          evt.StatusText("Hobstadt stands before his throne with his club raised. He is done talking.", 4)
+      else
+          evt.StatusText("A throne of stacked boulders. Hobstadt stands before it and watches you.", 4)
+      end
+    notes: "Hobstadt's throne: while he lives a line (talk to him by clicking him), while he fights 'done talking'; after his death A3's q-d13.throne (a Troll member is promoted; others read 'The throne is vacant.', aaze0040:8-9)."
+  - id: evt:trophies
+    preset: text
+    source: panel:trophies
+    title: Trophies
+    text: "Hides, dented shields and helms of the fallen, nailed to the roots."
+    seconds: 4

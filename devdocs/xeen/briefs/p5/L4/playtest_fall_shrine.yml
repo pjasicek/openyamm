@@ -1,0 +1,117 @@
+# A fall off the shrine's west rim.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.fall_shrine
+title: 'Clouds of the Ancients (P5): a fall off the shrine''s cloud lands on X5''s entrance:p5_fall (D-56 10)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- movement_segment:
+    input: forward
+    seconds: 1.0
+    actor_collision: true
+    actor_ai: true
+    start:
+      map: xeen_p5.blv
+      x: -1416
+      y: 0
+      z: 520
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p5.blv
+      x: -1416
+      y: 0
+      z: 520
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 3.0
+    follow_map_move: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x5.odm
+- assert:
+    party_position:
+      x: -4608
+      y: 2560
+      radius: 256
+- console:
+    line: hp show
+- note: '0.5 s after the landing: everyone alive, the fall''s damage only (D-6.2)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 233
+      health_max: 233
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 105
+      health_max: 105
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 147
+      health_max: 147
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 98
+      health_max: 98
+- advance_runtime:
+    seconds: 20.0
+- note: 'After 20 s on X5 (D-54): nobody has lost a point more'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 233
+      health_max: 233
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 105
+      health_max: 105
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 147
+      health_max: 147
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 98
+      health_max: 98
+- assert:
+    map: xeen_x5.odm

@@ -1,0 +1,217 @@
+format: 0
+level: L3
+pitch: "Newcastle, the castle the bolt from the sky destroyed, bought as a ruin from Ebenezer and rebuilt in stages by the King's engineer Emerson. At first the party finds a roofless great hall full of rubble and wood golems grown out of the old beams, a floor broken into the foundation pit, and the dungeon stair choked with rubble. With the keep built the hall is the lord's, the smith and the training hall open; with the dungeon dug the chapel and the counting room open, YOUR well flows, and the stair leads down past a flooded cellar and the scientists' old laboratory to the sword vault, whose door wants a word."
+purpose: "The party's Cloudside home and its staged services (A4's houses 4141-4144); story M8 (the deed), M11 (the keep), M22 (the dungeon), M23 (the Xeen Slayer Sword behind the password 'laboratory'). Party 14-16 for stage 0, about 33-36 for stage 3 (D-4: a quiet stage 3)."
+mood: "Stage 0: grey daylight through the broken roof, dust, rubble, timber. Stage 2: torchlight, banners. Below: cold brick, standing lagoon water, a hum behind a steel door."
+datum: arrival
+spaces:
+  - id: room:cellar
+    name: Flooded cellar
+    kind: room
+    size: M
+    floor: -640
+    purpose: "Stage 3: lagoon water seeped in; swamp things; syllable 4 'to' on a shelf."
+    population:
+      - {slot: 2, groups: 1, per_marker: [6, 6], levels: [26, 32], notes: 6 Bog Thing and Marsh Horrors placed (stage 3).}
+  - id: room:dungeon_stair
+    name: Dungeon stair
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: "Dug out at stage 3: down to the old dungeon."
+    empty: true
+  - id: room:foundation_pit
+    name: Foundation pit
+    kind: room
+    size: M
+    floor: -640
+    purpose: "Stage 0-1: where the hall's floor fell in; wood golems; the scientists' strongbox."
+    population:
+      - {slot: 1, groups: 1, per_marker: [5, 5], levels: [18, 18], notes: 5 Wood Golems placed (stage 0-1).}
+  - id: room:gate
+    name: Keep gate
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Inside the gate from X3's Newcastle site; the smithy's door (stage 2)."
+    empty: true
+  - id: room:great_hall
+    name: Great hall
+    kind: room
+    size: L
+    floor: 0
+    purpose: "Stage 0 a ruin (roof fallen in, rubble, woodpile, the floor broken into the pit), stage 2 the lord's hall with Newcastle's banners. Syllable 1 'la'."
+    population:
+      - {slot: 1, groups: 1, per_marker: [6, 6], levels: [18, 18], notes: 6 Wood Golems placed (stage 0-1).}
+  - id: room:old_lab
+    name: Old laboratory
+    kind: room
+    size: M
+    floor: -640
+    purpose: "Stage 3: the scientists' wrecked workshop and notebooks; syllable 5 'ry'; two iron golems."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [40, 40], notes: 2 Iron Golems placed (stage 3).}
+  - id: room:pantry
+    name: Pantry
+    kind: room
+    size: S
+    floor: 0
+    purpose: "'Food. Fill pack?'; syllable 2 'bo' under a sack."
+    empty: true
+  - id: room:rubble_ramp
+    name: Rubble ramp
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: The way back up from the pit into the pantry (walled up at stage 2).
+    empty: true
+  - id: room:stair_head
+    name: Head of the dungeon stair
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "Until stage 3: 'A short distance down the stairs you find the way blocked with rubble.'"
+    empty: true
+  - id: room:statue_court
+    name: Statue court
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The statue of the Great Adventurers; YOUR well (stage 3); the training hall (stage 2), chapel and counting room (stage 3) doors; syllable 3 'ra'."
+    population:
+      - {slot: 1, groups: 1, per_marker: [4, 4], levels: [18, 18], notes: 4 Wood Golems placed (stage 0-1).}
+  - id: room:sword_vault
+    name: Sword vault
+    kind: room
+    size: S
+    floor: -640
+    purpose: The pedestal and the experimental Xeen Slayer Sword (M23).
+    empty: true
+  - id: room:vault_door
+    name: Vault door
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: "The steel door with a speaking grille: 'What is the password?'; two iron golems."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [40, 40], notes: 2 Iron Golems placed (stage 3).}
+links:
+  - id: link:cellar_lab
+    from: room:cellar
+    to: room:old_lab
+    kind: open
+  - id: link:court_stair
+    from: room:statue_court
+    to: room:stair_head
+    kind: stairs
+  - id: link:gate_hall
+    from: room:gate
+    to: room:great_hall
+    kind: open
+  - id: link:hall_court
+    from: room:great_hall
+    to: room:statue_court
+    kind: open
+  - id: link:hall_pantry
+    from: room:great_hall
+    to: room:pantry
+    kind: door
+    motion: swing
+  - id: link:hall_pit
+    from: room:great_hall
+    to: room:foundation_pit
+    kind: drop
+    condition: {not: {any: [{qbit: keep}, {qbit: dungeon}]}}
+    notes: "The broken floor; floored over at stage 2 (the pit's lift rises into the hole)."
+  - id: link:lab_vaultdoor
+    from: room:old_lab
+    to: room:vault_door
+    kind: open
+  - id: link:pit_pantry
+    from: room:foundation_pit
+    to: room:pantry
+    kind: stairs
+    condition: {not: {any: [{qbit: keep}, {qbit: dungeon}]}}
+    notes: "The rubble ramp; walled up at stage 2 (a door shut by the load event)."
+  - id: link:stair_cellar
+    from: room:stair_head
+    to: room:cellar
+    kind: door
+    motion: slide
+    condition: {qbit: dungeon}
+    notes: "The rubble in the stair, cleared at stage 3 (m22.dungeon)."
+  - id: link:vault
+    from: room:vault_door
+    to: room:sword_vault
+    kind: door
+    motion: slide
+    condition: {qbit: vault_opened}
+    notes: Password 'laboratory' (A3's m23.vault_door).
+loops:
+  - id: loop:pit
+    spaces: [room:great_hall, room:foundation_pit, room:pantry]
+    closed_until: {any: [{qbit: keep}, {qbit: dungeon}]}
+    notes: "Stage 0-1: down through the hall's broken floor, up the rubble ramp into the pantry. Gone at stage 2."
+entrances:
+  - id: entrance:x3_site
+    space: room:gate
+    kind: both
+    neighbour: exit:x3_site
+    facing: n
+    how: "Inside the keep's gate, from X3's hatch at the Newcastle site (thing:xd13_stair); the gate leads back out."
+critical_path: [room:gate, room:great_hall, room:statue_court, room:stair_head, room:dungeon_stair, room:cellar, room:old_lab, room:vault_door, room:sword_vault]
+goals:
+  - id: goal:sword
+    space: room:sword_vault
+    kind: take
+    what: The Xeen Slayer Sword on the scientists' rack (A3's m23.sword).
+    story: M23
+    gives:
+      qbit: sword_done
+keys:
+  - id: key:password
+    grants: {qbit: vault_opened}
+    found_in: room:old_lab
+    how: "The word 'laboratory': its five syllables on numbered notes (hall, pantry, court, cellar, laboratory); Crodo says it outright when freed (M21, autonote 4121)."
+points_of_interest:
+  - id: poi:larder
+    space: room:pantry
+    kind: larder
+    behaviour: "'Food. Fill pack?' Yes: the party's food at least 20."
+  - id: poi:statue
+    space: room:statue_court
+    kind: statue
+    behaviour: "The plaque: 'Built in honor of Great Adventurers.'"
+  - id: poi:well
+    space: room:statue_court
+    kind: well
+    behaviour: "Drink: every member's temporary armour class bonus raised to 20 until rest (D-4)"
+    condition: {qbit: dungeon}
+    notes: "YOUR well; dry and choked with rubble until stage 3."
+states:
+  - id: state:stage0
+    condition: {not: {any: [{qbit: keep}, {qbit: dungeon}]}}
+    shows: [the fallen roof, rubble and the woodpile, the hole into the foundation pit, "wood golems in the hall, court and pit"]
+    notes: "The deed is bought (m8.deed; X3's hatch lets the party in). Walls (m9.walls) change nothing inside."
+  - id: state:stage2
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    hides: [the wood golems, the rubble, the woodpile, the broken roof]
+    opens: [door:smithy, door:training]
+    seals: [room:foundation_pit, room:rubble_ramp]
+    notes: "m11.keep: the roof mended, the hole floored over (the pit's lift), the ramp walled up, banners and arms, the smith and the training hall."
+  - id: state:stage3
+    condition: {qbit: dungeon}
+    shows: [YOUR well, the swamp things and the iron golems below]
+    opens: [door:chapel, door:counting, link:stair_cellar]
+    notes: "m22.dungeon: the stair dug out, the chapel and the bank open, the well flows."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 3
+  doors: 4
+  floor_area_munits2: 17.5
+  loops: 1
+  monsters_about: 25
+  rooms: 12
+  sectors: 12
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors), staged. From the MU-6 graph devdocs/xeen/mockups/act2_graphs/xd13.graph.yml and D-4 (act2_dungeon_decisions.md, XD-13): stage 3 quiet (6 swamp things, 4 iron golems; 25 monsters over all stages), Crodo gives the word, numbered syllables, the services as house doors, YOUR well +20 AC until rest. The four services are house doors (A4's houses 4141-4144) in the gate and the court, not walk-in rooms; the dungeon stair is two rooms (the head with the rubble, the stair)."

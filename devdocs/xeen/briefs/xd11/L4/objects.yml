@@ -1,0 +1,1050 @@
+format: 0
+start:
+  room: room:door
+  at: [-1408, -1792]
+  facing: n
+  notes: "Just inside the enchanted door, facing into the tower."
+doors:
+  - id: door:coils_core0
+    opening: open:coils_core0
+    kind: slide_left
+    surface: {texture: hwm2d, size: [128, 256], fit: true}
+    notes: The door from the coils to the foot of the lift shaft.
+  - id: door:energy_magic
+    opening: open:energy_magic
+    kind: slide_left
+    surface: {texture: hwp1d, size: [128, 256], fit: true}
+    notes: The door between the energy and magic labs.
+  - id: door:foyer_athanor
+    opening: open:foyer_athanor
+    kind: slide_left
+    surface: {texture: hwm2d, size: [128, 256], fit: true}
+    notes: The carved door from the foyer to the athanor.
+  - id: door:frost
+    opening: open:poison_wstair
+    kind: slide_left
+    surface: {texture: orair32, size: [128, 128], fit: true}
+    notes: "The frost-sealed door of the west stair: a leaf furred with frost (Icewind Keep's orair32) until the steam valve thaws it."
+  - id: door:gate1
+    opening: open:landing1_core1
+    kind: slide_left
+    speed: 160
+    surface: {texture: xngrille, size: [128, 256], fit: true}
+    notes: "Lift gate 1: brass grille, bolted until the lever beside it on the landing side is pulled."
+  - id: door:gate2
+    opening: open:quarters_core2
+    kind: slide_left
+    speed: 160
+    surface: {texture: xngrille, size: [128, 256], fit: true}
+    notes: "Lift gate 2: brass grille, bolted until the lever beside it on the landing side is pulled."
+  - id: door:gate3
+    opening: open:landing3_core3
+    kind: slide_left
+    speed: 160
+    surface: {texture: xngrille, size: [128, 256], fit: true}
+    notes: "Lift gate 3: brass grille, bolted until the lever beside it on the landing side is pulled."
+  - id: door:librarian
+    opening: open:quarters_hstair
+    kind: slide_left
+    surface: {texture: hwm2d, size: [128, 256], fit: true}
+    notes: "The Librarian's door: the stair to the top floor, locked to the Librarian's Key."
+  - id: door:library_study
+    opening: open:library_study
+    kind: slide_left
+    surface: {texture: hwp1d, size: [128, 256], fit: true}
+    notes: The Archmage's study door.
+  - id: door:still_reagents
+    opening: open:still_reagents
+    kind: slide_left
+    surface: {texture: hwp1d, size: [128, 256], fit: true}
+    notes: The reagent store's door.
+lifts:
+  - id: lift:a
+    room: room:core0
+    at: [448, -576]
+    size: [256, 256]
+    travel: 640
+    thickness: 32
+    speed: 192
+    state: up
+    surface: {texture: hwm2rf, size: [128, 128]}
+    notes: "The brass cage's floor (dark planks) between core0 and core1: it starts at the upper stop, flush with core1's floor, and runs only once that floor's gate lever is pulled."
+  - id: lift:b
+    room: room:core1
+    at: [832, -576]
+    size: [256, 256]
+    travel: 640
+    thickness: 32
+    speed: 192
+    state: up
+    surface: {texture: hwm2rf, size: [128, 128]}
+    notes: "The brass cage's floor (dark planks) between core1 and core2: it starts at the upper stop, flush with core2's floor, and runs only once that floor's gate lever is pulled."
+  - id: lift:c
+    room: room:core2
+    at: [448, -576]
+    size: [256, 256]
+    travel: 640
+    thickness: 32
+    speed: 192
+    state: up
+    surface: {texture: hwm2rf, size: [128, 128]}
+    notes: "The brass cage's floor (dark planks) between core2 and core3: it starts at the upper stop, flush with core3's floor, and runs only once that floor's gate lever is pulled."
+sounds:
+  - {id: sound:athanor, room: room:athanor, at: [0, 1632], sound: lava loop, radius: 1800, inner_radius: 600, volume: 0.7, notes: The athanor's coals.}
+  - {id: sound:coils, room: room:coils, at: [640, 416], height: 400, sound: 7sparks, radius: 1600, inner_radius: 400, volume: 0.8, wait: [2, 6], notes: The coils crackling.}
+  - {id: sound:energy, room: room:energy, at: [-1120, 32], sound: bubbling cauldron01, radius: 1200, inner_radius: 300, volume: 0.5, notes: The Energy Brew bubbling.}
+  - {id: sound:magic, room: room:magic, at: [1344, 1664], sound: bubbling cauldron01, radius: 1200, inner_radius: 300, volume: 0.5, notes: The Magic Brew bubbling.}
+  - {id: sound:poison, room: room:poison, at: [-1120, 1248], sound: bubbling cauldron01, radius: 1200, inner_radius: 300, volume: 0.5, notes: The Poison Brew bubbling.}
+  - {id: sound:roof, room: room:roof, at: [0, 0], height: 256, sound: whistling wind, radius: 3000, inner_radius: 1200, volume: 0.4, notes: Wind over the roof.}
+  - {id: sound:stairway, room: room:stairway, at: [-512, 1728], height: 640, sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.3, notes: Wind down the Stairway to Heaven.}
+  - {id: sound:still, room: room:still, at: [-1024, -1856], sound: drip02, radius: 1200, inner_radius: 300, volume: 0.5, wait: [3, 8], notes: Melt dripping from the frosted still.}
+  - {id: sound:tower_bed, room: room:poison, at: [0, 0], height: 480, sound: xeen_amb_tower, radius: 3300, inner_radius: 1000, volume: 0.35, notes: "The tower's bed (AU): chimes and sparkle through the halls of all four floors.", pan: false}
+lights:
+  - id: light:athanor_1
+    room: room:athanor
+    at: [0, 1568]
+    radius: 1600
+    color: [237, 165, 110]
+  - id: light:athanor_2
+    room: room:athanor
+    at: [768, 1600]
+    height: 160
+    radius: 640
+    color: [255, 110, 40]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The fire brew's glow.
+  - id: light:athanor_3
+    room: room:athanor
+    at: [0, 1632]
+    height: 96
+    radius: 1600
+    color: [255, 120, 50]
+    pulse: {intensity: [0.7, 1], radius: [1300, 1700], frequency: 0.33}
+    notes: The hearth's coals.
+  - id: light:coils_1
+    room: room:coils
+    at: [640, 416]
+    radius: 800
+    color: [190, 185, 192]
+  - id: light:coils_2
+    room: room:coils
+    at: [128, 320]
+    height: 160
+    radius: 640
+    color: [150, 190, 255]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The electric brew's glow.
+  - id: light:coils_3
+    room: room:coils
+    at: [320, 192]
+    height: 480
+    radius: 700
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 1], radius: [400, 800], frequency: 1.5}
+    notes: A coil's crackling crown.
+  - id: light:coils_4
+    room: room:coils
+    at: [960, 192]
+    height: 480
+    radius: 700
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 1], radius: [400, 800], frequency: 1.5}
+    notes: A coil's crackling crown.
+  - id: light:coils_5
+    room: room:coils
+    at: [320, 640]
+    height: 480
+    radius: 700
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 1], radius: [400, 800], frequency: 1.5}
+    notes: A coil's crackling crown.
+  - id: light:coils_6
+    room: room:coils
+    at: [960, 640]
+    height: 480
+    radius: 700
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 1], radius: [400, 800], frequency: 1.5}
+    notes: A coil's crackling crown.
+  - id: light:core0_1
+    room: room:core0
+    at: [640, -576]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:core1_1
+    room: room:core1
+    at: [640, -576]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:core2_1
+    room: room:core2
+    at: [640, -576]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:core3_1
+    room: room:core3
+    at: [640, -576]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:door_1
+    room: room:door
+    at: [-1408, -1664]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:east_stair_1
+    room: room:east_stair
+    at: [1728, -544]
+    radius: 1600
+    color: [220, 180, 130]
+  - id: light:energy_1
+    room: room:energy
+    at: [-448, 576]
+    radius: 915
+    color: [237, 202, 125]
+  - id: light:energy_2
+    room: room:energy
+    at: [-1120, 32]
+    height: 160
+    radius: 640
+    color: [255, 230, 90]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The energy brew's glow.
+  - id: light:foyer_1
+    room: room:foyer
+    at: [-1088, -96]
+    radius: 1161
+    color: [220, 180, 130]
+  - id: light:high_stair_1
+    room: room:high_stair
+    at: [1728, -1152]
+    radius: 985
+    color: [220, 180, 130]
+  - id: light:landing1_1
+    room: room:landing1
+    at: [768, -1536]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:landing2_1
+    room: room:landing2
+    at: [-768, 1728]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:landing3_1
+    room: room:landing3
+    at: [768, -1536]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:library_1
+    room: room:library
+    at: [-512, -384]
+    radius: 1600
+    color: [220, 180, 130]
+  - id: light:magic_1
+    room: room:magic
+    at: [1280, 1344]
+    radius: 844
+    color: [210, 160, 192]
+  - id: light:magic_2
+    room: room:magic
+    at: [1344, 1664]
+    floor_height: 1312
+    height: 160
+    radius: 640
+    color: [190, 110, 255]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The magic brew's glow.
+  - id: light:observatory_1
+    room: room:observatory
+    at: [-1664, 384]
+    radius: 985
+    color: [220, 180, 130]
+  - id: light:poison_1
+    room: room:poison
+    at: [-576, 448]
+    radius: 1056
+    color: [185, 205, 125]
+  - id: light:poison_2
+    room: room:poison
+    at: [-1120, 1248]
+    height: 160
+    radius: 640
+    color: [110, 230, 90]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The poison brew's glow.
+  - id: light:quarters_1
+    room: room:quarters
+    at: [1280, 192]
+    radius: 844
+    color: [220, 180, 130]
+  - id: light:reagents_1
+    room: room:reagents
+    at: [-1728, -1600]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:still_1
+    room: room:still
+    at: [-576, -1344]
+    radius: 800
+    color: [205, 205, 192]
+  - id: light:still_2
+    room: room:still
+    at: [-128, -1920]
+    height: 160
+    radius: 640
+    color: [200, 235, 255]
+    pulse: {intensity: [0.35, 0.7], radius: [480, 680], frequency: 0.4}
+    notes: The cold brew's glow.
+  - id: light:study_1
+    room: room:study
+    at: [-1664, -1344]
+    radius: 800
+    color: [220, 180, 130]
+  - id: light:west_stair_1
+    room: room:west_stair
+    at: [-1728, 512]
+    radius: 1600
+    color: [220, 180, 130]
+switches:
+  - id: switch:gate1
+    room: room:landing1
+    kind: lever
+    reach: 40
+    at: [1024, -1024]
+    height: 140
+    size: [12, 48]
+    notes: "Gate 1's lever, right of the gate."
+  - id: switch:gate2
+    room: room:quarters
+    kind: lever
+    reach: 40
+    at: [1024, -128]
+    height: 140
+    size: [12, 48]
+    notes: "Gate 2's lever, right of the gate."
+  - id: switch:gate3
+    room: room:landing3
+    kind: lever
+    reach: 40
+    at: [1024, -1024]
+    height: 140
+    size: [12, 48]
+    notes: "Gate 3's lever, right of the gate."
+  - id: switch:lift_a_bottom
+    room: room:core0
+    kind: button
+    at: [256, -576]
+    height: 112
+    notes: "Calls or sends lift a at its lower stop, beside the cage."
+  - id: switch:lift_a_top
+    room: room:core1
+    kind: button
+    at: [256, -768]
+    height: 112
+    notes: "Calls or sends lift a at its upper stop, beside the shaft."
+  - id: switch:lift_b_bottom
+    room: room:core1
+    kind: button
+    at: [1024, -576]
+    height: 112
+    notes: "Calls or sends lift b at its lower stop, beside the cage."
+  - id: switch:lift_b_top
+    room: room:core2
+    kind: button
+    at: [1024, -768]
+    height: 112
+    notes: "Calls or sends lift b at its upper stop, beside the shaft."
+  - id: switch:lift_c_bottom
+    room: room:core2
+    kind: button
+    at: [256, -576]
+    height: 112
+    notes: "Calls or sends lift c at its lower stop, beside the cage."
+  - id: switch:lift_c_top
+    room: room:core3
+    kind: button
+    at: [256, -768]
+    height: 112
+    notes: "Calls or sends lift c at its upper stop, beside the shaft."
+  - id: switch:valve
+    room: room:reagents
+    kind: lever
+    reach: 40
+    at: [-1600, -1152]
+    height: 160
+    size: [12, 48]
+    notes: "The steam valve on the north wall, beside the pipe that runs from the store toward the garden."
+chests:
+  - id: chest:mysteries
+    room: room:library
+    at: [-704, 1216]
+    size: [256, 96, 256]
+    surface: {texture: 7t1cabs, size: [64, 128]}
+    end_surface: {texture: 7t1books1, size: [128, 128], uneven: true}
+    top_surface: {texture: 7t1books1, size: [128, 128]}
+    treasure_level: 3
+    random_items: 1
+    items: [prismatic_light]
+    notes: "The cabinet of Mysteries of Light (aaze0058:2): the Prismatic Light spellbook (engine 483; D-4 item 2)."
+  - id: chest:obs_box
+    room: room:observatory
+    at: [-1952, 1088]
+    kind: 7gt002
+    facing: e
+    treasure_level: 3
+    random_items: 3
+    gold: 450
+    trap_level: 3
+    notes: "A Pandorian Box (aaze0055:4): trapped."
+  - id: chest:quarters
+    room: room:quarters
+    at: [1952, 128]
+    kind: 7gt002
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 300
+  - id: chest:reagents_box
+    room: room:reagents
+    at: [-1920, -1280]
+    kind: 7gt002
+    facing: s
+    treasure_level: 3
+    random_items: 0
+    notes: "A Pandorian Box, empty: 'The box is empty.' (aaze0055:5)."
+  - id: chest:study
+    room: room:study
+    at: [-1952, -1088]
+    kind: 7gt002
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    items: [skeleton_key]
+    notes: "The Archmage's chest: the Skeleton Key lies in it with his treasure, an ordinary chest item (F15, 2026-11-21: quest items are looted, MM6-MM8 style); A3's hook m13.skeleton_key sets the bit on its first opening."
+spawns:
+  - id: spawn:athanor_1
+    room: room:athanor
+    at: [-1280, 1472]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:athanor_2
+    room: room:athanor
+    at: [1280, 1408]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:coils_1
+    room: room:coils
+    at: [640, 320]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:energy_1
+    room: room:energy
+    at: [-384, 512]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:foyer_1
+    room: room:foyer
+    at: [-1600, -512]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:foyer_2
+    room: room:foyer
+    at: [-640, 512]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:landing1_1
+    room: room:landing1
+    at: [768, -1600]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:landing2_1
+    room: room:landing2
+    at: [-768, 1728]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:landing3_1
+    room: room:landing3
+    at: [768, -1600]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:library_1
+    room: room:library
+    at: [-512, -256]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:magic_1
+    room: room:magic
+    at: [1600, 1024]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:poison_1
+    room: room:poison
+    at: [-512, 768]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:reagents_1
+    room: room:reagents
+    at: [-1728, -1664]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:roof_1
+    room: room:roof
+    at: [0, -512]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:still_1
+    room: room:still
+    at: [-512, -1280]
+    slot: 1
+    tier: a
+    group: 51
+monsters:
+  - id: monster:head_sorceress
+    room: room:magic
+    monster: 11185
+    at: [1344, 1472]
+    facing: 270
+    hostile: true
+    group: 2
+    carries: librarian_key
+    notes: "The Head Sorceress (A2's row 11185, level 32) beside the Magic Brew's dais: her corpse holds the Librarian's Key."
+  - id: monster:sorceress_library_1
+    room: room:library
+    monster: 11180
+    at: [-384, 832]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_library_2
+    room: room:library
+    monster: 11180
+    at: [-768, -1216]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_magic_1
+    room: room:magic
+    monster: 11180
+    at: [896, 1600]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_magic_2
+    room: room:magic
+    monster: 11180
+    at: [1792, 1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_observatory_1
+    room: room:observatory
+    monster: 11180
+    at: [-1600, -128]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_observatory_2
+    room: room:observatory
+    monster: 11180
+    at: [-1728, 896]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_quarters_1
+    room: room:quarters
+    monster: 11180
+    at: [896, 128]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_quarters_2
+    room: room:quarters
+    monster: 11180
+    at: [1600, 128]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_study_1
+    room: room:study
+    monster: 11180
+    at: [-1600, -1088]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sorceress_study_2
+    room: room:study
+    monster: 11180
+    at: [-1536, -1856]
+    facing: 270
+    hostile: true
+    group: 1
+decorations:
+  - id: deco:brazier_athanor_0
+    room: room:athanor
+    decoration: brzier00
+    at: [-1024, 1856]
+    height: 396
+    hangs: true
+    notes: "A brazier by the athanor's stack, hung on its chains from the ceiling."
+  - id: deco:brazier_athanor_1
+    room: room:athanor
+    decoration: brzier00
+    at: [1024, 1856]
+    height: 396
+    hangs: true
+    notes: "A brazier by the athanor's stack, hung on its chains from the ceiling."
+  - id: deco:brew_cold
+    room: room:still
+    decoration: cauld00
+    at: [-128, -1920]
+    notes: "The cold brew's cauldron (clicked: evt:brew_cold)."
+  - id: deco:brew_electric
+    room: room:coils
+    decoration: cauld00
+    at: [128, 320]
+    notes: "The electric brew's cauldron (clicked: evt:brew_electric)."
+  - id: deco:brew_energy
+    room: room:energy
+    decoration: cauld00
+    at: [-1120, 32]
+    notes: "The energy brew's cauldron (clicked: evt:brew_energy)."
+  - id: deco:brew_fire
+    room: room:athanor
+    decoration: cauld00
+    at: [768, 1600]
+    notes: "The fire brew's cauldron (clicked: evt:brew_fire)."
+  - id: deco:brew_magic
+    room: room:magic
+    decoration: cauld00
+    at: [1344, 1664]
+    floor_height: 1312
+    notes: "The magic brew's cauldron (clicked: evt:brew_magic)."
+  - id: deco:brew_poison
+    room: room:poison
+    decoration: cauld00
+    at: [-1120, 1248]
+    notes: "The poison brew's cauldron (clicked: evt:brew_poison)."
+  - id: deco:crucible_0_0
+    room: room:athanor
+    decoration: dec35
+    at: [-1440, 1888]
+    floor_height: 96
+    notes: Glassware on the bench of crucibles.
+  - id: deco:crucible_0_1
+    room: room:athanor
+    decoration: 7dec48
+    at: [-1248, 1888]
+    floor_height: 96
+    notes: Glassware on the bench of crucibles.
+  - id: deco:crucible_1_0
+    room: room:athanor
+    decoration: 7dec48
+    at: [1248, 1888]
+    floor_height: 96
+    notes: Glassware on the bench of crucibles.
+  - id: deco:crucible_1_1
+    room: room:athanor
+    decoration: dec35
+    at: [1440, 1888]
+    floor_height: 96
+    notes: Glassware on the bench of crucibles.
+  - id: deco:crystal_energy_0
+    room: room:energy
+    decoration: crystl0
+    at: [-1152, 1152]
+    notes: "A glowing crystal of the energy lab, against the wall."
+  - id: deco:crystal_energy_1
+    room: room:energy
+    decoration: crystl0
+    at: [256, 1152]
+    notes: "A glowing crystal of the energy lab, against the wall."
+  - id: deco:crystal_energy_2
+    room: room:energy
+    decoration: crystl0
+    at: [256, -16]
+    notes: "A glowing crystal of the energy lab, against the wall."
+  - id: deco:glass_0
+    room: room:coils
+    decoration: dec35
+    at: [56, 582]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_1
+    room: room:coils
+    decoration: 7dec46
+    at: [56, 704]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_10
+    room: room:energy
+    decoration: cndlab0
+    at: [-200, 1216]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_11
+    room: room:energy
+    decoration: dec35
+    at: [-54, 1216]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_12
+    room: room:magic
+    decoration: dec35
+    at: [750, 1984]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_13
+    room: room:magic
+    decoration: 7dec46
+    at: [896, 1984]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_14
+    room: room:magic
+    decoration: mcryst01
+    at: [1042, 1984]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_2
+    room: room:coils
+    decoration: mcryst01
+    at: [56, 826]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_3
+    room: room:coils
+    decoration: 7dec48
+    at: [1224, 6]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_4
+    room: room:coils
+    decoration: cndlab0
+    at: [1224, 128]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_5
+    room: room:coils
+    decoration: dec35
+    at: [1224, 250]
+    floor_height: 96
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_6
+    room: room:still
+    decoration: dec35
+    at: [-1170, -704]
+    floor_height: 736
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_7
+    room: room:still
+    decoration: 7dec46
+    at: [-1024, -704]
+    floor_height: 736
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_8
+    room: room:still
+    decoration: mcryst01
+    at: [-878, -704]
+    floor_height: 736
+    notes: Glassware on a laboratory bench.
+  - id: deco:glass_9
+    room: room:energy
+    decoration: 7dec48
+    at: [-346, 1216]
+    floor_height: 1376
+    notes: Glassware on a laboratory bench.
+  - id: deco:light_athanor_1
+    room: room:athanor
+    decoration: scon100
+    wall: s
+    along: 0.2
+    height: 192
+  - id: deco:light_athanor_2
+    room: room:athanor
+    decoration: scon100
+    wall: s
+    along: 0.8
+    height: 192
+  - id: deco:light_coils_1
+    room: room:coils
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_core0_1
+    room: room:core0
+    decoration: torch02
+    wall: n
+    along: 0.15
+    height: 192
+  - id: deco:light_core1_1
+    room: room:core1
+    decoration: torch02
+    wall: s
+    along: 0.15
+    height: 192
+  - id: deco:light_core2_1
+    room: room:core2
+    decoration: torch02
+    wall: n
+    along: 0.15
+    height: 192
+  - id: deco:light_core3_1
+    room: room:core3
+    decoration: torch02
+    wall: s
+    along: 0.15
+    height: 192
+  - id: deco:light_door_1
+    room: room:door
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:light_door_2
+    room: room:door
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:light_east_stair_1
+    room: room:east_stair
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:light_energy_1
+    room: room:energy
+    decoration: scon100
+    wall: w
+    along: 0.4
+    height: 192
+  - id: deco:light_energy_2
+    room: room:energy
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_foyer_1
+    room: room:foyer
+    decoration: torch02
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:light_foyer_2
+    room: room:foyer
+    decoration: torch02
+    wall: w
+    along: 0.7
+    height: 192
+  - id: deco:light_foyer_3
+    room: room:foyer
+    decoration: torch02
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_foyer_4
+    room: room:foyer
+    decoration: torch02
+    wall: e
+    along: 0.7
+    height: 192
+  - id: deco:light_high_stair_1
+    room: room:high_stair
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:light_landing1_1
+    room: room:landing1
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:light_landing2_1
+    room: room:landing2
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:light_landing3_1
+    room: room:landing3
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:light_library_1
+    room: room:library
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_library_2
+    room: room:library
+    decoration: scon100
+    wall: e
+    along: 0.7
+    height: 192
+  - id: deco:light_magic_1
+    room: room:magic
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_magic_2
+    room: room:magic
+    decoration: scon100
+    wall: n
+    along: 0.3
+    height: 192
+  - id: deco:light_observatory_1
+    room: room:observatory
+    decoration: scon100
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:light_observatory_2
+    room: room:observatory
+    decoration: scon100
+    wall: w
+    along: 0.7
+    height: 192
+  - id: deco:light_poison_1
+    room: room:poison
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:light_poison_2
+    room: room:poison
+    decoration: scon100
+    wall: e
+    along: 0.8
+    height: 192
+  - id: deco:light_quarters_1
+    room: room:quarters
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:light_reagents_1
+    room: room:reagents
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:light_still_1
+    room: room:still
+    decoration: scon100
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:light_study_1
+    room: room:study
+    decoration: scon100
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:light_west_stair_1
+    room: room:west_stair
+    decoration: torch02
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:orrery
+    room: room:observatory
+    decoration: crystl0
+    at: [-1440, 384]
+    floor_height: 1984
+    notes: The orrery's crystal sun on its iron plinth.
+  - id: deco:plant_0
+    room: room:poison
+    decoration: 6Flower01
+    at: [-864, 0]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_1
+    room: room:poison
+    decoration: 6Flower02
+    at: [-672, 0]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_2
+    room: room:poison
+    decoration: 6Flower07
+    at: [-864, 768]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_3
+    room: room:poison
+    decoration: 6Flower08
+    at: [-672, 768]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_4
+    room: room:poison
+    decoration: 6Flower11
+    at: [-224, 384]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_5
+    room: room:poison
+    decoration: 6Flower01
+    at: [-32, 384]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_6
+    room: room:poison
+    decoration: 6Flower02
+    at: [-224, 1152]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:plant_7
+    room: room:poison
+    decoration: 6Flower07
+    at: [-32, 1152]
+    floor_height: 688
+    notes: Nightshade in its bed.
+  - id: deco:store_0
+    room: room:reagents
+    decoration: bigbarel
+    at: [-1504, -1984]
+    notes: Reagents in barrels and sacks along the store's walls.
+  - id: deco:store_1
+    room: room:reagents
+    decoration: bigbarel
+    at: [-1952, -1472]
+    notes: Reagents in barrels and sacks along the store's walls.
+  - id: deco:store_2
+    room: room:reagents
+    decoration: floursac
+    at: [-1760, -1730]
+    notes: Reagents in barrels and sacks along the store's walls.
+  - id: deco:store_3
+    room: room:reagents
+    decoration: floursac
+    at: [-1632, -1860]
+    notes: Reagents in barrels and sacks along the store's walls.
+exits:
+  - id: exit:enchanted_door
+    room: room:door
+    at: [-1408, -2048]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], scale: 1.5}
+    to: exit:x3_door
+    notes: "The enchanted door (Celeste's carved blue door): out to X3's islet (session 3; was a sealed panel)."
+notes: "XD-11's contents, written by output/studio_cal/xd11/tools/dress.py: 10 doors (three brass lift gates), three stacked lifts, four levers (the steam valve and the three gate levers), six call buttons, five chests, 15 spawn points of the Magic constructs (9 Flying Feet, 6 Guardians), 10 placed Sorceresses and the Head Sorceress, the six brews' cauldrons."

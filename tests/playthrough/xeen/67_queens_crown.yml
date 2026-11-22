@@ -1,0 +1,272 @@
+# Xeen playthrough, segment 67: Ellinger's last five disks, the Queen's crown and the Queen herself (D3, D2, D1,
+# DD-02, DD-03, D4, DD-14), M26's stage 4 and M27 done.
+# From Sandcaster west off D3's edge through Sprite Forest (D2) to Castleview Vale (D1). Ellinger's Tower: Energy discs
+# (five more: M26 stage 4, Castle Kalindra whole). Castle Kalindra: the upper stair to the Queen's floor, the crown safe
+# behind her mirror (3-31-62: the crown), Activate Mirror Portals? (Yes: the Darkside mirrors wake); down and out by the
+# gate. East again through D2 and D3 and north off D3's edge to Lakeside (D4): Castle Blackfang's gate, Ambrose's
+# griffin inside (m25.gate_flight). DD-14 walked again from the landing (the Count is dead): the upper floor, the grand
+# stair, the Count's hall, the dungeon stair, the cells; the Queen (The crown: M27 done, 12,000 experience each, the key
+# to the Great Pyramid); Ambrose's griffin flies everyone home to Castle Kalindra's gate on D1 (m27.ambrose_return).
+# Routes: segment 59 (the D3-D2-D1 edges, Ellinger's tower, the way into Castle Kalindra), dd03/L4/playtest.yml (stage
+# 4's upper stair, the crown safe, the mirror switch), segment 57 (D3's north edge), d4/L4/playtest.yml (the gate's
+# griffin), segment 61 (the DD-14 walk to the Queen's cell).
+# Quest logic: source/quests/m26.yml, m27.yml, m25.yml (gate_flight).
+#   python3 tests/playthrough/xeen/run.py 67
+id: xeen.playthrough.67_queens_crown
+title: "Xeen playthrough 67: twenty disks, the crown from the Queen's safe, Queen Kalindra herself again"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/65_jewel_of_ages.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d3.odm}
+  - assert: {qbit_set: [111503, 111521, 111540, 111543]}
+  - assert: {qbit_clear: [111522, 111541, 111542]}
+  - play_lua: {source: "log('67 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold() .. '; Energy Disks ' .. item_count(12334))"}
+  # West off D3's edge to D2, west off D2's edge to D1.
+  - set_pose: {map: xeen_d3.odm, x: -30208, y: 10240, z: 1312, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 10240, z: 1312, z_tolerance: 900, radius: 128, timeout_seconds: 90, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Ellinger's Tower (D1 event 102), the lift (event 26), the study: Energy discs, five (M26 stage 4).
+  - set_pose: {map: xeen_d1.odm, x: 2560, y: 9216, z: 1152, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(102)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd02.blv}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(7)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: 1900, z_max: 1940}}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        remember("xp", experience(0)); remember("disks", item_count(12334))
+        if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
+        click(15); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Energy discs"}
+  - assert:
+      dialog: {text_contains: "Congratulations! We've done it! The castle is free!"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.5); close()
+        if item_count(12334) ~= recall("disks") - 5 then error("Ellinger took " .. (recall("disks") - item_count(12334)) .. " disks") end
+        if experience(0) - recall("xp") ~= 6000 then error("M26's stage 4 paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111522]}
+  # Down the lift and out by the front door.
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1216, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1310, y: 640, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Castle Kalindra (D1 event 254), whole: up the Cloud Stairs to the Captain's corridor, the upper stair.
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: -3072, z: 1664, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(254)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd03.blv}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        wait(1)
+        if door_state(16) ~= 'open' then error("the upper stair did not open: " .. door_state(16)) end
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  # The upper stair to the Queen's floor, her bedchamber.
+  - walk_to: {x: -384, y: 4100, z: 960, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 4992, z: 1280, z_tolerance: 60, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 700, y: 4992, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2300, y: 5120, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 4)"}
+  - walk_to: {x: 3200, y: 4900, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The crown safe behind the Queen's mirror (event 7): 3-31-62, the Queen's own combination (autonote 4127).
+  - walk_to: {x: 2880, y: 5400, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - answer_input: {text: "3-31-62"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The safe opens on the Queen's crown]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(111541) then error("m27.crown not set") end
+        if not has_item(12374) then error("no crown (12374)") end
+  # Activate Mirror Portals? (event 43, m26.mirror_switch): Yes.
+  - walk_to: {x: 3450, y: 5376, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(43); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the mirrors wake"}}
+  - play_lua: {source: "close()"}
+  # Back down the upper stair, the Captain's corridor, the Cloud Stairs, out by the gate (event 19).
+  - walk_to: {x: 3200, y: 4900, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2300, y: 5120, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 700, y: 4992, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 4992, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 4100, z: 960, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, z_tolerance: 60, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1900, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # East off D1's edge to D2, east off D2's edge to D3, north off D3's edge to Lakeside (D4).
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: 29696, y: 10240, z: 1408, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 10240, z: 1376, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: 12288, y: 20480, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 12288, y: 32512, z: 1760, z_tolerance: 900, radius: 128, timeout_seconds: 150, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Castle Blackfang's gate on Lakeside's north shore (D4 event 41): "Would you like my griffin to fly you inside?" Fly in.
+  - set_pose: {map: xeen_d4.odm, x: 6177, y: 5619, z: 1185, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(41); wait(0.5)"}
+  - select_topic: {match_label: "Fly in"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd14.blv}
+  - assert: {party_position: {x: 0, y: -1472, radius: 96, z_min: 1272, z_max: 1300}}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "lifts you over the walls", 1, true) then log("NOTE m25.gate_flight's status line not seen on DD-14 (the --reload run reloads in between): " .. s) end
+        wait(1); for _ = 1, 3 do if not close() then break end end
+  # The landing's battlements (1280): the gargoyles still on the walks (Gargoyle Overlords 11552, Stone, sectors 11 and
+  # 19; Sentinels 11551, Paralyze), the farthest about 3,000 off, are fought where the griffin sets the party down
+  # (D-82).
+  - clear_hostiles: {radius: 3000, height: 700}
+  # DD-14 again: the south-west tower's stair to the upper floor, the sleeping hall, the Countess's rooms.
+  - walk_to: {x: -1150, y: -1856, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -1856, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2240, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2600, y: -2240, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -120, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(35, 3)"}
+  - walk_to: {x: -1920, y: 400, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  # Down the grand stair; the Count's hall (its doors still open, or event 39); the dungeon stair (the bar is up).
+  - walk_to: {x: -400, y: 2240, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 640, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 640, y: 1250, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 250, y: 1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 250, y: 2300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(8) ~= 'open' or door_state(9) ~= 'open' then click(39); wait(3) end; if door_state(8) ~= 'open' or door_state(9) ~= 'open' then error('the hall doors: ' .. door_state(8) .. ' ' .. door_state(9)) end"}
+  - walk_to: {x: 300, y: 2750, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1000, y: 2752, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 2752, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 2900, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 3920, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  # The question room, the cells, the Queen's cell (Queen Kalindra, the placed actor 49).
+  - walk_to: {x: -2112, y: 3800, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -2112, y: 2700, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(36, 4)"}
+  - walk_to: {x: -2112, y: 2240, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 1600, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 1100, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1000, y: -192, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  # The Queen: The crown (M27 done: the crown taken, the key to the Great Pyramid, 12,000 experience each, the award);
+  # Ambrose's griffin flies everyone home to Castle Kalindra's gate on D1 (m27.ambrose_return).
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5001}}
+  - select_topic: {match_label: "The crown"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -9728, y: -3072, radius: 160}}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "Ambrose's griffin lands in the courtyard", 1, true) then log("NOTE m27.ambrose_return's status line not seen on D1 (the --reload run reloads in between): " .. s) end
+        wait(1); for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if has_item(12374) then error("the Queen did not take her crown") end
+        if not has_item(12348) then error("no key to the Great Pyramid (12348)") end
+        if experience(0) - recall("xp") ~= 12000 then error("M27 paid " .. (experience(0) - recall("xp"))) end
+        log("67 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [111522, 111541, 111542]}
+  # The Temple of Mok (house 4455) on Castleview's square: Sprite Forest (D2), crossed on this segment's road, can leave
+  # a member Petrified (its Gorgon and Medusa Sprites; A3 sessions 30-32), as can DD-14's Gargoyle Overlords; the
+  # temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  - save_game: {name: "67 The Queen's crown", path: output/playthrough/xeen/checkpoints/67_queens_crown.oysav}

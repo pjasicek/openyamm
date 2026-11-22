@@ -1,0 +1,361 @@
+format: 0
+themes:
+  - id: theme:channel
+    wall: {texture: d1wldle2, size: [256, 256]}
+    floor: {texture: d7flor4, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1wle, size: [256, 256]}
+    door: {texture: d8dora, size: [256, 256]}
+    notes: "The sewer's main channel and its landing (MM6 Free Haven Sewer): stone with a wet green tide line (d1wldle2), tiled walkways (d7flor4), the plank vault (d1ceil1)."
+  - id: theme:cistern
+    wall: {texture: d1medbw, size: [128, 128]}
+    floor: {texture: d7flor4, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1wle, size: [256, 256]}
+    door: {texture: xwcage, size: [128, 256]}
+    notes: "The heart culvert: mossy blocks (d1medbw) round the black cistern."
+  - id: theme:crypt
+    wall: {texture: d2wlbctr, size: [128, 256]}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlbpos, size: [128, 256]}
+    door: {texture: d2lgdor, size: [256, 256]}
+    notes: "Sandro's crypts in MM6 Tomb of Ethric the Mad (6d14): dark block stone (d2wlbctr), purple-grey flags (d2flor4), a rough dark vault (d2ceil3), carved posts in the doorways (d2wlbpos)."
+  - id: theme:culvert
+    wall: {texture: d1wldle3, size: [256, 256]}
+    floor: {texture: d7flor4, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1wle, size: [256, 256]}
+    door: {texture: d8dora, size: [256, 256]}
+    notes: "The culverts and the outfall: damp sewer stone (d1wldle3)."
+  - id: theme:room
+    wall: {texture: d1wle, size: [256, 256]}
+    floor: {texture: d7flor4, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1wle, size: [256, 256]}
+    door: {texture: d8dora, size: [256, 256]}
+    notes: "The rooms off the channel (the sluice room, the dead-food cellar): dry sewer stone (d1wle)."
+  - id: theme:tomb
+    wall: {texture: d1medbw, size: [128, 128]}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlbpos, size: [128, 256]}
+    door: {texture: crsmdr1, size: [128, 256]}
+    notes: "The old tomb the channel cut into (the mummy's vault): mossy blocks (d1medbw) over the crypts' flags and vault."
+defaults: {theme: theme:crypt, ambient: 12}
+rooms:
+  - id: room:crypt_hall
+    name: Hall of Biers
+    outline: [[-512, -2048], [512, -2048], [512, -256], [-512, -256]]
+    floor: 0
+    ceiling: 640
+    theme: theme:crypt
+    walls:
+      - wall: e
+        panels:
+          - {offset: 128, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+          - {offset: 768, length: 256, bottom: 0, height: 256, surface: {texture: d2niche4, size: [256, 256], fit: true}}
+          - {offset: 1408, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+      - wall: w
+        panels:
+          - {offset: 128, length: 256, bottom: 0, height: 256, surface: {texture: d2niche4, size: [256, 256], fit: true}}
+          - {offset: 1408, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+      - wall: s
+        panels:
+          - {id: panel:seal, at: centre, length: 128, bottom: 352, height: 128, surface: {texture: xdsandro, size: [128, 128], fit: true}, notes: "Sandro's seal (xdsandro), once, over the crypt's doors."}
+    platforms:
+      - {at: [-416, -896], size: [192, 384], rise: 64, surface: {texture: d2wlbctr, size: [128, 256]}, end_surface: {texture: d2wlbctr, size: [128, 256], fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: A stone bier against the wall.}
+      - {at: [416, -832], size: [192, 384], rise: 64, surface: {texture: d2wlbctr, size: [128, 256]}, end_surface: {texture: d2wlbctr, size: [128, 256], fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: A stone bier against the wall.}
+      - {at: [416, -1472], size: [192, 384], rise: 64, surface: {texture: d2wlbctr, size: [128, 256]}, end_surface: {texture: d2wlbctr, size: [128, 256], fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: A stone bier against the wall.}
+    notes: "A long vault of burial niches (d2niche) with stone biers against both walls; Sandro's seal over the double doors at the south end; the railed stair's head in the west wall."
+  - id: room:dead_food
+    name: Dead-food cellar
+    outline: [[1408, -1792], [2176, -1792], [2176, -1024], [1408, -1024]]
+    floor: -512
+    ceiling: -128
+    theme: theme:room
+  - id: room:east_culvert
+    name: East culvert
+    outline: [[-384, -3200], [640, -3200], [640, -1792], [128, -1792], [128, -2304], [-128, -2304], [-128, -2560], [128, -2560], [128, -2688], [-384, -2688]]
+    floor: -512
+    ceiling: -128
+    theme: theme:culvert
+    levels:
+      - id: level:east_culvert_channel
+        outline: [[-320, -3136], [576, -3136], [576, -1952], [448, -1952], [448, -3008], [-320, -3008]]
+        floor: -560
+        edge: {texture: d1mbea, size: [64, 64]}
+        surface: {texture: swprrf3, liquid: water}
+        notes: "Sewage down the culvert from the main channel, south and then west towards the outfall."
+    notes: "The east twin of the west culvert, from the outfall east and up to the main channel; a side niche in its inner (west) wall holds the source's trapped Box."
+  - id: room:heart_culvert
+    name: Heart culvert
+    outline: [[-1856, -4864], [-384, -4864], [-384, -3584], [-1856, -3584]]
+    floor: -896
+    ceiling: -64
+    theme: theme:cistern
+    platforms:
+      - {id: platform:heart_head, rise: 32, surface: {texture: d1medbw, size: [128, 128]}, outline: [[-1856, -3968], [-384, -3968], [-384, -3584], [-1856, -3584]], top_surface: {texture: d7flor4, size: [128, 128]}, bottom_surface: {texture: d1medbw, size: [128, 128]}, base: 352, notes: The steps' head (-512) behind the sluice gate.}
+      - {id: platform:jar_ledge, at: [-832, -4704], size: [256, 256], rise: 96, surface: {texture: d1medbw, size: [128, 128]}, top_surface: {texture: d1mbea, size: [64, 64], scale: 2}, notes: The ledge over the cistern where the jar of green glass stands.}
+    levels:
+      - id: level:cistern
+        outline: [[-1664, -4672], [-1152, -4672], [-1152, -4288], [-1664, -4288]]
+        floor: -992
+        bank: 128
+        surface: {texture: swprrf3, liquid: water}
+        notes: The black cistern the sewer falls into.
+    flights:
+      - {from: [-704, -4416], to: [-704, -3968], open_below: 32, to_height: -512, width: 320, steps: 12, sides: {height: 48, thickness: 16, surface: {texture: d1mbea, size: [64, 64]}}, notes: Twelve steps of 32 down south from the gate's head to the culvert's floor.}
+    notes: "The sewer's lowest culvert falling into a black cistern; the jar of green glass on its ledge."
+  - id: room:landing
+    name: Stair landing
+    outline: [[-1664, -1920], [-640, -1920], [-640, -896], [-1664, -896]]
+    floor: -512
+    ceiling: 512
+    theme: theme:channel
+    platforms:
+      - {id: platform:landing_head, rise: 32, surface: {texture: d1wle, size: [256, 256]}, outline: [[-1024, -1920], [-640, -1920], [-640, -896], [-1024, -896]], top_surface: {texture: d7flor4, size: [128, 128]}, bottom_surface: {texture: d1wle, size: [256, 256]}, base: 480, notes: "The railed stair's head (0) along the landing's east wall, off the Hall of Biers."}
+    flights:
+      - {from: [-1600, -1088], to: [-1024, -1088], open_below: 32, to_height: 0, width: 320, steps: 16, sides: {height: 48, thickness: 16, surface: {texture: d1mbea, size: [64, 64]}}, notes: "Sixteen steps of 32 with stone rails, up east along the north wall to the head."}
+    notes: "The railed stair's foot on a stone platform where the main channel's two arms meet; the head overhead east, the stair along the north wall."
+  - id: room:main_east
+    name: Main channel (east)
+    outline: [[-512, -1664], [1280, -1664], [1280, -1152], [-512, -1152]]
+    floor: -512
+    ceiling: -64
+    theme: theme:channel
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:drain_3, offset: 256, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain (a find).}
+          - {id: panel:drain_4, offset: 1536, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain.}
+    levels:
+      - id: level:main_east_channel
+        outline: [[-384, -1344], [1152, -1344], [1152, -1216], [-384, -1216]]
+        floor: -560
+        edge: {texture: d1mbea, size: [64, 64]}
+        surface: {texture: swprrf3, liquid: water}
+        notes: "Sewage, ankle deep, along the north wall; the walkway south of it."
+    notes: "The channel's east arm, drains in the walls; signed barrels by the north wall; the cellar's door at its east end, the east culvert south."
+  - id: room:main_west
+    name: Main channel (west)
+    outline: [[-3584, -1664], [-1792, -1664], [-1792, -1152], [-3584, -1152]]
+    floor: -512
+    ceiling: -64
+    theme: theme:channel
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:drain_1, offset: 1280, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain (a find).}
+          - {id: panel:drain_2, offset: 128, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain.}
+    levels:
+      - id: level:main_west_channel
+        outline: [[-3456, -1344], [-1920, -1344], [-1920, -1216], [-3456, -1216]]
+        floor: -560
+        edge: {texture: d1mbea, size: [64, 64]}
+        surface: {texture: swprrf3, liquid: water}
+        notes: "Sewage, ankle deep, along the north wall; the walkway south of it."
+    notes: "The long channel's west arm: sewage down the middle, walkways both sides, drains in the walls; the old tomb wall at its west end, the west culvert south."
+  - id: room:mummy_vault
+    name: Mummy's vault
+    outline: [[-4352, -1792], [-3712, -1792], [-3712, -1024], [-4352, -1024]]
+    floor: -512
+    ceiling: -128
+    theme: theme:tomb
+  - id: room:outfall
+    name: Outfall
+    outline: [[-1728, -3456], [-512, -3456], [-512, -2432], [-1728, -2432]]
+    floor: -512
+    ceiling: -64
+    theme: theme:culvert
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:alcove, at: centre, length: 192, bottom: 32, height: 192, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: "The source's alcove (aaze0036:0): a grated outlet, nothing in it."}
+    levels:
+      - id: level:basin
+        outline: [[-1344, -3200], [-896, -3200], [-768, -3072], [-768, -2816], [-896, -2688], [-1344, -2688], [-1472, -2816], [-1472, -3072]]
+        floor: -608
+        edge: {texture: d1mbea, size: [64, 64]}
+        surface: {texture: swprrf3, liquid: water}
+        notes: The round basin both culverts pour into.
+    notes: "Both culverts pour into a round basin; the sluice gate in the south wall over the steps down."
+  - id: room:reliquary
+    name: Sandro's reliquary
+    outline: [[896, -3136], [1408, -3136], [1408, -2496], [896, -2496]]
+    floor: 0
+    ceiling: 448
+    theme: theme:crypt
+    platforms:
+      - {id: platform:plinth, at: [1280, -2816], size: [128, 192], rise: 64, surface: {texture: d2wlbctr, size: [128, 256]}, end_surface: {texture: d2wlbctr, size: [128, 256], fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: The statuette's plinth.}
+    notes: "The alcove behind the grille: Sandro's chest and his statuette on its plinth."
+  - id: room:sandro_crypt
+    name: Sandro's crypt
+    outline: [[-768, -3456], [768, -3456], [768, -2176], [-768, -2176]]
+    floor: 0
+    ceiling: 640
+    theme: theme:crypt
+    pillars:
+      - {at: [-384, -2496], size: [128, 128], surface: {texture: d2wlbpos, size: [128, 256]}}
+      - {at: [384, -2496], size: [128, 128], surface: {texture: d2wlbpos, size: [128, 256]}}
+      - {at: [-384, -2880], size: [128, 128], surface: {texture: d2wlbpos, size: [128, 256]}}
+      - {at: [384, -2880], size: [128, 128], surface: {texture: d2wlbpos, size: [128, 256]}}
+    platforms:
+      - {id: platform:dais, at: [0, -3200], size: [896, 384], rise: 32, surface: {texture: d2wlbctr, size: [128, 256]}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: "The dais at the crypt's south end; stepping onto it, Sandro speaks."}
+      - {id: platform:bier, at: [0, -3264], size: [448, 128], rise: 64, surface: {texture: d2wlbctr, size: [128, 256]}, end_surface: {texture: d2wlbctr, size: [128, 256], fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, base: 32, notes: Sandro's bier on the dais.}
+    notes: "A square vault on four dark posts; the dais and Sandro's bier at the south end; the reliquary's grille in the east wall."
+  - id: room:sluice
+    name: Sluice room
+    outline: [[-2560, -2560], [-1920, -2560], [-1920, -1920], [-2560, -1920]]
+    floor: -512
+    ceiling: -128
+    theme: theme:room
+  - id: room:stair_foot
+    name: Crypt stair
+    outline: [[-320, -128], [320, -128], [320, 1216], [-320, 1216]]
+    floor: 0
+    ceiling: 896
+    theme: theme:crypt
+    platforms:
+      - {id: platform:stair_head, rise: 32, surface: {texture: d2wlbctr, size: [128, 256]}, outline: [[-320, 896], [320, 896], [320, 1216], [-320, 1216]], top_surface: {texture: d2flor4, size: [128, 128]}, bottom_surface: {texture: d2wlbctr, size: [128, 256]}, base: 416, notes: "The stair's head (448) before the grille pair: D6's crypt door above."}
+    flights:
+      - {from: [0, 256], to: [0, 896], open_below: 32, to_height: 448, width: 320, steps: 14, notes: Fourteen steps of 32 up north from the foot to the head before the grille pair.}
+    notes: "The foot of the crypt stair under D6's Necropolis (the arrival); the stair climbs north to the grille pair (the way out); the Hall of Biers south."
+  - id: room:west_culvert
+    name: West culvert
+    outline: [[-3200, -3200], [-1856, -3200], [-1856, -2688], [-2688, -2688], [-2688, -1792], [-3200, -1792]]
+    floor: -512
+    ceiling: -128
+    theme: theme:culvert
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:drain_5, offset: 128, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain (a find).}
+      - wall: 2
+        panels:
+          - {id: panel:drain_6, offset: 384, length: 160, bottom: 16, height: 160, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A sewer drain.}
+    levels:
+      - id: level:west_culvert_channel
+        outline: [[-3136, -3136], [-1920, -3136], [-1920, -3008], [-3008, -3008], [-3008, -1952], [-3136, -1952]]
+        floor: -560
+        edge: {texture: d1mbea, size: [64, 64]}
+        surface: {texture: swprrf3, liquid: water}
+        notes: "Sewage down the culvert, south and then east towards the outfall."
+    notes: "A culvert from the main channel south, then east to the outfall, its sewage along the outer wall; the sluice room's door in its inner (east) wall."
+openings:
+  - id: open:crypt_reliquary
+    from: room:sandro_crypt
+    to: room:reliquary
+    from_wall: e
+    to_wall: w
+    link: link:crypt_reliquary
+    width: 192
+    height: 384
+    notes: The reliquary's iron grille in the crypt's east wall.
+  - id: open:culvert_sluice
+    from: room:west_culvert
+    to: room:sluice
+    from_wall: 3
+    to_wall: w
+    link: link:culvert_sluice
+    width: 256
+    height: 256
+  - id: open:east_cellar
+    from: room:main_east
+    to: room:dead_food
+    from_wall: e
+    to_wall: w
+    link: link:east_cellar
+    width: 256
+    height: 256
+  - id: open:eculvert_east
+    from: room:east_culvert
+    to: room:main_east
+    link: link:eculvert_east
+    width: 384
+    height: 320
+  - id: open:foot_hall
+    from: room:stair_foot
+    to: room:crypt_hall
+    from_wall: s
+    to_wall: n
+    link: link:foot_hall
+    width: 384
+    height: 384
+  - id: open:hall_crypt
+    from: room:crypt_hall
+    to: room:sandro_crypt
+    from_wall: s
+    to_wall: n
+    link: link:hall_crypt
+    width: 512
+    height: 256
+    notes: The crypt's double doors under Sandro's seal.
+  - id: open:hall_landing
+    from: room:crypt_hall
+    to: room:landing
+    from_wall: w
+    to_wall: e
+    link: link:hall_landing
+    width: 320
+    height: 320
+    notes: "The railed stair's head: from the Hall of Biers onto the landing's head (0), the stair down west."
+  - id: open:landing_east
+    from: room:landing
+    to: room:main_east
+    from_wall: e
+    to_wall: w
+    link: link:landing_east
+    width: 384
+    height: 320
+  - id: open:landing_west
+    from: room:landing
+    to: room:main_west
+    from_wall: w
+    to_wall: e
+    link: link:landing_west
+    along: 0.5625
+    width: 320
+    height: 320
+  - id: open:outfall_eculvert
+    from: room:outfall
+    to: room:east_culvert
+    from_wall: e
+    to_wall: 9
+    link: link:outfall_eculvert
+    along: 0.6875
+    width: 256
+    height: 320
+  - id: open:outfall_heart
+    from: room:outfall
+    to: room:heart_culvert
+    from_wall: s
+    to_wall: n
+    link: link:outfall_heart
+    along: 0.8421
+    width: 192
+    height: 384
+    notes: "The sluice gate in the outfall's south wall, over the steps down."
+  - id: open:wculvert_outfall
+    from: room:west_culvert
+    to: room:outfall
+    link: link:wculvert_outfall
+    along: 0.6875
+    width: 256
+    height: 320
+  - id: open:west_culvert
+    from: room:main_west
+    to: room:west_culvert
+    link: link:west_culvert
+    width: 384
+    height: 320
+  - id: open:west_vault
+    from: room:main_west
+    to: room:mummy_vault
+    from_wall: w
+    to_wall: e
+    link: link:west_vault
+    width: 160
+    height: 320
+    notes: "The old tomb wall's stone door: Mummy's Secret Treasure (aaze0036:10)."
+notes: "DD-21 Necropolis Sewer: the crypts at 0, the sewer at -512, the lowest culvert at -896, in one frame (x east, y north, z up). Written by output/studio_cal/dd21/tools/gen.py (geo.py)."

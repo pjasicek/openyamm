@@ -1,0 +1,14 @@
+A powerful dark lord hurt: a deep sharp snarl of pain and fury, close
+
+kind: sfx
+duration: 0.8
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 4
+loudness_db: -8
+score_bias: power

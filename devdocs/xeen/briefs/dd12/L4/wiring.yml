@@ -1,0 +1,929 @@
+format: 0
+variables: [glass_a, glass_b, glass_c, glass_d, dial1, dial2, dial3, dial4, waters3, riddle, bones_c1, bones_c2, bones_d, purse, dead_bones, statue2_spoke, bird_luck, bird_end, bird_speed, bird_pers, bird_might, bird_acc, parrot]
+events:
+  - id: evt:alamar_1
+    preset: text
+    source: deco:alamar_1
+    title: Statue
+    text: "The statue reads: This dungeon stand as tribute to me, my name in walls for all to see."
+    window: true
+    notes: aaze0082:18-22.
+  - id: evt:alamar_2
+    preset: text
+    source: deco:alamar_2
+    title: Statue
+    text: "The statue reads: The Soul Maze inside is dark, dreary, and vast. The name found within is the clue to my past."
+    window: true
+    notes: aaze0082:18-22.
+  - id: evt:alamar_3
+    preset: text
+    source: deco:alamar_3
+    title: Statue
+    text: "The statue reads: Long have I traveled through deep, dark space, only to land and take over this place."
+    window: true
+    notes: aaze0082:18-22.
+  - id: evt:alamar_4
+    preset: text
+    source: deco:alamar_4
+    title: Statue
+    text: "The statue reads: I am saying this now for all to hear: none from this world shall I ever fear."
+    window: true
+    notes: aaze0082:18-22.
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m24.arrival\")"
+      - qbit: arrived_once
+    notes: "The first entry: A3's m24.arrival (the carving's words) once (dd12_arrived_once 117440)."
+  - id: evt:bones_c1
+    preset: script
+    source: deco:cell1_bones
+    title: Bones
+    condition: {not: {map_var: bones_c1}}
+    effects:
+      - gold: 400
+      - set:
+          var:
+            map_var: bones_c1
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "An adventurer who answered No: a find, then 'Nothing here.'"
+  - id: evt:bones_c2
+    preset: script
+    source: deco:cell2_bones
+    title: Bones
+    condition: {not: {map_var: bones_c2}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: bones_c2
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "More bones: a find, then 'Nothing here.'"
+  - id: evt:bones_d
+    preset: script
+    source: deco:store_d_bones
+    title: Bones
+    condition: {not: {map_var: bones_d}}
+    effects:
+      - gold: 350
+      - set:
+          var:
+            map_var: bones_d
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "A heap of bones in the south-east storeroom: a find, then 'Nothing here.'"
+  - id: evt:cage1
+    preset: script
+    source: panel:cage1
+    title: Lark of Luck
+    condition: {not: {map_var: bird_luck}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BaseLuck, 2)
+      - set:
+          var:
+            map_var: bird_luck
+          value: 1
+      - text: "Lark of Luck. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Luck (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Lark of Luck. Set it free?' (aaze0082:2-13), +2 Luck to every member present, once (map variable bird_luck)."
+  - id: evt:cage2
+    preset: script
+    source: panel:cage2
+    title: Eagle of Endurance
+    condition: {not: {map_var: bird_end}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BaseEndurance, 2)
+      - set:
+          var:
+            map_var: bird_end
+          value: 1
+      - text: "Eagle of Endurance. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Endurance (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Eagle of Endurance. Set it free?' (aaze0082:2-13), +2 Endurance to every member present, once (map variable bird_end)."
+  - id: evt:cage3
+    preset: script
+    source: panel:cage3
+    title: Sparrow of Speed
+    condition: {not: {map_var: bird_speed}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BaseSpeed, 2)
+      - set:
+          var:
+            map_var: bird_speed
+          value: 1
+      - text: "Sparrow of Speed. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Speed (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Sparrow of Speed. Set it free?' (aaze0082:2-13), +2 Speed to every member present, once (map variable bird_speed)."
+  - id: evt:cage4
+    preset: script
+    source: panel:cage4
+    title: Parrot of Prophecy
+    condition: {not: {map_var: parrot}}
+    effects:
+      - set:
+          var:
+            map_var: parrot
+          value: 1
+      - message: "Parrot of Prophecy. You set it free, and it sings from the rafters: His nights were filled with evil dreams, his days were spent in wicked schemes. You must destroy that wicked fiend before he controls all of XEEN!"
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: aaze0082:16-17.
+  - id: evt:cage5
+    preset: script
+    source: panel:cage5
+    title: Parakeet of Personality
+    condition: {not: {map_var: bird_pers}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BasePersonality, 2)
+      - set:
+          var:
+            map_var: bird_pers
+          value: 1
+      - text: "Parakeet of Personality. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Personality (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Parakeet of Personality. Set it free?' (aaze0082:2-13), +2 Personality to every member present, once (map variable bird_pers)."
+  - id: evt:cage6
+    preset: script
+    source: panel:cage6
+    title: Magpie of Might
+    condition: {not: {map_var: bird_might}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BaseMight, 2)
+      - set:
+          var:
+            map_var: bird_might
+          value: 1
+      - text: "Magpie of Might. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Might (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Magpie of Might. Set it free?' (aaze0082:2-13), +2 Might to every member present, once (map variable bird_might)."
+  - id: evt:cage7
+    preset: script
+    source: panel:cage7
+    title: Albatross of Accuracy
+    condition: {not: {map_var: bird_acc}}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(BaseAccuracy, 2)
+      - set:
+          var:
+            map_var: bird_acc
+          value: 1
+      - text: "Albatross of Accuracy. You set it free. In gratitude, the bird flutters around the party and sings its magic song. +2 Accuracy (permanent)."
+    else_effects:
+      - text: "An empty cage, door open."
+    notes: "D-42 (4): 'Albatross of Accuracy. Set it free?' (aaze0082:2-13), +2 Accuracy to every member present, once (map variable bird_acc)."
+  - id: evt:cage8
+    preset: script
+    source: panel:cage8
+    title: Songbird of Serenity
+    lua: "XeenQuests.hook(\"m24.songbird\")"
+    notes: "The last cage: A3's m24.songbird (bird_freed 111480, the Songbird 12526, once; then 'An empty cage, door open.'). The lift runs from then on."
+  - id: evt:call_foot
+    preset: switch
+    source: switch:call_foot
+    title: Call the lift
+    condition: {qbit: bird_freed}
+    closes: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -2304, 1312, -1280)"
+    else_effects:
+      - text: The cage does not move. The Songbird is still caged.
+    text: The cage rattles down the shaft.
+  - id: evt:call_top
+    preset: switch
+    source: switch:call_top
+    title: Call the lift
+    condition: {qbit: bird_freed}
+    opens: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -2304, 1312, -1280)"
+    else_effects:
+      - text: "The cage does not move. Far below, something sings."
+    text: The cage climbs the long shaft to you.
+  - id: evt:chest_cell3
+    preset: chest
+    source: chest:cell3
+    title: Chest
+  - id: evt:chest_dead
+    preset: chest
+    source: chest:dead
+    title: Chest
+  - id: evt:chest_negative
+    preset: chest
+    source: chest:negative
+    title: Chest
+  - id: evt:chest_reserve
+    preset: chest
+    source: chest:reserve
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: Horned throne
+    lua: |-
+      if not XeenQuests.hook("q-d25.throne") then
+          XeenQuests.hook("q-d25.throne_again")
+      end
+    notes: "The dais: as the throne."
+  - id: evt:dead_bones
+    preset: script
+    source: deco:dead_bones
+    title: Bones
+    condition: {not: {map_var: dead_bones}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: dead_bones
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "The lost adventurer's bones: a find, then 'Nothing here.'"
+  - id: evt:dial1
+    preset: script
+    source: panel:dial1
+    title: Dial
+    lua: |-
+      local v = MapVar(dial1)
+      if IsAtLeast(v, 4) then
+          SetValue(v, 1)
+          evt.StatusText("The dial turns. It is set at 1.")
+      elseif IsAtLeast(v, 3) then
+          SetValue(v, 4)
+          evt.StatusText("The dial turns. It is set at 4.")
+      elseif IsAtLeast(v, 2) then
+          SetValue(v, 3)
+          evt.StatusText("The dial turns. It is set at 3.")
+      else
+          SetValue(v, 2)
+          evt.StatusText("The dial turns. It is set at 2.")
+      end
+    notes: "'The dial is set at N. Turn?' (aaze0080:6-9): 1 to 4 and round (map variable dial1; 0 reads as 1)."
+  - id: evt:dial2
+    preset: script
+    source: panel:dial2
+    title: Dial
+    lua: |-
+      local v = MapVar(dial2)
+      if IsAtLeast(v, 4) then
+          SetValue(v, 1)
+          evt.StatusText("The dial turns. It is set at 1.")
+      elseif IsAtLeast(v, 3) then
+          SetValue(v, 4)
+          evt.StatusText("The dial turns. It is set at 4.")
+      elseif IsAtLeast(v, 2) then
+          SetValue(v, 3)
+          evt.StatusText("The dial turns. It is set at 3.")
+      else
+          SetValue(v, 2)
+          evt.StatusText("The dial turns. It is set at 2.")
+      end
+    notes: "'The dial is set at N. Turn?' (aaze0080:6-9): 1 to 4 and round (map variable dial2; 0 reads as 1)."
+  - id: evt:dial3
+    preset: script
+    source: panel:dial3
+    title: Dial
+    lua: |-
+      local v = MapVar(dial3)
+      if IsAtLeast(v, 4) then
+          SetValue(v, 1)
+          evt.StatusText("The dial turns. It is set at 1.")
+      elseif IsAtLeast(v, 3) then
+          SetValue(v, 4)
+          evt.StatusText("The dial turns. It is set at 4.")
+      elseif IsAtLeast(v, 2) then
+          SetValue(v, 3)
+          evt.StatusText("The dial turns. It is set at 3.")
+      else
+          SetValue(v, 2)
+          evt.StatusText("The dial turns. It is set at 2.")
+      end
+    notes: "'The dial is set at N. Turn?' (aaze0080:6-9): 1 to 4 and round (map variable dial3; 0 reads as 1)."
+  - id: evt:dial4
+    preset: script
+    source: panel:dial4
+    title: Dial
+    lua: |-
+      local v = MapVar(dial4)
+      if IsAtLeast(v, 4) then
+          SetValue(v, 1)
+          evt.StatusText("The dial turns. It is set at 1.")
+      elseif IsAtLeast(v, 3) then
+          SetValue(v, 4)
+          evt.StatusText("The dial turns. It is set at 4.")
+      elseif IsAtLeast(v, 2) then
+          SetValue(v, 3)
+          evt.StatusText("The dial turns. It is set at 3.")
+      else
+          SetValue(v, 2)
+          evt.StatusText("The dial turns. It is set at 2.")
+      end
+    notes: "'The dial is set at N. Turn?' (aaze0080:6-9): 1 to 4 and round (map variable dial4; 0 reads as 1)."
+  - id: evt:door_barracks
+    preset: door
+    source: door:barracks
+    title: Door
+  - id: evt:door_store_a
+    preset: door
+    source: door:store_a
+    title: Minotaur Storage
+  - id: evt:door_store_b
+    preset: door
+    source: door:store_b
+    title: Door
+  - id: evt:door_store_c
+    preset: door
+    source: door:store_c
+    title: Minotaur Storage
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: The Dungeon of Lost Souls.
+    notes: "Every entry: a status line."
+  - id: evt:exit_left
+    preset: exit
+    source: exit:door_left
+    title: Doors to the Isle
+    notes: "Out to D4's Isle of Lost Souls a step south of the tower's door (entrance:dd12_door): the game's leave window (D-24)."
+  - id: evt:exit_right
+    preset: exit
+    source: exit:door_right
+    title: Doors to the Isle
+    notes: "The door's other wing: the same way out."
+  - id: evt:gate1
+    preset: door
+    source: door:gate1
+    side: room:entry
+    title: Gate
+    condition: {qbit: gate1}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 then
+              XeenQuests.hook("m24.gate_open")
+              SetQBit(QBit(117441))
+              return
+          end
+          if continueStep == 2 then
+              XeenQuests.hook("m24.gate_shut")
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m24.gate1")
+          AskChoiceWithAnswerSteps(eventId, 3, "Will you find what you came for?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "m24.gate1 asks 'Will you find what you came for?' (A3's text); Yes: m24.gate_open and the map's gate1 qbit (117441), and evt:gate1_open swings the leaves apart; No: m24.gate_shut, the gate stays shut and asks again (D-42 (6): no wave). Once answered, a plain double door."
+  - id: evt:gate1_back
+    preset: door
+    source: door:gate1
+    side: room:gallery1
+    title: Gate
+    notes: "From beyond, the gate opens by hand."
+  - id: evt:gate1_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: gate1}
+    opens: [door:gate1]
+    once: true
+    notes: The gate's leaves swing apart once it was answered Yes (also after a refill).
+  - id: evt:gate2
+    preset: door
+    source: door:gate2
+    side: room:gate_hall2
+    title: Gate
+    condition: {qbit: gate2}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 then
+              XeenQuests.hook("m24.gate_open")
+              SetQBit(QBit(117442))
+              return
+          end
+          if continueStep == 2 then
+              XeenQuests.hook("m24.gate_shut")
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m24.gate2")
+          AskChoiceWithAnswerSteps(eventId, 3, "Is the glass half full?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "m24.gate2 asks 'Is the glass half full?' (A3's text); Yes: m24.gate_open and the map's gate2 qbit (117442), and evt:gate2_open swings the leaves apart; No: m24.gate_shut, the gate stays shut and asks again (D-42 (6): no wave). Once answered, a plain double door."
+  - id: evt:gate2_back
+    preset: door
+    source: door:gate2
+    side: room:flight2
+    title: Gate
+    notes: "From beyond, the gate opens by hand."
+  - id: evt:gate2_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: gate2}
+    opens: [door:gate2]
+    once: true
+    notes: The gate's leaves swing apart once it was answered Yes (also after a refill).
+  - id: evt:gate3
+    preset: door
+    source: door:gate3
+    side: room:gate_hall3
+    title: Gate
+    condition: {qbit: gate3}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 then
+              XeenQuests.hook("m24.gate_open")
+              SetQBit(QBit(117443))
+              return
+          end
+          if continueStep == 2 then
+              XeenQuests.hook("m24.gate_shut")
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m24.gate3")
+          AskChoiceWithAnswerSteps(eventId, 3, "Will tomorrow be better than today?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "m24.gate3 asks 'Will tomorrow be better than today?' (A3's text); Yes: m24.gate_open and the map's gate3 qbit (117443), and evt:gate3_open swings the leaves apart; No: m24.gate_shut, the gate stays shut and asks again (D-42 (6): no wave). Once answered, a plain double door."
+  - id: evt:gate3_back
+    preset: door
+    source: door:gate3
+    side: room:flight3
+    title: Gate
+    notes: "From beyond, the gate opens by hand."
+  - id: evt:gate3_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: gate3}
+    opens: [door:gate3]
+    once: true
+    notes: The gate's leaves swing apart once it was answered Yes (also after a refill).
+  - id: evt:gate4
+    preset: door
+    source: door:gate4
+    side: room:gate_hall4
+    title: Gate
+    condition: {qbit: gate4}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 then
+              XeenQuests.hook("m24.gate_open")
+              SetQBit(QBit(117444))
+              return
+          end
+          if continueStep == 2 then
+              XeenQuests.hook("m24.gate_shut")
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m24.gate4")
+          AskChoiceWithAnswerSteps(eventId, 3, "Are your friends glad you came?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "m24.gate4 asks 'Are your friends glad you came?' (A3's text); Yes: m24.gate_open and the map's gate4 qbit (117444), and evt:gate4_open swings the leaves apart; No: m24.gate_shut, the gate stays shut and asks again (D-42 (6): no wave). Once answered, a plain double door."
+  - id: evt:gate4_back
+    preset: door
+    source: door:gate4
+    side: room:flight4
+    title: Gate
+    notes: "From beyond, the gate opens by hand."
+  - id: evt:gate4_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: gate4}
+    opens: [door:gate4]
+    once: true
+    notes: The gate's leaves swing apart once it was answered Yes (also after a refill).
+  - id: evt:gate5
+    preset: door
+    source: door:gate5
+    side: room:gate_hall5
+    title: Gate
+    condition: {qbit: gate5}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 then
+              XeenQuests.hook("m24.gate_open")
+              SetQBit(QBit(117445))
+              return
+          end
+          if continueStep == 2 then
+              XeenQuests.hook("m24.gate_shut")
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m24.gate5")
+          AskChoiceWithAnswerSteps(eventId, 3, "Is the Songbird waiting for you?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "m24.gate5 asks 'Is the Songbird waiting for you?' (A3's text); Yes: m24.gate_open and the map's gate5 qbit (117445), and evt:gate5_open swings the leaves apart; No: m24.gate_shut, the gate stays shut and asks again (D-42 (6): no wave). Once answered, a plain double door."
+  - id: evt:gate5_back
+    preset: door
+    source: door:gate5
+    side: room:aviary
+    title: Gate
+    notes: "From beyond, the gate opens by hand."
+  - id: evt:gate5_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: gate5}
+    opens: [door:gate5]
+    once: true
+    notes: The gate's leaves swing apart once it was answered Yes (also after a refill).
+  - id: evt:glass_a
+    preset: script
+    source: panel:glass_a
+    title: Hour Glass
+    condition: {not: {map_var: glass_a}}
+    effects:
+      - set:
+          var:
+            map_var: glass_a
+          value: 1
+      - text: You turn the hour glass over. The sand begins to run.
+    else_effects:
+      - set:
+          var:
+            map_var: glass_a
+          value: 0
+      - text: You turn the hour glass back.
+    notes: "'Flip the Hour Glass over?' (aaze0078:6): a map variable that flips back and forth."
+  - id: evt:glass_b
+    preset: script
+    source: panel:glass_b
+    title: Hour Glass
+    condition: {not: {map_var: glass_b}}
+    effects:
+      - set:
+          var:
+            map_var: glass_b
+          value: 1
+      - text: You turn the hour glass over. The sand begins to run.
+    else_effects:
+      - set:
+          var:
+            map_var: glass_b
+          value: 0
+      - text: You turn the hour glass back.
+    notes: "'Flip the Hour Glass over?' (aaze0078:6): a map variable that flips back and forth."
+  - id: evt:glass_c
+    preset: script
+    source: panel:glass_c
+    title: Hour Glass
+    condition: {not: {map_var: glass_c}}
+    effects:
+      - set:
+          var:
+            map_var: glass_c
+          value: 1
+      - text: You turn the hour glass over. The sand begins to run.
+    else_effects:
+      - set:
+          var:
+            map_var: glass_c
+          value: 0
+      - text: You turn the hour glass back.
+    notes: "'Flip the Hour Glass over?' (aaze0078:6): a map variable that flips back and forth."
+  - id: evt:glass_d
+    preset: script
+    source: panel:glass_d
+    title: Hour Glass
+    condition: {not: {map_var: glass_d}}
+    effects:
+      - set:
+          var:
+            map_var: glass_d
+          value: 1
+      - text: You turn the hour glass over. The sand begins to run.
+    else_effects:
+      - set:
+          var:
+            map_var: glass_d
+          value: 0
+      - text: You turn the hour glass back.
+    notes: "'Flip the Hour Glass over?' (aaze0078:6): a map variable that flips back and forth."
+  - id: evt:illusion
+    preset: door
+    source: door:illusion
+    title: Hedge
+    action: open
+    text: "An illusion!"
+    notes: "aaze0082:23: the wall under the second E is not there."
+  - id: evt:lever1
+    preset: switch
+    source: switch:lever1
+    title: Lever
+    toggles: [door:cell1]
+    text: "Clank! Bars grind somewhere along the cell row."
+    notes: "'Pull lever?' (aaze0079:2): the first cell's bars, up and down."
+  - id: evt:lever2
+    preset: switch
+    source: switch:lever2
+    title: Lever
+    toggles: [door:cell2]
+    text: "Clank! Bars grind somewhere along the cell row."
+  - id: evt:lever3
+    preset: switch
+    source: switch:lever3
+    title: Lever
+    toggles: [door:cell3]
+    text: "Clank! Bars grind somewhere along the cell row."
+  - id: evt:lever4
+    preset: text
+    source: switch:lever4
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0079:9.
+  - id: evt:negative
+    preset: script
+    source: platform:neg_basin
+    title: Negative Soul Waters
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      if IsAtLeast(HP, 60) then
+          SubtractValue(HP, 25)
+      end
+      if IsAtLeast(SP, 30) then
+          SubtractValue(SP, 10)
+      end
+      evt.StatusText("Negative Soul Waters. You feel emptier.")
+    notes: "aaze0080:10: a draught that takes a little HP and SP from the drinking member and never kills."
+  - id: evt:niche3
+    preset: text
+    source: panel:niche3
+    title: Soul Waters
+    text: Soul Waters.
+    notes: aaze0080:1.
+  - id: evt:niche4
+    preset: text
+    source: panel:niche4
+    title: Soul Waters
+    text: Minotaur's Private Reserve. Soul Waters.
+  - id: evt:plaque
+    preset: script
+    source: panel:plaque
+    title: Plaque
+    lua: "XeenQuests.hook(\"m24.arrival\")"
+    notes: "The carved plaque over the first gate: A3's m24.arrival again (the answer-giver for the gates)."
+  - id: evt:pool
+    preset: text
+    source: platform:pool
+    title: Pool
+    text: The water is stagnant.
+    notes: aaze0080:0.
+  - id: evt:post_11
+    preset: text
+    source: switch:post_11
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_12
+    preset: text
+    source: switch:post_12
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_13
+    preset: text
+    source: switch:post_13
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_21
+    preset: text
+    source: switch:post_21
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_22
+    preset: text
+    source: switch:post_22
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_23
+    preset: text
+    source: switch:post_23
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_31
+    preset: text
+    source: switch:post_31
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_32
+    preset: text
+    source: switch:post_32
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_33
+    preset: switch
+    source: switch:post_33
+    title: Lever
+    opens: [door:reserve]
+    effects:
+      - set:
+          var:
+            map_var: riddle
+          value: 1
+    text: "The lever moves. Iron grinds: the Reserve's portcullis rises."
+    notes: "The riddle's lever: third row from the north, the east one (aaze0081:2). It raises the Reserve's portcullis for good."
+  - id: evt:post_41
+    preset: text
+    source: switch:post_41
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_42
+    preset: text
+    source: switch:post_42
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:post_43
+    preset: text
+    source: switch:post_43
+    title: Lever
+    text: The lever is stuck.
+    notes: aaze0081:15.
+  - id: evt:purse
+    preset: script
+    source: deco:barracks_straw_2
+    title: Straw
+    condition: {not: {map_var: purse}}
+    effects:
+      - gold: 800
+      - set:
+          var:
+            map_var: purse
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "A purse under the straw: a find, then 'Nothing here.'"
+  - id: evt:reserve_door
+    preset: door
+    source: door:reserve
+    title: Minotaur's Private Reserve
+    condition: {map_var: riddle}
+    locked_text: The portcullis does not budge.
+    notes: "The Reserve's portcullis (hover 'Minotaur's Private Reserve', aaze0081:3): the riddle's lever lifts it."
+  - id: evt:ride_down
+    preset: switch
+    source: switch:ride_down
+    title: "Lift: down"
+    condition: {qbit: bird_freed}
+    closes: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -2304, 1312, -1280)"
+    else_effects:
+      - text: The cage does not move.
+    text: The cage sinks into the dark.
+  - id: evt:ride_up
+    preset: switch
+    source: switch:ride_up
+    title: "Lift: up"
+    condition: {qbit: bird_freed}
+    opens: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -2304, 1312, -1280)"
+    else_effects:
+      - text: The cage does not move. The Songbird is still caged.
+    text: The cage climbs the long shaft to the tower.
+  - id: evt:soul3
+    preset: script
+    source: platform:soul_basin3
+    title: Soul Waters
+    condition: {map_var: waters3}
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.Current)
+          XeenQuests.hook("m24.soul_waters_l3")
+          evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    else_effects:
+      - text: The water is stagnant.
+    notes: "D-42 (5): A3's m24.soul_waters_l3 for the drinking member (player bit 11348: 1,000 experience once; then 'Refreshing.')."
+  - id: evt:soul4
+    preset: script
+    source: platform:soul_basin4
+    title: Soul Waters
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      XeenQuests.hook("m24.soul_waters_l4")
+      evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    notes: "D-42 (5): A3's m24.soul_waters_l4 (player bit 11349: 2,000 experience once; then 'Refreshing.')."
+  - id: evt:soul_lever
+    preset: switch
+    source: switch:soul_lever
+    title: Lever
+    condition: {lua: "IsAtLeast(MapVar(dial1), 4) and IsAtLeast(MapVar(dial2), 4) and IsAtLeast(MapVar(dial3), 4) and IsAtLeast(MapVar(dial4), 4)"}
+    effects:
+      - set:
+          var:
+            map_var: waters3
+          value: 1
+    else_effects:
+      - text: The lever is stuck.
+    text: "The lever moves! Water gushes into the basin."
+    notes: "With all four dials at 4 the lever moves and the Soul Waters run (waters3); otherwise stuck."
+  - id: evt:statue2
+    preset: text
+    source: deco:statue2
+    title: Statue
+    text: "The statue speaks: All of the lost souls in this dungeon have become lost because they did not think positively. If you wish to stay found... Think Positive!"
+    window: true
+  - id: evt:statue2_step
+    preset: script
+    source: room:statue_hall2
+    trigger: step
+    condition: {not: {map_var: statue2_spoke}}
+    effects:
+      - set:
+          var:
+            map_var: statue2_spoke
+          value: 1
+      - message: "The statue speaks: All of the lost souls in this dungeon have become lost because they did not think positively. If you wish to stay found... Think Positive!"
+    notes: "The statue speaks as you come down the stair (aaze0079:1), once a visit; its click says it again."
+  - id: evt:statue3
+    preset: text
+    source: deco:statue3
+    title: Statue
+    text: "The statue's plinth reads: Turn all dials up, pull lever & drink the souls of adventurers past!"
+    window: true
+    notes: aaze0080:3-4.
+  - id: evt:statue4
+    preset: text
+    source: platform:plinth4
+    title: Plaque
+    text: "A plaque on the plinth reads: Start from the North and go to the South; third from the top and far to the East pull the lever you suspected least."
+    window: true
+    notes: aaze0081:1-2.
+  - id: evt:statue4_deco
+    preset: text
+    source: deco:statue4
+    title: Plaque
+    text: "A plaque on the plinth reads: Start from the North and go to the South; third from the top and far to the East pull the lever you suspected least."
+    window: true
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: Horned throne
+    lua: |-
+      if not XeenQuests.hook("q-d25.throne") then
+          XeenQuests.hook("q-d25.throne_again")
+      end
+    notes: "Q-D25: q-d25.throne once (3,000, Minotaurs promoted, done 113500); later q-d25.throne_again."
+  - id: evt:vault_back
+    preset: door
+    source: door:vault
+    side: room:vault1
+    title: Panel
+    notes: From inside the vault the panel opens by hand.
+  - id: evt:vault_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {not: {any: [{not: {map_var: glass_a}}, {not: {map_var: glass_b}}, {not: {map_var: glass_c}}, {not: {map_var: glass_d}}]}}
+    opens: [door:vault]
+    once: true
+    text: Somewhere a panel grinds open.
+    notes: "All four hourglasses turned: the hall's west panel grinds up and stays open."
+notes: "DD-12's events (gen.py): M24's hooks (the arrival and the plaque, the five gates' questions with gate_open and gate_shut, the Soul Waters on L3 and L4, the Songbird), Q-D25's throne, the hourglasses and the vault, the cell levers, the dials, the riddle's levers, the illusion, the birds, the lift, the finds, the exit to D4."

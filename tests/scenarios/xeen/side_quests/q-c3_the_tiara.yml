@@ -1,0 +1,301 @@
+# Xeen side quest Q-C3, The Tiara (X4, XD-07, X2, XD-21), with its promotion T1-E, from a new game on X4 with a Thief
+# in a level-14 party. The Crusader title (m4.done, the Crusaders' portcullis) is set by the console as the story step
+# that stands for it (M4, Vertigo's Crusader test). Castle Burlock walked from its gate: the portcullis, the east tower,
+# Princess Roxanne (house 4204): Tiara (started, then "keep trying"); her bedroom chest locked (q-c3.bedroom_chest).
+# Out by the castle door; X4's south road over the edge to X2 (its travel prompt). The Robbers' Den's door in the south
+# quay wall (X2 event 114); XD-21 walked as its L4 playtest and the main run's segment 17: the worn block (the secret
+# door: robbers_den_found), the crawl, the dicing room, the bunks, the sluice catwalk, the winch and the plank bridge,
+# the boss's stair, the Robber Boss and his guards (boss hook, robber_boss_slain), his ring of keys, the catch, the
+# dart slabs, the iron door (robbers_vault_opened) and the strongbox (the trap, then the tiara among its loot, the vault hook's
+# tiara_recovered); back over the plank bridge and out by the quay door. X2's north road over the edge to X4, the
+# castle again: Roxanne (Tiara: done, started cleared, the tiara taken, her Tiara's twin, 8,000 XP each; the Thief a
+# Rogue); her bedroom chest now opens. Outdoors the party is placed (PLAYBOOK §2); the castle and the den are walked.
+# Routes: tests/playthrough/xeen/13_castle_burlock.yml, 17_rivercity.yml, 21_court_again.yml;
+# devdocs/xeen/briefs/xd07/L4/playtest.yml (the bedroom), xd21/L4/playtest.yml, x4/L4/playtest.yml (the south edge).
+# Quest logic: source/quests/q-c3.yml, t1-e.yml. Prep: prep/q-c3.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-c3_
+id: xeen.side_quests.q-c3
+title: "Xeen Q-C3: Roxanne's tiara from the Rivercity robbers' den; the Thief a Rogue"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x4.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 14, skills: [], equipment: {}}
+          - {name: Vesk, class: Thief, level: 14, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 14, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 14, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [112060, 112061, 110300, 110301, 110302, 110303]}
+  # The story step that stands for the Crusaders' portcullis: M4's Crusader title (m4.done).
+  - console: {line: "qbit set 110047"}
+  # Castle Burlock's gate (X4 event 180) into XD-07's gatehouse; the portcullis lifts for Crusaders.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open for Crusaders: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # The throne room's double door (event 25), the way through to the east tower.
+  - walk_to: {x: 0, y: 3150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 13); if door_state(14) ~= 'open' then error('the second leaf did not open') end"}
+  # The east tower: Princess Roxanne (house 4204) on the landing: Tiara (started), Tiara again (keep trying).
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 5)"}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(1)"}
+  - assert:
+      dialog: {source_id: 4404, action_label_absent: "Rogues"}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "my diamond tiara has been stolen from my room"}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "I see that you have not recovered my tiara"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - assert: {qbit_set: [112060]}
+  # The royal bedroom upstairs: Roxanne's chest (event 12) is locked until she has her tiara back.
+  - walk_to: {x: 4608, y: 6000, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 7050, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 1)"}
+  - walk_to: {x: 4900, y: 8100, z: 1280, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(1)"}
+  - assert:
+      dialog: {text_contains: "locked with a little silver lock"}
+  - play_lua: {source: "close()"}
+  # Back down and out by the castle door (event 8) onto X4's castle rise.
+  - walk_to: {x: 4608, y: 7050, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Rivercity road south over X4's edge (its travel prompt) to X2.
+  - set_pose: {map: xeen_x4.odm, x: 16384, y: -20480, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 16384, y: -24064, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Robbers' Den's door in the south quay wall (X2 event 114).
+  - set_pose: {map: xeen_x2.odm, x: 1280, y: 3950, z: 640, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd21.blv}
+  - assert: {party_position: {x: -2560, y: 320, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The robbers' den, under the great bridge."}}
+  - play_lua: {source: "close(); if not qbit(110304) then error('arrived_once 110304 not set') end"}
+  # The hidden way in: the worn block (q-c3.secret_door: robbers_den_found).
+  - walk_to: {x: -2560, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" then error("the worn block does not start shut") end
+        if qbit(110302) then error("robbers_den_found set before the block moved") end
+        open_door(22, 5)
+        if not qbit(110302) then error("robbers_den_found not set") end
+  # The crawl and its tripwire; the dicing room's door.
+  - walk_to: {x: -2560, y: 1400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 2600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 3350, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 3)"}
+  # The dicing room: the first fight.
+  - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2560, y: 4480, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The undercroft's west bank: the plank bridge drawn back out of reach.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "if door_state(8) ~= 'closed' then error('the plank bridge does not start drawn back') end"}
+  # North by the bunks.
+  - walk_to: {x: -2432, y: 4700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 2)"}
+  - walk_to: {x: -2432, y: 5400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The sluice chamber and its catwalk across the race.
+  - walk_to: {x: -1850, y: 5632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 6)"}
+  - walk_to: {x: -1100, y: 5632, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -400, y: 5760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 5760, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 450, y: 5760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Down the arch onto the undercroft's east bank; the winch runs the bridge out.
+  - walk_to: {x: 442, y: 5250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 442, y: 4600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 3600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(30); wait(7); close()
+        if door_state(8) ~= "open" then error("the winch did not run the bridge out") end
+  # The boss's stair and his rooms.
+  - walk_to: {x: 700, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1500, y: 3968, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2050, y: 3968, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2850, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(110301) then error('robber_boss_slain set before the boss died') end; open_door(3, 1)"}
+  # The Robber Boss and his guards fall from the doorway: the boss hook's status line (F15: no window; the keys are
+  # his corpse's loot) and robber_boss_slain.
+  # The line is read in the step right after the door (a status line does not outlive the --reload run's reload).
+  - play_lua: {source: "clear_hostiles(3000); wait(3); local s = tostring(status()); if not string.find(s, 'The Robber Boss falls.', 1, true) then error('boss line: ' .. s) end; if not qbit(110301) then error('robber_boss_slain not set') end"}
+  - assert: {actor_visible: {actor_index: 2, dead: true}}
+  - assert: {dialog: {active: false}}
+  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - combat_loot: {actor_index: 2, expected_item_id: 12151}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(12151) then error('no ring of keys from the Robber Boss') end"}
+  # The catch by the hearth (the ledger's advice), then the strongroom passage's dart slabs.
+  - walk_to: {x: 3680, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3680, y: 4480, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(2); close()"}
+  - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3904, y: 5440, z: 256, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3904, y: 5950, z: 256, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The iron door (the boss's keys: q-c3.vault_door) and the strongbox.
+  - play_lua:
+      source: |
+        if door_state(7) ~= "closed" then error("the iron door does not start shut") end
+        if qbit(110303) then error("robbers_vault_opened set before the iron door") end
+        open_door(29, 7); close()
+        if not qbit(110303) then error("robbers_vault_opened not set") end
+  - walk_to: {x: 3904, y: 6400, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        if has_item(12150) or qbit(110300) then error("the tiara before the strongbox") end
+        -- F15: the tiara is an ordinary item in the strongbox; its trap goes off on the first opening and leaves it
+        -- shut (loot_chest's rule); the vault hook sets tiara_recovered when it opens
+        loot_chest(12)
+        close()
+        if held() ~= 0 then stow() end
+        if not qbit(110300) then error("tiara_recovered not set by the strongbox: " .. status()) end
+        if item_count(12150) ~= 1 then error("tiaras after the strongbox: " .. tostring(item_count(12150)) .. " " .. pack_items()) end
+  # The strongbox again opens as a plain chest (no second tiara).
+  - play_lua:
+      source: |
+        loot_chest(12)
+        if held() ~= 0 then stow() end
+        if item_count(12150) ~= 1 then error("a second tiara: " .. tostring(item_count(12150))) end
+  # Home: back down the stair, west over the plank bridge, through the dicing room and the crawl to the quay door.
+  - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1500, y: 3968, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 700, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -600, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 1300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2560, y: 250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {qbit_set: [110300, 110301, 110302, 110303, 112060]}
+  - assert: {qbit_clear: [112061]}
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: 1280, y: 4172, radius: 160, z_min: 600, z_max: 700}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12150) ~= 1 then error('the tiara lost on the way out') end"}
+  # X2's north road over the edge (its travel prompt) to X4; the castle lane and gate.
+  - set_pose: {map: xeen_x2.odm, x: 1024, y: 21504, z: 1216, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 1024, y: 24064, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 5)"}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Roxanne: Tiara (done): the tiara taken, its twin given, 8,000 XP each, the Thief a Rogue (T1-E).
+  - play_lua: {source: "for _, i in ipairs({1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the tiara hand-in: ' .. c) end end end"}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp1', experience(1)); remember('gold', gold()); click(42); wait(1)"}
+  - assert:
+      dialog: {source_id: 4404}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "You have recovered my tiara and gotten rid of that bothersome robber gang"}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "It is always exhilarating to see adventurers such as yourselves."}
+  - assert:
+      dialog: {action_label_absent: "Rogues"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        if held() ~= 0 then stow() end
+        if has_item(12150) then error("Roxanne did not take the tiara") end
+        if item_count(12520) ~= 1 then error("Roxanne's Tiara (the twin, 12520): " .. tostring(item_count(12520))) end
+        local xp0, xp1 = experience(0) - recall("xp0"), experience(1) - recall("xp1")
+        if xp0 ~= 8000 then error("Roxanne paid the Knight " .. xp0 .. " experience, not 8000") end
+        if xp1 ~= 8000 then error("Roxanne paid the Thief " .. xp1 .. " experience, not 8000") end
+        if gold() ~= recall("gold") then error("Roxanne paid gold: " .. (gold() - recall("gold"))) end
+        if classes() ~= "Knight Rogue Cleric Sorcerer" then error("classes after Roxanne: " .. classes()) end
+        log("Q-C3 done: " .. classes())
+  - assert: {qbit_set: [112061]}
+  - assert: {qbit_clear: [112060]}
+  # Her bedroom chest now opens (the map's T3 loot).
+  - walk_to: {x: 4608, y: 6000, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 7050, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 1)"}
+  - walk_to: {x: 4900, y: 8100, z: 1280, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(12)
+        if held() ~= 0 then stow() end
+        if gold() == g then error("Roxanne's chest (XD-07 event 12) gave no gold") end
+        log("Roxanne's chest: +" .. (gold() - g) .. " gold")

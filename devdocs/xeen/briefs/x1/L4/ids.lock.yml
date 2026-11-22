@@ -1,5 +1,7 @@
 format: 0
 events:
+  evt:celia_at_fire: 263
+  evt:derek_moved: 264
   evt:door:building:alchemist: 13
   evt:door:building:armour_shop: 7
   evt:door:building:bank: 15
@@ -84,8 +86,10 @@ events:
   "evt:name:building:west_houses#1": 46
   "evt:name:building:west_houses#2": 48
   "evt:name:building:west_houses#3": 120
+  evt:name:thing:burned_farm: 247
   evt:name:thing:falls_crags_n: 203
   evt:name:thing:falls_crags_s: 204
+  evt:name:thing:fisher_shelter: 246
   evt:name:thing:gatehouse_east: 140
   evt:name:thing:gatehouse_north: 137
   evt:name:thing:gatehouse_south: 143
@@ -93,6 +97,8 @@ events:
   evt:name:thing:joes_warehouse: 205
   evt:name:thing:pyramid: 62
   evt:name:thing:rim_falls: 206
+  evt:name:thing:ruined_cottage: 215
+  evt:name:thing:ruined_shrine: 214
   evt:name:thing:shed_bank: 154
   evt:name:thing:shed_east: 153
   evt:name:thing:shed_ne: 150
@@ -122,14 +128,20 @@ events:
   evt:name:thing:wall_tower_6: 142
   evt:name:thing:wall_tower_7: 144
   evt:name:thing:wall_tower_8: 145
+  evt:name:thing:watchtower: 216
   evt:name:thing:witch_tower: 61
   evt:part:thing:pyramid/p: 103
   evt:part:thing:shrine_poison/s: 104
   evt:studio_relations: 213
+  evt:thing:bog_bones: 253
+  evt:thing:cottage_chest: 220
+  evt:thing:creek_whistle: 254
+  evt:thing:crodo_bottle: 237
   evt:thing:culvert_grate: 70
   evt:thing:derek_chest: 90
   evt:thing:derek_fire: 89
   evt:thing:druid_stone: 82
+  evt:thing:eel_traps: 252
   evt:thing:falls_crag_1: 188
   evt:thing:falls_crag_10: 197
   evt:thing:falls_crag_11: 198
@@ -150,12 +162,25 @@ events:
   evt:thing:gate_arch_east: 179
   evt:thing:gate_arch_north: 178
   evt:thing:gate_arch_west: 180
+  evt:thing:gate_sign: 259
+  evt:thing:grave_1: 221
+  evt:thing:grave_2: 222
+  evt:thing:grave_3: 223
+  evt:thing:grave_4: 224
+  evt:thing:grave_5: 225
+  evt:thing:grave_chest: 226
+  evt:thing:great_boulder: 236
   evt:thing:gunther_notice: 67
   evt:thing:hill_cache: 92
+  evt:thing:hunters_chest: 218
+  evt:thing:hunters_tent: 217
   evt:thing:marsh_chest: 93
   evt:thing:mine_portal: 71
+  evt:thing:mirror: 238
   evt:thing:money_tree: 66
+  evt:thing:north_cairn: 249
   evt:thing:north_road_crate: 212
+  evt:thing:north_road_end: 262
   evt:thing:north_road_fire: 211
   evt:thing:obelisk: 75
   evt:thing:orc_cave_mouth: 74
@@ -167,17 +192,34 @@ events:
   evt:thing:outpost_fire_1: 83
   evt:thing:outpost_fire_2: 85
   evt:thing:outpost_fire_3: 87
+  evt:thing:phirna_1: 255
+  evt:thing:phirna_2: 256
+  evt:thing:phirna_3: 257
+  evt:thing:phirna_4: 258
   evt:thing:quay_wall_1: 186
   evt:thing:quay_wall_2: 187
   evt:thing:rain_barrel: 68
   evt:thing:rim_falls: 160
+  evt:thing:rim_lookout: 250
+  evt:thing:ring_chest: 228
   evt:thing:shaft_head: 72
+  evt:thing:sheepfold_hay: 251
+  evt:thing:shrine_chest: 219
+  evt:thing:sign_forest.arm1: 241
+  evt:thing:sign_forest.arm2: 242
+  evt:thing:sign_forest.arm3: 243
   evt:thing:sign_hills.arm1: 94
   evt:thing:sign_hills.arm2: 95
   evt:thing:sign_hills.arm3: 96
+  evt:thing:sign_joe: 261
+  evt:thing:sign_orchard.arm1: 244
+  evt:thing:sign_orchard.arm2: 245
+  evt:thing:sign_rent: 260
   evt:thing:sign_south.arm1: 97
   evt:thing:sign_south.arm2: 98
   evt:thing:sign_south.arm3: 99
+  evt:thing:sign_tower.arm1: 239
+  evt:thing:sign_tower.arm2: 240
   evt:thing:sign_west.arm1: 100
   evt:thing:sign_west.arm2: 101
   evt:thing:terrace_wall_1: 181
@@ -186,6 +228,8 @@ events:
   evt:thing:terrace_wall_4: 184
   evt:thing:terrace_wall_5: 185
   evt:thing:town_bridge: 64
+  evt:thing:travellers_camp_1: 233
+  evt:thing:travellers_tent: 234
   evt:thing:wall_run_1: 161
   evt:thing:wall_run_10: 170
   evt:thing:wall_run_11: 171
@@ -199,28 +243,41 @@ events:
   evt:thing:wall_run_8: 168
   evt:thing:wall_run_9: 169
   evt:thing:warehouse_door: 69
+  evt:thing:watchtower_chest: 227
   evt:thing:water_reflector: 79
   evt:thing:waters_of_power: 77
+  evt:thing:wayside_shrine: 248
   evt:thing:well_bank: 158
   evt:thing:well_farm: 159
+  evt:thing:well_fork: 229
+  evt:thing:well_hamlet: 232
   evt:thing:well_northeast: 156
   evt:thing:well_northwest: 155
   evt:thing:well_south: 157
+  evt:thing:well_south_meadow: 231
+  evt:thing:well_spring: 230
   evt:thing:west_camp_crate: 208
   evt:thing:west_camp_fire: 207
   evt:thing:west_road_crate: 210
   evt:thing:west_road_fire: 209
   evt:thing:wishing_well: 78
   evt:thing:witch_tower_door: 73
+  evt:thing:woodcutters_camp_1: 235
   evt:thing:yak_door: 91
 containers:
+  chest:thing:cottage_chest: 11
   chest:thing:derek_chest: 3
+  chest:thing:grave_chest: 12
   chest:thing:hill_cache: 4
+  chest:thing:hunters_chest: 9
   chest:thing:marsh_chest: 5
   chest:thing:north_road_crate: 8
   chest:thing:outpost_crate_1: 0
   chest:thing:outpost_crate_2: 1
   chest:thing:outpost_crate_3: 2
+  chest:thing:ring_chest: 14
+  chest:thing:shrine_chest: 10
+  chest:thing:watchtower_chest: 13
   chest:thing:west_camp_crate: 6
   chest:thing:west_road_crate: 7
 map_vars:
@@ -228,5 +285,27 @@ map_vars:
   barrel_key_taken: 1
   money_tree_shaken: 0
   once.evt:gunther_errand: 3
+  once.thing:great_boulder: 6
   shrine_used: 4
   valia_key_given: 5
+sounds:
+  sound:bed_marsh_1: 1
+  sound:bed_marsh_2: 2
+  sound:bed_marsh_3: 3
+  sound:bed_marsh_4: 4
+  sound:bed_meadow_1: 5
+  sound:bed_meadow_2: 6
+  sound:bed_meadow_3: 7
+  sound:bed_meadow_4: 8
+  sound:bed_meadow_5: 9
+  sound:bed_meadow_6: 10
+  sound:bed_meadow_7: 11
+  sound:bed_meadow_8: 12
+  sound:bed_night_1: 13
+  sound:bed_night_2: 14
+  sound:bed_night_3: 15
+  sound:bed_night_4: 16
+  sound:bed_night_5: 17
+  sound:bed_night_6: 18
+  sound:bed_night_7: 19
+  sound:bed_night_8: 20

@@ -1,0 +1,514 @@
+# Xeen D7 (the Skyroads) quest hooks in the installed map (D-58, D-61), with their amounts, not only their texts. A
+# level-60 party from a new game on D7; the party is placed beside each thing (an open-air sky map, PLAYBOOK.md
+# section 2), except the north toll and the Fire Corner, which are walked onto.
+# - The Merchants of the Elements: a wrong answer ("Wrong.", retry), the right one (1,000 experience each, once), the
+#   solved merchant's after-line.
+# - The tolls (D-6): the north toll refused (walked onto): only its pair turns hostile; the east toll paid (10,000
+#   gold) and quiet after, its pair peaceful; the south toll "paid" without the gold: the fail line and its pair
+#   hostile. A save and load keeps all three; 673 days later (D7's refill) the map refills: the tolls ask again, the pairs peaceful.
+# - The scarabs (D-58 Q5): Clara's cold scarab, 8 gems, +10 Water to all four; again: no charge. Rahib's Fire scarab
+#   with members 0 and 1 already holding it (the player bits a member swapped in from the reserve carries; no
+#   scenario step swaps members): 8 gems, +10 Fire to members 2 and 3 only. Dorion with no gems left: refused.
+# - The three lamps (Q-D27): the tired and the kind genies' wishes (Experience 2,000 each, Gold 10,000), the angry
+#   genie's "Take me" (the clicking member unconscious, +500 to the party), then each lamp cold.
+# - Ellinger's Tower's hatch: the question, "Bolted from below."; the Pyramid's sky door refused before m30.done,
+#   into DD-15 after it.
+# - Q-D26: the Megadragon killed (its two-second check sets 113520 with the status line); the hatch before m33.done
+#   ("Descend to Castle Alamar?" buttons; Yes: the source's locked line), after it without the key (the fail line),
+#   with the hoard's key: No stays, Yes unlocks (the key kept by the lock, 113521, a status line) and goes down the
+#   shaft into FD-01 (its arrival line once, 117846); again with the key in the lock: straight down, no line twice; a
+#   reload hides the dragon, and so does the refill.
+# - The Fire Corner: "What do you seek?", "Fire" moves the party onto P1's Cinder Shelf; P1's heat column (clicked) brings it
+#   back to D7's entrance:p1_return.
+# Places: devdocs/xeen/briefs/d7/L4/plan.yml (pois), playtest.yml, playtest_corner.yml, playtest_megadragon.yml;
+# P1's exit:way_up in devdocs/xeen/briefs/p1/L4/objects.yml.
+# Quest logic: source/npcs/d7.yml, source/quests/q-d26.yml, q-d27.yml, m38.yml; Xeen.toll, Xeen.merchantRiddle,
+# Xeen.genieLamp, Xeen.anyMemberLacks, Xeen.giveEachOnce, Xeen.toPlane in events/common/xeen_common.lua.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_d7.yml --scenario-no-color
+id: xeen.hooks_d7
+title: "Xeen D7 hooks: merchants, tolls, scarabs, lamps, hatches, the Megadragon and the Fire Corner"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_d7.blv
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 60, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 60, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 60, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 60, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d7.blv}
+  - assert: {actor_count: {monster_id: 11116, hostile: false, min: 8, max: 8}}
+  - assert: {qbit_clear: [116260, 116261, 113520, 113521, 113545, 113546, 113547]}
+  - press_action: {action: select_member, member_index: 0}
+
+  # ---- The Dust merchant's barge at the North Crossing (event 82): wrong, right, after.
+  - set_pose: {map: xeen_d7.blv, x: -1536, y: 18432, z: 1280, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(82); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Between Air and Earth I constantly travel"}}
+  - answer_input: {text: "Sand"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Wrong."}}
+  - play_lua: {source: "close(); wait(0.3); click(82); wait(0.5)"}
+  - answer_input: {text: "Dust"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Correct. (+1,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 1000 then error("the Dust riddle paid member " .. i .. " " .. d) end
+        end
+        if not qbit(116261) then error("d7.riddle_dust 116261 not set") end
+        click(82); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "You know my cargo is Dust. Please be on your way."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          if experience(i) - recall("x" .. i) ~= 1000 then error("the solved Dust merchant paid again") end
+        end
+  # The Smoke merchant at the Smoke Post (event 84).
+  - set_pose: {map: xeen_d7.blv, x: -28160, y: 3264, z: 1152, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(84); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Between Fire and Air I constantly travel"}}
+  - answer_input: {text: "smoke"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Correct. (+1,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); if not qbit(116260) then error('d7.riddle_smoke 116260 not set') end"}
+
+  # ---- The north toll (event 120, group 70), walked onto from the west: refused. (A prompt a step opens is not
+  # seen by `assert: {dialog}`; answer_input fails unless the toll asked.)
+  - movement_segment:
+      input: forward
+      seconds: 1.2
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: 4864, y: 18432, z: 1290, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: 5632, y: 18432, z: 1280, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - select_topic: {match_label: "Or else WHAT?"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = status() or ""
+        if not string.find(s, "The Sky Bandits draw steel.", 1, true) then error("no refusal line: " .. s) end
+        if mapvar("d7_toll_north") ~= 2 then error("d7_toll_north " .. tostring(mapvar("d7_toll_north"))) end
+        if gold() ~= 10000 then error("the refusal took gold: " .. gold()) end
+  - assert: {actor_count: {monster_id: 11116, hostile: true, near: [5632, 18432, 1024], min: 2, max: 2}}
+  - assert: {actor_count: {monster_id: 11116, hostile: true, min: 2, max: 2}}
+  # Back over the line: the refused toll asks no more.
+  - set_pose: {map: xeen_d7.blv, x: 4864, y: 18432, z: 1280, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua: {source: "click(120); wait(0.5)"}
+  - assert: {dialog: {active: false}}
+
+  # ---- The east toll on the Mud Wharf's road (event 118, group 71): paid, then quiet.
+  - set_pose: {map: xeen_d7.blv, x: 28160, y: 7424, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(118); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "You have invaded our territory. Appease us with 10,000 gold"}}
+  - select_topic: {match_label: "Take our money"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Sky Bandits count the gold twice and wave you on."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() ~= 0 then error("the east toll left " .. gold() .. " gold") end
+        if mapvar("d7_toll_east") ~= 1 then error("d7_toll_east " .. tostring(mapvar("d7_toll_east"))) end
+        click(118); wait(0.5)
+  - assert: {dialog: {active: false}}
+  - assert: {actor_count: {monster_id: 11116, hostile: false, near: [28160, 6656, 1024], min: 2, max: 2}}
+  # ---- The south toll (event 122, group 72) with no gold: "Here you are" is a no.
+  - set_pose: {map: xeen_d7.blv, x: -6144, y: -18432, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(122); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Many apologies, good folks, but this is a robbery."}}
+  - select_topic: {match_label: "Here you are"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "You do not have 10,000 gold. The Sky Bandits take that as a no."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if mapvar("d7_toll_south") ~= 2 then error("d7_toll_south " .. tostring(mapvar("d7_toll_south"))) end
+  - assert: {actor_count: {monster_id: 11116, hostile: true, near: [-6912, -18432, 1024], min: 2, max: 2}}
+  - assert: {actor_count: {monster_id: 11116, hostile: true, min: 4, max: 4}}
+  - assert: {actor_count: {monster_id: 11116, hostile: false, near: [-28160, -12288, 1024], min: 2, max: 2}}
+  # Away from the hostile pair; a save and load keeps the three tolls as they were.
+  - set_pose: {map: xeen_d7.blv, x: 28160, y: 7424, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - play_lua:
+      source: |
+        if mapvar("d7_toll_east") ~= 1 or mapvar("d7_toll_north") ~= 2 or mapvar("d7_toll_south") ~= 2 then
+          error("tolls after the reload: " .. tostring(mapvar("d7_toll_east")) .. tostring(mapvar("d7_toll_north"))
+            .. tostring(mapvar("d7_toll_south")))
+        end
+        click(118); wait(0.5)
+  - assert: {dialog: {active: false}}
+  # The refused pairs (north, south) stay hostile over the save and load (A1's merge point 27), the paid pair peaceful.
+  - assert: {actor_count: {monster_id: 11116, hostile: true, min: 4, max: 4}}
+
+  # ---- The Sky Lake's stalls. 16 gems (item 180) to members 1 and 2; each member's Fire/Air/Water/Earth resistance.
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 2}
+  - console: &res {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({FireResistance, AirResistance, WaterResistance, EarthResistance}) do local v = 0 while v < 255 and IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out .. ' ' end evt.ForPlayer(Players.Current) evt.StatusText('res ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local res = string.match(status(), "res ([%d/ ]+)")
+        if res == nil then error("no resistance line") end
+        log("before the stalls: " .. res)
+        local r = {}
+        for v in string.gmatch(res, "%d+") do table.insert(r, tonumber(v)) end
+        table.insert(r, item_count(180))
+        if r[17] ~= 16 then error("gems " .. tostring(r[17])) end
+        for i = 1, 16 do remember("r" .. i, r[i]) end
+  - set_pose: {map: xeen_d7.blv, x: 14848, y: -3584, z: 896, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  # Clara the Cold (event 106): Yes, 8 gems, +10 Water to all four.
+  - play_lua: {source: "click(106); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I sell scarabs that protect against cold. Buy it for 8 gems or begone."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "(+10 Water resistance, permanent)"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: *res
+  - play_lua:
+      source: |
+        local res = string.match(status(), "res ([%d/ ]+)")
+        local r = {}
+        for v in string.gmatch(res, "%d+") do table.insert(r, tonumber(v)) end
+        table.insert(r, item_count(180))
+        if r[17] ~= 8 then error("Clara took " .. (16 - r[17]) .. " gems") end
+        for p = 0, 3 do
+          for k = 1, 4 do
+            local i = p * 4 + k
+            local want = recall("r" .. i) + ((k == 3) and 10 or 0)
+            if r[i] ~= want then error("member " .. p .. " resistance " .. k .. ": " .. r[i] .. ", wanted " .. want) end
+          end
+        end
+        click(106); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"You have one already,\" says Clara. \"Begone.\""}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: *res
+  - play_lua:
+      source: |
+        local res = string.match(status(), "res ([%d/ ]+)")
+        local r = {}
+        for v in string.gmatch(res, "%d+") do table.insert(r, tonumber(v)) end
+        table.insert(r, item_count(180))
+        if r[17] ~= 8 then error("Clara charged a party that all had her scarab: gems " .. r[17]) end
+        for p = 0, 3 do if r[p * 4 + 3] ~= recall("r" .. (p * 4 + 3)) + 10 then error("Water changed again") end end
+  # Rahib (event 110): members 0 and 1 carry the Fire scarab's bit already.
+  - console: {line: "lua for p = 0, 1 do evt.ForPlayer(p) SetPlayerBit(PlayerBit(11365)) end evt.ForPlayer(Players.Current)", expect_contains: "Lua ran."}
+  - play_lua: {source: "click(110); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I have the best possible Fire scarab available, just 8 gems."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "(+10 Fire resistance, permanent)"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: *res
+  - play_lua:
+      source: |
+        local res = string.match(status(), "res ([%d/ ]+)")
+        local r = {}
+        for v in string.gmatch(res, "%d+") do table.insert(r, tonumber(v)) end
+        table.insert(r, item_count(180))
+        if r[17] ~= 0 then error("Rahib left " .. r[17] .. " gems") end
+        for p = 0, 3 do
+          local want = recall("r" .. (p * 4 + 1)) + ((p >= 2) and 10 or 0)
+          if r[p * 4 + 1] ~= want then error("member " .. p .. " Fire " .. r[p * 4 + 1] .. ", wanted " .. want) end
+        end
+  # Dorion (event 108, the Kinetic scarab, 16 gems) with none left: refused, nothing changes.
+  - play_lua: {source: "click(108); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Will you buy my Kinetic Scarab for 16 gems?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You do not have 16 gems."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The lamps. The tired genie at the Griffin Watch (event 79): Experience, 2,000 each; then cold.
+  - set_pose: {map: xeen_d7.blv, x: -17088, y: 18176, z: 1280, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(79); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "(yawn) The people before you used up two wishes."}}
+  - answer_input: {text: "Experience"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("the tired lamp paid member " .. i .. " " .. d) end
+        end
+        if not qbit(113545) then error("q-d27.d7_tired 113545 not set") end
+        click(79); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone back to sleep somewhere else."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The kind genie on the East Rest Stop's bench (event 78): Gold, 10,000.
+  - set_pose: {map: xeen_d7.blv, x: 17440, y: 18176, z: 1280, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('gold', gold()); click(78); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Thank you for releasing me. I like you, and I will grant you one wish."}}
+  - answer_input: {text: "Gold"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "(10,000 gold)"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() - recall("gold") ~= 10000 then error("the kind lamp paid " .. (gold() - recall("gold"))) end
+        if not qbit(113546) then error("q-d27.d7_kind 113546 not set") end
+        click(78); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The angry genie on the Genie's Rock (event 77), member 3 clicking: "Take me".
+  - set_pose: {map: xeen_d7.blv, x: -10240, y: -6784, z: 1120, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: xeen_d7.blv}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(77); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Two thousand years is simply unacceptable."}}
+  - answer_input: {text: "Take me"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"How noble. I hate noble.\""}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 500 then error("the angry lamp gave member " .. i .. " " .. d) end
+        end
+        if not qbit(113547) then error("q-d27.d7_angry 113547 not set") end
+        log("party after the angry genie: " .. party())
+  - console: {line: "lua evt.ForPlayer(3) evt.StatusText('unc3 ' .. tostring(IsAtLeast(Unconscious, 1))) evt.ForPlayer(0) evt.StatusText('unc0 ' .. tostring(IsAtLeast(Unconscious, 1)))", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "unc3 true", 1, true) then error("member 3 not struck down: " .. s) end
+        if not string.find(s, "unc0 false", 1, true) then error("member 0 struck too: " .. s) end
+        click(77); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone, still angry."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - console: {line: "lua evt.ForPlayer(3) SetValue(Unconscious, 0) evt.ForPlayer(Players.Current)", expect_contains: "Lua ran."}
+  - press_action: {action: select_member, member_index: 0}
+
+  # ---- Ellinger's Tower's hatch at the Water Corner (event 42): one way up only.
+  - set_pose: {map: xeen_d7.blv, x: -27136, y: -18432, z: 768, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Descend into Ellinger's Tower?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Bolted from below."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_d7.blv}
+
+  # ---- Q-D26. The roost: the Megadragon (actor 37, group 60) killed; its check sets 113520.
+  - set_pose: {map: xeen_d7.blv, x: -21926, y: 7762, z: 1506, yaw: 0.5236, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 37, hidden: false}}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(4000)); wait(3)"}
+  - assert: {actor_count: {monster_id: 11654, max: 0}}
+  - play_lua:
+      source: |
+        local s = status() or ""
+        if not string.find(s, "The Megadragon is dead. The sky is a little quieter.", 1, true) then
+          error("no slain line: " .. s)
+        end
+        if not qbit(113520) then error("q-d26.slain 113520 not set") end
+  # The hatch (event 49) before m33.done without the key: the locked line, no move.
+  - set_pose: {map: xeen_d7.blv, x: -18688, y: 8448, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The door is locked. Scratched on the surface are some words: The Megadragon has the key!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_d7.blv}
+  # After m33.done (DD-17's end; by console), without the key: the same locked line.
+  - console: {line: "qbit set 111662"}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The door is locked. Scratched on the surface are some words: The Megadragon has the key!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_d7.blv}
+  # The hoard (event 34): Wyrmfang and the key.
+  - set_pose: {map: xeen_d7.blv, x: -18176, y: 9984, z: 1544, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        loot_chest(34); wait(1); while held() ~= 0 do stow() end; close(); wait(0.3)
+        if not has_item(12530) then error("no Wyrmfang") end
+        if not has_item(12377) then error("no roof key") end
+  # The hatch with the key after m33.done: the entrance window closed stays; OK unlocks it (the key stays in the lock, a status line) and the
+  # party goes down the shaft into FD-01 (entrance:d7_roof; FD-01's first arrival line, m39.shaft_arrival).
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window; closed, the party stays (the key is turned only on the way down).
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_d7.blv}
+  - play_lua: {source: "status(); click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window. The unlock's status line is replaced by FD-01's arrival line on the way down;
+  # the unlock itself is checked by its bit and the key left in the lock.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_fd01.blv}
+  - assert: {party_position: {x: -7744, y: 7168, radius: 64}}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status() or ""
+        log("arrival: " .. s)
+        if not string.find(s, "You climb down through smoke and rubble", 1, true) then error("no shaft arrival line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+        if has_item(12377) then error("the lock did not keep the key") end
+        if not qbit(113521) then error("q-d26.roof_unlocked 113521 not set") end
+        if not qbit(117846) then error("m39.arrived_from_d7 117846 not set") end
+        if not has_item(12530) then error("Wyrmfang gone") end
+  # Again from D7, the key in the lock: straight down, no unlock line and no second arrival line.
+  - load_map: {map: xeen_d7.blv}
+  - set_pose: {map: xeen_d7.blv, x: -18688, y: 8448, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; status(); click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_fd01.blv}
+  - play_lua: {source: "wait(1); local s = status() or ''; if string.find(s, 'turns in the lock', 1, true) or string.find(s, 'smoke and rubble', 1, true) then error('a line came twice: ' .. s) end; for _ = 1, 3 do if not close() then break end end"}
+  - load_map: {map: xeen_d7.blv}
+  - assert: {map: xeen_d7.blv}
+  # A reload: the dead Megadragon's group is hidden by the load event.
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {actor_visible: {actor_index: 37, hidden: true}}
+
+  # ---- The Pyramid's sky door (event 105): refused before m30.done; after it the question, Yes into DD-15's
+  # entrance:d7_sky (0, 2944, 2304), and back out (DD-15's exit 34 is the green doors; the run returns by set_pose).
+  - set_pose: {map: xeen_d7.blv, x: 11424, y: 2560, z: 1408, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(105); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = status() or ""
+        if not string.find(s, "The capstone's door does not move.", 1, true) then
+          log("sky door before m30.done: " .. s)
+        end
+        close(); wait(0.3)
+  - assert: {map: xeen_d7.blv}
+  - console: {line: "qbit set 111600"}
+  - play_lua: {source: "click(105); wait(0.5)"}
+  # F16: the standard entrance window (no Yes/No before it since the final rebuild).
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd15.blv}
+  - assert: {party_position: {x: 0, y: 2944, radius: 160}}
+  - setup_shortcut: {kind: set_qbit, id: 111600, value: false}
+  - load_map: {map: xeen_d7.blv}
+  - set_pose: {map: xeen_d7.blv, x: 11424, y: 2560, z: 1408, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {map: xeen_d7.blv}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+
+  # ---- Out to D1 and 673 days on (D7's refill is 672 days, map_stats), re-entered: the tolls ask again, every pair
+  # peaceful, the Megadragon still hidden, the riddles and lamps still done.
+  - load_map: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d1.odm}
+  - console: {line: "time advance 673"}
+  - load_map: {map: xeen_d7.blv, pos: "28160, 7424, 1152"}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(1.5); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d7.blv}
+  - play_lua:
+      source: |
+        log("tolls after the refill: east " .. tostring(mapvar("d7_toll_east")) .. " north "
+          .. tostring(mapvar("d7_toll_north")) .. " south " .. tostring(mapvar("d7_toll_south")))
+  - assert: {actor_visible: {actor_index: 37, hidden: true}}
+  - assert: {actor_count: {monster_id: 11116, hostile: false, min: 8, max: 8}}
+  - assert: {qbit_set: [113520, 113521, 116260, 116261, 113545, 113546, 113547]}
+  - play_lua: {source: "click(118); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "You have invaded our territory."}}
+  - select_topic: {match_label: "Bow down before us!"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_count: {monster_id: 11116, hostile: true, near: [28160, 6656, 1024], min: 2, max: 2}}
+  - assert: {actor_count: {monster_id: 11116, hostile: true, min: 2, max: 2}}
+
+  # ---- The Fire Corner (event 38), walked onto: "Fire" moves the party onto P1's Cinder Shelf.
+  - load_map: {map: xeen_d7.blv, pos: "-29388, 19558, 1288"}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(1.5); for _ = 1, 3 do if not close() then break end end"}
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: -29978, y: 20063, z: 1288, yaw_degrees: 139, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: -29978, y: 20063, z: 1288, yaw_degrees: 139, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "Fire"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_p1.blv}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "log('on P1: ' .. (status() or '')); log('cleared ' .. clear_hostiles(3000))"}
+  # P1's heat column (exit:way_up, event 10, a clickable face at the Cinder Shelf's corner): clicked, the
+  # entrance window; OK: back to D7's entrance:p1_return.
+  - walk_to: {x: 4960, y: -4960, z: 0, radius: 160, z_tolerance: 400, timeout_seconds: 60}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  # F16: the standard entrance window (no Yes/No before it since the final rebuild).
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -27456, y: 17728, radius: 512}}

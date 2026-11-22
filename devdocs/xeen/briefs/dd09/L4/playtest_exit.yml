@@ -1,0 +1,34 @@
+# The trunk door out of the Temple of Bark (DD-09) onto D2 (lane A8, 2026-11-20). From the map's start at the foot of
+# the first stair, the exit window (leave the Temple of Bark?), OK: the party stands on D2 (Sprite Forest, A6) in the
+# bark glade just outside the great tree's round door (D2 event 13, its face at -11190, -6935), at A6's return point
+# (-11264, -6656, 992) facing north, away from it, and walks on north. Run with --world xeen --map xeen_dd09.blv
+# (output/studio_cal/dd09/four.sh).
+id: xeen.dd09.l4.exit_d2
+title: Temple of Bark (DD-09 L4), out by the trunk door to D2
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd09.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+  - assert: {map: xeen_dd09.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: -1920, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: -2150, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "log('arrival ' .. status())"}
+  - assert: {party_position: {x: -11264, y: -6656, radius: 128, z_min: 960, z_max: 1030}}
+  # Facing north, away from the tree: walking on takes the party into the glade, not back in.
+  - walk_to: {x: -11264, y: -6200, z: 992, z_tolerance: 250, radius: 160, timeout_seconds: 30}
+  - assert: {map: xeen_d2.odm}

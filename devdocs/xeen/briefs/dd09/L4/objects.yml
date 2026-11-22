@@ -1,0 +1,929 @@
+format: 0
+start:
+  room: room:trunk_door
+  at: [0, -1920]
+  facing: n
+  notes: "At the foot of the temple's first stair, inside the trunk's round door, facing the Hall of the Trunk (D2's door:dd09 arrives here)."
+doors:
+  - id: door:guard_chapel
+    opening: open:guard_chapel
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the guardroom into the Chapel of Sap.
+  - id: door:hall_barracks
+    opening: open:hall_barracks
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the hall into the orc barracks.
+  - id: door:ring_shaalth
+    opening: open:ring_shaalth
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the ring landing into Shaalth's hall.
+  - id: door:roots_vats
+    opening: open:roots_vats
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the root cellar into the sap store.
+  - id: door:shaalth_shaman
+    opening: open:shaalth_shaman
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from Shaalth's hall into the tea room.
+  - id: door:shaman_asc
+    opening: open:shaman_asc
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the tea room into the Chapel of Ascension.
+  - id: door:treasure_crown
+    opening: open:treasure_crown
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A plank door from the treasure room into the crown.
+  - id: door:vault
+    opening: open:asc_vault
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: ceb1dl, size: [128, 256]}, {texture: ceb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: ceb1dl, size: [128, 256]}, {texture: ceb1dr, size: [128, 256]}]
+    notes: "The Disciples' arched door under ivy: 'Disciples of Bark ONLY!' A hinged pair (ceb1dl, ceb1dr)."
+movers:
+  - id: mover:cage_sheewana
+    room: room:shaalth
+    at: [8512, 1156]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Sheewana's cage gate: sinks once q-d10.cage has run (Shaalth's key)."
+  - id: mover:gate_alicia
+    room: room:cells
+    at: [7104, 2692]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: Alicia's cell gate (the pen lever).
+  - id: mover:gate_nathan
+    room: room:pens
+    at: [-6908, -1344]
+    size: [8, 368]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Nathan's cage gate (the pen lever): sinks into the floor."
+  - id: mover:gate_sky
+    room: room:pens
+    at: [-6908, -2176]
+    size: [8, 368]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: Sky's cage gate (the pen lever).
+  - id: mover:gate_snog
+    room: room:cells
+    at: [5952, 2692]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: Snog's cell gate (the pen lever).
+sounds:
+  - {id: sound:ascension, room: room:ascension, at: [11392, -704], sound: water lapping loop, radius: 1100, inner_radius: 300, volume: 0.3, notes: The two basins.}
+  - {id: sound:cookfire, room: room:barracks, at: [3008, -896], sound: campfire, radius: 1200, inner_radius: 300, volume: 0.5, notes: The orcs' cookfire.}
+  - {id: sound:crown, room: room:crown, at: [12416, -4096], sound: whistling wind, radius: 2200, inner_radius: 800, volume: 0.35, notes: Wind in the leaves of the crown.}
+  - {id: sound:kettle, room: room:shaman, at: [9600, 576], sound: bubbling cauldron01, radius: 1000, inner_radius: 200, volume: 0.5, notes: The shaman's kettle on the boil.}
+  - {id: sound:limbs, room: room:limb_walk, at: [7520, -4096], sound: whistling wind, radius: 2000, inner_radius: 600, volume: 0.25, notes: The limbs creak in the wind.}
+  - {id: sound:pens, room: room:pens, at: [-6400, -1600], sound: drip03, radius: 1200, inner_radius: 300, volume: 0.5, wait: [3, 8], notes: The pens dripping.}
+  - {id: sound:roots, room: room:root_hall, at: [-4544, 0], sound: drip02, radius: 1500, inner_radius: 400, volume: 0.5, wait: [2, 6], notes: Water dripping through the roots.}
+  - {id: sound:sap, room: room:sap_vats, at: [-4096, -2112], sound: bubbling cauldron01, radius: 1300, inner_radius: 300, volume: 0.4, notes: The sap vats working.}
+lights:
+  - id: light:ascension_1
+    room: room:ascension
+    at: [11392, 0]
+    radius: 1382
+    color: [160, 195, 165]
+  - id: light:ascension_2
+    room: room:ascension
+    at: [11840, -704]
+    height: 96
+    radius: 500
+    color: [150, 200, 230]
+    pulse: {intensity: [0.8, 1], radius: [460, 520], frequency: 0.3}
+    notes: The Crystal Water's glow.
+  - id: light:back_stair_1
+    room: room:back_stair
+    at: [4480, 2304]
+    radius: 1100
+    color: [215, 150, 90]
+  - id: light:barkman_1
+    room: room:barkman
+    at: [8320, -5344]
+    radius: 1382
+    color: [205, 160, 100]
+  - id: light:barracks_1
+    room: room:barracks
+    at: [2368, -256]
+    radius: 1152
+    color: [215, 150, 90]
+  - id: light:barracks_2
+    room: room:barracks
+    at: [3008, -896]
+    height: 64
+    radius: 700
+    color: [230, 140, 70]
+    pulse: {intensity: [0.7, 1], radius: [640, 720], frequency: 0.9}
+    notes: The orcs' cookfire.
+  - id: light:cells_1
+    room: room:cells
+    at: [6528, 2368]
+    radius: 1075
+    color: [215, 150, 90]
+  - id: light:chapel_1
+    room: room:chapel
+    at: [192, 2112]
+    radius: 1305
+    color: [160, 195, 165]
+  - id: light:crown_1
+    room: room:crown
+    at: [12416, -4736]
+    radius: 1152
+    color: [200, 220, 160]
+  - id: light:crown_2
+    room: room:crown
+    at: [12416, -3456]
+    radius: 1152
+    color: [200, 220, 160]
+  - id: light:crown_3
+    room: room:crown
+    at: [12416, -4096]
+    height: 900
+    radius: 1600
+    color: [200, 220, 160]
+    notes: Daylight through the leaves.
+  - id: light:first_hall_1
+    room: room:first_hall
+    at: [-640, -128]
+    radius: 1152
+    color: [205, 160, 100]
+  - id: light:first_hall_2
+    room: room:first_hall
+    at: [640, -128]
+    radius: 1152
+    color: [205, 160, 100]
+  - id: light:fruit_1
+    room: room:fruit
+    at: [10368, -4064]
+    radius: 921
+    color: [205, 160, 100]
+  - id: light:guardroom_1
+    room: room:guardroom
+    at: [2368, 1856]
+    radius: 1305
+    color: [215, 150, 90]
+  - id: light:limb_climb_1
+    room: room:limb_climb
+    at: [4992, -2560]
+    radius: 1100
+    color: [205, 160, 100]
+  - id: light:limb_stair_1
+    room: room:limb_stair
+    at: [4992, -4096]
+    radius: 700
+    color: [205, 160, 100]
+  - id: light:limb_walk_1
+    room: room:limb_walk
+    at: [6544, -4096]
+    radius: 1500
+    color: [200, 220, 160]
+  - id: light:limb_walk_2
+    room: room:limb_walk
+    at: [8496, -4096]
+    radius: 1500
+    color: [200, 220, 160]
+  - id: light:pens_1
+    room: room:pens
+    at: [-6464, -1600]
+    radius: 1152
+    color: [150, 125, 95]
+  - id: light:ring1_1
+    room: room:ring1
+    at: [4992, -896]
+    radius: 700
+    color: [205, 160, 100]
+  - id: light:ring_stair_1
+    room: room:ring_stair
+    at: [2304, -2048]
+    height: 256
+    radius: 1100
+    color: [205, 160, 100]
+  - id: light:ring_stair_2
+    room: room:ring_stair
+    at: [3968, -1472]
+    height: 256
+    radius: 1100
+    color: [205, 160, 100]
+  - id: light:root_east_1
+    room: room:root_east
+    at: [-4480, 1536]
+    radius: 700
+    color: [150, 125, 95]
+  - id: light:root_hall_1
+    room: room:root_hall
+    at: [-4544, -64]
+    radius: 1305
+    color: [150, 125, 95]
+  - id: light:root_stair_1
+    room: room:root_stair
+    at: [-2432, -128]
+    radius: 1100
+    color: [150, 125, 95]
+  - id: light:root_west_1
+    room: room:root_west
+    at: [-6272, 0]
+    radius: 768
+    color: [150, 125, 95]
+  - id: light:sap_vats_1
+    room: room:sap_vats
+    at: [-4544, -2048]
+    radius: 1152
+    color: [150, 125, 95]
+  - id: light:shaalth_1
+    room: room:shaalth
+    at: [6400, 64]
+    radius: 1382
+    color: [160, 195, 165]
+  - id: light:shaalth_2
+    room: room:shaalth
+    at: [7936, 64]
+    radius: 1382
+    color: [160, 195, 165]
+  - id: light:shaman_1
+    room: room:shaman
+    at: [9600, 0]
+    radius: 921
+    color: [215, 150, 90]
+  - id: light:treasure_1
+    room: room:treasure
+    at: [10368, -5440]
+    radius: 921
+    color: [205, 160, 100]
+  - id: light:trunk_door_1
+    room: room:trunk_door
+    at: [0, -1920]
+    radius: 700
+    color: [205, 160, 100]
+  - id: light:vault_1
+    room: room:vault
+    at: [12800, 0]
+    radius: 700
+    color: [160, 195, 165]
+switches:
+  - id: switch:asc_lever
+    room: room:ascension
+    kind: lever
+    reach: 48
+    at: [11392, -1152]
+    notes: The Disciples' lever on the chapel's south wall.
+  - id: switch:pen_lever
+    room: room:pens
+    kind: lever
+    reach: 48
+    at: [-6400, -2560]
+    notes: "The pen lever on the south wall: opens and shuts the four prisoners' cages."
+chests:
+  - id: chest:barkman
+    room: room:barkman
+    at: [8704, -5952]
+    facing: n
+    treasure_level: 4
+    random_items: 3
+    gold: 2000
+    notes: "Barkman's chest, bound shut by his life force until he dies."
+  - id: chest:sap
+    room: room:sap_vats
+    at: [-3776, -1472]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    notes: The orcs' takings from the sap trade.
+  - id: chest:shaalth
+    room: room:shaalth
+    at: [7744, -1216]
+    facing: n
+    treasure_level: 4
+    random_items: 3
+    gold: 1500
+    notes: Shaalth's hoard by his dais.
+  - id: chest:treasure
+    room: room:treasure
+    at: [10880, -5824]
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 700
+    notes: The temple's offerings.
+  - id: chest:vault
+    room: room:vault
+    at: [12960, 0]
+    facing: w
+    treasure_level: 3
+    random_items: 3
+    gold: 800
+    notes: The Disciples' vault.
+monsters:
+  - id: monster:alicia
+    room: room:cells
+    monster: 11904
+    at: [7104, 2880]
+    facing: 270
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "Alicia the Just (row 11904, NPC 5114), in her cell. Peaceful; talked to through the cage gate; hidden on the next entry (not a reload) once freed."
+  - id: monster:barkman
+    room: room:barkman
+    monster: 11633
+    at: [8192, -5440]
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Barkman (11633, 60), placed hidden: shown the first time a limb alcove takes a gem (D-27; map variable barkman_shown). Optional; his XP counts in Act IV (D-1.2)."
+  - id: monster:barracks_captain_1
+    room: room:barracks
+    monster: 11042
+    at: [3008, -384]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_1
+    room: room:barracks
+    monster: 11040
+    at: [1792, -768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_2
+    room: room:barracks
+    monster: 11040
+    at: [2304, -768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_3
+    room: room:barracks
+    monster: 11040
+    at: [2816, -768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_4
+    room: room:barracks
+    monster: 11040
+    at: [1792, 256]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_5
+    room: room:barracks
+    monster: 11040
+    at: [2816, 256]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:barracks_elite_6
+    room: room:barracks
+    monster: 11040
+    at: [2304, -128]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cells_captain_1
+    room: room:cells
+    monster: 11042
+    at: [6528, 2112]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:chapel_shaman_1
+    room: room:chapel
+    monster: 11041
+    at: [0, 2048]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:chapel_shaman_2
+    room: room:chapel
+    monster: 11041
+    at: [640, 1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:crown_hunter_1
+    room: room:crown
+    monster: 11331
+    at: [12416, -3328]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:crown_hunter_2
+    room: room:crown
+    monster: 11331
+    at: [12416, -4864]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:crown_hunter_3
+    room: room:crown
+    monster: 11331
+    at: [11648, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:crown_hunter_4
+    room: room:crown
+    monster: 11331
+    at: [13184, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:fruit_arachnoid_1
+    room: room:fruit
+    monster: 11330
+    at: [9984, -4352]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:fruit_arachnoid_2
+    room: room:fruit
+    monster: 11330
+    at: [10752, -3776]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:fruit_hunter_1
+    room: room:fruit
+    monster: 11331
+    at: [10368, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:fruit_hunter_2
+    room: room:fruit
+    monster: 11331
+    at: [10752, -4416]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guardroom_elite_1
+    room: room:guardroom
+    monster: 11040
+    at: [1792, 1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guardroom_elite_2
+    room: room:guardroom
+    monster: 11040
+    at: [2816, 1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guardroom_elite_3
+    room: room:guardroom
+    monster: 11040
+    at: [1792, 2560]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guardroom_elite_4
+    room: room:guardroom
+    monster: 11040
+    at: [2816, 2560]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_arachnoid_1
+    room: room:limb_walk
+    monster: 11330
+    at: [6016, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_arachnoid_2
+    room: room:limb_walk
+    monster: 11330
+    at: [6912, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_arachnoid_3
+    room: room:limb_walk
+    monster: 11330
+    at: [7680, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_arachnoid_4
+    room: room:limb_walk
+    monster: 11330
+    at: [8704, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_hunter_1
+    room: room:limb_walk
+    monster: 11331
+    at: [7296, -3968]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:limb_walk_hunter_2
+    room: room:limb_walk
+    monster: 11331
+    at: [9088, -4224]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:nathan
+    room: room:pens
+    monster: 11902
+    at: [-7104, -1344]
+    facing: 0
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "Nathan the Prisoner (row 11902, NPC 5111), in his pen. Peaceful; talked to through the cage gate; hidden on the next entry (not a reload) once freed."
+  - id: monster:pens_elite_1
+    room: room:pens
+    monster: 11040
+    at: [-6144, -1088]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:pens_elite_2
+    room: room:pens
+    monster: 11040
+    at: [-6144, -1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:pens_elite_3
+    room: room:pens
+    monster: 11040
+    at: [-5888, -2304]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:root_hall_arachnoid_1
+    room: room:root_hall
+    monster: 11330
+    at: [-5120, 512]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:root_hall_arachnoid_2
+    room: room:root_hall
+    monster: 11330
+    at: [-4032, -128]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:root_hall_arachnoid_3
+    room: room:root_hall
+    monster: 11330
+    at: [-4736, -896]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:root_hall_arachnoid_4
+    room: room:root_hall
+    monster: 11330
+    at: [-4608, 640]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sap_vats_elite_1
+    room: room:sap_vats
+    monster: 11040
+    at: [-5120, -2112]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sap_vats_elite_2
+    room: room:sap_vats
+    monster: 11040
+    at: [-4672, -1600]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sap_vats_elite_3
+    room: room:sap_vats
+    monster: 11040
+    at: [-4672, -2560]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaalth
+    room: room:shaalth
+    monster: 11043
+    at: [8064, -928]
+    facing: 180
+    hostile: true
+    group: 5
+    notes: "Shaalth the Orc King (boss row 11043, 30) on his dais: q-d10.shaalth at his death."
+  - id: monster:shaalth_captain_1
+    room: room:shaalth
+    monster: 11042
+    at: [6912, -768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaalth_captain_2
+    room: room:shaalth
+    monster: 11042
+    at: [6912, 256]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaalth_captain_3
+    room: room:shaalth
+    monster: 11042
+    at: [7552, 0]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaalth_shaman_1
+    room: room:shaalth
+    monster: 11041
+    at: [6144, 0]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaalth_shaman_2
+    room: room:shaalth
+    monster: 11041
+    at: [7424, 768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaman_shaman_1
+    room: room:shaman
+    monster: 11041
+    at: [9216, -448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaman_shaman_2
+    room: room:shaman
+    monster: 11041
+    at: [9984, -448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaman_shaman_3
+    room: room:shaman
+    monster: 11041
+    at: [9216, 448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaman_shaman_4
+    room: room:shaman
+    monster: 11041
+    at: [9984, 384]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sheewana
+    room: room:shaalth
+    monster: 11905
+    at: [8512, 1344]
+    facing: 270
+    hostile: false
+    group: 21
+    immobile: true
+    notes: "Princess Sheewana (row 11905, her own friendly faction; NPC 5107) in her cage; hidden once she has gone home (sheewana_freed)."
+  - id: monster:sky
+    room: room:pens
+    monster: 11903
+    at: [-7104, -2176]
+    facing: 0
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "Sky the Prisoner (row 11903, NPC 5112), in his pen. Peaceful; talked to through the cage gate; hidden on the next entry (not a reload) once freed."
+  - id: monster:snog
+    room: room:cells
+    monster: 11044
+    at: [5952, 2880]
+    facing: 270
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "Snog the Orc (row 11044, NPC 5113: his own friendly faction), in his cell. Peaceful; talked to through the cage gate; hidden on the next entry (not a reload) once freed."
+  - id: monster:treasure_shaman_1
+    room: room:treasure
+    monster: 11041
+    at: [10112, -5632]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:treasure_shaman_2
+    room: room:treasure
+    monster: 11041
+    at: [10624, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+decorations:
+  - id: deco:barrel_1
+    room: room:sap_vats
+    decoration: bigbarel
+    at: [-3776, -2496]
+  - id: deco:barrel_2
+    room: room:sap_vats
+    decoration: bigbarel
+    at: [-3776, -2656]
+  - id: deco:bedroll_1
+    room: room:barracks
+    decoration: bag01
+    at: [1600, -960]
+  - id: deco:bedroll_2
+    room: room:barracks
+    decoration: bag01
+    at: [2112, -992]
+  - id: deco:bedroll_3
+    room: room:barracks
+    decoration: bag01
+    at: [3136, 448]
+  - id: deco:bedroll_4
+    room: room:barracks
+    decoration: bag01
+    at: [1600, 448]
+  - id: deco:black_barrel
+    room: room:sap_vats
+    decoration: bigbarel
+    at: [-4512, -2688]
+    notes: "Black barrel (clicked: evt:black_barrel)."
+  - id: deco:blue_flask
+    room: room:chapel
+    decoration: dec35
+    at: [768, 2864]
+    floor_height: 96
+    notes: "Blue flask (clicked: evt:blue_flask)."
+  - id: deco:cookfire
+    room: room:barracks
+    decoration: ckfyr00
+    at: [3008, -896]
+  - id: deco:fruit_sack_1
+    room: room:fruit
+    decoration: floursac
+    at: [9920, -3712]
+  - id: deco:fruit_sack_2
+    room: room:fruit
+    decoration: floursac
+    at: [10880, -3648]
+  - id: deco:fruit_sack_3
+    room: room:fruit
+    decoration: bag01
+    at: [9856, -4480]
+  - id: deco:guard_sack_1
+    room: room:guardroom
+    decoration: floursac
+    at: [3136, 2752]
+  - id: deco:guard_sack_2
+    room: room:guardroom
+    decoration: floursac
+    at: [2944, 2752]
+  - id: deco:kettle
+    room: room:shaman
+    decoration: cauld00
+    at: [9600, 576]
+    notes: "Kettle (clicked: evt:kettle)."
+  - id: deco:pen_bones
+    room: room:pens
+    decoration: dec29
+    at: [-5888, -896]
+  - id: deco:red_flask
+    room: room:chapel
+    decoration: dec35
+    at: [-384, 2864]
+    floor_height: 96
+    notes: "Red flask (clicked: evt:red_flask)."
+  - id: deco:roots_mush_1
+    room: room:root_hall
+    decoration: mushrm02
+    at: [-5312, -896]
+  - id: deco:roots_mush_2
+    room: room:root_hall
+    decoration: mushrm03
+    at: [-3776, 832]
+  - id: deco:skull_pole
+    room: room:shaalth
+    decoration: sklplrev
+    at: [7424, -1152]
+  - id: deco:torch_0
+    room: room:barracks
+    decoration: torch02
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:torch_1
+    room: room:barracks
+    decoration: torch02
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:torch_10
+    room: room:shaman
+    decoration: torch02
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:torch_11
+    room: room:treasure
+    decoration: torch02
+    wall: w
+    along: 0.2
+    height: 192
+  - id: deco:torch_2
+    room: room:guardroom
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:torch_3
+    room: room:guardroom
+    decoration: torch02
+    wall: s
+    along: 0.25
+    height: 192
+  - id: deco:torch_4
+    room: room:pens
+    decoration: torch02
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:torch_5
+    room: room:sap_vats
+    decoration: torch02
+    wall: w
+    along: 0.6
+    height: 192
+  - id: deco:torch_6
+    room: room:shaalth
+    decoration: torch02
+    wall: w
+    along: 0.2
+    height: 192
+  - id: deco:torch_7
+    room: room:shaalth
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:torch_8
+    room: room:shaalth
+    decoration: torch02
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:torch_9
+    room: room:cells
+    decoration: torch02
+    wall: s
+    along: 0.75
+    height: 192
+  - id: deco:treasure_sack
+    room: room:treasure
+    decoration: bag01
+    at: [9792, -5824]
+exits:
+  - id: exit:trunk_door
+    room: room:trunk_door
+    wall: south
+    size: [256, 352]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d2_trunk
+    notes: "The great tree's round door, out to the bark glade (D2)."
+notes: "DD-09's contents, written by output/studio_cal/dd09/tools/dress.py: 8 doors, five cage gates (movers), two levers, five chests, 50 placed monsters (16 Orc Elites, 10 Orc Shamans, 5 Orc Captains, Shaalth, 10 Arachnoids, 8 Arachnoid Hunters), Barkman hidden, four peaceful prisoners and Princess Sheewana."

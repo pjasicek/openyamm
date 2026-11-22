@@ -1,0 +1,113 @@
+# The world's teacher plan (WORLD_DESIGN 5.3; calibration 100-145 offers, MM7 145).
+# Owner: A4. Every MM6-MM8 skill a Xeen party can learn has three offers: Expert, Master and Grandmaster, in three
+# different places, Grandmasters late or remote. tools/xeen/towns.py checks every town file against this plan: an
+# offer of a place whose town file exists must be taught there by exactly one NPC, and no NPC teaches an offer the
+# plan does not hold.
+#
+# 2026-11-20 (A4): QUESTS 4.2 puts Gem (Perception), Errol (Armsmaster) and the telescope (Identify Item) in
+# Castle Kalindra: Perception and Armsmaster Grandmaster and Identify Item Master moved there (from Shangri-La, Olympus
+# and Sandcaster).
+#
+# 2026-11-20 (orchestrator): Gem and Errol are in the castle from stage 1 and teach up to Master there; their
+# Grandmaster offers open at stage 4 (the offer's `opens:` in dd03.yml). Their Master offers are the plan's two extra
+# offers (`extra:` below), beside Cornelius's and Castle Burlock's.
+#
+# 2026-11-20 (D-5.2): the Dragon teachers re-placed: Expert in Castleview (Librarian Ormond), Master with the hermit
+# Sablewing at a cave mouth on X7's safe south slope (x7.yml), Grandmaster with Scaldrith in the Dragon Tax Office at
+# XD-18's mouth, before the first dragon. The Desert of Doom's hermit and the Dragon Tower teach nothing.
+#
+# 2026-11-20 (A4, fifth session): Q-C18's reward is Tito's Spirit teaching (QUESTS: "Spirit teacher"). An offer that
+# opens by qbit must be the only one of its skill and mastery (the engine topic is shared), so Spirit Master moves
+# from Sandcaster (Layla) to Tito, open on q-c18.done.
+#
+# 2026-11-21 (D-73): Dodging and Unarmed Expert move from Kai Wu's monastery (X5, level 24) to Rivercity's Martial
+# Training (Sparrow 4158): the engine sells Master only to an Expert, and Castleview's Masters came first. Kai Wu's
+# Brother Lin and Sister Mei teach nothing now. Identify Item Master is on its own place, `kalindra_observatory`
+# (the telescope opens at stage 2), and the place levels follow MAPS' bands (Kai Wu and Freeda 24, Nightshadow 14,
+# the wizard quarter 39 after D-16). towns.py warns when a Master place's level is below its Expert place's.
+#
+# 2026-11-21 (the user, U-2): early Grandmasters stay. A Grandmaster reachable before its Master is not a fault:
+# Grandmaster training is gated by the promotions anyway, and MM6-MM8 have Grandmasters all over the place. towns.py
+# does not compare Grandmaster and Master levels.
+#
+# Places: a key of `places` below. `act` is when the party can first reach the teacher (QUESTS acts; the stage or
+# quest that opens the house in `when`).
+places:
+  vertigo:        {map: X1, town: Vertigo, act: I, level: 1}
+  rivercity:      {map: X2, town: Rivercity, act: II, level: 7}
+  xd02_dwarves:   {map: XD-02, town: "the Red Dwarf Smithy (XD-02)", act: I, level: 6, kind: dungeon, when: "M3, the Clan King dead"}
+  burlock:        {map: X4, town: Castle Burlock village, act: II, level: 14}
+  asp:            {map: X4, town: Asp, act: II, level: 16, when: "Q-C5, Asp liberated"}
+  newcastle:      {map: XD-13, town: Newcastle (the keep), act: II, level: 20, when: "Newcastle stage 2 (the keep)"}
+  nightshadow:    {map: X3, town: Nightshadow, act: II, level: 14, when: "Q-C7, Nightshadow liberated (the Moon Guild before)", note: "both offers (Dark Magic and Vampire Expert) are in houses open before the liberation: the Moon Guild at night, Du Monay Manor"}
+  kaiwu:          {map: X5, town: Kai Wu's monastery, act: III, level: 24}
+  freeda:         {map: X5, town: "Freeda the Mountaineer, on the pass", act: III, level: 24, kind: outdoor}
+  winterkill:     {map: X5, town: Winterkill, act: II, level: 26, when: "Q-C6, Winterkill liberated"}
+  saul:           {map: X6, town: "Saul's hermitage, by the urn", act: IV, level: 28, kind: outdoor}
+  castleview:     {map: D1, town: Castleview, act: III, level: 15}
+  sandcaster:     {map: D3, town: Sandcaster, act: III, level: 25}
+  tito:           {map: X2, town: "Tito's Chapel, outside Rivercity", act: II, level: 25, kind: outdoor, when: "Q-C18, the Holy Book home"}
+  cornelius:      {map: D3, town: "Cornelius the Leprechaun, in the Aging Forest", act: III, level: 26, kind: outdoor}
+  wizard_quarter: {map: D3, town: Sandcaster's wizard quarter, act: IV, level: 39, when: "Q-D14, the quarter opens (level 39, D-16)"}
+  lakeside:       {map: D4, town: Lakeside, act: IV, level: 36, when: "Lakeside liberated"}
+  kalindra:       {map: DD-03, town: Castle Kalindra, act: IV, level: 40, when: "Castle Kalindra stage 4 (the telescope from stage 2: QUESTS 4.2)"}
+  kalindra_observatory: {map: DD-03, town: "Castle Kalindra's observatory (Tycho)", act: III, level: 25, when: "Castle Kalindra stage 2"}
+  kalindra_court: {map: DD-03, town: "Castle Kalindra's throne room (Gem, Errol)", act: III, level: 22, when: "Castle Kalindra stage 1 (QUESTS 4.2)"}
+  bosco:          {map: DD-25, town: Bosco's Hall, act: V, level: 45}
+  shangrila:      {map: XD-17, town: Shangri-La (the Public Library), act: V, level: 45, when: "Q-C26"}
+  necropolis:     {map: D6, town: Necropolis, act: V, level: 50}
+  olympus:        {map: D7, town: Olympus, act: VI, level: 55}
+  x7_south:       {map: X7, town: "Sablewing's cave mouth on Mount Firestone's south slope", act: III, level: 25, kind: outdoor}
+  dragon_cave:    {map: XD-18, town: "The Dragon Tax Office, at the Dragon Cave's mouth", act: V, level: 50, kind: dungeon}
+
+# skill: [Expert, Master, Grandmaster]
+offers:
+  # weapons
+  Staff:            [rivercity, kaiwu, shangrila]
+  Sword:            [vertigo, rivercity, kalindra]
+  Dagger:           [vertigo, sandcaster, necropolis]
+  Axe:              [vertigo, burlock, bosco]
+  Spear:            [rivercity, castleview, olympus]
+  Bow:              [vertigo, rivercity, shangrila]
+  Mace:             [rivercity, castleview, kalindra]
+  # armour
+  Shield:           [vertigo, burlock, kalindra]
+  Leather:          [vertigo, rivercity, lakeside]
+  Chain:            [rivercity, castleview, bosco]
+  Plate:            [burlock, newcastle, kalindra]
+  # magic
+  Fire Magic:       [vertigo, castleview, shangrila]
+  Air Magic:        [vertigo, burlock, olympus]
+  Water Magic:      [vertigo, castleview, lakeside]
+  Earth Magic:      [vertigo, asp, bosco]
+  Spirit Magic:     [rivercity, tito, olympus]
+  Mind Magic:       [rivercity, winterkill, wizard_quarter]
+  Body Magic:       [rivercity, asp, shangrila]
+  Light Magic:      [burlock, sandcaster, olympus]
+  Dark Magic:       [nightshadow, winterkill, necropolis]
+  # misc
+  Identify Item:    [rivercity, kalindra_observatory, wizard_quarter]
+  Merchant:         [rivercity, sandcaster, olympus]
+  Repair Item:      [vertigo, xd02_dwarves, bosco]
+  Body Building:    [rivercity, freeda, shangrila]
+  Meditation:       [rivercity, saul, shangrila]
+  Perception:       [vertigo, cornelius, kalindra]
+  Regeneration:     [asp, newcastle, olympus]
+  Disarm Trap:      [rivercity, castleview, necropolis]
+  Dodging:          [rivercity, castleview, shangrila]
+  Unarmed:          [rivercity, castleview, shangrila]
+  Identify Monster: [burlock, winterkill, olympus]
+  Armsmaster:       [rivercity, burlock, kalindra]
+  Stealing:         [rivercity, sandcaster, necropolis]
+  Alchemy:          [vertigo, asp, wizard_quarter]
+  Learning:         [rivercity, sandcaster, shangrila]
+  # racial (MMerge races; their promotions are Xeen side quests, QUESTS 3)
+  Dark Elf:         [castleview, sandcaster, shangrila]
+  Vampire:          [nightshadow, lakeside, necropolis]
+  Dragon:           [castleview, x7_south, dragon_cave]
+
+# Second offers of a mastery that the three-place rule above already places: a teacher who is there before his
+# Grandmaster offer opens (Gem, Errol). towns.py checks them like the others.
+extra:
+  - {skill: Perception, mastery: master, place: kalindra_court}
+  - {skill: Armsmaster, mastery: master, place: kalindra_court}

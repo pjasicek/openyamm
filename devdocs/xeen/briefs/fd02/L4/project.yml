@@ -1,0 +1,43 @@
+format: 0
+id: xeen_fd02
+name: Southern Sphinx
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: FD-02
+units: {plan_grid: 512}
+extent: {footprint_cells: [20, 10], climbs: n}
+map_stats:
+  id: 9180
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 20
+  slots: []
+neighbours:
+  - id: exit:x6_door
+    to: xeen_x6.odm
+    kind: door
+    arrival: entrance:fd02_door
+    arrival_hint: "On X6 256 before the Southern Sphinx's breast leaves, facing east (A5's entrance:fd02_door)."
+    direction: 0
+    notes: "X6 installed (A5). The way out names X6's named arrival entrance:fd02_door, moved by A5 (seventeenth session, 03:43) to the whole cell (-12288, -10240, 1536) facing east, out of the sphinx (D-57's -12144 is not on a cell). X6's door:fd02 names this map's arrival entrance:x6_door: (-256, 0, 0) facing west."
+qbits:
+  boosts_taken: 118119
+  chop_paid: 118117
+  illusion_gone: 118118
+  m40_done: 111801
+  name_said: 111800
+  rune_a: 118113
+  rune_c: 118112
+  rune_d: 118115
+  rune_i: 118111
+  rune_p: 118110
+  rune_r: 118114
+  swing_paid: 118116
+notes: "Xeen design brief, level L4: FD-02 Southern Sphinx on X6 (M40, Act VI). D-57: Ghost Mummy 11273 x 16, Phase Mummy 11274 x 4, Dragon Mummy 11672 x 6 (26, 31.07k per member); Picard the Aged 11922 (npc 5704) peaceful, placed-only, unkillable. Rest encounters 0 (Q13). Hooks m40.runes, name_right, name_wrong, stair; Picard's topic (m40.done). Map qbits 118110-118119. Music 46."

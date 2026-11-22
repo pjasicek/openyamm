@@ -1,0 +1,24 @@
+derived: xeen_vo_part_corak_sheltem_take
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+shift:
+  pitch: 0
+  formant: -1
+ring:
+  hz: 40
+  mix: 0.05
+room:
+  seconds: 0.4
+  mix: 0.08
+  lowpass_hz: 3000
+highpass_hz: 160
+lowpass_hz: 6500
+low_shelf:
+  hz: 300
+  db: 4
+loudness_db: -9
+line: 'Corak: Sheltem.'

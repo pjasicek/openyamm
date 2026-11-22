@@ -1,0 +1,44 @@
+# Q-D25 The Minotaur's Labyrinth (QUESTS 2.2 Q-D25; racial promotion Minotaur -> Minotaur Lord). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. The Dungeon of Lost Souls' deepest floor (DD-12, A8, phase 4) is a
+# maze; at its heart a horned throne. Reaching it pays once (D-16: a promotion on content already paid, about a tenth
+# of a level, 3,000) and promotes the party's Minotaurs; a Minotaur recruited later is promoted by sitting again.
+id: Q-D25
+title: The Minotaur's Labyrinth
+act: IV
+kind: promotion
+status: full
+giver: null
+giver_name: (the horned throne at the labyrinth's heart, DD-12)
+maps: [DD-12]
+level: 38
+block: 105
+after: [m20.started]
+source: "QUESTS Q-D25, 3.2 (racial promotions)"
+
+qbits:
+  done: {id: 113500, note: "DD-12's horned throne at the maze's heart (A8)"}
+
+hooks:
+  throne:
+    map: DD-12
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the horned throne at the heart of the deepest floor's maze (clickable). A states hook without `once` (2026-11-21, A3-promo's D25-1: the once hook showed its else line to a later Minotaur before throne_again's text): the first sitting pays and promotes, a later Minotaur is promoted unpaid (D-74), anyone else gets the else line"
+    reads: [done]
+    states:
+      - when: {not: {qbit: done}}
+        text: "A throne of black horn stands where every corridor ends. Whoever reaches it has walked the labyrinth. The Minotaurs among you sit, and rise as lords of the maze."
+        do: [{set: done}, {xp: 3000}, {promote: minotaur}]
+      - when: {promotable: minotaur}
+        text: "The Minotaur sits, and rises a lord of the maze."
+        do: [{promote: minotaur}]
+      - text: "The horned throne waits. It honours Minotaurs, and anyone else who sits gets a sore back."
+  throne_again:
+    map: DD-12
+    gate: beat
+    where: "kept for DD-12's events 24 and 90, which call it when `throne` returns false; `throne` now always answers, so this runs only if a map calls it alone"
+    requires: {all: [{qbit: done}, {promotable: minotaur}]}
+    do: [{promote: minotaur}]
+    text: "The Minotaur sits, and rises a lord of the maze."
+
+rewards: {xp: 3000, gold: 0, promotion: "Minotaur -> Minotaur Lord"}
+playthrough: "DD-12: walk the deepest floor's maze to the horned throne."

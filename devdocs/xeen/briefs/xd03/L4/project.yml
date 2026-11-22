@@ -1,7 +1,7 @@
 format: 0
 id: xeen_xd03
 name: Deep Mine
-world: mm7
+world: xeen
 kind: indoor
 profile: dungeon
 map_code: XD-03
@@ -10,7 +10,7 @@ extent: {footprint_cells: [18, 16], climbs: n}
 map_stats:
   id: 9133
   encounter_chance: 10
-  treasure_level: 3
+  treasure_level: 1
   trap_dice: 1
   perception_difficulty: 2
   refill_days: 672
@@ -18,17 +18,17 @@ map_stats:
   environment: cave
   lock_difficulty: 2
   slots:
-    - {monster: Dwarf, tier: 1, per_marker: [2, 3], weight: 50}
-    - {monster: Spider, tier: 3, per_marker: [2, 3], weight: 25}
-    - {monster: Troglodyte, tier: 1, per_marker: [1, 2], weight: 25}
+    - {monster: Xeen Mad Dwarf, tier: 0, per_marker: [2, 3], weight: 60}
+    - {monster: Xeen Spider, tier: 3, per_marker: [2, 3], weight: 0}
+    - {monster: Xeen Mole, tier: 0, per_marker: [1, 2], weight: 40}
 neighbours:
   - id: exit:deep_cart
-    to: 7out01.odm
+    to: xeen_xd02.blv
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "At the Deep Line station on the floor of the Open Stope, beside the cart."
+    arrival: [4480, 4620, -1216]
+    arrival_hint: "At the Deep Line station on the floor of the Open Stope (XD-02 room:deep_station), east of the cart and the brake wheel, facing west to the Deep Line's mouth."
     direction: 180
-    notes: "XD-02 (the Red Dwarf Mines) in the design: the Deep Line cart back up to its Deep Line station (XD-02 L4 at about [4600, 4450, -1216]); always works from this end. Stand-in until the two maps are mounted together: Emerald Island at the point XD-01 and XD-02 use."
+    notes: "XD-02 (the Red Dwarf Mines): the Deep Line cart back up to its Deep Line station; always works from this end (rebase phase 0, 2026-11-20: was Emerald Island)."
   - id: exit:x1_shaft
     to: xeen_x1.odm
     kind: door
@@ -41,6 +41,6 @@ qbits:
   clan_king_slain: 110030
   escape_shaft_open: 110031
 items:
-  clan_king_key: 2108
+  clan_king_key: 12021
 migrated: [platform_in_sunken_level, ceiling_level_sides]
-notes: "Xeen design brief, level L4: L3's plan redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, second half (devdocs/xeen/QUESTS.md): kill the Clan King. The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 and XD-02 are: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins: slot 1 Mad Dwarves (Mad Dwarf 7, Clan Sergeant 12) is MM7's Dwarf family (Dwarven Soldier 10), slot 2 Spiders (10 / 14) the Spider family at tier 3 (Venomous Spider 8, Widowmaker 12), slot 3 Burrowers (Tiger Mole 9) the Troglodyte family (Troglodyte Drone 9); the placed Clan Sergeants are Dwarven Soldiers by name, the Clan King (18) a Dwarven Lieutenant (230, level 20) with hit points of his own and a name, the Bat Queens (10) Inferno Bats (207, level 9). The King's key 12021 is MM7's Key to Snergle's Chambers (2108). Treasure level 3 (the brief's 2, one step up as the brief asks for the King and his hoard; the hold's chests say their own levels). Quest bits keep their provisional Xeen numbers (110030-110031). Music: MM7 cave track 18 for the brief's cave_deep, which the game refuses. exit:x1_shaft leads to X1 (xeen_x1.odm); exit:deep_cart still points at Emerald Island."
+notes: "Xeen design brief, level L4: L3's plan redrawn with the studio's words of 2026-11-13, surfaces, objects and wiring; a playable map (NOTES.md). Story step M3, second half (devdocs/xeen/QUESTS.md, A3's quests/m3.yml): kill the Clan King. World of Xeen since 2026-11-20 (lane A7): slot 1 Xeen Mad Dwarf (every spawn point at a, Mad Dwarf 11050 7, since the balance pass), slot 2 Xeen Spider (its spawn points at b, Cave Spider 11321 10; out of rest encounters, whose a and c tiers are under and over the band 6-12), slot 3 Xeen Mole (Tiger Mole 11430 6 at two warrens, Rock Mole 11431 9 at the third); placed ten Mad Dwarves 11050, the King's guard and the Gong Sentry Clan Sergeants 11051, the Clan King his boss row 11053 (18), the geode's Mine Bats 11302. About 40 monsters, levels 6-10 and the King 18, kill XP 1.08 of MAPS 0 (NOTES.md). The King's key is 12021; quest bits 110030-110031 (m3.yml). The map card (map_stats 9133, music, treasure 1) is A2's row from source/map_rows.yml: the block below is the studio's copy for its checks. exit:x1_shaft leads to X1 (xeen_x1.odm), exit:deep_cart to XD-02's Deep Line station (xeen_xd02.blv)."

@@ -1,0 +1,403 @@
+format: 0
+start:
+  room: room:adit
+  at: [0, 192]
+  facing: 90
+  notes: "Just inside the adit's mouth, facing in (north); D1's door into this map lands the party here."
+doors:
+  - id: door:adit
+    opening: open:adit_gallery
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The adit's plank door into the gallery.
+  - id: door:emerald
+    opening: open:sump_emerald
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The plank door between the sump and the emerald gallery.
+  - id: door:sump
+    opening: open:cobweb_sump
+    kind: hinged
+    hinge: right
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: "The sump's plank door, in the cobweb drift's south wall."
+sounds:
+  - {id: sound:adit_wind, room: room:adit, at: [0, 96], sound: whistling wind, radius: 1000, inner_radius: 200, volume: 0.35, notes: Air drawn in at the adit's mouth.}
+  - {id: sound:bed_gallery, room: room:gallery, at: [512, 2432], sound: xeen_amb_mine, radius: 2800, inner_radius: 800, volume: 0.4, notes: "The mine's drips and knocks (bed, west).", pan: false}
+  - {id: sound:bed_ruby, room: room:ruby, at: [3200, 2304], sound: xeen_amb_mine, radius: 2800, inner_radius: 800, volume: 0.4, notes: "The mine's drips and knocks (bed, east).", pan: false}
+  - {id: sound:ruby_drip, room: room:ruby, at: [2304, 2944], sound: drip02, radius: 1200, inner_radius: 300, volume: 0.4, notes: Seepage in the stope.}
+  - {id: sound:sump_drip, room: room:sump, at: [4416, 1408], sound: drip01, radius: 1400, inner_radius: 300, volume: 0.55, notes: Water dripping into the sump.}
+lights:
+  - id: light:adit
+    room: room:adit
+    at: [0, 448]
+    height: 280
+    radius: 900
+    color: [255, 180, 110]
+  - id: light:bones
+    room: room:bones
+    at: [1216, 1344]
+    height: 300
+    radius: 1000
+    color: [255, 170, 110]
+  - id: light:cobweb
+    room: room:cobweb
+    at: [4288, 2624]
+    height: 320
+    radius: 1100
+    color: [190, 190, 210]
+  - id: light:emerald
+    room: room:emerald
+    at: [2816, 1088]
+    height: 380
+    radius: 1200
+    color: [170, 230, 170]
+  - id: light:emerald_1
+    room: room:emerald
+    at: [2341, 718]
+    height: 176
+    radius: 360
+    color: [70, 255, 110]
+    notes: Emerald vein 1 glints.
+  - id: light:emerald_2
+    room: room:emerald
+    at: [2820, 688]
+    height: 176
+    radius: 360
+    color: [70, 255, 110]
+    notes: Emerald vein 2 glints.
+  - id: light:emerald_3
+    room: room:emerald
+    at: [3270, 845]
+    height: 176
+    radius: 360
+    color: [70, 255, 110]
+    notes: Emerald vein 3 glints.
+  - id: light:emerald_4
+    room: room:emerald
+    at: [3143, 1476]
+    height: 176
+    radius: 360
+    color: [70, 255, 110]
+    notes: Emerald vein 4 glints.
+  - id: light:emerald_5
+    room: room:emerald
+    at: [2347, 1322]
+    height: 176
+    radius: 360
+    color: [70, 255, 110]
+    notes: Emerald vein 5 glints.
+  - id: light:gallery_e
+    room: room:gallery
+    at: [768, 2432]
+    height: 340
+    radius: 1000
+    color: [255, 170, 100]
+  - id: light:gallery_n
+    room: room:gallery
+    at: [0, 1600]
+    height: 340
+    radius: 1000
+    color: [255, 170, 100]
+  - id: light:ruby_1
+    room: room:ruby
+    at: [2440, 1920]
+    height: 176
+    radius: 360
+    color: [255, 70, 60]
+    notes: Ruby vein 1 glints.
+  - id: light:ruby_2
+    room: room:ruby
+    at: [3029, 2006]
+    height: 176
+    radius: 360
+    color: [255, 70, 60]
+    notes: Ruby vein 2 glints.
+  - id: light:ruby_3
+    room: room:ruby
+    at: [3029, 3114]
+    height: 176
+    radius: 360
+    color: [255, 70, 60]
+    notes: Ruby vein 3 glints.
+  - id: light:ruby_4
+    room: room:ruby
+    at: [2496, 3232]
+    height: 176
+    radius: 360
+    color: [255, 70, 60]
+    notes: Ruby vein 4 glints.
+  - id: light:ruby_5
+    room: room:ruby
+    at: [1978, 3059]
+    height: 176
+    radius: 360
+    color: [255, 70, 60]
+    notes: Ruby vein 5 glints.
+  - id: light:ruby_e
+    room: room:ruby
+    at: [3072, 2560]
+    height: 420
+    radius: 1200
+    color: [255, 150, 120]
+  - id: light:ruby_w
+    room: room:ruby
+    at: [2112, 2560]
+    height: 420
+    radius: 1200
+    color: [255, 150, 120]
+  - id: light:sump
+    room: room:sump
+    at: [4288, 1472]
+    height: 280
+    radius: 1000
+    color: [160, 190, 220]
+chests:
+  - id: chest:bones
+    room: room:bones
+    at: [1320, 880]
+    kind: gt002
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: The dead miners' chest.
+  - id: chest:sump
+    room: room:sump
+    at: [4096, 1096]
+    kind: ch3
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    notes: The miners' strongbox by the sump.
+monsters:
+  - id: monster:m01_bat
+    room: room:gallery
+    monster: 11312
+    at: [-160, 1500]
+    facing: 180
+    group: 1
+  - id: monster:m02_bat
+    room: room:gallery
+    monster: 11312
+    at: [160, 2240]
+    facing: 180
+    group: 1
+  - id: monster:m03_bat
+    room: room:gallery
+    monster: 11312
+    at: [960, 2380]
+    facing: 180
+    group: 1
+  - id: monster:m04_hunter
+    room: room:ruby
+    monster: 11331
+    at: [2200, 2300]
+    facing: 270
+    group: 2
+  - id: monster:m05_hunter
+    room: room:ruby
+    monster: 11331
+    at: [3000, 2800]
+    facing: 270
+    group: 2
+  - id: monster:m06_hunter
+    room: room:ruby
+    monster: 11331
+    at: [2400, 3050]
+    facing: 270
+    group: 2
+  - id: monster:m07_pede
+    room: room:ruby
+    monster: 11361
+    at: [3150, 2300]
+    facing: 270
+    group: 2
+  - id: monster:m08_pede
+    room: room:ruby
+    monster: 11361
+    at: [2150, 2750]
+    facing: 270
+    group: 2
+  - id: monster:m09_queen
+    room: room:cobweb
+    monster: 11332
+    at: [4500, 2700]
+    facing: 270
+    group: 3
+  - id: monster:m10_queen
+    room: room:cobweb
+    monster: 11332
+    at: [4600, 2400]
+    facing: 270
+    group: 3
+  - id: monster:m11_queen
+    room: room:cobweb
+    monster: 11332
+    at: [4300, 3000]
+    facing: 270
+    group: 3
+  - id: monster:m12_queen
+    room: room:cobweb
+    monster: 11332
+    at: [4650, 2950]
+    facing: 270
+    group: 3
+  - id: monster:m13_hunter
+    room: room:cobweb
+    monster: 11331
+    at: [3900, 2550]
+    facing: 270
+    group: 3
+  - id: monster:m14_hunter
+    room: room:cobweb
+    monster: 11331
+    at: [4150, 2350]
+    facing: 270
+    group: 3
+  - id: monster:m15_hunter
+    room: room:cobweb
+    monster: 11331
+    at: [4250, 2700]
+    facing: 270
+    group: 3
+  - id: monster:m16_bat
+    room: room:emerald
+    monster: 11312
+    at: [2560, 1060]
+    facing: 180
+    group: 4
+  - id: monster:m17_bat
+    room: room:emerald
+    monster: 11312
+    at: [3000, 1150]
+    facing: 180
+    group: 4
+  - id: monster:m18_bat
+    room: room:emerald
+    monster: 11312
+    at: [2750, 1350]
+    facing: 180
+    group: 4
+  - id: monster:m19_pede
+    room: room:emerald
+    monster: 11361
+    at: [3300, 1250]
+    facing: 180
+    group: 4
+  - id: monster:m20_pede
+    room: room:emerald
+    monster: 11361
+    at: [2380, 860]
+    facing: 180
+    group: 4
+decorations:
+  - id: deco:adit_torch_w
+    room: room:adit
+    decoration: torch02
+    at: [-192, 448]
+    wall: west
+    notes: A miner's torch.
+  - id: deco:bones_heap_a
+    room: room:bones
+    decoration: 7dec18
+    at: [760, 1340]
+    notes: "A heap of bones: they crumble."
+  - id: deco:bones_heap_b
+    room: room:bones
+    decoration: dec19
+    at: [1060, 980]
+    notes: "A heap of bones: they crumble."
+  - id: deco:bones_heap_c
+    room: room:bones
+    decoration: 7dec18
+    at: [880, 1120]
+    notes: The heap that explodes (once).
+  - id: deco:bones_skeleton
+    room: room:bones
+    decoration: dec05
+    at: [740, 1720]
+    notes: A miner who did not get out.
+  - id: deco:bones_skull
+    room: room:bones
+    decoration: 7dec20
+    at: [1600, 900]
+  - id: deco:cobweb_bones
+    room: room:cobweb
+    decoration: dec29
+    at: [4480, 3160]
+    notes: What the queens left.
+  - id: deco:cobweb_skull
+    room: room:cobweb
+    decoration: 7dec20
+    at: [4880, 2400]
+  - id: deco:emerald_rocks
+    room: room:emerald
+    decoration: 6rock01
+    at: [3360, 1040]
+  - id: deco:emerald_torch
+    room: room:emerald
+    decoration: torch02
+    at: [2304, 1408]
+    wall: 4
+  - id: deco:gal_torch_1
+    room: room:gallery
+    decoration: torch02
+    at: [256, 1472]
+    wall: east
+  - id: deco:gal_torch_2
+    room: room:gallery
+    decoration: torch02
+    at: [768, 2176]
+    wall: south
+  - id: deco:ruby_rocks
+    room: room:ruby
+    decoration: 6rock01
+    at: [2240, 3240]
+    notes: Spoil by the north wall.
+  - id: deco:ruby_rocks_2
+    room: room:ruby
+    decoration: 6rock02
+    at: [3330, 2700]
+  - id: deco:ruby_torch_1
+    room: room:ruby
+    decoration: torch02
+    at: [1664, 2820]
+    wall: 9
+  - id: deco:ruby_torch_2
+    room: room:ruby
+    decoration: torch02
+    at: [3392, 2944]
+    wall: 5
+  - id: deco:sump_torch
+    room: room:sump
+    decoration: torch02
+    at: [4600, 1920]
+    wall: 3
+exits:
+  - id: exit:d1
+    room: room:adit
+    wall: south
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [32, 64], scale: 5}
+    to: exit:d1_adit
+    notes: "The adit's mouth, boarded with planks: out to D1 above the gemsmiths' row."
+notes: "DD-10A's contents, written by output/studio_cal/dd10a/tools/gen.py: 3 plank doors, 2 chests, 20 placed monsters (Arachnoid Hunters, Queens, Beholder Bats, Electrapedes), no spawn points."

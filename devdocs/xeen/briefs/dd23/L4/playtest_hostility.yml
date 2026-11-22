@@ -1,0 +1,39 @@
+# Hostility check of the Gargoyle Lair (DD-23): its gargoyles hostile to the party and no fights among them (XD-26's
+# pattern). The gargoyles are A2's Gargoyles (Magic Mountain), all placed: Mountain Gargoyle 11550 (12), Gargoyle
+# Sentinel 11551 (2), Gargoyle Overlord 11552 (1), hostile by the world's relations.yml and the placement; the map
+# places nobody peaceful.
+id: xeen.dd23.l4.hostility
+title: 'the Gargoyle Lair (DD-23): gargoyles hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd23.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 35, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 35, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11550, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11551, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11552, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11550, hostile: true, min: 12}}
+  - assert: {actor_count: {monster_id: 11551, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11552, hostile: true, min: 1}}
+  - note: 'The three tiers side by side in the cave mouth, nearer each other than the party (a monster takes the nearest
+      of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11550, x: -150, y: 560, z: 64}
+  - spawn_actor: {monster_id: 11552, x: 150, y: 560, z: 64}
+  - spawn_actor: {monster_id: 11551, x: 0, y: 660, z: 64}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11550, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11551, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11552, hurt: true, max: 0}}

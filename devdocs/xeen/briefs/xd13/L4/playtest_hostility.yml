@@ -1,0 +1,52 @@
+# Hostility check of Newcastle Keep (XD-13), after XD-05's and XD-07's: the stage-0 Wood Golems (11580) hostile to the
+# party at stage 0; at stage 3 (m22.dungeon by console, then a save and load) the Bog Things (11461), Marsh Horrors
+# (11462) and Iron Golems (11582) hostile; and the map's four kinds, side by side in the great hall, not fighting each
+# other. Written by hand (agent:xeen-a7-xd13).
+id: xeen.xd13.l4.hostility
+title: 'Newcastle Keep (XD-13): the stage-0 and stage-3 monsters hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd13.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: Stage 0 (the ruin) - the map entry events run (the world's relations.yml sets each family's relation to the party).
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11580, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11580, hostile: true, min: 15}}
+- note: Stage 3 (the dungeon dug) - the next entry.
+- console: {line: "qbit set 111221"}
+- console: {line: "qbit set 111441"}
+- note: The arrival window is still pending (a reload is skipped behind it); a short walk that closes dialogues clears it.
+- walk_to: {x: 0, y: 420, z: 0, radius: 64, timeout_seconds: 10, close_dialogs: true}
+- assert: {dialog: {active: false}}
+- reload: {}
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11461, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11461, hostile: true, min: 4}}
+- assert: {actor_count: {monster_id: 11462, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11462, hostile: true, min: 2}}
+- assert: {actor_count: {monster_id: 11582, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11582, hostile: true, min: 4}}
+- note: The map's kinds side by side in the great hall (the golems there are hidden at stage 3), nearer each other than
+    the party (a monster takes the nearest of its foes) - none may take another on.
+- walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11580, x: -640, y: 2700, z: 0}
+- spawn_actor: {monster_id: 11461, x: -320, y: 2700, z: 0}
+- spawn_actor: {monster_id: 11462, x: 0, y: 2700, z: 0}
+- spawn_actor: {monster_id: 11582, x: 320, y: 2700, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+- assert: {actor_count: {monster_id: 11461, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11462, hurt: true, max: 0}}

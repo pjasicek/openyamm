@@ -1,0 +1,219 @@
+# Playtest of the Ogre Forts (DD-13, L4; lane A7, agent:xeen-a7-dd13): the war route of Q-D11, the graph's critical path.
+# A level-24 party arrives inside the west fort's gate (the map's start, D2's entrance:dd13_west): the arrival window,
+# the pass ogres hostile at load. The blockhouse's double door, the empty hall, its fire pit's "Burn?" (aaze0015:7): No
+# leaves it, Yes calls A3's q-d11.fort_west (west_burned 113224, hostile 113222; aaze0015:8), the hall ablaze (the hides
+# and the table burn away) and 4 s later the fort charred (burning_w 2; the pit's fire and the fort's torches out). The
+# bunkhouse and its four ogres, the ladder down to the west cellar, up the plunder store's ladder (its chest, its door to
+# the hall: the west loop) and back down; the run, the Sardaj loot cave (its chest, Graalg's boast on the disk case,
+# aaze0015:16), the east cellar, up the kennel's ramp (its cats) and through its barred gate into Graalg's hall, his
+# quarters (two chiefs) and the strongbox (q-d11.fort_search: fort_disks 113226, 2 Energy Disks 12334; aaze0015:23),
+# down and up his trapdoor's ladder, the east hall's burn (east_burned 113225), the strongbox searchable after it ("The
+# strongbox is empty."). A save and load: both forts' burned stage (their ogres and cats hidden, hides, fires and
+# torches gone). Out by the east gate to D2. Numbers are ids.lock.yml's: events (click, open_door), doors, chests
+# (loot_chest by event), map variables (burning_e 0, burning_w 1), destructibles (console). Actor indices follow
+# objects.yml's monsters sorted by id: 0-3 bunks, 4-6 east cellar, 7-9 west cellar, 10-11 Graalg's chiefs, 12-15 the
+# kennel's cats, 16-18 loot cave, 19-20 plunder store, 21-24 the run. Decorations hidden by the burn (sprite_hidden: their
+# numbers in ids.lock.yml `decorations`): 14 and 13 the pit fires, 59 a west hall torch, 51 an east gateway torch, 35-37
+# the table's plates; shown by it: 12 and 11 the burnt-out embers (dec24x, merge point 24). The trapdoors (merge point 22): plunder store event 30 door 14, Graalg's event 29 door 13.
+id: xeen.dd13.l4.walk
+title: "Ogre Forts (DD-13 L4), the war route: both forts burned, the strongbox, the burned stage, out by the east gate"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd13.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - assert: {map: xeen_dd13.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: -64, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, min: 12}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, min: 4}}
+  - assert: {actor_visible: {actor_index: 0, hidden: false}}
+  - assert: {actor_visible: {actor_index: 12, hidden: false}}
+  - console: {line: destructible 32 state, expect_contains: standing}
+  - assert: {sprite_shown: [14, 59]}
+  - assert: {sprite_hidden: [12, 11]}
+  # The blockhouse's double door and the empty hall.
+  - walk_to: {x: 0, y: 380, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 9); if door_state(10) ~= 'open' then error('the hall door leaf 2: ' .. door_state(10)) end"}
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  # "Burn?" No leaves it; Yes burns it (A3's q-d11.fort_west).
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(113224) then error('west fort burned on No') end"}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "collapses in a heap of burning timbers"}}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(113224) then error('west_burned 113224 not set') end
+        if not qbit(113222) then error('hostile 113222 not set') end
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - console: {line: destructible 32 state, expect_contains: broken}
+  - console: {line: destructible 37 state, expect_contains: broken}
+  - console: {line: destructible 38 state, expect_contains: broken}
+  - console: {line: destructible 39 state, expect_contains: broken}
+  - assert: {sprite_hidden: [35, 36, 37]}
+  - play_lua: {source: "wait(6)"}
+  - assert: {state_dump_map_var: {index: 1, value: 2}}
+  - assert: {sprite_hidden: [14, 59]}
+  - assert: {sprite_shown: [12]}
+  - play_lua: {source: "click(20); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "burned ogre laundry"}}
+  - play_lua: {source: "close()"}
+  # The bunkhouse and its sleepers; down its ladder to the west cellar.
+  - walk_to: {x: 780, y: 1120, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(6, 1)"}
+  - walk_to: {x: 1250, y: 1120, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_visible: {actor_index: 0, dead: true}}
+  - assert: {actor_visible: {actor_index: 3, dead: true}}
+  - walk_to: {x: 2080, y: 1250, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - climb: {ladder: bunks, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: 1958, y: 1472, radius: 160, z_min: -520, z_max: -500}}
+  - walk_to: {x: 900, y: 1472, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -900, y: 1472, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - assert: {actor_visible: {actor_index: 7, dead: true}}
+  # Up the plunder store's ladder through its trapdoor (opened from below, merge point 22): its two ogres, Kramer's
+  # strongbox, its door to the hall (the west loop); back down.
+  - walk_to: {x: -1900, y: 1472, z: -512, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 14); wait(2); if door_state(14) ~= 'open' then error('plunder trapdoor: ' .. door_state(14)) end"}
+  - climb: {ladder: plunder, timeout_seconds: 40}
+  - assert: {party_position: {x: -2080, y: 1472, radius: 100, z_min: -8, z_max: 8}}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2000, y: 1800, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(4); close()"}
+  - walk_to: {x: -1140, y: 1120, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 12); if door_state(12) ~= 'open' then error('plunder door: ' .. door_state(12)) end"}
+  - walk_to: {x: -600, y: 1120, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2080, y: 1250, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: plunder, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: -1958, y: 1472, radius: 160, z_min: -520, z_max: -500}}
+  # The ogres' run under the road; the Sardaj loot cave.
+  - walk_to: {x: 1536, y: 1300, z: -512, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1536, y: 700, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 1720, y: 20, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2400, y: -192, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2944, y: -192, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 2944, y: 320, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_visible: {actor_index: 16, dead: true}}
+  - walk_to: {x: 2720, y: 640, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(3); close()"}
+  - walk_to: {x: 3120, y: 560, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "We are Ogres! We take what we want."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2944, y: -192, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3700, y: -192, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4300, y: -500, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_visible: {actor_index: 24, dead: true}}
+  # The east cellar; up the kennel's ramp, its cats, its barred gate into Graalg's hall.
+  - walk_to: {x: 4352, y: -1100, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_visible: {actor_index: 5, dead: true}}
+  - walk_to: {x: 5100, y: -1856, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5600, y: -1856, z: -420, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_visible: {actor_index: 12, dead: true}}
+  - walk_to: {x: 6420, y: -1856, z: -40, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 11); if door_state(11) ~= 'open' then error('kennel gate: ' .. door_state(11)) end"}
+  - walk_to: {x: 6900, y: -1856, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Graalg's quarters, his two chiefs and the strongbox.
+  - walk_to: {x: 6760, y: -992, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 6)"}
+  - walk_to: {x: 6300, y: -992, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_visible: {actor_index: 10, dead: true}}
+  - assert: {actor_visible: {actor_index: 11, dead: true}}
+  - walk_to: {x: 5520, y: -560, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The hook's line is on the status line over the open strongbox (F13); loot_chest takes all.
+  - play_lua: {source: "loot_chest(27); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[find 2 energy disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(113226) then error('fort_disks 113226 not set') end
+        local n = item_count(12334) + (held() == 12334 and 1 or 0)
+        log('energy disks: ' .. n)
+        if n < 2 then error('the strongbox gave ' .. n .. ' energy disks') end
+  # Down through Graalg's trapdoor (opened from above, merge point 22) and its ladder, and back up.
+  - walk_to: {x: 5880, y: -1120, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(29, 13); wait(2); if door_state(13) ~= 'open' then error('Graalg trapdoor: ' .. door_state(13)) end"}
+  - climb: {ladder: graalg, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: 5734, y: -1120, radius: 160, z_min: -520, z_max: -500}}
+  - walk_to: {x: 5650, y: -1120, z: -512, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: graalg, timeout_seconds: 40}
+  - assert: {party_position: {x: 5856, y: -1120, radius: 100, z_min: -8, z_max: 8}}
+  # The east hall's burn (A3's q-d11.fort_east).
+  - walk_to: {x: 6300, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 7552, y: -1480, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "collapses in a heap of burning timbers"}}
+  - play_lua: {source: "close(); if not qbit(113225) then error('east_burned 113225 not set') end"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - console: {line: destructible 26 state, expect_contains: broken}
+  - play_lua: {source: "wait(6)"}
+  - assert: {state_dump_map_var: {index: 0, value: 2}}
+  - assert: {sprite_hidden: [13]}
+  - assert: {sprite_shown: [11]}
+  # The strongbox stays searchable after the burn.
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5520, y: -560, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The strongbox is empty.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  # A save and load: both forts' burned stage.
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_visible: {actor_index: 0, hidden: true}}
+  - assert: {actor_visible: {actor_index: 19, hidden: true}}
+  - assert: {actor_visible: {actor_index: 7, hidden: true}}
+  - assert: {actor_visible: {actor_index: 10, hidden: true}}
+  - assert: {actor_visible: {actor_index: 12, hidden: true}}
+  - assert: {actor_visible: {actor_index: 4, hidden: true}}
+  - console: {line: destructible 32 state, expect_contains: broken}
+  - console: {line: destructible 26 state, expect_contains: broken}
+  - assert: {sprite_hidden: [14, 13, 51, 59, 35]}
+  - assert: {sprite_shown: [12, 11]}
+  - play_lua: {source: "if mapvar('AmbientSound4') ~= 2 then error(\"the east pit's fire sound is on after the burn\") end"}
+  # Out by the east gate to D2.
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 7552, y: -760, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 7)"}
+  - walk_to: {x: 7552, y: 60, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(7, 2)"}
+  - walk_to: {x: 7552, y: 470, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 14}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: 11776, y: 11776, radius: 160, z_min: 2032, z_max: 2065}}

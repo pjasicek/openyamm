@@ -1,0 +1,28 @@
+# The Adventurer's Inn's roster screen closes from a scenario (A5's X1 walk passed the inn by): press_action escape
+# (or play_lua close()) closes it as its Exit button does; `assert: {dialog: {adventurers_inn: ...}}` sees it. A1,
+# merge point 13.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/inn_roster_close.yml --scenario-no-color
+id: xeen.a1.inn_roster_close
+title: "A1: the Adventurer's Inn roster opens from Vertigo's inn and a scenario closes it"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "evt.EnterHouse(4007)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {adventurers_inn: true}
+  - press_action: {action: escape}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      dialog: {adventurers_inn: false}
+  - lua_event: {source: "evt.EnterHouse(4007)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {adventurers_inn: true}
+  - play_lua: {source: "close()"}
+  - assert:
+      dialog: {adventurers_inn: false}

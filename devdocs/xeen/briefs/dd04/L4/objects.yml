@@ -1,0 +1,520 @@
+format: 0
+start:
+  room: room:door
+  at: [0, 256]
+  facing: 90
+  notes: "Just inside the tiny door, facing in (north); D1's door:dd04 lands the party here."
+doors:
+  - id: door:court
+    opening: open:waiting_court
+    kind: hinged
+    hinge: right
+    thickness: 16
+    speed: 80
+    surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    back_surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    edge_surface: {texture: t09b10a, size: [32, 128]}
+    top_surface: {texture: t09b10a, size: [32, 128]}
+    notes: The court's door.
+  - id: door:hatch
+    opening: open:larder_court
+    kind: slide_up
+    thickness: 16
+    speed: 60
+    surface: {texture: t09a01, size: [128, 256]}
+    secret: true
+    back_surface: {texture: t09a01, size: [128, 256]}
+    notes: "The servants' hatch: a low secret door of ashlar between the larder and the court, by the dais; opened from either side."
+  - id: door:larder
+    opening: open:cellar_larder
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    back_surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    edge_surface: {texture: t09b10a, size: [32, 128]}
+    top_surface: {texture: t09b10a, size: [32, 128]}
+    notes: The larder's door.
+  - id: door:trapdoor
+    opening: open:stair_larder
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t09b10a, size: [32, 128], uneven: true}
+    back_surface: {texture: t09b10a, size: [32, 128], uneven: true}
+    edge_surface: {texture: t09b10a, size: [32, 128]}
+    top_surface: {texture: t09b10a, size: [32, 128]}
+    notes: "The trapdoor at the head of the sappers' stair: a plank door into the larder."
+  - id: door:waiting
+    opening: open:plunder_waiting
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    back_surface: {texture: t09a03c, size: [128, 256], scale: 1.5}
+    edge_surface: {texture: t09b10a, size: [32, 128]}
+    top_surface: {texture: t09b10a, size: [32, 128]}
+    notes: The waiting room's arched plank door (t09a03c).
+sounds:
+  - {id: sound:barracks_fire, room: room:barracks, at: [2304, 1152], sound: 7campfire, radius: 1600, inner_radius: 400, volume: 0.6, notes: The army's fire.}
+  - {id: sound:drains, room: room:mud, at: [2720, 6656], sound: rushing water loop, radius: 2400, inner_radius: 600, volume: 0.35, notes: "Water running beyond the mud: the town's drains."}
+  - {id: sound:drip, room: room:sap, at: [2848, 4000], sound: drip01, radius: 1400, inner_radius: 300, volume: 0.5, notes: Water seeping into the tunnel.}
+lights:
+  - id: light:barracks
+    room: room:barracks
+    at: [2304, 1152]
+    height: 100
+    radius: 1400
+    color: [255, 140, 70]
+    pulse: {intensity: [0.7, 1], frequency: 1, phase: 0.3}
+  - id: light:burrow_1
+    room: room:burrow
+    at: [0, 980]
+    height: 300
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:burrow_2
+    room: room:burrow
+    at: [256, 1760]
+    height: 300
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:cellar
+    room: room:cellar
+    at: [1408, 2944]
+    height: 320
+    radius: 1200
+    color: [255, 170, 90]
+  - id: light:cellar_arm
+    room: room:cellar
+    at: [1408, 4224]
+    height: 320
+    radius: 800
+    color: [255, 170, 90]
+  - id: light:court
+    room: room:court
+    at: [0, 4800]
+    height: 500
+    radius: 1600
+    color: [255, 200, 140]
+  - id: light:larder
+    room: room:larder
+    at: [1344, 5248]
+    height: 300
+    radius: 900
+    color: [255, 180, 110]
+  - id: light:mud
+    room: room:mud
+    at: [2720, 6528]
+    height: 200
+    radius: 700
+    color: [170, 190, 210]
+  - id: light:plunder
+    room: room:plunder
+    at: [0, 2816]
+    height: 380
+    radius: 1300
+    color: [255, 170, 90]
+  - id: light:sap
+    room: room:sap
+    at: [2848, 3968]
+    height: 200
+    radius: 900
+    color: [255, 160, 80]
+  - id: light:throne
+    room: room:court
+    at: [0, 5400]
+    height: 400
+    radius: 1100
+    color: [255, 190, 120]
+  - id: light:waiting
+    room: room:waiting
+    at: [0, 3776]
+    height: 300
+    radius: 1000
+    color: [255, 200, 140]
+chests:
+  - id: chest:pay
+    room: room:barracks
+    at: [2960, 1536]
+    kind: gt002
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 400
+    notes: The mighty army's pay chest.
+  - id: chest:plunder
+    room: room:plunder
+    at: [-568, 2992]
+    kind: gt002
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    notes: The pranksters' plunder chest.
+  - id: chest:throne
+    room: room:court
+    at: [208, 5648]
+    floor_height: 32
+    kind: gt002
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    items: [energy_disk, energy_disk, energy_disk]
+    notes: "The royal treasury beside the throne: the map's hoard (one level up) and the 3 Energy Disks of q-d1.throne's map_gives; it opens only after Gettlewaithe's death, never after a peace."
+monsters:
+  - id: monster:c00_gettlewaithe
+    room: room:court
+    monster: 11023
+    at: [0, 5480]
+    floor_height: 32
+    facing: 270
+    group: 2
+    immobile: true
+    notes: "Gettlewaithe, Imperator Primus of the Gremlins (A2's boss row 11023, level 24), on the dais before his throne; NPC 4955 talks through the throne (evt:throne)."
+  - id: monster:c01_guard
+    room: room:court
+    monster: 11026
+    at: [-320, 5280]
+    facing: 270
+    group: 1
+    notes: A court guard (Gremlin Guard 22).
+  - id: monster:c02_guard
+    room: room:court
+    monster: 11026
+    at: [320, 5280]
+    facing: 270
+    group: 1
+  - id: monster:c03_guard
+    room: room:court
+    monster: 11026
+    at: [0, 5120]
+    facing: 270
+    group: 1
+  - id: monster:c04_burrow
+    room: room:burrow
+    monster: 11024
+    at: [0, 960]
+    facing: 90
+    group: 3
+  - id: monster:c05_burrow
+    room: room:burrow
+    monster: 11024
+    at: [288, 1600]
+    facing: 90
+    group: 3
+  - id: monster:c06_burrow
+    room: room:burrow
+    monster: 11024
+    at: [288, 1900]
+    facing: 90
+    group: 3
+  - id: monster:c07_burrow
+    room: room:burrow
+    monster: 11024
+    at: [0, 2150]
+    facing: 90
+    group: 3
+  - id: monster:c08_plunder
+    room: room:plunder
+    monster: 11024
+    at: [-384, 2560]
+    facing: 270
+    group: 4
+  - id: monster:c09_plunder
+    room: room:plunder
+    monster: 11024
+    at: [384, 2560]
+    facing: 270
+    group: 4
+  - id: monster:c10_plunder
+    room: room:plunder
+    monster: 11024
+    at: [-160, 2900]
+    facing: 270
+    group: 4
+  - id: monster:c11_plunder
+    room: room:plunder
+    monster: 11024
+    at: [320, 3100]
+    facing: 270
+    group: 4
+  - id: monster:c12_plunder
+    room: room:plunder
+    monster: 11025
+    at: [0, 3000]
+    facing: 270
+    group: 4
+  - id: monster:c13_plunder
+    room: room:plunder
+    monster: 11025
+    at: [128, 2700]
+    facing: 270
+    group: 4
+  - id: monster:c14_waiting
+    room: room:waiting
+    monster: 11024
+    at: [-200, 3700]
+    facing: 270
+    group: 5
+  - id: monster:c15_waiting
+    room: room:waiting
+    monster: 11024
+    at: [200, 3900]
+    facing: 270
+    group: 5
+  - id: monster:c16_waiting
+    room: room:waiting
+    monster: 11024
+    at: [0, 3600]
+    facing: 270
+    group: 5
+  - id: monster:x01_cellar
+    room: room:cellar
+    monster: 11027
+    at: [1408, 2560]
+    facing: 90
+    group: 10
+  - id: monster:x02_cellar
+    room: room:cellar
+    monster: 11027
+    at: [1664, 2816]
+    facing: 90
+    group: 10
+  - id: monster:x03_cellar
+    room: room:cellar
+    monster: 11027
+    at: [1216, 3200]
+    facing: 90
+    group: 10
+  - id: monster:x04_cellar
+    room: room:cellar
+    monster: 11027
+    at: [1408, 4096]
+    facing: 90
+    group: 10
+  - id: monster:x05_larder
+    room: room:larder
+    monster: 11027
+    at: [1216, 5248]
+    facing: 90
+    group: 11
+  - id: monster:x06_larder
+    room: room:larder
+    monster: 11027
+    at: [1408, 5440]
+    facing: 90
+    group: 11
+  - id: monster:x07_barracks
+    room: room:barracks
+    monster: 11027
+    at: [1920, 1280]
+    facing: 90
+    group: 12
+  - id: monster:x08_barracks
+    room: room:barracks
+    monster: 11027
+    at: [2304, 1408]
+    facing: 90
+    group: 12
+  - id: monster:x09_barracks
+    room: room:barracks
+    monster: 11027
+    at: [2688, 1280]
+    facing: 90
+    group: 12
+  - id: monster:x10_barracks
+    room: room:barracks
+    monster: 11027
+    at: [2176, 1856]
+    facing: 90
+    group: 12
+  - id: monster:x11_barracks
+    room: room:barracks
+    monster: 11027
+    at: [2560, 1856]
+    facing: 90
+    group: 12
+decorations:
+  - id: deco:barracks_bones
+    room: room:barracks
+    decoration: dec29
+    at: [2880, 1856]
+  - id: deco:barracks_fire
+    room: room:barracks
+    decoration: 7dec02
+    at: [2304, 1152]
+    notes: The army's cooking fire.
+  - id: deco:barracks_straw_1
+    room: room:barracks
+    decoration: 7dec01
+    at: [1664, 1280]
+    notes: Straw bedding.
+  - id: deco:barracks_straw_2
+    room: room:barracks
+    decoration: 7dec01
+    at: [2944, 1344]
+  - id: deco:burrow_sconce_1
+    room: room:burrow
+    decoration: scon100
+    at: [192, 864]
+    wall: 1
+    notes: A stolen lantern on a peg.
+  - id: deco:burrow_sconce_2
+    room: room:burrow
+    decoration: scon100
+    at: [-192, 928]
+    wall: 10
+  - id: deco:cellar_barrel_1
+    room: room:cellar
+    decoration: bigbarel
+    at: [1840, 2392]
+  - id: deco:cellar_barrel_2
+    room: room:cellar
+    decoration: bigbarel
+    at: [1840, 2504]
+  - id: deco:cellar_cask_1
+    room: room:cellar
+    decoration: 7dec21
+    at: [1600, 3712]
+  - id: deco:cellar_cask_2
+    room: room:cellar
+    decoration: 7dec21
+    at: [1600, 3808]
+  - id: deco:cellar_sack_1
+    room: room:cellar
+    decoration: floursac
+    at: [1848, 3488]
+  - id: deco:cellar_sack_2
+    room: room:cellar
+    decoration: floursac
+    at: [1752, 3512]
+  - id: deco:cellar_sconce
+    room: room:cellar
+    decoration: scon100
+    at: [1920, 2944]
+    wall: east
+  - id: deco:court_chandelier
+    room: room:court
+    decoration: chndlir0
+    at: [0, 4800]
+    hangs: true
+    notes: "A chandelier from the town hall, hung from the court's roof."
+  - id: deco:court_goblet
+    room: room:court
+    decoration: 7dec46
+    at: [-208, 5672]
+    floor_height: 144
+    notes: A goblet on the spare chair.
+  - id: deco:court_heap_e_bag
+    room: room:court
+    decoration: bag01
+    at: [680, 4776]
+  - id: deco:court_heap_e_barrel
+    room: room:court
+    decoration: bigbarel
+    at: [560, 4320]
+    notes: A barrel from the inn.
+  - id: deco:court_heap_e_keg
+    room: room:court
+    decoration: smlbarel
+    at: [640, 4608]
+  - id: deco:court_heap_e_sack
+    room: room:court
+    decoration: floursac
+    at: [840, 4656]
+    notes: A sack of the mill's flour.
+  - id: deco:court_heap_w_bag
+    room: room:court
+    decoration: bag01
+    at: [-680, 4776]
+  - id: deco:court_heap_w_barrel
+    room: room:court
+    decoration: bigbarel
+    at: [-560, 4320]
+    notes: A barrel from the inn.
+  - id: deco:court_heap_w_keg
+    room: room:court
+    decoration: smlbarel
+    at: [-640, 4608]
+  - id: deco:court_heap_w_sack
+    room: room:court
+    decoration: floursac
+    at: [-840, 4656]
+    notes: A sack of the mill's flour.
+  - id: deco:court_sconce_e
+    room: room:court
+    decoration: scon100
+    at: [896, 4700]
+    wall: east
+  - id: deco:court_sconce_w
+    room: room:court
+    decoration: scon100
+    at: [-896, 4800]
+    wall: west
+  - id: deco:larder_barrel_1
+    room: room:larder
+    decoration: smlbarel
+    at: [1096, 5560]
+  - id: deco:larder_barrel_2
+    room: room:larder
+    decoration: smlbarel
+    at: [1192, 5576]
+  - id: deco:larder_bowl
+    room: room:larder
+    decoration: 7dec08
+    at: [1560, 5000]
+    floor_height: 64
+    notes: Pip's melons.
+  - id: deco:larder_plate
+    room: room:larder
+    decoration: dec36
+    at: [1560, 5112]
+    floor_height: 64
+    notes: The ham.
+  - id: deco:plunder_bucket_1
+    room: room:plunder
+    decoration: Bucket
+    at: [-584, 2752]
+    notes: "Ingrid's chain rings, by the bucket."
+  - id: deco:plunder_bucket_2
+    room: room:plunder
+    decoration: Bucket
+    at: [-584, 2832]
+  - id: deco:plunder_dirt
+    room: room:plunder
+    decoration: 7dec11
+    at: [560, 2400]
+    notes: Spoil from the digging.
+  - id: deco:plunder_sconce_n
+    room: room:plunder
+    decoration: scon200
+    at: [384, 3328]
+    wall: north
+  - id: deco:plunder_sconce_w
+    room: room:plunder
+    decoration: scon200
+    at: [-640, 2560]
+    wall: west
+  - id: deco:sap_dirt_1
+    room: room:sap
+    decoration: 7dec11
+    at: [2848, 5568]
+  - id: deco:waiting_sconce_e
+    room: room:waiting
+    decoration: scon100
+    at: [384, 3600]
+    wall: east
+exits:
+  - id: exit:d1
+    room: room:door
+    wall: south
+    size: [96, 192]
+    surface: {texture: 7solid01, size: [128, 256], scale: 0.75}
+    to: exit:d1_burrow
+    notes: "The tiny door out to D1, a gremlin-sized arched door."
+notes: "DD-04's contents, written by output/studio_cal/dd04/tools/gen.py: 5 doors (one secret), 3 chests, 28 placed gremlins (17 of the court, peaceful until court_hostile; 11 of the army, hostile until court_peace), no spawn points."

@@ -1,0 +1,352 @@
+format: 0
+level: L1
+pitch: "Sandcaster's sewer: a street shaft under Barticus' sign, the gym's members' room behind a door at its foot (pay once, then a brew of each per member and the gym's one book); east, tan sandstone drains with slow water round a great pillared cistern under stepped-fret vaults, sewer stalkers breeding in a collapsed vault, the cobras of Venom Pond in the warm drain past a corridor of alcoves. South of the cistern the broken drain's floor has fallen into older works: a rubble slope down to the long tunnel, where mantis ants have dug galleries and a queens' nest across it, and the tunnel runs on a long way west under the desert to a grate with daylight through it, bolted on the other side."
+purpose: "Optional (D-27): Barticus' members' room (dd18.pay_box, dd18.members_room, the two brews, The Art of Bodybuilding) and the long tunnel to D5, bolted on the desert side until Act V (dd18.tunnel_grate). Class M, party 28-30, monsters 25-38, treasure 3."
+mood: "Warm, dry and close: tan rubble and carved sandstone, stepped-fret vaults, slow water in channels and a still cistern; below, grey rock chewed by ants, and a long straight tunnel with sand drifting along it."
+datum: arrival
+spaces:
+  - id: room:alcoves
+    name: The alcoves
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "A corridor of niches ('Alcove'); one holds a chest, the rest 'Nothing here.'"
+    population:
+      - {actor: 11401, groups: 2, levels: [25, 25], placed: true, strength: light}
+  - id: room:breeding_vault
+    name: Breeding vault
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The warren's back vault, nests of rags."
+    population:
+      - {actor: 11401, groups: 2, levels: [25, 25], placed: true, strength: pack}
+      - {actor: 11402, groups: 1, levels: [35, 35], placed: true, strength: heavy}
+  - id: room:cistern
+    name: The great cistern
+    kind: room
+    size: L
+    floor: 0
+    purpose: "A pillared cistern under the stepped-fret vaults of the city's old waterworks; a chest by its overflow."
+    population:
+      - {actor: 11401, groups: 4, levels: [25, 25], placed: true, strength: pack}
+      - {actor: 11490, groups: 2, levels: [30, 30], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:cobra_drain
+    name: Cobra drain
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The drain from Venom Pond's side; snakes in the warm water."
+    population:
+      - {actor: 11490, groups: 6, levels: [30, 30], placed: true, strength: pack}
+      - {actor: 11491, groups: 2, levels: [38, 38], placed: true, strength: heavy}
+  - id: room:collapse
+    name: Broken drain
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Where the drain's floor fell into older works: a rubble slope down to the tunnel."
+    population:
+      - {actor: 11490, groups: 2, levels: [30, 30], placed: true, strength: pack}
+      - {actor: 11491, groups: 2, levels: [38, 38], placed: true, strength: heavy}
+      - {actor: 11402, groups: 2, levels: [35, 35], placed: true, strength: heavy}
+  - id: room:desert_gate
+    name: Desert gate
+    kind: room
+    size: S
+    floor: -640
+    purpose: "An iron grate with daylight and sand blowing through, bolted on the desert side (D5, phase 5); a sand-buried prospector's pack at its foot."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 3, notes: the prospector's pack}
+  - id: room:drowned
+    name: Drowned vault
+    kind: room
+    size: M
+    floor: -640
+    purpose: "A side vault with standing water and an old strongbox; off the nest."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:egg_cells
+    name: Egg cells
+    kind: room
+    size: S
+    floor: -640
+    purpose: "Egg cells chewed into the rock off the nest; a queen guards them."
+    population:
+      - {actor: 11371, groups: 2, levels: [30, 30], placed: true, strength: pack}
+      - {actor: 11372, groups: 1, levels: [38, 38], placed: true, strength: heavy}
+  - id: room:gym
+    name: Barticus' members' room
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The gym's members' room (D-27): pay once (5,000 gold, dd18.pay_box), then the Vitamin Brew (+2 Endurance) and the Protein Brew (+2 Might) once per character; The Art of Bodybuilding on the bench."
+    empty: true
+  - id: room:main_drain
+    name: Main drain
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Tan sandstone walls, a channel of slow water; 'Sewer Drain' grates from the street."
+    population:
+      - {actor: 11401, groups: 4, levels: [25, 25], placed: true, strength: pack}
+  - id: room:mantis_gallery
+    name: Mantis gallery
+    kind: room
+    size: M
+    floor: -640
+    purpose: "Ant diggings cutting across the tunnel; their walls are chewed rock."
+    population:
+      - {actor: 11371, groups: 6, levels: [30, 30], placed: true, strength: pack}
+  - id: room:mantis_nest
+    name: Mantis nest
+    kind: room
+    size: L
+    floor: -640
+    purpose: "The queens' chamber; what the ants dragged in (a chest)."
+    population:
+      - {actor: 11371, groups: 2, levels: [30, 30], placed: true, strength: pack}
+      - {actor: 11372, groups: 3, levels: [38, 38], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:niche_1
+    name: Alcove (west)
+    kind: room
+    size: S
+    floor: 0
+    purpose: "An empty alcove: 'Nothing here.'"
+    empty: true
+  - id: room:niche_2
+    name: Alcove (middle)
+    kind: room
+    size: S
+    floor: 0
+    purpose: The alcove with the chest.
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:niche_3
+    name: Alcove (east)
+    kind: room
+    size: S
+    floor: 0
+    purpose: "An empty alcove: 'Nothing here.'"
+    empty: true
+  - id: room:rubble_slope
+    name: Rubble slope
+    kind: corridor
+    size: S
+    floor: [0, -640]
+    purpose: "The fallen floor, from the broken drain down to the tunnel head."
+    empty: true
+  - id: room:sand_drift
+    name: The long tunnel (the sand drift)
+    kind: corridor
+    size: M
+    floor: -640
+    purpose: Sand drifting in from the desert end.
+    empty: true
+  - id: room:shaft
+    name: Street shaft
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The ladder from Sandcaster's street ('Descend to the sewer?' on D3): the arrival, under Barticus' sign; the members' room's door and its pay box."
+    empty: true
+  - id: room:tunnel_east
+    name: The long tunnel (east)
+    kind: corridor
+    size: L
+    floor: -640
+    purpose: "Long, straight and dry, lamps every so often: 'There is a passage in the sewer that leads a long ways under the desert.'"
+    population:
+      - {actor: 11371, groups: 2, levels: [30, 30], placed: true, strength: pack}
+  - id: room:tunnel_head
+    name: Tunnel head
+    kind: room
+    size: M
+    floor: -640
+    purpose: "The foot of the slope: the long tunnel's start, a milestone 'To the desert'."
+    empty: true
+  - id: room:tunnel_west
+    name: The long tunnel (west)
+    kind: corridor
+    size: M
+    floor: -640
+    purpose: "The tunnel's last length, the air warmer."
+    empty: true
+  - id: room:warren
+    name: Stalker warren
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Where the stalkers breed, in a collapsed side vault."
+    population:
+      - {actor: 11401, groups: 4, levels: [25, 25], placed: true, strength: pack}
+      - {actor: 11402, groups: 1, levels: [35, 35], placed: true, strength: heavy}
+links:
+  - id: link:alcove_1
+    from: room:alcoves
+    to: room:niche_1
+    kind: open
+  - id: link:alcove_2
+    from: room:alcoves
+    to: room:niche_2
+    kind: open
+  - id: link:alcove_3
+    from: room:alcoves
+    to: room:niche_3
+    kind: open
+  - id: link:alcoves_cobra
+    from: room:alcoves
+    to: room:cobra_drain
+    kind: open
+  - id: link:cistern_collapse
+    from: room:cistern
+    to: room:collapse
+    kind: open
+  - id: link:cobra_cistern
+    from: room:cobra_drain
+    to: room:cistern
+    kind: door
+  - id: link:collapse_slope
+    from: room:collapse
+    to: room:rubble_slope
+    kind: open
+  - id: link:drain_alcoves
+    from: room:main_drain
+    to: room:alcoves
+    kind: door
+  - id: link:drain_warren
+    from: room:main_drain
+    to: room:warren
+    kind: open
+  - id: link:drift_west
+    from: room:sand_drift
+    to: room:tunnel_west
+    kind: open
+  - id: link:drowned_tunnel
+    from: room:drowned
+    to: room:tunnel_east
+    kind: open
+  - id: link:gallery_nest
+    from: room:mantis_gallery
+    to: room:mantis_nest
+    kind: open
+  - id: link:gallery_tunnel
+    from: room:mantis_gallery
+    to: room:tunnel_east
+    kind: open
+  - id: link:head_gallery
+    from: room:tunnel_head
+    to: room:mantis_gallery
+    kind: open
+  - id: link:nest_drowned
+    from: room:mantis_nest
+    to: room:drowned
+    kind: door
+  - id: link:nest_eggs
+    from: room:mantis_nest
+    to: room:egg_cells
+    kind: open
+  - id: link:shaft_drain
+    from: room:shaft
+    to: room:main_drain
+    kind: door
+  - id: link:shaft_gym
+    from: room:shaft
+    to: room:gym
+    kind: door
+  - id: link:slope_head
+    from: room:rubble_slope
+    to: room:tunnel_head
+    kind: open
+  - id: link:tunnel_drift
+    from: room:tunnel_east
+    to: room:sand_drift
+    kind: open
+  - id: link:tunnel_gate
+    from: room:tunnel_west
+    to: room:desert_gate
+    kind: door
+  - id: link:warren_cistern
+    from: room:warren
+    to: room:cistern
+    kind: door
+  - id: link:warren_vault
+    from: room:warren
+    to: room:breeding_vault
+    kind: open
+loops:
+  - id: loop:drains
+    spaces: [room:main_drain, room:warren, room:cistern, room:cobra_drain, room:alcoves]
+    notes: Round the cistern.
+  - id: loop:nest
+    spaces: [room:mantis_gallery, room:mantis_nest, room:drowned, room:tunnel_east]
+    notes: Round the nest.
+entrances:
+  - id: entrance:d3_shaft
+    space: room:shaft
+    kind: both
+    neighbour: exit:d3_shaft
+    facing: s
+    notes: "The arrival at the shaft ladder's foot, facing the members' room's door. The game's leave window is the way up."
+  - id: entrance:d5_grate
+    space: room:desert_gate
+    kind: both
+    neighbour: exit:d5_grate
+    notes: "SEALED until phase 5: the grate is bolted on the desert side (dd18.tunnel_grate)."
+critical_path: [room:shaft, room:main_drain, room:warren, room:cistern, room:collapse, room:rubble_slope, room:tunnel_head, room:mantis_gallery, room:tunnel_east, room:sand_drift, room:tunnel_west, room:desert_gate]
+return_path: [room:desert_gate, room:tunnel_west, room:sand_drift, room:tunnel_east, room:drowned, room:mantis_nest, room:mantis_gallery, room:tunnel_head, room:rubble_slope, room:collapse, room:cistern, room:cobra_drain, room:alcoves, room:main_drain, room:shaft]
+goals:
+  - id: goal:gym
+    space: room:gym
+    kind: use
+    what: "Pay Barticus' price once (dd18.pay_box, gym_paid 116120): the two brews once per character and the book."
+keys:
+  - id: key:gym_paid
+    grants: {qbit: gym_paid}
+    found_in: room:shaft
+    how: npc
+    notes: "The pay box by the members' room's door: 5,000 gold once per party."
+points_of_interest:
+  - id: poi:alcoves
+    spaces: [room:niche_1, room:niche_3]
+    count: 2
+    kind: sign
+    behaviour: "'Alcove' (dark/aaze0032:11): 'Nothing here.'"
+  - id: poi:book
+    space: room:gym
+    kind: sign
+    behaviour: "The Art of Bodybuilding on the bench, members only (dd18.bodybuilding)."
+  - id: poi:brews
+    space: room:gym
+    count: 2
+    kind: fountain
+    behaviour: "The Vitamin Brew (+2 Endurance) and the Protein Brew (+2 Might), members only, once per character (player bits 11318, 11319)."
+  - id: poi:grate
+    space: room:desert_gate
+    kind: sign
+    behaviour: "The desert grate: \"Sand blows through the bars. The bolt is on the other side.\" (dd18.tunnel_grate; D5's side opens it in phase 5)."
+  - id: poi:milestone
+    space: room:tunnel_head
+    kind: sign
+    behaviour: "A milestone: 'To the desert.'"
+  - id: poi:paybox
+    space: room:shaft
+    kind: sign
+    behaviour: "\"It costs 5,000 gold to use the gym. Pay?\" Yes: A3's dd18.pay_box (\"Enjoy the facilities.\", or the charity-gym refusal when short); No: \"Get lost!\" (dark/aaze0032:3-5, 14)."
+mechanisms:
+  - {kind: "pay box, once per party (qbit)", count: 1}
+  - {kind: once-per-character brew, count: 2}
+  - {kind: grate bolted on the far side (sealed exit), count: 1}
+totals:
+  chests: 5
+  doors: 7
+  rooms: 22
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act3_graphs/dd18.graph.yml; D-27 (mockups/act3_a8_decisions_b.md) wins where they differ: optional, the members' room's pay box (5,000) and brews, the desert grate bolted on the D5 side, a prospector's pack at the grate's foot. Floors at 0 (under Sandcaster) and -640 (the long tunnel). All 50 monsters placed (exact counts). Added to the graph for the class band (20+ sectors): the warren's breeding vault, three alcove niches, the egg cells, the rubble slope and the long tunnel in three lengths."

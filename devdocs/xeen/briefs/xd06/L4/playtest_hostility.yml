@@ -1,8 +1,12 @@
-# Hostility check of the Temple of Yak (XD-06) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
-# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+# Hostility check of the Temple of Yak (XD-06): its foes hostile to the party, its kinds not fighting each other.
+# First written by output/studio_cal/hostility/gen_hostility_tests.py (devdocs/xeen/ACT2_BUILD.md, "Hostility pass") for
+# the MM7 stand-ins; edited by hand for the Xeen rows at the move into the world (2026-11-20, lane A8): slot 1 Cultists
+# (Cleric of Yak 11210, Yak Priest 11211, Yak Elder 11212), slot 2 Skeletons (Spirit Bones 11241, Skeleton Lord 11242),
+# slot 3 Rotting dead (Grave Ghoul 11252), placed Yak Elders 11212 and the Yak Master 11213. Run in the Xeen world
+# with --map xeen_xd06.blv (playtest.yml's header).
 id: xeen.xd06.l4.hostility
 title: 'the Temple of Yak (XD-06): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -39,77 +43,93 @@ steps:
 - setup_shortcut:
     kind: immortal
     value: true
-- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- note: The map's monsters are the Xeen world's rows; relations.yml (A2) makes the Cultists (11210-11213), the Skeletons
+    (11240-11242) and the Rotting dead (11250-11252) the party's foes; the map has no relations of its own.
 - advance_runtime:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 214
+      monster_id: 11210
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 215
+      monster_id: 11211
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 216
+      monster_id: 11212
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 289
+      monster_id: 11213
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 290
+      monster_id: 11240
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 291
+      monster_id: 11241
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 397
+      monster_id: 11242
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 398
+      monster_id: 11250
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 399
+      monster_id: 11251
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 307
+      monster_id: 11252
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 308
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 215
+      monster_id: 11210
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 289
+      monster_id: 11211
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 307
+      monster_id: 11212
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11213
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11241
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11242
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11252
       hostile: true
       min: 1
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
@@ -117,17 +137,17 @@ steps:
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 215
+    monster_id: 11211
     x: -300
     y: 1050
     z: 0
 - spawn_actor:
-    monster_id: 289
+    monster_id: 11242
     x: -204
     y: 1050
     z: 0
 - spawn_actor:
-    monster_id: 399
+    monster_id: 11252
     x: -108
     y: 1050
     z: 0
@@ -147,16 +167,16 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 215
+      monster_id: 11211
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 289
+      monster_id: 11242
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 399
+      monster_id: 11252
       hurt: true
       max: 0

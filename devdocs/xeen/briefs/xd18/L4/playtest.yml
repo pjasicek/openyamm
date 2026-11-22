@@ -1,0 +1,142 @@
+# Playtest of the Dragon Cave (XD-18, L4; lane A7, agent:xeen-a7-xd18; written by output/studio_cal/xd18/tools/
+# gen_tests.py from ids.lock.yml): the critical path (D-57 Q2). A level-62 party (immortal) with 2,000 gold and 20
+# gems arrives in the mouth (entrance:x7_mouth): the arrival line; the way out's window (cancelled); the urn before the
+# tax (A3's q-c25.urn); the waiting room's lectern (volume 1); Scaldrith's door (house 4852): 'The tax' (2,000 gold and
+# 20 gems, tax_paid 112500); the urn after it ("The urn is empty and powerless.", aaze0050:1); the inner door opens in
+# the same visit (118100); the scorched passage, the bone hall, the road onto the ledge, the fire crossing, the stair
+# head, the walked stair down to the stair foot, the great roost, the ember gallery, the library's east leaves; shelves
+# 2-4, the ledger refused ('Read the Lore first'), shelf 5 by the King's door, the ledger read (taxation 112506); the
+# King's door, the Dragon King killed: the grate rises in the same visit (118101) and the hoard is entered; every window
+# closed, a save and load: the inner door and the grate still open.
+id: xeen.xd18.l4.walk
+title: "Dragon Cave (XD-18 L4), the tax paid, the inner door, Dragon Lore and the Dragon King"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd18.blv
+      party:
+        gold: 2000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - assert: {map: xeen_xd18.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 384, y: -3072, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); local s = tostring(status()); log('arrive: ' .. s); if not string.find(s, 'Sulphur and old smoke', 1, true) then error('arrival line: ' .. s) end; close()"}
+  - grant_item: {item_id: 177, count: 20, member_index: 0}
+  - play_lua: {source: "if held() ~= 0 then stow() end; log('party: ' .. party())"}
+  - walk_to: {x: 140, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_xd18.blv}
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "looks hungry"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 1920, y: -2600, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 10)"}
+  - walk_to: {x: 1920, y: -1900, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Worms]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "if not qbit(112501) then error('volume1 112501 not set') end"}
+  - walk_to: {x: 1920, y: -2700, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {active: true, text_contains: "Dragon tax!"}}
+  - play_lua: {source: "close(); wait(0.3); close(); wait(0.3); close(); if not qbit(112500) then error('tax_paid 112500 not set') end; if gold() ~= 0 then error('gold after the tax: ' .. gold()) end; log('after the tax: ' .. party())"}
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "empty and powerless"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 2560, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door is not open in the same visit: ' .. door_state(2)) end; if not qbit(118100) then error('inner_door_open 118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  - walk_to: {x: 3300, y: -3072, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4400, y: -3072, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 5568, y: -2500, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5568, y: -2000, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 7900, y: -1990, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 8560, y: -1984, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 9000, y: -1700, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 9950, y: -1984, z: 0, radius: 48, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 10048, y: -1800, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 10048, y: 900, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 8576, y: 900, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 8576, y: 0, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 4500}
+  - walk_to: {x: 8000, y: 0, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 4000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5400, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 4000, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 3300, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 6)"}
+  - walk_to: {x: 2600, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 2500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "local s = tostring(status()); log('library: ' .. s)"}
+  - walk_to: {x: 1408, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Lizards]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 1920, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Serpents]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 2432, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(29); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Drakes]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 1300, y: 0, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "Read the Lore first"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "if qbit(112506) then error('taxation set before volume 5') end"}
+  - walk_to: {x: 700, y: -256, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 192, y: -150, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[There is only one]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 1300, y: 0, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[by Scaldrith]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "for _, q in ipairs({112501, 112502, 112503, 112504, 112505, 112506}) do if not qbit(q) then error('lore qbit ' .. q .. ' not set') end end"}
+  - walk_to: {x: 0, y: -256, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(7, 4)"}
+  - walk_to: {x: -800, y: -256, z: -1024, radius: 64, z_tolerance: 40, timeout_seconds: 40, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 16, name: Dragon King, dead: false, report_state: true}}
+  - play_lua: {source: "if door_state(1) ~= 'closed' then error('the grate before the King: ' .. door_state(1)) end"}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "wait(4); local s = tostring(status()); log('king: ' .. s); if not qbit(118101) then error('king_slain 118101 not set') end; for _ = 1, 20 do if door_state(1) == 'open' then break end; wait(0.5) end; if door_state(1) ~= 'open' then error('the grate is not up in the same visit: ' .. door_state(1)) end"}
+  - walk_to: {x: -2000, y: -128, z: -1024, radius: 96, z_tolerance: 160, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -3000, y: -128, z: -992, radius: 64, z_tolerance: 160, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -3700, y: -128, z: -1024, radius: 64, z_tolerance: 140, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(0.5); close(); close()"}
+  - walk_to: {x: -2000, y: -128, z: -1024, radius: 96, z_tolerance: 160, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "close(); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close(); if door_state(2) ~= 'open' then error('the inner door after reload: ' .. door_state(2)) end; if door_state(1) ~= 'open' then error('the grate after reload: ' .. door_state(1)) end"}

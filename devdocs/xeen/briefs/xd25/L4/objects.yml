@@ -1,0 +1,506 @@
+format: 0
+start:
+  room: room:stair
+  at: [-2208, 1760]
+  facing: 0
+  notes: "At the top of the cellar stair, just inside the door from Asp's square (X4's door:xd25), facing down (east)."
+doors:
+  - id: door:cache
+    opening: open:cistern_cache
+    kind: slide_down
+    thickness: 32
+    speed: 80
+    surface: {texture: gkp2-bs1, size: [128, 256]}
+    secret: true
+    back_surface: {texture: gkp2-bs1, size: [128, 256]}
+    tile: true
+    notes: "The loose slab: the cistern's own rubble stone, sinking into the floor (secret)."
+  - id: door:crystal
+    opening: open:machine_crystal
+    kind: slide_up
+    fold: true
+    thickness: 24
+    speed: 64
+    surface: {texture: xwiron, size: [128, 128]}
+    tile: true
+    notes: "The crystal housing's iron door: opens when the machine dies."
+  - id: door:field
+    opening: open:field_machine
+    kind: slide_down
+    fold: true
+    speed: 96
+    surface: {texture: xufield, size: [256, 256], translucent: 1}
+    tile: true
+    notes: "The field of light: a see-through leaf of red and blue light (xufield, cut-out) that sinks into the floor once the pedestals are set (XD-04's ward)."
+  - id: door:grate
+    opening: open:drain_pens
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 96
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The drain grate (XD-02's grille, see-through): bolted on the drain side."
+  - id: door:keeper
+    opening: open:coil_keeper
+    kind: slide_left
+    leaves: 2
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: trim9_32a, size: [64, 32]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+  - id: door:pens
+    opening: open:cistern_pens
+    kind: slide_left
+    leaves: 2
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: trim9_32a, size: [64, 32]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+  - id: door:stair
+    opening: open:stair_cistern
+    kind: slide_left
+    leaves: 2
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: trim9_32a, size: [64, 32]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The plank door at the foot of the stair.
+movers:
+  - id: mover:cage_gates
+    room: room:pens
+    at: [-716, 736]
+    size: [8, 272]
+    bottom: 0
+    height: 256
+    travel: [0, 0, 232]
+    speed: 64
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128]}
+    parts:
+      - {at: [-716, 368], size: [8, 272], bottom: 0, height: 256, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: Gate of cage 2}
+      - {at: [-716, 0], size: [8, 272], bottom: 0, height: 256, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: Gate of cage 3}
+    notes: "The three cages' barred gates, one mover: wired to the machine below, they lift together when it dies."
+plates:
+  - id: plate:pens_entry
+    room: room:pens
+    at: [400, 700]
+    size: [384, 256]
+    notes: "Inside the door from the cistern (the pens' first sight; drawn as the floor)."
+sounds:
+  - {id: sound:drip, room: room:drain, at: [-384, -1500], sound: drip02, radius: 1200, volume: 0.5, wait: [3, 9]}
+  - {id: sound:hiss_brood, room: room:brood, at: [1664, 300], sound: snake rattle03, radius: 1800, volume: 0.6, wait: [5, 12]}
+  - {id: sound:hiss_cistern, room: room:cistern, at: [-320, 2240], sound: snake rattle01, radius: 1600, volume: 0.6, wait: [6, 14], notes: Hissing in the dark.}
+  - {id: sound:hum, room: room:machine_hall, at: [384, -2560], sound: humming, radius: 4000, inner_radius: 900, volume: 0.8, notes: "The transformer's hum, heard through the machine level."}
+lights:
+  - id: light:brood_n
+    room: room:brood
+    at: [1664, 1000]
+    height: 300
+    radius: 1000
+    color: [255, 170, 90]
+  - id: light:brood_s
+    room: room:brood
+    at: [1664, -300]
+    height: 300
+    radius: 1000
+    color: [255, 170, 90]
+  - id: light:brood_stair
+    room: room:brood_stair
+    at: [2304, -1500]
+    height: 0
+    radius: 600
+    color: [180, 160, 255]
+    notes: A cold glow coming up from below.
+  - id: light:cache
+    room: room:hidden_cache
+    at: [-1664, 1216]
+    height: 160
+    radius: 350
+    color: [200, 150, 100]
+  - id: light:cistern_e
+    room: room:cistern
+    at: [450, 1900]
+    height: 260
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:cistern_w
+    room: room:cistern
+    at: [-1100, 1700]
+    height: 260
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:coil_n
+    room: room:coil
+    at: [2304, -2600]
+    height: 240
+    radius: 800
+    color: [120, 170, 255]
+    pulse: {intensity: [0.8, 1], frequency: 0.7}
+  - id: light:coil_s
+    room: room:coil
+    at: [1300, -3584]
+    height: 240
+    radius: 800
+    color: [120, 170, 255]
+    pulse: {intensity: [0.8, 1], frequency: 0.7}
+  - id: light:crystal
+    room: room:crystal_niche
+    at: [384, -1504]
+    height: 200
+    radius: 500
+    color: [120, 170, 255]
+  - id: light:drain
+    room: room:drain
+    at: [-384, -1100]
+    height: 0
+    radius: 600
+    color: [160, 170, 200]
+  - id: light:field
+    room: room:field_gate
+    at: [-128, -3500]
+    height: 200
+    radius: 700
+    color: [255, 120, 150]
+    pulse: {intensity: [0.7, 1], frequency: 1.5}
+    notes: The field's red-blue glow.
+  - id: light:keeper
+    room: room:keeper
+    at: [2976, -2944]
+    height: 260
+    radius: 700
+    color: [255, 170, 90]
+  - id: light:machine
+    room: room:machine_hall
+    at: [384, -2560]
+    height: 520
+    radius: 1800
+    color: [120, 170, 255]
+    pulse: {intensity: [0.7, 1], frequency: 1.2}
+    notes: "The crown's crystals: off when the machine dies."
+  - id: light:machine_w
+    room: room:machine_hall
+    at: [-700, -2600]
+    height: 300
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:moulting
+    room: room:moulting
+    at: [1472, 2200]
+    height: 260
+    radius: 900
+    color: [255, 170, 90]
+  - id: light:pens
+    room: room:pens
+    at: [0, 320]
+    height: 260
+    radius: 1000
+    color: [255, 170, 90]
+  - id: light:stair_day
+    room: room:stair
+    at: [-2240, 1760]
+    height: 220
+    radius: 600
+    color: [210, 200, 170]
+    notes: Daylight round the cellar door.
+  - id: light:wreck
+    room: room:machine_hall
+    at: [384, -2560]
+    height: 200
+    radius: 900
+    color: [255, 110, 60]
+    pulse: {intensity: [0.3, 0.8], frequency: 2.5}
+    on: false
+    notes: "The wreck's dying sparks, after the machine is destroyed."
+chests:
+  - id: chest:cache
+    room: room:hidden_cache
+    at: [-1800, 1300]
+    facing: e
+    treasure_level: 2
+    random_items: 1
+    gold: 400
+    notes: A townsman's hidden savings.
+  - id: chest:keeper
+    room: room:keeper
+    at: [3240, -3200]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 700
+    trap_level: 3
+    notes: "The keeper's hoard (the map's hoard, a level up)."
+  - id: chest:moulting
+    room: room:moulting
+    at: [2040, 2190]
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    trap_level: 2
+    notes: "A chest of the townsfolk's belongings, taken from them in the pens."
+spawns:
+  - id: spawn:brood_n
+    room: room:brood
+    at: [1664, 900]
+    slot: 1
+    tier: b
+  - id: spawn:brood_s
+    room: room:brood
+    at: [1664, -200]
+    slot: 1
+    tier: b
+  - id: spawn:brood_w
+    room: room:brood
+    at: [1000, 400]
+    slot: 1
+    tier: a
+    notes: "Fresh from the machine, on the straw."
+  - id: spawn:cistern_basin
+    room: room:cistern
+    at: [-320, 2300]
+    floor_height: -192
+    slot: 1
+    tier: a
+    notes: Hissing in the dry basin.
+  - id: spawn:cistern_s
+    room: room:cistern
+    at: [-200, 1400]
+    slot: 1
+    tier: a
+  - id: spawn:coil_e
+    room: room:coil
+    at: [2304, -2900]
+    slot: 1
+    tier: b
+  - id: spawn:coil_s
+    room: room:coil
+    at: [1300, -3584]
+    slot: 1
+    tier: a
+  - id: spawn:machine
+    room: room:machine_hall
+    at: [-500, -2300]
+    slot: 1
+    tier: b
+    notes: The machine's guard.
+  - id: spawn:moulting
+    room: room:moulting
+    at: [1500, 1800]
+    slot: 1
+    tier: a
+  - id: spawn:pens
+    room: room:pens
+    at: [200, 300]
+    slot: 1
+    tier: a
+    notes: The cages' guards.
+monsters:
+  - id: monster:keeper
+    room: room:keeper
+    monster: 11502
+    at: [2900, -2800]
+    facing: 180
+    hostile: true
+    group: 3
+    notes: "The machine's keeper: a Snake Lord (26; D-4: no Guardian Asps)."
+  - id: monster:keeper_guard
+    room: room:keeper
+    monster: 11502
+    at: [2900, -3100]
+    facing: 180
+    hostile: true
+    group: 3
+    notes: "His guard, a Snake Lord (26)."
+  - id: monster:machine_lord
+    room: room:machine_hall
+    monster: 11502
+    at: [-300, -2900]
+    facing: 90
+    hostile: true
+    group: 2
+    notes: A Snake Lord (26) tending the machine.
+  - id: monster:townsfolk_1
+    room: room:pens
+    monster: 358
+    at: [-880, 736]
+    facing: 0
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "A half-turned townsman in cage 1 (an engine peasant, peaceful); hidden on the next entry once freed."
+  - id: monster:townsfolk_2
+    room: room:pens
+    monster: 352
+    at: [-880, 368]
+    facing: 0
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "A half-turned townsman in cage 2 (an engine peasant, peaceful); hidden on the next entry once freed."
+  - id: monster:townsfolk_3
+    room: room:pens
+    monster: 355
+    at: [-880, 0]
+    facing: 0
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "A half-turned townsman in cage 3 (an engine peasant, peaceful); hidden on the next entry once freed."
+decorations:
+  - id: deco:basin_bones
+    room: room:cistern
+    decoration: dec29
+    at: [-700, 2350]
+    floor_height: -192
+  - id: deco:basin_trash
+    room: room:cistern
+    decoration: trasheap
+    at: [100, 2380]
+    floor_height: -192
+  - id: deco:brood_bones
+    room: room:brood
+    decoration: dec29
+    at: [2420, 300]
+  - id: deco:brood_sack_1
+    room: room:brood
+    decoration: bag01
+    at: [2450, 1050]
+  - id: deco:brood_sack_2
+    room: room:brood
+    decoration: bag01
+    at: [2310, 1060]
+  - id: deco:brood_torch_e
+    room: room:brood
+    decoration: torch01
+    at: [2560, 700]
+    wall: east
+    height: 160
+  - id: deco:brood_torch_w
+    room: room:brood
+    decoration: torch01
+    at: [768, -300]
+    wall: west
+    height: 160
+  - id: deco:brood_trash
+    room: room:brood
+    decoration: trasheap
+    at: [900, -400]
+  - id: deco:cache_sack
+    room: room:hidden_cache
+    decoration: bag01
+    at: [-1820, 1130]
+  - id: deco:cistern_sack_1
+    room: room:cistern
+    decoration: bag01
+    at: [540, 2460]
+  - id: deco:cistern_sack_2
+    room: room:cistern
+    decoration: bag01
+    at: [400, 2470]
+  - id: deco:cistern_torch_e
+    room: room:cistern
+    decoration: torch01
+    at: [640, 2100]
+    wall: east
+    height: 160
+  - id: deco:cistern_torch_w
+    room: room:cistern
+    decoration: torch01
+    at: [-1280, 1900]
+    wall: west
+    height: 160
+  - id: deco:coil_torch
+    room: room:coil
+    decoration: torch01
+    at: [2464, -3200]
+    wall: east
+    height: 160
+  - id: deco:crystals
+    room: room:crystal_niche
+    decoration: crclstr
+    at: [384, -1504]
+    floor_height: -544
+    notes: Falagar's crystals in their housing.
+  - id: deco:drain_bones
+    room: room:drain
+    decoration: dec29
+    at: [-440, -1650]
+  - id: deco:keeper_bones
+    room: room:keeper
+    decoration: dec29
+    at: [3250, -3020]
+  - id: deco:keeper_torch
+    room: room:keeper
+    decoration: torch01
+    at: [2700, -2560]
+    wall: north
+    height: 160
+  - id: deco:machine_corpse
+    room: room:machine_hall
+    decoration: Corpse03
+    at: [-600, -3100]
+    notes: A townsman who did not finish turning.
+  - id: deco:machine_torch_w
+    room: room:machine_hall
+    decoration: torch01
+    at: [-1024, -2600]
+    wall: west
+    height: 160
+  - id: deco:moulting_torch
+    room: room:moulting
+    decoration: torch01
+    at: [1472, 2304]
+    wall: north
+    height: 160
+  - id: deco:moulting_trash
+    room: room:moulting
+    decoration: trasheap
+    at: [2060, 1400]
+  - id: deco:pens_bucket
+    room: room:pens
+    decoration: Bucket
+    at: [530, -160]
+  - id: deco:pens_torch
+    room: room:pens
+    decoration: torch01
+    at: [640, -100]
+    wall: east
+    height: 160
+  - id: deco:stair_bones
+    room: room:stair
+    decoration: dec29
+    at: [-1900, 1600]
+  - id: deco:stair_torch
+    room: room:stair
+    decoration: torch01
+    at: [-1700, 1984]
+    wall: north
+    height: 160
+exits:
+  - id: exit:asp_door
+    room: room:stair
+    wall: west
+    size: [192, 256]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:asp_square
+    notes: "The cellar door up to Asp's square on X4 (door:xd25), daylight round it."
+relations:
+  - {of: [11500, 11501, 11502], toward: 358, relation: friendly, both_ways: true}
+  - {of: [11500, 11501, 11502], toward: 352, relation: friendly, both_ways: true}
+  - {of: [11500, 11501, 11502], toward: 355, relation: friendly, both_ways: true}

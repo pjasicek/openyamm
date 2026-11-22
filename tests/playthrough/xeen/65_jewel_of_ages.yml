@@ -1,0 +1,258 @@
+# Xeen playthrough, segment 65: the Jewel of Ages (D1, D2, D3, DD-07), Q-D18 for the fifth and sixth Energy Disks.
+# From the Temple of Mok east off D1's edge through Sprite Forest (D2) to Sandcaster (D3). The Fountain Keeper's Hut:
+# Thaddeus (Jewel of Ages: the Southern Tower's ledger, read in segment 55, names the Eastern Tower; autonote 4580).
+# The Great Eastern Tower's door (D3 event 104) opens with the Southern Tower's Ali Baba key. DD-07 walked: up the
+# first stair; L2's cabinet of curiosities (the Golden Griffin, Q-D20's); up the second stair; the door of light and
+# its two pylons; the vault's Jewel of Ages and the alcoves' two Energy Disks; up the third stair to the study:
+# Ellinger's letter; the laboratory and the floating disc down the well; out by the west door. Thaddeus (done, 8,000
+# experience each, the jewel kept); Nasir in Sandcaster's Guild of Light reads the letter: the Wizard becomes an
+# Archmage. Six Energy Disks for Ellinger's last five (segment 67).
+# Routes: segment 61 (the D1-D2-D3 edges), tests/scenarios/xeen/side_quests/q-d18_jewel_of_ages.yml (Thaddeus, the
+# tower, the DD-07 walk from dd07/L4/playtest.yml and playtest_exit.yml, Nasir).
+# Quest logic: source/quests/q-d18.yml (q-d19.yml for the key and the ledger, q-d20.yml for the griffin).
+#   python3 tests/playthrough/xeen/run.py 65
+id: xeen.playthrough.65_jewel_of_ages
+title: "Xeen playthrough 65: Thaddeus's Jewel of Ages from the Great Eastern Tower; Nasir's Archmage"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/63_heretics_of_mok.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - assert: {qbit_set: [113127, 113381]}
+  - assert: {qbit_clear: [113360, 113361, 113362, 113363, 113364, 113365, 111522]}
+  - play_lua:
+      source: |
+        log('65 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold() .. '; Energy Disks ' .. item_count(12334))
+  # East off D1's edge to Sprite Forest (D2), east off D2's edge to Sandcaster (D3).
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: 29696, y: 10240, z: 1408, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 10240, z: 1376, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Fountain Keeper's Hut (house 4648, Thaddeus 5246 talks at once): Jewel of Ages names the Eastern Tower.
+  - set_pose: {map: xeen_d3.odm, x: 8468, y: -5504, z: 960, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 5246}
+  - select_topic: {match_label: "Jewel of Ages"}
+  - assert:
+      dialog: {text_contains: "Sold to the mages of the Eastern Tower, east of here by the rim."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113360]}
+  - assert: {autonote: {id: 4580}}
+  # The Great Eastern Tower on its knoll (D3 event 104, q-d18.tower_door): the key opens it.
+  - set_pose: {map: xeen_d3.odm, x: 14848, y: 8960, z: 1792, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "click(104)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd07.blv}
+  - assert: {party_position: {x: -2496, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The first stair hall up to the second landing.
+  - walk_to: {x: -2624, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 640, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # L2: round the second gallery to the cabinet of curiosities; the Golden Griffin in the last case (q-d20.griffin).
+  - walk_to: {x: -736, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 640, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 700, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 760, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 2)"}
+  - walk_to: {x: 1300, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1760, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A golden griffin in a mage's curio cabinet]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "if take_chest() then close() end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not qbit(113403) then error('q-d20.griffin_found 113403') end; if not has_item(12351) then error('no Golden Griffin 12351') end"}
+  # Back round the gallery to the second landing, and up the second stair hall to the third landing.
+  - walk_to: {x: 1300, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 760, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 700, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 640, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1472, y: 480, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 560, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 704, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2360, y: 704, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2496, y: 480, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2496, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # L3: the third gallery and the door of light, shut ("Two beams feed it").
+  - walk_to: {x: -736, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 560, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 700, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 800, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(41); wait(0.8); local s = tostring(status()); if not string.find(s, 'Two beams feed it', 1, true) then error('the door of light before the pylons: ' .. s) end; close()"}
+  # The conjury's west pylon, then through the wall passage to the scrying room's east pylon: the door fades.
+  - walk_to: {x: 700, y: 700, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: 820, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(21, 4)"}
+  - walk_to: {x: -384, y: 1220, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -576, y: 1440, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(2.5); local s = tostring(status()); if not string.find(s, 'west pylon shatters', 1, true) then error('west pylon: ' .. s) end"}
+  - walk_to: {x: 0, y: 1600, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 500, y: 1600, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1472, y: 1440, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(36); wait(2.5); local s = tostring(status()); if not string.find(s, 'east pylon shatters', 1, true) then error('east pylon: ' .. s) end"}
+  - play_lua: {source: "wait(4); if door_state(11) ~= 'open' then error('ward after both pylons: ' .. door_state(11)) end"}
+  # Through the faded door: the vault's Jewel of Ages, the alcoves' two Energy Disks.
+  - walk_to: {x: 640, y: 1220, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 7)"}
+  - walk_to: {x: 640, y: 800, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 800, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1520, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  # D-90 (c), DD-07 rebuilt 2026-11-22 (A7): the Jewel of Ages lies on its stand as a ground item.
+  - play_lua: {source: "if ground_items(12527) ~= 1 then error('the Jewel of Ages is not on its stand') end"}
+  - pick_up: {item_id: 12527}
+  - play_lua: {source: "for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12527) then error('no Jewel of Ages 12527') end; remember('disks', item_count(12334))"}
+  - walk_to: {x: 2250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Disc. Two Energy Disks, wired into a mage's experiment]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; if not qbit(113362) then error('tower_disks 113362') end; if item_count(12334) ~= recall('disks') + 2 then error('the alcoves gave ' .. (item_count(12334) - recall('disks')) .. ' Energy Disks') end"}
+  # Back to the third landing and up the third stair to the top landing.
+  - walk_to: {x: 1250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 736, y: -620, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: -620, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2624, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 1920, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # The study: Ellinger's letter on the desk (q-d18.letter, autonote 4581).
+  - walk_to: {x: -1920, y: 140, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 10)"}
+  - walk_to: {x: -1920, y: 600, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1920, y: 1180, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A letter sealed with Ellinger's mark, addressed 'To the Guildmaster of Sandcaster'.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "if take_chest() then close() end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not qbit(113363) then error('letter_found 113363') end; if not has_item(12361) then error('no Ellinger letter 12361') end"}
+  - assert: {autonote: {id: 4581}}
+  # The laboratory, the Fountain of Life's room and out under the cone to the floating disc, down the well.
+  - walk_to: {x: -2420, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1250, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 9)"}
+  - walk_to: {x: -760, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -576, y: 1340, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 576, y: 1340, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1220, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 6)"}
+  - walk_to: {x: 0, y: 780, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 700, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 700, y: 0, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 270, y: 0, z: 1920, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_position: {x: 256, y: 0, radius: 120, z_min: 1900, z_max: 1940}}
+  - play_lua: {source: "click(17); wait(12)"}
+  - assert: {party_position: {x: 256, y: 0, radius: 160, z_min: -8, z_max: 40}}
+  # The well's foot, the door hall, out by the west door to D3.
+  - walk_to: {x: -200, y: 0, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1200, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2660, y: 0, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - assert: {party_position: {x: 15360, y: 9216, radius: 200, z_min: 1800, z_max: 1960}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Thaddeus: Jewel of Ages (done, 8,000 experience each, the jewel kept).
+  - set_pose: {map: xeen_d3.odm, x: 8468, y: -5504, z: 960, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 5246}
+  - select_topic: {match_label: "Jewel of Ages"}
+  - assert:
+      dialog: {text_contains: "You've found the Jewel of Ages! Let me dip it in the fountain."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(113364) then error("q-d18.done 113364 not set") end
+        if experience(0) - recall("xp") ~= 8000 then error("Thaddeus paid " .. (experience(0) - recall("xp"))) end
+        if not has_item(12527) then error("Thaddeus kept the Jewel of Ages") end
+  # Sandcaster's Guild of Light (house 4610, open 6AM to 6PM): Nasir reads Ellinger's letter; the Wizard becomes an
+  # Archmage. A party that comes in after 5PM or before 6AM camps outside until six.
+  - lua_event:
+      source: |
+        local day = CurrentGameMinutes() % 1440
+        if day < 360 or day >= 1020 then
+            AdvanceGameMinutes((360 - day) % 1440)
+            RestAndHealParty()
+            evt.StatusText("CAMP until 6AM outside Sandcaster's Guild of Light")
+        end
+  - play_lua: {source: "local s = status(); if string.find(s, 'CAMP until', 1, true) then log('CAMP: the Guild of Light was shut; rested until 6AM') end"}
+  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 5210}
+  - select_topic: {match_label: "Ellinger's letter"}
+  - assert:
+      dialog: {text_contains: "the bearer has earned the robes of an Archmage."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        local c = classes()
+        if not qbit(113365) then error("q-d18.archmage 113365 not set") end
+        if has_item(12361) then error("Nasir did not take Ellinger's letter") end
+        if not string.find(c, "^Cavalier Hero Arch ?[Mm]age RangerLord$") then error("the jewel promotion: " .. c) end
+        if item_count(12334) < 5 then error("only " .. item_count(12334) .. " Energy Disks for Ellinger") end
+        log("65 done: " .. c .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [113360, 113362, 113363, 113364, 113365, 113403]}
+  # The Temple of the Desert Sun (house 4605) up Sandcaster's street: the Eastern Tower's fights can leave a member
+  # Petrified (the normal run of A3 session 32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d3.odm, x: -16916, y: 19072, z: 1504, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4605, min: 0}
+  - save_game: {name: "65 Jewel of Ages", path: output/playthrough/xeen/checkpoints/65_jewel_of_ages.oysav}

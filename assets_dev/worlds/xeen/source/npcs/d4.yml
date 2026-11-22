@@ -1,0 +1,8 @@
+# D4 Magic Mountain (Darkside): the mountain's own bits that belong to no quest. Quest places: q-d15 (the Gargoyle
+# Lair, Caleb), q-d22 (the coven, Lakeside), m25 (the bat storm). Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: D4
+block: 161
+source: "A6's D4 L4 (sketch.yml thing:warding_well)"
+
+player_bits:         # D4's, per character (A6 wires them and gives the effects)
+  warding_well: {id: 11340, map: D4, note: "the Fountain of Magic Resistance by the coven's gibbet: +5 Mind and +5 Body resistance (permanent), once"}

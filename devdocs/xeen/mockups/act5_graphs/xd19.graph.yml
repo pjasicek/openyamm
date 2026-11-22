@@ -1,0 +1,305 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Xeen's Castle (xeen maze0075-0078, four levels) as one BLV of four floors, 640 apart (0, 640, 1280,
+# 1920). L1 holds the gate, the great hall and two generators (the source's cold and poison, at the north corners);
+# the corner towers climb to their tops, where the other two generators sit (the source's fire and electricity on L4);
+# the keep holds the guard foundry (L2), the barrier hall (L3) and the crown (L4): the aviary, the throne and the Sixth
+# Mirror. Four set pieces: the foundry, the barrier hall, the aviary, the throne room.
+format: mu6-0
+map: XD-19
+key: xd19
+name: Castle Xeen
+stands_on: X9 Clouds of Xeen (the castle on the clouds, behind Slick's carnival)
+class: L
+band: "L: 50-75 sectors, 120-200 M units², four set pieces, §0's 70 monsters plus the bosses, doors up to 25"
+size: "37 review rooms, about 62 sectors (the great hall, the foundry and the aviary four each, the barrier hall and the throne room three); outer castle about 7,168 x 6,656; floor 0 about 42, floor 1 about 28, floor 2 about 30, floor 3 about 30 M units²: about 130 M units²; 21 doors (gate, great-hall north doors and throne doors as two-leaf pairs)"
+party: [47, 50]
+monsters:
+  levels: [42, 70]
+  boss: "Xeen's Pet 75, Lord Xeen 85"
+  count: 70
+  groups: [2, 3]
+  families:
+    - "Magic constructs (11600): Xeen's Guard 60 (11603, D-19's own model xeen_guard before placement): the castle's own soldiers, the source's only monster; 4 of the 14 wait hidden in the guard bays and are released by the guard-making machines"
+    - "Demons (11630): Demon 42, Devil 50, Screamer 58: Lord Xeen's household (he is the family's boss row)"
+    - "Elementals (11620): two per generator hall (fire 11620; air, water, earth as three new 55 tiers requested, DECIDE 4), two Greater Elementals 70 as the barrier's wardens"
+    - "Bosses (not in the 70): Xeen's Pet 75 (11644) in the aviary, Lord Xeen 85 (11634) on his throne"
+    - "Magic constructs A-C (Flying Feet 18, Guardian 24, Carnage Hand 35) are under the band: none placed (DECIDE 5)"
+  mix:
+    - {row: Demon, id: 11630, level: 42, count: 28}
+    - {row: Devil, id: 11631, level: 50, count: 14}
+    - {row: Screamer, id: 11632, level: 58, count: 4}
+    - {row: "Xeen's Guard", id: 11603, level: 60, count: 14}
+    - {row: Lesser Elemental (fire), id: 11620, level: 55, count: 2}
+    - {row: Lesser Air Elemental, id: "11624 (requested from A2)", level: 55, count: 2}
+    - {row: Lesser Water Elemental, id: "11625 (requested from A2)", level: 55, count: 2}
+    - {row: Lesser Earth Elemental, id: "11626 (requested from A2)", level: 55, count: 2}
+    - {row: Greater Elemental, id: 11622, level: 70, count: 2}
+  bosses:
+    - {row: "Xeen's Pet", id: 11644, level: 75, count: 1}
+    - {row: Lord Xeen, id: 11634, level: 85, count: 1}
+  kill_xp: "54.38k per member for the 70 (217,528 / 4); with the two bosses 57.99k (231,978 / 4); 50.18k if the four bay guards are never released"
+  kill_xp_target: "53.3k (MAPS §0 row, the 70): +2.0 %; with the bosses +8.8 % (MAPS: L carries the 70 'plus their bosses')"
+treasure: {level: 5, hoard: 6}
+role: "M35 Castle Xeen: the four generators (m35.gen_fire, gen_air, gen_earth, gen_water) put out the barrier's pylons; the barrier (m35.barrier) falls; Xeen's Pet (m35.pet); Lord Xeen's first sight (m35.lord_xeen_sight, voiced) and death (m35.lord_xeen, voiced, only the Xeen Slayer Sword harms him); the scepter at the throne (m35.scepter): the Sixth Mirror shatters (cinematic)"
+role_short: "M35, Lord Xeen, the Sixth Mirror"
+set_piece: "Four: the guard foundry (two guard-making machines stamping out Xeen's Guards into sealed bays); the barrier hall (four element pylons fed by conduits from the four generators, holding one field before the crown stair); the aviary under open sky (Xeen's Pet on its roost, held in by low arches, D-32); the throne room (Lord Xeen on a black dais, the Sixth Mirror behind him in a force field)"
+sounds: "AU requests: a generator hum per element (placed sound, stops on destruction), the machines' stamping loop, the barrier's crackle, the mirror's shatter and the castle's groan for the cinematic; D-38 voices xeen_vo_lord_xeen_sight (63030) and xeen_vo_lord_xeen_death (63031) from the hooks; music 22 (maps.yml)"
+textures:
+  family: "Castles: MM8 Escaton's Palace d35 (dungeon_families castles: 'XD-19 Castle Xeen (X9): mm8/d35.blv + ancient kit'): gnecwal4, gnecwal1 black stone, gnecflr, gtrlflr and gnecclg2, tws1fa gold friezes, tws1f pillars, gnecdr1l/gnecdr1r door leaves (two-leaf pairs). The machines in the ancient kit (ancient.yml per_site: 'sw panels with xaenergy, barriers xafield'): swll4dk, swll5dk panels, gn_mtl frames, xaenergy conduits, xafield for the barrier and the mirror's force field. Open sky (sky: true, preset xeencloud) over the wall walks and the aviary, sky faces at least 1,280 above the floor"
+  cap: 70
+  planned: 38
+  new: 7
+  new_list: "proposed names, A6 decides: four generator cores (fire, air, water, earth: xaenergy's panel with an element-coloured core), Lord Xeen's sigil banner (one-off), the Sixth Mirror (one-off, silvered glass in a black-and-gold frame), the shattered frame (after the cinematic)"
+  distinct_from: "XD-12 Darzog's Tower (d03 + 7d14) and the white royal castles (7d09); DD-17 Castle Alamar (the sw set throughout): Castle Xeen is black stone and gold with Ancient machines inset"
+floors:
+  - {floor: 3, name: "The crown (keep L4)", height: 1920}
+  - {floor: 2, name: "Keep L3, tower tops", height: 1280}
+  - {floor: 1, name: "Walls, foundry (L2)", height: 640}
+  - {floor: 0, name: "Lower castle (L1)", height: 0}
+spaces:
+  # floor 0, the lower castle (z 0 = X9's causeway)
+  - {id: room:gate, name: Gatehall, kind: room, size: S, floor: 0, at: [3, 2], monsters: 0,
+     purpose: "The arrival (entrance:x9_gate): behind the two gate leaves (gnecdr1l/r), Lord Xeen's sigil over the inner arch; m35.arrival on first entry. Quiet (D-11.3)."}
+  - {id: room:great_hall, name: Hall of Xeendom, kind: hall, size: L, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Demon, level: 42, count: 3}, {row: Devil, level: 50, count: 1}],
+     purpose: "Black pillared hall under gold friezes, banners of the sigil, two-leaf doors north to the stair hall; the wards open left and right."}
+  - {id: room:west_ward, name: West ward, kind: corridor, size: M, floor: 0, at: [2, 1], monsters: 2,
+     population: [{row: Demon, level: 42, count: 2}], purpose: "Vaulted passage to the west gallery and the barracks."}
+  - {id: room:east_ward, name: East ward, kind: corridor, size: M, floor: 0, at: [4, 1], monsters: 2,
+     population: [{row: Demon, level: 42, count: 2}], purpose: "The same on the east: to the east gallery and the armoury."}
+  - {id: room:barracks, name: Guard barracks, kind: room, size: M, floor: 0, at: [1, 1], chest: 5, monsters: 3,
+     population: [{row: "Xeen's Guard", level: 60, count: 3}],
+     purpose: "Dead end with a chest: racks where finished guards stand powered down; they wake when the party enters."}
+  - {id: room:armoury, name: Armoury, kind: room, size: S, floor: 0, at: [5, 1], chest: 5, monsters: 3,
+     population: [{row: "Xeen's Guard", level: 60, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Dead end with a chest: weapon racks by the walls, the guards' spare gem eyes in a case."}
+  - {id: room:west_gallery, name: West gallery, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Along the west wall from the south-west tower to the cold vault; a cyan conduit runs under a floor grate towards the keep."}
+  - {id: room:east_gallery, name: East gallery, kind: corridor, size: M, floor: 0, at: [5, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "The east twin: from the south-east tower to the gravel vault."}
+  - {id: room:water_gen, name: Cold vault, kind: room, size: M, floor: 0, at: [2, 0], goal: true, monsters: 2,
+     population: [{row: Lesser Water Elemental, level: 55, count: 2}],
+     purpose: "The water generator (the source's Cold Generator, L1 north-west): a frosted core in Ancient panels. Click: 'Water Generator. Destroy?' (m35.gen_water). Its conduit leaves for the keep."}
+  - {id: room:earth_gen, name: Gravel vault, kind: room, size: M, floor: 0, at: [4, 0], goal: true, monsters: 2,
+     population: [{row: Lesser Earth Elemental, level: 55, count: 2}],
+     purpose: "The earth generator (the source's Poison Generator, L1 north-east): a grinding core over a gravel bed, green fumes. Click: 'Earth Generator. Destroy?' (m35.gen_earth)."}
+  - {id: room:stair_hall, name: Stair hall, kind: stair, size: M, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Screamer, level: 58, count: 1}],
+     purpose: "Behind the great hall's north doors: the grand stair up to the foundry; doors east and west into the two generator vaults."}
+  - {id: room:sw_tower0, name: South-west tower, kind: stair, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "Spiral stair up to the west wall walk and the tower top."}
+  - {id: room:se_tower0, name: South-east tower, kind: stair, size: S, floor: 0, at: [6, 0], monsters: 0,
+     purpose: "Spiral stair up to the east wall walk and the tower top."}
+  # floor 1 (z 640): walls and the foundry
+  - {id: room:sw_tower1, name: SW tower landing, kind: stair, size: S, floor: 1, at: [0, 1], monsters: 0,
+     purpose: "The tower's mid landing onto the west wall walk."}
+  - {id: room:west_wall, name: West wall walk, kind: corridor, size: M, floor: 1, at: [1, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Battlements under open sky (xeencloud), railed crenels over the clouds; the keep's west door at its end."}
+  - {id: room:foundry, name: Guard foundry, kind: hall, size: L, floor: 1, at: [3, 0], set_piece: true, monsters: 4,
+     population: [{row: "Xeen's Guard", level: 60, count: 3}, {row: Devil, level: 50, count: 1}],
+     purpose: "Two guard-making machines against the side walls (destructibles: 'Guard Making Machine. Destroy?'), chrome plates on a slow line, half-made guards on hooks; while either machine stands a timer releases one hidden guard from the bays (DECIDE 1). The keep stair rises at the back."}
+  - {id: room:guard_bays, name: Guard bays, kind: room, size: M, floor: 1, at: [4, 1], monsters: 4,
+     population: [{row: "Xeen's Guard", level: 60, count: 4}],
+     purpose: "Sealed shutter bays where finished guards wait (placed hidden, released one by one); with both machines down the shutters open: empty racks and a gem find ('Green gem eyes')."}
+  - {id: room:foundry_store, name: Parts store, kind: room, size: S, floor: 1, at: [2, 1], chest: 5, monsters: 2,
+     population: [{row: Demon, level: 42, count: 2}], purpose: "Dead end with a chest: crates of plates and gems by the walls."}
+  - {id: room:grand_landing, name: Grand landing, kind: stair, size: S, floor: 1, at: [3, 1], monsters: 0,
+     purpose: "The grand stair's top, opening on the foundry floor."}
+  - {id: room:east_wall, name: East wall walk, kind: corridor, size: M, floor: 1, at: [5, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "The east battlements under open sky; the keep's east door."}
+  - {id: room:se_tower1, name: SE tower landing, kind: stair, size: S, floor: 1, at: [6, 1], monsters: 0,
+     purpose: "The tower's mid landing onto the east wall walk."}
+  # floor 2 (z 1280): keep L3 and the tower tops
+  - {id: room:fire_gen, name: Fire generator, kind: room, size: M, floor: 2, at: [0, 1], goal: true, monsters: 2,
+     population: [{row: Lesser Elemental (fire), level: 55, count: 2}],
+     purpose: "The south-west tower top (the source's Fire Generator, L4): a roaring core. 'Fire Generator. Destroy?' (m35.gen_fire)."}
+  - {id: room:west_upper, name: Upper west gallery, kind: corridor, size: M, floor: 2, at: [1, 1], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "From the barrier hall to the fire tower and the war room."}
+  - {id: room:war_room, name: War room, kind: room, size: M, floor: 2, at: [1, 0], chest: 5, monsters: 3,
+     population: [{row: Devil, level: 50, count: 2}, {row: Screamer, level: 58, count: 1}],
+     purpose: "Dead end with a chest: a table map of both faces of Xeen with Darkside armies marked (Crodo's warning, M21), Lord Xeen's orders."}
+  - {id: room:upper_landing, name: Keep stair top, kind: stair, size: S, floor: 2, at: [3, 2], monsters: 0,
+     purpose: "The keep stair from the foundry arrives here, before the barrier hall."}
+  - {id: room:barrier_hall, name: Barrier hall, kind: hall, size: L, floor: 2, at: [3, 1], set_piece: true, monsters: 2,
+     population: [{row: Greater Elemental, level: 70, count: 2}],
+     purpose: "Four pylons (fire, air, water, earth: pulsing lights, hover 'Fire pylon: its conduit runs to the south-west tower' and so on) hold one field (xafield) across the crown stair. Each generator destroyed puts out its pylon; with all four out m35.barrier is true and the field falls (camera shake, crackle stops). Two Greater Elementals ward it."}
+  - {id: room:crown_stair, name: Crown stair, kind: stair, size: S, floor: 2, at: [3, 0], monsters: 0,
+     purpose: "Behind the field: the stair to the crown."}
+  - {id: room:east_upper, name: Upper east gallery, kind: corridor, size: M, floor: 2, at: [5, 1], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "From the barrier hall to the air tower and the demons' quarters."}
+  - {id: room:demon_quarters, name: "Demons' quarters", kind: room, size: M, floor: 2, at: [5, 0], chest: 5, monsters: 4,
+     population: [{row: Demon, level: 42, count: 3}, {row: Screamer, level: 58, count: 1}],
+     purpose: "Dead end with a chest: braziers on the floor, iron beds against the walls."}
+  - {id: room:air_gen, name: Air generator, kind: room, size: M, floor: 2, at: [6, 1], goal: true, monsters: 2,
+     population: [{row: Lesser Air Elemental, level: 55, count: 2}],
+     purpose: "The south-east tower top (the source's Electricity Generator, L4): arcs between two coils. 'Air Generator. Destroy?' (m35.gen_air)."}
+  # floor 3 (z 1920): the crown
+  - {id: room:crown_landing, name: Crown landing, kind: room, size: S, floor: 3, at: [3, 3], monsters: 0,
+     purpose: "Quiet first room past the barrier (D-11.3); a low arch (256 high) into the aviary, a door to the keeper's walk."}
+  - {id: room:aviary, name: "Xeen's Aviary", kind: hall, size: L, floor: 3, at: [3, 2], set_piece: true, boss: true, boss_label: "Pet 75", monsters: 0,
+     purpose: "Open sky (xeencloud, sky faces 1,536 up): a roost of black stone ledges and gnawed bones; Xeen's Pet (11644, about 487 tall) is held in by the two low arches (256, D-32); its death calls m35.pet. The way to the throne crosses its floor."}
+  - {id: room:keepers_walk, name: "Keeper's walk", kind: corridor, size: M, floor: 3, at: [2, 2], monsters: 3,
+     population: [{row: Devil, level: 50, count: 2}, {row: Screamer, level: 58, count: 1}],
+     purpose: "A low gallery round the aviary's west side with slit windows onto the roost: the way round the Pet."}
+  - {id: room:aviary_loft, name: "Keeper's loft", kind: room, size: S, floor: 3, at: [4, 2], chest: 5, monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Dead end with a chest, up six steps off the aviary floor: feed buckets, chains, the keeper's strongbox."}
+  - {id: room:threshold, name: Throne doors, kind: room, size: S, floor: 3, at: [3, 1], monsters: 0,
+     purpose: "Antechamber before the two-leaf throne doors; a step plate across the sill inside the leaves calls m35.lord_xeen_sight once (DECIDE 7). Quiet."}
+  - {id: room:throne_room, name: Throne room, kind: hall, size: L, floor: 3, at: [3, 0], set_piece: true, boss: true, boss_label: "Lord Xeen 85", goal: true, monsters: 2,
+     population: [{row: "Xeen's Guard", level: 60, count: 2}],
+     purpose: "Lord Xeen on a black dais at the far end (immobile until the sight line ends), two guards flanking; behind the throne the Sixth Mirror in a force field (aaze0078:5 on click). His death: m35.lord_xeen, the treasury door opens; the throne then gives the scepter (m35.scepter) and the cinematic."}
+  - {id: room:treasury, name: Treasury, kind: room, size: S, floor: 3, at: [4, 0], chest: 6, monsters: 0,
+     purpose: "The hoard (T6) behind the dais, its door opened by Lord Xeen's death."}
+links:
+  # floor 0
+  - {id: link:gate_hall, from: room:gate, to: room:great_hall, kind: open, label: "Arch (the gate's two leaves are X9's)"}
+  - {id: link:hall_ww, from: room:great_hall, to: room:west_ward, kind: open}
+  - {id: link:hall_ew, from: room:great_hall, to: room:east_ward, kind: open}
+  - {id: link:hall_stair, from: room:great_hall, to: room:stair_hall, kind: door}
+  - {id: link:ww_barracks, from: room:west_ward, to: room:barracks, kind: door}
+  - {id: link:ew_armoury, from: room:east_ward, to: room:armoury, kind: door}
+  - {id: link:ww_wg, from: room:west_ward, to: room:west_gallery, kind: open}
+  - {id: link:ew_eg, from: room:east_ward, to: room:east_gallery, kind: open}
+  - {id: link:wg_swt, from: room:west_gallery, to: room:sw_tower0, kind: open}
+  - {id: link:eg_set, from: room:east_gallery, to: room:se_tower0, kind: open}
+  - {id: link:wg_water, from: room:west_gallery, to: room:water_gen, kind: door}
+  - {id: link:eg_earth, from: room:east_gallery, to: room:earth_gen, kind: door}
+  - {id: link:water_stair, from: room:water_gen, to: room:stair_hall, kind: door}
+  - {id: link:earth_stair, from: room:earth_gen, to: room:stair_hall, kind: door}
+  # floor 0 to 1
+  - {id: link:swt_up, from: room:sw_tower0, to: room:sw_tower1, kind: stair}
+  - {id: link:set_up, from: room:se_tower0, to: room:se_tower1, kind: stair}
+  - {id: link:grand_up, from: room:stair_hall, to: room:grand_landing, kind: stair}
+  # floor 1
+  - {id: link:swt_ww, from: room:sw_tower1, to: room:west_wall, kind: open}
+  - {id: link:ww_foundry, from: room:west_wall, to: room:foundry, kind: door}
+  - {id: link:foundry_ew, from: room:foundry, to: room:east_wall, kind: door}
+  - {id: link:ew_set, from: room:east_wall, to: room:se_tower1, kind: open}
+  - {id: link:foundry_landing, from: room:foundry, to: room:grand_landing, kind: open}
+  - {id: link:foundry_store, from: room:foundry, to: room:foundry_store, kind: door}
+  - {id: link:foundry_bays, from: room:foundry, to: room:guard_bays, kind: door, label: "Shutters", opened_by: state:machines}
+  # floor 1 to 2
+  - {id: link:swt_top, from: room:sw_tower1, to: room:fire_gen, kind: stair}
+  - {id: link:set_top, from: room:se_tower1, to: room:air_gen, kind: stair}
+  - {id: link:keep_up, from: room:foundry, to: room:upper_landing, kind: stair}
+  # floor 2
+  - {id: link:landing_barrier, from: room:upper_landing, to: room:barrier_hall, kind: open}
+  - {id: link:barrier_wu, from: room:barrier_hall, to: room:west_upper, kind: open}
+  - {id: link:barrier_eu, from: room:barrier_hall, to: room:east_upper, kind: open}
+  - {id: link:wu_fire, from: room:west_upper, to: room:fire_gen, kind: door}
+  - {id: link:eu_air, from: room:east_upper, to: room:air_gen, kind: door}
+  - {id: link:wu_war, from: room:west_upper, to: room:war_room, kind: door}
+  - {id: link:eu_quarters, from: room:east_upper, to: room:demon_quarters, kind: door}
+  - {id: link:barrier_crown, from: room:barrier_hall, to: room:crown_stair, kind: door, label: "Barrier", opened_by: state:barrier}
+  # floor 2 to 3
+  - {id: link:crown_up, from: room:crown_stair, to: room:crown_landing, kind: stair}
+  # floor 3
+  - {id: link:landing_aviary, from: room:crown_landing, to: room:aviary, kind: open, label: "Low arch"}
+  - {id: link:aviary_threshold, from: room:aviary, to: room:threshold, kind: open}
+  - {id: link:landing_kw, from: room:crown_landing, to: room:keepers_walk, kind: door}
+  - {id: link:kw_threshold, from: room:keepers_walk, to: room:threshold, kind: door}
+  - {id: link:aviary_loft, from: room:aviary, to: room:aviary_loft, kind: stair}
+  - {id: link:threshold_throne, from: room:threshold, to: room:throne_room, kind: door, label: "Two leaves"}
+  - {id: link:throne_treasury, from: room:throne_room, to: room:treasury, kind: door, label: "Hoard", opened_by: state:lord_dead}
+states:
+  - {id: state:doll, kind: item, where: "X9, Castle Xeen's gate", what: "m34.gate: the Lord Xeen cupie doll lets the party in (A5's door).", opens: [], draw: false}
+  - {id: state:gen_water, kind: qbit, where: room:water_gen, what: "m35.gen_water (111704): the destructible breaks, its hum stops, the water pylon goes dark.", opens: [link:barrier_crown], draw: false}
+  - {id: state:gen_earth, kind: qbit, where: room:earth_gen, what: "m35.gen_earth (111703), the earth pylon goes dark.", opens: [link:barrier_crown], draw: false}
+  - {id: state:gen_fire, kind: qbit, where: room:fire_gen, what: "m35.gen_fire (111701), the fire pylon goes dark.", opens: [link:barrier_crown], draw: false}
+  - {id: state:gen_air, kind: qbit, where: room:air_gen, what: "m35.gen_air (111702), the air pylon goes dark.", opens: [link:barrier_crown], draw: false}
+  - {id: state:barrier, kind: qbit, where: room:barrier_hall,
+     what: "m35.barrier reads the four bits; the map calls it on load and after each generator; true: the field (a door leaf) falls and stays down (map qbit 118062 'barrier_down').", opens: [link:barrier_crown]}
+  - {id: state:machines, kind: lever, where: room:foundry,
+     what: "The two guard-making machines (destructibles; map qbits 118060, 118061). While either stands, a 45 s timer shows one hidden guard from the bays and sets it on the party (pool of 4). Both down: the timer stops, the shutters open (118063).", opens: [link:foundry_bays]}
+  - {id: state:pet, kind: kill, where: room:aviary, what: "Xeen's Pet's death: m35.pet (111705). Opens nothing.", opens: [], draw: false}
+  - {id: state:sight, kind: qbit, where: room:threshold, what: "Step plate on the sill: m35.lord_xeen_sight (111709, voiced, once); about 4 s later (a timer) Lord Xeen and his two guards are freed (evt.SetActorImmobile false, SetActorTarget party).", opens: [], draw: false}
+  - {id: state:lord_dead, kind: kill, where: room:throne_room, what: "Lord Xeen's death (his behaviour's onDeath): m35.lord_xeen (111706, voiced); the treasury door opens.", opens: [link:throne_treasury]}
+  - {id: state:scepter, kind: qbit, where: room:throne_room, what: "The throne after his death: m35.scepter (111707 done, award 411, 35,000); evt.PlayCinematic: the mirror shatters, camera shake; then DECIDE 8.", opens: [], draw: false}
+exits:
+  - {id: exit:x9_gate, space: room:gate, at: [4, 2], kind: both, label: "X9: Castle Xeen's gate",
+     arrival: "entrance:x9_gate: in the gatehall about 256 inside the leaves at about (0, -2944, 0), facing north (512), the great hall ahead",
+     neighbour: "X9 (A5, not built) thing:castle_xeen_gate, two leaves, the source's (16,29), m34.gate; out by the exit preset ('Exit Castle Xeen?', aaze0075:6 as its meaning) to the causeway about 512 south of the leaves, the source's (16,28), facing south (1536)"}
+hooks:
+  - {hook: m34.gate, space: "X9 (A5)", how: "the gate's click; listed for the pair, not placed here"}
+  - {hook: m35.arrival, space: room:gate, how: "on first entry (once)"}
+  - {hook: m35.gen_water, space: room:water_gen, how: "the generator's on_destroyed (question 'Destroy?' or blows)"}
+  - {hook: m35.gen_earth, space: room:earth_gen, how: "the same"}
+  - {hook: m35.gen_fire, space: room:fire_gen, how: "the same"}
+  - {hook: m35.gen_air, space: room:air_gen, how: "the same"}
+  - {hook: m35.barrier, space: room:barrier_hall, how: "called on load and after each generator; true drops the field"}
+  - {hook: m35.pet, space: room:aviary, how: "Xeen's Pet's death event"}
+  - {hook: m35.lord_xeen_sight, space: room:threshold, how: "the sill's step plate, once"}
+  - {hook: m35.lord_xeen, space: room:throne_room, how: "Lord Xeen's death (behaviour onDeath)"}
+  - {hook: m35.scepter, space: room:throne_room, how: "the throne's click; then the cinematic"}
+critical_path: [room:gate, room:great_hall, room:west_ward, room:west_gallery, room:water_gen, room:stair_hall, room:earth_gen, room:east_gallery, room:se_tower0, room:se_tower1, room:air_gen, room:east_upper, room:barrier_hall, room:west_upper, room:fire_gen, room:sw_tower1, room:west_wall, room:foundry, room:upper_landing, room:barrier_hall, room:crown_stair, room:crown_landing, room:aviary, room:threshold, room:throne_room]
+return_path: [room:throne_room, room:treasury, room:throne_room, room:threshold, room:keepers_walk, room:crown_landing, room:crown_stair, room:barrier_hall, room:upper_landing, room:foundry, room:grand_landing, room:stair_hall, room:great_hall, room:gate]
+loops:
+  - {id: loop:west_ring, spaces: [room:great_hall, room:west_ward, room:west_gallery, room:water_gen, room:stair_hall]}
+  - {id: loop:east_ring, spaces: [room:great_hall, room:east_ward, room:east_gallery, room:earth_gen, room:stair_hall]}
+  - {id: loop:west_climb, spaces: [room:stair_hall, room:grand_landing, room:foundry, room:west_wall, room:sw_tower1, room:sw_tower0, room:west_gallery, room:water_gen]}
+  - {id: loop:east_climb, spaces: [room:stair_hall, room:grand_landing, room:foundry, room:east_wall, room:se_tower1, room:se_tower0, room:east_gallery, room:earth_gen]}
+  - {id: loop:towers, spaces: [room:barrier_hall, room:west_upper, room:fire_gen, room:sw_tower1, room:west_wall, room:foundry, room:upper_landing]}
+  - {id: loop:crown, spaces: [room:crown_landing, room:aviary, room:threshold, room:keepers_walk], notes: "Round the Pet by the keeper's walk."}
+lines:
+  - {text: "Guard Making Machine.  Destroy? / Fire Generator.  Destroy? / Electricity Generator.  Destroy? / Cold Generator.  Destroy? / Poison Generator.  Destroy?", ref: "xeen/aaze0075:0-4, aaze0078:0-2", where: "the machines and generators; renamed Fire, Air, Water, Earth Generator (A3)"}
+  - {text: "+ 200,000 experience", ref: "xeen/aaze0075:5, aaze0078:3", where: "not used (DECIDE 9)"}
+  - {text: "Exit Castle Xeen?", ref: "xeen/aaze0075:6", where: "room:gate (the exit preset's meaning, D-24)"}
+  - {text: "You have found the Sixth Mirror! ... proceed to the nearest exit in an orderly fashion.", ref: "xeen/aaze0078:4", where: "the cinematic's subtitles after m35.scepter (shortened)"}
+  - {text: "The mirror is protected by some sort of force field that reeks of Lord Xeen's peculiar brand of magic.  You are unable to use or touch it.", ref: "xeen/aaze0078:5", where: "the mirror's click before the scepter"}
+  - {text: "Now entering Xeendom / Xeen's Aviary / The great Castle Xeen recently stood here.", ref: "xeen/aaze0027:8-9, :44", where: "X9's signs (A5); :44 on the gate after M35 if DECIDE 8 (a)"}
+open_questions:
+  - q: "1. Guard-making machines."
+    options: ["(a) two destructible machines in the foundry; while either stands a 45 s timer shows one hidden placed guard from the bays (pool 4, counted at load, DD-14's hidden-actor word) and sets it on the party; both destroyed stop it and open the bays",
+              "(b) evt.SummonMonstersById on the timer while they stand (unbounded count; capped by a map var)",
+              "(c) flavour only: machines are dressing, a group of guards stands by each"]
+    recommend: "(a): a fixed count, the source's 'destroy it and the guards stop'"
+    depends: "A1 only if a hidden actor cannot be shown by a timer event"
+  - q: "2. How a generator is destroyed (which source generator is which: cold -> water, poison -> earth on floor 0; fire -> fire, electricity -> air in the tower tops)."
+    options: ["(a) the source's question 'X Generator. Destroy?' damages the destructible to 0 by event; blows and spells also break it; one on_destroyed calls the hook", "(b) blows and spells only"]
+    recommend: "(a)"
+    depends: "A3 (the four 'where' texts)"
+  - q: "3. The barrier."
+    options: ["(a) one field before the crown stair, held by four pylons that go dark one by one (A3's single m35.barrier)", "(b) four fields in series, each dropped by its own generator"]
+    recommend: "(a)"
+    depends: "—"
+  - q: "4. The generators' elemental guards: the elementals family has fire tiers only."
+    options: ["(a) three new Lesser tiers at 55 (11624 Air, 11625 Water, 11626 Earth) with MM6's elemental looks", "(b) fire Lesser Elementals in all four halls", "(c) demons instead in the three non-fire halls"]
+    recommend: "(a)"
+    depends: "A2 (rows), S (bindings: MM6 air, water, earth elementals)"
+  - q: "5. Magic constructs A-C (18, 24, 35) under the 42-70 band."
+    options: ["(a) none placed", "(b) four Carnage Hands 35 in the foundry as half-made work"]
+    recommend: "(a)"
+    depends: "—"
+  - q: "6. Lord Xeen harmed only by the Xeen Slayer Sword (E11). onDamaged observes and cannot cancel damage (ACTOR_SCRIPTING_INVESTIGATION, Limitations)."
+    options: ["(a) A1 adds a shared damage hook (a behaviour onDamage that returns the amount, given the attacker's weapon and whether it is a spell); his behaviour zeroes all but melee from the sword; the map binds it on load (evt.SetActorBehavior)",
+              "(b) a row field (harmed_only_by: <item id>) read by the damage code",
+              "(c) no immunity: D-2.3's slaying: Demon only"]
+    recommend: "(a) or (b), A1's choice; (c) loses the story's point"
+    depends: "A1 (engine), A2 (row field if (b)); the sword must be an undroppable quest item (A2)"
+  - q: "7. First sight of Lord Xeen."
+    options: ["(a) a step plate across the throne doors' sill (inside the leaves, the throne straight ahead 2,000 away and lit); he and his guards immobile until 4 s after the line; his onDamaged also calls the hook if it has not run", "(b) the doors' click event"]
+    recommend: "(a)"
+    depends: "—"
+  - q: "8. After the scepter (no map-collapse word)."
+    options: ["(a) the cinematic (mirror shatters, camera shake, falling dust, aaze0078:4 subtitles) ends with a direct leave to X9's gate return point; X9 shows the castle gone by a stage on m35.done and the gate reads aaze0027:44; XD-19 is not entered again",
+              "(b) the mirror shatters and the castle stays; the party walks out",
+              "(c) the source: the party is set down in Vertigo (X1)"]
+    recommend: "(a), with the treasury open from Lord Xeen's death so nothing is lost before the party chooses to take the scepter"
+    depends: "A5 (X9 stage and gate line), A1 (a leave after a cinematic)"
+  - q: "9. Experience for the machines and generators (the source's +200,000 each)."
+    options: ["(a) none: the scepter's 35,000 carries M35", "(b) 2,500 per member per generator and machine (15,000 in all)"]
+    recommend: "(a)"
+    depends: "A3"
+  - q: "10. Count: 70 at 54.38k (+2 %), with the two bosses 57.99k (+8.8 %)."
+    options: ["(a) as drawn", "(b) four Demons fewer (66 + bosses, about +6.7 %)"]
+    recommend: "(a): MAPS's L line puts the bosses on top of the 70"
+    depends: "A2 (Act V recount)"

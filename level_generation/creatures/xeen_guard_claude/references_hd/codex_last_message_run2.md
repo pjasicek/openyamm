@@ -1,0 +1,3 @@
+Saved all four Run 2 views as unresized 1024×1536 transparent PNGs and assembled the [five-view contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_guard_claude/references_hd/selected_views_review.png). The [generation log](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_guard_claude/references_hd/generation_runs.json) contains all six Run 2 generations and both original Run 1 entries.
+
+Two deviations remain after the allowed corrections. The front view’s right margin measures 79 px against the 80 px target. The left profile shows only four distinct claw tips on the near hand.

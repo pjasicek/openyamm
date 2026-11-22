@@ -1,0 +1,45 @@
+format: 0
+id: xeen_xd10
+name: Cave of Illusion
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-10
+units: {plan_grid: 512}
+extent: {footprint_cells: [27, 20], climbs: n}
+map_stats:
+  id: 9126
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 5
+  refill_days: 672
+  music: 2
+  environment: cave
+  lock_difficulty: 5
+  slots:
+    - {monster: Xeen Construct, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Elemental Golem, tier: 1, per_marker: [2, 3], weight: 25}
+neighbours:
+  - id: exit:x5_north
+    to: xeen_x5.odm
+    kind: door
+    arrival: [16640, 9987, 1408]
+    arrival_hint: "On X5 (Winterkill Tundra), before the cave's north mouth by the frozen lake in the Ogre Hills, facing south."
+    direction: 270
+    notes: "X5 installed by A6; arrival given by the orchestrator (16640, 9987, 1408), facing south (1536). The north mouth asks 'Leave the Cave of Illusion?' (aaze0042:49). The arrival of the whole map (X5's door into XD-10) is this map's start in the north mouth."
+  - id: exit:x5_south
+    to: xeen_x5.odm
+    kind: door
+    arrival: [6915, -9472, 1216]
+    arrival_hint: "On X5 (Winterkill Tundra), before the cave's south mouth on the Troll Forest side, facing west."
+    direction: 180
+    notes: "X5 installed by A6; arrival given by the orchestrator (6915, -9472, 1216), facing west (1024). The south mouth asks 'Leave the Cave of Illusion?' (aaze0042:49). X5's south-mouth door enters by explicit coordinates (D-4 item 5) until A1 adds more than one arrival per dungeon."
+qbits:
+  key_bought: 111240
+  plug_pulled: 110640
+items:
+  enchanted_key: 12306
+  might_boost: 240
+notes: "Xeen design brief for a new map (no original): XD-10 Cave of Illusion, story step M12 (QUESTS.md; source/quests/m12.yml): a talking skull at the cave's bottom sells the Enchanted Key to the Tower of High Magic for gems. Size M (MAPS.md section 0): 20-45 sectors, 30-90 M units squared, 50 monsters at levels 18-28, party 17-19, treasure 3. Graph devdocs/xeen/mockups/act2_graphs/xd10.graph.yml with decider D-4's decisions (mockups/act2_dungeon_decisions.md, which wins). Rows (A2): slot 1 Magic constructs (Xeen Construct: tier a Flying Feet 11600, tier b Guardian 11601), slot 2 Elemental golems (Xeen Elemental Golem: tier b Water Golem 11591); every monster is placed (30 Flying Feet, 12 Guardians, 8 Water Golems, 33,424 kill XP, 8.36k per member). Items: Enchanted Key 12306 (A3's hook m12.skull), Might Boost 240 (the fixed potion behind the mirage), gems (Xeen.GemItems). Map qbits 110640-110679 (plug_pulled 110640); player bits 11236-11240 (the skulls). Map_stats 9126 (source/maps.yml: music 2, treasure 3). Both mouths lead to X5 (installed by A6)."

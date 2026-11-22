@@ -1,0 +1,67 @@
+# M9 Newcastle's walls (QUESTS M9, 4.1 stage 1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Emerson (Castle Burlock) takes 5 King's Megacredits; at the site Ebenezer hands over what the workers found (the
+# source's order: the Stone of a Thousand Terrors after the walls, the Golem Stone after the keep, M11).
+id: M9
+title: The Walls of Newcastle
+act: II
+kind: main
+status: full
+giver: 4403          # Emerson, the Royal Engineer (A4: towns/xd07.yml)
+maps: [XD-07, X3]
+level: 15
+block: 9
+after: [m8.deed]
+source: "QUESTS M9, 4.1; xeen/aaze0064:19, :23, :30-31, :37; xeen/aaze0012:6, :8"
+
+qbits:
+  started: {id: 111180, journal: "Emerson will build Newcastle's walls for 5 King's Megacredits.", until: [walls]}
+  walls: {id: 111181, journal: "Newcastle has walls. Ebenezer, at the site, has something the workers found.", until: [stone_given],
+          note: "Newcastle stage 1 (Xeen.stageOf(\"newcastle\") >= 1)"}
+  stone_given: {id: 111182, journal: "Ebenezer's workers say the Tomb of a Thousand Terrors in the lagoon is full of Megacredits.",
+                until: [m10.tomb_credits]}
+
+autonotes:
+  walls: {id: 4011, text: "Newcastle: walls built (5 Megacredits). Next, a keep: 5 more.", category: Misc}
+
+items:
+  megacredit: "a King's Megacredit; Emerson takes 5 per stage (M9, M11, M22). XD-06 holds 6, XD-08 5, XD-09 5 (M10)."
+
+npcs:
+  4403:              # Emerson
+    topics:
+      - n: 1
+        label: Walls
+        states:
+          - when: {qbit: walls}
+            text: "We want to make sure you approve of the work we have already done. Please go and take a look at your castle."
+          - when: {all: [{qbit: started}, {items: [megacredit, 5]}]}
+            text: "Thanks! We'll have the work done by the time you get back to the site."
+            do: [{take: megacredit, count: 5}, {set: walls}, {autonote: walls}, {xp: 3000}]
+          - when: {qbit: started}
+            text: "You don't have enough Megacredits. Five. Craftsmen don't count in gold."
+          - when: {qbit: m8.deed}
+            text: "Every defensible piece of land needs a wall around it. I can have craftsmen and laborers working on your land for 5 King's Megacredits. Bring them and we'll start."
+            do: [{set: started}]
+          - text: "I'm sorry, but I cannot do any work on land that you do not own! Buy some land and we'll talk."
+  4201:              # Ebenezer, at the site
+    topics:
+      - n: 2
+        label: Workers
+        show: {qbit: walls}
+        states:
+          - when: {all: [{qbit: m11.keep}, {not: {qbit: m11.stone_given}}]}
+            text: "While building the rest of your castle, a worker came back from the tundra white as a sheet. The Golem Dungeon, by the lagoon, is stuffed with Megacredits, he says. And golems. Mostly golems."
+            do: [{set: m11.stone_given}]
+          - when: {not: {qbit: stone_given}}
+            text: "The workers have finished cleaning out the rubble and patching up the stone work. You should go inside and have a look around. Oh, one more thing. One of the workers swears the Tomb of a Thousand Terrors, out in the lagoon, is full of Megacredits. He won't go back for them. I thought you might."
+            do: [{set: stone_given}]
+          - text: "If you have enough Megacredits you should think about building up your castle. The King's engineers should be able to help you."
+
+hooks:
+  walls:
+    map: X3
+    where: "Newcastle's walls appear (ODM BModel group by stage: Xeen.stageOf(\"newcastle\") >= 1)"
+    reads: [walls]
+
+rewards: {xp: 3000, gold: 0}
+playthrough: "XD-07: Emerson (Walls) with the deed; again with 5 Megacredits (XD-06). X3: Ebenezer (Workers): the tomb named."

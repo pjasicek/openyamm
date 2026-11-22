@@ -1,0 +1,89 @@
+# D-49's D5 and D6 hooks (A3): the desert's devices, the boulders after the answer, the hold's blow, the lamps, and
+# D6's gate, books, signs, camp and the load-time hides.
+name: Act V, D5 and D6 (D-49)
+party: [Knight, Cleric, Sorcerer, Archer]
+steps:
+  # D5: the Shrine of Great Power, once a day; the Fountain of Might, once a day.
+  - hook: d5.shrine
+  - expect: {stat: [MightBonus, 15], last: "the Gods answer your prayers"}
+  - hook: d5.shrine
+  - expect: {stat: [MightBonus, 15], last: "Only silence"}
+  - hook: d5.fountain_might
+  - expect: {stat: [MightBonus, 35]}
+  - hook: d5.fountain_might
+  - expect: {stat: [MightBonus, 35], last: "cool and refreshing"}
+  - lua: "Stub.minutes = 36 * 60"
+  - hook: d5.shrine
+  - expect: {stat: [LuckBonus, 30]}
+  # The Fountain of Energy Resistance and the Last Water, once per character.
+  - hook: d5.fountain_energy
+  - expect: {stat: [AirResistance, 5]}
+  - hook: d5.fountain_energy
+  - expect: {stat: [AirResistance, 5], last: "cool and refreshing"}
+  - hook: d5.last_water
+  - expect: {stat: [Luck, 2], last: "fortune turn your way"}
+  - hook: d5.last_water
+  - expect: {stat: [Luck, 2], last: "cold and very clear."}
+  # The lair, once; the munchies once a day.
+  - hook: d5.lair
+  - expect: {qbit: d5.lair_destroyed, xp: 1000}
+  - hook: [d5.lair, false]
+  - lua: "SetValue(Food, 20)"
+  - hook: d5.munchies
+  - expect: {stat: [Food, 0], last: "munchies"}
+  - lua: "SetValue(Food, 20)"
+  - hook: [d5.munchies, false]
+  - expect: {stat: [Food, 20]}
+  # The broken pyramid before the six words; the boulders before and after the answer.
+  - hook: [obelisks.dark_hoard, false]
+  - expect: {last: "The pyramid portal has been destroyed."}
+  - hook: q-d24.boulder_3
+  - expect: {not_qbit: q-d24.crumbled_3, last: "My third is in fable"}
+  - hook: q-d24.answer
+  - expect: {qbit: q-d24.solved, item: paladins_armour}
+  - hook: q-d24.boulder_3
+  - expect: {qbit: q-d24.crumbled_3, last: "crumbles to sand"}
+  - hook: q-d24.boulder_3
+  - expect: {last: "only sand"}
+  # The hold: a blow at D5 turns DD-24 too (one bit), the line once.
+  - hook: q-d16.hold_attacked
+  - expect: {qbit: q-d16.hall_attacked}
+  - hook: [q-d16.hall_attacked, false]
+  # The lamps: a wish lamp (gold), then cold; the greedy lamp's No shares, the Yes punishes.
+  - lua: 'Xeen.genieLamp("d5_hills", 1)'
+  - expect: {not_qbit: q-d27.d5_hills, last: "three wishes"}
+  - lua: 'Xeen.genieLamp("d5_hills", 1, 2)'
+  - expect: {qbit: q-d27.d5_hills, gold: 10000, last: "gold pours out"}
+  - lua: 'Xeen.genieLamp("d5_hills", 1, 1)'
+  - expect: {xp: 11000, gold: 10000}
+  - lua: 'Xeen.genieLamp("d5_hills", 1)'
+  - expect: {last: "Its genie has gone."}
+  - lua: 'Xeen.genieLamp("d5_dune", 1, 1)'
+  - expect: {qbit: q-d27.d5_dune, xp: 13000}
+  - lua: 'Xeen.genieLamp("d6_islet", 1, 3)'
+  - expect: {qbit: q-d27.d6_islet, count: [engine:180, 10]}
+  - lua: 'Xeen.genieLamp("d6_crag", 1)'
+  - expect: {last: "My powers are low."}
+  - lua: 'Xeen.genieLamp("d6_crag", 1, 2)'
+  - expect: {qbit: q-d27.d6_crag, gold: 15000, last: "share it"}
+  - lua: 'Xeen.genieLamp("d6_pinnacle", 1, 4)'
+  - expect: {not_qbit: q-d27.d6_pinnacle}
+  # D6: Necropolis's gate, the books, the camp, the hides.
+  - hook: [d6.necropolis_gate, false]
+  - give: necropolis_pass
+  - hook: d6.necropolis_gate
+  - hook: d6.necropolis_gate
+  - hook: d6.book_dead_1
+  - expect: {xp: 16000, stat: [Age, 8]}
+  - hook: d6.book_dead_1
+  - expect: {xp: 16000, last: "already read it"}
+  - hook: d6.archers_camp
+  - expect: {qbit: d6.archers_burned, xp: 17000}
+  - hook: d6.zone_sign
+  - expect: {last: "The dead keep the road."}
+  - hook: [m25.camp_gone, false]
+  - set: m25.done
+  - hook: m25.camp_gone
+  - hook: [m33.robots_gone, false]
+  - set: m33.done
+  - hook: m33.robots_gone

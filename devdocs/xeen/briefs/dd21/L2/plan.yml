@@ -1,0 +1,315 @@
+format: 0
+level: L2
+pitch: "A lich's crypt over a sewer. The crypt stair under D6's Necropolis comes down into Sandro's Hall of Biers; Sandro himself waits in his crypt, fights, falls and rises again, unable to die. Below, the Necropolis's sewer runs in a ring of channels round an outfall; a wheel upstream lifts the gate to the lowest culvert, where his heart beats in a jar of green glass over a black cistern. Bring it back and he is released."
+purpose: "Side quest Q-D23 Sandro's Heart (QUESTS.md; Master Morbius 5506 sends the party): Sandro's first fall (q-d23.sandro), the heart (q-d23.heart), the release with the Key to the Dungeon of Death (q-d23.release), the ritual for Priests and Wizards first (q-d23.ritual: Priest of Dark, Lich). Class S, party 49-52, monsters 40-62, Sandro 65."
+mood: "Tomb of Ethric's dark block stone and burial niches by candlelight above; below, Free Haven's wet sewer stone, ankle-deep sewage and the drip of the city's dead; at the bottom a green glow over black water."
+datum: arrival
+spaces:
+  - id: room:crypt_hall
+    name: Hall of Biers
+    kind: room
+    size: M
+    extent: [1024, 1792]
+    at: [0, -1152]
+    floor: 0
+    clear_height: 640
+    purpose: "A long vault of burial niches (d2niche) with stone biers against both walls. Sandro's seal (xdsandro, once) over the two-leaf crypt doors at the south end; in the west wall the head of the railed stair down to the sewer."
+    theme: "Sandro's crypts in MM6 Tomb of Ethric the Mad (6d14): dark block stone (d2wlbctr), purple-grey flags (d2flor4), a rough dark vault (d2ceil3), carved posts in the doorways (d2wlbpos)."
+    population:
+      - {actor: 11281, groups: 2, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:dead_food
+    name: Dead-food cellar
+    kind: room
+    size: S
+    extent: [768, 768]
+    at: [1792, -1408]
+    floor: -512
+    clear_height: 384
+    purpose: "The Necropolis's store of Dead Food, barrels in pairs by the walls (aaze0036:4, :5). One barrel's lid can be pried (Might 30, else aaze0036:7): two hidden roaches come out (117723), then the food is eaten once per character (+2 Endurance)."
+    theme: "The rooms off the channel (the sluice room, the dead-food cellar): dry sewer stone (d1wle)."
+    population:
+      - {actor: 11363, groups: 2, levels: [40, 40], placed: true, strength: pack, notes: "hidden in the Dead Food barrel, shown once by the pry (D-62 Q43)"}
+  - id: room:east_culvert
+    name: East culvert
+    kind: corridor
+    size: M
+    extent: [1280, 1408]
+    at: [256, -2496]
+    floor: -512
+    clear_height: 384
+    purpose: "The east twin of the west culvert, back up to the main channel; in a side niche the source's trapped 'Box' (aaze0036:2, T5)."
+    theme: "The culverts and the outfall: damp sewer stone (d1wldle3)."
+    population:
+      - {actor: 11363, groups: 2, levels: [40, 40], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:heart_culvert
+    name: Heart culvert
+    kind: room
+    size: M
+    extent: [1472, 1280]
+    at: [-1120, -4224]
+    floor: [-896, -512]
+    clear_height: 832
+    purpose: "The sewer's lowest culvert, falling into a black cistern. On a ledge above the water the jar of green glass (q-d23.heart), a green light in it. A Greater Lich keeps it."
+    theme: "The heart culvert: mossy blocks (d1medbw) round the black cistern."
+    population:
+      - {actor: 11281, groups: 1, levels: [50, 50], placed: true, strength: heavy}
+      - {actor: 11363, groups: 1, levels: [40, 40], placed: true, strength: pack}
+  - id: room:landing
+    name: Stair landing
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    at: [-1152, -1408]
+    floor: [-512, 0]
+    clear_height: 1024
+    purpose: The railed stair's foot on a stone platform where the main channel's two arms meet. Quiet.
+    empty: true
+    theme: "The sewer's main channel and its landing (MM6 Free Haven Sewer): stone with a wet green tide line (d1wldle2), tiled walkways (d7flor4), the plank vault (d1ceil1)."
+  - id: room:main_east
+    name: Main channel (east)
+    kind: corridor
+    size: M
+    extent: [1792, 512]
+    at: [384, -1408]
+    floor: -512
+    clear_height: 448
+    purpose: "The channel's east arm, drains in the walls (one find); signed barrels by the north wall ('Food for the dead, keep warm.', aaze0036:5); the cellar's door at its east end; the east culvert south."
+    theme: "The sewer's main channel and its landing (MM6 Free Haven Sewer): stone with a wet green tide line (d1wldle2), tiled walkways (d7flor4), the plank vault (d1ceil1)."
+    population:
+      - {actor: 11363, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:main_west
+    name: Main channel (west)
+    kind: corridor
+    size: M
+    extent: [1792, 512]
+    at: [-2688, -1408]
+    floor: -512
+    clear_height: 448
+    purpose: "The long sewage channel's west arm, walkways both sides; sewer drains in the walls (one holds a find); at its west end the old tomb wall's stone door ('Mummy's Secret Treasure', aaze0036:10); the west culvert south."
+    theme: "The sewer's main channel and its landing (MM6 Free Haven Sewer): stone with a wet green tide line (d1wldle2), tiled walkways (d7flor4), the plank vault (d1ceil1)."
+    population:
+      - {actor: 11363, groups: 3, levels: [40, 40], placed: true, strength: pack}
+  - id: room:mummy_vault
+    name: Mummy's vault
+    kind: room
+    size: S
+    extent: [640, 768]
+    at: [-4032, -1408]
+    floor: -512
+    clear_height: 384
+    purpose: "A sealed tomb the main channel cut into, two Ghost Mummies standing in it; the source's 'Mummy's Secret Treasure' (T5)."
+    theme: "The old tomb the channel cut into (the mummy's vault): mossy blocks (d1medbw) over the crypts' flags and vault."
+    population:
+      - {actor: 11273, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:outfall
+    name: Outfall
+    kind: room
+    size: M
+    extent: [1216, 1024]
+    at: [-1120, -2944]
+    floor: -512
+    clear_height: 448
+    purpose: "Both culverts pour into a round basin; at its south side the sluice gate over the steps down. The source's alcove (aaze0036:0) as dressing. Quiet."
+    empty: true
+    theme: "The culverts and the outfall: damp sewer stone (d1wldle3)."
+  - id: room:reliquary
+    name: Sandro's reliquary
+    kind: room
+    size: S
+    extent: [512, 640]
+    at: [1152, -2816]
+    floor: 0
+    clear_height: 384
+    purpose: "Behind the iron grille (opened by the release): Sandro's chest (T5) and his statuette on its plinth (dressing; aaze0035:29 at the grille before the release)."
+    empty: true
+    theme: "Sandro's crypts in MM6 Tomb of Ethric the Mad (6d14): dark block stone (d2wlbctr), purple-grey flags (d2flor4), a rough dark vault (d2ceil3), carved posts in the doorways (d2wlbpos)."
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:sandro_crypt
+    name: Sandro's crypt
+    kind: room
+    size: M
+    extent: [1536, 1280]
+    at: [0, -2816]
+    floor: 0
+    clear_height: 640
+    purpose: "A square vault on posts, the dais with Sandro's bier, the reliquary's grille in the east wall. First entry: his name and 'And now my hunger for the living compels me to attack you.' (aaze0035:25, :26; 117722). His fall: q-d23.sandro, sandro_fell 117727, the risen Sandro (11926) by the bier. The dais's step and the bier's click are where he talks; with the heart the two prompts (q-d23.release, q-d23.ritual)."
+    theme: "Sandro's crypts in MM6 Tomb of Ethric the Mad (6d14): dark block stone (d2wlbctr), purple-grey flags (d2flor4), a rough dark vault (d2ceil3), carved posts in the doorways (d2wlbpos)."
+    population:
+      - {actor: 11283, role: boss, groups: 1, levels: [65, 65], placed: true, strength: boss}
+  - id: room:sluice
+    name: Sluice room
+    kind: room
+    size: S
+    extent: [640, 640]
+    at: [-3648, -2624]
+    floor: -512
+    clear_height: 384
+    purpose: "Dead end with the sluice wheel (117721): it lifts the culvert gate below the outfall, one way (D-43). Quiet."
+    empty: true
+    theme: "The rooms off the channel (the sluice room, the dead-food cellar): dry sewer stone (d1wle)."
+  - id: room:stair_foot
+    name: Crypt stair
+    kind: room
+    size: S
+    extent: [640, 1344]
+    at: [0, 544]
+    floor: 0
+    clear_height: 896
+    purpose: "The arrival (entrance:d6_stair) at the foot of a straight stair that climbs north 448 to the grille pair (gkp103a, two leaves, the exit preset). Quiet (D-11.3); map qbit 117720 dd21_arrived_once."
+    empty: true
+    theme: "Sandro's crypts in MM6 Tomb of Ethric the Mad (6d14): dark block stone (d2wlbctr), purple-grey flags (d2flor4), a rough dark vault (d2ceil3), carved posts in the doorways (d2wlbpos)."
+  - id: room:west_culvert
+    name: West culvert
+    kind: corridor
+    size: M
+    extent: [1344, 1408]
+    at: [-2528, -2496]
+    floor: -512
+    clear_height: 384
+    purpose: "A culvert from the main channel south, then east to the outfall; a sewer drain with a find; the sluice room's door in its west wall."
+    empty: true
+    theme: "The culverts and the outfall: damp sewer stone (d1wldle3)."
+links:
+  - id: link:crypt_reliquary
+    from: room:sandro_crypt
+    to: room:reliquary
+    kind: door
+    opened_by: goal:release
+    purpose: "The iron grille: it opens with Sandro's release."
+  - id: link:culvert_sluice
+    from: room:west_culvert
+    to: room:sluice
+    kind: door
+  - id: link:east_cellar
+    from: room:main_east
+    to: room:dead_food
+    kind: door
+  - id: link:eculvert_east
+    from: room:east_culvert
+    to: room:main_east
+    kind: open
+  - id: link:foot_hall
+    from: room:stair_foot
+    to: room:crypt_hall
+    kind: open
+  - id: link:hall_crypt
+    from: room:crypt_hall
+    to: room:sandro_crypt
+    kind: door
+    purpose: The crypt's double doors (two leaves).
+  - id: link:hall_landing
+    from: room:crypt_hall
+    to: room:landing
+    kind: stairs
+    purpose: The railed stair down to the sewer.
+  - id: link:landing_east
+    from: room:landing
+    to: room:main_east
+    kind: open
+  - id: link:landing_west
+    from: room:landing
+    to: room:main_west
+    kind: open
+  - id: link:outfall_eculvert
+    from: room:outfall
+    to: room:east_culvert
+    kind: open
+  - id: link:outfall_heart
+    from: room:outfall
+    to: room:heart_culvert
+    kind: door
+    opened_by: key:sluice
+    purpose: "The sluice gate over the steps down; the wheel upstream lifts it."
+  - id: link:wculvert_outfall
+    from: room:west_culvert
+    to: room:outfall
+    kind: open
+  - id: link:west_culvert
+    from: room:main_west
+    to: room:west_culvert
+    kind: open
+  - id: link:west_vault
+    from: room:main_west
+    to: room:mummy_vault
+    kind: door
+    purpose: The old tomb wall's stone door.
+loops:
+  - id: loop:sewer_ring
+    spaces: [room:landing, room:main_west, room:west_culvert, room:outfall, room:east_culvert, room:main_east]
+    notes: "The sewer's ring: out along one arm of the main channel, down a culvert to the outfall, back up the other."
+entrances:
+  - id: entrance:d6_stair
+    space: room:stair_foot
+    kind: both
+    neighbour: exit:d6_stair
+    facing: s
+    how: "D6's crypt door in the Necropolis (A6's door:dd21) brings the party to the stair's foot facing south into the Hall of Biers; the grille pair at the stair's top is the way back to D6's entrance:dd21_stair."
+critical_path: [room:stair_foot, room:crypt_hall, room:sandro_crypt, room:crypt_hall, room:landing, room:main_west, room:west_culvert, room:sluice, room:west_culvert, room:outfall, room:heart_culvert, room:outfall, room:east_culvert, room:main_east, room:landing, room:crypt_hall, room:sandro_crypt, room:reliquary]
+return_path: [room:reliquary, room:sandro_crypt, room:crypt_hall, room:stair_foot]
+goals:
+  - id: goal:heart
+    space: room:heart_culvert
+    kind: use
+    what: "The jar of green glass (q-d23.heart: Sandro's Heart 12353)."
+  - id: goal:release
+    space: room:sandro_crypt
+    kind: use
+    what: "'Give Sandro his heart?' (q-d23.release: the Key to the Dungeon of Death 12354; the grille opens)."
+  - id: goal:sandro
+    space: room:sandro_crypt
+    kind: kill
+    what: "Sandro's first fall (q-d23.sandro; sandro_fell 117727): the risen Sandro by his bier."
+keys:
+  - id: key:sluice
+    grants: {qbit: sluice_open}
+    found_in: room:sluice
+    how: lever
+    notes: "The sluice wheel lifts the culvert gate below the outfall, one way (D-43)."
+points_of_interest:
+  - id: poi:barrels
+    space: room:main_east
+    count: 7
+    kind: sign
+    behaviour: "'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4, :5)."
+  - id: poi:dais
+    space: room:sandro_crypt
+    kind: npc
+    behaviour: "The dais's step and the bier's click: the risen Sandro speaks (q-d23.sandro), and with the heart asks for it (q-d23.release, q-d23.ritual)."
+  - id: poi:dead_food
+    space: room:dead_food
+    kind: trap
+    behaviour: "The Dead Food barrel: Might 30 to pry; two roaches; then +2 Endurance once per character."
+  - id: poi:drains
+    space: room:main_west
+    count: 6
+    kind: sign
+    behaviour: "Sewer drains (aaze0036:3, :1): three hold a find once (117724-117726)."
+  - id: poi:gate
+    space: room:outfall
+    kind: sign
+    behaviour: "The sluice gate: 'A sluice gate. Its wheel must be upstream.' until the wheel turns."
+  - id: poi:grille
+    space: room:sandro_crypt
+    kind: sign
+    behaviour: "'Don't even THINK about taking my statuette!' (aaze0035:29) before the release."
+  - id: poi:seal
+    space: room:crypt_hall
+    kind: sign
+    behaviour: Sandro's seal over the crypt's doors (xdsandro).
+mechanisms:
+  - {kind: boss falls once and rises as a peaceful figure, count: 1}
+  - {kind: talking bier and dais with two prompts, count: 1}
+  - {kind: one-way wheel opens a gate, count: 1}
+  - {kind: grille opened by a quest bit, count: 1}
+  - {kind: "barrel pried by Might shows hidden monsters, then a gift once per character", count: 1}
+totals:
+  chests: 3
+  doors: 8
+  rooms: 14
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act5_graphs/dd21.graph.yml; D-62 (mockups/act5_a8_decisions_b.md) wins where they differ: Cinder Roach 11363 (placed only); the risen Sandro row 11926 keyed on sandro_fell 117727; the Dead Food roaches shown once by the pry; rests from the pyramid mummies at Dif 0. Changes from the graph (A8 L2): the landing and the heart culvert are two-storey rooms that carry the stairs (their heads at 0 and -512); the culverts are L-shaped (south, then in to the outfall). All 15 monsters and Sandro placed; doors: the crypt's pair (two leaves), the grille, the vault's stone door, the cellar's and the sluice room's iron doors, the sluice gate; the grille pair at the stair's top is two exit faces."

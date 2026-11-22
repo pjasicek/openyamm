@@ -1,0 +1,26 @@
+# DD-25 Bosco's Hall (Darkside, under D5's crags): the hall's own bits and lines that belong to no quest (D-62). Bosco
+# and the Chalice are Q-D17's; the hall's flavour topics are A4's (npcs/flavour/dd25.yml). The map only calls the hooks.
+# Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: DD-25
+block: 167
+source: "D-62 Q33, Q39 (devdocs/xeen/mockups/act5_a8_decisions_b.md); A8's DD-25 graph notes; dark/aaze0013:13-17"
+
+qbits:
+  # DD-25's map qbits (block 117680-117719, D-62; the rest of the block is A8's map)
+  dd25_arrived_once: {id: 117680, map: DD-25, note: "the first arrival in the gate passage (the arrival hook, once)"}
+
+hooks:
+  arrival:
+    map: DD-25
+    where: "the gate passage (entrance:d5_bosco): the map's arrival event calls it; the first time only"
+    sets: [dd25_arrived_once]
+    once: true
+    text: "The hall rings with hammers. A dwarf at the gate looks you over, then your boots, and waves you in."
+  well:
+    map: DD-25
+    where: "the hall's well (D-62 Q39: a plain well, no boon)"
+    text: "Cold and clean. The King had it tasted this morning."
+  throne:
+    map: DD-25
+    where: "the empty throne on the dais of the throne hall (hover \"Bosco's throne\", D-62 Q33; door:kings_hall behind it)"
+    text: "The King's throne, empty. He takes his meals in his chambers, where the cups can be watched."

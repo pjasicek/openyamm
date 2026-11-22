@@ -1,0 +1,41 @@
+format: 0
+id: xeen_dd10c
+name: "Gemstone Mines, north pocket"
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-10C
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 7], climbs: n}
+map_stats:
+  id: 9161
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 5
+  perception_difficulty: 8
+  refill_days: 672
+  music: 18
+  environment: cave
+  lock_difficulty: 10
+  slots:
+    - {monster: Xeen Eye, tier: 0, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d6_adit
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:dd10c_adit
+    arrival_hint: "On D6 (the Forbidden Zone), outside the Gemstone Mines' north adit, facing away from it (A6's entrance:dd10c_adit, (-9216, -16384, 2688) facing 512)."
+    direction: 90
+    notes: "Live since phase 5 (D-62; D6 installed): the adit's mouth is the exits object exit:d6 with the exit preset. D6's door:dd10c lands at this map's entrance:d6_adit (the start): (0, 192, 0), facing north (90, game 512)."
+qbits:
+  arrived_once: 117240
+  dug: 113144
+  refill_c: 113143
+items:
+  diamond_rock: 12360
+notes: "Xeen design brief, DD-10C Gemstone Mines, north pocket (D6; Q-D7), class S, built from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd10c.graph.yml) with decider D-27 (mockups/act3_a8_decisions_b.md): Act V, party 48-51, 40-50, 20 monsters (D-62: Floating Eye 14, Terrible Eye 4, Patrol 2), treasure 5, music 18. Geometry, veins, refill, false vein, lava seam, lights, sounds and dressing built in phase 3 ; monsters, the exit to D6 and the install in phase 5 (D-62). Quest bits: q-d7.refill_c 113143, q-d7.dug 113144 (A3); the map's arrived_once 117240 (provisional block 117240-117279). Items: diamond rock 12360 (the hook's map_gives, one per vein). Map card (D-62 Q50): encounter 10, Floating Eye at Dif 0 only (A2's 9161)."
+identity:
+  shape: mine
+  family: 7d35
+  seen: ["a timbered adit and the lava gallery's timbered west end: rails, an abandoned cart, lava cooling in the seam", "the diamond cavern under its black roof, every vein framed by crystal growing out of the rock", "the crystal grotto's geode, the collapse's heap of fallen roof, the cold nest's split egg cases"]

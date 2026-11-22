@@ -1,0 +1,73 @@
+format: 0
+id: xeen_x9
+name: Clouds of Xeen
+world: xeen
+kind: indoor
+profile: region
+map_code: X9
+units: {plan_grid: 512}
+extent: {footprint_cells: [96, 90]}
+map_stats:
+  id: 9107
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 5
+  trap_dice: 5
+  perception_difficulty: 5
+  refill_days: 672
+  music: 21
+  environment: plains
+  lock_difficulty: 10
+  slots:
+    - {monster: Xeen Roc, tier: 1, per_marker: [2, 3], weight: 80}
+    - {monster: Xeen Elemental Golem, tier: 2, per_marker: [1, 3], weight: 20}
+neighbours:
+  - id: door:fd04
+    to: xeen_fd04.blv
+    kind: door
+    arrival: entrance:x9_clouds
+    screen: {text: 5065}
+    notes: "Q-F1 (Act VI, optional, D-57 Q36): FD-04's roof stair arrives at entrance:fd04_roof; the door in the dragon-head rock's south face leads down to FD-04's entrance:x9_clouds."
+  - id: door:xd19
+    to: xeen_xd19.blv
+    kind: door
+    arrival: entrance:x9_gate
+    screen: {text: 5019}
+    notes: "Castle Xeen's gate into XD-19's entrance:x9_gate (A7): the gate's script writes the exit preset's MoveToMap. XD-19's exit and the scepter's leave come back to entrance:xd19_gate (0, 11264, 768), 1536."
+  - id: fall:x2
+    to: xeen_x2.odm
+    kind: fall
+    arrival: [-15360, 3072, 768]
+    direction: 0
+    notes: "Every fall lands on X2's entrance:x9_fall (-15360, 3072), Darzog's island by the tower door, ground 768, facing east, with falling damage (A3's Xeen.skyFallTo('x9'))."
+  - id: roof:xd12
+    to: xeen_xd12.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-12's cloud stair (A8's exit:clouds_of_xeen, sealed until X9 exists) arrives at entrance:xd12_roof. No way back down but falling or Lloyd's Beacon."
+qbits:
+  m21_crodo_freed: 110501
+  m34_done: 111685
+  m35_done: 111707
+  m4_done: 110047
+  nest_a1: 116222
+  nest_a2: 116223
+  nest_a3: 116224
+  nest_se: 116221
+  nest_sw: 116220
+  qf1_eye_done: 114021
+items:
+  accuracy_doll: 12370
+  endurance_doll: 12369
+  lord_xeen_doll: 12371
+  might_doll: 12367
+  speed_doll: 12368
+rules:
+  no_fly: true
+  weather: none
+  fall_through:
+    below: -1000
+    how: wiring evt:fall_check (a one-second timer) and evt:fall_floor (the safety floor at -6000)
+    landing: [-15360, 3072]
+    to: fall:x2
+notes: "Xeen design brief, level L3: X9 Clouds of Xeen, an open-air BLV of walkable clouds over Lake Darzog (devdocs/INDOOR_OPEN_SKY.md), built with the studio (profile region) as X8 Cloudreach: one room open to the sky with the clouds, bridges, the unseen way, Slick's carnival and Castle Xeen's shell hanging in it. Act V, party 46-48; map_stats 9107 (A2's row; the block here is the studio's copy), music 21, treasure 5, sky xeencloud. Placed: Rocs 11561, Griffins 11562, Cloud Golems 11592 (50 in 19 groups); Slick 11914 (peaceful, uncounted). Hooks: A3's m34.* and x9.*."

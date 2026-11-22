@@ -78,6 +78,7 @@ rooms:
     name: Cave mouth
     outline: [[-640, 0], [640, 0], [704, 320], [512, 576], [384, 960], [-384, 960], [-576, 640], [-704, 256]]
     floor: 0
+    rough: {step: 192, depth: 48}
     ceiling: 640
     ceiling_points: [[0, 448, 768], [-256, 704, 704], [256, 704, 704]]
     theme: theme:rock
@@ -94,10 +95,15 @@ rooms:
     name: Cookfire cave
     outline: [[-896, 5760], [1024, 5760], [1408, 6016], [1408, 7040], [1088, 7296], [-896, 7296], [-1280, 7040], [-1280, 6016]]
     floor: -256
+    floor_points: [[-896, 6528, -192], [-576, 6208, -240], [704, 6848, -240], [1024, 6528, -208], [64, 6528, -256], [0, 6464, -256], [0, 6592, -256], [128, 6464, -256], [128, 6592, -256], [-88, 6528, -256], [216, 6528, -256], [-128, 6336, -256], [-128, 6464, -256], [-128, 6592, -256], [-128, 6720, -256], [0, 6336, -256], [0, 6720, -256], [128, 6336, -256], [128, 6720, -256], [256, 6336, -256], [256, 6464, -256], [256, 6592, -256], [256, 6720, -256], [64, 6176, -256], [64, 6880, -256], [-288, 6528, -256], [416, 6528, -256], [-950, 6250, -256], [-1058, 6142, -256], [-1058, 6250, -256], [-1058, 6358, -256], [-950, 6142, -256], [-950, 6358, -256], [-842, 6142, -256], [-842, 6250, -256], [-842, 6358, -256], [1050, 6950, -256], [930, 6830, -256], [930, 6950, -256], [930, 7070, -256], [1050, 6830, -256], [1050, 7070, -256], [1170, 6830, -256], [1170, 6950, -256], [1170, 7070, -256], [1000, 6830, -256], [1100, 6830, -256], [1170, 6900, -256], [1170, 7000, -256], [1100, 7070, -256], [1000, 7070, -256], [930, 7000, -256], [930, 6900, -256], [990, 6890, -256], [990, 7010, -256], [1110, 6890, -256], [1110, 7010, -256], [-780, 7050, -256], [-876, 6954, -256], [-876, 7050, -256], [-876, 7146, -256], [-780, 6954, -256], [-780, 7146, -256], [-684, 6954, -256], [-684, 7050, -256], [-684, 7146, -256], [-815, 7015, -256], [-815, 7085, -256], [-745, 7015, -256], [-745, 7085, -256], [980, 6080, -256], [872, 5972, -256], [872, 6080, -256], [872, 6188, -256], [980, 5972, -256], [980, 6188, -256], [1088, 5972, -256], [1088, 6080, -256], [1088, 6188, -256], [-704, 5856, -256], [-512, 5856, -256], [-320, 5856, -256], [-128, 5856, -256], [64, 5856, -256], [256, 5856, -256], [448, 5856, -256], [640, 5856, -256], [832, 5856, -256], [1099, 5925, -256], [1227, 6011, -256], [1312, 6221, -256], [1312, 6426, -256], [1312, 6630, -256], [1312, 6835, -256], [890, 7200, -256], [691, 7200, -256], [493, 7200, -256], [294, 7200, -256], [96, 7200, -256], [-102, 7200, -256], [-301, 7200, -256], [-499, 7200, -256], [-698, 7200, -256], [-971, 7131, -256], [-1099, 7045, -256], [-1184, 6835, -256], [-1184, 6630, -256], [-1184, 6426, -256], [-1184, 6221, -256], [-1099, 6011, -256], [-971, 5925, -256]]
+    rough: {step: 192, depth: 48}
     ceiling: 512
     ceiling_points: [[64, 6528, 832], [64, 6144, 704], [64, 6912, 704], [-512, 6528, 704], [640, 6528, 704]]
     theme: theme:rock
     platforms:
+      - {at: [-88, 6528], size: [16, 16], rise: 112, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 40, notes: "Spit post, west (was placeholder:spits)"}
+      - {at: [216, 6528], size: [16, 16], rise: 112, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 40, notes: "Spit post, east"}
+      - {id: platform:spit, at: [64, 6528], size: [312, 10], rise: 10, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, solid: false, base: 128, notes: "The roasting spit over the hearth fire, its ends in the two posts"}
       - {id: platform:hearth, rise: 40, surface: {texture: gkp1-bs1, size: [128, 256]}, outline: [[-16, 6336], [144, 6336], [256, 6448], [256, 6608], [144, 6720], [-16, 6720], [-128, 6608], [-128, 6448]], top_surface: {texture: t66flr2, size: [128, 128]}, notes: "The stone hearth ring round the great fire, d12's masonry and flags."}
       - {at: [64, 6176], size: [448, 96], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
       - {at: [64, 6880], size: [448, 96], rise: 24, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: Rock bench}
@@ -131,7 +137,17 @@ rooms:
       - {id: platform:deck, at: [-960, 10176], size: [704, 704], rise: 16, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, bottom_surface: {texture: gkp1ceil, size: [128, 128]}, base: 368, notes: The drum scaffold's deck (zone:drum_scaffold).}
       - {at: [-960, 9832], size: [704, 16], rise: 48, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Rail, south"}
       - {at: [-616, 10184], size: [16, 688], rise: 48, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Rail, east"}
-      - {id: platform:drum_great, rise: 176, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-1013, 10176], [-907, 10176], [-832, 10251], [-832, 10357], [-907, 10432], [-1013, 10432], [-1088, 10357], [-1088, 10251]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, base: 384, notes: The great war drum (the third drum).}
+      - {id: platform:drum_great, rise: 176, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-1013, 10176], [-907, 10176], [-832, 10251], [-832, 10357], [-907, 10432], [-1013, 10432], [-1088, 10357], [-1088, 10251]], top_surface: {texture: xodrumtp, size: [128, 128], scale: 2, offset: [32, 96]}, base: 384, notes: The great war drum (the third drum).}
+      - {at: [-1232, 9864], size: [16, 16], rise: 176, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Spear rack, upright (was placeholder:spear_rack)"}
+      - {at: [-1072, 9864], size: [16, 16], rise: 176, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: "Spear rack, upright"}
+      - {at: [-1200, 9872], size: [4, 4], rise: 200, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: Spear shaft}
+      - {at: [-1200, 9872], size: [7, 7], rise: 30, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 584, top_size: [1, 1], notes: "Spear point, fire-hardened"}
+      - {at: [-1168, 9872], size: [4, 4], rise: 186, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: Spear shaft}
+      - {at: [-1168, 9872], size: [7, 7], rise: 30, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 570, top_size: [1, 1], notes: "Spear point, fire-hardened"}
+      - {at: [-1136, 9872], size: [4, 4], rise: 206, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: Spear shaft}
+      - {at: [-1136, 9872], size: [7, 7], rise: 30, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 590, top_size: [1, 1], notes: "Spear point, fire-hardened"}
+      - {at: [-1104, 9872], size: [4, 4], rise: 192, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 384, notes: Spear shaft}
+      - {at: [-1104, 9872], size: [7, 7], rise: 30, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 576, top_size: [1, 1], notes: "Spear point, fire-hardened"}
       - {at: [-1288, 9848], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
       - {at: [-1288, 10504], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
       - {at: [-960, 9848], size: [48, 48], rise: 368, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: Scaffold post}
@@ -155,6 +171,19 @@ rooms:
       - {from: [-640, 9344], to: [-1408, 9344], width: 768, steps: 8, riser: {texture: gcav1flr, size: [256, 256]}, tread: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The west terraces.}
       - {from: [640, 9024], to: [1408, 9024], width: 768, steps: 8, riser: {texture: gcav1flr, size: [256, 256]}, tread: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The east terraces.}
       - {from: [-1600, 10176], to: [-1312, 10176], from_height: -384, open_below: true, to_height: -256, width: 256, steps: 4, riser: {texture: t66abc10a, size: [32, 128]}, tread: {texture: gkp1ceil, size: [128, 128]}, notes: "The gangway: four timber steps from the west shelf up to the scaffold."}
+    beams:
+      - path: [[-1236, 9864], [-1068, 9864]]
+        width: 12
+        depth: 12
+        bottom: -112
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "Spear rack, top bar"
+      - path: [[-1236, 9864], [-1068, 9864]]
+        width: 12
+        depth: 12
+        bottom: -232
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "Spear rack, foot bar"
     ambient: 16
     notes: "One natural amphitheatre 3,584 by 2,880: the top terrace along the south (the entry), a west shelf and an east top terrace (a U of rock 256 above the floor), three banks of eight rock steps down to the flat floor, two rock buttresses at the bowl's south corners, the drum scaffold standing free on posts over the floor's north-west, the back tunnel from the north wall beside it; the roof rises to 1,600 over the floor, lost in smoke."
   - id: room:drum_hall_entry
@@ -179,7 +208,7 @@ rooms:
       - wall: west
         surface: {texture: xopalis, size: [128, 256]}
     platforms:
-      - {id: platform:drum_signal, rise: 128, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[1080, 2032], [1160, 2032], [1216, 2088], [1216, 2168], [1160, 2224], [1080, 2224], [1024, 2168], [1024, 2088]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, notes: The signal drum at the step's east end (the first drum).}
+      - {id: platform:drum_signal, rise: 128, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[1080, 2032], [1160, 2032], [1216, 2088], [1216, 2168], [1160, 2224], [1080, 2224], [1024, 2168], [1024, 2088]], top_surface: {texture: xodrumtp, size: [128, 128], scale: 1.5, offset: [85, 75]}, notes: The signal drum at the step's east end (the first drum).}
     ambient: 14
     notes: "Mirror of the west step; the signal drum stands at its east end beside the doorway to the upper ledge."
   - id: room:firing_step_w
@@ -200,7 +229,10 @@ rooms:
     name: Plunder cache
     outline: [[-4224, 5632], [-3840, 5696], [-3840, 6208], [-4160, 6336], [-4416, 6080], [-4416, 5824]]
     floor: -224
+    floor_points: [[-4128, 5824, -208], [-4048, 5759, -224], [-3936, 5867, -224], [-3936, 6037, -224], [-4036, 6183, -224], [-4220, 6140, -224], [-4320, 5952, -224], [-4252, 5796, -224]]
+    rough: {step: 192, depth: 48}
     ceiling: 160
+    ceiling_points: [[-4128, 5984, 224]]
     theme: theme:warren
     ambient: 22
     notes: "A low side cave (384 clear) behind the boulder at the hollows' west end, heaped with the farms' plunder."
@@ -234,6 +266,7 @@ rooms:
     space: room:palisade_yard
     outline: [[-384, 1856], [384, 1856], [384, 2752], [-384, 2752]]
     floor: 0
+    rough: {step: 192, depth: 48}
     ceiling: 640
     theme: theme:palisade
     ambient: 14
@@ -242,6 +275,8 @@ rooms:
     name: "Palisade cave, inner yard"
     outline: [[-1280, 2816], [1280, 2816], [1280, 3456], [1088, 3648], [-1088, 3648], [-1280, 3456]]
     floor: 0
+    floor_points: [[-640, 3392, 32], [-320, 3392, 16], [0, 3072, -16], [0, 3392, 16], [640, 3072, -32], [960, 3072, 32], [-900, 3300, 0], [-996, 3204, 0], [-996, 3300, 0], [-996, 3396, 0], [-900, 3204, 0], [-900, 3396, 0], [-804, 3204, 0], [-804, 3300, 0], [-804, 3396, 0], [-935, 3265, 0], [-935, 3335, 0], [-865, 3265, 0], [-865, 3335, 0], [900, 3420, 0], [792, 3312, 0], [792, 3420, 0], [792, 3528, 0], [900, 3312, 0], [900, 3528, 0], [1008, 3312, 0], [1008, 3420, 0], [1008, 3528, 0], [420, 3400, 0], [300, 3280, 0], [300, 3400, 0], [300, 3520, 0], [420, 3280, 0], [420, 3520, 0], [540, 3280, 0], [540, 3400, 0], [540, 3520, 0], [370, 3280, 0], [470, 3280, 0], [540, 3350, 0], [540, 3450, 0], [470, 3520, 0], [370, 3520, 0], [300, 3450, 0], [300, 3350, 0], [360, 3340, 0], [360, 3460, 0], [480, 3340, 0], [480, 3460, 0], [-300, 2950, 0], [-396, 2854, 0], [-396, 2950, 0], [-396, 3046, 0], [-300, 2854, 0], [-300, 3046, 0], [-204, 2854, 0], [-204, 2950, 0], [-204, 3046, 0], [-335, 2915, 0], [-335, 2985, 0], [-265, 2915, 0], [-265, 2985, 0], [-1083, 2912, 0], [-886, 2912, 0], [-689, 2912, 0], [-492, 2912, 0], [-98, 2912, 0], [98, 2912, 0], [295, 2912, 0], [492, 2912, 0], [689, 2912, 0], [886, 2912, 0], [1083, 2912, 0], [1184, 2976, 0], [1184, 3136, 0], [1184, 3296, 0], [1116, 3484, 0], [692, 3552, 0], [99, 3552, 0], [-99, 3552, 0], [-297, 3552, 0], [-495, 3552, 0], [-692, 3552, 0], [-890, 3552, 0], [-1116, 3484, 0], [-1184, 3296, 0], [-1184, 3136, 0], [-1184, 2976, 0]]
+    rough: {step: 192, depth: 48}
     ceiling: 640
     ceiling_points: [[0, 3232, 832], [-768, 3232, 768], [768, 3232, 768]]
     theme: theme:rock
@@ -264,7 +299,10 @@ rooms:
     name: Prisoner pit
     outline: [[-2624, 4992], [-2176, 4992], [-1984, 5184], [-1984, 5504], [-2048, 5696], [-2752, 5696], [-2816, 5504], [-2816, 5184]]
     floor: -480
+    floor_points: [[-2240, 5184, -448], [-2400, 5672, -480], [-2464, 5608, -480], [-2336, 5608, -480], [-2475, 5088, -480], [-2325, 5088, -480], [-2148, 5156, -480], [-2080, 5344, -480], [-2224, 5600, -480], [-2400, 5600, -480], [-2576, 5600, -480], [-2720, 5344, -480], [-2652, 5156, -480]]
+    rough: {step: 192, depth: 48}
     ceiling: 224
+    ceiling_points: [[-2640, 5344, 304], [-2160, 5344, 304]]
     theme: theme:warren
     ambient: 22
     notes: "A round pit about 830 by 700 whose floor is 256 below the hollows; the rim is the doorway in its north wall, closed by the cage gate of lashed poles, a rope ladder down from it."
@@ -273,6 +311,8 @@ rooms:
     space: room:twisting_run
     outline: [[512, 4224], [1216, 4224], [1472, 4480], [1472, 4992], [1280, 5184], [64, 5184], [64, 4864], [256, 4480]]
     floor: -96
+    floor_points: [[448, 4864, -112], [768, 4544, -64], [768, 4864, -144], [1088, 4544, -144], [1088, 4864, -64], [688, 4320, -96], [864, 4320, -96], [1040, 4320, -96], [1276, 4420, -96], [1376, 4651, -96], [1376, 4821, -96], [1308, 5020, -96], [1077, 5088, -96], [875, 5088, -96], [672, 5088, -96], [469, 5088, -96], [267, 5088, -96], [160, 5024, -96], [214, 4779, -96], [278, 4651, -96], [452, 4420, -96]]
+    rough: {step: 192, depth: 48}
     ceiling: 512
     ceiling_points: [[768, 4704, 608]]
     theme: theme:rock
@@ -298,8 +338,8 @@ rooms:
         surface: {texture: xobones, size: [128, 256]}
     platforms:
       - {id: platform:dais, at: [-2912, 7200], size: [320, 512], rise: 32, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, notes: The dais before the wall of bones.}
-      - {id: platform:drum_spirit, rise: 112, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-2952, 7104], [-2872, 7104], [-2816, 7160], [-2816, 7240], [-2872, 7296], [-2952, 7296], [-3008, 7240], [-3008, 7160]], top_surface: {texture: xodrumtp, size: [128, 128], fit: true}, base: 32, notes: The spirit drum on the dais (the second drum).}
-      - {id: platform:hide_curtain, at: [-1744, 7200], size: [16, 320], rise: 320, surface: {texture: xohide, size: [128, 256], scale: 1.25}, end_surface: {texture: xohide, size: [128, 256], uneven: true}, top_surface: {texture: xohide, size: [128, 256]}, solid: false, notes: "The hide curtain across the doorway from the steps: drawn, walked through."}
+      - {id: platform:drum_spirit, rise: 112, surface: {texture: xodrumsd, size: [128, 128]}, outline: [[-2952, 7104], [-2872, 7104], [-2816, 7160], [-2816, 7240], [-2872, 7296], [-2952, 7296], [-3008, 7240], [-3008, 7160]], top_surface: {texture: xodrumtp, size: [128, 128], scale: 1.5, offset: [85, 0]}, base: 32, notes: The spirit drum on the dais (the second drum).}
+      - {id: platform:hide_curtain, at: [-1744, 7200], size: [16, 320], rise: 320, surface: {texture: xohide, size: [128, 256], fit: true, uneven: true}, end_surface: {texture: xopoles, size: [128, 128]}, top_surface: {texture: xopoles, size: [128, 128]}, solid: false, notes: "The hide curtain across the doorway from the steps: drawn, walked through."}
     ambient: 18
     notes: "An oval den about 1,400 by 1,350 thick with smoke; the west wall is rock set with skulls and bones; the spirit drum on a rock dais before it, the shaman's chest beside it, green spirit fire in two torches and a bubbling cauldron."
   - id: room:shaman_steps
@@ -316,7 +356,10 @@ rooms:
     name: Sleeping hollows
     outline: [[-1344, 5952], [-1344, 6400], [-1920, 6464], [-2432, 6400], [-2944, 6464], [-3456, 6400], [-3776, 6272], [-3776, 5760], [-3520, 5568], [-3072, 5632], [-2816, 5760], [-1984, 5760], [-1728, 5632], [-1472, 5696]]
     floor: -224
+    floor_points: [[-2560, 6176, -208], [-2240, 6176, -176], [-1600, 6176, -208], [-3200, 6016, -224], [-3456, 5760, -224], [-3456, 5888, -224], [-3456, 6016, -224], [-3456, 6144, -224], [-3456, 6272, -224], [-3328, 5760, -224], [-3328, 5888, -224], [-3328, 6016, -224], [-3328, 6144, -224], [-3328, 6272, -224], [-3200, 5760, -224], [-3200, 5888, -224], [-3200, 6144, -224], [-3200, 6272, -224], [-3072, 5760, -224], [-3072, 5888, -224], [-3072, 6016, -224], [-3072, 6144, -224], [-3072, 6272, -224], [-2944, 5760, -224], [-2944, 5888, -224], [-2944, 6016, -224], [-2944, 6144, -224], [-2944, 6272, -224], [-3600, 6016, -224], [-3728, 5888, -224], [-3728, 6016, -224], [-3728, 6144, -224], [-3600, 5888, -224], [-3600, 6144, -224], [-1440, 6101, -224], [-1440, 6251, -224], [-1547, 6326, -224], [-1739, 6347, -224], [-2079, 6347, -224], [-2249, 6326, -224], [-2615, 6326, -224], [-2785, 6347, -224], [-3103, 6347, -224], [-3273, 6326, -224], [-3580, 6247, -224], [-3680, 6101, -224], [-3680, 5931, -224], [-3590, 5741, -224], [-3384, 5684, -224], [-3235, 5706, -224], [-2987, 5782, -224], [-2608, 5856, -224], [-2400, 5856, -224], [-2192, 5856, -224], [-1813, 5782, -224], [-1623, 5757, -224], [-1494, 5867, -224]]
+    rough: {step: 192, depth: 48}
     ceiling: 288
+    ceiling_points: [[-3520, 6016, 368], [-3040, 6016, 384], [-2560, 6016, 352], [-2080, 6016, 352], [-1600, 6016, 336]]
     theme: theme:warren
     ambient: 20
     notes: "A crooked passage 2,400 long running west from the cookfire, 32 above it, with sleeping hollows off it (south-east by the entrance, south-west, the west end). The pit's rim is the straight stretch of the south wall; drag marks lead to the boulder in the straight west wall."
@@ -324,6 +367,7 @@ rooms:
     name: Snake pool
     outline: [[1856, 9536], [2944, 9536], [3392, 9792], [3456, 10304], [3072, 10816], [2240, 10816], [1856, 10432]]
     floor: -704
+    rough: {step: 192, depth: 48}
     ceiling: -128
     ceiling_points: [[2688, 10176, 0]]
     theme: theme:wet
@@ -393,6 +437,7 @@ rooms:
     path: [[2048, 7488], [2048, 6912], [1760, 6528], [1760, 2048], [1344, 2048]]
     width: 320
     floor: 192
+    rough: {step: 192, depth: 40}
     ceiling: 576
     theme: theme:rock
     notes: "A natural ledge 320 wide and about 6,000 long at 192, from the chimney's top landing south to the east firing step. Two windows in its west side over a 64 rock lip look down into the cookfire cave (448 down) and the run's bend (288 down); the party can drop, not climb back."
@@ -442,7 +487,7 @@ openings:
     from: room:palisade_cave
     to: room:palisade_gate
     link: link:palisade_gate
-    along: 0.3333
+    along: 0.3646
     width: 192
     height: 384
     reveal: {texture: t66abc10a, size: [32, 128]}
@@ -451,11 +496,11 @@ openings:
     from: room:palisade_cave
     to: room:palisade_gate
     link: link:palisade_gate
-    along: 0.6667
+    along: 0.6354
     width: 192
     height: 384
     reveal: {texture: t66abc10a, size: [32, 128]}
-    notes: "The palisade gate's west leaf (a hinged plank door); a gate post 32 wide between the two leaves."
+    notes: "The palisade gate's west leaf (a hinged plank door); the two leaves meet over a 16-wide sliver of post, a pair (A1's door check, merge point 15)."
   - id: open:gate_yard
     from: room:palisade_gate
     to: room:palisade_yard

@@ -1,0 +1,49 @@
+# Q-C21 Phirna Root (QUESTS 2.1). Repeatable: one root at a time, five Cure Poison potions each. Owner: A3.
+id: Q-C21
+title: Phirna Root
+act: I
+kind: side
+status: full
+giver: 4042          # Myra the Herbalist, Toad Meadow
+maps: [X1]
+level: 3
+block: 71
+after: []
+source: "QUESTS Q-C21; xeen/aaze0023:0-3, :8-10, :30-32"
+
+qbits:
+  started: {id: 112420, journal: "Myra the Herbalist gives five potions for every Phirna root from Toad Meadow.", until: [done]}
+  done: {id: 112421, note: "the first root delivered"}
+
+items:
+  phirna_root: "a Phirna root; dug from the plants of Toad Meadow (X1), one at a time; Myra takes it."
+
+npcs:
+  4042:              # Myra
+    topics:
+      - n: 1
+        label: Phirna root
+        states:
+          - when: {all: [{item: phirna_root}, {not: {qbit: done}}]}
+            text: "Thanks for the ingredients. I'll make a batch right away."
+            do: [{take: phirna_root}, {give: "engine:226", count: 5}, {set: done}, {clear: started}, {xp: 250}]
+          - when: {item: phirna_root}
+            repeatable: true
+            text: "Thanks for the ingredients. I'll make a batch right away."
+            do: [{take: phirna_root}, {give: "engine:226", count: 5}]
+          - when: {qbit: started}
+            text: "What, no Phirna root? I can't make you any potions without the root."
+          - text: "Toad meadow is the only known source of Phirna root, a vital ingredient in antidote potions. The witches of the meadow have been turning everyone they find into toads, so I don't dare go there. I will give you five potions for each Phirna root you bring me."
+            do: [{set: started}]
+
+hooks:
+  phirna_plant:
+    map: X1
+    where: "each Phirna plant of Toad Meadow (three or four; every plant calls this hook)"
+    requires: {not: {item: phirna_root}}
+    gives: [phirna_root]
+    text: "You have found a Phirna plant. Ok, you dug it up."
+    fail_text: "Sensing that you already have another Phirna root, the plant stubbornly resists your greedy fingers."
+
+rewards: {xp: 250, gold: 0}
+playthrough: "Myra (Phirna root); a plant; Myra (Phirna root): five Cure Poison potions."

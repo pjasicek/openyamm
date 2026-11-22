@@ -1,0 +1,71 @@
+# The Xeen guide's FAQ (tools/xeen_site/build_site.py; format as tools/mm9_site/faq/faq.yml): `[text](#route)` links.
+# Facts from the world package (source/quests, source/towns, events/common/xeen_common.lua) and devdocs/xeen/QUESTS.md.
+questions:
+  - id: two-sides
+    short: The two sides
+    q: How is the World of Xeen laid out?
+    answer:
+      - "Xeen is one flat world with two faces. Cloudside (the bright top: Vertigo, Rivercity, Castle Burlock, the cursed towns and Lord Xeen's castle in the clouds) is where a new game starts, in Vertigo's square. Darkside (amber days under a failing sun: Castleview, Castle Kalindra, Sandcaster, Lakeside, Necropolis and Castle Alamar) opens in Act III. The world's edge is a cliff above the stars."
+      - "Each face has six or seven surface maps joined edge to edge (five days' walk, seven between wilderness maps), dungeons under them, and a sky above: Cloudreach and the Clouds of Xeen over Cloudside, the Skyroads and Olympus over Darkside. The four Elemental Planes and the Clouds of the Ancients come at the end of the story. The [Travel](#travel) page draws the whole world; the [Maps](#maps) page lists every map by region."
+  - id: darkside
+    short: Getting to Darkside
+    q: How do I reach Darkside?
+    answer:
+      - "Through the travel pyramids. The pyramid on the knoll east of Vertigo and the one outside Castleview are a pair: before the party holds the Pyramid Sigil each only says that the moons are not aligned. Artemus, the King's advisor at Castle Burlock, gives the sigil in [The Land Below the Land](#quest-m7) (Act II, about level 14). Darkside's first maps are set for levels 15-20, and you can keep going back and forth: the two halves are played side by side."
+      - "A second pair of pyramids, in Shangri-La and outside Castle Alamar's gate in the Forbidden Zone, opens after [The Chosen Ones](#quest-m30)."
+  - id: fast-travel
+    short: Fast travel
+    q: How do I get around quickly?
+    answer:
+      - "Every town has a magic mirror. Touch it once and its town joins the list; any mirror of the same side then takes you to every town whose mirror you have touched, for free. Cloudside's mirrors work from the start. Darkside's mirrors wake only when Castle Kalindra is whole (twenty Energy Disks, [Kalindra Restored](#quest-m26)); a cursed town's mirror stays dark until the town is freed."
+      - "Touching a town's mirror also puts the town on Town Portal's page for its side (Cloudside: Vertigo, Rivercity, Castle Burlock, Winterkill, Nightshadow, Newcastle; Darkside: Castleview, Castle Kalindra, Sandcaster, Lakeside, Necropolis, Olympus). Town Portal shows the page of the side you stand on."
+      - "Coaches and boats run by weekday (the [Travel](#travel) page has their timetables and a route planner). Lucio's celestial boats to Olympus sail after The Chosen Ones."
+  - id: fly
+    short: Fly
+    q: Can I use Fly?
+    answer:
+      - "On the surface maps, yes, as in MM6-MM8. Fly cannot be cast on the sky maps (Cloudreach, the Clouds of Xeen, the Skyroads) or on the Elemental Planes: the clouds are the floor there, and walking off a cloud's edge drops you onto the map below. Castle Blackfang's storm of bats knocks a flying party to the ground; Ambrose's griffin takes you in ([The Griffin](#quest-m25))."
+  - id: newcastle
+    short: Newcastle
+    q: How do I build Newcastle?
+    answer:
+      - "Newcastle, the party's Cloudside home in Lifeforce Lagoon, is built in four steps. Buy the ruins' deed for 12,000 gold ([The Deed to Newcastle](#quest-m8)). Then Emerson, the King's engineer at Castle Burlock, builds for King's Megacredits, five at a time: the walls ([The Walls of Newcastle](#quest-m9)), the keep ([The Keep of Newcastle](#quest-m11)) and, with Artemus's Excavation Permit, the dungeon ([The Excavation Permit](#quest-m22)). Sixteen Megacredits exist and fifteen are needed ([King's Megacredits](#quest-m10))."
+      - "Each step brings something: after the walls Ebenezer at the site passes on his workers' news that the Tomb of a Thousand Terrors is full of Megacredits, after the keep that the Golem Dungeon is (both dungeons stand open from the start), and the keep brings a smith and training; after the dungeon the temple and the bank, and the sword vault below waits for [The Xeen Slayer Sword](#quest-m23)."
+  - id: kalindra
+    short: Castle Kalindra
+    q: How do I restore Castle Kalindra?
+    answer:
+      - "Castle Kalindra, east of Castleview, is out of phase. Ellinger, in his study at the top of his tower, takes Energy Disks five at a time; each five bring back part of the castle ([The Energy Disks](#quest-m18), [Castle Kalindra Returns](#quest-m19), [Kalindra Restored](#quest-m26)):"
+      - "5 disks: the gate and throne room, the Perception and Armsmaster teachers Gem and Errol, the thievery safes. 10: the second floor with Dimitri and Megan, the disk safes and the telescope (Identify Item Master). 15: the dungeon with Guido, Scraps the pet dragon and the imprisoned liches (Dimitri's test, the Champion promotion). 20: the third floor with the Queen's bedroom and crown safe, the temple, bank, training hall, smith and stables, and the Darkside mirrors wake."
+      - "Twenty-five disks exist and twenty are needed: the gremlins, the sprites, the ogres, the four towers, the Temple of Bark and the castle's own safes hold them, and your choices in those quests decide which you get."
+  - id: promotions
+    short: Promotions
+    q: How do promotions work?
+    answer:
+      - "Every promotion is attached to a quest, and it promotes every member of the party whose class it serves at once; a member who joins later is promoted by the same person. The first tier is on Cloudside (Knight, Paladin and Ranger by [The Crusade](#quest-t1-a); Sorcerer and Archer by Barok's Pendant; Druid and Cleric by the Scarab of Imaging; Monk by the Ninja Pagoda; Thief by the Tiara)."
+      - "The second tier is on Darkside, with a Light and a Dark quest for each class line, as in MM7: a member promoted by the Light quest cannot take the Dark one. For now a hand-in promotes every member of that class at once: to send two members of one class different ways, keep one out of the party (at an Adventurer's Inn) for the first hand-in, then bring them to the other path's promoter, who promotes later members unpaid. Some quests decide the path by the route you take (the polite or the mercenary way with the sprites, siding with the knights or with Dreyfus). The racial classes (Minotaur, Troll, Vampire, Dragon, Dark Elf) have one promotion each. The [Promotions](#quests-promotion) page lists every one with its promoter and quests."
+  - id: wells
+    short: Wells and shrines
+    q: What do the wells, fountains and shrines do?
+    answer:
+      - "Each map has a few. Temporary ones (\"+20 Might until you rest\") work once a day for the whole party: drinking again the same day gives nothing, and they work again after midnight. Permanent ones give a small stat or resistance bonus once per character (each side has six elemental shrines for resistances). The map pages mark them all as \"Well / fountain / shrine\", with what each gives; open a map and pick the marker type in the legend."
+  - id: cursed-towns
+    short: Cursed towns
+    q: Why are a town's doors closed?
+    answer:
+      - "Asp, Winterkill, Nightshadow and Lakeside are under a curse: most of their houses (and their mirror) stay shut until the town's quest frees them ([The Snakes of Asp](#quest-q-c5), [Ghosts of Winterkill](#quest-q-c6), [The Count of Nightshadow](#quest-q-c7), [The Coven](#quest-q-d22)). A few houses at the edge of town are open from the start. The map pages show each closed house with the quest that opens it."
+  - id: gems
+    short: Gems
+    q: What are gems for?
+    answer:
+      - "Gems are a second currency, as in the original Xeen games. The talking skulls in the Cave of Illusion sell stat points and the Enchanted Key for gems ([The Enchanted Key](#quest-m12)), the Dragon Tax Office at the Dragon Cave's mouth on Mount Firestone charges 2,000 gold and 20 gems for an audience with the Dragon King (the rest of the cave is open to all), Slick's carnival games in the Clouds of Xeen cost gems, the gemsmiths of Castleview Vale make gem gear from rocks of the Gemstone Mines ([The Gemsmiths](#quest-q-d7)), and a lucky genie lamp grants ten. Gems drop from monsters and chests."
+  - id: obelisks
+    short: Obelisks
+    q: What are the obelisks?
+    answer:
+      - "Every surface map has one obelisk. Each side's obelisks together spell a verse that points to a buried hoard ([The Obelisks](#quest-obelisks)). The map pages mark them as \"Obelisk / clue\"."
+  - id: teachers
+    short: Teachers
+    q: Where do I learn Expert, Master and Grandmaster?
+    answer:
+      - "Every skill has three teachers, one per mastery, in three different places; Grandmasters are late or remote, and a few teachers wait behind a quest (a cursed town, a castle stage). The [Teachers](#teachers) page lists all of them with their price, what they need and where they stand. Training halls cap the level they train to; the higher halls are in the castles and late towns."

@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the first image paint_mask_guide.png as an alpha-locked texture atlas. Keep its entire 1536x2048 transparent canvas, including large blank margins. Recolour its existing pixels in place. Every silhouette, gap, orientation, scale and position exactly matches the guide. Three columns four rows of equal square cells. Rows 1 and 3 contain two tiny end-on silhouettes then a thin horizontal view, row 2 and 4 contain a horizontal view, a vertical view and a fully transparent cell. Upper five silhouettes: paint unlit base colour from design_reference.png, palette from icon_x8.png, ignore magenta. A honey-brown wood shaft with dark brown spiral leather grip and small exposed wooden butt; dull iron cap, chain and spiked ball. Match grain, facets, scale and details, no lighting, highlights, shadows, reflections or outline. Lower five silhouettes: exact flat segmentation by visible material: uniform #FF0000 iron, #00FF00 leather, #FFFF00 wood. No blends or gradients, strokes or texture anywhere in masks. Keep every transparent pixel, no labels, dividers or ground. Output one transparent portrait 3:4 PNG. Correction: trace only the guide's existing alpha including the solid grey chain segments in the upright view. Do not cut holes into those solid segments. Preserve all original holes. Both halves must have identical, clean alpha without coloured fringes, ghost edges or stray specks. The end-on view of the wooden butt is wood in the albedo and pure yellow in the mask.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "b485c0a43caf57f5c1a4648336620e1e01575c2d26b3afae6ef854403308d02f"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "db5bfb8e545f1d6b22992637a08b83679f1a05c9657f2ed513e168ad1e75d0be"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "1611d4bf1b04308cb26fbfb1f4130dba3525d9a57435b4358c0911666551f102"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92c-fb69-7c92-93af-29e33dc91cc5/exec-6885bde7-e6cd-4070-9db4-8399689bed2a.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

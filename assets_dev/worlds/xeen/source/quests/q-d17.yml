@@ -1,0 +1,258 @@
+# Q-D17 The Chalice of Protection (QUESTS 2.2 Q-D17; Act V, D-16; Dark promotion Black Knight / Villain). Owner: A3.
+# Bosco the Dwarf King (5401, Bosco's Hall DD-25) fears a poisoned drink and wants the Chalice of Protection from the
+# Voweless Knights' Northern Tower (DD-08); he gives the tower's key (a qbit, read by DD-08's door). The knights leave
+# the vowels out of everything (the tower's books: "Lt slpng dgs l"); on L4 a voice asks what you seek and wants the
+# answer their way, "Chlc" (Bosco says so; the Castleview library sells their sayings). Light: the Chalice to Bosco
+# (the source's reward line; 2 Energy Disks, gold, an award). Dark: swear the Voweless oath on L4's plaque and give the
+# Chalice back to the knights: they keep it, give 2 Energy Disks, and promote Cavaliers to Black Knights and Crusaders
+# to Villains (D-16: a route choice, the class change is the reward).
+id: Q-D17
+title: The Chalice of Protection
+act: V
+kind: side
+status: full
+giver: 5401          # Bosco, the Dwarf King (DD-25)
+maps: [DD-25, D5, DD-08]
+level: 50
+block: 97
+after: []
+source: "QUESTS Q-D17, 3.2; dark/aaze0013:13-16; aaze0069-0072 (the knights' books, the voice); aaze0037:5"
+
+qbits:
+  started: {id: 113340, journal: "Bosco the Dwarf King wants the Chalice of Protection from the Voweless Knights' Northern Tower. The tower door is never locked; the knights fear nobody who cannot spell.",
+            until: [done, oath]}
+  key: {id: 113341, note: "the Northern Tower's key (DD-08's door reads it)"}
+  voice_answered: {id: 113342, note: "L4's voice answered 'Chlc' (the chalice room opens)"}
+  done: {id: 113343}
+  chalice_taken: {id: 113345, note: "the Chalice taken from its stand"}
+  oath: {id: 113344}
+  answers_bought: {id: 113346, note: "Librarian Ormond's copy of the Voweless Knights' answers bought (500 gold, D-61): the answers autonote"}
+  # DD-08's own map qbits (A8's L4, D-61: block 117640-117656), registered so nothing else takes the numbers
+  arrived_once: {id: 117640, map: DD-08, note: "the first arrival's line once (A8's evt:arrival)"}
+  wall_w: {id: 117652, map: DD-08, note: "the west wall plate pressed: its wall opens (on every load after)"}
+  wall_e: {id: 117653, map: DD-08, note: "the east wall plate pressed: its wall opens (on every load after)"}
+  shield_find: {id: 117654, map: DD-08, note: "the shield panel's find once"}
+  helm_find: {id: 117655, map: DD-08, note: "the helm panel's find once"}
+  mail_find: {id: 117656, map: DD-08, note: "the mail panel's find once"}
+
+player_bits:         # once per character (D-61 Q25, Q26); the books give every member present, the throne the sitter
+  book_sleeping_dogs: {id: 11370, map: DD-08, note: "\"Lt slpng dgs l\": +1 Endurance (base)"}
+  book_laughs_last: {id: 11371, map: DD-08, note: "\"H wh lghs lst, lghs bst\": +1 Personality"}
+  book_needs_of_many: {id: 11372, map: DD-08, note: "\"Th nds f th mny twgh th nds f th fw\": +1 Might"}
+  book_love_of_money: {id: 11373, map: DD-08, note: "\"Lv f mny s th rt f ll vl\": +1 Luck"}
+  book_gift_horse: {id: 11374, map: DD-08, note: "\"Dn't lk gft hrs n th mth\": +1 Accuracy"}
+  book_fool_and_money: {id: 11375, map: DD-08, note: "\"Fl nd hs mny r sn prtd\": +1 Intellect"}
+  book_wishes_horses: {id: 11376, map: DD-08, note: "\"F wshs wr hrss, bggrs wld rd\": +1 Speed"}
+  euphoria: {id: 11377, map: DD-08, note: "the Euphoria Throne after the four lows: +1 to all seven statistics (base)"}
+
+autonotes:
+  tower: {id: 4570, text: "The Northern Tower, in the Desert of Doom: the Voweless Knights. On the top floor a voice asks what you seek: answer without vowels, Chlc.", category: Misc}
+  answers: {id: 4571, text: "The Voweless Knights' answers (Librarian Ormond's copy): Let sleeping dogs lie. He who laughs last, laughs best. The needs of the many outweigh the needs of the few. Love of money is the root of all evil. Don't look a gift horse in the mouth. A fool and his money are soon parted. If wishes were horses, beggars would ride. And what their voice wants to hear you seek: Chlc.", category: Misc}
+
+awards:
+  taster: {id: 457, text: "Royal Taste Tester to Bosco the Dwarf King", sort: 2}
+
+items:
+  chalice_of_protection: "DD-08 L4's chalice room (chalice hook); Bosco takes it, or the knights (oath hook) take it back"
+  energy_disk: "two from Bosco or from the knights; Ellinger takes them (m19)"
+
+npcs:
+  5401:              # Bosco
+    topics:
+      - n: 1
+        label: Chalice
+        states:
+          - when: {qbit: done}
+            text: "I drink from it every morning. Water, mostly. I'm still alive, so it works."
+          - when: {qbit: oath}
+            text: "You gave it back to those mumbling knights? I'll die of thirst before I die of poison. Get out."
+          - when: {item: chalice_of_protection}
+            text: "Oh, thank the Gods! You have the Chalice. For saving my life, I dub thee royal taste testers and give you this treasure."
+            do: [{take: chalice_of_protection}, {set: done}, {clear: started}, {award: taster}, {give: energy_disk, count: 2},
+                 {gold: 5000}, {xp: 14000}, {lua: "evt.SetNPCGreeting(5401, 5407)"}]   # A4's later greeting (D-62)
+          - when: {qbit: started}
+            text: "Please get the Chalice. I live in fear for my life. And remember: when the voice asks what you seek, answer the knights' way. No vowels. C, H, L, C."
+          - text: "Recently, my tribal seer told me I will die by drinking a poisoned drink. The royal Chalice of Protection neutralises any poison placed in it. The knights of the Northern Tower have it, and my efforts to steal it have been in vain. Their door stands open; nobody gets past their voice. They leave the vowels out of everything they say; when their voice asks what you seek, answer it their way: Chlc. Bring me the Chalice and I will reward you well."
+            do: [{set: started}, {set: key}, {autonote: tower}]
+  4928:              # Librarian Ormond, Castleview Library (D-61): the Voweless Knights' answers for 500 gold (A4's topic)
+    topics:
+      - n: 2
+        label: The Voweless Knights' answers
+        states:
+          - when: {qbit: answers_bought}
+            text: "You have the copy already. Read it slowly; they did not write it slowly."
+          - when: {gold: 500}
+            text: "Five hundred gold. Their seven sayings, bound, with the vowels put back in the margin, and the answer their voice wants. Mind the binding."
+            do: [{pay: 500}, {set: answers_bought}, {autonote: answers}]
+          - text: "Five hundred gold, and not a copper less. Knowledge is free. Binding is not."
+
+hooks:
+  tower_door:
+    map: D5
+    where: "the Northern Tower's door (the map's door event; true opens it). D-89: open (Bosco's key is retired; `key` is still set by his topic, read by nothing)"
+    entrance: DD-08
+    status: true
+    text: "Over the door: \"Grnd rdr f Vwlss Knghts\"."
+  voice:
+    map: DD-08
+    where: "L4's antechamber, the voice's mask: the map shows dark/aaze0072:2 and asks 'Wht d y sk?' (D-61 Q27): 'Chlc' or 'aie' (the source's own answer, the vowels) calls this hook and opens the iron door; 'Chalice' calls voice_wrong; anything else voice_other"
+    sets: [voice_answered]
+    text: "\"Very Good! Lv Lng nd prspr!\" The iron door beside you swings open."
+  voice_wrong:
+    map: DD-08
+    where: "the same voice, 'Chalice' (the word with its vowels, dark/aaze0072:6)"
+    text: "Have you learned nothing of the Voweless Knights? Begone!"
+  voice_other:
+    map: DD-08
+    where: "the same voice, any other answer (dark/aaze0072:7)"
+    text: "That's not why you are here! Study your lessons."
+  chalice:
+    map: DD-08
+    gate: puzzle
+    where: "the chalice room on L4 (the cup on its stand, clicked)"
+    requires: {qbit: voice_answered}
+    gives: [chalice_of_protection]
+    sets: [chalice_taken]
+    once: true
+    text: "A chalice of silver with white gold tracery, humming faintly. Nobody stops you taking it. Nobody says anything at all."
+    else_text: "An empty stand."
+  oath:
+    map: DD-08
+    window: "a choice's answer, long (the oath and the promotion, 266 characters; DECIDE: shorten for the status line)"
+    gate: beat
+    where: "the plaque 'In honor of the Grand Order of Voweless Knights' on L4 (the map's prompt 'Swear the Voweless oath?'; Yes calls the hook)"
+    requires: {all: [{item: chalice_of_protection}, {not: {qbit: done}}]}
+    takes: [chalice_of_protection]
+    gives: [energy_disk, energy_disk]
+    sets: [oath]
+    once: true
+    do: [{clear: started}, {xp: 14000}, {promote: knights}]
+    alternative: true    # the oath route; Bosco's hand-in pays the same
+    text: "You set the Chalice before the plaque and say the oath, every word without a vowel. The knights come out of the walls. They say nothing, which you now understand as approval, and hand you two humming disks. The warriors among you leave as Black Knights and Villains."
+    fail_text: "A plaque reads: \"In honor of the Grand Order of Voweless Knights\". The knights swear on the Chalice, and you have not got it."
+    else_text: "The plaque of the Voweless Knights. Th nth s swrn."
+  oath_again:
+    map: DD-08
+    gate: beat
+    where: "the same plaque after the oath (the map calls it after `oath` returns false)"
+    requires: {all: [{qbit: oath}, {promotable: knights}]}
+    do: [{promote: knights}]
+    text: "The new member says the oath without a vowel, and the knights nod."
+
+  book_sleeping_dogs:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0069:8-9, :19): Xeen.vowelessBook(\"sleeping_dogs\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11370"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11370)"}
+        text: "\"Let sleeping dogs lie.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"Let sleeping dogs lie.\" The page fills in its own vowels as you watch, and you feel you could sleep through anything. (+1 Endurance, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11370, BaseEndurance, 1)"}]
+  book_laughs_last:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0069:11-12, :20): Xeen.vowelessBook(\"laughs_last\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11371"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11371)"}
+        text: "\"He who laughs last, laughs best.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"He who laughs last, laughs best.\" The page fills in its own vowels, and somewhere below a knight laughs once, last. (+1 Personality, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11371, BasePersonality, 1)"}]
+  book_needs_of_many:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0070:2-3, :11): Xeen.vowelessBook(\"needs_of_many\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11372"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11372)"}
+        text: "\"The needs of the many outweigh the needs of the few.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"The needs of the many outweigh the needs of the few.\" The page fills in its own vowels, and your arms feel ready to carry the many. (+1 Might, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11372, BaseMight, 1)"}]
+  book_love_of_money:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0070:5-6, :12): Xeen.vowelessBook(\"love_of_money\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11373"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11373)"}
+        text: "\"Love of money is the root of all evil.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"Love of money is the root of all evil.\" The page fills in its own vowels, and you feel fortune look kindly on a purse held loosely. (+1 Luck, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11373, BaseLuck, 1)"}]
+  book_gift_horse:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0071:2-3, :14): Xeen.vowelessBook(\"gift_horse\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11374"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11374)"}
+        text: "\"Don't look a gift horse in the mouth.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"Don't look a gift horse in the mouth.\" The page fills in its own vowels, and your eye settles on what matters. (+1 Accuracy, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11374, BaseAccuracy, 1)"}]
+  book_fool_and_money:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0071:5-6, :15): Xeen.vowelessBook(\"fool_and_money\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11375"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11375)"}
+        text: "\"A fool and his money are soon parted.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"A fool and his money are soon parted.\" The page fills in its own vowels, and you feel a little less of a fool. (+1 Intellect, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11375, BaseIntellect, 1)"}]
+  book_wishes_horses:
+    window: "a riddle's answer (Xeen.vowelessBook asks first)"
+    map: DD-08
+    where: "a lectern's book (dark/aaze0071:7-8, :16): Xeen.vowelessBook(\"wishes_horses\", eventId, continueStep) runs this on a right answer (the proverb or its vowels), and alone once nobody present lacks player bit 11376"
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11376)"}
+        text: "\"If wishes were horses, beggars would ride.\" So say the Voweless Knights. You have all taken it to heart."
+      - text: "\"If wishes were horses, beggars would ride.\" The page fills in its own vowels, and your feet feel like they have somewhere to be. (+1 Speed, permanent, for each of you new to the book)"
+        do: [{lua: "Xeen.giveEachOnce(11376, BaseSpeed, 1)"}]
+  book_wrong:
+    map: DD-08
+    where: "any book, a wrong answer (dark/aaze0069:10): the book may be tried again"
+    text: "The book slams shut in disgust...your answer must have been wrong."
+  throne_depressed:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-08
+    where: "L4's Hall of Thrones, an Emotion Throne (dark/aaze0072:8, :21): Xeen.vowelessThrone(\"depressed\") marks it and runs this; the sitter only"
+    do: [{lua: "SetValue(Afraid, 1)"}]
+    text: "You feel depressed. (Afraid)"
+  throne_confused:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-08
+    where: "an Emotion Throne (dark/aaze0072:22): Xeen.vowelessThrone(\"confused\")"
+    do: [{lua: "SetValue(Drunk, 1)"}]
+    text: "You feel confused. (Drunk)"
+  throne_heartbroken:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-08
+    where: "an Emotion Throne (dark/aaze0072:23): Xeen.vowelessThrone(\"heartbroken\")"
+    do: [{lua: "SetValue(Weak, 1)"}]
+    text: "You feel heart broken. (Weak)"
+  throne_insane:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-08
+    where: "an Emotion Throne (dark/aaze0072:24): Xeen.vowelessThrone(\"insane\")"
+    do: [{lua: "SetValue(Insane, 1)"}]
+    text: "You feel insane. (Insane)"
+  euphoria:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-08
+    where: "the Euphoria Throne (dark/aaze0072:9, :11, :25 rescaled, D-61 Q26): Xeen.vowelessThrone(\"euphoria\") runs this once all four lows are marked (it clears them); the sitter, once per character (player bit 11377)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11377))"}
+        text: "It feels so good!"
+      - text: "You feel euphoric! (+1 to every statistic, permanent)"
+        do: [{lua: "for _, stat in ipairs({BaseMight, BaseIntellect, BasePersonality, BaseEndurance, BaseSpeed, BaseAccuracy, BaseLuck}) do AddValue(stat, 1) end"}, {lua: "SetPlayerBit(PlayerBit(11377))"}]
+  unworthy:
+    map: DD-08
+    where: "the Euphoria Throne before the four lows (dark/aaze0072:12)"
+    text: "You're not worthy!"
+  dunce:
+    map: DD-08
+    where: "the Throne of the Dunce in its alcove (dark/aaze0072:10, :12): 50 damage to the party (D-61 Q26)"
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Physical, 50)"}]
+    text: "You're not worthy!"
+
+riddles:
+  - {answer: "Chlc (or aie)", where: "DD-08 L4's voice (q-d17.voice)", said_by: "Bosco (q-d17 Chalice), autonotes q-d17.tower and q-d17.answers (Ormond); the tower's books show the knights' way"}
+  - {answer: "the seven proverbs, or their vowels", where: "DD-08's seven books (Xeen.vowelessBook, q-d17.book_*)", said_by: "the Cliff Notes under L4's pillows (the vowels, A8's map lines, dark/aaze0072:14-20), Librarian Ormond's copy (q-d17 The Voweless Knights' answers, autonote q-d17.answers)"}
+  - {answer: "the four lows, then the Euphoria Throne", where: "DD-08 L4's Hall of Thrones (Xeen.vowelessThrone)", said_by: "the L1 pillow note (dark/aaze0069:15, A8's map line)"}
+
+rewards: {xp: 14000, gold: 5000, items: "2 Energy Disks", award: "Royal Taste Tester", promotion: "Cavalier -> Black Knight, Crusader -> Villain (oath route)"}
+playthrough: "DD-25: Bosco (Chalice). D1: Ormond (The Voweless Knights' answers, optional). D5: the Northern Tower. DD-08: the books on the way up; L4's voice (Chlc), the chalice; the thrones (four lows, then Euphoria). DD-25: Bosco (Chalice)."

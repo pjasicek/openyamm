@@ -1,0 +1,112 @@
+# M17 Ellinger's Tower (QUESTS M17, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# DD-02 inside Castleview's walls: the moral question at the door (any honest answer passes; "I just don't know" does
+# not), traps, and "Who do you seek?" at the top (Ellinger: Oorla says it, m15). Ellinger explains the disks; Darkside's
+# sun begins to fade (Xeen.Stages.darkside_sun, sky xeendark2). His gift waits in Castleview's runaway chest. After the
+# first climb a lift runs both ways between the tower's ground floor and Ellinger's study (tower_lift; D-9.2), because
+# Ellinger takes the disks in his study, five at a time (m19, m26).
+id: M17
+title: Ellinger's Tower
+act: III
+kind: main
+status: full
+giver: 4954          # Ellinger, the Queen's Wizard (DD-02's top)
+maps: [D1, DD-02]
+level: 21
+block: 17
+after: [m16.key]
+source: "QUESTS M17; dark/aaze0053 (the question), aaze0056 (the password, Ellinger), aaze0029 (the boots line)"
+
+qbits:
+  question_passed: {id: 111340, note: "the door's question answered (DD-02's hook)"}
+  password: {id: 111341, note: "\"Who do you seek?\" answered Ellinger (DD-02's hook m17.password)"}
+  done: {id: 111342, journal: "Ellinger, the Queen's wizard: the key to the Dragon Pharaoh's pyramid is in Castle Kalindra, which Alamar moved out of phase. Twenty Energy Disks bring it back, five at a time; Ellinger takes them.",
+         until: [m19.stage2]}
+  chest_still: {id: 111343, note: "Ellinger told his runaway chest to stand still"}
+  dd02_arrived_once: {id: 117080, map: DD-02, note: "the map's own: first arrival in DD-02 (A8)"}
+
+player_bits:         # DD-02's, once per character (A8's provisional numbers, D-26)
+  sorcerer_book: {id: 11312, map: DD-02, note: "the Book of Sorcerer's Knowledge read at current Intellect >= 20: +2 Intellect (base)"}
+  fire_book: {id: 11313, map: DD-02, note: "the library's Book of Fire: +5 Fire resistance"}
+  electricity_book: {id: 11314, map: DD-02, note: "the library's Book of Electricity: +5 Air resistance"}
+
+npcs:
+  4954:              # Ellinger
+    topics:
+      - n: 1
+        label: Alamar
+        states:
+          - when: {qbit: done}
+            text: "The castle can be restored to our world by casting certain complex spells powered by energy discs. Energy discs are rare magical batteries. I recently used the last of mine protecting this tower, and I haven't a clue where others may be found. Every five will restore a fourth part of the castle."
+          - when: {item: pharaoh_orb}
+            text: "Welcome. I'm sorry you had to run the gauntlet; my defenses keep Alamar's spies from my door. I see that you hold the Dragon Pharaoh's orb. Without it he cannot fight Alamar, and you must return it to him. But he has sealed his pyramid, and the key is in Queen Kalindra's castle, which Alamar moved out of phase when he took the Queen. Twenty energy discs will bring it back, five at a time. Bring them to me. And here is a little something: your gifts are in the chest that runs away from you in the south-west of Castleview. I will tell it to stay still."
+            do: [{set: done}, {set: chest_still}, {set: m18.started}, {xp: 8000}]
+          - text: "You climbed my tower without the Pharaoh's orb? Then you are either very brave or very lost. Come back when you hold it."
+
+hooks:
+  tower_door:
+    map: D1
+    where: "Ellinger's Tower's door inside Castleview's walls (D-89: open; the tower's own test is the question at the door and the study's password)"
+    entrance: DD-02
+  question:
+    map: DD-02
+    where: "the first floor's door: the map asks the question with three answers; 1 or 2 calls question_right, 3 calls question_wrong (the map throws the party out)"
+    text: "\"Intruders, answer the following question or be destroyed!\" A barbarous villain has been robbing and killing travellers in the mountains for months. Your liege charges you to stop him. You strike his sword from his hand. Do you chivalrously let him retrieve it, knowing he may yet win and go on with his crimes, or do you slay him unarmed and honor your oath to your liege? 1) I allow him to retrieve his weapon. 2) I cut him down where he stands. 3) Um, I... I just don't know."
+  question_right:
+    map: DD-02
+    where: "the first floor's door, answer 1 or 2"
+    sets: [question_passed]
+    once: true
+    text: "\"An answer. Not the one I'd give, but an answer.\" The door opens."
+  question_wrong:
+    map: DD-02
+    where: "the first floor's door, answer 3: the map puts the party back outside the tower"
+    text: "\"Begone!\""
+  password:
+    map: DD-02
+    where: "the door before Ellinger's study at the top: \"Who do you seek?\" (the map's question; the answer is Ellinger)"
+    sets: [password]
+    once: true
+    text: "You may pass!"
+    else_text: "You may pass!"
+  password_wrong:
+    map: DD-02
+    where: "the same door, any other answer"
+    text: "Begone!"
+  book_of_boots:
+    map: DD-02
+    where: "Ellinger's study, a book on the desk"
+    text: "Boots of Paradise, by Ellinger J. Hofenhager. \"Ah, lovely boots! Sweet leather foot holders, hard iron hobnail, how I adore thee!\" The rest goes on like that for two hundred pages."
+  sorcerer_book:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-02
+    where: "the Book of Sorcerer's Knowledge in the library (D-26 Q1): the clicking member's current Intellect >= 20 (potions and items count); the map gives +2 Intellect (base) once (player bit sorcerer_book) and shows this text; a member who has read it gets sorcerer_book_again, a member below 20 sorcerer_book_hurt (~10 % of HP, nothing used up)"
+    text: "Reading the book improves your mind. +2 Intellect (permanent)."
+  sorcerer_book_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-02
+    where: "the same book, a member who has read it"
+    text: "You read the book, but learn nothing new."
+  sorcerer_book_hurt:
+    window: "a long text to read (the book's cost)"
+    map: DD-02
+    where: "the same book, a member whose current Intellect is below 20: the map takes about a tenth of that member's HP"
+    text: "As you read the book, the pages begin to swim before your eyes and your head begins to ache. The ache builds to pain, the pain to agony. Understanding belatedly that you shouldn't be reading the book, you put it back on the shelf, but not quickly enough to avoid getting hurt."
+  tower_lift:
+    map: DD-02
+    gate: beat
+    where: "the lift between the tower's ground floor and Ellinger's study, both ways (D-9.2): it runs once Ellinger has spoken (done), so the party brings disks without the gauntlet; the map calls it from both ends"
+    requires: {qbit: done}
+    reads: [done]
+    fail_text: "The lift does not move. Ellinger does not take visitors who haven't earned the stairs."
+  runaway_chest:
+    map: D1
+    where: "the chest that runs away from you in the south-west of Castleview: it slides off out of reach until Ellinger has told it to stay (chest_still); then it opens on Ellinger's gift (the map's chest, treasure level 3)"
+    reads: [chest_still]
+    requires: {qbit: chest_still}
+    fail_text: "The chest scuttles away on little brass feet before you can touch it."
+
+riddles:
+  - {answer: Ellinger, where: "DD-02's top door", said_by: "Madame Oorla (m15)"}
+
+rewards: {xp: 8000, gold: 0}
+playthrough: "D1: the tower door (Ellinger's key). DD-02: the question (1); traps; the top door (Ellinger); Ellinger (Alamar) with the orb. D1: the runaway chest."

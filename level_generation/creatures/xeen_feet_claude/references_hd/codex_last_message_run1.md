@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](./level_generation/creatures/xeen_feet_claude/references_hd/00_three_quarter.png) as an unresized 1536×1024 transparent PNG. The [generation record](./level_generation/creatures/xeen_feet_claude/references_hd/generation_runs.json) contains both built-in imagegen attempts and their prompts.
+
+The selected image has one right foot, five toes and two wings. It shows the outer side. The corrective attempt showed the requested inner arch but reversed the foot’s handedness, so I kept the first image. The visible silhouette clears 80 px on every side, though trace alpha of 1/255 extends into the margin.

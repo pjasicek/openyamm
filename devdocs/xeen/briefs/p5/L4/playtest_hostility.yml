@@ -1,0 +1,106 @@
+# Hostility: nothing hostile, the figures peaceful.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.hostility
+title: 'Clouds of the Ancients (P5): nothing hostile; the three figures peaceful and unhurt'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      hostile: true
+      max: 0
+- setup_shortcut:
+    kind: set_qbit
+    id: 111840
+- setup_shortcut:
+    kind: set_qbit
+    id: 111841
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- advance_runtime:
+    seconds: 12
+- assert:
+    actor_count:
+      monster_id: 11919
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11919
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11919
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11920
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11920
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11920
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11921
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11921
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11921
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      hostile: true
+      max: 0

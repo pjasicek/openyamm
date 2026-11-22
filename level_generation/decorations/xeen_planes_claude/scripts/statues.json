@@ -1,0 +1,586 @@
+{
+  "earth": {
+    "name": "xeen_deco_statue_earth",
+    "source": "assets_source/worlds/mm8/models/mm8_m504.glb",
+    "mesh": "^EarthElemental",
+    "materials": ".",
+    "pose": {
+      "base": [
+        "Standing",
+        0
+      ],
+      "rot": [
+        [
+          "B_L_Thigh",
+          "x",
+          -88
+        ],
+        [
+          "B_R_Thigh",
+          "x",
+          -88
+        ],
+        [
+          "B_L_Thigh",
+          "z",
+          -6
+        ],
+        [
+          "B_R_Thigh",
+          "z",
+          6
+        ],
+        [
+          "B_L_Calf",
+          "x",
+          92
+        ],
+        [
+          "B_R_Calf",
+          "x",
+          92
+        ],
+        [
+          "B_Spine",
+          "x",
+          12
+        ],
+        [
+          "B_Head",
+          "x",
+          -14
+        ],
+        [
+          "B_L_UpperArm",
+          "x",
+          -27
+        ],
+        [
+          "B_R_UpperArm",
+          "x",
+          -27
+        ],
+        [
+          "B_L_UpperArm",
+          "y",
+          16
+        ],
+        [
+          "B_R_UpperArm",
+          "y",
+          -16
+        ],
+        [
+          "B_L_Forearm",
+          "x",
+          -30
+        ],
+        [
+          "B_R_Forearm",
+          "x",
+          -30
+        ],
+        [
+          "B_L_Forearm",
+          "y",
+          14
+        ],
+        [
+          "B_R_Forearm",
+          "y",
+          -14
+        ]
+      ]
+    },
+    "report_bones": [
+      "B_Pelvis",
+      "B_L_Thigh",
+      "B_L_Calf",
+      "B_L_Foot",
+      "B_L_UpperArm",
+      "B_L_Forearm",
+      "B_L_Hand",
+      "B_R_Hand",
+      "B_Head"
+    ],
+    "figure_top": 4.8,
+    "bulk": [
+      1.12,
+      1.06
+    ],
+    "lod0_figure_tris": 6200,
+    "lod0_seat_tris": 700,
+    "seed": 29,
+    "centre": "bounds",
+    "centre_band": 0.6,
+    "seat": {
+      "below_hip": 0.06,
+      "half_x": 0.5,
+      "y": [
+        -0.16,
+        0.38
+      ]
+    },
+    "recipes": {
+      "0": "granite",
+      "1": "granite",
+      "2": "granite"
+    },
+    "head_factor": 1.5
+  },
+  "water": {
+    "name": "xeen_deco_statue_water",
+    "source": "assets_source/worlds/mm7/models/mm7_m210.glb",
+    "mesh": "^Body",
+    "materials": ".",
+    "pose": {
+      "base": [
+        "Standing",
+        0
+      ],
+      "rot": [
+        [
+          "R_Arm",
+          "aim",
+          [
+            -0.2,
+            -0.88,
+            -0.2
+          ]
+        ],
+        [
+          "R_Forearm",
+          "aim",
+          [
+            -0.02,
+            -0.9,
+            -0.3
+          ]
+        ],
+        [
+          "R_Hand",
+          "aim",
+          [
+            0.05,
+            -0.85,
+            -0.45
+          ]
+        ]
+      ],
+      "coil": {
+        "bones": "^Tail_(0[6-9]|1[0-7])$",
+        "axis": "z",
+        "degrees": -12.5,
+        "grow": 1.0,
+        "then": [
+          [
+            "Tail_04",
+            "z",
+            -70
+          ],
+          [
+            "Tail_18",
+            "lift",
+            30
+          ],
+          [
+            "Tail_20",
+            "lift",
+            30
+          ]
+        ]
+      }
+    },
+    "report_bones": [
+      "Root",
+      "Spine_00",
+      "Spine_03",
+      "Spine_06",
+      "Neck",
+      "Head",
+      "L_Arm",
+      "L_Forearm",
+      "L_Hand",
+      "R_Arm",
+      "R_Forearm",
+      "R_Hand",
+      "Tail_00",
+      "Tail_05",
+      "Tail_10",
+      "Tail_15",
+      "Tail_20",
+      "Tail_25",
+      "Caudal"
+    ],
+    "figure_top": 4.6,
+    "lod0_figure_tris": 5600,
+    "lod0_jar_tris": 900,
+    "lod0_stream_tris": 900,
+    "seed": 30,
+    "centre": "bounds",
+    "centre_band": 0.35,
+    "jar": {
+      "axis": [
+        0.0,
+        -0.72,
+        -0.7
+      ],
+      "offset": [
+        0.0,
+        -0.04,
+        -0.12
+      ],
+      "scale": 1.2,
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.05,
+          0.0
+        ],
+        [
+          0.09,
+          0.04
+        ],
+        [
+          0.14,
+          0.13
+        ],
+        [
+          0.15,
+          0.2
+        ],
+        [
+          0.13,
+          0.28
+        ],
+        [
+          0.07,
+          0.35
+        ],
+        [
+          0.055,
+          0.38
+        ],
+        [
+          0.06,
+          0.4
+        ],
+        [
+          0.075,
+          0.42
+        ],
+        [
+          0.06,
+          0.43
+        ],
+        [
+          0.04,
+          0.425
+        ]
+      ]
+    },
+    "stream": {
+      "land_r": 2.45,
+      "end_z": -0.72,
+      "r0": 0.12,
+      "min_reach": 0.75,
+      "flat": 0.45
+    },
+    "recipes": {
+      "0": "green_marble",
+      "1": "green_marble",
+      "2": "green_marble"
+    },
+    "head_factor": 1.5
+  },
+  "fire": {
+    "name": "xeen_deco_statue_fire",
+    "source": "assets_source/worlds/mm6/models/mm6_fie1.glb",
+    "mesh": "^FireElemental$",
+    "materials": "Body",
+    "pose": {
+      "base": [
+        "Standing",
+        0
+      ],
+      "rot": [
+        [
+          "LeftArm",
+          "aim",
+          [
+            0.62,
+            -0.15,
+            0.77
+          ]
+        ],
+        [
+          "LeftForeArm",
+          "aim",
+          [
+            0.45,
+            -0.2,
+            0.87
+          ]
+        ],
+        [
+          "LeftHand",
+          "aim",
+          [
+            0.3,
+            -0.2,
+            0.93
+          ]
+        ],
+        [
+          "RightArm",
+          "aim",
+          [
+            -0.62,
+            -0.15,
+            0.77
+          ]
+        ],
+        [
+          "RightForeArm",
+          "aim",
+          [
+            -0.45,
+            -0.2,
+            0.87
+          ]
+        ],
+        [
+          "RightHand",
+          "aim",
+          [
+            -0.3,
+            -0.2,
+            0.93
+          ]
+        ],
+        [
+          "Head",
+          "x",
+          -12
+        ]
+      ]
+    },
+    "report_bones": [
+      "Hips",
+      "LeftUpLeg",
+      "LeftFoot",
+      "RightFoot",
+      "Spine2",
+      "Neck",
+      "Head",
+      "LeftShoulder",
+      "LeftArm",
+      "LeftForeArm",
+      "LeftHand",
+      "LeftHandMiddle3",
+      "RightHand"
+    ],
+    "figure_top": 5.8,
+    "lod0_figure_tris": 3600,
+    "lod0_built_tris": 5200,
+    "seed": 27,
+    "plinth": {
+      "width": 4.48,
+      "height": 0.96,
+      "plaque": [
+        2.0,
+        0.3,
+        0.7,
+        0.03
+      ]
+    },
+    "recipes": {
+      "0": "fire_red",
+      "1": "basalt",
+      "2": "fire_red"
+    },
+    "head_factor": 1.5
+  },
+  "air": {
+    "name": "xeen_deco_statue_air",
+    "source": "assets_source/worlds/mm8/models/mm8_m508.glb",
+    "mesh": "^Body",
+    "materials": ".",
+    "pose": {
+      "base": [
+        "Standing",
+        0
+      ],
+      "rot": [
+        [
+          "LeftArm",
+          "aim",
+          [
+            0.85,
+            -0.35,
+            0.2
+          ]
+        ],
+        [
+          "LeftForeArm",
+          "aim",
+          [
+            0.8,
+            -0.45,
+            0.3
+          ]
+        ],
+        [
+          "LeftHand",
+          "aim",
+          [
+            0.8,
+            -0.45,
+            0.3
+          ]
+        ],
+        [
+          "RightArm",
+          "aim",
+          [
+            -0.3,
+            -0.3,
+            0.9
+          ]
+        ],
+        [
+          "RightForeArm",
+          "aim",
+          [
+            -0.2,
+            -0.3,
+            0.93
+          ]
+        ],
+        [
+          "RightHand",
+          "aim",
+          [
+            -0.15,
+            -0.3,
+            0.94
+          ]
+        ],
+        [
+          "Head",
+          "x",
+          -10
+        ]
+      ]
+    },
+    "report_bones": [
+      "Hips",
+      "Spine",
+      "Spine1",
+      "Spine2",
+      "Neck",
+      "Head",
+      "LeftShoulder",
+      "LeftArm",
+      "RightShoulder",
+      "LeftHand",
+      "RightHand"
+    ],
+    "figure_top": 5.4,
+    "lod0_figure_tris": 3600,
+    "lod0_robe_tris": 2200,
+    "lod0_wing_tris": 1500,
+    "seed": 28,
+    "robe": {
+      "bottom_r": 0.62,
+      "flare_pow": 1.6,
+      "stream_back": 0.26,
+      "fold_amp": 0.07,
+      "folds": 11,
+      "twist": 1.8,
+      "sway": 0.05,
+      "back_bias": 0.25
+    },
+    "wings": {
+      "root": [
+        0.11,
+        0.12,
+        1.62
+      ],
+      "back_deg": 22,
+      "tilt_deg": 10,
+      "edge": [
+        [
+          0,
+          0
+        ],
+        [
+          0.25,
+          0.42
+        ],
+        [
+          0.55,
+          0.8
+        ],
+        [
+          0.95,
+          1.02
+        ],
+        [
+          1.35,
+          0.98
+        ]
+      ],
+      "rows": [
+        {
+          "count": 16,
+          "s0": 0.02,
+          "s1": 1.0,
+          "a0": 8,
+          "a1": 95,
+          "l0": 0.6,
+          "l1": 0.95,
+          "lpow": 1.5,
+          "w": 0.085,
+          "t": 0.024,
+          "lift": -0.01
+        },
+        {
+          "count": 12,
+          "s0": 0.04,
+          "s1": 0.92,
+          "a0": 10,
+          "a1": 90,
+          "l0": 0.36,
+          "l1": 0.46,
+          "w": 0.08,
+          "t": 0.024,
+          "lift": 0.025
+        },
+        {
+          "count": 10,
+          "s0": 0.05,
+          "s1": 0.85,
+          "a0": 12,
+          "a1": 80,
+          "l0": 0.18,
+          "l1": 0.22,
+          "w": 0.065,
+          "t": 0.022,
+          "lift": 0.05,
+          "inset": 0.02
+        }
+      ],
+      "scale": 0.72
+    },
+    "recipes": {
+      "0": "marble_white",
+      "1": "marble_white",
+      "2": "marble_white"
+    },
+    "head_factor": 1.5
+  }
+}

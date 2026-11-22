@@ -1,0 +1,82 @@
+format: 0
+id: xeen_x5
+name: Winterkill Tundra
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X5
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9103
+  continent: 6
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 47
+  environment: plains
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Wolf, tier: 0, per_marker: [1, 3], weight: 30}
+    - {monster: Xeen Barbarian, tier: 3, per_marker: [1, 3], weight: 30}
+    - {monster: Xeen Troll, tier: 2, per_marker: [1, 3], weight: 40}
+neighbours:
+  - id: door:xd09
+    to: xeen_xd09.blv
+    kind: door
+    arrival_hint: At the foot of the entry stair inside the Golem Rocks.
+    condition: {item: golem_stone}
+    notes: "XD-09 Golem Dungeon (A8). The slab door in the Golem Rocks' north face, by the lagoon border (D-4)."
+  - id: door:xd10_north
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the north mouth, ice at the lip (XD-10's arrival)."
+    notes: "XD-10 Cave of Illusion (A8): the north mouth in the Ogre Hills above Halon's yard (D-4)."
+  - id: door:xd10_south
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the south mouth, facing in."
+    notes: "XD-10's south mouth in the spur's west face (D-6.1), the pocket's second way west. The studio says one arrival per dungeon: XD-10's exit by this mouth lands by explicit coordinates (D-4)."
+  - id: door:xd22
+    to: xeen_xd22.blv
+    kind: door
+    arrival_hint: On the pagoda shore in front of its door (XD-22's exit point).
+    notes: "XD-22 Ninja Pagoda (Q-C4, D-25): the door on the pagoda's north side."
+  - id: door:xd23
+    to: xeen_xd23.blv
+    kind: door
+    arrival_hint: "On the warren's beaten snow, in front of the mouth (XD-23's exit point)."
+    notes: "XD-23 Troll Warren (Q-C15, D-25): the mouth in the mound under the firs."
+  - id: edge:east
+    to: xeen_x3.odm
+    kind: edge
+    side: east
+    days: 7
+    arrival_side: west
+    approach: "The lagoon road along the river, east out of the pocket at y 59."
+    notes: "X3 Lifeforce Lagoon (A5): arrives at X3's west start (-22016, 2560, 864) facing east; X3's own edge:west arrives at X5's east start on the lagoon road's meadow (107, 58) facing west."
+  - id: edge:north
+    to: xeen_x6.odm
+    kind: edge
+    side: north
+    days: 7
+    arrival_side: south
+    approach: "The steppe road, north out of the stony valley at x 50."
+    notes: "X6 Desert of the Sphinx (A5): arrives at X6's south start (-7168, -22016, 1472) facing north; X6's own edge:south arrives at X5's north start on the steppe road (50, 20) facing south."
+qbits:
+  reported1: 112126
+  reported2: 112127
+  wave1_laid: 112122
+  wave2_laid: 112123
+  wave3_laid: 112124
+  winterkill_liberated: 112121
+items:
+  golem_stone: 12305
+  holy_book: 12524
+rules:
+  weather: snow
+  respawn: entrance:winterkill_square
+  town_portal_anchor: entrance:winterkill_square
+notes: "X5 Winterkill Tundra (A6, 2026-11-20), built from the approved L1 with D-6.1, D-6.3, D-6.5 and D-4. The north edge (X6) is sealed with a sign until X6 is installed (X6_LIVE); the east edge (X3) too until X3 is installed (X3_LIVE). Written by output/studio_cal/x5/tools/gen.py."

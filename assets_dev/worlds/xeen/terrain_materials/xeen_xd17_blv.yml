@@ -1,0 +1,64 @@
+# Written by oymap build for xeen_xd17.blv's ground faces
+# (7grastyl, crdflr3, gcav1flr).
+version: 1
+texels_per_cell: 16
+weights: [xeen_xd17_blv_weights0.png]
+weighted_layers: 3
+fringe:
+  strength: 1.6
+  scale: 2048
+layers:
+  - name: grass
+    library: grass_meadow
+    tint: [0.9545, 1.0175, 1.0175]
+    repeat: 360
+    height_contrast: 0.45
+    normal_strength: 1
+    cavity: 0.3
+    macro_brightness: 0.15
+    macro_tint: [1.1, 1.05, 0.85]
+    fringe: 1
+    meadow: 1
+    variant: 3
+    variant_amount: 0.3
+    cliff_tint: [0.5993, 0.8077, 1.2185]
+  - name: road
+    library: road_pebbles
+    tint: [1, 1, 1]
+    repeat: 640
+    height_contrast: 0.6
+    normal_strength: 2
+    cavity: 1
+    macro_brightness: 0.12
+    macro_tint: [1, 1, 1]
+    fringe: 0.15
+    cliff_tint: [0.5993, 0.8077, 1.2185]
+  - name: basalt
+    library: rock_cliff
+    tint: [0.5993, 0.7693, 0.7693]
+    repeat: 640
+    height_contrast: 0.55
+    normal_strength: 1.6
+    cavity: 0.5
+    macro_brightness: 0.12
+    macro_tint: [1, 1, 1]
+    fringe: 1
+    cliff_tint: [0.5993, 0.8077, 1.2185]
+  - name: grass_patches
+    library: grass_patchy
+    tint: [0.649, 0.7427, 0.6457]
+    repeat: 640
+    height_contrast: 0.25
+    normal_strength: 1
+    cavity: 0.35
+    macro_brightness: 0.15
+    macro_tint: [1, 1, 1]
+    fringe: 1
+    meadow: 0.8
+meadow:
+  dry: [1.2, 1.06, 0.64]
+  lush: [0.78, 0.94, 0.82]
+slope:
+  layer: 2
+  start: 0.36
+  end: 0.56

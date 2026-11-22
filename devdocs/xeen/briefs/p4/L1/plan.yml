@@ -1,0 +1,313 @@
+format: 0
+level: L1
+pitch: "The Plane of Water of Xeen: a temple drowned in a sea with no shore, its colonnades standing out of green water under a sky the colour of the sea. Spray blows over the walks; a ship lies wrecked in the south court though there is no coast to wreck on. In the west the Whirlpool Court, where the test of Water turns in the pool, and beyond a falling veil of water, the Sleeper's Grotto."
+purpose: "M38 (Act VI, party 56-60): the plaque (Step Four), the test of Water, the Water Sleeper (m38.sleeper_water, award 415) and the test's chest. Reached by stepping off D7's south-west corner after answering 'Water'; left by the waterspout at the arrival or the return dais by the sleeper, both to D7."
+mood: "Cool, green and restless: the slap of waves on stone, spray in the light, the long hush of the swell. A shipwreck on a sea with no coast is the world's wink."
+datum: room:landing
+spaces:
+  - id: room:arena
+    name: The Whirlpool Court
+    kind: room
+    extent: [3328, 3072]
+    shape: a round court ringed by broken columns round a pool where the water turns
+    at: [-4096, 1280]
+    floor: 128
+    relief: flat
+    purpose: "The test of Water: the pedestal at the east gate asks 'Accept the test of Water?'; the guardians rise from the whirlpool. The Veil's colonnade leaves at the south."
+    population:
+      - {id: pop:court_north, actor: Water Elemental (11710), groups: 1, per_marker: [2, 2], levels: [62, 62], placed: true, notes: "2 Water Elemental (62) as one group, at (-4480, 2560)"}
+  - id: room:chamber
+    name: The Sleeper's Grotto
+    kind: room
+    extent: [2560, 2304]
+    shape: "a grotto under a sea arch, its floor a raised shelf of shell and stone"
+    at: [-4096, -4224]
+    floor: 192
+    relief: flat
+    purpose: "The Water Sleeper on his couch (m38.sleeper_water); the test's chest; the return dais (after the sleeper wakes)."
+    safe: true
+    keep_clear: [spawns]
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The test's chest (treasure 6): the source's chest, now in the grotto the test opens. at (-3200, -4864)"}
+  - id: room:landing
+    name: The Spray Terrace
+    kind: room
+    extent: [2560, 2304]
+    shape: "a terrace of green-veined marble, the waterspout at its corner"
+    at: [4224, 4224]
+    floor: 0
+    relief: flat
+    purpose: Arrival from D7's south-west corner (entrance:d7_fall) and the way up (the waterspout). Quiet.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:reef
+    name: The Coral Garden
+    kind: room
+    extent: [2304, 2816]
+    shape: "a terrace grown over with coral and shells, tide pools in its stone"
+    at: [4352, -512]
+    floor: 32
+    relief: flat
+    purpose: "The Tide Pool (a device); the east loop."
+    population:
+      - {id: pop:reef_elementals, actor: Water Elemental (11710), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Water Elemental (62) as one group, at (4096, -1280)"}
+      - {id: pop:reef_north, actor: Lesser Water Elemental (11625), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Water Elemental (55) as one group, at (4736, 768), the first fight"}
+  - id: room:statue
+    name: The Sea Statue
+    kind: room
+    extent: [2560, 2560]
+    shape: "the temple's drowned forecourt, the statue of Water rising from a fountain basin"
+    at: [256, 768]
+    floor: 32
+    relief: flat
+    purpose: "The statue and its plaque (m38.plaque_water, Step Four); the Drowned Bell; the walks part here."
+    population:
+      - {id: pop:statue_north, actor: Lesser Water Elemental (11625), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Water Elemental (55) as one group, at (1152, 1536)"}
+      - {id: pop:statue_west, actor: Lesser Water Elemental (11625), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Water Elemental (55) as one group, at (-640, 384)"}
+  - id: room:wreck
+    name: The Wreck
+    kind: room
+    extent: [2560, 2304]
+    shape: "the temple's south court, a sailing ship wrecked across it, its hold half flooded"
+    at: [640, -4224]
+    floor: 0
+    relief: flat
+    purpose: "The source's chest corner: the ship's strongbox in the hold and its log."
+    population:
+      - {id: pop:wreck_lesser, actor: Lesser Water Elemental (11625), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Water Elemental (55) as one group, at (128, -3584)"}
+      - {id: pop:wreck_elementals, actor: Water Elemental (11710), groups: 1, per_marker: [2, 2], levels: [62, 62], placed: true, notes: "2 Water Elemental (62) as one group, at (1536, -3584)"}
+      - {id: pop:wreck_greater, actor: Tidal Terror (11711), groups: 1, per_marker: [3, 3], levels: [70, 70], placed: true, notes: "3 Tidal Terror (70) as one group, at (896, -4992)"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The ship's strongbox (treasure 6, a cold trap) in the half-flooded hold, waded to (question 2). at (1280, -4736)"}
+      - {kind: floor_item, count: 1, tier: 6, notes: "log: the find, at (-128, -3840)"}
+  - id: zone:sea
+    name: The sea
+    kind: zone
+    shape: "deep water round every walk and court: MM9 water volumes, surface at -64, bottom about -1,024: 97.2 M units, 69 % of the basin, ringed by a ring of sea stacks and broken arches, open sea and fog beyond"
+    floor: -64
+    relief: flat
+    purpose: "Swum, not walked: a party in the water swims at the surface (no breath lost while the eye is above it); under water breath lasts 15 s, then drowning; no falling damage into water; steps rise out of the water along every walk and terrace; the outer sea's edge volumes push swimmers back toward the temple with a constant inward current of 256 (D-58 P4 Q1)."
+    population:
+      - {id: pop:sea_octopods_e, actor: Great Octopod (11471), groups: 1, per_marker: [3, 3], levels: [60, 60], placed: true, notes: "3 Great Octopod (60), swimming, at (2304, -1152)"}
+      - {id: pop:sea_octopods_n, actor: Great Octopod (11471), groups: 1, per_marker: [2, 2], levels: [60, 60], placed: true, notes: "2 Great Octopod (60), swimming, at (-1024, 4224)"}
+links:
+  - id: link:veil
+    from: room:arena
+    to: room:chamber
+    kind: colonnade
+    condition: {qbit: m38_water_test}
+    opened_by: set:test
+    width: 640
+    rise: 64
+    notes: "a colonnade under a falling sheet of water; 2,841 rim to rim; the Veil: a colonnade under a falling sheet of water that bars it, stilled on the test"
+  - id: link:walk_c
+    from: room:wreck
+    to: room:statue
+    kind: colonnade
+    width: 512
+    rise: 32
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 2,552 rim to rim"
+  - id: link:walk_e
+    from: room:statue
+    to: room:reef
+    kind: colonnade
+    width: 640
+    rise: 0
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 1,816 rim to rim"
+  - id: link:walk_l
+    from: room:landing
+    to: room:reef
+    kind: colonnade
+    width: 512
+    rise: 32
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 2,213 rim to rim"
+  - id: link:walk_ne
+    from: room:landing
+    to: room:statue
+    kind: colonnade
+    width: 640
+    rise: 32
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 2,645 rim to rim"
+  - id: link:walk_s
+    from: room:reef
+    to: room:wreck
+    kind: colonnade
+    width: 640
+    rise: -32
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 2,703 rim to rim"
+  - id: link:walk_w
+    from: room:statue
+    to: room:arena
+    kind: colonnade
+    width: 640
+    rise: 96
+    notes: "a colonnade walk on the drowned temple's wall tops, steps down to the water both sides; 1,547 rim to rim"
+entrances:
+  - id: entrance:d7_fall
+    space: room:landing
+    kind: arrival
+    neighbour: corner:d7
+    facing: sw
+    how: "The drop from D7's south-west corner (Sky A4 in the source) after the sky's 'What do you seek?' is answered 'Water' (m38.corner_water): the party lands standing on The Spray Terrace (D-58 C2: no falling damage; Xeen.toPlane(\"water\"), Xeen.PlaneArrivals.water)."
+    notes: "at (3968, 3968), z 0, quiet ground (keep_clear spawns)"
+  - id: entrance:dais
+    space: room:chamber
+    kind: exit
+    neighbour: exit:d7_dais
+    how: "The return dais: a disc of green-veined marble, shown once the Water Sleeper is awake (m38.water); an exit preset to D7's entrance:p4_return."
+    condition: {qbit: m38_water}
+    notes: "at (-4864, -3712)"
+  - id: entrance:way_up
+    space: room:landing
+    kind: exit
+    neighbour: exit:d7_way_up
+    how: "The waterspout: a column of water rising from the sea into the sky. An exit preset ('Ride the spout back to the Skyroads?'), always open, to D7's entrance:p4_return (the source's (13,13), a fall back to the Skyroads)."
+    notes: "at (4992, 4864)"
+critical_path: [room:landing, room:statue, room:arena, room:chamber]
+return_path: [room:chamber]
+goals:
+  - id: goal:sleeper
+    space: room:chamber
+    kind: use
+    what: "Wake the Water Sleeper (m38.sleeper_water: Chosen One and M37's four reflectors)"
+    story: M38
+    gives:
+      qbit: m38_water
+  - id: goal:test
+    space: room:arena
+    kind: kill
+    what: "The test of Water: the Sleeper's Guardian of Water and two Tidal Terrors"
+    story: M38
+    gives:
+      qbit: m38_water_test
+points_of_interest:
+  - id: poi:bell
+    space: room:statue
+    kind: device
+    behaviour: "The Drowned Bell: a temple bell half under the water on a fallen frame. Clicked: it tolls under the waves; the first time, a find in its mouth: an emerald."
+    notes: "at (1152, -128)"
+  - id: poi:dais
+    space: room:chamber
+    kind: exit
+    behaviour: "The return dais: a disc of green-veined marble, shown once the Water Sleeper is awake (m38.water); an exit preset to D7's entrance:p4_return. A3's line m38.dais_water is the window's meaning."
+    also: [entrance:dais]
+    condition: {qbit: m38_water}
+    notes: "at (-4864, -3712), 16,206 along the walk"
+  - id: poi:log
+    space: room:wreck
+    kind: device
+    behaviour: "The ship's log on the wreck's deck: 'Day 40. Still no land. Day 41. Found land. It was this.' (ours) A find: Water Resistance potions."
+    notes: "at (-128, -3840)"
+  - id: poi:sleeper
+    space: room:chamber
+    kind: sleeper
+    behaviour: "The Water Sleeper on his couch in the grotto: A3's m38.sleeper_water, three states (not Chosen; 'Awaiting Grunfeld field activation.'; awake, award 415, 10,500 XP)."
+    gives:
+      qbit: m38_water
+    condition: {lua: "XeenQuests.hook(\"m38.sleeper_water\")"}
+    notes: "at (-4480, -4608), 15,231 along the walk"
+  - id: poi:statue
+    space: room:statue
+    kind: statue
+    behaviour: "The statue of Water: a woman of green stone pouring a jar into the fountain basin at her feet. A3's m38.plaque_water: 'A message at the base of the statue reads: Step Four: Travel to the shrine on the Cloud above Darkstone Tower.' (aaze0028:2-3)"
+    condition: {lua: "XeenQuests.hook(\"m38.plaque_water\")"}
+    notes: "at (256, 896), 4,817 along the walk"
+  - id: poi:test
+    space: room:arena
+    kind: pedestal
+    behaviour: "The test pedestal at the Whirlpool Court's east gate: 'Accept the test of Water?' (aaze0028:5). Yes calls A3's m38.test_water; the map raises the guardians from the whirlpool (set:test). Offered while the guardians are hidden and m38_water_test (111767) is clear; declining does nothing (D-58 C3)."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: test_accepted
+    condition: {lua: "XeenQuests.hook(\"m38.test_water\")"}
+    notes: "at (-2688, 1280), 7,891 along the walk"
+  - id: poi:test_chest
+    space: room:chamber
+    kind: chest
+    behaviour: "The test's chest (treasure 6): the source's chest, now in the grotto the test opens."
+    notes: "at (-3200, -4864)"
+  - id: poi:tide_pool
+    space: room:reef
+    kind: device
+    behaviour: "The Tide Pool: a clear pool in the coral. Drunk from: +20 Water resistance for a day (once a day; 'The water is cool and refreshing.', the stock line, for once true)."
+    notes: "at (4864, -128)"
+  - id: poi:way_up
+    space: room:landing
+    kind: exit
+    behaviour: "The waterspout: a column of water rising from the sea into the sky. An exit preset ('Ride the spout back to the Skyroads?'), always open, to D7's entrance:p4_return (the source's (13,13), a fall back to the Skyroads). A3's line m38.way_up_water is the window's meaning."
+    also: [entrance:way_up]
+    notes: "at (4992, 4864)"
+  - id: poi:wreck_cache
+    space: room:wreck
+    kind: chest
+    behaviour: "The ship's strongbox (treasure 6, a cold trap) in the half-flooded hold, waded to (question 2)."
+    notes: "at (1280, -4736)"
+landmarks:
+  - id: landmark:arena
+    space: room:arena
+    what: a round court ringed by broken columns round a pool where the water turns
+    seen_from: [room:landing, room:statue, room:reef, room:wreck, room:chamber]
+  - id: landmark:chamber
+    space: room:chamber
+    what: "a grotto under a sea arch, its floor a raised shelf of shell and stone"
+    seen_from: [room:landing, room:statue, room:arena]
+  - id: landmark:statue
+    space: room:statue
+    what: The statue of Water
+    seen_from: [room:landing, room:reef, room:wreck, room:arena]
+  - id: landmark:way_up
+    space: room:landing
+    what: "The waterspout: a column of water rising from the sea into the sky"
+    seen_from: [room:landing, room:statue]
+sightlines:
+  - id: view:arrival
+    from: room:landing
+    to: [landmark:statue, landmark:arena, landmark:chamber]
+    what: "The arrival: from the Spray Terrace south-west over the drowned temple, the colonnade walk to the Sea Statue in its fountain, the Whirlpool Court's broken columns beyond to the right, the Coral Garden left, the wreck's masts far off, the sea stacks and the fog horizon round it."
+    notes: "camera at (3328, 3328), z 176 (eye), yaw 213 degrees, pitch -4; the MU-4 concept"
+set_pieces:
+  - id: set:sea
+    kind: trap
+    spaces: [zone:sea]
+    rule: "MM9's water rules (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md, already in the engine): surface swimming free, breath 15 s under, drowning 1/6 of maximum HP every 2 s; steps out along every walk and terrace; the walls of the Whirlpool Court and the Grotto stand 192-256 out of the water with no steps, so the test cannot be bypassed (P-2); past the stacks, edge volumes each with a constant inward `current` of 256 push swimmers back (the radial current is open engine work, not used). Nothing on the critical path needs swimming; no diving anywhere (Q2); Water Walk does nothing on a volume yet (recorded, accepted). Measured: the farthest sea is 5,432 from a way out (90 % within 3,605)."
+  - id: set:test
+    kind: boss
+    spaces: [room:arena]
+    rule: "D-58 C3 (a): the pedestal's 'Accept the test of Water?' (A3's m38.test_water) shows the three guardians, a hidden group until then, rising from the pit at (-4096, 1280): 1 Sleeper's Guardian of Water (75), 2 Tidal Terror (70). Each guardian's death event calls Xeen.planeTestCheck(\"water\", <the group>); when the three are dead it runs m38.test_water_passed, which sets m38_water_test (111767, P-1) and opens the gate. A party that leaves mid-fight finds the guardians still shown on return; the test is not offered again while they live."
+    enabled_by: {map_var: test_accepted}
+    gives:
+      qbit: m38_water_test
+    population:
+      - {id: pop:guardians, actors: [{actor: Sleeper's Guardian of Water (11712), count: 1}, {actor: Tidal Terror (11711), count: 2}], placed: true, notes: "hidden until the test is accepted, at (-4096, 1280)"}
+  - id: set:waves
+    kind: trap
+    spaces: [room:arena, room:reef, room:statue, room:wreck]
+    rule: "The source's nine squares of freezing waves: wet stone where spray breaks over the walks (a small floor face each). Stepping on one: one time in three 50 cold damage to each member, 'A freezing wave breaks over you!' (resistance applies). PressurePlate faces textured `xpwspray`, each calling A3's planes.wave. Cells: at (3712, -256); at (4864, -1536); at (3968, 512); at (-128, -4608); at (1152, -3328); at (256, -5056); at (640, -256); at (-3712, 2688); at (-5248, 640). None on the critical path (measured 0 within 384 of the walk; 0 on a link, 2 in the arena)."
+height_bands:
+  - id: band:floors
+    range: [0, 192]
+    spaces: [room:landing, room:statue, room:reef, room:wreck, room:arena, room:chamber]
+    notes: "the arrival 0, rising to the sleeper"
+  - id: band:sea
+    level: -64
+    spaces: [zone:sea]
+    notes: "the sea; a ring of sea stacks and broken arches, open sea and fog beyond"
+states:
+  - id: state:sleeper_awake
+    condition: {qbit: m38_water}
+    shows: [poi:dais]
+    effects: ["The return dais shows (common question C5 (a)); m38.sleeper_water answers its first line."]
+  - id: state:test_passed
+    condition: {qbit: m38_water_test}
+    opens: [link:veil]
+    effects: ["P-1: the map's load event reads m38_water_test (111767): the gate stays open, the guardians stay hidden and the pit stays quiet, through refills and the reset after a map rebuild (D-58 C4 (a))."]
+atmosphere: "Sky `xeen_plane_water` (shipped; question 3); daylight [96, 128, 132] ambient; view distance x1.0; no weather; music 7. No Fly (WORLD_DESIGN 3.4). No lighting bake (open air)."
+totals:
+  chests: 2
+  first_fight: 3291
+  kill_xp_per_member: 32381
+  placed_monsters: 30
+  points_of_interest: 10
+  walk_length: 16206
+  walkable_area_millions: 43.7
+notes: "MU-3 for the phase 6 review (A6's planes sub-agent, 2026-11-21). Room 26 x 26 cells (13,312 a side). Written by level_generation/xeen_art/phase6/planes_brief.py from planes_design.py; drawings, measure.json and the board in level_generation/xeen_art/phase6/planes/. Source: the Elemental Plane of Water, MM5 maze 28 (dark/aaze0028). Corner contract: level_generation/xeen_art/phase6/corners.yml."

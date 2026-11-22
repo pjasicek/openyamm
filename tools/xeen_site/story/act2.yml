@@ -1,0 +1,216 @@
+chapters:
+  - id: 2
+    title: "Act II: The King's Errands"
+    intro: "As Crusaders you are admitted to Castle Burlock. The King wants the Sixth Mirror; his advisor Artemus sets you on the trail of the missing sorcerer Crodo, hands you the Pyramid Sigil that opens the Darkside (Act III, which you can play alongside this act), and names the two keys that lead to Darzog's Tower. Meanwhile you buy the ruins of Newcastle and pay Emerson, the royal engineer, in King's Megacredits from three dungeons to raise its walls and keep. The act ends at Darzog's door with the Skeleton Key; the tower itself is Act IV."
+    sections:
+      - title: "Castle Burlock: King Burlock"
+        intro: "Castle Burlock stands at the top of the castle lane in Burlock Savannah, north of its village. From Vertigo, Hob at the Vertigo Stables runs a coach to Burlock Savannah on Tuesdays and Saturdays (4 days, 50 gold); from Rivercity, Garrick's Royal Steeds of Rivercity go on Mondays and Fridays (2 days), and Captain Nystor's boats on Tuesdays and Saturdays once his Ogre Boulders are dealt with. You can also walk north off Rivercity's map."
+        giver: {map: xeen_xd07, npc: "King Burlock"}
+        quests:
+          - quest: m5
+            requires: "The Crusader title from the Alacorn of Falista (Act I). The village outside the castle is open to anyone."
+            steps:
+              - "From the coach stop by the Royal Stables, walk north up the castle lane past the herald's board to the castle gate at its head, click it and choose OK in the entrance window."
+              - "Just inside the castle door a portcullis blocks the gatehouse. Click it: it lifts only for Crusaders ('Only Crusaders are allowed to enter Castle Burlock. Old Valia of Toad Meadow names Crusaders.' otherwise). The King's Guards inside are friendly; leave them be."
+              - "Go north through the great hall and open the double doors of the throne room. King Burlock sits on the throne at its north end, with Prince Roland beside him. Click the throne."
+              - "Choose King Burlock and ask 'Sixth Mirror' (1,000 XP): he charges you to find the mirror, last seen near the great volcano, for an earldom. Ask 'Earldom' too: he mentions that Newcastle's ruins are for sale."
+              - "Optional: choose Prince Roland and ask 'The mirror' and 'Travels'."
+            tips:
+              - "The Sixth Mirror is not found in this act. Asking the King about it again only gets 'NO MIRROR?!? Get out of my sight!'."
+              - "Princess Roxanne in the east tower (through the door on the east side of the throne room, up the stair) gives the side quest The Tiara and the Rogue promotion."
+            reward: "1,000 XP."
+            maps:
+              - map: xeen_xd07
+                show: [exit, door]
+                focus: "King Burlock"
+                caption: "The castle door and portcullis in the south, the great hall, the throne room in the north; the gallery of arms east of the throne room."
+              - map: xeen_x4
+                show: [exit, transport, sign]
+                focus: "Castle Burlock"
+                caption: "The castle gate at the head of the lane, north of the village and the Royal Stables."
+
+      - title: "Castle Burlock: Artemus, the Royal Advisor"
+        intro: "Artemus has his study at the east end of the gallery of arms: from the throne room's south end, go through the opening in its east wall and follow the gallery east. Talk to him after the King."
+        giver: {map: xeen_xd07, npc: "Artemus"}
+        quests:
+          - quest: m6
+            requires: "The King's audience (Sixth Mirror). Before it Artemus only says 'See the King first'."
+            steps:
+              - "In Artemus's study, ask 'Crodo'. He tells you that Crodo, the King's friend, vanished together with Baron Darzog, the King's jealous master sorcerer, and that Darzog's island tower has been sealed since."
+              - "The journal and an autonote record it: Darzog's Tower stands on the island in Lake Darzog, west of Rivercity."
+              - "You cannot enter the tower yet. Artemus's 'Darzog's tower' topic (The Enchanted Key, below) names the two keys that lead into it; freeing Crodo is Act IV."
+            tips:
+              - "Crodo's messages in bottles (Act I's Vertigo creek and Lake Darzog's north shore) point the same way."
+            reward: "A journal entry and an autonote; no experience."
+            maps:
+              - map: xeen_xd07
+                show: [exit, door]
+                focus: "Artemus"
+                caption: "Artemus's study at the east end of the gallery of arms; Emerson's office is just south of it."
+
+          - quest: m7
+            requires: "Artemus's 'Crodo' topic."
+            steps:
+              - "Ask Artemus 'Pyramids'. He gives you the Pyramid Sigil, quietly (1,000 XP), and tells you to try the pyramid on the knoll east of Vertigo."
+              - "Go back to Vertigo Meadows. The travel pyramid stands on a knoll east of the town. Click it with the sigil in your packs: it carries you to Castleview Vale on the Darkside. Without the sigil it only says 'The moons are not aligned.'"
+              - "The Darkside is Act III (set for about level 15-18). You can go at once or finish the Newcastle and key errands below first; a good moment is after Darzog's door. Asking 'Pyramids' again repeats where the pyramid is."
+            reward: "1,000 XP and the Pyramid Sigil."
+            maps:
+              - map: xeen_x1
+                show: [exit, transport]
+                focus: "Travel pyramid"
+                caption: "The travel pyramid on its knoll east of Vertigo."
+
+      - title: "Newcastle: Ebenezer the Taxman"
+        intro: "The ruins of Newcastle lie in the north-east of Lifeforce Lagoon. Reach it by walking west along Rivercity's road off the west edge of Rivercity and Lake Darzog (5 days), or south off Burlock Savannah's south edge west of its middle (the eastern half of that edge leads to Rivercity instead). Ebenezer keeps a tent at the site, which is also a tavern."
+        giver: {map: xeen_x3, npc: "Ebenezer"}
+        quests:
+          - quest: m8
+            steps:
+              - "Ebenezer's Tent stands in the camp at the Newcastle site, with the Camp Shrine just east of it and the stair into the ruined keep to the north. Enter the tent and choose Ebenezer."
+              - "Ask 'Newcastle': he offers the land, rubble and wood golems included, for twelve thousand gold."
+              - "With 12,000 gold in your purse, ask 'Buy the deed'. You get the Deed to Newcastle. Ask 'Newcastle' again: he sends you to Emerson, the King's engineer at Castle Burlock."
+              - "This is stage 0 of Newcastle: you own a ruin. Emerson builds walls (stage 1), a keep (stage 2) and later a dungeon (stage 3, Act IV) for 5 King's Megacredits each."
+            tips:
+              - "Twelve thousand gold is a lot at this point. To raise it, do Rivercity's side quests first: Captain Nystor's Ogre Boulders (1,500 gold), Danulf's Faery Wand (1,500), Medin's Lake Beasts (2,000) and the Robbers' Den, which leaves it 13,700-16,600 gold before the deed. Gold kept in Rivercity's bank must be withdrawn first: Ebenezer takes only what you carry."
+              - "Every walk across a map edge costs 5 food. Ebenezer's tent fills your packs to 14 days and rents rooms; Brother Tobit at the Camp Shrine heals what a night's rest does not."
+              - "The stair north of the tent leads down into the ruined keep, where wood golems live in the foundations."
+            reward: "The Deed to Newcastle (costs 12,000 gold)."
+            maps:
+              - map: xeen_x3
+                show: [exit, service, mirror]
+                focus: "Ebenezer's Tent"
+                caption: "Ebenezer's camp at the Newcastle site in the north-east of the lagoon; the keep's stair is north of the tent."
+
+      - title: "Castle Burlock: Emerson, the Royal Engineer"
+        intro: "Emerson's office, the Master Builder's Office, opens off the gallery of arms just south of Artemus's study. He takes 5 King's Megacredits per Newcastle stage: the walls first, then the keep. There are 16 Megacredits in three dungeons, all of them open, so you can clear them in any order: the Temple of Yak (6), the Tomb of a Thousand Terrors (5) and the Golem Dungeon (5). The last 5 pay for the dungeon in Act IV."
+        giver: {map: xeen_xd07, npc: "Emerson"}
+        quests:
+          - quest: m9
+            requires: "The Deed to Newcastle. Without it Emerson cannot work on land you do not own."
+            steps:
+              - "Ask Emerson 'Walls': every defensible piece of land needs a wall, for 5 King's Megacredits. Ask 'Megacredits' as well, which starts the search (The King's Megacredits, below)."
+              - "Fetch five Megacredits (the Temple of Yak has six), come back and ask 'Walls' again. He takes five (3,000 XP) and the walls are built by the time you reach the site: Newcastle stage 1."
+              - "Ask 'Keep' while you are there: he offers the keep for 5 more (The Keep of Newcastle, below)."
+              - "Optional: at the Newcastle site, go into Ebenezer's tent, choose Ebenezer and ask 'Workers'. The rubble is cleared, and one of the workers swears the Tomb of a Thousand Terrors, out in the lagoon, is full of Megacredits."
+            reward: "3,000 XP and Newcastle's walls."
+            maps:
+              - map: xeen_xd07
+                show: [exit, door]
+                focus: "Emerson"
+                caption: "Emerson's office south of Artemus's study, off the gallery of arms."
+              - map: xeen_x3
+                show: [exit, service]
+                focus: "Ebenezer's Tent"
+                caption: "Ebenezer's tent at the Newcastle site."
+
+          - quest: m10
+            requires: "Emerson's 'Megacredits' topic (asked with the walls). The three dungeons are open; their doors need no key."
+            steps:
+              - "Optional: Mirabeth sits on her rock in the south-east of Lifeforce Lagoon, west of Nightshadow. Ask her 'Elixir': she asks for the Temple of Yak's Elixir of Restoration (her side quest, Mirabeth's Elixir), which you find on the same trip."
+              - "Temple of Yak (6 Megacredits): the temple's door is in the dark south end of the fairy woods, due south of Rivercity; it is never locked. Inside, the treasury gate west of the nave's idol is held by two iron bars. Press the stone button in the west chapel (sinks the west bar) and the one in the library of the east wing (sinks the east bar), then click the gate. The treasury chest holds five Megacredits (1,500 XP) and 1,500 gold."
+              - "Take the west stair down from the clerics' wing to the crypt and the ossuary. On the near bank of the green Yak Pool, three stone buttons stand in a north-south row and three sunken blocks lie under the water toward the far shore. Press the north button, then the south button: all three blocks rise into a causeway. (The north button moves the first two blocks, the middle one the second and third, the south one the third.)"
+              - "Cross to the sanctum and kill the Yak Master (level 35) and his elders (5,000 XP). His corpse carries the sixth Megacredit, and his death opens the reliquary behind the altar: its chest holds Mirabeth's Elixir. The Master's cell beside it has a cabinet with 2,500 gold. Leave by the Master's stair beyond the far bank: the slab at its top opens from this side into the vestry, near the way out."
+              - "Tomb of a Thousand Terrors (5): its door is in the dead Gloomwood in the south-west of Lifeforce Lagoon. In the Gallery of Terrors, haul on the Manacles in the chain room: far below, the portcullis of the coffin vault rises."
+              - "Ride the hanging cage in the cage room at the gallery's east end down to the crypt ring (click the cage, or its call buttons and gates). The great coffin at the north wall of the coffin vault holds the five Megacredits (2,500 XP), but it opens only for a member with Might 30. The pay chest in the barracks, west of the ring, holds two Might Boosts: have one member drink one and click the coffin with that member selected."
+              - "Leave the tomb by the iron maiden's secret stair, which climbs from the crypt into the Gallery of Terrors, then out through the Hall of Welcome."
+              - "Golem Dungeon (5): its slab door is near the east edge of Winterkill Tundra, by the lagoon (walk west along the lagoon's fen road off its west edge). The statue in the Hall of the Plaque gives the rhyme: 'Solve the wood, it's like a tree / Cut the branches and return to me / Next is stone, it's full of blocks / Push them around, expose six rocks / Last is iron, there is a key / Set the tumblers and you'll be free.'"
+              - "The Wood: go west through the Home of the Wood door. Cut the four boughs, the two low ones north and south of the trunk and the two high ones north and south of the crown at the far west end (click each, or break it with blows); the heartwood beyond the crown has a chest. Touch the statue again: the Stone door on the hall's north side opens."
+              - "The Stone: climb the stair to the block field, nine blocks in three rows. Stand on the west side of each block and push it east into its recess; six of them uncover glowing rocks. Pushing all nine works, in any order, and they stay pushed. When six rocks glow, the Iron door east of the hall opens. The masons' store off the east gallery has a chest."
+              - "The Iron: the forge chest behind the Iron door holds the Iron Key. The great lock in the next hall east is held by three bolts, worked by levers on the hall's south wall, in the east tumbler room and in the north tumbler room. Each lever draws or shoots its bolt, so leave all three drawn. Then click the lock: the Iron Key turns and a stair opens downward."
+              - "The Diamond Golem (level 50, 1,200 HP) and an Iron Golem come up the stair to meet you. When the Diamond Golem shatters, the vault door opens: its chest holds the last five Megacredits, 3,000 gold and the award Master of Golems (3,000 XP). The Diamond door on the vault stair opens from this side, back to the entry."
+            tips:
+              - "In the Temple of Yak, drinking from the Yak Pool gives +2 Endurance once per character but sickens the drinker, and falling in sickens too. The heavy coffin in the crypt opens only for a member with base Might 25; potions do not help there."
+              - "The hidden cell off the Yak dormitory: click the wall at the end of the west wing (a block sinks) for a chest."
+              - "The Tomb's embalming room beside the barracks has seven Tomb Juices, each +2 to one stat once per character: red Might, blue Personality, orange Intellect, green Endurance, yellow Accuracy, purple Speed, white Luck. The deep crypt below the coffin vault ends in the Hall of a Thousand Terrors, whose hoard has 2,500 gold."
+              - "In the Golem Dungeon, the Diamond door has no handle on the entry side: it is only the way out."
+            reward: "Sixteen King's Megacredits; 7,000 XP from the strongbox, coffin and vault, 5,000 XP for the Yak Master; the award Master of Golems; 4,500 gold from the treasury and the vault."
+            points:
+              - {map: xeen_x2, name: "Temple of Yak"}
+              - {map: xeen_x3, name: "Mirabeth"}
+              - {map: xeen_x3, name: "Tomb of a Thousand Terrors"}
+              - {map: xeen_x5, name: "Golem Dungeon"}
+            maps:
+              - map: xeen_xd06
+                show: [exit, lever, door, sign]
+                focus: "Treasury"
+                caption: "Temple of Yak: the bar buttons in the west chapel and the east library, the treasury west of the idol, the pool's three buttons in the undercroft and the Yak Master's sanctum north of it."
+              - map: xeen_xd08
+                show: [exit, door, lever, sign]
+                focus: "Coffin"
+                caption: "Tomb of a Thousand Terrors: the manacles and the hanging cage on the upper floor, the barracks and the great coffin in the crypt below."
+              - map: xeen_xd09
+                show: [exit, lever, door, sign]
+                focus: "Statue"
+                caption: "Golem Dungeon: the Wood west of the statue, the block field north, the forge and the great lock east, the Diamond Golem's vault below."
+
+          - quest: m11
+            requires: "Newcastle's walls. Emerson's 'Keep' topic appears once they stand."
+            steps:
+              - "Ask Emerson 'Keep' (5 more Megacredits). With five more Megacredits in your packs, ask 'Keep' again: he takes five (4,000 XP). Newcastle stage 2: the keep stands."
+              - "Optional: at the Newcastle site, in Ebenezer's tent, ask Ebenezer 'Workers' again: a worker came back from the tundra and says the Golem Dungeon, by the lagoon, is stuffed with Megacredits (and golems)."
+              - "The keep now has a working smithy, Torvald's Newcastle Smithy, and Sir Percival Hale's Newcastle Training Hall (trains to level 60). Enter by the stair north of Ebenezer's tent."
+              - "Stage 3, the dungeon under the keep, costs the last 5 Megacredits and needs an Excavation Permit: that is Act IV."
+            reward: "4,000 XP; Newcastle's keep with its smithy and training hall."
+            maps:
+              - map: xeen_xd13
+                show: [exit, door]
+                focus: "Newcastle Smithy"
+                caption: "Newcastle Keep: the smithy and the training hall open with the keep."
+              - map: xeen_x3
+                show: [exit, service]
+                focus: "Ebenezer's Tent"
+                caption: "Ebenezer's tent and the keep's stair at the Newcastle site."
+
+      - title: "The keys to Darzog's Tower"
+        intro: "Darzog's Tower is locked with a Skeleton Key kept in a chest in the Archmage's study atop the Tower of High Magic, and that chest opens only to an Enchanted Key sold by a talking skull in the Cave of Illusion. Artemus tells you so when you ask him 'Darzog's tower'."
+        giver: {map: xeen_xd07, npc: "Artemus"}
+        quests:
+          - quest: m12
+            requires: "Artemus's 'Crodo' topic. Carry ten gems."
+            steps:
+              - "Ask Artemus 'Darzog's tower'. Skulls take gems, not gold: ten, for the key."
+              - "The Cave of Illusion has two mouths in Winterkill Tundra; enter by the north mouth, in the hills north of Halon's Workshop near the map's east edge. Not every wall is real: the west wall of the mouth is a mirage that dissipates when you touch it, and behind it a cache holds a Potion of Might. Keep it."
+              - "Go on through the phantom safe's cave (its north wall is another mirage: click it), the icicle hall and the Hall of Mirages to the frost cavern, and through its door to the sluice. The bronze plug there drains the reservoir, but it needs a member with Might 30: have one drink the Potion of Might and pull the plug with that member selected. The water roars away and the stone sluice gates below open."
+              - "Take the ice stair down from the Hall of Mirages to the ledge over the reservoir. The notice there says it plainly: the great skull at the bottom wants ten gems, and the echo cave past the Guardians' post keeps some. Go through the mirror maze to the Guardians' post and the echo cave: its chest holds 15 gems."
+              - "Go down the reservoir steps onto the drained bed and cross it east to the grotto. Click the great skull: it takes ten gems and gives you the Enchanted Key, the key to the chest in the Archmage's study in the Tower of High Magic (1,500 XP)."
+              - "The grotto's north wall is a mirage: walk into it to reach the phantom vault and its hoard. The sunken boat on the bed has a strongbox. Leave by the gallery stair and the south mouth."
+            tips:
+              - "The other skulls sell permanent stat points for gems, once per character: the upper alcoves by the frost cavern +2 Luck or Personality for 3 gems, the deep alcoves behind the mirror maze's mirage +3 Intellect or Speed for 5, and the great skull, after the key, +5 Might, Endurance or Accuracy for 10. Buy the key first."
+              - "The cave's Flying Feet, Guardians and Water Golems come in numbers; the reservoir bed has more of them once it is dry."
+            reward: "1,500 XP and the Enchanted Key (costs 10 gems)."
+            maps:
+              - map: xeen_xd10
+                show: [exit, door, sign]
+                focus: "Great skull"
+                caption: "The north mouth at the top, the sluice's plug, the ledge and the notice, the drained bed and the great skull's grotto in the east."
+              - map: xeen_x5
+                show: [exit]
+                focus: "Cave of Illusion"
+                caption: "The cave's north mouth in the north-east hills and its south mouth; the Golem Dungeon's door on the east edge."
+
+          - quest: m13
+            requires: "The Enchanted Key, for the chest in the Archmage's study; the tower itself is open."
+            steps:
+              - "The Tower of High Magic stands on an islet in the middle of Lifeforce Lagoon, reached by the stone causeway from the north shore. Its door faces up the causeway; click it and choose OK in the entrance window."
+              - "Ground floor: the athanor and the lightning coils. Take the east stair up. On the first floor's east landing a lever unbolts the lift gate; the brass cage in the core then runs between the ground and first floors."
+              - "First floor: the west stair's door in the poison garden is frozen shut. Open the steam valve in the reagent store: the steam thaws it. Climb the west stair."
+              - "Second floor: kill the Head Sorceress (level 32) in the magic lab and take the Librarian's Key from her body. In the quarters next door, the lever opens the second lift gate. The Librarian's Door opens with her key: climb the stair behind it to the top floor, where the landing's lever opens the third lift gate."
+              - "Top floor: the library has the book The Art of Magic and a cabinet of Mysteries of Light with the Prismatic Light spellbook. The chest in the Archmage's study opens only to the Enchanted Key; it holds the Skeleton Key (6,000 XP)."
+              - "Ride the three cages straight down to the ground floor and leave by the enchanted door."
+              - "Darzog's Tower is on the island in Lake Darzog, west of Rivercity. Medin's boat at his jetty on the lake's east shore rows you over once you have killed the three lake beasts for him (his side quest, Lake Beasts); until then it stays tied up. The tower's door on the island opens to the Skeleton Key."
+            tips:
+              - "Each floor has brews, each +5 to one resistance once per character: the Fire Brew (fire) in the athanor, the Electric Brew (air) by the lightning coils, the Cold Brew (water) in the cold still, the Poison Brew (body) in the poison garden's north-west corner, the Energy Brew (earth) in the energy lab and the Magic Brew (mind) in the magic lab."
+              - "The Pandorian Box in the observatory is trapped; the one in the reagent store is empty."
+              - "The Stairway to Heaven climbs from the top floor to the roof, where a stair of cloud leads up to Cloudreach."
+              - "Darzog's Tower is an Act IV dungeon: magic fails inside, and Baron Darzog and his clones are far stronger than anything in this act. Open the door, look into the gate hall and leave; come back much later."
+            reward: "6,000 XP and the Skeleton Key."
+            maps:
+              - map: xeen_xd11
+                show: [exit, door, lever]
+                focus: "Chest"
+                caption: "The tower's floors stacked on one plan: the lift core in the middle, the stairs alternating east and west; the Archmage's chest on the top floor."
+              - map: xeen_x2
+                show: [exit]
+                focus: "Darzog's Tower"
+                caption: "Medin's jetty on the east shore of Lake Darzog and the tower on the island."

@@ -1,0 +1,109 @@
+# Xeen playthrough, segment 21: back to Castle Burlock with the tiara and the deed (X3, X4, XD-07).
+# Over X3's north edge into Burlock Savannah, the castle lane and
+# gate; inside, the portcullis, the east tower: Princess Roxanne (Tiara: Q-C3 done, her tiara's twin, T1-E for
+# thieves); the gallery: Emerson (Walls with the deed: M9 started, 5 Megacredits wanted; Megacredits: M10 started, the
+# three evil places). Out by the castle door. Outdoors the party is placed (PLAYBOOK §2); the castle is walked.
+# Routes: devdocs/xeen/briefs/x3/L4/playtest.yml, x2/L4/playtest.yml (the edges), xd07/L4/playtest.yml.
+# Quest logic: source/quests/q-c3.yml, m9.yml, m10.yml.
+#   python3 tests/playthrough/xeen/run.py 21
+id: xeen.playthrough.21_court_again
+title: "Xeen playthrough 21: Roxanne's tiara returned; Emerson asks for Megacredits"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/19_the_deed.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [111160, 112060, 110300]}
+  - assert: {qbit_clear: [112061, 111180, 111200]}
+  # X3's north road to its end and over the north edge (edge_spans: X4's x 36 arrival). The step plate and the detour
+  # by Rivercity that stood in for it are gone (X3's rebuild, D-11.6).
+  - set_pose: {map: xeen_x3.odm, x: -7168, y: 20480, z: 1120, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: 24064, z: 1120, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -14336, y: -22016, radius: 400}}
+  - play_lua: {source: "close()"}
+  # Castle Burlock's lane and gate.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 5120, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The castle gate (X4 event 180) leads into XD-07's gatehouse.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # The east tower: Princess Roxanne (house 4204): Tiara (Q-C3 done).
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # Up the great hall's middle first (XD-07's 22:52 rebuild: the straight line to the east door sticks at (1099, 3291)).
+  - walk_to: {x: 0, y: 5300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 5)"}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(42); wait(1)"}
+  - assert:
+      dialog: {source_id: 4404}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "You have recovered my tiara"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        if held() ~= 0 then stow() end
+        if has_item(12150) then error("Roxanne did not take the tiara") end
+        if not has_item(12520) then error("no Roxanne's Tiara (the twin)") end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 8000 then error("Roxanne paid " .. xp .. " experience, not 8000") end
+        if classes() ~= "Cavalier Crusader Wizard Hunter" then error("classes after Roxanne: " .. classes()) end
+  - assert: {qbit_set: [112061]}
+  - assert: {qbit_clear: [112060]}
+  # Down and across to the gallery of arms: Emerson (house 4203).
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # back through the tower's double door (its leaves open into the stair hall since A7's 20:25 rebuild), as XD-07's walk
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 4000, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(1)"}
+  - assert:
+      dialog: {source_id: 4403}
+  - select_topic: {match_label: "Walls"}
+  - assert:
+      dialog: {text_contains: "Every defensible piece of land needs a wall around it"}
+  - select_topic: {match_label: "Megacredits"}
+  - assert:
+      dialog: {text_contains: "the Temple of Yak, the Tomb of a Thousand Terrors and the Golem Dungeon"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - assert: {qbit_set: [111180, 111200]}
+  - assert: {qbit_clear: [111181]}
+  # Out by the castle door onto the rise.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "log('21 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "21 Court again", path: output/playthrough/xeen/checkpoints/21_court_again.oysav}

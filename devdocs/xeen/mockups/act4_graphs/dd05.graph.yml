@@ -1,0 +1,258 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's four-level round tower (dark maze0057-0060) as one BLV. The party enters at the TOP by the heretics'
+# rope (D-9.3) and fights down: each pair of floors is joined by two stairs in different places (the source's
+# (7,9)/(10,6) and (8,8)/(11,8) pairs), so every floor is crossed and every pair of floors closes a loop.
+format: mu6-0
+map: DD-05
+key: dd05
+name: Western Tower of Mok
+stands_on: D1 Castleview Vale
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [35, 39]
+monsters:
+  levels: [25, 45]
+  boss: "Cult Leader 45"
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Heretics (11220): Mok Heretic 25 (22), Heretic Priest 35 (11), Heretic Lord 45 (3): the mutinous priesthood, strongest at the top as in the source (L1 2, L2 7, L3 9, L4 12 clerics)"
+    - "Cult Leader 45: a heretics boss row A2 adds (11223 proposed; the source's D68 at 55 is over the band), the Leader's group of five in the chapel"
+    - "Material golems (11580): Stone Golem 26 (5), Iron Golem 40 (3): Mok's own guardians, set by the heretics on the warded front door and the fountains (ours; open question 2)"
+    - "Humble and Pious, penitent clerics: peaceful, not counted (a peaceful row each family's D tier, 11224 proposed; open question 4)"
+  mix:
+    - {row: Mok Heretic, id: 11220, level: 25, count: 22}
+    - {row: Heretic Priest, id: 11221, level: 35, count: 11}
+    - {row: Heretic Lord, id: 11222, level: 45, count: 3}
+    - {row: Cult Leader, id: "11223 (requested from A2)", level: 45, count: 1}
+    - {row: Stone Golem, id: 11581, level: 26, count: 5}
+    - {row: Iron Golem, id: 11582, level: 40, count: 3}
+  peaceful:
+    - {row: Penitent Cleric, id: "11224 (requested from A2)", level: 25, count: 2, note: "Humble (L2), Pious (L3); not counted"}
+  kill_xp: "14.29k per member (57,155 / 4)"
+  kill_xp_target: "13.7k (DD-05's share of the group DD-05+20+23, 30.5k, by its 45 of 100 monsters); a third would be 10.2k"
+treasure: {level: 4, hoard: 5}
+role: "Q-D6 The Heretics of Mok (the rope, the Cult Leader, the key on the altar, Humble and Pious, the L1 alcoves' 2 Energy Disks for M18, the front door let open for Dreyfus); Dreyfus then promotes Crusader -> Hero and Priest -> Priest of Light in town. Q-D20: the Pegasus statuette on L1"
+role_short: "Q-D6, Hero / Priest of Light"
+set_piece: "The heretics' altar under the tower's slate cone: pale marble and a gold-blue mosaic, a defaced sun of Mok, the key under a heretical candle; reached from the hoist room where the heretics haul their bread up a rope"
+textures:
+  family: "Towers of Mok: MM8 Castle of Air d27 (gston1wl walls over gstntilev skirting, gston1fl, gstn1cl, gstn1bot, gcstflor in the stair halls, gcstdoor) as DD-06 and the other Mok towers (dungeon_families towers); DD-05's accent is the heretics' chapel and vestry in MM8 Temple of the Sun d22 (gtempw1-3, gtempflr, gtemprf, gtempe2l/r, gtempdor1; dungeon_families temples: 'DD-05 heretics' altar'); the windows of L3-L4 and the hoist window in the towers kit"
+  cap: 45
+  planned: 24
+  new: 1
+  new_names: ["xmoktap: a Mok tapestry (the sun with an open eye) with the heretics' sign daubed over it, once per face, on the tapestry walk; the button behind one (aaze0060:0-2)"]
+  distinct_from: "DD-06 (same d27 family, gongs and thieves' stores, no d22) and DD-07 Eastern Tower (A7, its twin in Act IV: its own accent, the mages' rooms; it keeps the Griffin, DD-05 the Pegasus)"
+floors:
+  - {floor: 3, name: "L4: the heretics' floor", height: 1920}
+  - {floor: 2, name: "L3: Pious's floor", height: 1280}
+  - {floor: 1, name: "L2: Humble's floor", height: 640}
+  - {floor: 0, name: "L1: ground floor", height: 0}
+spaces:
+  # floor 3, L4 (z 1920; the chapel rises into the cone, ceiling about 2,900)
+  - {id: room:hoist, name: Hoist room, kind: room, size: S, floor: 3, at: [1, 0], monsters: 0, store: true,
+     purpose: "The arrival (entrance:d1_rope): the open window on the north wall where the heretics' rope ends, sill about 2,000, head 2,240 (the rope's top on D1). A windlass on a beam by the window, sacks of bread and crates of candles in clumps along the walls (a storeroom: store: true), none on the window-to-door line. Quiet (D-11.3). One wall lamp beside the door."}
+  - {id: room:bone_gallery, name: Bone gallery, kind: corridor, size: M, floor: 3, at: [2, 0], monsters: 3,
+     population: [{row: Mok Heretic, level: 25, count: 2}, {row: Heretic Priest, level: 35, count: 1}],
+     purpose: "A curved gallery inside the outer wall, wall sconces between the windows. Three heaps of bones in its bays, what is left of the priests who stayed loyal ('Bones', a find each; then 'Nothing here.')."}
+  - {id: room:north_cells, name: "Heretics' cells", kind: room, size: M, floor: 3, at: [1, 1], monsters: 2,
+     population: [{row: Heretic Priest, level: 35, count: 2}],
+     purpose: "Sleeping cells off a short passage; two beds with something under the blanket ('Bed', a find each; then 'Nothing here.'). A lamp on each cell's wall."}
+  - {id: room:chapel, name: "The heretics' altar", kind: hall, size: L, floor: 3, at: [3, 0], set_piece: true, boss: true,
+     boss_label: "Cult Leader 45", goal: true, monsters: 5,
+     population: [{row: Cult Leader, level: 45, role: boss, count: 1}, {row: Heretic Lord, level: 45, count: 2}, {row: Heretic Priest, level: 35, count: 2}],
+     purpose: "Behind double doors (two leaves, d22's gtempdor1 at their width): pale marble and a gold-blue mosaic under the open cone, the sun of Mok on the east wall daubed over. The Cult Leader preaches at the altar (q-d6.cult_leader on his death); on the altar under a heretical candle the key (q-d6.tower_key). A chandelier on chains from the cone's ring beam over the nave, two braziers standing either side of the altar, clear of the aisle."}
+  - {id: room:vestry, name: Vestry, kind: room, size: S, floor: 3, at: [3, 1], chest: 5, monsters: 0,
+     purpose: "Behind the altar: vestments on pegs, the Cult Leader's chest (the hoard). A door to the chapel; a panel to the tapestry walk that slides only from that side."}
+  - {id: room:tapestry_walk, name: Tapestry walk, kind: corridor, size: S, floor: 3, at: [2, 1], monsters: 0,
+     purpose: "Three hangings of Mok's sun with the heretics' sign daubed over them (xmoktap, once per face). Behind the middle one a button: 'Click', a panel slides into the vestry; the other two 'Nothing here.' (the source's L4 tapestry, aaze0060:0-2)."}
+  - {id: room:altar_stair, name: Altar stair, kind: stair, size: S, floor: 3, at: [4, 0], monsters: 0,
+     purpose: "The priests' stair from behind the chapel down to L3's cloister (the source's (7,9))."}
+  - {id: room:tower_stair, name: Tower stair, kind: stair, size: S, floor: 3, at: [0, 1], monsters: 0,
+     purpose: "The stair in the wall from the cells down to L3's south landing (the source's (10,6))."}
+  # floor 2, L3 (z 1280)
+  - {id: room:cloister3, name: Cloister, kind: corridor, size: M, floor: 2, at: [4, 0], monsters: 4,
+     population: [{row: Heretic Priest, level: 35, count: 2}, {row: Mok Heretic, level: 25, count: 2}],
+     purpose: "A ring walk round the stair core, windows on the outer side, wall sconces on the inner."}
+  - {id: room:pious, name: "Pious's cell", kind: room, size: S, floor: 2, at: [4, 1], goal: true, monsters: 0,
+     purpose: "Behind a door off the cloister, so no fight outside reaches him: Pious the Cleric by his bed begs ('Oh, please don't kill me! ...' 'Slay him anyway?'). No: q-d6.pious, 'Thank you for sparing my life. I shall be going now.', he is gone; yes: the source's kill line and the bed's 'lifeless body' line (aaze0059:5-10)."}
+  - {id: room:fountains3, name: "Fountains of cold and venom", kind: room, size: M, floor: 2, at: [3, 0], monsters: 3,
+     population: [{row: Heretic Priest, level: 35, count: 2}, {row: Mok Heretic, level: 25, count: 1}],
+     purpose: "Two wall fountains in niches, a sconce either side of each: 'The water is cool and refreshing.' +5 Water and +5 Body resistance, once per character (the source's +10 Cold, +10 Poison, D-4)."}
+  - {id: room:dorm3, name: Upper dormitory, kind: room, size: M, floor: 2, at: [2, 0], chest: 4, monsters: 3,
+     population: [{row: Heretic Priest, level: 35, count: 2}, {row: Mok Heretic, level: 25, count: 1}],
+     purpose: "Beds along the walls ('Bed', one find), a locked chest at the foot of the senior priest's bed. Wall lamps."}
+  - {id: room:south_landing3, name: South landing, kind: room, size: S, floor: 2, at: [1, 1], monsters: 2,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "The foot of the tower stair from L4 and the head of the outer stair to L2; open to the dormitory."}
+  - {id: room:west_stair3, name: West stair, kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0,
+     purpose: "From the dormitory down to L2's landing (the source's (8,8))."}
+  - {id: room:outer_stair3, name: Outer stair, kind: stair, size: S, floor: 2, at: [0, 1], monsters: 0,
+     purpose: "From the south landing down to L2's kitchen (the source's (11,8))."}
+  # floor 1, L2 (z 640; behind the windowless base on D1: arrow slits only)
+  - {id: room:landing2, name: Landing, kind: room, size: S, floor: 1, at: [1, 0], monsters: 0,
+     purpose: "The foot of the west stair."}
+  - {id: room:kitchen2, name: Kitchen, kind: room, size: S, floor: 1, at: [1, 1], chest: 4, monsters: 2, store: true,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "The foot of the outer stair: a hearth on the wall (a set piece), a table along the opposite wall, barrels in pairs and sacks in the corners (with the bread hauled up the rope; a store), a chest in the larder corner. A lamp over the hearth hangs from the ceiling."}
+  - {id: room:refectory, name: Refectory, kind: hall, size: M, floor: 1, at: [2, 0], monsters: 4,
+     population: [{row: Mok Heretic, level: 25, count: 4}],
+     purpose: "One long table and its benches along the hall's axis, beside the walking line between the doors, not on it. Two lamps hang from the ceiling over the table."}
+  - {id: room:fountains2, name: "Fountains of fire and lightning", kind: room, size: M, floor: 1, at: [3, 0], monsters: 2,
+     population: [{row: Stone Golem, level: 26, count: 2}],
+     purpose: "Two wall fountains in niches: +5 Fire and +5 Air resistance, once per character (the source's +10 Fire, +10 Electrical, D-4). Two of Mok's stone guardians stand in the corners and wake."}
+  - {id: room:dorm2, name: Lower dormitory, kind: room, size: M, floor: 1, at: [4, 0], monsters: 2,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "Beds; under one mattress a purse ('Bed', a find; the source's (7,4) gold)."}
+  - {id: room:humble, name: "Humble's cell", kind: room, size: S, floor: 1, at: [4, 1], goal: true, monsters: 0,
+     purpose: "Behind a door off the dormitory: Humble the Cleric's plea and question as Pious's; no: q-d6.humble; yes: the kill line (aaze0058:5-10)."}
+  - {id: room:east_stair2, name: East stair, kind: stair, size: S, floor: 1, at: [5, 0], monsters: 0,
+     purpose: "From the dormitory down to L1's stair hall (the source's (10,6))."}
+  - {id: room:south_stair2, name: South stair, kind: stair, size: S, floor: 1, at: [3, 1], monsters: 0,
+     purpose: "From the fountain room down to L1's dormitory (the source's (7,9))."}
+  # floor 0, L1 (z 0; windowless)
+  - {id: room:stair_hall1, name: Stair hall, kind: hall, size: M, floor: 0, at: [5, 0], monsters: 2,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "The foot of the east stair; gcstflor cobbles, a wall lamp each side."}
+  - {id: room:alcoves, name: Hall of alcoves, kind: hall, size: M, floor: 0, at: [4, 0], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "Round the stair core three alcoves in the walls (west, south, east, as the source's (6,8), (7,7), (8,8)): west and east each a disc ('Disc'): the first clicked calls q-d6.l1_alcoves (2 Energy Disks, M18), both then 'The alcove is empty.'; south the Pegasus statuette ('Statuette': q-d20.pegasus). A lamp above each alcove on the wall."}
+  - {id: room:dorm1, name: "Novices' dormitory", kind: room, size: M, floor: 0, at: [3, 0], monsters: 2,
+     population: [{row: Mok Heretic, level: 25, count: 2}],
+     purpose: "The foot of the south stair; beds ('Bed', two finds, the source's (3,8), (7,4)) along the walls, clear of the line from the alcoves to the door hall. Wall lamps."}
+  - {id: room:mirror_hall, name: Mirror hall, kind: room, size: M, floor: 0, at: [3, 1], monsters: 0,
+     purpose: "On the north wall a dead mirror (the source's (7,12)): flavour only, as DD-02's (D-26): 'The mirror does not respond.'"}
+  - {id: room:door_hall, name: Hall of the warded door, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Heretic Lord, level: 45, count: 1}, {row: Iron Golem, level: 40, count: 3}],
+     purpose: "Inside the front door (single leaf, gcstdoor on the inside, matching D1's 110-wide hkm3dr): the heretics' wards glow on it. A Heretic Lord keeps it with three of Mok's iron guardians. The door: q-d6.front_door (needs the key; sets tower_opened, 'The key turns and the heretics' wards on the door die with a small, sulky pop.'); without the key 'Locked, and warded from both sides. The key is upstairs, with the heretics.' Then the exit preset (D-24)."}
+  - {id: room:guardians, name: "Guardians' gallery", kind: hall, size: M, floor: 0, at: [2, 1], chest: 4, monsters: 3,
+     population: [{row: Stone Golem, level: 26, count: 3}],
+     purpose: "Mok's stone guardians in their niches, three of them awake; the old temple's offering chest at the end (the heretics never found the key; locked and trapped)."}
+links:
+  # L4
+  - {id: link:hoist_gallery, from: room:hoist, to: room:bone_gallery, kind: door}
+  - {id: link:gallery_chapel, from: room:bone_gallery, to: room:chapel, kind: door, label: "Double doors"}
+  - {id: link:gallery_cells, from: room:bone_gallery, to: room:north_cells, kind: open}
+  - {id: link:cells_tap, from: room:north_cells, to: room:tapestry_walk, kind: open}
+  - {id: link:tap_vestry, from: room:tapestry_walk, to: room:vestry, kind: secret, label: "Tapestry button", opened_by: state:tapestry}
+  - {id: link:chapel_vestry, from: room:chapel, to: room:vestry, kind: door}
+  - {id: link:chapel_altar_stair, from: room:chapel, to: room:altar_stair, kind: open}
+  - {id: link:cells_tower_stair, from: room:north_cells, to: room:tower_stair, kind: open}
+  # L4 to L3
+  - {id: link:altar_stair_down, from: room:altar_stair, to: room:cloister3, kind: stair}
+  - {id: link:tower_stair_down, from: room:tower_stair, to: room:south_landing3, kind: stair}
+  # L3
+  - {id: link:cloister_pious, from: room:cloister3, to: room:pious, kind: door}
+  - {id: link:cloister_fountains, from: room:cloister3, to: room:fountains3, kind: open}
+  - {id: link:fountains_dorm3, from: room:fountains3, to: room:dorm3, kind: door}
+  - {id: link:dorm3_landing, from: room:dorm3, to: room:south_landing3, kind: open}
+  - {id: link:dorm3_west_stair, from: room:dorm3, to: room:west_stair3, kind: open}
+  - {id: link:landing_outer_stair, from: room:south_landing3, to: room:outer_stair3, kind: open}
+  # L3 to L2
+  - {id: link:west_stair_down, from: room:west_stair3, to: room:landing2, kind: stair}
+  - {id: link:outer_stair_down, from: room:outer_stair3, to: room:kitchen2, kind: stair}
+  # L2
+  - {id: link:landing_refectory, from: room:landing2, to: room:refectory, kind: open}
+  - {id: link:kitchen_refectory, from: room:kitchen2, to: room:refectory, kind: door}
+  - {id: link:refectory_fountains, from: room:refectory, to: room:fountains2, kind: door}
+  - {id: link:fountains_dorm2, from: room:fountains2, to: room:dorm2, kind: open}
+  - {id: link:dorm2_humble, from: room:dorm2, to: room:humble, kind: door}
+  - {id: link:dorm2_east_stair, from: room:dorm2, to: room:east_stair2, kind: open}
+  - {id: link:fountains_south_stair, from: room:fountains2, to: room:south_stair2, kind: open}
+  # L2 to L1
+  - {id: link:east_stair_down, from: room:east_stair2, to: room:stair_hall1, kind: stair}
+  - {id: link:south_stair_down, from: room:south_stair2, to: room:dorm1, kind: stair}
+  # L1
+  - {id: link:stair_hall_alcoves, from: room:stair_hall1, to: room:alcoves, kind: open}
+  - {id: link:alcoves_dorm1, from: room:alcoves, to: room:dorm1, kind: open}
+  - {id: link:alcoves_mirror, from: room:alcoves, to: room:mirror_hall, kind: open}
+  - {id: link:dorm1_door_hall, from: room:dorm1, to: room:door_hall, kind: door}
+  - {id: link:mirror_door_hall, from: room:mirror_hall, to: room:door_hall, kind: door}
+  - {id: link:door_hall_guardians, from: room:door_hall, to: room:guardians, kind: door}
+states:
+  - {id: state:rope, kind: qbit, where: "D1, the rope on the north wall",
+     what: "q-d6.tower_rope (rope_climbed): D1's question 'A rope hangs from a window near the tower's top. Climb?', yes moves the party to entrance:d1_rope in the hoist room.", opens: [], draw: false}
+  - {id: state:tapestry, kind: puzzle, where: room:tapestry_walk,
+     what: "The button behind the middle tapestry: 'Click', the panel into the vestry slides (two-state, stays open).", opens: [link:tap_vestry]}
+  - {id: state:leader, kind: kill, where: room:chapel, what: "The Cult Leader's death: q-d6.cult_leader (leader_slain).", opens: [], draw: false}
+  - {id: state:key, kind: item, where: room:chapel,
+     what: "The key on the altar (q-d6.tower_key, west_tower_key 12338): opens the front door from inside (q-d6.front_door) or from outside on D1 (q-d6.front_door_outside); sets tower_opened.", opens: [], draw: false}
+  - {id: state:clerics, kind: password, where: "room:pious, room:humble",
+     what: "Each cleric's question 'Slay him anyway?': no sets pious_spared / humble_spared and hides him; yes the kill line; either way the bed's line changes (a map variable).", opens: [], draw: false}
+exits:
+  - {id: exit:d1_rope, space: room:hoist, at: [0, 0], kind: both, label: "D1: the heretics' rope (top)",
+     arrival: "entrance:d1_rope: in the hoist room a step inside the window, facing into the room (south)",
+     neighbour: "D1 door:dd05_rope, thing:tower_rope [30.85, 31.25], event 121 (q-d6.tower_rope); out by the window's exit preset to D1's (-16896, 16896, 1600) facing 1536"}
+  - {id: exit:d1_door, space: room:door_hall, at: [1, 0], kind: both, label: "D1: the front door (key)",
+     arrival: "entrance:d1_door: in the door hall inside the door, facing north; reachable from D1 only once tower_opened",
+     neighbour: "D1 door:dd05_front, thing:western_tower's south door (-16896, 15254, 1600), event 118 (tower_opened or q-d6.front_door_outside); out to (-16896, 14848, 1600) facing 1536"}
+hooks:
+  - {hook: q-d6.tower_rope, space: room:hoist, how: "D1's event (A6); this map holds its arrival, entrance:d1_rope"}
+  - {hook: q-d6.cult_leader, space: room:chapel, how: "the Cult Leader's group's death (his own actor group; a death event)"}
+  - {hook: q-d6.tower_key, space: room:chapel, how: "the altar (clicked; once; else 'The altar is bare.')"}
+  - {hook: q-d6.pious, space: room:pious, how: "the 'no' answer to 'Slay him anyway?' (once)"}
+  - {hook: q-d6.humble, space: room:humble, how: "the 'no' answer to 'Slay him anyway?' (once)"}
+  - {hook: q-d6.l1_alcoves, space: room:alcoves, how: "the first of the two disc alcoves clicked (once: 2 Energy Disks); both then 'The alcove is empty.'"}
+  - {hook: q-d20.pegasus, space: room:alcoves, how: "the statuette alcove, south (once: the Golden Pegasus 12349)"}
+  - {hook: q-d6.front_door, space: room:door_hall, how: "the front door's inner face (needs west_tower_key; once; sets tower_opened and the `door` autonote)"}
+  - {hook: q-d6.front_door_outside, space: "D1 (A6)", how: "the same door from outside; listed for the pair, not placed here"}
+critical_path: [room:hoist, room:bone_gallery, room:chapel, room:altar_stair, room:cloister3, room:fountains3, room:dorm3,
+  room:west_stair3, room:landing2, room:refectory, room:fountains2, room:dorm2, room:east_stair2, room:stair_hall1,
+  room:alcoves, room:dorm1, room:door_hall]
+return_path: [room:door_hall]
+loops:
+  - {id: loop:top, spaces: [room:bone_gallery, room:chapel, room:vestry, room:tapestry_walk, room:north_cells],
+     notes: "Round the top floor once the tapestry's panel is open (the vestry's chest reached either way)."}
+  - {id: loop:l4_l3, spaces: [room:chapel, room:altar_stair, room:cloister3, room:fountains3, room:dorm3, room:south_landing3, room:tower_stair, room:north_cells, room:bone_gallery],
+     notes: "The two stairs between L4 and L3."}
+  - {id: loop:l3_l2, spaces: [room:dorm3, room:west_stair3, room:landing2, room:refectory, room:kitchen2, room:outer_stair3, room:south_landing3],
+     notes: "The two stairs between L3 and L2."}
+  - {id: loop:l2_l1, spaces: [room:fountains2, room:dorm2, room:east_stair2, room:stair_hall1, room:alcoves, room:dorm1, room:south_stair2],
+     notes: "The two stairs between L2 and L1."}
+  - {id: loop:ground, spaces: [room:alcoves, room:dorm1, room:door_hall, room:mirror_hall],
+     notes: "Two ways from the alcoves to the warded door, by the dormitory or by the mirror hall."}
+lines:
+  - {text: "Exit the Great Western Tower?", ref: "dark/aaze0057:8", where: "room:door_hall and room:hoist (the exit preset's meaning, D-24)"}
+  - {text: "Where to? / Destination Unknown / The mirror does not respond.", ref: "dark/aaze0057:9, :1, :2", where: "room:mirror_hall (flavour only: 'The mirror does not respond.')"}
+  - {text: "Statuette / Disc / The alcove is empty.", ref: "dark/aaze0057:3-5", where: room:alcoves}
+  - {text: "Bed / Nothing here.", ref: "dark/aaze0057:6-7, aaze0060:3-4", where: "the beds' finds (L1, L2, L3, L4)"}
+  - {text: "Fountain / The water is cool and refreshing. / +10 Fire Resistance / +10 Electrical Resistance (permanent) -> +5 Fire, +5 Air (D-4)", ref: "dark/aaze0058:0-3", where: room:fountains2}
+  - {text: "Fountain / The water is cool and refreshing. / +10 Cold Resistance / +10 Poison Resistance (permanent) -> +5 Water, +5 Body (D-4)", ref: "dark/aaze0059:0-3", where: room:fountains3}
+  - {text: "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway? / Thank you for sparing my life. I shall be going now.", ref: "dark/aaze0058:6-7, aaze0059:6-7", where: "room:humble, room:pious (A3's hooks)"}
+  - {text: "The screams of the unarmed cleric fill the tower as you quickly and efficiently dispatch him. / The only thing in the bed is the lifeless body of a cleric who you mercilessly slew in cold blood.", ref: "dark/aaze0058:9-10, aaze0059:9-10", where: "room:humble, room:pious (the yes branch, then the bed)"}
+  - {text: "Tapestry / Button / Click", ref: "dark/aaze0060:0-2", where: room:tapestry_walk}
+  - {text: "Bones / Nothing here.", ref: "dark/aaze0060:5-6", where: room:bone_gallery}
+open_questions:
+  - q: "Count and kill XP. MAPS's row is a group: DD-05, DD-20 (M) and DD-23 (S), 100 monsters, 30.5k. A third would be 33 monsters and 10.2k, under the M band's floor of 45 (the source tower holds 30)."
+    options: ["(a) DD-05 at the M floor, 45 monsters, 14.29k (its share by count, 13.7k, +4 %); with DD-20 at 45 and DD-23 at 15-20 the group comes to 105-110 monsters and about 32-34k (+5-10 %), A2 recounts Act IV",
+              "(b) 33 monsters and ~10.2k, under the M band (the source's density), the group unchanged",
+              "(c) DD-05 as S: not possible, four floors and two stairs per pair need about 29 sectors"]
+    recommend: "(a)"
+    depends: "the mix and every room's population; DD-20's and DD-23's shares (A8, A7); A2's Act IV recount"
+  - q: "A second family. The source has only Mok's clerics (Cleric of Mok, Mok Heretic, the Cult Leader)."
+    options: ["(a) Mok's own guardians as Material golems: Stone Golem 26 (5) at the fountains and in their gallery, Iron Golem 40 (3) on the warded door, set there by the heretics",
+              "(b) heretics only: 45 heretics (e.g. 27/14/3 + the Leader), 13.9k"]
+    recommend: "(a): the door hall and the guardians' gallery read apart from the clerics' floors, and the golems explain the 'warded' door"
+    depends: "mix, L1 and L2 populations; golem heights (Iron Golem under the door hall's ceiling; D-32 radius 60 only)"
+  - q: "The Cult Leader's row. A2 has no row; the source's Cult Leader is level 55, over the group's band 24-45."
+    options: ["(a) a heretics boss row 11223 'Cult Leader' at 45 (look C, hp_x 3, Psychic Shock and Harm), counted here",
+              "(b) at 55 as the source, counted in a later act (D-1.2)"]
+    recommend: "(a): the quest's kill must be in reach of a party of 35-39 that arrives on his floor"
+    depends: "A2 (row), q-d6.cult_leader (his actor group), the chapel's fight"
+  - q: "Humble and Pious. A3: 'peaceful talkers until the map's question'; A7's rule (D-25): a peaceful group is its own monster row in its own faction."
+    options: ["(a) one peaceful row 11224 'Penitent Cleric' (heretics D, level 25, own faction), the two placed in cells behind doors; clicking either runs the map's question; both answers hide him (no XP), the bed's text by a map variable",
+              "(b) no actor: the cleric is only the bed's event (the source's way), no figure"]
+    recommend: "(a), cells behind doors so no fireball outside turns them"
+    depends: "A2 (row, faction), the cells' doors, the playtest (no / yes for each)"
+  - q: "The two discs. A3's q-d6.l1_alcoves gives both Energy Disks once; the source has one disc per alcove."
+    options: ["(a) the first disc alcove clicked calls the hook (2 disks), both discs' pictures cleared, both then 'The alcove is empty.'",
+              "(b) A3 splits the hook into two (one disk each)"]
+    recommend: "(a), no change to A3's file"
+    depends: "the alcoves' events"
+  - q: "Inside against outside. D1's tower is 1,280 across (radius 640; base 1,280 high without windows, the storeys to 2,688, a cone). M needs 30 M units²: four floors of about 2,900 across, 2.3 times the outside."
+    options: ["(a) keep the outside: an interior larger than its shell, as DD-02 (31 M) and DD-06 (44 M)",
+              "(b) A6 widens the tower to radius ~900 (inside 1.6 times)",
+              "(c) a cellar under L1 for the area (not in the source)"]
+    recommend: "(a)"
+    depends: "the L2 floor plan's extents; A6 only if (b)"

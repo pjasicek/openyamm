@@ -1,0 +1,20 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d6/L4"
+revision: "d39002e2aadeaeb7b3b834b33b5c4ae8"
+lock_hash: "2f28be0bea184bcb69441e1fd7dc9f93"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [13824, -6656, 1664], facing: 1536}
+  - {name: "entrance:d7_fall", at: [13824, -7680, 1672], facing: 1536}
+  - {name: "entrance:dd10c_adit", at: [-9216, -16384, 2688], facing: 512}
+  - {name: "entrance:dd16_hatch", at: [5120, -2560, 1466], facing: 1792}
+  - {name: "entrance:dd17_gate", at: [-6656, 4608, 2208], facing: 1536}
+  - {name: "entrance:dd21_stair", at: [17408, -11776, 1664], facing: 512}
+  - {name: "entrance:dd22_hatch", at: [7168, 12288, 1952], facing: 1536}
+  - {name: "entrance:east_pass", at: [20992, 0, 1696], facing: 1024}
+  - {name: "entrance:fd01_stair", at: [-6656, 4608, 2208], facing: 1536}
+  - {name: "entrance:necropolis_gate", at: [13824, -6656, 1672], facing: 1536}
+  - {name: "entrance:np_gate", at: [13824, -4096, 1728], facing: 512}
+  - {name: "entrance:south_road", at: [0, -20992, 1824], facing: 512}
+  - {name: "entrance:xd17_pyramid", at: [-5120, 1024, 1856], facing: 512}

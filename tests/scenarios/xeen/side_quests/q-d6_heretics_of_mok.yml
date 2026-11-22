@@ -1,0 +1,239 @@
+# Xeen side quest Q-D6, The Heretics of Mok (D1, DD-05), from a new game on D1 with a Crusader and a Priest in a
+# level-37 party. Dreyfus in the Temple of Mok (house 4455): Heretics (started, the rope autonote). The Western
+# Tower's front door refuses without the key (q-d6.front_door_outside, D1 event 118). The heretics' rope (D1 event
+# 121): Yes, q-d6.tower_rope's status line, and the party is on DD-05's top floor (entrance:d1_rope; the arrival
+# window). DD-05 walked as its L4 playtest: L4 the chapel's Cult Leader (leader_slain), the altar's key (key_found);
+# down the altar stair; L3 Pious spared (No); the dormitory and the west stair; L2 Humble spared on foot (No); the east
+# stair; L1 the alcoves' two Energy Disks; the front door from inside with the key (the sulky pop, tower_opened,
+# autonote 4461); out by it (entrance's OK) to D1. Dreyfus: Heretics (done, 9,000 XP each, 3,000 gold, the award;
+# Crusader -> Hero, Priest -> Priest of Light; the Knight and the Sorcerer stay), The clerics (both spared). The
+# tower's front door from outside now goes straight in (the next click).
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (the temple 4455, the door 118, the rope 121),
+# devdocs/xeen/briefs/dd05/L4/playtest.yml (the walk). Quest logic: source/quests/q-d6.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d6_heretics_of_mok.yml --scenario-no-color
+id: xeen.side_quests.q-d6
+title: "Xeen Q-D6: the heretics' rope into the Western Tower, its key, the front door and Dreyfus's promotions"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Crusader, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 37, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 37, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 37, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113120, 113121, 113122, 113123, 113124, 113125, 113126, 113127, 113128]}
+  # The Temple of Mok (house 4455): Dreyfus, Heretics (started, the rope autonote).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Heretics"}
+  - assert:
+      dialog: {text_contains: "they still haul their bread up a rope on the north wall"}
+  - select_topic: {match_label: "Heretics"}
+  - assert:
+      dialog: {text_contains: "Your failure to breach the tower is not your fault"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113120]}
+  # The Western Tower's front door without the key (D1 event 118): refused.
+  - set_pose: {map: xeen_d1.odm, x: -16896, y: 14234, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 118}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, text_contains: "warded from both sides"}
+  - play_lua: {source: "close(); wait(0.3); if qbit(113125) then error('tower_opened set without the key') end"}
+  # The heretics' rope on the north wall (D1 event 121): Yes; the hook's status line, then DD-05's top floor.
+  - set_pose: {map: xeen_d1.odm, x: -16896, y: 16896, z: 1600, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(121); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd05.blv}
+  - play_lua:
+      source: |
+        local seen = status()
+        if not string.find(seen, "Hand over hand", 1, true) then error("the rope's status line: " .. seen) end
+        if not qbit(113121) then error("rope_climbed 113121 not set") end
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE WESTERN TOWER OF MOK"}}
+  - play_lua: {source: "close(); wait(0.5)"}
+  - assert: {party_position: {x: 1376, y: 1472, radius: 96, z_min: 1904, z_max: 1936}}
+  # L4: the hoist room's door, the bone gallery, the chapel's double doors, the Cult Leader, the key on the altar.
+  - walk_to: {x: 1120, y: 1376, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 6)"}
+  - walk_to: {x: 700, y: 1376, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 480, y: 1216, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 1)"}
+  - walk_to: {x: 0, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 3500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "wait(3); if not qbit(113123) then error('leader_slain not set after the Cult Leader died') end"}
+  - walk_to: {x: -1216, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  # D-90 (c), DD-05 rebuilt 2026-11-22 (A8): the key lies on the altar as a ground item.
+  - play_lua: {source: "if ground_items(12338) ~= 1 then error('the key is not on the altar') end"}
+  # Up to the altar's foot: the Cult Leader's body lies by the door side and takes a use from further back.
+  - walk_to: {x: -1380, y: 1216, z: 1920, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - pick_up: {item_id: 12338}
+  - play_lua: {source: "for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12338) ~= 1 then error('no key from the altar') end"}
+  # Back through the gallery, the cells and the tapestry walk into the vestry; its door into the chapel; down the
+  # altar stair (DD-05's playtest route).
+  - walk_to: {x: 480, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: 200, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 672, y: -500, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 672, y: -416, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 200, y: -416, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: -300, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(53); wait(4); if door_state(12) ~= 'open' then error('the vestry panel: ' .. door_state(12)) end"}
+  - walk_to: {x: -700, y: -384, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1088, y: -384, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1088, y: 520, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 13)"}
+  - walk_to: {x: -1088, y: 860, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: 800, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: 500, z: 1920, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: -560, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # L3: the cloister; Pious begs, No (q-d6.pious: pious_spared, he is gone).
+  - walk_to: {x: -1568, y: -960, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 0, y: -1000, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 10)"}
+  - assert: {actor_count: {monster_id: 11911, hostile: false, min: 1, max: 1}}
+  - walk_to: {x: 0, y: -1450, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for sparing my life."}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113128) then error('pious_spared not set') end; if qbit(117362) then error('pious_slain set by No') end"}
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: true}}
+  # The upper dormitory and the west stair.
+  - walk_to: {x: 0, y: -1000, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -300, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 500, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 4)"}
+  - walk_to: {x: 0, y: 900, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1184, y: 860, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1184, y: 500, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1184, y: -560, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # L2: the landing, the refectory, the lower dormitory; Humble's cell on foot, No (q-d6.humble: humble_spared).
+  - walk_to: {x: -1184, y: -900, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -400, y: -896, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -416, y: 500, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(32, 11)"}
+  - walk_to: {x: -416, y: 900, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 300, y: 992, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1024, y: 1150, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 7)"}
+  - assert: {actor_count: {monster_id: 11910, hostile: false, min: 1, max: 1}}
+  - walk_to: {x: 1024, y: 1450, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for sparing my life."}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113124) then error('humble_spared not set') end; if qbit(117361) then error('humble_slain set by No') end"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: true}}
+  # Down the east stair to L1: the alcoves' two Energy Disks.
+  - walk_to: {x: 1024, y: 1150, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1568, y: 860, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1568, y: 500, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1568, y: -560, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1568, y: -900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1184, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -700, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Two of them, Energy Disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        local disks = item_count(12334) + (held() == 12334 and 1 or 0)
+        if disks ~= 2 then error("the alcoves gave " .. disks .. " disks") end
+        if not qbit(113126) then error("alcove_disks not set") end
+  # The door hall: the front door from inside with the key (the sulky pop, tower_opened); then out by it to D1.
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: -1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(113125) then error('tower_opened set before the door') end; click(35); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "die with a small, sulky pop"}}
+  - play_lua: {source: "close(); if not qbit(113125) then error('tower_opened not set') end"}
+  - execute_event: {id: 35}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -16896, y: 14848, radius: 128, z_min: 1541, z_max: 1761}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Dreyfus: Heretics (done: 9,000 XP each, 3,000 gold, the award, the promotions), The clerics.
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for _, i in ipairs({0, 1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before Dreyfus and the heretics: ' .. c) end end end"}
+  - play_lua: {source: "remember('gold', gold()); remember('xp', experience(2))"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Heretics"}
+  - assert:
+      dialog: {text_contains: "Those of you who serve the light, Mok raises up"}
+  - select_topic: {match_label: "The clerics"}
+  - assert:
+      dialog: {text_contains: "Humble and Pious came to me and begged forgiveness."}
+  - select_topic: {match_label: "Heretics"}
+  - assert:
+      dialog: {text_contains: "It is always pleasing to be honored with your presence"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(113127) then error("q-d6.done 113127 not set") end
+        if gold() - recall("gold") ~= 3000 then error("Dreyfus paid " .. (gold() - recall("gold")) .. " gold") end
+        if experience(2) - recall("xp") ~= 9000 then error("Dreyfus paid " .. (experience(2) - recall("xp")) .. " XP") end
+        if classes() ~= "Hero PriestLight Knight Sorcerer" then error("the heretics' promotion: " .. classes()) end
+        log("Q-D6 done: " .. classes())
+  # The tower's front door from outside now goes straight in (entrance:d1_door), and out again.
+  - set_pose: {map: xeen_d1.odm, x: -16896, y: 14234, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 118}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd05.blv}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 0, y: -1536, radius: 96, z_min: -16, z_max: 16}}

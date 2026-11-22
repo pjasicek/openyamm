@@ -1,0 +1,519 @@
+# Xeen D5 and D6 quest hooks in the installed maps (D-49), with their amounts, not only their texts. A level-45 party
+# from a new game on the Desert of Doom; outdoors the party is placed beside each thing (PLAYBOOK.md section 2).
+# D5: the Shrine of Great Power (+15 to every statistic until rest, once a day) and the Fountain of Might (+20 Might,
+# once a day), read as each member's bonus; the Fountain of Energy Resistance (+5 Air) and the Last Water (+2 base
+# Luck), each once per character (member 0, refused for him, member 1); the Giant's lair (1,000 experience each,
+# once); the hill lamp (Experience: 2,000 each) and the dune lamp (Gold: 10,000); the boulders' riddle ("paladin":
+# the Dead Paladin's Armour and 10,000 experience each), then boulder 2 crumbles into one item and is hidden; the
+# munchies (all food eaten, once a day). West off the edge to D6.
+# D6: the zone sign; Necropolis's gate refused without the pass, open with it; the skull's tale; the Books of the
+# Dead (3,000 experience and 8 years for the reader only; a second read refused); the archers' camp (1,000
+# experience each, once); the pinnacle lamp (Gems: ten gems), the islet lamp (Experience), the crag's greedy lamp
+# (Yes: 5,000 gold taken; the save loaded, No: 5,000 shared); after m25.done and m33.done a reload hides Ambrose,
+# his griffin and the robot patrols.
+# Places: devdocs/xeen/briefs/d5/L4/playtest.yml, d6/L4/playtest.yml; the lamps from the scenes' decorations.
+# Quest logic: source/npcs/d5.yml, d6.yml; source/quests/q-d27.yml, q-d24.yml, m25.yml, m33.yml, q-d22.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_d5_d6.yml --scenario-no-color
+id: xeen.hooks_d5_d6
+title: "Xeen D5 and D6 hooks: fountains, shrine, lair, lamps, boulders, gate, books, camp and the load-time hides"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 45, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 45, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 45, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d5.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113480, 113482, 113540, 113541, 116180]}
+  # Each member's Might..Luck bonuses, Air resistance, base Luck and age before the devices.
+  - console: &stats {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({MightBonus, IntellectBonus, PersonalityBonus, EnduranceBonus, SpeedBonus, AccuracyBonus, LuckBonus, AirResistance, BaseLuck, Age}) do local v = 0 while v < 255 and IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out .. ' ' end evt.StatusText('stats ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local stats = string.match(status(), "stats ([%d/ ]+)")
+        if stats == nil then error("no stats line") end
+        remember("stats_d5", stats)
+        log("stats before D5: " .. stats)
+  - press_action: {action: select_member, member_index: 0}
+  # ---- D5. The Shrine of Great Power on its mesa (event 54): Yes, the prayer; again, silence.
+  - set_pose: {map: xeen_d5.odm, x: -16384, y: -10957, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(54); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[the Gods answer your prayers. (+15 to every statistic until you rest)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(54); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Only silence greets your supplications.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Fountain of Might under the rim (event 52): the surge; again, only cool water.
+  - set_pose: {map: xeen_d5.odm, x: 18688, y: 15616, z: 3072, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(52); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Fountain of Might. Fantastic might surges through your body]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(52); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Fountain of Energy Resistance by the Barrier (event 51): member 0, refused for him, member 1.
+  - set_pose: {map: xeen_d5.odm, x: -7936, y: 16896, z: 2944, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Fountain of Energy Resistance. Your spine tingles]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(51); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Fountain of Energy Resistance. Your spine tingles]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Last Water at the oasis (event 50): member 0, refused for him, member 1.
+  - set_pose: {map: xeen_d5.odm, x: -9728, y: -5939, z: 1600, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(50); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel fortune turn your way. (+2 Luck, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(50); wait(0.5)"}
+  # The refusal's line is the gift's first sentence; the base Luck check below shows +2, not +4.
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cold and very clear.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(50); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel fortune turn your way.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The amounts: every member +35 Might (shrine and fountain) and +15 to the other six until rest; Air +5 and base
+  # Luck +2 for members 0 and 1 only.
+  - console: *stats
+  - play_lua:
+      source: |
+        local after = string.match(status(), "stats ([%d/ ]+)")
+        if after == nil then error("no stats line") end
+        log("stats after D5's devices: " .. after)
+        local function parse(text)
+          local members = {}
+          for block in string.gmatch(text, "[%d/]+") do
+            local values = {}
+            for n in string.gmatch(block, "%d+") do values[#values + 1] = tonumber(n) end
+            members[#members + 1] = values
+          end
+          return members
+        end
+        local before, now = parse(recall("stats_d5")), parse(after)
+        local names = {"MightBonus", "IntellectBonus", "PersonalityBonus", "EnduranceBonus", "SpeedBonus",
+          "AccuracyBonus", "LuckBonus", "AirResistance", "BaseLuck", "Age"}
+        local gain = {{35, 15, 15, 15, 15, 15, 15, 5, 2, 0}, {35, 15, 15, 15, 15, 15, 15, 5, 2, 0},
+          {35, 15, 15, 15, 15, 15, 15, 0, 0, 0}, {35, 15, 15, 15, 15, 15, 15, 0, 0, 0}}
+        local bad = ""
+        for m = 1, 4 do
+          for k = 1, 10 do
+            if now[m][k] - before[m][k] ~= gain[m][k] then
+              bad = bad .. " member " .. (m - 1) .. " " .. names[k] .. " " .. before[m][k] .. "->" .. now[m][k]
+                .. " (want +" .. gain[m][k] .. ")"
+            end
+          end
+        end
+        if bad ~= "" then error("D5 device amounts:" .. bad) end
+  - press_action: {action: select_member, member_index: 0}
+  # The Giant's lair in the Quivering Forest (event 34): Destroy? Yes, 1,000 experience each; again, nothing.
+  - set_pose: {map: xeen_d5.odm, x: -14746, y: 10957, z: 2611, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(34); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You put your backs into it and tear the place apart.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 1000 then error("the lair paid member " .. i .. " " .. d) end
+          remember("x" .. i, experience(i))
+        end
+        if not qbit(116180) then error("d5.lair_destroyed 116180 not set") end
+        click(34); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Broken trunks and bones. Nobody has rebuilt it."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do if experience(i) ~= recall("x" .. i) then error("the wrecked lair paid member " .. i) end end
+  # The hill shrine's lamp (event 55, q-d27.d5_hills): the three wishes; Experience, 2,000 each; then cold.
+  - set_pose: {map: xeen_d5.odm, x: -20608, y: -17408, z: 2624, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(55); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - answer_input: {text: "Experience"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Things you never studied are suddenly familiar. (+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("the hill lamp's wish paid member " .. i .. " " .. d) end
+        end
+        if not qbit(113540) then error("q-d27.d5_hills 113540 not set") end
+        click(55); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The dune lamp in the sand sea (event 56, q-d27.d5_dune): Gold, 10,000.
+  - set_pose: {map: xeen_d5.odm, x: 10624, y: -16384, z: 1632, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('gold', gold()); click(56); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - answer_input: {text: "Gold"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "gold pours out of the lamp's spout until it doesn't. (10,000 gold)"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() - recall("gold") ~= 10000 then error("the dune lamp's wish paid " .. (gold() - recall("gold"))) end
+        if not qbit(113541) then error("q-d27.d5_dune 113541 not set") end
+  # The west boulders (Q-D24): boulder 7 asks, "paladin": the armour 12529 and 10,000 experience each, the boulder
+  # hidden; boulder 2 then crumbles into one item and is hidden; clicked again, only sand.
+  - set_pose: {map: xeen_d5.odm, x: -12800, y: -2560, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(48); wait(0.5)"}
+  - answer_input: {text: "paladin"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Correct! You have solved my riddle."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113480) then error("q-d24.solved 113480 not set") end
+        if not has_item(12529) then error("no Dead Paladin's Armour 12529") end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 10000 then error("the riddle paid member " .. i .. " " .. d) end
+        end
+        remember("pack", pack_items())
+  - assert: {sprite_hidden: [30006]}
+  - play_lua: {source: "click(47); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The boulder crumbles to sand and leaves behind something"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local cursor = held()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113482) then error("q-d24.crumbled_2 113482 not set") end
+        local function total(text)
+          local n = 0
+          for c in string.gmatch(text, "x(%d+)") do n = n + tonumber(c) end
+          return n
+        end
+        local gained = total(pack_items()) - total(recall("pack"))
+        log("boulder 2 gave " .. gained .. " item(s) (cursor " .. cursor .. ")")
+        if gained ~= 1 then error("boulder 2 gave " .. gained .. " items: " .. pack_items()) end
+  - assert: {sprite_hidden: [30005]}
+  - play_lua: {source: "click(47); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Where the boulder stood there is only sand."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The munchies (event 64): all food eaten; with food again the same day the second spot (65) leaves it.
+  - play_lua: {source: "click(64); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[got the munchies and ate all the food!]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {food: 0}
+  - console: {line: "lua SetValue(Food, 20)", expect_contains: "Lua ran."}
+  - play_lua: {source: "click(65); wait(0.5); close(); wait(0.3)"}
+  - assert: {food: 20}
+  # West off D5's edge over the border pass to D6 (the travel prompt, OK).
+  - set_pose: {map: xeen_d5.odm, x: -31488, y: 0, z: 1696, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32973, y: 0, z: 1696, z_tolerance: 900, radius: 128, timeout_seconds: 150, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # ---- D6. The zone sign at the border pass (event 103).
+  - set_pose: {map: xeen_d6.odm, x: 19149, y: -614, z: 1783, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(103); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The Forbidden Zone. Beyond: Castle Alamar. The dead keep the road."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Necropolis's gate from outside (event 127): shut without the pass; with it the leaves open.
+  - set_pose: {map: xeen_d6.odm, x: 13824, y: -4301, z: 1715, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(127); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The living need a pass. The dead need nothing."}}
+  - play_lua: {source: "close(); wait(0.3); status()"}
+  # Q-D22's Head Witch's chest (DD-20) gives the Necropolis Pass.
+  - grant_item: {item_id: 12336, member_index: 0}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        click(127); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "The gatekeeper reads your pass through the grille, twice, and the leaves swing open.", 1, true) then
+          error("the gate with the pass: " .. s)
+        end
+        close(); wait(0.3)
+  - walk_to: {x: 13824, y: -6451, z: 1664, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000}
+  # The talking skull on the mirror's plinth (event 82).
+  - set_pose: {map: xeen_d6.odm, x: 13824, y: -6861, z: 1664, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(82); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "two necromancers had a little disagreement"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Books of the Dead (events 52, 54, 56): member 0 reads volume 1 (3,000 experience, 8 years; nobody else),
+  # then is refused; volume 2 for member 0; volume 3 for member 1.
+  - console: *stats
+  - play_lua:
+      source: |
+        local stats = string.match(status(), "stats ([%d/ ]+)")
+        if stats == nil then error("no stats line") end
+        remember("stats_d6", stats)
+        log("stats before the books: " .. stats)
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(52); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Book of the Dead, Vol. 1. The words are cold]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local want = {3000, 0, 0, 0}
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= want[i + 1] then error("Book 1 paid member " .. i .. " " .. d) end
+          remember("x" .. i, experience(i))
+        end
+        click(52); wait(0.5)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You've already read it.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if experience(0) ~= recall("x0") then error("Book 1 read twice paid " .. (experience(0) - recall("x0"))) end
+        click(54); wait(0.5)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Book of the Dead, Vol. 2.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(56); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Book of the Dead, Vol. 3.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local want = {3000, 3000, 0, 0}
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= want[i + 1] then error("Books 2 and 3 paid member " .. i .. " " .. d) end
+        end
+  # The ages: member 0 +16 years (two books), member 1 +8, the others unchanged; nothing else moved.
+  - console: *stats
+  - play_lua:
+      source: |
+        local after = string.match(status(), "stats ([%d/ ]+)")
+        if after == nil then error("no stats line") end
+        log("stats after the books: " .. after)
+        local function parse(text)
+          local members = {}
+          for block in string.gmatch(text, "[%d/]+") do
+            local values = {}
+            for n in string.gmatch(block, "%d+") do values[#values + 1] = tonumber(n) end
+            members[#members + 1] = values
+          end
+          return members
+        end
+        local before, now = parse(recall("stats_d6")), parse(after)
+        local ages = {16, 8, 0, 0}
+        local bad = ""
+        for m = 1, 4 do
+          for k = 1, 10 do
+            local want = k == 10 and ages[m] or 0
+            if now[m][k] - before[m][k] ~= want then
+              bad = bad .. " member " .. (m - 1) .. " stat " .. k .. " " .. before[m][k] .. "->" .. now[m][k]
+            end
+          end
+        end
+        if bad ~= "" then error("the books' ages:" .. bad) end
+  - press_action: {action: select_member, member_index: 0}
+  # The archers' camp (event 94): Destroy? Yes, 1,000 experience each; again, ash.
+  - set_pose: {map: xeen_d6.odm, x: -14029, y: -11571, z: 1952, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(94); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:   # D-90: the camp's experience on the status line
+      source: |
+        local s = tostring(status())
+        if not string.find(s, "Smoke rises into the sky as you put the camp to the torch.", 1, true) then error("the camp: " .. s) end
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 1000 then error("the camp paid member " .. i .. " " .. d) end
+          remember("x" .. i, experience(i))
+        end
+        if not qbit(116200) then error("d6.archers_burned 116200 not set") end
+        click(94); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "Ash and arrowheads. The archers have not come back."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do if experience(i) ~= recall("x" .. i) then error("the burnt camp paid member " .. i) end end
+  # The pinnacle lamp (event 89, q-d27.d6_pinnacle): Gems, ten gems (item 180).
+  - set_pose: {map: xeen_d6.odm, x: -14464, y: 12288, z: 1696, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('gems', item_count(180)); click(89); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - answer_input: {text: "Gems"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "ten gems roll out of the lamp, still warm."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local d = item_count(180) - recall("gems")
+        if d ~= 10 then error("the pinnacle lamp gave " .. d .. " gems") end
+        if not qbit(113542) then error("q-d27.d6_pinnacle 113542 not set") end
+  # The islet lamp in Corak's lake (event 90, q-d27.d6_islet): Experience, 2,000 each; then cold.
+  - set_pose: {map: xeen_d6.odm, x: 896, y: 512, z: 1504, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(90); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - answer_input: {text: "Experience"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:   # D-90: the wish's experience on the status line
+      source: |
+        local s = tostring(status())
+        if not string.find(s, "(+2,000 experience)", 1, true) then error("the islet wish: " .. s) end
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("the islet lamp's wish paid member " .. i .. " " .. d) end
+        end
+        if not qbit(113543) then error("q-d27.d6_islet 113543 not set") end
+        click(90); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "warm on one side from the lava. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The crag's greedy lamp (event 91, q-d27.d6_crag). A save first. Yes: the genie takes 5,000 of the party's gold.
+  - set_pose: {map: xeen_d6.odm, x: 12160, y: -18944, z: 3456, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - save_game: {name: "Hooks D5 D6 at the crag lamp", path: output/a3_s17/helper/hooks_d6_crag.oysav}
+  - play_lua: {source: "remember('gold', gold()); click(91); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I can give you 10,000 gold, but it is all that I have. Do you want it?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "I'm taking my gold back, plus interest!"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() - recall("gold") ~= -5000 then error("the greedy Yes changed gold by " .. (gold() - recall("gold"))) end
+        if not qbit(113544) then error("q-d27.d6_crag 113544 not set") end
+        click(91); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "Its genie has gone, with interest."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The save loaded: No, the genie shares 5,000.
+  - load_game: {path: output/a3_s17/helper/hooks_d6_crag.oysav}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d6.odm}
+  - assert: {qbit_clear: [113544]}
+  - play_lua: {source: "remember('gold', gold()); click(91); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "why don't we share it, since neither of us seem to be greedy.\" (5,000 gold)"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() - recall("gold") ~= 5000 then error("the greedy No changed gold by " .. (gold() - recall("gold"))) end
+        if not qbit(113544) then error("q-d27.d6_crag 113544 not set") end
+  # D6's load events: Ambrose (actor 44, npc 5512), his griffin (45) and the robots (26-43) shown before.
+  - assert: {actor_visible: {actor_index: 44, hidden: false}}
+  - assert: {actor_visible: {actor_index: 45, hidden: false}}
+  - assert: {actor_visible: {actor_index: 26, hidden: false}}
+  - assert: {actor_visible: {actor_index: 34, hidden: false}}
+  # M-25's flight (DD-14 and D4) and M-33's end (DD-17) are other maps' segments: their done bits by console.
+  - console: {line: "qbit set 111503"}   # m25.done
+  - console: {line: "qbit set 111662"}   # m33.done
+  - assert: {qbit_set: [111503, 111662]}
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d6.odm}
+  - assert: {actor_visible: {actor_index: 44, hidden: true}}
+  - assert: {actor_visible: {actor_index: 45, hidden: true}}
+  - assert: {actor_visible: {actor_index: 26, hidden: true}}
+  - assert: {actor_visible: {actor_index: 34, hidden: true}}
+  - assert: {actor_visible: {actor_index: 43, hidden: true}}
+  # Castle Alamar's gate (event 33, m33.arrival_gate) without Corak's Soul Box: refused on the status line, the party
+  # stays outside, the refusal voiced once (refused_once 111664); a second try refused the same. (Here after the
+  # reload: the robot patrols are hidden, nothing writes over the line. The hook reads only the Soul Box.)
+  - set_pose: {map: xeen_d6.odm, x: -6656, y: 4506, z: 2202, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_clear: [111664]}
+  - play_lua:
+      source: |
+        status(); click(33); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "The gate does not move. Corak's Soul Box would hide you from him.", 1, true) then error("the gate without the Soul Box: " .. s) end
+        if not qbit(111664) then error("refused_once 111664 not set by the first refusal") end
+  - assert: {map: xeen_d6.odm}
+  - assert: {dialog: {active: false}}
+  - play_lua:
+      source: |
+        close(); wait(0.3); status(); click(33); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "The gate does not move.", 1, true) then error("the gate's second refusal: " .. s) end
+  - assert: {map: xeen_d6.odm}

@@ -39,6 +39,7 @@ restored at x2, with the OpenYAMM mark added; only the composite certificate is 
 | mm7 | `engine/icons_x2/7winbg.png` | `original_x2/raw/7winbg_a.png` |
 | mm8 | `engine/icons_x2/winbg.png` | the x2 restoration accepted in the 2026-09-26 icon migration |
 | grand | `engine/hud_x2/certificates/grand.png` | `raw/grand_b.png`: its medallions stay below the text |
+| xeen | `worlds/xeen/icons_x2/xeenwinbg.png` | a new painting in MM6's layout (Xeen has no certificate art): `level_generation/ui/xeen_certificate_20261121/` |
 
 - `original_x2/`: Codex restorations of the native 640 x 480 backgrounds (`BRIEF.md`, `scripts/prepare.py` places each
   in a 1536 x 1024 canvas between grey bars, `scripts/run_codex.py`). The middle 1365 x 1024 is resized to exactly

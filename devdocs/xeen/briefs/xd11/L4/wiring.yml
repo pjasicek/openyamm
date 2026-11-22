@@ -1,0 +1,345 @@
+format: 0
+variables: [frost_thawed, gate1_open, gate2_open, gate3_open]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE TOWER OF HIGH MAGIC. The Enchanted Key from the Cave of Illusion turns, and the door shuts again behind you with a sound like a held breath. Artemus was plain about it: the Skeleton Key that opens Darzog's Tower lies with the Archmage who built this place, in his study at the very top. Six laboratories climb the floors between, and their keepers will not welcome you. The stairs go up the east and west sides in turn."
+      - qbit: arrived_once
+    notes: "Say why the party is here (M13: the Skeleton Key in the Archmage's study at the top), on the first arrival only (arrived_once; a timer's once is once per visit)."
+  - id: evt:art_of_magic
+    preset: text
+    source: platform:art_of_magic
+    title: The Art of Magic
+    text: "THE ART OF MAGIC. 'Every spell is a door, and every door a lock. The novice forces the lock; the master learns the shape of the key. Fire wants feeding, water wants a vessel, air will go where it likes, earth will not go at all. Learn what each wants, and it will come to your hand as a dog comes to its name.' The rest is the Archmage's notes in the margins, in a hand too small to read."
+    window: true
+    notes: "poi:art_of_magic: lore only (D-4 item 2). Original title 'The Art of Magic' (aaze0058:1)."
+  - id: evt:bed_0
+    preset: text
+    source: platform:bed_0
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: poi:beds (original line).
+  - id: evt:bed_1
+    preset: text
+    source: platform:bed_1
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: poi:beds (original line).
+  - id: evt:brew_cold
+    preset: script
+    source: deco:brew_cold
+    title: Cold Brew
+    condition: {not: {player_bit: 11248}}
+    effects:
+      - add:
+          var: WaterResistance
+          value: 5
+      - player_bit: 11248
+      - text: "COLD BREW. Frost creeps up the ladle. It is like swallowing a winter, and afterwards the cold cannot find you: +5 Water resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Cold Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Water resistance once per character (player bit 11248; D-4 item 1). Original name 'Cold Brew' (aaze0055/0057)."
+  - id: evt:brew_electric
+    preset: script
+    source: deco:brew_electric
+    title: Electric Brew
+    condition: {not: {player_bit: 11247}}
+    effects:
+      - add:
+          var: AirResistance
+          value: 5
+      - player_bit: 11247
+      - text: "ELECTRIC BREW. The brew crackles blue between the coils and stings your tongue like a storm: +5 Air resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Electric Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Air resistance once per character (player bit 11247; D-4 item 1). Original name 'Electric Brew' (aaze0055/0057)."
+  - id: evt:brew_energy
+    preset: script
+    source: deco:brew_energy
+    title: Energy Brew
+    condition: {not: {player_bit: 11250}}
+    effects:
+      - add:
+          var: EarthResistance
+          value: 5
+      - player_bit: 11250
+      - text: "ENERGY BREW. It glows yellow in the ladle and hums in your bones for a long moment: +5 Earth resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Energy Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Earth resistance once per character (player bit 11250; D-4 item 1). Original name 'Energy Brew' (aaze0055/0057)."
+  - id: evt:brew_fire
+    preset: script
+    source: deco:brew_fire
+    title: Fire Brew
+    condition: {not: {player_bit: 11246}}
+    effects:
+      - add:
+          var: FireResistance
+          value: 5
+      - player_bit: 11246
+      - text: "FIRE BREW. A red brew that smokes in its cauldron by the athanor. It burns going down, and the heat stays in you: +5 Fire resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Fire Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Fire resistance once per character (player bit 11246; D-4 item 1). Original name 'Fire Brew' (aaze0055/0057)."
+  - id: evt:brew_magic
+    preset: script
+    source: deco:brew_magic
+    title: Magic Brew
+    condition: {not: {player_bit: 11251}}
+    effects:
+      - add:
+          var: MindResistance
+          value: 5
+      - player_bit: 11251
+      - text: "MAGIC BREW. Violet, and stranger than it looks: for a moment you hear your own thoughts from outside. Then the mind closes, stronger: +5 Mind resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Magic Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Mind resistance once per character (player bit 11251; D-4 item 1). Original name 'Magic Brew' (aaze0055/0057)."
+  - id: evt:brew_poison
+    preset: script
+    source: deco:brew_poison
+    title: Poison Brew
+    condition: {not: {player_bit: 11249}}
+    effects:
+      - add:
+          var: BodyResistance
+          value: 5
+      - player_bit: 11249
+      - text: "POISON BREW. Nightshade and hemlock, boiled down until they cure what they once caused. Bitter, and then nothing at all: +5 Body resistance (permanent)."
+    else_effects:
+      - text: You have drunk the Poison Brew already. It does nothing more for you.
+    notes: "poi:brews: +5 Body resistance once per character (player bit 11249; D-4 item 1). Original name 'Poison Brew' (aaze0055/0057)."
+  - id: evt:cloud_stair
+    preset: script
+    source: platform:cloud_top
+    title: Stairway to Heaven
+    effects:
+      - exit: exit:x8_clouds
+    notes: "Original title 'Stairway to Heaven' (aaze0058:6). F16 (2026-11-22): the standard entrance window (OK/Close, no Yes/No); OK climbs to X8 (exit:x8_clouds)."
+  - id: evt:coils_core0
+    preset: door
+    source: door:coils_core0
+    title: Door
+  - id: evt:enchanted_door
+    preset: exit
+    source: exit:enchanted_door
+    title: Leave the Tower of High Magic
+    notes: "The way out to X3's islet (exit:x3_door). The game's exit window asks to leave the Tower of High Magic (aaze0055:6's sense). A plain exit, so the exit preset and the game's own window (D-24: no 'Leave X?' map question; question + leave only for a real choice, as the cloud stair)."
+  - id: evt:energy_magic
+    preset: door
+    source: door:energy_magic
+    title: Door
+  - id: evt:foyer_athanor
+    preset: door
+    source: door:foyer_athanor
+    title: Door
+  - id: evt:frost_door
+    preset: door
+    source: door:frost
+    title: Frozen door
+    condition: {map_var: frost_thawed}
+    action: open
+    else_effects:
+      - message: "The door is frozen shut: a sheet of blue ice covers it from lintel to sill, and its hinges are lost in it. A steam pipe runs cold along the wall to its frame, back toward the reagent store."
+    notes: "The frost seal (link:poison_l1w): 'frozen shut' until the steam valve; then it opens."
+  - id: evt:gate1
+    preset: door
+    source: door:gate1
+    title: Lift gate
+    condition: {map_var: gate1_open}
+    locked_text: The lift gate is bolted. The lever beside it on the wall works the bolt.
+    action: open
+    notes: "Lift gate 1: bolted until its lever is pulled."
+  - id: evt:gate1_lever
+    preset: switch
+    source: switch:gate1
+    title: Gate lever
+    condition: {not: {map_var: gate1_open}}
+    opens: [door:gate1]
+    sets: {map_var: gate1_open}
+    else_effects:
+      - text: The lever is down and the gate stands open.
+    text: The bolt shoots back and the brass gate rises. Beyond it the cage will answer you now.
+    notes: "poi:gate1_lever: unbolts lift gate 1; the lift below this floor runs from now on."
+  - id: evt:gate2
+    preset: door
+    source: door:gate2
+    title: Lift gate
+    condition: {map_var: gate2_open}
+    locked_text: The lift gate is bolted. The lever beside it on the wall works the bolt.
+    action: open
+    notes: "Lift gate 2: bolted until its lever is pulled."
+  - id: evt:gate2_lever
+    preset: switch
+    source: switch:gate2
+    title: Gate lever
+    condition: {not: {map_var: gate2_open}}
+    opens: [door:gate2]
+    sets: {map_var: gate2_open}
+    else_effects:
+      - text: The lever is down and the gate stands open.
+    text: The bolt shoots back and the brass gate rises. Beyond it the cage will answer you now.
+    notes: "poi:gate2_lever: unbolts lift gate 2; the lift below this floor runs from now on."
+  - id: evt:gate3
+    preset: door
+    source: door:gate3
+    title: Lift gate
+    condition: {map_var: gate3_open}
+    locked_text: The lift gate is bolted. The lever beside it on the wall works the bolt.
+    action: open
+    notes: "Lift gate 3: bolted until its lever is pulled."
+  - id: evt:gate3_lever
+    preset: switch
+    source: switch:gate3
+    title: Gate lever
+    condition: {not: {map_var: gate3_open}}
+    opens: [door:gate3]
+    sets: {map_var: gate3_open}
+    else_effects:
+      - text: The lever is down and the gate stands open.
+    text: The bolt shoots back and the brass gate rises. Beyond it the cage will answer you now.
+    notes: "poi:gate3_lever: unbolts lift gate 3; the lift below this floor runs from now on."
+  - id: evt:librarian_door
+    preset: door
+    source: door:librarian
+    title: Librarian's door
+    condition: {item: librarian_key}
+    locked_text: "The door is locked. Its keyhole is cut in the shape of an open book: the Librarian's Key, which the Head Sorceress keeps about her in the magic lab."
+    action: open
+    notes: "link:quarters_l3: the Librarian's Key from the Head Sorceress's corpse opens it for good."
+  - id: evt:library_study
+    preset: door
+    source: door:library_study
+    title: Door
+  - id: evt:lift_a
+    preset: switch
+    source: lift:a
+    title: Brass cage
+    condition: {map_var: gate1_open}
+    toggles: [lift:a]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the first floor is still bolted, and the cage answers only to an open gate."
+    text: The cage creaks on its chains and moves.
+  - id: evt:lift_a_bottom
+    preset: switch
+    source: switch:lift_a_bottom
+    title: Call the cage
+    condition: {map_var: gate1_open}
+    toggles: [lift:a]
+    else_effects:
+      - text: The cage hangs at the first floor above and will not come down while its gate up there is bolted.
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:lift_a_top
+    preset: switch
+    source: switch:lift_a_top
+    title: Call the cage
+    condition: {map_var: gate1_open}
+    toggles: [lift:a]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the first floor is still bolted, and the cage answers only to an open gate."
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:lift_b
+    preset: switch
+    source: lift:b
+    title: Brass cage
+    condition: {map_var: gate2_open}
+    toggles: [lift:b]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the second floor is still bolted, and the cage answers only to an open gate."
+    text: The cage creaks on its chains and moves.
+  - id: evt:lift_b_bottom
+    preset: switch
+    source: switch:lift_b_bottom
+    title: Call the cage
+    condition: {map_var: gate2_open}
+    toggles: [lift:b]
+    else_effects:
+      - text: The cage hangs at the second floor above and will not come down while its gate up there is bolted.
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:lift_b_top
+    preset: switch
+    source: switch:lift_b_top
+    title: Call the cage
+    condition: {map_var: gate2_open}
+    toggles: [lift:b]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the second floor is still bolted, and the cage answers only to an open gate."
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:lift_c
+    preset: switch
+    source: lift:c
+    title: Brass cage
+    condition: {map_var: gate3_open}
+    toggles: [lift:c]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the top floor is still bolted, and the cage answers only to an open gate."
+    text: The cage creaks on its chains and moves.
+  - id: evt:lift_c_bottom
+    preset: switch
+    source: switch:lift_c_bottom
+    title: Call the cage
+    condition: {map_var: gate3_open}
+    toggles: [lift:c]
+    else_effects:
+      - text: The cage hangs at the top floor above and will not come down while its gate up there is bolted.
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:lift_c_top
+    preset: switch
+    source: switch:lift_c_top
+    title: Call the cage
+    condition: {map_var: gate3_open}
+    toggles: [lift:c]
+    else_effects:
+      - text: "The brass cage will not move. Its gate on the top floor is still bolted, and the cage answers only to an open gate."
+    text: Chains rattle in the shaft and the cage moves.
+  - id: evt:mysteries
+    preset: chest
+    source: chest:mysteries
+    title: Cabinet
+    text: "MYSTERIES OF LIGHT, says the brass plate on the cabinet's door."
+    notes: "'Mysteries of Light' (aaze0058:2) names the shelf; the Prismatic Light spellbook inside (D-4 item 2)."
+  - id: evt:obs_box
+    preset: chest
+    source: chest:obs_box
+    title: Pandorian Box
+    notes: "Original line 'Pandorian Box' (aaze0055:4): trapped (trap level 3)."
+  - id: evt:quarters_chest
+    preset: chest
+    source: chest:quarters
+    title: Chest
+  - id: evt:reagents_box
+    preset: chest
+    source: chest:reagents_box
+    title: Pandorian Box
+    text: The box is empty.
+    notes: "Original lines 'Pandorian Box', 'The box is empty.' (aaze0055:4, 5)."
+  - id: evt:still_reagents
+    preset: door
+    source: door:still_reagents
+    title: Door
+  - id: evt:study_chest
+    preset: chest
+    source: chest:study
+    title: Chest
+    condition: {lua: "XeenQuests.hook(\"m13.study_door\")"}
+    effects:
+      - lua: "XeenQuests.hook(\"m13.skeleton_key\")"
+    notes: "D-89: A3's m13.study_door first (the Enchanted Key 12306; else its refusal line); then A3's hook m13.skeleton_key (once): sets 111260, 6,000 experience and its status line (aaze0058:7); the Skeleton Key 12100 is the chest's item (F15)."
+  - id: evt:valve
+    preset: switch
+    source: switch:valve
+    title: Steam valve
+    condition: {not: {map_var: frost_thawed}}
+    opens: [door:frost]
+    sets: {map_var: frost_thawed}
+    effects:
+      - message: "You heave the steam valve round. The pipes knock and hiss along the walls, and from the garden beyond the still comes the crack and drip of thawing ice: the frozen door of the west stair stands open."
+    else_effects:
+      - text: "The valve is open as far as it goes; steam hisses in the pipes."
+    notes: "poi:steam_valve: two states (shut, open); thaws and opens door:frost."
+notes: "XD-11's events, written by output/studio_cal/xd11/tools/dress.py."

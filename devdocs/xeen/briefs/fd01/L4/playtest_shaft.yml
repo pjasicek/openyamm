@@ -1,0 +1,226 @@
+# FD-01's rubble shaft (D-69 change 5): a party from D7 (D7's hatch makes this move: entrance:d7_roof at the shaft's
+# foot, facing 0) gets m39.shaft_arrival's status line once (117846) and none on a second arrival. The ladder (foot,
+# rails, rungs) without roof_unlocked (113521): "Bolted from above." and the party stays; with 113521 set, the standard
+# entrance window (F16): Close stays, OK moves the party to D7's entrance:fd01_roof (-18688, 8448, 1536) facing 1024.
+# Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
+id: xeen.fd01.l4.shaft
+title: 'Alamar Depths (FD-01 L4): the D7 arrival line once, the ladder bolted, Close, then up to D7'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Paladin
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12365
+- lua_event:
+    source: evt.MoveToMap(-7744, 7168, 0, 0, 0, 0, 0, 0, "xeen_fd01.blv")
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- assert:
+    party_position:
+      x: -7744
+      y: 7168
+      radius: 64
+      z_min: -8
+      z_max: 8
+      facing: 0
+      facing_within: 64
+- play_lua:
+    source: if not (qbit(117846)) then error('arrived_from_d7 117846 not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (string.find(status(), 'You climb down through smoke and rubble', 1, true)) then error('no shaft arrival
+      line' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if close() then error('a window on the shaft arrival') end
+- lua_event:
+    source: evt.MoveToMap(-18688, 8448, 1536, 1024, 0, 0, 0, 0, "xeen_d7.blv")
+- advance_runtime:
+    seconds: 2
+    follow_map_move: true
+- play_lua:
+    source: close(); status()
+- assert:
+    map: xeen_d7.blv
+- lua_event:
+    source: evt.MoveToMap(-7744, 7168, 0, 0, 0, 0, 0, 0, "xeen_fd01.blv")
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: if not (not string.find(status(), 'smoke and rubble', 1, true)) then error('the arrival line came twice' .. '
+      / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if close() then error('a window on the second arrival') end
+- clear_hostiles:
+    radius: 9000
+- play_lua:
+    source: click(40); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Bolted from above.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- assert:
+    map: xeen_fd01.blv
+- play_lua:
+    source: click(41); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Bolted from above.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- assert:
+    map: xeen_fd01.blv
+- play_lua:
+    source: click(42); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Bolted from above.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- assert:
+    map: xeen_fd01.blv
+- play_lua:
+    source: click(57); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Bolted from above.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- assert:
+    map: xeen_fd01.blv
+- play_lua:
+    source: click(21); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Bolted from above.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- lua_event:
+    source: SetQBit(QBit(113521))
+- play_lua:
+    source: click(21); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_fd01.blv
+- play_lua:
+    source: click(57); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 2
+    follow_map_move: true
+- advance_runtime:
+    seconds: 1
+    follow_map_move: true
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_d7.blv
+- assert:
+    party_position:
+      x: -18688
+      y: 8448
+      radius: 160
+      facing: 1024
+      facing_within: 64
+- play_lua:
+    source: 'log(''D7 entrance:fd01_roof: '' .. party())'

@@ -1,10 +1,11 @@
 # Second walk of the Orc Caves (XD-05, L4): the back way. A level-8 party goes in by the palisade gate and the run,
 # straight down to the Drum Hall, turns into the bat chimney's foot and down the wet slope to the snake pool (the chest
 # in the water), comes back over the east top terrace and down the east terraces to the floor, takes the back tunnel up
-# to the guardroom, kills the two Orc Guards, finds the back gate barred (its message), lifts the bar and leaves for X7.
+# to the guardroom, kills the two Orc Guards, finds the back gate barred (its status line), lifts the bar and leaves
+# by the gate for X7's south-east slopes (A5's entrance:xd05_gate).
 id: xeen.xd05.l4.back
-title: Orc Caves (XD-05 L4), the snake pool and out by the back gate
-world: mm7
+title: Orc Caves (XD-05 L4), the snake pool and the back gate to X7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -56,20 +57,23 @@ steps:
   - clear_hostiles: {radius: 2000}
   - assert: {actor_visible: {actor_index: 1, dead: true}}
   - assert: {actor_visible: {actor_index: 2, dead: true}}
-  # The barred gate says why; the bar lifts; the gate leads to X7.
+  # The barred gate says why (a status line); the bar lifts; the gate leads out to X7's south-east slopes.
   - walk_to: {x: 2176, y: 13250, z: 320, radius: 48, timeout_seconds: 30, close_dialogs: true}
-  - play_lua: {source: "click(19); wait(1)"}
-  - assert:
-      dialog: {text_contains: "barred"}
   - play_lua:
       source: |
-        if not close() then error("the barred gate opened no message window") end
+        click(19); wait(1)
+        if not string.find(status(), "barred", 1, true) then error("the barred gate said: " .. status()) end
         if qbit(110051) then error("the gate was open before the bar") end
         click(20); wait(3)
         if door_state(5) ~= "open" then error("the bar did not lift") end
         if not qbit(110051) then error("orc_back_gate_open not set") end
   - execute_event: {id: 19}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
   - select_topic: {match_label: "OK"}
-  - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  - assert: {map: 7out01.odm}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  # X7's entrance:xd05_gate (11776, -18432, 2016) facing west, before the log door at [88, 100].
+  - assert: {party_position: {x: 11776, y: -18432, radius: 160, z_min: 1980, z_max: 2080}}
   - play_lua: {source: "if not qbit(110051) then error('the back gate bit was lost') end"}

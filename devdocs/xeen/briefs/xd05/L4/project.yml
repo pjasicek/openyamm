@@ -1,7 +1,7 @@
 format: 0
 id: xeen_xd05
 name: Orc Caves
-world: mm7
+world: xeen
 kind: indoor
 profile: dungeon
 map_code: XD-05
@@ -18,27 +18,30 @@ map_stats:
   environment: cave
   lock_difficulty: 1
   slots:
-    - {monster: Goblin, tier: 2, per_marker: [2, 3], weight: 60}
-    - {monster: Bat, tier: 1, per_marker: [2, 3], weight: 25}
-    - {monster: Spider, tier: 1, per_marker: [1, 2], weight: 15}
+    - {monster: Xeen Orc, tier: 2, per_marker: [2, 3], weight: 60}
+    - {monster: Xeen Bat, tier: 1, per_marker: [2, 3], weight: 25}
+    - {monster: Xeen Snake, tier: 1, per_marker: [1, 2], weight: 15}
 neighbours:
   - id: exit:x1_hills
     to: xeen_x1.odm
     kind: door
-    arrival: [9216, 16643, 1376]
-    arrival_hint: "In the north hills of X1, in front of the orc caves' mouth (X1 thing:orc_cave_mouth, face at y 17043), facing away from it, downhill."
-    direction: 270
-    notes: "X1 (Vertigo Meadows): arrival 400 south of the cave mouth's face (ground 1376)."
-  - id: exit:x7_slopes
-    to: 7out01.odm
+    arrival: entrance:xd05_mouth
+    arrival_hint: "In the north hills of X1, in front of the orc caves' mouth (X1 thing:orc_cave_mouth), facing away from it, downhill (A5's entrance:xd05_mouth (9216, 16384, 1376) facing south)."
+    notes: "X1 (Vertigo Meadows): the way out names X1's arrival entrance:xd05_mouth, moved by A5 in front of the cave mouth (2026-11-21); the facing comes with it."
+  - id: exit:x7_gate
+    to: xeen_x7.odm
     kind: door
-    arrival: [15816, 12161, 1133]
-    arrival_hint: "On the mild southern slopes of Mount Firestone (X7), at a barred cave door in a gully."
-    direction: 180
+    arrival: entrance:xd05_gate
+    arrival_hint: "On X7's south-east slopes in front of the back gate (X7 thing:xd05_gate, [88, 100]), facing away from it, west."
     condition: {qbit: orc_back_gate_open}
-    notes: "X7 in the design: the back gate, barred from inside; once the party lifts the bar it is a two-way door. Stand-in: Emerald Island."
+    notes: "X7 Mount Firestone (A5, installed 21:39): its named arrival entrance:xd05_gate (11776, -18432, 2016) facing west, before the log door at [88, 100]. Open once the bar is lifted from inside (orc_back_gate_open 110051); X7's door:xd05 leads back in to entrance:x7_gate."
 qbits:
   captive_freed: 110052
   orc_back_gate_open: 110051
   war_drums_burned: 110050
-notes: "Xeen design brief, level L4: L3's orc caves built with the studio's words of 2026-11-13, a playable map (NOTES.md). Optional Act I dungeon ('Burn the war-drums'). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map, as XD-01 to XD-04 are: `world: mm7` until worlds/xeen exists. Stand-ins: slot 1 Orcs (Orc Archer 7) is MM7's Goblin family (Goblin 4, Hobgoblin 6, Goblin Lord 10: they shoot arrows), slot 2 Bats (Giant Bat 3) MM7's Bat family, slot 3 Serpents (Giant Snake 5) MM7's Spider family (Giant Spider 5: MM7 has no snake). The Drum-Master, the shaman and the two Orc Guards are Goblin Lords (273); Tam a human peasant (358). Quest bits keep their provisional Xeen numbers (110050-110052). Music: MM7 track 18 (its caves'). exit:x1_hills leads to X1 (xeen_x1.odm); exit:x7_slopes points at Emerald Island until X7 exists."
+migrated: [platform_in_sunken_level]
+notes: "Xeen design brief, level L4: L3's orc caves built with the studio's words of 2026-11-13, a playable map (NOTES.md). Optional Act I dungeon ('Burn the war-drums', x1-tam.yml's hooks). World of Xeen since 2026-11-20 (lane A7): slot 1 Xeen Orc (Orc 5, Orc Archer 7, Orc Guard 10: the spawn points fix the tier), slot 2 Xeen Bat at tier b (Cave Bat 6), slot 3 Xeen Snake (Giant Snake 5); the Drum-Master is his boss row 11033 (12), the shaman and the two gate guards Orc Guards 11032 (10), Tam an MM7 peasant (358). Quest bits 110050-110052 (A3's x1-tam.yml). The map card (map_stats 9135, music, treasure) is A2's row from source/map_rows.yml: the block below is the studio's copy for its checks. exit:x1_hills leads to X1 (xeen_x1.odm); the back gate is sealed by a rockfall until X7 exists (it opened on Emerald Island as a stand-in before)."
+identity:
+  shape: cave
+  family: d12
+  seen: [the orcs' palisade of sharpened logs across the cave behind the mouth, "Ogre Fortress rock with rough walls, floors that rise and fall, low hollows behind hide curtains", "the Drum Hall and its war-drums, the cookfire cave under its smoke"]

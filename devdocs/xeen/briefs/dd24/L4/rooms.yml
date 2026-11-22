@@ -1,0 +1,226 @@
+format: 0
+themes:
+  - id: theme:cave
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: gcst2flr, size: [128, 128], scale: 2}
+    ceiling: {texture: gcav1wal, size: [256, 256]}
+    reveal: {texture: gcav1wal, size: [256, 256]}
+    door: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The People's halls cut in the hillside: MM8 Cyclops Larder's brown cave rock, its worn stone floor."
+  - id: theme:hall
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: gston1fl, size: [128, 128], scale: 2}
+    ceiling: {texture: gkp1ceil, size: [128, 128], scale: 2}
+    reveal: {texture: gcst1bs1, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The longhall and the landing: the same rock, flagged floors, plank roofs on beams."
+  - id: theme:throne
+    wall: {texture: gcst1bs1, size: [128, 256]}
+    floor: {texture: gston1fl, size: [128, 128], scale: 2}
+    ceiling: {texture: gkp1ceil, size: [128, 128], scale: 2}
+    reveal: {texture: gcst1bs1, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The throne hall and the hoard: walls of great sandstone blocks."
+defaults: {theme: theme:cave, ambient: 14}
+rooms:
+  - id: room:boulder_store
+    name: Boulder store
+    outline: [[1152, 1792], [1792, 1792], [1792, 2432], [1152, 2432]]
+    floor: 0
+    ceiling: 640
+    theme: theme:cave
+    ambient: 12
+    notes: "The throwing rocks piled by the walls; in the east wall the low crack, the little ones' way up."
+  - id: room:crack
+    name: The little ones' crack
+    path: [[1920, 2112, 0], [2432, 2112, 149], [2432, 4480, 838], [1792, 4480, 1024]]
+    width: 128
+    floor: 0
+    ceiling: 256
+    theme: theme:cave
+    ambient: 10
+    notes: "A natural crack 128 wide and 256 high climbing 1,024 to the trophy gallery: too low for a giant (about 300 tall, D-47 Q26)."
+  - id: room:great_stair
+    name: The Great Stair
+    outline: [[-320, 2048], [320, 2048], [320, 4096], [-320, 4096]]
+    floor: 0
+    slope: {to: 1024, toward: north, steps: 26}
+    ceiling: 1024
+    ceiling_slope: {to: 2048, toward: north}
+    theme: theme:hall
+    ambient: 14
+    notes: "A straight flight 640 wide rising 1,024 north in 26 steps under 1,024 of headroom: 'The People will be waiting on the stair.'"
+  - id: room:landing
+    name: Upper landing
+    outline: [[-512, 4224], [896, 4224], [896, 4864], [-512, 4864]]
+    floor: 1024
+    ceiling: 1920
+    theme: theme:hall
+    ambient: 14
+    notes: "The stair head before the throne hall's double doors; the trophy gallery opens east."
+  - id: room:larder
+    name: Larder
+    outline: [[-1792, 1024], [-1152, 1024], [-1152, 1664], [-1792, 1664]]
+    floor: 0
+    store: true
+    ceiling: 640
+    theme: theme:cave
+    ambient: 14
+    notes: "A dead end: haunches on hooks, casks and the larder chest."
+  - id: room:longhall
+    name: Longhall
+    outline: [[-1024, 896], [1024, 896], [1024, 1920], [-1024, 1920]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:hall
+    platforms:
+      - {id: platform:trench, at: [0, 1408], size: [640, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcst2cel, size: [128, 128]}, notes: "The fire trench's stone kerb, its embers."}
+      - {id: platform:table_w, at: [-704, 1408], size: [160, 768], rise: 192, surface: {texture: gkp1ceil, size: [128, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: A table of whole split trunks.}
+      - {id: platform:table_e, at: [704, 1408], size: [160, 768], rise: 192, surface: {texture: gkp1ceil, size: [128, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: A table of whole split trunks.}
+      - {id: platform:law_stone, at: [-960, 1792], size: [64, 192], rise: 352, surface: {texture: gcst1bs1, size: [128, 256]}, top_surface: {texture: gcst1bs1, size: [128, 256]}, notes: The People's law stone (q-d16.law_stone).}
+    ambient: 16
+    notes: "The feast hall, 2,048 by 1,024 and 1,024 high: two tables of whole trunks, the fire trench between them, the law stone in the north-west corner. The Great Stair rises from its north end."
+  - id: room:porch
+    name: Porch
+    outline: [[-384, -640], [384, -640], [384, -128], [-384, -128]]
+    floor: 0
+    ceiling: 640
+    theme: theme:cave
+    ambient: 20
+    notes: "The mouth in the hillside behind Gurodel's hold: the way out to D5 south, the great doors north."
+  - id: room:sleeping
+    name: Sleeping hall
+    outline: [[1152, 896], [2176, 896], [2176, 1664], [1152, 1664]]
+    floor: 0
+    ceiling: 768
+    theme: theme:cave
+    platforms:
+      - {id: platform:furs_1, at: [1408, 1560], size: [320, 160], rise: 32, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: t1beds1, size: [256, 32]}, notes: "A heap of furs, a giant's bed."}
+      - {id: platform:furs_2, at: [1920, 1560], size: [320, 160], rise: 32, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: t1beds1, size: [256, 32]}, notes: "A heap of furs, a giant's bed."}
+      - {id: platform:hearth, at: [2080, 1152], size: [128, 256], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcst2cel, size: [128, 128]}, notes: The sleeping hall's hearth.}
+    ambient: 14
+    notes: "Heaps of furs along the north wall, a hearth by the east wall."
+  - id: room:threshold
+    name: Threshold
+    outline: [[-512, 0], [512, 0], [512, 768], [-512, 768]]
+    floor: 0
+    ceiling: 768
+    theme: theme:cave
+    ambient: 16
+    notes: "Inside the great doors: a porch of rough rock 768 high. The arrival from D5."
+  - id: room:throne_hall
+    name: The bloody throne
+    outline: [[-768, 4992], [896, 4992], [896, 6272], [-768, 6272]]
+    floor: 1024
+    ceiling: 2048
+    theme: theme:throne
+    platforms:
+      - {id: platform:throne, at: [0, 6016], size: [448, 256], rise: 160, surface: {texture: xdthrone, size: [128, 128], scale: 2}, top_surface: {texture: xdthrone, size: [128, 128], scale: 2}, notes: "The bloody throne: a seat of black wood big enough for four."}
+      - {id: platform:throne_back, at: [0, 6200], size: [448, 64], rise: 512, surface: {texture: xdthrone, size: [128, 128], scale: 2}, top_surface: {texture: xdthrone, size: [128, 128], scale: 2}, notes: The throne's back.}
+      - {id: platform:brazier_w, at: [-512, 5952], size: [96, 96], rise: 96, surface: {texture: gcst1bs1, size: [128, 256]}, top_surface: {texture: gcst2cel, size: [128, 128]}, notes: A brazier's stone.}
+      - {id: platform:brazier_e, at: [512, 5952], size: [96, 96], rise: 96, surface: {texture: gcst1bs1, size: [128, 256]}, top_surface: {texture: gcst2cel, size: [128, 128]}, notes: A brazier's stone.}
+    ceiling_levels:
+      - outline: [[-256, 5568], [256, 5568], [256, 5824], [-256, 5824]]
+        ceiling: 2432
+        edge: {texture: gcav1wal, size: [256, 256]}
+        surface: {texture: gcav1wal, size: [256, 256], sky: true}
+        notes: "The smoke hole: a shaft 384 high whose top is open to the Darkside's sky (1,408 above the floor)."
+    ambient: 18
+    notes: "1,664 by 1,280 under a plank roof 1,024 high with a smoke hole before the throne: the bloody throne at the north wall, braziers either side; the hoard's door in the north-west corner."
+  - id: room:treasury
+    name: Gurodel's hoard
+    outline: [[-768, 6400], [-256, 6400], [-256, 6912], [-768, 6912]]
+    floor: 1024
+    ceiling: 1664
+    theme: theme:throne
+    ambient: 12
+    notes: "Behind the throne hall: the People's hoard chest."
+  - id: room:trophies
+    name: Trophy gallery
+    outline: [[1024, 4224], [1664, 4224], [1664, 5888], [1024, 5888]]
+    floor: 1024
+    ceiling: 1920
+    theme: theme:cave
+    ambient: 14
+    notes: "Skulls and bones of great beasts on the walls; the crack comes out in its east wall; a side door into the throne hall."
+openings:
+  - id: open:boulder_crack
+    from: room:boulder_store
+    to: room:crack
+    link: link:boulder_crack
+    width: full
+    height: 256
+    notes: "The low crack: 128 wide, 256 high."
+  - id: open:crack_trophies
+    from: room:crack
+    to: room:trophies
+    link: link:crack_trophies
+    width: full
+    height: 256
+  - id: open:great
+    from: room:porch
+    to: room:threshold
+    link: link:porch_threshold
+    width: 384
+    height: 512
+  - id: open:landing_throne
+    from: room:landing
+    to: room:throne_hall
+    link: link:landing_throne
+    width: 384
+    height: 512
+  - id: open:landing_trophies
+    from: room:landing
+    to: room:trophies
+    link: link:landing_trophies
+    width: 384
+    height: 640
+  - id: open:long_larder
+    from: room:longhall
+    to: room:larder
+    link: link:long_larder
+    width: 256
+    height: 448
+  - id: open:long_sleep
+    from: room:longhall
+    to: room:sleeping
+    link: link:long_sleep
+    width: 384
+    height: 640
+  - id: open:long_stair
+    from: room:longhall
+    to: room:great_stair
+    link: link:long_stair
+    width: full
+    height: 768
+  - id: open:sleep_boulder
+    from: room:sleeping
+    to: room:boulder_store
+    link: link:sleep_boulder
+    width: 384
+    height: 512
+  - id: open:stair_landing
+    from: room:great_stair
+    to: room:landing
+    link: link:stair_landing
+    width: full
+    height: 768
+  - id: open:thr_long
+    from: room:threshold
+    to: room:longhall
+    link: link:thr_long
+    width: 512
+    height: 640
+  - id: open:throne_treasury
+    from: room:throne_hall
+    to: room:treasury
+    link: link:throne_treasury
+    width: 256
+    height: 448
+  - id: open:trophies_throne
+    from: room:trophies
+    to: room:throne_hall
+    link: link:throne_trophies
+    width: 256
+    height: 448
+notes: "DD-24 Giants' Hall: x east, y north; the porch and great doors south (D5), the longhall (floor 0), the Great Stair north to the throne floor (1,024). Written by output/studio_cal/dd24/tools/gen.py."

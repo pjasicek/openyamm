@@ -1,0 +1,149 @@
+# Xeen playthrough, segment 91: the Earth Sleeper (D7, P3), M38 The Elemental Sleepers (Earth).
+# On the Skyroads (D7) at the Air Corner's Rest Stop (entrance:p2_return), the Fire and Air Sleepers awake (111760,
+# 111761). South along the east road: the east toll (event 118: the Sky Bandits' 10,000 gold, paid: d7.toll_paid), the
+# Mud Wharf, the Eastern Tower's junction, down to the Earth Corner; its tip asks
+# "What do you seek?": "Earth" (m38.corner_earth) drops the party onto P3's arrival. P3 walked: down into the bowl, the
+# statue of Earth and its plaque (Step Three); the Pillar Field to the Anvil, the test's plate ("Accept the test of
+# Earth?" Yes: m38.test_earth, the three guardians rise); the guardians die (m38.test_earth_passed: earth_test 111766,
+# the Root Stair's slab sinks); down the Root Stair to the Earth Sleeper's couch (m38.sleeper_earth on S's
+# xeen_sleeper_earth: awake, 111762, the award Awakened the Earth Sleeper 414, 10,500 each); the return dais rises:
+# "Step onto the dais and return to the Skyroads?" Yes, back to D7's entrance:p3_return by the Earth Corner's Rest Stop.
+# Ends on D7. Water (P4) is the next segment.
+# Routes: devdocs/xeen/briefs/d7/L4/plan.yml (the east road), segment 89 (the corner's tip, mirrored),
+# devdocs/xeen/briefs/p3/L4/playtest.yml, playtest_test.yml, playtest_sleeper.yml. Quest logic: source/quests/m38.yml.
+#   python3 tests/playthrough/xeen/run.py 91
+id: xeen.playthrough.91_earth_sleeper
+title: "Xeen playthrough 91: the east road, the Earth Corner, the test of Earth, the Earth Sleeper"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/89_air_sleeper.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: 27456, y: 17728, radius: 256}}
+  - assert: {qbit_set: [111600, 111740, 111741, 111742, 111743, 111760, 111761]}
+  - assert: {qbit_clear: [111762, 111766]}
+  - play_lua: {source: "log('91 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # South along the east road: the Mud Wharf, the Eastern Tower's junction, the Earth Corner.
+  - walk_to: {x: 28160, y: 12288, z: 1280, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 28160, y: 7680, z: 1152, z_tolerance: 400, radius: 128, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  # The east toll on the Mud Wharf's road (event 118, its line at y 6656), walked onto: the Sky Bandits ask 10,000
+  # gold; paid ("Take our money").
+  - play_lua: {source: "remember('gold', gold())"}
+  - walk_to: {x: 28160, y: 5632, z: 1152, z_tolerance: 400, radius: 192, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "You have invaded our territory. Appease us with 10,000 gold"}}
+  - select_topic: {match_label: "Take our money"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Sky Bandits count the gold twice and wave you on."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if recall("gold") - gold() ~= 10000 then error("the east toll took " .. (recall("gold") - gold())) end
+        if mapvar("d7_toll_east") ~= 1 then error("d7_toll_east " .. tostring(mapvar("d7_toll_east"))) end
+  - walk_to: {x: 28160, y: 5632, z: 1152, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 28160, y: -5632, z: 1024, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 28160, y: -14336, z: 900, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 28672, y: -18944, z: 768, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 29978, y: -20063, z: 776, z_tolerance: 400, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The Earth Corner's tip (event 37): stepped onto, the sky asks "What do you seek?"
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: 29978, y: -20063, z: 776, yaw_degrees: -41, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: 29978, y: -20063, z: 776, yaw_degrees: -41, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "Earth"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status() or ""
+        log("corner: " .. s)
+        if not string.find(s, "the nothing is grey as stone", 1, true) then error("no corner line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+  - assert: {map: xeen_p3.blv}
+  - setup_shortcut: {kind: immortal}
+  - assert: {party_position: {x: -3840, y: 3968, radius: 160, z_min: -8, z_max: 40}}
+  # P3: down into the bowl to the statue of Earth and its plaque (Step Three).
+  - walk_to: {x: -3141, y: 3576, z: 0, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1434, y: 2417, z: -128, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -800, y: 1700, z: -128, z_tolerance: 200, radius: 160, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Step Three: Bring together the Cube of Power and the Scepter of Temporal Distortion."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Pillar Field to the Anvil.
+  - walk_to: {x: -214, y: 824, z: -128, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 249, y: -681, z: -320, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -540, y: -1631, z: -320, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2495, y: -1809, z: -384, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2876, y: -1792, z: -376, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2600); if qbit(111766) then error('earth_test set before the test') end"}
+  # The test's plate: "Accept the test of Earth?" Yes; the three guardians rise and die.
+  - walk_to: {x: -2496, y: -1792, z: -380, z_tolerance: 60, radius: 48, timeout_seconds: 20, expect: dialog}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {dialog: {active: true, text_contains: "You accept the test of Earth."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(111766) then error('earth_test set before the guardians die') end"}
+  - assert: {actor_visible: {actor_index: 11, hidden: false}}
+  - assert: {actor_visible: {actor_index: 12, hidden: false}}
+  - assert: {actor_visible: {actor_index: 13, hidden: false}}
+  # The party fights its way on towards the way through; the last guardian's fall stops it with its line.
+  - walk_to: {x: -3378, y: -2658, z: -384, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "The last guardian falls back into the pit."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(111766) then error('earth_test 111766 not set after the guardians died') end"}
+  - advance_runtime: {seconds: 5}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Down the Root Stair over the sunk slab to the Earth Sleeper's couch.
+  - walk_to: {x: -3378, y: -2658, z: -384, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -3274, y: -2852, z: -384, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -2818, y: -3706, z: -576, z_tolerance: 120, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -2267, y: -4740, z: -768, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -2048, y: -5084, z: -760, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
+  # The Earth Sleeper (event 22): awake, the Grunfeld field active (m38.sleeper_earth's second state).
+  - play_lua: {source: "clear_hostiles(3000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(22); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Earth Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local xp, xp3 = experience(0) - recall("xp"), experience(3) - recall("xp3")
+        if xp ~= 10500 or xp3 ~= 10500 then error("the Earth Sleeper paid " .. xp .. " / " .. xp3 .. " experience, not 10,500 each") end
+        if gold() ~= recall("gold") then error("the Earth Sleeper paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111762]}
+  - assert: {award_acquired: [{id: 414, member_index: 0}, {id: 414, member_index: 3}]}
+  # Asked again, he only repeats it (no second payment).
+  - play_lua: {source: "remember('xp', experience(0)); click(22); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Grunfeld field generator is active and reports 100% confidence.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= recall('xp') then error('the Earth Sleeper paid twice') end"}
+  # The return dais rises (evt:dais_show): "Step onto the dais and return to the Skyroads?" Yes, to D7.
+  - advance_runtime: {seconds: 2.5}
+  - assert: {sprite_shown: [0]}
+  - walk_to: {x: -2600, y: -4800, z: -760, z_tolerance: 160, radius: 128, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: 27136, y: -17408, radius: 256}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111740, 111741, 111742, 111743, 111760, 111761, 111762, 111764, 111765, 111766]}
+  - assert: {qbit_clear: [111763]}
+  - play_lua:
+      source: |
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        log("91 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "91 The Earth Sleeper", path: output/playthrough/xeen/checkpoints/91_earth_sleeper.oysav}

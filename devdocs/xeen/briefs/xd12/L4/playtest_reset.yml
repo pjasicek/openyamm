@@ -1,0 +1,61 @@
+# Darzog's disc after a map reset (XD-12, L4; lane A8 30th, 2026-11-22). A rebuilt map resets the saved map on entry
+# while quest bits stay: the Baron is dead (darzog_slain 110500) but the disc (mover 32) is up and its grille (door 13)
+# shut, as at the start. The disc's events set both to explicit, opposite states (disc up = grille open, disc down =
+# grille shut; map variable 6 disc_down), never Trigger pairs whose phase hung on Darzog's death having opened the
+# grille first; evt:disc_restore (62) opens the grille on every load while the disc is up after his death. The party
+# stays in the gate hall; the events run by number. Played from assets_dev with --world xeen --map xeen_xd12.blv.
+id: xeen.xd12.l4.disc_reset
+title: Darzog's Tower (XD-12 L4), the disc and its grille in the right phase after a map reset
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd12.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 33, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 33, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 33, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
+  - assert: {map: xeen_xd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close(); wait(1)"}
+  - play_lua:
+      source: |
+        if door_state(32) ~= "closed" or door_state(13) ~= "closed" then error("the disc and grille do not start up and shut: " .. door_state(32) .. " " .. door_state(13)) end
+  # The reset map: Darzog dead by the quest bit, the map's own state fresh.
+  - setup_shortcut: {kind: set_qbit, id: 110500, value: true}
+  # A load (as the first entry after the reset): evt:disc_restore opens the grille, the disc stays up.
+  - reload: {}
+  - play_lua:
+      source: |
+        wait(4)
+        if door_state(32) ~= "closed" or door_state(13) ~= "open" then error("the load did not open the grille over the disc: " .. door_state(32) .. " " .. door_state(13)) end
+  # The old Trigger pair: the call button at the top sent the disc down and the grille shut over the party's way.
+  - play_lua:
+      source: |
+        click(17); wait(4)
+        if door_state(32) ~= "closed" or door_state(13) ~= "open" then error("the top call button moved the disc down or shut its grille: " .. door_state(32) .. " " .. door_state(13)) end
+  - assert: {state_dump_map_var: {index: 6, value: 0}}
+  # Down by the top ride button, up by the disc itself, down and up by the bottom button.
+  - play_lua:
+      source: |
+        click(56); wait(9)
+        if door_state(32) ~= "open" or door_state(13) ~= "closed" then error("the ride button did not send the disc down behind a shut grille: " .. door_state(32) .. " " .. door_state(13)) end
+        click(15); wait(9)
+        if door_state(32) ~= "closed" or door_state(13) ~= "open" then error("the disc did not ride up to an open grille: " .. door_state(32) .. " " .. door_state(13)) end
+        click(16); wait(9)
+        if door_state(32) ~= "open" or door_state(13) ~= "closed" then error("the bottom button did not call the disc down behind a shut grille: " .. door_state(32) .. " " .. door_state(13)) end
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  # A save and load with the disc down keeps it down behind its shut grille.
+  - reload: {}
+  - play_lua:
+      source: |
+        wait(4)
+        if door_state(32) ~= "open" or door_state(13) ~= "closed" then error("the load moved the disc or opened the grille over the Well: " .. door_state(32) .. " " .. door_state(13)) end
+        click(16); wait(9)
+        if door_state(32) ~= "closed" or door_state(13) ~= "open" then error("the bottom button did not ride the disc up to an open grille: " .. door_state(32) .. " " .. door_state(13)) end
+  - assert: {state_dump_map_var: {index: 6, value: 0}}

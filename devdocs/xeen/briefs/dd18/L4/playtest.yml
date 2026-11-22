@@ -1,0 +1,214 @@
+# Playtest of the Sandcaster Sewer (DD-18, L4): the critical path through every mechanism, the hooks and back.
+# A level-28 party arrives at the shaft ladder's foot (the arrival window: what is here), opens the members' room's
+# door: the brews and the book refuse (dd18.members_room: "Members only."). The pay box with no gold: the question,
+# Yes, the charity-gym refusal (gym_paid stays clear); No: "Get lost!"; with 6,000 gold: Yes, "Enjoy the facilities.",
+# 5,000 taken, gym_paid 116120 set; again: "Paid up." without a question or a charge. In the members' room the Vitamin
+# Brew (+2 Endurance) and the Protein Brew (+2 Might) once per character: member 1 drinks both, is refused a second
+# time ("One per member. Barticus counts."), member 2 then drinks the Vitamin Brew too; the book reads. Then the main
+# drain, the warren, the great cistern, the broken drain and its rubble slope down to the long tunnel, the mantis
+# gallery, the long tunnel west to the desert gate: the grate refuses ("Sand blows through the bars. The bolt is on
+# the other side."), the prospector's pack; back by the drowned vault's strongbox and the mantis nest's chest, the
+# milestone, up the slope, the cistern's chest, the cobra drain, the alcoves (a chest, "Nothing here."), a "Sewer
+# Drain" grate and back to the shaft. Numbers are ids.lock.yml's (events, doors, chest events). Run with --world xeen
+# --map xeen_dd18.blv (output/studio_cal/dd18/four.sh).
+id: xeen.dd18.l4.walk
+title: Sandcaster Sewer (DD-18 L4), the members' room, the long tunnel to the bolted desert grate and back
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd18.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 28, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 28, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 28, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 28, skills: [], equipment: {}}
+  - assert: {map: xeen_dd18.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE SANDCASTER SEWER"}}
+  - assert: {dialog: {text_contains: "under the desert"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117280) then error('arrived_once not set') end"}
+  # The members' room before paying: members only.
+  - play_lua: {source: "open_door(15, 5)"}
+  - walk_to: {x: 0, y: -700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Members only. The pay box is by the door.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(4); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Members only.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The pay box: no gold (Yes: the charity gym), No (Get lost!), then 6,000 gold (paid), then again (paid up).
+  - walk_to: {x: 0, y: -100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(23); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "It costs 5,000 gold to use the gym. Pay?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "charity gym"}}
+  - play_lua: {source: "close(); if qbit(116120) then error('gym_paid set without gold') end; status(); click(23); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local seen = status()
+        if not string.find(seen, "Get lost!", 1, true) then error("No said: " .. seen) end
+        if qbit(116120) then error("gym_paid set on No") end
+  - lua_event: {source: "AddValue(Gold, 6000)"}
+  - play_lua: {source: "close(); if gold() ~= 6000 then error('gold is ' .. gold()) end; click(23); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Enjoy the facilities."}}
+  - play_lua: {source: "close(); if not qbit(116120) then error('gym_paid not set') end; if gold() ~= 1000 then error('gold after paying is ' .. gold()) end; click(23); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Paid up. Enjoy the facilities."}}
+  - play_lua: {source: "close(); if gold() ~= 1000 then error('paid twice: gold ' .. gold()) end"}
+  # The brews, once per character.
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - lua_event: {source: "SetValue(BaseEndurance, 10); SetValue(BaseMight, 10)"}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Endurance (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(24); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Might (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(BaseEndurance, 12) or IsAtLeast(BaseEndurance, 13) then error('Endurance is not 12') end; if not IsAtLeast(BaseMight, 12) or IsAtLeast(BaseMight, 13) then error('Might is not 12') end"}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[One per member. Barticus counts.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(24); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[One per member. Barticus counts.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if IsAtLeast(BaseEndurance, 13) then error('a second Vitamin Brew raised Endurance') end; if IsAtLeast(BaseMight, 13) then error('a second Protein Brew raised Might') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - lua_event: {source: "SetValue(BaseEndurance, 10)"}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Endurance (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(BaseEndurance, 12) or IsAtLeast(BaseEndurance, 13) then error('the second member Endurance is not 12') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Chapter Two: Lift Again."}}
+  - play_lua: {source: "close()"}
+  # East: the main drain, the warren, the great cistern.
+  - walk_to: {x: 0, y: -100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 250, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 4)"}
+  - walk_to: {x: 580, y: 0, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 700, y: -240, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status()
+        click(22); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Water trickles through the grate", 1, true) then error("the drain grate said: " .. seen) end
+  - walk_to: {x: 3300, y: -240, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 3900, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 4950, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 7)"}
+  - walk_to: {x: 5500, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The broken drain and the rubble slope down to the long tunnel.
+  - walk_to: {x: 5600, y: -1200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6528, y: -1300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6528, y: -2000, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 6528, y: -3100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6528, y: -4900, z: -600, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6528, y: -5600, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 6528, y: -5600, radius: 160, z_min: -660, z_max: -600}}
+  # The mantis gallery and the long tunnel west to the desert gate.
+  - walk_to: {x: 5800, y: -5760, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5200, y: -5760, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3900, y: -5696, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2000, y: -5696, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1600, y: -5696, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -6450, y: -5696, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 6)"}
+  - walk_to: {x: -7300, y: -5696, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Sand blows through the bars. The bolt is on the other side."}}
+  - play_lua: {source: "close(); if qbit(116121) then error('d5_tunnel set') end"}
+  - assert: {map: xeen_dd18.blv}
+  - walk_to: {x: -7700, y: -5950, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(8); close(); if gold() <= g then error('the pack gave no gold') end"}
+  # Back east: the drowned vault's strongbox, the nest's chest.
+  - walk_to: {x: -7300, y: -5696, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -6450, y: -5696, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2368, y: -5696, z: -640, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 2368, y: -6300, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: -6300, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(9); close(); if gold() <= g then error('the strongbox gave no gold') end"}
+  - walk_to: {x: 2900, y: -6400, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3150, y: -7360, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 3)"}
+  - walk_to: {x: 3750, y: -7360, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 4608, y: -8850, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(7); close(); if gold() <= g then error('the nest chest gave no gold') end"}
+  # Up through the gallery to the tunnel head: the milestone; up the slope.
+  - walk_to: {x: 4608, y: -7000, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4608, y: -5900, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5800, y: -5760, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(19); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "TO THE DESERT", 1, true) then error("the milestone said: " .. seen) end
+  - walk_to: {x: 6528, y: -5300, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6528, y: -3100, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6528, y: -1300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The cistern's chest, the cobra drain, the alcoves.
+  - walk_to: {x: 7400, y: 448, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(6); close(); if gold() <= g then error('the cistern chest gave no gold') end"}
+  - walk_to: {x: 5500, y: -1280, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 1)"}
+  - walk_to: {x: 4900, y: -1280, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3700, y: -1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2240, y: -1100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2240, y: -1850, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); close(); if gold() <= g then error('the alcove chest gave no gold') end"}
+  - walk_to: {x: 2240, y: -1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1472, y: -1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1472, y: -1650, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(1); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the alcove said: " .. seen) end
+  - walk_to: {x: 1536, y: -800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 2)"}
+  - walk_to: {x: 1536, y: -240, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 580, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {map: xeen_dd18.blv}
+  - assert: {party_position: {x: 0, y: 0, radius: 128, z_min: -8, z_max: 8}}

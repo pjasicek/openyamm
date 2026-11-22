@@ -1,0 +1,259 @@
+# Playtest of Castle Burlock (XD-07, L4): start to goal through every mechanism the critical path needs, and the
+# optional wings. A level-13 party starts inside the castle door; the portcullis refuses it; it takes
+# the servants' way to the cellar (the dungeon door shut, unlocked since D-89); it becomes Crusaders (m4.done 110047, set as X1's M4 would),
+# passes the portcullis, reads the great hall's plaque, opens the throne room and the audience (house 4201), walks the
+# court ring (gallery of arms with Artemus's and Emerson's doors and the armour plaques, the library's books, the well),
+# climbs the east tower (Roxanne's door and plaque, her chest locked until Q-C3 is done, then opened), the west tower
+# (fools, gallery plaques, gargoyle loft chest, back to the castle door), takes Artemus's key
+# (116080, set as his topic would), opens the dungeon door, clears the cell block, reads the warden's sign, pulls the
+# cage lever and takes the dragon's hoard, drinks the Black Liquid, lifts the den's bar (the dungeon ring) and tries
+# the postern. Numbers are ids.lock.yml's: events, doors (door ids), chests by their event.
+id: xeen.xd07.l4.walk
+title: Castle Burlock (XD-07 L4), the castle door to the court, both towers and the dungeon
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 13, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 13, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 13, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 13, skills: [], equipment: {}}
+  - assert: {map: xeen_xd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival line (a one-shot timer; the headless runner opens no window from a timer, so the step asserts it ran).
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # A party that is not yet Crusaders: the portcullis stays down with the source's line (m5.crusaders_gate).
+  - play_lua: {source: "if qbit(110047) then error('the party starts as Crusaders') end; click(40); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Only Crusaders are allowed to enter Castle Burlock."}
+  - play_lua: {source: "if not close() then error('the portcullis opened no window') end; if door_state(11) ~= 'closed' then error('the portcullis opened for non-Crusaders') end"}
+  # The castle door leads out to X4 (playtest_exit.yml).
+  # The servants' way: kitchens, the cellar stair, the wine cellar; the dungeon door (unlocked, D-89) stays shut for now.
+  - walk_to: {x: -448, y: 512, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(20, 6)"}
+  - walk_to: {x: -1600, y: 128, z: 0, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1664, y: -400, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1664, y: -1650, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1200, y: -2432, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -900, y: -2432, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # D-89 (2026-11-22): the dungeon door is no longer locked; the party opens it later, after the towers.
+  - play_lua: {source: "if door_state(4) ~= 'closed' then error('the dungeon door does not start shut') end"}
+  # From the cellar the den's door is barred.
+  - walk_to: {x: -1664, y: -2900, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(1); if door_state(3) ~= 'closed' then error('the barred door opened from the cellar') end; log('den door from the cellar: ' .. status())"}
+  # Back up to the gatehouse; the party is Crusaders now (X1's M4).
+  - walk_to: {x: -1664, y: -1650, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1664, y: -400, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1200, y: 512, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - console: {line: "qbit set 110047"}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open for Crusaders: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # The great hall: King's Guards peaceful; the plaque by the throne room doors (xd07.plaque_happy).
+  - assert:
+      actor_count: {monster_id: 11143, hostile: true, max: 0}
+  - walk_to: {x: -416, y: 3100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(32); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Don't worry, be happy."}
+  - play_lua: {source: "if not close() then error('the plaque opened no window') end"}
+  # The throne room and the audience (house 4201, the throne).
+  - walk_to: {x: 0, y: 3150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 13); if door_state(14) ~= 'open' then error('the second leaf did not open') end"}
+  - walk_to: {x: 0, y: 5300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(43); wait(1)"}
+  - assert:
+      dialog: {house_dialog: true}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - console: {line: "qbit set 111100"}
+  # The gallery of arms: Artemus's and Emerson's doors, the two armour plaques.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2848, y: 4150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(35); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Prince Roland's ceremonial armor."}
+  - play_lua: {source: "close(); click(33); wait(1)"}
+  - assert:
+      dialog: {text_contains: "King Burlock's ceremonial armor."}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 3872, y: 4150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(1)"}
+  - assert:
+      dialog: {source_id: 4402}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - console: {line: "qbit set 116080"}
+  - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(1)"}
+  - assert:
+      dialog: {source_id: 4403}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # The library (its two books) and the well court, round the court ring to the great hall.
+  - walk_to: {x: 2560, y: 3700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(21, 7)"}
+  - walk_to: {x: 2560, y: 2816, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(1)"}
+  - assert:
+      dialog: {text_contains: "(Linguist)"}
+  # A3's xd07.book_languages: the first read sets the Linguist gate 116240; a second read gives the plain text.
+  - play_lua: {source: "close(); if not qbit(116240) then error('Linguist 116240 not set') end; click(5); wait(1)"}
+  - assert:
+      dialog: {text_contains: "The Book of Languages"}
+  - play_lua: {source: "close(); click(4); wait(1)"}
+  - assert:
+      dialog: {text_contains: "The Book of Astrology"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2304, y: 2450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(22, 8)"}
+  - walk_to: {x: 2304, y: 1900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(45); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water refreshes you.]], 1, true) then error("status line: " .. s) end
+  - walk_to: {x: 1200, y: 1664, z: 0, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  # The east tower: Roxanne's door and plaque on the landing, her chest in the bedroom (locked until Q-C3 is done).
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 5)"}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(1)"}
+  - assert:
+      dialog: {source_id: 4404}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end; click(31); wait(1)"}
+  - assert:
+      dialog: {text_contains: "first day of the rest of your life"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4608, y: 6000, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 7050, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 1)"}
+  - walk_to: {x: 4900, y: 8100, z: 1280, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(1)"}
+  - assert:
+      dialog: {text_contains: "silver lock"}
+  - play_lua: {source: "close()"}
+  - console: {line: "qbit set 112061"}
+  - play_lua: {source: "loot_chest(12); if held() ~= 0 then stow() end; log('Roxanne chest: gold ' .. gold())"}
+  - play_lua: {source: "click(39); wait(1)"}
+  - assert:
+      dialog: {text_contains: "eat less and think thin"}
+  - play_lua: {source: "close()"}
+  # Back down and across the great hall to the west tower's closed door.
+  - walk_to: {x: 4608, y: 7050, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1350, y: 2304, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(15) ~= 'closed' then error('the west tower door does not start shut') end; open_door(26, 15)"}
+  - walk_to: {x: -2304, y: 2304, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -4700, y: 2304, z: 640, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -5400, y: 2336, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(1)"}
+  - assert:
+      dialog: {text_contains: "too sharp sometimes cuts himself"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -4992, y: 3500, z: 640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -5150, y: 4896, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(36); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Best Ruler of the Year"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -5150, y: 4256, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(1)"}
+  - assert:
+      dialog: {text_contains: "large magic sword"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -5150, y: 3616, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(34); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Have a nice day."}
+  - play_lua: {source: "close()"}
+  # Up to the gargoyle loft: its chest; the old throne's door; the throw.
+  - walk_to: {x: -4992, y: 5500, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -4992, y: 7100, z: 1280, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -5500, y: 7950, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "loot_chest(11); if held() ~= 0 then stow() end"}
+  - walk_to: {x: -4992, y: 8050, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 9)"}
+  - walk_to: {x: -4992, y: 9100, z: 1280, radius: 96, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -4992, y: 9250, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The old throne throws the party onto X4 (playtest_exit.yml); this walk goes back to the castle door instead.
+  - set_pose: {map: xeen_xd07.blv, x: 0, y: 384, z: 0, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  # Artemus's key opens the dungeon door; the cell block, the warden's strongbox.
+  - walk_to: {x: -1200, y: 512, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1664, y: -400, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1664, y: -1650, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -2432, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(4); if door_state(4) ~= 'open' then error('the dungeon door did not open with the key: ' .. door_state(4)) end"}
+  - walk_to: {x: 0, y: -2432, z: -640, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1250, y: -3050, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "loot_chest(13); if held() ~= 0 then stow() end"}
+  # The pit gallery: the warden's sign, the cage lever, the narrow stair, the dragon and its hoard (optional).
+  - walk_to: {x: 1400, y: -2432, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 2)"}
+  - walk_to: {x: 2304, y: -2432, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 3300, y: -2700, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(44); wait(1)"}
+  - assert:
+      dialog: {text_contains: "DO NOT PULL"}
+  - play_lua: {source: "close(); if door_state(10) ~= 'closed' then error('the pit portcullis does not start shut') end"}
+  - play_lua: {source: "click(7); wait(7); if door_state(10) ~= 'open' then error('the lever did not raise the pit portcullis: ' .. door_state(10)) end; if not qbit(110721) then error('cage_lever_pulled not set') end"}
+  - walk_to: {x: 2944, y: -2950, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: -3800, z: -1152, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 8000}
+  - assert:
+      actor_count: {monster_id: 11642, max: 0}
+  - play_lua: {source: "wait(5)"}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - walk_to: {x: 3712, y: -5920, z: -1120, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "loot_chest(10); if held() ~= 0 then stow() end; log('hoard: gold ' .. gold())"}
+  # The old cistern: the Black Liquid, once per character.
+  - walk_to: {x: 2944, y: -3800, z: -1152, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2944, y: -2950, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1400, y: -2432, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -3450, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -3900, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 512, y: -3960, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Might]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(3); wait(1); log('second drink: ' .. status())"}
+  # The troll den: its loot, the bar (the dungeon ring closes), the sealed postern.
+  - walk_to: {x: -600, y: -4480, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1792, y: -4480, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2500, y: -5050, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(9); if held() ~= 0 then stow() end"}
+  - walk_to: {x: -1408, y: -3460, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(1); log('den door before the bar: ' .. status()); click(14); wait(4); if door_state(3) ~= 'open' then error('the bar did not free the cellar door: ' .. door_state(3)) end; if not qbit(110720) then error('den_bar_lifted not set') end"}
+  - walk_to: {x: -1664, y: -2900, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1664, y: -3600, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2700, y: -4352, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 12)"}
+  - walk_to: {x: -3900, y: -4352, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The postern is a live exit to X4 (playtest_exit.yml leaves by it): here its window asks, and Cancel stays.
+  - play_lua: {source: "click(41); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Do you wish to leave Castle Burlock?"}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: -3900, y: -4352, radius: 160, z_min: -656, z_max: -624}}

@@ -1,0 +1,181 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header.
+format: mu6-0
+map: DD-09
+key: dd09
+name: Temple of Bark
+stands_on: D2 Sprite Forest
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [22, 26]
+monsters:
+  levels: [14, 30]
+  boss: Shaalth 30 (Barkman 60, optional)
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Orc warband (11040): Orc Elite 16 (16), Orc Shaman 20 (10), Orc Captain 26 (5); Shaalth the Orc King 11043 (30)"
+    - "Arachnoids (11330): Arachnoid 14 (10), Arachnoid Hunter 18 (8), in the limbs and roots"
+    - "Barkman 11633 (60): optional, hidden until a limb alcove is fed (D-1.2: counted with the act whose party fits, not here)"
+    - "Talking: Princess Sheewana (NPC 5107) in her cage; four caged prisoners (open question 4)"
+  mix:
+    - {row: Orc Elite, id: 11040, level: 16, count: 16}
+    - {row: Orc Shaman, id: 11041, level: 20, count: 10}
+    - {row: Orc Captain, id: 11042, level: 26, count: 5}
+    - {row: Arachnoid, id: 11330, level: 14, count: 10}
+    - {row: Arachnoid Hunter, id: 11331, level: 18, count: 8}
+    - {row: Shaalth, id: 11043, level: 30, count: 1, boss: true}
+  optional:
+    - {row: Barkman, id: 11633, level: 60, count: 1}
+  kill_xp_target: "about 7.1k (50 of the group DD-06+09+13's 120 at 17.1k)"
+treasure: {level: 3, hoard: 4}
+role: "Q-D10 (Princess Sheewana, held by Shaalth's orcs; Ranger Lord on the polite route), M18 (2 Energy Disks in the root alcoves); entered with Nibbler's key (Q-D9)"
+role_short: "Q-D10, disks"
+set_piece: "A temple grown inside the great tree: root alcoves that take a gem and give a disk, limb alcoves that wake Barkman, Shaalth's hall with the princess in a cage of roots, the Disciples' chapel of dials and two waters, four fountains in the crown"
+textures:
+  family: "MM7 The Hall under the Hill 7d22 (dungeon_families temples: c2b, ceb1sa, 7grastyl, 7dirt1, cfb1, 7dirttyl, trim8_32, 7wtrtyl) with D2's bark (D-23: the treehouse trunks' shipped and new bark, reused here)"
+  cap: 45
+  planned: 30
+  new: 2
+  new_names: ["heartwood floor (growth rings) for the halls inside the trunk", "the alcove mouth: a knot in the bark round a hollow (root and limb alcoves, two tints)"]
+floors:
+  - {floor: 2, name: "The limbs", height: 1280}
+  - {floor: 1, name: "Upper trunk", height: 640}
+  - {floor: 0, name: "Trunk base", height: 0}
+  - {floor: -1, name: "The roots", height: -512}
+spaces:
+  # floor 2
+  - {id: room:limb_stair, name: Limb stair, kind: stair, size: S, floor: 2, at: [0, 0], monsters: 0, purpose: "The ring stair's head, where the trunk forks."}
+  - {id: room:limb_walk, name: The limb walk, kind: corridor, size: L, floor: 2, at: [1, 0], monsters: 6,
+     population: [{row: Arachnoid, level: 14, count: 4}, {row: Arachnoid Hunter, level: 18, count: 2}],
+     purpose: "Walks hollowed along the great limbs; three limb alcoves: 'Feed me! Give gem?' A gem here wakes Barkman (q-d10.limb_alcoves)."}
+  - {id: room:fruit, name: Fruit rooms, kind: room, size: M, floor: 2, at: [2, 0], monsters: 4,
+     population: [{row: Arachnoid, level: 14, count: 2}, {row: Arachnoid Hunter, level: 18, count: 2}],
+     purpose: "Hollows where the tree hangs its fruit (food, a few reagents)."}
+  - {id: room:crown, name: The crown, kind: hall, size: L, floor: 2, at: [3, 0], set_piece: true, monsters: 4,
+     population: [{row: Arachnoid Hunter, level: 18, count: 4}],
+     purpose: "Light through the leaves; four fountains: +5 Fire, Air, Water, Body resistance, once per character ('The water is cool, clear and refreshing.')."}
+  - {id: room:barkman, name: "Barkman's hollow", kind: room, size: M, floor: 2, at: [1, 1], boss: true, boss_label: "Barkman 60, opt.", chest: 4, monsters: 0,
+     population: [{actor: Barkman, level: 60, role: boss, placed: true, hidden: true}],
+     purpose: "His diary ('SQUEEZED branch feeders today.') and a chest whose lid his life force binds shut; Barkman stands here hidden and walks out when a limb is fed. His death frees the chest (hoard)."}
+  - {id: room:treasure, name: Treasure room, kind: room, size: S, floor: 2, at: [2, 1], chest: 3, monsters: 2,
+     population: [{row: Orc Shaman, level: 20, count: 2}],
+     purpose: "The temple's offerings, which the shamans are sorting."}
+  # floor 1
+  - {id: room:ring1, name: Ring stair, kind: stair, size: S, floor: 1, at: [0, 0], monsters: 0, purpose: "A stair winding up inside the trunk's wall."}
+  - {id: room:shaalth, name: "Shaalth's hall", kind: hall, size: L, floor: 1, at: [1, 0], set_piece: true, boss: true, boss_label: "Shaalth 30",
+     goal: true, chest: 4, monsters: 6,
+     population: [{actor: Shaalth, level: 30, role: boss, placed: true}, {row: Orc Captain, level: 26, count: 3}, {row: Orc Shaman, level: 20, count: 2}],
+     purpose: "The temple's sanctuary made an orc king's hall; Sheewana in a cage of woven roots (NPC 5107, q-d10.cage with Shaalth's key); his hoard."}
+  - {id: room:shaman, name: "The shaman's tea room", kind: room, size: M, floor: 1, at: [2, 0], monsters: 4,
+     population: [{row: Orc Shaman, level: 20, count: 4}],
+     purpose: "Rugs, a kettle: 'Other beings say that we Orcs just aren't civilized. I now invite you in for a cup of tea to debate on this issue.' The tea poisons."}
+  - {id: room:ascension, name: Chapel of Ascension, kind: room, size: M, floor: 1, at: [3, 0], set_piece: true, monsters: 0,
+     purpose: "Three dials (west, north, east; 'Dial reads 1. Turn?'), a lever, two basins: Dark Water and Crystal Water. The Book of Ascension on its lectern gives the setting: west 1, north 2, east 3."}
+  - {id: room:vault, name: "Disciples' vault", kind: room, size: S, floor: 1, at: [4, 0], chest: 3, monsters: 0,
+     purpose: "'Disciples of Bark ONLY!': the old priests' vault, opened to a Disciple."}
+  - {id: room:cells, name: Cell row, kind: room, size: M, floor: 1, at: [3, 1], monsters: 1,
+     population: [{row: Orc Captain, level: 26, count: 1}],
+     purpose: "Root cages: Snog the Orc ('imprisoned for refusing to do evil') and Alicia the Just ('The Orc Shaman tells lies, and his tea is poisonous.')."}
+  # floor 0
+  - {id: room:trunk_door, name: Trunk door, kind: stair, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "Inside the great tree's door, at the foot of the temple's first stair: the arrival."}
+  - {id: room:first_hall, name: Hall of the Trunk, kind: hall, size: L, floor: 0, at: [1, 0], set_piece: true, monsters: 0,
+     purpose: "The hollow trunk's first hall; a voice from the wood (q-d10.voice). Stairs down to the roots and up the trunk's wall."}
+  - {id: room:barracks, name: Orc barracks, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 7,
+     population: [{row: Orc Elite, level: 16, count: 6}, {row: Orc Captain, level: 26, count: 1}],
+     purpose: "Where the priests' cells were: orc bedrolls and a cookfire scorch."}
+  - {id: room:chapel, name: Chapel of Sap, kind: room, size: M, floor: 0, at: [2, 1], monsters: 2,
+     population: [{row: Orc Shaman, level: 20, count: 2}],
+     purpose: "The priests' books (History of Bark, Book of Sap, Morning Ceremonies: Yak and Moo); two alcove flasks, Red and Blue (+2 Might, +2 Personality, once per character)."}
+  - {id: room:guardroom, name: Guardroom, kind: room, size: M, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Orc Elite, level: 16, count: 4}],
+     purpose: "The orcs' guard post at the back stair up to the cells."}
+  # floor -1
+  - {id: room:root_west, name: West root alcove, kind: room, size: S, floor: -1, at: [0, 0], monsters: 0,
+     purpose: "'Feed me! Give gem?' One gem: an Energy Disk (q-d10.root_west)."}
+  - {id: room:root_hall, name: The root cellar, kind: hall, size: M, floor: -1, at: [1, 0], monsters: 4,
+     population: [{row: Arachnoid, level: 14, count: 4}],
+     purpose: "Under the trunk: roots as pillars, damp earth, webs."}
+  - {id: room:root_east, name: East root alcove, kind: room, size: S, floor: -1, at: [2, 0], monsters: 0,
+     purpose: "As the west: one gem, one Energy Disk (q-d10.root_east)."}
+  - {id: room:pens, name: The pens, kind: cave, size: M, floor: -1, at: [0, 1], monsters: 3,
+     population: [{row: Orc Elite, level: 16, count: 3}],
+     purpose: "Cages for prisoners: Nathan ('Remember, Orcs can't jump.') and Sky ('I haven't seen the sun in days!'); the pen lever ('You hear a rumbling in the distance.') opens them."}
+  - {id: room:sap_vats, name: Sap store, kind: room, size: M, floor: -1, at: [1, 1], chest: 3, monsters: 3,
+     population: [{row: Orc Elite, level: 16, count: 3}],
+     purpose: "Vats of the tree's sap, the orcs' ledger ('5 tons manure 500 ... 55 magic skulls 12,000'), a black barrel ('Danger: Unpredictable Effects.'), a chest."}
+links:
+  - {id: link:door_hall, from: room:trunk_door, to: room:first_hall, kind: open}
+  - {id: link:hall_barracks, from: room:first_hall, to: room:barracks, kind: door}
+  - {id: link:hall_chapel, from: room:first_hall, to: room:chapel, kind: open}
+  - {id: link:barracks_guard, from: room:barracks, to: room:guardroom, kind: open}
+  - {id: link:guard_chapel, from: room:guardroom, to: room:chapel, kind: door}
+  - {id: link:hall_roots, from: room:first_hall, to: room:root_hall, kind: stair}
+  - {id: link:roots_west, from: room:root_hall, to: room:root_west, kind: open}
+  - {id: link:roots_east, from: room:root_hall, to: room:root_east, kind: open}
+  - {id: link:roots_vats, from: room:root_hall, to: room:sap_vats, kind: door}
+  - {id: link:vats_pens, from: room:sap_vats, to: room:pens, kind: open}
+  - {id: link:pens_west, from: room:pens, to: room:root_west, kind: open}
+  - {id: link:hall_ring, from: room:first_hall, to: room:ring1, kind: stair}
+  - {id: link:ring_shaalth, from: room:ring1, to: room:shaalth, kind: door}
+  - {id: link:shaalth_cells, from: room:shaalth, to: room:cells, kind: open}
+  - {id: link:guard_cells, from: room:guardroom, to: room:cells, kind: stair, notes: "The orcs' back stair."}
+  - {id: link:shaalth_shaman, from: room:shaalth, to: room:shaman, kind: door}
+  - {id: link:shaman_asc, from: room:shaman, to: room:ascension, kind: door}
+  - {id: link:asc_vault, from: room:ascension, to: room:vault, kind: locked, label: "Disciples of Bark ONLY!", opened_by: state:disciple}
+  - {id: link:ring_limbs, from: room:ring1, to: room:limb_stair, kind: stair}
+  - {id: link:limbs_walk, from: room:limb_stair, to: room:limb_walk, kind: open}
+  - {id: link:walk_fruit, from: room:limb_walk, to: room:fruit, kind: open}
+  - {id: link:fruit_crown, from: room:fruit, to: room:crown, kind: open}
+  - {id: link:walk_barkman, from: room:limb_walk, to: room:barkman, kind: open}
+  - {id: link:barkman_treasure, from: room:barkman, to: room:treasure, kind: open}
+  - {id: link:treasure_crown, from: room:treasure, to: room:crown, kind: door}
+states:
+  - {id: state:bark_key, kind: item, where: "D2, Nibbler (Q-D9)", what: "The Key to the Temple of Bark opens the trunk's door on D2 (q-d9.bark_door).", opens: []}
+  - {id: state:shaalth, kind: kill, where: room:shaalth, what: "Shaalth's death (q-d10.shaalth): his key opens Sheewana's cage (q-d10.cage); she goes home (her topic).", opens: [], draw: false}
+  - {id: state:disciple, kind: puzzle, where: room:ascension,
+     what: "Dials west 1, north 2, east 3 (map variables, 'Dial reads N. Turn?'), pull the lever, drink the Crystal Water: 'You are hereby dubbed a Disciple of Bark!' The vault opens. Dark Water: open question 3.",
+     opens: [link:asc_vault]}
+  - {id: state:barkman, kind: kill, where: room:barkman,
+     what: "A gem fed to a limb alcove shows Barkman (once; map variable). His death frees his chest.", opens: [], draw: false}
+  - {id: state:roots, kind: item, where: room:root_hall, what: "One gem in each root alcove: one Energy Disk each (q-d10.root_west, root_east; M18).", opens: [], draw: false}
+  - {id: state:pens, kind: lever, where: room:pens, what: "The pen lever opens the root cages of the pens and the cell row.", opens: [], draw: false}
+exits:
+  - {id: exit:d2_trunk, space: room:trunk_door, at: [0, 1], kind: both, label: "D2: the great tree's door",
+     neighbour: "D2 entrance:dd09_door (42, 76) facing north in the bark glade; needs Nibbler's key; arrival at the foot of the first stair"}
+hooks:
+  - {hook: q-d10.voice, space: room:first_hall, how: "a step message on the first entry into the hall (once per visit)"}
+  - {hook: q-d10.root_west, space: room:root_west, how: "the alcove (one gem, one disk, once)"}
+  - {hook: q-d10.root_east, space: room:root_east, how: "the alcove (one gem, one disk, once)"}
+  - {hook: q-d10.limb_alcoves, space: room:limb_walk, how: "each limb alcove; the first gem shows Barkman"}
+  - {hook: q-d10.shaalth, space: room:shaalth, how: "Shaalth's death"}
+  - {hook: q-d10.cage, space: room:shaalth, how: "Sheewana's cage (needs shaalth_slain)"}
+  - {hook: npc 5107 Sheewana, space: room:shaalth, how: "talking actor in the cage (topic Home); hidden once she has gone home"}
+critical_path: [room:trunk_door, room:first_hall, room:root_hall, room:root_west, room:root_hall, room:root_east, room:root_hall, room:first_hall,
+  room:ring1, room:shaalth]
+return_path: [room:shaalth, room:ring1, room:first_hall, room:trunk_door]
+loops:
+  - {id: loop:base, spaces: [room:first_hall, room:barracks, room:guardroom, room:chapel], notes: "Round the trunk's base."}
+  - {id: loop:roots, spaces: [room:root_hall, room:sap_vats, room:pens, room:root_west], notes: "Through the pens."}
+  - {id: loop:back_stair, spaces: [room:first_hall, room:ring1, room:shaalth, room:cells, room:guardroom, room:barracks], notes: "Up the ring stair, down the orcs' back stair."}
+  - {id: loop:limbs, spaces: [room:limb_walk, room:fruit, room:crown, room:treasure, room:barkman], notes: "Round the crown."}
+lines:
+  - {text: "A voice bellows: 'Feed the roots and the tree shall bear fruit! Feed the limbs and suffer the wrath of BARKMAN!'", ref: "dark/aaze0077:0", where: "room:first_hall (A3's q-d10.voice)"}
+  - {text: "Feed me! Give gem?", ref: "dark/aaze0077:14", where: "the root and limb alcoves (A3)"}
+  - {text: "The book seems to be a lengthy diary of Barkman's life ... 4/8/400: SQUEEZED branch feeders today.", ref: "dark/aaze0077:19", where: room:barkman}
+  - {text: "The life force of the BARKMAN binds the lid of the chest shut, making it impossible to open.", ref: "dark/aaze0077:21", where: room:barkman}
+  - {text: "Disciples of Bark ONLY!", ref: "dark/aaze0076:0", where: room:ascension}
+  - {text: "Only a scrap of the original text remains legible: ...set the Western dials to 1, Northern to 2, and Eastern to 3. To join the Way of Bark, pull lever and drink.", ref: "dark/aaze0076:2", where: room:ascension}
+  - {text: "You are hereby dubbed a Disciple of Bark!", ref: "dark/aaze0076:7", where: room:ascension}
+  - {text: "Other beings say that we Orcs just aren't civilized. I now invite you in for a cup of tea to debate on this issue.", ref: "dark/aaze0075:17", where: room:shaman}
+  - {text: "The Orc Shaman tells lies, and his tea is poisonous. Watch yourself.", ref: "dark/aaze0075:11", where: "room:cells (Alicia)"}
+  - {text: "Thank you for rescuing me from these foul orcs. Remember, Orcs can't jump.", ref: "dark/aaze0073:3", where: "room:pens (Nathan)"}
+  - {text: "Take ye then the Bark of the Tree, and sprinkle it with ash. The ash symbolizes the Yak, the Bark the Moo.", ref: "dark/aaze0073:26", where: "room:chapel (Morning Ceremonies)"}
+open_questions:
+  - "Potions. The source has two alcove flasks (red +5 Might, blue +5 Personality) and a second room of seven coloured potions, which repeats XD-08's seven tomb juices. Proposed: the red and blue only, +2 once per character; the seven left out."
+  - "The black barrels ('Your statistics have improved, but you have suffered a little magical aging.'). (a) One barrel in the sap store: +1 to all seven stats once per character and one year of age (aging exists; the Jewel of Ages' AgingImmunity flag, D-2.4, protects); (b) leave it out. Proposed (a)."
+  - "The Disciples' chapel: four-position dials are map variables changed by a click ('Dial reads 1. Turn?'), not movers (D-4's two-state rule is about moving geometry). The Dark Water kills in the source. Proposed: Dark Water poisons and hurts (no death); the Book of Ascension on the lectern gives the setting plainly; the reward is the vault (T3) and an award 'Disciple of Bark' (A3), no stat. Or drop the chapel?"
+  - "Four caged prisoners (Nathan, Sky, Snog, Alicia; +25,000 experience each in the source). Proposed: keep them as peaceful actors freed by the pen lever, 500 XP each by an A3 hook (q-d10.prisoners), their lines as hints (Nathan's 'Orcs can't jump', Alicia's warning about the tea); hidden on the next entry. Or two prisoners only?"
+  - "The shaman's tea: a clicked kettle in the tea room ('Drink?' then Poisoned), no NPC. Proposed."
+  - "Barkman: optional at 60, hidden in his hollow and shown (show_actors, D-18's word) when a limb alcove takes a gem; the guard is a map variable. His bound chest (hoard 4) opens on his death. Confirm, and that his XP counts with a later act (D-1.2)."
+  - "Monsters: orcs (the source's occupiers) and arachnoids in the roots and limbs. Wolves (D2's Dark Wolf 16) instead of arachnoids would tie the temple to the forest outside. Proposed: arachnoids (webs read well in a hollow tree)."

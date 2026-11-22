@@ -1,0 +1,68 @@
+# M5 The King's Crusaders: the audience at Castle Burlock (QUESTS M5). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. Castle Burlock's plaques and the court's flavour are npcs/xd07.yml.
+# No early twist: "Prince Roland" says nothing that gives him away before M21 (QUESTS rules).
+id: M5
+title: The Sixth Mirror
+act: II
+kind: main
+status: full
+giver: 4401          # King Burlock (A4: towns/xd07.yml)
+maps: [X2, X4, XD-07]
+level: 12
+block: 5
+after: [m4.done]
+source: "QUESTS M5; xeen/aaze0064:12-13; xeen/aaze0014:8 (the Crusaders' gate)"
+
+qbits:
+  audience: {id: 111100, journal: "King Burlock wants the Sixth Mirror, last seen near the great volcano. He offers an earldom.",
+             until: [m35.done]}
+
+npcs:
+  4401:              # King Burlock
+    topics:
+      - n: 1
+        label: Sixth Mirror
+        states:
+          - when: {qbit: m35.done}
+            text: "The Sixth Mirror. In pieces. It is a pity about the mirror, though."
+          - when: {qbit: audience}
+            text: "NO MIRROR?!? Get out of my sight!"
+            # voiced (D-38), every time the topic is asked: an edit means AU re-voices
+            locked: true
+            voice: {speaker: King Burlock, line: "NO MIRROR?!? Get out of my sight!"}
+            sound: xeen_vo_burlock_no_mirror
+          - locked: true     # voiced (D-38): the voice reads the first two sentences; the rest is shown only
+            voice: {speaker: King Burlock, line: "Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror."}
+            sound: xeen_vo_burlock_charge
+            text: "Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror. My sources tell me that the mirror was last seen near the great volcano. Go forth, now, and bring it to me. I will reward the one who returns it to me with an Earldom."
+            do: [{set: audience}, {xp: 1000}]
+      - n: 2
+        label: Earldom
+        show: {qbit: audience}
+        text: "An Earldom. Land, a title, a seat at my table. Newcastle's ruins are for sale, I hear, if you can't wait. Ebenezer will sell you anything."
+  4405:              # "Prince Roland": nothing that gives him away (QUESTS rules)
+    topics:
+      - n: 3
+        label: The mirror
+        show: {not: {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}}   # the real Roland on P5 has m42's line
+        text: "My brother has wanted the Sixth Mirror since before I left. Find it, and he may even smile. I have not seen it myself."
+      - n: 4
+        label: Travels
+        show: {not: {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}}
+        text: "I was away a long time, further than most. The castle seems smaller now. Everything does."
+
+hooks:
+  crusaders_gate:
+    map: XD-07
+    where: "the portcullis inside the castle door: lifts only for Crusaders (the village outside needs no title)"
+    entrance: XD-07
+    sealed: "the Act I to II beat: a title earned, not an item (the source's line)"
+    requires: {qbit: m4.done}
+    fail_text: "Only Crusaders are allowed to enter Castle Burlock. Old Valia of Toad Meadow names Crusaders."
+  throne:
+    map: XD-07
+    where: "the throne room: the King, \"Prince Roland\" at his side (A4 places them)"
+    reads: [audience]
+
+rewards: {xp: 1000, gold: 0}
+playthrough: "XD-07: the portcullis (Crusaders); King Burlock (Sixth Mirror); Prince Roland (The mirror, Travels)."

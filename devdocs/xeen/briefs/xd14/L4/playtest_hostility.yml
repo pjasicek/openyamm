@@ -1,0 +1,53 @@
+# Hostility check of Castle Basenji (XD-14): the cult's rows (Cult Acolyte 11197, Wizard 11190, Sorcerer 11191, the
+# Basenji Cult Leader 11198, faction xeen_wizards) and its werewolves (Werewolf 11421, Greater Werewolf 11422, faction
+# xeen_werewolves) hostile to the party at load by the world's relations (none placed with a `hostile` key), the
+# Trapped Peasant 11233 (faction xeen_madmen_basenji_prisoner) friendly, and no fights between the cult and its hounds.
+# After DD-13's pattern. No window is open before the reload.
+id: xeen.xd14.l4.hostility
+title: "Castle Basenji (XD-14): the cult and its werewolves hostile to the party, the peasant friendly, no fights among them"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd14.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 32, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 32, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 32, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 32, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11197, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11190, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11191, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11198, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11421, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11422, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11197, hostile: true, min: 16}}
+  - assert: {actor_count: {monster_id: 11190, hostile: true, min: 6}}
+  - assert: {actor_count: {monster_id: 11191, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11198, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11421, hostile: true, min: 18}}
+  - assert: {actor_count: {monster_id: 11422, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11233, hostile: false, min: 1}}
+  - assert: {actor_count: {monster_id: 11233, hostile: true, max: 0}}
+  # A save and load keeps them so.
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11197, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11421, hostile: true, min: 18}}
+  - assert: {actor_count: {monster_id: 11233, hostile: false, min: 1}}
+  - note: 'A Werewolf, a Cult Acolyte and a Wizard side by side in the gatehouse, nearer each other than the party (a
+      monster takes the nearest of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11421, x: -300, y: -800, z: 16}
+  - spawn_actor: {monster_id: 11197, x: 300, y: -800, z: 16}
+  - spawn_actor: {monster_id: 11190, x: 0, y: -700, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11421, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11190, hurt: true, max: 0}}

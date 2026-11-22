@@ -1,0 +1,23 @@
+{
+  "prompt": "Direct pixel-aligned edit of paint_mask_guide.png, the transparent 3:4 atlas. Use design_reference.png for detail and icon_x8.png for colour. Preserve the guide alpha exactly, recolour only its grey pixels. Output transparent 1536x2048 PNG. Three columns and FOUR equal rows. Each cell 512 square, silhouettes centred. Row 1: two small end-on gold discs then one horizontal handle. Row 2: horizontal handle, vertical handle, empty. Rows 3 and 4 exactly duplicate the silhouettes and positions above. Disc diameter about 90 pixels; full lengths about 446 pixels. Preserve edges, sizes, rotations and gaps. Upper half is unlit base colour: Vespar\u2019s Emerald Handle of carved emerald-green stone with spiralling ridges, leaf carvings near the ends, subtle stone veins and banded gold caps at both ends. Match master and sprite in each view. No lighting, shadow, ambient occlusion, hot highlights, reflections, glow, aura, background, outlines, text or grid. Lower half is a flat material-ID map with identical material boundaries: end discs and all gold caps pure red #FF0000, matte carved green stone body including its carvings pure yellow #FFFF00. Palette rules: leather/fur green, cloth/hair blue, gemstone/crystal/glass black, only where actually present. Exact solid primary colours per pixel throughout mask, no texture or colour blends. Transparent everywhere outside stencil including rightmost cells in rows 2 and 4. Do not rearrange, redraw, enlarge or redesign silhouettes.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "65e01d6ab486f9de1e5be86e45566a447bfc0c8576c6a2e190a17d9e0f7e42ab"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "65f49babdfb44dc82955ae965e3cb963311b511d111fef72a635d235679f7742"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "7a0dcc0cc06c3be4a2645bcf4814a229428511b8f3a91cf44b8e28eb32116c82"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91e-315c-7d12-9560-34ae941a8e56/exec-32d87975-3c4c-406d-b572-5642da4478a2.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,28 @@
+# Lane A7 (2026-11-20, decision D-34 (3)): DD-13's gateways look out on D2's Ogre Pass under the Darkside's dim sky
+# (xeendark1), in place of XD-05's sunny meadow (xodaylt); also DD-11A-C's troll holes where an eye-level view reads
+# right. One texture; the references are game pictures of the pass (pics/, D2 under xeendark1). See ../README.md.
+dungeons:
+  dd13:
+    family_words: >-
+      the Darkside of Xeen in Might and Magic's style: D2's Ogre Pass, a dirt road over green downs between dark
+      forest and grey rock, seen in the game under the Darkside's dim amber-grey sky (the reference pictures are game
+      screenshots of this pass, for its colours and light)
+textures:
+  xddaylt:
+    dungeon: dd13
+    size: [256, 128]
+    kind: picture
+    refs: [pic/d2_pass, pic/d2_fort]
+    tone: {like: [pic/d2_pass], factor: 0.6}  # the raw return is dim already: gain about 1.1
+    family: D2's Ogre Pass under xeendark1, as the game draws it (pics/d2_pass.png, pics/d2_fort.png)
+    where: DD-13's two gateways' view out (exit:gate_w, exit:gate_e), fitted once; DD-11A-C's troll-hole mouths where it reads at eye level
+    standin: xodaylt
+    what: >-
+      The view out of a dark gateway onto a mountain pass at eye level, filling the whole canvas: a beaten red-brown
+      dirt road running away from the viewer and bending out of sight, on its left the edge of a dark forest of
+      dense, almost black-green trees, on its right grey rock knolls and boulders, green grassy downs behind them,
+      far hazy brown mountains low on the horizon, and above it all a dim overcast sky of amber-grey and dull ochre
+      clouds, exactly the colours and the soft, dim light of the two references (the same pass in the game). The
+      light is that of a failing sun: dim, muted, slightly hazy, no bright sunlight, no blue sky, no sun disc, no
+      strong shadows. The horizon about one third down from the top. No palisade, no logs, no fort, no people, no
+      frame or dark edges.

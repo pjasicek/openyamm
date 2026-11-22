@@ -1,0 +1,43 @@
+format: 0
+id: xeen_p4
+name: Plane of Water of Xeen
+world: xeen
+kind: indoor
+profile: region
+map_code: P4
+units: {plan_grid: 512}
+extent: {footprint_cells: [26, 26]}
+map_stats:
+  id: 9118
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 8
+  perception_difficulty: 8
+  refill_days: 672
+  music: 7
+  environment: underwater
+  lock_difficulty: 15
+neighbours:
+  - id: corner:d7
+    to: xeen_d7.blv
+    kind: scripted
+    notes: "D7 The Skyroads (A6, phase 6): its south-west corner (m38.corner_water) drops the party here, to entrance:d7_fall (corners.yml)."
+  - id: exit:d7_dais
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:p4_return
+    condition: {qbit: m38_water}
+    notes: "The return dais by the sleeper, shown once the sleeper is awake (common question C5)."
+  - id: exit:d7_way_up
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:p4_return
+    arrival_hint: "On D7 by the south-west corner's rest stop, facing the road."
+    notes: "The way up at the arrival, an exit preset (D-24), always open (common question C5)."
+qbits:
+  m38_water: 111763
+  m38_water_test: 111767
+rules:
+  no_fly: true
+  weather: none
+notes: "P4 Plane of Water of Xeen, MU-3 plan for the phase 6 review (A6's planes sub-agent, 2026-11-21): an open-air BLV region (devdocs/INDOOR_OPEN_SKY.md; X9's and P5's route), a drowned temple in a shallow sea. Spaces are plan spaces with `at` (map units, the middle) and `extent`. Drawings and board: level_generation/xeen_art/phase6/planes/."

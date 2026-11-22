@@ -1,0 +1,335 @@
+format: 0
+themes:
+  - id: theme:fence
+    wall: {texture: ch1b1, size: [128, 256]}
+    floor: {texture: gkp1ceil, size: [128, 128]}
+    ceiling: {texture: ch1b1, size: [128, 256]}
+    reveal: {texture: ch1b1, size: [128, 256]}
+    door: {texture: d2smldor, size: [128, 256], fit: true}
+    notes: "The fence's dry cave: MM7's brown rock (ch1b1), a plank floor (gkp1ceil), plank doors (gkp103a)."
+  - id: theme:nest
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: d2smldor, size: [128, 256], fit: true}
+    notes: "The nesting caves: the same rock, the floor deep in old straw (MM6 straw)."
+  - id: theme:rock
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128], scale: 2}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: d2smldor, size: [128, 256], fit: true}
+    notes: "The eyrie's caves: MM7's dragon-cave rock (cwb1) on walls and roofs, its rock floor (cfb1)."
+  - id: theme:sky
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128], scale: 2}
+    ceiling: {texture: xwsky, size: [512, 512]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: d2smldor, size: [128, 256], fit: true}
+    notes: "The sky crack: the rock open to the sky (the world's xwsky clouds overhead)."
+defaults: {theme: theme:rock, ambient: 18}
+rooms:
+  - id: room:fence_cache
+    name: The fence's cache
+    outline: [[3200, 1024], [3712, 1024], [3712, 1664], [3200, 1664]]
+    floor: 1024
+    ceiling: 1344
+    theme: theme:fence
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:tagged_crates, at: centre, length: 192, bottom: 0, height: 128, surface: {texture: crate_w64, size: [64, 64]}, notes: "Crates stacked against the wall, tags on strings (D-4)."}
+    ambient: 20
+    notes: "A dry cave of crates tagged for buyers, 512 by 640: whoever hires the gargoyles to steal keeps his goods here. His winch in the north-east corner works the hoist up the wall."
+  - id: room:hidden_ledge
+    name: Hidden ledge
+    outline: [[-1024, 2688], [-384, 2688], [-384, 3200], [-1024, 3200]]
+    floor: 1536
+    floor_points: [[-832, 2944, 1520], [-500, 3080, 1536], [-564, 3016, 1536], [-564, 3144, 1536], [-436, 3016, 1536], [-436, 3144, 1536], [-864, 2784, 1536], [-704, 2784, 1536], [-544, 2784, 1536], [-480, 2816, 1536], [-480, 2944, 1536], [-704, 3104, 1536], [-864, 3104, 1536], [-928, 3072, 1536], [-928, 2944, 1536], [-928, 2816, 1536]]
+    rough: {step: 192, depth: 48}
+    ceiling: 1856
+    ceiling_points: [[-704, 2944, 1904]]
+    theme: theme:rock
+    ambient: 22
+    notes: "Behind the hanging moss, 640 by 512: a dead climber's pack."
+  - id: room:high_ledge
+    name: High ledge
+    outline: [[-1024, 2176], [3072, 2176], [3072, 2560], [-1024, 2560]]
+    floor: 1536
+    rough: {step: 192, depth: 48}
+    ceiling: 2432
+    theme: theme:rock
+    platforms:
+      - {at: [2680, 2368], size: [8, 8], rise: 736, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: A hoist rope up to the beam.}
+      - {at: [2952, 2368], size: [8, 8], rise: 736, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: A hoist rope up to the beam.}
+    beams:
+      - path: [[2560, 2368], [3072, 2368]]
+        width: 32
+        depth: 32
+        bottom: 2272
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "The hoist beam over the notch, wedged into the east wall."
+    ambient: 16
+    notes: "A narrow shelf 384 wide along the shaft's north side, 4,096 long: open to the shaft in the middle, a gap over the west ledge (a 512 drop), the fence's hoist in a notch at its east end under a hoist beam; the roost ladder on its north wall, hanging moss at its west end."
+  - id: room:hoist_foot
+    name: Hoist foot
+    outline: [[2624, 2176], [3008, 2176], [3008, 2560], [2624, 2560]]
+    floor: 1024
+    ceiling: 1504
+    theme: theme:rock
+    platforms:
+      - {at: [2680, 2368], size: [8, 8], rise: 480, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: A hoist rope beside the deck's way.}
+      - {at: [2952, 2368], size: [8, 8], rise: 480, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, notes: A hoist rope beside the deck's way.}
+    ambient: 20
+    notes: "A low cave under the high ledge's east end, 384 square, off the east nests: the fence's hoist comes down here through a notch in the ledge above."
+  - id: room:ledge_e
+    name: East nests
+    outline: [[2176, 1024], [3072, 1024], [3072, 2048], [2176, 2048]]
+    floor: 1024
+    rough: {step: 192, depth: 48}
+    ceiling: 1920
+    ceiling_points: [[2432, 1344, 2096], [2432, 1728, 2080], [2816, 1344, 2096], [2816, 1728, 2048]]
+    theme: theme:nest
+    platforms:
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[2501, 1106], [2619, 1106], [2704, 1191], [2704, 1309], [2619, 1394], [2501, 1394], [2416, 1309], [2416, 1191]], top_surface: {texture: xobones, size: [128, 256]}, notes: A nest of sticks and bones.}
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[2798, 1672], [2902, 1672], [2978, 1748], [2978, 1852], [2902, 1928], [2798, 1928], [2722, 1852], [2722, 1748]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest.}
+    ambient: 16
+    notes: "The east nests, 896 by 1,024, open to the shaft along its west side, where the bridge lands: nests of sticks and bones; the fence's door in its east wall, the way to the hoist's foot in its north wall."
+  - id: room:ledge_low
+    name: First ledge
+    outline: [[-1024, 0], [-128, 0], [-128, 896], [-1024, 896]]
+    floor: 512
+    floor_points: [[-576, 640, 496], [-384, 256, 544], [-384, 448, 560], [-384, 640, 544], [-576, 888, 512], [-640, 824, 512], [-512, 824, 512], [-900, 800, 512], [-964, 736, 512], [-964, 864, 512], [-836, 736, 512], [-836, 864, 512], [-760, 300, 512], [-888, 172, 512], [-888, 300, 512], [-888, 428, 512], [-760, 172, 512], [-760, 428, 512], [-632, 172, 512], [-632, 300, 512], [-632, 428, 512], [-812, 172, 512], [-708, 172, 512], [-632, 248, 512], [-632, 352, 512], [-708, 428, 512], [-812, 428, 512], [-888, 352, 512], [-888, 248, 512], [-912, 96, 512], [-800, 96, 512], [-688, 96, 512], [-576, 96, 512], [-464, 96, 512], [-352, 96, 512], [-240, 96, 512], [-224, 224, 512], [-224, 336, 512], [-224, 448, 512], [-224, 560, 512], [-224, 672, 512], [-224, 784, 512], [-352, 800, 512], [-464, 800, 512], [-576, 800, 512], [-688, 800, 512], [-800, 800, 512], [-928, 672, 512], [-928, 560, 512]]
+    rough: {step: 192, depth: 48}
+    ceiling: 1536
+    ceiling_points: [[-720, 304, 1712], [-720, 592, 1680], [-432, 304, 1648], [-432, 592, 1648]]
+    theme: theme:rock
+    platforms:
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[-812, 172], [-708, 172], [-632, 248], [-632, 352], [-708, 428], [-812, 428], [-888, 352], [-888, 248]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest of sticks and straw.}
+    ambient: 16
+    notes: "The first shelf up the shaft's west wall, 896 square, open to the shaft along its whole east side; a ladder on its north wall up to the west ledge."
+  - id: room:ledge_w
+    name: West ledge
+    outline: [[-1024, 1024], [-128, 1024], [-128, 2048], [-1024, 2048]]
+    floor: 1024
+    floor_points: [[-768, 1248, 1008], [-768, 1440, 976], [-768, 1632, 1072], [-576, 1248, 976], [-576, 1440, 1072], [-384, 1248, 992], [-384, 1440, 1040], [-384, 1824, 1056], [-950, 1950, 1024], [-1014, 1886, 1024], [-1014, 2014, 1024], [-886, 1886, 1024], [-886, 2014, 1024], [-912, 1120, 1024], [-800, 1120, 1024], [-688, 1120, 1024], [-576, 1120, 1024], [-464, 1120, 1024], [-352, 1120, 1024], [-240, 1120, 1024], [-224, 1252, 1024], [-224, 1365, 1024], [-224, 1479, 1024], [-224, 1593, 1024], [-224, 1707, 1024], [-224, 1820, 1024], [-224, 1934, 1024], [-352, 1952, 1024], [-464, 1952, 1024], [-576, 1952, 1024], [-688, 1952, 1024], [-800, 1952, 1024], [-928, 1820, 1024], [-928, 1707, 1024], [-928, 1593, 1024], [-928, 1479, 1024], [-928, 1365, 1024], [-928, 1252, 1024]]
+    rough: {step: 192, depth: 48}
+    ceiling: 1920
+    ceiling_points: [[-720, 1248, 2064], [-720, 1536, 2032], [-720, 1824, 2112], [-432, 1248, 2048], [-432, 1536, 2096], [-432, 1824, 2064]]
+    theme: theme:rock
+    ambient: 16
+    notes: "Where the climb from below arrives, 896 by 1,024, open to the shaft along its east side; the bridge starts here. The high ledge's lip is overhead to the north (the drop)."
+  - id: room:low_nests
+    name: Low nests
+    outline: [[-2048, 0], [-1152, 0], [-1152, 896], [-2048, 896]]
+    floor: 512
+    floor_points: [[-1792, 640, 480], [-1408, 256, 560], [-2000, 850, 512], [-1936, 786, 512], [-1800, 220, 512], [-1944, 76, 512], [-1944, 220, 512], [-1944, 364, 512], [-1800, 76, 512], [-1800, 364, 512], [-1656, 76, 512], [-1656, 220, 512], [-1656, 364, 512], [-1859, 76, 512], [-1741, 76, 512], [-1656, 161, 512], [-1656, 279, 512], [-1741, 364, 512], [-1859, 364, 512], [-1944, 279, 512], [-1944, 161, 512], [-1450, 700, 512], [-1578, 572, 512], [-1578, 700, 512], [-1578, 828, 512], [-1450, 572, 512], [-1450, 828, 512], [-1322, 572, 512], [-1322, 700, 512], [-1322, 828, 512], [-1502, 572, 512], [-1398, 572, 512], [-1322, 648, 512], [-1322, 752, 512], [-1398, 828, 512], [-1502, 828, 512], [-1578, 752, 512], [-1578, 648, 512], [-1600, 96, 512], [-1488, 96, 512], [-1376, 96, 512], [-1264, 96, 512], [-1248, 224, 512], [-1248, 336, 512], [-1248, 448, 512], [-1248, 560, 512], [-1248, 672, 512], [-1248, 784, 512], [-1712, 800, 512], [-1824, 800, 512], [-1952, 672, 512], [-1952, 560, 512], [-1952, 448, 512]]
+    rough: {step: 192, depth: 48}
+    ceiling: 1024
+    ceiling_points: [[-1744, 304, 1104], [-1744, 592, 1088], [-1456, 304, 1136], [-1456, 592, 1104]]
+    theme: theme:nest
+    platforms:
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[-1859, 76], [-1741, 76], [-1656, 161], [-1656, 279], [-1741, 364], [-1859, 364], [-1944, 279], [-1944, 161]], top_surface: {texture: straw, size: [256, 256]}, notes: A young gargoyles' nest.}
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[-1502, 572], [-1398, 572], [-1322, 648], [-1322, 752], [-1398, 828], [-1502, 828], [-1578, 752], [-1578, 648]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest.}
+    ambient: 18
+    notes: "Where the young gargoyles nest, 896 square, straw underfoot; the rock ramp climbs out of its north side."
+  - id: room:mouth
+    name: Cave mouth
+    outline: [[1024, -1152], [1664, -1152], [1664, -128], [1024, -128]]
+    floor: 0
+    floor_points: [[1216, -896, -32], [1216, -640, 16], [1216, -384, -32], [1472, -640, 32], [1472, -384, -48], [1184, -1056, 0], [1344, -1056, 0], [1504, -1056, 0], [1568, -1006, 0], [1568, -859, 0], [1568, -713, 0], [1568, -567, 0], [1568, -421, 0], [1568, -274, 0], [1504, -224, 0], [1344, -224, 0], [1184, -224, 0], [1120, -274, 0], [1120, -421, 0], [1120, -567, 0], [1120, -713, 0], [1120, -859, 0], [1120, -1006, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 512
+    ceiling_points: [[1344, -832, 624], [1344, -448, 640]]
+    theme: theme:rock
+    ambient: 26
+    notes: "The way in from the bare peaks of the Gargoyle Range, 640 by 1,024: droppings and bones; daylight behind."
+  - id: room:rock_ramp
+    name: Rock ramp
+    path: [[-1600, 1024], [-1600, 1600], [-1152, 1600]]
+    width: 256
+    floor: 512
+    slope: {to: 1024}
+    ceiling: 832
+    ceiling_slope: {to: 1344}
+    theme: theme:rock
+    ambient: 20
+    notes: A rock ramp climbing 512 north and then east from the low nests to the west ledge.
+  - id: room:roost
+    name: Matriarch's roost
+    outline: [[512, 2688], [2048, 2688], [2048, 3712], [512, 3712]]
+    floor: 2048
+    floor_points: [[768, 2944, 2096], [768, 3200, 2080], [1792, 3456, 2000], [600, 3650, 2048], [536, 3586, 2048], [664, 3586, 2048], [1950, 2800, 2048], [1886, 2736, 2048], [1886, 2864, 2048], [2014, 2736, 2048], [2014, 2864, 2048], [1280, 3300, 2048], [1056, 3076, 2048], [1056, 3188, 2048], [1056, 3300, 2048], [1056, 3412, 2048], [1056, 3524, 2048], [1168, 3076, 2048], [1168, 3188, 2048], [1168, 3300, 2048], [1168, 3412, 2048], [1168, 3524, 2048], [1280, 3076, 2048], [1280, 3188, 2048], [1280, 3412, 2048], [1280, 3524, 2048], [1392, 3076, 2048], [1392, 3188, 2048], [1392, 3300, 2048], [1392, 3412, 2048], [1392, 3524, 2048], [1504, 3076, 2048], [1504, 3188, 2048], [1504, 3300, 2048], [1504, 3412, 2048], [1504, 3524, 2048], [800, 3500, 2048], [672, 3372, 2048], [672, 3500, 2048], [800, 3372, 2048], [800, 3628, 2048], [928, 3372, 2048], [928, 3500, 2048], [928, 3628, 2048], [748, 3372, 2048], [852, 3372, 2048], [928, 3448, 2048], [928, 3552, 2048], [852, 3628, 2048], [748, 3628, 2048], [672, 3448, 2048], [1800, 3000, 2048], [1672, 2872, 2048], [1672, 3000, 2048], [1672, 3128, 2048], [1800, 2872, 2048], [1800, 3128, 2048], [1928, 3000, 2048], [1928, 3128, 2048], [1748, 2872, 2048], [1928, 2948, 2048], [1928, 3052, 2048], [1852, 3128, 2048], [1748, 3128, 2048], [1672, 3052, 2048], [1672, 2948, 2048], [666, 2784, 2048], [819, 2784, 2048], [973, 2784, 2048], [1126, 2784, 2048], [1280, 2784, 2048], [1434, 2784, 2048], [1587, 2784, 2048], [1741, 2784, 2048], [1894, 2784, 2048], [1952, 3273, 2048], [1952, 3419, 2048], [1952, 3566, 2048], [1894, 3616, 2048], [1741, 3616, 2048], [1587, 3616, 2048], [1434, 3616, 2048], [1280, 3616, 2048], [1126, 3616, 2048], [608, 3566, 2048], [608, 3419, 2048], [608, 3273, 2048], [608, 3127, 2048], [608, 2981, 2048], [608, 2834, 2048]]
+    rough: {step: 192, depth: 48}
+    ceiling: 2688
+    ceiling_points: [[896, 3008, 2864], [896, 3392, 2816], [1280, 3008, 2864], [1280, 3392, 2784], [1664, 3008, 2816], [1664, 3392, 2848]]
+    theme: theme:nest
+    platforms:
+      - {id: platform:great_nest, rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[1189, 3076], [1371, 3076], [1504, 3209], [1504, 3391], [1371, 3524], [1189, 3524], [1056, 3391], [1056, 3209]], top_surface: {texture: xobones, size: [128, 256]}, notes: "The great nest: sticks, bones and the gargoyles' shiny things."}
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[748, 3372], [852, 3372], [928, 3448], [928, 3552], [852, 3628], [748, 3628], [672, 3552], [672, 3448]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest.}
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[1748, 2872], [1852, 2872], [1928, 2948], [1928, 3052], [1852, 3128], [1748, 3128], [1672, 3052], [1672, 2948]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest.}
+    ambient: 14
+    notes: "The biggest nest under the peak, 1,536 by 1,024: the great nest of sticks and bones heaped with stolen silver; the sky crack opens east."
+  - id: room:shaft_floor
+    name: Shaft floor
+    outline: [[0, 0], [2048, 0], [2048, 2048], [0, 2048]]
+    floor: 0
+    floor_points: [[448, 448, 48], [4, 448, 0], [68, 384, 0], [68, 512, 0], [1500, 1536, 0], [1436, 1472, 0], [1436, 1600, 0], [1564, 1472, 0], [1564, 1600, 0], [300, 1800, 0], [236, 1736, 0], [236, 1864, 0], [364, 1736, 0], [364, 1864, 0], [1850, 1200, 0], [1786, 1136, 0], [1786, 1264, 0], [1914, 1136, 0], [1914, 1264, 0], [1000, 1150, 0], [936, 1086, 0], [936, 1214, 0], [1064, 1086, 0], [1064, 1214, 0], [1900, 150, 0], [1836, 86, 0], [1836, 214, 0], [1964, 86, 0], [1964, 214, 0], [150, 1900, 0], [86, 1836, 0], [86, 1964, 0], [214, 1964, 0], [1024, 1536, 0], [256, 1384, 0], [256, 1688, 0], [768, 1384, 0], [768, 1688, 0], [1280, 1384, 0], [1280, 1688, 0], [1792, 1384, 0], [1792, 1688, 0], [1500, 700, 0], [1340, 540, 0], [1340, 700, 0], [1340, 860, 0], [1500, 540, 0], [1500, 860, 0], [1660, 540, 0], [1660, 700, 0], [1660, 860, 0], [1435, 540, 0], [1565, 540, 0], [1660, 635, 0], [1660, 765, 0], [1565, 860, 0], [1435, 860, 0], [1340, 765, 0], [1340, 635, 0], [120, 96, 0], [241, 96, 0], [361, 96, 0], [482, 96, 0], [602, 96, 0], [723, 96, 0], [843, 96, 0], [964, 96, 0], [1084, 96, 0], [1205, 96, 0], [1325, 96, 0], [1446, 96, 0], [1566, 96, 0], [1687, 96, 0], [1952, 361, 0], [1952, 482, 0], [1952, 602, 0], [1952, 723, 0], [1952, 843, 0], [1952, 964, 0], [1952, 1084, 0], [1952, 1205, 0], [1952, 1325, 0], [1952, 1446, 0], [1952, 1566, 0], [1952, 1687, 0], [1952, 1807, 0], [1952, 1928, 0], [1807, 1952, 0], [1687, 1952, 0], [1566, 1952, 0], [1446, 1952, 0], [1325, 1952, 0], [1205, 1952, 0], [1084, 1952, 0], [964, 1952, 0], [843, 1952, 0], [723, 1952, 0], [602, 1952, 0], [482, 1952, 0], [361, 1952, 0], [96, 1687, 0], [96, 1566, 0], [96, 1446, 0], [96, 1325, 0], [96, 1205, 0], [96, 1084, 0], [96, 964, 0], [96, 843, 0], [96, 723, 0], [96, 602, 0], [96, 241, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 2560
+    theme: theme:rock
+    platforms:
+      - {id: platform:bridge, at: [1024, 1536], size: [2048, 320], rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: 7t1beds, size: [256, 64]}, base: 1000, notes: "The rope bridge across the shaft, 1,024 over its floor: a plank deck from the west ledge to the east nests."}
+      - {at: [256, 1384], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [256, 1688], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [768, 1384], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [768, 1688], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [1280, 1384], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [1280, 1688], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [1792, 1384], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {at: [1792, 1688], size: [16, 16], rise: 64, surface: {texture: t66abc10a, size: [32, 128]}, top_surface: {texture: t66abc10a, size: [32, 128]}, base: 1024, notes: Bridge post under the rail}
+      - {rise: 24, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[1435, 540], [1565, 540], [1660, 635], [1660, 765], [1565, 860], [1435, 860], [1340, 765], [1340, 635]], top_surface: {texture: xobones, size: [128, 256]}, notes: A fallen nest on the shaft floor.}
+    beams:
+      - path: [[0, 1688], [2048, 1688]]
+        width: 16
+        depth: 16
+        bottom: 1088
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: The bridge's north rail (rope on poles).
+      - path: [[0, 1384], [896, 1384]]
+        width: 16
+        depth: 16
+        bottom: 1088
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "The south rail, west part."
+      - path: [[1152, 1384], [2048, 1384]]
+        width: 16
+        depth: 16
+        bottom: 1088
+        surface: {texture: t66abc10a, size: [32, 128]}
+        notes: "The south rail, east part: between them the rail is torn away (the fall)."
+    ambient: 14
+    notes: "The bottom of the vertical cave, 2,048 square and 2,560 high: every ledge opens on it, the bridge crosses it at 1,024, the high ledge runs along its north side at 1,536. A pole ladder climbs its west wall to the first ledge."
+  - id: room:sky_crack
+    name: Sky crack
+    outline: [[2176, 2944], [2688, 2944], [2688, 3456], [2176, 3456]]
+    floor: 2048
+    floor_points: [[2432, 3200, 2016], [2304, 3040, 2048], [2432, 3040, 2048], [2560, 3040, 2048], [2592, 3200, 2048], [2592, 3328, 2048], [2432, 3360, 2048], [2304, 3360, 2048], [2272, 3200, 2048]]
+    rough: {step: 192, depth: 48}
+    ceiling: 2816
+    theme: theme:sky
+    ambient: 30
+    notes: "Daylight through a split in the peak, 512 square, open to the sky: the quick way out to a ledge high on the same peak."
+openings:
+  - id: open:high_hidden
+    from: room:high_ledge
+    to: room:hidden_ledge
+    link: link:high_hidden
+    along: 0.5
+    width: 160
+    height: 224
+    notes: Behind the hanging moss.
+  - id: open:high_ledgew
+    from: room:high_ledge
+    to: room:ledge_w
+    link: link:high_drop
+    along: 0.5
+    width: 384
+    height: 256
+    notes: "A gap in the high ledge's rim over the west ledge: the 512 drop."
+  - id: open:high_roost
+    from: room:high_ledge
+    to: room:roost
+    link: link:high_roost
+    width: 192
+    height: 256
+    notes: "The top of the roost ladder: a hole in the rock 512 up."
+  - id: open:hoist_notch
+    from: room:high_ledge
+    to: room:hoist_foot
+    in: floor
+    at: [2816, 2368]
+    size: [256, 256]
+    link: link:hoist_high
+    notes: The notch in the high ledge the hoist's deck rides through.
+  - id: open:ledgee_fence
+    from: room:ledge_e
+    to: room:fence_cache
+    link: link:ledgee_fence
+    width: 192
+    height: 256
+  - id: open:ledgee_hoist
+    from: room:ledge_e
+    to: room:hoist_foot
+    link: link:ledgee_hoist
+    width: 256
+    height: 320
+    notes: Into the hoist's foot under the high ledge.
+  - id: open:ledgelow_ledgew
+    from: room:ledge_low
+    to: room:ledge_w
+    link: link:ledgelow_ledgew
+    along: 0.5
+    width: 192
+    height: 256
+    notes: "The top of the ladder from the first ledge: a hole in the rock 512 up."
+  - id: open:ledgelow_nests
+    from: room:ledge_low
+    to: room:low_nests
+    link: link:ledgelow_nests
+    width: 384
+    height: 384
+  - id: open:mouth_shaft
+    from: room:mouth
+    to: room:shaft_floor
+    link: link:mouth_shaft
+    width: 384
+    height: 448
+  - id: open:nests_ramp
+    from: room:low_nests
+    to: room:rock_ramp
+    link: link:nests_ledgew
+    width: 224
+    height: 288
+  - id: open:ramp_ledgew
+    from: room:rock_ramp
+    to: room:ledge_w
+    link: link:nests_ledgew
+    width: 224
+    height: 288
+  - id: open:roost_crack
+    from: room:roost
+    to: room:sky_crack
+    link: link:roost_crack
+    width: 256
+    height: 384
+  - id: open:shaft_high
+    from: room:shaft_floor
+    to: room:high_ledge
+    link: link:high_shaft
+    width: full
+    height: full
+    notes: "The high ledge's lip, 1,536 over the shaft floor."
+  - id: open:shaft_ledgee
+    from: room:shaft_floor
+    to: room:ledge_e
+    link: link:bridge_ledgee
+    width: full
+    height: full
+    notes: "The east nests' lip, 1,024 over the shaft floor; the bridge lands here."
+  - id: open:shaft_ledgelow
+    from: room:shaft_floor
+    to: room:ledge_low
+    link: link:shaft_ledgelow
+    width: full
+    height: full
+    notes: "The first ledge's lip: open along its whole east side, 512 over the shaft floor."
+  - id: open:shaft_ledgew
+    from: room:shaft_floor
+    to: room:ledge_w
+    link: link:ledgew_bridge
+    width: full
+    height: full
+    notes: "The west ledge's lip, 1,024 over the shaft floor; the bridge starts here."
+notes: "XD-26 Gargoyle Eyrie: one tall shaft with ledges at 512, 1,024 and 1,536, the roost at 2,048; x east, y north. Written by output/studio_cal/xd26/tools/gen.py."

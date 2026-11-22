@@ -1,0 +1,76 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header. One of the three
+# Gemstone Mines pockets (DD-10A, B, C), each its own map; the open questions shared by the three are repeated.
+format: mu6-0
+map: DD-10C
+key: dd10c
+name: "Gemstone Mines, north pocket"
+stands_on: D6 The Forbidden Zone
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors (at most 15 sectors and 20 M units²)"
+party: [23, 27]
+monsters:
+  levels: [16, 28]
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Giant crawlers (11360): Lava Roach 26 (8)"
+    - "Elemental golems (11590): Sand Golem 22 (6)"
+    - "Arachnoids (11330): Arachnoid Queen 24 (6) (Act III numbers; open question 1)"
+  mix:
+    - {row: Lava Roach, id: 11362, level: 26, count: 8}
+    - {row: Sand Golem, id: 11590, level: 22, count: 6}
+    - {row: Arachnoid Queen, id: 11332, level: 24, count: 6}
+  kill_xp_target: "about 3.7k (60 of the group DD-10+11's 120 at 22.1k; this pocket 4.15k)"
+treasure: {level: 3}
+role: "Q-D7 (the gemsmiths: five rocks of a gem from the veins; the God of Minerals refills them for gold), repeatable"
+role_short: "Q-D7"
+set_piece: "Five diamond veins in black rock by a seam of cooling lava"
+textures:
+  family: "Proposed (no Darkside mines family in dungeon_families yet): MM7 Nighon Tunnels 7d35 dark rock and timbering, the same for the three pockets"
+  cap: 30
+  planned: 14
+  new: "1 (diamond vein); MM6 Gharik's lava (6d18) for the lava seam"
+floors:
+  - {floor: 2, name: "North pocket: diamonds", height: 0}
+spaces:
+  - {id: room:c_adit, name: North adit, kind: corridor, size: S, floor: 2, at: [0, 0], monsters: 0, purpose: "The arrival inside the adit's mouth on D6."}
+  - {id: room:c_lava, name: Lava gallery, kind: cave, size: M, floor: 2, at: [1, 0], monsters: 4,
+     population: [{row: Lava Roach, level: 26, count: 4}], purpose: "A drift along a seam of cooling lava; heat shimmer."}
+  - {id: room:c_diamond, name: Diamond cavern, kind: cave, size: L, floor: 2, at: [2, 0], set_piece: true, goal: true, monsters: 6,
+     population: [{row: Sand Golem, level: 22, count: 4}, {row: Arachnoid Queen, level: 24, count: 2}],
+     purpose: "Five diamond veins in black rock (q-d7.diamond_veins); one false vein: 'A gem exploded!'"}
+  - {id: room:c_grotto, name: Crystal grotto, kind: cave, size: S, floor: 2, at: [3, 0], chest: 3, monsters: 2,
+     population: [{row: Arachnoid Queen, level: 24, count: 2}], purpose: "A geode; a dead miner's chest."}
+  - {id: room:c_collapse, name: The collapse, kind: cave, size: M, floor: 2, at: [1, 1], monsters: 4,
+     population: [{row: Sand Golem, level: 22, count: 2}, {row: Arachnoid Queen, level: 24, count: 2}], purpose: "Rubble from a fallen roof ('Rubble')."}
+  - {id: room:c_nest, name: Roach nest, kind: cave, size: M, floor: 2, at: [2, 1], monsters: 4,
+     population: [{row: Lava Roach, level: 26, count: 4}], purpose: "Warm ash and egg cases."}
+links:
+  - {id: link:c1, from: room:c_adit, to: room:c_lava, kind: door}
+  - {id: link:c2, from: room:c_lava, to: room:c_diamond, kind: open}
+  - {id: link:c3, from: room:c_diamond, to: room:c_grotto, kind: door}
+  - {id: link:c4, from: room:c_lava, to: room:c_collapse, kind: door}
+  - {id: link:c5, from: room:c_collapse, to: room:c_nest, kind: open}
+  - {id: link:c6, from: room:c_nest, to: room:c_diamond, kind: open}
+states:
+  - {id: state:veins, kind: map_var, where: room:c_diamond,
+     what: "Each vein gives one rock once (a map variable per vein); the God of Minerals' refill (DD-10B) resets them (open question 2).", opens: [], draw: false}
+exits:
+  - {id: 'exit:d6_adit', space: 'room:c_adit', at: [0, 1], kind: both, label: 'D6: north adit', neighbour: 'D6 not planned yet (A6, phase 5); MAPS D6 ''mine entrances to the Forbidden Zone mines'''}
+hooks:
+  - {hook: q-d7.diamond_veins, space: 'room:c_diamond', how: each of five veins}
+critical_path: [room:c_adit, room:c_lava, room:c_diamond]
+return_path: [room:c_diamond, room:c_nest, room:c_collapse, room:c_lava, room:c_adit]
+loops:
+  - {id: 'loop:c', spaces: ['room:c_lava', 'room:c_diamond', 'room:c_nest', 'room:c_collapse'], notes: 'North: round the diamond cavern.'}
+lines:
+  - {text: 'Exit the Gemstone Mines?', ref: 'dark/aaze0039:0', where: 'each adit (the exit preset''s meaning, D-24)'}
+  - {text: Diamond vein / Ruby vein / Emerald vein / Sapphire vein, ref: 'dark/aaze0039:1-4', where: the veins (hover)}
+  - {text: You've got all this vein has to offer., ref: 'dark/aaze0039:10', where: a picked vein}
+  - {text: A gem exploded!, ref: 'dark/aaze0039:11', where: 'the false veins (B, C)'}
+open_questions:
+  - "DD-10C stands on D6 (Act V, party 48-51) with Act III's band. (a) Keep it on D6 and raise the north pocket to D6's lower band (about 38-50), so diamonds (Hector's best gear, 10 gems) are Act V gear and the 20 monsters move from the Act III group to Act V (A2's recount) (proposed: the source put the diamond mine in the Forbidden Zone); (b) move the north pocket's adit to D1's mine hills by the D6 road (A6), Act III as planned; (c) a D6 adit right at the end of D1's mountain road, Act III monsters, the party walking a few hundred units of D6."
+  - "q-d7 has one refill bit for three pockets, cleared by the first pocket that refills, and each vein hook gives five rocks at once. Proposed: five veins per gem, one rock each (a map variable per vein); the God sets three bits (refill_a, refill_b, refill_c, A3) and each pocket's veins refill and clear their own. Requests to A3."
+  - "False veins and exploding bones: one false vein each in B and C ('A gem exploded!', some fire damage) and one bone heap in A ('The bones explode!'). Or only the crumbling bones (no traps)?"
+  - "Rock golems: the Sand Golem row (11590 A, 22) stands in for the mines' golems. A2 to give the mines a renamed tier ('Rock Golem 22') or keep the name?"
+  - "Textures: proposed MM7 Nighon Tunnels 7d35 for all three pockets (Darkside rock, not XD-02's red Snergle rock) plus four vein textures (one per gem). A6 to confirm or name another family."

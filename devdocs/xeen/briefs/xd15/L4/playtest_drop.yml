@@ -1,0 +1,157 @@
+# Playtest of the Sphinx's wrong name (XD-15, L4; lane A7; written by output/studio_cal/xd15/tools/gen_tests.py from
+# ids.lock.yml), D-39 Q5: a level-31 party (immortal) goes up the throat to the riddle chamber and answers the sun disc
+# wrongly: A3's q-c9.name_wrong, the disc sinks with the party on it, the party lands hurt in the drop cell (30 each),
+# the disc rises again. The drop cell's first clue and its door (opened from inside, stays open); the east hall's two
+# clues; the library (the fifth clue, A3's q-c9.hieroglyphs, the two gem finds, the chest); the west hall's clue; up the
+# dungeon stair to the haunch vault: its sign and its chest's two Might Boosts (first opening only, map qbit 118010);
+# the belly hall, the west gallery: the great sarcophagus refuses Might 15 and opens for Might 12 + a Might Boost (42).
+id: xeen.xd15.l4.drop
+title: The Sphinx (XD-15 L4), a wrong name, the drop, the clues and the climb back
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd15.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 31, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 31, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 31, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 31, skills: [], equipment: {}}
+  - assert: {map: xeen_xd15.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 832, y: 1000, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1900, y: -2752, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.5); if held() ~= 0 then stow() end; if not has_item(2061) then error('no emerald in the offering niche') end"}
+  - walk_to: {x: 1728, y: -3200, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -3650, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 3000}
+  # The wrong name.
+  - walk_to: {x: 832, y: -3800, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - answer_input: {text: "Sphinx"}
+  # Within a second the party is set on the disc's middle and the disc sinks with it (map var drop leaves 1); the
+  # fall comes one timer tick (1 s) after that, so 0.8 s after the sink began the party is on the sunk disc.
+  - play_lua: {source: "for i = 1, 60 do if mapvar(3) ~= 1 then break end; wait(0.05) end; if mapvar(3) == 1 then error('the disc never sank') end"}
+  - advance_runtime: {seconds: 0.8, follow_map_move: true}
+  - play_lua: {source: "log('wrong name, on the sinking disc: ' .. status())"}
+  - assert: {party_position: {x: 832, y: -4160, radius: 200, z_min: 1080, z_max: 1250}}
+  # Then the fall to the drop cell's sand heap and A3's words there.
+  - advance_runtime: {seconds: 3, present_dialogs: true, follow_map_move: true}
+  - assert: {dialog: {active: true, text_contains: "the floor agrees with it"}}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 4}
+  - play_lua: {source: "log('after the drop: ' .. status()); if qbit(112181) then error('a wrong name set q-c9.done') end"}
+  - assert: {party_position: {x: 2688, y: 8640, radius: 160, z_min: -660, z_max: -560}}
+  - assert: {state_dump_map_var: {index: 3, value: 0}}
+  # The drop cell: the first clue, the door from inside.
+  - walk_to: {x: 2688, y: 8900, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My first is in giant"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2420, y: 8704, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(3); if door_state(1) ~= 'open' then error('drop cell door: ' .. door_state(1)) end"}
+  # The east hall's two clues.
+  - walk_to: {x: 1900, y: 8704, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "if door_state(1) ~= 'open' then error('the drop cell door closed again') end"}
+  - walk_to: {x: 1088, y: 8450, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "lich"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1664, y: 8960, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Girard"}}
+  - play_lua: {source: "close()"}
+  # The library.
+  - walk_to: {x: 640, y: 8900, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 640, y: 9500, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1100, y: 10304, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "XEEN but not in Queen"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -64, y: 10380, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My first is in giant but not in defiant. My second"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -256, y: 10260, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(0.5); if held() ~= 0 then stow() end; if not has_item(2063) then error('no sunstone on the lectern') end"}
+  - walk_to: {x: 830, y: 9760, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(0.5); if held() ~= 0 then stow() end; if not has_item(2065) then error('no sapphire behind the tablets') end"}
+  - walk_to: {x: 960, y: 10420, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); close(); if held() ~= 0 then stow() end; if gold() < g + 1000 then error('the library chest held no gold') end"}
+  # The west hall's clue, through the library's door.
+  - walk_to: {x: -704, y: 9350, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(7) ~= 'open' then open_door(19, 7) end"}
+  - walk_to: {x: -704, y: 8900, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1600, y: 8950, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "mole"}}
+  - play_lua: {source: "close()"}
+  # The climb back: the stair foot, the dungeon stair, the haunch vault.
+  - walk_to: {x: -320, y: 8600, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 7800, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 0, y: 5700, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 448, y: 6000, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(0.7); local s = status(); if not string.find(s, 'Stairs down.', 1, true) then error('sign down: ' .. s) end; close()"}
+  # The vault's chest: two Might Boosts on the first opening only.
+  - walk_to: {x: 0, y: 5900, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua:
+      source: |
+        if qbit(118010) then error('vault_potions set before the chest was opened') end
+        loot_chest(7)
+        remember('vault_status', status())
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        log('vault chest, first opening: ' .. recall('vault_status'))
+        if item_count(240) ~= 2 then error('the vault chest gave ' .. item_count(240) .. ' Might Boosts') end
+        if not qbit(118010) then error('vault_potions 118010 not set') end
+        close(); wait(1)
+        loot_chest(7); if held() ~= 0 then stow() end
+        if item_count(240) ~= 2 then error('the second opening gave ' .. item_count(240) .. ' Might Boosts') end
+        close()
+  # Through the haunch door to the belly hall and the west gallery's great sarcophagus.
+  - walk_to: {x: 0, y: 5350, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(2) ~= 'open' then open_door(16, 2) end"}
+  - walk_to: {x: 0, y: 4700, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: -1150, y: 4288, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.7); local s = status(); if not string.find(s, 'crown', 1, true) then error('the crown door before the name: ' .. s) end; close()"}
+  - walk_to: {x: -1000, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1800, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1800, y: 2112, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - console: {line: "lua SetValue(BaseMight, 15)", expect_contains: "Lua ran."}
+  - play_lua: {source: "click(6); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "You aren't strong enough to open the sarcophagus."}}
+  - play_lua: {source: "close()"}
+  - press_action: {action: select_member, member_index: 3}
+  - console: {line: "lua SetValue(BaseMight, 12)", expect_contains: "Lua ran."}
+  - use_item: {item_id: 240, member_index: 3}
+  - play_lua: {source: "log('Sefa after a Might Boost: ' .. party()); local g = gold(); loot_chest(6); close(); if held() ~= 0 then stow() end; if gold() < g + 1500 then error('the great sarcophagus did not open for Might 42') end"}
+  # The galleries' plain sarcophagi.
+  - walk_to: {x: -1800, y: 1280, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(36); wait(0.7); local s = status(); if not string.find(s, 'nothing in the sarcophagus', 1, true) then error('empty sarcophagus: ' .. s) end; close()"}
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(1); close(); if door_state(1) ~= 'open' then error('drop door after reload') end; if not qbit(118010) then error('vault_potions lost') end"}

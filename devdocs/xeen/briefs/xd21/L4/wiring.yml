@@ -5,10 +5,12 @@ events:
     preset: script
     trigger: timer
     every: 1
+    condition: {not: {qbit: arrived_once}}
     once: true
     effects:
-      - message: "Rivercity's robber gang has its den somewhere under the great bridge. Princess Roxanne of Castle Burlock wants them stopped: her diamond tiara was stolen from her room, and she believes the robbers took it. They are led by a devious and cunning boss, who keeps the gang's takings locked away in the den. Bring the tiara back to her."
-    notes: "Say why the party is here (Q-C3; Roxanne's words from aaze0066 #0, shortened)."
+      - lua: "XeenQuests.hook(\"q-c3.arrival\")"
+      - qbit: arrived_once
+    notes: "A3's hook q-c3.arrival (its window; a one-shot timer: a load event's window is not shown), on the first arrival only (arrived_once)."
   - id: evt:boss_dead
     preset: script
     trigger: timer
@@ -16,9 +18,8 @@ events:
     condition: {kills: {monster: monster:robber_boss}}
     once: true
     effects:
-      - qbit: robber_boss_slain
-    text: The Robber Boss falls. A ring of heavy keys hangs at his belt.
-    notes: "set:robber_boss: his death is plain; he carries the vault's keys."
+      - lua: "XeenQuests.hook(\"q-c3.boss\")"
+    notes: "set:robber_boss: A3's hook q-c3.boss sets robber_boss_slain and says his death on the status line (the ring of keys at his belt); he carries the vault's keys, looted from his corpse."
   - id: evt:boss_door
     preset: door
     source: door:boss
@@ -75,8 +76,9 @@ events:
     preset: chest
     source: chest:vault
     title: Chest
-    sets: {qbit: tiara_recovered}
-    notes: "goal:tiara: Princess Roxanne's tiara is in the strongbox (Q-C3)."
+    effects:
+      - lua: "XeenQuests.hook(\"q-c3.vault\")"
+    notes: "goal:tiara: the strongbox opens on the gang's takings and Princess Roxanne's tiara (a chest item); A3's hook q-c3.vault sets tiara_recovered on the first opening."
   - id: evt:darts
     preset: script
     source: plate:dart_1
@@ -120,7 +122,7 @@ events:
     locked_text: "Locked: a good lock from Rivercity Smithing. A thief who can disarm traps (skill 3) could pick it; the boss's keys would open it."
     action: open
     text: The lock gives with a click.
-    notes: "link:sluice_fence: the boss's ring of keys or a thief's skill (Disarm Traps 3, the MM7 skill standing in for Xeen's Thievery)."
+    notes: "link:sluice_fence: the boss's ring of keys or a thief's skill (Disarm Traps 3, the game's skill for Xeen's Thievery)."
   - id: evt:footprints
     preset: text
     source: plate:footprints
@@ -159,7 +161,7 @@ events:
     action: open
     sets: {qbit: robbers_den_found}
     text: "You push the worn block: it slides aside on greased runners. A brick passage runs north into the dark."
-    notes: "link:cellar_crawl: the hidden way in."
+    notes: "link:cellar_crawl: the hidden way in. A3's hook q-c3.secret_door has no call: the map sets robbers_den_found itself."
   - id: evt:sluice_door
     preset: door
     source: door:sluice
@@ -178,15 +180,6 @@ events:
     once: true
     text: "Voices above: \"...a royal tiara won't fence in Rivercity, boss. Too hot.\" \"Then it stays in the strongroom till it cools.\""
     seconds: 7
-  - id: evt:tiara_found
-    preset: script
-    trigger: timer
-    every: 2
-    condition: {item: roxannes_tiara}
-    once: true
-    effects:
-      - message: "Princess Roxanne's diamond tiara, safe in its velvet bag. Take it back to her at Castle Burlock."
-    notes: "goal:tiara: says plainly that the goal is in hand and where it goes."
   - id: evt:tripwire
     preset: script
     source: plate:tripwire
@@ -215,7 +208,7 @@ events:
     action: open
     sets: {qbit: robbers_vault_opened}
     text: "The three keys turn one after another, and the iron door grinds up."
-    notes: "link:strongroom_vault: the boss's ring of keys."
+    notes: "link:strongroom_vault: the boss's ring of keys. A3's hook q-c3.vault_door has no call: the map sets robbers_vault_opened itself."
   - id: evt:winch
     preset: switch
     source: switch:winch
@@ -223,6 +216,8 @@ events:
     condition: {not: {map_var: bridge_out}}
     opens: [mover:drawbridge]
     sets: {map_var: bridge_out}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\", 576, 3712, 192)"
     else_effects:
       - text: The bridge is out across the race.
     text: "The winch clanks round: the plank bridge rolls out across the race to the west bank."

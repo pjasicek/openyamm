@@ -1,0 +1,263 @@
+# Xeen own quest X8-SKY, Cloudreach (X1, XD-04, X8), from a new game in Toad Meadow with a level-20 party (the quest is
+# level 19) that Old Valia has already named Crusaders (M4 and T1-A, main chain segment 09: qbit 110047) and that keeps
+# her Crystal Key. The Witch Tower's door (X1 event 73); XD-04 walked up as its M4-done playtest: the east and west
+# stairs, the herb loft's stores (the coven's key), the north stair and the face door, the sanctum, the ward that falls
+# for Crusaders, the roof stair, the hatch, the roof and the cloud stair (event 15) into X8's Witch Clouds. Cloudreach
+# walked: the causeway to the spires, the first nest left alone ("No"), then burnt, the second nest burnt (500
+# experience each), the explorer's rock and its statue (Super Explorer, award 406, +2 base Speed each; again "The
+# statue is silent."), back to the landing and the witch's perch's nest. Off the landing's east edge (D-6.2): the fall
+# lands on X1 by the Witch Tower with fall damage (immortality off for the fall, Xeen.skyFall). Outdoors the party is
+# placed (PLAYBOOK §2); the tower and the clouds are walked.
+# Routes: devdocs/xeen/briefs/xd04/L4/playtest_m4.yml; x8/L4/playtest.yml, playtest_fall_east.yml;
+# tests/playthrough/xeen/09_witch_tower.yml (the tower door). Quest logic: source/quests/x8-sky.yml. Prep: prep/x8-sky.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py x8-sky
+id: xeen.side_quests.x8-sky
+title: "Xeen X8-SKY: up the Witch Tower to Cloudreach, three harpy nests burnt, the Super Explorer, and the fall"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [115020, 115021, 115022, 115023]}
+  # Story: M4 done, Valia named the party Crusaders (segment 09); the party keeps her Crystal Key (m4.yml gives it,
+  # nothing takes it back).
+  - console: {line: "qbit set 110047"}
+  - grant_item: {item_id: 12031, member_index: 0}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(12031) then error('no Crystal Key') end"}
+  # The Witch Tower's door on its rise (X1 event 73, the Crystal Key).
+  - set_pose: {map: xeen_x1.odm, x: 12288, y: -9114, z: 858, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd04.blv}
+  - assert: {party_position: {x: 0, y: -2900, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Up the east and west stairs to the third floor; the herb loft: the coven's key in the witches' stores.
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 2560, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1312, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1312, y: 1450, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1312, y: 2528, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 0, y: 2560, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -650, y: 2400, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 1600}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 780, y: 2060, z: 1472, radius: 48, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua:
+      source: |
+        loot_chest(47); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12034) then error("the witches' stores did not hold the coven's key") end
+  # Down the loft steps, the broken balcony, the north stair to the face door (the coven's key opens it).
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "click(34); wait(4); close(); if door_state(15) ~= 'open' then error('the face did not open to the coven key: ' .. door_state(15)) end"}
+  # The sanctum; the ward falls for the Crusaders.
+  - walk_to: {x: -3072, y: 700, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3200}
+  - play_lua: {source: "wait(2); clear_hostiles(3200); wait(4); clear_hostiles(3200); wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -3900, y: 448, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(19) ~= "closed" then error("the ward does not start shut") end
+        click(43); wait(5); close()
+        if door_state(19) ~= "open" then error("the ward did not fall for the Crusaders: " .. door_state(19)) end
+  # The roof stair, the hatch, the roof and the cloud stair (event 15) into the sky.
+  - walk_to: {x: -4250, y: 448, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -4592, y: 520, z: 2112, z_tolerance: 64, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -5300, y: 448, z: 2528, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(5); if door_state(8) ~= 'open' then error('the roof hatch did not open: ' .. door_state(8)) end"}
+  - walk_to: {x: -5800, y: 448, z: 2560, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -7150, y: 448, z: 2560, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The click moves the party at once; the arrival line is read in the same step (a status line does not outlive a
+  # reload).
+  - play_lua:
+      source: |
+        status(); click(15); wait(0.5)
+        local s = status()
+        if not string.find(s, "You climb the stair of cloud into the sky.", 1, true) then error("no stair line: " .. s) end
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert: {map: xeen_x8.blv}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status()
+        if not string.find(s, "The cloud holds under your feet like stone.", 1, true) then error("no arrival line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+  - assert: {party_position: {x: 11520, y: -6802, radius: 128, z_min: -80, z_max: 200}}
+  # The Witch Clouds: the landing and the causeway to the nest spires.
+  - walk_to: {x: 11520, y: -5232, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10354, y: -4527, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9078, y: -3319, z: 64, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 7803, y: -2110, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 6656, y: -1024, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 7776, y: -127, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9158, y: 978, z: 192, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10540, y: 2083, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11776, y: 3072, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  # The first nest: "No" leaves it; "Yes" burns it (nest_1, 500 experience each); the second nest the same.
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Harpy Nest. Destroy?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = status()
+        for _ = 1, 3 do if not close() then break end end
+        if not string.find(s, "You leave the nest as it is.", 1, true) then error("no leave line: " .. s) end
+        if qbit(115021) then error("nest 1 burnt on No") end
+        for i = 0, 3 do remember("x" .. i, experience(i)) end
+        click(9); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Bones, feathers and stolen trinkets go up together. The harpies will nest somewhere lower.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(115021) then error("nest_1 115021 not set") end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 500 then error("nest 1 paid member " .. i .. " " .. d) end
+        end
+        click(10); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The harpies will nest somewhere lower.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(115022) then error("nest_2 115022 not set") end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 1000 then error("nests 1-2 paid member " .. i .. " " .. d) end
+        end
+  # Up to the explorer's rock, the highest pinnacle.
+  - walk_to: {x: 11137, y: 4907, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10715, y: 6120, z: 448, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10293, y: 7332, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9728, y: 8360, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 11181, y: 10071, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 12258, y: 10895, z: 768, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 13334, y: 11718, z: 896, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14080, y: 11988, z: 896, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  # The explorer's statue: Super Explorer and +2 base Speed for every member; again, silent.
+  - console: {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(BaseSpeed, v + 1) do v = v + 1 end out = out .. v .. ' ' end evt.StatusText('speed ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local s = status()
+        local speeds = string.match(s, "speed ([%d ]+)")
+        if speeds == nil then error("no speed line: " .. s) end
+        remember("speed", speeds)
+        click(6); wait(0.5)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [["I dub all who find me 'Super Explorer'." You feel lighter on your feet. +2 Speed.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115020) then error('explorer 115020 not set') end; click(6); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The statue is silent.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - console: {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(BaseSpeed, v + 1) do v = v + 1 end out = out .. v .. ' ' end evt.StatusText('speed ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local s = status()
+        local after = string.match(s, "speed ([%d ]+)")
+        if after == nil then error("no speed line: " .. s) end
+        local before = {}
+        for n in string.gmatch(recall("speed"), "%d+") do before[#before + 1] = tonumber(n) end
+        local i = 0
+        for n in string.gmatch(after, "%d+") do
+          i = i + 1
+          if tonumber(n) ~= before[i] + 2 then error("member " .. (i - 1) .. " speed " .. before[i] .. " -> " .. n) end
+        end
+        if i ~= 4 then error("speed line: " .. after) end
+        log("Super Explorer: base Speed " .. recall("speed") .. "-> " .. after)
+  - assert: {award_acquired: [{id: 406, member_index: 0}, {id: 406, member_index: 1}, {id: 406, member_index: 2}, {id: 406, member_index: 3}]}
+  # Back down to the landing and out to the witch's perch: its nest (nest_3).
+  - walk_to: {x: 13334, y: 11718, z: 896, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 12258, y: 10895, z: 768, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11181, y: 10071, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9728, y: 8360, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10293, y: 7332, z: 640, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10715, y: 6120, z: 448, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11137, y: 4907, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11776, y: 3072, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10540, y: 2083, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9158, y: 978, z: 192, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 7776, y: -127, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 6656, y: -1024, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 7803, y: -2110, z: 128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 9078, y: -3319, z: 64, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10354, y: -4527, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11520, y: -5632, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11176, y: -6867, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10833, y: -8103, z: -64, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10489, y: -9340, z: -128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10240, y: -10240, z: -128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(11); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The nest burns, and the smoke drifts down through a gap in the cloud toward Vertigo.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 500 then error("nest 3 paid member " .. i .. " " .. d) end
+        end
+  - assert: {qbit_set: [115020, 115021, 115022, 115023]}
+  # Off the landing's east edge (D-6.2): the fall lands on X1 by the Witch Tower and costs hit points.
+  - walk_to: {x: 11176, y: -6867, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11520, y: -5632, z: 0, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {party_health: {full: true}}
+  - setup_shortcut: {kind: immortal, value: false}
+  - walk_to: {via: [[14200, -5632, 0]], plan: false, expect_map: xeen_x1.odm, timeout_seconds: 30}
+  - advance_runtime: {seconds: 4.0}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 11264, y: -7936, radius: 700}}
+  - assert: {party_health: {full: false}}
+  - assert: {member_points: {member_index: 3, health_min: 1}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('X8-SKY done: fell to X1')"}

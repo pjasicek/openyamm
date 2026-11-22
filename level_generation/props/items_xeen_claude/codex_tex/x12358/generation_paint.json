@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the first input paint_mask_guide.png in place as a precision texture projection sheet. Preserve its entire alpha stencil exactly including all empty margins and spacing. Output transparent portrait 3:4 PNG. The 3 columns \u00d7 4 rows of square cells are invisible. Each half holds five orthographic views arranged FRONT BACK LEFT / RIGHT TOP empty. Upper half: fill the original grey pixels only with unlit rough grey layered natural rock crossed by bold diagonal veins of faceted green emerald crystals matching design_reference.png and the icon palette. Preserve low profiles, straight bases, irregular peaks and broad top view exactly. No lighting, AO, reflections, hot highlights, cast shadows, text or outlines. Lower half: repeat each corresponding painted silhouette exactly half a canvas below, mapping every stone pixel to opaque pure yellow #FFFF00 and every emerald pixel to opaque pure black #000000. Hard binary material boundaries, zero other colors, no shading. Preserve transparent gaps and fully empty rightmost cells of rows 2 and 4. Reference images two and three supply surface and color only.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "de3092ebf8b5767e50336ad4afaecc67aaa2306e2ceddc6138fe4382fd8243cf"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "c999a111acde17fe554ef3ac95af7d33e2cd48609d8be96e4dca7c0f28005552"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "ea0b9b9a0ab18ed727805fce4d2b659b3c1e216473a167ae3d7b33a9651af202"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f920-f5c7-7a01-b8a2-3486e06eab2d/exec-6746b87d-7049-4362-8ba7-fa07c9e6f810.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

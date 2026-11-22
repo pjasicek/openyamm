@@ -134,6 +134,14 @@ Theme fields:
 - `haze` is the minimum wash toward the themed fog colour.
 - `stars` scales star brightness.
 - `preset` pins a preset regardless of weather.
+- `rim_glow` (D-36, the Darkside's view of the bright face) draws a glow along part of the horizon, fixed in world
+  direction: `{direction_deg, width_deg, height_deg, below_deg, color, day, night}`. `direction_deg` is the compass
+  bearing of its middle (0 north, 90 east, default 90), `width_deg` its full width along the horizon (75), `height_deg`
+  how far it climbs (10), `below_deg` how far it shows under the horizon where no land covers it (2, over the void),
+  `color` its own linear colour, `day` and `night` its strengths, blended by the preset's `stars` weight (0 by day,
+  1 at night) and dimmed by haze and fog like the sun's glow. It sits behind the clouds and lights the horizon's cloud
+  banks in front of it (so its base is not cut off from its part under the horizon, A6 on D4), in the main
+  view and water reflections (`fs_sky.sc` `rimGlow`, uniform `u_skyRim`); unset, nothing is drawn.
 
 Plane of Fire, Plane of Air, Plane of Water, the underwater tutorial and Shoals keep their special-flag presets.
 `sky theme <name|none|auto>` overrides the theme at runtime. `sky_review.py capture <label> --targets maps` captures

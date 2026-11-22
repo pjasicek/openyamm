@@ -1,0 +1,285 @@
+# Xeen side quest Q-D20, Luna's Statuettes (D1, DD-05, D4, DD-20, D3, DD-07), from a new game on D1 with a Warrior Mage
+# in a level-34 party. Luna in her grove (D1, actor 32, NPC 4952): Statuettes (started 113400, autonote 4600), and
+# again. The Western Tower by its front door (Q-D6's tower_opened, a CONVENTION prerequisite: Q-D6 is its own side
+# quest): L1's north ledge (the Golden Pegasus, a ground item since D-90); out. Luna: the
+# Pegasus back (3,000 XP per member, a T5 item). Overland to D4: the Guild's riddle answered wrong ("broom"), the
+# trapdoor into DD-20's sump; the sewer walked to the Dragon's niche (the dead man's journal; event 1: the Golden
+# Dragon, dragon_found 113402; again empty); back to the sump and up its ladder. Overland to D3: the Eastern Tower with
+# Q-D19's key (a CONVENTION prerequisite); DD-07's L2 cabinet (event 31: the Golden Griffin, griffin_found 113403);
+# back down and out. Overland to D1: Luna: the Dragon and the Griffin back (3,000 XP and a T5 item each), all three on
+# the altar; The altar (done 113407, the Warrior Mage a Master Archer, nothing else); Statuettes again.
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (Luna), q-d6_heretics_of_mok.yml (DD-05's front door and L1),
+# q-d22_the_coven.yml and briefs/dd20/L4/playtest.yml (the trapdoor, the sewer), q-d18_jewel_of_ages.yml (DD-07).
+# Quest logic: source/quests/q-d20.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d20_lunas_statuettes.yml --scenario-no-color
+id: xeen.side_quests.q-d20
+title: "Xeen Q-D20: Luna's three golden statuettes; the Warrior Mage a Master Archer"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Mira, class: WarriorMage, level: 34, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 34, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 34, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 34, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'WarriorMage Knight Cleric Sorcerer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113400, 113401, 113402, 113403, 113404, 113405, 113406, 113407]}
+  # Luna in her grove: Statuettes (started), and again.
+  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 32}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_absent: "The altar"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "Start with the thieves of the Great Southern Tower"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "I see you haven't found all of the statuettes yet."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113400]}
+  - assert: {autonote: {id: 4600}}
+  # The Western Tower's front door (D1 event 118). Q-D6's tower_opened stands for that side quest's front door, opened
+  # from inside with the cult's key (q-d6_heretics_of_mok.yml plays it); without it the way in is the heretics' rope
+  # to the top floor and the whole tower down.
+  - play_lua: {source: "log('CONVENTION prerequisite q-d6.tower_opened (113125): the Western Tower s front door, opened in Q-D6 (its own side quest, q-d6_heretics_of_mok.yml)')"}
+  - console: {line: "qbit set 113125"}
+  - set_pose: {map: xeen_d1.odm, x: -16896, y: 14234, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(118)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd05.blv}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 0, y: -1536, radius: 96, z_min: -16, z_max: 16}}
+  # DD-05 L1: the door hall, the hall's door, the statuette alcove.
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(600); if door_state(9) ~= 'open' then open_door(30, 9) end"}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 600, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - clear_hostiles: {radius: 600}
+  - walk_to: {x: 400, y: 1000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  # D-90 (c), DD-05 rebuilt 2026-11-22 (A8): the Golden Pegasus stands on the north ledge as a ground item.
+  - play_lua: {source: "if ground_items(12349) ~= 1 then error('the Golden Pegasus is not on its ledge') end"}
+  - walk_to: {x: 0, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - pick_up: {item_id: 12349}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(12349) ~= 1 then error('no Golden Pegasus') end; if ground_items(12349) ~= 0 then error('a second Pegasus') end"}
+  # Back to the door hall and out by the front door (event 35).
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(9) ~= 'open' then open_door(30, 9) end"}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 600, close_dialogs: true}
+  - walk_to: {x: 0, y: -1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(35); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Luna: the Pegasus back (3,000 XP per member, a T5 item).
+  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('items', pack_items()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 32}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4952}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "The Pegasus! You are truly great adventurers"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not qbit(113404) or item_count(12349) ~= 0 then error("the Pegasus not returned") end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 3000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+        local before, gained = {}, nil
+        for id in string.gmatch(recall("items"), "(%d+)x") do before[id] = true end
+        for id in string.gmatch(pack_items(), "(%d+)x") do if not before[id] then gained = id end end
+        if gained == nil then error("no T5 item for the Pegasus: " .. pack_items()) end
+        log("the Pegasus' item: " .. gained)
+  # Overland to D4: the Guild's riddle answered wrong, the trapdoor into DD-20's sump.
+  - travel: {map: xeen_d4.odm, days: 2}
+  - assert: {map: xeen_d4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d4.odm, x: 2028, y: -12800, z: 1120, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(1); wait(0.5)"}
+  - answer_input: {text: "broom"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 3456, y: -640, radius: 128, z_min: -544, z_max: -480}}
+  # The main drain to the cross (the ambush), the east drain and the outfall to the Dragon's niche.
+  - walk_to: {x: 3700, y: -450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: -500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 6400, y: -560, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 8400, y: -500, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 8900, y: -420, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "wait(1); clear_hostiles(1500); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 9600, y: -900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 10100, y: -832, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 11000, y: -900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 13400, y: -900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 14100, y: -1152, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 14208, y: -400, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 14550, y: 0, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 14600, y: 1728, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 15350, y: 1850, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "still haven't a clue where that statuette is"}}
+  # D-90 (c), DD-20 rebuilt 2026-11-22 (A8): the Golden Dragon lies at the niche's foot as a ground item.
+  - play_lua: {source: "close(); if ground_items(12350) ~= 1 then error('the Golden Dragon is not in the niche') end"}
+  - walk_to: {x: 15560, y: 1856, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - pick_up: {item_id: 12350}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(12350) ~= 1 then error('no Golden Dragon') end; if ground_items(12350) ~= 0 then error('a second dragon') end"}
+  # Back by the warren and the cross to the sump, and up its ladder (DD-20 event 34) to D4. (The outfall walks back
+  # too: an earlier walk stuck at the niche's mouth against a live Sewer Stalker, not the map; A8 session 22.)
+  - walk_to: {x: 14600, y: 1900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 12600, y: 1950, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 12500, y: 832, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 11900, y: 900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 10500, y: 448, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 9600, y: 450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 9600, y: -500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 8400, y: -500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 6400, y: -560, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4400, y: -500, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3700, y: -450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3456, y: -640, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(34); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 3072, y: -9728, radius: 160}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Overland to D3: the Eastern Tower (D3 event 104) with Q-D19's key (that side quest's Ali Baba chest in DD-06).
+  - travel: {map: xeen_d3.odm, days: 1}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "log('CONVENTION prerequisite q-d19 Eastern Tower key 12340: from Q-D19 s Ali Baba chest in DD-06 (its own side quest), given here as q-d18_jewel_of_ages.yml does')"}
+  - grant_item: {item_id: 12340, member_index: 0}
+  - play_lua: {source: "for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - set_pose: {map: xeen_d3.odm, x: 14848, y: 8960, z: 1792, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "click(104)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd07.blv}
+  - assert: {party_position: {x: -2496, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # DD-07: the first stair hall up to L2, round the second gallery to the cabinet of curiosities.
+  - walk_to: {x: -2624, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 640, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -736, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 640, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 700, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 760, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 2)"}
+  - walk_to: {x: 1300, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1760, y: 320, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A golden griffin in a mage's curio cabinet]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "if take_chest() then close() end; if held() ~= 0 then stow() end; if not qbit(113403) then error('griffin_found 113403 not set') end; if not has_item(12351) then error('no Golden Griffin') end; click(31); wait(0.8)"}
+  # D-90 (b): the emptied chest opens again, with no line of its own.
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12351) ~= 1 then error('a second griffin') end"}
+  # Back round the gallery and down the first stair hall to the west door (event 28) and out to D3.
+  - walk_to: {x: 1300, y: 320, z: 640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 760, y: 320, z: 640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 700, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 640, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 0, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 0, z_tolerance: 48, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2624, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2660, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(28); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Overland to D1: Luna: the Dragon and the Griffin back; all three on the altar; The altar; Statuettes again.
+  - travel: {map: xeen_d1.odm, days: 2}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the altar: ' .. c) end end end"}
+  - play_lua: {source: "remember('items', pack_items()); remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 32}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4952, action_label_absent: "The altar"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "The Dragon! You are truly great adventurers"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "The Griffin! You are truly great adventurers"}}
+  - play_lua:
+      source: |
+        if classes() ~= "WarriorMage Knight Cleric Sorcerer" then error("promoted before the altar: " .. classes()) end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 6000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP for two statuettes") end
+        end
+        remember("xp_after", experience(0))
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "All three are on the altar. Look at the altar, please, not at me."}}
+  - select_topic: {match_label: "The altar"}
+  - assert: {dialog: {text_contains: "Those of you who fight with bow and spell alike, rise as Master Archers."}}
+  - assert: {dialog: {action_label_absent: "The altar"}}
+  - select_topic: {match_label: "Statuettes"}
+  - assert: {dialog: {text_contains: "I'm pleased to see you again, friends. Please come by more often!"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113407) then error("done 113407 not set") end
+        if item_count(12350) ~= 0 or item_count(12351) ~= 0 then error("Luna did not take the statuettes") end
+        if experience(0) ~= recall("xp_after") then error("the altar paid experience") end
+        if gold() ~= recall("gold") then error("Luna paid gold") end
+        if classes() ~= "MasterArcher Knight Cleric Sorcerer" then error("the altar's promotion: " .. classes()) end
+        local before, gained = {}, 0
+        for id in string.gmatch(recall("items"), "(%d+)x") do before[id] = true end
+        for id, n in string.gmatch(pack_items(), "(%d+)x(%d+)") do if not before[id] then gained = gained + tonumber(n) end end
+        if gained < 2 then error("fewer than two T5 items for the Dragon and the Griffin: " .. pack_items()) end
+        log("Q-D20 done: " .. classes())
+  - assert: {qbit_set: [113404, 113405, 113406, 113407]}

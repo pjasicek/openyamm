@@ -1,0 +1,341 @@
+# Xeen landmark kit: witch and wizard towers (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new ones
+# (level_generation/xeen_art/kit_textures/landmarks: specs.yml, finished/<name>.png at 4x). Sizes are logical texels;
+# `maps` the shipped maps using the texture (outdoor first). Contact sheet: kits/towers_sheet.png (landmark_sheet.py).
+kit: towers
+title: Witch and wizard towers of dark timber and slate (Witch Tower, Darzog's, High Magic, Ellinger's, the Towers of Mok)
+look:
+- 'Cloudside: Bracada''s wizard towers (MM7): grey rubble under black-timber friezes and posts, carved dark oak, black roofs;'
+- 'Darkside: Nighon''s slate-blue coursed stone and black rubble with skull friezes; new slate cones and slate-hung storeys.'
+family_sources:
+- source: 'MM7 Bracada Desert 7out06 (Tower1N, tower15E, tower5N, Tower 4S), Evenmorn out09, Celeste 7d25: the hwm2/hwm1
+    set'
+  why: 'MM7''s wizard towers: grey rubble stone hwm2wall under a black timber frieze (hwm2b), windows, a runic door and
+    black plank roofs; carved dark-oak timbering hwm1. It is the same family as XD-04 Witch Tower''s interior (7d12 Clanker''s
+    Laboratory lays hwm2wall/hwm2b/hwm2rf inside), so a tower''s outside matches its inside.'
+- source: 'MM7 Mount Nighon out10 (Fort_E*, Tower1_E*, Tower2_E*): the hkm set'
+  why: 'dark timber and slate for the Darkside towers: hkm3 slate-blue coursed stone over a rubble footing under a carved
+    skull frieze, hkm2 black rubble in black timbers with a green-glass window, carved doors; used only on out10, so it
+    reads as new'
+- source: 'MM8 Shadowspire out06 / Regna out13 (watchtwr_W*): t19 and t09 ashlar towers (optional third)'
+  why: crenellated grey-violet ashlar (t19b01) and a Gothic window (t19b04c) for one Mok tower that should read apart; MM8
+    green scale roofs t19a05b for a copper cone
+- source: 'Interiors: MM7 Clanker''s Laboratory 7d12 (XD-04 already), Celeste 7d25, MM6 Agar''s Laboratory 6d19, MM8 Castle
+    of Air d27 and Castle of Fire d29'
+  why: one shipped tower or wizard building per kind of tower, chosen so no two Xeen towers share one (see dungeon_families
+    towers)
+per_tower:
+  XD-04 Witch Tower (X1, built): outside hwm2 + hwm1 under xtslate; inside 7d12 and 7d06 (as built)
+  XD-12 Darzog's Tower (X2, built): inside Castle Gloaming d03 and School of Sorcery 7d14 (as built); outside hkm3/hkm2
+    (dark, the villain's) with xtslate
+  XD-11 Tower of High Magic (X3): outside hwm2 base with the pale hwp1 plaster storeys of Celeste; inside Celeste 7d25
+  DD-02 Ellinger's Tower (D1): outside hkm1 dressed stone with hkm3 base and xtslatew storeys; inside Agar's Laboratory
+    6d19
+  FD-03 Darkstone Tower (X5): outside hkm3 under xtslate, blackened; inside MM8 Castle of Fire d29
+  DD-05 to DD-08 Towers of Mok: 'one family for the four: hkm3/hkm2 outside with xtslate cones; inside MM8''s Castle of
+    Air d27 (Escaton''s gnec stone is kept for Castle Xeen); the Northern Tower may take t19 crenellated ashlar outside
+    to read apart'
+shipped:
+  wall:
+  - tex: mm7/hwm2wall
+    size: [128, 256]
+    maps: [7out05.odm, 7out06.odm, 7out13.odm, out09.odm, out10.odm, 7d12.blv, 7d25.blv]
+    note: grey rubble stone (Cloudside towers' main wall)
+  - tex: mm7/hwm2b
+    size: [128, 256]
+    maps: [7out06.odm, 7out13.odm, 7d12.blv, 7d25.blv]
+    note: rubble under a black timber frieze (the band round every storey)
+  - tex: mm7/hwm1bwall
+    size: [128, 256]
+    maps: [7out05.odm, 7out13.odm, 7d12.blv, 7d25.blv]
+    note: dark oak boards (upper storeys, galleries)
+  - tex: mm7/hwm1b
+    size: [128, 256]
+    maps: [7out06.odm, 7d12.blv, 7d25.blv]
+    note: oak boards over a carved dark-oak wainscot
+  - tex: mm7/hkm3b
+    size: [128, 256]
+    maps: [out10.odm]
+    note: slate-blue coursed stone over rubble under a skull frieze (Darkside towers' main wall)
+  - tex: mm7/hkm2b
+    size: [128, 256]
+    maps: [out10.odm]
+    note: black rubble in black timbers under a carved band
+  - tex: mm7/hkm1b1
+    size: [128, 256]
+    maps: [out10.odm]
+    note: dressed buff stone under a carved stone frieze (Ellinger's)
+  - tex: mm8/t19b01
+    size: [128, 256]
+    maps: [out06.odm]
+    note: grey-violet ashlar with a crenellated top (MM8 Shadowspire; a third look)
+  wall with window:
+  - tex: mm7/hwm2bw
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d25.blv]
+    note: rubble with a carved square timber window
+  - tex: mm7/hwm2elw
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d25.blv]
+    note: rubble with a timber window, left post
+  - tex: mm7/hwm2bs
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d12.blv]
+    note: rubble with a barred low window (cellar, cage room)
+  - tex: mm7/hwm1bsw
+    size: [128, 256]
+    maps: [7out06.odm]
+    note: oak boards with a small latticed window
+  - tex: mm7/hkm3elw
+    size: [128, 256]
+    maps: [out10.odm]
+    note: slate stone with a yellow-glass arched window
+  - tex: mm7/hkm2bw
+    size: [128, 256]
+    maps: [out10.odm]
+    note: black rubble with a green-glass timber window
+  - tex: mm7/hkm1bw
+    size: [128, 256]
+    maps: [out10.odm]
+    note: buff stone with a pale glass window
+  - tex: mm8/t19b04c
+    size: [128, 256]
+    maps: [out06.odm]
+    note: grey-violet ashlar with a Gothic double window
+  door:
+  - tex: mm7/hwm2d
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d12.blv, 7d25.blv]
+    note: runic carved double door in timber (the Witch Tower's, 7d12 inside too)
+  - tex: mm7/hwm1d
+    size: [128, 256]
+    maps: [7out05.odm, 7out06.odm, 7d25.blv]
+    note: oak door with a carved dragon's head
+  - tex: mm7/hkm3dr
+    size: [128, 256]
+    maps: [out10.odm]
+    note: carved door with cyan glass (Darkside towers)
+  - tex: mm7/hkm2d
+    size: [128, 256]
+    maps: [out10.odm]
+    note: pale plank door with a green emblem
+  - tex: mm7/hkm1d
+    size: [128, 256]
+    maps: [out10.odm]
+    note: dark carved door in buff stone
+  - tex: mm8/t19b03d1
+    size: [128, 256]
+    maps: [out06.odm]
+    note: arched oak door in grey-violet ashlar
+  battlement/parapet:
+  - tex: mm8/t19b01
+    size: [128, 256]
+    maps: [out06.odm]
+    note: crenellated top (see wall)
+  - tex: mm8/t19b06
+    size: [128, 256]
+    maps: [out06.odm]
+    note: crenellated top, right end
+  - tex: mm8/t19b07
+    size: [128, 256]
+    maps: [out06.odm]
+    note: crenellated top, left end
+  - tex: mm7/hwm2bs1
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d12.blv]
+    note: rubble under a timber frieze, short (parapet course)
+  roof/cone:
+  - tex: mm7/hwm2rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm, out10.odm, out11.odm, 7d12.blv]
+    maps_more: 2
+    note: 'black planks (Bracada towers'' roofs; the slate is new: xtslate)'
+  - tex: mm7/hwr1rf
+    size: [128, 128]
+    maps: [7d25.blv]
+    note: brown shingle (rich towers)
+  - tex: mm7/hnp2rf
+    size: [128, 128]
+    maps: [7out05.odm, out10.odm]
+    note: dark weathered shingle (Deyja, Nighon)
+  - tex: mm8/t19a05b
+    size: [128, 128]
+    maps: [out06.odm]
+    note: green copper scales (MM8 Shadowspire)
+  trim:
+  - tex: mm7/hwm2el
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d12.blv, 7d25.blv]
+    note: rubble, left black post
+  - tex: mm7/hwm2er
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d12.blv, 7d25.blv]
+    note: rubble, right black post
+  - tex: mm7/hwm1el2
+    size: [128, 256]
+    maps: [7out06.odm, 7d12.blv]
+    note: oak boards, carved left post
+  - tex: mm7/hkm3el
+    size: [128, 256]
+    maps: [out10.odm]
+    note: slate stone, left carved post
+  - tex: mm7/hkm3er
+    size: [128, 256]
+    maps: [out10.odm]
+    note: slate stone, right carved post
+  - tex: mm8/trim9_32
+    size: [32, 64]
+    maps: [elemw.odm, out01.odm, out02.odm, out03.odm, out04.odm, out05.odm, out06.odm, out13.odm]
+    maps_more: 10
+    note: black-brown beam 32 x 64 (MM7 maps name it too; the image is the MM8 one)
+  pillar:
+  - tex: mm7/trim11_32
+    size: [32, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    maps_more: 31
+    note: black timber post (galleries, hoists, stair cores)
+  floor:
+  - tex: mm7/hhp2b2
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out09.odm, out10.odm, out12.odm]
+    maps_more: 4
+    note: cobbles (ground floors, as XD-04)
+  - tex: mm7/7tfb1
+    size: [128, 128]
+    maps: [7out02.odm, 7out06.odm, out11.odm, 7d06.blv, 7d09.blv, 7d10.blv, 7d11.blv, 7d12.blv]
+    maps_more: 14
+    note: stone flags (laboratories)
+  - tex: mm7/7tfb11
+    size: [128, 128]
+    maps: [7out04.odm, out10.odm, 7d06.blv, 7d12.blv, 7d15.blv, 7d16.blv, 7d19.blv, 7d20.blv]
+    maps_more: 18
+    note: dark slate flags
+  - tex: mm7/7trimd
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    maps_more: 16
+    note: planks (upper floors)
+  'interior: witch tower (7d12, XD-04)':
+  - tex: mm7/twb1a
+    size: [128, 256]
+    maps: [7out04.odm, out10.odm, out11.odm, 7d06.blv, 7d10.blv, 7d11.blv, 7d12.blv, 7d13.blv]
+    maps_more: 19
+    note: plaster above the wainscot
+  - tex: mm7/7t1books
+    size: [128, 256]
+    maps: [7d06.blv, 7d07.blv, 7d12.blv, 7d14.blv, 7d19.blv, 7d20.blv, 7d24.blv, 7d29.blv]
+    maps_more: 5
+    note: bookcase
+  - tex: mm7/7slimywtr
+    size: [128, 128]
+    maps: [7d12.blv, 7d19.blv, 7d37.blv, d01.blv]
+    note: the brew (liquid)
+  'interior: wizard tower (Celeste 7d25)':
+  - tex: mm7/hwp1bwall
+    size: [128, 256]
+    maps: [7out06.odm, 7d25.blv, mdk01.blv, mdk02.blv, mdk03.blv, mdr01.blv, mdr03.blv, mdt01.blv]
+    maps_more: 1
+    note: pale plaster
+  - tex: mm7/hwp1b
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d25.blv, mdk01.blv, mdk02.blv, mdk03.blv, mdk04.blv, mdk05.blv]
+    maps_more: 9
+    note: pale plaster in grey stone posts
+  - tex: mm7/hwp1b1w
+    size: [128, 256]
+    maps: [7out06.odm]
+    note: pale plaster with a round glyph window
+  - tex: mm7/hwp1d
+    size: [128, 256]
+    maps: [7out06.odm, out09.odm, 7d25.blv]
+    note: pale door with a glyph
+  - tex: mm7/hwr1wall
+    size: [128, 256]
+    maps: [7out06.odm, 7d25.blv]
+    note: pale boards
+  - tex: mm7/7tws1f
+    size: [128, 128]
+    maps: [7out01.odm, 7out03.odm, out09.odm, out10.odm, out11.odm, 7d06.blv, 7d12.blv, 7d13.blv]
+    maps_more: 5
+    note: marble floor
+  - tex: mm7/7plansky1
+    size: [256, 256]
+    maps: [7d05.blv, 7d07.blv, 7d25.blv, t01.blv]
+    note: sky (open roofs)
+  'interior: Towers of Mok (MM8 Castle of Air d27)':
+  - tex: mm8/gston1wl
+    size: [128, 256]
+    maps: [elemf.odm, out01.odm, out02.odm, out03.odm, out04.odm, out06.odm, out13.odm, d13.blv]
+    maps_more: 4
+    note: green-grey tiled ashlar (main wall)
+  - tex: mm8/gston1fl
+    size: [128, 128]
+    maps: [out04.odm, d14.blv, d18.blv, d27.blv, d29.blv, d41.blv]
+    note: grey scale-pattern flags
+  - tex: mm8/gstn1cl
+    size: [128, 128]
+    maps: [out01.odm, out02.odm, out03.odm, out04.odm, out06.odm, out13.odm, d14.blv, d27.blv]
+    note: green-grey panelled ceiling
+  - tex: mm8/gstntilev
+    size: [64, 128]
+    maps: [out04.odm, out13.odm, d14.blv, d27.blv]
+    note: green marble tile strip
+  - tex: mm8/gcstflor
+    size: [128, 256]
+    maps: [d14.blv, d21.blv, d27.blv, d30.blv]
+    note: grey cobble (stairs, landings)
+  - tex: mm8/gcstdoor
+    size: [128, 256]
+    maps: [out07.odm, d27.blv, d29.blv, d31.blv, d42.blv]
+    note: stone door
+  'interior: Darkstone Tower (MM8 Castle of Fire d29)':
+  - tex: mm8/gston1wl
+    size: [128, 256]
+    maps: [elemf.odm, out01.odm, out02.odm, out03.odm, out04.odm, out06.odm, out13.odm, d13.blv]
+    maps_more: 4
+    note: the same green-grey ashlar, here over fire
+  - tex: mm8/gkp2ceil
+    size: [128, 128]
+    maps: [out07.odm, d29.blv, d41.blv]
+    note: riveted iron plate
+  - tex: mm8/gtrlwal1
+    size: [128, 256]
+    maps: [d13.blv, d16.blv, d25.blv, d29.blv]
+    note: dark rough blocks
+  - tex: mm8/gcst2cel
+    size: [128, 128]
+    maps: [out04.odm, out13.odm, d14.blv, d29.blv, d42.blv, d50.blv]
+    note: carved grey ceiling panel
+  'interior: mage''s laboratory (Agar''s Laboratory 6d19)':
+  - tex: mm6/t1wl0lg
+    size: [256, 256]
+    maps: [outd3.odm, 6d19.blv, 6t8.blv]
+    note: rose and white marble brick
+  - tex: mm6/t1wl9ctl
+    size: [256, 256]
+    maps: [6d19.blv, 6t1.blv, 6t8.blv]
+    note: marble brick with columns
+  - tex: mm6/t1wl7ctb
+    size: [256, 256]
+    maps: [6d19.blv, 6t1.blv, 6t8.blv]
+    note: marble brick with green-marble inlay
+  - tex: mm6/t1c3
+    size: [64, 64]
+    maps: [oute3.odm, 6d01.blv, 6d19.blv, 6t1.blv, 6t8.blv]
+    note: dark marble ceiling
+  - tex: mm6/t1f3
+    size: [128, 128]
+    maps: [outc1.odm, outd3.odm, 6d01.blv, 6d19.blv, 6t1.blv, 6t8.blv, znwc.blv]
+    note: marble floor
+  - tex: mm6/t1spcla
+    size: [128, 256]
+    maps: [6d01.blv, 6d19.blv, 6t1.blv]
+    note: marble panel with green frame
+new:
+- name: xtslate
+  size: [128, 128]
+  kind: tile
+  note: blue-grey slate roof, square-cut courses (cones of every tower and castle tower)
+- name: xtslatew
+  size: [128, 256]
+  kind: tile
+  note: 'slate-hung wall: the slate upper storeys between stone base and cone'

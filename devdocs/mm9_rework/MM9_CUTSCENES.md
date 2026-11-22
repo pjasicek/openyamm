@@ -148,7 +148,9 @@ cinematics:
           - {at: 0, position: [8659, 9624, 1037], direction: [0.91, 0.41, 0]}
           - {at: 3.5, position: [8414, 8768, 940], look_at: [9554, 5253, 0]}
     cues:                            # at: seconds from the start; exactly one kind per cue
-      - {at: 0, fade: in, seconds: 1}          # in: from black; out: to black (default 1 s)
+      - {at: 0, fade: in, seconds: 1}          # in: from black; out: to black (default 1 s); color: [r, g, b]
+                                               # (0-255) fades to or from that colour instead (a fade in from
+                                               # white names it again)
       - {at: 0, letterbox: true, seconds: 0.5} # explicit bars (then none are added implicitly)
       - {at: 1, event: 31011}                  # runs a map event: the gameplay steps (also on a skip)
       - {at: 3.2, sound: "sounds\\spells\\ebolt01.wav"}   # as evt.PlaySoundName takes it

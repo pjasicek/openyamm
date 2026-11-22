@@ -1,0 +1,121 @@
+# Xeen side quest Q-D13, Hobstadt's Trolls, the fight route (D2, DD-11C), from a new game on D2 with a Troll in a
+# level-24 party. D2's third Troll Hole (event 34) into DD-11C; past the court at the gate; the plate before the throne,
+# Hobstadt speaks (NPC 5110): Fight to the death ("Good.", hostile 113263: the court and the warren's trolls hostile).
+# Hobstadt (actor 12) killed: event 14's kill timer (q-d13.hobstadt: hobstadt_slain 113264, "Hobstadt falls across the
+# foot of his throne."). The vacant throne (event 16, q-d13.throne): the Troll sits and stands up a War Troll
+# (throne_taken 113265); again with nobody eligible, "The throne is vacant."; then a later Troll (D-74 item 3: a member
+# made a Troll by a logged test setup, standing for a Troll recruited after the fight) sits too: the throne has no
+# `once`. The hoard behind the throne opens to his killers (event 15: done 113266, 4,000 XP per member, 2,500 gold);
+# out by the trolls' stair's sod hatch (event 12). The thieves' letter (DD-11A) is the Sacrifice scenario's
+# (q-d13_hobstadts_trolls.yml); the hoard does not need it.
+# Routes: devdocs/xeen/briefs/dd11c/L4/playtest.yml and playtest_fight.yml. Quest logic: source/quests/q-d13.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d13_hobstadts_trolls_fight.yml --scenario-no-color
+id: xeen.side_quests.q-d13.fight
+title: "Xeen Q-D13: Hobstadt's trolls; the fight to the death, the vacant throne (two Trolls) and the hoard"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d2.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Grak, class: Troll, level: 24, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d2.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Troll Knight Cleric Sorcerer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113260, 113261, 113262, 113263, 113264, 113265, 113266]}
+  # D2's third hole, into DD-11C (Hobstadt's hall).
+  - set_pose: {map: xeen_d2.odm, x: 1536, y: -17408, z: 928, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # The hole moves the party at once (D-72), with q-d13.troll_holes' status line.
+  - play_lua: {source: "status(); click(34); wait(0.3); local s = status(); if not string.find(s, 'You let yourselves down into the troll hole.', 1, true) then error('D2 event 34: the troll hole status line: ' .. s) end"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true, present_dialogs: true}
+  - assert: {map: xeen_dd11c.blv}
+  - assert: {party_position: {x: 128, y: -64, radius: 128}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # Past the court into the hall; the plate before the throne: Hobstadt speaks. Fight to the death.
+  - walk_to: {x: 960, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2900, y: 0, z: 0, radius: 64, timeout_seconds: 30, expect: dialog}
+  - assert: {dialog: {active: true, source_id: 5110, action_label_present: "Fight to the death"}}
+  - select_topic: {match_label: "Fight to the death"}
+  - assert: {dialog: {active: true, text_contains: "Good."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; wait(3); if not qbit(113263) then error('hostile 113263 not set') end"}
+  - assert: {actor_count: {monster_id: 11075, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  # Hobstadt dies (the party is immortal; he is killed through the damage path): his kill timer's line.
+  - damage_actor: {actor_index: 12, amount: 100000}
+  - play_lua: {source: "wait(3); local s = status(); log('slain: ' .. s); if not qbit(113264) then error('hobstadt_slain 113264 not set') end; if not string.find(s, 'Hobstadt falls across the foot of his throne.', 1, true) then error('no death line: ' .. s) end"}
+  - assert: {actor_visible: {actor_index: 12, dead: true}}
+  - clear_hostiles: {radius: 1800}
+  # The vacant throne: the Troll sits (War Troll); again, nobody eligible: the throne is vacant.
+  - walk_to: {x: 3000, y: 120, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the throne: ' .. c) end end end"}
+  - play_lua: {source: "click(16); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Your troll sits on the throne of Hobstadt. It fits. He stands up a War Troll.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(113265) then error('throne_taken 113265 not set') end; if classes() ~= 'WarTroll Knight Cleric Sorcerer' then error('the throne: ' .. classes()) end"}
+  - play_lua: {source: "click(16); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The throne is vacant."}}
+  - play_lua: {source: "close(); if classes() ~= 'WarTroll Knight Cleric Sorcerer' then error('the empty throne: ' .. classes()) end"}
+  # A later Troll (D-74 item 3: the throne has no `once`): a test setup stands for a Troll recruited after the fight.
+  - play_lua: {source: "for _, i in ipairs({3}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the later Troll: ' .. c) end end end"}
+  - play_lua: {source: "log('CLASSES test setup later-member q-d13: member 3 Sorcerer -> Troll by SetPlayerClass, standing for a Troll recruited after the fight (D-74 item 3)')"}
+  - lua_event: {source: "if not SetPlayerClass(3, 'Troll') then error('SetPlayerClass(3, Troll)') end"}
+  - play_lua: {source: "remember('gold', gold()); remember('xp', experience(3)); click(16); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[He stands up a War Troll.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if classes() ~= "WarTroll Knight Cleric WarTroll" then error("the later troll: " .. classes()) end
+        if gold() ~= recall("gold") or experience(3) ~= recall("xp") then error("the later promotion paid something") end
+  # The guild's gold, open to his killers: the sacks (done: 4,000 XP per member, 2,500 gold), then the strongbox.
+  - walk_to: {x: 3800, y: -320, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(15); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Sacks of gold, each stamped THIEVES' GUILD.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(113266) then error("done 113266 not set") end
+        if gold() - recall("gold") ~= 2500 then error("the hoard paid " .. (gold() - recall("gold")) .. " gold") end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 4000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+  - walk_to: {x: 4060, y: -500, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); if gold() <= g then error('the strongbox held no gold') end"}
+  # Out: back through the hall and the pit to the trolls' stair and its sod hatch (event 12).
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 960, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1650, y: 0, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(12); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: 1536, y: -17408, radius: 200}}
+  - assert: {qbit_set: [113263, 113264, 113265, 113266]}
+  - assert: {qbit_clear: [113261, 113262]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('Q-D13 fight done: ' .. classes())"}

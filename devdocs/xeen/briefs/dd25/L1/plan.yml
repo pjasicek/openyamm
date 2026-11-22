@@ -1,0 +1,162 @@
+format: 0
+level: L1
+pitch: "Bosco's Hall: the dwarf king's town dug into the crag over his terrace on the Desert of Doom. The gate opens on a passage and a gate hall where the Alehall is the first door; round the great hall's hearth and well the smiths' gallery holds the Forge and the Mailwright, a lane the Tinker's burrow and the stair down to the Deep Guild of Earth. Up four steps, through two carved leaves, Bosco's throne stands empty under his banner: the King keeps to his chambers behind the dais, where the cups can be watched."
+purpose: "A town BLV (WORLD_DESIGN 5.2): three services (Bosco's Forge 4701, the Alehall 4702, the Deep Guild of Earth 4703) and three residences (the King's Hall 4704, the Mailwright's Burrow 4705, the Tinker's Burrow 4706); Q-D17 The Chalice of Protection in Bosco's topics (the King's Hall); teachers Axe, Chain, Earth Magic and Repair Item Grandmaster. No monsters, no chests, no finds (D-62)."
+mood: "A dwarf hall: dressed stone under raw rock vaults, timber house fronts with shingle eaves, the ring of hammers from the forge bay, the hearth's glow, guards at the gate and the throne hall."
+datum: arrival
+spaces:
+  - id: room:burrow_lane
+    name: Burrow lane
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "Off the great hall's south side: the Tinker's Burrow on its south wall, the guild stair from its west end; one townsfolk."
+    empty: true
+  - id: room:forge_bay
+    name: Forge bay
+    kind: room
+    size: S
+    floor: 0
+    purpose: The Forge's lit hearth in a low bay behind the gallery's wall.
+    empty: true
+  - id: room:gate_hall
+    name: Gate hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The Alehall's door first on the south wall (the tavern nearest the arrival), a pair of ale barrels beside it; the wide arch west into the great hall and the arch north to the smiths' gallery."
+    empty: true
+  - id: room:gate_passage
+    name: Gate passage
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "The arrival (entrance:d5_bosco) 256 inside the gate's two leaves (the way out to D5); two of Bosco's guards in its corners by the gate."
+    empty: true
+  - id: room:great_hall
+    name: Great hall
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The town's square under the rock vault: the round hearth in the middle, the plain well against the south wall, benches by the walls, two chandeliers; two townsfolk."
+    empty: true
+  - id: room:guild_hall
+    name: Deep Guild hall
+    kind: room
+    size: M
+    floor: -384
+    purpose: "A raw-rock hall at the guild stair's foot: a vein of crystal by the wall, floor lamps, the Deep Guild of Earth's door under its sign."
+    empty: true
+  - id: room:guild_stair
+    name: Guild stair
+    kind: corridor
+    size: M
+    floor: [0, -384]
+    purpose: From the burrow lane down one stair to the Deep Guild.
+    empty: true
+  - id: room:kings_steps
+    name: King's steps
+    kind: corridor
+    size: S
+    floor: [0, 128]
+    purpose: Four steps up (128) from the great hall to the throne hall's two leaves.
+    empty: true
+  - id: room:smiths_gallery
+    name: Smiths' gallery
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Along the north side, open at both ends (great hall, gate hall): Bosco's Forge and the Mailwright's Burrow side by side, 768 apart, the forge bay between them, an anvil by the wall; one townsfolk."
+    empty: true
+  - id: room:throne_hall
+    name: Throne hall
+    kind: room
+    size: L
+    floor: 128
+    purpose: "Bosco's empty throne on a three-step dais under his banner, the King's Hall door behind the dais, the long tasting table with its cups and the taster's stool, braziers by the dais; two guards inside the doors. From q-d17.done the Chalice stands on the table."
+    empty: true
+links:
+  - id: link:forge_bay
+    from: room:smiths_gallery
+    to: room:forge_bay
+    kind: open
+  - id: link:gate_hall
+    from: room:gate_passage
+    to: room:gate_hall
+    kind: open
+  - id: link:gatehall_gallery
+    from: room:gate_hall
+    to: room:smiths_gallery
+    kind: open
+  - id: link:gatehall_great
+    from: room:gate_hall
+    to: room:great_hall
+    kind: open
+  - id: link:great_burrow
+    from: room:great_hall
+    to: room:burrow_lane
+    kind: open
+  - id: link:great_gallery
+    from: room:great_hall
+    to: room:smiths_gallery
+    kind: open
+  - id: link:great_steps
+    from: room:great_hall
+    to: room:kings_steps
+    kind: open
+  - id: link:guild_stair
+    from: room:burrow_lane
+    to: room:guild_hall
+    kind: stairs
+    notes: Through the guild stair (room:guild_stair).
+  - id: link:steps_throne
+    from: room:kings_steps
+    to: room:throne_hall
+    kind: door
+    purpose: "The throne hall's two leaves (hdr1dl, hdr1dr), opening apart."
+loops:
+  - id: loop:smiths
+    spaces: [room:gate_hall, room:great_hall, room:smiths_gallery]
+    notes: "The smiths' gallery opens at both ends: in by the wide arch, out past the Forge and the Mailwright to the gate hall."
+entrances:
+  - id: entrance:d5_bosco
+    space: room:gate_passage
+    kind: both
+    neighbour: exit:d5_gate
+    facing: w
+    notes: "In the gate passage 256 inside the gate's two leaves, facing west into the hall; the gate behind (the game's leave window)."
+critical_path: [room:gate_passage, room:gate_hall, room:great_hall, room:kings_steps, room:throne_hall]
+return_path: [room:throne_hall, room:kings_steps, room:great_hall, room:smiths_gallery, room:gate_hall, room:gate_passage]
+goals:
+  - id: goal:bosco
+    space: room:throne_hall
+    kind: use
+    what: "The King's Hall door behind the dais (house 4704): Bosco's Q-D17 topics (A3), the key to the Northern Tower and the Chalice's hand-in."
+points_of_interest:
+  - id: poi:goblet
+    space: room:throne_hall
+    kind: sign
+    behaviour: From q-d17.done (113343) the Chalice stands on the tasting table (a shipped goblet shown by the load event).
+  - id: poi:houses
+    spaces: [room:gate_hall, room:smiths_gallery, room:burrow_lane, room:throne_hall, room:guild_hall]
+    count: 6
+    kind: door
+    behaviour: "Six house doors (clicked faces, house screens): door:alehall 4702 The Alehall; door:forge 4701 Bosco's Forge; door:mailwright 4705 The Mailwright's Burrow; door:tinker 4706 The Tinker's Burrow; door:kings_hall 4704 The King's Hall; door:guild_earth 4703 The Deep Guild of Earth."
+  - id: poi:throne
+    space: room:throne_hall
+    kind: sign
+    behaviour: "Bosco's throne (hover): \"The King's throne, empty. He takes his meals in his chambers, where the cups can be watched.\""
+  - id: poi:well
+    space: room:great_hall
+    kind: fountain
+    behaviour: "A plain well: \"Cold and clean. The King had it tasted this morning.\" No boon (D-62 Q39)."
+mechanisms:
+  - {kind: house door (clicked face), count: 6}
+  - {kind: hinged double door, count: 1}
+  - {kind: decoration shown by qbit on load, count: 1}
+totals:
+  chests: 0
+  doors: 8
+  rooms: 10
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act5_graphs/dd25.graph.yml; D-62 (mockups/act5_a8_decisions_b.md) wins: a walk-in throne hall with the empty throne (Q33), eight peaceful dwarves uncounted (Q34: four of A2's Bosco's Guard 11054, four MM7 Peasant Dwarves), 7d24's town quarter and one new texture xdbosban (Q35), the goblet on show from q-d17.done (Q37), no change after the oath (Q38), a plain well (Q39). Doors: the gate (two leaves, the exit to D5), the throne hall's two hinged leaves, and six house doors."

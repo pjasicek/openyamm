@@ -1,0 +1,303 @@
+format: 0
+themes:
+  - id: theme:cellar
+    wall: {texture: gkp2-bs1, size: [128, 256]}
+    floor: {texture: gkp2flr, size: [128, 128]}
+    ceiling: {texture: tfb11, size: [128, 128]}
+    reveal: {texture: t01a01a, size: [128, 256]}
+    door: {texture: trim9_32a, size: [64, 32]}
+    notes: "The cellars under Asp: MM8 Ancient Troll Home's sandstone rubble walls (gkp2-bs1), carved sandstone tiles (gkp2flr), dark slab vaults (tfb11), plank doors (trim9_32a)."
+  - id: theme:plaster
+    wall: {texture: hhr1bwall, size: [128, 256]}
+    floor: {texture: hhr1p, size: [128, 128]}
+    ceiling: {texture: tfb11, size: [128, 128]}
+    reveal: {texture: t01a01a, size: [128, 256]}
+    door: {texture: trim9_32a, size: [64, 32]}
+    notes: "The snake men's own rooms upstairs: sandy plaster (hhr1bwall) over a gravelly sand floor (hhr1p)."
+  - id: theme:vault
+    wall: {texture: gstn1tp1, size: [128, 256]}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: tfb11, size: [128, 128]}
+    reveal: {texture: tfb1, size: [128, 128]}
+    door: {texture: trim9_32a, size: [64, 32]}
+    notes: "The machine level: MM8 Naga Vault's granite (gston1wl) under a scale frieze (gstn1tp1), the snake-scale floor (gston1fl), warm slabs (tfb1) in the doorways."
+defaults: {theme: theme:cellar, ambient: 18}
+rooms:
+  - id: room:brood
+    name: Brood hall
+    outline: [[768, -512], [2560, -512], [2560, 1152], [768, 1152]]
+    floor: 0
+    ceiling: 576
+    theme: theme:plaster
+    platforms:
+      - {at: [1280, 128], size: [128, 128], rise: 576, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+      - {at: [1280, 640], size: [128, 128], rise: 576, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+      - {at: [2048, 128], size: [128, 128], rise: 576, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+      - {at: [2048, 640], size: [128, 128], rise: 576, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+    ceiling_levels:
+      - ceiling: 768
+        top_scale: [0, 1]
+        edge: {texture: tfb11, size: [128, 128]}
+        notes: A vault north-south.
+    ambient: 18
+    notes: "The new snake men's hall, 1,792 by 1,664, four piers under a vault: straw where they lie fresh from the machine; the stair down in the south-east corner."
+  - id: room:brood_stair
+    name: Brood stair
+    outline: [[2144, -1920], [2464, -1920], [2464, -640], [2144, -640]]
+    floor: 0
+    slope: {to: -640, toward: south, steps: 20, riser: {texture: t01a01a, size: [128, 256]}, tread: {texture: gkp2flr, size: [128, 128]}}
+    ceiling: 384
+    ceiling_slope: {to: -256, toward: south}
+    theme: theme:cellar
+    ambient: 22
+    notes: "Twenty steps of 32 down south from the brood hall to the machine level: the air grows warm and starts to hum."
+  - id: room:cistern
+    name: Old cistern
+    outline: [[-1280, 1024], [640, 1024], [640, 2560], [-1280, 2560]]
+    floor: 0
+    ceiling: 512
+    theme: theme:cellar
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:spout, at: centre, length: 128, bottom: 192, height: 128, surface: {texture: t01a01a, size: [128, 256]}, notes: "The old inflow, dry."}
+    platforms:
+      - {at: [-1024, 1280], size: [128, 128], rise: 512, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+      - {at: [-1024, 2304], size: [128, 128], rise: 512, surface: {texture: t01a01a, size: [128, 256]}, top_surface: {texture: t01a01a, size: [128, 256]}, notes: Pier}
+    levels:
+      - id: level:basin
+        outline: [[-896, 2048], [256, 2048], [256, 2432], [-896, 2432]]
+        floor: -192
+        edge: {texture: t01a01a, size: [128, 256]}
+        surface: {texture: hhr1p, size: [128, 128]}
+        notes: "The cistern's dry basin: sand and silt where the town's water stood."
+    ceiling_levels:
+      - ceiling: 704
+        top_scale: [1, 0]
+        edge: {texture: tfb11, size: [128, 128]}
+        notes: A sandstone barrel vault east-west.
+    flights:
+      - {from: [-320, 2280], to: [-320, 2048], from_height: -192, to_height: 0, width: 256, steps: 6, riser: {texture: t01a01a, size: [128, 256]}, tread: {texture: gkp2flr, size: [128, 128]}, notes: Six steps down into the dry basin from its south side.}
+    ambient: 16
+    notes: "Asp's old cistern, 1,920 by 1,536 under a sandstone vault: the dry basin in its north half (192 deep, six steps down), two piers by the west wall. The snake men's hall: the stair's door on the west, an arch east to the moulting room, a door south to the holding pens, a loose slab low in the west wall (the hidden cache)."
+  - id: room:coil
+    name: Coil passage
+    path: [[2304, -2048], [2304, -3584], [320, -3584]]
+    width: 320
+    floor: -640
+    ceiling: -256
+    theme: theme:vault
+    ambient: 18
+    notes: "The warm passage round two sides of the machine hall, 320 wide: from the brood stair south, then west to the field of light; the keeper's door in its east wall."
+  - id: room:crystal_niche
+    name: Crystal housing
+    outline: [[128, -1792], [640, -1792], [640, -1408], [128, -1408]]
+    floor: -640
+    ceiling: -320
+    theme: theme:vault
+    platforms:
+      - {id: platform:housing, at: [384, -1504], size: [256, 128], rise: 96, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "The crystal housing: an iron box the machine fed from."}
+    ambient: 20
+    notes: "A small iron-doored niche behind the transformer, 512 by 384: the housing where Falagar's crystals sit."
+  - id: room:drain
+    name: Drain tunnel
+    outline: [[-512, -1792], [-256, -1792], [-256, -384], [-512, -384]]
+    floor: -640
+    slope: {to: 0, toward: north, steps: 20, riser: {texture: gston1wl, size: [128, 256]}, tread: {texture: gston1fl, size: [128, 128]}}
+    ceiling: -320
+    ceiling_slope: {to: 320, toward: north}
+    theme: theme:vault
+    ambient: 24
+    notes: "The machine's run-off channel climbing north in twenty steps to a grate under the holding pens: bolted on this side, the way back up."
+  - id: room:field_gate
+    name: Field gate
+    outline: [[-448, -3744], [192, -3744], [192, -3424], [-448, -3424]]
+    floor: -640
+    ceiling: -256
+    theme: theme:vault
+    ambient: 16
+    notes: "A short passage at the coil passage's west end; the field of light across the doorway north into the transformer hall, the pedestals' second rhyme cut in the stone over it."
+  - id: room:hidden_cache
+    name: Hidden cache
+    outline: [[-1920, 1024], [-1408, 1024], [-1408, 1408], [-1920, 1408]]
+    floor: 0
+    ceiling: 320
+    theme: theme:cellar
+    ambient: 24
+    notes: "A townsman's hiding hole behind a loose slab of the cistern's west wall, 512 by 384."
+  - id: room:keeper
+    name: Keeper's cell
+    outline: [[2592, -3328], [3360, -3328], [3360, -2560], [2592, -2560]]
+    floor: -608
+    ceiling: -224
+    theme: theme:vault
+    bands:
+      - {height: 256, surface: {texture: gston1wl, size: [128, 256]}}
+    platforms:
+      - {id: platform:straw_bed, at: [3184, -2720], size: [256, 384], rise: 24, surface: {texture: trim9_32a, size: [64, 32]}, top_surface: {texture: hhr1p, size: [128, 128]}, notes: The keeper's straw bed.}
+    ambient: 20
+    notes: "The machine's keeper's cell, one step up from the passage, 768 by 768: his straw bed, his hoard."
+  - id: room:machine_hall
+    name: Transformer hall
+    outline: [[-1024, -3296], [1024, -3296], [1024, -1920], [-1024, -1920]]
+    floor: -640
+    ceiling: -128
+    theme: theme:vault
+    bands:
+      - {height: 256, surface: {texture: gston1wl, size: [128, 256]}}
+    platforms:
+      - {at: [384, -2560], size: [640, 640], rise: 32, surface: {texture: tfb1, size: [128, 128]}, top_surface: {texture: tfb1, size: [128, 128]}, notes: The machine's plinth.}
+      - {at: [160, -2784], size: [128, 128], rise: 448, surface: {texture: xngong1, size: [128, 32]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 32, notes: "Coil, south-west"}
+      - {at: [608, -2784], size: [128, 128], rise: 448, surface: {texture: xngong1, size: [128, 32]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 32, notes: "Coil, south-east"}
+      - {at: [160, -2336], size: [128, 128], rise: 448, surface: {texture: xngong1, size: [128, 32]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 32, notes: "Coil, north-west"}
+      - {at: [608, -2336], size: [128, 128], rise: 448, surface: {texture: xngong1, size: [128, 32]}, top_surface: {texture: xnrustirn, size: [64, 64]}, base: 32, notes: "Coil, north-east"}
+      - {id: platform:transformer, at: [384, -2560], size: [192, 192], rise: 288, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xngrille, size: [128, 256]}, top_surface: {texture: xwiron, size: [128, 128]}, base: 32, notes: "The transformer's chamber: a cage of bars between the coils, an empty socket shaped like a scarab in its face."}
+      - {id: platform:crown, at: [384, -2560], size: [320, 320], rise: 64, surface: {texture: xngong1, size: [128, 32]}, top_surface: {texture: xnquartz, size: [256, 256]}, base: 320, notes: "The crown over the chamber, its crystals glowing blue."}
+    ceiling_levels:
+      - ceiling: 128
+        top_scale: [0.5, 0.5]
+        edge: {texture: gston1wl, size: [128, 256]}
+        notes: A stepped granite lantern over the machine.
+    ambient: 14
+    notes: "The set piece: a granite hall 2,048 by 1,376 under a stepped lantern; the transformer in its east half (four bronze coils round a chamber of bars on a slab plinth, a crown of crystal on top). The field of light south, the crystal housing's iron door north behind the machine, the drain's mouth north-west."
+  - id: room:moulting
+    name: Moulting room
+    outline: [[768, 1280], [2176, 1280], [2176, 2304], [768, 2304]]
+    floor: 0
+    ceiling: 448
+    theme: theme:plaster
+    beams:
+      - path: [[768, 1600], [2176, 1600]]
+        width: 16
+        depth: 16
+        bottom: 320
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: A drying pole for shed skins.
+      - path: [[768, 2000], [2176, 2000]]
+        width: 16
+        depth: 16
+        bottom: 320
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: A second drying pole.
+    ambient: 18
+    notes: "Where the snake men shed: two drying poles across the room hung with papery skins, 1,408 by 1,024; a chest of the townsfolk's belongings in the north-east corner."
+  - id: room:pens
+    name: Holding pens
+    outline: [[-1024, -256], [640, -256], [640, 896], [-1024, 896]]
+    floor: 0
+    ceiling: 512
+    theme: theme:cellar
+    platforms:
+      - {at: [-864, 596], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 1: bars, south side"}
+      - {at: [-864, 876], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 1: bars, north side"}
+      - {at: [-864, 228], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 2: bars, south side"}
+      - {at: [-864, 508], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 2: bars, north side"}
+      - {at: [-864, -140], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 3: bars, south side"}
+      - {at: [-864, 140], size: [288, 8], rise: 256, surface: {texture: xngrille, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Cage 3: bars, north side"}
+    ambient: 18
+    notes: "Three barred cages against the west wall, half-turned townsfolk in them; the cistern's door north, an arch east to the brood hall, the drain's grate low in the south wall (the way back up from the machine)."
+  - id: room:stair
+    name: Cellar stair
+    outline: [[-2304, 1536], [-1408, 1536], [-1408, 1984], [-2304, 1984]]
+    floor: 256
+    slope: {to: 0, toward: east, steps: 8, riser: {texture: t01a01a, size: [128, 256]}, tread: {texture: gkp2flr, size: [128, 128]}}
+    ceiling: 640
+    ceiling_slope: {to: 448, toward: east}
+    theme: theme:cellar
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:asp_door, at: centre, length: 192, bottom: 0, height: 256, surface: {texture: xodaylt, size: [256, 128], fit: true, uneven: true}, notes: "The cellar door up to Asp's square, daylight round it (XD-05's daylight picture): sealed while X4 is not built."}
+    ambient: 22
+    notes: "Eight steps of 32 down east from the cellar door on Asp's square (the arrival) to the old cistern's door; sloughed snakeskins on the treads."
+openings:
+  - id: open:brood_stair
+    from: room:brood
+    to: room:brood_stair
+    link: link:brood_coil
+    width: 256
+    height: 320
+  - id: open:cistern_cache
+    from: room:cistern
+    to: room:hidden_cache
+    link: link:cistern_cache
+    width: 192
+    height: 224
+    notes: The loose slab low in the cistern's west wall.
+  - id: open:cistern_moulting
+    from: room:cistern
+    to: room:moulting
+    link: link:cistern_moulting
+    along: 0.3
+    width: 384
+    height: 320
+  - id: open:cistern_pens
+    from: room:cistern
+    to: room:pens
+    link: link:cistern_pens
+    along: 0.86
+    width: 256
+    height: 256
+  - id: open:coil_field
+    from: room:coil
+    to: room:field_gate
+    link: link:coil_field
+    width: 288
+    height: 320
+  - id: open:coil_keeper
+    from: room:coil
+    to: room:keeper
+    link: link:coil_keeper
+    width: 192
+    height: 256
+  - id: open:drain_pens
+    from: room:drain
+    to: room:pens
+    link: link:drain_pens
+    width: 192
+    height: 224
+  - id: open:field_machine
+    from: room:field_gate
+    to: room:machine_hall
+    link: link:field_machine
+    width: 256
+    height: 256
+    reveal: {texture: tfb1, size: [128, 128]}
+  - id: open:machine_crystal
+    from: room:machine_hall
+    to: room:crystal_niche
+    link: link:machine_crystal
+    width: 192
+    height: 256
+  - id: open:machine_drain
+    from: room:machine_hall
+    to: room:drain
+    link: link:machine_drain
+    width: 192
+    height: 256
+  - id: open:moulting_brood
+    from: room:moulting
+    to: room:brood
+    link: link:moulting_brood
+    along: 0.6
+    width: 384
+    height: 320
+  - id: open:pens_brood
+    from: room:pens
+    to: room:brood
+    link: link:pens_brood
+    width: 448
+    height: 320
+  - id: open:stair_cistern
+    from: room:stair
+    to: room:cistern
+    link: link:stair_cistern
+    width: 256
+    height: 256
+  - id: open:stair_coil
+    from: room:brood_stair
+    to: room:coil
+    link: link:brood_coil
+    width: 256
+    height: 320
+notes: "XD-25 Asp Undercroft: the cellars under Asp (z 0) and the machine level (z -640); x east, y north. Written by output/studio_cal/xd25/tools/gen.py."

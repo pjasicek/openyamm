@@ -1,0 +1,27 @@
+{
+  "demon": {
+    "name": "xeen_deco_idol_demon",
+    "source": "assets_source/worlds/mm6/models/mm6_demon.glb",
+    "pose": {"base": ["Cast_FireBolt", 9]},
+    "drop_materials": ["Demon_Iris", "Demon_Black_Pupil"],
+    "bulk": [1.16, 1.10],
+    "horns": {"root_up": 0.62, "root_side": 0.30, "root_fwd": 0.05, "radius": 0.18,
+              "path": [[0.0, 0.0, 0.0], [0.42, 0.18, 0.02], [0.78, 0.62, 0.0], [0.86, 1.18, -0.12], [0.70, 1.62, -0.34]]},
+    "figure_top": 7.82,
+    "plinth": {"width": 3.2, "height": 0.96},
+    "lod0_figure_tris": 4300,
+    "seed": 16
+  },
+  "devil": {
+    "name": "xeen_deco_idol_devil",
+    "source": "assets_source/worlds/mm9/models/mm9_greaterdemon.glb",
+    "pose": {"base": ["Standing", 0], "overrides": [{"bones": "wing|warm", "action": "Fidget", "frame": 29}]},
+    "drop_materials": [],
+    "bulk": [1.0, 1.0],
+    "horns": null,
+    "figure_top": 8.22,
+    "plinth": {"width": 3.2, "height": 0.96},
+    "lod0_figure_tris": 5000,
+    "seed": 17
+  }
+}

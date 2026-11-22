@@ -1,0 +1,189 @@
+# Xeen playthrough, segment 33: the Cave of Illusion (X5, XD-10), M12. The north mouth in the tundra hills; the cave
+# walked: the mouth's mirage and the cache (a Potion of Might), the phantom safe's mirage, the icicle hall, the Hall of
+# Mirages, the frost cavern; the sluice's plug refuses Might 15, the first member drinks the potion and pulls it (the
+# reservoir drains); the ice stair, the notice, the mirror maze, the Guardians' post's chest, the echo cave's gems; the
+# drained bed; the great skull in the grotto sells the Enchanted Key for ten gems (m12.skull); the phantom vault, the
+# wreck's strongbox, up the gallery stair and out by the south mouth. The stat skulls are left alone.
+# Routes: devdocs/xeen/briefs/xd10/L4/playtest.yml, playtest_in_north.yml, playtest_exit_south.yml.
+# Quest logic: source/quests/m12.yml.
+#   python3 tests/playthrough/xeen/run.py 33
+id: xeen.playthrough.33_cave_of_illusion
+title: "Xeen playthrough 33: the Cave of Illusion: the Enchanted Key for ten gems"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/31_golem_dungeon.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - assert: {qbit_set: [111241]}
+  - assert: {qbit_clear: [111240]}
+  # The Cave of Illusion's north mouth in the tundra hills (X5).
+  - set_pose: {map: xeen_x5.odm, x: 16640, y: 10107, z: 1420, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd10.blv}
+  - assert: {party_position: {x: 0, y: 9664, radius: 128, z_min: -40, z_max: 80}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE CAVE OF ILLUSION"}}
+  - play_lua: {source: "close()"}
+  # The mouth's west wall is a mirage (touched); the cache behind it: a Potion of Might.
+  - walk_to: {x: -380, y: 9472, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1000, y: 9472, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "wait(0.5); if door_state(4) ~= 'open' then error('the touched mirage did not open: ' .. door_state(4)) end"}
+  - walk_to: {x: -1100, y: 9472, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        -- the first member must be ready (not recovering from a blow) to be picked
+        for _ = 1, 30 do
+          if string.match(party(), "recovery ([%d%.]+) s") == "0.000" then break end
+          wait(0.5)
+        end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      source: |
+        local before, g = item_count(240), gold()
+        loot_chest(3)
+        if held() ~= 0 then stow() end
+        close()
+        if item_count(240) ~= before + 1 then error("the cache gave no Potion of Might") end
+        log("the cache: +" .. (gold() - g) .. " gold, a Potion of Might")
+  # The phantom safe's cave: its north wall opens to a click; the icicle hall, the Hall of Mirages, the frost cavern.
+  - walk_to: {x: -1344, y: 9200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.5); if door_state(6) ~= 'open' then error('the clicked mirage did not open: ' .. door_state(6)) end"}
+  - walk_to: {x: -1344, y: 8400, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 8064, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 128, y: 7900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 6600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 256, y: 4500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 256, y: 3200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The sluice: the plug refuses Might 15; the first member drinks the Potion of Might (+30) and pulls it (plug_pulled).
+  - walk_to: {x: 1000, y: 3072, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 8)"}
+  - walk_to: {x: 1600, y: 3072, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1720, y: 2944, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        -- the first member must be ready (not recovering from a blow) to be picked
+        for _ = 1, 30 do
+          if string.match(party(), "recovery ([%d%.]+) s") == "0.000" then break end
+          wait(0.5)
+        end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      source: |
+        status(); click(23); wait(1)
+        local seen = status()
+        if not string.find(seen, "You aren't strong enough to pull the plug.", 1, true) then error("the plug said: " .. seen) end
+  - use_item: {item_id: 240, member_index: 0}
+  - play_lua: {source: "log(party()); click(23); wait(1)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "roars away down the"}}
+  - play_lua:
+      source: |
+        close(); wait(7)
+        if not qbit(110640) then error("plug_pulled not set") end
+        for _, d in ipairs({1, 2, 3, 9, 10}) do
+          if door_state(d) ~= "open" then error("the drain left door " .. d .. " " .. door_state(d)) end
+        end
+  # Down the ice stair to the ledge; through the mirror maze to the Guardians' post (its chest) and the echo cave's gems.
+  - walk_to: {x: 1000, y: 3072, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: 6500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1344, y: 7200, z: -40, z_tolerance: 120, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2432, y: 7296, z: -400, z_tolerance: 300, radius: 80, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2400, y: 6000, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1950, y: 5056, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "KEEP TEN"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1500, y: 5760, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 704, y: 6000, z: -640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -576, y: 5632, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -576, y: 6150, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(6); if held() ~= 0 then stow() end; close(); log('the Guardians post: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: -576, y: 4300, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -576, y: 3850, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        local function gems() local n = 0; for id = 177, 186 do n = n + item_count(id) end; return n end
+        local before = gems()
+        loot_chest(4)
+        if held() ~= 0 then stow() end
+        close()
+        log("the echo cave: " .. (gems() - before) .. " gems; the party has " .. gems())
+        if gems() < 10 then error("fewer than ten gems after the echo cave: " .. gems()) end
+  # Down the steps onto the drained bed; across it to the grotto.
+  - walk_to: {x: -576, y: 5632, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 704, y: 6000, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2240, y: 4200, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2240, y: 3000, z: -1000, z_tolerance: 300, radius: 80, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 2600, y: 2496, z: -1280, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3000, y: 2496, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - walk_to: {x: 4032, y: 2496, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # The great skull in the grotto: ten gems for the Enchanted Key (m12.skull).
+  - walk_to: {x: 5900, y: 3328, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 6900, y: 3328, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  # The find's status line is read in the click's own step (a status line does not outlive the --reload run's reload).
+  - play_lua: {source: "remember('xp', experience(0)); click(25); wait(1.5); local s = tostring(status()); if not string.find(s, [[the key to the Archmage's study]], 1, true) then error('status line: ' .. s) end"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if not has_item(12306) then error("no Enchanted Key") end
+        if not qbit(111240) then error("key_bought not set") end
+        local n = 0
+        for id = 177, 186 do n = n + item_count(id) end
+        log("the Enchanted Key for ten gems; " .. n .. " gems left; experience +" .. (experience(0) - recall("xp")))
+  # The grotto's mirage (touched) and the phantom vault's hoard.
+  - walk_to: {x: 6784, y: 3800, z: -1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 6784, y: 3936, z: -1280, radius: 32, timeout_seconds: 10, clear_hostiles: 1500, close_dialogs: true}
+  # Walk north into the mirage (merge point 13's touch), as XD-10's playtest.
+  - movement_segment: {input: forward, seconds: 1.5, start: {map: xeen_xd10.blv, x: 6784, y: 3936, z: -1280, yaw_degrees: 90, pitch: 0}, expect_stop: {map: xeen_xd10.blv, x: 6784, y: 4236, z: -1280, yaw_degrees: 90, pitch: 0}, loose_tolerance: true, tolerance_xy: 1000, tolerance_z: 400}
+  - play_lua: {source: "wait(0.5); if door_state(7) ~= 'open' then error('the grotto mirage did not open: ' .. door_state(7)) end"}
+  - walk_to: {x: 6784, y: 4700, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 6784, y: 4850, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); if held() ~= 0 then stow() end; close(); log('the phantom vault: +' .. (gold() - g) .. ' gold')"}
+  # Back over the bed to the wreck's strongbox; up the gallery stair to the ledge, the ice stair and out by the south mouth.
+  - walk_to: {x: 6400, y: 3328, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3100, y: 1792, z: -1280, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2200, y: 1792, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 2048, y: 1300, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(7); if held() ~= 0 then stow() end; close(); log('the wreck: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: 700, y: 1536, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1408, y: 2100, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 3700, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1500, y: 4352, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2200, y: 4352, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2400, y: 6000, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2432, y: 7296, z: -400, z_tolerance: 300, radius: 80, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1344, y: 7200, z: -40, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: 6500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 6600, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 256, y: 3200, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 1300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - execute_event: {id: 10}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 6915, y: -9472, radius: 160, z_min: 1110, z_max: 1330}}
+  - assert: {qbit_set: [111240, 110640]}
+  - play_lua: {source: "log('33 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "33 Cave of Illusion", path: output/playthrough/xeen/checkpoints/33_cave_of_illusion.oysav}

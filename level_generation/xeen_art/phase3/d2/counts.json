@@ -1,0 +1,131 @@
+{
+ "poi_spots": 30,
+ "poi_groups": [
+  [
+   "building:nibbler_hollow"
+  ],
+  [
+   "building:sprite_guild_light"
+  ],
+  [
+   "building:sprite_houses#1"
+  ],
+  [
+   "building:sprite_houses#2"
+  ],
+  [
+   "building:sprite_potions"
+  ],
+  [
+   "entrance:dd06_door"
+  ],
+  [
+   "entrance:dd09_door"
+  ],
+  [
+   "entrance:dd10b_adit"
+  ],
+  [
+   "entrance:dd11a_hole"
+  ],
+  [
+   "entrance:dd11b_hole"
+  ],
+  [
+   "entrance:dd11c_hole"
+  ],
+  [
+   "entrance:dd13_east"
+  ],
+  [
+   "entrance:dd13_west"
+  ],
+  [
+   "poi:brink_bench"
+  ],
+  [
+   "poi:crystal_seam"
+  ],
+  [
+   "poi:dead_adventurer"
+  ],
+  [
+   "poi:fairy_ring"
+  ],
+  [
+   "poi:forbidden_fruit"
+  ],
+  [
+   "poi:genie_lamp"
+  ],
+  [
+   "poi:graalg"
+  ],
+  [
+   "poi:kramer_wagon"
+  ],
+  [
+   "poi:obelisk"
+  ],
+  [
+   "poi:pot_of_gold"
+  ],
+  [
+   "poi:shrine_elements"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:thieves_drop"
+  ],
+  [
+   "poi:treehouse_chest",
+   "building:sharla_tree"
+  ]
+ ],
+ "doors": 6,
+ "markers": 46,
+ "placed_hostile": 22,
+ "quiet_share": 0.42,
+ "range_share_of_square": 0.003,
+ "first_fight": {
+  "entrance:west_road": [
+   [
+    3458,
+    "pop:west_sprites"
+   ],
+   [
+    4636,
+    "pop:foothill_wolves"
+   ]
+  ],
+  "entrance:east_road": [
+   [
+    3665,
+    "pop:woods_wolves"
+   ],
+   [
+    6476,
+    "placed 11061"
+   ]
+  ]
+ },
+ "encounter_cells": {
+  "pop:foothill_wolves": 1085,
+  "pop:west_sprites": 128,
+  "pop:glade_sprites": 325,
+  "pop:trolls": 1007,
+  "pop:woods_wolves": 1346
+ },
+ "ogre_area_cells": 691
+}

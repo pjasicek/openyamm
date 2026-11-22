@@ -1,0 +1,605 @@
+format: 0
+themes:
+  - id: theme:den
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: 7trimd, size: [128, 256]}
+    notes: "Where the thieves live (the den floor, the inner circle): the tower's ashlar over boards the guild laid (7trimd) under black beams (hwm2rf), plank doors."
+  - id: theme:kennel
+    wall: {texture: gston1wl, size: [128, 256]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: xwcage, size: [128, 256]}
+    notes: "The kennel: the ashlar, old straw (straw) on the floor, a barred gate (xngrille)."
+  - id: theme:stair
+    wall: {texture: gston1wl, size: [128, 256]}
+    floor: {texture: gcstflor, size: [128, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The stair halls: the same ashlar, grey cobbles (gcstflor) underfoot."
+  - id: theme:tower
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The Mok tower's own rooms (the front, the practice floor): green-grey ashlar (MM8 gston1wl) over a green marble skirting (gstntilev), scale-pattern flags (gston1fl), panelled stone ceilings (gstn1cl), the tower's stone doors (gcstdoor)."
+defaults: {theme: theme:tower, ambient: 20}
+rooms:
+  - id: room:alibaba
+    name: Treasury
+    outline: [[1408, -2048], [2048, -2048], [2048, -1152], [1408, -1152]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    levels:
+      - id: level:dais
+        outline: [[1600, -1984], [1984, -1984], [1984, -1600], [1600, -1600]]
+        floor: 680
+        edge: {texture: gcstflor, size: [128, 256]}
+        surface: {texture: gcstflor, size: [128, 256]}
+        notes: The chest's dais.
+    notes: "A small treasury, one great iron-bound chest on a dais against the east wall."
+  - id: room:bedchamber
+    name: Master's bedchamber
+    outline: [[-512, 1024], [768, 1024], [768, 2048], [-512, 2048]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:den
+    platforms:
+      - {id: platform:bed, at: [128, 1800], size: [320, 384], rise: 56, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A bed with velvet hangings.}
+      - {at: [-48, 1592], size: [32, 32], rise: 384, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "A bedpost; the velvet hangings between."}
+      - {at: [304, 1592], size: [32, 32], rise: 384, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "A bedpost; the velvet hangings between."}
+    notes: "The Master Thief's bedchamber: a bed with velvet hangings; his strongbox beside it, the tower's hoard."
+  - id: room:bunks
+    name: Bunkroom
+    outline: [[-1280, -1024], [256, -1024], [256, 512], [-1280, 512]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    platforms:
+      - {id: platform:bunk_1, at: [-1100, 288], size: [192, 448], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "The lower bunk, a straw tick under a grey blanket."}
+      - {id: platform:bunk_1_top, rise: 32, surface: {texture: 7trimd, size: [128, 256]}, outline: [[-1196, 64], [-1004, 64], [-1004, 512], [-1196, 512]], top_surface: {texture: t2bedsht, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 256, notes: The upper bunk over it.}
+      - {at: [-1180, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {at: [-1020, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {id: platform:bunk_2, at: [-760, 288], size: [192, 448], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "The lower bunk, a straw tick under a grey blanket."}
+      - {id: platform:bunk_2_top, rise: 32, surface: {texture: 7trimd, size: [128, 256]}, outline: [[-856, 64], [-664, 64], [-664, 512], [-856, 512]], top_surface: {texture: t2bedsht, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 256, notes: The upper bunk over it.}
+      - {at: [-840, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {at: [-680, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {id: platform:bunk_3, at: [-420, 288], size: [192, 448], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "The lower bunk, a straw tick under a grey blanket."}
+      - {id: platform:bunk_3_top, rise: 32, surface: {texture: 7trimd, size: [128, 256]}, outline: [[-516, 64], [-324, 64], [-324, 512], [-516, 512]], top_surface: {texture: t2bedsht, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 256, notes: The upper bunk over it.}
+      - {at: [-500, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {at: [-340, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {id: platform:bunk_4, at: [-80, 288], size: [192, 448], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "The lower bunk, a straw tick under a grey blanket."}
+      - {id: platform:bunk_4_top, rise: 32, surface: {texture: 7trimd, size: [128, 256]}, outline: [[-176, 64], [16, 64], [16, 512], [-176, 512]], top_surface: {texture: t2bedsht, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 256, notes: The upper bunk over it.}
+      - {at: [-160, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+      - {at: [0, 48], size: [32, 32], rise: 352, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: The bunk's post.}
+    notes: "Two tiers of bunks along the north wall, every pillow with a purse under it."
+  - id: room:counting
+    name: Counting room
+    outline: [[-1280, -1024], [768, -1024], [768, 896], [-1280, 896]]
+    floor: 1920
+    ceiling: 2560
+    theme: theme:den
+    platforms:
+      - {id: platform:desk, at: [-256, 300], size: [576, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The big desk: the ledger, scales, sacks of coin."}
+      - {id: platform:high_chair, at: [-256, 560], size: [128, 128], rise: 96, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Master Thief's high chair behind his desk.}
+    beams:
+      - path: [[-1280, -448], [768, -448]]
+        width: 64
+        depth: 64
+        bottom: 2480
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: The slate cone's beams.
+      - path: [[-1280, 384], [768, 384]]
+        width: 64
+        depth: 64
+        bottom: 2480
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: The slate cone's beams.
+    notes: "The top floor's centre, 2,048 by 1,920 under the cone's beams: desks, scales, sacks of coin; the Master Thief in a high chair behind the big desk."
+  - id: room:door_hall
+    name: Entrance hall
+    outline: [[-128, 1152], [2048, 1152], [2048, 2048], [-128, 2048]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    platforms:
+      - {id: platform:straw_heap, rise: 32, surface: {texture: straw, size: [256, 256]}, outline: [[1560, 1724], [1694, 1610], [1860, 1610], [1960, 1738], [1860, 1950], [1660, 1950]], top_surface: {texture: straw, size: [256, 256]}, notes: "A heap of straw in the north-east corner: where the getaway chute lets out."}
+    notes: "Inside the tower's door, 2,176 by 896: the stone hall the thieves keep their lookouts beside; a heap of straw in the north-east corner where the getaway chute ends."
+  - id: room:fence
+    name: Fence's room
+    outline: [[640, -2048], [1280, -2048], [1280, -1152], [640, -1152]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    platforms:
+      - {id: platform:sorting_table, at: [960, -1930], size: [256, 96], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The fence's sorting table by the south wall: tagged loot."}
+    notes: "Where the loot is sorted and tagged: the sorting table, sacks, and the fence's lockbox."
+  - id: room:getaway
+    name: Getaway hatch
+    outline: [[896, -256], [1536, -256], [1536, 640], [896, 640]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:den
+    platforms:
+      - {id: platform:hatch, at: [1280, 192], size: [192, 192], rise: 8, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, notes: A trapdoor in the floor over a polished chute down the tower's inside wall.}
+    notes: "Off the counting room: the thieves' trapdoor down the getaway chute, and north the roof stair (D-58)."
+  - id: room:gong1
+    name: First gong
+    outline: [[-1280, -1024], [-256, -1024], [-256, 1024], [-1280, 1024]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:gong1, offset: 464, length: 320, bottom: 96, height: 320, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall south of the stair door (XD-03's great gong picture).}
+          - {id: panel:memo, offset: 832, length: 128, bottom: 128, height: 160, surface: {texture: scroll, size: [64, 64], fit: true}, notes: The guild memo pinned up beside the first gong.}
+    notes: "The first gong on the west wall beside the stair door, and the guild memo pinned up beside it."
+  - id: room:gong2
+    name: Second gong
+    outline: [[384, -1024], [1280, -1024], [1280, 512], [384, 512]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:gong2, offset: 448, length: 320, bottom: 96, height: 320, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall by the stair door (XD-03's great gong picture).}
+    notes: The second gong on the east wall beside the stair door.
+  - id: room:gong3
+    name: Third gong
+    outline: [[-1280, 128], [-512, 128], [-512, 1152], [-1280, 1152]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:gong3, offset: 576, length: 320, bottom: 96, height: 320, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall by the stair door (XD-03's great gong picture).}
+    notes: "The last gong before the stair to the top, on the west wall beside the stair door."
+  - id: room:guardroom
+    name: Lookouts' room
+    outline: [[-2048, 1152], [-256, 1152], [-256, 2048], [-2048, 2048]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    platforms:
+      - {id: platform:card_table, at: [-1500, 1700], size: [256, 192], rise: 64, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A table with a card game left in the middle of a hand.}
+    notes: "The lookouts' room: arrow slits on the clearing, a bell rope, a card game left on a table."
+  - id: room:kennel
+    name: Kennel
+    outline: [[-1280, -2048], [1152, -2048], [1152, -1152], [-1280, -1152]]
+    floor: 0
+    ceiling: 544
+    theme: theme:kennel
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:pens, offset: 512, length: 1024, bottom: 0, height: 320, surface: {texture: xwcage, size: [128, 256], scale: 1.25}, notes: Iron pens along the south wall.}
+    notes: "The guild's hounds and two sabertooths among iron pens along the south wall; old straw and gnawed boots."
+  - id: room:landing2
+    name: Den landing
+    outline: [[-1280, -2048], [-512, -2048], [-512, -1152], [-1280, -1152]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    notes: "The first stair arrives here, on the tower's west side."
+  - id: room:landing3
+    name: Practice landing
+    outline: [[256, 1280], [1280, 1280], [1280, 2048], [256, 2048]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:tower
+    notes: "The second stair arrives here, on the tower's east side."
+  - id: room:landing4
+    name: Top landing
+    outline: [[-1280, -2048], [-512, -2048], [-512, -1152], [-1280, -1152]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:den
+    notes: "The third stair arrives here, on the west side, under the cone's beams."
+  - id: room:library
+    name: Thieves' library
+    outline: [[-384, -2048], [1280, -2048], [1280, -1152], [-384, -1152]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:den
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:shelves_s, offset: 128, length: 1408, bottom: 0, height: 448, surface: {texture: 7t1books, size: [128, 256]}, notes: Shelves of other people's diaries.}
+      - wall: east
+        panels:
+          - {id: panel:shelves_e, offset: 128, length: 640, bottom: 0, height: 448, surface: {texture: 7t1books, size: [128, 256]}, notes: More shelves.}
+    platforms:
+      - {id: platform:manual, at: [256, -1500], size: [96, 64], rise: 96, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: A lectern with the Manual of Master Thievery.}
+      - {id: platform:prince_book, at: [640, -1500], size: [96, 64], rise: 96, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: A lectern with the Prince Book.}
+    notes: "Shelves of other people's diaries; two lecterns: the Manual of Master Thievery and the Prince Book."
+  - id: room:mess
+    name: Mess hall
+    outline: [[-384, -2048], [512, -2048], [512, -1152], [-384, -1152]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:den
+    platforms:
+      - {id: platform:table_n, at: [64, -1300], size: [576, 128], rise: 64, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A long table.}
+      - {id: platform:table_s, at: [64, -1900], size: [576, 128], rise: 64, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A long table.}
+    notes: "Long tables either side of the way through; dice, bowls, a stew pot in the corner."
+  - id: room:practice
+    name: Practice hall
+    outline: [[-384, -1536], [640, -1536], [640, 1152], [-384, 1152]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:tower
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:locks, offset: 384, length: 512, bottom: 96, height: 192, surface: {texture: 7t1cabs, size: [64, 128]}, notes: A row of practice locks on boards.}
+    platforms:
+      - {id: platform:dummy_1, at: [-128, -1200], size: [64, 64], rise: 288, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A practice dummy hung with bells, for pickpockets."}
+      - {id: platform:dummy_2, at: [192, -1200], size: [64, 64], rise: 288, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A practice dummy hung with bells, for pickpockets."}
+      - {id: platform:dummy_3, at: [-128, -900], size: [64, 64], rise: 288, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A practice dummy hung with bells, for pickpockets."}
+      - {id: platform:target_1, at: [-300, 300], size: [48, 192], rise: 224, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A straw target against the west wall, for knife throwers."}
+      - {id: platform:target_2, at: [-300, -300], size: [48, 192], rise: 224, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A straw target against the west wall, for knife throwers."}
+    notes: "Where thieves train: dummies hung with bells, straw targets, a row of practice locks."
+  - id: room:roof_stair
+    name: Roof stair
+    outline: [[1024, 768], [1536, 768], [1536, 2048], [1024, 2048]]
+    floor: 1920
+    ceiling: 2720
+    theme: theme:stair
+    platforms:
+      - {id: platform:roof_head, rise: 512, surface: {texture: gston1wl, size: [128, 256]}, outline: [[1024, 1664], [1536, 1664], [1536, 2048], [1024, 2048]], top_surface: {texture: gcstflor, size: [128, 256]}, notes: "The roof stair's head (2,432), across the north end under the hatch."}
+      - {id: platform:roof_hatch, rise: 16, surface: {texture: 7trimd, size: [128, 256]}, outline: [[1200, 1776], [1360, 1776], [1360, 1936], [1200, 1936]], top_surface: {texture: 7trimd, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 784, notes: "The roof trapdoor: a plank leaf hung shut against the top of its frame (D-58: up to D7 after m30.done)."}
+    flights:
+      - {from: [1376, 896], to: [1376, 1664], width: 320, steps: 16, notes: "One flight up the east wall, 16 steps of 32, rising north to the head."}
+    beams:
+      - path: [[1168, 1760], [1392, 1760]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1168, 1952], [1392, 1952]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1184, 1776], [1184, 1936]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1376, 1776], [1376, 1936]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+    notes: "The roof stair (D-58): north of the getaway room, a flight up the east wall to a head under the roof trapdoor (to D7 after m30.done)."
+  - id: room:stair1
+    name: First stair
+    outline: [[-2048, -2048], [-1408, -2048], [-1408, 1024], [-2048, 1024]]
+    floor: 0
+    ceiling: 1184
+    theme: theme:stair
+    platforms:
+      - {id: platform:gallery1, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-2048, -2048], [-1408, -2048], [-1408, -1536], [-2048, -1536]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the first stair at the den (640), across the south end."}
+    flights:
+      - {from: [-1760, 448], to: [-1760, -1536], open_below: 32, to_height: 640, width: 384, steps: 20, notes: "One flight up the west wall, 20 steps of 32, rising south."}
+    notes: "From the front to the den (0 to 640), two storeys high, behind the first gong's door: the flight along the west wall rises south to a gallery at the den landing."
+  - id: room:stair2
+    name: Second stair
+    outline: [[1408, -1024], [2048, -1024], [2048, 2048], [1408, 2048]]
+    floor: 640
+    ceiling: 1824
+    theme: theme:stair
+    platforms:
+      - {id: platform:gallery2, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[1408, 1536], [2048, 1536], [2048, 2048], [1408, 2048]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the second stair at the practice floor (1280), across the north end."}
+    flights:
+      - {from: [1760, -448], to: [1760, 1536], open_below: 32, to_height: 1280, width: 384, steps: 20, notes: "One flight up the east wall, 20 steps of 32, rising north."}
+    notes: "From the den to the practice floor (640 to 1280), behind the second gong's door: the flight along the east wall rises north to a gallery at the practice landing."
+  - id: room:stair3
+    name: Third stair
+    outline: [[-2048, -2048], [-1408, -2048], [-1408, 1024], [-2048, 1024]]
+    floor: 1280
+    ceiling: 2464
+    theme: theme:stair
+    platforms:
+      - {id: platform:gallery3, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-2048, -2048], [-1408, -2048], [-1408, -1536], [-2048, -1536]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the third stair at the top floor (1920), across the south end."}
+    flights:
+      - {from: [-1760, 448], to: [-1760, -1536], open_below: 32, to_height: 1920, width: 384, steps: 20, notes: "One flight up the west wall, 20 steps of 32, rising south."}
+    notes: "From the practice floor to the top (1280 to 1920), behind the third gong's door; above the first stair."
+  - id: room:stash
+    name: Behind the tapestry
+    outline: [[1280, -512], [2048, -512], [2048, 512], [1280, 512]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    notes: "A thief's private stash behind the illusion: a chest and two sacks."
+  - id: room:strongroom
+    name: Strongroom
+    outline: [[1408, -2048], [2048, -2048], [2048, -1152], [1408, -1152]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:tower
+    notes: "Behind the iron door: the guild's best takings and two Energy Disks."
+  - id: room:tapestry
+    name: Tapestry hall
+    outline: [[-128, -1024], [1152, -1024], [1152, 1024], [-128, 1024]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:tapestry_a, offset: 1100, length: 224, bottom: 64, height: 448, surface: {texture: tap4, size: [128, 256], fit: true}, notes: A Mok procession in faded wool (left half).}
+          - {id: panel:tapestry_b, offset: 1340, length: 224, bottom: 64, height: 448, surface: {texture: tap3, size: [128, 256], fit: true}, notes: A Mok procession in faded wool (right half).}
+    notes: "A long hall, 1,280 by 2,048: a tapestry of a Mok procession on the east wall, left from the tower's priests; a button at its end; the false wall behind its south end."
+  - id: room:trap_walk
+    name: Trap walk
+    outline: [[768, -2048], [1280, -2048], [1280, 1152], [768, 1152]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:tower
+    beams:
+      - path: [[768, -400], [1280, -400]]
+        width: 48
+        depth: 48
+        bottom: 1680
+        surface: {texture: trim11_32, size: [32, 64]}
+        notes: A swinging log's beam (the log tied up).
+    notes: "A corridor of practice traps, all disarmed by the thieves who live here and armed for everyone else."
+openings:
+  - id: open:bunks_landing2
+    from: room:bunks
+    to: room:landing2
+    from_wall: 0
+    to_wall: 2
+    link: link:bunks_l2
+    width: 384
+    height: 384
+  - id: open:counting_bed
+    from: room:counting
+    to: room:bedchamber
+    from_wall: 2
+    to_wall: 0
+    link: link:counting_bed
+    width: 256
+    height: 256
+  - id: open:counting_getaway
+    from: room:counting
+    to: room:getaway
+    from_wall: 1
+    to_wall: 3
+    link: link:counting_getaway
+    width: 320
+    height: 384
+  - id: open:fence_gong2
+    from: room:fence
+    to: room:gong2
+    from_wall: 2
+    to_wall: 0
+    link: link:fence_gong2
+    width: 384
+    height: 384
+  - id: open:fence_treasury
+    from: room:fence
+    to: room:alibaba
+    from_wall: 1
+    to_wall: 3
+    link: link:fence_treasury
+    width: 256
+    height: 320
+  - id: open:getaway_roof
+    from: room:getaway
+    to: room:roof_stair
+    from_wall: 2
+    to_wall: 0
+    link: link:getaway_roof
+    along: 0.7188
+    width: 256
+    height: 320
+    notes: From the getaway room north into the roof stair (D-58).
+  - id: open:gong1_kennel
+    from: room:gong1
+    to: room:kennel
+    from_wall: 0
+    to_wall: 2
+    link: link:gong1_kennel
+    width: 256
+    height: 320
+  - id: open:gong1_stair
+    from: room:gong1
+    to: room:stair1
+    from_wall: 3
+    to_wall: 1
+    link: link:gong1_up
+    along: 0.125
+    width: 256
+    height: 320
+  - id: open:gong2_bunks
+    from: room:gong2
+    to: room:bunks
+    from_wall: 3
+    to_wall: 1
+    link: link:gong2_bunks
+    along: 0.3333
+    width: 256
+    height: 256
+  - id: open:gong2_stair
+    from: room:gong2
+    to: room:stair2
+    from_wall: 1
+    to_wall: 3
+    link: link:gong2_up
+    along: 0.1667
+    width: 256
+    height: 320
+  - id: open:gong3_stair
+    from: room:gong3
+    to: room:stair3
+    from_wall: 3
+    to_wall: 1
+    link: link:gong3_up
+    along: 0.2857
+    width: 256
+    height: 320
+  - id: open:guard_gong1
+    from: room:guardroom
+    to: room:gong1
+    from_wall: 0
+    to_wall: 2
+    link: link:guard_gong1
+    width: 512
+    height: 384
+  - id: open:hall_guard
+    from: room:door_hall
+    to: room:guardroom
+    from_wall: 3
+    to_wall: 1
+    link: link:door_guard
+    width: 256
+    height: 256
+  - id: open:kennel_tapestry
+    from: room:kennel
+    to: room:tapestry
+    from_wall: 2
+    to_wall: 0
+    link: link:kennel_tapestry
+    width: 384
+    height: 384
+  - id: open:landing2_mess
+    from: room:landing2
+    to: room:mess
+    from_wall: 1
+    to_wall: 3
+    link: link:l2_mess
+    width: 384
+    height: 384
+  - id: open:landing3_practice
+    from: room:landing3
+    to: room:practice
+    from_wall: 0
+    to_wall: 2
+    link: link:l3_practice
+    width: 320
+    height: 384
+  - id: open:landing3_trap
+    from: room:landing3
+    to: room:trap_walk
+    from_wall: 0
+    to_wall: 2
+    link: link:l3_trap
+    width: 320
+    height: 384
+  - id: open:landing4_counting
+    from: room:landing4
+    to: room:counting
+    from_wall: 2
+    to_wall: 0
+    link: link:l4_counting
+    width: 256
+    height: 256
+  - id: open:landing4_library
+    from: room:landing4
+    to: room:library
+    from_wall: 1
+    to_wall: 3
+    link: link:l4_library
+    width: 384
+    height: 384
+  - id: open:mess_fence
+    from: room:mess
+    to: room:fence
+    from_wall: 1
+    to_wall: 3
+    link: link:mess_fence
+    width: 256
+    height: 256
+  - id: open:practice_gong3
+    from: room:practice
+    to: room:gong3
+    from_wall: 3
+    to_wall: 1
+    link: link:practice_gong3
+    width: 384
+    height: 384
+  - id: open:stair_landing2
+    from: room:stair1
+    to: room:landing2
+    from_wall: 1
+    to_wall: 3
+    link: link:gong1_up
+    along: 0.2857
+    width: 320
+    height: 384
+    notes: "The head of the first stair: its gallery opens east on to the den landing."
+  - id: open:stair_landing3
+    from: room:stair2
+    to: room:landing3
+    from_wall: 3
+    to_wall: 1
+    link: link:gong2_up
+    along: 0.3333
+    width: 320
+    height: 384
+    notes: "The head of the second stair: its gallery opens west on to the practice landing."
+  - id: open:stair_landing4
+    from: room:stair3
+    to: room:landing4
+    from_wall: 1
+    to_wall: 3
+    link: link:gong3_up
+    along: 0.2857
+    width: 320
+    height: 384
+    notes: "The head of the third stair: its gallery opens east on to the top landing."
+  - id: open:tapestry_hall
+    from: room:tapestry
+    to: room:door_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:tapestry_door
+    width: 512
+    height: 384
+  - id: open:tapestry_stash
+    from: room:tapestry
+    to: room:stash
+    from_wall: 1
+    to_wall: 3
+    link: link:tapestry_stash
+    along: 0.1875
+    width: 256
+    height: 320
+    notes: "The false wall behind the tapestry's south end: a secret door of the hall's own ashlar."
+  - id: open:trap_practice
+    from: room:trap_walk
+    to: room:practice
+    from_wall: 3
+    to_wall: 1
+    link: link:trap_practice
+    along: 0.619
+    width: 256
+    height: 256
+  - id: open:trap_strong
+    from: room:trap_walk
+    to: room:strongroom
+    from_wall: 1
+    to_wall: 3
+    link: link:trap_strong
+    width: 256
+    height: 320
+notes: "DD-06 Southern Tower: four floors stacked 640 apart (0, 640, 1280, 1920) inside a tower 4,096 square; x east, y north. Written by output/studio_cal/dd06/tools/gen.py."

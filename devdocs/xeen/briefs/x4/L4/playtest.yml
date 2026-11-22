@@ -1,0 +1,1331 @@
+# Written by output/studio_cal/x4/tools/gen_walk.py from the built map (A5, 2026-11-20): Asp's square and
+# the pedestals, Asp's services, the edge to X3, the druid, the barbarian camp, Burlock's square and
+# services, the castle gate, the lists, the fountain, Carlawna, the eyrie, the renegades, the ogres,
+# XD-02's adit, Falagar, Joe and the south edge to X2.
+id: xeen.x4.walk
+title: 'X4 Burlock Savannah: both towns, the pedestals, the camps and every way out'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x4.odm
+- assert:
+    map: xeen_x4.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -12800
+      y: -11776
+      radius: 128
+- note: 'The rule stone by the undercroft stair: the pedestals'' rhyme (q-c5.pedestal_rhyme)'
+- execute_event:
+    id: 98
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'A wrong touch: pedestal 2 to red, then back to blue (the else branch keeps its order)'
+- play_lua:
+    source: click(91); wait(0.5); close()
+- assert:
+    state_dump_map_var:
+      index: 5
+      value: 1
+- play_lua:
+    source: click(91); wait(0.5); close()
+- assert:
+    state_dump_map_var:
+      index: 5
+      value: 0
+- note: 'The solution: 1, 3, 5, 7 red (the south-west first, alternating): the timer fires q-c5.pedestals'
+- play_lua:
+    source: 'click(90); wait(0.4); close()
+
+      click(92); wait(0.4); close()
+
+      click(94); wait(0.4); close()
+
+      click(96); wait(0.4); close()'
+    max_seconds: 10
+- assert:
+    state_dump_map_var:
+      index: 4
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 5
+      value: 0
+- assert:
+    state_dump_map_var:
+      index: 6
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 0
+- assert:
+    state_dump_map_var:
+      index: 8
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 9
+      value: 0
+- assert:
+    state_dump_map_var:
+      index: 10
+      value: 1
+- assert:
+    state_dump_map_var:
+      index: 11
+      value: 0
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- play_lua:
+    source: if not qbit(112101) then error("q-c5.pedestals (112101) not set") end
+- note: 'Asp''s mirror: fogged until q-c5.done'
+- execute_event:
+    id: 100
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'XD-25: down the undercroft stair (open from day one) to the stair''s top inside, facing east'
+- execute_event:
+    id: 99
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd25.blv
+- assert:
+    party_position:
+      x: -2208
+      y: 1760
+      radius: 300
+      z_min: 176
+      z_max: 376
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Asp's well
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- note: Adam by the well (Q-C5)
+- walk_to:
+    x: -10752
+    y: -10547
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 32
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Eve by the well (Q-C5)
+- walk_to:
+    x: -10752
+    y: -11469
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 33
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sarah Slither''s House (building:asp_houses#1, house 4172): walk to its door and open it'
+- walk_to:
+    x: -13172
+    y: -10752
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -13172
+    y: -10752
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Snake Oil (building:asp_alchemist, house 4173): walk to its door and open it'
+- walk_to:
+    x: -13380
+    y: -9856
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -13380
+    y: -9856
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut until q-c5.done: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'Reed House (building:asp_houses#2, house 4178): walk to its door and open it'
+- walk_to:
+    x: -13076
+    y: -11776
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -13076
+    y: -11776
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: 'shut until q-c5.done: its closed text'
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- setup_shortcut:
+    kind: set_qbit
+    id: 112102
+    value: true
+- note: 'q-c5.done (112102, the transformer in XD-25): the cursed houses open'
+- note: 'Snake Oil (building:asp_alchemist, house 4173): walk to its door and open it'
+- walk_to:
+    x: -13380
+    y: -9856
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -13380
+    y: -9856
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Asp Guild of Earth (building:asp_guild_earth, house 4175): walk to its door and open it'
+- walk_to:
+    x: -12872
+    y: -9468
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -12872
+    y: -9468
+    z: 1056
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Asp Guild of Body (building:asp_guild_body, house 4176): walk to its door and open it'
+- walk_to:
+    x: -10568
+    y: -9468
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -10568
+    y: -9468
+    z: 1056
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Scale House (building:asp_armour, house 4174): walk to its door and open it'
+- walk_to:
+    x: -9196
+    y: -9856
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -9196
+    y: -9856
+    z: 1056
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Reed House (building:asp_houses#2, house 4178): walk to its door and open it'
+- walk_to:
+    x: -13076
+    y: -11776
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -13076
+    y: -11776
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Asp's town sign
+- execute_event:
+    id: 101
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Roadside Shrine (building:asp_shrine, house 4171): walk to its door and open it'
+- walk_to:
+    x: -7296
+    y: -11284
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -7296
+    y: -11284
+    z: 1056
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Travel Pit (building:asp_travel_pit, house 4170): walk to its door and open it'
+- walk_to:
+    x: -7424
+    y: -10236
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -7424
+    y: -10236
+    z: 1056
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The signpost at the Asp road fork (x4.sign_asp)
+- execute_event:
+    id: 84
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Down the Asp road to the south edge west of x 0: X3 (D-11.6, the world''s edge_spans)'
+- set_pose:
+    map: xeen_x4.odm
+    x: -14336
+    y: -20224
+    z: 1024
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The sign at the road end
+- execute_event:
+    id: 149
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -14336
+    y: -24064
+    z: 992
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x3.odm
+- assert:
+    party_position:
+      x: -7168
+      y: 22016
+      radius: 300
+- note: 'On X3''s north road end; back to X4 (load_map: X3''s own way north is the lead''s)'
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: The Autumn Druid's grove
+- set_pose:
+    map: xeen_x4.odm
+    x: -18432
+    y: -4096
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Autumn Druid in her ring (Q-C1, T1-C)
+- walk_to:
+    x: -19149
+    y: -3584
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 35
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The barbarian camp (x4.barbarian_camp)
+- set_pose:
+    map: xeen_x4.odm
+    x: -18432
+    y: 2816
+    z: 1296
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 3000
+- play_lua:
+    source: click(103); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: You have stumbled upon a Barbarian encampment. Burn?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close()
+
+      if qbit(116060) then error("the camp burnt on No") end'
+- play_lua:
+    source: click(103); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: You have stumbled upon a Barbarian encampment. Burn?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); wait(0.3); close()
+
+      if not qbit(116060) then error("barbarian_camp not set") end'
+- note: 'Burnt: the other tents say so'
+- execute_event:
+    id: 104
+- advance_runtime:
+    seconds: 0.5
+- note: 'The desert road west to the edge: X6 Desert of the Sphinx (7 days)'
+- set_pose:
+    map: xeen_x4.odm
+    x: -20480
+    y: 2048
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -24320
+    y: 2048
+    z: 1184
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: 22016
+      y: 2048
+      radius: 300
+- note: On X6's east road end; back to X4 (X6's walk crosses its east edge itself)
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Firestone road east to the edge: X7 Mount Firestone (5 days)'
+- set_pose:
+    map: xeen_x4.odm
+    x: 20480
+    y: -1024
+    z: 1216
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 24320
+    y: -1024
+    z: 1024
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: -22016
+      y: -1024
+      radius: 128
+      z_min: 1312
+      z_max: 1568
+- note: On X7's west road; back west over X7's west edge to X4's entrance:east_road
+- walk_to:
+    x: -23552
+    y: -1024
+    z: 1408
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: 22016
+      y: -1280
+      radius: 128
+      z_min: 960
+      z_max: 1216
+- note: Castle Burlock's village square
+- set_pose:
+    map: xeen_x4.odm
+    x: -1536
+    y: 3277
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Burlock's mirror (Xeen.useMirror 4157)
+- execute_event:
+    id: 78
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Well of Might (+10 Might, temporary)
+- execute_event:
+    id: 77
+- advance_runtime:
+    seconds: 0.5
+- note: The herald's board
+- execute_event:
+    id: 79
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Chapel of the Crown (building:burlock_temple, house 4153): walk to its door and open it'
+- walk_to:
+    x: -3584
+    y: 5172
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -3584
+    y: 5172
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Jousting Pig (building:burlock_tavern, house 4156): walk to its door and open it'
+- walk_to:
+    x: -2048
+    y: 4980
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -2048
+    y: 4980
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Royal Armoury (building:burlock_weapons, house 4151): walk to its door and open it'
+- walk_to:
+    x: 346
+    y: 5428
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: 346
+    y: 5428
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Plate and Mail by Royal Appointment (building:burlock_armour, house 4152): walk to its door and open it'
+- walk_to:
+    x: 1792
+    y: 5444
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: 1792
+    y: 5444
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The King''s Lists (building:burlock_training, house 4154): walk to its door and open it'
+- walk_to:
+    x: -3584
+    y: 3332
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -3584
+    y: 3332
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Royal Stables of Burlock (building:burlock_stables, house 4155): walk to its door and open it'
+- walk_to:
+    x: 772
+    y: 4096
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: 772
+    y: 4096
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Up the castle lane to the gate
+- walk_to:
+    x: -1024
+    y: 5120
+    z: 1312
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1024
+    y: 6707
+    z: 1750
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'XD-07: through the castle gate into the gatehouse, before the Crusaders'' portcullis'
+- execute_event:
+    id: 180
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd07.blv
+- assert:
+    party_position:
+      x: 0
+      y: 384
+      radius: 300
+      z_min: -80
+      z_max: 120
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'The jousting lists: the Master of the Lists'' challenge'
+- set_pose:
+    map: xeen_x4.odm
+    x: 2048
+    y: -4403
+    z: 1088
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Refused under Might 30
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Olympian Fountain on its ledge by the falls
+- set_pose:
+    map: xeen_x4.odm
+    x: 5427
+    y: 7680
+    z: 1088
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: +2 Might, once
+- execute_event:
+    id: 88
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 1
+- note: 'Again: only cold water'
+- execute_event:
+    id: 88
+- advance_runtime:
+    seconds: 0.5
+- note: Carlawna's hut
+- set_pose:
+    map: xeen_x4.odm
+    x: -11571
+    y: 4813
+    z: 1376
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Carlawna''s Hut (building:carlawna_hut, house 4166): walk to its door and open it'
+- walk_to:
+    x: -12210
+    y: 5154
+    z: 1376
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: -12210
+    y: 5154
+    z: 1376
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The eyrie path
+- set_pose:
+    map: xeen_x4.odm
+    x: -9216
+    y: 10547
+    z: 1754
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'XD-26: into the Gargoyle Eyrie''s cave mouth'
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd26.blv
+- assert:
+    party_position:
+      x: 1344
+      y: -1000
+      radius: 300
+      z_min: -80
+      z_max: 120
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: The renegade knights' camp
+- set_pose:
+    map: xeen_x4.odm
+    x: -3584
+    y: -18176
+    z: 1008
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 3000
+- note: The renegades' pavilions burn (+1,500)
+- execute_event:
+    id: 108
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- assert:
+    state_dump_map_var:
+      index: 12
+      value: 1
+- note: The ogres' camp in the red hills
+- set_pose:
+    map: xeen_x4.odm
+    x: 20480
+    y: -13056
+    z: 1632
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 3000
+- note: The ogres' fire (+1,500)
+- execute_event:
+    id: 113
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 1
+- note: XD-02's west adit
+- walk_to:
+    x: 19200
+    y: -16128
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 20146
+    y: -16128
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: 20146
+    y: -16128
+    z: 1504
+    yaw: -0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- setup_shortcut:
+    kind: set_qbit
+    id: 110020
+    value: true
+- note: With the winch worked inside XD-02 (qbit 110020) the adit is open
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd02.blv
+- assert:
+    party_position:
+      x: 2720
+      y: 5184
+      radius: 400
+- load_map:
+    map: xeen_x4.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Falagar's hut on the lava shoulder
+- set_pose:
+    map: xeen_x4.odm
+    x: 18534
+    y: 205
+    z: 1389
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Falagar''s Hut (building:falagar_hut, house 4167): walk to its door and open it'
+- walk_to:
+    x: 18304
+    y: 1044
+    z: 1408
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x4.odm
+    x: 18304
+    y: 1044
+    z: 1408
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Joe's wagon
+- set_pose:
+    map: xeen_x4.odm
+    x: 12288
+    y: -12800
+    z: 928
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Joe the Merchant at his wagon
+- walk_to:
+    x: 12390
+    y: -12493
+    z: 950
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 34
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Rivercity road south to the edge east of x 0: the travel prompt (X2), accepted'
+- set_pose:
+    map: xeen_x4.odm
+    x: 16384
+    y: -20480
+    z: 992
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 16384
+    y: -24064
+    z: 992
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x2.odm

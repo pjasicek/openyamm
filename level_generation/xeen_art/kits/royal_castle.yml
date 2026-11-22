@@ -1,0 +1,347 @@
+# Xeen landmark kit: royal castles of white stone (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new
+# ones made for the kit (level_generation/xeen_art/kit_textures/landmarks: specs.yml, finished/<name>.png at 4x).
+# Sizes are logical texels (the x4 masters in level_generation/textures_x4/masters/<world>/<name>.png are 4x).
+# `maps`: the shipped maps that use the texture (outdoor first; `maps_more` counts the rest). Contact sheet:
+# kits/royal_castle_sheet.png (landmark_sheet.py).
+kit: royal_castle
+title: Royal castles of white stone (Castle Burlock, Castle Kalindra restored, Castleview walls, Newcastle)
+look:
+- 'Castle Ironfist (MM6): pale cream ashlar with orange-tan crenels, quoins and carved frames, Gothic green-glass windows,'
+- carved oak gates; grey MM6 castle stone for curtain walls and footings, slate cones; inside, cream marble halls of MM7.
+family_sources:
+- source: 'MM6 Castle Ironfist outd3 (bmodels IrTop, IrGate, IrWallFt, IrTwrLt/Rt, IrBkLt, IrHall; temples TempleW/S): the
+    hc set'
+  why: the only shipped royal castle of white stone, and MM6 is Xeen lineage (the Ironfist line, King Roland); 19 pieces
+    cut as one canvas (plain wall, crenellated band, quoined ends, windows, balcony, triple window, statue niches, three
+    gates), so walls, towers and gatehouses tile without steps. Used only in outd3, so it reads as new in Xeen.
+- source: 'MM6 castle stone cs set (Frozen Highlands outc1, Misty Islands oute2, outd3 bridges and the D11 tower): grey
+    ashlar'
+  why: 'the matching grey stone of MM6 castles: curtain and town walls (Castleview), footings, bridges, the coping trims
+    cstr128/256 and a grey arrow slit; the white hc faces sit on it as Ironfist does (bridges, docks)'
+- source: 'MM7 Harmondale 7out02 player castle (PC01-PC16): ch1b1 ruin pieces, and Castle Harmondale 7d29'
+  why: 'the shipped precedent of a castle rebuilt in stages (MM7 swaps ruin and restored models): Newcastle''s stages 0-1
+    wear the ch1b1 ruin set, stage 2+ the hc set; 7d29 gives royal furnishing (tapestries, doors, cabinets)'
+- source: 'MM7 The Titans'' Stronghold 7d09 and Temple of the Light t01 (also Castle Lambent 7d30, Castle Navan 7d32): the
+    t3s2 marble'
+  why: 'the interior hall family: cream marble panels with a carved knotwork dado, marble pilasters and ceiling, marble
+    floors with a dark border and a rug; a white castle inside matches its white outside (Castle Gloaming, the dark castle,
+    is XD-12 Darzog''s)'
+per_castle:
+  XD-07 Castle Burlock (X4): hc exterior on cs footings, xtslate cones; Burlock crest xkburcrst (gold griffin on red) at the gatehouse and keep,
+    xkportc on the Crusaders' gate; interior the t3s2 hall set with xkburban banners and Harmondale tapestries
+  DD-03 Castle Kalindra (D1, staged): the same hc and t3s2 sets with Kalindra crest xkkalcrst and banner xkkalban; its out-of-phase
+    (unrestored) wings in MM7 Castle Gryphonheart 7d33 (chb1, dchb1, tfb2), see dungeon_families castles
+  Castleview walls (D1): cs grey curtain walls, csaro128 and xkarrow slits, cstr coping, hc gate towers with xkkalcrst;
+    xtslate roofs (Darkside stone and slate)
+  XD-13 Newcastle Keep (X3, staged): 'stage 0-1: ch1b1 ruin pieces, rubble; stage 2+: hc walls and gate with Newcastle''s
+    arms xkncscrst (a white tower on blue, no crown: the first Burlock art without its crown, D-3.1) and its banner
+    xkncsban in the hall'
+shipped:
+  wall:
+  - tex: mm6/hcwall
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'main wall: pale cream and white ashlar (the family source)'
+  - tex: mm6/cswl128
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: 'grey castle ashlar: curtain walls, footings, Castleview walls'
+  - tex: mm6/csbr128
+    size: [128, 128]
+    maps: [outb1.odm, outc1.odm, outc2.odm, outd1.odm, outd2.odm, outd3.odm, oute1.odm, oute2.odm]
+    maps_more: 1
+    note: 'grey large blocks: bridges, plinths, foundations, gate passages'
+  wall edge (quoins, corners):
+  - tex: mm6/hcw1le
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'left end: orange-tan quoins'
+  - tex: mm6/hcw1re
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'right end: orange-tan quoins'
+  - tex: mm6/hcw1leb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: left end, plain top
+  - tex: mm6/hcw1reb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: right end, plain top
+  - tex: mm6/csle128
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall left end
+  - tex: mm6/csre128
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall right end
+  - tex: mm6/csde128
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall, both ends dressed (buttress, pier)
+  wall with window or arrow slit:
+  - tex: mm6/hcwindo
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: Gothic lancet triple, green glass
+  - tex: mm6/hctriw
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: triple lancet under the crenel band
+  - tex: mm6/hcbalcwb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: tall window with carved balcony (the royal apartments)
+  - tex: mm6/cswdw128
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall, small lancet
+  - tex: mm6/csle128w
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall end with window
+  - tex: mm6/csre128w
+    size: [128, 256]
+    maps: [outc1.odm, outd3.odm, oute2.odm]
+    note: grey wall end with window
+  - tex: mm6/cswndw
+    size: [256, 256]
+    maps: [oute2.odm]
+    note: grey wall, wide window (256)
+  - tex: mm6/csaro128
+    size: [128, 256]
+    maps: [outc1.odm, oute2.odm]
+    note: 'grey wall, arrow slit (the white set has none: xkarrow)'
+  gate/door:
+  - tex: mm6/hclgdr
+    size: [256, 256]
+    maps: [outd3.odm]
+    note: great double gate, carved oak and stained glass, 256 x 256 (the main gate)
+  - tex: mm6/hcdoor32
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: arched carved oak door in the white wall
+  - tex: mm6/hcsmdr
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: small arched door in the white wall
+  - tex: mm6/csdoor
+    size: [256, 256]
+    maps: [outc1.odm, oute2.odm, zdtl02.blv]
+    note: grey arch with carved double door, 256 x 256 (gatehouse, curtain wall gate)
+  - tex: mm6/csdearo
+    size: [256, 256]
+    maps: [oute2.odm]
+    note: grey wall with door and arrow slit (gatehouse side)
+  battlement/parapet:
+  - tex: mm6/hcw1ctr
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'white wall under an orange-tan crenellated band: parapets, tower tops'
+  - tex: mm6/cstr128
+    size: [128, 32]
+    maps: [outb1.odm, outc1.odm, outc2.odm, outd1.odm, outd3.odm, oute2.odm]
+    note: 'grey coping, 32 high: merlon caps, parapet tops, string courses'
+  - tex: mm6/cstr256
+    size: [256, 32]
+    maps: [outc1.odm, outd2.odm, outd3.odm, oute2.odm]
+    note: grey coping, 256 wide
+  roof/cone:
+  - tex: mm6/roof
+    size: [128, 128]
+    maps: [outc2.odm, outd1.odm, outd2.odm, outd3.odm, oute1.odm, oute2.odm]
+    note: 'red-brown wooden shingle (Ironfist''s own outbuildings); slate is new: xtslate (towers kit, shared)'
+  - tex: mm6/pxshings
+    size: [128, 128]
+    maps: [outa1.odm, outb2.odm, outc1.odm, outc2.odm, outd1.odm, outd2.odm, outd3.odm, oute1.odm]
+    maps_more: 1
+    note: warm shingle of Ironfist's temple roofs (chapel, stables)
+  trim:
+  - tex: mm6/bemstra1
+    size: [256, 32]
+    maps: [outa2.odm, outb1.odm, outb2.odm, outc1.odm, outc2.odm, outc3.odm, outd1.odm, outd2.odm]
+    maps_more: 6
+    note: orange-brown beam trim 256 x 32 (Ironfist hall and gate)
+  - tex: mm6/t1trimb
+    size: [32, 32]
+    maps: [outd3.odm, 6d01.blv, 6d19.blv, 6t1.blv, 6t8.blv]
+    note: pink marble trim 32 x 32
+  - tex: mm7/7tws1fa
+    size: [128, 32]
+    maps: [7out03.odm, out09.odm, out10.odm, out11.odm, 7d25.blv]
+    note: marble cornice 128 x 32 (interior)
+  pillar:
+  - tex: mm7/t3elr
+    size: [128, 256]
+    maps: [7d20.blv, t03.blv]
+    note: marble pilaster with green inlay (interior)
+  - tex: mm6/hcuniq2
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'statue niche (bust) in the white wall: gate flanks, courtyard'
+  - tex: mm6/hcuniq3
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: statue niche (robed figure) in the white wall
+  floor:
+  - tex: mm6/t1f1
+    size: [128, 128]
+    maps: [outb3.odm, outd3.odm, oute1.odm, oute3.odm, 6d01.blv, 6d08.blv, 6d19.blv, 6t1.blv]
+    maps_more: 1
+    note: pink-white marble star tile (Ironfist courtyard, throne room)
+  - tex: mm6/t1f2
+    size: [128, 128]
+    maps: [outd3.odm, 6d06.blv, 6d19.blv, 6t1.blv, 6t3.blv, 6t8.blv]
+    note: green and rose marble diamond tile
+  - tex: mm6/cstyl
+    size: [128, 128]
+    maps: [outa1.odm, outd3.odm]
+    note: 'grey stone flags: wall walks, gate passages'
+  interior wall:
+  - tex: mm7/t3s2b1
+    size: [128, 256]
+    maps: [7out03.odm, 7d07.blv, 7d09.blv, 7d10.blv, 7d20.blv, 7nwc.blv, mdt15.blv, t01.blv]
+    maps_more: 2
+    note: cream marble panels (main interior wall)
+  - tex: mm7/t3s2b
+    size: [128, 256]
+    maps: [7out06.odm, 7d10.blv, 7d19.blv, 7d25.blv, 7nwc.blv, t01.blv, t03.blv, t04.blv]
+    note: cream marble over a carved dark knotwork dado (the hall's band)
+  - tex: mm7/t3s2b1f
+    size: [128, 256]
+    maps: [7d33.blv]
+    note: framed royal portrait on marble
+  - tex: mm7/t3s2bs1
+    size: [128, 256]
+    maps: [t01.blv]
+    note: framed dragon painting on marble
+  - tex: mm7/tap1
+    size: [128, 256]
+    maps: [7d29.blv, 7d30.blv]
+    note: tapestry, lady and unicorn (Castle Harmondale)
+  - tex: mm7/tap4
+    size: [128, 256]
+    maps: [7d29.blv]
+    note: tapestry, hunt (Castle Harmondale)
+  - tex: mm7/tap7
+    size: [128, 256]
+    maps: [7d29.blv]
+    note: tapestry, hound (Castle Harmondale)
+  - tex: mm7/7t1books
+    size: [128, 256]
+    maps: [7d06.blv, 7d07.blv, 7d12.blv, 7d14.blv, 7d19.blv, 7d20.blv, 7d24.blv, 7d29.blv]
+    maps_more: 5
+    note: bookcase (library, study)
+  interior ceiling:
+  - tex: mm7/t3s2c
+    size: [128, 128]
+    maps: [7d07.blv, 7d09.blv, 7d30.blv, t01.blv, t03.blv, t04.blv]
+    note: cream marble coffer with grey inlay (Titans' Stronghold, Castle Lambent)
+  - tex: mm7/7tws1h
+    size: [128, 128]
+    maps: [7out03.odm, out09.odm, out10.odm, out11.odm, 7d13.blv, 7d16.blv, 7d29.blv, 7d33.blv]
+    maps_more: 1
+    note: warm marble (Castle Harmondale's ceilings)
+  interior floor:
+  - tex: mm7/t3s2fl1
+    size: [128, 128]
+    maps: [7d20.blv, 7d32.blv, mdt15.blv, t01.blv]
+    note: cream marble with dark border (halls)
+  - tex: mm7/t3s2fl1i
+    size: [64, 64]
+    maps: [7d32.blv]
+    note: rug, centre piece (t3s2fl1a-n is the whole rug; throne aisle)
+  - tex: mm7/tfb09
+    size: [128, 128]
+    maps: [out11.odm, 7d09.blv, 7d26.blv, 7d29.blv, mdt11.blv]
+    note: 'dark green-grey flags (Titans'' Stronghold, Castle Harmondale: service rooms, barracks)'
+  - tex: mm7/tfb08
+    size: [128, 128]
+    maps: [out11.odm, 7d09.blv, mdt05.blv]
+    note: dark flags, smaller (Titans' Stronghold floors)
+  - tex: mm7/7tws1f
+    size: [128, 128]
+    maps: [7out01.odm, 7out03.odm, out09.odm, out10.odm, out11.odm, 7d06.blv, 7d12.blv, 7d13.blv]
+    maps_more: 5
+    note: pale marble (stairs, dais)
+  interior door:
+  - tex: mm7/t5d1
+    size: [128, 256]
+    maps: [out09.odm, 7d05.blv, 7d07.blv, 7d09.blv, 7d10.blv, 7d13.blv, 7d18.blv, 7d19.blv]
+    maps_more: 13
+    note: riveted iron and brass door (Castle Harmondale's doors; vaults, keep)
+  - tex: mm7/chb1dl
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, 7d29.blv, 7d31.blv, 7d33.blv]
+    note: arched oak door, left leaf (Castle Gryphonheart; older wings)
+  - tex: mm7/chb1dr
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, 7d29.blv, 7d31.blv, 7d33.blv]
+    note: arched oak door, right leaf
+  staged ruin (Newcastle stage 0-1, Harmondale PC set):
+  - tex: mm7/ch1b1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, 7d07.blv, 7d26.blv, 7d29.blv, 7d31.blv]
+    maps_more: 1
+    note: ruined castle stone (Harmondale's ruin pieces, Castle Gryphonheart)
+  - tex: mm7/ch1b1s
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7d31.blv]
+    note: ruined stone, coping course
+  - tex: mm7/ch1bw
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm]
+    note: ruined wall with lancet
+  - tex: mm7/ch1b1dl
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: ruined arched door, left
+  - tex: mm7/ch1b1dr
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: ruined arched door, right
+new:
+- name: xkarrow
+  size: [128, 256]
+  kind: picture
+  note: white ashlar with a cross-loop arrow slit (the hc set has no slit)
+- name: xkportc
+  size: [256, 256]
+  kind: cutout
+  note: 'iron portcullis (alpha): Burlock''s Crusaders'' gate, gatehouses'
+- name: xkburcrst
+  size: [128, 256]
+  kind: picture
+  note: King Burlock's arms carved and painted in the white wall (a gold griffin rampant on red, after the source's
+    sprites/xeen/fcstl2.fwl/frame_0006; D-3.1)
+- name: xkkalcrst
+  size: [128, 256]
+  kind: picture
+  note: Queen Kalindra's arms in the white wall (silver crescent and rose on purple, the source's purple of
+    sprites/dark/fcstl2.fwl/frame_0006; D-3.1)
+- name: xkburban
+  size: [128, 256]
+  kind: picture
+  note: Burlock's red banner with the gold griffin on the t3s2b1 marble wall (throne room, great hall)
+- name: xkkalban
+  size: [128, 256]
+  kind: picture
+  note: Kalindra's purple banner (silver crescent and rose) on the t3s2b1 marble wall
+- name: xkncscrst
+  size: [128, 256]
+  kind: picture
+  note: Newcastle's arms in the white wall (a white tower on blue, a plain stone cap, no crown; D-3.1)
+- name: xkncsban
+  size: [128, 256]
+  kind: picture
+  note: Newcastle's blue banner with the white tower on the t3s2b1 marble wall (stage 2+)
+- name: xtslate
+  size: [128, 128]
+  kind: tile
+  note: 'shared from the towers kit: blue-grey slate roof for the tower cones'
+arms: 'From the source''s castle wall sets (decision D-3.1, 2026-11-20): Burlock a gold griffin rampant on red
+  (reference/mm4_5_world_of_xeen/unpacked/sprites/xeen/fcstl2.fwl/frame_0006.png, a red shield with a gold griffin);
+  Kalindra her silver crescent and rose on purple (sprites/dark/fcstl2.fwl/frame_0006.png, a purple banner; the
+  crescent and rose are ours, the colour is the source''s); Newcastle a white tower on blue (the kit''s first Burlock
+  art without the crown). The kit has 9 new textures.'

@@ -1,0 +1,56 @@
+{
+ "xpwcoral": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.616,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      1.082,
+      1.058,
+      1.068
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xpwcoral_v1.txt",
+    "raw": "raw/xpwcoral_v1.png",
+    "refs": [
+     "refs/xpwcoral_v1_1.png",
+     "refs/xpwcoral_v1_2.png"
+    ],
+    "seam_raw": "raw/xpwcoral_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xpwspray": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.588,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xpwspray_v1.txt",
+    "raw": "raw/xpwspray_v1.png",
+    "refs": [
+     "refs/xpwspray_v1_1.png",
+     "refs/xpwspray_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

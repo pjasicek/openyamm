@@ -1,10 +1,12 @@
 # Handoff: Xeen world design and the Map Studio designer role
 
-Written 2026-11-12 by session **openyamm-fe** for whoever continues. Read this file first, then the documents it
-names.
+Written 2026-11-12 by session **openyamm-fe** for whoever continues.
 
-Nothing here is committed. `devdocs/xeen/` and `devdocs/map_studio/` are untracked. The user commits: never stage
-or commit unless asked.
+**Superseded as the starting point on 2026-11-20 by [ROADMAP.md](ROADMAP.md)**, which plans the whole world with an
+orchestrator and eight lanes. This file stays as the record of the design work and the Map Studio designer role up
+to 2026-11-14; for what happened after it (the five Act II maps, the hostility pass), see
+[ACT2_BUILD.md](ACT2_BUILD.md). Since then `devdocs/xeen/` and `devdocs/map_studio/` have been committed by the user
+(2026-11-16 and 2026-11-17). Never stage or commit unless asked.
 
 This session did two jobs:
 1. **Xeen world design.** A new MM6–MM8-style world on the World of Xeen story, with all-new maps. It is finished as

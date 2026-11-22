@@ -2,7 +2,7 @@
 # its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
 id: xeen.xd02.l4.hostility
 title: 'the Red Dwarf Mines (XD-02): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -39,77 +39,77 @@ steps:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 229
+      monster_id: 11050
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 230
+      monster_id: 11051
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 231
+      monster_id: 11052
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 400
+      monster_id: 11320
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 401
+      monster_id: 11321
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 402
+      monster_id: 11322
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 412
+      monster_id: 11430
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 413
+      monster_id: 11431
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 414
+      monster_id: 11432
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11300
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 206
+      monster_id: 11301
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 207
+      monster_id: 11302
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11300
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 229
+      monster_id: 11050
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 412
+      monster_id: 11430
       hostile: true
       min: 1
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
@@ -117,17 +117,17 @@ steps:
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 229
+    monster_id: 11050
     x: 13450
     y: 3392
     z: 0
 - spawn_actor:
-    monster_id: 401
+    monster_id: 11321
     x: 13546
     y: 3392
     z: 0
 - spawn_actor:
-    monster_id: 412
+    monster_id: 11430
     x: 13642
     y: 3392
     z: 0
@@ -147,16 +147,16 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 229
+      monster_id: 11050
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 401
+      monster_id: 11321
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 412
+      monster_id: 11430
       hurt: true
       max: 0

@@ -1,0 +1,310 @@
+# Xeen playthrough, segment 85: the Pharaoh's checklist and the four Reflectors (X4, X7, X1, D1, D6, D5, DD-15, X6, X5),
+# M36 The Destiny of Xeen and M37 The Reflectors.
+# On X4 outside Castle Burlock with the Cube of Power (12365) and the Scepter (12366). East off X4's edge to Mount
+# Firestone (X7), south off X7's edge to Vertigo Meadows (X1); X1's travel pyramid on the knoll (event 103, m7.sigil) to
+# D1 by Castleview; up D1's north road off the edge into the Forbidden Zone (D6), east over the border pass off D6's edge
+# to the Desert of Doom (D5); the Great Pyramid's green doors into DD-15, walked as segment 73: the entrance hall, the
+# atrium, the stair door, the Pharaoh's lift up, the antechamber, the throne hall. The Dragon Pharaoh: The destiny of
+# Xeen (m36.started 111720, the checklist autonote 4136, 4,000 each), The sleepers (the corners autonote 4137); down by
+# the lift and out by the green doors. West off D5's edge to D6, down the mountain road off D6's south edge to D1, D1's
+# pyramid back to X1. The four Reflectors ("Reflector. Activate?" Yes: 8,000 each, once): X1's Water Reflector on the
+# south-east rim (m37.water 111743); north off X1's edge to X7, the Fire Reflector on the north-east rim spit
+# (m37.fire 111741); west off X7's edge to X4, west off X4's edge to the Desert of the Sphinx (X6), the Air Reflector on
+# the north-west rock spit (m37.air 111740); south off X6's edge to Winterkill Tundra (X5), the Earth Reflector on its
+# spur at the glacier's lip (m37.earth 111742). Ends on X5.
+# M38 (the sleepers) follows in segments 87-93, M39 in 95. Current Quests (A3 s38): `journal:` steps (README).
+# Routes: segments 69 and 73 (DD-15), 61 and 79 (D1, D6, the pyramids), tests/scenarios/xeen/x7_edges.yml and
+# data_tables/edge_spans.yml (the X edges and their arrivals), devdocs/xeen/briefs/<map>/L4/sketch.yml (the Reflectors).
+# Quest logic: source/quests/m36.yml, m37.yml.
+#   python3 tests/playthrough/xeen/run.py 85
+id: xeen.playthrough.85_reflectors
+title: "Xeen playthrough 85: the Dragon Pharaoh's checklist, the four Reflectors at Cloudside's corners"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/83_castle_xeen.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - assert: {qbit_set: [111662, 111707, 111708, 111600, 111563]}
+  - assert: {qbit_clear: [111720, 111740, 111741, 111742, 111743]}
+  # A3 s38: Current Quests before the Pharaoh: M33's and M35's lines are up, the checklist's are not
+  - journal: {shown: [111662], gone: [111707], unstarted: [111720, 111740, 111760]}
+  - assert: {autonote: {id: 4136, present: false}}
+  - assert: {autonote: {id: 4137, present: false}}
+  - play_lua: {source: "log('85 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12365) then error('no Cube of Power (12365)') end; if not has_item(12366) then error('no Scepter (12366)') end"}
+  # East off X4's edge to Mount Firestone (X7's entrance on its west edge).
+  - set_pose: {map: xeen_x4.odm, x: 22016, y: -1280, z: 1056, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: -1280, z: 1056, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - assert: {party_position: {x: -22016, y: -1024, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # South off X7's edge to Vertigo Meadows (X1's north edge).
+  - set_pose: {map: xeen_x7.odm, x: 2560, y: -22016, z: 1856, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2560, y: -24064, z: 1856, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 2560, y: 22016, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X1's travel pyramid on the knoll east of Vertigo (event 103, Xeen.travelPyramid vertigo: m7.sigil) to D1.
+  - set_pose: {map: xeen_x1.odm, x: 8832, y: 9472, z: 800, yaw: 0.7854, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(103); wait(0.5)"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -1024, y: 13312, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Up D1's north road (x 64) off the edge into the Forbidden Zone (as segment 61).
+  - set_pose: {map: xeen_d1.odm, x: -1024, y: 13312, z: 1248, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 64, y: 32512, z: 1500, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # East over the border pass (y 0) off D6's edge to the Desert of Doom (as segment 73).
+  - set_pose: {map: xeen_d6.odm, x: 20992, y: 0, z: 1700, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 0, z: 1700, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Great Pyramid's green doors (D5 event 1).
+  - set_pose: {map: xeen_d5.odm, x: 0, y: -7168, z: 1248, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(1)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd15.blv}
+  - assert: {party_position: {x: 0, y: 4736, radius: 48, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # DD-15: the entrance hall, the atrium, the stair door, to the lift's foot (as segment 73).
+  - walk_to: {x: 576, y: 3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 2400, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -640, y: -1000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 20)"}
+  - walk_to: {x: -640, y: -1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -2900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -3550, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -500, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Up by the Pharaoh's lift (the cage waits at the foot since segment 73).
+  - play_lua: {source: "clear_hostiles(3000); status(); click(59); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: 2296, z_max: 2340}}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -1100, z: 2304, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 1300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The Dragon Pharaoh: The destiny of Xeen (the checklist), then The sleepers (the Skyroads' corners).
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold())"}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5453}}
+  - select_topic: {match_label: "The destiny of Xeen"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Turn on the four machines in the corners of the other side of the world"}}
+  - assert: {dialog: {text_contains: "rescued Prince Roland from the bottom of Sheltem's dungeon"}}
+  - assert: {qbit_set: [111720]}
+  # the checklist: M36's line, the four Reflectors' and the four Sleepers' lines show; M33's line goes
+  - journal: {shown: [111720, 111740, 111741, 111742, 111743, 111760, 111761, 111762, 111763], gone: [111662]}
+  - assert: {autonote: {id: 4136, present: true}}
+  - select_topic: {match_label: "The sleepers"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Fire in the north-west, Air in the north-east, Earth in the south-east, Water in the south-west"}}
+  - assert: {autonote: {id: 4137, present: true}}
+  # Asked again, the checklist is only repeated (no second payment).
+  - select_topic: {match_label: "The destiny of Xeen"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Then the Cube and the Scepter, together, at my shrine."}}
+  - play_lua:
+      source: |
+        close(); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local xp, xp3 = experience(0) - recall("xp"), experience(3) - recall("xp3")
+        if xp ~= 4000 or xp3 ~= 4000 then error("M36 paid " .. xp .. " / " .. xp3 .. " experience, not 4,000 each") end
+        if gold() ~= recall("gold") then error("M36 paid gold " .. (gold() - recall("gold"))) end
+  # Down by the lift and out by the green doors (as segment 73).
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -1100, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000); status(); click(12); wait(8); if door_state(1) ~= 'open' then error('the cage was not called up: ' .. door_state(1)) end"}
+  - walk_to: {x: 256, y: -3584, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(58); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -500, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1024, y: -3550, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -2900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -640, y: -1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 20)"}
+  - walk_to: {x: -640, y: -1000, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 4900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(34); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # West along the desert road (y 0) off D5's edge into the Forbidden Zone (as segment 71).
+  - set_pose: {map: xeen_d5.odm, x: -20992, y: 0, z: 1696, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 0, z: 1700, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Down the mountain road off D6's south edge to Castleview Vale (as segment 79).
+  - set_pose: {map: xeen_d6.odm, x: 0, y: -20480, z: 1888, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: -32512, z: 1500, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # D1's travel pyramid outside Castleview (event 109) back to X1 by Vertigo.
+  - set_pose: {map: xeen_d1.odm, x: -1024, y: 13312, z: 1248, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(109); wait(0.5)"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 8832, y: 9472, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X1's Water Reflector on the south-east rim (event 79, cell [102, 96]).
+  - set_pose: {map: xeen_x1.odm, x: 19072, y: -16384, z: 800, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(79); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "turned toward the stars below the rim. Reflector. Activate?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The creek beside it runs backwards for a moment]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}   # the line was on the status line (D-90)
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 8000 or xp3 ~= 8000 then error('the Water Reflector paid ' .. xp .. ' / ' .. xp3) end; if gold() ~= recall('gold') then error('the Water Reflector paid gold') end"}
+  - assert: {qbit_set: [111743]}
+  - journal: {gone: [111743], shown: [111740, 111741, 111742]}
+  # Once only: a second Yes hums and pays nothing.
+  - play_lua: {source: "remember('xp', experience(0)); click(79); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Reflector hums quietly."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= recall('xp') then error('the Water Reflector paid twice') end"}
+  # North off X1's edge to Mount Firestone (X7's south edge).
+  - set_pose: {map: xeen_x1.odm, x: 2560, y: 22016, z: 1824, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2560, y: 24064, z: 1824, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - assert: {party_position: {x: 2560, y: -22016, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X7's Fire Reflector on the spit where the north and east rims meet (event 37).
+  - set_pose: {map: xeen_x7.odm, x: 18944, y: 18330, z: 2912, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(37); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "turned toward the heat off the mountain. Reflector. Activate?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The heat of the mountain seems to lean towards it.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}   # the line was on the status line (D-90)
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 8000 or xp3 ~= 8000 then error('the Fire Reflector paid ' .. xp .. ' / ' .. xp3) end; if gold() ~= recall('gold') then error('the Fire Reflector paid gold') end"}
+  - assert: {qbit_set: [111741]}
+  - journal: {gone: [111741], shown: [111740, 111742]}
+  # West off X7's edge to Burlock Savannah, west off X4's edge to the Desert of the Sphinx (X6).
+  - set_pose: {map: xeen_x7.odm, x: -22016, y: -1024, z: 1408, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24064, y: -1024, z: 1408, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: 22016, y: -1280, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x4.odm, x: -22528, y: 2048, z: 1184, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24064, y: 2048, z: 1184, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: 22016, y: 2048, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X6's Air Reflector on the rock spit where the west and north rims meet (event 43).
+  - set_pose: {map: xeen_x6.odm, x: -18739, y: 18637, z: 2437, yaw: 2.3562, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(43); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "turned toward the wind off the edge. Reflector. Activate?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Somewhere far to the south, something answers it.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}   # the line was on the status line (D-90)
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 8000 or xp3 ~= 8000 then error('the Air Reflector paid ' .. xp .. ' / ' .. xp3) end; if gold() ~= recall('gold') then error('the Air Reflector paid gold') end"}
+  - assert: {qbit_set: [111740]}
+  - journal: {gone: [111740], shown: [111742]}
+  # South off X6's edge to Winterkill Tundra (X5's north edge).
+  - set_pose: {map: xeen_x6.odm, x: -7168, y: -22016, z: 1472, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: -24064, z: 1472, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: -7168, y: 22528, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X5's Earth Reflector on its spur at the glacier's lip (event 119, cell [40, 102.6]), from the Reflector's ledge.
+  - set_pose: {map: xeen_x5.odm, x: -8960, y: -18227, z: 2080, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: -11776, y: -19763, z: 2080, z_tolerance: 900, radius: 192, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(4000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(119); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "turned toward the glacier's edge. Reflector. Activate?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The snow on its housing slides off in one sheet.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}   # the line was on the status line (D-90)
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 8000 or xp3 ~= 8000 then error('the Earth Reflector paid ' .. xp .. ' / ' .. xp3) end; if gold() ~= recall('gold') then error('the Earth Reflector paid gold') end"}
+  - assert: {qbit_set: [111742]}
+  - assert: {qbit_set: [111707, 111720, 111740, 111741, 111742, 111743]}
+  - journal: {gone: [111740, 111741, 111742, 111743], shown: [111720, 111760, 111761, 111762, 111763]}
+  - assert: {autonote: {id: 4136, present: true}}
+  - assert: {autonote: {id: 4137, present: true}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        log("85 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "85 The Reflectors", path: output/playthrough/xeen/checkpoints/85_reflectors.oysav}

@@ -1,0 +1,42 @@
+# M20 Megan and the Songbird (QUESTS M20, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# On Kalindra's second floor (stage 2): Megan asks for the Songbird of Serenity for her father Dimitri, and gives the
+# key to the Dungeon of Lost Souls (DD-12, on the lake isle off Lakeside, D4: Act IV). M24 (Act IV) frees the bird and
+# Dimitri speaks: his topic here only grieves.
+id: M20
+title: The Songbird of Serenity
+act: III
+kind: main
+status: full
+giver: 5005          # Megan, Dimitri's daughter (DD-03, house 4503)
+maps: [DD-03]
+level: 25
+block: 20
+after: [m19.stage2]
+source: "QUESTS M20; dark research 1 (step 8)"
+
+qbits:
+  started: {id: 111400, journal: "Megan's father Dimitri, captain of the Queen's guard, has lost all hope. The Songbird of Serenity, caged in the Dungeon of Lost Souls on the lake isle, could lift it.",
+            until: [m24.done]}
+
+items:
+  lost_souls_key: "the key to the Songbird's cage in the Dungeon of Lost Souls; Megan gives it (DD-12, D4's isle, Act IV; D-89: the cage, not the isle's gate)"
+
+npcs:
+  5005:              # Megan
+    topics:
+      - n: 1
+        label: Father
+        states:
+          - when: {qbit: started}
+            text: "The Songbird is on the isle in the lake, past Lakeside. The dungeon there is all doors that ask you to cheer up. Father would never get through them."
+          - text: "My father Dimitri was captain of the Queen's guard. Since she was taken he sits in the dark and won't eat. Only the Songbird of Serenity could lift his despair, and it's caged in the Dungeon of Lost Souls on the lake isle. Here is the key to its cage. Father kept it; he won't use it. The Isle eats parties, mind."
+            do: [{give: lost_souls_key}, {set: started}, {xp: 3000}]
+  5004:              # Dimitri
+    topics:
+      - n: 2
+        label: The Queen
+        show: {not: {qbit: m24.done}}
+        text: "The Queen is gone. What is a captain without a queen? A man in a chair. Leave me be."
+
+rewards: {xp: 3000, gold: 0}
+playthrough: "DD-03 (stage 2): Megan (Father): the key to the Dungeon of Lost Souls."

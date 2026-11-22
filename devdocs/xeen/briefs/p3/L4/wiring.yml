@@ -1,0 +1,196 @@
+format: 0
+variables: [test_accepted, gate_open, dais_shown]
+events:
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:quarry_cache
+    title: Chest
+    notes: The quarrymen's strongbox (trapped).
+  - id: evt:chest_test
+    preset: chest
+    source: chest:test
+    title: Chest
+    notes: The test's chest (aaze0027:4).
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: The return dais
+    condition: {qbit: m38_earth}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(27136, -17408, 768, 768, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the dais after the sleeper, to D7's entrance:p3_return (A3's m38.dais_earth)."
+  - id: evt:dais_disc
+    preset: script
+    source: deco:dais
+    title: The return dais
+    condition: {qbit: m38_earth}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(27136, -17408, 768, 768, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:dais clicked on S's decoration over it.
+  - id: evt:dais_hide
+    preset: script
+    trigger: load
+    condition: {not: {qbit: m38_earth}}
+    effects:
+      - hide: platform:dais
+      - passable: platform:dais
+    notes: "C5: the return dais shows once the Earth Sleeper is awake (qbit 111762, m38.sleeper_earth)."
+  - id: evt:dais_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_earth}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: "P-1: the dais shown on every load once m38_earth is set (S's disc starts hidden)."
+  - id: evt:dais_show
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_earth}, {not: {map_var: dais_shown}}]}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: The dais rises the second the Earth Sleeper wakes (m38_earth).
+  - id: evt:echo
+    preset: script
+    source: platform:echo
+    title: The Echo Stone
+    lua: "XeenQuests.hook(\"planes.echo\")"
+    notes: "A3's planes.echo: the first time a sapphire in its hollow (map variable p3_echo)."
+  - id: evt:gate
+    preset: script
+    source: mover:slab
+    title: The Root Stair's slab
+    condition: {not: {qbit: m38_earth_test}}
+    locked_text: The slab has sunk into the rock.
+    effects:
+      - text: The slab of stone does not move.
+    notes: "Clicked: the slab never moves by hand (it sinks on the test)."
+  - id: evt:gate_keep
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: m38_earth_test}
+    opens: [mover:slab]
+    effects:
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: "Once the test is passed the slab stays sunk (every second; a sunk slab does not move)."
+  - id: evt:gate_open
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_earth_test}, {not: {map_var: gate_open}}]}
+    opens: [mover:slab]
+    effects:
+      - text: The slab across the stair sinks into the rock.
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: The slab sinks the second the qbit is set (C4).
+  - id: evt:geode
+    preset: script
+    source: platform:heart_geode
+    title: The Heart-geode
+    lua: "XeenQuests.hook(\"planes.geode\")"
+    notes: "A3's planes.geode (once a day, +20 Earth resistance until rest, every member)."
+  - id: evt:geode2
+    preset: script
+    source: platform:heart_geode2
+    title: The Heart-geode
+    lua: "XeenQuests.hook(\"planes.geode\")"
+    notes: "The same, its other half."
+  - id: evt:last_block
+    preset: script
+    source: platform:last_block
+    title: The last block
+    lua: "XeenQuests.hook(\"planes.last_block\")"
+    notes: "A3's planes.last_block: the slate ('Nearly done. Back after lunch.')."
+  - id: evt:passed_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_earth_test}
+    opens: [mover:slab]
+    effects:
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: "P-1: the load event reads qbit 111766: the slab sunk, the guardians hidden, the crack quiet (through refills and the reset after a map rebuild)."
+  - id: evt:plaque
+    preset: script
+    source: platform:plinth
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_earth\")"
+    notes: "A3's m38.plaque_earth: 'Step three' at the base of the statue (the statue on it is S's)."
+  - id: evt:plaque_statue
+    preset: script
+    source: deco:statue
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_earth\")"
+    notes: evt:plaque clicked on S's decoration over it.
+  - id: evt:rockfall
+    preset: script
+    source: platform:rockfall1
+    trigger: step
+    sources: [platform:rockfall2, platform:rockfall3, platform:rockfall4, platform:rockfall5, platform:rockfall6, platform:rockfall7, platform:rockfall8, platform:rockfall9]
+    lua: "XeenQuests.hook(\"planes.rockfall\")"
+    notes: "D-58 P3 Q2: A3's planes.rockfall (one time in three, 50 physical to each member, 'Rocks fall from above!', a short camera shake)."
+  - id: evt:sleeper
+    preset: script
+    source: deco:sleeper
+    title: The Earth Sleeper
+    lua: "XeenQuests.hook(\"m38.sleeper_earth\")"
+    notes: "A3's m38.sleeper_earth (clicked, every time): not Chosen; 'Awaiting Grunfeld field activation.'; awake (the qbit, the award, 10,500 experience)."
+  - id: evt:test
+    preset: script
+    source: platform:test_plate
+    question: {ask: "Accept the test of Earth?", answers: [Yes, Y]}
+    trigger: step
+    condition: {all: [{not: {qbit: m38_earth_test}}, {not: {map_var: test_accepted}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m38.test_earth\")"
+      - show_actors: 60
+      - set:
+          var:
+            map_var: test_accepted
+          value: 1
+    notes: "D-58 C3: the test (aaze0027:5). Yes: A3's m38.test_earth line, the guardians rise from the crack (group 60 shown); any other answer does nothing. Not asked again while they live."
+  - id: evt:test_check
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: test_accepted}, {not: {qbit: m38_earth_test}}]}
+    lua: "Xeen.planeTestCheck(\"earth\", 60)"
+    notes: "A3's killed-group check (xeen_common.lua): once the three guardians are dead it runs m38.test_earth_passed, which sets qbit 111766 (P-1) with its line."
+  - id: evt:way_up
+    preset: script
+    source: platform:way_up
+    title: The dust shaft
+    effects:
+      - lua: "evt.MoveToMap(27136, -17408, 768, 768, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the way up, always open, to D7's entrance:p3_return; A3's m38.way_up_earth is its question."
+  - id: evt:way_up_column
+    preset: script
+    source: deco:way_up
+    title: The dust shaft
+    effects:
+      - lua: "evt.MoveToMap(27136, -17408, 768, 768, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:way_up clicked on S's decoration over it.

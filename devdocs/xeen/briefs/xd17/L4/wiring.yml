@@ -1,0 +1,149 @@
+format: 0
+events:
+  - id: evt:alexander
+    preset: script
+    source: door:alexander
+    title: Alexander's House
+    effects:
+      - lua: evt.EnterHouse(4358)
+    notes: "A4's house 4358, Alexander's House."
+  - id: evt:an_education
+    preset: script
+    source: door:an_education
+    title: An Education
+    effects:
+      - lua: evt.EnterHouse(4355)
+    notes: "A4's house 4355, An Education."
+  - id: evt:arm_and_hammer_armour
+    preset: script
+    source: door:arm_and_hammer_armour
+    title: Arm and Hammer
+    effects:
+      - lua: evt.EnterHouse(4365)
+    notes: "A4's house 4365, Arm and Hammer."
+  - id: evt:arm_and_hammer_arms
+    preset: script
+    source: door:arm_and_hammer_arms
+    title: Arm and Hammer
+    effects:
+      - lua: evt.EnterHouse(4351)
+    notes: "A4's house 4351, Arm and Hammer."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"xd17.arrival\")"
+    notes: "A3's first-arrival line (xd17.arrival), once."
+  - id: evt:benedict
+    preset: script
+    source: door:benedict
+    title: Benedict's House
+    effects:
+      - lua: evt.EnterHouse(4360)
+    notes: "A4's house 4360, Benedict's House."
+  - id: evt:cleft
+    preset: exit
+    source: exit:cleft
+    title: Leave Shangri-La
+    effects:
+      - lua: "XeenQuests.hook(\"xd17.cleft_opened\")"
+    notes: "D-24 and D-40 (3): the game's leave window to X7's entrance:xd17_cleft; A3's xd17.cleft_opened (once: sets cleft_open 116140, a status line) runs first."
+  - id: evt:crystal
+    preset: script
+    source: panel:crystal
+    title: Crystal
+    effects:
+      - lua: "XeenQuests.hook(\"xd17.crystal\")"
+    notes: "D-50 Q5: A3's xd17.crystal (Benedict's joke)."
+  - id: evt:earth_temple
+    preset: script
+    source: door:earth_temple
+    title: Earth Temple
+    effects:
+      - lua: evt.EnterHouse(4352)
+    notes: "A4's house 4352, Earth Temple."
+  - id: evt:elona
+    preset: script
+    source: door:elona
+    title: Elona's House
+    effects:
+      - lua: evt.EnterHouse(4361)
+    notes: "A4's house 4361, Elona's House."
+  - id: evt:guild_light
+    preset: script
+    source: door:guild_light
+    title: Shangri-La Wizard's Guild
+    effects:
+      - lua: evt.EnterHouse(4354)
+    notes: "A4's house 4354, Shangri-La Wizard's Guild."
+  - id: evt:martok
+    preset: script
+    source: door:martok
+    title: Martok's Lodge
+    effects:
+      - lua: evt.EnterHouse(4364)
+    notes: "A4's house 4364, Martok's Lodge."
+  - id: evt:maurice
+    preset: script
+    source: door:maurice
+    title: Maurice's House
+    effects:
+      - lua: evt.EnterHouse(4357)
+    notes: "A4's house 4357, Maurice's House."
+  - id: evt:murray
+    preset: script
+    source: door:murray
+    title: Murray's Villa
+    effects:
+      - lua: evt.EnterHouse(4362)
+    notes: "A4's house 4362, Murray's Villa."
+  - id: evt:pilar
+    preset: script
+    source: door:pilar
+    title: Princess Pilar's Pavilion
+    effects:
+      - lua: evt.EnterHouse(4359)
+    notes: "A4's house 4359, Princess Pilar's Pavilion."
+  - id: evt:public_library
+    preset: script
+    source: door:public_library
+    title: Public Library
+    effects:
+      - lua: evt.EnterHouse(4356)
+    notes: "A4's house 4356, Public Library."
+  - id: evt:pyramid
+    preset: script
+    source: platform:pyramid_portal
+    title: Travel Pyramid
+    effects:
+      - lua: "XeenQuests.hook(\"xd17.pyramid\")"
+    notes: "A3's xd17.pyramid: Xeen.travelPyramid(\"shangrila\") after m30.done, else \"The moons are not aligned. You are unable to pass.\" (aaze0049:25). D6's far end is not built (D-50 Q9)."
+  - id: evt:sally
+    preset: script
+    source: door:sally
+    title: Psychic Sally's
+    effects:
+      - lua: evt.EnterHouse(4363)
+    notes: "A4's house 4363, Psychic Sally's."
+  - id: evt:tavern_xanadu
+    preset: script
+    source: door:tavern_xanadu
+    title: Tavern Xanadu
+    effects:
+      - lua: evt.EnterHouse(4353)
+    notes: "A4's house 4353, Tavern Xanadu."
+  - id: evt:throat
+    preset: exit
+    source: exit:throat
+    title: Leave Shangri-La
+    notes: "D-24: the game's leave window (its meaning: \"Leave Shangri-La?\", aaze0049:32), to XD-16's entrance:xd17_way."
+  - id: evt:well
+    preset: script
+    source: platform:well
+    title: Well
+    effects:
+      - lua: "XeenQuests.hook(\"xd17.well\")"
+    notes: "D-50 Q1: A3's xd17.well (20,000 experience once per character, the award Found Shangri-La; :27 then :4)."
+notes: "XD-17 Shangri-La, L4 wiring: written by output/studio_cal/xd17/tools/gen.py."

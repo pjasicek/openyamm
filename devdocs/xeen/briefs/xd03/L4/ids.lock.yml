@@ -68,11 +68,14 @@ events:
   evt:gutter_burn: 30
   evt:gutter_in: 31
   evt:gutter_out: 32
+  evt:hoard_bones: 56
+  evt:hoard_thief: 57
   evt:king_dead: 33
   evt:kings_wrath: 34
   evt:lectern: 35
   evt:lever_a: 36
   evt:lever_b: 37
+  evt:prospector_bones: 58
   evt:sentry_count: 38
   evt:sentry_rings: 39
   evt:sentry_seen: 40
@@ -190,96 +193,99 @@ lights:
   light:smelter_mouth: 27
   light:vault: 28
   light:wrath: 29
+sounds:
+  sound:landing_mine: 1
+  sound:warren_mine: 2
 decorations:
   deco:alcove_torch: 0
   deco:armoury_barrel: 1
   deco:armoury_cask: 2
   deco:armoury_torch: 3
-  deco:barracks_barrel_1: 4
-  deco:barracks_barrel_2: 5
-  deco:barracks_torch_1: 6
-  deco:barracks_torch_2: 7
-  deco:barracks_torch_3: 8
-  deco:bowl_1: 9
-  deco:bowl_2: 10
-  deco:brazier_e1: 11
-  deco:brazier_e2: 12
-  deco:brazier_se: 13
-  deco:brazier_sw: 14
-  deco:brazier_w1: 15
-  deco:brazier_w2: 16
-  deco:breach_rock: 17
-  deco:buffer_lamp: 18
-  deco:crucible: 19
-  deco:cut_torch_1: 20
-  deco:flambeau_far_1: 21
-  deco:flambeau_far_2: 22
-  deco:flambeau_near_1: 23
-  deco:flambeau_near_2: 24
-  deco:forge_brazier_e: 25
-  deco:forge_brazier_w: 26
-  deco:gallery_torch_1: 27
-  deco:gallery_torch_2: 28
-  deco:gate_flambeau_e: 29
-  deco:gate_flambeau_w: 30
-  deco:geode_bones: 31
-  deco:geode_cluster_1: 32
-  deco:geode_cluster_2: 33
-  deco:geode_cluster_3: 34
-  deco:geode_corpse: 35
-  deco:geode_crystal_4: 36
-  deco:geode_crystal_5: 37
-  deco:geode_crystal_6: 38
-  deco:geode_crystal_7: 39
-  deco:geode_crystal_8: 40
-  deco:geode_glow_1: 41
-  deco:geode_glow_2: 42
-  deco:geode_glow_3: 43
-  deco:geode_glow_4: 44
-  deco:geode_glow_5: 45
-  deco:geode_stalagmite_4: 46
-  deco:goblet_1: 47
-  deco:hall_bucket: 48
-  deco:hall_torch_s1: 49
-  deco:hall_torch_s2: 50
-  deco:hall_torch_w: 51
-  deco:hoard_bowl: 52
-  deco:hoard_goblets_1: 53
-  deco:hoard_goblets_2: 54
-  deco:hoard_lamp: 55
-  deco:hoard_plates: 56
-  deco:hoard_urn_1: 57
-  deco:hoard_urn_2: 58
-  deco:king_goblets: 59
-  deco:landing_barrel: 60
-  deco:landing_bucket: 61
-  deco:landing_rock_1: 62
-  deco:landing_rock_2: 63
-  deco:landing_rock_3: 64
-  deco:ledge_lamp: 65
-  deco:line_lamp_1: 66
-  deco:line_lamp_2: 67
-  deco:lookout_torch: 68
-  deco:lower_crystal_1: 69
-  deco:lower_crystal_2: 70
-  deco:lower_crystal_3: 71
-  deco:lower_crystal_4: 72
-  deco:lower_crystal_5: 73
-  deco:lower_crystal_6: 74
-  deco:lower_glow: 75
-  deco:lower_glow_2: 76
-  deco:lower_stalagmite_1: 77
-  deco:lower_stalagmite_2: 78
-  deco:memory_crystal: 79
-  deco:prospector: 80
-  deco:prospector_bones: 81
-  deco:ramp_torch: 82
-  deco:shaft_lamp: 83
-  deco:skull_pile: 84
-  deco:slag_lump_1: 85
-  deco:spoil_1: 86
-  deco:spoil_2: 87
-  deco:spoil_3: 88
+  deco:barracks_barrel_2: 4
+  deco:barracks_torch_1: 5
+  deco:barracks_torch_2: 6
+  deco:barracks_torch_3: 7
+  deco:bowl_1: 8
+  deco:bowl_2: 9
+  deco:brazier_e1: 10
+  deco:brazier_e2: 11
+  deco:brazier_se: 12
+  deco:brazier_sw: 13
+  deco:brazier_w1: 14
+  deco:brazier_w2: 15
+  deco:breach_rock: 16
+  deco:buffer_lamp: 17
+  deco:crucible: 18
+  deco:cut_torch_1: 19
+  deco:flambeau_far_1: 20
+  deco:flambeau_far_2: 21
+  deco:flambeau_near_1: 22
+  deco:flambeau_near_2: 23
+  deco:forge_brazier_e: 24
+  deco:forge_brazier_w: 25
+  deco:gallery_torch_1: 26
+  deco:gallery_torch_2: 27
+  deco:gate_flambeau_e: 28
+  deco:gate_flambeau_w: 29
+  deco:geode_bones: 30
+  deco:geode_cluster_1: 31
+  deco:geode_cluster_2: 32
+  deco:geode_cluster_3: 33
+  deco:geode_corpse: 34
+  deco:geode_crystal_4: 35
+  deco:geode_crystal_5: 36
+  deco:geode_crystal_6: 37
+  deco:geode_crystal_7: 38
+  deco:geode_crystal_8: 39
+  deco:geode_glow_1: 40
+  deco:geode_glow_2: 41
+  deco:geode_glow_3: 42
+  deco:geode_glow_4: 43
+  deco:geode_glow_5: 44
+  deco:geode_stalagmite_4: 45
+  deco:goblet_1: 46
+  deco:hall_bucket: 47
+  deco:hall_torch_s1: 48
+  deco:hall_torch_s2: 49
+  deco:hall_torch_w: 50
+  deco:hoard_bowl: 51
+  deco:hoard_goblets_1: 52
+  deco:hoard_goblets_2: 53
+  deco:hoard_lamp: 54
+  deco:hoard_plates: 55
+  deco:hoard_thief: 56
+  deco:hoard_thief_bones: 57
+  deco:hoard_urn_1: 58
+  deco:hoard_urn_2: 59
+  deco:king_goblets: 60
+  deco:landing_barrel: 61
+  deco:landing_bucket: 62
+  deco:landing_rock_1: 63
+  deco:landing_rock_2: 64
+  deco:landing_rock_3: 65
+  deco:ledge_lamp: 66
+  deco:line_lamp_1: 67
+  deco:line_lamp_2: 68
+  deco:lookout_torch: 69
+  deco:lower_crystal_1: 70
+  deco:lower_crystal_2: 71
+  deco:lower_crystal_3: 72
+  deco:lower_crystal_4: 73
+  deco:lower_crystal_5: 74
+  deco:lower_crystal_6: 75
+  deco:lower_glow: 76
+  deco:lower_glow_2: 77
+  deco:lower_stalagmite_1: 78
+  deco:lower_stalagmite_2: 79
+  deco:memory_crystal: 80
+  deco:prospector: 81
+  deco:prospector_bones: 82
+  deco:ramp_torch: 83
+  deco:shaft_lamp: 84
+  deco:skull_pile: 85
+  deco:slag_lump_1: 86
+  deco:spoil_1: 87
+  deco:spoil_2: 88
   deco:stalagmite_1: 89
   deco:stalagmite_2: 90
   deco:stalagmite_3: 91

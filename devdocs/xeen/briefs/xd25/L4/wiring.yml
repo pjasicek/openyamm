@@ -1,0 +1,204 @@
+format: 0
+variables: [drain_reached, in_visit]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Stone steps lead down from Asp's square into the dark. Sloughed snakeskins lie on every tread, and from below comes a dry hissing."
+    seconds: 7
+  - id: evt:asp_door
+    preset: exit
+    source: exit:asp_door
+    title: Door to Asp's square
+    text: You climb out into Asp's square.
+    notes: "Up to X4's door:xd25 in Asp's square (A5's arrival, facing south)."
+  - id: evt:brood_seen
+    preset: text
+    source: room:brood
+    trigger: step
+    once: true
+    text: "Straw, shed skin and the reek of snake: the brood hall, where new snake men lie fresh from the machine below."
+    seconds: 5
+  - id: evt:cache_door
+    preset: door
+    source: door:cache
+    title: Loose slab
+    action: open
+    text: "The slab grinds down into the floor. Behind it, a hiding hole."
+  - id: evt:cages
+    preset: script
+    source: mover:cage_gates
+    title: Barred cage
+    condition: {not: {qbit: q_c5_done}}
+    effects:
+      - text: The gates are held by brass wires that run down through the floor to something below. They will not open while it works.
+    else_effects:
+      - text: The cage gates stand open.
+    notes: The cages open only when the machine dies (evt:transformer opens the gates).
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:cache
+    title: Chest
+  - id: evt:chest_keeper
+    preset: chest
+    source: chest:keeper
+    title: Chest
+  - id: evt:chest_moulting
+    preset: chest
+    source: chest:moulting
+    title: Chest
+  - id: evt:cistern_seen
+    preset: text
+    source: room:cistern
+    trigger: step
+    once: true
+    text: "Asp's old cistern, dry for years. Something long and scaled moves in the basin."
+    seconds: 5
+  - id: evt:crystal_door
+    preset: door
+    source: door:crystal
+    title: Iron door
+    condition: {qbit: q_c5_done}
+    action: open
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c11.crystals\")"
+    notes: "link:machine_crystal: shut while the machine works (the hook q-c11.crystals' fail text)."
+  - id: evt:crystals
+    preset: script
+    source: platform:housing
+    title: Crystal housing
+    effects:
+      - lua: "XeenQuests.hook(\"q-c11.crystals\")"
+    notes: "goal:crystals: A3's hook q-c11.crystals gives the Crystals of Piezoelectricity (12313) once and sets crystals_found 112222."
+  - id: evt:drain_reached
+    preset: script
+    source: room:drain
+    trigger: step
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: drain_reached
+          value: 1
+    text: "The channel climbs toward a grate. On this side, a heavy bolt holds it."
+    notes: Reaching the drain from below makes its bolt reachable (the grate opens from this side first).
+  - id: evt:field
+    preset: door
+    source: door:field
+    title: Field of light
+    condition: {qbit: q_c5_pedestals}
+    action: open
+    effects:
+      - lua: "XeenQuests.hook(\"q-c5.field_gate\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c5.field_gate\")"
+    text: "The coloured light falters, flickers and sinks into the floor with a dying hum."
+    notes: "link:field_machine. A3's hook q-c5.field_gate: its fail text while the pedestals (q-c5.pedestals 112101, set on X4) are not set; the map opens the leaf."
+  - id: evt:field_seen
+    preset: text
+    source: room:field_gate
+    trigger: step
+    once: true
+    text: "A message appears in the stone over the wall of light: Alternate the colors around the well / Then the machine can no longer repel."
+    seconds: 8
+    notes: "Original line (aaze0031:7): the second rhyme, so the party knows to look round Asp's well."
+  - id: evt:grate
+    preset: door
+    source: door:grate
+    title: Drain grate
+    condition: {map_var: drain_reached}
+    locked_text: "An iron grate over a drain, bolted fast from the other side."
+    action: open
+    text: You draw the bolt and the grate swings up.
+    notes: "link:drain_pens: bolted from below; once opened, both ways."
+  - id: evt:keeper_door
+    preset: door
+    source: door:keeper
+    title: Door
+    action: open
+  - id: evt:machine_seen
+    preset: text
+    source: room:machine_hall
+    trigger: step
+    once: true
+    text: "The transformer: four bronze coils taller than a man round a chamber of bars, an empty socket shaped like a scarab in its face, and in its crown a cluster of crystals pulsing blue. The floor hums under your feet."
+    seconds: 8
+  - id: evt:moulting_seen
+    preset: text
+    source: room:moulting
+    trigger: step
+    once: true
+    text: "Shed snakeskins hang from poles across the room like washing, grey and papery. In a corner stands a chest of things that once belonged to people."
+    seconds: 6
+  - id: evt:pens_door
+    preset: door
+    source: door:pens
+    title: Door
+    action: open
+  - id: evt:pens_seen
+    preset: text
+    source: plate:pens_entry
+    trigger: step
+    condition: {not: {qbit: q_c5_done}}
+    once: true
+    text: "Three barred cages stand against the west wall. The people in them are half turned: scales on their arms, eyes gone yellow. One whispers: \"Don't let them take us down to the machine.\""
+    seconds: 7
+  - id: evt:stair_door
+    preset: door
+    source: door:stair
+    title: Door
+    action: open
+  - id: evt:straw_bed
+    preset: text
+    source: platform:straw_bed
+    title: Straw Bed
+    text: "There is nothing on, in, or under the bed."
+    notes: "Original line and name (aaze0031:12, :15)."
+  - id: evt:thanks
+    preset: script
+    source: room:pens
+    trigger: step
+    condition: {all: [{qbit: q_c5_done}, {not: {qbit: townsfolk_thanked}}]}
+    once: true
+    sets: {qbit: townsfolk_thanked}
+    effects:
+      - message: "The cages stand open. The townsfolk, their scales already flaking away, crowd round you: \"Thank you for saving us!\" Then they hurry up the stair toward the daylight."
+    notes: "Adam's line (aaze0031:22), said by the freed townsfolk; next entry they are gone (evt:townsfolk_gone)."
+  - id: evt:townsfolk_gone
+    preset: script
+    trigger: load
+    lua: |-
+      if IsQBitSet(QBit(110840)) and not IsAtLeast(MapVar(in_visit), 1) then
+          evt.SetMonGroupBit(20, MonsterBits.Invisible, 1)
+      end
+      SetValue(MapVar(in_visit), 1)
+    notes: "D-4: the freed townsfolk (townsfolk_thanked 110840) are gone on the next entry (they went home). A load inside a visit (a saved game) finds in_visit set (saved with the map) and leaves them; leaving clears it (evt:visit_end), so only a fresh entry hides them (A8's DD-09 fix)."
+  - id: evt:transformer
+    preset: script
+    source: platform:transformer
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found the transformer!  Do you wish to destroy it?", wrong_text: "You leave the machine humming. Somewhere above, someone hisses."}
+    title: Transformer
+    condition: {not: {qbit: q_c5_done}}
+    opens: [door:crystal, mover:cage_gates]
+    effects:
+      - lua: "XeenQuests.hook(\"q-c5.transformer\")"
+      - lights_off: light:machine
+      - lights_on: light:wreck
+      - set_texture:
+          of: platform:crown
+          to: xnrustirn
+      - lua: "evt.SetMapVar('AmbientSound4', 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c5.transformer\")"
+    notes: "goal:transformer. The source's question (aaze0031:4); Yes runs A3's hook q-c5.transformer (q-c5.done 112102, its text), stops the hum, darkens the crown, opens the crystal housing and the cages upstairs. Later clicks: the hook's else text."
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving ends the visit: the next load is a fresh entry (evt:townsfolk_gone)."

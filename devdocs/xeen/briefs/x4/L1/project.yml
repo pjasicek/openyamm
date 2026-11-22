@@ -1,0 +1,133 @@
+format: 0
+id: xeen_x4
+name: Burlock Savannah
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X4
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9102
+  continent: 6
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 4
+  refill_days: 672
+  music: 29
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Knight, tier: 1, per_marker: [2, 3], weight: 27}
+    - {monster: Xeen Ogre, tier: 0, per_marker: [2, 3], weight: 33}
+    - {monster: Xeen Gargoyle, tier: 1, per_marker: [2, 4], weight: 40}
+neighbours:
+  - id: boat:nystor
+    to: xeen_x2.odm
+    kind: boat
+    service: "Captain Nystor's boat (X2's dock, 486), upriver"
+    arrival_hint: "On Nystor's landing, the jetty behind."
+    condition: {qbit: nystor_upriver}
+    notes: "After Q-C23 (q-c23.done) the boat calls here; arrival x4_river_landing."
+  - id: door:xd02_adit
+    to: xeen_xd02.blv
+    kind: door
+    arrival_hint: "In the west adit's mouth, beside the winch, facing in."
+    condition: {qbit: x4_adit_open}
+    notes: "XD-02 Red Dwarf Mines' west adit (M3): caved in until the party winches it open from inside; then a two-way shortcut to X1 for Act II. Before that the mouth is a rock fall (a message)."
+  - id: door:xd07
+    to: xeen_xd07.blv
+    kind: door
+    arrival_hint: "Inside Castle Burlock's gate, before the Crusaders' portcullis."
+    notes: "XD-07 Castle Burlock (A7): the castle's south gate above the village square. The village outside needs no title; the portcullis inside does (m4.done)."
+  - id: door:xd25
+    to: xeen_xd25.blv
+    kind: door
+    arrival_hint: At the foot of the undercroft stair under Asp's square.
+    notes: "XD-25 Asp Undercroft (Q-C5, Q-C11): a cellar stair on Asp's square beside the rule stone, open from day one; the field of light inside drops with the pedestals' qbit."
+  - id: door:xd26
+    to: xeen_xd26.blv
+    kind: door
+    arrival_hint: "At the bottom of the eyrie shaft, facing in."
+    notes: "XD-26 Gargoyle Eyrie (Q-C10): a cave mouth high on Gargoyle Peak's south face, up the eyrie path past Carlawna's hut."
+  - id: door:xd26_sky_crack
+    to: xeen_xd26.blv
+    kind: door
+    arrival_hint: "On the sky-crack ledge high on Gargoyle Peak (about 3,300), the eyrie below."
+    one_way: true
+    notes: "XD-26's sky crack: a one-way exit onto a ledge on the same peak (D-4); down by the ledge's goat path to the eyrie mouth, or a fall."
+  - id: edge:east
+    to: xeen_x7.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The Firestone road in from the east edge at y 66, south of the lava fields."
+    notes: "X7 Mount Firestone (trap and endgame); not built: plan crossing only."
+  - id: edge:south_x2
+    to: xeen_x2.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The Rivercity road up from the south edge at x 96, east of the river."
+    notes: "X2 Rivercity: the main arrival. D-11.6: the south edge east of x 64 (the river included) leads to X2. On X2 the north road reaches its edge at x 67 (its level span 58-74), sealed today by the \"bridge out\" sign at [67.1, 20.6]; X2 opens it when X4 is built."
+  - id: edge:south_x3
+    to: xeen_x3.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: The Asp road up from the south edge at x 36 (the west half).
+    notes: "D-11.6: X4's south edge west of x 64 leads to X3's north arrival on its road at x 50 (X3's DOORS.md); X3's north edge leads back to this x 36 arrival. Neither road moves."
+  - id: edge:west
+    to: xeen_x6.odm
+    kind: edge
+    side: west
+    days: 7
+    arrival_side: east
+    approach: "The desert road in from the west edge at y 60, under the range foot."
+    notes: "X6 Desert of the Sphinx (a wilderness edge, 7 days); not built: plan crossing only."
+  - id: fall:xd07_throne
+    to: xeen_xd07.blv
+    kind: fall
+    arrival_hint: "In the air beside the castle's west tower, outside the walls, about 1,000 above the ground."
+    one_way: true
+    notes: "D-4 (XD-07 5): the old throne throws the party out of the castle; they land on X4 by the west tower with ordinary fall damage. A fall, not a door."
+  - id: stable:asp_rivercity
+    to: xeen_x2.odm
+    kind: stable
+    days: 3
+    schedule: {weekdays: [wednesday]}
+    service: "The Travel Pit (4170), route 412"
+    notes: "Routes 410 and 411 join the two stables on this map (Burlock and the Travel Pit, 1 day)."
+  - id: stable:burlock_rivercity
+    to: xeen_x2.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [tuesday, thursday, saturday]}
+    service: "Royal Stables of Burlock (4155), route 409"
+  - id: stable:burlock_vertigo
+    to: xeen_x1.odm
+    kind: stable
+    days: 4
+    schedule: {weekdays: [wednesday, sunday]}
+    service: "Royal Stables of Burlock (4155), route 408"
+    notes: "A4 writes the routes; the arrival is burlock_stables."
+qbits:
+  asp_liberated: 112102
+  asp_pedestals: 112101
+  crusaders: 110047
+  mirror_asp: 119013
+  mirror_burlock: 119003
+  nystor_upriver: 112461
+  x4_adit_open: 110020
+rules:
+  weather: fair
+  rim:
+    cliff_y: 24
+    fall: death
+    sides: [north]
+  town_portal_anchor: entrance:burlock_square
+notes: "X4 Burlock Savannah, MU-3 plan for gate G1 (A5, 2026-11-20). No geometry until the user has seen it. Plan: plan.yml; to-scale layout: sketch.yml; generator, drawings and review board: output/studio_cal/x4/ (tools/gen_l1.py writes these three files)."

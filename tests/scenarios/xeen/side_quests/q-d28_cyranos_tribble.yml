@@ -1,0 +1,204 @@
+# Xeen side quest Q-D28, Cyrano's Tribble (D7, DD-26), from a new game on D7 with a level-45 party carrying 25,200
+# gold (the starting state stands for D7's tolls and hoards; the tribble is a gold sink). D7's marble grate (event 104,
+# "Descend into the sewer?" Yes) into the Olympus Sewer: the arrival line (117800); the scroll by the stair ("Search
+# the drains."); the den's plank pair and Cyrano Jones (npc 5614): Tribbles asks 25,000, No ("Maybe some other time.",
+# nothing paid; no Companions yet). Round the ring: drain TR (the west culvert), the spillway's grate and drain IB,
+# the cistern's drain BL, the east outfall's grate and drain ES: each piece once, then "Drain"; the fourth piece adds
+# the autonote 4680 "TR IB BL ES". Back to Cyrano: Tribbles, Yes: 25,000 for the Tribble 12362 (bought 113560);
+# Companions now shows (the hint); Tribbles again with 200 left: "Maybe some other time.", nothing paid. The bed: one
+# item (117806), then "Nothing here.". The bronze door in the cistern: a wrong password ("Wrong! You may not pass!",
+# shut), then "tribbles": "Correct! You may pass." (117805), both leaves open; the offering vault's chest. Out by the
+# marble stair (event 10, the entrance window) to D7's grate. No experience (D-65 Q60).
+# D7 is an open-air sky map where the party is placed (segment 75, hooks_d7.yml); DD-26 is walked.
+# Routes: tests/scenarios/xeen/hooks_dd26.yml, devdocs/xeen/briefs/dd26/L4/playtest.yml. Quest logic:
+# source/quests/q-d28.yml, Xeen.tribbleDoor in events/common/xeen_common.lua.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d28_cyranos_tribble.yml --scenario-no-color
+id: xeen.side_quests.q-d28
+title: "Xeen Q-D28: the drains' note, Cyrano's 25,000-gold Tribble and the tribble door"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d7.blv
+      party:
+        gold: 25200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 45, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 45, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 45, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - assert: {map: xeen_d7.blv}
+  - assert: {qbit_clear: [113560, 117800, 117801, 117802, 117803, 117804, 117805, 117806]}
+  - assert: {autonote: {id: 4680, present: false}}
+  # D7's marble grate in the gods' row (event 104): Yes, down the stair.
+  - set_pose: {map: xeen_d7.blv, x: -8704, y: 8192, z: 1816, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(3000); click(104); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd26.blv}
+  - assert: {party_position: {x: 0, y: 0, radius: 64, facing: 512, facing_within: 64}}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Marble steps down into running water. Even the gods' drains are marble."}}
+  - play_lua: {source: "close(); if not qbit(117800) then error('arrived_once 117800 not set') end"}
+  # The scroll on the stair's wall.
+  - walk_to: {x: -200, y: -192, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Search the drains."}}
+  - play_lua: {source: "close()"}
+  # Cyrano's counter behind the den's plank pair: Tribbles, No.
+  - walk_to: {x: 0, y: 320, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500)"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(3)"}
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('gold', gold()); click(12); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5614, action_label_present: "Tribbles", action_label_absent: "Companions"}}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "How would you like one of these little furry creatures? They make great companions and they are only 25,000 gold. What do you say?"}}
+  - select_topic: {match_label: "No"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Maybe some other time."}}
+  - play_lua: {source: "if gold() ~= recall('gold') then error('No cost ' .. (recall('gold') - gold())) end; if has_item(12362) then error('a tribble for No') end; if qbit(113560) then error('bought set by No') end; for _ = 1, 3 do if not close() then break end end"}
+  # The four drains: west culvert TR, the spillway's IB, the cistern's BL, the outfall's ES.
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 704, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1700, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2080, y: 512, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: -2060, y: 1536, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: TR"}}
+  - play_lua: {source: "close(); if not qbit(117801) then error('TR not set') end; status(); click(9); wait(0.5); local seen = status(); if not string.find(seen, 'Drain', 1, true) then error('the emptied drain said: ' .. seen) end"}
+  - walk_to: {x: -2200, y: 1088, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(14); for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end"}
+  - walk_to: {x: -2600, y: 1088, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: -2624, y: 820, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: IB"}}
+  - play_lua: {source: "close(); if not qbit(117802) then error('IB not set') end"}
+  - walk_to: {x: -2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2080, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3500)"}
+  - walk_to: {x: -2000, y: 2848, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 2880, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: BL"}}
+  - play_lua: {source: "close(); if not qbit(117803) then error('BL not set') end"}
+  - assert: {autonote: {id: 4680, present: false}}
+  - walk_to: {x: 2000, y: 2848, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2080, y: 1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(11); for _ = 1, 20 do if door_state(3) == 'open' then break end; wait(0.5) end"}
+  - walk_to: {x: 2600, y: 1088, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 2624, y: 1360, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: ES"}}
+  - play_lua: {source: "close(); if not qbit(117804) then error('ES not set') end"}
+  - assert: {autonote: {id: 4680, present: true}}
+  # Back to Cyrano: Tribbles, Yes (25,000); Companions; Tribbles again with 200 left.
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(1) ~= 'open' then click(5); wait(3) end"}
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('gold', gold()); click(12); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5614, action_label_present: "Tribbles", action_label_absent: "Companions"}}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "What do you say?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Cyrano counts the gold twice and hands you a small furry creature. It purrs."}}
+  - play_lua: {source: "if recall('gold') - gold() ~= 25000 then error('the sale cost ' .. (recall('gold') - gold())) end; if not qbit(113560) then error('bought 113560 not set') end"}
+  - select_topic: {match_label: "Companions"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You know TRIBBLES are great companions but you'll be surprised what doors they can open for you!"}}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Maybe some other time."}}
+  - play_lua: {source: "if gold() ~= recall('gold') then error('paid without the gold') end; for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12362) ~= 1 then error('tribbles: ' .. item_count(12362)) end"}
+  # The bed: one item, then "Nothing here.".
+  - walk_to: {x: 220, y: 1216, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Under the straw tick, something Cyrano has not got round to selling yet."}}
+  - play_lua: {source: "close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; if not qbit(117806) then error('bed 117806 not set') end; click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Nothing here."}}
+  - play_lua: {source: "close()"}
+  # The bronze door in the cistern: a wrong password, then "tribbles".
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 704, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2080, y: 1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2200, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2900, y: 2560, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'closed' or door_state(6) ~= 'closed' then error('the bronze pair does not start shut') end; click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A disembodied voice booms, \"What's the password?\""}}
+  - answer_input: {text: "Cyrano"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Wrong! You may not pass!"}}
+  - play_lua: {source: "close(); wait(1); if qbit(117805) then error('door_open set by a wrong word') end; if door_state(5) ~= 'closed' then error('the pair opened on a wrong word') end; click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "What's the password?"}}
+  - answer_input: {text: "tribbles"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Correct! You may pass."}}
+  - play_lua: {source: "close(); for _ = 1, 20 do if door_state(5) == 'open' and door_state(6) == 'open' then break end; wait(0.5) end; if not qbit(117805) then error('door_open 117805 not set') end; if door_state(5) ~= 'open' or door_state(6) ~= 'open' then error('the pair: ' .. door_state(5) .. ' ' .. door_state(6)) end"}
+  # The offering vault's chest.
+  - walk_to: {x: 3400, y: 2560, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: 4080, y: 2560, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); loot_chest(4); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; if gold() <= before then error('the vault chest gave no gold') end; log('the vault chest: ' .. (gold() - before) .. ' gold')"}
+  # Back to the stair and up to Olympus.
+  - walk_to: {x: 3400, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2200, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2080, y: 1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 320, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1100, z: 448, z_tolerance: 120, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 10}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, text_contains: "Do you wish to enter The Skyroads?"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -8704, y: 8192, radius: 128, facing: 0, facing_within: 64}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not has_item(12362) then error("the Tribble left behind") end
+        for i = 0, 3 do log("member " .. i .. " experience gained " .. (experience(i) - recall("xp" .. i))) end
+        log("Q-D28 done: gold " .. gold())
+  - assert: {qbit_set: [113560, 117800, 117801, 117802, 117803, 117804, 117805, 117806]}

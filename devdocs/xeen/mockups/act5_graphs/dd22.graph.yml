@@ -1,0 +1,152 @@
+# MU-6 dungeon graph, a review file for phase 5-6 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Escape Pod 2 (dark maze0088, the twin of Corak's maze0087; text aaze0088): the same plan as Corak's pod
+# (the bow's main and scanning consoles, both "malfunctioning"; the log computer with Sheltem's twelve entries from his
+# break with the Ancients to the crash on Xeen; the phaser and photon controls "disarmed. Fire anyway?"; the hatch;
+# two dormant alien devices at the stern). No monsters, no chests, no stasis field: Sheltem left it.
+# Ours stands upright in its crater in D6's Ancient field (D6: Sheltem's pod at sketch (78, 38), swll4dk hull, the
+# round hatch at the base facing south). So the pod is three decks stacked round a lift shaft, 448 apart, the hatch
+# on the lowest; larger inside than outside (the hull is 1,280 across; each deck about 1,900 across), as DD-08.
+# Sheltem's "security systems" (aaze0088:14-15) are the monsters: his machines left on guard.
+format: mu6-0
+map: DD-22
+key: dd22
+name: "Sheltem's Pod"
+stands_on: D6 The Forbidden Zone (Escape Pod 2's crater)
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+size: "12 review rooms, about 13 sectors (the drive room and the bridge two each, the lift shaft one through three decks); three decks of about 1,900 x 1,900 (about 3.4 M units² each): about 10 M units²; 8 doors (the hatch, the airlock's inner door, the stores, the gun deck, the brig, the security post, the bridge's blast door as a two-leaf pair, the maintenance hatch)"
+party: [56, 60]
+monsters:
+  levels: [50, 62]
+  boss: null
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Robots (11610): Patrol 50 (14), Annihilator 62 (6): Sheltem's guard machines (his 'security systems', aaze0088:14-15), Alamar's own (DD-17's), left to keep the pod; in the band 48-65"
+  mix:
+    - {row: Patrol, id: 11610, level: 50, count: 14}
+    - {row: Annihilator, id: 11611, level: 62, count: 6}
+  kill_xp: "17.20k per member (68,784 / 4): Patrol 14 x 3,000 + Annihilator 6 x 4,464"
+  kill_xp_target: "MAPS §0 row DD-22 + DD-26: 40 monsters at 48-65, 33.5k. DD-22 17.20k is 51.3 % of it (half is 16.75k, +2.7 %); DD-26 (Olympus Sewer, phase 6) then keeps 20 at about 16.3k for the group to land on 33.5k"
+treasure: {level: 6}
+role: "Optional lore (Act VI): the other ship's log. Sheltem's own account, from his break with the Ancients to the crash on Xeen, on the bridge's log computer; three T6 chests"
+role_short: "Optional lore"
+set_piece: "The bridge in the pod's nose: Sheltem's empty command couch under a domed viewport of dark steel ribs, the malfunctioning main and scanning consoles flickering red, and the log computer still running, paging his entries; red light, the only warm thing in the pod"
+sounds: "shipped sci-fi hums as the bed (DD-17's set, colder); the security console's alarm cut off when released (shipped); the log computer's chirp per page (shipped); no voiced line (D-38: Sheltem's two voiced lines are DD-17's)"
+textures:
+  family: "Pods: MM6 Control Center (mm6/sci-fi.blv), A6's assign for DD-22 in dungeon_families pods: 'red accents (swrdk2, swared, swfloor5a)'. Walls swll4dk/swll5dk (the hull outside is swll4dk on D6), floors swfloor2b/swflora with swfloor5a red, ceilings swceilf/swankdk, trim swr2dk/swhorzad, doors swdoora/swdoorb (the blast door a mirrored pair), girders swgirder, consoles trekscrn/swor2, accents swrdk2 and swared"
+  cap: 30
+  planned: 18
+  new: 0
+  new_names: []
+  distinct_from: "DD-16 Corak's Pod (MM7 Lincoln 7d23, green light, tilted in lava): the twin pods read apart by family and colour; DD-17 and FD-01 use the same Control Center set in its teal main, DD-22 in its red accents only"
+floors:
+  - {floor: 2, name: "Deck 3: the bridge (nose)", height: 896}
+  - {floor: 1, name: "Deck 2: guns and brig", height: 448}
+  - {floor: 0, name: "Deck 1: hatch and drive", height: 0}
+spaces:
+  # Deck 1 (z 0 = D6's hatch sill, 1920 on D6)
+  - {id: room:airlock, name: Airlock, kind: corridor, size: S, floor: 0, at: [0, 1], monsters: 0,
+     purpose: "The arrival (entrance:d6_hatch), behind the round hatch (the exit preset 'Exit Escape Pod 2?', aaze0088:1); the inner door north. Quiet (D-11.3). Map qbit 117760 dd22_arrived_once (the arrival line)."}
+  - {id: room:ring0, name: Lower ring, kind: corridor, size: M, floor: 0, at: [1, 1], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "A curved corridor round the lift shaft's foot; the maintenance hatch in its east wall (the ladder up)."}
+  - {id: room:shaft0, name: Lift shaft foot, kind: stair, size: S, floor: 0, at: [2, 0], monsters: 0,
+     purpose: "The pod's spine: a round lift cage running deck 1 to deck 3 (lifts word, call buttons on each deck)."}
+  - {id: room:drive, name: Drive room, kind: room, size: M, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "The stern drive under the floor grilles; the two alien devices, dark ('The strange alien device seems to be dormant.', aaze0088:0; open question 3); the stasis generator that carried Sheltem through the crash (his log XLDBA), cold."}
+  - {id: room:stores, name: Stores, kind: room, size: S, floor: 0, at: [3, 1], chest: 6, monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "Dead end with a chest: racks by the walls, the pod's stores locker (T6)."}
+  - {id: room:ladder, name: Maintenance ladder, kind: shaft, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "A ladder in the hull's thickness from the lower ring up to the gun deck: the second way between decks 1 and 2 (the loop)."}
+  # Deck 2 (z 448)
+  - {id: room:ring1, name: Middle ring, kind: corridor, size: M, floor: 1, at: [2, 1], monsters: 0,
+     purpose: "The lift's deck-2 landing and the ring round it; doors to the gun deck, the brig and the security post."}
+  - {id: room:gun_deck, name: Gun deck, kind: room, size: M, floor: 1, at: [1, 1], monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Phaser Control and Photon Control ('A status indicator on the weapon shows it to be disarmed. Fire anyway?', aaze0088:2, :3; Yes: 'Nothing happens.', as DD-16, D-47); the ladder's head in the floor."}
+  - {id: room:brig, name: The brig, kind: room, size: M, floor: 1, at: [3, 1], chest: 6, monsters: 3,
+     population: [{row: Patrol, level: 50, count: 2}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "Two empty stasis cells, their fields dark: where Sheltem shut the Ancients' two agents (one of them Corak) on the way off Terra (log XL70I). The guards' locker (T6) by the wall."}
+  - {id: room:security, name: Security post, kind: room, size: S, floor: 1, at: [3, 0], monsters: 3,
+     population: [{row: Annihilator, level: 62, count: 2}, {row: Patrol, level: 50, count: 1}],
+     purpose: "The machines' charging alcoves along the walls and the security console: 'Security lockdown: bridge sealed. Release?' Yes opens the bridge's blast door, one way (D-43; map qbit 117761). The console's alarm stops."}
+  # Deck 3 (z 896)
+  - {id: room:bridge_ante, name: Bridge landing, kind: corridor, size: S, floor: 2, at: [2, 0], monsters: 2,
+     population: [{row: Patrol, level: 50, count: 2}],
+     purpose: "The lift's head; the bridge's blast door (two leaves, swdoora/swdoorb mirrored, sliding apart). Sealed: 'The bridge door is sealed. Security lockdown.' until the security post releases it."}
+  - {id: room:bridge, name: The bridge, kind: hall, size: M, floor: 2, at: [3, 0], set_piece: true, goal: true, chest: 6, monsters: 2,
+     population: [{row: Patrol, level: 50, count: 1}, {row: Annihilator, level: 62, count: 1}],
+     purpose: "The set piece: Sheltem's command couch under the domed viewport, the Main Console and the Scanning Console ('The computer seems to be malfunctioning.', aaze0088:5, :6), the log computer paging Sheltem's entries (open question 4); his locker under the couch (T6)."}
+links:
+  - {id: link:1, from: room:airlock, to: room:ring0, kind: door}
+  - {id: link:2, from: room:ring0, to: room:shaft0, kind: open}
+  - {id: link:3, from: room:shaft0, to: room:drive, kind: open}
+  - {id: link:4, from: room:shaft0, to: room:stores, kind: door}
+  - {id: link:5, from: room:ring0, to: room:ladder, kind: door, label: "maintenance hatch"}
+  - {id: link:6, from: room:shaft0, to: room:ring1, kind: lift, label: "lift deck 1-2"}
+  - {id: link:7, from: room:ladder, to: room:gun_deck, kind: stair, label: "ladder"}
+  - {id: link:8, from: room:ring1, to: room:gun_deck, kind: door}
+  - {id: link:9, from: room:ring1, to: room:brig, kind: door}
+  - {id: link:10, from: room:brig, to: room:security, kind: door}
+  - {id: link:11, from: room:ring1, to: room:bridge_ante, kind: lift, label: "lift deck 2-3"}
+  - {id: link:12, from: room:bridge_ante, to: room:bridge, kind: locked, label: "blast door"}
+states:
+  - {id: state:lockdown, kind: lever, where: room:security,
+     what: "The security console's prompt; Yes sets map qbit 117761 (lockdown_released) and opens the blast door for good (one way, D-43); a load event opens it on re-entry.",
+     opens: [link:12], draw: true}
+  - {id: state:log_page, kind: map_var, where: room:bridge,
+     what: "log_page: each click on the log computer shows the next page ('Entry N of 6') and wraps round (D-47 Q19's pattern). Lore only.", opens: [], draw: false}
+  - {id: state:hatch, kind: qbit, where: "D6 (A3's d6.sheltem_hatch)",
+     what: "The hatch opens from outside once m33.done (open question 2); before, the hook's sealed line.", opens: [], draw: false}
+exits:
+  - {id: exit:d6_hatch, space: room:airlock, at: [0, 0], kind: both, label: "D6: the pod's hatch",
+     arrival: "entrance:d6_hatch: in the airlock about 192 inside the hatch, at about (0, -832, 0) in the map's frame (the lift shaft at 0,0; the hatch in deck 1's south wall at y -1024), facing north (512). The name is D-37's (entered from D6); DD-16 has its own entrance:d6_hatch in its own map, so the two do not clash",
+     neighbour: "D6 door:dd22 (thing Escape Pod 2's hull door, its effect XeenQuests.hook('d6.sheltem_hatch')): the hook opens and moves once m33.done, else its sealed line (A3). Out by the exit preset ('Exit Escape Pod 2?', aaze0088:1) to D6's installed entrance:dd22_hatch (7168, 12288, 1952) facing 1536: 1,024 south of the pod's centre (78, 38) = (7168, 13312), 384 off the 640-radius hull, facing away. Matches; D6 drops listed_only and names arrival: entrance:d6_hatch when DD-22 is built"}
+hooks:
+  - {hook: d6.sheltem_hatch, space: "D6 (A6, A3)", how: "the hatch outside; listed for the pair, not placed here"}
+critical_path: [room:airlock, room:ring0, room:shaft0, room:ring1, room:brig, room:security, room:brig, room:ring1, room:bridge_ante, room:bridge]
+return_path: [room:bridge, room:bridge_ante, room:ring1, room:gun_deck, room:ladder, room:ring0, room:airlock]
+loops:
+  - {id: loop:decks, spaces: [room:ring0, room:shaft0, room:ring1, room:gun_deck, room:ladder],
+     notes: "Up by the lift, down by the gun deck's ladder (or the other way): two ways between decks 1 and 2."}
+lines:
+  - {text: "Exit Escape Pod 2?", ref: "dark/aaze0088:1", where: "room:airlock (the exit preset's meaning, D-24)"}
+  - {text: "The strange alien device seems to be dormant.", ref: "dark/aaze0088:0", where: room:drive}
+  - {text: "Phaser Control. / Photon Control. A status indicator on the weapon shows it to be disarmed. Fire anyway?", ref: "dark/aaze0088:2, :3", where: room:gun_deck}
+  - {text: "Main Console. / Scanning Console. The computer seems to be malfunctioning.", ref: "dark/aaze0088:5, :6", where: room:bridge}
+  - {text: "Log Entry XL70C ... Log Entry XLDBC: I must leave this escape pod to conquer Xeen and find a way to return to Terra.", ref: "dark/aaze0088:4, :7-17", where: "room:bridge (the log computer, abridged by A3 into about six pages)"}
+open_questions:
+  - q: "Count and mix. MAPS: DD-22 + DD-26 40 monsters at 48-65, 33.5k (DD-26 Olympus Sewer, phase 6, A8). The source pod is empty; DD-16 took 7 under MAPS's 'few', but MAPS gives DD-22 no 'few'."
+    options: ["(a) 20 robots: Patrol 50 x 14, Annihilator 62 x 6: 17.20k (half the group 16.75k, +2.7 %); DD-26 keeps 20 at about 16.3k",
+              "(b) 15 at S's floor: Patrol 10, Annihilator 5: 13.08k; DD-26 25 at about 20.4k",
+              "(c) 7, 'few' like DD-16 (Patrol 4, Annihilator 3: 6.35k), a NOTES line under S's 15; DD-26 33 at about 27.2k (an M map)"]
+    recommend: "(a)"
+    depends: "A2 (Act VI recount); DD-26's graph (its share)"
+  - q: "When the hatch opens. D6's d6.sheltem_hatch says 'sealed from inside ... not answering the door' (A3); ROADMAP puts DD-22 in phase 6 (Act VI, party 56-60)."
+    options: ["(a) once m33.done (Sheltem beaten, Alamar fallen): his pod's lock dies with him; the hook moves the party to entrance:d6_hatch, else its sealed line. An Act V party cannot walk into Act VI's robots, and the log reads as an epitaph",
+              "(b) always open once DD-22 is built",
+              "(c) once m35.done (both castles down)"]
+    recommend: "(a)"
+    depends: "A3 (the hook's requires and an opening line); A6 (D6's door names the arrival)"
+  - q: "The dormant alien devices (aaze0088:0). DD-16's twin device gives +1 to every statistic and five years of age once per character (D-47 Q18)."
+    options: ["(a) dormant: dressing with the source's line, no reward (DD-16's is the pods' one device reward; Sheltem's are cold, like the pod)",
+              "(b) DD-16's reward again here (a second +1 all in Act V-VI)",
+              "(c) they wake when the security lockdown is released and give +5 to the four resistances, once per character (a player bit)"]
+    recommend: "(a)"
+    depends: "A2 (Act VI ledger, only under b or c); A3 (player bit under b or c)"
+  - q: "The pod log (MAPS: 'The other ship's log'; twelve source entries, aaze0088:4, :7-17, long)."
+    options: ["(a) the log computer pages A3's abridgement in about six pages ('Entry N of 6', wraps round; D-47 Q19's pattern for DD-16); lore only, no reward; the last page sets autonote 'Sheltem's log' (A3)",
+              "(b) the same, and the first full read gives 5,000 experience to every member once (a map qbit)",
+              "(c) all twelve entries unabridged"]
+    recommend: "(a)"
+    depends: "A3 (pages as ORIGINAL_LINES rows, the autonote)"
+  - q: "Rest encounters. The robot rows' tiers reach the Autobot 75 (over the band 48-65)."
+    options: ["(a) 10 % from Patrol only, at the difficulty that cannot roll the Autobot (D-47 Q21's way for DD-16's eyes)",
+              "(b) 0"]
+    recommend: "(a)"
+    depends: "A2 (the map's encounter row)"

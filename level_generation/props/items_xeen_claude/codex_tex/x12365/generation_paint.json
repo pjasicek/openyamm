@@ -1,0 +1,23 @@
+{
+  "prompt": "Precise object edit. Paint directly into the grey pixels of paint_mask_guide.png, locking its alpha and layout. One transparent 1536x2048 portrait 3:4 atlas, 3 columns and 4 rows of 512px square cells. Each occupied cell shows exactly one axis-aligned square, straight orthographic single face with thin silver rails and rounded corner fittings as defined by guide. Match position, scale and outline exactly. Rows 1 and 2: front/back/left, then right/top/empty. Unlit base colour: clear faceted crystal with faint violet light deep inside, subtle inner swirls and clear beveled facets, bound in silver following HD design_reference.png material detail and icon_x8.png palette (ignore magenta). No lighting, shadows, AO, hot highlights, reflections, external halo, sparkles, ground, outlines or text. Rows 3 and 4 repeat the five identical silhouettes as strict binary material IDs: opaque solid pure #000000 for all crystal interiors, opaque solid pure #FF0000 for every metal rail and corner fitting. Every pixel inside gets one of those two exact RGB values; zero gradients, outlines, shades, textures or antialiased colour blends. Preserve transparent gaps and gutters and fully transparent last cell of rows 2 and 4. Never draw perspective cubes. Never rearrange the guide. Correction: use the source guide as a hard alpha stencil. All source-transparent pixels must have alpha exactly 0, with absolutely clean gutters free of speckles and no stray translucent pixels. Bottom half is a technical segmentation map: use only exact RGB (0,0,0) and (255,0,0), even in the middle of the squares. No color noise or variations.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "be2f80333092814bf6fdcdcdd0567edb9115032eb160cef1dc02fbed005877fa"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "f5592c245d3f560a2ce45a1525c7ca9c0dc85cdb07690068978381391f019651"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "eca07dbe688245eeec129da18277115f1c0a94707c83854af64c50cb085aa147"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f923-3b52-7160-81ae-b26988649fac/exec-64d212b9-3a14-4d1e-8cd2-e20baf7b8e63.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

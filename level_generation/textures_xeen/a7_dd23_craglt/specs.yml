@@ -1,0 +1,32 @@
+# Lane A7 (2026-11-20, decision D-45 (2)): DD-23 Gargoyle Lair's cave mouth (exit:mouth, a 384 x 320 face) looks out
+# from high on D4's crags: bare dark crags with snow in the clefts, the lake far below, the Darkside's dim amber-grey
+# sky (xeen_darkside_day). One texture; references: game pictures of D4 under that sky (pics/d4_south.png for the
+# sky and haze, pics/d4_mouth.png for the snow) and the lair's own rock (7d07's c2b). Fallback xddaylt. See ../README.md.
+dungeons:
+  dd23:
+    family_words: >-
+      the Darkside of Xeen in Might and Magic's style: D4's high snowy crags, seen from a gargoyle lair's cave mouth
+      high on the mountain under the Darkside's dim amber-grey sky (two reference pictures are game screenshots of D4,
+      for the sky's colours, the haze and the snow; the third is the lair's dark brown-black cave rock)
+textures:
+  xdcraglt:
+    dungeon: dd23
+    size: [256, 256]
+    art: [384, 320]
+    kind: picture
+    refs: [pic/d4_south, pic/d4_mouth, mm7/c2b]
+    tone: {like: [pic/d4_south], factor: 0.6}
+    family: D4's crags under xeen_darkside_day, as the game draws it (pics/d4_south.png, pics/d4_mouth.png), with 7d07's c2b rock
+    where: DD-23's cave mouth (exit:mouth, 384 x 320), fitted once; other high mountain caves on the Darkside
+    standin: xddaylt
+    what: >-
+      The view out of a high mountain cave mouth, looking out and down from far up a mountainside, filling the whole
+      canvas: in the foreground and at both sides bare, jagged crags of dark brown-black rock (the colour of the third
+      reference), with old snow lying in their clefts and on their ledges; below them a steep drop of rock and scree
+      falling far away; far below in the middle distance a cold grey-blue mountain lake, small with distance, its shore
+      of dark rock and patches of snow; beyond it more bare dark ridges fading into haze; above it all a dim overcast
+      sky of amber-grey and dull ochre clouds with a pale hazy glow low on the horizon, exactly the colours and the
+      soft, dim, hazy light of the first reference. The light is that of a failing sun: dim, muted, slightly hazy, no
+      bright sunlight, no blue sky, no sun disc, no strong shadows. The horizon about two fifths down from the top.
+      No trees, no grass, no plants, no buildings, no road, no people, no creatures, no cave rim or frame around the
+      view, no dark edges.

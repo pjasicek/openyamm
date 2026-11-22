@@ -1,0 +1,64 @@
+format: 0
+id: xeen_dd13
+name: Ogre Forts
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-13
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 22
+  - 10
+  climbs: n
+map_stats:
+  id: 9166
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 13
+  environment: cave
+  lock_difficulty: 6
+  bolster: LowerToEqual
+  slots:
+  - monster: Xeen Ogre
+    tier: 1
+    per_marker:
+    - 2
+    - 3
+    weight: 100
+neighbours:
+- id: exit:d2_west
+  to: xeen_d2.odm
+  kind: door
+  arrival:
+  - 4096
+  - 13824
+  - 2016
+  direction: 270
+  arrival_hint: A6's point on D2 in front of the west fort's gate (entrance:dd13_west), facing south toward the pass road.
+  notes: 'D2 Sprite Forest and Ogre Pass (A6''s): the west fort''s gate in its palisade on the knoll north of the road.'
+- id: exit:d2_east
+  to: xeen_d2.odm
+  kind: door
+  arrival:
+  - 11776
+  - 11776
+  - 2048
+  direction: 90
+  arrival_hint: A6's point on D2 in front of the east fort's gate (entrance:dd13_east), facing north toward the pass road.
+  notes: 'D2: the east fort''s gate on its knoll south of the road. D2''s door into DD-13 here arrives by explicit coordinates
+    (gate_e, facing south).'
+qbits:
+  friends: 113221
+  hostile: 113222
+  peace: 113223
+  west_burned: 113224
+  east_burned: 113225
+  fort_disks: 113226
+items:
+  energy_disk: 12334
+notes: 'Xeen design brief, level L1: DD-13 Ogre Forts (see L4/NOTES.md).'

@@ -1,0 +1,217 @@
+# Xeen playthrough, segment 09: Old Valia, the Witch Tower (XD-04) and the Crusader title (M4, T1-A). Valia's Falista
+# topic gives the Crystal Key (the party placed at her door and at the tower door, PLAYBOOK §2); the tower walked: the
+# Goblin Warden's lodge and the ring of keys in his strongbox, cage 1 (the boy will not go home with goblin ears), the
+# east stair, the schoolroom and cage 2 (Rosebud, who tells of the coven's key), the west stair to the vat hall, the
+# herb loft's stores (the coven's key), the bookcase and cage 3, the north stair, the face door, the sanctum (the
+# Head Witch and her sisters), the bedchamber and cage 4, the bridge to the Alacorn, the hoist down, the boy cured
+# with the Alacorn, and out by the tower door. Valia takes the Alacorn: M4 done, the party dubbed Crusaders, and T1-A
+# promotes the Knight, the Paladin and the Ranger; her Children topic pays for the four children.
+# Route: devdocs/xeen/briefs/xd04/L4/playtest.yml. Quest logic: source/quests/m4.yml, t1-a.yml.
+#   python3 tests/playthrough/xeen/run.py 09
+id: xeen.playthrough.09_witch_tower
+title: "Xeen playthrough 09: Valia's key, the Witch Tower walked for the children and the Alacorn, the Crusader title"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/07_deep_mine.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - assert: {qbit_clear: [111080, 110047]}
+  # Old Valia's cottage in Toad Meadow: Falista, and the Crystal Key.
+  - set_pose: {map: xeen_x1.odm, x: 7552, y: -4332, z: 625, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true}
+  - select_topic: {match_label: Falista}
+  - assert:
+      dialog: {text_contains: "The witches fear nothing, and lock nothing."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        if not qbit(111080) then error("Valia did not start M4") end
+  # The tower door on its rise (X1 event 73, m4.tower_door wants the Crystal Key).
+  - set_pose: {map: xeen_x1.odm, x: 12288, y: -9114, z: 858, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd04.blv}
+  - assert: {party_position: {x: 0, y: -2900, radius: 96, z_min: -8, z_max: 8}}
+  # The gate hall, the gallery, the warden's lodge: the Goblin Warden and his strongbox with the ring of keys.
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -700, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: -1420, y: -1312, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  - play_lua: {source: "click(24); wait(3)"}
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 1000}
+  - walk_to: {x: -1880, y: -1720, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        loot_chest(48)
+  # Cage 1: the boy steps out but will not go home with goblin ears.
+  - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(7); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Not with these ears]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # Along the gallery and up the east stair to the second floor.
+  - walk_to: {x: -1420, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1120, y: -1400, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2560, y: -900, z: 360, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 2560, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  # Through the dormitory (its door, the turned children) to the mistress's door.
+  - walk_to: {x: 2740, y: 64, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(19); wait(3)"}
+  - walk_to: {x: 3050, y: 64, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - clear_hostiles: {radius: 1200}
+  # The mistress's door into the schoolroom: the schoolmistress; cage 2, Rosebud (m4.cage_*).
+  - walk_to: {x: 3136, y: 900, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(21); wait(3)"}
+  - walk_to: {x: 3136, y: 1250, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - clear_hostiles: {radius: 1400}
+  - walk_to: {x: 2752, y: 2080, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(8); wait(1)"}
+  - assert:
+      dialog: {text_contains: "in their stores in the herb loft"}
+  - play_lua:
+      source: |
+        close(); wait(3)
+        if not qbit(110041) then error("child 2 was not freed") end
+  # Out by the double door onto the balcony and up the west stair to the vat hall.
+  - walk_to: {x: 1720, y: 1312, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(23); wait(3)"}
+  - walk_to: {x: 1312, y: 1312, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 1312, y: 1450, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 1312, y: 2528, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 700, y: 2528, z: 1120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 0, y: 2560, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: -650, y: 2400, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1600}
+  - clear_hostiles: {radius: 1600}
+  # Up the loft steps: the witches' stores hold the coven's key.
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 780, y: 2060, z: 1472, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        loot_chest(47)
+  # The bookcase: crying behind it; it rises; cage 3.
+  - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -2048, y: 2650, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -2400, y: 2368, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -2540, y: 2368, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(5); wait(5)"}
+  - walk_to: {x: -2850, y: 2300, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(9); wait(1)"}
+  - assert:
+      dialog: {text_contains: "I want to go home"}
+  - play_lua:
+      source: |
+        close(); wait(3)
+        if not qbit(110042) then error("child 3 was not freed") end
+  # The broken balcony and the north stair to the face door, which the coven's key opens.
+  - walk_to: {x: -2400, y: 2368, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -896, y: 1312, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -1300, y: 1312, z: 1280, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
+  - walk_to: {x: -3072, y: 1250, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(34); wait(4); if door_state(15) ~= 'open' then error('the face did not open to the coven key: ' .. door_state(15)) end"}
+  # The sanctum: the guard, the sisters, the familiars, the Head Witch (m4.head_witch).
+  - walk_to: {x: -3072, y: 700, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 3200}
+  - play_lua: {source: "wait(2); clear_hostiles(3200); wait(5); clear_hostiles(3200)"}
+  - play_lua: {source: "if not qbit(110046) then error('the Head Witch\\'s death did not set head_witch_slain') end"}
+  # The bedchamber: cage 4.
+  - walk_to: {x: -3344, y: -200, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(18); wait(4)"}
+  - walk_to: {x: -3344, y: -600, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 1000}
+  - walk_to: {x: -3750, y: -500, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        click(10); wait(1)
+        local s = tostring(status())
+        if not string.find(s, [[slips out and is gone]], 1, true) then error("status line: " .. s) end
+        if not qbit(110043) then error("child 4 was not freed") end
+  # Over the bridge to the Alacorn (m4.alacorn).
+  - walk_to: {x: -3344, y: -200, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -1250, y: -128, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -420, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -180, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - pick_up: {item_id: 12033}
+  # The map's timer notices the Alacorn in the packs a moment later and queues the boil-over message (m4.alacorn):
+  # the game's frame opens it, and the player reads it before walking off the pier. (In the --reload run the timer
+  # fires during the reload's arrival half-second, which reads and closes the message itself.)
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(110045) then error("taking the Alacorn did not set alacorn_taken") end
+  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -1250, y: -128, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  # The hoist: the brake lever, the cage called up, ridden down to the cauldron floor.
+  - walk_to: {x: -2032, y: -200, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1720, y: -460, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(6); wait(13)"}
+  - walk_to: {x: -1680, y: -880, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(12); wait(13)"}
+  - walk_to: {x: -1680, y: -608, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -1312, y: -608, z: 1922, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(29); wait(13)"}
+  - assert: {party_position: {x: -1312, y: -608, radius: 160, z_min: -6, z_max: 12}}
+  - walk_to: {x: -900, y: -528, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - clear_hostiles: {radius: 1500}
+  # Out by the west arch to the lodge: the Alacorn cures the boy of cage 1.
+  - walk_to: {x: -320, y: -900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: -320, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        click(7); wait(1)
+        close(); wait(3)
+        if not qbit(110040) then error("the Alacorn did not cure the boy") end
+  # Out by the tower door.
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 0, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 0, y: -3000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - execute_event: {id: 25}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 12288, y: -8987, radius: 128, z_min: 780, z_max: 930}}
+  - walk_to: {x: 12288, y: -8500, z: 832, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {qbit_set: [110040, 110041, 110042, 110043, 110045, 110046]}
+  - play_lua: {source: "if not has_item(12033) then error('the Alacorn was lost') end"}
+  # Back to Valia: Falista (the Alacorn taken, M4 done, Crusaders; T1-A promotes), then Children.
+  - set_pose: {map: xeen_x1.odm, x: 7552, y: -4332, z: 625, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {match_label: Falista}
+  - assert:
+      dialog: {text_contains: "I dub thee all Crusaders"}
+  - select_topic: {match_label: Children}
+  - assert:
+      dialog: {text_contains: "All four of them home"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [110047, 111081]}
+  - assert: {qbit_clear: [111080]}
+  - play_lua:
+      source: |
+        if has_item(12033) then error("Valia did not take the Alacorn") end
+        if classes() ~= "Cavalier Crusader Sorcerer Hunter" then error("T1-A did not promote: " .. classes()) end
+        log("M4 and T1-A done: " .. classes() .. "; experience " .. experience(0) .. ", gold " .. gold())
+  - save_game: {name: "09 Witch Tower", path: output/playthrough/xeen/checkpoints/09_witch_tower.oysav}

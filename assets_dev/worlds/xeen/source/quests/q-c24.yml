@@ -1,0 +1,94 @@
+# Q-C24 Joe's Second Business (orchestrator, 2026-11-20; links Q-D2). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Joe, run out of Vertigo by M2, turns up outside Castleview selling treasure maps ("Maps by Joe! Genuine!", the twin of
+# his Vertigo slogan). Joe is 4956 (A4, a talking actor at his stall on the road outside the gate): his topic sells the
+# map; the stall's sign is a map event with a line and nothing else. Jethro trades the fake for his own real map (the
+# quest's experience); the real map leads to Slibo's cache on D4: dig it yourself (the cache hook takes the map) or sell
+# the map to Slibo, the wizard on Magic Mountain, who wants the cache himself. Warden Krupp (Q-D2) reads the fake as
+# proof that Joe is a crook and hands it back.
+id: Q-C24
+title: "Joe's Second Business"
+act: III
+kind: side
+status: full
+giver: 4956          # Joe the Mapmaker (D1, his stall on the road outside Castleview's gate)
+maps: [D1, D4]
+level: 19
+block: 74
+after: [m7.sigil]
+source: "orchestrator 2026-11-20; dark/aaze0029:10, :59-60, :76; dark/aaze0017:1-2 (Slibo)"
+
+qbits:
+  started: {id: 112480, journal: "Joe is on the Darkside, selling treasure maps. Jethro the mapmaker would like a look at one.",
+            until: [done]}
+  map_bought: {id: 112481, note: "Joe sold the party a map (his topic)"}
+  done: {id: 112482, note: "Jethro traded his real map for Joe's fake"}
+  map_sold: {id: 112483, note: "Slibo bought the real map"}
+  cache_dug: {id: 112484, note: "D4's cairn (A6)"}
+
+autonotes:
+  real_map: {id: 4380, text: "Jethro's real map: Slibo's cache, on Lakeside's eastern shore, under the cairn of five stones, two paces north. Slibo the wizard camps on Magic Mountain.", category: Misc}
+
+items:
+  fake_treasure_map: "Joe's map, bought from him (1,000 gold); Warden Krupp looks at it (Q-D2), Jethro takes it"
+  real_treasure_map: "Jethro's map; D4's cairn takes it, or Slibo buys it"
+
+npcs:
+  4919:              # Jethro
+    topics:
+      - n: 1
+        label: "Joe's map"
+        show: {item: fake_treasure_map}
+        text: "You bought one of Joe's treasure maps?!? Hahahahaha! Sorry. Here, let me give you a REAL treasure map. I'm too old to chase after treasure."
+        do: [{take: fake_treasure_map}, {give: real_treasure_map}, {set: done}, {autonote: real_map}, {xp: 2000}]
+  4956:              # Joe the Mapmaker
+    topics:
+      - n: 2
+        label: Treasure map
+        states:
+          - when: {item: fake_treasure_map}
+            text: "You already have the only one of its kind. Two would be greedy, and it would make the first one less unique."
+          - when: {gold: 1000}
+            text: "Friend, have I got a deal for you! Only 1000 gold for this secret treasure map, discovered during my travels on Darkside. Only one of its kind! (Behind him stands a crate of them.)"
+            do: [{pay: 1000}, {give: fake_treasure_map}, {set: map_bought}, {set: started}]
+          - when: {qbit: map_bought}
+            text: "Another one? Only one of its kind, friend, and still 1000 gold. Come back when your purse agrees."
+          - text: "Treasure maps! Genuine! Only one of its kind, 1000 gold. (Joe looks at your purse and loses interest.)"
+            do: [{set: started}]
+      - n: 3
+        label: Vertigo
+        show: {qbit: m2.done}
+        text: "Vertigo? Never heard of it. Different Joe. I'm in maps now. Maps don't breed."
+  5317:              # Slibo, Wizard of Magic Mountain (D4)
+    topics:
+      - n: 4
+        label: Treasure map
+        states:
+          - when: {qbit: map_sold}
+            text: "The map was interesting. The thing at the end of it was more interesting. You don't get to know what it was."
+          - when: {qbit: cache_dug}
+            text: "You dug it up yourselves? Then you have a hole and no map. I have neither. We're even."
+          - when: {item: real_treasure_map}
+            text: "A treasure map. Hmmm. Perhaps it leads to something interesting, perhaps not. I am willing to look, whereas you don't really have the time, do you? I'll give you 4,000 gold for it."
+            do: [{take: real_treasure_map}, {gold: 4000}, {set: map_sold}]
+          - text: "I am Slibo. I collect maps, and the things at the end of them."
+
+hooks:
+  joes_sign:
+    map: D1
+    where: "the painted sign over Joe's stall on the road outside Castleview's gate (Joe stands beside it)"
+    text: "MAPS BY JOE! Genuine! Only one of its kind!"
+  cairn:
+    map: D4
+    where: "a cairn of five stones on Lakeside's eastern shore; the cache two paces north of it (works only with the real map)"
+    requires: {not: {qbit: map_sold}}
+    needs: [real_treasure_map]
+    takes: [real_treasure_map]
+    sets: [cache_dug]
+    once: true
+    do: [{treasure: 5}, {gold: 1500}]
+    text: "Two paces north of the cairn, a strongbox. The map was honest. The ink runs in the damp and the map comes apart in your hands, its work done."
+    fail_text: "A cairn of five stones. Somebody built it on purpose, for some reason."
+    else_text: "A hole two paces north of the cairn. Yours."
+
+rewards: {xp: 2000, gold: 1500, items: "real treasure map; the cache (T5) or Slibo's 4,000 gold"}
+playthrough: "D1: Joe (Treasure map, 1,000 gold); Jethro (Joe's map). D4: the cairn, or Slibo (Treasure map)."

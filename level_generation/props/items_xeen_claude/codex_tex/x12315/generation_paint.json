@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png directly as a locked alpha stencil, 1536x2048 portrait 3:4. Preserve each source pixel's alpha, every opening, tooth, crank, position, size, all generous margins. Three columns by four equal rows: front back left / right top empty, then duplicated below. On the first two rows only recolour grey surfaces with unlit base colour of worn golden brass from design_reference.png and icon_x8.png: small brass gadget with gears, spring and brass crank grip. Fine aged patina, subtle scratches, reference detailing scaled to each face. No lighting, shadows, AO, reflections, hotspots, outlines, text or ground. For the lower two rows replace every visible grey pixel with perfectly uniform pure #FF0000 metal ID; all parts including handle are brass, so no yellow is needed. Retain precisely the guide's geometry and layout, true transparent background, transparent holes and two empty cells. Do not use perspective from the references.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "236fc89663668892c5c0c306a777d9396a7f90c0212aa8a61114a7f64745e3f8"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "51e3ca01ae2f4d9338bf3edd3527c29f3d8a6763e84062bf2ff3405a264da393"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "0c275d170b43d541012d09a9b40723521a41958f4ca7b8eb48f8357a5882ab44"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91c-b6aa-7bb0-ac80-17622441afef/exec-9cba3455-1a78-4ae2-bb44-dd0c334a0782.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

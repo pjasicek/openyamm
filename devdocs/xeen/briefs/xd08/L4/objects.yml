@@ -1,0 +1,865 @@
+format: 0
+start:
+  room: room:door
+  at: [0, 384]
+  facing: 90
+  notes: "Inside the tomb door, facing the Hall of Welcome."
+doors:
+  - id: door:barracks
+    opening: open:ringw_barracks
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:chain
+    opening: open:westm_chain
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:eastm
+    opening: open:gallery_eastm
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:embalming
+    opening: open:ringw_embalming
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:gate_bottom
+    opening: open:shaft_pit
+    kind: slide_up
+    thickness: 8
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The cage's lower gate: shut whenever the cage is up, so nobody stands under it."
+  - id: door:gate_top
+    opening: open:cage_shaft
+    kind: slide_up
+    state: open
+    thickness: 8
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The cage's upper gate: shut whenever the cage is down (a 640 drop otherwise)."
+  - id: door:maiden
+    opening: open:maiden_secret
+    kind: slide_up
+    fold: true
+    thickness: 24
+    surface: {texture: xwiron, size: [128, 128]}
+    secret: true
+    tile: true
+    notes: "The iron maiden: its front is the leaf of a secret door that rises on a click."
+  - id: door:portcullis
+    opening: open:portcullis_vault
+    kind: slide_up
+    thickness: 16
+    speed: 48
+    surface: {texture: xkportc, size: [256, 256], scale: 1.5}
+    tile: true
+    notes: "The portcullis before the coffin vault (the kit's xkportc), raised by the manacles above."
+  - id: door:terror
+    opening: open:bonepit_terror
+    kind: slide_left
+    leaves: 2
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], scale: 1.75}
+    tile: true
+    notes: The great doors of the Hall of a Thousand Terrors.
+  - id: door:westm
+    opening: open:welcome_westm
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+movers:
+  - id: mover:cage
+    room: room:shaft
+    at: [4672, 3904]
+    size: [504, 504]
+    bottom: -654
+    height: 16
+    travel: [0, 0, 640]
+    speed: 160
+    state: end
+    surface: {texture: xwiron, size: [128, 128]}
+    top_surface: {texture: xwiron, size: [128, 128]}
+    parts:
+      - {at: [4428, 3904], size: [8, 488], bottom: -638, height: 320, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Bars, west side"}
+      - {at: [4916, 3904], size: [8, 488], bottom: -638, height: 320, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: "Bars, east side"}
+      - {at: [4428, 3660], size: [16, 16], bottom: -638, height: 336, surface: {texture: xwiron, size: [128, 128]}, notes: Corner post}
+      - {at: [4428, 4148], size: [16, 16], bottom: -638, height: 336, surface: {texture: xwiron, size: [128, 128]}, notes: Corner post}
+      - {at: [4916, 3660], size: [16, 16], bottom: -638, height: 336, surface: {texture: xwiron, size: [128, 128]}, notes: Corner post}
+      - {at: [4916, 4148], size: [16, 16], bottom: -638, height: 336, surface: {texture: xwiron, size: [128, 128]}, notes: Corner post}
+      - {at: [4672, 3660], size: [472, 16], bottom: -318, height: 16, surface: {texture: xwiron, size: [128, 128]}, notes: Top rail}
+      - {at: [4672, 4148], size: [472, 16], bottom: -318, height: 16, surface: {texture: xwiron, size: [128, 128]}, notes: Top rail}
+      - {at: [4428, 3904], size: [16, 456], bottom: -318, height: 16, surface: {texture: xwiron, size: [128, 128]}, notes: Top rail}
+      - {at: [4916, 3904], size: [16, 456], bottom: -318, height: 16, surface: {texture: xwiron, size: [128, 128]}, notes: Top rail}
+      - {at: [4672, 3904], size: [472, 8], bottom: -302, height: 16, surface: {texture: xwiron, size: [128, 128]}, notes: Hanger bar}
+      - {at: [4672, 3904], size: [8, 8], bottom: -286, height: 920, surface: {texture: xwiron, size: [128, 128]}, notes: "The chain, up to the shaft's roof"}
+    notes: "The hanging cage (D-4.4): an iron floor that fills the shaft, bars on its two closed sides, corner posts, a frame and its chain, all riding as one; at the top when the map is first entered. Click it to ride; call it with the button beside either gate."
+sounds:
+  - {id: sound:braziers, room: room:terror_hall, at: [-128, 12864], sound: torch loop, radius: 1800, inner_radius: 500, volume: 0.5}
+  - {id: sound:deep_drip, room: room:deep_crypt, at: [-128, 9344], sound: drip02, radius: 1500, volume: 0.6, wait: [3, 8]}
+  - {id: sound:juices, room: room:embalming, at: [-896, 5376], sound: bubbling cauldron01, radius: 1300, inner_radius: 400, volume: 0.5, notes: The seven basins bubbling.}
+  - {id: sound:ossuary_drip, room: room:ossuary, at: [1664, 5504], sound: drip03, radius: 1300, volume: 0.5, wait: [4, 11]}
+  - {id: sound:ring_drip, room: room:crypt_ring_e, at: [2944, 6016], sound: drip02, radius: 1400, volume: 0.6, wait: [3, 9], notes: Water dripping in the crypts.}
+lights:
+  - id: light:barracks
+    room: room:barracks
+    at: [-896, 6656]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:bone_pit
+    room: room:bone_pit
+    at: [-128, 10880]
+    height: 512
+    radius: 1000
+    color: [150, 170, 210]
+  - id: light:cage_pit
+    room: room:cage_pit
+    at: [4352, 4864]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:cage_room
+    room: room:cage_room
+    at: [4864, 3200]
+    height: 576
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:chain_room
+    room: room:chain_room
+    at: [1024, 2944]
+    height: 512
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:coffin_vault
+    room: room:coffin_vault
+    at: [2176, 8320]
+    height: 512
+    radius: 1400
+    color: [200, 170, 140]
+  - id: light:crypt_ring_e
+    room: room:crypt_ring_e
+    at: [2944, 6016]
+    height: 384
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:crypt_ring_w
+    room: room:crypt_ring_w
+    at: [384, 6016]
+    height: 384
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:deep_crypt
+    room: room:deep_crypt
+    at: [-128, 9344]
+    height: 448
+    radius: 1000
+    color: [150, 170, 210]
+  - id: light:door
+    room: room:door
+    at: [0, 384]
+    height: 448
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:east_mourning
+    room: room:east_mourning
+    at: [5248, 1792]
+    height: 576
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:embalming
+    room: room:embalming
+    at: [-896, 5376]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:gallery
+    room: room:gallery
+    at: [2688, 1792]
+    height: 576
+    radius: 1400
+    color: [255, 190, 130]
+  - id: light:juice_blue
+    room: room:embalming
+    at: [-1120, 5728]
+    height: 112
+    radius: 160
+    color: [16, 32, 102]
+  - id: light:juice_green
+    room: room:embalming
+    at: [-608, 5728]
+    height: 112
+    radius: 160
+    color: [16, 88, 24]
+  - id: light:juice_orange
+    room: room:embalming
+    at: [-864, 5728]
+    height: 112
+    radius: 160
+    color: [102, 52, 8]
+  - id: light:juice_purple
+    room: room:embalming
+    at: [-1120, 5024]
+    height: 112
+    radius: 160
+    color: [68, 16, 92]
+  - id: light:juice_red
+    room: room:embalming
+    at: [-1376, 5728]
+    height: 112
+    radius: 160
+    color: [102, 16, 12]
+  - id: light:juice_white
+    room: room:embalming
+    at: [-864, 5024]
+    height: 112
+    radius: 160
+    color: [102, 102, 102]
+  - id: light:juice_yellow
+    room: room:embalming
+    at: [-1376, 5024]
+    height: 112
+    radius: 160
+    color: [102, 92, 16]
+  - id: light:maiden_niche
+    room: room:maiden_niche
+    at: [2944, 2944]
+    height: 512
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:ossuary
+    room: room:ossuary
+    at: [1664, 5504]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:portcullis
+    room: room:portcullis
+    at: [1664, 6912]
+    height: 384
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:stocks
+    room: room:stocks
+    at: [-2432, 3200]
+    height: 512
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:terror_hall
+    room: room:terror_hall
+    at: [-128, 12800]
+    height: 640
+    radius: 1400
+    color: [255, 150, 110]
+  - id: light:welcome
+    room: room:welcome
+    at: [0, 1664]
+    height: 640
+    radius: 1000
+    color: [255, 190, 130]
+  - id: light:west_mourning
+    room: room:west_mourning
+    at: [-640, 3200]
+    height: 576
+    radius: 1000
+    color: [255, 190, 130]
+switches:
+  - id: switch:call_bottom
+    room: room:cage_pit
+    kind: button
+    at: [4960, 4224]
+    notes: Call button beside the cage's lower gate.
+  - id: switch:call_top
+    room: room:cage_room
+    kind: button
+    at: [5216, 3584]
+    notes: Call button beside the cage's upper gate.
+  - id: switch:manacles
+    room: room:chain_room
+    kind: lever
+    at: [1024, 3328]
+    off: {texture: t5d1, size: [128, 256]}
+    notes: "The manacles' chain on the north wall: pull it."
+chests:
+  - id: chest:barracks
+    room: room:barracks
+    at: [-1392, 7056]
+    kind: ch1
+    facing: s
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    notes: "The guards' pay chest: pay; its first opening hands over two Might Boosts of power 10 (+30 Might) for the great coffin (D-22.2: evt:chest_barracks, map qbit pay_potions)."
+  - id: chest:great_coffin
+    room: room:coffin_vault
+    at: [2176, 9040]
+    size: [384, 192, 112]
+    surface: {texture: t4s1fl, size: [128, 128]}
+    top_surface: {texture: t6s1c, size: [128, 128]}
+    treasure_level: 2
+    random_items: 2
+    gold: 500
+    items: [megacredit, megacredit, megacredit, megacredit, megacredit]
+    notes: "The great coffin: five King's Megacredits (m10.tomb_vault's map_gives) and the vault's offerings. Opens only for a member of Might 30 (D-4.5)."
+  - id: chest:hoard
+    room: room:terror_hall
+    at: [704, 13632]
+    kind: ch1
+    facing: w
+    treasure_level: 3
+    random_items: 4
+    gold: 2500
+    notes: The hoard of the Hall (tier 3).
+  - id: chest:stocks
+    room: room:stocks
+    at: [-2880, 3600]
+    kind: ch1
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 200
+    notes: Under the last of the stocks.
+  - id: chest:west_mourning
+    room: room:west_mourning
+    at: [-1440, 2700]
+    kind: ch1
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    notes: A mourner's offering box.
+spawns:
+  - id: spawn:barracks_1
+    room: room:barracks
+    at: [-896, 6528]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:barracks_2
+    room: room:barracks
+    at: [-896, 6912]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:bone_pit
+    room: room:bone_pit
+    at: [-128, 11264]
+    slot: 3
+    tier: c
+    group: 51
+    notes: "Skeleton Lords up from the pit, on the ledge."
+  - id: spawn:cage_pit
+    room: room:cage_pit
+    at: [4352, 4992]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:cage_room
+    room: room:cage_room
+    at: [4864, 3200]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:deep_1
+    room: room:deep_crypt
+    at: [-384, 9344]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:deep_2
+    room: room:deep_crypt
+    at: [128, 9728]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:eastm_1
+    room: room:east_mourning
+    at: [5120, 1408]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:eastm_2
+    room: room:east_mourning
+    at: [5120, 2176]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:embalming
+    room: room:embalming
+    at: [-896, 5248]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:gallery_ghouls
+    room: room:gallery
+    at: [3456, 1920]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:gallery_spirits
+    room: room:gallery
+    at: [2048, 1856]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:ossuary_bones
+    room: room:ossuary
+    at: [1664, 5120]
+    slot: 3
+    tier: c
+    group: 51
+    notes: The ossuary's bone piles that rise.
+  - id: spawn:ossuary_ghouls
+    room: room:ossuary
+    at: [1664, 5888]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:ring_e
+    room: room:crypt_ring_e
+    at: [2944, 6272]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:ring_w
+    room: room:crypt_ring_w
+    at: [384, 6144]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:stocks
+    room: room:stocks
+    at: [-2112, 3200]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:terror_1
+    room: room:terror_hall
+    at: [-128, 12416]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:terror_2
+    room: room:terror_hall
+    at: [-768, 13248]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:terror_3
+    room: room:terror_hall
+    at: [512, 13248]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:vault_1
+    room: room:coffin_vault
+    at: [1664, 8256]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:vault_2
+    room: room:coffin_vault
+    at: [2688, 8832]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:welcome
+    room: room:welcome
+    at: [256, 1664]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:westm_1
+    room: room:west_mourning
+    at: [-896, 3072]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:westm_2
+    room: room:west_mourning
+    at: [-128, 3264]
+    slot: 1
+    tier: c
+    group: 51
+monsters: []
+decorations:
+  - id: deco:barrel_1
+    room: room:barracks
+    decoration: bigbarel
+    at: [-896, 7040]
+  - id: deco:barrel_2
+    room: room:barracks
+    decoration: bigbarel
+    at: [-704, 7040]
+  - id: deco:bier_corpse_1
+    room: room:east_mourning
+    decoration: Corpse01
+    at: [5504, 1280]
+    floor_height: 64
+  - id: deco:bier_corpse_2
+    room: room:east_mourning
+    decoration: Corpse02
+    at: [5504, 1664]
+    floor_height: 64
+  - id: deco:bier_corpse_3
+    room: room:east_mourning
+    decoration: Corpse03
+    at: [5504, 2048]
+    floor_height: 64
+  - id: deco:brazier_e
+    room: room:terror_hall
+    decoration: flamb00
+    at: [576, 12864]
+  - id: deco:brazier_w
+    room: room:terror_hall
+    decoration: flamb00
+    at: [-832, 12864]
+  - id: deco:cage_room_cage
+    room: room:cage_room
+    decoration: 7dec07
+    at: [5184, 3072]
+  - id: deco:candelabra_welcome
+    room: room:welcome
+    decoration: cndlab0
+    at: [-640, 2112]
+  - id: deco:candle_w1
+    room: room:west_mourning
+    decoration: cndlab0
+    at: [-1088, 3712]
+  - id: deco:candle_w2
+    room: room:west_mourning
+    decoration: cndlab0
+    at: [-320, 3712]
+  - id: deco:chain_skeleton_1
+    room: room:chain_room
+    decoration: dec05
+    at: [784, 3232]
+  - id: deco:chain_skeleton_2
+    room: room:chain_room
+    decoration: dec05
+    at: [1264, 3232]
+  - id: deco:deep_bones_1
+    room: room:deep_crypt
+    decoration: dec29
+    at: [-512, 9472]
+  - id: deco:deep_bones_2
+    room: room:deep_crypt
+    decoration: dec29
+    at: [512, 9216]
+  - id: deco:device_bonecage
+    room: room:gallery
+    decoration: Bonecage
+    at: [1536, 1408]
+    floor_height: 48
+  - id: deco:device_cage
+    room: room:gallery
+    decoration: 7dec05
+    at: [2304, 1408]
+    floor_height: 48
+  - id: deco:device_gibbet
+    room: room:gallery
+    decoration: 7dec06
+    at: [3072, 1408]
+    floor_height: 48
+  - id: deco:device_noose
+    room: room:gallery
+    decoration: 7dec07
+    at: [3840, 1408]
+    floor_height: 48
+  - id: deco:ossuary_pile_1
+    room: room:ossuary
+    decoration: sklplrev
+    at: [1184, 5024]
+  - id: deco:ossuary_pile_2
+    room: room:ossuary
+    decoration: sklplrev
+    at: [2144, 5024]
+  - id: deco:ossuary_pile_3
+    room: room:ossuary
+    decoration: sklplrev
+    at: [1184, 5984]
+  - id: deco:ossuary_pile_4
+    room: room:ossuary
+    decoration: sklplrev
+    at: [2144, 5984]
+  - id: deco:ossuary_skull_1
+    room: room:ossuary
+    decoration: 7dec20
+    at: [1344, 5984]
+  - id: deco:ossuary_skull_2
+    room: room:ossuary
+    decoration: 7dec20
+    at: [1984, 5984]
+  - id: deco:pit_bones_1
+    room: room:bone_pit
+    decoration: 7dec18
+    at: [-704, 10816]
+  - id: deco:pit_bones_2
+    room: room:bone_pit
+    decoration: 7dec18
+    at: [448, 10880]
+  - id: deco:pit_pile_1
+    room: room:bone_pit
+    decoration: sklplrev
+    at: [-768, 10560]
+  - id: deco:pit_pile_2
+    room: room:bone_pit
+    decoration: sklplrev
+    at: [-576, 11136]
+  - id: deco:pit_pile_3
+    room: room:bone_pit
+    decoration: sklplrev
+    at: [384, 10624]
+  - id: deco:pit_pile_4
+    room: room:bone_pit
+    decoration: sklplrev
+    at: [512, 11200]
+  - id: deco:ring_e_bones
+    room: room:crypt_ring_e
+    decoration: dec19
+    at: [3200, 6784]
+  - id: deco:ring_e_skull
+    room: room:crypt_ring_e
+    decoration: 7dec20
+    at: [3200, 7072]
+  - id: deco:ring_w_bones
+    room: room:crypt_ring_w
+    decoration: 7dec18
+    at: [640, 4960]
+  - id: deco:sack_1
+    room: room:barracks
+    decoration: bag01
+    at: [-1120, 6272]
+  - id: deco:sack_2
+    room: room:barracks
+    decoration: floursac
+    at: [-928, 6272]
+  - id: deco:skulltorch_01
+    room: room:door
+    decoration: torskul0
+    wall: east
+    height: 192
+  - id: deco:skulltorch_02
+    room: room:door
+    decoration: torskul0
+    wall: west
+    height: 192
+  - id: deco:skulltorch_03
+    room: room:welcome
+    decoration: torskul0
+    wall: west
+    along: 0.2
+    height: 192
+  - id: deco:skulltorch_04
+    room: room:welcome
+    decoration: torskul0
+    wall: east
+    along: 0.2
+    height: 192
+  - id: deco:skulltorch_05
+    room: room:gallery
+    decoration: torskul0
+    wall: south
+    along: 0.12
+    height: 192
+  - id: deco:skulltorch_06
+    room: room:gallery
+    decoration: torskul0
+    wall: south
+    along: 0.5
+    height: 192
+  - id: deco:skulltorch_07
+    room: room:gallery
+    decoration: torskul0
+    wall: south
+    along: 0.88
+    height: 192
+  - id: deco:skulltorch_08
+    room: room:west_mourning
+    decoration: torskul0
+    wall: south
+    along: 0.4
+    height: 192
+  - id: deco:skulltorch_09
+    room: room:west_mourning
+    decoration: torskul0
+    wall: north
+    along: 0.95
+    height: 192
+  - id: deco:skulltorch_10
+    room: room:stocks
+    decoration: torskul0
+    wall: south
+    height: 192
+  - id: deco:skulltorch_11
+    room: room:chain_room
+    decoration: torskul0
+    wall: east
+    along: 0.6
+    height: 192
+  - id: deco:skulltorch_12
+    room: room:maiden_niche
+    decoration: torskul0
+    wall: east
+    height: 192
+  - id: deco:skulltorch_13
+    room: room:maiden_niche
+    decoration: torskul0
+    wall: west
+    height: 192
+  - id: deco:skulltorch_14
+    room: room:east_mourning
+    decoration: torskul0
+    wall: east
+    height: 192
+  - id: deco:skulltorch_15
+    room: room:east_mourning
+    decoration: torskul0
+    wall: south
+    height: 192
+  - id: deco:skulltorch_16
+    room: room:cage_room
+    decoration: torskul0
+    wall: east
+    height: 192
+  - id: deco:skulltorch_17
+    room: room:terror_hall
+    decoration: torskul0
+    wall: east
+    along: 0.3
+    height: 192
+  - id: deco:skulltorch_18
+    room: room:terror_hall
+    decoration: torskul0
+    wall: west
+    along: 0.3
+    height: 192
+  - id: deco:skulltorch_19
+    room: room:terror_hall
+    decoration: torskul0
+    wall: east
+    along: 0.7
+    height: 192
+  - id: deco:skulltorch_20
+    room: room:terror_hall
+    decoration: torskul0
+    wall: west
+    along: 0.7
+    height: 192
+  - id: deco:statue
+    room: room:welcome
+    decoration: 7dec55
+    at: [-512, 1664]
+    floor_height: 48
+  - id: deco:stocks_skeleton_1
+    room: room:stocks
+    decoration: dec05
+    at: [-2560, 2864]
+  - id: deco:stocks_skeleton_2
+    room: room:stocks
+    decoration: dec05
+    at: [-2560, 3248]
+  - id: deco:stocks_skeleton_3
+    room: room:stocks
+    decoration: dec05
+    at: [-2560, 3632]
+  - id: deco:throne_pile_e
+    room: room:terror_hall
+    decoration: sklplrev
+    at: [256, 13632]
+  - id: deco:throne_pile_w
+    room: room:terror_hall
+    decoration: sklplrev
+    at: [-512, 13632]
+  - id: deco:throne_skull_e
+    room: room:terror_hall
+    decoration: 7dec20
+    at: [1088, 13632]
+  - id: deco:throne_skull_w
+    room: room:terror_hall
+    decoration: 7dec20
+    at: [-1344, 13632]
+  - id: deco:torch_01
+    room: room:cage_pit
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_02
+    room: room:crypt_ring_e
+    decoration: torch01
+    wall: east
+    along: 0.6
+    height: 176
+  - id: deco:torch_03
+    room: room:crypt_ring_w
+    decoration: torch01
+    wall: west
+    along: 0.85
+    height: 176
+  - id: deco:torch_04
+    room: room:portcullis
+    decoration: torch01
+    wall: north
+    along: 0.2
+    height: 176
+  - id: deco:torch_05
+    room: room:ossuary
+    decoration: torch01
+    wall: north
+    height: 176
+  - id: deco:torch_06
+    room: room:ossuary
+    decoration: torch01
+    wall: south
+    height: 176
+  - id: deco:torch_07
+    room: room:coffin_vault
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_08
+    room: room:coffin_vault
+    decoration: torch01
+    wall: west
+    height: 176
+  - id: deco:torch_09
+    room: room:barracks
+    decoration: torch01
+    wall: north
+    along: 0.3
+    height: 176
+  - id: deco:torch_10
+    room: room:embalming
+    decoration: torch01
+    wall: west
+    height: 176
+  - id: deco:torch_11
+    room: room:deep_crypt
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_12
+    room: room:bone_pit
+    decoration: torch01
+    wall: east
+    along: 0.7
+    height: 176
+  - id: deco:vault_candelabra_e
+    room: room:coffin_vault
+    decoration: cndlab0
+    at: [2560, 9088]
+  - id: deco:vault_candelabra_w
+    room: room:coffin_vault
+    decoration: cndlab0
+    at: [1792, 9088]
+exits:
+  - id: exit:x3
+    room: room:door
+    wall: south
+    size: [224, 448]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: door:x3
+    notes: "The tomb door: out to X3 (Lifeforce Lagoon), in front of its barrow door."
+relations: []

@@ -1,0 +1,1068 @@
+format: 0
+themes:
+- id: theme:cave
+  wall: &id001
+    texture: t68a02b
+    size:
+    - 256
+    - 256
+  floor: *id001
+  ceiling: *id001
+  reveal: *id001
+  door: &id002
+    texture: gkp103a
+    size: &id006
+    - 128
+    - 256
+  notes: The Dragon Cave's rock (MM8 d17 t68a02b) on walls, roofs and floors.
+- id: theme:road
+  wall: *id001
+  floor: &id009
+    texture: t68a02a
+    size:
+    - 256
+    - 256
+  ceiling: *id001
+  reveal: *id001
+  door: *id002
+  notes: 'Where the dragons go: the floor worn smooth (t68a02a).'
+- id: theme:office
+  wall: &id003
+    texture: gtrlwal3
+    size:
+    - 128
+    - 256
+  bands:
+  - height: 32
+    surface: &id004
+      texture: gtrltrm2
+      size:
+      - 64
+      - 32
+  floor:
+    texture: gtrlflr
+    size:
+    - 128
+    - 128
+  ceiling:
+    texture: gtrlrf3
+    size:
+    - 128
+    - 128
+  reveal: &id005
+    texture: gtrlrf3
+    size: &id011
+    - 128
+    - 128
+  door: *id002
+  notes: 'The Dragon Tax Office and its waiting room (MM8 d16): grey dressed stone (gtrlwal3) over a trim course, flagged
+    floor, timber roof (gtrlrf3).'
+- id: theme:library
+  wall: *id003
+  bands:
+  - height: 32
+    surface: *id004
+  - height: 288
+    surface: &id010
+      texture: t1books
+      size:
+      - 128
+      - 256
+  floor: &id007
+    texture: tfb11
+    size:
+    - 128
+    - 128
+  ceiling:
+    texture: gtrlrf2
+    size:
+    - 128
+    - 128
+  reveal: *id005
+  door: *id002
+  notes: 'The library of Dragon Lore and the King''s door (d16): a course of bookshelves round the walls (t1books), slab floor
+    (tfb11), a timbered roof (gtrlrf2).'
+- id: theme:hoard
+  wall: *id001
+  floor: &id012
+    texture: xncoins
+    size:
+    - 128
+    - 128
+  ceiling: *id001
+  reveal: *id001
+  door: *id002
+  notes: 'The King''s hoard: gold underfoot (xncoins) under the cave''s rock.'
+defaults:
+  theme: theme:cave
+  ambient: 10
+rooms:
+- id: room:mouth
+  name: Cave mouth
+  outline:
+  - - 0
+    - -3456
+  - - 1024
+    - -3456
+  - - 1024
+    - -2688
+  - - 0
+    - -2688
+  floor: 0
+  ceiling: 640
+  theme: theme:road
+  ambient: 20
+  notes: 'The arrival (entrance:x7_mouth): X7''s daylight behind (west), scorched rock and gnawed bones, the office''s front
+    ahead (east). Quiet (D-11.3).'
+- id: room:tax_hall
+  name: Tax office hall
+  outline:
+  - - 1152
+    - -3712
+  - - 2688
+    - -3712
+  - - 2688
+    - -2432
+  - - 1152
+    - -2432
+  floor: 0
+  ceiling: 384
+  theme: theme:office
+  walls:
+  - wall: s
+    panels:
+    - offset: 640
+      length: 128
+      bottom: 0
+      height: 256
+      surface:
+        texture: gkp103a
+        size: *id006
+        fit: true
+      id: door:tax_office
+      notes: The Dragon Tax Office's door (house 4852, Scaldrith; the left wing).
+    - offset: 768
+      length: 128
+      bottom: 0
+      height: 256
+      surface:
+        texture: gkp103b
+        size:
+        - 128
+        - 256
+        fit: true
+      id: panel:tax_office_r
+      notes: The office door's right wing.
+  platforms:
+  - id: platform:counter
+    at:
+    - 1536
+    - -3632
+    size:
+    - 384
+    - 96
+    rise: 104
+    surface: *id005
+    top_surface: *id007
+    notes: The counter by the office door, the brass urn on its sill (q-c25.urn).
+  - at:
+    - 2368
+    - -3632
+    size:
+    - 384
+    - 64
+    rise: 48
+    surface: *id005
+    top_surface: *id005
+    notes: A bench by the south wall.
+  - at:
+    - 1408
+    - -2512
+    size:
+    - 384
+    - 64
+    rise: 48
+    surface: *id005
+    top_surface: *id005
+    notes: A bench by the north wall.
+  ambient: 18
+  notes: 'D-5.2: the Dragon Tax Office''s public hall in d16''s stone, 384 high: Scaldrith''s door (house 4852) and the urn
+    on the counter in the south wall, benches, the waiting room''s door north, the inner door east. Quiet.'
+- id: room:waiting
+  name: Waiting room
+  outline:
+  - - 1408
+    - -2304
+  - - 2432
+    - -2304
+  - - 2432
+    - -1664
+  - - 1408
+    - -1664
+  floor: 0
+  ceiling: 320
+  theme: theme:office
+  platforms:
+  - id: platform:lectern
+    at:
+    - 1920
+    - -1744
+    size:
+    - 128
+    - 64
+    rise: 112
+    surface: *id005
+    top_surface: *id005
+    notes: 'The lectern: Dragon Lore, volume 1 (q-c25.volume1).'
+  - at:
+    - 1472
+    - -1984
+    size:
+    - 64
+    - 384
+    rise: 48
+    surface: *id005
+    top_surface: *id005
+    notes: A bench by the west wall.
+  - at:
+    - 2368
+    - -1984
+    size:
+    - 64
+    - 384
+    rise: 48
+    surface: *id005
+    top_surface: *id005
+    notes: A bench by the east wall.
+  ambient: 18
+  notes: 'Off the hall behind a door: benches by the walls, a lamp, the lectern with Dragon Lore, volume 1. A dead end with
+    a goal. Quiet.'
+- id: room:scorch
+  name: Scorched passage
+  outline:
+  - - 2816
+    - -3264
+  - - 3840
+    - -3264
+  - - 3840
+    - -2880
+  - - 2816
+    - -2880
+  floor: 0
+  ceiling: 288
+  theme: theme:road
+  ambient: 10
+  notes: 'Behind the inner door: a low passage (384 wide, 288 high) of rock blackened by breath. Its far opening is D-32''s
+    first low opening: the bone hall''s dragons cannot follow into the office. Quiet.'
+- id: room:bone_hall
+  name: Bone hall
+  outline:
+  - - 3968
+    - -3840
+  - - 6016
+    - -3840
+  - - 6016
+    - -2304
+  - - 3968
+    - -2304
+  floor: 0
+  ceiling: 1280
+  theme: theme:road
+  ambient: 10
+  notes: 'The first dragons: a hall 2,048 by 1,536 and 1,280 high, floored with gnawed bones and broken armour. A low opening
+    to the hollows (south); the dragon road (768) up to the roost ledge (north).'
+- id: room:hollows
+  name: Acid hollows
+  outline:
+  - - 3968
+    - -5376
+  - - 5504
+    - -5376
+  - - 5504
+    - -3968
+  - - 3968
+    - -3968
+  floor: 0
+  ceiling: 1024
+  theme: theme:cave
+  rough: &id008
+    step: 192
+    depth: 40
+  ambient: 8
+  notes: 'Hollows eaten into the rock, 1,024 high: three young Acid Dragons. Low crawls west to the last taxpayer and east
+    to the sulphur vents.'
+- id: room:last
+  name: The last taxpayer
+  outline:
+  - - 2560
+    - -5120
+  - - 3840
+    - -5120
+  - - 3840
+    - -4352
+  - - 2560
+    - -4352
+  floor: 0
+  ceiling: 512
+  theme: theme:cave
+  rough: *id008
+  platforms:
+  - id: platform:knight
+    at:
+    - 2720
+    - -4736
+    size:
+    - 192
+    - 288
+    rise: 24
+    surface: *id009
+    top_surface: *id009
+    notes: 'A knight''s remains in good armour, his strongbox by them: the receipt (q-c25.receipt).'
+  ambient: 8
+  notes: 'A dead end with a chest: the knight''s remains, his strongbox, and under it a receipt from the tax office.'
+- id: room:vents
+  name: Sulphur vents
+  outline:
+  - - 5632
+    - -5248
+  - - 9600
+    - -5248
+  - - 9600
+    - -3968
+  - - 5632
+    - -3968
+  floor: 0
+  ceiling: 1024
+  theme: theme:cave
+  rough: *id008
+  ambient: 10
+  notes: Yellow steam hissing from cracks along the floor (smoke, no damage), 1,024 high; two Acid Dragons. A low opening
+    east to the stair head (the floor-0 loop).
+- id: room:crossing
+  name: Fire crossing
+  outline:
+  - - 8320
+    - -2304
+  - - 9600
+    - -2304
+  - - 9600
+    - -1152
+  - - 8320
+    - -1152
+  floor: 0
+  ceiling: 1024
+  theme: theme:cave
+  rough: *id008
+  ambient: 12
+  notes: A cave 1,024 high where the roost's warm air rises through cracks; a Fire Dragon pair. Low openings west onto the
+    roost ledge, south to the egg cave, east to the stair head.
+- id: room:egg
+  name: Egg cave
+  outline:
+  - - 8320
+    - -3584
+  - - 9600
+    - -3584
+  - - 9600
+    - -2432
+  - - 8320
+    - -2432
+  floor: 0
+  ceiling: 896
+  theme: theme:cave
+  rough: *id008
+  levels:
+  - id: level:nest
+    outline:
+    - - 8704
+      - -3200
+    - - 9216
+      - -3200
+    - - 9216
+      - -2816
+    - - 8704
+      - -2816
+    floor: -48
+    surface: *id009
+    bank: 64
+    notes: The scraped hollow of the nest.
+  ambient: 12
+  notes: 'A warm dead end, 896 high: a scraped hollow (the eggs: S''s decoration), the mother on guard, a chest of her hoard
+    by the wall.'
+- id: room:head
+  name: Stair head
+  outline:
+  - - 9728
+    - -4480
+  - - 10368
+    - -4480
+  - - 10368
+    - -1664
+  - - 9728
+    - -1664
+  floor: 0
+  ceiling: 384
+  theme: theme:road
+  ambient: 10
+  notes: 'A low tunnel (384 high: no dragon uses it) joining the fire crossing and the sulphur vents; the walked stair goes
+    down from its north end.'
+- id: room:stair
+  name: The walked stair
+  outline:
+  - - 9856
+    - -1536
+  - - 10240
+    - -1536
+  - - 10240
+    - 512
+  - - 9856
+    - 512
+  floor: 0
+  ceiling: 384
+  theme: theme:road
+  slope:
+    to: -1024
+    toward: north
+    steps: 32
+  ceiling_slope:
+    to: -640
+    toward: north
+  ambient: 10
+  notes: 'Rough steps, 32 of 32, down 1,024 north in a tunnel 384 high: no dragon uses it, so the two floors keep their own
+    dragons. Walked (D-47).'
+- id: room:roost
+  name: The great roost
+  outline:
+  - - 5120
+    - -2176
+  - - 8192
+    - -2176
+  - - 8192
+    - 512
+  - - 5120
+    - 512
+  floor: -1024
+  ceiling: 1024
+  theme: theme:road
+  levels:
+  - id: level:ledge
+    outline:
+    - - 5120
+      - -2176
+    - - 8192
+      - -2176
+    - - 8192
+      - -1792
+    - - 5120
+      - -1792
+    floor: 0
+    surface: *id009
+    edge: *id001
+    notes: The roost ledge (floor 0), 384 wide along the south wall.
+  platforms:
+  - id: platform:lip
+    at:
+    - 6656
+    - -1816
+    size:
+    - 3040
+    - 16
+    base: 1024
+    rise: 128
+    surface: *id001
+    top_surface: *id001
+    notes: 'The ledge''s rock lip on its edge (D-57: it stops a walking party; 192 if it does not).'
+  ambient: 8
+  notes: 'Set piece: a cavern 3,072 by 2,688 and 2,048 high through both floors, the floor-0 ledge along its south wall behind
+    a rock lip, scales on the floor. Three pairs of dragons. The party comes in by low openings (the stair foot east, the
+    old roost north); the dragon roads to the bone hall (the ledge), the ember gallery (west) and the starwell (north) are
+    768.'
+- id: room:foot
+  name: Stair foot
+  outline:
+  - - 8320
+    - -896
+  - - 8832
+    - -896
+  - - 8832
+    - 640
+  - - 10368
+    - 640
+  - - 10368
+    - 1152
+  - - 8320
+    - 1152
+  floor: -1024
+  ceiling: -640
+  theme: theme:road
+  ambient: 10
+  notes: 'The steps'' foot: a low tunnel bent round from the stair to the roost''s east wall; low openings west into the great
+    roost and north to the steaming pools.'
+- id: room:pools
+  name: Steaming pools
+  outline:
+  - - 8320
+    - 1280
+  - - 10624
+    - 1280
+  - - 10624
+    - 2304
+  - - 8320
+    - 2304
+  floor: -1024
+  ceiling: 0
+  theme: theme:cave
+  rough: *id008
+  levels:
+  - id: level:pool
+    outline:
+    - - 9088
+      - 1536
+    - - 10112
+      - 1536
+    - - 10112
+      - 2048
+    - - 9088
+      - 2048
+    floor: -1088
+    surface:
+      texture: wtrtyl
+      liquid: water
+    edge: *id001
+    notes: 'The hot pool (wtrtyl: water, not lava, no damage).'
+  ambient: 10
+  notes: Hot pools steaming in a cave 1,024 high; three Fire Dragons bathing. Low openings south to the stair foot, east to
+    the den, west to the old roost.
+- id: room:den
+  name: East den
+  outline:
+  - - 10752
+    - 1280
+  - - 11776
+    - 1280
+  - - 11776
+    - 2304
+  - - 10752
+    - 2304
+  floor: -1024
+  ceiling: 0
+  theme: theme:cave
+  rough: *id008
+  ambient: 8
+  notes: 'A dead end with a chest: a den 1,024 high off the pools, its pair asleep on a scatter of coins; a low opening only.'
+- id: room:old_roost
+  name: Old roost
+  outline:
+  - - 6400
+    - 640
+  - - 8192
+    - 640
+  - - 8192
+    - 2176
+  - - 6400
+    - 2176
+  floor: -1024
+  ceiling: 256
+  theme: theme:road
+  rough: *id008
+  ambient: 8
+  notes: An older roost 1,280 high, its floor worn smooth; three Fire Dragons. Low openings to the pools (east) and into the
+    great roost (south).
+- id: room:ember
+  name: Ember gallery
+  outline:
+  - - 3072
+    - -768
+  - - 4992
+    - -768
+  - - 4992
+    - 0
+  - - 3072
+    - 0
+  floor: -1024
+  ceiling: -256
+  theme: theme:road
+  ambient: 12
+  notes: A dragon road 768 wide and high from the roost (east) to the library's east leaves, embers in the cracks; a Fire
+    pair. The leaves are low (288), so nothing big follows inside.
+- id: room:library
+  name: Library of Dragon Lore
+  outline:
+  - - 896
+    - -1152
+  - - 2944
+    - -1152
+  - - 2944
+    - 384
+  - - 896
+    - 384
+  floor: -1024
+  ceiling: 256
+  theme: theme:library
+  platforms:
+  - id: platform:shelf2
+    at:
+    - 1408
+    - -1088
+    size:
+    - 384
+    - 96
+    rise: 256
+    surface: *id010
+    top_surface: *id005
+    end_surface:
+      texture: gtrlrf3
+      size: *id011
+      fit: false
+    notes: 'Shelf 2: Dragon Lore, volume 2.'
+  - id: platform:shelf3
+    at:
+    - 1920
+    - -1088
+    size:
+    - 384
+    - 96
+    rise: 256
+    surface: *id010
+    top_surface: *id005
+    end_surface:
+      texture: gtrlrf3
+      size: *id011
+      fit: false
+    notes: 'Shelf 3: Dragon Lore, volume 3.'
+  - id: platform:shelf4
+    at:
+    - 2432
+    - -1088
+    size:
+    - 384
+    - 96
+    rise: 256
+    surface: *id010
+    top_surface: *id005
+    end_surface:
+      texture: gtrlrf3
+      size: *id011
+      fit: false
+    notes: 'Shelf 4: Dragon Lore, volume 4.'
+  - id: platform:ledger
+    at:
+    - 1152
+    - 0
+    size:
+    - 96
+    - 160
+    rise: 128
+    surface: *id005
+    top_surface: *id005
+    notes: 'The ledger stand: The Art of Taxation.'
+  ambient: 16
+  notes: 'Set piece and goal: a worked hall 2,048 by 1,536 and 1,280 high, shelves cut into the walls to a dragon''s reach,
+    books the size of doors on three great shelves; two Frost Dragons live here. Two pairs of leaves (east to the ember gallery,
+    north to the frost den), low (288); the King''s door antechamber west.'
+- id: room:kings_door
+  name: The King's door
+  outline:
+  - - -384
+    - -640
+  - - 768
+    - -640
+  - - 768
+    - 128
+  - - -384
+    - 128
+  floor: -1024
+  ceiling: -640
+  theme: theme:library
+  bands:
+  - height: 32
+    surface: *id004
+  platforms:
+  - id: platform:shelf5
+    at:
+    - 192
+    - 80
+    size:
+    - 384
+    - 64
+    rise: 256
+    surface: *id010
+    top_surface: *id005
+    end_surface:
+      texture: gtrlrf3
+      size: *id011
+      fit: false
+    notes: Shelf 5, by the Dragon King's door.
+  ambient: 14
+  notes: 'An antechamber off the library''s west end, 384 high: shelf 5 by the King''s door, two bronze leaves 384 wide and
+    only 288 high (D-32 keeps the King in). Quiet.'
+- id: room:throne
+  name: The Dragon King's hall
+  outline:
+  - - -3200
+    - -1280
+  - - -512
+    - -1280
+  - - -512
+    - 768
+  - - -3200
+    - 768
+  floor: -1024
+  ceiling: 512
+  theme: theme:cave
+  levels:
+  - id: level:dais
+    outline:
+    - - -3072
+      - -896
+    - - -2176
+      - -896
+    - - -2176
+      - 640
+    - - -3072
+      - 640
+    floor: -992
+    surface: *id009
+    edge: *id009
+    notes: The King's dais, one step up.
+  ambient: 10
+  notes: 'The boss: a hall 2,688 by 2,048 and 1,536 high, the Dragon King on a dais of heaped gold, two Frost Dragons at its
+    feet. The only openings: the King''s low door (east) and the hoard''s grate behind the dais (west), which rises at his
+    death.'
+  platforms:
+  - id: platform:gold_n
+    at:
+    - -2688
+    - 448
+    size:
+    - 640
+    - 320
+    rise: 160
+    top_heights:
+    - 16
+    - 16
+    - 160
+    - 160
+    surface: *id012
+    top_surface: *id012
+    notes: Heaped gold on the dais's north end, banked against the wall of the hall's north side.
+  - id: platform:gold_s
+    at:
+    - -2688
+    - -704
+    size:
+    - 640
+    - 320
+    rise: 160
+    top_heights:
+    - 160
+    - 160
+    - 16
+    - 16
+    surface: *id012
+    top_surface: *id012
+    notes: Heaped gold on the dais's south end.
+  - id: platform:gold_nw
+    at:
+    - -2976
+    - 368
+    size:
+    - 160
+    - 512
+    rise: 144
+    surface: *id012
+    top_heights:
+    - 144
+    - 24
+    - 24
+    - 144
+    top_surface: *id012
+    notes: Gold banked against the west wall, north of the grate.
+  - id: platform:gold_sw
+    at:
+    - -2976
+    - -656
+    size:
+    - 160
+    - 384
+    rise: 144
+    surface: *id012
+    top_heights:
+    - 144
+    - 24
+    - 24
+    - 144
+    top_surface: *id012
+    notes: Gold banked against the west wall, south of the grate.
+- id: room:hoard
+  name: The King's hoard
+  outline:
+  - - -4352
+    - -512
+  - - -3328
+    - -512
+  - - -3328
+    - 256
+  - - -4352
+    - 256
+  floor: -1024
+  ceiling: -640
+  theme: theme:hoard
+  ambient: 12
+  notes: 'Behind the dais: the hoard cave, gold on the floor (xncoins), the King''s chest. Reached when the grate rises at
+    his death.'
+- id: room:starwell
+  name: The starwell
+  outline:
+  - - 3456
+    - 640
+  - - 6016
+    - 640
+  - - 6016
+    - 2688
+  - - 3456
+    - 2688
+  floor: -1024
+  ceiling: 512
+  theme: theme:road
+  walls:
+  - wall: n
+    panels:
+    - offset: 256
+      length: 2048
+      bottom: 640
+      height: 640
+      surface:
+        texture: t68a02b
+        size:
+        - 256
+        - 256
+        sky: true
+      id: panel:slot
+      notes: 'The slot of stars: the north wall broken open onto the void beyond X7''s rim (sky: true, X7''s preset; the faces
+        stay solid).'
+  ambient: 8
+  notes: 'Set piece: a cold hall 2,560 by 2,048 and 1,536 high whose north wall breaks open onto the void beyond X7''s rim:
+    a slot of stars 2,048 wide, its sill 640 above the floor (no one walks out). Three Frost Dragons. The dragon road from
+    the roost (south, 768); a low opening west to the frost den.'
+- id: room:frost
+  name: Frost den
+  outline:
+  - - 1152
+    - 512
+  - - 3328
+    - 512
+  - - 3328
+    - 1792
+  - - 1152
+    - 1792
+  floor: -1024
+  ceiling: 0
+  theme: theme:cave
+  ambient: 8
+  notes: White rock, 1,024 high, a Frost pair; low openings east to the starwell and west to the rime cave, and the library's
+    north leaves (the library loop).
+- id: room:rime
+  name: Rime cave
+  outline:
+  - - -256
+    - 640
+  - - 1024
+    - 640
+  - - 1024
+    - 1664
+  - - -256
+    - 1664
+  floor: -1024
+  ceiling: 0
+  theme: theme:cave
+  rough: *id008
+  ambient: 8
+  notes: 'A dead end with a chest: icicles from a 1,024 roof, a frozen hoard, three Frost Dragons.'
+openings:
+- id: open:mouth_hall
+  from: room:mouth
+  to: room:tax_hall
+  link: link:mouth_hall
+  width: 448
+  height: 320
+  notes: 'The office front: a wide doorway in the office''s stone front.'
+- id: open:hall_waiting
+  from: room:tax_hall
+  to: room:waiting
+  link: link:hall_waiting
+  width: 256
+  height: 256
+- id: open:hall_scorch
+  from: room:tax_hall
+  to: room:scorch
+  link: link:hall_scorch
+  width: 256
+  height: 288
+  notes: The inner door (q-c25.inner_door).
+- id: open:scorch_bone
+  from: room:scorch
+  to: room:bone_hall
+  link: link:scorch_bone
+  width: 224
+  height: 288
+  notes: 'D-32''s first low opening: the bone hall''s dragons stay out of the passage.'
+- id: open:bone_hollows
+  from: room:bone_hall
+  to: room:hollows
+  link: link:bone_hollows
+  width: 256
+  height: 288
+- id: open:hollows_last
+  from: room:hollows
+  to: room:last
+  link: link:hollows_last
+  width: 224
+  height: 256
+  notes: The crawl to the last taxpayer.
+- id: open:hollows_vents
+  from: room:hollows
+  to: room:vents
+  link: link:hollows_vents
+  width: 256
+  height: 288
+- id: open:bone_ledge
+  from: room:bone_hall
+  to: room:roost
+  link: link:bone_ledge
+  width: 768
+  height: 768
+  along: 0.5
+  notes: 'The dragon road from the bone hall onto the roost ledge (768: D-32).'
+- id: open:ledge_crossing
+  from: room:crossing
+  to: room:roost
+  link: link:ledge_crossing
+  width: 256
+  height: 288
+  along: 0.8125
+  notes: 'From the ledge''s east end into the fire crossing: low (288).'
+- id: open:crossing_egg
+  from: room:crossing
+  to: room:egg
+  link: link:crossing_egg
+  width: 256
+  height: 288
+  from_wall: s
+  to_wall: n
+- id: open:crossing_head
+  from: room:crossing
+  to: room:head
+  link: link:crossing_head
+  width: 256
+  height: 288
+- id: open:vents_head
+  from: room:vents
+  to: room:head
+  link: link:vents_head
+  width: 256
+  height: 288
+- id: open:head_stair
+  from: room:head
+  to: room:stair
+  link: link:stair_down
+  width: 320
+  height: 288
+- id: open:stair_foot
+  from: room:stair
+  to: room:foot
+  link: link:stair_foot
+  width: 320
+  height: 288
+- id: open:foot_roost
+  from: room:foot
+  to: room:roost
+  link: link:foot_roost
+  width: 256
+  height: 288
+- id: open:foot_pools
+  from: room:foot
+  to: room:pools
+  link: link:foot_pools
+  width: 256
+  height: 288
+- id: open:pools_den
+  from: room:pools
+  to: room:den
+  link: link:pools_den
+  width: 256
+  height: 288
+- id: open:pools_old
+  from: room:pools
+  to: room:old_roost
+  link: link:pools_old
+  width: 256
+  height: 288
+- id: open:old_roost
+  from: room:old_roost
+  to: room:roost
+  link: link:old_roost
+  width: 256
+  height: 288
+- id: open:roost_ember
+  from: room:roost
+  to: room:ember
+  link: link:roost_ember
+  width: full
+  height: full
+  notes: The dragon road west (768).
+- id: open:roost_starwell
+  from: room:roost
+  to: room:starwell
+  link: link:roost_starwell
+  width: 768
+  height: 768
+  notes: The dragon road north (768).
+- id: open:ember_library
+  from: room:ember
+  to: room:library
+  link: link:ember_library
+  width: 384
+  height: 288
+  notes: The library's east leaves (low, D-32).
+- id: open:starwell_frost
+  from: room:starwell
+  to: room:frost
+  link: link:starwell_frost
+  width: 256
+  height: 288
+- id: open:frost_rime
+  from: room:frost
+  to: room:rime
+  link: link:frost_rime
+  width: 256
+  height: 288
+- id: open:frost_library
+  from: room:frost
+  to: room:library
+  link: link:frost_library
+  width: 384
+  height: 288
+  notes: The library's north leaves (low).
+- id: open:library_kings
+  from: room:library
+  to: room:kings_door
+  link: link:library_kings
+  width: 320
+  height: 288
+- id: open:kings_throne
+  from: room:kings_door
+  to: room:throne
+  link: link:kings_throne
+  width: 384
+  height: 288
+  notes: 'The King''s door: two bronze leaves 384 wide and 288 high (D-32).'
+- id: open:throne_hoard
+  from: room:throne
+  to: room:hoard
+  link: link:throne_hoard
+  width: 256
+  height: 288
+  notes: The hoard's grate behind the dais.
+notes: 'XD-18 Dragon Cave: x east, y north; floor 0 (z 0) in the south band from the mouth (west) to the stair head (east),
+  floor -1 (z -1,024) north of it, the great roost through both. Written by output/studio_cal/xd18/tools/gen.py.'

@@ -1,0 +1,137 @@
+# Slick's Sure-Eye Tonic (D-70 Q1, A3's m34.tonic) by the Accuracy booth: a member at 30 Accuracy loses; the
+# crate gives two Accuracy Boosts (245) once, then the else line; one drunk (60), the game is won.
+id: xeen.x9.l4.tonic
+title: 'Clouds of Xeen (X9): Slick''s Sure-Eye Tonic (D-70 Q1): two Accuracy Boosts once, the else line after; one drunk,
+  a member at 30 Accuracy wins the Accuracy game'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); close()
+- load_map:
+    map: xeen_x9.blv
+    pos: -3712, 1536, 448
+- play_lua:
+    source: wait(2); close(); log('cleared ' .. clear_hostiles(8000))
+- assert:
+    map: xeen_x9.blv
+- press_action:
+    action: select_member
+    member_index: 0
+- console:
+    line: lua evt.ForPlayer(0) local v = 0 while v < 255 and IsAtLeast(ActualAccuracy, v + 1) do v = v + 1 end if v > 30 then
+      SubtractValue(BaseAccuracy, v - 30) elseif v < 30 then AddValue(BaseAccuracy, 30 - v) end evt.ForPlayer(Players.Current)
+    expect_contains: Lua ran.
+- console:
+    line: lua evt.ForPlayer(0) local v = 0 while v < 255 and IsAtLeast(ActualAccuracy, v + 1) do v = v + 1 end evt.ForPlayer(Players.Current)
+      evt.StatusText('acc ' .. v)
+    expect_contains: Lua ran.
+- play_lua:
+    source: local v = tonumber(string.match(status(), 'acc (%d+)')); log('member 0 Accuracy ' .. v); if v ~= 30 then error('Accuracy
+      ' .. v .. ', wanted 30') end
+- lua_event:
+    source: evt.ForPlayer(1) for _ = 1, 20 do AddValue(InventoryItem(183), 183) end evt.ForPlayer(Players.Current)
+- play_lua:
+    source: for _ = 1, 25 do wait(0.1); if held() ~= 0 then stow() end end; local function gems() local n = 0; for _, id in
+      ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056,
+      2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; log('gems ' .. gems());
+      if gems() < 20 then error('only ' .. gems() .. ' gems') end
+- note: At 30 the Accuracy game is lost (10 gems).
+- play_lua:
+    source: click(3); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Oh! Too bad.
+- play_lua:
+    source: close(); if qbit(111684) then error('won at 30') end
+- note: 'The tonic crate: two Accuracy Boosts on the first click, then Slick''s else line only.'
+- walk_to:
+    x: -3520
+    y: 960
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: if item_count(245) ~= 0 then error('a boost before the crate') end; click(59); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Sure-Eye Tonic, two bottles
+- play_lua:
+    source: close(); for _ = 1, 5 do wait(0.1); if held() ~= 0 then stow() end end; local n = item_count(245); log('Accuracy
+      Boosts ' .. n); if n ~= 2 then error('the crate gave ' .. n .. ' Accuracy Boosts, wanted 2') end
+- play_lua:
+    source: click(59); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: The free round was the first one.
+- play_lua:
+    source: close(); for _ = 1, 3 do wait(0.1); if held() ~= 0 then stow() end end; local n = item_count(245); if n ~= 2 then
+      error('the second click left ' .. n .. ' Accuracy Boosts') end
+- note: 'Member 0 drinks one boost at the shooting line: 60, and wins the doll.'
+- walk_to:
+    x: -3712
+    y: 1536
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- use_item:
+    item_id: 245
+    member_index: 0
+- console:
+    line: lua evt.ForPlayer(0) local v = 0 while v < 255 and IsAtLeast(ActualAccuracy, v + 1) do v = v + 1 end evt.ForPlayer(Players.Current)
+      evt.StatusText('acc ' .. v)
+    expect_contains: Lua ran.
+- play_lua:
+    source: local v = tonumber(string.match(status(), 'acc (%d+)')); log('member 0 Accuracy ' .. v); if v ~= 60 then error('Accuracy
+      ' .. v .. ', wanted 60') end
+- press_action:
+    action: select_member
+    member_index: 0
+- play_lua:
+    source: click(3); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: You win a prize.
+- play_lua:
+    source: close(); for _ = 1, 3 do wait(0.1); if held() ~= 0 then stow() end end; if not qbit(111684) then error('the Accuracy
+      game is not won') end; if not has_item(12370) then error('no Accuracy doll') end; if item_count(245) ~= 1 then error('not
+      one bottle left') end

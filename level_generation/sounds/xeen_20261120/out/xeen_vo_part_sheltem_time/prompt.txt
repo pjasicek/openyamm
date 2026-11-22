@@ -1,0 +1,21 @@
+derived: xeen_vo_part_sheltem_time_take
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+shift:
+  pitch: 0
+  formant: -1.5
+ring:
+  hz: 40
+  mix: 0.12
+room:
+  seconds: 0.4
+  mix: 0.08
+  lowpass_hz: 2500
+highpass_hz: 200
+lowpass_hz: 6500
+loudness_db: -9
+line: 'Sheltem: Corak. You took your time.'

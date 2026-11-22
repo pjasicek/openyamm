@@ -4,6 +4,8 @@ start:
   at: [0, 448]
   facing: 90
   notes: "Inside the skull-hung mouth, facing in; daylight behind."
+arrivals:
+  - {entrance: entrance:x7_gate, room: room:back_gate, at: [2176, 13184], facing: s, notes: "From X7's back-gate door (thing:xd05_gate): in the guardroom 256 inside the gate, facing south down the guardroom."}
 doors:
   - id: door:boulder
     opening: open:hollows_loot
@@ -16,7 +18,7 @@ doors:
     opening: open:hollows_pit
     kind: slide_up
     fold: true
-    surface: {texture: xopoles, size: [128, 128]}
+    surface: {texture: xopoles, size: [128, 128], translucent: 1}
     tile: true
     notes: "The cage gate of lashed poles over the pit's rim (generated cut-out): it folds up into the lintel."
   - id: door:gate_e
@@ -144,6 +146,7 @@ lights:
     height: 260
     radius: 600
     color: [200, 70, 30]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     on: false
   - id: light:ember_signal
     room: room:firing_step_e
@@ -151,6 +154,7 @@ lights:
     height: 120
     radius: 400
     color: [200, 70, 30]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     on: false
   - id: light:ember_spirit
     room: room:shaman_den
@@ -158,6 +162,7 @@ lights:
     height: 150
     radius: 400
     color: [200, 70, 30]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     on: false
   - id: light:gate_day
     room: room:back_gate
@@ -180,14 +185,14 @@ lights:
     color: [255, 160, 80]
   - id: light:hall_buttress_e
     room: room:drum_hall
-    at: [1100, 8400]
-    height: 800
+    at: [1100, 8676]
+    height: 440
     radius: 1200
     color: [255, 160, 80]
   - id: light:hall_buttress_w
     room: room:drum_hall
-    at: [-1100, 8500]
-    height: 800
+    at: [-1081, 8822]
+    height: 440
     radius: 1200
     color: [255, 160, 80]
   - id: light:hall_fire
@@ -239,6 +244,7 @@ lights:
   - id: light:palisade_w
     room: room:palisade_cave
     at: [-380, 1660]
+    floor_height: 0
     height: 320
     radius: 900
     color: [255, 160, 80]
@@ -295,7 +301,7 @@ chests:
     treasure_level: 2
     random_items: 3
     gold: 400
-    notes: A farmer's strongbox among the plunder.
+    notes: "A farmer's strongbox among the plunder: the warband's hoard, the map's one chest a level up (MAPS 0: Tres 1)."
   - id: chest:hollows
     room: room:sleeping_hollows
     at: [-3360, 5696]
@@ -317,7 +323,7 @@ chests:
     at: [-2880, 7600]
     kind: gt002
     facing: n
-    treasure_level: 2
+    treasure_level: 1
     random_items: 2
     notes: The shaman's chest beside the dais.
 spawns:
@@ -325,19 +331,19 @@ spawns:
     room: room:bat_chimney
     at: [2500, 8200]
     slot: 2
-    tier: a
+    tier: b
     group: 51
   - id: spawn:chimney_ne
     room: room:bat_chimney
     at: [3008, 8704]
     slot: 2
-    tier: a
+    tier: b
     group: 51
   - id: spawn:cookfire_e
     room: room:cookfire_cave
     at: [800, 6600]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:cookfire_w
     room: room:cookfire_cave
@@ -355,21 +361,21 @@ spawns:
     room: room:palisade_gate
     at: [0, 2400]
     slot: 1
-    tier: b
+    tier: a
     group: 51
     notes: The gate group waiting in the passage.
   - id: spawn:hall_floor
     room: room:drum_hall
     at: [300, 9600]
     slot: 1
-    tier: b
+    tier: a
     group: 51
     notes: On the floor.
   - id: spawn:hall_s
     room: room:drum_hall
     at: [0, 8700]
     slot: 1
-    tier: b
+    tier: a
     group: 51
     notes: On the south terraces.
   - id: spawn:hall_w
@@ -402,9 +408,9 @@ spawns:
     room: room:run_bend
     at: [700, 4700]
     slot: 2
-    tier: a
+    tier: b
     group: 51
-    notes: Bats at the bend.
+    notes: "Bats at the bend (tier b: the map's band is 4-10)."
   - id: spawn:step_e
     room: room:firing_step_e
     at: [760, 2048]
@@ -422,44 +428,40 @@ spawns:
 monsters:
   - id: monster:drum_master
     room: room:drum_hall
-    monster: 273
+    monster: 11033
     at: [-960, 10000]
     floor_height: -256
     facing: 270
     hostile: true
     group: 2
-    hp: 120
-    name: Drum-Master
     immobile: true
-    notes: "The Drum-Master on his scaffold: a Goblin Lord (MM7's top goblin) for the brief's Orc Archer 9 with boss hit points (the game ignores hp: XD-01's gap)."
+    notes: "The Drum-Master on his scaffold: his own boss row (11033, level 12)."
   - id: monster:guard_e
     room: room:back_gate
-    monster: 273
+    monster: 11032
     at: [2450, 13200]
     facing: 270
     hostile: true
     group: 4
-    name: Orc Guard
     immobile: true
   - id: monster:guard_w
     room: room:back_gate
-    monster: 273
+    monster: 11032
     at: [1900, 13200]
     facing: 270
     hostile: true
     group: 4
-    name: Orc Guard
     immobile: true
-    notes: Gate guard (Goblin Lord for the brief's Orc Guard 12).
+    notes: "Gate guard (Orc Guard 11032, level 10)."
   - id: monster:shaman
     room: room:shaman_den
-    monster: 273
+    monster: 11032
     at: [-2650, 7200]
     facing: 0
     hostile: true
     group: 3
     name: Orc Shaman
-    notes: "The shaman before his spirit drum (a Goblin Lord: MM7 has no goblin caster)."
+    notes: "The shaman before his spirit drum: an Orc Guard (11032, level 10; Xeen's Orc Shaman row is the level-20 warband's)."
   - id: monster:tam
     room: room:prisoner_pit
     monster: 358
@@ -474,11 +476,13 @@ decorations:
   - id: deco:buttress_torch_e
     room: room:drum_hall
     decoration: torskul0
-    at: [1100, 8400]
+    at: [1100, 8636]
+    height: 256
   - id: deco:buttress_torch_w
     room: room:drum_hall
     decoration: torskul0
-    at: [-1100, 8500]
+    at: [-1094, 8797]
+    height: 256
   - id: deco:cache_bag_1
     room: room:loot_cache
     decoration: bag_A
@@ -490,19 +494,15 @@ decorations:
   - id: deco:cache_barrel
     room: room:loot_cache
     decoration: dec03
-    at: [-4100, 5720]
+    at: [-4160, 5705]
   - id: deco:cache_cask
     room: room:loot_cache
     decoration: 7dec21
-    at: [-3950, 5760]
+    at: [-4230, 5730]
   - id: deco:cache_heap
     room: room:loot_cache
     decoration: trasheap
     at: [-4330, 6050]
-  - id: deco:cache_sack
-    room: room:loot_cache
-    decoration: floursac
-    at: [-3980, 6150]
   - id: deco:chimney_bones
     room: room:bat_chimney
     decoration: dec29
@@ -528,11 +528,11 @@ decorations:
   - id: deco:cook_cask
     room: room:cookfire_cave
     decoration: 7dec21
-    at: [-1050, 6050]
+    at: [-600, 5840]
   - id: deco:cook_keg
     room: room:cookfire_cave
     decoration: smlbarel
-    at: [-1050, 6200]
+    at: [-730, 5850]
   - id: deco:cook_plate
     room: room:cookfire_cave
     decoration: dec36
@@ -541,10 +541,6 @@ decorations:
     room: room:cookfire_cave
     decoration: dec37
     at: [-120, 6880]
-  - id: deco:cook_trash
-    room: room:cookfire_cave
-    decoration: 7dec10
-    at: [1150, 6400]
   - id: deco:cookfire
     room: room:cookfire_cave
     decoration: ckfyr00
@@ -653,6 +649,7 @@ decorations:
     room: room:cookfire_cave
     decoration: dec04
     at: [64, 6528]
+    floor_height: -216
   - id: deco:hollows_bed_1
     room: room:sleeping_hollows
     decoration: trasheap
@@ -704,24 +701,27 @@ decorations:
   - id: deco:mouth_skulltorch_e
     room: room:cave_mouth
     decoration: torskul0
-    at: [300, 830]
+    at: [320, 960]
+    wall: north
+    height: 160
   - id: deco:mouth_skulltorch_w
     room: room:cave_mouth
     decoration: torskul0
-    at: [-300, 830]
+    at: [-320, 960]
+    wall: north
+    height: 160
   - id: deco:palisade_bones_1
     room: room:palisade_cave
     decoration: dec29
-    at: [-760, 1700]
+    at: [-1150, 1500]
   - id: deco:palisade_bones_2
     room: room:palisade_cave
     decoration: dec29
-    at: [560, 1500]
+    at: [1150, 1450]
   - id: deco:palisade_corpse
     room: room:palisade_cave
     decoration: Corpse04
-    at: [820, 1690]
-    facing: 180
+    at: [1100, 1650]
   - id: deco:palisade_rock_1
     room: room:palisade_cave
     decoration: 6rock01
@@ -733,11 +733,15 @@ decorations:
   - id: deco:palisade_skulltorch_e
     room: room:palisade_cave
     decoration: torskul0
-    at: [320, 1700]
+    at: [320, 1792]
+    wall: north
+    height: 160
   - id: deco:palisade_skulltorch_w
     room: room:palisade_cave
     decoration: torskul0
-    at: [-320, 1700]
+    at: [-320, 1792]
+    wall: north
+    height: 160
   - id: deco:pit_bones
     room: room:prisoner_pit
     decoration: dec29
@@ -753,7 +757,7 @@ decorations:
   - id: deco:pool_mushroom
     room: room:snake_pool
     decoration: mushrm05
-    at: [2000, 9700]
+    at: [1980, 10150]
   - id: deco:pool_rock
     room: room:snake_pool
     decoration: rock10
@@ -773,19 +777,31 @@ decorations:
   - id: deco:rim_brazier_1
     room: room:drum_hall
     decoration: torskul0
-    at: [-1100, 7900]
+    at: [-1100, 7808]
+    floor_height: -384
+    wall: south
+    height: 160
   - id: deco:rim_brazier_2
     room: room:drum_hall
     decoration: torskul0
-    at: [-560, 7900]
+    at: [-560, 7808]
+    floor_height: -384
+    wall: south
+    height: 160
   - id: deco:rim_brazier_3
     room: room:drum_hall
     decoration: torskul0
-    at: [560, 7900]
+    at: [560, 7808]
+    floor_height: -384
+    wall: south
+    height: 160
   - id: deco:rim_brazier_4
     room: room:drum_hall
     decoration: torskul0
-    at: [1100, 7900]
+    at: [1100, 7808]
+    floor_height: -384
+    wall: south
+    height: 160
   - id: deco:run_bones
     room: room:run_bend
     decoration: dec29
@@ -793,45 +809,45 @@ decorations:
   - id: deco:run_rock_1
     room: room:run_bend
     decoration: 6rock04
-    at: [1300, 4600]
+    at: [1225, 4689]
   - id: deco:run_rock_2
     room: room:run_bend
     decoration: 6rock05
     at: [250, 5050]
   - id: deco:scaffold_brazier_e
     room: room:drum_hall
-    decoration: torskul0
+    decoration: flamb00
     at: [-700, 10440]
     floor_height: -256
   - id: deco:scaffold_brazier_w
     room: room:drum_hall
-    decoration: torskul0
+    decoration: flamb00
     at: [-1220, 10440]
     floor_height: -256
   - id: deco:step_e_brazier
     room: room:firing_step_e
     decoration: torskul0
-    at: [540, 2150]
-  - id: deco:step_w_arrows
-    room: room:firing_step_w
-    decoration: 7dec32
-    at: [-540, 2160]
+    at: [540, 2240]
+    wall: north
+    height: 160
   - id: deco:step_w_brazier
     room: room:firing_step_w
     decoration: torskul0
-    at: [-1180, 2140]
+    at: [-1280, 2140]
+    wall: west
+    height: 160
   - id: deco:yard_barrel_1
     room: room:palisade_yard
     decoration: 7dec32
-    at: [-700, 2900]
+    at: [-1190, 3250]
   - id: deco:yard_barrel_2
     room: room:palisade_yard
     decoration: dec03
-    at: [700, 2900]
+    at: [1200, 3250]
   - id: deco:yard_barrel_3
     room: room:palisade_yard
     decoration: dec03
-    at: [600, 2930]
+    at: [1200, 3360]
   - id: deco:yard_brazier
     room: room:palisade_yard
     decoration: 7dec02
@@ -839,37 +855,27 @@ decorations:
   - id: deco:yard_keg
     room: room:palisade_yard
     decoration: smlbarel
-    at: [-600, 2920]
+    at: [-1190, 3370]
 placeholders:
   - id: placeholder:cart_wheel
     room: room:loot_cache
     stands_for: A farm cart's wheel leaning on the wall
     at: [-4300, 6200]
     size: [32, 160, 160]
-  - id: placeholder:spear_rack
-    room: room:drum_hall
-    stands_for: A rack of orc spears on the drum scaffold
-    at: [-1200, 10000]
-    size: [64, 192, 192]
-  - id: placeholder:spits
-    room: room:cookfire_cave
-    stands_for: Roasting spits over the hearth fire
-    at: [64, 6528]
-    size: [320, 32, 160]
 exits:
   - id: exit:x1
     room: room:cave_mouth
     wall: south
     size: [1024, 512]
-    surface: {texture: xodaylt, size: [256, 128], fit: true, uneven: true}
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
     to: exit:x1_hills
     notes: "The daylight of the X1 hills: the mouth's whole south wall."
   - id: exit:x7
     room: room:back_gate
     wall: north
     size: [160, 320]
-    surface: {texture: xobackgt, size: [128, 256], fit: true}
-    to: exit:x7_slopes
-    notes: The barred back gate to Mount Firestone's slopes.
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x7_gate
+    notes: "The back gate to Mount Firestone's south-east slopes (X7), open once the bar is lifted."
 relations:
-  - {of: [271, 272, 273, 205, 206, 207, 400, 401, 402], toward: 358, relation: friendly, both_ways: true}
+  - {of: [11030, 11031, 11032, 11033, 11300, 11301, 11302, 11480, 11481, 11482], toward: 358, relation: friendly, both_ways: true}

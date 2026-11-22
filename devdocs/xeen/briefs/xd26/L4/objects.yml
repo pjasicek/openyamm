@@ -1,0 +1,376 @@
+format: 0
+start:
+  room: room:mouth
+  at: [1344, -1000]
+  facing: n
+  notes: "Just inside the cave mouth from the Gargoyle Range (X4's door:xd26), facing in (north)."
+doors:
+  - id: door:fence
+    opening: open:ledgee_fence
+    kind: hinged
+    thickness: 16
+    speed: 160
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    notes: The fence's plank door.
+  - id: door:moss
+    opening: open:high_hidden
+    kind: slide_up
+    thickness: 16
+    speed: 96
+    surface: {texture: cwb1, size: [128, 256]}
+    secret: true
+    back_surface: {texture: cwb1, size: [128, 256]}
+    tile: true
+    notes: "The hanging moss over the hidden ledge's way (secret; drawn as the ledge's rock)."
+lifts:
+  - id: lift:hoist
+    room: room:hoist_foot
+    at: [2816, 2368]
+    size: [256, 256]
+    travel: 480
+    thickness: 32
+    speed: 128
+    state: up
+    surface: {texture: gkp1ceil, size: [128, 128]}
+    notes: "The fence's hoist: a plank deck on ropes under the hoist beam. It starts at the upper stop, flush with the high ledge in its notch; the winch lowers it the first time, then its deck or a call rope at either stop sends it."
+ladders:
+  - {id: ladder:ledge_low, room: room:shaft_floor, at: [4, 448], facing: w, height: 512, exit: [-192, 448], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: "A pole ladder up the shaft's west wall to the first ledge's lip (the graph's ladder, D-17)."}
+  - {id: ladder:ledge_w, room: room:ledge_low, at: [-576, 888], facing: n, height: 512, exit: [-576, 1110], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: A pole ladder up the first ledge's north wall to the west ledge.}
+  - {id: ladder:roost, room: room:high_ledge, at: [1280, 2552], facing: n, height: 512, exit: [1280, 2780], grab_at_top: true, surface: {texture: t66abc10a, size: [32, 128], uneven: true}, notes: A pole ladder up the high ledge's north wall to the roost.}
+sounds:
+  - {id: sound:wind, room: room:shaft_floor, at: [1024, 1024], sound: whistling wind, radius: 4000, inner_radius: 1500, volume: 0.6, notes: Wind in the shaft.}
+lights:
+  - id: light:fence
+    room: room:fence_cache
+    at: [3456, 1344]
+    height: 216
+    radius: 600
+    color: [255, 170, 90]
+    notes: The fence's lantern.
+  - id: light:hidden
+    room: room:hidden_ledge
+    at: [-704, 2944]
+    height: 164
+    radius: 450
+    color: [140, 140, 160]
+  - id: light:high_e
+    room: room:high_ledge
+    at: [2600, 2368]
+    height: 214
+    radius: 900
+    color: [160, 160, 180]
+  - id: light:high_w
+    room: room:high_ledge
+    at: [0, 2368]
+    height: 214
+    radius: 900
+    color: [160, 160, 180]
+  - id: light:hoist
+    room: room:hoist_foot
+    at: [2816, 2250]
+    height: 376
+    radius: 700
+    color: [255, 170, 90]
+    notes: The fence's lantern at the hoist's foot.
+  - id: light:hoist_top
+    room: room:high_ledge
+    at: [2816, 2368]
+    height: 564
+    radius: 800
+    color: [255, 170, 90]
+    notes: A lantern hung from the hoist beam.
+  - id: light:ledge_e
+    room: room:ledge_e
+    at: [2624, 1536]
+    height: 226
+    radius: 800
+    color: [150, 150, 170]
+  - id: light:ledge_low
+    room: room:ledge_low
+    at: [-600, 450]
+    height: 188
+    radius: 700
+    color: [150, 150, 170]
+  - id: light:ledge_w
+    room: room:ledge_w
+    at: [-576, 1536]
+    height: 226
+    radius: 800
+    color: [150, 150, 170]
+  - id: light:low_nests
+    room: room:low_nests
+    at: [-1600, 450]
+    height: 248
+    radius: 700
+    color: [150, 150, 170]
+  - id: light:mouth
+    room: room:mouth
+    at: [1344, -1050]
+    height: 240
+    radius: 900
+    color: [200, 205, 220]
+    notes: Daylight from the mouth.
+  - id: light:ramp
+    room: room:rock_ramp
+    at: [-1600, 1500]
+    height: 388
+    radius: 700
+    color: [150, 150, 170]
+  - id: light:roost
+    room: room:roost
+    at: [1280, 3200]
+    height: 352
+    radius: 1300
+    color: [200, 205, 220]
+  - id: light:shaft_high
+    room: room:shaft_floor
+    at: [1024, 1800]
+    height: 2200
+    radius: 1800
+    color: [200, 205, 220]
+    notes: Grey daylight leaking down from the peak.
+  - id: light:shaft_low
+    room: room:shaft_floor
+    at: [1024, 1024]
+    height: 400
+    radius: 1600
+    color: [150, 150, 170]
+  - id: light:sky
+    room: room:sky_crack
+    at: [2432, 3200]
+    height: 452
+    radius: 900
+    color: [230, 230, 240]
+    notes: Daylight through the crack.
+switches:
+  - id: switch:hoist_bottom
+    room: room:hoist_foot
+    kind: button
+    at: [2624, 2290]
+    height: 112
+    notes: "The hoist's call rope at its foot, on the west wall beside the deck."
+  - id: switch:hoist_top
+    room: room:high_ledge
+    kind: button
+    at: [3072, 2260]
+    height: 112
+    notes: "The hoist's call rope at the high ledge, on the east wall beside the notch."
+  - id: switch:winch
+    room: room:fence_cache
+    kind: lever
+    base: {texture: t66abc10a, size: [32, 128]}
+    wall: north
+    along: 0.8
+    off: {texture: t66abc10a, size: [32, 128]}
+    notes: "The fence's winch: its crank on the north wall, the rope running through the rock to the hoist."
+chests:
+  - id: chest:climber
+    room: room:hidden_ledge
+    at: [-900, 3100]
+    facing: e
+    treasure_level: 2
+    random_items: 1
+    gold: 200
+    notes: A dead climber's pack.
+  - id: chest:fence
+    room: room:fence_cache
+    at: [3640, 1100]
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    trap_level: 2
+    notes: The fence's strongbox.
+  - id: chest:hoard
+    room: room:roost
+    at: [1950, 3620]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 800
+    trap_level: 2
+    notes: "The roost's hoard of stolen silver (the map's hoard, a level up)."
+spawns:
+  - id: spawn:bridge
+    room: room:shaft_floor
+    at: [1500, 1536]
+    floor_height: 1024
+    slot: 1
+    tier: b
+    notes: "On the bridge: they attack whoever crosses."
+  - id: spawn:high
+    room: room:high_ledge
+    at: [600, 2368]
+    slot: 1
+    tier: b
+  - id: spawn:ledge_e
+    room: room:ledge_e
+    at: [2700, 1500]
+    slot: 1
+    tier: b
+  - id: spawn:ledge_low
+    room: room:ledge_low
+    at: [-600, 600]
+    slot: 1
+    tier: a
+  - id: spawn:ledge_w
+    room: room:ledge_w
+    at: [-600, 1300]
+    slot: 1
+    tier: a
+  - id: spawn:low_nests
+    room: room:low_nests
+    at: [-1600, 450]
+    slot: 1
+    tier: a
+  - id: spawn:roost_e
+    room: room:roost
+    at: [1700, 3450]
+    slot: 1
+    tier: c
+  - id: spawn:roost_w
+    room: room:roost
+    at: [900, 3000]
+    slot: 1
+    tier: c
+  - id: spawn:shaft_e
+    room: room:shaft_floor
+    at: [1500, 300]
+    slot: 1
+    tier: a
+  - id: spawn:shaft_w
+    room: room:shaft_floor
+    at: [700, 1100]
+    slot: 1
+    tier: a
+    notes: They dive from above.
+monsters:
+  - id: monster:fence_guard
+    room: room:fence_cache
+    monster: 11542
+    at: [3450, 1250]
+    facing: 180
+    hostile: true
+    group: 2
+    notes: An Obsidian Gargoyle (28) guarding the fence's goods.
+  - id: monster:matriarch
+    room: room:roost
+    monster: 11542
+    at: [1280, 3100]
+    facing: 270
+    hostile: true
+    group: 3
+    notes: "The matriarch at her nest: an Obsidian Gargoyle (28)."
+decorations:
+  - id: deco:fence_keg
+    room: room:fence_cache
+    decoration: smlbarel
+    at: [3420, 1590]
+    floor_height: 1024
+  - id: deco:fence_lantern
+    room: room:fence_cache
+    decoration: torch01
+    at: [3712, 1344]
+    wall: east
+    height: 160
+  - id: deco:fence_sack_1
+    room: room:fence_cache
+    decoration: bag01
+    at: [3640, 1260]
+    floor_height: 1024
+  - id: deco:fence_sack_2
+    room: room:fence_cache
+    decoration: bag01
+    at: [3640, 1400]
+    floor_height: 1024
+  - id: deco:hidden_corpse
+    room: room:hidden_ledge
+    decoration: Corpse05
+    at: [-500, 3080]
+    floor_height: 1536
+    notes: "The climber, long dead."
+  - id: deco:high_bones
+    room: room:high_ledge
+    decoration: dec29
+    at: [2200, 2500]
+    floor_height: 1536
+  - id: deco:ledge_e_skull
+    room: room:ledge_e
+    decoration: 7dec20
+    at: [3000, 1100]
+    floor_height: 1024
+  - id: deco:ledge_low_bones
+    room: room:ledge_low
+    decoration: dec29
+    at: [-900, 800]
+    floor_height: 512
+  - id: deco:ledge_w_bones
+    room: room:ledge_w
+    decoration: 7dec18
+    at: [-950, 1950]
+    floor_height: 1024
+  - id: deco:low_nests_skulls
+    room: room:low_nests
+    decoration: sklplrev
+    at: [-2000, 850]
+    floor_height: 512
+  - id: deco:mouth_bones
+    room: room:mouth
+    decoration: dec29
+    at: [1150, -700]
+  - id: deco:mouth_rock
+    room: room:mouth
+    decoration: 6rock02
+    at: [1580, -400]
+  - id: deco:roost_bones
+    room: room:roost
+    decoration: 7dec18
+    at: [1950, 2800]
+    floor_height: 2048
+  - id: deco:roost_skulls
+    room: room:roost
+    decoration: sklplrev
+    at: [600, 3650]
+    floor_height: 2048
+  - id: deco:shaft_bones_1
+    room: room:shaft_floor
+    decoration: 7dec18
+    at: [300, 1800]
+    floor_height: 0
+  - id: deco:shaft_bones_2
+    room: room:shaft_floor
+    decoration: dec29
+    at: [1850, 1200]
+    floor_height: 0
+  - id: deco:shaft_corpse
+    room: room:shaft_floor
+    decoration: Corpse03
+    at: [1000, 1150]
+    floor_height: 0
+    notes: Someone who fell from the bridge.
+  - id: deco:shaft_mite_1
+    room: room:shaft_floor
+    decoration: stlmite2
+    at: [1900, 150]
+    floor_height: 0
+  - id: deco:shaft_mite_2
+    room: room:shaft_floor
+    decoration: stlmite1
+    at: [150, 1900]
+    floor_height: 0
+exits:
+  - id: exit:mouth
+    room: room:mouth
+    wall: south
+    size: [384, 320]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:x4_range
+    notes: The cave mouth onto the Gargoyle Range (daylight).
+  - id: exit:sky_crack
+    room: room:sky_crack
+    wall: east
+    size: [320, 384]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:x4_peak
+    notes: "The split in the peak (daylight): one way out."

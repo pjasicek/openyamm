@@ -1,0 +1,13 @@
+FD-04 Dragon Tower and the Dungeon of Death (not to scale; plan, north up)
+TOWER (z 0 / 1280 / 2560 / 3840; the stair winds up in the wall: W side, N side, E side)
+  F3 3840  [HIGH HALL]-arch-[CROWN: Energy Dragon]-door-[ROOF STAIR -> hatch (X9)]   [TOME]-door-[CROWN]
+           [LANDING 3] <- ramp (E side) ; [WYRM'S GALLERY: house 4853] -> [CROWN]
+  F2 2560  [LANDING 2] -> [NEST: bowl, eggs] / [HATCHERY]   [NEST] -> [LAST CLIMBER]
+  F1 1280  [LANDING 1] -> [RING HALL: pier] / [DORMITORY]-door-[LANDING 1]   [RING HALL] -> [BONE ALCOVE]
+  F0    0  (X7) =gate= [GATE HALL: Alister's alcove W] -> [STAIR'S FOOT] -> ramp (W side)
+                       [GATE HALL] -> passage (turn) -> [SCORCHED HALL]   [GATE HALL] =Sandro's door= [CELLAR WELL]
+DUNGEON (north of the tower)
+  -1 -1024 [CELLAR WELL] -> [CROSSWORD: 12 words] =gate= [DESCENT]
+  -2 -1792 [WELCOME]-door-[DO NOT DISTURB] ; [WELCOME]=pair=[BALLROOM] -> [GAME W]/[GAME E] -> [SHRINES L]/[SHRINES G]
+           -> [THRONE OF THE DEAD] -> [BONE STAIR]
+  -3 -2560 [GONG HALL: 4 gongs, lever, chest] -> [FOUNTAIN] ; =shutter= [MAINTENANCE] -> [MACHINE] / door [CONTROL]

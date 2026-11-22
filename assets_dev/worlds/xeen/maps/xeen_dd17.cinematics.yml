@@ -1,0 +1,46 @@
+format_version: 1
+kind: openyamm_cinematics
+source: "Written by oymap build from the Map Studio project \"xeen_dd17\" (wiring.yml cinematics). Change the project, not this file."
+cinematics:
+  self_destruct:
+    shots:
+      - duration: 5
+        position: [-2080, -4000, 1560]
+        look_at: [-3824, -4000, 1440]
+      - duration: 5
+        position: [-2992, -3488, 1500]
+        look_at: [-3648, -4160, 1400]
+      - duration: 6
+        position: [-1296, -4544, 1700]
+        look_at: [-3504, -4000, 1400]
+    cues:
+      - at: 0
+        fade: in
+        seconds: 1
+      - at: 0.5
+        event: 68
+      - at: 0.5
+        subtitle: "Corak steps out of the Soul Box, taller than the room. Before the throne, Sheltem is there as if he had always been."
+        seconds: 4.5
+      - at: 5
+        subtitle: "They close on each other, and the castle begins to shake itself apart."
+        seconds: 4.5
+      - at: 5
+        shake: 0.8
+        seconds: 3
+      - at: 5
+        sound: xeen_klaxon
+      - at: 9.5
+        sound: xeen_castle_groan
+      - at: 9.5
+        shake: 1
+        seconds: 4
+      - at: 10
+        subtitle: "\"The Cube! Take it and run!\""
+        seconds: 4
+      - at: 11.5
+        sound: xeen_klaxon
+      - at: 15
+        fade: out
+        seconds: 1
+    note: "D-61 Q15/Q17: the self-destruct after m33.sheltem: Sheltem and Corak shown (evt:show_figures), the castle's groan (XD-19's xeen_castle_groan) between AU's two klaxon blasts (5 s, 11.5 s), then the leave to D6 in the done event. Subtitles are map-local lines after A3's m33.sheltem text (Lines for A3)."

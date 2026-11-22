@@ -1,0 +1,667 @@
+format: 0
+variables: [armory_safe, vault_safe, phase_seen1, phase_seen2, phase_seen3, phase_seen4]
+events:
+  - id: evt:armory_safe
+    preset: chest
+    source: chest:armory_safe
+    question: {ask: "Combination?", answers: [10-11-12, "101112"], message: A safe with three dials., wrong_effects: [{text: A tougher safe than the others. Three dials.}]}
+    title: Chest
+    condition: {not: {map_var: armory_safe}}
+    effects:
+      - set:
+          var:
+            map_var: armory_safe
+          value: 1
+    else_effects:
+      - open_chest: chest:armory_safe
+    notes: "The armory's tougher safe (D-26): 10-11-12 opens it (Guido's tip, aaze0044:47); a wrong answer: 'A tougher safe than the others. Three dials.'"
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: stage1}, {not: {qbit: arrived_once}}]}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m19.first_entry\")"
+      - qbit: arrived_once
+    notes: "M19's first arrival in the restored castle (A3's m19.first_entry), once (arrived_once 117320)."
+  - id: evt:banquet_table
+    preset: text
+    source: platform:banquet_table
+    title: Banquet table
+    text: A table laid for a feast nobody ate. The bread has turned to stone.
+    window: false
+  - id: evt:carl
+    preset: script
+    source: platform:carl_bench
+    title: Carl the Mason
+    lua: evt.SpeakNPC(5014)
+    notes: "Carl the Mason (NPC 5014, D-26: 'just keep walking', aaze0041:34-35): the studio cannot give a placed indoor monster its NPC, so his bench speaks for him (DD-01's and DD-02's way)."
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:crest_gate
+    preset: text
+    source: panel:crest_gate
+    title: Kalindra's crest
+    text: "A silver crescent and a white rose on purple: Queen Kalindra's arms."
+    window: false
+  - id: evt:crown_safe
+    preset: script
+    source: panel:queens_mirror
+    question: {ask: "Combination?", answers: [3-31-62, "33162"], message: "Behind the Queen's mirror, a wall safe with six dials.", wrong_effects: [{text: The dials click round and the safe stays shut.}]}
+    title: The Queen's mirror
+    condition: {all: [{not: {qbit: m27_crown}}, {lua: "XeenQuests.can(\"m27.crown_safe\")"}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m27.crown_safe\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m27.crown_safe\")"
+    notes: "m27.crown_safe (stage 4, queen_found): 3-31-62 runs the hook (the crown); else its fail or else text."
+  - id: evt:disk_safe
+    preset: script
+    source: panel:disk_safe
+    question: {ask: "Combination?", answers: [64-52-31, "645231"], message: A combination safe. Six dials., wrong_effects: [{text: The dials click round and the safe stays shut.}]}
+    title: Safe
+    condition: {all: [{not: {qbit: m24_safes}}, {lua: "XeenQuests.can(\"m24.disk_safes\")"}]}
+    effects:
+      - lua: |-
+          if XeenQuests.hook("m24.disk_safes") then
+              AddValue(InventoryItem(12334), 12334)
+              AddValue(InventoryItem(12334), 12334)
+              AddValue(InventoryItem(12334), 12334)
+              AddValue(InventoryItem(12334), 12334)
+          end
+    else_effects:
+      - lua: "XeenQuests.hook(\"m24.disk_safes\")"
+    notes: "m24.disk_safes (stage 2): after Dimitri (m24.done) the six dials ask; 64-52-31 runs the hook and the map gives four Energy Disks; before m24.done the hook's fail text, after it the else text."
+  - id: evt:door_armory
+    preset: door
+    source: door:armory
+    title: Armory
+  - id: evt:door_banquet
+    preset: door
+    source: door:banquet
+    title: Banquet Hall
+  - id: evt:door_bedchamber
+    preset: door
+    source: door:bedchamber
+    title: Royal Bed Chamber
+  - id: evt:door_cells
+    preset: door
+    source: door:cells
+    title: Door
+  - id: evt:door_closet
+    preset: door
+    source: door:closet
+    title: Coat Closet
+  - id: evt:door_sleeping
+    preset: door
+    source: door:sleeping
+    title: Sleeping Chambers
+  - id: evt:door_throne
+    preset: door
+    source: door:throne
+    title: Throne Room
+  - id: evt:door_vault_secret
+    preset: door
+    source: door:vault_secret
+    title: Wall
+  - id: evt:door_vaults
+    preset: door
+    source: door:vaults
+    title: Vaults
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: Castle Kalindra.
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d1_gate
+    title: Exit Castle Kalindra
+    notes: "Out to D1 at A6's return point before the gate (exit:d1_gate): the game's own window (D-24); the source's 'Exit Castle Kalindra?' (dark/aaze0041:0) is the title."
+  - id: evt:hooks
+    preset: text
+    source: panel:hooks
+    title: Coat hooks
+    text: Coat hooks. A cloak that went out of fashion a century ago.
+  - id: evt:house_captain_quarters
+    preset: script
+    source: door:captain_quarters
+    title: Captain's Quarters
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4502)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: "A4's house 4502 (Captain's Quarters), open from stage2; A4's closed text before."
+  - id: evt:house_captain_quarters_r
+    preset: script
+    source: panel:captain_quarters_r
+    title: Captain's Quarters
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4502)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: The right wing of house 4502's door.
+  - id: evt:house_chapel
+    preset: script
+    source: door:chapel
+    title: Chapel of the Queen
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4506)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: "A4's house 4506 (Chapel of the Queen), open from stage4; A4's closed text before."
+  - id: evt:house_chapel_r
+    preset: script
+    source: panel:chapel_r
+    title: Chapel of the Queen
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4506)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: The right wing of house 4506's door.
+  - id: evt:house_forge
+    preset: script
+    source: door:forge
+    title: The Queen's Forge
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4509)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: "A4's house 4509 (The Queen's Forge), open from stage4; A4's closed text before."
+  - id: evt:house_forge_r
+    preset: script
+    source: panel:forge_r
+    title: The Queen's Forge
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4509)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: The right wing of house 4509's door.
+  - id: evt:house_guard_barracks
+    preset: script
+    source: door:guard_barracks
+    title: The Queen's Guard
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4511)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: "A4's house 4511 (The Queen's Guard), open from stage4; A4's closed text before."
+  - id: evt:house_guard_barracks_r
+    preset: script
+    source: panel:guard_barracks_r
+    title: The Queen's Guard
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4511)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: The right wing of house 4511's door.
+  - id: evt:house_guido_cell
+    preset: script
+    source: door:guido_cell
+    title: Guido's Cell
+    condition: {qbit: stage3}
+    effects:
+      - lua: evt.EnterHouse(4505)
+    else_effects:
+      - message: The dungeon stair ends in shimmering nothing.
+    notes: "A4's house 4505 (Guido's Cell), open from stage3; A4's closed text before."
+  - id: evt:house_kalindra_throne
+    preset: script
+    source: platform:kalindra_throne
+    title: The Empty Throne
+    condition: {qbit: stage1}
+    effects:
+      - lua: evt.EnterHouse(4501)
+    else_effects:
+      - message: Your hand passes through the throne. The castle is not quite here.
+    notes: "A4's house 4501 (The Empty Throne), open from stage1; A4's closed text before."
+  - id: evt:house_megan_room
+    preset: script
+    source: door:megan_room
+    title: Megan's Room
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4503)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: "A4's house 4503 (Megan's Room), open from stage2; A4's closed text before."
+  - id: evt:house_megan_room_r
+    preset: script
+    source: panel:megan_room_r
+    title: Megan's Room
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4503)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: The right wing of house 4503's door.
+  - id: evt:house_observatory
+    preset: script
+    source: door:observatory
+    title: The Observatory
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4504)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: "A4's house 4504 (The Observatory), open from stage2; A4's closed text before."
+  - id: evt:house_observatory_r
+    preset: script
+    source: panel:observatory_r
+    title: The Observatory
+    condition: {qbit: stage2}
+    effects:
+      - lua: evt.EnterHouse(4504)
+    else_effects:
+      - message: A shimmering wall seals the second floor. Something behind it sighs.
+    notes: The right wing of house 4504's door.
+  - id: evt:house_stables
+    preset: script
+    source: door:stables
+    title: Kalindra Stables
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4510)
+    else_effects:
+      - message: Ghostly horses stamp in ghostly stalls. Not yet.
+    notes: "A4's house 4510 (Kalindra Stables), open from stage4; A4's closed text before."
+  - id: evt:house_stables_r
+    preset: script
+    source: panel:stables_r
+    title: Kalindra Stables
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4510)
+    else_effects:
+      - message: Ghostly horses stamp in ghostly stalls. Not yet.
+    notes: The right wing of house 4510's door.
+  - id: evt:house_training
+    preset: script
+    source: door:training
+    title: The Queen's Proving Hall
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4508)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: "A4's house 4508 (The Queen's Proving Hall), open from stage4; A4's closed text before."
+  - id: evt:house_training_r
+    preset: script
+    source: panel:training_r
+    title: The Queen's Proving Hall
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4508)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: The right wing of house 4508's door.
+  - id: evt:house_treasury
+    preset: script
+    source: door:treasury
+    title: The Royal Treasury
+    condition: {qbit: stage4}
+    effects:
+      - lua: evt.EnterHouse(4507)
+    else_effects:
+      - message: "The third floor shimmers, half here. Not yet."
+    notes: "A4's house 4507 (The Royal Treasury), open from stage4; A4's closed text before."
+  - id: evt:kennel_gate
+    preset: text
+    source: door:kennel
+    title: Portcullis
+    text: "A heavy portcullis. A lever beside it, under a note."
+  - id: evt:kennel_lever
+    preset: switch
+    source: switch:kennel_lever
+    title: Lever
+    toggles: [door:kennel]
+    text: "Chains rattle: the kennel's portcullis moves."
+    notes: "The kennel's portcullis (D-26): the lever under 'Don't let Scraps out!'."
+  - id: evt:kitchen_table
+    preset: text
+    source: platform:kitchen_table
+    title: Kitchen table
+    text: Strings of sun-dried lizard innards hang over the table. They have kept.
+    window: false
+  - id: evt:knights_brew
+    preset: script
+    source: deco:knights_brew
+    title: Knight's Brew
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      if IsPlayerBitSet(PlayerBit(11305)) then
+          evt.StatusText("Knight's Brew. You have had your fill.", 4)
+          return
+      end
+      AddValue(BaseMight, 2)
+      SetPlayerBit(PlayerBit(11305))
+      evt.StatusText("Knight's Brew. +2 Might (permanent).", 4)
+    notes: "Knight's Brew (dark/aaze0043:5-8): +2 once per character (player bit 11305; the source's +10 rescaled)."
+  - id: evt:leaf_cloud
+    preset: door
+    source: door:cloud
+    title: Cloud Stairs
+    condition: {qbit: stage2}
+    locked_text: Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.
+    action: open
+  - id: evt:leaf_dstair
+    preset: door
+    source: door:dstair
+    title: Dungeon stair
+    condition: {qbit: stage3}
+    locked_text: The dungeon stair ends in shimmering nothing.
+    action: open
+  - id: evt:leaf_upper
+    preset: door
+    source: door:upper
+    title: Upper stair
+    condition: {qbit: stage4}
+    locked_text: Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.
+    action: open
+  - id: evt:leaf_yard
+    preset: door
+    source: door:yard
+    title: Shimmering wall
+    condition: {qbit: stage4}
+    locked_text: "The wall shimmers like heat over a road. Beyond it horses stamp, and you cannot reach them."
+    action: open
+  - id: evt:ledger
+    preset: script
+    source: platform:ledger_desk
+    title: Prisoner ledger
+    lua: "XeenQuests.hook(\"t2-a.cells\")"
+    notes: "t2-a.cells: the prisoner list (dark/aaze0044:8, A3's text with the two added liches)."
+  - id: evt:liches_slain
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {group: 31}}
+    lua: "XeenQuests.hook(\"t2-a.liches\")"
+    once: true
+    notes: "t2-a.liches: the cell block's five liches (group 31) dead sets liches_slain 114521."
+  - id: evt:mirror
+    preset: script
+    source: panel:kalindra_mirror
+    title: The Mirror of Castle Kalindra
+    lua: "Xeen.useMirror(4512, eventId, continueStep)"
+    notes: "A4's mirror 4512 (opens on m26.stage4; its closed text before)."
+  - id: evt:mirror_switch
+    preset: script
+    source: switch:mirror_switch
+    question: {ask: "Yes or no?", answers: [Yes, Y], message: "Activate Mirror Portals?"}
+    title: Button
+    effects:
+      - lua: "XeenQuests.hook(\"m26.mirror_switch\")"
+    notes: "m26.mirror_switch (dark/aaze0043:16, stage 4): wakes the Darkside mirrors."
+  - id: evt:mist_cloud
+    preset: text
+    source: plate:mist_cloud
+    trigger: step
+    condition: {not: {qbit: stage2}}
+    text: Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.
+    seconds: 4
+    notes: Original line (dark/aaze0041:10) before stage 2.
+  - id: evt:mist_dstair
+    preset: text
+    source: plate:mist_dstair
+    trigger: step
+    condition: {not: {qbit: stage3}}
+    text: Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.
+    seconds: 4
+    notes: Original line (dark/aaze0041:10) before stage 3.
+  - id: evt:mist_upper
+    preset: text
+    source: plate:mist_upper
+    trigger: step
+    condition: {not: {qbit: stage4}}
+    text: Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.
+    seconds: 4
+    notes: Original line (dark/aaze0041:10) before stage 4.
+  - id: evt:note_beware
+    preset: text
+    source: panel:note_beware
+    title: A note
+    text: "A note reads: Beware of Scraps!"
+  - id: evt:note_feed
+    preset: text
+    source: panel:note_feed
+    title: A note
+    text: "A note reads: Don't feed Scraps."
+  - id: evt:note_out
+    preset: text
+    source: panel:note_out
+    title: A note
+    text: "A note reads: Don't let Scraps out!"
+  - id: evt:phase_shift1
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: stage1}, {not: {qbit: stage2}}, {not: {map_var: phase_seen1}}]}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+      - set:
+          var:
+            map_var: phase_seen1
+          value: 1
+    notes: "The castle comes further into phase (stage 1): the glassy shimmer at the party, once."
+  - id: evt:phase_shift2
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: stage2}, {not: {qbit: stage3}}, {not: {map_var: phase_seen2}}]}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+      - set:
+          var:
+            map_var: phase_seen2
+          value: 1
+    notes: "The castle comes further into phase (stage 2): the glassy shimmer at the party, once."
+  - id: evt:phase_shift3
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: stage3}, {not: {qbit: stage4}}, {not: {map_var: phase_seen3}}]}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+      - set:
+          var:
+            map_var: phase_seen3
+          value: 1
+    notes: "The castle comes further into phase (stage 3): the glassy shimmer at the party, once."
+  - id: evt:phase_shift4
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: stage4}, {not: {map_var: phase_seen4}}]}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+      - set:
+          var:
+            map_var: phase_seen4
+          value: 1
+    notes: "The castle comes further into phase (stage 4): the glassy shimmer at the party, once."
+  - id: evt:portcullis
+    preset: door
+    source: door:portcullis
+    title: Portcullis
+    condition: {qbit: stage1}
+    locked_text: The portcullis will not move. Beyond it the castle shimmers.
+    action: open
+  - id: evt:queens_brew
+    preset: script
+    source: deco:queens_brew
+    title: Queen's Brew
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      if IsPlayerBitSet(PlayerBit(11304)) then
+          evt.StatusText("Queen's Brew. You have had your fill.", 4)
+          return
+      end
+      AddValue(BasePersonality, 2)
+      SetPlayerBit(PlayerBit(11304))
+      evt.StatusText("Queen's Brew. +2 Personality (permanent).", 4)
+    notes: "Queen's Brew (dark/aaze0043:5-8): +2 once per character (player bit 11304; the source's +10 rescaled)."
+  - id: evt:safe_e
+    preset: chest
+    source: chest:safe_e
+    title: Chest
+    condition: {qbit: m19_safes}
+    else_effects:
+      - lua: |-
+          if XeenQuests.hook("m19.safes") then
+              AddValue(InventoryItem(12334), 12334)
+              AddValue(InventoryItem(12334), 12334)
+          end
+    notes: "The other safe: the same hook (whichever is opened first)."
+  - id: evt:safe_w
+    preset: chest
+    source: chest:safe_w
+    title: Chest
+    condition: {qbit: m19_safes}
+    else_effects:
+      - lua: |-
+          if XeenQuests.hook("m19.safes") then
+              AddValue(InventoryItem(12334), 12334)
+              AddValue(InventoryItem(12334), 12334)
+          end
+    notes: "m19.safes (stage 1, D-26: a trapped chest any party opens): the first use runs the hook (its text, safes_opened 111383) and the map gives the two Energy Disks (map_gives); from the next use it opens."
+  - id: evt:sign_armory
+    preset: text
+    source: panel:sign_armory
+    title: Armory
+    text: Armory
+    window: false
+  - id: evt:sign_banquet
+    preset: text
+    source: panel:sign_banquet
+    title: Banquet Hall
+    text: Banquet Hall
+    window: false
+  - id: evt:sign_bed
+    preset: text
+    source: panel:sign_bed
+    title: Royal Bed Chamber
+    text: Royal Bed Chamber
+    window: false
+  - id: evt:sign_kitchen
+    preset: text
+    source: panel:sign_kitchen
+    title: Kitchen
+    text: Kitchen
+    window: false
+  - id: evt:sign_maxsec
+    preset: text
+    source: panel:sign_maxsec
+    title: Maximum Security
+    text: Maximum Security
+    window: false
+  - id: evt:sign_north
+    preset: text
+    source: panel:sign_north
+    title: North Wing
+    text: North Wing
+    window: false
+  - id: evt:sign_sleeping
+    preset: text
+    source: panel:sign_sleeping
+    title: Sleeping Chambers
+    text: Sleeping Chambers
+    window: false
+  - id: evt:sign_south
+    preset: text
+    source: panel:sign_south
+    title: South Wing
+    text: South Wing
+    window: false
+  - id: evt:sign_stairs
+    preset: text
+    source: panel:sign_stairs
+    title: Cloud Stairs
+    text: Cloud Stairs
+    window: false
+  - id: evt:sign_throne
+    preset: text
+    source: panel:sign_throne
+    title: Throne Room
+    text: Throne Room
+    window: false
+  - id: evt:sign_vaults
+    preset: text
+    source: panel:sign_vaults
+    title: Vaults
+    text: Vaults
+    window: false
+  - id: evt:stage1
+    preset: script
+    trigger: load
+    condition: {qbit: stage1}
+    opens: [door:portcullis]
+    effects:
+      - passable: door:illusion
+    notes: "Stage 1 (m19.stage1 111381): the gate's portcullis up; the coat closet's illusory wall passable."
+  - id: evt:stage2
+    preset: script
+    trigger: load
+    condition: {qbit: stage2}
+    opens: [door:cloud]
+    effects:
+      - show_actors: 21
+      - show_actors: 22
+      - lua: "evt.SetMapVar('AmbientSound7', 2)"
+    notes: "Stage 2 (m19.stage2 111382): the Cloud Stairs take a foot; the second floor's spirits shown."
+  - id: evt:stage3
+    preset: script
+    trigger: load
+    condition: {qbit: stage3}
+    opens: [door:dstair]
+    effects:
+      - show_actors: 31
+      - show_actors: 32
+      - show_actors: 33
+      - show_actors: 34
+      - show_actors: 35
+      - lua: "evt.SetMapVar('AmbientSound8', 2)"
+    notes: "Stage 3 (m26.stage3 111521): the dungeon stair; the liches, the Tomb Terrors, the well's dragons and Scraps shown."
+  - id: evt:stage4
+    preset: script
+    trigger: load
+    condition: {qbit: stage4}
+    opens: [door:upper, door:yard]
+    effects:
+      - show_actors: 41
+      - show_actors: 42
+      - show_actors: 43
+      - lua: "evt.SetMapVar('AmbientSound3', 2); evt.SetMapVar('AmbientSound11', 2)"
+    notes: "Stage 4 (m26.stage4 111522): the upper stair and the stable yard; Blackfang's vampires shown."
+  - id: evt:trough
+    preset: text
+    source: platform:trough
+    title: Trough
+    text: Clean water. The horses came back with the castle.
+    window: false
+  - id: evt:vault_safe
+    preset: chest
+    source: chest:vault_safe
+    question: {ask: "Combination?", answers: [10-11-12, "101112"], message: A safe with three dials., wrong_effects: [{text: A tougher safe than the others. Three dials.}]}
+    title: Chest
+    condition: {not: {map_var: vault_safe}}
+    effects:
+      - set:
+          var:
+            map_var: vault_safe
+          value: 1
+    else_effects:
+      - open_chest: chest:vault_safe
+    notes: "The dungeon vault's tougher safe: 10-11-12."
+notes: "DD-03's events (gen.py): the four stages (load events), the mist lines, the safes (m19.safes, m24.disk_safes, m27.crown_safe, the tougher safes), the mirror switch, the brews, the prisoner ledger and the liches (T2-A), Scraps' lever, Carl the Mason, the houses 4501-4512, the exit."

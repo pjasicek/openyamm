@@ -1,0 +1,419 @@
+format: 0
+start:
+  room: room:adit
+  at: [0, 192]
+  facing: 90
+  notes: "Just inside the adit's mouth, facing in (north); D2's door into this map lands the party here."
+doors:
+  - id: door:adit
+    opening: open:adit_upper
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The adit's plank door into the upper drift.
+  - id: door:ramp
+    opening: open:ramp_flooded
+    kind: hinged
+    hinge: right
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The plank door at the spiral ramp's foot.
+  - id: door:throne
+    opening: open:sapphire_throne
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: d2smldor, size: [128, 256], fit: true}
+    back_surface: {texture: d2smldor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    top_surface: {texture: trim9_32a, size: [64, 32]}
+    notes: The plank door from the sapphire hall into the throne hall.
+sounds:
+  - {id: sound:adit_wind, room: room:adit, at: [0, 96], sound: whistling wind, radius: 1000, inner_radius: 200, volume: 0.35, notes: Air drawn in at the adit's mouth.}
+  - {id: sound:bed_flooded, room: room:flooded, at: [3200, 320], sound: xeen_amb_mine, radius: 2600, inner_radius: 800, volume: 0.35, notes: "The mine's drips and knocks (bed, deep level).", pan: false}
+  - {id: sound:bed_sapphire, room: room:sapphire, at: [2880, 2432], sound: xeen_amb_mine, radius: 2600, inner_radius: 800, volume: 0.4, notes: "The mine's drips and knocks (bed, sapphire hall).", pan: false}
+  - {id: sound:bed_upper, room: room:upper, at: [512, 2304], sound: xeen_amb_mine, radius: 2600, inner_radius: 800, volume: 0.4, notes: "The mine's drips and knocks (bed, upper drift).", pan: false}
+  - {id: sound:flood_water, room: room:flooded, at: [3008, 640], sound: water lapping loop, radius: 1200, inner_radius: 300, volume: 0.4, notes: Water in the flooded drift.}
+  - {id: sound:god_hum, room: room:god, at: [4960, 352], sound: humming, radius: 1300, inner_radius: 300, volume: 0.45, notes: The God of Minerals hums in the rock.}
+  - {id: sound:saph_drip, room: room:sapphire, at: [2560, 2880], sound: drip02, radius: 1200, inner_radius: 300, volume: 0.4, notes: Seepage in the hall.}
+lights:
+  - id: light:adit
+    room: room:adit
+    at: [0, 448]
+    height: 280
+    radius: 900
+    color: [255, 180, 110]
+  - id: light:cut
+    room: room:cut
+    at: [1152, 2880]
+    height: 280
+    radius: 700
+    color: [255, 170, 100]
+  - id: light:false_vein
+    room: room:sapphire
+    at: [2128, 2827]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: The false vein glints like the rest.
+  - id: light:flooded
+    room: room:flooded
+    at: [3008, 256]
+    height: 320
+    radius: 1100
+    color: [160, 190, 220]
+  - id: light:god
+    room: room:god
+    at: [4352, 352]
+    height: 400
+    radius: 1200
+    color: [255, 220, 140]
+  - id: light:god_face
+    room: room:god
+    at: [4800, 352]
+    height: 320
+    radius: 700
+    color: [190, 210, 255]
+    notes: The God's crystal glows.
+  - id: light:ramp_1
+    room: room:ramp
+    at: [1280, 1600]
+    height: 200
+    radius: 800
+    color: [200, 180, 150]
+  - id: light:ramp_2
+    room: room:ramp
+    at: [704, 832]
+    height: 200
+    radius: 800
+    color: [200, 180, 150]
+  - id: light:ramp_3
+    room: room:ramp
+    at: [1600, 384]
+    height: 200
+    radius: 800
+    color: [200, 180, 150]
+  - id: light:saph_e
+    room: room:sapphire
+    at: [3392, 2432]
+    height: 420
+    radius: 1200
+    color: [190, 190, 255]
+  - id: light:saph_w
+    room: room:sapphire
+    at: [2368, 2496]
+    height: 420
+    radius: 1200
+    color: [190, 190, 255]
+  - id: light:sapphire_1
+    room: room:sapphire
+    at: [2440, 1728]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: Sapphire vein 1 glints.
+  - id: light:sapphire_2
+    room: room:sapphire
+    at: [3184, 1759]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: Sapphire vein 2 glints.
+  - id: light:sapphire_3
+    room: room:sapphire
+    at: [3580, 2940]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: Sapphire vein 3 glints.
+  - id: light:sapphire_4
+    room: room:sapphire
+    at: [3064, 3136]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: Sapphire vein 4 glints.
+  - id: light:sapphire_5
+    room: room:sapphire
+    at: [2466, 3078]
+    height: 176
+    radius: 360
+    color: [80, 120, 255]
+    notes: Sapphire vein 5 glints.
+  - id: light:stair
+    room: room:stair
+    at: [4608, 1440]
+    height: 200
+    radius: 700
+    color: [200, 190, 160]
+  - id: light:throne
+    room: room:throne
+    at: [4480, 2432]
+    height: 420
+    radius: 1100
+    color: [200, 240, 255]
+  - id: light:throne_glow
+    room: room:throne
+    at: [4720, 2432]
+    height: 200
+    radius: 500
+    color: [170, 200, 255]
+    notes: The throne's crystal glows.
+  - id: light:upper_e
+    room: room:upper
+    at: [1024, 2304]
+    height: 340
+    radius: 1000
+    color: [255, 170, 100]
+  - id: light:upper_n
+    room: room:upper
+    at: [0, 1600]
+    height: 340
+    radius: 1000
+    color: [255, 170, 100]
+chests:
+  - id: chest:cut
+    room: room:cut
+    at: [1340, 3060]
+    kind: gt002
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: The miners' chest in the side cut.
+  - id: chest:flooded
+    room: room:flooded
+    at: [2400, -150]
+    kind: ch3
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    notes: "A chest the water has not reached (the graph's sunken chest, kept dry)."
+monsters:
+  - id: monster:m01_pede
+    room: room:upper
+    monster: 11361
+    at: [1300, 2400]
+    facing: 270
+    group: 1
+  - id: monster:m02_pede
+    room: room:upper
+    monster: 11361
+    at: [380, 2380]
+    facing: 270
+    group: 1
+  - id: monster:m03_pede
+    room: room:upper
+    monster: 11361
+    at: [1000, 2180]
+    facing: 270
+    group: 1
+  - id: monster:m04_bat
+    room: room:upper
+    monster: 11312
+    at: [-170, 1250]
+    facing: 270
+    group: 1
+  - id: monster:m05_bat
+    room: room:upper
+    monster: 11312
+    at: [500, 2170]
+    facing: 270
+    group: 1
+  - id: monster:m06_bat
+    room: room:upper
+    monster: 11312
+    at: [1400, 2180]
+    facing: 270
+    group: 1
+  - id: monster:m07_pede
+    room: room:sapphire
+    monster: 11361
+    at: [2400, 2000]
+    facing: 180
+    group: 2
+  - id: monster:m08_pede
+    room: room:sapphire
+    monster: 11361
+    at: [3300, 2500]
+    facing: 180
+    group: 2
+  - id: monster:m09_pede
+    room: room:sapphire
+    monster: 11361
+    at: [2500, 2900]
+    facing: 180
+    group: 2
+  - id: monster:m10_golem
+    room: room:sapphire
+    monster: 11581
+    at: [3200, 2000]
+    facing: 180
+    group: 2
+  - id: monster:m11_golem
+    room: room:sapphire
+    monster: 11581
+    at: [3100, 2900]
+    facing: 180
+    group: 2
+  - id: monster:m12_roach
+    room: room:throne
+    monster: 11362
+    at: [4300, 2200]
+    facing: 180
+    group: 3
+  - id: monster:m13_roach
+    room: room:throne
+    monster: 11362
+    at: [4300, 2700]
+    facing: 180
+    group: 3
+  - id: monster:m14_golem
+    room: room:throne
+    monster: 11581
+    at: [4600, 2150]
+    facing: 180
+    group: 3
+  - id: monster:m15_golem
+    room: room:throne
+    monster: 11581
+    at: [4600, 2750]
+    facing: 180
+    group: 3
+  - id: monster:m16_bat
+    room: room:ramp
+    monster: 11312
+    at: [1280, 1500]
+    facing: 270
+    group: 4
+  - id: monster:m17_bat
+    room: room:ramp
+    monster: 11312
+    at: [704, 900]
+    facing: 270
+    group: 4
+  - id: monster:m18_bat
+    room: room:ramp
+    monster: 11312
+    at: [1400, 384]
+    facing: 270
+    group: 4
+  - id: monster:m19_roach
+    room: room:flooded
+    monster: 11362
+    at: [3000, 200]
+    facing: 180
+    group: 5
+  - id: monster:m20_roach
+    room: room:flooded
+    monster: 11362
+    at: [3400, 0]
+    facing: 180
+    group: 5
+decorations:
+  - id: deco:adit_torch_w
+    room: room:adit
+    decoration: torch02
+    at: [-192, 448]
+    wall: west
+    notes: A miner's torch.
+  - id: deco:cut_rocks
+    room: room:cut
+    decoration: 6rock01
+    at: [960, 3040]
+    notes: Spoil.
+  - id: deco:cut_torch
+    room: room:cut
+    decoration: torch02
+    at: [1408, 2880]
+    wall: east
+  - id: deco:flood_bones
+    room: room:flooded
+    decoration: dec29
+    at: [3600, -100]
+    notes: What the roaches left.
+  - id: deco:flood_torch
+    room: room:flooded
+    decoration: torch02
+    at: [2944, -224]
+    wall: 0
+  - id: deco:god_crystal_c
+    room: room:god
+    decoration: crys6
+    at: [4180, 820]
+  - id: deco:god_crystal_n
+    room: room:god
+    decoration: crclstr
+    at: [5000, 600]
+    notes: Crystal grows round the God.
+  - id: deco:god_crystal_s
+    room: room:god
+    decoration: crclstr
+    at: [5000, 100]
+  - id: deco:ramp_skull
+    room: room:ramp
+    decoration: 7dec20
+    at: [800, 1200]
+  - id: deco:saph_crystal
+    room: room:sapphire
+    decoration: crclstr
+    at: [3376, 2896]
+    notes: "Raw crystal (moved off the vein's new crystals, A8 s28)."
+  - id: deco:saph_rocks
+    room: room:sapphire
+    decoration: 6rock02
+    at: [3600, 1850]
+    notes: Spoil by the south-east wall.
+  - id: deco:saph_torch_1
+    room: room:sapphire
+    decoration: torch02
+    at: [1920, 2620]
+    wall: 8
+  - id: deco:saph_torch_2
+    room: room:sapphire
+    decoration: torch02
+    at: [3840, 2240]
+    wall: 3
+  - id: deco:throne_crystal_n
+    room: room:throne
+    decoration: crys5
+    at: [4880, 2800]
+  - id: deco:throne_crystal_s
+    room: room:throne
+    decoration: crys6
+    at: [4880, 2080]
+  - id: deco:throne_torch
+    room: room:throne
+    decoration: torch02
+    at: [4480, 2944]
+    wall: 4
+  - id: deco:upper_torch_1
+    room: room:upper
+    decoration: torch02
+    at: [-224, 1632]
+    wall: west
+  - id: deco:upper_torch_2
+    room: room:upper
+    decoration: torch02
+    at: [960, 2080]
+    wall: south
+exits:
+  - id: exit:d2
+    room: room:adit
+    wall: south
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [32, 64], scale: 5}
+    to: exit:d2_adit
+    notes: "The adit's mouth, boarded with planks: out to D2 in the Gemstone foothills."
+notes: "DD-10B's contents, written by output/studio_cal/dd10b/tools/gen.py: 3 plank doors, 2 chests, 20 placed monsters (Electrapedes, Lava Roaches, Beholder Bats, Stone Golems), no spawn points."

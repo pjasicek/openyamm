@@ -1,0 +1,115 @@
+# Xeen side quest Q-D26, The Megadragon (D7, DD-17), from a new game on D7 with a level-60 party during M33 (M30
+# done, Corak's Soul Box carried). The Skyroads are an open-air sky map: the party is placed beside each thing, as the
+# main chain's segment 75 and hooks_d7.yml do (PLAYBOOK.md section 2). The dead-end road in sight of the roost: the
+# Megadragon (actor 37, row 11654) at its post on Castle Alamar's roof hatch. The hatch (D7 event 49) while it lives
+# and without the key: the source's locked line at once (no question since the final rebuild). The Megadragon killed (deliberately,
+# by the party's clear near it): its check sets slain 113520 with the status line; its 16,875 kill experience is
+# shared, 4,218 per member.
+# The hoard (D7 event 34): Wyrmfang 12530 and the Key to Castle Alamar's Roof 12377. The hatch with the key: the entrance window, OK, the
+# key turns and stays in the lock (roof_unlocked 113521, the status line), down the shaft into DD-17's hatch room
+# (entrance:d7_roof; m33.roof_arrival with the Soul Box). DD-17's roof hatch (event 47, q-d26.alamar_hatch) now opens
+# from below: the entrance window, OK, back on the roof (entrance:dd17_roof). A reload keeps the Megadragon
+# hidden.
+# Routes: tests/scenarios/xeen/hooks_d7.yml (the roost, the hatch, the hoard), devdocs/xeen/briefs/d7/L4/
+# playtest_megadragon.yml, devdocs/xeen/briefs/dd17/L4/playtest_hatch.yml. Quest logic: source/quests/q-d26.yml
+# (m33.yml for the roof arrival).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d26_megadragon.yml --scenario-no-color
+id: xeen.side_quests.q-d26
+title: "Xeen Q-D26: the Megadragon slain, its hoard, and Castle Alamar's roof hatch both ways"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d7.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 60, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 60, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 60, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 60, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d7.blv}
+  - assert: {qbit_clear: [113520, 113521, 111662]}
+  # M30: the Dragon Pharaoh named the party the Chosen Ones (segment 73).
+  - console: {line: "qbit set 111600"}
+  # M31-M32: Corak's Soul Box from Olympus (segment 75), carried into Castle Alamar for M33.
+  - grant_item: {item_id: 12364, member_index: 0}
+  # The dead-end road in sight of the roost: the Megadragon at its post.
+  - set_pose: {map: xeen_d7.blv, x: -21926, y: 7762, z: 1506, yaw: 0.5236, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 37, hidden: false}}
+  - assert: {actor_count: {monster_id: 11654, near: [-19456, 9216, 600], min: 1, max: 1}}
+  # The hatch (event 49) without the key: the question, Yes: the source's locked line, no move.
+  - set_pose: {map: xeen_d7.blv, x: -18688, y: 8448, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The door is locked. Scratched on the surface are some words: The Megadragon has the key!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_d7.blv}
+  # The Megadragon killed: the party's clear by the hatch is the fight (deliberate); its two-second check sets slain.
+  - play_lua:
+      source: |
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        status()
+        log("cleared " .. clear_hostiles(1500)); wait(3)
+        local s = status() or ""
+        if not string.find(s, "The Megadragon is dead. The sky is a little quieter.", 1, true) then error("no slain line: " .. s) end
+        if not qbit(113520) then error("q-d26.slain 113520 not set") end
+        -- The Megadragon's 16,875 experience (monster_data EXP) is shared by the four: 4,218 each.
+        for i = 0, 3 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 4218 then error("member " .. i .. ": the Megadragon's kill paid " .. xp .. ", not 4218") end
+        end
+  - assert: {actor_count: {monster_id: 11654, max: 0}}
+  # The hoard (event 34): Wyrmfang and the roof key.
+  - set_pose: {map: xeen_d7.blv, x: -18176, y: 9984, z: 1544, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        loot_chest(34); wait(1); while held() ~= 0 do stow() end; close(); wait(0.3)
+        if not has_item(12530) then error("no Wyrmfang 12530") end
+        if not has_item(12377) then error("no roof key 12377") end
+  # The hatch with the key: Yes: the key turns and stays; down the shaft into DD-17's hatch room.
+  - set_pose: {map: xeen_d7.blv, x: -18688, y: 8448, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd17.blv}
+  - assert: {party_position: {x: -2832, y: 2336, radius: 96, z_min: 1200}}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status() or ""
+        log("hatch: " .. s)
+        if not string.find(s, "The Megadragon's key turns in the lock and stays there. The hatch swings down.", 1, true) then error("no unlock line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+        if has_item(12377) then error("the lock did not keep the key") end
+        if not qbit(113521) then error("q-d26.roof_unlocked 113521 not set") end
+        if not has_item(12530) then error("Wyrmfang gone") end
+        if not qbit(111660) then error("m33.roof_arrival did not let the party in (inside 111660)") end
+  # DD-17's roof hatch from below (event 47, at the ladder's foot): now open, up to the roof.
+  - play_lua: {source: "click(47); wait(0.8)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, text_contains: "Do you wish to enter The Skyroads?"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -18688, y: 8448, radius: 128}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # A save and load: the dead Megadragon's group stays hidden.
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {actor_visible: {actor_index: 37, hidden: true}}
+  - assert: {qbit_set: [113520, 113521]}
+  - play_lua: {source: "if not has_item(12530) then error('Wyrmfang gone') end; log('Q-D26 done')"}

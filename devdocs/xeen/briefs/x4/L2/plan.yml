@@ -1,0 +1,725 @@
+format: 0
+level: L2
+pitch: "The north-centre of Cloudside: a warm, rolling savannah under the Gargoyle Range, whose bare peaks end in the world's north rim. Castle Burlock, the royal seat, stands white on a rise at the range foot, its walled village below the gate and the jousting lists below that. The Great River falls out of the range beside the castle and runs south to Rivercity past Captain Nystor's landing. South-west lies Asp, a small town whose people are turning into snakes; west, dry downs toward the desert; south-east, the red dwarf hills; north-east, lava fields smoking toward Mount Firestone."
+purpose: "Act II's royal map (party 11-15): the audience at Castle Burlock (M5, XD-07), Asp's curse (Q-C5, XD-25), the gargoyles' eyrie (Q-C10, XD-26), Falagar's crystals (Q-C11), the Autumn Druid (Q-C1), the dwarves' adit (M3's shortcut from X1), stables and Nystor's boat as travel."
+mood: "Dry gold grass, wide sky, a fair breeze; banners over the white castle; Asp silent and wrong; the range grey and sharp in the north."
+datum: water:rim_sea
+spaces:
+  - id: edge:east_end
+    name: East edge
+    kind: road
+    part_of: zone:east_savannah
+    purpose: Where the Firestone road leaves for X7.
+  - id: edge:south_x2_end
+    name: South edge (X2)
+    kind: road
+    part_of: zone:east_savannah
+    purpose: Where the Rivercity road leaves for X2.
+  - id: edge:south_x3_end
+    name: South edge (X3)
+    kind: road
+    part_of: zone:south_fields
+    purpose: Where the Asp road leaves for X3.
+  - id: edge:west_end
+    name: West edge
+    kind: road
+    part_of: zone:west_downs
+    purpose: Where the desert road leaves for X6.
+  - id: junction:asp_gate
+    name: Asp gate
+    kind: junction
+    purpose: "The Travel Pit and the shrine, Asp, Burlock."
+    signpost: true
+  - id: junction:burlock_cross
+    name: Burlock Cross
+    kind: junction
+    purpose: "King Burlock's statue: north the castle, east the bridge, west the desert, south-west Asp."
+    signpost: true
+  - id: junction:east_fork
+    name: East fork
+    kind: junction
+    purpose: "East of the King's Bridge: Firestone, the river road south."
+    signpost: true
+  - id: junction:landing_fork
+    name: Landing fork
+    kind: junction
+    purpose: "Nystor's landing, Rivercity, the castle."
+    signpost: true
+  - id: junction:west_fork
+    name: West fork
+    kind: junction
+    purpose: "The desert road, the eyrie path north."
+    signpost: true
+  - id: town:asp
+    name: Asp
+    kind: town
+    where: "south-west, on the Asp road between Burlock Cross and the X3 edge"
+    floor: 1050
+    purpose: "The cursed town (Q-C5): townsfolk turning into snakes. The Travel Pit and the Roadside Shrine work from day one at the edge; the rest opens with q-c5.done."
+    safe: true
+    keep_clear: [spawns]
+    theme: "cloudside_town kit, poor and middle grades (hhp1, hhp2, hhm3), shutters down, snake-skin on the sills; chb1 fieldstone guild halls."
+    density: medium
+    buildings:
+      - {id: building:asp_travel_pit, type: house, service: The Travel Pit, count: 1, doors: 1, footprint_cells: [[2, 3]], notes: "A4 house 4170. Open from day one, outside the curse (WORLD_DESIGN 5.1)."}
+      - {id: building:asp_shrine, type: house, service: Roadside Shrine, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: "A4 house 4171. Open from day one, outside the curse."}
+      - {id: building:asp_guild_earth, type: house, service: Asp Guild of Earth, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: A4 house 4175. Opens with q-c5.done.}
+      - {id: building:asp_guild_body, type: house, service: Asp Guild of Body, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: A4 house 4176. Opens with q-c5.done.}
+      - {id: building:asp_alchemist, type: house, service: Snake Oil, count: 1, doors: 1, footprint_cells: [[1.5, 2]], notes: A4 house 4173. Opens with q-c5.done.}
+      - {id: building:asp_armour, type: house, service: Scale House, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: A4 house 4174. Opens with q-c5.done.}
+      - {id: building:asp_houses, type: house, service: residence, count: 10, doors: 1, footprint_cells: [[1, 1.5], [1, 1], [1, 1], [1.5, 1], [1, 1], [1.5, 1], [1, 1], [1, 1], [1, 1.5], [1.5, 1.5]], notes: "A4 houses in index order: 4172 Sarah Slither (open from day one), then 4178-4186 (open with q-c5.done)."}
+  - id: town:burlock
+    name: Castle Burlock's village
+    kind: town
+    where: inside a wall below the castle gate
+    floor: 1300
+    purpose: "Services that need no title (WORLD_DESIGN 5.1): armoury, armourer, chapel, training to 40, stables, tavern, the mirror, eight homes with teachers."
+    safe: true
+    keep_clear: [spawns]
+    theme: "cloudside_town kit, middle and rich grades (hhm2 ochre, 7hhr1 cream), chb1 fieldstone services, the royal_castle grey curtain wall with two gates."
+    density: dense
+    buildings:
+      - {id: building:burlock_temple, type: house, service: Chapel of the Crown, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]], notes: A4 house 4153.}
+      - {id: building:burlock_tavern, type: house, service: The Jousting Pig, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: A4 house 4156.}
+      - {id: building:burlock_weapons, type: house, service: The Royal Armoury, count: 1, doors: 1, footprint_cells: [[2, 1.5]], notes: A4 house 4151.}
+      - {id: building:burlock_armour, type: house, service: Plate and Mail by Royal Appointment, count: 1, doors: 1, footprint_cells: [[2, 1.5]], notes: A4 house 4152.}
+      - {id: building:burlock_training, type: house, service: The King's Lists, count: 1, doors: 1, footprint_cells: [[3, 2.5]], notes: A4 house 4154.}
+      - {id: building:burlock_stables, type: house, service: Royal Stables of Burlock, count: 1, doors: 1, footprint_cells: [[2, 2.5]], notes: A4 house 4155.}
+      - {id: building:burlock_houses, type: house, service: residence, count: 8, doors: 1, footprint_cells: [[1.5, 1.5], [1, 1.5], [1.5, 1], [1, 1], [1.5, 1], [1, 1], [1.5, 1], [1, 1]], notes: "A4 houses 4158-4165 in index order (Dame Ysolde, The Weathervane, Keeper of the Bestiary, Pomfrey, Royal Laundry, Wat, Bakehouse, Holt)."}
+  - id: town:burlock_castle
+    name: Castle Burlock
+    kind: town
+    where: "on a rise at the range foot, north-centre"
+    floor: 1900
+    purpose: "The royal seat: the castle's exterior; its gate leads into XD-07 (the Crusaders' portcullis is inside). The throne's fall lands beside its west tower."
+    safe: true
+    keep_clear: [spawns]
+    theme: "royal_castle kit: cream hc ashlar with orange-tan quoins on grey cs footings, xtslate cones, the Burlock crest and banners."
+  - id: water:falls_pool
+    name: The falls pool
+    kind: water
+    part_of: zone:falls
+    purpose: Under the falls.
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the edge.
+  - id: water:river
+    name: The Great River (upper reach)
+    kind: water
+    purpose: "From the falls south to X2; crossed by the King's Bridge."
+  - id: water:tarn
+    name: The tarn above the falls
+    kind: water
+    part_of: zone:gargoyle_range
+    purpose: A tarn high in the range that spills over the falls.
+  - id: zone:asp_square
+    name: Asp's square
+    kind: zone
+    part_of: town:asp
+    floor: 1050
+    purpose: "The well with eight two-colour pedestals round it, the rule stone by the undercroft stair (XD-25), Adam and Eve by the well, the mirror."
+    safe: true
+  - id: zone:burlock_square
+    name: The village square
+    kind: zone
+    part_of: town:burlock
+    floor: 1300
+    purpose: The mirror and the Well of Might.
+    safe: true
+  - id: zone:carlawna_yard
+    name: Carlawna's yard
+    kind: district
+    part_of: zone:uplands
+    floor: 1350
+    purpose: "Carlawna the Cleric (Q-C10, T1-C) at the foot of the eyrie path."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:carlawna_hut, type: house, service: Carlawna's Hut, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: A4 house 4166.}
+  - id: zone:castle_fields
+    name: The castle fields
+    kind: wild
+    floor: [900, 1300]
+    relief: slope
+    purpose: Paddocks and hay meadows from the castle down to Burlock Cross and the river.
+    density: sparse
+  - id: zone:druid_grove
+    name: The Autumn Druid's grove
+    kind: zone
+    part_of: zone:west_downs
+    floor: 1100
+    purpose: "A ring of stones under red and gold trees, the only autumn on Xeen (Q-C1's Autumn step, T1-C)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:east_savannah
+    name: The river meadows
+    kind: wild
+    floor: [700, 1400]
+    relief: uneven
+    purpose: "The river's east bank: the river road with Joe's caravan, Nystor's landing, the Rivercity road, the Firestone road and Falagar's hut under the lava."
+    density: sparse
+    population:
+      - {id: pop:pair_river_road, slot: 1, groups: 2, per_marker: [2, 3], levels: [14, 26], notes: "D-11.2, D-85: a renegade knight pair on the Rivercity road."}
+      - {id: pop:pair_firestone_road, slot: 2, groups: 2, per_marker: [2, 3], levels: [18, 30], notes: "D-11.2: a wandering pair of ogres on the Firestone road."}
+  - id: zone:falagar_yard
+    name: Falagar's yard
+    kind: district
+    part_of: zone:east_savannah
+    floor: 1400
+    purpose: Falagar the Wizard (Q-C11) in a stone hut on a lava shoulder.
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:falagar_hut, type: house, service: Falagar's Hut, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: A4 house 4167.}
+  - id: zone:falls
+    name: The falls
+    kind: zone
+    part_of: zone:gargoyle_range
+    floor: [650, 1700]
+    purpose: "The river leaves the range over a 900 step into a pool; the Olympian Fountain on a terrace beside it."
+  - id: zone:gargoyle_range
+    name: The Gargoyle Range
+    kind: wild
+    where: "the whole north, y 24 to 44: bare peaks ending in the rim cliff"
+    floor: [1300, 3900]
+    relief: uneven
+    purpose: "Bare grey peaks along the world's north rim; gargoyles nest in them. The Gargoyle Eyrie (XD-26) opens in Gargoyle Peak's south face; the river falls out of the range above the castle."
+    density: sparse
+    population:
+      - {id: pop:range_west, slot: 3, groups: 9, per_marker: [2, 4], levels: [16, 28], notes: "Encounter area 1: Gargoyles round the eyrie path."}
+      - {id: pop:range_east, slot: 3, groups: 9, per_marker: [2, 4], levels: [16, 28], notes: "Encounter area 2: Gargoyles over the falls, the roost and the lava fields."}
+  - id: zone:lava_fields
+    name: The lava fields
+    kind: wild
+    floor: [1500, 1900]
+    relief: uneven
+    purpose: "Black crusted rock and smoking vents at the north-east edge, toward Mount Firestone: the Shrine of Fire, a burned caravan, the rim lookout at the range's end."
+    density: sparse
+  - id: zone:lists
+    name: The jousting lists
+    kind: zone
+    floor: 1050
+    purpose: "The King's tiltyard south of the village: a tilt barrier, stands and pavilions; the stat challenge."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:nystor_landing
+    name: Nystor's landing
+    kind: zone
+    part_of: zone:east_savannah
+    floor: 720
+    purpose: "Captain Nystor's upriver landing: a jetty, a mooring post, a boathouse; the boat calls after Q-C23."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:red_hills
+    name: The red dwarf hills
+    kind: wild
+    floor: [1200, 2400]
+    relief: uneven
+    purpose: "Red rock hills in the south-east: the Red Dwarf Mines' west adit (XD-02), the ogres' camp."
+    density: sparse
+    population:
+      - {id: pop:red_hills, slot: 2, groups: 8, per_marker: [2, 3], levels: [18, 30], notes: "Encounter area 3: Ogres."}
+      - {id: pop:ogre_camp, actor: Xeen Ogre, groups: 1, placed: true, hostile: true, notes: Four placed at the camp to burn.}
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "North the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:south_fields
+    name: The jousting fields
+    kind: wild
+    floor: [850, 1150]
+    relief: uneven
+    purpose: "Rolling savannah south of Burlock Cross where knights train and some have gone bad: the quintain field, the renegade knights' camp, the champions' barrow."
+    density: sparse
+    population:
+      - {id: pop:south_fields, slot: 1, groups: 9, per_marker: [2, 3], levels: [14, 26], notes: "Encounter area 4: Burlock knights."}
+      - {id: pop:knights_camp, actor: Xeen Knight, groups: 1, placed: true, hostile: true, notes: Four placed at the renegade knights' camp.}
+  - id: zone:uplands
+    name: The range foot
+    kind: wild
+    floor: [1150, 1500]
+    relief: uneven
+    purpose: "High dry grass under the range: Carlawna's hut and the eyrie path, the obelisk's knoll, the barbarian camp by the desert road."
+    density: sparse
+    population:
+      - {id: pop:pair_west_ogres, slot: 2, groups: 1, per_marker: [2, 3], levels: [18, 30], notes: "D-11.2: the west road's wandering pair, an ogre band ..."}
+      - {id: pop:pair_west_knights, slot: 1, groups: 1, per_marker: [2, 3], levels: [14, 26], notes: ... and a knight band nearer Burlock Cross.}
+  - id: zone:west_downs
+    name: The west downs
+    kind: wild
+    floor: [1000, 1400]
+    relief: uneven
+    purpose: "Rolling dry downs toward the desert: the Autumn Druid's grove, Asp's old cemetery, ogres."
+    density: sparse
+    population:
+      - {id: pop:west_downs, slot: 2, groups: 4, per_marker: [2, 3], levels: [18, 30], notes: "Encounter area 5: Ogres."}
+links:
+  - id: link:adit_lane
+    from: link:rivercity_road
+    to: zone:red_hills
+    kind: path
+    notes: to XD-02's west adit
+  - id: link:asp_road
+    from: junction:burlock_cross
+    to: zone:asp_square
+    kind: road
+    notes: "by the Asp gate, the Travel Pit and the shrine"
+  - id: link:barbarian_track
+    from: link:west_road
+    to: zone:uplands
+    kind: path
+    notes: to the barbarian camp
+  - id: link:bridge_road
+    from: junction:east_fork
+    to: junction:burlock_cross
+    kind: road
+    crosses: [water:river]
+    features: ["the King's Bridge, three stone arches over the river at x 78-83"]
+  - id: link:castle_lane
+    from: zone:burlock_square
+    to: town:burlock_castle
+    kind: path
+  - id: link:druid_path
+    from: link:west_road
+    to: zone:druid_grove
+    kind: path
+  - id: link:eyrie_path
+    from: junction:west_fork
+    to: zone:gargoyle_range
+    kind: path
+    rise: 700
+    notes: past Carlawna's hut to the eyrie mouth
+  - id: link:falagar_lane
+    from: link:firestone_road
+    to: zone:falagar_yard
+    kind: path
+  - id: link:falls_path
+    from: town:burlock
+    to: zone:falls
+    kind: path
+    notes: from the east gate up the river to the Olympian Fountain
+  - id: link:firestone_road
+    from: junction:east_fork
+    to: edge:east_end
+    kind: road
+    purpose: "travel: X7"
+  - id: link:kings_road
+    from: junction:burlock_cross
+    to: zone:burlock_square
+    kind: road
+    rise: 300
+    notes: past the lists to the village's south gate
+  - id: link:landing_lane
+    from: junction:landing_fork
+    to: zone:nystor_landing
+    kind: path
+  - id: link:lava_track
+    from: zone:falagar_yard
+    to: zone:lava_fields
+    kind: path
+    notes: past the Shrine of Fire to the rim lookout
+  - id: link:quintain_track
+    from: junction:burlock_cross
+    to: zone:south_fields
+    kind: path
+  - id: link:river_road
+    from: junction:landing_fork
+    to: junction:east_fork
+    kind: road
+    notes: Joe the Merchant's caravan halfway
+  - id: link:rivercity_road
+    from: edge:south_x2_end
+    to: junction:landing_fork
+    kind: road
+    purpose: "travel: X2 to the landing fork"
+  - id: link:west_road
+    from: edge:west_end
+    to: junction:burlock_cross
+    kind: road
+    purpose: "travel: X6"
+    notes: by the west fork and the obelisk knoll
+  - id: link:x3_road
+    from: zone:asp_square
+    to: edge:south_x3_end
+    kind: road
+    purpose: "travel: X3"
+entrances:
+  - id: entrance:asp_square
+    space: zone:asp_square
+    kind: arrival
+    how: "Asp's mirror (4177, after q-c5.done)."
+  - id: entrance:asp_travel_pit
+    space: town:asp
+    kind: arrival
+    how: The Travel Pit at the east edge.
+  - id: entrance:burlock_square
+    space: zone:burlock_square
+    kind: arrival
+    how: "Town Portal and the mirror (4157, qbit 119003)."
+  - id: entrance:burlock_stables
+    space: town:burlock
+    kind: arrival
+    how: The stables' yard.
+  - id: entrance:east_road
+    space: edge:east_end
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: The Firestone road below the lava fields.
+  - id: entrance:river_landing
+    space: zone:nystor_landing
+    kind: both
+    neighbour: boat:nystor
+    how: "Nystor's boat, after Q-C23."
+  - id: entrance:throne_landing
+    space: town:burlock_castle
+    kind: arrival
+    neighbour: fall:xd07_throne
+    how: "A fall: the party appears at ground + 1,000 beside the west tower, outside the walls, and drops (ordinary fall damage; D-4)."
+  - id: entrance:west_road
+    space: edge:west_end
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: The desert road over the saddle.
+  - id: entrance:x2_road
+    space: edge:south_x2_end
+    kind: both
+    neighbour: edge:south_x2
+    facing: n
+    how: "The Rivercity road up from the river gorge; the landing and the river valley ahead."
+  - id: entrance:x3_road
+    space: edge:south_x3_end
+    kind: both
+    neighbour: edge:south_x3
+    facing: n
+    how: The Asp road from the lagoon's north edge.
+  - id: entrance:xd02_adit
+    space: zone:red_hills
+    kind: both
+    neighbour: door:xd02_adit
+    facing: e
+    how: "A timbered adit in the red rock, a winch frame beside it; a rock fall until M3's winch."
+    condition: {qbit: x4_adit_open}
+  - id: entrance:xd07_gate
+    space: town:burlock_castle
+    kind: both
+    neighbour: door:xd07
+    facing: n
+    how: The castle gate at the top of the castle lane.
+  - id: entrance:xd25_stair
+    space: zone:asp_square
+    kind: both
+    neighbour: door:xd25
+    facing: n
+    how: "A stone-framed cellar stair on the square, the rule stone beside it."
+  - id: entrance:xd26_eyrie
+    space: zone:gargoyle_range
+    kind: both
+    neighbour: door:xd26
+    facing: s
+    how: "A dark mouth in Gargoyle Peak's south face, bones below it."
+  - id: entrance:xd26_sky_crack
+    space: zone:gargoyle_range
+    kind: arrival
+    neighbour: door:xd26_sky_crack
+    how: "XD-26's sky crack: a one-way exit onto a ledge at about 3,300 on Gargoyle Peak, the whole savannah below; a goat path down to the eyrie mouth."
+critical_path: [edge:south_x2_end, junction:landing_fork, junction:east_fork, junction:burlock_cross, zone:burlock_square, town:burlock_castle]
+goals:
+  - id: goal:asp
+    space: zone:asp_square
+    kind: set
+    what: "Set the pedestals; break the transformer in XD-25 (Q-C5)."
+    story: Q-C5
+  - id: goal:audience
+    space: town:burlock_castle
+    kind: reach
+    what: "Enter Castle Burlock as Crusaders: the audience (M5)."
+    story: M5
+  - id: goal:autumn
+    space: zone:druid_grove
+    kind: use
+    what: Carry the Summer flower to the Autumn Druid (Q-C1).
+    story: Q-C1
+  - id: goal:crystals
+    space: zone:falagar_yard
+    kind: use
+    what: Bring Falagar the crystals from under Asp (Q-C11).
+    story: Q-C11
+  - id: goal:scarab
+    space: zone:carlawna_yard
+    kind: use
+    what: Bring Carlawna her scarab from the eyrie (Q-C10).
+    story: Q-C10
+points_of_interest:
+  - id: poi:adam_eve
+    space: zone:asp_square
+    count: 2
+    kind: npc
+    behaviour: "Adam (4301) and Eve (4302) by the well: Q-C5 (Curse, Transformer)."
+  - id: poi:asp_cemetery
+    space: zone:west_downs
+    kind: ruin
+    behaviour: "Asp's old cemetery, snake-skins on the graves; a sexton's chest (a chest)."
+  - id: poi:asp_mirror
+    space: zone:asp_square
+    kind: mirror
+    behaviour: "The Mirror of Asp (A4 4177, qbit 119013): fogged with shed skin until q-c5.done; set against the south row's gable, clear of the doors."
+  - id: poi:asp_well
+    space: zone:asp_square
+    kind: well
+    behaviour: "Asp's well: the centre of the pedestal ring (Q-C5); a plain well (no effect)."
+  - id: poi:autumn_druid
+    space: zone:druid_grove
+    kind: npc
+    behaviour: "The Autumn Druid (4321): Q-C1's Autumn step; T1-C after q-c10.done."
+  - id: poi:barbarian_camp
+    space: zone:uplands
+    kind: camp
+    behaviour: "The barbarian camp by the desert road: burn it (XP); the chief's chest (a chest)."
+  - id: poi:bridge_cairn
+    space: zone:castle_fields
+    kind: device
+    behaviour: "D-11.5: a cairn of river stones at the King's Bridge's west end; add a stone: +Luck, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:burlock_mirror
+    space: zone:burlock_square
+    kind: mirror
+    behaviour: "The Mirror of Castle Burlock (A4 4157, qbit 119003): a transport mirror and the Town Portal anchor."
+  - id: poi:burned_caravan
+    space: zone:lava_fields
+    kind: chest
+    behaviour: "A caravan that tried the short cut over the lava: charred wagon, a strongbox (a chest)."
+  - id: poi:carlawna
+    space: zone:carlawna_yard
+    kind: npc
+    behaviour: "Carlawna the Cleric (4303): the gargoyles stole her Scarab of Imaging (Q-C10); T1-C."
+  - id: poi:champions_barrow
+    space: zone:south_fields
+    kind: chest
+    behaviour: "The champions' barrow: old jousters' grave goods (a chest)."
+  - id: poi:dwarf_stone
+    space: zone:red_hills
+    kind: sign
+    behaviour: "A red boundary stone: \"Here begin the hills of the Red Dwarves. Mind the adits.\""
+  - id: poi:eyrie_waystone
+    space: zone:uplands
+    kind: sign
+    behaviour: "D-11.5: a waystone on the eyrie path: Carlawna's hut below, the eyrie above, a warning."
+  - id: poi:falagar
+    space: zone:falagar_yard
+    kind: npc
+    behaviour: "Falagar the Wizard (4304): the Crystals of Piezoelectricity (Q-C11)."
+  - id: poi:gargoyle_roost
+    space: zone:gargoyle_range
+    kind: chest
+    behaviour: "A gargoyle roost on a ledge above the falls: a heap of stolen shiny things (a chest)."
+  - id: poi:herders_well
+    space: zone:south_fields
+    kind: well
+    behaviour: "Herders' well by the Asp road: +Endurance, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:joe_caravan
+    space: zone:east_savannah
+    kind: teacher
+    behaviour: "Joe the Merchant (4320) at his caravan on the river road: Merchant teacher."
+    notes: "A covered wagon, two mules, crates; outdoors, no door."
+  - id: poi:jousters_grave
+    space: zone:south_fields
+    kind: device
+    behaviour: "D-11.5: a jouster's grave under his broken lance: an epitaph; +Accuracy, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:jousting_lists
+    space: zone:lists
+    kind: stat_challenge
+    behaviour: "Ride a tilt against the lists' champion: a Might and Speed check (A2 sets the threshold); success gives +2 Accuracy, permanent, once (the map's stat challenge)."
+    rule: native:stat_challenge
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:king_statue
+    space: junction:burlock_cross
+    kind: statue
+    behaviour: "King Burlock's statue at the cross: a plaque (\"Don't worry, be happy.\" stays inside the castle; this one names the roads)."
+  - id: poi:knights_camp
+    space: zone:south_fields
+    kind: camp
+    behaviour: "The renegade knights' camp: torn pavilions, a broken lance rack; burn it (XP); their chest."
+  - id: poi:mill_ruin
+    space: zone:east_savannah
+    kind: ruin
+    behaviour: "A burnt-out watermill on the river's east bank, its wheel still in the race: the miller's last ledger (a note: gargoyles came down from the falls)."
+  - id: poi:nystor_landing
+    space: zone:nystor_landing
+    kind: set_piece
+    behaviour: "Captain Nystor's upriver landing: a jetty and a boathouse; his boat calls after Q-C23."
+  - id: poi:obelisk
+    space: zone:uplands
+    kind: obelisk
+    behaviour: "One of Cloudside's obelisks: a word of the world's riddle."
+    rule: native:obelisk
+    notes: "On a knoll north of the desert road, the castle in view."
+  - id: poi:ogre_camp
+    space: zone:red_hills
+    kind: camp
+    behaviour: "The ogres' camp in a hollow: burn it (XP); a chest of loot."
+  - id: poi:olympian_fountain
+    space: zone:falls
+    kind: fountain
+    behaviour: "The Olympian Fountain: +2 Might, permanent, once (the permanent device)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:ore_cart
+    space: zone:red_hills
+    kind: chest
+    behaviour: The dwarves' ore cart left outside the caved-in adit (a chest).
+  - id: poi:pedestals
+    space: zone:asp_square
+    count: 8
+    kind: set_piece
+    behaviour: "Eight two-colour pedestals round Asp's well (D-4, XD-25 1): each turns red or blue on touch; solved when the south-west one (index 1) and every second one round the ring are red; sets the pedestals qbit (one qbit across X4 and XD-25)."
+    notes: "A ring of radius 1.6 cells (about 820) round the well; a clear walking line to every door."
+  - id: poi:quintain_field
+    space: zone:south_fields
+    kind: device
+    behaviour: "A quintain on a post: tilt at it for +Accuracy, temporary, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:red_waymark
+    space: zone:east_savannah
+    kind: device
+    behaviour: "D-11.5: a red waymark stone of the dwarves: +Endurance, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:rim_lookout
+    space: zone:lava_fields
+    kind: ruin
+    behaviour: "A broken watch post where the range meets the rim: the stars below; an old note."
+  - id: poi:rule_stone
+    space: zone:asp_square
+    kind: sign
+    behaviour: "The rule stone by the undercroft stair (q-c5.pedestal_rhyme): \"The southwest corner is where to start / Begin with red to tell them apart. Alternate the colors around the well / Then the machine can no longer repel.\""
+  - id: poi:saddlebags
+    space: zone:south_fields
+    kind: chest
+    behaviour: "A fallen charger's saddlebags in the grass: a jouster who did not come back (a chest)."
+  - id: poi:savannah_well
+    space: zone:east_savannah
+    kind: well
+    behaviour: "D-11.5: a herders' well under an acacia: +Might, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:shrine_fire
+    space: zone:lava_fields
+    kind: shrine
+    behaviour: "Shrine of Fire among the vents: +Fire resistance, permanent, once."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:signposts
+    spaces: [junction:burlock_cross, junction:east_fork, junction:landing_fork, junction:west_fork, junction:asp_gate]
+    count: 5
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:standing_stone
+    space: zone:west_downs
+    kind: device
+    behaviour: "D-11.5: a lone standing stone on the downs, warm in the sun: +Personality, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:sunken_barge
+    space: water:river
+    kind: chest
+    behaviour: "A river barge aground on a sandbar, its cargo box still aboard (a chest)."
+  - id: poi:wayfarers_well
+    space: zone:east_savannah
+    kind: well
+    behaviour: "Wayfarers' well on the Firestone road: +Speed, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:well_might
+    space: zone:burlock_square
+    kind: well
+    behaviour: "Well of Might: +Might, temporary."
+    uses: {times: 1, per: character, reset: daily}
+landmarks:
+  - id: landmark:castle_burlock
+    space: town:burlock_castle
+    what: "White castle of four towers and a keep on its rise, banners, the range behind"
+    seen_from: [zone:south_fields, zone:castle_fields, zone:uplands, zone:east_savannah, junction:burlock_cross]
+  - id: landmark:falls
+    space: zone:falls
+    what: The river falling out of the range
+    seen_from: [town:burlock, zone:east_savannah, junction:east_fork]
+  - id: landmark:gargoyle_peak
+    space: zone:gargoyle_range
+    what: "The highest peak of the range (3,900), the eyrie in its face"
+    seen_from: [zone:uplands, zone:west_downs, town:asp]
+  - id: landmark:kings_beacon
+    space: zone:gargoyle_range
+    what: "The King's beacon: a signal tower of white stone on the crest above the castle, lit when gargoyles fly"
+    seen_from: [zone:castle_fields, zone:south_fields, town:burlock]
+  - id: landmark:lava_fields
+    space: zone:lava_fields
+    what: Smoke columns over black rock
+    seen_from: [zone:east_savannah, edge:east_end]
+  - id: landmark:red_hills
+    space: zone:red_hills
+    what: Red rock hills
+    seen_from: [edge:south_x2_end, zone:east_savannah]
+sightlines:
+  - id: view:arrival
+    from: entrance:x2_road
+    to: [poi:nystor_landing, landmark:red_hills, landmark:gargoyle_peak]
+    what: "Arrival from X2: the river valley, Nystor's landing, the red hills, the range on the horizon."
+  - id: view:signature
+    from: zone:lists
+    to: [landmark:castle_burlock, poi:jousting_lists, landmark:gargoyle_peak]
+    what: "The signature view: the lists, the walled village and Castle Burlock on its rise, the Gargoyle Range behind."
+set_pieces:
+  - id: set:asp_pedestals
+    kind: puzzle
+    spaces: [zone:asp_square]
+    rule: "Eight pedestals round the well, each red or blue on touch. Solved when the south-west one and every second one round the ring are red (the rule stone's rhyme; Eve says it plainly)."
+    inputs: [poi:pedestals]
+    states: [unsolved, solved]
+    solution: "pedestals 1, 3, 5, 7 red; 2, 4, 6, 8 blue"
+    gives:
+      qbit: asp_pedestals
+height_bands:
+  - id: band:high
+    range: [1300, 2400]
+    spaces: [zone:lava_fields, zone:red_hills]
+  - id: band:low
+    range: [650, 1400]
+    spaces: [zone:west_downs, zone:castle_fields, zone:south_fields, zone:east_savannah, town:asp, water:river]
+  - id: band:mid
+    range: [1100, 1950]
+    spaces: [zone:uplands, town:burlock_castle, town:burlock]
+  - id: band:peaks
+    range: [1300, 3900]
+    spaces: [zone:gargoyle_range]
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+states:
+  - id: state:asp_cursed
+    condition: {not: {qbit: asp_liberated}}
+    locks: [building:asp_alchemist, building:asp_armour, building:asp_guild_earth, building:asp_guild_body]
+    atmosphere: "Empty streets, hissing behind doors, snake-skins on the sills, a few snakes on the square."
+    notes: "A4's closed texts; the Travel Pit, the shrine and Sarah Slither (asp_houses 1) stay open; the other houses (asp_houses 2-10) are closed too."
+  - id: state:asp_liberated
+    condition: {qbit: asp_liberated}
+    opens: [building:asp_alchemist, building:asp_armour, building:asp_guild_earth, building:asp_guild_body, building:asp_houses]
+    effects: ["Townsfolk about (about 8), the mirror works (qbit 119013)."]
+landform:
+  relief: "A river valley (650) through rolling savannah (850-1,150) rising north to the castle rise (1,900) and the Gargoyle Range (to 3,900, ending in the rim cliff); red dwarf hills to 2,400 in the south-east, lava fields 1,500-1,900 in the north-east."
+  height_range: [650, 3900]
+  water: "The river (about 3 cells wide, 87 cells long), the falls pool."
+  water_share: 0.03
+  caps:
+    - {kind: bare rock, share: 0.18, where: the Gargoyle Range and the red hills}
+    - {kind: lava rock, share: 0.05, where: the north-east lava fields}
+  rim: {notes: "The world rim along the whole north edge: the range breaks off in a cliff of 2,000-3,500 above the stars. West, south and east the land runs to the map edge; the roads and the river run out to it."}
+atmosphere: "Sky fair (shipped), a dry tint; music 29. Wind in the grass, the falls' roar near the castle, horses and a herald's trumpet at the lists; Asp: hissing and a loose shutter; the lava fields hiss and rumble."
+totals:
+  dungeon_entrances: 4
+  encounter_areas: 9
+  hostiles_at_load: 135
+  outdoor_chests: 9
+  points_of_interest: 44
+  spawn_markers: 45
+notes: "Written by output/studio_cal/x4/tools/gen.py from gen_l1.py (the approved L1 with D-11.2/5/6). Sealed (their neighbours dropped until the maps exist): ."

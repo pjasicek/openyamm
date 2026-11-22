@@ -1,0 +1,766 @@
+format: 1
+start:
+  room: room:air
+  at: [-24768, -6624]
+  facing: e
+  notes: "The top of the Dark Grove rope (entrance:d1_rope, the map's start), facing east down the inner road."
+arrivals:
+  - {entrance: entrance:olympus_dock, room: room:air, at: [-640, 3200], facing: n, notes: "Lucio's celestial boats from Castleview's and Sandcaster's jetties and Lakeside's dock (D-5.3, routes 424-426, after m30.done): the jetty's town end, facing into town. The boats only sail up. m31.arrival on the first landing."}
+  - {entrance: entrance:olympus_square, room: room:air, at: [-4608, 6400], facing: n, notes: "The Darkside mirrors (Olympus' 4807 once touched) and Town Portal: by the mirror."}
+  - {entrance: entrance:d1_rope, room: room:air, at: [-24768, -6624], facing: e, notes: "D1's Dark Grove rope (m30.grove_rope, D-23): the top of the rope, facing east down the inner road. 'Pull up the rope?' here goes back down to D1's rope foot."}
+  - {entrance: entrance:p1_return, room: room:air, at: [-27456, 17728], facing: 315, notes: "P1's way out after the sleeper (corners.yml): by the Fire Corner's Rest Stop."}
+  - {entrance: entrance:p2_return, room: room:air, at: [27456, 17728], facing: 225, notes: "P2's way out (corners.yml): by the Air Corner's Rest Stop."}
+  - {entrance: entrance:p3_return, room: room:air, at: [27136, -17408], facing: 135, notes: "P3's way out (corners.yml): by the Earth Corner's Rest Stop."}
+  - {entrance: entrance:p4_return, room: room:air, at: [-27456, -17728], facing: 45, notes: "P4's way out (corners.yml): by the Water Corner's Rest Stop."}
+  - {entrance: entrance:dd08_roof, room: room:air, at: [5632, 15104], facing: n, notes: "DD-08 Northern Tower's roof stair (A8), one way up."}
+  - {entrance: entrance:dd06_roof, room: room:air, at: [5632, -14848], facing: s, notes: "DD-06 Southern Tower's roof stair (A7), one way up."}
+  - {entrance: entrance:dd07_roof, room: room:air, at: [27136, -6144], facing: w, notes: "DD-07 Eastern Tower's roof (A7), one way up."}
+  - {entrance: entrance:dd14_roof, room: room:air, at: [25088, 14624], facing: 45, notes: "DD-14 Castle Blackfang's roost trapdoor (A8), one way up."}
+  - {entrance: entrance:dd05_roof, room: room:air, at: [-27136, -5120], facing: e, notes: "DD-05 Western Tower's roof (A8), one way up."}
+  - {entrance: entrance:dd02_roof, room: room:air, at: [-27136, -18432], facing: 45, notes: "DD-02 Ellinger's Tower's top floor (A8), one way up."}
+  - {entrance: entrance:dd03_roof, room: room:air, at: [-27072, -19744], facing: 45, notes: "DD-03 Castle Kalindra's third floor (A8; stage 4), one way up."}
+  - {entrance: entrance:dd15_sky, room: room:air, at: [11424, 2560], facing: w, notes: "DD-15 Great Pyramid's sky door (A8), both ways after m30.done."}
+  - {entrance: entrance:dd17_roof, room: room:air, at: [-18688, 8448], facing: w, notes: "DD-17 Castle Alamar's roof hatch (A8): down with the Megadragon's key (Q-D26); up from Alamar's top floor once it is open."}
+  - {entrance: entrance:dd26_stair, room: room:air, at: [-8704, 8192], facing: e, notes: "DD-26 Olympus Sewer (A8, Q-D28): its stair under the marble grate."}
+  - {entrance: entrance:fd01_roof, room: room:air, at: [-18688, 8448], facing: w, notes: "FD-01 Alamar Depths' rubble shaft (A8, D-69 Q67): up the ladder after M33 once Q-D26's roof is unlocked; down by Alamar's roof hatch."}
+sounds:
+  - {id: sound:corner_air, room: room:air, at: [30464, 20480], height: 128, sound: xeen_amb_plane_air, radius: 2500, inner_radius: 600, volume: 0.5, notes: "The Air Corner's tip: P2's gale."}
+  - {id: sound:corner_earth, room: room:air, at: [30464, -20480], height: 128, sound: xeen_amb_plane_earth, radius: 2500, inner_radius: 600, volume: 0.9, notes: "The Earth Corner's tip: P3's grinding."}
+  - {id: sound:corner_fire, room: room:air, at: [-30464, 20480], height: 128, sound: xeen_amb_plane_fire, radius: 2500, inner_radius: 600, volume: 0.5, notes: "The Fire Corner's tip: P1's lava heard through the corner (D-58), panned."}
+  - {id: sound:corner_water, room: room:air, at: [-30464, -20480], height: 128, sound: xeen_amb_plane_water, radius: 2500, inner_radius: 600, volume: 0.5, notes: "The Water Corner's tip: P4's surf."}
+  - {id: sound:dragon_call_cap, room: room:air, at: [4608, 4768], height: 8150, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60], notes: "Cloud dragons calling far off (over the void: height from the safety floor, z 2,150)."}
+  - {id: sound:dragon_call_cap_b, room: room:air, at: [13056, -1024], height: 1024, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60]}
+  - {id: sound:dragon_call_east, room: room:air, at: [-20736, -4864], height: 1024, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60]}
+  - {id: sound:megadragon_sleep, room: room:air, at: [-19456, 9216], height: 128, sound: xeen_megadragon_sleep, radius: 3500, inner_radius: 900, volume: 0.6, notes: "The Megadragon asleep on the hatch (Q-D26): off on its kill and on every load after (evt:megadragon_death, evt:megadragon_gone: AmbientSound<key> 2)."}
+  - {id: sound:sky_bed_1, room: room:air, at: [-21845, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+  - {id: sound:sky_bed_2, room: room:air, at: [0, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+  - {id: sound:sky_bed_3, room: room:air, at: [21845, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+  - {id: sound:sky_bed_4, room: room:air, at: [-21845, -11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+  - {id: sound:sky_bed_5, room: room:air, at: [0, -11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+  - {id: sound:sky_bed_6, room: room:air, at: [21845, -11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
+chests:
+  - id: chest:camp
+    room: room:air
+    at: [-15040, -18880]
+    kind: ch2
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 2000
+    notes: "The skywaymen's strongbox: the tolls go somewhere."
+  - id: chest:castaway_south
+    room: room:air
+    at: [-5888, -10752]
+    kind: ch1
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 1000
+    notes: "The second castaway's strongbox under his lean-to ('C3 at 7,0')."
+  - id: chest:castaway_west
+    room: room:air
+    at: [-31104, 15104]
+    kind: ch1
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 1000
+    notes: "The first castaway's strongbox by his bones ('A2 at 12,14')."
+  - id: chest:hoard
+    room: room:air
+    at: [-18176, 10240]
+    kind: ch3
+    facing: n
+    treasure_level: 6
+    random_items: 1
+    gold: 1500
+    items: [12530, 12377]
+    notes: "The Megadragon's hoard (Q-D26): Wyrmfang (12530) and the Key to Castle Alamar's Roof (12377), A2's rows."
+  - id: chest:pack
+    room: room:air
+    at: [-16352, -2592]
+    kind: ch1
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 800
+    notes: A lost traveller's pack by the old launch.
+monsters:
+  - id: monster:air_road_golems_1
+    room: room:air
+    monster: 11594
+    at: [22295, 18646]
+    facing: 0
+    hostile: true
+    group: 16
+    immobile: true
+  - id: monster:air_road_golems_2
+    room: room:air
+    monster: 11594
+    at: [22761, 18218]
+    facing: 90
+    hostile: true
+    group: 16
+    immobile: true
+  - id: monster:bandit_east_1
+    room: room:air
+    monster: 11116
+    at: [28800, 6656]
+    facing: 180
+    hostile: false
+    group: 71
+    immobile: true
+    notes: "Two Sky Bandits (A2's 11116, 55, peaceful, uncounted) either side of the road at the east toll (D-58 D-6): hostile only on a refusal (A3's toll hook)."
+  - id: monster:bandit_east_2
+    room: room:air
+    monster: 11116
+    at: [27520, 6656]
+    facing: 0
+    hostile: false
+    group: 71
+    immobile: true
+  - id: monster:bandit_north_1
+    room: room:air
+    monster: 11116
+    at: [5632, 19072]
+    facing: 270
+    hostile: false
+    group: 70
+    immobile: true
+    notes: "Two Sky Bandits (A2's 11116, 55, peaceful, uncounted) either side of the road at the north toll (D-58 D-6): hostile only on a refusal (A3's toll hook)."
+  - id: monster:bandit_north_2
+    room: room:air
+    monster: 11116
+    at: [5632, 17792]
+    facing: 90
+    hostile: false
+    group: 70
+    immobile: true
+  - id: monster:bandit_south_1
+    room: room:air
+    monster: 11116
+    at: [-6912, -19072]
+    facing: 90
+    hostile: false
+    group: 72
+    immobile: true
+    notes: "Two Sky Bandits (A2's 11116, 55, peaceful, uncounted) either side of the road at the south toll (D-58 D-6): hostile only on a refusal (A3's toll hook)."
+  - id: monster:bandit_south_2
+    room: room:air
+    monster: 11116
+    at: [-6912, -17792]
+    facing: 270
+    hostile: false
+    group: 72
+    immobile: true
+  - id: monster:bandit_west_1
+    room: room:air
+    monster: 11116
+    at: [-28800, -12288]
+    facing: 0
+    hostile: false
+    group: 73
+    immobile: true
+    notes: "Two Sky Bandits (A2's 11116, 55, peaceful, uncounted) either side of the road at the west toll (D-58 D-6): hostile only on a refusal (A3's toll hook)."
+  - id: monster:bandit_west_2
+    room: room:air
+    monster: 11116
+    at: [-27520, -12288]
+    facing: 180
+    hostile: false
+    group: 73
+    immobile: true
+  - id: monster:camp_golems_1
+    room: room:air
+    monster: 11592
+    at: [-16703, -18205]
+    facing: 225
+    hostile: true
+    group: 27
+    immobile: true
+  - id: monster:camp_golems_2
+    room: room:air
+    monster: 11592
+    at: [-16384, -18176]
+    facing: 225
+    hostile: true
+    group: 27
+    immobile: true
+  - id: monster:camp_golems_3
+    room: room:air
+    monster: 11592
+    at: [-16065, -18147]
+    facing: 225
+    hostile: true
+    group: 27
+    immobile: true
+  - id: monster:cap_dragons_1
+    room: room:air
+    monster: 11650
+    at: [4312, 5511]
+    facing: 90
+    hostile: true
+    group: 18
+  - id: monster:cap_dragons_2
+    room: room:air
+    monster: 11650
+    at: [4608, 4768]
+    facing: 45
+    hostile: true
+    group: 18
+  - id: monster:cap_dragons_3
+    room: room:air
+    monster: 11650
+    at: [4904, 4025]
+    facing: 135
+    hostile: true
+    group: 18
+  - id: monster:cap_dragons_b_1
+    room: room:air
+    monster: 11650
+    at: [13458, -635]
+    facing: 45
+    hostile: true
+    group: 19
+  - id: monster:cap_dragons_b_2
+    room: room:air
+    monster: 11650
+    at: [12654, -1413]
+    facing: 0
+    hostile: true
+    group: 19
+  - id: monster:earth_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [28372, -11448]
+    facing: 45
+    hostile: true
+    group: 24
+    immobile: true
+  - id: monster:earth_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [27936, -11785]
+    facing: 45
+    hostile: true
+    group: 24
+    immobile: true
+  - id: monster:earth_road_golems_3
+    room: room:air
+    monster: 11592
+    at: [28396, -12087]
+    facing: 270
+    hostile: true
+    group: 24
+    immobile: true
+  - id: monster:earth_south_golems_1
+    room: room:air
+    monster: 11592
+    at: [21718, -18665]
+    facing: 225
+    hostile: true
+    group: 25
+    immobile: true
+  - id: monster:earth_south_golems_2
+    room: room:air
+    monster: 11592
+    at: [21290, -18199]
+    facing: 90
+    hostile: true
+    group: 25
+    immobile: true
+  - id: monster:east_dragons_1
+    room: room:air
+    monster: 11650
+    at: [-21235, -4977]
+    facing: 315
+    hostile: true
+    group: 20
+  - id: monster:east_dragons_2
+    room: room:air
+    monster: 11650
+    at: [-20736, -4864]
+    facing: 270
+    hostile: true
+    group: 20
+  - id: monster:east_dragons_3
+    room: room:air
+    monster: 11650
+    at: [-20237, -4751]
+    facing: 225
+    hostile: true
+    group: 20
+  - id: monster:east_road_golems_1
+    room: room:air
+    monster: 11594
+    at: [28396, 13111]
+    facing: 90
+    hostile: true
+    group: 17
+    immobile: true
+  - id: monster:east_road_golems_2
+    room: room:air
+    monster: 11594
+    at: [27936, 12809]
+    facing: 45
+    hostile: true
+    group: 17
+    immobile: true
+  - id: monster:east_road_golems_3
+    room: room:air
+    monster: 11594
+    at: [28372, 12472]
+    facing: 180
+    hostile: true
+    group: 17
+    immobile: true
+  - id: monster:fire_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [-22582, 18669]
+    facing: 315
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:fire_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [-22281, 18208]
+    facing: 225
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:fire_road_golems_3
+    room: room:air
+    monster: 11592
+    at: [-21943, 18642]
+    facing: 180
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:launch_golems_1
+    room: room:air
+    monster: 11594
+    at: [-11646, 687]
+    facing: 0
+    hostile: true
+    group: 15
+    immobile: true
+  - id: monster:launch_golems_2
+    room: room:air
+    monster: 11594
+    at: [-11100, 615]
+    facing: 270
+    hostile: true
+    group: 15
+    immobile: true
+  - id: monster:launch_golems_3
+    room: room:air
+    monster: 11594
+    at: [-11209, 1155]
+    facing: 0
+    hostile: true
+    group: 15
+    immobile: true
+  - id: monster:lookout_griffins_1
+    room: room:air
+    monster: 11562
+    at: [-28160, 10714]
+    facing: 135
+    hostile: true
+    group: 12
+  - id: monster:lookout_griffins_2
+    room: room:air
+    monster: 11562
+    at: [-28160, 11430]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:megadragon
+    room: room:air
+    monster: 11654
+    at: [-19456, 9216]
+    facing: 0
+    hostile: true
+    group: 60
+    leash: 1024
+    notes: "Q-D26 (D-58 Q8): the Megadragon (125, uncounted) asleep on Castle Alamar's roof hatch, leashed 1,024 round it (the plan's leash; dungeon monsters take `leash` since merge point 26). Hidden on load once A3's kill qbit is set (D-3)."
+  - id: monster:mud_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [28384, 320]
+    facing: 315
+    hostile: true
+    group: 23
+    immobile: true
+  - id: monster:mud_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [27936, 0]
+    facing: 225
+    hostile: true
+    group: 23
+    immobile: true
+  - id: monster:mud_road_golems_3
+    room: room:air
+    monster: 11592
+    at: [28384, -320]
+    facing: 315
+    hostile: true
+    group: 23
+    immobile: true
+  - id: monster:north_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [9408, 18656]
+    facing: 90
+    hostile: true
+    group: 22
+    immobile: true
+  - id: monster:north_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [9728, 18208]
+    facing: 135
+    hostile: true
+    group: 22
+    immobile: true
+  - id: monster:north_road_golems_3
+    room: room:air
+    monster: 11592
+    at: [10048, 18656]
+    facing: 45
+    hostile: true
+    group: 22
+    immobile: true
+  - id: monster:rope_griffins_1
+    room: room:air
+    monster: 11562
+    at: [-27188, -2554]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:rope_griffins_2
+    room: room:air
+    monster: 11562
+    at: [-27264, -2048]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:rope_griffins_3
+    room: room:air
+    monster: 11562
+    at: [-27340, -1542]
+    facing: 45
+    hostile: true
+    group: 14
+  - id: monster:south_griffins_1
+    room: room:air
+    monster: 11562
+    at: [1382, -18432]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:south_griffins_2
+    room: room:air
+    monster: 11562
+    at: [666, -18432]
+    facing: 45
+    hostile: true
+    group: 13
+  - id: monster:steam_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [14400, -18656]
+    facing: 270
+    hostile: true
+    group: 26
+    immobile: true
+  - id: monster:steam_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [14080, -18208]
+    facing: 0
+    hostile: true
+    group: 26
+    immobile: true
+  - id: monster:steam_road_golems_3
+    room: room:air
+    monster: 11592
+    at: [13760, -18656]
+    facing: 45
+    hostile: true
+    group: 26
+    immobile: true
+  - id: monster:watch_griffins_1
+    room: room:air
+    monster: 11562
+    at: [-16182, 19685]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:watch_griffins_2
+    room: room:air
+    monster: 11562
+    at: [-16640, 19456]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:watch_griffins_3
+    room: room:air
+    monster: 11562
+    at: [-17098, 19227]
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:watch_griffins_b_1
+    room: room:air
+    monster: 11562
+    at: [-9574, 18432]
+    facing: 45
+    hostile: true
+    group: 11
+  - id: monster:watch_griffins_b_2
+    room: room:air
+    monster: 11562
+    at: [-8858, 18432]
+    facing: 225
+    hostile: true
+    group: 11
+  - id: monster:water_road_golems_1
+    room: room:air
+    monster: 11592
+    at: [-22807, -18646]
+    facing: 315
+    hostile: true
+    group: 28
+    immobile: true
+  - id: monster:water_road_golems_2
+    room: room:air
+    monster: 11592
+    at: [-23273, -18218]
+    facing: 45
+    hostile: true
+    group: 28
+    immobile: true
+decorations:
+  - id: deco:barge_dust
+    room: room:air
+    decoration: xeen_skybarge_air
+    at: [-1553, 20276]
+    height: 7280
+    hangs: true
+    facing: 184
+    notes: "S's xeen_skybarge_air (the dust merchant's), deck level with the island (1280); not boardable: the merchant stands at [-1518, 19830] by the gangplank."
+  - id: deco:barge_mud
+    room: room:air
+    decoration: xeen_skybarge_earth
+    at: [29449, 4231]
+    height: 7152
+    hangs: true
+    facing: 22.5
+    notes: "S's xeen_skybarge_earth (the mud merchant's), deck level with the island (1152); not boardable: the merchant stands at [29277, 4645] by the gangplank."
+  - id: deco:barge_smoke
+    room: room:air
+    decoration: xeen_skybarge_fire
+    at: [-29277, 2797]
+    height: 7152
+    hangs: true
+    facing: 325
+    notes: "S's xeen_skybarge_fire (the smoke merchant's), deck level with the island (1152); not boardable: the merchant stands at [-29021, 3165] by the gangplank."
+  - id: deco:barge_steam
+    room: room:air
+    decoration: xeen_skybarge_water
+    at: [6976, -19504]
+    height: 6768
+    hangs: true
+    facing: 56
+    notes: "S's xeen_skybarge_water (the steam merchant's), deck level with the island (768); not boardable: the merchant stands at [6606, -19252] by the gangplank."
+  - id: deco:bottle_a2
+    room: room:air
+    decoration: dec05
+    at: [15360, -2848]
+  - id: deco:bottle_c3
+    room: room:air
+    decoration: dec05
+    at: [19712, -4512]
+  - id: deco:bottle_genies
+    room: room:air
+    decoration: dec05
+    at: [-14336, -4608]
+  - id: deco:bottle_test
+    room: room:air
+    decoration: dec05
+    at: [28160, -17920]
+  - id: deco:castaway_bones
+    room: room:air
+    decoration: dec19
+    at: [-31424, 15296]
+  - id: deco:hut_air_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [27349, 20218]
+    floor_height: 1280
+    facing: 321
+  - id: deco:hut_air_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [27139, 19956]
+    floor_height: 1280
+    facing: 321
+  - id: deco:hut_earth_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [27139, -19956]
+    floor_height: 768
+    facing: 39
+  - id: deco:hut_earth_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [27349, -20218]
+    floor_height: 768
+    facing: 39
+  - id: deco:hut_east_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [16552, 19646]
+    floor_height: 1280
+    facing: 270
+  - id: deco:hut_east_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [16216, 19646]
+    floor_height: 1280
+    facing: 270
+  - id: deco:hut_fire_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [-27139, 19956]
+    floor_height: 1280
+    facing: 219
+  - id: deco:hut_fire_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [-27349, 20218]
+    floor_height: 1280
+    facing: 219
+  - id: deco:hut_junction_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [29405, -4624]
+    floor_height: 1024
+    facing: 225
+  - id: deco:hut_junction_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [29168, -4387]
+    floor_height: 1024
+    facing: 225
+  - id: deco:hut_north_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [-2576, 19709]
+    floor_height: 1280
+    facing: 315
+  - id: deco:hut_north_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [-2813, 19472]
+    floor_height: 1280
+    facing: 315
+  - id: deco:hut_rope_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [-25091, -5097]
+    floor_height: 1024
+    facing: 220
+  - id: deco:hut_rope_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [-25304, -4837]
+    floor_height: 1024
+    facing: 220
+  - id: deco:hut_south_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [16552, -17218]
+    floor_height: 768
+    facing: 270
+  - id: deco:hut_south_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [16216, -17218]
+    floor_height: 768
+    facing: 270
+  - id: deco:hut_water_bench_1
+    room: room:air
+    decoration: xeen_bench
+    at: [-27349, -20218]
+    floor_height: 768
+    facing: 141
+  - id: deco:hut_water_bench_2
+    room: room:air
+    decoration: xeen_bench
+    at: [-27139, -19956]
+    floor_height: 768
+    facing: 141
+  - id: deco:lamp_angry
+    room: room:air
+    decoration: xeen_genielamp
+    at: [-10240, -7168]
+    facing: 30
+  - id: deco:lamp_kind
+    room: room:air
+    decoration: xeen_genielamp
+    at: [17440, 17568]
+    facing: 30
+  - id: deco:lamp_tired
+    room: room:air
+    decoration: xeen_genielamp
+    at: [-17088, 17504]
+    facing: 30
+  - id: deco:lucio_boat
+    room: room:air
+    decoration: xeen_skyboat
+    at: [1429, 2423]
+    height: 7780
+    hangs: true
+    facing: 327
+    notes: "S's celestial boat moored along the jetty's north-east side, prow out to the void."
+  - id: deco:roost_bones_1
+    room: room:air
+    decoration: 7dec18
+    at: [-20224, 8448]
+  - id: deco:roost_bones_2
+    room: room:air
+    decoration: 7dec20
+    at: [-18560, 8832]
+  - id: deco:roost_bones_3
+    room: room:air
+    decoration: dec19
+    at: [-20480, 9472]
+  - id: deco:roost_bones_4
+    room: room:air
+    decoration: 7dec18
+    at: [-18944, 9856]
+  - id: deco:statue_1
+    room: room:air
+    decoration: 7dec54
+    at: [-5632, 8192]
+    facing: 315
+  - id: deco:statue_2
+    room: room:air
+    decoration: 7dec54
+    at: [-3584, 8192]
+    facing: 225
+  - id: deco:statue_3
+    room: room:air
+    decoration: 7dec54
+    at: [-5632, 6144]
+    facing: 45
+  - id: deco:statue_4
+    room: room:air
+    decoration: 7dec54
+    at: [-3584, 6144]
+    facing: 135
+notes: "D7 L4 objects (generated by output/studio_cal/d7/tools/gen_objects.py): 50 monsters placed in 19 groups (no spawn markers, encounter 0), the Megadragon (uncounted) and eight peaceful Sky Bandits (uncounted); five chests at treasure 6; statues, lamps, bottles, bones, benches; the wind. No lights."

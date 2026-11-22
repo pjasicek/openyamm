@@ -144,23 +144,22 @@ spaces:
     name: Forest of the Walking Dead
     kind: wild
     floor: [700, 900]
-    purpose: "The dead wood in the south-west: skeletons and zombies, Celia's hut, the sealed Temple of Yak."
+    purpose: "The dead wood in the south-west: skeletons and zombies, Celia's hut, the ruined shrine where the Temple of Yak's door was."
     density: dense
     population:
-      - {id: pop:dead, slot: 3, groups: 14, per_marker: [2, 5], levels: [3, 6]}
+      - {id: pop:dead, slot: 3, groups: 13, per_marker: [2, 3], levels: [6, 16], notes: "Encounter area 4, the dead forest: skeletons."}
+      - {id: pop:zombies, actor: Ghast, groups: 2, placed: true, hostile: true, notes: "Zombies round the ruined shrine (Rotting dead 8-18; placed)."}
+      - {id: pop:lone_skeleton, actor: Skeleton Warrior, groups: 1, placed: true, hostile: true, notes: A lone skeleton among the dead trees.}
   - id: zone:meadows
     name: Vertigo Meadows
     kind: wild
     floor: 640
-    purpose: "The open green meadow round the town: the first fights, the huts, the wells and the shrines."
+    purpose: "The open green meadow round the town: wells, shrines, camps and ruins, and no monsters (rebase: the quiet quarters of MONSTERS_AND_ITEMS 3)."
     density: sparse
     buildings:
       - {id: building:fringe_meadows, type: house, service: residence, count: 6, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5], [1.5, 1.5]]}
       - {id: building:oslo_hut, type: house, service: Oslo's Hut, count: 1, doors: 1, footprint_cells: [[1, 1]]}
       - {id: building:celia_hut, type: house, service: Celia's Hut, count: 1, doors: 1, footprint_cells: [[1, 1]]}
-    population:
-      - {id: pop:meadow_orcs, slot: 1, groups: 10, per_marker: [2, 4], levels: [2, 4], notes: "Orc bands at their camps (pass five, by habitat): the west camp, the south goblin camp, the old campfire; the town and 4,500 round every door kept clear (pass three, TOWN_FEEL 5)."}
-      - {id: pop:creek_flies, slot: 2, groups: 6, per_marker: [2, 4], levels: [2, 3], notes: "Dragonflies over the outflow and the delta pond (pass five, by habitat)."}
   - id: zone:mine_head
     name: Mine Head
     kind: zone
@@ -174,8 +173,10 @@ spaces:
     purpose: "The Red Dwarf Mines, the orc caves, the Clan King's shaft head and two orc outposts."
     density: sparse
     population:
-      - {id: pop:hill_orcs, slot: 1, groups: 16, per_marker: [2, 4], levels: [2, 4], notes: "Round the outposts, by the mine, the shaft head and the cave mouth, two by the hill cache."}
-      - {id: pop:outpost_orcs, actor: Goblin, groups: 14, placed: true, hostile: true, notes: "Four, six and four at the orc outposts (pass six)."}
+      - {id: pop:hill_orcs, slot: 1, groups: 12, per_marker: [2, 3], levels: [5, 10], notes: "Encounter area 1, the northern hills' orc country (west): the west road's camp, the first outpost, the mine (rebase, CHANGES X1-4)."}
+      - {id: pop:road_orcs, slot: 1, groups: 16, per_marker: [2, 3], levels: [5, 10], notes: "Encounter area 2, the orc outposts' road: the north road's camp, the shaft head, the orc caves, the hill cache and the east outpost."}
+      - {id: pop:outpost_orcs, actor: Goblin, groups: 3, placed: true, hostile: true, notes: "Four orcs at each outpost (to burn in phase 1; XD-05's drums stop them refilling)."}
+      - {id: pop:orc_scout, actor: Goblin, groups: 1, placed: true, hostile: true, notes: A lone orc scout on the hill path.}
   - id: zone:orc_mouth
     name: Orc Mouth
     kind: zone
@@ -217,10 +218,11 @@ spaces:
     name: Toad Meadow marsh
     kind: wild
     floor: 600
-    purpose: "Wet ground round the hamlet; the witch tower beyond."
+    purpose: "Wet ground round the hamlet and the witch rise; the Witch Tower beyond."
     density: medium
     population:
-      - {id: pop:toads, slot: 2, groups: 11, per_marker: [2, 4], levels: [2, 3], notes: Giant toads and snakes (Dragonflies as stand-ins).}
+      - {id: pop:toads, slot: 2, groups: 14, per_marker: [2, 3], levels: [5, 11], notes: "Encounter area 3, Toad Meadow: giant toads (Dragonflies as stand-ins)."}
+      - {id: pop:marsh_snakes, actor: Dragonfly, groups: 2, placed: true, hostile: true, notes: "Snakes by the outflow and in the south marsh (Serpents 5-12; placed: the map has three slots)."}
   - id: zone:warehouse_yard
     name: Joe's yard
     kind: zone
@@ -231,8 +233,6 @@ spaces:
     kind: zone
     floor: 900
     purpose: "The Witch Tower, visible from town."
-    population:
-      - {id: pop:tower_flies, slot: 2, groups: 2, per_marker: [2, 4], levels: [2, 3], notes: "Pass five: dragonflies over the swamp round the tower (were goblins)."}
   - id: zone:yak_glade
     name: Yak Glade
     kind: zone

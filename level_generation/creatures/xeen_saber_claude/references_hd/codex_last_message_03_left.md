@@ -1,0 +1,3 @@
+Saved [03_left.png](level_generation/creatures/xeen_saber_claude/references_hd/03_left.png) and its [generation record](level_generation/creatures/xeen_saber_claude/references_hd/generation_run_03_left.json). The first built-in generation produced the requested left-facing profile with both fangs, all four paws and the full tail visible.
+
+The unresized PNG is 1536×1024 RGBA. The visible silhouette clears every edge by at least 69 px. Faint alpha specks extend into the padding.

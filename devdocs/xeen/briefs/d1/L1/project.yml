@@ -1,0 +1,132 @@
+format: 0
+id: xeen_d1
+name: Castleview Vale
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D1
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  # The row's id is A2's: no D1 row in data_tables/map_stats.txt yet (maps.yml plans map_id 9108). The schema wants
+  # an integer, so the id is left out until A2 writes the row. The rest is a proposal for that row.
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: 37
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Gremlin, tier: 1, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Arachnoid, tier: 1, per_marker: [2, 4], weight: 30}
+    - {monster: Xeen Crawler, tier: 1, per_marker: [2, 3], weight: 30}
+neighbours:
+  - id: edge:east
+    to: xeen_d2.odm
+    kind: edge
+    side: east
+    days: 3
+    arrival_side: west
+    approach: "The east road from Castleview's East Bridge through the besiegers' old camp, out of the vale at y 60 (fixed with D2)."
+    notes: "D2 Sprite Forest and Ogre Pass. The crossing is y 60 on both maps; the days are A2's travel row (3 is a proposal)."
+  - id: edge:north
+    to: xeen_d6.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: "The long mountain road from the gate fork north past the travel pyramid, up a valley between the Sardaj Horn and the mine hills, out at x 64."
+    notes: "D6 The Forbidden Zone (MAPS: 'D1 (south, a long mountain road)'). D6 is built in phase 5: its south arrival takes x 64 from here."
+  - id: pyramid:vertigo
+    to: xeen_x1.odm
+    kind: pyramid
+    arrival: pyramid_vertigo
+    arrival_hint: "Beside the travel pyramid on its knoll east of Vertigo."
+    notes: "The travel pyramid outside the north gate (A3's m7.pyramid_d1: Xeen.travelPyramid('castleview'), needs the Pyramid Sigil). X1's pyramid sets the party down at castleview_pyramid."
+  - id: mirror:darkside
+    to: mirror
+    kind: mirror
+    notes: "The Mirror of Castleview (house 4467, a thing in the square): wakes with Castle Kalindra's stage 4 (A3's mirror helper, qbit 119007); arrival castleview_square."
+  - id: stable:kramer
+    to: xeen_d3.odm
+    kind: stable
+    service: 4464
+    schedule: {per_week: 2, weekdays: [tue, fri]}
+    notes: "Kramer's Caravans (A4's d1.yml routes 413 Sandcaster tue/fri, 414 Lakeside mon/thu after D4, 415 Warzone sat after X6); arrival castleview_stables."
+  - id: boat:lucio
+    to: xeen_d7.blv
+    kind: boat
+    service: 4901
+    schedule: {per_week: 2, weekdays: [mon, thu]}
+    condition: {qbit: lucio_open}
+    arrival: olympus_dock
+    notes: "Lucio's Jetty on the west wall's top (D-5.3): the celestial boat to Olympus, route 424, opens with m30.done."
+  - id: rope:dark_grove
+    to: xeen_d7.blv
+    kind: scripted
+    arrival_hint: "D7's foot of the rope, on the Skyroads above D1."
+    notes: "The rope hanging from the sky into the Dark Grove's tallest tree (MAPS: 'Dark Grove rope (-> D7)'). The climb's condition and D7's arrival are D7's owner's (phase 6); until then the rope's event is a message."
+  - id: scripted:kalindra_griffin
+    to: xeen_dd03.blv
+    kind: scripted
+    listed_only: true
+    notes: "M27 (A3): Ambrose's griffin brings the party out of the Queen's cell to kalindra_gate on this map."
+  - id: door:dd01
+    to: xeen_dd01.blv
+    kind: door
+    arrival_hint: "At the foot of the shaft's ladder in the sewer."
+    notes: "DD-01 Castleview Sewer (A8): the iron hatch by the square's south-east corner, one of the source's five town shafts."
+  - id: door:dd02
+    to: xeen_dd02.blv
+    kind: door
+    condition: {item: ellinger_key}
+    arrival_hint: "Inside the tower's door, ground floor."
+    notes: "DD-02 Ellinger's Tower (A8), inside the walls; A3's m17.tower_door (needs Nadia's key)."
+  - id: door:dd03
+    to: xeen_dd03.blv
+    kind: door
+    condition: {qbit: kalindra_stage1}
+    arrival_hint: "Inside the castle's gate (DD-03's first arrival)."
+    notes: "DD-03 Castle Kalindra (A8), staged. Out of phase until m19.stage1: A3's m19.ghost_castle refuses at the gate."
+  - id: door:dd04
+    to: xeen_dd04.blv
+    kind: door
+    arrival_hint: "Just inside the burrow's tiny door, the party stooping."
+    notes: "DD-04 The Gremlin Court (A8): the burrow under the town wall east of the north gate, outside the walls, no pass needed (A3's q-d1.court_entrance)."
+  - id: door:dd05_rope
+    to: xeen_dd05.blv
+    kind: roof
+    arrival: dd05_top
+    arrival_hint: "DD-05's top floor, at the open window (A8)."
+    notes: "D-9.3: the heretics' rope on the Western Tower's north wall: 'A rope hangs from a window near the tower's top. Climb?'; yes calls A3's q-d6.tower_rope."
+  - id: door:dd05_front
+    to: xeen_dd05.blv
+    kind: door
+    condition: {qbit: west_tower_opened}
+    arrival_hint: "Inside the front door, ground floor."
+    notes: "The Western Tower's front door, locked and warded until q-d6.tower_opened (the party lets Dreyfus in from inside; A3's note allows the key from outside too)."
+  - id: door:dd10a
+    to: xeen_dd10a.blv
+    kind: door
+    arrival_hint: "Inside the adit's mouth."
+    notes: "DD-10 Gemstone Mines, west pocket (A8): an adit in the hill shelf above the gemsmiths' row."
+qbits:
+  # A3's bits (source/quests/*.yml); the names here are the map's.
+  pass_entered: 111281         # m14.entered: the gate has opened once
+  kalindra_stage1: 111381      # m19.stage1: the castle is back in phase (its gate opens)
+  lucio_open: 111600           # m30.done: the Chosen Ones; Lucio's Jetty opens
+  court_won: 113021            # q-d1.court_won: the bridge and the mill are mended (q-d1.sabotage)
+  sardaj_hostile: 113242       # q-d12.hostile
+  sardaj_camp_burned: 113244   # q-d12.camp_burned
+  chest_still: 111343          # m17.chest_still: the runaway chest stays
+  west_tower_opened: 113125    # q-d6.tower_opened
+items:
+  castleview_pass: 12330
+  ellinger_key: 12333
+  west_tower_key: 12338
+rules:
+  weather: none
+  town_portal_anchor: entrance:castleview_square
+notes: "D1 Castleview Vale, MU-3 plan for the phase 3 gate (A6, 2026-11-20). No geometry until a decider has approved the board. Plan: plan.yml; to-scale layout: sketch.yml; drawings and review board: level_generation/xeen_art/phase3/d1/. Sky xeendark1 (xeen_darkside_day; A3's Lua switches the failing-sun stages)."

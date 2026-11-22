@@ -1,0 +1,342 @@
+format: 0
+start:
+  room: room:pit
+  at: [96, -32]
+  facing: e
+  notes: "Where D2's first troll hole drops the party: the pit's bottom beside the bone mound, facing the root tunnel (east)."
+doors:
+  - id: door:boulder
+    opening: open:midden_crawl
+    kind: slide_left
+    thickness: 32
+    speed: 96
+    surface: {texture: t66cave, size: [128, 256]}
+    tile: true
+    notes: "A boulder the trolls rolled across the crawl's mouth; it rolls aside when pushed."
+  - id: door:den
+    opening: open:larder_den
+    kind: slide_right
+    thickness: 24
+    speed: 160
+    surface: {texture: xdbark, size: [128, 256]}
+    tile: true
+    notes: The guard den's door of lashed logs.
+  - id: door:wicker
+    opening: open:larder_seep
+    kind: slide_up
+    thickness: 16
+    speed: 192
+    surface: {texture: xopoles, size: [128, 128]}
+    tile: true
+    notes: The larder's wicker gate.
+floors:
+  - {id: floor:seep_pool, of: level:seep_pool, kind: water, notes: "The seep's pool (wtrtyl, the fluid bit)."}
+sounds:
+  - {id: sound:drip, room: room:seep, at: [1400, -3200], sound: drip01, radius: 1400, inner_radius: 400, volume: 0.6, loop: false, wait: [2, 6], notes: Water dripping into the pool.}
+  - {id: sound:wind, room: room:pit, at: [0, 0], sound: whistling wind, radius: 1100, inner_radius: 300, volume: 0.35, notes: Wind over the hole far above.}
+lights:
+  - id: light:burrow_top
+    room: room:burrow
+    at: [-640, -1088]
+    height: 200
+    radius: 900
+    color: [150, 140, 122]
+    notes: Daylight round the sod hatch.
+  - id: light:crawl
+    room: room:crawl
+    at: [2656, 1000]
+    height: 180
+    radius: 700
+    color: [140, 120, 100]
+  - id: light:den
+    room: room:guard_den
+    at: [3616, -3008]
+    height: 250
+    radius: 900
+    color: [160, 125, 95]
+  - id: light:hollow
+    room: room:hollow
+    at: [1152, -912]
+    height: 340
+    radius: 1100
+    color: [160, 125, 95]
+  - id: light:larder
+    room: room:larder
+    at: [2560, -3008]
+    height: 270
+    radius: 1100
+    color: [150, 145, 160]
+  - id: light:midden
+    room: room:midden
+    at: [2560, 0]
+    height: 440
+    radius: 1300
+    color: [150, 130, 105]
+  - id: light:pit_day
+    room: room:pit
+    at: [0, 0]
+    height: 700
+    radius: 1100
+    color: [150, 140, 122]
+    notes: Daylight down the shaft.
+  - id: light:seep
+    room: room:seep
+    at: [1472, -3072]
+    height: 360
+    radius: 1000
+    color: [140, 155, 175]
+  - id: light:slope
+    room: room:bone_slope
+    at: [2560, -1536]
+    height: 100
+    radius: 800
+    color: [140, 120, 100]
+  - id: light:stair
+    room: room:root_stair
+    at: [1344, -2048]
+    height: 160
+    radius: 800
+    color: [140, 120, 100]
+  - id: light:tunnel
+    room: room:root_tunnel
+    at: [1150, 0]
+    height: 280
+    radius: 900
+    color: [160, 125, 95]
+chests:
+  - id: chest:den_hoard
+    room: room:guard_den
+    at: [3950, -3360]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: The guards' pile of shiny things.
+  - id: chest:thief_pack
+    room: room:crawl
+    at: [2870, 1110]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 300
+    notes: "The dead thief's pack: what he had not spent before he crawled in here."
+monsters:
+  - id: monster:guard_den_1
+    room: room:guard_den
+    monster: 11691
+    at: [3450, -3000]
+    facing: 180
+    group: 15
+  - id: monster:guard_den_2
+    room: room:guard_den
+    monster: 11691
+    at: [3750, -3200]
+    facing: 180
+    group: 15
+  - id: monster:guard_den_3
+    room: room:guard_den
+    monster: 11691
+    at: [3700, -2850]
+    facing: 180
+    group: 15
+  - id: monster:hollow_1
+    room: room:hollow
+    monster: 11690
+    at: [900, -1250]
+    facing: 90
+    group: 12
+  - id: monster:hollow_2
+    room: room:hollow
+    monster: 11690
+    at: [1350, -1050]
+    facing: 90
+    group: 12
+  - id: monster:hollow_3
+    room: room:hollow
+    monster: 11690
+    at: [900, -750]
+    facing: 90
+    group: 12
+  - id: monster:hollow_4
+    room: room:hollow
+    monster: 11690
+    at: [1350, -700]
+    facing: 90
+    group: 12
+  - id: monster:larder_1
+    room: room:larder
+    monster: 11690
+    at: [2300, -2700]
+    facing: 270
+    group: 14
+  - id: monster:larder_2
+    room: room:larder
+    monster: 11690
+    at: [2800, -2700]
+    facing: 270
+    group: 14
+  - id: monster:larder_3
+    room: room:larder
+    monster: 11691
+    at: [2300, -3250]
+    facing: 0
+    group: 14
+  - id: monster:larder_4
+    room: room:larder
+    monster: 11691
+    at: [2800, -3250]
+    facing: 180
+    group: 14
+  - id: monster:midden_1
+    room: room:midden
+    monster: 11690
+    at: [2250, -300]
+    facing: 180
+    group: 11
+  - id: monster:midden_2
+    room: room:midden
+    monster: 11690
+    at: [2900, -350]
+    facing: 180
+    group: 11
+  - id: monster:midden_3
+    room: room:midden
+    monster: 11690
+    at: [2350, 150]
+    facing: 180
+    group: 11
+  - id: monster:root_tunnel_1
+    room: room:root_tunnel
+    monster: 11690
+    at: [1100, 60]
+    facing: 180
+    group: 10
+  - id: monster:root_tunnel_2
+    room: room:root_tunnel
+    monster: 11690
+    at: [1400, -60]
+    facing: 180
+    group: 10
+  - id: monster:root_tunnel_3
+    room: room:root_tunnel
+    monster: 11690
+    at: [1650, 40]
+    facing: 180
+    group: 10
+  - id: monster:seep_1
+    room: room:seep
+    monster: 11690
+    at: [1250, -2800]
+    facing: 90
+    group: 13
+  - id: monster:seep_2
+    room: room:seep
+    monster: 11690
+    at: [1750, -3400]
+    facing: 90
+    group: 13
+  - id: monster:seep_3
+    room: room:seep
+    monster: 11691
+    at: [1700, -2800]
+    facing: 0
+    group: 13
+decorations:
+  - id: deco:crawl_bones
+    room: room:crawl
+    decoration: dec29
+    at: [2450, 830]
+    floor_height: 192
+  - id: deco:den_bones
+    room: room:guard_den
+    decoration: 7dec18
+    at: [3950, -2650]
+    floor_height: -384
+  - id: deco:den_skulls
+    room: room:guard_den
+    decoration: sklplrev
+    at: [3290, -3370]
+    floor_height: -384
+  - id: deco:expired
+    room: room:midden
+    decoration: dec05
+    at: [3110, 0]
+    floor_height: 0
+  - id: deco:hollow_bones
+    room: room:hollow
+    decoration: 7dec18
+    at: [720, -1460]
+    floor_height: 0
+  - id: deco:hollow_skull
+    room: room:hollow
+    decoration: 7dec20
+    at: [1590, -900]
+    floor_height: 0
+  - id: deco:larder_bones
+    room: room:larder
+    decoration: dec29
+    at: [2140, -2520]
+    floor_height: -384
+  - id: deco:larder_carcass_1
+    room: room:larder
+    decoration: Corpse02
+    at: [2150, -3500]
+    floor_height: -384
+  - id: deco:larder_carcass_2
+    room: room:larder
+    decoration: Corpse03
+    at: [2980, -3500]
+    floor_height: -384
+  - id: deco:midden_bones
+    room: room:midden
+    decoration: 7dec18
+    at: [2010, -330]
+    floor_height: 0
+  - id: deco:midden_skull
+    room: room:midden
+    decoration: 7dec20
+    at: [3110, -250]
+    floor_height: 0
+  - id: deco:midden_skulls
+    room: room:midden
+    decoration: sklplrev
+    at: [2010, -560]
+    floor_height: 0
+  - id: deco:pit_bones
+    room: room:pit
+    decoration: dec29
+    at: [-250, -230]
+    floor_height: 0
+  - id: deco:pit_skull
+    room: room:pit
+    decoration: 7dec20
+    at: [230, 250]
+    floor_height: 0
+  - id: deco:seep_bones
+    room: room:seep
+    decoration: dec29
+    at: [1840, -2650]
+    floor_height: -384
+  - id: deco:seep_mite
+    room: room:seep
+    decoration: stlmite1
+    at: [1110, -2650]
+    floor_height: -384
+  - id: deco:seep_mite_2
+    room: room:seep
+    decoration: stlmite2
+    at: [1840, -3500]
+    floor_height: -384
+  - id: deco:thief
+    room: room:crawl
+    decoration: Corpse05
+    at: [2470, 1120]
+    floor_height: 192
+exits:
+  - id: exit:hatch
+    room: room:burrow
+    at: [-768, -1088]
+    size: [192, 224]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:d2_return
+    notes: "The sod hatch at the burrow's top: daylight through the roots (D2)."

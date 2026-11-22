@@ -1,0 +1,73 @@
+# X4 Burlock Savannah: flavour topics of Castle Burlock's village, the Travel Pit, the roadside shrine and Asp's
+# people (source/towns/x4.yml) who have no quest role. Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only).
+# Quest topics are A3's: Adam and Eve (q-c5), Carlawna (q-c10), Falagar (q-c11), Sarah Slither (npcs/x4.yml), the
+# Autumn Druid (q-c1). Asp's houses open with q-c5.done, so their people speak after the curse.
+map: X4
+block: 171
+
+npcs:
+  4307:              # Father Anselm, Chapel of the Crown
+    topics:
+      - {n: 1, label: Asp, text: "Asp sends us its sick. Lately they come in hissing. Sister Mabel at the roadside shrine sees most of them."}
+  4308:              # Sir Brack, the King's Lists
+    topics:
+      - {n: 2, label: The lists, text: "The jousting lists are open to anyone with a horse and no sense. Knock a knight off and the crowd cheers. Get knocked off and they cheer louder."}
+  4310:              # Big Martha, The Jousting Pig
+    topics:
+      - {n: 3, label: Gargoyles, text: "The gargoyles up in the range steal anything shiny. Last week they took a bucket. It wasn't even shiny."}
+  4311:              # Dame Ysolde
+    topics:
+      - {n: 4, label: Old Wat, text: "Old Wat says he never fell off, he was pushed. I was there. I pushed."}
+  4312:              # Zephyra, court magician
+    topics:
+      - {n: 5, label: The mirror, text: "The King wants the Sixth Mirror. Last seen near the great volcano, he says. Near is a big word next to a volcano."}
+  4313:              # Professor Gilliam, keeper of the bestiary
+    topics:
+      - {n: 6, label: The escapee, text: "My finest specimen escaped last spring. A sloth. We are still looking for it, slowly."}
+  4314:              # Herald Pomfrey
+    topics:
+      - {n: 7, label: News, text: "Hear ye! The King still seeks the Sixth Mirror. Hear ye! Still. That is the news."}
+  4316:              # Old Wat
+    topics:
+      - {n: 8, label: The fountain, text: "Drink from the Olympian Fountain out past the lists. It made me strong enough to fall off a horse for forty years."}
+  4317:              # Rosalie, the bakehouse
+    topics:
+      - {n: 9, label: Dwarves, text: "The red dwarves used to come for bread through their old west tunnel. Since the mad clan, nobody comes. Somebody should open it again."}
+  4318:              # Sergeant Holt
+    topics:
+      - {n: 10, label: Barbarians, text: "Barbarians camp out on the savannah. Burn their tents and they move. Not far. But they move."}
+  4320:              # Joe the Merchant
+    topics:
+      - {n: 11, label: The name, text: "Joe. No relation to the exterminator in Vertigo. People ask. People always ask."}
+  4330:              # Wendel, the Travel Pit
+    topics:
+      - n: 12
+        label: Asp
+        states:
+          - when: {qbit: q-c5.done}
+            text: "Asp's open again. The townsfolk walk on legs now. Most of them don't hiss. Most."
+          - text: "Don't go into town. Things in there hiss back. The pit is out here for a reason."
+  4331:              # Sister Mabel, the roadside shrine
+    topics:
+      - {n: 13, label: The pedestals, text: "Folk say the stones round Asp's well do something if you touch them in the right order. Folk also say I should mind my own business."}
+  4337:              # Fennick Reed
+    topics:
+      - {n: 14, label: The tail, text: "Want to see where the tail was? No? Most people don't."}
+  4338:              # Old Moss
+    topics:
+      - {n: 15, label: The machine, text: "There was a machine under the town making snakes of us. Who builds a thing like that? Who pays for it?"}
+  4340:              # Garret Slade
+    topics:
+      - {n: 16, label: The pedestals, text: "Start in the corner, red first, then round the well. The children play it as a game now. The machine never liked games."}
+  4341:              # Nan Ashworth
+    topics:
+      - {n: 17, label: Recipes, text: "Mouse pie, mouse stew, mouse on a stick. I've retired the cookbook."}
+  4343:              # Corin Dale
+    topics:
+      - {n: 18, label: Boots, text: "The day the curse ended I made a hundred pairs of boots. Sold them all by noon. Snakes don't buy boots."}
+  4344:              # Mother Ophidia
+    topics:
+      - {n: 19, label: Your fortune, text: "You will travel far, fight much and complain about the coaches. That's two copper."}
+  4345:              # Lem Tallow, the old mill
+    topics:
+      - {n: 20, label: The huts, text: "A wizard and his sister live in huts out on the savannah. He came asking about crystals from Asp. I sell flour."}

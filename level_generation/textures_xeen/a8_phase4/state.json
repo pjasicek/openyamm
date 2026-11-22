@@ -1,0 +1,148 @@
+{
+ "xbfcrest": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.289,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xbfcrest_v1.txt",
+    "raw": "raw/xbfcrest_v1.png",
+    "refs": [
+     "refs/xbfcrest_v1_1.png",
+     "refs/xbfcrest_v1_2.png",
+     "refs/xbfcrest_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xlsgate": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.56,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xlsgate_v1.txt",
+    "raw": "raw/xlsgate_v1.png",
+    "refs": [
+     "refs/xlsgate_v1_1.png",
+     "refs/xlsgate_v1_2.png",
+     "refs/xlsgate_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xlsgatefull": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.696,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xlsgatefull_v1.txt",
+    "raw": "raw/xlsgatefull_v1.png",
+    "refs": [
+     "refs/xlsgatefull_v1_1.png",
+     "refs/xlsgatefull_v1_2.png",
+     "refs/xlsgatefull_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xlsglass": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.409,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xlsglass_v1.txt",
+    "raw": "raw/xlsglass_v1.png",
+    "refs": [
+     "refs/xlsglass_v1_1.png",
+     "refs/xlsglass_v1_2.png",
+     "refs/xlsglass_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xlsplaque": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "box": [
+      71,
+      338,
+      1464,
+      685
+     ],
+     "box_aspect": 4.014,
+     "gain": 1.143,
+     "raw_size": [
+      1536,
+      1024
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xlsplaque_v1.txt",
+    "raw": "raw/xlsplaque_v1.png",
+    "refs": [
+     "refs/xlsplaque_v1_guide.png",
+     "refs/xlsplaque_v1_1.png",
+     "refs/xlsplaque_v1_2.png",
+     "refs/xlsplaque_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xmoktap": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.75,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xmoktap_v1.txt",
+    "raw": "raw/xmoktap_v1.png",
+    "refs": [
+     "refs/xmoktap_v1_1.png",
+     "refs/xmoktap_v1_2.png",
+     "refs/xmoktap_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

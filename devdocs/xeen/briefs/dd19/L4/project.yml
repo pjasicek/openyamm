@@ -1,0 +1,42 @@
+format: 0
+id: xeen_dd19
+name: Wizard Quarter
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-19
+units: {plan_grid: 512}
+extent: {footprint_cells: [20, 12], climbs: n}
+map_stats:
+  id: 9172
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 4
+  refill_days: 672
+  music: 34
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Sorceress, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Sorceress, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:d3_gate
+    to: xeen_d3.odm
+    kind: door
+    arrival: entrance:dd19_gate
+    arrival_hint: "On D3 inside Sandcaster's wizard quarter, south of the guild gate (A5's entrance:dd19_gate, (-10752, 22016, 1728) facing 512; D-42 (4) asks about (-10496, 22150, 1728) facing south)."
+    notes: "The guild gate both ways: D3's thing:dd19_gate (A3's q-d14.quarter_gate 'Enter?', A5) moves the party to entrance:d3_guild_gate, the court's south side facing north; the gate's inside face (the exit preset, D-24) leads back to D3's entrance:dd19_gate."
+qbits:
+  blastem_angered: 113286
+  dd19_arrived_once: 117520
+  done: 113281
+  morgana_slain: 113284
+  started: 113280
+  xenoc_slain: 113283
+notes: "Xeen design brief for a new map: DD-19 Wizard Quarter, the precinct behind Sandcaster's guild gate (D3; the source's wizard corner of dark maze0031), as one BLV of three floors: an open-sky guild court between Xenoc's Mirage Guild (west) and Morgana's Sorceress HQ (east), a covered bridge between their upper floors, the Guild Common behind the arcade, and the guilds' quarters, alembic cellar and vault in an undercroft. Side quest Q-D14 (Astra; A3's hooks q-d14.xenoc, q-d14.morgana, q-d14.orange_potion, q-d14.purple_potion, q-d14.blastem; q-d14.quarter_gate is D3's), Promo Spy. Size M (MAPS.md section 0, D-42): 20-45 sectors, 30-90 M units squared, levels 32-55, Xenoc 60, Morgana 60, party 38-41, treasure 4 (hoard 5), music 34. Graph devdocs/xeen/mockups/act4_graphs/dd19.graph.yml with decider D-42 (mockups/act4_a8_decisions.md, which wins): Morgana 60; casters with Carnage Hands and four Iron Golems in the vault, no fighting among the families; the court under open sky (xeen_darkside_fading); Blastem (NPC 5248) a talking actor in the Common, 'The lesson' swaps him for Sorcerer 11191, hostile; the ward fed by two lamps that names them; the font refills spell points, repeatable; nothing changes inside after q-d14.done; the Orange and Purple Potions once per character. Rows (A2): wizards 11190 (Wizard 36 x16, Sorcerer 11191 45 x4, Xenoc 11196 60), sorceresses (Enchantress 11181 40 x10, Grand Sorceress 11182 55 x2, Morgana 11183 60), magic constructs (Carnage Hand 11602 35 x12), material golems (Iron Golem 11582 40 x4). Kill XP 98,846 for the party, 24.71k per member. Rest encounters 10 %: the sorceresses only (D-42). Map qbits 117520-117559 (dd19_arrived_once 117520, A3's); map_stats 9172."
+identity:
+  shape: hall
+  family: 6d11
+  seen: ["the guild court open to the sky: pink ashlar over a grey base course under a cornice and crenellated coping, the two guilds' great doors facing each other", "the Mirage Guild's hall: bookcase walls, a magic circle in the floor and the guild's crystal on its stand", "the Sorceress HQ's hall: violet braziers, shelves of skulls, purple-flamed torches"]

@@ -1,0 +1,110 @@
+# The Xeen world's decoration models (extends engine/models/decorations.yml; see its header). Lane S. The rows of these
+# decorations are in worlds/xeen/models/decoration_data.txt (numbers 4001-4999), their sprites (the engine's `pending`
+# texture, never drawn) in worlds/xeen/rendering/sprite_frame_data_world_decorations.yml (ids 27001-27999).
+decorations:
+  # The great tree's crown (D-23): D2's great tree of Bark, D1's Dark Grove tree. Static, no collision (radius 0).
+  # Placed on the BModel trunk's top: z = trunk top - 200 (the stub sinks 200 into the trunk); stub radius 539 at its
+  # base (16 sides), crown about 4,650 across. level_generation/decorations/xeen_greattree_claude/README.md.
+  - name: xeen_greatcrown
+    model: worlds/xeen/models/xeen_deco_greatcrown.glb
+    height: 3655
+    yaw: facing
+    lod_pixels: [260, 130, 60]
+  # The sand-fall (D-31): X6's west world rim, 3-5 along the lip. Static, no collision (radius 0). Origin at the lip
+  # (the rim edge's top, mid-width): place z = the edge's terrain height, facing 90 pours west (-x). About 800 wide,
+  # a tongue 450 inland, the core frayed out by 920-1,300 below the lip, the haze by 2,300.
+  # level_generation/decorations/xeen_sandfall_claude/README.md.
+  - name: xeen_sandfall
+    model: worlds/xeen/models/xeen_deco_sandfall.glb
+    height: 2393.2
+    yaw: facing
+  # The lava fall (D-40): X7's lava cove, three on its south wall at least 1,500 apart, pouring north toward the
+  # signature camera. The sand-fall's build with the `lavafall` preset: origin at the lip (the edge's top, mid-width),
+  # place z = the edge's terrain height, facing pours the fall (as the sand-fall: facing 90 pours west); about 700
+  # wide at the lip, a 300 tongue inland, one glowing sheet (emissive core, dark crust streaks) fraying 1,500-2,100
+  # below the lip, additive heat haze to ~2,300. No collision, no light (place one if the lip should light the rocks).
+  # level_generation/decorations/xeen_sandfall_claude/README.md.
+  - name: xeen_lavafall
+    model: worlds/xeen/models/xeen_deco_lavafall.glb
+    height: 2385.06
+    yaw: facing
+  # The bat storm (D-36): two over Castle Blackfang (D4). 24 charcoal bats (the Giant Bat's xbat_a colours) in three
+  # rings of 7, 10 and 13 m radius (the outer ring about 2,650 across), 0, 2.6 and 5 m up, two turns, one turn back and
+  # one turn per 12 s loop; drawn as a skinned instance looping `storm` (idle). Origin = the storm's centre at the lowest
+  # ring: place it about 300-500 above the keep's top; the bats fly -70 to +600 around it. No collision, no shadow (one
+  # blended material, which neither the runtime nor the outdoor bake casts). 5,976 triangles, 480 joints; the static model is
+  # its rigid rest copy (picking only).
+  # level_generation/decorations/xeen_batstorm_claude/README.md.
+  - name: xeen_batstorm
+    model: worlds/xeen/models/xeen_deco_batstorm_static.glb
+    animated: worlds/xeen/models/xeen_deco_batstorm.glb
+    idle: storm
+    height: 666.4
+    yaw: facing
+  # Black basalt boulders (D-40): X7's Dragon Tower crag. MM6 rock decorations (6rock01, 6rock04, 6rock07) retextured
+  # near-black blue-grey (level_generation/decorations/xeen_basalt_claude/README.md). Collision radius 150/170/190 (the
+  # MM6 rocks' ratio); the crag's own shape stays terrain or BModels (A5/A6), these dress it.
+  - name: xeen_basalt1
+    model: worlds/xeen/models/xeen_deco_basalt01.glb
+    height: 300
+    height_jitter: 0.2
+    yaw: facing
+  - name: xeen_basalt2
+    model: worlds/xeen/models/xeen_deco_basalt04.glb
+    height: 340
+    height_jitter: 0.2
+    yaw: facing
+  - name: xeen_basalt3
+    model: worlds/xeen/models/xeen_deco_basalt07.glb
+    height: 380
+    height_jitter: 0.2
+    yaw: facing
+  # The demon and devil idols (D-40): XD-16 Volcano Cave's mouth on X7, one either side, facing west. Black basalt
+  # statues on carved plinths (320 x 320 x 96): the MM6 demon in a casting pose with carved horns (eyes empty), the MM9
+  # greater demon standing with its wings raised. Origin = the plinth's bottom centre (place z = the ground there,
+  # sunk ~10-20 on a slope); facing 0 faces +Y, facing 90 faces west (-x). Collision radius 165. 1 model metre = 100
+  # units. level_generation/decorations/xeen_idols_claude/README.md.
+  - name: xeen_idol_demon
+    model: worlds/xeen/models/xeen_deco_idol_demon.glb
+    height: 780
+    yaw: facing
+  - name: xeen_idol_devil
+    model: worlds/xeen/models/xeen_deco_idol_devil.glb
+    height: 820
+    yaw: facing
+  # Q-D27's genie lamps (D-49; D5, D6 and every other lamp): MM7's Genie Lamp ground model (engine item model
+  # item_7item260, 50 x 24 x 15.3) at 1.5x (75 long, 23 high) so it reads on the ground; origin at its base centre,
+  # yaw by facing. Collision radius 25 (clickable).
+  - name: xeen_genielamp
+    model: engine/world_items/models/item_7item260.glb
+    height: 23
+    yaw: facing
+  # The Northern and Southern Sphinx (X6 Desert of the Sphinx; XD-15's and FD-02's shells). Carved pale sandstone with a
+  # gold and umber striped nemes; the southern one buried to its shoulders. Static, no collision (radius 0): A5 adds
+  # barriers from integration/sphinx_collision.yml. Origin = the middle of the door's threshold on the breast at the
+  # ground (place z = the ground there); facing 0 faces +Y, so the northern one takes facing 180 (south) at (9216,
+  # 10240) and the southern one facing 270 (east) at (-12544, -10240). A framed doorway, open at the back, for A5's door
+  # leaves: 384 x 512 (north) and 320 x 448 (south) in the door plane through the origin. Heights are the LOD0 bounds
+  # (1 model metre = 100 units). level_generation/decorations/xeen_sphinx_claude/README.md.
+  - name: xeen_sphinx_north
+    model: worlds/xeen/models/xeen_deco_sphinx_north.glb
+    height: 2453.46
+    yaw: facing
+    lod_pixels: [900, 400, 160]
+  - name: xeen_sphinx_south
+    model: worlds/xeen/models/xeen_deco_sphinx_south.glb
+    height: 1414.39
+    yaw: facing
+    lod_pixels: [900, 400, 160]
+  # The Enchanted Boulder (D-49 Q3): D5 Desert of Doom's seven, in two chained rings (sign + 3-6 east; 1, 2 and 7 west;
+  # 7 asks the riddle). A great desert sandstone rock (MM8 rock26's shape) with a weathered bearded face (the MM6
+  # mage's, carved as a relief, half sunk) on its front; static. About 300 across, 330 deep, 264 above the ground and a
+  # 16 skirt below it. Origin = the ground under the rock's middle: place z = the terrain there. The face is on glTF +Z,
+  # so with this yaw_offset the map's facing is the way the face looks (facing 0 east, 90 north, 180 west, 270 south).
+  # lod_pixels so the face keeps LOD0-1 out to about 1,500. level_generation/decorations/xeen_boulder_claude/README.md.
+  - name: xeen_boulder
+    model: worlds/xeen/models/xeen_deco_boulder.glb
+    height: 279.7
+    yaw: facing
+    yaw_offset: -1.570796327
+    lod_pixels: [300, 150, 60]

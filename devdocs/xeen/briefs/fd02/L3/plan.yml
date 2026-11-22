@@ -1,0 +1,314 @@
+format: 0
+level: L3
+pitch: 'Picard the Aged''s home in the half-buried Southern Sphinx: a hall of embalming, two death runs whose toll-keepers
+  sell protection, rune stones that spell a name, a stair that asks it, the old man''s library in the head, and under the
+  sand a crypt of dragon mummies.'
+purpose: 'M40 The Southern Sphinx: the runes (m40.runes) spell PICARD; the stair''s voice (m40.name_right, name_said 111800)
+  opens the door of the name; Picard (npc 5704) trades the Chime of Opening for Halon''s widget (m40.done 111801). Party 58
+  to 61, monsters 62-72 (26 placed, D-57 Q7), treasure 6.'
+mood: 'Dry and still: sand on the steps, resin and old linen, blades whispering in the dark runs; above, an old man''s books
+  in the light of two stone eyes; below, things too large for the arch.'
+datum: arrival
+spaces:
+- id: room:breast
+  name: Breast steps
+  kind: room
+  size: S
+  floor: 0
+  purpose: The arrival (entrance:x6_door) on the top step inside the two leaves; eight steps down into the body. Quiet (D-11.3).
+  empty: true
+- id: room:hall
+  name: Hall of embalming
+  kind: room
+  size: L
+  floor: -256
+  purpose: Embalming tables, jars; the two Might Boosts on the embalmer's table (118119). The hub.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 62
+    - 62
+    notes: 4 Ghost Mummy 62 (placed).
+- id: room:swinging
+  name: The Swinging Death
+  kind: corridor
+  size: M
+  floor: -256
+  purpose: 'Four blades out of the north wall, a plate under each (D-57: about 6 % each); the mask''s protection for 2,000
+    (118116).'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 62
+    - 62
+    notes: 2 Ghost Mummy 62 (placed).
+- id: room:chopping
+  name: The Chopping Death
+  kind: corridor
+  size: M
+  floor: -256
+  purpose: Three blades from the ceiling, a plate under each (about 8 % each); the mask (118117).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 62
+    - 62
+    notes: 2 Ghost Mummy 62 (placed).
+- id: room:pres_n
+  name: Preservation Room (north)
+  kind: room
+  size: M
+  floor: -256
+  purpose: Rune stones P, I, C; the great sarcophagus (Might 60, T6).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 62
+    - 62
+    notes: 3 Ghost Mummy 62 (placed).
+- id: room:pres_s
+  name: Preservation Room (south)
+  kind: room
+  size: M
+  floor: -256
+  purpose: Rune stones A, R, D (the sixth read calls m40.runes); the second great sarcophagus.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 62
+    - 62
+    notes: 3 Ghost Mummy 62 (placed).
+- id: room:canopic
+  name: Canopic chamber
+  kind: room
+  size: M
+  floor: -256
+  purpose: Shelves of jars; the crypt's 288-high arch; 'Don't feed the dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 62
+    - 62
+    notes: 2 Ghost Mummy 62 (placed).
+- id: room:name_stair
+  name: Stair of the name
+  kind: corridor
+  size: S
+  floor: -256
+  purpose: 32 steps up 1,024; the voice on the top landing and at the door (m40.name_right / name_wrong).
+  empty: true
+- id: room:home
+  name: Home of the Aged
+  kind: room
+  size: M
+  floor: 768
+  purpose: 'Set piece: Picard the Aged (npc 5704, m40''s topic: the Chime for the widget), his chair ''Throne of Legends'',
+    four books, the eyes.'
+  empty: true
+- id: room:gallery_n
+  name: North sarcophagus gallery
+  kind: room
+  size: S
+  floor: 768
+  purpose: Two Phase Mummies, a find.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 72
+    - 72
+    notes: 2 Phase Mummy 72 (placed).
+- id: room:gallery_s
+  name: South sarcophagus gallery
+  kind: room
+  size: S
+  floor: 768
+  purpose: Two Phase Mummies, a find.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 72
+    - 72
+    notes: 2 Phase Mummy 72 (placed).
+- id: room:crypt
+  name: Crypt of the dragons
+  kind: room
+  size: L
+  floor: -1280
+  purpose: 'Set piece: the vault under the sand; four Dragon Mummies kept in by the arch.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 65
+    - 65
+    notes: 4 Dragon Mummy 65 (placed).
+- id: room:stalls
+  name: The dragon stalls
+  kind: room
+  size: M
+  floor: -1280
+  purpose: Two Dragon Mummies; the illusion heap (118118), the embalmer's chest (T6).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Dragon Mummy 65 (placed).
+links:
+- id: link:breast_hall
+  from: room:breast
+  to: room:hall
+  kind: double_door
+- id: link:hall_name
+  from: room:hall
+  to: room:name_stair
+  kind: open
+- id: link:hall_swing
+  from: room:hall
+  to: room:swinging
+  kind: open
+- id: link:hall_chop
+  from: room:hall
+  to: room:chopping
+  kind: open
+- id: link:swing_presn
+  from: room:swinging
+  to: room:pres_n
+  kind: door
+- id: link:chop_press
+  from: room:chopping
+  to: room:pres_s
+  kind: door
+- id: link:presn_canopic
+  from: room:pres_n
+  to: room:canopic
+  kind: open
+- id: link:press_canopic
+  from: room:pres_s
+  to: room:canopic
+  kind: open
+- id: link:name_home
+  from: room:name_stair
+  to: room:home
+  kind: door
+- id: link:home_galn
+  from: room:home
+  to: room:gallery_n
+  kind: door
+- id: link:home_gals
+  from: room:home
+  to: room:gallery_s
+  kind: door
+- id: link:canopic_crypt
+  from: room:canopic
+  to: room:crypt
+  kind: stairs
+- id: link:crypt_stalls
+  from: room:crypt
+  to: room:stalls
+  kind: open
+loops:
+- id: loop:body
+  spaces:
+  - room:hall
+  - room:swinging
+  - room:pres_n
+  - room:canopic
+  - room:pres_s
+  - room:chopping
+  notes: 'Round the body: out by one death run, through both Preservation Rooms and the canopic chamber, back by the other.'
+entrances:
+- id: entrance:x6_door
+  space: room:breast
+  kind: both
+  facing: w
+  how: 'From X6''s door in the sphinx''s breast (A5''s door:fd02): on the top step 256 inside the leaves, facing west down
+    into the body.'
+critical_path:
+- room:breast
+- room:hall
+- room:swinging
+- room:pres_n
+- room:canopic
+- room:pres_s
+- room:chopping
+- room:hall
+- room:name_stair
+- room:home
+return_path:
+- room:home
+- room:name_stair
+- room:hall
+- room:breast
+goals:
+- id: goal:picard
+  space: room:home
+  kind: use
+  story: M40
+  what: 'Picard''s topic: the widget for the Chime of Opening (m40.done).'
+set_pieces:
+- id: set:home
+  kind: scripted
+  spaces:
+  - room:home
+  rule: 'Behind the door of the name, opened by the name: the library under the face, Picard in his chair.'
+- id: set:crypt
+  kind: scripted
+  spaces:
+  - room:crypt
+  - room:stalls
+  rule: The dragon mummies' vault, kept in by the 288-high arch (D-57).
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 13
+  sectors: 13
+  monsters_about: 26
+  chests: 3
+  doors: 6
+  loops: 1
+  floor_area_munits2: 12
+notes: Size S (at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From act6_graphs/fd02.graph.yml
+  and D-57 (FD-02 APPROVAL, Q7-Q13).
+sketch:
+  file: rooms.yml
+  grid: 512

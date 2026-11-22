@@ -1,0 +1,60 @@
+format: 0
+id: xeen_dd15
+name: Great Pyramid
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-15
+units: {plan_grid: 512}
+extent: {footprint_cells: [20, 20], climbs: n}
+map_stats:
+  id: 9168
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 6
+  perception_difficulty: 12
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 12
+  slots:
+    - {monster: Xeen Mummy, tier: 2, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d5_door
+    to: xeen_d5.odm
+    kind: door
+    arrival: entrance:dd15_door
+    arrival_hint: "Before the Great Pyramid's green door on D5, facing north away from it (A6's entrance:dd15_door, (0, -7168, 1248) facing 512)."
+    notes: "The green doors (D5's door:dd15, A6's: m28.door with the Key to the Ancient Pyramid) arrive at entrance:d5_door in the entrance hall; out by the exit preset ('Exit the Great Pyramid?', aaze0083:0, D-24)."
+  - id: exit:d7_sky
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:dd15_sky
+    arrival_hint: "On D7's cloud beside the Great Pyramid's golden capstone, before its sky door, facing west (A6's entrance:dd15_sky, (11424, 2560, 1408) facing 1024)."
+    notes: "The sky door (D-58, D-61 Q9): after m30.done 'Step out onto the Skyroads?' (d7.sky_door_dd15) and out to D7; before it 'Access Denied!'. D7's door:dd15 comes back to entrance:d7_sky (after m30.done)."
+qbits:
+  arrived_once: 117560
+  button: 117575
+  m28_done: 111563
+  m30_done: 111600
+  maze_seen: 117576
+  niche_10: 117572
+  niche_3: 117565
+  niche_4: 117566
+  niche_5: 117567
+  niche_6: 117568
+  niche_7: 117569
+  niche_8: 117570
+  niche_9: 117571
+  registry: 111562
+  safe_open: 117574
+  scarab_find: 117578
+  throne_reached: 117577
+  torch_ne: 117561
+  torch_nw: 117562
+  torch_se: 117564
+  torch_sw: 117563
+  torches: 111561
+  vault_open: 117573
+notes: "Xeen design brief for a new map: DD-15 Great Pyramid (the source's dark maze0083-0086: the Royal Pyramid, the registry level, the Ancient pad maze and the Dragon Pharaoh's apartments) as one BLV of four stepped floors 768 apart on D5, entered by the green doors (m28.door, A6). Story M28 (A3's hooks m28.torch_plaque, m28.torches, m28.registry_plaque, m28.registry_lock, m28.maze, m28.prime_directive), M30 and M36 (the Pharaoh's topics, npc 5453); D-58's sky door to D7 after m30.done (d7.sky_door_dd15). Class L: 50-75 sectors, 120-200 M units squared, levels 42-65, no boss, party 44-47, treasure 5, music 46. Graph devdocs/xeen/mockups/act5_graphs/dd15.graph.yml with decider D-61 (mockups/act5_a8_decisions.md, which wins): 70 Pyramid mummies (Tomb Mummy 11270 42 x34, Pyramid Guard 11271 52 x24, Ghost Mummy 11273 62 x6, Royal Mummy 11272 65 x6), 51.92k per member; four torches, each waking two hidden Tomb Mummies in its chapel; the number niches optional (the Overseer's vault); the registry (1701) on the path; four pads in the pad hall, a pad back from every cell; the Pharaoh's lift after the first entry into the throne hall (117577); the Brew burns on a second click; the wall safe 20-30-1; the scarab cell's find (117578). The Dragon Pharaoh 11919 (npc 5453, D-56): peaceful, immobile, uncounted, unkillable. Rest encounters 10 %: mummies Dif 2 [2, 3] w100 (D-61 Q10). Map qbits 117560-117578; map_stats 9168."

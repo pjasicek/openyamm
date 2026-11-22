@@ -1,0 +1,61 @@
+# M30 The Chosen Ones (QUESTS M30, Act V). Once Corak is awake (M29), the Pharaoh names the party the Chosen Ones and
+# gives the Pass to Olympus. A4's doors and routes open on `done` (D-5.3): Lucio's Jetties at Castleview (house 4901)
+# and Sandcaster (4649), and Lakeside's route 426 to Olympus; Lucio (5607) lives on his Olympus dock (4808).
+# The Pharaoh is 5453 (A4, as in m28).
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M30
+title: The Chosen Ones
+act: V
+kind: main
+status: full
+giver: 5453
+maps: [DD-15, D1, D3, D4, D7]
+level: 47
+block: 30
+after: [m29.done]
+source: "QUESTS M30; D-5 (Lucio's boats gated on M30)"
+
+qbits:
+  done: {id: 111600, journal: "The Dragon Pharaoh named you the Chosen Ones. Lucio's celestial boats sail to Olympus, where the Ancients kept a Soul Box.",
+            until: [m31.started]}
+
+autonotes:
+  olympus: {id: 4130, text: "Olympus, the city of the gods: Lucio's celestial boats from Castleview, Sandcaster and Lakeside, twice a week. The only Soul Box is in Soul Storage.", category: Misc}
+
+awards:
+  chosen: {id: 409, text: "Chosen One", sort: 2}
+
+items:
+  olympus_pass: "the Pharaoh gives it (A2's readable pass)"
+
+npcs:
+  5453:              # The Dragon Pharaoh (DD-15 L4)
+    topics:
+      - n: 2
+        label: Chosen Ones
+        show: {qbit: m29.done}
+        states:
+          - when: {qbit: done}
+            text: "Olympus. Soul Storage. One box. Do not open the others' doors; the gods are touchy about their storage."
+          - text: "Corak is awake. Then the prophecy is not a poem after all. You are the Chosen Ones: I say so, and the gods of Olympus will let you in on my word. Here is my pass. Lucio's boats sail from the jetties at Castleview and Sandcaster, and from Lakeside's dock. In Olympus is the only Soul Box left on Xeen. Corak needs it."
+            do: [{give: olympus_pass}, {set: done}, {award: chosen}, {autonote: olympus}, {xp: 10000}]
+  5607:              # Lucio, the celestial boatman
+    topics:
+      - n: 1
+        label: The boats
+        states:
+          - when: {qbit: done}
+            text: "Chosen Ones may ride, the Pharaoh says. He doesn't pay the fare, mind: that's yours. Up we go: Castleview's jetty, Sandcaster's, or Lakeside's dock, twice a week, and the clouds do the rest."
+          - text: "My boats sail the sky, friends, and only for those the Dragon Pharaoh has chosen. Come back with his word and I'll take you up to Olympus."
+
+hooks:
+  grove_rope:
+    map: D1
+    where: "the rope hanging from the amber sky into the Dark Grove's great tree (D-23); true: the map's yes branch to D7 (phase 6)"
+    requires: {qbit: done}
+    status: true       # a status line: the map moves the party to D7 right after the hook, a message box never shows (A3 helper, session 26)
+    text: "The rope hangs straight and still in the tree's crown. This time, it seems, it will take you all the way up."
+    fail_text: "A rope hangs out of the amber sky into the great tree's crown. You climb until your arms give out, and still it climbs. The sky road, the boatmen say, takes only the Chosen."
+
+rewards: {xp: 10000, gold: 0, items: "Pass to Olympus", award: "Chosen One"}
+playthrough: "DD-15: the Pharaoh (Chosen Ones): the pass. D1: Lucio's jetty: the boat to Olympus (D7); Lucio (The boats)."

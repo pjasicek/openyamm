@@ -1,0 +1,3 @@
+Saved [04_right.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/04_right.png). The scorpion faces right in profile, with all eight walking legs visible and both claws slightly open.
+
+The image retains the generator’s native 1536×1024 resolution. I cleared faint background alpha residue and verified at least 73 pixels of transparent margin on every side. The [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/generation_runs_04_right.json) contains the prompt and both input hashes. Only the requested view was generated.

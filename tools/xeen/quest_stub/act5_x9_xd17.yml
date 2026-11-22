@@ -1,0 +1,49 @@
+# D-50's X9 and XD-17 hooks (A3): the nests, the offering statues, the rhymes behind the Linguist gate, the gate's
+# condition, Shangri-La's well, crystal and pyramid, the named fall.
+name: Act V, X9 and XD-17 (D-50)
+party: [Knight, Cleric, Sorcerer, Archer]
+steps:
+  - hook: x9.nest_sw
+  - expect: {qbit: x9.nest_sw, xp: 2000}
+  - hook: [x9.nest_sw, false]
+  # The offering statues: struck before the Crusader title, a gift once after it.
+  - hook: x9.offering_1
+  - expect: {last: "kept for Crusaders"}
+  - set: m4.done
+  - hook: x9.offering_1
+  - expect: {last: "a gift for a Crusader"}
+  - hook: x9.offering_1
+  - expect: {last: "hands are empty"}
+  # The rhymes: runes until the Book of Languages.
+  - hook: [m34.statue_1, false]
+  - expect: {last: "strange runes"}
+  - hook: [xd07.runes, false]
+  - hook: xd07.book_languages
+  - expect: {qbit: xd07.linguist, award: xd07.linguist, last: "(Linguist)"}
+  - hook: xd07.book_languages
+  - expect: {last: "in all of them."}
+  - hook: xd07.runes
+  - hook: m34.statue_1
+  - expect: {last: "dig permit"}
+  # The gate: the doll or the fail line.
+  - hook: [m34.gate, false]
+  - expect: {last: "without a cupie doll"}
+  - give: lord_xeen_doll
+  - hook: m34.gate
+  - hook: [x9.castle_gone, false]
+  # Shangri-La: the well once per character, the crystal, the pyramid after m30.done; the fall to X2.
+  - hook: xd17.well
+  - expect: {xp: 17000, player_bit: 11358, last: "Congratulations, You found Shangri-La!"}
+  - hook: xd17.well
+  - expect: {xp: 17000, last: "cool and refreshing"}
+  - hook: xd17.crystal
+  - expect: {last: "broadcast to millions"}
+  - hook: [xd17.pyramid, false]
+  - expect: {last: "unable to pass"}
+  - set: m30.done
+  - hook: xd17.pyramid
+  - expect: {last: "xeen_d6.odm -5120 1024 1856"}    # D6's entrance:xd17_pyramid by Alamar's gate (A6)
+  - lua: 'Xeen.travelPyramid("alamar_gate")'         # D6's pyramid outside Alamar's gate
+  - expect: {last: "xeen_xd17.blv 0 3200 256"}
+  - lua: 'Xeen.skyFallTo("x9")'
+  - expect: {last: "xeen_x2.odm -15360 3072 1618"}

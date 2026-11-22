@@ -1,0 +1,14 @@
+{
+  "prompt": "Paint guide_atlas.png in place, locking its entire alpha channel. Output 1536x1024 transparent PNG. This five-view orthographic albedo atlas has 512px square cells: FRONT BACK LEFT / RIGHT TOP empty. Preserve each grey object's exact outline, size and position, all transparent gaps, and the empty bottom-right cell. Each silhouette is about 446 pixels across centered in its cell. Paint only the unlit base colour of the Dragon Pharaoh's Orb. Match the polished glowing amber material and the broad darker internal spiral and delicate resin texture of design_reference.png, scaled around the same orb in each view; use icon_x8.png for colours, ignore its magenta background. Luminous honey and burnt amber pigmentation only. No baked lighting, hot highlights, reflections, ambient occlusion, shadows, exterior halo, sparkles or aura, ground, outlines or text. Correct the silhouette coverage: carry saturated amber colour at full opacity all the way to the existing grey edge pixels. Use guide_atlas.png as the fixed cutout stencil; retain the entire grey silhouette with its slightly polygonal perimeter, including its outermost sides. Every pixel outside those silhouettes must have alpha zero, including the entire sixth cell. No feathered or translucent rim.",
+  "inputs": {
+    "guide_atlas.png": "21414a56cf4510b2c8830247f78066cb247950d8615bfad97b57df0d24b255be",
+    "design_reference.png": "f62be990838f4a18b585de47b6f8d65046e892e1432b19798abbe38e35aa19a0",
+    "icon_x8.png": "90542ec2a0dc7d68b33ceaf95164be0b2a80cafbec2f2b8cfd686c63ba8d51f9"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91d-022e-71f1-9612-073a9440aa16/exec-a0d8a2d9-ffed-4262-9fcc-74a6400f9761.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

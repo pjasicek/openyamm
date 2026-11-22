@@ -1,0 +1,120 @@
+# Act V's main steps after the Pharaoh (tools/xeen/quest_stub.py): M31 Olympus's Soul Box and the true-name plaque, M32
+# Corak in the box, M33 Castle Alamar (thrown out without the box; the sundial and the true name; Sheltem), the
+# Pharaoh's errand, M34 Slick's four games (a loss pays and retries) and the prize stand, M35 Castle Xeen (the
+# generators, the Pet, Lord Xeen, the scepter) and King Burlock. The earlier acts' bits are `set:` steps. Owner: A3.
+name: Act V, main
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - set: m7.sigil
+  - set: m21.crodo_freed
+  - set: m23.done
+  - set: m28.done
+  - set: m29.done
+  # M31: Olympus
+  - hook: [m31.soul_storage, false]
+  - set: m30.done
+  - hook: m31.arrival
+  - expect: {qbit: m31.started}
+  - hook: m31.soul_storage
+  - expect: {qbit: m31.done, item: soul_box, xp: 8000}
+  - hook: [m31.soul_storage, false]
+  - hook: m31.true_name_plaque
+  - talk: [5612, Prince Roland]
+  - hook: [m33.arrival, false]           # Sheltem throws out a party without Corak's box
+  - hook: [m33.roof_arrival, false]      # and by the roof hatch (D-61 Q14)
+  - expect: {qbit: m33.refused_once, not_qbit: m33.inside}
+  # M32: Corak
+  - talk: [5513, Sheltem]
+  - talk: [5513, Soul Box]
+  - expect: {qbit: m32.done, item: soul_box_corak, no_item: soul_box, xp: 12000}
+  - hidden: [5513, Sheltem]
+  # M33: Castle Alamar
+  - hook: m33.castle_door
+  - hook: m33.arrival
+  - expect: {qbit: m33.inside}
+  # The four Lava Heads (D-61 Q12) and the Power Juice (+2 Might once per character, D-61 Q19)
+  - hook: m33.head_fire
+  - hook: m33.head_air
+  - hook: m33.head_water
+  - hook: m33.head_earth
+  - expect: {qbit: [m33.head_fire_off, m33.head_air_off, m33.head_water_off, m33.head_earth_off], last: "a field dies"}
+  - hook: [m33.head_fire, false]
+  - expect: {last: "dark and cold"}
+  - hook: m33.power_juice
+  - expect: {player_bit: 11369, stat: [Might, 2]}
+  - hook: m33.power_juice
+  - expect: {stat: [Might, 2], last: "had yours"}
+  - hook: [m33.true_name_gate, false]
+  # The four sundials (Xeen.alamarSundial: starts 3, 6, 12, 7; Yes is step 1): three at nine are not enough, and a
+  # qbit left set by a reset map state is cleared by the gate's sync.
+  - lua: 'Xeen.alamarSundial("fire", 1, nil) for i = 1, 6 do Xeen.alamarSundial("fire", 1, 1) end for i = 1, 3 do Xeen.alamarSundial("air", 1, 1) end for i = 1, 9 do Xeen.alamarSundial("earth", 1, 1) end'
+  - expect: {qbit: [m33.dial_fire_nine, m33.dial_air_nine, m33.dial_earth_nine], not_qbit: [m33.sundial_nine, m33.dial_water_nine], last: "The dial clicks home at nine. Somewhere below, stone grinds level."}
+  - lua: 'Xeen.alamarSundial("fire", 1, 1)'         # off nine: the fire slab drops (D-61)
+  - expect: {not_qbit: m33.dial_fire_nine, last: "Somewhere below, stone drops away."}
+  - lua: 'for i = 1, 11 do Xeen.alamarSundial("fire", 1, 1) end'
+  - expect: {qbit: m33.dial_fire_nine}
+  - set: m33.sundial_nine
+  - hook: [m33.true_name_gate, false]
+  - expect: {not_qbit: m33.sundial_nine, last: "The time is not right."}
+  - lua: 'Xeen.alamarSundial("water", 1, 1) Xeen.alamarSundial("water", 1, 1)'
+  - expect: {qbit: [m33.sundial_nine, m33.dial_water_nine]}
+  # A map state reset by a rebuild: the dials back at their start, the load event's sync clears the stale bits
+  - lua: 'for _, key in ipairs({"fire", "air", "earth", "water"}) do evt.SetMapVar("dd17_sundial_" .. key, nil) end Xeen.alamarSundialsSync()'
+  - expect: {not_qbit: [m33.sundial_nine, m33.dial_fire_nine, m33.dial_air_nine, m33.dial_water_nine, m33.dial_earth_nine]}
+  - lua: 'for _, key in ipairs({"fire", "air", "earth", "water"}) do evt.SetMapVar("dd17_sundial_" .. key, 9) end Xeen.alamarSundialsSync()'
+  - expect: {qbit: [m33.sundial_nine, m33.dial_earth_nine]}
+  - hook: m33.true_name_wrong
+  - hook: m33.true_name_gate
+  - expect: {qbit: m33.gate_open}
+  - hidden: [5453, Lord Xeen]
+  - hook: m33.sheltem
+  - expect: {qbit: m33.done, item: cube_of_power, no_item: soul_box_corak, award: m33.sheltem, xp: 47000}
+  - talk: [5453, Lord Xeen]
+  # M34: the carnival
+  - hook: [m34.gate, false]
+  - gold: 1100
+  - give: ["engine:177", 20]
+  - actual: [Might, 40]
+  - hook: m34.might_game
+  - expect: {not_qbit: m34.might_won, gold: 1000}
+  - gold: 100
+  - actual: [Might, 75]
+  - hook: m34.might_game
+  - expect: {qbit: m34.might_won, item: might_doll, gold: 1000}
+  - hook: m34.might_game
+  - expect: {count: [might_doll, 1], gold: 1000}
+  - actual: [Speed, 60]
+  - hook: m34.speed_game
+  - expect: {qbit: m34.speed_won, gold: 0}
+  - actual: [Endurance, 61]
+  - hook: m34.endurance_game
+  - actual: [Accuracy, 80]
+  - hook: m34.accuracy_game
+  - expect: {qbit: [m34.endurance_won, m34.accuracy_won], count: ["engine:177", 5]}
+  - hook: m34.prize_stand
+  - expect: {qbit: m34.done, item: lord_xeen_doll, no_item: [might_doll, speed_doll, endurance_doll, accuracy_doll], xp: 57000}
+  - hook: m34.gate
+  # M35: Castle Xeen
+  - hook: m35.arrival
+  - hook: [m35.barrier, false]
+  - hook: m35.gen_fire
+  - hook: m35.gen_air
+  - hook: m35.gen_earth
+  - hook: m35.gen_water
+  - hook: m35.barrier
+  - expect: {last: "the field across the crown stair collapses"}
+  - hook: m35.untouchable
+  - hook: m35.mirror
+  - hook: m35.pet
+  - hook: [m35.scepter, false]
+  - hook: [m35.scepter_ask, false]
+  - hook: m35.lord_xeen
+  - hidden: [4401, Lord Xeen]
+  - hook: m35.scepter_ask
+  - hook: m35.scepter
+  - expect: {qbit: m35.done, item: xeens_scepter, award: m35.lord_xeen, xp: 92000,
+             journal: m35.done, no_journal: [m35.started, m5.audience]}   # A3 s38: "Tell King Burlock."
+  - talk: [4401, Lord Xeen]
+  - expect: {qbit: m35.king_told, no_journal: m35.done}
+  - talk: [4401, Sixth Mirror]
+  - talk: [5453, Lord Xeen]

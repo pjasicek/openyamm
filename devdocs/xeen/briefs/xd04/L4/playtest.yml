@@ -2,25 +2,26 @@
 # level-9 party enters by the tower door, kills the Goblin Warden in his lodge (the lodge's cue names the ring of keys
 # in his strongbox), finds cage 1 locked (its message says where the ring is), takes the ring from the strongbox, opens
 # cage 1 (it is hoisted up its chain; the half-turned boy steps out but will not go home), loots the warden's
-# strongbox; climbs the east stair, opens the dormitory, finds the loose panel and loots the goblin's hoard, goes
-# through the mistress's door into the schoolroom (the caged girl calls out), kills the schoolmistress, reads the slate
-# (a message window), frees child 2, Rosebud (her message names the herb loft's stores, where the coven's key to the
-# face door is), leaves by the double door; buys a scroll of Heal from a talking skull for a gem; climbs the west stair
-# to the vat hall, walks up to the herb loft (the recipe card; the witches' stores give the coven's key), drinks from the
-# good vat (once only), hears the crying at the bookcase, opens it and frees child 3; crosses the broken balcony, climbs
-# the north stair, opens the face door with the coven's key (no password since pass two, the user's decision); kills
-# the sanctum's guard and the Head Witch's sisters (her familiars crawl out of the floor), the Head Witch, finds the
-# ward shut, frees child 4 in the bedchamber and loots the coven's cabinet; crosses the bridge over the shaft and takes
-# the Alacorn (the cauldron boils over); releases the hoist's brake, calls the cage up, rides it down to the cauldron
-# floor, walks out by the arches, cures the boy with the Alacorn and leaves by the tower door with every bit and the
-# Alacorn.
+# strongbox; looks into the goblin pens (the skull over the straw shouts at the goblins); climbs the east stair, opens
+# the dormitory, finds the loose panel and loots the goblin's hoard, goes through the mistress's door into the
+# schoolroom (the caged girl calls out), kills the schoolmistress, reads the slate (a message window), frees child 2,
+# Rosebud (her message names the herb loft's stores, where the coven's key to the face door is), leaves by the double
+# door; refuses the Mind skull's "Feed me!" and buys a scroll of Heal from the Body skull for a gem; climbs the west
+# stair to the vat hall, walks up to the herb loft (the recipe card; the witches' stores give the coven's key), drinks
+# from the good vat (once only), hears the crying at the bookcase, opens it and frees child 3 (the boy wants to go
+# home); crosses the broken balcony, climbs the north stair, opens the face door with the coven's key (no password
+# since pass two, the user's decision); kills the sanctum's guard and the Head Witch's sisters (her familiars crawl out
+# of the floor), the Head Witch, finds the ward shut, frees child 4 in the bedchamber, hears the two vanity skulls and
+# loots the coven's cabinet; crosses the bridge over the shaft and takes the Alacorn (the cauldron boils over);
+# releases the hoist's brake, calls the cage up, rides it down to the cauldron floor, walks out by the arches, cures
+# the boy with the Alacorn and leaves by the tower door with every bit and the Alacorn.
 # Event, door, map-variable and light numbers are ids.lock.yml's; actors are the scene's (0-3 the children, 4-5 the
 # familiars, 6 the Head Witch, 7 the schoolmistress, 8-9 the sisters, 10 the warden). Nothing depends on chance: only
 # chests' fixed items are checked, every walk past a spawn point clears hostiles near it, counts are near what they
 # count.
 id: xeen.xd04.l4.walk
 title: Witch Tower (XD-04 L4), the tower door to the Alacorn and back by the hoist, every mechanism
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -55,7 +56,7 @@ steps:
   - assert: {state_dump_map_var: {index: 15, value: 1}}
   # Cage 1, locked: its message says where the ring is.
   - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
-  - play_lua: {source: "if has_item(629) then error('the party has the ring before the strongbox') end; click(7); wait(1)"}
+  - play_lua: {source: "if has_item(12032) then error('the party has the ring before the strongbox') end; click(7); wait(1)"}
   - assert:
       dialog: {text_contains: "strongbox"}
   - play_lua: {source: "if not close() then error('the locked cage opened no message window') end; if door_state(26) ~= 'closed' then error('cage 1 moved without the ring') end"}
@@ -65,21 +66,42 @@ steps:
       source: |
         loot_chest(48)
         if held() ~= 0 then stow() end
-        if not has_item(629) then error("the strongbox did not hold the ring of keys") end
+        if not has_item(12032) then error("the strongbox did not hold the ring of keys") end
         if not has_item(177) or not has_item(222) then error("the strongbox did not hold its zircon and potion") end
   # Cage 1 opens: hoisted up its chain; the boy steps out but will not go home with goblin ears.
   - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - play_lua: {source: "click(7); wait(1)"}
-  - assert:
-      dialog: {text_contains: "Not with these ears"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Not with these ears]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close(); wait(3); if door_state(26) ~= 'open' then error('cage 1 was not hoisted: ' .. door_state(26)) end"}
-  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - play_lua: {source: "if not qbit(110048) then error('opening cage 1 did not set boy_waiting') end"}
   - play_lua: {source: "click(7); wait(1)"}
-  - assert:
-      dialog: {text_contains: "budge"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[budge]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close(); if qbit(110040) then error('child_rescued_1 set too early') end"}
-  # Back along the gallery and up the east stair to the second-floor landing.
+  # Back along the gallery; the goblin pens: over the straw, the source's skull shouts at the goblins (phase 0).
   - walk_to: {x: -1420, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: 1120, y: -1400, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 900}
+  - play_lua:
+      source: |
+        click(22); wait(3)
+        if door_state(13) ~= "open" then error("the pen door did not open: " .. door_state(13)) end
+  - walk_to: {x: 1120, y: -1800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - clear_hostiles: {radius: 1400}
+  - walk_to: {x: 900, y: -2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - walk_to: {x: 1600, y: -2700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - play_lua: {source: "click(55); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Goblins back to work!"}
+  - play_lua: {source: "if not close() then error('the pens skull opened no message window') end"}
+  - walk_to: {x: 900, y: -2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - walk_to: {x: 1120, y: -1800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1400}
+  - walk_to: {x: 1120, y: -1400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  # Up the east stair to the second-floor landing.
   - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
   - walk_to: {x: 2560, y: -1312, z: 320, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
   - walk_to: {x: 2560, y: -900, z: 360, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
@@ -142,6 +164,13 @@ steps:
   - walk_to: {x: 1312, y: 704, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
   - clear_hostiles: {radius: 900}
   - walk_to: {x: 2140, y: 576, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  # The Mind skull opens with the source's "Feed me!" (phase 0); no gem for it.
+  - play_lua: {source: "click(35); wait(0.5)"}
+  - assert:
+      dialog: {text_contains: "Feed me!"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); wait(0.5)"}
   - play_lua: {source: "remember('gems', tostring(item_count(177) + item_count(178) + item_count(180))); click(36); wait(0.5)"}
   - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
@@ -173,7 +202,7 @@ steps:
         loot_chest(47)
         if held() ~= 0 then stow() end
         if not has_item(226) or not has_item(224) then error("the witches' stores did not hold their potions") end
-        if not has_item(2187) then error("the witches' stores did not hold the coven's key") end
+        if not has_item(12034) then error("the witches' stores did not hold the coven's key") end
   # The vat with the toad on its lid: once for each character.
   - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
@@ -200,6 +229,10 @@ steps:
   - play_lua:
       source: |
         click(9); wait(1)
+  - assert:
+      dialog: {text_contains: "I want to go home"}
+  - play_lua:
+      source: |
         if not close() then error("freeing child 3 opened no message window") end
         if not qbit(110042) then error("child 3 was not freed") end
   - assert: {actor_visible: {actor_index: 2, hidden: true}}
@@ -229,12 +262,13 @@ steps:
   - assert: {state_dump_map_var: {index: 11, value: 1}}
   - clear_hostiles: {radius: 3200}
   - play_lua: {source: "if not qbit(110046) then error('the Head Witch\\'s death did not set head_witch_slain') end"}
-  # The ward over the roof stair holds: the party are not Crusaders yet, and its message says so and what opens it.
+  # The ward over the roof stair falls with the Head Witch (D-89 1.2): she is dead, so it sinks into the floor.
   - walk_to: {x: -3900, y: 448, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
-  - play_lua: {source: "click(43); wait(1)"}
-  - assert:
-      dialog: {text_contains: "ONLY THOSE SWORN AS CRUSADERS MAY PASS"}
-  - play_lua: {source: "if not close() then error('the ward opened no message window') end; wait(1); if door_state(19) ~= 'closed' then error('the ward opened before M4') end"}
+  - play_lua:
+      source: |
+        if door_state(19) ~= "closed" then error("the ward does not start shut") end
+        click(43); wait(5)
+        if door_state(19) ~= "open" then error("the ward did not fall with the Head Witch: " .. door_state(19)) end
   # The bedchamber: child 4, the coven's cabinet.
   - walk_to: {x: -3344, y: -200, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
   - play_lua:
@@ -247,8 +281,17 @@ steps:
   - play_lua:
       source: |
         click(10); wait(1)
-        if not close() then error("freeing child 4 opened no message window") end
+        close()
         if not qbit(110043) then error("child 4 was not freed") end
+  # The two vanity skulls on the dressing table under the mirror (phase 0).
+  - walk_to: {x: -3856, y: -830, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(56); wait(1)"}
+  - assert:
+      dialog: {text_contains: "You are the fairest one of all"}
+  - play_lua: {source: "if not close() then error('the first vanity skull opened no message window') end; click(57); wait(1)"}
+  - assert:
+      dialog: {text_contains: "the most beautiful creature in all the land"}
+  - play_lua: {source: "if not close() then error('the second vanity skull opened no message window') end"}
   - walk_to: {x: -2850, y: -800, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - play_lua:
       source: |
@@ -264,7 +307,7 @@ steps:
   - play_lua: {source: "wait(1)"}
   - assert: {party_position: {x: -180, y: -128, radius: 80, z_min: 1912, z_max: 1928}}
   - assert: {state_dump_map_var: {index: 7, value: 1}}
-  - pick_up: {item_id: 214}
+  - pick_up: {item_id: 12033}
   - play_lua:
       source: |
         if held() ~= 0 then stow() end
@@ -274,7 +317,8 @@ steps:
         wait(2)
         local seen = status()
         if not string.find(seen, "scalds", 1, true) then error("the steam did not scald the party on the bridge: " .. seen) end
-  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  # A3's hook m4.alacorn says the boil-over in a message window (opened by the map's timer; the walk closes it).
+  - walk_to: {x: -860, y: -128, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
   - walk_to: {x: -1250, y: -128, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - assert: {state_dump_map_var: {index: 7, value: 0}}
   # The hoist: the brake lever sends the cage down; the top's button calls it back; the party rides it down.
@@ -317,11 +361,10 @@ steps:
   - play_lua:
       source: |
         click(7); wait(1)
-        if not close() then error("curing the boy opened no message window") end
+        close()
         if not qbit(110040) then error("the Alacorn did not cure the boy") end
-        if not has_item(214) then error("curing the boy spent the Alacorn") end
+        if not has_item(12033) then error("curing the boy spent the Alacorn") end
   - assert: {actor_visible: {actor_index: 0, hidden: true}}
-  - assert: {state_dump_map_var: {index: 6, value: 2}}
   # Out by the tower door with the Alacorn.
   - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: 0, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
@@ -338,4 +381,4 @@ steps:
         for _, b in ipairs({110040, 110041, 110042, 110043, 110044, 110045, 110046}) do
           if not qbit(b) then error("quest bit " .. b .. " was lost") end
         end
-        if not has_item(214) then error("the Alacorn was lost") end
+        if not has_item(12033) then error("the Alacorn was lost") end

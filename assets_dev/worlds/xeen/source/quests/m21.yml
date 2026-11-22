@@ -1,0 +1,71 @@
+# M21 Darzog's Tower and Crodo (QUESTS M21, Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Crodo's words are the game's first and only Roland reveal before M21 is done (QUESTS rules, "No early twist"): the
+# source's own lines (aaze0061) with the backstory's Dancing Blades (MM4 manual; research MM4_CLOUDS_CONTENT 1).
+# XD-12 (A8) calls each hook from its event in place of the map's own text, bits and experience.
+id: M21
+title: Darzog's Tower
+act: IV
+kind: main
+status: full
+giver: null
+giver_name: (the tower itself; Crodo is freed in it)
+maps: [X2, XD-12, X9]
+level: 35
+block: 21
+after: [m13.done]
+source: "QUESTS M21; xeen/aaze0061:0 (\"I didn't know that someone else had received my message\")"
+
+qbits:
+  arrived_once: {id: 110503, map: XD-12, note: "the map's own: first arrival, shows the arrival hook once (A8)"}
+  darzog_slain: {id: 110500, map: XD-12, note: "was m21_darzog_slain"}
+  crodo_freed: {id: 110501, map: XD-12, note: "was m21_crodo_freed; the roof to X9 opens",
+                journal: "Crodo is free. The man at the King's side is Lord Xeen; only the sword under Newcastle can kill him, and Artemus can grant the leave to dig.",
+                until: [m22.dungeon]}
+  library_door_opened: {id: 110502, map: XD-12}
+
+player_bits:         # once per character, not party qbits (the six study books, +5 to one stat each; A8, XD-12)
+  book_might: {id: 11230, map: XD-12}
+  book_endurance: {id: 11231, map: XD-12}
+  book_intellect: {id: 11232, map: XD-12}
+  book_personality: {id: 11233, map: XD-12}
+  book_speed: {id: 11234, map: XD-12}
+  book_accuracy: {id: 11235, map: XD-12}
+
+autonotes:
+  vault_word: {id: 4121, text: "Crodo: the word of the sword vault under Newcastle (M23) is 'laboratory'.", category: Misc}
+
+riddles:
+  - {answer: laboratory, where: "XD-13 (Newcastle Keep's dungeon, stage 3): the sword vault's door (M23)", said_by: "Crodo, freed (m21.crodo), and its autonote; later a Shangri-La NPC too"}
+
+items:
+  skeleton_key: "see M13"
+  library_key: "map-local key of XD-12's library (A8). Was MM7 2112."
+
+hooks:
+  arrival:
+    map: XD-12
+    where: "the first arrival (built: evt:arrive, a one-shot timer); replaces the map's message"
+    text: "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
+  darzog:
+    map: XD-12
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Darzog's death (built: evt:darzog_dead, after its shake): the disc's grille opens; replaces the map's qbit and message"
+    sets: [darzog_slain]
+    text: "Baron Darzog falls. In the Well, a black grille rises from his disc's landing. His ward on your spells stays: it is in the stones."
+  crodo:
+    map: XD-12
+    window: "a long story text to read (Crodo freed, 814 characters)"
+    where: "Crodo's secret room behind the portrait (built: evt:crodo, once; the map hides group 40 after the call); replaces the map's message, qbit and experience"
+    sets: [crodo_freed]
+    once: true
+    do: [{xp: 35000}, {autonote: vault_word}]
+    text: "Crodo the Overseer, thin and grey, gets up from his stool. \"Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. The vault's word is 'laboratory'. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.\" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."
+    else_text: "Crodo's stool, and the marks of his chain on the wall."
+  library:
+    map: XD-12
+    where: "the library stair with its key (built: evt:library_stair)"
+    sets: [library_door_opened]
+  cloud_stair:
+    map: XD-12
+    where: "the roof to X9 (built: evt:cloud_stair)"
+    reads: [crodo_freed]

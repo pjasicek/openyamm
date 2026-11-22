@@ -1,0 +1,57 @@
+# Xeen promotion playthrough 45, the class table (README "What is checked" 5): D3: Nasir's Archmage's robes (Q-D18, T2-LATER), after the main chain's 65.
+# Written by class_table.py (do not edit by hand): per row of Xeen.Promotions, round 1 gives the members the
+# row's "from" classes and classes it must leave alone (a logged test setup through SetPlayerClass), picks the
+# promote and asserts every class; round 2 has nobody eligible and the promote is not offered. The party's own
+# classes are put back at the end.
+#   python3 tests/playthrough/xeen/promotions/run.py 45
+id: xeen.promotions.45_nasir_table
+title: "Xeen promotions 45: the class table, D3"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_65.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d3.odm, qbit_set: [113365]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  # D-82 point 5: no member down before the rounds (each reads every member's class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 45 before the class table: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before the class table (D-82 5): ' .. table.concat(down, ' | ')) end"}
+
+  # jewel: Wizard -> ArchMage. Nasir (Q-D18, T2-LATER): "Archmage's robes".
+  # Round 1: Wizard Lich ArchMage Sorcerer -> ArchMage Lich ArchMage Sorcerer.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Wizard') then error('SetPlayerClass(0, Wizard)') end if not SetPlayerClass(1, 'Lich') then error('SetPlayerClass(1, Lich)') end if not SetPlayerClass(2, 'ArchMage') then error('SetPlayerClass(2, ArchMage)') end if not SetPlayerClass(3, 'Sorcerer') then error('SetPlayerClass(3, Sorcerer)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES jewel round 1 set: " .. c) if c ~= "Wizard Lich ArchMage Sorcerer" then error("expected Wizard Lich ArchMage Sorcerer, got " .. c) end'}
+  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_present: "Archmage's robes"}}
+  - select_topic: {match_label: "Archmage's robes"}
+  - assert: {dialog: {active: true, text_contains: "Wizards, take the robes."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES jewel round 1 promoted: " .. c) if c ~= "ArchMage Lich ArchMage Sorcerer" then error("expected ArchMage Lich ArchMage Sorcerer, got " .. c) end'}
+  # Nobody left: the promote is no longer offered.
+  - assert: {dialog: {active: true, action_label_absent: "Archmage's robes"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Round 2: Lich ArchMage Sorcerer Peasant, none of them eligible: the promote is not offered.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Lich') then error('SetPlayerClass(0, Lich)') end if not SetPlayerClass(1, 'ArchMage') then error('SetPlayerClass(1, ArchMage)') end if not SetPlayerClass(2, 'Sorcerer') then error('SetPlayerClass(2, Sorcerer)') end if not SetPlayerClass(3, 'Peasant') then error('SetPlayerClass(3, Peasant)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES jewel round 2 set: " .. c) if c ~= "Lich ArchMage Sorcerer Peasant" then error("expected Lich ArchMage Sorcerer Peasant, got " .. c) end'}
+  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_absent: "Archmage's robes"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES jewel round 2 kept: " .. c) if c ~= "Lich ArchMage Sorcerer Peasant" then error("expected Lich ArchMage Sorcerer Peasant, got " .. c) end'}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  - save_game: {name: "P45 class table", path: output/playthrough/xeen/promotions/checkpoints/45_nasir_table.oysav}

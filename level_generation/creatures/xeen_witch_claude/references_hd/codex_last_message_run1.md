@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_witch_claude/references_hd/00_three_quarter.png) as the unresized 1024×1536 transparent PNG. The visible figure clears every edge by at least 129 px. Both attempts are recorded in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_witch_claude/references_hd/generation_runs.json).
+
+After the single corrective generation, three discrepancies remain. The turn is shallower than requested, the bare wrist has a red wrap, and nearly invisible alpha pixels reach the canvas edge.

@@ -1,0 +1,41 @@
+format: 0
+id: xeen_dd04
+name: The Gremlin Court
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-04
+units: {plan_grid: 512}
+extent: {footprint_cells: [10, 14], climbs: n}
+map_stats:
+  id: 9153
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: 2
+  environment: cave
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Gremlin, tier: 0, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d1_burrow
+    to: xeen_d1.odm
+    kind: door
+    arrival: [2304, 10880, 1152]
+    arrival_hint: "On D1, just outside the gremlins' burrow under the town wall east of the north gate (thing:dd04_burrow), facing north, away from it."
+    direction: 90
+    notes: "D1 installed (A6). The burrow's face stands at (2304, 10467); the party lands 413 north of it, facing away. D1's door into this map (A6's door:dd04) lands at this map's start: (0, 256, 0), facing north (90)."
+qbits:
+  arrived_once: 117040
+  court_hostile: 113024
+  court_peace: 113026
+  court_won: 113021
+  gettlewaithe_slain: 113027
+  guards_beaten: 113025
+  throne_searched: 113028
+items:
+  energy_disk: 12334
+notes: "Xeen design brief, DD-04 The Gremlin Court (D1; Q-D1), class S, built from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd04.graph.yml) with decider D-26 (mockups/act3_a8_decisions_a.md). Party 19-20, band 14-22, Gettlewaithe 24 (A2's boss row 11023), 28 placed monsters on A2's rows 11023-11027 (no spawn points: the slot repeats D1's family for the map card only, encounter chance 0), treasure 2 (the court's treasury one level up), music 2. Quest bits: Q-D1's (113021, 113024-113028) and the map's arrived_once 117040 (provisional block 117040-117079). Item: Energy Disk 12334 (q-d1.throne's map_gives)."

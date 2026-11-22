@@ -1,8 +1,8 @@
-# Hostility check of X1 Vertigo Meadows (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# Hostility check of X1 Vertigo Meadows (written by output/studio_cal/x1/tools/gen_hostility_x1.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
 # its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
 id: xeen.x1.l4.hostility
 title: 'X1 Vertigo Meadows: foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -22,57 +22,112 @@ steps:
     action: cancel_dialog
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11030
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 272
+      monster_id: 11031
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 273
+      monster_id: 11032
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 226
+      monster_id: 11450
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 227
+      monster_id: 11451
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 228
+      monster_id: 11452
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 397
+      monster_id: 11240
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 398
+      monster_id: 11241
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 399
+      monster_id: 11242
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 397
+      monster_id: 11480
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11250
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11340
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11380
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11390
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11300
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11450
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 226
+      monster_id: 11480
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11250
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11340
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11380
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11390
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11300
       hostile: true
       min: 1
 - assert:
@@ -113,18 +168,48 @@ steps:
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 226
+    monster_id: 11030
     x: 11264
     y: -3072
     z: 640
 - spawn_actor:
-    monster_id: 271
+    monster_id: 11450
     x: 11360
     y: -3072
     z: 640
 - spawn_actor:
-    monster_id: 397
+    monster_id: 11240
     x: 11456
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11480
+    x: 11552
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11250
+    x: 11648
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11340
+    x: 11744
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11380
+    x: 11840
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11390
+    x: 11936
+    y: -3072
+    z: 640
+- spawn_actor:
+    monster_id: 11300
+    x: 12032
     y: -3072
     z: 640
 - advance_runtime:
@@ -143,17 +228,47 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 226
+      monster_id: 11030
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11450
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 397
+      monster_id: 11240
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11480
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11250
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11340
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11380
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11390
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11300
       hurt: true
       max: 0
 - assert:

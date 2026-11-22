@@ -1,0 +1,120 @@
+chapters:
+  - id: 1
+    title: "Act I: Vertigo"
+    intro: "You wake in Vertigo, among the survivors of Newcastle. Mayor Gunther's three errands (the pests, Joe the Exterminator, the dwarf mines) run one after the other; Old Valia's Witch Tower can be done at any time once the game has started, and it makes the party Crusaders, which Act II needs."
+    sections:
+      - title: "Vertigo: Mayor Gunther"
+        intro: "Gunther sits in the Town Hall on the north side of Vertigo's main street. Each of his quests opens the next: the pests lead to Joe, and Joe's invoice brings the dwarves' plea."
+        giver: {map: xeen_x1, npc: "Gunther"}
+        quests:
+          - quest: m1
+            steps:
+              - "The game opens with a message in Vertigo's square: your dreams of an old man in a dark tower, Newcastle destroyed, and Mayor Gunther asking for help with the slimes and doom bugs. The Adventurer's Inn, on the west end of the main street, now lets you hire and swap characters."
+              - "Walk to the Town Hall on the north side of the main street, north-west of the fountain, and ask Gunther about 'Pests'. He blames the infestation on the time Joe the Exterminator is taking. The journal now tracks the pests."
+              - "Slimes and doom bugs roam the town and the meadows around it; kill them as you meet them. Gunther does not pay for kills: this quest closes when you bring him proof against Joe (the next quest)."
+              - "Leave town by the west gate and go on west to the bridge over Pitchfork Creek, near the map's west edge. A bottle lies in the reeds below the bridge. Click it: the status line reads 'Help! I'm in Darzog's tower!--Crodo'. This is the first lead of the whole story; Darzog's tower is on the island in Lake Darzog, west of Rivercity, and stays sealed until Act IV."
+            tips:
+              - "The bottle is optional and gives no reward, but it starts Crodo's journal line and an autonote. A second bottle with the same message lies on Lake Darzog's north shore in Rivercity and Lake Darzog."
+              - "Mayor Gunther's notice board on the square and the sign at the west gate ('Please help clean up our beautiful town') repeat the request."
+            reward: "No reward of its own; it ends with Joe's invoice (the next quest)."
+            points:
+              - {map: xeen_x1, name: "Mayor Gunther's notice"}
+            maps:
+              - map: xeen_x1
+                show: [exit, sign]
+                focus: "Vertigo Town Hall"
+                caption: "The Town Hall is on Vertigo's main street; the bottle lies by the bridge over Pitchfork Creek, far west of town."
+
+          - quest: m2
+            requires: "Mayor Gunther's 'Pests' topic."
+            steps:
+              - "In Lady Geraldine's Tavern, on the main street just north-east of the fountain, ask Dudley the drunk about 'Joe': 'He...he (hic) breeeds (hicup) Breeeeeds them in the (hic) warehouse'. The journal records the clue."
+              - "Optional: Fenwick the retired cutpurse, in his house on the west side of town, now has a topic 'Joe's key' (until you have picked the key up): Joe keeps it under the rain barrel in his yard. Joe himself, in Joe's Exterminations on the south bank, only says the warehouse is off limits."
+              - "Cross to the south bank, south-east of the town centre. The warehouse key lies on the ground at the foot of the rain barrel in Joe's yard: pick it up. With the key in your packs, click the warehouse's door in the yard and choose OK in the entrance window; without it the door stays locked ('KEEP OUT. THIS MEANS YOU, GUNTHER')."
+              - "Inside, click the barred loading doors in front of you: the key lifts the bar (a party with Perception 3 can also reach the bar through a loose shutter). North-west of the entrance is Joe's office. A bucket of slime over its door tips on whoever opens it (4 damage, once). His cabinet at the back of the office holds the pen key; his desk and ledgers show where the money goes."
+              - "Go north through the barn doors into the grain hall and on along the aisle to the north-east, to the door marked KEEP OUT (THIS MEANS YOU, GUNTHER). The pen key opens it."
+              - "Take the cellar stair north into the cistern. Slimes and rats come out of the barred pens as you pass; fight them in the passage. Do not pull the FEEDING TIME lever: it opens every pen at once."
+              - "At the north end of the cistern, go east through the shipping room door to the crate in the far north-east corner. Click it: it holds Joe's invoice ('Breeder Slimes, 1 mated pair ... Total: 1012 gold') and a little gold."
+              - "Leave either the way you came or by the culvert: east through the iron door, down the slope to the river grate, which you lift from inside and walk out onto the riverbank by Joe's yard. Take the invoice to Gunther and ask about 'Joe's invoice'."
+            tips:
+              - "Behind the heart-painted gate in the cistern live Mr and Mrs Wobbles, the mated pair: two big slimes that split in two when hit. Killing them is optional; their nest holds 75 gold."
+              - "The sacks of JOE'S PREMIUM SLIME CHOW in the cellar slide aside to a hidden chest (Joe's ledger: 'Retirement fund - behind the Chow')."
+              - "Once the culvert grate is lifted, it also opens from the riverbank outside, a quick way back in."
+              - "After this quest Joe's shop shows only 'Out of Business', and the Slime Temple becomes the Temple of Vertigo."
+            reward: "1,500 XP, 1,000 gold and Vertigo's Outstanding Citizenship Award from Gunther, who also tells you about the dwarves (the next quest)."
+            points:
+              - {map: xeen_x1, name: "Lady Geraldine's Tavern"}
+              - {map: xeen_x1, name: "Fenwick"}
+              - {map: xeen_x1, name: "Joe"}
+            maps:
+              - map: xeen_xd01
+                show: [exit, door, lever, sign, objective]
+                focus: "Crate"
+                caption: "The entrance is in the south. The KEEP OUT door leads down to the cistern pens; the invoice crate is in the north-east, the culvert's river grate in the east."
+              - map: xeen_x1
+                show: [exit, objective]
+                focus: "Warehouse Key"
+                caption: "Joe's yard on the south bank: the warehouse key by the rain barrel, the warehouse door and the culvert grate on the riverbank."
+
+          - quest: m3
+            requires: "Joe's invoice delivered: Gunther passes on the dwarves' plea."
+            steps:
+              - "The mine portal is at the end of the mine lane in the hills north-west of Vertigo. Inside, a message repeats the task: the Clan King holds the Deep Mine below, the way down is the Deep Line cart at the bottom of the Open Stope, and its brake key is in the clan's strongbox in the tally room, in the camp north of the Turntable."
+              - "Follow the haul drift west and north to the Top Station. Step onto the trestle car at the loading platform and pull the car lever on it: it carries you west over the chasm to the Turntable."
+              - "From the Turntable go north into the clan's camp: across the mess hall, up the tally steps and through the door into the tally room at the camp's west end. Kill its guards and open the strongbox: the Deep Line's brake key is under the tally slates."
+              - "Go back through the camp to the Turntable, then west along the low gallery to the rim of the Open Stope. Follow the spiral of ledges and ramps down to the stope's floor, then go north-west to the Deep Line station at the buffer stop."
+              - "Click the brake wheel beside the chained cart: the brake key opens the padlock and the chain drops. Climb into the cart and it runs down the Deep Line into the Deep Mine."
+              - "In the Deep Mine the cart rides on down the last pitch. Walk north up the sentry cut and west through the gallery door. Behind it a sentry stands at the great gong: if he lives long enough he beats it, and so can you. The gong opens the barracks below, which you need, and their sergeants charge out; fight them on the gallery."
+              - "The King's Gate is barred by two iron bars, each lifted by a lever. Lever A is in the barracks behind the bunks, north of the hall below the gallery. Lever B is at the top of the furnace tower: cross the north span west to the far bank and climb the tower. With both levers down, click the King's Gate, north of the antechamber between the two king statues."
+              - "In the King's hall kill his guard and then the Clan King (level 18). Take his key from his body, open the King's door behind the throne to his hoard, and pull the shaft lever there. Ride the counterweight cage up the shaft and open the hatch: you come out on the hilltop north of Vertigo. Report to Gunther ('Dwarves')."
+            tips:
+              - "When the King's guard falls he kicks over the braziers and slag pours into the hall's gutters: standing in them burns everyone for 8 fire damage. Keep to the floor between them."
+              - "Four coloured pools in the Red Dwarf Mines each give +2 to a stat once per character: red Might, green Endurance, gold Accuracy, blue Intellect (the blue one is behind a thick old web in the south-west). The Red Dwarves' tablet says the same."
+              - "Gold veins in the mine walls can be chipped for gold; the rich vein near the stope brings the rock down on you. Rotten props near the Top Station cave in as you pass."
+              - "The winch at the west adit clears the rockfall to Burlock Savannah, a shortcut west for Act II."
+              - "After this quest the dwarves reopen the Red Dwarf Smithy by the mine entrance: weapons, and Grimbold teaches Repair Item Master."
+            reward: "2,500 XP, 1,500 gold and the Red Dwarf Badge of Courage from Gunther."
+            points:
+              - {map: xeen_x1, name: "Red Dwarf Mines"}
+            maps:
+              - map: xeen_xd02
+                show: [exit, lever, door, sign]
+                focus: "Deep Line brake"
+                caption: "The entrance is in the east. The trestle crosses to the Turntable; the camp and its tally room are north of it, the Open Stope and the Deep Line station in the west."
+              - map: xeen_xd03
+                show: [exit, lever, door]
+                focus: "The King's Gate"
+                caption: "The cart arrives in the east. The gong is on the gallery, lever A in the barracks to the north, lever B in the furnace tower in the west; the King's hall, his hoard and the escape shaft are north of the King's Gate."
+
+      - title: "Toad Meadow: Old Valia"
+        intro: "Old Valia's cottage stands in Toad Meadow, south-east of Vertigo. Her quest only needs the game to have started, so you can do it before or after the mines; it is the gate to Act II."
+        giver: {map: xeen_x1, npc: "Old Valia"}
+        quests:
+          - quest: m4
+            steps:
+              - "Ask Old Valia about 'Falista'. She tells of her unicorn, wants the witches destroyed and the Alacorn of Falista brought back. The witches lock nothing: their tower door is open."
+              - "The Witch Tower stands on its rise south-east of her cottage. Click its door and choose OK in the entrance window. Inside, kill the Goblin Warden in his lodge off the ground-floor gallery (through the warden's door, west of the entrance) and take the ring of keys from his strongbox: it opens all four cages."
+              - "Cage 1 is in the lodge by the west wall. The boy steps out but will not go home with goblin ears: he waits for the Alacorn. Leave him for now."
+              - "Take the east stair to the second floor, through the dormitory to the mistress's door, and into the schoolroom. Kill the schoolmistress and open cage 2: Rosebud tells you the door with the witch's face at the top of the north stair opens only to the coven's key, kept in their stores in the herb loft past the vats."
+              - "Leave the schoolroom by the double door onto the balcony and climb the west stair to the vat hall. Go up the loft steps: the witches' stores hold the coven's key. Back in the vat hall, a child cries behind the bookcase at its west end: click the bookcase, it rises, and cage 3 is behind it."
+              - "Take the north stair to the sleeping face door and open it with the coven's key. In the sanctum kill the guard, the witches and the Head Witch (level 20); when her sisters fall, her familiars crawl out of the floor. Go south into the bedchamber and open cage 4."
+              - "Cross the bridge east from the sanctum to the pedestal over the shaft and take the Alacorn. The cauldron below boils over and steam rises up the shaft: get off the bridge at once. Go to the hoist room at the bridge's west end, pull the brake lever on its north wall, call the cage and ride it down to the cauldron floor."
+              - "Go back to the lodge and click cage 1 again: the Alacorn cures the boy's ears and he runs home. Leave by the tower door and give Valia the Alacorn ('Falista'), then ask about 'Children' for the meadow's reward."
+            tips:
+              - "Valia takes the Alacorn only once the Head Witch is dead."
+              - "Do not fall into the cauldron (15 damage to everyone). While it boils, the steam on the bridge scalds for 6 each time."
+              - "A note by the vats says the strength brew is the vat with the TOAD on its lid: it gives +2 to a random stat once per character. The bubbling vat poisons, the green one makes you weak."
+              - "A loose wainscot panel in the east part of the tower hides a goblin's hoard. Talking skulls in the tower sell spell scrolls (Mind Blast, Heal, Sparks) for one gem each."
+              - "Once you are Crusaders, the shimmering ward on the roof stair sinks: the stair of cloud on the roof leads up to Cloudreach."
+            reward: "8,000 XP and the Crusader title from Valia; Knights become Cavaliers, Paladins Crusaders and Rangers Hunters (members who reach the class later are promoted at Valia's 'Crusaders' topic). 200 XP per freed child and 500 gold once all four are home."
+            points:
+              - {map: xeen_x1, name: "Witch Tower"}
+            maps:
+              - map: xeen_xd04
+                show: [exit, door, objective]
+                focus: "Locked cage"
+                caption: "The door is in the south. Cage 1 is in the lodge on the ground floor, cage 2 in the schoolroom (east), cage 3 behind the vat hall's bookcase (north-west), cage 4 in the bedchamber off the sanctum; the hoist drops from the sanctum floor to the cauldron."
+              - map: xeen_x1
+                show: [exit]
+                focus: "Old Valia"
+                caption: "Valia's cottage is south-east of Vertigo; the Witch Tower is further south-east."

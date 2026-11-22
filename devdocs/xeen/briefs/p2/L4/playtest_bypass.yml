@@ -1,0 +1,138 @@
+# P-2: no way to the aerie but through the stilled curtain.
+# Written by output/studio_cal/p2/tools/gen_playtests.py; run with --world xeen --map xeen_p2.blv.
+id: xeen.p2.l4.bypass
+title: 'Plane of Air (P2): before the test nobody reaches the Stair of Wind (P-2, D-64)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p2.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p2.blv
+- clear_hostiles:
+    radius: 40000
+- note: 'Straight into the curtain (D-64): the party stays on the Eye.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p2.blv
+      x: 3968
+      y: -1698
+      z: 256
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_p2.blv
+      x: 3968
+      y: -1698
+      z: 256
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: 3968
+      y: -1558
+      radius: 110
+      z_min: 248
+      z_max: 272
+- note: Beside the west gate stone, toward the stair's foot.
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p2.blv
+      x: 3268
+      y: -1738
+      z: 256
+      yaw_degrees: 125
+      pitch: 0
+    expect_stop:
+      map: xeen_p2.blv
+      x: 3268
+      y: -1738
+      z: 256
+      yaw_degrees: 125
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 5.0
+    follow_map_move: true
+- assert:
+    party_position:
+      x: -4096
+      y: -4096
+      radius: 256
+      z_min: -8
+      z_max: 40
+- note: Beside the east gate stone, toward the stair's foot.
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p2.blv
+      x: 4668
+      y: -1738
+      z: 256
+      yaw_degrees: 55
+      pitch: 0
+    expect_stop:
+      map: xeen_p2.blv
+      x: 4668
+      y: -1738
+      z: 256
+      yaw_degrees: 55
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 5.0
+    follow_map_move: true
+- assert:
+    party_position:
+      x: -4096
+      y: -4096
+      radius: 256
+      z_min: -8
+      z_max: 40

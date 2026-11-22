@@ -1,0 +1,55 @@
+# Hostility check of the Troll Holes' first pocket (DD-11A, L4; lane A7, agent:xeen-a7-dd11), D-25 Q7. The pocket's
+# trolls are A2's Troll Holes rows (Troll 11690, Troll Guard 11691, faction xeen_warren_trolls, placed without the
+# hostile flag so the world's relations.yml decides): hostile at load; Hobstadt's tribute (q-d13.tribute 113261) makes
+# them friendly; a fight with his court (q-d13.hostile 113263) turns them again (the later rule wins); a save and load
+# keeps each state. Kinds side by side do not fight each other. No window is open before a reload.
+id: xeen.dd11a.l4.hostility
+title: 'the Troll Holes, first pocket (DD-11A): trolls hostile, friendly on tribute, hostile again on the fight'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11a.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 23, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 23, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 23, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 23, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, min: 6}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, min: 6}}
+  - note: 'Hobstadt has his tribute (q-d13.tribute 113261): the pocket''s trolls turn friendly.'
+  - setup_shortcut: {kind: set_qbit, id: 113261, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, min: 14}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, max: 0}}
+  - note: 'A fight with Hobstadt''s court (q-d13.hostile 113263): every troll of the holes turns, tribute or not.'
+  - setup_shortcut: {kind: set_qbit, id: 113263, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 14}}
+  - note: 'A Troll and a Troll Guard side by side in the root tunnel, nearer each other than the party: they must not
+      take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11690, x: 700, y: 60, z: 0}
+  - spawn_actor: {monster_id: 11691, x: 800, y: -60, z: 0}
+  - advance_runtime: {seconds: 10}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}

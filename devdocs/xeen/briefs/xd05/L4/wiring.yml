@@ -7,7 +7,7 @@ events:
     every: 1
     once: true
     effects:
-      - message: "Vertigo has not slept for a week: war drums boom out of the north hills every night, and every night orc raiders fall on another farm. Mayor Gunther asked you to silence them. The drums are in these caves: burn all three (the signal drum on the palisade's firing step, the shaman's spirit drum in the warren, and the great drum in the Drum Hall, where the Drum-Master beats it), and look for Tam, Oslo's boy, whom they carried off from his father's farm."
+      - message: "Vertigo has not slept for a week: war drums boom out of the north hills every night, and every night orc raiders fall on another farm. The drums are in these caves: burn all three (the signal drum on the palisade's firing step, the shaman's spirit drum in the warren, and the great drum in the Drum Hall, where the Drum-Master beats it), and look for Tam, Oslo's boy, whom they carried off from his father's farm."
     notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
   - id: evt:boulder
     preset: door
@@ -60,6 +60,7 @@ events:
   - id: evt:drum_great
     preset: script
     source: platform:drum_great
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Great war drum
     condition: {map_var: {name: drum_great, equals: 0}}
     effects:
@@ -75,6 +76,7 @@ events:
           of: platform:drum_great
           to: xoburn
       - lights_on: light:burn_great
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", -960, 10304, -168)"
       - add:
           var: Experience
           value: 250
@@ -82,7 +84,7 @@ events:
     else_effects:
       - text: Nothing is left of the great war drum but a charred frame.
     text: "The dry hide catches at once: the great war drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_great_out
     preset: script
     trigger: timer
@@ -98,7 +100,8 @@ events:
           to: xochar
       - lights_off: light:burn_great
       - lights_on: light:ember_great
-    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+    text: "The drum collapses in a heap of ashes, smoke, and smoldering timber."
+    notes: "A few seconds later the fire has burnt the drum down to a charred frame with a few embers (the outposts' line, aaze0019, 'outpost' made 'drum')."
   - id: evt:drum_master_dead
     preset: script
     trigger: timer
@@ -116,6 +119,7 @@ events:
   - id: evt:drum_signal
     preset: script
     source: platform:drum_signal
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Signal drum
     condition: {map_var: {name: drum_signal, equals: 0}}
     effects:
@@ -131,6 +135,7 @@ events:
           of: platform:drum_signal
           to: xoburn
       - lights_on: light:burn_signal
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", 1120, 2128, 256)"
       - add:
           var: Experience
           value: 250
@@ -138,7 +143,7 @@ events:
     else_effects:
       - text: Nothing is left of the signal drum but a charred frame.
     text: "The dry hide catches at once: the signal drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_signal_out
     preset: script
     trigger: timer
@@ -154,10 +159,12 @@ events:
           to: xochar
       - lights_off: light:burn_signal
       - lights_on: light:ember_signal
-    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+    text: "The drum collapses in a heap of ashes, smoke, and smoldering timber."
+    notes: "A few seconds later the fire has burnt the drum down to a charred frame with a few embers (the outposts' line, aaze0019, 'outpost' made 'drum')."
   - id: evt:drum_spirit
     preset: script
     source: platform:drum_spirit
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Spirit drum
     condition: {map_var: {name: drum_spirit, equals: 0}}
     effects:
@@ -173,6 +180,7 @@ events:
           of: platform:drum_spirit
           to: xoburn
       - lights_on: light:burn_spirit
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", -2912, 7200, -104)"
       - add:
           var: Experience
           value: 250
@@ -180,7 +188,7 @@ events:
     else_effects:
       - text: Nothing is left of the spirit drum but a charred frame.
     text: "The dry hide catches at once: the spirit drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_spirit_out
     preset: script
     trigger: timer
@@ -196,7 +204,8 @@ events:
           to: xochar
       - lights_off: light:burn_spirit
       - lights_on: light:ember_spirit
-    notes: A few seconds later the fire has burnt the drum down to a charred frame with a few embers.
+    text: "The drum collapses in a heap of ashes, smoke, and smoldering timber."
+    notes: "A few seconds later the fire has burnt the drum down to a charred frame with a few embers (the outposts' line, aaze0019, 'outpost' made 'drum')."
   - id: evt:drums_all
     preset: script
     trigger: timer
@@ -204,12 +213,8 @@ events:
     condition: {map_var: {name: drums_burnt, at_least: 3}}
     once: true
     effects:
-      - qbit: war_drums_burned
-      - add:
-          var: Experience
-          value: 750
-      - message: "The last drum burns, and the caves fall silent but for dripping water. Without their drums the warband's raiders will not ride out again; Mayor Gunther will want to hear of it."
-    notes: "goal:war_drums: all three drums burnt (war_drums_burned); a larger sum for the last."
+      - lua: "XeenQuests.hook(\"x1-tam.drums\")"
+    notes: "goal:war_drums: all three drums burnt: A3's hook x1-tam.drums (war_drums_burned, its experience and words); each drum's own 250 stays the map's."
   - id: evt:exit_x1
     preset: exit
     source: exit:x1
@@ -219,8 +224,8 @@ events:
     source: exit:x7
     title: Back gate
     condition: {qbit: orc_back_gate_open}
-    else_effects:
-      - message: "The gate is barred from inside: a heavy timber bar lies across it in two iron brackets. Lift the bar first."
+    locked_text: "The gate is barred from inside: a heavy timber bar lies across it in two iron brackets. Lift the bar first."
+    notes: "Out to X7's south-east slopes (opened 2026-11-20 once X7 was installed; NOTES 'Sealed exits')."
   - id: evt:gate_bar
     preset: switch
     source: mover:gate_bar
@@ -230,8 +235,8 @@ events:
     effects:
       - qbit: orc_back_gate_open
     else_effects:
-      - text: "The bar is up; the back gate opens on Mount Firestone's slopes."
-    text: "You heave the heavy bar up out of its brackets. The back gate is free: it opens on the slopes of Mount Firestone."
+      - text: "The bar is up; the back gate is free."
+    text: You heave the heavy bar up out of its brackets. The back gate is free.
     notes: "set:back_gate / poi:back_gate_bar: the bar lifts from the inside only; then the gate is a two-way door to X7."
   - id: evt:gate_e
     preset: door
@@ -258,8 +263,9 @@ events:
     source: room:sleeping_hollows
     trigger: step
     once: true
-    text: "From a pit by the south wall a thin voice calls: \"Help! Please, get me out of here!\""
-    seconds: 6
+    text: "Crude furnishings and filthy bedding tell you that orcs have been living in this cave. From a pit by the south wall a thin voice calls: \"Help! Please, get me out of here!\""
+    seconds: 8
+    notes: The first sentence is the orc cave's own line (aaze0022).
   - id: evt:palisade_seen
     preset: text
     source: room:palisade_cave
@@ -272,10 +278,6 @@ events:
     trigger: step
     once: true
     effects:
-      - message: "A skinny farm boy scrambles to his feet. \"You came! I'm Tam, Oslo's son. They were going to sell me back to Pa for every cow he's got. I can climb out myself now - I'll run straight home and tell him!\" He swarms up the rope ladder and is gone."
-      - qbit: captive_freed
+      - lua: "XeenQuests.hook(\"x1-tam.tam\")"
       - hide_actors: 20
-      - add:
-          var: Experience
-          value: 300
-    notes: "goal:captive: reaching Tam in the pit frees him; he climbs out and runs home (hidden). His father Oslo rewards the party on X1."
+    notes: "goal:captive: reaching Tam in the pit: A3's hook x1-tam.tam (captive_freed, its experience and words); he climbs out and runs home (hidden). His father Oslo rewards the party on X1."

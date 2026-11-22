@@ -1,0 +1,242 @@
+{
+ "land_cells": 6650,
+ "lava_cells": {
+  "water:pod_lake": 268,
+  "water:alamar_moat": 267
+ },
+ "lava_share_of_box": 0.071,
+ "quiet_share": 0.574,
+ "areas": [
+  {
+   "id": "pop:field_gazers",
+   "land_cells": 1162,
+   "big_cells": 18.2,
+   "all_cells": 1162,
+   "count": 17
+  },
+  {
+   "id": "pop:alamar_robots",
+   "land_cells": 480,
+   "big_cells": 7.5,
+   "all_cells": 549,
+   "count": 9
+  },
+  {
+   "id": "pop:west_griffins",
+   "land_cells": 497,
+   "big_cells": 7.8,
+   "all_cells": 497,
+   "count": 8
+  },
+  {
+   "id": "pop:east_griffins",
+   "land_cells": 507,
+   "big_cells": 7.9,
+   "all_cells": 507,
+   "count": 8
+  },
+  {
+   "id": "pop:lava_dwellers",
+   "land_cells": 117,
+   "big_cells": 1.8,
+   "all_cells": 347,
+   "count": 14
+  },
+  {
+   "id": "pop:archers",
+   "land_cells": 70,
+   "big_cells": 1.1,
+   "all_cells": 70,
+   "count": 12
+  }
+ ],
+ "markers": 42,
+ "hostiles_by_area": {
+  "pop:field_gazers": 34.0,
+  "pop:alamar_robots": 18.0,
+  "pop:west_griffins": 16.0,
+  "pop:east_griffins": 16.0
+ },
+ "placed_hostile": 26,
+ "hostiles_at_load": 110.0,
+ "kill_xp_per_member": 73415,
+ "kill_xp_by_area_per_member": {
+  "pop:field_gazers": 21144,
+  "pop:alamar_robots": 14331,
+  "pop:west_griffins": 8582,
+  "pop:east_griffins": 8582,
+  "placed": 20775
+ },
+ "height_min_land_box": 834,
+ "height_max_land_box": 3710,
+ "relief_box": 2875,
+ "road_share": 0.017,
+ "lane_share": 0.012,
+ "first_fight": {
+  "entrance:south_road": [
+   [
+    2816,
+    "pop:east_griffins"
+   ],
+   [
+    3906,
+    "pop:west_griffins"
+   ]
+  ],
+  "entrance:east_pass": [
+   [
+    4920,
+    "pop:field_gazers"
+   ],
+   [
+    12056,
+    "pop:lava_dwellers"
+   ]
+  ],
+  "entrance:necropolis_gate": [
+   [
+    8482,
+    "pop:east_griffins"
+   ],
+   [
+    8689,
+    "pop:lava_dwellers"
+   ]
+  ]
+ },
+ "nearest_fight_to_a_town_door": [
+  3311,
+  "building:np_houses#3",
+  "pop:east_griffins"
+ ],
+ "nearest_fight_to": {
+  "poi:ambrose": [
+   3017,
+   "pop:west_griffins"
+  ],
+  "entrance:dd16_hatch": [
+   1676,
+   "pop:lava_dwellers"
+  ],
+  "entrance:dd10c_adit": [
+   0,
+   "pop:west_griffins"
+  ],
+  "poi:freeda": [
+   6928,
+   "pop:field_gazers"
+  ]
+ },
+ "poi_spots": 27,
+ "poi_groups": [
+  [
+   "entrance:np_gate"
+  ],
+  [
+   "entrance:dd17_gate",
+   "entrance:fd01_stair"
+  ],
+  [
+   "entrance:dd16_hatch"
+  ],
+  [
+   "entrance:dd22_hatch"
+  ],
+  [
+   "entrance:dd21_stair"
+  ],
+  [
+   "entrance:dd10c_adit"
+  ],
+  [
+   "poi:obelisk"
+  ],
+  [
+   "poi:fountain_resilience"
+  ],
+  [
+   "poi:warding_well"
+  ],
+  [
+   "poi:books"
+  ],
+  [
+   "poi:skull",
+   "poi:mirror"
+  ],
+  [
+   "poi:barrel",
+   "building:np_tavern"
+  ],
+  [
+   "poi:genie_pinnacle"
+  ],
+  [
+   "poi:genie_islet"
+  ],
+  [
+   "poi:genie_crag"
+  ],
+  [
+   "poi:archers_chest"
+  ],
+  [
+   "poi:griffin_nest"
+  ],
+  [
+   "poi:prospector"
+  ],
+  [
+   "poi:ancient_locker"
+  ],
+  [
+   "poi:pilgrim_cart"
+  ],
+  [
+   "poi:spring_pilgrim"
+  ],
+  [
+   "poi:fork_signpost"
+  ],
+  [
+   "poi:zone_sign"
+  ],
+  [
+   "building:np_guild"
+  ],
+  [
+   "building:np_market"
+  ],
+  [
+   "building:np_embalmer"
+  ],
+  [
+   "building:np_temple"
+  ]
+ ],
+ "poi_spacing_median": 4048,
+ "poi_spacing_min": 1448,
+ "poi_spacing_max": 11334,
+ "service_doors": 5,
+ "house_doors": 11,
+ "outdoor_chests": 6,
+ "dungeon_entrances": 6,
+ "farthest_land_from_anything": [
+  5971,
+  [
+   24,
+   72
+  ]
+ ],
+ "wild_land_share_over_3000": 0.127,
+ "views": {
+  "view:arrival": {
+   "to_alamar": 26451,
+   "to_pod": 15403
+  },
+  "view:signature": {
+   "to_alamar": 20715,
+   "to_pod": 5724
+  }
+ }
+}

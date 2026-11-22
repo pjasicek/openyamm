@@ -1,0 +1,44 @@
+# D-62's lines and devices (tools/xeen/quest_stub.py): DD-25's hall, DD-21's Sandro (the heart at the first fall), the
+# sluice, the grille and the Dead Food, D6's pod hatch on m33.done and DD-22's log. Owner: A3.
+name: Act V, D-62
+party: [Champion, Hero, Priest, ArchMage]
+steps:
+  - hook: dd25.arrival
+  - hook: [dd25.arrival, false]
+  - hook: dd25.well
+  - hook: dd25.throne
+  - expect: {qbit: dd25.dd25_arrived_once, last: "where the cups can be watched"}
+  # DD-21: the sluice, the gate, the heart before the fight, Sandro's fall reads right with it
+  - hook: [q-d23.culvert_gate, false]
+  - hook: q-d23.sluice_wheel
+  - hook: q-d23.culvert_gate
+  - hook: [q-d23.sluice_wheel, false]
+  - hook: q-d23.first_entry
+  - hook: q-d23.heart
+  - set: q-d23.sandro_fell
+  - hook: q-d23.sandro
+  - expect: {not_qbit: q-d23.beaten, last: "stands up out of what is left of him"}
+  - hook: [q-d23.grille, false]
+  - expect: {last: "Don't even THINK about taking my statuette!"}
+  - hook: q-d23.release
+  - hook: q-d23.grille
+  - expect: {qbit: q-d23.released, item: death_dungeon_key}
+  # The Dead Food: too weak, then pried; the second pry feeds nobody new
+  - actual: [Might, 20]
+  - hook: [q-d23.dead_food, false]
+  - expect: {not_qbit: q-d23.dead_food_pried, last: "You are not strong enough"}
+  - actual: [Might, 40]
+  - hook: q-d23.dead_food
+  - expect: {qbit: q-d23.dead_food_pried, player_bit: 11378, stat: [Endurance, 2]}
+  - hook: q-d23.dead_food
+  - expect: {stat: [Endurance, 2], last: "Nobody wants seconds."}
+  # D6's pod hatch before and after Castle Alamar; DD-22's console, door and log
+  - hook: [d6.sheltem_hatch, false]
+  - set: m33.done
+  - hook: d6.sheltem_hatch
+  - hook: [dd22.blast_door, false]
+  - hook: dd22.security_console
+  - hook: dd22.blast_door
+  - hook: dd22.log_page_1
+  - hook: dd22.log_page_6
+  - expect: {qbit: dd22.lockdown_released, last: "Entry 6 of 6", xp: 12000}

@@ -1,0 +1,203 @@
+# MAW in the World of Xeen: the single source of every Xeen number MAW uses (devdocs/maw/XEEN_SUPPORT.md).
+# Edit this file, not anything derived from it; run `python3 tools/maw/xeen_balance.py` after each edit (it checks this
+# file against Xeen's map table, monsters and quest bits and writes item_bases.yml and new_game_continents.yml beside
+# it) and add a changelog line. Testers quote the version.
+#
+# maps: every Xeen map (worlds/xeen/data_tables/map_stats.txt), by file name, in route order (the Standard party level
+# of devdocs/xeen/MAPS.md and source/maps.yml). The fields are MM9's (worlds/mm9/balance.yml):
+#   band             MAW's low/mid/high B levels: the 1st/2nd/3rd native family (the map's encounter pictures, sorted
+#                    by B level) is pinned to them, other families pulled halfway into [low, high]
+#   horizontal_starter, madness_start, madness_level    as data/map_levels.yml's lists
+#   natives          up to three families (pictures without the tier letter) in place of the map table's encounter
+#                    pictures: set on the maps whose table lists none, from the families their scenes place most
+#   story_bands, density, completion_exclude    as in worlds/mm9/balance.yml
+# Bands: `xeen_balance.py --draft` suggests each from the map's Standard party level on MAW's MM7 stages (the curve
+# MM9's acts were put on) and the spread of its natives: the curve's value is where the natives meet the party (one
+# native: the band's low; two or three: the mean of low and high, D-84); the comments name each map's act, Standard
+# party and monster levels and its natives' B levels. Beyond Madness: one ladder for both faces, 500 x (route position / 79)^1.2; the
+# start maps X1 and XD-01 at 4, the Warzone at 1 (an arena, as MM9's).
+
+version: 2
+changelog:
+  - {version: 1, date: 2026-11-21, note: "first bands: Xeen's acts on MAW's MM7 stages by Standard party level; one Beyond Madness ladder over both faces; the Warzone as MAW's arenas; octopods and X2's lake dragons left out of clearing"}
+  - {version: 2, date: 2026-11-21, note: "D-84 MX-8: a map with one native has the curve's value as its band's low (MAW pins a single native there; it read 15-20 % low), the maps with natives of their own take their natives' spread; X7's natives are the north's three families (an Act V map under MAW). Gem gear on Xeen's tiers as MAW rungs (MX-6)"}
+
+# The water's guards: D4's lake octopods and P4's sea octopods; X2's lake dragons below (the user's MM9 rule: monsters
+# that guard water do not count toward a map's clearing).
+completion_exclude: ["Xeen Octopod"]
+
+# Monster density by difficulty (MM9's figures, MM9_BALANCE_DESIGN.md section 7): the share of Xeen's placed monsters
+# an indoor map holds, its pack reserve (rulesets/maw/maps/<stem>_zz_maw.scene.yml, tools/maw/xeen_pack_reserve.py)
+# adding up to 2x. Xeen's outdoor maps grow by MAW's group sizes on their spawn points instead. A challenge mode's
+# factor replaces the difficulty's; a map's own `density` multiplies either.
+density:
+  difficulty: {easy: 1.0, normal: 1.0, maw: 1.0, hard: 1.2, hell: 1.2, nightmare: 1.4}
+  challenge: {doom: 1.6, road_to_insanity: 1.8, beyond_madness: 2.0}
+
+maps:
+  # XD-01 Joe's Warehouse: act I, Standard party 1-3, monsters 2-6, Wobbles 4; natives B [4, 4].
+  xeen_xd01.blv: {band: [3, 4, 4], horizontal_starter: true, madness_start: true, madness_level: 4}
+  # X1 Vertigo Meadows: act I, Standard party 1-4, monsters 2-12; natives B [7, 8, 12].
+  xeen_x1.odm: {band: [3, 4, 5], horizontal_starter: true, madness_start: true, madness_level: 4}
+  # XD-02 Red Dwarf Mines: act I, Standard party 3-5, monsters 3-10; natives B [6, 10, 10].
+  xeen_xd02.blv: {band: [4, 5, 7], horizontal_starter: true, madness_level: 5}
+  # XD-05 Orc Caves: act I, Standard party 3-5, monsters 4-10, Drum-Master 12; natives B [6, 7, 8].
+  xeen_xd05.blv: {band: [5, 5, 6], horizontal_starter: true, madness_level: 6}
+  # XD-03 Deep Mine: act I, Standard party 5-6, monsters 6-12, Clan King 18; natives B [9, 10, 10].
+  xeen_xd03.blv: {band: [6, 7, 7], madness_level: 10}
+  # XD-04 Witch Tower: act I, Standard party 5-7, monsters 4-14, Head Witch 20; natives B [6, 8, 14].
+  xeen_xd04.blv: {band: [5, 7, 9], madness_level: 14}
+  # X2 Rivercity and Lake Darzog: act II, Standard party 7-11, monsters 6-24 (lake dragons 60, trap); natives B [12, 14, 22].
+  xeen_x2.odm: {band: [6, 9, 12], madness_level: 18, completion_exclude: [11640]}
+  # XD-21 Robbers' Den: act II, Standard party 9-11, monsters 10-18; natives B [12, 18].
+  xeen_xd21.blv: {band: [8, 10, 12], madness_level: 23}
+  # XD-27 Ogre Lair: act II, Standard party 10-12, monsters 12-20; natives B [22, 22, 22].
+  xeen_xd27.blv: {band: [9, 10, 12], madness_level: 27}
+  # X4 Burlock Savannah: act II, Standard party 11-15, monsters 10-30; natives B [20, 22, 22].
+  xeen_x4.odm: {band: [10, 12, 13], madness_level: 32}
+  # XD-07 Castle Burlock: act II, Standard party 12-14, monsters 10-24 (caged fire dragon optional); natives B [8, 22, 28].
+  xeen_xd07.blv: {band: [8, 12, 16], madness_level: 37}
+  # X3 Lifeforce Lagoon: act II, Standard party 13-16, monsters 10-30; natives B [8, 12, 26].
+  xeen_x3.odm: {band: [9, 13, 17], madness_level: 42}
+  # XD-06 Temple of Yak: act II, Standard party 14-16, monsters 14-28, Yak Master 35; natives B [12, 12, 20].
+  xeen_xd06.blv: {band: [10, 13, 17], madness_level: 47}
+  # XD-13 Newcastle Keep: act II-IV, Standard party 14-16, monsters 16-24 (wood golems); natives B [26, 26].
+  xeen_xd13.blv: {band: [12, 13, 15], madness_level: 52}
+  # XD-25 Asp Undercroft: act II, Standard party 14-16, monsters 14-26; natives B [20].
+  xeen_xd25.blv: {band: [13, 16, 19], madness_level: 57}
+  # XD-08 Tomb of a Thousand Terrors: act II, Standard party 15-17, monsters 15-30; natives B [12, 12, 26].
+  xeen_xd08.blv: {band: [9, 14, 19], madness_level: 63}
+  # XD-26 Gargoyle Eyrie: act II, Standard party 15-17, monsters 16-28; natives B [22].
+  xeen_xd26.blv: {band: [14, 17, 20], madness_level: 68}
+  # XD-09 Golem Dungeon: act II, Standard party 16-18, monsters 18-40, Diamond Golem 50; natives B [26].
+  xeen_xd09.blv: {band: [15, 18, 21], madness_level: 74}
+  # XD-10 Cave of Illusion: act II, Standard party 17-19, monsters 18-28; natives B [24, 28].
+  xeen_xd10.blv: {band: [14, 16, 18], madness_level: 79}
+  # DD-01 Castleview Sewer: act III, Standard party 18-20, monsters 10-20; natives B [6, 18, 25].
+  xeen_dd01.blv: {band: [11, 17, 22], madness_level: 85}
+  # X8 Cloudreach: act II, Standard party 18-20, monsters 14-30 (cloud golem 50 rare); natives B [18, 24].
+  xeen_x8.blv: {band: [14, 17, 19], madness_level: 90}
+  # XD-11 Tower of High Magic: act II, Standard party 18-20, monsters 18-32; natives B [24].
+  xeen_xd11.blv: {band: [17, 20, 23], madness_level: 96}
+  # D1 Castleview Vale: act III, Standard party 18-21, monsters 14-30; natives B [18, 18, 20].
+  xeen_d1.odm: {band: [15, 17, 19], madness_level: 102}
+  # DD-04 The Gremlin Court: act III, Standard party 19-20, monsters 12-20, Gettlewaithe 24; natives B [18].
+  xeen_dd04.blv: {band: [17, 21, 24], madness_level: 108}
+  # DD-02 Ellinger's Tower: act III, Standard party 20-22, monsters 14-24; natives B [14, 22, 24].
+  xeen_dd02.blv: {band: [14, 18, 23], madness_level: 114}
+  # D2 Sprite Forest and Ogre Pass: act III, Standard party 21-25, monsters 16-38; natives B [22, 22, 28].
+  xeen_d2.odm: {band: [18, 20, 23], madness_level: 120}
+  # DD-06 Southern Tower: act III, Standard party 22-26, monsters 14-30; natives B [18, 22].
+  xeen_dd06.blv: {band: [18, 21, 24], madness_level: 126}
+  # DD-09 Temple of Bark: act III, Standard party 22-26, monsters 14-30 (Barkman 60, optional); natives B [18, 20].
+  xeen_dd09.blv: {band: [18, 21, 24], madness_level: 132}
+  # DD-13 Ogre Forts: act III, Standard party 22-26, monsters 18-30; natives B [22].
+  xeen_dd13.blv: {band: [21, 25, 30], madness_level: 138}
+  # DD-10A Gemstone Mines, west pocket: act III, Standard party 23-27, monsters 16-28; natives B [14, 18, 20].
+  xeen_dd10a.blv: {band: [18, 22, 26], madness_level: 144}
+  # DD-10B Gemstone Mines, east pocket: act III, Standard party 23-27, monsters 16-28; natives B [14, 20, 26].
+  xeen_dd10b.blv: {band: [15, 22, 29], madness_level: 150}
+  # DD-11A Troll Holes, first pocket: act III, Standard party 23-27, monsters 18-38; natives B [28].
+  xeen_dd11a.blv: {band: [22, 26, 31], madness_level: 156}
+  # DD-11B Troll Holes, second pocket: act III, Standard party 23-27, monsters 18-38; natives B [28].
+  xeen_dd11b.blv: {band: [22, 26, 31], madness_level: 163}
+  # DD-11C Troll Holes, third pocket: act III, Standard party 23-27, monsters 18-38, Hobstadt 42; natives B [28].
+  xeen_dd11c.blv: {band: [22, 26, 31], madness_level: 169}
+  # X5 Winterkill Tundra: act III, Standard party 24-28, monsters 16-40 (cyclops corner 36-50, trap); natives B [20, 22, 28].
+  xeen_x5.odm: {band: [19, 23, 27], madness_level: 175}
+  # XD-22 Ninja Pagoda: act III, Standard party 25-29, monsters 20-40; natives B [30].
+  xeen_xd22.blv: {band: [24, 29, 34], madness_level: 182}
+  # XD-23 Troll Warren: act III, Standard party 25-29, monsters 18-28; natives B [28].
+  xeen_xd23.blv: {band: [24, 29, 34], madness_level: 188}
+  # XD-24 Nightshadow Crypt: act III, Standard party 25-29, monsters 30-40, Count Draco 45; natives B [40, 40].
+  xeen_xd24.blv: {band: [21, 24, 27], madness_level: 195}
+  # D3 Sandcaster and the Aging Forest: act III, Standard party 27-30, monsters 20-45; natives B [30, 38, 38].
+  xeen_d3.odm: {band: [22, 26, 29], madness_level: 201}
+  # DD-18 Sandcaster Sewer: act III, Standard party 28-30, monsters 25-40; natives B [25, 30, 38].
+  xeen_dd18.blv: {band: [21, 26, 31], madness_level: 208}
+  # XD-20 The Warzone: act any, Standard party -, monsters by tier; natives B -.
+  xeen_xd20.blv: {band: [1, 1, 1], madness_level: 1}
+  # X6 Desert of the Sphinx: act IV, Standard party 30-33, monsters 22-50; natives B [28, 30, 38].
+  xeen_x6.odm: {band: [24, 28, 33], madness_level: 214}
+  # XD-14 Castle Basenji: act IV, Standard party 31-34, monsters 22-45; natives B [30, 45].
+  xeen_xd14.blv: {band: [24, 30, 35], madness_level: 221}
+  # XD-15 The Sphinx: act IV, Standard party 31-34, monsters 28-45; natives B [28, 52].
+  xeen_xd15.blv: {band: [21, 30, 38], madness_level: 228}
+  # XD-12 Darzog's Tower: act IV, Standard party 33-36, monsters 30-48, Darzog 55; natives B [24, 45, 50].
+  xeen_xd12.blv: {band: [21, 32, 43], madness_level: 234}
+  # DD-03 Castle Kalindra: act III-IV, Standard party 30-40, monsters 28-48 (Scraps 70, optional); natives B [26, 40, 50].
+  xeen_dd03.blv: {band: [22, 33, 43], madness_level: 241}
+  # D4 Lakeside and Blackfang: act IV, Standard party 35-38, monsters 26-50 (octopods 60, lake trap); natives B [38, 38, 40].
+  xeen_d4.odm: {band: [30, 35, 40], madness_level: 248}
+  # DD-05 Western Tower of Mok: act IV, Standard party 35-39, monsters 25-45; natives B [35, 35].
+  xeen_dd05.blv: {band: [31, 36, 40], madness_level: 254}
+  # DD-20 Lakeside Coven and Sewer: act IV, Standard party 35-39, monsters 24-45; natives B [25].
+  xeen_dd20.blv: {band: [36, 43, 50], madness_level: 261}
+  # DD-23 Gargoyle Lair: act IV, Standard party 35-39, monsters 24-40; natives B [38].
+  xeen_dd23.blv: {band: [36, 43, 50], madness_level: 268}
+  # DD-07 Eastern Tower: act IV, Standard party 36-40, monsters 28-48; natives B [50, 55].
+  xeen_dd07.blv: {band: [32, 37, 42], madness_level: 275}
+  # DD-12 Dungeon of Lost Souls: act IV, Standard party 37-39, monsters 35-55; natives B [45, 45].
+  xeen_dd12.blv: {band: [32, 37, 42], madness_level: 282}
+  # DD-19 Wizard Quarter: act IV, Standard party 38-41, monsters 32-55, Xenoc 60; natives B [40, 40].
+  xeen_dd19.blv: {band: [34, 39, 44], madness_level: 289}
+  # DD-14 Castle Blackfang: act IV, Standard party 39-42, monsters 36-58, Count Blackfang 70; natives B [40].
+  xeen_dd14.blv: {band: [41, 49, 57], madness_level: 296}
+  # D5 Desert of Doom: act V, Standard party 42-45, monsters 32-55; natives B [38, 50, 50].
+  xeen_d5.odm: {band: [39, 45, 51], madness_level: 303}
+  # DD-15 Great Pyramid: act V, Standard party 44-47, monsters 42-65; natives B [52].
+  xeen_dd15.blv: {band: [48, 57, 67], madness_level: 310}
+  # DD-16 Corak's Pod: act V, Standard party 45-47, monsters 40-58 (few); natives B [50].
+  xeen_dd16.blv: {band: [49, 58, 68], madness_level: 317}
+  # DD-24 Giants' Hall: act V, Standard party 45-47, monsters 38-58; natives B -.
+  xeen_dd24.blv: {band: [49, 58, 68], natives: [Xeen Giant], madness_level: 324}
+  # X9 Clouds of Xeen: act V, Standard party 46-48, monsters 35-55; natives B [28, 38].
+  xeen_x9.blv: {band: [43, 50, 58], madness_level: 331}
+  # X7 Mount Firestone: act V, Standard party 40-55, monsters south 6-12 orcs; north 40-85; natives B [7, 55, 66].
+  # Under MAW an Act V map: its natives are the north's three families (D-84 MX-8); the south slope's orcs are pulled
+  # halfway into the band.
+  xeen_x7.odm: {band: [34, 51, 68], natives: [Xeen Elemental Golem, Xeen Hydra, Xeen Dragon], madness_level: 338}
+  # DD-25 Bosco's Hall: act V, Standard party -, monsters -; natives B -.
+  xeen_dd25.blv: {band: [43, 52, 61], madness_level: 345}
+  # XD-17 Shangri-La: act V, Standard party -, monsters -; natives B -.
+  xeen_xd17.blv: {band: [43, 52, 61], madness_level: 352}
+  # XD-19 Castle Xeen: act V, Standard party 47-50, monsters 42-70, Xeen's Pet 75, Lord Xeen 85; natives B [50].
+  xeen_xd19.blv: {band: [53, 63, 74], madness_level: 359}
+  # D6 The Forbidden Zone: act V, Standard party 48-51, monsters 38-65; natives B [38, 50, 62].
+  xeen_d6.odm: {band: [41, 54, 68], madness_level: 367}
+  # DD-10C Gemstone Mines, north pocket: act V, Standard party 48-51, monsters 40-50; natives B [50].
+  xeen_dd10c.blv: {band: [54, 65, 76], madness_level: 374}
+  # XD-16 Volcano Cave: act V, Standard party 48-52, monsters 42-58; natives B [50].
+  xeen_xd16.blv: {band: [55, 66, 77], madness_level: 381}
+  # DD-08 Northern Tower: act V, Standard party 49-52, monsters 40-62; natives B [55].
+  xeen_dd08.blv: {band: [56, 67, 79], madness_level: 388}
+  # DD-21 Necropolis Sewer: act V, Standard party 49-52, monsters 40-62, Sandro 65; natives B [52].
+  xeen_dd21.blv: {band: [56, 67, 79], madness_level: 396}
+  # DD-17 Castle Alamar: act V, Standard party 52-55, monsters 50-75; natives B [62].
+  xeen_dd17.blv: {band: [62, 74, 86], madness_level: 403}
+  # D7 The Skyroads: act VI, Standard party 55-58, monsters 50-75 (Megadragon 125, optional); natives B [28, 38, 80].
+  xeen_d7.blv: {band: [45, 67, 90], madness_level: 410}
+  # DD-22 Sheltem's Pod: act VI, Standard party 56-60, monsters 48-65; natives B [62].
+  xeen_dd22.blv: {band: [70, 84, 98], madness_level: 418}
+  # DD-26 Olympus Sewer: act VI, Standard party 56-60, monsters 48-65; natives B [70].
+  xeen_dd26.blv: {band: [70, 84, 98], madness_level: 425}
+  # P1 Plane of Fire of Xeen: act VI, Standard party 56-60, monsters 55-70, guardians 75; natives B -.
+  xeen_p1.blv: {band: [47, 70, 93], natives: [Xeen Elemental Golem, Xeen Elemental], madness_level: 432}
+  # P2 Plane of Air of Xeen: act VI, Standard party 56-60, monsters 55-70, guardians 75; natives B -.
+  xeen_p2.blv: {band: [61, 70, 79], natives: [Xeen Elemental, Xeen Air Elemental], madness_level: 440}
+  # P3 Plane of Earth of Xeen: act VI, Standard party 56-60, monsters 55-70, guardians 75; natives B -.
+  xeen_p3.blv: {band: [61, 70, 79], natives: [Xeen Elemental, Xeen Earth Elemental], madness_level: 447}
+  # P4 Plane of Water of Xeen: act VI, Standard party 56-60, monsters 55-70, guardians 75; natives B -.
+  xeen_p4.blv: {band: [61, 70, 79], natives: [Xeen Elemental, Xeen Water Elemental], madness_level: 455}
+  # FD-01 Alamar Depths: act VI, Standard party 58-61, monsters 55-80; natives B -.
+  xeen_fd01.blv: {band: [74, 88, 103], natives: [Xeen Robot], madness_level: 462}
+  # FD-02 Southern Sphinx: act VI, Standard party 58-61, monsters 55-75; natives B -.
+  xeen_fd02.blv: {band: [64, 74, 83], natives: [Xeen Mummy, Xeen Bone Dragon], madness_level: 470}
+  # P5 Clouds of the Ancients: act VI, Standard party -, monsters none or a last guardian; natives B -.
+  xeen_p5.blv: {band: [62, 75, 88], madness_level: 477}
+  # FD-03 Darkstone Tower: act VI, Standard party 60-63, monsters 60-85; natives B -.
+  xeen_fd03.blv: {band: [68, 79, 89], natives: [Xeen Golem, Xeen Elemental Golem], madness_level: 485}
+  # XD-18 Dragon Cave: act optional, Standard party 60-64, monsters 65-100, Dragon King 110; natives B -.
+  xeen_xd18.blv: {band: [80, 96, 112], natives: [Xeen Dragon], madness_level: 492}
+  # FD-04 Dragon Tower and the Dungeon of Death: act optional, Standard party 62-66, monsters 65-100; natives B -.
+  xeen_fd04.blv: {band: [65, 85, 105], natives: [Xeen Lich, Xeen Dragon, Xeen Dark Dragon], madness_level: 500}

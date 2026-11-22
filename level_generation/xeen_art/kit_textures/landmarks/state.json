@@ -1,0 +1,402 @@
+{
+ "xaenergy": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.027,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.924,
+      0.943,
+      1.005
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xaenergy_v1.txt",
+    "raw": "raw/xaenergy_v1.png",
+    "refs": [
+     "refs/xaenergy_v1_1.png",
+     "refs/xaenergy_v1_2.png",
+     "refs/xaenergy_v1_3.png"
+    ],
+    "seam_raw": "raw/xaenergy_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xafield": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.555,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.756,
+      0.885,
+      0.923
+     ],
+     "seam_shift": [
+      0,
+      1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xafield_v1.txt",
+    "raw": "raw/xafield_v1.png",
+    "refs": [
+     "refs/xafield_v1_1.png",
+     "refs/xafield_v1_2.png",
+     "refs/xafield_v1_3.png"
+    ],
+    "seam_raw": "raw/xafield_v1_seam.png",
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.096,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.674,
+      0.856,
+      0.874
+     ],
+     "seam_shift": [
+      -1,
+      0
+     ]
+    },
+    "note": "v1 read as a swimming pool's water (caustic ripples, flat turquoise). Make it read as a force field: a dark deep-blue to near-black base that the light glows out of, thin bright cyan-white hexagon lines that glow, soft vertical bands of shimmer, faint electric arcs; no water caustics, no ripples, not turquoise.",
+    "prompt": "prompts/xafield_v2.txt",
+    "raw": "raw/xafield_v2.png",
+    "refs": [
+     "refs/xafield_v2_1.png",
+     "refs/xafield_v2_2.png",
+     "refs/xafield_v2_3.png"
+    ],
+    "seam_raw": "raw/xafield_v2_seam.png",
+    "version": 2
+   }
+  ]
+ },
+ "xahull": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.68,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      1.353,
+      1.01,
+      1.13
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xahull_v1.txt",
+    "raw": "raw/xahull_v1.png",
+    "refs": [
+     "refs/xahull_v1_1.png",
+     "refs/xahull_v1_2.png",
+     "refs/xahull_v1_3.png"
+    ],
+    "seam_raw": "raw/xahull_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xahullbn": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.47,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.966,
+      1.028,
+      1.063
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xahullbn_v1.txt",
+    "raw": "raw/xahullbn_v1.png",
+    "refs": [
+     "refs/xahullbn_v1_1.png",
+     "refs/xahullbn_v1_2.png",
+     "refs/xahullbn_v1_3.png"
+    ],
+    "seam_raw": "raw/xahullbn_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xkarrow": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.882,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkarrow_v1.txt",
+    "raw": "raw/xkarrow_v1.png",
+    "refs": [
+     "refs/xkarrow_v1_1.png",
+     "refs/xkarrow_v1_2.png",
+     "refs/xkarrow_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xkburban": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.964,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkburban_v1.txt",
+    "raw": "raw/xkburban_v1.png",
+    "refs": [
+     "refs/xkburban_v1_1.png",
+     "refs/xkburban_v1_2.png",
+     "refs/xkburban_v1_3.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.084,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkburban_v2.txt",
+    "raw": "raw/xkburban_v2.png",
+    "refs": [
+     "refs/xkburban_v2_1.png",
+     "refs/xkburban_v2_2.png",
+     "refs/xkburban_v2_3.png"
+    ],
+    "version": 2
+   }
+  ]
+ },
+ "xkburcrst": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.126,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkburcrst_v1.txt",
+    "raw": "raw/xkburcrst_v1.png",
+    "refs": [
+     "refs/xkburcrst_v1_1.png",
+     "refs/xkburcrst_v1_2.png",
+     "refs/xkburcrst_v1_3.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.03,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkburcrst_v2.txt",
+    "raw": "raw/xkburcrst_v2.png",
+    "refs": [
+     "refs/xkburcrst_v2_1.png",
+     "refs/xkburcrst_v2_2.png",
+     "refs/xkburcrst_v2_3.png"
+    ],
+    "version": 2
+   }
+  ]
+ },
+ "xkkalban": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.056,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkkalban_v1.txt",
+    "raw": "raw/xkkalban_v1.png",
+    "refs": [
+     "refs/xkkalban_v1_1.png",
+     "refs/xkkalban_v1_2.png",
+     "refs/xkkalban_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xkkalcrst": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.085,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkkalcrst_v1.txt",
+    "raw": "raw/xkkalcrst_v1.png",
+    "refs": [
+     "refs/xkkalcrst_v1_1.png",
+     "refs/xkkalcrst_v1_2.png",
+     "refs/xkkalcrst_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xkportc": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.393,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkportc_v1.txt",
+    "raw": "raw/xkportc_v1.png",
+    "refs": [
+     "refs/xkportc_v1_1.png",
+     "refs/xkportc_v1_2.png",
+     "refs/xkportc_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xtslate": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.78,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.952,
+      0.964,
+      0.973
+     ],
+     "seam_shift": [
+      0,
+      -1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xtslate_v1.txt",
+    "raw": "raw/xtslate_v1.png",
+    "refs": [
+     "refs/xtslate_v1_1.png",
+     "refs/xtslate_v1_2.png",
+     "refs/xtslate_v1_3.png"
+    ],
+    "seam_raw": "raw/xtslate_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xtslatew": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.983,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      1.01,
+      0.968,
+      0.994
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xtslatew_v1.txt",
+    "raw": "raw/xtslatew_v1.png",
+    "refs": [
+     "refs/xtslatew_v1_1.png",
+     "refs/xtslatew_v1_2.png",
+     "refs/xtslatew_v1_3.png"
+    ],
+    "seam_raw": "raw/xtslatew_v1_seam.png",
+    "version": 1
+   }
+  ]
+ }
+}

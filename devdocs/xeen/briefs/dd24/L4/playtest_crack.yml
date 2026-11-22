@@ -1,0 +1,42 @@
+# DD-24 (D-47 Q26): the People (about 300 tall) cannot follow the party into the little ones' crack (128 x 256), and a
+# 448-high door passes one. At war (113321): the party stands halfway up the crack; a Giant and a Cyclops in the boulder
+# store go for it and stay out of the crack. Then the party in the larder with its door open: a Giant from the longhall
+# comes through the door to it.
+id: xeen.dd24.l4.crack
+title: "Giants' Hall (DD-24): the crack keeps giants out, the doors let them through"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - setup_shortcut: {kind: set_qbit, id: 113321, value: true}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - set_pose: {map: xeen_dd24.blv, x: 2432, y: 2700, z: 320, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); log('crack pos ok')"}
+  - spawn_actor: {monster_id: 11084, x: 1500, y: 2150, z: 0}
+  - spawn_actor: {monster_id: 11083, x: 1650, y: 2300, z: 0}
+  - advance_runtime: {seconds: 20}
+  - assert: {actor_count: {monster_id: 11084, near: [2432, 2700, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11083, near: [2432, 2700, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11084, near: [2050, 2112, 160], max: 0}}
+  - play_lua: {source: "log('giants tried: see the next assert')"}
+  - assert: {actor_count: {monster_id: 11084, near: [1600, 2112, 260], min: 1}}
+  - set_pose: {map: xeen_dd24.blv, x: -1650, y: 1350, z: 0, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if door_state(3) ~= 'open' then click(6) end"}
+  - spawn_actor: {monster_id: 11084, x: -700, y: 1344, z: 0}
+  - advance_runtime: {seconds: 15}
+  - assert: {actor_count: {monster_id: 11084, near: [-1500, 1344, 450], min: 1}}

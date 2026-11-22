@@ -60,6 +60,24 @@ pose with `video.terrain_decorations` on and off, and compare the changed pixels
 [0.72, 0.86, 0.62] was 25-45 % too dark in red). MM8 matched already. MM6's mats are 15-25 % greener than New
 Sorpigal's ground; that is the approved look and is kept.
 
+## Plants by material (generated decoration files)
+
+MM6-MM8's decoration files were written once per map by `decoration_rollout/`. A world whose maps are rebuilt (Xeen)
+writes them from a hand-written `worlds/<world>/terrain_decorations/plants.yml` instead: `families_file` (Xeen: MM7's
+library by its `worlds/` path), `settings` (map file keys), `materials` (what grows on each ground material of
+`terrain_materials/world.yml`: family, density, tint) and `maps` (per map: `enabled: false` with a reason, or its own
+settings and materials). `tools/terrain_materials.py plants --world <world> --map <map>` (and every `weights` run)
+resolves each tile of the map to its material(s) with the map's own tile rules, writes one rule per tile and growing
+material, and for a transition tile a coverage mask (`masks/<tile>_<material>.png`, 64 x 64) from the same colour split
+the weights use, times the tile's opaque share on shore tiles (no plants in the water). The masks agree with MM7's
+reviewed foreground masks on 96-99 % of their pixels. A grass tint is multiplied by the map's `shade` of that
+material, so darker or drier grass keeps its mats in tone. An open-air BLV (`<map>.blv`) gets
+`<stem>_blv.yml` with one rule per growing layer of its ground file, named by its scene's `terrain: {grass: ...}`
+(studio `atmosphere.yml` `ground.grass`). Xeen's biomes (F5, 2026-11-21): meadows on Cloudside, dry meadow and dark
+woodland grass on the Darkside (the maps' grass shades), reeds on swamp, sparse dry tufts on desert sand and dead tufts
+on cracked ground, none on snow, ice, ash or lava. X1's town meadow, New Sorpigal's settings: +0.2 ms GPU p50,
++0.08 ms CPU (one visible run each, grass off and on, on a machine loaded by other jobs).
+
 ## Short grass clumps
 
 Cells 0-1, the base layer, are drawn as clumps (the library's `clump` block, `TerrainDecorationClump`): `cards`

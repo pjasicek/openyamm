@@ -5,10 +5,12 @@ events:
     preset: script
     trigger: timer
     every: 1
+    condition: {not: {qbit: arrived_once}}
     once: true
     effects:
-      - message: "The ogres' lair, in the river bluff west of the north river. Captain Nystor, in Rivercity: \"Those Ogres are ruining me! For months they have been throwing boulders at the boats that ply the waters around here. Three of my ships have gone to the bottom in as many months because the Ogres like the sound of crunching wood and screaming men.\" Destroy their lair, and the river is his again. Their chieftain, he says, throws from a ledge high over the river."
-    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
+      - lua: "XeenQuests.hook(\"q-c23.arrival\")"
+      - qbit: arrived_once
+    notes: "Say why the party is here: A3's hook q-c23.arrival (its window text; a one-shot timer: a load event's window is not shown), on the first arrival only (arrived_once)."
   - id: evt:chest_bundle
     preset: chest
     source: chest:bundle
@@ -134,7 +136,6 @@ events:
     condition: {kills: {monster: monster:chieftain}}
     locked_text: "The Chieftain's seat of boulders, hung with the trophies of Nystor's boats. Break it now and his band will only pile it up again: the Chieftain throws from the ledge beyond the quarry."
     effects:
-      - qbit: ogre_lair_destroyed
       - add:
           var: Experience
           value: 2000
@@ -145,8 +146,8 @@ events:
       - hide: platform:oar_2
       - passable: platform:oar_2
       - hide: panel:sail
-      - message: You break everything you can find in the lair.
-    notes: "goal:lair / set:lair: Q-C23's bit; the source's own two lines (xeen aaze0010:0-1). The seat, the oars and the sail come down."
+      - lua: "XeenQuests.hook(\"q-c23.chieftain\")"
+    notes: "goal:lair / set:lair: the source's question (xeen aaze0010:0); A3's hook q-c23.chieftain sets Q-C23's bit (ogre_lair_destroyed) and gives the answer (aaze0010:1). The seat, the oars and the sail come down."
   - id: evt:larder_door
     preset: door
     source: door:larder
@@ -155,7 +156,7 @@ events:
     action: open
     else_effects:
       - message: "A heavy plank door with an iron lock. The Ogre Chieftain keeps its key on his belt; he directs the boulder throwing on the ledge beyond the quarry."
-    notes: "link:chief_den_larder: the Chieftain's key (Ogre Key) opens it."
+    notes: "link:chief_den_larder: the Chieftain's larder key (12170) opens it."
   - id: evt:ledge_seen
     preset: text
     source: room:river_ledge
@@ -176,14 +177,13 @@ events:
     condition: {not: {qbit: ogre_boulders_dumped}}
     opens: [mover:rack_bar, mover:heap_1, mover:heap_2]
     effects:
-      - qbit: ogre_boulders_dumped
       - shake:
           strength: 1.5
           seconds: 2.5
       - add:
           var: Experience
           value: 1000
-      - message: "You knock the cross-beam out of the rack. The timbers give with a crack, and the whole heap of boulders goes thundering down the slide and out over the cliff. Far below, the river swallows them with a roar. That is the end of the ogres' ammunition."
+      - lua: "XeenQuests.hook(\"q-c23.rack\")"
     else_effects:
-      - text: "The rack lies broken; its boulders are in the river."
-    notes: "set:boulder_heap / goal:boulders: the heap rolls into the slide (two movers) and the quest's second bit is set."
+      - lua: "XeenQuests.hook(\"q-c23.rack\")"
+    notes: "set:boulder_heap / goal:boulders: the heap rolls into the slide (two movers); A3's hook q-c23.rack sets the quest's second bit (ogre_boulders_dumped) and says it (once; again: its else text)."

@@ -1,0 +1,170 @@
+format: 0
+level: L3
+pitch: "A cave in Magic Mountain's eastern crags, its mouth white with droppings. It climbs from the guano slope through the perch hall, where the young gargoyles sit on ledges, to the roost under a crack of sky: a ring of roosting rocks worn smooth, snow on the droppings, the Overlord on the highest rock. Behind it, the gargoyles' nest of shiny things holds Caleb's magnifying glass."
+purpose: "Q-D15 Caleb's Magnifying Glass (Caleb, D3): destroy the roost (q-d15.roost, the source's question) and take the glass from the nest (q-d15.glass). Party 35 to 39, D4's gargoyles 30/38/45 (15 placed, D-39), treasure level 4."
+mood: "Wind at the mouth and down the crack, claws on rock, droppings and bones; the Darkside's grey day falling through the crack onto snow."
+datum: arrival
+spaces:
+  - id: room:bone_ledge
+    name: Bone ledge
+    kind: room
+    size: S
+    floor: 0
+    purpose: "A dead end with a chest: a side cleft where a climber died; his bones, rope and pack (the chest)."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [30, 30], notes: 1 Mountain Gargoyle 30 (placed).}
+  - id: room:guano_slope
+    name: Guano slope
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "A passage slick with droppings, scratched by claws; gargoyles that heard the party come down from the dark."
+    population:
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [30, 30], notes: 3 Mountain Gargoyle 30 (placed).}
+  - id: room:mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The arrival (entrance:d4_mouth): the mouth white with droppings, daylight behind, the cave bending up and in. Quiet (D-11.3)."
+    empty: true
+  - id: room:nest
+    name: Nest of shiny things
+    kind: room
+    size: S
+    floor: 640
+    purpose: "A hollow behind the roost lined with straw: spoons, buckles, broken mirrors (the chest), and Caleb's glass in the middle (q-d15.glass)."
+    empty: true
+  - id: room:perch_hall
+    name: Perch hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "A high cave with perches round its walls where the young ones sit; the upper perches look down from its north side."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [30, 30], notes: 2 Mountain Gargoyle 30 (placed).}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [38, 38], notes: 1 Gargoyle Sentinel 38 (placed).}
+  - id: room:rock_ramp
+    name: Rock ramp
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: A ramp of broken rock climbing 640 behind the hall's west wall to the upper perches.
+    empty: true
+  - id: room:rock_steps
+    name: Rock steps
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: Rock steps climbing 640 north from the still gallery to the roost.
+    empty: true
+  - id: room:roost
+    name: The roost
+    kind: room
+    size: L
+    floor: 640
+    purpose: "A tall cave under a crack of sky, snow on the droppings below it, a ring of roosting rocks worn smooth (the map's question breaks them); the Overlord on the highest."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [45, 45], notes: 1 Gargoyle Overlord 45 (placed).}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [38, 38], notes: 1 Gargoyle Sentinel 38 (placed).}
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [30, 30], notes: 2 Mountain Gargoyle 30 (placed).}
+  - id: room:still_gallery
+    name: Still gallery
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Weathered rock pillars like statues, three of the still shapes gargoyles; the rock steps climb from its end."
+    population:
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [30, 30], notes: 3 Mountain Gargoyle 30 (placed).}
+  - id: room:upper_perches
+    name: Upper perches
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: "The top of the ramp: a ledge walk over the perch hall to the roost."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [30, 30], notes: 1 Mountain Gargoyle 30 (placed).}
+links:
+  - id: link:mouth_slope
+    from: room:mouth
+    to: room:guano_slope
+    kind: open
+  - id: link:perch_still
+    from: room:perch_hall
+    to: room:still_gallery
+    kind: open
+  - id: link:perch_up
+    from: room:perch_hall
+    to: room:upper_perches
+    kind: ramp
+    notes: By the rock ramp (its own room).
+  - id: link:roost_nest
+    from: room:roost
+    to: room:nest
+    kind: open
+  - id: link:slope_bones
+    from: room:guano_slope
+    to: room:bone_ledge
+    kind: open
+  - id: link:slope_perch
+    from: room:guano_slope
+    to: room:perch_hall
+    kind: open
+  - id: link:still_up
+    from: room:still_gallery
+    to: room:roost
+    kind: stairs
+    notes: By the rock steps (their own room).
+  - id: link:upper_overlook
+    from: room:upper_perches
+    to: room:perch_hall
+    kind: overlook
+    notes: The upper perches' lip over the hall (a drop of 640 for whoever steps off).
+  - id: link:upper_roost
+    from: room:upper_perches
+    to: room:roost
+    kind: open
+loops:
+  - id: loop:climb
+    spaces: [room:perch_hall, room:rock_ramp, room:upper_perches, room:roost, room:rock_steps, room:still_gallery]
+    notes: "Up by the ramp and the ledge walk, down by the rock steps and the still gallery (or the other way)."
+entrances:
+  - id: entrance:d4_mouth
+    space: room:mouth
+    kind: both
+    neighbour: exit:d4_mouth
+    facing: n
+    how: "From and to D4's entrance:dd23_lair, the open cave mouth in Magic Mountain's eastern crags: 256 inside the mouth, facing north up the cave; daylight behind."
+critical_path: [room:mouth, room:guano_slope, room:perch_hall, room:rock_ramp, room:upper_perches, room:roost, room:nest]
+return_path: [room:nest, room:roost, room:rock_steps, room:still_gallery, room:perch_hall, room:guano_slope, room:mouth]
+goals:
+  - id: goal:glass
+    space: room:nest
+    kind: take
+    what: Caleb's Magnifying Glass in the nest (A3's hook q-d15.glass).
+    story: Q-D15
+    gives:
+      qbit: glass_found
+  - id: goal:roost
+    space: room:roost
+    kind: use
+    what: "The roosting rocks: 'Do you wish to destroy the Gargoyle Lair?' Yes pounds them to powder (A3's hook q-d15.roost)."
+    story: Q-D15
+    gives:
+      qbit: lair_destroyed
+set_pieces:
+  - id: set:roost
+    kind: scripted
+    spaces: [room:roost]
+    rule: "The roosting rocks stand in a ring under the crack of sky; the map's question breaks all five (destructibles, kept broken by the map); their worn feet stay as dust."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 2
+  doors: 0
+  floor_area_munits2: 9
+  loops: 1
+  monsters_about: 15
+  rooms: 10
+  sectors: 10
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors; D-39 (4): no doors, a natural cave, one exception line in NOTES.md). From the MU-6 graph devdocs/xeen/mockups/act4_graphs/dd23.graph.yml and D-39 (act4_a7_decisions.md, DD-23). The graph's rock ramp and rock steps are their own rooms (10)."

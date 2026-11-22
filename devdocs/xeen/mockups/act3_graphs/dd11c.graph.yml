@@ -1,0 +1,101 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# One of three separate pockets under D2's troll holes (WORLD_DESIGN §6): one BLV each, no joined network. The party
+# falls in by the pocket's own hole and climbs out by one burrow that comes up a few hundred units beside that hole.
+format: mu6-0
+map: DD-11C
+key: dd11c
+name: Troll Holes, third pocket (Hobstadt's hall)
+stands_on: D2 Sprite Forest and Ogre Pass
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [23, 27]
+monsters:
+  levels: [18, 38]
+  boss: "Hobstadt 42"
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Trolls A-C: Troll 18 (8), Troll Guard 28 (8: Hobstadt's court of 8, peaceful until he is fought), Ice Troll 38 (4, in the cold warren by the rim)"
+    - "Boss row: Hobstadt 42 (11073), talking actor NPC 5110 until q-d13.hostile"
+treasure: {level: 3, hoard: 4}
+role: "Q-D13 Hobstadt's Trolls: give gold, sacrifice (a Troll member becomes a War Troll), or fight; the Thieves' Guild's gold behind the throne"
+role_short: "Q-D13, War Troll"
+set_piece: "Hobstadt's hall: a long earthen hall under root vaults, his court in two rows, the Troll King on a throne of stacked boulders, the guild's sacks behind it"
+floors:
+  - {floor: 0, name: "The hall level", height: 0}
+  - {floor: -1, name: "The cold warren", height: -512}
+spaces:
+  # floor 0
+  - {id: room:pit, name: Pit bottom, kind: shaft, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The widest of the three pits, daylight 896 up; the hall's carved log doors straight ahead, so nobody misses the King."}
+  - {id: room:hall_gate, name: Hall gate, kind: room, size: S, floor: 0, at: [2, 0], monsters: 2,
+     population: [{family: Trolls, count: 2, strength: light, rank: b, hostile: false, notes: "Court: peaceful until q-d13.hostile."}],
+     purpose: "Two great log doors carved with troll faces; two court guards lean on clubs and let the party through."}
+  - {id: room:hall, name: "Hobstadt's hall", kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, boss: true, goal: true,
+     boss_label: "Hobstadt 42 + 6 m", monsters: 6,
+     population: [{family: Trolls, count: 6, strength: heavy, rank: b, hostile: false, notes: "Court: peaceful until q-d13.hostile; then they fight beside him."},
+                  {family: Trolls, count: 1, strength: boss, notes: "Hobstadt (11073; NPC 5110 talks first)."}],
+     purpose: "The court in two rows under root vaults; Hobstadt on a throne of stacked boulders: 'I am Hobstadt, Strongest of the Trolls. You are here. You will:' gold, one of your number, or a fight."}
+  - {id: room:hoard, name: "The guild's gold", kind: room, size: S, floor: 0, at: [4, 0], goal: true, chest: 4, monsters: 0,
+     purpose: "Behind the throne: sacks stamped THIEVES' GUILD (q-d13.hoard, hoard tier 4). Hobstadt sits in front of it until he is a friend or dead."}
+  - {id: room:kings_stair, name: "The trolls' stair", kind: stair, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "The trolls' own way in and out, beside the pit: root steps up a steep burrow to a sod hatch. 'Exit the Troll Hole?'"}
+  - {id: room:side_tunnel, name: Gnawed tunnel, kind: corridor, size: M, floor: 0, at: [2, 1], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a, notes: "Wild trolls, not the court: hostile at load."}],
+     purpose: "A tunnel away from the hall into the trolls' warren; the bone stair down comes up here."}
+  - {id: room:trophy, name: Trophy cave, kind: cave, size: M, floor: 0, at: [3, 1], chest: 3, monsters: 3,
+     population: [{family: Trolls, count: 3, strength: pack, rank: a}],
+     purpose: "Shields and helms of the fallen nailed to the roots; a chest among them. A slope runs down to where the air turns cold."}
+  # floor -1
+  - {id: room:bone_run, name: Bone run, kind: corridor, size: M, floor: -1, at: [2, 0], monsters: 2,
+     population: [{family: Trolls, count: 2, strength: light, rank: a}],
+     purpose: "A low passage paved with bones; the bone stair climbs to the gnawed tunnel."}
+  - {id: room:ice_den, name: Ice trolls' den, kind: cave, size: M, floor: -1, at: [3, 0], chest: 3, monsters: 2,
+     population: [{family: Trolls, count: 2, strength: heavy, rank: c}],
+     purpose: "Frost on the roots, breath steaming: the den of the pale trolls who like it cold; their cache."}
+  - {id: room:frost_seep, name: Frost seep, kind: cave, size: M, floor: -1, at: [4, 0], monsters: 2,
+     population: [{family: Trolls, count: 2, strength: heavy, rank: c}],
+     purpose: "Where the pocket reaches under the world's rim: cold seeps in through cracks lit faintly by the stars below."}
+links:
+  - {id: link:pit_gate, from: room:pit, to: room:hall_gate, kind: open}
+  - {id: link:gate_hall, from: room:hall_gate, to: room:hall, kind: door, notes: "The carved log doors, open."}
+  - {id: link:hall_hoard, from: room:hall, to: room:hoard, kind: open, label: "gold, trial or his death",
+     opened_by: state:deal,
+     notes: "Open ground behind the throne; q-d13.hoard gates the sacks: tribute, trial or Hobstadt's death (else its fail_text)."}
+  - {id: link:pit_stair, from: room:pit, to: room:kings_stair, kind: open}
+  - {id: link:pit_tunnel, from: room:pit, to: room:side_tunnel, kind: door, notes: "A hide flap: the warren beyond is not the court's."}
+  - {id: link:tunnel_trophy, from: room:side_tunnel, to: room:trophy, kind: open}
+  - {id: link:trophy_seep, from: room:trophy, to: room:frost_seep, kind: stair, label: cold slope}
+  - {id: link:seep_den, from: room:frost_seep, to: room:ice_den, kind: open}
+  - {id: link:den_run, from: room:ice_den, to: room:bone_run, kind: door, notes: "A door of lashed antlers and hide."}
+  - {id: link:run_tunnel, from: room:bone_run, to: room:side_tunnel, kind: stair, label: bone stair}
+states:
+  - {id: state:deal, kind: qbit, where: room:hall,
+     what: "Hobstadt's topics (NPC 5110): Give gold (q-d13.tribute, 2,000) or Sacrifice one (q-d13.trial: a Troll member stays a night and comes back a War Troll). Either makes the trolls of all three pockets friendly (A2's relation) and opens the hoard.",
+     opens: [link:hall_hoard], draw: false}
+  - {id: state:fight, kind: kill, where: room:hall,
+     what: "'Fight to the death' sets q-d13.hostile: Hobstadt (11073) and his eight court guards attack. His death sets q-d13.hobstadt_slain, opens the hoard, and makes the throne promote a Troll member who sits on it (q-d13.throne).",
+     opens: [link:hall_hoard], draw: false}
+  - {id: state:throne, kind: puzzle, where: room:hall,
+     what: "The vacant throne after his death: 'The throne is vacant.'; a Troll member who sits on it becomes a War Troll (q-d13.throne).",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d2_hole, space: room:pit, at: [0, 0], kind: in, label: "D2: third troll hole (fall in)",
+     neighbour: "D2 entrance:dd11c_hole (door:dd11c): the third and widest pit, near the rim"}
+  - {id: exit:d2_stair, space: room:kings_stair, at: [0, 1], kind: out, label: "D2: beside the third hole",
+     neighbour: "D2, a sod hatch about 300 from the third pit's lip; the same door:dd11c, its return arrival"}
+critical_path: [room:pit, room:hall_gate, room:hall, room:hoard]
+return_path: [room:hoard, room:hall, room:hall_gate, room:pit, room:kings_stair]
+loops:
+  - {id: loop:warren, spaces: [room:side_tunnel, room:trophy, room:frost_seep, room:ice_den, room:bone_run],
+     notes: "The wild warren: down the cold slope, along the rim, up the bone stair."}
+lines:
+  - {text: "I am Hobstadt, Strongest of the Trolls. You are here. You will: 1) Give me all your gold. 2) Sacrifice one of your number to me. 3) Fight me to the death.", ref: "dark/aaze0040:10-11, :13", where: "room:hall (Hobstadt's topics, q-d13)"}
+  - {text: "Throne / The throne is vacant.", ref: "dark/aaze0040:8-9", where: room:hall}
+  - {text: "Exit the Troll Hole?", ref: "dark/aaze0040:12", where: room:kings_stair}
+  - {text: "Troll Hole. Descend?", ref: "dark/aaze0008:2", where: "D2, the third hole (q-d13.troll_holes)"}
+open_questions:
+  - "Hobstadt's court: his eight guards (gate 2, hall 6) peaceful until q-d13.hostile, the warren's ten hostile at load. Or every troll hostile at load, so the party fights to the King's feet and then talks?"
+  - "Ice Trolls 38 at party 23-27: four, only in the cold warren off the critical path (D2's plan puts its Ice Trolls by this hole too). Agreed?"
+  - "Kill XP of the three pockets: about 50.0k (Trolls 504, Guards 1,064, Ice Trolls 1,824, Hobstadt 2,184), 12.5k per member; with A8's DD-10 graph (42.7k, 10.7k per member) the group is 23.2k per member against 22.1k, +5 % (inside the 15 % rule). Agreed, or trim two Troll Guards in DD-11B to Trolls?"

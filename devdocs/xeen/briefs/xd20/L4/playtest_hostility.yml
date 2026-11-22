@@ -1,0 +1,33 @@
+# Hostility check of the Warzone (XD-20): the map places nobody; a Knight challenge's opponents (drawn from every Xeen
+# row less NoArena, so mixed families) are all hostile to the party and go for the party, not for each other.
+id: xeen.xd20.l4.hostility
+title: 'the Warzone (XD-20): a challenge''s opponents hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd20.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 30, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 30, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_count: {min: 0, max: 0}}
+  - console: {line: arena trace on}
+  - speak_npc: {source_id: 4609}
+  - select_topic: {action_id: 704}
+  - select_topic: {match_label: Knight}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "log('after Knight: [' .. status() .. ']'); close(); wait(0.5)"}
+  - assert:
+      actor_count: {hostile: true, min: 10, max: 20}
+      party_position: {x: 4608, y: 0, radius: 64}
+  - assert: {actor_count: {hostile: false, max: 0}}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {event: target, target: party, min_count: 1}}

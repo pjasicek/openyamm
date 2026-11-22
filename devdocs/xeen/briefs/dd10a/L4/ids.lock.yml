@@ -1,0 +1,82 @@
+format: 0
+sectors:
+  room:adit: 1
+  room:bones: 2
+  room:cobweb: 3
+  room:emerald: 4
+  room:gallery: 5
+  room:ruby: 6
+  room:sump: 7
+events:
+  evt:arrive: 1
+  evt:bones_a: 2
+  evt:bones_b: 3
+  evt:bones_c: 4
+  evt:cart: 5
+  evt:chest_bones: 6
+  evt:chest_sump: 7
+  evt:cobwebs: 8
+  evt:cocoon: 9
+  evt:door_adit: 10
+  evt:door_emerald: 11
+  evt:door_sump: 12
+  evt:emerald_1: 13
+  evt:emerald_2: 14
+  evt:emerald_3: 15
+  evt:emerald_4: 16
+  evt:emerald_5: 17
+  evt:enter: 18
+  evt:exit: 19
+  evt:refill: 20
+  evt:ruby_1: 21
+  evt:ruby_2: 22
+  evt:ruby_3: 23
+  evt:ruby_4: 24
+  evt:ruby_5: 25
+  evt:skeleton: 26
+  evt:visit_end: 27
+doors:
+  door:adit: 1
+  door:emerald: 2
+  door:sump: 3
+containers:
+  chest:bones: 0
+  chest:sump: 1
+map_vars:
+  bones_blown: 1
+  emerald_1: 2
+  emerald_2: 3
+  emerald_3: 4
+  emerald_4: 5
+  emerald_5: 6
+  in_visit: 12
+  once.arrive: 0
+  ruby_1: 7
+  ruby_2: 8
+  ruby_3: 9
+  ruby_4: 10
+  ruby_5: 11
+sounds:
+  sound:adit_wind: 1
+  sound:bed_gallery: 4
+  sound:bed_ruby: 5
+  sound:ruby_drip: 2
+  sound:sump_drip: 3
+decorations:
+  deco:adit_torch_w: 0
+  deco:bones_heap_a: 1
+  deco:bones_heap_b: 2
+  deco:bones_heap_c: 3
+  deco:bones_skeleton: 4
+  deco:bones_skull: 5
+  deco:cobweb_bones: 6
+  deco:cobweb_skull: 7
+  deco:emerald_rocks: 8
+  deco:emerald_torch: 9
+  deco:gal_torch_1: 10
+  deco:gal_torch_2: 11
+  deco:ruby_rocks: 12
+  deco:ruby_rocks_2: 13
+  deco:ruby_torch_1: 14
+  deco:ruby_torch_2: 15
+  deco:sump_torch: 16

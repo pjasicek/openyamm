@@ -1,0 +1,329 @@
+# Playtest of Castle Blackfang (DD-14, L4): both griffin arrivals, Ambrose both ways, the octopods, the descent through
+# the towers and the upper floor to the Count, his death and the dungeon stair's bar, the coffins' sleepers (D-18), the
+# dungeon to the Queen, the way back up (the trapdoor's bolt, the ladder, the courtyard stair's gate) and the Queen's
+# crown with Ambrose's flight to D1. A level-42 party starts on D4 and is flown in to entrance:d4_griffin (D4's gate,
+# m25.gate_flight: the same spot as entrance:d6_griffin): m27.landing's window (dd14_arrived_once 117480). Before
+# m25.done Ambrose and his griffin are hidden and the perch is empty; after it the perch asks "Are you ready to leave
+# this awful place, friends?": No keeps the party here, Yes runs m27.fly_out (D4's entrance:dd14_griffin, facing 1024);
+# flown in again (D6's spot) there is no second window, Ambrose stands by the griffin, takes no damage when struck and
+# his topic Fly us out flies the party to D4 too (D-52). The octopods are playtest_octopods.yml's (D-52 (5)); the
+# landing: a coffin is empty, the bones' notes, the yard gate is
+# barred from this side. The south-west tower (its diary and purse), down its stair to the sleeping hall: a sleeper's
+# coffin shows its vampire (kept after a save and a load), a find coffin. The Countess's door and jewel box, the keep's
+# upper hall, down the grand stair, the Count's hall's double doors; the bar refuses (aaze0047:0), the step before it
+# too; the Count and his guards die: m27.blackfang (blackfang_slain 111540), the bar lifts. The crypt: the Dutchess
+# rises, the Countess's coffin is empty, the hoard. Down the dungeon stair: the question room's door and chest, the
+# cells; the Queen's cell: m27.queen_cell on its entry (queen_seen 111544), the Queen unhurt when struck, her first topic
+# (queen_found 111543). The shaft: the bolt, the ladder up into the cellar (the trapdoor
+# lies open), the cask's find, the kitchen, the courtyard, up the courtyard stair: the gate is barred, its bar lifts it
+# onto the landing. Side things: the gong opens the study's panel (the ledger, the strongbox), the roost's chest and
+# roof trapdoor, the library's lineage, a fire plate, the south-east tower's loot. Last, the crown: done, Ambrose's
+# griffin to D1 (m27.ambrose_return); back in, the Queen is hidden and Ambrose stays, also after a save and a load. Numbers are ids.lock.yml's (events, doors, map variables) and the built scene's
+# actor indices (0 Ambrose, 16 the Count, 31 Ambrose's griffin, 49 the Queen, 53 the Dutchess, 56 the sleeper in
+# coffin dorm_w1). Run with
+# --world xeen (output/studio_cal/dd14/four.sh).
+id: xeen.dd14.l4.walk
+title: Castle Blackfang (DD-14 L4), the griffin in and out, the Count, the sleepers, the Queen
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 42, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 42, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 42, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 42, skills: [], equipment: {}}
+  - assert: {map: xeen_d4.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Flown in from D4's gate (m25.gate_flight): entrance:d4_griffin on the landing.
+  - lua_event: {source: "evt.MoveToMap(0, -1472, 1280, 512, 0, 0, 0, 0, \"xeen_dd14.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd14.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Castle Blackfang's battlements"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117480) then error('dd14_arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: -1472, radius: 64, z_min: 1272, z_max: 1290}}
+  # Before m25.done Ambrose (actor 0, row 11917) and his griffin (31) are hidden and the perch is empty; after it the
+  # perch asks, No then Yes: m27.fly_out's own move to D4's entrance:dd14_griffin, facing west.
+  - walk_to: {x: 320, y: -1660, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: true}}
+  - assert: {actor_visible: {actor_index: 31, monster_id: 11913, hidden: true}}
+  - play_lua: {source: "status(); click(2); wait(0.5); local seen = status(); if not string.find(seen, 'perch, empty', 1, true) then error('the perch before m25.done said: ' .. seen) end; if qbit(111503) then error('m25.done set too early') end"}
+  - lua_event: {source: "SetQBit(QBit(111503))"}
+  - execute_event: {id: 2}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Are you ready to leave this awful place, friends?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd14.blv}
+  - execute_event: {id: 2}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Are you ready to leave this awful place, friends?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 6144, y: 5120, radius: 96, facing: 1024, facing_within: 64}}
+  - play_lua: {source: "log('D4 set-down (perch): ' .. party()); close()"}
+  # Flown in from D6 (m25.flight, phase 5): entrance:d6_griffin, the same spot; no second window.
+  - lua_event: {source: "evt.MoveToMap(0, -1472, 1280, 512, 0, 0, 0, 0, \"xeen_dd14.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd14.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - assert: {party_position: {x: 0, y: -1472, radius: 64, z_min: 1272, z_max: 1290}}
+  - assert: {actor_visible: {actor_index: 31, monster_id: 11913, hidden: false}}
+  - assert: {actor_count: {monster_id: 11913, hostile: false, min: 1, max: 1}}
+  # Ambrose stands by his griffin now (D-52): struck, he takes no damage and stays peaceful; clicked, he talks (npc
+  # 5512) and his topic Fly us out (A3's, from m25.done) runs m27.fly_out: D4's entrance:dd14_griffin, facing west.
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: false}}
+  - walk_to: {x: 96, y: -1640, z: 1280, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  # Cure what the castle's fights left (a disabled member makes no weapon attacks), then strike.
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - advance_runtime: {seconds: 2}
+  - party_attack: {actor_index: 0, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11917, dead: false, hp: 228, report_state: true}}
+  - assert: {actor_count: {monster_id: 11917, hostile: false, min: 1, max: 1}}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Fly us out"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 6144, y: 5120, radius: 96, facing: 1024, facing_within: 64}}
+  - play_lua: {source: "log('D4 set-down (Ambrose): ' .. party()); close(); close()"}
+  # Flown in again for the castle.
+  - lua_event: {source: "evt.MoveToMap(0, -1472, 1280, 512, 0, 0, 0, 0, \"xeen_dd14.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd14.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: -1472, radius: 64, z_min: 1272, z_max: 1290}}
+  # The landing: a coffin, the bones' notes, the yard gate barred from this side.
+  - walk_to: {x: -1088, y: -1500, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(22); wait(0.5); local seen = status(); if not string.find(seen, 'The coffin is empty.', 1, true) then error('the landing coffin said: ' .. seen) end"}
+  - walk_to: {x: -256, y: -1720, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Floor traps are regularly spaced"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -960, y: -1250, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(64); wait(0.5); local seen = status(); if not string.find(seen, 'barred on the courtyard side', 1, true) then error('the yard gate said: ' .. seen) end; if door_state(12) ~= 'closed' then error('the yard gate is not shut') end"}
+  # The south-west tower's top storey: the diary and a purse; down its stair to L2.
+  - walk_to: {x: -1150, y: -1856, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -1856, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -1600, y: -1344, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2250, y: -1344, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(62); wait(0.5); close(); if gold() ~= before + 300 then error('the tower bones gave ' .. (gold() - before)) end"}
+  - walk_to: {x: -1600, y: -1344, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2240, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2600, y: -2240, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  # The sleeping hall: a sleeper's coffin shows its vampire (kept after a save and a load); a find coffin.
+  - walk_to: {x: -1920, y: -900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900)"}
+  - assert: {actor_visible: {actor_index: 56, hidden: true}}
+  - walk_to: {x: -2150, y: -832, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(19); wait(0.5); if gold() ~= before + 300 then error('the sleeper coffin gave ' .. (gold() - before)) end"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "a vampire rises from the coffin"}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 56, hidden: false, dead: false}}
+  - save_game: {name: dd14_dorm}
+  - load_game: {name: dd14_dorm}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 56, hidden: false, dead: false}}
+  - play_lua: {source: "clear_hostiles(900); status(); click(19); wait(0.5); local seen = status(); if not string.find(seen, 'The coffin is empty.', 1, true) then error('the opened coffin said: ' .. seen) end"}
+  - play_lua: {source: "local before = gold(); click(20); wait(0.5); if gold() ~= before + 250 then error('the find coffin gave ' .. (gold() - before)) end"}
+  # The Countess's rooms: the door, the jewel box; the keep's upper hall.
+  - walk_to: {x: -1920, y: -120, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(35, 3)"}
+  - walk_to: {x: -1920, y: 400, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1000)"}
+  - walk_to: {x: -1600, y: 800, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(50); wait(0.5); if gold() ~= before + 800 then error('the jewel box gave ' .. (gold() - before)) end"}
+  - walk_to: {x: -1920, y: 900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1600)"}
+  # Down the grand stair: its head gallery from the keep's upper hall.
+  - walk_to: {x: -400, y: 2240, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 640, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 640, y: 1250, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1000)"}
+  # The Count's hall: the double doors, the bar refuses, the step before it too; the Count dies, the bar lifts.
+  - walk_to: {x: 250, y: 1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 250, y: 2300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(8) ~= 'closed' then error('the hall doors do not start shut') end; click(39); wait(3); if door_state(8) ~= 'open' or door_state(9) ~= 'open' then error('the leaves did not open: ' .. door_state(8) .. ' ' .. door_state(9)) end; if qbit(111540) then error('the Count died too early') end"}
+  - walk_to: {x: 300, y: 2750, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Two of the hall's Royal Vampires bar the way west (since merge point 33 the gallery's clears no longer reach
+  # down here): fight them at the hall's mouth; the Count and the third guard stay by the dais (both about 1,100 off).
+  - play_lua: {source: "local killed = clear_hostiles(950); if killed ~= 2 then error('the hall mouth fight killed ' .. killed) end; if qbit(111540) then error('the Count died in the guards fight') end"}
+  - assert: {actor_visible: {actor_index: 16, dead: false, hp: 2100}}
+  - walk_to: {x: -900, y: 2752, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 4}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A force like wind pushes you back"}}
+  - play_lua: {source: "close(); if door_state(1) ~= 'closed' then error('the bar is not down') end"}
+  - walk_to: {x: -1152, y: 2752, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You are unable to descend."}}
+  - play_lua: {source: "close(); if qbit(111540) then error('blackfang_slain set before his death') end"}
+  - walk_to: {x: -700, y: 2752, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1600)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[every coffin lid in the castle slams shut at once]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(2); if not qbit(111540) then error('blackfang_slain not set') end; for _ = 1, 20 do if door_state(1) == 'open' then break end; wait(0.5) end; if door_state(1) ~= 'open' then error('the bar did not lift: ' .. door_state(1)) end"}
+  - play_lua: {source: "status(); click(4); wait(0.5); local seen = status(); if not string.find(seen, 'the stair lies open', 1, true) then error('the lifted bar said: ' .. seen) end"}
+  # The family crypt: the Dutchess rises (still, after the Count, D-42 (5)), the Countess's is empty, the hoard.
+  - walk_to: {x: -896, y: 3700, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(40, 11)"}
+  - walk_to: {x: -896, y: 4150, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 53, hidden: true}}
+  - play_lua: {source: "local before = gold(); click(14); wait(0.5); if gold() ~= before + 500 then error('the Dutchess gave ' .. (gold() - before)) end"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "a vampire rises from the coffin"}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 53, hidden: false, dead: false}}
+  - play_lua: {source: "clear_hostiles(800); status(); click(13); wait(0.5); local seen = status(); if not string.find(seen, 'The coffin is empty.', 1, true) then error('the Countess coffin said: ' .. seen) end"}
+  - walk_to: {x: -448, y: 4100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "loot_chest(8)"}
+  # Down the dungeon stair: the gaolers' post, the question room, the cells, the Queen's first topic.
+  - walk_to: {x: -896, y: 3700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1000, y: 2752, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 2752, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 2900, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 3920, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1000)"}
+  - walk_to: {x: -2112, y: 3800, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -2112, y: 2700, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(36, 4)"}
+  - walk_to: {x: -2112, y: 2240, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "loot_chest(9)"}
+  - walk_to: {x: -1920, y: 1600, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: 1100, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -1600, y: 0, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  # Into the Queen's cell: m27.queen_cell's text on the entry (queen_seen 111544), once.
+  - play_lua: {source: "if qbit(111544) then error('queen_seen set before the cell') end"}
+  - walk_to: {x: -1150, y: 0, z: -640, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The last cell. A woman in a court gown"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(111544) then error('queen_seen 111544 not set') end"}
+  - walk_to: {x: -1600, y: 0, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1050, y: -100, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: false}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  # Queen Kalindra (actor 49, row 11918, npc 5001): struck, no damage and still peaceful; clicked, A3's The crown.
+  # Cure what the castle's fights left (a disabled member makes no weapon attacks), then strike.
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - advance_runtime: {seconds: 2}
+  - party_attack: {actor_index: 49, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+  - assert: {actor_visible: {actor_index: 49, monster_id: 11918, dead: false, hp: 280, report_state: true}}
+  - assert: {actor_count: {monster_id: 11918, hostile: false, min: 1, max: 1}}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "The crown"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "three, thirty-one, sixty-two"}}
+  - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111543) then error('queen_found not set') end; if qbit(111542) then error('done set without the crown') end"}
+  # The way back up: the shaft's bones and bolt, the ladder into the cellar, the kitchen, the courtyard stair.
+  - walk_to: {x: -1600, y: 0, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -100, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1920, y: -560, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "click(65); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Kloikus Thunbeard the Round"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1520, y: -640, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "if door_state(17) ~= 'closed' then error('the trapdoor does not start shut') end; status(); click(49); wait(3); local seen = status(); if not string.find(seen, 'You draw the bolt.', 1, true) then error('the bolt said: ' .. seen) end; if door_state(17) ~= 'open' then error('the trapdoor did not open: ' .. door_state(17)) end"}
+  - climb: {ladder: shaft, timeout_seconds: 40}
+  - assert: {party_position: {x: -1904, y: -640, radius: 160, z_min: -8, z_max: 40}}
+  - play_lua: {source: "status(); click(48); wait(0.5); local seen = status(); if not string.find(seen, 'lies open over a ladder', 1, true) then error('the trapdoor from above said: ' .. seen) end"}
+  - walk_to: {x: -2150, y: -880, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(6); wait(0.5); if gold() ~= before + 150 then error('the cask gave ' .. (gold() - before)) end"}
+  - walk_to: {x: -1920, y: -480, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "open_door(34, 2)"}
+  - walk_to: {x: -1920, y: 100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1000)"}
+  - walk_to: {x: -1600, y: 384, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1000, y: 384, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: 1220, y: -400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1220, y: -832, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -700, y: -832, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -960, y: -880, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(64); wait(0.5); local seen = status(); if not string.find(seen, 'barred on the courtyard side', 1, true) then error('the gate from the stair said: ' .. seen) end"}
+  - play_lua: {source: "status(); click(63); wait(1); local seen = status(); if not string.find(seen, 'You lift the bar.', 1, true) then error('the bar said: ' .. seen) end; for _ = 1, 20 do if door_state(12) == 'open' then break end; wait(0.5) end; if door_state(12) ~= 'open' then error('the gate did not open: ' .. door_state(12)) end"}
+  - walk_to: {x: -960, y: -1400, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: -960, y: -1400, radius: 96, z_min: 1272, z_max: 1300}}
+  # Side things: the gong and the study, the roost, the library, a fire plate, the south-east tower's loot, the chapel.
+  - set_pose: {map: xeen_dd14.blv, x: -2176, y: 1664, z: 1280, yaw: 3.1416, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(800); if door_state(10) ~= 'closed' then error('the study panel does not start shut') end; status(); click(47); wait(1); local seen = status(); if not string.find(seen, 'You hear a rumbling in the distance.', 1, true) then error('the gong said: ' .. seen) end; for _ = 1, 20 do if door_state(10) == 'open' then break end; wait(0.5) end; if door_state(10) ~= 'open' then error('the gong did not open the panel: ' .. door_state(10)) end"}
+  - set_pose: {map: xeen_dd14.blv, x: -832, y: 2300, z: 640, yaw: 1.5708, pitch: 0.0}
+  - walk_to: {x: -832, y: 2800, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "click(52); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "one queen, crowned"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -640, y: 3168, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "loot_chest(11)"}
+  - set_pose: {map: xeen_dd14.blv, x: 128, y: 2600, z: 1280, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(1500); status(); click(57); wait(0.5); local seen = status(); if not string.find(seen, 'Wind howls over it.', 1, true) then error('the roof trapdoor said: ' .. seen) end"}
+  - walk_to: {x: 960, y: 2752, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(10)"}
+  - set_pose: {map: xeen_dd14.blv, x: 1700, y: 640, z: 640, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(1200); click(53); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Dutchess Blackfang, Countess Blackfang, Count Blackfang, Lady Blackfang"}}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd14.blv, x: 1600, y: -1000, z: 1280, yaw: 1.5708, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 2048, y: -1000, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 2048, y: -768, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: false}
+  - play_lua: {source: "wait(0.5); local seen = status(); if not string.find(seen, 'Fire leaps from a slit in the merlons!', 1, true) then error('the fire plate said: ' .. seen) end"}
+  - set_pose: {map: xeen_dd14.blv, x: 2200, y: -1344, z: 1280, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "local before = gold(); click(30); wait(0.5); close(); if gold() ~= before + 1500 then error('the loot coffin gave ' .. (gold() - before)) end; status(); click(30); wait(0.5); local seen = status(); if not string.find(seen, 'The coffin is empty.', 1, true) then error('the loot coffin again said: ' .. seen) end"}
+  - set_pose: {map: xeen_dd14.blv, x: -400, y: -1664, z: 640, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(1600); if door_state(5) ~= 'closed' then error('the chapel doors do not start shut') end; open_door(37, 5); if door_state(6) ~= 'open' then error('the second leaf did not open: ' .. door_state(6)) end"}
+  # Last, the crown: done, and Ambrose's griffin flies everyone to D1 (m27.ambrose_return).
+  - set_pose: {map: xeen_dd14.blv, x: -1050, y: -100, z: -640, yaw: 0.0, pitch: 0.0}
+  - grant_item: {item_id: 12374, member_index: 0}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "The crown"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - play_lua: {source: "close(); wait(0.5); close(); if not qbit(111542) then error('done not set') end"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -9728, y: -3072, radius: 96}}
+  # Back in the castle after done: the Queen is gone home (hidden), the bench says so; Ambrose still stands by his
+  # griffin (D-52: never hidden on DD-14). Kept after a save and a load.
+  - lua_event: {source: "evt.MoveToMap(0, -1472, 1280, 512, 0, 0, 0, 0, \"xeen_dd14.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd14.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 49, monster_id: 11918, hidden: true}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: false}}
+  - set_pose: {map: xeen_dd14.blv, x: -1000, y: -192, z: -640, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "clear_hostiles(1500); status(); click(55); wait(0.5); local seen = status(); if not string.find(seen, 'The Queen has gone home.', 1, true) then error('the bench after done said: ' .. seen) end"}
+  - save_game: {name: dd14_done}
+  - load_game: {name: dd14_done}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 49, monster_id: 11918, hidden: true}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: false}}

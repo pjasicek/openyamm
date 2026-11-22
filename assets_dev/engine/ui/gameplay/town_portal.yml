@@ -35,8 +35,25 @@ elements:
           align_y: middle
           scale: 1.0
 
-      # Continent buttons, one per continent with towns in this installation (Chedian only with MM9), always shown;
-      # a continent with no unlocked town shows its map with nothing to choose.
+      # Dimension Door: the text style of each portal's name, printed at all times; where it goes is the door's place
+      # (data_tables/dimension_doors.yml `label`), so this element's own rect is unused.
+      - id: TownPortalDoorName
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 120
+        height: 18
+        z_index: 240
+        text:
+          value: "{door}"
+          font: Fondamento
+          color: "#f0dcb0"
+          align_x: center
+          align_y: middle
+          scale: 0.5
+
+      # Continent buttons, one per continent with towns in this installation (Chedian only with MM9, Cloudside and
+      # Darkside only with Xeen), always shown; a continent with no unlocked town shows its map with nothing to choose.
       - id: TownPortalContinentButton1
         anchor: bottom_left
         offset_x: 6
@@ -103,6 +120,48 @@ elements:
       - id: TownPortalContinentButton4
         anchor: bottom_left
         offset_x: 261
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
+      - id: TownPortalContinentButton5
+        anchor: bottom_left
+        offset_x: 346
+        offset_y: -5
+        width: 82
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.41666665625
+
+      - id: TownPortalContinentButton6
+        anchor: bottom_left
+        offset_x: 431
         offset_y: -5
         width: 82
         height: 26

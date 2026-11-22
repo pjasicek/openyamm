@@ -1,0 +1,26 @@
+# Lane A7 (2026-11-20, decision D-33 (6)): XD-23's hung hides after the burn, blackened by the smoke: one new texture
+# from the warren's own hides (xohide, XD-05's) and its red-brown dirt (MM7 7dirttyl). xochar stays on the fire pit and
+# the hearth. One texture; see ../README.md for the route.
+dungeons:
+  xd23:
+    family_words: >-
+      a troll warren dug in red-brown earth (the dirt cave of Might and Magic VII) with crude stitched hide curtains
+      from Might and Magic VIII's Ogre Fortress, rough and slightly stylised
+textures:
+  xosoot:
+    dungeon: xd23
+    size: [128, 256]
+    kind: picture
+    refs: [xeen/xohide, mm7/7dirttyl]
+    tone: {like: [xeen/xohide], factor: 0.45}
+    family: XD-05's hide curtain (xohide) in XD-23's red-brown dirt (7dirttyl), smoked
+    where: XD-23's hung hides (panel:hides_sleep_s, panel:hides_sleep_w, panel:larder_hides) in the burn and the burnt stage
+    standin: xochar
+    what: >-
+      Exactly the hanging curtain of crude stitched animal hides of the first reference, seen straight on and filling
+      the canvas: the same patches of fur and leather, the same thick thong stitches, the same pole along the top edge
+      and the same few bones tied to it, but after a fire has filled the cave with smoke: every hide blackened by thick
+      soot, dark grey and black over the brown, the fur matted and singed into dark clumps, a few scorched holes with
+      curled edges, a fine film of grey ash on the upper edges and on the bones, some of the red-brown earth of the
+      second reference smudged into the lower edge. Still recognisably hides, not charcoal: no glowing embers, no
+      flames, no charred wood.

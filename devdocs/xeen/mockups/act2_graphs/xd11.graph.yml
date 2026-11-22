@@ -1,0 +1,146 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-11
+key: xd11
+name: Tower of High Magic
+stands_on: X3 Lifeforce Lagoon
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [18, 20]
+monsters:
+  levels: [18, 32]
+  boss: null
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Magic constructs A-B: Flying Feet 18, Guardian 24"
+    - "Sorceresses A: Sorceress 30 (the source's Sorcerers); a Head Sorceress carries the Librarian's Key"
+treasure: {level: 3, hoard: 3}
+role: "Story M13: the Skeleton Key to Darzog's Tower; the roof's Stairway to Heaven to X8's High Magic clouds"
+role_short: "Story M13"
+set_piece: "Four alchemy floors stacked round a lift core, each with its brews (+resistance); the Stairway to Heaven on the roof"
+floors:
+  - {floor: 4, name: "Roof", height: 2560}
+  - {floor: 3, name: "Library floor", height: 1920}
+  - {floor: 2, name: "Energy and Magic", height: 1280}
+  - {floor: 1, name: "Cold and Poison", height: 640}
+  - {floor: 0, name: "Fire and Lightning", height: 0}
+spaces:
+  # floor 4
+  - {id: room:roof, name: Roof, kind: room, size: M, floor: 4, at: [0, 0], set_piece: true, monsters: 1,
+     population: [{family: Magic constructs, count: 1, strength: light, rank: b}],
+     purpose: "Open sky over the lagoon; the stair climbs on into the clouds."}
+  # floor 3
+  - {id: room:stairway, name: Stairway to Heaven, kind: stair, size: M, floor: 3, at: [0, 0], set_piece: true, monsters: 0,
+     purpose: "'Stairway to Heaven. Climb?' A spiral up through the roof."}
+  - {id: room:observatory, name: Observatory, kind: room, size: M, floor: 3, at: [1, 0], chest: 3, monsters: 3,
+     population: [{family: Sorceresses, count: 3, strength: heavy, rank: a}],
+     purpose: "A brass orrery; a Pandorian box (a trapped chest)."}
+  - {id: room:study, name: "Archmage's study", kind: room, size: M, floor: 3, at: [2, 0], chest: 3, goal: true, monsters: 2,
+     population: [{family: Sorceresses, count: 2, strength: heavy, rank: a}],
+     purpose: "'You found a skeleton key in the chest.' (M13)"}
+  - {id: room:library, name: Library of High Magic, kind: hall, size: L, floor: 3, at: [3, 0], monsters: 4,
+     population: [{family: Sorceresses, count: 2, strength: heavy, rank: a}, {family: Magic constructs, count: 2, strength: light, rank: b}],
+     purpose: "Two books to read: The Art of Magic (a skill) and Mysteries of Light (Prismatic Light)."}
+  - {id: room:landing3, name: Top landing, kind: corridor, size: S, floor: 3, at: [4, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: b}],
+     purpose: "The library door; the core's top gate and its lever."}
+  - {id: room:core3, name: Lift core, kind: shaft, size: S, floor: 3, at: [5, 0], monsters: 0, purpose: "The brass cage's top stop."}
+  # floor 2
+  - {id: room:landing2, name: West landing, kind: corridor, size: S, floor: 2, at: [1, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: b}], purpose: "Up from the cold floor."}
+  - {id: room:energy_lab, name: Energy lab, kind: room, size: M, floor: 2, at: [2, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: b}], purpose: "Energy Brew (+Energy resistance)."}
+  - {id: room:magic_lab, name: Magic lab, kind: room, size: M, floor: 2, at: [3, 0], monsters: 5,
+     population: [{family: Sorceresses, count: 3, strength: heavy, rank: a}, {family: Magic constructs, count: 2, strength: light, rank: b}],
+     purpose: "Magic Brew (+Magic resistance); the Head Sorceress with the Librarian's Key."}
+  - {id: room:quarters, name: "Sorceresses' quarters", kind: room, size: M, floor: 2, at: [4, 0], chest: 3, monsters: 4,
+     population: [{family: Sorceresses, count: 2, strength: heavy, rank: a}, {family: Magic constructs, count: 2, strength: light, rank: b}],
+     purpose: "Beds ('There is nothing on, in, or under the bed.'), a chest; the stair up and the core gate lever."}
+  - {id: room:core2, name: Lift core, kind: shaft, size: S, floor: 2, at: [5, 0], monsters: 0, purpose: "A stop."}
+  # floor 1
+  - {id: room:landing1w, name: Frost-sealed stair, kind: stair, size: S, floor: 1, at: [1, 0], monsters: 0,
+     purpose: "The west stair up, behind a door frozen shut."}
+  - {id: room:poison_garden, name: Poison garden, kind: room, size: M, floor: 1, at: [2, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: b}], purpose: "Nightshade in pots; Poison Brew."}
+  - {id: room:still, name: Cold still, kind: room, size: M, floor: 1, at: [3, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: b}], purpose: "A frosted still; Cold Brew."}
+  - {id: room:landing1, name: East landing, kind: corridor, size: S, floor: 1, at: [4, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}], purpose: "Up from the fire floor; the core gate lever."}
+  - {id: room:core1, name: Lift core, kind: shaft, size: S, floor: 1, at: [5, 0], monsters: 0, purpose: "A stop."}
+  - {id: room:reagents, name: Reagent store, kind: room, size: S, floor: 1, at: [3, 1], chest: 3, monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}],
+     purpose: "A Pandorian box; the steam valve that thaws the frost seal (pipes along the wall to it)."}
+  # floor 0
+  - {id: room:door, name: Enchanted door, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Inside the door the Enchanted Key opened."}
+  - {id: room:foyer, name: Foyer, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: a}], purpose: "Flying feet hop about the tiles."}
+  - {id: room:athanor, name: Athanor, kind: room, size: L, floor: 0, at: [3, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: a}], purpose: "The great furnace; Fire Brew."}
+  - {id: room:coils, name: Lightning coils, kind: room, size: M, floor: 0, at: [4, 0], monsters: 3,
+     population: [{family: Magic constructs, count: 3, strength: pack, rank: a}], purpose: "Crackling coils; Electric Brew; the east stair."}
+  - {id: room:core0, name: Lift core, kind: shaft, size: S, floor: 0, at: [5, 0], monsters: 0,
+     purpose: "A brass cage in a shaft through all four floors; it stops only where a gate is open."}
+links:
+  - {id: link:door_foyer, from: room:door, to: room:foyer, kind: open}
+  - {id: link:foyer_athanor, from: room:foyer, to: room:athanor, kind: door}
+  - {id: link:athanor_coils, from: room:athanor, to: room:coils, kind: open}
+  - {id: link:coils_core0, from: room:coils, to: room:core0, kind: door}
+  - {id: link:coils_l1, from: room:coils, to: room:landing1, kind: stair, label: east stair}
+  - {id: link:l1_still, from: room:landing1, to: room:still, kind: open}
+  - {id: link:still_reagents, from: room:still, to: room:reagents, kind: door}
+  - {id: link:still_poison, from: room:still, to: room:poison_garden, kind: open}
+  - {id: link:poison_l1w, from: room:poison_garden, to: room:landing1w, kind: door, label: "frost seal: valve", opened_by: state:valve}
+  - {id: link:l1_core1, from: room:landing1, to: room:core1, kind: door, label: "gate 1", opened_by: state:gate1}
+  - {id: link:l1w_l2, from: room:landing1w, to: room:landing2, kind: stair, label: west stair}
+  - {id: link:l2_energy, from: room:landing2, to: room:energy_lab, kind: open}
+  - {id: link:energy_magic, from: room:energy_lab, to: room:magic_lab, kind: door}
+  - {id: link:magic_quarters, from: room:magic_lab, to: room:quarters, kind: open}
+  - {id: link:quarters_core2, from: room:quarters, to: room:core2, kind: door, label: "gate 2", opened_by: state:gate2}
+  - {id: link:quarters_l3, from: room:quarters, to: room:landing3, kind: locked, label: "Librarian's Key",
+     condition: {item: librarians_key}, opened_by: state:librarians_key}
+  - {id: link:l3_library, from: room:landing3, to: room:library, kind: open}
+  - {id: link:library_study, from: room:library, to: room:study, kind: door}
+  - {id: link:study_obs, from: room:study, to: room:observatory, kind: open}
+  - {id: link:obs_stairway, from: room:observatory, to: room:stairway, kind: open}
+  - {id: link:l3_core3, from: room:landing3, to: room:core3, kind: door, label: "gate 3", opened_by: state:gate3}
+  - {id: link:stairway_roof, from: room:stairway, to: room:roof, kind: stair}
+  - {id: link:core_01, from: room:core0, to: room:core1, kind: lift}
+  - {id: link:core_12, from: room:core1, to: room:core2, kind: lift}
+  - {id: link:core_23, from: room:core2, to: room:core3, kind: lift}
+states:
+  - {id: state:enchanted_key, kind: item, where: "XD-10, the great skull (M12)", what: "Opens the tower's door on X3.", opens: []}
+  - {id: state:valve, kind: lever, where: room:reagents, what: "The steam valve: pipes hiss along the wall and the frost seal melts ('Steam pours over the frozen door.').",
+     opens: [link:poison_l1w]}
+  - {id: state:librarians_key, kind: item, where: room:magic_lab, what: "Dropped by the Head Sorceress (a placed actor).", opens: [link:quarters_l3]}
+  - {id: state:gate1, kind: lever, where: room:landing1, what: "Opens the core gate on this floor: the lift now stops here.", opens: [link:l1_core1], draw: false}
+  - {id: state:gate2, kind: lever, where: room:quarters, what: "As gate 1.", opens: [link:quarters_core2], draw: false}
+  - {id: state:gate3, kind: lever, where: room:landing3, what: "As gate 1: from the top, the lift goes straight down to the door.", opens: [link:l3_core3], draw: false}
+exits:
+  - {id: exit:x3_door, space: room:door, at: [0, 0], kind: both, label: "X3: tower door",
+     neighbour: "Door on X3's Tower of High Magic in the swamp; needs the Enchanted Key"}
+  - {id: exit:x8_clouds, space: room:roof, at: [1, 0], kind: both, label: "X8: High Magic clouds",
+     neighbour: "X8 Cloudreach, the High Magic Clouds' landing; a fall from X8 lands on X3"}
+critical_path: [room:door, room:foyer, room:athanor, room:coils, room:landing1, room:still, room:reagents, room:still, room:poison_garden,
+  room:landing1w, room:landing2, room:energy_lab, room:magic_lab, room:quarters, room:landing3, room:library, room:study]
+return_path: [room:study, room:library, room:landing3, room:core3, room:core0, room:coils, room:athanor, room:foyer, room:door]
+loops:
+  - {id: loop:core, spaces: [room:coils, room:landing1, room:core1, room:core0], notes: "Up the east stair, down in the cage, once gate 1 is open; likewise for each floor."}
+  - {id: loop:tower, spaces: [room:landing1, room:still, room:poison_garden, room:landing1w, room:landing2, room:energy_lab, room:magic_lab, room:quarters, room:core2, room:core1], notes: "Up the stairs, back down the core."}
+lines:
+  - {text: "Fire Brew / Electric Brew / Cold Brew", ref: "aaze0055:1-3", where: "room:athanor, room:coils, room:still"}
+  - {text: "Poison Brew / Energy Brew / Magic Brew", ref: "aaze0057:1-3", where: "room:poison_garden, room:energy_lab, room:magic_lab"}
+  - {text: "Pandorian Box / The box is empty.", ref: "aaze0055:4,5", where: "room:reagents, room:observatory"}
+  - {text: "The Art of Magic / Mysteries of Light", ref: "aaze0058:1,2", where: room:library}
+  - {text: "You have learned the spell Prismatic Light!", ref: "aaze0058:8", where: room:library}
+  - {text: "You found a skeleton key in the chest.", ref: "aaze0058:7", where: room:study}
+  - {text: "Stairway to Heaven.  Climb?", ref: "aaze0058:6", where: room:stairway}
+  - {text: "Leave the Tower of High Magic?", ref: "aaze0055:6", where: room:door}
+open_questions:
+  - "Brews: the source gives +10 to a resistance permanently per brew (six brews). Proposed +5 once per character; A2 sets it."
+  - "The Art of Magic teaches Prestidigitation, which MMerge has no skill for. Replace with a skill the ruleset has (e.g. Identify Item to Expert), or a readable only?"
+  - "Carnage Hand (35) is over the band's 32 and stays for Darzog's Tower; Sorceress 30 is the top tier here. Agreed?"
+  - "The lift core: one tall lift with four stops whose gates open from the floor side. Check the studio's lift can stop at more than two heights; fallback: three short lifts stacked."
+  - "The source's L4 Fire Dragon is left out (over the band). Agreed?"

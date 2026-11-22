@@ -1,0 +1,69 @@
+# Castle Kalindra (DD-03): A4's houses 4501-4511 open from their doors once their stage is back, and the mirror
+# 4512 answers (lane A8, session 6, 2026-11-20, after A4's rows landed). All four stage qbits set by console (as the
+# disks would), a save and load, then each door's event (both wings of the double doors) is clicked and must open its
+# house (a house with one resident opens that NPC, its services in the NPC's window: 4502-4511). Event numbers are ids.lock.yml's.
+id: xeen.dd03.l4.houses
+title: Castle Kalindra (DD-03 L4), every house door at stage 4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 35, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 35, skills: [], equipment: {}}
+  - assert: {map: xeen_dd03.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - console: {line: "qbit set 111381"}
+  - console: {line: "qbit set 111382"}
+  - console: {line: "qbit set 111521"}
+  - console: {line: "qbit set 111522"}
+  - reload: {}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close(); wait(0.5); close(); wait(0.3)"}
+  - play_lua: {source: "close(); wait(0.3); click(26); wait(0.8)"}
+  - assert: {dialog: {active: true, house_dialog: true, source_id: 4501}}
+  - play_lua: {source: "close(); wait(0.3); click(21); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5004}}  # house 4502: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(72); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5004}}  # house 4502: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(27); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5005}}  # house 4503: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(76); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5005}}  # house 4503: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(28); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5006}}  # house 4504: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(77); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5006}}  # house 4504: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(25); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5007}}  # house 4505: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(22); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5008}}  # house 4506: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(73); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5008}}  # house 4506: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(31); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5009}}  # house 4507: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(30); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5010}}  # house 4508: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(79); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5010}}  # house 4508: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(23); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5011}}  # house 4509: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(74); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5011}}  # house 4509: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(29); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5012}}  # house 4510: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(78); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5012}}  # house 4510: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(24); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5013}}  # house 4511: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(75); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5013}}  # house 4511: its one resident
+  - play_lua: {source: "close(); wait(0.3); click(42); wait(0.8)"}
+  - assert: {dialog: {active: true}}
+  - play_lua: {source: "close(); wait(0.3)"}

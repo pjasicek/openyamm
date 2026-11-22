@@ -1,0 +1,352 @@
+# The Xeen world's indoor (BLV) decoration models (extends engine/models/indoor_decorations.yml; see its header). Lane S.
+# Rows in worlds/xeen/models/decoration_data.txt (4001-4999), sprites (the engine's `pending` texture, never drawn) in
+# worlds/xeen/rendering/sprite_frame_data_world_decorations.yml (27001-27999).
+decorations:
+  # DD-05's Golden Pegasus on the alcove ledge (A8): the Golden Pegasus Statuette's ground model (item 12349,
+  # worlds/xeen/world_items/items.yml), 34 x 29 x 43.4, origin at its base centre. Collision radius 20.
+  - name: xeen_pegasus
+    model: worlds/xeen/world_items/models/item_xeen_12349.glb
+    height: 43.4
+  # Q-D27's genie lamps in dungeons: as worlds/xeen/models/decorations.yml's xeen_genielamp (1.5x MM7's Genie Lamp).
+  - name: xeen_genielamp
+    model: engine/world_items/models/item_7item260.glb
+    height: 23
+    yaw: facing
+  # P5 shrine (lane S, xeen-s7-p5, D-56; level_generation/decorations/xeen_p5hands_claude, xeen_p5props_claude):
+  # the right stone hand, palm up, thumb to its -x (the WEST hand at facing 270), 448 tall from its plinth's
+  # base centre, plinth radius 124, palm centre over the origin at 390. yaw_offset: facing = the front's direction.
+  - name: xeen_stonehand
+    model: worlds/xeen/models/xeen_deco_stonehand_r.glb
+    height: 448
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The left stone hand: the right one mirrored (the EAST hand at facing 270).
+  - name: xeen_stonehand_l
+    model: worlds/xeen/models/xeen_deco_stonehand_l.glb
+    height: 448
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The Cube of Power in the west hand: the ground item model (39.6) at 84 (2.12x), raised 394 onto the palm
+  # (z_offset); place it at the hand's own xy and floor, facing 0. Hidden until state:wedding (A5).
+  - name: xeen_cube
+    model: worlds/xeen/world_items/models/item_xeen_12365.glb
+    height: 84
+    yaw: facing
+    z_offset: 394
+  # Xeen's Scepter in the east hand: the ground item model (48.6 long, 6.04 high) at 3.6x (175 long), lying
+  # across the palm (east-west at facing 0), raised 398 (z_offset). Hidden until state:wedding (A5).
+  - name: xeen_scepter
+    model: worlds/xeen/world_items/models/item_xeen_12366.glb
+    height: 21.7
+    yaw: facing
+    yaw_offset: -1.570796327
+    z_offset: 398
+  # The wedding cake on MM9's round table, one model: table 165 across and 92 high, a three-tier cake 69 high
+  # on it. Origin at the table's foot centre. Hidden until state:wedding (A5).
+  - name: xeen_cake
+    model: worlds/xeen/models/xeen_deco_cake.glb
+    height: 161.6
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The Rest Stop bench: MM9's Bench01 (a backless plank bench), 92 x 50, 56 high; its long side is its front.
+  - name: xeen_bench
+    model: worlds/xeen/models/xeen_deco_bench.glb
+    height: 56
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The elemental planes' ways up (D-58 C5/C7; lane S session 8, level_generation/decorations/xeen_wayup_claude):
+  # additive shells scrolling upward, no collision (radius 0), origin at the column's foot centre on the floor.
+  # P3's dust shaft: over A6's pale disc (radius 176) in its ring of standing stones; 2,400 up to the bowl's sky.
+  - name: xeen_wayup_earth
+    model: worlds/xeen/models/xeen_deco_wayup_earth.glb
+    height: 2400
+    yaw: facing
+  # P2's updraft: mist streaming up from the ring of white stones (disc radius 176).
+  - name: xeen_wayup_air
+    model: worlds/xeen/models/xeen_deco_wayup_air.glb
+    height: 2000
+    yaw: facing
+  # P1's heat column: heat and embers rising in front of the molten sheet on the gully's back wall (half an
+  # ellipse 350 wide, 120 deep, 1,400 high); origin at the sheet's foot middle, facing = away from the wall.
+  - name: xeen_wayup_fire
+    model: worlds/xeen/models/xeen_deco_wayup_fire.glb
+    height: 1400
+    yaw: facing
+  # D-58 C7 the Sleeper on his couch, one per elemental plane (level_generation/decorations/xeen_sleeper_claude):
+  # MM6's Titan (skin ttn_b, eyes closed) asleep on his back, hands folded on his belly, on an Ancient-steel couch
+  # 644 x 324 (deck 76, headrest platform 90, corner posts 92) with glow windows of the element's XD-19 core on all four
+  # sides; 206.4 high overall. Origin at the couch's bottom centre (z 0 = the floor it stands on). The couch's open long
+  # side is its front: with yaw_offset, `facing` is the direction that front looks. The head lies at facing - 90 deg,
+  # on the LEFT as seen by someone standing in front of it (facing 90 = front north: head east, feet west).
+  - name: xeen_sleeper_fire
+    model: worlds/xeen/models/xeen_deco_sleeper_fire.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_air
+    model: worlds/xeen/models/xeen_deco_sleeper_air.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_earth
+    model: worlds/xeen/models/xeen_deco_sleeper_earth.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_water
+    model: worlds/xeen/models/xeen_deco_sleeper_water.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Lane S (xeen-planes sub-agent, D-58 C7): the elemental planes' statues, test pedestals, return daises and P4's
+  # Drowned Bell, for worlds/xeen/models/indoor_decorations.yml (the lane merges this fragment). Built in
+  # level_generation/decorations/xeen_planes_claude. height = the model's real height (LOD0 bounds); yaw_offset makes
+  # the map's facing the direction the model's front looks (as the P5 hands).
+  # Statue of Fire (P1, poi:statue): the MM6 fire elemental posed arms raised in a column of carved flames, dark red
+  # stone with ember crevices (subtle emission), on its own black plinth 448 square, 96 high, a plaque on the front
+  # face. Origin at the plinth's bottom centre. Collision radius 224 (the plinth).
+  - name: xeen_statue_fire
+    model: worlds/xeen/models/xeen_deco_statue_fire.glb
+    height: 673.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Air (P2): MM8's air elemental torso, one arm raised, on a streaming carved robe, with built wings; white
+  # marble. Origin at the plinth top's centre (z 0 = A6's plinth top, 448 x 448, top 96 over the floor). Wingspan 680.
+  - name: xeen_statue_air
+    model: worlds/xeen/models/xeen_deco_statue_air.glb
+    height: 540
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Earth (P3): MM8's earth elemental seated on a rough block, hands on its knees; grey-brown granite.
+  # Origin at the plinth top's centre (A6's plinth 512 x 512, top 112 over the floor). Footprint 332 x 336.
+  - name: xeen_statue_earth
+    model: worlds/xeen/models/xeen_deco_statue_earth.glb
+    height: 479.9
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Statue of Water (P4): MM7's water elemental, tail coiled on the plinth, pouring a jar; a carved stream falls past
+  # the plinth's front edge into the basin (84 below the plinth top). Green-veined stone. Origin at the plinth top's
+  # centre (A6's plinth 384 x 384, top 96 over the floor).
+  - name: xeen_statue_water
+    model: worlds/xeen/models/xeen_deco_statue_water.glb
+    height: 542
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Test pedestals: a fluted column 110 high, radius 48, the element's alchemical sign carved on its top; front = the
+  # sign's reading side (face the plate). Origin at the bottom centre.
+  - name: xeen_pedestal_fire
+    model: worlds/xeen/models/xeen_deco_pedestal_fire.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_air
+    model: worlds/xeen/models/xeen_deco_pedestal_air.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_earth
+    model: worlds/xeen/models/xeen_deco_pedestal_earth.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_pedestal_water
+    model: worlds/xeen/models/xeen_deco_pedestal_water.glb
+    height: 110
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Return daises: P5's 12-sided disc in each element's stone, radius 226 (vertex), 10 high, carved rings and the
+  # element's sign. Origin at the bottom centre; placed at A6's dais disc's base, facing a multiple of 30 keeps the
+  # twelve sides on the geometry's (A6's ring has a vertex at +x). No collision; the party stands on the geometry.
+  - name: xeen_dais_fire
+    model: worlds/xeen/models/xeen_deco_dais_fire.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_air
+    model: worlds/xeen/models/xeen_deco_dais_air.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_earth
+    model: worlds/xeen/models/xeen_deco_dais_earth.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_dais_water
+    model: worlds/xeen/models/xeen_deco_dais_water.glb
+    height: 10
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The Drowned Bell (P4, poi:bell): a bronze temple bell with verdigris lying on its side, 177 high, 232 long, mouth
+  # 180 across; its axis runs across the front (the mouth to the front's left), its back is the side to lay against
+  # the fallen frame's beam. Origin at its footprint's centre on the floor (sunk 4).
+  - name: xeen_drownedbell
+    model: worlds/xeen/models/xeen_deco_drownedbell.glb
+    height: 177
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D-66 thrones (lane S; level_generation/decorations/xeen_throne_claude): MM9's carved throne copied into Xeen
+  # (D-44), dark gilded wood, red cushion; 250 tall, 150 x 133, seat about 78 up; origin at the foot's centre.
+  # DD-08's four Emotion Thrones and the Throne of the Dunce.
+  - name: xeen_throne
+    model: worlds/xeen/models/xeen_deco_throne.glb
+    height: 250
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The same throne in Ancient steel with a dark teal cushion: DD-17's throne in Command Central's apse.
+  - name: xeen_throne_steel
+    model: worlds/xeen/models/xeen_deco_throne_steel.glb
+    height: 250
+    yaw: facing
+    yaw_offset: -1.570796327
+  # The same throne gilded with an ivory cushion: DD-08's Euphoria Throne (on its dais).
+  - name: xeen_throne_gold
+    model: worlds/xeen/models/xeen_deco_throne_gold.glb
+    height: 250
+    yaw: facing
+    yaw_offset: -1.570796327
+  # DD-17's propaganda and true-name statues (D-61): MM8's sword-raising elf statue cast in teal metal on a
+  # dark steel two-step plinth (124 x 100, 50 high); 300 tall, the figure about 250; origin at the plinth's
+  # bottom centre; replaces MM6's sta1a.
+  - name: xeen_statue_teal
+    model: worlds/xeen/models/xeen_deco_statue_teal.glb
+    height: 300
+    yaw: facing
+    yaw_offset: -1.570796327
+  # XD-17's white fall (D-50 Q7; lane S, level_generation/decorations/xeen_waterfall_claude): a cascade from the east
+  # crest's notch (7664, 2815, 1941) down the 49-56 degree rock into the pool, fitted to A5's L4 rock. Origin = the
+  # cliff-foot point under the notch, (6272, 2304), floor z 0; place it there at facing 200 (the water pours
+  # west-south-west; yaw_offset makes facing the pouring direction). Core blended, spray, foam and mist additive;
+  # no collision, no light. If A5 moves the notch, the foot or the pool, the fall is rebuilt (scripts/fit_xd17.py).
+  # Session 10: a stream wells up in the gully 760 behind the notch; fades baked into the textures (no COLOR_0 in game).
+  # Session 11: clear-water stream with soft sides in the gully's centre; white water starts raggedly at the brink.
+  - name: xeen_waterfall
+    model: worlds/xeen/models/xeen_deco_waterfall.glb
+    height: 2229.46
+    yaw: facing
+    yaw_offset: -1.570796327
+  # Sandro's heart jar (D-62; lane S, level_generation/decorations/xeen_heartjar_claude): MM7's vase dec97 recast
+  # in green glass glowing from inside (emissive), the same size as A8's dec97 (66 tall, 37 across); origin at its
+  # foot. DD-21's deco:jar on the ledge; the green light stays A8's (light:heart_culvert_2).
+  - name: xeen_heartjar
+    model: worlds/xeen/models/xeen_deco_heartjar.glb
+    height: 66
+    yaw: facing
+  # FD-04's nest eggs (D-57 Q27; lane S): the Dragon Egg item's own ground model (MM7 7item291, the egg the
+  # party takes) at 2.34x: 58 long, 40 high, lying on its side; origin at its foot centre; any facing.
+  - name: xeen_dragonegg
+    model: engine/world_items/models/item_7item291.glb
+    height: 40
+    yaw: facing
+  # FD-04's lizard, Alister changed (D-57 Q27; lane S, level_generation/decorations/xeen_lizard_claude): MM8's
+  # Thunder Lizard (mm8_m516, skin A baked, its own four LODs) in a still Standing pose, 50 tall, 87 long, 27
+  # wide; origin at its feet (the tail reaches 59 behind, the snout 28 ahead). Facing = the way it looks.
+  - name: xeen_lizard
+    model: worlds/xeen/models/xeen_deco_lizard.glb
+    height: 50
+    yaw: facing
+    yaw_offset: -1.570796327
+  # FD-02's lecterns (D-63 polish; lane S, level_generation/decorations/xeen_lectern_claude): a carved reading
+  # stand in the Throne of Legends' own wood atlas with MM9's open book (bookflat, copied in) on its sloped
+  # desk; 54 x 41 at the desk, foot 44 x 36, 120 tall; origin at the foot's bottom centre; facing = the
+  # reader's side (the desk slopes down toward it).
+  - name: xeen_lectern
+    model: worlds/xeen/models/xeen_deco_lectern.glb
+    height: 120.5
+    yaw: facing
+    yaw_offset: -1.570796327
+  # DD-12's cage birds (lane S, xeen-s10; level_generation/decorations/xeen_cagebird_claude): a canary-yellow bird
+  # (MM9's crow copied into Xeen, D-44, its eagle skin baked and recoloured) on a perch bar in a dark-iron tray cut
+  # from xwcage, 120 wide, 46 deep, 50 tall (bird 38 over the bar). Origin = the tray's back edge middle on its
+  # underside: place it at a cage panel's centre on the wall line, floor z = the panel bottom (room floor + 64),
+  # facing out of the wall (yaw_offset makes facing that direction). Idle `perch` (5.1 s: Perch x3, PerchFidget)
+  # loops out of step per cage. No collision (radius 0), no light; the static model is for picking only.
+  - name: xeen_cagebird
+    model: worlds/xeen/models/xeen_deco_cagebird.glb
+    animated: worlds/xeen/models/xeen_deco_cagebird_anim.glb
+    idle: perch
+    height: 50
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D7's Merchant of the Elements' gilded sky-barge, fire tint (red-orange sail, canopy, pennant and glow; the smoke
+  # merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt
+  # frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,
+  # a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352
+  # out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =
+  # the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so
+  # the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank.
+  - name: xeen_skybarge_fire
+    model: worlds/xeen/models/xeen_deco_skybarge_fire.glb
+    height: 721.0
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D7's Merchant of the Elements' gilded sky-barge, air tint (pale silver-white sail, canopy, pennant and glow; the dust
+  # merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt
+  # frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,
+  # a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352
+  # out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =
+  # the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so
+  # the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank.
+  - name: xeen_skybarge_air
+    model: worlds/xeen/models/xeen_deco_skybarge_air.glb
+    height: 721.0
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D7's Merchant of the Elements' gilded sky-barge, earth tint (amber-bronze sail, canopy, pennant and glow; the mud
+  # merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt
+  # frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,
+  # a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352
+  # out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =
+  # the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so
+  # the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank.
+  - name: xeen_skybarge_earth
+    model: worlds/xeen/models/xeen_deco_skybarge_earth.glb
+    height: 721.0
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D7's Merchant of the Elements' gilded sky-barge, water tint (sea-green sail, canopy, pennant and glow; the steam
+  # merchant's; lane S, level_generation/decorations/xeen_skybarge_claude): a lofted plank hull with a carved gilt
+  # frieze and fluted gilt rail, gilt scroll posts at prow and stern, a mast with a bellied sail and glowing sigil,
+  # a damask canopy over the port gangway, a gangplank and three crates. 1024 long, 384 wide (gangplank to 352
+  # out of port), 721 tall (keel -196, mast orb +525). Origin = the deck's centre at deck height: floor_height =
+  # the island floor. Facing = the way the prow points; the gangway is on the port side (facing + 90 deg), so
+  # the island goes on the left. Radius 0 (no collision): the merchant stands on the island at the gangplank.
+  - name: xeen_skybarge_water
+    model: worlds/xeen/models/xeen_deco_skybarge_water.glb
+    height: 721.0
+    yaw: facing
+    yaw_offset: -1.570796327
+  # D7's celestial boat at Lucio's dock (the boat that brought the party up; lane S,
+  # level_generation/decorations/xeen_skybarge_claude): the sky-barges' family, smaller: plank hull, carved gilt
+  # frieze and rail, gilt scroll posts, a mast with a pale-blue sail and glowing sigil, two thwarts. 736 long,
+  # 266 wide, 569 tall (keel -144, mast orb +425). Origin = the deck's centre at deck height (48 under the
+  # jetty's top). Facing = the way the prow points. Radius 0 (no collision; nobody boards it).
+  - name: xeen_skyboat
+    model: worlds/xeen/models/xeen_deco_skyboat.glb
+    height: 569.3
+    yaw: facing
+    yaw_offset: -1.570796327
+  # P1's Ember Font (lane S, level_generation/decorations/xeen_planedevices_claude): a faceted basalt basin on a
+  # stem, filled to 8 under its lip with slowly churning liquid fire (emissive, scrolling). 178 across, 107 tall with
+  # its low shimmer (the lip 103). Origin bottom centre on the islet floor; round, so any facing.
+  - name: xeen_emberfont
+    model: worlds/xeen/models/xeen_deco_emberfont.glb
+    height: 107.0
+    yaw: facing
+    yaw_offset: -1.570796327
+  # P1's burnt camp of the fire-walker (lane S, xeen_planedevices_claude): a half-burnt bedroll (head roll at the
+  # model's -x), a dented kettle, a dead fire of ash, two charred logs and seven stones; 222 x 105, 36 tall. Origin
+  # bottom centre; facing = where the model's front (the kettle and fire side, +z) looks. No light; radius 0.
+  - name: xeen_firecamp
+    model: worlds/xeen/models/xeen_deco_firecamp.glb
+    height: 35.53
+    yaw: facing
+    yaw_offset: -1.570796327
+  # P2's wrecked balloon basket (lane S, xeen_planedevices_claude): a wicker gondola, no balloon, tilted 17 degrees
+  # onto a pale rock (its raised side to the model's +x), rim rope, snapped and hanging ropes, two sandbags;
+  # 209 x 206 with its rocks, 162 tall at the raised corner. Origin bottom centre on the ground.
+  - name: xeen_balloonbasket
+    model: worlds/xeen/models/xeen_deco_balloonbasket.glb
+    height: 162.07
+    yaw: facing
+    yaw_offset: -1.570796327

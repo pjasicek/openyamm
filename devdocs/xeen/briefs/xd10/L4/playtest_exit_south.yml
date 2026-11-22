@@ -1,0 +1,30 @@
+# The south mouth's way out to X5 (XD-10, L4): from the north mouth the party walks the length of the cave to the south mouth, clicks the daylight in its south
+# wall ("Leave the Cave of Illusion?", aaze0042:49), takes OK and arrives on X5 (xeen_x5.odm, A6) at (6915, -9472,
+# 1216) facing west, on the Troll Forest side. Run with --world xeen --map xeen_xd10.blv.
+id: xeen.xd10.l4.exit_south
+title: Cave of Illusion (XD-10 L4), out of the south mouth to X5
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd10.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 18, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 18, skills: [], equipment: {}}
+  - assert: {map: xeen_xd10.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close(); clear_hostiles(3000)"}
+  - walk_to: {x: 64, y: 6600, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 256, y: 3200, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 1300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - execute_event: {id: 10}
+  - assert: {dialog: {text_contains: "Cave of Illusion"}}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 6915, y: -9472, radius: 128, z_min: 1110, z_max: 1330}}

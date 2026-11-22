@@ -1,0 +1,61 @@
+# Q-D8 Vespar's Staff (QUESTS 2.2 Q-D8; M25 needs the pass). Owner: A3. Format: QUESTS_FORMAT.md.
+# Vespar lost his staff's emerald handle on the road back from Sandcaster; it lies in a ruin in D3. He gives the
+# Sandcaster pass, and (MONSTERS_AND_ITEMS 4.2, A2's vespars_staff "Q-D8") the rehilted staff itself: he has retired.
+# The Sandcaster gate's pass check is this quest's hook (sandcaster_gate).
+id: Q-D8
+title: "Vespar's Staff"
+act: III
+kind: side
+status: full
+giver: 4949          # Vespar the Wizard (Vespar's House, 4499, in the vale)
+maps: [D1, D3]
+level: 21
+block: 88
+after: [m7.sigil]
+source: "QUESTS Q-D8; dark/aaze0007:16-19, dark/aaze0019:0"
+
+qbits:
+  started: {id: 113160, journal: "Vespar the Wizard lost the emerald handle of his staff on the road back from Sandcaster. He can get you into the city.",
+            until: [done]}
+  handle_found: {id: 113161, note: "D3's ruin (A5) calls the handle hook"}
+  done: {id: 113162, note: "Vespar gave the Sandcaster pass and his staff"}
+
+autonotes:
+  handle: {id: 4480, text: "Vespar's emerald handle: somewhere on the road from Sandcaster, east of the Sprite Forest. Sandcaster admits only pass holders.", category: Misc}
+
+items:
+  vespars_handle: "D3's ruin (the handle hook); Vespar takes it"
+  vespars_staff: "the rehilted staff, Vespar's reward (A2's artifact for Q-D8)"
+
+npcs:
+  4949:              # Vespar
+    topics:
+      - n: 1
+        label: Emerald handle
+        states:
+          - when: {qbit: done}
+            text: "Retirement suits me. I sit, I read, I do not look for handles."
+          - when: {item: vespars_handle}
+            text: "Oh, thank you! You've found the emerald handle. Here's something for your trouble: the staff. I fixed it, cast one spell to prove I still could, and retired. Take it."
+            do: [{take: vespars_handle}, {give: vespars_staff}, {set: done}, {xp: 5000}]
+          - when: {qbit: started}
+            text: "You haven't found my staff's emerald handle yet. Keep searching. I can reward you."
+          - text: "I seem to have lost the emerald handle that fits on the end of my magical staff. It must have come off on my journey back from visiting Sandcaster. Find it, and I'll make it worth your while."
+            do: [{set: started}, {autonote: handle}]
+
+hooks:
+  handle:
+    map: D3
+    where: "a roadside ruin in the Aging Forest by the road west to Sprite Forest (source E3(13,5)): a glint in the rubble"
+    sets: [handle_found]
+    gives: [vespars_handle]
+    once: true
+    text: "You found an emerald handle."
+    else_text: "Rubble, and nothing green in it."
+  sandcaster_gate:
+    map: D3
+    where: "Sandcaster's gate (D-89: open; the pass is retired, a second pass town in one act was the tedium the research warned of)"
+    entrance: Sandcaster (DD-18, DD-19)
+
+rewards: {xp: 5000, gold: 0, items: "Vespar's Staff (artifact)"}
+playthrough: "D1: Vespar (Emerald handle). D3: the ruin. D1: Vespar (Emerald handle)."

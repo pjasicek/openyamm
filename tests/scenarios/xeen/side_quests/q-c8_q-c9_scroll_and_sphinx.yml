@@ -1,0 +1,509 @@
+# Xeen side quests Q-C8, The Scroll of Insight, and Q-C9, The Sphinx (X6, XD-14, XD-15), from a new game on X6.
+# The Sphinx's door opens before Arie (q-c9.door, D-89: no amulet). Arie at her camp below the cliff (NPC 4608, actor 4):
+# "My master" (Q-C8 started, her master's note, autonote 4220), and again ("Third floor"). Castle Basenji's gate
+# (X6 event 83, "Enter?" Yes) into XD-14, walked as in its L4 playtest: the great hall, the west tower, the password
+# door (a wrong answer, then "There wolf": password), the hall of scrolls (the Scroll of Intellect: +2 Intellect once
+# for the reader, "read this scroll before" for the same member, +2 for another; the Scroll of Aging: ten years on the
+# reader only), the dormitory's bar, the keep stair, the study (the Cult Leader; the desk's Scroll of Insight,
+# scroll_found; the writing box a chest since D-90), the roof walk and the moon tower (the Scroll of Confusion: the reader drunk), down
+# by the east tower to the kennels and the dungeon: the peasant through the bars ("There wolf", Golux), his chain
+# before the lever, the jailers' lever (cell_lever), the peasant freed (peasant_freed, 500 XP each, once); back out by
+# the gate. Arie takes the scroll for the Jewelled Amulet (done, 6,000 XP, 2,000 gold) and names the Sphinx. The
+# Sphinx's door opens to the amulet (q-c9.door: entered; the party stays on X6, D-83), a second click enters XD-15,
+# walked as in its L4 playtests: up the throat to
+# the riddle chamber (q-c9.riddle), a wrong name on the sun disc (q-c9.name_wrong: the drop into the hieroglyph
+# dungeon), the drop cell's clue and the library's hieroglyphs (q-c9.hieroglyphs), the climb back by the dungeon stair
+# and the haunch door to the belly hall, up the throat again, GOLUX (q-c9.name_right: done, the award, 6,000 XP), the
+# throne of legends (+2 Endurance once per character, then "sat here before"), the King's and Queen's thrones (+2
+# Might, +2 Personality), and out by the breast gate. Outdoors the party is placed (PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/x6/L4/playtest.yml (Arie, the doors), xd14/L4/playtest.yml, xd14/L4/playtest_exit.yml,
+# xd15/L4/playtest.yml, xd15/L4/playtest_drop.yml, xd15/L4/playtest_exit.yml. Quest logic: source/quests/q-c8.yml,
+# q-c9.yml. Event variables read: 11 Age, 32 BaseMight, 33 BaseIntellect, 34 BasePersonality, 35 BaseEndurance.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c8_q-c9_scroll_and_sphinx.yml --scenario-no-color
+id: xeen.side_quests.q-c8
+title: "Xeen Q-C8 and Q-C9: Arie's Scroll of Insight from Castle Basenji; the Sphinx's name and thrones"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x6.odm
+      party:
+        gold: 200
+        food: 40
+        members:
+          - {name: Hilda, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Brann, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x6.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112160, 112161, 112162, 112163, 112164, 112180, 112181]}
+  # The starting base statistics (15 each) and the Sorcerer's age (28) the scrolls and thrones change.
+  - assert: {runtime_event_variable: {id: 33, member_index: 0, value: 15}}
+  - assert: {runtime_event_variable: {id: 33, member_index: 1, value: 15}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 3, value: 28}}
+  - assert: {runtime_event_variable: {id: 35, member_index: 0, value: 15}}
+  - assert: {runtime_event_variable: {id: 35, member_index: 1, value: 15}}
+  - assert: {runtime_event_variable: {id: 32, member_index: 0, value: 15}}
+  - assert: {runtime_event_variable: {id: 34, member_index: 0, value: 15}}
+  # The Sphinx's door between the paws (X6 event 81) before Arie (D-89: the Sphinx is open, no amulet): the first click
+  # opens it (status line, entered) and the party stays on X6.
+  - set_pose: {map: xeen_x6.odm, x: 9216, y: 9011, z: 1440, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(81); wait(0.3); local s = status(); log('the door: ' .. s); if not string.find(s, 'slides aside', 1, true) then error('X6 event 81: no opening line: ' .. s) end; if not qbit(112180) then error('q-c9.entered 112180 not set by the first click') end"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  # Arie at her camp below the cliff (actor 4, NPC 4608): My master (started, the note), and again.
+  - set_pose: {map: xeen_x6.odm, x: -9300, y: 9728, z: 1472, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 4}
+  - assert:
+      dialog: {active: true, source_id: 4608}
+  - select_topic: {match_label: "My master"}
+  - assert:
+      dialog: {text_contains: "The second floor's door wants 'There wolf'. Bring the scroll back."}
+  - select_topic: {match_label: "My master"}
+  - assert:
+      dialog: {text_contains: "Third floor. Mind the dogs. They are not dogs."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112160]}
+  - assert: {autonote: {id: 4220}}
+  # Castle Basenji's gate on the terrace (X6 event 83): "Enter?" Yes, into XD-14.
+  - set_pose: {map: xeen_x6.odm, x: -12595, y: 14029, z: 2557, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -13312, y: 15258, z: 2592, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(83); wait(0.5)"}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd14.blv}
+  - assert: {party_position: {x: 0, y: -1280, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3); log('arrive: ' .. status()); close()"}
+  # The great hall's double doors and the hall.
+  - walk_to: {x: 0, y: -700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 8); if door_state(9) ~= 'open' then error('hall door leaf 2: ' .. door_state(9)) end"}
+  - walk_to: {x: 0, y: 100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The west tower: its arch, the stair up to the west landing.
+  - walk_to: {x: -1200, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2368, y: -100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2368, y: -1450, z: 620, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2368, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The password door (event 42): a wrong answer, then "There wolf" (Arie's note).
+  - walk_to: {x: -1792, y: -1800, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - answer_input: {text: "Woof"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "\"Wrong,\" says the door, and something behind it laughs like a dog."}}
+  - play_lua: {source: "close(); if qbit(112161) then error('password set on a wrong answer') end; if door_state(11) ~= 'closed' then error('password door: ' .. door_state(11)) end"}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - answer_input: {text: "There wolf"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "Something on the other side growls approvingly, and the bolts draw back."}}
+  - play_lua: {source: "close(); if not qbit(112161) then error('password 112161 not set') end; wait(2); if door_state(11) ~= 'open' then error('password door: ' .. door_state(11)) end"}
+  # The hall of scrolls: the Scroll of Intellect (event 32) once per character.
+  - walk_to: {x: -1792, y: -1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1872, y: -900, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local c = conditions(0); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 0 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(32); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Scroll of Intellect. You read it twice, and the second time it makes sense. (+2 Intellect, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 33, member_index: 0, value: 17}}
+  - assert: {runtime_event_variable: {id: 33, member_index: 1, value: 15}}
+  - play_lua: {source: "click(32); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have read this scroll before. It has nothing more to give you.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 33, member_index: 0, value: 17}}
+  - play_lua: {source: "local c = conditions(1); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 1 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(32); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+2 Intellect, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 33, member_index: 0, value: 17}}
+  - assert: {runtime_event_variable: {id: 33, member_index: 1, value: 17}}
+  - assert: {runtime_event_variable: {id: 33, member_index: 2, value: 15}}
+  # The Scroll of Aging (event 31), a curse on the reader only.
+  - walk_to: {x: -720, y: -900, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local c = conditions(3); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 3 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "click(31); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Your hands, as you put it down, are not. You have been aged ten years!]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 11, member_index: 3, value: 38}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 2, value: 28}}
+  - play_lua: {source: "local c = conditions(0); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 0 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 0}
+  # The dormitory; its barred door lifted from inside. Its guards come to the doorway while the party reads (the
+  # --reload run met one there): fought on the way.
+  - walk_to: {x: -320, y: -1024, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 600, y: -1024, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1792, y: -1400, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 5); close(); if not qbit(118000) then error('dorm_bar 118000 not set') end"}
+  # The keep stair, the keep landing, the study and the Cult Leader.
+  - walk_to: {x: 1728, y: -650, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1728, y: 550, z: 1260, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1728, y: 1000, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 1360, y: 1152, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 14)"}
+  - walk_to: {x: 900, y: 1152, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - assert: {actor_visible: {actor_index: 41, dead: true}}
+  # The desk (event 14): the Scroll of Insight, once.
+  - walk_to: {x: 384, y: 980, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A scroll bound in grey ribbon, labelled INSIGHT in a tidy hand.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        if take_chest() then close() end   -- D-90 (b): the writing box is a chest holding the scroll
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(112162) then error('scroll_found 112162 not set') end
+        if item_count(12316) ~= 1 then error('the desk gave ' .. item_count(12316) .. ' Scrolls of Insight') end
+        click(14); wait(1)
+  # D-90 (b): the emptied chest opens again, with no line of its own.
+  - play_lua: {source: "close(); if item_count(12316) ~= 1 then error('a second Scroll of Insight') end"}
+  # The roof walk and the moon tower: the Scroll of Confusion (event 39), the reader drunk.
+  - walk_to: {x: 832, y: 1500, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 15)"}
+  - walk_to: {x: 832, y: 1984, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2560, y: 1984, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2700, y: 1300, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 3080, y: 1000, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local c = conditions(2); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 2 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "click(39); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Scroll of Confusion. The lines wander, and you wander after them. (Drunk)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        log('after the Scroll of Confusion: ' .. party())
+        if not string.find(conditions(2), 'Drunk', 1, true) then error('the reader is not drunk: ' .. conditions(2)) end
+        for _, i in ipairs({0, 1, 3}) do
+          if string.find(conditions(i), 'Drunk', 1, true) then error('member ' .. i .. ' drunk too') end
+        end
+  - play_lua: {source: "local c = conditions(0); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 0 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 0}
+  - walk_to: {x: 1728, y: 1152, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Down: the keep stair, the dormitory's open door, the east landing, the east tower, the kennels.
+  - walk_to: {x: 1728, y: 550, z: 1260, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1728, y: -700, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1792, y: -1450, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1900, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2368, y: -1750, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2368, y: -600, z: 20, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2368, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2112, y: 700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The dungeon: the stair, the jailers' room, the cell row's iron door.
+  - walk_to: {x: 3300, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: 1216, z: -420, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4950, y: 1216, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 5120, y: 880, z: -512, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 4)"}
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_visible: {actor_index: 31, hidden: false, dead: false}}
+  # The peasant through the bars (event 2); his chain (event 29) out of reach before the lever.
+  - walk_to: {x: 3776, y: 260, z: -512, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Upstairs door? 'There wolf.' I heard them say it a hundred times. And the Sphinx's name is Golux"}}
+  - play_lua: {source: "close(); click(29); wait(0.5); close(); if qbit(112164) then error('freed before the lever') end; if door_state(3) ~= 'closed' then error('bars: ' .. door_state(3)) end"}
+  # The jailers' lever (event 9): the bars up; the peasant freed, once.
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5300, y: 1500, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(5); close(); if not qbit(118001) then error('cell_lever 118001 not set') end; if door_state(3) ~= 'open' then error('bars: ' .. door_state(3)) end"}
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3776, y: 260, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3700, y: -300, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(29); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [["Thank you for saving me!" He is through the door and up the stairs before you can ask his name.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(112164) then error('peasant_freed 112164 not set') end
+        if experience(0) - recall('xp0') ~= 500 then error('the peasant gave member 0 ' .. (experience(0) - recall('xp0'))) end
+        if experience(3) - recall('xp3') ~= 500 then error('the peasant gave member 3 ' .. (experience(3) - recall('xp3'))) end
+  - assert: {actor_visible: {actor_index: 31, hidden: true}}
+  - play_lua: {source: "click(29); wait(1); close(); if experience(0) - recall('xp0') ~= 500 then error('freed twice: ' .. (experience(0) - recall('xp0'))) end"}
+  # Back up and out by the gate (event 56).
+  - walk_to: {x: 3776, y: 260, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4950, y: 1216, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: 1216, z: -420, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3300, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2112, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2368, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1200, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 64, y: -1420, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(56); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: -13312, y: 15104, radius: 200, z_min: 2540, z_max: 2680}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Arie: the scroll for the Jewelled Amulet; then she names the Sphinx.
+  - set_pose: {map: xeen_x6.odm, x: -9300, y: 9728, z: 1472, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp2', experience(2)); remember('gold', gold())"}
+  - interact_actor: {actor_index: 4}
+  - assert:
+      dialog: {active: true, source_id: 4608}
+  - select_topic: {match_label: "My master"}
+  - assert:
+      dialog: {text_contains: "His Scroll of Insight! He would say thank you."}
+  - select_topic: {match_label: "My master"}
+  - assert:
+      dialog: {text_contains: "The Sphinx lies east of here, out in the dunes. It asks its own name. Its name is Golux."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(112163) then error('q-c8.done 112163 not set') end
+        if item_count(12316) ~= 0 then error('Arie left the Scroll of Insight') end
+        if experience(0) - recall('xp') ~= 6000 then error('Arie paid member 0 ' .. (experience(0) - recall('xp'))) end
+        if experience(2) - recall('xp2') ~= 6000 then error('Arie paid member 2 ' .. (experience(2) - recall('xp2'))) end
+        if gold() - recall('gold') ~= 2000 then error('Arie paid ' .. (gold() - recall('gold')) .. ' gold') end
+  - assert: {qbit_set: [112160, 112161, 112162, 112163, 112164]}
+  # The Sphinx's door again (X6 event 81): opened before Arie, so the click enters XD-15.
+  - set_pose: {map: xeen_x6.odm, x: 9216, y: 9011, z: 1440, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(81)"}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true, present_dialogs: true}
+  - assert: {map: xeen_xd15.blv}
+  - assert: {party_position: {x: 0, y: 256, radius: 96, z_min: -8, z_max: 8}}
+  # The paw hall's guards strike as the party comes in (a sleep that never wears off under Immortal, D-82): fight them
+  # first.
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "wait(2); log('arrive: ' .. status()); for _ = 1, 3 do if not close() then break end end; if not qbit(112180) then error('q-c9.entered 112180 not set') end"}
+  # The paw hall; up the throat stair to the neck landing.
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 832, y: 1000, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The riddle chamber by the west lappet: the Sphinx's question as the party comes in.
+  - walk_to: {x: -64, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -64, y: -3200, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -64, y: -3650, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "You're looking for my name, it's five letters long. I think you'll like my name. Try not to get it wrong. A voice booms, \"What is my name?\""}}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 3000}
+  # A wrong name on the sun disc: the floor agrees with the Sphinx.
+  - walk_to: {x: 832, y: -3800, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - answer_input: {text: "Sphinx"}
+  - play_lua: {source: "for i = 1, 60 do if mapvar(3) ~= 1 then break end; wait(0.05) end; if mapvar(3) == 1 then error('the disc never sank') end"}
+  - advance_runtime: {seconds: 3.8, present_dialogs: true, follow_map_move: true}
+  - assert: {dialog: {active: true, text_contains: "\"No,\" says the Sphinx, and the floor agrees with it."}}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 4}
+  - play_lua: {source: "log('after the drop: ' .. status()); if qbit(112181) then error('a wrong name set q-c9.done') end"}
+  - assert: {party_position: {x: 2688, y: 8640, radius: 160, z_min: -660, z_max: -560}}
+  # The drop cell: its clue and its door from inside.
+  - walk_to: {x: 2688, y: 8900, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My first is in giant"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2420, y: 8704, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(3); if door_state(1) ~= 'open' then error('drop cell door: ' .. door_state(1)) end"}
+  # The east hall, the library and its hieroglyph wall (event 25).
+  - walk_to: {x: 1900, y: 8704, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 640, y: 8900, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 640, y: 9500, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -64, y: 10380, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Hieroglyphs, and under them the message reads: My first is in giant but not in defiant."}}
+  - play_lua: {source: "close()"}
+  # Out through the library's door, the stair foot, the dungeon stair, the haunch door to the belly hall.
+  - walk_to: {x: -704, y: 9350, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(7) ~= 'open' then open_door(19, 7) end"}
+  - walk_to: {x: -704, y: 8900, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -320, y: 8600, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 7800, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 0, y: 5700, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: 5350, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(2) ~= 'open' then open_door(16, 2) end"}
+  - walk_to: {x: 0, y: 4700, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The King's throne before the name: its crown door stays sealed.
+  - walk_to: {x: -1150, y: 4288, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "status(); click(17); wait(0.7); local s = status(); log('crown door before the name: ' .. s); close(); if not string.find(s, 'sealed door carved with a crown', 1, true) then error('crown door before the name: ' .. s) end; if door_state(3) ~= 'closed' then error('crown door: ' .. door_state(3)) end"}
+  # Back up the throat by the east gallery to the riddle chamber.
+  - walk_to: {x: 0, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1792, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1792, y: 1440, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 1100, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1728, y: -3200, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -3650, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - clear_hostiles: {radius: 3000}
+  # The sun disc: GOLUX (q-c9.name_right).
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - walk_to: {x: 832, y: -3800, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - answer_input: {text: "Golux"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [["Golux," the Sphinx repeats, pleased. "Nobody ever asks how I am. Sit where you like." The doors to the thrones open.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(112181) then error('q-c9.done 112181 not set') end
+        if experience(0) - recall('xp') ~= 6000 then error('the name paid ' .. (experience(0) - recall('xp'))) end
+        for _, d in ipairs({3, 9, 5}) do
+          if door_state(d) ~= 'open' then error('throne door ' .. d .. ': ' .. door_state(d)) end
+        end
+  - assert: {award_acquired: [{id: 419, member_index: 0}, {id: 419, member_index: 3}]}
+  # Off the disc and on again: "Still me."
+  - walk_to: {x: 832, y: -3700, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "\"Golux. Yes. Still me.\""}}
+  - play_lua: {source: "close()"}
+  # The throne of legends (event 42): +2 Endurance once per character.
+  - walk_to: {x: -250, y: -4160, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1024, y: -4200, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  # A member still recovering from a blow on the way cannot be picked; a player waits.
+  - clear_hostiles: {radius: 1500}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "local c = conditions(0); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 0 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(42); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The throne of legends. Old names are carved in it, and there is room for yours. (+2 Endurance, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(42); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have sat here before. The throne remembers, and is not impressed twice.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # A member still recovering (a blow taken on the way, more likely after a load) cannot be picked; a player waits.
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "local c = conditions(1); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 1 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(42); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+2 Endurance, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 35, member_index: 0, value: 17}}
+  - assert: {runtime_event_variable: {id: 35, member_index: 1, value: 17}}
+  - assert: {runtime_event_variable: {id: 35, member_index: 2, value: 15}}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "local c = conditions(0); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member 0 cannot act before sitting or reading: ' .. c) end end"}
+  - press_action: {action: select_member, member_index: 0}
+  # Back down: the riddle chamber, the east lappet, the throat stair, the east gallery, the belly hall.
+  - walk_to: {x: -250, y: -4160, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -3650, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 900, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: 1100, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1792, y: 1440, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1792, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The King's throne behind the crown door (event 41): +2 Might.
+  - walk_to: {x: -1100, y: 4288, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(3) ~= 'open' then click(17); wait(3) end"}
+  - walk_to: {x: -1900, y: 4288, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(41); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You sit on the King's throne. It fits better than it should. (+2 Might, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(41); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have sat here before.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 32, member_index: 0, value: 17}}
+  - assert: {runtime_event_variable: {id: 32, member_index: 1, value: 15}}
+  # The Queen's throne behind the veil door (event 43): +2 Personality.
+  - walk_to: {x: -1100, y: 4288, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 4288, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(9) ~= 'open' then click(20); wait(3) end"}
+  - walk_to: {x: 1920, y: 4300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(43); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You sit on the Queen's throne, and for a moment everyone in the hall looks at you. (+2 Personality, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {runtime_event_variable: {id: 34, member_index: 0, value: 17}}
+  # Out by the breast gate (event 24) to X6 between the paws.
+  - walk_to: {x: 0, y: 2752, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -128, y: 120, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: 9216, y: 9728, radius: 200, z_min: 1380, z_max: 1440}}
+  - assert: {qbit_set: [112163, 112180, 112181]}

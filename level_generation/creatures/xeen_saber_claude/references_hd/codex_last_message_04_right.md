@@ -1,0 +1,3 @@
+Saved [04_right.png](./level_generation/creatures/xeen_saber_claude/references_hd/04_right.png) and its [generation record](./level_generation/creatures/xeen_saber_claude/references_hd/generation_run_04_right.json). The unresized 1536×1024 image shows the full right-facing profile with both fangs, all four paws and the tail tip visible.
+
+One built-in generation was used. The visible silhouette has at least 84 px of clearance on every side. Trace opacity of 1/255 extends into the padding.

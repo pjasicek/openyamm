@@ -1,0 +1,33 @@
+# DD-25 Bosco's Hall: the dwarf king's hall dug into the Desert of Doom's highlands, a small town BLV (WORLD_DESIGN
+# 5.2; MAPS D5; source dark/aaze0013). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# Built (A8's L4 of 2026-11-21, briefs/dd25/L4): the six doors as A8's wiring names them. Services: smith, tavern and the
+# Earth guild; two dwarf houses and the King's hall. Bosco (Q-D17, the Chalice of Protection; "I dub thee royal taste
+# tester") is A3's: his hall is a residence so that his topics show there.
+# Teachers: Axe, Chain, Earth Magic and Repair Item Grandmaster (place bosco).
+key: DD-25
+stem: xeen_dd25.blv
+town: Bosco's Hall
+face: darkside
+blocks:
+  houses: [4701, 4750]
+  npcs: [5401, 5500]
+
+arrivals:
+  d5_bosco: {at: [2048, 0, 0], direction: 1024, note: "A8's entrance:d5_bosco in the gate passage, 256 inside the gate's two leaves, facing west (D5's entrance:dd25_door leads here)"}
+
+houses:
+  - {id: 4701, door: door:forge, was: 12, kind: weapon_shop, name: Bosco's Forge, owner: 5402, shop: {quality: 4, kinds: [axe, mace]}}
+  - {id: 4702, door: door:alehall, kind: tavern, name: The Alehall, owner: 5403, price: 20}
+  - {id: 4703, door: door:guild_earth, kind: earth_guild, name: The Deep Guild of Earth, owner: 5404, guild: {spells: 11}}
+  - {id: 4704, door: door:kings_hall, kind: residence, name: The King's Hall, residents: [5401]}
+  - {id: 4705, door: door:mailwright, kind: residence, name: The Mailwright's Burrow, residents: [5405]}
+  - {id: 4706, door: door:tinker, kind: residence, name: The Tinker's Burrow, residents: [5406]}
+
+npcs:
+  - {id: 5401, name: Bosco, title: Dwarf King, profession: Noble, talks: true, greet: ["A seer says I'll die of a poisoned drink. So I've stopped drinking. It's terrible.", "Taste this for me?"], source: "dark/aaze0013:14 (close)",
+     greet_after: [{id: 5407, after: q-d17.done, greet: ["Ah, the taste testers! Please, please, sit down and drink with me for awhile! My halls will always be open to you.", "My halls will always be open to you."], note: "D-62: the Chalice brought home; A3's evt.SetNPCGreeting(5401, 5407) where q-d17.done is set"}]}
+  - {id: 5402, name: Durgan Ironfist, title: Royal Axesmith, profession: Smith, teaches: [{skill: Axe, mastery: grandmaster}], greet: ["An axe is a hammer that made something of itself.", "Swing it. No, properly."]}
+  - {id: 5403, name: Brunna, title: Keeper of the Alehall, profession: Cook, greet: ["The King doesn't drink any more. More for everyone else.", "A mug? It's been tasted."]}
+  - {id: 5404, name: Stonebeard, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: grandmaster}], greet: ["We dug this hall with spells. Then with shovels, when the spells got tired.", "Feel the rock."]}
+  - {id: 5405, name: Hilde Ringwright, title: Mailwright, profession: Armorer, teaches: [{skill: Chain, mastery: grandmaster}], greet: ["A dwarf shirt has forty thousand rings. I count every one. Twice.", "Arms up."]}
+  - {id: 5406, name: Gimble, title: Tinker, profession: Tinker, teaches: [{skill: Repair Item, mastery: grandmaster}], greet: ["Bring me anything broken. If it isn't broken, I'll fix that too.", "What did you do to it?"]}

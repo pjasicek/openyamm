@@ -1,0 +1,458 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"x9.arrival\")"
+    notes: "First arrival: A3's x9.arrival line (a one-second timer, once: a load event's window is not shown)."
+  - id: evt:aviary_sign
+    preset: script
+    source: platform:aviary_sign
+    title: Sign
+    effects:
+      - lua: "XeenQuests.hook(\"x9.sign_aviary\")"
+    notes: "A3's x9.sign_aviary (the source's line, xeen/aaze0027)."
+  - id: evt:booth_accuracy
+    preset: script
+    source: platform:booth_accuracy
+    title: Accuracy booth
+    effects:
+      - lua: "XeenQuests.hook(\"m34.accuracy_game\")"
+    notes: "Slick's Accuracy game: A3's m34.accuracy_game."
+  - id: evt:booth_endurance
+    preset: script
+    source: platform:booth_endurance
+    title: Endurance booth
+    effects:
+      - lua: "XeenQuests.hook(\"m34.endurance_game\")"
+    notes: "Slick's Endurance game: A3's m34.endurance_game."
+  - id: evt:booth_might
+    preset: script
+    source: platform:booth_might
+    title: Might booth
+    effects:
+      - lua: "XeenQuests.hook(\"m34.might_game\")"
+    notes: "Slick's Might game: A3's m34.might_game."
+  - id: evt:booth_speed
+    preset: script
+    source: platform:booth_speed
+    title: Speed booth
+    effects:
+      - lua: "XeenQuests.hook(\"m34.speed_game\")"
+    notes: "Slick's Speed game: A3's m34.speed_game."
+  - id: evt:castle_gone
+    preset: script
+    trigger: load
+    condition: {qbit: m35_done}
+    effects:
+      - hide: platform:castle_walls
+      - passable: platform:castle_walls
+      - hide: platform:castle_frieze
+      - passable: platform:castle_frieze
+      - hide: platform:castle_lintel
+      - passable: platform:castle_lintel
+      - hide: platform:castle_tower_sw
+      - passable: platform:castle_tower_sw
+      - hide: platform:castle_tower_sw_frieze
+      - passable: platform:castle_tower_sw_frieze
+      - hide: platform:castle_tower_se
+      - passable: platform:castle_tower_se
+      - hide: platform:castle_tower_se_frieze
+      - passable: platform:castle_tower_se_frieze
+      - hide: platform:castle_tower_ne
+      - passable: platform:castle_tower_ne
+      - hide: platform:castle_tower_ne_frieze
+      - passable: platform:castle_tower_ne_frieze
+      - hide: platform:castle_tower_nw
+      - passable: platform:castle_tower_nw
+      - hide: platform:castle_tower_nw_frieze
+      - passable: platform:castle_tower_nw_frieze
+      - hide: platform:castle_keep
+      - passable: platform:castle_keep
+      - hide: platform:castle_keep_frieze
+      - passable: platform:castle_keep_frieze
+      - hide: platform:gate_leaf_l
+      - passable: platform:gate_leaf_l
+      - hide: platform:gate_leaf_r
+      - passable: platform:gate_leaf_r
+    notes: "state:castle_gone (D-47 Q14): on m35.done the shell (walls, frieze, lintel, towers, keep, leaves) is hidden and passable; its cloud stays; link:gate is sealed."
+  - id: evt:castle_spot
+    preset: script
+    source: platform:gate_threshold
+    trigger: step
+    condition: {qbit: m35_done}
+    effects:
+      - lua: "XeenQuests.hook(\"x9.castle_gone\")"
+    notes: After m35.done the gate's spot reads 'The great Castle Xeen recently stood here.' (aaze0027:44).
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:cache
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+  - id: evt:chest_hollow
+    preset: chest
+    source: chest:hollow
+  - id: evt:chest_pack
+    preset: chest
+    source: chest:pack
+  - id: evt:danger_sign
+    preset: script
+    source: platform:danger_sign
+    title: Sign
+    effects:
+      - lua: "XeenQuests.hook(\"x9.sign_danger\")"
+    notes: "A3's x9.sign_danger (the source's line, xeen/aaze0027)."
+  - id: evt:fall_check
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if z > -1000 then return end
+      Xeen.skyFallTo("x9")
+    notes: "set:fall: a party under -1,000 has fallen off the clouds; A3's Xeen.skyFallTo('x9') sets it down on X2's Darzog island at entrance:x9_fall with falling damage."
+  - id: evt:fall_floor
+    preset: script
+    source: room:air
+    trigger: step
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      Xeen.skyFallTo("x9")
+    notes: "The safety floor at -6,000: a fall the one-second check missed lands the same way."
+  - id: evt:fd04_door
+    preset: script
+    source: platform:fd04_door
+    title: Dragon Tower
+    effects:
+      - exit: door:fd04
+    notes: "The way down in the dragon-head rock: the exit preset's leave (its meaning 'Descend into Dragon Tower?', dark/aazex128:0) to FD-04's entrance:x9_clouds."
+  - id: evt:gate_l
+    preset: script
+    source: platform:gate_leaf_l
+    title: Castle Xeen
+    condition: {not: {qbit: m35_done}}
+    effects:
+      - lua: "if not XeenQuests.hook(\"m34.gate\") then return end"
+      - exit: door:xd19
+    else_effects:
+      - lua: "XeenQuests.hook(\"x9.castle_gone\")"
+    notes: "Castle Xeen's gate (link:gate): A3's m34.gate, then the exit preset's leave into XD-19's entrance:x9_gate."
+  - id: evt:gate_r
+    preset: script
+    source: platform:gate_leaf_r
+    title: Castle Xeen
+    condition: {not: {qbit: m35_done}}
+    effects:
+      - lua: "if not XeenQuests.hook(\"m34.gate\") then return end"
+      - exit: door:xd19
+    else_effects:
+      - lua: "XeenQuests.hook(\"x9.castle_gone\")"
+    notes: "Castle Xeen's gate (link:gate): A3's m34.gate, then the exit preset's leave into XD-19's entrance:x9_gate."
+  - id: evt:nest_a1
+    preset: script
+    source: platform:nest_a1
+    title: Roc Nest
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
+      - hide: platform:nest_a1
+      - passable: platform:nest_a1
+      - lua: "XeenQuests.hook(\"x9.nest_a1\")"
+    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a1 (2,000 experience each, once)."
+  - id: evt:nest_a1_gone
+    preset: script
+    trigger: load
+    condition: {qbit: nest_a1}
+    effects:
+      - hide: platform:nest_a1
+      - passable: platform:nest_a1
+    notes: A burnt nest stays gone (bit 116222).
+  - id: evt:nest_a2
+    preset: script
+    source: platform:nest_a2
+    title: Roc Nest
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
+      - hide: platform:nest_a2
+      - passable: platform:nest_a2
+      - lua: "XeenQuests.hook(\"x9.nest_a2\")"
+    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a2 (2,000 experience each, once)."
+  - id: evt:nest_a2_gone
+    preset: script
+    trigger: load
+    condition: {qbit: nest_a2}
+    effects:
+      - hide: platform:nest_a2
+      - passable: platform:nest_a2
+    notes: A burnt nest stays gone (bit 116223).
+  - id: evt:nest_a3
+    preset: script
+    source: platform:nest_a3
+    title: Roc Nest
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
+      - hide: platform:nest_a3
+      - passable: platform:nest_a3
+      - lua: "XeenQuests.hook(\"x9.nest_a3\")"
+    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a3 (2,000 experience each, once)."
+  - id: evt:nest_a3_gone
+    preset: script
+    trigger: load
+    condition: {qbit: nest_a3}
+    effects:
+      - hide: platform:nest_a3
+      - passable: platform:nest_a3
+    notes: A burnt nest stays gone (bit 116224).
+  - id: evt:nest_se
+    preset: script
+    source: platform:nest_se
+    title: Roc Nest
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
+      - hide: platform:nest_se
+      - passable: platform:nest_se
+      - lua: "XeenQuests.hook(\"x9.nest_se\")"
+    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_se (2,000 experience each, once)."
+  - id: evt:nest_se_gone
+    preset: script
+    trigger: load
+    condition: {qbit: nest_se}
+    effects:
+      - hide: platform:nest_se
+      - passable: platform:nest_se
+    notes: A burnt nest stays gone (bit 116221).
+  - id: evt:nest_sw
+    preset: script
+    source: platform:nest_sw
+    title: Roc Nest
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
+      - hide: platform:nest_sw
+      - passable: platform:nest_sw
+      - lua: "XeenQuests.hook(\"x9.nest_sw\")"
+    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_sw (2,000 experience each, once)."
+  - id: evt:nest_sw_gone
+    preset: script
+    trigger: load
+    condition: {qbit: nest_sw}
+    effects:
+      - hide: platform:nest_sw
+      - passable: platform:nest_sw
+    notes: A burnt nest stays gone (bit 116220).
+  - id: evt:nine_north
+    preset: script
+    source: platform:nine_north
+    title: Sign
+    effects:
+      - lua: "XeenQuests.hook(\"x9.sign_nine_north\")"
+    notes: "A3's x9.sign_nine_north (the source's line, xeen/aaze0027)."
+  - id: evt:offering_1
+    preset: script
+    source: deco:offering_1
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_1\")"
+    notes: "A3's x9.offering_1: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:offering_2
+    preset: script
+    source: deco:offering_2
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_2\")"
+    notes: "A3's x9.offering_2: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:offering_3
+    preset: script
+    source: deco:offering_3
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_3\")"
+    notes: "A3's x9.offering_3: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:offering_4
+    preset: script
+    source: deco:offering_4
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_4\")"
+    notes: "A3's x9.offering_4: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:offering_5
+    preset: script
+    source: deco:offering_5
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_5\")"
+    notes: "A3's x9.offering_5: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:offering_6
+    preset: script
+    source: deco:offering_6
+    title: Offering
+    effects:
+      - lua: "XeenQuests.hook(\"x9.offering_6\")"
+    notes: "A3's x9.offering_6: an item of treasure level 5 for Crusaders, once; others struck."
+  - id: evt:prize_stand
+    preset: script
+    source: platform:prize_stand
+    title: Prize Stand
+    effects:
+      - lua: "XeenQuests.hook(\"m34.prize_stand\")"
+    notes: "Slick's prize stand: A3's m34.prize_stand (four dolls for the Lord Xeen doll)."
+  - id: evt:qf1_ball_future
+    preset: script
+    source: deco:ball_future
+    title: Future of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.ball_future\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.ball_future (D-57 Q36, D-59)."
+  - id: evt:qf1_ball_mind
+    preset: script
+    source: deco:ball_mind
+    title: Mind of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.ball_mind\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.ball_mind (D-57 Q36, D-59)."
+  - id: evt:qf1_ball_past
+    preset: script
+    source: deco:ball_past
+    title: Past of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.ball_past\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.ball_past (D-57 Q36, D-59)."
+  - id: evt:qf1_book_fi
+    preset: script
+    source: platform:book_fi
+    title: Ancient Book of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.runes_fi\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.runes_fi (D-57 Q36, D-59)."
+  - id: evt:qf1_book_in
+    preset: script
+    source: platform:book_in
+    title: Ancient Book of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.runes_in\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.runes_in (D-57 Q36, D-59)."
+  - id: evt:qf1_book_ni
+    preset: script
+    source: platform:book_ni
+    title: Ancient Book of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.runes_ni\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.runes_ni (D-57 Q36, D-59)."
+  - id: evt:qf1_book_ty
+    preset: script
+    source: platform:book_ty
+    title: Ancient Book of the Dragon
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.runes_ty\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.runes_ty (D-57 Q36, D-59)."
+  - id: evt:qf1_crystal_1
+    preset: script
+    source: deco:crystal_1
+    title: Dragon Power Crystal
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.crystal_1\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.crystal_1 (D-57 Q36, D-59)."
+  - id: evt:qf1_crystal_2
+    preset: script
+    source: deco:crystal_2
+    title: Dragon Power Crystal
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.crystal_2\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.crystal_2 (D-57 Q36, D-59)."
+  - id: evt:qf1_crystal_3
+    preset: script
+    source: deco:crystal_3
+    title: Dragon Power Crystal
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.crystal_3\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.crystal_3 (D-57 Q36, D-59)."
+  - id: evt:qf1_eye
+    preset: script
+    source: deco:dragon_eye
+    question: {ask: "\"What is the secret of the Dragon?\"", answers: [Infinity, Infinite], message: "\"Look into the eye of the Dragon and despair\"\n\"Answer correctly or perish!\"", wrong_effects: [{lua: "XeenQuests.hook(\"q-f1.eye_wrong\")"}]}
+    title: The Eye of the Dragon
+    condition: {not: {qbit: qf1_eye_done}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.eye\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-f1.eye\")"
+    notes: "Q-F1's Eye of the Dragon (dark/aazex128:1-4): A3's q-f1.eye on 'Infinity', q-f1.eye_wrong on any other answer; once done its else line."
+  - id: evt:qf1_well
+    preset: script
+    source: platform:well_water
+    title: Well of Fantastic Skill
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.well\")"
+    notes: "Q-F1 on the Dragon Clouds: A3's q-f1.well (D-57 Q36, D-59)."
+  - id: evt:qf1_well_curb_e
+    preset: script
+    source: platform:well_curb_e
+    title: Well of Fantastic Skill
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.well\")"
+    notes: "The well's curb: the same drink, A3's q-f1.well (D-59)."
+  - id: evt:qf1_well_curb_n
+    preset: script
+    source: platform:well_curb_n
+    title: Well of Fantastic Skill
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.well\")"
+    notes: "The well's curb: the same drink, A3's q-f1.well (D-59)."
+  - id: evt:qf1_well_curb_s
+    preset: script
+    source: platform:well_curb_s
+    title: Well of Fantastic Skill
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.well\")"
+    notes: "The well's curb: the same drink, A3's q-f1.well (D-59)."
+  - id: evt:qf1_well_curb_w
+    preset: script
+    source: platform:well_curb_w
+    title: Well of Fantastic Skill
+    effects:
+      - lua: "XeenQuests.hook(\"q-f1.well\")"
+    notes: "The well's curb: the same drink, A3's q-f1.well (D-59)."
+  - id: evt:statue_1
+    preset: script
+    source: deco:statue_1
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m34.statue_1\")"
+    notes: "A3's m34.statue_1: the rhyme for a Linguist, else the runes line."
+  - id: evt:statue_2
+    preset: script
+    source: deco:statue_2
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m34.statue_2\")"
+    notes: "A3's m34.statue_2: the rhyme for a Linguist, else the runes line."
+  - id: evt:statue_3
+    preset: script
+    source: deco:statue_3
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m34.statue_3\")"
+    notes: "A3's m34.statue_3: the rhyme for a Linguist, else the runes line."
+  - id: evt:statue_4
+    preset: script
+    source: deco:statue_4
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m34.statue_4\")"
+    notes: "A3's m34.statue_4: the rhyme for a Linguist, else the runes line."
+  - id: evt:tonic_crate
+    preset: script
+    source: deco:tonic_crate
+    title: Sure-Eye Tonic
+    effects:
+      - lua: "XeenQuests.hook(\"m34.tonic\")"
+    notes: "Slick's free round (D-70 Q1): A3's m34.tonic gives two Accuracy Boosts (245, power 10) once per game, then its else line."
+  - id: evt:xeendom_sign
+    preset: script
+    source: platform:xeendom_sign
+    title: Sign
+    effects:
+      - lua: "XeenQuests.hook(\"x9.sign_xeendom\")"
+    notes: "A3's x9.sign_xeendom (the source's line, xeen/aaze0027)."

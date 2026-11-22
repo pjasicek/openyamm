@@ -1,0 +1,72 @@
+{
+ "name": "xeen_deco_boulder",
+ "rock": "assets_source/engine/models/mm8_deco_rock26.glb",
+ "rock_yaw_deg": 0,
+ "rock_width": 300,
+ "rock_height": 265,
+ "sink": 26,
+ "head": "assets_source/worlds/mm6/models/mm6_pmn2.glb",
+ "face_size": 210,
+ "face_z": 40,
+ "face_x": 0,
+ "nose_out": 26,
+ "face_tilt_deg": 8,
+ "relief": 1.5,
+ "beard_below_chin": 0.18,
+ "voxel": 1.1,
+ "seam_band": 24,
+ "face_erode_iterations": 2,
+ "noise": {
+  "big": [
+   60,
+   5.0
+  ],
+  "small": [
+   14,
+   1.2
+  ]
+ },
+ "lod0_tris": 6200,
+ "lod_ratios": [
+  0.5,
+  0.25,
+  0.125
+ ],
+ "mask": {
+  "zc": 0.3,
+  "rx": 0.44,
+  "rz": 0.55,
+  "sink_from": 0.5,
+  "cut": 1.1
+ },
+ "relief_step": 1.0,
+ "back": 25,
+ "blur": 1.6,
+ "debug_raw": false,
+ "face_noise": [
+  0.6,
+  0.5
+ ],
+ "face_weight": 0.5,
+ "face_uv_factor": 1.4,
+ "colour": {
+  "dark": [
+   110,
+   76,
+   46
+  ],
+  "light": [
+   208,
+   164,
+   110
+  ],
+  "sand": [
+   210,
+   176,
+   124
+  ],
+  "streaks": 0.5,
+  "chroma": 1.3,
+  "gain": 0.84
+ }
+}

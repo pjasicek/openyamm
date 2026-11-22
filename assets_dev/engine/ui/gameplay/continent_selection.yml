@@ -1,5 +1,6 @@
 # Four worlds: Enroth, Antagarich, Jadame and Chedian (MM9), 2026-11-06
-# (level_generation/ui/mm9_world_menu_study_20261106).
+# (level_generation/ui/mm9_world_menu_study_20261106). Since 2026-11-20 one card template placed by the code for every
+# new-game continent with a card, so a mounted world's own continent adds a fifth.
 screen: ContinentSelection
 elements:
 - id: ContinentSelectionRoot
@@ -120,300 +121,96 @@ elements:
     visible: true
     interactive: false
     notes: 'Renderer primitive: 1px brass rule, #b5a47755, in the browser reference.'
-  - id: ContinentSelectionEnrothButton
+  - id: ContinentSelectionCards
+    anchor: top_left
+    offset_x: 91.7333
+    offset_y: 171.7333
+    width: 669.8667
+    height: 222.4
+    z_index: 10
+    visible: false
+    interactive: false
+    notes: The band the cards share. The code places one card (the Card elements below) per new-game continent with a
+      card (data_tables/character_selection.yml and the worlds' own), left to right, evenly; when they are wider than
+      the band together, every card shrinks alike and the row is centred in the band.
+  - id: ContinentSelectionCardButton
     anchor: top_left
     offset_x: 91.7333
     offset_y: 171.7333
     width: 158.2667
     height: 222.4
     z_index: 10
-    visible: true
+    visible: false
     interactive: true
     asset:
       default: hud_x2/menus/omenu_world_card.png
       highlighted: hud_x2/menus/omenu_world_card_selected.png
-    notes: Hover highlights the card; activation opens party creation for this continent immediately.
-  - id: ContinentSelectionEnrothIllustration
+    notes: The card template, at the band's left edge; the gap between cards is ContinentSelectionCardGap's width.
+      Hover highlights the card; activation opens party creation for this continent immediately.
+  - id: ContinentSelectionCardGap
+    anchor: top_left
+    offset_x: 250.0
+    offset_y: 171.7333
+    width: 12.2666
+    height: 222.4
+    z_index: 10
+    visible: false
+    interactive: false
+  - id: ContinentSelectionCardIllustration
     anchor: top_left
     offset_x: 110.8666
     offset_y: 183.4667
     width: 120.0
     height: 120.0
     z_index: 12
-    visible: true
+    visible: false
     interactive: false
-    asset:
-      default: hud_x2/menus/omenu_continent_enroth.png
-  - id: ContinentSelectionEnrothName
+    notes: The continent's picture (its card's `picture`).
+  - id: ContinentSelectionCardName
     anchor: top_left
     offset_x: 99.7333
     offset_y: 325.5
     width: 142.2667
     height: 23.6752
     z_index: 13
-    visible: true
+    visible: false
     interactive: false
     text:
-      value: Enroth
+      value: '{title}'
       font: fondamento
       color: '#e6d1a8'
       align_x: center
       align_y: middle
       scale: 0.61667
       pad_x: 0.0
-  - id: ContinentSelectionEnrothGame
+  - id: ContinentSelectionCardGame
     anchor: top_left
-    offset_x: 116.6541
+    offset_x: 99.7333
     offset_y: 309.5
-    width: 108.4251
-    height: 11.6
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Might and Magic VI
-      font: menu_lucida
-      color: '#c5c9b6'
-      align_x: center
-      align_y: middle
-      scale: 0.56471
-      pad_x: 0.0
-  - id: ContinentSelectionEnrothStart
-    anchor: top_left
-    offset_x: 119.8333
-    offset_y: 369.6
-    width: 102.0667
-    height: 11.7333
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Begin in New Sorpigal
-      font: menu_lucida
-      color: '#c8c7a7'
-      align_x: center
-      align_y: middle
-      scale: 0.45176
-      pad_x: 4.2667
-  - id: ContinentSelectionAntagarichButton
-    anchor: top_left
-    offset_x: 262.2666
-    offset_y: 171.7333
-    width: 158.2667
-    height: 222.4
-    z_index: 10
-    visible: true
-    interactive: true
-    asset:
-      default: hud_x2/menus/omenu_world_card.png
-      highlighted: hud_x2/menus/omenu_world_card_selected.png
-    notes: Hover highlights the card; activation opens party creation for this continent immediately.
-  - id: ContinentSelectionAntagarichIllustration
-    anchor: top_left
-    offset_x: 281.4
-    offset_y: 183.4667
-    width: 120.0
-    height: 120.0
-    z_index: 12
-    visible: true
-    interactive: false
-    asset:
-      default: hud_x2/menus/omenu_continent_antagarich.png
-  - id: ContinentSelectionAntagarichName
-    anchor: top_left
-    offset_x: 270.2666
-    offset_y: 325.5
     width: 142.2667
-    height: 23.6752
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Antagarich
-      font: fondamento
-      color: '#e6d1a8'
-      align_x: center
-      align_y: middle
-      scale: 0.61667
-      pad_x: 0.0
-  - id: ContinentSelectionAntagarichGame
-    anchor: top_left
-    offset_x: 284.9584
-    offset_y: 309.5
-    width: 112.8832
     height: 11.6
     z_index: 13
-    visible: true
+    visible: false
     interactive: false
     text:
-      value: Might and Magic VII
+      value: '{subtitle}'
       font: menu_lucida
       color: '#c5c9b6'
       align_x: center
       align_y: middle
       scale: 0.56471
       pad_x: 0.0
-  - id: ContinentSelectionAntagarichStart
+  - id: ContinentSelectionCardStart
     anchor: top_left
-    offset_x: 286.2208
-    offset_y: 369.6
-    width: 110.3584
-    height: 11.7333
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Begin in Emerald Island
-      font: menu_lucida
-      color: '#c8c7a7'
-      align_x: center
-      align_y: middle
-      scale: 0.45176
-      pad_x: 4.2667
-  - id: ContinentSelectionJadameButton
-    anchor: top_left
-    offset_x: 432.8
-    offset_y: 171.7333
-    width: 158.2667
-    height: 222.4
-    z_index: 10
-    visible: true
-    interactive: true
-    asset:
-      default: hud_x2/menus/omenu_world_card.png
-      highlighted: hud_x2/menus/omenu_world_card_selected.png
-    notes: Hover highlights the card; activation opens party creation for this continent immediately.
-  - id: ContinentSelectionJadameIllustration
-    anchor: top_left
-    offset_x: 451.9333
-    offset_y: 183.4667
-    width: 120.0
-    height: 120.0
-    z_index: 12
-    visible: true
-    interactive: false
-    asset:
-      default: hud_x2/menus/omenu_continent_jadame.png
-  - id: ContinentSelectionJadameName
-    anchor: top_left
-    offset_x: 440.8
-    offset_y: 325.5
-    width: 142.2667
-    height: 23.6752
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Jadame
-      font: fondamento
-      color: '#e6d1a8'
-      align_x: center
-      align_y: middle
-      scale: 0.61667
-      pad_x: 0.0
-  - id: ContinentSelectionJadameGame
-    anchor: top_left
-    offset_x: 453.2667
-    offset_y: 309.5
-    width: 117.3333
-    height: 11.6
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Might and Magic VIII
-      font: menu_lucida
-      color: '#c5c9b6'
-      align_x: center
-      align_y: middle
-      scale: 0.56471
-      pad_x: 0.0
-  - id: ContinentSelectionJadameStart
-    anchor: top_left
-    offset_x: 441.6083
+    offset_x: 100.5416
     offset_y: 369.6
     width: 140.6501
     height: 11.7333
     z_index: 13
-    visible: true
+    visible: false
     interactive: false
     text:
-      value: Begin in Dagger Wound Islands
-      font: menu_lucida
-      color: '#c8c7a7'
-      align_x: center
-      align_y: middle
-      scale: 0.45176
-      pad_x: 4.2667
-  - id: ContinentSelectionChedianButton
-    anchor: top_left
-    offset_x: 603.3333
-    offset_y: 171.7333
-    width: 158.2667
-    height: 222.4
-    z_index: 10
-    visible: true
-    interactive: true
-    asset:
-      default: hud_x2/menus/omenu_world_card.png
-      highlighted: hud_x2/menus/omenu_world_card_selected.png
-    notes: Hover highlights the card; activation opens party creation for this continent immediately.
-  - id: ContinentSelectionChedianIllustration
-    anchor: top_left
-    offset_x: 622.4667
-    offset_y: 183.4667
-    width: 120.0
-    height: 120.0
-    z_index: 12
-    visible: true
-    interactive: false
-    asset:
-      default: hud_x2/menus/omenu_continent_chedian.png
-  - id: ContinentSelectionChedianName
-    anchor: top_left
-    offset_x: 611.3333
-    offset_y: 325.5
-    width: 142.2667
-    height: 23.6752
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Chedian
-      font: fondamento
-      color: '#e6d1a8'
-      align_x: center
-      align_y: middle
-      scale: 0.61667
-      pad_x: 0.0
-  - id: ContinentSelectionChedianGame
-    anchor: top_left
-    offset_x: 623.8
-    offset_y: 309.5
-    width: 117.3333
-    height: 11.6
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Might and Magic IX
-      font: menu_lucida
-      color: '#c5c9b6'
-      align_x: center
-      align_y: middle
-      scale: 0.56471
-      pad_x: 0.0
-  - id: ContinentSelectionChedianStart
-    anchor: top_left
-    offset_x: 612.1416
-    offset_y: 369.6
-    width: 140.6501
-    height: 11.7333
-    z_index: 13
-    visible: true
-    interactive: false
-    text:
-      value: Begin in Ravensford
+      value: '{caption}'
       font: menu_lucida
       color: '#c8c7a7'
       align_x: center

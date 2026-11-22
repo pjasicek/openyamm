@@ -1,0 +1,63 @@
+# Q-C23 The Ogre Boulders (QUESTS 2.1): the ogre lair blocks the river. Owner: A3.
+id: Q-C23
+title: The Ogre Boulders
+act: II
+kind: side
+status: full
+giver: 4113          # Captain Nystor (X2, the dock)
+maps: [X2, XD-27]
+level: 12
+block: 73
+after: []
+source: "QUESTS Q-C23; xeen/aaze0010:23-25"
+
+qbits:
+  arrived_once: {id: 110342, map: XD-27, note: "the map's own: first arrival, shows the arrival hook once (A8)"}
+  started: {id: 112460, journal: "Ogres throw boulders at the boats around Rivercity. Captain Nystor wants them gone.", until: [done]}
+  ogre_lair_destroyed: {id: 110340, map: XD-27}
+  ogre_boulders_dumped: {id: 110341, map: XD-27, note: "the rack tipped: the boulders roll away"}
+  done: {id: 112461, note: "Nystor's upriver route 407 opens (A4: towns/x2.yml qbit: q-c23.done; no map event)"}
+
+items:
+  larder_key: "map-local key of XD-27's larder (A8). Was MM7 641."
+
+npcs:
+  4113:              # Captain Nystor
+    topics:
+      - n: 1
+        label: Ogres
+        states:
+          - when: {qbit: done}
+            text: "Not a boulder in a month! The boats run upriver again, and my crews have stopped flinching at loud noises. Mostly."
+          - when: {qbit: ogre_lair_destroyed}
+            text: "Thank you for getting rid of the Ogres. Here is your reward. The upriver run opens tomorrow."
+            do: [{set: done}, {clear: started}, {xp: 4000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "The Ogres aren't gone yet. I think their base of operation is in the hills to the Northwest of here, up the north river."
+          - text: "Those Ogres are ruining me! For months they have been throwing boulders at the boats that ply the waters around here. Three of my ships have gone to the bottom in as many months because the Ogres like the sound of crunching wood and screaming men. I want those Ogres gone and I am willing to pay well for the service."
+            do: [{set: started}]
+
+hooks:
+  arrival:
+    map: XD-27
+    where: "the first arrival (built: evt:arrive, a one-shot timer)"
+    text: "The ogres' lair, in the river bluff. Boulders stacked by the cliff edge, and a smell of cooking you would rather not ask about."
+  chieftain:
+    map: XD-27
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the lair destroyed once the chieftain is dead (built: evt:lair)"
+    sets: [ogre_lair_destroyed]
+    once: true
+    text: "You break everything you can find in the lair."
+    else_text: "Nothing is left to break." 
+  rack:
+    map: XD-27
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the boulder rack (built: evt:rack)"
+    sets: [ogre_boulders_dumped]
+    once: true
+    text: "You knock the cross-beam out of the rack, and the whole heap of boulders goes thundering over the cliff into the river. That is the end of the ogres' ammunition."
+    else_text: "An empty rack." 
+
+rewards: {xp: 4000, gold: 1500}
+playthrough: "Nystor (Ogres); XD-27, the chieftain; Nystor (Ogres)."

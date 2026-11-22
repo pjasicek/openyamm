@@ -1,0 +1,49 @@
+# A6 lead, 2026-11-21 (session 15): the contract between D7 The Skyroads and the planes P1-P4 for the phase 6 L1
+# mock-ups, with D-58 applied by the lead in session 16. Sub-agents read it; neither edits it (a change goes under
+# DECIDE in the report). Source: MM5 Darkside
+# (research/MM5_DARKSIDE_CONTENT.md, finale step 4): Fire at Sky A1, Air at Sky F1, Earth at Sky F4, Water at Sky A4
+# (letters west -> east, numbers north -> south); A3's M38 hooks in assets_dev/worlds/xeen/source/quests/m38.yml.
+# Entrance names follow lanes/README (an entrance inside a map is named after the map it is entered from).
+corners:
+  fire:
+    plane: P1
+    stem: xeen_p1.blv
+    d7_corner: north-west          # Sky A1 (the Megadragon's road also runs here, Skyroad A1 x1)
+    d7_hook: m38.corner_fire       # the sky asks "What do you seek?"; "Fire" calls it, the map drops the party
+    plane_arrival: entrance:d7_fall    # in P1: where the drop lands
+    d7_return: entrance:p1_return      # in D7: by the north-west corner's rest stop, if the plane sends the party back
+  air:
+    plane: P2
+    stem: xeen_p2.blv
+    d7_corner: north-east          # Sky F1
+    d7_hook: m38.corner_air
+    plane_arrival: entrance:d7_fall
+    d7_return: entrance:p2_return
+  earth:
+    plane: P3
+    stem: xeen_p3.blv
+    d7_corner: south-east          # Sky F4
+    d7_hook: m38.corner_earth
+    plane_arrival: entrance:d7_fall
+    d7_return: entrance:p3_return
+  water:
+    plane: P4
+    stem: xeen_p4.blv
+    d7_corner: south-west          # Sky A4
+    d7_hook: m38.corner_water
+    plane_arrival: entrance:d7_fall
+    d7_return: entrance:p4_return
+default_way_out: >-
+  Decided (D-58 C5, 2026-11-21): two ways out of every plane, both to its D7 corner's `entrance:pN_return`, both
+  `exit` presets (D-24: the game's own "Do you wish to leave" window, no map question): the way up at the arrival
+  shelf, always open (a party that cannot pass the test is never stuck), and the return dais in the sleeper's chamber
+  after the sleeper. Town Portal and Lloyd's Beacon work on the planes; Fly is not cast (WORLD_DESIGN 3.4). A3 writes
+  two lines per plane (the way up, the dais). The arrival from D7 lands standing on the shelf with no falling damage
+  (C2: m38.corner_<element> moves the party directly, without keepHeight). The test is recorded in qbits
+  111764-111767 (fire, air, earth, water; P-1), read by each plane's load event.
+skies:
+  D7: xeenroads                    # alias (lanes/README "Skies")
+  P3: xeen_plane_earth             # preset in assets_dev/worlds/xeen/rendering/sky/sky.yml
+  P1: plane_fire                   # shipped engine preset (D-58 P1 Q3)
+  P2: plane_air                    # shipped engine preset (D-58 P2 Q3)
+  P4: xeen_plane_water             # A6's preset (D-58 P4 Q3), Xeen's sky.yml by make_sky.py; plane_air until it lands

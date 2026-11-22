@@ -226,7 +226,7 @@ links:
     from: room:darzog_floor
     to: room:crodo_cell
     kind: secret_door
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     notes: Darzog's portrait in his bedchamber.
   - id: link:darzog_floor_darzog_hall
     from: room:darzog_floor
@@ -240,7 +240,7 @@ links:
     from: room:darzog_floor
     to: room:well
     kind: lift
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     rise: -2304
     notes: Darzog's disc down the Well's north face to the gate floor.
   - id: link:east_stair_library
@@ -325,7 +325,7 @@ entrances:
     kind: exit
     neighbour: exit:clouds_of_xeen
     how: "The cloud stair on the roof: white steps of cloud climbing from the north terrace into the sky."
-    condition: {qbit: m21_crodo_freed}
+    condition: {qbit: crodo_freed}
   - id: entrance:fall
     space: room:outside
     kind: exit
@@ -348,17 +348,17 @@ goals:
     story: M21
     handed_in_at: exit:lake_island
     gives:
-      qbit: m21_crodo_freed
+      qbit: crodo_freed
   - id: goal:darzog
     space: room:darzog_hall
     kind: kill
     what: Kill Baron Darzog (among his six clones).
     story: M21
     gives:
-      qbit: m21_darzog_slain
+      qbit: darzog_slain
 keys:
   - id: key:darzog_dead
-    grants: {qbit: m21_darzog_slain}
+    grants: {qbit: darzog_slain}
     found_in: room:darzog_hall
     how: "kill: Darzog's death breaks his bindings (the portrait, the disc)"
   - id: key:library_key
@@ -385,20 +385,20 @@ set_pieces:
     kind: scripted
     spaces: [room:darzog_floor, room:crodo_cell]
     rule: "Darzog's journal names the portrait; the portrait shows an old man's face behind the Baron's eyes and will not move while Darzog lives; after his death it slides aside on Crodo's cell. Crodo tells the party the truth about Roland and goes home; the cloud stair on the roof will bear the party from then on."
-    enabled_by: {qbit: m21_darzog_slain}
+    enabled_by: {qbit: darzog_slain}
     gives:
-      qbit: m21_crodo_freed
+      qbit: crodo_freed
   - id: set:darzog
     kind: boss
     spaces: [room:darzog_hall]
-    rule: "Baron Darzog among six clones that wear his face (one family of casters, his lightning). The real Baron is the one with his name and three times the hit points; when he dies his bindings break (qbit m21_darzog_slain): the portrait yields, the disc unbinds, and a line says so."
+    rule: "Baron Darzog among six clones that wear his face (one family of casters, his lightning). The real Baron is the one with his name and three times the hit points; when he dies his bindings break (qbit darzog_slain): the portrait yields, the disc unbinds, and a line says so."
     gives:
-      qbit: m21_darzog_slain
+      qbit: darzog_slain
   - id: set:disc
     kind: scripted
     spaces: [room:well, room:darzog_floor, room:gate_floor]
     rule: "Darzog's disc rides the Well's north face between the gate floor and Darzog's floor. It rests at the top behind a black grille, bound by Darzog's rune; after his death the grille opens while the disc is up, clicking the disc rides it, and a call button at each end brings it."
-    enabled_by: {qbit: m21_darzog_slain}
+    enabled_by: {qbit: darzog_slain}
   - id: set:no_magic
     kind: scripted
     spaces: [room:gate_hall]

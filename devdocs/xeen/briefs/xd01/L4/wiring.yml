@@ -1,6 +1,14 @@
 format: 0
 variables: [feeding_time, mr_split, mrs_split]
 events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Joe's warehouse. A wet, sour smell hangs over the place, and somewhere inside something squelches."
+    seconds: 6
+    notes: "Arrival line (MP42 audit: a new dungeon tells the player why he is here; A7 s29). One-shot timer: the party arrives on the loading dock or in the culvert, and the same line fits both."
   - id: evt:barn_doors
     preset: door
     source: door:barn
@@ -57,9 +65,9 @@ events:
     preset: chest
     source: chest:invoice
     title: Crate
-    sets: {qbit: joe_invoice_found}
-    text: "Under a puff of itching powder, an invoice: 'Breeder Slimes, 1 mated pair. Doom Bugs, 5 (assorted). Deliver to J. the Exterminator, rear door. Pay on delivery.'"
-    notes: "goal:invoice and set:invoice_reveal: the invoice (joes_invoice) and the quest bit joe_invoice_found."
+    effects:
+      - lua: "XeenQuests.hook(\"m2.invoice_crate\")"
+    notes: "goal:invoice and set:invoice_reveal: A3's hook m2.invoice_crate (once) gives the invoice (joes_invoice), the autonote and joe_invoice_found, in the source's words (aaze0028:16); the crate keeps only its gold."
   - id: evt:keep_out
     preset: door
     source: door:keep_out
@@ -103,7 +111,7 @@ events:
           tier: a
           group: 2
     text: "Mr Wobbles bursts and splits in two!"
-    notes: "set:mated_pair's split (the brief: below half health, by an actor script; here on death, the nearest the wiring says): two Slime 2 (stand-in Giant Rats of slot 1) in the pair's group, at his nest."
+    notes: "set:mated_pair's split (the brief: below half health, by an actor script; here on death, the nearest the wiring says): two Slimes 2 (slot 1 at tier a, Slime 11380) in the pair's group, at his nest."
   - id: evt:mrs_splits
     preset: script
     trigger: timer
@@ -234,6 +242,13 @@ events:
           who: current
       - text: A bucket of slime tips over the doorway. Joe thanks you for your interest.
     notes: "set:slime_bucket: the first step into the office; spent afterwards."
+  - id: evt:slogan
+    preset: text
+    source: panel:slogan
+    title: Words daubed in slime
+    effects:
+      - message: "Daubed across the bricks in green slime, in big dripping letters: SLIME LORDS SHALL RULE. Under it, smaller, in another hand: The end is near."
+    notes: "Phase 0 (2026-11-20): the Plague Cult's slogan (aaze0028:21, a sign in Vertigo; the cult's street line aaze0028:18 under it)."
   - id: evt:stash_chest
     preset: chest
     source: chest:stash

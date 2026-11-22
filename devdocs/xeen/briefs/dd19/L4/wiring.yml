@@ -1,0 +1,352 @@
+format: 0
+variables: [bolt_drawn, lamp_scry, lamp_robe, ward_down, vault_open, ambushed, blastem_swapped]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: dd19_arrived_once}}
+    once: true
+    effects:
+      - message: "THE WIZARD QUARTER. Beyond the guild gate, a court of rose-coloured stone under a dimming sky. To the west, the Mirage Guild, where Xenoc the Wizard holds court; to the east, the Sorceress HQ, Morgana's house. Astra wants them both defeated. The gate behind you is the way back to Sandcaster."
+      - qbit: dd19_arrived_once
+    notes: "The first arrival's window, once (dd19_arrived_once 117520, A3's)."
+  - id: evt:blastem
+    preset: script
+    source: platform:blastem_table
+    title: Blastem the Wizard
+    lua: |-
+      if IsQBitSet(QBit(113286)) then
+          evt.StatusText("Blastem's chair is empty.")
+          return
+      end
+      evt.SpeakNPC(5248)
+    notes: "Blastem (NPC 5248, A4's row and A3's topics The lesson / Boots licked) talks through his table until A2's row of his own stands there; after the lesson his chair is empty."
+  - id: evt:blastem_load
+    preset: script
+    trigger: load
+    condition: {qbit: blastem_angered}
+    effects:
+      - hide_actors: 21
+      - show_actors: 20
+    notes: The swap holds on every later load.
+  - id: evt:blastem_swap
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: blastem_angered, not: {map_var: blastem_swapped}}
+    effects:
+      - set:
+          var:
+            map_var: blastem_swapped
+          value: 1
+      - hide_actors: 21
+      - show_actors: 20
+      - lua: "XeenQuests.hook(\"q-d14.blastem\")"
+    notes: "q-d14.blastem: once blastem_angered (113286) the talking Blastem gives way to Sorcerer 11191, hostile (Valio's pattern)."
+  - id: evt:bolt
+    preset: switch
+    source: switch:bolt
+    title: Bolt
+    condition: {not: {map_var: bolt_drawn}}
+    locked_text: The bolt is drawn.
+    opens: [door:bridge]
+    sets: {map_var: bolt_drawn}
+    effects:
+      - text: You draw the bolt. The bridge door swings open.
+    notes: "key:bolt: drawn from Xenoc's side, once."
+  - id: evt:bridge_door
+    preset: script
+    source: door:bridge
+    title: Door
+    condition: {not: {map_var: bolt_drawn}}
+    lua: |-
+      local x = evt.GetPartyPosition()
+      if x < -1152 then
+          evt.StatusText("The door is bolted. The bolt is on the wall beside it.")
+      elseif IsQBitSet(QBit(113283)) then
+          evt.StatusText("The door is bolted from the far side.")
+      else
+          evt.StatusText("Begone, children, lest I blast you to ash and scatter you to the winds.")
+      end
+    else_effects:
+      - text: The bolt is drawn back.
+    notes: "The bridge's west door: while Xenoc lives his voice through it (aaze0031:37, Wrathmont's line given to Xenoc); after his death 'The door is bolted from the far side.'; from the hall the bolt beside it."
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_quarters_e
+    preset: chest
+    source: chest:quarters_e
+    title: Chest
+  - id: evt:chest_quarters_w
+    preset: script
+    source: chest:quarters_w
+    title: Chest
+    condition: {not: {map_var: ambushed}}
+    effects:
+      - set:
+          var:
+            map_var: ambushed
+          value: 1
+      - show_actors: 7
+      - message: "Ambush!"
+      - open_chest: chest:quarters_w
+    else_effects:
+      - open_chest: chest:quarters_w
+    notes: "poi:ambush (aaze0031:56): the first opening shows the four hidden wizards (D-18; a map variable, kept after a reload)."
+  - id: evt:chest_study
+    preset: chest
+    source: chest:study
+    title: Chest
+  - id: evt:chest_wardrobe
+    preset: chest
+    source: chest:wardrobe
+    title: Chest
+  - id: evt:chest_weights
+    preset: chest
+    source: chest:weights
+    title: Chest
+  - id: evt:door_alembic_back
+    preset: door
+    source: door:alembic_back
+    title: Door
+  - id: evt:door_arcade_common
+    preset: door
+    source: door:arcade_common
+    title: Guild Common
+  - id: evt:door_common_weights
+    preset: door
+    source: door:common_weights
+    title: Weights and Measures
+  - id: evt:door_court_hq
+    preset: door
+    source: door:court_hq
+    title: Sorceress HQ
+  - id: evt:door_court_mirage
+    preset: door
+    source: door:court_mirage
+    title: Mirage Guild
+  - id: evt:door_hall_study
+    preset: door
+    source: door:hall_study
+    title: Xenoc's study
+  - id: evt:door_qw_undercroft
+    preset: door
+    source: door:qw_undercroft
+    title: Guild Quarters
+  - id: evt:door_sanctum_wardrobe
+    preset: door
+    source: door:sanctum_wardrobe
+    title: Morgana's wardrobe
+  - id: evt:door_stair_robing
+    preset: door
+    source: door:stair_robing
+    title: Robing room
+  - id: evt:door_undercroft_qe
+    preset: door
+    source: door:undercroft_qe
+    title: Guild Quarters
+  - id: evt:exit_gate
+    preset: exit
+    source: exit:gate
+    title: Guild gate
+    notes: "The game's own leave window, out through the guild gate to D3's entrance:dd19_gate (D-24)."
+  - id: evt:font
+    preset: script
+    source: platform:font
+    title: Font
+    lua: |-
+      evt.ForPlayer(Players.All)
+      AddValue(SP, 2000)
+    effects:
+      - text: "+2000 spell points."
+    notes: "poi:font (aaze0031:61): every member's spell points refilled, repeatable (D-42 (7))."
+  - id: evt:lamp_robe
+    preset: script
+    source: panel:lamp_robe
+    question: {ask: "Snuff it (Yes/No)?", answers: [Yes, Y], message: A ward lamp. Its cold violet flame leans toward Morgana's door.}
+    title: Ward lamp
+    condition: {not: {map_var: lamp_robe}}
+    lua: |-
+      if IsAtLeast(MapVar(lamp_scry), 1) then
+          evt.StatusText("The ward flickers and goes out.")
+      else
+          evt.StatusText("The ward thins, but holds.")
+      end
+    effects:
+      - set:
+          var:
+            map_var: lamp_robe
+          value: 1
+      - lights_off: light:lamp_robe
+      - hide: deco:flame_robe
+    else_effects:
+      - text: The lamp is out.
+    notes: "Ward lamp 2 (below): snuffed once; with the other out the ward goes out (evt:ward_down)."
+  - id: evt:lamp_scry
+    preset: script
+    source: platform:lamp_scry
+    question: {ask: "Snuff it (Yes/No)?", answers: [Yes, Y], message: A ward lamp. Its cold violet flame leans toward Morgana's door.}
+    title: Ward lamp
+    condition: {not: {map_var: lamp_scry}}
+    lua: |-
+      if IsAtLeast(MapVar(lamp_robe), 1) then
+          evt.StatusText("The ward flickers and goes out.")
+      else
+          evt.StatusText("The ward thins, but holds.")
+      end
+    effects:
+      - set:
+          var:
+            map_var: lamp_scry
+          value: 1
+      - lights_off: light:lamp_scry
+      - hide: deco:flame_scry
+    else_effects:
+      - text: The lamp is out.
+    notes: "Ward lamp 1 (above): snuffed once; with the other out the ward goes out (evt:ward_down)."
+  - id: evt:mirage_load
+    preset: script
+    trigger: load
+    effects:
+      - passable: door:mirage
+    notes: "The mirage wall: the party walks through it (XD-10's and DD-03's illusory wall)."
+  - id: evt:mirror
+    preset: text
+    source: panel:mirror
+    title: Mirror
+    text: "In the mirror, the blank wall behind you has a door in it."
+    window: true
+    notes: "poi:mirror: the answer to the mirage wall (Blastem's humble answer is the other)."
+  - id: evt:morgana_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:morgana}}
+    lua: "XeenQuests.hook(\"q-d14.morgana\")"
+    once: true
+    notes: "goal:morgana: q-d14.morgana at her death (morgana_slain 113284, once)."
+  - id: evt:orange_potion
+    preset: script
+    source: platform:alcove_orange
+    title: Alcove
+    lua: "XeenQuests.hook(\"q-d14.orange_potion\")"
+    notes: "The Orange Potion (aaze0031:57-58): A3's hook decides for the clicking member (player bit 11350)."
+  - id: evt:purple_potion
+    preset: script
+    source: platform:alcove_purple
+    title: Alcove
+    lua: "XeenQuests.hook(\"q-d14.purple_potion\")"
+    notes: "The Purple Potion (aaze0031:59-60): A3's hook (player bit 11351)."
+  - id: evt:read_bed_e1
+    preset: text
+    source: platform:bed_e1
+    title: Bed
+    text: Nothing here.
+    window: false
+  - id: evt:read_bed_w1
+    preset: text
+    source: platform:bed_w1
+    title: Bed
+    text: Nothing here.
+    window: false
+  - id: evt:read_crystal
+    preset: text
+    source: platform:crystal
+    title: Crystal
+    text: "The crystal shows the court below, and a party in it, looking up."
+    window: false
+  - id: evt:read_painted_door
+    preset: text
+    source: panel:painted_door
+    title: A painted door
+    text: A painted door. Only paint on the brick.
+    window: false
+  - id: evt:read_scales
+    preset: text
+    source: platform:scales
+    title: Weights and Measures
+    text: "Scales and ledgers: the wizards taxed the quarter by the ounce."
+    window: false
+  - id: evt:read_still
+    preset: text
+    source: platform:still
+    title: Still
+    text: "Retorts and a still, cold. The bottles on the shelves are empty."
+    window: false
+  - id: evt:read_triple_window
+    preset: text
+    source: panel:triple_window
+    title: Window
+    text: The triple window looks down on the court.
+    window: false
+  - id: evt:read_xenoc_chair
+    preset: text
+    source: platform:xenoc_chair
+    title: Xenoc's chair
+    text: "A tall chair on a dais, set where its owner can look down on the hall."
+    window: false
+  - id: evt:read_xenoc_desk
+    preset: text
+    source: platform:xenoc_desk
+    title: Desk
+    text: "A treatise on the inferiority of everyone else, in Xenoc's hand. Unfinished."
+    window: false
+  - id: evt:vault_door
+    preset: script
+    source: door:vault
+    title: Iron door
+    condition: {not: {map_var: vault_open}}
+    effects:
+      - text: An iron door with no handle on this side. The guild's seal is cut into it.
+    else_effects:
+      - text: The iron door stands raised.
+    notes: The vault's iron door.
+  - id: evt:vault_lever
+    preset: switch
+    source: switch:vault_lever
+    title: Lever
+    condition: {not: {map_var: vault_open}}
+    locked_text: The lever is down.
+    opens: [door:vault]
+    sets: {map_var: vault_open}
+    effects:
+      - text: "Far below, iron grinds."
+    notes: "key:vault_lever: the lever under the guild's seal raises the vault's iron door, once."
+  - id: evt:ward
+    preset: script
+    source: door:ward
+    title: Ward of light
+    condition: {not: {map_var: ward_down}}
+    lua: |-
+      if IsAtLeast(MapVar(lamp_scry), 1) or IsAtLeast(MapVar(lamp_robe), 1) then
+          evt.StatusText("The ward thins, but holds.")
+      else
+          evt.StatusText("A ward of light seals the door. The ward draws on two lamps, one above and one below.")
+      end
+    else_effects:
+      - text: The ward is gone.
+    notes: "Morgana's door: its click names both lamps (D-42 (6)); one lamp out: 'The ward thins, but holds.'"
+  - id: evt:ward_down
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {map_var: lamp_scry, all: [{map_var: lamp_robe}], not: {map_var: ward_down}}
+    opens: [door:ward]
+    effects:
+      - set:
+          var:
+            map_var: ward_down
+          value: 1
+    notes: "key:lamps: both lamps out, the ward sinks (again after a refill keeps the vars)."
+  - id: evt:xenoc_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:xenoc}}
+    lua: "XeenQuests.hook(\"q-d14.xenoc\")"
+    once: true
+    notes: "goal:xenoc: q-d14.xenoc at his death (xenoc_slain 113283, once)."
+notes: "DD-19's events, written by output/studio_cal/dd19/tools/dress.py."

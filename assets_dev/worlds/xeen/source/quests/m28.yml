@@ -1,0 +1,198 @@
+# M28 The Great Pyramid (QUESTS M28; Act V). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# DD-15 on D5 (A8, phase 5): four floors up to the Dragon Pharaoh. L1 torch levers and a number lock, L2 the registry
+# lock ("NCC-1701", said plainly on the plaque beside it), L3 a teleport maze, L4 the Pharaoh. He takes his orb back and
+# explains: Alamar is Sheltem, a guardian gone rogue, who would steer Xeen away from its sun; he cools the lava round
+# the "second meteor" on D6, Corak's pod (M29). The Pharaoh is 5453 (A4: a talking actor on DD-15 L4, A8).
+# D-61 (DD-15's graph): the optional number niches open the Overseer's vault (Xeen.pyramidNiche), the wall safe takes the
+# tapestry's 20-30-1 (Xeen.pharaohSafe), the Pharaoh's lift wakes on the first audience, the Brew burns on a second sip.
+id: M28
+title: The Dragon Pharaoh
+act: V
+kind: main
+status: full
+giver: 5453
+maps: [D5, DD-15, D6]
+level: 45
+block: 28
+after: [m27.done]
+source: "QUESTS M28; dark research 1 (step 16), the manual's Pharaoh log; MAPS DD-15 (the Prime Directive book); dark/aaze0083:6-39, aaze0086:0-31; D-61 (devdocs/xeen/mockups/act5_a8_decisions.md)"
+
+qbits:
+  started: {id: 111560, journal: "The Dragon Pharaoh waits for his orb at the top of the Great Pyramid, in the Desert of Doom.",
+            until: [done]}
+  torches: {id: 111561, pending: "phase 5: DD-15 L1's torch levers (A8)"}
+  registry: {id: 111562, pending: "phase 5: DD-15 L2's registry lock (A8)"}
+  done: {id: 111563, journal: "The Dragon Pharaoh has his orb. Alamar is Sheltem, a rogue guardian. The Pharaoh has cooled the lava round the second meteor in the Forbidden Zone.",
+            until: [m29.done]}
+  lava_cooled: {id: 111564, note: "D6's lava round Corak's pod (Escape Pod 1) is cool; the pod opens (M29)"}
+  directive_read: {id: 111565, note: "the Prime Directive book read once (a second read gives aaze0086:31)"}
+  # DD-15's map qbits (block 117560-117599, D-61; the map lane A8 writes and reads them)
+  dd15_arrived_once: {id: 117560, map: DD-15, pending: "phase 5: DD-15 (A8): the first arrival"}
+  torch_ne: {id: 117561, map: DD-15, pending: "phase 5: DD-15 (A8): the north-east chapel's torch lit (two-state lever, D-43)"}
+  torch_nw: {id: 117562, map: DD-15, pending: "phase 5: DD-15 (A8): the north-west chapel's torch lit"}
+  torch_sw: {id: 117563, map: DD-15, pending: "phase 5: DD-15 (A8): the south-west chapel's torch lit"}
+  torch_se: {id: 117564, map: DD-15, pending: "phase 5: DD-15 (A8): the south-east chapel's torch lit"}
+  niche_1: {id: 117565, map: DD-15, note: "the first niche answered (3); Xeen.pyramidNiche sets it"}
+  niche_2: {id: 117566, map: DD-15, note: "the second niche answered (4)"}
+  niche_3: {id: 117567, map: DD-15, note: "the third niche answered (5)"}
+  niche_4: {id: 117568, map: DD-15, note: "the fourth niche answered (6)"}
+  niche_5: {id: 117569, map: DD-15, note: "the fifth niche answered (7)"}
+  niche_6: {id: 117570, map: DD-15, note: "the sixth niche answered (8)"}
+  niche_7: {id: 117571, map: DD-15, note: "the seventh niche answered (9)"}
+  niche_8: {id: 117572, map: DD-15, note: "the eighth niche answered (10)"}
+  vault_open: {id: 117573, map: DD-15, note: "all eight niches answered: the Overseer's vault door opens (on every load, A8)"}
+  safe_open: {id: 117574, map: DD-15, note: "the wall safe's combination given (20-30-1): the safe's chest opens (Xeen.pharaohSafe)"}
+  button_pressed: {id: 117575, map: DD-15, pending: "phase 5: DD-15 (A8): the bedchamber's carved button; the secret way to the sky corridor stays open"}
+  maze_arrived: {id: 117576, map: DD-15, note: "the pad hall's first arrival (the maze hook, once)"}
+  throne_reached: {id: 117577, map: DD-15, note: "the first entry into the throne hall (the audience hook): the Pharaoh's lift wakes (D-61 Q4)"}
+  scarab_find: {id: 117578, map: DD-15, pending: "phase 5: DD-15 (A8): the scarab cell's weapon rack, one random T5 weapon once (D-61), then \"Nothing here.\""}
+
+autonotes:
+  pyramid: {id: 4128, text: "The Great Pyramid, in the Desert of Doom: the Queen's key opens it. The Dragon Pharaoh is on the top floor.", category: Misc}
+
+items:
+  pyramid_key: "the Queen's (M27); the pyramid door needs it"
+  pharaoh_orb: "Zelda's orb (M15); the Pharaoh takes it"
+
+npcs:
+  5453:              # The Dragon Pharaoh (DD-15 L4)
+    topics:
+      - n: 1
+        label: The orb
+        states:
+          - when: {qbit: done}
+            text: "The lava round the second meteor is cool now. What fell from the sky there is not a meteor. Go and see, and be polite to whoever wakes."
+          - when: {item: pharaoh_orb}
+            text: "My orb. Without it I could see Alamar, but not strike him. Hear what I have seen. Alamar is not a king. He is Sheltem, a guardian the Ancients made to keep a world safe, who decided he knew better. He means to steer Xeen away from its sun and sail it like a ship. He came here in a pod from the stars. So did his pursuer, and that pod fell into lava in the Forbidden Zone. I have cooled it. Go."
+            do: [{take: pharaoh_orb}, {set: done}, {set: lava_cooled}, {set: m29.started}, {xp: 15000}]
+          - text: "You found your way up my pyramid without my orb? I admire the effort and regret the result. Bring it."
+
+hooks:
+  door:
+    map: D5
+    where: "the Great Pyramid's door in the Desert of Doom (D-89: open; the key locks the antechamber, antechamber_door)"
+    entrance: DD-15
+    sets: [started]
+    do: [{autonote: pyramid}]
+  antechamber_door:
+    map: DD-15
+    where: "L4: the antechamber's door before the throne hall (D-89 INWARD: the Queen's key opens it; the Pharaoh's lift runs only after the throne is reached, so the key guards the audience alone; A8 wires the door event: true opens it, false has shown the line)"
+    gate: beat
+    needs: [pyramid_key]
+    fail_text: "A sealed door of green stone with the Pharaoh's sign on it. The keyhole is the size of a royal favour. Queen Kalindra, they say, keeps the key."
+  torches:
+    map: DD-15
+    where: "L1: the four torch levers (two-state, one map qbit each, 117561-117564, D-43; a lit lever says \"The lever is stuck.\", dark/aaze0083:39). Each lever's event sets its own bit, then calls this hook when all four bits are set, so it fires from whichever torch is lit last; the stair door opens and stays open on every later load (torches). The plaque by the first says it plainly"
+    sets: [torches]
+    once: true
+    text: "The fourth torch catches, and the stair door rumbles open."
+  stair_door:
+    map: DD-15
+    gate: puzzle
+    where: "L1: the stair door across the south gallery from the atrium, shut until all four torches burn (the map's door asks XeenQuests.can and opens on torches)"
+    requires: {qbit: torches}
+    reads: [torches]
+    fail_text: "Access denied!"
+  welcome_statue:
+    map: DD-15
+    where: "L1, the entrance hall's welcome statue (on approach; dark/aaze0083:6, the source's spelling kept inside the quote)"
+    text: "The statue speaks as you approach it: \"Welcome to the Royal Pyramid! The Dragon Pharoah is currently indisposed, but a staff member will be with you shortly to discuss whatever business you have that relates to him. Please, have a seat.\""
+  history_statue:
+    map: DD-15
+    where: "L1, Reception's history statue (on approach; dark/aaze0083:8)"
+    text: "The statue speaks as you approach it: \"Built during the Creation, the Royal Dragon Pyramid has stood the test of time. Visitors have been flocking to see the great monument since it was opened to the public 312 years ago. There is much to see and explore in the Pyramid, so be sure to check the information desk for the latest tour information. And don't forget to stop at the Royal bookstore for (crackle... hissssss) Built during the Creation...\""
+  torch_statue:
+    map: DD-15
+    where: "L1, the Visitor's Atrium's statue (on approach; dark/aaze0083:7, four torches for the source's six)"
+    text: "The statue speaks as you approach it: \"Don't forget to light four torches before trying the stairs.\""
+  torch_plaque:
+    map: DD-15
+    where: "L1, the plaque by the first torch"
+    text: "Light all four, and the way is open. Light fewer, and stay where you are."
+  registry_plaque:
+    map: DD-15
+    where: "L2, the plaque beside the registry lock"
+    text: "A brass plaque: REGISTRY NCC-1701. Below, in a different hand: the lock wants the number, not the letters."
+  registry_lock:
+    map: DD-15
+    where: "L2's registry lock: the map's prompt \"Registry?\", answers 1701 or NCC-1701; the right answer calls this"
+    sets: [registry]
+    once: true
+    text: "The lock chimes a short, smug tune, and the door to the maze slides open."
+  rule_statue_1:
+    map: DD-15
+    where: "L1, the number hall's first rule statue (on approach; dark/aaze0083:9): the niches' answer-giver"
+    text: "The statue speaks as you approach it: \"Enter the eight numbers to pass the test. They are in a row, so do your best.\""
+  rule_statue_2:
+    map: DD-15
+    where: "L1, the number hall's second rule statue (on approach; dark/aaze0083:10)"
+    text: "The statue speaks as you approach it: \"They total fifty-two, the rest is up to you.\""
+  niches:
+    map: DD-15
+    where: "L1, the number hall's eight niches (optional, D-61 Q3): each niche's event calls Xeen.pyramidNiche(<1-8>, eventId, continueStep) (xeen_common.lua): the source's riddle as a typed prompt (dark/aaze0083:13-38: 3 or Three ... 10 or Ten), \"Correct!\" and its map qbit, or \"Wrong!\" (:16-17) and it may be tried again; the eighth right answer sets vault_open and shows this hook's line. The helper returns true while the vault is open, so the event can open the vault door then; the map opens it on every load by vault_open. No XeenQuests.hook call of its own"
+    sets: [vault_open]
+    reads: [vault_open]
+    status: true
+    text: "Correct! Somewhere behind the Overseer's office, a heavy bolt slides back."
+  overseer_note:
+    map: DD-15
+    where: "L1, the Overseer's Office: the note on the desk (the niches' plain answer-giver)"
+    text: "A note on the Overseer's desk: \"For the new staff. The niches, in order: three, four, five, six, seven, eight, nine, ten. Every year I forget. -- the Overseer\""
+  maze:
+    map: DD-15
+    where: "L3, the pad hall's first arrival (once, maze_arrived): four glyph pads, sun, eye, scarab and bird; the bird cell has a second pad onward (five in all, D-61)"
+    sets: [maze_arrived]
+    once: true
+    text: "Every pad in this hall takes you somewhere. Few of them take you anywhere useful."
+  pad_map:
+    map: DD-15
+    where: "L3, the eye cell's wall: the Overseer's lost map of the pads (the maze's answer-giver)"
+    text: "A map of the pads, pinned to the wall and forgotten: the Overseer's. Sun, eye, scarab: dead ends. The bird, then the second bird."
+  audience:
+    map: DD-15
+    where: "L4, the throne hall's doorway (the first entry; a step event): sets throne_reached, and from then on the Pharaoh's lift runs both ways (D-61 Q4); no text"
+    sets: [throne_reached]
+    once: true
+  lift:
+    map: DD-15
+    gate: shortcut
+    where: "the Pharaoh's lift, the gilded cage beside the grand stair (L1) and at the antechamber (L4): its click asks XeenQuests.hook; true lets the map move the party to the other stop, false has shown the line"
+    requires: {qbit: throne_reached}
+    reads: [throne_reached]
+    fail_text: "A gilded cage. It answers only to the Pharaoh's guests."
+  brew:
+    map: DD-15
+    where: "L4, the Brew of Pure Power in its vat beside the dais, the first click of a visit (a map variable the map clears on arrival, D-61 Q6; dark/aaze0086:0); a second click in the same visit calls brew_drink"
+    text: "As you approach the Brew of Pure Power, the Dragon Pharaoh says, \"Get away from that! You'll hurt yourself!\""
+  brew_drink:
+    map: DD-15
+    where: "the same vat, a second click in the same visit: 50 Fire damage to the clicking member; no reward (D-61 Q6). AU's hiss with it"
+    do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Fire, 50)"}]
+    text: "You drink. The Brew of Pure Power drinks back. He did warn you."
+  tapestry:
+    map: DD-15
+    where: "L4, the bedchamber's tapestry (\"Tapestry\", dark/aaze0086:6): the wall safe's answer-giver (D-61 Q7)"
+    text: "A tapestry of the Dragon Pharaoh among the stars. Woven into its border, over and over: twenty, left; thirty, right; one, left."
+  safe:
+    map: DD-15
+    where: "L4, the bedchamber's wall safe (\"Wall Safe\", dark/aaze0086:7): its event calls Xeen.pharaohSafe(eventId, continueStep) (xeen_common.lua), which asks the source's three prompts in turn (\"Enter Combination. Left?\", \"Right?\", \"Left?\": 20, 30, 1; dark/aaze0086:20-29), shows \"No Luck.\" (:19) on a wrong number, and calls this hook after the third; it returns true once the safe is open, and the event then opens the safe's chest (T5)"
+    sets: [safe_open]
+    once: true
+    status: true
+    text: "The last tumbler drops. The wall safe swings open."
+  prime_directive:
+    map: DD-15
+    where: "L4, the book on its stand in the antechamber (\"Book\", MAPS original lines; dark/aaze0086:30, without its +1,000,000 experience; a second read :31)"
+    sets: [directive_read]
+    once: true
+    text: "The book is blank but for a single page in the middle that reads: Prime Directive: Obey the Ancients. Secondary Directive: Protect Xeen. Tertiary Directive: Complete the Destiny of Xeen."
+    else_text: "You learn nothing new from reading the book again."
+
+riddles:
+  - {answer: "1701 (NCC-1701)", where: "DD-15 L2's registry lock (m28.registry_lock)", said_by: "the plaque beside it (m28.registry_plaque)"}
+  - {answer: "3, 4, 5, 6, 7, 8, 9, 10", where: "DD-15 L1's eight niches (m28.niches, Xeen.pyramidNiche)", said_by: "the two rule statues (m28.rule_statue_1, _2: eight in a row, total 52) and the Overseer's note (m28.overseer_note)"}
+  - {answer: "20 left, 30 right, 1 left", where: "DD-15 L4's wall safe (m28.safe, Xeen.pharaohSafe)", said_by: "the tapestry beside it (m28.tapestry)"}
+  - {answer: "the bird pad, then the second bird", where: "DD-15 L3's pad maze", said_by: "the Overseer's lost map in the eye cell (m28.pad_map)"}
+
+rewards: {xp: 15000, gold: 0}
+playthrough: "D5: the pyramid door (the key). DD-15: L1 the four torches, the stair door; L2 the registry (1701); L3 the pads (bird, second bird); L4 the throne hall (audience), the Pharaoh (The orb); down by the Pharaoh's lift."

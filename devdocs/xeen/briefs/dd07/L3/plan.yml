@@ -1,0 +1,552 @@
+format: 0
+level: L3
+pitch: 'The Great Eastern Tower: four floors of galleries round an open well that rises from the ground floor to the slate
+  cone, the mages floating across it. One stair winds up the west side; from the top a floating disc rides the well back down.
+  On the third floor the mages'' vault hides behind a door of light fed by two crystal pylons; on the top floor the Archmagus''s
+  study and laboratory.'
+purpose: 'Q-D18 The Jewel of Ages (the vault: the jewel and two Energy Disks; Ellinger''s letter in the study, the Archmage
+  promotion through Nasir), Q-D20''s Golden Griffin, L4''s fountain (+1 all) and book (+2 Intellect). 30 monsters at 28-45
+  (Floating Adepts, Floating Magi, Mystic Mages, Floating Eyes), treasure 4.'
+mood: Cool green-grey stone and grey cobbles, pale light falling down the well, the hum of the pylons; warm brown stone and
+  wood in the mages' own rooms at the top.
+datum: arrival
+spaces:
+- id: room:door_hall
+  name: Door hall
+  kind: room
+  size: M
+  extent: [2240, 512]
+  floor: 0
+  purpose: The arrival (entrance:d3_door) inside the west door, at the foot of the first stair. Quiet (D-11.3). Wall sconces;
+    the well's foot through an arch.
+  empty: true
+- id: room:well_foot
+  name: The well
+  kind: room
+  size: M
+  extent: [896, 896]
+  floor: 0
+  purpose: 'The levitation well: an open shaft from the ground floor to the slate cone, railed windows on every floor, light
+    falling from the cone; the floating disc rides it from the top floor to the foot. Three adepts float in the light.'
+  population:
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 3 placed Floating Adepts.
+- id: room:ring1
+  name: East gallery
+  kind: corridor
+  size: M
+  extent: [1920, 1920]
+  floor: 0
+  purpose: The ground floor's gallery round the well's north, east and south sides.
+  population:
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 2 placed Floating Adepts.
+- id: room:commons
+  name: Mages' commons
+  kind: room
+  size: M
+  extent: [1408, 704]
+  floor: 0
+  purpose: 'A refectory and reading room: the long table, lore books on shelves.'
+  population:
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 2 placed Floating Adepts.
+- id: room:store
+  name: Store room
+  kind: room
+  size: S
+  extent: [576, 1024]
+  floor: 0
+  purpose: 'A dead end with a chest: reagents in jars, sacks and barrels in clumps (a storeroom).'
+  empty: true
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:stair12
+  name: First stair
+  kind: room
+  size: M
+  extent: [1536, 640]
+  floor: 0
+  purpose: 'The first stair hall: twenty steps from the door hall to the second landing.'
+  empty: true
+- id: room:stair2
+  name: Second landing
+  kind: room
+  size: S
+  extent: [2240, 512]
+  floor: 640
+  purpose: The second floor's landing hall.
+  empty: true
+- id: room:ring2
+  name: Second gallery
+  kind: corridor
+  size: M
+  extent: [1920, 1920]
+  floor: 640
+  purpose: The second gallery; mages float out over the well to cast from the far side.
+  population:
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 2 placed Floating Adepts.
+  - actor: 11204
+    groups: 1
+    levels: [38, 38]
+    notes: 1 placed Floating Magus.
+- id: room:cabinet
+  name: Cabinet of curiosities
+  kind: room
+  size: M
+  extent: [896, 1600]
+  floor: 640
+  purpose: Glass cases of labelled oddities; the Golden Griffin in the last (q-d20.griffin).
+  population:
+  - actor: 11204
+    groups: 1
+    levels: [38, 38]
+    notes: 2 placed Floating Maguss.
+- id: room:dormitory
+  name: Mages' dormitory
+  kind: room
+  size: M
+  extent: [2432, 768]
+  floor: 640
+  purpose: Narrow beds in a row; the mages' chest.
+  population:
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 2 placed Floating Adepts.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:mirror
+  name: Mirror room
+  kind: room
+  size: S
+  extent: [512, 768]
+  floor: 640
+  purpose: 'A tall dead mirror (xkmirror): ''The mirror does not respond.'''
+  empty: true
+- id: room:stair23
+  name: Second stair
+  kind: room
+  size: M
+  extent: [1536, 640]
+  floor: 640
+  purpose: 'The second stair hall: twenty steps to the third landing.'
+  empty: true
+- id: room:stair3
+  name: Third landing
+  kind: room
+  size: S
+  extent: [2240, 512]
+  floor: 1280
+  purpose: The third floor's landing hall.
+  empty: true
+- id: room:ring3
+  name: Third gallery
+  kind: corridor
+  size: M
+  extent: [1920, 1920]
+  floor: 1280
+  purpose: The third gallery; the vault's door of light on its east side, humming.
+  population:
+  - actor: 11570
+    groups: 1
+    levels: [40, 40]
+    notes: 1 placed Floating Eye.
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 1 placed Floating Adept.
+- id: room:conjury
+  name: Conjury
+  kind: room
+  size: M
+  extent: [1152, 768]
+  floor: 1280
+  purpose: A summoning room; the west ward pylon (a destructible crystal on a pillar).
+  population:
+  - actor: 11204
+    groups: 1
+    levels: [38, 38]
+    notes: 2 placed Floating Maguss.
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 1 placed Floating Adept.
+- id: room:scrying
+  name: Scrying room
+  kind: room
+  size: M
+  extent: [1536, 768]
+  floor: 1280
+  purpose: Crystal balls on stands round a black pool; the east ward pylon.
+  population:
+  - actor: 11204
+    groups: 1
+    levels: [38, 38]
+    notes: 2 placed Floating Maguss.
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 1 placed Floating Adept.
+- id: room:vault
+  name: The mages' vault
+  kind: room
+  size: M
+  extent: [768, 1152]
+  floor: 1280
+  purpose: 'Behind the door of light: the Jewel of Ages on a stand of black glass (q-d18.jewel).'
+  population:
+  - actor: 11200
+    groups: 1
+    levels: [45, 45]
+    notes: 1 placed Mystic Mage.
+- id: room:alcoves
+  name: Disk alcoves
+  kind: room
+  size: S
+  extent: [512, 768]
+  floor: 1280
+  purpose: A mage's experiment of wires and two Energy Disks (q-d18.l3_disks).
+  empty: true
+- id: room:stair34
+  name: Third stair
+  kind: room
+  size: M
+  extent: [1536, 640]
+  floor: 1280
+  purpose: 'The third stair hall: twenty steps to the top landing.'
+  empty: true
+- id: room:stair4
+  name: Top landing
+  kind: room
+  size: S
+  extent: [2240, 512]
+  floor: 1920
+  purpose: The top landing hall; doors to the gallery and the study.
+  empty: true
+- id: room:ring4
+  name: Gallery under the cone
+  kind: corridor
+  size: M
+  extent: [1920, 1920]
+  floor: 1920
+  purpose: The gallery under the cone; the disc's landing in its east rail (the floating disc rests there at load; its lever
+    sends it down).
+  population:
+  - actor: 11204
+    groups: 1
+    levels: [38, 38]
+    notes: 2 placed Floating Maguss.
+  - actor: 11203
+    groups: 1
+    levels: [28, 28]
+    notes: 1 placed Floating Adept.
+- id: room:lab
+  name: The laboratory
+  kind: room
+  size: M
+  extent: [1920, 896]
+  floor: 1920
+  purpose: Benches, the Bubbling Vat, the Fountain of Minimal Abilities (+1 to every statistic once per character) and the
+    Fountain of Life (heals).
+  population:
+  - actor: 11200
+    groups: 1
+    levels: [45, 45]
+    notes: 1 placed Mystic Mage.
+- id: room:study
+  name: The Archmagus's study
+  kind: room
+  size: M
+  extent: [1664, 1344]
+  floor: 1920
+  purpose: 'The Archmagus''s study: Ellinger''s letter on the desk (q-d18.letter), the Book of Fantastic Knowledge and the
+    Book of Great Power, the master''s chest.'
+  population:
+  - actor: 11200
+    groups: 1
+    levels: [45, 45]
+    notes: 2 placed Mystic Mages.
+  - actor: 11570
+    groups: 1
+    levels: [40, 40]
+    notes: 1 placed Floating Eye.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:roof_stair
+  name: Roof stair
+  kind: corridor
+  size: S
+  extent: [1792, 384]
+  floor: 1920
+  purpose: 'The roof stair (D-58): one flight up to a trapdoor in the ceiling, one way up to D7''s entrance:dd07_roof after
+    m30.done (A3''s d7.roof_dd07: ''The trapdoor is shut fast.'' before); live since D7''s install.'
+  empty: true
+links:
+- id: link:hall_well
+  from: room:door_hall
+  to: room:well_foot
+  kind: open
+- id: link:hall_ring1
+  from: room:door_hall
+  to: room:ring1
+  kind: open
+- id: link:hall_ring1_s
+  from: room:door_hall
+  to: room:ring1
+  kind: open
+- id: link:well_ring1
+  from: room:well_foot
+  to: room:ring1
+  kind: open
+- id: link:ring1_commons
+  from: room:ring1
+  to: room:commons
+  kind: door
+- id: link:ring1_store
+  from: room:ring1
+  to: room:store
+  kind: door
+- id: link:stair_1_2
+  from: room:door_hall
+  to: room:stair2
+  kind: stairs
+  rise: 640
+  notes: 'The first stair hall (room:stair12): its foot beside the door, its head on the second landing.'
+- id: link:stair2_ring2
+  from: room:stair2
+  to: room:ring2
+  kind: open
+- id: link:stair2_ring2_s
+  from: room:stair2
+  to: room:ring2
+  kind: open
+- id: link:ring2_cabinet
+  from: room:ring2
+  to: room:cabinet
+  kind: door
+- id: link:cabinet_dorm
+  from: room:cabinet
+  to: room:dormitory
+  kind: door
+- id: link:dorm_mirror
+  from: room:dormitory
+  to: room:mirror
+  kind: open
+- id: link:mirror_ring2
+  from: room:mirror
+  to: room:ring2
+  kind: open
+- id: link:stair_2_3
+  from: room:stair2
+  to: room:stair3
+  kind: stairs
+  rise: 640
+  notes: The second stair hall (room:stair23).
+- id: link:stair3_ring3
+  from: room:stair3
+  to: room:ring3
+  kind: open
+- id: link:stair3_ring3_s
+  from: room:stair3
+  to: room:ring3
+  kind: open
+- id: link:ring3_conjury
+  from: room:ring3
+  to: room:conjury
+  kind: door
+- id: link:ring3_scrying
+  from: room:ring3
+  to: room:scrying
+  kind: door
+- id: link:conjury_scrying
+  from: room:conjury
+  to: room:scrying
+  kind: open
+- id: link:ward
+  from: room:ring3
+  to: room:vault
+  kind: door
+  condition:
+    map_var: pylons
+  notes: 'The door of light: it fades when both ward pylons are broken (state:pylon_w, state:pylon_e).'
+- id: link:vault_alcoves
+  from: room:vault
+  to: room:alcoves
+  kind: open
+- id: link:stair_3_4
+  from: room:stair3
+  to: room:stair4
+  kind: stairs
+  rise: 640
+  notes: The third stair hall (room:stair34).
+- id: link:stair4_ring4
+  from: room:stair4
+  to: room:ring4
+  kind: open
+- id: link:stair4_ring4_s
+  from: room:stair4
+  to: room:ring4
+  kind: open
+- id: link:ring4_lab
+  from: room:ring4
+  to: room:lab
+  kind: door
+- id: link:lab_study
+  from: room:lab
+  to: room:study
+  kind: door
+- id: link:study_stair4
+  from: room:study
+  to: room:stair4
+  kind: door
+- id: link:ring4_roof
+  from: room:ring4
+  to: room:roof_stair
+  kind: open
+  notes: The roof stair (D-58); its trapdoor leads one way up to D7 (exit:d7_roof), live to D7 after m30.done.
+- id: link:disc_ring4
+  from: room:ring4
+  to: room:well_foot
+  kind: open
+  notes: 'The disc''s landing: the opening in the gallery''s east rail onto the floating disc.'
+- id: link:disc
+  from: room:well_foot
+  to: room:ring4
+  kind: lift
+  rise: 1920
+  notes: 'The floating disc (lift:disc): up at load; its lever at the top sends it down, then the foot''s lever answers too.'
+loops:
+- id: loop:l1
+  spaces:
+  - room:door_hall
+  - room:well_foot
+  - room:ring1
+  notes: 'Round the ground floor''s well: the arch and the gallery.'
+- id: loop:l2
+  spaces:
+  - room:ring2
+  - room:cabinet
+  - room:dormitory
+  - room:mirror
+  notes: 'Round L2: the gallery, the cabinet, the dormitory, the mirror room.'
+- id: loop:l3
+  spaces:
+  - room:ring3
+  - room:conjury
+  - room:scrying
+  notes: The two pylon rooms joined by the passage in the wall.
+- id: loop:l4
+  spaces:
+  - room:ring4
+  - room:lab
+  - room:study
+  - room:stair4
+  notes: Round the top floor through the laboratory and the study.
+- id: loop:disc
+  spaces:
+  - room:door_hall
+  - room:stair2
+  - room:stair3
+  - room:stair4
+  - room:ring4
+  - room:well_foot
+  notes: Up the stair, down on the floating disc.
+entrances:
+- id: entrance:d3_door
+  space: room:door_hall
+  kind: both
+  neighbour: exit:d3_door
+  facing: e
+  how: 'From D3''s tower door (q-d18.tower_door, the Key to the Eastern Tower): in the door hall about 256 inside the door
+    at the stair''s foot, facing east; the same door leads back out (the exit preset).'
+critical_path:
+- room:door_hall
+- room:stair2
+- room:stair3
+- room:ring3
+- room:conjury
+- room:scrying
+- room:ring3
+- room:vault
+- room:alcoves
+- room:ring3
+- room:stair3
+- room:stair4
+- room:study
+return_path:
+- room:study
+- room:lab
+- room:ring4
+- room:well_foot
+- room:door_hall
+goals:
+- id: goal:jewel
+  space: room:vault
+  kind: take
+  story: Q-D18
+  what: 'The Jewel of Ages on its stand (q-d18.jewel: jewel_found 113361).'
+  gives:
+    qbit: 113361
+- id: goal:disks
+  space: room:alcoves
+  kind: take
+  story: Q-D18
+  what: Two Energy Disks in the experiment (q-d18.l3_disks).
+  gives:
+    qbit: 113362
+- id: goal:letter
+  space: room:study
+  kind: take
+  story: Q-D18
+  what: Ellinger's sealed letter on the desk (q-d18.letter).
+  gives:
+    qbit: 113363
+- id: goal:griffin
+  space: room:cabinet
+  kind: take
+  story: Q-D20
+  what: The Golden Griffin in the last case (q-d20.griffin).
+  gives:
+    qbit: 113403
+set_pieces:
+- id: set:well
+  kind: scripted
+  spaces:
+  - room:well_foot
+  - room:ring4
+  rule: 'The levitation well: four floors of galleries round the open shaft, the mages floating across it; the floating disc
+    rests at the top and rides the well down when its lever is pulled.'
+- id: set:ward
+  kind: scripted
+  spaces:
+  - room:conjury
+  - room:scrying
+  - room:ring3
+  rule: The door of light hums until both ward pylons are broken; its click says so.
+diagram: {file: diagram.txt}
+totals:
+  rooms: 24
+  sectors: 24
+  monsters_about: 30
+  chests: 3
+  loops: 5
+  doors: 10
+  fixed_actors: 0
+  floor_area_munits2: 31.2
+notes: 'Class M by size with D-9.3''s 30 monsters (D-39 Q2; MAPS: 20-45 sectors, 30-90 M units², 3-7 chests, 6-16 doors).
+  From the MU-6 graph devdocs/xeen/mockups/act4_graphs/dd07.graph.yml and D-39 (the floating-mage tiers, the fountain +1 all
+  and the book +2 Intellect once per character, the Book of Great Power''s final refusal, the door of light fed by two destructible
+  pylons, the dead mirror, MM7 7d14 for the laboratory and the study, the interior larger than the shell). The graph''s three
+  stair landings are the landing halls, its spiral stair three two-storey stair halls, its disc landing an opening in the
+  top gallery''s rail. The roof stair (D-58, L4 only) up to D7''s entrance:dd07_roof.'
+sketch: {file: rooms.yml, grid: 512}

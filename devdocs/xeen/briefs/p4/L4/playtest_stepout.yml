@@ -1,0 +1,107 @@
+# The water: steps out at every walk.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.stepout
+title: 'Plane of Water (P4): a swimmer climbs a flight of steps out of the sea onto the Spray Terrace (D-58 P4 Q1)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- clear_hostiles:
+    radius: 40000
+- note: At the surface off the Spray Terrace's flight of steps, swimming at it.
+- movement_segment:
+    input: none
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: 2018
+      y: 4791
+      z: -420
+      yaw_degrees: -2.260501911141272
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: 2018
+      y: 4791
+      z: -420
+      yaw_degrees: -2.260501911141272
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- movement_segment:
+    input: forward
+    seconds: 3.2
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: 2018
+      y: 4791
+      z: -197
+      yaw_degrees: -2.260501911141272
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: 2018
+      y: 4791
+      z: -197
+      yaw_degrees: -2.260501911141272
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1
+- note: 'Up the steps and out: dry, on the terrace (floor 0).'
+- assert:
+    water:
+      eye_under: false
+      state: dry
+- assert:
+    party_position:
+      x: 3389
+      y: 4736
+      radius: 700
+      z_min: -8
+      z_max: 40

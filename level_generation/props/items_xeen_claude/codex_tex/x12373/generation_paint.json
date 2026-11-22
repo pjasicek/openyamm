@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint directly inside the alpha mask of guide_atlas.png (first input). Produce one transparent 1536x1024 PNG, 3x2 grid of 512x512 cells, front/back/left then right/top/empty. Preserve every guide object's exact outline including its polygonal edges, position, size, gaps and camera. Change only the grey surface to the unlit silver base colour of the Chime of Opening, a small silver bell on a short silver handle. design_reference.png is the approved material and detail master, icon_x8.png the colour reference (ignore magenta background). Use subtle fine brushed silver grain. Follow only the surface details present on the master, scaled consistently to each view. Flat albedo, no lighting, shadows, ambient occlusion, hot highlights, reflections, outlines, text, ground, glow or sparkles. Preserve full transparency outside every silhouette and throughout the lower-right cell. Do not reframe or redesign. Critical alpha correction: hard cutout sprite atlas. Copy the first input's alpha channel exactly pixel for pixel, solid opaque interiors and ZERO alpha everywhere else. Absolutely no soft cloudy backdrop or feathered transparent edges. Uniform silver pigment with low contrast microscopic brushed grain.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "80708143d9001654a20f8db782a4294ba5df35b5fefcfc4b5dc83a5689b1e5e9"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "d5ffad1762e70178c8240a543a84b35a42057c944aa6e9106655fe56d19b19ef"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "1cc8618deb86f6968a66040007e805a32d64ad1f7a411335abeb0b27b9960354"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f923-c893-7c12-89da-bd431116ef14/exec-23dfd785-ca87-485e-96cc-1518987c384c.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

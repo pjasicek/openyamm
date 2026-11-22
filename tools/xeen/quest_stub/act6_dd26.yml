@@ -1,0 +1,59 @@
+# D-65's Olympus Sewer, Q-D28 (tools/xeen/quest_stub.py): the scroll; Cyrano's sale declined (No), short of gold, bought
+# (twice: repeatable), the TRIBBLES line only after it; the drains once each, "Drain" after, the note on the fourth; the
+# tribble door wrong, then right, then open without asking (the engine compares typed answers in any case); the bed
+# once. Owner: A3.
+name: Act VI, the Olympus Sewer
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - hook: q-d28.arrival
+  - hook: [q-d28.arrival, false]
+  - hook: q-d28.scroll
+  - expect: {last: "Search the drains."}
+  # Cyrano: no; yes without the gold; yes with it (twice).
+  - hidden: [5614, Companions]
+  - talk: [5614, Tribbles]
+  - expect: {last: "only 25,000 gold. What do you say?"}
+  - answer: "No"
+  - expect: {no_item: tribble, last: "Maybe some other time."}
+  - gold: 20000
+  - talk: [5614, Tribbles]
+  - answer: "Yes"
+  - expect: {no_item: tribble, gold: 20000, not_qbit: q-d28.bought, last: "Maybe some other time."}
+  - hidden: [5614, Companions]
+  - gold: 5000
+  - talk: [5614, Tribbles]
+  - answer: "Yes"
+  - expect: {qbit: q-d28.bought, count: [tribble, 1], gold: 0, last: "It purrs."}
+  - talk: [5614, Tribbles]
+  - answer: "Yes"
+  - expect: {count: [tribble, 1], gold: 0, last: "Maybe some other time."}
+  - gold: 25000
+  - talk: [5614, Tribbles]
+  - answer: "Yes"
+  - expect: {count: [tribble, 2], gold: 0, xp: 0}
+  - talk: [5614, Companions]
+  - expect: {last: "what doors they can open for you!"}
+  # The drains: once each, the note with the fourth.
+  - hook: q-d28.drain_es
+  - expect: {qbit: q-d28.drain_es, last: "reads: ES"}
+  - hook: [q-d28.drain_es, false]
+  - expect: {last: "Drain"}
+  - hook: q-d28.drain_tr
+  - hook: q-d28.drain_ib
+  - lua: 'assert(not Stub.notes[4680], "the note before the fourth piece")'
+  - hook: q-d28.drain_bl
+  - expect: {qbit: q-d28.drain_bl, last: "reads: BL"}
+  - lua: 'assert(Stub.notes[4680], "the tribble note")'
+  # The tribble door: wrong, right, then open without a question.
+  - lua: 'assert(Xeen.tribbleDoor(7) == false)'
+  - expect: {last: "What's the password?"}
+  - lua: 'assert(Xeen.tribbleDoor(7, 2) == false)'
+  - expect: {not_qbit: q-d28.door_open, last: "Wrong! You may not pass!"}
+  - lua: 'assert(Xeen.tribbleDoor(7, 1) == true)'
+  - expect: {qbit: q-d28.door_open, last: "Correct! You may pass."}
+  - lua: 'assert(Xeen.tribbleDoor(7) == true)'
+  # The bed once.
+  - hook: q-d28.bed
+  - expect: {qbit: q-d28.bed, last: "not got round to selling"}
+  - hook: [q-d28.bed, false]
+  - expect: {last: "Nothing here."}

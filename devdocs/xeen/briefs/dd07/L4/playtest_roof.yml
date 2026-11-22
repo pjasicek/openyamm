@@ -1,0 +1,55 @@
+# Playtest of the Eastern Tower's roof stair (DD-07, L4; lane A7, seventeenth session, 2026-11-21, decider
+# D-58; written by output/studio_cal/dd07/tools/gen_tests.py from ids.lock.yml): the party is put in the top
+# gallery's south arm (1920), walks south into the roof stair, up its flight to the head (2,432) and under the
+# roof trapdoor (event 44, evt:roof_trapdoor, on platform:roof_hatch). Without m30.done (111600) A3's
+# d7.roof_dd07 answers 'The trapdoor is shut fast.' and the party stays; with it set the hook passes and the
+# game's entrance window asks (F16; was D-66's Yes/No): OK goes up to
+# D7's entrance:dd07_roof (27136, -6144, 1024) facing 1024, measured there.
+id: xeen.dd07.l4.roof
+title: Eastern Tower (DD-07 L4), the roof stair and its trapdoor (shut before M30, up to D7 after it)
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_dd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - set_pose: {map: xeen_dd07.blv, x: 0, y: -736, z: 1920, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 0, y: -736, radius: 64, z_min: 1912, z_max: 1928}}
+  - clear_hostiles: {radius: 4000}
+  # Through the gallery's south wall into the roof stair, to the flight's foot, up it to the head, under the hatch.
+  - walk_to: {x: 0, y: -1200, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -1280, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1150, y: -1280, z: 2432, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1312, y: -1280, z: 2432, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 1312, y: -1280, radius: 80, z_min: 2424, z_max: 2440}}
+  - play_lua: {source: "if qbit(111600) then error('m30.done (111600) is set at the start') end; click(44); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The trapdoor is shut fast."}}
+  - play_lua: {source: "close(); wait(0.7); local s = tostring(status()); if string.find(s, 'Not open yet', 1, true) then error('the sealed line showed before m30.done: ' .. s) end"}
+  - assert: {dialog: {active: false}}
+  - assert: {map: xeen_dd07.blv}
+  # With m30.done the hook passes and the game's entrance window asks (F16, 2026-11-22: was D-66's Yes/No);
+  # OK goes up to D7's entrance:dd07_roof.
+  - setup_shortcut: {kind: set_qbit, id: 111600, value: true}
+  - play_lua: {source: "click(44); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {dialog: {active: false}}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - clear_hostiles: {radius: 6000}
+  - advance_runtime: {seconds: 4.0}
+  - play_lua: {source: "log('landing after 4 s: ' .. status())"}
+  - assert: {party_position: {x: 27136, y: -6144, radius: 160, z_min: 950, z_max: 1100}}

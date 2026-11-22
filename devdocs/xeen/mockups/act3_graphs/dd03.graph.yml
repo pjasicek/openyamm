@@ -1,0 +1,204 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header. Staged: each band is one
+# stage's part of the castle (A3's Xeen.Stages.kalindra: m19.stage1 5 disks, m19.stage2 10, m26.stage3 15,
+# m26.stage4 20); a part not yet in phase is closed by shimmering walls and refusing stairs.
+format: mu6-0
+map: DD-03
+key: dd03
+name: Castle Kalindra (staged)
+stands_on: D1 Castleview Vale
+class: M (staged)
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [24, 40]
+monsters:
+  levels: [26, 48]
+  boss: "none (Scraps 70, optional)"
+  count: 55
+  groups: [2, 3]
+  families:
+    - "Stage 1, ground floor (Act III): Tomb Guard 26 (8), Ghost Rider 27 (4): spirits left in the out-of-phase wings (11260)"
+    - "Stage 2, second floor (Act III): Ghost Rider 27 (4), Tomb Guard 26 (4), Tomb Terror 40 (4)"
+    - "Stage 3, the dungeon (Act IV): Lich 35 (5, the prisoners, T2-A), Tomb Terror 40 (6), Bone Dragon 45 (3); Scraps 11673 (70) optional"
+    - "Stage 4, third floor (Act IV): Vampire 40 (8), Gnome Vampire 32 (4), Count Blackfang's servants in the Queen's rooms; Tomb Terror 40 (5)"
+    - "Talking: house doors by stage (A4's dd03.yml 4501-4512); Guido and Dimitri in theirs; the Queen on her throne after M27"
+  mix:
+    - {row: Tomb Guard, id: 11261, level: 26, count: 12, stage: "1: 8, 2: 4"}
+    - {row: Ghost Rider, id: 11263, level: 27, count: 8, stage: "1: 4, 2: 4"}
+    - {row: Tomb Terror, id: 11262, level: 40, count: 15, stage: "2: 4, 3: 6, 4: 5"}
+    - {row: Lich, id: 11280, level: 35, count: 5, stage: "3"}
+    - {row: Bone Dragon, id: 11670, level: 45, count: 3, stage: "3"}
+    - {row: Vampire, id: 11291, level: 40, count: 8, stage: "4"}
+    - {row: Gnome Vampire, id: 11290, level: 32, count: 4, stage: "4"}
+  optional:
+    - {row: Scraps, id: 11673, level: 70, count: 1}
+  kill_xp_target: 20.6k
+treasure: {level: 4, hoard: 5}
+role: "Story M19 (stage 1-2: the safes' disks), M24 (Dimitri, the disk safes 64-52-31), M26 (stage 3-4, the mirror switch), M27 (the crown safe 3-31-62; the Queen comes home), T2-A (Champion: the liches); A4's castle services by stage"
+role_short: "Story M19-M27, T2-A"
+set_piece: "A white castle coming back into the world a floor at a time: shimmering walls and stairs that take no foot, the empty throne, three combination safes, the Queen's bedchamber with the mirror switch, a dungeon of caged liches and a dragon named Scraps"
+textures:
+  family: "Royal kit restored (t3s2b1, t3s2b, tap1, t3s2fl1, tfb08, tfb09, t3s2c, 7tws1fa, t5d1, t3elr; the courtyard's hcwall, hcwindo) with xkkalcrst, xkkalban, xkportc, xkarrow; the wings still out of phase and the dungeon in MM7 Castle Gryphonheart 7d33 (chb1, dchb1, 7tfb1, tfb2, 7trimd, chb1dl, chb1dr) (dungeon_families castles)"
+  cap: 45
+  planned: 38
+  new: 1
+  new_names: ["the shimmering phase wall (a translucent pale-violet curtain, Kalindra's colours), on the door leaves that close each stage's parts; or XD-25's xufield reused (open question 6)"]
+floors:
+  - {floor: 2, name: "Third floor (stage 4)", height: 1280}
+  - {floor: 1, name: "Second floor (stage 2)", height: 640}
+  - {floor: 0, name: "Ground floor (stage 1)", height: 0}
+  - {floor: -1, name: "Dungeon (stage 3)", height: -640}
+spaces:
+  # floor 2, stage 4
+  - {id: room:l3_landing, name: Third-floor landing, kind: stair, size: S, floor: 2, at: [0, 1], monsters: 0,
+     purpose: "The upper stair's head; before stage 4 the stair below it refuses."}
+  - {id: room:queens_gallery, name: "The Queen's gallery", kind: hall, size: L, floor: 2, at: [1, 0], monsters: 6,
+     population: [{row: Vampire, level: 40, count: 4}, {row: Tomb Terror, level: 40, count: 2}],
+     purpose: "Portraits of the Queen under xkkalban; Blackfang's servants waiting for her to come home."}
+  - {id: room:bedchamber, name: Royal Bed Chamber, kind: room, size: M, floor: 2, at: [2, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "The Queen's room: the wall safe behind her mirror (m27.crown_safe, 3-31-62); two barrels, the Queen's Brew and the Knight's Brew (+2 Personality, +2 Might, once per character); the button 'Activate Mirror Portals?' (m26.mirror_switch)."}
+  - {id: room:court3, name: "The Queen's court", kind: hall, size: L, floor: 2, at: [3, 0], monsters: 0,
+     purpose: "Five house doors (stage 4): Chapel of the Queen 4506, Royal Treasury 4507, the Queen's Proving Hall 4508, the Queen's Forge 4509, the Queen's Guard 4511."}
+  - {id: room:bell_tower, name: Bell tower, kind: room, size: M, floor: 2, at: [1, 1], monsters: 8,
+     population: [{row: Vampire, level: 40, count: 4}, {row: Gnome Vampire, level: 32, count: 4}],
+     purpose: "Ropes and a cracked bell; the vampires' roost."}
+  - {id: room:attic, name: Shimmering attic, kind: corridor, size: M, floor: 2, at: [3, 1], monsters: 3,
+     population: [{row: Tomb Terror, level: 40, count: 3}],
+     purpose: "Rafters still half out of phase; the last spirits. A roof walk back to the bell tower."}
+  # floor 1, stage 2
+  - {id: room:upper_stair, name: Upper stair, kind: stair, size: S, floor: 1, at: [0, 0], monsters: 0,
+     purpose: "Up to the third floor: 'Your foot passes through the stairs as though they were mist.' until stage 4."}
+  - {id: room:l2_landing, name: Second-floor landing, kind: stair, size: S, floor: 1, at: [0, 1], monsters: 0,
+     purpose: "The Cloud Stairs' head."}
+  - {id: room:residences, name: Captain's corridor, kind: corridor, size: M, floor: 1, at: [1, 0], goal: true, monsters: 0,
+     purpose: "Three house doors (stage 2): Captain's Quarters 4502 (Dimitri, M24, T2-A), Megan's Room 4503, the Observatory 4504 (the telescope)."}
+  - {id: room:sleeping, name: Sleeping Chambers, kind: hall, size: M, floor: 1, at: [2, 0], monsters: 6,
+     population: [{row: Ghost Rider, level: 27, count: 4}, {row: Tomb Terror, level: 40, count: 2}],
+     purpose: "The household's dormitory, beds made up for a century."}
+  - {id: room:phase_gallery, name: Phase gallery, kind: corridor, size: M, floor: 1, at: [3, 0], monsters: 6,
+     population: [{row: Tomb Guard, level: 26, count: 4}, {row: Tomb Terror, level: 40, count: 2}],
+     purpose: "A gallery whose outer wall still shimmers; the spirits pass through it."}
+  - {id: room:vaults, name: Vaults, kind: room, size: M, floor: 1, at: [3, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "The disk safes (m24.disk_safes, 64-52-31, after Dimitri; 4 Energy Disks)."}
+  # floor 0, stage 1
+  - {id: room:cloud_stairs, name: Cloud Stairs, kind: stair, size: M, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "A white stair up through painted clouds; until stage 2 'Your foot passes through the stairs as though they were mist.'"}
+  - {id: room:north_wing, name: North Wing, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{row: Tomb Guard, level: 26, count: 4}], purpose: "Signed 'North Wing'."}
+  - {id: room:banquet, name: Banquet Hall, kind: hall, size: L, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Tomb Guard, level: 26, count: 4}], purpose: "A table laid for a feast nobody ate."}
+  - {id: room:kitchen, name: Kitchen, kind: room, size: M, floor: 0, at: [3, 0], monsters: 0,
+     purpose: "Barrels, a lizard-innards larder; the servants' passage to the throne room."}
+  - {id: room:gate, name: Gate passage, kind: corridor, size: M, floor: 0, at: [0, 1], monsters: 0,
+     purpose: "Inside the gate under the portcullis and the crest: the arrival (m19.first_entry once)."}
+  - {id: room:entrance, name: Entrance hall, kind: hall, size: L, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "White marble, purple banners; doors to both wings, the throne room, the courtyard."}
+  - {id: room:throne, name: Throne Room, kind: hall, size: L, floor: 0, at: [2, 1], set_piece: true, goal: true, chest: 4, monsters: 0,
+     purpose: "The empty throne, dust 'like snow': the throne is the door of house 4501 (Gem, Errol; the Queen after M27). Two safes behind tapestries (m19.safes: two Energy Disks)."}
+  - {id: room:south_wing, name: South Wing, kind: corridor, size: M, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Ghost Rider, level: 27, count: 4}], purpose: "Signed 'South Wing'."}
+  - {id: room:dungeon_stair, name: Dungeon stair, kind: stair, size: S, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "Down: 'The dungeon stair ends in shimmering nothing.' until stage 3."}
+  - {id: room:courtyard, name: Stable yard, kind: hall, size: L, floor: 0, at: [1, 2], monsters: 0,
+     purpose: "Behind a shimmering wall until stage 4: an open yard (sky), Kalindra Stables 4510 and its arrival kalindra_stables, the Mirror of Castle Kalindra 4512."}
+  - {id: room:closet, name: Coat Closet, kind: room, size: S, floor: 0, at: [2, 2], monsters: 0,
+     purpose: "Off the throne room; its back wall is an illusion (Carl the mason's 'just keep walking')."}
+  - {id: room:armory, name: Armory, kind: room, size: M, floor: 0, at: [3, 2], chest: 4, monsters: 0,
+     purpose: "Racks of the guard's arms; a tougher safe (10-11-12, Guido's tip)."}
+  # floor -1, stage 3
+  - {id: room:scraps, name: "Scraps' kennel", kind: cave, size: L, floor: -1, at: [1, 0], boss: true, boss_label: "Scraps 70, opt.", chest: 5, monsters: 0,
+     population: [{actor: Scraps, level: 70, role: boss, placed: true}],
+     purpose: "Notes on the door: 'Beware of Scraps!', 'Don't feed Scraps.', 'Don't let Scraps out!'. An undead dragon on the bones of its dinners; the castle's hoard (5)."}
+  - {id: room:maxsec, name: Maximum Security, kind: room, size: M, floor: -1, at: [2, 0], monsters: 4,
+     population: [{row: Tomb Terror, level: 40, count: 4}],
+     purpose: "Guido's Cell 4505 (stage 3); the lever for the kennel's gate."}
+  - {id: room:cells, name: The cell block, kind: hall, size: L, floor: -1, at: [3, 0], set_piece: true, goal: true, monsters: 5,
+     population: [{row: Lich, level: 35, count: 5}],
+     purpose: "Five cells, five liches (T2-A), named on their corpses from the prisoner list."}
+  - {id: room:guardroom, name: Guardroom, kind: room, size: M, floor: -1, at: [4, 0], monsters: 2,
+     population: [{row: Tomb Terror, level: 40, count: 2}],
+     purpose: "The stair's foot; the prisoner ledger on the desk (t2-a.cells)."}
+  - {id: room:vault_d, name: Dungeon vault, kind: room, size: S, floor: -1, at: [2, 1], chest: 4, monsters: 0,
+     purpose: "Confiscated goods; a tougher safe (10-11-12)."}
+  - {id: room:well, name: Old well, kind: cave, size: M, floor: -1, at: [3, 1], monsters: 3,
+     population: [{row: Bone Dragon, level: 45, count: 3}],
+     purpose: "The castle well's bottom, where Scraps' earlier companions ended."}
+links:
+  - {id: link:gate_entrance, from: room:gate, to: room:entrance, kind: door, label: "Portcullis: stage 1", opened_by: state:stage1}
+  - {id: link:entrance_throne, from: room:entrance, to: room:throne, kind: open}
+  - {id: link:entrance_north, from: room:entrance, to: room:north_wing, kind: open}
+  - {id: link:north_stairs, from: room:north_wing, to: room:cloud_stairs, kind: open}
+  - {id: link:north_banquet, from: room:north_wing, to: room:banquet, kind: door}
+  - {id: link:banquet_kitchen, from: room:banquet, to: room:kitchen, kind: door}
+  - {id: link:kitchen_throne, from: room:kitchen, to: room:throne, kind: door, notes: "The servants' passage."}
+  - {id: link:throne_south, from: room:throne, to: room:south_wing, kind: open}
+  - {id: link:throne_closet, from: room:throne, to: room:closet, kind: door}
+  - {id: link:closet_armory, from: room:closet, to: room:armory, kind: secret, label: "Illusory wall"}
+  - {id: link:armory_south, from: room:armory, to: room:south_wing, kind: door}
+  - {id: link:entrance_yard, from: room:entrance, to: room:courtyard, kind: door, label: "Phase wall: stage 4", opened_by: state:stage4}
+  - {id: link:south_dstair, from: room:south_wing, to: room:dungeon_stair, kind: door}
+  - {id: link:cloud, from: room:cloud_stairs, to: room:l2_landing, kind: stair, label: "Cloud Stairs: stage 2", opened_by: state:stage2}
+  - {id: link:l2_upper, from: room:l2_landing, to: room:upper_stair, kind: open}
+  - {id: link:l2_res, from: room:upper_stair, to: room:residences, kind: open}
+  - {id: link:res_sleeping, from: room:residences, to: room:sleeping, kind: door}
+  - {id: link:sleeping_phase, from: room:sleeping, to: room:phase_gallery, kind: open}
+  - {id: link:phase_vaults, from: room:phase_gallery, to: room:vaults, kind: door}
+  - {id: link:upper, from: room:upper_stair, to: room:l3_landing, kind: stair, label: "Upper stair: stage 4", opened_by: state:stage4}
+  - {id: link:l3_gallery, from: room:l3_landing, to: room:queens_gallery, kind: open}
+  - {id: link:gallery_bed, from: room:queens_gallery, to: room:bedchamber, kind: door}
+  - {id: link:gallery_court, from: room:queens_gallery, to: room:court3, kind: open}
+  - {id: link:l3_bell, from: room:l3_landing, to: room:bell_tower, kind: open}
+  - {id: link:bell_attic, from: room:bell_tower, to: room:attic, kind: open, notes: "The roof walk."}
+  - {id: link:attic_court, from: room:attic, to: room:court3, kind: door}
+  - {id: link:dstair, from: room:dungeon_stair, to: room:guardroom, kind: stair, label: "Dungeon: stage 3", opened_by: state:stage3}
+  - {id: link:guard_cells, from: room:guardroom, to: room:cells, kind: door}
+  - {id: link:cells_maxsec, from: room:cells, to: room:maxsec, kind: door}
+  - {id: link:maxsec_scraps, from: room:maxsec, to: room:scraps, kind: locked, label: "Kennel gate: lever", opened_by: state:kennel}
+  - {id: link:guard_well, from: room:guardroom, to: room:well, kind: open}
+  - {id: link:well_vault, from: room:well, to: room:vault_d, kind: door}
+  - {id: link:vault_maxsec, from: room:vault_d, to: room:maxsec, kind: secret}
+states:
+  - {id: state:stage1, kind: stage, where: "DD-02, Ellinger (5 disks)", what: "m19.stage1: the gate and the ground floor solid; D1's gate opens (m19.ghost_castle until then).", opens: [link:gate_entrance]}
+  - {id: state:stage2, kind: stage, where: "Ellinger (10 disks)", what: "m19.stage2: the Cloud Stairs take a foot; the second floor and its people.", opens: [link:cloud]}
+  - {id: state:stage3, kind: stage, where: "Ellinger (15 disks)", what: "m26.stage3: the dungeon stair; Guido; the liches.", opens: [link:dstair]}
+  - {id: state:stage4, kind: stage, where: "Ellinger (20 disks)", what: "m26.stage4: the upper stair, the stable yard; the services, the mirror.", opens: [link:upper, link:entrance_yard]}
+  - {id: state:kennel, kind: lever, where: room:maxsec, what: "The kennel gate's lever, under 'Don't let Scraps out!': a portcullis at the foot of a stair lower than Scraps (288 or less; XD-07's dragon pit, D-4, D-32).", opens: [link:maxsec_scraps]}
+  - {id: state:safes, kind: password, where: room:throne, what: "m19.safes (stage 1); m24.disk_safes 64-52-31 (stage 2, after Dimitri); m27.crown_safe 3-31-62 (stage 4, after the Queen); the tougher safes 10-11-12 (Guido).", opens: [], draw: false}
+  - {id: state:liches, kind: kill, where: room:cells, what: "The five liches dead: t2-a.liches_slain (a hook A3 adds, open question 3).", opens: [], draw: false}
+exits:
+  - {id: exit:d1_gate, space: room:gate, at: [0, 2], kind: both, label: "D1: Kalindra's gate",
+     neighbour: "D1 entrance:dd03_gate (44, 70) facing east on the forecourt; refuses until m19.stage1 (m19.ghost_castle); the party leaves to kalindra_gate (47, 70)"}
+hooks:
+  - {hook: m19.first_entry, space: room:gate, how: "the first arrival after stage 1 (a timer behind a map qbit: once)"}
+  - {hook: m19.safes, space: room:throne, how: "the two safes behind the tapestries (once; 2 disks)"}
+  - {hook: m24.disk_safes, space: room:vaults, how: "the combination prompt, 64-52-31 (once; 4 disks; needs m24.done)"}
+  - {hook: m26.mirror_switch, space: room:bedchamber, how: "the button 'Activate Mirror Portals?' (stage 4)"}
+  - {hook: m27.crown_safe, space: room:bedchamber, how: "the safe behind the Queen's mirror, 3-31-62 (stage 4 and queen_found)"}
+  - {hook: t2-a.cells, space: room:guardroom, how: "the prisoner ledger (first click)"}
+  - {hook: "houses 4501-4512 (A4)", space: "throne (4501, the throne as a thing), residences (4502-4504), maxsec (4505), court3 (4506-4509, 4511), courtyard (4510, mirror 4512)", how: "house doors by stage"}
+critical_path: [room:gate, room:entrance, room:throne, room:entrance, room:north_wing, room:cloud_stairs, room:l2_landing, room:upper_stair,
+  room:residences, room:sleeping, room:phase_gallery, room:vaults]
+return_path: [room:vaults, room:phase_gallery, room:sleeping, room:residences, room:upper_stair, room:l2_landing, room:cloud_stairs, room:north_wing, room:entrance, room:gate]
+loops:
+  - {id: loop:ground, spaces: [room:entrance, room:north_wing, room:banquet, room:kitchen, room:throne], notes: "Round the banquet hall by the servants' passage."}
+  - {id: loop:south, spaces: [room:throne, room:closet, room:armory, room:south_wing], notes: "Through the coat closet's illusory wall."}
+  - {id: loop:top, spaces: [room:l3_landing, room:queens_gallery, room:court3, room:attic, room:bell_tower], notes: "By the roof walk."}
+  - {id: loop:dungeon, spaces: [room:guardroom, room:cells, room:maxsec, room:vault_d, room:well], notes: "Through the vault's secret door."}
+lines:
+  - {text: "Exit Castle Kalindra?", ref: "dark/aaze0041:0", where: "room:gate (the exit preset's meaning, D-24)"}
+  - {text: "Your foot passes through the stairs as though they were mist. This level is out of phase and inaccessible.", ref: "dark/aaze0041:10", where: "room:cloud_stairs, room:upper_stair before their stage"}
+  - {text: "South Wing / North Wing / Banquet Hall / Cloud Stairs / Throne Room / Coat Closet / Armory / Kitchen", ref: "dark/aaze0041:1-9", where: "the rooms' signs (hover)"}
+  - {text: "Vaults / Sleeping Chambers", ref: "dark/aaze0042:2, :31", where: "room:vaults, room:sleeping"}
+  - {text: "Royal Bed Chamber / Queen's Brew / Knight's Brew (+2 Personality, +2 Might; the source's +10) / Activate Mirror Portals?", ref: "dark/aaze0043:0, :5-8, :16", where: room:bedchamber}
+  - {text: "A note reads: Beware of Scraps! / Don't feed Scraps. / Don't let Scraps out!", ref: "dark/aaze0044:49-51", where: room:scraps}
+  - {text: "Try 10,11,12 on the tougher safes.", ref: "dark/aaze0044:47", where: "Guido (A4's greeting) and the tougher safes"}
+  - {text: "Maximum Security", ref: "dark/aaze0044:0", where: room:maxsec}
+  - {text: "One Lich, Known as Vexor the Black, to be Held Indefinitely, for the Crime of Necromancy. One Lich, Known as Clemon the Dead ...", ref: "dark/aaze0044:8", where: "the liches' names (open question 3)"}
+open_questions:
+  - "Monsters by stage and act. MAPS gives DD-03 55 monsters at 28-48 in Act IV, but stages 1-2 are Act III (M19 at level 24). Proposed: stage 1 Tomb Guard 26 and Ghost Rider 27 (just under the band's 28), stage 2 adds four Tomb Terrors 40, stages 3-4 to 45; 24 monsters in Act III (about 6.8k per member), 31 in Act IV (about 14.7k), A2 to split the count as for XD-13 (D-4). Or every stage at 28-48?"
+  - "Who is in a castle that was out of phase: spirits in the shimmering wings (stages 1-2 and the attic), the imprisoned liches and bone dragons in the dungeon, Count Blackfang's vampires in the Queen's rooms at stage 4 (they came for her crown). Agreed?"
+  - "The five liches (T2-A): A3 calls them 'power liches'; A2's Power Lich is a level-75 boss row. Proposed: five plain Liches 35 with the source's names on their corpses (Vexor the Black, Clemon the Dead, and three of the list), and a hook t2-a.liches that the map calls when the cell block's group is dead (A3 lists liches_slain as the map's kill count but has no hook for it)."
+  - "The safes. m19.safes (stage 1, two disks, the main path) are 'thievery safes': proposed as trapped, locked chests any party can open (no skill gate on the main path). The source's other ground-floor safes with guessed combinations are left out. Two optional 'tougher safes' (armory, dungeon vault) open to 10-11-12 at a combination prompt; Guido's greeting gives the numbers, so the prompt is answerable from stage 3. Agreed?"
+  - "A4's house 4501 'The Empty Throne' and A3's safes 'in the throne room' clash if the throne room is a house screen. Proposed: the throne room is a walkable hall; the throne itself is the house's door (a thing, as A4's mirror 4512), opening the house screen of Gem and Errol and, after M27, the Queen."
+  - "Shimmering walls: one new texture (a pale-violet phase wall, Kalindra's colours) on the door leaves that close each stage's parts, or XD-25's xufield (the field of light) reused? Proposed: one new, so the two read apart."
+  - "Scraps 70: optional, behind a kennel portcullis opened by a lever in Maximum Security, at the foot of a stair lower than his body (D-32; XD-07's caged dragon, D-4); his XP counted with a later act (D-1.2). Confirm."
+  - "The stable yard (stage 4) holds A4's stables 4510 with the arrival kalindra_stables and the castle's mirror 4512: an open-sky yard (D-22.6's open_sky words) inside the castle BLV. D1 then needs no stable building at the castle. Agreed?"
+  - "James the Spy's source line (Prince Roland in Alamar's 'base') is left out: it belongs to A3's story order (M21, M35). Confirm."

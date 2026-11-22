@@ -1,0 +1,80 @@
+# The way out: the gate's exit preset (OK) to D6's entrance:dd17_gate, facing south (1536).
+# Run with --world xeen --map xeen_dd17.blv (output/studio_cal/dd17/four.sh). Written by tools/tests.py.
+id: xeen.dd17.l4.playtest_exit
+title: 'Castle Alamar (DD-17 L4): playtest_exit'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 53
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12364
+- lua_event:
+    source: evt.MoveToMap(0, -4736, 0, 512, 0, 0, 0, 0, "xeen_dd17.blv")
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+    follow_map_move: true
+- play_lua:
+    source: close()
+- walk_to:
+    x: 0
+    y: -4912
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- play_lua:
+    source: click(39); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d6.odm
+- assert:
+    party_position:
+      x: -6656
+      y: 4608
+      radius: 160
+      facing: 1536
+      facing_within: 64
+- play_lua:
+    source: 'log(''D6 by the gate: '' .. party())'

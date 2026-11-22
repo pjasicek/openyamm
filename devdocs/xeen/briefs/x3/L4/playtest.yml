@@ -1,0 +1,2606 @@
+# Written by output/studio_cal/x3/tools/gen_walk.py from the built map (see its docstring).
+# HOUSES_LIVE True: house screens asserted.
+id: xeen.x3.walk
+title: 'X3 Lifeforce Lagoon: the camp, Newcastle, the Tower, Nightshadow and every door'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x3.odm
+- assert:
+    map: xeen_x3.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 11776
+      y: 9216
+      radius: 128
+- note: Ebenezer's Tent (house 4101)
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Camp Shrine (house 4102)
+- walk_to:
+    x: 12928
+    y: 9868
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 12928
+    y: 9868
+    z: 1024
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The rain barrel: "The barrel is empty." (aaze0012:13)'
+- execute_event:
+    id: 75
+- advance_runtime:
+    seconds: 0.5
+- note: Up the stair lane to the Newcastle gate
+- walk_to:
+    x: 11264
+    y: 10240
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 10240
+    y: 11520
+    z: 1040
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 9472
+    y: 12544
+    z: 1328
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 9472
+    y: 13414
+    z: 1517
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Newcastle mirror (4121): dark until the keep stands (m11.keep)'
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Into the ruin''s courtyard: the foundation stair'
+- walk_to:
+    x: 9984
+    y: 14592
+    z: 1760
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 10496
+    y: 15053
+    z: 1760
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'XD-13: the foundation stair without the deed: refused (a board across the stair)'
+- execute_event:
+    id: 81
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- setup_shortcut:
+    kind: set_qbit
+    id: 111160
+    value: true
+- note: With the deed (m8.deed, 111160) the stair leads into XD-13 Newcastle Keep
+- execute_event:
+    id: 81
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd13.blv
+- assert:
+    party_position:
+      x: 0
+      y: 320
+      radius: 160
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X3 in the ruin (by load_map)
+- set_pose:
+    map: xeen_x3.odm
+    x: 10496
+    y: 15053
+    z: 1760
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The masons' well
+- execute_event:
+    id: 131
+- advance_runtime:
+    seconds: 0.5
+- note: Back down the stair lane
+- walk_to:
+    x: 9472
+    y: 13414
+    z: 1517
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 9472
+    y: 12544
+    z: 1328
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 10240
+    y: 11520
+    z: 1040
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 11264
+    y: 10240
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: West along the camp road to the causeway fork
+- walk_to:
+    x: 8192
+    y: 9472
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 5120
+    y: 8448
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 2048
+    y: 7424
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -512
+    y: 6144
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Marsh Well
+- walk_to:
+    x: -2304
+    y: 8448
+    z: 1016
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Marsh Well: +10 to the four elements (temporary)'
+- execute_event:
+    id: 102
+- advance_runtime:
+    seconds: 0.5
+- note: Up the north road to the obelisk
+- walk_to:
+    x: -2048
+    y: 9216
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -2816
+    y: 12288
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -2304
+    y: 16384
+    z: 1104
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The obelisk: the third word, "HOARD"'
+- execute_event:
+    id: 105
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: Back to the causeway fork
+- walk_to:
+    x: -2816
+    y: 12288
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -2048
+    y: 9216
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -512
+    y: 6144
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Out over the causeway to the islet
+- walk_to:
+    x: 256
+    y: 4352
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 256
+    y: 3072
+    z: 940
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 256
+    y: 1024
+    z: 940
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 256
+    y: -1280
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'XD-11: the Tower of High Magic''s door, facing north up the causeway'
+- walk_to:
+    x: 256
+    y: -1674
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'D-89: the door is open to all (the lock moved in to the study); the entrance window'
+- set_pose:
+    map: xeen_x3.odm
+    x: 256
+    y: -1674
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd11.blv
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X3 at the tower door (by load_map)
+- set_pose:
+    map: xeen_x3.odm
+    x: 256
+    y: -1674
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Back over the causeway
+- walk_to:
+    x: 256
+    y: 1024
+    z: 940
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 256
+    y: 3072
+    z: 940
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 256
+    y: 4352
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: East along the camp road to the crossroads
+- walk_to:
+    x: -512
+    y: 6144
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 2048
+    y: 7424
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 5120
+    y: 8448
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 8192
+    y: 9472
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 11264
+    y: 10240
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 13312
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 15360
+    y: 11008
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: South down Nightshadow's road
+- walk_to:
+    x: 16128
+    y: 8192
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 16896
+    y: 5120
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 17664
+    y: 2560
+    z: 800
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18176
+    y: 1024
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18688
+    y: -1280
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18688
+    y: -3072
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Moon Guild (4103): night hours while the Count rules; clicked after dark'
+- walk_to:
+    x: 17148
+    y: -1351
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Gnome Home (4111) while the Count rules
+- walk_to:
+    x: 17132
+    y: 128
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17132
+    y: 128
+    z: 960
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Agatha's House (4112) while the Count rules
+- walk_to:
+    x: 17292
+    y: 1280
+    z: 891
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17292
+    y: 1280
+    z: 928
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Coffin and Candle (4107) while the Count rules
+- walk_to:
+    x: 18756
+    y: 768
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 18756
+    y: 768
+    z: 928
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Lenore's House (4114) while the Count rules
+- walk_to:
+    x: 18708
+    y: -512
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 18708
+    y: -512
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Du Monay Manor (4105) while the Count rules
+- walk_to:
+    x: 19204
+    y: -1920
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19204
+    y: -1920
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Sexton's House (4113) while the Count rules
+- walk_to:
+    x: 17132
+    y: -2304
+    z: 967
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17132
+    y: -2304
+    z: 967
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Temple of the Dawn (4106) while the Count rules
+- walk_to:
+    x: 16876
+    y: -4028
+    z: 991
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 16876
+    y: -4028
+    z: 991
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Treasure Trove (4108) while the Count rules
+- walk_to:
+    x: 19572
+    y: -3712
+    z: 985
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19572
+    y: -3712
+    z: 985
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Garlic and Grave Goods (4109) while the Count rules
+- walk_to:
+    x: 19572
+    y: -4736
+    z: 985
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19572
+    y: -4736
+    z: 985
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Lamplighter's (4119) while the Count rules
+- walk_to:
+    x: 19828
+    y: -6400
+    z: 964
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19828
+    y: -6400
+    z: 964
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Wick House (4120) while the Count rules
+- walk_to:
+    x: 19732
+    y: -7680
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19732
+    y: -7680
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Crow House (4115) while the Count rules
+- walk_to:
+    x: 17152
+    y: -6004
+    z: 969
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17152
+    y: -6004
+    z: 969
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Ambrose's Lean-to (4117) while the Count rules
+- walk_to:
+    x: 17024
+    y: -7284
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17024
+    y: -7284
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Vey Residence (4116) while the Count rules
+- walk_to:
+    x: 15872
+    y: -7188
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 15872
+    y: -7188
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Dial Keeper's House (4118) while the Count rules
+- walk_to:
+    x: 15104
+    y: -6636
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 15104
+    y: -6636
+    z: 960
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'Nightshadow''s square: the boards, the plinths, the dials and the coffin'
+- walk_to:
+    x: 17920
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The rhyme board (q-c7.rhyme)
+- execute_event:
+    id: 49
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The sign at the dial walk (q-c7.sign_nine)
+- execute_event:
+    id: 50
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The first dial's plinth (q-c7.clue_stitch)
+- execute_event:
+    id: 54
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The second dial's plinth (q-c7.clue_cat)
+- execute_event:
+    id: 55
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The coffin's plinth (q-c7.sign_night)
+- execute_event:
+    id: 48
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The town well before the liberation: black water (status text)'
+- execute_event:
+    id: 56
+- advance_runtime:
+    seconds: 0.5
+- note: 'Nightshadow''s mirror (4110): dark until q-c7.done'
+- execute_event:
+    id: 57
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The coffin, first refusal: the dials are not set'
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The dial walk: 3, 6 and 12 turned to 9, 9 and 9 ; q-c7.dials_set (112142)'
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(51); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(52); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(52); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(52); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(53); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(112142) then error("dials_set (112142) not set") end
+- note: 'The coffin with the dials set, by day (D-89: no night condition): the lid slides aside (q-c7.coffin)'
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(112143) then error("coffin_opened (112143) not set") end
+- note: 'Night falls (game time to after 21:00): the Moon Guild by night'
+- advance_game_time:
+    hours: 14
+- note: 'The open coffin''s stair: into XD-24 at its start (0, 704), then back'
+- execute_event:
+    id: 47
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd24.blv
+- assert:
+    party_position:
+      x: 0
+      y: 704
+      radius: 160
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X3 on the square (by load_map)
+- note: The Moon Guild (4103) by night
+- walk_to:
+    x: 17148
+    y: -1351
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17148
+    y: -1351
+    z: 960
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 112141
+    value: true
+- note: 'Count Draco destroyed (q-c7.done, 112141): the town opens'
+- advance_game_time:
+    hours: 10
+- note: 'Morning: the shops keep day hours (6-18); the Moon Guild is 4104 by day now'
+- setup_shortcut:
+    kind: set_condition
+    member_index: 0
+    condition: weak
+- setup_shortcut:
+    kind: set_condition
+    member_index: 0
+    condition: disease_weak
+- setup_shortcut:
+    kind: set_condition
+    member_index: 0
+    condition: disease_severe
+- note: 'The town well after the liberation: cured and +10 Personality'
+- execute_event:
+    id: 56
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    condition:
+      name: weak
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: disease_weak
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: disease_severe
+      present: false
+      member_index: 0
+- note: The Moon Guild after the liberation
+- walk_to:
+    x: 17148
+    y: -1351
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17148
+    y: -1351
+    z: 960
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Gnome Home after the liberation
+- walk_to:
+    x: 17132
+    y: 128
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17132
+    y: 128
+    z: 960
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Agatha's House after the liberation
+- walk_to:
+    x: 17292
+    y: 1280
+    z: 891
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17292
+    y: 1280
+    z: 928
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Coffin and Candle after the liberation
+- walk_to:
+    x: 18756
+    y: 768
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 18756
+    y: 768
+    z: 928
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Lenore's House after the liberation
+- walk_to:
+    x: 18708
+    y: -512
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 18708
+    y: -512
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Du Monay Manor after the liberation
+- walk_to:
+    x: 19204
+    y: -1920
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19204
+    y: -1920
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Sexton's House after the liberation
+- walk_to:
+    x: 17132
+    y: -2304
+    z: 967
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17132
+    y: -2304
+    z: 967
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Temple of the Dawn after the liberation
+- walk_to:
+    x: 16876
+    y: -4028
+    z: 991
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 16876
+    y: -4028
+    z: 991
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Treasure Trove after the liberation
+- walk_to:
+    x: 19572
+    y: -3712
+    z: 985
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19572
+    y: -3712
+    z: 985
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Garlic and Grave Goods after the liberation
+- walk_to:
+    x: 19572
+    y: -4736
+    z: 985
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19572
+    y: -4736
+    z: 985
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Lamplighter's after the liberation
+- walk_to:
+    x: 19828
+    y: -6400
+    z: 964
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19828
+    y: -6400
+    z: 964
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Wick House after the liberation
+- walk_to:
+    x: 19732
+    y: -7680
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 19732
+    y: -7680
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Crow House after the liberation
+- walk_to:
+    x: 17152
+    y: -6004
+    z: 969
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17152
+    y: -6004
+    z: 969
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Ambrose's Lean-to after the liberation
+- walk_to:
+    x: 17024
+    y: -7284
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 17024
+    y: -7284
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Vey Residence after the liberation
+- walk_to:
+    x: 15872
+    y: -7188
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 15872
+    y: -7188
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The Dial Keeper's House after the liberation
+- walk_to:
+    x: 15104
+    y: -6636
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- set_pose:
+    map: xeen_x3.odm
+    x: 15104
+    y: -6636
+    z: 960
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 18688
+    y: -4352
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Down the south street to the shore path
+- walk_to:
+    x: 18688
+    y: -5632
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18944
+    y: -7680
+    z: 960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 19712
+    y: -9216
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 19968
+    y: -10496
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: West along the shore path to the Lifeforce Spring
+- walk_to:
+    x: 16384
+    y: -12032
+    z: 880
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 12288
+    y: -12800
+    z: 832
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 8192
+    y: -14080
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 5888
+    y: -14848
+    z: 1008
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Lifeforce Spring: +2 Endurance once per character (player bit 11280)'
+- execute_event:
+    id: 101
+- advance_runtime:
+    seconds: 0.5
+- note: West through the Gloomwood to the Tomb fork
+- walk_to:
+    x: 4608
+    y: -15104
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1024
+    y: -14336
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -3072
+    y: -13568
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -7168
+    y: -12288
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -11264
+    y: -10240
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -15360
+    y: -7680
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'XD-08: the Tomb''s barrow door'
+- walk_to:
+    x: -15360
+    y: -9370
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'D-89: the Tomb is open to all: its door leads into XD-08 (the entrance window)'
+- execute_event:
+    id: 85
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd08.blv
+- assert:
+    party_position:
+      x: 0
+      y: 384
+      radius: 160
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X3 at the tomb lane (by load_map)
+- set_pose:
+    map: xeen_x3.odm
+    x: -15360
+    y: -8960
+    z: 1120
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: North on the tomb path to the fen bridge
+- walk_to:
+    x: -15360
+    y: -7680
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -15104
+    y: -5120
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14336
+    y: -2304
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Over the fen bridge
+- walk_to:
+    x: -13824
+    y: -1280
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -13824
+    y: 1024
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: West along the fen road to the west edge
+- walk_to:
+    x: -14336
+    y: 1792
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14848
+    y: 2816
+    z: 880
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -18432
+    y: 2560
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -21504
+    y: 2560
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -24064
+    y: 2560
+    z: 864
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- note: 'Accepted: on to X5 Winterkill Tundra'
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x5.odm
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'To the north road by teleport, then up it and off the north edge: the travel prompt, X4''s x 36 arrival'
+- set_pose:
+    map: xeen_x3.odm
+    x: -6656
+    y: 17408
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -6656
+    y: 21504
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -7168
+    y: 22016
+    z: 1120
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -7168
+    y: 24064
+    z: 1152
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: -14336
+      y: -22016
+      radius: 400
+      z_min: 900
+      z_max: 1100
+- load_map:
+    map: xeen_x3.odm
+- advance_runtime:
+    seconds: 0.5
+- note: 'Back to the east entry by teleport, then the road to the east edge: the travel prompt (X2), accepted'
+- set_pose:
+    map: xeen_x3.odm
+    x: 20480
+    y: 12032
+    z: 1024
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 21504
+    y: 12288
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 24064
+    y: 12288
+    z: 1056
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x2.odm

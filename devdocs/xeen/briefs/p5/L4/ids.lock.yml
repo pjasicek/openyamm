@@ -1,0 +1,75 @@
+format: 0
+sectors:
+  room:air: 1
+events:
+  evt:board_empire: 1
+  evt:board_empire_back: 2
+  evt:board_inherit: 3
+  evt:board_inherit_back: 4
+  evt:board_kings_bounty: 5
+  evt:board_kings_bounty_back: 6
+  evt:board_mm: 7
+  evt:board_mm_back: 8
+  evt:board_nuclear: 9
+  evt:board_nuclear_back: 10
+  evt:board_nwc: 11
+  evt:board_nwc_back: 12
+  evt:board_planets: 13
+  evt:board_planets_back: 14
+  evt:board_spaceward: 15
+  evt:board_spaceward_back: 16
+  evt:board_tunnels: 17
+  evt:board_tunnels_back: 18
+  evt:board_vegas: 19
+  evt:board_vegas_back: 20
+  evt:chest_gift: 21
+  evt:disc: 22
+  evt:fall_check: 23
+  evt:fall_floor: 24
+  evt:figures_load: 25
+  evt:hands_filled: 43
+  evt:observatory: 26
+  evt:pharaoh_note: 27
+  evt:rest_1_back: 28
+  evt:rest_1_sign: 29
+  evt:rest_1_sign_back: 30
+  evt:rest_2_back: 31
+  evt:rest_2_sign: 32
+  evt:rest_2_sign_back: 33
+  evt:rest_3_back: 34
+  evt:rest_3_sign: 35
+  evt:rest_3_sign_back: 36
+  evt:shrine: 37
+  evt:stair_door: 38
+  evt:studio_peaceful_groups: 42
+  evt:wedding_hide: 39
+  evt:wedding_load: 40
+  evt:wedding_show: 41
+doors:
+  mover:gift: 1
+containers:
+  chest:gift: 0
+cogs:
+  chest:gift: 10
+  platform:disc: 9
+  platform:pavilion_back: 6
+  platform:pavilion_east: 8
+  platform:pavilion_post1: 1
+  platform:pavilion_post2: 2
+  platform:pavilion_post3: 3
+  platform:pavilion_post4: 4
+  platform:pavilion_roof: 5
+  platform:pavilion_west: 7
+sounds:
+  sound:gust_east: 1
+  sound:gust_west: 2
+  sound:sky_bed: 3
+decorations:
+  deco:cake: 0
+  deco:cube: 1
+  deco:hand_1: 2
+  deco:hand_2: 3
+  deco:rest_1_bench: 4
+  deco:rest_2_bench: 5
+  deco:rest_3_bench: 6
+  deco:scepter: 7

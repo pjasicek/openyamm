@@ -1,0 +1,116 @@
+# Playtest of Hobstadt's hall (DD-11C, L4; lane A7, agent:xeen-a7-dd11): the tribute route, the hoard and the wild
+# warren. A level-25 party with 2,500 gold lands at the pit's bottom (the map's start, where D2's third hole drops it):
+# the landing line; the court at the gate lets it pass (step line, nobody hostile); the hoard refuses while Hobstadt sits
+# before it (A3's fail text, the sacks and the strongbox); crossing the floor before the throne Hobstadt speaks (NPC
+# 5110): "Give gold" (q-d13.tribute 113261); the court stays peaceful and the wild trolls turn friendly (A2's rules);
+# the sacks (q-d13.hoard: done 113266, gold) and the strongbox; the throne's line; Hobstadt clicked ("Thieves' gold"). Then
+# the wild warren, friendly now: the hide flap, the trophy cave's chest, the cold slope, the frost seep's line, the ice
+# den's cache, the antler door, the bone run up (the loop), and the trolls' stair to the sod hatch. Every window closed,
+# a save and load: tribute and peace stay. Numbers are ids.lock.yml's.
+id: xeen.dd11c.l4.walk
+title: Troll Holes, Hobstadt's hall (DD-11C L4), the tribute, the hoard, the warren and the trolls' stair
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11c.blv
+      party:
+        gold: 2500
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - assert: {map: xeen_dd11c.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 128, y: -64, radius: 64, z_min: -8, z_max: 32}}
+  - play_lua: {source: "wait(3); local s = status(); log('arrive: ' .. s); if not string.find(s, 'carved with troll faces', 1, true) then error('no landing line: ' .. s) end; close()"}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 8}}
+  - assert: {actor_count: {monster_id: 11692, hostile: true, min: 4}}
+  # The gate: the court lets the party through.
+  - walk_to: {x: 960, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1); local s = status(); log('gate: ' .. s); if not string.find(s, 'Nobody stops you', 1, true) then error('no gate line: ' .. s) end; close()"}
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  # The hoard refuses while Hobstadt sits before it (q-d13.hoard's fail text, on the sacks and the strongbox).
+  - set_pose: {map: xeen_dd11c.blv, x: 3500, y: -320, z: 0, yaw_degrees: 0, pitch: 0}
+  - walk_to: {x: 3800, y: -320, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt is sitting in front of it"}}
+  - play_lua: {source: "close(); click(4); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt is sitting in front of it"}}
+  - play_lua: {source: "close(); if qbit(113266) then error('hoard taken before the deal') end"}
+  # Before the throne Hobstadt speaks (NPC 5110): Give gold.
+  - set_pose: {map: xeen_dd11c.blv, x: 2688, y: 0, z: 0, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - play_lua: {source: "log('hobstadt: ' .. status())"}
+  - select_topic: {match_label: "Give gold"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt cannot count past two thousand"}}
+  - play_lua: {source: "close(); close(); wait(3); if not qbit(113261) then error('tribute 113261 not set') end; if gold() > 600 then error('gold not paid: ' .. gold()) end"}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: true, max: 0}}
+  # The guild's gold: the sacks and the strongbox.
+  - set_pose: {map: xeen_dd11c.blv, x: 3800, y: -320, z: 0, yaw_degrees: 0, pitch: 0}
+  - play_lua: {source: "remember('g', gold()); click(15); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Sacks of gold, each stamped THIEVES' GUILD]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); log('guild gold: ' .. recall('g') .. ' -> ' .. gold()); if not qbit(113266) then error('done 113266 not set') end; if gold() < 2500 then error('no guild gold: ' .. gold()) end"}
+  - play_lua: {source: "click(15); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Empty sacks. Labelled."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4060, y: -500, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); if gold() < g + 800 then error('the strongbox held no gold') end"}
+  # The throne is a seat now, not a voice: its line while he lives.
+  - set_pose: {map: xeen_dd11c.blv, x: 3000, y: 120, z: 0, yaw_degrees: 45, pitch: 0}
+  - play_lua: {source: "click(16); wait(0.5); local s = status(); if not string.find(s, 'Hobstadt stands before it', 1, true) then error('throne: ' .. s) end"}
+  # Clicking Hobstadt himself (actor 12, NPC 5110 by monsters[].npc): his friends' topic.
+  - interact_actor: {actor_index: 12}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Thieves' gold"}
+  - assert: {dialog: {active: true, text_contains: "Hobstadt not like thieves"}}
+  - play_lua: {source: "close(); close()"}
+  # The wild warren, friendly now: the hide flap, the trophy cave, the cold slope, the frost seep, the ice den.
+  - set_pose: {map: xeen_dd11c.blv, x: 0, y: -380, z: 0, yaw_degrees: 270, pitch: 0}
+  - play_lua: {source: "open_door(9, 2)"}
+  - walk_to: {x: 0, y: -1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 300, y: -1536, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1450, y: -1536, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: -1536, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2520, y: -1880, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(6); close(); if gold() < g + 400 then error('trophy chest held no gold') end"}
+  - walk_to: {x: 2176, y: -1950, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: -3300, z: -512, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2176, y: -3800, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1); local s = status(); log('seep: ' .. s); if not string.find(s, 'you see stars', 1, true) then error('no seep line: ' .. s) end; close()"}
+  - walk_to: {x: 1024, y: -3968, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: -4300, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); close(); if gold() < g + 450 then error('the ice cache held no gold') end"}
+  # The antler door and the bone run up to the gnawed tunnel (the loop).
+  - walk_to: {x: 1024, y: -3550, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(1, 1)"}
+  - walk_to: {x: 1024, y: -3100, z: -435, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: -1900, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1024, y: -1536, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: true, max: 0}}
+  # Back through the pit to the trolls' stair and up to the sod hatch.
+  - walk_to: {x: 0, y: -1536, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1650, y: 0, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # Every window closed, then a save and load: the tribute and the peace stay.
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close(); if not qbit(113261) or not qbit(113266) then error('bits lost on reload') end"}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {map: xeen_dd11c.blv}

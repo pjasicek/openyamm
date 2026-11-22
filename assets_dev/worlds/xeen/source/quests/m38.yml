@@ -1,0 +1,222 @@
+# M38 The Elemental Sleepers (QUESTS M38; Act VI). Owner: A3. Each plane (P1 Fire, P2 Air, P3 Earth, P4 Water) is
+# reached by stepping off a Skyroads (D7) corner after naming its element (the sky asks "What do you seek?"; the
+# Pharaoh's M36 topic and autonote 4137 give the words and corners). Each plane has its test ("Accept the test of
+# Fire?", the map's arena), a statue plaque with one of the source's four Steps, a chest, and its sleeper. The sleeper
+# answers in three ways, as the source's (dark/aaze0025-0028): not Chosen Ones; Chosen but the Reflectors (M37) not all
+# humming ("Awaiting Grunfeld field activation."); or awake, which gives its award (one hook with three states).
+id: M38
+title: The Elemental Sleepers
+act: VI
+kind: main
+status: full
+giver: 5453          # The Dragon Pharaoh (M36)
+maps: [D7, P1, P2, P3, P4]
+level: 58
+block: 38
+after: [m36.started]
+source: "QUESTS M38; dark/aaze0025:0-8, aaze0026, aaze0027, aaze0028; research MM5 4 step 4; D-58 C2-C5"
+
+qbits:
+  fire: {id: 111760, note: "the Fire Sleeper is awake (P1)",
+        journal: "The Dragon Pharaoh wants the Fire Sleeper woken on the Plane of Fire, below the Skyroads' north-west corner.",
+        journal_while: [m36.started], until: [fire]}
+  air: {id: 111761, note: "the Air Sleeper is awake (P2)",
+       journal: "The Dragon Pharaoh wants the Air Sleeper woken on the Plane of Air, below the Skyroads' north-east corner.",
+       journal_while: [m36.started], until: [air]}
+  earth: {id: 111762, note: "the Earth Sleeper is awake (P3)",
+         journal: "The Dragon Pharaoh wants the Earth Sleeper woken on the Plane of Earth, below the Skyroads' south-east corner.",
+         journal_while: [m36.started], until: [earth]}
+  water: {id: 111763, note: "the Water Sleeper is awake (P4)",
+         journal: "The Dragon Pharaoh wants the Water Sleeper woken on the Plane of Water, below the Skyroads' south-west corner.",
+         journal_while: [m36.started], until: [water]}
+  # D-58 P-1: each plane's test, passed when its three guardians are dead (Xeen.planeTestCheck); the chamber gate,
+  # the guardians and the pit read it on every load
+  fire_test: {id: 111764, note: "P1's test passed: the gate to the Fire Sleeper's hall stays open"}
+  air_test: {id: 111765, note: "P2's test passed"}
+  earth_test: {id: 111766, note: "P3's test passed"}
+  water_test: {id: 111767, note: "P4's test passed"}
+
+awards:
+  fire: {id: 412, text: "Awakened the Fire Sleeper", sort: 2}
+  air: {id: 413, text: "Awakened the Air Sleeper", sort: 2}
+  earth: {id: 414, text: "Awakened the Earth Sleeper", sort: 2}
+  water: {id: 415, text: "Awakened the Water Sleeper", sort: 2}
+
+hooks:
+  corner_fire:
+    map: D7
+    where: "the Skyroads' north-west corner (D-58 C2): the map asks 'What do you seek?' (the source's line); 'Fire' (any case) calls this hook, which shows the line on the status line and moves the party directly onto P1's entrance:d7_fall (Xeen.toPlane, standing, no falling damage); any other answer calls corner_wrong"
+    status: true
+    text: "The road ends in nothing. Far below, the nothing glows like a forge. You step off."
+    do: [{lua: "Xeen.toPlane(\"fire\")"}]
+  plaque_fire:
+    map: P1
+    where: "the fire statue decoration by the Fire Sleeper's chamber (S's xeen fire statue, indoor_decorations rows 4027-4030: its own black plinth with the plaque on the front; P1 has no plinth geometry, so the hook goes on the decoration, radius 224, solid and clickable; level_generation/decorations/xeen_planes_claude/README.md)"
+    text: "A message at the base of the statue reads: Step One: When the time is right, activate the machines in the four corners of the other side of the world."
+  test_fire:
+    map: P1
+    where: "'Accept the test of Fire?': Yes calls the hook, the map opens the test (its arena and guardians)"
+    text: "You accept the test of Fire."
+  test_fire_passed:
+    map: P1
+    where: "the test's three guardians dead (D-58 C3): the map's guardians' death event calls Xeen.planeTestCheck(\"fire\", <their group>), which runs this once when all three are dead; the gate to the sleeper's chamber opens then and on every load (fire_test)"
+    sets: [fire_test]
+    once: true
+    text: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."
+  sleeper_fire:
+    map: P1
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Fire Sleeper's couch (clicked, every time)"
+    states:
+      - when: {qbit: fire}
+        text: "Fire Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+      - when: {all: [{award: m30.chosen}, {qbit: m37.air}, {qbit: m37.fire}, {qbit: m37.earth}, {qbit: m37.water}]}
+        text: "Fire Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+        do: [{set: fire}, {award: fire}, {xp: 10500}]
+      - when: {award: m30.chosen}
+        text: "Fire Sleeper: I am awake and my confidence is at 100%. Awaiting Grunfeld field activation."
+      - text: "Fire Sleeper: The Guardian has not informed me of your status as Chosen Ones. Much as I would like to, I am unable to fully awaken."
+  corner_air:
+    map: D7
+    where: "the Skyroads' north-east corner (D-58 C2): the map asks 'What do you seek?' (the source's line); 'Air' (any case) calls this hook, which shows the line on the status line and moves the party directly onto P2's entrance:d7_fall (Xeen.toPlane, standing, no falling damage); any other answer calls corner_wrong"
+    status: true
+    text: "The road ends in nothing. Far below, the nothing roars like a gale. You step off."
+    do: [{lua: "Xeen.toPlane(\"air\")"}]
+  plaque_air:
+    map: P2
+    where: "the statue's plaque by the Air Sleeper's chamber"
+    text: "A message at the base of the statue reads: Step Two: Awaken the Four Sleepers of Darkside."
+  test_air:
+    map: P2
+    where: "'Accept the test of Air?': Yes calls the hook, the map opens the test (its arena and guardians)"
+    text: "You accept the test of Air."
+  test_air_passed:
+    map: P2
+    where: "the test's three guardians dead (D-58 C3): the map's guardians' death event calls Xeen.planeTestCheck(\"air\", <their group>), which runs this once when all three are dead; the gate to the sleeper's chamber opens then and on every load (air_test)"
+    sets: [air_test]
+    once: true
+    text: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."
+  sleeper_air:
+    map: P2
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Air Sleeper's couch (clicked, every time)"
+    states:
+      - when: {qbit: air}
+        text: "Air Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+      - when: {all: [{award: m30.chosen}, {qbit: m37.air}, {qbit: m37.fire}, {qbit: m37.earth}, {qbit: m37.water}]}
+        text: "Air Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+        do: [{set: air}, {award: air}, {xp: 10500}]
+      - when: {award: m30.chosen}
+        text: "Air Sleeper: I am awake and my confidence is at 100%. Awaiting Grunfeld field activation."
+      - text: "Air Sleeper: The Guardian has not informed me of your status as Chosen Ones. Much as I would like to, I am unable to fully awaken."
+  corner_earth:
+    map: D7
+    where: "the Skyroads' south-east corner (D-58 C2): the map asks 'What do you seek?' (the source's line); 'Earth' (any case) calls this hook, which shows the line on the status line and moves the party directly onto P3's entrance:d7_fall (Xeen.toPlane, standing, no falling damage); any other answer calls corner_wrong"
+    status: true
+    text: "The road ends in nothing. Far below, the nothing is grey as stone. You step off."
+    do: [{lua: "Xeen.toPlane(\"earth\")"}]
+  plaque_earth:
+    map: P3
+    where: "the statue's plaque by the Earth Sleeper's chamber"
+    text: "A message at the base of the statue reads: Step Three: Bring together the Cube of Power and the Scepter of Temporal Distortion."
+  test_earth:
+    map: P3
+    where: "'Accept the test of Earth?': Yes calls the hook, the map opens the test (its arena and guardians)"
+    text: "You accept the test of Earth."
+  test_earth_passed:
+    map: P3
+    where: "the test's three guardians dead (D-58 C3): the map's guardians' death event calls Xeen.planeTestCheck(\"earth\", <their group>), which runs this once when all three are dead; the gate to the sleeper's chamber opens then and on every load (earth_test)"
+    sets: [earth_test]
+    once: true
+    text: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."
+  sleeper_earth:
+    map: P3
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Earth Sleeper's couch: the decoration xeen_sleeper_earth (S; A6 wires it) (clicked, every time)"
+    states:
+      - when: {qbit: earth}
+        text: "Earth Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+      - when: {all: [{award: m30.chosen}, {qbit: m37.air}, {qbit: m37.fire}, {qbit: m37.earth}, {qbit: m37.water}]}
+        text: "Earth Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+        do: [{set: earth}, {award: earth}, {xp: 10500}]
+      - when: {award: m30.chosen}
+        text: "Earth Sleeper: I am awake and my confidence is at 100%. Awaiting Grunfeld field activation."
+      - text: "Earth Sleeper: The Guardian has not informed me of your status as Chosen Ones. Much as I would like to, I am unable to fully awaken."
+  corner_water:
+    map: D7
+    where: "the Skyroads' south-west corner (D-58 C2): the map asks 'What do you seek?' (the source's line); 'Water' (any case) calls this hook, which shows the line on the status line and moves the party directly onto P4's entrance:d7_fall (Xeen.toPlane, standing, no falling damage); any other answer calls corner_wrong"
+    status: true
+    text: "The road ends in nothing. Far below, the nothing heaves like the sea. You step off."
+    do: [{lua: "Xeen.toPlane(\"water\")"}]
+  plaque_water:
+    map: P4
+    where: "the statue's plaque by the Water Sleeper's chamber"
+    text: "A message at the base of the statue reads: Step Four: Travel to the shrine on the Cloud above Darkstone Tower."
+  test_water:
+    map: P4
+    where: "'Accept the test of Water?': Yes calls the hook, the map opens the test (its arena and guardians)"
+    text: "You accept the test of Water."
+  test_water_passed:
+    map: P4
+    where: "the test's three guardians dead (D-58 C3): the map's guardians' death event calls Xeen.planeTestCheck(\"water\", <their group>), which runs this once when all three are dead; the gate to the sleeper's chamber opens then and on every load (water_test)"
+    sets: [water_test]
+    once: true
+    text: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."
+  sleeper_water:
+    map: P4
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Water Sleeper's couch (clicked, every time)"
+    states:
+      - when: {qbit: water}
+        text: "Water Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+      - when: {all: [{award: m30.chosen}, {qbit: m37.air}, {qbit: m37.fire}, {qbit: m37.earth}, {qbit: m37.water}]}
+        text: "Water Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active and reports 100% confidence."
+        do: [{set: water}, {award: water}, {xp: 10500}]
+      - when: {award: m30.chosen}
+        text: "Water Sleeper: I am awake and my confidence is at 100%. Awaiting Grunfeld field activation."
+      - text: "Water Sleeper: The Guardian has not informed me of your status as Chosen Ones. Much as I would like to, I am unable to fully awaken."
+  way_up_fire:
+    map: P1
+    where: "the heat column at the Cinder Shelf (D-58 C5): the `exit` preset to D7's entrance:p1_return, always open; its question means this line (nothing to call)"
+    question: "Ride the heat back to the Skyroads?"
+  dais_fire:
+    map: P1
+    where: "the return dais in the Sleeper's chamber, shown once the Fire Sleeper is awake (fire): the `exit` preset to D7's entrance:p1_return; its question means this line (nothing to call)"
+    question: "Step onto the dais and return to the Skyroads?"
+  way_up_air:
+    map: P2
+    where: "the updraft at the Gale Landing (D-58 C5): the `exit` preset to D7's entrance:p2_return, always open; its question means this line (nothing to call)"
+    question: "Ride the wind back to the Skyroads?"
+  dais_air:
+    map: P2
+    where: "the return dais in the Sleeper's chamber, shown once the Air Sleeper is awake (air): the `exit` preset to D7's entrance:p2_return; its question means this line (nothing to call)"
+    question: "Step onto the dais and return to the Skyroads?"
+  way_up_earth:
+    map: P3
+    where: "the dust shaft at the Dust Ledge (D-58 C5): the `exit` preset to D7's entrance:p3_return, always open; its question means this line (nothing to call)"
+    question: "Rise with the dust to the Skyroads?"
+  dais_earth:
+    map: P3
+    where: "the return dais in the Sleeper's chamber, shown once the Earth Sleeper is awake (earth): the `exit` preset to D7's entrance:p3_return; its question means this line (nothing to call)"
+    question: "Step onto the dais and return to the Skyroads?"
+  way_up_water:
+    map: P4
+    where: "the waterspout at the Spray Terrace (D-58 C5): the `exit` preset to D7's entrance:p4_return, always open; its question means this line (nothing to call)"
+    question: "Ride the spout back to the Skyroads?"
+  dais_water:
+    map: P4
+    where: "the return dais in the Sleeper's chamber, shown once the Water Sleeper is awake (water): the `exit` preset to D7's entrance:p4_return; its question means this line (nothing to call)"
+    question: "Step onto the dais and return to the Skyroads?"
+  corner_wrong:
+    map: D7
+    where: "any Skyroads corner, any other answer to 'What do you seek?' (the source's 'Begone, impudent fools!' is not used)"
+    text: "The sky says nothing. The road still ends in nothing."
+
+riddles:
+  - {answer: Fire, where: "D7's north-west corner (m38.corner_fire)", said_by: "the Dragon Pharaoh (m36, The sleepers) and autonote m36.corners"}
+  - {answer: Air, where: "D7's north-east corner (m38.corner_air)", said_by: "the Dragon Pharaoh (m36, The sleepers) and autonote m36.corners"}
+  - {answer: Earth, where: "D7's south-east corner (m38.corner_earth)", said_by: "the Dragon Pharaoh (m36, The sleepers) and autonote m36.corners"}
+  - {answer: Water, where: "D7's south-west corner (m38.corner_water)", said_by: "the Dragon Pharaoh (m36, The sleepers) and autonote m36.corners"}
+
+rewards: {xp: 42000, gold: 0, award: "Awakened the Fire, Air, Earth and Water Sleepers"}
+playthrough: "D7: each corner (its element) and the fall; P1-P4: plaque, the test, the sleeper."

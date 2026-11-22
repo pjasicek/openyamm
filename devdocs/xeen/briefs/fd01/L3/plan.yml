@@ -1,0 +1,429 @@
+format: 0
+level: L3
+pitch: "The bottom of Castle Alamar under its ruin: burnt, buckled sw steel round the west maze, two levers that drop two bulkheads out of sight, Alamar's strongroom with the Dragon Tower's key, the warden's Darkstone key, a skull door that reads the Cube, and a lift down to the cold round vault where the true Prince Roland lies in stasis."
+purpose: "M39 Prince Roland (A3's m39 hooks: statue, plaque_nine, lever_west/east, grate_bolt/grate_bolted, pyramid, shaft_arrival, darkstone_key, skull_door, roland); Q-F1's key (12376, the map's find); Q-D26's way up (q-d26.depths_hatch). Class M, party 58-61, monsters 62-75, treasure 6."
+mood: "The castle's machine hum, fainter, and the groan of settling metal; teal plate floors under rust and scorch; teal pilot lights; the vault cold and blue under the field."
+datum: arrival
+spaces:
+  - id: room:assembly
+    name: Assembly hall
+    kind: room
+    size: M
+    extent: [1664, 1920]
+    at: [-5952, 4160]
+    floor: 0
+    clear_height: 512
+    purpose: "Dead end: Alamar's robot works, stalls of half-built frames, the FEWAEE plaque (aaze0052:14), a T6 chest in the foreman's corner."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+      - {actor: 11612, groups: 2, levels: [75, 75], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:column
+    name: Long gallery
+    kind: corridor
+    size: M
+    extent: [512, 2048]
+    at: [-2816, 5760]
+    floor: 0
+    clear_height: 448
+    purpose: "South from the north door to the Hall of Nine (the juice niches left out, D-69 change 9)."
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+  - id: room:espur
+    name: East spur
+    kind: corridor
+    size: S
+    extent: [384, 640]
+    at: [-2240, 704]
+    floor: 0
+    clear_height: 448
+    purpose: A short spur off the workshop's east end ending in lever B's slab. Quiet.
+    empty: true
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+  - id: room:hub
+    name: Hall of Nine
+    kind: room
+    size: M
+    extent: [2048, 1536]
+    at: [-3072, 3840]
+    floor: 0
+    clear_height: 512
+    purpose: "A pillared hall; the plaque 'Nine is the time.' on its east wall (m39.plaque_nine). The lever hall south, the sealed passage west."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+      - {actor: 11612, groups: 2, levels: [75, 75], placed: true, strength: heavy}
+  - id: room:keyvault
+    name: Key vault
+    kind: room
+    size: M
+    extent: [1408, 1536]
+    at: [-1216, 1280]
+    floor: 0
+    clear_height: 512
+    purpose: "Alamar's strongroom: racks of sealed boxes; on the south wall the box, hover 'Box' (aaze0052:2): the Key to the Dragon Tower (12376) once (117844), then 'Nothing here.' (:16). The warden's door north."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+  - id: room:levers
+    name: Lever hall
+    kind: room
+    size: S
+    extent: [1280, 896]
+    at: [-3456, 2496]
+    floor: 0
+    clear_height: 512
+    purpose: "Two levers, west and east walls, hover 'Lever' (aaze0052:15): the first pull grinds and calls m39.lever_west/east (the status line, 117841/117842); the slab drops for good, out of sight; then 'The lever won't budge.' (the hook's else line). Quiet."
+    empty: true
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+  - id: room:liftfoot
+    name: Lift foot
+    kind: room
+    size: S
+    extent: [640, 640]
+    at: [-1216, 3904]
+    floor: -768
+    clear_height: 640
+    purpose: "The cage's foot; the stasis vault's pair east. Quiet."
+    empty: true
+    theme: "The lift head, the lift foot and the stasis vault: swall2 once up the 640 wall."
+  - id: room:north
+    name: North gallery
+    kind: corridor
+    size: M
+    extent: [4864, 512]
+    at: [-4992, 7168]
+    floor: 0
+    clear_height: 448
+    purpose: East from the shaft door and the west gallery to the north door (two rooms).
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+  - id: room:pyramid
+    name: Pyramid nook
+    kind: room
+    size: S
+    extent: [640, 1280]
+    at: [-6464, 512]
+    floor: 0
+    clear_height: 512
+    purpose: "Dead end: a small dark Ancient pyramid in geometry (hover 'Pyramid', m39.pyramid) and a T6 chest beside it. Quiet."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:shaft
+    name: Rubble shaft
+    kind: room
+    size: S
+    extent: [1680, 1680]
+    at: [-8392, 7168]
+    floor: 0
+    clear_height: 2048
+    purpose: "Where the castle came down: a round shaft of scorched plating (xahullbn) and rubble open to the sky far above (xeen_darkside_day); the arrival from D7 (entrance:d7_roof) at its foot facing east to the shaft door; the ladder up the west wall: 'Climb up through the hatch?' (q-d26.depths_hatch). Quiet."
+    empty: true
+    theme: "The rubble shaft: scorched plating (xahullbn) up to the open sky (D7's roof hatch far above), fallen slabs underfoot (gn_mtl03)."
+  - id: room:skull
+    name: Skull door
+    kind: room
+    size: S
+    extent: [640, 640]
+    at: [-1216, 3904]
+    floor: 0
+    clear_height: 640
+    purpose: "Behind the skull door (swtrpnl/swtrdk; m39.skull_door, the Cube, 117845): the lift head, the cage down 768. Quiet."
+    empty: true
+    theme: "The lift head, the lift foot and the stasis vault: swall2 once up the 640 wall."
+  - id: room:south
+    name: South gallery
+    kind: corridor
+    size: M
+    extent: [4992, 512]
+    at: [-4288, -512]
+    floor: 0
+    clear_height: 448
+    purpose: "West from the gallery door (two rooms); the bolted grate in its north wall opens from the workshop's side (m39.grate_bolt, 117843); the guard door at its west end."
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+  - id: room:spur
+    name: Sealed passage
+    kind: corridor
+    size: S
+    extent: [640, 3072]
+    at: [-4544, 2560]
+    floor: 0
+    clear_height: 448
+    purpose: West and south from the Hall of Nine to lever A's slab (a shut swdoora bulkhead) into the workshop. Quiet.
+    empty: true
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+  - id: room:stair
+    name: Ruin stair
+    kind: room
+    size: S
+    extent: [1728, 640]
+    at: [608, 0]
+    floor: 0
+    clear_height: 1088
+    purpose: "The arrival (entrance:d6_stair) at the stair's foot (0, 0, 0) facing west into the undercroft hall; the stair climbs east 640 to the gatehouse hatch's underside, where the exit preset takes the party up to D6 (D-24). Quiet (D-11.3)."
+    empty: true
+    theme: "Where the castle came down: scorched, buckled plating (xahullbn) over the ruin stair."
+  - id: room:stairhall
+    name: Undercroft hall
+    kind: room
+    size: S
+    extent: [1280, 1408]
+    at: [-1024, -320]
+    floor: 0
+    clear_height: 512
+    purpose: "The first hall: Alamar's teal statue by the north wall speaks when the party first comes near (m39.statue, once, 117840; hover 'Statue'). The gallery door west. Quiet."
+    empty: true
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+  - id: room:stasis
+    name: Stasis vault
+    kind: room
+    size: M
+    extent: [1728, 1728]
+    at: [96, 3904]
+    floor: -768
+    clear_height: 640
+    purpose: "The set piece: a round chamber, Alamar's machine ring round a dais; on it Roland's steel coffin under the stasis field (xafield), hover 'Coffin' (aaze0052:7); m39.roland drops the field and slides the lid back (both stay so with 111781); a T6 chest by the wall. The goal."
+    theme: "The lift head, the lift foot and the stasis vault: swall2 once up the 640 wall."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:warden
+    name: Warden's room
+    kind: room
+    size: M
+    extent: [1408, 1280]
+    at: [-1216, 2816]
+    floor: 0
+    clear_height: 512
+    purpose: "Consoles (swor2, trekscrn); the warden's chest on the west wall (T6, m39.darkstone_key); the skull door north."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:west
+    name: West gallery
+    kind: corridor
+    size: M
+    extent: [512, 7552]
+    at: [-7168, 3008]
+    floor: 0
+    clear_height: 448
+    purpose: North from the guard door (two rooms) to the north gallery.
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+  - id: room:workshop
+    name: Long workshop
+    kind: room
+    size: M
+    extent: [3456, 1024]
+    at: [-4288, 384]
+    floor: 0
+    clear_height: 512
+    purpose: "Machine benches by the walls; the bolted grate in its south wall (the bolt on this side); the pyramid nook west, the west passage north, the east spur east."
+    theme: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+    population:
+      - {actor: 11611, groups: 3, levels: [62, 62], placed: true, strength: pack}
+  - id: room:wpass
+    name: West passage
+    kind: corridor
+    size: M
+    extent: [512, 2048]
+    at: [-5632, 2048]
+    floor: 0
+    clear_height: 448
+    purpose: North from the workshop to the assembly hall's works door.
+    theme: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+links:
+  - id: link:1
+    from: room:stair
+    to: room:stairhall
+    kind: open
+  - id: link:10
+    from: room:spur
+    to: room:workshop
+    kind: door
+    opened_by: key:lever_west
+    purpose: The west slab.
+  - id: link:11
+    from: room:workshop
+    to: room:pyramid
+    kind: open
+  - id: link:12
+    from: room:workshop
+    to: room:wpass
+    kind: open
+  - id: link:13
+    from: room:wpass
+    to: room:assembly
+    kind: door
+    purpose: The works door.
+  - id: link:14
+    from: room:workshop
+    to: room:espur
+    kind: open
+  - id: link:15
+    from: room:espur
+    to: room:keyvault
+    kind: door
+    opened_by: key:lever_east
+    purpose: The east slab.
+  - id: link:16
+    from: room:keyvault
+    to: room:warden
+    kind: door
+    purpose: The warden's door.
+  - id: link:17
+    from: room:warden
+    to: room:skull
+    kind: door
+    opened_by: key:cube
+    purpose: The skull door (the Cube).
+  - id: link:18
+    from: room:skull
+    to: room:liftfoot
+    kind: lift
+    purpose: "The lift, 768 down."
+  - id: link:19
+    from: room:liftfoot
+    to: room:stasis
+    kind: door
+    purpose: The stasis vault's pair.
+  - id: link:2
+    from: room:stairhall
+    to: room:south
+    kind: door
+    purpose: The gallery door.
+  - id: link:20
+    from: room:workshop
+    to: room:south
+    kind: door
+    opened_by: key:bolt
+    purpose: The bolted grate.
+  - id: link:3
+    from: room:south
+    to: room:west
+    kind: door
+    purpose: The guard door.
+  - id: link:4
+    from: room:west
+    to: room:north
+    kind: open
+  - id: link:5
+    from: room:shaft
+    to: room:north
+    kind: door
+    purpose: The shaft door.
+  - id: link:6
+    from: room:north
+    to: room:column
+    kind: door
+    purpose: The north door.
+  - id: link:7
+    from: room:column
+    to: room:hub
+    kind: open
+  - id: link:8
+    from: room:hub
+    to: room:levers
+    kind: open
+  - id: link:9
+    from: room:hub
+    to: room:spur
+    kind: open
+loops:
+  - id: loop:ring
+    spaces: [room:south, room:west, room:north, room:column, room:hub, room:spur, room:workshop]
+    notes: "The galleries round the west maze, closed by the bolted grate once its bolt is drawn from the workshop's side (D-69 Q66)."
+entrances:
+  - id: entrance:d6_stair
+    space: room:stair
+    kind: both
+    neighbour: exit:d6_stair
+    facing: w
+    how: "D6's thing:fd01_stair (the pit hatch in the broken gatehouse, m39.depths_door) brings the party down to the stair's foot facing west; the exit preset at the stair's head is the way back to D6's entrance:fd01_stair."
+  - id: entrance:d7_roof
+    space: room:shaft
+    kind: both
+    neighbour: exit:d7_roof
+    facing: e
+    how: "D7's roof hatch (q-d26.hatch, after m33.done) sets the party down at the shaft's foot facing east to the shaft door; up by the ladder's Yes/No and q-d26.depths_hatch to D7's entrance:fd01_roof."
+critical_path: [room:stair, room:stairhall, room:south, room:west, room:north, room:column, room:hub, room:levers, room:hub, room:spur, room:workshop, room:espur, room:keyvault, room:warden, room:skull, room:liftfoot, room:stasis]
+return_path: [room:stasis, room:liftfoot, room:skull, room:warden, room:keyvault, room:espur, room:workshop, room:south, room:stairhall, room:stair]
+goals:
+  - id: goal:roland
+    space: room:stasis
+    kind: use
+    what: "Roland's stasis coffin: m39.roland (done 111781, the Amulet of the Southern Sphinx 12372)."
+keys:
+  - id: key:bolt
+    grants: {qbit: grate_bolt}
+    found_in: room:workshop
+    how: lever
+    notes: "The grate's bolt, drawn from the workshop's face (m39.grate_bolt)."
+  - id: key:cube
+    grants: {qbit: skull_door_open}
+    found_in: room:warden
+    how: item
+    notes: "The Cube of Power (12365, M33's): every party here carries it (D6's stair asks it; D7's hatch opens only after m33.done)."
+  - id: key:lever_east
+    grants: {qbit: slab_east}
+    found_in: room:levers
+    how: lever
+    notes: "The east lever: the east spur's slab drops for good (m39.lever_east)."
+  - id: key:lever_west
+    grants: {qbit: slab_west}
+    found_in: room:levers
+    how: lever
+    notes: "The west lever: the sealed passage's slab drops for good (m39.lever_west)."
+points_of_interest:
+  - id: poi:keybox
+    space: room:keyvault
+    kind: treasure
+    behaviour: "The Key to the Dragon Tower once (117844), then 'Nothing here.'"
+  - id: poi:ladder
+    space: room:shaft
+    kind: exit
+    behaviour: "'Climb up through the hatch?' then q-d26.depths_hatch."
+  - id: poi:plaque_fewaee
+    space: room:assembly
+    kind: sign
+    behaviour: "FEWAEEFFWAEFAWEEWWEFAW / Remember: A = Air, E = Earth, F = Fire, W = Water. (aaze0052:14)."
+  - id: poi:plaque_nine
+    space: room:hub
+    kind: sign
+    behaviour: "'Nine is the time.' (m39.plaque_nine, aaze0052:12)."
+  - id: poi:pyramid
+    space: room:pyramid
+    kind: sign
+    behaviour: "'Its light is out. Its twin stands outside the gate.' (m39.pyramid)."
+  - id: poi:statue
+    space: room:stairhall
+    kind: sign
+    behaviour: "Alamar's statue boasts as the party first comes near (m39.statue, aaze0052:13)."
+mechanisms:
+  - {kind: lever drops an unseen slab for good (the status line says where), count: 2}
+  - {kind: one-way bolted door by side, count: 1}
+  - {kind: hook-checked door (the Cube), count: 1}
+  - {kind: lift, count: 1}
+  - {kind: field and lid movers on the coffin, count: 1}
+  - {kind: a find once (the key box), count: 1}
+totals:
+  chests: 4
+  doors: 11
+  rooms: 20
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act6_graphs/fd01.graph.yml; D-69 (mockups/act6_fd01_decisions.md) wins where they differ: lever tells and bulkhead slabs (change 1), the coffin with a sliding lid under the field (2), the vault pair as one swdoorb split (3), the solid swdoorc grate by side (4), q-d26.depths_hatch up to D7's entrance:fd01_roof (5, Q67), the teal statue (8), the niches left out (9), swall4/swall2 walls (Q72 b). The south, west and north galleries are two rooms each (rooms.yml `space`)."

@@ -1,0 +1,177 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header.
+format: mu6-0
+map: DD-02
+key: dd02
+name: "Ellinger's Tower"
+stands_on: D1 Castleview Vale
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [20, 22]
+monsters:
+  levels: [14, 24]
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Night bats (11310): Vampire Bat 14 (14), Beholder Bat 20 (10): MAPS's beholder bats"
+    - "Gargoyles (11540): Gargoyle 16 (10), Gargoyle Lord 22 (6): the tower's waking statues"
+    - "Magic constructs (11600): Flying Feet 18 (8), Guardian 24 (2): Ellinger's 'defenses against Alamar's spies'"
+    - "Ellinger, talking NPC 4954 in his study (no fight)"
+  mix:
+    - {row: Vampire Bat, id: 11311, level: 14, count: 14}
+    - {row: Beholder Bat, id: 11312, level: 20, count: 10}
+    - {row: Gargoyle, id: 11540, level: 16, count: 10}
+    - {row: Gargoyle Lord, id: 11541, level: 22, count: 6}
+    - {row: Flying Feet, id: 11600, level: 18, count: 8}
+    - {row: Guardian, id: 11601, level: 24, count: 2}
+  kill_xp_target: 5.7k
+treasure: {level: 2, hoard: 3}
+role: "Story M17 (the question, the gauntlet, the password, Ellinger); M18 and M19/M26 (Ellinger takes the disks in his study, D-9.2)"
+role_short: "Story M17-M19"
+set_piece: "A round tower of five storeys round a closed lift shaft: the question at the first door, tapestries hiding buttons and back stairs, a library, Ellinger's study; the lift runs both ways after the first climb (D-9.2)"
+textures:
+  family: "MM6 Agar's Laboratory 6d19 (dungeon_families towers: t1wl0lg, t1wl9ctl, t1wl4cts, t1wl7ctb, t1f1-3, t1c3, t1trima, t1d3, t1spcla); MM7 7d29 tapestries (tap1); the towers kit's xtslatew at the windows"
+  cap: 45
+  planned: 26
+  new: 0
+floors:
+  - {floor: 4, name: "Ellinger's study", height: 1920}
+  - {floor: 3, name: "Tapestry floor", height: 1440}
+  - {floor: 2, name: "The library", height: 960}
+  - {floor: 1, name: "The gauntlet", height: 480}
+  - {floor: 0, name: "Ground floor", height: 0}
+spaces:
+  # floor 4
+  - {id: room:landing4, name: Top landing, kind: stair, size: S, floor: 4, at: [3, 0], monsters: 0,
+     purpose: "The main stair's head; one door, with a mouth carved in it."}
+  - {id: room:pass_door, name: "The last door", kind: room, size: S, floor: 4, at: [2, 0], monsters: 0,
+     purpose: "The door asks: 'Who do you seek?' Ellinger: 'You may pass!' (m17.password); anything else: 'Begone!' (m17.password_wrong). Oorla gives the name (M15)."}
+  - {id: room:study, name: "Ellinger's study", kind: hall, size: L, floor: 4, at: [1, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "Ellinger among star charts and boots (NPC 4954, M17-M19, M26): he takes the disks here, five at a time. On the desk: the Book o' Boots (m17.book_of_boots), the list of disk sources (m18.sources_note); a shelf: the Book of Sorcerer's Knowledge."}
+  - {id: room:lift_top, name: Lift head, kind: stair, size: S, floor: 4, at: [0, 0], monsters: 0,
+     purpose: "The lift's upper stop, behind the study: m17.tower_lift calls it down."}
+  - {id: room:boots, name: Boot closet, kind: room, size: S, floor: 4, at: [1, 1], chest: 3, monsters: 0,
+     purpose: "Racks of boots; a chest with a pair Ellinger 'outgrew' (the tower's best chest)."}
+  # floor 3
+  - {id: room:stair3, name: Stair, kind: stair, size: S, floor: 3, at: [1, 0], monsters: 0, purpose: "The main stair."}
+  - {id: room:tapestries, name: "Tapestry maze", kind: hall, size: L, floor: 3, at: [2, 0], set_piece: true, monsters: 5,
+     population: [{row: Vampire Bat, level: 14, count: 5}],
+     purpose: "Rooms walled by hanging tapestries; behind three a button ('Click'): one opens the way on, two 'Nothing happens'."}
+  - {id: room:loft, name: Beholder loft, kind: hall, size: M, floor: 3, at: [3, 1], monsters: 6,
+     population: [{row: Beholder Bat, level: 20, count: 6}],
+     purpose: "Under the roof timbers: the red-eyed bats roost."}
+  - {id: room:trap_walk, name: Trapped walk, kind: corridor, size: M, floor: 3, at: [3, 0], monsters: 4,
+     population: [{row: Beholder Bat, level: 20, count: 4}],
+     purpose: "A ring corridor whose floor plates fire bolts (step traps): the gauntlet's last stretch."}
+  - {id: room:back3, name: Back stair (top), kind: stair, size: S, floor: 3, at: [5, 1], monsters: 0,
+     purpose: "The servants' stair, behind a tapestry."}
+  - {id: room:crates, name: Crate room, kind: room, size: S, floor: 3, at: [4, 1], chest: 2, monsters: 0,
+     purpose: "A storeroom (crates in a clump; 'The crate is empty' on most)."}
+  # floor 2
+  - {id: room:stair2, name: Stair, kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0, purpose: "The main stair."}
+  - {id: room:library, name: The library, kind: hall, size: L, floor: 2, at: [2, 0], set_piece: true, monsters: 4,
+     population: [{row: Gargoyle, level: 16, count: 4}],
+     purpose: "Two storeys of shelves round a light well; the Book of Fire and the Book of Electricity (+5 Fire, +5 Air resistance, once per character); gargoyle bookends wake."}
+  - {id: room:reading, name: Reading room, kind: room, size: M, floor: 2, at: [2, 1], chest: 2, monsters: 4,
+     population: [{row: Gargoyle, level: 16, count: 2}, {row: Gargoyle Lord, level: 22, count: 2}],
+     purpose: "Armchairs and a locked reading chest."}
+  - {id: room:gallery2, name: Gargoyle gallery, kind: corridor, size: M, floor: 2, at: [3, 0], monsters: 8,
+     population: [{row: Gargoyle, level: 16, count: 4}, {row: Gargoyle Lord, level: 22, count: 4}],
+     purpose: "A balcony round the outer wall, statues in every window bay."}
+  - {id: room:back2, name: Back stair, kind: stair, size: S, floor: 2, at: [5, 0], monsters: 0, purpose: "The servants' stair."}
+  # floor 1
+  - {id: room:stair1, name: Stair, kind: stair, size: S, floor: 1, at: [1, 0], monsters: 0, purpose: "The main stair, past the question door."}
+  - {id: room:wards, name: Hall of Wards, kind: hall, size: L, floor: 1, at: [2, 0], monsters: 6,
+     population: [{row: Flying Feet, level: 18, count: 4}, {row: Guardian, level: 24, count: 2}],
+     purpose: "Ellinger's defenses: warded circles on the floor, the constructs that keep spies out."}
+  - {id: room:roost, name: Bat roost, kind: room, size: M, floor: 1, at: [3, 0], monsters: 6,
+     population: [{row: Vampire Bat, level: 14, count: 6}],
+     purpose: "A cold room with a broken window."}
+  - {id: room:tapestry1, name: Tapestry gallery, kind: corridor, size: M, floor: 1, at: [4, 0], monsters: 4,
+     population: [{row: Flying Feet, level: 18, count: 4}],
+     purpose: "Tapestries of boots through the ages; a button behind one opens the back stair."}
+  - {id: room:back1, name: Back stair (foot), kind: stair, size: S, floor: 1, at: [5, 0], monsters: 0, purpose: "The servants' stair's foot."}
+  # floor 0
+  - {id: room:entry, name: Entry hall, kind: hall, size: M, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Inside the door from Castleview: the arrival; a dead mirror ('Where to?' ... 'The mirror does not respond.')."}
+  - {id: room:question, name: Hall of the Question, kind: room, size: M, floor: 0, at: [2, 0], set_piece: true, monsters: 0,
+     purpose: "The door to the stair: 'Intruders, answer the following question or be destroyed!' (m17.question): answers 1 or 2 open it (m17.question_right), 3 throws the party out (m17.question_wrong)."}
+  - {id: room:store, name: Storeroom, kind: room, size: S, floor: 0, at: [1, 1], chest: 2, monsters: 3,
+     population: [{row: Vampire Bat, level: 14, count: 3}],
+     purpose: "Cabinets and crates ('The cabinet is empty'); a chest."}
+  - {id: room:lift_foot, name: Lift foot, kind: stair, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "A cage at the foot of a closed shaft: before Ellinger has spoken it does not move (m17.tower_lift's fail text); after, it runs to the study and back."}
+links:
+  - {id: link:entry_question, from: room:entry, to: room:question, kind: open}
+  - {id: link:entry_store, from: room:entry, to: room:store, kind: door}
+  - {id: link:entry_lift, from: room:entry, to: room:lift_foot, kind: open}
+  - {id: link:question_stair, from: room:question, to: room:stair1, kind: door, label: "The question", opened_by: state:question}
+  - {id: link:s1_wards, from: room:stair1, to: room:wards, kind: open}
+  - {id: link:wards_roost, from: room:wards, to: room:roost, kind: door}
+  - {id: link:roost_tap1, from: room:roost, to: room:tapestry1, kind: open}
+  - {id: link:tap1_back1, from: room:tapestry1, to: room:back1, kind: secret, label: "Tapestry button", opened_by: state:tap1}
+  - {id: link:s1_s2, from: room:stair1, to: room:stair2, kind: stair}
+  - {id: link:back1_back2, from: room:back1, to: room:back2, kind: stair}
+  - {id: link:s2_library, from: room:stair2, to: room:library, kind: open}
+  - {id: link:library_reading, from: room:library, to: room:reading, kind: door}
+  - {id: link:library_gallery, from: room:library, to: room:gallery2, kind: open}
+  - {id: link:gallery_back2, from: room:gallery2, to: room:back2, kind: open}
+  - {id: link:s2_s3, from: room:stair2, to: room:stair3, kind: stair}
+  - {id: link:back2_back3, from: room:back2, to: room:back3, kind: stair}
+  - {id: link:s3_tap, from: room:stair3, to: room:tapestries, kind: open}
+  - {id: link:tap_back3, from: room:tapestries, to: room:back3, kind: secret, label: "Tapestry button", opened_by: state:tap3}
+  - {id: link:tap_loft, from: room:tapestries, to: room:loft, kind: door}
+  - {id: link:loft_trap, from: room:loft, to: room:trap_walk, kind: open}
+  - {id: link:back3_crates, from: room:back3, to: room:crates, kind: open}
+  - {id: link:trap_s4, from: room:trap_walk, to: room:landing4, kind: stair}
+  - {id: link:l4_door, from: room:landing4, to: room:pass_door, kind: open}
+  - {id: link:pass_study, from: room:pass_door, to: room:study, kind: door, label: "Who do you seek?", opened_by: state:password}
+  - {id: link:study_boots, from: room:study, to: room:boots, kind: door}
+  - {id: link:study_lift, from: room:study, to: room:lift_top, kind: open}
+  - {id: link:lift, from: room:lift_foot, to: room:lift_top, kind: lift, label: "Lift: after m17.done", opened_by: state:lift}
+states:
+  - {id: state:key, kind: item, where: "D1, Nadia (M16)", what: "Ellinger's key opens the tower door on D1 (m17.tower_door).", opens: []}
+  - {id: state:question, kind: password, where: room:question,
+     what: "m17.question: three answers; 1 or 2 open the door (question_passed); 3: 'Begone!' and the party is put outside on D1.",
+     opens: [link:question_stair]}
+  - {id: state:tap1, kind: puzzle, where: room:tapestry1, what: "A button behind the third tapestry: 'Click', the back stair's panel slides.", opens: [link:tap1_back1]}
+  - {id: state:tap3, kind: puzzle, where: room:tapestries, what: "Three tapestries hide buttons; one opens the back stair, two say 'Nothing happens'.", opens: [link:tap_back3]}
+  - {id: state:password, kind: password, where: room:pass_door, what: "'Who do you seek?' Ellinger (Oorla, M15).", opens: [link:pass_study]}
+  - {id: state:lift, kind: qbit, where: room:study,
+     what: "m17.done (Ellinger has spoken): the lift runs both ways between the ground floor and the study (D-9.2), called from either end by m17.tower_lift.",
+     opens: [link:lift], draw: false}
+exits:
+  - {id: exit:d1_door, space: room:entry, at: [0, 1], kind: both, label: "D1: the tower door",
+     neighbour: "D1 entrance:dd02_tower (70, 47), the round tower in Castleview's north-east quarter, door facing west; needs Ellinger's key (m17.tower_door)"}
+hooks:
+  - {hook: m17.question, space: room:question, how: "the door's question (three-button AskChoice, as XD-10's skull)"}
+  - {hook: m17.question_right, space: room:question, how: "answer 1 or 2 (once): the door opens"}
+  - {hook: m17.question_wrong, space: room:question, how: "answer 3: 'Begone!', the party moved outside the tower door on D1"}
+  - {hook: m17.password, space: room:pass_door, how: "the answer Ellinger (once)"}
+  - {hook: m17.password_wrong, space: room:pass_door, how: "any other answer"}
+  - {hook: m17.book_of_boots, space: room:study, how: "the book on the desk"}
+  - {hook: m18.sources_note, space: room:study, how: "the list on the desk after M17 (autonote 4118)"}
+  - {hook: m17.tower_lift, space: "room:lift_foot and room:lift_top", how: "the lift's call at both ends; refuses before m17.done"}
+  - {hook: npc 4954 Ellinger, space: room:study, how: "talking actor (Alamar, Energy discs: m17, m19, m26)"}
+critical_path: [room:entry, room:question, room:stair1, room:wards, room:roost, room:tapestry1, room:stair1, room:stair2, room:library,
+  room:gallery2, room:stair2, room:stair3, room:tapestries, room:loft, room:trap_walk, room:landing4, room:pass_door, room:study]
+return_path: [room:study, room:lift_top, room:lift_foot, room:entry]
+loops:
+  - {id: loop:back_stair, spaces: [room:tapestry1, room:back1, room:back2, room:gallery2, room:library, room:stair2, room:stair1, room:wards, room:roost],
+     notes: "The servants' stair joins floors 1-3 behind the tapestries: a second way up."}
+  - {id: loop:top, spaces: [room:tapestries, room:back3, room:crates], notes: "Round the tapestry floor."}
+  - {id: loop:lift, spaces: [room:entry, room:lift_foot, room:lift_top, room:study], notes: "After M17 the lift closes the climb into a ring (D-9.2)."}
+lines:
+  - {text: "Exit Ellinger's Tower?", ref: "dark/aaze0053:0", where: room:entry}
+  - {text: "Where to? / Destination Unknown / The mirror does not respond.", ref: "dark/aaze0053:1-2, :11", where: "room:entry, the dead mirror"}
+  - {text: "Intruders, answer the following question or be destroyed!", ref: "dark/aaze0053:3", where: "room:question (A3's m17.question)"}
+  - {text: "Tapestry / Click / Nothing happens", ref: "dark/aaze0054:0-2", where: "room:tapestry1, room:tapestries"}
+  - {text: "Book of Fire / Book of Electricity (+5 Fire, +5 Air resistance; the source's +20 rescaled) / You learn nothing more from the book.", ref: "dark/aaze0054:5-8, :11", where: room:library}
+  - {text: "Who do you seek? / You may pass! / Begone!", ref: "dark/aaze0056:2, :3, :0", where: "room:pass_door (A3)"}
+  - {text: "Boots of Paradise, by Ellinger J. Hofenhager. 'Ah, lovely boots! Sweet leather foot holders, hard iron hobnail, how I adore thee!'", ref: "dark/aaze0056:9", where: "room:study (A3)"}
+  - {text: "Book of Sorcerer's Knowledge: 'Reading the book improves your mind.' / '... the pages begin to swim before your eyes and your head begins to ache.'", ref: "dark/aaze0056:4-7", where: room:study}
+open_questions:
+  - "Book of Sorcerer's Knowledge: the source gives +25 Intellect or, to the wrong reader, pain. Proposed: +2 Intellect once per character for a reader with Intellect 20 or more; below that the source's headache (some damage, 'you put it back on the shelf') and nothing else. Or +2 for anyone, no harm?"
+  - "Monsters: the source names beholder bats; the rest are ours. Proposed: Ellinger's wards as Flying Feet and two Guardians (the Act II constructs at their low tiers), gargoyle statues that wake, and bats. Alternative: bats and gargoyles only."
+  - "D1 has the tower as a round building in the north-east quarter with no height. The graph has five storeys (ground, gauntlet, library, tapestry floor, study), about 2,300 high inside; MM interiors may be larger than the outside, but the outside should read as five storeys with windows and a slate cone. Request A6 (D1)."
+  - "The dead mirror in the entry hall ('Destination Unknown'): (a) flavour only (proposed); (b) a Darkside mirror stop that wakes with Kalindra's stage 4 (A4's mirror network)."
+  - "The lift (D-9.2): one cage in a closed shaft from the ground floor to the study, no stops between, so the gauntlet is not bypassed before M17. Confirm no stops on floors 1-3."

@@ -1,0 +1,288 @@
+# Playtest of the Wizard Quarter (DD-19, L4): the court, the Mirage Guild, the mirror and the mirage wall, Xenoc, the
+# bridge's bolt, the vault lever, the ward and its two lamps, Morgana, the Common's font and Blastem, the undercroft's
+# vault, ambush and potions. A level-40 party starts at entrance:d3_guild_gate (the arrival window, dd19_arrived_once
+# 117520). On the bridge while Xenoc lives, the bolted door answers with his voice ("Begone, children ..."). Through the
+# Mirage Guild's double doors, the hall of illusions (the painted door), up the Mirage stair to the mirror gallery: the
+# mirror ("... has a door in it."), through the mirage wall into the Hall of Mirages: Xenoc dies (q-d14.xenoc,
+# xenoc_slain 113283); the bridge door from his side names its bolt, the bolt opens it. Xenoc's study: its chest, the
+# vault lever ("Far below, iron grinds."). Over the bridge to the scrying room; Morgana's ward names its two lamps; lamp
+# 1 snuffed ("The ward thins, but holds."), down to the robing room, lamp 2 ("The ward flickers and goes out."), the ward
+# sinks; Morgana dies (q-d14.morgana, morgana_slain 113284); her wardrobe's chest. Back to the court, the Common: the
+# font twice (spell points refilled); Blastem: "Boots licked" (the mirror's hint), "The lesson" (blastem_angered
+# 113286): his body hidden, Sorcerer 11191 shown hostile, kept after a save and a load; his chair empty. Weights and
+# Measures' chest. Down the quarters stair, the vault (golems, the hoard), the wizards' quarters' chest: "Ambush!" and
+# four wizards shown (kept after a save and a load); the potion alcoves: the Orange Potion once for member 1, then "You
+# have had your fill.", the Purple Potion once for member 2, then the same; up the alcoves' stair into the Mirage stair.
+# Numbers are ids.lock.yml's (events, doors, chests, map variables) and the built scene's actor indices (8 Blastem's
+# body, 9 his hostile swap, 4-7 the ambush, 49 Xenoc, 30 Morgana). Run with --world xeen (output/studio_cal/dd19/four.sh).
+id: xeen.dd19.l4.walk
+title: Wizard Quarter (DD-19 L4), Xenoc and Morgana, the mirage, the ward, Blastem, the undercroft
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd19.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 40, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 40, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 40, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 40, skills: [], equipment: {}}
+  - assert: {map: xeen_dd19.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE WIZARD QUARTER"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117520) then error('dd19_arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  # The bridge door from the HQ's side while Xenoc lives: his voice.
+  - set_pose: {map: xeen_dd19.blv, x: -900, y: 1856, z: 640, yaw_degrees: 180, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(6); wait(0.5); local seen = status(); if not string.find(seen, 'Begone, children', 1, true) then error('the bridge door said: ' .. seen) end; if door_state(3) ~= 'closed' then error('the bridge door is not shut') end"}
+  - set_pose: {map: xeen_dd19.blv, x: 0, y: 384, z: 0, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # The Mirage Guild's double doors, the foyer, the hall of illusions.
+  - walk_to: {x: -700, y: 768, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # (A click, not open_door: its clearing while the door moves would reach Xenoc over the foyer.)
+  - play_lua: {source: "click(17); for _ = 1, 20 do if door_state(7) == 'open' and door_state(8) == 'open' then break end; wait(0.5) end; if door_state(7) ~= 'open' or door_state(8) ~= 'open' then error('the leaves did not open: ' .. door_state(7) .. ' ' .. door_state(8)) end"}
+  # (No clearing in the foyer: the scenario's clearing reaches through floors, and Xenoc stands over the foyer; his
+  # death is checked in his hall. The immortal party walks past the foyer's wizards.)
+  - walk_to: {x: -1700, y: 768, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2000, y: 896, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3000, y: 896, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(500)"}
+  - walk_to: {x: -2752, y: 1350, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(35); wait(0.5); local seen = status(); if not string.find(seen, 'A painted door', 1, true) then error('the painted door said: ' .. seen) end"}
+  # Up the Mirage stair to the mirror gallery.
+  - walk_to: {x: -3300, y: 1450, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3350, y: 1850, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3350, y: 2840, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3008, y: 2840, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3008, y: 1900, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2752, y: 1800, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2752, y: 1350, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 700, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700)"}
+  # The mirror, then through the mirage wall: Xenoc.
+  - walk_to: {x: -3000, y: 700, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 700, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700)"}
+  - walk_to: {x: -3000, y: 896, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the blank wall behind you has a door in it"}}
+  - play_lua: {source: "close(); if qbit(113283) then error('xenoc_slain set too early') end"}
+  - walk_to: {x: -2100, y: 896, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: -2100, y: 896, radius: 96, z_min: 632, z_max: 680}}
+  - play_lua: {source: "clear_hostiles(1600)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Xenoc falls]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113283) then error('xenoc_slain not set') end"}
+  # The bridge door from Xenoc's side: its bolt.
+  - walk_to: {x: -1300, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(6); wait(0.5); local seen = status(); if not string.find(seen, 'The bolt is on the wall beside it', 1, true) then error('the bridge door said: ' .. seen) end"}
+  - play_lua: {source: "status(); click(5); wait(0.5); local seen = status(); if not string.find(seen, 'You draw the bolt', 1, true) then error('the bolt said: ' .. seen) end; for _ = 1, 20 do if door_state(3) == 'open' then break end; wait(0.5) end; if door_state(3) ~= 'open' then error('the bridge door did not open: ' .. door_state(3)) end"}
+  # Xenoc's study: the chest, the vault lever.
+  - walk_to: {x: -1664, y: 420, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 9)"}
+  - walk_to: {x: -1664, y: -200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2000, y: -560, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(10)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1520, y: -320, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(42); wait(0.5); local seen = status(); if not string.find(seen, 'Far below, iron grinds.', 1, true) then error('the lever said: ' .. seen) end; for _ = 1, 20 do if door_state(15) == 'open' then break end; wait(0.5) end; if door_state(15) ~= 'open' then error('the vault door did not open: ' .. door_state(15)) end"}
+  # Over the bridge to the scrying room; the ward names its lamps.
+  - walk_to: {x: -1664, y: 420, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1856, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 1600, y: 1856, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1600)"}
+  - walk_to: {x: 2100, y: 1344, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2750, y: 1344, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(43); wait(0.5); local seen = status(); if not string.find(seen, 'The ward draws on two lamps, one above and one below.', 1, true) then error('the ward said: ' .. seen) end; if door_state(16) ~= 'closed' then error('the ward is not up') end"}
+  # Ward lamp 1 (the scrying room's brazier).
+  - walk_to: {x: 2100, y: 1344, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1728, y: 920, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(26); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local seen = status(); if not string.find(seen, 'The ward thins, but holds.', 1, true) then error('lamp 1 said: ' .. seen) end; close()"}
+  - play_lua: {source: "status(); click(26); wait(0.5); local seen = status(); if not string.find(seen, 'The lamp is out.', 1, true) then error('lamp 1 again said: ' .. seen) end"}
+  - walk_to: {x: 2100, y: 1344, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2750, y: 1344, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(43); wait(0.5); local seen = status(); if not string.find(seen, 'The ward thins, but holds.', 1, true) then error('the ward with one lamp out said: ' .. seen) end; if door_state(16) ~= 'closed' then error('the ward fell with one lamp') end"}
+  # Down the HQ stair to the robing room: ward lamp 2.
+  - walk_to: {x: 3008, y: 1250, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 360, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3400, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(21, 13)"}
+  - walk_to: {x: 4200, y: 1100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 4544, y: 1340, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(25); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local seen = status(); if not string.find(seen, 'The ward flickers and goes out.', 1, true) then error('lamp 2 said: ' .. seen) end; close(); for _ = 1, 20 do if door_state(16) == 'open' then break end; wait(0.5) end; if door_state(16) ~= 'open' then error('the ward did not sink: ' .. door_state(16)) end"}
+  # Up again through the ward: Morgana.
+  - walk_to: {x: 3400, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 360, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 1300, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(113284) then error('morgana_slain set too early') end"}
+  - walk_to: {x: 3008, y: 2000, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1800)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Morgana is dead]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113284) then error('morgana_slain not set') end"}
+  - walk_to: {x: 4000, y: 2112, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(20, 12)"}
+  - walk_to: {x: 4608, y: 2200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(11)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Back down to the court and into the Common.
+  - walk_to: {x: 4000, y: 2112, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 1900, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 1250, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3008, y: 360, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2600, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: 700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 1450, y: 768, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 5); if door_state(6) ~= 'open' then error('the HQ door second leaf did not open: ' .. door_state(6)) end"}
+  - walk_to: {x: 600, y: 900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1850, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 2)"}
+  - walk_to: {x: 0, y: 2450, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The font: spell points refilled, twice.
+  - walk_to: {x: -576, y: 2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - lua_event: {source: "SetValue(SP, 0)"}
+  - play_lua: {source: "status(); click(24); wait(0.5); local seen = status(); if not string.find(seen, '+2000 spell points.', 1, true) then error('the font said: ' .. seen) end"}
+  - lua_event: {source: "if not IsAtLeast(SP, 20) then error('the font did not refill spell points') end"}
+  - lua_event: {source: "SetValue(SP, 0)"}
+  - play_lua: {source: "status(); click(24); wait(0.5); local seen = status(); if not string.find(seen, '+2000 spell points.', 1, true) then error('the font again said: ' .. seen) end"}
+  - lua_event: {source: "if not IsAtLeast(SP, 20) then error('the font did not refill spell points twice') end"}
+  - press_action: {action: select_member, member_index: 0}
+  # Blastem: his talk, the humble answer, then the lesson; the swap holds after a save and a load.
+  - walk_to: {x: 512, y: 2650, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 8, hidden: false}}
+  - assert: {actor_visible: {actor_index: 9, hidden: true}}
+  - play_lua: {source: "click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Boots licked"}}
+  - select_topic: {match_label: "Boots licked"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "intelligent as I"}}
+  - play_lua: {source: "if qbit(113286) then error('blastem_angered set by the humble answer') end"}
+  - select_topic: {match_label: "The lesson"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "It is not a nice smile."}}
+  - play_lua: {source: "close(); wait(0.5); close(); wait(0.5); if not qbit(113286) then error('blastem_angered not set') end"}
+  - advance_runtime: {seconds: 3}
+  - assert: {actor_visible: {actor_index: 8, hidden: true}}
+  - assert: {actor_visible: {actor_index: 9, hidden: false}}
+  - assert: {actor_count: {monster_id: 11191, hostile: true, min: 1}}
+  - save_game: {name: dd19_blastem}
+  - load_game: {name: dd19_blastem}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 8, hidden: true}}
+  - assert: {actor_visible: {actor_index: 9, hidden: false}}
+  - play_lua: {source: "status(); click(2); wait(0.5); local seen = status(); if not string.find(seen, \"Blastem's chair is empty.\", 1, true) then error('his table said: ' .. seen) end"}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  # Weights and Measures.
+  - walk_to: {x: 900, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 4)"}
+  - walk_to: {x: 1600, y: 2500, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500); loot_chest(12)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Down the quarters stair to the undercroft; the vault.
+  - walk_to: {x: 900, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -192, y: 3300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -192, y: 3800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 192, y: 3880, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 192, y: 4760, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -192, y: 4760, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -192, y: 3700, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 160, y: 3650, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 160, y: 3200, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 0, y: 1500, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 0, y: -560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(7)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The wizards' quarters: the ambush.
+  - walk_to: {x: 0, y: 700, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -500, y: 2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 11)"}
+  - assert: {actor_visible: {actor_index: 4, hidden: true}}
+  - walk_to: {x: -1250, y: 2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1180, y: 2600, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Ambush!"}}
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - assert: {actor_visible: {actor_index: 4, hidden: false}}
+  - assert: {actor_visible: {actor_index: 7, hidden: false}}
+  - save_game: {name: dd19_ambush}
+  - load_game: {name: dd19_ambush}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 4, hidden: false}}
+  - play_lua: {source: "clear_hostiles(2500)"}
+  # The potion alcoves: once per character.
+  - walk_to: {x: -2400, y: 2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3400, y: 1920, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3950, y: 1920, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: -4480, y: 1880, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(30); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Orange Potion]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(30); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have had your fill.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsPlayerBitSet(PlayerBit(11350)) then error('member 1 has no orange potion bit') end"}
+  - walk_to: {x: -4480, y: 2720, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(31); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Purple Potion]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(31); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have had your fill.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsPlayerBitSet(PlayerBit(11351)) then error('member 2 has no purple potion bit') end"}
+  - press_action: {action: select_member, member_index: 0}
+  # Up the alcoves' stair into the Mirage stair (the loop under the court closes).
+  - walk_to: {x: -4880, y: 2496, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -4000, y: 2496, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3800, y: 2432, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3350, y: 2432, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: -3350, y: 2432, radius: 96, z_min: -8, z_max: 8}}

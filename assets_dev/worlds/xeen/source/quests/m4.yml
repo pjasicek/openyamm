@@ -1,0 +1,132 @@
+# M4 The Witch Tower and the Crusader title (QUESTS M4; promotion T1-A in t1-a.yml). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M4
+title: The Alacorn of Falista
+act: I
+kind: main
+status: full
+giver: 4044          # Old Valia (A4: towns/x1.yml, her cottage 4040)
+maps: [X1, XD-04]
+level: 6
+block: 4
+after: [m1.started]
+source: "QUESTS M4; xeen/aaze0024:5-7, :11; xeen/aaze0051:3, :18-21"
+
+qbits:
+  started: {id: 111080, journal: "Old Valia of Toad Meadow wants the witches destroyed and the Alacorn of Falista brought back.",
+            until: [done]}
+  child_rescued_1: {id: 110040, map: XD-04}
+  child_rescued_2: {id: 110041, map: XD-04}
+  child_rescued_3: {id: 110042, map: XD-04}
+  child_rescued_4: {id: 110043, map: XD-04}
+  rosebud_heard: {id: 110044, map: XD-04, note: "Rosebud (cage 2) names the coven's key; the key door stays a key door (2026-11-13)"}
+  alacorn_taken: {id: 110045, map: XD-04}
+  head_witch_slain: {id: 110046, map: XD-04}
+  done: {id: 110047, map: XD-04, note: "was m4_crusaders: the Crusader title; XD-04's roof ward and cloud stair read it"}
+  children_home: {id: 111081}
+  boy_waiting: {id: 110048, map: XD-04, note: "cage 1 is open, but the goblin-eared boy will not go home until the Alacorn cures him (was XD-04's map var boy_state 1)"}
+
+awards:
+  crusaders: {id: 403, text: "Dubbed Crusaders by Old Valia of Toad Meadow", sort: 1}
+
+player_bits:         # once per character: XD-04's good vat, +2 to a stat drawn at random (A7, built)
+  good_vat: {id: 11041, map: XD-04}
+
+items:
+  alacorn: "the Alacorn of Falista; XD-04's pier; Valia takes it. Was MM7 214."
+  coven_key: "map-local key of XD-04's coven door (A7). Was MM7 2187."
+  warden_ring: "map-local ring that opens XD-04's cages (A7). Was MM7 629."
+
+npcs:
+  4044:              # Old Valia
+    topics:
+      - n: 1
+        label: Falista
+        states:
+          - when: {qbit: done}
+            text: "Falista grazes behind my cottage again, Crusaders. She eats the roses. I let her."
+          - when: {all: [{item: alacorn}, {qbit: head_witch_slain}]}
+            text: "You have destroyed the witches and for that I am grateful. For your gallant deeds, I dub thee all Crusaders! Now I must take the Alacorn, for if I can find Falista, I believe the healing power of the Alacorn is strong enough to resurrect her."
+            do: [{take: alacorn}, {set: done}, {clear: started}, {award: crusaders}, {xp: 8000}, {promote: crusade}]
+          - when: {item: alacorn}
+            text: "The Alacorn! But the Head Witch still lives, and she will come for it. Finish what you started."
+          - when: {qbit: started}
+            text: "I am waiting for you to destroy the witches and return the Alacorn."
+          - text: "I am just an old woman but before I die I wish to see the witches of Toad Meadow destroyed. You see, when I was still a young maiden, I fell asleep in Toad Meadow. When I awoke I found a unicorn laying down beside me. Her name was Falista and she was fleeing from a band of witches who were trying to capture her. Since that day I have kept Falista safely hidden. But now she has disappeared. I fear the worst has happened and the witches have killed her for her Alacorn's magic. The witches fear nothing, and lock nothing. Their tower stands south-east of the meadow. Go quickly."
+            do: [{set: started}]
+      - n: 2
+        label: Children
+        show: {any: [{qbit: started}, {qbit: done}]}
+        states:
+          - when: {qbit: children_home}
+            text: "Every child is home. Their mothers have stopped crying. Their fathers have started."
+          - when: {all: [{qbit: child_rescued_1}, {qbit: child_rescued_2}, {qbit: child_rescued_3}, {qbit: child_rescued_4}]}
+            text: "All four of them home, and not one of them a goblin! Take this. It is not much, but it is all the meadow could gather."
+            do: [{set: children_home}, {gold: 500}]
+          - text: "The witches catch children and turn them into goblins. They keep the ones they haven't turned yet in cages in the tower. Bring them home if you can."
+
+hooks:
+  tower_door:
+    map: X1
+    where: "the Witch Tower door on its rise south-east of Toad Meadow (D-89: open; the Crystal Key is retired)"
+    entrance: XD-04
+  cage_1:
+    map: XD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cage of the goblin-eared boy by the west wall (built: evt:cage_1 with the warden's ring; the map hoists the cage the first time and hides group 11 once child_rescued_1 is set)"
+    states:
+      - when: {qbit: child_rescued_1}
+        text: "The cage hangs open and empty."
+      - when: {all: [{qbit: boy_waiting}, {item: alacorn}]}
+        text: "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."
+        do: [{set: child_rescued_1}, {xp: 200}]
+      - when: {qbit: boy_waiting}
+        text: "'I'm not going home with goblin ears!' The boy will not budge. 'They say the witches' Alacorn cures anything. It's up top, over the cauldron.'"
+      - text: "The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them. It's up top, over the cauldron.'"
+        do: [{set: boy_waiting}]
+  cage_2:
+    map: XD-04
+    window: "a long story text to read (Rosebud names the coven's key, 373 characters)"
+    where: "Rosebud's cage in the schoolroom (built: evt:cage_2 with the warden's ring; the map hoists the cage and hides group 12)"
+    sets: [child_rescued_2, rosebud_heard]
+    once: true
+    do: [{xp: 200}]
+    text: "The ring turns the lock and the cage rattles up its chain. A girl with a green tinge to her skin tumbles out and hugs you. 'I'm Rosebud. The door at the top of the north stair has a witch's face on it, and it only opens to the coven's key. They keep it in their stores in the herb loft, past the vats. Don't tell them I told you!' Then she is gone, running for Toad Meadow."
+    else_text: "The cage hangs open and empty."
+  cage_3:
+    map: XD-04
+    window: "a long story text to read (the rescued boy, 277 characters)"
+    where: "the hidden cage behind the loose panel (built: evt:cage_3 with the warden's ring; the map hoists the cage and hides group 13)"
+    sets: [child_rescued_3]
+    once: true
+    do: [{xp: 200}]
+    text: "The ring turns the lock and the cage rattles up its chain. A boy crawls out of the cage, wiping his nose. \"Thanks for getting me out of there,\" he says. \"I thought the witches were going to turn me into a goblin for sure. I want to go home.\" And he runs. Valia will hear of it."
+    else_text: "The cage hangs open and empty."
+  cage_4:
+    map: XD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cage in the witches' bedchamber (built: evt:cage_4 with the warden's ring; the map hoists the cage and hides group 14)"
+    sets: [child_rescued_4]
+    once: true
+    do: [{xp: 200}]
+    text: "The ring turns the lock and the cage rattles up its chain. The child in the witches' bedchamber slips out and is gone down the stair. Valia will hear of it."
+    else_text: "The cage hangs open and empty."
+  alacorn:
+    map: XD-04
+    where: "the Alacorn on its pedestal on the bridge over the shaft (built: evt:alacorn_taken notices the item in the packs; the map places the Alacorn as an item and keeps its boil-over, steam, lights and summons)"
+    sets: [alacorn_taken]
+    map_gives: {alacorn: 1}
+    once: true
+    text: "The cauldron roars and boils over: green steam boils up the shaft! Get off the bridge!"
+  head_witch:
+    map: XD-04
+    where: "the Head Witch's death (built: evt:head_witch_dead)"
+    sets: [head_witch_slain]
+  roof_ward:
+    map: XD-04
+    where: "the shimmering ward on the roof stair and the cloud stair: open once the party are Crusaders (built: evt:ward, evt:cloud_stair)"
+    reads: [done]
+
+rewards: {xp: 8800, gold: 500}
+riddles: []
+playthrough: "Valia (Falista). XD-04: the four cages, the Head Witch, the Alacorn. Valia (Falista, Children)."

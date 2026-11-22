@@ -1,0 +1,130 @@
+# Hostility check of the Clouds of Xeen (X9): every kind hostile to the party, none fighting another, Slick
+# peaceful (the world's relations.yml).
+id: xeen.x9.l4.hostility
+title: 'Clouds of Xeen (X9): foes hostile to the party, none fighting another, Slick peaceful'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11561
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11561
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11562
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11562
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11592
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11592
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11914
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11914
+      hostile: true
+      max: 0
+- note: 'The map''s kinds side by side by the prize stand (Slick among them), nearer each other than the party: they must
+    not take each other on.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11561
+    x: -640
+    y: 9856
+    z: 704
+- spawn_actor:
+    monster_id: 11562
+    x: -480
+    y: 9856
+    z: 704
+- spawn_actor:
+    monster_id: 11592
+    x: -320
+    y: 9856
+    z: 704
+- spawn_actor:
+    monster_id: 11561
+    x: -160
+    y: 9856
+    z: 704
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    actor_count:
+      monster_id: 11561
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11562
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11592
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11914
+      hurt: true
+      max: 0

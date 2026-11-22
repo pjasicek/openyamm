@@ -1,0 +1,298 @@
+<!doctype html><html><head><meta charset="utf-8"><title>D5 Desert mock-ups</title>
+<style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #6a3410; --card: #fffdf8;
+        --nb: #2a78d6; --d5: #eb6834; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 1800px; padding: 28px 32px 36px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 18px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 1720px; }
+.grid { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept img { width: 100%; display: block; border-radius: 4px; }
+.concept p { margin: 6px 0 4px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 3px 7px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.counts td:first-child { width: 46%; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+.q li { margin: 7px 0; font-size: 13.5px; } .q b { color: #5a2a08; }
+.inset img { width: 100%; display: block; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.small { font-size: 12.5px; color: var(--muted); }
+code { font-size: 12.5px; }
+.key { font-size: 12.5px; color: var(--muted); margin: 4px 0 0; }
+.key i { display: inline-block; width: 22px; height: 0; vertical-align: 4px; margin-right: 5px; }
+</style></head><body><main>
+<h1>D5 Desert of Doom and the Great Pyramid: MU-3 plan and MU-4 concepts</h1>
+<div class="sub">Phase 5 review (A6, 2026-11-20), for a decider before any geometry. Darkside's top middle, Act V
+wilderness (party 42-45), the world rim on its north side. A desert basin under the amber day: the <b>Perishing
+Sands</b> east and south with a salt pan, and rising alone from the dunes the <b>Great Pyramid</b> (DD-15, m28.door);
+the stony <b>Desert of Doom</b> west (the obelisk, the Last Water's +2 Endurance fountain, the Shrine of Great Power
+on a mesa). The <b>Griffin Cliffs</b> lift the giants' <b>northern highlands</b>: Gurodel's hold and the great doors
+of DD-24, Bosco's Hall (DD-25), the Northern Tower (DD-08) at the vertex of the <b>Parabolic Barrier</b>, a bowed line
+of Ancient frames with a shimmering curtain before the rim. The <b>Quivering Forest</b> of trembling aspens holds a
+wild cyclopes' lair. The seven <b>Enchanted Boulders</b> stand by the road; the broken travel pyramid's capstone hides
+the obelisk hoard; DD-18's tunnel ends at a grate in the south-east. Source: <code>devdocs/xeen/briefs/d5/L1/</code>
+(project, plan, sketch in Map Studio's schema, NOTES.md; <code>oymap validate</code> clean).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_d5.png"></div>
+ <div class="card" style="margin-top:12px"><div class="legend">
+<span><i class="sw" style="background:#0b6b3a"></i>edge arrival</span>
+<span><i class="sw" style="background:#111"></i>dungeon door, grate</span>
+<span><i class="sw" style="background:#7a1f6a;border-radius:50%"></i>device (fountain, shrine, lamp, obelisk, boulders)</span>
+<span><i class="sw" style="background:#1d5fa8;border-radius:50%"></i>talking person (Gurodel)</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#c06000"></i>landmark</span>
+<span><i class="sw" style="background:#5a4630;border-radius:50%"></i>fork, signpost</span>
+<span><i class="sw" style="background:rgba(208,48,42,.25);border-color:#d0302a"></i>encounter area (lizards red, birds brown, cyclopes violet)</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px);border-color:#2e8b57"></i>kept clear</span>
+<span><i class="sw" style="background:#7fe0b8"></i>Parabolic Barrier</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.6"></i>MU-4 cameras</span>
+</div>
+ <div style="margin-top:6px;color:#5d5a55;font-size:13px">128 x 128 cells of 512 units, north up; the dashed white
+ square is the playable area (cells 19-109). The land ends in the rim cliff at y 24; the strip behind the Barrier
+ (410 cells) is not counted as land. <b>Shared edges:</b> the desert road crosses the east edge at <b>y 80</b> (D-36,
+ D4 installed); the road crosses the west edge over the Forbidden Zone pass at <b>y 64</b>
+ (<code>edge_d5_d6.json</code>, D6 planned beside this). South (D2) is closed high ground.</div></div>
+ <div class="two" style="margin-top:12px">
+ <div class="card inset"><h2 style="margin-top:0">D4 edge (D5 x 109 = D4 x 19)</h2>
+  <svg viewBox="0 0 640 250" width="100%" font-family="DejaVu Sans, sans-serif" font-size="11">
+<rect x="46.0" y="14" width="110.0" height="202" fill="#efeae0"/>
+<text x="101.0" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">0k</text>
+<rect x="156.0" y="14" width="165.0" height="202" fill="#f7f4ee"/>
+<text x="238.5" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">2.8-3.6k</text>
+<rect x="321.0" y="14" width="55.0" height="202" fill="#efeae0"/>
+<text x="348.5" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.8-2.3k</text>
+<rect x="376.0" y="14" width="73.3" height="202" fill="#f7f4ee"/>
+<text x="412.6" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.5k</text>
+<rect x="449.3" y="14" width="73.3" height="202" fill="#efeae0"/>
+<text x="485.9" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.5-2k</text>
+<rect x="522.6" y="14" width="105.4" height="202" fill="#f7f4ee"/>
+<text x="575.3" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">2.6-3.4k</text>
+<line x1="46" x2="628" y1="216.0" y2="216.0" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="219.5" text-anchor="end" fill="#5d5a55">0</text>
+<line x1="46" x2="628" y1="171.1" y2="171.1" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="174.6" text-anchor="end" fill="#5d5a55">800</text>
+<line x1="46" x2="628" y1="126.2" y2="126.2" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="129.7" text-anchor="end" fill="#5d5a55">1,600</text>
+<line x1="46" x2="628" y1="81.3" y2="81.3" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="84.8" text-anchor="end" fill="#5d5a55">2,400</text>
+<line x1="46" x2="628" y1="36.4" y2="36.4" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="39.9" text-anchor="end" fill="#5d5a55">3,200</text>
+<text x="46.0" y="230" text-anchor="middle" fill="#5d5a55">0</text>
+<text x="156.0" y="230" text-anchor="middle" fill="#5d5a55">24</text>
+<text x="321.0" y="230" text-anchor="middle" fill="#5d5a55">60</text>
+<text x="376.0" y="230" text-anchor="middle" fill="#5d5a55">72</text>
+<text x="412.6" y="230" text-anchor="middle" fill="#5d5a55">80</text>
+<text x="449.3" y="230" text-anchor="middle" fill="#5d5a55">88</text>
+<text x="522.6" y="230" text-anchor="middle" fill="#5d5a55">104</text>
+<text x="628.0" y="230" text-anchor="middle" fill="#5d5a55">127</text>
+<text x="337.0" y="246" text-anchor="middle" fill="#5d5a55">y (cells); the crossing at y 80</text>
+<polyline points="46.0,216.0 50.6,216.0 55.2,216.0 59.7,216.0 64.3,216.0 68.9,216.0 73.5,216.0 78.1,216.0 82.7,216.0 87.2,216.0 91.8,216.0 96.4,216.0 101.0,216.0 105.6,216.0 110.2,216.0 114.7,216.0 119.3,216.0 123.9,216.0 128.5,216.0 133.1,216.0 137.7,216.0 142.2,216.0 146.8,216.0 151.4,216.0 156.0,38.2 160.6,38.2 165.1,36.4 169.7,31.1 174.3,31.1 178.9,31.1 183.5,31.1 188.1,32.9 192.6,36.4 197.2,40.0 201.8,41.8 206.4,45.4 211.0,47.2 215.6,49.0 220.1,50.8 224.7,52.6 229.3,52.6 233.9,52.6 238.5,52.6 243.1,54.4 247.6,58.0 252.2,59.8 256.8,63.4 261.4,67.0 266.0,72.4 270.6,75.9 275.1,79.5 279.7,81.3 284.3,83.1 288.9,83.1 293.5,84.9 298.0,88.5 302.6,92.1 307.2,95.7 311.8,99.3 316.4,102.9 321.0,108.3 325.5,111.9 330.1,113.7 334.7,113.7 339.3,113.7 343.9,113.7 348.5,113.7 353.0,113.7 357.6,115.4 362.2,115.4 366.8,117.2 371.4,117.2 376.0,117.2 380.5,117.2 385.1,117.2 389.7,122.6 394.3,126.2 398.9,129.8 403.4,129.8 408.0,129.8 412.6,129.8 417.2,129.8 421.8,131.6 426.4,131.6 430.9,129.8 435.5,129.8 440.1,128.0 444.7,128.0 449.3,126.2 453.9,126.2 458.4,126.2 463.0,124.4 467.6,122.6 472.2,120.8 476.8,120.8 481.4,122.6 485.9,126.2 490.5,128.0 495.1,131.6 499.7,133.4 504.3,137.0 508.9,138.8 513.4,140.6 518.0,142.4 522.6,144.2 527.2,146.0 531.8,146.0 536.3,146.0 540.9,146.0 545.5,146.0 550.1,146.0 554.7,146.0 559.3,146.0 563.8,146.0 568.4,140.6 573.0,117.2 577.6,106.5 582.2,67.0 586.8,59.8 591.3,43.6 595.9,54.4 600.5,88.5 605.1,101.1 609.7,128.0 614.3,137.0 618.8,135.2 623.4,133.4 628.0,131.6" fill="none" stroke="var(--nb)" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="46.0" cy="216.0" r="6" fill="transparent"><title>D4 installed x 19: y 0, 0</title></circle>
+<circle cx="82.7" cy="216.0" r="6" fill="transparent"><title>D4 installed x 19: y 8, 0</title></circle>
+<circle cx="119.3" cy="216.0" r="6" fill="transparent"><title>D4 installed x 19: y 16, 0</title></circle>
+<circle cx="156.0" cy="38.2" r="6" fill="transparent"><title>D4 installed x 19: y 24, 3,168</title></circle>
+<circle cx="192.6" cy="36.4" r="6" fill="transparent"><title>D4 installed x 19: y 32, 3,200</title></circle>
+<circle cx="229.3" cy="52.6" r="6" fill="transparent"><title>D4 installed x 19: y 40, 2,912</title></circle>
+<circle cx="266.0" cy="72.4" r="6" fill="transparent"><title>D4 installed x 19: y 48, 2,560</title></circle>
+<circle cx="302.6" cy="92.1" r="6" fill="transparent"><title>D4 installed x 19: y 56, 2,208</title></circle>
+<circle cx="339.3" cy="113.7" r="6" fill="transparent"><title>D4 installed x 19: y 64, 1,824</title></circle>
+<circle cx="376.0" cy="117.2" r="6" fill="transparent"><title>D4 installed x 19: y 72, 1,760</title></circle>
+<circle cx="412.6" cy="129.8" r="6" fill="transparent"><title>D4 installed x 19: y 80, 1,536</title></circle>
+<circle cx="449.3" cy="126.2" r="6" fill="transparent"><title>D4 installed x 19: y 88, 1,600</title></circle>
+<circle cx="485.9" cy="126.2" r="6" fill="transparent"><title>D4 installed x 19: y 96, 1,600</title></circle>
+<circle cx="522.6" cy="144.2" r="6" fill="transparent"><title>D4 installed x 19: y 104, 1,280</title></circle>
+<circle cx="559.3" cy="146.0" r="6" fill="transparent"><title>D4 installed x 19: y 112, 1,248</title></circle>
+<circle cx="595.9" cy="54.4" r="6" fill="transparent"><title>D4 installed x 19: y 120, 2,880</title></circle>
+<polyline points="46.0,216.0 50.6,216.0 55.2,216.0 59.7,216.0 64.3,216.0 68.9,216.0 73.5,216.0 78.1,216.0 82.7,216.0 87.2,216.0 91.8,216.0 96.4,216.0 101.0,216.0 105.6,216.0 110.2,216.0 114.7,216.0 119.3,216.0 123.9,216.0 128.5,216.0 133.1,216.0 137.7,216.0 142.2,216.0 146.8,216.0 151.4,216.0 156.0,38.2 160.6,38.2 165.1,36.4 169.7,31.1 174.3,31.1 178.9,31.1 183.5,31.1 188.1,32.9 192.6,36.4 197.2,40.0 201.8,41.8 206.4,45.4 211.0,47.2 215.6,49.0 220.1,50.8 224.7,52.6 229.3,52.6 233.9,52.6 238.5,52.6 243.1,54.4 247.6,58.0 252.2,59.8 256.8,63.4 261.4,67.0 266.0,72.4 270.6,75.9 275.1,79.5 279.7,81.3 284.3,83.1 288.9,83.1 293.5,84.9 298.0,88.5 302.6,92.1 307.2,95.7 311.8,99.3 316.4,102.9 321.0,108.3 325.5,111.9 330.1,113.7 334.7,113.7 339.3,113.7 343.9,113.7 348.5,113.7 353.0,113.7 357.6,115.4 362.2,115.4 366.8,117.2 371.4,117.2 376.0,117.2 380.5,117.2 385.1,117.2 389.7,122.6 394.3,126.2 398.9,129.8 403.4,129.8 408.0,129.8 412.6,129.8 417.2,129.8 421.8,131.6 426.4,131.6 430.9,129.8 435.5,129.8 440.1,128.0 444.7,128.0 449.3,126.2 453.9,126.2 458.4,126.2 463.0,124.4 467.6,122.6 472.2,120.8 476.8,120.8 481.4,122.6 485.9,126.2 490.5,128.0 495.1,131.6 499.7,133.4 504.3,137.0 508.9,138.8 513.4,140.6 518.0,142.4 522.6,144.2 527.2,146.0 531.8,146.0 536.3,146.0 540.9,146.0 545.5,146.0 550.1,114.2 554.7,105.5 559.3,104.7 563.8,105.4 568.4,104.7 573.0,101.5 577.6,96.8 582.2,92.2 586.8,89.1 591.3,88.9 595.9,91.9 600.5,97.9 605.1,104.6 609.7,109.5 614.3,112.6 618.8,114.9 623.4,117.4 628.0,119.3" fill="none" stroke="var(--d5)" stroke-width="2" stroke-dasharray="6 3" stroke-linejoin="round"/>
+<circle cx="46.0" cy="216.0" r="6" fill="transparent"><title>D5 plan x 109: y 0, 0</title></circle>
+<circle cx="82.7" cy="216.0" r="6" fill="transparent"><title>D5 plan x 109: y 8, 0</title></circle>
+<circle cx="119.3" cy="216.0" r="6" fill="transparent"><title>D5 plan x 109: y 16, 0</title></circle>
+<circle cx="156.0" cy="38.2" r="6" fill="transparent"><title>D5 plan x 109: y 24, 3,168</title></circle>
+<circle cx="192.6" cy="36.4" r="6" fill="transparent"><title>D5 plan x 109: y 32, 3,200</title></circle>
+<circle cx="229.3" cy="52.6" r="6" fill="transparent"><title>D5 plan x 109: y 40, 2,912</title></circle>
+<circle cx="266.0" cy="72.4" r="6" fill="transparent"><title>D5 plan x 109: y 48, 2,560</title></circle>
+<circle cx="302.6" cy="92.1" r="6" fill="transparent"><title>D5 plan x 109: y 56, 2,208</title></circle>
+<circle cx="339.3" cy="113.7" r="6" fill="transparent"><title>D5 plan x 109: y 64, 1,824</title></circle>
+<circle cx="376.0" cy="117.2" r="6" fill="transparent"><title>D5 plan x 109: y 72, 1,760</title></circle>
+<circle cx="412.6" cy="129.8" r="6" fill="transparent"><title>D5 plan x 109: y 80, 1,536</title></circle>
+<circle cx="449.3" cy="126.2" r="6" fill="transparent"><title>D5 plan x 109: y 88, 1,600</title></circle>
+<circle cx="485.9" cy="126.2" r="6" fill="transparent"><title>D5 plan x 109: y 96, 1,600</title></circle>
+<circle cx="522.6" cy="144.2" r="6" fill="transparent"><title>D5 plan x 109: y 104, 1,280</title></circle>
+<circle cx="559.3" cy="104.7" r="6" fill="transparent"><title>D5 plan x 109: y 112, 1,984</title></circle>
+<circle cx="595.9" cy="91.9" r="6" fill="transparent"><title>D5 plan x 109: y 120, 2,211</title></circle>
+</svg>
+  <div class="key"><i style="border-top:2px solid var(--nb)"></i>D4 installed (x 19)
+  &nbsp; <i style="border-top:2px dashed var(--d5)"></i>D5 plan (x 109)</div>
+  <table style="margin-top:6px"><tr><th>Span</th><th>Form (both maps)</th><th class="n">D4</th><th class="n">D5</th>
+  <th class="n">diff</th></tr><tr><td>0-24</td><td>level 0</td><td class='n'>0</td><td class='n'>0</td><td class='n'>0</td></tr><tr><td>24-60</td><td>ridge 2,800-3,600</td><td class='n'>2,793</td><td class='n'>2,793</td><td class='n'>0</td></tr><tr><td>60-72</td><td>ridge 1,800-2,300</td><td class='n'>1,818</td><td class='n'>1,818</td><td class='n'>0</td></tr><tr><td>72-88</td><td>level 1500</td><td class='n'>1,590</td><td class='n'>1,590</td><td class='n'>0</td></tr><tr><td>88-104</td><td>ridge 1,500-2,000</td><td class='n'>1,546</td><td class='n'>1,546</td><td class='n'>0</td></tr><tr><td>104-128</td><td>ridge 2,600-3,400</td><td class='n'>1,253</td><td class='n'>1,253</td><td class='n'>0</td></tr></table>
+  <p class="small">D5's east rim repeats D4's west-rim spans word for word; the border column carries D4's installed
+  heights cell for cell (the drawing's land model; the build sets them). At the road: D4 1,536,
+  D5 1,536.</p></div>
+ <div class="card inset"><h2 style="margin-top:0">D6 edge (shared file)</h2>
+  <svg viewBox="0 0 640 250" width="100%" font-family="DejaVu Sans, sans-serif" font-size="11">
+<rect x="46.0" y="14" width="110.0" height="202" fill="#efeae0"/>
+<text x="101.0" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">0k</text>
+<rect x="156.0" y="14" width="155.8" height="202" fill="#f7f4ee"/>
+<text x="233.9" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">2.6-3.3k</text>
+<rect x="311.8" y="14" width="55.0" height="202" fill="#efeae0"/>
+<text x="339.3" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.7k</text>
+<rect x="366.8" y="14" width="261.2" height="202" fill="#f7f4ee"/>
+<text x="497.4" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">2.5-3k</text>
+<line x1="46" x2="628" y1="216.0" y2="216.0" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="219.5" text-anchor="end" fill="#5d5a55">0</text>
+<line x1="46" x2="628" y1="171.1" y2="171.1" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="174.6" text-anchor="end" fill="#5d5a55">800</text>
+<line x1="46" x2="628" y1="126.2" y2="126.2" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="129.7" text-anchor="end" fill="#5d5a55">1,600</text>
+<line x1="46" x2="628" y1="81.3" y2="81.3" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="84.8" text-anchor="end" fill="#5d5a55">2,400</text>
+<line x1="46" x2="628" y1="36.4" y2="36.4" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="39.9" text-anchor="end" fill="#5d5a55">3,200</text>
+<text x="46.0" y="230" text-anchor="middle" fill="#5d5a55">0</text>
+<text x="156.0" y="230" text-anchor="middle" fill="#5d5a55">24</text>
+<text x="311.8" y="230" text-anchor="middle" fill="#5d5a55">58</text>
+<text x="339.3" y="230" text-anchor="middle" fill="#5d5a55">64</text>
+<text x="366.8" y="230" text-anchor="middle" fill="#5d5a55">70</text>
+<text x="522.6" y="230" text-anchor="middle" fill="#5d5a55">104</text>
+<text x="628.0" y="230" text-anchor="middle" fill="#5d5a55">127</text>
+<text x="337.0" y="246" text-anchor="middle" fill="#5d5a55">y (cells); the pass at y 64 (1,700)</text>
+<polyline points="46.0,216.0 50.6,216.0 55.2,216.0 59.7,216.0 64.3,216.0 68.9,216.0 73.5,216.0 78.1,216.0 82.7,216.0 87.2,216.0 91.8,216.0 96.4,216.0 101.0,216.0 105.6,216.0 110.2,216.0 114.7,216.0 119.3,216.0 123.9,216.0 128.5,216.0 133.1,216.0 137.7,216.0 142.2,216.0 146.8,216.0 151.4,216.0 156.0,41.8 160.6,40.0 165.1,40.0 169.7,38.2 174.3,36.4 178.9,34.6 183.5,32.9 188.1,32.9 192.6,31.1 197.2,32.9 201.8,34.6 206.4,36.4 211.0,38.2 215.6,40.0 220.1,41.8 224.7,43.6 229.3,45.4 233.9,47.2 238.5,49.0 243.1,50.8 247.6,52.6 252.2,56.2 256.8,58.0 261.4,61.6 266.0,65.2 270.6,67.0 275.1,70.6 279.7,72.4 284.3,75.9 288.9,77.7 293.5,81.3 298.0,86.7 302.6,92.1 307.2,97.5 311.8,104.7 316.4,110.1 321.0,115.4 325.5,117.2 330.1,120.8 334.7,120.8 339.3,120.8 343.9,120.8 348.5,120.8 353.0,117.2 357.6,115.4 362.2,110.1 366.8,104.7 371.4,101.1 376.0,95.7 380.5,92.1 385.1,88.5 389.7,86.7 394.3,83.1 398.9,79.5 403.4,75.9 408.0,74.2 412.6,70.6 417.2,68.8 421.8,67.0 426.4,65.2 430.9,65.2 435.5,63.4 440.1,61.6 444.7,59.8 449.3,58.0 453.9,58.0 458.4,56.2 463.0,54.4 467.6,52.6 472.2,52.6 476.8,52.6 481.4,52.6 485.9,50.8 490.5,50.8 495.1,50.8 499.7,50.8 504.3,49.0 508.9,49.0 513.4,49.0 518.0,49.0 522.6,47.2 527.2,50.8 531.8,52.6 536.3,54.4 540.9,56.2 545.5,58.0 550.1,59.8 554.7,59.8 559.3,61.6 563.8,61.6 568.4,61.6 573.0,63.4 577.6,63.4 582.2,63.4 586.8,65.2 591.3,65.2 595.9,65.2 600.5,67.0 605.1,67.0 609.7,67.0 614.3,68.8 618.8,68.8 623.4,68.8 628.0,70.6" fill="none" stroke="var(--nb)" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="46.0" cy="216.0" r="6" fill="transparent"><title>edge_d5_d6.json: y 0, 0</title></circle>
+<circle cx="82.7" cy="216.0" r="6" fill="transparent"><title>edge_d5_d6.json: y 8, 0</title></circle>
+<circle cx="119.3" cy="216.0" r="6" fill="transparent"><title>edge_d5_d6.json: y 16, 0</title></circle>
+<circle cx="156.0" cy="41.8" r="6" fill="transparent"><title>edge_d5_d6.json: y 24, 3,104</title></circle>
+<circle cx="192.6" cy="31.1" r="6" fill="transparent"><title>edge_d5_d6.json: y 32, 3,296</title></circle>
+<circle cx="229.3" cy="45.4" r="6" fill="transparent"><title>edge_d5_d6.json: y 40, 3,040</title></circle>
+<circle cx="266.0" cy="65.2" r="6" fill="transparent"><title>edge_d5_d6.json: y 48, 2,688</title></circle>
+<circle cx="302.6" cy="92.1" r="6" fill="transparent"><title>edge_d5_d6.json: y 56, 2,208</title></circle>
+<circle cx="339.3" cy="120.8" r="6" fill="transparent"><title>edge_d5_d6.json: y 64, 1,696</title></circle>
+<circle cx="376.0" cy="95.7" r="6" fill="transparent"><title>edge_d5_d6.json: y 72, 2,144</title></circle>
+<circle cx="412.6" cy="70.6" r="6" fill="transparent"><title>edge_d5_d6.json: y 80, 2,592</title></circle>
+<circle cx="449.3" cy="58.0" r="6" fill="transparent"><title>edge_d5_d6.json: y 88, 2,816</title></circle>
+<circle cx="485.9" cy="50.8" r="6" fill="transparent"><title>edge_d5_d6.json: y 96, 2,944</title></circle>
+<circle cx="522.6" cy="47.2" r="6" fill="transparent"><title>edge_d5_d6.json: y 104, 3,008</title></circle>
+<circle cx="559.3" cy="61.6" r="6" fill="transparent"><title>edge_d5_d6.json: y 112, 2,752</title></circle>
+<circle cx="595.9" cy="65.2" r="6" fill="transparent"><title>edge_d5_d6.json: y 120, 2,688</title></circle>
+<polyline points="46.0,216.0 50.6,216.0 55.2,216.0 59.7,216.0 64.3,216.0 68.9,216.0 73.5,216.0 78.1,216.0 82.7,216.0 87.2,216.0 91.8,216.0 96.4,216.0 101.0,216.0 105.6,216.0 110.2,216.0 114.7,216.0 119.3,216.0 123.9,216.0 128.5,216.0 133.1,216.0 137.7,216.0 142.2,216.0 146.8,216.0 151.4,216.0 156.0,41.8 160.6,40.0 165.1,40.0 169.7,38.2 174.3,36.4 178.9,34.6 183.5,32.9 188.1,32.9 192.6,31.1 197.2,32.9 201.8,34.6 206.4,36.4 211.0,38.2 215.6,40.0 220.1,41.8 224.7,43.6 229.3,45.4 233.9,47.2 238.5,49.0 243.1,50.8 247.6,52.6 252.2,56.2 256.8,58.0 261.4,61.6 266.0,65.2 270.6,67.0 275.1,70.6 279.7,72.4 284.3,75.9 288.9,77.7 293.5,81.3 298.0,86.7 302.6,92.1 307.2,97.5 311.8,104.7 316.4,110.1 321.0,115.4 325.5,117.2 330.1,120.8 334.7,120.8 339.3,120.8 343.9,120.8 348.5,120.8 353.0,117.2 357.6,115.4 362.2,110.1 366.8,104.7 371.4,101.1 376.0,95.7 380.5,92.1 385.1,88.5 389.7,86.7 394.3,83.1 398.9,79.5 403.4,75.9 408.0,74.2 412.6,70.6 417.2,68.8 421.8,67.0 426.4,65.2 430.9,65.2 435.5,63.4 440.1,61.6 444.7,59.8 449.3,58.0 453.9,58.0 458.4,56.2 463.0,54.4 467.6,52.6 472.2,52.6 476.8,52.6 481.4,52.6 485.9,50.8 490.5,50.8 495.1,50.8 499.7,50.8 504.3,49.0 508.9,49.0 513.4,49.0 518.0,49.0 522.6,47.2 527.2,50.8 531.8,52.6 536.3,54.4 540.9,56.2 545.5,58.0 550.1,76.5 554.7,83.4 559.3,87.1 563.8,90.1 568.4,93.1 573.0,96.0 577.6,98.7 582.2,101.5 586.8,104.4 591.3,107.2 595.9,109.7 600.5,111.9 605.1,113.8 609.7,115.5 614.3,117.0 618.8,118.3 623.4,119.5 628.0,120.3" fill="none" stroke="var(--d5)" stroke-width="2" stroke-dasharray="6 3" stroke-linejoin="round"/>
+<circle cx="46.0" cy="216.0" r="6" fill="transparent"><title>D5 plan x 19: y 0, 0</title></circle>
+<circle cx="82.7" cy="216.0" r="6" fill="transparent"><title>D5 plan x 19: y 8, 0</title></circle>
+<circle cx="119.3" cy="216.0" r="6" fill="transparent"><title>D5 plan x 19: y 16, 0</title></circle>
+<circle cx="156.0" cy="41.8" r="6" fill="transparent"><title>D5 plan x 19: y 24, 3,104</title></circle>
+<circle cx="192.6" cy="31.1" r="6" fill="transparent"><title>D5 plan x 19: y 32, 3,296</title></circle>
+<circle cx="229.3" cy="45.4" r="6" fill="transparent"><title>D5 plan x 19: y 40, 3,040</title></circle>
+<circle cx="266.0" cy="65.2" r="6" fill="transparent"><title>D5 plan x 19: y 48, 2,688</title></circle>
+<circle cx="302.6" cy="92.1" r="6" fill="transparent"><title>D5 plan x 19: y 56, 2,208</title></circle>
+<circle cx="339.3" cy="120.8" r="6" fill="transparent"><title>D5 plan x 19: y 64, 1,696</title></circle>
+<circle cx="376.0" cy="95.7" r="6" fill="transparent"><title>D5 plan x 19: y 72, 2,144</title></circle>
+<circle cx="412.6" cy="70.6" r="6" fill="transparent"><title>D5 plan x 19: y 80, 2,592</title></circle>
+<circle cx="449.3" cy="58.0" r="6" fill="transparent"><title>D5 plan x 19: y 88, 2,816</title></circle>
+<circle cx="485.9" cy="50.8" r="6" fill="transparent"><title>D5 plan x 19: y 96, 2,944</title></circle>
+<circle cx="522.6" cy="47.2" r="6" fill="transparent"><title>D5 plan x 19: y 104, 3,008</title></circle>
+<circle cx="559.3" cy="87.1" r="6" fill="transparent"><title>D5 plan x 19: y 112, 2,297</title></circle>
+<circle cx="595.9" cy="109.7" r="6" fill="transparent"><title>D5 plan x 19: y 120, 1,894</title></circle>
+</svg>
+  <div class="key"><i style="border-top:2px solid var(--nb)"></i>edge_d5_d6.json
+  &nbsp; <i style="border-top:2px dashed var(--d5)"></i>D5 plan (x 19)</div>
+  <table style="margin-top:6px"><tr><th>Span</th><th>Form (both maps)</th><th class="n">file</th><th class="n">D5</th>
+  <th class="n">diff</th></tr><tr><td>0-24</td><td>level 0</td><td class='n'>0</td><td class='n'>0</td><td class='n'>0</td></tr><tr><td>24-58</td><td>ridge 2,600-3,300</td><td class='n'>2,904</td><td class='n'>2,904</td><td class='n'>0</td></tr><tr><td>58-70</td><td>level 1700</td><td class='n'>1,778</td><td class='n'>1,778</td><td class='n'>0</td></tr><tr><td>70-128</td><td>ridge 2,500-3,000</td><td class='n'>2,709</td><td class='n'>2,709</td><td class='n'>0</td></tr></table>
+  <p class="small">D5's west column is the shared file cell for cell (the pass 1,696 at y 62-66). D5's west rim repeats
+  D6's east-rim spans and heights. South: D2's y 19 row continued, mean difference
+  11 (320 only in the corner, where D6's file wins).</p></div>
+ </div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Encounter areas and the People</h2>
+ <table>
+ <tr><th>Area</th><th>Monsters (A2's rows)</th><th class="n">4,096²</th><th class="n">At load</th></tr>
+ <tr><td>E1 Perishing Sands</td><td>Iguanasaurus 42 / Great 50 / Ancient 55 (Dif 3), 8 markers [2,3]: first fight from D4</td><td class="n">6.6</td><td class="n">20</td></tr>
+ <tr><td>E2 the pyramid's dunes</td><td>the same, 7 markers</td><td class="n">6.7</td><td class="n">17.5</td></tr>
+ <tr><td>E3 Griffin Cliffs</td><td>Vulture Roc 30 / Roc 38 / Griffin 48 (Dif 2), 11 markers [1,3]; 3 Griffins placed at the eyrie</td><td class="n">9.8</td><td class="n">25</td></tr>
+ <tr><td>E4 Quivering Forest</td><td>wild Cyclops 36 / Giant 50 / Elder Giant 62 (Dif 1), 11 markers [2,3]: the source's C1 lair</td><td class="n">11.8</td><td class="n">27.5</td></tr>
+ <tr><td>E5 Desert of Doom</td><td>rocs (Dif 2), 10 markers: first fight from D6</td><td class="n">10.6</td><td class="n">20</td></tr>
+ <tr><td>The People at Gurodel's hold (peaceful)</td><td>D-47's rows 11083 Cyclops 38 x3, 11084 Giant 50 x2, 11085 Elder Giant 58 x1, faction <code>xeen_giants_people</code>; Gurodel 5452 talking. Not in the 110; at war +3,854 per member</td><td class="n">keep clear</td><td class="n">0 (6)</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">A3's hooks and A4's people on D5</h2>
+ <table>
+ <tr><th>Hook / person</th><th>Where</th></tr>
+ <tr><td><code>m28.door</code></td><td>the Great Pyramid's north door, green stone, two leaves (64, 80)</td></tr>
+ <tr><td><code>q-d17.tower_door</code></td><td>the Northern Tower at the Barrier's vertex (69, 40), "Grnd rdr f Vwlss Knghts"</td></tr>
+ <tr><td><code>q-d24.sign</code>, <code>boulder_1..7</code>, <code>answer</code></td><td>the boulder field by the road (86, 80); boulders (83-87, 81-87)</td></tr>
+ <tr><td><code>obelisks.d5</code></td><td>a red knoll by the west road (46, 72)</td></tr>
+ <tr><td><code>obelisks.dark_hoard</code></td><td>the broken travel pyramid's capstone in the east valley (94, 74)</td></tr>
+ <tr><td><code>dd18.d5_grate</code></td><td>the tunnel grate in the south hills' foot (101, 102), arrival facing north</td></tr>
+ <tr><td>DD-24 doors, <code>entrance:d5_hold</code></td><td>the hillside behind Gurodel's fire (86, 42), two leaves 384 x 512 (<code>xdgiantd</code> mirrored), return 512 south</td></tr>
+ <tr><td>Gurodel 5452 (Q-D16)</td><td>at his fire (86, 46), with the People</td></tr>
+ </table></div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 arrival view (from D4)</h2>
+  <img src="raw/d5_arrival_v1.png">
+  <p>Camera at the D4 arrival (105, 80), 180 above the road, looking west out of the last firs of the Forest of
+  Peril: the road down past the boulder field and its sign, the Great Pyramid far off over the dunes, the broken
+  travel pyramid on the right-hand slope, the Griffin Cliffs and the Barrier's frames faint on the highlands.
+  <b>Against the plan:</b> the road is painted as paving (the plan has a stony earth track, MU-2's soil_stony); the
+  broken pyramid stands nearer the road than its 10 cells; the boulders are fewer and smaller than the seven great
+  Enchanted Boulders. L3 keeps the plan.</p></div>
+ <div class="card concept"><h2>MU-4 signature view: the Great Pyramid from the dunes</h2>
+  <img src="raw/d5_signature_v1.png">
+  <p>Camera on the great dune south-east of the pyramid (82, 98), about 60 degrees, looking north-west (11,300 from
+  the apex): the pyramid alone in the sand, its gilded capstone, the robbers' tent at its corner, the pale sun in
+  the amber band, the cliffs and the Barrier beyond. <b>Why this and not the boulder field:</b> the pyramid is the
+  map's name and its story (M28-M30, the Pharaoh), seen from both arrivals; the boulder field is a side quest and
+  gets a tour shot at L3. <b>Against the plan:</b> the courses read as steps and a carved dragon frieze runs round the
+  foot (a good idea for L3: one frieze band, seamless along its axis); the trees on the left are not in the plan.</p></div>
+ <div class="card"><h2 style="margin-top:0">Against MAPS (D5 sheet, §0 checklist)</h2>
+ <table class="counts">
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th><th></th></tr>
+ <tr><td>Hostiles at load</td><td class="n">110</td><td>110</td><td class="ok">ok</td></tr>
+ <tr><td>Kill XP per member (MM7 tier odds)</td><td class="n">55,550</td><td>52.3k ±15 %</td><td class="ok">+6.2 %</td></tr>
+ <tr><td>Spawn markers (+ placed hostiles)</td><td class="n">47 (+3)</td><td>45-70</td><td class="ok">ok</td></tr>
+ <tr><td>Encounter areas (4,096²)</td><td class="n">5: 6.6-11.8</td><td>3-8 of 6-30</td><td class="ok">ok</td></tr>
+ <tr><td>Quiet land (behind the Barrier not counted)</td><td class="n">60 %</td><td>at least a third</td><td class="ok">ok</td></tr>
+ <tr><td>POIs (D-20 census; the boulder field one set piece)</td><td class="n">23</td><td>desert band 20-25</td><td class="ok">ok (30 if singly)</td></tr>
+ <tr><td>Outdoor chests, each with a reason</td><td class="n">6</td><td>4-10</td><td class="ok">ok</td></tr>
+ <tr><td>Dungeon entrances</td><td class="n">5</td><td>3-6</td><td class="ok">ok</td></tr>
+ <tr><td>Relief inside the box (land)</td><td class="n">987-3,566</td><td>at least 2,500</td><td class="ok">2,579</td></tr>
+ <tr><td>First fight from the D4 arrival</td><td class="n">3,999</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>First fight from the D6 arrival</td><td class="n">3,072</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>Nearest fight: grate / pyramid / Bosco / DD-24 doors</td><td class="n">2,611 / 3,982 /<br>2,698 / 7,398</td><td>6,000 rule; Bosco 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>6,000 rule; wild land (D-11.5)</td><td class="n">5,538; 0.107</td><td>&le; 6,000; &le; 0.16</td><td class="ok">ok</td></tr>
+ <tr><td>Roads + lanes</td><td class="n">1.2 % + 1.4 %</td><td>1-4 %</td><td class="ok">ok</td></tr>
+ <tr><td>Obelisk; permanent devices (Endurance +2, Air resistance +5)</td><td class="n">1; 2</td><td>1; at least 1</td><td class="ok">ok</td></tr>
+ <tr><td>Device kinds (fountains, shrine, lamps, boulders, capstone, lair)</td><td class="n">6</td><td>&ge; 4</td><td class="ok">ok</td></tr>
+ <tr><td>New textures (cap 12)</td><td class="n">2 proposed</td><td>&le; 12</td><td class="ok">ok</td></tr>
+ </table></div>
+ <div class="card q" style="margin-top:12px"><h2 style="margin-top:0">Open questions (DECIDE)</h2>
+ <ol>
+ <li><b>The People while peaceful.</b> (a) 6 placed at the hold (D-47's rows), not in the 110 at load, their
+ 3,854 per member counted only on the war route (as D-1.2 keeps trap kills out); (b) count
+ them in the 110 and trim the wild areas; (c) only Gurodel on D5. Proposed: (a).</li>
+ <li><b>The Quivering Forest's giants.</b> (a) wild cyclopes on the ordinary giants rows (11080-11082) round the
+ source's C1 lair with its "Destroy?" device, not the People; (b) a second People camp (peaceful, then the 27.5
+ go to lizards and birds). Proposed: (a).</li>
+ <li><b>The Enchanted Boulders.</b> (a) one set piece in the census (23 POIs); after the answer each of the other six
+ "disappears and leaves behind..." a treasure item, no chests; (b) seven spots (30 POIs: then cut the three signpost
+ clicks, the dwarf camp and a lamp); (c) six small chests at the boulders. Proposed: (a).</li>
+ <li><b>The Parabolic Barrier</b> (the source has only the name, a mirror destination). (a) a landmark: a bowed line
+ of Ancient frames (<code>gn_mtl</code>, <code>xaenergy</code>) with a <code>xafield</code> curtain that cannot be
+ crossed, the rim behind it, no event; (b) also a device: a touch shocks (Air damage, a line); (c) also a mirror
+ destination. Proposed: (a).</li>
+ <li><b>Three +2 Endurance places</b> (X6's oasis, X3's spring, DD-18's brew; MAPS gives D5 a fourth). (a) keep;
+ (b) D5's fountain gives another stat (Personality); (c) drop it, the energy fountain's +5 Air resistance is D5's
+ permanent device. Proposed: (a), cheapest to change at L4.</li>
+ <li><b>The Great Pyramid's size.</b> (a) 12 x 12 cells, about 3,600 high (Giza's slope), seen from both arrivals;
+ (b) 8 x 8, 2,400. A8's DD-15 inside is independent. Proposed: (a).</li>
+ <li><b>The broken travel pyramid</b> moved from the source's D1 highlands to the east valley by the road, so the
+ arrival sees it and the hoard is reachable without the cliffs. Keep, or put it on the highlands. Proposed: keep.</li>
+ <li><b>Rescaled devices.</b> Shrine of Great Power +15 all stats until rest, daily (the source's +15 levels; D1's
+ +3 levels became +10 all); Fountain of Might +20 Might until rest, daily; energy fountain +5 Air resistance,
+ permanent (D-4). Accept, or other values.</li>
+ </ol></div>
+</div></div></main></body></html>

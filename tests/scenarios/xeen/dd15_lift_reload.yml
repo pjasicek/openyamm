@@ -1,0 +1,32 @@
+# A save and load on a lift that carries the party: mid-ride (the cage and its gates moving) and at the top (all at
+# rest), then the party walks off through the gate that opened with the ride. DD-15's Pharaoh's lift (event 59 opens
+# door 1, the cage, door 14, the top gate, and door 35, the foot's grille). A3's 36th-session reload failures of 83 and
+# 85 at such lifts were stale reload checkpoints (the maps reset on entry), not the save and load; this keeps the
+# save and load itself covered. Needs assets_dev's Xeen world (git-ignored). A1, merge point 43.
+id: xeen.dd15.lift_reload
+title: DD-15's lift carries the party through a save and load, and the party walks off it after one
+world: xeen
+mode: faithful
+tags: [xeen, mechanisms, save_load, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd15.blv
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_qbit, id: 117577, value: true}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - clear_hostiles: {radius: 30000}
+  - set_pose: {map: xeen_dd15.blv, x: 256, y: -3584, z: 8, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(59); wait(2.5); if door_state(1) ~= 'opening' then error('the cage is not rising: ' .. door_state(1)) end"}
+  - reload: {}
+  - play_lua: {source: "if door_state(1) ~= 'opening' then error('the cage stopped at the load: ' .. door_state(1)) end; wait(6)"}
+  - play_lua:
+      source: |
+        for _, door in ipairs({1, 14, 35}) do
+          if door_state(door) ~= "open" then error("door " .. door .. " is " .. door_state(door) .. " after the ride") end
+        end
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: 2296, z_max: 2340}}
+  - reload: {}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: 2296, z_max: 2340}}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}

@@ -1,0 +1,346 @@
+# Xeen playthrough, segment 77: Castle Alamar (D6, DD-17), M33 Castle Alamar done.
+# On D6's crust outside Corak's pod with the Soul Box (Corak inside, 12364). Castle Alamar's gate on the mesa (D6 event
+# 33, m33.castle_door: Yes) into DD-17's gatehall; the box hums (m33.arrival: inside 111660). DD-17 walked along A8's
+# critical path (devdocs/xeen/briefs/dd17/L4/playtest.yml; rooms.yml for the doors between): L1, the works: the
+# gatehall's and the Hall of Order's blast doors; west, the fire belt north to the Fire Head (Yes: its field drops),
+# out by its maintenance door to the west return; the water belt to the Water Head, out the same way; east, the air
+# belt and the Air Head, the earth belt and the Earth Head, out by the east return. Up the stair hall (the Hall of
+# Order's second blast doors) to L2's south walk; round the dial floor: Earth, Air, Fire and Water Time behind their
+# dropped fields, each turned to nine (Alamar's birth number) by what the dial reads; onto the lip, over the four slabs
+# to the island; the gate: a wrong name, then Sheltem (gate_open 111661); the lift up to the deck; the first hatched
+# plate drops the party to the chasm floor; out by the radial cut to the sump, its lever and door, the stair hall,
+# back on the south walk; round to the lip again, over the slabs, the lift called down and ridden up; across the deck
+# (clear of the plates) to the Hall of Vengeance ("Come to ME!"), the antechamber, Command Central; the dais plate:
+# Yes (m33.sheltem: the box for the Cube of Power 12365, M33 done 111662, 35,000 each); the self-destruct cinematic
+# shows Sheltem and Corak and leaves to D6's entrance:dd17_gate. Robot bay, strongroom, juice and chests left alone.
+# Quest logic: source/quests/m33.yml.
+#   python3 tests/playthrough/xeen/run.py 77
+id: xeen.playthrough.77_castle_alamar
+title: "Xeen playthrough 77: Castle Alamar, the four Heads, the dials at nine, the true name, Corak against Sheltem"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/75_soul_box.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d6.odm}
+  - assert: {qbit_set: [111621, 111640]}
+  - assert: {qbit_clear: [111660, 111661, 111662, 111663]}
+  - play_lua: {source: "log('77 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; if not has_item(12364) then error('no Soul Box with Corak (12364)') end"}
+  # Castle Alamar's gate on the mesa (D6 event 33, m33.castle_door).
+  - set_pose: {map: xeen_d6.odm, x: -6656, y: 4506, z: 2202, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(33); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 3, present_dialogs: true, follow_map_move: true}
+  - assert: {map: xeen_dd17.blv}
+  - assert: {dialog: {active: true, text_contains: "The Soul Box hums"}}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: -4736, radius: 64, z_min: -8, z_max: 8}}
+  - assert: {qbit_set: [111660, 117600]}
+  - assert: {autonote: {id: 4134, present: true}}   # the gate's rule, noted on arrival (G's question 41)
+  # L1: the gatehall's blast doors into the Hall of Order.
+  - walk_to: {x: 0, y: -4560, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "open_door(32, 25)"}
+  - walk_to: {x: 0, y: -3824, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # West: the west ward, the fire belt north to its end and the Fire Head.
+  - walk_to: {x: -2496, y: -3824, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2496, y: -3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2496, y: 1504, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "log('fire belt: ' .. (status() or ''))"}
+  - walk_to: {x: -2992, y: 2832, z: 0, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(52); wait(0.6)"}
+  - assert: {dialog: {active: true, text_contains: "Fire power field operational"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Somewhere above, a field dies."}}
+  - play_lua: {source: "close(); wait(3); if not (qbit(117601) and door_state(21) == 'open') then error('fire Head: field ' .. door_state(21)) end"}
+  # Out by the fire maintenance door to the west return.
+  - walk_to: {x: -3408, y: 2600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(65, 31)"}
+  - walk_to: {x: -3408, y: 1824, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -3408, y: -3700, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The water belt north to the Water Head.
+  - walk_to: {x: -4416, y: -3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -4416, y: -496, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "log('water belt: ' .. (status() or ''))"}
+  - walk_to: {x: -4416, y: 672, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(54); wait(0.6)"}
+  - assert: {dialog: {active: true, text_contains: "Water power field operational"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Somewhere above, a field dies."}}
+  - play_lua: {source: "close(); wait(3); if not (qbit(117603) and door_state(22) == 'open') then error('water Head: field ' .. door_state(22)) end"}
+  # Out by the water maintenance door, down the west return, back to the Hall of Order.
+  - walk_to: {x: -4150, y: 664, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(66, 32)"}
+  - walk_to: {x: -3408, y: 664, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -3408, y: -3700, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -3824, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # East: the east ward, the air belt and the Air Head.
+  - walk_to: {x: 2496, y: -3824, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2496, y: -3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 2496, y: 1504, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "log('air belt: ' .. (status() or ''))"}
+  - walk_to: {x: 2992, y: 2832, z: 0, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(48); wait(0.6)"}
+  - assert: {dialog: {active: true, text_contains: "Air power field operational"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Somewhere above, a field dies."}}
+  - play_lua: {source: "close(); wait(3); if not (qbit(117602) and door_state(19) == 'open') then error('air Head: field ' .. door_state(19)) end"}
+  - walk_to: {x: 3408, y: 2600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(63, 29)"}
+  - walk_to: {x: 3408, y: 1824, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 3408, y: -3700, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The earth belt and the Earth Head.
+  - walk_to: {x: 4416, y: -3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 4416, y: -496, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "log('earth belt: ' .. (status() or ''))"}
+  - walk_to: {x: 4416, y: 672, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(50); wait(0.6)"}
+  - assert: {dialog: {active: true, text_contains: "Earth power field operational"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Somewhere above, a field dies."}}
+  - play_lua: {source: "close(); wait(3); if not (qbit(117604) and door_state(20) == 'open') then error('earth Head: field ' .. door_state(20)) end"}
+  - walk_to: {x: 4150, y: 664, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(64, 30)"}
+  - walk_to: {x: 3408, y: 664, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 3408, y: -3700, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - assert: {qbit_set: [117601, 117602, 117603, 117604]}
+  # Up: the Hall of Order's north blast doors, the stair hall, the stair to the south walk (640).
+  - walk_to: {x: 1200, y: -3560, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 27)"}
+  - walk_to: {x: 1200, y: -3000, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  # The robots on the south walk overhead (640: an Autobot's beam eradicates) are fought from the stair hall: since
+  # merge point 33 a clear keeps to the party's storey unless given a height.
+  - clear_hostiles: {radius: 3000, height: 700}
+  - play_lua: {source: "for i = 0, 3 do if conditions(i):find('Eradicated') or conditions(i):find('Dead') then error('member ' .. i .. ' ' .. conditions(i) .. ' in the stair hall') end end"}
+  - walk_to: {x: 48, y: -2864, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1296, y: -2864, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1248, y: -3328, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1248, y: -3824, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  # L2: the south-east bay, Earth Time (it reads 12: nine turns).
+  - walk_to: {x: 3240, y: -3824, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 4080, y: -2832, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "status(); close(); click(22); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Earth Time. The sundial reads 12."}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); if not string.find(status(), 'The dial clicks home at nine.', 1, true) then error('earth: no line at nine') end; wait(4); if door_state(3) ~= 'open' then error('earth slab: ' .. door_state(3)) end"}
+  # Up the east walk to the north-east bay, Air Time (it reads 6: three turns).
+  - walk_to: {x: 3240, y: -3000, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 3240, y: 0, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 3240, y: 2664, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 4080, y: 2656, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "status(); close(); click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Air Time. The sundial reads 6."}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); if not string.find(status(), 'The dial clicks home at nine.', 1, true) then error('air: no line at nine') end; wait(4); if door_state(2) ~= 'open' then error('air slab: ' .. door_state(2)) end"}
+  # West along the north walk (its statue speaks) to the north-west bay, Fire Time (it reads 3: six turns).
+  - walk_to: {x: 3240, y: 3032, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 464, y: 2900, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -2328, y: 2664, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3328, y: 2656, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "status(); close(); click(23); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Fire Time. The sundial reads 3."}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); if not string.find(status(), 'The dial clicks home at nine.', 1, true) then error('fire: no line at nine') end; wait(4); if door_state(4) ~= 'open' then error('fire slab: ' .. door_state(4)) end"}
+  # South down the west walk to the south-west bay, Water Time (it reads 7: two turns).
+  - walk_to: {x: -2328, y: 2300, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2328, y: 0, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2328, y: -2832, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3328, y: -2832, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "status(); close(); click(24); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Water Time. The sundial reads 7."}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); click(24); wait(0.5)"}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.4}
+  - play_lua: {source: "close(); if not string.find(status(), 'The dial clicks home at nine.', 1, true) then error('water: no line at nine') end; wait(4); if door_state(5) ~= 'open' then error('water slab: ' .. door_state(5)) end"}
+  - assert: {qbit_set: [111663, 117611, 117612, 117613, 117614]}
+  # Back up the west walk onto the dial hall's lip and over the four slabs to the island.
+  - walk_to: {x: -2328, y: -2300, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2328, y: 0, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1408, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -672, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 0, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 576, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 1168, y: 0, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - assert: {party_position: {x: 1168, y: 0, radius: 96, z_min: 624, z_max: 656}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('on the island: ' .. party())"}
+  # The true-name gate: a wrong name, then Sheltem.
+  - play_lua: {source: "click(45); wait(0.6)"}
+  - answer_input: {text: "Alamar"}
+  - advance_runtime: {seconds: 0.8, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Wrong!"}}
+  - play_lua: {source: "close(); if door_state(23) ~= 'closed' or qbit(111661) then error('a wrong name opened the gate') end"}
+  - play_lua: {source: "click(45); wait(0.6)"}
+  - answer_input: {text: "Sheltem"}
+  - advance_runtime: {seconds: 0.8, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Access approved!"}}
+  - play_lua: {source: "close(); wait(3); if not (qbit(111661) and door_state(23) == 'open') then error('Sheltem did not open the gate: ' .. door_state(23)) end"}
+  # Through the gate to the lift; up to the deck.
+  - walk_to: {x: 1872, y: 0, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 2080, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  # The deck's robots (1280: three Autobots, the farthest about 4,600 off) are fought from the lift's foot before it
+  # rises.
+  - clear_hostiles: {radius: 4800, height: 700}
+  - play_lua: {source: "click(62); wait(4)"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "if door_state(1) ~= 'open' then error('the lift did not rise: ' .. door_state(1)) end; for i = 0, 3 do if conditions(i):find('Eradicated') or conditions(i):find('Dead') then error('member ' .. i .. ' ' .. conditions(i) .. ' on the deck') end end"}
+  - assert: {party_position: {x: 2080, y: 0, radius: 160, z_min: 1264, z_max: 1296}}
+  # The deck: the first hatched plate by the lift head drops the party to the chasm floor.
+  - walk_to: {x: 1408, y: 0, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 672, y: 160, z: 1280, z_tolerance: 40, radius: 32, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 672, y: 464, z: 1280, radius: 24, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - advance_runtime: {seconds: 4}
+  - assert: {party_position: {x: 672, y: 464, radius: 200, z_min: -16, z_max: 64}}
+  - play_lua: {source: "if door_state(6) ~= 'closed' then error('the trapdoor did not fall: ' .. door_state(6)) end; log('after the fall: ' .. (status() or '') .. ' / ' .. party())"}
+  # Out along the chasm floor by the radial cut to the sump: its lever, its door, the bones; the stair hall and up.
+  - walk_to: {x: 672, y: -656, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 576, y: -1072, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 576, y: -1408, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 576, y: -1696, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 576, y: -1952, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 576, y: -2240, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -832, y: -2240, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -832, y: -2912, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "status(); click(34); wait(1); if door_state(33) ~= 'closed' then error('the sump door opened without its lever') end"}
+  - play_lua: {source: "click(84); wait(3); if door_state(33) ~= 'open' then error('the sump lever: ' .. door_state(33)) end"}
+  - play_lua: {source: "remember('gold', gold()); click(83); wait(0.5); log('bones: ' .. (status() or '') .. '; gold +' .. (gold() - recall('gold'))); for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - walk_to: {x: -80, y: -2912, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 48, y: -2864, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1296, y: -2864, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1248, y: -3328, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1248, y: -3824, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - assert: {party_position: {x: 1248, y: -3824, radius: 128, z_min: 624, z_max: 656}}
+  # Round by the south-west bay and the west walk to the lip, over the slabs, through the open gate.
+  - walk_to: {x: -832, y: -3824, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2328, y: -3824, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2328, y: 0, z: 640, z_tolerance: 40, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1408, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -672, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 0, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 576, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 1168, y: 0, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: 1872, y: 0, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  # The lift stands at the deck: its button brings it down, then up again with the party on it.
+  - play_lua: {source: "status(); click(62); wait(4); if door_state(1) ~= 'closed' then error('the lift did not come down: ' .. door_state(1)) end"}
+  - walk_to: {x: 2080, y: 0, z: 640, z_tolerance: 40, radius: 48, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(62); wait(4)"}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: 2080, y: 0, radius: 160, z_min: 1264, z_max: 1296}}
+  # West across the deck along its middle, clear of the hatched plates, into the Hall of Vengeance: "Come to ME!"
+  - walk_to: {x: 1408, y: 0, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: -1500, y: 0, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  # After a load inside the castle its arrival line came again once (an ISSUE for A8, fixed 2026-11-21): a greeting
+  # after a load would be dismissed here and logged.
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "local again = false; for _ = 1, 3 do if close() then again = true else break end end; if again then log('ISSUE A8 DD-17: after a load the castle greets the party again (evt:visit_load arms evt:arrival on every load; on L3 it is the roof line)') end"}
+  - walk_to: {x: -2200, y: 0, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Come to ME!"}}
+  - play_lua: {source: "close(); if not qbit(117606) then error('Come to ME 117606 not set') end"}
+  - assert: {actor_visible: {actor_index: 54, monster_id: 11924, hidden: true}}
+  - assert: {actor_visible: {actor_index: 11, monster_id: 11912, hidden: true}}
+  # The antechamber and Command Central.
+  - walk_to: {x: -2496, y: -1350, z: 1280, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(35, 35)"}
+  - walk_to: {x: -2496, y: -2300, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2496, y: -2850, z: 1280, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 12)"}
+  - walk_to: {x: -2496, y: -3500, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 5000}
+  - walk_to: {x: -2700, y: -4000, z: 1280, z_tolerance: 40, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The dais plate before the throne: Yes. Corak against Sheltem, the self-destruct, out to D6.
+  # The greeting after a load dismissed first, as before the Come to ME plate.
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "local again = false; for _ = 1, 3 do if close() then again = true else break end end; if again then log('ISSUE A8 DD-17: after a load the castle greets the party again (evt:visit_load arms evt:arrival on every load; on L3 it is the roof line)') end; remember('xp', experience(0)); remember('gold', gold())"}
+  - walk_to: {x: -2960, y: -4000, z: 1280, z_tolerance: 40, radius: 48, timeout_seconds: 20, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Before the throne. Open the Soul Box?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - assert: {actor_visible: {actor_index: 54, monster_id: 11924, hidden: false}}
+  - assert: {actor_visible: {actor_index: 11, monster_id: 11912, hidden: false}}
+  - play_lua: {source: "log('cinematic: Sheltem and Corak shown')"}
+  - advance_runtime: {seconds: 18, follow_map_move: true}
+  - advance_runtime: {seconds: 3, follow_map_move: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: -6656, y: 4608, radius: 200, facing: 1536, facing_within: 64}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12365) then error("no Cube of Power (12365)") end
+        if has_item(12364) then error("the Soul Box with Corak (12364) still carried") end
+        if experience(0) - recall("xp") ~= 35000 then error("M33 paid " .. (experience(0) - recall("xp"))) end
+        if gold() ~= recall("gold") then error("M33 paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111660, 111661, 111662, 111663, 117600, 117601, 117602, 117603, 117604, 117606, 117611, 117612, 117613, 117614]}
+  - play_lua: {source: "log('77 done: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - save_game: {name: "77 Castle Alamar", path: output/playthrough/xeen/checkpoints/77_castle_alamar.oysav}

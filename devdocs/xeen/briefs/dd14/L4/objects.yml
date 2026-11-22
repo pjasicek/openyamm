@@ -1,0 +1,1399 @@
+format: 0
+start:
+  room: room:landing
+  at: [0, -1472]
+  facing: n
+  notes: "Where Ambrose's griffin sets the party down: the middle of the landing, facing north over the inner parapet (the courtyard below, the keep beyond)."
+arrivals:
+  - {entrance: entrance:d4_griffin, room: room:landing, at: [0, -1472], facing: n, notes: "From D4's gate (m25.gate_flight, A6), D-42 Q1."}
+  - {entrance: entrance:d6_griffin, room: room:landing, at: [0, -1472], facing: n, notes: "From D6's Griffin Pass (m25.flight; D6 is phase 5): the same spot (D-42)."}
+doors:
+  - id: door:bar
+    opening: open:throne_dstair
+    kind: slide_up
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The dungeon stair's bar: a plain black iron leaf (D-42 (6)); it lifts at the Count's death (m27.blackfang) and stays up (blackfang_slain)."
+  - id: door:cellar_kitchen
+    opening: open:cellar_kitchen
+    kind: slide_left
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: The cellar's iron-bound door from the kitchen (was the slab twb1a).
+  - id: door:countess_dorm
+    opening: open:countess_dorm
+    kind: slide_left
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "An iron-bound door between the Countess's rooms and the sleeping hall (was the slab twb1a, F12, A8 session 26)."
+  - id: door:dstair_question
+    opening: open:dstair_question
+    kind: slide_left
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: The question room's iron door at the stair's foot.
+  - id: door:gallery_chapel
+    opening: open:gallery_chapel
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The black chapel's double doors from the long gallery: two hinged oak leaves (chb1dl|chb1dr)."
+  - id: door:north_keep
+    opening: open:north_keep
+    kind: slide_left
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: The keep's iron-bound door from the north walk into the bat roost.
+  - id: door:stairhall_throne
+    opening: open:stairhall_throne
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The Count's hall's double doors from the grand stair hall: two hinged oak leaves."
+  - id: door:study_panel
+    opening: open:keep_study
+    kind: slide_left
+    surface: {texture: ceb1sa, size: [128, 256], fit: true}
+    back_surface: {texture: twb2, size: [128, 256], fit: true}
+    notes: "The panel in the keep's upper hall's north wall: the gong in the north-west tower slides it open (aaze0045:6-7)."
+  - id: door:throne_crypt
+    opening: open:throne_crypt
+    kind: slide_left
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: The crypt's iron door behind the dais.
+  - id: door:yard_gate
+    opening: open:yard_gate
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    notes: "The yard gate at the courtyard stair's head: iron bars; its bar on the stair's side (switch:yard_bar)."
+  - id: door:yard_great
+    opening: open:yard_great
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The great hall's double doors on the courtyard: two hinged oak leaves."
+  - id: door:yard_stairhall
+    opening: open:yard_stairhall
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The keep door from the courtyard into the grand stair hall: two hinged oak leaves."
+movers:
+  - id: mover:hatch
+    room: room:cellar
+    at: [-1664, -768]
+    size: [256, 256]
+    bottom: 0
+    floor_height: 0
+    height: 8
+    travel: [0, 240, 0]
+    speed: 160
+    surface: {texture: 7gt002c, size: [64, 64], scale: 4}
+    top_surface: {texture: 7gt002c, size: [64, 64], scale: 4}
+    notes: "The cellar's trapdoor over the ladder shaft; the bolt below slides it aside."
+plates:
+  - id: plate:fire_1
+    room: room:east_walk
+    at: [2048, -768]
+    size: [384, 256]
+    surface: {texture: 7tfb1, size: [128, 128]}
+    notes: "A pressure plate in a darker slab: fire from the merlons."
+  - id: plate:fire_2
+    room: room:east_walk
+    at: [2048, -256]
+    size: [384, 256]
+    surface: {texture: 7tfb1, size: [128, 128]}
+    notes: "A pressure plate in a darker slab: fire from the merlons."
+  - id: plate:fire_3
+    room: room:east_walk
+    at: [2048, 256]
+    size: [384, 256]
+    surface: {texture: 7tfb1, size: [128, 128]}
+    notes: "A pressure plate in a darker slab: fire from the merlons."
+  - id: plate:fire_4
+    room: room:east_walk
+    at: [2048, 768]
+    size: [384, 256]
+    surface: {texture: 7tfb1, size: [128, 128]}
+    notes: "A pressure plate in a darker slab: fire from the merlons."
+  - id: plate:stair_force
+    room: room:throne
+    at: [-1152, 2752]
+    size: [192, 192]
+    surface: {texture: 7tfb11, size: [128, 128]}
+    notes: "The step before the bar: the force like wind (m27.dungeon_stair)."
+ladders:
+  - {id: ladder:shaft, room: room:shaft, at: [-1736, -768], facing: w, height: 640, exit: [-1904, -768], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: The ladder up the shaft through the cellar's trapdoor (Zarkon's Kloikus fell off it).}
+sounds:
+  - {id: sound:cells, room: room:cells, at: [-1920, 512], sound: drip02, radius: 1800, inner_radius: 400, volume: 0.45, wait: [2, 6], notes: Water dripping in the cells.}
+  - {id: sound:cistern, room: room:cistern, at: [2176, 1856], sound: water lapping loop, radius: 2000, inner_radius: 700, volume: 0.4, notes: The black water stirring.}
+  - {id: sound:gust_landing, room: room:landing, at: [0, -1920], sound: xeen_sky_gust, radius: 2400, inner_radius: 900, volume: 0.35, wait: [6, 14], notes: Gusts off the lake.}
+  - {id: sound:roost, room: room:keep_top, at: [0, 2368], sound: xeen_amb_tower, radius: 1800, inner_radius: 600, volume: 0.4, notes: "The roost's draughts and rustling: a bed, not panned (D-48).", pan: false}
+  - {id: sound:undercroft, room: room:undercroft, at: [-128, 1856], sound: drip03, radius: 2000, inner_radius: 500, volume: 0.4, wait: [3, 8], notes: Drips under the low vault.}
+  - {id: sound:wind_east, room: room:east_walk, at: [1920, 0], sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.35, notes: Wind on the east walk.}
+  - {id: sound:wind_landing, room: room:landing, at: [0, -1664], sound: whistling wind, radius: 2000, inner_radius: 700, volume: 0.45, notes: Wind over the battlements.}
+  - {id: sound:wind_north, room: room:north_walk, at: [0, 1408], sound: whistling wind, radius: 1800, inner_radius: 500, volume: 0.35, notes: Wind on the north walk.}
+  - {id: sound:wind_west, room: room:west_walk, at: [-1920, 0], sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.35, notes: Wind on the west walk.}
+  - {id: sound:yard_wind, room: room:courtyard, at: [0, 0], sound: xeen_amb_sky, radius: 2000, inner_radius: 800, volume: 0.3, notes: "The open air over the courtyard: a bed, not panned (D-48).", pan: false}
+lights:
+  - id: light:back_stair_1
+    room: room:back_stair
+    at: [-3584, 448]
+    height: 448
+    radius: 1100
+    color: [240, 160, 90]
+  - id: light:cellar_1
+    room: room:cellar
+    at: [-1920, -704]
+    height: 320
+    radius: 700
+    color: [240, 160, 90]
+  - id: light:cells_1
+    room: room:cells
+    at: [-1920, 512]
+    height: 320
+    radius: 921
+    color: [170, 140, 110]
+  - id: light:cells_2
+    room: room:cells
+    at: [-1536, 0]
+    height: 224
+    radius: 500
+    color: [240, 160, 90]
+    notes: The torch outside the Queen's cell (none inside it).
+  - id: light:chapel2_1
+    room: room:chapel2
+    at: [640, -1664]
+    height: 320
+    radius: 768
+    color: [235, 175, 115]
+  - id: light:cistern_1
+    room: room:cistern
+    at: [2048, 1120]
+    height: 320
+    radius: 1324
+    color: [110, 140, 150]
+  - id: light:cistern_2
+    room: room:cistern
+    at: [2048, 2592]
+    height: 320
+    radius: 1324
+    color: [110, 140, 150]
+  - id: light:coffin_dorm_1
+    room: room:coffin_dorm
+    at: [-2048, -512]
+    height: 320
+    radius: 768
+    color: [150, 160, 180]
+  - id: light:countess_1
+    room: room:countess
+    at: [-1920, 576]
+    height: 320
+    radius: 700
+    color: [215, 175, 130]
+  - id: light:courtyard_1
+    room: room:courtyard
+    at: [-640, 0]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:courtyard_2
+    room: room:courtyard
+    at: [640, 0]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:crypt_1
+    room: room:crypt
+    at: [-640, 4480]
+    height: 320
+    radius: 768
+    color: [150, 160, 180]
+  - id: light:crypt_2
+    room: room:crypt
+    at: [-640, 4480]
+    height: 96
+    radius: 900
+    color: [235, 150, 90]
+    notes: The braziers' glow.
+  - id: light:dstair_1
+    room: room:dstair
+    at: [-2112, 3456]
+    height: 384
+    radius: 1100
+    color: [170, 140, 110]
+  - id: light:east_walk_1
+    room: room:east_walk
+    at: [1872, 0]
+    height: 320
+    radius: 1228
+    color: [120, 125, 160]
+  - id: light:great_hall_1
+    room: room:great_hall
+    at: [-1280, 1792]
+    height: 320
+    radius: 1382
+    color: [215, 175, 130]
+  - id: light:keep_hall2_1
+    room: room:keep_hall2
+    at: [-1280, 1792]
+    height: 320
+    radius: 1382
+    color: [215, 175, 130]
+  - id: light:keep_top_1
+    room: room:keep_top
+    at: [-640, 2368]
+    height: 320
+    radius: 1152
+    color: [240, 160, 90]
+  - id: light:keep_top_2
+    room: room:keep_top
+    at: [640, 2368]
+    height: 320
+    radius: 1152
+    color: [240, 160, 90]
+  - id: light:kitchen_1
+    room: room:kitchen
+    at: [-1920, 384]
+    height: 320
+    radius: 768
+    color: [240, 160, 90]
+  - id: light:landing_1
+    room: room:landing
+    at: [-640, -1616]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:landing_2
+    room: room:landing
+    at: [640, -1616]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:library_1
+    room: room:library
+    at: [1920, -160]
+    height: 320
+    radius: 1500
+    color: [235, 175, 115]
+  - id: light:library_2
+    room: room:library
+    at: [1920, 1568]
+    height: 320
+    radius: 1500
+    color: [235, 175, 115]
+  - id: light:ne_tower_1
+    room: room:ne_tower
+    at: [1920, 1664]
+    height: 320
+    radius: 700
+    color: [240, 160, 90]
+  - id: light:north_walk_1
+    room: room:north_walk
+    at: [-640, 1360]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:north_walk_2
+    room: room:north_walk
+    at: [640, 1360]
+    height: 320
+    radius: 1152
+    color: [120, 125, 160]
+  - id: light:nw_tower_1
+    room: room:nw_tower
+    at: [-1920, 1664]
+    height: 320
+    radius: 700
+    color: [240, 160, 90]
+  - id: light:question_1
+    room: room:question
+    at: [-1920, 1920]
+    height: 320
+    radius: 700
+    color: [170, 140, 110]
+  - id: light:se_tower_1
+    room: room:se_tower
+    at: [2240, -1984]
+    height: 448
+    radius: 1100
+    color: [240, 160, 90]
+  - id: light:shaft_1
+    room: room:shaft
+    at: [-1920, -704]
+    height: 320
+    radius: 420
+    color: [170, 140, 110]
+  - id: light:south_gallery_1
+    room: room:south_gallery
+    at: [-704, -1664]
+    height: 320
+    radius: 700
+    color: [215, 175, 130]
+  - id: light:stair_hall3_1
+    room: room:stair_hall3
+    at: [224, 1600]
+    height: 448
+    radius: 1100
+    color: [215, 175, 130]
+  - id: light:study_1
+    room: room:study
+    at: [-832, 2944]
+    height: 320
+    radius: 700
+    color: [235, 175, 115]
+  - id: light:sw_tower_1
+    room: room:sw_tower
+    at: [-2240, -1984]
+    height: 448
+    radius: 1100
+    color: [240, 160, 90]
+  - id: light:throne_1
+    room: room:throne
+    at: [-640, 3200]
+    height: 320
+    radius: 1152
+    color: [215, 175, 130]
+  - id: light:throne_2
+    room: room:throne
+    at: [640, 3200]
+    height: 320
+    radius: 1152
+    color: [215, 175, 130]
+  - id: light:throne_3
+    room: room:throne
+    at: [-960, 3264]
+    height: 256
+    radius: 700
+    color: [230, 120, 90]
+    notes: The candelabra by the throne.
+  - id: light:undercroft_1
+    room: room:undercroft
+    at: [-128, 1120]
+    radius: 1324
+    color: [170, 140, 110]
+  - id: light:undercroft_2
+    room: room:undercroft
+    at: [-128, 2592]
+    radius: 1324
+    color: [170, 140, 110]
+  - id: light:west_walk_1
+    room: room:west_walk
+    at: [-1872, 0]
+    height: 320
+    radius: 1228
+    color: [120, 125, 160]
+switches:
+  - id: switch:hatch_bolt
+    room: room:shaft
+    kind: lever
+    reach: 48
+    at: [-1408, -640]
+    notes: "The trapdoor's bolt, on the shaft's east wall by the ladder."
+  - id: switch:yard_bar
+    room: room:courtyard
+    kind: lever
+    reach: 48
+    at: [-736, -1024]
+    floor_height: 1280
+    notes: "The yard gate's bar, on the courtyard stair's head beside the gate."
+chests:
+  - id: chest:cistern
+    room: room:cistern
+    at: [2880, 1856]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 800
+    notes: "On the far ledge, past the pool."
+  - id: chest:hoard
+    room: room:crypt
+    at: [-448, 4224]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 4000
+    notes: "The castle's hoard, at the foot of the Count's own coffin."
+  - id: chest:question
+    room: room:question
+    at: [-2304, 2240]
+    facing: e
+    treasure_level: 4
+    random_items: 2
+    gold: 700
+    notes: The gaolers' strongbox.
+  - id: chest:roost
+    room: room:keep_top
+    at: [1088, 2752]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 900
+    notes: A strongbox under the droppings.
+  - id: chest:study
+    room: room:study
+    at: [-512, 3168]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1200
+    notes: The Count's strongbox.
+monsters:
+  - id: monster:ambrose
+    room: room:landing
+    monster: 11917
+    at: [96, -1840]
+    facing: 90
+    hostile: false
+    group: 30
+    immobile: true
+    hidden: true
+    npc: 5512
+    notes: "Ambrose (A2's row 11917, D-52 (6)) beside his griffin by the perch, NPC 5512: clicked, he talks; his topic Fly us out (A3, from m25.done) runs m27.fly_out. In the griffin's group, shown from m25.done (evt:griffin_load) and never hidden after; takes no damage (evt:figures_load)."
+  - id: monster:cellar_vampire_1
+    room: room:cellar
+    monster: 11291
+    at: [-2176, -640]
+    facing: 270
+    group: 1
+  - id: monster:cellar_vampire_2
+    room: room:cellar
+    monster: 11291
+    at: [-1920, -896]
+    facing: 270
+    group: 1
+  - id: monster:cells_vampire_1
+    room: room:cells
+    monster: 11291
+    at: [-1920, 128]
+    facing: 270
+    group: 1
+  - id: monster:cells_vampire_2
+    room: room:cells
+    monster: 11291
+    at: [-1920, 896]
+    facing: 270
+    group: 1
+  - id: monster:chapel2_lord_1
+    room: room:chapel2
+    monster: 11292
+    at: [448, -1792]
+    facing: 270
+    group: 1
+  - id: monster:chapel2_lord_2
+    room: room:chapel2
+    monster: 11292
+    at: [832, -1792]
+    facing: 270
+    group: 1
+  - id: monster:chapel2_vampire_1
+    room: room:chapel2
+    monster: 11291
+    at: [320, -1472]
+    facing: 270
+    group: 1
+  - id: monster:chapel2_vampire_2
+    room: room:chapel2
+    monster: 11291
+    at: [960, -1472]
+    facing: 270
+    group: 1
+  - id: monster:cistern_octopod_1
+    room: room:cistern
+    monster: 11473
+    at: [1776, 1152]
+    facing: 270
+    group: 3
+    immobile: true
+    notes: "Octopod D (A2's indoor row, D-52 (5)): stationary in the cistern's water by its edge, where a blow from the bank or the ledge reaches it."
+  - id: monster:cistern_octopod_2
+    room: room:cistern
+    monster: 11473
+    at: [1776, 2560]
+    facing: 270
+    group: 3
+    immobile: true
+    notes: "Octopod D (A2's indoor row, D-52 (5)): stationary in the cistern's water by its edge, where a blow from the bank or the ledge reaches it."
+  - id: monster:cistern_octopod_3
+    room: room:cistern
+    monster: 11473
+    at: [2176, 752]
+    facing: 270
+    group: 3
+    immobile: true
+    notes: "Octopod D (A2's indoor row, D-52 (5)): stationary in the cistern's water by its edge, where a blow from the bank or the ledge reaches it."
+  - id: monster:cistern_octopod_4
+    room: room:cistern
+    monster: 11473
+    at: [2176, 2960]
+    facing: 270
+    group: 3
+    immobile: true
+    notes: "Octopod D (A2's indoor row, D-52 (5)): stationary in the cistern's water by its edge, where a blow from the bank or the ledge reaches it."
+  - id: monster:cistern_octopod_5
+    room: room:cistern
+    monster: 11473
+    at: [2576, 1600]
+    facing: 270
+    group: 3
+    immobile: true
+    notes: "Octopod D (A2's indoor row, D-52 (5)): stationary in the cistern's water by its edge, where a blow from the bank or the ledge reaches it."
+  - id: monster:coffin_dorm_vampire_1
+    room: room:coffin_dorm
+    monster: 11291
+    at: [-2048, -768]
+    facing: 270
+    group: 1
+  - id: monster:coffin_dorm_vampire_2
+    room: room:coffin_dorm
+    monster: 11291
+    at: [-2048, -256]
+    facing: 270
+    group: 1
+  - id: monster:count
+    room: room:throne
+    monster: 11294
+    at: [-704, 3264]
+    facing: 0
+    group: 5
+    notes: "Count Blackfang (11294, 70, blink): m27.blackfang at his death lifts the dungeon stair's bar."
+  - id: monster:countess_lord_1
+    room: room:countess
+    monster: 11292
+    at: [-1920, 448]
+    facing: 270
+    group: 1
+  - id: monster:countess_lord_2
+    room: room:countess
+    monster: 11292
+    at: [-1664, 704]
+    facing: 270
+    group: 1
+  - id: monster:courtyard_sentinel_1
+    room: room:courtyard
+    monster: 11551
+    at: [-384, 512]
+    facing: 270
+    group: 2
+  - id: monster:courtyard_sentinel_2
+    room: room:courtyard
+    monster: 11551
+    at: [640, 512]
+    facing: 270
+    group: 2
+  - id: monster:courtyard_sentinel_3
+    room: room:courtyard
+    monster: 11551
+    at: [128, -320]
+    facing: 270
+    group: 2
+  - id: monster:dstair_vampire_1
+    room: room:dstair
+    monster: 11291
+    at: [-2112, 3584]
+    facing: 270
+    group: 1
+  - id: monster:dstair_vampire_2
+    room: room:dstair
+    monster: 11291
+    at: [-2112, 3200]
+    facing: 270
+    group: 1
+  - id: monster:east_walk_overlord_1
+    room: room:east_walk
+    monster: 11552
+    at: [1600, 0]
+    facing: 270
+    group: 2
+  - id: monster:east_walk_sentinel_1
+    room: room:east_walk
+    monster: 11551
+    at: [1600, -512]
+    facing: 270
+    group: 2
+  - id: monster:east_walk_sentinel_2
+    room: room:east_walk
+    monster: 11551
+    at: [1600, 512]
+    facing: 270
+    group: 2
+  - id: monster:great_hall_lord_1
+    room: room:great_hall
+    monster: 11292
+    at: [-1600, 2240]
+    facing: 270
+    group: 1
+  - id: monster:great_hall_vampire_1
+    room: room:great_hall
+    monster: 11291
+    at: [-1920, 1408]
+    facing: 270
+    group: 1
+  - id: monster:great_hall_vampire_2
+    room: room:great_hall
+    monster: 11291
+    at: [-1152, 2176]
+    facing: 270
+    group: 1
+  - id: monster:great_hall_vampire_3
+    room: room:great_hall
+    monster: 11291
+    at: [-704, 2048]
+    facing: 270
+    group: 1
+  - id: monster:griffin
+    room: room:landing
+    monster: 11913
+    at: [320, -1856]
+    facing: 90
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "Ambrose's griffin (A2's Tethered Griffin 11913, D6's figure, friendly, immobile, not counted) on its perch; shown from m25.done (evt:griffin_load)."
+  - id: monster:keep_hall2_lord_1
+    room: room:keep_hall2
+    monster: 11292
+    at: [-1536, 2048]
+    facing: 270
+    group: 1
+  - id: monster:keep_hall2_vampire_1
+    room: room:keep_hall2
+    monster: 11291
+    at: [-1920, 1792]
+    facing: 270
+    group: 1
+  - id: monster:keep_hall2_vampire_2
+    room: room:keep_hall2
+    monster: 11291
+    at: [-1152, 1792]
+    facing: 270
+    group: 1
+  - id: monster:keep_hall2_vampire_3
+    room: room:keep_hall2
+    monster: 11291
+    at: [-640, 2048]
+    facing: 270
+    group: 1
+  - id: monster:keep_top_vampire_1
+    room: room:keep_top
+    monster: 11291
+    at: [-640, 2368]
+    facing: 270
+    group: 1
+  - id: monster:keep_top_vampire_2
+    room: room:keep_top
+    monster: 11291
+    at: [640, 2368]
+    facing: 270
+    group: 1
+  - id: monster:kitchen_vampire_1
+    room: room:kitchen
+    monster: 11291
+    at: [-2048, 384]
+    facing: 270
+    group: 1
+  - id: monster:kitchen_vampire_2
+    room: room:kitchen
+    monster: 11291
+    at: [-1664, 640]
+    facing: 270
+    group: 1
+  - id: monster:library_vampire_1
+    room: room:library
+    monster: 11291
+    at: [1920, 0]
+    facing: 270
+    group: 1
+  - id: monster:library_vampire_2
+    room: room:library
+    monster: 11291
+    at: [1920, 1664]
+    facing: 270
+    group: 1
+  - id: monster:ne_tower_vampire_1
+    room: room:ne_tower
+    monster: 11291
+    at: [1664, 1664]
+    facing: 270
+    group: 1
+  - id: monster:ne_tower_vampire_2
+    room: room:ne_tower
+    monster: 11291
+    at: [1792, 1408]
+    facing: 270
+    group: 1
+  - id: monster:north_walk_overlord_1
+    room: room:north_walk
+    monster: 11552
+    at: [0, 1408]
+    facing: 270
+    group: 2
+  - id: monster:north_walk_sentinel_1
+    room: room:north_walk
+    monster: 11551
+    at: [-768, 1408]
+    facing: 270
+    group: 2
+  - id: monster:north_walk_sentinel_2
+    room: room:north_walk
+    monster: 11551
+    at: [768, 1408]
+    facing: 270
+    group: 2
+  - id: monster:nw_tower_vampire_1
+    room: room:nw_tower
+    monster: 11291
+    at: [-2176, 1664]
+    facing: 270
+    group: 1
+  - id: monster:nw_tower_vampire_2
+    room: room:nw_tower
+    monster: 11291
+    at: [-1664, 1920]
+    facing: 270
+    group: 1
+  - id: monster:queen
+    room: room:queen_cell
+    monster: 11918
+    at: [-880, -192]
+    facing: 180
+    hostile: false
+    group: 31
+    immobile: true
+    npc: 5001
+    notes: "Queen Kalindra (A2's row 11918, D-52 (6)) by the bench in her cell, facing the cell's open grille door (west; she faced the wall until session 23), NPC 5001: clicked, A3's topic The crown. Hidden on load once done 111542 is set (evt:queen_load); takes no damage (evt:figures_load)."
+  - id: monster:royal_1
+    room: room:throne
+    monster: 11295
+    at: [-512, 3008]
+    facing: 180
+    group: 5
+    notes: "One of the Count's three guards (Royal Vampire 11295, 58, D-42 (2))."
+  - id: monster:royal_2
+    room: room:throne
+    monster: 11295
+    at: [-512, 3520]
+    facing: 180
+    group: 5
+    notes: "One of the Count's three guards (Royal Vampire 11295, 58, D-42 (2))."
+  - id: monster:royal_3
+    room: room:throne
+    monster: 11295
+    at: [-384, 3264]
+    facing: 180
+    group: 5
+    notes: "One of the Count's three guards (Royal Vampire 11295, 58, D-42 (2))."
+  - id: monster:sleeper_crypt_dutchess
+    room: room:crypt
+    monster: 11292
+    at: [-1088, 4608]
+    facing: 90
+    group: 14
+    hidden: true
+    notes: "A sleeper (D-18): placed hidden, shown when coffin crypt_dutchess is opened (counted at load); still rises after the Count's death (D-42 (5))."
+  - id: monster:sleeper_crypt_lady
+    room: room:crypt
+    monster: 11292
+    at: [-192, 4608]
+    facing: 90
+    group: 15
+    hidden: true
+    notes: "A sleeper (D-18): placed hidden, shown when coffin crypt_lady is opened (counted at load); still rises after the Count's death (D-42 (5))."
+  - id: monster:sleeper_dorm_e2
+    room: room:coffin_dorm
+    monster: 11291
+    at: [-1632, -512]
+    facing: 90
+    group: 13
+    hidden: true
+    notes: "A sleeper (D-18): placed hidden, shown when coffin dorm_e2 is opened (counted at load); still rises after the Count's death (D-42 (5))."
+  - id: monster:sleeper_dorm_w1
+    room: room:coffin_dorm
+    monster: 11291
+    at: [-2464, -832]
+    facing: 90
+    group: 11
+    hidden: true
+    notes: "A sleeper (D-18): placed hidden, shown when coffin dorm_w1 is opened (counted at load); still rises after the Count's death (D-42 (5))."
+  - id: monster:sleeper_dorm_w3
+    room: room:coffin_dorm
+    monster: 11291
+    at: [-2464, -192]
+    facing: 90
+    group: 12
+    hidden: true
+    notes: "A sleeper (D-18): placed hidden, shown when coffin dorm_w3 is opened (counted at load); still rises after the Count's death (D-42 (5))."
+  - id: monster:south_gallery_vampire_1
+    room: room:south_gallery
+    monster: 11291
+    at: [-1024, -1664]
+    facing: 270
+    group: 1
+  - id: monster:south_gallery_vampire_2
+    room: room:south_gallery
+    monster: 11291
+    at: [-640, -1664]
+    facing: 270
+    group: 1
+  - id: monster:south_gallery_vampire_3
+    room: room:south_gallery
+    monster: 11291
+    at: [-320, -1664]
+    facing: 270
+    group: 1
+  - id: monster:stair_hall3_vampire_1
+    room: room:stair_hall3
+    monster: 11291
+    at: [192, 1536]
+    facing: 270
+    group: 1
+  - id: monster:stair_hall3_vampire_2
+    room: room:stair_hall3
+    monster: 11291
+    at: [1088, 1536]
+    facing: 270
+    group: 1
+  - id: monster:sw_tower_vampire_1
+    room: room:sw_tower
+    monster: 11291
+    at: [-1600, -1344]
+    facing: 270
+    group: 1
+  - id: monster:sw_tower_vampire_2
+    room: room:sw_tower
+    monster: 11291
+    at: [-2240, -1344]
+    facing: 270
+    group: 1
+  - id: monster:undercroft_lord_1
+    room: room:undercroft
+    monster: 11292
+    at: [-320, 2624]
+    facing: 270
+    group: 1
+  - id: monster:undercroft_lord_2
+    room: room:undercroft
+    monster: 11292
+    at: [256, 1344]
+    facing: 270
+    group: 1
+  - id: monster:undercroft_vampire_1
+    room: room:undercroft
+    monster: 11291
+    at: [-960, 1344]
+    facing: 270
+    group: 1
+  - id: monster:undercroft_vampire_2
+    room: room:undercroft
+    monster: 11291
+    at: [256, 2000]
+    facing: 270
+    group: 1
+  - id: monster:undercroft_vampire_3
+    room: room:undercroft
+    monster: 11291
+    at: [768, 2624]
+    facing: 270
+    group: 1
+  - id: monster:west_walk_sentinel_1
+    room: room:west_walk
+    monster: 11551
+    at: [-1920, -640]
+    facing: 270
+    group: 2
+  - id: monster:west_walk_sentinel_2
+    room: room:west_walk
+    monster: 11551
+    at: [-1920, 0]
+    facing: 270
+    group: 2
+  - id: monster:west_walk_sentinel_3
+    room: room:west_walk
+    monster: 11551
+    at: [-1920, 640]
+    facing: 270
+    group: 2
+decorations:
+  - id: deco:altar_candle_e
+    room: room:chapel2
+    decoration: dec02
+    at: [992, -2016]
+  - id: deco:altar_candle_w
+    room: room:chapel2
+    decoration: dec02
+    at: [288, -2016]
+  - id: deco:barrel_1
+    room: room:cellar
+    decoration: bigbarel
+    at: [-1536, -960]
+  - id: deco:barrel_2
+    room: room:cellar
+    decoration: bigbarel
+    at: [-1664, -960]
+  - id: deco:barrel_3
+    room: room:cellar
+    decoration: bigbarel
+    at: [-2048, -960]
+  - id: deco:barrel_4
+    room: room:cellar
+    decoration: bigbarel
+    at: [-2176, -960]
+  - id: deco:cask_1
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2304, -640]
+  - id: deco:cask_2
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2304, -512]
+  - id: deco:cask_3
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2176, -512]
+  - id: deco:cask_find
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2304, -896]
+    notes: "Cask (clicked: evt:cask_find)."
+  - id: deco:cell_bones_1
+    room: room:cells
+    decoration: dec29
+    at: [-2304, 512]
+  - id: deco:cell_bones_2
+    room: room:cells
+    decoration: dec05
+    at: [-2304, -128]
+  - id: deco:crypt_brazier_ne
+    room: room:crypt
+    decoration: flamb00
+    at: [-64, 4928]
+  - id: deco:crypt_brazier_nw
+    room: room:crypt
+    decoration: flamb00
+    at: [-1216, 4928]
+  - id: deco:crypt_brazier_se
+    room: room:crypt
+    decoration: flamb00
+    at: [-64, 4032]
+  - id: deco:crypt_brazier_sw
+    room: room:crypt
+    decoration: flamb00
+    at: [-1216, 4032]
+  - id: deco:goblet_1
+    room: room:great_hall
+    decoration: 7dec46
+    at: [-2048, 1728]
+    floor_height: 80
+  - id: deco:goblet_2
+    room: room:great_hall
+    decoration: 7dec48
+    at: [-1792, 1856]
+    floor_height: 80
+  - id: deco:goblet_3
+    room: room:great_hall
+    decoration: 7dec46
+    at: [-1536, 1728]
+    floor_height: 80
+  - id: deco:goblet_4
+    room: room:great_hall
+    decoration: 7dec48
+    at: [-1280, 1856]
+    floor_height: 80
+  - id: deco:great_chandelier_e
+    room: room:great_hall
+    decoration: chndlir0
+    at: [-768, 1792]
+    hangs: true
+  - id: deco:great_chandelier_w
+    room: room:great_hall
+    decoration: chndlir0
+    at: [-1792, 1792]
+    hangs: true
+  - id: deco:keep2_chandelier_e
+    room: room:keep_hall2
+    decoration: chndlir0
+    at: [-768, 1792]
+    hangs: true
+  - id: deco:keep2_chandelier_w
+    room: room:keep_hall2
+    decoration: chndlir0
+    at: [-1792, 1792]
+    hangs: true
+  - id: deco:keg_1
+    room: room:cellar
+    decoration: smlbarel
+    at: [-2304, -768]
+  - id: deco:kitchen_barrel_1
+    room: room:kitchen
+    decoration: bigbarel
+    at: [-2368, -192]
+  - id: deco:kitchen_barrel_2
+    room: room:kitchen
+    decoration: bigbarel
+    at: [-2240, -192]
+  - id: deco:kitchen_barrel_3
+    room: room:kitchen
+    decoration: bigbarel
+    at: [-2368, 960]
+  - id: deco:kitchen_barrel_4
+    room: room:kitchen
+    decoration: bigbarel
+    at: [-2240, 960]
+  - id: deco:kitchen_bowl
+    room: room:kitchen
+    decoration: foodbowl
+    at: [-1920, 704]
+    floor_height: 80
+  - id: deco:landing_bones
+    room: room:landing
+    decoration: 7dec18
+    at: [-256, -2048]
+    notes: "Bones (clicked: evt:landing_bones)."
+  - id: deco:plates_1
+    room: room:great_hall
+    decoration: dec39
+    at: [-1920, 1792]
+    floor_height: 80
+  - id: deco:plates_2
+    room: room:great_hall
+    decoration: dec39
+    at: [-1408, 1792]
+    floor_height: 80
+  - id: deco:question_skulls
+    room: room:question
+    decoration: sklplrev
+    at: [-1536, 1536]
+  - id: deco:rat_bones
+    room: room:shaft
+    decoration: dec29
+    at: [-2240, -512]
+    notes: "Bones (clicked: evt:rat_bones)."
+  - id: deco:sconce_0
+    room: room:west_walk
+    decoration: torch01
+    wall: s
+    along: 0.2
+    height: 192
+  - id: deco:sconce_1
+    room: room:west_walk
+    decoration: torch01
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:sconce_10
+    room: room:keep_top
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_11
+    room: room:keep_top
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_12
+    room: room:south_gallery
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 192
+  - id: deco:sconce_13
+    room: room:south_gallery
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 192
+  - id: deco:sconce_14
+    room: room:south_gallery
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_15
+    room: room:chapel2
+    decoration: scon100
+    wall: n
+    along: 0.3
+    height: 192
+  - id: deco:sconce_16
+    room: room:chapel2
+    decoration: scon100
+    wall: n
+    along: 0.7
+    height: 192
+  - id: deco:sconce_17
+    room: room:library
+    decoration: scon100
+    wall: w
+    along: 0.15
+    height: 192
+  - id: deco:sconce_18
+    room: room:library
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_19
+    room: room:library
+    decoration: scon100
+    wall: e
+    along: 0.85
+    height: 192
+  - id: deco:sconce_2
+    room: room:east_walk
+    decoration: torch01
+    wall: s
+    along: 0.8
+    height: 192
+  - id: deco:sconce_20
+    room: room:keep_hall2
+    decoration: scon100
+    wall: s
+    along: 0.15
+    height: 192
+  - id: deco:sconce_21
+    room: room:keep_hall2
+    decoration: scon100
+    wall: n
+    along: 0.85
+    height: 192
+  - id: deco:sconce_22
+    room: room:study
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_23
+    room: room:countess
+    decoration: scon100
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:sconce_24
+    room: room:countess
+    decoration: scon100
+    wall: e
+    along: 0.7
+    height: 192
+  - id: deco:sconce_25
+    room: room:coffin_dorm
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_26
+    room: room:coffin_dorm
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_27
+    room: room:kitchen
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_28
+    room: room:cellar
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_29
+    room: room:great_hall
+    decoration: scon100
+    wall: n
+    along: 0.15
+    height: 192
+  - id: deco:sconce_3
+    room: room:east_walk
+    decoration: torch01
+    wall: n
+    along: 0.2
+    height: 192
+  - id: deco:sconce_30
+    room: room:great_hall
+    decoration: scon100
+    wall: s
+    along: 0.15
+    height: 192
+  - id: deco:sconce_31
+    room: room:throne
+    decoration: scon100
+    wall: n
+    along: 0.6
+    height: 192
+  - id: deco:sconce_32
+    room: room:throne
+    decoration: scon100
+    wall: s
+    along: 0.85
+    height: 192
+  - id: deco:sconce_33
+    room: room:stair_hall3
+    decoration: scon100
+    wall: e
+    along: 0.25
+    height: 192
+  - id: deco:sconce_34
+    room: room:stair_hall3
+    decoration: scon100
+    wall: w
+    along: 0.25
+    height: 192
+  - id: deco:sconce_35
+    room: room:back_stair
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_36
+    room: room:courtyard
+    decoration: torch01
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_37
+    room: room:courtyard
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_38
+    room: room:courtyard
+    decoration: torch01
+    wall: w
+    along: 0.85
+    height: 192
+  - id: deco:sconce_39
+    room: room:dstair
+    decoration: torch02
+    wall: w
+    along: 0.6
+    height: 192
+  - id: deco:sconce_4
+    room: room:north_walk
+    decoration: torch01
+    wall: w
+    along: 0.15
+    height: 192
+  - id: deco:sconce_40
+    room: room:question
+    decoration: torch02
+    wall: e
+    along: 0.4
+    height: 192
+  - id: deco:sconce_41
+    room: room:cells
+    decoration: torch02
+    wall: e
+    along: 0.9
+    height: 192
+  - id: deco:sconce_42
+    room: room:cells
+    decoration: torch02
+    wall: e
+    along: 0.32
+    height: 192
+  - id: deco:sconce_43
+    room: room:shaft
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_44
+    room: room:undercroft
+    decoration: torch02
+    wall: w
+    along: 0.4
+    height: 192
+  - id: deco:sconce_45
+    room: room:undercroft
+    decoration: torch02
+    wall: e
+    along: 0.8
+    height: 192
+  - id: deco:sconce_46
+    room: room:undercroft
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_47
+    room: room:cistern
+    decoration: torch02
+    wall: w
+    along: 0.15
+    height: 192
+  - id: deco:sconce_48
+    room: room:cistern
+    decoration: torch02
+    wall: w
+    along: 0.85
+    height: 192
+  - id: deco:sconce_5
+    room: room:north_walk
+    decoration: torch01
+    wall: e
+    along: 0.85
+    height: 192
+  - id: deco:sconce_6
+    room: room:landing
+    decoration: torch01
+    wall: w
+    along: 0.25
+    height: 192
+  - id: deco:sconce_7
+    room: room:landing
+    decoration: torch01
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_8
+    room: room:nw_tower
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_9
+    room: room:ne_tower
+    decoration: torch02
+    wall: n
+    along: 0.3
+    height: 192
+  - id: deco:throne_candle_n
+    room: room:throne
+    decoration: dec02
+    at: [-1088, 3520]
+  - id: deco:throne_candle_s
+    room: room:throne
+    decoration: dec02
+    at: [-1088, 3008]
+  - id: deco:throne_chandelier
+    room: room:throne
+    decoration: chndlir0
+    at: [0, 3200]
+    hangs: true
+  - id: deco:tower_bones
+    room: room:sw_tower
+    decoration: 7dec18
+    at: [-2432, -1344]
+    notes: "Bones (clicked: evt:tower_bones)."
+  - id: deco:undercroft_bones
+    room: room:undercroft
+    decoration: dec29
+    at: [-1088, 3136]
+  - id: deco:zarkon_bones
+    room: room:shaft
+    decoration: 7dec18
+    at: [-2176, -896]
+    notes: "Bones (clicked: evt:zarkon_bones)."
+notes: "DD-14's contents, written by output/studio_cal/dd14/tools/dress.py: 12 doors (four double doors as hinged oak pairs, the bar, the yard gate, the study's panel), the cellar's trapdoor (a mover) and its bolt, the yard gate's bar, one ladder, four fire plates, five chests, 70 placed monsters (39 Vampires, 10 Vampire Lords, 3 Royal Vampires, Count Blackfang, 10 Gargoyle Sentinels, 2 Gargoyle Overlords, 5 Octopods D; five of them sleepers in coffins, placed hidden), and, not counted, Ambrose's griffin, Ambrose (npc 5512) and Queen Kalindra (npc 5001), peaceful and unhurt (D-52)."

@@ -1,0 +1,286 @@
+format: 0
+start:
+  room: room:mouth
+  at: [0, 256]
+  facing: n
+  notes: "entrance:d4_mouth: 256 inside the cave mouth, facing north up the cave (D4's door:dd23 arrives here)."
+arrivals:
+  - {entrance: entrance:d4_mouth, room: room:mouth, at: [0, 256], facing: n, notes: "256 inside the mouth, facing north up the cave; daylight behind (D4's door:dd23)."}
+sounds:
+  - {id: sound:wind_crack, room: room:roost, at: [1408, 5216], sound: whistling wind, radius: 2200, inner_radius: 700, volume: 0.6, notes: Wind down the crack of sky.}
+  - {id: sound:wind_mouth, room: room:mouth, at: [0, 300], sound: whistling wind, radius: 1400, inner_radius: 500, volume: 0.5, notes: Wind in the mouth.}
+lights:
+  - id: light:bones
+    room: room:bone_ledge
+    at: [-760, 1536]
+    height: 260
+    radius: 600
+    color: [92, 92, 104]
+  - id: light:crack
+    room: room:roost
+    at: [1408, 5216]
+    height: 1060
+    radius: 1700
+    color: [140, 134, 124]
+    notes: The Darkside's day falling through the crack onto the snow.
+  - id: light:gallery
+    room: room:still_gallery
+    at: [1280, 2880]
+    height: 420
+    radius: 1100
+    color: [92, 92, 104]
+  - id: light:ledge_walk
+    room: room:upper_perches
+    at: [320, 4500]
+    height: 360
+    radius: 800
+    color: [92, 92, 104]
+  - id: light:mouth
+    room: room:mouth
+    at: [0, 160]
+    height: 260
+    radius: 1000
+    color: [124, 118, 106]
+    notes: The Darkside's day from the mouth.
+  - id: light:nest
+    room: room:nest
+    at: [1408, 6200]
+    height: 240
+    radius: 650
+    color: [112, 106, 98]
+  - id: light:perch
+    room: room:perch_hall
+    at: [-64, 2752]
+    height: 640
+    radius: 1500
+    color: [92, 92, 104]
+  - id: light:ramp
+    room: room:rock_ramp
+    at: [-1088, 3168]
+    height: 560
+    radius: 800
+    color: [92, 92, 104]
+  - id: light:roost
+    room: room:roost
+    at: [1408, 4720]
+    height: 510
+    radius: 1100
+    color: [92, 92, 104]
+  - id: light:slope
+    room: room:guano_slope
+    at: [0, 1536]
+    height: 300
+    radius: 1000
+    color: [92, 92, 104]
+  - id: light:steps
+    room: room:rock_steps
+    at: [1536, 3840]
+    height: 560
+    radius: 800
+    color: [92, 92, 104]
+  - id: light:upper
+    room: room:upper_perches
+    at: [-128, 3776]
+    height: 360
+    radius: 1000
+    color: [92, 92, 104]
+chests:
+  - id: chest:climber
+    room: room:bone_ledge
+    at: [-990, 1700]
+    facing: w
+    treasure_level: 4
+    random_items: 1
+    gold: 600
+    notes: A dead climber's pack.
+  - id: chest:nest
+    room: room:nest
+    at: [1660, 6250]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1000
+    trap_level: 3
+    notes: "The gargoyles' hoard in the nest: spoons, buckles, broken mirrors, a lady's comb."
+monsters:
+  - id: monster:bones
+    room: room:bone_ledge
+    monster: 11550
+    at: [-640, 1600]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:overlord
+    room: room:roost
+    monster: 11552
+    at: [1920, 5600]
+    floor_height: 1088
+    facing: 270
+    hostile: true
+    group: 15
+    notes: "The roost's elder: a Gargoyle Overlord (45) on the highest rock (D-39 (2), no boss row)."
+  - id: monster:perch_se
+    room: room:perch_hall
+    monster: 11550
+    at: [448, 2400]
+    floor_height: 320
+    facing: 90
+    hostile: true
+    group: 12
+    notes: On the south wall's perch.
+  - id: monster:perch_sentinel
+    room: room:perch_hall
+    monster: 11551
+    at: [0, 3000]
+    facing: 270
+    hostile: true
+    group: 12
+    notes: A Gargoyle Sentinel (38).
+  - id: monster:perch_w
+    room: room:perch_hall
+    monster: 11550
+    at: [-672, 3136]
+    floor_height: 352
+    facing: 0
+    hostile: true
+    group: 12
+    notes: On the west wall's perch.
+  - id: monster:roost_1
+    room: room:roost
+    monster: 11550
+    at: [950, 5300]
+    facing: 270
+    hostile: true
+    group: 15
+  - id: monster:roost_2
+    room: room:roost
+    monster: 11550
+    at: [1650, 4800]
+    facing: 270
+    hostile: true
+    group: 15
+  - id: monster:roost_sentinel
+    room: room:roost
+    monster: 11551
+    at: [1408, 4800]
+    facing: 270
+    hostile: true
+    group: 15
+    notes: A Gargoyle Sentinel (38).
+  - id: monster:slope_1
+    room: room:guano_slope
+    monster: 11550
+    at: [0, 1300]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:slope_2
+    room: room:guano_slope
+    monster: 11550
+    at: [150, 1700]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:slope_3
+    room: room:guano_slope
+    monster: 11550
+    at: [-150, 2000]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:still_1
+    room: room:still_gallery
+    monster: 11550
+    at: [1250, 2450]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:still_2
+    room: room:still_gallery
+    monster: 11550
+    at: [1750, 2700]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:still_3
+    room: room:still_gallery
+    monster: 11550
+    at: [1300, 2950]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:upper
+    room: room:upper_perches
+    monster: 11550
+    at: [320, 4300]
+    facing: 270
+    hostile: true
+    group: 14
+decorations:
+  - id: deco:climber
+    room: room:bone_ledge
+    decoration: Corpse05
+    at: [-900, 1420]
+    notes: "The climber, long dead, still roped to his pack."
+  - id: deco:gallery_mite
+    room: room:still_gallery
+    decoration: stlmite1
+    at: [1700, 3100]
+  - id: deco:mouth_bones
+    room: room:mouth
+    decoration: dec29
+    at: [-300, 560]
+  - id: deco:mouth_rock
+    room: room:mouth
+    decoration: 6rock02
+    at: [300, 600]
+  - id: deco:nest_skull
+    room: room:nest
+    decoration: 7dec20
+    at: [1200, 6420]
+    floor_height: 640
+  - id: deco:perch_mite_1
+    room: room:perch_hall
+    decoration: stlmite1
+    at: [-680, 2780]
+  - id: deco:perch_mite_2
+    room: room:perch_hall
+    decoration: stlmite2
+    at: [520, 3340]
+  - id: deco:perch_skulls
+    room: room:perch_hall
+    decoration: sklplrev
+    at: [-480, 3360]
+  - id: deco:roost_bones
+    room: room:roost
+    decoration: 7dec18
+    at: [2080, 4580]
+    floor_height: 640
+  - id: deco:roost_skulls
+    room: room:roost
+    decoration: sklplrev
+    at: [740, 5790]
+    floor_height: 640
+  - id: deco:slope_bones
+    room: room:guano_slope
+    decoration: 7dec18
+    at: [250, 1500]
+  - id: deco:upper_bones
+    room: room:upper_perches
+    decoration: dec29
+    at: [-620, 3880]
+    floor_height: 640
+exits:
+  - id: exit:mouth
+    room: room:mouth
+    wall: south
+    size: [384, 320]
+    surface: {texture: 7solid01, size: [256, 256], fit: true, uneven: true}
+    to: exit:d4_mouth
+    notes: The cave mouth onto D4's crags (the Darkside's day).
+destructibles:
+  - {id: destructible:rock_east, of: platform:rock_east, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The east roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_high, of: platform:rock_high, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The high roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_north, of: platform:rock_north, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The north roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_south, of: platform:rock_south, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The south roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_west, of: platform:rock_west, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The west roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}

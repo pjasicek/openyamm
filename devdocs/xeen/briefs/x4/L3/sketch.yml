@@ -1,0 +1,2126 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "X4 Burlock Savannah, L3/L4 sketch (A5, 2026-11-20), written by output/studio_cal/x4/tools/gen.py. Cells [x, y], x east, y south. Heights above the stars below the north rim (0): the river 640, the savannah 950-1,350, the village 1,312, the castle rise 1,888, the range to 3,900."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: south, span: [30, 42], neighbour: edge:south_x3, notes: The Asp road runs out to y 128 at x 36.}
+    - {side: south, span: [90, 102], neighbour: edge:south_x2, notes: "The Rivercity road runs out to y 128 at x 96; the river at x 79."}
+    - {side: west, span: [54, 66], neighbour: edge:west, notes: The desert road runs out to x 0 at y 60.}
+    - {side: east, span: [60, 72], neighbour: edge:east, notes: The Firestone road runs out to x 128 at y 66.}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the Gargoyle Range ends in a cliff at y 24; below, water at 0 stands for the stars (as X2's south rim)."}
+    - {side: west, span: [0, 50], form: ridge, height: [2400, 3200], floor: 1500, crest: 10, roughness: 100, notes: The Gargoyle Range goes on west.}
+    - {side: west, span: [50, 54], form: ridge, height: [1500, 1900], floor: 1300, crest: 10, roughness: 100}
+    - {side: west, span: [54, 66], form: level, height: 1150, meet: 6, notes: "The desert road's saddle, open to the edge."}
+    - {side: west, span: [66, 128], form: ridge, height: [1500, 2200], floor: 1100, crest: 10, roughness: 100, notes: Dry downs rising toward the desert.}
+    - {side: east, span: [24, 60], form: ridge, height: [1800, 2600], floor: 1500, crest: 10, roughness: 120, notes: The lava fields climb toward Mount Firestone.}
+    - {side: east, span: [60, 72], form: level, height: 1300, meet: 6, notes: "The Firestone road, open to the edge."}
+    - {side: east, span: [72, 128], form: ridge, height: [1900, 2700], floor: 1300, crest: 10, roughness: 100, notes: The red dwarf hills go on east (toward X1's mines).}
+    - {side: south, span: [0, 30], form: ridge, height: [1500, 2200], floor: 1100, crest: 10, roughness: 100}
+    - {side: south, span: [30, 42], form: level, height: 1050, meet: 6, notes: The Asp road to X3.}
+    - {side: south, span: [42, 74], form: ridge, height: [1400, 2000], floor: 1000, crest: 10, roughness: 100, notes: Low downs south of the jousting fields.}
+    - {side: south, span: [74, 85], form: level, height: 700, meet: 6, notes: "The river valley: the river leaves at x 79 for X2 (a gorge on X2's side)."}
+    - {side: south, span: [85, 90], form: ridge, height: [1300, 1700], floor: 1100, crest: 8, roughness: 80}
+    - {side: south, span: [90, 102], form: level, height: 1150, meet: 6, notes: "The Rivercity road to X2 (X2's north edge span is level at 1,150)."}
+    - {side: south, span: [102, 128], form: ridge, height: [2000, 2800], floor: 1400, crest: 10, roughness: 100, notes: The red dwarf hills.}
+  edge: {height: 1300, north: 0}
+heights:
+  cliffs:
+    - line: [[0, 24], [64, 24], [128, 24]]
+      drop: 2400
+      down: left
+      notes: "The world rim (drawn west to east, the low side north, on the left): the range ends in a cliff above the stars."
+    - line: [[56, 50], [68, 50]]
+      drop: 576
+      down: right
+      notes: The castle rise's south face over the village (the gate's ramp climbs it).
+  terraces:
+    - polygon: [[19, 51], [30, 51], [30, 59], [19, 59]]
+      height: 1344
+      slope: 0
+    - polygon: [[37, 50], [44, 50], [44, 56], [37, 56]]
+      height: 1376
+      slope: 0
+    - polygon: [[21, 65], [31, 65], [31, 75], [21, 75]]
+      height: 1120
+      slope: 0
+    - polygon: [[46, 65], [50, 65], [50, 68], [46, 68]]
+      height: 1376
+      slope: 0
+    - polygon: [[33, 78], [52, 78], [52, 92], [33, 92]]
+      height: 1056
+      slope: 0
+    - polygon: [[64, 63], [75, 63], [75, 73], [64, 73]]
+      height: 1088
+      slope: 0
+    - polygon: [[58, 73], [66, 73], [66, 79], [58, 79]]
+      height: 1056
+      slope: 0
+    - polygon: [[53, 100], [60, 100], [60, 106], [53, 106]]
+      height: 1024
+      slope: 0
+    - polygon: [[96, 57], [104, 57], [104, 65], [96, 65]]
+      height: 1408
+      slope: 0
+    - polygon: [[103, 83], [109, 83], [109, 89], [103, 89]]
+      height: 1760
+      slope: 0
+    - polygon: [[105, 92], [109, 92], [109, 99], [105, 99]]
+      height: 2144
+      slope: 0
+    - polygon: [[100, 93], [104, 93], [104, 98], [100, 98]]
+      height: 1504
+      slope: 0
+    - polygon: [[101, 43], [107, 43], [107, 49], [101, 49]]
+      height: 1760
+      slope: 0
+    - polygon: [[73, 46.5], [76.5, 46.5], [76.5, 50], [73, 50]]
+      height: 1088
+      slope: 0
+    - polygon: [[55, 50], [69, 50], [69, 62], [55, 62]]
+      height: 1312
+      slope: 0
+      notes: "The walled village, level before the castle gate."
+    - polygon: [[56, 43], [68, 43], [68, 50], [56, 50]]
+      height: 1888
+      slope: 0
+      notes: "Castle Burlock's rise (D-11.2: 1,900): a step of 576 over the village, the range behind."
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [79, 76, 80, 79, 90, 91, 99, 97, 101, 103, 105, 112, 111, 110, 99, 98, 100, 108, 109, 104, 102, 90, 88, 78, 76, 67, 67, 62, 58, 57, 49, 52], [90, 91, 87, 86, 93, 96, 106, 106, 113, 111, 114, 114, 117, 116, 111, 111, 108, 114, 109, 110, 106, 102, 100, 92, 86, 71, 69, 62, 66, 66, 64, 63], [83, 91, 88, 92, 92, 93, 94, 93, 101, 103, 114, 113, 118, 107, 100, 94, 95, 104, 100, 70, 67, 86, 90, 87, 77, 67, 63, 61, 57, 56, 57, 60], [78, 79, 75, 80, 79, 86, 83, 84, 83, 83, 88, 88, 96, 86, 83, 72, 74, 75, 72, 50, 50, 64, 74, 70, 57, 54, 57, 61, 57, 52, 57, 66], [68, 68, 69, 68, 64, 66, 61, 67, 64, 69, 66, 64, 63, 56, 56, 55, 56, 55, 59, 22, 22, 34, 53, 49, 46, 55, 56, 55, 58, 63, 61, 58], [54, 49, 55, 53, 57, 55, 51, 50, 48, 47, 45, 40, 41, 42, 59, 59, 59, 42, 35, 23, 22, 29, 40, 42, 49, 55, 55, 58, 61, 62, 61, 56], [46, 41, 38, 40, 43, 42, 42, 41, 36, 43, 43, 44, 41, 41, 59, 59, 59, 41, 34, 25, 22, 38, 41, 41, 47, 57, 57, 55, 58, 62, 56, 51], [34, 37, 41, 41, 42, 42, 42, 42, 38, 43, 43, 41, 41, 41, 41, 41, 41, 41, 39, 22, 22, 34, 36, 39, 47, 55, 58, 58, 53, 50, 54, 57], [33, 35, 41, 44, 41, 42, 42, 42, 42, 38, 38, 39, 42, 40, 41, 41, 41, 40, 36, 22, 22, 35, 41, 40, 44, 44, 50, 50, 49, 48, 49, 55], [32, 38, 41, 36, 35, 35, 32, 37, 41, 37, 29, 31, 35, 39, 41, 41, 41, 39, 34, 23, 22, 31, 40, 43, 44, 44, 40, 42, 39, 37, 42, 44], [43, 37, 35, 36, 35, 35, 35, 35, 32, 29, 30, 43, 43, 32, 32, 32, 34, 34, 34, 23, 22, 33, 34, 34, 40, 41, 34, 32, 36, 36, 31, 29], [41, 39, 32, 32, 40, 35, 35, 35, 27, 30, 31, 34, 34, 31, 31, 32, 34, 34, 34, 23, 22, 28, 26, 28, 31, 32, 31, 31, 31, 34, 33, 26], [39, 35, 35, 39, 41, 35, 35, 35, 26, 31, 37, 35, 30, 31, 33, 33, 33, 33, 33, 22, 22, 29, 25, 26, 35, 38, 32, 28, 30, 31, 29, 29], [34, 40, 41, 40, 39, 34, 27, 30, 33, 33, 33, 33, 33, 32, 33, 33, 33, 31, 31, 22, 22, 26, 31, 35, 33, 32, 38, 32, 27, 32, 34, 34], [35, 37, 44, 43, 36, 35, 31, 34, 33, 33, 33, 33, 33, 32, 31, 30, 32, 33, 32, 22, 22, 30, 37, 35, 31, 34, 52, 45, 42, 47, 38, 36], [38, 40, 38, 36, 36, 34, 36, 37, 33, 33, 33, 33, 33, 32, 31, 32, 31, 31, 31, 22, 22, 29, 31, 34, 25, 43, 55, 51, 56, 51, 41, 30], [39, 35, 35, 36, 37, 39, 42, 35, 33, 33, 33, 33, 33, 32, 31, 31, 28, 30, 33, 22, 22, 29, 29, 27, 32, 43, 51, 62, 65, 40, 29, 28], [40, 38, 32, 35, 44, 42, 32, 30, 32, 32, 32, 33, 32, 30, 31, 31, 31, 25, 30, 22, 23, 25, 24, 27, 32, 47, 67, 61, 56, 38, 32, 26], [37, 38, 40, 39, 38, 38, 34, 30, 26, 35, 39, 38, 28, 30, 31, 33, 41, 35, 29, 22, 23, 27, 23, 31, 43, 47, 67, 60, 66, 45, 32, 34], [39, 41, 40, 40, 37, 37, 35, 34, 34, 32, 29, 31, 30, 32, 32, 33, 36, 33, 30, 22, 22, 28, 35, 33, 32, 40, 43, 48, 53, 36, 34, 33], [46, 48, 53, 50, 42, 42, 46, 46, 31, 31, 37, 36, 44, 32, 32, 37, 31, 31, 28, 22, 22, 31, 34, 31, 31, 27, 34, 62, 51, 29, 29, 34], [50, 47, 46, 50, 51, 46, 45, 48, 31, 31, 37, 44, 47, 46, 45, 41, 27, 30, 31, 22, 22, 31, 34, 31, 31, 28, 34, 40, 36, 31, 27, 27], [47, 47, 48, 48, 51, 53, 47, 37, 25, 31, 46, 44, 45, 44, 41, 40, 30, 29, 28, 22, 23, 26, 23, 28, 33, 33, 33, 33, 30, 28, 30, 30], [53, 51, 47, 50, 54, 50, 42, 38, 26, 33, 51, 48, 38, 37, 43, 47, 30, 29, 30, 22, 23, 24, 24, 28, 36, 40, 31, 25, 27, 34, 33, 30], [51, 54, 53, 48, 47, 48, 43, 39, 32, 37, 46, 41, 39, 40, 42, 46, 36, 31, 26, 22, 23, 25, 28, 35, 36, 31, 28, 27, 28, 32, 37, 34], [52, 50, 50, 51, 46, 41, 44, 50, 36, 29, 39, 40, 41, 44, 46, 44, 30, 32, 29, 22, 22, 32, 37, 32, 28, 28, 29, 31, 34, 34, 30, 31]]
+    notes: Written by output/studio_cal/x4/tools/land.py from its height function.
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 23], [0, 23]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:falls_pool
+      kind: pond
+      level: 640
+      polygon: [[78, 42], [84, 42], [84, 47], [78, 47]]
+      notes: The pool under the falls.
+    - id: water:tarn
+      kind: pond
+      level: 1536
+      polygon: [[77, 36], [84, 36], [84, 40], [77, 40]]
+      notes: The tarn in the range that spills over the falls.
+  rivers:
+    - id: water:river
+      line: [[81, 45], [80, 52], [80, 58], [81, 64], [81, 70], [80, 76], [81, 82], [80, 88], [79, 94], [79, 100], [80, 106], [79, 112], [79, 120], [79, 128]]
+      width_cells: 3
+      level: 640
+      notes: "The Great River's upper reach: from the falls pool south past the castle and the lists, under the King's Bridge, past Nystor's landing, out at x 79 to X2."
+roads:
+  - link: link:kings_road
+    line: [[62.5, 59], [62.5, 62], [62.5, 68], [62.5, 76]]
+    width: road
+    surface: road_pebbles
+  - link: link:bridge_road
+    line: [[62.5, 76], [70, 76], [76, 76], [84, 76], [88, 76]]
+    width: road
+    surface: road_pebbles
+  - link: link:river_road
+    line: [[88, 76], [87, 82], [86.5, 88], [85, 94], [85, 99]]
+    width: road
+    surface: soil
+  - link: link:landing_lane
+    line: [[85, 99], [82, 101]]
+    width: lane
+    surface: dirt
+  - link: link:rivercity_road
+    line: [[85, 99], [90, 103], [95, 107], [96, 112], [96, 128]]
+    width: road
+    surface: road_pebbles
+  - link: link:firestone_road
+    line: [[88, 76], [94, 72], [100, 68.5], [107, 66.5], [116, 66], [128, 66]]
+    width: road
+    surface: soil
+  - link: link:falagar_lane
+    line: [[100, 68.5], [100, 63]]
+    width: lane
+    surface: dirt
+  - link: link:lava_track
+    line: [[100, 63], [104, 56], [108, 48], [106, 38], [104, 31]]
+    width: lane
+    surface: dirt
+  - link: link:adit_lane
+    line: [[95, 107], [99, 101], [103.5, 95.5]]
+    width: lane
+    surface: dirt
+  - link: link:asp_road
+    line: [[62.5, 76], [56, 78], [51, 84], [48, 85], [46, 85.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:x3_road
+    line: [[40.5, 88.5], [40.5, 92.5], [38, 97], [36, 102], [36, 128]]
+    width: road
+    surface: soil
+  - link: link:west_road
+    line: [[0, 60], [19, 60], [28, 61], [36, 62], [44, 65], [50, 69], [56, 73], [62.5, 76]]
+    width: road
+    surface: soil
+  - link: link:eyrie_path
+    line: [[36, 62], [38, 57], [40, 55], [43, 49], [46, 42]]
+    width: lane
+    surface: dirt
+  - link: link:druid_path
+    line: [[30, 61], [27, 66], [26, 69]]
+    width: lane
+    surface: dirt
+  - link: link:falls_path
+    line: [[69, 57.5], [73, 55], [76, 51], [77, 48]]
+    width: lane
+    surface: dirt
+  - link: link:quintain_track
+    line: [[62.5, 76], [62, 84], [60, 92], [57, 100], [56, 102]]
+    width: lane
+    surface: dirt
+  - link: link:barbarian_track
+    line: [[28, 61], [26, 57.5], [24.5, 56]]
+    width: lane
+    surface: dirt
+districts:
+  - space: town:burlock_castle
+    polygon: [[56, 43], [68, 43], [68, 50], [56, 50]]
+    notes: "Castle Burlock's exterior on its rise (royal_castle kit: cream ashlar on grey footings, slate cones): keep, four towers, curtain wall, the gate over the village (XD-07's door). The castle itself is the BLV."
+  - space: town:burlock
+    polygon: [[55, 50], [69, 50], [69, 62], [55, 62]]
+    plots:
+      - {building: building:burlock_temple, at: [56, 51], facing: s, door_to: zone:burlock_square, parts: [{id: nave, at: [64, 96], size: [896, 1088], wall_height: 384, windows: all, roof: gable, roof_pitch: 50, ridge_along: ns}, {id: bell, at: [992, 96], size: [224, 224], textures: {roof: 7hhr1rf}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60}], house: 4153, title: Chapel of the Crown, kit: stone, door: {part: nave, wall: s}}
+      - {building: building:burlock_tavern, at: [59, 52], facing: s, door_to: zone:burlock_square, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4156, title: The Jousting Pig, kit: timber, door: {part: body, wall: s}}
+      - {building: building:burlock_weapons, at: [64, 51.5], facing: s, door_to: zone:burlock_square, parts: [{id: body, at: [48, 64], size: [716, 608], signs: [{wall: s, bay: 0, texture: sgweapon, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 512], posts: 24, wall_height: 256, windows: none, roof: lean_to}], house: 4151, title: The Royal Armoury, kit: stone, door: {part: body, wall: s}}
+      - {building: building:burlock_armour, at: [66.5, 51.5], facing: s, door_to: zone:burlock_square, parts: [{id: body, at: [96, 80], size: [832, 576], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [928, 656], bottom: 256, textures: {roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], textures: {base: cwb1}, house: 4152, title: Plate and Mail by Royal Appointment, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:burlock_training, at: [55.5, 54.5], facing: s, door_to: zone:burlock_square, parts: [{id: body, at: [48, 439], size: [1440, 793], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [1280, 422], textures: {roof: 7hhr1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4154, title: The King's Lists, kit: stone, door: {part: body, wall: s}}
+      - {building: building:burlock_stables, at: [66, 55], facing: w, door_to: zone:burlock_square, parts: [{id: body, at: [48, 48], size: [793, 928], signs: [{wall: w, bay: 0, texture: 7sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 768], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4155, title: Royal Stables of Burlock, kit: timber, door: {part: body, wall: w}}
+      - {building: building:burlock_houses, index: 1, at: [56, 58.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {base: cwb1}, house: 4158, title: Dame Ysolde's House, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:burlock_houses, index: 2, at: [56, 60.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4159, title: The Weathervane, kit: timber, door: {part: body, wall: e}}
+      - {building: building:burlock_houses, index: 3, at: [58.5, 60], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], house: 4160, title: Keeper of the Bestiary, kit: timber, door: {part: body, wall: n}}
+      - {building: building:burlock_houses, index: 4, at: [60, 60.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhm2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, house: 4161, title: Pomfrey House, kit: plaster, door: {part: body, wall: e}}
+      - {building: building:burlock_houses, index: 5, at: [63, 59.5], facing: n, parts: [{id: body, at: [64, 160], size: [640, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4162, title: The Royal Laundry, kit: grey, door: {part: body, wall: n}}
+      - {building: building:burlock_houses, index: 6, at: [65.5, 60.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4163, title: Wat's Cottage, kit: poor, door: {part: body, wall: w}}
+      - {building: building:burlock_houses, index: 7, at: [67, 58], facing: n, parts: [{id: body, at: [64, 160], size: [640, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4164, title: The Bakehouse, kit: timber, door: {part: body, wall: n}}
+      - {building: building:burlock_houses, index: 8, at: [67.5, 60.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhm2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, house: 4165, title: Holt House, kit: plaster, door: {part: body, wall: n}}
+    notes: "The walled village before the castle gate: 15 doors of A4's x4.yml (4151-4165; the mirror 4157 on the square); about 160 cells inside the wall; gates south (the King's road) and east (the stables, the falls path)."
+  - space: zone:burlock_square
+    polygon: [[59, 54], [66, 54], [66, 59], [59, 59]]
+  - space: zone:lists
+    polygon: [[65, 63], [74, 63], [74, 72], [65, 72]]
+    notes: "The jousting lists: a tilt barrier north-south (it leads the eye to the castle), stands on the east side, pavilions at the north end."
+  - space: town:asp
+    polygon: [[34, 79], [51, 79], [51, 92], [34, 92]]
+    plots:
+      - {building: building:asp_travel_pit, at: [48.5, 80.5], facing: s, door_to: link:asp_road, parts: [{id: body, at: [48, 536], size: [928, 952], signs: [{wall: s, bay: 0, texture: 7sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 519], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4170, title: The Travel Pit, kit: timber, door: {part: body, wall: s}}
+      - {building: building:asp_shrine, at: [49, 86.5], facing: n, door_to: link:asp_road, parts: [{id: body, at: [64, 64], size: [640, 640], signs: [{wall: n, bay: 0, texture: sgtempl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: hip, roof_pitch: 38}], house: 4171, title: Roadside Shrine, kit: stone, door: {part: body, wall: n}}
+      - {building: building:asp_guild_earth, at: [38, 80], facing: s, door_to: zone:asp_square, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgearth, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4175, title: Asp Guild of Earth, kit: stone, door: {part: body, wall: s}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The guild is locked. A note in a wobbly hand: Ssssee Sssarah.\")"}]}
+      - {building: building:asp_guild_body, at: [42.5, 80], facing: s, door_to: zone:asp_square, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4176, title: Asp Guild of Body, kit: stone, door: {part: body, wall: s}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The guild is locked. A note in a wobbly hand: Ssssee Sssarah.\")"}]}
+      - {building: building:asp_alchemist, at: [35.5, 82.5], facing: e, door_to: zone:asp_square, parts: [{id: body, at: [80, 96], size: [832, 576], signs: [{wall: e, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [48, 48], size: [912, 672], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4173, title: Snake Oil, kit: timber, door: {part: body, wall: e}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The shutters are down. Something inside rattles the bottles and hisses.\")"}]}
+      - {building: building:asp_armour, at: [46.5, 82.5], facing: w, door_to: zone:asp_square, parts: [{id: body, at: [64, 64], size: [640, 640], signs: [{wall: w, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, house: 4174, title: Scale House, kit: plaster, door: {part: body, wall: w}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The door is barred. A sign reads: Closed for moulting.\")"}]}
+      - {building: building:asp_houses, index: 1, at: [36.5, 84.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4172, title: Sarah Slither's House, kit: grey, door: {part: body, wall: e}}
+      - {building: building:asp_houses, index: 2, at: [37, 86.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4178, title: Reed House, kit: poor, door: {part: body, wall: e}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 3, at: [35.5, 88.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4179, title: Moss Cottage, kit: poor, door: {part: body, wall: e}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 4, at: [38, 89], facing: n, parts: [{id: body, at: [64, 160], size: [640, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4180, title: Brook House, kit: timber, door: {part: body, wall: n}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 5, at: [43.5, 89], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhm2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, house: 4181, title: Slade Residence, kit: plaster, door: {part: body, wall: n}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 6, at: [45, 89], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4182, title: Ashworth House, kit: poor, door: {part: body, wall: n}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 7, at: [46.5, 86], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4183, title: The Potter's, kit: grey, door: {part: body, wall: w}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 8, at: [47, 89], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4184, title: Dale Residence, kit: poor, door: {part: body, wall: n}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 9, at: [45, 80], facing: s, parts: [{id: body, at: [64, 64], size: [384, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4185, title: Mother Ophidia's, kit: poor, door: {part: body, wall: s}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+      - {building: building:asp_houses, index: 10, at: [35.5, 90], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4186, title: The Old Mill, kit: timber, door: {part: body, wall: e}, condition: {qbit: asp_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Hissing behind the door. Nobody answers.\")"}]}
+    notes: "Asp: 16 doors of A4's x4.yml (4170-4186, the mirror 4177 on the square). The Travel Pit and the Roadside Shrine stand on the Asp road at the east edge, outside the curse; Sarah Slither's house is open; the rest open with q-c5.done. The square keeps a clear ring round the well's pedestals and a clear line to every door."
+  - space: zone:asp_square
+    polygon: [[38, 82], [46, 82], [46, 88], [38, 88]]
+  - space: zone:carlawna_yard
+    polygon: [[38, 51], [43, 51], [43, 55], [38, 55]]
+    plots:
+      - {building: building:carlawna_hut, at: [39.5, 52], facing: s, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4166, title: Carlawna's Hut, kit: poor, door: {part: body}}
+  - space: zone:falagar_yard
+    polygon: [[98, 59], [103, 59], [103, 64], [98, 64]]
+    plots:
+      - {building: building:falagar_hut, at: [99, 60], facing: s, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: 7hhr1rf}, roof: hip, roof_pitch: 38}], house: 4167, title: Falagar's Hut, kit: stone, door: {part: body, wall: s}}
+  - space: zone:druid_grove
+    polygon: [[22, 66], [30, 66], [30, 74], [22, 74]]
+  - space: zone:nystor_landing
+    polygon: [[80, 98], [86, 98], [86, 104], [80, 104]]
+  - space: zone:falls
+    polygon: [[74, 43], [83, 43], [83, 49], [74, 49]]
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+  - space: zone:gargoyle_range
+    polygon: [[0, 24], [100, 24], [100, 36], [94, 42], [86, 44], [80, 40], [74, 44], [68, 43], [60, 42], [52, 44], [44, 45], [36, 46], [28, 47], [18, 49], [0, 49]]
+  - space: zone:lava_fields
+    polygon: [[100, 24], [128, 24], [128, 58], [112, 60], [104, 58], [98, 52], [94, 42], [100, 36]]
+  - space: zone:uplands
+    polygon: [[0, 49], [18, 49], [28, 47], [36, 46], [44, 45], [52, 44], [56, 43], [56, 62], [54, 70], [46, 66], [36, 63], [0, 63]]
+  - space: zone:west_downs
+    polygon: [[0, 63], [36, 63], [46, 66], [50, 74], [47, 79], [34, 79], [34, 92], [32, 128], [0, 128]]
+  - space: zone:castle_fields
+    polygon: [[56, 43], [60, 42], [68, 43], [74, 44], [80, 42], [82, 48], [82, 79], [54, 79], [50, 74], [54, 70], [56, 62]]
+  - space: zone:south_fields
+    polygon: [[34, 92], [50, 92], [50, 79], [82, 79], [82, 128], [32, 128]]
+  - space: zone:east_savannah
+    polygon: [[82, 44], [86, 44], [94, 42], [98, 52], [104, 58], [112, 60], [128, 58], [128, 80], [100, 78], [94, 82], [90, 96], [98, 104], [100, 128], [82, 128]]
+  - space: zone:red_hills
+    polygon: [[94, 82], [100, 78], [128, 80], [128, 128], [100, 128], [98, 104], [90, 96]]
+points:
+  - {id: entrance:x2_road, at: [96, 107], facing: n, notes: Main arrival from X2 Rivercity (the Rivercity road).}
+  - {id: entrance:x3_road, at: [36, 107], facing: n, notes: Arrival from X3 Lifeforce Lagoon (the Asp road).}
+  - {id: entrance:west_road, at: [20, 60], facing: e, notes: Arrival from X6 Desert of the Sphinx.}
+  - {id: entrance:east_road, at: [107, 66], facing: w, notes: Arrival from X7 Mount Firestone.}
+  - {id: entrance:burlock_square, at: [61, 57], facing: s, notes: "A4 arrival burlock_square: by the mirror (Town Portal)."}
+  - {id: entrance:burlock_stables, at: [65, 56], facing: w, notes: "A4 arrival burlock_stables: before the Royal Stables' door (the stables moved to [66, 55] for TOWN_FEEL's mirror share; [67, 57] stood on its wall)."}
+  - {id: entrance:asp_travel_pit, at: [50, 84], facing: w, notes: "A4 arrival asp_travel_pit: the Travel Pit, outside the curse."}
+  - {id: entrance:asp_square, at: [39, 87], facing: n, notes: "A4 arrival asp_square: by the well (Asp's mirror, q-c5.done)."}
+  - {id: entrance:river_landing, at: [83, 101], facing: w, notes: "A4 arrival x4_river_landing: Nystor's jetty (after Q-C23)."}
+  - {id: entrance:xd07_gate, at: [62, 50], facing: n, notes: "XD-07 Castle Burlock: the castle gate."}
+  - {id: entrance:throne_landing, at: [55, 45], facing: e, notes: "XD-07's throne fall (D-4): lands at ground + 1,000 (about 2,900) beside the west tower, outside the walls; a fall, ordinary fall damage."}
+  - {id: entrance:xd25_stair, at: [41, 81], facing: n, notes: "XD-25 Asp Undercroft: the cellar stair on Asp's square, the rule stone beside it."}
+  - {id: entrance:xd26_eyrie, at: [46, 43], facing: s, notes: "XD-26 Gargoyle Eyrie: in front of the mouth on Gargoyle Peak's south face, facing out (A5 s18: off the mound, merge point 25)."}
+  - {id: entrance:xd26_sky_crack, at: [49, 35], facing: s, notes: "XD-26's sky-crack ledge (D-4): a one-way exit from the eyrie's top onto a ledge at about 3,300 on the same peak; a goat path down to the eyrie mouth."}
+  - {id: entrance:xd02_adit, at: [103, 95], facing: w, notes: "XD-02's west adit in the red dwarf hills (rock fall until M3's winch): on the lane 416 before the adit's face, facing out (A5 s19; it stood beside the adit's north wall facing in)."}
+  - {id: junction:burlock_cross, at: [62, 76]}
+  - {id: junction:east_fork, at: [88, 76]}
+  - {id: junction:landing_fork, at: [85, 99]}
+  - {id: junction:west_fork, at: [36, 62]}
+  - {id: junction:asp_gate, at: [48, 84]}
+  - {id: poi:obelisk, at: [48, 66]}
+  - {id: poi:well_might, at: [63, 57], notes: On the village square.}
+  - {id: poi:burlock_mirror, at: [60, 55], notes: "A4 4157, the village square's mirror."}
+  - {id: poi:olympian_fountain, at: [77, 47]}
+  - {id: poi:jousting_lists, at: [69, 67]}
+  - {id: poi:carlawna, at: [40, 54], notes: Carlawna (4303) at her hut's door.}
+  - {id: poi:falagar, at: [100, 62], notes: Falagar (4304) at his hut's door.}
+  - {id: poi:joe_caravan, at: [87, 87], notes: Joe the Merchant (4320) at his wagon on the river road.}
+  - {id: poi:barbarian_camp, at: [24, 55]}
+  - {id: poi:nystor_landing, at: [81, 101]}
+  - {id: poi:autumn_druid, at: [26, 70], notes: The Autumn Druid (4321) in her ring of stones.}
+  - {id: poi:asp_well, at: [41, 85]}
+  - {id: poi:rule_stone, at: [40, 81], notes: "Beside the undercroft stair: the pedestal rhyme."}
+  - {id: poi:adam_eve, index: 1, at: [43, 84], notes: "Adam (4301), by the well just outside the pedestal ring, off the door lines."}
+  - {id: poi:adam_eve, index: 2, at: [43, 86], notes: "Eve (4302), beside him."}
+  - {id: poi:asp_mirror, at: [42, 88], notes: "A4 4177: Asp's mirror on the square's west side (q-c5.done)."}
+  - {id: poi:king_statue, at: [61, 74]}
+  - {id: poi:shrine_fire, at: [104, 46], notes: "D-11.2: moved inside the map."}
+  - {id: poi:rim_lookout, at: [104, 30]}
+  - {id: poi:quintain_field, at: [60, 93]}
+  - {id: poi:herders_well, at: [40, 101]}
+  - {id: poi:wayfarers_well, at: [96, 71]}
+  - {id: poi:dwarf_stone, at: [96, 90]}
+  - {id: poi:asp_cemetery, at: [27, 96]}
+  - {id: poi:ogre_camp, at: [106, 86]}
+  - {id: poi:knights_camp, at: [56, 103]}
+  - {id: poi:gargoyle_roost, at: [88, 37]}
+  - {id: poi:saddlebags, at: [52, 91]}
+  - {id: poi:champions_barrow, at: [70, 86]}
+  - {id: poi:sunken_barge, at: [77, 91]}
+  - {id: poi:ore_cart, at: [101, 97]}
+  - {id: poi:burned_caravan, at: [106, 52]}
+  - {id: poi:mill_ruin, at: [85, 61]}
+  - {id: poi:bridge_cairn, at: [77, 77], notes: A cairn at the King's Bridge.}
+  - {id: poi:savannah_well, at: [93, 50], notes: A herders' well on the east savannah.}
+  - {id: poi:standing_stone, at: [21, 83], notes: A standing stone on the west downs.}
+  - {id: poi:jousters_grave, at: [69, 106], notes: A jouster's grave in the south fields.}
+  - {id: poi:eyrie_waystone, at: [42, 50], notes: A waystone on the eyrie path.}
+  - {id: poi:red_waymark, at: [104, 76], notes: A red waymark stone where the Firestone road meets the red hills.}
+  - {id: landmark:castle_burlock, at: [62, 46]}
+  - {id: landmark:gargoyle_peak, at: [50, 30]}
+  - {id: landmark:falls, at: [80, 42]}
+  - {id: landmark:lava_fields, at: [112, 40]}
+  - {id: landmark:red_hills, at: [112, 96]}
+  - {id: landmark:kings_beacon, at: [64, 32]}
+  - {id: poi:pedestals, index: 1, at: [40, 86], notes: "the south-west pedestal: start here, red"}
+  - {id: poi:pedestals, index: 2, at: [40, 85], notes: "pedestal 2 clockwise; red when even (blue)"}
+  - {id: poi:pedestals, index: 3, at: [40, 84], notes: "pedestal 3 clockwise; red when odd (red)"}
+  - {id: poi:pedestals, index: 4, at: [41, 84], notes: "pedestal 4 clockwise; red when even (blue)"}
+  - {id: poi:pedestals, index: 5, at: [42, 84], notes: "pedestal 5 clockwise; red when odd (red)"}
+  - {id: poi:pedestals, index: 6, at: [42, 85], notes: "pedestal 6 clockwise; red when even (blue)"}
+  - {id: poi:pedestals, index: 7, at: [42, 86], notes: "pedestal 7 clockwise; red when odd (red)"}
+  - {id: poi:pedestals, index: 8, at: [41, 86], notes: "pedestal 8 clockwise; red when even (blue)"}
+  - {id: poi:signposts, index: 1, at: [63, 75]}
+  - {id: poi:signposts, index: 2, at: [89, 75]}
+  - {id: poi:signposts, index: 3, at: [86, 98]}
+  - {id: poi:signposts, index: 4, at: [37, 61]}
+  - {id: poi:signposts, index: 5, at: [49, 83]}
+areas:
+  - id: pop:range_west
+    count: 9
+    slot: 3
+    polygon: [[20, 34], [56, 34], [56, 41], [48, 44], [38, 47], [28, 49], [20, 50]]
+    notes: "Gargoyles (16/22/28) along the range foot and round the eyrie path; none within 6 cells of the castle."
+  - id: pop:range_east
+    count: 9
+    slot: 3
+    polygon: [[74, 32], [109, 32], [109, 56], [102, 56], [96, 48], [88, 48], [82, 50], [76, 48], [74, 44]]
+    notes: "Gargoyles over the falls, the roost and the lava fields; the Olympian Fountain is the lure."
+  - id: pop:red_hills
+    count: 8
+    slot: 2
+    polygon: [[97, 78], [109, 76], [109, 109], [103, 109], [99, 101], [100, 95], [100, 88], [98, 82]]
+    notes: "Ogres (18/22/30) in the red dwarf hills round their camp; no marker within 4 cells of the adit; the west side cut back so no marker stands within 5,888 of Joe's caravan (D-85)."
+  - id: pop:south_fields
+    count: 9
+    slot: 1
+    polygon: [[46, 92], [56, 88], [66, 82], [76, 80], [77, 96], [76, 109], [44, 109], [42, 100]]
+    notes: "Burlock knights gone bad: Jousters 14, Yang Knights 20, Knight Captains 26 roam the jousting fields."
+  - id: pop:west_downs
+    count: 4
+    slot: 2
+    polygon: [[19, 76], [32, 76], [33, 92], [30, 109], [19, 109]]
+    notes: "Ogres on the downs west of Asp, round the old cemetery."
+  - id: pop:pair_river_road
+    count: 2
+    slot: 1
+    polygon: [[88, 100], [90, 100], [90, 103], [88, 103]]
+    notes: "D-11.2: a pair of renegade knights on the Rivercity road just past the landing fork (D-85: moved off the river road, out of missile range of Joe's caravan)."
+  - id: pop:pair_firestone_road
+    count: 2
+    slot: 2
+    polygon: [[92, 71], [96, 71], [96, 75], [92, 75]]
+    notes: "D-11.2: a pair of ogres on the Firestone road east of the east fork."
+  - id: pop:pair_west_ogres
+    count: 1
+    slot: 2
+    polygon: [[40, 62], [43, 62], [43, 65], [40, 65]]
+    notes: "D-11.2: the west road's pair, an ogre band below the obelisk's knoll ..."
+  - id: pop:pair_west_knights
+    count: 1
+    slot: 1
+    polygon: [[52, 70], [55, 70], [55, 73], [52, 73]]
+    notes: "... and a knight band nearer Burlock Cross (one marker each: the pair is a downs marker and a fields marker)."
+  - id: town:burlock
+    kind: keep_clear
+    polygon: [[50, 40], [74, 40], [76, 64], [72, 72], [52, 72], [50, 62]]
+    notes: "The castle, the village and the lists with their buffer (about 2,500 round the doors)."
+  - id: town:asp
+    kind: keep_clear
+    polygon: [[30, 76], [54, 76], [54, 95], [30, 95]]
+    notes: Asp and its edge services with their buffer.
+  - id: zone:druid_grove
+    kind: keep_clear
+    polygon: [[21, 65], [31, 65], [31, 75], [21, 75]]
+  - id: edge:south_x2_end
+    kind: keep_clear
+    polygon: [[90, 100], [102, 100], [102, 110], [90, 110]]
+    notes: The X2 arrival and Nystor's landing road.
+  - id: zone:nystor_landing
+    kind: keep_clear
+    polygon: [[79, 96], [87, 96], [87, 104], [79, 104]]
+  - id: zone:falagar_yard
+    kind: keep_clear
+    polygon: [[96, 58], [104, 58], [104, 70], [96, 70]]
+    notes: Falagar and the X7 arrival.
+  - id: edge:west_end
+    kind: keep_clear
+    polygon: [[19, 57], [26, 57], [26, 64], [19, 64]]
+  - id: zone:uplands
+    kind: open
+    polygon: [[26, 52], [56, 50], [56, 62], [50, 68], [36, 64], [26, 62]]
+    notes: "Quiet high grass under the range: the obelisk, the eyrie path, Carlawna."
+  - id: zone:east_savannah
+    kind: open
+    polygon: [[84, 52], [96, 52], [100, 66], [92, 80], [84, 80]]
+    notes: "Quiet river meadows east of the bridge: the caravan road."
+views:
+  - {id: view:arrival, at: [96, 107], height: 180, look: [80, 84], purpose: "MU-4 arrival view from X2's road: the river valley north-west, Nystor's landing and the jetty on the left, the Rivercity road bending to the landing fork, Joe's caravan by the river road beyond, the red dwarf hills on the right, and the Gargoyle Range's bare peaks across the horizon."}
+  - {id: view:signature, at: [69, 74], height: 300, look: [63, 46], purpose: "MU-4 signature view: from the south end of the jousting lists, north over the lists to the walled village and Castle Burlock on its rise, the Gargoyle Range's peaks behind and the falls on the right."}
+scatter:
+  - id: scatter:sav_uplands
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 13
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 12
+    polygon: [[19, 46], [54, 44], [54, 62], [44, 64], [32, 62], [19, 62]]
+  - id: scatter:sav_castle_fields
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    polygon: [[70, 50], [77, 50], [77, 63], [70, 63]]
+  - id: scatter:sav_west_downs
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 10
+    spacing: 2
+    spacing_group: trees
+    clusters: 10
+    polygon: [[19, 62], [33, 62], [32, 78], [33, 104], [19, 104]]
+  - id: scatter:sav_south
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 11
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 12
+    polygon: [[33, 93], [77, 93], [77, 106], [38, 106], [33, 104]]
+  - id: scatter:sav_mid
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 5
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 8
+    polygon: [[52, 79], [77, 79], [77, 93], [52, 93]]
+  - id: scatter:sav_road_w
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 5
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 8
+    polygon: [[33, 63], [54, 63], [58, 72], [52, 78], [33, 78]]
+  - id: scatter:sav_east
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 8
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 10
+    polygon: [[84, 50], [98, 50], [100, 66], [94, 80], [84, 80]]
+  - id: scatter:sav_east_s
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 4
+    spacing: 2.2
+    spacing_group: trees
+    clusters: 8
+    polygon: [[84, 80], [94, 80], [92, 96], [98, 108], [86, 108], [84, 96]]
+  - id: scatter:river_w
+    kinds:
+      7tree07: 1
+      7tree19: 2
+      7tree25: 2
+    count: 8
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[74, 52], [78, 52], [78, 108], [74, 108]]
+  - id: scatter:river_e
+    kinds:
+      7tree07: 1
+      7tree19: 2
+      7tree25: 2
+    count: 5
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[82, 50], [85, 50], [85, 96], [82, 96]]
+  - id: scatter:bank_plants
+    decoration: plant02
+    count: 50
+    clusters: 16
+    polygon: [[74, 48], [86, 48], [86, 109], [74, 109]]
+  - id: scatter:autumn_grove
+    kinds:
+      7tree07: 2
+      7tree25: 2
+    count: 14
+    line: [[29, 70], [28.1, 72.1], [26, 73], [23.9, 72.1], [23, 70], [23.9, 67.9], [26, 67], [28.1, 67.9]]
+    closed: true
+  - id: scatter:autumn_leaves
+    decoration: flower05
+    count: 12
+    clusters: 5
+    polygon: [[23, 67], [29, 67], [29, 73], [23, 73]]
+  - id: scatter:bushes_w
+    decoration: bush02
+    count: 67
+    clusters: 16
+    polygon: [[19, 46], [54, 44], [54, 77], [19, 77]]
+  - id: scatter:bushes_w
+    decoration: bush03
+    count: 44
+    clusters: 11
+    polygon: [[19, 46], [54, 44], [54, 77], [19, 77]]
+  - id: scatter:flowers_w
+    decoration: flower04
+    count: 44
+    clusters: 11
+    polygon: [[19, 46], [54, 44], [54, 77], [19, 77]]
+  - id: scatter:rocks_w
+    decoration: 7rock09
+    count: 22
+    clusters: 6
+    polygon: [[19, 46], [54, 44], [54, 77], [19, 77]]
+  - id: scatter:bushes_sw
+    decoration: bush02
+    count: 22
+    clusters: 5
+    polygon: [[19, 77], [33, 77], [33, 104], [19, 104]]
+  - id: scatter:bushes_sw
+    decoration: bush03
+    count: 15
+    clusters: 3
+    polygon: [[19, 77], [33, 77], [33, 104], [19, 104]]
+  - id: scatter:flowers_sw
+    decoration: flower04
+    count: 15
+    clusters: 3
+    polygon: [[19, 77], [33, 77], [33, 104], [19, 104]]
+  - id: scatter:rocks_sw
+    decoration: 7rock09
+    count: 7
+    clusters: 2
+    polygon: [[19, 77], [33, 77], [33, 104], [19, 104]]
+  - id: scatter:bushes_s
+    decoration: bush02
+    count: 39
+    clusters: 9
+    polygon: [[33, 93], [77, 93], [77, 108], [33, 108]]
+  - id: scatter:bushes_s
+    decoration: bush03
+    count: 26
+    clusters: 6
+    polygon: [[33, 93], [77, 93], [77, 108], [33, 108]]
+  - id: scatter:flowers_s
+    decoration: flower04
+    count: 26
+    clusters: 6
+    polygon: [[33, 93], [77, 93], [77, 108], [33, 108]]
+  - id: scatter:rocks_s
+    decoration: 7rock09
+    count: 13
+    clusters: 3
+    polygon: [[33, 93], [77, 93], [77, 108], [33, 108]]
+  - id: scatter:bushes_e
+    decoration: bush02
+    count: 55
+    clusters: 13
+    polygon: [[84, 50], [100, 50], [100, 108], [84, 108]]
+  - id: scatter:bushes_e
+    decoration: bush03
+    count: 37
+    clusters: 9
+    polygon: [[84, 50], [100, 50], [100, 108], [84, 108]]
+  - id: scatter:flowers_e
+    decoration: flower04
+    count: 37
+    clusters: 9
+    polygon: [[84, 50], [100, 50], [100, 108], [84, 108]]
+  - id: scatter:rocks_e
+    decoration: 7rock09
+    count: 18
+    clusters: 5
+    polygon: [[84, 50], [100, 50], [100, 108], [84, 108]]
+  - id: scatter:range_rocks
+    decoration: 7rock08
+    count: 70
+    clusters: 24
+    steep: true
+    polygon: [[19, 24], [98, 24], [98, 40], [76, 42], [56, 42], [40, 45], [19, 48]]
+  - id: scatter:range_rocks
+    decoration: rock09
+    count: 50
+    clusters: 18
+    steep: true
+    polygon: [[19, 24], [98, 24], [98, 40], [76, 42], [56, 42], [40, 45], [19, 48]]
+  - id: scatter:range_foot
+    kinds:
+      6tree09: 1
+      7tree16: 1
+      7tree22: 2
+    count: 4
+    spacing: 2
+    spacing_group: trees
+    clusters: 6
+    polygon: [[19, 40], [54, 38], [54, 46], [19, 49]]
+  - id: scatter:red_rocks
+    decoration: 7rock08
+    count: 60
+    clusters: 20
+    steep: true
+    polygon: [[94, 78], [109, 76], [109, 109], [98, 109], [92, 96]]
+  - id: scatter:red_rocks
+    decoration: rock03
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[94, 78], [109, 76], [109, 109], [98, 109], [92, 96]]
+  - id: scatter:red_trees
+    kinds:
+      6tree09: 1
+      7tree16: 1
+      7tree22: 2
+    count: 4
+    spacing: 2.4
+    spacing_group: trees
+    polygon: [[94, 78], [109, 76], [109, 109], [98, 109], [92, 96]]
+  - id: scatter:lava_rocks
+    decoration: Brnrock0
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[98, 26], [109, 26], [109, 58], [104, 58], [99, 52], [96, 42]]
+  - id: scatter:lava_rocks
+    decoration: 7rock08
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[98, 26], [109, 26], [109, 58], [104, 58], [99, 52], [96, 42]]
+  - id: scatter:asp_trees
+    decoration: 7tree22
+    count: 1
+    circle: {at: [34.6, 80], r: 0.15}
+  - id: scatter:asp_trees
+    decoration: 7tree19
+    count: 1
+    circle: {at: [50.8, 90.6], r: 0.15}
+  - id: scatter:asp_trees
+    decoration: 7tree22
+    count: 1
+    circle: {at: [34.8, 91.2], r: 0.15}
+  - id: scatter:asp_trees
+    decoration: 7tree19
+    count: 1
+    circle: {at: [47.6, 79.4], r: 0.15}
+  - id: scatter:edge_w
+    kinds:
+      6tree09: 1
+      7tree16: 1
+      7tree22: 2
+    count: 46
+    spacing: 1.8
+    spacing_group: trees
+    polygon: [[0, 47], [19, 47], [19, 128], [0, 128]]
+  - id: scatter:edge_rocks_w
+    decoration: 7rock09
+    count: 30
+    clusters: 9
+    steep: true
+    polygon: [[0, 47], [19, 47], [19, 128], [0, 128]]
+  - id: scatter:edge_bushes_w
+    decoration: bush02
+    count: 46
+    clusters: 12
+    polygon: [[0, 47], [19, 47], [19, 128], [0, 128]]
+  - id: scatter:edge_s
+    kinds:
+      7tree19: 3
+      7tree22: 1
+      7tree28: 2
+      tree29: 1
+    count: 51
+    spacing: 1.8
+    spacing_group: trees
+    polygon: [[19, 109], [109, 109], [109, 128], [19, 128]]
+  - id: scatter:edge_rocks_s
+    decoration: 7rock09
+    count: 34
+    clusters: 10
+    steep: true
+    polygon: [[19, 109], [109, 109], [109, 128], [19, 128]]
+  - id: scatter:edge_bushes_s
+    decoration: bush02
+    count: 51
+    clusters: 13
+    polygon: [[19, 109], [109, 109], [109, 128], [19, 128]]
+  - id: scatter:edge_e
+    kinds:
+      6tree09: 1
+      7tree16: 1
+      7tree22: 2
+    count: 31
+    spacing: 1.8
+    spacing_group: trees
+    polygon: [[109, 58], [128, 58], [128, 128], [109, 128]]
+  - id: scatter:edge_rocks_e
+    decoration: 7rock09
+    count: 26
+    clusters: 7
+    steep: true
+    polygon: [[109, 58], [128, 58], [128, 128], [109, 128]]
+  - id: scatter:edge_bushes_e
+    decoration: bush02
+    count: 39
+    clusters: 10
+    polygon: [[109, 58], [128, 58], [128, 128], [109, 128]]
+  - id: scatter:edge_rocks_ne
+    decoration: Brnrock0
+    count: 30
+    clusters: 8
+    steep: true
+    polygon: [[109, 24], [128, 24], [128, 58], [109, 58]]
+ground:
+  - material: grass_meadow
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "the savannah: gold grass (the world meadow tint dries the crests)"
+  - material: soil
+    polygon: [[0, 24], [100, 24], [100, 38], [76, 40], [58, 41], [40, 44], [18, 47], [0, 47]]
+    notes: the Gargoyle Range's slopes
+  - material: wasteland
+    polygon: [[98, 24], [128, 24], [128, 58], [112, 60], [104, 58], [99, 52], [96, 42]]
+    notes: the lava fields
+  - material: soil
+    polygon: [[96, 80], [128, 80], [128, 128], [100, 128], [97, 104], [92, 95]]
+    notes: the red dwarf hills
+  - material: soil
+    polygon: [[0, 78], [33, 78], [32, 128], [0, 128]]
+    notes: the dry west downs
+  - material: soil
+    polygon: [[57, 53], [68, 53], [68, 60], [63, 60], [63, 62], [61, 62], [61, 59], [57, 59]]
+    notes: Burlock's square and its lanes to the doors and the south gate
+  - material: soil
+    polygon: [[38, 82], [46, 82], [46, 88], [38, 88]]
+    notes: Asp's square
+  - material: soil
+    polygon: [[65, 63], [74, 63], [74, 72], [65, 72]]
+    notes: the lists
+  - material: soil
+    polygon: [[21, 52], [27, 52], [27, 58], [21, 58]]
+    notes: the barbarian camp
+  - material: soil
+    polygon: [[54, 101], [59, 101], [59, 105], [54, 105]]
+    notes: the knights' camp
+  - material: soil
+    polygon: [[104, 84], [108, 84], [108, 88], [104, 88]]
+    notes: the ogres' hollow
+structures:
+  - id: thing:castle_burlock
+    kind: building
+    at: [56, 43]
+    size: [12, 7]
+    kit: castle
+    facing: s
+    parts:
+      - {id: curtain, at: [640, 768], size: [4864, 2304], textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: xkarrow}, wall_height: 768, windows: none, roof: flat, parapet: 96, battlements: true}
+      - {id: keep, at: [2176, 1024], size: [1792, 1408], textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: chbw}, wall_height: 1536, windows: alternate, roof: hip, roof_pitch: 52}
+      - {id: tower_1, shape: round, at: [640, 768], radius: 448, sides: 10, textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: xkarrow}, wall_height: 1280, windows: alternate, roof: cone, roof_pitch: 68}
+      - {id: tower_2, shape: round, at: [5504, 768], radius: 448, sides: 10, textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: xkarrow}, wall_height: 1280, windows: alternate, roof: cone, roof_pitch: 68}
+      - {id: tower_3, shape: round, at: [640, 3072], radius: 448, sides: 10, textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: xkarrow}, wall_height: 1280, windows: alternate, roof: cone, roof_pitch: 68}
+      - {id: tower_4, shape: round, at: [5504, 3072], radius: 448, sides: 10, textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: xkarrow}, wall_height: 1280, windows: alternate, roof: cone, roof_pitch: 68}
+      - {id: gate, at: [2432, 2816], size: [1280, 768], signs: [{wall: s, bay: 4, texture: xkburcrst, size: [128, 256], bottom: 640, out: 16}], textures: {door: chb1dl, post_left: chb1el, post_right: chb1er, roof: xtslate, trim: chb1s, wall: chb1, window: chbw}, wall_height: 1024, windows: none, roof: flat, parapet: 96, battlements: true, door_height: 512}
+    floor: 1888
+    door: none
+    title: Castle Burlock
+    notes: "XD-07 Castle Burlock (A7). Royal castle kit: hc cream ashlar, cs grey curtain, xtslate cones, Burlock's arms (D-3.1) over the gate. The gate is thing:castle_gate (a plot door is one bay, 128 wide)."
+  - id: thing:castle_gate
+    kind: doorway
+    at: [62, 50.06]
+    turn: 0
+    height: 448
+    width: 384
+    depth: 96
+    textures: {door: chb1dl, wall: chb1}
+    floor: 1888
+    title: Castle Burlock
+    into: {map: xeen_xd07.blv, at: [0, 384, 0], facing: 512, screen: {text: 5007}}
+    notes: "XD-07 Castle Burlock's gate (A7): sealed with a line until XD-07 opens its own way out to X4."
+    leaves: 2
+  - id: thing:castle_ramp
+    kind: stairs
+    line: [[62, 53.6], [62, 49.95]]
+    width: 640
+    rise: 576
+    ramp: true
+    textures: {top: cwb, wall: chb1}
+    title: The castle lane
+    notes: Up to the gate from the village square.
+  - id: thing:village_wall
+    kind: wall
+    line: [[55, 50.6], [55, 62], [69, 62], [69, 50.6]]
+    height: 448
+    thickness: 128
+    gates:
+      - {at: [62.5, 62], width: 512, height: 384, arch: round, sides: 8}
+      - {at: [69, 57.5], width: 448, height: 352, arch: round, sides: 8}
+    textures: {wall: chb1}
+    parapet: 64
+    title: Burlock's village wall
+  - id: thing:well_might
+    kind: well
+    at: [63.5, 57]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: Well of Might
+    condition: {not: {lua: "Xeen.usedToday(\"x4_well_might\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"x4_well_might\") evt.ForPlayer(Players.All)"
+      - add:
+          var: MightBonus
+          value: 10
+      - text: "+10 Might until you rest"
+  - id: thing:burlock_mirror
+    kind: portal
+    at: [60.4, 55.6]
+    turn: 90
+    radius: 112
+    sides: 12
+    textures: {membrane: {texture: xmirror}}
+    title: Magic Mirror
+    effects:
+      - lua: "Xeen.useMirror(4157, eventId, continueStep)"
+    notes: "A4 4157, The Mirror of Castle Burlock (qbit 119003)."
+  - id: thing:herald_board
+    kind: sign
+    at: [65.3, 54.6]
+    height: 224
+    width: 160
+    title: Herald's board
+    effects:
+      - lua: "evt.SimpleMessage(\"By order of the King: a reward to any who bring the Sixth Mirror to Castle Burlock. Crusaders only past the gate.\")"
+  - id: thing:square_flag_1
+    kind: decoration
+    at: [61.2, 58.6]
+    decoration: fla1__01
+  - id: thing:square_flag_2
+    kind: decoration
+    at: [65, 58.6]
+    decoration: fla1__01
+  - id: thing:tilt_barrier
+    kind: fence
+    line: [[69.5, 64.2], [69.5, 71.6]]
+    notes: The tilt barrier (it leads the eye north to the castle).
+  - id: thing:lists_stand
+    kind: building
+    at: [72.5, 64.5]
+    size: [1.5, 5]
+    turn: 0
+    kit: timber
+    parts:
+      - {id: stand, at: [64, 64], size: [640, 2432], posts: 32, post_every: 512, wall_height: 256, windows: none, roof: lean_to, roof_low: w}
+    door: none
+    title: The stands
+  - id: thing:pavilion_1
+    kind: tent
+    at: [66.3, 63.8]
+    size: [640, 640]
+    height: 416
+    title: The challenger's pavilion
+    open: true
+  - id: thing:pavilion_2
+    kind: tent
+    at: [71, 63.8]
+    size: [640, 640]
+    height: 416
+    title: The champion's pavilion
+    open: true
+  - id: thing:lists_challenge
+    kind: sign
+    at: [67.6, 71.6]
+    height: 256
+    width: 160
+    title: The Master of the Lists' challenge
+    condition: {stat: {name: BaseMight, at_least: 30}}
+    else_effects:
+      - lua: "evt.StatusText(\"The practice knight unhorses you at the first pass. Come back with a stronger arm (Might 30).\", 6)"
+    effects:
+      - add:
+          var: Experience
+          value: 2000
+      - lua: "evt.StatusText(\"You unhorse the practice knight in three passes. The crowd cheers. (+2,000 experience)\", 6)"
+    once: true
+  - id: thing:lists_flag_1
+    kind: decoration
+    at: [66.2, 66]
+    decoration: fla1__01
+  - id: thing:lists_flag_2
+    kind: decoration
+    at: [66.2, 69]
+    decoration: fla1__01
+  - id: thing:king_statue
+    kind: decoration
+    at: [60.6, 74.6]
+    decoration: 7dec54
+    title: King Burlock's statue
+    effects:
+      - lua: "evt.SimpleMessage(\"King Burlock, first of the name. North: the castle. West: Asp and the desert. East: Rivercity and Firestone.\")"
+  - id: thing:signpost_1
+    kind: sign
+    at: [63.6, 75.2]
+    height: 256
+    arms:
+      - {title: Castle Burlock, toward: n}
+      - {title: Asp, toward: w}
+      - {title: Rivercity, toward: e}
+      - {title: Jousting fields, toward: s}
+  - id: thing:signpost_2
+    kind: sign
+    at: [89, 75]
+    height: 256
+    arms:
+      - {title: Mount Firestone, toward: e}
+      - {title: Rivercity, toward: s}
+      - {title: Castle Burlock, toward: w}
+  - id: thing:signpost_3
+    kind: sign
+    at: [86, 98]
+    height: 256
+    arms:
+      - {title: Nystor's landing, toward: w}
+      - {title: Rivercity, toward: s}
+      - {title: Castle Burlock, toward: n}
+  - id: thing:signpost_4
+    kind: sign
+    at: [37, 61]
+    height: 256
+    arms:
+      - {title: Desert, toward: w}
+      - {title: Gargoyle Eyrie, toward: n}
+      - {title: Castle Burlock, toward: e}
+  - id: thing:signpost_5
+    kind: sign
+    at: [51.4, 82.6]
+    height: 256
+    title: Signpost
+    effects:
+      - lua: "XeenQuests.hook(\"x4.sign_asp\")"
+    arms:
+      - {title: Asp, toward: w}
+      - {title: Castle Burlock, toward: e}
+      - {title: Lifeforce Lagoon, toward: s}
+  - id: thing:kings_bridge
+    kind: bridge
+    line: [[76.6, 76], [84.4, 76]]
+    width: 640
+    kerb: 96
+    textures: {deck: cwb, pier: cwb1, side: cwb1}
+    title: The King's Bridge
+    arches: {count: 3, rise: 192, form: segment, pier_width: 256}
+  - id: thing:bridge_cairn
+    kind: decoration
+    at: [77.2, 77.6]
+    decoration: rock26
+  - id: thing:falls
+    kind: waterfall
+    line: [[80.5, 40.2], [80.5, 42.5]]
+    width: 1024
+    title: The falls
+    top: 1536
+    foot: 640
+    spread: 1.4
+    back: 1088
+    pool: 768
+  - id: thing:olympian_fountain
+    kind: fountain
+    at: [75.5, 48]
+    textures: {wall: chb1}
+    tiers: [[96, 48]]
+    title: Olympian Fountain
+    condition: {not: {map_var: olympian_drunk}}
+    else_effects:
+      - text: The water is cold from the range.
+    effects:
+      - set:
+          var:
+            map_var: olympian_drunk
+          value: 1
+      - add:
+          var: BaseMight
+          value: 2
+      - text: "+2 Might (permanent)"
+  - id: thing:asp_well
+    kind: well
+    at: [41.5, 85.5]
+    frame: {height: 200}
+    title: Asp's well
+    effects:
+      - text: The water smells faintly of snake.
+  - id: thing:pedestal_1
+    kind: platform
+    at: [40.5, 86.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_1}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_1
+          value: 0
+      - show: thing:pedestal_1_blue
+      - hide: thing:pedestal_1_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_1
+          value: 1
+      - hide: thing:pedestal_1_blue
+      - show: thing:pedestal_1_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 1 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_1_blue
+    kind: platform
+    at: [40.5, 86.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_1
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_1_red
+    kind: platform
+    at: [40.5, 86.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_1
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_2
+    kind: platform
+    at: [40.5, 85.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_2}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_2
+          value: 0
+      - show: thing:pedestal_2_blue
+      - hide: thing:pedestal_2_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_2
+          value: 1
+      - hide: thing:pedestal_2_blue
+      - show: thing:pedestal_2_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 2 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_2_blue
+    kind: platform
+    at: [40.5, 85.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_2
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_2_red
+    kind: platform
+    at: [40.5, 85.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_2
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_3
+    kind: platform
+    at: [40.5, 84.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_3}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_3
+          value: 0
+      - show: thing:pedestal_3_blue
+      - hide: thing:pedestal_3_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_3
+          value: 1
+      - hide: thing:pedestal_3_blue
+      - show: thing:pedestal_3_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 3 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_3_blue
+    kind: platform
+    at: [40.5, 84.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_3
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_3_red
+    kind: platform
+    at: [40.5, 84.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_3
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_4
+    kind: platform
+    at: [41.5, 84.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_4}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_4
+          value: 0
+      - show: thing:pedestal_4_blue
+      - hide: thing:pedestal_4_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_4
+          value: 1
+      - hide: thing:pedestal_4_blue
+      - show: thing:pedestal_4_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 4 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_4_blue
+    kind: platform
+    at: [41.5, 84.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_4
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_4_red
+    kind: platform
+    at: [41.5, 84.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_4
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_5
+    kind: platform
+    at: [42.5, 84.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_5}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_5
+          value: 0
+      - show: thing:pedestal_5_blue
+      - hide: thing:pedestal_5_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_5
+          value: 1
+      - hide: thing:pedestal_5_blue
+      - show: thing:pedestal_5_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 5 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_5_blue
+    kind: platform
+    at: [42.5, 84.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_5
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_5_red
+    kind: platform
+    at: [42.5, 84.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_5
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_6
+    kind: platform
+    at: [42.5, 85.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_6}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_6
+          value: 0
+      - show: thing:pedestal_6_blue
+      - hide: thing:pedestal_6_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_6
+          value: 1
+      - hide: thing:pedestal_6_blue
+      - show: thing:pedestal_6_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 6 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_6_blue
+    kind: platform
+    at: [42.5, 85.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_6
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_6_red
+    kind: platform
+    at: [42.5, 85.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_6
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_7
+    kind: platform
+    at: [42.5, 86.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_7}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_7
+          value: 0
+      - show: thing:pedestal_7_blue
+      - hide: thing:pedestal_7_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_7
+          value: 1
+      - hide: thing:pedestal_7_blue
+      - show: thing:pedestal_7_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 7 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_7_blue
+    kind: platform
+    at: [42.5, 86.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_7
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_7_red
+    kind: platform
+    at: [42.5, 86.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_7
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:pedestal_8
+    kind: platform
+    at: [41.5, 86.5]
+    size: [160, 160]
+    height: 112
+    textures: {top: chb1s, wall: chb1}
+    title: Pedestal
+    condition: {all: [{not: {qbit: asp_pedestals}}, {not: {map_var: ped_8}}]}
+    else_effects:
+      - lua: if not IsQBitSet(QBit(112101)) then
+      - set:
+          var:
+            map_var: ped_8
+          value: 0
+      - show: thing:pedestal_8_blue
+      - hide: thing:pedestal_8_red
+      - lua: end
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    effects:
+      - set:
+          var:
+            map_var: ped_8
+          value: 1
+      - hide: thing:pedestal_8_blue
+      - show: thing:pedestal_8_red
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_touch\")"
+    notes: "Pedestal 8 clockwise from the south-west (D-4): a blue or a red cap shown."
+  - id: thing:pedestal_8_blue
+    kind: platform
+    at: [41.5, 86.5]
+    size: [176, 176]
+    same_event_as: thing:pedestal_8
+    raise: 112
+    height: 24
+    textures: {top: xnpedblu, wall: xnpedblu}
+  - id: thing:pedestal_8_red
+    kind: platform
+    at: [41.5, 86.5]
+    size: [168, 168]
+    same_event_as: thing:pedestal_8
+    raise: 112
+    height: 28
+    textures: {top: xnpedred, wall: xnpedred}
+  - id: thing:rule_stone
+    kind: decoration
+    at: [42.1, 81.4]
+    decoration: rock65
+    title: Rule stone
+    effects:
+      - lua: "XeenQuests.hook(\"q-c5.pedestal_rhyme\")"
+  - id: thing:xd25_stair
+    kind: hatch
+    at: [41.5, 81.5]
+    size: [512, 512]
+    turn: 0
+    title: The undercroft stair
+    into: {map: xeen_xd25.blv, at: [-2208, 1760, 256], facing: 0, screen: {text: 5025}}
+    hint: Cellar stair
+    notes: "XD-25 Asp Undercroft (A7): open from day one (the field of light inside drops with q-c5.pedestals)."
+  - id: thing:asp_mirror
+    kind: portal
+    at: [41.6, 88.5]
+    turn: 0
+    radius: 112
+    sides: 12
+    textures: {membrane: {texture: xmirror}}
+    title: Magic Mirror
+    effects:
+      - lua: "Xeen.useMirror(4177, eventId, continueStep)"
+    notes: "A4 4177, The Mirror of Asp (opens with q-c5.done)."
+  - id: thing:asp_sign
+    kind: sign
+    at: [51.8, 84.6]
+    height: 224
+    width: 160
+    title: Asp
+    effects:
+      - lua: "evt.SimpleMessage(\"Asp. Travellers welcome. (Someone has added: \\\"Ssstay out.\\\")\")"
+  - id: thing:druid_ring
+    kind: stone_ring
+    at: [26, 70]
+    radius: 640
+    title: The Autumn Druid's ring
+    count: 6
+    lintel: false
+  - id: thing:barbarian_tent_1
+    kind: tent
+    at: [22.4, 53.2]
+    size: [896, 704]
+    height: 384
+    title: Barbarian tent
+    lua: "if IsQBitSet(QBit(116060)) then evt.StatusText(\"Charred poles and wet ash.\", 4) return end if continueStep == 1 then XeenQuests.hook(\"x4.barbarian_camp\") return end if continueStep ~= nil then evt.StatusText(\"You leave the camp standing, for now.\", 4) return end AskChoiceWithAnswerSteps(eventId, 3, \"You have stumbled upon a Barbarian encampment. Burn?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    open: true
+  - id: thing:barbarian_tent_2
+    kind: tent
+    at: [25.4, 53]
+    size: [768, 640]
+    height: 384
+    title: Barbarian tent
+    lua: "if IsQBitSet(QBit(116060)) then evt.StatusText(\"Charred poles and wet ash.\", 4) return end if continueStep == 1 then XeenQuests.hook(\"x4.barbarian_camp\") return end if continueStep ~= nil then evt.StatusText(\"You leave the camp standing, for now.\", 4) return end AskChoiceWithAnswerSteps(eventId, 3, \"You have stumbled upon a Barbarian encampment. Burn?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    open: false
+  - id: thing:barbarian_tent_3
+    kind: tent
+    at: [22.8, 56.4]
+    size: [768, 640]
+    height: 384
+    title: Barbarian tent
+    lua: "if IsQBitSet(QBit(116060)) then evt.StatusText(\"Charred poles and wet ash.\", 4) return end if continueStep == 1 then XeenQuests.hook(\"x4.barbarian_camp\") return end if continueStep ~= nil then evt.StatusText(\"You leave the camp standing, for now.\", 4) return end AskChoiceWithAnswerSteps(eventId, 3, \"You have stumbled upon a Barbarian encampment. Burn?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    open: true
+  - id: thing:barbarian_fire
+    kind: decoration
+    at: [24.4, 55.4]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:barbarian_chest
+    kind: chest
+    at: [24.4, 54.75]
+    title: The chief's chest
+    chest: {level: 3, random_items: 3}
+  - id: thing:barbarian_dress_1
+    kind: decoration
+    at: [25.6, 56.6]
+    decoration: 7dec18
+  - id: thing:barbarian_dress_2
+    kind: decoration
+    at: [21.6, 55.4]
+    decoration: sklplrev
+  - id: thing:barbarian_dress_3
+    kind: decoration
+    at: [26.2, 54.6]
+    decoration: 7dec20
+  - id: thing:knight_tent_1
+    kind: tent
+    at: [55, 102]
+    size: [768, 640]
+    height: 416
+    title: Torn pavilion
+    condition: {not: {map_var: knights_camp_burnt}}
+    else_effects:
+      - text: Charred canvas and a broken lance rack.
+    effects:
+      - set:
+          var:
+            map_var: knights_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 1500
+      - lua: "evt.StatusText(\"You put the renegades' pavilions to the torch. (+1,500 experience)\", 6)"
+    open: true
+  - id: thing:knight_tent_2
+    kind: tent
+    at: [57.6, 102.2]
+    size: [768, 640]
+    height: 416
+    title: Torn pavilion
+    condition: {not: {map_var: knights_camp_burnt}}
+    else_effects:
+      - text: Charred canvas and a broken lance rack.
+    effects:
+      - set:
+          var:
+            map_var: knights_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 1500
+      - lua: "evt.StatusText(\"You put the renegades' pavilions to the torch. (+1,500 experience)\", 6)"
+    open: true
+  - id: thing:knight_fire
+    kind: decoration
+    at: [56.4, 103.6]
+    decoration: dec24
+    title: Campfire
+  - id: thing:knights_chest
+    kind: chest
+    at: [55.9, 103.9]
+    title: The renegades' chest
+    chest: {level: 3, random_items: 2}
+  - id: thing:quintain
+    kind: decoration
+    at: [60.5, 93.5]
+    decoration: dec13
+    title: Quintain
+    condition: {not: {lua: "Xeen.usedToday(\"x4_quintain\")"}}
+    else_effects:
+      - lua: "evt.StatusText(\"The quintain creaks round on its post. Enough tilting for one day.\", 6)"
+    effects:
+      - lua: "Xeen.markToday(\"x4_quintain\") evt.ForPlayer(Players.All)"
+      - add:
+          var: AccuracyBonus
+          value: 5
+      - lua: "evt.StatusText(\"You tilt at the quintain and duck the swinging sack. (+5 Accuracy until you rest)\", 6)"
+  - id: thing:ogre_camp
+    kind: decoration
+    at: [106, 86]
+    decoration: dec24
+    title: The ogres' fire
+    condition: {not: {map_var: ogre_camp_burnt}}
+    else_effects:
+      - text: Ashes and gnawed bones.
+    effects:
+      - set:
+          var:
+            map_var: ogre_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 1500
+      - lua: "evt.StatusText(\"You scatter the ogres' fire into their bedding and the camp burns. (+1,500 experience)\", 6)"
+  - id: thing:ogre_chest
+    kind: chest
+    at: [106.5, 85.6]
+    title: The ogres' loot
+    chest: {level: 3, random_items: 2}
+  - id: thing:ogre_dress_1
+    kind: decoration
+    at: [104.8, 86.8]
+    decoration: 7dec18
+  - id: thing:ogre_dress_2
+    kind: decoration
+    at: [107.4, 87.2]
+    decoration: dec19
+  - id: thing:ogre_dress_3
+    kind: decoration
+    at: [104.6, 84.6]
+    decoration: 7rock08
+  - id: thing:dwarf_stone
+    kind: sign
+    at: [96, 90]
+    height: 224
+    width: 160
+    title: Boundary stone
+    effects:
+      - lua: "evt.SimpleMessage(\"Here begin the hills of the Red Dwarves. Mind the adits.\")"
+  - id: thing:ore_cart
+    kind: crate
+    at: [101.2, 97.4]
+    title: Ore cart
+    chest: {level: 2, random_items: 2}
+  - id: thing:xd02_adit
+    kind: doorway
+    at: [104, 95.5]
+    turn: 90
+    height: 320
+    width: 256
+    depth: 448
+    hood: 64
+    textures: {door: 7solid01, wall: cwb1}
+    floor: 1504
+    title: The west adit
+    into: {map: xeen_xd02.blv, at: [2720, 5184, 256], facing: 0}
+    condition: {qbit: x4_adit_open}
+    else_effects:
+      - lua: "evt.SimpleMessage(\"Rock fills the adit to the roof. Someone inside could drag it clear.\")"
+    notes: "XD-02 Red Dwarf Mines' west adit (M3, qbit 110020): open once the winch inside has dragged the fall clear."
+  - id: thing:adit_torch_1
+    kind: decoration
+    at: [103.75, 94.85]
+    decoration: dec06
+  - id: thing:adit_torch_2
+    kind: decoration
+    at: [103.75, 96.15]
+    decoration: dec06
+  - id: thing:adit_spoil
+    kind: decoration
+    at: [103.4, 93.9]
+    decoration: 7rock08
+  - id: thing:xd26_eyrie
+    kind: cave_mouth
+    at: [46, 41]
+    size: [640, 1024]
+    textures: {door: 7solid01, shell: cwb1}
+    title: The Gargoyle Eyrie
+    into: {map: xeen_xd26.blv, at: [1344, -1000, 0], facing: 512, screen: {text: 5026}}
+    hint: Gargoyle Eyrie
+    notes: "XD-26 Gargoyle Eyrie (A7): its mouth leads back here (DOORS.md)."
+    mouth: {width: 512, height: 416, depth: 128, rim: 64}
+    roughness: 0.7
+    seed: 4
+  - id: thing:eyrie_bones_1
+    kind: decoration
+    at: [45, 42.2]
+    decoration: 7dec18
+  - id: thing:eyrie_bones_2
+    kind: decoration
+    at: [47.2, 42.4]
+    decoration: dec19
+  - id: thing:eyrie_bones_3
+    kind: decoration
+    at: [44.6, 41.4]
+    decoration: sklplrev
+  - id: thing:sky_crack_ledge
+    kind: platform
+    at: [49.5, 35.5]
+    size: [768, 512]
+    height: 32
+    textures: {top: cwb, wall: cwb1}
+    title: A ledge high on Gargoyle Peak
+    notes: "D-4: XD-26's sky crack lets out here (one way); the whole savannah below."
+  - id: thing:eyrie_waystone
+    kind: sign
+    at: [42.4, 50.6]
+    height: 224
+    width: 160
+    title: Waystone
+    effects:
+      - lua: "evt.SimpleMessage(\"Down: Carlawna's hut. Up: the Gargoyle Eyrie. Gargoyles take anything that shines.\")"
+  - id: thing:gargoyle_roost
+    kind: chest
+    at: [88, 37.2]
+    title: A heap of shiny things
+    chest: {level: 3, random_items: 3}
+  - id: thing:kings_beacon
+    kind: decoration
+    at: [64, 31.6]
+    decoration: dec60
+    title: The King's beacon
+  - id: thing:crest_cairn_w
+    kind: decoration
+    at: [40.5, 26.6]
+    decoration: rock26
+    title: Climbers' cairn
+    condition: {not: {lua: "Xeen.usedToday(\"x4_crest_cairn_w\")"}}
+    else_effects:
+      - lua: "evt.StatusText(\"You have added your stone today.\", 4)"
+    effects:
+      - lua: "Xeen.markToday(\"x4_crest_cairn_w\") evt.ForPlayer(Players.All)"
+      - add:
+          var: LuckBonus
+          value: 5
+      - lua: "evt.StatusText(\"A cairn on the lip of the world. Below it, nothing but stars. You add a stone. (+5 Luck until you rest)\", 6)"
+  - id: thing:climber_bones
+    kind: decoration
+    at: [22.4, 27.4]
+    decoration: dec19
+    title: A climber's bones
+    effects:
+      - lua: "evt.SimpleMessage(\"A climber's bones, picked clean, and a rope frayed through on the rock. Gargoyles.\")"
+  - id: thing:crest_wind_stone
+    kind: decoration
+    at: [75.5, 26.6]
+    decoration: rock68
+    title: Wind stone
+    condition: {not: {lua: "Xeen.usedToday(\"x4_crest_wind_stone\")"}}
+    else_effects:
+      - lua: "evt.StatusText(\"The wind howls through the stone. Nothing more.\", 5)"
+    effects:
+      - lua: "Xeen.markToday(\"x4_crest_wind_stone\") evt.ForPlayer(Players.All)"
+      - add:
+          var: SpeedBonus
+          value: 5
+      - lua: "evt.StatusText(\"The wind off the rim howls through a hole in the stone. Your feet feel lighter. (+5 Speed until you rest)\", 6)"
+  - id: thing:shrine_fire
+    kind: building
+    at: [103, 44.5]
+    size: [2, 2]
+    kit: stone
+    facing: s
+    parts:
+      - {id: shrine, at: [128, 128], size: [768, 768], posts: 64, textures: {roof: xtslate}, wall_height: 384, windows: none, roof: hip, roof_pitch: 40, title: Shrine of Fire, condition: {not: {map_var: fire_shrine_used}}, else_effects: [{text: "The embers on the altar glow, and nothing more."}], effects: [{set: {var: {map_var: fire_shrine_used}, value: 1}}, {add: {var: FireResistance, value: 5}}, {text: "+5 Fire resistance (permanent)"}]}
+    door: none
+    title: Shrine of Fire
+  - id: thing:shrine_brazier
+    kind: decoration
+    at: [104, 45.5]
+    decoration: brazir2f
+    title: Brazier
+  - id: thing:burned_wagon
+    kind: decoration
+    at: [105.6, 51.6]
+    decoration: dec24x
+    title: Burned caravan
+  - id: thing:burned_strongbox
+    kind: chest
+    at: [106.4, 52.4]
+    title: Charred strongbox
+    chest: {level: 3, random_items: 2}
+  - id: thing:rim_lookout
+    kind: building
+    at: [103, 30]
+    size: [2, 2]
+    kit: stone
+    facing: s
+    parts:
+      - {id: post, shape: round, at: [512, 512], radius: 320, sides: 8, textures: {wall: chb1}, wall_height: 256, title: A broken watch post, effects: [{lua: "evt.SimpleMessage(\"Scratched on the stone: \\\"The stars are below us. Do not lean over.\\\"\")"}], ruin: {height: [96, 256], gaps: 0.3}}
+    door: none
+    title: A broken watch post
+  - id: thing:mill_ruin
+    kind: building
+    at: [84, 60]
+    size: [2, 2]
+    kit: poor
+    facing: w
+    parts:
+      - {id: mill, at: [64, 64], size: [896, 896], wall_height: 256, title: Burnt-out mill, effects: [{lua: "evt.SimpleMessage(\"The miller's last ledger, charred at the edges: \\\"Gargoyles again off the falls. Took the lambs and the weathercock.\\\"\")"}], ruin: {height: [96, 256], gaps: 0.25}}
+    door: none
+    title: Burnt-out mill
+  - id: thing:sunken_barge
+    kind: crate
+    at: [78, 91]
+    title: A barge's cargo box
+    chest: {level: 2, random_items: 2}
+  - id: thing:joe_wagon
+    kind: tent
+    at: [88.4, 86.6]
+    size: [640, 1024]
+    height: 352
+    title: Joe's wagon
+    open: true
+  - id: thing:joe_dress_1
+    kind: decoration
+    at: [89.2, 87.9]
+    decoration: bigbarel
+  - id: thing:joe_dress_2
+    kind: decoration
+    at: [89.5, 87.9]
+    decoration: 7dec21
+  - id: thing:joe_dress_3
+    kind: decoration
+    at: [87.6, 85.6]
+    decoration: haybale2
+  - id: thing:nystor_jetty
+    kind: bridge
+    line: [[82, 101], [79.4, 101]]
+    height: 736
+    width: 384
+    kerb: 0
+    textures: {deck: trim11_32}
+    title: Nystor's jetty
+  - id: thing:nystor_post
+    kind: sign
+    at: [82.4, 100.4]
+    height: 256
+    width: 128
+    title: Captain Nystor's landing
+    condition: {qbit: nystor_upriver}
+    else_effects:
+      - lua: "evt.SimpleMessage(\"A mooring post with Captain Nystor's mark. \\\"Closed until the ogres stop throwing boulders.\\\"\")"
+    effects:
+      - lua: "evt.SimpleMessage(\"Captain Nystor's boat calls here on its way upriver. Ask at his dock in Rivercity.\")"
+  - id: thing:nystor_boathouse
+    kind: building
+    at: [83, 98.5]
+    size: [2, 1.5]
+    kit: timber
+    facing: w
+    parts:
+      - {id: house, at: [48, 48], size: [928, 672], textures: {roof: hhm1rf}, wall_height: 320, roof: gable, roof_pitch: 36, ridge_along: ew}
+    door: none
+    title: Nystor's boathouse
+  - id: thing:saddlebags
+    kind: crate
+    at: [52, 91.6]
+    title: A fallen charger's saddlebags
+    chest: {level: 2, random_items: 2}
+  - id: thing:champions_barrow
+    kind: chest
+    at: [70, 86.2]
+    title: The champions' grave goods
+    chest: {level: 3, random_items: 2}
+    effects:
+      - text: Here lie the champions of the lists. They fell off last.
+  - id: thing:barrow_stone
+    kind: decoration
+    at: [70, 85.2]
+    decoration: rock65
+  - id: thing:asp_grave_1
+    kind: decoration
+    at: [26.2, 95.4]
+    decoration: rock65
+  - id: thing:asp_grave_2
+    kind: decoration
+    at: [27.4, 95.2]
+    decoration: rock65
+  - id: thing:asp_grave_3
+    kind: decoration
+    at: [26.4, 96.8]
+    decoration: rock65
+  - id: thing:asp_grave_4
+    kind: decoration
+    at: [27.8, 96.7]
+    decoration: rock65
+  - id: thing:asp_grave_5
+    kind: decoration
+    at: [28.6, 95.9]
+    decoration: rock65
+  - id: thing:sexton_chest
+    kind: chest
+    at: [25.4, 96.2]
+    title: The sexton's chest
+    chest: {level: 2, random_items: 2}
+    effects:
+      - text: "Beside it, five graves, a shed snakeskin across each."
+  - id: thing:obelisk
+    kind: obelisk
+    at: [48, 66.5]
+    height: 768
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.x4\")"
+  - id: thing:herders_well
+    kind: well
+    at: [40.4, 101]
+    frame: {height: 200}
+    title: Herders' well
+    condition: {not: {lua: "Xeen.usedToday(\"x4_herders_well\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"x4_herders_well\") evt.ForPlayer(Players.All)"
+      - add:
+          var: EnduranceBonus
+          value: 5
+      - text: "+5 Endurance until you rest"
+  - id: thing:wayfarers_well
+    kind: well
+    at: [96.6, 71.2]
+    frame: {height: 200}
+    title: Wayfarers' well
+    condition: {not: {lua: "Xeen.usedToday(\"x4_wayfarers_well\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"x4_wayfarers_well\") evt.ForPlayer(Players.All)"
+      - add:
+          var: SpeedBonus
+          value: 5
+      - text: "+5 Speed until you rest"
+  - id: thing:savannah_well
+    kind: well
+    at: [93, 50]
+    frame: {height: 200}
+    title: Herders' well
+    condition: {not: {lua: "Xeen.usedToday(\"x4_savannah_well\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"x4_savannah_well\") evt.ForPlayer(Players.All)"
+      - add:
+          var: MightBonus
+          value: 5
+      - text: "+5 Might until you rest"
+  - id: thing:standing_stone
+    kind: decoration
+    at: [21, 83]
+    decoration: rock68
+    title: Standing stone
+    condition: {not: {lua: "Xeen.usedToday(\"x4_standing_stone\")"}}
+    else_effects:
+      - lua: "evt.StatusText(\"No one seems to be listening.\", 3)"
+    effects:
+      - lua: "Xeen.markToday(\"x4_standing_stone\") evt.ForPlayer(Players.All)"
+      - add:
+          var: PersonalityBonus
+          value: 5
+      - lua: "evt.StatusText(\"The stone is warm from the sun. You feel bolder. (+5 Personality until you rest)\", 6)"
+  - id: thing:jousters_grave
+    kind: decoration
+    at: [69, 106]
+    decoration: rock65
+  - id: thing:red_waymark
+    kind: decoration
+    at: [104, 76]
+    decoration: rock68
+  - id: thing:x3_road_end
+    kind: sign
+    at: [37.4, 105]
+    height: 224
+    width: 160
+    title: Sign
+    effects:
+      - text: "Lifeforce Lagoon: south. Mind the floods."
+  - id: thing:village_barrel_1
+    kind: decoration
+    at: [58.8, 51.75]
+    decoration: bigbarel
+  - id: thing:village_barrel_1_pair
+    kind: decoration
+    at: [58.8, 52.05]
+    decoration: smlbarel
+  - id: thing:village_barrel_2
+    kind: decoration
+    at: [66.25, 51.9]
+    decoration: bigbarel
+  - id: thing:village_barrel_2_pair
+    kind: decoration
+    at: [66.25, 52.2]
+    decoration: smlbarel
+  - id: thing:village_barrel_3
+    kind: decoration
+    at: [67.55, 54.75]
+    decoration: bigbarel
+  - id: thing:village_barrel_3_pair
+    kind: decoration
+    at: [67.85, 54.75]
+    decoration: smlbarel
+  - id: thing:village_barrel_4
+    kind: decoration
+    at: [55.35, 57.4]
+    decoration: bigbarel
+  - id: thing:village_barrel_4_pair
+    kind: decoration
+    at: [55.35, 57.7]
+    decoration: smlbarel
+  - id: thing:stable_hay_1
+    kind: decoration
+    at: [68.6, 54.8]
+    decoration: haybale2
+  - id: thing:stable_hay_2
+    kind: decoration
+    at: [68.6, 55.4]
+    decoration: haybale2
+  - id: thing:village_tree_1
+    kind: decoration
+    at: [56, 54.1]
+    decoration: 7tree19
+  - id: thing:village_tree_2
+    kind: decoration
+    at: [65.2, 58.2]
+    decoration: 7tree28
+  - id: thing:village_tree_3
+    kind: decoration
+    at: [59.5, 61.3]
+    decoration: 7tree19
+  - id: thing:village_tree_4
+    kind: decoration
+    at: [66.8, 61.6]
+    decoration: 7tree28
+  - id: thing:village_flowers_1
+    kind: decoration
+    at: [58.6, 57.9]
+    decoration: flower11
+  - id: thing:village_flowers_2
+    kind: decoration
+    at: [59, 58.2]
+    decoration: flower11
+  - id: thing:village_flowers_3
+    kind: decoration
+    at: [64.4, 56.3]
+    decoration: flower11
+  - id: thing:village_flowers_4
+    kind: decoration
+    at: [64.7, 56.6]
+    decoration: flower11
+actors:
+  - {monster: "11100", at: [24, 56.4], count: 4, spread: 1.4, group: 61, hostile: true}
+  - {monster: "11101", at: [25.6, 55.2], count: 1, spread: 0, group: 61, hostile: true}
+  - {monster: "11102", at: [23.4, 55], count: 1, spread: 0, group: 61, hostile: true}
+  - {monster: "11060", at: [106, 87], count: 3, spread: 1.2, group: 62, hostile: true}
+  - {monster: "11061", at: [105.2, 85.4], count: 1, spread: 0, group: 62, hostile: true}
+  - {monster: "11680", at: [56.4, 102.6], count: 3, spread: 1.2, group: 63, hostile: true}
+  - {monster: "11682", at: [57, 103.8], count: 1, spread: 0, group: 63, hostile: true}
+  - {monster: "371", at: [62, 56.2], spread: 0, group: 51}
+  - {monster: "350", at: [64.6, 55.6], spread: 0, group: 51}
+  - {monster: "362", at: [60.2, 57.8], spread: 0, group: 51}
+  - {monster: "377", at: [63, 58.4], spread: 0, group: 51}
+  - {monster: "368", at: [66, 57.6], spread: 0, group: 51}
+  - {monster: "354", at: [58, 56.4], spread: 0, group: 51}
+  - {monster: "371", at: [62.4, 60.2], spread: 0, group: 51}
+  - {monster: "350", at: [67.6, 60.2], spread: 0, group: 51}
+  - {monster: "362", at: [70.4, 66.4], spread: 0, group: 51}
+  - {monster: "377", at: [71.2, 70.2], spread: 0, group: 51}
+  - {monster: "11143", at: [61.3, 53.9], spread: 0, group: 51}
+  - {monster: "11143", at: [62.7, 53.9], spread: 0, group: 51}
+  - {monster: "11143", at: [61.7, 62.9], spread: 0, group: 51}
+  - {monster: "11143", at: [63.3, 62.9], spread: 0, group: 51}
+  - {monster: "11143", at: [69.9, 56.6], spread: 0, group: 51}
+  - {monster: "371", at: [38.6, 86.6], spread: 0, group: 52}
+  - {monster: "350", at: [44.8, 87.2], spread: 0, group: 52}
+  - {monster: "362", at: [39.4, 83.4], spread: 0, group: 52}
+  - {monster: "371", at: [43.4, 84.2], spread: 0, group: 53, npc: 4301}
+  - {monster: "377", at: [43.4, 86.8], spread: 0, group: 53, npc: 4302}
+  - {monster: "368", at: [87.6, 87.8], spread: 0, group: 53, npc: 4320}
+  - {monster: "11929", at: [26, 70.6], spread: 0, group: 53, npc: 4321}
+sounds:
+  - {id: sound:bed_night_1, at: [27, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_2, at: [55, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_3, at: [83, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_4, at: [41, 73], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_5, at: [69, 73], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_6, at: [97, 73], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_7, at: [27, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_8, at: [55, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_9, at: [83, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_range_wind_1, at: [23, 27], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_2, at: [47, 27], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_3, at: [71, 27], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_4, at: [95, 27], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_savannah_1, at: [27, 49], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_2, at: [55, 49], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_3, at: [83, 49], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_4, at: [41, 73], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_5, at: [69, 73], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_6, at: [97, 73], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_7, at: [27, 97.5], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_8, at: [55, 97.5], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+  - {id: sound:bed_savannah_9, at: [83, 97.5], sound: xeen_amb_savannah, radius: 15000, inner_radius: 6000, volume: 0.3, day_only: true, pan: false}
+events:
+  - id: evt:pedestal_1_load
+    trigger: load
+    condition: {map_var: ped_1}
+    else_effects:
+      - show: thing:pedestal_1_blue
+      - hide: thing:pedestal_1_red
+    effects:
+      - hide: thing:pedestal_1_blue
+      - show: thing:pedestal_1_red
+  - id: evt:pedestal_2_load
+    trigger: load
+    condition: {map_var: ped_2}
+    else_effects:
+      - show: thing:pedestal_2_blue
+      - hide: thing:pedestal_2_red
+    effects:
+      - hide: thing:pedestal_2_blue
+      - show: thing:pedestal_2_red
+  - id: evt:pedestal_3_load
+    trigger: load
+    condition: {map_var: ped_3}
+    else_effects:
+      - show: thing:pedestal_3_blue
+      - hide: thing:pedestal_3_red
+    effects:
+      - hide: thing:pedestal_3_blue
+      - show: thing:pedestal_3_red
+  - id: evt:pedestal_4_load
+    trigger: load
+    condition: {map_var: ped_4}
+    else_effects:
+      - show: thing:pedestal_4_blue
+      - hide: thing:pedestal_4_red
+    effects:
+      - hide: thing:pedestal_4_blue
+      - show: thing:pedestal_4_red
+  - id: evt:pedestal_5_load
+    trigger: load
+    condition: {map_var: ped_5}
+    else_effects:
+      - show: thing:pedestal_5_blue
+      - hide: thing:pedestal_5_red
+    effects:
+      - hide: thing:pedestal_5_blue
+      - show: thing:pedestal_5_red
+  - id: evt:pedestal_6_load
+    trigger: load
+    condition: {map_var: ped_6}
+    else_effects:
+      - show: thing:pedestal_6_blue
+      - hide: thing:pedestal_6_red
+    effects:
+      - hide: thing:pedestal_6_blue
+      - show: thing:pedestal_6_red
+  - id: evt:pedestal_7_load
+    trigger: load
+    condition: {map_var: ped_7}
+    else_effects:
+      - show: thing:pedestal_7_blue
+      - hide: thing:pedestal_7_red
+    effects:
+      - hide: thing:pedestal_7_blue
+      - show: thing:pedestal_7_red
+  - id: evt:pedestal_8_load
+    trigger: load
+    condition: {map_var: ped_8}
+    else_effects:
+      - show: thing:pedestal_8_blue
+      - hide: thing:pedestal_8_red
+    effects:
+      - hide: thing:pedestal_8_blue
+      - show: thing:pedestal_8_red
+  - id: evt:pedestals_set
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: ped_1}, {not: {map_var: ped_2}}, {map_var: ped_3}, {not: {map_var: ped_4}}, {map_var: ped_5}, {not: {map_var: ped_6}}, {map_var: ped_7}, {not: {map_var: ped_8}}, {not: {qbit: asp_pedestals}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c5.pedestals\")"
+      - lua: "evt.SimpleMessage(\"The pedestals hum together, and somewhere under the square a deep note answers.\")"
+    once: true
+    notes: "Q-C5 (A3): the pedestals set; A3's hook q-c5.pedestals sets qbit 112101 and the field of light in XD-25 drops."

@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint inside the existing alpha of guide_atlas.png (first input), directly editing its 1536x1024 landscape canvas. Exactly preserve every silhouette pixel, orientation, position, size and transparent gap across the three columns and two rows of 512px cells. Keep the bottom-right cell empty. Row 1 front (point-on radial pavilion), back (face-on table), left (tip pointing right); row 2 right (tip pointing left), top (tip down), empty. Use design_reference.png for the many-faceted clear brilliant diamond cut and icon_x8.png for the cool clear silver-blue palette with faint rainbow glints. Apply unlit base colour only, fine crisp internal facet colour changes following the planes. No lighting, cast shadows, AO, hot highlights, reflections, glow, sparkles, aura, outlines, ground, text or magenta. Preserve the grey guide's exact geometry. Transparent PNG. Correct the placement by tracing the guide as a locked opaque stencil. The FRONT box is x33\u2013478 y33\u2013478, BACK x545\u2013990 y33\u2013478 centered at x768, LEFT x1132\u20131426 y33\u2013478, RIGHT x109\u2013403 y545\u2013990, TOP x545\u2013990 y620\u2013914 centered at x768. Enforce fully transparent hard cutouts with no surrounding haze; keep facets solid to the edge.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "a32c816cea0ce56e91a3208b845a55a182b550c188d33d39138c23a1cb1a1a07"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "d0a7bb96c2869925cb1a9e8ec6b7ea32d2a83b3002204a076ab6530aa0c55687"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "f2190f55a81eccd111811c167ce55c2cc7ae3604f55704ea36824b9d0dc4e283"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92a-8ff7-74e1-904c-73c98d497974/exec-b88ed886-528f-4069-9174-f2e5ebe0ff01.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

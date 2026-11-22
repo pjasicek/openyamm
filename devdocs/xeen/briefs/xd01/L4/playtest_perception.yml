@@ -3,7 +3,7 @@
 # party that has no Perception). Event and door numbers are ids.lock.yml's.
 id: xeen.xd01.l4.perception
 title: Joe's Warehouse (XD-01 L4), the street doors by Perception 3
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -12,7 +12,7 @@ steps:
   - setup_shortcut: {kind: immortal, value: true}
   - play_lua:
       source: |
-        if has_item(2176) then error("the party already carries the warehouse key") end
+        if has_item(12001) then error("the party already carries the warehouse key") end
         if door_state(16) ~= "closed" or door_state(17) ~= "closed" then error("the street doors do not start shut") end
         click(27); wait(1)
   - assert:

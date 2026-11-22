@@ -1,0 +1,243 @@
+format: 0
+level: L1
+pitch: "A cave mouth high on the Gargoyle Range opens into one tall shaft. Ledges climb its walls, joined by ladders and a rope bridge 1,024 over the floor, and the gargoyles dive across the open air at whoever climbs. A fence who hires them to steal keeps his crates on the east side; his winch lowers the hoist from the high ledge. At the top, in the matriarch's roost, Carlawna's Scarab of Imaging lies among the stolen silver; a crack in the peak lets the daylight in."
+purpose: "Q-C10 The Scarab of Imaging (Carlawna, X4). Party 15 to 17, Gargoyles 16/22/28 (all three tiers; they fly across the shaft), about 28 monsters, treasure level 2 with the roost hoard at 3."
+mood: "Wind in a dark shaft, wingbeats overhead, straw and bones in the nests; daylight from the crack at the top."
+datum: arrival
+spaces:
+  - id: room:fence_cache
+    name: The fence's cache
+    kind: room
+    size: S
+    floor: 1024
+    purpose: "Crates tagged for buyers; the winch that lowers the hoist."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [28, 28], notes: About 1 gargoyles (rank c).}
+  - id: room:hidden_ledge
+    name: Hidden ledge
+    kind: room
+    size: S
+    floor: 1536
+    purpose: "Behind the moss: a dead climber's pack."
+    empty: true
+  - id: room:high_ledge
+    name: High ledge
+    kind: corridor
+    size: M
+    floor: 1536
+    purpose: "A narrow shelf; the roost ladder; hanging moss along the wall."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [22, 22], notes: About 3 gargoyles (rank b).}
+  - id: room:hoist_foot
+    name: Hoist foot
+    kind: corridor
+    size: S
+    floor: 1024
+    purpose: Where the fence's hoist comes down from the high ledge once the winch has lowered it.
+    empty: true
+  - id: room:ledge_e
+    name: East nests
+    kind: room
+    size: M
+    floor: 1024
+    purpose: "Nests of sticks and bones; the fence's door; the way to the hoist's foot."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [22, 22], notes: About 3 gargoyles (rank b).}
+  - id: room:ledge_low
+    name: First ledge
+    kind: room
+    size: M
+    floor: 512
+    purpose: "The first shelf up the wall; the ladder up to the west ledge."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 16], notes: About 3 gargoyles (rank a).}
+  - id: room:ledge_w
+    name: West ledge
+    kind: room
+    size: M
+    floor: 1024
+    purpose: "Where the climb from below arrives; the rope bridge starts."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 16], notes: About 3 gargoyles (rank a).}
+  - id: room:low_nests
+    name: Low nests
+    kind: room
+    size: M
+    floor: 512
+    purpose: "Young gargoyles; a rock ramp climbs on to the west ledge."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 16], notes: About 3 gargoyles (rank a).}
+  - id: room:mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    floor: 0
+    purpose: "From the bare peaks of the Gargoyle Range; droppings and bones."
+    empty: true
+  - id: room:rock_ramp
+    name: Rock ramp
+    kind: corridor
+    size: S
+    floor: 512
+    purpose: The ramp from the low nests up to the west ledge.
+    empty: true
+  - id: room:roost
+    name: Matriarch's roost
+    kind: room
+    size: L
+    floor: 2048
+    purpose: "The great nest: the Scarab of Imaging among stolen silver."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [28, 28], notes: About 6 gargoyles (rank c).}
+  - id: room:shaft_floor
+    name: Shaft floor
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The bottom of the vertical cave: every ledge seen from here; gargoyles dive from above."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 16], notes: About 5 gargoyles (rank a).}
+  - id: room:sky_crack
+    name: Sky crack
+    kind: room
+    size: S
+    floor: 2048
+    purpose: "Daylight through a split in the peak: the quick way out."
+    empty: true
+  - id: zone:bridge
+    name: Rope bridge
+    kind: zone
+    part_of: room:shaft_floor
+    size: M
+    floor: 1024
+    purpose: "Across the open shaft, 1,024 above its floor; step off where the rail is torn and you fall."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [22, 22], notes: About 3 gargoyles (rank b).}
+links:
+  - id: link:bridge_drop
+    from: zone:bridge
+    to: room:shaft_floor
+    kind: drop
+    notes: "Where the south rail is torn away: a fall of 1,024."
+  - id: link:bridge_ledgee
+    from: zone:bridge
+    to: room:ledge_e
+    kind: open
+  - id: link:high_drop
+    from: room:high_ledge
+    to: room:ledge_w
+    kind: drop
+    notes: A jump of 512 through the gap in the rim.
+  - id: link:high_hidden
+    from: room:high_ledge
+    to: room:hidden_ledge
+    kind: secret_door
+    motion: slide
+    notes: Through the hanging moss.
+  - id: link:high_roost
+    from: room:high_ledge
+    to: room:roost
+    kind: ladder
+  - id: link:high_shaft
+    from: room:high_ledge
+    to: room:shaft_floor
+    kind: overlook
+    notes: The high ledge's lip over the shaft.
+  - id: link:hoist_high
+    from: room:hoist_foot
+    to: room:high_ledge
+    kind: lift
+    condition: {qbit: hoist_winched}
+    notes: "hoist: winch. The fence's hoist (D-17): it hangs at the high ledge until the winch in the fence's cache lowers it; then its deck or a call rope at either stop sends it."
+  - id: link:ledgee_fence
+    from: room:ledge_e
+    to: room:fence_cache
+    kind: door
+    motion: slide
+  - id: link:ledgee_hoist
+    from: room:ledge_e
+    to: room:hoist_foot
+    kind: open
+  - id: link:ledgelow_ledgew
+    from: room:ledge_low
+    to: room:ledge_w
+    kind: ladder
+  - id: link:ledgelow_nests
+    from: room:ledge_low
+    to: room:low_nests
+    kind: open
+  - id: link:ledgew_bridge
+    from: room:ledge_w
+    to: zone:bridge
+    kind: open
+  - id: link:mouth_shaft
+    from: room:mouth
+    to: room:shaft_floor
+    kind: open
+  - id: link:nests_ledgew
+    from: room:low_nests
+    to: room:ledge_w
+    kind: ramp
+    notes: By the rock ramp (its own room).
+  - id: link:roost_crack
+    from: room:roost
+    to: room:sky_crack
+    kind: open
+  - id: link:shaft_ledgelow
+    from: room:shaft_floor
+    to: room:ledge_low
+    kind: ladder
+    notes: A pole ladder up the shaft's west wall under the first ledge's lip (D-17).
+loops:
+  - id: loop:fall
+    spaces: [room:shaft_floor, room:ledge_low, room:ledge_w, zone:bridge]
+    notes: "Off the bridge where the rail is torn, and back up: the fall is the quick way down."
+  - id: loop:low
+    spaces: [room:ledge_low, room:low_nests, room:rock_ramp, room:ledge_w]
+    notes: "Two ways up from the first ledge: the ladder or the nests and the ramp."
+entrances:
+  - id: entrance:x4_peak
+    space: room:sky_crack
+    kind: exit
+    neighbour: exit:x4_peak
+    how: "One way out through the split in the peak, onto A5's ledge platform high on the same peak (no way back in)."
+  - id: entrance:x4_range
+    space: room:mouth
+    kind: both
+    neighbour: exit:x4_range
+    facing: n
+    how: "From and to X4's door:xd26, the cave mouth on the Gargoyle Range: inside the mouth, facing in; daylight behind."
+critical_path: [room:mouth, room:shaft_floor, room:ledge_low, room:ledge_w, zone:bridge, room:ledge_e, room:fence_cache, room:ledge_e, room:hoist_foot, room:high_ledge, room:roost]
+return_path: [room:roost, room:sky_crack]
+goals:
+  - id: goal:scarab
+    space: room:roost
+    kind: take
+    what: The Scarab of Imaging in the great nest (A3's hook q-c10.scarab).
+    story: Q-C10
+    gives:
+      qbit: scarab_found
+keys:
+  - id: key:winch
+    grants: {qbit: hoist_winched}
+    found_in: room:fence_cache
+    how: The fence's winch lowers his hoist from the high ledge.
+set_pieces:
+  - id: set:shaft
+    kind: vista
+    spaces: [room:shaft_floor, zone:bridge]
+    rule: "The shaft seen from every ledge; gargoyles fly across it to whoever is on a ledge or the bridge."
+  - id: set:winch
+    kind: scripted
+    spaces: [room:fence_cache, room:hoist_foot, room:high_ledge]
+    rule: "The winch lowers the fence's hoist the first time; then the deck or a call rope at either stop sends it up or down."
+diagram: {file: diagram.txt}
+totals:
+  chests: 3
+  doors: 3
+  floor_area_munits2: 13
+  loops: 2
+  monsters_about: 28
+  rooms: 13
+  sectors: 13
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act2_graphs/xd26.graph.yml and D-4 (act2_dungeon_decisions.md, XD-26). D-17: the graph's ladder from the shaft floor to the first ledge; the fence's winch drives a two-state hoist (XD-11's lift) between the east nests' hoist foot (1024) and the high ledge (1536). The bridge is a zone of the shaft (a platform), the rock ramp and the hoist's foot their own rooms (13)."

@@ -1,0 +1,375 @@
+{
+ "plane": "P1",
+ "name": "Plane of Fire of Xeen",
+ "form": "lava field in a crater",
+ "room_cells": [
+  26,
+  26
+ ],
+ "room_units": [
+  13312,
+  13312
+ ],
+ "walkable_area_m": 50.9,
+ "walkable_share": 0.287,
+ "floor_bbox_cells": [
+  21.4,
+  21.2
+ ],
+ "low_area_m": 90.0,
+ "low_share": 0.639,
+ "bank_max": 3396,
+ "bank_p90": 1703,
+ "lava_area_m": 90.0,
+ "lava_share_of_crater": 0.639,
+ "lava_bank_max": 3396,
+ "lava_bank_p90": 1703,
+ "walk_length": 15827,
+ "walk_seconds": {
+  "walking": 41,
+  "running": 21
+ },
+ "stations": {
+  "poi:statue": {
+   "along": 3639,
+   "off_line": 67
+  },
+  "poi:test": {
+   "along": 8836,
+   "off_line": 0
+  },
+  "gate:sleeper": {
+   "along": 12091,
+   "off_line": 95
+  },
+  "poi:sleeper": {
+   "along": 14904,
+   "off_line": 181
+  },
+  "exit:dais": {
+   "along": 15827,
+   "off_line": 143
+  }
+ },
+ "walk_legs": {
+  "arrival_to_test": 8836,
+  "test_to_sleeper": 6068,
+  "sleeper_to_way_out": 923
+ },
+ "groups": [
+  {
+   "id": "pop:statue_lesser",
+   "actor": "Lesser Fire Elemental (11620)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    1408,
+    -2944
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:spires_golems",
+   "actor": "Lava Golem (11593)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    3712,
+    -384
+   ],
+   "space": "room:spires"
+  },
+  {
+   "id": "pop:spires_lesser",
+   "actor": "Lesser Fire Elemental (11620)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    4352,
+    1408
+   ],
+   "space": "room:spires"
+  },
+  {
+   "id": "pop:spires_elementals",
+   "actor": "Fire Elemental (11621)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    3584,
+    1792
+   ],
+   "space": "room:spires"
+  },
+  {
+   "id": "pop:arena_east",
+   "actor": "Fire Elemental (11621)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    1408,
+    2816
+   ],
+   "space": "room:arena"
+  },
+  {
+   "id": "pop:vents_lesser",
+   "actor": "Lesser Fire Elemental (11620)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    -3200,
+    -3328
+   ],
+   "space": "room:vents"
+  },
+  {
+   "id": "pop:vents_golems",
+   "actor": "Lava Golem (11593)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    -4480,
+    -4224
+   ],
+   "space": "room:vents"
+  },
+  {
+   "id": "pop:shelf_elementals",
+   "actor": "Fire Elemental (11621)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    -4608,
+    1408
+   ],
+   "space": "room:west_shelf"
+  },
+  {
+   "id": "pop:shelf_greater",
+   "actor": "Fire Blower (11622)",
+   "count": 2,
+   "level": 70,
+   "at": [
+    -4224,
+    -128
+   ],
+   "space": "room:west_shelf"
+  },
+  {
+   "id": "pop:islet_lesser",
+   "actor": "Lesser Fire Elemental (11620)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    -640,
+    128
+   ],
+   "space": "room:islet"
+  }
+ ],
+ "field_hostiles": 27,
+ "test_hostiles": 3,
+ "placed_hostiles": 30,
+ "group_count": 11,
+ "group_sizes": [
+  2,
+  3
+ ],
+ "levels": [
+  55,
+  75
+ ],
+ "level_mean": 59.8,
+ "kill_xp_party": 126151,
+ "kill_xp_per_member": 31538,
+ "kill_xp_target_per_member": 31025,
+ "kill_xp_vs_target": 0.017,
+ "by_row": {
+  "Lesser Fire Elemental (11620)": 11,
+  "Lava Golem (11593)": 5,
+  "Fire Elemental (11621)": 9,
+  "Fire Blower (11622)": 4,
+  "Sleeper's Guardian of Fire (11623)": 1
+ },
+ "first_fight": {
+  "straight": 2555,
+  "group": "pop:statue_lesser",
+  "along_walk": 2555
+ },
+ "landing_hostiles": 0,
+ "nearest_group_to_way_up": 3954,
+ "poi_census": 10,
+ "poi_spacing": {
+  "median": 2589,
+  "min": 859,
+  "max": 4985
+ },
+ "chests": 2,
+ "hazard_cells": 9,
+ "hazard_on_critical": 0,
+ "hazard_on_links": 0,
+ "hazard_in_arena": 0,
+ "hazard_in_chamber": 0,
+ "p2": {
+  "approaches": {
+   "zone:lava": {
+    "lip_min": 321,
+    "samples": 260,
+    "what": "zone:lava"
+   },
+   "rim": {
+    "lip_min": 2400,
+    "samples": 48,
+    "what": "the cliffs (2,400 high)"
+   },
+   "gate_flank": {
+    "lip_min": 384,
+    "samples": 20,
+    "what": "two obsidian piers either side of the gate's two leaves"
+   }
+  },
+  "lip_min": 321,
+  "drops_within_reach": [],
+  "higher_floors": [
+   {
+    "space": "room:arena",
+    "floor": 256,
+    "gap": 1499
+   },
+   {
+    "space": "room:west_shelf",
+    "onto": "gate link",
+    "floor": 128,
+    "gap": 1977
+   },
+   {
+    "space": "room:islet",
+    "onto": "gate link",
+    "floor": 96,
+    "gap": 3028
+   }
+  ],
+  "holds": true
+ },
+ "off_floor": [],
+ "swimmers_on_floor": [],
+ "links": {
+  "link:causeway_s": {
+   "length": 1640,
+   "width": 768,
+   "rise": 64
+  },
+  "link:causeway_n": {
+   "length": 721,
+   "width": 640,
+   "rise": 32
+  },
+  "link:causeway_c": {
+   "length": 1577,
+   "width": 640,
+   "rise": 160
+  },
+  "link:causeway_e": {
+   "length": 2319,
+   "width": 640,
+   "rise": 64
+  },
+  "link:causeway_ne": {
+   "length": 1546,
+   "width": 640,
+   "rise": 128
+  },
+  "link:causeway_w": {
+   "length": 1868,
+   "width": 640,
+   "rise": -64
+  },
+  "link:causeway_nw": {
+   "length": 2123,
+   "width": 640,
+   "rise": 128
+  },
+  "link:causeway_wn": {
+   "length": 2594,
+   "width": 640,
+   "rise": 128
+  },
+  "link:sleepers_gate": {
+   "length": 1515,
+   "width": 640,
+   "rise": 128
+  }
+ },
+ "floors": [
+  0,
+  384
+ ],
+ "places": {
+  "entrance:d7_fall": [
+   3776,
+   -3904
+  ],
+  "exit:way_up": [
+   4864,
+   -4864
+  ],
+  "poi:statue": [
+   512,
+   -2432
+  ],
+  "poi:font": [
+   -1152,
+   -448
+  ],
+  "poi:test": [
+   256,
+   2048
+  ],
+  "landmark:pit": [
+   256,
+   3584
+  ],
+  "gate:sleeper": [
+   -1536,
+   3904
+  ],
+  "poi:sleeper": [
+   -4352,
+   4864
+  ],
+  "poi:test_chest": [
+   -3328,
+   5248
+  ],
+  "exit:dais": [
+   -4864,
+   3904
+  ],
+  "poi:ember_cache": [
+   -4736,
+   -4352
+  ],
+  "poi:camp": [
+   -3968,
+   -4736
+  ],
+  "landmark:lava_fall": [
+   -6016,
+   1536
+  ],
+  "poi:spire_glass": [
+   4480,
+   1920
+  ]
+ },
+ "camera": {
+  "at": [
+   3712,
+   -3840
+  ],
+  "z": 176,
+  "yaw_deg": 130.0,
+  "fov": 74.0
+ }
+}

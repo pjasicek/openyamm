@@ -1,0 +1,491 @@
+format: 0
+start:
+  room: room:gate_passage
+  at: [2048, 0]
+  facing: w
+  notes: "entrance:d5_bosco: in the gate passage 256 inside the gate's leaves, facing west into the hall (D5's door:dd25 arrives here)."
+doors:
+  - id: door:throne_leaves
+    opening: open:steps_throne
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    notes: "The throne hall's two carved leaves (hdr1dl, hdr1dr), opening apart into the hall."
+sounds:
+  - {id: sound:alehall, room: room:gate_hall, at: [1184, -448], sound: xeen_amb_tavern, radius: 900, inner_radius: 250, volume: 0.3, notes: The Alehall's murmur at its door.}
+  - {id: sound:anvil, room: room:forge_bay, at: [640, 1680], sound: xeen_forge_hall_loop, radius: 2400, inner_radius: 500, volume: 0.35, notes: The forge bay's smiths at their anvils (AU's xeen_forge_hall_loop).}
+  - {id: sound:bed_guild, room: room:guild_hall, at: [-3200, -1280], sound: xeen_amb_mine, radius: 1600, inner_radius: 800, volume: 0.3, notes: The Deep Guild's bed., pan: false}
+  - {id: sound:bed_hall, room: room:great_hall, at: [-256, 0], sound: xeen_amb_mine, radius: 3600, inner_radius: 1800, volume: 0.25, notes: "The hall's bed: stone, distant knocks and drips (xeen_amb_mine, quiet), centred (D-48).", pan: false}
+  - {id: sound:bed_throne, room: room:throne_hall, at: [-2816, 0], sound: xeen_amb_mine, radius: 1800, inner_radius: 900, volume: 0.2, notes: The bed in the throne hall (quiet)., pan: false}
+  - {id: sound:forge_fire, room: room:forge_bay, at: [640, 1696], sound: campfire, radius: 900, inner_radius: 200, volume: 0.4, notes: The forge's fire.}
+  - {id: sound:hearth, room: room:great_hall, at: [-256, 0], sound: campfire, radius: 1000, inner_radius: 300, volume: 0.35, notes: The great hall's hearth.}
+lights:
+  - id: light:burrow_lane_1
+    room: room:burrow_lane
+    at: [-640, -1152]
+    height: 320
+    radius: 800
+    color: [200, 170, 140]
+  - id: light:burrow_lane_2
+    room: room:burrow_lane
+    at: [-1088, -944]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:forge_bay_1
+    room: room:forge_bay
+    at: [640, 1680]
+    height: 128
+    radius: 700
+    color: [250, 140, 60]
+    pulse: {intensity: [0.7, 1], radius: [640, 720], frequency: 1.1}
+    notes: The forge's glow inside its bay.
+  - id: light:gate_hall_1
+    room: room:gate_hall
+    at: [1280, 128]
+    height: 320
+    radius: 800
+    color: [240, 190, 130]
+  - id: light:gate_hall_2
+    room: room:gate_hall
+    at: [1616, 448]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:gate_hall_3
+    room: room:gate_hall
+    at: [1011, 720]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:gate_passage_1
+    room: room:gate_passage
+    at: [2048, 0]
+    height: 288
+    radius: 800
+    color: [240, 190, 130]
+  - id: light:gate_passage_2
+    room: room:gate_passage
+    at: [2048, 400]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:gate_passage_3
+    room: room:gate_passage
+    at: [2048, -400]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:great_hall_1
+    room: room:great_hall
+    at: [-768, 0]
+    height: 320
+    radius: 982
+    color: [240, 190, 130]
+  - id: light:great_hall_2
+    room: room:great_hall
+    at: [256, 0]
+    height: 320
+    radius: 982
+    color: [240, 190, 130]
+  - id: light:great_hall_3
+    room: room:great_hall
+    at: [-768, 720]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:great_hall_4
+    room: room:great_hall
+    at: [-1075, -720]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:great_hall_5
+    room: room:great_hall
+    at: [720, -538]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:great_hall_6
+    room: room:great_hall
+    at: [-1232, 538]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:great_hall_7
+    room: room:great_hall
+    at: [-256, 0]
+    height: 160
+    radius: 900
+    color: [250, 140, 60]
+    pulse: {intensity: [0.75, 1], radius: [840, 940], frequency: 0.8}
+    notes: The hearth's glow.
+  - id: light:guild_hall_1
+    room: room:guild_hall
+    at: [-3200, -1280]
+    height: 320
+    radius: 800
+    color: [200, 170, 140]
+  - id: light:guild_hall_2
+    room: room:guild_hall
+    at: [-2608, -1638]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:guild_hall_3
+    room: room:guild_hall
+    at: [-3200, -896]
+    height: 96
+    radius: 500
+    color: [170, 200, 230]
+    notes: The crystal vein's cold light.
+  - id: light:guild_stair_1
+    room: room:guild_stair
+    at: [-1920, -1152]
+    height: 192
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:kings_steps_1
+    room: room:kings_steps
+    at: [-1664, 0]
+    height: 320
+    radius: 800
+    color: [240, 190, 130]
+  - id: light:smiths_gallery_1
+    room: room:smiths_gallery
+    at: [32, 1152]
+    height: 320
+    radius: 1044
+    color: [240, 190, 130]
+  - id: light:smiths_gallery_2
+    room: room:smiths_gallery
+    at: [1120, 1152]
+    height: 320
+    radius: 1044
+    color: [240, 190, 130]
+  - id: light:smiths_gallery_3
+    room: room:smiths_gallery
+    at: [794, 944]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:smiths_gallery_4
+    room: room:smiths_gallery
+    at: [-399, 1360]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:smiths_gallery_5
+    room: room:smiths_gallery
+    at: [640, 1280]
+    height: 96
+    radius: 520
+    color: [250, 140, 60]
+    pulse: {intensity: [0.7, 1], radius: [480, 540], frequency: 1.1}
+    notes: The forge's glow on the anvils at the bay's mouth (D-89).
+  - id: light:throne_hall_1
+    room: room:throne_hall
+    at: [-2816, 0]
+    height: 320
+    radius: 921
+    color: [240, 190, 130]
+  - id: light:throne_hall_2
+    room: room:throne_hall
+    at: [-2202, 592]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:throne_hall_3
+    room: room:throne_hall
+    at: [-2202, -592]
+    height: 240
+    radius: 450
+    color: [240, 160, 90]
+    notes: The sconce's flame.
+  - id: light:throne_hall_4
+    room: room:throne_hall
+    at: [-2944, 0]
+    height: 128
+    radius: 900
+    color: [240, 160, 90]
+    pulse: {intensity: [0.8, 1], radius: [860, 920], frequency: 0.6}
+    notes: The braziers' glow by the dais.
+monsters:
+  - id: monster:guard_1
+    room: room:gate_passage
+    monster: 11054
+    at: [2176, 384]
+    facing: 180
+    hostile: false
+    group: 10
+    immobile: true
+    notes: "Bosco's Guard (A2's 11054, faction xeen_bosco_hall), at his post off the walking lines; uncounted."
+  - id: monster:guard_2
+    room: room:gate_passage
+    monster: 11054
+    at: [2176, -384]
+    facing: 180
+    hostile: false
+    group: 10
+    immobile: true
+    notes: "Bosco's Guard (A2's 11054, faction xeen_bosco_hall), at his post off the walking lines; uncounted."
+  - id: monster:guard_3
+    room: room:throne_hall
+    monster: 11054
+    at: [-2176, 416]
+    facing: 180
+    hostile: false
+    group: 10
+    immobile: true
+    notes: "Bosco's Guard (A2's 11054, faction xeen_bosco_hall), at his post off the walking lines; uncounted."
+  - id: monster:guard_4
+    room: room:throne_hall
+    monster: 11054
+    at: [-2176, -416]
+    facing: 180
+    hostile: false
+    group: 10
+    immobile: true
+    notes: "Bosco's Guard (A2's 11054, faction xeen_bosco_hall), at his post off the walking lines; uncounted."
+  - id: monster:townsfolk_1
+    room: room:great_hall
+    monster: 322
+    at: [-1088, 560]
+    facing: 270
+    hostile: false
+    group: 11
+    immobile: true
+    notes: "A townsfolk dwarf (MM7 Peasant Dwarf row 322), by the north bench; uncounted."
+  - id: monster:townsfolk_2
+    room: room:great_hall
+    monster: 313
+    at: [608, -576]
+    facing: 135
+    hostile: false
+    group: 11
+    immobile: true
+    notes: "A townsfolk dwarf (MM7 Peasant Dwarf row 313), by the well; uncounted."
+  - id: monster:townsfolk_3
+    room: room:smiths_gallery
+    monster: 325
+    at: [-400, 1232]
+    facing: 0
+    hostile: false
+    group: 11
+    immobile: true
+    notes: "A townsfolk dwarf (MM7 Peasant Dwarf row 325), at the gallery's west end by the anvil; uncounted."
+  - id: monster:townsfolk_4
+    room: room:burrow_lane
+    monster: 316
+    at: [-112, -1264]
+    facing: 180
+    hostile: false
+    group: 11
+    immobile: true
+    notes: "A townsfolk dwarf (MM7 Peasant Dwarf row 316), at the lane's east end; uncounted."
+decorations:
+  - id: deco:ale_barrel_1
+    room: room:gate_hall
+    decoration: bigbarel
+    at: [1504, -448]
+    notes: "Ale barrels beside the Alehall's front, never before its door."
+  - id: deco:ale_barrel_2
+    room: room:gate_hall
+    decoration: bigbarel
+    at: [1600, -448]
+  - id: deco:brazier_n
+    room: room:throne_hall
+    decoration: flamb00
+    at: [-2944, 448]
+    notes: A brazier on the floor by the dais.
+  - id: deco:brazier_s
+    room: room:throne_hall
+    decoration: flamb00
+    at: [-2944, -448]
+    notes: A brazier on the floor by the dais.
+  - id: deco:chalice
+    room: room:throne_hall
+    decoration: 7dec48
+    at: [-2560, 560]
+    floor_height: 200
+    hidden: true
+    notes: "The Chalice of Protection on the tasting table: hidden, shown by evt:chalice while q-d17.done (113343)."
+  - id: deco:chandelier_e
+    room: room:great_hall
+    decoration: chndlir0
+    at: [320, 0]
+    hangs: true
+  - id: deco:chandelier_w
+    room: room:great_hall
+    decoration: chndlir0
+    at: [-832, 0]
+    hangs: true
+  - id: deco:cup_1
+    room: room:throne_hall
+    decoration: 7dec46
+    at: [-2752, 576]
+    floor_height: 200
+  - id: deco:cup_2
+    room: room:throne_hall
+    decoration: dec39
+    at: [-2656, 544]
+    floor_height: 200
+  - id: deco:cup_3
+    room: room:throne_hall
+    decoration: 7dec46
+    at: [-2464, 576]
+    floor_height: 200
+  - id: deco:cup_4
+    room: room:throne_hall
+    decoration: dec39
+    at: [-2368, 544]
+    floor_height: 200
+  - id: deco:forge_fire
+    room: room:forge_bay
+    decoration: ckfyr00
+    at: [640, 1696]
+    notes: The Forge's hearth in its bay.
+  - id: deco:guild_lamp_1
+    room: room:guild_hall
+    decoration: dec02
+    at: [-3648, -1696]
+    notes: A guild lamp standing on the floor.
+  - id: deco:guild_lamp_2
+    room: room:guild_hall
+    decoration: dec02
+    at: [-3648, -864]
+  - id: deco:hearth_fire
+    room: room:great_hall
+    decoration: 7dec02
+    at: [-256, 0]
+    floor_height: 48
+    notes: The round hearth's fire.
+  - id: deco:sconce_1
+    room: room:gate_passage
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 224
+  - id: deco:sconce_10
+    room: room:smiths_gallery
+    decoration: scon100
+    wall: n
+    along: 0.948
+    height: 224
+  - id: deco:sconce_11
+    room: room:burrow_lane
+    decoration: scon100
+    wall: n
+    along: 0.85
+    height: 224
+  - id: deco:sconce_12
+    room: room:throne_hall
+    decoration: scon100
+    wall: n
+    along: 0.1
+    height: 224
+  - id: deco:sconce_13
+    room: room:throne_hall
+    decoration: scon100
+    wall: s
+    along: 0.9
+    height: 224
+  - id: deco:sconce_14
+    room: room:guild_hall
+    decoration: scon100
+    wall: e
+    along: 0.15
+    height: 224
+  - id: deco:sconce_2
+    room: room:gate_passage
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 224
+  - id: deco:sconce_3
+    room: room:gate_hall
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 224
+  - id: deco:sconce_4
+    room: room:gate_hall
+    decoration: scon100
+    wall: n
+    along: 0.85
+    height: 224
+  - id: deco:sconce_5
+    room: room:great_hall
+    decoration: scon100
+    wall: n
+    along: 0.75
+    height: 224
+  - id: deco:sconce_6
+    room: room:great_hall
+    decoration: scon100
+    wall: s
+    along: 0.1
+    height: 224
+  - id: deco:sconce_7
+    room: room:great_hall
+    decoration: scon100
+    wall: e
+    along: 0.15
+    height: 224
+  - id: deco:sconce_8
+    room: room:great_hall
+    decoration: scon100
+    wall: w
+    along: 0.15
+    height: 224
+  - id: deco:sconce_9
+    room: room:smiths_gallery
+    decoration: scon100
+    wall: s
+    along: 0.6
+    height: 224
+  - id: deco:vein_1
+    room: room:guild_hall
+    decoration: crclstr
+    at: [-3200, -848]
+    notes: The crystal vein by the north wall.
+  - id: deco:vein_2
+    room: room:guild_hall
+    decoration: crys5
+    at: [-3008, -840]
+  - id: deco:vein_3
+    room: room:guild_hall
+    decoration: crys6
+    at: [-3392, -840]
+exits:
+  - id: exit:gate_left
+    room: room:gate_passage
+    at: [2304, 96]
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d5_gate
+    notes: "The gate's left leaf (seen from inside; t09a03a, D5's leaf picture): out to Bosco's terrace (D5)."
+  - id: exit:gate_right
+    room: room:gate_passage
+    at: [2304, -96]
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d5_gate
+    notes: "The gate's right leaf (t09a03b, the right-hand picture of the same pair)."
+notes: "DD-25's contents, written by output/studio_cal/dd25/tools/dress.py: the throne hall's hinged pair, the gate's two leaves (the exit), six house doors (rooms.yml wall panels), eight peaceful dwarves (four Bosco's Guards 11054, four MM7 Peasant Dwarves), no counted monsters, no chests."

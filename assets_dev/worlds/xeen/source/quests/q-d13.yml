@@ -1,0 +1,130 @@
+# Q-D13 Hobstadt's Trolls (QUESTS 2.2 Q-D13, 3.2 racial: Troll -> War Troll). Owner: A3. Format: QUESTS_FORMAT.md.
+# The troll holes in Sprite Forest drop into three pockets (DD-11A-C); Hobstadt, the Troll King, sits in the third.
+# The Thieves' Guild's letters say the trolls stole its gold. Hobstadt's three demands: all your gold, one of your
+# number, or a fight. "One of your number" is read as a Troll member left with him overnight, who comes back a War
+# Troll; a party without a Troll is refused. Gold or the sacrifice makes him a friend; a fight kills him, and a Troll
+# on the vacant throne takes the promotion instead. The trolls' hoard (the guild's gold) is the common end, with the
+# experience, open to friends or to the victors.
+id: Q-D13
+title: "Hobstadt's Trolls"
+act: III
+kind: side
+status: full
+giver: 5110          # Hobstadt, Troll King (DD-11C, his throne hall; monster 11073 when he fights)
+maps: [D2, DD-11A, DD-11B, DD-11C]
+level: 24
+block: 93
+after: [m7.sigil]
+source: "QUESTS Q-D13; dark/aaze0008:2-4 (the holes), dark/aaze0040:5-13 (letters, throne, Hobstadt)"
+
+qbits:
+  started: {id: 113260, note: "DD-11A's thieves' letter (A7)", journal: "The Thieves' Guild says the trolls stole its gold. Hobstadt, the Troll King, sits at the bottom of the troll holes.",
+            until: [done]}
+  tribute: {id: 113261, note: "Hobstadt's topic: gold paid"}
+  trial: {id: 113262, note: "Hobstadt's topic: a Troll member's night with him"}
+  hostile: {id: 113263, note: "Hobstadt's topic 'Fight to the death'; A2's relations.yml turns his court (xeen_trolls_hobstadt: 11073, 11075) hostile"}
+  hobstadt_slain: {id: 113264, note: "DD-11C, Hobstadt's death (A7)"}
+  throne_taken: {id: 113265, note: "DD-11C's vacant throne (A7)"}
+  done: {id: 113266, note: "DD-11C's hoard (A7)"}
+
+autonotes:
+  letter: {id: 4530, text: "Thieves' Guild letter: the Trolls have stolen the guild's gold. The troll holes of Sprite Forest lead down to Hobstadt, the Troll King.", category: Misc}
+
+npcs:
+  5110:              # Hobstadt, Troll King (DD-11C; monster 11073 when he fights)
+    topics:
+      - n: 1
+        label: Give gold
+        show: {all: [{not: {qbit: tribute}}, {not: {qbit: trial}}, {not: {qbit: hostile}}]}
+        states:
+          - when: {gold: 2000}
+            text: "Hobstadt wants all. You give two thousand. Hobstadt cannot count past two thousand. Good. Go where you like."
+            do: [{pay: 2000}, {set: tribute}]
+          - text: "That is not all. That is not anything. Give gold, give one, or fight."
+      - n: 2
+        label: Sacrifice one
+        show: {not: {qbit: hostile}}
+        states:
+          - when: {all: [{qbit: trial}, {promotable: troll}]}
+            text: "Another troll? Hobstadt take him too. One night. (Morning.) War Troll. Hobstadt has two friends now."
+            do: [{promote: troll}]    # a later Troll, unpaid (D-74 item 3)
+          - when: {qbit: trial}
+            text: "Hobstadt has his War Troll. Go where you like."
+          - when: {promotable: troll}
+            text: "Troll in your party. Hobstadt take him. One night. (Morning. Your troll comes back taller, with new scars and no regrets.) Now he is War Troll. You are friends of Hobstadt."
+            do: [{set: trial}, {promote: troll}]
+          - when: {qbit: tribute}
+            text: "No troll. Hobstadt not eat your kind. Too many bones. You paid. Go where you like."
+          - text: "No troll. Hobstadt not eat your kind. Too many bones. Give gold, or fight."
+      - n: 3
+        label: Fight to the death
+        show: {all: [{not: {qbit: tribute}}, {not: {qbit: trial}}, {not: {qbit: hostile}}]}
+        text: "Good."
+        do: [{set: hostile}]
+      - n: 4
+        label: "Thieves' gold"
+        show: {any: [{qbit: tribute}, {qbit: trial}]}
+        text: "Thief gold in back. Hobstadt not like thieves. Take."
+
+player_bits:         # once per character; the map raises it (D-25 Q8)
+  troll_juice: {id: 11294, map: DD-11B, note: "Troll Juice drunk: +2 Endurance (base) and the drinker Poisoned (the weakest poison, D-33.4)"}
+
+hooks:
+  troll_holes:
+    map: D2
+    where: "the troll holes, pits in the forest floor (one into each pocket, DD-11A, B, C; each pocket has one way out). The click calls this and the map moves the party at once (D-72: an outdoor entrance asks nothing); the line is a status line, which survives the move (until 2026-11-21 this hook's message was the question \"Troll Hole. Descend?\", dropped by the move in the same event)"
+    status: true
+    text: "You let yourselves down into the troll hole."
+  thieves_letter:
+    map: DD-11A
+    where: "a dead thief in the first pocket, with a letter in his pack"
+    sets: [started]
+    once: true
+    do: [{autonote: letter}]
+    text: "A message on thieves' guild letterhead reads: To all members: The Trolls have stolen our gold. Get it back no matter the cost!"
+    else_text: "The dead thief has nothing else to say."
+  hobstadt:
+    map: DD-11C
+    where: "Hobstadt's death on his throne dais (11073, A7; hostile once hostile is set): the map's timer calls this once; the line is a status line"
+    reads: [hostile]
+    sets: [hobstadt_slain]
+    status: true
+    text: "Hobstadt falls across the foot of his throne. The throne is vacant."
+  throne:
+    map: DD-11C
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: order
+    where: "the vacant throne after Hobstadt's death: a Troll member who sits on it is promoted (others see the empty throne)"
+    requires: {all: [{qbit: hobstadt_slain}, {lua: "Xeen.canPromote(\"troll\")"}]}
+    sets: [throne_taken]
+    do: [{promote: troll}]    # no `once`: every later Troll may sit (D-74 item 3)
+    text: "Your troll sits on the throne of Hobstadt. It fits. He stands up a War Troll."
+    fail_text: "The throne is vacant."
+    else_text: "The throne is vacant."
+  hoard:
+    map: DD-11C
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: faction
+    where: "the trolls' hoard behind the throne: the Thieves' Guild's gold; open to Hobstadt's friends or after his death"
+    requires: {any: [{qbit: tribute}, {qbit: trial}, {qbit: hobstadt_slain}]}
+    sets: [done]
+    once: true
+    do: [{xp: 4000}, {gold: 2500}]
+    text: "Sacks of gold, each stamped THIEVES' GUILD. Nobody else labels their gold."
+    fail_text: "A heap of sacks behind the throne. Hobstadt is sitting in front of it, and looking at you."
+    else_text: "Empty sacks. Labelled."
+  troll_juice:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-11B
+    where: "the Troll Juice vat in DD-11B (D-25 Q8, D-33.4): a member without player bit troll_juice gets this text; the map then gives that member +2 Endurance (base), poisons the drinker (PoisonedGreen, the weakest), sets the bit and says so on the status line; a member who has drunk gets troll_juice_again"
+    text: "Troll Juice. This stuff is poisonous, but the experience improves you."
+  troll_juice_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-11B
+    where: "the same vat, a member who has drunk"
+    text: "You have had enough Troll Juice for one lifetime."
+
+rewards: {xp: 4000, gold: "2500 (less the tribute)", promotion: "Troll -> War Troll (racial)"}
+notes:
+  - "relations.yml (A2, rules on 113261 tribute, 113262 trial, 113263 hostile; no Lua sets relations): Hobstadt's court xeen_trolls_hobstadt (11073, 11075) friendly at load, hostile on hostile; the Troll Holes' wild trolls (11690-11692) friendly after tribute or trial, in DD-11A/B/C only."
+playthrough: "D2: a troll hole; DD-11A, the thieves' letter; DD-11C: Hobstadt (Give gold, or Sacrifice one with a Troll); the hoard."

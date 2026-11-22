@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely recolor the FIRST input paint_mask_guide.png, locking its transparent alpha and pixel positions. Image 2 is material/detail reference only and image 3 is color reference only. Produce ONE transparent 1536x2048 3:4 PNG atlas. 3 columns, FOUR rows of square cells, each view centered exactly as template. Row 1: tiny end-on pommel view, tiny end-on blade view, thin edge profile pointing LEFT. Row 2: thin edge profile pointing RIGHT, upright broad view, empty. Rows 3 and 4 duplicate those exact positions and silhouettes as flat material IDs. Keep every gap, size, orientation and contour; paint grey pixels only. Top half flat unlit albedo: Elder Dagger, bright steel blade with facets, gold curled guard with engraved leaf/scrollwork, spiral brown leather grip, gold pommel with small blue stone. No lighting, shadows, AO, hot highlights, reflection or outlines. Bottom half: exact solid #FF0000 for ALL metal including gold AND steel, #00FF00 leather grip, #000000 opaque for gemstone. Cloth/hair #0000FF, matte nonmetal solids #FFFF00 only if present. No shaded or blended mask colors. No background, extra objects, text, glow, or lines. Preserve all surrounding transparency.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "de07767adfd27656d647863db42e318a5d8ac483313772a46a97d91b3e5c3335"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "4e8ac09c14ed09d2d8d8154134fc71f3a2a3bd7519a8ae5d39f2d5fda1a76f63"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "ff4f3580c274c0d5c6ea7dc3f357620fa6be5cfa2f6a0305e8bfa397ea4006cc"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f925-2ca5-7750-b95f-814aee026a4a/exec-8431d6f7-1039-4cf6-83e2-d679c2e15290.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,58 @@
+# T2-A Dimitri's Test: Cavalier -> Champion (QUESTS 3.2, Light). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Castle Kalindra's dungeon came back at stage 3 (m26) with whoever was locked in it: power liches the Queen's guard
+# imprisoned and could never kill. Dimitri, himself again (m24), asks the party to finish them; the five cells are the
+# map's (A8, DD-03's dungeon). Pays experience once; the topic stays for Cavaliers recruited later.
+id: T2-A
+title: "Dimitri's Test"
+act: IV
+kind: promotion
+status: full
+giver: 5004          # Dimitri
+maps: [DD-03]
+level: 38
+block: 120
+after: [m24.done, m26.stage3]
+source: "QUESTS 3.2 (Champion); dark research 2 (Kalindra's dungeon: power liches, the prisoner ledger)"
+
+qbits:
+  started: {id: 114520, journal: "Dimitri asks you to finish the liches locked in Castle Kalindra's dungeon. The guard never could.",
+            until: [done]}
+  liches_slain: {id: 114521, pending: "phase 3-4: DD-03 dungeon, the cell block's group of five liches dead (hook liches, D-26)"}
+  done: {id: 114522, note: "Dimitri paid; Cavaliers became Champions"}
+
+npcs:
+  5004:              # Dimitri
+    topics:
+      - n: 3
+        label: The dungeon
+        show: {all: [{qbit: m24.done}, {qbit: m26.stage3}]}
+        states:
+          - when: {all: [{qbit: done}, {promotable: dimitri}]}
+            text: "Another knight in your company. Kneel. ... Rise, Champion of the Darkside. That's the whole ceremony; we lost the trumpets."
+            do: [{promote: dimitri}]
+          - when: {qbit: done}
+            text: "The cells are quiet. The guard can sleep in the guardroom again, instead of on the stairs."
+          - when: {qbit: liches_slain}
+            text: "Quiet down there. Truly quiet. Those of you who ride and fight as knights: kneel. ... Rise, Champions of the Darkside. The rest of you: the Queen's thanks, and mine."
+            do: [{set: done}, {xp: 6000}, {promote: dimitri}]
+          - when: {qbit: started}
+            text: "The liches are still down there. You can hear them filing their nails. On the bars."
+          - text: "When the dungeon came back, so did the liches we locked up in it. We could cage them, never kill them. You could. Clear the cells, and I have a title for the knights among you."
+            do: [{set: started}]
+
+hooks:
+  cells:
+    map: DD-03
+    where: "the cell block of the dungeon (stage 3): the prisoner ledger on the guard's desk (D-26: the source's list with the two added liches; the dragons are the old well's two Bone Dragons and Scraps in the kennel)"
+    text: "Prisoner list. One Lich, known as Vexor the Black, to be held indefinitely, for the crime of Necromancy. One Lich, known as Clemon the Dead, the same. One Lich, known as Saxar the Permanent, the same. One Lich, known as Morgrath the Grey, the same. One Lich, known as Ulvane the Unrepentant, the same. One Bone Dragon, formerly Iron Vithnipravad, to be held until proper reburial can be arranged. One Bone Dragon, formerly Argonax, the same. One Bone Dragon, formerly Drothnavod the Weighty (A.K.A. Scraps), the same."
+  liches:
+    map: DD-03
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cell block's group of five liches dead (A8: kills of the group; the actors may carry the names Vexor the Black, Clemon the Dead, Saxar the Permanent, Morgrath the Grey, Ulvane the Unrepentant)"
+    sets: [liches_slain]
+    once: true
+    text: "The last lich comes apart like a dropped bundle of kindling. The cells are quiet, for the first time since the castle came back."
+    else_text: "The cells are quiet."
+
+rewards: {xp: 6000, gold: 0, promotion: "Cavalier -> Champion (Light)"}
+playthrough: "DD-03 (stage 3): Dimitri (The dungeon); the cell block: the liches; Dimitri (The dungeon): Cavaliers promoted."

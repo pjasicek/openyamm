@@ -1,0 +1,629 @@
+format: 0
+themes:
+  - id: theme:bridge
+    wall: {texture: hcwall, size: [128, 256], scale: 2}
+    floor: {texture: t1f1, size: [128, 128]}
+    ceiling: {texture: cedsqrdk, size: [128, 128]}
+    reveal: {texture: hcwall, size: [128, 256], scale: 2}
+    door: {texture: hcsmdr, size: [128, 256]}
+    notes: "The arcade and the covered bridge over it: pink ashlar, marble flags, cedar."
+  - id: theme:court
+    wall: {texture: hcwall, size: [128, 256], scale: 2}
+    floor: {texture: t1f1, size: [128, 128]}
+    ceiling: {texture: cedsqrdk, size: [128, 128], sky: true}
+    reveal: {texture: hcwall, size: [128, 256], scale: 2}
+    door: {texture: hcsmdr, size: [128, 256]}
+    notes: "The guild court, open to the sky: the town kit's pink ashlar (hcwall, once per 512 storey), pale marble flags (t1f1)."
+  - id: theme:hc
+    wall: {texture: hcwall, size: [128, 256], scale: 2}
+    floor: {texture: t1f2, size: [128, 128]}
+    ceiling: {texture: cedsqrdk, size: [128, 128]}
+    reveal: {texture: hcwall, size: [128, 256], scale: 2}
+    door: {texture: hcsmdr, size: [128, 256]}
+    notes: "The guilds' shared rooms in the court's stone: pink ashlar, marble lozenges (t1f2), cedar ceilings (cedsqrdk)."
+  - id: theme:hq
+    wall: {texture: d2wlbmed, size: [256, 256], scale: 2}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlbctr, size: [128, 256], scale: 2}
+    door: {texture: cvdor3, size: [128, 256]}
+    notes: "The Sorceress HQ (MM6 Corlagon's Estate 6d11): dark brick (d2wlbmed), rough flags (d2flor4), dark vaults (d2ceil3)."
+  - id: theme:hq_stair
+    wall: {texture: d2wlbctr, size: [128, 256], scale: 2}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlbctr, size: [128, 256], scale: 2}
+    door: {texture: cvdor3, size: [128, 256]}
+    notes: "The HQ's stairs: Corlagon's dark brick two storeys high (d2wlbctr)."
+  - id: theme:mirage
+    wall: {texture: t3wspp, size: [128, 256], scale: 2}
+    floor: {texture: d2flor3, size: [128, 128]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+    reveal: {texture: t3wspp, size: [128, 256], scale: 2}
+    door: {texture: d8dord, size: [128, 256]}
+    notes: "The Mirage Guild (MM6 Icewind Keep 6d15): grey-blue brick (t3wspp), framed stone panels (d2flor3), beams (d2ceil1)."
+  - id: theme:mirage_hall
+    wall: {texture: t3wbltd, size: [256, 256], scale: 2}
+    floor: {texture: orair32, size: [32, 32], scale: 4}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+    reveal: {texture: t3wspp, size: [128, 256], scale: 2}
+    door: {texture: d8dord, size: [128, 256]}
+    notes: "Xenoc's Hall of Mirages: grey brick under a red cornice (t3wbltd), a floor of orair32 shimmering like water."
+  - id: theme:mirage_stair
+    wall: {texture: t3wspp, size: [128, 256], scale: 2}
+    floor: {texture: d2flor3, size: [128, 128]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+    reveal: {texture: t3wspp, size: [128, 256], scale: 2}
+    door: {texture: d8dord, size: [128, 256]}
+    notes: "The Mirage stair: Icewind brick two storeys high."
+  - id: theme:under
+    wall: {texture: d2wlbctr, size: [128, 256], scale: 1.5}
+    floor: {texture: d2flor4, size: [128, 128]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlbctr, size: [128, 256], scale: 1.5}
+    door: {texture: cvdor3, size: [128, 256]}
+    notes: "The undercroft (6d11): dark brick (d2wlbctr) under low dark vaults, rough flags."
+defaults: {theme: theme:hc, ambient: 12}
+rooms:
+  - id: room:alcoves
+    name: Potion alcoves
+    outline: [[-4992, 1664], [-3712, 1664], [-3712, 2944], [-4992, 2944]]
+    floor: -512
+    ceiling: 512
+    theme: theme:hq_stair
+    platforms:
+      - {id: platform:alcoves_head, rise: 32, surface: {texture: d2wlbctr, size: [128, 256], scale: 2}, outline: [[-4096, 1664], [-3712, 1664], [-3712, 2944], [-4096, 2944]], top_surface: {texture: d2flor4, size: [128, 128]}, bottom_surface: {texture: d2ceil3, size: [256, 256]}, base: 480, notes: "The alcoves' head (0) along the east wall: the Mirage stair through it."}
+      - {id: platform:alcove_orange, at: [-4480, 1728], size: [256, 96], rise: 96, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: "The south alcove's shelf: the Orange Potion."}
+      - {id: platform:alcove_purple, at: [-4480, 2880], size: [256, 96], rise: 96, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: "The north alcove's shelf: the Purple Potion."}
+    flights:
+      - {from: [-4800, 2496], to: [-4096, 2496], open_below: 32, to_height: 0, width: 320, steps: 16, notes: Sixteen steps of 32 down west from the head.}
+    notes: "The potion alcoves at the foot of the Mirage Guild's cellar stair: from the head (0) sixteen steps down west; two alcoves' shelves (the Orange and the Purple Potions); the wizards' quarters east under the head."
+  - id: room:alembic
+    name: Alembic cellar
+    outline: [[2432, 1664], [3584, 1664], [3584, 2944], [2432, 2944]]
+    floor: -512
+    ceiling: -128
+    theme: theme:under
+    walls:
+      - wall: s
+        panels:
+          - {offset: 256, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}, notes: An old niche of bones.}
+    platforms:
+      - {id: platform:still, at: [3456, 2304], size: [192, 384], rise: 160, surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128]}, notes: The still against the east wall.}
+      - {at: [2944, 2880], size: [512, 96], rise: 128, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A shelf of empty bottles.}
+  - id: room:arcade
+    name: The arcade
+    outline: [[-1024, 1664], [1024, 1664], [1024, 2048], [-1024, 2048]]
+    floor: 0
+    ceiling: 512
+    theme: theme:bridge
+  - id: room:back_stair
+    name: HQ back stair
+    outline: [[3712, 1664], [4864, 1664], [4864, 2944], [3712, 2944]]
+    floor: -512
+    ceiling: 512
+    theme: theme:hq_stair
+    platforms:
+      - {id: platform:back_head, rise: 32, surface: {texture: d2wlbctr, size: [128, 256], scale: 2}, outline: [[3712, 1664], [4864, 1664], [4864, 2048], [3712, 2048]], top_surface: {texture: d2flor4, size: [128, 128]}, bottom_surface: {texture: d2ceil3, size: [256, 256]}, base: 480, notes: "The back stair's head (0) along its south wall: the robing room through it."}
+    flights:
+      - {from: [4544, 2752], to: [4544, 2048], open_below: 32, to_height: 0, width: 320, steps: 16, notes: Sixteen steps of 32 down north from the head.}
+    notes: The Sorceress HQ's back stair from the robing room down to the alembic cellar.
+  - id: room:bridge
+    name: Guild bridge
+    outline: [[-1024, 1664], [1024, 1664], [1024, 2048], [-1024, 2048]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:bridge
+  - id: room:common
+    name: Guild Common
+    outline: [[-1024, 2176], [1024, 2176], [1024, 3456], [-1024, 3456]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hc
+    platforms:
+      - {id: platform:font, at: [-512, 2816], size: [384, 384], rise: 96, surface: {texture: t1trimb, size: [32, 32], scale: 2}, top_surface: {texture: orair32, size: [32, 32], scale: 4}, notes: "The font of spell points: a marble basin of shimmering water."}
+      - {at: [-832, 2816], size: [128, 768], rise: 80, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A long table by the west wall.}
+      - {at: [-832, 3328], size: [256, 96], rise: 48, surface: {texture: t1trimb, size: [32, 32], scale: 2}, top_surface: {texture: t1trimb, size: [32, 32], scale: 2}, notes: The hearth on the north wall.}
+      - {id: platform:blastem_table, at: [512, 3072], size: [384, 192], rise: 80, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: "Blastem's own table, apart from the others."}
+      - {id: platform:blastem_chair, at: [512, 2880], size: [128, 128], rise: 64, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: Blastem the Wizard's chair.}
+      - {at: [512, 2832], size: [128, 32], rise: 256, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: The chair's back.}
+  - id: room:court
+    name: Guild court
+    outline: [[-1024, 0], [1024, 0], [1024, 1536], [-1024, 1536]]
+    floor: 0
+    ceiling: 1536
+    theme: theme:court
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:niche_w, offset: 416, length: 192, bottom: 64, height: 384, surface: {texture: hcuniq2, size: [128, 256], fit: true}, notes: "A statue niche: a wizard's bust."}
+          - {id: panel:niche_e, offset: 1440, length: 192, bottom: 64, height: 384, surface: {texture: hcuniq3, size: [128, 256], fit: true}, notes: "A statue niche: a robed sorceress."}
+      - wall: w
+        panels:
+          - {offset: 1056, length: 192, bottom: 640, height: 384, surface: {texture: hcwindo, size: [128, 256], fit: true}, notes: A window of the Hall of Mirages over the court.}
+          - {offset: 288, length: 192, bottom: 640, height: 384, surface: {texture: hcwindo, size: [128, 256], fit: true}, notes: A window of the Hall of Mirages over the court.}
+      - wall: e
+        panels:
+          - {offset: 288, length: 192, bottom: 640, height: 384, surface: {texture: hcwindo, size: [128, 256], fit: true}, notes: A window of the scrying room over the court.}
+          - {offset: 1056, length: 192, bottom: 640, height: 384, surface: {texture: hcwindo, size: [128, 256], fit: true}, notes: A window of the scrying room over the court.}
+    notes: "The guild court, open to Darkside's sky: the guild gate behind the arrival (south), the Mirage Guild's double door west, the Sorceress HQ's east, three arches north under the covered bridge into the arcade. Statue niches flank the gate; windows over the double doors. No monster (D-11.3)."
+  - id: room:hq_foyer
+    name: Sorceress HQ
+    outline: [[1152, 256], [2304, 256], [2304, 2048], [1152, 2048]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hq
+  - id: room:hq_stair
+    name: HQ stair
+    outline: [[2432, 256], [3584, 256], [3584, 1536], [2432, 1536]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:hq_stair
+    platforms:
+      - {id: platform:hq_head, rise: 32, surface: {texture: d2wlbctr, size: [128, 256], scale: 2}, outline: [[2432, 1152], [3584, 1152], [3584, 1536], [2432, 1536]], top_surface: {texture: d2flor4, size: [128, 128]}, bottom_surface: {texture: d2ceil3, size: [256, 256]}, base: 608, notes: "The HQ stair's head (640, the graph's hq_landing) along its north wall: the scrying room west, Morgana's ward north."}
+    flights:
+      - {from: [3008, 448], to: [3008, 1152], open_below: 32, to_height: 640, width: 320, steps: 20, notes: "Twenty steps of 32 up north to the head, facing Morgana's door."}
+    notes: "The Sorceress HQ's stair, two storeys: the foyer west, the robing room's door east; twenty steps up north to the head before Morgana's ward."
+  - id: room:illusions
+    name: Hall of illusions
+    outline: [[-3584, 256], [-2432, 256], [-2432, 1536], [-3584, 1536]]
+    floor: 0
+    ceiling: 512
+    theme: theme:mirage
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:painted_door, offset: 224, length: 192, bottom: 0, height: 384, surface: {texture: d8dord, size: [128, 256], fit: true}, notes: "A painted door: only a picture on the brick."}
+    platforms:
+      - {at: [-3456, 512], size: [128, 384], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bench by the west wall.}
+      - {at: [-3456, 1024], size: [128, 384], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bench by the west wall.}
+      - {id: platform:lectern, at: [-2816, 896], size: [96, 128], rise: 112, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: The lectern.}
+  - id: room:mirage_foyer
+    name: Mirage Guild
+    outline: [[-2304, 256], [-1152, 256], [-1152, 2048], [-2304, 2048]]
+    floor: 0
+    ceiling: 512
+    theme: theme:mirage
+  - id: room:mirage_hall
+    name: Hall of Mirages
+    outline: [[-2304, 256], [-1152, 256], [-1152, 2048], [-2304, 2048]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:mirage_hall
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:triple_window, offset: 192, length: 256, bottom: 160, height: 384, surface: {texture: hctriw, size: [128, 256], fit: true}, notes: The triple window over Xenoc's chair.}
+    platforms:
+      - {id: platform:xenoc_dais, at: [-1984, 448], size: [512, 384], rise: 32, surface: {texture: t3wspp, size: [128, 256], scale: 2, fit: false}, top_surface: {texture: d2flor3, size: [128, 128]}, notes: The dais under the triple window.}
+      - {id: platform:xenoc_chair, at: [-1984, 448], size: [128, 128], rise: 64, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: Xenoc's raised chair.}
+      - {at: [-1984, 400], size: [128, 32], rise: 256, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: The chair's back.}
+  - id: room:mirage_stair
+    name: Mirage stair
+    outline: [[-3584, 1664], [-2432, 1664], [-2432, 2944], [-3584, 2944]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:mirage_stair
+    platforms:
+      - {id: platform:mirage_head, rise: 32, surface: {texture: t3wspp, size: [128, 256], scale: 2}, outline: [[-3584, 1664], [-2432, 1664], [-2432, 2048], [-3584, 2048]], top_surface: {texture: d2flor3, size: [128, 128]}, bottom_surface: {texture: d2ceil1, size: [256, 256]}, base: 608, notes: "The Mirage stair's head (640, the graph's mirage_landing) along its south wall: the mirror gallery south."}
+    flights:
+      - {from: [-3008, 2752], to: [-3008, 2048], open_below: 32, to_height: 640, width: 320, steps: 20, notes: Twenty steps of 32 up south to the head.}
+    notes: "The Mirage Guild's stair, two storeys: in from the hall of illusions under the head, north along the west wall to the foot, twenty steps up south to the head and the mirror gallery; the alcoves' head through the west wall."
+  - id: room:mirror_gallery
+    name: Mirror gallery
+    outline: [[-3200, 256], [-2432, 256], [-2432, 1536], [-3200, 1536]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:mirage
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:mirror, offset: 512, length: 256, bottom: 64, height: 384, surface: {texture: xkmirror, size: [128, 128], fit: true}, notes: "The tall mirror, facing the blank wall that is not there."}
+          - {offset: 496, length: 288, bottom: 448, height: 16, surface: {texture: bemh32a, size: [256, 32], fit: true}}
+          - {offset: 496, length: 288, bottom: 48, height: 16, surface: {texture: bemh32a, size: [256, 32], fit: true}}
+          - {offset: 496, length: 16, bottom: 64, height: 384, surface: {texture: bemsv16b, size: [16, 128], fit: true}}
+          - {offset: 768, length: 16, bottom: 64, height: 384, surface: {texture: bemsv16b, size: [16, 128], fit: true}}
+  - id: room:morgana_sanctum
+    name: Morgana's sanctum
+    outline: [[2432, 1664], [4224, 1664], [4224, 3456], [2432, 3456]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:hq
+    platforms:
+      - {id: platform:morgana_dais, at: [3328, 3264], size: [768, 256], rise: 32, surface: {texture: d2wlbmed, size: [256, 256], scale: 2, fit: false}, top_surface: {texture: d2flor4, size: [128, 128]}, notes: Morgana's dais at the sanctum's north end.}
+  - id: room:quarters_e
+    name: Guild Quarters (sorceresses)
+    outline: [[896, 1664], [2304, 1664], [2304, 2944], [896, 2944]]
+    floor: -512
+    ceiling: -128
+    theme: theme:under
+    platforms:
+      - {id: platform:bed_e1, at: [1152, 2816], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_e2, at: [1536, 2816], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_e3, at: [1920, 2816], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+  - id: room:quarters_stair
+    name: Quarters stair
+    outline: [[-384, 3584], [384, 3584], [384, 4864], [-384, 4864]]
+    floor: -512
+    ceiling: 512
+    theme: theme:hq_stair
+    platforms:
+      - {id: platform:qstair_head, rise: 32, surface: {texture: d2wlbctr, size: [128, 256], scale: 2}, outline: [[-384, 3584], [384, 3584], [384, 3968], [-384, 3968]], top_surface: {texture: t1f2, size: [128, 128]}, bottom_surface: {texture: d2ceil3, size: [256, 256]}, base: 480, notes: "The quarters stair's head (0) along its south wall: the Guild Common through it."}
+    flights:
+      - {from: [192, 4672], to: [192, 3968], open_below: 32, to_height: 0, width: 320, steps: 16, notes: Sixteen steps of 32 down north from the head.}
+    notes: "Down from the Common to the guild quarters: the head (0), sixteen steps down north, the foot (-512, the graph's stair_foot) under the head opening onto the undercroft."
+  - id: room:quarters_w
+    name: Guild Quarters (wizards)
+    outline: [[-3584, 1664], [-896, 1664], [-896, 2816], [-3584, 2816]]
+    floor: -512
+    ceiling: -128
+    theme: theme:under
+    platforms:
+      - {id: platform:bed_w1, at: [-3328, 2688], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_w2, at: [-2944, 2688], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_w3, at: [-2560, 2688], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_w4, at: [-2176, 2688], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+      - {id: platform:bed_w5, at: [-1792, 2688], size: [192, 128], rise: 48, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A bed.}
+  - id: room:robing
+    name: Robing room
+    outline: [[3712, 256], [4864, 256], [4864, 1536], [3712, 1536]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hq
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:lamp_robe, offset: 272, length: 96, bottom: 192, height: 96, surface: {texture: xwiron, size: [128, 128], fit: true}, notes: "Ward lamp 2: an iron bracket with a cold violet flame."}
+    platforms:
+      - {at: [4736, 512], size: [96, 384], rise: 160, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A robe rack by the east wall.}
+      - {at: [4736, 1024], size: [96, 384], rise: 160, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A robe rack by the east wall.}
+  - id: room:scrying
+    name: Scrying room
+    outline: [[1152, 256], [2304, 256], [2304, 2048], [1152, 2048]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:hq
+    walls:
+      - wall: e
+        panels:
+          - {offset: 336, length: 96, bottom: 256, height: 96, surface: {texture: d2skulas, size: [64, 64], fit: true}, notes: A skull niche.}
+          - {offset: 720, length: 96, bottom: 256, height: 96, surface: {texture: d2skulas, size: [64, 64], fit: true}, notes: A skull niche.}
+          - {offset: 1104, length: 96, bottom: 256, height: 96, surface: {texture: d2skulas, size: [64, 64], fit: true}, notes: A skull niche.}
+    platforms:
+      - {id: platform:crystal, at: [1728, 1536], size: [128, 128], rise: 128, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: xkmirror, size: [128, 128], fit: true}, notes: The scrying crystal on its stand.}
+      - {id: platform:lamp_scry, at: [1728, 640], size: [128, 128], rise: 48, surface: {texture: xwiron, size: [128, 128], fit: true}, top_surface: {texture: xwiron, size: [128, 128], fit: true}, notes: "Ward lamp 1: a floor brazier with a cold violet flame."}
+  - id: room:undercroft
+    name: Undercroft
+    outline: [[-768, 512], [768, 512], [768, 3456], [-768, 3456]]
+    floor: -512
+    ceiling: -128
+    theme: theme:under
+    pillars:
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[-416, 1056], [-224, 1056], [-224, 1248], [-416, 1248]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[-416, 1696], [-224, 1696], [-224, 1888], [-416, 1888]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[-416, 2336], [-224, 2336], [-224, 2528], [-416, 2528]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[-416, 2976], [-224, 2976], [-224, 3168], [-416, 3168]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[224, 1056], [416, 1056], [416, 1248], [224, 1248]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[224, 1696], [416, 1696], [416, 1888], [224, 1888]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[224, 2336], [416, 2336], [416, 2528], [224, 2528]]}
+      - {surface: {texture: d2wlbctr, size: [128, 256], scale: 1.5}, outline: [[224, 2976], [416, 2976], [416, 3168], [224, 3168]]}
+    notes: "A vaulted passage under the court and the Common, two rows of pillars: the wizards' quarters west, the sorceresses' east, the stair foot north, the vault's iron door south."
+  - id: room:vault
+    name: Guild vault
+    outline: [[-640, -896], [640, -896], [640, 384], [-640, 384]]
+    floor: -512
+    ceiling: -128
+    theme: theme:under
+  - id: room:wardrobe
+    name: Morgana's wardrobe
+    outline: [[4352, 1664], [5120, 1664], [5120, 2560], [4352, 2560]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:hq
+    platforms:
+      - {at: [5024, 1920], size: [96, 256], rise: 160, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A robe rack.}
+      - {at: [5024, 2304], size: [96, 256], rise: 160, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: A robe rack.}
+  - id: room:weights
+    name: Weights and Measures
+    outline: [[1152, 2176], [2048, 2176], [2048, 2944], [1152, 2944]]
+    floor: 0
+    ceiling: 448
+    theme: theme:hc
+    platforms:
+      - {id: platform:scales, at: [1600, 2816], size: [384, 128], rise: 96, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128], fit: true}, notes: The quarter's scales and ledgers on the north wall's bench.}
+  - id: room:xenoc_study
+    name: Xenoc's study
+    outline: [[-2304, -768], [-1408, -768], [-1408, 128], [-2304, 128]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:mirage
+    platforms:
+      - {id: platform:xenoc_desk, at: [-1856, -448], size: [384, 160], rise: 80, surface: {texture: bemtila, size: [128, 128]}, top_surface: {texture: bemtila, size: [128, 128]}, notes: Xenoc's desk.}
+openings:
+  - id: open:alcoves_qw
+    from: room:alcoves
+    to: room:quarters_w
+    from_wall: e
+    to_wall: w
+    link: link:alcoves_qw
+    along: 0.2222
+    width: 320
+    height: 320
+  - id: open:alembic_back
+    from: room:alembic
+    to: room:back_stair
+    from_wall: e
+    to_wall: w
+    link: link:alembic_back
+    along: 0.85
+    width: 224
+    height: 320
+  - id: open:arcade_common
+    from: room:arcade
+    to: room:common
+    from_wall: n
+    to_wall: s
+    link: link:court_common
+    width: 224
+    height: 384
+  - id: open:arch_c
+    from: room:court
+    to: room:arcade
+    from_wall: n
+    to_wall: s
+    link: link:court_arcade
+    width: 384
+    height: 448
+    notes: The arcade's middle arch.
+  - id: open:arch_e
+    from: room:court
+    to: room:arcade
+    from_wall: n
+    to_wall: s
+    link: link:court_arcade
+    along: 0.1875
+    width: 384
+    height: 448
+    notes: The arcade's east arch.
+  - id: open:arch_w
+    from: room:court
+    to: room:arcade
+    from_wall: n
+    to_wall: s
+    link: link:court_arcade
+    along: 0.8125
+    width: 384
+    height: 448
+    notes: The arcade's west arch.
+  - id: open:bridge_scry
+    from: room:bridge
+    to: room:scrying
+    from_wall: e
+    to_wall: w
+    link: link:bridge_scry
+    width: 320
+    height: 384
+  - id: open:bridge_win_c
+    from: room:bridge
+    to: room:court
+    from_wall: s
+    to_wall: n
+    width: 256
+    height: 192
+    sill: 128
+    notes: A window of the bridge down into the court.
+  - id: open:bridge_win_e
+    from: room:bridge
+    to: room:court
+    from_wall: s
+    to_wall: n
+    along: 0.75
+    width: 256
+    height: 192
+    sill: 128
+    notes: A window of the bridge down into the court.
+  - id: open:bridge_win_w
+    from: room:bridge
+    to: room:court
+    from_wall: s
+    to_wall: n
+    along: 0.25
+    width: 256
+    height: 192
+    sill: 128
+    notes: A window of the bridge down into the court.
+  - id: open:common_qstair
+    from: room:common
+    to: room:quarters_stair
+    from_wall: n
+    to_wall: s
+    link: link:common_qstair
+    along: 0.75
+    width: 256
+    height: 384
+  - id: open:common_weights
+    from: room:common
+    to: room:weights
+    from_wall: e
+    to_wall: w
+    link: link:common_weights
+    width: 224
+    height: 384
+  - id: open:court_hq
+    from: room:court
+    to: room:hq_foyer
+    from_wall: e
+    to_wall: w
+    link: link:court_hq
+    along: 0.4
+    width: 448
+    height: 448
+  - id: open:court_mirage
+    from: room:court
+    to: room:mirage_foyer
+    from_wall: w
+    to_wall: e
+    link: link:court_mirage
+    along: 0.6
+    width: 448
+    height: 448
+  - id: open:hall_bridge
+    from: room:mirage_hall
+    to: room:bridge
+    from_wall: e
+    to_wall: w
+    link: link:hall_bridge
+    width: 224
+    height: 384
+  - id: open:hall_study
+    from: room:mirage_hall
+    to: room:xenoc_study
+    from_wall: s
+    to_wall: n
+    link: link:hall_study
+    along: 0.7143
+    width: 224
+    height: 384
+  - id: open:hq_stair
+    from: room:hq_foyer
+    to: room:hq_stair
+    from_wall: e
+    to_wall: w
+    link: link:hq_stair
+    along: 0.3
+    width: 256
+    height: 384
+  - id: open:illusions_stair
+    from: room:illusions
+    to: room:mirage_stair
+    from_wall: n
+    to_wall: s
+    link: link:illusions_stair
+    along: 0.7222
+    width: 256
+    height: 384
+  - id: open:mirage_down
+    from: room:mirage_stair
+    to: room:alcoves
+    from_wall: w
+    to_wall: e
+    link: link:mirage_down
+    along: 0.4
+    width: 256
+    height: 384
+    notes: From the Mirage stair's floor onto the alcoves' head (0).
+  - id: open:mirage_illusions
+    from: room:mirage_foyer
+    to: room:illusions
+    from_wall: w
+    to_wall: e
+    link: link:mirage_illusions
+    width: 384
+    height: 384
+  - id: open:mirage_up
+    from: room:mirage_stair
+    to: room:mirror_gallery
+    from_wall: s
+    to_wall: n
+    link: link:mirage_up
+    along: 0.5833
+    width: 320
+    height: 384
+    notes: The Mirage stair's head onto the mirror gallery.
+  - id: open:mirage_wall
+    from: room:mirror_gallery
+    to: room:mirage_hall
+    from_wall: e
+    to_wall: w
+    link: link:mirage_wall
+    width: 256
+    height: 384
+    notes: "The mirage: a wall that is not there (door:mirage, passable)."
+  - id: open:qe_alembic
+    from: room:quarters_e
+    to: room:alembic
+    from_wall: e
+    to_wall: w
+    link: link:qe_alembic
+    width: 384
+    height: 320
+  - id: open:qw_undercroft
+    from: room:quarters_w
+    to: room:undercroft
+    from_wall: e
+    to_wall: w
+    link: link:qw_undercroft
+    width: 224
+    height: 320
+  - id: open:robing_back
+    from: room:robing
+    to: room:back_stair
+    from_wall: n
+    to_wall: s
+    link: link:back_up
+    along: 0.6111
+    width: 256
+    height: 384
+    notes: The robing room onto the back stair's head (0).
+  - id: open:sanctum_wardrobe
+    from: room:morgana_sanctum
+    to: room:wardrobe
+    from_wall: e
+    to_wall: w
+    link: link:sanctum_wardrobe
+    width: 224
+    height: 384
+  - id: open:scry_landing
+    from: room:scrying
+    to: room:hq_stair
+    from_wall: e
+    to_wall: w
+    link: link:scry_landing
+    along: 0.85
+    width: 256
+    height: 384
+  - id: open:stair_robing
+    from: room:hq_stair
+    to: room:robing
+    from_wall: e
+    to_wall: w
+    link: link:stair_robing
+    along: 0.3
+    width: 224
+    height: 384
+  - id: open:undercroft_foot
+    from: room:undercroft
+    to: room:quarters_stair
+    from_wall: n
+    to_wall: s
+    link: link:undercroft_foot
+    along: 0.2917
+    width: 288
+    height: 320
+  - id: open:undercroft_qe
+    from: room:undercroft
+    to: room:quarters_e
+    from_wall: e
+    to_wall: w
+    link: link:foot_qe
+    along: 0.45
+    width: 224
+    height: 320
+  - id: open:vault
+    from: room:undercroft
+    to: room:vault
+    from_wall: s
+    to_wall: n
+    link: link:vault_door
+    width: 256
+    height: 320
+  - id: open:ward
+    from: room:hq_stair
+    to: room:morgana_sanctum
+    from_wall: n
+    to_wall: s
+    link: link:ward
+    width: 256
+    height: 384
+    notes: "Morgana's door at the HQ stair's head: the ward of light (door:ward)."
+notes: "DD-19 Wizard Quarter: the undercroft at -512, the court level at 0, the upper floors at 640, in one frame (x east, y north, z up). Written by output/studio_cal/dd19/tools/gen.py (geo.py)."

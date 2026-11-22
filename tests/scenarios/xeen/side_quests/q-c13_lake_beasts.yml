@@ -1,0 +1,111 @@
+# Xeen side quest Q-C13, Lake Beasts (X2), from a new game on X2. Medin the Fisherman (his hut by Lake Darzog) asks for
+# the lake beasts dead; his boat to the island stays tied up while they live. The three level-60 water dragons (group
+# 80, monster 11640) are killed in the game where they swim (the party placed on the lake beside each,
+# PLAYBOOK.md §2; immortal, clear_hostiles kills through the normal damage path); X2's timer (event 186) sees the group
+# dead and sets lake_beasts_slain. Medin pays; his boat then rows the party to the island and back.
+# Quest logic: source/quests/q-c13.yml; X2 events: devdocs/xeen/briefs/x2/L4/sketch.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c13_lake_beasts.yml --scenario-no-color
+id: xeen.side_quests.q-c13
+title: "Xeen Q-C13: Lake Darzog's three dragons dead for Medin"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 24, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 24, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Medin's Hut (X2 event 3, house 4096): Lake beasts (Q-C13 started).
+  - set_pose: {map: xeen_x2.odm, x: -7552, y: 748, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4152}   # the hut's one resident talks at once
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "The fish supply is low"}
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "The beasts still live"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {dialog: {active: false}}
+  - assert: {qbit_set: [112260]}
+  - assert: {qbit_clear: [112261, 110201]}
+  # Medin's boat (event 141): tied up while the beasts live.
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(141); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Not while those beasts circle the island"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -9779, y: 1272, radius: 160}}
+  # The three dragons, one by one beside their spawns (X2's scene since its 09:59 reinstall: (-20992, 8192),
+  # (-22784, 3072), (-18432, -3584); leash 1,024).
+  - assert: {actor_count: {monster_id: 11640, min: 3, max: 3}}
+  - set_pose: {map: xeen_x2.odm, x: -20392, y: 8192, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - assert: {actor_count: {monster_id: 11640, max: 2}}
+  - set_pose: {map: xeen_x2.odm, x: -22184, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - assert: {actor_count: {monster_id: 11640, max: 1}}
+  - set_pose: {map: xeen_x2.odm, x: -17832, y: -3584, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - assert: {actor_count: {monster_id: 11640, max: 0}}
+  # X2's timer sees the group dead: lake_beasts_slain and its message.
+  - advance_runtime: {seconds: 10, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The last of the lake beasts sinks beneath the waves"}}
+  - play_lua: {source: "close(); if not qbit(110201) then error('lake_beasts_slain not set') end"}
+  # Medin: Lake beasts (Q-C13 done), 6000 experience each, 2000 gold and an item.
+  - set_pose: {map: xeen_x2.odm, x: -7552, y: 748, z: 992, yaw: -1.5708, pitch: 0.0}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); local n = 0; for c in pack_items():gmatch('x(%d+)') do n = n + tonumber(c) end; remember('items', n)"}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4152}   # the hut's one resident talks at once
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "You have slain the monsters of the lake!"}
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "I am always glad to see you"}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        local n = 0; for c in pack_items():gmatch('x(%d+)') do n = n + tonumber(c) end
+        local xp, g = experience(0) - recall('xp'), gold() - recall('gold')
+        log("Q-C13 reward: experience +" .. xp .. ", gold +" .. g .. ", items " .. recall('items') .. " -> " .. n)
+        if xp ~= 6000 or g ~= 2000 then error("Medin paid " .. xp .. " experience and " .. g .. " gold, not 6000 and 2000") end
+        -- Medin's treasure: one random item of treasure level 3 (evt.GiveItem(3, 0), gen_quests.py's {treasure: 3}).
+        if n ~= recall('items') + 1 then error("Medin gave no item") end
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {dialog: {active: false}}
+  - assert: {qbit_set: [112261, 110201]}
+  - assert: {qbit_clear: [112260]}
+  # Medin's boat rows the party to the island, and back to his jetty.
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        status(); click(141); wait(1)
+        local lines = status()
+        if not lines:find("Medin rows you across to the island.", 1, true) then error("no boat line: " .. lines) end
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -14848, y: 1792, radius: 200}}
+  - play_lua:
+      source: |
+        status(); click(143); wait(1)
+        local lines = status()
+        if not lines:find("Medin rows you back to his jetty.", 1, true) then error("no boat line: " .. lines) end
+  - assert: {party_position: {x: -8704, y: 2253, radius: 200}}

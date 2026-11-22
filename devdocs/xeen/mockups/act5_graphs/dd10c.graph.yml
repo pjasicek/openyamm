@@ -1,0 +1,110 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# DD-10C's Act V update (lane A8, session 11, 2026-11-21). The layout is the Act III graph
+# (`act3_graphs/dd10c.graph.yml`) as approved by D-27 (`act3_a8_decisions_b.md`: "layout as drawn; moves to Act V at
+# D6's lower band, D6's own families, 20 monsters, treasure 5") and as BUILT in scratch (`briefs/dd10c/L4/NOTES.md`,
+# `output/studio_cal/dd10c/`: 6 sectors, 10.94 M units², 3 doors, 1 chest, audit 0/0). This file changes only what
+# phase 5 adds: the monsters on gen.py's 20 marked spots, the live exit to D6's north adit, the map row's Act V
+# numbers, and the roach nest's story now that D-27 took the roaches out. The geometry is not redrawn.
+# Source: dark maze0039 Gemstone Mines (one 32 x 32 map with four gem quarters; text aaze0039).
+format: mu6-0
+map: DD-10C
+key: dd10c
+name: "Gemstone Mines, north pocket"
+stands_on: D6 The Forbidden Zone (the north adit)
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+size: "6 review rooms = 6 sectors (built), 10.94 M units² (built, metrics.json), 3 plank doors (single leaves, 224 wide), 1 chest; one level, the lava seam sunk 48"
+party: [48, 51]
+monsters:
+  levels: [40, 50]
+  boss: null
+  count: 20
+  groups: [2, 4]
+  families:
+    - "Eyes (11570): Floating Eye 40 (14), Terrible Eye 50 (4): D6's Ancient-field gazers, MAPS §0's row; fliers, at home in the cavern's 640-960 roofs"
+    - "Robots (11610): Patrol 50 (2): Alamar's machines on the mesa above; one walks each of the two drifts nearest the adit (open question 1)"
+  mix:
+    - {row: Floating Eye, id: 11570, level: 40, count: 14}
+    - {row: Terrible Eye, id: 11571, level: 50, count: 4}
+    - {row: Patrol, id: 11610, level: 50, count: 2}
+  kill_xp: "11.50k per member (46,000 / 4): Floating Eye 14 x 2,000 + Terrible Eye 4 x 3,000 + Patrol 2 x 3,000"
+  kill_xp_target: "MAPS §0 row DD-10C (D-27): 20 monsters at 40-50, 11.5k: 0.0 %"
+treasure: {level: 5}
+role: "Q-D7 The Gemsmiths, diamonds (repeatable): five diamond veins give one rock each (q-d7.diamond_veins sets q-d7.dug); the God of Minerals in DD-10B refills them for gold (refill_c read on entry). Hector: 'Diamonds come only from the north adit in the Forbidden Zone. Few who go there come back.' (D-27)"
+role_short: "Q-D7 (diamonds)"
+set_piece: "The diamond cavern: five diamond veins (xdvdiam panels, a white glint each) in black glittering rock, the lava seam's red light spilling into its west end, two black pillars; one false vein that explodes"
+sounds: "built: whistling wind at the adit, lava loop at the seam, drip02 in the cavern, rumble in the collapse, humming in the geode; music 18. Phase 5 adds nothing (the eyes' and Patrols' own sounds come with their rows)"
+textures:
+  family: "Mines (D-27, dungeon_families mines): MM7 Nighon Tunnels 7d35 (cwb1, cfb1, trim9_32, trim9_32a) with MM6 Gharik's Forge 6d18 vlcwl3a for the lava gallery and the cavern's roof, lavatyl for the seam, MM8 d37 gcrysc3 in the geode, the world's xnrustirn rails, A6's xdvdiam veins"
+  cap: 30
+  planned: 16
+  new: 0
+  new_names: []
+  distinct_from: "DD-10A and DD-10B share the family on purpose (one mine, three pockets); DD-10C alone has the black lava rock and the seam. D6's other dungeons (DD-16's pod, DD-17's Ancient steel, DD-21's crypt sewer, DD-22's pod) share nothing with it"
+floors:
+  - {floor: 0, name: "North pocket: diamonds (one level, built)", height: 0}
+spaces:
+  - {id: room:c_adit, name: North adit, kind: corridor, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "The arrival (entrance:d6_adit at the start (0, 192, 0), facing north): two timber sets, rails, the plank door north. Quiet (D-11.3). Phase 5 drops the boarded panel in the south wall and puts the exit preset there ('Exit the Gemstone Mines?', aaze0039:0). Map qbit 117240 arrived_once (the arrival window)."}
+  - {id: room:c_lava, name: Lava gallery, kind: cave, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{row: Floating Eye, level: 40, count: 3}, {row: Patrol, level: 50, count: 1}],
+     purpose: "A drift along the seam of cooling lava in its south bay (lavatyl, two glowing rocks); heat shimmer. The Patrol walks the drift between the adit's door and the cavern (gen.py spot (1500, 1450), slot b)."}
+  - {id: room:c_diamond, name: Diamond cavern, kind: cave, size: L, floor: 0, at: [2, 0], set_piece: true, goal: true, monsters: 6,
+     population: [{row: Floating Eye, level: 40, count: 4}, {row: Terrible Eye, level: 50, count: 2}],
+     purpose: "Five diamond veins (q-d7.diamond_veins; hover 'Diamond vein', aaze0039:1; spent 'You've got all this vein has to offer.', :10); the false vein on the north-west wall ('A gem exploded!', :11; 28 fire to every member, once; built). Two groups of three under the high roof."}
+  - {id: room:c_grotto, name: Crystal grotto, kind: cave, size: S, floor: 0, at: [3, 0], chest: 5, monsters: 2,
+     population: [{row: Floating Eye, level: 40, count: 1}, {row: Terrible Eye, level: 50, count: 1}],
+     purpose: "Dead end with the chest: a geode of six crystals (gcrysc3), the dead miner and his chest (T5, built)."}
+  - {id: room:c_collapse, name: The collapse, kind: cave, size: M, floor: 0, at: [1, 1], monsters: 4,
+     population: [{row: Floating Eye, level: 40, count: 3}, {row: Patrol, level: 50, count: 1}],
+     purpose: "Eight tipped roof slabs ('Rubble from a fallen roof. Nothing under it but more rock.'), boulders, under the hole in the roof. The second Patrol stands where the roof came down (open question 1: it dug through from the mesa)."}
+  - {id: room:c_nest, name: The cold nest, kind: cave, size: M, floor: 0, at: [2, 1], monsters: 4,
+     population: [{row: Floating Eye, level: 40, count: 3}, {row: Terrible Eye, level: 50, count: 1}],
+     purpose: "Was the roach nest (D-27 took the Lava Roaches out): ten egg cases in three clutches, cracked and empty, cold ash, bones. Hover 'Empty egg cases'; click 'Split and cold. Whatever hatched here was eaten by whatever lives here now.' (open question 2). The eyes hang over it."}
+links:
+  - {id: link:c1, from: room:c_adit, to: room:c_lava, kind: door}
+  - {id: link:c2, from: room:c_lava, to: room:c_diamond, kind: open}
+  - {id: link:c3, from: room:c_diamond, to: room:c_grotto, kind: door}
+  - {id: link:c4, from: room:c_lava, to: room:c_collapse, kind: door}
+  - {id: link:c5, from: room:c_collapse, to: room:c_nest, kind: open}
+  - {id: link:c6, from: room:c_nest, to: room:c_diamond, kind: open}
+states:
+  - {id: state:veins, kind: map_var, where: room:c_diamond,
+     what: "diamond_1-diamond_5: each vein gives one rock once; the entry's load event resets them when q-d7.refill_c (113143) is set and clears it (D-27, built). false_vein: once, never refilled.", opens: [], draw: false}
+  - {id: state:arrived, kind: qbit, where: room:c_adit,
+     what: "117240 arrived_once (built): the arrival window once per game. DD-10C keeps its own block 117240-117279 (not the phase-5 blocks).", opens: [], draw: false}
+exits:
+  - {id: 'exit:d6_adit', space: 'room:c_adit', at: [0, 1], kind: both, label: 'D6: the north adit',
+     arrival: "entrance:d6_adit (as D6 assumes): the map's start, (0, 192, 0) in the map's frame (the mouth at y 0), facing north (512), into the pocket",
+     neighbour: "D6 door:dd10c (thing:dd10c_adit, the cave mouth in its timber frame, 'Enter the mine? (Yes/No)'); its placeholder text goes and the neighbour drops listed_only. Out by the exit preset ('Exit the Gemstone Mines?', aaze0039:0) to D6's installed entrance:dd10c_adit (-9216, -16384, 2688) facing 512: one cell north of the mouth (the mouth at sketch y 97, the point at y 96), facing away from it. Matches; gen.py D6_LIVE = True, D6_ARRIVAL = that point (D6's NOTES write z 2624, the installed sidecar 2688: A6 confirms; the exit playtest measures it)"}
+hooks:
+  - {hook: q-d7.diamond_veins, space: 'room:c_diamond', how: "each of the five veins (built; map_gives 12360)"}
+critical_path: [room:c_adit, room:c_lava, room:c_diamond]
+return_path: [room:c_diamond, room:c_nest, room:c_collapse, room:c_lava, room:c_adit]
+loops:
+  - {id: 'loop:c', spaces: ['room:c_lava', 'room:c_diamond', 'room:c_nest', 'room:c_collapse'], notes: 'Round the diamond cavern (built).'}
+lines:
+  - {text: 'Exit the Gemstone Mines?', ref: 'dark/aaze0039:0', where: 'room:c_adit (the exit preset''s meaning, D-24)'}
+  - {text: Diamond vein, ref: 'dark/aaze0039:1', where: the veins (hover)}
+  - {text: You've got all this vein has to offer., ref: 'dark/aaze0039:10', where: a picked vein}
+  - {text: A gem exploded!, ref: 'dark/aaze0039:11', where: 'the false vein'}
+open_questions:
+  - q: "The mix on gen.py's 20 spots (14 commoner 'a', 6 heavier 'b'). MAPS §0 names Floating Eye, Terrible Eye and Patrol; gen.py has two slots (a, b)."
+    options: ["(a) a = Floating Eye 40 (14); b = Terrible Eye 50 (4: cavern 2, grotto 1, nest 1) and Patrol 50 (2: the lava gallery and the collapse, the drifts nearest the adit): 11.50k, 0.0 %. gen.py gains a third slot 'c' for the two Patrol spots (two lines)",
+              "(b) eyes only: a = Floating Eye (14), b = Terrible Eye (6): 11.50k, 0.0 %; gen.py as it is; the Patrols stay D6's",
+              "(c) a = Floating Eye (12), b = Patrol (8, two per drift and cavern): 12.00k, +4.3 %; more machines than gazers in a mine"]
+    recommend: "(a)"
+    depends: "A2 (Act V recount: DD-10C 20 at 11.50k; the rows are live); S (the Patrol's and eyes' bindings, already D6's)"
+  - q: "The roach nest without roaches (D-27 took the Lava Roaches out; the room is built with ten egg cases)."
+    options: ["(a) keep the room and its egg cases as the cold nest: cracked and empty, hover 'Empty egg cases', one click line 'Split and cold. Whatever hatched here was eaten by whatever lives here now.'; the warm ash light turned to a dim cold one; the eyes over it",
+              "(b) drop the egg cases (gen.py) and call it a side gallery",
+              "(c) keep them as they are, no line"]
+    recommend: "(a)"
+    depends: "A3 (the line, map-local)"
+  - q: "Rest encounters."
+    options: ["(a) 10 % from the map's hostile rows (D-39): Floating Eye and Terrible Eye only (the Patrols are placed, not rested into)",
+              "(b) 0 (S map with one way in)"]
+    recommend: "(a)"
+    depends: "the map card (gen.py PROJECT map_stats)"

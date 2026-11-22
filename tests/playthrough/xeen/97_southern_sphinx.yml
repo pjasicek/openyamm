@@ -1,0 +1,148 @@
+# Xeen playthrough, segment 97: the Southern Sphinx (X5, X6, FD-02), M40 done.
+# On X5 outside Halon's Workshop with the Amulet of the Southern Sphinx (12372) and Halon's Widget (12315). North off
+# X5's edge into the Desert of the Sphinx (X6); the Southern Sphinx (X6 event 82, m40.sphinx_door: Roland's amulet in
+# the hollow of its breast, the jaw opens on a stair) into FD-02's entrance:x6_door. FD-02 walked along A7's path
+# (devdocs/xeen/briefs/fd02/L4/playtest.yml): the arrival line, the way out's window (cancelled), the hall, the Swinging
+# Death's run, the north Preservation Room's rune stones (P, I, C), the canopic chamber, the south room's (A, R, D: the
+# sixth gives m40.runes' summary), back by the Chopping Death's run; up the stair of the name: the landing asks "What is
+# my name?": PICARD ("Correct, come on up!", m40.name_said 111800; the door opens); the Home of the Aged (m40.stair's
+# line), the old cigars; Picard the Aged, "Chime of Opening" with the Widget: "Really? You have one?" (the Widget for the
+# Chime of Opening 12373, M40 done 111801, 20,000 each); the Throne of Legends. Back down the stair and through the
+# hall to the steps: the exit (event 17, the leave window, OK) to X6 before the Sphinx. Ends on X6.
+# Routes: segment 85 (the X5/X6 edge, reversed), devdocs/xeen/briefs/fd02/L4/playtest.yml and playtest_exit.yml.
+# Quest logic: source/quests/m40.yml.
+#   python3 tests/playthrough/xeen/run.py 97
+id: xeen.playthrough.97_southern_sphinx
+title: "Xeen playthrough 97: the Southern Sphinx, the runes, the name, Picard's Chime of Opening"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/96_lava_for_the_clock.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - assert: {qbit_set: [111781, 112282]}
+  - assert: {qbit_clear: [111800, 111801]}
+  - play_lua: {source: "log('97 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12315) then error('no Widget (12315)') end"}
+  # North off X5's edge into the Desert of the Sphinx (X6's south edge; segment 85 came the other way).
+  - set_pose: {map: xeen_x5.odm, x: -7168, y: 22016, z: 1472, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: 24064, z: 1472, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Southern Sphinx (X6 event 82, m40.sphinx_door): Roland's amulet opens its jaw.
+  - set_pose: {map: xeen_x6.odm, x: -12288, y: -10240, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(82); wait(0.5)"}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2, present_dialogs: true, follow_map_move: true}
+  - {play_lua: {source: 'wait(2); local s = tostring(status()); log(''arrive: '' .. s); if not string.find(s, ''Sand on the steps'', 1, true) then error(''arrival line: '' .. s) end; close()'}}
+  - {assert: {map: xeen_fd02.blv}}
+  - {setup_shortcut: {kind: immortal, value: true}}
+  - {assert: {party_position: {radius: 96, x: -256, y: 0, z_max: 8, z_min: -8}}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -112, y: 0, z: 0}}
+  - {play_lua: {source: click(17); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: Do you wish to leave}}}
+  - {play_lua: {source: close()}}
+  - {assert: {map: xeen_fd02.blv}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -840, y: 0, z: -256, z_tolerance: 40}}
+  - {play_lua: {source: 'open_door(53, 13)'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1200, y: 0, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2600, y: 0, z: -256}}
+  - {clear_hostiles: {radius: 3000}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3300, y: 256, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4520, y: 256, z: -256}}
+  - {play_lua: {source: 'open_door(16, 5)'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4900, y: 256, z: -256}}
+  - {clear_hostiles: {radius: 2500}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -5216, y: 540, z: -256}}
+  - {play_lua: {source: click(44); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: lesson about the letter "P"}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -5056, y: 540, z: -256}}
+  - {play_lua: {source: click(43); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: lesson about the letter "I"}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -4896, y: 540, z: -256}}
+  - {play_lua: {source: click(41); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: lesson about the letter "C"}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5300, y: 288, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5824, y: 0, z: -256}}
+  - {clear_hostiles: {radius: 2500}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5300, y: -288, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5056, y: -384, z: -256}}
+  - {clear_hostiles: {radius: 2500}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -4896, y: -540, z: -256}}
+  - {play_lua: {source: click(40); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: lesson about the letter "A"}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -5056, y: -540, z: -256}}
+  - {play_lua: {source: click(45); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: lesson about the letter "R"}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 40, timeout_seconds: 40, x: -5216, y: -540, z: -256}}
+  - {play_lua: {source: click(42); wait(0.7)}}
+  - {assert: {dialog: {active: true, text_contains: in the order of the halls}}}
+  - {play_lua: {source: 'close(); close(); for _, q in ipairs({118110, 118111, 118112, 118113, 118114, 118115}) do if not qbit(q) then error(''rune qbit '' .. q .. '' not set'') end end'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4800, y: -256, z: -256}}
+  - {play_lua: {source: 'open_door(13, 1)'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4520, y: -256, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3300, y: -256, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1344, y: 300, z: -256}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -1344, y: 1900, z: 700, z_tolerance: 80}}
+  - {walk_to: {expect: dialog, radius: 48, timeout_seconds: 40, x: -1344, y: 2140, z: 768, z_tolerance: 40}}
+  - {advance_runtime: {present_dialogs: true, seconds: 1}}
+  - {assert: {dialog: {active: true, text_contains: 'What is my name?'}}}
+  - {answer_input: {text: Picard}}
+  - {advance_runtime: {present_dialogs: true, seconds: 1}}
+  - {assert: {dialog: {active: true, text_contains: 'Correct, come on up!'}}}
+  - {play_lua: {source: 'close(); wait(2); if not qbit(111800) then error(''name_said 111800 not set'') end; if door_state(4) ~= ''open'' then error(''the door of the name is not open: '' .. door_state(4)) end'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -1344, y: 2480, z: 768, z_tolerance: 24}}
+  - {walk_to: {expect: dialog, radius: 48, timeout_seconds: 40, x: -1344, y: 2800, z: 768, z_tolerance: 40}}
+  - {advance_runtime: {present_dialogs: true, seconds: 1}}
+  - {assert: {dialog: {active: true, text_contains: a room full of books}}}
+  - {play_lua: {source: close()}}
+  - {play_lua: {source: click(5); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: old cigars}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -1420, y: 3200, z: 768, z_tolerance: 24}}
+  - {assert: {actor_visible: {actor_index: 16, hidden: false, name: Picard the Aged}}}
+  - {play_lua: {source: 'remember(''xp'', experience(0)); remember(''xp3'', experience(3))'}}
+  - {interact_actor: {actor_index: 16}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {select_topic: {match_label: Chime of Opening}}
+  - {assert: {dialog: {active: true, text_contains: 'Really?'}}}
+  - {play_lua: {source: close(); close(); wait(0.5); close(); if not qbit(111801) then error('m40.done 111801 not set') end; if not has_item(12373) then error('no Chime of Opening') end; if has_item(12315) then error('the widget is still here') end}}
+  - {play_lua: {source: 'local xp, xp3 = experience(0) - recall(''xp''), experience(3) - recall(''xp3''); if xp ~= 20000 or xp3 ~= 20000 then error(''Picard paid '' .. xp .. '' / '' .. xp3) end'}}
+  - {play_lua: {source: click(56); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: very good chair}}}
+  - {play_lua: {source: close(); close()}}
+  # Back down the stair of the name, through the hall to the steps and out (event 17, the leave window, OK).
+  - walk_to: {x: -1344, y: 2480, z: 768, radius: 64, z_tolerance: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1344, y: 1900, z: 700, radius: 64, z_tolerance: 80, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1344, y: 300, z: -256, radius: 64, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1200, y: 0, z: -256, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(53, 13)"}
+  - walk_to: {x: -840, y: 0, z: -256, radius: 48, z_tolerance: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -112, y: 0, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: -12288, y: -10240, radius: 160}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111780, 111781, 111800, 111801]}
+  - play_lua:
+      source: |
+        if not has_item(12373) then error("no Chime of Opening (12373) at the end") end
+        if has_item(12315) then error("the Widget (12315) is still carried") end
+        log("97 done (M40 done): " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "97 The Southern Sphinx", path: output/playthrough/xeen/checkpoints/97_southern_sphinx.oysav}

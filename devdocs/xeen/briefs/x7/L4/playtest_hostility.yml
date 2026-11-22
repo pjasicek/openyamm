@@ -1,0 +1,151 @@
+# Hostility check of X7 Mount Firestone (written by output/studio_cal/x7/tools/gen_hostility_x7.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.x7.l4.hostility
+title: 'X7 Mount Firestone: foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x7.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11030
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11031
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11032
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11660
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11661
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11662
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11640
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11593
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11593
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11030
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 368
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- set_pose:
+    map: xeen_x7.odm
+    x: -1024
+    y: 232
+    z: 3400
+    yaw_degrees: -90
+- advance_runtime:
+    seconds: 2
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11030
+    x: -1024
+    y: -768
+    z: 2300
+- spawn_actor:
+    monster_id: 11660
+    x: -928
+    y: -768
+    z: 2300
+- spawn_actor:
+    monster_id: 11640
+    x: -832
+    y: -768
+    z: 2300
+- spawn_actor:
+    monster_id: 11593
+    x: -736
+    y: -768
+    z: 2300
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11030
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11660
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11640
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11593
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 368
+      hurt: true
+      max: 0

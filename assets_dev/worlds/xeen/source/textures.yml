@@ -1,0 +1,1804 @@
+# Xeen: every new texture of the world (ROADMAP §5.2). Owner: A6 (art direction). A lane that needs a new texture
+# looks here first and reuses one; a texture it makes is added here (send A6 the entry) before its map is reported.
+#
+# Budget (the user's hard rule): shipped MM6-MM8 textures first; at most 30 new per kit; new per map at most
+# S 4, M 8, L 14, ODM 12 beyond its kit; the world's new textures at most 450 in all. Every name below counts.
+#
+# Fields:
+#   name     the face texture name (lowercase, at most 10 characters, unique against every shipped name)
+#   family   the kit (kits below) or the map it belongs to, and the shipped family it is painted to match
+#   area     what it shows / where it goes
+#   maps     map keys that use it (source/maps.yml keys)
+#   size     logical texels; the x4 master is 4x
+#   kind     tile, picture, sign, edit (painted into a shipped master), cutout, derived (cut from another entry)
+#   maker    how and when it was made; the project folder holds specs, prompts, raw returns and checks
+#   source   the finished x4 master
+#   installed  where its cooked files are: `world` (assets_dev/worlds/xeen/textures_x4 and textures_x2), or a
+#            scratch root
+#   reuse    (optional) where else the texture fits: a lane picks these before it makes a new one
+#
+# Sources (xeen-o, 2026-11-20): every entry's finished x4 master is also copied unchanged to
+# assets_source/worlds/xeen/textures_x4/<name>.png (locally excluded from git, as the models), where
+# tools/lighting/stale_bakes.py finds it. A6 copies each new texture there when it registers it.
+#
+# Grandfathered (decision D-3.4, 2026-11-20): the Act I dungeons' textures made on 2026-11-13 stay as they stand,
+# over the per-map caps (XD-01 11, 12 with the slogan; XD-02 15; XD-03 12; XD-05 11; XD-04 13, added by D-22.1, 45 of
+# 45 distinct on XD-04, the world total unchanged), charged to the world's 450 and not a precedent. They are the
+# world's to reuse; reuse first: XD-03's six gong cuts (xngong1-xngong6: any bronze plate, door or panel), XD-02's
+# Deep Line iron (xnrustirn: rails, chains, cages, iron fittings in any mine or dungeon), and XD-04's xwiron (iron
+# plates), xwcage (any bars or cages), xwbrew (brews and troughs), xwsky and xwcloudst (sky openings).
+
+kits:
+  cloudside_town: {title: "Cloudside half-timber town", families: level_generation/xeen_art/kits/cloudside_town.yml}
+  royal_castle: {title: "Royal castle, white stone", families: level_generation/xeen_art/kits/royal_castle.yml}
+  towers: {title: "Witch and wizard towers, dark timber and slate", families: level_generation/xeen_art/kits/towers.yml}
+  darkside_town: {title: "Darkside low slate-stone town", families: level_generation/xeen_art/kits/darkside_town.yml}
+  sandcaster: {title: "Sandcaster sandstone", families: level_generation/xeen_art/kits/sandcaster.yml}
+  ancient: {title: "Ancient technology", families: level_generation/xeen_art/kits/ancient.yml}
+
+textures:
+  - name: xnjoesign
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "bay north wall over the barn doors (panel:bay_sign)"
+    maps: [XD-01]
+    size: [256, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnjoesign.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnslogan
+    family: "map XD-01; the hall's brick with green slime (D-3.2)"
+    area: "\"SLIME LORDS SHALL RULE\" smeared in slime, \"The end is near\" below (XD-01's slogan wall)"
+    maps: [XD-01]
+    size: [256, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_xd01_slogan (xtex.py, A7), 2026-11-20
+    source: level_generation/textures_xeen/a7_xd01_slogan/finished/xnslogan.png
+    installed: world (2026-11-20)
+  - name: xnnotice
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "dock, right of the street doors (panel:notice_board)"
+    maps: [XD-01]
+    size: [128, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnnotice.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnheartsgn
+    family: "map XD-01; MM8 Pirate Outpost t66 wood (cellar, beside MM6 brick)"
+    area: "over the heart gate (panel:heart_sign)"
+    maps: [XD-01]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnheartsgn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnfeedsgn
+    family: "map XD-01; MM8 Pirate Outpost t66 wood (cellar, beside MM6 brick)"
+    area: "over the FEEDING TIME lever (panel:feeding_time)"
+    maps: [XD-01]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnfeedsgn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnrules
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "aisle east wall (panel:rules)"
+    maps: [XD-01]
+    size: [128, 256]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnrules.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnpestntc
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "office north wall (panel:pest_notice)"
+    maps: [XD-01]
+    size: [128, 256]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnpestntc.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnkeepout
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "over the KEEP OUT door (panel:keep_out)"
+    maps: [XD-01]
+    size: [256, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnkeepout.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnheartgt
+    family: "map XD-01; MM6 d6dorb weathered planks, MM8 t66 braced door"
+    area: "the heart gate (door:heart_gate)"
+    maps: [XD-01]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnheartgt.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnbugtank
+    family: "map XD-01; MM6 sewer (with MM7 slime)"
+    area: "the six bug tanks' sides"
+    maps: [XD-01]
+    size: [64, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnbugtank.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xntonics
+    family: "map XD-01; MM6 cellar planks (MM7 wine rack layout)"
+    area: "shipping room east wall"
+    maps: [XD-01]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xntonics.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnshutter
+    family: "map XD-01; MM8 Pirate Outpost t66 wood"
+    area: "dock, left of the street doors (panel:shutter, the Perception clue)"
+    maps: [XD-01]
+    size: [256, 256]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnshutter.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngold5
+    family: "map XD-02; MM6 Snergle's Caverns t3ll5 (red worked rock)"
+    area: "vein switches in t3ll5 (sorting floor, stope rim)"
+    maps: [XD-02]
+    size: [256, 256]
+    kind: edit
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngold5.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngold6
+    family: "map XD-02; MM6 Snergle's Caverns t3ll6 (dark raw rock)"
+    area: "vein switches in t3ll6 (the stope's three)"
+    maps: [XD-02]
+    size: [256, 256]
+    kind: edit
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngold6.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngoldcr
+    family: "map XD-02; MM6 Snergle's Caverns crstont (blue-grey cave stone)"
+    area: "vein switch in the flooded working"
+    maps: [XD-02]
+    size: [256, 256]
+    kind: edit
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngoldcr.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xncartsd
+    family: "map XD-02; MM6 Snergle's Caverns timber with MM6/MM7 iron (ch1 bands, ch004i)"
+    area: "side boards of the trestle car, the east cart and the four standing carts"
+    maps: [XD-02]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xncartsd.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnbasred
+    family: "map XD-02; MM6 Snergle's Caverns crstont"
+    area: "red pool basin (its sunk level's edge and floor, the pool platform's sides)"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnbasred.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnbasgld
+    family: "map XD-02; MM6 Snergle's Caverns crstont"
+    area: "gold pool basin"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnbasgld.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnbasblu
+    family: "map XD-02; MM6 Snergle's Caverns crstont"
+    area: "blue pool basin"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnbasblu.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnbasgrn
+    family: "map XD-02; MM6 Snergle's Iron Mines d7trim8 (the chapel's dressed blocks)"
+    area: "green pool basin (the chapel's kerb)"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnbasgrn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngoldwtr
+    family: "map XD-02; MM6 water seen over MM7 gold (c1gold)"
+    area: "the gold pool's water (platform:gold_pool top)"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngoldwtr.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xntally
+    family: "map XD-02; MM6 Snergle's Iron Mines d7wl2ctr (the tally room's dressed stone)"
+    area: "the tally room's four wall panels"
+    maps: [XD-02]
+    size: [256, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xntally.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnchalk
+    family: "map XD-02; MM6 Snergle's Caverns t3ll5 (red worked rock)"
+    area: "over the dry-stone wall (panel:chalk_mark)"
+    maps: [XD-02]
+    size: [64, 64]
+    kind: edit
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnchalk.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnclansgn
+    family: "map XD-02; MM6 Snergle's Caverns planks (d2ceil2, t3dr1)"
+    area: "the adit mouth (panel:clan_sign)"
+    maps: [XD-02]
+    size: [256, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnclansgn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnweb
+    family: "map XD-02; MM6 Snergle's Caverns crstont (cave stone behind thick web)"
+    area: "the web wall (door:web_wall) and the cocoon (chest:cocoon)"
+    maps: [XD-02]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnweb.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngrille
+    family: "map XD-02; MM6 Snergle's Caverns iron (ch1 bands)"
+    area: "the hoist gate (door:hoist_gate)"
+    maps: [XD-02]
+    size: [128, 256]
+    kind: cutout
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngrille.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnrustirn
+    family: "map XD-02; MM6 Snergle's Caverns iron (ch1 bands) / MM7 ch004i"
+    area: "rails, buffer stops, wheels, hoist cage, chain, winch ends"
+    maps: [XD-02, XD-03]
+    size: [64, 64]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnrustirn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): rails, chains, cages, winches and iron fittings in any mine, sewer or dungeon (XD-09's iron hall, DD-10's mines)"
+  - name: xnquartz
+    family: "map XD-03; MM6 Snergle's Caverns crstont / d3ystlwl"
+    area: "geode walls and crown, crystal columns, the King's dome"
+    maps: [XD-03]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnquartz.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnquartzcv
+    family: "map XD-03; MM6 Snergle's Caverns d3ystlwl on crstont"
+    area: "the singing crystal wall (door:crystal_wall) and the cap of the King's dome"
+    maps: [XD-03]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnquartzcv.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngong
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "the great gong (six slabs, one picture at scale 1.5)"
+    maps: [XD-03]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xncrest
+    family: "map XD-03; MM6 Gharik's Forge ctceil3 (red carved panel)"
+    area: "the throne's crest (front of its back)"
+    maps: [XD-03]
+    size: [128, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xncrest.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xnslag
+    family: "map XD-03; MM6 Gharik's Forge lava (orfyrlga) and volcanic rock (vlcwl1lg)"
+    area: "the slag channel, the furnace mouth, the gutters at the King's wrath"
+    maps: [XD-03]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xnslag.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xncoins
+    family: "map XD-03; MM6 Gharik's Forge chests (ch3 carved gold) and MM7 Red Dwarf Mines gold rock (c1gold)"
+    area: "the heaps of gold in the King's hoard (XD-03 pass two)"
+    maps: [XD-03]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xncoins.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xngong1
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 1 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong1.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xngong2
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 2 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong2.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xngong3
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 3 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong3.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xngong4
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 4 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong4.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xngong5
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 5 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong5.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xngong6
+    family: "map XD-03; MM6 Gharik's Forge bronze and gold (ctflor5, d2lgdor)"
+    area: "gong slab 6 from the top"
+    maps: [XD-03]
+    size: [128, 32]
+    kind: derived
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xngong6.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-3.4): a bronze plate, door leaf or panel in any dungeon; the six cuts tile a 3 x 2 gong face or stand alone"
+  - name: xwface
+    family: "map XD-04; MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)"
+    area: "the Rosebud door (door:rosebud), cut by face_quarters.py into xwface1-4 for its two leaves"
+    maps: [XD-04]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwface.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xwface1
+    family: "map XD-04; MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)"
+    area: "the Rosebud door (door:rosebud): quarter 1 of xwface (the west leaf, top, by face_quarters.py)"
+    maps: [XD-04]
+    size: [256, 256]
+    kind: derived
+    maker: cut from xwface (level_generation/textures_xeen/xd04_derive.py), 2026-11-13; registered for A7 2026-11-20
+    source: level_generation/textures_xeen/finished/xwface1.png
+    installed: world (2026-11-20)
+  - name: xwface2
+    family: "map XD-04; MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)"
+    area: "the Rosebud door (door:rosebud): quarter 2 of xwface (the west leaf, bottom, by face_quarters.py)"
+    maps: [XD-04]
+    size: [256, 256]
+    kind: derived
+    maker: cut from xwface (level_generation/textures_xeen/xd04_derive.py), 2026-11-13; registered for A7 2026-11-20
+    source: level_generation/textures_xeen/finished/xwface2.png
+    installed: world (2026-11-20)
+  - name: xwface3
+    family: "map XD-04; MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)"
+    area: "the Rosebud door (door:rosebud): quarter 3 of xwface (the east leaf, top, by face_quarters.py)"
+    maps: [XD-04]
+    size: [256, 256]
+    kind: derived
+    maker: cut from xwface (level_generation/textures_xeen/xd04_derive.py), 2026-11-13; registered for A7 2026-11-20
+    source: level_generation/textures_xeen/finished/xwface3.png
+    installed: world (2026-11-20)
+  - name: xwface4
+    family: "map XD-04; MM7 Clanker's Laboratory carved dark wood (hwm2d, 7t1cab)"
+    area: "the Rosebud door (door:rosebud): quarter 4 of xwface (the east leaf, bottom, by face_quarters.py)"
+    maps: [XD-04]
+    size: [256, 256]
+    kind: derived
+    maker: cut from xwface (level_generation/textures_xeen/xd04_derive.py), 2026-11-13; registered for A7 2026-11-20
+    source: level_generation/textures_xeen/finished/xwface4.png
+    installed: world (2026-11-20)
+  - name: xwcage
+    family: "map XD-04; MM7 Clanker's Laboratory black timber and iron (trim11_32, hwm2rf)"
+    area: "the cages' bars (XD-04), derived from xwiron"
+    maps: [XD-04]
+    size: [128, 256]
+    kind: derived
+    maker: derived from xwiron (level_generation/textures_xeen/xd04_derive.py), 2026-11-13; registered for A7 2026-11-20
+    source: level_generation/textures_xeen/finished/xwcage.png
+    installed: world (2026-11-20)
+    reuse: "first (D-22.1): any bars or cages, an iron cage or barred window"
+  - name: xwward
+    family: "map XD-04; MM7 Temple of the Moon sigils (tws1a, the Moon seal t1d1a)"
+    area: "the coven's ward over the roof stair (door:ward)"
+    maps: [XD-04]
+    size: [192, 320]
+    kind: cutout
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwward.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xwiron
+    family: "map XD-04; MM7 Clanker's Laboratory black timber and iron (trim11_32, hwm2rf)"
+    area: "the great cauldron's sides (platform:cauldron); the cage bars (xwcage, derived); XD-09's three bolts and the great lock's lid (A8, 2026-11-20: no plain dark iron in 6d18)"
+    maps: [XD-04, XD-21, XD-09]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwiron.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-22.1): iron plates in any dungeon"
+  - name: xwbrew
+    family: "map XD-04; MM7 Clanker's Laboratory liquid (7slimywtr), the witches' brew"
+    area: "the great cauldron's top (platform:cauldron), the larder trough"
+    maps: [XD-04, XD-12]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwbrew.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-22.1): brews and troughs (a vat, a cauldron, a trough)"
+  - name: xwslate
+    family: "map XD-04; MM7 Clanker's Laboratory furniture wood (7t1books1) round a slate (7tfb11)"
+    area: "the schoolroom's east wall (panel:slate), the lower edge at a child's reading height"
+    maps: [XD-04]
+    size: [256, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwslate.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xwrecipe
+    family: "map XD-04; MM7 Clanker's Laboratory cloth and paper (t2bedsht)"
+    area: "the herb loft's north wall (panel:recipe)"
+    maps: [XD-04]
+    size: [64, 128]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwrecipe.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xwsky
+    family: "map XD-04; the MM6-MM7 outdoor skies (sky05, 7sky01)"
+    area: "the roof's walls above the parapet and its ceiling (theme:roof)"
+    maps: [XD-04, XD-12]
+    size: [512, 512]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwsky.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-22.1): sky openings (a roof hole, a window to the sky)"
+  - name: xwcloudst
+    family: "map XD-04; the MM6-MM7 outdoor skies (sky05)"
+    area: "the cloud stair (exit:cloud_stair) on the roof's west wall"
+    maps: [XD-04, XD-12]
+    size: [512, 512]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xwcloudst.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+    reuse: "first (D-22.1): sky openings (cloud-stone round a roof hole or window to the sky)"
+  - name: xopalis
+    family: "map XD-05; MM8 Ogre Fortress timber (t66abc10a posts, gkp1ceil planks)"
+    area: "the palisade's outer face and the gate passage (theme:palisade)"
+    maps: [XD-05]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xopalis.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xodrumtp
+    family: "map XD-05; MM8 Ogre Fortress (hide and timber)"
+    area: "the tops of the three war drums (platform:drum_*), stretched once over the head"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xodrumtp.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xodrumsd
+    family: "map XD-05; MM8 Ogre Fortress timber (t66abc10a)"
+    area: "the sides of the three war drums"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xodrumsd.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xoburn
+    family: "map XD-05; MM8 Ogre Fortress timber, burning"
+    area: "a war drum while it burns (set_texture on the drum's faces)"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xoburn.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xochar
+    family: "map XD-05; MM8 Ogre Fortress timber, burnt out"
+    area: "a war drum after it has burnt (set_texture on the drum's faces)"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xochar.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xodaylt
+    family: "map XD-05; the outdoor daylight of the MM6-MM8 meadows seen from a cave"
+    area: "the cave mouth's daylight (exit:x1_hills), stretched once over the mouth's south wall"
+    maps: [XD-05, XD-27]
+    size: [256, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xodaylt.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xobones
+    family: "map XD-05; MM8 Ogre Fortress cave rock (gcav1flr)"
+    area: "the shaman's den, the wall behind the spirit drum"
+    maps: [XD-05]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xobones.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xohide
+    family: "map XD-05; MM8 Ogre Fortress (hide and timber)"
+    area: "the hide curtain on the shaman's steps (platform:hide_curtain)"
+    maps: [XD-05]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xohide.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xopoles
+    family: "map XD-05; MM8 Ogre Fortress timber (t66abc10a)"
+    area: "the cage gate over the prisoner pit's rim (door:cage_gate)"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: cutout
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xopoles.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition re-cut to 0/255 alpha with filled hidden colour (A6, session 8, level_generation/xeen_art/cutout_recut/recut.py)
+  - name: xobackgt
+    family: "map XD-05; MM8 Ogre Fortress plank door (gkp103a)"
+    area: "the back gate to X7 (exit:x7_slopes)"
+    maps: [XD-05]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xobackgt.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  - name: xodrag
+    family: "map XD-05; MM8 Ogre Fortress cave floor (gcav2flr) and straw (gkp1flr)"
+    area: "drag marks on the sleeping hollows' floor leading to the boulder (plates)"
+    maps: [XD-05]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen (xtex.py), 2026-11-13
+    source: level_generation/textures_xeen/finished/xodrag.png
+    installed: world (2026-11-20); also output/studio_play/xeen_root as an MM7 addition
+  # ---- kit textures (level_generation/xeen_art/register.py writes everything below) ----
+  - name: xcnorman
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), the weaponsmith, over the door"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcnorman.png
+    installed: world (2026-11-20)
+  - name: xcgilbert
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), the magic shop"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcgilbert.png
+    installed: world (2026-11-20)
+  - name: xcgeraldn
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), Lady Geraldine's Tavern"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcgeraldn.png
+    installed: world (2026-11-20)
+  - name: xcthylon
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), Thylon's Training"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcthylon.png
+    installed: world (2026-11-20)
+  - name: xcmylo
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), Mylo's Maps"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcmylo.png
+    installed: world (2026-11-20)
+  - name: xcadvinn
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Vertigo (X1), the Adventurer's Inn (the roster)"
+    maps: [X1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcadvinn.png
+    installed: world (2026-11-20)
+  - name: xcrcsmith
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), the weaponsmith"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcrcsmith.png
+    installed: world (2026-11-20)
+  - name: xcwitch
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), the magic shop"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcwitch.png
+    installed: world (2026-11-20)
+  - name: xcpraypay
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), the temple"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcpraypay.png
+    installed: world (2026-11-20)
+  - name: xcbull
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), Bull's Tavern"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcbull.png
+    installed: world (2026-11-20)
+  - name: xcstreet
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), Street Fightin' (training)"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcstreet.png
+    installed: world (2026-11-20)
+  - name: xcarnold
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), skill row, Arnold's Gym"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcarnold.png
+    installed: world (2026-11-20)
+  - name: xclindon
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Rivercity (X2), skill row, Lindon's Temps (paid work)"
+    maps: [X2]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xclindon.png
+    installed: world (2026-11-20)
+  - name: xcsnakeoil
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Asp (X4), the alchemist (after the curse is lifted)"
+    maps: [X4]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcsnakeoil.png
+    installed: world (2026-11-20)
+  - name: xcscale
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Asp (X4), the armourer"
+    maps: [X4]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xcscale.png
+    installed: world (2026-11-20)
+  - name: xctravpit
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Asp (X4), the stables (Travel Pit), open from day one"
+    maps: [X4]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xctravpit.png
+    installed: world (2026-11-20)
+  - name: xctrove
+    family: "cloudside_town; MM7 Harmondale shop signs and hh timber"
+    area: "Nightshadow (X3), the magic shop (after the curse is lifted)"
+    maps: [X3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xctrove.png
+    installed: world (2026-11-20)
+  - name: xlslate
+    family: "darkside_town; MM8 Ravenshore t06 slate, for Regna's t09 ashlar houses"
+    area: "roofs of the better (t09 ashlar) houses and civic buildings; middle houses keep t06a05"
+    maps: [D1, D4]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xlslate.png
+    installed: world (2026-11-20)
+  - name: xlslatemos
+    family: "darkside_town; MM8 Ravenshore t06 slate and boulder stone"
+    area: "roofs of the poor houses and sheds"
+    maps: [D1, D4]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xlslatemos.png
+    installed: world (2026-11-20)
+  - name: xlinn
+    family: "darkside_town; MM8 t06 dark timber and the MM8 shop signs"
+    area: "Castleview (D1), the Adventurer's Inn (the roster)"
+    maps: [D1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xlinn.png
+    installed: world (2026-11-20)
+  - name: xlstorage
+    family: "darkside_town; MM8 t06 dark timber and the MM8 shop signs"
+    area: "Castleview (D1), the Public Storage house (the chest puzzles)"
+    maps: [D1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xlstorage.png
+    installed: world (2026-11-20)
+  - name: xlferry
+    family: "darkside_town; MM8 t06 dark timber and the MM8 shop signs"
+    area: "Lakeside (D4), the ferry landing to the Isle of Lost Souls"
+    maps: [D4]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xlferry.png
+    installed: world (2026-11-20)
+  - name: xljail
+    family: "darkside_town; MM8 t06 dark timber and t09 ashlar"
+    area: "Castleview (D1), the jail"
+    maps: [D1]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xljail.png
+    installed: world (2026-11-20)
+  - name: xsweapons
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the weaponsmith"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsweapons.png
+    installed: world (2026-11-20)
+  - name: xsarmour
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the armourer"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsarmour.png
+    installed: world (2026-11-20)
+  - name: xsmagic
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the magic shop (and the wizard quarter's second one)"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsmagic.png
+    installed: world (2026-11-20)
+  - name: xspotions
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the alchemist"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xspotions.png
+    installed: world (2026-11-20)
+  - name: xstemple
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the temple"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xstemple.png
+    installed: world (2026-11-20)
+  - name: xstavern
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the tavern"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xstavern.png
+    installed: world (2026-11-20)
+  - name: xstraining
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the training hall (and Barticus' gym in the sewer)"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xstraining.png
+    installed: world (2026-11-20)
+  - name: xscaravan
+    family: "sandcaster; MM8 t07 sandstone and doors, MM8 shop signs"
+    area: "Sandcaster (D3), the stables (the caravan)"
+    maps: [D3]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xscaravan.png
+    installed: world (2026-11-20)
+  - name: xsstfood
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), the food stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsstfood.png
+    installed: world (2026-11-20)
+  - name: xsstrobes
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), the robe stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsstrobes.png
+    installed: world (2026-11-20)
+  - name: xsstneck
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), the necklace stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsstneck.png
+    installed: world (2026-11-20)
+  - name: xsstbelts
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), the belt stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsstbelts.png
+    installed: world (2026-11-20)
+  - name: xsstboots
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), the boot stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xsstboots.png
+    installed: world (2026-11-20)
+  - name: xscaleb
+    family: "sandcaster; MM8 t07 doors, MM6 market tents"
+    area: "Crossroads (D3), Caleb the inventor's stall"
+    maps: [D3]
+    size: [128, 32]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/kit_textures/towns (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/towns/finished/xscaleb.png
+    installed: world (2026-11-20)
+  - name: xkarrow
+    family: "royal_castle; MM6 Castle Ironfist hcwall"
+    area: "towers, battlements and gatehouses of Castle Burlock, Kalindra and Newcastle (the hc set has no arrow slit)"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkarrow.png
+    installed: world (2026-11-20)
+  - name: xkportc
+    family: "royal_castle; MM6 Castle Ironfist gates (iron)"
+    area: "Castle Burlock's Crusaders' gate and the castle gatehouses (a lowering portcullis on a door mover)"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [256, 256]
+    kind: cutout
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkportc.png
+    installed: world (2026-11-20) re-cut to 0/255 alpha with filled hidden colour (A6, session 8, level_generation/xeen_art/cutout_recut/recut.py)
+  - name: xkburcrst
+    family: "royal_castle; MM6 Castle Ironfist hcwall"
+    area: "beside or above Castle Burlock's gates (gatehouse, Crusaders' gate, keep door), the throne room's dais wall"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkburcrst.png
+    installed: world (2026-11-20)
+  - name: xkkalcrst
+    family: "royal_castle; MM6 Castle Ironfist hcwall"
+    area: "Castle Kalindra's gates and throne room (Darkside), Castleview's gate towers"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkkalcrst.png
+    installed: world (2026-11-20)
+  - name: xkburban
+    family: "royal_castle; MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)"
+    area: "Castle Burlock's throne room, great hall and gallery of arms (on the white marble walls)"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkburban.png
+    installed: world (2026-11-20)
+  - name: xkkalban
+    family: "royal_castle; MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)"
+    area: "Castle Kalindra's throne room and restored wings"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkkalban.png
+    installed: world (2026-11-20)
+  - name: xkncscrst
+    family: "royal_castle; MM6 Castle Ironfist hcwall"
+    area: "Newcastle's gate and keep (XD-13, X3), from stage 2"
+    maps: [X3]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkncscrst.png
+    installed: world (2026-11-20)
+  - name: xkncsban
+    family: "royal_castle; MM7 Titans' Stronghold t3s2b1 marble (MM7 Harmondale banners)"
+    area: "Newcastle's great hall (XD-13), from stage 2"
+    maps: [XD-07, XD-13, DD-03, D1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xkncsban.png
+    installed: world (2026-11-20)
+  - name: xtslate
+    family: "towers; MM7 Bracada hwm2 / Nighon hkm3 (slate)"
+    area: "tower roofs and cones (witch and wizard towers, Towers of Mok, Ellinger's), castle tower cones"
+    maps: [XD-04, XD-11, XD-12, DD-02, DD-05, DD-06, DD-07, DD-08]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xtslate.png
+    installed: world (2026-11-20)
+  - name: xtslatew
+    family: "towers; MM7 Nighon hkm3 (slate) with Bracada hwm2 timber"
+    area: "upper storeys of the towers (slate-hung walls between the stone base and the roof)"
+    maps: [XD-04, XD-11, XD-12, DD-02, DD-05, DD-06, DD-07, DD-08]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xtslatew.png
+    installed: world (2026-11-20)
+  - name: xahull
+    family: "ancient; MM6 Control Center sw (outer plating)"
+    area: "outer surfacing of Castle Alamar (Darkside north-west), the escape pods' hulls, Castle Xeen's machines, the travel pyramids' cladding, outdo"
+    maps: [D6, D5, DD-15, DD-16, DD-17, DD-22, XD-19, FD-01]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xahull.png
+    installed: world (2026-11-20)
+  - name: xahullbn
+    family: "ancient; MM6 Control Center sw (outer plating, burnt)"
+    area: "the crashed escape pods (Corak's, Sheltem's) in the Forbidden Zone's lava field; Alamar's damaged faces"
+    maps: [D6, D5, DD-15, DD-16, DD-17, DD-22, XD-19, FD-01]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xahullbn.png
+    installed: world (2026-11-20)
+  - name: xafield
+    family: "ancient; MM6 Control Center sw (energy)"
+    area: "Alamar's energy fields and shield walls, Castle Xeen's barriers (dropped by the generators), the Parabolic Barrier's curtain (outdoor translucent, merge point 23), DD-16's and XD-19's fields (indoor translucent 0.5); soft graded alpha 0.45-0.95 since 2026-11-21 (level_generation/xeen_art/field_alpha/field_alpha.py), opaque uses unchanged"
+    maps: [D6, D5, DD-15, DD-16, DD-17, DD-22, XD-19, FD-01]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xafield.png
+    installed: world (2026-11-20)
+  - name: xaenergy
+    family: "ancient; MM6 Control Center sw (energy panels)"
+    area: "Castle Xeen's elemental generators, Alamar's conveyor halls and sundial chambers, the Parabolic Barrier's pylons, pod engine rooms"
+    maps: [D6, D5, DD-15, DD-16, DD-17, DD-22, XD-19, FD-01]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/kit_textures/landmarks (xtex.py --project), 2026-11-20
+    source: level_generation/xeen_art/kit_textures/landmarks/finished/xaenergy.png
+    installed: world (2026-11-20)
+  - name: xccloud
+    family: "map X8; the sky map, the cloud sea of the sky maps (xwcloudst's family), walkable cloud tops"
+    area: "the tops of the Cloudreach islands and the cloud lumps"
+    maps: [X8]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, output/studio_cal/x8/tex (xtex.py, A6's X8 sub-agent), 2026-11-20
+    source: output/studio_cal/x8/tex/finished/xccloud.png
+    installed: world (2026-11-20)
+    reuse: "first for X9 and D7 cloud islands and roads"
+  - name: xccloudsd
+    family: "map X8; the sky map, the same cloud, its sides"
+    area: "the islands' sides, undersides and hanging roots"
+    maps: [X8]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, output/studio_cal/x8/tex (xtex.py, A6's X8 sub-agent), 2026-11-20
+    source: output/studio_cal/x8/tex/finished/xccloudsd.png
+    installed: world (2026-11-20)
+    reuse: "first for X9 and D7 cloud islands"
+  - name: xufield
+    family: "map XD-25; MM8 Naga Vault (gston1wl)"
+    area: "the field of light (door:field) across the way into Asp's transformer hall: curtains of red and blue light with a gold scale lattice, a see-through door leaf"
+    maps: [XD-25]
+    size: [256, 256]
+    kind: cutout
+    maker: codex image generation, output/studio_cal/xd25/tex/proj (xtex.py, A7), 2026-11-20; magenta fringe keyed out and filled by hand after the finish (pre-edit master tex/proj/xufield_finish_before_defringe.png)
+    source: output/studio_cal/xd25/tex/proj/finished/xufield.png
+    installed: world (2026-11-20, A7)
+  - name: xnpedred
+    family: "map X4; MM7 chb1s (Asp's dressed stone with a deep garnet red enamel inlay)"
+    area: "the deep garnet red, the darker of the two caps of Asp's eight pedestals (Q-C5, D-4, D-15; the touched state): 2 x 2 dressed slabs with enamel in the joints and a boss in each slab; red darker, blue lighter so colour-blind players tell them apart"
+    maps: [X4]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/x4 (xtex.py --project, A6, D-15), 2026-11-20
+    source: level_generation/xeen_art/map_textures/x4/finished/xnpedred.png
+    installed: world (2026-11-20)
+    reuse: "replaces XD-02's xnbasred on X4; any red/blue state marker set in stone"
+  - name: xnpedblu
+    family: "map X4; MM7 chb1s (Asp's dressed stone with a clear mid-blue enamel inlay)"
+    area: "the clear mid-blue, the lighter of the two caps of Asp's eight pedestals (Q-C5, D-4, D-15; the untouched state): 2 x 2 dressed slabs with enamel in the joints and a boss in each slab; red darker, blue lighter so colour-blind players tell them apart"
+    maps: [X4]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/x4 (xtex.py --project, A6, D-15), 2026-11-20
+    source: level_generation/xeen_art/map_textures/x4/finished/xnpedblu.png
+    installed: world (2026-11-20)
+    reuse: "replaces XD-02's xnbasblu on X4; any red/blue state marker set in stone"
+  - name: xdbark
+    family: "map D2; MM6 swpcnr2 and MM8 t03a05a (the dark painted forest: mossy roots, coarse bark fibres)"
+    area: "the bark of the giant trunks (D-23): the treehouses of Sharla's village, their root buttresses, Nibbler's hollow and the great tree of Bark; deep vertical furrows, grey-brown and umber plates, moss in the furrows. No shipped texture reads as bark (thawcs, t03a05a, d5trimb, d6wldre, t3ll6, swpcnr2, d3ll61, cttrim1 checked)"
+    maps: [D2, DD-09, D1]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, output/studio_cal/d2/tex (xtex.py --project, A6, D-23), 2026-11-20
+    source: output/studio_cal/d2/tex/finished/xdbark.png
+    installed: world (2026-11-20)
+    reuse: "any giant tree trunk or bark wall (D4's Leafpoint, the Dark Grove's tallest tree, DD-09's inside of the trunk). D-27: DD-09 Temple of Bark reuses D2's tree set: xdbark (trunks, buttresses, Nibbler's hollow), shipped mm6/tavsmdr (round doors), mm8/t68a13mm (decks, stairs, rope walks, palisades), mm6/swpcnr2 (rock)"
+  - name: xkshimmer
+    family: "royal_castle; MM6 Castle Ironfist hcwall (Castle Kalindra out of phase, D-26)"
+    area: "the castle's cream ashlar washed silver-white and lavender, crossed by faint vertical curtains of shimmering light: D1's ghost castle outside while Kalindra is out of phase, and DD-03's phase walls (one texture shared, not xufield)"
+    maps: [D1, DD-03]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xkshimmer.png
+    installed: world (2026-11-20)
+    reuse: "any thing half out of the world: a ghost, a phase wall, an illusion's stone"
+  - name: xdmayor
+    family: "map DD-04; MM8 t09 grey ashlar (the Gremlin Court)"
+    area: "Mayor Snarfblad's oil portrait in a carved oak frame with a charcoal moustache scrawled on it, behind the Gremlin Court's throne (q-d1.throne's else_text)"
+    maps: [DD-04]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdmayor.png
+    installed: world (2026-11-20)
+  - name: xdvruby
+    family: "map DD-10; MM7 Nighon Tunnels cwb1 (ruby vein, DD-10A)"
+    area: "a ruby vein in cwb1's rock: DD-10A's five ruby veins"
+    maps: [DD-10A]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdvruby.png
+    installed: world (2026-11-20)
+    reuse: "any ruby or red-crystal vein in cwb1 rock"
+  - name: xdvemrld
+    family: "map DD-10; MM7 Nighon Tunnels cwb1 (emerald vein, DD-10A)"
+    area: "an emerald vein in cwb1's rock: DD-10A's five emerald veins"
+    maps: [DD-10A]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdvemrld.png
+    installed: world (2026-11-20)
+    reuse: "any emerald or green-crystal vein in cwb1 rock"
+  - name: xdvsaph
+    family: "map DD-10; MM7 Nighon Tunnels cwb1 (sapphire vein, DD-10B)"
+    area: "a sapphire vein in cwb1's rock: DD-10B's five sapphire veins"
+    maps: [DD-10B]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdvsaph.png
+    installed: world (2026-11-20)
+    reuse: "any sapphire or blue-crystal vein in cwb1 rock"
+  - name: xdvdiam
+    family: "map DD-10; MM7 Nighon Tunnels cwb1 (diamond vein, DD-10C)"
+    area: "a diamond vein in cwb1's rock: DD-10C's five diamond veins by the lava seam"
+    maps: [DD-10C]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-26/D-27), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdvdiam.png
+    installed: world (2026-11-20)
+    reuse: "any diamond, quartz or ice-crystal vein in cwb1 rock"
+  - name: xdracoport
+    family: "map XD-24; MM7 Castle Nightshade cnb (portraits after cnbport-1, cnbport-2)"
+    area: "Count Draco's portrait, the same face in every frame: XD-24's gallery (5), the feast hall and the vault"
+    maps: [XD-24]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd24/tex (xtex.py --project, A7's sub-agent), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xdracoport.png
+    installed: world (2026-11-20)
+    reuse: "any vampire lord's or nobleman's portrait in a dark gallery"
+  - name: xmoonwin
+    family: "map XD-24; MM7 Castle Nightshade cnb (window after cnbw)"
+    area: "the painted moon window over the black altar of XD-24's night chapel"
+    maps: [XD-24]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd24/tex (xtex.py --project, A7's sub-agent), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xmoonwin.png
+    installed: world (2026-11-20)
+    reuse: "any chapel or crypt window at night"
+  - name: xjshoji
+    family: "map XD-22; MM7 Bracada hwm2rf timber with t2bedsht paper (the Ninja Pagoda's paper screens)"
+    area: "a paper shoji panel in a dark timber lattice: every paper screen of XD-22 (laid 192 x 384 per panel, translucent 0.6)"
+    maps: [XD-22]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd22/tex (xtex.py --project, A7's sub-agent), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xjshoji.png
+    installed: world (2026-11-20)
+    reuse: "any paper screen, lantern panel or rice-paper window"
+  - name: xjcrane
+    family: "map XD-22; MM7 Bracada hwm2rf timber with t2bedsht paper (the crane screen)"
+    area: "a painted crane on a paper screen: XD-22's crane screen (352 square, fit, translucent 0.6)"
+    maps: [XD-22]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd22/tex (xtex.py --project, A7's sub-agent), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xjcrane.png
+    installed: world (2026-11-20)
+    reuse: "any painted screen or banner of the eastern monasteries"
+  - name: xosoot
+    family: "map XD-23; Xeen's own xohide (the trolls' hung hides) with MM7 7dirttyl"
+    area: "smoke-blackened hung hides: XD-23's sleeping and larder hides in the burn and the burnt stage (D-33)"
+    maps: [XD-23]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_xd23_soot (A7), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xosoot.png
+    installed: world (2026-11-20)
+    reuse: "any burnt or smoke-blackened hide, tent cloth or hanging"
+  - name: xkmirror
+    family: "royal_castle; MM6 Castle Ironfist hcwall and MM7 t3s2 marble (silvered glass, D-37)"
+    area: "an old silvered-glass mirror's face, dim pewter grey (v2, mean luma 133; v1 was 204 and clipped white under the 1.5 bakes) with soft blurred reflected shading, a faint dim room, nothing recognisable: DD-03's Queen's mirror and the stable yard's mirror (house 4512), DD-02's dead mirror"
+    maps: [DD-03, DD-02, DD-08]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-37), 2026-11-20; v2 darker (raw/xkmirror_v2*.png, seam pass, toned to luma 134, chroma 45 % by ../grade_s11.py; v1 kept in work/xkmirror_v1fin*.png), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xkmirror.png
+    installed: world (2026-11-20; v2 2026-11-20 22:53)
+    reuse: "any mirror, silvered glass or polished pewter panel (never water or sky)"
+  - name: xdgodface
+    family: "map DD-10B; MM7 Nighon Tunnels cwb1gold (the God of Minerals, D-37)"
+    area: "a great bearded face in low relief in gold-veined cwb1gold rock with faceted sapphire eyes: DD-10B's east wall behind the crystal (hover God of Minerals)"
+    maps: [DD-10B]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/darkside (xtex.py --project, A6, D-37), 2026-11-20
+    source: level_generation/xeen_art/map_textures/darkside/finished/xdgodface.png
+    installed: world (2026-11-20)
+    reuse: "any carved rock face or earth spirit in Nighon cave rock"
+  - name: xddaylt
+    family: "map DD-13; D2's Ogre Pass under xeendark1, as the game draws it (A7's view picture, D-34)"
+    area: "the dim Darkside daylight seen out of a dark gateway: D2's pass road between dark forest and grey rock under a dim amber-grey sky; DD-13's two gateways, DD-11A-C's troll-hole mouths"
+    maps: [DD-13, DD-11A, DD-11B, DD-11C]
+    size: [256, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_dd13_daylt (A7, D-34), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xddaylt.png
+    installed: world (2026-11-20)
+    reuse: "any Darkside daylight view out of a gateway, cave mouth or window (the Cloudside one is xodaylt)"
+  - name: xdcraglt
+    family: "map DD-23; D4's crags under xeen_darkside_day as the game draws it, with 7d07's c2b rock (A7's view picture, D-45)"
+    area: "the view out of DD-23's high cave mouth (exit:mouth, a 384 x 320 face, fitted once): bare dark brown-black crags with snow in the clefts, a grey-blue lake far below, dim amber-grey sky, no trees"
+    maps: [DD-23]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_dd23_craglt (A7, D-45), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xdcraglt.png
+    installed: world (2026-11-20)
+    reuse: "any Darkside view out of a high mountain cave or window over crags (painted at 6:5; xddaylt for a low gateway)"
+  - name: xogorge
+    family: "map XD-27; MM7 7plansky1 sky over Xeen hills (xodaylt), MM8 d08 gcav1wal cliffs (river gorge view)"
+    area: "a river-gorge panorama: the brown clifftop of the far bank across the bottom, the river winding away between green wooded hills and grey bluffs, far blue hills, sky whose top edge is 7plansky1's blue (meets the gorge's sky roof); XD-27's gorge, the east wall's panel over the far cliff (1600 x 600, fitted once; painted at 8:3)"
+    maps: [XD-27]
+    size: [512, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/cloudside (xtex.py --project, A6, A8's request), 2026-11-20; top band ramped to 7plansky1's blue by ../grade_s11.py
+    source: level_generation/xeen_art/map_textures/cloudside/finished/xogorge.png
+    installed: world (2026-11-20)
+    reuse: "any Cloudside river or gorge view out of a cave, ledge or window under a 7plansky1 roof (xodaylt for a meadow)"
+  - name: xmoktap
+    family: "map DD-05; MM7 woven tapestries (ceb1tap8, tap1) in MM8 d27/d22 halls"
+    area: "Mok's sun tapestry with the heretics' daub: DD-05's tapestry walk, three hangings once per face (the button behind the middle one)"
+    maps: [DD-05]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase4 (A8, D-42), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xmoktap.png
+    installed: world (2026-11-20)
+  - name: xlsplaque
+    family: "map DD-12; MM7 d02 grey dungeon stone (cwb)"
+    area: "carved plaque \"NEVER UNDERESTIMATE THE POWER OF POSITIVE THINKING\": over DD-12's first gate on the north wall, once"
+    maps: [DD-12]
+    size: [256, 64]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen/a8_phase4 (A8, D-42), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xlsplaque.png
+    installed: world (2026-11-20)
+  - name: xlsgate
+    family: "map DD-12; MM7 d02 iron grate door (c1d1)"
+    area: "the left wing of the five 'think positive' gates: an iron grate over half a smiling bronze sun; the right leaf shows it mirrored (cut from A8's xlsgatefull, not a texture)"
+    maps: [DD-12]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase4 (A8, D-42), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xlsgate.png
+    installed: world (2026-11-20)
+  - name: xlsglass
+    family: "map DD-12; MM7 d02 grey dungeon stone (cwb)"
+    area: "an hourglass in an arched niche of grey dungeon stone: DD-12 L1's four wall niches, once per face"
+    maps: [DD-12]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase4 (A8, D-42), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xlsglass.png
+    installed: world (2026-11-20)
+  - name: xbfcrest
+    family: "map DD-14; MM7 Castle Navan 7d32 stone (ceb1sa) with a painted heraldic shield"
+    area: "Blackfang's arms, a black bat with a red fang on a slate shield under a coronet, on green-grey Navan stone: DD-14, once over the Count's throne and once on the great hall's end wall"
+    maps: [DD-14]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase4 (A8, D-42), 2026-11-20
+    source: assets_source/worlds/xeen/textures_x4/xbfcrest.png
+    installed: world (2026-11-20)
+  - name: xdgiantd
+    family: "map DD-24; MM8 d14 Cyclops Larder planks and door (gcstdoor, gkp1ceil), its rock gcav1wal"
+    area: "one leaf of a giant's double door: huge dark timber planks under three black iron straps, a ring handle; DD-24's great doors and throne-hall doors (hinged pairs, each leaf 192 x 512, the right leaf mirrored); D5's great doors into the Giants' Hall (D-47, D-49 8)"
+    maps: [DD-24, D5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_dd24_giant (A7, D-47 Q24), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdgiantd.png
+    installed: world (2026-11-21)
+    reuse: "any giant-scale timber door leaf (mirror it for the pair)"
+  - name: xdthrone
+    family: "map DD-24; MM8 d14 dark planks (gkp1ceil), blackened"
+    area: "near-black hewn wood with old dried blood in the joints: DD-24's bloody throne block, fitted at its size (seamless tile)"
+    maps: [DD-24]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen/a7_dd24_giant (A7, D-47 Q24), 2026-11-21; v2 near-black (A7, D-51)
+    source: assets_source/worlds/xeen/textures_x4/xdthrone.png
+    installed: world (2026-11-21)
+  - name: xdpyrdor
+    family: "map D5; MM6 Tomb of VARN door (egydrlgl) in deep green stone, its blocks (egybigb)"
+    area: "one leaf of the Great Pyramid's green-stone door: a framed slab with half the Pharaoh's sign (an eye over a sun disc), hieroglyph rows and a bronze ring pull at the meeting edge; D5's pyramid door at the north face's foot (m28.door into DD-15), the left leaf, the right leaf mirrored (D-49 8)"
+    maps: [D5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21; v2 (v1 lime and cropped)
+    source: assets_source/worlds/xeen/textures_x4/xdpyrdor.png
+    installed: world (2026-11-21)
+    reuse: "any green-stone tomb or temple double door (mirror it for the pair)"
+  - name: xdvowel
+    family: "map D5; MM7 Mount Nighon hkm1 dressed stone"
+    area: "a dark grey stone lintel cut with GRND RDR F VWLSS KNGHTS (q-d17): over the Northern Tower's door on D5, placed once (D-49 8)"
+    maps: [D5, DD-08]
+    size: [256, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdvowel.png
+    installed: world (2026-11-21)
+  - name: xnpgate
+    family: "map D6; MM8 t09 grey ashlar (t09a01) with a carved crest"
+    area: "Necropolis's crest, a skull under a closed eye in a carved circle, set in grey ashlar: over D6's Necropolis gate, placed once (D-49 11)"
+    maps: [D6]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xnpgate.png
+    installed: world (2026-11-21)
+  - name: xnpbook
+    family: "map D6; a black book open on a lectern of MM8 t09 grey stone"
+    area: "an old book open on a stone lectern's top, yellowed pages of faded script, a small skull at the head: the Books of the Dead on D6's Necropolis square, the lectern tops, once per lectern (D-49 11)"
+    maps: [D6]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xnpbook.png
+    installed: world (2026-11-21)
+    reuse: "any open book on a lectern or table top"
+  - name: xcorefire
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Fire Generator's core: a glowing Ancient energy column with fire in its light; XD-19's south-west tower top, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcorefire.png
+    installed: world (2026-11-21)
+  - name: xcoreair
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Air Generator's core: a glowing Ancient energy column with wind in its light; XD-19's south-east tower top, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcoreair.png
+    installed: world (2026-11-21)
+  - name: xcorewater
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Water Generator's core: a glowing Ancient energy column with water in its light; XD-19's cold vault, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcorewater.png
+    installed: world (2026-11-21)
+  - name: xcoreearth
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Earth Generator's core: a glowing Ancient energy column with stone in its light; XD-19's gravel vault, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcoreearth.png
+    installed: world (2026-11-21)
+  - name: xsigilban
+    family: "map XD-19; MM8 Escaton's Palace gnecwal1 black stone (the castle banners xkburban, xkkalban as the pattern)"
+    area: "Lord Xeen's sigil banner on black stone: XD-19's Hall of Xeendom (four banners on the nave's end walls) and over the gatehall's inner arch, once per face"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xsigilban.png
+    installed: world (2026-11-21)
+  - name: xmirror6
+    family: "map XD-19; MM8 Escaton's Palace black stone and gold frieze (gnecwal1, gnecwalt)"
+    area: "the Sixth Mirror in a black-and-gold frame: XD-19's north wall behind Lord Xeen's throne, until the scepter (m35.done), once"
+    maps: [XD-19]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xmirror6.png
+    installed: world (2026-11-21)
+  - name: xmirror6x
+    family: "map XD-19; MM8 Escaton's Palace black stone and gold frieze (gnecwal1, gnecwalt)"
+    area: "the Sixth Mirror's empty frame after the cinematic (m35.done): XD-19's north wall, once"
+    maps: [XD-19]
+    size: [256, 256]
+    kind: edit
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xmirror6x.png
+    installed: world (2026-11-21)
+  - name: xcwisp
+    family: "map X9; X8's xccloud cloud tops, thinner (Celeste's sky city as the pattern)"
+    area: "the unseen way's top on X9: a 768-wide path of thin cloud wisps over the open gap, walked on (tile, translucent 0.55, sides not drawn)"
+    maps: [X9]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, output/studio_cal/x9/tex (xtex.py --project, A5's X9 sub-agent, D-50), seam pass, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcwisp.png
+    installed: world (2026-11-21)
+    reuse: "any thin cloud floor or wisp over open sky (D7's roads, P2's air plane)"
+  - name: xctarget
+    family: "map X9; a fair's straw archery target (MM8 gkp1flr straw, MM6 tentwal7b canvas red and white)"
+    area: "the straw bullseye at the end of Slick's shooting line on X9, once on each of the target's two faces (fit)"
+    maps: [X9]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, output/studio_cal/x9/tex (xtex.py --project, A5's X9 sub-agent, D-50), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xctarget.png
+    installed: world (2026-11-21)
+  - name: xp5brd
+    family: "map P5; a roadside billboard (MM6 sign1 wood, MM8 t66floor planks)"
+    area: "the back of each of P5's ten billboards; the ground the lettered fronts are set on (fit, once per face)"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: codex image generation, output/studio_cal/p5/tex (xtex.py --project, lane A5, D-56), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5brd.png
+    installed: world (2026-11-21)
+  - name: xp5nwc
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'New World Computing' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5nwc.png
+    installed: world (2026-11-21)
+  - name: xp5kb
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'King's Bounty' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5kb.png
+    installed: world (2026-11-21)
+  - name: xp5ite
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Inherit the Earth' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5ite.png
+    installed: world (2026-11-21)
+  - name: xp5emp
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Empire Deluxe' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5emp.png
+    installed: world (2026-11-21)
+  - name: xp5sho
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Spaceward Ho!' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5sho.png
+    installed: world (2026-11-21)
+  - name: xp5pe
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Planets Edge' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5pe.png
+    installed: world (2026-11-21)
+  - name: xp5vg
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Vegas Games' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5vg.png
+    installed: world (2026-11-21)
+  - name: xp5tt
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Tunnels and Trolls' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5tt.png
+    installed: world (2026-11-21)
+  - name: xp5nw
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Nuclear War' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5nw.png
+    installed: world (2026-11-21)
+  - name: xp5mm
+    family: "map P5; xp5brd with its panel recoloured and lettered"
+    area: "the front of P5's 'Might and Magic' billboard (aazex129, source spelling), once, fit"
+    maps: [P5]
+    size: [256, 128]
+    kind: sign
+    maker: lettered by script (output/studio_cal/p5/tex/letter.py) in Fondamento (SIL OFL) on xp5brd, lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5mm.png
+    installed: world (2026-11-21)
+  - name: xp5rest
+    family: "map P5; a green painted roadside sign in a wooden frame (MM6 sign1)"
+    area: "'Rest Stop' (aazex129:0) over the front of P5's three Rest Stop huts, once, fit"
+    maps: [P5]
+    size: [256, 64]
+    kind: sign
+    maker: codex blank (xp5rblank, not installed) lettered by script (letter.py) in Fondamento (SIL OFL), lane A5, D-56, 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xp5rest.png
+    installed: world (2026-11-21)
+  - name: xpfvent
+    family: "map P1; MM8 Plane of Fire gcav2flr (black lava crust) with MM6 orfyrlga's molten lava"
+    area: "P1's nine vent faces (PressurePlate platforms 192 x 192 on the shelves, once per face, fit; planes.vent)"
+    maps: [P1]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/p1 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, first attempt (v1), gain 0.629
+    source: assets_source/worlds/xeen/textures_x4/xpfvent.png
+    installed: world (2026-11-21)
+  - name: xpfglass
+    family: "map P1; obsidian in MM8 Plane of Fire's palette (gcav2flr's black, orfyrlga's reds)"
+    area: "the Crucible's black-glass ring, the Glass Shelf's top, the bridge's deck, the Sleeper's Gate leaves (fit, uneven)"
+    maps: [P1]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation and seam pass, level_generation/xeen_art/map_textures/p1 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, v1, gain 3.289, seams 0.88 / 1.09
+    source: assets_source/worlds/xeen/textures_x4/xpfglass.png
+    installed: world (2026-11-21)
+  - name: xsshelf
+    family: "map FD-02; MM6 Tomb of VARN sandstone and carved niches (egyspca, egywlh)"
+    area: "FD-02's shelved niche walls (D-57 Q11, the pyramid set's other half)"
+    maps: [FD-02]
+    size: [256, 256]
+    kind: tile
+    maker: codex image generation, output/studio_cal/fd02/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xsshelf.png
+    installed: world (2026-11-21)
+  - name: xsrunes
+    family: "map FD-02; MM6 Tomb of VARN carved panels (egywlspc, egytrmc) on pale sandstone"
+    area: "FD-02's carved rune panels, once per face (D-57 Q11)"
+    maps: [FD-02]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd02/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xsrunes.png
+    installed: world (2026-11-21)
+  - name: xdplaque
+    family: "map FD-03; XD-03's bronze gong (xngong) metal in MM8 d29's grey-green granite (gston1wl)"
+    area: "the twelve letter plaques on FD-03's ring galleries' outer walls (L1-L3), a 256 x 192 panel, once"
+    maps: [FD-03]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd03/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdplaque.png
+    installed: world (2026-11-21)
+  - name: xdhead
+    family: "map FD-03; MM8 d29 grey-green granite ashlar (gston1wl) with a bronze fitting (xngong)"
+    area: "L4's four speaking heads on FD-03's ring gallery walls, a 192 x 256 panel, once"
+    maps: [FD-03]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd03/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdhead.png
+    installed: world (2026-11-21)
+  - name: xdseal
+    family: "map FD-03; the Ancients' force field (xafield) in a pale cold key"
+    area: "the invisible seal across FD-03's roof stair mouth, a translucent leaf 224 x 384 at 0.15-0.3, once (D-57 Q21)"
+    maps: [FD-03]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd03/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdseal.png
+    installed: world (2026-11-21)
+  - name: xdregplq
+    family: "map DD-15; MM6 Tomb of VARN brass (egymeda, egytrma)"
+    area: "DD-15's brass door plaque beside the register door, once"
+    maps: [DD-15]
+    size: [128, 64]
+    kind: sign
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdregplq.png
+    installed: world (2026-11-21)
+  - name: xalavahd
+    family: "map DD-17; MM6 Control Center teal steel (swll4dk, swtrpnl)"
+    area: "DD-17's speaking-head wall panel (a stern metal face in a riveted frame), once per face"
+    maps: [DD-17]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xalavahd.png
+    installed: world (2026-11-21)
+  - name: xalavahdx
+    family: "map DD-17; the head panel xalavahd, its dark (spent) state"
+    area: "DD-17's head panel after it has spoken, once per face"
+    maps: [DD-17]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xalavahdx.png
+    installed: world (2026-11-21)
+  - name: xasundial
+    family: "map DD-17; MM6 Control Center steel (swcirc1, swll4dk)"
+    area: "DD-17's machine sundial top plate, once"
+    maps: [DD-17]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xasundial.png
+    installed: world (2026-11-21)
+  - name: xaglyph
+    family: "map DD-17; MM6 Control Center bulkhead (swdoora, swcirc2)"
+    area: "DD-17's glyph bulkhead door leaves (cut from xaglyphfull, each wing once, mirrored)"
+    maps: [DD-17]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xaglyph.png
+    installed: world (2026-11-21)
+  - name: xatrapplt
+    family: "map DD-17; MM6 Control Center floor (swfloor5, swfloor2b)"
+    area: "DD-17's trap hatch floor plate, once per plate"
+    maps: [DD-17]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xatrapplt.png
+    installed: world (2026-11-21)
+  - name: xvkban
+    family: "map DD-08; MM7 tapestries (tap1, tap5) on hkm1bw"
+    area: "DD-08's Voweless banner, once per face (D-61)"
+    maps: [DD-08]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xvkban.png
+    installed: world (2026-11-21)
+  - name: xvkmask
+    family: "map DD-08; MM7 hkm1bw / MM8 gston1wl stone with a carved knight face"
+    area: "DD-08's voice's mask, once (D-61)"
+    maps: [DD-08]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5 (xtex.py --project, lane A8, D-61), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xvkmask.png
+    installed: world (2026-11-21)
+  - name: xfgrid
+    family: "map FD-04; a marble cell of MM8 d19's Dungeon of Death (Sandro's halls)"
+    area: "FD-04's crossword grid panel (D-57 Q28), once"
+    maps: [FD-04]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd04/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xfgrid.png
+    installed: world (2026-11-21)
+  - name: xfword
+    family: "map FD-04; the same marble cell as xfgrid, lit from inside"
+    area: "FD-04's lit crossword word (42 Down), once"
+    maps: [FD-04]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, output/studio_cal/fd04/tex (xtex.py --project, lane A7, D-57), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xfword.png
+    installed: world (2026-11-21)
+  - name: xpascorch
+    family: "map P2; MM8 Plane of Air gwsphlfl (pale wind-carved stone) struck by lightning"
+    area: "P2's nine storm-cell faces (PressurePlate platforms 192 x 192 on the islands, once per face, fit; planes.storm)"
+    maps: [P2]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/p2 (xtex.py --project, lane A6, D-58), 2026-11-21, first attempt (v1), gain 1.038
+    source: assets_source/worlds/xeen/textures_x4/xpascorch.png
+    installed: world (2026-11-21)
+  - name: xdbosban
+    family: "map DD-25; MM7 woven hangings (bannwc-a, tap1) in Stone City 7d24"
+    area: "DD-25's throne hall, over Bosco's empty throne on the dais, once per face"
+    maps: [DD-25]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and hand finish (derive.py), level_generation/textures_xeen/a8_phase5b (xtex.py --project, lane A8), 2026-11-21, v1, gain 1.771
+    source: assets_source/worlds/xeen/textures_x4/xdbosban.png
+    installed: world (2026-11-21)
+  - name: xdsandro
+    family: "map DD-21; MM6 Tomb of Ethric 6d14 (d2wlbctr crypt stone, d2niche1 bone niches)"
+    area: "DD-21's crypt, over the doors of Sandro's crypt, once per face"
+    maps: [DD-21]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a8_phase5b (xtex.py --project, lane A8), 2026-11-21, v1, gain 0.715
+    source: assets_source/worlds/xeen/textures_x4/xdsandro.png
+    installed: world (2026-11-21)
+  - name: xpwspray
+    family: "map P4; MM8 temple flagstones (gtempflr) under breaking sea spray"
+    area: "P4's nine freezing-wave faces (PressurePlate platforms 192 x 192 on the terraces and the court, once per face, fit; planes.wave)"
+    maps: [P4]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/p4 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, first attempt (v1), gain 0.588
+    source: assets_source/worlds/xeen/textures_x4/xpwspray.png
+    installed: world (2026-11-21)
+  - name: xpwcoral
+    family: "map P4; MM8 temple flagstones (gtempflr) grown over with coral and shells"
+    area: "the Coral Garden's terrace top, the coral rocks round the Tide Pool, the Grotto's shelf top (tile, seamless)"
+    maps: [P4]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation and seam pass, level_generation/xeen_art/map_textures/p4 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, v1, gain 0.616, seams 1.07 / 1.06
+    source: assets_source/worlds/xeen/textures_x4/xpwcoral.png
+    installed: world (2026-11-21)
+  - name: xperubble
+    family: "map P3; MM8 gcav1flr (grey-brown rock floor) with MM6 vlcflore's broken grey rubble"
+    area: "P3's nine rockfall faces (PressurePlate platforms 192 x 192 on the terraces, once per face, fit; planes.rockfall)"
+    maps: [P3]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/p3 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, first attempt (v1), gain 0.856
+    source: assets_source/worlds/xeen/textures_x4/xperubble.png
+    installed: world (2026-11-21)
+  - name: xpegeode
+    family: "map P3; an amethyst geode's lining in the palette of MM6 vlcflord and MM8 gcav1wal"
+    area: "the Geode Hall's split boulders (their split faces) and the Heart-geode's lining"
+    maps: [P3]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation and seam pass, level_generation/xeen_art/map_textures/p3 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, v1, gain 0.527, seams 1.03 / 0.92
+    source: assets_source/worlds/xeen/textures_x4/xpegeode.png
+    installed: world (2026-11-21)

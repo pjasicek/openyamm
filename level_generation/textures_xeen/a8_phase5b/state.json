@@ -1,0 +1,48 @@
+{
+ "xdbosban": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.771,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdbosban_v1.txt",
+    "raw": "raw/xdbosban_v1.png",
+    "refs": [
+     "refs/xdbosban_v1_1.png",
+     "refs/xdbosban_v1_2.png",
+     "refs/xdbosban_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xdsandro": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.715,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdsandro_v1.txt",
+    "raw": "raw/xdsandro_v1.png",
+    "refs": [
+     "refs/xdsandro_v1_1.png",
+     "refs/xdsandro_v1_2.png",
+     "refs/xdsandro_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

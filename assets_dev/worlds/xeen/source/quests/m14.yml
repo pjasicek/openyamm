@@ -1,0 +1,71 @@
+# M14 The Land Below: Castleview (QUESTS M14, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The pyramid (m7.sigil) lets the party out on D1 under an amber sky. Castleview admits no strangers: a pass from
+# Justine the Thief outside the gate, or the gremlins dealt with at their court (Q-D1's court_won: the mayor then lets
+# the party in). Passing the gate opens Castleview's Adventurer's Inn roster (world.inn_castleview).
+id: M14
+title: The Land Below
+act: III
+kind: main
+status: full
+giver: null
+giver_name: (the pyramid's arrival on D1)
+maps: [D1]
+level: 18
+block: 14
+after: [m7.sigil]
+source: "QUESTS M14; dark/aaze0029 (the pass line, the street lines)"
+
+qbits:
+  started: {id: 111280, journal: "Castleview admits no strangers. Justine the Thief sells passes outside the gate, or the Mayor might let in whoever deals with his gremlins.",
+            until: [entered]}
+  entered: {id: 111281}
+
+npcs:
+  4951:              # Justine the Thief, her camp outside the gate
+    topics:
+      - n: 1
+        label: Passes
+        states:
+          - when: {item: castleview_pass}
+            text: "You've got one. I don't do refunds, and I don't do two."
+          - when: {gold: 1000}
+            text: "One pass into Castleview, signed by the Mayor himself. Well, by someone. A thousand gold, and the guards never look past the seal."
+            do: [{pay: 1000}, {give: castleview_pass}]
+          - text: "A pass is a thousand gold. Come back when you have it. The gremlins won't, if that's what you're hoping."
+
+player_bits:         # D1's own (A6), once per character
+  might_well: {id: 11290, map: D1, note: "the Well of Might: +2 Might (permanent)"}
+
+hooks:
+  arrival:
+    map: D1
+    where: "the first arrival at the travel pyramid outside Castleview's north gate (a one-shot timer after the pyramid's travel)"
+    sets: [started]
+    once: true
+    text: "You step out of the pyramid under an amber sky. The sun is small and pale, and the light is the colour of old brass. Ahead, Castleview's walls are ringed with siege works, and something small has sawn through the bridge's ropes. This is the land below the land."
+  gate:
+    map: D1
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    entrance: Castleview (DD-02 inside)
+    sealed: "M14's arrival beat, two routes (the pass or the gremlins' court)"
+    where: "either of Castleview's gates (the main gate, or the Queen's Gate in the south-west wall, D-23): the gate's door calls this and opens when it returns true"
+    sets: [entered, world.inn_castleview]
+    requires: {any: [{item: castleview_pass}, {qbit: q-d1.court_won}]}
+    once: true
+    do: [{xp: 2000}]
+    text: "The guard reads your pass twice, holds it up to the light, and lets you in. \"Mind the gremlins. If it's small and grinning, it isn't a child.\""
+    fail_text: "The gate stays shut. A guard calls down: \"No strangers! Every city needs a pass since Alamar took over. Get one, or do the Mayor a favour and deal with the gremlins' court.\""
+  let_out:
+    map: D1
+    where: "either inner gate leaf (north gate, Queen's Gate) clicked from inside before entered (D-30): the gate event moves the party just outside its gate, then calls this for the guard's line (a status line: a message box after a move never shows); after entered the inner leaves open the gate (gate_open)"
+    reads: [entered]
+    status: true
+    text: "The guard unbars the gate and waves you out. 'Out is free. In takes a pass.'"
+  gate_open:
+    map: D1
+    where: "either of Castleview's gates (main or Queen's Gate) after the first entry: the door asks XeenQuests.can(\"m14.gate_open\") and opens"
+    requires: {qbit: entered}
+    reads: [entered]
+
+rewards: {xp: 2000, gold: 0}
+playthrough: "X1: the pyramid (Darkside). D1: the arrival; Justine (Passes) for 1000 gold; the gate."

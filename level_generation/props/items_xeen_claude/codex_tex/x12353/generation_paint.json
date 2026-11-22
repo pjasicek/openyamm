@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the first image in place. Lock its alpha stencil, entire canvas and pixel registration. Output one transparent 1536x2048 portrait PNG (3:4). The first image is the exact mesh view sheet; the second supplies surface details; the third supplies colour only, discard magenta background. Paint only inside the grey objects. Three equal columns, four equal rows, each 512 square. Row 1 FRONT, BACK, LEFT; row 2 RIGHT, TOP (round overhead view), transparent empty. Rows 3-4 repeat identical silhouettes as flat material ID masks. Maintain exactly each guide's silhouette, size, position, spacing and openings. Top half: unlit base colour of Sandro's Heart, a shrivelled deep reddish brown anatomical heart with vessels inside a small stoppered old glass jar. Keep heart details visible through glass, rotate coherently from view to view. Match reference aged cork, smoky glass, organic creasing and colour. No lighting, baked shadows, ambient occlusion, hot highlights, reflections, text, outlines, sparkle or ground. Bottom half: every glass pixel covering jar body, neck, rim, heart or liquid is opaque pure black #000000. Exposed matte cork only is opaque pure yellow #FFFF00; overhead mask has yellow cork disk within black glass ring. Blue #0000FF reserved for cloth/hair, none on this item. No other colours, no shading, texture, outlines or antialiased interior colour blends on mask. Keep cells R2C3 and R4C3 empty and everything outside guide silhouettes alpha zero. Corrective pass: use the guide's existing alpha channel verbatim. On a 512-square cell each upright jar is bounded by approximately x122..390 y33..479. Trace the angular guide contours including the trapezoid stopper and polygonal shoulders rather than reproducing the photographic silhouette. Do not enlarge to fit the cell. Black mask bodies must be completely solid opaque black (alpha 255), pure yellow opaque cork, no layer translucency or mottling anywhere. The two empty cells have alpha zero throughout.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "091be80d34430225eb7bd9fc698682fab8b4474a99844c061fe74eb2de477f49"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "16d5ba9246ca9b2c84c70493f908abe30f203fd8efd25de1a821e01dd0c12aff"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "0956013f951ce84e8af60e336f3bb035e387c5741ba8b953c04716d73a5cad8e"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91f-c937-7cb2-996a-d8a59f45bdad/exec-58b9a7cd-a81a-484f-91e2-9ba07f71589f.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

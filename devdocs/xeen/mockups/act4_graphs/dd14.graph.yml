@@ -1,0 +1,312 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's three castle levels and dungeon (dark maze0045-0048, texts aaze0045-0048) as one BLV of four floors.
+# The source enters at its level 1 (Ambrose's griffin, F1 (9,11) -> maze0045 (7,8)) and keeps the Count on its top
+# level; A3's M27 turns this into a descent: the griffin lands on the walls (L1, the top), the party fights down
+# through L2 to the Count's hall on L3 (the castle's ground floor on the crag top), and his death opens the stair
+# to the dungeon, where the Queen is. Floors are named as A3's hooks name them (L1 walls, L2, L3, dungeon).
+# BLV frame: x east, y north, z up; z 0 is L3's floor. The courtyard is open to the sky, x -1024..1024,
+# y -768..768; four ranges 768 deep round it (outer face x +-1792, y +-1536), towers at the four corners, the keep
+# the north range rising a storey above the walls. The wall walk (L1) is the ranges' roof at z 1280.
+# On D4 the castle has no door: the gatehouse at the crag's foot never opens (m25.blackfang_gate).
+format: mu6-0
+map: DD-14
+key: dd14
+name: Castle Blackfang
+stands_on: D4 Lakeside and Blackfang (the black crag on the north shore)
+class: M (large)
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors; large: 70 monsters, 40-45 sectors"
+party: [39, 42]
+monsters:
+  levels: [38, 58]
+  boss: "Count Blackfang 70"
+  count: 70
+  groups: [2, 4]
+  families:
+    - "Vampires (11290), DD-03's Act IV rows: Vampire 40 (39), Vampire Lord 50 (10), the Count's three Royal Vampires 58 (a row A2 adds, open question 2) and Count Blackfang 70. The source's family (XEEN_SYSTEMS D57 Vampire, D58 Vampire Lord, D79 Royal Vampire, D80 Ct. Blackfang, all 'C.Blackfang 1-3'). Gnome Vampire 32 is under the band and not used."
+    - "Gargoyles of Magic Mountain (11550): Gargoyle Sentinel 38 (10), Gargoyle Overlord 45 (2), on the open wall walks and the courtyard's plinths: the walls are the gargoyles', the vampires keep indoors (open question 3). D4's own family."
+    - "Octopods (11470): Octopod 50 (5) in the black cistern under the dungeon: the source puts five octopods in Blackfang's dungeon (XEEN_SYSTEMS D41, 'C.Blackfang Dungeon x5'); stationary in deep water (open question 4)."
+    - "Sleepers: 5 of the 70 lie in coffins, placed hidden and shown when their coffin is opened (D-18's pattern; counted at load): 3 Vampires in the sleeping hall, 2 Vampire Lords in the family crypt."
+    - "By floor: L1 17, L2 20, L3 19, dungeon 14; the landing quiet (D-11.3)."
+    - "Talking, not counted: Queen Kalindra (5001) in her cell; Ambrose (5512) by his griffin on the landing under open question 1's (a)."
+  mix:
+    - {row: Gargoyle Sentinel, id: 11551, level: 38, count: 10}
+    - {row: Gargoyle Overlord, id: 11552, level: 45, count: 2}
+    - {row: Vampire, id: 11291, level: 40, count: 39}
+    - {row: Vampire Lord, id: 11292, level: 50, count: 10}
+    - {row: Royal Vampire, id: "11295 (new, A2)", level: 58, count: 3}
+    - {row: Octopod, id: 11470, level: 50, count: 5}
+    - {row: Count Blackfang, id: 11294, level: 70, count: 1}
+  kill_xp: "40.91k per member (163,622 / 4): 10 x 1,824 + 2 x 2,475 + 39 x 2,000 + 10 x 3,000 + 3 x 3,944 + 5 x 3,000 + 5,600"
+  kill_xp_target: "39.2k (MAPS §0, DD-14's row): +4.4 %"
+treasure: {level: 4, hoard: 5}
+role: "Story M27 (the griffin lands the party on the walls; Count Blackfang on L3 bars the way down; the Queen in the dungeon gives 3-31-62; the crown from DD-03's safe cures her; Ambrose flies everyone out); M25's flight ends here"
+role_short: "Story M27"
+set_piece: "A black castle on a crag in a storm of bats, entered from the sky: the griffin's landing on the south wall, coffins in rows along the wall walk, a sleeping hall of coffins whose lids open, the Blackfangs' family crypt behind the Count's hall, and under it all a pillared dungeon where the Queen of the Darkside, made a vampire, waits in a cell she will not leave"
+textures:
+  family: "Halls in MM7 Castle Navan 7d32 (dungeon_families castles, A6's assignment for DD-14: ceb1sa, twb2, cwb1 walls; t3s2fl1, cfb1 floors; t5s1c2 ceilings; ceb1el, ceb1re trim; cwb pillars); the crypt, the sleeping hall's coffin niches, the dungeon and the cistern in MM7 Zokarr's Tomb 7d13 (crypts: twb2, 7tws2, twb1, 7tfb1, cfb1, tfb2, t5d1, 7twb2vr, 7twb2vl, 7wtrtyl); the wall walks, parapets and tower tops in D4's towers kit to match the outside (hkm3 slate-blue under the skull frieze, hkm2 black rubble, hkm3elw, xtslate cone soffits); double doors DD-03's arched oak pair chb1dl/chb1dr, single iron doors t5d1"
+  cap: 45
+  planned: 33
+  new: 1
+  new_names:
+    - "xbfcrest: Blackfang's arms (a black bat with one red fang on slate grey, D-3.1's pattern), placed once over the Count's throne and once on the great hall's end wall; the banners keep shipped cloth"
+floors:
+  - {floor: 2, name: "L1: the walls, open sky (z 1280)", height: 1280}
+  - {floor: 1, name: "L2: the upper floor (z 640)", height: 640}
+  - {floor: 0, name: "L3: ground floor, courtyard (z 0)", height: 0}
+  - {floor: -1, name: "The dungeon (z -640)", height: -640}
+spaces:
+  # floor 2, L1: the wall walk on the ranges' roofs, four tower tops and the keep's top chamber (z 1280)
+  - {id: room:landing, name: "Griffin's landing", kind: hall, size: M, floor: 2, at: [2, 2], set_piece: true, monsters: 0,
+     purpose: "The south wall walk's middle stretch, 768 wide between a crenellated outer parapet over the lake and a low inner parapet over the courtyard, open sky (open_sky, DD-03's yard route): the arrival (entrance:griffin_walls) and m27.landing's text. Coffins in rows against the outer parapet, lids ajar ('Coffin' / 'The coffin is empty.'), leaving 384 clear down the middle. Bones with the dead adventurer's notes (aaze0045:5: 'Coffins contain treasure and vampires. Floor traps are regularly spaced ... The Count's magic keeps us from descending.'). Under open question 1 (a), Ambrose and his griffin wait here ('Are you ready to leave this awful place, friends?'). The courtyard stair's head in the inner parapet."}
+  - {id: room:sw_tower, name: South-west tower, kind: room, size: M, floor: 2, at: [0, 2], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "The tower's top storey under its cone (round, radius 448), shutters closed. The first fight. A spiral stair down to L2. Bones by the wall with the second adventurer's diary (aaze0045:4: '... we must remain inside the castle 'til nightfall ...'), a find."}
+  - {id: room:west_walk, name: West wall walk, kind: corridor, size: M, floor: 2, at: [0, 1], monsters: 3,
+     population: [{row: Gargoyle Sentinel, level: 38, count: 3}],
+     purpose: "Open walk, 512 wide; the gargoyles crouch on the merlons and wake as the party passes. Torches in brackets on the towers' walls at each end."}
+  - {id: room:nw_tower, name: North-west tower, kind: room, size: M, floor: 2, at: [1, 1], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "A bronze gong on a frame by the wall (aaze0045:6-7: 'Gong' / 'You hear a rumbling in the distance.'): sounding it slides open the panel into the Count's study on L2 (two-state, stays open)."}
+  - {id: room:north_walk, name: North wall walk, kind: corridor, size: M, floor: 2, at: [2, 1], monsters: 3,
+     population: [{row: Gargoyle Sentinel, level: 38, count: 2}, {row: Gargoyle Overlord, level: 45, count: 1}],
+     purpose: "Along the foot of the keep's top storey, which rises another 640 over the walk; the keep's iron-bound door in its south face."}
+  - {id: room:keep_top, name: "The bat roost", kind: room, size: M, floor: 2, at: [2, 0], chest: 4, monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "The keep's top chamber under open rafters and louvres, the storm's bats hanging from the beams (they boil out through the louvres as the party enters: sound, a particle burst, no monsters). A strongbox under the droppings (T4). In the roof, a trapdoor (open question 7)."}
+  - {id: room:ne_tower, name: North-east tower, kind: room, size: M, floor: 2, at: [3, 1], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "Shuttered top storey; two coffins by the wall (one find, one empty)."}
+  - {id: room:east_walk, name: East wall walk, kind: corridor, size: M, floor: 2, at: [4, 1], monsters: 3,
+     population: [{row: Gargoyle Sentinel, level: 38, count: 2}, {row: Gargoyle Overlord, level: 45, count: 1}],
+     purpose: "The trapped walk: every second flagstone down its length is a pressure plate in a darker slab, fire from the merlons' slits (about a tenth of a band-level member's HP per plate; the notes on the landing are the answer-giver: 'Floor traps are regularly spaced'). The plates leave a clear line along the inner parapet."}
+  - {id: room:se_tower, name: South-east tower, kind: room, size: M, floor: 2, at: [4, 2], monsters: 0,
+     purpose: "A quiet top storey with a coffin of loot (a find: gold and a ring); a spiral stair down to L2's chapel corner."}
+  # floor 1, L2: the upper floor of the four ranges and the keep's middle storey (z 640)
+  - {id: room:sw_stair2, name: South-west stair, kind: stair, size: S, floor: 1, at: [0, 0], monsters: 0,
+     purpose: "The south-west tower's stair foot on L2."}
+  - {id: room:south_gallery, name: Long gallery, kind: hall, size: L, floor: 1, at: [1, 0], monsters: 3,
+     population: [{row: Vampire, level: 40, count: 3}],
+     purpose: "The south range's gallery, windows on the courtyard; portraits of four centuries of Blackfangs, every one painted with no reflection in the mirror behind it. Wall sconces between the frames."}
+  - {id: room:chapel2, name: The black chapel, kind: hall, size: M, floor: 1, at: [3, 0], monsters: 4,
+     population: [{row: Vampire, level: 40, count: 2}, {row: Vampire Lord, level: 50, count: 2}],
+     purpose: "A household chapel turned round: the altar against the west wall, its cloth embroidered with a bat. Candelabra on floor stands either side of the altar, clear of the aisle. Double doors (chb1dl/chb1dr) from the gallery."}
+  - {id: room:se_stair2, name: South-east stair, kind: stair, size: S, floor: 1, at: [4, 0], monsters: 0,
+     purpose: "The south-east tower's stair foot on L2, between the chapel and the library."}
+  - {id: room:library, name: Library, kind: room, size: M, floor: 1, at: [4, 1], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "The east range: shelves of genealogy and sermons against garlic; a find (The Blackfang Lineage, readable: the four names of the crypt's coffins)."}
+  - {id: room:keep_hall2, name: "The keep's upper hall", kind: hall, size: L, floor: 1, at: [3, 2], monsters: 4,
+     population: [{row: Vampire, level: 40, count: 3}, {row: Vampire Lord, level: 50, count: 1}],
+     purpose: "The keep's middle storey: a hall with a gallery rail over the grand stair, which goes down to L3's stair hall. Two chandeliers on chains from the beams. In the north wall the panel the gong opens."}
+  - {id: room:study, name: "The Count's study", kind: room, size: S, floor: 1, at: [3, 1], chest: 4, monsters: 0,
+     purpose: "Behind the panel: a desk, a ledger (a find: 'Received from Lord Xeen's man: one queen, crowned. Crown kept by her people. No matter.'), the Count's strongbox (T4)."}
+  - {id: room:countess, name: "The Countess's rooms", kind: room, size: M, floor: 1, at: [1, 2], monsters: 2,
+     population: [{row: Vampire Lord, level: 50, count: 2}],
+     purpose: "Bedchamber and dressing room, no mirror anywhere; a jewel box on the dressing table (a find). The servants' back stair down to the kitchen in its corner."}
+  - {id: room:coffin_dorm, name: Sleeping hall, kind: hall, size: M, floor: 1, at: [0, 1], set_piece: true, monsters: 5,
+     population: [{row: Vampire, level: 40, count: 2}, {row: Vampire, level: 40, count: 3, hidden: true, note: "one in each of three coffins, shown when it is opened"}],
+     purpose: "The west range: the household's coffins in two rows in wall niches (7d13's niche trim), six in all, two awake vampires on watch. Each coffin a click: three hold a sleeper who rises (show_actors, once) and leaves a find in the coffin; three hold only a find. Wall torches between the niches."}
+  # floor 0, L3: the ground floor of the ranges and the keep, and the courtyard (z 0)
+  - {id: room:cellar, name: Cask cellar, kind: room, size: M, floor: 0, at: [0, 0], store: true, monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "A storeroom (store: true): casks in clumps along the walls, clear of the line between the kitchen door and the trapdoor. A find in one cask ('Wine. Real wine. Somebody here still drinks it.'). The trapdoor in the floor is bolted from below: 'A trapdoor in the floor, bolted from below.'"}
+  - {id: room:kitchen, name: Kitchen, kind: room, size: M, floor: 0, at: [1, 0], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "A cold kitchen nobody has cooked in for a century; barrels in pairs by the walls, a hearth (a set piece, warning kept). The back stair from the Countess's rooms comes down here."}
+  - {id: room:courtyard, name: The courtyard, kind: hall, size: L, floor: 0, at: [2, 0], monsters: 3,
+     population: [{row: Gargoyle Sentinel, level: 38, count: 3}],
+     purpose: "Open to the sky (open_sky), 2,048 x 1,536, a dry fountain in the middle with three gargoyles on its plinths. The courtyard stair climbs the south range's inner face to the landing; at its foot an iron gate whose bar is on this side. Where Ambrose's griffin lands at nightfall (m27.ambrose_return's text)."}
+  - {id: room:stair_hall3, name: Grand stair hall, kind: hall, size: M, floor: 0, at: [3, 0], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "The keep's ground floor: the grand stair's foot; the keep's double door on the courtyard (chb1dl/chb1dr); the Count's hall's double doors on the north."}
+  - {id: room:great_hall, name: Great hall, kind: hall, size: L, floor: 0, at: [2, 1], monsters: 4,
+     population: [{row: Vampire, level: 40, count: 3}, {row: Vampire Lord, level: 50, count: 1}],
+     purpose: "The west and north-west ranges: a long table laid with empty goblets beside the line between the doors, not on it; Blackfang's arms (xbfcrest) on the end wall; two chandeliers on chains. Double doors on the courtyard; a screens passage into the Count's hall."}
+  - {id: room:throne, name: "The Count's hall", kind: hall, size: L, floor: 0, at: [3, 1], boss: true,
+     boss_label: "Count Blackfang 70", monsters: 4,
+     population: [{actor: Count Blackfang, row: Count Blackfang, level: 70, role: boss, placed: true}, {row: Royal Vampire, level: 58, count: 3}],
+     purpose: "A black throne on a dais under xbfcrest; candelabra on floor stands either side of it, a chandelier from the ceiling. The Count and his three Royal Vampires (one group). His death calls m27.blackfang: 'every coffin lid in the castle slams shut at once', and the bar on the dungeon stair lifts. Doors to the crypt and the dungeon stair behind the dais."}
+  - {id: room:crypt, name: The family crypt, kind: room, size: M, floor: 0, at: [4, 1], set_piece: true, chest: 5, monsters: 2,
+     population: [{row: Vampire Lord, level: 50, count: 2, hidden: true, note: "in the Duchess's and the Lady's coffins, shown when each is opened"}],
+     purpose: "Four stone coffins on biers, each named on hover (aaze0047:6-9): Dutchess Blackfang, Countess Blackfang, Count Blackfang, Lady Blackfang. The Duchess and the Lady rise when opened; the Countess's is empty (she is upstairs); the Count's own coffin holds the castle's hoard (T5). Braziers on the floor at the corners, clear of the biers' aisle."}
+  - {id: room:dstair, name: Dungeon stair, kind: stair, size: S, floor: 0, at: [2, 2], monsters: 0,
+     purpose: "Behind the dais: a stair down into the crag, barred with black iron until the Count is dead (m27.dungeon_stair; the refusal text is open question 6)."}
+  # floor -1, the dungeon cut into the crag (z -640)
+  - {id: room:shaft, name: Ladder shaft, kind: shaft, size: S, floor: -1, at: [0, 0], monsters: 0,
+     purpose: "A ladder up 640 to the cellar's trapdoor, its bolt at the top on this side (two-state, stays drawn). Holes in the shaft's walls; bones at its foot with Zarkon's diary (aaze0047:4: '... struggling up a ladder ... one of those vampires grabbed for his ankles through a hole in the wall ... fell a good forty feet.'), and a second, rat-eaten diary (aaze0047:5)."}
+  - {id: room:cells, name: The cells, kind: corridor, size: M, floor: -1, at: [1, 0], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "A row of barred cells (xwcage bars), empty but for straw and chains; the Queen's at the far end. Wall torches between the cells."}
+  - {id: room:question, name: Question room, kind: room, size: M, floor: -1, at: [2, 0], chest: 4, monsters: 0,
+     purpose: "The gaolers' room of instruments, racks by the walls; their strongbox (T4)."}
+  - {id: room:dstair_foot, name: Gaolers' stair, kind: stair, size: S, floor: -1, at: [3, 0], monsters: 2,
+     population: [{row: Vampire, level: 40, count: 2}],
+     purpose: "The dungeon stair's foot and a guard post."}
+  - {id: room:queen_cell, name: "The Queen's cell", kind: room, size: S, floor: -1, at: [0, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "A cell whose grille door stands open; she will not come out. Queen Kalindra (5001, a talking actor, stand) in a dark gown, the m27 topic 'The crown' (m27.queen_cell): the combination 3-31-62 (queen_found, autonote 4127), then, given the crown, the Pyramid key and done; on done the map hides her and Ambrose's griffin takes the party to D1 (m27.ambrose_return). No light inside the cell; a torch outside its door."}
+  - {id: room:undercroft, name: Pillared undercroft, kind: hall, size: L, floor: -1, at: [2, 1], monsters: 5,
+     population: [{row: Vampire, level: 40, count: 3}, {row: Vampire Lord, level: 50, count: 2}],
+     purpose: "The source's dungeon hall: twelve square pillars in four rows of three under a low vault (cwb), aisles 384 wide between them. Wall torches on the outer walls only."}
+  - {id: room:cistern, name: The black cistern, kind: cave, size: L, floor: -1, at: [3, 1], chest: 4, monsters: 5,
+     population: [{row: Octopod, level: 50, count: 5, note: "two groups, stationary in the deep water (open question 4)"}],
+     purpose: "The castle's rain cistern, a rough vault of black water (7wtrtyl, 384 deep) under a ledge 256 wide round three sides; the Count keeps lake octopods in it. A chest on the far ledge (T4), past the pool."}
+links:
+  # L1: the wall walk's ring
+  - {id: link:landing_sw, from: room:landing, to: room:sw_tower, kind: open}
+  - {id: link:sw_west, from: room:sw_tower, to: room:west_walk, kind: open}
+  - {id: link:west_nw, from: room:west_walk, to: room:nw_tower, kind: open}
+  - {id: link:nw_north, from: room:nw_tower, to: room:north_walk, kind: open}
+  - {id: link:north_keep, from: room:north_walk, to: room:keep_top, kind: door, notes: "The keep's iron-bound door."}
+  - {id: link:north_ne, from: room:north_walk, to: room:ne_tower, kind: open}
+  - {id: link:ne_east, from: room:ne_tower, to: room:east_walk, kind: open}
+  - {id: link:east_se, from: room:east_walk, to: room:se_tower, kind: open}
+  - {id: link:se_landing, from: room:se_tower, to: room:landing, kind: open}
+  # L1 to L2
+  - {id: link:sw_down, from: room:sw_tower, to: room:sw_stair2, kind: stair}
+  - {id: link:se_down, from: room:se_tower, to: room:se_stair2, kind: stair}
+  # L2: the upper floor's ring
+  - {id: link:sw2_gallery, from: room:sw_stair2, to: room:south_gallery, kind: open}
+  - {id: link:gallery_chapel, from: room:south_gallery, to: room:chapel2, kind: door, label: "Double doors"}
+  - {id: link:chapel_se2, from: room:chapel2, to: room:se_stair2, kind: open}
+  - {id: link:se2_library, from: room:se_stair2, to: room:library, kind: open}
+  - {id: link:library_keep, from: room:library, to: room:keep_hall2, kind: open}
+  - {id: link:keep_study, from: room:keep_hall2, to: room:study, kind: secret, label: "Panel: the gong", opened_by: state:gong}
+  - {id: link:keep_countess, from: room:keep_hall2, to: room:countess, kind: open}
+  - {id: link:countess_dorm, from: room:countess, to: room:coffin_dorm, kind: door}
+  - {id: link:dorm_sw2, from: room:coffin_dorm, to: room:sw_stair2, kind: open}
+  # L2 to L3
+  - {id: link:grand_stair, from: room:keep_hall2, to: room:stair_hall3, kind: stair, notes: "The grand stair."}
+  - {id: link:back_stair, from: room:countess, to: room:kitchen, kind: stair, notes: "The servants' back stair."}
+  # L1 to L3: the courtyard stair
+  - {id: link:yard_stair, from: room:landing, to: room:courtyard, kind: locked, label: "Yard gate: bar below", opened_by: state:yard_gate,
+     notes: "An open stair down the south range's inner face; the iron gate at its foot is barred on the courtyard side."}
+  # L3
+  - {id: link:cellar_kitchen, from: room:cellar, to: room:kitchen, kind: door}
+  - {id: link:kitchen_yard, from: room:kitchen, to: room:courtyard, kind: open}
+  - {id: link:yard_stairhall, from: room:courtyard, to: room:stair_hall3, kind: door, label: "Keep door (double)"}
+  - {id: link:yard_great, from: room:courtyard, to: room:great_hall, kind: door, label: "Double doors"}
+  - {id: link:stairhall_throne, from: room:stair_hall3, to: room:throne, kind: door, label: "Double doors"}
+  - {id: link:great_throne, from: room:great_hall, to: room:throne, kind: open, notes: "The screens passage."}
+  - {id: link:throne_crypt, from: room:throne, to: room:crypt, kind: door}
+  - {id: link:throne_dstair, from: room:throne, to: room:dstair, kind: open}
+  # L3 to the dungeon
+  - {id: link:dstair_down, from: room:dstair, to: room:dstair_foot, kind: locked, label: "Black iron bar: the Count", opened_by: state:count}
+  - {id: link:hatch, from: room:shaft, to: room:cellar, kind: locked, label: "Trapdoor: bolt below", opened_by: state:hatch,
+     notes: "The ladder; the trapdoor's bolt is drawn from the shaft."}
+  # the dungeon
+  - {id: link:foot_question, from: room:dstair_foot, to: room:question, kind: door}
+  - {id: link:question_cells, from: room:question, to: room:cells, kind: open}
+  - {id: link:cells_shaft, from: room:cells, to: room:shaft, kind: open}
+  - {id: link:cells_queen, from: room:cells, to: room:queen_cell, kind: door, notes: "The cell's grille door, standing open."}
+  - {id: link:foot_undercroft, from: room:dstair_foot, to: room:undercroft, kind: open}
+  - {id: link:undercroft_cells, from: room:undercroft, to: room:cells, kind: open}
+  - {id: link:undercroft_cistern, from: room:undercroft, to: room:cistern, kind: open}
+states:
+  - {id: state:flight, kind: qbit, where: "D6, Ambrose (M25)",
+     what: "m25.done (111503): Ambrose's topic 'Fly to Blackfang' calls m25.flight; the D6 event (A6) moves the party to entrance:griffin_walls. The only way in.", opens: [], draw: false}
+  - {id: state:gong, kind: lever, where: room:nw_tower,
+     what: "The gong: 'You hear a rumbling in the distance.' (aaze0045:7); the study's panel on L2 slides open and stays open (a map variable, two-state).",
+     opens: [link:keep_study]}
+  - {id: state:count, kind: kill, where: room:throne,
+     what: "Count Blackfang's death: m27.blackfang (once) sets blackfang_slain (111540), shows its text, and the dungeon stair's bar lifts (a two-state leaf; on later loads the map opens it from the qbit). Before it the bar's click calls m27.dungeon_stair, which refuses (open question 6).",
+     opens: [link:dstair_down]}
+  - {id: state:yard_gate, kind: lever, where: room:courtyard,
+     what: "The bar of the courtyard stair's gate, on the courtyard side: lifted from below, the gate opens and stays open (two-state). From the stair: 'The gate is barred on the courtyard side.' The short way back up to the landing.",
+     opens: [link:yard_stair]}
+  - {id: state:hatch, kind: lever, where: room:shaft,
+     what: "The trapdoor's bolt at the ladder's top, drawn from the shaft (two-state, stays open). From the cellar: 'A trapdoor in the floor, bolted from below.' The way out of the dungeon without the Count's hall, and the short way back to the Queen.",
+     opens: [link:hatch]}
+  - {id: state:coffins, kind: map_var, where: "room:coffin_dorm, room:crypt, the landing's and the towers' coffins",
+     what: "Each coffin a map variable: a sleeper's coffin shows its hidden vampire on the first click (show_actors, D-18; counted at load), then gives its find; the others give their find or 'The coffin is empty.' (aaze0047:2).",
+     opens: [], draw: false}
+  - {id: state:queen, kind: qbit, where: room:queen_cell,
+     what: "queen_found (111543) from her first topic (3-31-62, autonote 4127); crown (111541) at DD-03's safe; done (111542) when she takes the crown: the map hides her and calls m27.ambrose_return.",
+     opens: [], draw: false}
+exits:
+  - {id: exit:griffin_walls, space: room:landing, at: [3, 3], kind: both, label: "Ambrose's griffin (D6 in, D4 under Q1)",
+     arrival: "entrance:griffin_walls at (0, -1152, 1280) in this map's frame: the middle of the south wall walk, facing north (512) over the inner parapet: the courtyard below, the keep beyond. Fixed at L1 within the landing's open middle, clear of the coffins",
+     neighbour: "In: D6's Griffin Pass, Ambrose's 'Fly to Blackfang' (m25.flight; A6's event moves the party here; the hook's text shows on arrival). Out, under open question 1 (a): Ambrose on the landing, 'Are you ready to leave this awful place, friends?' (aaze0045:1), a real choice (D-24), sets the party down on D4 beside the sealed gatehouse (A6's entrance:dd14_griffin, proposed at cell (76, 54) on the north-shore track west of the gate, facing west 1024); and after m25.done D4's gate offers the flight back in ('Would you like my griffin to fly you inside?', aaze0021:9) to entrance:griffin_walls"}
+  - {id: exit:d1_home, space: room:queen_cell, at: [0, 2], kind: out, label: "With the Queen: D1, Kalindra's gate",
+     arrival: "none in this map (one-way out)",
+     neighbour: "m27.ambrose_return after done: the hook's text ('At nightfall Ambrose's griffin lands in the courtyard ...'), then the party moves to D1's kalindra_gate (D-26's arrival at the castle's gate, (47, 70)); the Queen moves to house 4501 by A3's move_npc"}
+  - {id: exit:d7_roof, space: room:keep_top, at: [3, 0], kind: both, label: "Roof trapdoor (D7, phase 6)",
+     arrival: "entrance:d7_roof under the trapdoor in the bat roost, if the D7 lane wires it",
+     neighbour: "The source's Skyroad F1 (9, 11) 'Descend to Castle Blackfang?' (aazex109:5) <-> maze0047 (15, 0). Act IV: bolted, 'A trapdoor in the roof, bolted from above. Wind howls over it.' Open question 7"}
+hooks:
+  - {hook: m25.flight, space: room:landing, how: "D6's (A6): this map holds its arrival, entrance:griffin_walls; the hook's text shows on arrival"}
+  - {hook: m27.landing, space: room:landing, how: "the first arrival's text (a map variable, once): 'Castle Blackfang's battlements. Coffins stand in rows along the wall walk ...'"}
+  - {hook: m27.blackfang, space: room:throne, how: "Count Blackfang's death (his group's death event, once): sets blackfang_slain, lifts the dungeon stair's bar"}
+  - {hook: m27.dungeon_stair, space: room:dstair, how: "the bar's click and a step plate before it: refuses until blackfang_slain (fail_text, open question 6)"}
+  - {hook: m27.queen_cell, space: room:queen_cell, how: "the placed Queen (5001) talks until done; on load and on done the map hides her"}
+  - {hook: m27.ambrose_return, space: room:queen_cell, how: "after done: the text, then the move to D1's kalindra_gate (called from the crown topic's do, a request to A3; fallback a step in the cell's doorway that reads done)"}
+  - {hook: "m25.blackfang_gate, m25.bat_storm", space: "D4 (A6), not this map", how: "the sealed gatehouse and the storm over the crag; listed so the set is whole"}
+critical_path: [room:landing, room:sw_tower, room:sw_stair2, room:coffin_dorm, room:countess, room:keep_hall2,
+  room:stair_hall3, room:throne, room:dstair, room:dstair_foot, room:undercroft, room:cells, room:queen_cell]
+return_path: [room:queen_cell, room:cells, room:shaft, room:cellar, room:kitchen, room:courtyard, room:landing]
+loops:
+  - {id: loop:walls, spaces: [room:landing, room:sw_tower, room:west_walk, room:nw_tower, room:north_walk, room:ne_tower, room:east_walk, room:se_tower],
+     notes: "The wall walk round the courtyard."}
+  - {id: loop:upper, spaces: [room:sw_stair2, room:south_gallery, room:chapel2, room:se_stair2, room:library, room:keep_hall2, room:countess, room:coffin_dorm],
+     notes: "L2's ranges round the courtyard."}
+  - {id: loop:towers, spaces: [room:sw_tower, room:sw_stair2, room:south_gallery, room:chapel2, room:se_stair2, room:se_tower, room:landing],
+     notes: "Down one corner tower, up the other."}
+  - {id: loop:ground, spaces: [room:courtyard, room:stair_hall3, room:throne, room:great_hall],
+     notes: "The keep door and the great hall's doors both lead to the Count."}
+  - {id: loop:stairs, spaces: [room:keep_hall2, room:stair_hall3, room:courtyard, room:kitchen, room:countess],
+     notes: "The grand stair and the back stair."}
+  - {id: loop:dungeon, spaces: [room:dstair_foot, room:question, room:cells, room:undercroft],
+     notes: "Through the question room or the undercroft."}
+  - {id: loop:out, spaces: [room:cells, room:shaft, room:cellar, room:kitchen, room:courtyard, room:great_hall, room:throne, room:dstair, room:dstair_foot, room:undercroft],
+     notes: "Once the trapdoor is unbolted from below: the ladder closes the dungeon onto the ground floor."}
+lines:
+  - {text: "Are you ready to leave this awful place, friends?", ref: "dark/aaze0045:1", where: "Ambrose on the landing (open question 1 (a))"}
+  - {text: "...entering the black castle today. The Queen is captive somewhere within its walls, and we must remain inside the castle 'til nightfall or she would surely die once we brought her into the light. ...", ref: "dark/aaze0045:4", where: "room:sw_tower, the bones (a find)"}
+  - {text: "Coffins contain treasure and vampires. / Floor traps are regularly spaced. Remember to get Sorcerer to Jump us over them. / The Count's magic keeps us from descending. Be sure to kill him when we get a chance.", ref: "dark/aaze0045:5", where: "room:landing, the bones (the traps' and the stair's answer-giver)"}
+  - {text: "Gong / You hear a rumbling in the distance.", ref: "dark/aaze0045:6-7", where: room:nw_tower}
+  - {text: "Coffin / The coffin is empty.", ref: "dark/aaze0046:0, aaze0047:1-2", where: "every coffin"}
+  - {text: "A force like wind pushes you back, lightly at first, but gaining strength as you put more effort into advancing. You are unable to descend.", ref: "dark/aaze0047:0", where: "room:dstair before the Count's death (open question 6)"}
+  - {text: "1/9/753: Kloikus Thunbeard the Round came to a bad end today. He was struggling up a ladder in his ridiculous armor when one of those vampires grabbed for his ankles through a hole in the wall. ...", ref: "dark/aaze0047:4", where: "room:shaft, the bones at the ladder's foot"}
+  - {text: "You find a diary in the bones, but it has mostly been devoured by rats. None of what remains is legible.", ref: "dark/aaze0047:5", where: room:shaft}
+  - {text: "Dutchess Blackfang / Countess Blackfang / Count Blackfang / Lady Blackfang", ref: "dark/aaze0047:6-9", where: "room:crypt, the four coffins' hover names"}
+  - {text: "Thank you for trying to rescue me, but I cannot leave this castle ever, as I am now a vampire. / ... It is 3 31 62. / Thank you for bringing me my crown. ... Here is the key to the pyramid ...", ref: "dark/aaze0048:1-3", where: "the Queen; A3's m27 topic is the adapted wording"}
+  - {text: "There seems to be no way in. / Hello again, Adventurers. Would you like my griffin to fly you inside?", ref: "dark/aaze0021:3, :9", where: "D4's sealed gate (A6, A3), before and after M25 under open question 1 (a)"}
+open_questions:
+  - q: "The way out between the Queen and the crown. M27 needs two visits: the Queen gives 3-31-62 (queen_found), the crown is in DD-03's safe (which needs queen_found), then back to her. A3's m25.flight text has Ambrose wave and leave, and D4's gate never opens, so the castle has no way out but spells."
+    options: ["(a) the source's way: Ambrose waits on the landing with his griffin ('Are you ready to leave this awful place, friends?', aaze0045:1; maze0045 (7,8) -> F1 (9,11)) and sets the party down on D4 beside the sealed gatehouse; after m25.done D4's gate offers the flight back in ('Would you like my griffin to fly you inside?', aaze0021:9; F1 (9,11) -> maze0045 (7,8)). The gate itself never opens",
+              "(b) a postern: a long stair from the dungeon down through the crag to the inside of D4's gatehouse, its bar lifted from inside after the Count's death, then the exit preset both ways (the gate opens from inside only)",
+              "(c) no way out but Town Portal, Lloyd's Beacon and the mirrors"]
+    recommend: "(a): it is the source's own loop, keeps Blackfang a griffin-only castle (WORLD_DESIGN 3.4, D-36.1) and needs no new geometry on either map; A3 changes m25.flight's text ('Ambrose sets his griffin down on the walls and waits.') and adds a hook for D4's flight in; A4 shows Ambrose here (5512 placed hidden, shown on m25.done) or the map uses an event on the griffin; A6 adds the set-down point and the gate's second state"
+    depends: "the landing's exit, D4's gate event and point (A6), m25's texts and a new hook (A3), Ambrose's placement (A4)"
+  - q: "The band's top. MAPS gives 36-58; A2's vampires stop at Vampire Lord 50."
+    options: ["(a) a new tier Royal Vampire 58 (11295, look C, Curse; the source's D79, Blackfang only): the Count's three guards, 40.91k (+4.4 %)",
+              "(b) three more Vampire Lords 50 as his guards: 40.20k (+2.6 %), the band's top 50"]
+    recommend: "(a): the source's elite tier, and the boss fight needs more than his own rank-and-file"
+    depends: "the throne room's group; A2's row"
+  - q: "A second family. The source holds only vampires (and the dungeon's octopods); 51 vampires in one castle read alike."
+    options: ["(a) D4's gargoyles on the open walks and the courtyard's plinths: Gargoyle Sentinel 38 (10), Gargoyle Overlord 45 (2); the vampires keep indoors, the gargoyles keep the sky side",
+              "(b) vampires only (12 more Vampires 40: 40.61k, +3.6 %)"]
+    recommend: "(a): stone on the battlements against the storm of bats reads at once, and it gives the walls a reason to be dangerous in daylight"
+    depends: "L1's and the courtyard's populations"
+  - q: "The octopods. The source puts five in Blackfang's dungeon; A2's rows are lake swimmers (MM9's swimmer AI, D-36.2), and A1's water facts are for outdoor maps."
+    options: ["(a) five Octopods 50 placed stationary ('stand') in the cistern's deep water, reach over the ledge, hold radius 0; nothing more from A1",
+              "(b) swimmers in the cistern if A1's water facts work indoors (A1 checks)",
+              "(c) five Vampire Lords 50 in their place, the cistern a dry vault"]
+    recommend: "(a), D-36.2's own fallback for the lake; (b) later if A1's facts cover BLV water"
+    depends: "the cistern; A1 (only for (b))"
+  - q: "The sleepers after the Count's death. A3's m27.blackfang says every coffin lid slams shut."
+    options: ["(a) flavour only: an unopened sleeper's coffin still lets its vampire rise when opened; the count stays 70",
+              "(b) unopened sleepers stay sealed for good (never shown); their coffins give only the find"]
+    recommend: "(a): one rule for every coffin, and the critical path reaches the Count only after the sleeping hall anyway"
+    depends: "the coffins' events"
+  - q: "The dungeon stair's refusal. A3's fail_text 'The stair is barred with black iron. Somewhere above, the Count laughs.' puts him above, but his hall is on the same floor, beside the stair."
+    options: ["(a) the source's line on the step before the bar: 'A force like wind pushes you back, lightly at first, but gaining strength as you put more effort into advancing. You are unable to descend.' (aaze0047:0); the bar a plain iron leaf",
+              "(b) A3's text with 'Somewhere in the castle, the Count laughs.'"]
+    recommend: "(a): the landing's notes ('The Count's magic keeps us from descending') are then its answer-giver"
+    depends: "m27.dungeon_stair's fail_text (A3)"
+  - q: "The keep's roof. In the source maze0047's corner stair leads up to Skyroad F1 (D7), which offers 'Descend to Castle Blackfang?'."
+    options: ["(a) a trapdoor in the bat roost's roof drawn now, bolted ('A trapdoor in the roof, bolted from above. Wind howls over it.'), for the D7 lane to wire in phase 6",
+              "(b) none; D7 lands elsewhere"]
+    recommend: "(a): costs one leaf now and spares a later rebuild; D7 decides whether to use it"
+    depends: "the bat roost; D7's plan (phase 6)"

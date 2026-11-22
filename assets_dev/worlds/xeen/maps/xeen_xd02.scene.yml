@@ -1,0 +1,1413 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_xd02.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 18
+      hostility_type: 0
+      monster_info_id: 11320
+      monster_id: 75
+      radius: 109
+      height: 64
+      move_speed: 300
+      position:
+        x: 3560
+        y: 1120
+        z: -864
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 26
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 18
+      hostility_type: 0
+      monster_info_id: 11320
+      monster_id: 75
+      radius: 109
+      height: 64
+      move_speed: 300
+      position:
+        x: 3560
+        y: 820
+        z: -864
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 26
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 18
+      hostility_type: 0
+      monster_info_id: 11320
+      monster_id: 75
+      radius: 109
+      height: 64
+      move_speed: 300
+      position:
+        x: 3300
+        y: 650
+        z: -864
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 26
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 3
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 22
+      hostility_type: 0
+      monster_info_id: 11430
+      monster_id: 96
+      radius: 70
+      height: 92
+      move_speed: 250
+      position:
+        x: 6760
+        y: 4090
+        z: -1152
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 42
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 4
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 22
+      hostility_type: 0
+      monster_info_id: 11430
+      monster_id: 96
+      radius: 70
+      height: 92
+      move_speed: 250
+      position:
+        x: 6840
+        y: 4200
+        z: -1152
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 42
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 5
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 22
+      hostility_type: 0
+      monster_info_id: 11430
+      monster_id: 96
+      radius: 70
+      height: 92
+      move_speed: 250
+      position:
+        x: 11700
+        y: 1250
+        z: -640
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 17
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 6
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 22
+      hostility_type: 0
+      monster_info_id: 11430
+      monster_id: 96
+      radius: 70
+      height: 92
+      move_speed: 250
+      position:
+        x: 12200
+        y: 1250
+        z: -640
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 17
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 7
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 26
+      hostility_type: 0
+      monster_info_id: 11050
+      monster_id: 119
+      radius: 48
+      height: 131
+      move_speed: 160
+      position:
+        x: 6163
+        y: 6880
+        z: -288
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 30
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 8
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 26
+      hostility_type: 0
+      monster_info_id: 11050
+      monster_id: 119
+      radius: 48
+      height: 131
+      move_speed: 160
+      position:
+        x: 6163
+        y: 7520
+        z: -288
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 30
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 9
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 26
+      hostility_type: 0
+      monster_info_id: 11050
+      monster_id: 119
+      radius: 48
+      height: 131
+      move_speed: 160
+      position:
+        x: 5363
+        y: 6848
+        z: -288
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 30
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 10
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 50
+      hostility_type: 0
+      monster_info_id: 11052
+      monster_id: 264
+      radius: 66
+      height: 181
+      move_speed: 200
+      position:
+        x: 5360
+        y: 7200
+        z: -288
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 30
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+  sprite_objects:
+    - sprite_object_index: 0
+      sprite_id: 60
+      object_description_id: 56
+      position:
+        x: 3560
+        y: 1200
+        z: -864
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 26
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 3560
+        y: 1200
+        z: -864
+      raw_containing_item_hex: DE0000000000000000000000000000000000000000000000000000000000000000000000
+    - sprite_object_index: 1
+      sprite_id: 81
+      object_description_id: 77
+      position:
+        x: 12432
+        y: 4400
+        z: -60
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 20
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 12432
+        y: 4400
+        z: -60
+      raw_containing_item_hex: 2C0100000000000000000000000000000000000000000000000000000000000000000000
+    - sprite_object_index: 2
+      sprite_id: 80
+      object_description_id: 76
+      position:
+        x: 8100
+        y: 6400
+        z: -336
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 22
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 8100
+        y: 6400
+        z: -336
+      raw_containing_item_hex: DC0000000000000000000000000000000000000000000000000000000000000000000000
+    - sprite_object_index: 3
+      sprite_id: 7639
+      object_description_id: 160
+      position:
+        x: 5600
+        y: 5720
+        z: -8
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 24
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 5600
+        y: 5720
+        z: -8
+      raw_containing_item_hex: "390300000000000000000000000000000000000000000000000000000000000000000000"
+    - sprite_object_index: 4
+      sprite_id: 45
+      object_description_id: 41
+      position:
+        x: 6560
+        y: 3780
+        z: -1152
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 27
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: 6560
+        y: 3780
+        z: -1152
+      raw_containing_item_hex: CB0000000000000000000000000000000000000000000000000000000000000000000000
+  chests: []
+  doors:
+    - door_index: 0
+      legacy_attributes: 0
+      door_id: 1
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3800, 3801, 3802, 3803, 3804, 3805, 3806, 3807]
+      face_ids: [2982, 2983, 2984, 2985, 2986]
+      sector_ids: [22]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [7232, 7424, 7424, 7232, 7232, 7424, 7424, 7232]
+      y_offsets: [7512, 7512, 7512, 7512, 7528, 7528, 7528, 7528]
+      z_offsets: [-352, -352, -96, -96, -96, -96, -352, -352]
+      mover:
+        rotation:
+          pivot: [7232, 7520, -352]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 1
+      legacy_attributes: 0
+      door_id: 2
+      time_since_triggered_ms: 0
+      direction: [65536, 0, 0]
+      move_length: 124
+      open_speed: 96
+      close_speed: 96
+      state: 2
+      vertex_ids: [3809, 3810, 3813, 3814]
+      face_ids: [2987, 2988, 2989]
+      sector_ids: [7]
+      delta_us: [-8260, 8516, 0]
+      delta_vs: [-128, -128, 0]
+      x_offsets: [8388, 8388, 8388, 8388]
+      y_offsets: [4152, 4152, 4168, 4168]
+      z_offsets: [-384, -128, -128, -384]
+    - door_index: 2
+      legacy_attributes: 0
+      door_id: 3
+      time_since_triggered_ms: 0
+      direction: [-65536, 0, 0]
+      move_length: 124
+      open_speed: 96
+      close_speed: 96
+      state: 2
+      vertex_ids: [3816, 3819, 3820, 3823]
+      face_ids: [2990, 2991, 2992]
+      sector_ids: [7]
+      delta_us: [-8508, 8764, 0]
+      delta_vs: [-128, -128, 0]
+      x_offsets: [8636, 8636, 8636, 8636]
+      y_offsets: [4152, 4152, 4168, 4168]
+      z_offsets: [-384, -128, -128, -384]
+    - door_index: 3
+      legacy_attributes: 0
+      door_id: 4
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3824, 3825, 3826, 3827, 3828, 3829, 3830, 3831]
+      face_ids: [2993, 2994, 2995, 2996, 2997]
+      sector_ids: [32]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [11776, 11968, 11968, 11776, 11776, 11968, 11968, 11776]
+      y_offsets: [5656, 5656, 5656, 5656, 5672, 5672, 5672, 5672]
+      z_offsets: [-192, -192, 64, 64, 64, 64, -192, -192]
+      mover:
+        rotation:
+          pivot: [11968, 5664, -192]
+          axis: [0, 0, 1]
+          open_degrees: 90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 4
+      legacy_attributes: 0
+      door_id: 5
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 320
+      open_speed: 192
+      close_speed: 192
+      state: 0
+      vertex_ids: [3832, 3833, 3834, 3835, 3836, 3837, 3838, 3839]
+      face_ids: [2998, 2999]
+      sector_ids: [33]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [9296, 9115, 9115, 9296, 9308, 9127, 9127, 9308]
+      y_offsets: [4582, 4401, 4401, 4582, 4571, 4390, 4390, 4571]
+      z_offsets: [-704, -704, -384, -384, -384, -384, -704, -704]
+    - door_index: 5
+      legacy_attributes: 0
+      door_id: 6
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 320
+      open_speed: 192
+      close_speed: 192
+      state: 2
+      vertex_ids: [3840, 3841, 3842, 3843, 3844, 3845, 3846, 3847]
+      face_ids: [3000, 3001]
+      sector_ids: [16]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [10942, 10761, 10761, 10942, 10953, 10772, 10772, 10953]
+      y_offsets: [2938, 2757, 2757, 2938, 2926, 2745, 2745, 2926]
+      z_offsets: [-704, -704, -384, -384, -384, -384, -704, -704]
+    - door_index: 6
+      legacy_attributes: 0
+      door_id: 7
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 320
+      open_speed: 192
+      close_speed: 192
+      state: 0
+      vertex_ids: [3848, 3849, 3850, 3851, 3852, 3853, 3854, 3855]
+      face_ids: [3002, 3003]
+      sector_ids: [32]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [11656, 11656, 11656, 11656, 11640, 11640, 11640, 11640]
+      y_offsets: [5056, 5312, 5312, 5056, 5056, 5312, 5312, 5056]
+      z_offsets: [-480, -480, -160, -160, -160, -160, -480, -480]
+    - door_index: 7
+      legacy_attributes: 0
+      door_id: 8
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 320
+      open_speed: 192
+      close_speed: 192
+      state: 2
+      vertex_ids: [3856, 3857, 3858, 3859, 3860, 3861, 3862, 3863]
+      face_ids: [3004, 3005]
+      sector_ids: [33]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [9560, 9560, 9560, 9560, 9576, 9576, 9576, 9576]
+      y_offsets: [5312, 5056, 5056, 5312, 5312, 5056, 5056, 5312]
+      z_offsets: [-704, -704, -384, -384, -384, -384, -704, -704]
+    - door_index: 8
+      legacy_attributes: 0
+      door_id: 9
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [3864, 3865, 3866, 3867, 3868, 3869, 3870, 3871]
+      face_ids: [3006, 3007]
+      sector_ids: [29]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [7095, 6959, 6959, 7095, 7084, 6948, 6948, 7084]
+      y_offsets: [3631, 3767, 3767, 3631, 3620, 3755, 3755, 3620]
+      z_offsets: [-64, -64, 256, 256, 256, 256, -64, -64]
+    - door_index: 9
+      legacy_attributes: 0
+      door_id: 10
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3872, 3873, 3874, 3875, 3876, 3877, 3878, 3879]
+      face_ids: [3008, 3009, 3010, 3011, 3012]
+      sector_ids: [32]
+      delta_us: [0, 0, 0, 0, -12192]
+      delta_vs: [0, 0, 0, 0, 4680]
+      x_offsets: [12384, 12192, 12192, 12384, 12384, 12192, 12192, 12384]
+      y_offsets: [4680, 4680, 4680, 4680, 4664, 4664, 4664, 4664]
+      z_offsets: [-192, -192, 64, 64, 64, 64, -192, -192]
+      mover:
+        rotation:
+          pivot: [12384, 4672, -192]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 10
+      legacy_attributes: 0
+      door_id: 11
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 258
+      open_speed: 160
+      close_speed: 160
+      state: 2
+      vertex_ids: [3880, 3881, 3882, 3883, 3884, 3885, 3886, 3887]
+      face_ids: [3013, 3014, 3015]
+      sector_ids: [42]
+      delta_us: [4783, -4593, 0]
+      delta_vs: [-1154, -1154, 0]
+      x_offsets: [6805, 6642, 6642, 6805, 6798, 6636, 6636, 6798]
+      y_offsets: [3888, 3956, 3956, 3888, 3873, 3941, 3941, 3873]
+      z_offsets: [-1410, -1410, -1154, -1154, -1154, -1154, -1410, -1410]
+    - door_index: 11
+      legacy_attributes: 0
+      door_id: 12
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 258
+      open_speed: 64
+      close_speed: 64
+      state: 2
+      vertex_ids: [3888, 3889, 3890, 3891, 3892, 3893, 3894, 3895]
+      face_ids: [3016, 3017, 3018]
+      sector_ids: [19]
+      delta_us: [-6086, 6278, 0]
+      delta_vs: [-162, -162, 0]
+      x_offsets: [13640, 13640, 13640, 13640, 13624, 13624, 13624, 13624]
+      y_offsets: [6086, 6278, 6278, 6086, 6086, 6278, 6278, 6086]
+      z_offsets: [-418, -418, -162, -162, -162, -162, -418, -418]
+    - door_index: 12
+      legacy_attributes: 0
+      door_id: 13
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3896, 3897, 3898, 3899, 3900, 3901, 3902, 3903]
+      face_ids: [3019, 3020, 3021, 3022, 3023]
+      sector_ids: [31]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [6568, 6568, 6568, 6568, 6552, 6552, 6552, 6552]
+      y_offsets: [7104, 7296, 7296, 7104, 7104, 7296, 7296, 7104]
+      z_offsets: [-288, -288, -32, -32, -32, -32, -288, -288]
+      mover:
+        rotation:
+          pivot: [6560, 7104, -288]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 13
+      legacy_attributes: 0
+      door_id: 14
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3904, 3905, 3906, 3907, 3908, 3909, 3910, 3911]
+      face_ids: [3024, 3025, 3026, 3027, 3028]
+      sector_ids: [35]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [5096, 5096, 5096, 5096, 5080, 5080, 5080, 5080]
+      y_offsets: [5056, 5312, 5312, 5056, 5056, 5312, 5312, 5056]
+      z_offsets: [-64, -64, 256, 256, 256, 256, -64, -64]
+      mover:
+        rotation:
+          pivot: [5088, 5056, -64]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 14
+      legacy_attributes: 0
+      door_id: 15
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [3912, 3913, 3914, 3915, 3916, 3917, 3918, 3919]
+      face_ids: [3029, 3030, 3031, 3032, 3033]
+      sector_ids: [36]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [3496, 3496, 3496, 3496, 3480, 3480, 3480, 3480]
+      y_offsets: [5056, 5312, 5312, 5056, 5056, 5312, 5312, 5056]
+      z_offsets: [256, 256, 576, 576, 576, 576, 256, 256]
+      mover:
+        rotation:
+          pivot: [3488, 5056, 256]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 15
+      legacy_attributes: 0
+      door_id: 16
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 64
+      close_speed: 64
+      state: 2
+      vertex_ids: [3920, 3921, 3922, 3923, 3924, 3925, 3926, 3927]
+      face_ids: [3034, 3035]
+      sector_ids: [26]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [3016, 3016, 3016, 3016, 3000, 3000, 3000, 3000]
+      y_offsets: [864, 1120, 1120, 864, 864, 1120, 1120, 864]
+      z_offsets: [-544, -544, -224, -224, -224, -224, -544, -544]
+    - door_index: 16
+      legacy_attributes: 0
+      door_id: 17
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 52
+      open_speed: 48
+      close_speed: 48
+      state: 2
+      vertex_ids: [3928, 3929, 3930, 3931, 3932, 3933, 3934, 3935]
+      face_ids: [3036, 3037, 3038, 3039, 3040, 3041]
+      sector_ids: [14]
+      delta_us: [-5250, 2942, 5656, -2943, -4096, -4096]
+      delta_vs: [-1224, -1224, -1224, -1224, 4864, 4864]
+      x_offsets: [4243, 4154, 4154, 4243, 4235, 4235, 4146, 4146]
+      y_offsets: [4843, 4447, 4447, 4843, 4845, 4845, 4449, 4449]
+      z_offsets: [-1224, -1224, -1232, -1232, -1224, -1232, -1224, -1232]
+    - door_index: 17
+      legacy_attributes: 0
+      door_id: 18
+      time_since_triggered_ms: 0
+      direction: [-46341, 46341, 0]
+      move_length: 1960
+      open_speed: 160
+      close_speed: 160
+      state: 2
+      vertex_ids: [3936, 3937, 3938, 3939, 3940, 3941, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 3951, 3952, 3953, 3954, 3955, 3956, 3957, 3958, 3959, 3960, 3961, 3962, 3963, 3964, 3965, 3966, 3967, 3968, 3969, 3970, 3971, 3972, 3973, 3974, 3975, 3976, 3977, 3978, 3979, 3980, 3981, 3982, 3983, 3984, 3985, 3986, 3987]
+      face_ids: [3042, 3043, 3044, 3045, 3046, 3047, 3048, 3049, 3050, 3051, 3052, 3053, 3054, 3055, 3056, 3057, 3058, 3059, 3060, 3061, 3062, 3063, 3064, 3065, 3066, 3067, 3068, 3069, 3070, 3071, 3072, 3073, 3074, 3075, 3076, 3077, 3078, 3079, 3080, 3081]
+      sector_ids: [16]
+      delta_us: [-5341, -9582, 5629, 9790, -10346, -10346, -5341, -9582, 5629, 9598, -10346, -5365, -9598, 5556, 9838, -10538, -10538, -5557, -9345, 5604, 9363, -10666, -10666, -5341, -9774, 5629, 9790, -10602, -5219, -9757, 5413, 9532, -10666, -10666, -5556, -9992, 5605, 10006, -10794, -10794]
+      delta_vs: [-384, -384, -384, -384, 3222, 3158, -344, -344, -344, -344, 3030, -392, -392, -392, -392, 3030, 3030, -392, -392, -392, -392, 2902, 2902, -344, -344, -344, -344, 3158, -392, -392, -392, -392, 3158, 3158, -392, -392, -392, -392, 3030, 3030]
+      x_offsets: [10756, 10552, 10552, 10756, 10903, 10903, 10699, 10699, 10756, 10552, 10767, 10767, 10563, 10563, 10614, 10580, 10580, 10614, 10626, 10626, 10592, 10592, 10750, 10716, 10716, 10750, 10761, 10761, 10727, 10727, 10892, 10688, 10688, 10892, 10903, 10699, 10727, 10694, 10694, 10727, 10739, 10739, 10705, 10705, 10863, 10829, 10829, 10863, 10875, 10875, 10841, 10841]
+      y_offsets: [2795, 2999, 2999, 2795, 2942, 2942, 3146, 3146, 2795, 2999, 2806, 2806, 3010, 3010, 2959, 2993, 2993, 2959, 2971, 2971, 3004, 3004, 2823, 2857, 2857, 2823, 2835, 2835, 2869, 2869, 2931, 3135, 3135, 2931, 2942, 3146, 3072, 3106, 3106, 3072, 3084, 3084, 3118, 3118, 2937, 2971, 2971, 2937, 2948, 2948, 2982, 2982]
+      z_offsets: [-384, -384, -408, -408, -384, -408, -384, -408, -344, -344, -344, -384, -344, -384, -392, -392, -422, -422, -392, -422, -392, -422, -392, -392, -422, -422, -392, -422, -392, -422, -344, -344, -384, -384, -344, -344, -392, -392, -422, -422, -392, -422, -392, -422, -392, -392, -422, -422, -392, -422, -392, -422]
+      mover:
+        carry: true
+    - door_index: 18
+      legacy_attributes: 0
+      door_id: 19
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 450
+      open_speed: 48
+      close_speed: 48
+      state: 2
+      vertex_ids: [3988, 3989, 3990, 3991, 3992, 3993, 3994, 3995, 3996, 3997, 3998, 3999, 4000, 4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008, 4009, 4010, 4011, 4012, 4013, 4014, 4015, 4016, 4017, 4018, 4019, 4020, 4021, 4022, 4023, 4024, 4025, 4026, 4027, 4028, 4029, 4030, 4031, 4032, 4033, 4034, 4035]
+      face_ids: [3082, 3083, 3084, 3085, 3086, 3087, 3088, 3089, 3090, 3091, 3092, 3093, 3094, 3095, 3096, 3097, 3098, 3099, 3100, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115]
+      sector_ids: [12]
+      delta_us: [-4960, 5408, -2304, -2304, -2776, -4980, 2840, 5100, -2560, -2560, -2776, -5252, 2824, 5348, -2560, -2560, -2814, -5134, 2846, 5166, -2784, -2784, -2814, -5204, 2846, 5236, -2784, -2784, -2818, -5130, 2842, 5270, -2816, -2816]
+      delta_vs: [252, 252, 5632, 5632, -74, -74, -74, -74, 5120, 5120, -14, -14, -14, -14, 5376, 5376, 166, 166, 166, 166, 5376, 5376, 166, 166, 166, 166, 5376, 5376, 168, 168, 168, 168, 5280, 5280]
+      x_offsets: [2776, 2776, 2776, 2776, 2440, 2440, 2440, 2440, 2840, 2776, 2776, 2840, 2840, 2840, 2776, 2776, 2824, 2776, 2776, 2824, 2824, 2824, 2776, 2776, 2846, 2814, 2814, 2846, 2846, 2846, 2814, 2814, 2846, 2814, 2814, 2846, 2846, 2846, 2814, 2814, 2842, 2818, 2818, 2842, 2842, 2842, 2818, 2818]
+      y_offsets: [5408, 4960, 4960, 5408, 4960, 5408, 5408, 4960, 4980, 4980, 4980, 4980, 5100, 5100, 5100, 5100, 5252, 5252, 5252, 5252, 5348, 5348, 5348, 5348, 5134, 5134, 5134, 5134, 5166, 5166, 5166, 5166, 5204, 5204, 5204, 5204, 5236, 5236, 5236, 5236, 5130, 5130, 5130, 5130, 5270, 5270, 5270, 5270]
+      z_offsets: [252, 252, -194, -194, 252, 252, -194, -194, -74, -74, -194, -194, -74, -194, -74, -194, -14, -14, -194, -194, -14, -194, -14, -194, 166, 166, -194, -194, 166, -194, 166, -194, 166, 166, -194, -194, 166, -194, 166, -194, 168, 168, 136, 136, 168, 136, 168, 136]
+    - door_index: 19
+      legacy_attributes: 0
+      door_id: 20
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 768
+      open_speed: 96
+      close_speed: 96
+      state: 2
+      vertex_ids: [4036, 4037, 4038, 4039, 4040, 4041, 4042, 4043, 4044, 4045, 4046, 4047, 4048, 4049, 4050, 4051, 4052, 4053, 4054, 4055, 4056, 4057, 4058, 4059, 4060, 4061, 4062, 4063, 4064, 4065, 4066, 4067, 4068, 4069, 4070, 4071, 4072, 4073, 4074, 4075, 4076, 4077, 4078, 4079, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4088, 4089, 4090, 4091, 4092, 4093, 4094, 4095, 4096, 4097, 4098, 4099, 4100, 4101, 4102, 4103, 4104, 4105, 4106, 4107, 4108, 4109, 4110, 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 4131, 4132, 4133, 4134, 4135, 4136, 4137, 4138, 4139]
+      face_ids: [3116, 3117, 3118, 3119, 3120, 3121, 3122, 3123, 3124, 3125, 3126, 3127, 3128, 3129, 3130, 3131, 3132, 3133, 3134, 3135, 3136, 3137, 3138, 3139, 3140, 3141, 3142, 3143, 3144, 3145, 3146, 3147, 3148, 3149, 3150, 3151, 3152, 3153, 3154, 3155, 3156, 3157, 3158, 3159, 3160, 3161, 3162, 3163, 3164, 3165, 3166, 3167, 3168, 3169, 3170, 3171, 3172, 3173, 3174, 3175, 3176, 3177, 3178, 3179, 3180, 3181, 3182, 3183, 3184, 3185, 3186, 3187, 3188, 3189]
+      sector_ids: [27]
+      delta_us: [2457, 7537, -2249, -7329, -6656, -6720, -7309, 2458, 7703, -2439, -7040, -7223, 2163, 7431, -2709, -6848, -7324, 2266, 7688, -2247, -6848, -7238, 2558, 7430, -1975, -6720, 2457, 7534, -2249, -7523, -6848, -6848, 2457, 7343, -2249, -7330, -6720, -6720, 2893, 7524, -2870, -7341, -6912, -6912, 2893, 7524, -2870, -7341, -6912, -6912, 2893, 7524, -2870, -7341, -6912, -6912, 1818, 7525, -1816, -7340, -6720, -6720, 1818, 7525, -1816, -7340, -6720, -6720, 1818, 7525, -1816, -7340, -6720, -6720]
+      delta_vs: [-382, -382, -382, -382, 3840, 3776, -138, -138, -138, -138, 3648, -138, -138, -138, -138, 3520, -138, -138, -138, -138, 3776, -138, -138, -138, -138, 3648, -142, -142, -142, -142, 3776, 3776, -142, -142, -142, -142, 3648, 3648, -326, -326, -326, -326, 3648, 3648, -246, -246, -246, -246, 3648, 3648, -158, -158, -158, -158, 3648, 3648, -326, -326, -326, -326, 3776, 3776, -246, -246, -246, -246, 3776, 3776, -158, -158, -158, -158, 3776, 3776]
+      x_offsets: [6920, 7067, 7067, 6920, 6773, 6773, 6920, 6920, 7068, 7056, 7056, 7068, 7056, 7056, 7042, 7042, 6932, 6920, 6920, 6932, 6920, 6920, 6906, 6906, 6932, 6920, 6920, 6932, 6920, 6920, 6906, 6906, 6797, 6784, 6784, 6797, 6784, 6784, 6771, 6771, 6918, 7065, 7065, 6918, 6910, 6910, 7057, 7057, 6783, 6930, 6930, 6783, 6774, 6774, 6921, 6921, 7048, 7057, 7057, 7048, 6918, 6918, 6927, 6927, 7048, 7057, 7057, 7048, 6918, 6918, 6927, 6927, 7048, 7057, 7057, 7048, 6918, 6918, 6927, 6927, 6913, 6921, 6921, 6913, 6783, 6783, 6791, 6791, 6913, 6921, 6921, 6913, 6783, 6783, 6791, 6791, 6913, 6921, 6921, 6913, 6783, 6783, 6791, 6791]
+      y_offsets: [3739, 3592, 3592, 3739, 3592, 3592, 3445, 3445, 3592, 3578, 3578, 3592, 3604, 3604, 3592, 3592, 3456, 3443, 3443, 3456, 3469, 3469, 3456, 3456, 3728, 3714, 3714, 3728, 3740, 3740, 3728, 3728, 3592, 3578, 3578, 3592, 3604, 3604, 3592, 3592, 3737, 3590, 3590, 3737, 3729, 3729, 3582, 3582, 3602, 3455, 3455, 3602, 3593, 3593, 3446, 3446, 3593, 3585, 3585, 3593, 3463, 3463, 3455, 3455, 3593, 3585, 3585, 3593, 3463, 3463, 3455, 3455, 3593, 3585, 3585, 3593, 3463, 3463, 3455, 3455, 3729, 3720, 3720, 3729, 3599, 3599, 3590, 3590, 3729, 3720, 3720, 3729, 3599, 3599, 3590, 3590, 3729, 3720, 3720, 3729, 3599, 3599, 3590, 3590]
+      z_offsets: [-382, -382, -398, -398, -382, -398, -382, -398, -138, -138, -382, -382, -138, -382, -138, -382, -138, -138, -382, -382, -138, -382, -138, -382, -138, -138, -382, -382, -138, -382, -138, -382, -138, -138, -382, -382, -138, -382, -138, -382, -142, -142, -156, -156, -142, -156, -142, -156, -142, -142, -156, -156, -142, -156, -142, -156, -326, -326, -338, -338, -326, -338, -326, -338, -246, -246, -258, -258, -246, -258, -246, -258, -158, -158, -170, -170, -158, -170, -158, -170, -326, -326, -338, -338, -326, -338, -326, -338, -246, -246, -258, -258, -246, -258, -246, -258, -158, -158, -170, -170, -158, -170, -158, -170]
+    - door_index: 20
+      legacy_attributes: 0
+      door_id: 21
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 386
+      open_speed: 640
+      close_speed: 640
+      state: 2
+      vertex_ids: [4140, 4141, 4142, 4143, 4144, 4145, 4146, 4147]
+      face_ids: [3190, 3191, 3192, 3193, 3194, 3195]
+      sector_ids: [18]
+      delta_us: [-10808, -5996, 11192, 6132, -10752, -10752]
+      delta_vs: [-96, -96, -96, -96, 6144, 6144]
+      x_offsets: [11192, 10808, 10808, 11192, 11192, 11192, 10808, 10808]
+      y_offsets: [5996, 5996, 5996, 5996, 6132, 6132, 6132, 6132]
+      z_offsets: [-96, -96, -192, -192, -96, -192, -96, -192]
+    - door_index: 21
+      legacy_attributes: 0
+      door_id: 22
+      time_since_triggered_ms: 0
+      direction: [64890, 0, 9176]
+      move_length: 1600
+      open_speed: 160
+      close_speed: 160
+      state: 2
+      vertex_ids: [4148, 4149, 4150, 4151, 4152, 4153, 4154, 4155, 4156, 4157, 4158, 4159, 4160, 4161, 4162, 4163, 4164, 4165, 4166, 4167, 4168, 4169, 4170, 4171, 4172, 4173, 4174, 4175, 4176, 4177, 4178, 4179, 4180, 4181, 4182, 4183, 4184, 4185, 4186, 4187, 4188, 4189, 4190, 4191, 4192, 4193, 4194, 4195, 4196, 4197, 4198, 4199]
+      face_ids: [3196, 3197, 3198, 3199, 3200, 3201, 3202, 3203, 3204, 3205, 3206, 3207, 3208, 3209, 3210, 3211, 3212, 3213, 3214, 3215, 3216, 3217, 3218, 3219, 3220, 3221, 3222, 3223, 3224, 3225, 3226, 3227, 3228, 3229, 3230, 3231, 3232, 3233, 3234, 3235]
+      sector_ids: [8]
+      delta_us: [-9672, -5072, 9992, 5296, -9424, -9424, -9672, -5072, 9992, 5088, -9424, -9672, -5280, 9992, 5296, -9424, -9708, -5088, 9756, 5104, -9680, -9680, -9908, -5088, 9956, 5104, -9872, -9872, -9708, -5264, 9756, 5280, -9680, -9680, -9908, -5264, 9956, 5280, -9872, -9872]
+      delta_vs: [-384, -384, -384, -384, 5376, 5312, -344, -344, -344, -344, 5088, -344, -344, -344, -344, 5312, -392, -392, -392, -392, 5120, 5120, -392, -392, -392, -392, 5120, 5120, -392, -392, -392, -392, 5312, 5312, -392, -392, -392, -392, 5312, 5312]
+      x_offsets: [9992, 9672, 9672, 9992, 9992, 9992, 9672, 9672, 9992, 9672, 9992, 9992, 9672, 9672, 9992, 9672, 9672, 9992, 9992, 9672, 9756, 9708, 9708, 9756, 9756, 9756, 9708, 9708, 9956, 9908, 9908, 9956, 9956, 9956, 9908, 9908, 9756, 9708, 9708, 9756, 9756, 9756, 9708, 9708, 9956, 9908, 9908, 9956, 9956, 9956, 9908, 9908]
+      y_offsets: [5072, 5072, 5072, 5072, 5296, 5296, 5296, 5296, 5072, 5072, 5088, 5088, 5088, 5088, 5280, 5280, 5280, 5280, 5296, 5296, 5088, 5088, 5088, 5088, 5104, 5104, 5104, 5104, 5088, 5088, 5088, 5088, 5104, 5104, 5104, 5104, 5264, 5264, 5264, 5264, 5280, 5280, 5280, 5280, 5264, 5264, 5264, 5264, 5280, 5280, 5280, 5280]
+      z_offsets: [-384, -384, -408, -408, -384, -408, -384, -408, -344, -344, -344, -384, -344, -384, -344, -344, -384, -384, -344, -344, -392, -392, -422, -422, -392, -422, -392, -422, -392, -392, -422, -422, -392, -422, -392, -422, -392, -392, -422, -422, -392, -422, -392, -422, -392, -392, -422, -422, -392, -422, -392, -422]
+    - door_index: 22
+      legacy_attributes: 0
+      door_id: 23
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4200, 4201, 4202, 4203, 4204, 4205, 4206, 4207]
+      face_ids: [3236, 3237, 3238, 3239, 3240, 3241]
+      sector_ids: [38]
+      delta_us: [-2801, 11224, 2813, -11184, -11008, -11008]
+      delta_vs: [-322, -322, -322, -322, 2816, 2816]
+      x_offsets: [11224, 11224, 11224, 11224, 11184, 11184, 11184, 11184]
+      y_offsets: [2813, 2801, 2801, 2813, 2813, 2813, 2801, 2801]
+      z_offsets: [-322, -322, -326, -326, -322, -326, -322, -326]
+    - door_index: 23
+      legacy_attributes: 0
+      door_id: 30
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4208, 4209, 4210, 4211, 4212, 4213, 4214, 4215]
+      face_ids: [3242, 3243, 3244, 3245, 3246, 3247]
+      sector_ids: [16]
+      delta_us: [5578, 9934, -5566, -9698, -10752, -10752]
+      delta_vs: [-286, -286, -286, -286, 3040, 3040]
+      x_offsets: [10893, 10901, 10901, 10893, 10864, 10864, 10873, 10873]
+      y_offsets: [3020, 3012, 3012, 3020, 2992, 2992, 2983, 2983]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+    - door_index: 24
+      legacy_attributes: 0
+      door_id: 31
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4216, 4217, 4218, 4219, 4220, 4221, 4222, 4223]
+      face_ids: [3248, 3249, 3250, 3251, 3252, 3253]
+      sector_ids: [16]
+      delta_us: [3991, 9837, -3407, -9856, -9216, -9216]
+      delta_vs: [-286, -286, -286, -286, 4576, 4576]
+      x_offsets: [9365, 9374, 9374, 9365, 9337, 9337, 9345, 9345]
+      y_offsets: [4547, 4539, 4539, 4547, 4519, 4519, 4511, 4511]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+    - door_index: 25
+      legacy_attributes: 0
+      door_id: 24
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4224, 4225, 4226, 4227, 4228, 4229, 4230, 4231]
+      face_ids: [3254, 3255, 3256, 3257, 3258, 3259]
+      sector_ids: [33]
+      delta_us: [-10023, 3474, 9857, -3261, -9216, -9216]
+      delta_vs: [-286, -286, -286, -286, 4672, 4672]
+      x_offsets: [9305, 9296, 9296, 9305, 9276, 9276, 9268, 9268]
+      y_offsets: [4636, 4628, 4628, 4636, 4664, 4664, 4656, 4656]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+    - door_index: 26
+      legacy_attributes: 0
+      door_id: 25
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4232, 4233, 4234, 4235, 4236, 4237, 4238, 4239]
+      face_ids: [3260, 3261, 3262, 3263, 3264, 3265]
+      sector_ids: [27]
+      delta_us: [2977, 7537, -2527, -7540, -6912, -6912]
+      delta_vs: [-1054, -1054, -1054, -1054, 3552, 3552]
+      x_offsets: [7116, 7125, 7125, 7116, 7088, 7088, 7096, 7096]
+      y_offsets: [3542, 3534, 3534, 3542, 3514, 3514, 3506, 3506]
+      z_offsets: [-1054, -1054, -1058, -1058, -1054, -1058, -1054, -1058]
+    - door_index: 27
+      legacy_attributes: 0
+      door_id: 32
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4240, 4241, 4242, 4243, 4244, 4245, 4246, 4247]
+      face_ids: [3266, 3267, 3268, 3269, 3270, 3271]
+      sector_ids: [27]
+      delta_us: [2963, 7537, -2949, -7497, -6912, -6912]
+      delta_vs: [-228, -228, -228, -228, 3552, 3552]
+      x_offsets: [7106, 7115, 7115, 7106, 7078, 7078, 7087, 7087]
+      y_offsets: [3552, 3544, 3544, 3552, 3524, 3524, 3516, 3516]
+      z_offsets: [-228, -228, -232, -232, -228, -232, -228, -232]
+    - door_index: 28
+      legacy_attributes: 0
+      door_id: 26
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4248, 4249, 4250, 4251, 4252, 4253, 4254, 4255]
+      face_ids: [3272, 3273, 3274, 3275, 3276, 3277]
+      sector_ids: [29]
+      delta_us: [7784, -2136, -7775, 2177, -6912, -6912]
+      delta_vs: [-286, -286, -286, -286, 3936, 3936]
+      x_offsets: [6927, 6936, 6936, 6927, 6955, 6955, 6964, 6964]
+      y_offsets: [3906, 3914, 3914, 3906, 3878, 3878, 3886, 3886]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+    - door_index: 29
+      legacy_attributes: 0
+      door_id: 27
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4256, 4257, 4258, 4259, 4260, 4261, 4262, 4263]
+      face_ids: [3278, 3279, 3280, 3281, 3282, 3283]
+      sector_ids: [33]
+      delta_us: [4866, -8912, -4854, 8960, -8896, -8896]
+      delta_vs: [-302, -302, -302, -302, 4928, 4928]
+      x_offsets: [8912, 8912, 8912, 8912, 8960, 8960, 8960, 8960]
+      y_offsets: [4854, 4866, 4866, 4854, 4854, 4854, 4866, 4866]
+      z_offsets: [-302, -302, -306, -306, -302, -306, -302, -306]
+    - door_index: 30
+      legacy_attributes: 0
+      door_id: 33
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4264, 4265, 4266, 4267, 4268, 4269, 4270, 4271]
+      face_ids: [3284, 3285, 3286, 3287, 3288, 3289]
+      sector_ids: [8]
+      delta_us: [-5014, 11576, 5026, -11536, -11520, -11520]
+      delta_vs: [-62, -62, -62, -62, 5056, 5056]
+      x_offsets: [11576, 11576, 11576, 11576, 11536, 11536, 11536, 11536]
+      y_offsets: [5026, 5014, 5014, 5026, 5026, 5026, 5014, 5014]
+      z_offsets: [-62, -62, -66, -66, -62, -66, -62, -66]
+    - door_index: 31
+      legacy_attributes: 0
+      door_id: 34
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4272, 4273, 4274, 4275, 4276, 4277, 4278, 4279]
+      face_ids: [3290, 3291, 3292, 3293, 3294, 3295]
+      sector_ids: [8]
+      delta_us: [5026, -9672, -5014, 9712, -9472, -9472]
+      delta_vs: [-286, -286, -286, -286, 5056, 5056]
+      x_offsets: [9672, 9672, 9672, 9672, 9712, 9712, 9712, 9712]
+      y_offsets: [5014, 5026, 5026, 5014, 5014, 5014, 5026, 5026]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+    - door_index: 32
+      legacy_attributes: 0
+      door_id: 28
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4280, 4281, 4282, 4283, 4284, 4285, 4286, 4287]
+      face_ids: [3296, 3297, 3298, 3299, 3300, 3301]
+      sector_ids: [32]
+      delta_us: [5441, -11720, -5429, 11760, -11520, -11520]
+      delta_vs: [-62, -62, -62, -62, 5472, 5472]
+      x_offsets: [11720, 11720, 11720, 11720, 11760, 11760, 11760, 11760]
+      y_offsets: [5429, 5441, 5441, 5429, 5429, 5429, 5441, 5441]
+      z_offsets: [-62, -62, -66, -66, -62, -66, -62, -66]
+    - door_index: 33
+      legacy_attributes: 0
+      door_id: 29
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [4288, 4289, 4290, 4291, 4292, 4293, 4294, 4295]
+      face_ids: [3302, 3303, 3304, 3305, 3306, 3307]
+      sector_ids: [33]
+      delta_us: [-5339, 9464, 5351, -9424, -9216, -9216]
+      delta_vs: [-286, -286, -286, -286, 5376, 5376]
+      x_offsets: [9464, 9464, 9464, 9464, 9424, 9424, 9424, 9424]
+      y_offsets: [5351, 5339, 5339, 5351, 5351, 5351, 5339, 5339]
+      z_offsets: [-286, -286, -290, -290, -286, -290, -286, -290]
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [14376, 3392, 0]
+    direction_degrees: 180
+loot_containers:
+  - source_id: xeen:xeen_xd02:cocoon
+    source_object_index: 0
+    source_name: cocoon
+    position:
+      x: 3330
+      y: 1270
+      z: -864
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd02:footlocker_1
+    source_object_index: 1
+    source_name: footlocker_1
+    position:
+      x: 6992
+      y: 8100
+      z: -352
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd02:footlocker_3
+    source_object_index: 2
+    source_name: footlocker_3
+    position:
+      x: 7568
+      y: 8100
+      z: -352
+    container_id: 2
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 40
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 1
+  - source_id: xeen:xeen_xd02:lamp_room
+    source_object_index: 3
+    source_name: lamp_room
+    position:
+      x: 12320
+      y: 4224
+      z: -192
+    container_id: 3
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd02:payroll
+    source_object_index: 4
+    source_name: payroll
+    position:
+      x: 14100
+      y: 6208
+      z: -160
+    container_id: 4
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 400
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items:
+      - slot: 1
+        raw_mm9_item_id: 0
+        item_id: 181
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_xd02:strongbox
+    source_object_index: 5
+    source_name: strongbox
+    position:
+      x: 5180
+      y: 7200
+      z: -288
+    container_id: 5
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 150
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items:
+      - slot: 1
+        raw_mm9_item_id: 0
+        item_id: 12011
+    remove_when_empty: false
+    random_records: 2
+pulsing_lights:
+  - key: 40001
+    position: [2440, 990, -828]
+    color: [60, 120, 255]
+    intensity: [0.55, 1, 0.25, 0]
+    radius: [640, 780, 0.25, 0]
+    start_on: true
+  - key: 40002
+    position: [10656, 5184, -187.46666666666664]
+    color: [255, 160, 80]
+    intensity: [0.7, 1, 0.6, 0]
+    radius: [520, 520, 0.6, 0]
+    start_on: true
+  - key: 40023
+    position: [6700, 2700, -932]
+    color: [255, 160, 80]
+    intensity: [0.8, 1, 1.1, 0.5]
+    radius: [800, 800, 1.1, 0.5]
+    start_on: true
+  - key: 40017
+    position: [5500, 3300, -952]
+    color: [255, 160, 80]
+    intensity: [0.8, 1, 1.3, 0]
+    radius: [800, 800, 1.3, 0]
+    start_on: true
+  - key: 40024
+    position: [4300, 650, -804]
+    color: [150, 230, 140]
+    intensity: [0.4, 0.9, 0.3, 0]
+    radius: [720, 720, 0.3, 0]
+    start_on: true
+  - key: 40025
+    position: [5200, 1100, -804]
+    color: [150, 230, 140]
+    intensity: [0.4, 0.9, 0.3, 0.33]
+    radius: [720, 720, 0.3, 0.33]
+    start_on: true
+  - key: 40026
+    position: [3700, 1350, -804]
+    color: [150, 230, 140]
+    intensity: [0.4, 0.9, 0.3, 0.66]
+    radius: [720, 720, 0.3, 0.66]
+    start_on: true
+  - key: 40028
+    position: [4600, 1250, -804]
+    color: [150, 230, 140]
+    intensity: [0.4, 0.9, 0.3, 0.99]
+    radius: [720, 720, 0.3, 0.99]
+    start_on: true
+  - key: 40029
+    position: [3500, 600, -804]
+    color: [150, 230, 140]
+    intensity: [0.4, 0.9, 0.3, 1.32]
+    radius: [720, 720, 0.3, 1.32]
+    start_on: true
+  - key: 40003
+    position: [12620, 1104, -520]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0.8500000000000001]
+    radius: [120, 200, 0.9, 0.8500000000000001]
+    start_on: true
+  - key: 40004
+    position: [6505, 3905, -1032]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0.68]
+    radius: [120, 200, 0.9, 0.68]
+    start_on: true
+  - key: 40005
+    position: [7602, 3457, -264]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0.17]
+    radius: [120, 200, 0.9, 0.17]
+    start_on: true
+  - key: 40006
+    position: [6957, 2131, -499.84822358282327]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0.34]
+    radius: [120, 200, 0.9, 0.34]
+    start_on: true
+  - key: 40007
+    position: [12444, 6283, -72]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0]
+    radius: [120, 200, 0.9, 0]
+    start_on: true
+  - key: 40008
+    position: [5459, 2131, -819.848223582823]
+    color: [255, 215, 90]
+    intensity: [0.2, 1, 0.9, 0.51]
+    radius: [120, 200, 0.9, 0.51]
+    start_on: true
+  - key: 40009
+    position: [13008, 1408, -572]
+    color: [255, 200, 60]
+    intensity: [0.55, 1, 0.4, 0]
+    radius: [520, 640, 0.4, 0]
+    start_on: true
+  - key: 40010
+    position: [8576, 2976, -412]
+    color: [70, 255, 110]
+    intensity: [0.55, 1, 0.35, 0]
+    radius: [520, 640, 0.35, 0]
+    start_on: true
+  - key: 40018
+    position: [7058, 3232, -214]
+    color: [255, 165, 85]
+    intensity: [0.85, 1, 1.5, 0]
+    radius: [950, 950, 1.5, 0]
+    start_on: true
+  - key: 40019
+    position: [5856, 2030, -694]
+    color: [255, 165, 85]
+    intensity: [0.85, 1, 1.5, 0.6000000000000001]
+    radius: [950, 950, 1.5, 0.6000000000000001]
+    start_on: true
+  - key: 40020
+    position: [6560, 2030, -534]
+    color: [255, 165, 85]
+    intensity: [0.85, 1, 1.5, 0.4]
+    radius: [950, 950, 1.5, 0.4]
+    start_on: true
+  - key: 40021
+    position: [7058, 2528, -374]
+    color: [255, 165, 85]
+    intensity: [0.85, 1, 1.5, 0.2]
+    radius: [950, 950, 1.5, 0.2]
+    start_on: true
+  - key: 40022
+    position: [5358, 2528, -854]
+    color: [255, 165, 85]
+    intensity: [0.85, 1, 1.5, 0.8]
+    radius: [950, 950, 1.5, 0.8]
+    start_on: true
+  - key: 40027
+    position: [10050, 3650, -224]
+    color: [255, 150, 80]
+    intensity: [0.6, 1, 0.8, 0]
+    radius: [520, 520, 0.8, 0]
+    start_on: true
+  - key: 40011
+    position: [6208, 4590, -1148]
+    color: [255, 50, 40]
+    intensity: [0.55, 1, 0.3, 0]
+    radius: [540, 660, 0.3, 0]
+    start_on: true
+  - key: 40012
+    position: [9110, 4510, -18]
+    color: [80, 255, 90]
+    intensity: [1, 1, 0.1, 0]
+    radius: [260, 260, 0.1, 0]
+    start_on: false
+  - key: 40016
+    position: [9400, 5184, -24]
+    color: [80, 255, 90]
+    intensity: [1, 1, 0.1, 0]
+    radius: [260, 260, 0.1, 0]
+    start_on: true
+  - key: 40013
+    position: [12864, 6016, 276]
+    color: [255, 170, 90]
+    intensity: [0.85, 1, 1.6, 0]
+    radius: [640, 640, 1.6, 0]
+    start_on: true
+  - key: 40014
+    position: [13056, 6400, 276]
+    color: [255, 170, 90]
+    intensity: [0.85, 1, 1.6, 0.4]
+    radius: [640, 640, 1.6, 0.4]
+    start_on: true
+  - key: 40031
+    position: [4200, 3640, -996]
+    color: [255, 160, 80]
+    intensity: [0.8, 1, 0.9, 0]
+    radius: [760, 760, 0.9, 0]
+    start_on: true
+  - key: 40030
+    position: [6500, 5100, 21.833333333333314]
+    color: [255, 160, 80]
+    intensity: [0.7, 1, 0.9, 0]
+    radius: [650, 650, 0.9, 0]
+    start_on: true
+ambient_sounds:
+  - key: 1
+    sound: xeen_amb_mine
+    position: [12864, 6304, -128]
+    inner_radius: 700
+    outer_radius: 2400
+    volume: 0.45
+    loop: true
+    start_on: true
+    pan: false
+  - key: 2
+    sound: xeen_amb_mine
+    position: [6208, 2880, -1021.5648351648351]
+    inner_radius: 900
+    outer_radius: 2800
+    volume: 0.5
+    loop: true
+    start_on: true
+    pan: false

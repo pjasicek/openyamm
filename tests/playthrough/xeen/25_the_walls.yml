@@ -1,0 +1,155 @@
+# Xeen playthrough, segment 25: Newcastle's walls (X2, X4, XD-07, X3), M9 and M11's start, Q-C12 done. Up X2's north
+# road and over its edge into Burlock Savannah; the castle walked to Emerson (Walls with five Megacredits: M9 walls;
+# Keep: M11 started); out by the castle door, over X4's south edge into Lifeforce Lagoon;
+# Ebenezer at the site (Workers: the Stone of a Thousand Terrors), a night's rest and food; Mirabeth on her rock
+# (Elixir: Q-C12 done, +5 Personality). Outdoors the party is placed. Routes: devdocs/xeen/briefs/x2/L4/playtest.yml
+# (the edges), x4/L4/playtest.yml (the south edge), xd07/L4/playtest.yml. Quest logic: source/quests/m9.yml, m11.yml, q-c12.yml.
+#   python3 tests/playthrough/xeen/run.py 25
+id: xeen.playthrough.25_the_walls
+title: "Xeen playthrough 25: Newcastle's walls; the Stone of a Thousand Terrors; Mirabeth restored"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/23_temple_of_yak.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - assert: {qbit_set: [111180, 111200, 110400, 110401, 110402]}
+  - assert: {qbit_clear: [111181, 111220, 112240]}
+  - play_lua: {source: "if item_count(12192) ~= 6 then error('Megacredits: ' .. item_count(12192)) end"}
+  # Up X2's north road to its edge: the travel prompt names Burlock Savannah.
+  - set_pose: {map: xeen_x2.odm, x: 0, y: 13312, z: 1024, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: 14080, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 15104, z: 1056, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 18432, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 21504, z: 1216, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 24064, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "close()"}
+  # Castle Burlock's lane and gate (X4 event 180 leads into XD-07's gatehouse); the portcullis lifts for Crusaders.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 5120, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # The gallery of arms: Emerson's office (house 4203).
+  - walk_to: {x: 0, y: 4000, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(6); wait(1)"}
+  - assert:
+      dialog: {source_id: 4403}
+  - select_topic: {match_label: "Walls"}
+  - assert:
+      dialog: {text_contains: "Thanks! We'll have the work done by the time you get back to the site."}
+  - select_topic: {match_label: "Keep"}
+  - assert:
+      dialog: {text_contains: "How about a keep to go with those walls? Just 5 Megacredits!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        if item_count(12192) ~= 1 then error("Megacredits after the walls: " .. item_count(12192)) end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 3000 then error("the walls paid " .. xp .. " experience, not 3000") end
+  - assert: {qbit_set: [111181, 111220]}
+  # Out by the castle door onto the castle rise.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -1024, y: 6912, radius: 160, z_min: 1700, z_max: 1900}}
+  # Over X4's south edge west of x 0 into Lifeforce Lagoon (edge_spans: X3's north start). The step plate and the detour
+  # by Rivercity that stood in for it are gone (D-11.6).
+  - set_pose: {map: xeen_x4.odm, x: -7168, y: -20480, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: -24064, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -7168, y: 22016, radius: 400}}
+  - play_lua: {source: "close()"}
+  # Ebenezer's Tent at the Newcastle site (X3 event 73, house 4101).
+  - set_pose: {map: xeen_x3.odm, x: 11776, y: 9216, z: 1100, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 73}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4101}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Workers"}
+  - assert:
+      dialog: {text_contains: "One of the workers swears the Tomb of a Thousand Terrors"}
+  - press_action: {action: cancel_dialog}
+  # Ebenezer's tent is a tavern: a night's rest (the road has left the party weak) and food for the road.
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Rent room for"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 60 do
+          if not string.find(conditions(0), "Asleep", 1, true) then break end
+          wait(1)
+        end
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          log("after the night: member " .. i .. " " .. conditions(i))
+        end
+  - execute_event: {id: 73}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Fill packs to"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+  - assert: {qbit_set: [111182]}
+  # The Camp Shrine beside the tent (X3 event 33, house 4102): Brother Tobit heals whoever the road left Weak,
+  # Petrified or worse (a night's rest does not cure them; the tomb needs every member able to act).
+  - set_pose: {map: xeen_x3.odm, x: 12928, y: 9868, z: 1024, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4102, min: 0}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local c = conditions(i)
+          if string.find(c, "Weak", 1, true) or string.find(c, "Petrified", 1, true) then error("member " .. i .. " still " .. c) end
+        end
+  # Mirabeth: the Elixir (Q-C12 done).
+  - set_pose: {map: xeen_x3.odm, x: 11059, y: -8404, z: 900, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "Thank you so much for getting me the elixir!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        close()
+        if has_item(12191) then error("Mirabeth did not take the Elixir") end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 2000 then error("Mirabeth paid " .. xp .. " experience, not 2000") end
+        log("25 done: experience " .. experience(0) .. ", gold " .. gold())
+  - assert: {qbit_set: [112240]}
+  - save_game: {name: "25 The walls", path: output/playthrough/xeen/checkpoints/25_the_walls.oysav}

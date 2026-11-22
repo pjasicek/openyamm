@@ -1,0 +1,4 @@
+format: 0
+open_sky: {mode: open, preset: xeen_plane_earth, view: outdoor, view_distance_scale: 1}
+daylight: {ambient_rgb: [120, 104, 88], sun_rgb: [200, 176, 150], night_scale_rgb: [255, 255, 255], sun_gain: 2}
+notes: "Sky preset `xeen_plane_earth` by name (lanes README: a preset, never a texture alias): A6's Xeen preset (assets_dev/worlds/xeen/rendering/sky/sky.yml, corners.yml): a cavern-brown sky of dust, no sun, no stars, dim crystal light; the bowl's walls hide its horizon. Night scale 255: a plane keeps its light at every hour. D-58 Q3. L4: as L1 (D-58 P3 Q1)."

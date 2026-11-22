@@ -1,0 +1,33 @@
+# DD-24 (D-47 Q22 fix 2): a party that took Gurodel's gift (friends 113320) and then goes to war (war 113321) finds no
+# second pair of Energy Disks on the bloody throne (A3's q-d16.throne: "Whatever the People had to give ...").
+id: xeen.dd24.l4.friends
+title: "Giants' Hall (DD-24): friends then war, no second pair of disks"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - setup_shortcut: {kind: set_qbit, id: 113320, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 113321, value: true}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  - set_pose: {map: xeen_dd24.blv, x: 0, y: 5780, z: 1024, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[gave you in friendship]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12334) ~= 0 then error('a second pair of disks: ' .. item_count(12334)) end"}

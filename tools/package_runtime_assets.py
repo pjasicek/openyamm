@@ -11,8 +11,11 @@ import struct
 import sys
 import zipfile
 
+import yaml
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from runtime_packs import PackConfig, build_packs, report, write_index, write_zip  # noqa: E402
+from runtime_packs import (PackConfig, build_packs, entry_bytes, glb_image_uris, report, write_index,  # noqa: E402
+                           write_zip)
 
 # Bumped whenever a binary needs new content or content needs a new binary (packaging/UPDATER_PLAN.md, 7.1).
 CONTENT_FORMAT = 1
@@ -196,6 +199,12 @@ def select_surface_textures(entries, profile, android_world):
             overlay = android_world / tier
             for path in sorted(overlay.glob("*.oytex")) if overlay.is_dir() else []:
                 entries[f"{tier}/{path.name}"] = path
+        # A world whose x2 PNGs stay in assets_dev (Xeen's textures_x2, written by xtex.py) ships only their cook.
+        cooked = {name.lower()[:-len(".oytex")] for name in entries
+                  if name.startswith("textures_x2/") and name.endswith(".oytex")}
+        for name in [name for name in entries if name.startswith("textures_x2/") and name.lower().endswith(".png")]:
+            if name.lower()[:-len(".png")] in cooked:
+                del entries[name]
 
 
 def verify_surface_cook(assets_root, profile):
@@ -220,14 +229,35 @@ RUNTIME_MODEL_MANIFESTS = {
 }
 
 
-def release_model_file(relative):
-    """Whether a package's models/ file ships: every GLB, the cooked textures and the runtime manifests (true for
-    files outside models/)."""
+def release_model_file(relative, table_files=frozenset()):
+    """Whether a package's models/ file ships: every GLB, the cooked textures, the runtime manifests and a table the
+    world's manifest names (Xeen's models/decoration_data.txt); true for files outside models/."""
     if relative.parts[0] != "models" or len(relative.parts) == 1:
         return True
     if len(relative.parts) == 2:
-        return relative.suffix == ".glb" or relative.name in RUNTIME_MODEL_MANIFESTS
+        return (relative.suffix == ".glb" or relative.name in RUNTIME_MODEL_MANIFESTS
+                or relative.as_posix() in table_files)
     return relative.parts[1] == "textures"
+
+
+def read_world_manifest(source):
+    """A package's world.yml as a mapping (empty for the engine and for a package without one)."""
+    manifest = source / "world.yml"
+    if not manifest.is_file():
+        return {}
+    return yaml.safe_load(manifest.read_text(encoding="utf-8")) or {}
+
+
+def table_contribution_files(source):
+    """The files a world's manifest names as table contributions (world.yml tableContributions paths)."""
+    return {entry["path"] for entry in read_world_manifest(source).get("tableContributions") or []
+            if isinstance(entry, dict) and isinstance(entry.get("path"), str)}
+
+
+def development_leftover(relative):
+    """Files of a package that only its authoring tools use: dot files (a generator's .build_world.lock) and the map
+    studio's project files (maps/<stem>.studio.yml), which the game never reads."""
+    return any(part.startswith(".") for part in relative.parts) or relative.name.endswith(".studio.yml")
 
 
 def collect_entries(source, *, sprites=None, profile=None, dependencies=None, model_textures=None,
@@ -239,13 +269,17 @@ def collect_entries(source, *, sprites=None, profile=None, dependencies=None, mo
     # A sparse checkout's left-out files stay entries: a profile overlay or surface tier replaces them below, and any
     # other one fails when its pack is written.
     sparse = sparse_files(source)
+    table_files = table_contribution_files(source)
     for path in sorted(set(source.rglob("*")) | {source / name for name in sparse}):
         relative = path.relative_to(source)
         if any(".cook-" in part or part.endswith(".previous") for part in relative.parts):
             raise ValueError(f"Finish/recover the sprite deployment before packaging: {path}")
-        # Development model files, render fixtures and archived sources stay outside release bundles.
-        if (not release_model_file(relative)
+        # Development model files, render fixtures and archived sources stay outside release bundles, and so do a
+        # package's authoring sources (source/: the Xeen world's maps.yml, towns, quests; its generators' inputs).
+        if (not release_model_file(relative, table_files)
                 or "_legacy" in relative.parts
+                or relative.parts[0] == "source"
+                or development_leftover(relative)
                 or (sprites is not None and relative.parts[0] == "sprites_new")):
             continue
         if path.is_symlink():
@@ -298,6 +332,77 @@ def collect_languages(languages_root, worlds):
             else:
                 raise ValueError(f"Language pack file in no shipped folder: {path}")
     return text, overlays
+
+
+# Cooked model textures are named by a key of the source image and how it is sampled (tools/cook_models.py), so two
+# packages holding the same name hold the same texture.
+SHARED_MODEL_TEXTURES = "models/textures/"
+
+
+def world_dependencies(assets_root, worlds):
+    """{world: the packages it depends on (world.yml dependencies), the engine first} for the packaged worlds."""
+    found = {}
+    for world in worlds:
+        declared = read_world_manifest(assets_root / "worlds" / world).get("dependencies") or []
+        found[world] = ["engine"] + [name for name in declared if name != "engine"]
+    return found
+
+
+def same_bytes(left, right):
+    if isinstance(left, bytes) or isinstance(right, bytes):
+        return entry_bytes(left) == entry_bytes(right)
+    if Path(left).stat().st_size != Path(right).stat().st_size:
+        return False
+    return Path(left).read_bytes() == Path(right).read_bytes()
+
+
+def share_model_textures(packages, dependencies):
+    """Ship each cooked model texture once: a world leaves out models/textures/<key>.oytex when the engine or a world it
+    depends on ships the identical file, and the game reads that copy (GltfModelLoader falls back to the engine's and
+    the other mounted worlds' models/textures when a model's own package lacks a texture). Returns {world: bytes left
+    out}. Every dependency must be packaged too."""
+    saved = {}
+    done = {"engine"}
+    pending = [world for world in dependencies if world in packages]
+    while pending:
+        ready = [world for world in pending if all(name in done or name not in pending for name in dependencies[world])]
+        if not ready:
+            raise ValueError(f"World dependencies form a cycle: {pending}")
+        for world in ready:
+            missing = [name for name in dependencies[world] if name not in packages]
+            if missing:
+                raise ValueError(f"World {world} depends on {missing}, which this packaging leaves out")
+            entries = packages[world]
+            saved[world] = 0
+            for name in [name for name in entries if name.startswith(SHARED_MODEL_TEXTURES) and name.endswith(".oytex")]:
+                for provider in dependencies[world]:
+                    other = packages[provider].get(name)
+                    if other is not None and same_bytes(entries[name], other):
+                        saved[world] += len(entry_bytes(entries[name])) if isinstance(entries[name], bytes) \
+                            else Path(entries[name]).stat().st_size
+                        del entries[name]
+                        break
+            pending.remove(world)
+            done.add(world)
+    return saved
+
+
+def check_model_references(packages, dependencies):
+    """Every image a packaged GLB references ships in its own package, or (a cooked model texture) in the engine or
+    a world the package depends on."""
+    for package_id, entries in packages.items():
+        providers = [packages[name] for name in dependencies.get(package_id, []) if name in packages]
+        for name, source in entries.items():
+            if not name.endswith(".glb") or isinstance(source, bytes):
+                continue
+            folder = Path(name).parent
+            for uri in glb_image_uris(source):
+                target = (folder / uri).as_posix()
+                if target in entries:
+                    continue
+                if not (target.startswith(SHARED_MODEL_TEXTURES)
+                        and any(target in provider for provider in providers)):
+                    raise ValueError(f"{package_id}/{name} references {uri}, which no package it may read ships")
 
 
 def package(source, output, **options):
@@ -399,6 +504,12 @@ def main():
                 worlds / name, model_textures=profile_root / "worlds" / name if profile_root else None,
                 surface_profile=args.profile,
                 surface_overlay=args.assets_root.parent / "assets_cooked" / args.profile / "worlds" / name)
+        depends_on = world_dependencies(args.assets_root, [name for name in packages if name != "engine"])
+        if config.share_model_textures:
+            for world, size in share_model_textures(packages, depends_on).items():
+                if size:
+                    print(f"{world}: {size:,} bytes of model textures shipped by a package it depends on", flush=True)
+        check_model_references(packages, depends_on)
     language_text, language_overlays = collect_languages(args.assets_root / "languages", set(packages))
     packages["engine"].update(language_text)
     reuse = published_packs(args.reuse_manifest, args.reuse_store or Path("."))

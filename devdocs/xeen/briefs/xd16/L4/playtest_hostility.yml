@@ -1,0 +1,41 @@
+# Hostility check of the Volcano Cave (XD-16, L4; written by output/studio_cal/xd16/tools/gen_tests.py): A2's demons
+# (Demon 11630, Devil 11631, Screamer 11632) all hostile at load and after a save and load; side by side they do not
+# fight each other and go for the party. No window is open before the reload.
+id: xeen.xd16.l4.hostility
+title: 'the Volcano Cave (XD-16): demons, devils and screamers hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_xd16.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11630, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11631, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11632, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11630, hostile: true, min: 20}}
+  - assert: {actor_count: {monster_id: 11631, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11632, hostile: true, min: 6}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11630, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11631, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11632, hostile: true, min: 6}}
+  - note: 'A Demon, a Devil and a Screamer side by side in the ash gallery, nearer each other than the party: they must
+      not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11630, x: 1200, y: -160, z: 16}
+  - spawn_actor: {monster_id: 11632, x: 1200, y: 160, z: 16}
+  - spawn_actor: {monster_id: 11631, x: 1350, y: 0, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}

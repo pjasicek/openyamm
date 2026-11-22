@@ -1,0 +1,69 @@
+format: 0
+sectors:
+  room:bone_run: 1
+  room:cold_slope: 2
+  room:frost_seep: 3
+  room:hall: 4
+  room:hall_gate: 5
+  room:hoard: 6
+  room:ice_den: 7
+  room:kings_stair: 8
+  room:pit: 9
+  room:side_tunnel: 10
+  room:trophy: 11
+events:
+  evt:antler: 1
+  evt:approach: 2
+  evt:arrive: 3
+  evt:chest_hoard: 4
+  evt:chest_ice: 5
+  evt:chest_trophy: 6
+  evt:cold: 7
+  evt:court_fight: 8
+  evt:flap: 9
+  evt:gate_seen: 10
+  evt:hall_doors: 11
+  evt:hatch: 12
+  evt:hobstadt_gone: 13
+  evt:hobstadt_slain: 14
+  evt:sacks: 15
+  evt:throne: 16
+  evt:trophies: 17
+doors:
+  door:antler: 1
+  door:flap: 2
+  door:hall: 3
+  door:hall.leaf2: 4
+containers:
+  chest:hoard: 0
+  chest:ice: 1
+  chest:trophy: 2
+map_vars:
+  once.approach: 0
+  once.arrive: 1
+  once.cold: 2
+  once.court_fight: 3
+  once.gate_seen: 4
+  once.hobstadt_slain: 5
+sounds:
+  sound:cold: 1
+  sound:hall_fire: 2
+  sound:wind: 3
+decorations:
+  deco:den_bones: 0
+  deco:den_mite: 1
+  deco:gate_skulls_n: 2
+  deco:gate_skulls_s: 3
+  deco:hall_bones_1: 4
+  deco:hall_bones_2: 5
+  deco:hall_bones_3: 6
+  deco:hall_skulls_1: 7
+  deco:hall_skulls_2: 8
+  deco:hoard_bones: 9
+  deco:pit_bones: 10
+  deco:pit_skull: 11
+  deco:seep_mite: 12
+  deco:seep_mite_2: 13
+  deco:trophy_bones: 14
+  deco:trophy_skull: 15
+  deco:trophy_skulls: 16

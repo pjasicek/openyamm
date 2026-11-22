@@ -1,0 +1,213 @@
+# Xeen XD-18 (the Dragon Cave) quest hooks in the installed map: Q-C25, the Dragon Tax (D-5.2, D-57 Q2, D-63). A
+# level-62 party from a new game in the cave's tax hall; the party is placed beside each thing (a hooks check, not a
+# playthrough segment).
+# - The urn before the tax; the inner door opens without it (D-89); the King's door refuses (XeenQuests.can).
+# - Scaldrith (house 4852): The tax without the gems (refused), then with 2,000 gold and 20 gems (both taken, 112500,
+#   autonote 4390); again: "Paid in full"; Great Wyrm shown only after Dragon Lore 1, and with no Dragon in the party
+#   its last line.
+# - The urn after; the inner door opens (doors 2 and 3, 118100) and is still open after a save and load.
+# - Dragon Lore 1-5 (2,000 experience each and its title, once); The Art of Taxation refused until all five are read,
+#   then 2,000 and Taxman Emeritus (award 435), then its after-line; the knight's receipt.
+# Places: the stand points of `oymap things` (devdocs/xeen/briefs/xd18/L4/), playtest_tax.yml.
+# Quest logic: source/quests/q-c25.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_xd18.yml --scenario-no-color
+id: xeen.hooks_xd18
+title: "Xeen XD-18 hooks: the Dragon Tax, the inner door, Dragon Lore and The Art of Taxation"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd18.blv
+      party:
+        gold: 2500
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end; log('cleared ' .. clear_hostiles(1500))"}
+  - assert: {map: xeen_xd18.blv}
+  - assert: {qbit_clear: [112500, 112501, 112506, 118100]}
+
+  # ---- The urn on the counter (event 25) before the tax.
+  - set_pose: {map: xeen_xd18.blv, x: 1882, y: -3632, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "It is empty, and it looks hungry."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The inner door (event 14) before the tax (D-89: the cave is open; the tax buys only the Dragon King's door):
+  # it opens, and nobody is thrown out.
+  - set_pose: {map: xeen_xd18.blv, x: 2522, y: -3072, z: 0, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door is not open before the tax: ' .. door_state(2)) end; if not qbit(118100) then error('inner_door_open 118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  - load_map: {map: xeen_xd18.blv, pos: "1856, -3536, 0"}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+
+  # ---- Scaldrith (house 4852, event 18): The tax with 2,500 gold and no gems: refused.
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "No gems, no audience. No exceptions."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 2500 then error('the refusal took gold') end"}
+  - assert: {qbit_clear: [112500]}
+  # With 20 gems (items 180 and 181): paid.
+  - grant_item: {item_id: 180, member_index: 0}
+  - grant_item: {item_id: 180, member_index: 0}
+  - grant_item: {item_id: 180, member_index: 0}
+  - grant_item: {item_id: 180, member_index: 0}
+  - grant_item: {item_id: 180, member_index: 0}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 181, member_index: 2}
+  - grant_item: {item_id: 181, member_index: 2}
+  - grant_item: {item_id: 181, member_index: 2}
+  - grant_item: {item_id: 181, member_index: 2}
+  - grant_item: {item_id: 181, member_index: 2}
+  - grant_item: {item_id: 181, member_index: 3}
+  - grant_item: {item_id: 181, member_index: 3}
+  - grant_item: {item_id: 181, member_index: 3}
+  - grant_item: {item_id: 181, member_index: 3}
+  - grant_item: {item_id: 181, member_index: 3}
+  - grant_item: {item_id: 180, member_index: 3}
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "2,000 gold pieces and 20 gems fly from your packs and into the urn"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() ~= 500 then error("the tax left " .. gold() .. " gold") end
+        local left = item_count(180) + item_count(181)
+        if left ~= 1 then error("the tax left " .. left .. " gems, wanted 1") end
+  - assert: {qbit_set: [112500]}
+  - assert: {autonote: {id: 4390}}
+  # Again: paid in full; Great Wyrm is not offered before Dragon Lore 1.
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "Paid in full. Keep the receipt."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close(); wait(0.3); if gold() ~= 500 then error('paid twice') end"}
+  # ---- The urn after the tax.
+  - set_pose: {map: xeen_xd18.blv, x: 1882, y: -3632, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The urn is empty and powerless."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # ---- The inner door opens now (118100, doors 2 and 3), and stays open over a save and load.
+  - set_pose: {map: xeen_xd18.blv, x: 2522, y: -3072, z: 0, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(14); wait(2.5); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('inner door not open: ' .. tostring(door_state(2)) .. ' ' .. tostring(door_state(3))) end"}
+  - assert: {map: xeen_xd18.blv}
+  - assert: {qbit_set: [118100]}
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_xd18.blv}
+  - play_lua: {source: "wait(2); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('inner door shut after the reload') end"}
+
+  # ---- Dragon Lore, volume 1, on the office's lectern (event 26): 2,000 each and Loremaster of Worms; then read.
+  - set_pose: {map: xeen_xd18.blv, x: 2096, y: -1744, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(26); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 1: Worms.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("volume 1 paid member " .. i .. " " .. d) end
+        end
+        click(26); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "You have read it. It has not changed."}}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do if experience(i) - recall('x' .. i) ~= 2000 then error('volume 1 paid again') end end"}
+  - assert: {qbit_set: [112501]}
+  # Great Wyrm now offered; no Dragon in the party: its last line.
+  - set_pose: {map: xeen_xd18.blv, x: 1856, y: -3536, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close(); wait(0.3)"}
+
+  # ---- The library: The Art of Taxation (event 24) before volumes 2-5: refused.
+  - set_pose: {map: xeen_xd18.blv, x: 1328, y: 0, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); click(24); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Read the Lore first. Then we'll talk money."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Volumes 2-5 (events 27-30), 2,000 each, once.
+  - set_pose: {map: xeen_xd18.blv, x: 1754, y: -1088, z: -768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(27); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 2: Lizards.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(27); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Dragon Lore, volume 2. Read."}}
+  - set_pose: {map: xeen_xd18.blv, x: 2266, y: -1088, z: -768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3); click(28); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 3]], 1, true) then error("status line: " .. s) end
+  - set_pose: {map: xeen_xd18.blv, x: 2778, y: -1088, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3); click(29); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 4]], 1, true) then error("status line: " .. s) end
+  - set_pose: {map: xeen_xd18.blv, x: 538, y: 80, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3); click(30); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 5]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 8000 then error("volumes 2-5 paid member " .. i .. " " .. d) end
+        end
+  - assert: {qbit_set: [112502, 112503, 112504, 112505]}
+  # The Art of Taxation now: 2,000 and Taxman Emeritus; then its after-line.
+  - set_pose: {map: xeen_xd18.blv, x: 1328, y: 0, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(24); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Chapter One: Everyone pays. Chapter Two: See Chapter One.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("The Art of Taxation paid member " .. i .. " " .. d) end
+        end
+        click(24); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "You know it by heart, regrettably."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [112506]}
+  - assert: {award_acquired: [{id: 430, member_index: 0}, {id: 430, member_index: 3}, {id: 435, member_index: 0}, {id: 435, member_index: 3}]}
+  # ---- The knight's remains (event 20): the receipt.
+  - set_pose: {map: xeen_xd18.blv, x: 2979, y: -4736, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Paid in full. Receipt no. 4,118. Valid for one entry."}}
+  - play_lua: {source: "close(); wait(0.3)"}

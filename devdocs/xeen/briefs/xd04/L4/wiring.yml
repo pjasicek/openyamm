@@ -1,5 +1,5 @@
 format: 0
-variables: [boy_state, rosebud_open, hoist_released, boil, on_pier, circle_trod]
+variables: [rosebud_open, hoist_released, boil, on_pier, circle_trod]
 events:
   - id: evt:alacorn_taken
     preset: script
@@ -8,7 +8,7 @@ events:
     condition: {item: alacorn}
     once: true
     effects:
-      - qbit: alacorn_taken
+      - lua: "XeenQuests.hook(\"m4.alacorn\")"
       - set:
           var:
             map_var: boil
@@ -21,8 +21,7 @@ events:
           count: 2
           tier: b
       - lua: "evt.CameraShake(1.0, 2.0)"
-    text: "The cauldron roars and boils over: green steam boils up the shaft! Get off the bridge!"
-    notes: "goal:alacorn / set:boil_over: taking the Alacorn sets alacorn_taken, the shaft fills with green steam that burns on the pier and the bridge for about a minute, and goblins come up behind (two Hobgoblins at the Rosebud landing)."
+    notes: "goal:alacorn / set:boil_over: taking the Alacorn calls A3's hook m4.alacorn (alacorn_taken and the boil-over's words), the shaft fills with green steam that burns on the pier and the bridge for about a minute, and goblins come up behind (two Hobgoblins at the Rosebud landing)."
   - id: evt:arrive
     preset: text
     trigger: load
@@ -75,25 +74,13 @@ events:
     opens: [mover:cage_1]
     effects:
       - lua: |-
-          if IsAtLeast(MapVar(boy_state), 2) then
-              evt.StatusText('The cage hangs open and empty.')
-          elseif IsAtLeast(MapVar(boy_state), 1) then
-              if HasItem(214) then
-                  SetValue(MapVar(boy_state), 2)
-                  evt.SetMonGroupBit(11, MonsterBits.Invisible, 1)
-                  SetQBit(QBit(110040))
-                  AddValue(Experience, 500)
-                  evt.SimpleMessage("You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home.")
-              else
-                  evt.SimpleMessage("'I'm not going home with goblin ears!' The boy will not budge. 'They say the witches' Alacorn cures anything. It's up top, over the cauldron.'")
-              end
-          else
-              SetValue(MapVar(boy_state), 1)
-              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them - it's up top, over the cauldron.'")
+          XeenQuests.hook("m4.cage_1")
+          if Xeen.isSet("m4.child_rescued_1") then
+              evt.SetMonGroupBit(11, MonsterBits.Invisible, 1)
           end
     else_effects:
       - message: "The cage is locked fast. Inside, a boy with pointed goblin ears grips the bars: 'The warden's keys! The big ring - he keeps it in his strongbox there. Get it and let me out!'"
-    notes: "set:cure_the_boy: the warden's ring (in his strongbox) hoists the cage; then the Alacorn cures the boy (click the cage again holding it): he runs home (child_rescued_1). boy_state 0 caged, 1 out but waiting, 2 gone."
+    notes: "set:cure_the_boy: the warden's ring (in his strongbox) hoists the cage; A3's hook m4.cage_1 lets the boy out to wait (boy_waiting), then cures him when the cage is clicked again with the Alacorn in the packs (child_rescued_1), and the map hides his group."
   - id: evt:cage_2
     preset: script
     source: mover:cage_2
@@ -102,14 +89,8 @@ events:
     opens: [mover:cage_2]
     effects:
       - lua: |-
-          if IsQBitSet(QBit(110041)) then
-              evt.StatusText('The cage hangs open and empty.')
-          else
+          if XeenQuests.hook("m4.cage_2") then
               evt.SetMonGroupBit(12, MonsterBits.Invisible, 1)
-              AddValue(Experience, 500)
-              SetQBit(QBit(110041))
-              SetQBit(QBit(110044))
-              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. A girl with a green tinge to her skin tumbles out and hugs you. 'I'm Rosebud. The door at the top of the north stair has a witch's face on it, and it only opens to the coven's key. They keep it in their stores in the herb loft, past the vats. Don't tell them I told you!' Then she is gone, running for Toad Meadow.")
           end
     else_effects:
       - message: "The cage is locked. The girl inside whispers: 'The warden's got the keys - a big ring, in the strongbox in his lodge off the gallery downstairs. Please let me out!'"
@@ -122,17 +103,12 @@ events:
     opens: [mover:cage_3]
     effects:
       - lua: |-
-          if IsQBitSet(QBit(110042)) then
-              evt.StatusText('The cage hangs open and empty.')
-          else
+          if XeenQuests.hook("m4.cage_3") then
               evt.SetMonGroupBit(13, MonsterBits.Invisible, 1)
-              AddValue(Experience, 500)
-              SetQBit(QBit(110042))
-              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The sobbing child wipes his nose, grins and runs. (Valia will hear of it.)")
           end
     else_effects:
       - message: "The cage is locked. The sobbing child sniffs: 'The warden's ring opens it. It's in his strongbox, in his lodge on the ground floor.'"
-    notes: "poi:cages: child 3."
+    notes: "poi:cages: child 3. Phase 0 (2026-11-20): his words are the source's freed boy's (aaze0051:3)."
   - id: evt:cage_4
     preset: script
     source: mover:cage_4
@@ -141,13 +117,8 @@ events:
     opens: [mover:cage_4]
     effects:
       - lua: |-
-          if IsQBitSet(QBit(110043)) then
-              evt.StatusText('The cage hangs open and empty.')
-          else
+          if XeenQuests.hook("m4.cage_4") then
               evt.SetMonGroupBit(14, MonsterBits.Invisible, 1)
-              AddValue(Experience, 500)
-              SetQBit(QBit(110043))
-              evt.SimpleMessage("The ring turns the lock and the cage rattles up its chain. The child in the witches' bedchamber slips out and is gone down the stair. (Valia will hear of it.)")
           end
     else_effects:
       - message: "The cage is locked. The child inside whispers: 'The warden downstairs keeps the ring of keys in his strongbox. Hurry, before they come back!'"
@@ -217,9 +188,10 @@ events:
     preset: exit
     source: exit:cloud_stair
     title: The cloud stair
-    condition: {qbit: m4_crusaders}
-    locked_text: The clouds will bear only those sworn as Crusaders. Old Valia in Toad Meadow names Crusaders.
+    condition: {qbit: head_witch_slain}
+    locked_text: "The clouds answer to the Head Witch. While she lives, they will not bear you."
     text: You climb the stair of cloud into the sky.
+    notes: "Unsealed 2026-11-20 (X8 installed): up to X8's Witch Clouds. D-89 1.2 (2026-11-22): the beat is the Head Witch's death (head_witch_slain), not the Crusaders' oath; the ward below falls with her."
   - id: evt:crying
     preset: text
     source: plate:crying
@@ -372,7 +344,7 @@ events:
   - id: evt:skull_1
     preset: script
     source: deco:skull_1
-    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Mind Blast, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    question: {ask: "Toss a gem (Yes/No)?", answers: [Yes, Y], message: "\"Feed me!\" the skull demands, and clacks its jaw. 'A scroll of Mind Blast for it, dearie. One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
     title: Talking skull (Mind)
     effects:
       - lua: |-
@@ -389,7 +361,7 @@ events:
           else
               evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
           end
-    notes: "poi:talking_skulls: sells Mind Blast scrolls (Mind) for one gem of any kind (the brief: 5 to 10)."
+    notes: "poi:talking_skulls: sells Mind Blast scrolls (Mind) for one gem of any kind (the brief: 5 to 10). Phase 0 (2026-11-20): opens with the source's '\"Feed me!\" the skull demands. Toss gem?' (aaze0051:7); the built 'One gem. A shiny one.' stays."
   - id: evt:skull_2
     preset: script
     source: deco:skull_2
@@ -432,6 +404,34 @@ events:
               evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
           end
     notes: "poi:talking_skulls: sells Sparks scrolls (Air) for one gem of any kind (the brief: 5 to 10)."
+  - id: evt:skull_levitate
+    preset: script
+    source: deco:skull_levitate
+    title: Talking skull
+    effects:
+      - message: "\"Don't forget to use the levitate spell before you enter the cloud world!\" the skull says."
+    notes: "Phase 0 (2026-11-20): the source's skull on the roof stair (aaze0051:20), verbatim; flavour (Cloudreach above is X8)."
+  - id: evt:skull_pens
+    preset: script
+    source: deco:skull_pens
+    title: Talking skull
+    effects:
+      - message: "\"Goblins back to work!\" the skull shouts. In the straw below, nobody moves any faster."
+    notes: "Phase 0 (2026-11-20): the source's skull over the goblin pens (aaze0051:21, its line verbatim, one sentence of ours after it)."
+  - id: evt:skull_vanity_1
+    preset: script
+    source: deco:skull_vanity_1
+    title: Talking skull
+    effects:
+      - message: "\"You are the fairest one of all,\" the skull says."
+    notes: "Phase 0 (2026-11-20): the first of the source's two vanity skulls in the coven's bedchamber (aaze0051:18), verbatim."
+  - id: evt:skull_vanity_2
+    preset: script
+    source: deco:skull_vanity_2
+    title: Talking skull
+    effects:
+      - message: "\"You are the most beautiful creature in all the land,\" the skull says."
+    notes: "Phase 0 (2026-11-20): the second vanity skull (aaze0051:19), verbatim."
   - id: evt:slate
     preset: script
     source: panel:slate
@@ -497,12 +497,11 @@ events:
     preset: door
     source: door:ward
     title: A shimmering ward
-    condition: {qbit: m4_crusaders}
+    condition: {qbit: head_witch_slain}
+    locked_text: "A web of green witch-light bars the stair to the roof, the coven's moon-eye burning in it. It is the Head Witch's ward: it holds while she lives."
     action: open
-    else_effects:
-      - message: "A web of green witch-light bars the stair to the roof, the coven's moon-eye burning in it. Woven through the light, the words: ONLY THOSE SWORN AS CRUSADERS MAY PASS. You are not sworn. Old Valia in Toad Meadow names Crusaders: bring her the Alacorn first, and come back when she has named you."
-    text: The ward knows the Crusaders' oath. It sinks hissing into the floor.
-    notes: "Sealed until Valia names the party Crusaders (qbit m4_crusaders, set on X1 after M4). Pass two: the locked line says plainly what opens it and that it is not for now."
+    text: "With the Head Witch dead, her ward gutters out and sinks hissing into the floor."
+    notes: "D-89 1.2 (2026-11-22): the ward falls with the Head Witch (head_witch_slain), no longer only for Crusaders; its refusal says why on the status line."
   - id: evt:winch
     preset: text
     source: platform:winch

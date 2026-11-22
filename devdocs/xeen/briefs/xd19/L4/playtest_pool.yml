@@ -1,0 +1,201 @@
+# Playtest of Castle Xeen's guard foundry (XD-19, L4; written by output/studio_cal/xd19/tools/
+# gen_tests.py): the party is set on the grand landing (the first step into the foundry starts the
+# pool's clock); 46 s later one of the four hidden guards has been shown (pool 1); the west machine's
+# 'Destroy?' Yes (the bays stay shut), then the east's: the rest of the pool is shown (pool 4: two
+# guards left alive after the first two fights), the shutters open (bays_open 118063), the gem tray
+# gives three Emeralds; after a save and load the bays stay open. The count stays 14 guards (D-47).
+id: xeen.xd19.l4.pool
+title: 'Castle Xeen (XD-19 L4): the guard foundry''s hidden pool'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd19.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 50
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd19.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- set_pose:
+    map: xeen_xd19.blv
+    x: 0
+    y: 2400
+    z: 640
+    yaw_degrees: 90
+    pitch: 0
+- advance_runtime:
+    seconds: 1
+- assert:
+    state_dump_map_var:
+      index: 3
+      value: 1
+- assert:
+    actor_count:
+      monster_id: 11603
+      min: 14
+      max: 14
+- clear_hostiles:
+    radius: 3000
+- play_lua:
+    source: wait(46); close()
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 1
+- assert:
+    actor_visible:
+      actor_index: 31
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 32
+      hidden: true
+- clear_hostiles:
+    radius: 6000
+- walk_to:
+    x: -3552
+    y: 3160
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(55); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(118060) then error('machine_w_down not set') end
+- play_lua:
+    source: if door_state(3) ~= 'closed' then error('bays open after one machine') end
+- walk_to:
+    x: -3552
+    y: 3000
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3000
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 3552
+    y: 3160
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(52); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 2.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(118061) then error('machine_e_down not set') end
+- play_lua:
+    source: if not qbit(118063) then error('bays_open not set') end
+- assert:
+    state_dump_map_var:
+      index: 7
+      value: 4
+- play_lua:
+    source: 'wait(3); if door_state(3) ~= ''open'' then error(''bays: '' .. door_state(3)) end'
+- assert:
+    actor_visible:
+      actor_index: 32
+      hidden: false
+      dead: false
+- assert:
+    actor_visible:
+      actor_index: 33
+      hidden: false
+      dead: false
+- assert:
+    actor_visible:
+      actor_index: 34
+      hidden: false
+      dead: false
+- clear_hostiles:
+    radius: 6000
+- walk_to:
+    x: 0
+    y: 3000
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 4280
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 4840
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 5040
+    z: 640
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: 'if held() ~= 0 then stow() end; local before = item_count(183); click(37); wait(0.8); local s = tostring(status());
+      if not string.find(s, ''emeralds'', 1, true) then error(''gems: '' .. s) end; close(); wait(0.3); if held() ~= 0 then
+      stow() end; local n = item_count(183); log(''emeralds '' .. before .. '' -> '' .. n); if n ~= before + 3 then error(''emeralds:
+      '' .. before .. '' -> '' .. n) end; click(37); wait(0.8); s = tostring(status()); if not string.find(s, ''empty tray'',
+      1, true) then error(''second tray click: '' .. s) end; close(); wait(0.3); if held() ~= 0 then stow() end; if item_count(183)
+      ~= n then error(''the tray gave again: '' .. item_count(183)) end'
+- reload: {}
+- play_lua:
+    source: if door_state(3) ~= 'open' then error('bays after reload') end

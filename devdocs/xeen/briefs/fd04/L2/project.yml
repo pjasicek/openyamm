@@ -1,0 +1,63 @@
+format: 0
+id: xeen_fd04
+name: Dragon Tower and the Dungeon of Death
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: FD-04
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 8
+  - 34
+  climbs: n
+map_stats:
+  id: 9182
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 13
+  environment: stoneroom
+  lock_difficulty: 20
+  bolster: LowerToEqual
+  slots: []
+neighbours:
+- id: exit:x7_gate
+  to: xeen_x7.odm
+  kind: door
+  arrival: entrance:fd04_door
+  arrival_hint: 'On X7''s crag before the Dragon Tower''s gate: entrance:fd04_door (-17920, 16384, 2592) facing south (A5).'
+  notes: 'X7 installed (A5). X7''s door:fd04 (thing:fd04_gate, the key check q-f1.tower_door) names this map''s arrival entrance:x7_gate:
+    (0, -1280, 0) facing north.'
+- id: exit:x9_roof
+  to: xeen_x9.blv
+  kind: door
+  arrival: entrance:fd04_roof
+  arrival_hint: 'X9''s Dragon Clouds: entrance:fd04_roof [20352, 17280, 2048] facing north (D-57 Q36).'
+  notes: 'X9 rebuilt and installed by A5 (03:49) with entrance:fd04_roof. X9''s door in the dragon-head rock (''Descend into
+    Dragon Tower?'', aazex128:0) names this map''s arrival entrance:x9_clouds: (-1312, 608, 4224) facing south.'
+qbits:
+  door_open: 118130
+  crossword_done: 118143
+  shutter_up: 118144
+  machine_broken: 118145
+  egg_taken: 118146
+  alister_gone: 118147
+  ultimate_broken: 118148
+  code_entered: 118149
+  word_1a: 118131
+  word_5a: 118132
+  word_6a: 118133
+  word_13a: 118134
+  word_21a: 118135
+  word_24a: 118136
+  word_40a: 118137
+  word_44d: 118138
+  word_45d: 118139
+  word_47d: 118140
+  word_76d: 118141
+  word_77d: 118142
+notes: 'Xeen design brief, level L2: FD-04 Dragon Tower and the Dungeon of Death (see L4/NOTES.md).'

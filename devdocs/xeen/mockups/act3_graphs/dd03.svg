@@ -1,0 +1,276 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1366" height="1296" viewBox="0 0 1366 1296" font-family="DejaVu Sans, Verdana, Arial, sans-serif">
+<defs>
+<marker id="a_dark" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f2f2f"/></marker>
+<marker id="a_tel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7b3fa0"/></marker>
+<marker id="a_drop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d5a2b"/></marker>
+<marker id="a_lift" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f6fb2"/></marker>
+<marker id="s_lever" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_map_var" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_puzzle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_item" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+<marker id="s_kill" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7a1010"/></marker>
+<marker id="s_qbit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_stage" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_award" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_password" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0f7c7c"/></marker>
+</defs>
+<rect x="0" y="0" width="1366" height="1296" fill="#fbfaf6" stroke="#bbb"/>
+<text x="20" y="32" font-size="22" font-weight="bold" fill="#222">DD-03 Castle Kalindra (staged)</text>
+<text x="20" y="56" font-size="13.5" fill="#444">D1 Castleview Vale · class M (staged) · party 24 → 40 · monsters 26–48, none (Scraps 70, optional), 55 · treasure 4 · Story M19-M27, T2-A</text>
+<text x="20" y="75" font-size="12" fill="#666">30 rooms · 55 monsters placed · 4 chests · 4 loops</text>
+<rect x="10" y="86" width="1346" height="210" rx="6" fill="#f1eee4" stroke="#ddd8c8"/>
+<text x="20" y="108" font-size="13" font-weight="bold" fill="#555">Floor +2</text>
+<text x="20" y="124" font-size="11" fill="#777">Third floor</text>
+<text x="20" y="137" font-size="11" fill="#777">(stage 4)</text>
+<text x="20" y="150" font-size="11" fill="#999">z 1280</text>
+<rect x="10" y="310" width="1346" height="210" rx="6" fill="#f7f5ee" stroke="#ddd8c8"/>
+<text x="20" y="332" font-size="13" font-weight="bold" fill="#555">Floor +1</text>
+<text x="20" y="348" font-size="11" fill="#777">Second floor</text>
+<text x="20" y="361" font-size="11" fill="#777">(stage 2)</text>
+<text x="20" y="374" font-size="11" fill="#999">z 640</text>
+<rect x="10" y="534" width="1346" height="310" rx="6" fill="#f1eee4" stroke="#ddd8c8"/>
+<text x="20" y="556" font-size="13" font-weight="bold" fill="#555">Floor 0</text>
+<text x="20" y="572" font-size="11" fill="#777">Ground floor</text>
+<text x="20" y="585" font-size="11" fill="#777">(stage 1)</text>
+<text x="20" y="598" font-size="11" fill="#999">z 0</text>
+<rect x="10" y="858" width="1346" height="210" rx="6" fill="#f7f5ee" stroke="#ddd8c8"/>
+<text x="20" y="880" font-size="13" font-weight="bold" fill="#555">Floor -1</text>
+<text x="20" y="896" font-size="11" fill="#777">Dungeon</text>
+<text x="20" y="909" font-size="11" fill="#777">(stage 3)</text>
+<text x="20" y="922" font-size="11" fill="#999">z -640</text>
+<path d="M339.0,688.0 Q362.0,688.0 385.0,688.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M583.0,688.0 Q606.0,688.0 629.0,688.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M484.0,660.0 Q484.0,638.0 484.0,616.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M385.0,588.0 Q362.0,588.0 339.0,588.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M583.0,588.0 Q606.0,588.0 629.0,588.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M827.0,588.0 Q850.0,588.0 873.0,588.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M903.7,616.0 Q850.0,638.0 796.3,660.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M827.0,688.0 Q850.0,688.0 873.0,688.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M728.0,716.0 Q728.0,738.0 728.0,760.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M827.0,788.0 Q850.0,788.0 873.0,788.0" fill="none" stroke="#4a4a4a" stroke-width="2.0" stroke-dasharray="1.5 4.5"/>
+<path d="M972.0,760.0 Q972.0,738.0 972.0,716.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M484.0,716.0 Q484.0,738.0 484.0,760.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M1071.0,688.0 Q1094.0,688.0 1117.0,688.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M240.0,560.0 Q240.0,526.0 240.0,492.0" fill="none" stroke="#2e7d32" stroke-width="2.6" stroke-dasharray="10 3"/>
+<path d="M240.0,436.0 Q240.0,414.0 240.0,392.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M339.0,364.0 Q362.0,364.0 385.0,364.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M583.0,364.0 Q606.0,364.0 629.0,364.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M827.0,364.0 Q850.0,364.0 873.0,364.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M972.0,392.0 Q972.0,414.0 972.0,436.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M240.0,336.0 Q240.0,302.0 240.0,268.0" fill="none" stroke="#2e7d32" stroke-width="2.6" stroke-dasharray="10 3"/>
+<path d="M308.3,212.0 Q362.0,190.0 415.7,168.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M583.0,140.0 Q606.0,140.0 629.0,140.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M583.0,167.6 Q728.0,208.0 873.0,167.6" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M339.0,240.0 Q362.0,240.0 385.0,240.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M583.0,240.0 Q728.0,240.0 873.0,240.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M972.0,212.0 Q972.0,190.0 972.0,168.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M1216.0,716.0 Q1216.0,800.0 1216.0,884.0" fill="none" stroke="#2e7d32" stroke-width="2.6" stroke-dasharray="10 3"/>
+<path d="M1117.0,912.0 Q1094.0,912.0 1071.0,912.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M873.0,912.0 Q850.0,912.0 827.0,912.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M629.0,912.0 Q606.0,912.0 583.0,912.0" fill="none" stroke="#b3261e" stroke-width="2.8"/>
+<path d="M1147.7,940.0 Q1094.0,962.0 1040.3,984.0" fill="none" stroke="#7a7a7a" stroke-width="2.0"/>
+<path d="M873.0,1012.0 Q850.0,1012.0 827.0,1012.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M728.0,984.0 Q728.0,962.0 728.0,940.0" fill="none" stroke="#4a4a4a" stroke-width="2.0" stroke-dasharray="1.5 4.5"/>
+<path d="M629.0,912.0 Q617.5,872.0 606.0,912.0" fill="none" stroke="#e07b00" stroke-width="1.7" stroke-dasharray="5 4" opacity="0.9" marker-end="url(#s_lever)"/>
+<circle cx="629.0" cy="912.0" r="3.2" fill="#e07b00"/>
+<rect x="141.0" y="212.0" width="198.0" height="56.0" rx="7" fill="#cfe8c9" stroke="#666" stroke-width="1.3"/>
+<text x="240.0" y="233.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Third-floor landing</text>
+<text x="147.0" y="262.0" font-size="10.5" fill="#555">stair S</text>
+<rect x="385.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">The Queen's gallery</text>
+<text x="391.0" y="162.0" font-size="10.5" fill="#555">hall L</text>
+<text x="577.0" y="162.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">6 m</text>
+<rect x="629.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#c08a00" stroke-width="3.6"/>
+<text x="728.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Royal Bed Chamber</text>
+<text x="635.0" y="162.0" font-size="10.5" fill="#555">room M</text>
+<rect x="755.4" y="104.0" width="67.6" height="14" rx="3" fill="#c08a00"/><text x="789.2" y="114.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">SET PIECE</text>
+<rect x="633.0" y="104.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="653.0" y="114.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="873.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">The Queen's court</text>
+<text x="879.0" y="162.0" font-size="10.5" fill="#555">hall L</text>
+<rect x="385.0" y="212.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="233.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Bell tower</text>
+<text x="391.0" y="262.0" font-size="10.5" fill="#555">room M</text>
+<text x="577.0" y="262.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">8 m</text>
+<rect x="873.0" y="212.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="233.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Shimmering attic</text>
+<text x="879.0" y="262.0" font-size="10.5" fill="#555">corridor M</text>
+<text x="1065.0" y="262.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">3 m</text>
+<rect x="141.0" y="336.0" width="198.0" height="56.0" rx="7" fill="#cfe8c9" stroke="#666" stroke-width="1.3"/>
+<text x="240.0" y="357.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Upper stair</text>
+<text x="147.0" y="386.0" font-size="10.5" fill="#555">stair S</text>
+<rect x="141.0" y="436.0" width="198.0" height="56.0" rx="7" fill="#cfe8c9" stroke="#666" stroke-width="1.3"/>
+<text x="240.0" y="457.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Second-floor landing</text>
+<text x="147.0" y="486.0" font-size="10.5" fill="#555">stair S</text>
+<rect x="385.0" y="336.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="357.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Captain's corridor</text>
+<text x="391.0" y="386.0" font-size="10.5" fill="#555">corridor M</text>
+<rect x="389.0" y="328.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="409.0" y="338.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="629.0" y="336.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="357.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Sleeping Chambers</text>
+<text x="635.0" y="386.0" font-size="10.5" fill="#555">hall M</text>
+<text x="821.0" y="386.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">6 m</text>
+<rect x="873.0" y="336.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="357.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Phase gallery</text>
+<text x="879.0" y="386.0" font-size="10.5" fill="#555">corridor M</text>
+<text x="1065.0" y="386.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">6 m</text>
+<rect x="873.0" y="436.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#c08a00" stroke-width="3.6"/>
+<text x="972.0" y="457.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Vaults</text>
+<text x="879.0" y="486.0" font-size="10.5" fill="#555">room M</text>
+<rect x="999.4" y="428.0" width="67.6" height="14" rx="3" fill="#c08a00"/><text x="1033.2" y="438.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">SET PIECE</text>
+<rect x="877.0" y="428.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="897.0" y="438.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="141.0" y="560.0" width="198.0" height="56.0" rx="7" fill="#cfe8c9" stroke="#666" stroke-width="1.3"/>
+<text x="240.0" y="581.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Cloud Stairs</text>
+<text x="147.0" y="610.0" font-size="10.5" fill="#555">stair M</text>
+<rect x="385.0" y="560.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="581.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">North Wing</text>
+<text x="391.0" y="610.0" font-size="10.5" fill="#555">corridor M</text>
+<text x="577.0" y="610.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">4 m</text>
+<rect x="629.0" y="560.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="581.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Banquet Hall</text>
+<text x="635.0" y="610.0" font-size="10.5" fill="#555">hall L</text>
+<text x="821.0" y="610.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">4 m</text>
+<rect x="873.0" y="560.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="581.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Kitchen</text>
+<text x="879.0" y="610.0" font-size="10.5" fill="#555">room M</text>
+<rect x="141.0" y="660.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="240.0" y="681.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Gate passage</text>
+<text x="147.0" y="710.0" font-size="10.5" fill="#555">corridor M</text>
+<rect x="385.0" y="660.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="681.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Entrance hall</text>
+<text x="391.0" y="710.0" font-size="10.5" fill="#555">hall L</text>
+<rect x="629.0" y="660.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#c08a00" stroke-width="3.6"/>
+<text x="728.0" y="681.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Throne Room</text>
+<text x="635.0" y="710.0" font-size="10.5" fill="#555">hall L</text>
+<rect x="797.0" y="699.0" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/><text x="810.0" y="708.8" font-size="9.5" font-weight="bold" fill="#3a2a00" text-anchor="middle">T4</text>
+<rect x="755.4" y="652.0" width="67.6" height="14" rx="3" fill="#c08a00"/><text x="789.2" y="662.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">SET PIECE</text>
+<rect x="633.0" y="652.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="653.0" y="662.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="873.0" y="660.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="681.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">South Wing</text>
+<text x="879.0" y="710.0" font-size="10.5" fill="#555">corridor M</text>
+<text x="1065.0" y="710.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">4 m</text>
+<rect x="1117.0" y="660.0" width="198.0" height="56.0" rx="7" fill="#cfe8c9" stroke="#666" stroke-width="1.3"/>
+<text x="1216.0" y="681.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Dungeon stair</text>
+<text x="1123.0" y="710.0" font-size="10.5" fill="#555">stair S</text>
+<rect x="385.0" y="760.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="781.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Stable yard</text>
+<text x="391.0" y="810.0" font-size="10.5" fill="#555">hall L</text>
+<rect x="629.0" y="760.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="781.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Coat Closet</text>
+<text x="635.0" y="810.0" font-size="10.5" fill="#555">room S</text>
+<rect x="873.0" y="760.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="781.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Armory</text>
+<text x="879.0" y="810.0" font-size="10.5" fill="#555">room M</text>
+<rect x="1041.0" y="799.0" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/><text x="1054.0" y="808.8" font-size="9.5" font-weight="bold" fill="#3a2a00" text-anchor="middle">T4</text>
+<rect x="385.0" y="884.0" width="198.0" height="56.0" rx="7" fill="#dcc7b0" stroke="#b3261e" stroke-width="3.6"/>
+<text x="484.0" y="905.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Scraps' kennel</text>
+<text x="391.0" y="934.0" font-size="10.5" fill="#555">cave L</text>
+<text x="547.0" y="934.0" font-size="10.5" font-weight="bold" fill="#b3261e" text-anchor="end">Scraps 70, opt.</text>
+<rect x="553.0" y="923.0" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/><text x="566.0" y="932.8" font-size="9.5" font-weight="bold" fill="#3a2a00" text-anchor="middle">T5</text>
+<rect x="543.4" y="876.0" width="35.6" height="14" rx="3" fill="#b3261e"/><text x="561.2" y="886.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">BOSS</text>
+<rect x="629.0" y="884.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="905.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Maximum Security</text>
+<text x="635.0" y="934.0" font-size="10.5" fill="#555">room M</text>
+<text x="821.0" y="934.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">4 m</text>
+<rect x="873.0" y="884.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#c08a00" stroke-width="3.6"/>
+<text x="972.0" y="905.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">The cell block</text>
+<text x="879.0" y="934.0" font-size="10.5" fill="#555">hall L</text>
+<text x="1065.0" y="934.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">5 m</text>
+<rect x="999.4" y="876.0" width="67.6" height="14" rx="3" fill="#c08a00"/><text x="1033.2" y="886.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">SET PIECE</text>
+<rect x="877.0" y="876.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="897.0" y="886.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="1117.0" y="884.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="1216.0" y="905.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Guardroom</text>
+<text x="1123.0" y="934.0" font-size="10.5" fill="#555">room M</text>
+<text x="1309.0" y="934.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">2 m</text>
+<rect x="629.0" y="984.0" width="198.0" height="56.0" rx="7" fill="#f3e6c8" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="1005.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Dungeon vault</text>
+<text x="635.0" y="1034.0" font-size="10.5" fill="#555">room S</text>
+<rect x="797.0" y="1023.0" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/><text x="810.0" y="1032.8" font-size="9.5" font-weight="bold" fill="#3a2a00" text-anchor="middle">T4</text>
+<rect x="873.0" y="984.0" width="198.0" height="56.0" rx="7" fill="#dcc7b0" stroke="#666" stroke-width="1.3"/>
+<text x="972.0" y="1005.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Old well</text>
+<text x="879.0" y="1034.0" font-size="10.5" fill="#555">cave M</text>
+<text x="1065.0" y="1034.0" font-size="10.5" font-weight="bold" fill="#9b1c1c" text-anchor="end">3 m</text>
+<path d="M240.0,760.0 Q240.0,738.0 240.0,716.0" fill="none" stroke="#3b5b8c" stroke-width="2.2"/>
+<rect x="141.0" y="768.0" width="198.0" height="40.0" rx="20.0" fill="#e3ecf8" stroke="#3b5b8c" stroke-width="1.6"/>
+<text x="240.0" y="792.0" font-size="11" fill="#1f3a66" text-anchor="middle">D1: Kalindra's gate</text>
+<path d="M362.0,688.0 L362.0,730.0" stroke="#888" stroke-width="1" fill="none"/><circle cx="362.0" cy="688.0" r="2.2" fill="#888"/>
+<rect x="290.4" y="721.5" width="143.2" height="17" rx="4" fill="#fffdf7" stroke="#333" stroke-width="1.4"/>
+<rect x="296.4" y="726.0" width="8" height="8" fill="#6a3fb5"/>
+<text x="308.4" y="734.0" font-size="11" fill="#333">Portcullis: stage 1</text>
+<path d="M850.0,788.0 L850.0,830.0" stroke="#888" stroke-width="1" fill="none"/><circle cx="850.0" cy="788.0" r="2.2" fill="#888"/>
+<rect x="797.5" y="821.5" width="104.9" height="17" rx="4" fill="#fffdf7" stroke="#ccc" stroke-width="0.8"/>
+<text x="803.5" y="834.0" font-size="11" fill="#333">Illusory wall</text>
+<path d="M484.0,738.0 L514.0,738.0" stroke="#888" stroke-width="1" fill="none"/><circle cx="484.0" cy="738.0" r="2.2" fill="#888"/>
+<rect x="442.4" y="729.5" width="143.2" height="17" rx="4" fill="#fffdf7" stroke="#333" stroke-width="1.4"/>
+<rect x="448.4" y="734.0" width="8" height="8" fill="#6a3fb5"/>
+<text x="460.4" y="742.0" font-size="11" fill="#333">Phase wall: stage 4</text>
+<rect x="162.0" y="517.5" width="156.0" height="17" rx="4" fill="#fffdf7" stroke="#2e7d32" stroke-width="1.4"/>
+<rect x="168.0" y="522.0" width="8" height="8" fill="#6a3fb5"/>
+<text x="180.0" y="530.0" font-size="11" fill="#2e7d32">Cloud Stairs: stage 2</text>
+<rect x="165.2" y="293.5" width="149.6" height="17" rx="4" fill="#fffdf7" stroke="#2e7d32" stroke-width="1.4"/>
+<rect x="171.2" y="298.0" width="8" height="8" fill="#6a3fb5"/>
+<text x="183.2" y="306.0" font-size="11" fill="#2e7d32">Upper stair: stage 4</text>
+<rect x="1154.0" y="791.5" width="124.1" height="17" rx="4" fill="#fffdf7" stroke="#2e7d32" stroke-width="1.4"/>
+<rect x="1160.0" y="796.0" width="8" height="8" fill="#6a3fb5"/>
+<text x="1172.0" y="804.0" font-size="11" fill="#2e7d32">Dungeon: stage 3</text>
+<path d="M606.0,912.0 L606.0,870.0" stroke="#888" stroke-width="1" fill="none"/><circle cx="606.0" cy="912.0" r="2.2" fill="#888"/>
+<rect x="537.6" y="861.5" width="136.8" height="17" rx="4" fill="#fffdf7" stroke="#b3261e" stroke-width="1.4"/>
+<circle cx="546.6" cy="870.0" r="3" fill="none" stroke="#b3261e" stroke-width="1.6"/><path d="M549.6,870.0 h7 m-2,0 v3 m-3,-3 v2" stroke="#b3261e" stroke-width="1.6" fill="none"/>
+<text x="558.6" y="874.0" font-size="11" fill="#b3261e">Kennel gate: lever</text>
+<rect x="10" y="1086" width="1346" height="200" rx="6" fill="#ffffff" stroke="#ddd8c8"/>
+<text x="22" y="1106" font-size="12.5" font-weight="bold" fill="#333">Legend</text>
+<rect x="22" y="1120" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#666"/>
+<text x="54" y="1132" font-size="11" fill="#333">room</text>
+<rect x="22" y="1141" width="26" height="16" rx="3" fill="#e9d29a" stroke="#666"/>
+<text x="54" y="1153" font-size="11" fill="#333">hall</text>
+<rect x="22" y="1162" width="26" height="16" rx="3" fill="#cfe8c9" stroke="#666"/>
+<text x="54" y="1174" font-size="11" fill="#333">stair or lift core</text>
+<rect x="22" y="1183" width="26" height="16" rx="3" fill="#e2e2e2" stroke="#666"/>
+<text x="54" y="1195" font-size="11" fill="#333">corridor, ledge, bridge</text>
+<rect x="22" y="1204" width="26" height="16" rx="3" fill="#dcc7b0" stroke="#666"/>
+<text x="54" y="1216" font-size="11" fill="#333">cave</text>
+<rect x="22" y="1225" width="26" height="16" rx="3" fill="#c9def0" stroke="#666"/>
+<text x="54" y="1237" font-size="11" fill="#333">shaft</text>
+<rect x="227" y="1120" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#c08a00" stroke-width="3"/>
+<text x="259" y="1132" font-size="11" fill="#333">set piece (gold frame)</text>
+<rect x="227" y="1141" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#b3261e" stroke-width="3"/>
+<text x="259" y="1153" font-size="11" fill="#333">boss (red frame)</text>
+<rect x="227" y="1162" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/>
+<text x="259" y="1174" font-size="11" fill="#333">chest, treasure tier</text>
+<text x="227" y="1195" font-size="11" font-weight="bold" fill="#9b1c1c">6 m</text>
+<text x="259" y="1195" font-size="11" fill="#333">monsters placed</text>
+<rect x="227" y="1204" width="26" height="14" rx="3" fill="#2e6b3a"/>
+<text x="259" y="1216" font-size="11" fill="#333">quest goal</text>
+<rect x="227" y="1225" width="26" height="16" rx="8" fill="#e3ecf8" stroke="#3b5b8c"/>
+<text x="259" y="1237" font-size="11" fill="#333">exit to another map</text>
+<path d="M427,1124 h44" stroke="#7a7a7a" stroke-width="2.0" fill="none"/>
+<text x="479" y="1128" font-size="11" fill="#333">open way</text>
+<path d="M427,1145 h44" stroke="#2f2f2f" stroke-width="2.4" fill="none"/>
+<text x="479" y="1149" font-size="11" fill="#333">door</text>
+<path d="M427,1166 h44" stroke="#b3261e" stroke-width="2.8" fill="none"/>
+<text x="479" y="1170" font-size="11" fill="#333">locked door (key named)</text>
+<path d="M427,1187 h44" stroke="#4a4a4a" stroke-width="2.0" fill="none" stroke-dasharray="1.5 4.5"/>
+<text x="479" y="1191" font-size="11" fill="#333">secret or illusory</text>
+<path d="M427,1208 h44" stroke="#2f2f2f" stroke-width="2.2" fill="none" marker-end="url(#a_dark)"/>
+<text x="479" y="1212" font-size="11" fill="#333">one-way</text>
+<path d="M642,1124 h44" stroke="#1f6fb2" stroke-width="5.0" fill="none"/>
+<path d="M642,1124 h44" stroke="#fff" stroke-width="1.6"/>
+<text x="694" y="1128" font-size="11" fill="#333">lift or moving cage</text>
+<path d="M642,1145 h44" stroke="#2e7d32" stroke-width="2.6" fill="none" stroke-dasharray="10 3"/>
+<text x="694" y="1149" font-size="11" fill="#333">stairs or ladder</text>
+<path d="M642,1166 h44" stroke="#7b3fa0" stroke-width="2.4" fill="none" stroke-dasharray="9 3 2 3" marker-end="url(#a_tel)"/>
+<text x="694" y="1170" font-size="11" fill="#333">teleport or throw</text>
+<path d="M642,1187 h44" stroke="#8d5a2b" stroke-width="2.4" fill="none" stroke-dasharray="6 4" marker-end="url(#a_drop)"/>
+<text x="694" y="1191" font-size="11" fill="#333">drop (one-way down)</text>
+<path d="M857,1124 h40" stroke="#e07b00" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_lever)"/><circle cx="857" cy="1124" r="3.2" fill="#e07b00"/>
+<text x="907" y="1128" font-size="11" fill="#333">lever, button, puzzle</text>
+<path d="M857,1145 h40" stroke="#b3261e" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_item)"/><circle cx="857" cy="1145" r="3.2" fill="#b3261e"/>
+<text x="907" y="1149" font-size="11" fill="#333">key found here</text>
+<path d="M857,1166 h40" stroke="#7a1010" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_kill)"/><circle cx="857" cy="1166" r="3.2" fill="#7a1010"/>
+<text x="907" y="1170" font-size="11" fill="#333">boss kill</text>
+<path d="M857,1187 h40" stroke="#6a3fb5" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_qbit)"/><circle cx="857" cy="1187" r="3.2" fill="#6a3fb5"/>
+<text x="907" y="1191" font-size="11" fill="#333">quest state or stage</text>
+<path d="M857,1208 h40" stroke="#0f7c7c" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_password)"/><circle cx="857" cy="1208" r="3.2" fill="#0f7c7c"/>
+<text x="907" y="1212" font-size="11" fill="#333">password</text>
+<text x="22" y="1276" font-size="10.5" fill="#666">Dashed state lines run from the room that holds the key, lever or boss to the gate they open; a label with a small square names the state.</text>
+</svg>

@@ -1,0 +1,3 @@
+Saved [03_left.png](./level_generation/creatures/xeen_sandworm_claude/references_hd/03_left.png) and its [generation record](./level_generation/creatures/xeen_sandworm_claude/references_hd/generation_runs_03_left.json). The six-ring left profile includes the low sand-and-rock mound. After clearing faint alpha residue, I verified the unresized 1024×1536 PNG has at least 82 px of transparent margin on every side.
+
+The maw leans left at a steeper angle than the requested 25°.

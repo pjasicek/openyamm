@@ -1,0 +1,142 @@
+# M42 The Clouds of the Ancients (QUESTS M42; Act VI, the ending). Owner: A3. P5 above Darkstone Tower (M41's seal;
+# D-56). The source's walk (dark/aazex129): the Pharaoh's note on a post at the start, by the stair house's door; one
+# ring of cloud road past three "Rest Stop" huts and ten boards naming New World Computing's games (the source's
+# spellings, "Planets Edge"); "The observatory is closed."; his shrine. The shrine wants the Cube and the Scepter and the
+# four sleepers awake (the source's check). Then the unification: the click takes the items, sets done, gives the award
+# and the experience and starts the map's cinematic `unification` (evt.PlayCinematic); its done event (played or
+# skipped) shows the ceremony text once, and when that window closes the completion certificate follows (A4's world.yml
+# `completion` on 111840; A1 holds it back during the cinematic and an open window). The Pharaoh's voiced line plays
+# only from the cinematic's cue (D-38). After the wedding Roland and Kalindra stand under the pavilion and talk; a
+# cloud-stone disc takes the party back to the stair house. Falls land on X5 (Xeen.skyFallTo("p5")). Town Portal and
+# Lloyd's Beacon work on P5; only Fly is off.
+id: M42
+title: The Clouds of the Ancients
+act: VI
+kind: main
+status: full
+giver: 5453          # The Dragon Pharaoh (M36), at his shrine on P5
+maps: [P5]
+level: 63
+block: 42
+after: [m41.seal_broken, m38.fire, m38.air, m38.earth, m38.water]
+source: "QUESTS M42; dark/aazex129:0-15; D-56"
+
+qbits:
+  done: {id: 111840}
+  ceremony_shown: {id: 111841}     # the cinematic's done event has shown the ceremony text (once)
+
+awards:
+  one_world: {id: 417, text: "Made Xeen One World", sort: 1}
+
+npcs:
+  4405:              # Prince Roland (the real one, M39) under the pavilion: A2's row 11920 (D-56 Q6)
+    topics:
+      - n: 1
+        label: The wedding
+        show: {all: [{qbit: done}, {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}]}
+        text: "Married on a cloud, by a dragon, with cake. My brother will not believe a word of it. Thank you, Crusaders: for the coffin, and for this."
+  5001:              # Queen Kalindra in her wedding look under the pavilion: A2's row 11921 (D-56 Q6)
+    topics:
+      - n: 2
+        label: One world
+        show: {all: [{qbit: done}, {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}]}
+        text: "One world, and one sun. I stood in daylight this morning and nothing happened to me at all. I could get used to that. The Darkside owes you, Crusaders. So do I."
+
+hooks:
+  pharaoh_note:
+    map: P5
+    where: "the note on its post by the stair house's door at the start, (4096, -4224), 544 from the door (D-56 Q4; the source's (29,7))"
+    text: "A message reads: It's a long road ahead so rest where you can. But don't forget to recast your spells. Signed, The Dragon Pharaoh"
+  rest_stop:
+    map: P5
+    where: "the sign of each of the three Rest Stop huts: hover and click (dark/aazex129:0)"
+    status: true
+    text: "Rest Stop"
+  board_might_and_magic:
+    map: P5
+    where: "the board lettered \"Might and Magic\": hover and click (dark/aazex129:1, the source's spelling)"
+    status: true
+    text: "Might and Magic"
+  board_kings_bounty:
+    map: P5
+    where: "the board lettered \"King's Bounty\": hover and click (dark/aazex129:2, the source's spelling)"
+    status: true
+    text: "King's Bounty"
+  board_empire_deluxe:
+    map: P5
+    where: "the board lettered \"Empire Deluxe\": hover and click (dark/aazex129:3, the source's spelling)"
+    status: true
+    text: "Empire Deluxe"
+  board_spaceward_ho:
+    map: P5
+    where: "the board lettered \"Spaceward Ho!\": hover and click (dark/aazex129:4, the source's spelling)"
+    status: true
+    text: "Spaceward Ho!"
+  board_vegas_games:
+    map: P5
+    where: "the board lettered \"Vegas Games\": hover and click (dark/aazex129:5, the source's spelling)"
+    status: true
+    text: "Vegas Games"
+  board_inherit_the_earth:
+    map: P5
+    where: "the board lettered \"Inherit the Earth\": hover and click (dark/aazex129:6, the source's spelling)"
+    status: true
+    text: "Inherit the Earth"
+  board_new_world_computing:
+    map: P5
+    where: "the board lettered \"New World Computing\": hover and click (dark/aazex129:7, the source's spelling)"
+    status: true
+    text: "New World Computing"
+  board_tunnels_and_trolls:
+    map: P5
+    where: "the board lettered \"Tunnels and Trolls\": hover and click (dark/aazex129:8, the source's spelling)"
+    status: true
+    text: "Tunnels and Trolls"
+  board_nuclear_war:
+    map: P5
+    where: "the board lettered \"Nuclear War\": hover and click (dark/aazex129:9, the source's spelling)"
+    status: true
+    text: "Nuclear War"
+  board_planets_edge:
+    map: P5
+    where: "the board lettered \"Planets Edge\": hover and click (dark/aazex129:10, the source's spelling)"
+    status: true
+    text: "Planets Edge"
+  observatory:
+    map: P5
+    where: "the observatory's door on the road's widening (dark/aazex129:11)"
+    status: true
+    text: "The observatory is closed."
+  shrine:
+    map: P5
+    window: "a cinematic and voiced lines (the ending)"
+    where: "the Pharaoh's shrine at the end of the walk (clicked). True takes the Cube and the Scepter, sets done, gives the award and 40,000 and plays the map's cinematic `unification` (xeen_p5.cinematics.yml, A5) with the done event that runs m42.ceremony; the map shows nothing else"
+    requires: {all: [{item: cube_of_power}, {item: xeens_scepter}, {qbit: m38.fire}, {qbit: m38.air}, {qbit: m38.earth}, {qbit: m38.water}]}
+    takes: [cube_of_power, xeens_scepter]
+    sets: [done]
+    once: true
+    do: [{award: one_world}, {xp: 40000}]
+    cinematic: {id: unification, done: ceremony, event: 49}
+    locked: true     # voiced (D-38): the quoted words, played by the cinematic's cue only (D-56 change 5)
+    voice: {speaker: The Dragon Pharaoh, line: "Let the two faces of Xeen be one world again."}
+    cinematic_sound: xeen_vo_pharaoh_unification   # for A5's cue in xeen_p5.cinematics.yml, with the subtitle below
+    cinematic_subtitles:
+      - "The Dragon Pharaoh: \"Let the two faces of Xeen be one world again.\""
+    fail_text: "Dragon Pharaoh, Guardian of Xeen: In order for me to commence the unification ceremony, you must have the Cube of Power and the Scepter of Temporal Distortion. Also, the four Elemental Sleepers must be awakened."
+    else_text: "The shrine is quiet. The pavilion is still there; somebody has left cake."
+  ceremony:
+    map: P5
+    where: "the cinematic's done event (played out or skipped; generated, global event 42149): the ceremony text, once; the certificate follows when the window closes"
+    sets: [ceremony_shown]
+    once: true
+    text: "The Dragon Pharaoh sets the Cube of Power in one hand of the shrine and the Scepter in the other. \"Let the two faces of Xeen be one world again.\" Far off, four sleepers answer at once. The sky turns over, and for a moment you see both faces of Xeen together: a whole world, close to its sun. When you can see again there is a pavilion on the cloud, Prince Roland and Queen Kalindra under it, and the Pharaoh, looking pleased with himself, reading the vows."
+  disc:
+    map: P5
+    where: "the cloud-stone disc beside the pavilion's open south side, shown after done (D-56 change 7): the map's event shows this line and moves the party to entrance:fd03_roof (4608, -3968, 0) facing 512"
+    requires: {qbit: done}
+    reads: [done]
+    status: true
+    text: "You step onto the disc. It drifts back along the cloud road and sets you down by the stair house."
+
+rewards: {xp: 40000, gold: 0, award: "Made Xeen One World"}
+playthrough: "P5: the Pharaoh's note at the start; the Rest Stop walk past the boards; the shrine with the Cube, the Scepter and the four sleepers: the cinematic, the ceremony text, the certificate; Roland and Kalindra; the disc back."

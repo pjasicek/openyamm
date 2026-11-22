@@ -1,0 +1,88 @@
+# Xeen promotion playthrough 33, the class table (README "What is checked" 5): DD-03: Dimitri's The dungeon (T2-A), after 31; the castle walked in and out.
+# Written by class_table.py (do not edit by hand): per row of Xeen.Promotions, round 1 gives the members the
+# row's "from" classes and classes it must leave alone (a logged test setup through SetPlayerClass), picks the
+# promote and asserts every class; round 2 has nobody eligible and the promote is not offered. The party's own
+# classes are put back at the end.
+#   python3 tests/playthrough/xeen/promotions/run.py 33
+id: xeen.promotions.33_dimitri_table
+title: "Xeen promotions 33: the class table, DD-03"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/31_dimitri_test.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm, qbit_set: [114522]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: -3072, z: 1664, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(254)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd03.blv}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 600, y: 3136, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 832, y: 3200, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  # D-82 point 5: no member down before the rounds (each reads every member's class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 33 before the class table: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before the class table (D-82 5): ' .. table.concat(down, ' | ')) end"}
+
+  # dimitri: Cavalier -> Champion. Dimitri (T2-A): "The dungeon".
+  # Round 1: Cavalier BlackKnight Champion Knight -> Champion BlackKnight Champion Knight.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Cavalier') then error('SetPlayerClass(0, Cavalier)') end if not SetPlayerClass(1, 'BlackKnight') then error('SetPlayerClass(1, BlackKnight)') end if not SetPlayerClass(2, 'Champion') then error('SetPlayerClass(2, Champion)') end if not SetPlayerClass(3, 'Knight') then error('SetPlayerClass(3, Knight)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES dimitri round 1 set: " .. c) if c ~= "Cavalier BlackKnight Champion Knight" then error("expected Cavalier BlackKnight Champion Knight, got " .. c) end'}
+  - play_lua: {source: "click(21); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5004, action_label_present: "The dungeon"}}
+  - select_topic: {match_label: "The dungeon"}
+  - assert: {dialog: {active: true, text_contains: "Another knight in your company. Kneel."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES dimitri round 1 promoted: " .. c) if c ~= "Champion BlackKnight Champion Knight" then error("expected Champion BlackKnight Champion Knight, got " .. c) end'}
+  # Nobody left: asked again, the line for a party with nobody to promote.
+  - select_topic: {match_label: "The dungeon"}
+  - assert: {dialog: {active: true, text_contains: "The cells are quiet. The guard can sleep"}}
+  - play_lua: {source: 'local c = classes() log("CLASSES dimitri round 1 again: " .. c) if c ~= "Champion BlackKnight Champion Knight" then error("expected Champion BlackKnight Champion Knight, got " .. c) end'}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Round 2: BlackKnight Champion Knight Peasant, none of them eligible: the promote is not offered.
+  - lua_event: {source: "if not SetPlayerClass(0, 'BlackKnight') then error('SetPlayerClass(0, BlackKnight)') end if not SetPlayerClass(1, 'Champion') then error('SetPlayerClass(1, Champion)') end if not SetPlayerClass(2, 'Knight') then error('SetPlayerClass(2, Knight)') end if not SetPlayerClass(3, 'Peasant') then error('SetPlayerClass(3, Peasant)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES dimitri round 2 set: " .. c) if c ~= "BlackKnight Champion Knight Peasant" then error("expected BlackKnight Champion Knight Peasant, got " .. c) end'}
+  - play_lua: {source: "click(21); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5004, action_label_present: "The dungeon"}}
+  - select_topic: {match_label: "The dungeon"}
+  - assert: {dialog: {active: true, text_contains: "The cells are quiet. The guard can sleep"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES dimitri round 2 kept: " .. c) if c ~= "BlackKnight Champion Knight Peasant" then error("expected BlackKnight Champion Knight Peasant, got " .. c) end'}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  - walk_to: {x: 600, y: 3136, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1900, y: 0, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 19}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - save_game: {name: "P33 class table", path: output/playthrough/xeen/promotions/checkpoints/33_dimitri_table.oysav}

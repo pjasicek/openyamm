@@ -1,0 +1,135 @@
+# Xeen FD-03 (Darkstone Tower) quest hooks in the installed map: M41 (D-57). A level-70 party from a new game in the
+# tower; the party is placed beside each thing (a hooks check, not a playthrough segment).
+# - The four gongs (each "No Sound No Ground!" on the status line, its qbit); a gong struck again.
+# - The plaques of levels 1-3 and the heads of level 4: each its line; the fourth of a level adds the summary
+#   (L1 "NEW WORLD THANKS YOU ...", L2 "SO ENDS THE SAGA OF CORAK AND SHELTEM!", L4's with autonote 4720).
+# - The seal on the roof stair: refused without the Chime of Opening (12373); with it 27,000 experience each, the chime
+#   taken, door 8 open (111820); again its after-line; open after a save and load.
+# - The roof hatch (event 16): up to P5, the Clouds of the Ancients (P5 is built: the entrance window's OK).
+# Places: the stand points of `oymap things` (devdocs/xeen/briefs/fd03/L4/), A7's playtests there.
+# Quest logic: source/quests/m41.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_fd03.yml --scenario-no-color
+id: xeen.hooks_fd03
+title: "Xeen FD-03 hooks: the gongs, the plaques and heads, the seal and the roof hatch"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_fd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 70, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 70, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 70, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 70, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_fd03.blv}
+  - assert: {qbit_clear: [111820, 118120]}
+  - assert: {autonote: {id: 4720, present: false}}
+
+  # ---- Level 1: the first gong (event 8), struck twice; the four plaques (events 21-24).
+  - set_pose: {map: xeen_fd03.blv, x: 637, y: 0, z: 0, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log('cleared ' .. clear_hostiles(3000))
+        click(8); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "A voice booms: \"No Sound No Ground!\"", 1, true) then error("gong 1: " .. s) end
+        if not qbit(118120) then error("gong 1's qbit 118120 not set") end
+        click(8); wait(0.5)
+        s = status() or ""
+        if not string.find(s, "No Sound No Ground!", 1, true) then error("gong 1 again: " .. s) end
+  - set_pose: {map: xeen_fd03.blv, x: 0, y: 0, z: 0, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for _, ev in ipairs({21, 22, 23}) do click(ev); wait(0.3); close(); wait(0.2) end; click(24); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "NEW WORLD THANKS YOU FOR PLAYING MIGHT AND MAGIC"}}
+  - play_lua: {source: "close(); wait(0.3); click(21); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "A plaque reads: NWDA---Y-HNA"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # ---- Level 2: its gong (event 10), the plaques (25-28).
+  - set_pose: {map: xeen_fd03.blv, x: -637, y: 0, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log('cleared ' .. clear_hostiles(3000))
+        click(10); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "No Sound No Ground!", 1, true) then error("gong 2: " .. s) end
+        for _, ev in ipairs({25, 26, 27}) do click(ev); wait(0.3); close(); wait(0.2) end
+        click(28); wait(0.4)
+  - assert: {dialog: {active: true, text_contains: "SO ENDS THE SAGA OF CORAK AND SHELTEM!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # ---- Level 3: its two gongs (12, 14), the plaques (29-32).
+  - set_pose: {map: xeen_fd03.blv, x: 637, y: 0, z: 1536, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log('cleared ' .. clear_hostiles(3000))
+        click(12); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "No Sound No Ground!", 1, true) then error("gong 3: " .. s) end
+  - set_pose: {map: xeen_fd03.blv, x: -637, y: 0, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        click(14); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "No Sound No Ground!", 1, true) then error("gong 4: " .. s) end
+        for _, ev in ipairs({29, 30, 31}) do click(ev); wait(0.3); close(); wait(0.2) end
+        click(32); wait(0.4)
+  - assert: {dialog: {active: true, text_contains: "Read down the columns, the four plaques say:"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # ---- Level 4: the four heads (17-20): the summary and autonote 4720.
+  - set_pose: {map: xeen_fd03.blv, x: 0, y: -600, z: 2304, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(3000)); for _, ev in ipairs({17, 18, 19}) do click(ev); wait(0.3); close(); wait(0.2) end; click(20); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "TYPE \"COMPUTER\" ON LEVEL 4 OF THE DUNGEON OF DEATH. SEE YA SOON!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {autonote: {id: 4720}}
+
+  # ---- The seal (event 33): without the Chime of Opening; with it.
+  - set_pose: {map: xeen_fd03.blv, x: 143, y: 1615, z: 2304, yaw: -2.3562, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(33); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "An invisible seal prevents passage."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_clear: [111820]}
+  - grant_item: {item_id: 12373, member_index: 0}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(33); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The seal has been broken.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(2)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 27000 then error("the seal paid member " .. i .. " " .. d) end
+        end
+        if has_item(12373) then error("the chime was not taken") end
+        local t = 0
+        while door_state(8) ~= "open" and t < 10 do wait(0.5); t = t + 0.5 end
+        if door_state(8) ~= "open" then error("door 8 " .. tostring(door_state(8))) end
+        click(33); wait(0.4)
+  - assert: {dialog: {active: true, text_contains: "The stair to the roof is open. Cloud light comes down it."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [111820]}
+  - reload: {}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_fd03.blv}
+  - play_lua: {source: "wait(1); if door_state(8) ~= 'open' then error('door 8 after the reload: ' .. tostring(door_state(8))) end"}
+  # ---- The roof hatch (event 16): up to P5 (built since; the standard entrance window, F16).
+  - set_pose: {map: xeen_fd03.blv, x: 400, y: 1870, z: 3072, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(16); wait(0.4)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}   # F16: the standard entrance window
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_p5.blv}

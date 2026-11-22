@@ -1,0 +1,186 @@
+# Xeen playthrough, segment 98: Darkstone Tower (X6, X5, FD-03), M41, up to the Clouds of the Ancients (P5).
+# On X6 before the Southern Sphinx with the Chime of Opening (12373) and the Darkstone Tower key (m39.darkstone_key
+# 111780). South off X6's edge to Winterkill Tundra (X5); Darkstone Tower's door (X5 event 59, m41.tower_door: the black
+# key turns, a status line) into FD-03's entrance:x5_door. FD-03 walked along A7's path
+# (devdocs/xeen/briefs/fd03/L4/playtest.yml): the arrival line, the way out's window (cancelled); every storey's gong
+# with its guards and slab ("No Sound No Ground!", m41.gong_voice; the daises rise), the plaques (one storey's fourth
+# read gives the columns), the Onyx Golem and the skull vault; the top floor's four heads (m41.plaques_l4: autonote
+# 4720); the invisible seal at the foot of the roof stair: the Chime of Opening breaks it (m41.seal: seal_broken 111820,
+# the Chime taken, 27,000 each); up the roof stair to the hatch: "Climb to the Clouds of the Ancients?" Yes, onto P5's
+# entrance:fd03_roof. Ends on P5.
+# Routes: segment 85 (the X6/X5 edge), devdocs/xeen/briefs/fd03/L4/playtest.yml and playtest_roof.yml.
+# Quest logic: source/quests/m41.yml.
+#   python3 tests/playthrough/xeen/run.py 98
+id: xeen.playthrough.98_darkstone_tower
+title: "Xeen playthrough 98: Darkstone Tower, the gongs, the seal broken by the Chime, the roof to the clouds"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/97_southern_sphinx.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x6.odm}
+  - assert: {qbit_set: [111780, 111801]}
+  - assert: {qbit_clear: [111820]}
+  - play_lua: {source: "log('98 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12373) then error('no Chime of Opening (12373)') end"}
+  # South off X6's edge to Winterkill Tundra (as segment 85).
+  - set_pose: {map: xeen_x6.odm, x: -7168, y: -22016, z: 1472, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: -24064, z: 1472, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Darkstone Tower's door (X5 event 59, m41.tower_door: the black key).
+  - set_pose: {map: xeen_x5.odm, x: -4608, y: 2560, z: 1504, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  # The door's line in the click's step (a --reload save and load after it would drop the status line).
+  - play_lua: {source: "status(); click(59); wait(0.5); local s = status() or ''; log('tower door: ' .. s); if not string.find(s, 'The black key turns without a sound', 1, true) then error('no tower door line: ' .. s) end"}
+  # F16 (merge point 40): the standard entrance window (a --reload skips its save while the window is open).
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert: {map: xeen_fd03.blv}
+  - play_lua: {source: "wait(2); local s = status() or ''; log('arrival: ' .. s); if not string.find(s, 'Darkstone Tower: black stone', 1, true) then error('no arrival line: ' .. s) end; wait(1); close()"}
+  - {setup_shortcut: {kind: immortal, value: true}}
+  - {assert: {party_position: {radius: 96, x: 0, y: 1792, z_max: 8, z_min: -8}}}
+  - {play_lua: {source: click(43); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: Do you wish to leave}}}
+  - {play_lua: {source: close()}}
+  - {assert: {map: xeen_fd03.blv}}
+  - {assert: {actor_visible: {actor_index: 5, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 6, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 13, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 14, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 25, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 26, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 27, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 28, hidden: true}}}
+  - {assert: {actor_visible: {actor_index: 40, hidden: false}}}
+  - {play_lua: {source: 'click(7); wait(0.5); local s = tostring(status()); log(''force: '' .. s); if not string.find(s, ''A force repels you'', 1, true) then error(''force line: '' .. s) end; if door_state(3) ~= ''closed'' then error(''the force is down before the Onyx Golem'') end; if qbit(118124) then error(''118124 set at the start'') end'}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: -272, y: 1620, z: 0}}
+  - {play_lua: {source: 'open_door(4, 5)'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -272, y: 1320, z: 0}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -1264, y: 0, z: 0}}
+  - {play_lua: {source: click(21); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'A plaque reads:'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: click(22); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'A plaque reads:'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: click(23); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'A plaque reads:'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: 'click(24); wait(0.5); local s = tostring(status()); log(''fourth plaque: '' .. s); if not string.find(s, ''A plaque reads: -LHSURAGGAMC'', 1, true) then error(''fourth row: '' .. s) end'}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.3}}
+  - {assert: {dialog: {active: true, text_contains: NEW WORLD THANKS YOU FOR PLAYING MIGHT AND MAGIC}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -700, y: 0, z: 0}}
+  - {play_lua: {source: 'click(8); wait(0.5); local s = tostring(status()); log(''evt:gong1: '' .. s); if not string.find(s, ''No Sound No Ground'', 1, true) then error(''no voice: '' .. s) end'}}
+  - {play_lua: {source: 'wait(6); if not qbit(118120) then error(''118120 not set'') end; if door_state(12) ~= ''open'' then error(''mover:slab1 not up: '' .. door_state(12)) end'}}
+  - {assert: {actor_visible: {actor_index: 5, hidden: false}}}
+  - {assert: {actor_visible: {actor_index: 6, hidden: false}}}
+  - {clear_hostiles: {radius: 3000}}
+  - {play_lua: {source: 'click(8); wait(0.5); log(''second ring: '' .. tostring(status()))'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: -700, z: 0}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: -1250, z: 0}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -336, y: -1640, z: 0}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: -920, y: -1888, z: 0, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 90, x: -50, y: -1888, z: 768, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 272, y: -1700, z: 768, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 272, y: -1300, z: 768, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -760, y: -1100, z: 768}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -560, y: -560, z: 768}}
+  - {play_lua: {source: 'click(10); wait(0.5); local s = tostring(status()); log(''evt:gong2: '' .. s); if not string.find(s, ''No Sound No Ground'', 1, true) then error(''no voice: '' .. s) end'}}
+  - {play_lua: {source: 'wait(6); if not qbit(118121) then error(''118121 not set'') end; if door_state(13) ~= ''open'' then error(''mover:slab2 not up: '' .. door_state(13)) end'}}
+  - {assert: {actor_visible: {actor_index: 13, hidden: false}}}
+  - {assert: {actor_visible: {actor_index: 14, hidden: false}}}
+  - {clear_hostiles: {radius: 3000}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: 700, z: 768}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: 1250, z: 768}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 336, y: 1640, z: 768}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: 920, y: 1888, z: 768, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 90, x: 50, y: 1888, z: 1536, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -272, y: 1700, z: 1536, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -272, y: 1300, z: 1536, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -760, y: 1100, z: 1536}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -560, y: 560, z: 1536}}
+  - {play_lua: {source: 'click(14); wait(0.5); local s = tostring(status()); log(''evt:gong3w: '' .. s); if not string.find(s, ''No Sound No Ground'', 1, true) then error(''no voice: '' .. s) end'}}
+  - {play_lua: {source: 'wait(4); if not qbit(118122) then error(''118122 not set'') end; if door_state(11) ~= ''open'' then error(''mover:riser3 not up: '' .. door_state(11)) end'}}
+  - {assert: {actor_visible: {actor_index: 25, hidden: false}}}
+  - {assert: {actor_visible: {actor_index: 26, hidden: false}}}
+  - {play_lua: {source: if door_state(14) ~= 'closed' then error('slab3 moved after one gong') end}}
+  - {play_lua: {source: 'click(12); wait(0.5); local s = tostring(status()); log(''evt:gong3e: '' .. s); if not string.find(s, ''No Sound No Ground'', 1, true) then error(''no voice: '' .. s) end'}}
+  - {play_lua: {source: 'wait(8); if not qbit(118123) then error(''118123 not set'') end; if door_state(14) ~= ''open'' then error(''mover:slab3 not up: '' .. door_state(14)) end'}}
+  - {assert: {actor_visible: {actor_index: 27, hidden: false}}}
+  - {assert: {actor_visible: {actor_index: 28, hidden: false}}}
+  - {clear_hostiles: {radius: 3000}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: -700, z: 1536}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: -1250, z: 1536}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -336, y: -1640, z: 1536}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: -920, y: -1888, z: 1536, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 90, x: -50, y: -1888, z: 2304, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 272, y: -1700, z: 2304, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 272, y: -1300, z: 2304, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 900, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -760, y: -1100, z: 2304}}
+  - {walk_to: {clear_hostiles: 900, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -1250, y: 0, z: 2304}}
+  - {play_lua: {source: 'open_door(6, 9)'}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: -700, y: 0, z: 2304}}
+  - {play_lua: {source: 'click(35); wait(0.5); local s = tostring(status()); log(''skull: '' .. s); if not string.find(s, ''The skull is silent'', 1, true) then error(''skull line: '' .. s) end'}}
+  - {clear_hostiles: {radius: 4000}}
+  - {play_lua: {source: 'wait(4); if not qbit(118124) then error(''vault_open 118124 not set by the Onyx Golem'') end; if door_state(3) ~= ''open'' then error(''force not down: '' .. door_state(3)) end'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -560, y: 560, z: 2304}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -950, y: 900, z: 2304}}
+  - {play_lua: {source: loot_chest(48)}}
+  - {play_lua: {source: click(17); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'Head 13 speaks: T-MEOE-FENN-TEAO'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: click(18); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'Head 14 speaks: Y"PRNV4--G-DHE-N'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: click(19); wait(0.5)}}
+  - {assert: {dialog: {active: true, text_contains: 'Head 15 speaks: PCU"-E-TDEOE--S!'}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {play_lua: {source: 'click(20); wait(0.5); local s = tostring(status()); log(''fourth head: '' .. s); if not string.find(s, ''Head 16 speaks: EOT-LLOHUOFASYO-'', 1, true) then error(''fourth head: '' .. s) end'}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.3}}
+  - {assert: {dialog: {active: true, text_contains: TYPE "COMPUTER"}}}
+  - {play_lua: {source: close(); wait(0.3)}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -560, y: 560, z: 2304}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: 700, z: 2304}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: 1250, z: 2304}}
+  - {play_lua: {source: 'remember(''xp'', experience(0)); remember(''xp3'', experience(3))'}}
+  - {play_lua: {source: click(33); wait(0.5)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.3}}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The seal has been broken]], 1, true) then error("status line: " .. s) end
+  - {play_lua: {source: 'close(); wait(5); if not qbit(111820) then error(''seal_broken not set'') end; if has_item(12373) then error(''the Chime was not taken'') end; if door_state(8) ~= ''open'' then error(''seal not open: '' .. door_state(8)) end'}}
+  - {play_lua: {source: 'local xp, xp3 = experience(0) - recall(''xp''), experience(3) - recall(''xp3''); if xp ~= 27000 or xp3 ~= 27000 then error(''the seal paid '' .. xp .. '' / '' .. xp3) end'}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: 0, y: 1620, z: 2304}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 60, x: -640, y: 1640, z: 2304}}
+  - {walk_to: {close_dialogs: true, radius: 64, timeout_seconds: 60, x: -650, y: 1904, z: 2304, z_tolerance: 24}}
+  - {walk_to: {clear_hostiles: 1500, close_dialogs: true, radius: 64, timeout_seconds: 90, x: 200, y: 1904, z: 3072, z_tolerance: 24}}
+  - {play_lua: {source: click(16); wait(0.5)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_p5.blv}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4.0, present_dialogs: true}
+  - assert: {party_position: {x: 4608, y: -3968, radius: 160, z_min: -60, z_max: 60}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111781, 111801, 111820]}
+  - assert: {autonote: {id: 4720, present: true}}
+  - play_lua:
+      source: |
+        if has_item(12373) then error("the Chime of Opening (12373) is still carried") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        log("98 done (M41): " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "98 Darkstone Tower", path: output/playthrough/xeen/checkpoints/98_darkstone_tower.oysav}

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Check that release bundles ship runtime models and leave development model files out."""
 
+import json
 from pathlib import Path
+import struct
 import tempfile
 import zipfile
 
-from package_runtime_assets import package
+from package_runtime_assets import check_model_references, package, share_model_textures
 
 
 def check_model_selection():
@@ -27,7 +29,14 @@ def check_model_selection():
                 "world_items/models/boots.glb": b"ground item model",
                 "world_items/models/textures/boots.oytex": b"ground item texture",
                 "effects/mm9/models/spells/bugpath.glb": b"existing particle animation path",
+                "source/maps.yml": b"maps: []\n",
+                ".build_world.lock": b"",
+                "maps/oute3.studio.yml": b"project: oute3\n",
+                "models/decoration_data.txt": b"/table rows\n",
             }
+            if name == "mm6":
+                files["world.yml"] = (b"id: mm6\ntableContributions:\n"
+                                      b"  - {table: decorations, mode: append, path: models/decoration_data.txt}\n")
             for relative, content in files.items():
                 path = source / relative
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -35,11 +44,60 @@ def check_model_selection():
             output = root / "packages" / f"{name}.zip"
             package(source, output)
             with zipfile.ZipFile(output) as archive:
+                # A table the world's manifest names ships from models/ too; leftovers of the authoring tools do not.
                 assert set(archive.namelist()) == {
                     "world.yml", "sprites/grass.png", "models/actors.yml", "models/projectiles.yml", "models/demon.glb",
                     "models/textures/0123.oytex", "effects/mm9/models/spells/bugpath.glb",
                     "world_items/items.yml", "world_items/models/boots.glb", "world_items/models/textures/boots.oytex"
-                }, archive.namelist()
+                } | ({"models/decoration_data.txt"} if name == "mm6" else set()), archive.namelist()
+
+
+def glb(uris):
+    """A minimal binary glTF whose JSON chunk names these image URIs."""
+    document = json.dumps({"asset": {"version": "2.0"}, "images": [{"uri": uri} for uri in uris]}).encode()
+    document += b" " * (-len(document) % 4)
+    return struct.pack("<III", 0x46546C67, 2, 20 + len(document)) + struct.pack("<II", len(document), 0x4E4F534A) \
+        + document
+
+
+def check_shared_model_textures():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        files = {
+            "engine/models/textures/a.oytex": b"shared with the engine",
+            "mm6/models/textures/b.oytex": b"shared with mm6",
+            "mm9/models/textures/c.oytex": b"shared with mm9 only",
+            "xeen/models/body.glb": glb(["textures/a.oytex", "textures/b.oytex", "textures/c.oytex",
+                                         "textures/d.oytex"]),
+            "xeen/models/textures/a.oytex": b"shared with the engine",
+            "xeen/models/textures/b.oytex": b"shared with mm6",
+            "xeen/models/textures/c.oytex": b"shared with mm9 only",
+            "xeen/models/textures/d.oytex": b"xeen's own",
+        }
+        packages = {}
+        for relative, content in files.items():
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+            package_id, name = relative.split("/", 1)
+            packages.setdefault(package_id, {})[name] = path
+        dependencies = {"mm6": ["engine"], "mm9": ["engine"], "xeen": ["engine", "mm6"]}
+        saved = share_model_textures(packages, dependencies)
+        # Only what the engine or a dependency ships is left out; MM9 is no dependency of Xeen.
+        assert sorted(packages["xeen"]) == ["models/body.glb", "models/textures/c.oytex", "models/textures/d.oytex"]
+        assert saved["xeen"] == len(files["xeen/models/textures/a.oytex"]) + len(files["xeen/models/textures/b.oytex"])
+        check_model_references(packages, dependencies)
+        del packages["xeen"]["models/textures/d.oytex"]
+        try:
+            check_model_references(packages, dependencies)
+        except ValueError as error:
+            assert "textures/d.oytex" in str(error), error
+        else:
+            raise AssertionError("A model texture no package ships was accepted")
+        # A different file under the same name stays.
+        packages["xeen"]["models/textures/a.oytex"] = b"another texture"
+        share_model_textures(packages, dependencies)
+        assert "models/textures/a.oytex" in packages["xeen"]
 
 
 def check_profile_textures():
@@ -75,4 +133,5 @@ def check_profile_textures():
 if __name__ == "__main__":
     check_model_selection()
     check_profile_textures()
+    check_shared_model_textures()
     print("Model selection and profile textures passed for release packages.")

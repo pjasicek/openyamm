@@ -1,0 +1,66 @@
+# Q-D15 Caleb's Magnifying Glass (QUESTS 2.2 Q-D15). Owner: A3. Format: QUESTS_FORMAT.md.
+# Caleb the Inventor (the Crossroads, D3) lost his glass to gargoyles; their lair (DD-23) is on Magic Mountain (D4).
+# Destroy the lair (the source's question), take the glass from the nest beside the roost. Experience: 5,000 per member.
+id: Q-D15
+title: "Caleb's Magnifying Glass"
+act: IV
+kind: side
+status: full
+giver: 5245          # Caleb the Inventor (Caleb's Workshop, 4646, the Crossroads)
+maps: [D3, D4, DD-23]
+level: 30
+block: 95
+after: []
+source: "QUESTS Q-D15; dark/aaze0019:12-23 (Caleb), dark/aaze0021:6-7 (the lair)"
+
+qbits:
+  started: {id: 113300, journal: "Caleb the Inventor at the Crossroads can't work without his magnifying glass. He saw gargoyles loitering by his tent.",
+            until: [done]}
+  lair_destroyed: {id: 113301, note: "DD-23's roost (A7)"}
+  glass_found: {id: 113302, note: "DD-23's nest (A7)"}
+  done: {id: 113303, note: "Caleb paid"}
+
+autonotes:
+  lair: {id: 4550, text: "The gargoyles roost on Magic Mountain, above Lakeside. Caleb's glass is probably in their lair.", category: Misc}
+
+items:
+  calebs_glass: "DD-23's nest (glass hook); Caleb takes it"
+
+npcs:
+  5245:              # Caleb
+    topics:
+      - n: 1
+        label: Magnifying glass
+        states:
+          - when: {qbit: done}
+            text: "Always nice to see you! Come and look at this. No? It's very small."
+          - when: {item: calebs_glass}
+            text: "How wonderful! You have located my magnifying glass. Can't thank you enough. Take this gold, and this: I made it, and now I can finally see what it is."
+            do: [{take: calebs_glass}, {set: done}, {xp: 5000}, {gold: 2000}, {treasure: 4}]
+          - when: {qbit: started}
+            text: "I see you didn't find my magnifying glass. You know, I did see a couple of gargoyles loitering around my tent the other day. Maybe they stole it."
+          - text: "Well, this is just great! How am I supposed to get any work done? My magnifying glass is missing and I can't see what I'm working on without it. Do you think you could find it for me? Gargoyles were loitering around the tent. Gargoyles like shiny things."
+            do: [{set: started}, {autonote: lair}]
+
+hooks:
+  roost:
+    map: DD-23
+    where: "the roosting rocks in the lair's heart (the map's question 'Do you wish to destroy the Gargoyle Lair?')"
+    sets: [lair_destroyed]
+    once: true
+    text: "With great effort, you pound roosting rocks to powder and scatter the dust to the wind."
+    else_text: "Rock dust. The gargoyles will have to sit somewhere else."
+  glass:
+    map: DD-23
+    gate: order
+    where: "the gargoyles' nest of shiny things beside the roost: the glass only once the roost is destroyed"
+    requires: {qbit: lair_destroyed}
+    sets: [glass_found]
+    gives: [calebs_glass]
+    once: true
+    text: "In a nest of spoons, buckles and broken mirrors: a magnifying glass, with 'CALEB' scratched on the handle. Very small."
+    fail_text: "A nest of shiny things under the roost. Every gargoyle on the rocks above turns its head as you reach for it."
+    else_text: "Spoons, buckles, broken mirrors."
+
+rewards: {xp: 5000, gold: 2000, items: "an item T4"}
+playthrough: "D3: Caleb (Magnifying glass). D4: DD-23, the roost and the nest. D3: Caleb (Magnifying glass)."

@@ -1,0 +1,1015 @@
+# Playtest of Castle Alamar (DD-17, L4): from D6 with the Soul Box (m33.arrival); the gate before the dials and the
+# lift before the gate refuse; the fire belt's ride and back ride keep the facing given (north); the maintenance door
+# bolted until the Head; the four Heads shut down (each field drops, each maintenance door opens); the four sundials
+# to nine (the line at nine, each slab rises); across the four bridges to the island; the gate: a wrong name, then
+# Sheltem; the lift up; a trapdoor drops the party 1,280 and it walks out by the sump's lever and the stair; the vault
+# release, the juice, 'Come to ME!'; the dais plate's No and Yes, the cinematic shows Sheltem and Corak, the leave to
+# D6's entrance:dd17_gate. Numbers from ids.lock.yml (output/studio_cal/dd17/tools/tests.py).
+# Run with --world xeen --map xeen_dd17.blv (output/studio_cal/dd17/four.sh). Written by tools/tests.py.
+id: xeen.dd17.l4.playtest
+title: 'Castle Alamar (DD-17 L4): playtest'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 53
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12364
+- lua_event:
+    source: evt.MoveToMap(0, -4736, 0, 512, 0, 0, 0, 0, "xeen_dd17.blv")
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+    follow_map_move: true
+- assert:
+    dialog:
+      active: true
+      text_contains: The Soul Box hums
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_dd17.blv
+- assert:
+    party_position:
+      x: 0
+      y: -4736
+      radius: 64
+      z_min: -8
+      z_max: 8
+      facing: 512
+      facing_within: 64
+- play_lua:
+    source: if not (qbit(111660) and qbit(117600)) then error('m33.arrival did not set inside / arrived_once' .. ' / ' ..
+      status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 1168
+    y: 0
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: click(45); wait(0.8)
+- assert:
+    dialog:
+      active: true
+      text_contains: The time is not right
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (door_state(23) == 'closed') then error('the gate opened before nine' .. ' / ' .. status() .. ' / doors
+      ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 2080
+    y: 0
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- play_lua:
+    source: status(); click(62); wait(1)
+- play_lua:
+    source: if not (string.find(status(), 'Access to the upper floor is denied!', 1, true) and door_state(1) == 'closed')
+      then error('the lift ran before the gate' .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21)
+      .. ' / ' .. party()) end
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- note: 'Short recorded walks onto the plates: each ride lands at the belt''s end facing north (512), the facing it gives
+    (A1''s merge point 28); the held key is playtest_belt.yml.'
+- movement_segment:
+    input: forward
+    seconds: 0.35
+    loose_tolerance: true
+    tolerance_xy: 6000
+    tolerance_z: 40
+    start:
+      map: xeen_dd17.blv
+      x: -2496
+      y: -3108
+      z: 0
+      yaw_degrees: 90
+    expect_stop:
+      map: xeen_dd17.blv
+      x: -2496
+      y: 1504
+      z: 0
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not (string.find(status(), 'The floor lurches and carries you along.', 1, true)) then error('no belt line'
+      .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- assert:
+    party_position:
+      x: -2496
+      y: 1504
+      radius: 400
+      z_min: -8
+      z_max: 8
+      facing: 512
+      facing_within: 64
+- play_lua:
+    source: 'log(''fire belt ride: '' .. party())'
+- movement_segment:
+    input: forward
+    seconds: 0.35
+    loose_tolerance: true
+    tolerance_xy: 6000
+    tolerance_z: 40
+    start:
+      map: xeen_dd17.blv
+      x: -2496
+      y: 868
+      z: 0
+      yaw_degrees: 270
+    expect_stop:
+      map: xeen_dd17.blv
+      x: -2496
+      y: 1504
+      z: 0
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: -2496
+      y: 1504
+      radius: 400
+      z_min: -8
+      z_max: 8
+      facing: 512
+      facing_within: 64
+- play_lua:
+    source: log('fire belt back ride')
+- set_pose:
+    map: xeen_dd17.blv
+    x: -3408
+    y: 1824
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- play_lua:
+    source: status(); click(65); wait(1)
+- play_lua:
+    source: if not (string.find(status(), 'bolted on the other side', 1, true) and door_state(31) == 'closed') then error('the
+      maintenance door opened from the return side first' .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21)
+      .. ' / ' .. party()) end
+- walk_to:
+    x: -2992
+    y: 2832
+    z: 0
+    radius: 96
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: click(52); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'The Head speaks: "Fire power field operational." Shut the field down?'
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: if not (not qbit(117601) and door_state(21) == 'closed') then error('No shut the fire Head down' .. ' / ' .. status()
+      .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(52); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'The Head speaks: "Fire power field operational." Shut the field down?'
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Somewhere above, a field dies.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: if not (qbit(117601) and door_state(21) == 'open') then error('the fire Head did not drop its field' .. ' / '
+      .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(65); wait(2)
+- play_lua:
+    source: if not (door_state(31) == 'open') then error('the fire maintenance door did not open' .. ' / ' .. status() ..
+      ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: -4416
+    y: 672
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: click(54); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'The Head speaks: "Water power field operational." Shut the field down?'
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Somewhere above, a field dies.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: if not (qbit(117603) and door_state(22) == 'open') then error('the water Head did not drop its field' .. ' / '
+      .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(66); wait(2)
+- play_lua:
+    source: if not (door_state(32) == 'open') then error('the water maintenance door did not open' .. ' / ' .. status() ..
+      ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 2992
+    y: 2832
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: click(48); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'The Head speaks: "Air power field operational." Shut the field down?'
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Somewhere above, a field dies.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: if not (qbit(117602) and door_state(19) == 'open') then error('the air Head did not drop its field' .. ' / ' ..
+      status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(63); wait(2)
+- play_lua:
+    source: if not (door_state(29) == 'open') then error('the air maintenance door did not open' .. ' / ' .. status() .. '
+      / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 4416
+    y: 672
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: click(50); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'The Head speaks: "Earth power field operational." Shut the field down?'
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Somewhere above, a field dies.
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: if not (qbit(117604) and door_state(20) == 'open') then error('the earth Head did not drop its field' .. ' / '
+      .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(64); wait(2)
+- play_lua:
+    source: if not (door_state(30) == 'open') then error('the earth maintenance door did not open' .. ' / ' .. status() ..
+      ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: -3328
+    y: 2656
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(23); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'The dial clicks home at nine.', 1, true)) then error('no line at nine (fire)' ..
+      ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(4) == 'open') then error('the fire slab did not rise' .. ' / ' .. status() .. ' / doors ' ..
+      door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 4080
+    y: 2656
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: close(); click(21); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(21); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(21); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'The dial clicks home at nine.', 1, true)) then error('no line at nine (air)' ..
+      ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(2) == 'open') then error('the air slab did not rise' .. ' / ' .. status() .. ' / doors ' ..
+      door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: 4080
+    y: -2832
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(22); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'The dial clicks home at nine.', 1, true)) then error('no line at nine (earth)'
+      .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(3) == 'open') then error('the earth slab did not rise' .. ' / ' .. status() .. ' / doors '
+      .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: -3328
+    y: -2832
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: close(); click(24); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(24); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'The dial clicks home at nine.', 1, true)) then error('no line at nine (water)'
+      .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(5) == 'open') then error('the water slab did not rise' .. ' / ' .. status() .. ' / doors '
+      .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: if not (qbit(111663)) then error('m33.sundial_nine not set with four at nine' .. ' / ' .. status() .. ' / doors
+      ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: -1408
+    y: 0
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -672
+    y: 0
+    z: 640
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 0
+    z: 640
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: 0
+    z: 640
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1168
+    y: 0
+    z: 640
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 1168
+      y: 0
+      radius: 96
+      z_min: 624
+      z_max: 656
+- play_lua:
+    source: 'log(''on the island: '' .. party())'
+- play_lua:
+    source: click(45); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: The time is right. What is Alamar's true name?
+- answer_input:
+    text: Alamar
+- advance_runtime:
+    seconds: 0.8
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Wrong!
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (door_state(23) == 'closed' and not qbit(111661)) then error('a wrong name opened the gate' .. ' / ' ..
+      status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(45); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: The time is right. What is Alamar's true name?
+- answer_input:
+    text: Sheltem
+- advance_runtime:
+    seconds: 0.8
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Access approved!
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: if not (qbit(111661) and door_state(23) == 'open') then error('Sheltem did not open the gate' .. ' / ' .. status()
+      .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- walk_to:
+    x: 1872
+    y: 0
+    z: 640
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 2080
+    y: 0
+    z: 640
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- play_lua:
+    source: click(62); wait(4)
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: if not (door_state(1) == 'open') then error('the lift did not rise' .. ' / ' .. status() .. ' / doors ' .. door_state(1)
+      .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- assert:
+    party_position:
+      x: 2080
+      y: 0
+      radius: 160
+      z_min: 1264
+      z_max: 1296
+- walk_to:
+    x: 1408
+    y: 0
+    z: 1280
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 672
+    y: 464
+    z: 1280
+    radius: 48
+    timeout_seconds: 20
+    clear_hostiles: 3000
+    close_dialogs: true
+- advance_runtime:
+    seconds: 4
+- assert:
+    party_position:
+      x: 672
+      y: 464
+      radius: 200
+      z_min: -16
+      z_max: 64
+- play_lua:
+    source: if not (door_state(6) == 'closed') then error('the trapdoor did not fall' .. ' / ' .. status() .. ' / doors '
+      .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: 'log(''after the fall: '' .. party())'
+- walk_to:
+    x: 672
+    y: -656
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: -1072
+    z: 0
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: -1408
+    z: 0
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: -1696
+    z: 0
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: -1952
+    z: 0
+    radius: 48
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 576
+    y: -2240
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -832
+    y: -2240
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -832
+    y: -2912
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- play_lua:
+    source: status(); click(34); wait(1)
+- play_lua:
+    source: if not (door_state(33) == 'closed') then error('the sump door opened without its lever' .. ' / ' .. status() ..
+      ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(84); wait(3)
+- play_lua:
+    source: if not (door_state(33) == 'open') then error('the sump lever did not open the door' .. ' / ' .. status() .. '
+      / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(83); wait(0.5)
+- walk_to:
+    x: -80
+    y: -2912
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 48
+    y: -2864
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1296
+    y: -2864
+    z: 640
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1248
+    y: -3328
+    z: 640
+    radius: 64
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1248
+    y: -3824
+    z: 640
+    radius: 96
+    timeout_seconds: 40
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 1248
+      y: -3824
+      radius: 128
+      z_min: 624
+      z_max: 656
+- play_lua:
+    source: 'log(''back on the south walk: '' .. party())'
+- set_pose:
+    map: xeen_dd17.blv
+    x: 1120
+    y: 2912
+    z: 1280
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 5000
+- play_lua:
+    source: click(95); wait(0.6)
+- assert:
+    dialog:
+      active: true
+      text_contains: Vault release. Pull?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (qbit(117605) and door_state(34) == 'open') then error('the vault release did not open the strongroom'
+      .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(60); wait(0.5)
+- play_lua:
+    source: if not (string.find(status(), '+2 Might', 1, true)) then error('no juice line' .. ' / ' .. status() .. ' / doors
+      ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: click(60); wait(0.5)
+- play_lua:
+    source: if not (string.find(status(), 'You have had yours', 1, true)) then error('no second juice line' .. ' / ' .. status()
+      .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- set_pose:
+    map: xeen_dd17.blv
+    x: -1408
+    y: 0
+    z: 1280
+    yaw_degrees: 180
+    pitch: 0
+- clear_hostiles:
+    radius: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    loose_tolerance: true
+    tolerance_xy: 6000
+    tolerance_z: 40
+    start:
+      map: xeen_dd17.blv
+      x: -1800
+      y: 0
+      z: 1280
+      yaw_degrees: 180
+    expect_stop:
+      map: xeen_dd17.blv
+      x: -2000
+      y: 0
+      z: 1280
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Come to ME!
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (qbit(117606)) then error('Come to ME not set' .. ' / ' .. status() .. ' / doors ' .. door_state(1) ..
+      ' ' .. door_state(21) .. ' / ' .. party()) end
+- assert:
+    actor_visible:
+      actor_index: 54
+      monster_id: 11924
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 11912
+      hidden: true
+- clear_hostiles:
+    radius: 5000
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    loose_tolerance: true
+    tolerance_xy: 6000
+    tolerance_z: 40
+    start:
+      map: xeen_dd17.blv
+      x: -2760
+      y: -4000
+      z: 1280
+      yaw_degrees: 180
+    expect_stop:
+      map: xeen_dd17.blv
+      x: -2960
+      y: -4000
+      z: 1280
+- advance_runtime:
+    seconds: 0.8
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Before the throne. Open the Soul Box?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (not qbit(111662)) then error('No ran the confrontation' .. ' / ' .. status() .. ' / doors ' .. door_state(1)
+      .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- movement_segment:
+    input: forward
+    seconds: 0.45
+    loose_tolerance: true
+    tolerance_xy: 6000
+    tolerance_z: 40
+    start:
+      map: xeen_dd17.blv
+      x: -2760
+      y: -4000
+      z: 1280
+      yaw_degrees: 180
+    expect_stop:
+      map: xeen_dd17.blv
+      x: -2960
+      y: -4000
+      z: 1280
+- advance_runtime:
+    seconds: 0.8
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Before the throne. Open the Soul Box?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 4
+    present_dialogs: true
+- assert:
+    actor_visible:
+      actor_index: 54
+      monster_id: 11924
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 11912
+      hidden: false
+- play_lua:
+    source: 'log(''cinematic: Sheltem and Corak shown'')'
+- advance_runtime:
+    seconds: 18
+    follow_map_move: true
+- advance_runtime:
+    seconds: 3
+    follow_map_move: true
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_d6.odm
+- assert:
+    party_position:
+      x: -6656
+      y: 4608
+      radius: 200
+      facing: 1536
+      facing_within: 64
+- play_lua:
+    source: if not (qbit(111662) and has_item(12365) and not has_item(12364)) then error("m33.sheltem's state" .. ' / ' ..
+      status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: 'log(''D6 after the cinematic: '' .. party())'

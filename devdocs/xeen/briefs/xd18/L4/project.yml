@@ -1,0 +1,37 @@
+format: 0
+id: xeen_xd18
+name: Dragon Cave
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-18
+units: {plan_grid: 512}
+extent: {footprint_cells: [32, 16], climbs: n}
+map_stats:
+  id: 9143
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 13
+  environment: cave
+  lock_difficulty: 20
+  slots: []
+neighbours:
+  - id: exit:x7_mouth
+    to: xeen_x7.odm
+    kind: door
+    arrival: entrance:xd18_mouth
+    arrival_hint: "On X7 before the Dragon Cave's mouth in the rim crag (A5's entrance:xd18_mouth, (-4096, 16896, 2144) facing south)."
+    notes: "X7 installed (A5). The way out (and the inner door's throw, D-57 Q2) names X7's named arrival entrance:xd18_mouth. X7's door:xd18 (thing:xd18_mouth, 'The Dragon Cave smells pretty bad. Are you sure you wish to enter?', aaze0017:0) names this map's arrival entrance:x7_mouth: (384, -3072, 0) facing east."
+qbits:
+  inner_door_open: 118100
+  king_slain: 118101
+  tax_paid: 112500
+notes: "Xeen design brief, level L4: XD-18 Dragon Cave on X7 (Q-C25, optional). D-57: Acid Dragon 11641 x 9, Fire Dragon 11642 x 17, Frost Dragon 11643 x 14 (40, 66.64k per member) and the Dragon King 11645 (69.94k with him). Rest encounters 0 (Q5). Hooks q-c25.inner_door, urn, receipt, volume1-5, taxation; Scaldrith's house 4852. Map qbits 118100-118101. Music 13."
+identity:
+  shape: cave
+  family: d17
+  seen: [a cave mouth of scorched rock opening on the Dragon Tax Office cut into the rock, "dragon halls with broken outlines, rising and falling floors and vaulted roofs", "the Dragon King on top of his mound of gold, the starwell open on the stars"]

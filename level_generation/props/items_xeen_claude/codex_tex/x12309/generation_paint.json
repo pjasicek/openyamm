@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST input guide_atlas.png using alpha lock. Output a 1536x1024 transparent PNG identical to that atlas in all pixel coordinates and alpha values. Replace only the grey RGB with unlit albedo of pale twisted Phirna Root, matching second input for fine fibrous grain, hairs and a few earth crumbs and third for pale tan colour. No magenta. The top row contains three completely straight horizontal edge-on slivers, exactly 20px tall at y246..265: x167..344, x679..856, x1057..1502. Bottom left fourth straight sliver x33..478 at y758..777. Paint these exact rectangles edge to edge. Bottom middle has the angular forked shape from the guide only, paint inside it retaining every jagged corner, gap and its exact size and position. Keep bottom right empty. No redrawing contours, protruding hairs, recentering, padding, lighting, shadows, reflections, outlines or text. Keep guide layer transparency exactly. Correct the silhouette transparency: perform a hard stencil fill. The only visible pixels are the five input shapes. All other pixels must be absolutely clear alpha zero. Disable ALL soft edge effects, bloom, glow, drop shadow, atmospheric gradient, background tint or feathering. Hard cutout texture atlas.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "29e672913d4e42cfdda94dbc6434fcdfa120f02e1ccd0a18027d41c041e3837e"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "03a16456fbbf447f00ea4dd9eaf21af88e326658d18cdd7d8c1323502c3f19ad"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "28dd63eb1896c59bcc9d5e6c24fba298e5f5e881435582d0396e45a7f993e415"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91b-2c01-7190-86ab-1a9e63bd8265/exec-59227b0a-c0eb-441a-bc60-6c71d9368d21.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

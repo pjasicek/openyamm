@@ -1,0 +1,206 @@
+# Hostility check of D3 Sandcaster and the Aging Forest (written by output/studio_cal/d3/tools/gen_hostility_d3.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.d3.l4.hostility
+title: 'D3 Sandcaster and the Aging Forest: foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d3.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11370
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11371
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11372
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11490
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11491
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11492
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11440
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11441
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11442
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11350
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11351
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11350
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11351
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 371
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 368
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 362
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 350
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 354
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- set_pose:
+    map: xeen_d3.odm
+    x: 4096
+    y: 2048
+    z: 2600
+    yaw_degrees: -90
+- advance_runtime:
+    seconds: 2
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11370
+    x: 4096
+    y: 1024
+    z: 1100
+- spawn_actor:
+    monster_id: 11490
+    x: 4192
+    y: 1024
+    z: 1100
+- spawn_actor:
+    monster_id: 11440
+    x: 4288
+    y: 1024
+    z: 1100
+- spawn_actor:
+    monster_id: 11350
+    x: 4384
+    y: 1024
+    z: 1100
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11370
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11490
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11440
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11350
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 371
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 368
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 362
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 350
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 354
+      hurt: true
+      max: 0

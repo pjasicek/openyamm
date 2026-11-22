@@ -1,0 +1,190 @@
+# MU-5 house kit boards (houses.py): per town kit the pieces (codes) and 6-10 house types in front elevation.
+# Pieces are the kits' shipped textures (world/name, level_generation/xeen_art/kits/<kit>.yml) and their new
+# textures (bare names, level_generation/xeen_art/kit_textures/towns). Storeys bottom first, one code per 128 units.
+# Left ends (L) carry the post, quoin or pilaster on their left edge, right ends (R) on their right edge.
+cloudside_town:
+  title: Cloudside half-timbered town (Vertigo, Rivercity, Asp)
+  look: >-
+    Warm, cheerful MM6/MM7 daylight: half-timbered houses of cream and ochre plaster, grey daub and grey planks between
+    dark oak beams, thatch, shingle and red-brown slate roofs, painted wooden shop signs, flower boxes and a green lawn.
+  pieces: {L: mm7/hhm2el, R: mm7/hhm2er, W: mm7/hhm2b2, w: mm7/hhm2bw, D: mm7/hhm2d, roof: mm7/hhm2rf,
+           gable: mm7/hhm2b2, chimney: mm7/hhm3ch, plinth: mm7/hhp2b2}
+  houses:
+  - name: poor cottage
+    storeys: ["L w D R"]
+    roof: eaves
+    roof_height: 192
+    extras: [chimney]
+    pieces: {L: mm7/hhp1el, R: mm7/hhp1er, w: mm7/hhp1bw, D: mm7/hhp1d, roof: mm7/hhp2rf, chimney: mm7/hhp2b2}
+  - name: poor rubble hut
+    storeys: ["L D W R"]
+    roof: gable
+    roof_height: 224
+    pieces: {L: mm7/hhp2el, R: mm7/hhp2er, W: mm7/hhp2bs, D: mm7/hhp2dr, roof: mm7/hhp2rf, gable: mm7/hhp2b1}
+  - name: stable (planks)
+    storeys: ["L D E w R"]
+    roof: gable
+    roof_height: 288
+    pieces: {L: mm7/hhm1b2le, R: mm7/hhm1b2re, D: mm7/hhm1d, E: mm7/hhm1d2, w: mm7/hhm1bw, roof: mm7/hhm1rf,
+             gable: mm7/hhm1b1, sign: mm7/7sgstabl}
+    extras: [sign]
+  - name: Norman's Ironworks (smithy)
+    storeys: ["L w D W R"]
+    roof: gable
+    roof_height: 256
+    extras: [sign, chimney]
+    pieces: {L: mm7/hhm3el2, R: mm7/hhm3er2a, W: mm7/hhm3b, w: mm7/hhm3bw2, D: mm7/hhm3d, roof: mm7/hhm3rf,
+             gable: mm7/hhm3b, sign: xcnorman}
+  - name: middle house, two storeys
+    storeys: ["L w D w R", "M w W w S"]
+    roof: eaves
+    roof_height: 224
+    extras: [chimney]
+    pieces: {M: mm7/hhm2elw, S: mm7/hhm2erw}
+  - name: Lady Geraldine's Tavern
+    storeys: ["L w w D w w R", "M w W W W w S"]
+    roof: gable
+    roof_height: 320
+    extras: [sign, chimney]
+    pieces: {M: mm7/hhm2elw, S: mm7/hhm2erw, sign: xcgeraldn}
+  - name: rich town house
+    storeys: ["L w E F w R", "M w W W w S"]
+    roof: eaves
+    roof_height: 256
+    pieces: {L: mm7/7hhr1el3, R: mm7/7hhr1erb, M: mm7/7hhr1elw, S: mm7/7hhr1erw, W: mm7/7hhr1bs2, w: mm7/7hhr1bw2,
+             E: mm7/7hhr1d1, F: mm7/7hhr1d2, roof: mm7/7hhr1rf, gable: mm7/7hhr1b}
+  - name: guild hall (fieldstone)
+    storeys: ["L W w E F w W R"]
+    roof: eaves
+    roof_height: 288
+    extras: [sign]
+    pieces: {L: mm7/chb1el, R: mm7/chb1er, W: mm7/chb1, w: mm7/chbw, E: mm7/chb1dl, F: mm7/chb1dr,
+             roof: mm7/7hhr1rf, sign: mm7/sgfire, plinth: mm7/chb1s}
+  - name: Rivercity old quarter (MM6 pxstr)
+    storeys: ["L w D w R", "M W w W S"]
+    roof: gable
+    roof_height: 288
+    extras: [sign]
+    pieces: {L: mm6/pxstrle, R: mm6/pxstrre, W: mm6/pxstrst, w: mm6/pxstrwb, D: mm6/pxstrdr, M: mm6/pxstrlew,
+             S: mm6/pxstrrew, roof: mm6/pxshings, gable: mm6/pxstrst, sign: xcwitch}
+darkside_town:
+  title: Darkside stone and slate town (Castleview, Lakeside)
+  look: >-
+    A drier, desaturated world under an amber sky: low houses of grey rounded boulder-stone between dark weathered
+    timber posts, dark slate roofs, the better buildings in grey dressed ashlar with carved friezes, muted faded
+    paint on the signs, sparse dry grass, a lantern or two burning.
+  pieces: {L: mm8/t06a07, R: mm8/t06a06, W: mm8/t06a01, w: mm8/t06a04, D: mm8/t06a03, roof: mm8/t06a05,
+           gable: mm8/t06a01, chimney: mm8/t06a02, plinth: mm8/t06b02}
+  houses:
+  - name: poor cottage
+    storeys: ["L D w R"]
+    roof: eaves
+    roof_height: 160
+    extras: [chimney]
+    pieces: {roof: xlslatemos}
+  - name: shed
+    storeys: ["D W R"]
+    roof: gable
+    roof_height: 192
+    pieces: {roof: xlslatemos}
+  - name: middle house (frieze, posts)
+    storeys: ["L w D W w R"]
+    roof: eaves
+    roof_height: 192
+    extras: [chimney]
+    pieces: {L: mm8/t06a09, R: mm8/t06a08, w: mm8/t06c04, D: mm8/t06c03, W: mm8/t06b01, roof: mm8/t06b05}
+  - name: Adventurer's Inn
+    storeys: ["L w w D w R", "M W w w W S"]
+    roof: eaves
+    roof_height: 224
+    extras: [sign, chimney]
+    pieces: {L: mm8/t06b07, R: mm8/t06b06, w: mm8/t06d04, M: mm8/t06a09, S: mm8/t06a08, sign: xlinn}
+  - name: Public Storage
+    storeys: ["L W D W R"]
+    roof: gable
+    roof_height: 224
+    extras: [sign]
+    pieces: {D: mm8/t06d03, W: mm8/t06b01, sign: xlstorage}
+  - name: Lakeside ferry house
+    storeys: ["L D w R"]
+    roof: eaves
+    roof_height: 160
+    extras: [sign]
+    pieces: {D: mm8/t06b03, w: mm8/t06e04, sign: xlferry}
+  - name: rich ashlar house
+    storeys: ["L w D w R", "L x W x R"]
+    roof: eaves
+    roof_height: 192
+    pieces: {L: mm8/t09a07, R: mm8/t09a06, W: mm8/t09a01, w: mm8/t09a04a, x: mm8/t09a04b, D: mm8/t09a03c,
+             roof: xlslate, chimney: mm8/t09a02a, plinth: mm8/t09b11a}
+    extras: [chimney]
+  - name: Castleview Jail
+    storeys: ["L w W D W w R"]
+    roof: eaves
+    roof_height: 160
+    extras: [sign]
+    pieces: {L: mm8/t09a07, R: mm8/t09a06, W: mm8/t09a01, w: mm8/t09a04a, D: mm8/t09a03c, roof: xlslate,
+             plinth: mm8/t09b11a, sign: xljail}
+  - name: guild hall (ashlar, frieze)
+    storeys: ["L x W E F W x R"]
+    roof: gable
+    roof_height: 320
+    extras: [sign]
+    pieces: {L: mm8/t09c06, R: mm8/t09c07, W: mm8/t09c01, x: mm8/t09c04b, E: mm8/t09a03a, F: mm8/t09a03b,
+             roof: xlslate, gable: mm8/t09a01, plinth: mm8/t09b11a, sign: mm8/sgspell}
+sandcaster:
+  title: Sandcaster, the sandstone merchant city, and the Crossroads market
+  look: >-
+    Bright, hot desert-edge light: smooth ochre and orange sandstone houses with brick quoins, pointed and round
+    windows, flat roofs behind low parapets, a few terracotta roofs, a pink ashlar wizards' guild with statues,
+    sun-faded painted shop signs, striped market cloth and sandy ground with a few palms and pots.
+  pieces: {L: mm8/t07a09c, R: mm8/t07a08c, W: mm8/t07a01, w: mm8/t07a02c, D: mm8/t07a03a, o: mm8/t07a12,
+           roof: mm8/t07b02, parapet: mm8/t07a11b, plinth: mm8/t30a05c}
+  houses:
+  - name: poor house
+    storeys: ["L x D R"]
+    roof: flat
+    pieces: {L: mm8/t07b07, R: mm8/t07b06, D: mm8/t07c03b, x: mm8/t07b04c}
+  - name: poor two storeys
+    storeys: ["L D x R", "L x W R"]
+    roof: flat
+    pieces: {L: mm8/t07b07, R: mm8/t07b06, W: mm8/t07b01, x: mm8/t07b04a}
+  - name: weaponsmith
+    storeys: ["L W D w R"]
+    roof: flat
+    extras: [sign]
+    pieces: {sign: xsweapons}
+  - name: middle house, two storeys
+    storeys: ["L W D W R", "L w o w R"]
+    roof: flat
+  - name: tavern
+    storeys: ["L x E F x R", "L x W W x R"]
+    roof: flat
+    extras: [sign]
+    pieces: {L: mm8/t07b07, R: mm8/t07b06, W: mm8/t07b01, x: mm8/t07b04a, E: mm8/t07b03c, F: mm8/t07b03d,
+             sign: xstavern}
+  - name: caravan stables
+    storeys: ["L E F W R"]
+    roof: eaves
+    roof_height: 160
+    extras: [sign]
+    pieces: {E: mm8/t07a03c, F: mm8/t07a03d, roof: mm6/desrf3a, sign: xscaravan}
+  - name: rich merchant house
+    storeys: ["L y E F y R", "L x o o x R"]
+    roof: eaves
+    roof_height: 192
+    pieces: {L: mm8/t07c09b, R: mm8/t07c08b, x: mm8/t07c04c, y: mm8/t07c04b, o: mm8/t07c12, E: mm8/t07c03c,
+             F: mm8/t07c03d, roof: mm6/desrf2a}
+  - name: wizards' guild (hc)
+    storeys: ["L w s D s w R", "M b t W t b S"]
+    roof: eaves
+    roof_height: 256
+    extras: [sign]
+    pieces: {L: mm6/hcw1le, R: mm6/hcw1re, M: mm6/hcw1leb, S: mm6/hcw1reb, W: mm6/hcwall, w: mm6/hcwindo,
+             s: mm6/hcuniq3, D: mm6/hcsmdr, b: mm6/hcbalcwb, t: mm6/hctriw, roof: mm6/desrf2a, sign: xsmagic}
+  - name: Crossroads stall
+    storeys: ["a D a"]
+    roof: eaves
+    roof_height: 128
+    extras: [sign]
+    pieces: {a: mm6/tentwal2, D: mm6/tentwal1, roof: mm6/tentrf2, sign: xsstfood, plinth: mm8/t30a05a}

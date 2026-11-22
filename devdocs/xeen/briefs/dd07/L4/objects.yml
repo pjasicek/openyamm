@@ -1,0 +1,1194 @@
+format: 0
+start:
+  room: room:door_hall
+  at: [-2496, 0]
+  facing: e
+  notes: "In the door hall 256 inside the west door, at the first stair's foot, facing east toward the well."
+arrivals:
+  - {entrance: entrance:d3_door, room: room:door_hall, at: [-2496, 0], facing: e, notes: "In the door hall about 256 inside the door at the stair's foot, facing east (D3's tower door arrives here)."}
+doors:
+  - id: door:cabinet
+    opening: open:ring2_cabinet
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The cabinet's stone door.
+  - id: door:commons
+    opening: open:ring1_commons
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The commons' stone door.
+  - id: door:conjury
+    opening: open:ring3_conjury
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The conjury's door.
+  - id: door:dormitory
+    opening: open:cabinet_dorm
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The dormitory's door.
+  - id: door:lab
+    opening: open:ring4_lab
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The laboratory's door.
+  - id: door:scrying
+    opening: open:ring3_scrying
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The scrying room's door.
+  - id: door:store
+    opening: open:ring1_store
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The store room's stone door.
+  - id: door:study
+    opening: open:lab_study
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The study's door from the laboratory.
+  - id: door:study_landing
+    opening: open:study_stair4
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The study's door on the top landing.
+  - id: door:ward
+    opening: open:ring3_vault
+    kind: slide_down
+    fold: true
+    speed: 192
+    surface: {texture: xwward, size: [256, 512], translucent: 1}
+    tile: true
+    notes: "The vault's door of light (D-39 Q4): XD-04's ward (xwward, translucent), fed by the two pylons' beams; it fades into the floor when both pylons are broken and stays open."
+lifts:
+  - id: lift:disc
+    room: room:well_foot
+    at: [256, 0]
+    size: [352, 352]
+    travel: 1920
+    thickness: 16
+    speed: 240
+    state: up
+    surface: {texture: gstyl, size: [128, 128]}
+    notes: "The floating disc: a slab of black stone 16 thick riding the well between the top floor (up, 1,920, where it rests at load, level with the gallery's opening) and the well's foot (down). Its two levers stand beside the east openings, at the top and at the foot."
+sounds:
+  - {id: sound:tower_bed, room: room:well_foot, at: [-128, -128], height: 1472, sound: xeen_amb_tower, radius: 5120, inner_radius: 2560, volume: 0.35, notes: "The tower's bed (AU, 'the towers of Mok'): chimes up the well, one source heard on every floor, centred (D-48).", pan: false}
+lights:
+  - id: light:alcoves
+    room: room:alcoves
+    at: [2240, 0]
+    height: 288
+    radius: 1000
+    color: [230, 190, 140]
+  - id: light:beam_e
+    room: room:scrying
+    at: [1472, 1600]
+    height: 320
+    radius: 900
+    color: [140, 170, 255]
+    brightness: 26
+  - id: light:beam_w
+    room: room:conjury
+    at: [-576, 1600]
+    height: 320
+    radius: 900
+    color: [140, 170, 255]
+    brightness: 26
+  - id: light:cabinet_1
+    room: room:cabinet
+    at: [1536, -560]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:cabinet_2
+    room: room:cabinet
+    at: [1536, 240]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:commons_1
+    room: room:commons
+    at: [-352, -1440]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:commons_2
+    room: room:commons
+    at: [352, -1440]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:cone
+    room: room:well_foot
+    at: [0, 0]
+    height: 2880
+    radius: 2400
+    color: [200, 215, 240]
+    brightness: 28
+    notes: "The pale light from the cone, four floors up."
+  - id: light:conjury
+    room: room:conjury
+    at: [-384, 1472]
+    height: 416
+    radius: 1000
+    color: [230, 190, 140]
+  - id: light:door_hall_1
+    room: room:door_hall
+    at: [-2192, 0]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:door_hall_2
+    room: room:door_hall
+    at: [-1072, 0]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:dormitory_1
+    room: room:dormitory
+    at: [160, -1472]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:dormitory_2
+    room: room:dormitory
+    at: [1376, -1472]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:fountains
+    room: room:lab
+    at: [0, 1536]
+    height: 200
+    radius: 900
+    color: [150, 200, 230]
+  - id: light:lab_1
+    room: room:lab
+    at: [-480, 1536]
+    height: 420
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:lab_2
+    room: room:lab
+    at: [480, 1536]
+    height: 420
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:mirror
+    room: room:mirror
+    at: [-832, -1472]
+    height: 352
+    radius: 1000
+    color: [230, 190, 140]
+  - id: light:ring1_1
+    room: room:ring1
+    at: [-640, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring1_2
+    room: room:ring1
+    at: [704, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring1_3
+    room: room:ring1
+    at: [736, 0]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring1_4
+    room: room:ring1
+    at: [704, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring1_5
+    room: room:ring1
+    at: [-640, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring2_1
+    room: room:ring2
+    at: [-640, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring2_2
+    room: room:ring2
+    at: [704, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring2_3
+    room: room:ring2
+    at: [736, 0]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring2_4
+    room: room:ring2
+    at: [704, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring2_5
+    room: room:ring2
+    at: [-640, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring3_1
+    room: room:ring3
+    at: [-640, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring3_2
+    room: room:ring3
+    at: [704, 704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring3_3
+    room: room:ring3
+    at: [736, 0]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring3_4
+    room: room:ring3
+    at: [704, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring3_5
+    room: room:ring3
+    at: [-640, -704]
+    height: 400
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring4_1
+    room: room:ring4
+    at: [-640, 704]
+    height: 528
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring4_2
+    room: room:ring4
+    at: [704, 704]
+    height: 528
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring4_3
+    room: room:ring4
+    at: [736, 0]
+    height: 528
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring4_4
+    room: room:ring4
+    at: [704, -704]
+    height: 528
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ring4_5
+    room: room:ring4
+    at: [-640, -704]
+    height: 528
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:roof_stair_1
+    room: room:roof_stair
+    at: [0, -1280]
+    floor_height: 1920
+    height: 420
+    radius: 1200
+    color: [230, 190, 140]
+  - id: light:roof_stair_2
+    room: room:roof_stair
+    at: [1184, -1180]
+    floor_height: 2432
+    height: 200
+    radius: 900
+    color: [230, 190, 140]
+  - id: light:scrying_1
+    room: room:scrying
+    at: [704, 1472]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:scrying_2
+    room: room:scrying
+    at: [1472, 1472]
+    height: 416
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:stair12
+    room: room:stair12
+    at: [-1984, -704]
+    height: 520
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair23
+    room: room:stair23
+    at: [-1984, 704]
+    height: 520
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair2_1
+    room: room:stair2
+    at: [-2192, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair2_2
+    room: room:stair2
+    at: [-1072, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair34
+    room: room:stair34
+    at: [-1984, -704]
+    height: 520
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair3_1
+    room: room:stair3
+    at: [-2192, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair3_2
+    room: room:stair3
+    at: [-1072, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair4_1
+    room: room:stair4
+    at: [-2192, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:stair4_2
+    room: room:stair4
+    at: [-1072, 0]
+    height: 416
+    radius: 1500
+    color: [180, 190, 210]
+  - id: light:store
+    room: room:store
+    at: [1376, 0]
+    height: 352
+    radius: 1000
+    color: [230, 190, 140]
+  - id: light:study_1
+    room: room:study
+    at: [-2336, 1056]
+    height: 420
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:study_2
+    room: room:study
+    at: [-1504, 1056]
+    height: 420
+    radius: 1500
+    color: [230, 190, 140]
+  - id: light:vault
+    room: room:vault
+    at: [1472, 0]
+    height: 416
+    radius: 1000
+    color: [230, 190, 140]
+  - id: light:ward
+    room: room:ring3
+    at: [736, 0]
+    height: 300
+    radius: 700
+    color: [200, 140, 220]
+    brightness: 24
+    notes: The door of light's glow on the gallery.
+  - id: light:well_1
+    room: room:well_foot
+    at: [-160, 0]
+    height: 400
+    radius: 1200
+    color: [190, 200, 225]
+  - id: light:well_2
+    room: room:well_foot
+    at: [-160, 0]
+    height: 1040
+    radius: 1200
+    color: [190, 200, 225]
+  - id: light:well_3
+    room: room:well_foot
+    at: [-160, 0]
+    height: 1680
+    radius: 1200
+    color: [190, 200, 225]
+  - id: light:well_4
+    room: room:well_foot
+    at: [-160, 0]
+    height: 2320
+    radius: 1200
+    color: [190, 200, 225]
+switches:
+  - id: switch:disc_foot
+    room: room:well_foot
+    kind: lever
+    at: [448, 176]
+    height: 120
+    notes: "The call lever at the well's foot, beside the east arch."
+  - id: switch:disc_top
+    room: room:well_foot
+    kind: lever
+    at: [448, 176]
+    height: 2040
+    notes: The disc's lever on the rail post beside the top floor's opening (from the disc or the gallery).
+chests:
+  - id: chest:case_griffin
+    room: room:cabinet
+    at: [1928, 320]
+    floor_height: 800
+    kind: gt002
+    facing: n
+    size: [96, 64, 56]
+    random_items: 0
+    gold: 0
+    items: [golden_griffin]
+    notes: "The last case's lidded box on top, its front to the room (west): the Golden Griffin is its item (D-90, 2026-11-22; A3's q-d20.griffin sets griffin_found)."
+  - id: chest:desk
+    room: room:study
+    at: [-1920, 1344]
+    floor_height: 2000
+    kind: gt002
+    facing: w
+    size: [96, 64, 48]
+    random_items: 0
+    gold: 0
+    items: [ellingers_letter]
+    notes: "The Archmagus's writing box on his desk, its front to the room (south): Ellinger's sealed letter is its item (D-90, 2026-11-22; A3's q-d18.letter sets letter_found and the autonote)."
+  - id: chest:dormitory
+    room: room:dormitory
+    at: [1920, -1600]
+    kind: ch1
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1400
+    notes: The mages' chest at the dormitory's end.
+  - id: chest:store
+    room: room:store
+    at: [1600, -256]
+    kind: ch1
+    facing: w
+    treasure_level: 4
+    random_items: 3
+    gold: 1200
+    notes: The store room's chest of reagents.
+  - id: chest:study
+    room: room:study
+    at: [-2688, 576]
+    kind: 7gt002
+    facing: e
+    treasure_level: 4
+    random_items: 3
+    gold: 2400
+    notes: The Archmagus's chest.
+monsters:
+  - id: monster:cabinet_1
+    room: room:cabinet
+    monster: 11204
+    at: [1408, -384]
+    facing: 180
+    hostile: true
+    group: 14
+  - id: monster:cabinet_2
+    room: room:cabinet
+    monster: 11204
+    at: [1408, 256]
+    facing: 180
+    hostile: true
+    group: 14
+  - id: monster:commons_1
+    room: room:commons
+    monster: 11203
+    at: [-384, -1400]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:commons_2
+    room: room:commons
+    monster: 11203
+    at: [384, -1400]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:conjury_1
+    room: room:conjury
+    monster: 11204
+    at: [-704, 1280]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:conjury_2
+    room: room:conjury
+    monster: 11204
+    at: [-192, 1344]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:conjury_3
+    room: room:conjury
+    monster: 11203
+    at: [0, 1664]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:dormitory_1
+    room: room:dormitory
+    monster: 11203
+    at: [384, -1300]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:dormitory_2
+    room: room:dormitory
+    monster: 11203
+    at: [1344, -1300]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:lab_1
+    room: room:lab
+    monster: 11200
+    at: [0, 1344]
+    facing: 270
+    hostile: true
+    group: 21
+  - id: monster:ring1_1
+    room: room:ring1
+    monster: 11203
+    at: [640, 640]
+    facing: 180
+    hostile: true
+    group: 11
+  - id: monster:ring1_2
+    room: room:ring1
+    monster: 11203
+    at: [640, -640]
+    facing: 180
+    hostile: true
+    group: 11
+  - id: monster:ring2_1
+    room: room:ring2
+    monster: 11203
+    at: [0, -736]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:ring2_2
+    room: room:ring2
+    monster: 11203
+    at: [736, 320]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:ring2_3
+    room: room:ring2
+    monster: 11204
+    at: [-640, 704]
+    facing: 0
+    hostile: true
+    group: 13
+  - id: monster:ring3_1
+    room: room:ring3
+    monster: 11570
+    at: [0, 736]
+    facing: 270
+    hostile: true
+    group: 16
+  - id: monster:ring3_2
+    room: room:ring3
+    monster: 11203
+    at: [736, -320]
+    facing: 180
+    hostile: true
+    group: 16
+  - id: monster:ring4_1
+    room: room:ring4
+    monster: 11204
+    at: [640, 640]
+    facing: 180
+    hostile: true
+    group: 20
+  - id: monster:ring4_2
+    room: room:ring4
+    monster: 11204
+    at: [-640, 704]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:ring4_3
+    room: room:ring4
+    monster: 11203
+    at: [640, -640]
+    facing: 180
+    hostile: true
+    group: 20
+  - id: monster:scrying_1
+    room: room:scrying
+    monster: 11204
+    at: [512, 1216]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:scrying_2
+    room: room:scrying
+    monster: 11204
+    at: [1664, 1280]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:scrying_3
+    room: room:scrying
+    monster: 11203
+    at: [1216, 1216]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:study_1
+    room: room:study
+    monster: 11200
+    at: [-2304, 704]
+    facing: 0
+    hostile: true
+    group: 22
+  - id: monster:study_2
+    room: room:study
+    monster: 11200
+    at: [-1536, 704]
+    facing: 180
+    hostile: true
+    group: 22
+  - id: monster:study_3
+    room: room:study
+    monster: 11570
+    at: [-1920, 1024]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:vault_1
+    room: room:vault
+    monster: 11200
+    at: [1344, -256]
+    facing: 180
+    hostile: true
+    group: 19
+  - id: monster:well_foot_1
+    room: room:well_foot
+    monster: 11203
+    at: [-256, 0]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:well_foot_2
+    room: room:well_foot
+    monster: 11203
+    at: [0, 256]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:well_foot_3
+    room: room:well_foot
+    monster: 11203
+    at: [0, -256]
+    facing: 180
+    hostile: true
+    group: 10
+items:
+  - id: item:jewel
+    room: room:vault
+    item: jewel_of_ages
+    at: [1664, 0]
+    floor_height: 1392
+    notes: "The Jewel of Ages on its stand of black glass, a ground item to pick up (D-90, 2026-11-22)."
+decorations:
+  - id: deco:ball_1
+    room: room:scrying
+    decoration: mcryst01
+    at: [576, 1792]
+    floor_height: 1376
+    notes: A crystal ball.
+  - id: deco:ball_2
+    room: room:scrying
+    decoration: mcryst01
+    at: [896, 1792]
+    floor_height: 1376
+    notes: A crystal ball.
+  - id: deco:ball_3
+    room: room:scrying
+    decoration: mcryst01
+    at: [1216, 1792]
+    floor_height: 1376
+    notes: A crystal ball.
+  - id: deco:commons_cask_1
+    room: room:commons
+    decoration: 7dec21
+    at: [640, -1728]
+  - id: deco:commons_cask_2
+    room: room:commons
+    decoration: 7dec21
+    at: [544, -1728]
+  - id: deco:commons_goblet
+    room: room:commons
+    decoration: 7dec48
+    at: [160, -1664]
+    floor_height: 72
+  - id: deco:commons_plates
+    room: room:commons
+    decoration: dec36
+    at: [-160, -1664]
+    floor_height: 72
+  - id: deco:dorm_sack_1
+    room: room:dormitory
+    decoration: bag01
+    at: [-384, -1792]
+  - id: deco:dorm_sack_2
+    room: room:dormitory
+    decoration: bag01
+    at: [-384, -1696]
+  - id: deco:lab_brazier_e
+    room: room:lab
+    decoration: flamb00
+    at: [896, 1856]
+  - id: deco:lab_brazier_w
+    room: room:lab
+    decoration: flamb00
+    at: [-896, 1856]
+  - id: deco:lab_chandelier
+    room: room:lab
+    decoration: dec27
+    at: [0, 1536]
+  - id: deco:pylon_e
+    room: room:scrying
+    decoration: crystl0
+    at: [1472, 1600]
+    floor_height: 1408
+    notes: The east pylon's crystal.
+  - id: deco:pylon_w
+    room: room:conjury
+    decoration: crystl0
+    at: [-576, 1600]
+    floor_height: 1408
+    notes: "The west pylon's crystal: it feeds a beam to the vault's door of light."
+  - id: deco:ring1_sconce_1
+    room: room:ring1
+    decoration: scon100
+    at: [-864, 948]
+    height: 176
+  - id: deco:ring1_sconce_2
+    room: room:ring1
+    decoration: scon100
+    at: [864, 948]
+    height: 176
+  - id: deco:ring1_sconce_3
+    room: room:ring1
+    decoration: scon100
+    at: [948, 640]
+    height: 176
+  - id: deco:ring1_sconce_4
+    room: room:ring1
+    decoration: scon100
+    at: [948, -640]
+    height: 176
+  - id: deco:ring1_sconce_5
+    room: room:ring1
+    decoration: scon100
+    at: [-416, -948]
+    height: 176
+  - id: deco:ring1_sconce_6
+    room: room:ring1
+    decoration: scon100
+    at: [640, -948]
+    height: 176
+  - id: deco:ring2_sconce_1
+    room: room:ring2
+    decoration: scon100
+    at: [-864, 948]
+    height: 176
+  - id: deco:ring2_sconce_2
+    room: room:ring2
+    decoration: scon100
+    at: [864, 948]
+    height: 176
+  - id: deco:ring2_sconce_3
+    room: room:ring2
+    decoration: scon100
+    at: [948, 640]
+    height: 176
+  - id: deco:ring2_sconce_4
+    room: room:ring2
+    decoration: scon100
+    at: [948, -640]
+    height: 176
+  - id: deco:ring2_sconce_5
+    room: room:ring2
+    decoration: scon100
+    at: [-416, -948]
+    height: 176
+  - id: deco:ring2_sconce_6
+    room: room:ring2
+    decoration: scon100
+    at: [640, -948]
+    height: 176
+  - id: deco:ring3_sconce_1
+    room: room:ring3
+    decoration: scon100
+    at: [-864, 948]
+    height: 176
+  - id: deco:ring3_sconce_2
+    room: room:ring3
+    decoration: scon100
+    at: [864, 948]
+    height: 176
+  - id: deco:ring3_sconce_3
+    room: room:ring3
+    decoration: scon100
+    at: [948, 640]
+    height: 176
+  - id: deco:ring3_sconce_4
+    room: room:ring3
+    decoration: scon100
+    at: [948, -640]
+    height: 176
+  - id: deco:ring3_sconce_5
+    room: room:ring3
+    decoration: scon100
+    at: [-416, -948]
+    height: 176
+  - id: deco:ring3_sconce_6
+    room: room:ring3
+    decoration: scon100
+    at: [640, -948]
+    height: 176
+  - id: deco:ring4_sconce_1
+    room: room:ring4
+    decoration: scon100
+    at: [-864, 948]
+    height: 176
+  - id: deco:ring4_sconce_2
+    room: room:ring4
+    decoration: scon100
+    at: [864, 948]
+    height: 176
+  - id: deco:ring4_sconce_3
+    room: room:ring4
+    decoration: scon100
+    at: [948, 640]
+    height: 176
+  - id: deco:ring4_sconce_4
+    room: room:ring4
+    decoration: scon100
+    at: [948, -640]
+    height: 176
+  - id: deco:ring4_sconce_5
+    room: room:ring4
+    decoration: scon100
+    at: [-416, -948]
+    height: 176
+  - id: deco:ring4_sconce_6
+    room: room:ring4
+    decoration: scon100
+    at: [640, -948]
+    height: 176
+  - id: deco:roof_sconce_head
+    room: room:roof_stair
+    decoration: scon100
+    at: [1472, -1100]
+    floor_height: 2432
+    height: 176
+    notes: "A sconce on the head's north wall, beside the hatch."
+  - id: deco:sconce_01
+    room: room:door_hall
+    decoration: scon100
+    at: [-2740, 160]
+    height: 176
+  - id: deco:sconce_02
+    room: room:door_hall
+    decoration: scon100
+    at: [-2304, 244]
+    height: 176
+  - id: deco:sconce_03
+    room: room:door_hall
+    decoration: scon100
+    at: [-1600, 244]
+    height: 176
+  - id: deco:sconce_04
+    room: room:door_hall
+    decoration: scon100
+    at: [-1600, -244]
+    height: 176
+  - id: deco:sconce_05
+    room: room:stair2
+    decoration: scon100
+    at: [-2740, 0]
+    height: 176
+  - id: deco:sconce_06
+    room: room:stair2
+    decoration: scon100
+    at: [-2048, -244]
+    height: 176
+  - id: deco:sconce_07
+    room: room:stair2
+    decoration: scon100
+    at: [-2048, 244]
+    height: 176
+  - id: deco:sconce_08
+    room: room:stair3
+    decoration: scon100
+    at: [-2740, 0]
+    height: 176
+  - id: deco:sconce_09
+    room: room:stair3
+    decoration: scon100
+    at: [-1600, -244]
+    height: 176
+  - id: deco:sconce_10
+    room: room:stair3
+    decoration: scon100
+    at: [-1600, 244]
+    height: 176
+  - id: deco:sconce_11
+    room: room:stair4
+    decoration: scon100
+    at: [-2740, 0]
+    height: 176
+  - id: deco:sconce_12
+    room: room:stair4
+    decoration: scon100
+    at: [-2240, -244]
+    height: 176
+  - id: deco:sconce_13
+    room: room:stair4
+    decoration: scon100
+    at: [-1408, 244]
+    height: 176
+  - id: deco:sconce_14
+    room: room:commons
+    decoration: scon100
+    at: [-692, -1440]
+    height: 176
+  - id: deco:sconce_15
+    room: room:commons
+    decoration: scon100
+    at: [692, -1440]
+    height: 176
+  - id: deco:sconce_16
+    room: room:store
+    decoration: scon100
+    at: [1652, 256]
+    height: 176
+  - id: deco:sconce_17
+    room: room:cabinet
+    decoration: scon100
+    at: [1100, -640]
+    height: 176
+  - id: deco:sconce_18
+    room: room:cabinet
+    decoration: scon100
+    at: [1100, -160]
+    height: 176
+  - id: deco:sconce_19
+    room: room:cabinet
+    decoration: scon100
+    at: [1536, 628]
+    height: 176
+  - id: deco:sconce_20
+    room: room:dormitory
+    decoration: scon100
+    at: [-436, -1184]
+    height: 176
+  - id: deco:sconce_21
+    room: room:dormitory
+    decoration: scon100
+    at: [1972, -1300]
+    height: 176
+  - id: deco:sconce_22
+    room: room:dormitory
+    decoration: scon100
+    at: [768, -1100]
+    height: 176
+  - id: deco:sconce_23
+    room: room:mirror
+    decoration: scon100
+    at: [-832, -1844]
+    height: 176
+  - id: deco:sconce_24
+    room: room:conjury
+    decoration: scon100
+    at: [-948, 1472]
+    height: 176
+  - id: deco:sconce_25
+    room: room:conjury
+    decoration: scon100
+    at: [-384, 1844]
+    height: 176
+  - id: deco:sconce_26
+    room: room:scrying
+    decoration: scon100
+    at: [1844, 1472]
+    height: 176
+  - id: deco:sconce_27
+    room: room:scrying
+    decoration: scon100
+    at: [1088, 1100]
+    height: 176
+  - id: deco:sconce_28
+    room: room:vault
+    decoration: scon100
+    at: [1472, 564]
+    height: 176
+  - id: deco:sconce_29
+    room: room:vault
+    decoration: scon100
+    at: [1472, -564]
+    height: 176
+  - id: deco:sconce_30
+    room: room:alcoves
+    decoration: scon100
+    at: [2240, 372]
+    height: 176
+  - id: deco:sconce_31
+    room: room:stair12
+    decoration: scon100
+    at: [-2740, -704]
+    height: 176
+  - id: deco:sconce_32
+    room: room:stair12
+    decoration: scon100
+    at: [-1228, -896]
+    height: 176
+  - id: deco:sconce_33
+    room: room:stair23
+    decoration: scon100
+    at: [-1228, 896]
+    height: 176
+  - id: deco:sconce_34
+    room: room:stair23
+    decoration: scon100
+    at: [-2740, 512]
+    height: 176
+  - id: deco:sconce_35
+    room: room:stair34
+    decoration: scon100
+    at: [-2740, -704]
+    height: 176
+  - id: deco:sconce_36
+    room: room:stair34
+    decoration: scon100
+    at: [-1228, -896]
+    height: 176
+  - id: deco:sconce_37
+    room: room:roof_stair
+    decoration: scon100
+    at: [-244, -1280]
+    height: 176
+  - id: deco:store_1
+    room: room:store
+    decoration: bigbarel
+    at: [1152, 448]
+  - id: deco:store_2
+    room: room:store
+    decoration: bigbarel
+    at: [1248, 448]
+  - id: deco:store_3
+    room: room:store
+    decoration: smlbarel
+    at: [1344, 448]
+  - id: deco:store_4
+    room: room:store
+    decoration: floursac
+    at: [1152, -448]
+  - id: deco:store_5
+    room: room:store
+    decoration: bag01
+    at: [1248, -448]
+  - id: deco:store_6
+    room: room:store
+    decoration: bag_A
+    at: [1344, -448]
+  - id: deco:store_7
+    room: room:store
+    decoration: bigbarel
+    at: [1600, 448]
+  - id: deco:store_8
+    room: room:store
+    decoration: smlbarel
+    at: [1600, 352]
+  - id: deco:study_candle
+    room: room:study
+    decoration: cndlab0
+    at: [-1824, 1344]
+    floor_height: 2000
+  - id: deco:study_chandelier
+    room: room:study
+    decoration: dec27
+    at: [-1920, 960]
+  - id: deco:vat
+    room: room:lab
+    decoration: cauld00
+    at: [0, 1888]
+    floor_height: 2008
+    notes: The Bubbling Vat on its bench.
+  - id: deco:vault_goblet_1
+    room: room:vault
+    decoration: 7dec48
+    at: [1792, 512]
+  - id: deco:vault_goblet_2
+    room: room:vault
+    decoration: 7dec46
+    at: [1792, -512]
+exits:
+  - id: exit:d3_door
+    room: room:door_hall
+    at: [-2752, 0]
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d3_door
+    notes: "The tower's west door, from inside: out to D3's knoll before it."
+relations: []
+destructibles:
+  - {id: destructible:pylon_e, of: deco:pylon_e, hp: 40, material: glass, notes: The east ward pylon's crystal.}
+  - {id: destructible:pylon_w, of: deco:pylon_w, hp: 40, material: glass, notes: "The west ward pylon's crystal: a blow or a click breaks it."}

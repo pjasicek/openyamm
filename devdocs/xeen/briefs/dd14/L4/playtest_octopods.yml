@@ -1,0 +1,153 @@
+# The black cistern's octopods (DD-14, D-42 (4), D-52 (5)): A2's indoor Octopod D (11473: no swimmer AI, stationary),
+# five of them just inside the pool's edge. From the bank (west, south, north) or the far ledge (east) by each, the
+# octopod hits the party (trace `impact`) and the party's attack hurts it (trace `damaged`). Actor indices 9-13 are the
+# built scene's octopods (objects.yml's monsters sorted by id). Run with --world xeen --map xeen_dd14.blv
+# (output/studio_cal/dd14/four.sh, in its default list). The party: four Knights with swords (fists rarely hit) and an
+# accuracy bonus (octopods' armour 36); the arrival window is skipped (117480); the
+# octopod's touch leaves members unable to act, so each press of Attack follows a cure (the reach is what is tested).
+id: xeen.dd14.l4.octopods
+title: Castle Blackfang (DD-14 L4), the cistern's octopods reached and hitting back
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd14.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 42, skills: [{name: Sword, level: 20, mastery: 3}], equipment: {}}
+          - {name: Hild, class: Knight, level: 42, skills: [{name: Sword, level: 20, mastery: 3}], equipment: {}}
+          - {name: Ivar, class: Knight, level: 42, skills: [{name: Sword, level: 20, mastery: 3}], equipment: {}}
+          - {name: Sefa, class: Knight, level: 42, skills: [{name: Sword, level: 20, mastery: 3}], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 117480, value: true}
+  - lua_event: {source: "evt.ForPlayer(Players.All) AddValue(AccuracyBonus, 60)"}
+  - grant_item: {item_id: 1, member_index: 0, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 1, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 2, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 3, equip: main_hand}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - console: {line: arena trace on}
+  # Octopod 1 (actor 9) from west bank.
+  - set_pose: {map: xeen_dd14.blv, x: 1560, y: 1152, z: -640, yaw: 0.0, pitch: 0.0}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 9, monster_id: 11473, dead: false, report_state: true}}
+  - assert: {ai_trace: {actor_index: 9, event: damaged, min_count: 1, within_seconds: 9, report: true}}
+  - assert: {ai_trace: {actor_index: 9, event: impact, min_count: 1, within_seconds: 9, report: true}}
+  # Octopod 2 (actor 10) from west bank.
+  - set_pose: {map: xeen_dd14.blv, x: 1560, y: 2560, z: -640, yaw: 0.0, pitch: 0.0}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 10, monster_id: 11473, dead: false, report_state: true}}
+  - assert: {ai_trace: {actor_index: 10, event: damaged, min_count: 1, within_seconds: 9, report: true}}
+  - assert: {ai_trace: {actor_index: 10, event: impact, min_count: 1, within_seconds: 9, report: true}}
+  # Octopod 3 (actor 11) from south bank.
+  - set_pose: {map: xeen_dd14.blv, x: 2176, y: 540, z: -640, yaw: 1.5708, pitch: 0.0}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 11, monster_id: 11473, dead: false, report_state: true}}
+  - assert: {ai_trace: {actor_index: 11, event: damaged, min_count: 1, within_seconds: 9, report: true}}
+  - assert: {ai_trace: {actor_index: 11, event: impact, min_count: 1, within_seconds: 9, report: true}}
+  # Octopod 4 (actor 12) from north bank.
+  - set_pose: {map: xeen_dd14.blv, x: 2176, y: 3176, z: -640, yaw: 4.7124, pitch: 0.0}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 12, monster_id: 11473, dead: false, report_state: true}}
+  - assert: {ai_trace: {actor_index: 12, event: damaged, min_count: 1, within_seconds: 9, report: true}}
+  - assert: {ai_trace: {actor_index: 12, event: impact, min_count: 1, within_seconds: 9, report: true}}
+  # Octopod 5 (actor 13) from the far (east) ledge.
+  - set_pose: {map: xeen_dd14.blv, x: 2760, y: 1600, z: -640, yaw: 3.1416, pitch: 0.0}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 13, monster_id: 11473, dead: false, report_state: true}}
+  - assert: {ai_trace: {actor_index: 13, event: damaged, min_count: 1, within_seconds: 9, report: true}}
+  - assert: {ai_trace: {actor_index: 13, event: impact, min_count: 1, within_seconds: 9, report: true}}
+  - console: {line: arena trace off}

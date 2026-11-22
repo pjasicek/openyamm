@@ -1,0 +1,321 @@
+format: 0
+variables: [ruby_1, ruby_2, ruby_3, ruby_4, ruby_5, emerald_1, emerald_2, emerald_3, emerald_4, emerald_5, bones_blown, in_visit]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE GEMSTONE MINES. Old timber, cart rails and the smell of wet stone. The gemsmiths in the vale make gear from five rocks of a kind, and the west pocket's veins still show red and green: one rock to a vein. Mind the far drift. Something has been spinning there."
+      - qbit: arrived_once
+    notes: "Why the party is here (Q-D7), on the first arrival only."
+  - id: evt:bones_a
+    preset: text
+    source: deco:bones_heap_a
+    title: Bones
+    text: The bones crumble to dust in your hands.
+    notes: dark/aaze0039:14.
+  - id: evt:bones_b
+    preset: text
+    source: deco:bones_heap_b
+    title: Bones
+    text: The bones crumble to dust in your hands.
+  - id: evt:bones_c
+    preset: script
+    source: deco:bones_heap_c
+    title: Bones
+    condition: {not: {map_var: bones_blown}}
+    effects:
+      - set:
+          var:
+            map_var: bones_blown
+          value: 1
+      - damage:
+          amount: 16
+          kind: fire
+      - message: "The bones explode!"
+    else_effects:
+      - text: The bones crumble to dust in your hands.
+    notes: "D-27's trap (dark/aaze0039:13): the one heap that explodes, once: 16 fire to every member (about a tenth to a fifth of a level-25 member's hit points); then it crumbles like the rest."
+  - id: evt:cart
+    preset: text
+    source: platform:cart
+    title: Ore cart
+    text: "An ore cart, empty but for grit and one bent spike."
+  - id: evt:chest_bones
+    preset: chest
+    source: chest:bones
+    title: Chest
+  - id: evt:chest_sump
+    preset: chest
+    source: chest:sump
+    title: Chest
+  - id: evt:cobwebs
+    preset: text
+    source: platform:cocoon_2
+    title: Cobwebs
+    text: "Cobwebs, thick as sailcloth. Something big spun them."
+    notes: The graph's 'Cobwebs' (dark/aaze0039).
+  - id: evt:cocoon
+    preset: text
+    source: platform:cocoon
+    title: Cobwebs
+    text: "A miner wrapped in old web. Whatever he carried, the spiders kept."
+    seconds: 5
+  - id: evt:door_adit
+    preset: door
+    source: door:adit
+    title: Door
+  - id: evt:door_emerald
+    preset: door
+    source: door:emerald
+    title: Door
+  - id: evt:door_sump
+    preset: door
+    source: door:sump
+    title: Door
+  - id: evt:emerald_1
+    preset: script
+    source: panel:emerald_1
+    title: Emerald vein
+    condition: {not: {map_var: emerald_1}}
+    effects:
+      - set:
+          var:
+            map_var: emerald_1
+          value: 1
+      - give_item: emerald_rock
+      - lua: "XeenQuests.hook(\"q-d7.emerald_veins\")"
+      - text: You work an emerald rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Emerald vein 1 (dark/aaze0039:1-4 the hover, :10 when spent): one emerald rock (12358, the hook's map_gives), q-d7.emerald_veins sets q-d7.dug (113144); map variable emerald_1."
+  - id: evt:emerald_2
+    preset: script
+    source: panel:emerald_2
+    title: Emerald vein
+    condition: {not: {map_var: emerald_2}}
+    effects:
+      - set:
+          var:
+            map_var: emerald_2
+          value: 1
+      - give_item: emerald_rock
+      - lua: "XeenQuests.hook(\"q-d7.emerald_veins\")"
+      - text: You work an emerald rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Emerald vein 2 (dark/aaze0039:1-4 the hover, :10 when spent): one emerald rock (12358, the hook's map_gives), q-d7.emerald_veins sets q-d7.dug (113144); map variable emerald_2."
+  - id: evt:emerald_3
+    preset: script
+    source: panel:emerald_3
+    title: Emerald vein
+    condition: {not: {map_var: emerald_3}}
+    effects:
+      - set:
+          var:
+            map_var: emerald_3
+          value: 1
+      - give_item: emerald_rock
+      - lua: "XeenQuests.hook(\"q-d7.emerald_veins\")"
+      - text: You work an emerald rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Emerald vein 3 (dark/aaze0039:1-4 the hover, :10 when spent): one emerald rock (12358, the hook's map_gives), q-d7.emerald_veins sets q-d7.dug (113144); map variable emerald_3."
+  - id: evt:emerald_4
+    preset: script
+    source: panel:emerald_4
+    title: Emerald vein
+    condition: {not: {map_var: emerald_4}}
+    effects:
+      - set:
+          var:
+            map_var: emerald_4
+          value: 1
+      - give_item: emerald_rock
+      - lua: "XeenQuests.hook(\"q-d7.emerald_veins\")"
+      - text: You work an emerald rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Emerald vein 4 (dark/aaze0039:1-4 the hover, :10 when spent): one emerald rock (12358, the hook's map_gives), q-d7.emerald_veins sets q-d7.dug (113144); map variable emerald_4."
+  - id: evt:emerald_5
+    preset: script
+    source: panel:emerald_5
+    title: Emerald vein
+    condition: {not: {map_var: emerald_5}}
+    effects:
+      - set:
+          var:
+            map_var: emerald_5
+          value: 1
+      - give_item: emerald_rock
+      - lua: "XeenQuests.hook(\"q-d7.emerald_veins\")"
+      - text: You work an emerald rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Emerald vein 5 (dark/aaze0039:1-4 the hover, :10 when spent): one emerald rock (12358, the hook's map_gives), q-d7.emerald_veins sets q-d7.dug (113144); map variable emerald_5."
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: "Cold air, wet rock, old timber."
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d1
+    title: Adit
+    notes: "Out to the outdoor map by the adit: the game's own leave window (D-24); 'Exit the Gemstone Mines?' (dark/aaze0039:0) is its meaning."
+  - id: evt:refill
+    preset: script
+    trigger: load
+    condition: {qbit: refill_a, not: {map_var: in_visit}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_1
+          value: 0
+      - set:
+          var:
+            map_var: ruby_2
+          value: 0
+      - set:
+          var:
+            map_var: ruby_3
+          value: 0
+      - set:
+          var:
+            map_var: ruby_4
+          value: 0
+      - set:
+          var:
+            map_var: ruby_5
+          value: 0
+      - set:
+          var:
+            map_var: emerald_1
+          value: 0
+      - set:
+          var:
+            map_var: emerald_2
+          value: 0
+      - set:
+          var:
+            map_var: emerald_3
+          value: 0
+      - set:
+          var:
+            map_var: emerald_4
+          value: 0
+      - set:
+          var:
+            map_var: emerald_5
+          value: 0
+      - clear_qbit: refill_a
+      - text: "The veins glitter again: the God of Minerals has been at work."
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    else_effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    notes: "D-27: the God of Minerals (DD-10B, q-d7.god_of_minerals) sets the three refill bits; this pocket's fresh entry (not a load inside a visit: in_visit) resets its veins and clears its own bit (refill_a)."
+  - id: evt:ruby_1
+    preset: script
+    source: panel:ruby_1
+    title: Ruby vein
+    condition: {not: {map_var: ruby_1}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_1
+          value: 1
+      - give_item: ruby_rock
+      - lua: "XeenQuests.hook(\"q-d7.ruby_veins\")"
+      - text: You work a ruby rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Ruby vein 1 (dark/aaze0039:1-4 the hover, :10 when spent): one ruby rock (12357, the hook's map_gives), q-d7.ruby_veins sets q-d7.dug (113144); map variable ruby_1."
+  - id: evt:ruby_2
+    preset: script
+    source: panel:ruby_2
+    title: Ruby vein
+    condition: {not: {map_var: ruby_2}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_2
+          value: 1
+      - give_item: ruby_rock
+      - lua: "XeenQuests.hook(\"q-d7.ruby_veins\")"
+      - text: You work a ruby rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Ruby vein 2 (dark/aaze0039:1-4 the hover, :10 when spent): one ruby rock (12357, the hook's map_gives), q-d7.ruby_veins sets q-d7.dug (113144); map variable ruby_2."
+  - id: evt:ruby_3
+    preset: script
+    source: panel:ruby_3
+    title: Ruby vein
+    condition: {not: {map_var: ruby_3}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_3
+          value: 1
+      - give_item: ruby_rock
+      - lua: "XeenQuests.hook(\"q-d7.ruby_veins\")"
+      - text: You work a ruby rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Ruby vein 3 (dark/aaze0039:1-4 the hover, :10 when spent): one ruby rock (12357, the hook's map_gives), q-d7.ruby_veins sets q-d7.dug (113144); map variable ruby_3."
+  - id: evt:ruby_4
+    preset: script
+    source: panel:ruby_4
+    title: Ruby vein
+    condition: {not: {map_var: ruby_4}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_4
+          value: 1
+      - give_item: ruby_rock
+      - lua: "XeenQuests.hook(\"q-d7.ruby_veins\")"
+      - text: You work a ruby rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Ruby vein 4 (dark/aaze0039:1-4 the hover, :10 when spent): one ruby rock (12357, the hook's map_gives), q-d7.ruby_veins sets q-d7.dug (113144); map variable ruby_4."
+  - id: evt:ruby_5
+    preset: script
+    source: panel:ruby_5
+    title: Ruby vein
+    condition: {not: {map_var: ruby_5}}
+    effects:
+      - set:
+          var:
+            map_var: ruby_5
+          value: 1
+      - give_item: ruby_rock
+      - lua: "XeenQuests.hook(\"q-d7.ruby_veins\")"
+      - text: You work a ruby rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Ruby vein 5 (dark/aaze0039:1-4 the hover, :10 when spent): one ruby rock (12357, the hook's map_gives), q-d7.ruby_veins sets q-d7.dug (113144); map variable ruby_5."
+  - id: evt:skeleton
+    preset: text
+    source: deco:bones_skeleton
+    title: Bones
+    text: "A miner, still holding the handle of a broken pick. Nothing else on him."
+    seconds: 5
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving ends the visit: the next load is a fresh entry (evt:refill)."
+notes: "DD-10A's events (gen.py, mine.py): the ten veins (q-d7.ruby_veins, emerald_veins: one rock each, a map variable each), the refill on entry (q-d7.refill_a), the exploding bone heap (D-27), the exit to D1, doors, chests, flavour."

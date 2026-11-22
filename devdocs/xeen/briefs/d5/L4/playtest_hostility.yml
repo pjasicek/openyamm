@@ -1,0 +1,148 @@
+# Written by output/studio_cal/d5/tools/gen_hostility_d5.py (A6).
+id: xeen.d5.hostility
+title: 'D5: the People peaceful, the wild giants hostile, one blow turns the People'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d5.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: 'At load (D-49 Q1/Q2): the People and Gurodel peaceful, the griffins and wild cyclopes hostile'
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: false
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11084
+      hostile: false
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11085
+      hostile: false
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11084
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11085
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11562
+      hostile: true
+      min: 3
+- note: 'The party at the hold: nobody turns in 10 s'
+- set_pose:
+    map: xeen_d5.odm
+    x: 11264
+    y: 7424
+    z: 2700
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 10
+- play_lua:
+    source: close(); if qbit(113323) then error('hall_attacked set at peace') end
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11084
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11085
+      hostile: true
+      max: 0
+- note: 'The Quivering Forest: the wild cyclopes (11080-11082) hostile (spawned near the lair)'
+- set_pose:
+    map: xeen_d5.odm
+    x: -14336
+    y: 9728
+    z: 2700
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- assert:
+    actor_count:
+      monster_id: 11080
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11080
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11081
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11082
+      hostile: false
+      max: 0
+- note: 'One blow on a People giant (actor 0): the timer calls q-d16.hold_attacked; the People turn'
+- set_pose:
+    map: xeen_d5.odm
+    x: 11264
+    y: 7424
+    z: 2700
+    yaw: 1.5708
+    pitch: 0.0
+- damage_actor:
+    actor_index: 0
+    amount: 1
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close(); if not qbit(113323) then error('hall_attacked 113323 not set') end
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11084
+      hostile: false
+      max: 0
+- note: 'Reloaded after the blow: the People stay hostile (A2: long after 113323)'
+- load_map:
+    map: xeen_d5.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: true
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11084
+      hostile: true
+      min: 2

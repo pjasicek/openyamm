@@ -1,0 +1,347 @@
+format: 0
+level: L2
+pitch: "The Plane of Earth of Xeen: a bowl of raw stone under a ceiling of brown dust, its walls leaning in like a cavern's. Terraces step down the pit past a quarry no one finished, a hall of split geodes and a field of stone pillars; at the bottom the Anvil, a floor of bare bedrock ringed by monoliths where the test of Earth waits, and below it, down the Root Stair, the Sleeper's Hollow."
+purpose: "M38 (Act VI, party 56-60): the plaque (Step Three), the test of Earth, the Earth Sleeper (m38.sleeper_earth, award 414) and the test's chest. Reached by stepping off D7's south-east corner after answering 'Earth'; left by the dust shaft at the arrival or the return dais by the sleeper, both to D7."
+mood: "Heavy, dim and still: dust hanging in brown light, the grind of stone settling, now and then a fall of rock. The quarry's unfinished slate is the world's wink."
+datum: room:landing
+spaces:
+  - id: room:arena
+    name: The Anvil
+    kind: room
+    extent: [3328, 3072]
+    shape: "a round floor of bare bedrock ringed by twelve monoliths, cracked at its middle"
+    at: [-3840, -1792]
+    floor: -384
+    relief: flat
+    purpose: "The test of Earth: the pedestal at the east gate asks 'Accept the test of Earth?'; the guardians rise out of the cracked bedrock. The Root Stair's head at the south-east."
+    population:
+      - {id: pop:anvil_north, actor: Earth Elemental (11720), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Earth Elemental (62) as one group, at (-4224, -512)"}
+  - id: room:chamber
+    name: The Sleeper's Hollow
+    kind: room
+    extent: [2560, 2048]
+    shape: "a hollow at the bowl's bottom under an overhang of the wall, roots of stone hanging from it"
+    at: [-1792, -5120]
+    floor: -768
+    relief: flat
+    purpose: "The Earth Sleeper on his couch (m38.sleeper_earth); the test's chest; the return dais (after the sleeper wakes)."
+    safe: true
+    keep_clear: [spawns]
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The test's chest (treasure 6): the source's chest, now in the hollow the test opens. at (-896, -5376)"}
+  - id: room:geodes
+    name: The Geode Hall
+    kind: room
+    extent: [2304, 2816]
+    shape: a terrace of split boulders lined with amethyst and quartz
+    at: [4352, 0]
+    floor: -256
+    relief: flat
+    purpose: "The Heart-geode (a device); the east loop."
+    population:
+      - {id: pop:geodes_south, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Earth Elemental (55) as one group, at (4096, -768)"}
+      - {id: pop:geodes_north, actor: Earth Elemental (11720), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Earth Elemental (62) as one group, at (4608, 896)"}
+  - id: room:landing
+    name: The Dust Ledge
+    kind: room
+    extent: [2560, 2304]
+    shape: a ledge of packed earth high on the bowl's north-west wall
+    at: [-4096, 4224]
+    floor: 0
+    relief: flat
+    purpose: Arrival from D7's south-east corner (entrance:d7_fall) and the way up (the dust shaft). Quiet.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:pillars
+    name: The Pillar Field
+    kind: room
+    extent: [2560, 2304]
+    shape: "a terrace of tall stone pillars like petrified trees, the Echo Stone among them"
+    at: [512, -1536]
+    floor: -320
+    relief: flat
+    purpose: "The way down to the Anvil; the Echo Stone (a device)."
+    population:
+      - {id: pop:pillars_south, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Earth Elemental (55) as one group, at (896, -2048)"}
+      - {id: pop:pillars_west, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Earth Elemental (55) as one group, at (-384, -1152)"}
+  - id: room:quarry
+    name: The Giants' Quarry
+    kind: room
+    extent: [2560, 2560]
+    shape: "a terrace cut into steps by an old quarry, half-cut blocks still standing"
+    at: [4096, 3840]
+    floor: -64
+    relief: flat
+    purpose: "The source's chest corner: the quarrymen's strongbox and their last block."
+    population:
+      - {id: pop:quarry_elementals, actor: Earth Elemental (11720), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Earth Elemental (62) as one group, at (3840, 3584)"}
+      - {id: pop:quarry_north, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Earth Elemental (55) as one group, at (4480, 4352)"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The quarrymen's strongbox (treasure 6, a falling-block trap) by their hut's ruin. at (4736, 4480)"}
+      - {kind: floor_item, count: 1, tier: 6, notes: "last block: the find, at (3584, 3200)"}
+  - id: room:statue
+    name: The Stone Statue
+    kind: room
+    extent: [2560, 2304]
+    shape: "a broad terrace of flat stone, the statue of Earth at its middle"
+    at: [-512, 1792]
+    floor: -128
+    relief: flat
+    purpose: "The statue and its plaque (m38.plaque_earth, Step Three); the ramps part here."
+    population:
+      - {id: pop:statue_west, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Earth Elemental (55) as one group, at (-1408, 2304), the first fight"}
+      - {id: pop:statue_east, actor: Lesser Earth Elemental (11626), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Earth Elemental (55) as one group, at (384, 1280)"}
+  - id: room:west_ledge
+    name: The Fault Ledge
+    kind: room
+    extent: [1792, 2560]
+    shape: a narrow ledge along a fault in the west wall
+    at: [-5376, 1024]
+    floor: -192
+    relief: flat
+    purpose: "The west loop from the arrival down to the Anvil; Earth Blasters roam it."
+    population:
+      - {id: pop:fault_greater, actor: Earth Blaster (11721), groups: 1, per_marker: [3, 3], levels: [70, 70], placed: true, notes: "3 Earth Blaster (70) as one group, at (-5376, 1024)"}
+  - id: zone:scree
+    name: The scree
+    kind: zone
+    shape: "the bowl's floor of loose scree and boulders between the terraces, 300-1,000 below them: 91.3 M units, 65 % of the basin, ringed by the bowl's leaning walls of raw stone 2,200-3,000 high"
+    floor: -1024
+    relief: flat
+    purpose: "Walkable rubble under the terraces' cliffs: a party that drops off a terrace takes the engine's falling damage and walks back up a scree slope on the outer side of any terrace or under any ramp (question 1); no slope climbs to the Anvil or the Hollow."
+    keep_clear: [spawns]
+links:
+  - id: link:arch_e
+    from: room:statue
+    to: room:quarry
+    kind: bridge
+    width: 640
+    rise: 64
+    notes: "a natural stone arch over the scree; 2,478 rim to rim; a natural arch of stone over the scree"
+  - id: link:fault_n
+    from: room:landing
+    to: room:west_ledge
+    kind: path
+    width: 512
+    rise: -192
+    notes: "a stone ramp between terraces over the scree; 1,109 rim to rim"
+  - id: link:fault_s
+    from: room:west_ledge
+    to: room:arena
+    kind: ramp
+    width: 512
+    rise: -192
+    notes: "a stone ramp between terraces over the scree; 540 rim to rim"
+  - id: link:ramp_a
+    from: room:pillars
+    to: room:arena
+    kind: ramp
+    width: 640
+    rise: -64
+    notes: "a stone ramp between terraces over the scree; 1,579 rim to rim"
+  - id: link:ramp_c
+    from: room:statue
+    to: room:pillars
+    kind: ramp
+    width: 640
+    rise: -192
+    notes: "a stone ramp between terraces over the scree; 1,192 rim to rim"
+  - id: link:ramp_g
+    from: room:geodes
+    to: room:pillars
+    kind: ramp
+    width: 640
+    rise: -64
+    notes: "a stone ramp between terraces over the scree; 1,717 rim to rim"
+  - id: link:ramp_n
+    from: room:landing
+    to: room:statue
+    kind: ramp
+    width: 768
+    rise: -128
+    notes: "a stone ramp between terraces over the scree; 1,679 rim to rim"
+  - id: link:ramp_q
+    from: room:quarry
+    to: room:geodes
+    kind: ramp
+    width: 640
+    rise: -192
+    notes: "a stone ramp between terraces over the scree; 1,260 rim to rim"
+  - id: link:root_stair
+    from: room:arena
+    to: room:chamber
+    kind: stairs
+    condition: {qbit: m38_earth_test}
+    opened_by: set:test
+    width: 640
+    rise: -384
+    notes: "the Root Stair: twelve rough steps of 32 down the bowl's bottom between tall cheeks of rock; a slab of stone across its head (a mover) sinks on qbit 111766"
+entrances:
+  - id: entrance:d7_fall
+    space: room:landing
+    kind: arrival
+    neighbour: corner:d7
+    facing: se
+    how: "The drop from D7's south-east corner (Sky F4 in the source) after the sky's 'What do you seek?' is answered 'Earth' (m38.corner_earth): the party lands standing on The Dust Ledge (D-58 C2: no falling damage; Xeen.toPlane(\"earth\"), Xeen.PlaneArrivals.earth)."
+    notes: "at (-3840, 3968), z 0, quiet ground (keep_clear spawns)"
+  - id: entrance:dais
+    space: room:chamber
+    kind: exit
+    neighbour: exit:d7_dais
+    how: "The return dais: a disc of grey granite, shown once the Earth Sleeper is awake (m38.earth); an exit preset to D7's entrance:p3_return."
+    condition: {qbit: m38_earth}
+    notes: "at (-2816, -4736)"
+  - id: entrance:way_up
+    space: room:landing
+    kind: exit
+    neighbour: exit:d7_way_up
+    how: "The dust shaft: a column of pale light where dust streams upward out of the bowl. An exit preset ('Rise with the dust to the Skyroads?'), always open, to D7's entrance:p3_return (the source's (2,13), a fall back to Skyroad F4)."
+    notes: "at (-4864, 4864)"
+critical_path: [room:landing, room:statue, room:pillars, room:arena, room:chamber]
+return_path: [room:chamber]
+goals:
+  - id: goal:sleeper
+    space: room:chamber
+    kind: use
+    what: "Wake the Earth Sleeper (m38.sleeper_earth: Chosen One and M37's four reflectors)"
+    story: M38
+    gives:
+      qbit: m38_earth
+  - id: goal:test
+    space: room:arena
+    kind: kill
+    what: "The test of Earth: the Sleeper's Guardian of Earth and two Earth Blasters"
+    story: M38
+    gives:
+      qbit: m38_earth_test
+points_of_interest:
+  - id: poi:dais
+    space: room:chamber
+    kind: exit
+    behaviour: "The return dais: a disc of grey granite, shown once the Earth Sleeper is awake (m38.earth); an exit preset to D7's entrance:p3_return. A3's line m38.dais_earth is the window's meaning."
+    also: [entrance:dais]
+    condition: {qbit: m38_earth}
+    notes: "at (-2816, -4736), 16,870 along the walk"
+  - id: poi:echo
+    space: room:pillars
+    kind: device
+    behaviour: "The Echo Stone: a hollow pillar. Clicked: 'You shout into the stone. The plane answers, slowly.' The first time, a find in its hollow: a sapphire."
+    notes: "at (1152, -896)"
+  - id: poi:geode
+    space: room:geodes
+    kind: device
+    behaviour: "The Heart-geode: a split boulder lined with amethyst. Touched: +20 Earth resistance for a day (once a day; 'The stone is warm.')."
+    notes: "at (4608, 256)"
+  - id: poi:last_block
+    space: room:quarry
+    kind: device
+    behaviour: "The last block: half-cut, a pick still in it, a slate: 'Nearly done. Back after lunch.' (ours) A find: Earth Resistance potions."
+    notes: "at (3584, 3200)"
+  - id: poi:quarry_cache
+    space: room:quarry
+    kind: chest
+    behaviour: "The quarrymen's strongbox (treasure 6, a falling-block trap) by their hut's ruin."
+    notes: "at (4736, 4480)"
+  - id: poi:sleeper
+    space: room:chamber
+    kind: sleeper
+    behaviour: "The Earth Sleeper on his couch under the overhang: A3's m38.sleeper_earth, three states (not Chosen; 'Awaiting Grunfeld field activation.'; awake, award 414, 10,500 XP)."
+    gives:
+      qbit: m38_earth
+    condition: {lua: "XeenQuests.hook(\"m38.sleeper_earth\")"}
+    notes: "at (-2048, -5504), 15,870 along the walk"
+  - id: poi:statue
+    space: room:statue
+    kind: statue
+    behaviour: "The statue of Earth: a squat giant of rough-hewn granite, hands on its knees, on a plinth. A3's m38.plaque_earth: 'A message at the base of the statue reads: Step three: Bring together the Cube of Power and the Scepter of Temporal Distortion.' (aaze0027:2-3)"
+    condition: {lua: "XeenQuests.hook(\"m38.plaque_earth\")"}
+    notes: "at (-512, 1920), 3,906 along the walk"
+  - id: poi:test
+    space: room:arena
+    kind: pedestal
+    behaviour: "The test pedestal at the Anvil's east gate: 'Accept the test of Earth?' (aaze0027:5). Yes calls A3's m38.test_earth; the map raises the guardians out of the bedrock (set:test). Offered while the guardians are hidden and m38_earth_test (111766) is clear; declining does nothing (D-58 C3)."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: test_accepted
+    condition: {lua: "XeenQuests.hook(\"m38.test_earth\")"}
+    notes: "at (-2432, -1792), 10,414 along the walk"
+  - id: poi:test_chest
+    space: room:chamber
+    kind: chest
+    behaviour: "The test's chest (treasure 6): the source's chest, now in the hollow the test opens."
+    notes: "at (-896, -5376)"
+  - id: poi:way_up
+    space: room:landing
+    kind: exit
+    behaviour: "The dust shaft: a column of pale light where dust streams upward out of the bowl. An exit preset ('Rise with the dust to the Skyroads?'), always open, to D7's entrance:p3_return (the source's (2,13), a fall back to Skyroad F4). A3's line m38.way_up_earth is the window's meaning."
+    also: [entrance:way_up]
+    notes: "at (-4864, 4864)"
+landmarks:
+  - id: landmark:arena
+    space: room:arena
+    what: "a round floor of bare bedrock ringed by twelve monoliths, cracked at its middle"
+    seen_from: [room:landing, room:statue, room:quarry, room:geodes, room:pillars, room:west_ledge, room:chamber]
+  - id: landmark:chamber
+    space: room:chamber
+    what: "a hollow at the bowl's bottom under an overhang of the wall, roots of stone hanging from it"
+    seen_from: [room:landing, room:statue, room:arena]
+  - id: landmark:statue
+    space: room:statue
+    what: The statue of Earth
+    seen_from: [room:landing, room:quarry, room:geodes, room:pillars]
+  - id: landmark:way_up
+    space: room:landing
+    what: "The dust shaft: a column of pale light where dust streams upward out of the bowl"
+    seen_from: [room:landing, room:statue]
+sightlines:
+  - id: view:arrival
+    from: room:landing
+    to: [landmark:statue, landmark:arena, landmark:chamber]
+    what: "The arrival: from the Dust Ledge south-east down into the bowl, the ramp to the Stone Statue, the Pillar Field below, the Anvil's monoliths to the right at the bottom, the quarry's cut steps and the geodes far left, the bowl's leaning walls round it all under the dust sky."
+    notes: "camera at (-3456, 3584), z 176 (eye), yaw -62 degrees, pitch -8; the MU-4 concept"
+set_pieces:
+  - id: set:rockfall
+    kind: trap
+    spaces: [room:geodes, room:pillars, room:quarry, room:west_ledge]
+    rule: "The source's nine squares of falling rock: patches of fresh rubble under overhangs (a small floor face each). Stepping on one: one time in three 50 physical damage to each member, 'Rocks fall from above!', with a short camera shake (evt.CameraShake). PressurePlate faces textured `xperubble`, each calling A3's planes.rockfall. Cells: at (3328, 4224); at (4864, 3456); at (3712, 4736); at (3840, 512); at (4864, -896); at (1664, -2048); at (-128, -2176); at (-5248, 256); at (-5504, 1920). None on the critical path (measured 0 within 384 of the walk; 0 on a link, 0 in the arena)."
+  - id: set:scree
+    kind: trap
+    spaces: [zone:scree]
+    rule: "A drop from a terrace into the scree is a real fall (300-1,000, the engine's falling damage; Feather Fall none); scree slopes climb back to every terrace and ramp, none to the Anvil or the Hollow, so the test cannot be bypassed. The bowl's wall closes the room. Measured: the farthest scree is 4,189 from a way out (90 % within 3,010)."
+  - id: set:test
+    kind: boss
+    spaces: [room:arena]
+    rule: "D-58 C3 (a): the pedestal's 'Accept the test of Earth?' (A3's m38.test_earth) shows the three guardians, a hidden group until then, rising from the pit at (-3840, -1792): 1 Sleeper's Guardian of Earth (75), 2 Earth Blaster (70). Each guardian's death event calls Xeen.planeTestCheck(\"earth\", <the group>); when the three are dead it runs m38.test_earth_passed, which sets m38_earth_test (111766, P-1) and opens the gate. A party that leaves mid-fight finds the guardians still shown on return; the test is not offered again while they live."
+    enabled_by: {map_var: test_accepted}
+    gives:
+      qbit: m38_earth_test
+    population:
+      - {id: pop:guardians, actors: [{actor: Sleeper's Guardian of Earth (11722), count: 1}, {actor: Earth Blaster (11721), count: 2}], placed: true, notes: "hidden until the test is accepted, at (-3840, -1792)"}
+height_bands:
+  - id: band:floors
+    range: [-768, 0]
+    spaces: [room:landing, room:statue, room:quarry, room:geodes, room:pillars, room:west_ledge, room:arena, room:chamber]
+    notes: "the arrival 0, rising to the sleeper"
+  - id: band:scree
+    level: -1024
+    spaces: [zone:scree]
+    notes: "the scree; the bowl's leaning walls of raw stone 2,200-3,000 high"
+states:
+  - id: state:sleeper_awake
+    condition: {qbit: m38_earth}
+    shows: [poi:dais]
+    effects: ["The return dais shows (common question C5 (a)); m38.sleeper_earth answers its first line."]
+  - id: state:test_passed
+    condition: {qbit: m38_earth_test}
+    opens: [link:root_stair]
+    effects: ["P-1: the map's load event reads m38_earth_test (111766): the gate stays open, the guardians stay hidden and the pit stays quiet, through refills and the reset after a map rebuild (D-58 C4 (a))."]
+atmosphere: "Sky `xeen_plane_earth` (shipped; question 3); daylight [120, 104, 88] ambient; view distance x1.0; no weather; music 3. No Fly (WORLD_DESIGN 3.4). No lighting bake (open air)."
+totals:
+  chests: 2
+  first_fight: 2947
+  kill_xp_per_member: 32044
+  placed_monsters: 30
+  points_of_interest: 10
+  walk_length: 16870
+  walkable_area_millions: 49.5
+notes: "MU-3 for the phase 6 review (A6's planes sub-agent, 2026-11-21). Room 26 x 26 cells (13,312 a side). Written by level_generation/xeen_art/phase6/planes_brief.py from planes_design.py; drawings, measure.json and the board in level_generation/xeen_art/phase6/planes/. Source: the Elemental Plane of Earth, MM5 maze 27 (dark/aaze0027). Corner contract: level_generation/xeen_art/phase6/corners.yml. L2-L4 (A6's planes sub-agent, seventeenth session, 2026-11-21): built by output/studio_cal/p3/tools/gen.py; one open-air room (the bowl, its floor the scree), the terraces rock prisms in it each with a scree slope back up, the Root Stair walled by its cheeks and barred by a sinking slab (P-2 by construction); S's pieces blocked by name."

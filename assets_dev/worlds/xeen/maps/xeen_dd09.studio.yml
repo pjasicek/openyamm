@@ -1,0 +1,11 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/dd09/L4"
+revision: "3c7695b7d977d01e715a930da6310458"
+lock_hash: "23d19193cd7ee7d31ee566cb52c5254d"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [0, -1920, 0], facing: 512}
+  - {name: "entrance:d2_trunk", at: [0, -1920, 0], facing: 512}
+identity: {shape: "temple"}
+hanging_decorations: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]

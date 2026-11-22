@@ -1,0 +1,169 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-07
+key: xd07
+name: Castle Burlock
+stands_on: X4 Burlock Savannah
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [12, 14]
+monsters:
+  levels: [10, 24]
+  boss: null
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Madmen: Mad Fool 8 (the court's fools gone mad; the source's)"
+    - "Gargoyles A-B: 16 / 22 (roosting in the old west tower)"
+    - "Trolls A: Ice Troll 18 (the source's dungeon ice trolls)"
+    - "Fire Dragon 75, caged, optional (not counted)"
+    - "King's Guard 40, friendly, on the court floor (not counted)"
+treasure: {level: 2, hoard: 3}
+role: "Story M5-M7 (audience, Artemus, the Pyramid Sigil); Emerson for M9, M11, M22; Artemus's permit M22; Roxanne Q-C3 and promotion T1-E"
+role_short: "Story M5–M7"
+set_piece: "The throne room; the Crusaders-only portcullis; the old throne that throws you into the air; the dungeon with ice trolls and a caged fire dragon"
+floors:
+  - {floor: 2, name: "Tower tops", height: 1280}
+  - {floor: 1, name: "Tower floors", height: 640}
+  - {floor: 0, name: "The court", height: 0}
+  - {floor: -1, name: "Cellars and dungeon", height: -640}
+  - {floor: -2, name: "Dragon pit", height: -1152}
+spaces:
+  # floor 2
+  - {id: room:old_throne, name: "Old King's throne", kind: room, size: M, floor: 2, at: [0, 0], set_piece: true,
+     monsters: 4, population: [{family: Gargoyles, count: 4, strength: light, rank: b}],
+     purpose: "Burlock's grandfather's throne under a broken roof. Sit on it: the party is thrown into the air outside the tower."}
+  - {id: room:gargoyle_loft, name: Gargoyle loft, kind: room, size: M, floor: 2, at: [1, 0], chest: 2,
+     monsters: 8, population: [{family: Gargoyles, count: 8, strength: pack, rank: a}],
+     purpose: "The roosts under the west tower's roof; a chest of shiny things the gargoyles took."}
+  - {id: room:royal_bedroom, name: Royal bedroom, kind: room, size: M, floor: 2, at: [4, 0], chest: 3, goal: true,
+     monsters: 0, purpose: "Roxanne's chest: her reward for the tiara (Q-C3) opens when she says so."}
+  # floor 1
+  - {id: room:fools_hall, name: "Fools' hall", kind: room, size: M, floor: 1, at: [0, 0],
+     monsters: 8, population: [{family: Madmen, count: 8, strength: pack}],
+     purpose: "The jesters' quarters: motley, broken lutes, mad fools."}
+  - {id: room:west_gallery, name: West tower gallery, kind: corridor, size: M, floor: 1, at: [1, 0],
+     monsters: 6, population: [{family: Madmen, count: 4, strength: light}, {family: Gargoyles, count: 2, strength: light}],
+     purpose: "Arrow slits and the joke plaques; gargoyles at the windows."}
+  - {id: room:roxanne_parlour, name: "Princess's parlour", kind: room, size: M, floor: 1, at: [4, 0], goal: true,
+     monsters: 0, purpose: "Princess Roxanne (Q-C3): 'I'm not a damsel in distress'."}
+  # floor 0
+  - {id: room:west_tower_base, name: West tower foot, kind: stair, size: S, floor: 0, at: [1, 0],
+     monsters: 0, purpose: "Sign 'West Tower'; the stair up; the fools' noise above."}
+  - {id: room:great_hall, name: Great hall, kind: hall, size: L, floor: 0, at: [2, 0],
+     monsters: 0, purpose: "The court: banners, friendly King's Guard, petitioners. Plaque 'Don't worry, be happy.'"}
+  - {id: room:throne_room, name: Throne room, kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, goal: true,
+     monsters: 0, purpose: "King Burlock on his throne, 'Prince Roland' at his side (M5)."}
+  - {id: room:east_tower_base, name: East tower foot, kind: stair, size: S, floor: 0, at: [4, 0],
+     monsters: 0, purpose: "Sign 'East Tower'; the royal family's stair behind the throne; a guard."}
+  - {id: room:gatehouse, name: Gatehouse, kind: room, size: M, floor: 0, at: [1, 1], set_piece: true,
+     monsters: 0, purpose: "Inside the castle door: the portcullis that lifts only for Crusaders; guards; the court seen through the bars."}
+  - {id: room:well_court, name: Well court, kind: room, size: S, floor: 0, at: [2, 1],
+     monsters: 0, purpose: "A well: 'The water refreshes you.'"}
+  - {id: room:armour_gallery, name: Gallery of arms, kind: corridor, size: M, floor: 0, at: [3, 1],
+     monsters: 0, purpose: "King Burlock's and Prince Roland's ceremonial armour on stands, with plaques."}
+  - {id: room:advisor, name: "Royal Advisor's study", kind: room, size: S, floor: 0, at: [4, 1], goal: true,
+     monsters: 0, purpose: "Artemus: Crodo and Darzog (M6), the Pyramid Sigil (M7), the Dungeon Key, the permit (M22)."}
+  - {id: room:kitchens, name: Kitchens, kind: room, size: M, floor: 0, at: [1, 2],
+     monsters: 2, population: [{family: Madmen, count: 2, strength: light}],
+     purpose: "Servants' way from the gate; two fools raiding the larder; the cellar stair."}
+  - {id: room:library, name: Library, kind: room, size: M, floor: 0, at: [2, 2],
+     monsters: 0, purpose: "The Book of Languages and the Book of Astrology (Linguist, Astrologer, free)."}
+  - {id: room:builder, name: "Master Builder's office", kind: room, size: S, floor: 0, at: [3, 2], goal: true,
+     monsters: 0, purpose: "Emerson: walls, keep and dungeon for Newcastle (M9, M11, M22)."}
+  # floor -1
+  - {id: room:cellar, name: Wine cellar, kind: room, size: M, floor: -1, at: [1, 0],
+     monsters: 3, population: [{family: Madmen, count: 3, strength: light}],
+     purpose: "Racks and barrels; the iron dungeon door, sealed since the trolls broke out."}
+  - {id: room:cell_block, name: Cell block, kind: hall, size: L, floor: -1, at: [2, 0], chest: 2,
+     monsters: 6, population: [{family: Trolls, count: 6, strength: pack}],
+     purpose: "Broken cells, frost on the bars; the warden's strongbox; beds and a bucket of sludge."}
+  - {id: room:pit_gallery, name: Pit gallery, kind: corridor, size: M, floor: -1, at: [3, 0], set_piece: true,
+     monsters: 2, population: [{family: Trolls, count: 2, strength: light}],
+     purpose: "A railed walk over the dragon's cage: the dragon is seen below; the cage lever and the warden's warning."}
+  - {id: room:postern, name: Postern tunnel, kind: corridor, size: S, floor: -1, at: [0, 1],
+     monsters: 0, purpose: "A sally port to the moat, barred on the inside: the way out after the dungeon."}
+  - {id: room:troll_den, name: Troll den, kind: cave, size: M, floor: -1, at: [1, 1], chest: 2,
+     monsters: 6, population: [{family: Trolls, count: 6, strength: pack}],
+     purpose: "Where the ice trolls sleep on frozen straw; their pile of loot."}
+  - {id: room:frozen_cistern, name: Frozen cistern, kind: cave, size: M, floor: -1, at: [2, 1],
+     monsters: 5, population: [{family: Trolls, count: 5, strength: pack}],
+     purpose: "The castle cistern frozen over; the Black Liquid in a bucket on the ice (+2 Might, once each)."}
+  # floor -2
+  - {id: room:dragon_pit, name: Dragon pit, kind: cave, size: L, floor: -2, at: [3, 0], boss: true, chest: 3, boss_label: "dragon 75, opt.",
+     monsters: 0, population: [{actor: Fire Dragon, level: 75, role: optional, strength: boss, placed: true}],
+     purpose: "The caged Fire Dragon on its hoard (hoard tier 3). Optional: the cage opens only by the lever."}
+links:
+  - {id: link:gate_hall, from: room:gatehouse, to: room:great_hall, kind: door, label: "Crusaders only",
+     opened_by: state:crusader, notes: "A portcullis; it lifts only for a Crusader party."}
+  - {id: link:hall_throne, from: room:great_hall, to: room:throne_room, kind: door}
+  - {id: link:hall_westtower, from: room:great_hall, to: room:west_tower_base, kind: door}
+  - {id: link:hall_well, from: room:great_hall, to: room:well_court, kind: open}
+  - {id: link:well_library, from: room:well_court, to: room:library, kind: door}
+  - {id: link:library_gallery, from: room:library, to: room:armour_gallery, kind: door}
+  - {id: link:throne_gallery, from: room:throne_room, to: room:armour_gallery, kind: open}
+  - {id: link:gallery_advisor, from: room:armour_gallery, to: room:advisor, kind: door}
+  - {id: link:gallery_builder, from: room:armour_gallery, to: room:builder, kind: door}
+  - {id: link:throne_easttower, from: room:throne_room, to: room:east_tower_base, kind: door}
+  - {id: link:gate_kitchens, from: room:gatehouse, to: room:kitchens, kind: door}
+  - {id: link:easttower_parlour, from: room:east_tower_base, to: room:roxanne_parlour, kind: stair}
+  - {id: link:parlour_bedroom, from: room:roxanne_parlour, to: room:royal_bedroom, kind: stair}
+  - {id: link:westtower_fools, from: room:west_tower_base, to: room:fools_hall, kind: stair}
+  - {id: link:fools_gallery, from: room:fools_hall, to: room:west_gallery, kind: open}
+  - {id: link:gallery_loft, from: room:west_gallery, to: room:gargoyle_loft, kind: stair}
+  - {id: link:loft_throne, from: room:gargoyle_loft, to: room:old_throne, kind: door}
+  - {id: link:kitchens_cellar, from: room:kitchens, to: room:cellar, kind: stair}
+  - {id: link:cellar_cells, from: room:cellar, to: room:cell_block, kind: locked, label: "Dungeon Key (Artemus)",
+     condition: {item: dungeon_key}, opened_by: state:dungeon_key}
+  - {id: link:cells_cistern, from: room:cell_block, to: room:frozen_cistern, kind: open}
+  - {id: link:cistern_den, from: room:frozen_cistern, to: room:troll_den, kind: open}
+  - {id: link:den_cellar, from: room:troll_den, to: room:cellar, kind: one_way, label: "bar, den side",
+     notes: "A barred door: lifted from the den, then both ways (the loop back)."}
+  - {id: link:cells_pitgallery, from: room:cell_block, to: room:pit_gallery, kind: door}
+  - {id: link:pitgallery_pit, from: room:pit_gallery, to: room:dragon_pit, kind: lift, label: "cage lever",
+     opened_by: state:cage_lever, notes: "The cage's bars rise and its floor lowers as a lift: the dragon is free."}
+  - {id: link:den_postern, from: room:troll_den, to: room:postern, kind: door}
+states:
+  - {id: state:crusader, kind: award, where: "X1 (M4, the Alacorn)", what: "Party award Crusaders", opens: [link:gate_hall]}
+  - {id: state:dungeon_key, kind: item, where: room:advisor, what: "Artemus hands the Dungeon Key after the audience (M5): 'the trolls broke out of their cells; the King will not hear of it'.",
+     opens: [link:cellar_cells], draw: false}
+  - {id: state:cage_lever, kind: lever, where: room:pit_gallery, what: "The warden's lever, with his sign 'Do not pull. --The Warden' (ours). Optional fight.",
+     opens: [link:pitgallery_pit]}
+  - {id: state:tiara, kind: qbit, where: room:roxanne_parlour, what: "Q-C3 done: Roxanne opens her chest in the bedroom.", opens: [], draw: false}
+  - {id: state:den_bar, kind: lever, where: room:troll_den, what: "The bar on the den side of the cellar door.", opens: [link:den_cellar], draw: false}
+exits:
+  - {id: exit:x4_gate, space: room:gatehouse, at: [0, 1], kind: both, label: "X4: castle door",
+     neighbour: "Door on X4's Castle Burlock gate ('Only Crusaders are allowed to enter Castle Burlock.')"}
+  - {id: exit:x4_air, space: room:old_throne, at: [0, 1], floor: 2, kind: out, label: "X4: in the air over the castle",
+     neighbour: "X4 above the castle's west tower, high: the party falls (Feather Fall helps)"}
+  - {id: exit:x4_moat, space: room:postern, at: [0, 0], kind: both, label: "X4: moat bank",
+     neighbour: "Door on X4's moat bank below the castle (opens from inside first)"}
+critical_path: [room:gatehouse, room:great_hall, room:throne_room, room:armour_gallery, room:advisor, room:armour_gallery, room:builder]
+full_route: [room:gatehouse, room:great_hall, room:throne_room, room:east_tower_base, room:roxanne_parlour, room:royal_bedroom,
+  room:throne_room, room:great_hall, room:west_tower_base, room:fools_hall, room:west_gallery, room:gargoyle_loft, room:old_throne,
+  exit:x4_air, exit:x4_gate, room:gatehouse, room:kitchens, room:cellar, room:cell_block, room:pit_gallery, room:cell_block,
+  room:frozen_cistern, room:troll_den, room:postern]
+loops:
+  - {id: loop:court, spaces: [room:great_hall, room:well_court, room:library, room:armour_gallery, room:throne_room], notes: "Round the court."}
+  - {id: loop:dungeon, spaces: [room:cellar, room:cell_block, room:frozen_cistern, room:troll_den], notes: "Round the dungeon, closed until the den's bar is lifted."}
+  - {id: loop:throne_fall, spaces: [room:great_hall, room:west_tower_base, room:fools_hall, room:west_gallery, room:gargoyle_loft, room:old_throne, exit:x4_air, exit:x4_gate, room:gatehouse], notes: "Through X4: the throne throws the party out; they walk back in."}
+lines:
+  - {text: "Only Crusaders are allowed to enter Castle Burlock.", ref: "aaze0014:8", where: room:gatehouse}
+  - {text: "The plaque reads:  Don't worry, be happy.", ref: "aaze0064:8", where: room:great_hall}
+  - {text: "The plaque reads:  Prince Roland's ceremonial armor.", ref: "aaze0064:7", where: room:armour_gallery}
+  - {text: "NO MIRROR?!?  Get out of my sight!", ref: "aaze0064:13", where: room:throne_room}
+  - {text: "The plaque reads: Peasant's choice award--Best Ruler of the Year (597)", ref: "aaze0065:0", where: room:west_gallery}
+  - {text: "The plaque reads: Speak softly, but carry a large magic sword.", ref: "aaze0065:3", where: room:west_gallery}
+  - {text: "You teleported into the air outside the tower!", ref: "aaze0065:7", where: room:old_throne}
+  - {text: "Don't look so disappointed.  I'm not a damsel in distress, but there is a quest you could perform for me.", ref: "aaze0066:0", where: room:roxanne_parlour}
+  - {text: "The plaque reads:  Remember, eat less and think thin.", ref: "aaze0066:6", where: room:roxanne_parlour}
+  - {text: "The water refreshes you.", ref: "aaze0064:29", where: room:well_court}
+  - {text: "Black Liquid / + 10 Might (Permanent)", ref: "aaze0063:3,5", where: room:frozen_cistern, notes: "Rescaled to +2."}
+open_questions:
+  - "Who fights in a friendly castle? Proposal: the court is peaceful (King's Guard 40 friendly); the 50 hostiles are the court's mad fools and roosting gargoyles in the abandoned west tower, and the ice trolls loose in the dungeon."
+  - "Mad Fool is level 8, under the band's 10; keep it as light filler or give Madmen a tier at 12?"
+  - "Ice Troll at 18 (the Trolls A row renamed for this map) or a row of its own? MONSTERS lists the Ice Troll as a troll tier."
+  - "The caged Fire Dragon (75) at party 12-14: optional behind a lever with a warning, like X2's lake dragons. Keep it, or make the cage a sight only?"
+  - "The old throne throws the party into the air over X4 (the source). Or into X8 Cloudreach?"
+  - "Black Liquid +10 Might in the source; proposed +2 once per character (as XD-02's pools)."

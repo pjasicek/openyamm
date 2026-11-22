@@ -1,0 +1,166 @@
+"""Runtime export (witch): work/rig_v6.blend (gated rig and timed clips synced into the UV master) ->
+export/xeen_witch_lod0.glb. One skinned mesh 'Witch': materials Witch_A (body set: 2K colour, 1K normal, 1K ORM) and
+Staff_A (make_staff.py). Bones added: 'Staff' (child of B_L_Hand at the solved handle centre, +Y along the grip axis
+toward the crystal, prop X horizontal across the staff in Standing frame 0 so the prongs spread left-right to the
+viewer as in the sprite), 'Socket_RightPalm' (cast launch: the bare right palm, 3 cm off the palm along its normal) and
+'Socket_StaffCrystal' (child of Staff, the crystal centre). The staff is skinned 100 % to 'Staff' and split into an
+attachment later (tools/split_attachment.py). Clips Standing, Walking, Running, Attack, Cast, Hit, Death, Fidget and Dead
+(the last Death frame held 1 s); keys at 30 fps, quaternions sign-continuous. Args: none"""
+import bpy, sys, os, json, math
+import numpy as np
+from mathutils import Vector, Matrix
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+T = os.path.join(HERE, 'textures')
+bpy.ops.wm.open_mainfile(filepath=os.path.join(HERE, 'work', 'rig_v6.blend'))
+scene = bpy.context.scene; scene.render.fps = 30; scene.render.fps_base = 1
+rig = bpy.data.objects['Rig']; body = bpy.data.objects['Body']; me = body.data
+rig.animation_data_create(); rig.animation_data.action = None
+for pb in rig.pose.bones:
+    pb.matrix_basis.identity()
+bpy.context.view_layer.update()
+me.uv_layers.active = me.uv_layers['UVMap']
+for uvl in [u.name for u in me.uv_layers if u.name != 'UVMap']:
+    me.uv_layers.remove(me.uv_layers[uvl])
+
+# ---------------------------------------------------------------- prop bone and sockets
+G = json.load(open(os.path.join(HERE, 'work', 'grip_pose.json')))
+AXL = Vector(G['handle_axis_hand_local']).normalized(); GCL = Vector(G['handle_centre_hand_local'])
+Hm = rig.data.bones['B_L_Hand'].matrix_local
+c = Hm @ GCL; ax = (Hm.to_3x3() @ AXL).normalized()
+st = bpy.data.actions['Standing']; rig.animation_data.action = st
+if len(st.slots): rig.animation_data.action_slot = st.slots[0]
+scene.frame_set(0)
+Hw = rig.matrix_world @ rig.pose.bones['B_L_Hand'].matrix
+d_w = (Hw.to_3x3() @ AXL).normalized(); x_w = d_w.cross(Vector((0, 1, 0))).normalized()
+x_l = Hw.to_3x3().normalized().inverted() @ x_w
+rig.animation_data.action = None
+for pb in rig.pose.bones: pb.matrix_basis.identity()
+bpy.context.view_layer.update()
+SX = (Hm.to_3x3().normalized() @ x_l); SX = (SX - ax * SX.dot(ax)).normalized(); SZ = SX.cross(ax)
+wr = rig.data.bones['B_R_Hand'].head_local; k2 = rig.data.bones['B_R_Finger2'].head_local
+across = rig.data.bones['B_R_Finger1'].head_local - rig.data.bones['B_R_Finger4'].head_local
+pn = (k2 - wr).cross(across).normalized()
+if pn.y > 0:
+    pn = -pn                                                       # the A-pose palms face forward (-Y)
+sp_ = wr + (k2 - wr) * 0.45 + pn * 0.03
+bpy.context.view_layer.objects.active = rig
+bpy.ops.object.mode_set(mode='EDIT')
+eb = rig.data.edit_bones.new('Staff'); eb.head = c; eb.tail = c + ax * 0.15; eb.parent = rig.data.edit_bones['B_L_Hand']; eb.align_roll(SZ)
+sk = rig.data.edit_bones.new('Socket_RightPalm'); sk.head = sp_; sk.tail = sp_ + pn * 0.05
+sk.parent = rig.data.edit_bones['B_R_Hand']; sk.use_deform = False
+cr = c + ax * 0.407
+sc_ = rig.data.edit_bones.new('Socket_StaffCrystal'); sc_.head = cr; sc_.tail = cr + ax * 0.05
+sc_.parent = rig.data.edit_bones['Staff']; sc_.use_deform = False
+bpy.ops.object.mode_set(mode='OBJECT')
+# ---------------------------------------------------------------- staff mesh into bone space
+with bpy.data.libraries.load(os.path.join(HERE, 'work', 'staff.blend'), link=False) as (src, dst):
+    dst.objects = ['StaffMesh']
+staff = dst.objects[0]; scene.collection.objects.link(staff)
+M = Matrix((SX, ax, SZ)).transposed().to_4x4(); M.translation = c
+staff.data.transform(M); staff.matrix_world = Matrix()
+staff.vertex_groups.new(name='Staff').add(list(range(len(staff.data.vertices))), 1.0, 'REPLACE')
+print('PROP Staff', len(staff.data.polygons), 'tris')
+
+
+# ---------------------------------------------------------------- materials
+def material(name, base, normal=None, mr=None):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree
+    bsdf = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
+
+    def tex(f, cs):
+        n = nt.nodes.new('ShaderNodeTexImage'); n.image = bpy.data.images.load(os.path.join(T, f)); n.image.colorspace_settings.name = cs
+        return n
+    nt.links.new(tex(base, 'sRGB').outputs['Color'], bsdf.inputs['Base Color'])
+    if normal:
+        nm = nt.nodes.new('ShaderNodeNormalMap'); nt.links.new(tex(normal, 'Non-Color').outputs['Color'], nm.inputs['Color'])
+        nt.links.new(nm.outputs['Normal'], bsdf.inputs['Normal'])
+    if mr:
+        sep = nt.nodes.new('ShaderNodeSeparateColor'); nt.links.new(tex(mr, 'Non-Color').outputs['Color'], sep.inputs['Color'])
+        nt.links.new(sep.outputs['Green'], bsdf.inputs['Roughness']); nt.links.new(sep.outputs['Blue'], bsdf.inputs['Metallic'])
+    else:
+        bsdf.inputs['Roughness'].default_value = 0.55; bsdf.inputs['Metallic'].default_value = 0.0
+    return m
+
+
+bm_ = material('Witch_A', 'witch_basecolor_graded.png', 'witch_normal_1k.png', 'witch_mr_1k.png')
+sm_ = material('Staff_A', 'staff_basecolor.png')
+me.materials.clear(); me.materials.append(bm_)
+staff.data.materials.clear(); staff.data.materials.append(sm_)
+for o in bpy.data.objects:
+    o.select_set(o in (body, staff))
+bpy.context.view_layer.objects.active = body
+bpy.ops.object.join()
+body.name = body.data.name = 'Witch'
+for at in [a.name for a in body.data.attributes if a.name in ('piece', 'garment', 'finger', 'head', 'orig_co')]:
+    body.data.attributes.remove(body.data.attributes[at])
+for ca in [a.name for a in body.data.color_attributes]:
+    body.data.color_attributes.remove(body.data.color_attributes[ca])
+
+# ---------------------------------------------------------------- Dead, signs, export
+death = bpy.data.actions['Death']; rig.animation_data.action = death
+if len(death.slots): rig.animation_data.action_slot = death.slots[0]
+scene.frame_set(int(death.frame_range[1]))
+held = {pb.name: (pb.rotation_quaternion.copy(), pb.location.copy()) for pb in rig.pose.bones}
+dead = bpy.data.actions.get('Dead') or bpy.data.actions.new('Dead'); dead.use_fake_user = True
+rig.animation_data.action = dead
+for f in (0, 30):
+    for pb in rig.pose.bones:
+        pb.rotation_mode = 'QUATERNION'; pb.rotation_quaternion, pb.location = held[pb.name]
+        pb.keyframe_insert('rotation_quaternion', frame=f); pb.keyframe_insert('location', frame=f)
+dead.use_frame_range = True; dead.frame_start, dead.frame_end = 0, 30
+rig.animation_data.action = None
+for pb in rig.pose.bones:
+    pb.matrix_basis.identity()
+
+
+def fcurves(action):
+    fcs = list(getattr(action, 'fcurves', []) or [])
+    if not fcs and hasattr(action, 'layers'):
+        fcs = [fc for layer in action.layers for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves]
+    return fcs
+
+
+for act in bpy.data.actions:
+    curves = {}
+    for fc in fcurves(act):
+        if fc.data_path.endswith('rotation_quaternion'):
+            curves.setdefault(fc.data_path, {})[fc.array_index] = fc
+    for comps in curves.values():
+        if len(comps) != 4:
+            continue
+        keys = [comps[i].keyframe_points for i in range(4)]; prev = None
+        for j in range(min(len(k) for k in keys)):
+            q = [keys[i][j].co[1] for i in range(4)]
+            if prev is not None and sum(a * b for a, b in zip(q, prev)) < 0:
+                for i in range(4):
+                    keys[i][j].co[1] *= -1; keys[i][j].handle_left[1] *= -1; keys[i][j].handle_right[1] *= -1
+                q = [-x for x in q]
+            prev = q
+        for fc in comps.values():
+            fc.update()
+KEEP = ('Standing', 'Walking', 'Running', 'Attack', 'Cast', 'Hit', 'Death', 'Dead', 'Fidget')
+for a in list(bpy.data.actions):
+    if a.name not in KEEP:
+        bpy.data.actions.remove(a)
+st = bpy.data.actions['Standing']; rig.animation_data.action = st
+if len(st.slots): rig.animation_data.action_slot = st.slots[0]
+os.makedirs(os.path.join(HERE, 'export'), exist_ok=True)
+out = os.path.join(HERE, 'export', 'xeen_witch_lod0.glb')
+for o in bpy.data.objects:
+    o.select_set(o in (body, rig))
+bpy.context.view_layer.objects.active = rig
+bpy.ops.export_scene.gltf(filepath=out, use_selection=True, export_format='GLB', export_yup=True,
+                          export_animations=True, export_animation_mode='ACTIONS', export_force_sampling=True,
+                          export_frame_step=1, export_skins=True, export_all_influences=False, export_attributes=False,
+                          export_morph=False, export_image_format='AUTO', export_reset_pose_bones=True,
+                          export_anim_slide_to_zero=True)
+rig.animation_data.action = None
+for pb in rig.pose.bones:
+    pb.matrix_basis.identity()
+bpy.context.view_layer.update()
+co = np.array([tuple(body.matrix_world @ v.co) for v in body.data.vertices])
+info = {'glb': out, 'tris': sum(len(p.vertices) - 2 for p in body.data.polygons),
+        'rest_height_m': float(co[:, 2].max() - co[:, 2].min()),
+        'clips': {a.name: [int(x) for x in a.frame_range] for a in bpy.data.actions}}
+json.dump(info, open(os.path.join(HERE, 'export', 'export_info.json'), 'w'), indent=1)
+print('EXPORTED', json.dumps(info))

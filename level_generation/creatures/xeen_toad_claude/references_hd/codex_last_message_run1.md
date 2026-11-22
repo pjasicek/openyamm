@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_toad_claude/references_hd/00_three_quarter.png) as the original 1536×1024 transparent PNG. I selected the first render because it preserves four fingers on each hand and at least 61 px around the visible silhouette. The corrective render lost a visible finger and narrowed the margins. Both attempts are recorded in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_toad_claude/references_hd/generation_runs.json).
+
+The selected view shows four distinct pads on one hind foot and three on the other. The brief calls for five on each.

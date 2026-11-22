@@ -1,0 +1,18 @@
+# D2 Sprite Forest and Ogre Pass: flavour topics of the sprites' treehouse village (source/towns/d2.yml). Owner: A4.
+# Format: QUESTS_FORMAT.md section 5 (talk only). Sharla and Sheewana (Q-D10), Nibbler (Q-D9) and Graalg (Q-D11) are A3's.
+map: D2
+block: 177
+
+npcs:
+  5102:              # Dewdrop, Dewdrop Potions
+    topics:
+      - {n: 1, label: Forbidden fruit, text: "The hut in the clearing has a basket labelled Forbidden Fruit. It's labelled for a reason. Mostly the coconut."}
+  5103:              # Lumen, Light Guild of the Treetops
+    topics:
+      - {n: 2, label: The orcs, text: "The orcs took the Temple of Bark. They don't even like trees. They just like temples."}
+  5104:              # Mossbell
+    topics:
+      - {n: 3, label: Holes, text: "Mind the holes in the forest floor. Trolls live down them. They come up for sprites and go back down hungry. We're quick."}
+  5105:              # Thistledown, piper
+    topics:
+      - {n: 4, label: The pass, text: "The ogres in the pass charge a toll. In teeth. Mostly yours."}

@@ -1,0 +1,50 @@
+# Q-C13 Lake Beasts (QUESTS 2.1): the three water dragons of Lake Darzog, a trap at level 60. Owner: A3.
+id: Q-C13
+title: Lake Beasts
+act: III   # D-1.2: the lake dragons count in this quest's act; level 24 fits Act III (A2, 2026-11-20)
+kind: side
+status: full
+giver: 4152          # Medin the Fisherman (X2, his hut 4096)
+maps: [X2]
+level: 24
+block: 63
+after: []
+source: "QUESTS Q-C13; xeen/aaze0011:9-12"
+
+qbits:
+  started: {id: 112260, journal: "Medin the Fisherman says lake beasts are eating all the fish in Lake Darzog.", until: [done]}
+  lake_beasts_slain: {id: 110201, map: X2, note: "set by X2's timer when the dragon group dies"}
+  done: {id: 112261}
+
+npcs:
+  4152:              # Medin
+    topics:
+      - n: 1
+        label: Lake beasts
+        states:
+          - when: {qbit: done}
+            text: "My friends, I am always glad to see you. The fish are back, and so am I. My boat's at the jetty if you want the island."
+          - when: {qbit: lake_beasts_slain}
+            text: "You have slain the monsters of the lake! Here, I insist you take this as a token of my appreciation. And my boat is yours whenever you want the island."
+            do: [{set: done}, {clear: started}, {xp: 6000}, {gold: 2000}, {treasure: 3}]
+          - when: {qbit: started}
+            text: "The beasts still live. I wish someone would kill them. Three of them, big as barns. I'd not go near them without a great deal of practice."
+          - text: "The fish supply is low. I am sure some sort of lake beasts are eating all the fish. If you kill the beasts, I will be indebted to you."
+            do: [{set: started}]
+
+hooks:
+  dragons:
+    map: X2
+    where: "the dragon group dead (built: X2's timer event)"
+    sets: [lake_beasts_slain]
+  medin_boat:
+    map: X2
+    where: "Medin's boat to the island (built: thing:medin_boat)"
+    reads: [lake_beasts_slain]
+    states:
+      - when: {qbit: lake_beasts_slain}
+        text: "Medin rows you across to the island."
+      - text: "Medin's boat is tied up. \"Not while those beasts circle the island,\" says Medin."
+
+rewards: {xp: 6000, gold: 2000}
+playthrough: "Medin (Lake beasts); the dragons die (set); Medin (Lake beasts); the boat."

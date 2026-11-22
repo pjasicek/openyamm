@@ -1,0 +1,132 @@
+# Xeen playthrough, segment 51: Castle Kalindra's first stage (D1, DD-02, DD-03), M19. Ellinger's Tower again: the
+# lift up from the ground floor, Ellinger takes five Energy Disks (M19: stage 1, the castle's gate and first floor
+# back in the world). Out to Castleview Vale; Castle Kalindra's gate on its rise now opens: the first arrival in the
+# half-restored castle (m19.first_entry), the entrance hall, the throne room's thievery safes (m19.safes: two Energy
+# Disks, then the safes as chests); out by the gate.
+# Routes: devdocs/xeen/briefs/dd02/L4/playtest.yml (the lift), dd03/L4/playtest.yml (stage 1), playtest_exit.yml.
+# Quest logic: source/quests/m19.yml.
+#   python3 tests/playthrough/xeen/run.py 51
+id: xeen.playthrough.51_kalindra_stage_one
+title: "Xeen playthrough 51: five disks for Ellinger and Castle Kalindra's first floor"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/49_temple_of_bark.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d2.odm}
+  - assert: {qbit_clear: [111381, 111383, 117320]}
+  - play_lua: {source: "remember('disks', item_count(12334)); if item_count(12334) < 5 then error('only ' .. item_count(12334) .. ' Energy Disks') end"}
+  # West along the road back to Castleview Vale.
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Ellinger's Tower (D1 event 102), the lift up from the ground floor (event 26), the study.
+  - set_pose: {map: xeen_d1.odm, x: 2560, y: 9216, z: 1152, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(102)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd02.blv}
+  - assert: {party_position: {x: -1216, y: 640, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(26); wait(7)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: 1900, z_max: 1940}}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(15); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Energy discs"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.5); close()
+        if item_count(12334) ~= recall("disks") - 5 then error("Ellinger took " .. (recall("disks") - item_count(12334)) .. " disks") end
+        if experience(0) - recall("xp") ~= 4000 then error("M19's stage 1 paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111380, 111381]}
+  # Down the lift and out by the front door.
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 1600, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1216, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1310, y: 640, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Castle Kalindra's gate on its rise (D1 event 254, the restored gate; m19.ghost_castle lets it open at stage 1).
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: -3072, z: 1664, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(254)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd03.blv}
+  - assert: {party_position: {x: -1600, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Half of it is solid stone"}}
+  - play_lua:
+      source: |
+        close(); wait(4)
+        if not qbit(117320) then error("arrived_once not set") end
+        if door_state(12) ~= "open" then error("the portcullis did not rise: " .. door_state(12)) end
+  # The entrance hall and the throne room: the thievery safes (two Energy Disks), then their chests.
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 14)"}
+  - walk_to: {x: 1350, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1728, y: 640, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('disks', item_count(12334)); click(53); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[two energy discs]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(111383) then error("safes_opened not set") end
+        if item_count(12334) ~= recall("disks") + 2 then error("energy disks after the safe: " .. item_count(12334)) end
+        loot_chest(53); close(); loot_chest(52); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+  # Back to the gate and out to Castleview Vale.
+  - walk_to: {x: 1350, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1900, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -9728, y: -3072, radius: 160, z_min: 1600, z_max: 1720}}
+  - play_lua:
+      source: |
+        wait(1); for _ = 1, 3 do if not close() then break end end
+        log("51 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [111381, 111383, 117320]}
+  # The Temple of Mok (house 4455) on Castleview's square: Sprite Forest (D2), crossed on this segment's road, can leave
+  # a member Petrified (its Gorgon and Medusa Sprites; A3 sessions 30-32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  - save_game: {name: "51 Castle Kalindra, stage one", path: output/playthrough/xeen/checkpoints/51_kalindra_stage_one.oysav}

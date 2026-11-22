@@ -1,0 +1,46 @@
+format: 0
+id: xeen_x8
+name: Cloudreach
+world: xeen
+kind: indoor
+profile: region
+map_code: X8
+units: {plan_grid: 512}
+extent: {footprint_cells: [76, 64]}
+map_stats:
+  id: 9106
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 2
+  perception_difficulty: 3
+  refill_days: 672
+  music: 25
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Harpy, tier: 0, per_marker: [1, 3], weight: 50}
+    - {monster: Xeen Construct, tier: 0, per_marker: [1, 2], weight: 50}
+neighbours:
+  - id: roof:witch_tower
+    to: xeen_xd04.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-04's roof stair arrives on the Witch Clouds' landing. There is no way back down but falling."
+  - id: roof:high_magic
+    to: xeen_xd11.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-11's Stairway to Heaven arrives on the High Magic Clouds' landing."
+  - id: fall:x1
+    to: xeen_x1.odm
+    kind: fall
+    notes: "A fall from the Witch Clouds (east of x 64) lands on X1 Vertigo Meadows near the Witch Tower, with falling damage unless Feather Fall is up."
+  - id: fall:x3
+    to: xeen_x3.odm
+    kind: fall
+    notes: "A fall from the High Magic Clouds (west of x 64) lands on X3 Lifeforce Lagoon near the Tower of High Magic."
+rules:
+  no_fly: true
+  weather: none
+  fall_through: {below: -1000, east_of_x0: fall:x1, west_of_x0: fall:x3, mapping: "the X8 position scaled onto the target's area round its tower (XD-04 on X1, XD-11 on X3)"}
+notes: "X8 Cloudreach, MU-3 plan for gate G1 (A6, 2026-11-20): an open-air BLV region (devdocs/INDOOR_OPEN_SKY.md; MM9's outdoor_blv route) of walkable cloud islands above X1 and X3. Islands are plan spaces with `at` (map units, the middle) and `extent`; the drawing and review board: level_generation/xeen_art/phase2/x8/."

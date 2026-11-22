@@ -1,0 +1,296 @@
+# P-2: no way to the Hollow but past the sunken slab.
+# Written by output/studio_cal/p3/tools/gen_playtests.py; run with --world xeen --map xeen_p3.blv.
+id: xeen.p3.l4.bypass
+title: 'Plane of Earth (P3): before the test nobody reaches the Root Stair or the Hollow (P-2)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p3.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p3.blv
+- clear_hostiles:
+    radius: 40000
+- note: 'Straight into the slab: the party stays on the Anvil.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -3378
+      y: -2658
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -3378
+      y: -2658
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: -3250
+      y: -2896
+      radius: 160
+      z_min: -392
+      z_max: -360
+- note: 'From the Anvil''s rim beside the right cheek, along the cheek and off the rim: into the scree, never onto the stair.'
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -3927
+      y: -3132
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -3927
+      y: -3132
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: 'From the Anvil''s rim beside the left cheek, along the cheek and off the rim: into the scree, never onto the stair.'
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -2678
+      y: -2466
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -2678
+      y: -2466
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: From the scree against the Hollow's west lip (256 high).
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -3290
+      y: -5120
+      z: -1024
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -3290
+      y: -5120
+      z: -1024
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: From the scree against the Hollow's east lip (256 high).
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -277
+      y: -5120
+      z: -1024
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -277
+      y: -5120
+      z: -1024
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: From the scree against the Hollow's north lip (256 high).
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -1792
+      y: -3817
+      z: -1024
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -1792
+      y: -3817
+      z: -1024
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: From the scree against the stair's right cheek.
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -3531
+      y: -3959
+      z: -1024
+      yaw_degrees: 28.072499999999998
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -3531
+      y: -3959
+      z: -1024
+      yaw_degrees: 28.072499999999998
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824
+- note: From the scree against the stair's left cheek.
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -2211
+      y: -3255
+      z: -1024
+      yaw_degrees: 208.0725
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -2211
+      y: -3255
+      z: -1024
+      yaw_degrees: 208.0725
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -824

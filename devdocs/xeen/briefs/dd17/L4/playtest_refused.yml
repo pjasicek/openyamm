@@ -1,0 +1,85 @@
+# Without the Soul Box (D-89: the box is checked before the move, at D6's gate and D7's hatch): an arrival at the gate
+# or by the roof shows nothing and moves nobody.
+# Run with --world xeen --map xeen_dd17.blv (output/studio_cal/dd17/four.sh). Written by tools/tests.py.
+id: xeen.dd17.l4.playtest_refused
+title: 'Castle Alamar (DD-17 L4): playtest_refused'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 53
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- lua_event:
+    source: evt.MoveToMap(0, -4736, 0, 512, 0, 0, 0, 0, "xeen_dd17.blv")
+- play_lua:
+    source: status()
+- advance_runtime:
+    seconds: 3
+    follow_map_move: true
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: if close() then error('a window on a refused arrival') end
+- play_lua:
+    source: if not (not string.find(status(), 'nothing I need to fear', 1, true)) then error('the refusal line inside' ..
+      ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- assert:
+    map: xeen_dd17.blv
+- play_lua:
+    source: if not (not qbit(111664) and not qbit(111660)) then error('refused_once or inside set without the box' .. ' /
+      ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: 'log(''no box at the gate: '' .. party())'
+- lua_event:
+    source: evt.MoveToMap(-2832, 2336, 1280, 0, 0, 0, 0, 0, "xeen_dd17.blv")
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+    follow_map_move: true
+- advance_runtime:
+    seconds: 1
+    follow_map_move: true
+- play_lua:
+    source: if close() then error('a window on a refused roof arrival') end
+- assert:
+    map: xeen_dd17.blv
+- assert:
+    party_position:
+      x: -2832
+      y: 2336
+      radius: 96
+      z_min: 1272
+      z_max: 1288
+- play_lua:
+    source: 'log(''no box by the roof: '' .. party())'

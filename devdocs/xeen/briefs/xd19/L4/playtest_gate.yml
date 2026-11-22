@@ -1,0 +1,72 @@
+# Playtest of Castle Xeen's gate (XD-19, L4; written by output/studio_cal/xd19/tools/gen_tests.py): the
+# gate's west leaf (the exit preset; into an indoor map, so no leave window) out to X9 at its named
+# arrival entrance:xd19_gate (0, 11264, 768) facing south, the landing measured. X9's gate back in
+# (to entrance:x9_gate) is A5's, opened once XD-19 is installed.
+id: xeen.xd19.l4.gate
+title: 'Castle Xeen (XD-19 L4): the gate out to X9'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd19.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 50
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd19.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- walk_to:
+    x: -128
+    y: -4200
+    z: 0
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- execute_event:
+    id: 36
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x9.blv
+- play_lua:
+    source: 'log(''landing: '' .. status())'
+- assert:
+    party_position:
+      x: 0
+      y: 11264
+      radius: 160
+      z_min: 700
+      z_max: 860

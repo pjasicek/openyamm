@@ -1,0 +1,50 @@
+# M32 Corak in the Soul Box (QUESTS M32; Act V). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Corak (5513, A4: a talking actor A7 places in the stasis field's alcove in DD-16 from the first load; he talks once
+# the field is down, m29.done, and takes no damage, D-51) takes the Soul Box
+# and hides in it; the party carries the box (A2's soul_box_corak) to Castle Alamar (M33). He leaves the pod with the
+# party: moved to house 0, gone from DD-16.
+id: M32
+title: Corak in the Soul Box
+act: V
+kind: main
+status: full
+giver: 5513          # Corak the Guardian (DD-16, Escape Pod 1)
+maps: [DD-16]
+level: 48
+block: 32
+after: [m31.done]
+source: "QUESTS M32; dark/aaze0087:2-4 (Corak)"
+
+qbits:
+  done: {id: 111640, journal: "Corak is hiding in the Soul Box. Take him to Sheltem's lair, Castle Alamar, and open the box there.",
+            until: [m33.done]}
+
+autonotes:
+  box: {id: 4133, text: "Corak, in the Soul Box: once in Sheltem's presence, throw the box to the ground. Lose the box, or die, and Xeen is doomed.", category: Misc}
+
+items:
+  soul_box: "M31's; Corak takes it"
+  soul_box_corak: "Corak gives it back with himself inside; Castle Alamar (M33) needs it"
+
+npcs:
+  5513:              # Corak
+    topics:
+      - n: 1
+        label: Soul Box
+        states:
+          - when: {qbit: done}
+            text: "(The box is quiet. Something inside it is being very patient.)"
+          - when: {item: soul_box}
+            locked: true     # voiced (D-38): the voice reads the first two sentences; the rest is shown only
+            voice: {speaker: Corak, line: "Ah! A Soulbox! You have done well."}
+            sound: xeen_vo_corak_soulbox
+            text: "Ah! A Soulbox! You have done well. I will hide in the box while you take me to Sheltem. Once you are in his presence, throw the box to the ground and I will come out and fight him. Be careful. If you lose the box or are killed, Xeen is doomed."
+            do: [{take: soul_box}, {give: soul_box_corak}, {set: done}, {autonote: box}, {xp: 4000}, {move_npc: [5513, 0]}]
+          - text: "I cannot leave the safety of this ship without some means of hiding from Sheltem's defenses. The Ancients made Soul Boxes for such things. The Pharaoh will know where one is left."
+      - n: 2
+        label: Sheltem
+        show: {not: {qbit: done}}
+        text: "Much has happened since I crashed on Darkside. Sheltem left his stasis long before I did and has done much evil. My instruments show Xeen drifting out of its orbit: he has full control of it. I have orders to stop him, and I cannot, unless he does not see me coming."
+
+rewards: {xp: 4000, gold: 0, items: "the Soul Box with Corak"}
+playthrough: "DD-16: Corak (Sheltem; Soul Box): he hides in the box."

@@ -1,0 +1,64 @@
+# Xeen side quest Q-D12, Yog's Barbarians (D1), the peace route, from a new game on D1 with a level-20 party. The
+# Sardaj camp on the vale's north edge: Yog (actor 29, NPC 4953): We come in peace (started, friends, done; 1,000 XP
+# each; Battle! gone with it), Energy disks (the Ogres took them), Help against Alamar (fed: 10 food), again ("Tell
+# Gurodel that Yog sent you"). The Sardaj stay friendly. The giants' side of the friendship (D5's People stay friendly
+# unless 113242 or 113244 is set, relations.yml) is Q-D16's map and is not visited. The war route is
+# q-d12_war_yogs_barbarians.yml.
+# Outdoors the party is placed (PLAYBOOK §2). Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (Yog, the tents), the
+# chain's segment 39. Quest logic: source/quests/q-d12.yml. Prep: prep/q-d12.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d12_peace
+id: xeen.side_quests.q-d12.peace
+title: "Xeen Q-D12 (peace): Yog's Sardaj welcome the party and fill its packs"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113240, 113241, 113242, 113243, 113244, 113245]}
+  # The Sardaj camp: Yog (actor 29): We come in peace (1,000 XP each).
+  - set_pose: {map: xeen_d1.odm, x: 12800, y: 19866, z: 1536, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_count: {monster_id: 11100, hostile: true, max: 0}}
+  - play_lua: {source: "remember('food', 0); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 29}
+  - assert: {dialog: {active: true, source_id: 4953, action_label_present: "Battle!", action_label_absent: "Energy disks"}}
+  - select_topic: {match_label: "We come in peace"}
+  - assert:
+      dialog: {text_contains: "You do not come for battle? Then you are welcome among us.", action_label_absent: "Battle!"}
+  - select_topic: {match_label: "Energy disks"}
+  - assert:
+      dialog: {text_contains: "the Ogres stole the only ones we owned"}
+  - assert: {food: 20}
+  - select_topic: {match_label: "Help against Alamar"}
+  - assert:
+      dialog: {text_contains: "We will fill your packs with food"}
+  - select_topic: {match_label: "Help against Alamar"}
+  - assert:
+      dialog: {text_contains: "The giants of the desert are our friends too. Tell Gurodel that Yog sent you."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 1000 then error("member " .. i .. " Q-D12 experience " .. gain) end
+        end
+        log("Q-D12 peace done")
+  - assert: {food: 30}
+  - assert: {actor_count: {monster_id: 11100, hostile: true, max: 0}}
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113240, 113241, 113243, 113245]}
+  - assert: {qbit_clear: [113242, 113244]}

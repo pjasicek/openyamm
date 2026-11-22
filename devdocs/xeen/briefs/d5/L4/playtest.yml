@@ -1,0 +1,666 @@
+# Written by output/studio_cal/d5/tools/gen_walk.py from the built map (A6). D4 edge walked: yes.
+id: xeen.d5.walk
+title: 'D5 Desert of Doom: the west, the east, the highlands'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d5.odm
+- assert:
+    map: xeen_d5.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 20992
+      y: -8192
+      radius: 200
+- advance_runtime:
+    seconds: 2
+- note: 'At load: the six People (11083-11085) and Gurodel placed, the eyrie griffins'
+- assert:
+    actor_count:
+      monster_id: 11083
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11085
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11562
+      min: 3
+- note: 'D6 is installed: the west edge is open (walked once A2''s travel rows D5-D6 exist)'
+- note: The west road by the obelisk knoll (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -9984
+    y: -3584
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The obelisk (obelisks.d5)
+- execute_event:
+    id: 49
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(115054) then error("qbit 115054 not set") end
+- note: The west boulders by the west road (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -12800
+    y: -2560
+    z: 1536
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Boulder 1 speaks (q-d24.boulder_1)
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: first
+- play_lua:
+    source: close(); wait(0.3)
+- note: Boulder 7 asks; a wrong answer (q-d24.answer_wrong)
+- play_lua:
+    source: click(48); wait(0.5)
+- answer_input:
+    text: stone
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if qbit(113480) then error("qbit 113480 set") end
+- note: 'Boulder 7 asks; Paladin (q-d24.answer: 12529, solved)'
+- play_lua:
+    source: click(48); wait(0.5)
+- answer_input:
+    text: paladin
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(113480) then error("qbit 113480 not set") end
+- note: After the answer boulder 2 crumbles (crumbled_2) and is hidden
+- execute_event:
+    id: 47
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(113482) then error("qbit 113482 not set") end
+- note: 'Clicked again: only sand'
+- execute_event:
+    id: 47
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: only sand
+- play_lua:
+    source: close(); wait(0.3)
+- note: Down the oasis track to the Last Water
+- walk_to:
+    x: -9728
+    y: -5939
+    z: 1350
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Last Water (d5.last_water: +2 Luck, once per character)'
+- execute_event:
+    id: 50
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The Shrine of Great Power's mesa (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -16384
+    y: -10957
+    z: 1888
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The shrine: "Will the party pray?" Yes (d5.shrine)'
+- play_lua:
+    source: click(54); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The desert road at the east boulders (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 12288
+    y: -7680
+    z: 1536
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The weathered sign (q-d24.sign)
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: paladin
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Boulder 3 after the answer: crumbles (crumbled_3)'
+- execute_event:
+    id: 42
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(113483) then error("qbit 113483 not set") end
+- note: The broken travel pyramid by the road (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 16589
+    y: -5837
+    z: 1576
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The broken pyramid (obelisks.dark_hoard: the portal destroyed)'
+- execute_event:
+    id: 4
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: portal
+- play_lua:
+    source: close(); wait(0.3)
+- note: The Great Pyramid's north door (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 0
+    y: -6144
+    z: 1376
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The green door without the key (m28.door)
+- set_pose:
+    map: xeen_d5.odm
+    x: 0
+    y: -7252
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- grant_item:
+    item_id: 12348
+- note: 'With the Key to the Ancient Pyramid: m28.door (111560), the green doors into DD-15 (entrance:d5_door)'
+- note: The green door with the key
+- set_pose:
+    map: xeen_d5.odm
+    x: 0
+    y: -7252
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if not qbit(111560) then error("qbit 111560 not set") end
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd15.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 0
+      y: 4736
+      radius: 160
+- note: Back to D5 (DD-15's way out is A8's; set down at entrance:dd15_door)
+- load_map:
+    map: xeen_d5.odm
+- set_pose:
+    map: xeen_d5.odm
+    x: 0
+    y: -7168
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The grate's hollow (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 18944
+    y: -18176
+    z: 1488
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The grate: the bolt drawn (dd18.d5_grate, 116121)'
+- execute_event:
+    id: 86
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(116121) then error("qbit 116121 not set") end
+- note: Through the grate into DD-18 (entrance:d5_grate)
+- execute_event:
+    id: 86
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd18.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: -7424
+      y: -5696
+      radius: 160
+- note: Back to D5 (DD-18's exit:d5_grate is A8's; set down at entrance:dd18_grate)
+- load_map:
+    map: xeen_d5.odm
+- set_pose:
+    map: xeen_d5.odm
+    x: 18944
+    y: -18944
+    z: 1440
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Highland Fork (the top of the switchbacks) (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 6144
+    y: 5837
+    z: 2432
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The hold lane to Gurodel's fire
+- walk_to:
+    x: 9216
+    y: 7424
+    z: 2592
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Gurodel's talk (5452)
+- interact_actor:
+    actor_index: 6
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'DD-24''s great doors (two leaves): into the Giants'' Hall at entrance:d5_hold'
+- execute_event:
+    id: 40
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd24.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 0
+      y: 384
+      radius: 160
+- load_map:
+    map: xeen_d5.odm
+- set_pose:
+    map: xeen_d5.odm
+    x: 11264
+    y: 10752
+    z: 2688
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Back at the hold: no People hostile after the visit'
+- assert:
+    actor_count:
+      monster_id: 11083
+      hostile: true
+      max: 0
+- note: The Northern Tower (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 2560
+    y: 10957
+    z: 2989
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The tower door without Bosco's key (q-d17.tower_door)
+- set_pose:
+    map: xeen_d5.odm
+    x: 2560
+    y: 11988
+    z: 3008
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- setup_shortcut:
+    kind: set_qbit
+    id: 113341
+    value: true
+- note: 'With the key: into DD-08 (entrance:d5_tower)'
+- set_pose:
+    map: xeen_d5.odm
+    x: 2560
+    y: 11988
+    z: 3008
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd08.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 0
+      y: -1152
+      radius: 160
+- load_map:
+    map: xeen_d5.odm
+- set_pose:
+    map: xeen_d5.odm
+    x: 2560
+    y: 11776
+    z: 3008
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Bosco's terrace (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -410
+    y: 9062
+    z: 2688
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Bosco''s door: into DD-25 (entrance:d5_bosco)'
+- execute_event:
+    id: 85
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd25.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 2048
+      y: 0
+      radius: 160
+- note: Back to D5 (DD-25's way out is A8's; set down at entrance:dd25_door)
+- load_map:
+    map: xeen_d5.odm
+- set_pose:
+    map: xeen_d5.odm
+    x: -512
+    y: 9216
+    z: 2688
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Fountain of Might under the rim (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 18688
+    y: 15616
+    z: 3072
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Fountain of Might (d5.fountain_might)
+- execute_event:
+    id: 52
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The Fountain of Energy Resistance by the Barrier's west end (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -7936
+    y: 16896
+    z: 2944
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Fountain of Energy Resistance (d5.fountain_energy)
+- execute_event:
+    id: 51
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The cyclopes' lair (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: -14746
+    y: 10957
+    z: 2611
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: '"Destroy?" Yes (d5.lair, 116180)'
+- play_lua:
+    source: click(34); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(116180) then error("qbit 116180 not set") end
+- note: Off the east edge to D4 (the travel prompt, OK)
+- note: The D4 road at the border (by teleport)
+- set_pose:
+    map: xeen_d5.odm
+    x: 22016
+    y: -8192
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 32563
+    y: -8192
+    z: 1504
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- note: 'Back west off D4''s west edge at y 80: the prompt, OK; D5''s entrance:d4_road'
+- set_pose:
+    map: xeen_d4.odm
+    x: -21504
+    y: -8192
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- walk_to:
+    x: -32563
+    y: -8192
+    z: 1504
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d5.odm
+- assert:
+    party_position:
+      x: 20992
+      y: -8192
+      radius: 700

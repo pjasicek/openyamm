@@ -1,0 +1,26 @@
+{
+ "barge": {
+  "length": 1024,
+  "beam": 384,
+  "tip": 12,
+  "pe": 2.2,
+  "pq": 0.6,
+  "keel": -184,
+  "keel_end": -36,
+  "sheer_mid": 56,
+  "sheer_end": 206,
+  "plank_reach": 160
+ },
+ "boat": {
+  "length": 736,
+  "beam": 256,
+  "tip": 10,
+  "pe": 2.2,
+  "pq": 0.6,
+  "keel": -132,
+  "keel_end": -30,
+  "sheer_mid": 44,
+  "sheer_end": 150,
+  "deck_below_jetty": 24
+ }
+}

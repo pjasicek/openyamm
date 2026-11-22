@@ -1,0 +1,165 @@
+{
+  "north": {
+    "name": "xeen_deco_sphinx_north",
+    "body": "north",
+    "bounds": [
+      [
+        -960,
+        960
+      ],
+      [
+        -6380,
+        580
+      ],
+      [
+        0,
+        2440
+      ]
+    ],
+    "skirt": 48,
+    "head": {
+      "f": -680,
+      "z": 1520,
+      "scale": 1.0
+    },
+    "door": {
+      "width": 384,
+      "height": 512,
+      "jamb": 72,
+      "lintel": 100,
+      "front": 52,
+      "back": -16,
+      "cornice_out": 26,
+      "cornice_h": 40
+    },
+    "lod0_body_tris": 12500,
+    "lod0_face_tris": 2600,
+    "regions": [
+      [
+        "Tail",
+        {
+          "x>": 640,
+          "z<": 300,
+          "f<": -2900
+        }
+      ],
+      [
+        "Breast",
+        {
+          "f>": -1300,
+          "|x|<": 420
+        }
+      ],
+      [
+        "ForelegL",
+        {
+          "x>": 380,
+          "f>": -2600,
+          "z<": 700
+        }
+      ],
+      [
+        "ForelegR",
+        {
+          "x<": -380,
+          "f>": -2600,
+          "z<": 700
+        }
+      ],
+      [
+        "Shoulders",
+        {
+          "f>": -2900
+        }
+      ],
+      [
+        "Torso",
+        {
+          "f>": -4500
+        }
+      ],
+      [
+        "Rump",
+        {}
+      ]
+    ],
+    "density": {
+      "Face": 1.6,
+      "Breast": 1.6,
+      "ForelegL": 1.35,
+      "ForelegR": 1.35,
+      "Head": 1.3,
+      "Shoulders": 1.1
+    },
+    "face_size": 850
+  },
+  "south": {
+    "name": "xeen_deco_sphinx_south",
+    "body": "south",
+    "bounds": [
+      [
+        -720,
+        720
+      ],
+      [
+        -2900,
+        320
+      ],
+      [
+        0,
+        1330
+      ]
+    ],
+    "skirt": 128,
+    "sink": 560,
+    "head": {
+      "f": -170,
+      "z": 600,
+      "scale": 0.78
+    },
+    "door": {
+      "width": 320,
+      "height": 448,
+      "jamb": 60,
+      "lintel": 84,
+      "front": 44,
+      "back": -16,
+      "cornice_out": 22,
+      "cornice_h": 34
+    },
+    "lod0_body_tris": 7000,
+    "lod0_face_tris": 2000,
+    "regions": [
+      [
+        "Breast",
+        {
+          "f>": -520,
+          "|x|<": 380
+        }
+      ],
+      [
+        "Shoulders",
+        {
+          "f>": -1300
+        }
+      ],
+      [
+        "Back",
+        {
+          "f>": -1950
+        }
+      ],
+      [
+        "Haunch",
+        {}
+      ]
+    ],
+    "density": {
+      "Face": 1.5,
+      "Breast": 1.5,
+      "Head": 1.25,
+      "Shoulders": 1.1
+    },
+    "face_size": 850
+  }
+}

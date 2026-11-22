@@ -1,0 +1,18 @@
+# FD-04 Dragon Tower and the Dungeon of Death (X7, finale optional): the eldest wyrm, flavour only (D-5.2: the Dragon
+# Grandmaster is Scaldrith's, XD-18). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md. Built ahead of the install (A7's L4,
+# briefs/fd04/L4): the Wyrm's Hall's great door on floor 3 is `panel:wyrm_door` (D-57's door:wyrm_hall). Alister 5705 (D-57 Q27) is a talking actor in the gate
+# hall's west alcove, no house; his Q-F1 topics and the Eye of the Dragon are A3's. Shares the dungeons' id block.
+key: FD-04
+stem: xeen_fd04.blv
+town: The Dragon Tower
+face: cloudside
+blocks:
+  houses: [4851, 4900]
+  npcs: [5701, 5800]
+
+houses:
+  - {id: 4853, door: panel:wyrm_door, kind: residence, name: The Wyrm's Hall, residents: [5703], note: "D-57: FD-04's floor 3 (A7)"}
+
+npcs:
+  - {id: 5703, name: Ashkaroth, title: Eldest Wyrm, profession: Mystic, greet: ["I was old when Xeen was flat. It has always been flat. I am very old.", "Speak up, small one."]}
+  - {id: 5705, name: Alister, title: Druid, profession: Alchemist, house: none, place: "FD-04, the gate hall's west alcove (room:gate_hall, by entrance:x7_gate; A7): a placed talking monster on A2's peaceful, placed-only, unkillable row (D-57 Q27); hidden, and the lizard decoration shown, when his paying talk closes (118147, on every load)", greet: ["Ah, brave adventurers, perhaps you can help me.", "No egg yet? I'm not getting any younger."], note: "Q-F1 (A3): wants the Dragon Egg, takes it and pays; \"Now I'll just drink this egg potion and...\"", source: "dark/aazex117:0-1 (the greeting; topics :1-3 A3's)"}

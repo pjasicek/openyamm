@@ -1,0 +1,222 @@
+format: 0
+level: L2
+pitch: "Kai Wu's pagoda on the frozen mere's shore, taken by the ninja clan: five storeys of dark timber, each smaller than the one below, stairs alternating sides. The defiled shrine, a dojo and a sleeping loft, the Hall of Screens where shadows move behind lit paper and the stair up shows through a screen painted with a crane, the armoury and a moon gallery under the eaves open to the sky, and at the top the clan master's hall. The clan's cellar lies under the shrine's altar mat."
+purpose: "Q-C4 The Ninja Pagoda (Kai Wu, X5; T1-D Monk to Initiate): the clan master's death runs A3's hook q-c4.clan_master (clan_master_slain 112081). T2-CLAN: after q-c4.done (112082) Shinobu (NPC 4530) and four Clan Survivors sit in the cellar. Party 25 to 29; Ninja 22, Shadow Ninja 30, Ninja Master 40 and the Clan Master 42; 27 monsters; treasure level 3, the strongbox 4."
+mood: "Dark timber and paper, lamp-lit; cold air from the gallery; the clan's black banners."
+datum: arrival
+spaces:
+  - id: room:armoury
+    name: Armoury
+    kind: room
+    size: M
+    floor: 1536
+    purpose: "Racks of blades, bows and shuriken; a chest of the clan's best."
+    population:
+      - {actor: 11121, groups: 2, levels: [30, 30], notes: 2 placed Shadow Ninja (rank b).}
+  - id: room:cellar
+    name: Clan cellar
+    kind: room
+    size: M
+    floor: -448
+    purpose: "The clan's storeroom: rope, black cloth, rice, a chest. After q-c4.done Shinobu and the clan's survivors sit here (T2-CLAN)."
+    population:
+      - {actor: 11124, groups: 5, levels: [22, 22], notes: "Shinobu (NPC 4530) and four Clan Survivors (11124, faction clan, friendly), placed hidden and shown only with q-c4.done; not counted."}
+  - id: room:dojo
+    name: Dojo
+    kind: room
+    size: L
+    floor: 512
+    purpose: "The training floor: straw targets bristling with shuriken, a weapon wall; the west stair up and the kitchen hatch down."
+    population:
+      - {actor: 11120, groups: 5, levels: [22, 22], notes: 5 placed Ninja (rank a).}
+  - id: room:dorm
+    name: Sleeping loft
+    kind: room
+    size: M
+    floor: 512
+    purpose: "Rolled mats in rows; a sliding door and a paper wall to the dojo, ninjas behind the paper."
+    population:
+      - {actor: 11120, groups: 3, levels: [22, 22], notes: 3 placed Ninja (rank a).}
+  - id: room:gallery
+    name: Moon gallery
+    kind: corridor
+    size: M
+    floor: 1536
+    purpose: "A railed walk round the fourth storey under the eaves, open to the sky over the mere; the stair to the top and the clan's climbing rope down."
+    population:
+      - {actor: 11120, groups: 2, levels: [22, 22], notes: 2 placed Ninja (rank a).}
+  - id: room:kitchen
+    name: Monks' kitchen
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Kai Wu's old kitchen, the rice jars smashed; a ladder up through a hatch into the dojo."
+    population:
+      - {actor: 11120, groups: 2, levels: [22, 22], notes: 2 placed Ninja (rank a).}
+  - id: room:master
+    name: Clan master's hall
+    kind: room
+    size: M
+    floor: 2048
+    purpose: "Under the steep top roof: a dais, a gong, the clan's banner. The clan master and his Ninja Master; the clan's strongbox behind the dais."
+    population:
+      - {actor: 11122, groups: 1, levels: [40, 40], notes: 1 placed Ninja Master (rank c).}
+      - {actor: 11123, role: boss, groups: 1, levels: [42, 42], notes: "The Clan Master 11123 (boss row, blink on hit 0.2), placed."}
+  - id: room:porch
+    name: Entry hall
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Inside the barred door: the monks' bell, Kai Wu's broom where he dropped it."
+    population:
+      - {actor: 11120, groups: 2, levels: [22, 22], notes: 2 placed Ninja (rank a).}
+  - id: room:screens
+    name: Hall of Screens
+    kind: room
+    size: L
+    floor: 1024
+    purpose: "A maze of paper screens lit from behind, shapes moving on the paper; the stair up shows through the crane screen."
+    population:
+      - {actor: 11121, groups: 4, levels: [30, 30], notes: 4 placed Shadow Ninja (rank b).}
+      - {actor: 11120, groups: 2, levels: [22, 22], notes: 2 placed Ninja (rank a).}
+  - id: room:shrine
+    name: Shrine hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Kai Wu's shrine, defiled: the clan's mark over the altar; the east stair up; a draught under the altar mat."
+    population:
+      - {actor: 11120, groups: 3, levels: [22, 22], notes: 3 placed Ninja (rank a).}
+  - id: room:stair_c
+    name: Crane stair
+    kind: corridor
+    size: S
+    floor: 1024
+    purpose: "Behind the crane screen, up to the armoury."
+    empty: true
+  - id: room:stair_e
+    name: East stair
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: From the shrine hall up to the sleeping loft.
+    empty: true
+  - id: room:stair_t
+    name: Top stair
+    kind: corridor
+    size: S
+    floor: 1536
+    purpose: From the gallery up to the clan master's hall.
+    empty: true
+  - id: room:stair_w
+    name: West stair
+    kind: corridor
+    size: S
+    floor: 512
+    purpose: From the dojo up to the Hall of Screens.
+    empty: true
+links:
+  - id: link:armoury_gallery
+    from: room:armoury
+    to: room:gallery
+    kind: door
+    motion: slide
+  - id: link:dojo_kitchen
+    from: room:dojo
+    to: room:kitchen
+    kind: ladder
+    notes: The kitchen ladder through a hatch in the dojo's floor.
+  - id: link:dojo_screens
+    from: room:dojo
+    to: room:screens
+    kind: stairs
+    notes: "The west stair (its own room, open above)."
+  - id: link:dorm_dojo
+    from: room:dorm
+    to: room:dojo
+    kind: door
+    motion: slide
+    notes: The sliding door.
+  - id: link:dorm_dojo_paper
+    from: room:dorm
+    to: room:dojo
+    kind: secret_door
+    notes: "The paper wall: a breakable screen (D-25 Q15); ninjas wait behind it."
+  - id: link:gallery_master
+    from: room:gallery
+    to: room:master
+    kind: stairs
+    notes: "The top stair (its own room, open above)."
+  - id: link:gallery_rope
+    from: room:gallery
+    to: room:screens
+    kind: ladder
+    notes: The clan's climbing rope through a slot in the gallery's floor into the Hall of Screens' south-east alcove.
+  - id: link:porch_kitchen
+    from: room:porch
+    to: room:kitchen
+    kind: door
+    motion: slide
+  - id: link:porch_shrine
+    from: room:porch
+    to: room:shrine
+    kind: door
+    motion: slide
+  - id: link:screens_armoury
+    from: room:screens
+    to: room:armoury
+    kind: stairs
+    notes: "Behind the crane screen (a breakable paper screen: struck or clicked it falls), the crane stair."
+  - id: link:shrine_cellar
+    from: room:shrine
+    to: room:cellar
+    kind: ladder
+    notes: "The hatch under the altar mat (a mover that slides aside: 'A draught comes up between the floorboards.') and a ladder down."
+  - id: link:shrine_dorm
+    from: room:shrine
+    to: room:dorm
+    kind: stairs
+    notes: "The east stair (its own room, open above)."
+loops:
+  - id: loop:lower
+    spaces: [room:porch, room:shrine, room:stair_e, room:dorm, room:dojo, room:kitchen]
+    notes: "Up the east stair, down the kitchen ladder."
+  - id: loop:upper
+    spaces: [room:screens, room:stair_c, room:armoury, room:gallery]
+    notes: "Up behind the crane, back down the clan's rope."
+entrances:
+  - id: entrance:x5_door
+    space: room:porch
+    kind: both
+    neighbour: exit:x5_pagoda
+    facing: s
+    how: "From and to X5's thing:pagoda, its north door: just inside, facing in (south)."
+critical_path: [room:porch, room:shrine, room:stair_e, room:dorm, room:dojo, room:stair_w, room:screens, room:stair_c, room:armoury, room:gallery, room:stair_t, room:master]
+return_path: [room:master, room:stair_t, room:gallery, room:screens, room:stair_w, room:dojo, room:kitchen, room:porch]
+goals:
+  - id: goal:clan_master
+    space: room:master
+    kind: kill
+    what: "The clan master (11123): his death runs A3's q-c4.clan_master (a kill timer)."
+    story: Q-C4
+    gives:
+      qbit: 112081
+set_pieces:
+  - id: set:clan_return
+    kind: scripted
+    spaces: [room:cellar]
+    rule: "On every load with q-c4.done (112082): the clan's surviving hostile ninjas hidden, the cellar hatch open, Shinobu and four Clan Survivors shown in the cellar."
+  - id: set:screens
+    kind: ambush
+    spaces: [room:screens, room:dorm]
+    rule: "Paper screens (breakable, translucent): ninjas wait behind them, seen as shapes on the lit paper, and step out when a screen breaks."
+diagram: {file: diagram.txt}
+totals:
+  chests: 3
+  doors: 6
+  floor_area_munits2: 15
+  loops: 2
+  monsters_about: 27
+  rooms: 14
+  sectors: 14
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/xd22.graph.yml and D-25 (mockups/act3_a7_decisions.md: Shinobu's survivors a peaceful row, the done stage, inside at most twice the outside, the paper screens per Q15). The four stairs are rooms of their own (open above); 14 rooms."

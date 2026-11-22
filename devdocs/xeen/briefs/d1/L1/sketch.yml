@@ -1,0 +1,332 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "D1 Castleview Vale, MU-3 to-scale plan (A6, 2026-11-20), for the phase 3 gate: composition, scale and density only. Cells [x, y], x east, y south. Heights are map units above the stars below the rim (0): the Vale Water 800-860, the vale 1,000-1,250, Castleview 1,150 (its walls 600 high), Kalindra's rise 1,750, the north hills to 3,600. West and south the land ends in the world rim. The later L3 adds plots' detail, ground, scatter and structures (the walls, the gatehouse, the jetty, the ghost castle, the siege works) to this file."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [52, 68], neighbour: edge:east, notes: "The east road runs out to x 127 at y 60 (the D1-D2 crossing, fixed with D2)."}
+    - {side: north, span: [58, 70], neighbour: edge:north, notes: "The mountain road to D6 runs out to y 0 at x 64."}
+  rim:
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 24; below, water at 0 stands for the stars."}
+    - {side: south, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at y 104; the Vale Water falls over it at x 31."}
+    - {side: north, span: [0, 60], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: "The mine hills and the Forbidden Zone's southern border."}
+    - {side: north, span: [60, 68], form: level, height: 2000, meet: 6, notes: "The mountain road's valley, open to the edge."}
+    - {side: north, span: [68, 128], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: "The Sardaj Horn and the Gemstone Range's western foothills."}
+    - {side: east, span: [0, 46], form: ridge, height: [2200, 3000], floor: 1800, crest: 10, roughness: 120, notes: "The Gemstone foothills run on into D2."}
+    - {side: east, span: [46, 104], form: level, height: 1100, meet: 6, notes: "The vale opens east into D2's woods; the road at y 60."}
+    - {side: east, span: [104, 128], form: level, height: 0, meet: 1, notes: "The rim's south-east end."}
+  edge: {height: 2000, west: 0, south: 0, east: 1100}
+heights:
+  bands:
+    - {band: band:rim_sea, space: zone:rim, polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]}
+    - {band: band:hills, space: wild:north_hills, polygon: [[24, 0], [128, 0], [128, 18], [110, 19], [100, 17], [86, 16], [72, 16], [67, 14], [61, 14], [56, 17], [46, 16], [36, 18], [24, 19]]}
+    - {band: band:hills, space: wild:gemstone_foothills, polygon: [[104, 17], [128, 17], [128, 46], [114, 46], [108, 36], [104, 26]]}
+    - {band: band:rise, space: wild:gemstone_foothills, polygon: [[98, 20], [108, 20], [110, 44], [100, 48], [96, 40], [98, 30]]}
+    - {band: band:rise, space: zone:sardaj_camp, polygon: [[84, 19], [96, 19], [96, 30], [84, 30]]}
+    - {band: band:rise, space: zone:gemsmiths_row, polygon: [[30, 19], [48, 19], [48, 26], [30, 26]]}
+    - {band: band:rise, space: zone:western_tower, polygon: [[27, 29], [35, 29], [35, 37], [27, 37]]}
+    - {band: band:rise, space: zone:kalindra_rise, polygon: [[34, 64], [46, 62], [50, 68], [47, 77], [40, 79], [34, 75]]}
+    - {band: band:vale, space: town:castleview, polygon: [[51, 47], [55, 44], [71, 44], [75, 47], [76, 55], [74, 62], [70, 65], [56, 65], [52, 62], [49, 55]]}
+    - {band: band:vale, space: wild:dark_grove, polygon: [[36, 28], [56, 28], [57, 33], [53, 38], [44, 42], [36, 38]]}
+    - {band: band:vale, space: wild:siege_lines, polygon: [[58, 22], [80, 22], [80, 39], [71, 40], [66, 37], [63, 32], [58, 30]]}
+    - {band: band:vale, space: wild:west_heath, polygon: [[25, 30], [35, 30], [38, 46], [39, 57], [25, 57]]}
+    - {band: band:vale, space: wild:south_meadows, polygon: [[60, 84], [80, 76], [90, 74], [110, 74], [110, 104], [60, 104]]}
+    - {band: band:vale, space: wild:south_bank, polygon: [[38, 88], [44, 83], [52, 83], [60, 84], [60, 104], [33, 104], [33, 100]]}
+  points:
+    - {at: [64, 19], h: 1550, notes: "the D6 arrival, at the foot of the mountain road"}
+    - {at: [64, 8], h: 1900, notes: the mountain road's upper valley}
+    - {at: [44, 8], h: 3400, notes: the mine hills' crest}
+    - {at: [30, 10], h: 3000, notes: the north-west crag over the rim}
+    - {at: [78, 8], h: 3600, notes: the Sardaj Horn}
+    - {at: [96, 9], h: 3200}
+    - {at: [114, 12], h: 3300}
+    - {at: [120, 30], h: 2800, notes: Gemstone foothills}
+    - {at: [110, 38], h: 2400, notes: Gemstone foothills}
+    - {at: [104, 28], h: 1850, notes: Gemstone foothills}
+    - {at: [84, 17], h: 2100, notes: "the cliff the Vale Water springs from (the Sardaj Falls)"}
+    - {at: [45, 22], h: 1750, notes: the mine's adit (DD-10 west)}
+    - {at: [36, 25], h: 1600, notes: the gemsmiths' row}
+    - {at: [31, 33], h: 1600, notes: the Western Tower's knoll}
+    - {at: [88, 25], h: 1550, notes: the Sardaj camp}
+    - {at: [93, 36], h: 1350, notes: "Vespar's house on its knoll"}
+    - {at: [60, 36], h: 1250, notes: the travel pyramid's knoll}
+    - {at: [63, 54], h: 1150, notes: Castleview square}
+    - {at: [47, 35], h: 1250, notes: "the Dark Grove's great tree"}
+    - {at: [71, 31], h: 1100, notes: the acid pond}
+    - {at: [40, 70], h: 1750, notes: "Castle Kalindra's rise"}
+    - {at: [46, 70], h: 1650, notes: "Kalindra's forecourt (the ramp comes up from the north-east)"}
+    - {at: [52, 90], h: 1250, notes: "the prayer shrine's knoll: the signature view's camera"}
+    - {at: [58, 96], h: 1050, notes: "Brother Reger's cell"}
+    - {at: [46, 95], h: 1000, notes: "Falista's hut"}
+    - {at: [100, 93], h: 1150, notes: the Well of Might}
+    - {at: [82, 91], h: 1000, notes: the wild melon patch}
+    - {at: [30, 62], h: 1100, notes: "Luna's grove"}
+    - {at: [27, 76], h: 1350, notes: the obelisk's headland}
+    - {at: [96, 63], h: 1150, notes: "the besiegers' old camp"}
+    - {at: [106, 60], h: 1100, notes: the D2 arrival}
+  cliffs:
+    - line: [[24, 19], [24, 104]]
+      drop: 1000
+      down: right
+      notes: "The world rim, west (the low side west)."
+    - line: [[24, 104], [128, 104]]
+      drop: 1000
+      down: right
+      notes: "The world rim, south; the Vale Water falls over it at x 31."
+    - line: [[36, 77], [45, 79]]
+      drop: 500
+      down: right
+      notes: "Kalindra's rise, its south face over the Vale Water."
+    - line: [[79, 41], [79, 48]]
+      drop: 250
+      down: left
+      notes: "The mill gorge's west bank (the river 250 below the vale): the broken rope bridge spans it at y 43."
+  ridges:
+    - {line: [[70, 4], [78, 8], [84, 14]], height: 3200, width: 2, slope: 3, notes: "The Sardaj Horn's ridge, east of the mountain road."}
+    - {line: [[36, 6], [44, 8], [54, 12]], height: 3000, width: 2, slope: 3, notes: "The mine hills' crest, west of the mountain road."}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:acid_pond
+      kind: pond
+      level: 1080
+      polygon: [[68, 28], [73, 27], [76, 29], [75, 33], [70, 34], [67, 31]]
+      notes: "The acid pond: green, no fish, a cracked mud rim (MU-2 mud_cracked); not water to drink."
+  rivers:
+    - id: water:vale_water
+      line: [[84, 18], [83, 26], [82, 34], [81, 40], [81, 46], [81, 52], [81, 60], [80, 66], [76, 71], [70, 75], [64, 78], [57, 80], [50, 81], [45, 80], [41, 82], [37, 86], [34, 92], [32, 98], [31, 105]]
+      width_cells: 2.5
+      notes: "The Vale Water: from the Sardaj Falls south through the mill gorge east of the walls, west under Kalindra's rise, and over the south rim into the stars at x 31. 860 at its spring, 800 at the fall."
+roads:
+  - {link: link:north_road, line: [[64, 0], [64, 10], [64, 19], [65, 26], [64, 33], [63, 40]], width: road, surface: road_pebbles}
+  - {link: link:gate_lane, line: [[63, 40], [63, 44], [63, 51]], width: road, surface: road_flagstone}
+  - {link: link:east_road, line: [[128, 60], [106, 60], [100, 60], [90, 60], [83, 60], [78, 60]], width: road, surface: road_pebbles}
+  - {link: link:wall_road, line: [[78, 60], [77.5, 56], [77, 50], [77, 43], [72, 41], [66, 40], [63, 40]], width: road, surface: road_pebbles}
+  - {link: link:rope_bridge, line: [[77, 43], [81, 43], [84.5, 42.5], [88, 38]], width: lane}
+  - {link: link:east_bank_lane, line: [[83, 60], [83.5, 52], [84.5, 46], [85, 42.5], [88, 38]], width: lane}
+  - {link: link:sardaj_lane, line: [[88, 38], [88, 32], [88, 27]], width: lane}
+  - {link: link:vespar_lane, line: [[88, 38], [92, 36]], width: lane}
+  - {link: link:pond_lane, line: [[66, 40], [69, 36], [70, 34]], width: lane}
+  - {link: link:west_road, line: [[63, 40], [58, 41.5], [53, 44], [48, 47]], width: road, surface: road_pebbles}
+  - {link: link:heath_lane, line: [[48, 47], [42, 45.5], [38, 44]], width: lane}
+  - {link: link:tower_lane, line: [[38, 44], [34, 40], [31.5, 37]], width: lane}
+  - {link: link:mine_lane, line: [[38, 44], [35.5, 36], [35, 30], [36.5, 27], [44.5, 26.5], [45, 23]], width: lane}
+  - {link: link:grove_path, line: [[35, 31], [41, 32.5], [46, 34.5]], width: lane}
+  - {link: link:edge_path, line: [[38, 44], [31, 45.5], [26, 46]], width: lane}
+  - {link: link:kalindra_road, line: [[48, 47], [47, 54], [47.5, 62], [48, 67], [46, 70]], width: road, surface: road_pebbles}
+  - {link: link:luna_lane, line: [[47.5, 58], [40, 60], [34, 62]], width: lane}
+  - {link: link:obelisk_path, line: [[34, 62], [30, 68], [28, 75]], width: lane}
+  - {link: link:south_lane, line: [[90, 60], [90.5, 68], [88, 76], [84, 82], [76, 84], [68, 85], [60, 87], [53, 90]], width: lane}
+  - {link: link:reger_path, line: [[53, 90], [56, 93], [58, 96]], width: lane}
+  - {link: link:falista_path, line: [[53, 90], [49, 93], [46, 95]], width: lane}
+  - {link: link:wreck_path, line: [[55, 88], [53, 84]], width: lane}
+  - {link: link:well_path, line: [[84, 82], [92, 88], [99, 93]], width: lane}
+  - {link: link:melon_path, line: [[79, 84], [82, 90]], width: lane}
+  - {link: link:guild_row, line: [[52.5, 58], [63, 58], [69.5, 58]], width: lane, surface: road_flagstone}
+  - {link: link:west_lane, line: [[59, 56], [51.5, 56]], width: lane, surface: road_flagstone}
+  - {link: link:back_lane, line: [[55, 61], [69, 61]], width: lane, surface: road_flagstone}
+districts:
+  - space: town:castleview
+    polygon: [[51, 47], [55, 44], [71, 44], [75, 47], [76, 55], [74, 62], [70, 65], [56, 65], [52, 62], [49, 55]]
+    plots:
+      # ---- services (A4's d1.yml houses 4451-4466 and Lucio's Jetty 4901) ----
+      - {building: building:cv_tavern, at: [59.5, 45], facing: e, door_to: link:gate_lane, kit: grey}
+      - {building: building:cv_inn, at: [59.5, 47.5], facing: e, door_to: link:gate_lane, kit: grey}
+      - {building: building:cv_weapons, at: [64.5, 45], facing: w, door_to: link:gate_lane, kit: grey}
+      - {building: building:cv_armour, at: [64.5, 47.5], facing: w, door_to: link:gate_lane, kit: grey}
+      - {building: building:cv_magic, at: [57, 51], facing: e, door_to: zone:cv_square, kit: stone}
+      - {building: building:cv_alchemist, at: [57, 53.5], facing: e, door_to: zone:cv_square, kit: grey}
+      - {building: building:cv_town_hall, at: [67.5, 51], facing: w, door_to: zone:cv_square, kit: stone}
+      - {building: building:cv_bank, at: [67.5, 54.5], facing: w, door_to: zone:cv_square, kit: stone}
+      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_temple, at: [70, 57.5], facing: w, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_training, at: [72, 49.5], facing: w, door_to: zone:cv_coach_yard, kit: grey}
+      - {building: building:cv_stables, at: [72, 52.5], facing: w, door_to: zone:cv_coach_yard, kit: grey}
+      - {building: building:cv_lucio_jetty, at: [49.5, 54.5], facing: e, door_to: zone:cv_wall_top, kit: stone}
+      # ---- residences (4468-4494) ----
+      - {building: building:cv_jail, at: [66.5, 45.5], facing: s, kit: stone}
+      - {building: building:cv_public_storage, at: [63.5, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_library, at: [53.5, 51.5], facing: e, kit: stone}
+      - {building: building:cv_drawkcab, index: 1, at: [56.5, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_drawkcab, index: 2, at: [57.5, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_drawkcab, index: 3, at: [58.5, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_drawkcab, index: 4, at: [59.5, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_houses, index: 1, at: [54.5, 49.5], facing: s, kit: grey}
+      - {building: building:cv_houses, index: 2, at: [57.5, 49], facing: s, kit: grey}
+      - {building: building:cv_houses, index: 3, at: [53.5, 54.5], facing: s, door_to: link:west_lane, kit: grey}
+      - {building: building:cv_houses, index: 4, at: [54.5, 47.5], facing: s, kit: grey}
+      - {building: building:cv_houses, index: 5, at: [51.5, 52], facing: e, kit: grey}
+      - {building: building:cv_houses, index: 6, at: [55, 45], facing: s, kit: grey}
+      - {building: building:cv_houses, index: 7, at: [52.5, 48], facing: e, kit: grey}
+      - {building: building:cv_houses, index: 8, at: [57, 45], facing: s, kit: stone}
+      - {building: building:cv_houses, index: 9, at: [68, 61.5], facing: n, door_to: link:back_lane, kit: grey}
+      - {building: building:cv_houses, index: 10, at: [54.5, 56.5], facing: s, door_to: link:guild_row, kit: grey}
+      - {building: building:cv_houses, index: 11, at: [66.5, 48], facing: s, kit: grey}
+      - {building: building:cv_houses, index: 12, at: [69.5, 62], facing: n, kit: grey}
+      - {building: building:cv_houses, index: 13, at: [56.5, 56.5], facing: s, door_to: link:guild_row, kit: grey}
+      - {building: building:cv_houses, index: 14, at: [51.5, 54], facing: e, kit: grey}
+      - {building: building:cv_houses, index: 15, at: [69, 49.5], facing: w, kit: grey}
+      - {building: building:cv_houses, index: 16, at: [55.5, 54.5], facing: s, door_to: link:west_lane, kit: grey}
+      - {building: building:cv_houses, index: 17, at: [73, 56], facing: w, door_to: zone:cv_coach_yard, kit: grey}
+      - {building: building:cv_houses, index: 18, at: [71.5, 61.5], facing: e, kit: grey}
+      - {building: building:cv_houses, index: 19, at: [52.5, 56.5], facing: s, door_to: link:guild_row, kit: stone}
+      - {building: building:cv_houses, index: 20, at: [56.5, 47], facing: e, kit: grey}
+    notes: "A4's d1.yml: 16 services, Lucio's Jetty (4901) on the west wall's top, the mirror (4467, a thing in the square) and 27 residences: 44 doors inside the walls (about 400 cells). One gate, in the north wall. The services follow TOWN_FEEL: the tavern and the Adventurer's Inn first inside the gate, weapons and armour across Gate Street from them, magic and alchemist side by side on the square, the five guilds in a row, the temple raised in the south-east corner, the stables' coach yard inside the east wall, the jetty at the edge. Kits: the studio's mm7 names stand for the Darkside kit until L3 names its textures (grey = t06 boulder stone under slate, stone = t09 ashlar, kits/darkside_town.yml)."
+  - {space: zone:cv_square, polygon: [[59, 51], [67, 51], [67, 57], [59, 57]]}
+  - {space: zone:cv_coach_yard, polygon: [[70, 52], [72, 52], [72, 57], [70, 57]]}
+  - {space: zone:cv_wall_top, polygon: [[46, 54], [51, 54], [51, 56], [46, 56]]}
+  - {space: zone:gate_yard, polygon: [[55, 39], [70, 39], [70, 44], [55, 44]]}
+  - {space: zone:pyramid_knoll, polygon: [[57, 33], [63, 33], [63, 38], [57, 38]]}
+  - {space: wild:siege_lines, polygon: [[58, 22], [80, 22], [80, 39], [71, 40], [66, 37], [63, 32], [58, 30]]}
+  - {space: zone:mill_gorge, polygon: [[76, 41], [86, 41], [86, 49], [76, 49]]}
+  - {space: wild:sardaj_lands, polygon: [[84, 19], [100, 19], [100, 30], [96, 42], [96, 50], [85, 50], [84, 42], [83, 30]]}
+  - space: zone:sardaj_camp
+    polygon: [[84, 21], [93, 21], [93, 30], [84, 30]]
+  - space: zone:vespar_knoll
+    polygon: [[90, 33], [96, 33], [96, 39], [90, 39]]
+    plots:
+      - {building: building:vespar_house, at: [92, 35], facing: w, door_to: link:vespar_lane, kit: stone}
+  - {space: wild:gemstone_foothills, polygon: [[96, 19], [110, 19], [110, 51], [100, 51], [96, 44]]}
+  - {space: wild:east_road_camp, polygon: [[86, 52], [101, 52], [101, 78], [90, 79], [86, 70]]}
+  - {space: zone:east_arrival, polygon: [[102, 56], [110, 56], [110, 64], [102, 64]]}
+  - {space: wild:dark_grove, polygon: [[36, 28], [56, 28], [57, 33], [53, 38], [44, 42], [36, 38]]}
+  - {space: zone:great_tree, polygon: [[45, 32], [50, 32], [50, 37], [45, 37]]}
+  - {space: wild:west_heath, polygon: [[25, 30], [35, 30], [38, 46], [39, 57], [25, 57]]}
+  - {space: zone:western_tower, polygon: [[27, 29], [35, 29], [35, 37], [27, 37]]}
+  - space: zone:gemsmiths_row
+    polygon: [[30, 19], [48, 19], [48, 27], [30, 27]]
+    plots:
+      - {building: building:gemsmith, index: 1, at: [32.5, 24], facing: s, door_to: link:mine_lane, kit: grey}
+      - {building: building:gemsmith, index: 2, at: [35.5, 24], facing: s, door_to: link:mine_lane, kit: grey}
+      - {building: building:gemsmith, index: 3, at: [38.5, 24], facing: s, door_to: link:mine_lane, kit: grey}
+      - {building: building:gemsmith, index: 4, at: [41.5, 24], facing: s, door_to: link:mine_lane, kit: stone}
+  - {space: zone:kalindra_rise, polygon: [[34, 64], [46, 62], [50, 68], [47, 77], [40, 79], [34, 75]]}
+  - {space: zone:kalindra_gate, polygon: [[44, 68], [49, 68], [49, 73], [44, 73]]}
+  - {space: zone:luna_grove, polygon: [[27, 58], [35, 58], [35, 66], [27, 66]]}
+  - {space: zone:rim_headland, polygon: [[24, 70], [31, 70], [31, 80], [24, 80]]}
+  - {space: zone:melon_field, polygon: [[57, 66], [71, 66], [71, 71], [57, 71]]}
+  - {space: wild:south_meadows, polygon: [[60, 84], [80, 76], [90, 74], [110, 74], [110, 104], [60, 104]]}
+  - {space: zone:melon_patch, polygon: [[79, 89], [85, 89], [85, 94], [79, 94]]}
+  - {space: zone:might_well, polygon: [[96, 90], [103, 90], [103, 97], [96, 97]]}
+  - space: wild:south_bank
+    polygon: [[38, 88], [44, 83], [52, 83], [60, 84], [60, 104], [33, 104], [33, 100]]
+    plots:
+      - {building: building:reger_cell, at: [57.5, 96], facing: n, door_to: link:reger_path, kit: stone}
+  - {space: zone:shrine_knoll, polygon: [[49, 88], [55, 88], [55, 93], [49, 93]]}
+  - {space: wild:north_hills, polygon: [[24, 0], [128, 0], [128, 18], [110, 19], [100, 17], [86, 16], [72, 16], [67, 14], [61, 14], [56, 17], [46, 16], [36, 18], [24, 19]]}
+  - {space: zone:rim, polygon: [[0, 0], [24, 0], [24, 104], [128, 104], [128, 128], [0, 128]]}
+points:
+  # arrivals and doors
+  - {id: entrance:east_road, at: [106, 60], facing: w}
+  - {id: entrance:north_road, at: [64, 19], facing: s}
+  - {id: entrance:castleview_pyramid, at: [61, 38], facing: se}
+  - {id: entrance:castleview_square, at: [63, 55], facing: n}
+  - {id: entrance:castleview_temple, at: [69, 59], facing: e}
+  - {id: entrance:castleview_stables, at: [71, 55], facing: e}
+  - {id: entrance:kalindra_gate, at: [47, 70], facing: w}
+  - {id: entrance:north_gate, at: [63, 44], facing: s, notes: "the gate in the north wall: A3's m14.gate / m14.gate_open from outside; always opens from inside"}
+  - {id: entrance:dd01_hatch, at: [66, 57], facing: n}
+  - {id: entrance:dd02_tower, at: [70, 47], facing: w}
+  - {id: entrance:dd03_gate, at: [44, 70], facing: e}
+  - {id: entrance:dd04_burrow, at: [68, 43], facing: n}
+  - {id: entrance:dd05_rope, at: [31, 32], facing: n}
+  - {id: entrance:dd05_door, at: [31, 37], facing: s}
+  - {id: entrance:dd10a_adit, at: [45, 22], facing: s}
+  - {id: entrance:grove_rope, at: [47, 35], facing: n}
+  - {id: entrance:lucio_jetty, at: [48, 55], facing: w}
+  # junctions
+  - {id: junction:gate_fork, at: [63, 40]}
+  - {id: junction:mill_fork, at: [77, 43]}
+  - {id: junction:east_bridge, at: [78, 60]}
+  - {id: junction:east_fork, at: [90, 60]}
+  - {id: junction:pond_fork, at: [88, 38]}
+  - {id: junction:west_fork, at: [48, 47]}
+  - {id: junction:heath_fork, at: [38, 44]}
+  - {id: junction:south_fork, at: [84, 82]}
+  - {id: junction:shrine_fork, at: [53, 90]}
+  - {id: poi:signposts, at: [63, 40], notes: gate fork}
+  - {id: poi:signposts, at: [78, 60], notes: East Bridge}
+  - {id: poi:signposts, at: [48, 47], notes: west fork}
+  - {id: poi:signposts, at: [84, 82], notes: south fork}
+  # places in the vale
+  - {id: poi:obelisk, at: [27, 76]}
+  - {id: poi:pyramid, at: [60, 36]}
+  - {id: poi:gate_notice, at: [62, 43]}
+  - {id: poi:joe_stall, at: [66, 41]}
+  - {id: poi:justine_camp, at: [57, 41]}
+  - {id: poi:broken_bridge, at: [81, 43]}
+  - {id: poi:burned_mill, at: [79, 46]}
+  - {id: poi:acid_pond, at: [70, 34]}
+  - {id: poi:sardaj_camp, at: [88, 25]}
+  - {id: poi:yog, at: [89, 24]}
+  - {id: poi:great_tree, at: [47, 35]}
+  - {id: poi:luna, at: [30, 62]}
+  - {id: poi:falista_hut, at: [46, 95]}
+  - {id: poi:prayer_shrine, at: [52, 90]}
+  - {id: poi:shipwreck, at: [53, 83]}
+  - {id: poi:might_well, at: [99, 93]}
+  - {id: poi:melon_patch, at: [82, 91]}
+  - {id: poi:melon_field, at: [64, 67]}
+  - {id: poi:besiegers_camp, at: [96, 63]}
+  - {id: poi:heretic_pack, at: [30, 31]}
+  - {id: poi:webbed_pack, at: [43, 38]}
+  - {id: poi:wayside_shrine, at: [103, 58]}
+  - {id: poi:edge_stone, at: [26, 46]}
+  - {id: poi:west_well, at: [49, 47]}
+  - {id: poi:bottle, at: [60, 77]}
+  - {id: poi:falls, at: [33, 102]}
+  # places in the town
+  - {id: poi:mirror, at: [63, 54]}
+  - {id: poi:lyle_bench, at: [60, 52]}
+  - {id: poi:drawkcab_sign, at: [59, 61]}
+  - {id: poi:jail_window, at: [68, 45]}
+  - {id: poi:storage_numbers, at: [62, 62]}
+  - {id: poi:storage_letters, at: [66, 62]}
+  - {id: poi:runaway_chest, at: [54, 62]}
+  # landmarks
+  - {id: landmark:castleview_walls, at: [63, 44]}
+  - {id: landmark:ellinger_tower, at: [71, 47]}
+  - {id: landmark:pyramid, at: [60, 36]}
+  - {id: landmark:grove_tree, at: [47, 35]}
+  - {id: landmark:western_tower, at: [31, 33]}
+  - {id: landmark:kalindra, at: [40, 70]}
+  - {id: landmark:broken_bridge, at: [81, 43]}
+  - {id: landmark:falls, at: [31, 104]}
+  - {id: landmark:sardaj_horn, at: [78, 8]}
+areas:
+  - {id: pop:siege_north, count: 9, slot: 1, polygon: [[48, 20], [58, 20], [60, 23], [68, 23], [70, 20], [81, 20], [81, 39], [71, 40], [66, 37], [63, 32], [57, 27], [48, 27]], notes: "Gremlins 14/18/22 among the besiegers' old trenches north of the walls and round the acid pond. The first fight from the pyramid: a marker at [64, 34] (about 2,600); from the D6 arrival a marker at [67, 27] (about 4,300)."}
+  - {id: pop:east_road_camp, count: 7, slot: 1, polygon: [[86, 52], [101, 52], [101, 78], [90, 79], [86, 70]], notes: "Gremlins along the east road and in the besiegers' old camp (seven placed round the wrecked trebuchet). The first fight from the D2 arrival: a marker at [98, 58] (about 4,200)."}
+  - {id: pop:grove_arachnoids, count: 7, slot: 2, polygon: [[36, 28], [56, 28], [57, 33], [53, 38], [44, 42], [36, 38]], notes: "Arachnoids 14/18/24 in the Dark Grove; none within 6 cells of the gate yard."}
+  - {id: pop:grove_electrapedes, count: 3, slot: 3, polygon: [[42, 30], [52, 30], [52, 39], [42, 39]], notes: "Electrapedes (crawlers' tier B, 20) round the great tree: fixed-tier markers."}
+  - {id: pop:west_heath, count: 6, slot: 2, polygon: [[25, 30], [36, 30], [36, 40], [39, 46], [39, 57], [25, 57]], notes: "Arachnoids on the heath round the Western Tower's knoll and the Edge Stone. With the grove's two packs one encounter area (E3, they touch at the mine lane)."}
+  - {id: pop:centipede_meadows, count: 10, slot: 3, polygon: [[62, 86], [96, 80], [104, 86], [104, 102], [64, 102]], notes: "Scorpions 16, electrapedes 20, lava roaches 26: the centipedes' nests among the southern meadows (A3's q-d9.melons_south); the Well of Might in their east end."}
+  - {id: pop:foothills, count: 5, slot: 3, polygon: [[96, 20], [109, 20], [109, 51], [100, 51], [96, 44]], notes: "Crawlers in the Gemstone foothills east of the Sardaj lands."}
+  - {id: town:castleview, kind: keep_clear, polygon: [[46, 42], [53, 41], [72, 41], [78, 43], [80, 55], [78, 64], [72, 68], [54, 68], [48, 64], [46, 55]], notes: "The town and its buffer: no spawn within about 2,500 of a town door or a town arrival."}
+  - {id: zone:gate_yard, kind: keep_clear, polygon: [[55, 39], [70, 39], [70, 44], [55, 44]], notes: "Joe's stall, Justine's camp, the notice and the court burrow outside the gate."}
+  - {id: zone:kalindra_gate, kind: keep_clear, polygon: [[39, 63], [52, 63], [52, 77], [39, 77]], notes: "Kalindra's gate is a Town Portal arrival: the town buffer."}
+  - {id: zone:luna_grove, kind: keep_clear, polygon: [[27, 58], [35, 58], [35, 66], [27, 66]]}
+  - {id: zone:sardaj_camp, kind: keep_clear, polygon: [[83, 19], [95, 19], [95, 31], [83, 31]], notes: "Yog's camp: twelve barbarians placed, peaceful until q-d12.hostile or camp_burned."}
+  - {id: wild:sardaj_lands, kind: open, polygon: [[84, 31], [96, 31], [96, 50], [85, 50], [84, 42]], notes: "Quiet: the Sardaj keep their lands clear; Vespar lives here."}
+  - {id: wild:south_bank, kind: open, polygon: [[38, 88], [44, 83], [52, 83], [60, 84], [60, 104], [33, 104], [33, 100]], notes: "Quiet south bank: the prayer shrine, Brother Reger, Falista's hut, the wreck."}
+  - {id: zone:rim_headland, kind: open, polygon: [[24, 66], [34, 66], [34, 82], [24, 82]], notes: "Quiet: the obelisk on its headland over the stars, Kalindra in view."}
+views:
+  - {id: view:arrival, at: [61, 38], height: 180, look: [69, 46], purpose: "MU-4 arrival view, from beside the travel pyramid: Castleview's low grey walls and north gate right of centre with the besiegers' empty trenches and stakes before them; left, the mill gorge with the broken rope bridge and the burned mill; Ellinger's tower over the walls; amber sky, pale small sun."}
+  - {id: view:signature, at: [52, 90], height: 200, look: [48, 60], purpose: "MU-4 signature view, from the prayer shrine's knoll on the quiet south bank, looking north over the Vale Water: Castle Kalindra as a translucent ghost on its rise left of centre, the Dark Grove's great tree with its rope into the sky in the middle distance, Castleview's walls on the right."}
+actors:
+  - {monster: "11021", at: [79, 41], count: 4, spread: 1, group: 1, hostile: true, notes: "Gremlin Saboteurs (18) at the west end of the broken rope bridge."}
+  - {monster: "11020", at: [96, 64], count: 4, spread: 2, group: 2, hostile: true, notes: "Gremlins (14) round the wrecked trebuchet in the besiegers' old camp."}
+  - {monster: "11022", at: [97, 63], count: 2, spread: 1, group: 2, hostile: true, notes: "Gremlin Guards (22) at the camp's loot chest."}
+  - {monster: "11021", at: [95, 62], count: 1, spread: 0, group: 2, hostile: true}
+  - {monster: "11100", at: [88, 25], count: 7, spread: 2, group: 3, hostile: false, notes: "The Sardaj: barbarians (14), peaceful until q-d12.hostile or camp_burned."}
+  - {monster: "11101", at: [89, 26], count: 3, spread: 1, group: 3, hostile: false, notes: "Sardaj Warriors (20)."}
+  - {monster: "11102", at: [87, 24], count: 1, spread: 0, group: 3, hostile: false, notes: "A Barbarian Chief (28)."}
+  - {monster: "11103", at: [89, 24], count: 1, spread: 0, group: 3, hostile: false, notes: "Yog (34), the talking actor 4953 while peaceful (A4/A3)."}

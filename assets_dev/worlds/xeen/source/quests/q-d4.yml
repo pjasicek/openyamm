@@ -1,0 +1,64 @@
+# Q-D4 Public Storage (QUESTS 2.2 Q-D4; research D 3, "Castleview Public Storage chest puzzles"). Owner: A3.
+# Two rows of chests in Castleview's Public Storage yard: nine numbered 1-9 and nine lettered with the letters of
+# PITCHFORK. Closing all of a row in the right order (1 to 9; P-I-T-C-H-F-O-R-K) is the puzzle; the map lane's own
+# events toggle the lids and set each row's bit. Dyson says both orders plainly and pays.
+id: Q-D4
+title: Public Storage
+act: III
+kind: side
+status: full
+giver: 4920          # Dyson the puzzlemaster (Public Storage, 4470)
+maps: [D1]
+level: 20
+block: 84
+after: [m7.sigil]
+source: "QUESTS Q-D4; dark/aaze0029:26-34 (the lids), :114-115, :156-157 (Dyson)"
+
+qbits:
+  started: {id: 113080, journal: "Dyson the puzzlemaster dares you to close every chest in Castleview's Public Storage, in the right order.",
+            until: [done]}
+  numbers_closed: {id: 113081, note: "D1's numbered chests (A6) set it, closed 1 to 9"}
+  letters_closed: {id: 113082, note: "D1's lettered chests (A6) set it, closed P-I-T-C-H-F-O-R-K"}
+  done: {id: 113083, note: "Dyson paid"}
+
+autonotes:
+  orders: {id: 4440, text: "Public Storage: close the numbered chests from 1 to 9, and the lettered ones so they spell PITCHFORK.", category: Misc}
+
+npcs:
+  4920:              # Dyson
+    topics:
+      - n: 1
+        label: The chests
+        states:
+          - when: {qbit: done}
+            text: "To close all of the chests is quite an accomplishment, but to open them requires intellect most uncommon. Don't try. I just got them shut."
+          - when: {all: [{qbit: numbers_closed}, {qbit: letters_closed}]}
+            text: "Every lid down, in order. Quite an accomplishment. Here: a few things people stored and never came back for."
+            do: [{set: done}, {xp: 2000}, {gold: 500}, {treasure: 3}, {treasure: 3}]
+          - when: {any: [{qbit: numbers_closed}, {qbit: letters_closed}]}
+            text: "Half the chests. Half an accomplishment. I don't pay in halves."
+          - text: "Public Storage: put things in, take things out, in the right order. Close every chest. The numbers count themselves, one to nine. The letters spell something you'd find in a barn: PITCHFORK."
+            do: [{set: started}, {autonote: orders}]
+
+hooks:
+  number_chests:
+    map: D1
+    where: "the nine numbered chests in the Public Storage yard (beside house 4470): the map toggles each lid; closed 1 to 9 in order it calls the hook, a wrong order opens them all again"
+    sets: [numbers_closed]
+    once: true
+    text: "The ninth lid drops shut with a satisfying clunk. Nine closed chests. Somewhere, Dyson nods."
+    else_text: "Nine closed chests, in order."
+  letter_chests:
+    map: D1
+    where: "the nine lettered chests in the second Public Storage yard; each lid shows its letter ('A letter on the lid reads: P', status text); closed P-I-T-C-H-F-O-R-K it calls the hook"
+    sets: [letters_closed]
+    once: true
+    text: "P, I, T, C, H, F, O, R, K. The last lid drops. A pitchfork, spelled in chests."
+    else_text: "Nine closed chests. They spell PITCHFORK, if you squint."
+
+riddles:
+  - {answer: "close the chests 1 to 9, and P-I-T-C-H-F-O-R-K", where: "Castleview's Public Storage yards (D1)",
+     said_by: "Dyson (q-d4 npc 4920, The chests) and the autonote it writes"}
+
+rewards: {xp: 2000, gold: 500, items: "two items T3"}
+playthrough: "D1: Dyson (The chests); close the numbered chests 1-9 and the lettered chests PITCHFORK; Dyson (The chests)."

@@ -1,0 +1,37 @@
+format: 0
+id: xeen_dd23
+name: Gargoyle Lair
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-23
+units: {plan_grid: 512}
+extent: {footprint_cells: [7, 13], climbs: n}
+map_stats:
+  id: 9176
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Mountain Gargoyle, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d4_mouth
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd23_lair
+    arrival_hint: "D4's named arrival before the lair's mouth in Magic Mountain's eastern crags, (-9216, 10752, 2304) facing south (1536), at the goat path's end."
+    notes: "D4 Lakeside and Blackfang (A6, installed): its door:dd23 (thing:dd23_lair) leads in to entrance:d4_mouth."
+qbits:
+  glass_found: 113302
+  lair_destroyed: 113301
+notes: "Xeen design brief, level L4: DD-23 Gargoyle Lair in Magic Mountain's eastern crags on D4 (Q-D15 Caleb's Magnifying Glass). Monsters: A2's Gargoyles (Magic Mountain), all placed (D-39): 12 Mountain Gargoyle 11550 (30), 2 Gargoyle Sentinel 11551 (38), 1 Gargoyle Overlord 11552 (45) on the highest rock; slot 1 Xeen Mountain Gargoyle for the 10 % rest encounters (D-39, D-33/D-34). Hooks q-d15.roost (the roosting rocks' question) and q-d15.glass (the nest); A3's player bits lair_destroyed 113301 and glass_found 113302 named; map qbits 118040-118049: none used. Music 31. No doors (D-39 (4)). The way out is live to D4's entrance:dd23_lair; D4's door:dd23 arrives at entrance:d4_mouth (the map's start)."
+identity:
+  shape: cave
+  family: 7d07
+  seen: [a cave mouth white with droppings opening on the Darkside's crags, "dark Thunderfist rock with broken walls, floors that rise and fall and young gargoyles on rock ledges", "the ring of roosting rocks round the snow under the crack of sky, the Overlord on the highest"]

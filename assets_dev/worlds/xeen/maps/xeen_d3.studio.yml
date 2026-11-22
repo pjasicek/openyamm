@@ -1,0 +1,18 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d3/L4"
+revision: "2f342c858a0c8bd2a9d4432c9fb4853d"
+lock_hash: "271530cce28d7eff7170e1a6a876903d"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-14336, 17408, 1504], facing: 1536}
+  - {name: "entrance:d7_fall", at: [-15360, 11776, 1312], facing: 0}
+  - {name: "entrance:dd07_door", at: [15360, 9216, 1888], facing: 1024}
+  - {name: "entrance:dd18_shaft", at: [-17408, 16384, 1552], facing: 512}
+  - {name: "entrance:dd19_gate", at: [-10752, 22016, 1728], facing: 512}
+  - {name: "entrance:east_gate", at: [-8704, 16896, 1504], facing: 0}
+  - {name: "entrance:north_road", at: [12288, 22528, 1760], facing: 1536}
+  - {name: "entrance:sandcaster_square", at: [-14336, 17408, 1520], facing: 1536}
+  - {name: "entrance:sandcaster_stables", at: [-12800, 10752, 1312], facing: 512}
+  - {name: "entrance:south_gate", at: [-14336, 12800, 1440], facing: 1536}
+  - {name: "entrance:west_road", at: [-22528, 10240, 1312], facing: 0}

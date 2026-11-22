@@ -1,0 +1,83 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header. One of the three
+# Gemstone Mines pockets (DD-10A, B, C), each its own map; the open questions shared by the three are repeated.
+format: mu6-0
+map: DD-10B
+key: dd10b
+name: "Gemstone Mines, east pocket"
+stands_on: D2 Sprite Forest
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors (at most 15 sectors and 20 M units²)"
+party: [23, 27]
+monsters:
+  levels: [16, 28]
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Giant crawlers (11360): Electrapede 20 (6), Lava Roach 26 (4)"
+    - "Night bats (11310): Beholder Bat 20 (6)"
+    - "Elemental golems (11590): Sand Golem 22 (4, the mine's rock golems)"
+  mix:
+    - {row: Electrapede, id: 11361, level: 20, count: 6}
+    - {row: Lava Roach, id: 11362, level: 26, count: 4}
+    - {row: Beholder Bat, id: 11312, level: 20, count: 6}
+    - {row: Sand Golem, id: 11590, level: 22, count: 4}
+  kill_xp_target: "about 3.7k (60 of the group DD-10+11's 120 at 22.1k; this pocket 3.44k)"
+treasure: {level: 3}
+role: "Q-D7 (the gemsmiths: five rocks of a gem from the veins; the God of Minerals refills them for gold), repeatable"
+role_short: "Q-D7"
+set_piece: "Five sapphire veins; the Gem maker's crystal throne; the God of Minerals at the bottom, who refills every pocket for gold"
+textures:
+  family: "Proposed (no Darkside mines family in dungeon_families yet): MM7 Nighon Tunnels 7d35 dark rock and timbering, the same for the three pockets"
+  cap: 30
+  planned: 14
+  new: "1 (sapphire vein)"
+floors:
+  - {floor: 0, name: "East pocket: sapphires, the God", height: 0}
+spaces:
+  - {id: room:b_adit, name: East adit, kind: corridor, size: S, floor: 0, at: [0, 0], monsters: 0, purpose: "The adit in the Gemstone foothills: the arrival."}
+  - {id: room:b_upper, name: Upper drift, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 6,
+     population: [{row: Electrapede, level: 20, count: 3}, {row: Beholder Bat, level: 20, count: 3}], purpose: "A long drift with side cuts."}
+  - {id: room:b_sapphire, name: Sapphire hall, kind: cave, size: L, floor: 0, at: [2, 0], set_piece: true, goal: true, monsters: 5,
+     population: [{row: Electrapede, level: 20, count: 3}, {row: Sand Golem, level: 22, count: 2}], purpose: "Five sapphire veins (q-d7.sapphire_veins); one false vein."}
+  - {id: room:b_throne, name: "Gem maker's throne", kind: hall, size: M, floor: 0, at: [3, 0], set_piece: true, monsters: 4,
+     population: [{row: Lava Roach, level: 26, count: 2}, {row: Sand Golem, level: 22, count: 2}],
+     purpose: "A throne cut from raw crystal ('Gem maker's throne'); a stair down behind it."}
+  - {id: room:b_ramp, name: Spiral ramp, kind: stair, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{row: Beholder Bat, level: 20, count: 3}], purpose: "A ramp round a shaft, down to the deep level."}
+  - {id: room:b_flooded, name: Flooded drift, kind: cave, size: M, floor: 0, at: [2, 1], chest: 3, monsters: 2,
+     population: [{row: Lava Roach, level: 26, count: 2}], purpose: "Knee-deep water, a sunken chest."}
+  - {id: room:b_god, name: "The God of Minerals", kind: hall, size: M, floor: 0, at: [3, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "At the pocket's bottom: the God of Minerals, a face in the rock ('I am the god of these mountains.'): pay to refill the veins (q-d7.god_of_minerals)."}
+links:
+  - {id: link:b1, from: room:b_adit, to: room:b_upper, kind: door}
+  - {id: link:b2, from: room:b_upper, to: room:b_sapphire, kind: open}
+  - {id: link:b3, from: room:b_sapphire, to: room:b_throne, kind: door}
+  - {id: link:b4, from: room:b_upper, to: room:b_ramp, kind: stair}
+  - {id: link:b5, from: room:b_ramp, to: room:b_flooded, kind: door}
+  - {id: link:b6, from: room:b_flooded, to: room:b_god, kind: open}
+  - {id: link:b7, from: room:b_throne, to: room:b_god, kind: stair}
+states:
+  - {id: state:veins, kind: map_var, where: room:b_sapphire,
+     what: "Each vein gives one rock once (a map variable per vein); the God of Minerals' refill (DD-10B) resets them (open question 2).", opens: [], draw: false}
+  - {id: state:refill, kind: qbit, where: room:b_god, what: "q-d7.god_of_minerals: 10,000 gold, refill_paid.", opens: [], draw: false}
+exits:
+  - {id: 'exit:d2_adit', space: 'room:b_adit', at: [0, 1], kind: both, label: 'D2: east adit', neighbour: 'D2 entrance:dd10b_adit (34, 31) facing south, in the Gemstone foothills'}
+hooks:
+  - {hook: q-d7.sapphire_veins, space: 'room:b_sapphire', how: each of five veins}
+  - {hook: q-d7.god_of_minerals, space: 'room:b_god', how: the God's face (click)}
+critical_path: [room:b_adit, room:b_upper, room:b_sapphire, room:b_throne, room:b_god]
+return_path: [room:b_god, room:b_flooded, room:b_ramp, room:b_upper, room:b_adit]
+loops:
+  - {id: 'loop:b', spaces: ['room:b_upper', 'room:b_sapphire', 'room:b_throne', 'room:b_god', 'room:b_flooded', 'room:b_ramp'], notes: 'East: down by the ramp, up by the throne''s stair.'}
+lines:
+  - {text: 'Exit the Gemstone Mines?', ref: 'dark/aaze0039:0', where: 'each adit (the exit preset''s meaning, D-24)'}
+  - {text: Diamond vein / Ruby vein / Emerald vein / Sapphire vein, ref: 'dark/aaze0039:1-4', where: the veins (hover)}
+  - {text: You've got all this vein has to offer., ref: 'dark/aaze0039:10', where: a picked vein}
+  - {text: A gem exploded!, ref: 'dark/aaze0039:11', where: 'the false veins (B, C)'}
+  - {text: Gem maker's throne, ref: 'dark/aaze0039:8', where: 'room:b_throne'}
+  - {text: 'I am the god of these mountains. If you give me ... of your gold pieces, I will use them to replenish the gems inside the mountains.', ref: 'dark/aaze0039:16', where: 'room:b_god (A3''s text, the price rescaled to 10,000)'}
+open_questions:
+  - "q-d7 has one refill bit for three pockets, cleared by the first pocket that refills, and each vein hook gives five rocks at once. Proposed: five veins per gem, one rock each (a map variable per vein); the God sets three bits (refill_a, refill_b, refill_c, A3) and each pocket's veins refill and clear their own. Requests to A3."
+  - "False veins and exploding bones: one false vein each in B and C ('A gem exploded!', some fire damage) and one bone heap in A ('The bones explode!'). Or only the crumbling bones (no traps)?"
+  - "The Gem maker's throne: a flavour click ('The throne hums. It was not made for you.') or a once-per-character gift (+2 Luck, a gem)? Proposed: flavour; the God is the pocket's device."
+  - "Rock golems: the Sand Golem row (11590 A, 22) stands in for the mines' golems. A2 to give the mines a renamed tier ('Rock Golem 22') or keep the name?"

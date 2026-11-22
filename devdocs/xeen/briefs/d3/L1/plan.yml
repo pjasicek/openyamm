@@ -1,0 +1,663 @@
+format: 0
+level: L1
+pitch: "The Darkside's south-east corner: a sandstone merchant city at the desert's edge under the last Gemstone crags, the open market where six roads meet, and south of them the Aging Forest, whose red and gold leaves fall all year. The River of Wrath bursts from a cave in the eastern hills, runs south in its cut and turns east to fall off the edge of the world; above the east rim stands the glow of the bright face. Venom Pond lies in the fen of the south-east, and on a knoll at the very edge the Great Eastern Tower."
+purpose: "Act III's town map (party 27-30): Sandcaster behind its pass (Q-D8: the emerald handle in the ruin, the gate), Natasha's bridle (M25), Astra's quarter (Q-D14, DD-19, Act IV), Barticus' Gym and the sewer (DD-18), Thaddeus and the Fountain of Youth (Q-D18 with the Eastern Tower DD-07, Act IV; Q-D19), Caleb at the Crossroads (Q-D15), Celia and Derek (Q-C22), Cornelius, the skill schools, training to 80, Lucio's Jetty after M30."
+mood: "Warm sandstone and dusty olive scrub under the amber Darkside sky; a busy market; the Aging Forest's red-gold leaves falling in still air; the hiss of the fen; the river's roar at the falls and the pale glow beyond the rim."
+datum: water:rim_sea
+spaces:
+  - id: edge:north_end
+    name: North edge (D4)
+    kind: road
+    part_of: zone:wrath_hills
+    purpose: Where the Lakeside road leaves for D4.
+  - id: edge:west_end
+    name: West edge (D2)
+    kind: road
+    part_of: zone:caravan_valley
+    purpose: Where the caravan road leaves for D2.
+  - id: junction:crossroads
+    name: The Crossroads
+    kind: junction
+    purpose: "Six roads: west to D2, north-west to Sandcaster, north to the dunes, east to Wrath Bridge, south-east to Venom Pond, south into the Aging Forest."
+    signpost: true
+  - id: junction:east_fork
+    name: East fork
+    kind: junction
+    purpose: "Lakeside north, the Eastern Tower, the falls."
+    signpost: true
+  - id: junction:forest_fork
+    name: Forest fork
+    kind: junction
+    purpose: "The Howling Woods west, the south rim."
+    signpost: true
+  - id: junction:gate_fork
+    name: Gate fork
+    kind: junction
+    purpose: The south gate's lane off the caravan road.
+    signpost: true
+  - id: junction:venom_fork
+    name: Venom fork
+    kind: junction
+    purpose: "Thaddeus's hut, the fen track to the Fountain of Great Protection."
+    signpost: true
+  - id: town:crossroads
+    name: The Crossroads
+    kind: town
+    floor: 1250
+    purpose: "An open-air market (WORLD_DESIGN 5.2): food, robes, necklaces, belts, boots, Caleb the inventor (Q-D15)."
+    safe: true
+    keep_clear: [spawns]
+    theme: "MM6 striped market tents on sandstone footings, flagstones in the ring."
+    density: medium
+    buildings:
+      - {id: building:xr_stall, type: house, service: market stall, count: 6, doors: 1, footprint_cells: [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1.5, 1.5]], notes: "A4 houses 4641-4646 in index order: food, robes, necklaces, belts, boots, Caleb's Workshop (residence, Q-D15)."}
+  - id: town:sandcaster
+    name: Sandcaster
+    kind: town
+    where: "north-west, on a sandstone terrace under the last crags"
+    floor: 1500
+    purpose: "The wizard-ruled merchant city (WORLD_DESIGN 5.2): weapons, armour, magic, the Vulture Repellant stall, temple, tavern, Barticus' Gym (training to 80), three guilds, the caravans, the mirror, Lucio's Jetty; the skill schools. Only pass holders get in (Q-D8)."
+    safe: true
+    keep_clear: [spawns]
+    theme: "sandcaster kit (MM8 t07 ochre sandstone in three grades, gravel and terracotta roofs; MM6 hc pink ashlar for the guilds and the quarter; t30 sandstone for the walls and gates)."
+    density: dense
+    buildings:
+      - {id: building:sc_lucio_jetty, type: house, service: Lucio's Jetty, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: A4 house 4649.}
+      - {id: building:sc_guild_mind, type: house, service: Sandcaster Guild of Mind, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]], notes: A4 house 4608.}
+      - {id: building:sc_guild_spirit, type: house, service: Sandcaster Guild of Spirit, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]], notes: A4 house 4609.}
+      - {id: building:sc_guild_light, type: house, service: Sandcaster Guild of Light, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]], notes: A4 house 4610.}
+      - {id: building:sc_magic, type: house, service: Aladdin's Lamps, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: A4 house 4603.}
+      - {id: building:sc_alchemist, type: house, service: Vulture Repellant and Other Remedies, count: 1, doors: 1, footprint_cells: [[1.5, 2]], notes: A4 house 4604.}
+      - {id: building:sc_temple, type: house, service: Temple of the Desert Sun, count: 1, doors: 1, footprint_cells: [[2.5, 3]], notes: A4 house 4605.}
+      - {id: building:sc_training, type: house, service: Barticus' Gym, count: 1, doors: 1, footprint_cells: [[2.5, 3]], notes: A4 house 4607.}
+      - {id: building:sc_tavern, type: house, service: The Thirsty Camel, count: 1, doors: 1, footprint_cells: [[2.5, 2]], notes: A4 house 4606.}
+      - {id: building:sc_weapons, type: house, service: Sandsteel Blades, count: 1, doors: 1, footprint_cells: [[2, 1.5]], notes: A4 house 4601.}
+      - {id: building:sc_armour, type: house, service: The Brass Scale, count: 1, doors: 1, footprint_cells: [[2, 1.5]], notes: A4 house 4602.}
+      - {id: building:sc_houses, type: house, service: residence, count: 23, doors: 1, footprint_cells: [[1, 1.5], [1.5, 1.5], [1, 1], [1, 1], [1, 1], [1.5, 1], [1, 1.5], [1.5, 1.5], [1, 1], [1.5, 1], [1.5, 1], [1, 1], [1, 1.5], [1.5, 1.5], [1.5, 1], [1, 1], [1, 1.5], [1.5, 1], [1.5, 1], [1.5, 1], [1, 1], [1, 1], [1.5, 1]], notes: "A4 houses 4618-4640 in index order (Astra, Natasha, Madame Gloriana, the schools of Trade, Letters, Navigation and Tongues, the Quiet House, the Knife House, the Archer's House ... the Well House)."}
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the edge.
+  - id: water:venom_pond
+    name: Venom Pond
+    kind: water
+    part_of: zone:venom_fen
+    purpose: Still green water and reeds.
+  - id: water:wrath
+    name: The River of Wrath
+    kind: water
+    purpose: "From the Wrath Spring south in its cut, under Wrath Bridge, east over the rim at the falls."
+  - id: zone:aging_forest
+    name: The Aging Forest
+    kind: wild
+    floor: [1050, 1200]
+    relief: uneven
+    purpose: "Old broad trees in red and gold whose leaves fall all year; the great oak, Cornelius's glade, a forbidden fruit hut, a skeleton in a young man's clothes, the edge cairn on the south rim. Quiet but for three hell hornet nests."
+    density: dense
+    population:
+      - {id: pop:hornet_nests, actor: Xeen Hornet, groups: 3, placed: true, hostile: true, notes: "Three nests, each five Hell Hornets 35 and a Hornet Swarm 42 (18 at load)."}
+  - id: zone:caravan_valley
+    name: The caravan valley
+    kind: wild
+    floor: [1250, 1400]
+    relief: slope
+    purpose: "The dry valley the caravan road comes down from D2, under the city's terrace; sand burrowers outside the walls (F10)."
+    density: sparse
+    population:
+      - {id: pop:outside_walls, slot: 3, groups: 2, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area 5 (F10): Sand burrowers outside the walls."}
+  - id: zone:caravan_yard
+    name: The caravan yard
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1300
+    purpose: "Outside the south gate, a fenced pocket in sight of it (D-28): the caravans to Castleview and Lakeside (no pass needed; the pass check stays at the gate)."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:sc_stables, type: house, service: Sandcaster Caravans, count: 1, doors: 1, footprint_cells: [[2.5, 2]], notes: "A4 house 4611, routes 416 and 417."}
+  - id: zone:celia_yard
+    name: Celia and Derek's yard
+    kind: district
+    part_of: zone:crossroads_plain
+    floor: 1220
+    purpose: "Their cottage on the Venom road by the Crossroads (A3's q-c22.cottage): shut until Q-C22 is done, then Celia and Derek live there."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:celia_derek_cottage, type: house, service: Celia and Derek's Cottage, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: A4 house 4647.}
+  - id: zone:cornelius_glade
+    name: Cornelius's glade
+    kind: zone
+    part_of: zone:aging_forest
+    floor: 1120
+    purpose: "Cornelius the Leprechaun (5247) on a stump: Perception Master (outdoor teacher)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:crossroads_plain
+    name: The Crossroads plain
+    kind: wild
+    floor: [1200, 1350]
+    relief: flat
+    purpose: Open ground round the market where six roads meet.
+    density: sparse
+    population:
+      - {id: pop:forest_edge, slot: 1, groups: 1, per_marker: [2, 3], levels: [22, 38], notes: "Encounter area 6 (F10): Mantis ants at the Aging Forest's east edge."}
+  - id: zone:desert_edge
+    name: The desert edge
+    kind: wild
+    floor: [1400, 2400]
+    relief: uneven
+    purpose: "Dunes and thorn scrub north and east of the city, the desert of D5 beyond: the obelisk's knoll, the caravan well, a caravan the worms swallowed; east, the west-bank hills (to 2,400) over the river's gorge."
+    density: sparse
+    population:
+      - {id: pop:dune_scrub, slot: 3, groups: 11, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area 1: Sand burrowers."}
+  - id: zone:gemstone_crags
+    name: The last Gemstone crags
+    kind: wild
+    where: "the north-west corner, beyond the playable square"
+    floor: [2000, 3400]
+    relief: uneven
+    purpose: "Slate crags where the Gemstone Range of D2 ends; the city's backdrop."
+    density: sparse
+  - id: zone:howling_woods
+    name: The Howling Woods
+    kind: wild
+    floor: [1200, 2200]
+    relief: uneven
+    purpose: "Dark old wood on the Howling ridge (1,900-2,200, D-28) toward D2; the wind howls through a hollow standing stone (no wolves); mantis ants and their mound; a smugglers' rope over the south rim."
+    density: dense
+    population:
+      - {id: pop:howling_woods, slot: 1, groups: 12, per_marker: [2, 3], levels: [22, 38], notes: "Encounter area 3: Mantis ants."}
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "East and south the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:river_meadows
+    name: The river meadows
+    kind: wild
+    floor: [1000, 1250]
+    relief: slope
+    purpose: "Grass on both banks of the lower river: Wrath Bridge, the fruit hut on the south bank, a wayside shrine, the Rim Watch over the falls."
+    density: sparse
+  - id: zone:sc_east_street
+    name: Bazaar street
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1500
+    purpose: "From the square to the east gate: the blades and the brass scale."
+    safe: true
+  - id: zone:sc_main_street
+    name: Gate street
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1500
+    purpose: "From the south gate to the square; the tavern first inside."
+    safe: true
+  - id: zone:sc_north_street
+    name: Guild row
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1500
+    purpose: The three guilds and the Sky Stair along the north wall.
+    safe: true
+  - id: zone:sc_square
+    name: The square
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1500
+    purpose: "The mirror, Omid's deep well, the stair up to the wizard quarter."
+    safe: true
+  - id: zone:sc_west_lane
+    name: The west lane
+    kind: zone
+    part_of: town:sandcaster
+    floor: 1500
+    purpose: "The temple, Barticus' Gym and the sewer grate (DD-18)."
+    safe: true
+  - id: zone:thaddeus_yard
+    name: Thaddeus's yard
+    kind: district
+    part_of: zone:venom_fen
+    floor: 960
+    purpose: "Thaddeus the fountain keeper (Q-D18, Q-D19) and the Fountain of Youth by Venom Pond."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:thaddeus_hut, type: house, service: The Fountain Keeper's Hut, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]], notes: A4 house 4648.}
+  - id: zone:tower_knoll
+    name: The Eastern Tower's knoll
+    kind: zone
+    part_of: zone:wrath_hills
+    floor: 1950
+    purpose: "The Great Eastern Tower (DD-07) by the rim: a tall dark tower, its door locked."
+  - id: zone:venom_fen
+    name: Venom Pond and the fen
+    kind: wild
+    floor: [900, 1050]
+    relief: flat
+    purpose: "A green pond and reed fen running to the rims' corner: Thaddeus's hut and his fountain, a drowned skiff, the Fountain of Great Protection; cobras."
+    density: medium
+    population:
+      - {id: pop:venom_fen, slot: 2, groups: 12, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area 4: Cobras."}
+  - id: zone:wizard_quarter
+    name: The wizard quarter
+    kind: district
+    part_of: town:sandcaster
+    floor: 1700
+    purpose: "Xenoc's and Morgana's quarter: five sealed doors until q-d14.done; the guild gate into DD-19 open from the start."
+    safe: true
+    keep_clear: [spawns]
+    theme: MM6 hc pink ashlar with balconies and statue niches.
+    buildings:
+      - {id: building:wq_guild_dark, type: house, service: The Guild of Night, count: 1, doors: 1, footprint_cells: [[2, 2]], notes: "A4 house 4613; opens with q-d14.done."}
+      - {id: building:wq_magic, type: house, service: Esoterica, count: 1, doors: 1, footprint_cells: [[2, 1.5]], notes: "A4 house 4614; opens with q-d14.done."}
+      - {id: building:wq_houses, type: house, service: residence, count: 3, doors: 1, footprint_cells: [[1.5, 1.5], [1.5, 1.5], [1.5, 1.5]], notes: "A4 houses 4615 Mindwright's Tower, 4616 Appraiser's Tower, 4617 Alembic Tower (the three Grandmasters); open with q-d14.done."}
+  - id: zone:wrath_falls
+    name: The Wrath Falls
+    kind: zone
+    part_of: zone:river_meadows
+    floor: [1000, 1150]
+    purpose: "The river drops off the east rim into the stars; the glow above."
+  - id: zone:wrath_hills
+    name: The Wrath hills
+    kind: wild
+    floor: [1500, 3400]
+    relief: uneven
+    purpose: "Stony hills east of the river's gorge under the broken Wrath crest (3,100-3,400, D-28), up to the east rim: the Wrath Spring at the gorge head, the Lakeside road over its saddle (1,850), the Eastern Tower on its knoll. The mantis ants keep to the walkable shoulders."
+    density: sparse
+    population:
+      - {id: pop:wrath_hills, slot: 1, groups: 12, per_marker: [2, 3], levels: [22, 38], notes: "Encounter area 2: Mantis ants."}
+links:
+  - id: link:bridge_road
+    from: junction:crossroads
+    to: junction:east_fork
+    kind: road
+    crosses: [water:wrath]
+    features: ["Wrath Bridge: one stone arch over the river's cut at x 74-77"]
+  - id: link:caravan_road
+    from: edge:west_end
+    to: junction:crossroads
+    kind: road
+    purpose: "travel: D2"
+    notes: by the gate fork and Vespar's ruin
+  - id: link:city_road
+    from: town:sandcaster
+    to: junction:crossroads
+    kind: road
+    notes: from the east gate
+  - id: link:dune_track
+    from: junction:crossroads
+    to: zone:desert_edge
+    kind: path
+    notes: to the caravan well and the swallowed caravan
+  - id: link:fen_track
+    from: junction:venom_fork
+    to: zone:venom_fen
+    kind: path
+    notes: to the Fountain of Great Protection
+  - id: link:forest_road
+    from: junction:crossroads
+    to: zone:aging_forest
+    kind: road
+    notes: past the great oak and Cornelius's glade to the edge cairn
+  - id: link:gate_lane
+    from: junction:gate_fork
+    to: zone:caravan_yard
+    kind: road
+    notes: "the caravan yard, then the south gate (the pass)"
+  - id: link:high_path
+    from: link:lakeside_road
+    to: zone:wrath_hills
+    kind: path
+    notes: from the Lakeside saddle east up the crest's north shoulder (D-28)
+  - id: link:howling_track
+    from: junction:forest_fork
+    to: zone:howling_woods
+    kind: path
+    notes: past the howling stone to the smugglers' rope
+  - id: link:lakeside_road
+    from: junction:east_fork
+    to: edge:north_end
+    kind: road
+    rise: 500
+    purpose: "travel: D4"
+  - id: link:oak_lane
+    from: link:forest_road
+    to: zone:aging_forest
+    kind: path
+    notes: "D-28: a short lane east from the forest road to the great oak and its nest"
+  - id: link:obelisk_path
+    from: link:city_road
+    to: zone:desert_edge
+    kind: path
+    notes: up the obelisk's knoll
+  - id: link:orchard_path
+    from: junction:venom_fork
+    to: zone:river_meadows
+    kind: path
+    notes: along the river's south bank to the fruit hut
+  - id: link:rim_track
+    from: junction:east_fork
+    to: zone:wrath_falls
+    kind: path
+    notes: along the north bank to the Rim Watch
+  - id: link:spring_path
+    from: link:lakeside_road
+    to: zone:wrath_hills
+    kind: path
+    notes: down into the gorge head to the Wrath Spring
+  - id: link:tower_lane
+    from: junction:east_fork
+    to: zone:tower_knoll
+    kind: path
+  - id: link:venom_road
+    from: junction:crossroads
+    to: zone:thaddeus_yard
+    kind: road
+    notes: past Celia and Derek's cottage and the wayside shrine
+entrances:
+  - id: entrance:dd07_door
+    space: zone:tower_knoll
+    kind: both
+    neighbour: door:dd07
+    facing: w
+    how: "The Eastern Tower's door: A3's q-d18.tower_door (\"A tower door with no handle and a very smug lock.\" without the key)."
+    condition: {item: east_tower_key}
+  - id: entrance:dd18_shaft
+    space: zone:sc_west_lane
+    kind: both
+    neighbour: door:dd18
+    facing: n
+    how: "D-27: a street shaft with an iron lid against the gym's south-east corner, under Barticus' sign; the entrance preset (D-24: \"Descend to the sewer?\"), no question of its own; 900 from the gym door, off the walking line between the door and the lane."
+  - id: entrance:dd19_gate
+    space: zone:wizard_quarter
+    kind: both
+    neighbour: door:dd19
+    facing: n
+    how: "The guild gate in the quarter's back wall: A3's q-d14.quarter_gate (\"Enter?\")."
+  - id: entrance:east_gate
+    space: town:sandcaster
+    kind: both
+    facing: w
+    how: "The east gate onto the Crossroads road: the same pass check."
+    condition: {any: [{item: sandcaster_pass}]}
+  - id: entrance:north_road
+    space: edge:north_end
+    kind: both
+    neighbour: edge:north
+    facing: s
+    how: The Lakeside road from D4.
+  - id: entrance:sandcaster_square
+    space: zone:sc_square
+    kind: arrival
+    how: "Town Portal and the mirror (4612, qbit 119009)."
+  - id: entrance:sandcaster_stables
+    space: zone:caravan_yard
+    kind: arrival
+    neighbours: [stable:sandcaster_castleview, stable:sandcaster_lakeside]
+    how: The caravan yard outside the south gate.
+  - id: entrance:south_gate
+    space: town:sandcaster
+    kind: both
+    facing: n
+    how: "The south gate: A3's q-d8.sandcaster_gate wants the Sandcaster Pass from outside (\"The gate guards want a pass. Wizards' orders.\"); from inside it always opens."
+    condition: {any: [{item: sandcaster_pass}]}
+  - id: entrance:west_road
+    space: edge:west_end
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: The caravan road down from D2's Ogre Pass mouth.
+critical_path: [edge:west_end, junction:gate_fork, zone:caravan_yard, town:sandcaster, zone:sc_square]
+goals:
+  - id: goal:caleb
+    space: town:crossroads
+    kind: use
+    what: Bring Caleb his magnifying glass from the gargoyles of D4 (Q-D15).
+    story: Q-D15
+  - id: goal:celia
+    space: zone:celia_yard
+    kind: reach
+    what: Visit Celia and Derek in their Darkside cottage after Q-C22.
+    story: Q-C22
+  - id: goal:city
+    space: town:sandcaster
+    kind: reach
+    what: "Enter Sandcaster with the pass (Q-D8); Natasha enchants the bridle (M25)."
+    story: M25
+  - id: goal:handle
+    space: zone:aging_forest
+    kind: use
+    what: Find Vespar's emerald handle in the roadside ruin (Q-D8).
+    story: Q-D8
+  - id: goal:jewel
+    space: zone:tower_knoll
+    kind: reach
+    what: "Open the Eastern Tower with Q-D19's key; bring Thaddeus the Jewel of Ages (Q-D18)."
+    story: Q-D18
+  - id: goal:quarter
+    space: zone:wizard_quarter
+    kind: reach
+    what: "Through the guild gate into DD-19; Astra's quest (Q-D14) opens the quarter."
+    story: Q-D14
+points_of_interest:
+  - id: poi:aged_skeleton
+    space: zone:aging_forest
+    kind: chest
+    behaviour: "A skeleton in a young man's clothes under the falling leaves: his satchel (a chest); a note: \"Just a nap.\""
+  - id: poi:caravan_well
+    space: zone:desert_edge
+    kind: well
+    behaviour: "The caravan well in the dunes: +Endurance, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:caravan_wreck
+    space: zone:desert_edge
+    kind: chest
+    behaviour: "A caravan half swallowed by the dunes, a worm hole beside it: its strongbox (a chest)."
+  - id: poi:cornelius
+    space: zone:cornelius_glade
+    kind: teacher
+    behaviour: "Cornelius the Leprechaun (5247): Perception Master, outdoors (teachers_plan cornelius); \"Spotting secret doors is an art ...\"."
+  - id: poi:drowned_skiff
+    space: zone:venom_fen
+    kind: chest
+    behaviour: "A skiff sunk in the reeds of Venom Pond's south shore: its locker (a chest)."
+  - id: poi:edge_cairn
+    space: zone:aging_forest
+    kind: device
+    behaviour: "A pilgrims' cairn at the south rim: add a stone, +Luck, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:fallen_courier
+    space: zone:wrath_hills
+    kind: chest
+    behaviour: "A courier from Lakeside who took the high path round Wrathtop and never came down: his satchel (a chest), on the crest's north shoulder with the rim view."
+  - id: poi:fountain_protection
+    space: zone:venom_fen
+    kind: fountain
+    behaviour: "The Fountain of Great Protection (source F4: +AC): +AC, temporary, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:fountain_youth
+    space: zone:thaddeus_yard
+    kind: fountain
+    behaviour: "The Fountain of Youth (A3's q-d18.fountain): venom before q-d18.done (the map's own poison), then it removes unnatural aging (the permanent device of the quest)."
+  - id: poi:fruit_hut_forest
+    space: zone:aging_forest
+    kind: shrine
+    behaviour: "The fig hut (source E4, D-28): a mossy log hut in the roots of a fig tree, figs in a bowl by the door: \"The fig of foresight. You see everything. Everything sees you.\" +2 Intellect, permanent, and Insane; once per character (A2's boon, a player bit)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:fruit_hut_river
+    space: zone:river_meadows
+    kind: shrine
+    behaviour: "The pear hut (source F3, D-28): a whitewashed mud hut under an old pear tree on the river's south bank, a basket of pears on the sill: \"The pear of plenty. You feel stronger, and then very tired.\" +2 Might, permanent, and Weak; once per character (A2's boon, a player bit)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:great_oak
+    space: zone:aging_forest
+    kind: device
+    behaviour: "The great oak, hollow and ancient, off the forest road by a short lane (D-28: about 2,900 east of the road); a hornet nest in its crown. Rest a hand on it: +Personality, temporary (\"You feel older and wiser. Mostly older.\")."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:howling_stone
+    space: zone:howling_woods
+    kind: sign
+    behaviour: "A hollow standing stone the wind sings through: \"It is only the wind. The wolves left years ago. Probably.\""
+  - id: poi:mantis_mound
+    space: zone:howling_woods
+    kind: chest
+    behaviour: "A mantis ants' mound: an explorer's pack in the spoil heap (a chest)."
+  - id: poi:market_well
+    space: town:crossroads
+    kind: well
+    behaviour: "The Crossroads' trough well: \"Refreshing!\" (a plain well)."
+  - id: poi:obelisk
+    space: zone:desert_edge
+    kind: obelisk
+    behaviour: "The Darkside's third obelisk (A3's obelisks.d3: THE)."
+    rule: native:obelisk
+    notes: "On a dune knoll outside the east gate, the city in view."
+  - id: poi:rim_watch
+    space: zone:wrath_falls
+    kind: chest
+    behaviour: "A ruined watch post on the bluff over the falls: the rim view east (the bright face's glow); the watchman's locker (a chest)."
+  - id: poi:sc_mirror
+    space: zone:sc_square
+    kind: mirror
+    behaviour: "The Mirror of Sandcaster (A4 4612, thing:sc_mirror, qbit 119009): the Town Portal anchor."
+  - id: poi:sc_well
+    space: zone:sc_square
+    kind: well
+    behaviour: "Omid's deep well (\"something at the bottom hums\"): +Intellect, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:signposts
+    spaces: [junction:gate_fork, junction:crossroads, junction:east_fork, junction:venom_fork, junction:forest_fork]
+    count: 5
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:smugglers_rope
+    space: zone:howling_woods
+    kind: chest
+    behaviour: "A rope tied to a stake runs over the south rim into nothing; a bundle at the top (a chest): \"Someone meant to come back.\""
+  - id: poi:tower_cart
+    space: zone:tower_knoll
+    kind: chest
+    behaviour: "The tower mages' supply cart, overturned at the foot of the knoll: a crate (a chest)."
+  - id: poi:vespar_ruin
+    space: zone:aging_forest
+    kind: ruin
+    behaviour: "A roadside ruin by the caravan road (A3's q-d8.handle): \"You found an emerald handle.\" once; then \"Rubble, and nothing green in it.\""
+  - id: poi:wayside_shrine
+    space: zone:river_meadows
+    kind: shrine
+    behaviour: "A wayside shrine of the desert sun on the Venom road: +Fire resistance, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:wrath_spring
+    space: zone:wrath_hills
+    kind: well
+    behaviour: "The Wrath Spring, where the river bursts from a cave: +Might, temporary (\"The water is angry. So, briefly, are you.\")."
+    uses: {times: 1, per: character, reset: daily}
+landmarks:
+  - id: landmark:eastern_tower
+    space: zone:tower_knoll
+    what: A tall dark tower on a knoll at the very edge of the world
+    seen_from: [zone:river_meadows, zone:crossroads_plain, zone:wrath_hills]
+  - id: landmark:gemstone_crags
+    space: zone:gemstone_crags
+    what: The last slate crags of the Gemstone Range behind the city
+    seen_from: [zone:crossroads_plain, zone:caravan_valley]
+  - id: landmark:rim_glow
+    space: zone:rim
+    what: "The bright face's glow standing above the east rim: a pale gold band in the eastern sky"
+    seen_from: [zone:river_meadows, zone:crossroads_plain, zone:venom_fen, edge:west_end]
+  - id: landmark:sandcaster
+    space: town:sandcaster
+    what: "Ochre sandstone walls and towers on a terrace, the pink wizard towers above"
+    seen_from: [zone:caravan_valley, zone:crossroads_plain, zone:desert_edge, edge:west_end]
+  - id: landmark:sky_stair
+    space: zone:sc_north_street
+    what: "The Sky Stair: the city's tallest tower with a timber jetty sticking out of its top into the air"
+    seen_from: [zone:caravan_valley, zone:crossroads_plain, zone:desert_edge]
+  - id: landmark:wrath_falls
+    space: zone:wrath_falls
+    what: The River of Wrath dropping off the rim into the stars
+    seen_from: [zone:river_meadows, zone:venom_fen]
+sightlines:
+  - id: view:arrival
+    from: entrance:west_road
+    to: [landmark:sandcaster, landmark:sky_stair, town:crossroads, landmark:rim_glow]
+    what: "Arrival from D2: the dry valley, Sandcaster on its terrace on the left, the Crossroads' awnings ahead, the woods on the right, the glow above the rim far east."
+  - id: view:signature
+    from: zone:river_meadows
+    to: [landmark:wrath_falls, landmark:rim_glow, landmark:eastern_tower]
+    what: "The signature view: the River of Wrath running east over the rim into the stars, the bright face's glow above, the Eastern Tower at the edge."
+height_bands:
+  - id: band:fen
+    range: [864, 1050]
+    spaces: [zone:venom_fen, water:venom_pond]
+  - id: band:high
+    range: [1000, 3400]
+    spaces: [zone:wrath_hills]
+  - id: band:low
+    range: [1000, 1250]
+    spaces: [zone:aging_forest, zone:river_meadows, water:wrath]
+  - id: band:mid
+    range: [1300, 2400]
+    spaces: [zone:desert_edge, town:sandcaster]
+  - id: band:peaks
+    range: [2000, 3400]
+    spaces: [zone:gemstone_crags]
+  - id: band:plain
+    range: [1200, 1400]
+    spaces: [zone:caravan_valley, zone:crossroads_plain, town:crossroads]
+  - id: band:ridge
+    range: [1200, 2200]
+    spaces: [zone:howling_woods]
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+states:
+  - id: state:cottage_shut
+    condition: {not: {qbit: celia_moved}}
+    locks: [building:celia_derek_cottage]
+    notes: "A3's q-c22.cottage: the door refuses until q-c22.done, then moves Celia (4041) and Derek (4046) in and sets q-c22.moved."
+  - id: state:fountain_venom
+    condition: {not: {qbit: fountain_restored}}
+    atmosphere: "The Fountain of Youth runs green; the jewel socket on its spout is empty."
+  - id: state:gates_shut
+    condition: {not: {any: [{item: sandcaster_pass}]}}
+    locks: [entrance:south_gate, entrance:east_gate]
+    atmosphere: "Guards in the gate arches; A3's fail text \"The gate guards want a pass. Wizards' orders.\""
+    notes: "From inside (Town Portal, the mirror) the gates always open."
+  - id: state:jetty_closed
+    condition: {not: {qbit: lucio_open}}
+    locks: [building:sc_lucio_jetty]
+    atmosphere: "A jetty that ends in thin air. A sign: \"Celestial boats. Chosen Ones only.\" (A4's closed text)"
+  - id: state:jetty_open
+    condition: {qbit: lucio_open}
+    opens: [building:sc_lucio_jetty]
+    effects: ["Lucio's boat at the jetty's end twice a week (tue, fri); it departs only (D-28)."]
+  - id: state:quarter_open
+    condition: {qbit: quarter_open}
+    opens: [building:wq_guild_dark, building:wq_magic, building:wq_houses]
+  - id: state:quarter_sealed
+    condition: {not: {qbit: quarter_open}}
+    locks: [building:wq_guild_dark, building:wq_magic, building:wq_houses]
+    atmosphere: "Wizard locks glowing on the doors; A4's closed texts (\"The wizards are sensitive to insults; best not to knock twice.\")."
+landform:
+  relief: "A dry valley (1,300) from D2 under Sandcaster's terrace (1,500, the quarter 1,700) and the last Gemstone crags (to 3,400); dunes to 1,900 north of the city and the west-bank hills (2,400) over the river's gorge; the Crossroads plain (1,250); east of the river the broken Wrath crest (3,100-3,400) with the Lakeside saddle (1,850) on the D4 road; the Howling ridge (1,900-2,200) in the south-west; the Aging Forest and the fen falling to 864 at Venom Pond; the rim cliff along the east and south. D-28: the range inside the playable box is about 2,500 (864-3,400)."
+  height_range: [864, 3400]
+  water: "The River of Wrath (about 2.5 cells wide, 80 cells long, in a cut 300-700 deep above the bridge), Venom Pond (about 100 cells)."
+  water_share: 0.03
+  caps:
+    - {kind: bare rock, share: 0.06, where: "the crags, the river's cut, the rim cliffs"}
+    - {kind: sand, share: 0.12, where: the desert edge and the caravan valley}
+  rim: {notes: "The world rim along the whole east (x 104) and south (y 104): a cliff of about 1,000 down to the stars; the River of Wrath falls over it at y 64. West and north the land runs to the map edge; the roads run out to it."}
+atmosphere: "Sky xeendark1 (xeen_darkside_day; A3's Lua switches to xeendark2/3 at M17/M27); no weather; music 39. Market bustle and camels at the Crossroads; wind in the scrub; the Howling Woods' stone moaning; leaves and insects in the Aging Forest (falling leaves: a particle gap, MU-2); frogs and hiss at Venom Pond; the falls' roar near the rim."
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  dungeon_entrances: 3
+  encounter_areas: 6
+  hostiles_at_load: 143
+  outdoor_chests: 8
+  points_of_interest: 0
+  spawn_markers: 50
+notes: "MU-3 for the phase 3 review (A5, 2026-11-20). Source geography: Darkside E3, E4, F3, F4 (MAPS D3). Drawing and review board: output/studio_cal/d3/mockups/. Generated by output/studio_cal/d3/tools/gen_l1.py."

@@ -218,6 +218,9 @@ floors:
   - {id: floor:east_line, of: room:east_line, kind: water}
   - {id: floor:flooded, of: room:flooded_working, kind: water}
   - {id: floor:green_pool, of: platform:green_pool, kind: water}
+sounds:
+  - {id: sound:sorting_mine, room: room:sorting_floor, at: [12864, 6304], sound: xeen_amb_mine, radius: 2400, inner_radius: 700, volume: 0.45, notes: "The mine's bed (AU) by the sorting floor, heard centred (D-48).", pan: false}
+  - {id: sound:stope_mine, room: room:stope_floor, at: [6208, 2880], sound: xeen_amb_mine, radius: 2800, inner_radius: 900, volume: 0.5, notes: "The mine's bed (AU): drips and knocks in the great stope, heard centred (D-48).", pan: false}
 lights:
   - id: light:blue_pool
     room: room:blue_grotto
@@ -473,6 +476,7 @@ lights:
     height: 360
     radius: 260
     color: [80, 255, 90]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     on: false
     notes: "Green lamp over the east line's gate: lit while the points are set east."
   - id: light:signal_trestle
@@ -481,6 +485,7 @@ lights:
     height: 360
     radius: 260
     color: [80, 255, 90]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     notes: "Green lamp over the trestle gate: lit while the points are set for the trestle."
   - id: light:sorting_lamp_1
     room: room:sorting_floor
@@ -718,14 +723,14 @@ chests:
     at: [3330, 1270]
     kind: ch1
     facing: e
-    treasure_level: 2
+    treasure_level: 1
     random_items: 2
     notes: "The cocooned miner's chest, beside him in the web."
   - id: chest:footlocker_1
     room: room:bunk_cut
     at: [6992, 8100]
     kind: ch1
-    facing: e
+    facing: w
     treasure_level: 1
     random_items: 2
     notes: "Footlocker before the first bunk: the shipped ch1 chest at its own size (96 by 64; at 160 the lock repeated), its front to the cut."
@@ -733,7 +738,7 @@ chests:
     room: room:bunk_cut
     at: [7568, 8100]
     kind: ch1
-    facing: e
+    facing: w
     treasure_level: 1
     random_items: 1
     gold: 40
@@ -751,7 +756,7 @@ chests:
     at: [14100, 6208]
     kind: ch1
     facing: n
-    treasure_level: 3
+    treasure_level: 2
     random_items: 3
     gold: 400
     items: [181]
@@ -760,17 +765,18 @@ chests:
     room: room:tally_room
     at: [5180, 7200]
     kind: ch1
-    facing: n
-    treasure_level: 2
+    facing: s
+    treasure_level: 1
     random_items: 2
     gold: 150
     items: [brake_key]
-    notes: "The clan's strongbox behind the tallymaster's table: the brake key."
+    notes: "The clan's strongbox behind the tally table: the brake key."
 spawns:
   - id: spawn:bunk_cut
     room: room:bunk_cut
     at: [7300, 7870]
     slot: 1
+    tier: a
     notes: "Asleep at first, in the brief."
   - id: spawn:bunk_niche_item
     room: room:bunk_niche_2
@@ -781,6 +787,7 @@ spawns:
     room: room:deep_station
     at: [4300, 4700]
     slot: 1
+    tier: a
     notes: Guards of the line.
   - id: spawn:deep_station_bay
     room: room:deep_station
@@ -802,47 +809,41 @@ spawns:
   - id: spawn:foot_drift
     room: room:foot_drift
     at: [10560, 5984]
-    slot: 2
+    slot: 3
     tier: a
   - id: spawn:galleries_east
     room: room:spider_galleries
     at: [5300, 700]
     slot: 2
     tier: a
-  - id: spawn:galleries_mid
-    room: room:spider_galleries
-    at: [4400, 1100]
-    slot: 2
-    tier: a
   - id: spawn:lamp_room
     room: room:lamp_room
     at: [12150, 4250]
     slot: 1
+    tier: a
     notes: The first clan dwarves.
   - id: spawn:ledge_sse
     room: room:stope_floor
     at: [6575, 1993]
-    slot: 2
+    slot: 3
     tier: a
     notes: Spiders lurking at the landing.
   - id: spawn:ledge_wsw
     room: room:stope_floor
     at: [5321, 2513]
-    slot: 2
+    slot: 3
     tier: a
     notes: Spiders lurking at the landing.
   - id: spawn:mess_east
     room: room:mess_hall
     at: [8700, 6560]
     slot: 1
-  - id: spawn:mess_leg
-    room: room:mess_hall
-    at: [7360, 7100]
-    slot: 1
+    tier: a
   - id: spawn:mess_tables
     room: room:mess_hall
     at: [7700, 6560]
     slot: 1
+    tier: a
   - id: spawn:ore_heap_item
     room: room:sorting_floor
     at: [12700, 6800]
@@ -858,12 +859,6 @@ spawns:
     at: [7500, 3350]
     slot: 3
     tier: a
-  - id: spawn:sorting
-    room: room:sorting_floor
-    at: [12600, 6200]
-    slot: 3
-    tier: a
-    notes: "Bats off the chutes, on the sorting floor between the tables."
   - id: spawn:sorting_south
     room: room:sorting_floor
     at: [13350, 5900]
@@ -874,18 +869,12 @@ spawns:
     room: room:stope_floor
     at: [6000, 3500]
     slot: 1
-  - id: spawn:stope_floor_s
-    room: room:stope_floor
-    at: [6300, 2500]
-    slot: 1
+    tier: a
   - id: spawn:turntable_n
     room: room:turntable
     at: [8300, 5720]
     slot: 1
-  - id: spawn:turntable_s
-    room: room:turntable
-    at: [8700, 4680]
-    slot: 1
+    tier: a
   - id: spawn:turntable_w
     room: room:turntable
     at: [7800, 5300]
@@ -895,87 +884,80 @@ spawns:
 monsters:
   - id: monster:cocoon_spider_1
     room: room:spider_galleries
-    monster: 401
+    monster: 11320
     at: [3560, 1120]
     hostile: true
     group: 4
     notes: Round the cocoon in the western working (the level-10 spiders).
   - id: monster:cocoon_spider_2
     room: room:spider_galleries
-    monster: 401
+    monster: 11320
     at: [3560, 820]
     hostile: true
     group: 4
   - id: monster:cocoon_spider_3
     room: room:spider_galleries
-    monster: 401
+    monster: 11320
     at: [3300, 650]
     hostile: true
     group: 4
   - id: monster:mole_burrow_1
     room: room:mole_pocket
-    monster: 412
+    monster: 11430
     at: [6760, 4090]
     facing: s
     hostile: true
     group: 3
-    name: Tiger Mole
     notes: "Waiting in the burrow behind the rich vein; out when the vein is mined."
   - id: monster:mole_burrow_2
     room: room:mole_pocket
-    monster: 412
+    monster: 11430
     at: [6840, 4200]
     facing: s
     hostile: true
     group: 3
-    name: Tiger Mole
   - id: monster:mole_flood_1
     room: room:flooded_working
-    monster: 412
+    monster: 11430
     at: [11700, 1250]
     hostile: true
     group: 2
-    name: Tiger Mole
     notes: Surfaced from the water beside the planks.
   - id: monster:mole_flood_2
     room: room:flooded_working
-    monster: 412
+    monster: 11430
     at: [12200, 1250]
     hostile: true
     group: 2
-    name: Tiger Mole
   - id: monster:tally_guard_1
     room: room:tally_room
-    monster: 229
+    monster: 11050
     at: [6163, 6880]
     facing: e
     hostile: true
     group: 1
   - id: monster:tally_guard_2
     room: room:tally_room
-    monster: 229
+    monster: 11050
     at: [6163, 7520]
     facing: e
     hostile: true
     group: 1
   - id: monster:tally_guard_3
     room: room:tally_room
-    monster: 229
+    monster: 11050
     at: [5363, 6848]
     facing: e
     hostile: true
     group: 1
   - id: monster:tallymaster
     room: room:tally_room
-    monster: 230
+    monster: 11052
     at: [5360, 7200]
     facing: e
     hostile: true
     group: 1
-    hp: 80
-    name: Tallymaster
-    immobile: true
-    notes: "The clan's tallymaster behind his table, the map's boss: a Dwarven Lieutenant (230, level 20, 100 hit points), the Dwarf family's middle rank, so he stands out in his own colours among his Soldiers and the hover names him apart (XD-03's Clan King is the Commander, 231). The brief's level-10 Mad Dwarf with doubled hit points; `hp: 80` waits for the game to honour it."
+    notes: "The fourth clan guard, behind the tally table: an ordinary Clan Guard (11052, level 12; CHANGES A1, XD02-1: XD-02 has no boss in MAPS §0). Until the rebase of 2026-11-20 the Tallymaster, a named Dwarven Lieutenant (230, level 20, hp 80, immobile). He carries nothing: the brake key is in the strongbox behind him. The id stays for the lock."
 items:
   - id: item:cocoon_potion
     room: room:spider_galleries
@@ -1015,15 +997,15 @@ decorations:
   - id: deco:adit_mouth_2
     room: room:adit_mouth
     decoration: bigbarel
-    at: [13400, 3780]
+    at: [13402, 3916]
   - id: deco:adit_mouth_3
     room: room:adit_mouth
     decoration: smlbarel
-    at: [13470, 3700]
+    at: [13756, 3942]
   - id: deco:adit_mouth_4
     room: room:adit_mouth
     decoration: 7dec10
-    at: [14340, 2880]
+    at: [13730, 2880]
   - id: deco:adit_mouth_5
     room: room:adit_mouth
     decoration: Bucket
@@ -1039,7 +1021,8 @@ decorations:
   - id: deco:blue_grotto_110
     room: room:blue_grotto
     decoration: mcryst01
-    at: [2100, 1250]
+    at: [2160, 1222]
+    notes: "F3 (2026-11-21): 64 in from the grotto's north-west wall; at (2100, 1250) it stood half in the wall."
   - id: deco:bunk_cut_67
     room: room:bunk_cut
     decoration: torch02
@@ -1077,7 +1060,7 @@ decorations:
   - id: deco:deep_station_100
     room: room:deep_station
     decoration: smlbarel
-    at: [4600, 4800]
+    at: [4322, 4725]
   - id: deco:deep_station_101
     room: room:deep_station
     decoration: smlbarel
@@ -1115,11 +1098,15 @@ decorations:
   - id: deco:dwarf_shrine_49
     room: room:dwarf_shrine
     decoration: dec56
-    at: [8344, 2300]
+    at: [8344, 2176]
+    wall: south
+    height: 144
   - id: deco:dwarf_shrine_50
     room: room:dwarf_shrine
     decoration: dec56
-    at: [8808, 2300]
+    at: [8808, 2176]
+    wall: south
+    height: 144
   - id: deco:dwarf_shrine_51
     room: room:dwarf_shrine
     decoration: 6rock02
@@ -1173,7 +1160,7 @@ decorations:
   - id: deco:foot_drift_35
     room: room:foot_drift
     decoration: nwtrchnf
-    at: [11180, 5840]
+    at: [11180, 5868]
     height: 200
   - id: deco:foot_drift_37
     room: room:foot_drift
@@ -1222,7 +1209,7 @@ decorations:
   - id: deco:lamp_room_26
     room: room:lamp_room
     decoration: smlbarel
-    at: [11980, 4500]
+    at: [11868, 4518]
   - id: deco:main_drift_10
     room: room:main_drift
     decoration: 7rock03
@@ -1230,12 +1217,12 @@ decorations:
   - id: deco:main_drift_6
     room: room:main_drift
     decoration: torch02
-    at: [13040, 3216]
+    at: [13040, 3246]
     height: 224
   - id: deco:main_drift_7
     room: room:main_drift
     decoration: torch02
-    at: [12900, 4120]
+    at: [12882, 4120]
     height: 200
   - id: deco:main_drift_8
     room: room:main_drift
@@ -1244,7 +1231,7 @@ decorations:
   - id: deco:main_drift_9
     room: room:main_drift
     decoration: 6rock01
-    at: [12860, 4380]
+    at: [12754, 4340]
   - id: deco:mess_hall_54
     room: room:mess_hall
     decoration: brzier00
@@ -1261,7 +1248,7 @@ decorations:
     room: room:mess_hall
     decoration: torch02
     wall: 0
-    along: 0.85
+    along: 0.92
     height: 256
   - id: deco:mess_hall_57
     room: room:mess_hall
@@ -1310,7 +1297,7 @@ decorations:
   - id: deco:mess_hall_66
     room: room:mess_hall
     decoration: trasheap
-    at: [7100, 7380]
+    at: [7249, 7196]
   - id: deco:red_pool_grotto_96
     room: room:red_pool_grotto
     decoration: stlmite1
@@ -1328,7 +1315,8 @@ decorations:
   - id: deco:repair_niche_74
     room: room:repair_niche
     decoration: Bucket
-    at: [5320, 5700]
+    at: [5280, 5776]
+    notes: "F3 (2026-11-21): on the floor in the north-west corner, between the wall and the bench's end; at (5320, 5700) it stood half over the bench's end."
   - id: deco:sorting_floor_27
     room: room:sorting_floor
     decoration: dec27
@@ -1344,11 +1332,11 @@ decorations:
   - id: deco:sorting_floor_29
     room: room:sorting_floor
     decoration: 7dec10
-    at: [12720, 6792]
+    at: [12644, 6792]
   - id: deco:sorting_floor_30
     room: room:sorting_floor
     decoration: 7dec11
-    at: [13400, 6792]
+    at: [13444, 6770]
   - id: deco:sorting_floor_31
     room: room:sorting_floor
     decoration: 7dec10
@@ -1356,11 +1344,8 @@ decorations:
   - id: deco:sorting_floor_32
     room: room:sorting_floor
     decoration: Bucket
-    at: [12650, 6050]
-  - id: deco:sorting_floor_33
-    room: room:sorting_floor
-    decoration: Bucket
-    at: [13300, 6300]
+    at: [12672, 6016]
+    notes: "F3 (2026-11-21): wholly on the first sorting table, 64 in from its west end; at (12650, 6050) it hung over the table's edge."
   - id: deco:spider_galleries_102
     room: room:spider_galleries
     decoration: dec05
@@ -1372,7 +1357,7 @@ decorations:
   - id: deco:spider_galleries_104
     room: room:spider_galleries
     decoration: dec05
-    at: [5000, 1150]
+    at: [5000, 1054]
   - id: deco:spider_galleries_105
     room: room:spider_galleries
     decoration: mushrm02
@@ -1412,9 +1397,9 @@ decorations:
   - id: deco:stope_floor_88
     room: room:stope_floor
     decoration: torch02
-    wall: 1
-    along: 0.6
-    height: 968
+    wall: 0
+    along: 0.75
+    height: 928
   - id: deco:stope_floor_89
     room: room:stope_floor
     decoration: torch02
@@ -1428,15 +1413,11 @@ decorations:
   - id: deco:stope_floor_91
     room: room:stope_floor
     decoration: 7dec11
-    at: [5700, 2600]
+    at: [5716, 2628]
   - id: deco:stope_floor_92
     room: room:stope_floor
     decoration: rock10
     at: [6650, 2650]
-  - id: deco:stope_floor_93
-    room: room:stope_floor
-    decoration: 6rock01
-    at: [5900, 3700]
   - id: deco:stope_floor_94
     room: room:stope_floor
     decoration: stlmite2
@@ -1454,8 +1435,8 @@ decorations:
   - id: deco:stope_rim_83
     room: room:stope_rim
     decoration: torch02
-    wall: 3
-    along: 0.4
+    wall: 2
+    along: 0.6
     height: 240
   - id: deco:tally_room_70
     room: room:tally_room
@@ -1505,25 +1486,11 @@ decorations:
   - id: deco:top_station_15
     room: room:top_station
     decoration: bigbarel
-    at: [13184, 5560]
+    at: [13286, 5220]
   - id: deco:top_station_16
     room: room:top_station
     decoration: smlbarel
     at: [13264, 5450]
-  - id: deco:top_station_17
-    room: room:top_station
-    decoration: floursac
-    at: [11800, 5480]
-    floor_height: -160
-  - id: deco:top_station_18
-    room: room:top_station
-    decoration: bag01
-    at: [11790, 4880]
-    floor_height: -160
-  - id: deco:top_station_19
-    room: room:top_station
-    decoration: Bucket
-    at: [12200, 4800]
   - id: deco:turntable_38
     room: room:turntable
     decoration: torch02
@@ -1537,7 +1504,7 @@ decorations:
   - id: deco:turntable_40
     room: room:turntable
     decoration: torch02
-    at: [7666, 4876]
+    at: [7610, 4853]
     height: 256
   - id: deco:turntable_41
     room: room:turntable
@@ -1546,11 +1513,11 @@ decorations:
     height: 256
   - id: deco:turntable_42
     room: room:turntable
-    decoration: dec56
+    decoration: flamb00
     at: [8800, 4760]
   - id: deco:turntable_43
     room: room:turntable
-    decoration: dec56
+    decoration: flamb00
     at: [8960, 4980]
   - id: deco:turntable_44
     room: room:turntable
@@ -1565,15 +1532,15 @@ decorations:
   - id: deco:turntable_46
     room: room:turntable
     decoration: bigbarel
-    at: [7800, 4850]
+    at: [7869, 5765]
   - id: deco:turntable_47
     room: room:turntable
     decoration: bigbarel
-    at: [7720, 4960]
+    at: [7720, 5576]
   - id: deco:turntable_48
     room: room:turntable
     decoration: 7dec10
-    at: [8100, 5900]
+    at: [8045, 5932]
   - id: deco:west_line_75
     room: room:west_line
     decoration: Bucket
@@ -1581,7 +1548,7 @@ decorations:
   - id: deco:west_line_76
     room: room:west_line
     decoration: 6rock01
-    at: [6500, 5080]
+    at: [6500, 5060]
   - id: deco:west_line_landing_72
     room: room:west_line_landing
     decoration: torch02
@@ -1591,40 +1558,32 @@ decorations:
   - id: deco:west_line_upper_77
     room: room:west_line_upper
     decoration: nwtrchnf
-    at: [4700, 5050]
+    at: [4700, 5068]
     height: 200
   - id: deco:west_line_upper_78
     room: room:west_line_upper
     decoration: 7dec11
-    at: [4200, 5250]
+    at: [4200, 5308]
 exits:
   - id: exit:deep
     room: room:deep_mouth
     wall: 1
     size: [320, 376]
-    surface: {texture: t3ll6, size: [256, 256]}
+    surface: {texture: 7solid01, size: [256, 256]}
     to: exit:deep_mine
     notes: "The Deep Line's mouth: the cart's way down to the Deep Mine."
   - id: exit:x1
     room: room:adit_mouth
     wall: east
     size: [512, 352]
-    surface: {texture: sky_clo1, size: [512, 512]}
+    surface: {texture: 7solid01, size: [512, 512]}
     to: exit:x1_adit
     notes: "The portal: daylight and the hills north of Vertigo."
   - id: exit:x4
     room: room:collapsed_adit
     wall: west
     size: [320, 352]
-    surface: {texture: sky_clo1, size: [512, 512]}
+    surface: {texture: 7solid01, size: [512, 512]}
     to: exit:x4_adit
     notes: "The far end of the west adit, open to the sky once the fall is gone."
-relations:
-  - {of: [229, 230, 231], toward: party, relation: hostile}
-  - {of: [229, 230, 231], toward: 400, relation: friendly, both_ways: true}
-  - {of: [229, 230, 231], toward: 401, relation: friendly, both_ways: true}
-  - {of: [229, 230, 231], toward: 402, relation: friendly, both_ways: true}
-  - {of: [229, 230, 231], toward: 412, relation: friendly, both_ways: true}
-  - {of: [229, 230, 231], toward: 413, relation: friendly, both_ways: true}
-  - {of: [229, 230, 231], toward: 414, relation: friendly, both_ways: true}
-notes: "Objects of the L4 brief (written by output/studio_cal/xd02/tools/gen_objects.py). Stand-ins: Mad Dwarves are MM7 Dwarves (Dwarven Soldier, level 10), the Tallymaster one of them with hp 80 and a name; Tiger Moles are Troglodyte Drones (412, level 9); the cocoon's level-10 spiders are Venomous Spiders (401, level 8); slots: 1 Dwarf, 2 Spider, 3 Bat. The brake key is the plain Key 2111."
+notes: "Objects of the L4 brief (written by output/studio_cal/xd02/tools/gen_objects.py; Xeen rows since 2026-11-20, lane A7). Placed (after the balance pass): the tally room's three guards Mad Dwarves (11050, level 7) and the fourth, once the Tallymaster, a Clan Guard (11052, level 12); the four Tiger Moles 11430 (6); the cocoon's three Giant Spiders 11320 (5). Slots: 1 Xeen Mad Dwarf, 2 Xeen Spider, 3 Xeen Bat. No relations block: the world's relations.yml makes every Xeen family the party's foe and sets none on another. The brake key is 12011."

@@ -1,0 +1,205 @@
+# Q-C8 The Scroll of Insight (QUESTS 2.1 Q-C8; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Arie the apprentice (X6) lost her master to the wizard cult of Castle Basenji (XD-14, A7) and its werewolves. The
+# scroll is on L3; the L2 door's password is "There wolf", written on her master's note, which Arie gives (and a
+# trapped peasant in the dungeon says it too). Reward: the Jewelled Amulet of the Northern Sphinx, which opens the
+# Sphinx (Q-C9). Arie is 4608 (A4: X6, her camp below Castle Basenji).
+# D-39 (XD-14, A7): the castle's readable scrolls (names on hover): seven blessings once per character (player bits
+# below), six curses on every read that hit only the reading member; the second Magic scroll is blank. The trapped
+# peasant (A2's row 11233, peaceful) talks through his bars at any time and, after the jailers' lever, is freed once
+# for 500 experience per member (peasant_freed; the map hides him on every later load).
+id: Q-C8
+title: The Scroll of Insight
+act: IV
+kind: side
+status: full
+giver: 4608
+maps: [X6, XD-14]
+level: 32
+block: 58
+after: [m7.sigil]
+source: "QUESTS Q-C8; xeen research (Scroll of Insight, Castle Basenji: \"There wolf\", the trapped peasant)"
+
+qbits:
+  started: {id: 112160, journal: "The wizards of Castle Basenji killed Arie's master. She wants his Scroll of Insight back.",
+            until: [done]}
+  password: {id: 112161, note: "XD-14 L2's door (A7), after the password prompt"}
+  scroll_found: {id: 112162, note: "XD-14 L3 (A7)"}
+  peasant_freed: {id: 112164, note: "the trapped peasant freed (q-c8.peasant_freed); XD-14 hides him on every load once set"}
+  dorm_bar: {id: 118000, map: XD-14, note: "the map's own: the dormitory door's bar lifted from inside (A7; block 118000-118009)"}
+  cell_lever: {id: 118001, map: XD-14, note: "the map's own: the jailers' lever raised the peasant's bars (A7)"}
+  done: {id: 112163, journal: "Arie gave you the Jewelled Amulet of the Northern Sphinx. It opens the Sphinx in the desert.",
+         until: [q-c9.done]}
+
+player_bits:         # XD-14's scrolls, once per character (D-39); the hooks decide and raise the reading member
+  scroll_intellect: {id: 11322, map: XD-14, note: "the Scroll of Intellect: +2 Intellect (base)"}
+  scroll_personality: {id: 11323, map: XD-14, note: "the Scroll of Personality: +2 Personality (base)"}
+  scroll_speed: {id: 11324, map: XD-14, note: "the Scroll of Speed: +2 Speed (base)"}
+  scroll_fire: {id: 11325, map: XD-14, note: "the Scroll of Fire: +5 Fire resistance"}
+  scroll_electricity: {id: 11326, map: XD-14, note: "the Scroll of Electricity: +5 Air resistance"}
+  scroll_magic: {id: 11327, map: XD-14, note: "the Scroll of Magic (the hall of scrolls): +5 Mind resistance"}
+  scroll_energy: {id: 11328, map: XD-14, note: "the Scroll of Energy: +5 Earth resistance"}
+
+autonotes:
+  note: {id: 4220, text: "Arie's master's note: the password of Castle Basenji's second-floor door is 'There wolf'. The scroll is on the third floor.", category: Misc}
+
+items:
+  scroll_of_insight: "XD-14 L3 (scroll hook); Arie takes it"
+
+npcs:
+  4608:              # Arie the apprentice (X6, her camp below Castle Basenji)
+    topics:
+      - n: 1
+        label: My master
+        states:
+          - when: {qbit: done}
+            text: "The Sphinx lies east of here, out in the dunes. It asks its own name. Its name is Golux. Master always said it was cheating to know that, so of course he knew."
+          - when: {item: scroll_of_insight}
+            text: "His Scroll of Insight! He would say thank you. He would also say not to read it upside down, which is how he read it. The Northern Sphinx lies east of here, out in the dunes; he always meant to go in. He never had the nerve."
+            do: [{take: scroll_of_insight}, {set: done}, {xp: 6000}, {gold: 2000}]
+          - when: {qbit: started}
+            text: "Third floor. Mind the dogs. They are not dogs."
+          - text: "The wizards of Castle Basenji killed my master and took his Scroll of Insight. They keep werewolves. Here is his note; he wrote everything down, including what he shouldn't have. The second floor's door wants 'There wolf'. Bring the scroll back."
+            do: [{set: started}, {autonote: note}]
+
+hooks:
+  peasant:
+    map: XD-14
+    where: "the Trapped Peasant (A2's row 11233) in the dungeon's cell: a click on him through the bars, at any time, before or after the lever"
+    text: "A thin man rattles his chain. \"Upstairs door? 'There wolf.' I heard them say it a hundred times. And the Sphinx's name is Golux; they argue about it at dinner. Now get me out of here.\""
+  peasant_freed:
+    map: XD-14
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the same cell once the jailers' lever has raised its bars: a click on him frees him (once); the map hides him on this and every later load by peasant_freed"
+    sets: [peasant_freed]
+    once: true
+    do: [{xp: 500}]
+    text: "\"Thank you for saving me!\" He is through the door and up the stairs before you can ask his name."
+  l2_door:
+    map: XD-14
+    where: "L2's door: the map's password prompt, answers There wolf or therewolf; the right answer calls this"
+    sets: [password]
+    once: true
+    text: "\"There wolf,\" you say. Something on the other side growls approvingly, and the bolts draw back."
+    else_text: "The door stands open."
+  l2_wrong:
+    map: XD-14
+    where: "the same door, any other answer"
+    text: "\"Wrong,\" says the door, and something behind it laughs like a dog."
+  scroll:
+    map: XD-14
+    where: "the Cult Leader's study on L3: the writing box on the desk (a chest, D-90, A7 2026-11-22); the scroll is its item, the map calls this after it opens"
+    sets: [scroll_found]
+    map_gives: {scroll_of_insight: 1}
+    once: true
+    status: true   # D-90: over the open chest; a window would close it
+    text: "A scroll bound in grey ribbon, labelled INSIGHT in a tidy hand. Someone has been reading it upside down."
+
+  scroll_intellect:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Intellect in the hall of scrolls (L2): the map only calls this; the hook decides for the reading member (player bit 11322)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11322))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Intellect. You read it twice, and the second time it makes sense. (+2 Intellect, permanent)"
+        do: [{lua: "AddValue(BaseIntellect, 2)"}, {lua: "SetPlayerBit(PlayerBit(11322))"}]
+  scroll_personality:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Personality in the hall of scrolls (L2): the map only calls this; the hook decides for the reading member (player bit 11323)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11323))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Personality. You read it aloud, and the room seems to like you better for it. (+2 Personality, permanent)"
+        do: [{lua: "AddValue(BasePersonality, 2)"}, {lua: "SetPlayerBit(PlayerBit(11323))"}]
+  scroll_speed:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Speed in the hall of scrolls (L2): the map only calls this; the hook decides for the reading member (player bit 11324)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11324))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Speed. You finish it before you have quite started it. (+2 Speed, permanent)"
+        do: [{lua: "AddValue(BaseSpeed, 2)"}, {lua: "SetPlayerBit(PlayerBit(11324))"}]
+  scroll_fire:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Fire in the lower scriptorium: the map only calls this; the hook decides for the reading member (player bit 11325)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11325))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Fire. The letters glow, then cool, and so does your skin. (+5 Fire resistance, permanent)"
+        do: [{lua: "AddValue(FireResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11325))"}]
+  scroll_electricity:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Electricity in the lower scriptorium: the map only calls this; the hook decides for the reading member (player bit 11326)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11326))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Electricity. Your hair stands up while you read, and stays wary after. (+5 Air resistance, permanent)"
+        do: [{lua: "AddValue(AirResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11326))"}]
+  scroll_magic:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Magic in the hall of scrolls (L2): the map only calls this; the hook decides for the reading member (player bit 11327)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11327))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Magic. The spells written on it slide off you as you read. (+5 Mind resistance, permanent)"
+        do: [{lua: "AddValue(MindResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11327))"}]
+  scroll_energy:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Energy on the moon tower's rack: the map only calls this; the hook decides for the reading member (player bit 11328)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11328))"}
+        text: "You have read this scroll before. It has nothing more to give you."
+      - text: "Scroll of Energy. It hums in your hands, then in you, then stops. (+5 Earth resistance, permanent)"
+        do: [{lua: "AddValue(EarthResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11328))"}]
+  scroll_faded:
+    map: XD-14
+    where: "the second Scroll of Magic, on the moon tower's rack (D-39: blank; the hall of scrolls has the other)"
+    text: "The writing has faded."
+  scroll_depression:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "a Scroll of Depression (the lower scriptorium, the moon tower): every read, the reading member only (D-39)"
+    text: "Scroll of Depression. Halfway down the page you understand that nothing will ever be all right again. (Afraid)"
+    do: [{lua: "SetValue(Afraid, 1)"}]
+  scroll_confusion:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "a Scroll of Confusion (the lower scriptorium, the moon tower): every read, the reading member only (D-39)"
+    text: "Scroll of Confusion. The lines wander, and you wander after them. (Drunk)"
+    do: [{lua: "SetValue(Drunk, 1)"}]
+  scroll_insanity:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "a Scroll of Insanity (the lower scriptorium, the moon tower, the bone pit): every read, the reading member only (D-39)"
+    text: "Scroll of Insanity. It makes perfect sense. That is the trouble. (Insane)"
+    do: [{lua: "SetValue(Insane, 1)"}]
+  scroll_weakness:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Weakness in the lower scriptorium: every read, the reading member only (D-39)"
+    text: "Scroll of Weakness. Your arms forget what they were for. (Weak)"
+    do: [{lua: "SetValue(Weak, 1)"}]
+  scroll_death:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "a Scroll of Death (the moon tower, the bone pit): every read, the reading member only (D-39)"
+    text: "Scroll of Death. You read your own name on it, and the floor comes up to meet you. (Unconscious)"
+    do: [{lua: "SetValue(Unconscious, 1)"}]
+  scroll_aging:
+    status: true   # F13: a touch effect answers on the status line
+    map: XD-14
+    where: "the Scroll of Aging in the hall of scrolls (L2): every read, the reading member only (D-39)"
+    text: "Scroll of Aging. The ink is fresh. Your hands, as you put it down, are not. You have been aged ten years!"
+    do: [{lua: "AddValue(Age, 10)"}]
+
+riddles:
+  - {answer: "There wolf", where: "XD-14 L2's door (q-c8.l2_door)", said_by: "Arie's master's note (Arie's topic, autonote 4220); the trapped peasant (q-c8.peasant)"}
+
+rewards: {xp: 6500, gold: 2000, items: "the Jewelled Amulet of the Northern Sphinx", note: "6,000 from Arie, 500 for the freed peasant; the scrolls: +2 Intellect, Personality, Speed and +5 Fire, Air, Mind, Earth resistance once per character"}
+playthrough: "X6: Arie (My master). XD-14: the peasant; the jailers' lever, the peasant freed; the L2 door (There wolf); the hall of scrolls; L3's scroll. X6: Arie (My master): the amulet."

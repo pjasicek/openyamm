@@ -1,0 +1,27 @@
+# F14 check of the Sandcaster Sewer (DD-18; A8 session 26): a party in the great cistern's pool (96 deep) climbs back
+# out by the rungs on its north edge (objects.yml `ladder:cistern_pool`) onto the cistern floor. Run with --world xeen
+# --map xeen_dd18.blv.
+id: xeen.dd18.l4.ladder
+title: 'the Sandcaster Sewer (DD-18): out of the cistern pool by its ladder'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd18.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 28, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 28, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- note: The arrival window first.
+- play_lua: {source: "close(); wait(0.5); close()"}
+- set_pose: {map: xeen_dd18.blv, x: 6528, y: -300, z: -96, yaw: 1.5708, pitch: 0.0}
+- clear_hostiles: {radius: 4000}
+- advance_runtime: {seconds: 1}
+- play_lua: {source: "close()"}
+- assert: {party_position: {x: 6528, y: -300, radius: 128, z_min: -104, z_max: -80}}
+- climb: {ladder: cistern_pool, timeout_seconds: 40}
+- assert: {party_position: {x: 6528, y: 64, radius: 128, z_min: -8, z_max: 40}}

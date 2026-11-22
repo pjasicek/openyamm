@@ -1,0 +1,28 @@
+# P2 Plane of Air's own texture (A6's planes sub-agent, sixteenth session, 2026-11-21; D-58 ROWS: Dungeon S, at most
+# 4 new, two named: xpascorch and xpastone). xpastone is not made: MM8 Plane of Air's shipped gwspout (pale-grey rock
+# pierced by a hollow) is the Singing Stones' face (shipped first). Made with level_generation/textures_xeen/xtex.py
+# --project level_generation/xeen_art/map_textures/p2; registered by the A6 lead from output/studio_cal/p2/tex/REGISTER_A6.yml.
+dungeons:
+  p2:
+    family_words: >-
+      the pale wind-carved stone of Might and Magic VIII's Plane of Air (gwsphlfl, gwsphlwl): sand-grey and fawn rock
+      scoured smooth by the wind into soft ripples and streaks, hand-painted in the games' soft painted manner under
+      flat even light
+textures:
+  xpascorch:
+    dungeon: p2
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/gwsphlfl, mm8/gwsphlwl]
+    tone: {like: [mm8/gwsphlfl], factor: 1.0}
+    family: map P2; MM8 Plane of Air gwsphlfl (pale wind-carved stone) struck by lightning
+    where: P2's nine storm-cell faces (PressurePlate platforms 192 x 192 on the islands, once per face, fit; planes.storm)
+    standin: gwsphlfl
+    what: >-
+      The pale wind-scoured stone of the first reference seen from straight above, its colour, ripples and grain
+      unchanged at the edges of the picture, with a lightning scorch in the middle: a star of dark sooty grey-black
+      burn about half the picture wide, from which thin forked black-and-charcoal scorch lines branch out like
+      lightning toward the edges and fade before them, the stone at the star's heart fused into a little dull glassy
+      blue-grey glaze with fine cracks, a faint cold blue tint in the soot nearest the centre. The outer quarter of the
+      picture on every side is plain stone that matches the first reference, so the face sits in a stone floor without
+      a seam. No glow, no sparks, no lightning bolt in the air, no smoke.

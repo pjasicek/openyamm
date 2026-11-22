@@ -1,0 +1,988 @@
+format: 0
+start:
+  room: room:coven_hall
+  at: [-640, -384]
+  facing: n
+  notes: "At the foot of the Guild's back stair, facing the Moon seal's double doors (D4's cellar hatch arrives here: entrance:d4_guild)."
+arrivals:
+  - {entrance: entrance:d4_trapdoor, room: room:sump, at: [3456, -640], facing: e, notes: "Under the trapdoor in the sump, facing the main drain (D4's q-d22.guild_wrong drops the party here)."}
+  - {entrance: entrance:d4_shaft, room: room:jetty_shaft, at: [14208, -1152], facing: w, notes: "At the jetty shaft's ladder foot, facing the east drain (D4's door:dd20_sewer arrives here)."}
+doors:
+  - id: door:ante_head
+    opening: open:ante_head
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: The Head Witch's door from the antechamber.
+  - id: door:brewery_head
+    opening: open:brewery_head
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: Her private door between the brewery and her room.
+  - id: door:dorm_store
+    opening: open:dorm_store
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: A temple door from the dormitory into the store.
+  - id: door:hall_dorm
+    opening: open:hall_dorm
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: A temple door from the hall into the dormitory.
+  - id: door:hall_gaol
+    opening: open:hall_gaol
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: A temple door from the hall into the gaoler's room.
+  - id: door:hall_walk
+    opening: open:hall_walk
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: t1d1a, size: [256, 256]}, {texture: t1d1b, size: [256, 256]}]
+      - [{texture: t1d1c, size: [256, 256]}, {texture: t1d1d, size: [256, 256]}]
+    notes: "The Moon seal's double doors from the coven hall to the witches' walk: two hinged leaves, the seal's four quarters (t1d1a-d)."
+  - id: door:main_pump
+    opening: open:main_pump
+    kind: slide_up
+    surface: {texture: td1, size: [512, 512], fit: true}
+    notes: The skull-ring door from the main drain into the old pump room.
+  - id: door:walk_ante
+    opening: open:walk_ante
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: A temple door from the walk into the antechamber.
+  - id: door:walk_brewery
+    opening: open:walk_brewery
+    kind: slide_up
+    surface: {texture: t1d1, size: [256, 256], fit: true}
+    notes: A temple door from the walk into the brewery.
+movers:
+  - id: mover:cage_aretha
+    room: room:cells
+    at: [5632, 1540]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Aretha the Helpless's cage front: sinks into the floor once q-d22.aretha has freed her or him."
+  - id: mover:cage_camilla
+    room: room:cells
+    at: [4864, 1540]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Camilla the Captured's cage front: sinks into the floor once q-d22.camilla has freed her or him."
+  - id: mover:cage_isabella
+    room: room:cells
+    at: [6400, 1540]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Isabella the Victim's cage front: sinks into the floor once q-d22.isabella has freed her or him."
+  - id: mover:cage_rhett
+    room: room:cells
+    at: [7168, 1540]
+    size: [368, 8]
+    bottom: 0
+    height: 256
+    travel: [0, 0, -248]
+    speed: 160
+    surface: {texture: xwcage, size: [128, 256]}
+    top_surface: {texture: xwiron, size: [128, 128], scale: 3}
+    notes: "Rhett the Wimp's cage front: sinks into the floor once q-d22.rhett has freed her or him."
+  - id: mover:hatch
+    room: room:store
+    at: [2176, -1920]
+    size: [256, 256]
+    bottom: 0
+    floor_height: 0
+    height: 8
+    travel: [0, 240, 0]
+    speed: 160
+    surface: {texture: 7gt002c, size: [64, 64], scale: 4}
+    top_surface: {texture: 7gt002c, size: [64, 64], scale: 4}
+    notes: "The store's floor hatch over the cistern; the bolt beside it slides it aside."
+ladders:
+  - {id: ladder:cistern, room: room:cistern, at: [2104, -1920], facing: w, height: 512, exit: [1936, -1920], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: A wooden ladder from the cistern up through the store's floor hatch.}
+sounds:
+  - {id: sound:brewery, room: room:brewery, at: [-640, 4032], sound: bubbling cauldron01, radius: 1500, inner_radius: 400, volume: 0.5, notes: Three cauldrons at work.}
+  - {id: sound:cells, room: room:cells, at: [5952, 1152], sound: drip02, radius: 1800, inner_radius: 400, volume: 0.45, wait: [2, 6], notes: Water dripping in the cells.}
+  - {id: sound:cistern, room: room:cistern, at: [2048, -2304], sound: drip02, radius: 1500, inner_radius: 300, volume: 0.5, wait: [3, 8], notes: The still cistern dripping.}
+  - {id: sound:cross, room: room:cross, at: [9472, -192], sound: drip03, radius: 1500, inner_radius: 300, volume: 0.5, wait: [2, 7], notes: Drips from the street grate.}
+  - {id: sound:east_drain, room: room:east_drain, at: [12032, -1472], sound: water lapping loop, radius: 1800, inner_radius: 500, volume: 0.3, notes: The east drain's water.}
+  - {id: sound:hall_cauldron, room: room:coven_hall, at: [-128, -320], sound: bubbling cauldron01, radius: 1100, inner_radius: 200, volume: 0.45, notes: The initiation cauldron on the boil.}
+  - {id: sound:main_drain, room: room:main_drain, at: [6336, -160], sound: water lapping loop, radius: 1800, inner_radius: 500, volume: 0.3, notes: The drain's slow water.}
+  - {id: sound:outfall, room: room:outfall, at: [13568, 896], sound: water lapping loop, radius: 2200, inner_radius: 700, volume: 0.5, notes: The tidal pool and the lake beyond the bars.}
+lights:
+  - id: light:antechamber_1
+    room: room:antechamber
+    at: [-2880, 3200]
+    radius: 700
+    color: [220, 165, 120]
+  - id: light:brewery_1
+    room: room:brewery
+    at: [-1312, 3584]
+    radius: 1094
+    color: [220, 165, 120]
+  - id: light:brewery_2
+    room: room:brewery
+    at: [-96, 3584]
+    radius: 1094
+    color: [220, 165, 120]
+  - id: light:brewery_3
+    room: room:brewery
+    at: [-640, 4032]
+    height: 96
+    radius: 900
+    color: [240, 150, 80]
+    pulse: {intensity: [0.75, 1], radius: [840, 960], frequency: 0.7}
+    notes: The brewing fires.
+  - id: light:cells_1
+    room: room:cells
+    at: [5088, 1344]
+    radius: 1500
+    color: [150, 165, 150]
+  - id: light:cells_2
+    room: room:cells
+    at: [6816, 1344]
+    radius: 1500
+    color: [150, 165, 150]
+  - id: light:cistern_1
+    room: room:cistern
+    at: [2048, -1856]
+    radius: 737
+    color: [130, 150, 140]
+  - id: light:coven_hall_1
+    room: room:coven_hall
+    at: [-896, 640]
+    radius: 1152
+    color: [220, 165, 120]
+  - id: light:coven_hall_2
+    room: room:coven_hall
+    at: [384, 640]
+    radius: 1152
+    color: [220, 165, 120]
+  - id: light:coven_hall_3
+    room: room:coven_hall
+    at: [-128, -320]
+    height: 96
+    radius: 600
+    color: [240, 150, 80]
+    pulse: {intensity: [0.75, 1], radius: [560, 640], frequency: 0.8}
+    notes: The initiation cauldron's fire.
+  - id: light:cross_1
+    room: room:cross
+    at: [9472, -192]
+    radius: 998
+    color: [130, 150, 140]
+  - id: light:cross_2
+    room: room:cross
+    at: [9472, -128]
+    height: 500
+    radius: 800
+    color: [205, 215, 225]
+    notes: Daylight through the street grate.
+  - id: light:dormitory_1
+    room: room:dormitory
+    at: [2112, -128]
+    radius: 1152
+    color: [220, 165, 120]
+  - id: light:drain_stair_1
+    room: room:drain_stair
+    at: [8384, 1280]
+    height: 224
+    radius: 1000
+    color: [130, 150, 140]
+  - id: light:east_drain_1
+    room: room:east_drain
+    at: [11200, -1152]
+    radius: 1497
+    color: [130, 150, 140]
+  - id: light:east_drain_2
+    room: room:east_drain
+    at: [12864, -1152]
+    radius: 1497
+    color: [130, 150, 140]
+  - id: light:gaol_1
+    room: room:gaol
+    at: [1920, 1344]
+    radius: 921
+    color: [220, 165, 120]
+  - id: light:gaol_stair_1
+    room: room:gaol_stair
+    at: [3456, 1344]
+    height: 224
+    radius: 1000
+    color: [150, 165, 150]
+  - id: light:guild_landing_1
+    room: room:guild_landing
+    at: [-640, -3648]
+    radius: 700
+    color: [235, 175, 115]
+  - id: light:guild_stair_1
+    room: room:guild_stair
+    at: [-640, -1984]
+    height: 224
+    radius: 1000
+    color: [235, 175, 115]
+  - id: light:head_witch_1
+    room: room:head_witch
+    at: [-3200, 4480]
+    radius: 1382
+    color: [235, 175, 115]
+  - id: light:hideout_1
+    room: room:hideout
+    at: [9600, -1664]
+    radius: 700
+    color: [130, 150, 140]
+  - id: light:hideout_2
+    room: room:hideout
+    at: [9600, -1664]
+    height: 330
+    radius: 600
+    color: [205, 215, 225]
+    notes: The hideout's grate.
+  - id: light:jetty_shaft_1
+    room: room:jetty_shaft
+    at: [14208, -1152]
+    radius: 700
+    color: [130, 150, 140]
+  - id: light:jetty_shaft_2
+    room: room:jetty_shaft
+    at: [14208, -1152]
+    height: 800
+    radius: 700
+    color: [205, 215, 225]
+    notes: Daylight down the jetty shaft.
+  - id: light:main_drain_1
+    room: room:main_drain
+    at: [5216, -384]
+    radius: 1500
+    color: [130, 150, 140]
+  - id: light:main_drain_2
+    room: room:main_drain
+    at: [7456, -384]
+    radius: 1500
+    color: [130, 150, 140]
+  - id: light:main_drain_3
+    room: room:main_drain
+    at: [6528, -384]
+    height: 380
+    radius: 700
+    color: [205, 215, 225]
+    notes: Daylight through the street grate.
+  - id: light:niche_1
+    room: room:niche
+    at: [15360, 1920]
+    radius: 420
+    color: [130, 150, 140]
+  - id: light:outfall_1
+    room: room:outfall
+    at: [13568, 192]
+    radius: 1266
+    color: [150, 190, 215]
+  - id: light:outfall_2
+    room: room:outfall
+    at: [13568, 1600]
+    radius: 1266
+    color: [150, 190, 215]
+  - id: light:outfall_3
+    room: room:outfall
+    at: [13568, 2048]
+    height: 300
+    radius: 1200
+    color: [150, 190, 215]
+    notes: Pale lake light through the bars.
+  - id: light:pump_room_1
+    room: room:pump_room
+    at: [6272, -1472]
+    radius: 768
+    color: [130, 150, 140]
+  - id: light:slop_pit_1
+    room: room:slop_pit
+    at: [9600, 1280]
+    radius: 700
+    color: [130, 150, 140]
+  - id: light:store_1
+    room: room:store
+    at: [1792, -1664]
+    radius: 768
+    color: [220, 165, 120]
+  - id: light:sump_1
+    room: room:sump
+    at: [3584, -768]
+    radius: 829
+    color: [130, 150, 140]
+  - id: light:warren_1
+    room: room:warren
+    at: [11264, 832]
+    radius: 1075
+    color: [130, 150, 140]
+  - id: light:witches_walk_1
+    room: room:witches_walk
+    at: [-2368, 2368]
+    radius: 1500
+    color: [220, 165, 120]
+  - id: light:witches_walk_2
+    room: room:witches_walk
+    at: [-448, 2368]
+    radius: 1500
+    color: [220, 165, 120]
+switches:
+  - id: switch:hatch_bolt
+    room: room:store
+    kind: lever
+    reach: 48
+    at: [2432, -1920]
+    notes: The hatch's bolt on the store's east wall beside the hatch.
+chests:
+  - id: chest:dorm
+    room: room:dormitory
+    at: [2944, 128]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 600
+    notes: The senior witch's chest by her bed.
+  - id: chest:gaol
+    room: room:gaol
+    at: [2496, 1792]
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 400
+    notes: The prisoners' confiscated things.
+  - id: chest:pump
+    room: room:pump_room
+    at: [5888, -1856]
+    facing: n
+    treasure_level: 4
+    random_items: 2
+    gold: 500
+    notes: Left by whoever last hid here.
+  - id: chest:warren
+    room: room:warren
+    at: [11776, 1216]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 700
+    notes: "Half-sunk in the stalkers' midden: things washed down the drains."
+  - id: chest:witch
+    room: room:head_witch
+    at: [-3904, 4352]
+    facing: s
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    items: [12336]
+    notes: "The Head Witch's chest at her bed's foot (the hoard) with the Necropolis pass 12336, an ordinary chest item (F15, 2026-11-21: quest items are looted, MM6-MM8 style); q-d22.witch_chest sets pass_found on its first opening."
+monsters:
+  - id: monster:ambush_matriarch_1
+    room: room:cross
+    monster: 11402
+    at: [9472, -832]
+    facing: 90
+    group: 6
+    hidden: true
+    notes: "The cross's ambush (D-18, D-42 (7)): placed hidden, shown on the first step onto the cross."
+  - id: monster:ambush_stalker_1
+    room: room:cross
+    monster: 11401
+    at: [8832, -832]
+    facing: 90
+    group: 6
+    hidden: true
+    notes: "The cross's ambush (D-18, D-42 (7)): placed hidden, shown on the first step onto the cross."
+  - id: monster:ambush_stalker_2
+    room: room:cross
+    monster: 11401
+    at: [10112, -832]
+    facing: 90
+    group: 6
+    hidden: true
+    notes: "The cross's ambush (D-18, D-42 (7)): placed hidden, shown on the first step onto the cross."
+  - id: monster:ambush_stalker_3
+    room: room:cross
+    monster: 11401
+    at: [8832, 448]
+    facing: 90
+    group: 6
+    hidden: true
+    notes: "The cross's ambush (D-18, D-42 (7)): placed hidden, shown on the first step onto the cross."
+  - id: monster:ambush_stalker_4
+    room: room:cross
+    monster: 11401
+    at: [10112, 448]
+    facing: 90
+    group: 6
+    hidden: true
+    notes: "The cross's ambush (D-18, D-42 (7)): placed hidden, shown on the first step onto the cross."
+  - id: monster:antechamber_coven_witch_1
+    room: room:antechamber
+    monster: 11171
+    at: [-3072, 3136]
+    facing: 270
+    group: 1
+  - id: monster:antechamber_coven_witch_2
+    room: room:antechamber
+    monster: 11171
+    at: [-2688, 3136]
+    facing: 270
+    group: 1
+  - id: monster:aretha
+    room: room:cells
+    monster: 11907
+    at: [5632, 1728]
+    facing: 270
+    hostile: false
+    group: 21
+    immobile: true
+    notes: "Aretha the Helpless (row 11907, her or his own friendly faction) in the cage; hidden by its freed bit (113444) at once and on load. Not counted."
+  - id: monster:brewery_witch_1
+    room: room:brewery
+    monster: 11170
+    at: [-1024, 3456]
+    facing: 270
+    group: 1
+  - id: monster:brewery_witch_2
+    room: room:brewery
+    monster: 11170
+    at: [-256, 3328]
+    facing: 270
+    group: 1
+  - id: monster:brewery_witch_3
+    room: room:brewery
+    monster: 11170
+    at: [256, 3584]
+    facing: 270
+    group: 1
+  - id: monster:camilla
+    room: room:cells
+    monster: 11906
+    at: [4864, 1728]
+    facing: 270
+    hostile: false
+    group: 20
+    immobile: true
+    notes: "Camilla the Captured (row 11906, her or his own friendly faction) in the cage; hidden by its freed bit (113443) at once and on load. Not counted."
+  - id: monster:cistern_stalker_1
+    room: room:cistern
+    monster: 11401
+    at: [1280, -2304]
+    facing: 270
+    group: 2
+  - id: monster:cistern_stalker_2
+    room: room:cistern
+    monster: 11401
+    at: [2816, -1408]
+    facing: 270
+    group: 2
+  - id: monster:coven_hall_witch_1
+    room: room:coven_hall
+    monster: 11170
+    at: [0, 1408]
+    facing: 270
+    group: 1
+  - id: monster:coven_hall_witch_2
+    room: room:coven_hall
+    monster: 11170
+    at: [-1152, 1280]
+    facing: 270
+    group: 1
+  - id: monster:cross_stalker_1
+    room: room:cross
+    monster: 11401
+    at: [9024, 0]
+    facing: 270
+    group: 2
+  - id: monster:cross_stalker_2
+    room: room:cross
+    monster: 11401
+    at: [9984, -320]
+    facing: 270
+    group: 2
+  - id: monster:cross_stalker_3
+    room: room:cross
+    monster: 11401
+    at: [9472, 384]
+    facing: 270
+    group: 2
+  - id: monster:dormitory_witch_1
+    room: room:dormitory
+    monster: 11170
+    at: [1664, 0]
+    facing: 270
+    group: 1
+  - id: monster:dormitory_witch_2
+    room: room:dormitory
+    monster: 11170
+    at: [2560, 64]
+    facing: 270
+    group: 1
+  - id: monster:dormitory_witch_3
+    room: room:dormitory
+    monster: 11170
+    at: [2112, -320]
+    facing: 270
+    group: 1
+  - id: monster:east_drain_stalker_1
+    room: room:east_drain
+    monster: 11401
+    at: [11264, -1024]
+    facing: 270
+    group: 2
+  - id: monster:east_drain_stalker_2
+    room: room:east_drain
+    monster: 11401
+    at: [12672, -1024]
+    facing: 270
+    group: 2
+  - id: monster:gaol_witch_1
+    room: room:gaol
+    monster: 11170
+    at: [1664, 1152]
+    facing: 270
+    group: 1
+  - id: monster:gaol_witch_2
+    room: room:gaol
+    monster: 11170
+    at: [2304, 1216]
+    facing: 270
+    group: 1
+  - id: monster:head_witch
+    room: room:head_witch
+    monster: 11173
+    at: [-3200, 4608]
+    facing: 270
+    group: 5
+    notes: "The Head Witch (coven boss row 11173, 45, her own skin): q-d22.head_witch at her death. Her group of three (group 5)."
+  - id: monster:head_witch_coven_witch_1
+    room: room:head_witch
+    monster: 11171
+    at: [-2752, 4224]
+    facing: 270
+    group: 5
+  - id: monster:head_witch_witch_1
+    room: room:head_witch
+    monster: 11170
+    at: [-3456, 4160]
+    facing: 270
+    group: 5
+  - id: monster:isabella
+    room: room:cells
+    monster: 11908
+    at: [6400, 1728]
+    facing: 270
+    hostile: false
+    group: 22
+    immobile: true
+    notes: "Isabella the Victim (row 11908, her or his own friendly faction) in the cage; hidden by its freed bit (113445) at once and on load. Not counted."
+  - id: monster:main_drain_stalker_1
+    room: room:main_drain
+    monster: 11401
+    at: [5120, -576]
+    facing: 270
+    group: 2
+  - id: monster:main_drain_stalker_2
+    room: room:main_drain
+    monster: 11401
+    at: [6912, -576]
+    facing: 270
+    group: 2
+  - id: monster:main_drain_stalker_3
+    room: room:main_drain
+    monster: 11401
+    at: [7936, -576]
+    facing: 270
+    group: 2
+  - id: monster:outfall_matriarch_1
+    room: room:outfall
+    monster: 11402
+    at: [13824, -256]
+    facing: 270
+    group: 2
+  - id: monster:outfall_stalker_1
+    room: room:outfall
+    monster: 11401
+    at: [12672, 1920]
+    facing: 270
+    group: 2
+  - id: monster:outfall_stalker_2
+    room: room:outfall
+    monster: 11401
+    at: [13568, 2048]
+    facing: 270
+    group: 2
+  - id: monster:outfall_stalker_3
+    room: room:outfall
+    monster: 11401
+    at: [14592, 768]
+    facing: 270
+    group: 2
+  - id: monster:outfall_stalker_4
+    room: room:outfall
+    monster: 11401
+    at: [12544, -128]
+    facing: 270
+    group: 2
+  - id: monster:rhett
+    room: room:cells
+    monster: 11909
+    at: [7168, 1728]
+    facing: 270
+    hostile: false
+    group: 23
+    immobile: true
+    notes: "Rhett the Wimp (row 11909, her or his own friendly faction) in the cage; hidden by its freed bit (113446) at once and on load. Not counted."
+  - id: monster:slop_pit_stalker_1
+    room: room:slop_pit
+    monster: 11401
+    at: [9408, 1408]
+    facing: 270
+    group: 2
+  - id: monster:slop_pit_stalker_2
+    room: room:slop_pit
+    monster: 11401
+    at: [9792, 1152]
+    facing: 270
+    group: 2
+  - id: monster:warren_matriarch_1
+    room: room:warren
+    monster: 11402
+    at: [11392, 896]
+    facing: 270
+    group: 2
+  - id: monster:warren_stalker_1
+    room: room:warren
+    monster: 11401
+    at: [10880, 1024]
+    facing: 270
+    group: 2
+  - id: monster:warren_stalker_2
+    room: room:warren
+    monster: 11401
+    at: [11520, 1280]
+    facing: 270
+    group: 2
+  - id: monster:warren_stalker_3
+    room: room:warren
+    monster: 11401
+    at: [11648, 640]
+    facing: 270
+    group: 2
+  - id: monster:warren_stalker_4
+    room: room:warren
+    monster: 11401
+    at: [11008, 448]
+    facing: 270
+    group: 2
+  - id: monster:witches_walk_coven_witch_1
+    room: room:witches_walk
+    monster: 11171
+    at: [-2560, 2368]
+    facing: 270
+    group: 1
+  - id: monster:witches_walk_witch_1
+    room: room:witches_walk
+    monster: 11170
+    at: [-1920, 2368]
+    facing: 270
+    group: 1
+  - id: monster:witches_walk_witch_2
+    room: room:witches_walk
+    monster: 11170
+    at: [-1152, 2432]
+    facing: 270
+    group: 1
+items:
+  - id: item:golden_dragon
+    room: room:niche
+    item: golden_dragon
+    at: [15680, 1856]
+    floor_height: -512
+    notes: The Golden Dragon at the alcove's foot (Q-D20).
+decorations:
+  - id: deco:brazier_e
+    room: room:coven_hall
+    decoration: flamb00
+    at: [-192, 1760]
+  - id: deco:brazier_w
+    room: room:coven_hall
+    decoration: flamb00
+    at: [-1088, 1760]
+  - id: deco:cauldron_endurance
+    room: room:brewery
+    decoration: cauld00
+    at: [-640, 4032]
+    floor_height: 24
+    notes: "Cauldron (clicked: evt:cauldron_endurance)."
+  - id: deco:cauldron_personality
+    room: room:brewery
+    decoration: cauld00
+    at: [-1344, 4032]
+    floor_height: 24
+    notes: "Cauldron (clicked: evt:cauldron_personality)."
+  - id: deco:cauldron_speed
+    room: room:brewery
+    decoration: cauld00
+    at: [64, 4032]
+    floor_height: 24
+    notes: "Cauldron (clicked: evt:cauldron_speed)."
+  - id: deco:hall_chandelier
+    room: room:coven_hall
+    decoration: chndlir0
+    at: [-128, -320]
+    hangs: true
+  - id: deco:hideout_bones
+    room: room:hideout
+    decoration: 7dec18
+    at: [9408, -1984]
+    notes: "Bones (clicked: evt:hideout_bones)."
+  - id: deco:init_cauldron
+    room: room:coven_hall
+    decoration: cauld00
+    at: [-128, -320]
+    floor_height: 24
+    notes: "Initiation cauldron (clicked: evt:init_cauldron)."
+  - id: deco:niche_bones
+    room: room:niche
+    decoration: 7dec18
+    at: [15232, 1856]
+    notes: "Bones (clicked: evt:niche_bones)."
+  - id: deco:pump_bucket
+    room: room:pump_room
+    decoration: Bucket
+    at: [6592, -1856]
+  - id: deco:sconce_0
+    room: room:coven_hall
+    decoration: scon100
+    wall: w
+    along: 0.2
+    height: 192
+  - id: deco:sconce_1
+    room: room:coven_hall
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_10
+    room: room:brewery
+    decoration: scon100
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_11
+    room: room:dormitory
+    decoration: scon100
+    wall: e
+    along: 0.25
+    height: 192
+  - id: deco:sconce_12
+    room: room:dormitory
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_13
+    room: room:gaol
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:sconce_14
+    room: room:store
+    decoration: scon100
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:sconce_15
+    room: room:guild_landing
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_16
+    room: room:cells
+    decoration: torch02
+    wall: s
+    along: 0.2
+    height: 192
+  - id: deco:sconce_17
+    room: room:cells
+    decoration: torch02
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sconce_18
+    room: room:cells
+    decoration: torch02
+    wall: s
+    along: 0.8
+    height: 192
+  - id: deco:sconce_19
+    room: room:jetty_shaft
+    decoration: torch01
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:sconce_2
+    room: room:witches_walk
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_20
+    room: room:pump_room
+    decoration: torch01
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_21
+    room: room:slop_pit
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_3
+    room: room:witches_walk
+    decoration: scon100
+    wall: s
+    along: 0.45
+    height: 192
+  - id: deco:sconce_4
+    room: room:witches_walk
+    decoration: scon100
+    wall: s
+    along: 0.85
+    height: 192
+  - id: deco:sconce_5
+    room: room:antechamber
+    decoration: scon100
+    wall: n
+    along: 0.12
+    height: 192
+  - id: deco:sconce_6
+    room: room:antechamber
+    decoration: scon100
+    wall: n
+    along: 0.88
+    height: 192
+  - id: deco:sconce_7
+    room: room:head_witch
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_8
+    room: room:head_witch
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 192
+  - id: deco:sconce_9
+    room: room:brewery
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:skull_endurance
+    room: room:brewery
+    decoration: 7dec20
+    at: [-384, 4272]
+    floor_height: 96
+    notes: "Skull (clicked: evt:skull_endurance)."
+  - id: deco:skull_personality
+    room: room:brewery
+    decoration: 7dec20
+    at: [-1088, 4272]
+    floor_height: 96
+    notes: "Skull (clicked: evt:skull_personality)."
+  - id: deco:skull_speed
+    room: room:brewery
+    decoration: 7dec20
+    at: [320, 4272]
+    floor_height: 96
+    notes: "Skull (clicked: evt:skull_speed)."
+  - id: deco:slop_heap_1
+    room: room:slop_pit
+    decoration: trasheap
+    at: [9344, 1600]
+  - id: deco:slop_heap_2
+    room: room:slop_pit
+    decoration: 7dec01
+    at: [9920, 960]
+  - id: deco:store_barrel_1
+    room: room:store
+    decoration: bigbarel
+    at: [1280, -2176]
+  - id: deco:store_barrel_2
+    room: room:store
+    decoration: bigbarel
+    at: [1408, -2176]
+  - id: deco:store_keg_1
+    room: room:store
+    decoration: smlbarel
+    at: [1280, -1408]
+  - id: deco:store_sack_1
+    room: room:store
+    decoration: floursac
+    at: [1664, -2176]
+  - id: deco:store_sack_2
+    room: room:store
+    decoration: floursac
+    at: [1280, -1664]
+  - id: deco:store_sack_3
+    room: room:store
+    decoration: bag01
+    at: [1280, -1920]
+  - id: deco:sump_bones
+    room: room:sump
+    decoration: 7dec18
+    at: [3328, 192]
+    notes: "Bones (clicked: evt:sump_bones)."
+  - id: deco:warren_bones
+    room: room:warren
+    decoration: dec19
+    at: [10752, 1344]
+  - id: deco:warren_heap
+    room: room:warren
+    decoration: 7dec10
+    at: [11520, 1408]
+  - id: deco:witch_candle_1
+    room: room:head_witch
+    decoration: cndlab0
+    at: [-2688, 5120]
+    floor_height: 96
+  - id: deco:witch_candle_2
+    room: room:head_witch
+    decoration: cndlab0
+    at: [-2432, 5120]
+    floor_height: 96
+exits:
+  - id: exit:guild
+    room: room:guild_landing
+    wall: south
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d4_guild
+    notes: "The cellar door at the top of the Guild's back stair, out beside the Guild's west-wall hatch (D4)."
+  - id: exit:shaft
+    room: room:jetty_shaft
+    wall: east
+    size: [128, 256]
+    surface: {texture: d1ladder, size: [128, 256]}
+    to: exit:d4_shaft
+    notes: The ladder up to D4's grate by the jetty.
+notes: "DD-20's contents, written by output/studio_cal/dd20/tools/dress.py: 9 doors (the Moon seal's double doors a hinged pair), four cage fronts and the store's hatch (movers), the hatch's bolt, one ladder, five chests, 45 placed monsters (13 Witches, 4 Coven Witches, the Head Witch, 24 Sewer Stalkers, 3 Stalker Matriarchs; five of them the cross's hidden ambush), four peaceful prisoners."

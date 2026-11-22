@@ -1,0 +1,333 @@
+# Xeen's dungeon entrance lines (D-90 4): the rows the world adds to trans.txt (ids 5001-5999), shown in the standard
+# MM6-MM8 entrance window in place of "Do you wish to enter X?". Owner: A3. tools/xeen/gen_quests.py writes
+# data_tables/english/trans.txt from this file. Drafted in devdocs/xeen/drafts/XEEN_TRANS_ROWS_DRAFT.md (2026-11-22);
+# the map lanes point each entrance's MoveToMap at its row when they rebuild (F16).
+entrances:
+- id: 5001
+  dungeon: XD-01 Joe's Warehouse
+  entered_by: 'x1 thing:warehouse_door (69). No row: x1 thing:culvert_grate (70, barred from inside)'
+  text: 'A warehouse with a sign on the door: KEEP OUT. THIS MEANS YOU, GUNTHER.'
+  source: current map text (m2.warehouse_door, locked)
+- id: 5002
+  dungeon: XD-02 Red Dwarf Mines
+  entered_by: 'x1 thing:mine_portal (71). No row: x4 thing:xd02_adit (117, cleared from inside); xd03 exit_cart (25, the
+    Deep Line back up)'
+  text: A dwarf adit propped with red-painted timbers. Somewhere below, a pick rings on stone and a dwarf swears.
+  source: new
+- id: 5003
+  dungeon: XD-03 Deep Mine
+  entered_by: 'xd02 exit_deep (20), deep_cart (47). No row: x1 thing:shaft_head (72, barred from below)'
+  text: The cart runs down the Deep Line into the dark.
+  source: current map text (xd02 status)
+- id: 5004
+  dungeon: XD-04 Witch Tower
+  entered_by: x1 thing:witch_tower_door (73)
+  text: A crooked tower on its rise. The witches fear nothing, and lock nothing. Something inside is bubbling.
+  source: new
+- id: 5005
+  dungeon: XD-05 Orc Caves
+  entered_by: 'x1 thing:orc_cave_mouth (74). No row: x7 thing:xd05_gate (41, barred from within)'
+  text: A cave mouth reeking of smoke and orc. The bones outside are not all animal.
+  source: new
+- id: 5006
+  dungeon: XD-06 Temple of Yak
+  entered_by: x2 door:thing:yak_temple (98)
+  text: The Temple of Yak. Incense, old stone, and something underneath that the incense is there to hide.
+  source: current map text (x2 98)
+- id: 5007
+  dungeon: XD-07 Castle Burlock
+  entered_by: x4 thing:castle_gate (180)
+  text: Castle Burlock, the King's seat. The banners are clean, and the guards are not smiling.
+  source: new (source "Enter Castle Burlock?", xeen/aaze0014:7, is the bare question)
+- id: 5008
+  dungeon: XD-08 Tomb of a Thousand Terrors
+  entered_by: x3 thing:tomb (85)
+  text: A tomb half sunk in the lagoon. Insanity is its fame, they say, and undead its game.
+  source: current map text (m10.tomb_door)
+- id: 5009
+  dungeon: XD-09 Golem Dungeon
+  entered_by: x5 thing:xd09_door (92)
+  text: A stone door in the tundra. Something heavy walks about inside.
+  source: current map text (m10.golem_door) + new
+- id: 5010
+  dungeon: XD-10 Cave of Illusion
+  entered_by: x5 thing:xd10_north (91), thing:xd10_south (110)
+  text: The Cave of Illusion. It may or may not be there.
+  source: new (source "Enter the Cave of Illusion?", xeen/aaze0007:15, aaze0008:5, bare)
+- id: 5011
+  dungeon: XD-11 Tower of High Magic
+  entered_by: x3 door:thing:high_magic (38)
+  text: The Tower of High Magic. Where the lock should be there is only a faint shimmer.
+  source: current map text (m13.tower_door)
+- id: 5012
+  dungeon: XD-12 Darzog's Tower
+  entered_by: x2 door:thing:darzog_tower (96)
+  text: Darzog's Tower. The door is black iron without a handle, and a keyhole shaped like a skull.
+  source: current map text (x2 96)
+- id: 5013
+  dungeon: XD-13 Newcastle Keep
+  entered_by: x3 thing:xd13_stair (81)
+  text: A stair down into the foundations of Newcastle. Your foundations, now.
+  source: new
+- id: 5014
+  dungeon: XD-14 Castle Basenji
+  entered_by: x6 door:thing:castle_basenji (83)
+  text: Black oak doors under a pointed arch. Somewhere inside, a dog howls, then a man. Castle Basenji.
+  source: current map prompt; xeen/aaze0001:19
+- id: 5015
+  dungeon: XD-15 The Sphinx
+  entered_by: x6 door:thing:northern_sphinx (81)
+  text: A door of sandstone between two paws the size of houses. The Sphinx asks its own name.
+  source: current map text (q-c9.door)
+- id: 5016
+  dungeon: XD-16 Volcano Cave
+  entered_by: x7 thing:xd16_mouth (38); xd17 throat (20, Shangri-La's way out)
+  text: A cave mouth breathing heat between a demon and a devil carved in black rock.
+  source: current map prompt; xeen/aaze0017:1
+- id: 5017
+  dungeon: XD-17 Shangri-La
+  entered_by: x7 thing:xd17_cleft (39); xd16 way_end (33)
+  text: Cool air and a smell of grass come up through the cleft, from a valley that should not be there.
+  source: current map text (xd17.cleft) + new
+- id: 5018
+  dungeon: XD-18 Dragon Cave
+  entered_by: x7 thing:xd18_mouth (40)
+  text: Scorched rock, gnawed bones, and a smell of sulphur. The Dragon Cave smells pretty bad. Are you sure you wish to
+    enter?
+  source: xeen/aaze0017:0; current map prompt
+- id: 5019
+  dungeon: XD-19 Castle Xeen
+  entered_by: x9 gate_l (16), gate_r (17)
+  text: Castle Xeen, sitting on its cloud as if it owned the sky. It does.
+  source: new (source "Enter Castle Xeen?", xeen/aaze0027:40, bare, not shown since D-72)
+- id: 5020
+  dungeon: XD-20 The Warzone
+  entered_by: x6 door:thing:arena_gate (80)
+  text: An iron-bound gate cut into the cliff. Beyond it a crowd roars, and something roars back.
+  source: current map prompt; xeen/aaze0006:4
+- id: 5021
+  dungeon: XD-21 Robbers' Den
+  entered_by: x2 thing:den_door (114)
+  text: A hidden door in the riverbank. Hidden, apart from the well-trodden path to it.
+  source: new
+- id: 5022
+  dungeon: XD-22 Ninja Pagoda
+  entered_by: x5 door:thing:pagoda (61)
+  text: A pagoda in the snow, dark and silent. Nobody is watching you, very carefully.
+  source: new
+- id: 5023
+  dungeon: XD-23 Troll Warren
+  entered_by: x5 thing:warren (109)
+  text: Frozen hides hang across a hole in the snow. Behind them, something snores.
+  source: new (after the map's status)
+- id: 5024
+  dungeon: XD-24 Nightshadow Crypt
+  entered_by: x3 thing:coffin_open (47)
+  text: Count Draco's coffin, open. There are steps where the Count should be.
+  source: new
+- id: 5025
+  dungeon: XD-25 Asp Undercroft
+  entered_by: x4 thing:xd25_stair (99)
+  text: A stair under Asp, worn smooth by feet that no longer come back up.
+  source: new
+- id: 5026
+  dungeon: XD-26 Gargoyle Eyrie
+  entered_by: x4 thing:xd26_eyrie (118)
+  text: The way up to the Gargoyle Eyrie. The statues on the ledges are all facing your way.
+  source: new
+- id: 5027
+  dungeon: XD-27 Ogre Lair
+  entered_by: x2 thing:ogre_lair (135)
+  text: A cave with a boulder rolled aside for a door. Ogres expect no visitors they cannot eat.
+  source: new
+- id: 5028
+  dungeon: DD-01 Castleview Sewer
+  entered_by: 'd1 thing:dd01_hatch (145). No row: d1 thing:dd01_outfall (222, barred from inside)'
+  text: An iron hatch over Castleview's sewer. The smell comes up to meet you.
+  source: new (source "Descend into the sewers?", dark/aaze0029:0, bare)
+- id: 5029
+  dungeon: DD-02 Ellinger's Tower
+  entered_by: d1 door:thing:ellinger_tower (102). D7 hatch_dd02 (42) never enters ("Bolted from below.")
+  text: 'Ellinger''s Tower. A sign under the knocker reads: "Not now."'
+  source: current map text (m17.tower_door)
+- id: 5030
+  dungeon: DD-03 Castle Kalindra
+  entered_by: d1 door:thing:kalindra_gate (123), door:thing:kalindra_gate_restored (254)
+  text: Castle Kalindra, back in phase and solid to the touch. Mostly.
+  source: new (source "Enter Castle Kalindra?", dark/aaze0004:35, bare)
+- id: 5031
+  dungeon: DD-04 The Gremlin Court
+  entered_by: d1 thing:dd04_burrow (170)
+  text: 'A burrow under the wall, with a tiny door and a tiny sign: THE COURT. KNOCK LOUDLY. WE WILL IGNORE YOU.'
+  source: current map text (q-d1.court_entrance)
+- id: 5032
+  dungeon: DD-05 Western Tower of Mok, door
+  entered_by: d1 door:thing:western_tower (118)
+  text: The Western Tower, warded from both sides. The heretics inside like it that way.
+  source: current map text (q-d6.front_door_outside) + new
+- id: 5033
+  dungeon: DD-05 Western Tower of Mok, rope
+  entered_by: d1 part:thing:tower_rope/rope (121)
+  text: A rope hangs from a window near the tower's top. Nobody looks out of the arrow slits.
+  source: current map prompt + text (q-d6.tower_rope)
+- id: 5034
+  dungeon: DD-06 Southern Tower
+  entered_by: d2 door:thing:southern_tower (20)
+  text: 'A brass plate on the door reads NO THIEVES. Under it, scratched: ''ha''.'
+  source: current map text (q-d19.tower_door)
+- id: 5035
+  dungeon: DD-07 Eastern Tower
+  entered_by: d3 door:thing:eastern_tower (104)
+  text: The Great Eastern Tower. Its lock looks very smug about something.
+  source: current map text (q-d18.tower_door)
+- id: 5036
+  dungeon: DD-08 Northern Tower
+  entered_by: d5 door:thing:northern_tower (28)
+  text: 'The Northern Tower. Over the door: "Grnd rdr f Vwlss Knghts".'
+  source: current map text (q-d17.tower_door)
+- id: 5037
+  dungeon: DD-09 Temple of Bark
+  entered_by: d2 door:thing:great_tree (13)
+  text: 'A door in the trunk of the great tree: the Ancient Temple of Bark.'
+  source: dark/aaze0012:6 (close); current map text (q-d9.bark_door)
+- id: 5038
+  dungeon: DD-10A Gemstone Mines, west
+  entered_by: d1 thing:dd10a_adit (187)
+  text: A timbered adit into the mountain.
+  source: current map prompt (d6 95); dark/aaze0006:1
+- id: 5039
+  dungeon: DD-10B Gemstone Mines, east
+  entered_by: d2 thing:dd10b_adit (44)
+  text: A timbered adit into the mountain.
+  source: as row 38
+- id: 5040
+  dungeon: DD-10C Gemstone Mines, north
+  entered_by: d6 thing:dd10c_adit (95)
+  text: A timbered adit into the mountain.
+  source: as row 38
+- id: 5041
+  dungeon: DD-11A Troll Holes, first
+  entered_by: d2 thing:dd11a_hole (32)
+  text: Troll Hole. A rough shaft into the dark, with claw marks for a ladder.
+  source: dark/aaze0008:2 + new
+- id: 5042
+  dungeon: DD-11B Troll Holes, second
+  entered_by: d2 thing:dd11b_hole (33)
+  text: as row 41
+  source: dark/aaze0008:3 + new
+- id: 5043
+  dungeon: DD-11C Troll Holes, third
+  entered_by: d2 thing:dd11c_hole (34)
+  text: as row 41
+  source: dark/aaze0008:4 + new
+- id: 5044
+  dungeon: DD-12 Dungeon of Lost Souls
+  entered_by: d4 door:thing:isle_tower (34)
+  text: The ruined tower on the Isle of Lost Souls. Two iron-bound leaves, and stairs going down.
+  source: dark/aaze0022:0 (name); current map text (m24.isle_door)
+- id: 5045
+  dungeon: DD-13 Ogre Forts
+  entered_by: d2 thing:dd13_west (49), thing:dd13_east (52)
+  text: 'Graalg''s fort: a stockade of whole tree trunks, sharpened at both ends.'
+  source: new
+- id: 5046
+  dungeon: DD-14 Castle Blackfang
+  entered_by: d4 door:thing:blackfang_gatehouse (41), by griffin. D7 hatch_dd14 (48) never enters
+  text: ''
+  source: 'none (empty on purpose, the griffin''s offer is the choice; no map moves through this row)'
+- id: 5047
+  dungeon: DD-15 Great Pyramid
+  entered_by: 'd5 door:thing:great_pyramid (1). D7 sky_door (105): fallback (its source "Enter the Pyramid?", dark/aazex102:0,
+    is bare)'
+  text: The Great Pyramid. A door of green stone with the Pharaoh's sign on it.
+  source: dark/aaze0014:21 (name); current map text (m28.door)
+- id: 5048
+  dungeon: DD-16 Corak's Pod
+  entered_by: d6 door:thing:corak_pod (42)
+  text: A strange craft of curved metal standing in cooled lava. Its hatch is open, as if it had been waiting.
+  source: dark/aaze0005:2 (close); current map text (m29.pod_door)
+- id: 5049
+  dungeon: DD-17 Castle Alamar, gate
+  entered_by: d6 door:thing:alamar_gatehouse (33)
+  text: Castle Alamar. Every window is lit, and every one of them is looking at you.
+  source: current map prompt; dark/aaze0001:0
+- id: 5050
+  dungeon: DD-17 Castle Alamar, roof hatch
+  entered_by: d7 hatch_dd17 (49, step 1)
+  text: 'A hatch in the castle roof. Scratched on it: The Megadragon has the key!'
+  source: dark/aaze0089:5 (close)
+- id: 5051
+  dungeon: DD-18 Sandcaster Sewer, lid
+  entered_by: d3 thing:dd18_shaft (130)
+  text: An iron lid over Sandcaster's sewer. The sand has got in, as it gets into everything here.
+  source: new (source "Descend to the sewer?", dark/aaze0031:1, bare)
+- id: 5052
+  dungeon: DD-18 Sandcaster Sewer, grate
+  entered_by: d5 thing:dd18_grate (86)
+  text: An iron grate in the sand, bolted on this side. Beyond it runs a long tunnel.
+  source: current map text (dd18.d5_grate)
+- id: 5053
+  dungeon: DD-19 Wizard Quarter
+  entered_by: d3 thing:dd19_gate (124)
+  text: The guild gate. Beyond it, the wizard quarter, and wizards who are sensitive to insults.
+  source: the map prompt of the retired hook q-d14.quarter_gate (D3 event 124 moves without a hook since F16)
+- id: 5054
+  dungeon: DD-20 Lakeside Coven and Sewer, back stair
+  entered_by: 'd4 thing:guild_back_stair (49). Not an entrance: the front door''s wrong answer (q-d22.guild_wrong)'
+  text: The guild's back stair, down to the cellars. Members only.
+  source: new
+- id: 5055
+  dungeon: DD-20 Lakeside Coven and Sewer, shaft
+  entered_by: d4 thing:sewer_shaft (50)
+  text: A grated shaft down into Lakeside's sewer.
+  source: new
+- id: 5056
+  dungeon: DD-21 Necropolis Sewer
+  entered_by: d6 door:thing:dd21_crypt (57)
+  text: A crypt stair going down. The draught from below smells of drains and old graves.
+  source: new
+- id: 5057
+  dungeon: DD-22 Sheltem's Pod
+  entered_by: d6 door:thing:sheltem_pod (44)
+  text: A second strange craft, cold to the touch. Its hatch opens on a red-lit airlock.
+  source: dark/aaze0006:17 (close); current map text (d6.sheltem_hatch)
+- id: 5058
+  dungeon: DD-23 Gargoyle Lair
+  entered_by: d4 thing:dd23_lair (74)
+  text: A cave in the crag, its mouth white with droppings. Something up there is watching, very still.
+  source: the map prompt of the retired hook q-d15.lair_door (D4 event 74 moves without a hook since F16)
+- id: 5059
+  dungeon: DD-24 Giants' Hall
+  entered_by: d5 thing:giants_hall_doors (40)
+  text: Doors three times your height, with a handle you can reach by standing on each other.
+  source: new
+- id: 5060
+  dungeon: DD-25 Bosco's Hall
+  entered_by: d5 thing:bosco_door (85)
+  text: Bosco's Hall. The door stands open; Bosco is expecting company, or not worried about it.
+  source: new
+- id: 5061
+  dungeon: DD-26 Olympus Sewer
+  entered_by: d7 sewer_grate (104)
+  text: A marble grate in the road of the gods. Even their sewer is marble.
+  source: new (source "Descend into the sewer?", dark/aaze0037:1, bare)
+- id: 5062
+  dungeon: FD-01 Alamar Depths
+  entered_by: d6 thing:fd01_stair (70); d7 hatch_dd17 (49, step 4, after the castle falls)
+  text: A stair down under the ruin, where Sheltem's mark has gone out.
+  source: current map text (m39.depths_door)
+- id: 5063
+  dungeon: FD-02 Southern Sphinx
+  entered_by: x6 door:thing:southern_sphinx (82)
+  text: The Sphinx's stone jaw stands open on a stair.
+  source: current map text (m40.sphinx_door)
+- id: 5064
+  dungeon: FD-03 Darkstone Tower
+  entered_by: x5 door:thing:darkstone (59); p5 stair_door (38)
+  text: A tower of black stone, polished like a mirror.
+  source: current map text (m41.tower_door); dark/aazex129:14 is P5's bare "Descend into Darkstone Tower?"
+- id: 5065
+  dungeon: FD-04 Dragon Tower
+  entered_by: x7 thing:fd04_gate (66); x9 fd04_door (42)
+  text: The Dragon Tower. Two black leaves, warm to the touch, with a keyhole shaped like a dragon's eye.
+  source: current map text (q-f1.tower_door); dark/aazex128:0 is X9's bare "Descend into Dragon Tower?"

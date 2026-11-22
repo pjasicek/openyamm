@@ -1,0 +1,147 @@
+# The outdoor ambience beds (E9) of the Xeen maps, laid out by beds.py (lane AU; devdocs/xeen/AUDIO.md "Outdoor beds").
+# Per map, fields of one bed each: `zones` (sketch districts, unioned) less `exclude`; a hex lattice `spacing` cells
+# apart (`offset` shifts it) inside the playable frame; `radius` and `inner` in game units; `drop` and `add` adjust.
+# The map lanes own the sketches: beds.py writes review/beds/<map>.yml for them to paste.
+maps:
+  x1:
+    fields:
+      - {id: bed_meadow, sound: xeen_amb_meadow, zones: ['*'], exclude: [zone:toad_marsh, zone:dead_forest, zone:rim],
+         spacing: 28, offset: [8, 6], radius: 15000, inner: 6000, volume: 0.35, day_only: true}
+      # Session 5: the night bed on the meadow's lattice (crickets, night_only), the day bed's twin.
+      - {id: bed_night, sound: xeen_amb_night, zones: ['*'], exclude: [zone:toad_marsh, zone:dead_forest, zone:rim],
+         spacing: 28, offset: [8, 6], radius: 15000, inner: 6000, volume: 0.3, night_only: true}
+      - {id: bed_marsh, sound: xeen_amb_lagoon, zones: [zone:toad_marsh], spacing: 18, offset: [4, 4],
+         radius: 9000, inner: 3500, volume: 0.6}
+  x2:
+    fields:
+      - {id: bed_meadow, sound: xeen_amb_meadow, zones: [zone:x2],
+         exclude: [zone:lake_shore, zone:island, zone:dark_end, zone:rim], spacing: 28, offset: [8, 6],
+         radius: 15000, inner: 6000, volume: 0.35, day_only: true}
+      - {id: bed_night, sound: xeen_amb_night, zones: [zone:x2],
+         exclude: [zone:lake_shore, zone:island, zone:dark_end, zone:rim], spacing: 28, offset: [8, 6],
+         radius: 15000, inner: 6000, volume: 0.3, night_only: true}
+      - {id: bed_lake, sound: xeen_amb_lagoon, zones: [zone:lake_shore, zone:island], spacing: 18, offset: [10, 26],
+         radius: 9000, inner: 3500, volume: 0.6}
+  x3:
+    fields:
+      - {id: bed_lagoon, sound: xeen_amb_lagoon,
+         zones: [zone:reedbeds, zone:black_fen, zone:drowned_shore, zone:bogwood, zone:tower_islet, zone:west_landing,
+                 zone:gloomwood],
+         exclude: [town:nightshadow, zone:rim], spacing: 26, offset: [6, 4], radius: 14000, inner: 5500, volume: 0.7}
+  x4:
+    fields:
+      - {id: bed_savannah, sound: xeen_amb_savannah,
+         zones: [zone:castle_fields, zone:uplands, zone:west_downs, zone:south_fields, zone:east_savannah, zone:red_hills],
+         exclude: [zone:rim], spacing: 28, offset: [8, 30], radius: 15000, inner: 6000, volume: 0.3, day_only: true}
+      - {id: bed_night, sound: xeen_amb_night,
+         zones: [zone:castle_fields, zone:uplands, zone:west_downs, zone:south_fields, zone:east_savannah, zone:red_hills],
+         exclude: [zone:rim], spacing: 28, offset: [8, 30], radius: 15000, inner: 6000, volume: 0.3, night_only: true}
+      - {id: bed_range_wind, sound: xeen_amb_tundra, zones: [zone:gargoyle_range], exclude: [zone:rim],
+         spacing: 24, offset: [4, 8], radius: 11000, inner: 4500, volume: 0.25}
+  x5:
+    fields:
+      - {id: bed_tundra, sound: xeen_amb_tundra,
+         zones: [zone:steppe, zone:west_plateau, zone:snowfields, zone:troll_forest, zone:giants, zone:glacier,
+                 zone:frostspine, town:winterkill],
+         spacing: 28, offset: [6, 4], radius: 15000, inner: 6000, volume: 0.4}
+      - {id: bed_pocket, sound: xeen_amb_meadow, zones: [zone:pocket], spacing: 22, offset: [77, 8],
+         radius: 10000, inner: 4000, volume: 0.25, day_only: true}
+      - {id: bed_pocket_night, sound: xeen_amb_night, zones: [zone:pocket], spacing: 22, offset: [77, 8],
+         radius: 10000, inner: 4000, volume: 0.22, night_only: true}
+  x6:
+    fields:
+      - {id: bed_desert, sound: xeen_amb_desert, zones: ['*'], exclude: [zone:oasis, town:sphinx_wells],
+         spacing: 28, offset: [8, 6], radius: 15000, inner: 6000, volume: 0.4}
+    extra:
+      - {id: sound:sandfalls, at: [28.5, 84], sound: xeen_sandfall_loop, radius: 4500, inner_radius: 1800, volume: 0.6}
+  # Session 5: X7 (A5's installed sketch): the volcano bed over the hot ground, the cold wind (low) on the range.
+  x7:
+    fields:
+      - {id: bed_volcano, sound: xeen_amb_volcano,
+         zones: [zone:volcano_mouth, zone:crater, zone:lava_basin, zone:lava_island, zone:ash_flats, zone:fire_corner,
+                 zone:dragon_crag, zone:tower_crag, zone:firestone],
+         spacing: 22, offset: [6, 4], radius: 11000, inner: 4500, volume: 0.4}
+      - {id: bed_range_wind, sound: xeen_amb_tundra,
+         zones: [zone:red_dwarf_range, zone:south_slopes, zone:the_gap, zone:dwarf_watch, zone:orc_outpost,
+                 zone:sablewing_cave],
+         spacing: 24, offset: [4, 8], radius: 11000, inner: 4500, volume: 0.25}
+    extra:
+      - {id: sound:lavafalls, at: [73.5, 29], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1800, volume: 0.6}
+  d1:
+    fields:
+      - {id: bed_darkside, sound: xeen_amb_darkside, zones: ['*'], spacing: 28, offset: [8, 6],
+         radius: 15000, inner: 6000, volume: 0.45}
+    extra:
+      - {id: sound:kalindra_shimmer, at: [39, 70], sound: xeen_phase_loop, radius: 3500, inner_radius: 1200, volume: 0.35}
+  d2:
+    fields:
+      - {id: bed_darkside, sound: xeen_amb_darkside, zones: [zone:range, zone:foothills, zone:ogre_pass,
+         zone:spur_crags, zone:whispering_glades, zone:east_descent, zone:sprite_forest, zone:west_glades,
+         zone:troll_country, zone:southern_woods, zone:west_edge, town:sprite_village], spacing: 28, offset: [8, 6],
+         radius: 15000, inner: 6000, volume: 0.45}
+  d3:
+    fields:
+      - {id: bed_desert, sound: xeen_amb_desert, zones: [zone:desert_edge], add: [[55, 28], [36, 25]],
+         spacing: 22, offset: [4, 2], radius: 11000, inner: 4500, volume: 0.3}
+      - {id: bed_fen, sound: xeen_amb_lagoon, zones: [zone:venom_fen], spacing: 20, offset: [4, 4],
+         radius: 10000, inner: 4000, volume: 0.6}
+      - {id: bed_darkside, sound: xeen_amb_darkside, zones: ['*'], exclude: [zone:desert_edge, zone:venom_fen],
+         spacing: 28, offset: [8, 20], radius: 15000, inner: 6000, volume: 0.45}
+  d4:
+    fields:
+      - {id: bed_snow, sound: xeen_amb_tundra, zones: [zone:snow_uplands, zone:magic_mountain], spacing: 24,
+         offset: [6, 8], radius: 11000, inner: 4500, volume: 0.35}
+      - {id: bed_shore, sound: xeen_amb_lagoon, zones: [zone:north_shore, zone:west_shore, zone:east_shore, zone:isle,
+         zone:lakeside_waterfront], spacing: 18, offset: [4, 4], radius: 9000, inner: 3500, volume: 0.5}
+      - {id: bed_darkside, sound: xeen_amb_darkside, zones: ['*'],
+         exclude: [zone:snow_uplands, zone:magic_mountain, zone:north_shore, zone:west_shore, zone:east_shore,
+                   zone:isle, zone:lakeside_waterfront],
+         drop: [[25, 23], [51, 23], [77, 23], [103, 23]],
+         spacing: 26, offset: [6, 4], radius: 14000, inner: 5500, volume: 0.45}
+  # Session 4 (D-49): D5 and D6 from their L4 sketches (A6's, not installed yet: the PNG draws the districts on grey).
+  d5:
+    fields:
+      - {id: bed_desert, sound: xeen_amb_desert,
+         zones: [zone:desert_of_doom, zone:perishing_sands, zone:west_pass, zone:east_valley, zone:south_hills],
+         spacing: 24, offset: [6, 4], radius: 12000, inner: 4800, volume: 0.4}
+      - {id: bed_aspen, sound: xeen_amb_aspen, zones: [zone:quivering_forest], spacing: 15, offset: [6, 8],
+         radius: 9000, inner: 3500, volume: 0.45}
+      - {id: bed_highland, sound: xeen_amb_tundra, zones: [zone:highlands], spacing: 24, offset: [6, 6],
+         radius: 11000, inner: 4500, volume: 0.25}
+    extra:
+      # The Parabolic Barrier's faint hum (D-49 Q4): point sounds along the curtain at every third frame, panned.
+      - {id: sound:barrier_hum_1, at: [48.7, 26.05], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      - {id: sound:barrier_hum_2, at: [57.7, 31.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      - {id: sound:barrier_hum_3, at: [66.7, 33.7], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      - {id: sound:barrier_hum_4, at: [75.7, 34.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      - {id: sound:barrier_hum_5, at: [84.7, 32.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      - {id: sound:barrier_hum_6, at: [93.7, 28.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+      # The People's fire at Gurodel's hold (thing:hold_fire, dec24: the decoration has no sound of its own).
+      - {id: sound:hold_fire, at: [86.5, 46.5], sound: campfire, radius: 1500, inner_radius: 300, volume: 0.5}
+  d6:
+    fields:
+      - {id: bed_ash, sound: xeen_amb_desert,
+         zones: [zone:ash_waste, zone:west_waste, zone:ancient_field, zone:ash_fork_flats, zone:alamar_plateau,
+                 zone:alamar_approach, zone:pod_lake_shore, zone:bone_road],
+         exclude: [town:necropolis], spacing: 24, offset: [12, 8], radius: 12000, inner: 4800, volume: 0.3}
+      - {id: bed_pass, sound: xeen_amb_tundra,
+         zones: [zone:south_peaks, zone:griffin_pass, zone:mountain_road, zone:east_peaks, zone:east_ridge, zone:pass_east],
+         spacing: 22, offset: [8, 4], radius: 10000, inner: 4000, volume: 0.25}
+    extra:
+      - {id: sound:bed_necropolis, at: [91, 82], sound: xeen_amb_necropolis, radius: 6500, inner_radius: 3500,
+         volume: 0.4, pan: false}
+      # The lava falls over the rim (thing:lavafall_1, _2) and the lava's bubbling round the moat and the lake: panned.
+      - {id: sound:lavafall_north, at: [44, 25], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+      - {id: sound:lavafall_west, at: [25, 51], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+      - {id: sound:lava_moat_w, at: [37, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_moat_nw, at: [44, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_moat_ne, at: [58, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_moat_e, at: [63, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_moat_sw, at: [41, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_moat_se, at: [61, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_lake_n, at: [70, 60], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_lake_e, at: [77, 64], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_lake_s, at: [68, 70], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+      - {id: sound:lava_slag_run, at: [31, 50], sound: lava loop, radius: 3000, inner_radius: 800, volume: 0.35}
+      # Castle Alamar's hum between its pylons (the plan's atmosphere): on until m33.done, then off (the ruin).
+      - {id: sound:alamar_hum, at: [50.8, 58], sound: humming, radius: 2500, inner_radius: 600, volume: 0.35}

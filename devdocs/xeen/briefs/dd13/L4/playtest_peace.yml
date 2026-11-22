@@ -1,0 +1,59 @@
+# Peace then a burn (D-25 Q9, D-12.3): Graalg's friendship (q-d11.friends 113221) makes the forts' ogres and the
+# kennel's sabertooths peaceful (A2's relations for faction pass); Graalg's gift (q-d11.peace 113223) bars his strongbox
+# ("Graalg would notice."; no disks); a burn stays possible and sets q-d11.hostile 113222, which must turn every pass
+# ogre and cat hostile again in the same visit. Event numbers are ids.lock.yml's (evt:pit_w 20, evt:strongbox 27).
+id: xeen.dd13.l4.peace
+title: "Ogre Forts (DD-13 L4): peaceful after Graalg's friendship, hostile again in the same visit once a fort burns"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd13.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, min: 12}}
+  - note: "Graalg likes the party (q-d11.friends 113221) and gave the disks (q-d11.peace 113223)."
+  - setup_shortcut: {kind: set_qbit, id: 113221, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 113223, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11067, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11068, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11066, hostile: false, min: 12}}
+  - assert: {actor_count: {monster_id: 11413, hostile: false, min: 4}}
+  - note: "Peaceful forts after a save and load too (every window closed first)."
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, max: 0}}
+  - note: "Graalg's strongbox is barred after the peace."
+  - set_pose: {map: xeen_dd13.blv, x: 5520, y: -580, z: 0, yaw_degrees: 90, pitch: 0}
+  - play_lua: {source: "wait(1); close(); click(27); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Graalg would notice]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if qbit(113226) then error('fort_disks set after a peace') end; if item_count(12334) + (held() == 12334 and 1 or 0) > 0 then error('disks after a peace') end"}
+  - note: "Burn the west fort all the same (D-12.3): every pass ogre and the kennel's cats turn hostile in this visit."
+  - set_pose: {map: xeen_dd13.blv, x: 0, y: 1520, z: 0, yaw_degrees: 90, pitch: 0}
+  - play_lua: {source: "wait(1); close(); click(20); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "collapses in a heap of burning timbers"}}
+  - play_lua: {source: "close(); if not qbit(113222) then error('hostile 113222 not set') end; if not qbit(113224) then error('west_burned not set') end"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11067, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11068, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, min: 12}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, min: 4}}

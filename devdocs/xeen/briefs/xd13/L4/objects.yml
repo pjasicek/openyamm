@@ -1,0 +1,608 @@
+format: 0
+start:
+  room: room:gate
+  at: [0, 320]
+  facing: 90
+  notes: "Inside the keep's gate, facing the great hall (north): where X3's hatch (thing:xd13_stair) arrives."
+doors:
+  - id: door:pantry
+    opening: open:hall_pantry
+    kind: hinged
+    thickness: 16
+    surface: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: The pantry's oak door.
+  - id: door:ramp_wall
+    opening: open:ramp_pantry
+    kind: slide_down
+    state: open
+    thickness: 32
+    speed: 400
+    surface: {texture: chb1, size: [128, 256]}
+    back_surface: {texture: cwb1, size: [128, 256]}
+    tile: true
+    notes: "Stage 2: the masonry Emerson's men lay across the ramp's mouth (sunk in the floor until then; the load event shuts it)."
+  - id: door:stair_rubble
+    opening: open:stair_rubble
+    kind: slide_down
+    thickness: 48
+    speed: 400
+    surface: {texture: ch1b1, size: [128, 256]}
+    back_surface: {texture: ch1b1, size: [128, 256]}
+    tile: true
+    notes: The rubble that chokes the dungeon stair until stage 3 (the load event sinks it).
+  - id: door:vault
+    opening: open:vault
+    kind: slide_left
+    leaves: 2
+    thickness: 48
+    speed: 64
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    back_surface: {texture: t5d1, size: [128, 256], fit: true}
+    pictures:
+      - [{texture: t5d1, size: [128, 256]}, {texture: t5d1, size: [128, 256]}]
+    back_pictures:
+      - [{texture: t5d1, size: [128, 256]}, {texture: t5d1, size: [128, 256]}]
+    notes: "The vault's heavy steel door: two riveted leaves in an iron frame that part to the word 'laboratory'."
+lifts:
+  - id: lift:pit_floor
+    room: room:foundation_pit
+    at: [-704, 1600]
+    size: [512, 384]
+    travel: 640
+    thickness: 32
+    speed: 2000
+    surface: {texture: tfb09, size: [128, 128]}
+    notes: "Stage 2: the hole in the hall's floor floored over. Drawn down, it is the pit's floor under the hole; the load event raises it 640 so its top is the hall's floor."
+sounds:
+  - {id: sound:drip, room: room:cellar, at: [2560, -1984], sound: drip02, radius: 1500, volume: 0.5, wait: [3, 9], notes: Water dripping into the flooded cellar.}
+  - {id: sound:hum, room: room:vault_door, at: [-448, -1920], sound: humming, radius: 1600, inner_radius: 400, volume: 0.5, notes: "The vault door hums (Emerson: NOT MY DEPARTMENT)."}
+lights:
+  - id: light:breach_day
+    room: room:breach
+    at: [864, 3360]
+    height: 320
+    radius: 900
+    color: [200, 205, 215]
+    notes: Daylight on the fallen stone outside the breach.
+  - id: light:cellar
+    room: room:cellar
+    at: [2560, -1984]
+    height: 360
+    radius: 1200
+    color: [170, 185, 210]
+  - id: light:court_e
+    room: room:statue_court
+    at: [2700, 1900]
+    height: 500
+    radius: 1300
+    color: [255, 190, 120]
+  - id: light:court_w
+    room: room:statue_court
+    at: [1700, 1728]
+    height: 500
+    radius: 1300
+    color: [200, 205, 215]
+  - id: light:gate
+    room: room:gate
+    at: [0, 384]
+    height: 384
+    radius: 1000
+    color: [255, 190, 120]
+  - id: light:hall_day
+    room: room:great_hall
+    at: [0, 2176]
+    height: 64
+    radius: 1800
+    color: [200, 205, 215]
+    notes: Grey daylight through the fallen roof (off from stage 2).
+  - id: light:hall_e
+    room: room:great_hall
+    at: [640, 2560]
+    height: 560
+    radius: 1200
+    color: [255, 190, 120]
+  - id: light:hall_lord_e
+    room: room:great_hall
+    at: [512, 1280]
+    height: 600
+    radius: 1300
+    color: [255, 190, 120]
+    on: false
+  - id: light:hall_lord_w
+    room: room:great_hall
+    at: [-512, 2688]
+    height: 600
+    radius: 1300
+    color: [255, 190, 120]
+    on: false
+    notes: "Stage 2: the lord's hall is lit."
+  - id: light:hall_w
+    room: room:great_hall
+    at: [-640, 1600]
+    height: 560
+    radius: 1200
+    color: [255, 190, 120]
+  - id: light:lab
+    room: room:old_lab
+    at: [960, -1920]
+    height: 340
+    radius: 1100
+    color: [255, 190, 120]
+  - id: light:lab_glow
+    room: room:old_lab
+    at: [960, -2400]
+    height: 160
+    radius: 700
+    color: [120, 255, 150]
+    pulse: {intensity: [0.85, 1], frequency: 0.5}
+    notes: The alchemist's green glow over the benches.
+  - id: light:pantry
+    room: room:pantry
+    at: [-2048, 2944]
+    height: 300
+    radius: 900
+    color: [255, 190, 120]
+  - id: light:pit
+    room: room:foundation_pit
+    at: [-960, 1600]
+    height: 400
+    radius: 1000
+    color: [200, 205, 215]
+    notes: Daylight falling through the hole.
+  - id: light:ramp
+    room: room:rubble_ramp
+    at: [-2560, 1900]
+    height: 0
+    radius: 900
+    color: [220, 180, 140]
+  - id: light:ramp_low
+    room: room:rubble_ramp
+    at: [-2176, 1408]
+    height: 0
+    radius: 700
+    color: [220, 180, 140]
+  - id: light:stair
+    room: room:dungeon_stair
+    at: [2528, -500]
+    height: 0
+    radius: 700
+    color: [170, 185, 210]
+  - id: light:stair_head
+    room: room:stair_head
+    at: [2528, 640]
+    height: 300
+    radius: 600
+    color: [255, 190, 120]
+  - id: light:vault
+    room: room:sword_vault
+    at: [-1216, -1920]
+    height: 320
+    radius: 900
+    color: [210, 220, 255]
+  - id: light:vault_door
+    room: room:vault_door
+    at: [-256, -1920]
+    height: 280
+    radius: 700
+    color: [150, 170, 255]
+    pulse: {intensity: [0.8, 1], frequency: 0.8}
+    notes: The door's hum.
+chests:
+  - id: chest:lab
+    room: room:old_lab
+    at: [1550, -1400]
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 400
+    trap_level: 2
+    notes: The scientists' locker.
+  - id: chest:strongbox
+    room: room:foundation_pit
+    at: [-1520, 1960]
+    facing: s
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    trap_level: 1
+    notes: "The scientists' strongbox, fallen with the floor (stage 0-1 only)."
+  - id: chest:sword
+    room: room:sword_vault
+    at: [-1216, -1488]
+    floor_height: -480
+    kind: gt002
+    facing: w
+    size: [192, 64, 56]
+    random_items: 0
+    gold: 0
+    items: [xeen_slayer_sword]
+    notes: "The sword's long box on the scientists' rack, its front to the vault (south): the Xeen Slayer Sword is its item (D-90, 2026-11-22: a find in a container is a chest item); A3's m23.sword sets done, the autonote and 10,000 experience after it opens."
+  - id: chest:vault
+    room: room:sword_vault
+    at: [-1550, -2320]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 800
+    trap_level: 2
+    notes: "The vault's own hoard (the map's hoard, a level up); the sword is in its own box on the rack."
+monsters:
+  - id: monster:cellar_bog_1
+    room: room:cellar
+    monster: 11461
+    at: [2176, -1408]
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Bog Thing seeped in with the lagoon water (D-4)."
+  - id: monster:cellar_bog_2
+    room: room:cellar
+    monster: 11461
+    at: [3072, -1408]
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Bog Thing seeped in with the lagoon water (D-4)."
+  - id: monster:cellar_bog_3
+    room: room:cellar
+    monster: 11461
+    at: [2176, -2304]
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Bog Thing seeped in with the lagoon water (D-4)."
+  - id: monster:cellar_bog_4
+    room: room:cellar
+    monster: 11461
+    at: [3072, -2304]
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Bog Thing seeped in with the lagoon water (D-4)."
+  - id: monster:cellar_marsh_1
+    room: room:cellar
+    monster: 11462
+    at: [2560, -1792]
+    floor_height: -680
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Marsh Horror in the standing water (D-4)."
+  - id: monster:cellar_marsh_2
+    room: room:cellar
+    monster: 11462
+    at: [2560, -2176]
+    floor_height: -680
+    facing: 90
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: a Marsh Horror in the standing water (D-4)."
+  - id: monster:court_golem_1
+    room: room:statue_court
+    monster: 11580
+    at: [1664, 1216]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:court_golem_2
+    room: room:statue_court
+    monster: 11580
+    at: [1664, 2240]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:court_golem_3
+    room: room:statue_court
+    monster: 11580
+    at: [2688, 2240]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:court_golem_4
+    room: room:statue_court
+    monster: 11580
+    at: [2688, 1600]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:hall_golem_1
+    room: room:great_hall
+    monster: 11580
+    at: [-640, 2304]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:hall_golem_2
+    room: room:great_hall
+    monster: 11580
+    at: [-320, 2560]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:hall_golem_3
+    room: room:great_hall
+    monster: 11580
+    at: [320, 2560]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:hall_golem_4
+    room: room:great_hall
+    monster: 11580
+    at: [640, 2176]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:hall_golem_5
+    room: room:great_hall
+    monster: 11580
+    at: [-384, 1408]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:hall_golem_6
+    room: room:great_hall
+    monster: 11580
+    at: [384, 1600]
+    facing: 270
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: a wood golem grown out of the fallen roof timbers."
+  - id: monster:lab_golem_1
+    room: room:old_lab
+    monster: 11582
+    at: [640, -1792]
+    facing: 0
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: the scientists' iron golem (one group of four with the vault door's, D-4)."
+  - id: monster:lab_golem_2
+    room: room:old_lab
+    monster: 11582
+    at: [640, -2176]
+    facing: 0
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: the scientists' iron golem (one group of four with the vault door's, D-4)."
+  - id: monster:pit_golem_1
+    room: room:foundation_pit
+    monster: 11580
+    at: [-1408, 1344]
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: wood golems grown out of the old beams."
+  - id: monster:pit_golem_2
+    room: room:foundation_pit
+    monster: 11580
+    at: [-1408, 1856]
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: wood golems grown out of the old beams."
+  - id: monster:pit_golem_3
+    room: room:foundation_pit
+    monster: 11580
+    at: [-576, 1280]
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: wood golems grown out of the old beams."
+  - id: monster:pit_golem_4
+    room: room:foundation_pit
+    monster: 11580
+    at: [-448, 1920]
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: wood golems grown out of the old beams."
+  - id: monster:pit_golem_5
+    room: room:foundation_pit
+    monster: 11580
+    at: [-960, 1856]
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "Stage 0-1: wood golems grown out of the old beams."
+  - id: monster:vault_golem_1
+    room: room:vault_door
+    monster: 11582
+    at: [-128, -1824]
+    facing: 0
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: an iron golem guarding the vault door."
+  - id: monster:vault_golem_2
+    room: room:vault_door
+    monster: 11582
+    at: [-128, -2016]
+    facing: 0
+    hostile: true
+    group: 30
+    hidden: true
+    notes: "Stage 3: an iron golem guarding the vault door."
+decorations:
+  - id: deco:bones
+    room: room:foundation_pit
+    decoration: 7dec18
+    at: [-1536, 1600]
+    notes: Bones (aaze0072:5).
+  - id: deco:cellar_barrel_1
+    room: room:cellar
+    decoration: 7dec32
+    at: [1920, -1280]
+  - id: deco:cellar_barrel_2
+    room: room:cellar
+    decoration: 7dec32
+    at: [2048, -1280]
+  - id: deco:cellar_torch
+    room: room:cellar
+    decoration: torch01
+    wall: north
+    along: 0.15
+    height: 176
+  - id: deco:court_torch_s
+    room: room:statue_court
+    decoration: torch01
+    wall: south
+    along: 0.6
+    height: 176
+  - id: deco:court_torch_w
+    room: room:statue_court
+    decoration: torch01
+    wall: west
+    along: 0.9
+    height: 176
+  - id: deco:gate_torch_e
+    room: room:gate
+    decoration: torch01
+    wall: north
+    along: 0.85
+    height: 176
+  - id: deco:gate_torch_w
+    room: room:gate
+    decoration: torch01
+    wall: north
+    along: 0.15
+    height: 176
+  - id: deco:hall_torch_e
+    room: room:great_hall
+    decoration: torch01
+    wall: east
+    along: 0.15
+    height: 176
+  - id: deco:hall_torch_w
+    room: room:great_hall
+    decoration: torch01
+    wall: west
+    along: 0.75
+    height: 176
+  - id: deco:lab_candle_c
+    room: room:old_lab
+    decoration: cndlab0
+    at: [1120, -2464]
+    floor_height: -568
+  - id: deco:lab_candle_w
+    room: room:old_lab
+    decoration: cndlab0
+    at: [448, -2520]
+    floor_height: -552
+  - id: deco:lab_cauldron
+    room: room:old_lab
+    decoration: cauld00
+    at: [416, -1440]
+    notes: "The scientists' cauldron, cold."
+  - id: deco:lab_crystal
+    room: room:old_lab
+    decoration: crystl0
+    at: [1536, -2496]
+    floor_height: -552
+    notes: A glowing crystal the scientists were cutting.
+  - id: deco:lab_glass_1
+    room: room:old_lab
+    decoration: dec35
+    at: [384, -2496]
+    floor_height: -552
+  - id: deco:lab_glass_2
+    room: room:old_lab
+    decoration: dec35
+    at: [512, -2480]
+    floor_height: -552
+  - id: deco:lab_glass_3
+    room: room:old_lab
+    decoration: dec35
+    at: [800, -2464]
+    floor_height: -568
+  - id: deco:lab_goblet
+    room: room:old_lab
+    decoration: 7dec46
+    at: [1408, -2496]
+    floor_height: -552
+  - id: deco:lab_torch
+    room: room:old_lab
+    decoration: torch01
+    wall: east
+    along: 0.2
+    height: 176
+  - id: deco:pantry_barrel_1
+    room: room:pantry
+    decoration: 7dec32
+    at: [-1408, 3232]
+  - id: deco:pantry_barrel_2
+    room: room:pantry
+    decoration: 7dec32
+    at: [-1536, 3232]
+  - id: deco:pantry_barrel_3
+    room: room:pantry
+    decoration: 7dec32
+    at: [-1664, 3232]
+  - id: deco:pantry_keg_1
+    room: room:pantry
+    decoration: smlbarel
+    at: [-2720, 2944]
+  - id: deco:pantry_keg_2
+    room: room:pantry
+    decoration: smlbarel
+    at: [-2464, 3232]
+  - id: deco:pantry_sack_2
+    room: room:pantry
+    decoration: bag01
+    at: [-2720, 3088]
+  - id: deco:pantry_sack_3
+    room: room:pantry
+    decoration: floursac
+    at: [-2592, 3232]
+  - id: deco:pantry_torch
+    room: room:pantry
+    decoration: torch01
+    wall: north
+    along: 0.15
+    height: 176
+  - id: deco:pit_skull
+    room: room:foundation_pit
+    decoration: 7dec20
+    at: [-384, 1280]
+  - id: deco:sack_bo
+    room: room:pantry
+    decoration: floursac
+    at: [-2720, 3232]
+    notes: The sack with the note 'bo' under it.
+  - id: deco:stair_torch
+    room: room:stair_head
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:statue
+    room: room:statue_court
+    decoration: 7dec55
+    at: [2176, 1728]
+    floor_height: 48
+    notes: The statue of the Great Adventurers on its plinth.
+  - id: deco:vault_torch
+    room: room:sword_vault
+    decoration: torch01
+    wall: east
+    along: 0.2
+    height: 176
+exits:
+  - id: exit:gate_door
+    room: room:gate
+    wall: south
+    size: [256, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x3_site
+    notes: The keep's gate out to X3's Newcastle site.

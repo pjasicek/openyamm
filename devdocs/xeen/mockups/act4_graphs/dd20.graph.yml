@@ -1,0 +1,247 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Lakeside town (dark maze0033: the coven, its five prisoners, the cauldrons) and Lakeside Sewer
+# (maze0034: the sewer stalkers, the statuette, the two dead men's journals) as one BLV under D4's Lakeside: the
+# coven under the Guild (4651), its cells half a storey lower, and the sewer below both, running east under the square
+# to the shaft by the jetty. Three ways in: the Guild's back stair (right answer), the trapdoor (wrong answer, D4's
+# q-d22.guild_wrong), the jetty shaft (D-36 (4)). Either half leads to the other, so the riddle bars nothing.
+#
+# Map frame (for the arrivals): x east, y north as D4; origin under the centre of the Guild's footprint (D4 cell
+# (63.5, 87)); z 0 is the coven's floor, about 640 under D4's square; the cells at -256, the sewer at -512. Facing in
+# MM units (0 east, 512 north, 1024 west, 1536 south). D4's jetty shaft (69, 83) lies at (+2,816, +2,048) here.
+format: mu6-0
+map: DD-20
+key: dd20
+name: Lakeside Coven and Sewer
+stands_on: D4 Lakeside and Blackfang
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [35, 39]
+monsters:
+  levels: [25, 45]
+  boss: "Head Witch 45"
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Coven (11170): Witch 32 (13), Coven Witch 40 (4): the coven at home, the source's 18 witches of Lakeside (D62 x18); peaceful to members (joined 113449) until the Head Witch dies (A2's relations). The Coven Mother 50 is over the band and stays on D4"
+    - "Head Witch 45: a coven boss row A2 adds (11173 proposed; the source's Coven Leader D63 is level 60, over the band), her own group of three in her room"
+    - "Sewer stalkers (11400): Sewer Stalker 25 (24), Stalker Matriarch 35 (3): the source's Lakeside Sewer stalkers (D4 x11); five of them a hidden group at the drain cross that climbs out of the side drains (the journal's 'they seem to come out of nowhere', D-18's method)"
+    - "The four caged prisoners: peaceful named rows A2 adds in 11900-11999 (Camilla, Aretha, Isabella, Rhett), not counted (open question 3)"
+  mix:
+    - {row: Witch, id: 11170, level: 32, count: 13}
+    - {row: Coven Witch, id: 11171, level: 40, count: 4}
+    - {row: Head Witch, id: "11173 (requested from A2)", level: 45, count: 1}
+    - {row: Sewer Stalker, id: 11401, level: 25, count: 24}
+    - {row: Stalker Matriarch, id: 11402, level: 35, count: 3}
+  peaceful:
+    - {row: "Camilla the Captured, Aretha the Helpless, Isabella the Victim, Rhett the Wimp", id: "11906-11909 (requested from A2, the next free named rows)", level: 15, count: 4, note: "one in each cage, hidden once freed; not counted"}
+  kill_xp: "13.42k per member (53,672 / 4); on the joined route the 18 witches are not fought: 6.43k"
+  kill_xp_target: "13.7k (DD-20's share of the group DD-05+20+23, 30.5k, by its 45 of 100 monsters): -2 %. With DD-05 at 14.29k and DD-23 assumed at its S floor (15 monsters, about 5.3k) the group is 105 monsters and about 33.0k (+8 %)"
+treasure: {level: 4, hoard: 5}
+role: "Q-D22 The Coven: the four cages (Camilla, Aretha, Isabella, Rhett; Naomi, the fifth, is in the stocks on D4's square and goes free when the Head Witch dies), the Head Witch and her chest (the Necropolis pass); or join at the initiation cauldron (Great Druid -> Warlock, Dark). Q-D20: the Golden Dragon in a sewer niche"
+role_short: "Q-D22, Warlock; Q-D20's Dragon"
+set_piece: "The coven's hall under the Guild with the initiation cauldron at the stair's foot ('Drink?'); the cells' row of four cages half a storey down, the last cage at the drain door into the sewer; under them the tide-wet sewer to the lake's outfall, where the Golden Dragon sits in a niche over the pool with a dead man's bones two steps short of it"
+textures:
+  family: "Sewer: MM7 The Tidewater Caverns 7d17 (dungeon_families sewers, assigned to DD-20: c2b walls and ceilings, cfb1 wet floors, 7trimd plank walks, 7trimda and trim9_32a trims, td1 doors, 7wtrtyl water). Coven: MM7 Temple of the Moon 7d06 dressed stone (the same assignment's accent: 7tws2 under its frieze, tws2b ram-skull frieze in the Head Witch's room, 7tfb11 dark flags, twb2 block ceilings, twb1 slab doors, tfb2 reveals, the dark brick 'wall' in the store, tws1a sigil, the Moon seal t1d1a-d as the witches' walk double doors). The Guild's back stair in D4's t09 ashlar (the Guild's outside, A6's town kit), 2 textures. The cells in 7d17's wet rock with a shipped bar texture for the cage fronts (A6 picks)"
+  cap: 45
+  planned: 27
+  new: 0
+  reuse: "xkmirror (A6's silvered glass, D-37 (2)) on the Head Witch's mirror"
+  distinct_from: "XD-04 Witch Tower (Cloudside, Act I: 7d06 over 7d12's laboratory, the seal laid in the floor as the witch-mark circle): DD-20 has no 7d12, its seal is a pair of doors, its lower half is 7d17's wet rock and plank walks; DD-01 and DD-18 sewers (6d03, 6d08), DD-21 (sewer.blv)"
+floors:
+  - {floor: 2, name: "The coven, under the Guild", height: 0}
+  - {floor: 1, name: "The cells", height: -256}
+  - {floor: 0, name: "The sewer", height: -512}
+spaces:
+  # floor 2, the coven (z 0, under the Guild and the square's west side)
+  - {id: room:guild_stair, name: "Guild's back stair", kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0,
+     purpose: "The arrival from the Guild (entrance:d4_guild at the foot, (-640, 640, 0), facing north 512): a straight stair in D4's t09 ashlar from under the Guild's back room (top landing about (-640, -512, 640)) down northward into the coven hall. The exit preset at the top landing. A wall lamp at the foot. Quiet."}
+  - {id: room:coven_hall, name: "Coven hall", kind: hall, size: L, floor: 2, at: [2, 0], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Witch, level: 32, count: 2, notes: "at the hall's north end by the double doors, about 1,500 from the stair's foot"}],
+     purpose: "Dressed 7d06 stone, block ceilings. The initiation cauldron stands two steps east of the stair's foot on a low hearth, beside the walking line from the stair to the double doors, not on it (a set piece): 'Initiation cauldron', 'Drink?' (q-d22.initiation). A party that answered the riddle can drink before any witch reaches it. An iron lamp hangs from the ceiling over the cauldron; two braziers stand by the north wall either side of the double doors."}
+  - {id: room:witches_walk, name: "Witches' walk", kind: corridor, size: M, floor: 2, at: [3, 0], monsters: 3,
+     population: [{row: Witch, level: 32, count: 2}, {row: Coven Witch, level: 40, count: 1}],
+     purpose: "Behind the hall's double doors (two leaves, the Moon seal t1d1a-d, opening apart): a vaulted walk north-west towards the Head Witch, wall sconces between broom racks (racks against the walls)."}
+  - {id: room:antechamber, name: Antechamber, kind: room, size: S, floor: 2, at: [4, 0], monsters: 2,
+     population: [{row: Coven Witch, level: 40, count: 2}],
+     purpose: "Her door-wardens. A bench along one wall; a sconce either side of her door."}
+  - {id: room:head_witch, name: "Head Witch's room", kind: room, size: M, floor: 2, at: [5, 0], boss: true, boss_label: "Head Witch 45", goal: true, chest: 5, monsters: 3,
+     population: [{row: Head Witch, level: 45, role: boss, count: 1}, {row: Coven Witch, level: 40, count: 1}, {row: Witch, level: 32, count: 1}],
+     purpose: "The coven's north-west corner (about (-2,560, 3,072)), as Naomi and the autonote say, above the cells. The ram-skull frieze tws2b; her bed (a find, 'Bed'); her chest at its foot (the hoard; q-d22.witch_chest: the Necropolis pass, members may open it, else over her body); her mirror on the wall (xkmirror): 'A bodiless voice murmurs: \"You are the most beautiful one of all.\"'. Her death: q-d22.head_witch (her own group). Candles on her dresser, a wall lamp by the mirror. Her private door to the brewery."}
+  - {id: room:brewery, name: Brewery, kind: room, size: M, floor: 2, at: [4, 1], monsters: 3,
+     population: [{row: Witch, level: 32, count: 3}],
+     purpose: "The coven's three brewing cauldrons in a row along the west wall on their hearths, out of the line between the doors: 'Cauldron', each +2 to one stat once per character (Personality, Endurance, Speed: the source's +25s, D-4). Ladles and jars on shelves. A lamp over each hearth on the wall. Doors to the walk and, private, to the Head Witch's room."}
+  - {id: room:dormitory, name: "Witches' dormitory", kind: room, size: M, floor: 2, at: [1, 1], chest: 4, monsters: 3,
+     population: [{row: Witch, level: 32, count: 3}],
+     purpose: "Beds along the walls ('Bed', one find; the others 'Nothing here.'), a locked chest at the senior witch's bed. Wall lamps. A door to the store."}
+  - {id: room:store, name: "Coven store", kind: room, size: S, floor: 2, at: [1, 2], store: true, monsters: 0,
+     purpose: "A storeroom (store: true) in dark brick: jars, sacks of herbs, crates and a barrel pair along the walls; 'Shelf' (a find, the source's aaze0033:11). In the floor's corner, clear of the door, a hatch to the cistern below, bolted from this side (state:hatch). A wall lamp."}
+  - {id: room:gaol, name: "Gaoler's room", kind: room, size: S, floor: 2, at: [2, 1], chest: 4, monsters: 2,
+     population: [{row: Witch, level: 32, count: 2}],
+     purpose: "Off the hall's east side, at the head of a short stair down to the cells: the gaolers' table along a wall, a chest of the prisoners' confiscated things (locked). A wall lamp."}
+  # floor 1, the cells (z -256, half a storey under the coven, under the Head Witch's floor)
+  - {id: room:cells, name: "The cells", kind: corridor, size: M, floor: 1, at: [3, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "A wet 7d17 rock corridor running south-east, four cages on its north side, their barred fronts doors that swing open on the hook: 1 Camilla (q-d22.camilla), 2 Aretha (q-d22.aretha), 3 Isabella asleep on her straw (q-d22.isabella, '(yawn)'), 4 Rhett at the sewer end (q-d22.rhett, who points at the Dragon). Each 'Cage', its line, the prisoner hidden; then 'Nothing here.' At the far end the drain door: iron, unbolted, where the witches tip their slops down a stair into the sewer. Lanterns on the wall opposite the cages."}
+  # floor 0, the sewer (z -512, running east under the square to the jetty)
+  - {id: room:sump, name: "Trapdoor sump", kind: room, size: S, floor: 0, at: [0, 1], monsters: 0,
+     purpose: "The arrival of a wrong answer (entrance:d4_trapdoor, (1,280, 0, -512), facing east 0): under the square in front of the Guild's door, a shut trapdoor in the ceiling ('The trapdoor is shut fast above you.'). Ankle-deep water; 'Bones' of earlier wrong answers, one with a purse (a find; then 'Nothing here.'). Dark: only the light round the trapdoor's edges (a ceiling light, faint). Quiet."}
+  - {id: room:main_drain, name: Main drain, kind: corridor, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{row: Sewer Stalker, level: 25, count: 3}],
+     purpose: "East under the square: a channel of slow water between two plank walks (7trimd). A 'Sewer Drain' street grate overhead, bolted from above ('A street grate, bolted from above. Boots go past.'), its daylight a ceiling light. The door to the pump room."}
+  - {id: room:pump_room, name: Old pump room, kind: room, size: S, floor: 0, at: [1, 2], chest: 4, monsters: 0,
+     purpose: "Dry, behind a door (td1): the town's broken pump, a chest left by whoever last hid here. Joseph the Prayermaster's room if open question 5 keeps him. A wall lantern."}
+  - {id: room:cross, name: Drain cross, kind: hall, size: M, floor: 0, at: [2, 1], monsters: 8,
+     population: [{row: Sewer Stalker, level: 25, count: 3}, {row: Sewer Stalker, level: 25, count: 4, hidden: true}, {row: Stalker Matriarch, level: 35, count: 1, hidden: true}],
+     purpose: "Five drains meet under the square, four side drains in the walls (the source's four spawn points, maze0034 (6,7), (6,9), (8,9), (10,8)). Three stalkers in sight; five more placed hidden in their own group and shown the first time the party steps onto the cross ('Things climb out of the side drains.'; D-18's method: a map variable guard, once, kept after reload). A grate light from the street above."}
+  - {id: room:cistern, name: Cistern, kind: hall, size: M, floor: 0, at: [1, 0], monsters: 2,
+     population: [{row: Sewer Stalker, level: 25, count: 2}],
+     purpose: "The old cistern under the coven: pillars in still water, a stone stair along the wall up to the store's hatch ('The hatch is bolted from above.' until the store's bolt is drawn). Dark."}
+  - {id: room:hideout, name: "Dead man's hideout", kind: room, size: S, floor: 0, at: [2, 0], monsters: 0,
+     purpose: "A dead end under a second street grate ('Sewer Drain', bolted from above). 'Bones' of a man who hid from the witches: his journal's last page (aaze0034:8, '...witches won't find me under here. Maybe I can use one of the other exits...') and his pack (a find). His grate's daylight is the room's light."}
+  - {id: room:slop_pit, name: Slop pit, kind: room, size: S, floor: 0, at: [3, 0], monsters: 2,
+     population: [{row: Sewer Stalker, level: 25, count: 2}],
+     purpose: "The foot of the drain stair from the cells: where the coven's slops land. Two stalkers feeding. The way up for a party that fell through the trapdoor."}
+  - {id: room:warren, name: Stalker warren, kind: cave, size: M, floor: 0, at: [3, 1], chest: 4, monsters: 5,
+     population: [{row: Sewer Stalker, level: 25, count: 4}, {row: Stalker Matriarch, level: 35, count: 1}],
+     purpose: "A collapsed side vault the stalkers nest in; a chest half-sunk in their midden (things washed down the drains)."}
+  - {id: room:outfall, name: "Lake outfall", kind: cave, size: L, floor: 0, at: [4, 1], set_piece: true, monsters: 5,
+     population: [{row: Sewer Stalker, level: 25, count: 4}, {row: Stalker Matriarch, level: 35, count: 1}],
+     purpose: "Under the jetty's root (about (3,600, 3,000)): the drains fall into a tidal pool (7wtrtyl) whose barred mouth opens to the lake; octopod arms slide past the bars ('The lake, beyond the bars. Something with too many arms is listening.'). Plank walks (7trimd) round the pool; pale lake light through the bars. A narrow ledge leads off the far walk to the niche."}
+  - {id: room:niche, name: "The Dragon's niche", kind: room, size: S, floor: 0, at: [5, 1], goal: true, monsters: 0,
+     purpose: "A ledge over the pool, out of sight of the walks: a dead adventurer's 'Bones' two steps short of the niche (his journal page, aaze0034:7, '...still haven't a clue where that statuette is...'), then the 'Alcove' with the Golden Dragon (q-d20.dragon; then 'The niche is empty.'). A wall lantern the dead man left burning, long out (no light; the pool's light reaches it)."}
+  - {id: room:jetty_shaft, name: Jetty shaft, kind: shaft, size: S, floor: 0, at: [4, 2], monsters: 0,
+     purpose: "The arrival from the jetty (entrance:d4_shaft, (2,816, 2,048, -512), facing west 1024): the ladder's foot in a niche in the east wall; up it the exit preset to D4's grate at the jetty's foot (69, 83). A lantern on a hook by the ladder. Quiet; the outfall north, the east drain west."}
+  - {id: room:east_drain, name: East drain, kind: corridor, size: M, floor: 0, at: [2, 2], monsters: 2,
+     population: [{row: Sewer Stalker, level: 25, count: 2}],
+     purpose: "From the cross east to the jetty shaft under the waterfront houses; a plank walk beside the channel."}
+links:
+  # the coven
+  - {id: link:stair_hall, from: room:guild_stair, to: room:coven_hall, kind: open}
+  - {id: link:hall_walk, from: room:coven_hall, to: room:witches_walk, kind: door, label: "Double doors"}
+  - {id: link:walk_ante, from: room:witches_walk, to: room:antechamber, kind: door}
+  - {id: link:ante_head, from: room:antechamber, to: room:head_witch, kind: door}
+  - {id: link:walk_brewery, from: room:witches_walk, to: room:brewery, kind: door}
+  - {id: link:brewery_head, from: room:brewery, to: room:head_witch, kind: door, label: "her private door"}
+  - {id: link:hall_dorm, from: room:coven_hall, to: room:dormitory, kind: door}
+  - {id: link:dorm_store, from: room:dormitory, to: room:store, kind: door}
+  - {id: link:hall_gaol, from: room:coven_hall, to: room:gaol, kind: door}
+  # coven to cells to sewer
+  - {id: link:gaol_cells, from: room:gaol, to: room:cells, kind: stair}
+  - {id: link:cells_slop, from: room:cells, to: room:slop_pit, kind: stair, label: "drain door"}
+  - {id: link:store_cistern, from: room:store, to: room:cistern, kind: door, label: "hatch", opened_by: state:hatch}
+  # the sewer
+  - {id: link:sump_main, from: room:sump, to: room:main_drain, kind: open}
+  - {id: link:main_pump, from: room:main_drain, to: room:pump_room, kind: door}
+  - {id: link:main_cross, from: room:main_drain, to: room:cross, kind: open}
+  - {id: link:cross_cistern, from: room:cross, to: room:cistern, kind: open}
+  - {id: link:cross_hideout, from: room:cross, to: room:hideout, kind: open}
+  - {id: link:cross_slop, from: room:cross, to: room:slop_pit, kind: open}
+  - {id: link:cross_warren, from: room:cross, to: room:warren, kind: open}
+  - {id: link:cross_east, from: room:cross, to: room:east_drain, kind: open}
+  - {id: link:warren_outfall, from: room:warren, to: room:outfall, kind: open}
+  - {id: link:outfall_niche, from: room:outfall, to: room:niche, kind: open, label: "ledge"}
+  - {id: link:outfall_shaft, from: room:outfall, to: room:jetty_shaft, kind: open}
+  - {id: link:shaft_east, from: room:jetty_shaft, to: room:east_drain, kind: open}
+states:
+  - {id: state:riddle, kind: qbit, where: "D4, the Guild's door",
+     what: "q-d22.riddle_answered (113442): the right answer opens the way to the back stair (entrance:d4_guild); a wrong one moves the party to entrance:d4_trapdoor (q-d22.guild_wrong). Both D4's (A6, A3).", opens: [], draw: false}
+  - {id: state:joined, kind: qbit, where: room:coven_hall,
+     what: "The initiation cauldron, 'Drink?' (q-d22.initiation; needs riddle_answered and the Head Witch alive): sets joined (113449), the Warlock promotion for Great Druids; the coven turns friendly (A2's relation) until head_witch_slain, which turns it hostile again.", opens: [], draw: false}
+  - {id: state:head_witch, kind: kill, where: room:head_witch,
+     what: "The Head Witch's group's death: q-d22.head_witch (head_witch_slain 113447); on D4 Naomi's stocks open and the two coven camps hide on load (D-36 (3)).", opens: [], draw: false}
+  - {id: state:pass, kind: item, where: room:head_witch,
+     what: "Her chest: q-d22.witch_chest (needs joined or head_witch_slain; else 'The Head Witch's chest. The Head Witch is standing next to it.'): the Necropolis pass 12336, pass_found.", opens: [], draw: false}
+  - {id: state:cages, kind: qbit, where: room:cells,
+     what: "Each cage's click runs its hook once (camilla_freed .. rhett_freed, 500 XP each): the barred front opens (two-state, stays open), the prisoner's line, the prisoner hidden then and on every later load.", opens: [], draw: false}
+  - {id: state:hatch, kind: lever, where: room:store,
+     what: "The store's hatch bolt: 'Draw the bolt?' from above (two-state, stays drawn; a map variable); from below 'The hatch is bolted from above.' Opens the second way between the halves.", opens: [link:store_cistern]}
+  - {id: state:ambush, kind: map_var, where: room:cross,
+     what: "The cross's hidden group (4 Sewer Stalkers, 1 Matriarch) shown with show_actors on the first step onto the cross from any drain; guard a map variable; counted at load (D-18).", opens: [], draw: false}
+exits:
+  - {id: exit:d4_guild, space: room:guild_stair, at: [0, 0], kind: both, label: "D4: the Guild's back stair",
+     arrival: "entrance:d4_guild: at the stair's foot, (-640, 640, 0), facing north (512), into the coven hall; the initiation cauldron two steps ahead-right",
+     neighbour: "D4's Guild (4651) after the right answer (q-d22.guild_right): A6's door:dd20_guild, or a back door if open question 4 takes (b); out by the exit preset at the stair's top landing to D4's entrance:dd20_guild (the square before the Guild's door, facing east) or the back door's point"}
+  - {id: exit:d4_trapdoor, space: room:sump, at: [0, 0], kind: in, label: "D4: the trapdoor (a wrong answer)",
+     arrival: "entrance:d4_trapdoor: in the sump, (1,280, 0, -512), facing east (0) down the main drain; one way (the trapdoor stays shut above)",
+     neighbour: "D4's q-d22.guild_wrong at the Guild's double door: 'Wrong! Begone fools!', then the map's move (studio leave, direct, D-24) to entrance:d4_trapdoor"}
+  - {id: exit:d4_shaft, space: room:jetty_shaft, at: [5, 2], kind: both, label: "D4: the shaft by the jetty",
+     arrival: "entrance:d4_shaft: at the ladder's foot, (2,816, 2,048, -512), facing west (1024)",
+     neighbour: "D4's door:dd20_sewer (the grate by the jetty's foot, (69, 83); 'Climb down to the sewer?' as the entrance preset's meaning, open from day one, D-36 (4)); out up the ladder by the exit preset to D4's entrance:dd20_shaft (69, 83), facing north"}
+hooks:
+  - {hook: q-d22.initiation, space: room:coven_hall, how: "the initiation cauldron by the stair's foot ('Drink?'; needs riddle_answered and the Head Witch alive; once; fail and else texts A3's)"}
+  - {hook: q-d22.head_witch, space: room:head_witch, how: "her own actor group's death (a death event)"}
+  - {hook: q-d22.witch_chest, space: room:head_witch, how: "her chest at her bed's foot (once; the chest keeps its own hoard 5 treasure)"}
+  - {hook: q-d22.camilla, space: room:cells, how: "cage 1 (once; the actor hidden)"}
+  - {hook: q-d22.aretha, space: room:cells, how: "cage 2 (once; the actor hidden)"}
+  - {hook: q-d22.isabella, space: room:cells, how: "cage 3, asleep: '(yawn)' (once; the actor hidden)"}
+  - {hook: q-d22.rhett, space: room:cells, how: "cage 4 at the drain door, the sewer end (once; the actor hidden; his line points at the Dragon)"}
+  - {hook: q-d20.dragon, space: room:niche, how: "the alcove two steps past the dead man's bones (once: the Golden Dragon 12350; then 'The niche is empty.')"}
+  - {hook: q-d22.guild_right, space: "D4 (A6)", how: "the right answer; this map holds its arrival, entrance:d4_guild"}
+  - {hook: q-d22.guild_wrong, space: "D4 (A6)", how: "the wrong answer's move; this map holds its arrival, entrance:d4_trapdoor (room:sump)"}
+  - {hook: q-d22.guild_door, space: "D4 (A6)", how: "the riddle on the Guild's door; listed for the set, not placed here"}
+  - {hook: q-d22.coven_gone, space: "D4 (A6)", how: "D4's load event hiding the outdoor coven; listed for the set, not placed here"}
+critical_path: [room:guild_stair, room:coven_hall, room:witches_walk, room:antechamber, room:head_witch, room:brewery,
+  room:witches_walk, room:coven_hall, room:gaol, room:cells, room:slop_pit, room:cross, room:warren, room:outfall,
+  room:niche, room:outfall, room:jetty_shaft]
+alternate_path: "A wrong answer: room:sump, room:main_drain, room:cross, room:slop_pit, room:cells (Rhett first), room:gaol, room:coven_hall, room:witches_walk, room:antechamber, room:head_witch; the Dragon and the shaft on the way back through the cross, or out by the Guild's stair"
+loops:
+  - {id: loop:halves, spaces: [room:coven_hall, room:gaol, room:cells, room:slop_pit, room:cross, room:cistern, room:store, room:dormitory],
+     notes: "Coven and sewer by the cells' drain door and by the store's hatch, once its bolt is drawn from above."}
+  - {id: loop:witches, spaces: [room:witches_walk, room:antechamber, room:head_witch, room:brewery],
+     notes: "To the Head Witch through her wardens or through the brewery and her private door."}
+  - {id: loop:outfall, spaces: [room:cross, room:warren, room:outfall, room:jetty_shaft, room:east_drain],
+     notes: "The cross to the lake by the warren or by the east drain past the jetty shaft."}
+lines:
+  - {text: "Cage / Nothing here.", ref: "dark/aaze0033:22-23", where: "room:cells (the four cages)"}
+  - {text: "Thanks for getting me out of there. ... The witches capture people and turn them into monsters. Then they ship the good ones to Castle Blackfang to act as guards. The rejects end up on the Isle of Lost Souls.", ref: "dark/aaze0033:24 (A3's paraphrase, experience dropped)", where: "room:cells, cage 1 Camilla (q-d22.camilla)"}
+  - {text: "Oh, thank you for rescuing me! The witches were going to use me for spare parts in their potions.", ref: "dark/aaze0033:27", where: "room:cells, cage 2 Aretha (q-d22.aretha)"}
+  - {text: "(yawn) Thank you for saving me from my hideous fate. I am forever in your debt. I'll be going now. See you.", ref: "dark/aaze0033:28 (the source's last prisoner line)", where: "room:cells, cage 3 Isabella (q-d22.isabella)"}
+  - {text: "Thank you for saving me. I'm tired of adventuring and I'm going home, but ... the dragon statuette is in the sewer below us. The witches caught me just as I was reaching for it.", ref: "dark/aaze0033:25", where: "room:cells, cage 4 Rhett (q-d22.rhett)"}
+  - {text: "My saviors! ... The witches were going to turn me into a monster when I failed the initiation test. ... It is in a chest in her room in the Northwestern corner of the town.", ref: "dark/aaze0033:26", where: "Naomi, the fifth prisoner, on D4 (A3's topics: 'the north-west corner of the coven', placed here as room:head_witch)"}
+  - {text: "Cauldron / +25 Personality / +25 Endurance / +25 Speed (permanent) -> +2 each, once per character (D-4)", ref: "dark/aaze0033:29-32", where: room:brewery}
+  - {text: "A bodiless voice murmurs: \"You are the most beautiful one of all.\"", ref: "dark/aaze0033:9", where: "room:head_witch (her mirror)"}
+  - {text: "Bed / Nothing here. / Shelf", ref: "dark/aaze0033:15-16, :11", where: "room:dormitory, room:head_witch (beds), room:store (shelf)"}
+  - {text: "Sewer Drain", ref: "dark/aaze0034:2", where: "the bolted street grates: room:main_drain, room:hideout"}
+  - {text: "Bones / You find the last surviving page of this dead man's journal. It reads: ...still haven't a clue where that statuette is. The sewer is infested with sewer monsters, and they seem to come out of nowhere. Got to watch my back.", ref: "dark/aaze0034:6-7", where: "room:niche (the bones two steps short of the Dragon)"}
+  - {text: "You find the last surviving page of this dead man's journal. It reads: ...witches won't find me under here. Maybe I can use one of the other exits from the sewer to pop up in the town and be gone before anyone can find me. ...", ref: "dark/aaze0034:8", where: room:hideout}
+  - {text: "Alcove / Nothing here.", ref: "dark/aaze0034:0-1", where: "room:niche (hover 'Alcove'; A3's else_text 'The niche is empty.' after the hook)"}
+  - {text: "Knowing how to pray properly can sure come in handy when the going gets tough. I can teach you for 10,000 gold.", ref: "dark/aaze0034:3-5", where: "room:pump_room only if open question 5 keeps Joseph; else the ORIGINAL_LINES ledger"}
+  - {text: "My first is in water ... What am I? / Wrong! Begone fools! / Correct! As a reward, I give you free membership to the guild.", ref: "dark/aaze0033:4-8", where: "D4's Guild door (A3, A6); listed as the context of the two arrivals"}
+open_questions:
+  - q: "Count and kill XP. MAPS's row is a group: DD-05, DD-20 (M) and DD-23 (S), 100 monsters, 30.5k. DD-05's graph took 45 and 14.29k; a third for DD-20 would be 33 monsters and ~10k, under the M floor of 45."
+    options: ["(a) DD-20 at the M floor, 45 monsters, 13.42k (its share by count 13.7k, -2 %); with DD-23 at its S floor (15, ~5.3k, A7's) the group is 105 monsters and ~33.0k (+8 %, inside the ±10 %); A2 recounts Act IV",
+              "(b) DD-20 at ~33 monsters (~10k) so the group stays at 30.5k: under the M band (the coven's 18 witches alone are the source's town)"]
+    recommend: "(a)"
+    depends: "the mix and every room's population; DD-23's count (A7); A2's Act IV recount"
+  - q: "The Head Witch's row. A2 has none for the coven; the witches' Head Witch 11163 is Cloudside's level-20 boss; the source's Coven Leader is level 60, over the band."
+    options: ["(a) a coven boss row 11173 'Head Witch' at 45 (look C, the Coven Mother's; hp_x 3; DrainSP as the source's leader; Mind Blast), her own group, counted here (rows may share a name, as the two Gremlin rows do)",
+              "(b) 'Coven Leader' at 60 as the source, counted in a later act (D-1.2)"]
+    recommend: "(a): the quest kill must be in reach of a party of 35-39, and A3's texts call her the Head Witch"
+    depends: "A2 (row), q-d22.head_witch (her actor group), her room's fight"
+  - q: "The four prisoners as figures. A3's hooks need no NPC ids (the cage's click is the event)."
+    options: ["(a) four named peaceful rows in 11900-11999 as DD-09's prisoners (Camilla, Aretha, Isabella, Rhett; peasant stand-ins, immobile, friendly), one in each cage, hidden by its freed bit on load and right after its hook; clicking the cage (not the actor) runs the hook",
+              "(b) no actors: empty cages with the source's events only"]
+    recommend: "(a): the set piece is people in cages, and DD-09 set the pattern (D-27)"
+    depends: "A2 (four rows), the cages' size (an actor behind a barred door leaf), the playtest (each cage once, hidden after reload)"
+  - q: "The Guild's one door and two destinations. D4's plan has one door (doors: 1) that is both house 4651 and door:dd20_guild; after the right answer the party must be able to reach both the guild's shop and the back stair."
+    options: ["(a) one door: once riddle_answered the double door asks a real choice ('The guild' / 'Down the back stair'; D-24 allows question + leave for a real choice), no new D4 geometry",
+              "(b) a second, single-leaf cellar door on the Guild's back (west) wall, door:dd20_back, open once riddle_answered ('A cellar door. The front door asks first.' before), its return point outside it; the double door stays the house with the riddle and the trapdoor"]
+    recommend: "(b): one door per destination, as MM6-MM8 towns do, and the stair comes up under the Guild's back room; no POI change (within 400 of the Guild)"
+    depends: "A6 (D4's door and return point), A3 (guild_right's text names the back stair); the arrival inside is the same either way"
+  - q: "Joseph the Prayermaster (the source's sewer teacher, aaze0034:3-5: Prayer Master is MM6-MM8's Meditation; teachers_plan has no Meditation in Lakeside)."
+    options: ["(a) left out; his line goes to the ORIGINAL_LINES ledger; the pump room keeps its chest",
+              "(b) A4 adds him as a Meditation teacher in the dry pump room (a fourth Meditation place, Act IV)",
+              "(c) a flavour talking actor with his line, teaching nothing (as DD-01's Felix)"]
+    recommend: "(a): teachers stay A4's plan; the sewer has its two dead men for flavour"
+    depends: "the pump room's purpose; A4 (only for b or c)"
+  - q: "The three brewing cauldrons (the source's +25 Personality, Endurance, Speed, permanent)."
+    options: ["(a) +2 each once per character (D-4), three player bits (A3) and A2's record, apart from the initiation cauldron and D4's reed cauldron",
+              "(b) leave them as dressing (the coven already has the promotion and D4 has its cauldron)"]
+    recommend: "(a): one permanent-effect device fits an M dungeon, and the source has them"
+    depends: "A3 (three bits, texts), A2 (the Act IV stat record)"
+  - q: "The cross's ambush. The journal says the stalkers 'come out of nowhere'; the source spawns them at four points."
+    options: ["(a) five of the cross's eight placed hidden and shown on the first step (D-18's method), counted at load",
+              "(b) all eight visible"]
+    recommend: "(a)"
+    depends: "the cross's population; a playtest step (hidden before, shown after, kept after reload)"

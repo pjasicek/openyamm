@@ -1,0 +1,115 @@
+format: 0
+id: xeen_d4
+name: Lakeside and Blackfang
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D4
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9111
+  continent: 7
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 5
+  perception_difficulty: 5
+  refill_days: 672
+  music: 41
+  environment: forest
+  lock_difficulty: 10
+  slots:
+    - {monster: Xeen Mountain Gargoyle, tier: 2, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Roc, tier: 1, per_marker: [1, 3], weight: 55}
+    - {monster: Xeen Coven, tier: 1, per_marker: [2, 3], weight: 15}
+neighbours:
+  - id: boat:isle
+    to: xeen_d4.odm
+    kind: boat
+    arrival: isle_landing
+    listed_only: true
+    notes: "Lakeside Yachts (4655), Captain Ferris Gull: route 420 to the Isle's landing, daily from day one (D-12.1)."
+  - id: boat:isle_return
+    to: xeen_d4.odm
+    kind: scripted
+    arrival: lakeside_dock
+    listed_only: true
+    notes: "The Isle Ferry (A4's house 4667, Tern) at poi:isle_boat on the Isle's landing: route 432 daily to lakeside_dock (D-36 (6))."
+  - id: boat:lucio
+    to: xeen_d7.blv
+    kind: boat
+    arrival: olympus_dock
+    listed_only: true
+    notes: "D-5.3: Lucio's slot on the ferry jetty, route 426 to Olympus, m30.done."
+  - id: door:dd12
+    to: xeen_dd12.blv
+    kind: door
+    arrival_hint: "Inside the ruined tower's door, the entrance hall (A8's m24.arrival)."
+    condition: {item: lost_souls_key}
+    notes: "DD-12 Dungeon of Lost Souls (A8): the Isle's only gate (D-12.1). Double-winged door: two leaves with mirrored wing pictures."
+  - id: door:dd20_guild
+    to: xeen_dd20.blv
+    kind: door
+    arrival_hint: "The coven's hall at the foot of the guild's back stair (right answer); the sewer half under the trapdoor (wrong answer). A8 gives both inside points."
+    notes: "DD-20 Lakeside Coven and Sewer (A8): through the guild (4651), A3's q-d22.guild_door / guild_right / guild_wrong. The guild's front is a carved double door: two leaves."
+  - id: door:dd20_sewer
+    to: xeen_dd20.blv
+    kind: door
+    arrival: entrance:d4_shaft
+    arrival_hint: At the foot of the shaft's ladder in the sewer half.
+    notes: "The shaft by the jetty's foot: \"Climb down to the sewer?\" (aaze0033:3), open from day one (D-36 (4)), into DD-20's entrance:d4_shaft."
+  - id: door:dd23
+    to: xeen_dd23.blv
+    kind: door
+    arrival_hint: "Just inside the cave mouth, facing in."
+    notes: "DD-23 Gargoyle Lair (S, Q-D15): a cave mouth in Magic Mountain's eastern crags under the perches (A3's q-d15.lair_door). No door leaves; if A8 or A7 gives it a door, two leaves."
+  - id: edge:south
+    to: xeen_d3.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The Lakeside road from D3's north edge at x 88 (D-28), over the brow and down to the shore."
+    notes: "D3 Sandcaster (A5): the road crosses the edge at x 88; D3's north edge arrives at D4's entrance:south_road (88, 105) facing north (D-28 (6))."
+  - id: edge:west
+    to: xeen_d5.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: The desert road from D5's east edge at y 80 into the Forest of Peril.
+    notes: "D5 Desert of Doom (A6): the desert road crosses the edge at y 80, a level valley at 1,500; D5's east edge arrives at D4's entrance:west_road (23, 80) facing east; D4's west edge arrives at D5's entrance:d4_road (105, 80) facing west (D-36 (7))."
+  - id: scripted:blackfang
+    to: xeen_dd14.blv
+    kind: scripted
+    listed_only: true
+    notes: "DD-14 Castle Blackfang (A8): the griffin flight from D6 (A3's m25.flight) lands on its walls; on D4 only the sealed gate (m25.blackfang_gate) and the castle's outside."
+  - id: stable:castleview
+    to: xeen_d1.odm
+    kind: stable
+    listed_only: true
+    notes: "Kramer's caravans from Castleview (route 414, mon/thu) land at lakeside_dock; Lakeside has no caravan house (A4's d4.yml)."
+  - id: stable:sandcaster
+    to: xeen_d3.odm
+    kind: stable
+    listed_only: true
+    notes: "Sandcaster Caravans (route 417, sun) land at lakeside_dock."
+qbits:
+  blackfang_done: 111503
+  cache_dug: 112484
+  coven_broken: 113441
+  coven_joined: 113449
+  head_witch_slain: 113447
+  lucio_open: 111600
+  mirror_lakeside: 119010
+  obelisk_dark_4: 115053
+  riddle_answered: 113442
+  woodpile_found: 113421
+items:
+  ectors_ring: 12522
+  lost_souls_key: 12344
+  real_treasure_map: 12356
+rules:
+  respawn: entrance:lakeside_square
+  town_portal_anchor: entrance:lakeside_square
+notes: "D4 Lakeside and Blackfang (A6, 2026-11-20), built from the approved L1 with D-36. The south edge (D3) is live; the west edge (D5) is sealed by a sign until D5 is installed; each dungeon door shows its hook and a sealed line until its BLV is installed and lists the door's entrance. Written by output/studio_cal/d4/tools/gen.py."

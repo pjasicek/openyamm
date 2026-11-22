@@ -1,0 +1,55 @@
+# Hostility check of the Southern Tower (DD-06): the thieves and the guild's hounds hostile at load, the Master Thief's
+# inner circle friendly. After XD-23's (output/studio_cal/hostility/gen_hostility_tests.py's pattern). The thieves are
+# A2's Outlaws (Rogue 11110, Thief 11111, Master Thief 11112) and the hounds Wolves and cats (Dark Wolf 11410,
+# Sabertooth 11411), hostile by the world's relations.yml; the Master Thief's four bodyguards (Inner Circle Guard 11115)
+# and The Master Thief (11114) are faction inner_circle, friendly to the party until attacked (D-25). No window is open
+# before the reload.
+id: xeen.dd06.l4.hostility
+title: 'the Southern Tower (DD-06): thieves and hounds hostile, the inner circle friendly, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd06.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11110, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11111, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11112, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11410, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11411, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11110, hostile: true, min: 6}}
+  - assert: {actor_count: {monster_id: 11111, hostile: true, min: 26}}
+  - assert: {actor_count: {monster_id: 11112, hostile: true, min: 5}}
+  - assert: {actor_count: {monster_id: 11410, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11411, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11115, hostile: false, min: 4}}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11114, hostile: false, min: 1}}
+  # A save and load keeps them so (every window closed first, so the reload runs).
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11111, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11111, hostile: true, min: 26}}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - note: 'A Thief, a Master Thief and a Sabertooth side by side in the entrance hall, nearer each other than the party (a
+      monster takes the nearest of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11111, x: 200, y: 1400, z: 16}
+  - spawn_actor: {monster_id: 11411, x: 600, y: 1400, z: 16}
+  - spawn_actor: {monster_id: 11112, x: 400, y: 1300, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11411, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11112, hurt: true, max: 0}}

@@ -1,0 +1,52 @@
+# X7 Mount Firestone: the mountain's own bits and lines that belong to no quest (D-40). Quest places: q-c14 (the lava
+# rock), q-c26 and npcs/xd17.yml (the Volcano Cave, the cleft back from Shangri-La). X7 has no people. Owner: A3.
+# Format: QUESTS_FORMAT.md section 5.
+map: X7
+block: 160
+source: "D-40 (devdocs/xeen/briefs/x7/L1/D40_DECISION.md); xeen/aaze0018:0-6"
+
+qbits:
+  outpost_burned: {id: 116160, note: "the orc outpost in X7's south put to the torch (orc_outpost); the map shows it burnt on every load once set"}
+
+player_bits:         # X7's, per character (A5 wires them and gives the effects); 11339 freed (D-70 Q2: the Shrine of
+                     # Fire is party-daily by Xeen.usedToday)
+  well_speed: {id: 11338, map: X7, note: "the Well of Speed: +2 Speed (base), once (D-40; the source's +50 rescaled)"}
+
+hooks:
+  orc_outpost:
+    map: X7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the orc outpost in the south (the map asks the source's \"You have found an Orc Outpost.  Put it to the torch?\", aaze0018:3; Yes calls this once; the outpost's chest is the map's)"
+    sets: [outpost_burned]
+    once: true
+    do: [{xp: 500}]
+    text: "The Outpost burns well. The orcs will not be coming back to it."
+    else_text: "Charred stakes and cold ash. The orcs have not come back."
+  shrine_fire:
+    status: true   # F13: a touch effect answers on the status line
+    map: X7
+    where: "the Shrine of Fire below the fire north: the map gives every member +10 Fire resistance until rest, once a day for the party (Xeen.usedToday, D-70 Q2), then calls this"
+    text: "Shrine of Fire. You pray, and the heat of the mountain seems to turn away from you. (+10 Fire resistance, until you rest)"
+  shrine_fire_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: X7
+    where: "the same shrine, clicked again the same day (the party has prayed there)"
+    text: "You don't think anyone is listening."
+  well_speed:
+    status: true   # F13: a touch effect answers on the status line
+    map: X7
+    where: "the Well of Speed: the map gives the drinking member +2 Speed (base) once (player bit well_speed), then calls this"
+    text: "Well of Speed. The water is gone from the cup before you know you have drunk it. (+2 Speed, permanent)"
+  well_speed_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: X7
+    where: "the same well, a member who has drunk from it"
+    text: "The water is cool and refreshing."
+  watch_note:
+    map: X7
+    where: "the abandoned dwarves' watch: the note by the pay chest (D-40 change 8; flavour, no effect)"
+    text: "A note nailed by the pay chest: \"The dragons came south. Pay owed to the end of the month. Nobody stays.\""
+  idols:
+    map: X7
+    where: "the demon and devil idols flanking the Volcano Cave's mouth (XD-16's door, one spot with it; Q-C26's hint, flavour, no effect)"
+    text: "A demon and a devil, carved in black rock. The demon's eye sockets are empty. Their skulls are not here; someone has scratched an arrow pointing inside."

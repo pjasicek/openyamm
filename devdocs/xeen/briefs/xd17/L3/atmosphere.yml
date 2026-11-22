@@ -1,0 +1,11 @@
+format: 0
+open_sky: {mode: open, preset: fair, view: outdoor, view_distance_scale: 1.25}
+daylight: {ambient_rgb: [96, 98, 104], sun_rgb: [255, 250, 236], night_scale_rgb: [134, 143, 168], sun_gain: 3}
+ground:
+  layers:
+    - {material: grass, textures: [7grastyl], color: [92, 112, 52]}
+    - {material: road, textures: [crdflr3]}
+    - {material: basalt, textures: [gcav1flr], color: [58, 56, 60]}
+  slope: {material: basalt}
+  grass: worlds/xeen/terrain_decorations/xeen_xd17_blv.yml
+notes: "D-50 Q6: Cloudside's fair preset by name, seen as an outdoor map, no theme, no ash, no weather; view distance 1.25 so Firestone's summit (about 15,000 from the arrival) is drawn (Q3). The valley floor is drawn as terrain: grass, the gravel lanes as road, the cliffs as X7's basalt."

@@ -1,0 +1,792 @@
+format: 0
+themes:
+  - id: theme:gallery
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gcstflor, size: [128, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The galleries round the well and the landing halls: the ashlar, grey cobbles (gcstflor) underfoot."
+  - id: theme:lab
+    wall: {texture: twb2, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: trim5_32, size: [32, 64]}}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: twb2, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The mages' own rooms on the top floor (D-39 Q6): MM7's School of Sorcery (7d14), brown stone (twb2) over a wooden skirting (trim5_32), its flags (7tfb1) and ceiling (tfb2)."
+  - id: theme:stair
+    wall: {texture: gston1wl, size: [128, 256]}
+    floor: {texture: gcstflor, size: [128, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The stair halls: the same ashlar and cobbles, no skirting (the flights run along the walls)."
+  - id: theme:tower
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The Mok tower's rooms: green-grey ashlar (MM8 gston1wl) over a green marble skirting (gstntilev), scale-pattern flags (gston1fl), panelled stone ceilings (gstn1cl), the tower's stone doors (gcstdoor)."
+  - id: theme:well
+    wall: {texture: gston1wl, size: [128, 256]}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The levitation well: the ashlar from the foot to the cone, a marble band (gstntileh) at each floor's slab, the flags at its foot, the cone's panels."
+defaults: {theme: theme:tower, ambient: 20}
+rooms:
+  - id: room:alcoves
+    name: Disk alcoves
+    outline: [[1984, -384], [2496, -384], [2496, 384], [1984, 384]]
+    floor: 1280
+    ceiling: 1664
+    theme: theme:tower
+    platforms:
+      - {id: platform:experiment, at: [2432, 0], size: [64, 384], rise: 128, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "A mage's experiment of wires on a bench: the two Energy Disks."}
+    ambient: 14
+    notes: "Alcoves off the vault: a mage's experiment of wires and the two Energy Disks."
+  - id: room:cabinet
+    name: Cabinet of curiosities
+    outline: [[1088, -960], [1984, -960], [1984, 640], [1088, 640]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:tower
+    platforms:
+      - {id: platform:case_1, at: [1928, -704], size: [96, 320], rise: 160, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A cabinet of labelled oddities.}
+      - {id: platform:case_2, at: [1928, -192], size: [96, 320], rise: 160, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A cabinet of labelled oddities.}
+      - {id: platform:case_griffin, at: [1928, 320], size: [96, 320], rise: 160, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The last case: the Golden Griffin in a box on it (chest:case_griffin, D-90)."}
+    ambient: 20
+    notes: "Cabinets of labelled oddities; the Golden Griffin in the last."
+  - id: room:commons
+    name: Mages' commons
+    outline: [[-704, -1792], [704, -1792], [704, -1088], [-704, -1088]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    platforms:
+      - {id: platform:table, at: [0, -1664], size: [768, 128], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The long refectory table along the south wall's line.}
+      - {id: platform:lore, at: [-448, -1752], size: [384, 64], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Lore books on shelves along the south wall.}
+    ambient: 20
+    notes: "A refectory and reading room: the long table, lore books on shelves."
+  - id: room:conjury
+    name: Conjury
+    outline: [[-960, 1088], [192, 1088], [192, 1856], [-960, 1856]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:pylon_w, at: [-576, 1600], size: [96, 96], rise: 128, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: The west ward pylon's pillar (its crystal on top).}
+    ambient: 20
+    notes: "A summoning room: the west ward pylon, a crystal on a black pillar; the passage east."
+  - id: room:door_hall
+    name: Door hall
+    outline: [[-2752, -256], [-512, -256], [-512, 256], [-2752, 256]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+    ambient: 20
+    notes: "Inside the west door from D3 (the arrival entrance:d3_door, quiet): sconces, the first stair's foot in the south wall beside the door, the well's foot east through an arch, the gallery north and south."
+  - id: room:dormitory
+    name: Mages' dormitory
+    outline: [[-448, -1856], [1984, -1856], [1984, -1088], [-448, -1088]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:tower
+    platforms:
+      - {id: platform:bed_1, at: [-192, -1640], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+      - {id: platform:bed_2, at: [192, -1640], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+      - {id: platform:bed_3, at: [576, -1640], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+      - {id: platform:bed_4, at: [960, -1640], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+    ambient: 20
+    notes: "Narrow beds in a row, the mages' chest."
+  - id: room:lab
+    name: The laboratory
+    outline: [[-960, 1088], [960, 1088], [960, 1984], [-960, 1984]]
+    floor: 1920
+    ceiling: 2560
+    theme: theme:lab
+    platforms:
+      - {id: platform:fountain_min, at: [-576, 1536], size: [256, 256], rise: 64, surface: {texture: gston1wl, size: [128, 256]}, top_surface: {texture: wtrtyl, size: [128, 128], liquid: water}, notes: "The Fountain of Minimal Abilities: a marble basin (q-d18.minimal_fountain)."}
+      - {id: platform:fountain_life, at: [576, 1536], size: [256, 256], rise: 64, surface: {texture: gston1wl, size: [128, 256]}, top_surface: {texture: wtrtyl, size: [128, 128], liquid: water}, notes: "The Fountain of Life: a marble basin; it heals."}
+      - {id: platform:vat, at: [0, 1888], size: [192, 96], rise: 88, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Bubbling Vat's bench (the vat a dressing).}
+      - {at: [-608, 1928], size: [448, 96], rise: 96, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A bench of glass and brass along the north wall.}
+      - {at: [608, 1928], size: [448, 96], rise: 96, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A bench of glass and brass along the north wall.}
+    ambient: 20
+    notes: "The mages' laboratory (MM7's School of Sorcery): benches, the Bubbling Vat, the Fountain of Minimal Abilities and the Fountain of Life, floor braziers under the retorts."
+  - id: room:mirror
+    name: Mirror room
+    outline: [[-1088, -1856], [-576, -1856], [-576, -1088], [-1088, -1088]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:tower
+    platforms:
+      - {id: platform:mirror, at: [-1056, -1472], size: [32, 224], rise: 352, surface: {texture: xkmirror, size: [128, 128]}, end_surface: {texture: gstyl, size: [128, 128], fit: false}, top_surface: {texture: gstyl, size: [128, 128]}, notes: "The tall dead mirror (D-37's xkmirror) in a frame of black stone, standing against the end wall."}
+    ambient: 14
+    notes: "A tall dead mirror in the end wall: 'The mirror does not respond.'"
+  - id: room:ring1
+    name: East gallery
+    outline: [[-960, -960], [960, -960], [960, 960], [-960, 960], [-960, 384], [-347, 384], [-219, 512], [219, 512], [512, 219], [512, -219], [219, -512], [-219, -512], [-347, -384], [-960, -384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+    ambient: 20
+    notes: "The ground floor's gallery round the well's north, east and south sides: arches into the well; doors to the commons and the store room."
+  - id: room:ring2
+    name: Second gallery
+    outline: [[-960, -960], [960, -960], [960, 960], [-960, 960], [-960, 384], [-347, 384], [-219, 512], [219, 512], [512, 219], [512, -219], [219, -512], [-219, -512], [-347, -384], [-960, -384]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:gallery
+    ambient: 20
+    notes: "The second gallery: railed windows on the well; the cabinet east, the mirror room south-west."
+  - id: room:ring3
+    name: Third gallery
+    outline: [[-960, -960], [960, -960], [960, 960], [-960, 960], [-960, 384], [-347, 384], [-219, 512], [219, 512], [512, 219], [512, -219], [219, -512], [-219, -512], [-347, -384], [-960, -384]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:gallery
+    ambient: 20
+    notes: "The third gallery: the vault's door of light in its east wall, humming; the conjury and the scrying room north."
+  - id: room:ring4
+    name: Gallery under the cone
+    outline: [[-960, -960], [960, -960], [960, 960], [-960, 960], [-960, 384], [-347, 384], [-219, 512], [219, 512], [512, 219], [512, -219], [219, -512], [-219, -512], [-347, -384], [-960, -384]]
+    floor: 1920
+    ceiling: 2560
+    theme: theme:gallery
+    ambient: 20
+    notes: "The gallery under the cone, 640 high: the disc's landing in its east rail, the laboratory north."
+  - id: room:roof_stair
+    name: Roof stair
+    outline: [[-256, -1472], [1536, -1472], [1536, -1088], [-256, -1088]]
+    floor: 1920
+    ceiling: 2720
+    theme: theme:stair
+    platforms:
+      - {id: platform:roof_head, rise: 512, surface: {texture: gston1wl, size: [128, 256]}, outline: [[1088, -1472], [1536, -1472], [1536, -1088], [1088, -1088]], top_surface: {texture: gcstflor, size: [128, 256]}, notes: "The roof stair's head (2,432), across the east end under the hatch."}
+      - {id: platform:roof_hatch, rise: 16, surface: {texture: 7trimd, size: [128, 256]}, outline: [[1232, -1360], [1392, -1360], [1392, -1200], [1232, -1200]], top_surface: {texture: 7trimd, size: [128, 256]}, bottom_surface: {texture: 7trimd, size: [128, 256]}, base: 784, notes: "The roof trapdoor: a plank leaf hung shut in its frame of beams (D-58: up to D7 after m30.done)."}
+    flights:
+      - {from: [256, -1280], to: [1088, -1280], width: 320, steps: 16, notes: "Sixteen steps of 32 along the hall, rising east to the head."}
+    beams:
+      - path: [[1200, -1376], [1424, -1376]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1200, -1184], [1424, -1184]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1216, -1360], [1216, -1200]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+      - path: [[1408, -1360], [1408, -1200]]
+        width: 32
+        depth: 40
+        bottom: 2680
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The roof hatch's frame: black beams round the trapdoor under the ceiling."
+    ambient: 16
+    notes: "The roof stair (D-58), off the top gallery's south arm: one flight east along the hall to a head under the roof trapdoor (to D7 after m30.done)."
+  - id: room:scrying
+    name: Scrying room
+    outline: [[320, 1088], [1856, 1088], [1856, 1856], [320, 1856]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:pylon_e, at: [1472, 1600], size: [96, 96], rise: 128, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: The east ward pylon's pillar (its crystal on top).}
+      - {id: platform:ball_1, at: [576, 1792], size: [64, 64], rise: 96, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: A stand with a crystal ball.}
+      - {id: platform:ball_2, at: [896, 1792], size: [64, 64], rise: 96, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: A stand with a crystal ball.}
+      - {id: platform:ball_3, at: [1216, 1792], size: [64, 64], rise: 96, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: A stand with a crystal ball.}
+    levels:
+      - id: level:pool
+        outline: [[704, 1344], [1088, 1344], [1088, 1600], [704, 1600]]
+        floor: 1264
+        surface: {texture: sgstars, size: [64, 64]}
+        notes: "The black scrying pool: stars in the water."
+    ambient: 20
+    notes: "Crystal balls on stands, the black scrying pool, the east ward pylon."
+  - id: room:stair12
+    name: First stair
+    outline: [[-2752, -1024], [-1216, -1024], [-1216, -384], [-2752, -384]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:stair
+    platforms:
+      - {id: platform:head12, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-1728, -1024], [-1216, -1024], [-1216, -384], [-1728, -384]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the first stair at the second floor (640), across the east end."}
+    flights:
+      - {from: [-2560, -768], to: [-1728, -768], to_height: 640, width: 320, steps: 20, notes: "Twenty steps of 32 along the hall, rising east."}
+    ambient: 16
+    notes: "The first stair hall, two storeys: twenty steps along it to its head at the second floor."
+  - id: room:stair2
+    name: Second landing
+    outline: [[-2752, -256], [-512, -256], [-512, 256], [-2752, 256]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:gallery
+    ambient: 20
+    notes: "The second floor's landing hall: the window over the well, the gallery north and south, the second stair's foot."
+  - id: room:stair23
+    name: Second stair
+    outline: [[-2752, 384], [-1216, 384], [-1216, 1024], [-2752, 1024]]
+    floor: 640
+    ceiling: 1824
+    theme: theme:stair
+    platforms:
+      - {id: platform:head23, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-2752, 384], [-2240, 384], [-2240, 1024], [-2752, 1024]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the second stair at the third floor (1280), across the west end."}
+    flights:
+      - {from: [-1408, 704], to: [-2240, 704], to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 along the hall, rising west."}
+    ambient: 16
+    notes: "The second stair hall: twenty steps to its head at the third floor."
+  - id: room:stair3
+    name: Third landing
+    outline: [[-2752, -256], [-512, -256], [-512, 256], [-2752, 256]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:gallery
+    ambient: 20
+    notes: "The third floor's landing hall: the window over the well, the gallery, the third stair's foot."
+  - id: room:stair34
+    name: Third stair
+    outline: [[-2752, -1024], [-1216, -1024], [-1216, -384], [-2752, -384]]
+    floor: 1280
+    ceiling: 2464
+    theme: theme:stair
+    platforms:
+      - {id: platform:head34, rise: 32, surface: {texture: gston1wl, size: [128, 256]}, outline: [[-1728, -1024], [-1216, -1024], [-1216, -384], [-1728, -384]], top_surface: {texture: gcstflor, size: [128, 256]}, bottom_surface: {texture: gstn1cl, size: [128, 128]}, base: 608, notes: "The head of the third stair at the top floor (1920), across the east end."}
+    flights:
+      - {from: [-2560, -768], to: [-1728, -768], to_height: 1920, width: 320, steps: 20, notes: "Twenty steps of 32 along the hall, rising east."}
+    ambient: 16
+    notes: "The third stair hall, over the first: twenty steps to its head at the top floor."
+  - id: room:stair4
+    name: Top landing
+    outline: [[-2752, -256], [-512, -256], [-512, 256], [-2752, 256]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:gallery
+    ambient: 20
+    notes: "The top floor's landing hall: the window over the well, the gallery, the study's door."
+  - id: room:store
+    name: Store room
+    outline: [[1088, -512], [1664, -512], [1664, 512], [1088, 512]]
+    floor: 0
+    store: true
+    ceiling: 448
+    theme: theme:stair
+    ambient: 12
+    notes: "A dead end with a chest: reagents in jars, sacks and barrels in clumps (a storeroom)."
+  - id: room:study
+    name: The Archmagus's study
+    outline: [[-2752, 384], [-1088, 384], [-1088, 1728], [-2752, 1728]]
+    floor: 1920
+    ceiling: 2560
+    theme: theme:lab
+    platforms:
+      - {id: platform:desk, at: [-1920, 1344], size: [256, 128], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], scale: 2}, notes: "The Archmagus's desk: Ellinger's sealed letter in the writing box on it (chest:desk, D-90)."}
+      - {id: platform:book_fantastic, at: [-2560, 1344], size: [64, 48], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], offset: [96, 40]}, notes: "A lectern: the Book of Fantastic Knowledge (q-d18.fantastic_book)."}
+      - {id: platform:book_power, at: [-2560, 896], size: [64, 48], rise: 80, surface: {texture: deskside, size: [64, 64], scale: 1.25}, top_surface: {texture: desktop, size: [128, 64], offset: [96, 40]}, notes: "A lectern: the Book of Great Power (q-d18.great_power_book)."}
+      - {at: [-2176, 1688], size: [512, 64], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Shelves along the north wall.}
+      - {at: [-1408, 1688], size: [384, 64], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Shelves along the north wall.}
+    ambient: 20
+    notes: "The Archmagus's study: the desk with Ellinger's letter, the two book lecterns, shelves, the master's chest."
+  - id: room:vault
+    name: The mages' vault
+    outline: [[1088, -576], [1856, -576], [1856, 576], [1088, 576]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:jewel_stand, at: [1664, 0], size: [96, 96], rise: 112, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: The stand of black glass where the Jewel of Ages lies.}
+    ambient: 16
+    notes: "Behind the door of light: the Jewel of Ages on its stand of black glass; the vault's keeper."
+  - id: room:well_foot
+    name: The well
+    outline: [[192, -448], [448, -192], [448, 192], [192, 448], [-192, 448], [-448, 192], [-448, -192], [-192, -448]]
+    floor: 0
+    ceiling: 2944
+    theme: theme:well
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+      - {height: 576, surface: {texture: gston1wl, size: [128, 256]}}
+      - {height: 640, surface: {texture: gstntileh, size: [128, 64]}}
+      - {height: 1216, surface: {texture: gston1wl, size: [128, 256]}}
+      - {height: 1280, surface: {texture: gstntileh, size: [128, 64]}}
+      - {height: 1856, surface: {texture: gston1wl, size: [128, 256]}}
+      - {height: 1920, surface: {texture: gstntileh, size: [128, 64]}}
+    ceiling_levels:
+      - ceiling: 3584
+        top_scale: 0
+        notes: The slate cone over the well.
+    ambient: 18
+    notes: "The levitation well, an octagon open from the ground floor to the slate cone (2,944 at the walls, 3,584 at the point): the galleries' railed windows on every floor, a marble band at each floor's slab, the floating disc resting against its east wall at the top floor."
+openings:
+  - id: open:cabinet_dorm
+    from: room:cabinet
+    to: room:dormitory
+    from_wall: 0
+    to_wall: 2
+    link: link:cabinet_dorm
+    width: 192
+    height: 320
+  - id: open:conjury_scrying
+    from: room:conjury
+    to: room:scrying
+    from_wall: 1
+    to_wall: 3
+    link: link:conjury_scrying
+    along: 0.6667
+    width: 256
+    height: 320
+    notes: The passage in the wall between the two pylon rooms.
+  - id: open:dorm_mirror
+    from: room:dormitory
+    to: room:mirror
+    from_wall: 3
+    to_wall: 1
+    link: link:dorm_mirror
+    width: 256
+    height: 320
+  - id: open:hall_ring1_n
+    from: room:door_hall
+    to: room:ring1
+    from_wall: 2
+    to_wall: 4
+    link: link:hall_ring1
+    width: 320
+    height: 384
+  - id: open:hall_ring1_s
+    from: room:door_hall
+    to: room:ring1
+    from_wall: 0
+    to_wall: 12
+    link: link:hall_ring1_s
+    width: 320
+    height: 384
+  - id: open:hall_stair12
+    from: room:door_hall
+    to: room:stair12
+    from_wall: 0
+    to_wall: 2
+    link: link:stair_1_2
+    along: 0.0833
+    width: 192
+    height: 320
+    notes: "The foot of the stair, beside the door: the first stair hall."
+  - id: open:hall_well
+    from: room:door_hall
+    to: room:well_foot
+    from_wall: 1
+    to_wall: 5
+    link: link:hall_well
+    width: 320
+    height: 384
+    notes: "The door hall opens on the well's foot: an arch."
+  - id: open:lab_study
+    from: room:lab
+    to: room:study
+    from_wall: 3
+    to_wall: 1
+    link: link:lab_study
+    along: 0.6
+    width: 192
+    height: 320
+  - id: open:mirror_ring2
+    from: room:mirror
+    to: room:ring2
+    from_wall: 2
+    to_wall: 0
+    link: link:mirror_ring2
+    width: 256
+    height: 320
+  - id: open:ring1_commons
+    from: room:ring1
+    to: room:commons
+    from_wall: 0
+    to_wall: 2
+    link: link:ring1_commons
+    width: 192
+    height: 320
+  - id: open:ring1_store
+    from: room:ring1
+    to: room:store
+    from_wall: 1
+    to_wall: 3
+    link: link:ring1_store
+    width: 192
+    height: 320
+  - id: open:ring1_well_e
+    from: room:ring1
+    to: room:well_foot
+    from_wall: 8
+    to_wall: 1
+    link: link:well_ring1
+    width: 320
+    height: 384
+    notes: "The east arch: the disc comes to rest at the foot of it."
+  - id: open:ring1_well_n
+    from: room:ring1
+    to: room:well_foot
+    from_wall: 6
+    to_wall: 3
+    width: 320
+    height: 384
+    notes: An arch from the east gallery into the well's foot.
+  - id: open:ring1_well_ne
+    from: room:ring1
+    to: room:well_foot
+    from_wall: 7
+    to_wall: 2
+    width: 256
+    height: 384
+    notes: An arch from the east gallery into the well's foot.
+  - id: open:ring1_well_s
+    from: room:ring1
+    to: room:well_foot
+    from_wall: 10
+    to_wall: 7
+    width: 320
+    height: 384
+    notes: An arch from the east gallery into the well's foot.
+  - id: open:ring2_cabinet
+    from: room:ring2
+    to: room:cabinet
+    from_wall: 1
+    to_wall: 3
+    link: link:ring2_cabinet
+    along: 0.8
+    width: 192
+    height: 320
+  - id: open:ring2_well_e
+    from: room:ring2
+    to: room:well_foot
+    from_wall: 8
+    to_wall: 1
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring2_well_n
+    from: room:ring2
+    to: room:well_foot
+    from_wall: 6
+    to_wall: 3
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring2_well_ne
+    from: room:ring2
+    to: room:well_foot
+    from_wall: 7
+    to_wall: 2
+    width: 256
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring2_well_s
+    from: room:ring2
+    to: room:well_foot
+    from_wall: 10
+    to_wall: 7
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring2_well_se
+    from: room:ring2
+    to: room:well_foot
+    from_wall: 9
+    to_wall: 0
+    width: 256
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring3_conjury
+    from: room:ring3
+    to: room:conjury
+    from_wall: 2
+    to_wall: 0
+    link: link:ring3_conjury
+    width: 192
+    height: 320
+  - id: open:ring3_scrying
+    from: room:ring3
+    to: room:scrying
+    from_wall: 2
+    to_wall: 0
+    link: link:ring3_scrying
+    width: 192
+    height: 320
+  - id: open:ring3_vault
+    from: room:ring3
+    to: room:vault
+    from_wall: 1
+    to_wall: 3
+    link: link:ward
+    width: 192
+    height: 320
+    notes: The vault's door of light.
+  - id: open:ring3_well_e
+    from: room:ring3
+    to: room:well_foot
+    from_wall: 8
+    to_wall: 1
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring3_well_n
+    from: room:ring3
+    to: room:well_foot
+    from_wall: 6
+    to_wall: 3
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring3_well_ne
+    from: room:ring3
+    to: room:well_foot
+    from_wall: 7
+    to_wall: 2
+    width: 256
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring3_well_s
+    from: room:ring3
+    to: room:well_foot
+    from_wall: 10
+    to_wall: 7
+    width: 320
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring3_well_se
+    from: room:ring3
+    to: room:well_foot
+    from_wall: 9
+    to_wall: 0
+    width: 256
+    height: 288
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring4_disc
+    from: room:ring4
+    to: room:well_foot
+    from_wall: 8
+    to_wall: 1
+    link: link:disc_ring4
+    width: 320
+    height: 384
+    notes: "The disc's landing: an opening in the gallery's rail over the well, where the floating disc rests."
+  - id: open:ring4_lab
+    from: room:ring4
+    to: room:lab
+    from_wall: 2
+    to_wall: 0
+    link: link:ring4_lab
+    width: 192
+    height: 320
+  - id: open:ring4_roof
+    from: room:ring4
+    to: room:roof_stair
+    from_wall: 0
+    to_wall: 2
+    link: link:ring4_roof
+    along: 0.2105
+    width: 256
+    height: 320
+    notes: From the gallery's south arm into the roof stair (D-58).
+  - id: open:ring4_well_n
+    from: room:ring4
+    to: room:well_foot
+    from_wall: 6
+    to_wall: 3
+    width: 320
+    height: 352
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring4_well_ne
+    from: room:ring4
+    to: room:well_foot
+    from_wall: 7
+    to_wall: 2
+    width: 256
+    height: 352
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring4_well_s
+    from: room:ring4
+    to: room:well_foot
+    from_wall: 10
+    to_wall: 7
+    width: 320
+    height: 352
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:ring4_well_se
+    from: room:ring4
+    to: room:well_foot
+    from_wall: 9
+    to_wall: 0
+    width: 256
+    height: 352
+    sill: 80
+    notes: A railed window over the well.
+  - id: open:stair12_top
+    from: room:stair12
+    to: room:stair2
+    from_wall: 2
+    to_wall: 0
+    link: link:stair_1_2
+    along: 0.1667
+    width: 320
+    height: 384
+    notes: "The head of the first stair: its gallery opens north on to the second landing."
+  - id: open:stair23_top
+    from: room:stair23
+    to: room:stair3
+    from_wall: 0
+    to_wall: 2
+    link: link:stair_2_3
+    along: 0.1667
+    width: 320
+    height: 384
+    notes: "The head of the second stair: its gallery opens south on to the third landing."
+  - id: open:stair2_ring2_n
+    from: room:stair2
+    to: room:ring2
+    from_wall: 2
+    to_wall: 4
+    link: link:stair2_ring2
+    width: 320
+    height: 384
+  - id: open:stair2_ring2_s
+    from: room:stair2
+    to: room:ring2
+    from_wall: 0
+    to_wall: 12
+    link: link:stair2_ring2_s
+    width: 320
+    height: 384
+  - id: open:stair2_stair23
+    from: room:stair2
+    to: room:stair23
+    from_wall: 2
+    to_wall: 0
+    link: link:stair_2_3
+    along: 0.1667
+    width: 256
+    height: 320
+    notes: "The foot of the second stair, at the east end of its hall."
+  - id: open:stair2_well
+    from: room:stair2
+    to: room:well_foot
+    from_wall: 1
+    to_wall: 5
+    width: 320
+    height: 288
+    sill: 80
+    notes: The landing's railed window over the well.
+  - id: open:stair34_top
+    from: room:stair34
+    to: room:stair4
+    from_wall: 2
+    to_wall: 0
+    link: link:stair_3_4
+    along: 0.1667
+    width: 320
+    height: 384
+    notes: "The head of the third stair: its gallery opens north on to the top landing."
+  - id: open:stair3_ring3_n
+    from: room:stair3
+    to: room:ring3
+    from_wall: 2
+    to_wall: 4
+    link: link:stair3_ring3
+    width: 320
+    height: 384
+  - id: open:stair3_ring3_s
+    from: room:stair3
+    to: room:ring3
+    from_wall: 0
+    to_wall: 12
+    link: link:stair3_ring3_s
+    width: 320
+    height: 384
+  - id: open:stair3_stair34
+    from: room:stair3
+    to: room:stair34
+    from_wall: 0
+    to_wall: 2
+    link: link:stair_3_4
+    along: 0.0833
+    width: 192
+    height: 320
+    notes: "The foot of the third stair, at the west end of its hall."
+  - id: open:stair3_well
+    from: room:stair3
+    to: room:well_foot
+    from_wall: 1
+    to_wall: 5
+    width: 320
+    height: 288
+    sill: 80
+    notes: The landing's railed window over the well.
+  - id: open:stair4_ring4_n
+    from: room:stair4
+    to: room:ring4
+    from_wall: 2
+    to_wall: 4
+    link: link:stair4_ring4
+    width: 320
+    height: 384
+  - id: open:stair4_ring4_s
+    from: room:stair4
+    to: room:ring4
+    from_wall: 0
+    to_wall: 12
+    link: link:stair4_ring4_s
+    width: 320
+    height: 384
+  - id: open:stair4_well
+    from: room:stair4
+    to: room:well_foot
+    from_wall: 1
+    to_wall: 5
+    width: 320
+    height: 288
+    sill: 80
+    notes: The landing's railed window over the well.
+  - id: open:study_stair4
+    from: room:study
+    to: room:stair4
+    from_wall: 0
+    to_wall: 2
+    link: link:study_stair4
+    width: 192
+    height: 320
+  - id: open:vault_alcoves
+    from: room:vault
+    to: room:alcoves
+    from_wall: 1
+    to_wall: 3
+    link: link:vault_alcoves
+    width: 320
+    height: 320
+notes: "DD-07 Eastern Tower at L4: four floors 640 apart round the levitation well (an octagon open from the ground floor to the slate cone), each with its gallery (a U round the well's north, east and south) and its landing hall west of the well; three two-storey stair halls west of the landings, alternating south, north, south. L1: the door hall (the D3 door), the commons, the store room. L2: the cabinet of curiosities, the dormitory, the mirror room. L3: the conjury and the scrying room (the two ward pylons), the vault behind its door of light, the disk alcoves. L4: the laboratory and the study (MM7 7d14). x east, y north. Written by output/studio_cal/dd07/tools/gen.py."

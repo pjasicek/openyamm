@@ -1,0 +1,468 @@
+format: 0
+start:
+  room: room:stair
+  at: [0, 0]
+  facing: n
+  notes: "The marble stair's foot, facing north into the conduit."
+arrivals:
+  - {entrance: entrance:d7_stair, room: room:stair, at: [0, 0], facing: n, notes: "From D7's marble grate in the gods' row (door:dd26, A6): 'Descend into the sewer?' (aaze0037:1)."}
+doors:
+  - id: door:den
+    opening: open:conduit_den
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    notes: "The den's plank door, two leaves (d01's hhm1d and its twin hhm1d2): 'Cyrano sells the password.' (aaze0038:12) is its hover."
+  - id: door:outfall_grate
+    opening: open:east_outfall
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    notes: "The outfall's grate: iron bars that lift."
+  - id: door:spill_grate
+    opening: open:west_spill
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    notes: "The spillway's grate: iron bars that lift."
+  - id: door:tribble
+    opening: open:tdoor_vault
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtemprf, size: [128, 128]}
+    pictures:
+      - [{texture: gcs05a, size: [128, 256]}, {texture: gcs05b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gcs05a, size: [128, 256]}, {texture: gcs05b, size: [128, 256]}]
+    notes: "The tribble door: two riveted bronze leaves (gcs05a | gcs05b, the right the left's twin) under the marble lintel, opening apart into the vault; the password opens them for good (117805)."
+sounds:
+  - {id: sound:basin, room: room:cistern, at: [0, 2496], sound: water lapping loop, radius: 1600, inner_radius: 400, volume: 0.35, notes: The cistern's clear water.}
+  - {id: sound:bed_cistern, room: room:cistern, at: [0, 2496], sound: xeen_amb_sewer, radius: 2800, inner_radius: 900, volume: 0.35, notes: The bed over the cistern and the culverts' north ends (not panned)., pan: false}
+  - {id: sound:bed_conduit, room: room:conduit, at: [0, 512], sound: xeen_amb_sewer, radius: 2800, inner_radius: 900, volume: 0.35, notes: "The sewer's bed over the conduit, the stair and the culverts' south ends (D-48: not panned).", pan: false}
+  - {id: sound:cistern_drip, room: room:cistern, at: [-1024, 2848], sound: drip03, radius: 1400, inner_radius: 300, volume: 0.3, wait: [4, 10], notes: The cistern's deeper drip from the vault.}
+  - {id: sound:conduit_water_e, room: room:conduit, at: [896, 512], sound: rushing water loop, radius: 1200, inner_radius: 300, volume: 0.25, notes: "The conduit's water, east run."}
+  - {id: sound:conduit_water_w, room: room:conduit, at: [-896, 512], sound: rushing water loop, radius: 1200, inner_radius: 300, volume: 0.25, notes: "The conduit's water, west run."}
+  - {id: sound:outfall, room: room:outfall, at: [2992, 1088], sound: waterfall loop1, radius: 1100, inner_radius: 250, volume: 0.3, notes: The water falling away through the barred mouth.}
+  - {id: sound:tribbles, room: room:den, at: [0, 1700], height: 160, sound: xeen_tribble_purr, radius: 1000, inner_radius: 300, volume: 0.45, notes: The tribbles purring in the den's cages (AU).}
+lights:
+  - id: light:cistern_1
+    room: room:cistern
+    at: [-1621, 2496]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:cistern_2
+    room: room:cistern
+    at: [0, 2496]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:cistern_3
+    room: room:cistern
+    at: [1621, 2496]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:conduit_1
+    room: room:conduit
+    at: [-1194, 512]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:conduit_2
+    room: room:conduit
+    at: [0, 512]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:conduit_3
+    room: room:conduit
+    at: [1194, 512]
+    radius: 1280
+    color: [215, 220, 235]
+  - id: light:den_1
+    room: room:den
+    at: [0, 1408]
+    radius: 768
+    color: [240, 190, 130]
+  - id: light:east_1
+    room: room:east
+    at: [2176, 608]
+    radius: 798
+    color: [160, 175, 190]
+  - id: light:east_2
+    room: room:east
+    at: [2176, 1440]
+    radius: 798
+    color: [160, 175, 190]
+  - id: light:outfall_1
+    room: room:outfall
+    at: [2784, 1088]
+    radius: 700
+    color: [160, 175, 190]
+  - id: light:spill_1
+    room: room:spill
+    at: [-2784, 1088]
+    radius: 700
+    color: [160, 175, 190]
+  - id: light:stair_1
+    room: room:stair
+    at: [0, -576]
+    radius: 768
+    color: [215, 220, 235]
+  - id: light:tdoor_1
+    room: room:tdoor
+    at: [2816, 2560]
+    radius: 700
+    color: [215, 220, 235]
+  - id: light:vault_1
+    room: room:vault
+    at: [3776, 2560]
+    radius: 700
+    color: [245, 205, 120]
+  - id: light:vault_2
+    room: room:vault
+    at: [4224, 2560]
+    height: 160
+    radius: 600
+    color: [245, 205, 120]
+    notes: The gold's glow round the offerings' chest.
+  - id: light:west_1
+    room: room:west
+    at: [-2176, 608]
+    radius: 798
+    color: [160, 175, 190]
+  - id: light:west_2
+    room: room:west
+    at: [-2176, 1440]
+    radius: 798
+    color: [160, 175, 190]
+chests:
+  - id: chest:spill
+    room: room:spill
+    at: [-2624, 1408]
+    floor_height: 64
+    kind: 7gt002
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: On the weir's dry ledge (T6).
+  - id: chest:vault
+    room: room:vault
+    at: [4288, 2560]
+    floor_height: 64
+    kind: 7gt002
+    facing: w
+    treasure_level: 6
+    random_items: 4
+    gold: 6000
+    notes: "The offerings' chest on the vault's ledge (T6), the map's goal."
+monsters:
+  - id: monster:cistern_elemental_1
+    room: room:cistern
+    monster: 11710
+    at: [-640, 2848]
+    facing: 90
+    group: 4
+  - id: monster:cistern_elemental_2
+    room: room:cistern
+    monster: 11710
+    at: [640, 2848]
+    facing: 90
+    group: 4
+  - id: monster:cistern_lesser_1
+    room: room:cistern
+    monster: 11625
+    at: [-2048, 2560]
+    facing: 90
+    group: 5
+  - id: monster:cistern_lesser_2
+    room: room:cistern
+    monster: 11625
+    at: [-1920, 2816]
+    facing: 90
+    group: 5
+  - id: monster:conduit_lesser_1
+    room: room:conduit
+    monster: 11625
+    at: [-1150, 320]
+    facing: 90
+    group: 1
+  - id: monster:conduit_lesser_2
+    room: room:conduit
+    monster: 11625
+    at: [-950, 704]
+    facing: 90
+    group: 1
+  - id: monster:conduit_lesser_3
+    room: room:conduit
+    monster: 11625
+    at: [-1400, 704]
+    facing: 90
+    group: 1
+  - id: monster:east_lesser_1
+    room: room:east
+    monster: 11625
+    at: [2080, 704]
+    facing: 90
+    group: 6
+  - id: monster:east_lesser_2
+    room: room:east
+    monster: 11625
+    at: [2080, 1408]
+    facing: 90
+    group: 6
+  - id: monster:east_lesser_3
+    room: room:east
+    monster: 11625
+    at: [2080, 1664]
+    facing: 90
+    group: 6
+  - id: monster:outfall_lesser_1
+    room: room:outfall
+    monster: 11625
+    at: [2620, 896]
+    facing: 90
+    group: 7
+  - id: monster:outfall_lesser_2
+    room: room:outfall
+    monster: 11625
+    at: [2600, 1184]
+    facing: 90
+    group: 7
+  - id: monster:spill_lesser_1
+    room: room:spill
+    monster: 11625
+    at: [-2620, 896]
+    facing: 90
+    group: 3
+  - id: monster:spill_lesser_2
+    room: room:spill
+    monster: 11625
+    at: [-2600, 1184]
+    facing: 90
+    group: 3
+  - id: monster:vault_elemental_1
+    room: room:vault
+    monster: 11710
+    at: [3712, 2304]
+    facing: 90
+    group: 8
+  - id: monster:vault_elemental_2
+    room: room:vault
+    monster: 11710
+    at: [3712, 2816]
+    facing: 90
+    group: 8
+  - id: monster:vault_lesser_1
+    room: room:vault
+    monster: 11625
+    at: [3968, 2560]
+    facing: 90
+    group: 8
+  - id: monster:west_lesser_1
+    room: room:west
+    monster: 11625
+    at: [-2080, 704]
+    facing: 90
+    group: 2
+  - id: monster:west_lesser_2
+    room: room:west
+    monster: 11625
+    at: [-2080, 1408]
+    facing: 90
+    group: 2
+  - id: monster:west_lesser_3
+    room: room:west
+    monster: 11625
+    at: [-2080, 1664]
+    facing: 90
+    group: 2
+decorations:
+  - id: deco:cage_counter_1
+    room: room:den
+    decoration: 7dec05
+    at: [-480, 1800]
+    notes: A tribble cage hung from the den's vault (MM7's empty cage 7dec05).
+  - id: deco:cage_counter_2
+    room: room:den
+    decoration: 7dec05
+    at: [-320, 1800]
+    notes: A tribble cage hung from the den's vault (MM7's empty cage 7dec05).
+  - id: deco:cage_counter_3
+    room: room:den
+    decoration: 7dec05
+    at: [400, 1800]
+    notes: A tribble cage hung from the den's vault (MM7's empty cage 7dec05).
+  - id: deco:cage_west_1
+    room: room:den
+    decoration: 7dec05
+    at: [-576, 1280]
+    notes: A tribble cage hung from the den's vault (MM7's empty cage 7dec05).
+  - id: deco:cage_west_2
+    room: room:den
+    decoration: 7dec05
+    at: [-576, 1472]
+    notes: A tribble cage hung from the den's vault (MM7's empty cage 7dec05).
+  - id: deco:den_bowl
+    room: room:den
+    decoration: foodbowl
+    at: [-448, 1056]
+  - id: deco:sconce_0
+    room: room:stair
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_1
+    room: room:stair
+    decoration: scon100
+    wall: w
+    along: 0.75
+    height: 192
+  - id: deco:sconce_10
+    room: room:spill
+    decoration: scon100
+    wall: e
+    along: 0.2
+    height: 192
+  - id: deco:sconce_11
+    room: room:outfall
+    decoration: scon100
+    wall: w
+    along: 0.8
+    height: 192
+  - id: deco:sconce_12
+    room: room:cistern
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:sconce_13
+    room: room:cistern
+    decoration: scon100
+    wall: n
+    along: 0.75
+    height: 192
+  - id: deco:sconce_14
+    room: room:cistern
+    decoration: scon100
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_15
+    room: room:cistern
+    decoration: scon100
+    wall: s
+    along: 0.7
+    height: 192
+  - id: deco:sconce_16
+    room: room:tdoor
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_17
+    room: room:tdoor
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sconce_18
+    room: room:vault
+    decoration: scon200
+    wall: n
+    along: 0.6
+    height: 192
+  - id: deco:sconce_19
+    room: room:vault
+    decoration: scon200
+    wall: s
+    along: 0.6
+    height: 192
+  - id: deco:sconce_2
+    room: room:conduit
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 192
+  - id: deco:sconce_3
+    room: room:conduit
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 192
+  - id: deco:sconce_4
+    room: room:conduit
+    decoration: scon100
+    wall: n
+    along: 0.2
+    height: 192
+  - id: deco:sconce_5
+    room: room:conduit
+    decoration: scon100
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:sconce_6
+    room: room:den
+    decoration: scon100
+    wall: w
+    along: 0.85
+    height: 192
+  - id: deco:sconce_7
+    room: room:den
+    decoration: scon100
+    wall: e
+    along: 0.15
+    height: 192
+  - id: deco:sconce_8
+    room: room:west
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 192
+  - id: deco:sconce_9
+    room: room:east
+    decoration: scon100
+    wall: w
+    along: 0.25
+    height: 192
+  - id: deco:vault_coin_1
+    room: room:vault
+    decoration: bag01
+    at: [4256, 2144]
+  - id: deco:vault_coin_2
+    room: room:vault
+    decoration: bag_A
+    at: [4256, 2976]
+  - id: deco:vault_cup_1
+    room: room:vault
+    decoration: 7dec46
+    at: [3328, 2128]
+  - id: deco:vault_cup_2
+    room: room:vault
+    decoration: 7dec48
+    at: [3424, 2120]
+  - id: deco:vault_cup_3
+    room: room:vault
+    decoration: 7dec46
+    at: [4096, 2992]
+  - id: deco:vault_statue
+    room: room:vault
+    decoration: 7dec55
+    at: [3456, 2976]
+    facing: 270
+    notes: "The gilt statue by the north wall (MM7's statue 7dec55; the graph's toppled statue stands: no decoration lies on its side)."
+  - id: deco:vault_vase
+    room: room:vault
+    decoration: dec97
+    at: [3904, 2992]
+exits:
+  - id: exit:grate
+    room: room:stair
+    at: [0, -1216]
+    floor_height: 448
+    size: [160, 320]
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    to: exit:d7_stair
+    notes: "The grate at the stair's top, its bars rising into the shaft: up to Olympus (D7's entrance:dd26_stair)."
+notes: "DD-26's contents, written by output/studio_cal/dd26/tools/dress.py: 4 doors (the den's plank pair, the spillway's and the outfall's grates, the tribble door's bronze pair), 2 chests (T6), 20 placed monsters (Lesser Water Elemental 11625 x16, Water Elemental 11710 x4, one faction); Cyrano's counter door is a wall panel (rooms.yml door:pets_unlimited, house 4815); the grate at the stair's top is the exit face."

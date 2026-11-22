@@ -1,0 +1,742 @@
+format: 0
+level: L2
+pitch: "Under the ruined tower on the Isle of Lost Souls, five floors go down, each shut by a cheerful gate that asks a question and opens to a glad Yes. The minotaurs the coven threw out keep the storerooms, the cells, the Soul Waters and their Private Reserve; at the bottom the Soul Maze spells its maker's name in its walls, the horned throne at its heart, and beyond the fifth gate the aviary of magic birds with the Songbird of Serenity in the last cage. A lift brings the party back up."
+purpose: "Story M24 (the carving, five yes-gates, the Songbird on L5); Q-D25 The Minotaur's Labyrinth (the horned throne); the source's puzzles (hourglasses, cell levers, dials and the Soul Waters, the lever riddle, the birds). Party 37-39; band 35-55; 45 monsters; treasure 4, the Reserve 5. About 40 minutes."
+mood: "A ruin open to the failing Darkside sun over grey brick storerooms; dark wet rock below; the ivy-grown Soul Maze, torchlit at its turns; the bright aviary at the bottom."
+datum: arrival
+spaces:
+  - id: room:aviary
+    name: The aviary
+    kind: room
+    size: M
+    extent: [1504, 1408]
+    floor: -2560
+    clear_height: 512
+    purpose: "Six stat birds (+2 each, once), the Parrot of Prophecy, the Songbird (m24.songbird); the lift."
+    empty: true
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+  - id: room:barracks4
+    name: Minotaurs' barracks
+    kind: room
+    size: M
+    extent: [1536, 736]
+    floor: -1920
+    clear_height: 512
+    purpose: "Straw pallets, a trough; a purse (a find)."
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [1, 1], levels: [45, 45], placed: true}
+  - id: room:cell1
+    name: First cell
+    kind: room
+    size: S
+    extent: [384, 480]
+    floor: -640
+    clear_height: 512
+    purpose: Bones (a find).
+    empty: true
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+  - id: room:cell2
+    name: Second cell
+    kind: room
+    size: S
+    extent: [384, 480]
+    floor: -640
+    clear_height: 512
+    purpose: Bones (a find).
+    empty: true
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+  - id: room:cell3
+    name: Third cell
+    kind: room
+    size: S
+    extent: [384, 480]
+    floor: -640
+    clear_height: 512
+    purpose: A chest.
+    empty: true
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The third cell's chest.}
+  - id: room:dials3
+    name: Gallery of dials
+    kind: corridor
+    size: M
+    extent: [2016, 512]
+    floor: -1280
+    clear_height: 512
+    purpose: Four dials and the statue that says to turn them all up.
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:entry
+    name: Entrance hall
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    floor: 0
+    clear_height: 768
+    purpose: "The ruined tower's base, open to the sky: the arrival from D4 and the way out (the double door), the carved plaque and the first gate (m24.arrival, m24.gate1); the lift head's arch. Quiet."
+    empty: true
+    safe: true
+    theme: "D4's towers kit: hkm2b rubble masonry, red rock floor cfb1, open to the sky"
+  - id: room:flight1
+    name: Stair to the cells
+    kind: corridor
+    size: S
+    extent: [352, 1280]
+    floor: [-640, 0]
+    clear_height: 448
+    purpose: L1 to L2.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:flight2
+    name: Stair to the pool
+    kind: corridor
+    size: S
+    extent: [1280, 352]
+    floor: [-1280, -640]
+    clear_height: 448
+    purpose: L2 to L3.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:flight3
+    name: Stair to the Reserve
+    kind: corridor
+    size: S
+    extent: [1280, 352]
+    floor: [-1920, -1280]
+    clear_height: 448
+    purpose: L3 to L4.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:flight4
+    name: Stair to the Soul Maze
+    kind: corridor
+    size: S
+    extent: [352, 1280]
+    floor: [-2560, -1920]
+    clear_height: 448
+    purpose: L4 to L5.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:flooded3
+    name: Flooded walk
+    kind: corridor
+    size: M
+    extent: [2048, 512]
+    floor: -1280
+    clear_height: 512
+    purpose: The wet way round.
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [3, 3], levels: [45, 45], placed: true}
+  - id: room:gallery1
+    name: Hall of storage
+    kind: room
+    size: L
+    extent: [4352, 480]
+    floor: 0
+    clear_height: 512
+    purpose: "Four 'Minotaur Storage' doors and arches; the hourglass panel in its west end."
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:gate_hall2
+    name: Second gate
+    kind: room
+    size: M
+    extent: [864, 1024]
+    floor: -640
+    clear_height: 512
+    purpose: "The second gate (m24.gate2); the third cell's lever."
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [2, 2], levels: [38, 38], placed: true}
+  - id: room:gate_hall3
+    name: Third gate
+    kind: room
+    size: M
+    extent: [992, 1024]
+    floor: -1280
+    clear_height: 512
+    purpose: The third gate (m24.gate3). Quiet.
+    empty: true
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+  - id: room:gate_hall4
+    name: Fourth gate
+    kind: room
+    size: M
+    extent: [960, 1024]
+    floor: -1920
+    clear_height: 512
+    purpose: The fourth gate (m24.gate4). Quiet.
+    empty: true
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+  - id: room:gate_hall5
+    name: Fifth gate
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    floor: -2560
+    clear_height: 512
+    purpose: The fifth gate (m24.gate5) and a Minotaur Lord.
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur Lord (11092), groups: 1, per_marker: [1, 1], levels: [55, 55], placed: true, notes: the gate's keeper}
+  - id: room:levers4
+    name: Hall of levers
+    kind: room
+    size: L
+    extent: [1760, 1536]
+    floor: -1920
+    clear_height: 512
+    purpose: "Twelve levers in four rows of three; the third row's east one lifts the Reserve's portcullis, the others are stuck."
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [2, 2], levels: [38, 38], placed: true}
+      - {actor: Gorgon (11091), groups: 1, per_marker: [2, 2], levels: [45, 45], placed: true}
+  - id: room:lift_head
+    name: Lift head
+    kind: room
+    size: S
+    extent: [480, 480]
+    floor: 0
+    clear_height: 512
+    purpose: "The cage's upper stop beside the entrance hall: before the Songbird 'The cage does not move. Far below, something sings.'"
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:maze_dead
+    name: Maze dead end
+    kind: room
+    size: S
+    extent: [768, 512]
+    floor: -2560
+    clear_height: 384
+    purpose: "Behind the illusion: bones and a chest."
+    empty: true
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The lost adventurer's chest.}
+  - id: room:maze_e
+    name: "Soul Maze: the E"
+    kind: corridor
+    size: M
+    extent: [1024, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: The west half.
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [1, 1], levels: [38, 38], placed: true}
+  - id: room:maze_e2
+    name: "Soul Maze: the second E"
+    kind: corridor
+    size: M
+    extent: [1024, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: The illusory wall under it.
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [1, 1], levels: [38, 38], placed: true}
+  - id: room:maze_h
+    name: "Soul Maze: the H"
+    kind: corridor
+    size: M
+    extent: [1024, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: The west half.
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [1, 1], levels: [45, 45], placed: true}
+  - id: room:maze_l
+    name: Heart of the maze (the L)
+    kind: room
+    size: M
+    extent: [1024, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: "The horned throne (q-d25.throne) where both halves meet; a Minotaur Lord."
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur Lord (11092), groups: 1, per_marker: [1, 1], levels: [55, 55], placed: true, notes: the throne's keeper}
+  - id: room:maze_m
+    name: "Soul Maze: the M"
+    kind: corridor
+    size: M
+    extent: [1536, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: The east half's first letter.
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [1, 1], levels: [38, 38], placed: true}
+  - id: room:maze_s
+    name: "Soul Maze: the S"
+    kind: corridor
+    size: M
+    extent: [768, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: "The west half's last letter, to the fifth gate."
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [1, 1], levels: [38, 38], placed: true}
+  - id: room:maze_t
+    name: "Soul Maze: the T"
+    kind: corridor
+    size: M
+    extent: [1024, 1280]
+    floor: -2560
+    clear_height: 384
+    purpose: Down its stem to the heart.
+    theme: "d02's ivy walls eswamp, cfb1, ceb1sa"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [1, 1], levels: [45, 45], placed: true}
+  - id: room:negative3
+    name: Negative Soul Waters
+    kind: room
+    size: M
+    extent: [992, 1024]
+    floor: -1280
+    clear_height: 512
+    purpose: "Black waters (you feel emptier); a chest."
+    empty: true
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: By the black waters.}
+  - id: room:north_walk2
+    name: North walk
+    kind: corridor
+    size: M
+    extent: [1600, 384]
+    floor: -640
+    clear_height: 512
+    purpose: The first cell's lever.
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [2, 2], levels: [38, 38], placed: true}
+  - id: room:plaque4
+    name: Hall of the plaque
+    kind: room
+    size: M
+    extent: [1024, 1536]
+    floor: -1920
+    clear_height: 512
+    purpose: The riddle's plaque (aaze0081:2).
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:pool3
+    name: Stagnant pool
+    kind: room
+    size: M
+    extent: [1280, 1536]
+    floor: -1280
+    clear_height: 512
+    purpose: "'The water is stagnant' (aaze0080:0)."
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:reserve4
+    name: The Minotaur's Private Reserve
+    kind: room
+    size: M
+    extent: [1280, 992]
+    floor: -1920
+    clear_height: 512
+    purpose: "The hoard, casks, the second Soul Waters (m24.soul_waters_l4); a Minotaur Lord keeps it."
+    theme: "d02's red rock cwb1, cfb1, ceb1sa"
+    population:
+      - {actor: Minotaur Lord (11092), groups: 1, per_marker: [1, 1], levels: [55, 55], placed: true, notes: the Reserve's keeper}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, items: [2, 3], notes: The hoard.}
+  - id: room:shaft
+    name: Lift shaft
+    kind: corridor
+    size: S
+    extent: [512, 512]
+    floor: -2560
+    clear_height: 3008
+    purpose: The closed shaft from the aviary to the lift head.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:soul3
+    name: Soul Waters
+    kind: room
+    size: M
+    extent: [960, 1024]
+    floor: -1280
+    clear_height: 512
+    purpose: "The fountain and its lever: all dials at 4, then the lever, then drink (m24.soul_waters_l3)."
+    empty: true
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+  - id: room:south_walk2
+    name: South walk
+    kind: corridor
+    size: M
+    extent: [1600, 384]
+    floor: -640
+    clear_height: 512
+    purpose: "The cell row; the second cell's lever."
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [2, 2], levels: [45, 45], placed: true}
+  - id: room:stair1
+    name: Stair head
+    kind: room
+    size: S
+    extent: [544, 1792]
+    floor: 0
+    clear_height: 512
+    purpose: The stair down to L2.
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:statue_hall2
+    name: Hall of the statue
+    kind: room
+    size: M
+    extent: [1216, 1152]
+    floor: -640
+    clear_height: 512
+    purpose: "The speaking statue (aaze0079:1); the stuck lever."
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:statues5
+    name: Alamar's statues
+    kind: room
+    size: M
+    extent: [1024, 2528]
+    floor: -2560
+    clear_height: 512
+    purpose: "Four statues, one verse each (aaze0082:18-22); the maze's mouth."
+    theme: "d02's grey brick cwb, flags t5s1fl, the carved ceiling t5s1c"
+    population:
+      - {actor: Gorgon (11091), groups: 1, per_marker: [2, 2], levels: [45, 45], placed: true}
+  - id: room:store_a
+    name: Minotaur Storage (north-west)
+    kind: room
+    size: M
+    extent: [960, 608]
+    floor: 0
+    clear_height: 512
+    purpose: "A storeroom; an hourglass."
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [3, 3], levels: [38, 38], placed: true}
+  - id: room:store_b
+    name: Minotaur Storage (north-east)
+    kind: room
+    size: M
+    extent: [928, 608]
+    floor: 0
+    clear_height: 512
+    purpose: "A storeroom; an hourglass; the door to the stair head."
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:store_c
+    name: Minotaur Storage (south-west)
+    kind: room
+    size: M
+    extent: [768, 640]
+    floor: 0
+    clear_height: 512
+    purpose: "A storeroom; an hourglass."
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    population:
+      - {actor: Minotaur (11090), groups: 1, per_marker: [2, 2], levels: [38, 38], placed: true}
+  - id: room:store_d
+    name: Minotaur Storage (south-east)
+    kind: room
+    size: M
+    extent: [736, 640]
+    floor: 0
+    clear_height: 512
+    purpose: "A storeroom; an hourglass; bones (a find); the arch to the stair head."
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+  - id: room:vault1
+    name: Hourglass vault
+    kind: room
+    size: S
+    extent: [512, 512]
+    floor: 0
+    clear_height: 512
+    purpose: "Behind the panel that opens when all four hourglasses are turned: a chest."
+    empty: true
+    theme: "MM7 The Maze (d02): grey brick cwb, red rock floor cfb1, green stone ceiling ceb1sa"
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The minotaurs' strongbox.}
+links:
+  - id: link:aviary_shaft
+    from: room:aviary
+    to: room:shaft
+    kind: open
+  - id: link:barracks_levers
+    from: room:barracks4
+    to: room:levers4
+    kind: open
+  - id: link:cell1
+    from: room:south_walk2
+    to: room:cell1
+    kind: door
+    motion: slide
+    notes: "Bars: the north walk's lever."
+  - id: link:cell2
+    from: room:south_walk2
+    to: room:cell2
+    kind: door
+    motion: slide
+    notes: "Bars: the south walk's lever."
+  - id: link:cell3
+    from: room:south_walk2
+    to: room:cell3
+    kind: door
+    motion: slide
+    notes: "Bars: the gate hall's lever."
+  - id: link:dials_soul
+    from: room:dials3
+    to: room:soul3
+    kind: open
+  - id: link:flooded_negative
+    from: room:flooded3
+    to: room:negative3
+    kind: open
+  - id: link:gallery_lift
+    from: room:gallery1
+    to: room:lift_head
+    kind: open
+  - id: link:gallery_store_a
+    from: room:gallery1
+    to: room:store_a
+    kind: door
+    motion: swing
+  - id: link:gallery_store_c
+    from: room:gallery1
+    to: room:store_c
+    kind: door
+    motion: swing
+  - id: link:gate1
+    from: room:entry
+    to: room:gallery1
+    kind: door
+    motion: swing
+    notes: "The first gate (two leaves): m24.gate1."
+  - id: link:gate2
+    from: room:gate_hall2
+    to: room:flight2
+    kind: door
+    motion: swing
+    notes: "The second gate: m24.gate2."
+  - id: link:gate3
+    from: room:gate_hall3
+    to: room:flight3
+    kind: door
+    motion: swing
+    notes: "The third gate: m24.gate3."
+  - id: link:gate4
+    from: room:gate_hall4
+    to: room:flight4
+    kind: door
+    motion: swing
+    notes: "The fourth gate: m24.gate4."
+  - id: link:gate5
+    from: room:gate_hall5
+    to: room:aviary
+    kind: door
+    motion: swing
+    notes: "The fifth gate: m24.gate5."
+  - id: link:illusion
+    from: room:maze_e2
+    to: room:maze_dead
+    kind: secret_door
+    notes: "'An illusion!'"
+  - id: link:levers_gate
+    from: room:levers4
+    to: room:gate_hall4
+    kind: open
+  - id: link:levers_reserve
+    from: room:levers4
+    to: room:reserve4
+    kind: door
+    motion: slide
+    notes: The riddle's lever.
+  - id: link:lift
+    from: room:shaft
+    to: room:lift_head
+    kind: lift
+    rise: 2560
+    notes: "The cage: after m24.bird_freed (D-42 (2))."
+  - id: link:maze_e2_t
+    from: room:maze_e2
+    to: room:maze_t
+    kind: open
+  - id: link:maze_e_h
+    from: room:maze_e
+    to: room:maze_h
+    kind: open
+  - id: link:maze_h_s
+    from: room:maze_h
+    to: room:maze_s
+    kind: open
+  - id: link:maze_l_e
+    from: room:maze_l
+    to: room:maze_e
+    kind: open
+  - id: link:maze_m_e2
+    from: room:maze_m
+    to: room:maze_e2
+    kind: open
+  - id: link:maze_s_gate
+    from: room:maze_s
+    to: room:gate_hall5
+    kind: open
+  - id: link:maze_t_l
+    from: room:maze_t
+    to: room:maze_l
+    kind: open
+  - id: link:negative_gate
+    from: room:negative3
+    to: room:gate_hall3
+    kind: open
+  - id: link:north_gate
+    from: room:north_walk2
+    to: room:gate_hall2
+    kind: open
+  - id: link:plaque_barracks
+    from: room:plaque4
+    to: room:barracks4
+    kind: door
+    motion: swing
+  - id: link:plaque_levers
+    from: room:plaque4
+    to: room:levers4
+    kind: open
+  - id: link:pool_dials
+    from: room:pool3
+    to: room:dials3
+    kind: open
+  - id: link:pool_flooded
+    from: room:pool3
+    to: room:flooded3
+    kind: open
+  - id: link:soul_gate
+    from: room:soul3
+    to: room:gate_hall3
+    kind: open
+  - id: link:south_gate
+    from: room:south_walk2
+    to: room:gate_hall2
+    kind: open
+  - id: link:stair1
+    from: room:statue_hall2
+    to: room:stair1
+    kind: stairs
+    rise: 640
+    notes: L1-L2 (flight1).
+  - id: link:stair2
+    from: room:pool3
+    to: room:flight2
+    kind: stairs
+    rise: 640
+    notes: L2-L3 (flight2).
+  - id: link:stair3
+    from: room:plaque4
+    to: room:flight3
+    kind: stairs
+    rise: 640
+    notes: L3-L4 (flight3).
+  - id: link:stair4
+    from: room:statues5
+    to: room:flight4
+    kind: stairs
+    rise: 640
+    notes: L4-L5 (flight4).
+  - id: link:statue_north
+    from: room:statue_hall2
+    to: room:north_walk2
+    kind: open
+  - id: link:statue_south
+    from: room:statue_hall2
+    to: room:south_walk2
+    kind: open
+  - id: link:statues_maze
+    from: room:statues5
+    to: room:maze_m
+    kind: open
+  - id: link:store_a_b
+    from: room:store_a
+    to: room:store_b
+    kind: open
+  - id: link:store_b_stair
+    from: room:store_b
+    to: room:stair1
+    kind: door
+    motion: swing
+  - id: link:store_c_d
+    from: room:store_c
+    to: room:store_d
+    kind: open
+  - id: link:store_d_stair
+    from: room:store_d
+    to: room:stair1
+    kind: open
+  - id: link:vault
+    from: room:gallery1
+    to: room:vault1
+    kind: secret_door
+    notes: The hourglass panel.
+loops:
+  - id: loop:barracks
+    spaces: [room:plaque4, room:levers4, room:barracks4]
+    notes: Through the barracks or straight into the lever hall.
+  - id: loop:cells
+    spaces: [room:statue_hall2, room:north_walk2, room:gate_hall2, room:south_walk2]
+    notes: North and south walks round the cell block to the second gate.
+  - id: loop:lift
+    spaces: [room:aviary, room:shaft, room:lift_head, room:gallery1]
+    notes: After the Songbird the lift closes the whole descent into a ring (D-42 (2)).
+  - id: loop:storage
+    spaces: [room:gallery1, room:store_a, room:store_b, room:stair1, room:store_d, room:store_c]
+    notes: Two ways through Minotaur Storage to the stair head.
+  - id: loop:waters
+    spaces: [room:pool3, room:dials3, room:soul3, room:gate_hall3, room:negative3, room:flooded3]
+    notes: "The dry way by the dials and the Soul Waters, the wet way by the Negative Soul Waters."
+entrances:
+  - id: entrance:d4_isle
+    space: room:entry
+    kind: both
+    neighbour: exit:d4_door
+    facing: n
+    how: "D4's door:dd12 (m24.isle_door): inside the double door; out by it (the exit preset)."
+critical_path: [room:entry, room:gallery1, room:store_a, room:store_b, room:stair1, room:flight1, room:statue_hall2, room:north_walk2, room:gate_hall2, room:flight2, room:pool3, room:dials3, room:soul3, room:gate_hall3, room:flight3, room:plaque4, room:levers4, room:gate_hall4, room:flight4, room:statues5, room:maze_m, room:maze_e2, room:maze_t, room:maze_l, room:maze_e, room:maze_h, room:maze_s, room:gate_hall5, room:aviary]
+return_path: [room:aviary, room:shaft, room:lift_head, room:gallery1, room:entry]
+goals:
+  - id: goal:songbird
+    space: room:aviary
+    kind: take
+    what: "The Songbird of Serenity from the last cage (m24.songbird, bird_freed)."
+  - id: goal:throne
+    space: room:maze_l
+    kind: set
+    what: The horned throne at the maze's heart (q-d25.throne).
+  - id: goal:waters
+    space: room:soul3
+    kind: set
+    what: "The Soul Waters (m24.soul_waters_l3, _l4): experience once per member."
+atmosphere: "The entrance hall open to the failing sun (preset xeen_darkside_fading); torchlit brick and rock (ambient 12-18), the maze dark (8), the aviary bright (20). Music 20. Sounds: drips (xeen_amb_mine), wind over the broken roof, water at the pool and the Soul Waters, braziers."
+diagram: {file: diagram.txt}
+totals:
+  chests: 5
+  doors: 16
+  fixed_actors: 45
+  floor_area_millions: 38
+  loops: 5
+  monsters_about: 45
+  rooms: 43
+  sectors: 43
+  spawn_points: 0
+notes: "Class M (MAPS, Dungeons): 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors. The graph's spaces as rooms, the stairs and the lift shaft rooms of their own; the Soul Maze's two halves (maze_w, maze_e) and its heart become the seven letters SHELTEM (D-42 (3)), the heart the L; the cells of the lost three cells off the south walk."

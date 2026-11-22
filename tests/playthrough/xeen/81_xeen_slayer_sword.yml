@@ -1,0 +1,238 @@
+# Xeen playthrough, segment 81: the Excavation Permit and the Xeen Slayer Sword (X2, X4, XD-07, X3, XD-13), M22 and M23.
+# On Darzog's island (X2) with Crodo free. Medin's boat back to his jetty (event 143); off X2's north edge into Burlock
+# Savannah (X4); Castle Burlock's gate into XD-07, the portcullis lifts for Crusaders; the gallery of arms: Artemus
+# (Lord Xeen: the Excavation Permit 12307, m22.started 111440, the autonote 4122, 1,000 each) and Emerson in the
+# Master Builder's Office (Dungeon, with the permit and 5 of the party's 6 Megacredits: m22.dungeon 111441 and
+# m23.started 111460, 2,000 each). Out by the castle door; down the Asp road off X4's south edge west of x 0 into
+# Lifeforce Lagoon (X3, the world's edge_spans); the Newcastle site's stair into the foundations (X3 event 81) into
+# XD-13 at stage 3, walked along A7's playtest (devdocs/xeen/briefs/xd13/L4/playtest.yml): the great hall's first
+# syllable (la), the pantry's sack (bo), the court by the stair (ra); down the dug-out stair into the flooded cellar's
+# shelf (to); the old laboratory's last wall (ry); the vault door's "Password?": laboratory (m23.vault_door:
+# vault_opened 111461); the rack (m23.sword: the Xeen Slayer Sword 12500, m23.done 111462, the autonote 4123, 10,000
+# each). Back up and out by the keep's gate onto X3's Newcastle site. Chests, the larder and YOUR well left alone.
+# Quest logic: source/quests/m22.yml, m23.yml.
+#   python3 tests/playthrough/xeen/run.py 81
+id: xeen.playthrough.81_xeen_slayer_sword
+title: "Xeen playthrough 81: Artemus's permit, Emerson digs, the vault under Newcastle opens on laboratory"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/79_darzogs_tower.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - assert: {qbit_set: [110500, 110501, 111221]}
+  - assert: {qbit_clear: [111440, 111441, 111460, 111461, 111462]}
+  - play_lua: {source: "log('81 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold() .. '; Megacredits ' .. item_count(12192)); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12192) < 5 then error('fewer than 5 Megacredits: ' .. item_count(12192)) end"}
+  # Medin's boat back to his jetty (event 143 on the island).
+  - set_pose: {map: xeen_x2.odm, x: -14848, y: 1792, z: 768, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(143); wait(1); close()"}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -8704, y: 2253, radius: 200}}
+  # North off X2's edge into Burlock Savannah (as segment 29).
+  - set_pose: {map: xeen_x2.odm, x: 0, y: 13312, z: 1024, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: 14080, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 15104, z: 1056, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 18432, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 21504, z: 1216, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 24064, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Castle Burlock's lane and gate (X4 event 180 into XD-07's gatehouse); the portcullis lifts for Crusaders.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 5120, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(11) ~= 'open' then click(40); wait(8) end; if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # Through the throne room's double doors (event 25, doors 13 and 14; shut since the last audience) to the gallery of
+  # arms: Artemus (house 4202), Lord Xeen: the Excavation Permit.
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 20 do
+          local a, b = door_state(13), door_state(14)
+          if (a == "open" or a == "closed") and (b == "open" or b == "closed") then break end
+          wait(0.5)
+        end
+        if door_state(13) ~= "open" or door_state(14) ~= "open" then click(25); wait(3) end
+        if door_state(13) ~= "open" or door_state(14) ~= "open" then error("the throne room doors: " .. door_state(13) .. " " .. door_state(14)) end
+  - walk_to: {x: 0, y: 4000, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3872, y: 4150, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(1); wait(1)"}
+  - assert: {dialog: {source_id: 4402}}
+  - select_topic: {match_label: "Lord Xeen"}
+  - assert: {dialog: {text_contains: "an Excavation Permit for Newcastle's dungeon"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12307) then error("no Excavation Permit (12307): " .. pack_items()) end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 1000 then error("the permit paid " .. xp .. " experience, not 1,000") end
+  - assert: {qbit_set: [111440]}
+  - assert: {autonote: {id: 4122, present: true}}
+  # Emerson's office next door (house 4203), Dungeon: the permit and five Megacredits.
+  - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('mega', item_count(12192)); click(6); wait(1)"}
+  - assert: {dialog: {source_id: 4403}}
+  - select_topic: {match_label: "Dungeon"}
+  - assert: {dialog: {text_contains: "A permit, signed and sealed, and five Megacredits."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        if has_item(12307) then error("Emerson left the permit with the party") end
+        if recall("mega") - item_count(12192) ~= 5 then error("Emerson took " .. (recall("mega") - item_count(12192)) .. " Megacredits, not 5") end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 2000 then error("the dig paid " .. xp .. " experience, not 2,000") end
+        if gold() ~= recall("gold") then error("M22 paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111440, 111441, 111460]}
+  # Out by the castle door onto the castle rise.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Down the Asp road off X4's south edge west of x 0 into Lifeforce Lagoon (X3's north road end).
+  - set_pose: {map: xeen_x4.odm, x: -14336, y: -20224, z: 1024, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -14336, y: -24064, z: 992, z_tolerance: 3000, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -7168, y: 22016, radius: 300}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Newcastle site: the stair into the foundations (X3 event 81, the deed m8) into XD-13, dug out (stage 3).
+  - set_pose: {map: xeen_x3.odm, x: 10496, y: 15053, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(81); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd13.blv}
+  - assert: {party_position: {x: 0, y: 320, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if door_state(4) ~= 'open' then error('the dungeon stair is still choked at stage 3: ' .. door_state(4)) end"}
+  # The great hall: the first syllable on the north wall.
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1300, close_dialogs: true}
+  - walk_to: {x: -400, y: 2700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1300, close_dialogs: true}
+  - walk_to: {x: 0, y: 2850, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "1: la"}}
+  - play_lua: {source: "close()"}
+  # The pantry: the second under a sack.
+  - walk_to: {x: -1000, y: 2816, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 2)"}
+  - walk_to: {x: -2048, y: 3000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2600, y: 3080, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "2: bo"}}
+  - play_lua: {source: "close()"}
+  # The statue court: the third by the stair.
+  - walk_to: {x: -1000, y: 2816, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1728, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1800, y: 1728, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2176, y: 1050, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "3: ra"}}
+  - play_lua: {source: "close()"}
+  # Down the dug-out stair into the flooded cellar: the fourth on the shelf.
+  - walk_to: {x: 2528, y: 1000, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2528, y: 380, z: -100, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2528, y: -850, z: -580, z_tolerance: 80, radius: 96, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2528, y: -1350, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3100, y: -1400, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 3100, y: -1856, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(36); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "4: to"}}
+  - play_lua: {source: "close()"}
+  # The old laboratory: its iron golems; the fifth on the last wall before the vault.
+  - walk_to: {x: 1950, y: -1300, z: -640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1450, y: -1920, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 420, y: -1472, z: -640, radius: 72, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "5: ry"}}
+  - play_lua: {source: "close()"}
+  # The vault door's grille asks for the word: la-bo-ra-to-ry (Crodo's word too).
+  - walk_to: {x: 400, y: -1920, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -450, y: -1920, z: -640, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(38); wait(0.5)"}
+  - answer_input: {text: "laboratory"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "The humming stops."}}
+  - play_lua: {source: "close(); wait(6); if door_state(5) ~= 'open' then error('the vault door did not open: ' .. door_state(5)) end"}
+  - assert: {qbit_set: [111461]}
+  # The sword vault: the rack (m23.sword).
+  - walk_to: {x: -1000, y: -1920, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1216, y: -1680, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(35); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[XEEN SLAYER]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        if take_chest() then close() end   -- D-90 (b): the rack is a chest holding the sword (A7's XD-13)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12500) ~= 1 then error("no Xeen Slayer Sword (12500): " .. pack_items()) end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 10000 then error("the sword paid " .. xp .. " experience, not 10,000") end
+        if gold() ~= recall("gold") then error("M23 paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111462]}
+  - assert: {autonote: {id: 4123, present: true}}
+  # Back up through the laboratory, the cellar and the stair to the keep's gate; out onto X3's Newcastle site.
+  - walk_to: {x: -1000, y: -1920, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 400, y: -1920, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1950, y: -1300, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2528, y: -1350, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2528, y: -850, z: -580, z_tolerance: 80, radius: 96, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2528, y: 380, z: -100, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2528, y: 1000, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1728, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - advance_runtime: {seconds: 1.0}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 10496, y: 15216, radius: 160, z_min: 1600, z_max: 1900}}
+  - assert: {qbit_set: [110501, 111440, 111441, 111460, 111461, 111462]}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12500) ~= 1 then error("no Xeen Slayer Sword (12500) at the end") end
+        if has_item(12307) then error("the Excavation Permit (12307) is still carried") end
+        log("81 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Megacredits " .. item_count(12192))
+  - save_game: {name: "81 The Xeen Slayer Sword", path: output/playthrough/xeen/checkpoints/81_xeen_slayer_sword.oysav}

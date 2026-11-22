@@ -1,0 +1,84 @@
+# D-57 (XD-18 APPROVAL, RELAYS A7) and D-32. (1) The great roost's four Fire Dragons (actors [28, 29, 30, 31]) see the
+# party (immortal) at the stair foot's opening for 60 s: they stay in the roost and its dragon roads; no Fire Dragon is
+# in the stair foot (those that come press against the roost's east wall at its low opening), more than their own in the pools, the old roost or the fire crossing, or in the library. (2) The
+# party stands under the starwell's slot of stars (sky: true over the void, X7's preset); a Frost Dragon summoned
+# pressed into the slot (y 2,620, z -100, 60 off the wall, its feet at the slot's middle) (actor 41) and the starwell's three stay in the map for 40 s: every one is south of the north
+# wall (y under 2,688), none lost. (3) On the roost ledge the party walks 3 s straight at the 128 lip: it stops at the
+# lip, still on the ledge at z 0 (192 if it steps over, as FD-03's parapet).
+id: xeen.xd18.l4.dragons
+title: "Dragon Cave (XD-18 L4), D-57's three checks: the roost, the starwell's slot, the ledge's lip"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd18.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - assert: {map: xeen_xd18.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  # (1) the roost
+  - set_pose: {map: xeen_xd18.blv, x: 8576, y: 0, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_count: {monster_id: 11642, near: [6656, -832, 1700], min: 4}}
+  - advance_runtime: {seconds: 30}
+  - play_lua: {source: "log('roost after 30 s: ' .. tostring(status()))"}
+  - advance_runtime: {seconds: 30}
+  - assert: {actor_visible: {actor_index: 28, dead: false, report_state: true}}
+  - assert: {actor_visible: {actor_index: 29, dead: false, report_state: true}}
+  - assert: {actor_visible: {actor_index: 30, dead: false, report_state: true}}
+  - assert: {actor_visible: {actor_index: 31, dead: false, report_state: true}}
+  - assert: {actor_count: {monster_id: 11642, near: [8600, 0, 300], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [8576, 800, 280], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [9600, 900, 250], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [9472, 1792, 1000], max: 3}}
+  - assert: {actor_count: {monster_id: 11642, near: [7296, 1408, 850], max: 3}}
+  - assert: {actor_count: {monster_id: 11642, near: [8960, -1728, 600], max: 2}}
+  - assert: {actor_count: {monster_id: 11642, near: [1920, -384, 1000], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [1900, -3000, 900], max: 0}}
+  - assert: {actor_visible: {actor_index: 28, near: {x: 5568, y: -800, max_distance: 3200}}}
+  - assert: {actor_visible: {actor_index: 29, near: {x: 5568, y: -800, max_distance: 3200}}}
+  - assert: {actor_visible: {actor_index: 30, near: {x: 5568, y: -800, max_distance: 3200}}}
+  - assert: {actor_visible: {actor_index: 31, near: {x: 5568, y: -800, max_distance: 3200}}}
+  # west of the roost's east wall (x 8,192): a circle centred far west whose edge runs along the wall
+  - assert: {actor_visible: {actor_index: 28, near: {x: -40000, y: -832, max_distance: 48192}}}
+  - assert: {actor_visible: {actor_index: 29, near: {x: -40000, y: -832, max_distance: 48192}}}
+  - assert: {actor_visible: {actor_index: 30, near: {x: -40000, y: -832, max_distance: 48192}}}
+  - assert: {actor_visible: {actor_index: 31, near: {x: -40000, y: -832, max_distance: 48192}}}
+  # (2) the starwell slot
+  - set_pose: {map: xeen_xd18.blv, x: 4736, y: 2500, z: -1024, yaw: 1.5708, pitch: 0.4}
+  - advance_runtime: {seconds: 0.5}
+  - spawn_actor: {monster_id: 11643, count: 1, x: 4736, y: 2620, z: -100}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 41, dead: false, report_state: true}}
+  - advance_runtime: {seconds: 20}
+  - assert: {actor_visible: {actor_index: 41, dead: false, report_state: true}}
+  - advance_runtime: {seconds: 20}
+  - assert: {actor_visible: {actor_index: 41, dead: false, report_state: true, near: {x: 4736, y: -20000, max_distance: 22688}}}
+  - assert: {actor_visible: {actor_index: 34, dead: false, report_state: true, near: {x: 4736, y: -20000, max_distance: 22688}}}
+  - assert: {actor_visible: {actor_index: 35, dead: false, report_state: true, near: {x: 4736, y: -20000, max_distance: 22688}}}
+  - assert: {actor_visible: {actor_index: 36, dead: false, report_state: true, near: {x: 4736, y: -20000, max_distance: 22688}}}
+  - assert: {actor_count: {monster_id: 11643, min: 15, max: 15}}
+  - assert: {actor_count: {monster_id: 11643, near: [4736, 1664, 2000], min: 4}}
+  # (3) the ledge lip
+  - clear_hostiles: {radius: 20000}
+  - set_pose: {map: xeen_xd18.blv, x: 6656, y: -2080, z: 0, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: 6656, y: -2080, radius: 48, z_min: -8, z_max: 8}}
+  - movement_segment:
+      input: forward
+      seconds: 3
+      start: {map: xeen_xd18.blv, x: 6656, y: -2080, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: xeen_xd18.blv, x: 6656, y: -1880, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 120
+      tolerance_z: 24
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "log('at the lip: ' .. tostring(status()))"}
+  - assert: {party_position: {x: 6656, y: -1950, radius: 160, z_min: -8, z_max: 8}}

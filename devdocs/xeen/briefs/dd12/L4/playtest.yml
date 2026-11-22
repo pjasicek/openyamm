@@ -1,0 +1,421 @@
+# Playtest of the Dungeon of Lost Souls (DD-12, L4): the critical path from D4's door to the aviary and the lift back,
+# through every mechanism, the hooks and the bosses. A level-37 party arrives in the entrance hall (m24.arrival's
+# window, dd12_arrived_once), reads the plaque (m24.arrival again), answers No at the first gate (m24.gate_shut: it
+# stays shut, no qbit, no wave) and then Yes (m24.gate_open, the map's gate1 qbit, both leaves open). The lift head
+# refuses before the Songbird. L1: the four hourglasses (one turned back and over again) open the vault panel (its
+# chest), the bones' find. L2: the speaking statue on arrival, the stuck lever, the three cell levers (bars up), the
+# two bone finds and the third cell's chest, the second gate. L3: the stagnant pool, the Soul Waters stagnant and the
+# lever stuck before the dials, the four dials to 4, the lever, the waters once per member (m24.soul_waters_l3, 1,000)
+# and "Refreshing.", the Negative Soul Waters and their chest, the third gate. L4: the riddle's plaque, a wrong lever
+# stuck, the third row's east lever lifts the Reserve's portcullis, the barracks' purse, the Reserve's Lord, hoard and
+# Soul Waters (m24.soul_waters_l4, 2,000, then "Refreshing."), the fourth gate. L5: Alamar's verse, the Soul Maze
+# letter by letter (M, E, the illusion and the dead end's bones and chest, T, the horned throne in the L:
+# q-d25.throne then its else text, E, H, S), the fifth gate, the six stat birds (+2 each, once), the Parrot, the lift
+# refused, the Songbird (m24.songbird: bird_freed, the bird 12526); then the lift up to L1, down again, and called up
+# from the lift head. A save and a load keep the gates and the Songbird. Numbers are ids.lock.yml's.
+# Run with --world xeen --map xeen_dd12.blv (output/studio_cal/dd12/four.sh).
+id: xeen.dd12.l4.walk
+title: Dungeon of Lost Souls (DD-12 L4), the five gates to the Songbird and the lift back
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd12.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 37, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 37, skills: [], equipment: {}}
+  - assert: {map: xeen_dd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "NEVER UNDERESTIMATE THE POWER OF POSITIVE THINKING"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117440) then error('dd12_arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: -352, radius: 64, z_min: -8, z_max: 8}}
+  # The plaque: m24.arrival again.
+  - walk_to: {x: 0, y: 300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(64); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Answer gladly and the way opens"}}
+  - play_lua: {source: "close(); if door_state(6) ~= 'closed' or door_state(7) ~= 'closed' then error('the first gate does not start shut') end"}
+  # Gate 1: No (it stays shut and asks again), then Yes.
+  - execute_event: {id: 37}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Will you find what you came for?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The gate sighs, and stays shut."}}
+  - play_lua: {source: "close(); wait(2); if qbit(117441) then error('gate1 set by No') end; if door_state(6) ~= 'closed' then error('No opened the gate') end"}
+  - execute_event: {id: 37}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Will you find what you came for?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The gate swings open, cheerfully."}}
+  - play_lua: {source: "close(); wait(3); if not qbit(117441) then error('gate1 not set by Yes') end; if door_state(6) ~= 'open' or door_state(7) ~= 'open' then error('the first gate did not open: ' .. door_state(6) .. ' ' .. door_state(7)) end"}
+  # The lift head refuses before the Songbird.
+  - walk_to: {x: 0, y: 780, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1900, y: 780, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2320, y: 800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(18); wait(1)
+        local seen = status()
+        if not string.find(seen, "Far below, something sings.", 1, true) then error("the lift head said: " .. seen) end
+        if door_state(1) ~= "closed" then error("the cage moved before the Songbird: " .. door_state(1)) end
+        if door_state(16) ~= "closed" then error("the top gate opened before the Songbird") end
+  # Minotaur Storage: the four hourglasses open the vault panel.
+  - walk_to: {x: -1900, y: 780, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 864, y: 900, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 19)"}
+  - walk_to: {x: 864, y: 1300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status()
+        click(52); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "You turn the hour glass over.", 1, true) then error("glass a said: " .. seen) end
+        status()
+        click(52); wait(0.5)
+        seen = status()
+        if not string.find(seen, "You turn the hour glass back.", 1, true) then error("glass a again said: " .. seen) end
+        click(52); wait(0.5)
+  - walk_to: {x: 1824, y: 1360, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - walk_to: {x: 2150, y: 1360, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(32, 20)"}
+  - walk_to: {x: 2600, y: 1360, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2600, y: 192, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1800, y: 192, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(55); wait(0.5)"}
+  - walk_to: {x: 1700, y: 330, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before = gold()
+        click(8); wait(0.5)
+        if gold() ~= before + 350 then error("the bones gave " .. (gold() - before) .. " gold") end
+        status()
+        click(8); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the bones again said: " .. seen) end
+        if door_state(22) ~= "closed" then error("the vault panel opened before the fourth glass") end
+  - walk_to: {x: 1152, y: 200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(54); wait(7); local seen = status(); if door_state(22) ~= 'open' then error('the vault panel did not open: ' .. door_state(22)) end"}
+  - walk_to: {x: 1152, y: 420, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 21)"}
+  - walk_to: {x: 1152, y: 780, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 780, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: 1350, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(23)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Down to L2: the speaking statue on arrival.
+  - walk_to: {x: -384, y: 780, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1152, y: 780, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1152, y: 200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2608, y: 192, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2608, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2608, y: -1320, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2608, y: -1700, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "All of the lost souls in this dungeon have become lost"}}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3000, y: -2304, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(60); wait(0.5); local seen = status(); if not string.find(seen, 'The lever is stuck.', 1, true) then error('the fourth lever said: ' .. seen) end"}
+  # The three cell levers.
+  - walk_to: {x: 1900, y: -1728, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 800, y: -1700, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "if door_state(3) ~= 'closed' then error('the first cell does not start barred') end; click(57); wait(4); if door_state(3) ~= 'open' then error('lever 1 did not raise the bars: ' .. door_state(3)) end"}
+  - walk_to: {x: 300, y: -1728, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -350, y: -1700, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(59); wait(4); if door_state(5) ~= 'open' then error('lever 3 did not raise the bars: ' .. door_state(5)) end"}
+  - walk_to: {x: 300, y: -2368, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1600, y: -2300, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(58); wait(4); if door_state(4) ~= 'open' then error('lever 2 did not raise the bars: ' .. door_state(4)) end"}
+  - walk_to: {x: 704, y: -2400, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 704, y: -2760, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(6); wait(0.5); if gold() ~= before + 400 then error('cell 1 bones gave ' .. (gold() - before)) end"}
+  - walk_to: {x: 1216, y: -2400, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1216, y: -2760, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(7); wait(0.5); status(); click(7); wait(0.5); local seen = status(); if not string.find(seen, 'Nothing here.', 1, true) then error('cell 2 bones again said: ' .. seen) end"}
+  - walk_to: {x: 1728, y: -2400, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1728, y: -2880, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(19)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Gate 2 and down to L3.
+  - walk_to: {x: 1728, y: -2400, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -2048, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: -2048, z: -640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 40}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Is the glass half full?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); wait(3); if not qbit(117442) then error('gate2 not set') end; if door_state(8) ~= 'open' or door_state(9) ~= 'open' then error('the second gate did not open') end"}
+  - walk_to: {x: -600, y: -2048, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1700, y: -2048, z: -1280, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2100, y: -2048, z: -1280, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(65); wait(0.5); local seen = status(); if not string.find(seen, 'The water is stagnant.', 1, true) then error('the pool said: ' .. seen) end"}
+  # L3: the Soul Waters stagnant and the lever stuck before the dials; the dials; the lever; the waters.
+  - walk_to: {x: -1900, y: -1600, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -600, y: -1600, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 768, y: -1400, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(82); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The water is stagnant.", 1, true) then error("the waters before the lever said: " .. seen) end
+        status()
+        click(84); wait(0.5)
+        seen = status()
+        if not string.find(seen, "The lever is stuck.", 1, true) then error("the lever before the dials said: " .. seen) end
+  - walk_to: {x: -600, y: -1500, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        for n = 26, 29 do
+          for k = 1, 3 do
+            status(); click(n); wait(0.3)
+          end
+          local seen = status()
+          if not string.find(seen, "It is set at 4.", 1, true) then error("dial " .. n .. " said: " .. seen) end
+        end
+  - walk_to: {x: 768, y: -1400, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "status(); click(84); wait(0.5); local seen = status(); if not string.find(seen, 'The lever moves!', 1, true) then error('the lever with the dials up said: ' .. seen) end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(82); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+1,000 experience]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(82); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(82); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+1,000 experience]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - press_action: {action: select_member, member_index: 0}
+  # The Negative Soul Waters and their chest (the wet way round), then the third gate.
+  - walk_to: {x: 768, y: -1800, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: -2048, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1700, y: -2430, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 800, y: -2700, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 640, y: -2960, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(61); wait(0.5); local seen = status(); if not string.find(seen, 'You feel emptier.', 1, true) then error('the black waters said: ' .. seen) end"}
+  - walk_to: {x: 1100, y: -2560, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(21)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1700, y: -2430, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2100, y: -2048, z: -1280, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 43}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Will tomorrow be better than today?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); wait(3); if not qbit(117443) then error('gate3 not set') end; if door_state(10) ~= 'open' then error('the third gate did not open') end"}
+  - walk_to: {x: 2400, y: -2048, z: -1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3500, y: -2048, z: -1920, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 3900, y: -2048, z: -1920, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # L4: the riddle, the levers, the barracks, the Reserve.
+  - walk_to: {x: 4096, y: -1700, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(88); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "third from the top and far to the East"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4800, y: -2048, z: -1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 5120, y: -1700, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(66); wait(0.5); local seen = status(); if not string.find(seen, 'The lever is stuck.', 1, true) then error('a wrong lever said: ' .. seen) end; if door_state(18) ~= 'closed' then error('the portcullis does not start shut') end"}
+  - walk_to: {x: 5888, y: -2340, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(74); wait(8); local seen = status(); if door_state(18) ~= 'open' then error('the riddle lever did not lift the portcullis: ' .. door_state(18) .. ' ' .. seen) end"}
+  - walk_to: {x: 5504, y: -2700, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5504, y: -3200, z: -1920, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 5504, y: -3100, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(22)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 5504, y: -3500, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(83); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+2,000 experience', 1, true) then error('no line: ' .. s) end"}
+  - play_lua: {source: "click(83); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 5504, y: -2600, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: -1500, z: -1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4352, y: -1380, z: -1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 2)"}
+  - walk_to: {x: 4352, y: -1000, z: -1920, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 5360, y: -760, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(78); wait(0.5); if gold() ~= before + 800 then error('the purse gave ' .. (gold() - before)) end"}
+  # The fourth gate (through the barracks back into the lever hall) and down to L5.
+  - walk_to: {x: 5200, y: -1150, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6200, y: -2048, z: -1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 7088, y: -1900, z: -1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 46}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Are your friends glad you came?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); wait(3); if not qbit(117444) then error('gate4 not set') end; if door_state(12) ~= 'open' then error('the fourth gate did not open') end"}
+  - walk_to: {x: 7088, y: -1700, z: -1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # A minotaur waits on the stair to L5 (merge point 33's storey-bound clears no longer reach it from L4): fight it.
+  - walk_to: {x: 7088, y: -560, z: -2560, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 7088, y: -200, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # L5: a verse; the Soul Maze from the M to the S.
+  - walk_to: {x: 7250, y: -64, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "my name in walls for all to see"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 6900, y: 1920, z: -2560, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6432, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 6432, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 5408, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 5408, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4384, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The illusion under the second E and the dead end.
+  - walk_to: {x: 4384, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4640, y: 1900, z: -2560, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(17) ~= 'closed' then error('the illusion does not start whole') end; status(); click(56); wait(2); local seen = status(); if not string.find(seen, 'An illusion!', 1, true) then error('the illusion said: ' .. seen) end; if door_state(17) ~= 'open' then error('the illusion did not open') end"}
+  - walk_to: {x: 4640, y: 1450, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(25); wait(0.5); status(); click(25); wait(0.5); local seen = status(); if not string.find(seen, 'Nothing here.', 1, true) then error('the dead end bones again said: ' .. seen) end"}
+  - walk_to: {x: 4880, y: 1400, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(20)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4640, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4384, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4384, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3616, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3616, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2848, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The horned throne at the heart (q-d25.throne once, then its else text).
+  - walk_to: {x: 2464, y: 2048, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "click(90); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A throne of black horn]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(113500) then error('q-d25.done not set') end; click(90); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The horned throne waits.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2336, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1312, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1312, y: 2176, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 800, y: 2176, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 800, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 288, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 288, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -736, y: 2944, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -736, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -224, y: 2432, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -224, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -736, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 1920, z: -2560, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The fifth gate and the aviary.
+  - walk_to: {x: -1760, y: 2112, z: -2560, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 49}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Is the Songbird waiting for you?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); wait(3); if not qbit(117445) then error('gate5 not set') end; if door_state(14) ~= 'open' then error('the fifth gate did not open') end"}
+  - walk_to: {x: -2100, y: 2112, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2672, y: 2304, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - lua_event: {source: "SetValue(BaseLuck, 20)"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+2 Luck (permanent)', 1, true) then error('no line: ' .. s) end"}
+  - play_lua: {source: "status(); click(9); wait(0.5); local seen = status(); if not string.find(seen, 'An empty cage, door open.', 1, true) then error('the lark again said: ' .. seen) end"}
+  - press_action: {action: select_member, member_index: 3}
+  - lua_event: {source: "if not IsAtLeast(BaseLuck, 22) or IsAtLeast(BaseLuck, 23) then error('member 4 Luck is not 22 after the lark') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "for _, n in ipairs({10, 11, 13, 14, 15}) do click(n); wait(0.3); close(); wait(0.2) end"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "close(); click(12); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Parrot of Prophecy"}}
+  - play_lua: {source: "close()"}
+  # The lift refused before the Songbird; the Songbird; the lift up, down, and called up from the lift head.
+  - walk_to: {x: -2304, y: 1800, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(17); wait(0.5); local seen = status(); if not string.find(seen, 'The Songbird is still caged.', 1, true) then error('the call before the Songbird said: ' .. seen) end"}
+  - walk_to: {x: -2784, y: 1800, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Without Megan's key (12344) the cage stays locked (m24.songbird's fail line); with it the bird comes out.
+  - play_lua: {source: "status(); click(16); wait(0.5); local s = tostring(status()); if not string.find(s, \"Megan's father kept the key\", 1, true) then error('no locked line: ' .. s) end; if qbit(111480) then error('bird_freed without the key') end"}
+  - grant_item: {item_id: 12344, member_index: 0}
+  - play_lua: {source: "if not has_item(12344) then error('no key') end; click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A small grey bird hops out of the cage]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(111480) then error('bird_freed not set') end; if not has_item(12526) then error('no Songbird') end; click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[An empty cage, door open.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - save_game: {name: dd12_songbird}
+  - load_game: {name: dd12_songbird}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if not qbit(111480) or not qbit(117445) or not qbit(117441) then error('the load lost the Songbird or the gates') end; if door_state(14) ~= 'open' then error('the fifth gate shut on load') end"}
+  - walk_to: {x: -2304, y: 1700, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2304, y: 1312, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(81); wait(8); if door_state(1) ~= 'open' then error('the cage did not rise: ' .. door_state(1)) end; if door_state(16) ~= 'open' then error('the top gate did not open') end"}
+  - assert: {party_position: {x: -2304, y: 1312, radius: 160, z_min: -16, z_max: 40}}
+  - walk_to: {x: -2320, y: 800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: -2320, y: 800, radius: 100, z_min: -8, z_max: 8}}
+  - walk_to: {x: -2304, y: 1312, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(80); wait(8)"}
+  - assert: {party_position: {x: -2304, y: 1312, radius: 160, z_min: -2576, z_max: -2520}}
+  - play_lua: {source: "if door_state(16) ~= 'closed' then error('the top gate stayed open over the empty shaft') end"}
+  - walk_to: {x: -2304, y: 1800, z: -2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - lua_event: {source: "evt.MoveToMap(-2320, 800, 0, 512, 0, 0, 0, 0, '')"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(18); wait(8); if door_state(1) ~= 'open' then error('the cage was not called up: ' .. door_state(1)) end; if door_state(16) ~= 'open' then error('the top gate did not open on the call') end"}
+  - reload: {}
+  - play_lua: {source: "if not qbit(111480) or not qbit(113500) or not qbit(117444) then error('the quest bits were lost on reload') end"}

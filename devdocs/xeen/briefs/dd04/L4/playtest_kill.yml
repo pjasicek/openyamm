@@ -1,0 +1,88 @@
+# Playtest of the Gremlin Court (DD-04, L4): the violent route of Q-D1.
+# A level-20 party strikes a court gremlin in the burrow: the map's timer (evt:court_roused) sees the court turn on the
+# party and sets court_hostile, and A2's relations turn the court side and its guards, but not the king (D-37: a
+# faction of his own, he turns only when struck himself). The party fights its way to the court and kills
+# Gettlewaithe (q-d1.gettlewaithe: gettlewaithe_slain, court_won; the map's line) and his guards (q-d1.guards_beaten;
+# the guards come out to fight and may fall on the way, so its window is not asserted here: playtest.yml does). The
+# treasury beside the throne now opens: q-d1.throne's line, throne_searched and the 3 Energy Disks (its map_gives);
+# the throne then gives the hook's else_text. After a save and a reload the king stays dead and the treasury searched.
+# Run with --world xeen --map xeen_dd04.blv. Actor 0 is Gettlewaithe, 1-3 the guards, 4 the first burrow gremlin.
+id: xeen.dd04.l4.kill
+title: The Gremlin Court (DD-04 L4), the court roused by a blow, Gettlewaithe killed, the treasury
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd04.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+  # A blow at a court gremlin rouses the court.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(113024) then error('court_hostile set before any blow') end"}
+  - damage_actor: {actor_index: 4, amount: 1}
+  - play_lua:
+      source: |
+        status(); wait(2)
+        if not qbit(113024) then error("court_hostile not set by the blow") end
+  - assert: {actor_count: {monster_id: 11026, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11025, hostile: false, max: 0}}
+  # Through the roused court side to the throne.
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 256, y: 1664, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2150, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2816, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 3200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 5)"}
+  - walk_to: {x: 0, y: 3776, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 3980, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 1)"}
+  - walk_to: {x: 0, y: 4700, z: 2, z_tolerance: 8, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Gettlewaithe dies: q-d1.gettlewaithe; the guards: q-d1.guards_beaten.
+  - damage_actor: {actor_index: 0, amount: 100000}
+  - advance_runtime: {seconds: 3}
+  - play_lua:
+      source: |
+        local s = status()
+        if not qbit(113027) or not qbit(113021) then error("gettlewaithe_slain or court_won not set") end
+        if not string.find(s, "topples off his throne of chairs", 1, true) then error("no line at his death: " .. s) end
+  - clear_hostiles: {radius: 2500}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close(); if not qbit(113025) then error('guards_beaten not set') end"}
+  # The treasury: q-d1.throne's line and the 3 Energy Disks.
+  - walk_to: {x: 208, y: 5330, z: 2, z_tolerance: 40, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You find 3 Energy Disks under the late Gettlewaithe's throne.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if not take_chest() then click(5); wait(1); if not take_chest() then error("the treasury did not open") end end
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12334) ~= 3 then error("Energy Disks: " .. tostring(item_count(12334))) end
+        if not qbit(113028) then error("throne_searched not set") end
+  # The throne afterwards: the hook's else_text.
+  - execute_event: {id: 22}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Under the throne: crumbs]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # A save and a reload: the king stays dead, the treasury searched.
+  - reload: {}
+  - assert: {actor_visible: {actor_index: 0, dead: true}}
+  - play_lua: {source: "if not qbit(113027) or not qbit(113028) then error('a bit was lost over the reload') end"}

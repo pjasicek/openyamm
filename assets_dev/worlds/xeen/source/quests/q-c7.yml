@@ -1,0 +1,98 @@
+# Q-C7 The Count of Nightshadow (QUESTS 2.1; racial promotion Vampire -> Nosferatu, QUESTS 3.2). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. Nightshadow is a vampire town on X3; its crypt is XD-24 (Act III, party
+# 25-29), so the quest is Act III. The town's signs give the rhyme and the clues; three sundials set to nine and the
+# coffin opened at night (Xeen.isNight, time-of-day gate) open the stair to the crypt, where Count Draco waits. A4's
+# Nightshadow houses open on `done` (Xeen.Stages.nightshadow). Count Du Monay (4205), the guildmaster, is the town's
+# other vampire: he gives the Nosferatu promotion once Draco is gone.
+id: Q-C7
+title: The Count of Nightshadow
+act: III
+kind: side
+status: full
+giver: null
+giver_name: (the town's signs, X3)
+maps: [X3, XD-24]
+level: 25
+block: 57
+after: []
+source: "QUESTS Q-C7; xeen/aaze0029 (the rhyme, the dials, the coffin, Du Monay)"
+
+qbits:
+  started: {id: 112140, journal: "Nightshadow's signs say: set the dials, open the Count's coffin, and bid him farewell.",
+            until: [done]}
+  done: {id: 112141, note: "Count Draco slain: Nightshadow liberated; A4's houses open on it (Xeen.Stages.nightshadow)"}
+  vault_open: {id: 110940, map: XD-24, note: "the map's own: the vault's iron door opened at night (D-25 Q1); it stays open (A7)"}
+  dials_set: {id: 112142, map: X3, note: "the map sets it when all three sundials read 9 (its own map vars), and clears it when one is turned off 9"}
+  coffin_opened: {id: 112143, note: "the coffin's stair down to the crypt (XD-24) is open"}
+
+npcs:
+  4205:              # Count Du Monay, guildmaster of the Moon Guild
+    topics:
+      - n: 1
+        label: The Count
+        states:
+          - when: {qbit: done}
+            text: "Draco is gone. The town breathes. Well, the town does. I never took it up."
+          - text: "Draco? A boor. He sleeps in the square in a box with his name on it, and he bites the customers. If the dials were set right and his lid came off at night, I would not stand in your way. I would not stand anywhere near it."
+      - n: 2
+        label: Nosferatu
+        show: {all: [{qbit: done}, {promotable: vampire}]}
+        text: "With Draco gone, someone must be the elder of this town's night. You'll do. Rise, Nosferatu."
+        do: [{promote: vampire}]
+
+hooks:
+  rhyme:
+    map: X3
+    where: "the signboard on Nightshadow's square, by the coffin"
+    sets: [started]
+    once: true
+    text: "If the dials are properly set, the count will definitely be upset. Open his coffin and bid him farewell; only then can you use the magic of the well."
+    else_text: "If the dials are properly set, the count will definitely be upset. Open his coffin and bid him farewell; only then can you use the magic of the well."
+  sign_night:
+    map: X3
+    where: "the sign on the coffin's plinth"
+    text: "Only at night can you put up a fight."
+  sign_nine:
+    map: X3
+    where: "the sign at the dial walk's entrance"
+    text: "The Count wakes at nine and sleeps at nine."
+  clue_stitch:
+    map: X3
+    where: "the first sundial's plinth (a clue to nine)"
+    text: "A stitch in time."
+  clue_cat:
+    map: X3
+    where: "the second sundial's plinth (a clue to nine)"
+    text: "Lives of a cat."
+  coffin:
+    map: X3
+    where: "Count Draco's coffin on the square: opens the stair down to the crypt (XD-24's entrance) once the dials are set (D-89: no night condition; the map's own Xeen.isNight test goes at A5's rebuild)"
+    entrance: XD-24
+    sealed: "the sundial puzzle at the door, answered on the square (the rhyme and the signs)"
+    sets: [coffin_opened]
+    requires: {qbit: dials_set}
+    once: true
+    fail_text: "The lid refuses to budge. A symbol etched on the surface of the lid flashes pale blue whenever you try to move it. The signs on the square say how the dials should stand."
+    text: "The lid slides aside. There is no Count in the coffin: only a stair, going down, and the smell of old earth."
+  draco:
+    map: XD-24
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Count Draco's death in the crypt's lowest vault (a kill timer); his hoard is the map's"
+    sets: [done]
+    once: true
+    do: [{xp: 10000}]
+    text: "Count Draco crumbles to dust, and his dust crumbles to less. Up in Nightshadow, shutters open for the first time in years."
+  well:
+    map: X3
+    where: "Nightshadow's town well, on its own (D-11.4). After done, the clicking member drinks: cured of Disease and Weakness, and +10 Personality until the next dawn (a temporary MM6-MM8 well buff; the map's well effect, A5). Before done, nothing but the text"
+    reads: [done]
+    states:
+      - when: {qbit: done}
+        text: "The water is clear and cold, and tastes faintly of garlic. You feel healthier, and somehow more likeable."
+      - text: "The water is black and tastes of iron. You decide you are not thirsty."
+
+riddles:
+  - {answer: "nine on all three sundials", where: "X3 sundials", said_by: "the sign at the dial walk: \"The Count wakes at nine and sleeps at nine.\""}
+
+rewards: {xp: 10000, gold: 0}
+playthrough: "X3: the rhyme; the three sundials to 9; the coffin at night; XD-24: Count Draco. Du Monay (Nosferatu) for a Vampire."

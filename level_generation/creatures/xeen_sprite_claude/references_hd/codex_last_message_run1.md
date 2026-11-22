@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sprite_claude/references_hd/00_three_quarter.png), the wingless Killer Sprite in a right-facing three-quarter A-pose. The selected PNG is the built-in generator’s original 1024 × 1536 RGBA output. The [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sprite_claude/references_hd/generation_runs.json) includes the prompt and both input hashes.
+
+The visible figure clears every edge by at least 81 px. A few nearly transparent pixels at 1/255 opacity extend into the margins.

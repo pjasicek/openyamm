@@ -1,0 +1,195 @@
+# Playtest of the Necropolis Sewer (DD-21, L4): the critical path of Q-D23. A level-50 party starts on D6 and comes
+# down D6's crypt stair (D6's door is A6's and still sealed, so the step makes its move: entrance:d6_stair, the
+# stair's foot (0, 0, 0) facing south, 1536): position and facing asserted, dd21_arrived_once 117720. The Hall of
+# Biers; the crypt's double doors (both leaves); the first step into the crypt runs q-d23.first_entry (sandro_met
+# 117722: "And now my hunger for the living compels me to attack you."); Sandro falls: q-d23.sandro's first text,
+# sandro_fell 117727 and beaten 113460, the risen Sandro (11926) shown and peaceful, the fallen body hidden. The grille
+# says aaze0035:29 (q-d23.grille) and stays shut; the dais's step without the heart: the beaten text. Down the railed
+# stair, the west arm, the west culvert; the culvert gate refuses (q-d23.culvert_gate); the sluice wheel
+# (q-d23.sluice_wheel: sluice_open 117721) lifts it, and a second turn says it is open; the steps down to the heart
+# culvert, the jar (q-d23.heart: the heart 12353), then "An empty jar."; back by the east culvert and the east arm (the
+# ring), up the stair; on the dais with the heart: q-d23.sandro's heart text and "Give Sandro his heart?" (Yes), "Ask
+# Sandro for his ritual first?" (No: a Priest and a Wizard are present), q-d23.release: released 113462, the Key to
+# the Dungeon of Death 12354 given and the heart taken, the risen Sandro hidden, the grille lifts; the reliquary's
+# chest; the bier then reads empty. Out by the grille pair's left wing: the game's leave window, OK: D6's
+# entrance:dd21_stair (17408, -11776) facing 512. Numbers are ids.lock.yml's (events, doors) and the built scene's actor
+# indices (objects.yml's monsters by id: 0-1 the barrel's roaches, 15 Sandro, 16 the risen Sandro). Run with
+# --world xeen (output/studio_cal/dd21/four.sh).
+id: xeen.dd21.l4.walk
+title: Necropolis Sewer (DD-21 L4), Sandro's fall, the sluice, the heart and the release
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d6.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_d6.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Down D6's crypt stair (D6's door:dd21 will make this move): entrance:d6_stair at the foot, facing south.
+  - lua_event: {source: "evt.MoveToMap(0, 0, 0, 1536, 0, 0, 0, 0, \"xeen_dd21.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd21.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close(); if not qbit(117720) then error('dd21_arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 1536, facing_within: 64}}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: false}}
+  # The Hall of Biers: its two Greater Liches.
+  - walk_to: {x: 0, y: -800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700)"}
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(600)"}
+  # The crypt's double doors (both leaves), the first step in: q-d23.first_entry.
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(2) ~= 'closed' or door_state(3) ~= 'closed' then error('the crypt doors do not start shut') end; click(17); wait(3); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('the leaves did not open: ' .. door_state(2) .. ' ' .. door_state(3)) end"}
+  - walk_to: {x: 0, y: -2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "And now my hunger for the living compels me to attack you."}}
+  - play_lua: {source: "close(); if not qbit(117722) then error('sandro_met not set') end; if qbit(117727) then error('sandro_fell set too early') end"}
+  # Sandro falls once: q-d23.sandro's first text; the risen Sandro by his bier, the fallen body hidden.
+  - play_lua: {source: "clear_hostiles(900)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "I am Sandro, the most accomplished sorcerer"}}
+  - play_lua: {source: "close(); wait(1); if not qbit(117727) then error('sandro_fell not set') end; if not qbit(113460) then error('beaten not set') end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: true}}
+  - assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+  # The grille before the release (aaze0035:29); the dais's step without the heart.
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Don't even THINK about taking my statuette!"}}
+  - play_lua: {source: "close(); if door_state(4) ~= 'closed' then error('the grille is not shut') end"}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You have beaten me once, and it changed nothing. Bring the heart."}}
+  - play_lua: {source: "close()"}
+  # Down the railed stair to the sewer.
+  - walk_to: {x: -160, y: -2700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -400, y: -1408, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -830, y: -1408, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -830, y: -1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1560, y: -1088, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1500, y: -1500, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1300)"}
+  # A drain's find (drain_1 117724), then "Nothing here.".
+  - walk_to: {x: -2224, y: -1560, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(20); wait(0.5); if gold() ~= before + 900 then error('the drain gave ' .. (gold() - before)) end; if not qbit(117724) then error('drain_1 not set') end; status(); click(20); wait(0.5); local seen = status(); if not string.find(seen, 'Nothing here.', 1, true) then error('the emptied drain said: ' .. seen) end"}
+  # The west culvert to the outfall: the culvert gate refuses.
+  - walk_to: {x: -2848, y: -1560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2000, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # A culvert guard bars the way east (merge point 33's storey-bound clears no longer take it earlier): fight it.
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -704, y: -3360, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'closed' then error('the culvert gate does not start shut') end; click(29); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A culvert gate, shut. Somewhere upstream, a wheel would raise it."}}
+  - play_lua: {source: "close(); if qbit(117721) then error('sluice_open set too early') end"}
+  # Back to the sluice room: its door, the wheel lifts the gate (one way); a second turn says it is open.
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2800, y: -2240, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 6)"}
+  - walk_to: {x: -2240, y: -2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2240, y: -2020, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The wheel turns with a groan."}}
+  - play_lua: {source: "close(); if not qbit(117721) then error('sluice_open not set') end; for _ = 1, 20 do if door_state(5) == 'open' then break end; wait(0.5) end; if door_state(5) ~= 'open' then error('the culvert gate did not lift: ' .. door_state(5)) end"}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The culvert gate stands open."}}
+  - play_lua: {source: "close(); if door_state(5) ~= 'open' then error('the second turn shut the gate') end"}
+  # Through the gate, down the steps: the heart culvert, the jar.
+  - walk_to: {x: -2240, y: -2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2800, y: -2240, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: -3360, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: -3800, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: -4480, z: -896, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1400)"}
+  - walk_to: {x: -832, y: -4500, z: -896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[In a jar of green glass]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not has_item(12353) then error('no heart') end; if not qbit(113461) then error('heart_found not set') end; click(33); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[An empty jar.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # Back by the east culvert and the east arm (the ring), up the railed stair.
+  - walk_to: {x: -704, y: -3800, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -704, y: -3300, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -600, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 900, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900)"}
+  - walk_to: {x: 288, y: -2848, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 288, y: -2000, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 900, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900)"}
+  - walk_to: {x: 288, y: -1500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 900, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -800, y: -1450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1500, y: -1300, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1620, y: -1088, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -830, y: -1088, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -830, y: -1408, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -300, y: -1408, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -160, y: -2700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  # The dais with the heart: the heart text and "Give Sandro his heart?" (Yes); the ritual (No); the release.
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Yes", text_contains: "My heart. You have it."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "No"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for returning my heart."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(113462) then error('released not set') end; if qbit(113463) then error('taught set on No') end; if not has_item(12354) then error('no Key to the Dungeon of Death') end; if has_item(12353) then error('the heart was not taken') end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  - play_lua: {source: "for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' then error('the grille did not lift: ' .. door_state(4)) end"}
+  - play_lua: {source: "status(); click(10); wait(0.5); local seen = status(); if not string.find(seen, 'empty', 1, true) then error('the bier after the release said: ' .. seen) end"}
+  # The reliquary's chest.
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1100, y: -2880, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); loot_chest(13); if gold() <= before then error('the reliquary chest gave no gold') end"}
+  # Out by the grille pair's left wing: D6's entrance:dd21_stair, facing 512.
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -2300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -80, y: 1100, z: 448, z_tolerance: 120, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 26}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: 17408, y: -11776, radius: 128, facing: 512, facing_within: 64}}
+  - play_lua: {source: "log('D6 arrival (left wing): ' .. party())"}

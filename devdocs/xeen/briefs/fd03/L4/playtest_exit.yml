@@ -1,0 +1,76 @@
+# Playtest of Darkstone Tower's way out (FD-03, L4; written by output/studio_cal/fd03/tools/gen_tests.py): the
+# tower door (the exit preset, aazex113:0) through the leave window (OK) to X5's entrance:fd03_door point
+# (-4608, 2560, 1504) facing 512 (A6's corrected point); the landing measured (status). X5's door back in is A6's.
+id: xeen.fd03.l4.exit
+title: Darkstone Tower (FD-03 L4), out to X5
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd03.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd03.blv
+- assert:
+    party_position:
+      x: 0
+      y: 1792
+      radius: 96
+      z_min: -8
+      z_max: 8
+- play_lua:
+    source: wait(2); close()
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: click(43); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x5.odm
+- play_lua:
+    source: 'log(''landing: '' .. status())'
+- clear_hostiles:
+    radius: 6000
+- advance_runtime:
+    seconds: 4.0
+- play_lua:
+    source: 'log(''landing after 4 s: '' .. status())'
+- assert:
+    party_position:
+      x: -4608
+      y: 2560
+      radius: 160
+      z_min: 1440
+      z_max: 1600

@@ -1,0 +1,127 @@
+# The four elemental planes P1-P4 (D-58): their hazards, devices and finds, which belong to no quest. The quest places
+# are m38's (the corners, the plaques, the tests, the sleepers, the ways up and the daises). The devices decide for
+# themselves: the map only calls the hook. Hazards: nine pressure-plate faces per plane fire their hook; one time in
+# three it strikes (50 damage of the plane's element to each member, resistance applies; the source's rule), otherwise
+# nothing shows. Devices: once a day for the party (Xeen.usedToday), +20 to the plane's resistance until rest. Finds: a
+# gem the first time (a map variable), the plain line after; the resistance potions by the notes are the map's finds.
+# Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: P1
+block: 165
+source: "D-58 (devdocs/xeen/briefs/d7/L1/D58_DECISION.md P1 Q2, P2 Q2, P3 Q2, P4); the planes' L1 NOTES (POIs, hazards)"
+
+hooks:
+  vent:
+    map: P1
+    where: "P1's nine vent faces (xpfvent, none on the critical path; D-58 P1 Q2): each step on one calls this"
+    requires: {lua: "evt.RandomBetween(1, 3) == 1"}
+    status: true
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Fire, 50)"}]
+    text: "A vent flares!"
+  font:
+    status: true   # F13: a touch effect answers on the status line
+    map: P1
+    where: "the Ember Font, a basin of liquid fire on the islet (poi:font): once a day, +20 Fire resistance until rest, every member"
+    states:
+      - when: {lua: "Xeen.usedToday(\"p1_font\")"}
+        text: "The fire is cool and refreshing. Nothing more happens."
+      - text: "The fire is cool and refreshing. (+20 Fire resistance until you rest)"
+        do: [{lua: "Xeen.markToday(\"p1_font\")"}, {lua: "evt.ForPlayer(Players.All)"}, {lua: "AddValue(FireResistanceBonus, 20)"}]
+  camp:
+    map: P1
+    where: "the fire-walker's camp's note (poi:camp; the map's find: Fire Resistance potions)"
+    text: "A note by the burnt bedroll: Day 3. The boots work. The feet do not."
+  spire:
+    map: P1
+    where: "the seam of red crystal in a spire (poi:spire_glass), struck or clicked: the first time a ruby (map variable p1_spire)"
+    states:
+      - when: {lua: "evt.GetMapVar(\"p1_spire\", 0) == 1"}
+        text: "The spire hums. Nothing else happens."
+      - text: "The spire hums, and a shard of red crystal drops from the seam: a ruby."
+        do: [{lua: "evt.SetMapVar(\"p1_spire\", 1)"}, {give: "engine:185"}]
+
+  storm:
+    map: P2
+    where: "P2's nine storm-cell faces (none on bridges or in the Eye; D-58 P2 Q2), as P1's vents"
+    requires: {lua: "evt.RandomBetween(1, 3) == 1"}
+    status: true
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 50)"}]
+    text: "Lightning strikes from a clear sky!"
+  singing_stones:
+    status: true   # F13: a touch effect answers on the status line
+    map: P2
+    where: "the Singing Stones (poi:singing_stones): once a day, +20 Air resistance and +10 Speed until rest, every member"
+    states:
+      - when: {lua: "Xeen.usedToday(\"p2_stones\")"}
+        text: "The stones are silent. They sang today already."
+      - text: "The stones sing. You feel lighter. (+20 Air resistance and +10 Speed until you rest)"
+        do: [{lua: "Xeen.markToday(\"p2_stones\")"}, {lua: "evt.ForPlayer(Players.All)"}, {lua: "AddValue(AirResistanceBonus, 20)"}, {lua: "AddValue(SpeedBonus, 10)"}]
+  basket:
+    map: P2
+    where: "the basket with no balloon, its logbook (poi:basket; the map's find: Air Resistance potions)"
+    text: "The balloonist's logbook, last entry: Wind fair. Balloon fairer. Balloon gone."
+  cairn:
+    map: P2
+    where: "the storm cairn of fused stones (poi:storm_cairn): the first time a blue gem in the glass (map variable p2_cairn)"
+    states:
+      - when: {lua: "evt.GetMapVar(\"p2_cairn\", 0) == 1"}
+        text: "Lightning has struck here. Often."
+      - text: "Lightning has struck here. Often. In the fused glass, a blue stone has set like a fly in amber."
+        do: [{lua: "evt.SetMapVar(\"p2_cairn\", 1)"}, {give: "engine:178"}]
+
+  rockfall:
+    map: P3
+    where: "P3's nine rockfall faces (D-58 P3 Q2), as P1's vents, with a short camera shake when one strikes"
+    requires: {lua: "evt.RandomBetween(1, 3) == 1"}
+    status: true
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Physical, 50)"}, {lua: "evt.CameraShake(0.8, 0.8)"}]
+    text: "Rocks fall from above!"
+  geode:
+    status: true   # F13: a touch effect answers on the status line
+    map: P3
+    where: "the Heart-geode (poi:geode), touched: once a day, +20 Earth resistance until rest, every member"
+    states:
+      - when: {lua: "Xeen.usedToday(\"p3_geode\")"}
+        text: "The stone is warm. That is all, today."
+      - text: "The stone is warm. (+20 Earth resistance until you rest)"
+        do: [{lua: "Xeen.markToday(\"p3_geode\")"}, {lua: "evt.ForPlayer(Players.All)"}, {lua: "AddValue(EarthResistanceBonus, 20)"}]
+  last_block:
+    map: P3
+    where: "the last block's slate (poi:last_block; the map's find: Earth Resistance potions)"
+    text: "A slate propped on the half-cut block: Nearly done. Back after lunch."
+  echo:
+    map: P3
+    where: "the Echo Stone (poi:echo): the first time a sapphire in its hollow (map variable p3_echo)"
+    states:
+      - when: {lua: "evt.GetMapVar(\"p3_echo\", 0) == 1"}
+        text: "You shout into the stone. The plane answers, slowly."
+      - text: "You shout into the stone. The plane answers, slowly, and something rolls out of the hollow: a sapphire."
+        do: [{lua: "evt.SetMapVar(\"p3_echo\", 1)"}, {give: "engine:184"}]
+
+  wave:
+    map: P4
+    where: "P4's nine wave faces (wet stone under the spray, xpwspray; none on the critical path), as P1's vents"
+    requires: {lua: "evt.RandomBetween(1, 3) == 1"}
+    status: true
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Water, 50)"}]
+    text: "A freezing wave breaks over you!"
+  tide_pool:
+    status: true   # F13: a touch effect answers on the status line
+    map: P4
+    where: "the Tide Pool in the coral (poi:tide_pool): once a day, +20 Water resistance until rest, every member"
+    states:
+      - when: {lua: "Xeen.usedToday(\"p4_pool\")"}
+        text: "The water is cool and refreshing. Nothing more happens."
+      - text: "The water is cool and refreshing. For once, it is true. (+20 Water resistance until you rest)"
+        do: [{lua: "Xeen.markToday(\"p4_pool\")"}, {lua: "evt.ForPlayer(Players.All)"}, {lua: "AddValue(WaterResistanceBonus, 20)"}]
+  bell:
+    map: P4
+    where: "the Drowned Bell (poi:bell): it tolls under the waves; the first time an emerald in its mouth (map variable p4_bell)"
+    states:
+      - when: {lua: "evt.GetMapVar(\"p4_bell\", 0) == 1"}
+        text: "The bell tolls under the waves. Nobody comes."
+      - text: "The bell tolls under the waves. Something green rattles in its mouth: an emerald."
+        do: [{lua: "evt.SetMapVar(\"p4_bell\", 1)"}, {give: "engine:183"}]
+  log:
+    map: P4
+    where: "the ship's log on the wreck's deck (poi:log; the map's find: Water Resistance potions)"
+    text: "The ship's log: Day 40. Still no land. Day 41. Found land. It was this."

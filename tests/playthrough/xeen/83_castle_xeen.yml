@@ -1,0 +1,608 @@
+# Xeen playthrough, segment 83: Slick's carnival and Castle Xeen (X3, X2, XD-12, X9, XD-19, X4, XD-07), M34 and M35.
+# On X3's Newcastle site with the Xeen Slayer Sword (12500). East off X3's edge to Rivercity (X2); Medin's boat to the
+# island; Darzog's door (the Skeleton Key) into XD-12: the gate hall, the cloister, Darzog's disc up the Well (the bottom
+# button, from the disc), the sky stair to the roof; the cloud stair's top step asks (Crodo is free) and Yes climbs to
+# X9's stair clouds. X9 walked from the stair clouds over the
+# brink and the unseen way ("Xeen--9N.") to Xeendom and the cloud plaza: the character sheets read; Slick's four booths
+# with the member strongest in each game (Might 100 gold, Speed 1,000 gold, Endurance 5 gems, Accuracy 10 gems:
+# m34.*_won and the dolls 12367-12370; before the shooting line Slick's free Sure-Eye Tonic, m34.tonic, two Accuracy
+# Boosts, the Ranger Lord drinks one), a lost game tried by every member; when all four lose, D-68's CONVENTION: the
+# booth's member gets only the shortfall to 60 as a bonus until rest, the gems only to the fee, logged; the prize stand
+# (the Lord Xeen doll 12371, m34.done 111685, 10,000 each); up the Xeen road and the causeway to the gate (m34.gate) into XD-19's gatehall
+# (m35.arrival). XD-19 walked along A7's critical path (devdocs/xeen/briefs/xd19/L4/playtest.yml): the cold vault's
+# Water Generator, the gravel vault's Earth Generator, the south-east tower's Air Generator, the barrier hall (three
+# down: the field stands), the south-west tower's Fire Generator (the field falls); the crown stair, the aviary (Xeen's
+# Pet), the throne doors' plate (Lord Xeen sees the party); blows without the sword do nothing (m35.untouchable), the
+# Slayer Sword kills him (m35.lord_xeen; the treasury opens); the mirror (protected); the throne: Take (m35.scepter: the
+# Scepter 12366, the award, M35 done 111707, 35,000 each), the mirror's cinematic, out on X9's causeway. Off the castle
+# cloud's west rim: the fall to X2's island (entrance:x9_fall). Medin's boat to the jetty, X2's north edge into Burlock
+# Savannah (X4), Castle Burlock's gate into XD-07; King Burlock: Lord Xeen (m35.king_told 111708); out by the castle
+# door onto X4. The statues, the offerings, the nests, the chests, the guard machines and the hoard are left alone.
+# Quest logic: source/quests/m34.yml, m35.yml.
+#   python3 tests/playthrough/xeen/run.py 83
+id: xeen.playthrough.83_castle_xeen
+title: "Xeen playthrough 83: up Darzog's cloud stair, Slick's carnival, Castle Xeen's generators, Lord Xeen slain"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/81_xeen_slayer_sword.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [110500, 110501, 111462]}
+  - assert: {qbit_clear: [111680, 111681, 111682, 111683, 111684, 111685, 111700, 111706, 111707, 111708]}
+  - play_lua: {source: "log('83 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12500) ~= 1 then error('no Xeen Slayer Sword (12500)') end; if not has_item(12100) then error('no Skeleton Key (12100)') end"}
+  # The Camp Shrine beside Ebenezer's tent (X3 event 33, house 4102, as segment 25): Brother Tobit heals whoever the
+  # road left Weak, Cursed or Paralyzed (a night's rest does not cure them; each member plays one of Slick's games).
+  - set_pose: {map: xeen_x3.odm, x: 12928, y: 9868, z: 1024, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('before the shrine: ' .. conditions(0) .. ' | ' .. conditions(1) .. ' | ' .. conditions(2) .. ' | ' .. conditions(3))"}
+  - heal_at_temple: {house: 4102, min: 0}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for i = 0, 3 do if conditions(i) ~= '' then error('member ' .. i .. ' still ' .. conditions(i) .. ' after the shrine') end end"}
+  # East along X3's road to its edge: Rivercity (as segment 37).
+  - set_pose: {map: xeen_x3.odm, x: 20480, y: 12032, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 21504, y: 12288, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 24064, y: 12288, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Medin's boat rows the party to the island (event 141); Darzog's door (the Skeleton Key, m13.darzog_door).
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(141); wait(1); close()"}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -14848, y: 1792, radius: 200}}
+  - walk_to: {x: -15731, y: 3014, z: 768, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x2.odm, x: -15731, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd12.blv}
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 2752, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  # XD-12: the gate hall, the cloister round the Well's foot to the disc (left at the bottom in segment 79).
+  - walk_to: {x: 2200, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(32) ~= "open" then
+          click(16); wait(9)
+        end
+        if door_state(32) ~= "open" then error("the disc is not at the Well's foot: " .. door_state(32)) end
+  # Onto the disc; the bottom button rides it up to Darzog's floor (2304).
+  - walk_to: {x: 0, y: 672, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(9)"}
+  - assert: {party_position: {x: 0, y: 672, radius: 120, z_min: 2296, z_max: 2320}}
+  # The sky stair to the roof (3072), as segment 79.
+  - walk_to: {x: 0, y: 1300, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: -1600, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 1350, z: 3072, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 2200, z: 3072, radius: 64, timeout_seconds: 30, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 2000, z: 3072, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  # The cloud stair's top step (event 9): Crodo is free, so the entrance window opens; OK climbs into the sky (X9's stair clouds).
+  - play_lua: {source: "status()"}
+  - walk_to: {x: 0, y: 2752, z: 3232, z_tolerance: 64, radius: 24, timeout_seconds: 30, clear_hostiles: 1500, expect: dialog}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x9.blv}
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 0, y: -17920, radius: 160, z_min: 290, z_max: 360}}
+  # X9: from the stair clouds to the brink; the sign there; nine cells north over the unseen way to Xeendom.
+  - walk_to: {x: 0, y: -16896, z: 320, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -15565, z: 320, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -14025, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -12485, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -11296, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Xeen--9N."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: -11055, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -8352, z: 352, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -5649, z: 256, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -5345, z: 256, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Now entering Xeendom"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: -3156, z: 256, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: -880, z: 352, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1394, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # The cloud plaza: the party reads its character sheets (each member's Might, Speed, Endurance and Accuracy, as the
+  # sheet shows them) and its gems, to choose who plays which of Slick's games.
+  - lua_event:
+      source: |
+        local names = {"Might", "Speed", "Endurance", "Accuracy"}
+        local gems = 0
+        local sheet = ""
+        for i = 0, 3 do
+          evt.ForPlayer(i)
+          sheet = sheet .. (i == 0 and "" or "; ") .. "member " .. i .. ":"
+          for _, name in ipairs(names) do
+            local value = 0
+            while value < 255 and IsAtLeast(_G["Actual" .. name], value + 1) do value = value + 1 end
+            sheet = sheet .. " " .. name .. " " .. value
+          end
+          for _, itemId in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994,
+              995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do
+            gems = gems + PlayerItemCount(i, itemId)
+          end
+        end
+        evt.StatusText("sheets " .. sheet .. "; gems " .. gems)
+  - play_lua: {source: "local sheets = status() or ''; remember('sheets', sheets); log('character sheets: ' .. sheets .. '; gold ' .. gold())"}
+  # Slick's high-striker (event 5, 100 gold): the Cavalier swings first; a lost game is tried by every member in turn (the honest try).
+  - walk_to: {x: -1024, y: 1280, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111681) then local g, m = gold(), gems(); click(5); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Might game, member 0: doll ' .. tostring(has_item(12367)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111681) then local g, m = gold(), gems(); click(5); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Might game, member 1: doll ' .. tostring(has_item(12367)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111681) then local g, m = gold(), gems(); click(5); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Might game, member 2: doll ' .. tostring(has_item(12367)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111681) then local g, m = gold(), gems(); click(5); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Might game, member 3: doll ' .. tostring(has_item(12367)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  # D-68 (CONVENTION, PLAYBOOK §2): the chain does not play the optional stat sources, so when every member has
+  # lost, only member 0 gets the shortfall to exactly 60 Might, as a bonus until rest (the wells' AddValue),
+  # and the gems only to the booth's fee; the base statistics stay. It switches itself off for a stronger party.
+  - lua_event:
+      source: |
+        if not IsQBitSet(QBit(111681)) then
+          local held = 0
+          for i = 0, 3 do
+            for _, itemId in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do
+              held = held + PlayerItemCount(i, itemId)
+            end
+          end
+          evt.ForPlayer(0)
+          local before = 0
+          while before < 255 and IsAtLeast(ActualMight, before + 1) do before = before + 1 end
+          if before < 60 then AddValue(MightBonus, 60 - before) end
+          local after = held < 0 and 0 or held
+          for _ = held + 1, after do AddValue(InventoryItem(183), 183) end
+          evt.StatusText("CONVENTION stat-gate M34 Might: member 0 " .. before .. " -> " .. math.max(before, 60) .. "; gems " .. held .. " -> " .. after)
+        end
+  - play_lua:
+      source: |
+        for _ = 1, 20 do wait(0.1); if held() ~= 0 then stow() end end
+        local line = string.match(status() or "", "CONVENTION[^|]*")
+        if line then log((string.gsub(line, "%s+$", ""))) elseif not qbit(111681) then error("the Might game is lost and no convention fired") end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111681) then local g, m = gold(), gems(); click(5); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Might game, member 0 after the convention: doll ' .. tostring(has_item(12367)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - assert: {qbit_set: [111681]}
+  - play_lua: {source: "if not has_item(12367) then error('no might doll') end; if recall('paid_gold') ~= 100 or recall('paid_gems') ~= 0 then error('the winning Might game took ' .. recall('paid_gold') .. ' gold and ' .. recall('paid_gems') .. ' gems') end"}
+  - assert: {qbit_set: [111680]}
+  - assert: {autonote: {id: 4135, present: true}}
+  # The gremlin's race track (event 6, 1,000 gold): the Ranger Lord runs first; a lost game is tried by every member in turn (the honest try).
+  - walk_to: {x: -1536, y: 3968, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111682) then local g, m = gold(), gems(); click(6); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Speed game, member 3: doll ' .. tostring(has_item(12368)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111682) then local g, m = gold(), gems(); click(6); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Speed game, member 0: doll ' .. tostring(has_item(12368)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111682) then local g, m = gold(), gems(); click(6); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Speed game, member 1: doll ' .. tostring(has_item(12368)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111682) then local g, m = gold(), gems(); click(6); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Speed game, member 2: doll ' .. tostring(has_item(12368)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  # D-68 (CONVENTION, PLAYBOOK §2): the chain does not play the optional stat sources, so when every member has
+  # lost, only member 3 gets the shortfall to exactly 60 Speed, as a bonus until rest (the wells' AddValue),
+  # and the gems only to the booth's fee; the base statistics stay. It switches itself off for a stronger party.
+  - lua_event:
+      source: |
+        if not IsQBitSet(QBit(111682)) then
+          local held = 0
+          for i = 0, 3 do
+            for _, itemId in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do
+              held = held + PlayerItemCount(i, itemId)
+            end
+          end
+          evt.ForPlayer(3)
+          local before = 0
+          while before < 255 and IsAtLeast(ActualSpeed, before + 1) do before = before + 1 end
+          if before < 60 then AddValue(SpeedBonus, 60 - before) end
+          local after = held < 0 and 0 or held
+          for _ = held + 1, after do AddValue(InventoryItem(183), 183) end
+          evt.StatusText("CONVENTION stat-gate M34 Speed: member 3 " .. before .. " -> " .. math.max(before, 60) .. "; gems " .. held .. " -> " .. after)
+        end
+  - play_lua:
+      source: |
+        for _ = 1, 20 do wait(0.1); if held() ~= 0 then stow() end end
+        local line = string.match(status() or "", "CONVENTION[^|]*")
+        if line then log((string.gsub(line, "%s+$", ""))) elseif not qbit(111682) then error("the Speed game is lost and no convention fired") end
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111682) then local g, m = gold(), gems(); click(6); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Speed game, member 3 after the convention: doll ' .. tostring(has_item(12368)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - assert: {qbit_set: [111682]}
+  - play_lua: {source: "if not has_item(12368) then error('no speed doll') end; if recall('paid_gold') ~= 1000 or recall('paid_gems') ~= 0 then error('the winning Speed game took ' .. recall('paid_gold') .. ' gold and ' .. recall('paid_gems') .. ' gems') end"}
+  # The treadmill (event 4, 5 gems): the Hero walks first; a lost game is tried by every member in turn (the honest try).
+  - walk_to: {x: -4352, y: 3840, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111683) then local g, m = gold(), gems(); click(4); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Endurance game, member 1: doll ' .. tostring(has_item(12369)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111683) then local g, m = gold(), gems(); click(4); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Endurance game, member 0: doll ' .. tostring(has_item(12369)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111683) then local g, m = gold(), gems(); click(4); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Endurance game, member 2: doll ' .. tostring(has_item(12369)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111683) then local g, m = gold(), gems(); click(4); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Endurance game, member 3: doll ' .. tostring(has_item(12369)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  # D-68 (CONVENTION, PLAYBOOK §2): the chain does not play the optional stat sources, so when every member has
+  # lost, only member 1 gets the shortfall to exactly 60 Endurance, as a bonus until rest (the wells' AddValue),
+  # and the gems only to the booth's fee; the base statistics stay. It switches itself off for a stronger party.
+  - lua_event:
+      source: |
+        if not IsQBitSet(QBit(111683)) then
+          local held = 0
+          for i = 0, 3 do
+            for _, itemId in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do
+              held = held + PlayerItemCount(i, itemId)
+            end
+          end
+          evt.ForPlayer(1)
+          local before = 0
+          while before < 255 and IsAtLeast(ActualEndurance, before + 1) do before = before + 1 end
+          if before < 60 then AddValue(EnduranceBonus, 60 - before) end
+          local after = held < 5 and 5 or held
+          for _ = held + 1, after do AddValue(InventoryItem(183), 183) end
+          evt.StatusText("CONVENTION stat-gate M34 Endurance: member 1 " .. before .. " -> " .. math.max(before, 60) .. "; gems " .. held .. " -> " .. after)
+        end
+  - play_lua:
+      source: |
+        for _ = 1, 20 do wait(0.1); if held() ~= 0 then stow() end end
+        local line = string.match(status() or "", "CONVENTION[^|]*")
+        if line then log((string.gsub(line, "%s+$", ""))) elseif not qbit(111683) then error("the Endurance game is lost and no convention fired") end
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111683) then local g, m = gold(), gems(); click(4); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Endurance game, member 1 after the convention: doll ' .. tostring(has_item(12369)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - assert: {qbit_set: [111683]}
+  - play_lua: {source: "if not has_item(12369) then error('no endurance doll') end; if recall('paid_gold') ~= 0 or recall('paid_gems') ~= 5 then error('the winning Endurance game took ' .. recall('paid_gold') .. ' gold and ' .. recall('paid_gems') .. ' gems') end"}
+  # The shooting line (event 3, 10 gems): the Ranger Lord shoots first; a lost game is tried by every member in turn (the honest try).
+  - walk_to: {x: -3712, y: 1536, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  # Slick's Sure-Eye Tonic cask at the south end of the booth's counter (X9 event 59, m34.tonic, D-70): the first round is
+  # free, two Accuracy Boosts (+30 Accuracy until rest; a second one does not add to the first). The Ranger Lord drinks
+  # one before he shoots; the other stays in the pack (counted from what the pack held: loot may have brought one).
+  - walk_to: {x: -3456, y: 1088, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua:
+      source: |
+        local before = item_count(245)
+        click(59); wait(0.5)
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 20 do wait(0.1); if held() ~= 0 then stow() end end
+        log("tonic: " .. (item_count(245) - before) .. " Accuracy Boosts")
+        if item_count(245) - before ~= 2 then error("the tonic cask gave " .. (item_count(245) - before) .. " boosts, not 2") end
+        remember("boosts", item_count(245))
+  - assert: {qbit_set: [111686]}
+  - play_lua: {source: "click(59); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Slick: The free round was the first one."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(245) ~= tonumber(recall('boosts')) then error('the second click gave more: ' .. item_count(245) .. ' after ' .. recall('boosts')) end"}
+  - use_item: {item_id: 245, member_index: 3}
+  - lua_event:
+      source: |
+        evt.ForPlayer(3)
+        local value = 0
+        while value < 255 and IsAtLeast(ActualAccuracy, value + 1) do value = value + 1 end
+        evt.StatusText("accuracy " .. value)
+  - play_lua: {source: "local s = status() or ''; log('after the tonic, member 3: ' .. s); if item_count(245) ~= tonumber(recall('boosts')) - 1 then error('boosts left: ' .. item_count(245) .. ' of ' .. recall('boosts')) end"}
+  - advance_runtime: {seconds: 3}
+  - walk_to: {x: -3712, y: 1536, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111684) then local g, m = gold(), gems(); click(3); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Accuracy game, member 3: doll ' .. tostring(has_item(12370)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111684) then local g, m = gold(), gems(); click(3); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Accuracy game, member 0: doll ' .. tostring(has_item(12370)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111684) then local g, m = gold(), gems(); click(3); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Accuracy game, member 1: doll ' .. tostring(has_item(12370)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111684) then local g, m = gold(), gems(); click(3); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Accuracy game, member 2: doll ' .. tostring(has_item(12370)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  # D-68 (CONVENTION, PLAYBOOK §2): the chain does not play the optional stat sources, so when every member has
+  # lost, only member 3 gets the shortfall to exactly 60 Accuracy, as a bonus until rest (the wells' AddValue),
+  # and the gems only to the booth's fee; the base statistics stay. It switches itself off for a stronger party.
+  - lua_event:
+      source: |
+        if not IsQBitSet(QBit(111684)) then
+          local held = 0
+          for i = 0, 3 do
+            for _, itemId in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do
+              held = held + PlayerItemCount(i, itemId)
+            end
+          end
+          evt.ForPlayer(3)
+          local before = 0
+          while before < 255 and IsAtLeast(ActualAccuracy, before + 1) do before = before + 1 end
+          if before < 60 then AddValue(AccuracyBonus, 60 - before) end
+          local after = held < 10 and 10 or held
+          for _ = held + 1, after do AddValue(InventoryItem(183), 183) end
+          evt.StatusText("CONVENTION stat-gate M34 Accuracy: member 3 " .. before .. " -> " .. math.max(before, 60) .. "; gems " .. held .. " -> " .. after)
+        end
+  - play_lua:
+      source: |
+        for _ = 1, 20 do wait(0.1); if held() ~= 0 then stow() end end
+        local line = string.match(status() or "", "CONVENTION[^|]*")
+        if line then log((string.gsub(line, "%s+$", ""))) elseif not qbit(111684) then error("the Accuracy game is lost and no convention fired") end
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065}) do n = n + item_count(id) end; return n end; if not qbit(111684) then local g, m = gold(), gems(); click(3); wait(0.5); close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('paid_gold', g - gold()); remember('paid_gems', m - gems()); log('Accuracy game, member 3 after the convention: doll ' .. tostring(has_item(12370)) .. ', paid ' .. (g - gold()) .. ' gold, ' .. (m - gems()) .. ' gems') end"}
+  - assert: {qbit_set: [111684]}
+  - play_lua: {source: "if not has_item(12370) then error('no accuracy doll') end; if recall('paid_gold') ~= 0 or recall('paid_gems') ~= 10 then error('the winning Accuracy game took ' .. recall('paid_gold') .. ' gold and ' .. recall('paid_gems') .. ' gems') end"}
+  # Up the Xeen road to Slick's prize stand (event 35): four dolls for the Lord Xeen doll.
+  - walk_to: {x: 0, y: 3511, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 5964, z: 576, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 8416, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 9472, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -704, y: 9472, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(35); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[I see that you have four dolls]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12371) then error("the prize stand gave no Lord Xeen doll (12371)") end
+        for _, doll in ipairs({12367, 12368, 12369, 12370}) do
+          if has_item(doll) then error("the prize stand kept doll " .. doll .. " in the packs") end
+        end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 10000 then error("the prize stand paid " .. xp .. " experience, not 10,000") end
+        if gold() ~= recall("gold") then error("the prize stand paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111685]}
+  # The causeway to Castle Xeen's gate (m34.gate: the doll lets the party in) into XD-19's gatehall.
+  - walk_to: {x: 0, y: 11456, z: 768, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(1)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd19.blv}
+  - assert: {party_position: {x: 0, y: -4064, radius: 96, z_min: -8, z_max: 8}}
+  # The arrival line (m35.arrival, a one-shot timer).
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end; if not qbit(111700) then error('m35.started 111700 not set on arrival') end"}
+  # XD-19 L1: the great hall, the west ward, the cold vault's Water Generator.
+  - walk_to: {x: 0, y: -3100, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -2500, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: -900, y: -1760, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -1700, y: -1760, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -2980, y: -1760, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -3580, y: -1760, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -3760, y: -1020, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 18)"}
+  - walk_to: {x: -3760, y: -420, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: -3120, y: 1396, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "status(); click(47); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Water Generator"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if not qbit(111704) then error('m35.gen_water 111704 not set') end"}
+  # The stair hall to the east ward; the gravel vault's Earth Generator.
+  - walk_to: {x: -2300, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(29, 19)"}
+  - walk_to: {x: -1700, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 1700, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 17)"}
+  - walk_to: {x: 2300, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 3120, y: 1396, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "status(); click(41); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Earth Generator"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if not qbit(111703) then error('m35.gen_earth 111703 not set') end"}
+  # The east gallery, up the south-east tower to the Air Generator (1280).
+  - walk_to: {x: 3760, y: -420, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 16)"}
+  - walk_to: {x: 3760, y: -1020, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 3760, y: -2500, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 3760, y: -3100, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4040, y: -3280, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4040, y: -4600, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 3760, y: -4480, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 3760, y: -3320, z: 640, z_tolerance: 48, radius: 64, timeout_seconds: 60, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 3940, y: -3120, z: 640, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4540, y: -3120, z: 640, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4720, y: -3080, z: 640, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4720, y: -3200, z: 640, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4720, y: -4360, z: 1280, z_tolerance: 48, radius: 64, timeout_seconds: 60, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 4540, y: -4480, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 3940, y: -4480, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 3760, y: -4276, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "status(); click(38); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Air Generator"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if not qbit(111702) then error('m35.gen_air 111702 not set') end"}
+  # The upper gallery to the barrier hall: three generators down, the field across the crown stair still stands.
+  - walk_to: {x: 3580, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 5)"}
+  - walk_to: {x: 2980, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 2300, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 1500, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 900, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: 0, y: -2520, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "wait(2); if door_state(4) ~= 'closed' then error('the field with three generators down: ' .. door_state(4)) end; click(33); wait(0.8)"}
+  - assert: {dialog: {active: true, text_contains: "Four pylons feed it"}}
+  - play_lua: {source: "close()"}
+  # The west upper gallery, the south-west tower top's Fire Generator: the last pylon dies, the field falls.
+  - walk_to: {x: -900, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -1700, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: -2980, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 6)"}
+  - walk_to: {x: -3580, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - walk_to: {x: -3760, y: -4276, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "status(); click(44); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Fire Generator"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if not qbit(111701) then error('m35.gen_fire 111701 not set') end"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close(); wait(2); if not qbit(118062) then error('the barrier did not fall (118062)') end; if door_state(4) ~= 'open' then error('the field after four generators: ' .. door_state(4)) end"}
+  # Back along the upper galleries and up the crown stair (1920) to the aviary: Xeen's Pet.
+  - walk_to: {x: -3580, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -2980, y: -3520, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -900, y: -1760, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -2500, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -3100, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -3200, z: 1280, z_tolerance: 40, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -4360, z: 1920, z_tolerance: 48, radius: 64, timeout_seconds: 60, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -420, y: -4480, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -1020, y: -4480, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -1360, y: -3100, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -1360, y: -2500, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); if not qbit(111705) then error('m35.pet_slain 111705 not set') end"}
+  # The crown's hall to the throne doors; their plate: Lord Xeen sees the party (m35.lord_xeen_sight) and comes down.
+  - walk_to: {x: 0, y: -2060, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -1460, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -1020, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: -420, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 1920, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 13)"}
+  - walk_to: {x: 0, y: 416, z: 1920, radius: 40, clear_hostiles: 0, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1.5); close(); if not qbit(111709) then error('m35.lord_xeen_seen 111709 not set') end"}
+  - assert: {actor_visible: {actor_index: 25, dead: false}}
+  - play_lua: {source: "wait(5); close()"}
+  # Blows without the sword do nothing (m35.untouchable once).
+  - party_attack: {actor_index: 25, member_index: 0, count: 12, kill: true, report: true}
+  - assert: {actor_visible: {actor_index: 25, dead: false}}
+  - assert: {state_dump_map_var: {index: 13, value: 1}}
+  # The Xeen Slayer Sword in the Cavalier's hand.
+  - equip_item: {item_id: 12500, member_index: 0, slot: main_hand}
+  - assert: {equipped_item: [{item_id: 12500, member_index: 0, slot: main_hand}]}
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - party_attack: {actor_index: 25, member_index: 0, count: 3000, kill: true, report: true}
+  - advance_runtime: {seconds: 3}
+  - assert: {actor_visible: {actor_index: 25, dead: true}}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); if not qbit(111706) then error('m35.lord_xeen_slain 111706 not set') end; wait(2); if door_state(15) ~= 'open' then error('the treasury: ' .. door_state(15)) end"}
+  # The Sixth Mirror behind the throne is protected; the throne: Take the Scepter.
+  - walk_to: {x: 0, y: 3480, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - walk_to: {x: -420, y: 3632, z: 1984, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "click(59); wait(0.8)"}
+  - assert: {dialog: {active: true, text_contains: "force field"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 3632, z: 1984, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(70); wait(0.8)"}
+  - assert: {dialog: {active: true, text_contains: "Take it?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 18, follow_map_move: true}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_x9.blv}
+  - assert: {party_position: {x: 0, y: 11264, radius: 200, z_min: 700, z_max: 860}}
+  - play_lua:
+      source: |
+        log("after the mirror: " .. (status() or ""))
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12366) then error("no Scepter of Temporal Distortion (12366)") end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 35000 then error("the scepter paid " .. xp .. " experience, not 35,000") end
+        if gold() ~= recall("gold") then error("M35 paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111706, 111707]}
+  - assert: {qbit_clear: [111708]}
+  - assert: {award_acquired: [{id: 411, member_index: 0}]}
+  # Castle Xeen is a cloud again; off the castle cloud's west rim the party falls to X2's island (entrance:x9_fall).
+  - movement_segment:
+      input: forward
+      seconds: 1.5
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_x9.blv, x: -6100, y: 11264, z: 768, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: xeen_x9.blv, x: -6100, y: 11264, z: 768, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40000
+      tolerance_z: 8000
+  - advance_runtime: {seconds: 3.0, follow_map_move: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -15360, y: 3072, radius: 256}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Medin's boat back to his jetty (event 143); X2's north edge into Burlock Savannah (as segment 81).
+  - set_pose: {map: xeen_x2.odm, x: -14848, y: 1792, z: 768, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(143); wait(1); close()"}
+  - assert: {party_position: {x: -8704, y: 2253, radius: 200}}
+  - set_pose: {map: xeen_x2.odm, x: 0, y: 13312, z: 1024, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: 14080, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 15104, z: 1056, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 18432, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 21504, z: 1216, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1024, y: 24064, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Castle Burlock's lane and gate (X4 event 180 into XD-07's gatehouse); the portcullis lifts for Crusaders.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 5120, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(11) ~= 'open' then click(40); wait(8) end; if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  # The throne room (house 4201): King Burlock hears of Lord Xeen (m35.king_told).
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 13)"}
+  - walk_to: {x: 0, y: 5300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold()); click(43); wait(1)"}
+  # Prince Roland's double left the throne room with Lord Xeen's death: the King alone receives the party.
+  - assert: {dialog: {active: true, source_id: 4401}}
+  - select_topic: {match_label: "Lord Xeen"}
+  - assert: {dialog: {text_contains: "Thank you for rescuing Xeen from that foul spirit"}}
+  - assert: {dialog: {text_contains: "he is on the other side. Go to him."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if experience(0) ~= recall("xp") then error("the King paid " .. (experience(0) - recall("xp")) .. " experience") end
+        if gold() ~= recall("gold") then error("the King paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111708]}
+  # Back down the hall and out by the castle door onto X4's castle rise.
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: -1024, y: 6912, radius: 160, z_min: 1700, z_max: 1900}}
+  - assert: {qbit_set: [111685, 111700, 111701, 111702, 111703, 111704, 111705, 111706, 111707, 111708]}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        if has_item(12371) then log("the Lord Xeen doll (12371) is still carried") end
+        log("83 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "83 Castle Xeen", path: output/playthrough/xeen/checkpoints/83_castle_xeen.oysav}

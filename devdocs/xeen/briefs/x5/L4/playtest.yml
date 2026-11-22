@@ -1,0 +1,2572 @@
+# Written by output/studio_cal/x5/tools/gen_walk.py from the built map (A6). Houses opened: yes; dungeons entered: ['fd03', 'xd09', 'xd10', 'xd22', 'xd23'].
+id: xeen.x5.walk
+title: 'X5 Winterkill Tundra: Winterkill, the tundra, the pass and the pocket'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x5.odm
+- assert:
+    map: xeen_x5.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -13824
+      y: 11264
+      radius: 160
+- assert:
+    actor_count:
+      monster_id: 11241
+      hostile: true
+      min: 6
+- note: 'Q-C6: the Spirit Bones haunt the square; the Polter-Fools and the Ghost Riders are hidden'
+- note: The plaque between the northern gongs (q-c6.north_gongs_verse)
+- execute_event:
+    id: 66
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The signboard by the gongs (q-c6.signboard)
+- execute_event:
+    id: 67
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The Acme Ghost Visualization System (q-c6.acme_sign)
+- execute_event:
+    id: 52
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The cursed chest: shut until the town is free (q-c6.ghost_verse)'
+- execute_event:
+    id: 70
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'A northern gong: BONG'
+- execute_event:
+    id: 147
+- advance_runtime:
+    seconds: 0.5
+- note: 'The old well: frozen until the town is free'
+- execute_event:
+    id: 68
+- advance_runtime:
+    seconds: 0.5
+- note: 'Mayor Randon by the gongs: the ghosts (Q-C6)'
+- walk_to:
+    x: -14029
+    y: 10445
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 120
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Mindmeld Guild: open from day one'
+- walk_to:
+    x: -15364
+    y: 12473
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15364
+    y: 12473
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Ottilie''s House (building:winterkill_houses#1): closed until the town is free'
+- walk_to:
+    x: -12800
+    y: 13428
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12800
+    y: 13428
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Frozen Flagon (building:winterkill_tavern): closed until the town is free'
+- walk_to:
+    x: -15104
+    y: 13428
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15104
+    y: 13428
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Frost on the inside of the windows. Some
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Furs and Fittings (building:winterkill_armour): closed until the town is free'
+- walk_to:
+    x: -11904
+    y: 13380
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -11904
+    y: 13380
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Closed. Empty coats hang in the window a
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Temple of the Thaw (building:winterkill_temple): closed until the town is free'
+- walk_to:
+    x: -13952
+    y: 13332
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -13952
+    y: 13332
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: 'The doors are frozen shut. A cold voice '
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Snow House (building:winterkill_houses#12): closed until the town is free'
+- walk_to:
+    x: -16128
+    y: 13332
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -16128
+    y: 13332
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Woodcutter''s Cottage (building:winterkill_houses#11): closed until the town is free'
+- walk_to:
+    x: -9088
+    y: 13316
+    z: 1008
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -9088
+    y: 13316
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Chandlery (building:winterkill_houses#9): closed until the town is free'
+- walk_to:
+    x: -11264
+    y: 12052
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -11264
+    y: 12052
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Grimwald''s Lodge (building:winterkill_houses#2): closed until the town is free'
+- walk_to:
+    x: -15380
+    y: 10624
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15380
+    y: 10624
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Guild of Shadows (building:winterkill_guild_dark): closed until the town is free'
+- walk_to:
+    x: -12284
+    y: 10496
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12284
+    y: 10496
+    z: 992
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: 'Locked. The shadows under the door move '
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Hulda''s House (building:winterkill_houses#4): closed until the town is free'
+- walk_to:
+    x: -16916
+    y: 9984
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -16916
+    y: 9984
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sven''s House (building:winterkill_houses#3): closed until the town is free'
+- walk_to:
+    x: -15476
+    y: 9856
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15476
+    y: 9856
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Knut''s Shack (building:winterkill_houses#7): closed until the town is free'
+- walk_to:
+    x: -12928
+    y: 9724
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12928
+    y: 9724
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Ragnhild''s Farm (building:winterkill_houses#8): closed until the town is free'
+- walk_to:
+    x: -12288
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12288
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Agna''s Kitchen (building:winterkill_houses#6): closed until the town is free'
+- walk_to:
+    x: -14592
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -14592
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Frost House (building:winterkill_houses#5): closed until the town is free'
+- walk_to:
+    x: -15104
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15104
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sigrun''s House (building:winterkill_houses#10): closed until the town is free'
+- walk_to:
+    x: -10496
+    y: 8820
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -10496
+    y: 8820
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Snow drifted to the latch. A ghost walks
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Round the square: the Spirit Bones are laid (clear_hostiles)'
+- walk_to:
+    x: -13824
+    y: 11520
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -14848
+    y: 12544
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -12800
+    y: 12544
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -12800
+    y: 10240
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -14848
+    y: 10240
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -10752
+    y: 11520
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -12288
+    y: 11520
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -13824
+    y: 9984
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -13824
+    y: 8294
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -13824
+    y: 11520
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- play_lua:
+    source: local n = clear_hostiles(4000); log("cleared " .. n)
+- advance_runtime:
+    seconds: 7
+- play_lua:
+    source: if not qbit(112122) then error("wave1_laid (112122) not set") end
+- note: The southern gong over the laid wave (q-c6.gong sets rung); Randon then reports (reported1, A3)
+- note: The southern gong (q-c6.gong)
+- execute_event:
+    id: 149
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(112125) then error("rung (112125) not set") end
+- setup_shortcut:
+    kind: set_qbit
+    id: 112126
+    value: true
+- advance_runtime:
+    seconds: 5
+- assert:
+    actor_count:
+      monster_id: 11260
+      hostile: true
+      min: 6
+- note: With reported1 the Polter-Fools are out
+- note: West along the rim walk to the Edge Watch
+- walk_to:
+    x: -17408
+    y: 11520
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -18637
+    y: 11469
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: The Edge Watch's old note
+- execute_event:
+    id: 71
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: South out of the town to the south track (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -13824
+    y: 7680
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -13824
+    y: 7168
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -14336
+    y: 4608
+    z: 928
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -14592
+    y: 2048
+    z: 1024
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The Winter Druid in his grove (Q-C1's Winter step)
+- walk_to:
+    x: -16589
+    y: 1331
+    z: 1043
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 123
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -14592
+    y: 2048
+    z: 1024
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -13824
+    y: -1024
+    z: 1088
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -12288
+    y: -4096
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Glom's fork
+- walk_to:
+    x: -11264
+    y: -6656
+    z: 1120
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Glom's burrow
+- walk_to:
+    x: -10496
+    y: -7944
+    z: 1152
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -10496
+    y: -7944
+    z: 1152
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Up the giants' path
+- walk_to:
+    x: -12288
+    y: -9216
+    z: 1344
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -12544
+    y: -11264
+    z: 2336
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The Giants' Stones (Might 40)
+- execute_event:
+    id: 117
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -11520
+    y: -13568
+    z: 2328
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The cyclops outpost
+- walk_to:
+    x: -10752
+    y: -14336
+    z: 2272
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Cyclops'' outpost: Burn? No'
+- play_lua:
+    source: click(112); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Cyclops' outpost! Burn?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if qbit(112321) then error("outpost_burnt (112321) set by No") end
+- note: 'Burn the Cyclops'' outpost: Yes (q-c16.outpost)'
+- play_lua:
+    source: click(112); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Cyclops' outpost! Burn?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(112321) then error("outpost_burnt (112321) not set") end
+- note: Down to the Reflector's ledge
+- walk_to:
+    x: -9216
+    y: -17408
+    z: 2144
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -8960
+    y: -18227
+    z: 2080
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: The Waters of Great Magic
+- execute_event:
+    id: 118
+- advance_runtime:
+    seconds: 0.5
+- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
+- play_lua:
+    source: click(119); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Reflector. Activate?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if qbit(111742) then error("the Reflector set its bit before M36") end
+- note: The forest track east of the fork (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -8192
+    y: -6656
+    z: 1152
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Shrine of Cold
+- walk_to:
+    x: -5632
+    y: -6246
+    z: 1094
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Shrine of Cold: +5 Water resistance'
+- execute_event:
+    id: 64
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -3072
+    y: -8704
+    z: 1024
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -512
+    y: -12288
+    z: 1312
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 768
+    y: -14336
+    z: 1200
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The Holy Book of Elvenkind on the snow beside a torn pack (a ground item; from the south)
+- walk_to:
+    x: 2483
+    y: -14720
+    z: 962
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- play_lua:
+    source: if ground_items(12524) ~= 1 then error("the Holy Book is not on the ground") end
+- pick_up:
+    item_id: 12524
+    reach: 700
+- play_lua:
+    source: close(); if held() ~= 0 then stow() end; if not has_item(12524) then error("no Holy Book from the ground by the
+      torn pack") end
+- note: The Troll Warren mouth (XD-23 live)
+- walk_to:
+    x: 768
+    y: -14715
+    z: 1188
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 768
+    y: -14715
+    z: 1188
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd23.blv
+- assert:
+    party_position:
+      x: 0
+      y: -256
+      radius: 200
+- load_map:
+    map: xeen_x5.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X5 where the party stood (by load_map)
+- walk_to:
+    x: -512
+    y: -12288
+    z: 1312
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 3072
+    y: -11008
+    z: 1280
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 5632
+    y: -9728
+    z: 1152
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: XD-10's south mouth in the spur's west face
+- walk_to:
+    x: 7027
+    y: -9472
+    z: 1181
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 7027
+    y: -9472
+    z: 1216
+    yaw: -0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd10.blv
+- note: Arrived at xeen_xd10 entrance:x5_south
+- assert:
+    party_position:
+      x: 64
+      y: 1408
+      radius: 200
+- load_map:
+    map: xeen_x5.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X5 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x5.odm
+    x: 7027
+    y: -9472
+    z: 1216
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Thickbark path along the forest's edge (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -2048
+    y: -4864
+    z: 1024
+    yaw: 0.2
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 1536
+    y: -3840
+    z: 864
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Thickbark the Civilized by the frozen river (Q-C15)
+- walk_to:
+    x: 4301
+    y: -3174
+    z: 768
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 122
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'On the ice: Old Knut''s fishing hole (by teleport)'
+- set_pose:
+    map: xeen_x5.odm
+    x: -8704
+    y: 3584
+    z: 800
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Old Knut's fishing hole
+- execute_event:
+    id: 106
+- advance_runtime:
+    seconds: 0.5
+- note: Across the ice to Darkstone's rock
+- walk_to:
+    x: -6656
+    y: 512
+    z: 800
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -2150
+    y: -614
+    z: 800
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: A pack frozen into the ice (a chest)
+- execute_event:
+    id: 105
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- note: 'Darkstone Tower''s door without the black key: the keyhole'
+- execute_event:
+    id: 59
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- setup_shortcut:
+    kind: set_qbit
+    id: 111780
+    value: true
+- note: 'With the black key (111780): A3''s m41.tower_door line, then into FD-03'
+- execute_event:
+    id: 59
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd03.blv
+- assert:
+    party_position:
+      x: 0
+      y: 1792
+      radius: 200
+- note: 'FD-03''s way out (A7''s exit to X5''s entrance:fd03_door): the party stands on Darkstone''s rock top'
+- play_lua:
+    source: click(43); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    map: xeen_x5.odm
+- assert:
+    party_position:
+      x: -4608
+      y: 2560
+      radius: 200
+      z_min: 1450
+      z_max: 1560
+- note: P5's fall point entrance:p5_fall on Darkstone's rock (D-56) (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -4608
+    y: 2560
+    z: 1504
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Across the terrace to the tower door
+- walk_to:
+    x: -4608
+    y: 2253
+    z: 1504
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 30
+    clear_hostiles: 3000
+- note: Along the terrace
+- walk_to:
+    x: -5120
+    y: 2560
+    z: 1504
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 30
+    clear_hostiles: 3000
+- note: 'Off the rock''s north edge: the drop to the ice'
+- walk_to:
+    x: -4608
+    y: 4352
+    z: 800
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: The monastery's foot (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 3379
+    y: 12083
+    z: 1171
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 3379
+    y: 12493
+    z: 1205
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Up the stair to the cloister
+- walk_to:
+    x: 3379
+    y: 14438
+    z: 1900
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Kai Wu''s Monastery: training to 40'
+- walk_to:
+    x: 1280
+    y: 16660
+    z: 1888
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 1280
+    y: 16660
+    z: 1888
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Hall of Stillness
+- walk_to:
+    x: 3092
+    y: 17536
+    z: 1888
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 3092
+    y: 17536
+    z: 1888
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The monastery bell
+- execute_event:
+    id: 55
+- advance_runtime:
+    seconds: 0.5
+- note: The pagoda path (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 2048
+    y: 9984
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Ninja Pagoda door into XD-22 (D-25)
+- execute_event:
+    id: 61
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd22.blv
+- assert:
+    party_position:
+      x: 0
+      y: -256
+      radius: 200
+- load_map:
+    map: xeen_x5.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on the pagoda path (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 2048
+    y: 9984
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The obelisk on the promontory (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -2816
+    y: 11674
+    z: 1088
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The obelisk: A3''s obelisks.x5 (the word FOR, cloud_5)'
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(115044) then error("cloud_5 (115044) not set") end
+- note: The Steppe Cross (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -7168
+    y: 15360
+    z: 1280
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: North up the steppe road
+- walk_to:
+    x: -7168
+    y: 18432
+    z: 1376
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -7168
+    y: 21760
+    z: 1200
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: 'The waymark by the road: "North: the Desert of the Sphinx."'
+- execute_event:
+    id: 81
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Off X5''s north edge: the travel prompt (X6, 7 days), accepted; X6''s south start (-7168, -22016)'
+- walk_to:
+    x: -7168
+    y: 24320
+    z: 1312
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: -7168
+      y: -22016
+      radius: 700
+- note: 'Back south off X6''s south edge on its steppe road: the prompt names Winterkill; accepted, X5''s north start (-7168,
+    22528)'
+- walk_to:
+    x: -7168
+    y: -24320
+    z: 1472
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x5.odm
+- assert:
+    party_position:
+      x: -7168
+      y: 22528
+      radius: 700
+- note: West to the barbarian camp
+- walk_to:
+    x: -8704
+    y: 20992
+    z: 1344
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -9984
+    y: 19712
+    z: 1408
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Burn the barbarians'' tents (F13: the status line)'
+- execute_event:
+    id: 76
+- advance_runtime:
+    seconds: 0.5
+- note: The chief's chest
+- execute_event:
+    id: 80
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- note: 'The monastery foot: up the pass descent to the crest (by teleport)'
+- set_pose:
+    map: xeen_x5.odm
+    x: 4608
+    y: 12288
+    z: 1216
+    yaw: 0.6
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 6656
+    y: 11520
+    z: 1328
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 8192
+    y: 10240
+    z: 1504
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Freeda the Mountaineer at her camp on the crest
+- walk_to:
+    x: 9216
+    y: 9421
+    z: 1670
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 121
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Down the pass road into the pocket
+- walk_to:
+    x: 9984
+    y: 8448
+    z: 1832
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 11264
+    y: 6656
+    z: 1760
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 12800
+    y: 4608
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: A trader's sledge in a drift
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- walk_to:
+    x: 14848
+    y: 3072
+    z: 928
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: The lagoon fork
+- walk_to:
+    x: 17408
+    y: 2048
+    z: 864
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Up the hill track to Halon's yard
+- walk_to:
+    x: 17920
+    y: 4096
+    z: 928
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 18688
+    y: 5888
+    z: 1224
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Halon's Workshop
+- walk_to:
+    x: 15194
+    y: 6964
+    z: 1344
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 15194
+    y: 6964
+    z: 1344
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Halon''s water clock: frozen'
+- execute_event:
+    id: 57
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 18688
+    y: 8192
+    z: 1344
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 17664
+    y: 9216
+    z: 1392
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: XD-10's north mouth (D-4)
+- walk_to:
+    x: 16640
+    y: 10099
+    z: 1408
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 16640
+    y: 10099
+    z: 1408
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd10.blv
+- note: Arrived at xeen_xd10 entrance:x5_north
+- assert:
+    party_position:
+      x: 0
+      y: 9664
+      radius: 200
+- load_map:
+    map: xeen_x5.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X5 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x5.odm
+    x: 16640
+    y: 10099
+    z: 1408
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Back at the lagoon fork; over the footbridge to the Golem Rocks (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 17408
+    y: 2048
+    z: 864
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 17152
+    y: 1536
+    z: 832
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 17152
+    y: -512
+    z: 832
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 17664
+    y: -1536
+    z: 928
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: XD-09's slab door in the Golem Rocks' north face
+- walk_to:
+    x: 18688
+    y: -3577
+    z: 960
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: 18688
+    y: -3577
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Without the Golem Stone the slab door stays shut (m10.golem_door)
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- grant_item:
+    item_id: 12305
+- note: With the Golem Stone (12305) the door opens
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd09.blv
+- note: Arrived at xeen_xd09 entrance:x5
+- assert:
+    party_position:
+      x: 384
+      y: -2176
+      radius: 200
+- load_map:
+    map: xeen_x5.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X5 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x5.odm
+    x: 18688
+    y: -3577
+    z: 960
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The hot spring south of the river (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 20480
+    y: -410
+    z: 832
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The hot spring
+- execute_event:
+    id: 95
+- advance_runtime:
+    seconds: 0.5
+- note: Back on Winterkill square; the town liberated (q-c6.done, 112121) (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: -13824
+    y: 11520
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local n = clear_hostiles(6000); log("cleared " .. n)
+- setup_shortcut:
+    kind: set_qbit
+    id: 112121
+    value: true
+- advance_runtime:
+    seconds: 1
+- note: 'Ottilie''s House (building:winterkill_houses#1): open now'
+- walk_to:
+    x: -12800
+    y: 13428
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12800
+    y: 13428
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4507
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Frozen Flagon (building:winterkill_tavern): open now'
+- walk_to:
+    x: -15104
+    y: 13428
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15104
+    y: 13428
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Furs and Fittings (building:winterkill_armour): open now'
+- walk_to:
+    x: -11904
+    y: 13380
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -11904
+    y: 13380
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Temple of the Thaw (building:winterkill_temple): open now'
+- walk_to:
+    x: -13952
+    y: 13332
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -13952
+    y: 13332
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Snow House (building:winterkill_houses#12): open now'
+- walk_to:
+    x: -16128
+    y: 13332
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -16128
+    y: 13332
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4519
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Woodcutter''s Cottage (building:winterkill_houses#11): open now'
+- walk_to:
+    x: -9088
+    y: 13316
+    z: 1008
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -9088
+    y: 13316
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Chandlery (building:winterkill_houses#9): open now'
+- walk_to:
+    x: -11264
+    y: 12052
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -11264
+    y: 12052
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4515
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Grimwald''s Lodge (building:winterkill_houses#2): open now'
+- walk_to:
+    x: -15380
+    y: 10624
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15380
+    y: 10624
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4508
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Guild of Shadows (building:winterkill_guild_dark): open now'
+- walk_to:
+    x: -12284
+    y: 10496
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12284
+    y: 10496
+    z: 992
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Hulda''s House (building:winterkill_houses#4): open now'
+- walk_to:
+    x: -16916
+    y: 9984
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -16916
+    y: 9984
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4510
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sven''s House (building:winterkill_houses#3): open now'
+- walk_to:
+    x: -15476
+    y: 9856
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15476
+    y: 9856
+    z: 992
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4509
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Knut''s Shack (building:winterkill_houses#7): open now'
+- walk_to:
+    x: -12928
+    y: 9724
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12928
+    y: 9724
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4513
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Ragnhild''s Farm (building:winterkill_houses#8): open now'
+- walk_to:
+    x: -12288
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -12288
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4514
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Agna''s Kitchen (building:winterkill_houses#6): open now'
+- walk_to:
+    x: -14592
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -14592
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4512
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Frost House (building:winterkill_houses#5): open now'
+- walk_to:
+    x: -15104
+    y: 9708
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -15104
+    y: 9708
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4511
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sigrun''s House (building:winterkill_houses#10): open now'
+- walk_to:
+    x: -10496
+    y: 8820
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x5.odm
+    x: -10496
+    y: 8820
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 4516
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The lagoon road east to its end (by teleport)
+- set_pose:
+    map: xeen_x5.odm
+    x: 21504
+    y: 2560
+    z: 896
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Off X5''s east edge: the travel prompt (X3, 7 days), accepted; X3''s west start (-22016, 2560, 864)'
+- walk_to:
+    x: 24576
+    y: 2560
+    z: 864
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x3.odm
+- assert:
+    party_position:
+      x: -22016
+      y: 2560
+      radius: 700
+- note: 'Back west off X3''s west edge: the prompt names Winterkill; accepted, X5''s east start (22016, 3072)'
+- walk_to:
+    x: -24576
+    y: 2560
+    z: 864
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x5.odm
+- assert:
+    party_position:
+      x: 22016
+      y: 3072
+      radius: 700

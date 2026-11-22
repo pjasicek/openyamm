@@ -1,0 +1,60 @@
+# The Warzone (XD-20) walk: in by the gate passage, the lodge's door, Varro (4609) at the lodge's booth window offers
+# the War Games; a Page fight puts 6-8 Xeen monsters on the ring and the party on its mark facing the booth; saving is
+# refused in the map; the floor's booth window (low enough to click from the sand, D-39) pays 50 x L and gives award 46
+# once every opponent is dead; out by the victors' gate to X6's coach yard (entrance:xd20_gate).
+id: xeen.xd20.l4.walk
+title: The Warzone (XD-20 L4), a Page challenge from the lodge to the victors' gate
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd20.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_xd20.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 256, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - assert: {actor_count: {min: 0, max: 0}}
+  - save_game: {name: warzone_try, expect_failure: true}
+  - note: The lodge's door, then Varro's booth window in the lodge's east wall
+  - walk_to: {x: 640, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 11}
+  - advance_runtime: {seconds: 1.5}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 5}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true}}
+  - select_topic: {action_id: 704}
+  - select_topic: {match_label: Page}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "log('after Page: [' .. status() .. ']'); close(); wait(0.5)"}
+  - assert:
+      actor_count: {hostile: true, min: 6, max: 8}
+      party_position: {x: 4608, y: 0, radius: 64}
+  - note: Every opponent dead, then the floor's booth window over the north gate
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: 4608, y: 1560, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 4}
+  - advance_runtime: {seconds: 0.5}
+  - select_topic: {action_id: 704}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      gold: 1000
+      award_acquired: [{id: 46}]
+  - play_lua: {source: "close(); wait(0.5)"}
+  - note: Out by the victors' gate in the floor's west side
+  - walk_to: {x: 3000, y: -96, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 6}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: 12288, y: -15872, radius: 150, z_min: 1490, z_max: 1530}}

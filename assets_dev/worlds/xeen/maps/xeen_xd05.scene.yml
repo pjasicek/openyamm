@@ -1,0 +1,455 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_xd05.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 150
+      hostility_type: 0
+      monster_info_id: 11033
+      monster_id: 264
+      radius: 60
+      height: 170
+      move_speed: 180
+      position:
+        x: -960
+        y: 10000
+        z: -256
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 6
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 40
+      hostility_type: 0
+      monster_info_id: 11032
+      monster_id: 200
+      radius: 60
+      height: 170
+      move_speed: 180
+      position:
+        x: 2450
+        y: 13200
+        z: 320
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 40
+      hostility_type: 0
+      monster_info_id: 11032
+      monster_id: 200
+      radius: 60
+      height: 170
+      move_speed: 180
+      position:
+        x: 1900
+        y: 13200
+        z: 320
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 3
+      name: Orc Shaman
+      npc_id: 0
+      attributes: 524288
+      hp: 40
+      hostility_type: 0
+      monster_info_id: 11032
+      monster_id: 200
+      radius: 60
+      height: 170
+      move_speed: 180
+      position:
+        x: -2650
+        y: 7200
+        z: -192
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 17
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 414
+    - actor_index: 4
+      name: Tam
+      npc_id: 0
+      attributes: 0
+      hp: 3
+      hostility_type: 0
+      monster_info_id: 358
+      monster_id: 11
+      radius: 43
+      height: 120
+      move_speed: 140
+      position:
+        x: -2400
+        y: 5250
+        z: -459
+      initial_yaw_units: 512
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 14
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 20
+      ally: 0
+      unique_name_index: 415
+  sprite_objects: []
+  chests: []
+  doors:
+    - door_index: 0
+      legacy_attributes: 0
+      door_id: 1
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [3461, 3462, 3463, 3464, 3465, 3466, 3467, 3468]
+      face_ids: [2891, 2892]
+      sector_ids: [19]
+      delta_us: [-5856, 6112]
+      delta_vs: [-224, -224]
+      x_offsets: [-3784, -3784, -3784, -3784, -3832, -3832, -3832, -3832]
+      y_offsets: [5856, 6112, 6112, 5856, 5856, 6112, 6112, 5856]
+      z_offsets: [-480, -480, -224, -224, -224, -224, -480, -480]
+    - door_index: 1
+      legacy_attributes: 0
+      door_id: 2
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 252
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [3469, 3470, 3475, 3476]
+      face_ids: [2893, 2894, 2895]
+      sector_ids: [19]
+      delta_us: [-2272, 2528, 2528]
+      delta_vs: [284, 284, 5736]
+      x_offsets: [-2272, -2528, -2528, -2272]
+      y_offsets: [5736, 5736, 5720, 5720]
+      z_offsets: [28, 28, 28, 28]
+    - door_index: 2
+      legacy_attributes: 0
+      door_id: 3
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 700
+      close_speed: 700
+      state: 2
+      vertex_ids: [3477, 3478, 3479, 3480, 3481, 3482, 3483, 3484]
+      face_ids: [2896, 2897, 2898, 2899, 2900]
+      sector_ids: [11]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [8, 200, 200, 8, 8, 200, 200, 8]
+      y_offsets: [1816, 1816, 1816, 1816, 1832, 1832, 1832, 1832]
+      z_offsets: [0, 0, 384, 384, 384, 384, 0, 0]
+      mover:
+        rotation:
+          pivot: [200, 1824, 0]
+          axis: [0, 0, 1]
+          open_degrees: 90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 3
+      legacy_attributes: 0
+      door_id: 4
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 700
+      close_speed: 700
+      state: 2
+      vertex_ids: [3485, 3486, 3487, 3488, 3489, 3490, 3491, 3492]
+      face_ids: [2901, 2902, 2903, 2904, 2905]
+      sector_ids: [11]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [-200, -8, -8, -200, -200, -8, -8, -200]
+      y_offsets: [1816, 1816, 1816, 1816, 1832, 1832, 1832, 1832]
+      z_offsets: [0, 0, 384, 384, 384, 384, 0, 0]
+      mover:
+        rotation:
+          pivot: [-200, 1824, 0]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 4
+      legacy_attributes: 0
+      door_id: 5
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 128
+      open_speed: 64
+      close_speed: 64
+      state: 2
+      vertex_ids: [3493, 3494, 3495, 3496, 3497, 3498, 3499, 3500]
+      face_ids: [2906, 2907, 2908, 2909, 2910, 2911]
+      sector_ids: [1]
+      delta_us: [-2016, -13400, 2336, 13432, -2016, -2016]
+      delta_vs: [656, 656, 656, 656, 13440, 13440]
+      x_offsets: [2336, 2016, 2016, 2336, 2336, 2336, 2016, 2016]
+      y_offsets: [13400, 13400, 13400, 13400, 13432, 13432, 13432, 13432]
+      z_offsets: [656, 656, 624, 624, 656, 624, 656, 624]
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [0, 448, 0]
+    direction_degrees: 90
+loot_containers:
+  - source_id: xeen:xeen_xd05:cache
+    source_object_index: 0
+    source_name: cache
+    position:
+      x: -4160
+      y: 5952
+      z: -215
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 400
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_xd05:hollows
+    source_object_index: 1
+    source_name: hollows
+    position:
+      x: -3360
+      y: 5696
+      z: -224
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd05:pool
+    source_object_index: 2
+    source_name: pool
+    position:
+      x: 2944
+      y: 10112
+      z: -736
+    container_id: 2
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_xd05:shaman
+    source_object_index: 3
+    source_name: shaman
+    position:
+      x: -2880
+      y: 7600
+      z: -192
+    container_id: 3
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 1
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+ladders:
+  - id: pit
+    bottom: [-2400, 5672, -480]
+    top: [-2400, 5672, -224]
+    facing_degrees: 90
+    width: 96
+    reach: 48
+    top_exit: [-2400, 5856, -224]
+    grab_at_top: true
+pulsing_lights:
+  - key: 40001
+    position: [-960, 10304, 420]
+    color: [255, 140, 50]
+    intensity: [0.6, 1, 2, 0.6]
+    radius: [1600, 1600, 2, 0.6]
+    start_on: false
+  - key: 40002
+    position: [1120, 2128, 520]
+    color: [255, 140, 50]
+    intensity: [0.6, 1, 2, 0]
+    radius: [1100, 1100, 2, 0]
+    start_on: false
+  - key: 40003
+    position: [-2912, 7200, 152]
+    color: [255, 140, 50]
+    intensity: [0.6, 1, 2, 0.3]
+    radius: [1000, 1000, 2, 0.3]
+    start_on: false
+  - key: 40004
+    position: [-2200, 7650, -92]
+    color: [150, 255, 120]
+    intensity: [0.6, 1, 0.7, 0]
+    radius: [600, 600, 0.7, 0]
+    start_on: true
+  - key: 40005
+    position: [-960, 10304, 180]
+    color: [200, 70, 30]
+    intensity: [1, 1, 0.1, 0]
+    radius: [600, 600, 0.1, 0]
+    start_on: false
+  - key: 40006
+    position: [1120, 2128, 440]
+    color: [200, 70, 30]
+    intensity: [1, 1, 0.1, 0]
+    radius: [400, 400, 0.1, 0]
+    start_on: false
+  - key: 40007
+    position: [-2912, 7200, 102]
+    color: [200, 70, 30]
+    intensity: [1, 1, 0.1, 0]
+    radius: [400, 400, 0.1, 0]
+    start_on: false
+  - key: 40008
+    position: [320, 9792, -480]
+    color: [255, 150, 70]
+    intensity: [0.75, 1, 1.2, 0.6]
+    radius: [1600, 1600, 1.2, 0.6]
+    start_on: true
+  - key: 40009
+    position: [64, 6528, -56]
+    color: [255, 150, 70]
+    intensity: [0.75, 1, 1.3, 0.1]
+    radius: [2000, 2000, 1.3, 0.1]
+    start_on: true
+  - key: 40010
+    position: [-2432, 6300, -111.14285714285714]
+    color: [255, 140, 70]
+    intensity: [0.7, 1, 1.1, 0.4]
+    radius: [900, 900, 1.1, 0.4]
+    start_on: true
+  - key: 40011
+    position: [2700, 10100, -436]
+    color: [150, 200, 220]
+    intensity: [0.7, 1, 0.4, 0]
+    radius: [1300, 1300, 0.4, 0]
+    start_on: true
+ambient_sounds:
+  - key: 1
+    sound: xodrumgr
+    position: [-960, 10304, -16]
+    inner_radius: 3500
+    outer_radius: 16000
+    volume: 0.9
+    loop: true
+    start_on: true
+  - key: 2
+    sound: xodrumsg
+    position: [1120, 2128, 384]
+    inner_radius: 2500
+    outer_radius: 14000
+    volume: 0.6
+    loop: true
+    start_on: true
+  - key: 3
+    sound: xodrumsp
+    position: [-2912, 7200, 16]
+    inner_radius: 2000
+    outer_radius: 14000
+    volume: 0.5
+    loop: true
+    start_on: true
+translucent_faces:
+  - faces: [2893, 2894]
+    opacity: 1
+    tint: [1, 1, 1]
+    two_sided: false

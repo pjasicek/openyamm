@@ -1,0 +1,780 @@
+format: 0
+variables: [burning_w, burning_e]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Ogre Pass: a fort of the ogres on its knoll, timber and hides inside a log palisade, and another across the road joined to it under the pass. Kramer pays for burned forts; Graalg keeps what he takes in his own quarters in the east fort."
+    notes: "The errand on arrival (either gate): the two forts, the burn (Kramer's bounty, Q-D11) and Graalg's strongbox."
+  - id: evt:burn_out_e
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: burning_e, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: burning_e
+          value: 2
+      - set_texture:
+          of: panel:gateway_e_south
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_east
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_north
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_west
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_south
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_east
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_north
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_west
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_south
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_east
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_north
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_west
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_south
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_east
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_north
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_west
+          to: xochar
+      - set_texture:
+          of: panel:graalg_south
+          to: xochar
+      - set_texture:
+          of: panel:graalg_east
+          to: xochar
+      - set_texture:
+          of: panel:graalg_north
+          to: xochar
+      - set_texture:
+          of: panel:graalg_west
+          to: xochar
+      - set_texture:
+          of: region:gate_e_roof
+          to: xochar
+      - set_texture:
+          of: region:hall_e_roof
+          to: xochar
+      - set_texture:
+          of: region:graalg_roof
+          to: xochar
+      - set_texture:
+          of: door:gate_e
+          to: xochar
+      - set_texture:
+          of: door:hall_e
+          to: xochar
+      - set_texture:
+          of: platform:pit_e
+          to: xochar
+          face: top
+      - hide: platform:roof_patch_e
+      - passable: platform:roof_patch_e
+      - show: platform:rubble_e1
+      - solid: platform:rubble_e1
+      - show: platform:rubble_e2
+      - solid: platform:rubble_e2
+      - show: platform:rubble_e3
+      - solid: platform:rubble_e3
+      - show: platform:rubble_e4
+      - solid: platform:rubble_e4
+      - hide: deco:fire_e
+      - show: deco:embers_e
+      - hide: deco:torch_gwy_e_e
+      - hide: deco:torch_gwy_e_w
+      - hide: deco:torch_gate_e_e
+      - hide: deco:torch_gate_e_w
+      - hide: deco:torch_hall_e_ne
+      - hide: deco:torch_hall_e_nw
+      - hide: deco:torch_hall_e_e
+      - hide: deco:torch_hall_e_w
+      - hide: deco:torch_graalg_n
+      - hide: deco:torch_graalg_e
+      - hide: deco:torch_kennel_e
+      - lights_off: [light:pit_e, light:torch_gwy_e_e, light:torch_gwy_e_w, light:torch_gate_e_e, light:torch_gate_e_w, light:torch_hall_e_ne, light:torch_hall_e_nw, light:torch_hall_e_e, light:torch_hall_e_w, light:torch_graalg_n, light:torch_graalg_e, light:torch_kennel_e]
+      - lights_on: [light:sky_gateway_e, light:sky_gate_e, light:sky_hall_e, light:sky_graalg, light:sky_kennel_e]
+      - lights_off: [light:blaze_e, light:blaze_e_n, light:blaze_e_s, light:blaze_e_ea, light:blaze_e_we]
+      - lights_on: light:embers_e
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+    notes: "A few seconds after the burn: the whole fort charred (xochar), the roof down round the pit (the rubble heaps shown and solid), the fire burnt out to embers, the fort's torches gone."
+  - id: evt:burn_out_w
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: burning_w, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: burning_w
+          value: 2
+      - set_texture:
+          of: panel:gateway_w_south
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_east
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_north
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_west
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_south
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_east
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_north
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_west
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_south
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_east
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_north
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_west
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_south
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_east
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_north
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_west
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_south
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_east
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_north
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_west
+          to: xochar
+      - set_texture:
+          of: region:gate_w_roof
+          to: xochar
+      - set_texture:
+          of: region:hall_w_roof
+          to: xochar
+      - set_texture:
+          of: region:bunks_w_roof
+          to: xochar
+      - set_texture:
+          of: region:plunder_w_roof
+          to: xochar
+      - set_texture:
+          of: door:gate_w
+          to: xochar
+      - set_texture:
+          of: door:hall_w
+          to: xochar
+      - set_texture:
+          of: platform:pit_w
+          to: xochar
+          face: top
+      - hide: platform:roof_patch_w
+      - passable: platform:roof_patch_w
+      - show: platform:rubble_w1
+      - solid: platform:rubble_w1
+      - show: platform:rubble_w2
+      - solid: platform:rubble_w2
+      - show: platform:rubble_w3
+      - solid: platform:rubble_w3
+      - show: platform:rubble_w4
+      - solid: platform:rubble_w4
+      - hide: deco:fire_w
+      - show: deco:embers_w
+      - hide: deco:torch_gwy_w_e
+      - hide: deco:torch_gwy_w_w
+      - hide: deco:torch_gate_w_e
+      - hide: deco:torch_gate_w_w
+      - hide: deco:torch_hall_w_e
+      - hide: deco:torch_hall_w_w
+      - hide: deco:torch_hall_w_se
+      - hide: deco:torch_hall_w_sw
+      - hide: deco:torch_bunks_w
+      - hide: deco:torch_bunks_s
+      - hide: deco:torch_plunder_n
+      - hide: deco:torch_plunder_e
+      - lights_off: [light:pit_w, light:torch_gwy_w_e, light:torch_gwy_w_w, light:torch_gate_w_e, light:torch_gate_w_w, light:torch_hall_w_e, light:torch_hall_w_w, light:torch_hall_w_se, light:torch_hall_w_sw, light:torch_bunks_w, light:torch_bunks_s, light:torch_plunder_n, light:torch_plunder_e]
+      - lights_on: [light:sky_gateway_w, light:sky_gate_w, light:sky_hall_w, light:sky_bunks_w, light:sky_plunder_w]
+      - lights_off: [light:blaze_w, light:blaze_w_n, light:blaze_w_s, light:blaze_w_ea, light:blaze_w_we]
+      - lights_on: light:embers_w
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+    notes: "A few seconds after the burn: the whole fort charred (xochar), the roof down round the pit (the rubble heaps shown and solid), the fire burnt out to embers, the fort's torches gone."
+  - id: evt:chest_loot
+    preset: chest
+    source: chest:loot
+    title: Chest
+  - id: evt:chest_plunder
+    preset: chest
+    source: chest:plunder
+    title: Chest
+  - id: evt:disk_case
+    preset: text
+    source: platform:disk_case
+    title: Broken disk case
+    text: "A disk case of Sardaj beadwork, smashed open and empty. Scratched into its lid in a big ogre hand: \"We are Ogres! We take what we want. Yesterday, we took the Sardaj's Energy disks!\""
+    window: true
+    notes: Graalg's boast (aaze0015:16) on the empty case (the graph's line).
+  - id: evt:door_bunks_w
+    preset: door
+    source: door:bunks_w
+    title: Door
+    action: open
+  - id: evt:door_gate_e
+    preset: door
+    source: door:gate_e
+    title: Gate
+    action: open
+  - id: evt:door_gate_w
+    preset: door
+    source: door:gate_w
+    title: Gate
+    action: open
+  - id: evt:door_graalg
+    preset: door
+    source: door:graalg
+    title: Door
+    action: open
+  - id: evt:door_hall_e
+    preset: door
+    source: door:hall_e
+    title: Door
+    action: open
+  - id: evt:door_hall_w
+    preset: door
+    source: door:hall_w
+    title: Door
+    action: open
+  - id: evt:door_kennel
+    preset: door
+    source: door:kennel
+    title: Kennel gate
+    action: open
+  - id: evt:door_plunder_w
+    preset: door
+    source: door:plunder_w
+    title: Door
+    action: open
+  - id: evt:exit_e
+    preset: exit
+    source: exit:gate_e
+    title: Ogre Pass
+    notes: "Out to D2 in front of the east fort's gate (exit:d2_east); the game's leave window (D-24)."
+  - id: evt:exit_w
+    preset: exit
+    source: exit:gate_w
+    title: Ogre Pass
+    notes: "Out to D2 in front of the west fort's gate (exit:d2_west); the game's leave window (D-24)."
+  - id: evt:hall_e_seen
+    preset: text
+    source: room:hall_e
+    trigger: step
+    once: true
+    text: "Graalg's hall: a bigger fire, a seat of antlers. Nobody is home."
+    seconds: 6
+  - id: evt:hall_w_seen
+    preset: text
+    source: room:hall_w
+    trigger: step
+    once: true
+    text: "A timber hall round a fire pit, hides on the walls, a long table of stolen plates. Nobody is home."
+    seconds: 6
+  - id: evt:kennel_seen
+    preset: text
+    source: room:kennel_e
+    trigger: step
+    once: true
+    text: The ogres' kennel. Sabertooths lift their heads from the gnawed logs.
+    seconds: 6
+  - id: evt:pit_e
+    preset: script
+    source: platform:pit_e
+    question: {ask: "Burn (Yes/No)?", answers: [Yes, Y, yes, y], message: "You've found an Ogre fort, but the Ogres are out hunting. Burn?", wrong_text: "You leave the fort standing, for now."}
+    title: Fire pit
+    condition: {not: {qbit: east_burned}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_east\")"
+      - set_texture:
+          of: panel:hall_e_south
+          to: xoburn
+      - set_texture:
+          of: panel:hall_e_east
+          to: xoburn
+      - set_texture:
+          of: panel:hall_e_north
+          to: xoburn
+      - set_texture:
+          of: panel:hall_e_west
+          to: xoburn
+      - set_texture:
+          of: region:hall_e_roof
+          to: xoburn
+      - set_texture:
+          of: platform:roof_patch_e
+          to: xoburn
+      - damage_destructible:
+          of: destructible:hide_e1
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_e2
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_e3
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_e4
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_e5
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_e6
+          amount: 1000
+      - lights_on: [light:blaze_e, light:blaze_e_n, light:blaze_e_s, light:blaze_e_ea, light:blaze_e_we]
+      - lights_off: light:pit_e
+      - set:
+          var:
+            map_var: burning_e
+          value: 1
+      - lua: "evt.SetMapVar('AmbientSound1', 1); evt.SetMapVar('AmbientSound4', 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_east\")"
+    notes: "goal:burn_e: the source's question (aaze0015:7) at the hall's fire pit, a real choice. Yes: A3's q-d11.fort_east (sets east_burned and hostile 113222, shows aaze0015:7-8), the hall's walls and roof to burning timber (xoburn), its hides burn away, the fire roars (blaze lights on the walls and the pit); 4 s later evt:burn_out_e. Again later: the hook's else line."
+  - id: evt:pit_w
+    preset: script
+    source: platform:pit_w
+    question: {ask: "Burn (Yes/No)?", answers: [Yes, Y, yes, y], message: "You've found an Ogre fort, but the Ogres are out hunting. Burn?", wrong_text: "You leave the fort standing, for now."}
+    title: Fire pit
+    condition: {not: {qbit: west_burned}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_west\")"
+      - set_texture:
+          of: panel:hall_w_south
+          to: xoburn
+      - set_texture:
+          of: panel:hall_w_east
+          to: xoburn
+      - set_texture:
+          of: panel:hall_w_north
+          to: xoburn
+      - set_texture:
+          of: panel:hall_w_west
+          to: xoburn
+      - set_texture:
+          of: region:hall_w_roof
+          to: xoburn
+      - set_texture:
+          of: platform:roof_patch_w
+          to: xoburn
+      - damage_destructible:
+          of: destructible:hide_w1
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_w2
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_w3
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_w4
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_w5
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hide_w6
+          amount: 1000
+      - damage_destructible:
+          of: destructible:table_w
+          amount: 1000
+      - damage_destructible:
+          of: destructible:table_leg_1
+          amount: 1000
+      - damage_destructible:
+          of: destructible:table_leg_2
+          amount: 1000
+      - damage_destructible:
+          of: destructible:table_leg_3
+          amount: 1000
+      - damage_destructible:
+          of: destructible:table_leg_4
+          amount: 1000
+      - hide: deco:table_plates_1
+      - hide: deco:table_plates_2
+      - hide: deco:table_plates_3
+      - lights_on: [light:blaze_w, light:blaze_w_n, light:blaze_w_s, light:blaze_w_ea, light:blaze_w_we]
+      - lights_off: light:pit_w
+      - set:
+          var:
+            map_var: burning_w
+          value: 1
+      - lua: "evt.SetMapVar('AmbientSound2', 1); evt.SetMapVar('AmbientSound5', 2)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_west\")"
+    notes: "goal:burn_w: the source's question (aaze0015:7) at the hall's fire pit, a real choice. Yes: A3's q-d11.fort_west (sets west_burned and hostile 113222, shows aaze0015:7-8), the hall's walls and roof to burning timber (xoburn), its hides and table burn away, the fire roars (blaze lights on the walls and the pit); 4 s later evt:burn_out_w. Again later: the hook's else line."
+  - id: evt:run_seen
+    preset: text
+    source: room:run
+    trigger: step
+    once: true
+    text: "A long tunnel shored with timber. Cart wheels rumble overhead: the pass road runs above you."
+    seconds: 6
+  - id: evt:seat
+    preset: text
+    source: platform:seat
+    title: Graalg's seat
+    text: "Graalg's seat, a heap of antlers and bones. Above it a fat purse of Alamar's gold hangs on a hook, nailed there for every ogre to see."
+    window: true
+  - id: evt:stage_e
+    preset: script
+    trigger: load
+    condition: {qbit: east_burned}
+    effects:
+      - hide_actors: 14
+      - hide_actors: 16
+      - hide_actors: 17
+      - destroy: destructible:hide_e1
+      - destroy: destructible:hide_e2
+      - destroy: destructible:hide_e3
+      - destroy: destructible:hide_e4
+      - destroy: destructible:hide_e5
+      - destroy: destructible:hide_e6
+      - set_texture:
+          of: panel:gateway_e_south
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_east
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_north
+          to: xochar
+      - set_texture:
+          of: panel:gateway_e_west
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_south
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_east
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_north
+          to: xochar
+      - set_texture:
+          of: panel:gate_e_west
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_south
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_east
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_north
+          to: xochar
+      - set_texture:
+          of: panel:hall_e_west
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_south
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_east
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_north
+          to: xochar
+      - set_texture:
+          of: panel:kennel_e_west
+          to: xochar
+      - set_texture:
+          of: panel:graalg_south
+          to: xochar
+      - set_texture:
+          of: panel:graalg_east
+          to: xochar
+      - set_texture:
+          of: panel:graalg_north
+          to: xochar
+      - set_texture:
+          of: panel:graalg_west
+          to: xochar
+      - set_texture:
+          of: region:gate_e_roof
+          to: xochar
+      - set_texture:
+          of: region:hall_e_roof
+          to: xochar
+      - set_texture:
+          of: region:graalg_roof
+          to: xochar
+      - set_texture:
+          of: door:gate_e
+          to: xochar
+      - set_texture:
+          of: door:hall_e
+          to: xochar
+      - set_texture:
+          of: platform:pit_e
+          to: xochar
+          face: top
+      - hide: platform:roof_patch_e
+      - passable: platform:roof_patch_e
+      - show: platform:rubble_e1
+      - solid: platform:rubble_e1
+      - show: platform:rubble_e2
+      - solid: platform:rubble_e2
+      - show: platform:rubble_e3
+      - solid: platform:rubble_e3
+      - show: platform:rubble_e4
+      - solid: platform:rubble_e4
+      - hide: deco:fire_e
+      - show: deco:embers_e
+      - hide: deco:torch_gwy_e_e
+      - hide: deco:torch_gwy_e_w
+      - hide: deco:torch_gate_e_e
+      - hide: deco:torch_gate_e_w
+      - hide: deco:torch_hall_e_ne
+      - hide: deco:torch_hall_e_nw
+      - hide: deco:torch_hall_e_e
+      - hide: deco:torch_hall_e_w
+      - hide: deco:torch_graalg_n
+      - hide: deco:torch_graalg_e
+      - hide: deco:torch_kennel_e
+      - lights_off: [light:pit_e, light:torch_gwy_e_e, light:torch_gwy_e_w, light:torch_gate_e_e, light:torch_gate_e_w, light:torch_hall_e_ne, light:torch_hall_e_nw, light:torch_hall_e_e, light:torch_hall_e_w, light:torch_graalg_n, light:torch_graalg_e, light:torch_kennel_e]
+      - lights_on: [light:sky_gateway_e, light:sky_gate_e, light:sky_hall_e, light:sky_graalg, light:sky_kennel_e]
+      - lua: "evt.SetMapVar('AmbientSound4', 2)"
+    notes: "Stage east_burned (113225) on every load (D-23): that fort's rooms charred, the hall's roof down round the pit, its fire and torches out, its ogres and the kennel cats gone (groups [14, 16, 17]). The run and the Sardaj loot cave keep theirs."
+  - id: evt:stage_w
+    preset: script
+    trigger: load
+    condition: {qbit: west_burned}
+    effects:
+      - hide_actors: 10
+      - hide_actors: 11
+      - hide_actors: 12
+      - destroy: destructible:hide_w1
+      - destroy: destructible:hide_w2
+      - destroy: destructible:hide_w3
+      - destroy: destructible:hide_w4
+      - destroy: destructible:hide_w5
+      - destroy: destructible:hide_w6
+      - destroy: destructible:table_w
+      - destroy: destructible:table_leg_1
+      - destroy: destructible:table_leg_2
+      - destroy: destructible:table_leg_3
+      - destroy: destructible:table_leg_4
+      - hide: deco:table_plates_1
+      - hide: deco:table_plates_2
+      - hide: deco:table_plates_3
+      - set_texture:
+          of: panel:gateway_w_south
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_east
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_north
+          to: xochar
+      - set_texture:
+          of: panel:gateway_w_west
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_south
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_east
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_north
+          to: xochar
+      - set_texture:
+          of: panel:gate_w_west
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_south
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_east
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_north
+          to: xochar
+      - set_texture:
+          of: panel:hall_w_west
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_south
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_east
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_north
+          to: xochar
+      - set_texture:
+          of: panel:bunks_w_west
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_south
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_east
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_north
+          to: xochar
+      - set_texture:
+          of: panel:plunder_w_west
+          to: xochar
+      - set_texture:
+          of: region:gate_w_roof
+          to: xochar
+      - set_texture:
+          of: region:hall_w_roof
+          to: xochar
+      - set_texture:
+          of: region:bunks_w_roof
+          to: xochar
+      - set_texture:
+          of: region:plunder_w_roof
+          to: xochar
+      - set_texture:
+          of: door:gate_w
+          to: xochar
+      - set_texture:
+          of: door:hall_w
+          to: xochar
+      - set_texture:
+          of: platform:pit_w
+          to: xochar
+          face: top
+      - hide: platform:roof_patch_w
+      - passable: platform:roof_patch_w
+      - show: platform:rubble_w1
+      - solid: platform:rubble_w1
+      - show: platform:rubble_w2
+      - solid: platform:rubble_w2
+      - show: platform:rubble_w3
+      - solid: platform:rubble_w3
+      - show: platform:rubble_w4
+      - solid: platform:rubble_w4
+      - hide: deco:fire_w
+      - show: deco:embers_w
+      - hide: deco:torch_gwy_w_e
+      - hide: deco:torch_gwy_w_w
+      - hide: deco:torch_gate_w_e
+      - hide: deco:torch_gate_w_w
+      - hide: deco:torch_hall_w_e
+      - hide: deco:torch_hall_w_w
+      - hide: deco:torch_hall_w_se
+      - hide: deco:torch_hall_w_sw
+      - hide: deco:torch_bunks_w
+      - hide: deco:torch_bunks_s
+      - hide: deco:torch_plunder_n
+      - hide: deco:torch_plunder_e
+      - lights_off: [light:pit_w, light:torch_gwy_w_e, light:torch_gwy_w_w, light:torch_gate_w_e, light:torch_gate_w_w, light:torch_hall_w_e, light:torch_hall_w_w, light:torch_hall_w_se, light:torch_hall_w_sw, light:torch_bunks_w, light:torch_bunks_s, light:torch_plunder_n, light:torch_plunder_e]
+      - lights_on: [light:sky_gateway_w, light:sky_gate_w, light:sky_hall_w, light:sky_bunks_w, light:sky_plunder_w]
+      - lua: "evt.SetMapVar('AmbientSound5', 2)"
+    notes: "Stage west_burned (113224) on every load (D-23): that fort's rooms charred, the hall's roof down round the pit, its fire and torches out, its ogres gone (groups [10, 11, 12]). The run and the Sardaj loot cave keep theirs."
+  - id: evt:standing_e
+    preset: script
+    trigger: load
+    condition: {not: {qbit: east_burned}}
+    effects:
+      - hide: platform:rubble_e1
+      - passable: platform:rubble_e1
+      - hide: platform:rubble_e2
+      - passable: platform:rubble_e2
+      - hide: platform:rubble_e3
+      - passable: platform:rubble_e3
+      - hide: platform:rubble_e4
+      - passable: platform:rubble_e4
+      - show: platform:roof_patch_e
+      - solid: platform:roof_patch_e
+    notes: "The fort still stands: the fallen-roof heaps are not there (hidden and passable), the plank patch closes the smoke hole (D-34)."
+  - id: evt:standing_w
+    preset: script
+    trigger: load
+    condition: {not: {qbit: west_burned}}
+    effects:
+      - hide: platform:rubble_w1
+      - passable: platform:rubble_w1
+      - hide: platform:rubble_w2
+      - passable: platform:rubble_w2
+      - hide: platform:rubble_w3
+      - passable: platform:rubble_w3
+      - hide: platform:rubble_w4
+      - passable: platform:rubble_w4
+      - show: platform:roof_patch_w
+      - solid: platform:roof_patch_w
+    notes: "The fort still stands: the fallen-roof heaps are not there (hidden and passable), the plank patch closes the smoke hole (D-34)."
+  - id: evt:strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+    condition: {not: {qbit: peace}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_search\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d11.fort_search\")"
+    notes: "goal:disks: the strongbox holds the 2 Energy Disks (q-d11.fort_search map_gives); the hook sets fort_disks 113226 and says aaze0015:23 once ('The strongbox is empty.' later). After a peace (113223) it stays shut: the hook's 'Graalg would notice.'"
+  - id: evt:trap_graalg
+    preset: door
+    source: door:graalg_trap
+    title: Trapdoor
+    action: open
+  - id: evt:trap_plunder
+    preset: door
+    source: door:plunder_trap
+    title: Trapdoor
+    action: open

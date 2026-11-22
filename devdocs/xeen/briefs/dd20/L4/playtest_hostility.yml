@@ -1,0 +1,90 @@
+# Hostility check of the Lakeside Coven and Sewer (DD-20) (DD-04's form; lane A8, 2026-11-20). The kinds: the coven
+# (Witch 11170, Coven Witch 11171, the Head Witch 11173; xeen_coven: hostile, friendly after joined 113449, hostile
+# again after head_witch_slain 113447: A2's relations.yml, no map relations); the sewer stalkers (Sewer Stalker 11401,
+# Stalker Matriarch 11402; xeen_sewer_stalkers: hostile; five of them the cross's hidden ambush, which actor_count
+# counts too); the four prisoners (Camilla 11906, Aretha 11907, Isabella 11908, Rhett 11909; each its own friendly
+# xeen_character_<key> faction). At load: 13, 4, 1, 24, 3 hostile, none peaceful; the prisoners peaceful. Coven and
+# stalkers side by side do not take each other on. Then joined: the coven peaceful (the stalkers not); then
+# head_witch_slain: the coven hostile again. Run with --world xeen --map xeen_dd20.blv (output/studio_cal/dd20/four.sh).
+id: xeen.dd20.l4.hostility
+title: 'the Lakeside Coven and Sewer (DD-20): the coven turned by joined and by the Head Witch''s death; stalkers hostile; prisoners peaceful'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd20.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run.
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11170, hostile: true, min: 13, max: 13}}
+- assert: {actor_count: {monster_id: 11171, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11173, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11401, hostile: true, min: 24, max: 24}}
+- assert: {actor_count: {monster_id: 11402, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11170, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11171, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11173, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11401, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11402, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11906, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11906, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11907, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11907, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11908, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11908, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11909, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11909, hostile: false, min: 1, max: 1}}
+- save_game: {name: dd20_load}
+- note: 'Kinds of the map side by side in the coven hall, nearer each other than the party (a monster takes the nearest of its
+    foes): they must not take each other on (spawn_actor summons hostile monsters).'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11170, x: -160, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11401, x: -32, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11171, x: 96, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11402, x: 224, y: 1100, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11170, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11171, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11401, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11402, hurt: true, max: 0}}
+- console: {line: arena trace off}
+- note: "Joined (113449, the initiation's bit): the coven turns friendly, the stalkers stay hostile, the prisoners friendly."
+- load_game: {name: dd20_load}
+- advance_runtime: {seconds: 1}
+- lua_event: {source: "SetQBit(QBit(113449))"}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11170, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11171, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11173, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11170, hostile: false, min: 13}}
+- assert: {actor_count: {monster_id: 11171, hostile: false, min: 4}}
+- assert: {actor_count: {monster_id: 11173, hostile: false, min: 1}}
+- assert: {actor_count: {monster_id: 11401, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11402, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11906, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11909, hostile: true, max: 0}}
+- note: The coven stays friendly after a save and a reload.
+- save_game: {name: dd20_joined}
+- load_game: {name: dd20_joined}
+- advance_runtime: {seconds: 1}
+- assert: {actor_count: {monster_id: 11170, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11173, hostile: true, max: 0}}
+- note: "The Head Witch dies (113447, q-d22.head_witch at her death): the coven turns hostile again although joined is set."
+- lua_event: {source: "SetQBit(QBit(113447))"}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11170, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11171, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11170, hostile: true, min: 13}}
+- assert: {actor_count: {monster_id: 11171, hostile: true, min: 4}}
+- assert: {actor_count: {monster_id: 11906, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11909, hostile: true, max: 0}}

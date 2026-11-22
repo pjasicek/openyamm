@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit guide_atlas.png directly, locked pixel stencil. Return one 1536x1024 transparent PNG. Change RGB only inside its exact grey shapes. Preserve alpha including antialiasing, all coordinates, all edges and gaps. Five orthographic projections on 3x2 cells of 512px: top row three narrow horizontal edges at y237..274, lower left fourth narrow edge y749..786, bottom middle broad stepped face x545..990 y557..978. Lower right transparent. Paint four thin edges worn gold with fine casting grain. On broad face paint aged warm gold, the single centered engraved almond eye with circular pupil and small loop detail at apex from design_reference.png, scaling details inside guide silhouette. Match icon_x8.png gold color; ignore magenta. Respect guide alpha even at loop. Unlit base color, subtle scratches and mottled ochre patina. No illumination, shadows, AO, bright highlights, reflections, halo, outlines, text or other marks outside the shapes. No resizing or reframing. Correction: use the guide\u2019s original alpha channel as the output alpha channel verbatim. At the apex the GUIDE is solid; depict a ring with gold-colored center, preserving opacity. The original irregular stepped perimeter, slight tilt of the base and clipped corners are intentional. Outside the guide every pixel is transparent, including the entire sixth cell. All the metal should appear matte, evenly colored without baked directional shading.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "086e81c66871538df1cbb43beb74251a4b53caa01e5cdb8fc711dbc49abfc9a9"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "b100eba8452122c9e218a9a67243f40601c41340a73f428b1a8ba98bd477bca2"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "87d88c02431f1a98afc96ae91e02b684bef6cf6c8b62264a33e384a8a9824176"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f919-8d24-7913-9684-3455581d9b47/exec-84fe74d9-38a5-420a-8305-6fbf2466f41a.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

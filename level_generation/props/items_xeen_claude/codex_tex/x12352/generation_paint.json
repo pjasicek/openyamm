@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png as a locked pixel stencil. Copy its entire transparent 1536x2048 3:4 canvas (or nearest 3:4) and all ten silhouettes verbatim, changing RGB only inside them. Image 2 is the design/detail reference and image 3 supplies colours only, ignore magenta. Caleb's Magnifying Glass. Preserve the three-column four-row grid and all empty space. Rows 1-2 are five orthographic unlit base-colour paintings: two thin horizontal brass edge views with small centered end of wooden grip, one horizontal side view (brass on left, turned warm brown wooden grip on right), then its reversed side view and an upright round grey glass lens with aged brass rim, brass collar and turned wooden handle. Follow exact reference materials and details at guide scale. No baked lighting, shadows, AO, reflections, hot highlights, glow, outlines, lettering or ground. Rows 3-4 exactly repeat rows 1-2 positions as strict flat material ID masks. Every metal pixel pure #FF0000, every glass pixel opaque #000000, every wooden pixel pure #FFFF00. No internal antialiasing, outlines, shading or texture in masks. All gaps and all pixels outside the guide silhouettes fully transparent. Row 2 column 3 and row 4 column 3 completely empty. Never resize, move, enlarge or redesign the objects.\nCorrective pass: preserve the guide's actual plain handle outline, including its blunt angled tip. Suggest turned wood using interior grain only. Lock alpha to image 1. Lower mask is three solid digital bucket fills, with the lens perfectly opaque black through its center. Keep every view exactly registered with the guide.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "d942ed0891918b87f082ff35796a89dda137f468f97eb5c4771e2f8e7588393b"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "31908c3398e42604cbabf5ec82806896366463a8fb1ab2adc50c7aba5b870b8b"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "bad0e9c80e921d36601cc1f4d1f5ab9b2935422706bd0ed2bf396390337faee0"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91f-7b63-7c03-be47-9e7a5b7c3c05/exec-97524ea2-d520-47b8-8b3f-6ece3f4febcc.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

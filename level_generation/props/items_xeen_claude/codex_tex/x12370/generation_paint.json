@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely edit image 1, the grey orthographic 1536x2048 atlas. Lock its alpha pixel-for-pixel, all silhouettes, openings, positions, sizes and all ten projections. Colour inside only. 3 columns x 4 square rows, transparent RGBA. Rows 1 and 3: front, back, side facing right. Rows 2 and 4: side facing left, overhead pointed hood, empty transparent. Rows 1-2 ONLY: paint the unlit diffuse base color using image 2 for materials and stitches, image 3 for colors. Small stuffed cloth Accuracy Doll, archer carnival prize, brown sewn hood and capelet, moss green tunic, stitched cream linen face and mitts, button eyes, yarn hair, red stitched smile, belt with brass buckle, suede boots, quiver and tiny wooden bow. Detailed weave, consistent across views. No lighting, shadows, outlines, highlights, text or ground. Rows 3-4 ONLY: material ID map on precisely the same guide geometry. EVERY occupied pixel exactly pure flat #0000FF cloth, yarn, cords, linings and hair; #00FF00 leather, suede, straps, padding and fur; #FF0000 all metal including brass buckle; #FFFF00 matte rigid nonmetal including wood. Zero shading, texture, edge lines or antialiased RGB blends inside mask. Retain actual transparent exterior and every gap. Keep all framing of image 1 exactly. No resizing individual figures or rearranging anything.\nCorrection: keep generous 33-pixel top and bottom margins per 512px standing-view cell just like the guide. All feet must end ABOVE their respective cell bottom, especially the fourth-row profile. Copy the geometry and margins from the guide rather than fitting the drawings to the canvas. Use completely solid uniform material fills up to clean edges.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "965b11cc24fafed758f4ea404a6ef5b40b2760cb7e9c3c3a2f875f939e0ac843"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "30508d311b60f30dbe027969bf81a0e4fcb8e6d88ef986174c1bd279b909612d"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "412f228970403451667788435b16edf497474a950f3f5c4c5cc13be83afad80d"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e9-1b40-7330-8b12-2171a83f8985/exec-b89906b7-c8ab-4755-94a1-eb65af1a81e5.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

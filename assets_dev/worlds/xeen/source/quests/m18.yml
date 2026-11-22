@@ -1,0 +1,37 @@
+# M18 The Energy Disks (QUESTS M18, Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Twenty-five disks exist, twenty are needed (QUESTS 4.2). Ellinger takes them five at a time (m19 stages 1-2, m26
+# stages 3-4). The sources are other files' steps: Q-D1 3 (the gremlins), Q-D10 2 + the Temple of Bark 2 (sprites),
+# Q-D11 2 (ogres, peace or the fort), Q-D19 2 (the Southern Tower), m19 2 (Kalindra's thievery safes, stage 1); Act IV:
+# Q-D6 2 (the Western Tower), Q-D18 2 (the Eastern Tower, DD-07, Act IV since D-9.3), M24 4 (Kalindra's disk safe,
+# Dimitri's combination); Act V: the giants 2, Q-D17 2 (the Chalice of Protection: Bosco, or the Voweless Knights'
+# plaque in the Northern Tower, DD-08, which holds no disks itself). Act III gives 13 and Act IV 8: 21 before Act V
+# (D-9.3), so stage 4 (20) is reachable in Act IV; Q-D11 gives its 2 on either route.
+id: M18
+title: The Energy Disks
+act: III
+kind: main
+status: full
+giver: 4954          # Ellinger
+maps: [D1, D2, D3]
+level: 22
+block: 18
+after: [m17.done]
+source: "QUESTS M18, 4.2; dark research 1 (disk sources)"
+
+qbits:
+  started: {id: 111360, journal: "Energy disks: the gremlins, the sprites, the ogres, the four towers, the Temple of Bark and Kalindra's own safes hold them. Ellinger takes them five at a time.",
+            until: [m26.stage4]}
+
+autonotes:
+  sources: {id: 4118, text: "Energy disks (Ellinger needs 20): the Gremlin Court (3), Sharla's sprites and the Temple of Bark (2 and 2), Graalg's ogres (2), the Southern, Western and Eastern Towers (2 each), the Chalice of Protection (2), Gurodel's giants (2), Castle Kalindra's own safes.", category: Misc}
+
+hooks:
+  sources_note:
+    map: DD-02
+    where: "Ellinger's study, after M17: his list of disk sources on the desk (a readable note)"
+    reads: [started]
+    do: [{autonote: sources}]
+    text: "A list in Ellinger's hand: \"Discs. Gremlins (3, if they can be made to talk). Sprites. Ogres. The towers, two each. The Temple of Bark. The castle itself, once it is back. The giants, if anyone is that brave.\""
+
+rewards: {xp: 0, gold: 0}
+playthrough: "Gather disks from the Darkside side quests (Q-D1, Q-D10, Q-D11, Q-D19) and Kalindra's safes; Ellinger takes them."

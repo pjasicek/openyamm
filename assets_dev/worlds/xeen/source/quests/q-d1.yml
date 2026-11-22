@@ -1,0 +1,149 @@
+# Q-D1 The Gremlin Court (QUESTS 2.2 Q-D1; M14, M18). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Gettlewaithe's court (DD-04) is a three-round dialogue: respect first, then the Mayor's demand (his guards attack),
+# then "Submit or die" once the guards are beaten (Bertha's tip, flavour/d1.yml 4906: "If you defeat his guards, he will
+# probably do anything you want"). Either route sets court_won: the gremlins submit (court_peace) or Gettlewaithe dies.
+# M14's Castleview gate (the orchestrator's) opens for {any: [{item: castleview_pass}, {qbit: q-d1.court_won}]}, so the
+# court's entrance is outside the walls and the quest starts from the notice at the gate.
+# Energy Disks (M18: 3): the peaceful route is Snarfblad's topic (Gettlewaithe's gift, sent through the mayor); the
+# violent route is the map's chest under the late king's throne (throne hook, map_gives). Never both: the throne
+# hook refuses after a peace, and the gift needs the peace.
+id: Q-D1
+title: The Gremlin Court
+act: III
+kind: side
+status: full
+giver: 4916          # Mayor Snarfblad (Castleview Town Hall, 4466)
+maps: [D1, DD-04]
+level: 19
+block: 81
+after: [m7.sigil]
+source: "QUESTS Q-D1; dark/aaze0029:83-98 (the court), :102-107 (Snarfblad), :131-133"
+
+qbits:
+  started: {id: 113020, journal: "Gremlins are sabotaging Castleview. Mayor Snarfblad pays to end it; their king Gettlewaithe holds court outside the walls.",
+            until: [done]}
+  court_won: {id: 113021, note: "the gremlins submit at court (court_peace) or Gettlewaithe is killed; M14's gate opens on it"}
+  done: {id: 113022, note: "Snarfblad paid: gold, experience, a Castleview pass"}
+  round1: {id: 113023, note: "Gettlewaithe heard the petition (We come in peace)"}
+  court_hostile: {id: 113024, note: "Gettlewaithe called his guards, or the party attacked him or a court-side gremlin (DD-04's timer, D-26), or he died; A2's relations.yml turns DD-04's court (xeen_gremlins_court) hostile, but not Gettlewaithe: he has his own faction and turns only when struck himself (D-37)"}
+  guards_beaten: {id: 113025, note: "DD-04 sets it when the court guards' group is dead"}
+  court_peace: {id: 113026, note: "Gettlewaithe submitted (Submit or die, after guards_beaten); Snarfblad's gift topic reads it"}
+  gettlewaithe_slain: {id: 113027, note: "DD-04 sets it at Gettlewaithe's death"}
+  throne_searched: {id: 113028, note: "DD-04's throne chest"}
+  gift_paid: {id: 113029, note: "Snarfblad handed over Gettlewaithe's three Energy Disks"}
+  dd04_arrived_once: {id: 117040, map: DD-04, note: "the map's own: first arrival in DD-04 (A8)"}
+
+autonotes:
+  court: {id: 4410, text: "The Gremlin Court: the burrow under Castleview's wall, outside the north gate. King Gettlewaithe talks big and fights small: beat his guards and he may listen.", category: Misc}
+  won: {id: 4411, text: "The gremlins are done with Castleview. The gate will open for you now; Mayor Snarfblad owes you.", category: Misc}
+
+items:
+  castleview_pass: "Snarfblad's pass, given with the reward (M14 also sells one through Justine)"
+  energy_disk: "3 on this quest (M18): Snarfblad's gift topic (peace) or the throne chest in DD-04 (violent)"
+
+npcs:
+  4916:              # Mayor Snarfblad
+    topics:
+      - n: 1
+        label: Gremlins
+        states:
+          - when: {qbit: done}
+            text: "Castleview likes you! Visit anytime!"
+          - when: {qbit: court_won}
+            text: "You have saved Castleview from the wicked Gremlins! Oh, frabjous day! Here is your gold, and a pass, so the gate stops arguing with you."
+            do: [{set: done}, {autonote: won}, {xp: 5000}, {gold: 2500}, {give: castleview_pass}]
+          - when: {qbit: started}
+            text: "The Gremlins' reign of terror persists. No gold for you."
+          - text: "I am the mouthpiece of Castleview. The treasury will pay well for ending the Gremlins' mischief in town. Their king, Gettlewaithe, holds court in a burrow under our wall."
+            do: [{set: started}, {autonote: court}]
+      - n: 2
+        label: "Gettlewaithe's gift"
+        show: {all: [{qbit: court_peace}, {qbit: done}, {not: {qbit: gift_paid}}]}
+        text: "This came from the burrow this morning, with a note: 'For the delegation. Sir.' Three Energy Disks. I believe that is a gremlin apology. Take them before they explode."
+        do: [{set: gift_paid}, {give: energy_disk, count: 3}]
+  4955:              # Gettlewaithe, King of the Gremlins (DD-04 throne; monster 11023 when he fights)
+    topics:
+      - n: 3
+        label: We come in peace
+        states:
+          - when: {qbit: court_won}
+            text: "I am always at your service, sir."
+          - when: {qbit: round1}
+            text: "Yes, yes, you live. What else?"
+          - text: "Excellent. Your display of respect has earned you your lives. What have you come to petition me for?"
+            do: [{set: round1}]
+      - n: 4
+        label: "The Mayor's demand"
+        states:
+          - when: {qbit: court_won}
+            text: "I am always at your service, sir."
+          - when: {not: {qbit: round1}}
+            text: "I am not interested in hearing from the butts of our jokes. Begone!"
+          - when: {qbit: guards_beaten}
+            text: "Well, um, perhaps I can do something about those naughty, naughty pranksters. We can still talk about this like rational beings, can't we?"
+          - text: "The answer is no! You will now suffer the consequences of your audacity. Guards!"
+            do: [{set: court_hostile}]
+      - n: 5
+        label: Submit or die
+        states:
+          - when: {qbit: court_won}
+            text: "I am always at your service, sir."
+          - when: {qbit: guards_beaten}
+            text: "Yes, sir. I will do as you ask without delay. The sewers, the bridges, the mill. All of it. Sir."
+            do: [{set: court_peace}, {set: court_won}, {autonote: won}]
+          - when: {not: {qbit: round1}}
+            text: "I see. Guards! Remove this rabble from my court!"
+            do: [{set: court_hostile}]
+          - text: "(yawn) Off with their heads."
+            do: [{set: court_hostile}]
+
+hooks:
+  gate_notice:
+    map: D1
+    where: "a notice nailed beside Castleview's north gate (outside), next to the gatewarden's hatch"
+    sets: [started]
+    once: true
+    do: [{autonote: court}]
+    text: "BY ORDER OF THE MAYOR: the treasury will pay to end the Gremlins' mischief. Their court is the burrow under the wall, east of this gate. Pass holders apply within. Everyone else, apply to the gremlins."
+    else_text: "The Mayor's notice. Someone has drawn a gremlin on it, upside down."
+  court_entrance:
+    map: D1
+    where: "DD-04's entrance: a gremlin burrow under the town wall, outside the north gate (reachable without a pass)"
+    text: "A burrow under the wall, with a tiny door and a tiny sign: THE COURT. KNOCK LOUDLY. WE WILL IGNORE YOU."
+  sabotage:
+    map: D1
+    where: "the broken bridge and the burned mill by the river: the map shows them mended once court_won is set (A6, BModel groups)"
+    reads: [court_won]
+  court_guards:
+    map: DD-04
+    where: "the court guards' group in the throne room: hostile once court_hostile is set (A8); the gremlins elsewhere are hostile anyway"
+    reads: [court_hostile]
+  guards_beaten:
+    map: DD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the court guards' group dead (A8: kills of the group)"
+    sets: [guards_beaten]
+    once: true
+    text: "The last guard falls. On the throne, Gettlewaithe has gone a much paler shade of green."
+    else_text: "The guards are still dead."
+  gettlewaithe:
+    map: DD-04
+    where: "Gettlewaithe's death (he fights only when attacked, or after 'Submit or die' is refused); either way the court is won. Also sets court_hostile (D-26), so a king killed without a word still turns the court"
+    sets: [gettlewaithe_slain, court_won, court_hostile]
+    do: [{autonote: won}]
+  throne:
+    map: DD-04
+    gate: order
+    where: "the throne, searched after Gettlewaithe's death; the map's chest holds 3 Energy Disks (the violent route's share of M18)"
+    requires: {all: [{qbit: gettlewaithe_slain}, {not: {qbit: court_peace}}]}
+    sets: [throne_searched]
+    once: true
+    map_gives: {energy_disk: 3}
+    text: "You find 3 Energy Disks under the late Gettlewaithe's throne."
+    fail_text: "The throne is occupied. Mostly by a very nervous gremlin."
+    else_text: "Under the throne: crumbs. Above it, the Mayor's portrait, with a moustache added."
+
+rewards: {xp: 5000, gold: 2500, items: "castleview_pass; 3 Energy Disks (gift or throne)"}
+notes:
+  - "relations.yml (A2, rules on 113024 court_hostile and 113026 court_peace; no Lua sets relations): DD-04's court (xeen_gremlins_court) and army (xeen_gremlins_army) switch on them; after court_peace the court and D1's gremlin family stay friendly."
+playthrough: "D1: the notice at the gate. DD-04: Gettlewaithe (We come in peace; The Mayor's demand); kill his guards; Gettlewaithe (Submit or die). D1: Snarfblad (Gremlins), Snarfblad (Gettlewaithe's gift). Violent: kill Gettlewaithe, the throne, Snarfblad (Gremlins)."

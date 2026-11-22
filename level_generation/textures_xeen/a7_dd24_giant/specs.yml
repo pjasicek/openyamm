@@ -1,0 +1,45 @@
+# Lane A7 (2026-11-21, decision D-47 Q24): DD-24 Giants' Hall, MM8 Cyclops Larder (d14) family, two new textures:
+# xdgiantd, one wing of the hall's giant double doors (each leaf 192 x 512, the right leaf mirrored), and xdthrone,
+# the bloody throne's black wood stained with old blood (a seamless tile on the throne's block). See ../README.md.
+dungeons:
+  dd24:
+    family_words: >-
+      MM8's Cyclops Larder: rough brown cave rock, big sandstone blocks, heavy dark timber planks, all hand-painted in
+      the muted, warm earthy palette of Might and Magic VIII (the reference images are that dungeon's own textures)
+textures:
+  xdgiantd:
+    dungeon: dd24
+    size: [128, 256]
+    art: [192, 512]
+    kind: picture
+    refs: [mm8/gcstdoor, mm8/gkp1ceil, mm8/gcav1wal]
+    tone: {like: [mm8/gkp1ceil], factor: 1.0}
+    family: MM8 d14's planks and door (gcstdoor, gkp1ceil) and its rock (gcav1wal)
+    where: DD-24's great doors and throne-hall doors (hinged pairs, each leaf 192 x 512; the right leaf mirrored)
+    standin: gkp103a
+    what: >-
+      One leaf of a giant's double door, seen straight on and filling the whole canvas, tall and narrow: built of a
+      few enormous rough-hewn dark timber planks running vertically, each as wide as a man, roughly adzed, with deep
+      cracks and knots, held by three massive black iron straps running across the whole leaf, each strap fixed with
+      big round rivet heads; the iron bands end in a crude hinge on the left edge; a single huge iron ring handle near
+      the right edge at about half height. Old, dark, warm brown wood in the palette of the references, scratched and
+      weathered, a little soot near the bottom. Flat, even, frontal light, no perspective, no frame of stone, no
+      background, no doorway, no floor: the door leaf alone edge to edge.
+  xdthrone:
+    dungeon: dd24
+    size: [128, 128]
+    art: [512, 512]
+    kind: tile
+    refs: [mm8/gkp1ceil, mm8/gcst1bs1]
+    # v2 (D-51 item 4): near-black and desaturated (mean luma about 20-25, saturation about 120 or less, the old blood
+    # the only clear red); v1 was tone factor 0.55 with no desaturation (luma 38, saturation 199).
+    tone: {like: [mm8/gkp1ceil], factor: 0.22, saturation: 0.7}
+    family: MM8 d14's dark planks (gkp1ceil), blackened
+    where: DD-24's bloody throne (the throne block's sides and seat), fitted at its size
+    standin: gkp1ceil
+    what: >-
+      A seamless surface of very dark, almost black, heavy hand-hewn wood: broad planks and beams joined with thick
+      wooden pegs, the grain deep and rough, polished smooth in places by use; old dried blood soaked into the wood in
+      dark rust-brown and maroon stains, runs and splashes, darkest in the cracks and joints. Hand-painted in the warm,
+      muted palette of Might and Magic VIII, flat even light, seen straight on, no perspective, no objects, no edges or
+      borders, the pattern continuing off every side.

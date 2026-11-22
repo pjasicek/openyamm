@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png in place as a strict pixel stencil. Output one transparent 1536x2048 3:4 atlas. Keep original guide alpha, negative space and exact shape and location of every grey pixel. Do not redraw or enlarge any silhouette. Three columns by FOUR rows of square 512 cells. Row1 front/back/left; row2 right/top/empty; row3 same front/back/left; row4 same right/top/empty. Rows 1-2: paint unlit base colour only of the Diamond Rock, rough grey stone studded with glittering clear white diamond crystals, following design_reference.png for facets, mineral detail and distribution and icon_x8.png for colour (ignore magenta). Depict the crystals inside the silhouette using clean pale grey, white and translucent-looking facet planes, without hot highlights, directional lighting, reflections, AO, cast shadows, sparkles or aura. Rows 3-4: duplicate corresponding paint silhouettes and precisely segment them into exactly two flat RGB fills: every stone pixel pure yellow #FFFF00; every crystal pixel opaque pure black #000000. No outlines, texture, shading or internal antialias blends in mask. Keep gaps, background, and the last cells of rows 2 and 4 fully transparent. No ground, text or labels. The grey guide is absolute geometry and layout authority.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "6bcf2438816fd460a5ff7953bbc65521f82f5b212a44bdcab85ad2a8af405918"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "9fcce5232f09c31dcfac4a69a88c59f72bfd787d3310105866607249d6aefef3"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "be37967d0d73b397f63f167438a8bec2c12a1c015ee9b219985f26d86220c2b3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f921-a83a-7030-bb94-6504748344f4/exec-8a04c4c4-7735-46fd-8697-06b4eb9d8b89.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

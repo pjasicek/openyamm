@@ -1,0 +1,452 @@
+format: 0
+variables: [hatch_open, ambush_shown, sump_purse, hideout_pack, bed_found, witch_bed_found, shelf_found, cage_camilla_open, cage_aretha_open, cage_isabella_open, cage_rhett_open, trap_checked]
+events:
+  - id: evt:ambush
+    preset: script
+    source: room:cross
+    trigger: step
+    condition: {not: {map_var: ambush_shown}}
+    effects:
+      - show_actors: 6
+      - set:
+          var:
+            map_var: ambush_shown
+          value: 1
+      - text: "Things climb out of the side drains!"
+    notes: "poi:ambush (D-18, D-42 (7)): the hidden group 6 shows on the first step onto the cross and stays shown (saved with the map); a refill resets both."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "LAKESIDE'S UNDERSIDE. Under the Guild the coven keeps house; half a storey below its hall are the cells, and under everything the town's sewer runs east to the lake. Naomi said four prisoners wait in the cells, and that the Head Witch keeps the coven's north-west corner."
+      - qbit: arrived_once
+    notes: "Say why the party is here (Q-D22: the prisoners, the Head Witch), on the first arrival by any of the three ways (arrived_once 117400)."
+  - id: evt:bed_1
+    preset: text
+    source: platform:bed_1
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: "'Bed' / 'Nothing here.' (dark/aaze0033:15-16)."
+  - id: evt:bed_2
+    preset: text
+    source: platform:bed_2
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: "'Bed' / 'Nothing here.' (dark/aaze0033:15-16)."
+  - id: evt:bed_3
+    preset: script
+    source: platform:bed_3
+    title: Bed
+    condition: {not: {map_var: bed_found}}
+    effects:
+      - set:
+          var:
+            map_var: bed_found
+          value: 1
+      - gold: 150
+      - text: A few coins in the straw. (+150 gold)
+    else_effects:
+      - text: Nothing here.
+    notes: "'Bed' (dark/aaze0033:15): one find among the beds."
+  - id: evt:bed_4
+    preset: text
+    source: platform:bed_4
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: "'Bed' / 'Nothing here.' (dark/aaze0033:15-16)."
+  - id: evt:cage_aretha
+    preset: script
+    source: mover:cage_aretha
+    title: Cage
+    condition: {not: {qbit: aretha_freed}}
+    lua: |-
+      XeenQuests.hook("q-d22.aretha")
+      if IsQBitSet(QBit(113444)) then
+          evt.SetMonGroupBit(21, MonsterBits.Invisible, 1)
+      end
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d22.aretha\")"
+    notes: "poi:cages: 'Cage' (dark/aaze0033:22); A3's q-d22.aretha (Aretha the Helpless's line, 113444, 500 XP); she or he is hidden at once; then the hook's 'Nothing here.'"
+  - id: evt:cage_aretha_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: aretha_freed, not: {map_var: cage_aretha_open}}
+    opens: [mover:cage_aretha]
+    effects:
+      - set:
+          var:
+            map_var: cage_aretha_open
+          value: 1
+    notes: The cage front sinks once its prisoner is freed (and again after a refill).
+  - id: evt:cage_camilla
+    preset: script
+    source: mover:cage_camilla
+    title: Cage
+    condition: {not: {qbit: camilla_freed}}
+    lua: |-
+      XeenQuests.hook("q-d22.camilla")
+      if IsQBitSet(QBit(113443)) then
+          evt.SetMonGroupBit(20, MonsterBits.Invisible, 1)
+      end
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d22.camilla\")"
+    notes: "poi:cages: 'Cage' (dark/aaze0033:22); A3's q-d22.camilla (Camilla the Captured's line, 113443, 500 XP); she or he is hidden at once; then the hook's 'Nothing here.'"
+  - id: evt:cage_camilla_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: camilla_freed, not: {map_var: cage_camilla_open}}
+    opens: [mover:cage_camilla]
+    effects:
+      - set:
+          var:
+            map_var: cage_camilla_open
+          value: 1
+    notes: The cage front sinks once its prisoner is freed (and again after a refill).
+  - id: evt:cage_isabella
+    preset: script
+    source: mover:cage_isabella
+    title: Cage
+    condition: {not: {qbit: isabella_freed}}
+    lua: |-
+      XeenQuests.hook("q-d22.isabella")
+      if IsQBitSet(QBit(113445)) then
+          evt.SetMonGroupBit(22, MonsterBits.Invisible, 1)
+      end
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d22.isabella\")"
+    notes: "poi:cages: 'Cage' (dark/aaze0033:22); A3's q-d22.isabella (Isabella the Victim's line, 113445, 500 XP); she or he is hidden at once; then the hook's 'Nothing here.'"
+  - id: evt:cage_isabella_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: isabella_freed, not: {map_var: cage_isabella_open}}
+    opens: [mover:cage_isabella]
+    effects:
+      - set:
+          var:
+            map_var: cage_isabella_open
+          value: 1
+    notes: The cage front sinks once its prisoner is freed (and again after a refill).
+  - id: evt:cage_rhett
+    preset: script
+    source: mover:cage_rhett
+    title: Cage
+    condition: {not: {qbit: rhett_freed}}
+    lua: |-
+      XeenQuests.hook("q-d22.rhett")
+      if IsQBitSet(QBit(113446)) then
+          evt.SetMonGroupBit(23, MonsterBits.Invisible, 1)
+      end
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d22.rhett\")"
+    notes: "poi:cages: 'Cage' (dark/aaze0033:22); A3's q-d22.rhett (Rhett the Wimp's line, 113446, 500 XP); she or he is hidden at once; then the hook's 'Nothing here.'"
+  - id: evt:cage_rhett_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: rhett_freed, not: {map_var: cage_rhett_open}}
+    opens: [mover:cage_rhett]
+    effects:
+      - set:
+          var:
+            map_var: cage_rhett_open
+          value: 1
+    notes: The cage front sinks once its prisoner is freed (and again after a refill).
+  - id: evt:cauldron_endurance
+    preset: script
+    source: deco:cauldron_endurance
+    title: Cauldron
+    lua: "XeenQuests.hook(\"q-d22.cauldron_endurance\")"
+    notes: "poi:cauldrons (D-42 (6)): A3's q-d22.cauldron_endurance decides for the clicking member (+2, once per character, its player bit); again: 'You have had your fill.'"
+  - id: evt:cauldron_personality
+    preset: script
+    source: deco:cauldron_personality
+    title: Cauldron
+    lua: "XeenQuests.hook(\"q-d22.cauldron_personality\")"
+    notes: "poi:cauldrons (D-42 (6)): A3's q-d22.cauldron_personality decides for the clicking member (+2, once per character, its player bit); again: 'You have had your fill.'"
+  - id: evt:cauldron_speed
+    preset: script
+    source: deco:cauldron_speed
+    title: Cauldron
+    lua: "XeenQuests.hook(\"q-d22.cauldron_speed\")"
+    notes: "poi:cauldrons (D-42 (6)): A3's q-d22.cauldron_speed decides for the clicking member (+2, once per character, its player bit); again: 'You have had your fill.'"
+  - id: evt:chest_dorm
+    preset: chest
+    source: chest:dorm
+    title: Chest
+  - id: evt:chest_gaol
+    preset: chest
+    source: chest:gaol
+    title: Chest
+  - id: evt:chest_pump
+    preset: chest
+    source: chest:pump
+    title: Chest
+  - id: evt:chest_warren
+    preset: chest
+    source: chest:warren
+    title: Chest
+  - id: evt:door_ante_head
+    preset: door
+    source: door:ante_head
+    title: Door
+  - id: evt:door_brewery_head
+    preset: door
+    source: door:brewery_head
+    title: Door
+  - id: evt:door_dorm_store
+    preset: door
+    source: door:dorm_store
+    title: Door
+  - id: evt:door_hall_dorm
+    preset: door
+    source: door:hall_dorm
+    title: Door
+  - id: evt:door_hall_gaol
+    preset: door
+    source: door:hall_gaol
+    title: Door
+  - id: evt:door_hall_walk
+    preset: door
+    source: door:hall_walk
+    title: Double doors
+  - id: evt:door_main_pump
+    preset: door
+    source: door:main_pump
+    title: Door
+  - id: evt:door_walk_ante
+    preset: door
+    source: door:walk_ante
+    title: Door
+  - id: evt:door_walk_brewery
+    preset: door
+    source: door:walk_brewery
+    title: Door
+  - id: evt:drain_mouth
+    preset: text
+    source: panel:drain_mouth
+    title: Sewer Drain
+    text: A drain grate in the wall. Something drips through it from the street.
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0034:2)."
+  - id: evt:exit_guild
+    preset: exit
+    source: exit:guild
+    title: Cellar door
+    notes: "The game's own leave window, up into the Guild's back yard beside its cellar hatch (D4's entrance:dd20_guild, D-42 (4))."
+  - id: evt:exit_shaft
+    preset: exit
+    source: exit:shaft
+    title: Ladder
+    notes: "The game's own leave window, up the ladder to D4's grate by the jetty (entrance:dd20_shaft)."
+  - id: evt:hatch
+    preset: switch
+    source: mover:hatch
+    title: Hatch
+    condition: {not: {map_var: hatch_open}}
+    locked_text: The hatch lies open over the ladder.
+    effects:
+      - text: The hatch is bolted from above.
+    notes: "From the cistern's ladder: 'The hatch is bolted from above.' until the store's bolt is drawn."
+  - id: evt:hatch_bolt
+    preset: switch
+    source: switch:hatch_bolt
+    title: Bolt
+    condition: {not: {map_var: hatch_open}}
+    locked_text: "The bolt is drawn; the hatch lies open."
+    opens: [mover:hatch]
+    sets: {map_var: hatch_open}
+    effects:
+      - text: You draw the bolt. The hatch slides open over a ladder down into the dark.
+    notes: "poi:hatch_bolt: the store's floor hatch, bolted from above, opened once from the store."
+  - id: evt:head_witch_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:head_witch}}
+    lua: "XeenQuests.hook(\"q-d22.head_witch\")"
+    once: true
+    notes: "goal:head_witch: her death runs A3's q-d22.head_witch (head_witch_slain 113447): the coven turns hostile again (A2's relations), Naomi's stocks open on D4."
+  - id: evt:hideout_bones
+    preset: script
+    source: deco:hideout_bones
+    title: Bones
+    condition: {not: {map_var: hideout_pack}}
+    effects:
+      - set:
+          var:
+            map_var: hideout_pack
+          value: 1
+      - gold: 400
+      - message: "You find the last surviving page of this dead man's journal. It reads: ...witches won't find me under here. Maybe I can use one of the other exits from the sewer to pop up in the town and be gone before anyone can find me. All of this was so sudden. Who would have known that the witches were plotting to... Beside him, his pack. (+400 gold)"
+    else_effects:
+      - message: "You find the last surviving page of this dead man's journal. It reads: ...witches won't find me under here. Maybe I can use one of the other exits from the sewer to pop up in the town and be gone before anyone can find me. All of this was so sudden. Who would have known that the witches were plotting to..."
+    notes: "poi:journals: the hideout's dead man (dark/aaze0034:8) and his pack (a find once)."
+  - id: evt:initiation
+    preset: script
+    source: deco:init_cauldron
+    question: {ask: "Drink (Yes/No)?", answers: [Yes, Y, yes, y], message: "Initiation cauldron. The brew smells of toad and ambition. Drink?"}
+    title: Initiation cauldron
+    lua: "XeenQuests.hook(\"q-d22.initiation\")"
+    notes: "poi:initiation: A3's q-d22.initiation (needs riddle_answered and the Head Witch alive; sets joined 113449, the Warlock promotion; its fail and else texts)."
+  - id: evt:lake_bars
+    preset: text
+    source: panel:lake_bars
+    title: Bars
+    text: "The lake, beyond the bars. Something with too many arms is listening."
+    window: false
+    notes: The outfall's barred mouth to the lake.
+  - id: evt:mirror
+    preset: text
+    source: panel:mirror
+    title: Mirror
+    text: "A bodiless voice murmurs: \"You are the most beautiful one of all.\""
+    window: true
+    notes: poi:mirror (dark/aaze0033:9).
+  - id: evt:niche_bones
+    preset: text
+    source: deco:niche_bones
+    title: Bones
+    text: "You find the last surviving page of this dead man's journal. It reads: ...still haven't a clue where that statuette is. The sewer is infested with sewer monsters, and they seem to come out of nowhere. Got to watch my back."
+    window: true
+    notes: "poi:journals: two steps short of the alcove (dark/aaze0034:7)."
+  - id: evt:prisoners_load
+    preset: script
+    trigger: load
+    lua: |-
+      if IsQBitSet(QBit(113443)) then evt.SetMonGroupBit(20, MonsterBits.Invisible, 1) end
+      if IsQBitSet(QBit(113444)) then evt.SetMonGroupBit(21, MonsterBits.Invisible, 1) end
+      if IsQBitSet(QBit(113445)) then evt.SetMonGroupBit(22, MonsterBits.Invisible, 1) end
+      if IsQBitSet(QBit(113446)) then evt.SetMonGroupBit(23, MonsterBits.Invisible, 1) end
+    notes: "D-42 (3): each prisoner is hidden by her or his freed bit on every load."
+  - id: evt:shelf
+    preset: script
+    source: panel:shelf
+    title: Shelf
+    condition: {not: {map_var: shelf_found}}
+    effects:
+      - set:
+          var:
+            map_var: shelf_found
+          value: 1
+      - gold: 200
+      - text: "Behind the jars of newt eyes, a pouch of coins. (+200 gold)"
+    else_effects:
+      - text: Nothing here.
+    notes: "'Shelf' (dark/aaze0033:11): a find once."
+  - id: evt:sidedrain_n
+    preset: text
+    source: panel:sidedrain_n
+    title: Sewer Drain
+    text: "A side drain, grilled. The grille has been pushed out from inside and set back."
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0034:2)."
+  - id: evt:sidedrain_s
+    preset: text
+    source: panel:sidedrain_s
+    title: Sewer Drain
+    text: "A side drain, grilled. The grille has been pushed out from inside and set back."
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0034:2)."
+  - id: evt:sigil
+    preset: text
+    source: panel:sigil
+    title: Sigil
+    text: "The coven's sigil, cut deep into the stone."
+    window: false
+    notes: The coven hall's west wall.
+  - id: evt:skull_endurance
+    preset: text
+    source: deco:skull_endurance
+    title: Skull
+    text: "Unprompted, the skull begins to speak: To make a potion of endurance, gather together the poisoned entrails of a toad kept under a cold stone for thirty-one days, a slice of swamp snake, the eye of a newt, the toe of a frog, wool from a bat, tongue of a dog, a lizard's leg, an owlet's wing, and the forked tongue of a snake. Throw them all in a cauldron and let sit under the auspices of a full moon. Begin boiling just before sunrise. Keep warm until sunrise of the next day. If the mixture turns black, the brew is sour and will turn its drinkers to stone. Makes one serving."
+    window: true
+    notes: "poi:skulls (dark/aaze0033:12-14): the recipe beside its cauldron."
+  - id: evt:skull_personality
+    preset: text
+    source: deco:skull_personality
+    title: Skull
+    text: "Unprompted, the skull begins to speak: To make a Potion of Personality, gather together the ground horn of a Unicorn, the tanned hide of an Ogre, and the blood of a monkeydog sacrificed 'neath the blackness of a new moon. Slowly pour a half part of the blood into a twenty gallon cauldron and mix in the horn powder. Heat to a low simmer and let sit for three days. At the stroke of midnight on the third night, drop the Ogre hide into the stew and stir rapidly. If the hide dissolves any sooner or later than three minutes, the brew is sour and will turn its drinkers to stone. Makes one serving."
+    window: true
+    notes: "poi:skulls (dark/aaze0033:12-14): the recipe beside its cauldron."
+  - id: evt:skull_speed
+    preset: text
+    source: deco:skull_speed
+    title: Skull
+    text: "Unprompted, the skull begins to speak: To make a potion of speed, gather together the claw of a roadrunner, the wing of a hummingbird, and the paw of a cheetah. Pound the claw to dust and sprinkle into briskly boiling salt water. Quickly drop in the wing, followed by the paw. Stir 100 times, rapidly. Remove the cauldron from the fire and pour the liquid through a strainer and into a second cauldron. If any material remains in the strainer, the brew is sour and will turn its drinkers to stone. Makes one serving."
+    window: true
+    notes: "poi:skulls (dark/aaze0033:12-14): the recipe beside its cauldron."
+  - id: evt:sump_bones
+    preset: script
+    source: deco:sump_bones
+    title: Bones
+    condition: {not: {map_var: sump_purse}}
+    effects:
+      - set:
+          var:
+            map_var: sump_purse
+          value: 1
+      - gold: 250
+      - text: An earlier wrong answer. Its purse is still on it. (+250 gold)
+    else_effects:
+      - text: Nothing here.
+    notes: "'Bones' (dark/aaze0034:6): a purse once."
+  - id: evt:trapdoor
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {map_var: trap_checked}}
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if x >= 3328 and x <= 3584 and y >= -768 and y <= -512 and z <= -448 then
+          evt.StatusText("The trapdoor is shut fast above you.", 4)
+      end
+    effects:
+      - set:
+          var:
+            map_var: trap_checked
+          value: 1
+    notes: "The sump: the trapdoor a wrong answer drops the party through stays shut (one way, D-42 (4)). Said once, on the first tick of a visit that began under the trapdoor (entrance:d4_trapdoor), never on a later walk through the sump (A3, session 9)."
+  - id: evt:trapdoor_reset
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: trap_checked
+          value: 0
+    notes: "Leaving ends the visit: the next arrival is checked again for a drop through the trapdoor."
+  - id: evt:witch_bed
+    preset: script
+    source: platform:witch_bed
+    title: Bed
+    condition: {not: {map_var: witch_bed_found}}
+    effects:
+      - set:
+          var:
+            map_var: witch_bed_found
+          value: 1
+      - gold: 500
+      - text: "Under the pillow: a purse of the coven's dues. (+500 gold)"
+    else_effects:
+      - text: Nothing here.
+    notes: "'Bed' (dark/aaze0033:15): a find once, then 'Nothing here.' (:16)."
+  - id: evt:witch_chest
+    preset: chest
+    source: chest:witch
+    title: Chest
+    condition: {any: [{qbit: joined}, {qbit: head_witch_slain}]}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d22.witch_chest\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d22.witch_chest\")"
+    notes: "goal:pass: her chest opens to a member (joined) or over her body, the Necropolis pass among its loot (F15); A3's q-d22.witch_chest sets pass_found 113448 once; shut, its fail line on the status line."
+notes: "DD-20's events, written by output/studio_cal/dd20/tools/dress.py."

@@ -1,0 +1,76 @@
+# Q-D2 Jasper in Jail (QUESTS 2.2 Q-D2). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Jethro's brother Jasper is in Castleview Jail (house 4468), framed by Joe. Two routes, both set jasper_freed: show
+# Warden Krupp one of Joe's fake maps (Q-C24: the proof that Joe is a crook; the warden only looks, the party keeps the
+# map), or wrench the bars of the jail's back window (the violent route). Jasper then moves to Jethro's
+# (4469). Jethro's reward is the common hand-in. The real treasure map (QUESTS' reward) is Q-C24's trade with Jethro.
+id: Q-D2
+title: Jasper in Jail
+act: III
+kind: side
+status: full
+giver: 4919          # Jethro the mapmaker (Jethro's Maps, 4469)
+maps: [D1]
+level: 19
+block: 82
+after: [m7.sigil]
+source: "QUESTS Q-D2; dark/aaze0029:72-77"
+
+qbits:
+  started: {id: 113040, journal: "Jethro's brother Jasper is in Castleview Jail, framed by Joe the map seller. Jethro wants him out.",
+            until: [done]}
+  jasper_freed: {id: 113041, note: "Warden Krupp let him go (Joe's map) or the bars came out (jail_window); Jasper moves to 4469"}
+  done: {id: 113042, note: "Jethro paid"}
+  bars_bent: {id: 113043, note: "D1's jail window event (A6) sets it"}
+
+autonotes:
+  jail: {id: 4420, text: "Jasper: Castleview Jail. Joe says Jasper stole his map. A map of Joe's would prove what Joe is; the jail's back window is old, too.", category: Misc}
+
+npcs:
+  4919:              # Jethro
+    topics:
+      - n: 1
+        label: Jasper
+        states:
+          - when: {qbit: done}
+            text: "Good to see you again, friends! Remember, if you ever want to know anything about maps, just come to me."
+          - when: {qbit: jasper_freed}
+            text: "Thank you for freeing my brother! Here's a little money for your trouble. If you ever want to know anything about maps, just come to me."
+            do: [{set: done}, {xp: 4000}, {gold: 1000}]
+          - when: {qbit: started}
+            text: "My brother still languishes in the town jail. I hope it's not too much to ask for you to hurry."
+          - text: "I'm Jethro, brother of Jasper. Jasper is in Castleview jail, falsely accused of stealing a treasure map from Joe, the treasure map salesman. Joe is a crook, but I can't prove it. Maybe you could break Jasper out. I'm not strong enough to do it."
+            do: [{set: started}, {autonote: jail}]
+  4917:              # Warden Krupp
+    topics:
+      - n: 2
+        label: Jasper
+        states:
+          - when: {qbit: jasper_freed}
+            text: "Jasper's gone. Less paperwork. I'm not asking how."
+          - when: {item: fake_treasure_map}
+            text: "Let me see that. A map of nowhere, in Joe's hand, signed 'genuine'. For a thousand gold? Jasper didn't steal this, nobody would. He's free to go. Don't tell Joe I can read."
+            do: [{set: jasper_freed}, {move_npc: [4918, 4469]}]
+          - text: "Jasper stole a map from Joe. Joe says so, and Joe is very convincing. Bring me proof otherwise, or bring me a nap."
+  4918:              # Jasper
+    topics:
+      - n: 3
+        label: Joe
+        states:
+          - when: {qbit: jasper_freed}
+            text: "Thanks for freeing me! I knew Jethro would find help."
+          - text: "Joe sold the fake maps. I drew the real ones. Guess which of us is in jail. The back window's bars are older than the warden."
+
+hooks:
+  jail_window:
+    map: D1
+    where: "the barred window at the back of Castleview Jail (house 4468's outside wall, in the alley); the violent route"
+    requires: {all: [{qbit: started}, {not: {qbit: jasper_freed}}]}
+    sets: [bars_bent, jasper_freed]
+    once: true
+    do: [{move_npc: [4918, 4469]}]
+    text: "You wrench the bars out of the old mortar. Jasper squeezes through, says something grateful and muffled, and runs for his brother's house."
+    fail_text: "Old bars in old mortar. Someone inside is snoring."
+    else_text: "The bars lie in the alley. Nobody has put them back."
+
+rewards: {xp: 4000, gold: 1000}
+playthrough: "D1: Jethro (Jasper). Buy Joe's map (Q-C24) and show Warden Krupp (Jasper), or the jail window. Jethro (Jasper)."

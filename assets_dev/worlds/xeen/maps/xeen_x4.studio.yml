@@ -1,0 +1,23 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/x4/L4"
+revision: "3e64973403c762f51c766f694f9c0b30"
+lock_hash: "a816af24c8f74cae28e46a0c6835cd3c"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-12800, -11776, 1056], facing: 512}
+  - {name: "entrance:asp_square", at: [-12800, -11776, 1056], facing: 512}
+  - {name: "entrance:asp_travel_pit", at: [-7168, -10240, 1056], facing: 1024}
+  - {name: "entrance:burlock_square", at: [-1536, 3584, 1312], facing: 1536}
+  - {name: "entrance:burlock_stables", at: [512, 4096, 1312], facing: 1024}
+  - {name: "entrance:east_road", at: [22016, -1024, 1056], facing: 1024}
+  - {name: "entrance:river_landing", at: [9728, -18944, 736], facing: 1024}
+  - {name: "entrance:throne_landing", at: [-4608, 9728, 1504], facing: 0}
+  - {name: "entrance:west_road", at: [-22528, 2048, 1184], facing: 0}
+  - {name: "entrance:x2_road", at: [16384, -22016, 992], facing: 512}
+  - {name: "entrance:x3_road", at: [-14336, -22016, 992], facing: 512}
+  - {name: "entrance:xd02_adit", at: [19968, -15872, 1504], facing: 1024}
+  - {name: "entrance:xd07_gate", at: [-1024, 7168, 1888], facing: 512}
+  - {name: "entrance:xd25_stair", at: [-11776, -8704, 1248], facing: 512}
+  - {name: "entrance:xd26_eyrie", at: [-9216, 10752, 1792], facing: 1536}
+  - {name: "entrance:xd26_sky_crack", at: [-7680, 14848, 3648], facing: 1536}

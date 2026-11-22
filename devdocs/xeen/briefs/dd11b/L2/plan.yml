@@ -1,0 +1,171 @@
+format: 0
+level: L2
+pitch: "The second pocket under D2's troll holes: the party lands on the packs of those who fell in before. Off the gnawed gallery lie the skeletons of that earlier party, with a thief's satchel and the guild's second letter, which names the King's hole. The gallery's end falls away to the trolls' vats, where a sunken vat of fungus and grubs brews Troll Juice: poisonous, but it improves you. The root stair climbs back to the fungus cave and the burrow up."
+purpose: "Q-D13 side pocket: Troll Juice (A3's q-d13.troll_juice text; the map gives +2 Endurance and Poisoned once a character, player bit 11294, D-25 Q8) and the second letter (ours, a paraphrase of aaze0040:6-7). Party 23 to 27; Trolls 18 and Troll Guards 28 (A2's Xeen Warren Troll rows 11690, 11691), 20 placed; treasure level 3."
+mood: "Wet clay and pale fungus, the sour reek of the vat; daylight only at the landing and the hatch."
+datum: arrival
+spaces:
+  - id: room:adventurers
+    name: Expired adventurers
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Four skeletons in rusted mail, their strongbox, a thief's satchel with the guild's second letter."
+    empty: true
+  - id: room:brewers
+    name: Brewers' den
+    kind: room
+    size: S
+    floor: -448
+    purpose: "Behind a log door: the brewers' beds and their stash."
+    population:
+      - {actor: 11691, groups: 3, levels: [28, 28], notes: 3 placed Troll Guards (Xeen Warren Troll B).}
+  - id: room:burrow
+    name: The burrow up
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: Root steps up a steep burrow to a sod hatch on D2.
+    empty: true
+  - id: room:fungus
+    name: Fungus cave
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Pale caps as tall as a man; the root stair comes up here, the burrow starts here."
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+  - id: room:gallery
+    name: Gnawed gallery
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "A long tunnel with tooth marks in the roots; its far end falls away to the vats."
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+  - id: room:pens
+    name: Grub pens
+    kind: room
+    size: M
+    floor: -448
+    purpose: Wicker pens of fat white grubs for the vats.
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+  - id: room:pit
+    name: Pit bottom
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Where the party lands, on torn packs and a snapped rope: others fell in here first. Daylight 768 up."
+    empty: true
+  - id: room:stair
+    name: Root stair
+    kind: corridor
+    size: S
+    floor: -448
+    purpose: A stair of roots from the grub pens up to the fungus cave.
+    empty: true
+  - id: room:vat_cave
+    name: Juice pit
+    kind: room
+    size: L
+    floor: -448
+    purpose: "A sunken vat of fungus, grubs and water: Troll Juice, poisonous, but it improves you (one drink a character)."
+    population:
+      - {actor: 11691, groups: 5, levels: [28, 28], notes: 5 placed Troll Guards (Xeen Warren Troll B).}
+  - id: room:vat_rim
+    name: Vat rim
+    kind: room
+    size: M
+    floor: -448
+    purpose: "Where the clay drop lands: a ledge round the juice pit."
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+links:
+  - id: link:fungus_burrow
+    from: room:fungus
+    to: room:burrow
+    kind: door
+    motion: slide
+    notes: A hide flap over the burrow's foot.
+  - id: link:fungus_gallery
+    from: room:fungus
+    to: room:gallery
+    kind: open
+  - id: link:gallery_adv
+    from: room:gallery
+    to: room:adventurers
+    kind: door
+    motion: swing
+    notes: "A fallen root across the crawl: it swings up when pushed (a hinged door)."
+  - id: link:gallery_slide
+    from: room:gallery
+    to: room:vat_rim
+    kind: drop
+    notes: "The clay drop, 448: down only. The way back is the root stair."
+  - id: link:pens_fungus
+    from: room:pens
+    to: room:fungus
+    kind: stairs
+    notes: By the root stair (its own room).
+  - id: link:pit_gallery
+    from: room:pit
+    to: room:gallery
+    kind: open
+  - id: link:rim_pens
+    from: room:vat_rim
+    to: room:pens
+    kind: open
+  - id: link:rim_vat
+    from: room:vat_rim
+    to: room:vat_cave
+    kind: open
+  - id: link:vat_brewers
+    from: room:vat_cave
+    to: room:brewers
+    kind: door
+    motion: slide
+    notes: The brewers' log door.
+loops:
+  - id: loop:slide
+    spaces: [room:gallery, room:vat_rim, room:pens, room:stair, room:fungus]
+    notes: "Down the clay drop, up the root stair: the drop is the only one-way link."
+entrances:
+  - id: entrance:d2_burrow
+    space: room:burrow
+    kind: exit
+    neighbour: exit:d2_return
+    how: "The burrow's sod hatch: out to D2 beside the second hole (A6's return point), the game's leave window."
+  - id: entrance:d2_hole
+    space: room:pit
+    kind: arrival
+    facing: e
+    how: "D2's second troll hole (thing:dd11b_hole, event 33, by the dead adventurer's pack): the party falls in and lands at the pit's bottom, facing the gallery (east)."
+critical_path: [room:pit, room:gallery, room:adventurers, room:gallery, room:vat_rim, room:vat_cave]
+return_path: [room:vat_cave, room:vat_rim, room:pens, room:stair, room:fungus, room:burrow]
+goals:
+  - id: goal:juice
+    space: room:vat_cave
+    kind: use
+    what: "Troll Juice: +2 Endurance (base) and Poisoned, once a character (player bit 11294)."
+    story: Q-D13
+  - id: goal:letter
+    space: room:adventurers
+    kind: use
+    what: "The guild's second letter in the thief's satchel: names the King's hole (DD-11C)."
+    story: Q-D13
+set_pieces:
+  - id: set:juice
+    kind: vista
+    spaces: [room:vat_cave]
+    rule: "The juice pit: a sunken vat of fermenting fungus and grubs, trolls ladling it out round the rim."
+diagram: {file: diagram.txt}
+totals:
+  chests: 2
+  doors: 3
+  floor_area_munits2: 10
+  loops: 1
+  monsters_about: 20
+  rooms: 10
+  sectors: 10
+notes: "Size S (at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/dd11b.graph.yml and D-25 (Troll Juice +2 Endurance, the second letter kept as a paraphrase, the burrow's exit preset). The clay slide is a drop (a hole in the gallery's floor onto the vat rim, which lies under it)."

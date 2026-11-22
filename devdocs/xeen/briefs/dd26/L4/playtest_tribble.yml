@@ -1,0 +1,55 @@
+# Cyrano's Tribble at his counter (DD-26, L4; D-65 Q58; A3's q-d28 topics). Needs A4's house 4815 (a test row in the
+# scratch root until A4 drops `planned`). A party with 20,000 gold: Tribbles, "yes": "Maybe some other time."
+# (aaze0038:18), gold kept; with 25,000: "no" refused the same way; "Yes": 25,000 taken, the Tribble 12362, bought
+# 113560; then Companions, the TRIBBLES line (:15). Event 12 is the counter door (house 4815; a residence of one: Cyrano Jones 5614 at once).
+# Run with --world xeen --map xeen_dd26.blv (four.sh TESTS=playtest_tribble).
+id: xeen.dd26.l4.tribble
+title: Olympus Sewer (DD-26 L4), buying the Tribble from Cyrano Jones
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd26.blv
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Paladin, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Knight, level: 58, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close(); clear_hostiles(2500)"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(5); for _ = 1, 20 do if door_state(1) == 'open' then break end; wait(0.5) end"}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Too little gold: Tribbles, "yes": "Maybe some other time." (aaze0038:18), nothing taken.
+  - play_lua: {source: "click(12); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5614}}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "only 25,000 gold"}}
+  - answer_input: {text: "yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Maybe some other time."}}
+  - play_lua: {source: "if gold() ~= 20000 then error('gold taken without a sale: ' .. gold()) end; if has_item(12362) then error('a tribble without a sale') end; if qbit(113560) then error('bought set without a sale') end; for i = 1, 3 do if not close() then break end wait(1) end"}
+  # With 25,000: "no" first ("Maybe some other time."), then "yes": the sale.
+  - lua_event: {source: "AddValue(Gold, 5000)"}
+  - play_lua: {source: "if gold() ~= 25000 then error('gold before the sale: ' .. gold()) end; click(12); wait(1)"}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - answer_input: {text: "no"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Maybe some other time."}}
+  - play_lua: {source: "if gold() ~= 25000 then error('gold taken on No: ' .. gold()) end; for i = 1, 3 do if not close() then break end wait(1) end; click(12); wait(1)"}
+  - select_topic: {match_label: "Tribbles"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Cyrano counts the gold twice"}}
+  - play_lua: {source: "if gold() ~= 0 then error('the sale left ' .. gold() .. ' gold') end; if not has_item(12362) and held() ~= 12362 then error('no Tribble') end; if not qbit(113560) then error('bought 113560 not set') end; for i = 1, 3 do if not close() then break end wait(1) end; click(12); wait(1)"}
+  # After the purchase: the TRIBBLES line.
+  - select_topic: {match_label: "Companions"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "what doors they can open for you"}}

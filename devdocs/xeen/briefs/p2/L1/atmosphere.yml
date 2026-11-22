@@ -1,0 +1,4 @@
+format: 0
+open_sky: {mode: open, preset: plane_air, view: outdoor, view_distance_scale: 1.5}
+daylight: {ambient_rgb: [118, 122, 134], sun_rgb: [255, 250, 240], night_scale_rgb: [255, 255, 255], sun_gain: 3}
+notes: "Sky preset `plane_air` by name (lanes README: a preset, never a texture alias): MM8's open-sky plane preset from the engine library: deep blue zenith, pale horizon, cumulus, the sky continuing below the horizon (below_horizon: sky), which the gaps need. Night scale 255: a plane keeps its light at every hour. D-58 Q3."

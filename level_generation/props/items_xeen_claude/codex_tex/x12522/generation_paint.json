@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely edit guide_atlas.png, the 1536x1024 transparent 3x2 sheet, as a locked alpha stencil. Replace only its grey surface colours with unlit iron albedo for Ector's Ring. Preserve every occupied pixel, camera angle, hole, contour, position and scale. Row one FRONT BACK LEFT, row two RIGHT TOP empty. Keep both narrow diagonal side silhouettes exactly. Use design_reference.png solely for its plain square bezel and finely scuffed, brushed iron material. Use icon_x8.png solely for muted warm iron-grey colour. Smooth blank bezel, subtle fine irregular metal grain, uniform diffuse colour across planes. No added ornament, lighting, highlights, reflections, shadows, ambient occlusion, outlines, text or effects. All gaps and the last cell fully transparent. Return the full original 1536x1024 canvas. Corrective pass: copy the guide's alpha channel pixel for pixel. Strictly clip all paint to that mask, especially the inner openings. Empty pixels must have alpha exactly zero. Keep the finish a flat, subtly brushed iron grey.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "d76568fda6f5600c8e1281e3deed9a0b67780e064da4170e0541b67561730d9e"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "e24e5dbe451c919eb3fa067b2a85e4e891259982ed6c9abf024ae1f4becbc265"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "a94a1417a3d94b8d06ab442f59db63e3304bc7a64eeab295ff3163d2068e162e"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f928-e08e-79e0-a58f-b24a75195371/exec-cc0376d8-5d0f-430a-a71e-e03ac9872c82.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

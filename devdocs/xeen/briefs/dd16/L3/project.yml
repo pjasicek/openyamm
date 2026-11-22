@@ -1,0 +1,38 @@
+format: 0
+id: xeen_dd16
+name: Corak's Pod
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-16
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 6
+  - 12
+  climbs: n
+map_stats:
+  id: 9169
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 8
+  bolster: LowerToEqual
+  slots:
+  - monster: Xeen Eye
+    tier: 0
+    per_marker:
+    - 1
+    - 1
+    weight: 100
+neighbours: []
+qbits:
+  stasis_done: 111582
+  corak_boxed: 111640
+  power_on: 118080
+notes: 'Xeen design brief, level L3: DD-16 Corak''s Pod, the plan and the to-scale shell (rooms.yml).'

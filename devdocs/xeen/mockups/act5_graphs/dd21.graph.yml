@@ -1,0 +1,208 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Necropolis Sewer (dark maze0036, 16 x 16; text aaze0036) lies under the Necropolis (maze0035): sewage
+# channels in a cross (one long east-west channel, three north-south ones), three ladders up to the city ("Descend to
+# the sewer?", aaze0035:17), twelve barrels signed "Food for the dead, keep warm." (seven hold Dead Food: a Might test
+# to pry the lid, two monsters out, +1 level to eat), twelve sewer drains (three with a small find), an alcove, a
+# trapped box and the "Mummy's Secret Treasure"; 11 Lava Roaches placed (the source's D33, level 40, "x13" with the
+# barrels'). Sandro himself stood in the Necropolis (aaze0035:25-29); his heart lay in the sewer.
+# Ours (Q-D23): the crypt stair in D6's Necropolis leads down to Sandro's crypt (6d14 niches), and below it the sewer
+# (MM6 sewer stone) round a ring of channels, with the heart in a jar in the lowest culvert. Three floors: the crypts
+# (0), the sewer (-512), the lowest culvert (-896).
+format: mu6-0
+map: DD-21
+key: dd21
+name: Necropolis Sewer
+stands_on: "D6 The Forbidden Zone (the crypt stair under the Necropolis)"
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+size: "14 review rooms, about 14 sectors (one each); the crypts about 1,800 x 2,600, the sewer ring about 5,000 x 2,600, the culvert about 1,536 x 768: about 11 M units²; 8 doors (the stair's grille pair and the crypt doors as two-leaf pairs, the reliquary grille, the culvert's sluice gate)"
+party: [49, 52]
+monsters:
+  levels: [40, 62]
+  boss: "Sandro 65"
+  count: 15
+  groups: [2, 3]
+  families:
+    - "Giant crawlers (11360): a new tier D at 40, 'Cinder Roach' (A2 request; the source's Lava Roach D33 at 40, our tier C Lava Roach is 26): the sewer's own vermin, 10 (2 of them hidden in the Dead Food barrel and shown when it is pried)"
+    - "Liches (11280): Greater Lich 50 (3), Sandro's household: two in the Hall of Biers, one keeping the heart"
+    - "Pyramid mummies (11270): Ghost Mummy 62 (2, placed only, D-57) in the source's 'Mummy's Secret Treasure' vault"
+    - "Sandro 65 (11283, liches boss), once; the risen Sandro after his fall is a peaceful placed-only figure (A2 request, open question 2)"
+  mix:
+    - {row: Cinder Roach, id: "11363 (requested from A2: giant_crawlers tier D)", level: 40, count: 10}
+    - {row: Greater Lich, id: 11281, level: 50, count: 3}
+    - {row: Ghost Mummy, id: 11273, level: 62, count: 2}
+  bosses:
+    - {row: Sandro, id: 11283, level: 65, count: 1}
+  kill_xp: "10.70k per member (42,803 / 4): the 15 at 9.48k (37,928 / 4) and Sandro once 1.22k (4,875 / 4)"
+  kill_xp_target: "MAPS §0 row DD-08 + DD-21: 60 monsters at 40-62, Sandro 65, 39.6k. With DD-08's 45 (31.14k, 124,575 / 4) the group is 60 + Sandro and 41.84k (167,378 / 4), +5.7 %; the exact share would be 8.46k (open question 1)"
+treasure: {level: 5}
+role: "Q-D23 Sandro's Heart: Sandro falls once and rises (q-d23.sandro), the heart in its jar (q-d23.heart), then 'Give Sandro his heart?' (q-d23.release: the Key to the Dungeon of Death 12354, Sandro gone) with 'Ask Sandro for his ritual first?' between (q-d23.ritual: Priest of Dark, Lich). Master Morbius (5506, D6) sends the party"
+role_short: "Q-D23, Promo Lich / Priest of Dark"
+set_piece: "Sandro's heart: the lowest culvert, where the sewer falls into a black cistern; on a ledge above the water a jar of green glass glows and a heart in it beats slowly, heard from the culvert steps before it is seen"
+sounds: "shipped sewer bed (running water, drips, an echo); a slow heartbeat placed at the jar (AU, optional; else a shipped low thump loop); a shipped chain-and-stone grind for the sluice; Sandro unvoiced (his lines are A3's hook texts)"
+textures:
+  family: "Sewers: MM6 Free Haven Sewer sewer.blv (A6's assign for DD-21, 'another face' than XD-01's culvert): d1wcntr, d1wldle2, d1wldle3, d1smbw walls, d7flor4 walkways, d2ceil1 and d1ceil1 vaults, swprrf3 sewage liquid with the swpcnr3/swpend2a/swcirc2 pipe mouths, d1lggrt grates, d1mbea beams, d1trimle trim, d1ladder; Sandro's crypt in MM6 Tomb of Ethric the Mad 6d14's niches (A6's 'crypts' assign): d2wlbctr, d2wlbpos, d2wlble/d2wlbre walls, d2niche1/3/4 burial niches, d2flor4 and d2flor1, d2ceil3, d2lgdor crypt doors, crsmdr1 the vault's stone door, cedsqrdk posts, d2skulbs trim; D6's gkp103a grille pair inside the stair's top (its inner face)"
+  cap: 30
+  planned: 24
+  new: 1
+  new_names: ["xdsandro: Sandro's seal (a heart pierced by a bone in a carved circle, grey stone), once over the crypt's doors inside the Hall of Biers"]
+  distinct_from: "XD-01 (the same sewer.blv family on the Cloudside: its warehouse boards and slime pens; DD-21 keeps to the grey d1 stone and the pipe set), XD-08 Tomb of a Thousand Terrors (6d14 whole; DD-21 only its niches, in one hall), DD-14's coffins (7d13) and D6's Necropolis above (t09 ashlar, twb tombs): only DD-21 has the green-lit jar culvert and a lich's crypt over a sewer"
+floors:
+  - {floor: 0, name: "The crypts (the stair foot)", height: 0}
+  - {floor: -1, name: "The sewer", height: -512}
+  - {floor: -2, name: "The lowest culvert", height: -896}
+spaces:
+  # floor 0, the crypts under the Necropolis (z 0 = the stair foot; D6's crypt door at 1664 on D6)
+  - {id: room:stair_foot, name: Crypt stair foot, kind: stair, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The arrival (entrance:d6_stair): the foot of a straight stair that climbs north 448 to the grille pair (gkp103a, two leaves, the exit preset). Candles in two wall niches. Quiet (D-11.3); map qbit 117720 dd21_arrived_once."}
+  - {id: room:crypt_hall, name: Hall of Biers, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{row: Greater Lich, level: 50, count: 2}],
+     purpose: "A long vault of burial niches (d2niche) with stone biers along both walls, candles in the niches. Sandro's seal (xdsandro, once) over the two-leaf crypt doors at the south end; in the west wall an iron-railed stair down to the sewer."}
+  - {id: room:sandro_crypt, name: "Sandro's crypt", kind: hall, size: M, floor: 0, at: [3, 0], boss: true, boss_label: "Sandro 65", goal: true, monsters: 1,
+     population: [{row: Sandro, level: 65, count: 1}],
+     purpose: "A square vault on posts, a raised dais with Sandro's bier, his reliquary alcove behind a grille in the east wall. First entry (a step plate at the door, once, 117722): 'Sandro the Lich' and 'And now my hunger for the living compels me to attack you.' (aaze0035:25, :26). His fall runs q-d23.sandro and the risen Sandro stands by the bier (state:sandro). The dais's step plate and the bier's click are where he talks: with the heart the two prompts (q-d23.release, q-d23.ritual)."}
+  - {id: room:reliquary, name: "Sandro's reliquary", kind: room, size: S, floor: 0, at: [4, 0], chest: 5, monsters: 0,
+     purpose: "Dead end with the treasure 'in this room' (A3's hook): the alcove behind the iron grille, a chest (T5) and the statuette on its plinth (open question 6). Before the release the grille's click: 'Don't even THINK about taking my statuette!' (aaze0035:29) while Sandro stands; 'The grille is locked.' after his fall without the heart."}
+  # floor -1, the sewer (z -512)
+  - {id: room:landing, name: Stair landing, kind: stair, size: S, floor: -1, at: [2, 0], monsters: 0,
+     purpose: "The railed stair's foot on a stone platform where the two arms of the main channel meet; a grate overhead (d1lggrt) under the Necropolis, rusted shut ('Nothing here.')."}
+  - {id: room:main_west, name: Main channel (west), kind: corridor, size: M, floor: -1, at: [1, 0], monsters: 3,
+     population: [{row: Cinder Roach, level: 40, count: 3}],
+     purpose: "The long sewage channel (swprrf3, ankle deep, walkways of d7flor4 both sides, a plank bridge midway); sewer drains in the walls (one holds a find, state:drains). At its west end the old tomb wall, breached, with a stone door in it ('Mummy's Secret Treasure', aaze0036:10); the turn south into the west culvert."}
+  - {id: room:sluice, name: Sluice room, kind: room, size: S, floor: -1, at: [0, 1], monsters: 0,
+     purpose: "Dead end with a lever off the west culvert: the sluice wheel (state:sluice) that lifts the culvert gate below the outfall. Its click names what it does: 'The sluice wheel turns. Far below, a gate grinds open.'"}
+  - {id: room:main_east, name: Main channel (east), kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 2,
+     population: [{row: Cinder Roach, level: 40, count: 2}],
+     purpose: "The channel's east arm, drains in the walls (one find); signed barrels by the walls ('A sign on the barrel says: Food for the dead, keep warm.', aaze0036:5) outside the cellar's door; the turn south into the east culvert."}
+  - {id: room:dead_food, name: Dead-food cellar, kind: room, size: S, floor: -1, at: [4, 0], monsters: 2,
+     population: [{row: Cinder Roach, level: 40, count: 2}],
+     purpose: "Dead end with a find: the Necropolis's store of Dead Food, barrels in pairs by the walls (aaze0036:4, :5). One barrel's lid can be pried (state:dead_food): two hidden roaches come out (shown by the event), and the food may be eaten (open question 4)."}
+  - {id: room:west_culvert, name: West culvert, kind: corridor, size: M, floor: -1, at: [1, 1], monsters: 0,
+     purpose: "A north-south culvert from the main channel down to the outfall, a sewer drain with a find; the sluice room's door in its west wall."}
+  - {id: room:mummy_vault, name: "Mummy's vault", kind: room, size: S, floor: -1, at: [0, 0], chest: 5, monsters: 2,
+     population: [{row: Ghost Mummy, level: 62, count: 2}],
+     purpose: "Dead end with a chest: a sealed tomb the main channel cut into, two mummies standing in it; the source's 'Mummy's Secret Treasure' (T5)."}
+  - {id: room:outfall, name: Outfall, kind: hall, size: M, floor: -1, at: [2, 1], monsters: 0,
+     purpose: "Both culverts pour into a round basin; at its south side the culvert gate (a sluice gate, one leaf) over the steps down. Its click before the sluice: 'A sluice gate. Its wheel must be upstream.' The source's alcove (aaze0036:0, 'Nothing here.') as dressing."}
+  - {id: room:east_culvert, name: East culvert, kind: corridor, size: M, floor: -1, at: [3, 1], chest: 5, monsters: 2,
+     population: [{row: Cinder Roach, level: 40, count: 2}],
+     purpose: "The east twin of the west culvert, back up to the main channel; in a side niche the source's 'Box' (aaze0036:2): a trapped chest (T5)."}
+  # floor -2, the lowest culvert (z -896)
+  - {id: room:heart_culvert, name: "Heart culvert", kind: cave, size: M, floor: -2, at: [2, 0], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Greater Lich, level: 50, count: 1}, {row: Cinder Roach, level: 40, count: 1}],
+     purpose: "The sewer's lowest culvert, falling into a black cistern. On a ledge above the water the jar of green glass (q-d23.heart: 'In a jar of green glass, in a fluid that should not still be warm: a heart, beating slowly.'; then 'An empty jar.'), a green light in it; the heartbeat heard from the steps. A Greater Lich keeps it."}
+links:
+  # floor 0
+  - {id: link:foot_hall, from: room:stair_foot, to: room:crypt_hall, kind: open}
+  - {id: link:hall_crypt, from: room:crypt_hall, to: room:sandro_crypt, kind: door, label: "Two leaves"}
+  - {id: link:crypt_reliquary, from: room:sandro_crypt, to: room:reliquary, kind: locked, label: "Grille", opened_by: state:released}
+  # down to the sewer
+  - {id: link:hall_landing, from: room:crypt_hall, to: room:landing, kind: stair, label: "Railed stair"}
+  # floor -1, the ring and its dead ends
+  - {id: link:landing_west, from: room:landing, to: room:main_west, kind: open}
+  - {id: link:landing_east, from: room:landing, to: room:main_east, kind: open}
+  - {id: link:east_cellar, from: room:main_east, to: room:dead_food, kind: door}
+  - {id: link:west_culvert, from: room:main_west, to: room:west_culvert, kind: open}
+  - {id: link:west_vault, from: room:main_west, to: room:mummy_vault, kind: door, label: "Stone door"}
+  - {id: link:culvert_sluice, from: room:west_culvert, to: room:sluice, kind: door}
+  - {id: link:wculvert_outfall, from: room:west_culvert, to: room:outfall, kind: open}
+  - {id: link:outfall_eculvert, from: room:outfall, to: room:east_culvert, kind: open}
+  - {id: link:eculvert_east, from: room:east_culvert, to: room:main_east, kind: open}
+  # down to the lowest culvert
+  - {id: link:outfall_heart, from: room:outfall, to: room:heart_culvert, kind: locked, label: "Sluice gate, steps", opened_by: state:sluice}
+states:
+  - {id: state:crypt_door, kind: qbit, where: "D6, the crypt stair in the Necropolis",
+     what: "D6's door:dd21 (thing:dd21_crypt, grille pair gkp103a): sealed with a line until DD-21 is built, then the entrance preset (the Necropolis pass is already shown at the city gate); this map holds only the arrival.", opens: [], draw: false}
+  - {id: state:sandro, kind: kill, where: room:sandro_crypt,
+     what: "Sandro's first fall (open question 2, a): the kill of the placed hostile Sandro (11283; a timer with a kills condition, XD-19's evt:lord_dead pattern) calls q-d23.sandro (beaten 113460, autonote 4630) and shows the hidden risen Sandro by the bier. On every load: before beaten the hostile Sandro on his bier; from beaten and while released (113462) is clear the risen Sandro shown, evt.SetMm9ActorCanReceiveDamage(<risen>, false); from released both gone.",
+     opens: [], draw: false}
+  - {id: state:talk, kind: stage, where: room:sandro_crypt,
+     what: "The dais's step plate and the bier's click, from beaten while released is clear. Without the heart: q-d23.sandro (its beaten text). With the heart (12353): q-d23.sandro (its heart text), then the prompt 'Give Sandro his heart?'; Yes: the second prompt 'Ask Sandro for his ritual first?' (Yes: q-d23.ritual, then q-d23.release; No: q-d23.release). release returning true: the risen Sandro hidden (a shipped puff of grave dust), released set. No to the first prompt: q-d23.release's fail_text is not shown, Sandro simply waits.",
+     opens: [], draw: false}
+  - {id: state:released, kind: qbit, where: room:sandro_crypt,
+     what: "q-d23.release sets released 113462 and gives the Key to the Dungeon of Death 12354: the reliquary grille opens at once and stays open on every later load (load event by qbit).",
+     opens: [link:crypt_reliquary]}
+  - {id: state:sluice, kind: lever, where: room:sluice,
+     what: "The sluice wheel, one way (D-43): map qbit 117721; the culvert gate below the outfall lifts with a chain grind and stays up on every later load. Its own answer: the wheel's click says what it opened; the gate's click before says the wheel is upstream.",
+     opens: [link:outfall_heart]}
+  - {id: state:heart, kind: item, where: room:heart_culvert,
+     what: "q-d23.heart (once): the jar gives Sandro's Heart 12353, heart_found 113461; 'An empty jar.' after.", opens: [], draw: false}
+  - {id: state:dead_food, kind: award, where: room:dead_food,
+     what: "The Dead Food barrel (open question 4): the strongest member's Might checked (the source's 'You are not strong enough to pry the lid off the barrel.', aaze0036:7); pried: the two hidden roaches shown, map qbit 117723; then 'Dead Food' (:8) eaten once per character (a player bit, A3), rescaled from '+1 level (permanent)' (:9).",
+     opens: [], draw: false}
+  - {id: state:drains, kind: award, where: "room:main_west, room:main_east, room:west_culvert",
+     what: "Three of the walls' sewer drains (aaze0036:3) hold a small find once (gems or gold at treasure 5, map qbits 117724-117726, the source's three drains with a give); the others 'Nothing here.' (:1).", opens: [], draw: false}
+exits:
+  - {id: exit:d6_stair, space: room:stair_foot, at: [0, 0], kind: both, label: "D6: the crypt stair",
+     arrival: "entrance:d6_stair (as D6 assumes, D-37): at the stair foot, about (0, 0, 0) in the map's frame (the stair climbs north from y 256 to the grille pair at y 1,024, z 448), facing south (1536) into the Hall of Biers",
+     neighbour: "D6 door:dd21 (thing:dd21_crypt in the Necropolis's south-east corner, grille pair gkp103a, door in its north face); out by the exit preset at the stair's top to D6's installed entrance:dd21_stair (17408, -11776, 1664) facing 512: about 280 north of the crypt's door (the crypt spans sketch x 97.25-98.75, its north face at about y -12,060), facing away from it. Matches; D6 changes only the arrival name (the door goes live by itself once DD-21's sidecar lists entrance:d6_stair)"}
+hooks:
+  - {hook: q-d23.sandro, space: room:sandro_crypt, how: "Sandro's first fall (the kill timer), and later the dais's step plate and the bier's click (its beaten and heart texts)"}
+  - {hook: q-d23.heart, space: room:heart_culvert, how: "the jar on the ledge (clicked), behind the sluice gate"}
+  - {hook: q-d23.release, space: room:sandro_crypt, how: "the map's prompt 'Give Sandro his heart?' with the heart in hand; then the risen Sandro hidden and the reliquary grille open"}
+  - {hook: q-d23.ritual, space: room:sandro_crypt, how: "the second prompt 'Ask Sandro for his ritual first?' after Yes to the first; then release"}
+critical_path: [room:stair_foot, room:crypt_hall, room:sandro_crypt, room:crypt_hall, room:landing, room:main_west, room:west_culvert, room:sluice, room:west_culvert, room:outfall, room:heart_culvert, room:outfall, room:east_culvert, room:main_east, room:landing, room:crypt_hall, room:sandro_crypt, room:reliquary]
+return_path: [room:reliquary, room:sandro_crypt, room:crypt_hall, room:stair_foot]
+loops:
+  - {id: loop:sewer_ring, spaces: [room:landing, room:main_west, room:west_culvert, room:outfall, room:east_culvert, room:main_east],
+     notes: "The sewer's ring: out along one arm of the main channel, down a culvert to the outfall, back up the other (the critical path goes west and returns east)."}
+lines:
+  - {text: "Sandro / the Lich", ref: "dark/aaze0035:25", where: "room:sandro_crypt (the first entry's step plate, the name before the fight)"}
+  - {text: "... And now my hunger for the living compels me to attack you.", ref: "dark/aaze0035:26 (its last sentence; the rest is A3's q-d23.sandro first text)", where: "room:sandro_crypt (first entry, map-local)"}
+  - {text: "Do not come to me without my heart.  Though you have defeated me once in combat, I still am not dead.  Once again you must defeat me, or die.", ref: "dark/aaze0035:27 (A3's q-d23.sandro beaten text)", where: room:sandro_crypt}
+  - {text: "Thank you for returning my heart.  I am free of this life.  You are welcome to the treasures in this room as well as this key here ... Remember:  Alamar CAN be defeated.", ref: "dark/aaze0035:28 (A3's q-d23.release text; '+2,000,000 experience' dropped, the hook gives 12,000)", where: room:sandro_crypt}
+  - {text: "Don't even THINK about taking my statuette!", ref: "dark/aaze0035:29", where: "room:reliquary (the grille's click while Sandro stands)"}
+  - {text: "Barrel / A sign on the barrel says: Food for the dead, keep warm.", ref: "dark/aaze0036:4, :5", where: "room:main_east, room:dead_food"}
+  - {text: "You are not strong enough to pry the lid off the barrel. / Dead Food / Eating the Food of the Dead gives you 1 level (permanent). (rescaled)", ref: "dark/aaze0036:7, :8, :9", where: room:dead_food}
+  - {text: "Sewer Drain / Nothing here.", ref: "dark/aaze0036:3, :1", where: "the drains in room:main_west, room:main_east, room:west_culvert"}
+  - {text: "Mummy's Secret Treasure", ref: "dark/aaze0036:10", where: "room:main_west (the vault's stone door, hover)"}
+  - {text: "Box / Alcove", ref: "dark/aaze0036:2, :0", where: "room:east_culvert (the trapped chest), room:outfall (the alcove)"}
+  - {text: "Gone to Necropolis, will return soon ... The vampires have requested their privacy ... (signed) Sandro", ref: "dark/aazex122:24", where: "not in this map: Sandro's note in his old home, the Dungeon of Death (FD-04's lower half, Q-F2), which his key opens"}
+open_questions:
+  - q: "Count and split of the group. MAPS: DD-08 + DD-21 60 monsters at 40-62, Sandro 65, 39.6k; DD-08's graph plans 45 (31.14k), leaving 8.46k for an exact group; DD-21 is S (15-30)."
+    options: ["(a) 15 + Sandro: 10 Cinder Roaches 40, 3 Greater Liches 50, 2 Ghost Mummies 62, Sandro once: 10.70k; the group 60 + Sandro and 41.84k, +5.7 % (session 10 assumed about 10k, +3.9 %)",
+              "(b) 15 + Sandro without the mummies: 11 roaches and 4 Greater Liches: 9.72k, the group 40.86k (+3.2 %); the vault's chest unguarded",
+              "(c) the exact share: 10 roaches, 3 Greater Liches and Sandro (13 + Sandro, under S's 15): 8.47k, the group 39.61k (+0.0 %)"]
+    recommend: "(a)"
+    depends: "A2 (Act V recount); DD-08's Q22 (its 45)"
+  - q: "How Sandro rises again. Q-D23: 'the map calls sandro when Sandro first falls (he rises again; the map revives him while released is clear)'. The engine cannot bring a dead placed actor back; hidden placed actors, the kill condition, SetMm9ActorCanReceiveDamage and load events by qbit exist; evt.SetMapActorHp exists in the game's Lua (living actors only) but not yet in a lane's wiring."
+    options: ["(a) two bodies, one fight: the hostile Sandro (11283) falls for real (kill XP once); his fall shows a hidden risen Sandro, a peaceful placed-only figure made unkillable on every load, who stays by the bier until the release. No second fight: A3 trims 'Once again you must defeat me, or die.' to a threat and 'rises from the floor, slower this time' (the heart text) to fit",
+              "(b) he fights every time without the heart: one hostile Sandro whose blows are counted by the damage hook (trigger: monster_damage) against his row's HP; the blow that would kill him is zeroed, his HP restored (evt.SetMapActorHp), he is hidden and the risen figure shown; without the heart the dais's plate swaps them back for a new fight. No kill XP for Sandro ever (the release's 12,000 stands in); A1 confirms hook.damage is the HP taken",
+              "(c) a real revive word from A1 (a dead placed actor restored by an event): the source's behaviour, kill XP each time"]
+    recommend: "(a)"
+    depends: "A2 (the risen Sandro's peaceful placed-only row: the characters block is full at 11923, an id from A2), A3 (two texts), A1 only for (b)'s confirmation or (c)"
+  - q: "The sewer's vermin. The source places Lava Roaches (D33, level 40, 'Necropolis Sewer x13'); A2's Lava Roach is giant crawlers tier C at 26, under the band."
+    options: ["(a) a new ordinary tier D 'Cinder Roach' 40 (11363, look C, Fire, fire immune, where DD-21), so rest encounters can draw it",
+              "(b) the existing Lava Roach 26: 10 of them 2.34k instead of 5.0k (the group 39.18k, -1.1 %), under the band",
+              "(c) Vampires 40 (11291) in their place (a vampire in a sewer under Count Velkor's crypt): the same XP, no new row"]
+    recommend: "(a)"
+    depends: "A2 (row), S (the crawler mesh, giant crawlers' 'new (one arthropod rig)', a darker ash skin)"
+  - q: "The Dead Food barrel (source: Might 100 to pry, two monsters out, +1 level permanent to eat; D-4: no levels)."
+    options: ["(a) one barrel in the cellar: the strongest member's Might at least 30 (else aaze0036:7), two hidden roaches shown, then eaten once per character: +2 Endurance (a player bit), the line rescaled ('Eating the Food of the Dead makes you hardier.')",
+              "(b) as (a) with +1 Endurance and +1 Might",
+              "(c) dressing only: the signs and the lid line, no reward, no roaches (13 monsters)"]
+    recommend: "(a)"
+    depends: "A3 (player bit, texts), A2 (Act V ledger)"
+  - q: "The sluice gate to the lowest culvert."
+    options: ["(a) the culvert gate opened by the sluice wheel in its own room off the west culvert (a one-way lever, D-43; both answer each other's click)",
+              "(b) no gate: the steps open from the outfall (one door and one dead end fewer; the sluice room gone)"]
+    recommend: "(a)"
+    depends: "A8 at L1"
+  - q: "Sandro's treasure 'in this room' and his statuette (in the source the statuette in his alcove was Luna's Golden Griffin, which is DD-07's here, Q-D20)."
+    options: ["(a) the reliquary behind the grille: a chest (T5) and the statuette as dressing (the line aaze0035:29 kept on the grille), opened by the release",
+              "(b) as (a), and the statuette a find: one T5 item once (map qbit 117728)",
+              "(c) no grille: the chest open in the crypt from the start"]
+    recommend: "(a)"
+    depends: "A3 (the grille's lines), A8 at L1"
+  - q: "The Ghost Mummies in the 'Mummy's Secret Treasure' vault (placed only at 62, D-57; the Necropolis's own source mummies were Higher Mummies 50)."
+    options: ["(a) two Ghost Mummies 62 (11273): the band's top, Age touch",
+              "(b) two Pyramid Guards 52 (11271): -0.62k (the group +4.1 %)",
+              "(c) none (open question 1 b)"]
+    recommend: "(a)"
+    depends: "A2 (Ghost Mummy's where: add DD-21)"
+  - q: "Rest encounters."
+    options: ["(a) 10 % from the Greater Liches and the Cinder Roaches (hostile, inside the band; never the placed-only Ghost Mummies or Sandro)", "(b) 0"]
+    recommend: "(a)"
+    depends: "A2"

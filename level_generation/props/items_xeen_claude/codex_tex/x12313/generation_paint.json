@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the first input paint_mask_guide.png in place as a strict pixel-registered atlas. Preserve the exact alpha silhouette, gaps, facet geometry and composition in every cell. Canvas 1536x2048 3:4, 3 columns by 4 rows. Upper two rows: FRONT BACK LEFT / RIGHT TOP empty. Paint only inside grey shapes as unlit base colour: three pale blue quartz crystals with cloudy inner mineral swirls and facets on a small grey rock base. Use design_reference.png for materials and icon_x8.png for colour. No hot highlights, reflections, lighting, AO, ground, outline, text, sparkle or aura. Lower two rows repeat the guide geometry exactly but fill all visible crystal pixels opaque pure black #000000 and stone base pixels opaque pure yellow #FFFF00, solid flat exact colours with no shading, gradients, texture, inner antialias blends or outlines. Even the top view has black crystals and yellow exposed rock. Background fully transparent including last cell rows 2 and 4. Do not rearrange, redraw, enlarge or move any object.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "a606c88f7cd25c317aa89dde713a6dfb63fdfc18f9125890643b1e4b74977b40"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "db94fa0e59f1aedbdd331f44eeef9933078ea438f6dee7d101db3b0f50197e72"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "653458b66ba669963b4c37e5d33e7566ceeeaab2d0419cb775422152e65ed45b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91c-3296-7a82-95ab-6d045787cc00/exec-25bab9b6-e1d9-4fcf-aa0f-3660f383a006.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

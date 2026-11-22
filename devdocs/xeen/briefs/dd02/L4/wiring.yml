@@ -1,0 +1,361 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "ELLINGER'S TOWER. The Queen's wizard locked himself in with his defences when Alamar took the throne. Madame Oorla said the orb must see him first, and that at the top the tower asks whom you seek. Somewhere above, bats are stirring."
+      - qbit: arrived_once
+    notes: "Why the party is here (M17), on the first arrival only (arrived_once 117080)."
+  - id: evt:book_elec
+    preset: script
+    source: platform:lectern_elec
+    title: Book of Electricity
+    condition: {not: {player_bit: 11314}}
+    effects:
+      - add:
+          var: AirResistance
+          value: 5
+      - player_bit: 11314
+      - text: BOOK OF ELECTRICITY. +5 Elec. (permanent).
+    else_effects:
+      - text: You learn nothing more from the book.
+    notes: "The library's Book of Electricity (aaze0054): +5 Air resistance once per character (player bit 11314; the source's +20 rescaled, the graph)."
+  - id: evt:book_fire
+    preset: script
+    source: platform:lectern_fire
+    title: Book of Fire
+    condition: {not: {player_bit: 11313}}
+    effects:
+      - add:
+          var: FireResistance
+          value: 5
+      - player_bit: 11313
+      - text: BOOK OF FIRE. +5 Fire (permanent).
+    else_effects:
+      - text: You learn nothing more from the book.
+    notes: "The library's Book of Fire (aaze0054): +5 Fire resistance once per character (player bit 11313; the source's +20 rescaled, the graph)."
+  - id: evt:book_of_boots
+    preset: script
+    source: platform:boot_rack
+    title: Book o' Boots
+    lua: "XeenQuests.hook(\"m17.book_of_boots\")"
+    notes: m17.book_of_boots (aaze0056:8-9) on the boot rack by the desk.
+  - id: evt:call_foot
+    preset: switch
+    source: switch:call_foot
+    title: Call the lift
+    condition: {lua: "XeenQuests.can(\"m17.tower_lift\")"}
+    opens: [door:gate_foot]
+    closes: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -768, 1600, 960)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m17.tower_lift\")"
+    text: The cage rattles down the shaft.
+  - id: evt:call_top
+    preset: switch
+    source: switch:call_top
+    title: Call the lift
+    condition: {lua: "XeenQuests.can(\"m17.tower_lift\")"}
+    opens: [lift:cage, door:gate_top]
+    closes: [door:gate_foot]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -768, 1600, 960)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m17.tower_lift\")"
+    text: The cage climbs the shaft to you.
+  - id: evt:charts
+    preset: text
+    source: platform:charts
+    title: Star charts
+    text: "Star charts of the Darkside's sky, the sun's path drawn in red and crossed out twice."
+    window: false
+  - id: evt:chest_boots
+    preset: chest
+    source: chest:boots
+    title: Chest
+  - id: evt:chest_crates
+    preset: chest
+    source: chest:crates
+    title: Chest
+  - id: evt:chest_reading
+    preset: chest
+    source: chest:reading
+    title: Chest
+  - id: evt:chest_store
+    preset: chest
+    source: chest:store
+    title: Chest
+  - id: evt:door_back1
+    preset: door
+    source: door:back1
+    title: Panel
+  - id: evt:door_back3
+    preset: door
+    source: door:back3
+    title: Panel
+  - id: evt:door_boots
+    preset: door
+    source: door:boots
+    title: Door
+  - id: evt:door_loft
+    preset: door
+    source: door:loft
+    title: Door
+  - id: evt:door_reading
+    preset: door
+    source: door:reading
+    title: Door
+  - id: evt:door_roost
+    preset: door
+    source: door:roost
+    title: Door
+  - id: evt:door_store
+    preset: door
+    source: door:store
+    title: Door
+  - id: evt:ellinger
+    preset: script
+    source: platform:desk
+    title: Ellinger
+    lua: evt.SpeakNPC(4954)
+    notes: "Ellinger (NPC 4954; A3's topics: Alamar, m17.done with the orb): the studio cannot give a placed indoor monster its NPC (Words needed), so his desk speaks for him, as DD-04's throne."
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: Ellinger's Tower.
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d1
+    title: Exit Ellinger's Tower
+    notes: "Out to D1 in front of the tower door (exit:d1_tower): the game's own window (D-24); the source's 'Exit Ellinger's Tower?' (aaze0053:0) is the title."
+  - id: evt:mirror
+    preset: text
+    source: panel:mirror
+    title: Mirror
+    condition: {qbit: m26_stage4}
+    else_effects:
+      - text: The mirror does not respond.
+    text: "The mirror shows Ellinger's study, and a small sign: 'Private. Use the one in the square.'"
+    notes: "The dead mirror (D-26: flavour, no prompt): 'The mirror does not respond.' (aaze0053:11) before m26.stage4 (111522), the sign after."
+  - id: evt:pass
+    preset: door
+    source: door:pass
+    question: {ask: "Answer?", answers: [Ellinger], message: "Who do you seek?", wrong_effects: [{lua: "XeenQuests.hook(\"m17.password_wrong\")"}]}
+    side: room:pass_door
+    title: Door
+    effects:
+      - lua: "XeenQuests.hook(\"m17.password\")"
+    notes: "The last door (aaze0056:0-3): 'Who do you seek?'; Ellinger: m17.password ('You may pass!', the qbit once) and the door opens; any other answer: m17.password_wrong ('Begone!')."
+  - id: evt:pass_back
+    preset: door
+    source: door:pass
+    side: room:study
+    title: Door
+  - id: evt:question
+    preset: door
+    source: door:question
+    side: room:question
+    title: Door
+    condition: {qbit: question_passed}
+    else_effects:
+      - lua: |-
+          if continueStep == 1 or continueStep == 2 then
+              XeenQuests.hook("m17.question_right")
+              return
+          end
+          if continueStep == 3 then
+              XeenQuests.hook("m17.question_wrong")
+              AskChoiceWithAnswerSteps(eventId, 5, "Begone!", {{Answer = "Leave the tower", Step = 5}})
+              return
+          end
+          if continueStep == 5 then
+              evt.MoveToMap(2560, 9216, 1152, 0, 0, 0, 0, 0, "xeen_d1.odm", {direct = true})
+              return
+          end
+          if continueStep ~= nil then
+              return
+          end
+          XeenQuests.hook("m17.question")
+          AskChoiceWithAnswerSteps(eventId, 4, "Answer the question:", {{Answer = "Let him take up his sword", Step = 1}, {Answer = "Cut him down", Step = 2}, {Answer = "I just don't know", Step = 3}})
+    notes: "m17.question: the door asks (A3's text, the three answers as buttons); 1 or 2: m17.question_right (question_passed; evt:question_open opens the door), 3: m17.question_wrong and the party is put out on D1 in front of the tower door. Once passed, a plain door."
+  - id: evt:question_back
+    preset: door
+    source: door:question
+    side: room:stair1f
+    title: Door
+  - id: evt:question_open
+    preset: text
+    trigger: timer
+    every: 1
+    condition: {qbit: question_passed}
+    opens: [door:question]
+    once: true
+    text: The stair door swings open.
+    notes: The door opens once the question is answered (question_passed set by m17.question_right).
+  - id: evt:reading_table
+    preset: text
+    source: platform:reading_table
+    title: Reading table
+    text: Nothing here.
+  - id: evt:ride_down
+    preset: switch
+    source: switch:ride_down
+    title: "Lift: down"
+    condition: {lua: "XeenQuests.can(\"m17.tower_lift\")"}
+    opens: [door:gate_foot]
+    closes: [lift:cage, door:gate_top]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -768, 1600, 960)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m17.tower_lift\")"
+    text: The cage sinks to the ground floor.
+  - id: evt:ride_up
+    preset: switch
+    source: switch:ride_up
+    title: "Lift: up"
+    condition: {lua: "XeenQuests.can(\"m17.tower_lift\")"}
+    opens: [lift:cage, door:gate_top]
+    closes: [door:gate_foot]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -768, 1600, 960)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m17.tower_lift\")"
+    text: The cage climbs the shaft to Ellinger's study.
+  - id: evt:sorcerer_book
+    preset: script
+    source: platform:lectern_sorc
+    title: Book of Sorcerer's Knowledge
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11312)) then
+          XeenQuests.hook("m17.sorcerer_book_again")
+          return
+      end
+      if IsAtLeast(ActualIntellect, 20) then
+          AddValue(BaseIntellect, 2)
+          SetPlayerBit(PlayerBit(11312))
+          XeenQuests.hook("m17.sorcerer_book")
+          return
+      end
+      local hp = 0
+      for v = 10, 5000, 10 do
+          if not IsAtLeast(HP, v) then break end
+          hp = v
+      end
+      evt.DamagePlayer(Players.Current, const.Damage.Physical, math.max(5, hp // 10))
+      XeenQuests.hook("m17.sorcerer_book_hurt")
+    notes: "D-26: the clicking member's current Intellect 20 or more: +2 Intellect (base) once per character (player bit 11312) and m17.sorcerer_book; again: m17.sorcerer_book_again; below 20: about a tenth of that member's present hit points (counted in tens: the scripts read no maximum) and m17.sorcerer_book_hurt, nothing used up."
+  - id: evt:sources
+    preset: script
+    source: platform:list
+    title: Ellinger's list
+    condition: {qbit: m18_started}
+    lua: "XeenQuests.hook(\"m18.sources_note\")"
+    else_effects:
+      - text: Columns of figures about energy disks. Ellinger has not finished it.
+    notes: m18.sources_note after M17 (m18.started).
+  - id: evt:study_cue
+    preset: text
+    source: room:study
+    trigger: step
+    once: true
+    text: Ellinger looks up from a desk heaped with star charts and boots.
+    seconds: 4
+  - id: evt:tap1_a
+    preset: text
+    source: panel:tap1_a
+    title: Tapestry
+    text: Nothing happens
+  - id: evt:tap1_b
+    preset: text
+    source: panel:tap1_b
+    title: Tapestry
+    text: Nothing happens
+  - id: evt:tap1_button
+    preset: switch
+    source: panel:tap1_c
+    title: Tapestry
+    opens: [door:back1]
+    text: Click
+    notes: "The button behind the gallery's east tapestry: the back stair's panel slides up."
+  - id: evt:tap3_b
+    preset: text
+    source: panel:tap3_b
+    title: Tapestry
+    text: Click. Nothing happens.
+    notes: One of the two buttons that do nothing.
+  - id: evt:tap3_button
+    preset: switch
+    source: panel:tap3_a
+    title: Tapestry
+    opens: [door:back3]
+    text: Click
+    notes: "The button behind the tapestry at the arm's east end: the back stair's panel slides up."
+  - id: evt:tap3_c
+    preset: text
+    source: panel:tap3_c
+    title: Tapestry
+    text: Click. Nothing happens.
+  - id: evt:trap_1
+    preset: script
+    source: plate:trap_1
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [2240, -384, 1560]
+          to: [2240, -224, 1500]
+          mastery: expert
+          level: 8
+      - text: "A bolt of fire leaps from the wall!"
+    notes: A trap plate of the gauntlet's last stretch.
+  - id: evt:trap_2
+    preset: script
+    source: plate:trap_2
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [3584, -384, 1560]
+          to: [3584, -224, 1500]
+          mastery: expert
+          level: 8
+      - text: "A bolt of fire leaps from the wall!"
+    notes: A trap plate of the gauntlet's last stretch.
+  - id: evt:trap_3
+    preset: script
+    source: plate:trap_3
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [5632, 1344, 1560]
+          to: [5472, 1344, 1500]
+          mastery: expert
+          level: 8
+      - text: "A bolt of fire leaps from the wall!"
+    notes: A trap plate of the gauntlet's last stretch.
+  - id: evt:trap_4
+    preset: script
+    source: plate:trap_4
+    trigger: step
+    effects:
+      - cast:
+          spell: 2
+          from: [5632, 2048, 1560]
+          to: [5472, 2048, 1500]
+          mastery: expert
+          level: 8
+      - text: "A bolt of fire leaps from the wall!"
+    notes: A trap plate of the gauntlet's last stretch.
+  - id: evt:window
+    preset: text
+    source: panel:window
+    title: Broken window
+    text: "Wind, and the roofs of Castleview far below."
+notes: "DD-02's events (gen.py): M17's hooks (the question, the password, the lift, the books, the Book o' Boots), M18's list, Ellinger's talk by his desk, the dead mirror, the tapestries, the trap plates, the exit to D1, the doors and chests."

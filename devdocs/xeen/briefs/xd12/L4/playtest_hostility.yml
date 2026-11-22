@@ -1,8 +1,14 @@
-# Hostility check of Darzog's Tower (XD-12) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
-# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+# Hostility check of Darzog's Tower (XD-12) (first written by output/studio_cal/hostility/gen_hostility_tests.py;
+# devdocs/xeen/ACT2_BUILD.md, "Hostility pass"; moved by hand to the Xeen rows, lane A8, 2026-11-20): its foes hostile
+# to the party, Crodo peaceful, its kinds not fighting each other. The kinds: Carnage Hand 11602 (slot 1), Wizard 11190
+# (slot 2), Floating Eye 11570 (slot 3), the Chief Librarian a Sorcerer 11191, Baron Darzog 11194 and his clones 11195
+# (boss rows), Crodo 11900 (the world's peaceful character row). The world's relations.yml has the three families long
+# toward the party, Crodo friendly and no feud; the map's own relations repeat them and keep the Eyes from the
+# constructs, the wizards and Crodo. Run with --world xeen --map xeen_xd12.blv, as XD-27's
+# (output/studio_cal/xd12/xfour.sh).
 id: xeen.xd12.l4.hostility
-title: 'Darzog''s Tower (XD-12): foes hostile to the party, no fights among them'
-world: mm7
+title: 'Darzog''s Tower (XD-12): a quiet arrival; foes hostile to the party, no fights among them'
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -31,6 +37,17 @@ steps:
         level: 33
         skills: []
         equipment: {}
+- note: "A quiet arrival (A8 session 25): 15 s at the tower door, not immortal, the party unchanged. The Well's eyes stood in line with the door and Paralyzed the party within seconds (A3, segment 37); they now float over the cistern."
+- assert:
+    map: xeen_xd12.blv
+- play_lua:
+    source: "wait(0.5); close(); remember('hp', party()); log('start: ' .. party())"
+- advance_runtime:
+    seconds: 15
+- play_lua:
+    source: "close(); local a = recall('hp'); local b = party(); log('after 15 s: ' .. b); if a ~= b then error('hurt at the arrival: ' .. a .. ' -> ' .. b) end"
+- assert:
+    party_position: {x: 2752, y: 0, radius: 96, z_min: -8, z_max: 8}
 - setup_shortcut:
     kind: immortal
     value: true
@@ -39,90 +56,132 @@ steps:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 277
+      monster_id: 11602
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 278
+      monster_id: 11190
       hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11570
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11191
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11194
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11195
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11602
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11190
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11570
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11191
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11194
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11195
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11900
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11900
+      hostile: false
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 294
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 292
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 293
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 277
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 278
       max: 0
 - assert:
     actor_count:
       monster_id: 279
-      hostile: false
       max: 0
 - assert:
     actor_count:
       monster_id: 211
-      hostile: false
       max: 0
 - assert:
     actor_count:
       monster_id: 212
-      hostile: false
       max: 0
 - assert:
     actor_count:
       monster_id: 213
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 293
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 294
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 278
-      hostile: true
-      min: 1
-- assert:
-    actor_count:
-      monster_id: 293
-      hostile: true
-      min: 1
-- assert:
-    actor_count:
-      monster_id: 211
-      hostile: true
-      min: 1
-- assert:
-    actor_count:
-      monster_id: 294
-      hostile: true
-      min: 1
-- assert:
-    actor_count:
-      monster_id: 292
-      hostile: true
       max: 0
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
     not take each other on.'
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 292
+    monster_id: 11900
     x: 2200
     y: -1500
     z: 0
 - spawn_actor:
-    monster_id: 278
+    monster_id: 11602
     x: 2296
     y: -1500
     z: 0
 - spawn_actor:
-    monster_id: 211
+    monster_id: 11570
     x: 2392
     y: -1500
     z: 0
 - spawn_actor:
-    monster_id: 293
+    monster_id: 11190
     x: 2488
     y: -1500
     z: 0
@@ -142,26 +201,21 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 292
+      monster_id: 11900
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 278
+      monster_id: 11602
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 211
+      monster_id: 11570
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 293
-      hurt: true
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 292
+      monster_id: 11190
       hurt: true
       max: 0

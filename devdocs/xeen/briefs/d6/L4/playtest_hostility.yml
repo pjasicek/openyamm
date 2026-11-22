@@ -1,0 +1,544 @@
+# Hostility check of D6 (written by output/studio_cal/d6/tools/gen_hostility_d6.py).
+id: xeen.d6.l4.hostility
+title: 'D6 The Forbidden Zone: camps, lava dwellers, robots and Ambrose by state'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: At load
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11104
+      hostile: true
+      min: 9
+- assert:
+    actor_count:
+      monster_id: 11105
+      hostile: true
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: true
+      min: 11
+- assert:
+    actor_count:
+      monster_id: 11621
+      hostile: true
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11610
+      hostile: true
+      min: 16
+- assert:
+    actor_count:
+      monster_id: 11611
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11913
+      hostile: true
+      max: 0
+- assert:
+    actor_visible:
+      actor_index: 44
+      hidden: false
+- set_pose:
+    map: xeen_d6.odm
+    x: 1024
+    y: -11264
+    z: 1800
+    yaw: 1.5708
+    pitch: 0.0
+- note: 'The lava dwellers 20 s later, the party at Ash Fork: each near its home (leash + 400)'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 251
+      - 3840
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 0
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -320
+      - 3547
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 1
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 49
+      - 4399
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 2
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -261
+      - -1792
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -832
+      - -2085
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 4
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -463
+      - -1233
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 5
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - -256
+      - -3072
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 6
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 5371
+      - 2304
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 7
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 4800
+      - 2011
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 8
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 5169
+      - 2863
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 9
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - 6912
+      - 1536
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 10
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 1997
+      - 2048
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 11
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 1530
+      - 1808
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 12
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - 1024
+      - -4352
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 13
+      dead: false
+      report_state: true
+- set_pose:
+    map: xeen_d6.odm
+    x: 9216
+    y: -4096
+    z: 1700
+    yaw: 3.1416
+    pitch: 0.0
+- note: The lava dwellers 20 s later, the party on the lake's east shore (the signature's place)
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 251
+      - 3840
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 0
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -320
+      - 3547
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 1
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 49
+      - 4399
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 2
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -261
+      - -1792
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -832
+      - -2085
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 4
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - -463
+      - -1233
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 5
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - -256
+      - -3072
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 6
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 5371
+      - 2304
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 7
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 4800
+      - 2011
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 8
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 5169
+      - 2863
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 9
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - 6912
+      - 1536
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 10
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 1997
+      - 2048
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 11
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11620
+      min: 1
+      near:
+      - 1530
+      - 1808
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 12
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11621
+      min: 1
+      near:
+      - 1024
+      - -4352
+      - 1424
+- assert:
+    actor_visible:
+      actor_index: 13
+      dead: false
+      report_state: true
+- note: 'm33.done (111662): m33.robots_gone hides the robots on load'
+- setup_shortcut:
+    kind: set_qbit
+    id: 111662
+    value: true
+- load_map:
+    map: xeen_d6.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_visible:
+      actor_index: 26
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 27
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 28
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 29
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 30
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 31
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 32
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 33
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 34
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 35
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 36
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 37
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 38
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 39
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 40
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 41
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 42
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 43
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 44
+      hidden: false
+- note: 'm25.done (111503): m25.camp_gone hides Ambrose and the tethered griffin on load'
+- setup_shortcut:
+    kind: set_qbit
+    id: 111503
+    value: true
+- load_map:
+    map: xeen_d6.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_visible:
+      actor_index: 44
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 45
+      hidden: true
+- assert:
+    actor_count:
+      monster_id: 11104
+      hostile: true
+      min: 9

@@ -342,6 +342,8 @@ details.stages li { white-space: pre-line; max-width: 75ch; }
 .sq-text ul.tips { margin: 0; padding-left: 20px; font-size: .9rem; color: var(--muted); }
 .sq-text ul.tips li::marker { content: "Tip  "; color: var(--gold); font-weight: 600; font-size: .75rem; }
 .sq-text .reward { font-size: .88rem; color: var(--gold); }
+.sq-text .shortcut { margin: 2px 0; padding: 9px 12px; border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; background: var(--accent-soft); font-size: .93rem; }
+.sq-text .shortcut b { display: block; margin-bottom: 2px; color: var(--gold); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
 .sq-text .where { font-size: .9rem; }
 details.journal summary { cursor: pointer; color: var(--muted); font-size: .82rem; }
 details.journal ol { margin: 6px 0 0; padding-left: 20px; font-size: .88rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
@@ -424,3 +426,9 @@ details.walkthrough .journal { margin-top: 8px; }
 .faq-entry .table-wrap { margin-top: 10px; max-width: 760px; }
 .faq-figures { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; align-items: start; }
 @media (max-width: 760px) { .faq-figures { grid-template-columns: 1fr; } }
+/* Xeen guide: passages on the world map, promotion paths. */
+.world .land-link.passage { stroke-dasharray: 6 5; opacity: .55; }
+.chip.path-light { --c: #eab308; }
+.chip.path-dark { --c: #7c3aed; }
+.chip.path-tier { --c: #0e7490; }
+.chip.path-racial { --c: #b45309; }

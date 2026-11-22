@@ -1,0 +1,329 @@
+format: 0
+variables: [matron_dead, burning, smoke]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: The stench of this cave tells you that Trolls have been living in it.
+    seconds: 5
+    notes: "The mouth's line (aaze0008:2, its first sentence), as the party comes in (a one-shot timer: the party arrives standing in the mouth)."
+  - id: evt:bark
+    preset: text
+    source: platform:bark_gnawed
+    title: Gnawed bark
+    text: "Strips of the Troll Forest's bark, gnawed and spat out. Thickbark said it: \"They gnaw on our bark to sharpen their teeth in a most uncivilized fashion. Friends don't gnaw on friend's bark.\""
+    window: true
+    notes: Thickbark's line (aaze0007:6) on the gnawed bark (D-25 brief).
+  - id: evt:burn_out
+    preset: script
+    trigger: timer
+    every: 4
+    condition: {map_var: {name: burning, equals: 1}}
+    effects:
+      - set:
+          var:
+            map_var: burning
+          value: 2
+      - set_texture:
+          of: panel:hides_hearth_n
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_n_2
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_n_3
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_s
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_s_2
+          to: xochar
+      - set_texture:
+          of: platform:fire_pit
+          to: xochar
+          face: top
+      - lights_off: [light:blaze_pit, light:blaze_hearth]
+      - lights_on: light:embers
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+    notes: "A few seconds after the burn the hearth's hides and the pit are charred; embers glow in the pit."
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_hunter
+    preset: chest
+    source: chest:hunter
+    title: Bag
+  - id: evt:chest_shiny
+    preset: chest
+    source: chest:shiny
+    title: Chest
+  - id: evt:fire_pit
+    preset: script
+    source: platform:fire_pit
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "The stench of this cave tells you that Trolls have been living in it. It is filled with things that Trolls find valuable:  Bones, straw beds, fist-sized rocks and hides.  Destroy the lair?", wrong_text: "You leave the lair as it is, for now."}
+    title: Fire pit
+    condition: {all: [{map_var: matron_dead}, {not: {qbit: lair_burnt}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c15.lair\")"
+      - damage_destructible:
+          of: destructible:bed_1
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bed_2
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bed_3
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bed_4
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bed_5
+          amount: 1000
+      - damage_destructible:
+          of: destructible:nest
+          amount: 1000
+      - damage_destructible:
+          of: destructible:matron_bed
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bark_gnawed
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bark_hall
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bark_sleeping
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bark_hearth_1
+          amount: 1000
+      - damage_destructible:
+          of: destructible:bark_hearth_2
+          amount: 1000
+      - damage_destructible:
+          of: destructible:barricade
+          amount: 1000
+      - damage_destructible:
+          of: destructible:larder_flap
+          amount: 1000
+      - damage_destructible:
+          of: destructible:nursery_curtain
+          amount: 1000
+      - damage_destructible:
+          of: destructible:hearth_curtain
+          amount: 1000
+      - destroy: destructible:plug
+      - set_texture:
+          of: panel:hides_hearth_n
+          to: xoburn
+      - set_texture:
+          of: panel:hides_hearth_n_2
+          to: xoburn
+      - set_texture:
+          of: panel:hides_hearth_n_3
+          to: xoburn
+      - set_texture:
+          of: panel:hides_hearth_s
+          to: xoburn
+      - set_texture:
+          of: panel:hides_hearth_s_2
+          to: xoburn
+      - set_texture:
+          of: panel:hides_sleep_s
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_s_2
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_s_3
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_w
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_w_2
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides_2
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides_3
+          to: xosoot
+      - lights_off: light:hearth_fire
+      - lights_on: [light:blaze_pit, light:blaze_hearth]
+      - set:
+          var:
+            map_var: burning
+          value: 1
+      - set:
+          var:
+            map_var: smoke
+          value: 1
+      - lua: "evt.SetMist(1, 60); evt.SetMapVar('AmbientSound1', 1); evt.SetMapVar('AmbientSound3', 2)"
+    else_effects:
+      - lua: "if IsQBitSet(QBit(112301)) then evt.StatusText('Ash and charred bones fill the fire pit.', 4) else evt.StatusText(\"The trolls' fire burns in its pit. The Matron is near.\", 4) end"
+    notes: "goal:burn / state:burn: after the Matron, the source's question (aaze0008:2) is a real choice (D-25). Yes: A3's hook q-c15.lair (sets lair_burnt 112301, its one message), every bed, curtain and bark pile broken (evt.DamageDestructible), the chimney's plug destroyed, the hearth's hides and pit ablaze (4 s later charred, evt:burn_out), the other hides smoked black (xosoot, D-33), the grey smoke drawn in over 60 s (evt.SetMist(1, 60))."
+  - id: evt:hearth_curtain
+    preset: door
+    source: door:hearth_curtain
+    title: Hide curtain
+    action: open
+  - id: evt:hearth_seen
+    preset: text
+    source: room:hearth
+    trigger: step
+    once: true
+    text: "A great hall under the mound, hot and reeking. The Troll Matron rises from her bedding by the fire."
+    seconds: 6
+  - id: evt:larder_flap
+    preset: door
+    source: door:larder_flap
+    title: Hide flap
+    action: open
+  - id: evt:larder_seen
+    preset: text
+    source: room:larder
+    trigger: step
+    once: true
+    text: "Frozen carcasses lie stacked under the hides: deer, a horse, and things you would rather not name."
+    seconds: 6
+  - id: evt:matron_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:matron}}
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: matron_dead
+          value: 1
+      - qbit: matron_dead
+    text: The Troll Matron falls. Her fire still burns in its pit under the chimney.
+    seconds: 6
+    notes: "state:matron (a kill timer, XD-05's drums): her death makes the fire pit ask its question. Sets the map qbit matron_dead (110930) too."
+  - id: evt:mouth_exit
+    preset: exit
+    source: exit:mouth
+    title: Troll Forest
+    notes: "Out to X5 in front of the barrow mound's mouth (exit:x5_mouth); the game's leave window (D-24)."
+  - id: evt:nursery_curtain
+    preset: door
+    source: door:nursery_curtain
+    title: Hide curtain
+    action: open
+  - id: evt:plug
+    preset: text
+    source: platform:plug
+    title: Hides in the chimney
+    text: "Frozen hides and gnawed poles are rammed up the chimney over the fire. The smoke seeps out round them; nothing else could."
+    seconds: 6
+  - id: evt:rocks_seen
+    preset: text
+    source: room:rock_pile
+    trigger: step
+    once: true
+    text: "This hollow is filled with things that Trolls find valuable: bones, fist-sized rocks and hides. A hunter's pack lies among them."
+    seconds: 6
+    notes: "aaze0008:2, its second sentence adapted (the trolls' valuables)."
+  - id: evt:smoke_clear
+    preset: script
+    trigger: load
+    effects:
+      - set:
+          var:
+            map_var: smoke
+          value: 0
+      - lua: evt.SetMist(0)
+    notes: "D-25 Q5: the smoke mist (atmosphere.yml) is drawn at share 0 on every load; only the burn draws it (evt.SetMist(1, 60)). The map variable smoke mirrors it for the playtest."
+  - id: evt:smoke_hole
+    preset: exit
+    source: exit:smoke_hole
+    title: The mound's crown
+    notes: "One way out to X5 on the mound's crown (exit:x5_crown, A6's point)."
+  - id: evt:stage_burnt
+    preset: script
+    trigger: load
+    condition: {qbit: lair_burnt}
+    effects:
+      - hide_actors: 10
+      - hide_actors: 11
+      - hide_actors: 12
+      - hide_actors: 13
+      - hide_actors: 14
+      - hide_actors: 15
+      - hide_actors: 16
+      - hide_actors: 17
+      - hide_actors: 18
+      - hide_actors: 19
+      - destroy: destructible:bed_1
+      - destroy: destructible:bed_2
+      - destroy: destructible:bed_3
+      - destroy: destructible:bed_4
+      - destroy: destructible:bed_5
+      - destroy: destructible:nest
+      - destroy: destructible:matron_bed
+      - destroy: destructible:bark_gnawed
+      - destroy: destructible:bark_hall
+      - destroy: destructible:bark_sleeping
+      - destroy: destructible:bark_hearth_1
+      - destroy: destructible:bark_hearth_2
+      - destroy: destructible:barricade
+      - destroy: destructible:larder_flap
+      - destroy: destructible:nursery_curtain
+      - destroy: destructible:hearth_curtain
+      - destroy: destructible:plug
+      - set_texture:
+          of: panel:hides_sleep_s
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_s_2
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_s_3
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_w
+          to: xosoot
+      - set_texture:
+          of: panel:hides_sleep_w_2
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides_2
+          to: xosoot
+      - set_texture:
+          of: panel:larder_hides_3
+          to: xosoot
+      - set_texture:
+          of: panel:hides_hearth_n
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_n_2
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_n_3
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_s
+          to: xochar
+      - set_texture:
+          of: panel:hides_hearth_s_2
+          to: xochar
+      - set_texture:
+          of: platform:fire_pit
+          to: xochar
+          face: top
+      - lights_off: light:hearth_fire
+      - lua: "evt.SetMapVar('AmbientSound3', 2)"
+    notes: "Stage q-c15.lair_burnt (112301) on every later load: no trolls (every group hidden), every bed, curtain, bark pile and the plug broken (they stay broken in the map's state; broken again here in case), the hung hides smoked black (xosoot, D-33), the hearth's hides and the fire pit charred, the trolls' fire out, no smoke (evt:smoke_clear)."

@@ -1,0 +1,574 @@
+# Playtest of the Clouds of the Ancients (P5, L4): the walk.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4
+title: 'Clouds of the Ancients (P5 L4): the whole ring walked, every board, Rest Stop, the note, the observatory, the sealed
+  stair door and the refused shrine'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- assert:
+    party_position:
+      x: 4608
+      y: -3968
+      radius: 192
+      z_min: -20
+      z_max: 60
+- note: 'The crown: the stair house''s door sealed until FD-03 (no move), the Pharaoh''s note.'
+- walk_to:
+    x: 4608
+    y: -4228
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- note: 'FD-03 is installed: the door leads down to its entrance:p5_stair (224, 1904, 3072), facing west; then back to P5''s
+    arrival'
+- play_lua:
+    source: click(38); wait(1)
+- assert:
+    dialog:
+      active: true
+      text_contains: A tower of black stone
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd03.blv
+- assert:
+    party_position:
+      x: 224
+      y: 1904
+      radius: 200
+      z_min: 2992
+      z_max: 3232
+- load_map:
+    map: xeen_p5.blv
+    pos: 4608, -4228.608194379352, 0
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- walk_to:
+    x: 4096
+    y: -4032
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- play_lua:
+    source: click(27); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: long road ahead
+- play_lua:
+    source: if not close() then error('evt:pharaoh_note showed no window') end
+- walk_to:
+    x: 3392
+    y: -3712
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(11); wait(0.5); local s = status() or ''''; if not string.find(s, "New World Computing", 1, true)
+      then error(''evt:board_nwc: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(12); wait(0.5); local s = status() or ''''; if not string.find(s, "New World Computing", 1, true)
+      then error(''evt:board_nwc_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 3584
+    y: -3416
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 3584
+    y: -1916
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 40
+    z_tolerance: 200
+- walk_to:
+    x: 3584
+    y: -415
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: 3776
+    y: -2176
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 34
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(5); wait(0.5); local s = status() or ''''; if not string.find(s, "King''s Bounty", 1, true) then
+      error(''evt:board_kings_bounty: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(6); wait(0.5); local s = status() or ''''; if not string.find(s, "King''s Bounty", 1, true) then
+      error(''evt:board_kings_bounty_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 3584
+    y: 0
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: 3712
+    y: 0
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(29); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_1_sign: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(28); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_1_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 3584
+    y: 470
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: 3584
+    y: 1815
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 104
+    z_tolerance: 200
+- walk_to:
+    x: 3584
+    y: 3160
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 3776
+    y: 1792
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 103
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(3); wait(0.5); local s = status() or ''''; if not string.find(s, "Inherit the Earth", 1, true)
+      then error(''evt:board_inherit: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(4); wait(0.5); local s = status() or ''''; if not string.find(s, "Inherit the Earth", 1, true)
+      then error(''evt:board_inherit_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 3584
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 3971
+    y: 3971
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(1); wait(0.5); local s = status() or ''''; if not string.find(s, "Empire Deluxe", 1, true) then
+      error(''evt:board_empire: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(2); wait(0.5); local s = status() or ''''; if not string.find(s, "Empire Deluxe", 1, true) then
+      error(''evt:board_empire_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 3230
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 2073
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 168
+    z_tolerance: 200
+- walk_to:
+    x: 917
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: 2304
+    y: 3776
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 161
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(15); wait(0.5); local s = status() or ''''; if not string.find(s, "Spaceward Ho!", 1, true) then
+      error(''evt:board_spaceward: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(16); wait(0.5); local s = status() or ''''; if not string.find(s, "Spaceward Ho!", 1, true) then
+      error(''evt:board_spaceward_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 0
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 3851
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(26); wait(0.5); local s = status() or ''''; if not string.find(s, "The observatory is closed.",
+      1, true) then error(''evt:observatory: status was '' .. s) end; close()'
+- note: 'The observatory''s door never opens: the party still stands outside.'
+- walk_to:
+    x: -770
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: -1970
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 232
+    z_tolerance: 200
+- walk_to:
+    x: -3170
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -2304
+    y: 3776
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 241
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(13); wait(0.5); local s = status() or ''''; if not string.find(s, "Planets Edge", 1, true) then
+      error(''evt:board_planets: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(14); wait(0.5); local s = status() or ''''; if not string.find(s, "Planets Edge", 1, true) then
+      error(''evt:board_planets_back: status was '' .. s) end; close()'
+- walk_to:
+    x: -3584
+    y: 3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -3971
+    y: 3971
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(19); wait(0.5); local s = status() or ''''; if not string.find(s, "Vegas Games", 1, true) then
+      error(''evt:board_vegas: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(20); wait(0.5); local s = status() or ''''; if not string.find(s, "Vegas Games", 1, true) then
+      error(''evt:board_vegas_back: status was '' .. s) end; close()'
+- walk_to:
+    x: -3584
+    y: 3142
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: 1785
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 296
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: 427
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: 0
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: -3712
+    y: 0
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(32); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_2_sign: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(31); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_2_back: status was '' .. s) end; close()'
+- walk_to:
+    x: -3584
+    y: -429
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: -1789
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 360
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: -3149
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: -3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -3971
+    y: -3971
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(17); wait(0.5); local s = status() or ''''; if not string.find(s, "Tunnels and Trolls", 1, true)
+      then error(''evt:board_tunnels: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(18); wait(0.5); local s = status() or ''''; if not string.find(s, "Tunnels and Trolls", 1, true)
+      then error(''evt:board_tunnels_back: status was '' .. s) end; close()'
+- walk_to:
+    x: -3154
+    y: -3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -1943
+    y: -3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 424
+    z_tolerance: 200
+- walk_to:
+    x: -731
+    y: -3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -2304
+    y: -3776
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 413
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(9); wait(0.5); local s = status() or ''''; if not string.find(s, "Nuclear War", 1, true) then
+      error(''evt:board_nuclear: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(10); wait(0.5); local s = status() or ''''; if not string.find(s, "Nuclear War", 1, true) then
+      error(''evt:board_nuclear_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 0
+    y: -3584
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -3712
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(35); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_3_sign: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(34); wait(0.5); local s = status() or ''''; if not string.find(s, "Rest Stop", 1, true) then
+      error(''evt:rest_3_back: status was '' .. s) end; close()'
+- walk_to:
+    x: 0
+    y: -3330
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -2243
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 488
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -1157
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -1300
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 517
+    z_tolerance: 200
+- walk_to:
+    x: -192
+    y: -1408
+    radius: 192
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 514
+    z_tolerance: 200
+- play_lua:
+    source: 'status(); click(7); wait(0.5); local s = status() or ''''; if not string.find(s, "Might and Magic", 1, true)
+      then error(''evt:board_mm: status was '' .. s) end; close()'
+- play_lua:
+    source: 'status(); click(8); wait(0.5); local s = status() or ''''; if not string.find(s, "Might and Magic", 1, true)
+      then error(''evt:board_mm_back: status was '' .. s) end; close()'
+- note: 'The shrine without the Cube, the Scepter and the sleepers: the Pharaoh''s refusal.'
+- walk_to:
+    x: 0
+    y: -900
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 520
+    z_tolerance: 200
+- play_lua:
+    source: click(37); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Dragon Pharaoh, Guardian of Xeen
+- play_lua:
+    source: if not close() then error('evt:shrine showed no window') end
+- assert:
+    qbit_clear:
+    - 111840
+- assert:
+    map: xeen_p5.blv

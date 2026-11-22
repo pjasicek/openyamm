@@ -1,0 +1,3 @@
+Saved the [04_right sandworm view](level_generation/creatures/xeen_sandworm_claude/references_hd/04_right.png) and its [generation record](level_generation/creatures/xeen_sandworm_claude/references_hd/generation_runs_04_right.json). The unresized 1024×1536 PNG shows six rings, the maw tilted right, and the low sand-and-rock mound.
+
+The visible silhouette clears every edge by at least 87 px at alpha ≥ 8/255. Trace alpha remains in the margins.

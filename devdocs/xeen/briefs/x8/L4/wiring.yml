@@ -1,0 +1,161 @@
+format: 0
+variables: [offering_1, offering_2]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: load
+    once: true
+    text: "The cloud holds under your feet like stone. Far below, through the gaps, lies the land."
+    notes: First arrival.
+  - id: evt:chest_golem_cache
+    preset: chest
+    source: chest:golem_cache
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+  - id: evt:chest_lantern
+    preset: chest
+    source: chest:lantern
+  - id: evt:chest_star_charts
+    preset: chest
+    source: chest:star_charts
+  - id: evt:explorer
+    preset: script
+    source: deco:explorer_statue
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"x8-sky.explorer_statue\")"
+    notes: "poi:explorer_statue: A3's hook (Super Explorer, +2 Speed; \"I dub all who find me Super Explorer\", xeen/aaze0025:7; \"The statue is silent.\", :6)."
+  - id: evt:fall_check
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if z > -1000 then return end
+      if x > 3072 then
+          Xeen.skyFall(11264, -7936, 768, 1752, "xeen_x1.odm", false)
+      elseif x < -3072 then
+          Xeen.skyFall(1536, -1280, 864, 1120, "xeen_x3.odm", true)
+      else
+          -- the middle zone (D-6.4)
+          Xeen.skyFall(-10240, 8448, 576, 256, "xeen_x2.odm", true)
+      end
+    notes: "set:fall (D-6.4): a party under -1,000 has fallen off the clouds; it lands by zone through A3's Xeen.skyFall (X1 850 over the ground, Lake Darzog at the surface)."
+  - id: evt:fall_floor
+    preset: script
+    source: room:air
+    trigger: step
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if x > 3072 then
+          Xeen.skyFall(11264, -7936, 768, 1752, "xeen_x1.odm", false)
+      elseif x < -3072 then
+          Xeen.skyFall(1536, -1280, 864, 1120, "xeen_x3.odm", true)
+      else
+          -- the middle zone (D-6.4)
+          Xeen.skyFall(-10240, 8448, 576, 256, "xeen_x2.odm", true)
+      end
+    notes: "The safety floor at -6,000: a fall the one-second check missed lands the same way."
+  - id: evt:nest_1
+    preset: script
+    source: platform:nest_1
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
+    title: Harpy Nest
+    effects:
+      - hide: platform:nest_1
+      - passable: platform:nest_1
+      - lua: "XeenQuests.hook(\"x8-sky.nest_1\")"
+    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_1 (500 XP)."
+  - id: evt:nest_2
+    preset: script
+    source: platform:nest_2
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
+    title: Harpy Nest
+    effects:
+      - hide: platform:nest_2
+      - passable: platform:nest_2
+      - lua: "XeenQuests.hook(\"x8-sky.nest_2\")"
+    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_2 (500 XP)."
+  - id: evt:nest_3
+    preset: script
+    source: platform:nest_3
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
+    title: Harpy Nest
+    effects:
+      - hide: platform:nest_3
+      - passable: platform:nest_3
+      - lua: "XeenQuests.hook(\"x8-sky.nest_3\")"
+    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_3 (500 XP)."
+  - id: evt:offering_1
+    preset: script
+    source: deco:offering_1
+    title: Offering
+    condition: {qbit: 110047, map_var: {name: offering_1, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: offering_1
+          value: 1
+      - give_item:
+          level: 3
+      - text: The statue's open hands hold a gift for a Crusader.
+    else_effects:
+      - lua: |-
+          if IsQBitSet(QBit(110047)) then
+              evt.StatusText("The statue's hands are empty.")
+          else
+              evt.DamagePlayer(Players.All, const.Damage.Air, 30)
+              evt.SimpleMessage("A gust of wind strikes you from the statue's hands. It is kept for Crusaders.")
+          end
+    notes: "poi:offering_statues (the source's \"Offering\", xeen/aaze0025:9): a Crusader party (M4 done, 110047) is given an item of treasure level 3, once each statue; anyone else is struck."
+  - id: evt:offering_2
+    preset: script
+    source: deco:offering_2
+    title: Offering
+    condition: {qbit: 110047, map_var: {name: offering_2, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: offering_2
+          value: 1
+      - give_item:
+          level: 3
+      - text: The statue's open hands hold a gift for a Crusader.
+    else_effects:
+      - lua: |-
+          if IsQBitSet(QBit(110047)) then
+              evt.StatusText("The statue's hands are empty.")
+          else
+              evt.DamagePlayer(Players.All, const.Damage.Air, 30)
+              evt.SimpleMessage("A gust of wind strikes you from the statue's hands. It is kept for Crusaders.")
+          end
+    notes: "poi:offering_statues (the source's \"Offering\", xeen/aaze0025:9): a Crusader party (M4 done, 110047) is given an item of treasure level 3, once each statue; anyone else is struck."
+  - id: evt:rhyme_1
+    preset: script
+    source: deco:rhyme_1
+    title: Statue
+    effects:
+      - lua: "if XeenQuests.hook(\"xd07.runes\") then evt.SimpleMessage(\"A message at the base of the statue reads:  Golem, Terror, and Yak it's told have credits for King to hold.\") end"
+    notes: "poi:rhyme_statues: the source's rhyme, verbatim (xeen/aaze0025:1), shown only when A3's xd07.runes returns true (the Linguist gate, 2026-11-21)."
+  - id: evt:rhyme_2
+    preset: script
+    source: deco:rhyme_2
+    title: Statue
+    effects:
+      - lua: "if XeenQuests.hook(\"xd07.runes\") then evt.SimpleMessage(\"A message at the base of the statue reads:  The Clerics of Yak you must outwit Taxman then must have his bit.\") end"
+    notes: "poi:rhyme_statues: the source's rhyme, verbatim (xeen/aaze0025:2), shown only when A3's xd07.runes returns true (the Linguist gate, 2026-11-21)."
+  - id: evt:rhyme_3
+    preset: script
+    source: deco:rhyme_3
+    title: Statue
+    effects:
+      - lua: "if XeenQuests.hook(\"xd07.runes\") then evt.SimpleMessage(\"A message at the base of the statue reads:  Conquer terror and then you'll see Illusion holds Magic's key.\") end"
+    notes: "poi:rhyme_statues: the source's rhyme, verbatim (xeen/aaze0025:4), shown only when A3's xd07.runes returns true (the Linguist gate, 2026-11-21)."
+  - id: evt:telescope
+    preset: script
+    source: platform:telescope
+    title: Telescope
+    effects:
+      - message: "Through the brass telescope the land lies small and clear far below: the lagoon to the west with the Tower of High Magic on its shore, Lake Darzog under the long bridge, and east, past Vertigo, the crooked Witch Tower."
+    notes: "poi:observatory: the sorcerer's telescope (our words)."

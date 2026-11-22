@@ -1,0 +1,471 @@
+# One-line visual description per NPC (x1.yml 4001-4052, x2.yml 4101-4155, then batch 2: the Act II people and
+# the dwarf smith, and the Act II towns), written from name, title,
+# profession and greeting. Used verbatim in the sheet prompts.
+- {id: 4001, name: Norman, description: "middle-aged burly human man, blacksmith, short brown beard, soot on his cheeks, leather apron over a rough shirt, proud confident grin, forge glow behind him"}
+- {id: 4002, name: Brunhilde, description: "sturdy middle-aged human woman, armorer, blonde braids pinned up, broad shoulders in a padded gambeson with a steel pauldron, no-nonsense look, armoury wall behind"}
+- {id: 4003, name: Gunther, description: "plump balding human man in his fifties, small-town mayor, grey mutton-chop whiskers, red velvet coat with a gold chain of office, anxious hopeful smile, town hall panelling behind"}
+- {id: 4004, name: Gilbert, description: "thin middle-aged human man, hexer, sharp goatee, slicked black hair, dark purple robe with silver trim, sly knowing smirk, shelves of jars and candles behind"}
+- {id: 4005, name: Lady Geraldine, description: "elegant human woman about fifty, tavern owner, auburn hair in a tidy bun, green dress with lace collar and a pearl necklace, gracious hostess smile, warm tavern interior behind"}
+- {id: 4006, name: Mortimer, description: "prim older human man, banker, round spectacles, neat grey side parting, high white collar and dark waistcoat, pursed lips, vault door and ledgers behind"}
+- {id: 4007, name: Bartleby, description: "jolly heavyset human man in his forties, innkeeper, ruddy cheeks, bushy brown moustache, rolled sleeves and a brown vest, cheerful welcoming grin, inn common room behind"}
+- {id: 4008, name: Rosalind, description: "young human woman about thirty, alchemist, red curly hair tied back, small brass goggles pushed up on her forehead, stained work smock, curious amused look, coloured potion bottles behind"}
+- {id: 4009, name: Brother Silas, description: "gentle bald human monk about forty, healer, round kind face, simple green robe with a hood down, patient tired smile, temple candles and a green stained-glass window behind"}
+- {id: 4011, name: Calder, description: "stern human man in his fifties, fire guild master, close-cropped red-grey hair and trimmed beard, red and orange robe with flame embroidery, intense eyes, fire glow behind"}
+- {id: 4012, name: Wynna, description: "airy human woman about forty, air guild mistress, long pale blonde hair blowing slightly, light blue and white robe, serene distant look, open sky window with clouds behind"}
+- {id: 4013, name: Marina, description: "calm human woman in her thirties, water guild mistress, dark wavy hair, sea-blue robe with a silver shell clasp, faint wry smile, blue-lit guild hall behind"}
+- {id: 4014, name: Dunstan, description: "stocky human man in his sixties, earth guild master, bald with a thick grey beard, brown and olive robe, steady solid expression, rough stone wall behind"}
+- {id: 4015, name: Thylon, description: "fit human man about forty, combat trainer, shaved head, square jaw, sleeveless leather jerkin showing muscled shoulders, challenging grin, training yard with weapon racks behind"}
+- {id: 4016, name: Hob, description: "weathered human man in his fifties, stablemaster, straw-coloured hair, stubble, battered felt hat and a horse-blanket coat, friendly squint, stable stalls behind"}
+- {id: 4018, name: Tobias Miller, description: "harried human man about forty, miller, dusted all over with white flour, flour in his brown hair and eyebrows, exasperated frown, flour sacks behind"}
+- {id: 4019, name: Molly Miller, description: "cheerful plump human woman about forty, miller's wife, rosy cheeks, brown hair under a white kerchief, flour-dusted apron, amused smile, cottage kitchen behind"}
+- {id: 4020, name: Edwina Ashby, description: "tough human woman in her sixties, retired town guard, short iron-grey hair, scar on the chin, old dented breastplate over a blue tunic, firm proud look, stone wall behind"}
+- {id: 4021, name: Greta, description: "patient human woman in her fifties, the mayor's wife, grey-blonde hair in a bun, modest blue dress with a white shawl, long-suffering smile, cosy parlour behind"}
+- {id: 4022, name: Ilsa Weaver, description: "nervous wiry human woman about forty-five, weaver, frizzy dark hair with a pencil stuck in it, knitted woollen shawl, wide earnest eyes, loom and yarn behind"}
+- {id: 4023, name: Sergeant Pike, description: "lean human man about forty-five, town guard sergeant, steel kettle helmet, chainmail coif, black moustache, alert stern look, town gate behind"}
+- {id: 4024, name: Old Thorne, description: "cranky old human man in his seventies, sceptic peasant, wild white eyebrows, sunken cheeks, patched brown coat, one eye narrowed in suspicion, plain cottage wall behind"}
+- {id: 4025, name: Cobb, description: "small bald human man in his fifties, cobbler, half-moon spectacles on his nose, leather apron, thoughtful pursed mouth, workshop with boots on shelves behind"}
+- {id: 4026, name: Bramble, description: "young human man about twenty-two, apprentice fire mage, messy orange hair, slightly singed eyebrows, red apprentice robe, bored restless look, plain room with a candle behind"}
+- {id: 4027, name: Fenwick, description: "shifty thin human man in his sixties, retired cutpurse, greasy grey hair, crooked grin with a missing tooth, ragged dark cloak, sly sideways glance, shadowy alley wall behind"}
+- {id: 4028, name: Vern, description: "fussy human man about thirty-five, guild clerk, neat brown hair, quill tucked behind one ear, ink-stained grey coat, polite clerical smile, shelves of rolled scrolls behind"}
+- {id: 4029, name: Mylo, description: "eager human man about thirty, mapmaker, tousled sandy hair, freckles, green coat with rolled maps poking over the shoulder, hopeful smile, pinned maps on the wall behind"}
+- {id: 4030, name: Dudley, description: "drunk human man in his forties, tavern patron, red bulbous nose, unshaven, bleary half-closed eyes, stained shirt, grumpy, dim tavern behind"}
+- {id: 4031, name: Agnes Tanner, description: "robust human woman in her fifties, tanner, grey hair tied in a kerchief, leather apron and rolled sleeves, wrinkled nose but cheerful, hanging hides behind"}
+- {id: 4032, name: Rialdo, description: "lean dark-skinned human man about thirty-five, ranger, short black hair, green hood down on his shoulders, bow string across his chest, calm focused eyes, forest behind"}
+- {id: 4033, name: Cooper, description: "broad human man about fifty, barrel-maker, thick ginger beard, flat cap, woodchips on his shoulders, hearty smile, stacked barrels behind"}
+- {id: 4034, name: Fenn Fletcher, description: "young human man about twenty-eight, arrow-maker, curly brown hair with a feather tucked behind one ear, brown tunic, friendly salesman smile, arrow bundles behind"}
+- {id: 4035, name: Dora Fletcher, description: "worried human woman in her late twenties, shepherd's wife, dark braid over the shoulder, plain brown dress, sad anxious eyes, empty sheep pen and meadow behind"}
+- {id: 4036, name: Wren, description: "dreamy young human woman about twenty-five, apprentice air mage, light brown hair loose and windblown, pale blue robe, distracted gentle smile, sky and clouds behind"}
+- {id: 4037, name: Odette Marsh, description: "young human woman about thirty, apprentice water mage, black hair in a bob, teal robe with damp hem, dry humorous look, misty creek behind"}
+- {id: 4038, name: Hollis, description: "slow quiet human man about forty-five, stonecutter and earth mage, stone dust on his face and grey-brown beard, heavy brown tunic, calm heavy-lidded eyes, quarried stone behind"}
+- {id: 4039, name: Oslo, description: "distraught human farmer about forty, sunburnt face, straw hat, brown stubble, patched work shirt, worried pleading eyes, farmhouse and fields behind"}
+- {id: 4040, name: Tam, description: "young human boy about nine, farmer's son, messy straw-blond hair, freckles, dirt smudge on his cheek, simple tunic, relieved hopeful face, rough cave wall behind"}
+- {id: 4041, name: Celia, description: "young human woman about twenty, captive, long chestnut hair dishevelled, a rope tied around her shoulders, simple peasant dress, frightened pleading look, dark wooden hut wall behind"}
+- {id: 4042, name: Myra, description: "earthy human woman in her forties, herbalist, long dark hair with grey streaks and a sprig of herbs in it, green shawl, knowing half-smile, hanging dried herbs behind"}
+- {id: 4043, name: Hedda Bogg, description: "stout human woman in her fifties, bog farmer, ruddy wind-burnt cheeks, frizzy brown hair under a straw hat, muddy smock, blunt amused look, marsh with reeds behind"}
+- {id: 4044, name: Old Valia, description: "very old human wise woman about eighty, deep wrinkles, long silver-white hair, gentle twinkling eyes, faded lavender shawl, kind dreamy smile, cottage hearth glow behind"}
+- {id: 4045, name: Joe, description: "shifty human con man about forty, pest exterminator, thin pencil moustache, slicked hair under a battered cap, grubby overall with a rat-catcher's net over his shoulder, oily salesman grin, cluttered shop behind"}
+- {id: 4046, name: Derek, description: "young human man about twenty-five, ranger, short dark-blond hair, light beard, green leather jerkin and cloak, determined anxious look, forest camp behind"}
+- {id: 4047, name: Orothin, description: "old human hermit about seventy, long tangled grey beard and hair, ragged brown robe, wistful vague look, mossy stone statues and water behind"}
+- {id: 4048, name: The Spring Druid, description: "serene old human druid about seventy, lined weathered face, long white hair and a long white beard, wreath of spring blossoms and green leaves on his head, pale green robe, calm benevolent smile, sunny flowering grove behind"}
+- {id: 4049, name: Plague Cult member (sinners), description: "doom-sayer of the Plague Cult, gaunt pale human man about fifty, sickly grey-green hooded robe, hollow cheeks, wild accusing stare, finger raised, grim street behind"}
+- {id: 4050, name: Plague Cult member (end is near), description: "doom-sayer of the Plague Cult, middle-aged human woman with a shaved head under a ragged grey-green hood, dark-ringed eyes, solemn fanatical expression, overcast sky behind"}
+- {id: 4051, name: Plague Cult member (plague), description: "doom-sayer of the Plague Cult, young human man with a cloth mask over his mouth and nose, grey-green hood pulled low, fearful bulging eyes, dim street behind"}
+- {id: 4052, name: Plague Cult member (slime lords), description: "doom-sayer of the Plague Cult, old fat human man with a stringy beard, grey-green hood with a crude slime-drop symbol, unsettling ecstatic grin, sickly green glow behind"}
+- {id: 4101, name: Brann, description: "hard-faced human man about forty-five, city blacksmith, shaved head, thick black beard, soot-stained leather apron, wary money-first look, forge behind"}
+- {id: 4102, name: Ragna, description: "tall human woman about thirty-five, armorer, short black hair, a thin scar over one eyebrow, chain-mail shirt, grim self-assured look, armour stands behind"}
+- {id: 4103, name: Mother Grizzle, description: "old human witch about seventy, hooked nose with a wart, wild grey hair, tall crooked black hat, dark green shawl, cackling grin with crooked teeth, bubbling cauldron glow behind"}
+- {id: 4104, name: Pip, description: "small jittery young human man about twenty-five, alchemist, spiky brown hair, soot smudges, oversized goggles around his neck, nervous grin, bubbling green flasks behind"}
+- {id: 4105, name: Pennyworth, description: "dignified human man about sixty, city banker, white sideburns, monocle, dark blue frock coat and cravat, cool polite smile, marble pillars behind"}
+- {id: 4106, name: Bull, description: "huge human man about forty, tavern owner and bouncer, bald, broken nose, thick neck, black beard, stained vest, unimpressed glare, rowdy tavern behind"}
+- {id: 4107, name: Knuckles, description: "battered human prizefighter about thirty-five, street-fighting trainer, cauliflower ear, broken nose, short buzzed hair, bare muscled shoulders, cocky grin, gym with a punching bag behind"}
+- {id: 4108, name: Deacon Coyne, description: "smooth greedy human priest about fifty, deacon, slicked grey hair, rich white and gold vestments with a gold medallion, ingratiating smile with calculating eyes, temple altar behind"}
+- {id: 4109, name: Hesper, description: "athletic human woman about forty, body guild mistress, dark skin, short cropped black hair, red and white robe, healthy confident look, guild hall behind"}
+- {id: 4110, name: Thaddeus, description: "thin bald human man in his sixties, mind guild master, long white goatee, deep violet robe, piercing all-knowing eyes, dim library behind"}
+- {id: 4111, name: Sister Amity, description: "kind human woman about forty-five, spirit guild mistress, white nun-like wimple, pale gold robe, peaceful gentle smile, soft candlelit chapel behind"}
+- {id: 4112, name: Garrick, description: "rugged human man about forty, stablemaster of the royal coaches, dark curly hair, short beard, smart green livery coat with brass buttons, ready grin, stable yard behind"}
+- {id: 4113, name: Captain Nystor, description: "weathered old human river captain about sixty, grizzled white beard, tricorn captain's hat, salt-stained blue coat, squinting frustrated scowl, river and boat masts behind"}
+- {id: 4114, name: Barlow, description: "thuggish human man about thirty-five, bruiser, flat broken nose, stubble, short-cropped hair, studded leather vest, menacing half-smile, rough stone alley behind"}
+- {id: 4115, name: Mrs. Kettle, description: "nosy plump human woman about sixty, gossip, curly grey hair under a frilly bonnet, wide eager eyes, hand near her mouth, flowery dress, window shutters behind"}
+- {id: 4116, name: Old Kettle, description: "weary thin old human man about sixty-five, peasant, bald with grey fringe, droopy moustache, rolled eyes, plain brown waistcoat, cottage wall behind"}
+- {id: 4117, name: Rook, description: "dapper sly human man about fifty, retired thief, slicked-back black hair with grey temples, thin moustache, dark coat with a high collar, knowing wink, dim back room behind"}
+- {id: 4118, name: Sallow, description: "pale gaunt human man about forty, locksmith, lank black hair, magnifying loupe pushed up on his forehead, grey work coat, dry deadpan look, wall of keys and locks behind"}
+- {id: 4119, name: Magneto, description: "eccentric human man about fifty, navigator and stargazer, wild grey hair, star-patterned dark blue robe, brass sextant strap over the shoulder, dramatic upward gaze, starry night sky behind"}
+- {id: 4120, name: Gideon Tanner, description: "tall human man about fifty, master leatherworker, neat grey-streaked beard, fine tooled leather vest, skilled confident nod, hanging hides behind"}
+- {id: 4121, name: Lantern, description: "elderly human scholar about seventy, appraiser, thick round spectacles, wispy white hair, holding a small lantern near his face, curious peering look, dark study behind"}
+- {id: 4122, name: Captain Yang, description: "disciplined human man about forty, knight captain, East Asian features, black hair in a topknot, polished steel plate armour with a royal blue surcoat, firm commanding look, castle wall behind"}
+- {id: 4123, name: Old Ferris, description: "kindly old human shepherd about seventy, white stubble, weathered tanned face, wide-brimmed straw hat, wool cloak, gentle crinkled smile, green hills behind"}
+- {id: 4124, name: Quill, description: "bookish human woman about thirty-five, scholar, dark hair in a bun with a quill through it, spectacles, grey scholar's robe, enthusiastic smile, bookshelves behind"}
+- {id: 4125, name: Mudd, description: "glum human man about forty-five, ditch digger, face streaked with mud, brown stubble, battered hat, mud-caked shirt, resigned look, muddy riverbank behind"}
+- {id: 4126, name: Bess Mudd, description: "stern human woman about forty, ditch digger's wife, brown hair pinned up, clean white apron, arms-crossed scolding expression, tidy cottage behind"}
+- {id: 4127, name: Martin, description: "rugged outdoorsy human man about forty, mountaineer, sun-tanned face, bushy brown beard, fur-trimmed hood down, coil of rope over the shoulder, hearty grin, snowy mountains behind"}
+- {id: 4128, name: Gaff, description: "wiry human fisherman about forty-five, short grey-brown beard, knitted fisherman's cap, oilskin coat, sharp squinting eyes, river and nets behind"}
+- {id: 4129, name: Old Tackle, description: "very old human fisherman about seventy-five, long white beard, wrinkled sunburnt face, battered sou'wester hat, glum gloomy look, grey river behind"}
+- {id: 4130, name: Snorri, description: "drunk bearded human man about fifty, tavern patron, tangled red-grey beard, glassy half-closed eyes, rumpled tunic, grumpy scowl, dim tavern behind"}
+- {id: 4131, name: Tavern Patron (water), description: "skinny human man about thirty-five, tavern regular, receding blond hair, hollow cheeks, patched coat, wry resigned smile, tavern bar behind"}
+- {id: 4132, name: Tavern Patron (gambler), description: "flashy human gambler woman about thirty, red lips, black hair in ringlets, feathered hat, low-key velvet jacket, bold amused smile, card table in a tavern behind"}
+- {id: 4133, name: Temple goer, description: "indignant middle-aged human woman about fifty, temple-goer, greying hair under a plain headscarf, shocked open-mouthed outrage, brown shawl, temple pillars behind"}
+- {id: 4134, name: Arnold, description: "enormously muscular human man about thirty, bodybuilder trainer, square jaw, short flat-top brown hair, bare massive shoulders with a leather strap, proud confident smile, gym behind"}
+- {id: 4135, name: Flint, description: "grizzled human weapons master about fifty, steel-grey crew cut, scar across the cheek, padded arming jacket with a sword belt over the shoulder, confident hard grin, weapon racks behind"}
+- {id: 4136, name: Lindon, description: "brisk human man about forty-five, taskmaster and quartermaster, bald with a dark goatee, brown work coat with a ledger tucked under the arm, appraising stare, warehouse crates behind"}
+- {id: 4137, name: Crane, description: "lanky old human soldier about sixty, long thin face, white stubble, rusty chainmail shirt, steady veteran look, barracks wall behind"}
+- {id: 4138, name: Mercy Wharf, description: "shrewd human woman about forty, trader, dark skin, colourful head wrap, gold hoop earrings, sharp bargaining smile, market stall with goods behind"}
+- {id: 4139, name: Ladle, description: "round jolly human cook about fifty, chef's cap, sweaty red face, double chin, stained white apron, cheerful grin, steaming kitchen behind"}
+- {id: 4140, name: Dottie Ladle, description: "small fierce human woman about forty-five, cook's wife, grey-brown hair in a tight bun, wooden spoon held up, warning glare, kitchen with a stew pot behind"}
+- {id: 4141, name: Sister Ophelia, description: "tranquil human woman about forty, mystic, long straight black hair, eyes half-closed in meditation, pale grey robe, faint serene smile, soft candle glow behind"}
+- {id: 4142, name: Ott, description: "cheerful old human ferryman about sixty-five, bald sunburnt head, white side whiskers, rolled striped sailor shirt, easy-going grin, river and a stone bridge behind"}
+- {id: 4143, name: Hawser, description: "brawny human man about forty, rope maker, coil of rope over his shoulder, short dark beard, rough hemp shirt, closed-mouth wary look, ropewalk shed behind"}
+- {id: 4144, name: Widow Brine, description: "loud weathered human fishwife about fifty-five, red cheeks, grey hair in a messy bun, black widow's shawl over a fish-stained apron, hawking open-mouthed shout, fish market behind"}
+- {id: 4145, name: Wenda, description: "fit human woman ranger about thirty-five, auburn hair in a single braid, freckles, green hooded cloak with quiver strap, cool confident smile, forest behind"}
+- {id: 4146, name: Vatawna, description: "haughty human woman about fifty, body guild steward, dark skin, tall elaborate grey hair, red and gold high-collared robe, superior raised eyebrow, guild office behind"}
+- {id: 4147, name: Aldous, description: "quiet human man about fifty-five, mind guild steward, thinning brown hair, neat short beard, violet robe, knowing calm smile, candlelit office behind"}
+- {id: 4148, name: Brother Cael, description: "young human acolyte about twenty-five, spirit guild steward, tonsured brown hair, pale gold robe, earnest kind face, chapel window light behind"}
+- {id: 4149, name: Reed, description: "quiet young human man about thirty, basket weaver, long straight brown hair tied back, reed fibres on his tunic, shy small smile, stacked baskets behind"}
+- {id: 4150, name: Darlene, description: "sporty young human woman about twenty-five, swimmer, wet slicked-back blonde hair, sun-tanned freckled face, simple sleeveless blue swimming tunic, beaming smile, river water behind"}
+- {id: 4151, name: Barok, description: "imperious human sorcerer about sixty, ordinary round human ears (NOT pointed, not elven) half hidden by swept-back black-and-grey hair, sharp black-and-grey pointed beard, tall black and crimson robe collar, angry piercing eyes, dark tower interior with arcane glow behind"}
+- {id: 4152, name: Medin, description: "despondent human fisherman about fifty, grey beard, wide-brimmed fishing hat with hooks in the band, oilskin coat, gloomy worried look, lake behind"}
+- {id: 4153, name: Tito, description: "graceful elf priest, ageless, long pale gold hair, pointed elven ears, white and green priestly robe with a leaf emblem, sorrowful gentle look, forest shrine behind"}
+- {id: 4154, name: Danulf, description: "regal fae noble, the Faery King, ageless sharp features, long silver-green hair, slightly pointed ears, crown of green leaves and twigs, leaf-patterned green cloak, proud worried look, ring of standing stones in a twilight wood behind"}
+- {id: 4155, name: Ligono, description: "ghostly spirit of a dead old man, translucent pale blue-white glowing face, hollow sad eyes, wispy beard fading into mist, tattered spectral robe, grumpy look, dark sea cliff and surf behind"}
+# ---- batch 2 (2026-11-20): Act II people fixed ahead of their maps (xd07.yml, x3.yml, x4.yml) and the dwarf smith
+- {id: 4401, name: King Burlock, description: "stern human king about sixty, heavy gold crown, short grey beard, ermine-trimmed royal red mantle, irritable obsessed glare, castle throne room with banners behind"}
+- {id: 4402, name: Artemus, description: "wise elderly human royal advisor about seventy, bald head, long white beard, dark blue scholar's robe with a silver chain of office, discreet worried look, library shelves behind"}
+- {id: 4403, name: Emerson, description: "practical human master builder about fifty, ruddy face, short greying ginger beard, leather cap, work tunic with a builder's square on a cord, confident salesman's smile, scaffolding and stone walls behind"}
+- {id: 4404, name: Princess Roxanne, description: "spirited young human princess about twenty, auburn hair in a practical braid, slim silver circlet, green riding dress with a leather bodice, amused confident half-smile, castle parlour behind"}
+- {id: 4405, name: Prince Roland, description: "handsome young human prince about twenty-five, short dark hair, small gold circlet, polished ceremonial breastplate over a royal blue doublet, charming smile but cold watchful grey eyes, castle hall behind"}
+- {id: 4201, name: Ebenezer, description: "thin miserly human tax collector about sixty, ordinary round human ears (NOT pointed, not elven), long hooked nose, sparse grey hair, small round spectacles, shabby black coat, a quill tucked in his hatband, sly calculating smile, a tent in a swamp behind"}  # sheet10 take had elven ears
+- {id: 4202, name: Mirabeth, description: "young woman about twenty-five who is a mermaid cursed with legs, long wet sea-green hair with a few shells in it, pale skin with faint blue-green scales on her neck, simple sea-blue shift, wistful sad smile, misty lagoon behind"}
+- {id: 4301, name: Adam, description: "worried human townsman about forty, short brown hair, plain brown farmer's tunic, faint green snake scales starting on one cheek, anxious pleading look, sunlit town square with a well behind"}
+- {id: 4302, name: Eve, description: "human townswoman about forty half turned into a snake, long dark hair, green scales across her cheeks and forehead, yellow slit-pupil eyes, simple linen dress, nervous smile, sunlit town square behind"}
+- {id: 4303, name: Carlawna, description: "kind middle-aged human woman cleric about forty-five, grey-streaked black hair under a white veil, white and gold robe with a holy symbol, earnest determined look, a small hut on a dry savannah behind"}
+- {id: 4304, name: Falagar, description: "eccentric old human wizard about seventy, wild white hair, bushy eyebrows, long white beard, deep purple robe with a tall collar, curious knowing look, cluttered hut with crystals behind"}
+- {id: 5701, name: Grimbold, description: "stocky dwarf smith about one hundred years old, broad red face, huge braided red-brown beard with iron rings, bald head with a leather headband, soot-stained leather apron, gruff satisfied grin, glowing mine forge behind"}
+# ---- batch 2: the Act II towns (x3, x4, x5, xd13)
+- {id: 4203, name: Brother Tobit, description: "kindly human wandering priest about fifty, shaved head, short brown beard, patched brown habit with a rope belt and a wooden holy symbol, tired gentle smile, a camp tent in misty swamp behind"}
+- {id: 4204, name: Mordecai, description: "gaunt pale human dark mage about fifty, slicked-back black hair, deep-set eyes, high-collared black robe with a silver crescent moon brooch, thin knowing smile, moonlit guild hall behind"}
+- {id: 4205, name: Count Du Monay, description: "aristocratic vampire count, ageless pale grey-white skin, ordinary human ears, black hair with a widow's peak, red eyes, high black and crimson cape collar, faint smile showing small fangs, candlelit manor hall behind"}
+- {id: 4206, name: Mother Aurelia, description: "warm human priestess about fifty, greying blonde hair under a pale gold hood, cream robe with a sunburst emblem, hopeful smile, sunrise light through a temple window behind"}
+- {id: 4207, name: Grimsby, description: "heavy-set human innkeeper about fifty-five, bald with grey side hair, droopy moustache, stained apron over a dark waistcoat, dry weary look, dim tavern with candles behind"}
+- {id: 4208, name: Lucan Gloom, description: "thin human curiosity dealer about forty-five, slicked dark hair, pointed little goatee, purple velvet coat, sly smile, shelves of skulls and odd trinkets behind"}
+- {id: 4209, name: Widow Mabry, description: "stern old human widow about sixty-five, grey hair in a tight bun, black dress, a string of garlic around her neck, suspicious squint, apothecary shelves behind"}
+- {id: 4210, name: Nib, description: "small gnome man, big round nose, bushy white sideburns, bald pate, leather cap with goggles, cheerful wary smile, cramped cellar workshop behind"}
+- {id: 4211, name: Tuck, description: "small gnome man, big round nose, scruffy brown beard, patched green hood, finger to his lips, cramped cellar with barrels behind"}
+- {id: 4212, name: Pim, description: "small gnome child, big round nose, rosy cheeks, tufty orange hair, wide amazed eyes, oversized woollen scarf, a sunny window behind"}
+- {id: 4213, name: Pale Agatha, description: "pale thin human seamstress about forty, black hair under a lace cap, very high stiff lace collar, tired watchful eyes, sewing room with dark fabrics behind"}
+- {id: 4214, name: Ostrick, description: "grizzled human gravedigger about sixty, stubbly grey jaw, battered wide hat, earth-stained coat, dour look, misty graveyard behind"}
+- {id: 4215, name: Lenore, description: "pale young human woman minstrel about twenty-five, long black hair, dark velvet dress, a lute strap over her shoulder, melancholy smile, foggy street at dusk behind"}
+- {id: 4216, name: Bertram Crow, description: "wiry young human chimney sweep about twenty, soot-blackened cheeks, flat cap, grinning white teeth, rooftops and chimneys at dusk behind"}
+- {id: 4217, name: Constance Vey, description: "prim human woman scribe about forty, brown hair in a neat bun, spectacles on a chain, dark grey dress with ink-stained cuffs, serious look, shelves of ledgers behind"}
+- {id: 4218, name: Old Ambrose, description: "ragged old human beggar about seventy, wild white beard, threadbare grey hood, one cloudy eye, sly hopeful grin, foggy cobbled street behind"}
+- {id: 4219, name: Tomas, description: "earnest human clerk about thirty-five, short neat brown hair, brass-buttoned grey coat, a small brass sundial on a chain, careful look, misty town square with a sundial behind"}
+- {id: 4220, name: Merrin, description: "lanky young human lamplighter about twenty-five, long thin face, shaggy fair hair, dark coat, a lit lantern glow on his face, patient look, foggy street lamps behind"}
+- {id: 4221, name: Jasper Wick, description: "sharp-eyed human locksmith about forty-five, close-cropped black hair, thin moustache, leather waistcoat with keys on a ring, cynical half-smile, workshop of locks behind"}
+- {id: 4305, name: Gareth, description: "burly human royal armourer about fifty, short black beard flecked with grey, bald head, leather apron over a royal red tunic with a gold crest, proud grin, armoury racks of axes behind"}
+- {id: 4306, name: Hilda Ironsides, description: "broad-shouldered human woman mailwright about forty-five, red-blonde hair in a thick braid, freckles, chain mail coif pushed back, steady confident look, armour stands behind"}
+- {id: 4307, name: Father Anselm, description: "elderly human royal chaplain about sixty-five, white hair in a tonsure, round kindly face, white and gold vestments with a crown emblem, serene smile, chapel candles behind"}
+- {id: 4308, name: Sir Brack, description: "weathered human knight about fifty-five, close-cropped grey hair, scarred square jaw, heavy grey moustache, red surcoat over plate, stern drill-master look, jousting lists with banners behind"}
+- {id: 4309, name: Ned, description: "young human ostler about twenty-five, messy straw-blond hair, sunburnt freckled face, open-necked work shirt, easy grin, stable stalls with horses behind"}
+- {id: 4310, name: Big Martha, description: "big hearty human woman innkeeper about fifty, rosy cheeks, brown curls under a kerchief, flour on her apron, broad laugh, cosy tavern behind"}
+- {id: 4311, name: Dame Ysolde, description: "proud human woman knight about thirty-five, short dark hair, strong jaw, a small scar on the cheek, polished breastplate with a red sash, confident smirk, jousting field behind"}
+- {id: 4312, name: Zephyra, description: "elegant human court magician woman about forty, silver-streaked black hair blowing in a breeze, pale blue robe with feathers at the collar, wry look, a windy tower window behind"}
+- {id: 4313, name: Professor Gilliam, description: "scholarly human man about sixty, half-moon spectacles, untidy grey hair and beard, brown coat with many pockets, fascinated look, menagerie cages and drawings behind"}
+- {id: 4314, name: Herald Pomfrey, description: "pompous human herald about forty-five, neat brown beard, feathered cap, red and gold tabard, chin raised, castle gate with banners behind"}
+- {id: 4315, name: Tamsin, description: "young human laundress about twenty-five, red cheeks, light brown hair tied in a kerchief, rolled-up sleeves, tired cheerful look, washing lines with white sheets behind"}
+- {id: 4316, name: Old Wat, description: "old human retired jouster about seventy, bald with white tufts, huge white handlebar moustache, crooked nose, worn leather jerkin, cheerful boastful look, cosy cottage behind"}
+- {id: 4317, name: Rosalie, description: "plump human baker woman about forty, flour on her cheek, auburn hair under a white cap, warm smile, bread ovens and loaves behind"}
+- {id: 4318, name: Sergeant Holt, description: "stocky human castle guard sergeant about forty, short brown beard, steel kettle helmet, red and gold livery tabard, gruff but amused look, castle gate behind"}
+- {id: 4320, name: Joe the Merchant, description: "fast-talking human merchant about fifty, oily black curls, gold earring, colourful striped coat, broad salesman's grin, a laden caravan wagon on the savannah behind"}
+- {id: 4321, name: The Autumn Druid, description: "serene old human druid woman about sixty-five, long grey hair with a wreath of red and orange autumn leaves, rust-brown robe, gentle wise smile, autumn grove behind"}
+- {id: 4330, name: Wendel, description: "laconic human drover about forty-five, weathered tanned face, battered brimmed hat, dusty long coat, chewing a grass stalk, dry savannah road and coach behind"}
+- {id: 4331, name: Sister Mabel, description: "kind human nun healer about thirty-five, plain white wimple, brown habit, clear grey eyes, compassionate look, a small roadside shrine behind"}
+- {id: 4332, name: Sarah Slither, description: "middle-aged human sorceress about fifty, faint green snake scales on her temples, slitted yellow eyes, black hair in a coil, green and black robe, sly toothy smile, a cluttered house in a sunny town behind"}
+- {id: 4333, name: Doc Viper, description: "showman human apothecary about fifty, waxed moustache, top hat, green waistcoat with bottles in the pockets, salesman's grin, shelves of bottles behind"}
+- {id: 4334, name: Grisla, description: "tough human woman armourer about forty, cropped black hair, muscular, a vest of overlapping green scale mail, blunt look, armour shop behind"}
+- {id: 4335, name: Basil Coil, description: "calm human earth mage about fifty-five, short grey beard, bald head, earth-brown robe with stone beads, steady gaze, rocky guild hall behind"}
+- {id: 4336, name: Nessa Fang, description: "brisk human healer woman about forty, dark hair in a braid, white and red robe, confident smile, guild hall with herbs behind"}
+- {id: 4337, name: Fennick Reed, description: "sun-browned human farmer about forty-five, straw hat, sandy hair, a faint pale scar like shed skin on his neck, easy smile, fields behind"}
+- {id: 4338, name: Old Moss, description: "frail old human man about seventy-five, bald, wispy white beard, simple grey tunic, rheumy amused eyes, sunny cottage garden behind"}
+- {id: 4339, name: Tilda Brook, description: "neat human weaver woman about thirty-five, chestnut hair pinned up, embroidered blue shawl, gentle smile, a loom with coloured threads behind"}
+- {id: 4340, name: Garret Slade, description: "strong young human labourer about twenty-five, short black hair, broad shoulders, sweaty open shirt, honest grin, dusty town square behind"}
+- {id: 4341, name: Nan Ashworth, description: "round human cook woman about fifty-five, grey hair in a bun, red cheeks, stained apron, wry look, kitchen with hanging pots behind"}
+- {id: 4342, name: Pell, description: "young human potter about thirty, clay smears on his cheek, curly brown hair, leather apron, cheerful look, shelves of pots behind"}
+- {id: 4343, name: Corin Dale, description: "middle-aged human cobbler about fifty, balding, half-spectacles, leather apron, pleased look, workshop with boots behind"}
+- {id: 4344, name: Mother Ophidia, description: "old human fortune teller woman about sixty-five, black and grey hair under a purple scarf with coins, many earrings, knowing smile, candlelit room with a crystal ball behind"}
+- {id: 4345, name: Lem Tallow, description: "big floury human miller about fifty, white flour in his black beard, broad red face, flat cap, jolly look, mill wheel behind"}
+- {id: 4501, name: Casper, description: "sleepy-eyed human guildmaster about sixty, droopy eyelids, long grey beard, violet robe, sly conspiratorial wink, snowy guild hall with candles behind"}
+- {id: 4502, name: Mayor Randon, description: "harried human mayor about fifty-five, fur hat, grey beard frosted with snow, heavy fur-trimmed coat with a chain of office, anxious determined look, snowy town square with a large gong behind"}
+- {id: 4503, name: Ulla, description: "sturdy human innkeeper woman about forty-five, blonde braids, fur-trimmed vest, rosy cheeks, hearty smile, warm tavern with a fire behind"}
+- {id: 4504, name: Father Ingram, description: "solemn human priest about sixty, white beard, heavy wool vestments with a sun emblem, kind sorrowful eyes, snowy temple windows behind"}
+- {id: 4505, name: Morwenna the Shade, description: "mysterious human dark sorceress about forty, very pale skin, long black hair, dark grey hooded robe, shadowed eyes, cold half-smile, dark guild hall behind"}
+- {id: 4506, name: Bjorn Fellmonger, description: "huge bearded human furrier about forty-five, thick red-blond beard, fur hat, wolf-pelt mantle, grinning, racks of furs behind"}
+- {id: 4507, name: Old Ottilie, description: "tiny wrinkled old human woman mentalist about eighty, white hair in a long braid, piercing pale blue eyes, shawl of grey wool, knowing smile, snowy cottage window behind"}
+- {id: 4508, name: Grimwald, description: "wild-eyed human ghost hunter about forty-five, scruffy brown beard, goggles pushed up on a fur cap, coat hung with charms, excited grin, snowy night behind"}
+- {id: 4509, name: Sven, description: "young human labourer about twenty-five, blond stubble, woollen hat, thick padded coat, red nose from cold, cheerful look, snowfield behind"}
+- {id: 4510, name: Hulda, description: "middle-aged human weaver woman about fifty, grey-blonde hair in braids around her head, thick knitted shawl, gentle smile, a loom and wool behind"}
+- {id: 4511, name: Pieter Frost, description: "lean human trapper about forty, weathered face, dark beard, fur hood, sharp grey eyes, snowy pine forest behind"}
+- {id: 4512, name: Agna, description: "plump human cook woman about forty-five, rosy cheeks, brown hair under a wool cap, warm kitchen with a steaming soup pot behind"}
+- {id: 4513, name: Old Knut, description: "old human ice fisher about seventy, long white beard with frost, fur-lined hood, deep wrinkles, content smile, frozen lake behind"}
+- {id: 4514, name: Ragnhild, description: "strong human herder woman about forty, windburnt cheeks, auburn braids, sheepskin coat, practical look, snowy pasture with goats behind"}
+- {id: 4515, name: Elof, description: "quiet human chandler about fifty, balding, thin grey beard, wax-spotted apron, candlelight on his face, small smile, shelves of candles behind"}
+- {id: 4516, name: Sigrun, description: "neat human tailor woman about thirty-five, dark hair in a bun, pins in her collar, measuring tape around her neck, focused look, tailor's shop with coats behind"}
+- {id: 4517, name: Bram, description: "big human woodcutter about forty, black beard, red wool cap, heavy plaid coat, friendly look, snowy woodpile behind"}
+- {id: 4518, name: Liesl, description: "small human girl about eight, pale blonde hair in pigtails, red knitted hat, big blue eyes, cheerful gap-toothed grin, snowy cottage behind"}
+- {id: 4519, name: Tobin Snow, description: "thin human town clerk about fifty, receding grey hair, round spectacles, fur-collared coat, precise look, office with ledgers behind"}
+- {id: 4521, name: Kai Wu, description: "elderly human monk master about seventy, shaved head, long thin white moustache and beard, saffron and brown robes, calm wise expression, snowy mountain monastery behind"}
+- {id: 4522, name: Brother Lin, description: "serene human monk about thirty-five, shaved head, plain grey robe, calm smile, temple with paper lanterns behind"}
+- {id: 4523, name: Sister Mei, description: "fit human woman monk about thirty, black hair tied in a topknot, plain grey wrap robe, focused intense look, training courtyard with snow behind"}
+- {id: 4524, name: Glom, description: "stout gnome king, big round nose, long forked white beard, small gold crown, ermine collar over a blue tunic, grumpy regal look, burrow hall with roots behind"}
+- {id: 4525, name: Fizzwick, description: "skinny gnome steward, big round nose, neat grey goatee, pince-nez spectacles, tidy brown coat, fussy look, burrow corridor with lanterns behind"}
+- {id: 4526, name: Halon the Efficient, description: "precise human inventor about fifty-five, neat grey moustache, monocle, waistcoat with gears and tools, impatient efficient look, workshop with a big water clock behind"}
+- {id: 4527, name: Freeda, description: "strong human woman mountaineer about forty, windburnt face, short sandy hair, rope coiled over her shoulder, fur-lined jerkin, bold grin, snowy mountain pass behind"}
+- {id: 4528, name: Thickbark, description: "a wise old tree with a face: kindly face formed in thick grey-brown bark, mossy brows, leafy branches as hair, dignified expression, snowy forest edge behind"}
+- {id: 4529, name: The Winter Druid, description: "stern old human druid about seventy, long white beard with frost, wreath of holly, pale blue-white robe, solemn look, snowy grove behind"}
+- {id: 4281, name: Torvald, description: "powerful human smith about forty-five, shaved head, thick black beard, bare muscular arms, leather apron, proud look, new castle forge behind"}
+- {id: 4282, name: Sir Percival Hale, description: "veteran human knight about sixty, cropped white hair, several old scars across his face, upright bearing, worn plate gorget, steady confident look, castle training yard behind"}
+- {id: 4283, name: Father Cuthbert, description: "young human chaplain about thirty, neat brown hair, clean-shaven, white vestments with a castle emblem, earnest smile, a new stone chapel behind"}
+- {id: 4284, name: Lyle Ledger, description: "precise human steward about forty-five, slicked-back brown hair, thin sideburns, dark green coat with a ledger under his arm, satisfied look, counting room with coin chests behind"}
+- {id: 4601, name: The Summer Druid, description: "warm middle-aged human druid woman about fifty, sun-browned face, long sun-bleached hair with a wreath of yellow summer flowers and wheat, light gold robe, gentle smile, sunny oasis grove in a desert behind"}
+- {id: 4602, name: Saul, description: "lean ancient human hermit about eighty, sun-darkened deeply lined face, long white beard, simple sand-coloured robe and hood, calm half-closed eyes, desert hermitage with a large stone urn behind"}
+# ---- batch 3 (2026-11-20): the Darkside towns (d1, d2, d3, dd03)
+- {id: 4901, name: Hogarth, description: "burly human smith about fifty, black beard with grey streaks, leather apron, holding nothing, gruff grin, forge and racks of spears behind"}
+- {id: 4902, name: Ingrid Chainmaker, description: "strong human woman armourer about forty-five, blonde braids, chain mail shirt, soot on her cheek, sceptical look, armour shop behind"}
+- {id: 4903, name: Philippa, description: "slender human woman shopkeeper about thirty-five, auburn hair under a green scarf, amber pendant, friendly smile, shelves of lamps and scrolls behind"}
+- {id: 4904, name: Zelda, description: "kindly human herbalist woman about sixty, grey curls, sprigs of herbs tucked in her hair, earth-brown shawl, worried look, drying herbs behind"}
+- {id: 4905, name: Dreyfus, description: "stern human high priest about sixty, shaved head, grey beard, tall white and bronze mitre, heavy robe with an eye emblem, grave look, temple pillars behind"}
+- {id: 4906, name: Bertha, description: "big cheerful human innkeeper woman about fifty, red cheeks, brown hair in a bun, stained apron, tired smile, smoky tavern behind"}
+- {id: 4907, name: Crispin Mint, description: "neat human banker about fifty, thin grey moustache, small spectacles, dark velvet coat, cautious look, a strongroom door behind"}
+- {id: 4908, name: Captain Varga, description: "tough human woman captain about forty, short black hair, scar through one eyebrow, steel gorget over a blue tabard, hard look, town walls behind"}
+- {id: 4909, name: Ignatia, description: "fiery human sorceress about forty, red hair in a high braid, red and gold robe, intense smile, guild hall with braziers behind"}
+- {id: 4910, name: Aeolus, description: "airy human wizard about sixty, long white hair blowing, pale blue robe, mild amused look, a window with clouds behind"}
+- {id: 4911, name: Marisol, description: "calm human sorceress about forty, black hair, sea-green robe with wave embroidery, gentle look, guild hall with a fountain behind"}
+- {id: 4912, name: Grund, description: "massive human earth mage about fifty-five, bald, broad brown beard, brown robe with stone amulets, solid stare, stone hall behind"}
+- {id: 4913, name: Sister Prudence, description: "brisk human nun healer about forty-five, white wimple, red and white robe, practical smile, infirmary beds behind"}
+- {id: 4914, name: Kramer, description: "weathered human caravan master about fifty, sunburnt face, grey stubble, wide leather hat, dusty travelling coat, shrewd look, caravan wagons behind"}
+- {id: 4915, name: Old Hamish, description: "old human innkeeper about seventy, bald with white side whiskers, plaid waistcoat, kindly crinkled smile, cosy inn with a board of names behind"}
+- {id: 4916, name: Mayor Snarfblad, description: "pompous plump human mayor about sixty, curled grey moustache, chain of office over a purple coat, flustered irritated look, town hall office behind"}
+- {id: 4917, name: Warden Krupp, description: "heavy human jailer about fifty, unshaven, iron key ring on his belt, leather jerkin, bored look, jail bars behind"}
+- {id: 4918, name: Jasper, description: "thin young human prisoner about thirty, messy brown hair, stubble, grubby shirt, hopeful pleading look, stone cell with bars behind"}
+- {id: 4919, name: Jethro, description: "nervous human mapmaker about thirty-five, brown hair, ink-stained fingers near his face, quill behind his ear, round human ears, worried look, maps on the wall behind"}
+- {id: 4920, name: Dyson, description: "eccentric human puzzlemaster about fifty-five, wild grey hair, magnifying spectacles, waistcoat with many keys, sly grin, stacked numbered chests behind"}
+- {id: 4921, name: Madame Oorla, description: "dramatic old human gypsy woman about sixty, dark eyes with kohl, black hair with silver coins, red scarf, mysterious smile, tent with a crystal orb behind"}
+- {id: 4922, name: Nadia, description: "plain human housekeeper woman about forty, brown hair under a cap, apron, anxious look, a narrow tower doorway behind"}
+- {id: 4923, name: Brother Otto, description: "bald human monk about forty, calm face, brown robe worn back to front with the hood under his chin, serene smile, monastery cell behind"}
+- {id: 4924, name: Sister Hannah, description: "human woman monk about thirty-five, shaved head, brown robe worn back to front, focused look, monastery cell behind"}
+- {id: 4925, name: Brother Bob, description: "round-faced human monk about fifty, tonsure, brown robe worn back to front, puzzled smile, monastery cell behind"}
+- {id: 4926, name: Sister Ada, description: "elderly human woman monk about sixty-five, white hair under a brown hood worn backwards, wise smile, monastery cell behind"}
+- {id: 4927, name: Lyle, description: "gentle old human man about seventy, white stubble, flat cap with pigeon feathers on it, threadbare coat, content smile, town square with pigeons behind"}
+- {id: 4928, name: Librarian Ormond, description: "prim human librarian about fifty, grey hair in a neat parting, half-moon spectacles, dark robe, finger raised to his lips, bookshelves behind"}
+- {id: 4929, name: Velana, description: "dark elf woman, ageless, ash-grey skin, long white hair, pointed ears, dark leather armour, cool watchful look, shadowy alley behind"}
+- {id: 4930, name: Fletch, description: "lean human fletcher about forty, short brown hair, feathers tucked in his cap, leather bracer, steady look, arrow racks behind"}
+- {id: 4931, name: Gerda, description: "sturdy human ropemaker woman about forty-five, rough hands near her face, grey-brown hair tied back, coil of rope on her shoulder, wry smile, rope walk behind"}
+- {id: 4932, name: Gatewarden Boll, description: "stern human gatewarden about fifty, grey beard, steel helmet, red tabard, unimpressed look, town gate behind"}
+- {id: 4933, name: Miller Dunn, description: "gloomy human miller about fifty, flour-dusted grey hair, soot on one cheek, burned mill behind"}
+- {id: 4934, name: Mother Pottage, description: "warm stout human woman cook about sixty, white hair in a kerchief, big ladle, motherly smile, soup kitchen behind"}
+- {id: 4935, name: Wainwright Cole, description: "young human wainwright about thirty, curly black hair, sawdust on his shoulders, cheerful grin, workshop with cart wheels behind"}
+- {id: 4936, name: Pip Melonby, description: "happy human farmer about thirty-five, sun hat, freckles, holding a large melon near his face, melon field behind"}
+- {id: 4937, name: Thatcher Nell, description: "lanky human thatcher woman about forty, straw in her hair, smudged face, determined look, rooftops behind"}
+- {id: 4938, name: Widow Grey, description: "elderly human widow about seventy, black shawl, grey hair, knitting needles, gentle sad smile, small cottage room behind"}
+- {id: 4939, name: Bellringer Toll, description: "stocky human bellringer about fifty-five, bald, big ears, rope over his shoulder, cheerful look, bell tower behind"}
+- {id: 4940, name: Wick Ambers, description: "thin human lamplighter about thirty, sandy hair, long coat, lit taper near his face, dim amber street behind"}
+- {id: 4941, name: Saddler Rook, description: "middle-aged human saddler about fifty, grey moustache, leather apron, saddles behind"}
+- {id: 4942, name: Ditchwater Dan, description: "muddy human ditch digger about forty, broad grin, mud-spattered face, shovel handle on shoulder, moat behind"}
+- {id: 4943, name: Mason Hild, description: "strong human woman stonemason about forty-five, grey hair cropped short, dust on her face, mallet, stone wall behind"}
+- {id: 4944, name: Tilly, description: "small human girl about nine, brown pigtails, pigeon on her shoulder, delighted smile, town square behind"}
+- {id: 4945, name: Linus, description: "human gemsmith about fifty, magnifying loupe on one eye, red-brown beard, red apron, rubies glinting behind"}
+- {id: 4946, name: Simon, description: "human gemsmith about forty, neat black beard, green apron, emerald on a chain, careful look, workshop behind"}
+- {id: 4947, name: Toby, description: "young human gemsmith about thirty, blond hair, blue apron, cheerful look, sapphires on a workbench behind"}
+- {id: 4948, name: Hector, description: "old human gemsmith about sixty-five, white hair, gold-rimmed loupe, grey apron, proud look, diamonds glittering behind"}
+- {id: 4949, name: Vespar, description: "irritable human wizard about seventy, long grey beard, tall pointed hat, blue robe, holding a staff without a top near his face, impatient look, cluttered tower room behind"}
+- {id: 4950, name: Brother Reger, description: "very old human monk master about eighty, long white beard, brown robe worn backwards, peaceful smile, stone cell in a grove behind"}
+- {id: 4951, name: Justine, description: "sly young human woman thief about twenty-eight, short black hair, dark leather hood pushed back, knowing smirk, campfire behind"}
+- {id: 4952, name: Luna, description: "serene human druid woman about forty, long chestnut hair with leaves, green cloak, sad gentle look, moonlit grove behind"}
+- {id: 4953, name: Yog, description: "huge human barbarian chief about forty-five, wild red beard, fur mantle, bone necklace, fierce grin, tents and campfire behind"}
+- {id: 4954, name: Ellinger, description: "wise old human wizard about seventy-five, white hair and beard, deep blue robe with star embroidery, kind intelligent eyes, tower study full of boots behind"}
+- {id: 5001, name: Queen Kalindra, description: "regal human queen about forty, long dark hair, pale skin, jewelled silver crown, deep purple gown, grateful dignified look, throne room behind"}
+- {id: 5002, name: Gem, description: "keen-eyed human woman steward about thirty-five, red hair tied back, green tabard, sharp alert look, empty throne behind"}
+- {id: 5003, name: Errol, description: "veteran human master of arms about fifty, shaved head, black goatee, studded leather and mail, confident grin, weapon racks behind"}
+- {id: 5004, name: Dimitri, description: "despairing human guard captain about fifty, greying hair, unshaven, dented breastplate, hollow sad eyes, dim quarters behind"}
+- {id: 5005, name: Megan, description: "earnest young human woman about eighteen, long brown hair, simple blue dress, worried hopeful look, castle room behind"}
+- {id: 5006, name: Astronomer Tycho, description: "absent-minded human astronomer about sixty, wild white hair, round spectacles, starry blue robe, delighted look, a large brass telescope behind"}
+- {id: 5007, name: Guido, description: "shifty human convict about forty, shaved head, broken nose, prison rags, sly grin, dungeon cell behind"}
+- {id: 5008, name: Mother Seraphine, description: "strong human woman priestess about fifty, grey braid, white and gold vestments, a mace hilt at her shoulder, serene smile, chapel behind"}
+- {id: 5009, name: Treasurer Abelard, description: "precise human treasurer about sixty, bald, white sideburns, gold chain, ledger near his face, vault behind"}
+- {id: 5010, name: Lady Brienne, description: "tall human woman knight about forty, blonde hair in a braid, plate armour with a purple sash, commanding look, training hall behind"}
+- {id: 5011, name: Haldor, description: "broad human smith about fifty, braided black beard, leather apron over mail, proud look, royal forge behind"}
+- {id: 5012, name: Groom Wendell, description: "young human groom about twenty-five, straw-blond hair, freckles, plain livery, shy smile, stables behind"}
+- {id: 5013, name: Sir Roderic, description: "noble human knight about forty-five, short grey hair, square jaw, polished plate with a purple tabard, steady look, castle hall behind"}
+- {id: 5101, name: Sharla, description: "tiny sprite queen, delicate face, large dark eyes, silver-green hair with a crown of tiny flowers, translucent wings behind her shoulders, proud worried look, glowing forest treehouse behind"}
+- {id: 5102, name: Dewdrop, description: "tiny sprite with dewy blue skin, big eyes, wild white hair, translucent wings, mischievous smile, potion bottles in a treehouse behind"}
+- {id: 5103, name: Lumen, description: "tiny sprite with soft glowing golden skin, big eyes, short gold hair, translucent wings, serene look, glowing jars behind"}
+- {id: 5104, name: Mossbell, description: "tiny sprite with mossy green hair, big curious eyes, translucent wings, playful grin, forest branches behind"}
+- {id: 5105, name: Thistledown, description: "tiny sprite with thistle-purple hair, big eyes, a small reed pipe near his mouth, translucent wings, dreamy look, forest behind"}
+- {id: 5106, name: Nibbler, description: "a monkeydog creature: furry brown face like a monkey crossed with a dog, floppy ears, big hopeful eyes, tongue out, forest hollow behind"}
+- {id: 5107, name: Princess Sheewana, description: "tiny sprite princess, pale lavender hair with a small silver tiara, big eyes, translucent wings, relieved smile, temple of roots behind"}
+- {id: 5108, name: Graalg, description: "huge ogre chief, grey-green skin, tusks, small eyes, bald head with scars, fur collar, gruff stern look, mountain pass behind"}
+- {id: 5201, name: Rashid, description: "lean human bladesmith about forty-five, dark tanned skin, black beard, turban, leather apron, sharp look, desert forge behind"}
+- {id: 5202, name: Zubaida, description: "strong human woman armourer about forty, dark skin, black hair under a head wrap, brass scale vest, confident look, armour shop behind"}
+- {id: 5203, name: Aladdin, description: "smiling human merchant about thirty-five, tanned, small black moustache, red fez, holding an oil lamp near his face, shop full of lamps behind"}
+- {id: 5204, name: Omar the Peddler, description: "shifty human peddler about fifty, scraggly grey beard, turban, bottles on a string, salesman's grin, market stall behind"}
+- {id: 5205, name: High Priestess Samira, description: "regal human priestess about fifty, dark skin, gold sun headdress, white robe, calm look, sandstone temple behind"}
+- {id: 5206, name: Hakim, description: "jolly fat human innkeeper about fifty, tanned, curly black beard, embroidered vest, laughing, tavern with hanging lamps behind"}
+- {id: 5207, name: Barticus, description: "muscular human gym master about forty, bald, thick black moustache, sleeveless tunic, hearty grin, gym with weights behind"}
+- {id: 5208, name: Yusuf, description: "thoughtful human wizard about sixty, dark skin, white beard, violet robe and turban, calm look, guild hall behind"}
+- {id: 5209, name: Layla, description: "graceful human woman priestess about forty, dark hair under a white veil, pale gold robe, kind look, spirit guild behind"}
+- {id: 5210, name: Nasir, description: "bright-eyed human mage about fifty, tanned, trimmed grey beard, white and gold robe, warm smile, sunlit hall behind"}
+- {id: 5211, name: Caravan Master Idris, description: "hardy human caravan master about forty-five, tanned, black beard, desert head scarf, practical look, camels behind"}
+- {id: 5212, name: Magus Ferrante, description: "sinister but relieved human wizard about fifty, pale, black goatee, black robe with stars, wary look, dark guild behind"}
+- {id: 5213, name: Esmeralda, description: "glamorous human woman merchant about forty, black curls, gold jewellery, purple robe, sly smile, shop of odd magical objects behind"}
+- {id: 5214, name: Mindwright Orsolo, description: "intense human wizard about seventy, bald, piercing eyes, long white beard, violet robe, smug look, tower study behind"}
+- {id: 5215, name: Appraiser Quince, description: "fussy human wizard about sixty, monocle, grey goatee, green robe, holding a gem near his eye, appraising look, tower study behind"}
+- {id: 5216, name: Alchemist Morvenna, description: "eccentric human woman alchemist about fifty-five, frizzy grey hair, goggles on her forehead, stained robe, cheerful look, bubbling flasks behind"}
+- {id: 5217, name: Astra, description: "kind human sorceress about forty, long silver-blonde hair, white and blue robe, hopeful look, sandstone house behind"}
+- {id: 5218, name: Natasha, description: "glamorous human enchantress about thirty-five, black hair, dark eyes, jewelled circlet, deep red robe, knowing smile, enchanter's study behind"}
+- {id: 5219, name: Madame Gloriana, description: "theatrical old human palm reader woman about sixty-five, purple head wrap, gold earrings, kohl-rimmed eyes, sly smile, tent with candles behind"}
+- {id: 5220, name: Merchant Hassan, description: "shrewd human merchant teacher about fifty-five, tanned, grey beard, rich green robe, scales near his face, knowing smile, counting room behind"}
+- {id: 5221, name: Master Faisal, description: "scholarly human teacher about sixty, tanned, white beard, spectacles, cream robe, gentle look, library behind"}
+- {id: 5222, name: Silent Saleh, description: "quiet human ex-thief about fifty, grey stubble, dark hood, calm half-smile, dim room behind"}
+- {id: 5223, name: Navigator Ansel, description: "weathered human navigator about fifty, tanned, grey beard, brass compass on a chain, squinting look, maps and a globe behind"}
+- {id: 5224, name: Polyglot Pella, description: "lively human woman linguist about forty, dark hair, spectacles, scarf of many colours, cheerful look, shelves of books behind"}
+- {id: 5225, name: Kirra, description: "dark elf woman blademistress, ageless, ash-grey skin, white hair in a high tail, pointed ears, dark leather, cold confident look, shadowy room behind"}
+- {id: 5226, name: Farida, description: "smiling human spice seller woman about forty, dark skin, orange head scarf, gold earrings, bowls of spices behind"}
+- {id: 5227, name: Archer Jalal, description: "lean human archer about forty, tanned, short black beard, head wrap, bow string across his chest, focused look, archery butts behind"}
+- {id: 5228, name: Old Basim, description: "old human townsman about seventy, tanned wrinkled face, white beard, simple turban, resigned smile, sandstone street behind"}
+- {id: 5229, name: Dyer Nura, description: "human woman dyer about thirty-five, blue-stained hands near her face, black hair, cheerful look, dye vats behind"}
+- {id: 5230, name: Glassblower Tariq, description: "young human glassblower about thirty, tanned, short black hair, leather apron, focused look, glowing furnace behind"}
+- {id: 5231, name: Water Seller Amir, description: "thin human water seller about forty, tanned, waterskins over his shoulder, cheerful look, dusty street behind"}
+- {id: 5232, name: Camel Driver Rami, description: "grinning human camel driver about thirty-five, tanned, gap-toothed, desert head scarf, camel behind"}
+- {id: 5233, name: Scribe Hala, description: "neat human woman scribe about thirty, dark hair in a bun, ink on her fingers, sly smile, desk with scrolls behind"}
+- {id: 5234, name: Potter Ziad, description: "stocky human potter about fifty, tanned, clay-smeared apron, grey beard, content look, pots behind"}
+- {id: 5235, name: Tax Collector Malik, description: "sour human tax collector about fifty, thin face, small black beard, black robe, ledger, disdainful look, sandstone office behind"}
+- {id: 5236, name: Old Rasha, description: "very old human grandmother about eighty, tanned wrinkled face, white hair under a dark shawl, warm smile, courtyard behind"}
+- {id: 5237, name: Sandal Maker Idris, description: "human cobbler about forty-five, tanned, bald, sandals hanging behind"}
+- {id: 5238, name: Date Farmer Yara, description: "young human woman farmer about twenty-five, tanned, black braid, straw hat, cheerful look, date palms behind"}
+- {id: 5239, name: Well Keeper Omid, description: "sturdy human well keeper about fifty, tanned, grey beard, rope on his shoulder, curious look, stone well behind"}
+- {id: 5240, name: Fat Marwan, description: "fat jolly human food seller about forty-five, tanned, black moustache, apron, skewers of meat, market behind"}
+- {id: 5241, name: Selima, description: "elegant human woman robe seller about forty, dark hair, embroidered robe, welcoming smile, hanging robes behind"}
+- {id: 5242, name: Jamila, description: "young human woman jeweller about twenty-five, black hair, many necklaces, bright smile, market stall behind"}
+- {id: 5243, name: Bashir, description: "wiry human belt seller about forty, tanned, thin moustache, belts over his shoulder, salesman's grin, market stall behind"}
+- {id: 5244, name: Kadir, description: "stout human boot seller about fifty, grey beard, leather cap, boots hanging behind"}
+- {id: 5245, name: Caleb, description: "excited human inventor about forty-five, wild brown hair, goggles on his forehead, tool belt, enthusiastic look, workshop with contraptions behind"}
+- {id: 5246, name: Thaddeus, description: "serene old human fountain keeper about seventy-five, long white beard, pale blue robe, gentle look, a dry marble fountain behind"}
+- {id: 5247, name: Cornelius, description: "small leprechaun, ruddy cheeks, ginger beard, green coat and green hat, mischievous grin, ancient forest with falling leaves behind"}
+# batch 4 (2026-11-20, A4 third session): Rivercity's sorceresses, Lakeside, Necropolis, Olympus, Bosco's Hall, D5,
+# Shangri-La and the two dragon dungeons
+- {id: 4156, name: Velda, description: "smug human sorceress about thirty-five, black hair in a tall braid, dark purple robe with silver trim, heavy eye make-up, knowing smirk, candlelit room with curse dolls behind"}
+- {id: 4157, name: Ysmay, description: "sly young human sorceress about twenty-five, red hair loose, green hooded robe, a brass plug on a chain round her neck, half smile, dim room with shelves of jars behind"}
+- {id: 5301, name: Grizel, description: "shrewd old human witch about seventy, grey hair in a bun, small spectacles, plain dark blue robe, ink-stained fingers, a bubbling cauldron and ledgers behind"}
+- {id: 5302, name: Bess Brewer, description: "plump cheerful human innkeeper about forty-five, auburn curls, white apron over a brown dress, rosy cheeks, cosy tavern with a fire behind"}
+- {id: 5303, name: Harrow, description: "broad human blacksmith about fifty, bald with a black beard, leather apron, soot on his face, stern look, forge glow behind"}
+- {id: 5304, name: Father Wade, description: "gentle human priest about sixty, thin white hair, pale blue vestments with a wave emblem, calm eyes, quiet temple by a lake behind"}
+- {id: 5305, name: Captain Ferris Gull, description: "weathered human ferryman about fifty-five, grey stubble beard, blue sailor's cap, oilskin coat, squinting grin, misty lake and a jetty behind"}
+- {id: 5306, name: Old Gill, description: "very old human fisherman about eighty, white wispy beard, knitted cap, patched jumper, stubborn look, fishing nets and grey lake behind"}
+- {id: 5307, name: Tanner Bodkin, description: "sturdy human tanner about forty-five, short brown hair, thick leather apron, strong forearms, proud look, hides hanging on racks behind"}
+- {id: 5308, name: Morna, description: "serene human water witch about forty, long silver-blue hair, sea-green robe, shell necklace, calm knowing look, rippling lake behind"}
+- {id: 5309, name: Sir Malvern, description: "elegant vampire gentleman, pale grey skin, slicked black hair with grey temples, red eyes, high-collared black coat, tired polite smile, shuttered room with candles behind"}
+- {id: 5310, name: Netty, description: "brisk human woman netmender about fifty, grey-brown hair under a kerchief, rolled sleeves, practical look, fishing nets behind"}
+- {id: 5311, name: Tobbin, description: "human boy about eight, messy brown hair, slightly greenish skin and pointy ears fading, cheeky grin, holding a beetle, cottage interior behind"}
+- {id: 5312, name: Wren Hollow, description: "tired human mother about thirty-five, brown hair tied back, plain grey dress, worried but relieved look, cottage interior behind"}
+- {id: 5313, name: Reed, description: "lanky human reedcutter about thirty, sandy hair, straw hat, simple tunic, easy-going look, reed beds behind"}
+- {id: 5314, name: Old Ottar, description: "gnarled old human eel fisher about seventy, bald with bushy white eyebrows, oilskin hat, suspicious squint, dark water behind"}
+- {id: 5315, name: Widow Marsh, description: "sad human widow about fifty, dark hair with grey streaks, black shawl, hopeful eyes, window over a grey lake behind"}
+- {id: 5316, name: Skiff, description: "cheerful human boatwright about forty, red beard, wood shavings in his hair, carpenter's pencil behind his ear, boathouse behind"}
+- {id: 5501, name: Mordant the Pale, description: "gaunt undead necromancer, ash-grey skin stretched over the skull, glowing pale eyes, black hood with bone clasps, cold look, dark crypt library behind"}
+- {id: 5502, name: Mother Mortis, description: "skeletal undead priestess, skull face with a few wisps of white hair, black and violet veil, serene smile, candlelit tomb chapel behind"}
+- {id: 5503, name: Knell, description: "sly undead merchant, grey sunken skin, thin moustache, top hat with a raven feather, black coat, salesman's grin, shelves of grave goods behind"}
+- {id: 5504, name: Embalmer Vesk, description: "fussy undead embalmer, pale grey skin, round spectacles, stitched leather apron, pinched expression, jars and bottles behind"}
+- {id: 5505, name: Barrelman Crane, description: "jolly zombie cook, greenish grey skin, one ear missing, stained apron, wide grin, a steaming barrel and a dark tavern behind"}
+- {id: 5506, name: Master Morbius, description: "proud human necromancer about sixty, shaved head with dark tattoos, black robe with silver skull clasp, piercing eyes, stone room with green candles behind"}
+- {id: 5507, name: Count Velkor, description: "ancient aristocratic vampire, very pale skin, long silver hair, red eyes, high black collar with a ruby brooch, faint fangs, bored elegance, crypt with velvet drapes behind"}
+- {id: 5508, name: Lady Vex, description: "cold undead assassin woman, pale grey skin, short black hair, dark leather hood and mask pulled down, thin smile, shadowy tomb behind"}
+- {id: 5509, name: Old Bones, description: "friendly skeleton trapsmith, bare skull with a leather cap and a jeweller's loupe in one eye socket, tool roll over the shoulder, vault full of gears behind"}
+- {id: 5510, name: Digby, description: "cheerful zombie gravedigger, greyish skin, patched hat, shovel over his shoulder, missing teeth grin, graveyard at night behind"}
+- {id: 5511, name: The Weeping Lady, description: "translucent pale blue ghost of a young woman, flowing hair, old-fashioned lace dress, dry amused eyes, marble mausoleum behind"}
+- {id: 5601, name: Hephaestus, description: "massive bearded god smith about fifty, curly black beard, bronze skin, leather apron over a white chiton, golden glow of a divine forge behind"}
+- {id: 5602, name: Dionysus, description: "merry god of wine about thirty-five, curly dark hair with a vine wreath, purple chiton, rosy cheeks, holding a golden cup, marble hall with grapes behind"}
+- {id: 5603, name: Pythia, description: "mysterious priestess oracle about thirty, dark hair under a white veil, golden laurel circlet, distant gaze, incense smoke and marble columns behind"}
+- {id: 5604, name: Heracles, description: "huge heroic man about forty, short curly hair and beard, lion pelt over his shoulders, broad grin, marble training hall behind"}
+- {id: 5605, name: Apollo, description: "radiant handsome god about thirty, golden curly hair, golden laurel wreath, white and gold chiton, warm smile, bright sunlit clouds behind"}
+- {id: 5606, name: Hestia, description: "kind motherly goddess about fifty, brown hair in a simple veil, warm red and cream robe, gentle smile, a hearth fire behind"}
+- {id: 5607, name: Lucio, description: "cheerful boatman about forty, olive skin, black curly hair, sailor's cap with a small star, striped shirt, white clouds and a small sky boat behind"}
+- {id: 5608, name: Adonis, description: "extremely handsome vain young man about twenty-five, perfect golden hair, white chiton, admiring himself, clouds and marble columns behind"}
+- {id: 5609, name: Athena, description: "wise warrior goddess about thirty-five, dark hair under a crested bronze helmet pushed back, white chiton and bronze breastplate, owl brooch, calm look, marble hall behind"}
+- {id: 5610, name: Hermes, description: "quick-witted young god about twenty-five, short brown hair, winged cap, travelling cloak, sly grin, clouds and a market stall behind"}
+- {id: 5611, name: Atlas, description: "enormous old titan about sixty, grey beard, very broad shoulders, simple grey chiton, patient tired face, the sky's blue dome behind"}
+- {id: 5612, name: Zeus, description: "majestic old king of the gods about sixty, full white beard and hair, golden crown of laurel, white and gold robes, stern but amused, storm clouds with lightning behind"}
+- {id: 5613, name: Hera, description: "regal wise queen of the gods about fifty, dark hair with grey streaks under a golden diadem, peacock-blue robe, knowing look, marble palace behind"}
+- {id: 5401, name: Bosco, description: "rotund dwarf king about seventy, long braided red-grey beard, golden crown, fur-trimmed red robe, nervous look, holding an empty goblet, carved stone hall behind"}
+- {id: 5402, name: Durgan Ironfist, description: "fierce dwarf axesmith about sixty, black braided beard, iron helmet, leather apron, scar over one eye, glowing forge behind"}
+- {id: 5403, name: Brunna, description: "hearty dwarf woman innkeeper about fifty, braided blonde hair, small braided beard, apron, big smile, stone alehall with barrels behind"}
+- {id: 5404, name: Stonebeard, description: "venerable dwarf mage about ninety, long grey beard with stones braided in, brown hooded robe, deep-set eyes, glowing crystals in rock behind"}
+- {id: 5405, name: Hilde Ringwright, description: "precise dwarf woman mailwright about fifty-five, dark braided hair, chainmail coif pushed back, magnifying lens, stone workshop behind"}
+- {id: 5406, name: Gimble, description: "eager young dwarf tinker about forty, short ginger beard, goggles, tool belt, oil smudge on his nose, cluttered workshop behind"}
+- {id: 4720, name: Sablewing, description: "dragon head portrait, an old bronze-scaled dragon with long whiskers and tired wise eyes, a cave mouth on a volcanic mountain slope behind, dark basalt and a faint red glow"}
+- {id: 5452, name: Gurodel, description: "huge gentle giant king about sixty, broad weathered face, long brown beard, simple iron circlet, fur cloak, highland rocks and sky behind"}
+- {id: 5702, name: Scaldrith, description: "dragon head portrait, a red dragon wearing small spectacles on its snout, sly businesslike look, a lava-lit cave with heaped coins behind"}
+- {id: 5703, name: Ashkaroth, description: "dragon head portrait, an enormous ancient black dragon with grey frill and clouded old eyes, dark tower hall behind"}
+- {id: 4701, name: Wilbur, description: "plump happy human snack seller about forty, round face, chef's cap, honey jar in hand, sunny tavern with flowers behind"}
+- {id: 4702, name: Kublai Khan, description: "huge friendly human bouncer about forty, shaved head, long drooping moustache, fur-trimmed vest, arms crossed, sunny tavern doorway behind"}
+- {id: 4703, name: Tolliver, description: "cheerful human smith about forty-five, brown beard, rolled sleeves, hammer on his shoulder, sunny valley workshop behind"}
+- {id: 4704, name: Mother Terra, description: "warm human earth priestess about fifty-five, brown hair with flowers, green and brown robe, kind smile, garden temple behind"}
+- {id: 4705, name: Hildegard, description: "jolly human wizard woman about fifty, grey-blonde hair in a crown braid, white and gold robe, amused look, bright library tower behind"}
+- {id: 4706, name: Jack Alltrades, description: "confident human jack-of-all-trades about forty-five, neat brown beard, many tools and a book and a sword hilt visible, colourful patchwork coat, wink, schoolroom behind"}
+- {id: 4707, name: Librarian Wen, description: "calm old human librarian about seventy, bald, long thin white beard, simple brown robe, finger to his lips, tall bookshelves behind"}
+- {id: 4708, name: Scholar Ilse, description: "intense human woman scholar about thirty-five, red hair pinned up with a pencil, red robe, small flame floating over her palm, bookshelves behind"}
+- {id: 4709, name: Brother Aldo, description: "gentle human monk healer about fifty, tonsured brown hair, white robe with a red cross, open book, bookshelves behind"}
+- {id: 4710, name: Maurice, description: "smug human know-it-all about forty, neat side parting, round spectacles, green waistcoat, raised finger, study with books behind"}
+- {id: 4711, name: Alexander, description: "muscular brave human man about thirty, blond hair, square jaw, sleeveless tunic, confident grin, sunny valley behind"}
+- {id: 4712, name: Princess Pilar, description: "lively young human princess about twenty, black hair with a small gold tiara, light silk gown, mischievous smile, garden pavilion behind"}
+- {id: 4713, name: Benedict, description: "impish human prankster about thirty, curly red hair, freckles, jester-like striped collar, wide grin, sunny house behind"}
+- {id: 4714, name: Elona, description: "adventurous human explorer woman about thirty, sun-tanned, short dark hair, wide-brimmed hat, bow over her shoulder, mountains behind"}
+- {id: 4715, name: Murray, description: "haughty human snob about fifty, slicked grey hair, monocle, velvet doublet, nose in the air, elegant villa behind"}
+- {id: 4716, name: Psychic Sally, description: "dreamy human seer woman about forty, wild curly hair with beads, shawl with stars, crystal ball glow, mystical room behind"}
+- {id: 4717, name: Martok, description: "lean weathered human wanderer about fifty, long grey hair, travelling cloak, walking staff, easy smile, valley road behind"}
+- {id: 4718, name: Stumpy, description: "friendly old tree stump with a carved-looking face in the bark, mossy brows, small leafy twigs for hair, orchard behind"}
+- {id: 4719, name: Lacey, description: "white unicorn head portrait, silver mane, spiral horn, gentle blue eyes, flower meadow behind"}
+- {id: 4603, name: Hadda, description: "sun-browned human woman about forty-five, keeper of a desert tavern, dark hair tied up in a faded red headscarf, shrewd amused eyes, a waterskin strap over her shoulder, a shaded mud-brick taproom behind"}
+- {id: 4604, name: Oskar, description: "stocky human caravan master about fifty, short greying beard, dusty wide-brimmed hat, tan travelling coat, squinting from the sun, camels and a desert caravan yard behind"}
+- {id: 4605, name: Gorm, description: "big broad human coachman about sixty, bald head, thick grey moustache, heavy leather coat with brass buttons, a coach whip over his shoulder, a dusty coach yard and an arena wall behind"}
+- {id: 4606, name: Old Ibb, description: "very old thin human man, the well keeper, white stubble beard, bald sun-spotted head, a simple sand-coloured tunic, a rope coiled over his shoulder, a stone well under palm trees behind"}
+- {id: 4607, name: Tansy, description: "young human woman about twenty-five, saddler, freckles, short sandy hair, a leather apron, a needle and thong tucked behind her ear, a stable with hanging saddles behind"}
+- {id: 4955, name: Gettlewaithe, description: "gremlin king head portrait, a small wiry grey-green gremlin with huge bat-like ears, sharp grin, beady yellow eyes, a tiny crooked tin crown, a ramshackle throne room of junk and gears behind"}
+- {id: 4956, name: Joe the Mapmaker, description: "shifty human man about forty, thin waxed moustache, too-wide salesman's smile, a flamboyant feathered cap, rolled maps tucked under his arm, a dusty road and grey town walls behind"}
+- {id: 4957, name: Valio the Simple, description: "plump balding human man about fifty, a striped nightcap, a patched blanket pulled up to his chin, an innocent smile with a sly glint in the eye, a dim damp sewer chamber behind"}
+- {id: 5109, name: The Master Thief, description: "lean human man about forty-five, black hood pushed back, neat black goatee, cold clever eyes, dark fitted leathers, a candlelit counting room with stacks of coins behind"}
+- {id: 5110, name: Hobstadt, description: "troll king head portrait, a big grey-green troll with a heavy brow, small tusks, long warty nose, a crude iron crown, a torchlit cave throne hall behind"}
+- {id: 5317, name: Slibo, description: "elderly human wizard about seventy, long white beard, round spectacles, a tall pointed blue hat, curious bright eyes, a wizards' tent camp on a rocky mountainside behind"}
+- {id: 5512, name: Ambrose, description: "human knight about forty, the Queen's Knight, short dark beard, steady loyal eyes, plate armour under a purple surcoat with a silver crescent and rose, a windswept mountain pass and a griffin behind"}
+- {id: 5453, name: The Dragon Pharaoh, description: "dragon head portrait, an ancient golden-scaled dragon wearing a blue and gold striped pharaoh's headdress, wise solemn amber eyes, a torchlit pyramid chamber with hieroglyphs behind"}
+- {id: 4608, name: Arie, description: "young human woman about twenty, a wizard's apprentice, dark braided hair, dusty blue robe, worried but determined eyes, a desert camp tent and a cliff castle far behind"}
+- {id: 5318, name: Naomi, description: "human woman about thirty, a prisoner, tangled red hair, smudged tired face with a defiant look, plain torn dress, the edge of wooden stocks at her shoulders, a lakeside village square behind"}
+- {id: 5513, name: Corak, description: "tall stern human-looking man about fifty, the ancient guardian, close-cropped silver hair, calm piercing grey eyes, a high-collared silver-grey uniform of an ancient order, soft blue glowing light of a strange metal chamber behind"}
+# batch 7 (fifth session): A3's three promotion and quest people
+- {id: 4530, name: Shinobu, description: "young human woman about twenty-five, heir of a ninja clan, black hair tied back tight, calm dangerous dark eyes, a faint scar on one cheek, close-fitting charcoal-black clan garb with the hood pushed down, a dim cellar with paper lanterns behind"}
+- {id: 5319, name: Leafpoint, description: "an old gentle tree with a face: a kindly feminine face formed in smooth pale-green and silver-brown bark, leafy branches as long hair with small white blossoms, a patient knowing look, a deep dark forest at dusk behind"}
+- {id: 5320, name: Ector, description: "burly human woodsman about fifty, weathered ruddy face, bushy brown beard going grey, cheerful squint, worn green wool hood and leather jerkin, the haft of an axe on his shoulder, a dark forest and a woodpile behind"}
+# batch 8 (sixth session): D-26's Felix and Carl, D-27's four DD-09 prisoners
+- {id: 4958, name: Felix the Tinker, description: "wiry human tinker about sixty, wild grey hair, brass goggles pushed up on his forehead, a soot-smudged cheerful face, a leather apron with small tools, a muddy candlelit tunnel with gears and a brass compass behind"}
+- {id: 5014, name: Carl the Mason, description: "stocky human mason about fifty-five, square jaw, short grey-brown beard dusted with stone dust, a leather cap, a sturdy grey work tunic, a castle kitchen with stone arches and a hearth behind"}
+- {id: 5111, name: Nathan, description: "gaunt human man about thirty-five, a prisoner, unkempt dark hair and short beard, a tired bruised face with hopeful eyes, a torn grey shirt, crude wooden pen bars in a dim cave with bark-covered walls behind"}
+- {id: 5112, name: Sky, description: "young human woman about twenty-five, a prisoner, short tousled light-brown hair, a pale face that has not seen the sun, wide hopeful eyes, a ragged faded blue tunic, crude wooden pen bars in a dim cave with bark-covered walls behind"}
+- {id: 5113, name: Snog, description: "orc head portrait, a young orc with green skin, small lower tusks, a heavy brow but a gentle, sad and honest expression, shaggy black hair, a plain rough brown tunic, iron cell bars in a dim cave behind"}
+- {id: 5114, name: Alicia the Just, description: "dignified human woman about forty, a paladin taken prisoner, auburn hair tied back, steady righteous grey eyes, a dented steel gorget over a torn white surcoat, iron cell bars in a dim cave behind"}
+- {id: 5704, name: Picard the Aged, description: "an immensely old human sage, thousands of years old but bright-eyed and amused, a deeply lined long face, a thin white beard reaching the chest, long wispy white hair falling past the ears, bushy white eyebrows, a faded wine-red scholar's robe with a high embroidered collar, tall shelves of old books and the carved back of a grand armchair behind"}
+# variants of 5704 Picard for sheet41 v2 (v1 had twelve identical lines and the worker drew twelve unrelated people)
+- {id: 95701, name: Picard the Aged (variant b), description: "a frail ancient old man with a very long thin white beard and long wispy white hair, a high forehead, many broad wrinkles, a gentle amused smile, a deep wine-red robe with a gold-embroidered high collar, dim shelves of old leather books behind"}
+- {id: 95702, name: Picard the Aged (variant c), description: "a very old bearded scholar, white beard to the chest, white hair to the shoulders, small round spectacles low on his long nose, bright curious eyes, a dark green velvet robe, a candlelit library with a carved wooden armchair back behind"}
+- {id: 95703, name: Picard the Aged (variant d), description: "an ancient white-bearded hermit sage, a long forked white beard, thin white hair, hooded sleepy eyes but a sly smile, a faded blue-grey robe with a fur-trimmed collar, sandstone walls of an old tomb with shelves of scrolls behind"}
+# batch 10 (ninth session): Tern, Ferris Gull's mate at the Isle of Lost Souls' jetty (D-36 (6))
+- {id: 5321, name: Tern, description: "wiry human sailor about thirty, a ferryman's mate, sun-browned weathered face, short dark tousled hair under a knitted grey cap, a wry dry half-smile, a faded blue-and-white striped shirt under a patched oilskin vest, a coil of rope over one shoulder, a misty grey lake with a small wooden jetty and a dark island behind"}
+# variants of 5321 Tern for sheet42 (one person in four wordings, as sheet41 v2)
+- {id: 95321, name: Tern (variant b), description: "lean young human boatman about twenty-five, dark stubble shapes on a thin tanned face, short black hair, tired knowing eyes, a red kerchief knotted at the neck, a worn brown sailcloth jacket, an oar handle at his shoulder, grey lake water and reeds under a pale amber sky behind"}
+- {id: 95322, name: Tern (variant c), description: "stocky human sailor about forty, short black beard, a small gold earring, a battered oiled leather cap, a sardonic squint, a heavy dark-blue wool sweater, a moored rowing boat and a foggy lake behind"}
+- {id: 95323, name: Tern (variant d), description: "thin human ferryhand about thirty, ginger hair tied back, freckles, a deadpan look, a faded green oilskin coat with the collar up, a wooden jetty with mooring posts and a dark rocky island in mist behind"}
+# batch 11 (tenth session): Varro the Arena Master, the voice behind XD-20's booth windows (D-39)
+- {id: 4609, name: Varro, description: "broad-shouldered human man about fifty, the arena master of the War Games, shaved head, a thick black moustache with grey streaks, a hard grin and a scar through one eyebrow, a bronze-studded leather harness over a dark red tunic, a sand-coloured stone arena wall with tattered red banners behind"}
+# variants of 4609 Varro for sheet43 (one person in four wordings, as sheet42)
+- {id: 94691, name: Varro (variant b), description: "heavy-set human arena master about fifty-five, bald sun-browned head, short grey beard, a broken nose, shrewd amused eyes, a bronze shoulder guard over a sleeveless black leather jerkin, a sunlit sand arena and a stone ring wall behind"}
+- {id: 94692, name: Varro (variant c), description: "rugged human veteran fighter about forty-five, close-cropped dark hair going grey, a square jaw with dark stubble shapes, a confident challenging smirk, a dented iron gorget and a crimson cloak, barred beast gates in a sandstone wall behind"}
+- {id: 94693, name: Varro (variant d), description: "tough human man about fifty, a former gladiator, long black hair tied back, a heavy grey-black moustache, deep-set eyes under a heavy brow, a wide bronze-buckled leather strap across a dark brown tunic, a wooden booth window with a red cloth over an arena of sand behind"}
+# batch 12 (eleventh session): Blastem the Wizard, DD-19's talking wizard in the Guild Common (D-42 Q5)
+- {id: 5248, name: Blastem, description: "haughty human wizard about sixty, gaunt sneering face, a long hooked nose, a thin pointed grey beard, cold contemptuous eyes looking down at the viewer, a tall dark purple wizard's hat, a black-and-violet robe with small gold sigils at the collar, a candlelit sandstone guild hall with shelves of books behind"}
+# variants of 5248 Blastem for sheet44 (one person in four wordings, as sheet43)
+- {id: 95248, name: Blastem (variant b), description: "arrogant old human wizard about sixty-five, bald crown with long white hair at the sides, a narrow white beard, one eyebrow raised in disdain, thin pursed lips, a high stiff violet collar over a dark robe, a dim sandstone hall with a glowing arcane lamp behind"}
+- {id: 95249, name: Blastem (variant c), description: "lean human sorcerer about fifty-five, slicked-back black hair with grey temples, a sharp goatee, a superior cold smirk, heavy-lidded eyes, a deep purple robe with a gold-embroidered collar and a silver amulet, tall bookshelves and a desert-arched window behind"}
+- {id: 95250, name: Blastem (variant d), description: "pompous human wizard about sixty, a long grey beard in a neat point, a hooked nose, narrowed scornful eyes, a pointed dark blue-violet hat with a gold band, a black robe, sandstone pillars and a brazier in a guild common room behind"}
+- {id: 5705, name: Alister the Druid, description: "a shifty, ingratiating human druid about fifty, a round soft face with a too-eager toothy smile, small darting eyes, a short scruffy brown beard going grey, a wreath of oak leaves on thinning brown hair, a moss-green hooded druid's robe with a rope collar and a little glass potion vial on a cord, black volcanic stone walls lit by a dull red glow behind"}
+# variants of 5705 Alister for sheet45 (one person in four wordings, as sheet44)
+- {id: 95705, name: Alister (variant b), description: "a nervous, fawning human druid about forty-five, plump cheeks, a hopeful pleading smile, raised eyebrows, wispy sandy-brown hair under a crown of oak and mistletoe, an earth-brown robe with a green hood pushed back and a leather satchel strap, dark basalt blocks of a tower hall behind"}
+- {id: 95706, name: Alister (variant c), description: "a sly human hedge-druid about fifty-five, a long thin face, a crooked knowing grin, a pointed greyish-brown beard, a sprig of leaves tucked behind one ear, a faded green hooded robe stained with potion splashes, a black stone alcove with a smouldering brazier behind"}
+- {id: 95707, name: Alister (variant d), description: "a balding human druid about fifty, a fringe of brown hair, a neat brown moustache, a wide salesman's smile, bright greedy eyes, a wreath of oak leaves, a dark green robe with a wooden acorn clasp, dark volcanic rock walls with a faint red light behind"}
+# batch 14 (fourteenth session): Cyrano Jones 5614, the Salesman of Pets Unlimited in DD-26 Olympus Sewer (D-65 Q57)
+- {id: 5614, name: Cyrano Jones, description: "a plump, fast-talking human pet merchant about fifty, a round ruddy face with a broad ingratiating salesman's grin, twinkling greedy eyes, thick dark curly hair with grey at the temples and bushy sideburns, a gaudy purple velvet coat with gold braid and a ruffled collar, a small round fluffy tan furball pet with no visible face sitting on his shoulder, pale marble pillars of an underground den lit by warm lamplight behind"}
+# variants of 5614 Cyrano for sheet46 (one person in four wordings, as sheet45)
+- {id: 95614, name: Cyrano (variant b), description: "a stout human trader about forty-five, a jowly smiling face, raised eyebrows as if making an offer, a neatly trimmed dark beard along the jaw, curly black hair, a wide-brimmed plum hat with a feather, a mustard-yellow waistcoat over a purple shirt, a fluffy round furball pet tucked against his collar, a marble wall with water channels and a lantern behind"}
+- {id: 95615, name: Cyrano (variant c), description: "a sly human merchant about fifty-five, a fleshy face, a knowing lopsided grin, small shrewd eyes, receding dark curly hair, long grey-flecked sideburns, a crimson and gold striped trader's coat with a fur-trimmed collar, two small round fluffy furballs peeking over his shoulder, white marble arches of a drain lit by candles behind"}
+- {id: 95616, name: Cyrano (variant d), description: "a cheerful, portly human pet seller about fifty, a round clean-shaven face with rosy cheeks, a beaming confident smile, bushy dark eyebrows, a mop of dark curls, a purple coat with brass buttons and a lace cravat, a round fluffy cream-coloured furball pet held up beside his cheek, pale marble pillars and shelves of wicker cages behind"}
+# batch 15 (sixteenth session): Sparrow 4158, the Pit Fighter of Rivercity's Martial Training (D-73: Dodging and
+# Unarmed Expert)
+- {id: 4158, name: Sparrow, description: "a wiry, lean human woman pit fighter about thirty-five, a sharp alert face with high cheekbones and a quick sly half-smile, a thin pale scar across one eyebrow, short cropped dark brown hair, bare toned shoulders with cloth wraps on the forearms, a sleeveless faded red padded vest, a wooden training hall with straw dummies behind"}
+# variants of 4158 Sparrow for sheet47 (one person in four wordings, as sheet46)
+- {id: 94158, name: Sparrow (variant b), description: "a lithe human female martial instructor about thirty, a narrow tanned face with watchful dark eyes and a slight confident smirk, a crooked once-broken nose, dark hair pulled back in a short tight knot, a sleeveless brown leather jerkin over a pale linen wrap, cloth-wrapped hands raised near her chin, a sparring yard with wooden posts behind"}
+- {id: 94159, name: Sparrow (variant c), description: "a quick, small human woman brawler about forty, a weathered angular face with laugh lines and a teasing grin, bright grey eyes, short spiky black hair greying at the temples, a dark blue sleeveless tunic with a rope belt, wrapped knuckles, a dim timber gymnasium with hanging sandbags behind"}
+- {id: 94160, name: Sparrow (variant d), description: "a sinewy human woman fighting teacher about thirty-five, a lean freckled face, one eyebrow raised in amusement, a split lip healing, close-cropped auburn hair, a faded red sleeveless vest and leather bracers, straw practice dummies and a weapon rack in a wooden hall behind"}

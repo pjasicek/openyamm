@@ -1,0 +1,199 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_xd17.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+sky:
+  mode: open
+  preset: fair
+  view: outdoor
+  view_distance_scale: 1.25
+daylight:
+  ambient_rgb: [96, 98, 104]
+  sun_rgb: [255, 250, 236]
+  night_scale_rgb: [134, 143, 168]
+  sun_gain: 3
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 4719
+      attributes: 0
+      hp: 138
+      hostility_type: 0
+      monster_info_id: 11915
+      monster_id: 875
+      radius: 60
+      height: 160
+      move_speed: 140
+      position:
+        x: 448
+        y: -384
+        z: 0
+      initial_yaw_units: 256
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 3
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 4718
+      attributes: 0
+      hp: 100
+      hostility_type: 0
+      monster_info_id: 11916
+      monster_id: 600
+      radius: 112
+      height: 199
+      move_speed: 120
+      position:
+        x: 4608
+        y: -2304
+        z: 0
+      initial_yaw_units: 1024
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 3
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+  sprite_objects: []
+  chests: []
+  doors: []
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [-1280, -4736, 4]
+    direction_degrees: 90
+loot_containers: []
+ambient_sounds:
+  - key: 1
+    sound: bird08
+    position: [0, 512, 512]
+    inner_radius: 800
+    outer_radius: 3500
+    volume: 0.6
+    loop: true
+    wait: [7, 18]
+    start_on: true
+    day_only: true
+  - key: 2
+    sound: bird11
+    position: [-3584, 2816, 512]
+    inner_radius: 800
+    outer_radius: 3500
+    volume: 0.6
+    loop: true
+    wait: [8, 20]
+    start_on: true
+    day_only: true
+  - key: 3
+    sound: bird01
+    position: [4352, -2304, 512]
+    inner_radius: 800
+    outer_radius: 3500
+    volume: 0.6
+    loop: true
+    wait: [5, 14]
+    start_on: true
+    day_only: true
+  - key: 4
+    sound: bird05
+    position: [0, 4032, 1728]
+    inner_radius: 800
+    outer_radius: 3500
+    volume: 0.6
+    loop: true
+    wait: [6, 15]
+    start_on: true
+    day_only: true
+  - key: 5
+    sound: bird03
+    position: [-3968, -256, 640]
+    inner_radius: 800
+    outer_radius: 3500
+    volume: 0.6
+    loop: true
+    wait: [6, 16]
+    start_on: true
+    day_only: true
+  - key: 10
+    sound: waterfall loop1
+    position: [6272, 2304, 256]
+    inner_radius: 1200
+    outer_radius: 4500
+    volume: 0.6
+    loop: true
+    start_on: true
+  - key: 6
+    sound: xeen_forge_hammer
+    position: [384, -3072, 747.4285714285713]
+    inner_radius: 500
+    outer_radius: 2600
+    volume: 0.5
+    loop: true
+    wait: [2, 7]
+    start_on: true
+    day_only: true
+  - key: 7
+    sound: rushing water loop
+    position: [5472, -768, -8]
+    inner_radius: 400
+    outer_radius: 1800
+    volume: 0.3
+    loop: true
+    start_on: true
+  - key: 8
+    sound: rushing water loop
+    position: [5440, -2816, -8]
+    inner_radius: 400
+    outer_radius: 1800
+    volume: 0.3
+    loop: true
+    start_on: true
+  - key: 9
+    sound: xeen_amb_tavern
+    position: [-2112, -3072, 944]
+    inner_radius: 400
+    outer_radius: 1800
+    volume: 0.45
+    loop: true
+    start_on: true
+terrain:
+  materials: xeen_xd17_blv.yml
+  textures: [7grastyl, crdflr3, gcav1flr]
+  grass: worlds/xeen/terrain_decorations/xeen_xd17_blv.yml

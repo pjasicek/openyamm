@@ -1,0 +1,369 @@
+{
+ "plane": "P4",
+ "name": "Plane of Water of Xeen",
+ "form": "a drowned temple in a shallow sea",
+ "room_cells": [
+  26,
+  26
+ ],
+ "room_units": [
+  13312,
+  13312
+ ],
+ "walkable_area_m": 43.7,
+ "walkable_share": 0.247,
+ "floor_bbox_cells": [
+  21.9,
+  21.0
+ ],
+ "low_area_m": 97.2,
+ "low_share": 0.691,
+ "bank_max": 5432,
+ "bank_p90": 3605,
+ "walk_length": 16206,
+ "walk_seconds": {
+  "walking": 42,
+  "running": 21
+ },
+ "stations": {
+  "poi:statue": {
+   "along": 4817,
+   "off_line": 97
+  },
+  "poi:test": {
+   "along": 7891,
+   "off_line": 0
+  },
+  "gate:sleeper": {
+   "along": 10835,
+   "off_line": 0
+  },
+  "poi:sleeper": {
+   "along": 15231,
+   "off_line": 0
+  },
+  "exit:dais": {
+   "along": 16206,
+   "off_line": 0
+  }
+ },
+ "walk_legs": {
+  "arrival_to_test": 7891,
+  "test_to_sleeper": 7340,
+  "sleeper_to_way_out": 975
+ },
+ "groups": [
+  {
+   "id": "pop:statue_north",
+   "actor": "Lesser Water Elemental (11625)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    1152,
+    1536
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:statue_west",
+   "actor": "Lesser Water Elemental (11625)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    -640,
+    384
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:reef_elementals",
+   "actor": "Water Elemental (11710)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    4096,
+    -1280
+   ],
+   "space": "room:reef"
+  },
+  {
+   "id": "pop:reef_north",
+   "actor": "Lesser Water Elemental (11625)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    4736,
+    768
+   ],
+   "space": "room:reef"
+  },
+  {
+   "id": "pop:sea_octopods_e",
+   "actor": "Great Octopod (11471)",
+   "count": 3,
+   "level": 60,
+   "at": [
+    2304,
+    -1152
+   ],
+   "space": "zone:sea"
+  },
+  {
+   "id": "pop:sea_octopods_n",
+   "actor": "Great Octopod (11471)",
+   "count": 2,
+   "level": 60,
+   "at": [
+    -1024,
+    4224
+   ],
+   "space": "zone:sea"
+  },
+  {
+   "id": "pop:wreck_lesser",
+   "actor": "Lesser Water Elemental (11625)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    128,
+    -3584
+   ],
+   "space": "room:wreck"
+  },
+  {
+   "id": "pop:wreck_elementals",
+   "actor": "Water Elemental (11710)",
+   "count": 2,
+   "level": 62,
+   "at": [
+    1536,
+    -3584
+   ],
+   "space": "room:wreck"
+  },
+  {
+   "id": "pop:court_north",
+   "actor": "Water Elemental (11710)",
+   "count": 2,
+   "level": 62,
+   "at": [
+    -4480,
+    2560
+   ],
+   "space": "room:arena"
+  },
+  {
+   "id": "pop:wreck_greater",
+   "actor": "Tidal Terror (11711)",
+   "count": 3,
+   "level": 70,
+   "at": [
+    896,
+    -4992
+   ],
+   "space": "room:wreck"
+  }
+ ],
+ "field_hostiles": 27,
+ "test_hostiles": 3,
+ "placed_hostiles": 30,
+ "group_count": 11,
+ "group_sizes": [
+  2,
+  3
+ ],
+ "levels": [
+  55,
+  75
+ ],
+ "level_mean": 60.6,
+ "kill_xp_party": 129523,
+ "kill_xp_per_member": 32381,
+ "kill_xp_target_per_member": 31025,
+ "kill_xp_vs_target": 0.044,
+ "by_row": {
+  "Lesser Water Elemental (11625)": 12,
+  "Water Elemental (11710)": 7,
+  "Great Octopod (11471)": 5,
+  "Tidal Terror (11711)": 5,
+  "Sleeper's Guardian of Water (11712)": 1
+ },
+ "first_fight": {
+  "straight": 3291,
+  "group": "pop:reef_north",
+  "along_walk": 1508
+ },
+ "landing_hostiles": 0,
+ "nearest_group_to_way_up": 4104,
+ "poi_census": 10,
+ "poi_spacing": {
+  "median": 1669,
+  "min": 975,
+  "max": 4994
+ },
+ "chests": 2,
+ "hazard_cells": 9,
+ "hazard_on_critical": 0,
+ "hazard_on_links": 0,
+ "hazard_in_arena": 2,
+ "hazard_in_chamber": 0,
+ "p2": {
+  "approaches": {
+   "zone:sea": {
+    "lip_min": 192,
+    "samples": 368,
+    "what": "zone:sea"
+   },
+   "rim": {
+    "lip_min": 1400,
+    "samples": 31,
+    "what": "the stacks (1,400 high)"
+   },
+   "gate_flank": {
+    "lip_min": 384,
+    "samples": 20,
+    "what": "two broken columns of the court's ring either side of the Veil's head"
+   }
+  },
+  "lip_min": 192,
+  "drops_within_reach": [],
+  "higher_floors": [
+   {
+    "space": "room:arena",
+    "floor": 128,
+    "gap": 2831
+   },
+   {
+    "space": "room:statue",
+    "onto": "gate link",
+    "floor": 32,
+    "gap": 2868
+   },
+   {
+    "space": "room:wreck",
+    "onto": "gate link",
+    "floor": 0,
+    "gap": 3264
+   }
+  ],
+  "holds": true
+ },
+ "swimmer_homes": {
+  "pop:sea_octopods_e": {
+   "room:landing": 4537,
+   "room:arena": 5196,
+   "room:chamber": 5717
+  },
+  "pop:sea_octopods_n": {
+   "room:landing": 3973,
+   "room:arena": 2660,
+   "room:chamber": 7725
+  }
+ },
+ "off_floor": [],
+ "swimmers_on_floor": [],
+ "links": {
+  "link:walk_ne": {
+   "length": 2645,
+   "width": 640,
+   "rise": 32
+  },
+  "link:walk_w": {
+   "length": 1547,
+   "width": 640,
+   "rise": 96
+  },
+  "link:walk_e": {
+   "length": 1816,
+   "width": 640,
+   "rise": 0
+  },
+  "link:walk_s": {
+   "length": 2703,
+   "width": 640,
+   "rise": -32
+  },
+  "link:walk_c": {
+   "length": 2552,
+   "width": 512,
+   "rise": 32
+  },
+  "link:walk_l": {
+   "length": 2213,
+   "width": 512,
+   "rise": 32
+  },
+  "link:veil": {
+   "length": 2841,
+   "width": 640,
+   "rise": 64
+  }
+ },
+ "floors": [
+  0,
+  192
+ ],
+ "places": {
+  "entrance:d7_fall": [
+   3968,
+   3968
+  ],
+  "exit:way_up": [
+   4992,
+   4864
+  ],
+  "poi:statue": [
+   256,
+   896
+  ],
+  "poi:bell": [
+   1152,
+   -128
+  ],
+  "poi:tide_pool": [
+   4864,
+   -128
+  ],
+  "poi:test": [
+   -2688,
+   1280
+  ],
+  "landmark:whirlpool": [
+   -4096,
+   1280
+  ],
+  "gate:sleeper": [
+   -4096,
+   -256
+  ],
+  "poi:sleeper": [
+   -4480,
+   -4608
+  ],
+  "poi:test_chest": [
+   -3200,
+   -4864
+  ],
+  "exit:dais": [
+   -4864,
+   -3712
+  ],
+  "poi:wreck_cache": [
+   1280,
+   -4736
+  ],
+  "poi:log": [
+   -128,
+   -3840
+  ]
+ },
+ "camera": {
+  "at": [
+   3328,
+   3328
+  ],
+  "z": 176,
+  "yaw_deg": 213.0,
+  "fov": 74.0
+ }
+}

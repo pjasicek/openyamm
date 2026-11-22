@@ -1,0 +1,301 @@
+# Playtest of the Tower of High Magic (XD-11, L4): the critical path through every mechanism and back down the lifts.
+# A level-20 party arrives inside the enchanted door (the arrival window: why it is here), asks at the enchanted door
+# (the exit window; it stays, OK is playtest_exit_x3.yml), drinks the Fire Brew (twice: the second says so),
+# the Electric Brew, finds lift 0-1 refusing before its gate, climbs the east stair, finds gate 1 bolted, pulls its
+# lever, rides lift 0-1 down and up, drinks the Cold Brew, finds the west stair's door frozen shut, opens the steam
+# valve (the door thaws), opens the empty Pandorian Box, drinks the Poison Brew, climbs the west stair, drinks the
+# Energy Brew, kills the Head Sorceress and takes the Librarian's Key from her corpse, drinks the Magic Brew, reads a
+# bed, loots the quarters' chest, pulls gate 2's lever, opens the Librarian's door, climbs to the top floor, pulls gate
+# 3's lever, reads The Art of Magic, takes the Prismatic Light spellbook from the cabinet of Mysteries of Light, opens
+# the Archmage's chest (A3's hook: the Skeleton Key, qbit 111260; a second look: empty), loots the observatory's
+# Pandorian Box, climbs the Stairway to Heaven to the roof, comes to the cloud stair (its climb to X8 is playtest_exit.yml), and
+# rides the three cages down to the ground floor. Numbers are ids.lock.yml's (events, doors, map variables); actor 0
+# is the Head Sorceress (placed monsters by id). Run with --world xeen --map xeen_xd11.blv
+# (output/studio_cal/xd11/four.sh).
+id: xeen.xd11.l4.walk
+title: Tower of High Magic (XD-11 L4), the door to the Archmage's study, the roof and down the lifts
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd11.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_xd11.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE TOWER OF HIGH MAGIC"}}
+  - assert: {dialog: {text_contains: "Skeleton Key"}}
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "if not qbit(110680) then error('the arrival window did not set arrived_once') end"}
+  # The enchanted door: asks to leave; cancelling keeps the party inside (OK leaves for X3's islet: playtest_exit_x3.yml).
+  - walk_to: {x: -1408, y: -1900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_xd11.blv}
+  # The foyer, the door to the athanor, the Fire Brew (once).
+  - walk_to: {x: -1408, y: -1100, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1088, y: 750, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "open_door(15, 6)"}
+  - walk_to: {x: -1088, y: 1260, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 640, y: 1260, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 768, y: 1460, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "status(); click(8); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Fire resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua:
+      source: |
+        close()
+        click(8); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Fire Brew already", 1, true) then error("the Fire Brew worked twice: " .. seen) end
+  # The lightning coils: the Electric Brew.
+  - walk_to: {x: 640, y: 1150, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 640, y: 760, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 270, y: 330, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Air resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  # The foot of the lift shaft: the cage hangs above and refuses before its gate is unbolted.
+  - walk_to: {x: 640, y: 0, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 4)"}
+  - walk_to: {x: 640, y: -420, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(26); wait(1)
+        local seen = status()
+        if not string.find(seen, "will not come down", 1, true) then error("the call button said nothing: " .. seen) end
+        if door_state(1) ~= "open" then error("lift 0-1 moved before its gate: " .. door_state(1)) end
+  # Up the east stair to the east landing: gate 1 is bolted until its lever.
+  - walk_to: {x: 640, y: 0, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1150, y: 704, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1792, y: 560, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1792, y: -1600, z: 640, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1600, y: -1760, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: -1760, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 760, y: -1150, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(17); wait(1)
+        local seen = status()
+        if not string.find(seen, "bolted", 1, true) then error("the bolted gate said nothing: " .. seen) end
+        if door_state(8) ~= "closed" then error("gate 1 opened before its lever") end
+        click(18); wait(3)
+        if door_state(8) ~= "open" then error("the lever did not open gate 1: " .. door_state(8)) end
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # Into the first-floor core, onto the cage: down to the ground floor and up again.
+  - walk_to: {x: 640, y: -800, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 448, y: -576, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: 448, y: -576, radius: 160, z_min: -10, z_max: 60}}
+  - play_lua: {source: "click(27); wait(6)"}
+  - assert: {party_position: {x: 448, y: -576, radius: 160, z_min: 600, z_max: 700}}
+  - walk_to: {x: 640, y: -800, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(29); wait(1)
+        local seen = status()
+        if not string.find(seen, "will not come down", 1, true) then error("lift 1-2's call button said nothing: " .. seen) end
+  # The cold still: the Cold Brew.
+  - walk_to: {x: 640, y: -1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 400, y: -1536, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -100, y: -1536, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -128, y: -1790, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Water resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  # The poison garden: the west stair's door is frozen shut.
+  - walk_to: {x: -256, y: -800, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -256, y: -300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1140, y: -320, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "frozen shut"}}
+  - play_lua:
+      source: |
+        close()
+        if door_state(7) ~= "closed" then error("the frozen door opened before the valve") end
+  # The reagent store: the steam valve thaws the door; the Pandorian Box is empty.
+  - walk_to: {x: -256, y: -800, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: -1600, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(38, 13)"}
+  - walk_to: {x: -1600, y: -1600, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -1600, y: -1300, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "steam valve"}}
+  - play_lua:
+      source: |
+        close(); wait(3)
+        if door_state(7) ~= "open" then error("the valve did not thaw the frozen door: " .. door_state(7)) end
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - play_lua:
+      source: |
+        status()
+        loot_chest(37)
+        local seen = status()
+        if held() ~= 0 then stow() end
+        close()
+        if not string.find(seen, "The box is empty.", 1, true) then error("the Pandorian Box said nothing: " .. seen) end
+  # The Poison Brew in the garden's north-west corner.
+  - walk_to: {x: -1600, y: -1600, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: -1600, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -256, y: -800, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -256, y: -300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1140, y: -320, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1140, y: 1100, z: 640, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Body resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  # Through the thawed door and up the west stair to the west landing.
+  - walk_to: {x: -1140, y: -320, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1550, y: -320, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1728, y: -200, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1728, y: 1550, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1600, y: 1728, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 1728, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The energy lab: the Energy Brew.
+  - walk_to: {x: -768, y: 1500, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -768, y: 1000, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -990, y: 160, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Earth resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  # The magic lab: the Head Sorceress dies and her corpse holds the Librarian's Key; the Magic Brew on its dais.
+  - walk_to: {x: 250, y: 960, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 5)"}
+  - walk_to: {x: 700, y: 960, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {actor_visible: {actor_index: 0, dead: true}}
+  - walk_to: {x: 1200, y: 1300, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - interact_actor: {actor_index: 0}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if not has_item(12260) then error('the Head Sorceress\\'s corpse did not hold the Librarian\\'s Key') end"}
+  - walk_to: {x: 1344, y: 1540, z: 1312, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Mind resistance', 1, true) then error('no brew line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  # The quarters: a bed, the chest, gate 2's lever, the Librarian's door.
+  - walk_to: {x: 896, y: 760, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 896, y: 200, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1472, y: 150, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(3); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "nothing on, in, or under the bed", 1, true) then error("the bed said nothing: " .. seen) end
+  - walk_to: {x: 1820, y: 128, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(36); if held() ~= 0 then stow() end; close()"}
+  - walk_to: {x: 900, y: 0, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(20); wait(3)
+        if door_state(9) ~= "open" then error("the lever did not open gate 2: " .. door_state(9)) end
+  - walk_to: {x: 1728, y: 0, z: 1280, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(23); wait(3)
+        if door_state(11) ~= "open" then error("the Librarian's Key did not open the door: " .. door_state(11)) end
+  # Up the library stair to the top landing: gate 3's lever.
+  - walk_to: {x: 1728, y: -360, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1700, y: -1780, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1600, y: -1856, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: -1856, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 900, y: -1150, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(22); wait(3)
+        if door_state(10) ~= "open" then error("the lever did not open gate 3: " .. door_state(10)) end
+  # The library: The Art of Magic; the cabinet of Mysteries of Light holds the Prismatic Light spellbook.
+  - walk_to: {x: 400, y: -1536, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -100, y: -1536, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -512, y: -1260, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "THE ART OF MAGIC"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -500, y: 0, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -704, y: 1060, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(34); if held() ~= 0 then stow() end; close(); if not has_item(483) then error('the cabinet did not hold the Prismatic Light spellbook') end"}
+  # The Archmage's study: the chest gives the Skeleton Key once (A3's hook), and holds no second key.
+  - walk_to: {x: -500, y: 0, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1000, y: -1344, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 12)"}
+  - walk_to: {x: -1500, y: -1344, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1820, y: -1100, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  # D-89 (2026-11-22): the Enchanted Key opens the chest (m13.study_door), not the study door.
+  - play_lua: {source: "status(); click(39); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "only a faint shimmer where a key would go"}}
+  - play_lua: {source: "close(); if has_item(12100) then error('the Skeleton Key without the Enchanted Key') end"}
+  - grant_item: {item_id: 12306}
+  - play_lua:
+      source: |
+        status()
+        loot_chest(39)
+        if held() ~= 0 then stow() end
+        close(); wait(1); close()
+        if not has_item(12100) then error("the Archmage's chest did not give the Skeleton Key") end
+        if not qbit(111260) then error("qbit 111260 not set") end
+        if item_count(12100) ~= 1 then error("more than one Skeleton Key: " .. item_count(12100)) end
+        loot_chest(39)
+        if held() ~= 0 then stow() end
+        close(); wait(1); close()
+        if item_count(12100) ~= 1 then error("a second Skeleton Key: " .. item_count(12100)) end
+  # The observatory's Pandorian Box (trapped).
+  - walk_to: {x: -1664, y: -760, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1664, y: -300, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1820, y: 980, z: 1920, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(35); if held() ~= 0 then stow() end; close()"}
+  # The Stairway to Heaven to the roof, to the foot of the cloud stair (the climb to X8 is playtest_exit.yml).
+  - walk_to: {x: -1856, y: 1500, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1620, y: 1792, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -100, y: 1792, z: 2560, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 450, y: 1728, z: 2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 1536, y: 920, z: 2560, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {map: xeen_xd11.blv}
+  # Down again: the top landing, the cages 2-3, 1-2 and 0-1 straight down to the ground floor.
+  - walk_to: {x: 450, y: 1728, z: 2560, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -100, y: 1728, z: 2560, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1620, y: 1792, z: 1920, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1856, y: 1500, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1664, y: -300, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1664, y: -760, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1500, y: -1344, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1000, y: -1344, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -100, y: -1536, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 640, y: -1300, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 640, y: -800, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -576, z: 1920, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(6)"}
+  - assert: {party_position: {x: 448, y: -576, radius: 160, z_min: 1250, z_max: 1340}}
+  - walk_to: {x: 832, y: -576, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(6)"}
+  - assert: {party_position: {x: 832, y: -576, radius: 160, z_min: 610, z_max: 700}}
+  - walk_to: {x: 448, y: -576, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: 448, y: -576, radius: 160, z_min: -10, z_max: 60}}
+  - walk_to: {x: 640, y: -420, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 640, y: 300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}

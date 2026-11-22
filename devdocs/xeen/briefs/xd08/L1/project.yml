@@ -1,0 +1,46 @@
+format: 0
+id: xeen_xd08
+name: Tomb of a Thousand Terrors
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-08
+units: {plan_grid: 512}
+extent: {footprint_cells: [18, 28], climbs: n}
+map_stats:
+  id: 9124
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 1
+  perception_difficulty: 2
+  refill_days: 672
+  music: 20
+  environment: stone
+  lock_difficulty: 2
+  slots:
+  - {monster: Xeen Zombie, tier: 5, per_marker: [2, 3], weight: 50}
+  - {monster: Xeen Spirit, tier: 2, per_marker: [1, 2], weight: 40}
+  - {monster: Xeen Skeleton, tier: 5, per_marker: [2, 3], weight: 10}
+neighbours:
+- id: door:x3
+  to: xeen_x3.odm
+  kind: door
+  arrival: [-15360, -9830, 1146]
+  arrival_hint: On X3 (Lifeforce Lagoon) in front of the tomb's barrow door (X3 thing:tomb, its face at about y -10240), facing
+    away from it, north.
+  direction: 90
+  notes: 'X3 installed (A5, devdocs/xeen/briefs/x3/DOORS.md): arrival -15360, -9830, 1146 facing north. X3''s door (m10.tomb_door,
+    the Stone of a Thousand Terrors 12304) brings the party to this map''s start inside the tomb door (0, 384, 0, facing north).'
+qbits:
+  manacles_pulled: 110760
+  pay_potions: 110761
+items:
+  megacredit: 12192
+  might_boost: 240
+notes: 'Xeen design brief, level L1: XD-08 Tomb of a Thousand Terrors, on X3 (Lifeforce Lagoon), Act II, class M (MU-6 graph
+  devdocs/xeen/mockups/act2_graphs/xd08.graph.yml, decisions D-4 XD-08). Story M10: five King''s Megacredits 12192 in the
+  great coffin (m10.tomb_vault), behind a Might check of 30; the barracks chest''s first opening gives two Might Boosts (240)
+  of power 10 (D-22.2). Map card 9124, music 20, treasure 2 (hoard 3); slots 1 Xeen Zombie (Grave Ghoul 18 c), 2 Xeen Spirit
+  (Polter-Fool 18 a, Tomb Guard 26 b; Tomb Terror 40 left out, D-4.1), 3 Xeen Skeleton (Skeleton Lord 16 c). Quest bits: A3''s
+  tomb_credits 111201 (set by the hook); the map''s own 110760-110799 (two used). Player bits 11270-11276 (the seven tomb
+  juices). The tomb door leads out to X3 (door:x3).'

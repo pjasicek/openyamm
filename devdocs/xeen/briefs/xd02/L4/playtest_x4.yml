@@ -1,0 +1,41 @@
+# Playtest of the Red Dwarf Mines' west adit to X4 (XD-02, L4; lane A7, 2026-11-20). The party stands in the collapsed
+# adit east of the fall (set_pose: the walk there is playtest.yml's), finds the exit shut, works the winch (the fall
+# goes, x4_adit_open 110020), walks to the mouth and leaves (event 22, evt:exit_x4) for X4's red dwarf hills at A5's
+# named arrival entrance:xd02_adit (19968, -15872, 1504) facing west (1024), out of the adit. Run with
+# output/studio_cal/a7/xfour.sh, TESTS=playtest_x4.
+id: xeen.xd02.l4.x4
+title: Red Dwarf Mines (XD-02 L4), the west adit's winch and the way out to X4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 6, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 6, skills: [], equipment: {}}
+  - assert: {map: xeen_xd02.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_xd02.blv, x: 3100, y: 5184, z: 256, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status()
+        click(22); wait(1)
+        local seen = status()
+        if not string.find(seen, "Rock fills", 1, true) then error("the west adit's exit did not say it was shut: " .. seen) end
+        click(44); wait(12)
+        if door_state(19) ~= "open" then error("the winch did not send the fall away: " .. door_state(19)) end
+        if not qbit(110020) then error("the winch did not set x4_adit_open") end
+  - walk_to: {x: 2600, y: 5184, z: 256, radius: 64, timeout_seconds: 60}
+  - execute_event: {id: 22}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: 19968, y: -15872, radius: 128, z_min: 1440, z_max: 1580, facing: 1024, facing_within: 40}}
+  - play_lua: {source: "if not qbit(110020) then error('x4_adit_open was lost') end"}

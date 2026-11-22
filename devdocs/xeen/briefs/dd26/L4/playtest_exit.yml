@@ -1,0 +1,39 @@
+# The way out of the Olympus Sewer (DD-26, L4): up the marble stair to the grate at its top,
+# the standard entrance window (F16, 2026-11-22; was "Climb up to Olympus?"): Close stays, OK: D7's entrance:dd26_stair (-8704, 8192, 1808) facing 0 (east), position and facing
+# asserted. Event 10 is ids.lock.yml's evt:exit. Run with --world xeen --map xeen_dd26.blv (four.sh).
+id: xeen.dd26.l4.exit
+title: Olympus Sewer (DD-26 L4), out by the stair's grate to D7
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd26.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Paladin, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Knight, level: 58, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: 0, radius: 64}}
+  - walk_to: {x: 0, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1100, z: 448, z_tolerance: 120, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 10}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "Close"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd26.blv}
+  - execute_event: {id: 10}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -8704, y: 8192, radius: 128, facing: 0, facing_within: 64}}
+  - play_lua: {source: "log('D7 arrival: ' .. party())"}

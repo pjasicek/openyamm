@@ -1,0 +1,341 @@
+format: 0
+level: L3
+pitch: "Walkable clouds high over Cloudside, two archipelagos and a long rope bridge between them. East, over Vertigo, the Witch Clouds: harpy nests on ragged spires, the Harpy Queen's eyrie, the explorer's statue on the highest rock, the offering statues. West, over the lagoon, the High Magic Clouds: a sorcerer's observatory, rhyming statues, flying feet and guardians, and on the high cloud two cloud golems no party of this age should wake. Below, through gaps, the land."
+purpose: "Act II's sky map (party 18-20): reached one way up from the Witch Tower's roof (XD-04) and the Tower of High Magic's Stairway to Heaven (XD-11); left only by falling. The three rhyming statues tell the main quest's next steps (QUESTS M10-M21 hints, the source's rhymes); the explorer's statue and the offering statues reward Crusaders."
+mood: "Airy, bright and vertiginous: high sun, the cloud sea below, wind in the ropes, harpies' cries."
+datum: room:witch_landing
+spaces:
+  - id: room:explorers_rock
+    name: The explorer's rock
+    kind: room
+    extent: [2560, 2560]
+    shape: "the highest pinnacle, a flat top just big enough for the statue"
+    at: [14080, 12288]
+    floor: 896
+    purpose: "The explorer's statue: the source's reward for climbing highest."
+    population:
+      - {id: pop:rock_harpies, actor: "11520", groups: 1, placed: true, hostile: true, notes: Two Harpies.}
+  - id: room:golem_heights
+    name: The golem heights
+    kind: room
+    extent: [5120, 4096]
+    shape: "a high, lumpy cloud reached only by the long ramp from the observatory isle: a dead end the party sees from the ramp (D-6.2)"
+    at: [-11264, 9216]
+    floor: 768
+    purpose: "Two cloud golems stand like weather; flying feet round them; a cache."
+    population:
+      - {id: pop:golems, actor: "11592", groups: 1, placed: true, hostile: true, notes: "Two Cloud Golems (50): the map's rare danger (MAPS: 50, rare); they do not leave the heights."}
+      - {id: pop:heights_feet, actor: "11600", groups: 2, placed: true, hostile: true, notes: Six Flying Feet.}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, notes: a cache at the golems' feet}
+  - id: room:half_way
+    name: The half-way cloud
+    kind: room
+    extent: [2048, 1536]
+    shape: "a small round cloud where the long bridge's two spans meet; a gap in the cloud sea beside it"
+    at: [0, 256]
+    floor: -64
+    purpose: "Rest in the middle of the long bridge; looking down through the gap to Lake Darzog (X2) far below. A fall here, or from the inner 2,000 of either span, lands in Lake Darzog (D-6.4)."
+    population:
+      - {id: pop:bridge_harpies, actor: "11520", groups: 1, placed: true, hostile: true, notes: Two Harpies that swoop on the bridge.}
+  - id: room:lantern_cloud
+    name: The lantern cloud
+    kind: room
+    extent: [3072, 2560]
+    at: [-8704, -8192]
+    floor: -128
+    purpose: "A low cloud hung with old brass lanterns: guardians and a chest."
+    population:
+      - {id: pop:lantern_guard, actor: "11601", groups: 1, placed: true, hostile: true, notes: "Four: Guardians and Flying Feet."}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:nest_spires
+    name: The nest spires
+    kind: room
+    extent: [4096, 4608]
+    shape: "a cloud round three rock-and-cloud spires, two with nests on their tops reached by ramps"
+    at: [11776, 3072]
+    floor: 256
+    purpose: Two harpy nests to burn.
+    population:
+      - {id: pop:nest_harpies, actor: "11521", groups: 3, placed: true, hostile: true, notes: "Eight: Harpies and Hags."}
+    treasure:
+      - {kind: decoration, count: 2, notes: "nests: bones and stolen trinkets"}
+  - id: room:observatory_isle
+    name: The observatory isle
+    kind: room
+    extent: [5120, 4608]
+    shape: "the High Magic Clouds' largest cloud; the observatory on its north side, the long bridge's west head on its east edge"
+    at: [-6656, 3072]
+    floor: 256
+    purpose: The sorcerer's observatory (a round tower with a split dome and a telescope) and the third rhyming statue at the bridge head.
+    population:
+      - {id: pop:observatory_guard, actor: "11601", groups: 2, placed: true, hostile: true, notes: "Six: Guardians (24) and Flying Feet."}
+    treasure:
+      - {kind: chest, count: 1, tier: 3, notes: "the sorcerer's star charts and coin, in the observatory"}
+  - id: room:offering_terrace
+    name: The offering terrace
+    kind: room
+    extent: [4096, 3584]
+    shape: "a terrace stepped twice, the long bridge's east head on its west edge"
+    at: [6656, -1024]
+    floor: 128
+    purpose: "Two offering statues; the long rope bridge leaves west from here."
+    population:
+      - {id: pop:terrace_harpies, actor: "11521", groups: 2, placed: true, hostile: true, notes: "Five: Harpies and Harpy Hags (14, 18)."}
+  - id: room:queens_eyrie
+    name: The Harpy Queen's eyrie
+    kind: room
+    extent: [4608, 4096]
+    shape: "a high cloud ringed with broken rock, the great nest in its middle"
+    at: [9728, 8960]
+    floor: 640
+    purpose: "The Harpy Queen's nest: the queen and her court; the hoard."
+    population:
+      - {id: pop:queens_court, actor: "11521", groups: 2, placed: true, hostile: true, notes: Six Hags.}
+      - {id: pop:queen, actor: "11522", groups: 1, placed: true, hostile: true, notes: "The Harpy Queen (24), with A2's boss modifiers if any."}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, notes: the queen's hoard}
+  - id: room:rhyme_garden
+    name: The rhyme garden
+    kind: room
+    extent: [3584, 3072]
+    at: [-13312, 1792]
+    floor: 128
+    purpose: Wind bells on posts and the second rhyming statue.
+    population:
+      - {id: pop:garden_feet, actor: "11600", groups: 1, placed: true, hostile: true, notes: Four Flying Feet.}
+  - id: room:stair_landing
+    name: The Stairway to Heaven's head
+    kind: room
+    extent: [4608, 3584]
+    at: [-10240, -3072]
+    floor: 0
+    purpose: Arrival from the Tower of High Magic's Stairway to Heaven (XD-11).
+    population:
+      - {id: pop:stair_feet, actor: "11600", groups: 1, placed: true, hostile: true, notes: Three Flying Feet (18).}
+  - id: room:windward_rock
+    name: Windward rock
+    kind: room
+    extent: [2048, 2048]
+    at: [-3584, 7424]
+    floor: -256
+    purpose: "A low rock north of the bridge head: an overlook down through a gap to the lagoon (X3)."
+    empty: true
+  - id: room:witch_landing
+    name: The Witch Clouds' landing
+    kind: room
+    extent: [4608, 3584]
+    shape: "a broad flat cloud, the stair's head on its south rim"
+    at: [11520, -5632]
+    floor: 0
+    purpose: "Arrival from the Witch Tower's roof: a cloud-stone stair rising out of the cloud sea."
+    population:
+      - {id: pop:landing_harpies, actor: "11520", groups: 2, placed: true, hostile: true, notes: "Three Harpies (14) and a Harpy Hag (18) on the landing's north side, 2,000 or more from the stair head (D-6.2)."}
+  - id: room:witch_perch
+    name: The witch's perch
+    kind: room
+    extent: [3072, 2560]
+    at: [10240, -10240]
+    floor: -128
+    purpose: "A low cloud south of the landing: the first rhyming statue and a third nest."
+    population:
+      - {id: pop:perch_harpies, actor: "11520", groups: 1, placed: true, hostile: true, notes: Three Harpies.}
+  - id: void:cloud_sea
+    name: The cloud sea
+    kind: void
+    purpose: "The sky below the islands (the open sky drawn under the horizon). A fall is caught under -1,000: east of x 3,072 it lands on X1 by the Witch Tower; between x -3,072 and 3,072 (the half-way cloud and the inner 2,000 of each span) in X2's Lake Darzog; west of x -3,072 on X3 by the Tower of High Magic (until X3 is built: Lake Darzog too). D-6.4."
+links:
+  - id: link:explorer_bridge
+    from: room:queens_eyrie
+    to: room:explorers_rock
+    kind: bridge
+    width: 256
+    rise: 256
+    notes: a rope bridge over the void
+  - id: link:eyrie_ramp
+    from: room:nest_spires
+    to: room:queens_eyrie
+    kind: ramp
+    width: 512
+    rise: 384
+    notes: a spiral of cloud-stone round the tallest spire
+  - id: link:garden_bridge
+    from: room:stair_landing
+    to: room:rhyme_garden
+    kind: bridge
+    width: 256
+    rise: 128
+  - id: link:garden_obs_bridge
+    from: room:rhyme_garden
+    to: room:observatory_isle
+    kind: bridge
+    width: 256
+    rise: 128
+    notes: "rope bridge in place of the garden ramp: keeps the High Magic loop (D-6.2)"
+  - id: link:heights_ramp
+    from: room:observatory_isle
+    to: room:golem_heights
+    kind: ramp
+    width: 512
+    rise: 512
+    notes: "the long ramp: the only way up to the golem heights (D-6.2), a visible dead end"
+  - id: link:high_causeway
+    from: room:stair_landing
+    to: room:observatory_isle
+    kind: ramp
+    width: 768
+    rise: 256
+  - id: link:lantern_bridge
+    from: room:stair_landing
+    to: room:lantern_cloud
+    kind: bridge
+    width: 256
+    rise: -128
+  - id: link:long_bridge_east
+    from: room:offering_terrace
+    to: room:half_way
+    kind: bridge
+    width: 384
+    rise: -192
+    purpose: "the long rope bridge, east span (3,883 rim to rim; D-6.2: 3,500-4,000)"
+  - id: link:long_bridge_west
+    from: room:half_way
+    to: room:observatory_isle
+    kind: bridge
+    width: 384
+    rise: 320
+    purpose: "the long rope bridge, west span (3,858 rim to rim; D-6.2: 3,500-4,000)"
+  - id: link:perch_bridge
+    from: room:witch_landing
+    to: room:witch_perch
+    kind: bridge
+    width: 256
+    rise: -128
+    notes: short rope bridge
+  - id: link:spires_ramp
+    from: room:offering_terrace
+    to: room:nest_spires
+    kind: ramp
+    width: 768
+    rise: 128
+  - id: link:windward_bridge
+    from: room:observatory_isle
+    to: room:windward_rock
+    kind: bridge
+    width: 256
+    rise: -512
+  - id: link:witch_causeway
+    from: room:witch_landing
+    to: room:offering_terrace
+    kind: ramp
+    width: 768
+    rise: 128
+    notes: cloud-stone causeway
+loops:
+  - id: loop:high_magic
+    spaces: [room:stair_landing, room:observatory_isle, room:rhyme_garden]
+    notes: Round the High Magic Clouds by the causeway and the two garden bridges (D-6.2).
+entrances:
+  - id: entrance:fall_east
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:x1
+    how: "Any fall east of x 3,072 (the Witch Clouds and the outer part of the east span): X1 by the Witch Tower."
+  - id: entrance:fall_middle
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:x2
+    how: "A fall between x -3,072 and 3,072: Lake Darzog on X2, no falling damage."
+  - id: entrance:fall_west
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:x3
+    how: "Any fall west of x -3,072: X3 by the Tower of High Magic; until X3 is built, X2's Lake Darzog (D-6.4)."
+  - id: entrance:high_magic_stair
+    space: room:stair_landing
+    kind: arrival
+    neighbour: roof:high_magic
+    facing: n
+    how: The Stairway to Heaven's last turn.
+  - id: entrance:witch_stair
+    space: room:witch_landing
+    kind: arrival
+    neighbour: roof:witch_tower
+    facing: n
+    how: The head of a cloud-stone stair rising out of the cloud sea above the Witch Tower.
+critical_path: [room:stair_landing, room:observatory_isle, room:half_way, room:offering_terrace]
+points_of_interest:
+  - id: poi:cloud_gaps
+    spaces: [room:half_way, room:windward_rock]
+    count: 2
+    kind: vista
+    behaviour: "Gaps in the cloud sea: the land far below (X2's Lake Darzog, X3's lagoon)."
+  - id: poi:explorer_statue
+    space: room:explorers_rock
+    kind: statue
+    behaviour: "A3's hook x8-sky.explorer_statue: the award Super Explorer and +2 Speed, once."
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:harpy_nests
+    spaces: [room:nest_spires, room:witch_perch]
+    count: 3
+    kind: camp
+    behaviour: "\"Harpy Nest. Destroy?\" (xeen/aaze0025:5); burnt, A3's hooks x8-sky.nest_1 to nest_3 pay 500 experience each. The queen's great nest holds her hoard."
+  - id: poi:observatory
+    space: room:observatory_isle
+    kind: device
+    behaviour: "The sorcerer's telescope: look through it to see the next main-quest place marked (a map note)."
+  - id: poi:offering_statues
+    space: room:offering_terrace
+    count: 2
+    kind: statue
+    behaviour: "Offering statues: a Crusader is given an item (treasure 3); anyone else is struck (damage). Once each."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:rhyme_statues
+    spaces: [room:witch_perch, room:rhyme_garden, room:observatory_isle]
+    count: 3
+    kind: statue
+    behaviour: "The source's rhymes (xeen/aaze0025:1, :2 and :4), read by anyone (the Linguist gate is a request to A3)."
+landmarks:
+  - id: landmark:long_bridge
+    spaces: [room:offering_terrace, room:half_way, room:observatory_isle]
+    what: The long rope bridge sagging over the gap
+    seen_from: [room:stair_landing, room:witch_landing, room:queens_eyrie]
+  - id: landmark:nest_spires
+    space: room:nest_spires
+    what: Rock-and-cloud spires with nests
+    seen_from: [room:observatory_isle, room:witch_landing]
+  - id: landmark:observatory
+    space: room:observatory_isle
+    what: The observatory's split dome and telescope
+    seen_from: [room:stair_landing, room:half_way, room:offering_terrace]
+sightlines:
+  - id: view:bridge
+    from: room:observatory_isle
+    to: [landmark:long_bridge, landmark:nest_spires]
+    what: "The signature view: from the west bridge head along the long bridge to the Witch Clouds, the land below through the gap."
+set_pieces:
+  - id: set:fall
+    kind: scripted
+    spaces: [void:cloud_sea]
+    rule: "A fall off any island is caught under -1,000 (a one-second check) and moved by zone (D-6.4) through A3's Xeen.skyFall: X1 lands 850 over the ground (about a third of each member's hit points, none with Feather Fall), Lake Darzog at the surface without damage."
+height_bands:
+  - id: band:high
+    range: [640, 896]
+    spaces: [room:queens_eyrie, room:explorers_rock, room:golem_heights]
+  - id: band:low
+    range: [-256, 0]
+    spaces: [room:witch_landing, room:stair_landing, room:witch_perch, room:half_way, room:windward_rock, room:lantern_cloud]
+  - id: band:mid
+    range: [128, 256]
+    spaces: [room:offering_terrace, room:nest_spires, room:observatory_isle, room:rhyme_garden]
+  - id: band:sea
+    level: -2000
+    spaces: [void:cloud_sea]
+    notes: "the cloud sea, far below"
+atmosphere: "Sky xeencloud (xeen_cloud_sea, below_horizon: sky, high sun); no rain; wind; music 25. Fly is not cast here ('the winds of the high clouds tear at spellcraft')."
+totals:
+  chests: 4
+  placed_monsters: 60
+  points_of_interest: 12
+notes: "L2 (A6 sub-agent, 2026-11-20): L1 approved with changes (D-6.2, D-6.4). The two archipelagos moved 1,536 closer (the long bridge's spans 3,883 and 3,858 rim to rim); the garden ramp gone and a rope bridge from the rhyme garden to the observatory isle; the islands within each archipelago drawn closer so no causeway is longer than the long ramp (3,472). Footprint about 78 by 64 cells. 60 placed: 29 on the Witch Clouds, 29 on the High Magic Clouds, 2 Cloud Golems (50, a trap: D-1.2)."

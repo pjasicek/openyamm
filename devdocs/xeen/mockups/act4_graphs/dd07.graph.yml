@@ -1,0 +1,216 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Great Eastern Tower (dark maze0065-0068, four levels) as one BLV of four floors, 640 apart (L1 0, L2 640,
+# L3 1280, L4 1920). Unlike its twin DD-05 (entered at the top, two stairs per pair of floors), the party enters at the
+# foot (D3's west door, Q-D19's key) and climbs one spiral stair round an open well that rises through all four floors
+# to the cone; the mages float across the well. The floating disc in the well is the way back down from L4.
+format: mu6-0
+map: DD-07
+key: dd07
+name: Eastern Tower
+stands_on: D3 Sandcaster and the Aging Forest (the knoll by the east rim)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors (D-9.3: about 30 monsters, under the M floor)"
+size: "21 review rooms, about 25 sectors (each floor's ring gallery two); four floors of about 2,800 across round a well of about 900, about 30 M units²; 10 doors"
+party: [36, 40]
+monsters:
+  levels: [28, 45]
+  boss: null
+  count: 30
+  groups: [2, 3]
+  families:
+    - "Floating mages (11200): Floating Adept 28 (15, a D tier A2 adds, 11203 proposed), Floating Magus 38 (9, an E tier, 11204 proposed), Mystic Mage 45 (4): the tower's mages; the family's own tiers start at 45 (Magic Mage 55, Mega Mage 70 are over the band 28-48)"
+    - "Eyes (11570): Floating Eye 40 (2): the mages' bound eyes, for the source's single Gamma Gazer (65, over the band)"
+  mix:
+    - {row: Floating Adept, id: "11203 (requested from A2)", level: 28, count: 15}
+    - {row: Floating Magus, id: "11204 (requested from A2)", level: 38, count: 9}
+    - {row: Mystic Mage, id: 11200, level: 45, count: 4}
+    - {row: Floating Eye, id: 11570, level: 40, count: 2}
+  kill_xp: "11.57k per member (46,276 / 4)"
+  kill_xp_target: "11.2k (MAPS §0 after D-9.3: 30 monsters at 28-48), +3 %"
+treasure: {level: 4}
+role: "Q-D18 The Jewel of Ages (the vault on L3: q-d18.jewel; 2 Energy Disks in the alcoves beside it: q-d18.l3_disks, M18; Ellinger's letter in the top floor's study: q-d18.letter, the Archmage promotion through Nasir); Q-D20: the Golden Griffin in the curio cabinet on L2 (q-d20.griffin)"
+role_short: "Q-D18, Archmage; Q-D20's Griffin"
+set_piece: "The levitation well: an open shaft from the ground floor to the slate cone with a ring gallery round it on every floor, the mages floating across it, a pale light falling from the cone; the floating disc that rides it from L4 to the door hall once its lever is pulled"
+sounds: "xeen_amb_tower (62802) as the bed (AUDIO: 'the towers of Mok'), two placed in the well; xeen_lift (62509) for the disc; xeen_spring_drink (62512) at L4's Fountain of Minimal Abilities"
+textures:
+  family: "Towers of Mok: MM8 Castle of Air d27 (gston1wl walls over gstntilev skirting, gston1fl, gstn1cl, gcstflor in the galleries, gcstdoor) as DD-05, DD-06 and DD-08 (dungeon_families towers: 'one family; accents per tower'). DD-07's accent: the mages' laboratory and study on L4 in MM7 School of Sorcery 7d14 (open question 6); the vault's ward a door leaf with XD-04's light texture; the dead mirror D-37's xkmirror"
+  cap: 45
+  planned: 26
+  new: 0
+  distinct_from: "DD-05 Western Tower (A8): its accent is d22's pale marble chapel, it is entered at the top, its stairs come in pairs; DD-07 has the central well, the floating disc, the vault's ward, the Griffin and the Jewel"
+floors:
+  - {floor: 3, name: "L4: under the cone", height: 1920}
+  - {floor: 2, name: "L3: the vault floor", height: 1280}
+  - {floor: 1, name: "L2: the curio floor", height: 640}
+  - {floor: 0, name: "L1: ground floor", height: 0}
+spaces:
+  # floor 3, L4 (z 1920; the well rises into the cone, about 2,900)
+  - {id: room:disc_top, name: The disc's landing, kind: shaft, size: S, floor: 3, at: [0, 0], monsters: 0,
+     purpose: "A railed opening in L4's gallery over the well where the floating disc (a lift) rests at load; the disc's lever on the rail post: 'Down?' sends it with the party to the door hall. Built into room:ring4 (D-45 (3)): an opening in the top gallery's east rail, not a room of its own."}
+  - {id: room:ring4, name: Gallery under the cone, kind: corridor, size: M, floor: 3, at: [1, 0], monsters: 3,
+     population: [{row: Floating Magus, level: 38, count: 2}, {row: Floating Adept, level: 28, count: 1}],
+     purpose: "The top gallery round the well under the cone's rafters; two of the mages float over the void. The chandelier hangs from the cone's ring beam over the well."}
+  - {id: room:stair4, name: Top landing, kind: stair, size: S, floor: 3, at: [1, 1], monsters: 0,
+     purpose: "The spiral stair's last landing; doors to the gallery and the study."}
+  - {id: room:lab, name: "The laboratory", kind: hall, size: M, floor: 3, at: [2, 0], monsters: 1,
+     population: [{row: Mystic Mage, level: 45, count: 1}],
+     purpose: "Benches of glass and brass, the Bubbling Vat, the Fountain of Minimal Abilities ('Your statistics have increased!', +1 to every statistic once per character) and the Fountain of Life (heals, any time). Floor braziers under the retorts."}
+  - {id: room:study, name: "The Archmagus's study", kind: room, size: M, floor: 3, at: [2, 1], goal: true, chest: 4, monsters: 3,
+     population: [{row: Mystic Mage, level: 45, count: 2}, {row: Floating Eye, level: 40, count: 1}],
+     purpose: "The tower master's study: on the desk Ellinger's sealed letter 'To the Guildmaster of Sandcaster' (q-d18.letter); two lecterns, the Book of Fantastic Knowledge (+2 Intellect once per character) and the Book of Great Power ('A magic aura around the book pushes you back.'); the master's chest; his bound eye floats by the window."}
+  # floor 2, L3 (z 1280)
+  - {id: room:stair3, name: Third landing, kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0,
+     purpose: "The spiral stair's L3 landing."}
+  - {id: room:ring3, name: Third gallery, kind: corridor, size: M, floor: 2, at: [2, 0], monsters: 2,
+     population: [{row: Floating Eye, level: 40, count: 1}, {row: Floating Adept, level: 28, count: 1}],
+     purpose: "The gallery round the well; the vault's door of light on its east side, humming."}
+  - {id: room:conjury, name: Conjury, kind: room, size: M, floor: 2, at: [2, 1], monsters: 3,
+     population: [{row: Floating Magus, level: 38, count: 2}, {row: Floating Adept, level: 28, count: 1}],
+     purpose: "A summoning room with a chalk circle; the west ward pylon, a crystal on a pillar feeding a beam to the vault (an indoor destructible: break it, its beam goes out). A passage in the wall to the scrying room."}
+  - {id: room:scrying, name: Scrying room, kind: room, size: M, floor: 2, at: [3, 1], monsters: 3,
+     population: [{row: Floating Magus, level: 38, count: 2}, {row: Floating Adept, level: 28, count: 1}],
+     purpose: "Crystal balls on stands round a black pool; the east ward pylon (destructible)."}
+  - {id: room:vault, name: "The mages' vault", kind: room, size: M, floor: 2, at: [3, 0], goal: true, monsters: 1,
+     population: [{row: Mystic Mage, level: 45, count: 1}],
+     purpose: "Behind the door of light (it fades when both pylons are broken): the Jewel of Ages on a stand of black glass (q-d18.jewel); the vault's keeper."}
+  - {id: room:alcoves, name: Disk alcoves, kind: room, size: S, floor: 2, at: [4, 0], goal: true, monsters: 0,
+     purpose: "Alcoves off the vault with a mage's experiment of wires and two Energy Disks in it (q-d18.l3_disks: 'Disc.'); then 'Loose wires where the disks were.'"}
+  # floor 1, L2 (z 640)
+  - {id: room:stair2, name: Second landing, kind: stair, size: S, floor: 1, at: [1, 0], monsters: 0,
+     purpose: "The spiral stair's L2 landing."}
+  - {id: room:ring2, name: Second gallery, kind: corridor, size: M, floor: 1, at: [2, 0], monsters: 3,
+     population: [{row: Floating Adept, level: 28, count: 2}, {row: Floating Magus, level: 38, count: 1}],
+     purpose: "The gallery round the well; mages float out over the void to cast from the far side."}
+  - {id: room:cabinet, name: Cabinet of curiosities, kind: room, size: M, floor: 1, at: [3, 0], goal: true, monsters: 2,
+     population: [{row: Floating Magus, level: 38, count: 2}],
+     purpose: "Glass cases of labelled oddities; in the last the Golden Griffin ('Griffin, gold. Thaumic value: none. Bought anyway.', q-d20.griffin)."}
+  - {id: room:dormitory, name: "Mages' dormitory", kind: room, size: M, floor: 1, at: [3, 1], chest: 4, monsters: 2,
+     population: [{row: Floating Adept, level: 28, count: 2}],
+     purpose: "Narrow beds and robes on pegs; the mages' chest."}
+  - {id: room:mirror, name: Mirror room, kind: room, size: S, floor: 1, at: [2, 1], monsters: 0,
+     purpose: "A tall dead mirror in a carved frame (xkmirror): 'The mirror does not respond.' Between the dormitory and the landing."}
+  # floor 0, L1 (z 0 = D3's knoll at 1,952)
+  - {id: room:well_foot, name: Foot of the well, kind: shaft, size: M, floor: 0, at: [0, 0], set_piece: true, monsters: 3,
+     population: [{row: Floating Adept, level: 28, count: 3}],
+     purpose: "The bottom of the well: a round floor inlaid with a star, the shaft of light from the cone four floors up, the disc's empty socket (its call lever works once the disc has been sent down from L4); three adepts float in the light."}
+  - {id: room:door_hall, name: Door hall, kind: room, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "The arrival (entrance:d3_door) inside the west door, at the foot of the spiral stair. Quiet (D-11.3). Wall sconces."}
+  - {id: room:ring1, name: East gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{row: Floating Adept, level: 28, count: 2}],
+     purpose: "The ground floor's gallery round the well's east side."}
+  - {id: room:commons, name: "Mages' commons", kind: room, size: M, floor: 0, at: [2, 1], monsters: 2,
+     population: [{row: Floating Adept, level: 28, count: 2}],
+     purpose: "A refectory and reading room: a long table beside the line between its doors, lore books on shelves."}
+  - {id: room:store, name: Store room, kind: room, size: S, floor: 0, at: [3, 0], chest: 4, monsters: 0,
+     purpose: "A dead end with a chest: reagents in jars and sacks in clumps (a storeroom)."}
+links:
+  # L4
+  - {id: link:disc_ring4, from: room:disc_top, to: room:ring4, kind: open}
+  - {id: link:ring4_lab, from: room:ring4, to: room:lab, kind: door}
+  - {id: link:lab_study, from: room:lab, to: room:study, kind: door}
+  - {id: link:study_stair4, from: room:study, to: room:stair4, kind: door}
+  - {id: link:stair4_ring4, from: room:stair4, to: room:ring4, kind: open}
+  # L4 to L3
+  - {id: link:stair_3_4, from: room:stair3, to: room:stair4, kind: stair}
+  # L3
+  - {id: link:stair3_ring3, from: room:stair3, to: room:ring3, kind: open}
+  - {id: link:ring3_conjury, from: room:ring3, to: room:conjury, kind: door}
+  - {id: link:ring3_scrying, from: room:ring3, to: room:scrying, kind: door}
+  - {id: link:conjury_scrying, from: room:conjury, to: room:scrying, kind: open}
+  - {id: link:ward, from: room:ring3, to: room:vault, kind: door, label: "Door of light", opened_by: state:pylon_w}
+  - {id: link:vault_alcoves, from: room:vault, to: room:alcoves, kind: open}
+  # L3 to L2
+  - {id: link:stair_2_3, from: room:stair2, to: room:stair3, kind: stair}
+  # L2
+  - {id: link:stair2_ring2, from: room:stair2, to: room:ring2, kind: open}
+  - {id: link:ring2_cabinet, from: room:ring2, to: room:cabinet, kind: door}
+  - {id: link:cabinet_dorm, from: room:cabinet, to: room:dormitory, kind: door}
+  - {id: link:dorm_mirror, from: room:dormitory, to: room:mirror, kind: open}
+  - {id: link:mirror_stair2, from: room:mirror, to: room:stair2, kind: open}
+  # L2 to L1
+  - {id: link:stair_1_2, from: room:door_hall, to: room:stair2, kind: stair}
+  # L1
+  - {id: link:hall_well, from: room:door_hall, to: room:well_foot, kind: open}
+  - {id: link:well_ring1, from: room:well_foot, to: room:ring1, kind: open}
+  - {id: link:ring1_commons, from: room:ring1, to: room:commons, kind: door}
+  # Not built (D-45 (3)): the commons opens only on the gallery (link:ring1_commons); loop:l1 is door hall, well and gallery.
+  - {id: link:commons_hall, from: room:commons, to: room:door_hall, kind: door}
+  - {id: link:ring1_store, from: room:ring1, to: room:store, kind: door}
+  # the well
+  - {id: link:disc, from: room:disc_top, to: room:well_foot, kind: lift, label: "Floating disc (lever)", opened_by: state:disc_lever}
+states:
+  - {id: state:tower_door, kind: item, where: "D3, the tower's west door",
+     what: "q-d18.tower_door: the Key to the Eastern Tower (12340, from Q-D19's Ali Baba chest in DD-06) opens D3's door (A5's event; sets q-d18.started, the tower autonote). This map holds the arrival.", opens: [], draw: false}
+  - {id: state:pylon_w, kind: puzzle, where: room:conjury,
+     what: "The two ward pylons (indoor destructibles, west in the conjury, east in the scrying room): each broken pylon's beam goes out; when both are broken the door of light fades (a door leaf with a translucent light texture, XD-04's ward and XD-25's door of light) and stays open. Hover: 'Ward pylon'. The vault door's click before: 'A wall of light hums in the doorway. Two beams feed it, from the west and from the east.'",
+     opens: [link:ward]}
+  - {id: state:pylon_e, kind: puzzle, where: room:scrying, what: "The east pylon (as state:pylon_w).", opens: [link:ward]}
+  - {id: state:disc_lever, kind: lever, where: room:disc_top,
+     what: "The floating disc (a two-state lift in the well, L4 and L1 only, no stops between, as DD-02's): it rests at L4 at load; the lever on L4 sends it down with the party; after that the call lever at the well's foot brings it either way (a map variable). Before, the foot's lever: 'The disc does not answer from below.'",
+     opens: [link:disc], draw: false}
+  - {id: state:letter, kind: item, where: room:study,
+     what: "q-d18.letter: Ellinger's sealed letter (12361) and the letter autonote; Nasir in Sandcaster reads it (the Archmage promotion).", opens: [], draw: false}
+exits:
+  - {id: exit:d3_door, space: room:door_hall, at: [0, 1], kind: both, label: "D3: the tower's west door",
+     arrival: "entrance:d3_door: in the door hall about 256 inside the door at the stair's foot, facing east (0), into the tower",
+     neighbour: "D3 thing:eastern_tower door (hkm1d, one leaf; q-d18.tower_door) on the knoll at (97, 46) = (16896, 9216, 1952), facing west; out by the exit preset ('Exit the Great Eastern Tower?', dark/aaze0065:0) to D3 (16384, 9216, 1952) facing west (1024), on the knoll in front of the door"}
+hooks:
+  - {hook: q-d18.tower_door, space: "D3 (A5)", how: "the tower's door; listed for the pair, not placed here"}
+  - {hook: q-d18.jewel, space: room:vault, how: "the stand (clicked; once: the Jewel of Ages 12527; else 'An empty stand.')"}
+  - {hook: q-d18.l3_disks, space: room:alcoves, how: "the experiment (clicked; once: 2 Energy Disks by map_gives)"}
+  - {hook: q-d18.letter, space: room:study, how: "the desk (clicked; once: Ellinger's letter and autonote 4581)"}
+  - {hook: q-d20.griffin, space: room:cabinet, how: "the last glass case (clicked; once: the Golden Griffin 12351)"}
+critical_path: [room:door_hall, room:stair2, room:stair3, room:ring3, room:conjury, room:scrying, room:ring3, room:vault, room:alcoves, room:ring3, room:stair3, room:stair4, room:study]
+return_path: [room:study, room:lab, room:ring4, room:disc_top, room:well_foot, room:door_hall]
+loops:
+  - {id: loop:l1, spaces: [room:door_hall, room:well_foot, room:ring1, room:commons], notes: "Round the ground floor's well."}
+  - {id: loop:l2, spaces: [room:stair2, room:ring2, room:cabinet, room:dormitory, room:mirror], notes: "Round L2: the gallery, the cabinet, the dormitory, the mirror room."}
+  - {id: loop:l3, spaces: [room:ring3, room:conjury, room:scrying], notes: "The two pylon rooms joined by the passage in the wall."}
+  - {id: loop:l4, spaces: [room:ring4, room:lab, room:study, room:stair4], notes: "Round the top floor through the laboratory and the study."}
+  - {id: loop:disc, spaces: [room:door_hall, room:stair2, room:stair3, room:stair4, room:ring4, room:disc_top, room:well_foot],
+     notes: "Up the spiral stair, down on the floating disc once its lever is pulled."}
+lines:
+  - {text: "Exit the Great Eastern Tower?", ref: "dark/aaze0065:0", where: "room:door_hall (the exit preset's meaning, D-24)"}
+  - {text: "The mirror does not respond. / Where to? / Destination Unknown", ref: "dark/aaze0066:1-3", where: "room:mirror (flavour only: 'The mirror does not respond.')"}
+  - {text: "Jewel / Disc / Nothing here.", ref: "dark/aaze0067:0-2", where: "room:vault (hover 'Jewel'), room:alcoves ('Disc'), the beds and shelves' finds"}
+  - {text: "Bubbling Vat / Fountain of Minimal Abilities / Your statistics have increased! / The water is cool and refreshing. / Fountain of Life", ref: "dark/aaze0068:0-4", where: room:lab}
+  - {text: "Book of Fantastic Knowledge / Your intellect is already fantastic! / A magic aura around the book pushes you back. / +50 Intellect (permanent) -> +2", ref: "dark/aaze0068:5-8", where: room:study}
+  - {text: "Book of Great Power / ... the cost is dear ... / You gain no more power from the book.", ref: "dark/aaze0068:9-11", where: "room:study (the book refuses: aaze0068:7)"}
+  - {text: "The bittersweet water runs down your throat.  The effect is instantaneous, you age 50 years! +1 Level (permanent).", ref: "dark/aaze0068:12", where: "room:lab, the Bubbling Vat (open question 4)"}
+open_questions:
+  - q: "Rows. D-9.3 keeps the tower's floating mages at 28-48, but A2's floating mages start at 45 (Mystic 45, Magic 55, Mega 70) and the source's Gamma Gazer is 65."
+    options: ["(a) two lower floating-mage tiers from A2: D 'Floating Adept' 28 (11203, Mystic look, Fire Bolt E), E 'Floating Magus' 38 (11204, Lightning Bolt M); Mystic Mage 45 on top; two Floating Eyes 40 (eyes A) for the Gamma Gazer: 11.57k, +3 %",
+              "(b) no new rows: Sandcaster's Sorceresses 30 and Enchantresses 40 as the tower's lower ranks with the Mystic Mages (walking, not floating), 11.4k",
+              "(c) the family as it is: 30 Mystic Mages 45 (18.6k, +66 %)"]
+    recommend: "(a): the floating is the tower's character (MAPS: 'Floating mages'); the eyes replace the Gazer at the band"
+    depends: "A2 (rows, fly Y on the whole floating-mage family so they hold over the well), A2's Act IV recount"
+  - q: "Count against class. MAPS keeps DD-07 an M dungeon (four floors) and D-9.3 gives it about 30 monsters, under the M floor of 45."
+    options: ["(a) M by size (21 rooms, about 25 sectors) with D-9.3's 30: a sparse tower of strong casters", "(b) 45 at the M floor (about 17.4k, +55 % on its row)", "(c) re-class S (not possible: four floors and a well need about 25 sectors)"]
+    recommend: "(a)"
+    depends: "nothing (D-9.3 stands)"
+  - q: "L4's gifts. The source's Fountain of Minimal Abilities gives +10 to all stats; the Book of Fantastic Knowledge +50 Intellect; the Book of Great Power +5 levels for every secondary skill; the vat's water +1 level for 50 years. Rule: MM6-MM8 sizes, no levels."
+    options: ["(a) the fountain +1 to every statistic once per character (DD-09's barrel size, D-27); the Book of Fantastic Knowledge +2 Intellect once per character ('Your intellect is already fantastic!' after); the Book of Great Power refuses everyone ('A magic aura around the book pushes you back.'); the vat a dressing with a hover name only; the Fountain of Life heals",
+              "(b) as (a) and the vat ages ten years for +2 Endurance (a gamble, Thaddeus's fountain below the knoll takes the years back)",
+              "(c) the fountain +2 to one statistic of the member's choice"]
+    recommend: "(a); 2 player bits (fountain, book) from A3"
+    depends: "A3 (two player bits, lines), A2 (Act IV values)"
+  - q: "The vault's lock. A3's hooks put the jewel 'in the mages' vault'; the source's vault is open. Every locked door needs its key placed and named."
+    options: ["(a) a door of light fed by two pylons (destructibles) in the two rooms either side: break both and it fades (no key; the vault door's click says so)",
+              "(b) a key on the Mystic Mage in the study (L4), so the vault is opened on the way down",
+              "(c) an open vault"]
+    recommend: "(a): the pylons give L3 its errand and its loop; nothing to carry"
+    depends: "A1's destructibles word (exists, INDOOR_DESTRUCTIBLES); the light texture (XD-04's)"
+  - q: "The dead mirror on L2 ('Where to?' / 'Destination Unknown'). D-25 left DD-06's mirror out; D-37 made xkmirror for DD-02's dead mirror."
+    options: ["(a) a dead mirror as flavour with xkmirror: 'The mirror does not respond.'", "(b) left out (the mirror room becomes a linen room)"]
+    recommend: "(a)"
+    depends: "nothing"
+  - q: "The accent. dungeon_families gives the four Towers of Mok one family (d27) with an accent per tower; DD-05 took MM8 Temple of the Sun d22 for its chapel."
+    options: ["(a) MM7 School of Sorcery 7d14 for L4's laboratory and study (XD-12 Darzog's Tower uses it on Cloudside)", "(b) MM6 Agar's Laboratory 6d19 (DD-02 Ellinger's, on the same face)", "(c) no accent: d27 throughout"]
+    recommend: "(a): a mage's laboratory, on the other face from XD-12"
+    depends: "A6 (dungeon_families assignment line for DD-07)"
+  - q: "Inside against outside. D3's tower (A5) stands on its knoll in three tiers under a slate cone; the interior is four floors of about 2,800 across round a well."
+    options: ["(a) the interior larger than the shell, as DD-02, DD-05 and DD-06", "(b) A5 widens the tower"]
+    recommend: "(a)"
+    depends: "nothing on D3"

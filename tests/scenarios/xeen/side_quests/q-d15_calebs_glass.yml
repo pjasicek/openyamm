@@ -1,0 +1,180 @@
+# Xeen side quest Q-D15, Caleb's Magnifying Glass (D3, D4, DD-23), from a new game on D3 with a level-30 party. Caleb at
+# his Crossroads stall (house 4646, NPC 5245): Magnifying glass (started 113300, autonote 4550), and again. Overland to
+# D4: the cave in the crag on Magic Mountain (D4 event 74: the lair's line, "Enter the cave?" Yes) into DD-23: up
+# through the perch cave, the ramp and the ledge walk to the gallery; a roosting rock (event 19): "Do you wish to
+# destroy the Gargoyle Lair?" No (the nest then refuses: "Every gargoyle ... turns its head"), then Yes (lair_destroyed
+# 113301, the five rocks broken); another rock's "Rock dust."; the nest (event 12: glass_found 113302, Caleb's glass
+# 12352; again its else text) and the hoard; down by the rock steps to the mouth (event 11) and out. Overland to D3:
+# Caleb (done 113303: 5,000 XP per member, 2,000 gold, a T4 item, the glass taken), and again.
+# Routes: devdocs/xeen/briefs/d3/L4/playtest.yml (Caleb's stall), briefs/d4/L4/playtest.yml (the cave mouth),
+# briefs/dd23/L4/playtest.yml (the walk). Quest logic: source/quests/q-d15.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d15_calebs_glass.yml --scenario-no-color
+id: xeen.side_quests.q-d15
+title: "Xeen Q-D15: Caleb's magnifying glass; the Gargoyle Lair destroyed"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d3.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 30, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 30, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d3.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113300, 113301, 113302, 113303]}
+  # Caleb at his stall: Magnifying glass (started), and again.
+  - set_pose: {map: xeen_d3.odm, x: -1664, y: 9436, z: 1248, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5245}}
+  - select_topic: {match_label: "Magnifying glass"}
+  - assert: {dialog: {text_contains: "Gargoyles were loitering around the tent. Gargoyles like shiny things."}}
+  - select_topic: {match_label: "Magnifying glass"}
+  - assert: {dialog: {text_contains: "I see you didn't find my magnifying glass."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113300]}
+  - assert: {autonote: {id: 4550}}
+  # Overland to D4: the cave in the crag on Magic Mountain (event 74).
+  - travel: {map: xeen_d4.odm, days: 1}
+  - assert: {map: xeen_d4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d4.odm, x: -9011, y: 10547, z: 2299, yaw: 2.3562, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # The lair's line is the question window's text, "Enter the cave?" its prompt (the INPUT line names it).
+  - play_lua: {source: "click(74); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd23.blv}
+  - assert: {party_position: {x: 0, y: 256, radius: 128}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # DD-23: up through the cleft and the perch cave, the ramp and the ledge walk to the gallery.
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 0, y: 2100, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -650, y: 2496, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1088, y: 2560, z: 0, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1088, y: 3168, z: 320, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1088, y: 3800, z: 640, z_tolerance: 60, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -600, y: 3776, z: 640, z_tolerance: 20, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 320, y: 3776, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 320, y: 4672, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 800, y: 4672, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # A roosting rock: No, then Yes (the lair destroyed); another rock's else line.
+  - walk_to: {x: 1000, y: 4920, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to destroy the Gargoyle Lair?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local s = status(); close(); if qbit(113301) then error('lair_destroyed set on No') end; if not string.find(s, 'You leave the roosting rocks standing.', 1, true) then error('No said: ' .. s) end"}
+  # The nest while the roost stands: its fail line, no glass (q-d15.glass requires lair_destroyed); back to the rocks.
+  - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 6080, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "close(); click(12); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Every gargoyle on the rocks above turns its head as you reach for it.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12352) ~= 0 or qbit(113302) then error('the glass before the roost fell') end"}
+  - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1000, y: 4920, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "With great effort, you pound roosting rocks to powder and scatter the dust to the wind."}}
+  - play_lua: {source: "close(); if not qbit(113301) then error('lair_destroyed 113301 not set') end"}
+  - console: {line: destructible 1 state, expect_contains: broken}
+  - console: {line: destructible 5 state, expect_contains: broken}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Rock dust. The gargoyles will have to sit somewhere else."}}
+  - play_lua: {source: "close()"}
+  # The nest of shiny things: Caleb's glass, once; the hoard.
+  - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 6080, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "close(); click(12); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[with 'CALEB' scratched on the handle. Very small.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12352) ~= 1 then error("no Caleb's glass: " .. pack_items()) end
+        if not qbit(113302) then error("glass_found 113302 not set") end
+  - play_lua: {source: "click(12); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Spoons, buckles, broken mirrors.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12352) ~= 1 then error('the glass was given twice') end"}
+  - walk_to: {x: 1590, y: 6130, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do loot_chest(4); if held() ~= 0 then stow() end end; close()"}
+  # Down by the rock steps to the mouth (event 11) and out to D4.
+  - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1536, y: 4600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1536, y: 3900, z: 360, z_tolerance: 160, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1536, y: 3400, z: 0, z_tolerance: 48, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1536, y: 3050, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 900, y: 2752, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 110, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: -9216, y: 10752, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Overland to D3: Caleb (done: the glass taken, 5,000 XP per member, 2,000 gold, a T4 item), and again.
+  - travel: {map: xeen_d3.odm, days: 1}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: -1664, y: 9436, z: 1248, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); remember('items', pack_items()); for i = 0, 3 do remember('xp' .. i, experience(i)) end; log('pack before: ' .. pack_items())"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5245}}
+  - select_topic: {match_label: "Magnifying glass"}
+  - assert: {dialog: {text_contains: "How wonderful! You have located my magnifying glass."}}
+  - select_topic: {match_label: "Magnifying glass"}
+  - assert: {dialog: {text_contains: "Always nice to see you! Come and look at this."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not qbit(113303) then error("done 113303 not set") end
+        if item_count(12352) ~= 0 then error("Caleb did not take his glass") end
+        if gold() - recall("gold") ~= 2000 then error("Caleb paid " .. (gold() - recall("gold")) .. " gold") end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 5000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+        local before, gained = {}, nil
+        for id in string.gmatch(recall("items"), "(%d+)x") do before[id] = true end
+        for id in string.gmatch(pack_items(), "(%d+)x") do if not before[id] then gained = id end end
+        if gained == nil then error("no T4 item from Caleb: " .. pack_items()) end
+        log("Caleb's item: " .. gained)

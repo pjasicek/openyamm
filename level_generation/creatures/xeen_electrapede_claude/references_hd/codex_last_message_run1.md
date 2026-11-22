@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_electrapede_claude/references_hd/00_three_quarter.png) as an unresized 1536 × 1024 RGBA PNG. The built-in generator’s corrective render gives the visible creature at least 158 px of clearance on every side. Both prompts and the selection reason are in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_electrapede_claude/references_hd/generation_runs.json).
+
+A few margin pixels retain faint alpha of up to 3/255 in the original output.

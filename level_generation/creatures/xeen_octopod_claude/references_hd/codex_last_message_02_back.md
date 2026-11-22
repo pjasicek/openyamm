@@ -1,0 +1,3 @@
+Saved [02_back.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/02_back.png). The rear view shows a smooth red dome and eight distinct hooked tentacles with mustard ring suckers. The 1536×1024 PNG has at least 95 px of fully transparent margin on every side.
+
+After one corrective generation, I selected the cleaner first render and cleared pixels at 1/255 opacity. Both prompts, input hashes, and selection reasons are in the [generation log](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/generation_runs_02_back.json).

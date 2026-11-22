@@ -1,0 +1,89 @@
+# Xeen side quest Q-D21, Ector's Ring (D4), from a new game on D4 with a level-30 party. The woodpile on Magic Mountain
+# before Ector asks (D4 event 44: firewood, q-d21.woodpile's fail text). Ector by his cabin in the Forest of Peril (actor 21, NPC 5320): The
+# ring (started 113420), and again. The woodpile (found 113421, Ector's Ring 12522), and again (its else text). Ector:
+# The ring (done 113422: 3,000 XP per member, a T5 item, the ring kept), and again.
+# Routes: devdocs/xeen/briefs/d4/L4/playtest.yml (Ector, the woodpile). Quest logic: source/quests/q-d21.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d21_ectors_ring.yml --scenario-no-color
+id: xeen.side_quests.q-d21
+title: "Xeen Q-D21: Ector's ring from the woodpile on Magic Mountain"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 30, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 30, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d4.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113420, 113421, 113422]}
+  # The woodpile before Ector asks: nothing to find.
+  - set_pose: {map: xeen_d4.odm, x: -8704, y: 5939, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(44); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, [[Firewood, stacked by someone who cared about stacking.]], 1, true) then error('status line: ' .. s) end"}   # D-90
+  - play_lua: {source: "close(); if qbit(113421) or has_item(12522) or held() == 12522 then error('the ring found before Ector asked') end"}
+  # Ector by his cabin: The ring (started), and again.
+  - set_pose: {map: xeen_d4.odm, x: -14643, y: -4710, z: 1440, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 21}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5320}}
+  - select_topic: {match_label: "The ring"}
+  - assert: {dialog: {text_contains: "now it's somewhere in the woodpile. Fetch it and I'll make it worth the walk."}}
+  - select_topic: {match_label: "The ring"}
+  - assert: {dialog: {text_contains: "Third log, if I remember right. I never remember right."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113420]}
+  # The woodpile on Magic Mountain: the ring; again, firewood.
+  - set_pose: {map: xeen_d4.odm, x: -8704, y: 5939, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(44); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Under the third log you find a heavy iron ring, warm to the touch.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12522) ~= 1 then error('no ring: ' .. pack_items()) end; if not qbit(113421) then error('found 113421 not set') end"}
+  - play_lua: {source: "click(44); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, [[Firewood, stacked by someone who cared about stacking.]], 1, true) then error('status line: ' .. s) end"}   # D-90
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12522) ~= 1 then error('a second ring') end"}
+  # Ector: The ring (done: 3,000 XP per member, a T5 item, the ring kept), and again.
+  - set_pose: {map: xeen_d4.odm, x: -14643, y: -4710, z: 1440, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); remember('items', pack_items()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 21}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5320}}
+  - select_topic: {match_label: "The ring"}
+  - assert: {dialog: {text_contains: "Keep it. And take this for the climb."}}
+  - select_topic: {match_label: "The ring"}
+  - assert: {dialog: {text_contains: "Wear it in good health. It makes sure you have plenty."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not qbit(113422) then error("done 113422 not set") end
+        if item_count(12522) ~= 1 then error("the ring is gone: " .. pack_items()) end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 3000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+        if gold() ~= recall("gold") then error("Ector paid gold") end
+        local before, gained = {}, nil
+        for id in string.gmatch(recall("items"), "(%d+)x") do before[id] = true end
+        for id in string.gmatch(pack_items(), "(%d+)x") do if not before[id] then gained = id end end
+        if gained == nil then error("no T5 item from Ector: " .. pack_items()) end
+        log("Ector's item: " .. gained)

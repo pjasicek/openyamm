@@ -1,0 +1,127 @@
+# M27 Castle Blackfang and the Queen (QUESTS M27; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Ambrose's griffin lands the party on Blackfang's walls (M25). Count Blackfang on L3 blocks the way down; the Queen is
+# in the dungeon, a vampire, and gives her bedroom safe's combination (3-31-62). The crown lies in that safe on Castle
+# Kalindra's third floor (stage 4, M26). Given the crown, she is herself again: Ambrose flies her home after nightfall
+# (the Queen, A4's 5001, moves to her throne room, house 4501; DD-14's placed Queen hides on `done`). She gives the key
+# to the Great Pyramid (M28). The Darkside sun fails further (Xeen.Stages.darkside_sun, sky xeendark3).
+id: M27
+title: The Queen of the Darkside
+act: IV
+kind: main
+status: full
+giver: 5001          # Queen Kalindra (DD-14's dungeon, then DD-03's throne room)
+maps: [D4, DD-14, DD-03]
+level: 42
+block: 27
+after: [m25.done, m26.stage4]
+source: "QUESTS M27; dark research 1 (steps 13-15): the combination 3-31-62, the key, \"Saved the Queen\""
+
+qbits:
+  dd14_arrived_once: {id: 117480, map: DD-14, note: "the map's own: first arrival in DD-14 (A8; block 117480-117519, provisional)"}
+  blackfang_slain: {id: 111540, note: "Count Blackfang's death on DD-14 L3 (A8)"}
+  crown: {id: 111541, pending: "phase 3-4: the crown from the Queen's bedroom safe (DD-03 L3, stage 4; A8)"}
+  done: {id: 111542, journal: "Queen Kalindra is herself again and home. The key to the Great Pyramid is yours; the Dragon Pharaoh is waiting for his orb.",
+            until: [m28.started]}
+  queen_found: {id: 111543, journal: "The Queen is a vampire in Castle Blackfang's dungeon. Her crown, in her bedroom safe at Castle Kalindra (3-31-62), can cure her.",
+                until: [done]}
+  queen_seen: {id: 111544, note: "m27.queen_cell's first text has shown (D-52: the cell's door or entry, once)"}
+
+autonotes:
+  safe: {id: 4127, text: "Queen Kalindra: her bedroom safe on Castle Kalindra's third floor opens to 3-31-62. The crown in it cures her.", category: Misc}
+
+awards:
+  queen: {id: 408, text: "Saved the Queen", sort: 2}
+
+items:
+  kalindra_crown: "Queen Kalindra's crown; her bedroom safe in DD-03 (stage 4); the Queen takes it"
+  pyramid_key: "the key to the Great Pyramid; the Queen gives it (M28)"
+
+npcs:
+  5001:              # Queen Kalindra
+    topics:
+      - n: 1
+        label: The crown
+        show: {not: {lua: "Xeen.onMap(\"Clouds of the Ancients\")"}}   # the wedded Queen on P5 has m42's line
+        states:
+          - when: {qbit: done}
+            text: "My crown, my castle, my thanks. The Pharaoh will want his orb back, and he does not like to wait. Neither, I find, do I."
+          - when: {item: kalindra_crown}
+            text: "My crown. Put it on my head, quickly, before the hunger comes back. ... There. I am myself. Ambrose will fly me home after dark; the sun and I are not friends yet. Take this: the key to the Great Pyramid. Alamar wanted it so badly he took a castle to hide it."
+            do: [{take: kalindra_crown}, {give: pyramid_key}, {set: done}, {award: queen}, {xp: 12000},
+                 {move_npc: [5001, 4501]}, {lua: "XeenQuests.hook(\"m27.ambrose_return\")"}]
+          - when: {qbit: queen_found}
+            text: "The safe in my bedroom. Three, thirty-one, sixty-two. Hurry. I am trying very hard not to look at your necks."
+          - text: "Stay back. Count Blackfang made me what I am, and I am hungry all the time. Only my own crown can undo it. It is in the safe in my bedroom, in my own castle: three, thirty-one, sixty-two. Bring it, Crusaders. Please."
+            do: [{set: queen_found}, {autonote: safe}]
+
+  5512:              # Ambrose on DD-14's landing (D-52: row 11917, from m25.done; his D6 topics are m25's)
+    topics:
+      - n: 2
+        label: Fly us out
+        show: {all: [{qbit: m25.done}, {lua: "Xeen.onMap(\"Castle Blackfang\")"}]}
+        text: "Are you ready to leave this awful place, friends? Then hold on."
+        do: [{lua: "XeenQuests.hook(\"m27.fly_out\")"}]
+
+hooks:
+  landing:
+    map: DD-14
+    where: "the wall-top arrival from Ambrose's griffin (M25): the first arrival's text"
+    text: "Castle Blackfang's battlements. Coffins stand in rows along the wall walk, lids ajar, like beds left unmade. The way down is through the Count."
+  blackfang:
+    map: DD-14
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Count Blackfang's death on L3 (A8: his group; the stair down to the dungeon opens on it)"
+    sets: [blackfang_slain]
+    once: true
+    text: "Count Blackfang falls, and every coffin lid in the castle slams shut at once. The stair to the dungeon grinds open."
+  dungeon_stair:
+    map: DD-14
+    gate: order
+    where: "the stair from L3 to the dungeon: shut until the Count is dead"
+    requires: {qbit: blackfang_slain}
+    reads: [blackfang_slain]
+    fail_text: "A force like wind pushes you back, lightly at first, but gaining strength as you put more effort into advancing. You are unable to descend."
+  queen_cell:
+    map: DD-14
+    gate: beat
+    where: "the Queen's cell in the dungeon, its door or its entry (D-52, not the bench): the first text, once (queen_seen), while the Queen is there (not done); the placed Queen (row 11918, npc 5001) talks on a click; on done the map hides her"
+    requires: {not: {qbit: done}}
+    reads: [done]
+    sets: [queen_seen]
+    once: true
+    text: "The last cell. A woman in a court gown sits on the stone bench with her back to the bars. \"Not too close,\" she says, without turning round."
+  crown_safe:
+    map: DD-03
+    gate: puzzle
+    where: "the Queen's bedroom safe on Castle Kalindra's third floor (stage 4): the map's combination prompt, answer 3-31-62 (or 33162); the right answer calls this"
+    requires: {all: [{qbit: m26.stage4}, {qbit: queen_found}]}
+    sets: [crown]
+    gives: [kalindra_crown]
+    once: true
+    text: "The safe opens on the Queen's crown, black iron set with a single pale stone."
+    fail_text: "A wall safe behind the Queen's mirror. Six dials, and no idea."
+    else_text: "The safe is empty."
+  ambrose_return:
+    map: DD-14
+    gate: beat
+    where: "the Queen's crown topic calls this after done (D-42 Q1): Ambrose's griffin flies everyone to Castle Kalindra's gate on D1 (entrance:dd03_gate, cell (45, 70), facing west); a status line, the move is the hook's"
+    requires: {qbit: done}
+    reads: [done]
+    status: true
+    text: "At nightfall Ambrose's griffin lands in the courtyard. The Queen rides in front, the party behind, and nobody looks down."
+    do: [{lua: "evt.MoveToMap(-9728, -3072, 1664, 1024, 0, 0, 0, 0, \"xeen_d1.odm\", {direct = true})"}]
+  fly_out:
+    map: DD-14
+    gate: beat
+    where: "Ambrose (row 11917, npc 5512) beside his griffin on the landing, from m25.done on (D-42 Q1, D-52): his topic Fly us out (dark/aaze0045:1) calls this, and so does the perch's click after its question (\"Are you ready to leave this awful place, friends?\" Yes). The hook moves the party to D4's entrance:dd14_griffin (6144, 5120, 1216) facing west (1024), {direct = true}; the map adds no move of its own. A status line: the move follows at once"
+    requires: {qbit: m25.done}
+    reads: [m25.done]
+    status: true
+    text: "The griffin drops off the wall, skims the lake and sets you down on the shore below the castle."
+    do: [{lua: "evt.MoveToMap(6144, 5120, 1216, 1024, 0, 0, 0, 0, \"xeen_d4.odm\", {direct = true})"}]
+
+riddles:
+  - {answer: "3-31-62", where: "DD-03 L3's bedroom safe (m27.crown_safe)", said_by: "Queen Kalindra (m27, The crown) and autonote 4127"}
+
+rewards: {xp: 12000, gold: 0, items: "the key to the Great Pyramid", award: "Saved the Queen"}
+playthrough: "D6: Ambrose's flight. DD-14: the walls; Count Blackfang (L3); the dungeon: the Queen (The crown). DD-03 L3: the crown safe (3-31-62). DD-14: the Queen (The crown); Ambrose flies everyone out."

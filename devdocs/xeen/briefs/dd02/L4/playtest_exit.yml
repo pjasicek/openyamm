@@ -1,0 +1,33 @@
+# The front door out of Ellinger's Tower (DD-02) onto D1 (lane A8, 2026-11-20). From the map's start just inside the
+# door, the exit window (leave Ellinger's Tower?), OK: the party stands on D1 (Castleview Vale, A6) at A6's return
+# point for the tower door (D1 event 102, thing:ellinger_tower, its face at 3285, 9321): (2560, 9216, 1152), facing
+# east, and walks off. Run with --world xeen --map xeen_dd02.blv (output/studio_cal/dd02/four.sh).
+id: xeen.dd02.l4.exit_d1
+title: Ellinger's Tower (DD-02 L4), out by the front door to D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 21, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 21, skills: [], equipment: {}}
+  - assert: {map: xeen_dd02.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: -1216, y: 640, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: -1310, y: 640, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "log('arrival ' .. status())"}
+  - assert: {party_position: {x: 2560, y: 9216, radius: 128, z_min: 1120, z_max: 1190}}
+  # Off the doorstep, north along the tower's west side.
+  - walk_to: {x: 2560, y: 9700, z: 1152, z_tolerance: 250, radius: 160, timeout_seconds: 30}
+  - assert: {map: xeen_d1.odm}

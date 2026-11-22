@@ -1,0 +1,531 @@
+format: 0
+variables: [plaque1_1, plaque1_2, plaque1_3, plaque1_4, plaque2_1, plaque2_2, plaque2_3, plaque2_4, plaque3_1, plaque3_2, plaque3_3, plaque3_4, plaque4_1, plaque4_2, plaque4_3, plaque4_4, summary1, summary2, summary3, summary4, slab3_sent]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Darkstone Tower: black stone, polished like a mirror. Far above, the stair to the Clouds of the Ancients."
+    seconds: 6
+    notes: "The arrival line (a new map line, no source text): the errand (M41) and where it goes."
+  - id: evt:chest_cistern
+    preset: chest
+    source: chest:cistern
+    title: Chest
+  - id: evt:chest_forge
+    preset: chest
+    source: chest:forge
+    title: Chest
+  - id: evt:chest_library
+    preset: chest
+    source: chest:library
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:door_cistern
+    preset: door
+    source: door:cistern
+    title: Door
+  - id: evt:door_east_way
+    preset: door
+    source: door:east_way
+    title: Door
+  - id: evt:door_forge
+    preset: door
+    source: door:forge
+    title: Door
+  - id: evt:door_inner_gate
+    preset: door
+    source: door:inner_gate
+    title: Gate
+  - id: evt:door_library
+    preset: door
+    source: door:library
+    title: Door
+  - id: evt:door_skull
+    preset: door
+    source: door:skull_pair
+    title: Doors
+  - id: evt:force
+    preset: text
+    source: door:force
+    title: Force field
+    text: A force repels you.
+    notes: "aazex116:0, while the force is up."
+  - id: evt:gong1
+    preset: script
+    source: panel:gong1
+    title: Gong
+    condition: {not: {qbit: ground_l1}}
+    opens: [mover:slab1]
+    effects:
+      - qbit: ground_l1
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 896, 0, 256)"
+      - show_actors: 21
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 896, 0, 256)"
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 896, 0, 256)"
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The gong (hover 'Gong', aazex113-116:1): m41.gong_voice, its two hidden guards shown (group 21, D-18), and mover:slab1 raised (map qbit 118120, D-57 Q15). A second ring: the voice only."
+  - id: evt:gong1_load
+    preset: switch
+    trigger: load
+    condition: {qbit: ground_l1}
+    opens: [mover:slab1]
+    effects:
+      - show_actors: 21
+    notes: "With 118120 the ground stays up and the guards shown on every load (D-56, D-57)."
+  - id: evt:gong2
+    preset: script
+    source: panel:gong2
+    title: Gong
+    condition: {not: {qbit: ground_l2}}
+    opens: [mover:slab2]
+    effects:
+      - qbit: ground_l2
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -896, 0, 1024)"
+      - show_actors: 22
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", -896, 0, 1024)"
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -896, 0, 1024)"
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The gong (hover 'Gong', aazex113-116:1): m41.gong_voice, its two hidden guards shown (group 22, D-18), and mover:slab2 raised (map qbit 118121, D-57 Q15). A second ring: the voice only."
+  - id: evt:gong2_load
+    preset: switch
+    trigger: load
+    condition: {qbit: ground_l2}
+    opens: [mover:slab2]
+    effects:
+      - show_actors: 22
+    notes: "With 118121 the ground stays up and the guards shown on every load (D-56, D-57)."
+  - id: evt:gong3e
+    preset: script
+    source: panel:gong3e
+    title: Gong
+    condition: {not: {qbit: ground_l3e}}
+    opens: [mover:riser3]
+    effects:
+      - qbit: ground_l3e
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 896, 0, 1792)"
+      - show_actors: 32
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 896, 0, 1792)"
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", 896, 0, 1792)"
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The gong (hover 'Gong', aazex113-116:1): m41.gong_voice, its two hidden guards shown (group 32, D-18), and mover:riser3 raised (map qbit 118123, D-57 Q15). A second ring: the voice only."
+  - id: evt:gong3e_load
+    preset: switch
+    trigger: load
+    condition: {qbit: ground_l3e}
+    opens: [mover:riser3]
+    effects:
+      - show_actors: 32
+    notes: "With 118123 the ground stays up and the guards shown on every load (D-56, D-57)."
+  - id: evt:gong3w
+    preset: script
+    source: panel:gong3w
+    title: Gong
+    condition: {not: {qbit: ground_l3w}}
+    opens: [mover:riser3]
+    effects:
+      - qbit: ground_l3w
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -896, 0, 1792)"
+      - show_actors: 31
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+      - lua: "evt.PlaySoundName(\"6stone door0101\", -896, 0, 1792)"
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -896, 0, 1792)"
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The gong (hover 'Gong', aazex113-116:1): m41.gong_voice, its two hidden guards shown (group 31, D-18), and mover:riser3 raised (map qbit 118122, D-57 Q15). A second ring: the voice only."
+  - id: evt:gong3w_load
+    preset: switch
+    trigger: load
+    condition: {qbit: ground_l3w}
+    opens: [mover:riser3]
+    effects:
+      - show_actors: 31
+    notes: "With 118122 the ground stays up and the guards shown on every load (D-56, D-57)."
+  - id: evt:hatch
+    preset: script
+    source: exit:hatch
+    title: Climb to the Clouds of the Ancients
+    lua: "evt.MoveToMap(4608, -3968, 0, 512, 0, 0, 0, 1, \"xeen_p5.blv\")"
+    notes: "F16 (2026-11-22): the game's standard entrance window (OK/Close) in place of the map's old Yes/No. Was: Up to P5 (A5's open-air BLV, installed 06:41 with entrance:fd03_roof): the map's own Yes/No with A3's m41.roof_exit question 'Climb to the Clouds of the Ancients?' (D-66: a roof or hatch exit into a BLV asks, as DD-15, DD-08 and FD-04 do; no hook, so no text before it, D-65), then on Yes at once to P5's entrance:fd03_roof [4608, -3968, 0] facing north (the coordinates are P5's named arrival, written out because the move waits on the answer)."
+  - id: evt:head_1
+    preset: script
+    source: panel:head_1
+    title: Head
+    effects:
+      - set:
+          var:
+            map_var: plaque4_1
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque4_1), 1) and IsAtLeast(MapVar(plaque4_2), 1) and IsAtLeast(MapVar(plaque4_3), 1) and IsAtLeast(MapVar(plaque4_4), 1) and not IsAtLeast(MapVar(summary4), 1) then
+              SetValue(MapVar(summary4), 1)
+              evt.StatusText("Head 13 speaks: T-MEOE-FENN-TEAO", 6)
+              XeenQuests.hook("m41.plaques_l4")
+          else
+              evt.SimpleMessage("Head 13 speaks: T-MEOE-FENN-TEAO")
+          end
+    notes: "aazex116:3 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l4 window (two windows in one handler show only the first)."
+  - id: evt:head_2
+    preset: script
+    source: panel:head_2
+    title: Head
+    effects:
+      - set:
+          var:
+            map_var: plaque4_2
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque4_1), 1) and IsAtLeast(MapVar(plaque4_2), 1) and IsAtLeast(MapVar(plaque4_3), 1) and IsAtLeast(MapVar(plaque4_4), 1) and not IsAtLeast(MapVar(summary4), 1) then
+              SetValue(MapVar(summary4), 1)
+              evt.StatusText("Head 14 speaks: Y\"PRNV4--G-DHE-N", 6)
+              XeenQuests.hook("m41.plaques_l4")
+          else
+              evt.SimpleMessage("Head 14 speaks: Y\"PRNV4--G-DHE-N")
+          end
+    notes: "aazex116:4 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l4 window (two windows in one handler show only the first)."
+  - id: evt:head_3
+    preset: script
+    source: panel:head_3
+    title: Head
+    effects:
+      - set:
+          var:
+            map_var: plaque4_3
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque4_1), 1) and IsAtLeast(MapVar(plaque4_2), 1) and IsAtLeast(MapVar(plaque4_3), 1) and IsAtLeast(MapVar(plaque4_4), 1) and not IsAtLeast(MapVar(summary4), 1) then
+              SetValue(MapVar(summary4), 1)
+              evt.StatusText("Head 15 speaks: PCU\"-E-TDEOE--S!", 6)
+              XeenQuests.hook("m41.plaques_l4")
+          else
+              evt.SimpleMessage("Head 15 speaks: PCU\"-E-TDEOE--S!")
+          end
+    notes: "aazex116:5 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l4 window (two windows in one handler show only the first)."
+  - id: evt:head_4
+    preset: script
+    source: panel:head_4
+    title: Head
+    effects:
+      - set:
+          var:
+            map_var: plaque4_4
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque4_1), 1) and IsAtLeast(MapVar(plaque4_2), 1) and IsAtLeast(MapVar(plaque4_3), 1) and IsAtLeast(MapVar(plaque4_4), 1) and not IsAtLeast(MapVar(summary4), 1) then
+              SetValue(MapVar(summary4), 1)
+              evt.StatusText("Head 16 speaks: EOT-LLOHUOFASYO-", 6)
+              XeenQuests.hook("m41.plaques_l4")
+          else
+              evt.SimpleMessage("Head 16 speaks: EOT-LLOHUOFASYO-")
+          end
+    notes: "aazex116:6 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l4 window (two windows in one handler show only the first)."
+  - id: evt:plaque1_1
+    preset: script
+    source: panel:plaque1_1
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque1_1
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque1_1), 1) and IsAtLeast(MapVar(plaque1_2), 1) and IsAtLeast(MapVar(plaque1_3), 1) and IsAtLeast(MapVar(plaque1_4), 1) and not IsAtLeast(MapVar(summary1), 1) then
+              SetValue(MapVar(summary1), 1)
+              evt.StatusText("A plaque reads: NWDA---Y-HNA", 6)
+              XeenQuests.hook("m41.plaques_l1")
+          else
+              evt.SimpleMessage("A plaque reads: NWDA---Y-HNA")
+          end
+    notes: "aazex113:3 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l1 window (two windows in one handler show only the first)."
+  - id: evt:plaque1_2
+    preset: script
+    source: panel:plaque1_2
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque1_2
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque1_1), 1) and IsAtLeast(MapVar(plaque1_2), 1) and IsAtLeast(MapVar(plaque1_3), 1) and IsAtLeast(MapVar(plaque1_4), 1) and not IsAtLeast(MapVar(summary1), 1) then
+              SetValue(MapVar(summary1), 1)
+              evt.StatusText("A plaque reads: EO-NYFPIMTDG", 6)
+              XeenQuests.hook("m41.plaques_l1")
+          else
+              evt.SimpleMessage("A plaque reads: EO-NYFPIMTDG")
+          end
+    notes: "aazex113:4 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l1 window (two windows in one handler show only the first)."
+  - id: evt:plaque1_3
+    preset: script
+    source: panel:plaque1_3
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque1_3
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque1_1), 1) and IsAtLeast(MapVar(plaque1_2), 1) and IsAtLeast(MapVar(plaque1_3), 1) and IsAtLeast(MapVar(plaque1_4), 1) and not IsAtLeast(MapVar(summary1), 1) then
+              SetValue(MapVar(summary1), 1)
+              evt.StatusText("A plaque reads: WRTKOOLNI--I", 6)
+              XeenQuests.hook("m41.plaques_l1")
+          else
+              evt.SimpleMessage("A plaque reads: WRTKOOLNI--I")
+          end
+    notes: "aazex113:5 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l1 window (two windows in one handler show only the first)."
+  - id: evt:plaque1_4
+    preset: script
+    source: panel:plaque1_4
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque1_4
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque1_1), 1) and IsAtLeast(MapVar(plaque1_2), 1) and IsAtLeast(MapVar(plaque1_3), 1) and IsAtLeast(MapVar(plaque1_4), 1) and not IsAtLeast(MapVar(summary1), 1) then
+              SetValue(MapVar(summary1), 1)
+              evt.StatusText("A plaque reads: -LHSURAGGAMC", 6)
+              XeenQuests.hook("m41.plaques_l1")
+          else
+              evt.SimpleMessage("A plaque reads: -LHSURAGGAMC")
+          end
+    notes: "aazex113:6 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l1 window (two windows in one handler show only the first)."
+  - id: evt:plaque2_1
+    preset: script
+    source: panel:plaque2_1
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque2_1
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque2_1), 1) and IsAtLeast(MapVar(plaque2_2), 1) and IsAtLeast(MapVar(plaque2_3), 1) and IsAtLeast(MapVar(plaque2_4), 1) and not IsAtLeast(MapVar(summary2), 1) then
+              SetValue(MapVar(summary2), 1)
+              evt.StatusText("A plaque reads: SNTS-CKDEM", 6)
+              XeenQuests.hook("m41.plaques_l2")
+          else
+              evt.SimpleMessage("A plaque reads: SNTS-CKDEM")
+          end
+    notes: "aazex114:3 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l2 window (two windows in one handler show only the first)."
+  - id: evt:plaque2_2
+    preset: script
+    source: panel:plaque2_2
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque2_2
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque2_1), 1) and IsAtLeast(MapVar(plaque2_2), 1) and IsAtLeast(MapVar(plaque2_3), 1) and IsAtLeast(MapVar(plaque2_4), 1) and not IsAtLeast(MapVar(summary2), 1) then
+              SetValue(MapVar(summary2), 1)
+              evt.StatusText("A plaque reads: ODHAOO--L!", 6)
+              XeenQuests.hook("m41.plaques_l2")
+          else
+              evt.SimpleMessage("A plaque reads: ODHAOO--L!")
+          end
+    notes: "aazex114:4 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l2 window (two windows in one handler show only the first)."
+  - id: evt:plaque2_3
+    preset: script
+    source: panel:plaque2_3
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque2_3
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque2_1), 1) and IsAtLeast(MapVar(plaque2_2), 1) and IsAtLeast(MapVar(plaque2_3), 1) and IsAtLeast(MapVar(plaque2_4), 1) and not IsAtLeast(MapVar(summary2), 1) then
+              SetValue(MapVar(summary2), 1)
+              evt.StatusText("A plaque reads: -SEGFRAST-", 6)
+              XeenQuests.hook("m41.plaques_l2")
+          else
+              evt.SimpleMessage("A plaque reads: -SEGFRAST-")
+          end
+    notes: "aazex114:5 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l2 window (two windows in one handler show only the first)."
+  - id: evt:plaque2_4
+    preset: script
+    source: panel:plaque2_4
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque2_4
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque2_1), 1) and IsAtLeast(MapVar(plaque2_2), 1) and IsAtLeast(MapVar(plaque2_3), 1) and IsAtLeast(MapVar(plaque2_4), 1) and not IsAtLeast(MapVar(summary2), 1) then
+              SetValue(MapVar(summary2), 1)
+              evt.StatusText("A plaque reads: E--A-ANHE-", 6)
+              XeenQuests.hook("m41.plaques_l2")
+          else
+              evt.SimpleMessage("A plaque reads: E--A-ANHE-")
+          end
+    notes: "aazex114:6 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l2 window (two windows in one handler show only the first)."
+  - id: evt:plaque3_1
+    preset: script
+    source: panel:plaque3_1
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque3_1
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque3_1), 1) and IsAtLeast(MapVar(plaque3_2), 1) and IsAtLeast(MapVar(plaque3_3), 1) and IsAtLeast(MapVar(plaque3_4), 1) and not IsAtLeast(MapVar(summary3), 1) then
+              SetValue(MapVar(summary3), 1)
+              evt.StatusText("A plaque reads: 1-ITN-HNA-A", 6)
+              XeenQuests.hook("m41.plaques_l3")
+          else
+              evt.SimpleMessage("A plaque reads: 1-ITN-HNA-A")
+          end
+    notes: "aazex115:3 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l3 window (two windows in one handler show only the first)."
+  - id: evt:plaque3_2
+    preset: script
+    source: panel:plaque3_2
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque3_2
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque3_1), 1) and IsAtLeast(MapVar(plaque3_2), 1) and IsAtLeast(MapVar(plaque3_3), 1) and IsAtLeast(MapVar(plaque3_4), 1) and not IsAtLeast(MapVar(summary3), 1) then
+              SetValue(MapVar(summary3), 1)
+              evt.StatusText("A plaque reads: 9BNHEMTDGS!", 6)
+              XeenQuests.hook("m41.plaques_l3")
+          else
+              evt.SimpleMessage("A plaque reads: 9BNHEMTDGS!")
+          end
+    notes: "aazex115:4 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l3 window (two windows in one handler show only the first)."
+  - id: evt:plaque3_3
+    preset: script
+    source: panel:plaque3_3
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque3_3
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque3_1), 1) and IsAtLeast(MapVar(plaque3_2), 1) and IsAtLeast(MapVar(plaque3_3), 1) and IsAtLeast(MapVar(plaque3_4), 1) and not IsAtLeast(MapVar(summary3), 1) then
+              SetValue(MapVar(summary3), 1)
+              evt.StatusText("A plaque reads: 9ESEXI--IA-", 6)
+              XeenQuests.hook("m41.plaques_l3")
+          else
+              evt.SimpleMessage("A plaque reads: 9ESEXI--IA-")
+          end
+    notes: "aazex115:5 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l3 window (two windows in one handler show only the first)."
+  - id: evt:plaque3_4
+    preset: script
+    source: panel:plaque3_4
+    title: Plaque
+    effects:
+      - set:
+          var:
+            map_var: plaque3_4
+          value: 1
+      - lua: |-
+          if IsAtLeast(MapVar(plaque3_1), 1) and IsAtLeast(MapVar(plaque3_2), 1) and IsAtLeast(MapVar(plaque3_3), 1) and IsAtLeast(MapVar(plaque3_4), 1) and not IsAtLeast(MapVar(summary3), 1) then
+              SetValue(MapVar(summary3), 1)
+              evt.StatusText("A plaque reads: 4G--TGAMCG-", 6)
+              XeenQuests.hook("m41.plaques_l3")
+          else
+              evt.SimpleMessage("A plaque reads: 4G--TGAMCG-")
+          end
+    notes: "aazex115:6 verbatim (the row, map text; D-57 Q17, D-63 9): a window; the click that completes the storey's four shows the row in the status line and A3's m41.plaques_l3 window (two windows in one handler show only the first)."
+  - id: evt:seal
+    preset: script
+    source: door:seal
+    touch: true
+    title: Shimmering air
+    condition: {lua: "XeenQuests.can(\"m41.seal\")"}
+    opens: [door:seal]
+    effects:
+      - lua: "XeenQuests.hook(\"m41.seal\")"
+      - lua: "evt.PlaySoundName(\"xeen_mirror_shatter\", 0, 1472, 2400)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m41.seal\")"
+    notes: "Clicked or walked into: A3's m41.seal (with the Chime: taken, seal_broken 111820, 27,000; without: 'An invisible seal prevents passage.'; after: the else_text); the leaf opens in the same visit."
+  - id: evt:seal_load
+    preset: switch
+    trigger: load
+    condition: {qbit: seal_broken}
+    opens: [door:seal]
+    notes: With seal_broken the roof stair is open on every load (D-57 Q21).
+  - id: evt:skull
+    preset: text
+    source: platform:skull
+    title: Skull
+    text: The skull is silent.
+    notes: "aazex116:15 (the riddle 9-14 dropped by A3; D-57 Q18)."
+  - id: evt:slab3
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: ground_l3w}, {qbit: ground_l3e}, {not: {map_var: slab3_sent}}]}
+    opens: [mover:slab3]
+    sets: {map_var: slab3_sent}
+    notes: "Both twin gongs rung: the slab rises out of the floor to the top in the same visit (a second after the second gong; movers are named only by presets, so the gongs' own handlers cannot test the other bit)."
+  - id: evt:slab3_load
+    preset: switch
+    trigger: load
+    condition: {all: [{qbit: ground_l3w}, {qbit: ground_l3e}]}
+    opens: [mover:slab3]
+    sets: {map_var: slab3_sent}
+    notes: "Both bits: the L3 slab is up on every load."
+  - id: evt:top1
+    preset: script
+    source: platform:top1
+    trigger: step
+    condition: {not: {qbit: ground_l1}}
+    effects:
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The top step's plate before the gong: the voice's line (aazex113:2, A3's m41.gong_voice called, not re-typed), so the party knows what is missing."
+  - id: evt:top2
+    preset: script
+    source: platform:top2
+    trigger: step
+    condition: {not: {qbit: ground_l2}}
+    effects:
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The top step's plate before the gong: the voice's line (aazex113:2, A3's m41.gong_voice called, not re-typed), so the party knows what is missing."
+  - id: evt:top3
+    preset: script
+    source: platform:top3
+    trigger: step
+    condition: {not: {all: [{qbit: ground_l3w}, {qbit: ground_l3e}]}}
+    effects:
+      - lua: "XeenQuests.hook(\"m41.gong_voice\")"
+    notes: "The top step's plate before the gong: the voice's line (aazex113:2, A3's m41.gong_voice called, not re-typed), so the party knows what is missing."
+  - id: evt:vault_load
+    preset: switch
+    trigger: load
+    condition: {qbit: vault_open}
+    opens: [door:force]
+    notes: The force stays down on every load with 118124.
+  - id: evt:vault_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {all: [{not: {qbit: vault_open}}, {lua: "evt.IsMapActorDead(ActorIndex(\"monster:onyx\"))"}]}
+    opens: [door:force]
+    effects:
+      - qbit: vault_open
+    notes: "The Onyx Golem's death drops the vault's force in the same visit (map qbit 118124, D-57 Q18)."
+  - id: evt:way_out
+    preset: exit
+    source: exit:door
+    title: Exit Darkstone Tower
+    notes: "Out to X5 (installed, A6) through the game's leave window (D-24; meaning aazex113:0 'Exit Darkstone Tower?'), at X5's entrance:fd03_door's coordinates (-4608, 2560, 1504) facing 512 until the name is in X5's scene (A6)."

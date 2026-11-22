@@ -1,0 +1,17 @@
+THE TOWN DRAINS (0)
+                [SLUICE: lever, jammed gate] =door= [NORTH DRAIN] -- [NORTH SHAFT: bones]
+                     |                                   |door
+ [WEST SHAFT: Red] -- [WEST DRAIN] =door= [THE DRAIN CROSS] =door= [EAST DRAIN ......#grate#......] -- [TEMPLE SHAFT: Green]
+                     |                     |                   |door
+              [FELIX'S TUNNEL: bench]   [SQUARE SHAFT: hatch]  [MARKET SHAFT $]
+                     |                     ^ D1 (exit)
+              [VALIO'S BED $] =door= [OVERFLOW CISTERN]
+                                           | overflow stair (0 -> -512)
+THE DEEP CULVERTS (-512)                   v
+                                    [DEEP CISTERN] =door= [OUTFALL: bar | grate] -> D1 mill gorge (exit once unbarred)
+                                           |
+                                    [RAT RUNS] -- ~~flooded culvert~~ -- nest ramp up -- [RAT QUEEN'S NEST (-224) $$ Rooka, necklace]
+                                                                                               | bone slide down
+                                                                 [DROWNED CELLAR (-480) $] -- [BONE MIDDEN $]
+                                                                    | ladder up to #grate# (bolted from below)
+ $ chest   =door= door   ~~ ~~ water mover sunk by the sluice lever   #grate# floor grate opened from below

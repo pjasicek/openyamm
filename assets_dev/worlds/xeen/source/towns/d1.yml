@@ -1,0 +1,170 @@
+# D1 Castleview Vale: Castleview, the Darkside hub, and the vale (Act III). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A6's L4 project `devdocs/xeen/briefs/d1/L4`): every door as drawn; the arrivals are the sketch's entrance
+# points (cell -> world units), Z the installed terrain or floor under them. A3 writes the topics in source/npcs/d1.yml.
+#
+# Castleview (WORLD_DESIGN 5.2): the hub, every service, the second Adventurer's Inn, 27 houses. The pass at the gate
+#   (M14) is the gate's business, not the houses'. The Gremlin Court is DD-04, Ellinger's Tower DD-02, the sewer
+#   DD-01 (their people are the dungeon lanes'). The four Drawkcab monks (palindrome names) live in their cells in
+#   town; the last lesson is Brother Reger's, in his cell outside the walls (Q-D3). Public Storage is Dyson's house
+#   (Q-D4, the chests are map things); the jail holds Jasper (Q-D2).
+# The travel pyramid outside the north gate is a map event (A3's Lua), not a house; its arrival is castleview_pyramid.
+# Lucio's Jetty (D-5.3): Lucio's celestial boat up to Olympus, two departures a week, once the party are the Chosen
+#   Ones (M30, A3's m30.done); house 4901 from the rest block, Castleview's own block being full. The way down is the
+#   falls, the Olympus mirror and Town Portal. The Dragon Expert is Librarian Ormond's (D-5.2).
+# Darkside mirrors wake with Castle Kalindra's stage 4 (A3's mirror helper); Kalindra's own mirror is in dd03.yml.
+key: D1
+stem: xeen_d1.odm
+town: Castleview Vale
+face: darkside
+blocks:
+  houses: [[4451, 4500], [4901, 4901]]   # 4901 from the rest block (TOWNS_FORMAT section 2)
+  npcs: [4901, 5000]
+
+arrivals:
+  castleview_square: {at: [-512, 4096, 1160], direction: 512, note: "Castleview's square by the mirror, on the paving (Town Portal; Darkside's start)"}
+  castleview_temple: {at: [2560, 2048, 1152], direction: 0, note: "in front of the temple (Darkside's death place)"}
+  castleview_stables: {at: [3584, 5120, 1152], direction: 0, note: "Kramer's coach yard"}
+  castleview_pyramid: {at: [-1024, 13312, 1248], direction: 1792, note: "beside the travel pyramid outside the north gate (X1's pyramid sets the party down here; A3's Xeen.PyramidArrivals)"}
+  kalindra_gate: {at: [-9216, -3072, 1664], direction: 1024, note: "the ramp's top before Castle Kalindra's gate (Town Portal, Kalindra's mirror, the coaches from Kalindra's stables, D-26)"}
+
+houses:
+  # ---- Castleview's services ----
+  - {id: 4451, door: building:cv_weapons, town: Castleview, was: 15, kind: weapon_shop, name: The Siege Smithy, owner: 4901, shop: {quality: 3}}
+  - {id: 4452, door: building:cv_armour, town: Castleview, was: 55, kind: armor_shop, name: Castleview Mail, owner: 4902, shop: {quality: 3}}
+  - {id: 4453, door: building:cv_magic, town: Castleview, was: 89, kind: magic_shop, name: The Amber Lamp, owner: 4903, shop: {quality: 3}}
+  - {id: 4454, door: building:cv_alchemist, town: Castleview, was: 118, kind: alchemist, name: Zelda's Herbs and Remedies, owner: 4904, shop: {quality: 3}}
+  - {id: 4455, door: building:cv_temple, town: Castleview, was: 319, kind: temple, name: Temple of Mok, owner: 4905}
+  - {id: 4456, door: building:cv_tavern, town: Castleview, was: 250, kind: tavern, name: The Catapult and Crust, owner: 4906}
+  - {id: 4457, door: building:cv_bank, town: Castleview, was: 291, kind: bank, name: Castleview Strongroom, owner: 4907}
+  - {id: 4458, door: building:cv_training, town: Castleview, was: 1577, kind: training, name: The Barracks Yard, owner: 4908, training: {cap: 40, price: 25}}
+  - {id: 4459, door: building:cv_guild_fire, town: Castleview, was: 129, kind: fire_guild, name: Castleview Guild of Fire, owner: 4909, guild: {spells: 7}}
+  - {id: 4460, door: building:cv_guild_air, town: Castleview, was: 135, kind: air_guild, name: Castleview Guild of Air, owner: 4910, guild: {spells: 7}}
+  - {id: 4461, door: building:cv_guild_water, town: Castleview, was: 140, kind: water_guild, name: Castleview Guild of Water, owner: 4911, guild: {spells: 7}}
+  - {id: 4462, door: building:cv_guild_earth, town: Castleview, was: 147, kind: earth_guild, name: Castleview Guild of Earth, owner: 4912, guild: {spells: 7}}
+  - {id: 4463, door: building:cv_guild_body, town: Castleview, was: 165, kind: body_guild, name: Castleview Guild of Body, owner: 4913, guild: {spells: 7}}
+  - id: 4464
+    door: building:cv_stables
+    town: Castleview
+    was: 462
+    kind: stables
+    name: Kramer's Caravans
+    owner: 4914
+    routes:
+      - {id: 413, to: sandcaster_stables, days: [tue, fri], travel_days: 3}
+      - {id: 414, to: lakeside_dock, days: [mon, thu], travel_days: 3}
+      - {id: 415, to: warzone_coach, days: [sat], travel_days: 5}
+  - {id: 4465, door: building:cv_inn, town: Castleview, was: 1607, kind: inn, name: The Adventurer's Inn, owner: 4915, roster: castleview, note: "Darkside's roster set (WORLD_DESIGN 5.3): roster.yml rows with a Castleview qbit, to come with D1"}
+  - {id: 4466, door: building:cv_town_hall, town: Castleview, was: 203, kind: town_hall, name: Castleview Town Hall, owner: 4916}
+  - id: 4901
+    door: building:cv_lucio_jetty
+    town: Castleview
+    was: 488
+    kind: boats
+    name: "Lucio's Jetty"
+    owner: 5607
+    opens: m30.done
+    closed_text: "A jetty that ends in thin air. A sign: \"Celestial boats. Chosen Ones only.\""
+    note: "D-5.3: a jetty on the wall's top; Lucio (D7) is its boatman and lives on his Olympus dock"
+    routes:
+      - {id: 424, to: olympus_dock, days: [mon, thu], travel_days: 1}
+  - {id: 4467, door: thing:cv_mirror, town: Castleview, kind: mirror, name: The Mirror of Castleview, mirror: {face: darkside, town: Castleview, arrival: castleview_square, qbit: 119007}}
+  # ---- Castleview's houses ----
+  - {id: 4468, door: "building:cv_jail", town: Castleview, kind: residence, name: Castleview Jail, residents: [4917, 4918]}
+  - {id: 4469, door: "building:cv_houses#1", town: Castleview, kind: residence, name: Jethro's Maps, residents: [4919]}
+  - {id: 4470, door: "building:cv_public_storage", town: Castleview, kind: residence, name: Public Storage, residents: [4920]}
+  - {id: 4471, door: "building:cv_houses#2", town: Castleview, kind: residence, name: Madame Oorla's, residents: [4921], enter_sound: xeen_fortune}   # a fortune teller: AU's reading sound
+  - {id: 4472, door: "building:cv_houses#3", town: Castleview, kind: residence, name: Nadia's House, residents: [4922]}
+  - {id: 4473, door: "building:cv_drawkcab#1", town: Castleview, kind: residence, name: Brother Otto's Cell, residents: [4923]}
+  - {id: 4474, door: "building:cv_drawkcab#2", town: Castleview, kind: residence, name: Sister Hannah's Cell, residents: [4924]}
+  - {id: 4475, door: "building:cv_drawkcab#3", town: Castleview, kind: residence, name: Brother Bob's Cell, residents: [4925]}
+  - {id: 4476, door: "building:cv_drawkcab#4", town: Castleview, kind: residence, name: Sister Ada's Cell, residents: [4926]}
+  - {id: 4477, door: "building:cv_houses#4", town: Castleview, kind: residence, name: Lyle's House, residents: [4927]}
+  - {id: 4478, door: "building:cv_library", town: Castleview, kind: residence, name: Castleview Library, residents: [4928]}
+  - {id: 4479, door: "building:cv_houses#5", town: Castleview, kind: residence, name: Velana's House, residents: [4929]}
+  - {id: 4480, door: "building:cv_houses#6", town: Castleview, kind: residence, name: Fletch House, residents: [4930]}
+  - {id: 4481, door: "building:cv_houses#7", town: Castleview, kind: residence, name: The Rope Walk, residents: [4931]}
+  - {id: 4482, door: "building:cv_houses#8", town: Castleview, kind: residence, name: Gatewarden's House, residents: [4932]}
+  - {id: 4483, door: "building:cv_houses#9", town: Castleview, kind: residence, name: Millhouse Ruin, residents: [4933]}
+  - {id: 4484, door: "building:cv_houses#10", town: Castleview, kind: residence, name: Pottage House, residents: [4934]}
+  - {id: 4485, door: "building:cv_houses#11", town: Castleview, kind: residence, name: Wainwright's, residents: [4935]}
+  - {id: 4486, door: "building:cv_houses#12", town: Castleview, kind: residence, name: Melon House, residents: [4936]}
+  - {id: 4487, door: "building:cv_houses#13", town: Castleview, kind: residence, name: Thatcher's, residents: [4937]}
+  - {id: 4488, door: "building:cv_houses#14", town: Castleview, kind: residence, name: Widow Grey's, residents: [4938]}
+  - {id: 4489, door: "building:cv_houses#15", town: Castleview, kind: residence, name: Bellringer's House, residents: [4939]}
+  - {id: 4490, door: "building:cv_houses#16", town: Castleview, kind: residence, name: Lamp House, residents: [4940]}
+  - {id: 4491, door: "building:cv_houses#17", town: Castleview, kind: residence, name: Saddler's, residents: [4941]}
+  - {id: 4492, door: "building:cv_houses#18", town: Castleview, kind: residence, name: Ditchwater House, residents: [4942]}
+  - {id: 4493, door: "building:cv_houses#19", town: Castleview, kind: residence, name: The Wall House, residents: [4943]}
+  - {id: 4494, door: "building:cv_houses#20", town: Castleview, kind: residence, name: Pigeon Loft, residents: [4944]}
+  # ---- the vale (outside the walls) ----
+  - {id: 4495, door: "building:gemsmith#1", kind: residence, outside: true, name: Linus's Ruby Works, residents: [4945]}
+  - {id: 4496, door: "building:gemsmith#2", kind: residence, outside: true, name: Simon's Emerald Works, residents: [4946]}
+  - {id: 4497, door: "building:gemsmith#3", kind: residence, outside: true, name: Toby's Sapphire Works, residents: [4947]}
+  - {id: 4498, door: "building:gemsmith#4", kind: residence, outside: true, name: Hector's Diamond Works, residents: [4948]}
+  - {id: 4499, door: "building:vespar_house", kind: residence, outside: true, name: Vespar's House, residents: [4949]}
+  - {id: 4500, door: "building:reger_cell", kind: residence, outside: true, name: Brother Reger's Cell, residents: [4950]}
+
+npcs:
+  # ---- service owners ----
+  - {id: 4901, name: Hogarth, title: Siege Smith, profession: Smith, teaches: [{skill: Spear, mastery: master}], greet: ["Spears for the walls, spears for the gate, spears for whoever pays.", "Need a point?"]}
+  - {id: 4902, name: Ingrid Chainmaker, title: Mailwright, profession: Armorer, teaches: [{skill: Chain, mastery: master}], greet: ["Ten thousand rings to a shirt. The gremlins steal about a hundred a night.", "Count your rings."]}
+  - {id: 4903, name: Philippa, title: Lampkeeper, profession: Merchant, greet: ["Wands, scrolls, and Eeried's guidebook. The guidebook is mostly wrong.", "Browsing?"], source: "MAPS D1: Eeried's guidebook on sale"}
+  - {id: 4904, name: Zelda, title: Herbalist, profession: Alchemist, talks: true, greet: ["I found a glowing orb in a crater. Take it, please. It hums at night.", "Still humming?"]}
+  - {id: 4905, name: Dreyfus, title: High Priest of Mok, profession: Healer, talks: true, teaches: [{skill: Mace, mastery: master}], greet: ["Heretics hold the Western Tower in Mok's name. Mok would be appalled.", "Mok's blessing."]}
+  - {id: 4906, name: Bertha, title: Innkeeper, profession: Cook, greet: ["Bread's short. The siege, you know. Ale isn't.", "Another?"]}
+  - {id: 4907, name: Crispin Mint, title: Banker, profession: Banker, greet: ["Our vault is the only building the gremlins haven't sabotaged. We check daily.", "Deposit?"]}
+  - {id: 4908, name: Captain Varga, profession: Weapons Master, greet: ["Train here and stand a watch. We train to forty, and the watch trains you the rest.", "On your feet."]}
+  - {id: 4909, name: Ignatia, title: Fire Guildmistress, profession: Spell Master, teaches: [{skill: Fire Magic, mastery: master}], greet: ["Fire is the one thing the besiegers can't take from us.", "Warm?"]}
+  - {id: 4910, name: Aeolus, title: Air Guildmaster, profession: Wind Master, greet: ["The wind blows the smoke over the enemy camp. You're welcome.", "Breezy."]}
+  - {id: 4911, name: Marisol, title: Water Guildmistress, profession: Water Master, teaches: [{skill: Water Magic, mastery: master}], greet: ["We keep the wells clean. Somebody keeps putting frogs in them.", "Thirsty?"]}
+  - {id: 4912, name: Grund, title: Earth Guildmaster, profession: Spell Master, greet: ["The walls stand because I tell them to.", "Steady."]}
+  - {id: 4913, name: Sister Prudence, profession: Healer, greet: ["Siege injuries, gremlin bites, and the odd catapult foot.", "Where does it hurt?"]}
+  - {id: 4914, name: Kramer, title: Caravan Master, profession: Trader, talks: true, greet: ["The ogres burned two of my wagons. I pay well for two of their forts.", "Ready to ride?"]}
+  - {id: 4915, name: Old Hamish, title: Innkeeper of the Adventurer's Inn, profession: Cook, greet: ["Adventurers come through the pyramid looking lost. I put them up and put them to work.", "Looking for company?"]}
+  - {id: 4916, name: Mayor Snarfblad, profession: Noble, talks: true, greet: ["Gremlins in the gears, enemies at the gate, and a stranger in my office. What now?", "Any news of the gremlins?"], source: "MAPS D1: the gremlin complaint about Mayor Snarfblad"}
+  # ---- Castleview's people ----
+  - {id: 4917, name: Warden Krupp, title: Jailer, profession: Guard, greet: ["Visiting hours are whenever I'm asleep.", "Who are you visiting?"]}
+  - {id: 4918, name: Jasper, title: Prisoner, profession: Cartographer, talks: true, greet: ["I'm innocent. Joe sold the fake maps; I only drew the real ones.", "Any luck with the door?"]}
+  - {id: 4919, name: Jethro, title: Mapmaker, profession: Cartographer, talks: true, greet: ["My brother Jasper rots in jail for Joe's maps. Help me get him out.", "Jasper?"]}
+  - {id: 4920, name: Dyson, title: Puzzlemaster, profession: Locksmith, talks: true, teaches: [{skill: Disarm Trap, mastery: master}], greet: ["Public Storage: put things in, take things out, in the right order. The order is the hard part.", "Solved it?"]}
+  - {id: 4921, name: Madame Oorla, title: Gypsy, profession: Gypsy, talks: true, greet: ["Show me your orb. Ah. First it must see Ellinger.", "The orb remembers you."]}
+  - {id: 4922, name: Nadia, title: Ellinger's Housekeeper, profession: Peasant, talks: true, greet: ["Rats took my onyx necklace into the sewer. Bring it back and I'll give you the tower key.", "My necklace?"]}
+  - {id: 4923, name: Brother Otto, profession: Instructor, teaches: [{skill: Dodging, mastery: master}], greet: ["Lesson one, first: backward walk.", "Again it do."]}
+  - {id: 4924, name: Sister Hannah, profession: Instructor, teaches: [{skill: Unarmed, mastery: master}], greet: ["Lesson two: fist the not, hand the strike.", "Again it do."]}
+  - {id: 4925, name: Brother Bob, profession: Mystic, greet: ["Lesson three: answer the before question the hear.", "Again it do."]}
+  - {id: 4926, name: Sister Ada, profession: Mystic, greet: ["Lesson four: Reger see now. Outside walls the.", "Again it do."]}
+  - {id: 4927, name: Lyle, title: Pigeon Feeder, profession: Peasant, greet: ["That bench is reserved for me. It says so.", "Seen my pigeons?"], source: "MAPS D1: This bench reserved for Lyle the Pigeon Feeder"}
+  - {id: 4928, name: Librarian Ormond, title: Keeper of the Library, profession: Scholar, teaches: [{skill: Dragon, mastery: expert}], greet: ["We sell the Voweless Knights' answers, bound. Young dragons study here too; we keep buckets by the shelves.", "Quietly, please."], note: "D-5.2: the Dragon Expert (place castleview); the library keeps the dragons' first lessons"}
+  - {id: 4929, name: Velana, title: Dark Elf Exile, profession: Scout, teaches: [{skill: Dark Elf, mastery: expert}], greet: ["My people walk in shadow. Here, at least, the shadow is honest.", "Mind the light."]}
+  - {id: 4930, name: Fletch, title: Fletcher, profession: Hunter, greet: ["Arrows for the walls. They come back, mostly, from the other side.", "Arrows?"]}
+  - {id: 4931, name: Gerda, title: Ropemaker, profession: Weaver, greet: ["Rope for the ladders, rope for the catapult, rope for the gremlins if I catch them.", "Rope?"]}
+  - {id: 4932, name: Gatewarden Boll, profession: Guard, greet: ["No pass, no gate. Even I need a pass to go home.", "Pass?"]}
+  - {id: 4933, name: Miller Dunn, profession: Miller, greet: ["The gremlins burned my mill. I grind by hand now and complain by mouth.", "Flour's dear."]}
+  - {id: 4934, name: Mother Pottage, profession: Cook, greet: ["Soup for the hungry. Everybody is hungry. It's a siege.", "Bowl?"]}
+  - {id: 4935, name: Wainwright Cole, profession: Carpenter, greet: ["I fix carts by day. The gremlins unfix them by night.", "Broken wheel?"]}
+  - {id: 4936, name: Pip Melonby, title: Melon Farmer, profession: Farmer, greet: ["Best melons on the Darkside. Ask the monkeydog.", "Melon?"]}
+  - {id: 4937, name: Thatcher Nell, profession: Laborer, greet: ["Fire arrows. Every roof. Every week.", "Roof leaks?"]}
+  - {id: 4938, name: Widow Grey, profession: Peasant, greet: ["My husband stood the wall. Now I knit for those who do.", "Socks?"]}
+  - {id: 4939, name: Bellringer Toll, profession: Porter, greet: ["One bell for gremlins, two for the enemy, three for supper.", "Hear the bells?"]}
+  - {id: 4940, name: Wick Ambers, title: Lamplighter, profession: Porter, greet: ["The sun is weak here. I light the lamps by noon.", "Lamps lit."]}
+  - {id: 4941, name: Saddler Rook, profession: Horseman, greet: ["Saddles for Kramer's caravans. When there are horses.", "Saddle?"]}
+  - {id: 4942, name: Ditchwater Dan, title: Ditch Digger, profession: Ditch Digger, greet: ["I dig the moat deeper every year. Nobody asked me to stop.", "Mind the ditch."]}
+  - {id: 4943, name: Mason Hild, profession: Stone Cutter, greet: ["Every stone of that wall I've laid twice.", "Solid, isn't it?"]}
+  - {id: 4944, name: Tilly, title: Pigeon Girl, profession: Child, greet: ["Lyle lets me feed them on Tuesdays!", "Coo!"]}
+  # ---- A3's quest people, added in the fourth session (talking actors; portraits in a later batch) ----
+  - {id: 4955, name: Gettlewaithe, title: King of the Gremlins, profession: Noble, house: none, place: "DD-04, on the Gremlin Court's throne (A8)", greet: ["I am Gettlewaithe, Imperator Primus of the Gremlins! Give me one good reason why I should not command my mighty army to cut your grotesque human heads from your shoulders and hang your eviscerated corpses above my throne for the entertainment of my subjects!", "Back to petition the king?"], source: "dark/aaze0029:83 (the first greeting, D-26)", note: "Q-D1's three-round court (A3's topics); monster row when he fights is A2's/A8's"}
+  - {id: 4956, name: Joe, title: Mapmaker, profession: Duper, house: none, place: "D1, his stall on the road outside Castleview's gate (A6)", greet: ["Treasure maps! Genuine! Passes to Castleview, also genuine! Prices genuinely low!", "Another map? Every one's a winner."], note: "Q-D2 and Q-C24 (A3): sells the fake maps; not X1's Joe (4045)"}
+  - {id: 4958, name: Felix, title: Tinker, profession: Tinker, house: none, place: "DD-01, at the end of his tunnel (A8); sells nothing", greet: ["I helped invent the compass! These days I mostly invent tunnels. The gremlins wedged the town sluice open with the mill's gears; shut it and the old culvert drains, rats and all.", "Shut the sluice yet? Mind the rats when it drains."], source: "dark/aaze0030:1 (close: the compass; the tunnels and the sluice are D-26's)", note: "D-26: a flavour talking actor, the sluice hint"}
+  - {id: 4957, name: Valio the Simple, title: Peasant, profession: Peasant, house: none, place: "DD-01, in the bed by Felix's tunnel (A8)", greet: ["Hello. I live in the bed. It's a nice bed. The rats don't like it.", "Is the big rat gone?"], note: "Q-D5 (A3); monster 11193 when angered"}
+  # ---- the vale ----
+  - {id: 4945, name: Linus, title: Ruby Smith, profession: Smith, talks: true, greet: ["Five rubies of the right cut, and gems, and I'll make you something worth the trouble.", "Rubies?"]}
+  - {id: 4946, name: Simon, title: Emerald Smith, profession: Smith, talks: true, greet: ["Emerald steel never dulls. Bring me five stones.", "Emeralds?"]}
+  - {id: 4947, name: Toby, title: Sapphire Smith, profession: Smith, talks: true, greet: ["Sapphire armour keeps you cool under fire. Literally.", "Sapphires?"]}
+  - {id: 4948, name: Hector, title: Diamond Smith, profession: Smith, talks: true, greet: ["Diamonds come only from the north adit in the Forbidden Zone. Few who go there come back.", "Diamonds?"], note: "D-27: the diamond veins are DD-10C's, in Act V on D6"}
+  - {id: 4949, name: Vespar, title: Wizard, profession: Spell Master, talks: true, greet: ["My staff lost its emerald handle somewhere in the east. Find it, and I'll get you into Sandcaster.", "The handle?"]}
+  - {id: 4950, name: Brother Reger, profession: Mystic, talks: true, greet: ["Lessons the all you took? Word the say then.", "Word the?"]}
+  - {id: 4951, name: Justine, title: Thief, profession: Burglar, talks: true, house: none, place: "D1, Justine's camp outside the gate (A6)", greet: ["Castleview pass? I happen to have one. It happens to be expensive.", "Still need a pass?"]}
+  - {id: 4952, name: Luna, title: Druid, profession: Mystic, talks: true, house: none, place: "D1, Luna's grove (A6)", greet: ["Thieves stole my golden statuettes: the pegasus, the dragon and the griffin.", "The statuettes?"]}
+  - {id: 4953, name: Yog, title: Barbarian Chief, profession: Noble, talks: true, house: none, place: "D1, the Sardaj camp (A6)", greet: ["You smell of town. Talk fast or fight faster.", "Talk or fight?"]}
+  - {id: 4954, name: Ellinger, title: Wizard, profession: Spell Master, talks: true, house: none, place: "DD-02, the top of Ellinger's Tower (A8)", greet: ["You passed my tests. Alamar moved Castle Kalindra out of phase; twenty Energy Disks bring it back.", "The disks?"]}

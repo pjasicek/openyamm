@@ -37,6 +37,13 @@
     return `<span class="cont cont-${c.id}">${esc(c.world.toUpperCase())}</span>${withName ? " " + esc(c.name) : ""}`;
   }
 
+  // The world guide a Chedian or Xeen map links to: [its name, the map's page there].
+  function outsideGuide(map) {
+    if (map.mm9) return ["MM9 guide", map.mm9];
+    if (map.xeen) return ["Xeen guide", map.xeen];
+    return null;
+  }
+
   function mapLink(map, poi, label) {
     return maps[map] ? `<a href="#map-${esc(map)}${poi ? "-" + esc(poi) : ""}">${esc(label || mapName(map))}</a>` : esc(label || map);
   }
@@ -159,7 +166,7 @@
       this.legend = root.querySelector(".mv-legend");
       this.bind();
       const startPoi = poiIndex[map.id][opts.focus];
-      this.setFloor(startPoi ? startPoi.f : 0, true);
+      this.setFloor(startPoi ? startPoi.f : (map.defaultFloor || 0), true);
       if (opts.focus) this.focus(opts.focus); else requestAnimationFrame(() => this.fit());
     }
     get floorData() { return this.map.floors[this.floor]; }
@@ -384,7 +391,8 @@
     if (p.promos) parts.push(`<div><b>Promotion:</b> ${esc(p.promos.join("; "))} · <a href="#promotions">Promotions</a></div>`);
     if (p.people && p.people.length) parts.push(`<div class="muted">${esc(p.people.join(", "))}</div>`);
     if (p.map) parts.push(`<div>Leads to ${mapLink(p.map)}</div>`);
-    if (map.mm9) parts.push(`<div><a href="${esc(map.mm9)}-${esc(p.id)}" target="_blank" rel="noopener">Open in the MM9 guide ↗</a></div>`);
+    const guide = outsideGuide(map);
+    if (guide) parts.push(`<div><a href="${esc(guide[1])}-${esc(p.id)}" target="_blank" rel="noopener">Open in the ${guide[0]} ↗</a></div>`);
     return parts.join("");
   }
 
@@ -416,7 +424,7 @@
   const NAV = [
     { title: "Guide", items: [["start", "Start"], ["progression", "Progression"], ["planner", "Where to go"], ["locations", "Locations", G.maps.length],
       ["teachers", "Teachers", (G.teachers || []).length], ["classes", "Classes", (G.classes || []).length],
-      ["promotions", "Promotions"], ["chedian", "Chedian (MM9)"], ["crafting", "Crafting"], ["tips", "Tips and HUD"]] },
+      ["promotions", "Promotions"], ["chedian", "Chedian (MM9)"], ["xeen", "Xeen"], ["crafting", "Crafting"], ["tips", "Tips and HUD"]] },
     { title: "Reference", items: [["combat", "Combat and auras"], ["loot", "Loot"], ["spells", "Spells"], ["deviations", "Deviations from MAW"]] },
   ];
   function sectionOf(r) {
@@ -471,6 +479,7 @@
   const BLOCKS = {
     "map-levels": (el) => mapLevelTable(el, null),
     "map-levels-chedian": (el) => mapLevelTable(el, "chedian"),
+    "map-levels-xeen": (el) => mapLevelTable(el, "xeen"),
     "teachers": (el) => teacherTable(el),
     "class-table": (el) => classGrid(el),
     "promotion-table": (el) => promotionTable(el),
@@ -543,7 +552,7 @@
   function levelChip(m) { return m.levels ? `<span class="lvl" title="Free progression levels">${range(m.levels.free[0], m.levels.free[2])}</span>` : ""; }
 
   function pageLocations() {
-    main.innerHTML = pageHead("Locations", "", "Every map of the four continents with MAW's monster levels, and an interactive map of each with its teachers, shops, promoters, entrances and exits. Pick a continent.") +
+    main.innerHTML = pageHead("Locations", "", "Every map of MAW's five worlds with MAW's monster levels, and an interactive map of each with its teachers, shops, promoters, entrances and exits. Pick a continent.") +
       `<div class="grid-cards">${G.continents.map((c) => {
         const ms = G.maps.filter((m) => m.continent === c.id);
         return `<a class="card home-card" href="#continent-${c.id}"><strong>${esc(c.name)}</strong><span>${esc(c.game)} · ${ms.filter((m) => m.kind === "outdoor").length} outdoor, ${ms.filter((m) => m.kind !== "outdoor").length} indoor maps</span></a>`;
@@ -556,8 +565,9 @@
     if (!c) return pageMissing();
     const ms = G.maps.filter((m) => m.continent === id);
     let groups = "";
-    if (id === "chedian") {
-      groups = G.chedianRegions.map((r) => `<section class="region-row"><h2>${esc(r.name)}</h2><div class="thumbs">${r.maps.filter((m) => maps[m]).map((mid) => {
+    const regions = { chedian: G.chedianRegions, xeen: G.xeenRegions }[id];
+    if (regions) {
+      groups = regions.map((r) => `<section class="region-row"><h2>${esc(r.name)}</h2><div class="thumbs">${r.maps.filter((m) => maps[m]).map((mid) => {
         const m = maps[mid];
         return `<a class="thumb" href="#map-${mid}"><img src="${esc(thumbOf(m))}" alt="" loading="lazy"><span>${esc(m.name)} ${levelChip(m)}</span><small>${esc(m.kind)}${m.floors.length > 1 ? ", " + m.floors.length + " levels" : ""}</small></a>`;
       }).join("")}</div></section>`).join("");
@@ -576,10 +586,18 @@
       groups = `<div class="thumbs">${cards}</div>` + (rest.length ? `<section class="region-row"><h2>Reached from other places</h2><div class="chips">${rest.map((m) => `<a class="chip" href="#map-${m.id}">${esc(m.name)} ${levelChip(m)}</a>`).join("")}</div></section>` : "");
     }
     main.innerHTML = pageHead(c.name, `<a href="#locations">Locations</a> · ${esc(c.game)}`, `Levels are MAW's Free progression band for each map: the levels its three native monster families are set to. The table below adds Horizontal and Beyond Madness.`) +
-      (id === "chedian" ? chedianNote() : "") + groups + `<h2>Maps of ${esc(c.name)}</h2><div id="levels"></div>`;
+      continentNote(id) + groups + `<h2>Maps of ${esc(c.name)}</h2><div id="levels"></div>`;
     mapLevelTable(document.getElementById("levels"), id);
   }
 
+  function continentNote(id) {
+    if (id === "chedian") return chedianNote();
+    if (id === "xeen") return xeenNote();
+    return "";
+  }
+  function xeenNote() {
+    return `<div class="card">Xeen is MAW's fifth world: Cloudside and Darkside share one level bank, and its bands are MAW's second balance pass for Xeen, so they may still move. <a href="#xeen">What MAW changes in Xeen</a>: levels, density, promotions, gear, its Seers, bounties and Vertigo's teleporter. Quests, monsters and shops of each map are in the <a href="${esc(G.xeenGuide)}" target="_blank" rel="noopener">Xeen guide ↗</a>.</div>`;
+  }
   function chedianNote() {
     return `<div class="card">Chedian is MAW's newest continent: its bands are MAW's first balance pass for MM9 and may still move. <a href="#chedian">What MAW changes on Chedian</a>: the Jarls' bounties, the Hag's skill reset, extra monsters, promotions. Quests, monsters and shops of each map are in the <a href="${esc(G.mm9Guide)}" target="_blank" rel="noopener">MM9 guide ↗</a>.</div>`;
   }
@@ -589,7 +607,7 @@
     if (!m) return pageMissing();
     const c = continents[m.continent];
     main.innerHTML = pageHead(m.name, `<a href="#locations">Locations</a> · <a href="#continent-${c.id}">${esc(c.name)}</a>${m.region ? " · " + esc(m.region) : ""} · ${esc(m.kind)} · <span class="mono">${esc(m.file)}</span>`) +
-      (m.continent === "chedian" ? chedianNote() : "") +
+      continentNote(m.continent) +
       `<div class="map-facts" id="map-facts"></div>` +
       (m.floors.length ? `<div class="map-layout"><div id="mv"></div><aside class="poi-panel"><input class="field" id="poi-filter" type="search" placeholder="Filter points on this map" aria-label="Filter points"><div class="poi-list" id="poi-list"></div></aside></div>`
         : `<div class="no-map">No map image of this place.</div>`);
@@ -660,7 +678,8 @@
     if (promos.length) {
       cards.push(`<div class="card"><h3>Promotions here</h3>${promos.map((p) => `<p><a href="#map-${m.id}-${esc(p.id)}">${esc(p.n)}</a>: ${esc(p.promos.join("; "))}</p>`).join("")}</div>`);
     }
-    if (m.mm9) cards.push(`<div class="card"><h3>MM9 guide</h3><p>Quests, monsters and shops of this map: <a href="${esc(m.mm9)}" target="_blank" rel="noopener">open in the MM9 guide ↗</a></p></div>`);
+    const guide = outsideGuide(m);
+    if (guide) cards.push(`<div class="card"><h3>${guide[0]}</h3><p>Quests, monsters and shops of this map: <a href="${esc(guide[1])}" target="_blank" rel="noopener">open in the ${guide[0]} ↗</a></p></div>`);
     return cards.join("");
   }
 
@@ -724,7 +743,7 @@
   }
 
   function pageTeachers() {
-    main.innerHTML = pageHead("Teachers", "", "Every Expert, Master and Grandmaster lesson on the four continents, as the game's journal trainer finder lists them under MAW, with the skill level each mastery needs in your progression mode. MAW also seats some teachers in extra houses so every continent has them; those are tagged MAW.") +
+    main.innerHTML = pageHead("Teachers", "", "Every Expert, Master and Grandmaster lesson on MAW's five worlds, as the game's journal trainer finder lists them under MAW, with the skill level each mastery needs in your progression mode. MAW also seats some teachers in extra houses so every continent has them; those are tagged MAW.") +
       `<div id="teach"></div>` + teacherlessBlock();
     teacherTable(document.getElementById("teach"));
   }
@@ -781,7 +800,7 @@
     const tiers = c.tiers;
     const hasSp = c.sp_kind === "personality" || tiers.some((t) => t.sp);
     const spName = SP_NAMES[c.sp_kind] || "SP";
-    const extra = (t, key) => (t.elder ? ` <span class="muted">(Elder ${t.elder[key]}, Ultimate ${t.ultimate[key]})</span>` : "");
+    const extra = (t, key) => (t.elder ? ` <span class="muted">(Elder ${t.elder[key]}, Ultimate ${t.ultimate[key]}${t.supreme ? `, Supreme ${t.supreme[key]}` : ""})</span>` : "");
     const tierTable = `<div class="table-wrap"><table><thead><tr><th>Class</th><th class="num">HP / level</th>${hasSp ? `<th class="num">${esc(spName)} / level</th>` : ""}</tr></thead><tbody>${tiers.map((t) => `<tr><td>${esc(t.name)}</td><td class="num">${esc(perLevel(t, "hp"))}${extra(t, "hp")}</td>${hasSp ? `<td class="num">${esc(perLevel(t, "sp"))}${extra(t, "sp")}</td>` : ""}</tr>`).join("")}</tbody></table></div>`;
     const start = c.starting ? [c.starting.free && c.starting.free.length ? `Starts with ${c.starting.free.join(", ")}` : "", c.starting.choice && c.starting.choice.length ? `picks more from ${c.starting.choice.join(", ")}` : ""].filter(Boolean).join("; ") : "";
     const base = [c.base_hp != null ? `Base HP ${c.base_hp}` : "", c.base_sp ? `base ${spName} ${c.base_sp}` : "", start].filter(Boolean).join(" · ");
@@ -789,7 +808,7 @@
     main.innerHTML = pageHead(c.name, `<a href="#classes">Classes</a> · ${esc(GROUP_NAMES[c.group] || c.group)}`) +
       `<div class="class-head">${classIcon(c, 64)}<div class="tierline">${tierSteps(c).map((s) => `<span class="t">${esc(s.names.join(" / "))}</span>`).join('<span class="arrow">→</span>')}</div></div>` +
       (base ? `<p class="muted">${esc(base)}</p>` : "") +
-      `<div class="two-col"><section class="section"><h2>Tiers</h2>${tierTable}</section>` +
+      `<div class="two-col"><section class="section"><h2>Tiers</h2>${tierTable}${tiers.some((t) => t.elder) ? `<p class="muted" style="font-size:.85rem;margin-top:6px">Elder, Ultimate, Supreme: the line's final promotion done on two, three, or any four of the five worlds. <a href="#promotions/stacking">Stacking</a></p>` : ""}</section>` +
       (c.notes && c.notes.length ? `<section class="section prose"><h2>Mechanics</h2><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>` : "") + `</div>` +
       `<section class="section"><h2>Promotions</h2>${promotionSteps(c)}</section>` +
       `<section class="section"><h2>Mastery limits</h2><p class="muted">The highest mastery each tier can learn: N Novice, E Expert, M Master, G Grandmaster, S Supreme.</p>${skills}</section>`;
@@ -801,7 +820,7 @@
     return `<div class="table-wrap"><table><thead><tr><th>Continent</th><th>Promotes to</th><th>Who and where</th><th>Task</th><th></th></tr></thead><tbody>${steps.map((s) => {
       const where = [s.giver, s.house].filter(Boolean).map(esc).join(", ");
       const map = s.map && maps[Path(s.map)] ? mapLink(Path(s.map), s.at && s.at.map === Path(s.map) ? s.at.poi : null, s.map_name) : esc(s.map_name || "");
-      const tags = (s.path ? ` <span class="tag">${esc(s.path)} path</span>` : "") + (s.counts === false ? ` <span class="tag" title="Does not count for MAW's cross-continent promotion or Elder / Ultimate">quest only</span>` : "");
+      const tags = (s.path ? ` <span class="tag">${esc(s.path)} path</span>` : "") + (s.counts === false ? ` <span class="tag" title="Does not count for MAW's cross-continent promotion or Elder / Ultimate / Supreme">quest only</span>` : "");
       return `<tr class="tint tint-${continentOfName[s.continent] || ""}"><td class="nowrap">${contBadge(s.continent)}</td><td>${esc(s.tier)}${s.step === "final" ? "" : ' <span class="muted">(middle)</span>'}${tags}</td><td>${where}${map ? `<br><span class="muted">${map}</span>` : ""}</td><td>${esc(s.task || "")}</td><td class="nowrap">${s.at ? showBtn(s.at.map, s.at.poi, "Map") : ""}</td></tr>`;
     }).join("")}</tbody></table></div>`;
   }
@@ -863,7 +882,7 @@
   }
 
   function pagePlanner() {
-    const saved = store.get("planner", { mode: "free", banks: { enroth: 30, antagarich: 0, jadame: 0, chedian: 0 }, kind: "", cont: "" });
+    const saved = store.get("planner", { mode: "free", banks: { enroth: 30, antagarich: 0, jadame: 0, chedian: 0, xeen: 0 }, kind: "", cont: "" });
     main.innerHTML = pageHead("Where to go", "", "Enter the levels you earned on each continent (the journal's Progress tab shows them; together they are about your party's level) and your progression. The list shows the maps whose monsters fit you best, with their levels as the game sets them for you now. Bosses and the strong tier sit above these numbers.") +
       `<div class="card section"><div class="toolbar">${seg("pl-mode", [["free", "Free"], ["horizontal", "Horizontal"], ["madness", "Beyond Madness"]], saved.mode)}
         ${G.continents.map((c) => `<label class="nowrap">${contBadge(c.id)} <input class="field" type="number" min="0" max="2000" data-bank="${c.id}" value="${Number(saved.banks[c.id] || 0)}" style="width:5.5em"></label>`).join("")}</div>
@@ -913,10 +932,10 @@
     const cards = [
       ["progression", "Progression", "Free versus Horizontal, with worked examples"],
       ["planner", "Where to go", "Enter your levels: the maps that fit your party"],
-      ["locations", "Locations", `${G.maps.length} maps on four continents, with interactive maps`],
+      ["locations", "Locations", `${G.maps.length} maps on five worlds, with interactive maps`],
       ["teachers", "Teachers", `${(G.teachers || []).length} lessons, searchable`],
       ["classes", "Classes", `${(G.classes || []).length} classes: tiers, numbers, mastery limits`],
-      ["promotions", "Promotions", "How promotions stack: Elder and Ultimate"],
+      ["promotions", "Promotions", "How promotions stack: Elder, Ultimate and Supreme"],
       ["crafting", "Crafting", "What to craft, and when"],
       ["tips", "Tips and HUD", "Reading the screen, keys, hidden rules"],
     ];
@@ -990,7 +1009,7 @@
   side.addEventListener("click", (e) => { if (e.target.closest("a.nav-link")) { side.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); } });
 
   const TITLES = { start: "MAW Player's Guide", progression: "Progression", promotions: "Promotions", crafting: "Crafting",
-    tips: "Tips and HUD", chedian: "Chedian (MM9)", combat: "Combat and auras", loot: "Loot", spells: "Spells", deviations: "Deviations from MAW", classes: "Classes" };
+    tips: "Tips and HUD", chedian: "Chedian (MM9)", xeen: "World of Xeen", combat: "Combat and auras", loot: "Loot", spells: "Spells", deviations: "Deviations from MAW", classes: "Classes" };
   let lastRoute = null;
   function route() {
     const full = decodeURIComponent(location.hash.replace(/^#/, "")) || "start";

@@ -1,0 +1,1498 @@
+format: 0
+start:
+  room: room:entry
+  at: [0, 4736]
+  facing: s
+  notes: "Inside the green doors, about 384 in, facing south into the pyramid."
+arrivals:
+  - {entrance: entrance:d5_door, room: room:entry, at: [0, 4736], facing: s, notes: "From D5's green door (A6's door:dd15, m28.door): (0, 4736, 0) facing south (1536)."}
+  - {entrance: entrance:d7_sky, room: room:sky_corridor, at: [0, 2944], facing: s, notes: "From D7's sky door (door:dd15, after m30.done): 256 inside the sky door, facing the throne."}
+doors:
+  - id: door:ante
+    opening: open:ante
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: The antechamber's door from the apex landing.
+  - id: door:apex
+    opening: open:apex
+    kind: slide_left
+    surface: {texture: swdoorc, size: [128, 256], fit: true}
+    notes: The far cell's steel door onto the apex stair.
+  - id: door:bedchamber
+    opening: open:bedchamber
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: The bedchamber's door from the throne hall.
+  - id: door:chapel_ne
+    opening: open:chapel_ne
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: "The north-east chapel's double doors from Information (egydrsml|egydrsmr)."
+  - id: door:chapel_nw
+    opening: open:chapel_nw
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: "The north-west chapel's double doors from Reception: two hinged leaves, Horus on each (egydrsml|egydrsmr)."
+  - id: door:cloister_registry
+    opening: open:cloister_registry
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: The cloister's door beside the registry.
+  - id: door:embalmers
+    opening: open:embalmers
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: The embalmers' room off the stair head.
+  - id: door:green
+    opening: open:green
+    kind: hinged
+    leaves: 2
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    back_surface: {texture: xdpyrdor, size: [128, 256], fit: true}
+    notes: "The green doors (A6's xdpyrdor: one wing, mirrored on the right leaf): clicked, the exit preset ('Exit the Great Pyramid?', aaze0083:0). They stay shut."
+  - id: door:information
+    opening: open:entry_information
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: Door sign 'Information' (aaze0083:4).
+  - id: door:lift_gate
+    opening: open:lift_top
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], scale: 1.5}
+    tile: true
+    notes: "The gilded cage's gate at the top (L4): shut while the cage is down, opened with its climb."
+  - id: door:numbers_information
+    opening: open:numbers_information
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: The number hall's door into Information.
+  - id: door:overseer
+    opening: open:overseer
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: Door sign 'Overseer's Office' (aaze0083:2).
+  - id: door:reception
+    opening: open:entry_reception
+    kind: slide_left
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: Door sign 'Reception' (aaze0083:1).
+  - id: door:registry
+    opening: open:registry
+    kind: slide_up
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The bronze registry door: its lock asks 'Registry?' (m28.registry_lock: 1701 or NCC-1701); it slides up and stays up (111562)."
+  - id: door:secret_sky
+    opening: open:bed_sky
+    kind: slide_left
+    surface: {texture: egywlc, size: [128, 256], fit: true}
+    secret: true
+    back_surface: {texture: swll4dk, size: [128, 256], fit: true}
+    notes: "The secret way from the bedchamber to the sky corridor: the carved button slides it open for good (117575)."
+  - id: door:south_atrium
+    opening: open:south_atrium
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: "The atrium's south door onto the south gallery (egydrsml|egydrsmr)."
+  - id: door:stair
+    opening: open:stair
+    kind: hinged
+    leaves: 2
+    surface: {texture: xdpyrdor, size: [128, 256], fit: true}
+    back_surface: {texture: xdpyrdor, size: [128, 256], fit: true}
+    notes: "The stair door: two leaves of xdpyrdor; 'Access denied!' (aaze0083:12) until the four torches burn (m28.torches, 111561), then open for good."
+  - id: door:throne
+    opening: open:throne
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrlgl, size: [256, 256]}, {texture: egydrlgr, size: [256, 256]}]
+    back_pictures:
+      - [{texture: egydrlgl, size: [256, 256]}, {texture: egydrlgr, size: [256, 256]}]
+    notes: "The throne hall's great doors: the seated Pharaoh (egydrlgl) and his queen (egydrlgr), each leaf 384 square."
+  - id: door:tomb_e
+    opening: open:tomb_e
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: The east tomb's double doors from the processional.
+  - id: door:tomb_w
+    opening: open:tomb_w
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: The west tomb's double doors from the processional.
+  - id: door:vault
+    opening: open:vault
+    kind: slide_left
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    notes: "The Overseer's vault door: locked until the eight niches are answered (117573)."
+lifts:
+  - id: lift:cage
+    room: room:shaft
+    at: [256, -3584]
+    size: [384, 384]
+    travel: 2304
+    thickness: 16
+    speed: 480
+    surface: {texture: xngold5, size: [256, 256]}
+    notes: "The Pharaoh's gilded cage: a floor 384 square riding the shaft between the grand stair (down, L1) and the antechamber (up, L4). D-61 Q4: it runs only once the party has entered the throne hall (117577)."
+plates:
+  - id: plate:back_cell_a
+    room: room:cell_a
+    at: [-2176, -1024]
+    size: [256, 256]
+    surface: {texture: swcirc2, size: [256, 256]}
+    notes: The pad back to the pad hall.
+  - id: plate:back_cell_b
+    room: room:cell_b
+    at: [2944, -1024]
+    size: [256, 256]
+    surface: {texture: swcirc2, size: [256, 256]}
+    notes: The pad back to the pad hall.
+  - id: plate:back_cell_c
+    room: room:cell_c
+    at: [2944, 384]
+    size: [256, 256]
+    surface: {texture: swcirc2, size: [256, 256]}
+    notes: The pad back to the pad hall.
+  - id: plate:back_cell_d
+    room: room:cell_d
+    at: [384, -2432]
+    size: [256, 256]
+    surface: {texture: swcirc2, size: [256, 256]}
+    notes: The pad back to the pad hall.
+  - id: plate:back_cell_e
+    room: room:cell_e
+    at: [1280, -2432]
+    size: [256, 256]
+    surface: {texture: swcirc2, size: [256, 256]}
+    notes: The pad back to the pad hall.
+  - id: plate:history
+    room: room:reception
+    at: [-4048, 1408]
+    size: [256, 256]
+    notes: Before the history statue.
+  - id: plate:pad_bird
+    room: room:pad_c
+    at: [128, 640]
+    size: [256, 256]
+    surface: {texture: egyflorb, size: [128, 128], scale: 2}
+    notes: "The bird pad: to cell_d (an in-map move)."
+  - id: plate:pad_bird2
+    room: room:cell_d
+    at: [-128, -2432]
+    size: [256, 256]
+    surface: {texture: egyflorb, size: [128, 128], scale: 2}
+    notes: "The second bird: on to the far cell."
+  - id: plate:pad_eye
+    room: room:pad_c
+    at: [128, -640]
+    size: [256, 256]
+    surface: {texture: egyswbof, size: [32, 32], scale: 8}
+    notes: "The eye pad: to cell_b (an in-map move)."
+  - id: plate:pad_scarab
+    room: room:pad_e
+    at: [1344, -640]
+    size: [256, 256]
+    surface: {texture: swfloor6, size: [256, 256]}
+    notes: "The scarab pad: to cell_c (an in-map move)."
+  - id: plate:pad_sun
+    room: room:pad_w
+    at: [-960, -640]
+    size: [256, 256]
+    surface: {texture: swcirc1, size: [256, 256]}
+    notes: "The sun pad: to cell_a (an in-map move)."
+  - id: plate:rule_n
+    room: room:number_n
+    at: [2304, 352]
+    size: [256, 256]
+    notes: Before the rule_n statue.
+  - id: plate:rule_s
+    room: room:number_s
+    at: [2304, -1312]
+    size: [256, 256]
+    notes: Before the rule_s statue.
+  - id: plate:torch_statue
+    room: room:atrium_se
+    at: [640, -1024]
+    size: [256, 256]
+    notes: Before the torch_statue statue.
+  - id: plate:verse_1
+    room: room:proc_1
+    at: [-1280, -1120]
+    size: [256, 256]
+    notes: Before the verse_1 statue.
+  - id: plate:verse_2
+    room: room:proc_2
+    at: [-512, 768]
+    size: [256, 256]
+    notes: Before the verse_2 statue.
+  - id: plate:verse_3
+    room: room:proc_3
+    at: [-1280, 1760]
+    size: [256, 256]
+    notes: Before the verse_3 statue.
+  - id: plate:verse_4
+    room: room:proc_3
+    at: [-512, 2144]
+    size: [256, 256]
+    notes: Before the verse_4 statue.
+sounds:
+  - {id: sound:bed_l1_n, room: room:entry, at: [0, 3584], sound: xeen_amb_necropolis, radius: 5200, inner_radius: 3000, volume: 0.3, notes: "The tomb's bed (MM6's VARN mood), L1's north half: not panned (D-48).", pan: false}
+  - {id: sound:bed_l1_s, room: room:south_gal_w, at: [-960, -2304], sound: xeen_amb_necropolis, radius: 5200, inner_radius: 3000, volume: 0.3, notes: L1's south half., pan: false}
+  - {id: sound:bed_l2, room: room:proc_2, at: [-896, 256], sound: xeen_amb_necropolis, radius: 4600, inner_radius: 2800, volume: 0.3, notes: The registry level., pan: false}
+  - {id: sound:bed_l3, room: room:pad_c, at: [192, 0], sound: xeen_barrier_loop, radius: 3600, inner_radius: 2200, volume: 0.2, notes: The Ancients' hum over the pad maze., pan: false}
+  - {id: sound:bed_l4, room: room:throne_c, at: [0, 704], sound: xeen_amb_necropolis, radius: 3600, inner_radius: 2400, volume: 0.25, notes: The apartments., pan: false}
+  - {id: sound:sky_wind, room: room:sky_corridor, at: [0, 3072], sound: whistling wind, radius: 1200, inner_radius: 300, volume: 0.35, notes: Wind at the sky door.}
+  - {id: sound:vat, room: room:throne_n, at: [512, 1664], sound: bubbling cauldron01, radius: 1200, inner_radius: 300, volume: 0.5, notes: "The Brew of Pure Power bubbling (a point sound; AU's own later)."}
+lights:
+  - id: light:ante_n_1
+    room: room:ante_n
+    at: [704, -1408]
+    height: 384
+    radius: 1612
+    color: [240, 210, 140]
+  - id: light:ante_s_1
+    room: room:ante_s
+    at: [704, -2560]
+    height: 384
+    radius: 1612
+    color: [240, 210, 140]
+  - id: light:apex_landing_1
+    room: room:apex_landing
+    at: [2624, -768]
+    height: 320
+    radius: 700
+    color: [240, 210, 140]
+  - id: light:apex_stair_1
+    room: room:apex_stair
+    at: [2432, -2304]
+    height: 448
+    radius: 1100
+    color: [170, 190, 210]
+  - id: light:atrium_ne_1
+    room: room:atrium_ne
+    at: [640, 1792]
+    height: 384
+    radius: 1228
+    color: [240, 210, 140]
+  - id: light:atrium_nw_1
+    room: room:atrium_nw
+    at: [-640, 1792]
+    height: 384
+    radius: 1228
+    color: [240, 210, 140]
+  - id: light:atrium_se_1
+    room: room:atrium_se
+    at: [640, -256]
+    height: 384
+    radius: 1228
+    color: [240, 210, 140]
+  - id: light:atrium_sw_1
+    room: room:atrium_sw
+    at: [-640, -256]
+    height: 384
+    radius: 1228
+    color: [240, 210, 140]
+  - id: light:bedchamber_1
+    room: room:bedchamber
+    at: [2304, 1920]
+    height: 320
+    radius: 921
+    color: [240, 210, 140]
+  - id: light:brazier_ne
+    room: room:atrium_ne
+    at: [896, 2432]
+    height: 224
+    radius: 900
+    color: [255, 150, 70]
+    on: false
+    notes: "The ne brazier's fire: dark until the ne torch is lit."
+  - id: light:brazier_nw
+    room: room:atrium_nw
+    at: [-896, 2432]
+    height: 224
+    radius: 900
+    color: [255, 150, 70]
+    on: false
+    notes: "The nw brazier's fire: dark until the nw torch is lit."
+  - id: light:brazier_se
+    room: room:atrium_se
+    at: [896, -896]
+    height: 224
+    radius: 900
+    color: [255, 150, 70]
+    on: false
+    notes: "The se brazier's fire: dark until the se torch is lit."
+  - id: light:brazier_sw
+    room: room:atrium_sw
+    at: [-896, -896]
+    height: 224
+    radius: 900
+    color: [255, 150, 70]
+    on: false
+    notes: "The sw brazier's fire: dark until the sw torch is lit."
+  - id: light:cell_a_1
+    room: room:cell_a
+    at: [-2432, -768]
+    height: 320
+    radius: 489
+    color: [170, 190, 210]
+  - id: light:cell_b_1
+    room: room:cell_b
+    at: [2688, -768]
+    height: 320
+    radius: 489
+    color: [170, 190, 210]
+  - id: light:cell_c_1
+    room: room:cell_c
+    at: [2688, 640]
+    height: 320
+    radius: 489
+    color: [170, 190, 210]
+  - id: light:cell_d_1
+    room: room:cell_d
+    at: [128, -2176]
+    height: 320
+    radius: 489
+    color: [170, 190, 210]
+  - id: light:cell_e_1
+    room: room:cell_e
+    at: [1536, -2176]
+    height: 320
+    radius: 489
+    color: [170, 190, 210]
+  - id: light:chapel_ne_1
+    room: room:chapel_ne
+    at: [3840, 4352]
+    height: 320
+    radius: 921
+    color: [235, 200, 150]
+  - id: light:chapel_nw_1
+    room: room:chapel_nw
+    at: [-3840, 4352]
+    height: 320
+    radius: 921
+    color: [235, 200, 150]
+  - id: light:chapel_se_1
+    room: room:chapel_se
+    at: [2816, -3072]
+    height: 320
+    radius: 921
+    color: [235, 200, 150]
+  - id: light:chapel_sw_1
+    room: room:chapel_sw
+    at: [-2816, -3072]
+    height: 320
+    radius: 921
+    color: [235, 200, 150]
+  - id: light:cloister_n_1
+    room: room:cloister_n
+    at: [832, 3200]
+    height: 320
+    radius: 1152
+    color: [235, 200, 150]
+  - id: light:cloister_s_1
+    room: room:cloister_s
+    at: [832, 2176]
+    height: 320
+    radius: 1152
+    color: [235, 200, 150]
+  - id: light:embalmers_1
+    room: room:embalmers
+    at: [-2816, -2624]
+    height: 320
+    radius: 921
+    color: [235, 200, 150]
+  - id: light:entry_1
+    room: room:entry
+    at: [0, 4032]
+    height: 384
+    radius: 1536
+    color: [235, 200, 150]
+  - id: light:information_1
+    room: room:information
+    at: [3008, 2304]
+    height: 320
+    radius: 1920
+    color: [235, 200, 150]
+  - id: light:landing_1
+    room: room:landing
+    at: [-1024, -2688]
+    height: 320
+    radius: 1075
+    color: [240, 210, 140]
+  - id: light:maze_landing_1
+    room: room:maze_landing
+    at: [-896, 1792]
+    height: 320
+    radius: 768
+    color: [170, 190, 210]
+  - id: light:number_n_1
+    room: room:number_n
+    at: [2816, 192]
+    height: 320
+    radius: 998
+    color: [235, 200, 150]
+  - id: light:number_s_1
+    room: room:number_s
+    at: [2816, -1472]
+    height: 320
+    radius: 998
+    color: [235, 200, 150]
+  - id: light:overseer_1
+    room: room:overseer
+    at: [4224, -3136]
+    height: 320
+    radius: 700
+    color: [235, 200, 150]
+  - id: light:pad_c_1
+    room: room:pad_c
+    at: [192, -64]
+    height: 320
+    radius: 1459
+    color: [170, 190, 210]
+  - id: light:pad_e_1
+    room: room:pad_e
+    at: [1344, -64]
+    height: 320
+    radius: 1459
+    color: [170, 190, 210]
+  - id: light:pad_w_1
+    room: room:pad_w
+    at: [-960, -64]
+    height: 320
+    radius: 1459
+    color: [170, 190, 210]
+  - id: light:proc_1_1
+    room: room:proc_1
+    at: [-896, -1280]
+    height: 320
+    radius: 921
+    color: [240, 210, 140]
+  - id: light:proc_2_1
+    room: room:proc_2
+    at: [-896, 256]
+    height: 320
+    radius: 921
+    color: [240, 210, 140]
+  - id: light:proc_3_1
+    room: room:proc_3
+    at: [-896, 1792]
+    height: 320
+    radius: 921
+    color: [240, 210, 140]
+  - id: light:reception_1
+    room: room:reception
+    at: [-3008, 2304]
+    height: 320
+    radius: 1920
+    color: [235, 200, 150]
+  - id: light:registry_1
+    room: room:registry
+    at: [-896, 3200]
+    height: 320
+    radius: 768
+    color: [240, 210, 140]
+  - id: light:registry_stair_1
+    room: room:registry_stair
+    at: [-2240, 2816]
+    height: 448
+    radius: 1100
+    color: [235, 200, 150]
+  - id: light:shaft_1
+    room: room:shaft
+    at: [256, -3584]
+    height: 320
+    radius: 1100
+    color: [235, 200, 150]
+  - id: light:sky_corridor_1
+    room: room:sky_corridor
+    at: [0, 2560]
+    height: 320
+    radius: 900
+    color: [170, 190, 210]
+  - id: light:south_gal_e_1
+    room: room:south_gal_e
+    at: [960, -2304]
+    height: 320
+    radius: 1152
+    color: [235, 200, 150]
+  - id: light:south_gal_w_1
+    room: room:south_gal_w
+    at: [-960, -2304]
+    height: 320
+    radius: 1152
+    color: [235, 200, 150]
+  - id: light:stair_foot_1
+    room: room:stair_foot
+    at: [-896, -4352]
+    height: 448
+    radius: 1100
+    color: [235, 200, 150]
+  - id: light:throne_c_1
+    room: room:throne_c
+    at: [0, 704]
+    height: 384
+    radius: 1843
+    color: [240, 210, 140]
+  - id: light:throne_n_1
+    room: room:throne_n
+    at: [640, 1408]
+    height: 384
+    radius: 1843
+    color: [240, 210, 140]
+  - id: light:throne_n_2
+    room: room:throne_n
+    at: [512, 1664]
+    height: 200
+    radius: 600
+    color: [150, 255, 170]
+    notes: The Brew of Pure Power's glow.
+  - id: light:throne_s_1
+    room: room:throne_s
+    at: [0, -192]
+    height: 384
+    radius: 1843
+    color: [240, 210, 140]
+  - id: light:tomb_e_1
+    room: room:tomb_e
+    at: [384, 512]
+    height: 320
+    radius: 1228
+    color: [235, 200, 150]
+  - id: light:tomb_w_1
+    room: room:tomb_w
+    at: [-2688, -320]
+    height: 320
+    radius: 1766
+    color: [235, 200, 150]
+  - id: light:vault_1
+    room: room:vault
+    at: [4224, -4352]
+    height: 320
+    radius: 700
+    color: [235, 200, 150]
+  - id: light:west_gal_n_1
+    room: room:west_gal_n
+    at: [-2816, 192]
+    height: 320
+    radius: 998
+    color: [235, 200, 150]
+  - id: light:west_gal_s_1
+    room: room:west_gal_s
+    at: [-2816, -1472]
+    height: 320
+    radius: 998
+    color: [235, 200, 150]
+switches:
+  - id: switch:button
+    room: room:bedchamber
+    kind: button
+    at: [1664, 2048]
+    height: 112
+    notes: The carved button on the bedchamber's west wall (the source's L4 button).
+  - id: switch:call_foot
+    room: room:stair_foot
+    kind: button
+    at: [-128, -4032]
+    height: 112
+    notes: Call button beside the cage's mouth at the foot of the grand stair.
+  - id: switch:call_top
+    room: room:ante_s
+    kind: button
+    at: [640, -3200]
+    height: 112
+    notes: Call button beside the cage's gate in the antechamber.
+  - id: switch:ride_down
+    room: room:shaft
+    kind: button
+    at: [512, -3584]
+    floor_height: 0
+    height: 2416
+    notes: "Inside the cage at the top, in reach of a rider: sends it down."
+  - id: switch:ride_up
+    room: room:shaft
+    kind: button
+    at: [512, -3584]
+    floor_height: 0
+    height: 112
+    notes: "Inside the cage at the foot: sends it up."
+  - id: switch:torch_ne
+    room: room:chapel_ne
+    kind: plate
+    wall: n
+    along: 0.5
+    height: 128
+    size: [64, 64]
+    off: {texture: egyswbof, size: [32, 32]}
+    on: egyswbon
+    notes: "The ne torch's lever (egyswbof, lit egyswbon): one way (D-43)."
+  - id: switch:torch_nw
+    room: room:chapel_nw
+    kind: plate
+    wall: n
+    along: 0.5
+    height: 128
+    size: [64, 64]
+    off: {texture: egyswbof, size: [32, 32]}
+    on: egyswbon
+    notes: "The nw torch's lever (egyswbof, lit egyswbon): one way (D-43)."
+  - id: switch:torch_se
+    room: room:chapel_se
+    kind: plate
+    wall: s
+    along: 0.5
+    height: 128
+    size: [64, 64]
+    off: {texture: egyswbof, size: [32, 32]}
+    on: egyswbon
+    notes: "The se torch's lever (egyswbof, lit egyswbon): one way (D-43)."
+  - id: switch:torch_sw
+    room: room:chapel_sw
+    kind: plate
+    wall: s
+    along: 0.5
+    height: 128
+    size: [64, 64]
+    off: {texture: egyswbof, size: [32, 32]}
+    on: egyswbon
+    notes: "The sw torch's lever (egyswbof, lit egyswbon): one way (D-43)."
+chests:
+  - id: chest:safe
+    room: room:bedchamber
+    at: [2880, 1536]
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: "The wall safe (D-61 Q7): its three prompts, 20-30-1, then it opens (117574)."
+  - id: chest:strongbox
+    room: room:information
+    at: [3072, 3360]
+    facing: s
+    treasure_level: 5
+    random_items: 2
+    gold: 1500
+    notes: "The visitors' strongbox behind the counter (the source's find at (23, 15))."
+  - id: chest:sun
+    room: room:cell_a
+    at: [-2432, -336]
+    facing: s
+    treasure_level: 5
+    random_items: 3
+    gold: 1500
+    notes: The sun cell's chest.
+  - id: chest:tomb_w
+    room: room:tomb_w
+    at: [-2432, -1696]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 1200
+    notes: The west tomb's grave goods.
+  - id: chest:vault
+    room: room:vault
+    at: [4224, -4736]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: "The Overseer's vault: the chest and the visitors' fees (optional, D-61 Q3)."
+monsters:
+  - id: monster:ante_n_guard_1
+    room: room:ante_n
+    monster: 11271
+    at: [-384, -1920]
+    facing: 270
+    group: 1
+  - id: monster:ante_n_royal_1
+    room: room:ante_n
+    monster: 11272
+    at: [256, -1216]
+    facing: 270
+    group: 1
+  - id: monster:ante_n_royal_2
+    room: room:ante_n
+    monster: 11272
+    at: [1280, -1600]
+    facing: 270
+    group: 1
+  - id: monster:ante_s_guard_1
+    room: room:ante_s
+    monster: 11271
+    at: [1408, -2816]
+    facing: 270
+    group: 1
+  - id: monster:ante_s_royal_1
+    room: room:ante_s
+    monster: 11272
+    at: [256, -2304]
+    facing: 270
+    group: 1
+  - id: monster:ante_s_royal_2
+    room: room:ante_s
+    monster: 11272
+    at: [1280, -2304]
+    facing: 270
+    group: 1
+  - id: monster:apex_landing_royal_1
+    room: room:apex_landing
+    monster: 11272
+    at: [2432, -640]
+    facing: 270
+    group: 1
+  - id: monster:apex_landing_royal_2
+    room: room:apex_landing
+    monster: 11272
+    at: [2816, -640]
+    facing: 270
+    group: 1
+  - id: monster:atrium_ne_guard_1
+    room: room:atrium_ne
+    monster: 11271
+    at: [640, 1792]
+    facing: 270
+    group: 1
+  - id: monster:atrium_nw_tomb_1
+    room: room:atrium_nw
+    monster: 11270
+    at: [-640, 1792]
+    facing: 270
+    group: 1
+  - id: monster:atrium_se_tomb_1
+    room: room:atrium_se
+    monster: 11270
+    at: [768, 128]
+    facing: 270
+    group: 1
+  - id: monster:atrium_sw_guard_1
+    room: room:atrium_sw
+    monster: 11271
+    at: [-640, -256]
+    facing: 270
+    group: 1
+  - id: monster:cell_b_ghost_1
+    room: room:cell_b
+    monster: 11273
+    at: [2944, -512]
+    facing: 270
+    group: 1
+  - id: monster:cell_b_ghost_2
+    room: room:cell_b
+    monster: 11273
+    at: [2432, -1024]
+    facing: 270
+    group: 1
+  - id: monster:cell_c_guard_1
+    room: room:cell_c
+    monster: 11271
+    at: [2688, 640]
+    facing: 270
+    group: 1
+  - id: monster:cell_c_guard_2
+    room: room:cell_c
+    monster: 11271
+    at: [2432, 384]
+    facing: 270
+    group: 1
+  - id: monster:cell_d_guard_1
+    room: room:cell_d
+    monster: 11271
+    at: [384, -1920]
+    facing: 270
+    group: 1
+  - id: monster:cell_d_guard_2
+    room: room:cell_d
+    monster: 11271
+    at: [128, -2176]
+    facing: 270
+    group: 1
+  - id: monster:cell_e_tomb_1
+    room: room:cell_e
+    monster: 11270
+    at: [1792, -1920]
+    facing: 270
+    group: 1
+  - id: monster:cell_e_tomb_2
+    room: room:cell_e
+    monster: 11270
+    at: [1792, -2176]
+    facing: 270
+    group: 1
+  - id: monster:chapel_se_guard_1
+    room: room:chapel_se
+    monster: 11271
+    at: [2816, -3072]
+    facing: 270
+    group: 1
+  - id: monster:chapel_sw_guard_1
+    room: room:chapel_sw
+    monster: 11271
+    at: [-2816, -3072]
+    facing: 270
+    group: 1
+  - id: monster:cloister_n_ghost_1
+    room: room:cloister_n
+    monster: 11273
+    at: [1536, 2944]
+    facing: 270
+    group: 1
+  - id: monster:cloister_n_guard_1
+    room: room:cloister_n
+    monster: 11271
+    at: [832, 2944]
+    facing: 270
+    group: 1
+  - id: monster:cloister_n_tomb_1
+    room: room:cloister_n
+    monster: 11270
+    at: [832, 3456]
+    facing: 270
+    group: 1
+  - id: monster:cloister_s_guard_1
+    room: room:cloister_s
+    monster: 11271
+    at: [832, 2432]
+    facing: 270
+    group: 1
+  - id: monster:cloister_s_tomb_1
+    room: room:cloister_s
+    monster: 11270
+    at: [832, 1920]
+    facing: 270
+    group: 1
+  - id: monster:embalmers_ghost_1
+    room: room:embalmers
+    monster: 11273
+    at: [-3328, -2944]
+    facing: 270
+    group: 1
+  - id: monster:embalmers_tomb_1
+    room: room:embalmers
+    monster: 11270
+    at: [-3328, -2304]
+    facing: 270
+    group: 1
+  - id: monster:embalmers_tomb_2
+    room: room:embalmers
+    monster: 11270
+    at: [-2304, -2304]
+    facing: 270
+    group: 1
+  - id: monster:information_guard_1
+    room: room:information
+    monster: 11271
+    at: [2560, 2432]
+    facing: 270
+    group: 1
+  - id: monster:information_tomb_1
+    room: room:information
+    monster: 11270
+    at: [2304, 1792]
+    facing: 270
+    group: 1
+  - id: monster:information_tomb_2
+    room: room:information
+    monster: 11270
+    at: [3712, 1792]
+    facing: 270
+    group: 1
+  - id: monster:niche_ne_1
+    room: room:chapel_ne
+    monster: 11270
+    at: [4416, 4032]
+    facing: 270
+    group: 21
+    hidden: true
+    notes: "A warden in the ne chapel's niche (D-61 Q2): placed hidden, shown by the ne torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_ne_2
+    room: room:chapel_ne
+    monster: 11270
+    at: [4416, 4672]
+    facing: 270
+    group: 21
+    hidden: true
+    notes: "A warden in the ne chapel's niche (D-61 Q2): placed hidden, shown by the ne torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_nw_1
+    room: room:chapel_nw
+    monster: 11270
+    at: [-4416, 4672]
+    facing: 270
+    group: 22
+    hidden: true
+    notes: "A warden in the nw chapel's niche (D-61 Q2): placed hidden, shown by the nw torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_nw_2
+    room: room:chapel_nw
+    monster: 11270
+    at: [-4416, 4032]
+    facing: 270
+    group: 22
+    hidden: true
+    notes: "A warden in the nw chapel's niche (D-61 Q2): placed hidden, shown by the nw torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_se_1
+    room: room:chapel_se
+    monster: 11270
+    at: [2496, -3520]
+    facing: 270
+    group: 24
+    hidden: true
+    notes: "A warden in the se chapel's niche (D-61 Q2): placed hidden, shown by the se torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_se_2
+    room: room:chapel_se
+    monster: 11270
+    at: [3136, -3520]
+    facing: 270
+    group: 24
+    hidden: true
+    notes: "A warden in the se chapel's niche (D-61 Q2): placed hidden, shown by the se torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_sw_1
+    room: room:chapel_sw
+    monster: 11270
+    at: [-3392, -2816]
+    facing: 270
+    group: 23
+    hidden: true
+    notes: "A warden in the sw chapel's niche (D-61 Q2): placed hidden, shown by the sw torch's lever and on every load once lit; counted in the 70."
+  - id: monster:niche_sw_2
+    room: room:chapel_sw
+    monster: 11270
+    at: [-3392, -3328]
+    facing: 270
+    group: 23
+    hidden: true
+    notes: "A warden in the sw chapel's niche (D-61 Q2): placed hidden, shown by the sw torch's lever and on every load once lit; counted in the 70."
+  - id: monster:number_n_guard_1
+    room: room:number_n
+    monster: 11271
+    at: [3072, -128]
+    facing: 270
+    group: 1
+  - id: monster:number_n_tomb_1
+    room: room:number_n
+    monster: 11270
+    at: [3072, 640]
+    facing: 270
+    group: 1
+  - id: monster:number_s_guard_1
+    room: room:number_s
+    monster: 11271
+    at: [3072, -1024]
+    facing: 270
+    group: 1
+  - id: monster:number_s_tomb_1
+    room: room:number_s
+    monster: 11270
+    at: [3072, -1856]
+    facing: 270
+    group: 1
+  - id: monster:pad_c_ghost_1
+    room: room:pad_c
+    monster: 11273
+    at: [-128, 128]
+    facing: 270
+    group: 1
+  - id: monster:pad_e_ghost_1
+    room: room:pad_e
+    monster: 11273
+    at: [1600, 512]
+    facing: 270
+    group: 1
+  - id: monster:pad_e_tomb_1
+    room: room:pad_e
+    monster: 11270
+    at: [960, 128]
+    facing: 270
+    group: 1
+  - id: monster:pad_w_tomb_1
+    room: room:pad_w
+    monster: 11270
+    at: [-1216, 256]
+    facing: 270
+    group: 1
+  - id: monster:pharaoh
+    room: room:throne_n
+    monster: 11919
+    at: [-384, 1600]
+    floor_height: 2352
+    facing: 270
+    hostile: false
+    group: 50
+    immobile: true
+    npc: 5453
+    notes: "The Dragon Pharaoh (11919, S's P5 figure, D-56/D-61) before his throne on the dais, npc 5453: clicked, A3's topics (M28 The orb, M30, M36). Peaceful, immobile, uncounted; unkillable (evt:figures_load)."
+  - id: monster:proc_1_guard_1
+    room: room:proc_1
+    monster: 11271
+    at: [-896, -768]
+    facing: 270
+    group: 1
+  - id: monster:proc_3_guard_1
+    room: room:proc_3
+    monster: 11271
+    at: [-896, 1792]
+    facing: 270
+    group: 1
+  - id: monster:reception_tomb_1
+    room: room:reception
+    monster: 11270
+    at: [-3584, 1792]
+    facing: 270
+    group: 1
+  - id: monster:reception_tomb_2
+    room: room:reception
+    monster: 11270
+    at: [-2560, 2816]
+    facing: 270
+    group: 1
+  - id: monster:reception_tomb_3
+    room: room:reception
+    monster: 11270
+    at: [-2304, 1664]
+    facing: 270
+    group: 1
+  - id: monster:south_gal_e_guard_1
+    room: room:south_gal_e
+    monster: 11271
+    at: [960, -2304]
+    facing: 270
+    group: 1
+  - id: monster:south_gal_e_guard_2
+    room: room:south_gal_e
+    monster: 11271
+    at: [1536, -2688]
+    facing: 270
+    group: 1
+  - id: monster:south_gal_w_guard_1
+    room: room:south_gal_w
+    monster: 11271
+    at: [-1536, -1920]
+    facing: 270
+    group: 1
+  - id: monster:south_gal_w_tomb_1
+    room: room:south_gal_w
+    monster: 11270
+    at: [-960, -2304]
+    facing: 270
+    group: 1
+  - id: monster:tomb_e_guard_1
+    room: room:tomb_e
+    monster: 11271
+    at: [1408, 1152]
+    facing: 270
+    group: 1
+  - id: monster:tomb_e_guard_2
+    room: room:tomb_e
+    monster: 11271
+    at: [512, -320]
+    facing: 270
+    group: 1
+  - id: monster:tomb_e_tomb_1
+    room: room:tomb_e
+    monster: 11270
+    at: [384, 0]
+    facing: 270
+    group: 1
+  - id: monster:tomb_e_tomb_2
+    room: room:tomb_e
+    monster: 11270
+    at: [384, 1152]
+    facing: 270
+    group: 1
+  - id: monster:tomb_e_tomb_3
+    room: room:tomb_e
+    monster: 11270
+    at: [1536, -256]
+    facing: 270
+    group: 1
+  - id: monster:tomb_w_guard_1
+    room: room:tomb_w
+    monster: 11271
+    at: [-2048, -512]
+    facing: 270
+    group: 1
+  - id: monster:tomb_w_guard_2
+    room: room:tomb_w
+    monster: 11271
+    at: [-2048, 384]
+    facing: 270
+    group: 1
+  - id: monster:tomb_w_tomb_1
+    room: room:tomb_w
+    monster: 11270
+    at: [-2688, -1024]
+    facing: 270
+    group: 1
+  - id: monster:tomb_w_tomb_2
+    room: room:tomb_w
+    monster: 11270
+    at: [-2688, 0]
+    facing: 270
+    group: 1
+  - id: monster:tomb_w_tomb_3
+    room: room:tomb_w
+    monster: 11270
+    at: [-2432, 640]
+    facing: 270
+    group: 1
+  - id: monster:west_gal_n_tomb_1
+    room: room:west_gal_n
+    monster: 11270
+    at: [-2816, 256]
+    facing: 270
+    group: 1
+  - id: monster:west_gal_s_tomb_1
+    room: room:west_gal_s
+    monster: 11270
+    at: [-2816, -1536]
+    facing: 270
+    group: 1
+decorations:
+  - id: deco:bones_1
+    room: room:cell_e
+    decoration: 7dec18
+    at: [1152, -2560]
+  - id: deco:bones_2
+    room: room:cell_b
+    decoration: dec29
+    at: [3072, -1152]
+  - id: deco:brazier_ne
+    room: room:atrium_ne
+    decoration: flamb00
+    at: [896, 2432]
+    floor_height: 64
+    hidden: true
+    notes: "The atrium's ne brazier burning on its stand: shown with the ne torch."
+  - id: deco:brazier_nw
+    room: room:atrium_nw
+    decoration: flamb00
+    at: [-896, 2432]
+    floor_height: 64
+    hidden: true
+    notes: "The atrium's nw brazier burning on its stand: shown with the nw torch."
+  - id: deco:brazier_se
+    room: room:atrium_se
+    decoration: flamb00
+    at: [896, -896]
+    floor_height: 64
+    hidden: true
+    notes: "The atrium's se brazier burning on its stand: shown with the se torch."
+  - id: deco:brazier_sw
+    room: room:atrium_sw
+    decoration: flamb00
+    at: [-896, -896]
+    floor_height: 64
+    hidden: true
+    notes: "The atrium's sw brazier burning on its stand: shown with the sw torch."
+  - id: deco:jar_1
+    room: room:embalmers
+    decoration: dec97
+    at: [-3456, -3072]
+  - id: deco:jar_2
+    room: room:embalmers
+    decoration: dec97
+    at: [-3456, -2176]
+  - id: deco:salts
+    room: room:embalmers
+    decoration: dec97
+    at: [-2688, -2624]
+    floor_height: 848
+  - id: deco:sconce_0
+    room: room:entry
+    decoration: torch01
+    wall: w
+    along: 0.3
+    height: 224
+  - id: deco:sconce_1
+    room: room:entry
+    decoration: torch01
+    wall: e
+    along: 0.7
+    height: 224
+  - id: deco:sconce_10
+    room: room:number_s
+    decoration: torch01
+    wall: w
+    along: 0.3
+    height: 224
+  - id: deco:sconce_11
+    room: room:number_n
+    decoration: torch01
+    wall: w
+    along: 0.7
+    height: 224
+  - id: deco:sconce_12
+    room: room:overseer
+    decoration: torch01
+    wall: n
+    along: 0.5
+    height: 224
+  - id: deco:sconce_13
+    room: room:stair_foot
+    decoration: torch01
+    wall: s
+    along: 0.5
+    height: 224
+  - id: deco:sconce_14
+    room: room:chapel_nw
+    decoration: torch01
+    wall: s
+    along: 0.25
+    height: 224
+  - id: deco:sconce_15
+    room: room:chapel_ne
+    decoration: torch01
+    wall: s
+    along: 0.75
+    height: 224
+  - id: deco:sconce_16
+    room: room:chapel_sw
+    decoration: torch01
+    wall: w
+    along: 0.1
+    height: 224
+  - id: deco:sconce_17
+    room: room:chapel_se
+    decoration: torch01
+    wall: e
+    along: 0.9
+    height: 224
+  - id: deco:sconce_18
+    room: room:landing
+    decoration: torch01
+    wall: s
+    along: 0.3
+    height: 224
+  - id: deco:sconce_19
+    room: room:proc_1
+    decoration: torch01
+    wall: w
+    along: 0.8
+    height: 224
+  - id: deco:sconce_2
+    room: room:reception
+    decoration: torch01
+    wall: w
+    along: 0.15
+    height: 224
+  - id: deco:sconce_20
+    room: room:proc_2
+    decoration: torch01
+    wall: e
+    along: 0.8
+    height: 224
+  - id: deco:sconce_21
+    room: room:proc_3
+    decoration: torch01
+    wall: w
+    along: 0.2
+    height: 224
+  - id: deco:sconce_22
+    room: room:registry
+    decoration: torch01
+    wall: n
+    along: 0.5
+    height: 224
+  - id: deco:sconce_23
+    room: room:tomb_w
+    decoration: torch01
+    wall: w
+    along: 0.9
+    height: 224
+  - id: deco:sconce_24
+    room: room:tomb_e
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:sconce_25
+    room: room:cloister_n
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:sconce_26
+    room: room:cloister_s
+    decoration: torch01
+    wall: e
+    along: 0.3
+    height: 224
+  - id: deco:sconce_27
+    room: room:embalmers
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_28
+    room: room:registry_stair
+    decoration: torch01
+    wall: e
+    along: 0.15
+    height: 224
+  - id: deco:sconce_29
+    room: room:apex_landing
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:sconce_3
+    room: room:reception
+    decoration: torch01
+    wall: n
+    along: 0.3
+    height: 224
+  - id: deco:sconce_30
+    room: room:ante_s
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_31
+    room: room:ante_n
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_32
+    room: room:ante_n
+    decoration: torch01
+    wall: e
+    along: 0.2
+    height: 224
+  - id: deco:sconce_33
+    room: room:throne_s
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_34
+    room: room:throne_s
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:sconce_35
+    room: room:throne_c
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_36
+    room: room:throne_c
+    decoration: torch01
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:sconce_37
+    room: room:bedchamber
+    decoration: torch01
+    wall: e
+    along: 0.75
+    height: 224
+  - id: deco:sconce_4
+    room: room:information
+    decoration: torch01
+    wall: e
+    along: 0.85
+    height: 224
+  - id: deco:sconce_5
+    room: room:information
+    decoration: torch01
+    wall: s
+    along: 0.2
+    height: 224
+  - id: deco:sconce_6
+    room: room:west_gal_n
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_7
+    room: room:west_gal_s
+    decoration: torch01
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:sconce_8
+    room: room:south_gal_w
+    decoration: torch01
+    wall: s
+    along: 0.75
+    height: 224
+  - id: deco:sconce_9
+    room: room:south_gal_e
+    decoration: torch01
+    wall: s
+    along: 0.5
+    height: 224
+  - id: deco:torch_ne
+    room: room:chapel_ne
+    decoration: torch01
+    wall: n
+    along: 0.5
+    height: 288
+    hidden: true
+    notes: "The ne torch over its lever: shown when lit."
+  - id: deco:torch_nw
+    room: room:chapel_nw
+    decoration: torch01
+    wall: n
+    along: 0.5
+    height: 288
+    hidden: true
+    notes: "The nw torch over its lever: shown when lit."
+  - id: deco:torch_se
+    room: room:chapel_se
+    decoration: torch01
+    wall: s
+    along: 0.5
+    height: 288
+    hidden: true
+    notes: "The se torch over its lever: shown when lit."
+  - id: deco:torch_sw
+    room: room:chapel_sw
+    decoration: torch01
+    wall: s
+    along: 0.5
+    height: 288
+    hidden: true
+    notes: "The sw torch over its lever: shown when lit."
+  - id: deco:urn_1
+    room: room:tomb_e
+    decoration: dec97
+    at: [1664, 1408]
+  - id: deco:urn_2
+    room: room:tomb_e
+    decoration: dec97
+    at: [1664, -384]
+  - id: deco:urn_3
+    room: room:tomb_w
+    decoration: dec97
+    at: [-3584, 1024]
+  - id: deco:urn_4
+    room: room:tomb_w
+    decoration: dec97
+    at: [-1792, -1664]
+  - id: deco:vault_urn
+    room: room:vault
+    decoration: dec97
+    at: [3840, -4736]
+notes: "DD-15's contents, written by output/studio_cal/dd15/tools/dress.py: 21 doors (eight of them hinged pairs), the Pharaoh's lift, four torch levers, five lift and button switches, ten pads, five chests, 70 placed monsters (34 Tomb Mummies, eight of them hidden in the torch chapels' niches; 24 Pyramid Guards, 6 Ghost Mummies, 6 Royal Mummies) and, not counted, the Dragon Pharaoh (npc 5453)."

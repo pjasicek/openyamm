@@ -97,7 +97,7 @@ CLOUDSIDE (bright face)                                   DARKSIDE (shadowed fac
 | Winterkill,     | Newcastle| Rivercity| Vertigo,     |   | Castleview,     | Temple of Bark, | Sandcaster,     |
 | Golem Dungeon   | Nightsh.| Darzog,  | Witch Tower,  |   | Kalindra        | Troll Holes     | Crossroads      |
 |                 |         | Yak      | dwarf mines   |   |                 |                 |                 |
-| L 15-22 (C 40)  | L 10-15 | L 6-12   | L 2-5 (C 12)  |   | L 14-18 (C 30)  | L 16-22 (C 38)  | L 20-28 (C 45)  |
+| L 15-22 (C 40)  | L 10-15 | L 6-12   | L 2-5 (C 12)  |   | L 14-18 (C 30)  | L 16-22 (C 38)  | L 22-35 (C 45)  |
 +-----------------+---------+----------+---------------+   +-----------------+-----------------+-----------------+
   START: X1 (Vertigo)                                        ARRIVAL: D1 (Castleview pyramid)
 ```
@@ -138,7 +138,7 @@ X3 into X2, merge D5 into D6, one Cloudside sky map, one shared elemental plane.
 
 | Link | How | When it opens |
 | --- | --- | --- |
-| Cloudside ↔ Darkside | **Travel pyramids**. The pyramid outside Vertigo (X1) and the one outside Castleview (D1) are a pair. Shangri-La's pyramid (X7) and the one in Castle Alamar's dungeon (D6) become a second pair late | Main quest step M7: Artemus gives the Pyramid Sigil (≈ level 14) |
+| Cloudside ↔ Darkside | **Travel pyramids**. The pyramid outside Vertigo (X1) and the one outside Castleview (D1) are a pair. Shangri-La's pyramid (X7) and the one outside Castle Alamar's gate on D6 (D-50) become a second pair late | Main quest step M7: Artemus gives the Pyramid Sigil (≈ level 14) |
 | Inside a face, neighbours | Map-edge travel, 5 days (wilderness edges 7) | Always |
 | Inside a face, towns | **Stables** (Vertigo, Rivercity, Burlock; Castleview, Sandcaster, Castle Kalindra after stage 4) and **boats** (Rivercity's Captain Nystor on the Great River and lakes; Lakeside's ferry to the Isle of Lost Souls) | Always, schedule-bound |
 | Sky | **Celestial boats** of Lucio the Boatman (Darkside sky ↔ Castleview, Sandcaster, Lakeside, Olympus). Tower roofs are one-way up; falls are one-way down | Lucio: Chosen Ones (M30) |
@@ -195,7 +195,7 @@ kept for flavour.
 | **Winterkill** | X5 | Ghost town in the snow | Before: the Mindmeld Guild only. After: tavern, temple, inn, Mind/Dark guilds, mirror | 12 | Gongs summon ghost waves (Q-C6) |
 | **Nightshadow** | X3 | Vampire town; never sunny | Before: Moon Guild (Dark) only, open at night. After: temple, tavern, Treasure Trove (M), Gnome Home (residences), mirror | 10 | Sundials, the Count's coffin (Q-C7) |
 | **Newcastle** | X3 | The party's castle, built in stages | Stage 1 walls: nothing; stage 2 keep: smith, training; stage 3 dungeon dug: temple, bank, "your well" | — | See QUESTS §4.1 |
-| **Shangri-La** | X7 (hidden, open-air BLV valley) | Secret utopia behind the Volcano Cave | Arm and Hammer (W/A), Earth Temple, Tavern Xanadu, Light guild, **Public Library** (grandmaster teachers), +1 level well rescaled | 8 | Hint NPCs; Jack Alltrades; the second travel pyramid |
+| **Shangri-La** | X7 (hidden, open-air BLV valley) | Secret utopia behind the Volcano Cave | Arm and Hammer (W/A), Earth Temple, Tavern Xanadu, Light guild, **Public Library** (grandmaster teachers), the well (15,000 experience once per character and an award, D-50, D-53) | 8 | Hint NPCs; Jack Alltrades; the second travel pyramid |
 | Hamlets | X2, X5, X6 | Waypoints | tavern, stables or boat; 1–3 houses | 3–6 | Druid groves, hermits, Saul's urn |
 
 Every cursed or unbuilt town has one working service at the edge from day one, outside the curse
@@ -217,7 +217,7 @@ stage 2 60 (×30), Sandcaster 80 (×40), Castle Kalindra stage 4 200 (×50), Oly
 | **Castle Kalindra** | D1 | The Queen's castle, out of phase; restored in four stages | Stage 4: smith, temple, bank, training, stables, mirror network switch | — | See QUESTS §4.2 |
 | **Sandcaster** | D3 | Sandstone merchant city ruled by evil wizards | W, A, M, alchemist, temple, tavern, training, Mind/Spirit/Light guilds, stables (caravan), mirror. **Wizard quarter** closed until Astra's quest; then the Dark guild and a second magic shop open | 26 | Skill-school town (Navigator, Linguist, Merchant teachers); Natasha the Enchantress; Sandcaster Sewer and Barticus' gym |
 | **Crossroads** | D3 | Open-air market where six roads meet | MM9-style stalls: food, robes, necklaces, belts, boots, Caleb the inventor | 0 | Uses street vendors (generalised MM9 vendor code) or six small house doors |
-| **Lakeside** | D4 | Coven-ruled lakeshore town | Before: Lakeside guild only (riddle). After: tavern, smith, temple, ferry to the Isle of Lost Souls, mirror | 10 | Five prisoners; children turned into goblins |
+| **Lakeside** | D4 | Coven-ruled lakeshore town | Before: Lakeside guild (riddle) and the ferry to the Isle of Lost Souls, which runs from day one (D-12.1). After: tavern, smith, temple, mirror. Joining the coven is the peaceful route, breaking it the violent one; a party that joined may break it later | 10 | Five prisoners; children turned into goblins |
 | **Necropolis** | D6 | City of the undead; a walled necropolis that the living may enter with a pass | Dark guild, Necromancer house (promotion), temple of the dead (resurrection, cheaper Raise Dead), black-market magic shop, mirror | 6 | Sandro the Lich; deadly aging books |
 | **Olympus** | D7 | City of the gods on the Skyroads | smith, tavern, temple, training, Light/Spirit guilds (grandmaster), mirror, Lucio's dock | 6 | Soul Storage; prophecy statues; Sheltem's true name |
 | **Bosco's Hall** | D5 | Dwarf hall dug into the highlands (small BLV) | smith, tavern, Earth guild | 2 | Bosco the Dwarf King |

@@ -1,0 +1,121 @@
+# Xeen side quest Q-D11, Graalg's Ogres (D1, D2), the peace route, from a new game on D1 with a level-24 party.
+# Kramer's Caravans (house 4464, NPC 4914): Ogres (started, the Ogre Pass autonote 4510), again ("still Ogres"). East
+# off D1's edge (the map's OK prompt) into Sprite Forest. Graalg at his parley fire between the forts (actor 22, NPC
+# 5108): Bow low, slave! (friends; the laugh), Energy disks (2 Energy Disks 12334, peace), again ("no more"), Orcs,
+# Alamar. Back west off D2's edge to Castleview Vale; Kramer: Ogres (done: 4,000 XP each, 1,500 gold), again; no
+# Bounty with the forts standing. The burning route (and the Bounty Hunter promotion) is q-d11_forts_graalgs_ogres.yml.
+# Outdoors and in towns the party is placed (PLAYBOOK §2); the map edges are walked into. Routes:
+# devdocs/xeen/briefs/d1/L4/playtest.yml (Kramer), d2/L4/playtest.yml (Graalg), the chain's segment 43.
+# Quest logic: source/quests/q-d11.yml. Prep: prep/q-d11.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d11_peace
+id: xeen.side_quests.q-d11.peace
+title: "Xeen Q-D11 (peace): Graalg laughed round for two Energy Disks; Kramer pays for a safe pass"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113220, 113221, 113222, 113223, 113224, 113225, 113226, 113227, 113228]}
+  - assert: {autonote: {id: 4510, present: false}}
+  # Kramer's Caravans (house 4464): Ogres (started, the autonote), again.
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "These blasted Ogres are killing my business."}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "There are still Ogres attacking my caravans. Please do something!", action_label_absent: "Bounty"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113220]}
+  - assert: {autonote: {id: 4510}}
+  # East along the road off D1's edge into Sprite Forest.
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Graalg at the parley fire (actor 22): Bow low, slave!; Energy disks (2, peace), again; Orcs; Alamar.
+  - set_pose: {map: xeen_d2.odm, x: 6912, y: 13568, z: 2048, yaw: 0.6, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7373, y: 13824, z: 2048, z_tolerance: 700, radius: 192, timeout_seconds: 120, clear_hostiles: 3000}
+  - interact_actor: {actor_index: 22}
+  - assert: {dialog: {active: true, source_id: 5108, action_label_present: "Pharaoh's oath", action_label_absent: "Energy disks"}}
+  - select_topic: {match_label: "Bow low, slave!"}
+  - assert:
+      dialog: {text_contains: "Har Har Har! We LIKE! You make big laugh! You friends.", action_label_absent: "Gifts"}
+  - select_topic: {match_label: "Energy disks"}
+  - assert:
+      dialog: {text_contains: "Here are two energy disks. Caravans? Fine. We let caravans pass."}
+  - select_topic: {match_label: "Energy disks"}
+  - assert:
+      dialog: {text_contains: "We have no more energy disks."}
+  - select_topic: {match_label: "Orcs"}
+  - assert:
+      dialog: {text_contains: "The Orcs captured a sprite a little while ago"}
+  - select_topic: {match_label: "Alamar"}
+  - assert:
+      dialog: {text_contains: "Because we like you, we pretend you didn't say that."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        while held() ~= 0 do if not stow() then error("cannot stow " .. held()) end end
+        if item_count(12334) ~= 2 then error("Energy Disks after Graalg: " .. item_count(12334)) end
+  - assert: {qbit_set: [113221, 113223]}
+  - assert: {qbit_clear: [113222]}
+  # Back west off D2's edge to Castleview Vale; Kramer: Ogres (done), again; no Bounty.
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24576, y: 2048, z: 992, z_tolerance: 900, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "Thank you so much for getting rid of the Ogres!"}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "The caravans run through Ogre Pass on time.", action_label_absent: "Bounty"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if gold() - recall("gold") ~= 1500 then error("Kramer paid " .. (gold() - recall("gold"))) end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 4000 then error("member " .. i .. " Q-D11 experience " .. gain) end
+        end
+        if classes() ~= "Knight Cleric Archer Sorcerer" then error("classes changed: " .. classes()) end
+        log("Q-D11 peace done: gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113220, 113221, 113223, 113227]}
+  - assert: {qbit_clear: [113222, 113224, 113225, 113226, 113228]}

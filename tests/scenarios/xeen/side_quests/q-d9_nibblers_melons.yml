@@ -1,0 +1,179 @@
+# Xeen side quest Q-D9, Nibbler's Melons (D2, D1), from a new game on D2 (Sprite Forest) with a level-22 party.
+# Nibbler's Hollow (house 4556, NPC 5106): Monga melons (started, the melons autonote 4490), again ("Three!"). The
+# great tree's door (D2 event 13) opens without a key (D-89). West off D2's edge (the map's OK prompt) into Castleview
+# Vale. Pip Melonby's field by Castleview's south wall (D1 event 195): one Monga melon (once). The wild melon patch in
+# the southern meadows (event 194): three Monga melons (melons_south), again "picked clean". East off D1's edge back to
+# Sprite Forest. Nibbler: Monga melons (three taken: the key to the Temple of Bark 12342, done, 1,000 XP each), again
+# with the fourth melon ("He eats yours anyway": taken), again ("growing my own"). The great tree's door with the key:
+# the hook's line and the move into the Temple of Bark (DD-09); out by its trunk door (event 33, OK).
+# Outdoors the party is placed (PLAYBOOK §2); the map edges are walked into. Routes: devdocs/xeen/briefs/d2/L4/
+# playtest.yml (Nibbler, the tree door, DD-09's trunk door), d1/L4/playtest.yml (the melons), the chain's segment 43
+# (the edges, the patch, Nibbler). Quest logic: source/quests/q-d9.yml. Prep: prep/q-d9.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d9_
+id: xeen.side_quests.q-d9
+title: "Xeen Q-D9: Monga melons from Castleview Vale buy Nibbler's key to the Temple of Bark"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d2.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 22, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 22, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 22, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 22, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d2.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113180, 113181, 113182]}
+  - assert: {autonote: {id: 4490, present: false}}
+  # Nibbler's Hollow (4556): Monga melons (started, the autonote), again.
+  - set_pose: {map: xeen_d2.odm, x: -9985, y: -5888, z: 992, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5106}}
+  - select_topic: {match_label: "Monga melons"}
+  - assert:
+      dialog: {text_contains: "The sweetest grow in the southern meadowlands, home of the most vicious centipedes."}
+  - select_topic: {match_label: "Monga melons"}
+  - assert:
+      dialog: {text_contains: "You didn't bring me enough Monga Melons."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113180]}
+  - assert: {autonote: {id: 4490}}
+  # The great tree's door before Nibbler's reward (event 13, D-89: the temple is open; it is walked in later).
+  - set_pose: {map: xeen_d2.odm, x: -11396, y: -6640, z: 992, yaw: -1.3746, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd09.blv}
+  - assert: {party_position: {x: 0, y: -1920, radius: 200}}
+  # The temple's arrival message is the first thing a player reads, on the first visit only (as main 49).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE TEMPLE OF BARK. The round door shuts behind you"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117120) then error('arrived_once not set') end"}
+  # West off D2's edge to Castleview Vale.
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24576, y: 2048, z: 992, z_tolerance: 900, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Pip Melonby's field by Castleview's south wall (event 195): one melon, once.
+  - set_pose: {map: xeen_d1.odm, x: 0, y: -1400, z: 1400, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status()
+        click(195); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "A Monga melon at the field's edge, ripe.", 1, true) then error("the field said: " .. seen) end
+        for _ = 1, 4 do if held() ~= 0 then stow() end end
+        if item_count(12343) ~= 1 then error("Monga melons after the field: " .. item_count(12343)) end
+        click(195); wait(0.5)
+        for _ = 1, 4 do if held() ~= 0 then stow() end end
+        if item_count(12343) ~= 1 then error("the field gave a second melon: " .. item_count(12343)) end
+  # The wild melon patch in the southern meadows (event 194): three melons; again, picked clean.
+  - set_pose: {map: xeen_d1.odm, x: 9216, y: -13312, z: 2500, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 3.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(194); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Monga Melons, three of them, ripe.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 4 do if held() ~= 0 then stow() end end
+        if item_count(12343) ~= 4 then error("Monga melons: " .. item_count(12343) .. " " .. pack_items()) end
+        if not qbit(113182) then error("melons_south 113182 not set") end
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(194); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Melon vines, picked clean.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if item_count(12343) ~= 4 then error("the picked patch gave more: " .. item_count(12343)) end
+  # East along the road off D1's edge into Sprite Forest.
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Nibbler: Monga melons (three for the key, 1,000 XP each), again with the fourth melon, again.
+  - set_pose: {map: xeen_d2.odm, x: -9985, y: -5888, z: 992, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 5106}}
+  - select_topic: {match_label: "Monga melons"}
+  - assert:
+      dialog: {text_contains: "Here's what I promised you: something shiny I found in the Temple of Bark"}
+  - select_topic: {match_label: "Monga melons"}
+  - assert:
+      dialog: {text_contains: "(He eats yours anyway.)"}
+  - select_topic: {match_label: "Monga melons"}
+  - assert:
+      dialog: {text_contains: "I'm growing my own melons now. (sigh) I love Monga Melons."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        while held() ~= 0 do if not stow() then error("cannot stow " .. held()) end end
+        if not qbit(113181) then error("Q-D9 done 113181 not set") end
+        if item_count(12343) ~= 0 then error("melons left: " .. item_count(12343)) end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 1000 then error("member " .. i .. " Q-D9 experience " .. gain) end
+        end
+        log("Q-D9 done: the Bark key")
+  # The great tree's door: into the Temple of Bark at once; out by its trunk door.
+  - set_pose: {map: xeen_d2.odm, x: -11396, y: -6640, z: 992, yaw: -1.3746, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status()"}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd09.blv}
+  - assert: {party_position: {x: 0, y: -1920, radius: 200}}
+  # The second visit: the arrival message was read on the first (once).
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(33); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: -11264, y: -6656, radius: 200, z_min: 952, z_max: 1112}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113180, 113181, 113182]}

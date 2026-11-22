@@ -1,0 +1,2010 @@
+format: 0
+start:
+  room: room:gate
+  at: [0, -4064]
+  facing: n
+  notes: "In the gatehall about 256 inside the gate's two leaves, facing north into the great hall (the arrival from X9)."
+arrivals:
+  - {entrance: entrance:x9_gate, room: room:gate, at: [0, -4064], facing: n, notes: "X9's castle gate (A5's thing:castle_xeen_gate, m34.gate) arrives here: about 256 inside the leaves, facing north, the great hall ahead."}
+doors:
+  - id: door:armoury
+    opening: open:ward_e_armoury
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The armoury' door.
+  - id: door:barracks
+    opening: open:ward_w_barracks
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The barracks' door.
+  - id: door:bays
+    opening: open:bays_shutter
+    kind: slide_up
+    thickness: 24
+    speed: 96
+    surface: {texture: swdoorc, size: [128, 256]}
+    back_surface: {texture: swdoorc, size: [128, 256]}
+    tile: true
+    notes: "The guard bays' Ancient shutters (swdoorc, a shutter that tiles): they roll up when both machines are destroyed (map qbit 118063)."
+  - id: door:field
+    opening: open:field
+    kind: slide_down
+    fold: true
+    speed: 256
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The field across the crown stair (xafield, translucent): it sinks away when the four pylons are dark (m35.barrier, map qbit 118062) and stays down."
+  - id: door:gen_air
+    opening: open:upper_e_gen_air
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The tower top's door.
+  - id: door:gen_fire
+    opening: open:upper_w_gen_fire
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The tower top's door.
+  - id: door:hall_north
+    opening: open:nave_stair
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: gnecstpv, size: [64, 128]}
+    pictures:
+      - [{texture: gnecdr1l, size: [128, 256]}, {texture: gnecdr1r, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gnecdr1l, size: [128, 256]}, {texture: gnecdr1r, size: [128, 256]}]
+    notes: "The great hall's north doors: two leaves (MM8 gnecdr1l/gnecdr1r, the robed figures), swinging apart."
+  - id: door:keep_e
+    opening: open:wall_en_foundry_e
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The keep's door off the wall walk.
+  - id: door:keep_w
+    opening: open:wall_wn_foundry_w
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The keep's door off the wall walk.
+  - id: door:quarters
+    opening: open:upper_e_quarters
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The demons' quarters' door.
+  - id: door:store
+    opening: open:store_door
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The parts store's door.
+  - id: door:throne
+    opening: open:throne_doors
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 128
+    edge_surface: {texture: gnecstpv, size: [64, 128]}
+    pictures:
+      - [{texture: gnecdr4l, size: [128, 256]}, {texture: gnecdr4r, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gnecdr4l, size: [128, 256]}, {texture: gnecdr4r, size: [128, 256]}]
+    notes: "The throne doors: two studded black leaves (gnecdr4l/gnecdr4r), swinging apart."
+  - id: door:treasury
+    opening: open:apse_treasury
+    kind: slide_up
+    thickness: 32
+    speed: 128
+    surface: {texture: gnecdr3, size: [256, 256], fit: true}
+    back_surface: {texture: gnecdr3, size: [256, 256], fit: true}
+    notes: "The hoard door behind the dais, Lord Xeen's sigil on it (gnecdr3): it opens at his death."
+  - id: door:vault_e
+    opening: open:gallery_e_vault
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The vault's door from the gallery.
+  - id: door:vault_e_stair
+    opening: open:vault_e_stair
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The vault's door to the stair hall.
+  - id: door:vault_w
+    opening: open:gallery_w_vault
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The vault's door from the gallery.
+  - id: door:vault_w_stair
+    opening: open:vault_w_stair
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The vault's door to the stair hall.
+  - id: door:walk
+    opening: open:landing_walk
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The keeper's walk's door off the crown landing.
+  - id: door:walk_threshold
+    opening: open:walk_threshold
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: The keeper's walk's door onto the throne doors.
+  - id: door:war_room
+    opening: open:upper_w_war
+    kind: slide_left
+    thickness: 24
+    speed: 192
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "The war room's door (it slides aside: the keeper's walk lies over it)."
+plates:
+  - id: plate:sight
+    room: room:throne
+    at: [0, 416]
+    size: [1024, 96]
+    notes: "The step plate across the throne doors' sill, inside the leaves: the throne straight ahead and lit (D-47 Q13)."
+sounds:
+  - {id: sound:barrier, room: room:barrier, at: [0, -2464], sound: xeen_barrier_loop, radius: 2000, inner_radius: 600, volume: 0.5, notes: "The field's crackle (AU's xeen_barrier_loop); off when it falls."}
+  - {id: sound:gen_air, room: room:gen_air, at: [3760, -4320], sound: humming, radius: 1500, inner_radius: 400, volume: 0.5, notes: "The air generator's hum (AU session 3: the engine's humming); off when it falls."}
+  - {id: sound:gen_earth, room: room:vault_e, at: [3120, 1440], sound: humming, radius: 1500, inner_radius: 400, volume: 0.5, notes: "The earth generator's hum (AU session 3: the engine's humming); off when it falls."}
+  - {id: sound:gen_fire, room: room:gen_fire, at: [-3760, -4320], sound: humming, radius: 1500, inner_radius: 400, volume: 0.5, notes: "The fire generator's hum (AU session 3: the engine's humming); off when it falls."}
+  - {id: sound:gen_water, room: room:vault_w, at: [-3120, 1440], sound: humming, radius: 1500, inner_radius: 400, volume: 0.5, notes: "The water generator's hum (AU session 3: the engine's humming); off when it falls."}
+  - {id: sound:machine_e, room: room:foundry_e, at: [3952, 2848], sound: xeen_machine_stamp_loop, radius: 3200, inner_radius: 900, volume: 0.45, notes: "The guard-making machine's stamping (AU's xeen_machine_stamp_loop); off when it falls."}
+  - {id: sound:machine_w, room: room:foundry_w, at: [-3952, 2848], sound: xeen_machine_stamp_loop, radius: 3200, inner_radius: 900, volume: 0.45, notes: "The guard-making machine's stamping (AU's xeen_machine_stamp_loop); off when it falls."}
+lights:
+  - id: light:aisle_e_1
+    room: room:aisle_e
+    at: [1600, -2240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:aisle_e_2
+    room: room:aisle_e
+    at: [1600, -1280]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:aisle_w_1
+    room: room:aisle_w
+    at: [-1600, -2240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:aisle_w_2
+    room: room:aisle_w
+    at: [-1600, -1280]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:apse
+    room: room:apse
+    at: [0, 3552]
+    height: 420
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:armoury_1
+    room: room:armoury
+    at: [2640, -3680]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:armoury_2
+    room: room:armoury
+    at: [2640, -2720]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:aviary_n_1
+    room: room:aviary_n
+    at: [-960, -1240]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:aviary_n_2
+    room: room:aviary_n
+    at: [960, -1240]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:aviary_s_1
+    room: room:aviary_s
+    at: [-960, -2280]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:aviary_s_2
+    room: room:aviary_s
+    at: [960, -2280]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barracks_1
+    room: room:barracks
+    at: [-2640, -3680]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:barracks_2
+    room: room:barracks
+    at: [-2640, -2720]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:barrier_1
+    room: room:barrier
+    at: [-560, -1760]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barrier_2
+    room: room:barrier
+    at: [560, -1760]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barrier_e_1
+    room: room:barrier_e
+    at: [1600, -2240]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barrier_e_2
+    room: room:barrier_e
+    at: [1600, -1280]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barrier_w_1
+    room: room:barrier_w
+    at: [-1600, -2240]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:barrier_w_2
+    room: room:barrier_w
+    at: [-1600, -1280]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:bays_1
+    room: room:bays
+    at: [-640, 4960]
+    height: 224
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:bays_2
+    room: room:bays
+    at: [640, 4960]
+    height: 224
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:core_air
+    room: room:gen_air
+    at: [3760, -4288]
+    height: 240
+    radius: 1000
+    color: [190, 170, 255]
+    brightness: 30
+    notes: "The air generator's glow: out when it falls."
+  - id: light:core_earth
+    room: room:vault_e
+    at: [3120, 1408]
+    height: 240
+    radius: 1000
+    color: [130, 220, 90]
+    brightness: 30
+    notes: "The earth generator's glow: out when it falls."
+  - id: light:core_fire
+    room: room:gen_fire
+    at: [-3760, -4288]
+    height: 240
+    radius: 1000
+    color: [255, 120, 40]
+    brightness: 30
+    notes: "The fire generator's glow: out when it falls."
+  - id: light:core_water
+    room: room:vault_w
+    at: [-3120, 1408]
+    height: 240
+    radius: 1000
+    color: [110, 200, 255]
+    brightness: 30
+    notes: "The water generator's glow: out when it falls."
+  - id: light:crown_landing_1
+    room: room:crown_landing
+    at: [-1360, -4320]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:crown_landing_2
+    room: room:crown_landing
+    at: [-1360, -3360]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:crown_stair
+    room: room:crown_stair
+    at: [0, -3840]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:field
+    room: room:barrier
+    at: [0, -2560]
+    height: 240
+    radius: 900
+    color: [110, 160, 255]
+    brightness: 26
+    pulse: {intensity: [0.5, 1], frequency: 1.6}
+    notes: "The field's crackle of light: out when it falls."
+  - id: light:foundry_1
+    room: room:foundry
+    at: [-960, 3680]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:foundry_2
+    room: room:foundry
+    at: [960, 3680]
+    height: 420
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:foundry_e_1
+    room: room:foundry_e
+    at: [3120, 2680]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:foundry_e_2
+    room: room:foundry_e
+    at: [3120, 3880]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:foundry_w_1
+    room: room:foundry_w
+    at: [-3120, 2680]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:foundry_w_2
+    room: room:foundry_w
+    at: [-3120, 3880]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:gallery_e_1
+    room: room:gallery_e
+    at: [3760, -2240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:gallery_e_2
+    room: room:gallery_e
+    at: [3760, -1280]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:gallery_w_1
+    room: room:gallery_w
+    at: [-3760, -2240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:gallery_w_2
+    room: room:gallery_w
+    at: [-3760, -1280]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:gate
+    room: room:gate
+    at: [0, -3600]
+    height: 384
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:gen_air_1
+    room: room:gen_air
+    at: [3760, -4320]
+    height: 352
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:gen_air_2
+    room: room:gen_air
+    at: [3760, -3360]
+    height: 352
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:gen_fire_1
+    room: room:gen_fire
+    at: [-3760, -4320]
+    height: 352
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:gen_fire_2
+    room: room:gen_fire
+    at: [-3760, -3360]
+    height: 352
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:grand_landing_1
+    room: room:grand_landing
+    at: [-640, 2400]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:grand_landing_2
+    room: room:grand_landing
+    at: [640, 2400]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:keep_stair
+    room: room:keep_stair
+    at: [2640, 640]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:loft_1
+    room: room:loft
+    at: [2640, -2240]
+    height: 288
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:loft_2
+    room: room:loft
+    at: [2640, -1280]
+    height: 288
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:mirror
+    room: room:apse
+    at: [0, 3888]
+    height: 300
+    radius: 800
+    color: [200, 220, 255]
+    brightness: 28
+    notes: "The Sixth Mirror's silver light: out when it shatters."
+  - id: light:nave_1
+    room: room:nave
+    at: [-560, -1760]
+    height: 420
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:nave_2
+    room: room:nave
+    at: [560, -1760]
+    height: 420
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:pylon_air
+    room: room:barrier
+    at: [896, -2160]
+    height: 300
+    radius: 700
+    color: [190, 170, 255]
+    brightness: 26
+    pulse: {intensity: [0.6, 1], frequency: 0.7}
+    notes: "The air pylon's light: out when its generator falls."
+  - id: light:pylon_earth
+    room: room:barrier
+    at: [896, -1360]
+    height: 300
+    radius: 700
+    color: [130, 220, 90]
+    brightness: 26
+    pulse: {intensity: [0.6, 1], frequency: 0.7}
+    notes: "The earth pylon's light: out when its generator falls."
+  - id: light:pylon_fire
+    room: room:barrier
+    at: [-896, -2160]
+    height: 300
+    radius: 700
+    color: [255, 120, 40]
+    brightness: 26
+    pulse: {intensity: [0.6, 1], frequency: 0.7}
+    notes: "The fire pylon's light: out when its generator falls."
+  - id: light:pylon_water
+    room: room:barrier
+    at: [-896, -1360]
+    height: 300
+    radius: 700
+    color: [110, 200, 255]
+    brightness: 26
+    pulse: {intensity: [0.6, 1], frequency: 0.7}
+    notes: "The water pylon's light: out when its generator falls."
+  - id: light:quarters_1
+    room: room:quarters
+    at: [3760, -2240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:quarters_2
+    room: room:quarters
+    at: [3760, -1280]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:stair_hall
+    room: room:stair_hall
+    at: [0, 640]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:store
+    room: room:store
+    at: [-2640, 1360]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:threshold_1
+    room: room:threshold
+    at: [-960, -240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:threshold_2
+    room: room:threshold
+    at: [960, -240]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:throne_1
+    room: room:throne
+    at: [-960, 1760]
+    height: 420
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:throne_2
+    room: room:throne
+    at: [960, 1760]
+    height: 420
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:throne_lit
+    room: room:apse
+    at: [0, 3776]
+    height: 360
+    radius: 1400
+    color: [255, 210, 150]
+    brightness: 31
+    notes: "The throne lit, straight ahead of the doors (D-47 Q13)."
+  - id: light:tower0_e
+    room: room:tower0_e
+    at: [3760, -3840]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:tower0_w
+    room: room:tower0_w
+    at: [-3760, -3840]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:tower1_e
+    room: room:tower1_e
+    at: [4720, -3840]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:tower1_w
+    room: room:tower1_w
+    at: [-4720, -3840]
+    height: 520
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:treasury_1
+    room: room:treasury
+    at: [-480, 4720]
+    height: 224
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:treasury_2
+    room: room:treasury
+    at: [480, 4720]
+    height: 224
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:turret_e
+    room: room:turret_e
+    at: [4720, 960]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:turret_w
+    room: room:turret_w
+    at: [-4720, 960]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:upper_e_1
+    room: room:upper_e
+    at: [2640, -3320]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:upper_e_2
+    room: room:upper_e
+    at: [2640, -1640]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:upper_landing_1
+    room: room:upper_landing
+    at: [-960, 0]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:upper_landing_2
+    room: room:upper_landing
+    at: [960, 0]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:upper_w_1
+    room: room:upper_w
+    at: [-2640, -3320]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:upper_w_2
+    room: room:upper_w
+    at: [-2640, -1640]
+    height: 256
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:vault_e_1
+    room: room:vault_e
+    at: [3120, 0]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:vault_e_2
+    room: room:vault_e
+    at: [3120, 1280]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:vault_w_1
+    room: room:vault_w
+    at: [-3120, 0]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:vault_w_2
+    room: room:vault_w
+    at: [-3120, 1280]
+    height: 256
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:walk_n_1
+    room: room:walk_n
+    at: [-2640, -1280]
+    height: 192
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:walk_n_2
+    room: room:walk_n
+    at: [-2640, -320]
+    height: 192
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:walk_s_1
+    room: room:walk_s
+    at: [-2640, -4080]
+    height: 192
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:walk_s_2
+    room: room:walk_s
+    at: [-2640, -2640]
+    height: 192
+    radius: 1600
+    color: [230, 190, 140]
+  - id: light:wall_en_1
+    room: room:wall_en
+    at: [4720, 2320]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_en_2
+    room: room:wall_en
+    at: [4720, 3760]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_es_1
+    room: room:wall_es
+    at: [4720, -1960]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_es_2
+    room: room:wall_es
+    at: [4720, -440]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_wn_1
+    room: room:wall_wn
+    at: [-4720, 2320]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_wn_2
+    room: room:wall_wn
+    at: [-4720, 3760]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_ws_1
+    room: room:wall_ws
+    at: [-4720, -1960]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:wall_ws_2
+    room: room:wall_ws
+    at: [-4720, -440]
+    height: 384
+    radius: 1600
+    color: [175, 185, 215]
+  - id: light:war_room
+    room: room:war_room
+    at: [-2640, 160]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ward_e
+    room: room:ward_e
+    at: [2640, -1760]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+  - id: light:ward_w
+    room: room:ward_w
+    at: [-2640, -1760]
+    height: 256
+    radius: 1100
+    color: [230, 190, 140]
+chests:
+  - id: chest:armoury
+    room: room:armoury
+    at: [2976, -4006]
+    kind: gt002
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The armoury's chest.
+  - id: chest:barracks
+    room: room:barracks
+    at: [-2976, -4006]
+    kind: gt002
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The barracks' chest by the south wall.
+  - id: chest:hoard
+    room: room:treasury
+    at: [0, 4992]
+    kind: 7gt002
+    facing: s
+    treasure_level: 6
+    random_items: 5
+    gold: 12000
+    notes: Lord Xeen's hoard (T6).
+  - id: chest:loft
+    room: room:loft
+    at: [3088, -2489]
+    kind: gt002
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: "The keeper's strongbox, up in the loft."
+  - id: chest:quarters
+    room: room:quarters
+    at: [3456, -2566]
+    kind: gt002
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The demons' quarters' chest.
+  - id: chest:store
+    room: room:store
+    at: [-2214, 1752]
+    kind: gt002
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The parts store's chest.
+  - id: chest:war_room
+    room: room:war_room
+    at: [-3065, 768]
+    kind: gt002
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The war room's chest.
+monsters:
+  - id: monster:armoury_1
+    room: room:armoury
+    monster: 11603
+    at: [2416, -3488]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:armoury_2
+    room: room:armoury
+    monster: 11603
+    at: [2864, -3488]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:armoury_3
+    room: room:armoury
+    monster: 11631
+    at: [2640, -3008]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:barracks_1
+    room: room:barracks
+    monster: 11603
+    at: [-2864, -3584]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:barracks_2
+    room: room:barracks
+    monster: 11603
+    at: [-2416, -3584]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:barracks_3
+    room: room:barracks
+    monster: 11603
+    at: [-2640, -3008]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:barrier_1
+    room: room:barrier
+    monster: 11622
+    at: [-480, -1600]
+    facing: 270
+    hostile: true
+    group: 36
+  - id: monster:barrier_2
+    room: room:barrier
+    monster: 11622
+    at: [480, -1600]
+    facing: 270
+    hostile: true
+    group: 36
+  - id: monster:foundry_1
+    room: room:foundry
+    monster: 11603
+    at: [-960, 3040]
+    facing: 270
+    hostile: true
+    group: 21
+  - id: monster:foundry_2
+    room: room:foundry
+    monster: 11603
+    at: [960, 3040]
+    facing: 270
+    hostile: true
+    group: 21
+  - id: monster:foundry_3
+    room: room:foundry
+    monster: 11603
+    at: [0, 3840]
+    facing: 270
+    hostile: true
+    group: 21
+  - id: monster:foundry_4
+    room: room:foundry
+    monster: 11631
+    at: [0, 2960]
+    facing: 270
+    hostile: true
+    group: 21
+  - id: monster:gallery_e_1
+    room: room:gallery_e
+    monster: 11630
+    at: [3760, -2240]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:gallery_e_2
+    room: room:gallery_e
+    monster: 11630
+    at: [3760, -1280]
+    facing: 270
+    hostile: true
+    group: 16
+  - id: monster:gallery_e_3
+    room: room:gallery_e
+    monster: 11631
+    at: [3760, -1760]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:gallery_w_1
+    room: room:gallery_w
+    monster: 11630
+    at: [-3760, -2240]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:gallery_w_2
+    room: room:gallery_w
+    monster: 11630
+    at: [-3760, -1280]
+    facing: 270
+    hostile: true
+    group: 15
+  - id: monster:gallery_w_3
+    room: room:gallery_w
+    monster: 11631
+    at: [-3760, -1760]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:gen_air_1
+    room: room:gen_air
+    monster: 11624
+    at: [3600, -3648]
+    facing: 270
+    hostile: true
+    group: 31
+  - id: monster:gen_air_2
+    room: room:gen_air
+    monster: 11624
+    at: [3920, -3648]
+    facing: 270
+    hostile: true
+    group: 31
+  - id: monster:gen_fire_1
+    room: room:gen_fire
+    monster: 11620
+    at: [-3920, -3648]
+    facing: 270
+    hostile: true
+    group: 30
+  - id: monster:gen_fire_2
+    room: room:gen_fire
+    monster: 11620
+    at: [-3600, -3648]
+    facing: 270
+    hostile: true
+    group: 30
+  - id: monster:loft_1
+    room: room:loft
+    monster: 11630
+    at: [2998, -2144]
+    facing: 180
+    hostile: true
+    group: 52
+  - id: monster:loft_2
+    room: room:loft
+    monster: 11630
+    at: [2998, -1376]
+    facing: 180
+    hostile: true
+    group: 52
+  - id: monster:loft_3
+    room: room:loft
+    monster: 11631
+    at: [2998, -1760]
+    facing: 180
+    hostile: true
+    group: 52
+  - id: monster:lord_xeen
+    room: room:apse
+    monster: 11634
+    at: [0, 3696]
+    facing: 270
+    hostile: true
+    group: 60
+    immobile: true
+    notes: "Lord Xeen on his dais: immobile until 4 s after the first-sight line (evt:sight_clock frees him by ActorIndex); only melee with the Xeen Slayer Sword harms him (evt:lord_damage)."
+  - id: monster:nave_1
+    room: room:nave
+    monster: 11630
+    at: [-480, -1760]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:nave_2
+    room: room:nave
+    monster: 11630
+    at: [480, -1760]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:nave_3
+    room: room:nave
+    monster: 11630
+    at: [0, -1280]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:nave_4
+    room: room:nave
+    monster: 11631
+    at: [0, -2240]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:pet
+    room: room:aviary_n
+    monster: 11644
+    at: [0, -1280]
+    facing: 270
+    hostile: true
+    group: 62
+  - id: monster:pool_1
+    room: room:foundry_w
+    monster: 11603
+    at: [-3664, 3008]
+    facing: 270
+    hostile: true
+    group: 41
+    hidden: true
+    notes: One of the foundry's four hidden guards at a machine's output chute (D-47 Q7).
+  - id: monster:pool_2
+    room: room:foundry_e
+    monster: 11603
+    at: [3664, 3008]
+    facing: 270
+    hostile: true
+    group: 42
+    hidden: true
+    notes: One of the foundry's four hidden guards at a machine's output chute (D-47 Q7).
+  - id: monster:pool_3
+    room: room:foundry_w
+    monster: 11603
+    at: [-3664, 2720]
+    facing: 270
+    hostile: true
+    group: 43
+    hidden: true
+    notes: One of the foundry's four hidden guards at a machine's output chute (D-47 Q7).
+  - id: monster:pool_4
+    room: room:foundry_e
+    monster: 11603
+    at: [3664, 2720]
+    facing: 270
+    hostile: true
+    group: 44
+    hidden: true
+    notes: One of the foundry's four hidden guards at a machine's output chute (D-47 Q7).
+  - id: monster:quarters_1
+    room: room:quarters
+    monster: 11630
+    at: [3600, -2336]
+    facing: 90
+    hostile: true
+    group: 35
+  - id: monster:quarters_2
+    room: room:quarters
+    monster: 11630
+    at: [3600, -1760]
+    facing: 90
+    hostile: true
+    group: 35
+  - id: monster:quarters_3
+    room: room:quarters
+    monster: 11630
+    at: [3600, -1184]
+    facing: 90
+    hostile: true
+    group: 35
+  - id: monster:quarters_4
+    room: room:quarters
+    monster: 11632
+    at: [3760, -896]
+    facing: 270
+    hostile: true
+    group: 35
+  - id: monster:stair_hall_1
+    room: room:stair_hall
+    monster: 11630
+    at: [-1280, 0]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:stair_hall_2
+    room: room:stair_hall
+    monster: 11630
+    at: [1280, 0]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:stair_hall_3
+    room: room:stair_hall
+    monster: 11632
+    at: [-1280, 800]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:store_1
+    room: room:store
+    monster: 11630
+    at: [-2808, 1248]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:store_2
+    room: room:store
+    monster: 11630
+    at: [-2472, 1248]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:throne_1
+    room: room:throne
+    monster: 11603
+    at: [-480, 2880]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
+  - id: monster:throne_2
+    room: room:throne
+    monster: 11603
+    at: [480, 2880]
+    facing: 270
+    hostile: true
+    group: 61
+    immobile: true
+  - id: monster:upper_e_1
+    room: room:upper_e
+    monster: 11630
+    at: [2640, -3152]
+    facing: 90
+    hostile: true
+    group: 33
+  - id: monster:upper_e_2
+    room: room:upper_e
+    monster: 11630
+    at: [2640, -1640]
+    facing: 90
+    hostile: true
+    group: 33
+  - id: monster:upper_e_3
+    room: room:upper_e
+    monster: 11631
+    at: [2640, -2480]
+    facing: 90
+    hostile: true
+    group: 33
+  - id: monster:upper_w_1
+    room: room:upper_w
+    monster: 11630
+    at: [-2640, -3152]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:upper_w_2
+    room: room:upper_w
+    monster: 11630
+    at: [-2640, -1640]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:upper_w_3
+    room: room:upper_w
+    monster: 11631
+    at: [-2640, -2480]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:vault_e_1
+    room: room:vault_e
+    monster: 11626
+    at: [2808, 512]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:vault_e_2
+    room: room:vault_e
+    monster: 11626
+    at: [3432, 512]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:vault_w_1
+    room: room:vault_w
+    monster: 11625
+    at: [-3432, 512]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:vault_w_2
+    room: room:vault_w
+    monster: 11625
+    at: [-2808, 512]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:walk_n_1
+    room: room:walk_n
+    monster: 11632
+    at: [-2640, -800]
+    facing: 270
+    hostile: true
+    group: 51
+  - id: monster:walk_s_1
+    room: room:walk_s
+    monster: 11631
+    at: [-2640, -3648]
+    facing: 90
+    hostile: true
+    group: 50
+  - id: monster:walk_s_2
+    room: room:walk_s
+    monster: 11631
+    at: [-2640, -2496]
+    facing: 90
+    hostile: true
+    group: 50
+  - id: monster:wall_es_1
+    room: room:wall_es
+    monster: 11630
+    at: [4720, -1808]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:wall_es_2
+    room: room:wall_es
+    monster: 11630
+    at: [4720, -896]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:wall_es_3
+    room: room:wall_es
+    monster: 11631
+    at: [4720, -136]
+    facing: 270
+    hostile: true
+    group: 23
+  - id: monster:wall_ws_1
+    room: room:wall_ws
+    monster: 11630
+    at: [-4720, -1808]
+    facing: 90
+    hostile: true
+    group: 20
+  - id: monster:wall_ws_2
+    room: room:wall_ws
+    monster: 11630
+    at: [-4720, -896]
+    facing: 90
+    hostile: true
+    group: 20
+  - id: monster:wall_ws_3
+    room: room:wall_ws
+    monster: 11631
+    at: [-4720, -136]
+    facing: 270
+    hostile: true
+    group: 20
+  - id: monster:war_room_1
+    room: room:war_room
+    monster: 11631
+    at: [-2864, -160]
+    facing: 90
+    hostile: true
+    group: 34
+  - id: monster:war_room_2
+    room: room:war_room
+    monster: 11631
+    at: [-2416, -160]
+    facing: 90
+    hostile: true
+    group: 34
+  - id: monster:war_room_3
+    room: room:war_room
+    monster: 11632
+    at: [-2640, 720]
+    facing: 270
+    hostile: true
+    group: 34
+  - id: monster:ward_e_1
+    room: room:ward_e
+    monster: 11630
+    at: [2528, -1760]
+    facing: 180
+    hostile: true
+    group: 12
+  - id: monster:ward_e_2
+    room: room:ward_e
+    monster: 11630
+    at: [2864, -1760]
+    facing: 180
+    hostile: true
+    group: 12
+  - id: monster:ward_w_1
+    room: room:ward_w
+    monster: 11630
+    at: [-2864, -1760]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:ward_w_2
+    room: room:ward_w
+    monster: 11630
+    at: [-2528, -1760]
+    facing: 0
+    hostile: true
+    group: 11
+decorations:
+  - id: deco:barracks_barrel_1
+    room: room:barracks
+    decoration: bigbarel
+    at: [-2176, -4064]
+  - id: deco:barracks_barrel_2
+    room: room:barracks
+    decoration: bigbarel
+    at: [-2280, -4064]
+  - id: deco:bones_1
+    room: room:aviary_s
+    decoration: dec19
+    at: [-1600, -2400]
+  - id: deco:bones_2
+    room: room:aviary_s
+    decoration: dec29
+    at: [1600, -2560]
+  - id: deco:bones_3
+    room: room:aviary_n
+    decoration: dec29
+    at: [-1600, -1040]
+  - id: deco:bones_4
+    room: room:aviary_n
+    decoration: dec19
+    at: [1560, -1120]
+  - id: deco:bones_5
+    room: room:aviary_n
+    decoration: 7dec18
+    at: [1680, -960]
+  - id: deco:quarters_brazier
+    room: room:quarters
+    decoration: flamb00
+    at: [3456, -1760]
+  - id: deco:sconce_01
+    room: room:gate
+    decoration: scon100
+    at: [-628, -3960]
+    height: 176
+  - id: deco:sconce_02
+    room: room:gate
+    decoration: scon100
+    at: [628, -3960]
+    height: 176
+  - id: deco:sconce_03
+    room: room:nave
+    decoration: scon100
+    at: [-560, -2708]
+    height: 176
+  - id: deco:sconce_04
+    room: room:nave
+    decoration: scon100
+    at: [-560, -812]
+    height: 176
+  - id: deco:sconce_05
+    room: room:nave
+    decoration: scon100
+    at: [560, -2708]
+    height: 176
+  - id: deco:sconce_06
+    room: room:nave
+    decoration: scon100
+    at: [560, -812]
+    height: 176
+  - id: deco:sconce_07
+    room: room:aisle_w
+    decoration: scon100
+    at: [-1908, -2240]
+    height: 176
+  - id: deco:sconce_08
+    room: room:aisle_w
+    decoration: scon100
+    at: [-1760, -2708]
+    height: 176
+  - id: deco:sconce_09
+    room: room:aisle_e
+    decoration: scon100
+    at: [1908, -2240]
+    height: 176
+  - id: deco:sconce_10
+    room: room:aisle_e
+    decoration: scon100
+    at: [1440, -2708]
+    height: 176
+  - id: deco:sconce_100
+    room: room:throne
+    decoration: scon100
+    at: [1908, 1040]
+    height: 176
+  - id: deco:sconce_101
+    room: room:throne
+    decoration: scon100
+    at: [-960, 332]
+    height: 176
+  - id: deco:sconce_102
+    room: room:throne
+    decoration: scon100
+    at: [-1908, 2480]
+    height: 176
+  - id: deco:sconce_103
+    room: room:apse
+    decoration: scon100
+    at: [-1268, 3560]
+    height: 176
+  - id: deco:sconce_104
+    room: room:apse
+    decoration: scon100
+    at: [1268, 3560]
+    height: 176
+  - id: deco:sconce_105
+    room: room:treasury
+    decoration: scon100
+    at: [-948, 4520]
+    height: 176
+  - id: deco:sconce_11
+    room: room:ward_w
+    decoration: scon100
+    at: [-2920, -1452]
+    height: 176
+  - id: deco:sconce_12
+    room: room:ward_w
+    decoration: scon100
+    at: [-2360, -1452]
+    height: 176
+  - id: deco:sconce_13
+    room: room:ward_e
+    decoration: scon100
+    at: [2360, -1452]
+    height: 176
+  - id: deco:sconce_14
+    room: room:ward_e
+    decoration: scon100
+    at: [2920, -1452]
+    height: 176
+  - id: deco:sconce_15
+    room: room:barracks
+    decoration: scon100
+    at: [-3188, -3680]
+    height: 176
+  - id: deco:sconce_16
+    room: room:barracks
+    decoration: scon100
+    at: [-2092, -3680]
+    height: 176
+  - id: deco:sconce_17
+    room: room:armoury
+    decoration: scon100
+    at: [2092, -3680]
+    height: 176
+  - id: deco:sconce_18
+    room: room:armoury
+    decoration: scon100
+    at: [3188, -3680]
+    height: 176
+  - id: deco:sconce_19
+    room: room:gallery_w
+    decoration: scon100
+    at: [-4148, -2240]
+    height: 176
+  - id: deco:sconce_20
+    room: room:gallery_w
+    decoration: scon100
+    at: [-3372, -2240]
+    height: 176
+  - id: deco:sconce_21
+    room: room:gallery_w
+    decoration: scon100
+    at: [-4148, -1280]
+    height: 176
+  - id: deco:sconce_22
+    room: room:gallery_e
+    decoration: scon100
+    at: [3372, -2240]
+    height: 176
+  - id: deco:sconce_23
+    room: room:gallery_e
+    decoration: scon100
+    at: [4148, -2240]
+    height: 176
+  - id: deco:sconce_24
+    room: room:gallery_e
+    decoration: scon100
+    at: [3372, -1280]
+    height: 176
+  - id: deco:sconce_25
+    room: room:tower0_w
+    decoration: scon100
+    at: [-4148, -4320]
+    height: 176
+  - id: deco:sconce_26
+    room: room:tower0_w
+    decoration: scon100
+    at: [-3372, -4320]
+    height: 176
+  - id: deco:sconce_27
+    room: room:tower0_e
+    decoration: scon100
+    at: [3372, -4320]
+    height: 176
+  - id: deco:sconce_28
+    room: room:tower0_e
+    decoration: scon100
+    at: [4148, -4320]
+    height: 176
+  - id: deco:sconce_29
+    room: room:vault_w
+    decoration: scon100
+    at: [-4148, 0]
+    height: 176
+  - id: deco:sconce_30
+    room: room:vault_w
+    decoration: scon100
+    at: [-3640, 1908]
+    height: 176
+  - id: deco:sconce_31
+    room: room:vault_w
+    decoration: scon100
+    at: [-4148, 1280]
+    height: 176
+  - id: deco:sconce_32
+    room: room:vault_e
+    decoration: scon100
+    at: [4148, 0]
+    height: 176
+  - id: deco:sconce_33
+    room: room:vault_e
+    decoration: scon100
+    at: [2600, -628]
+    height: 176
+  - id: deco:sconce_34
+    room: room:vault_e
+    decoration: scon100
+    at: [2600, 1908]
+    height: 176
+  - id: deco:sconce_35
+    room: room:stair_hall
+    decoration: scon100
+    at: [-960, -628]
+    height: 176
+  - id: deco:sconce_36
+    room: room:stair_hall
+    decoration: scon100
+    at: [-960, 1908]
+    height: 176
+  - id: deco:sconce_37
+    room: room:stair_hall
+    decoration: scon100
+    at: [-1908, 1280]
+    height: 176
+  - id: deco:sconce_38
+    room: room:stair_hall
+    decoration: scon100
+    at: [1908, 1280]
+    height: 176
+  - id: deco:sconce_39
+    room: room:tower1_w
+    decoration: scon100
+    at: [-5108, -3360]
+    height: 176
+  - id: deco:sconce_40
+    room: room:tower1_w
+    decoration: scon100
+    at: [-5108, -3840]
+    height: 176
+  - id: deco:sconce_41
+    room: room:tower1_e
+    decoration: scon100
+    at: [5108, -3360]
+    height: 176
+  - id: deco:sconce_42
+    room: room:tower1_e
+    decoration: scon100
+    at: [4332, -3840]
+    height: 176
+  - id: deco:sconce_43
+    room: room:turret_w
+    decoration: scon100
+    at: [-5108, 720]
+    height: 176
+  - id: deco:sconce_44
+    room: room:turret_w
+    decoration: scon100
+    at: [-4332, 720]
+    height: 176
+  - id: deco:sconce_45
+    room: room:turret_e
+    decoration: scon100
+    at: [4332, 720]
+    height: 176
+  - id: deco:sconce_46
+    room: room:turret_e
+    decoration: scon100
+    at: [5108, 720]
+    height: 176
+  - id: deco:sconce_47
+    room: room:grand_landing
+    decoration: scon100
+    at: [-1268, 2240]
+    height: 176
+  - id: deco:sconce_48
+    room: room:grand_landing
+    decoration: scon100
+    at: [1268, 2240]
+    height: 176
+  - id: deco:sconce_49
+    room: room:foundry
+    decoration: scon100
+    at: [-960, 2892]
+    height: 176
+  - id: deco:sconce_50
+    room: room:foundry
+    decoration: scon100
+    at: [-960, 4468]
+    height: 176
+  - id: deco:sconce_51
+    room: room:foundry
+    decoration: scon100
+    at: [960, 2892]
+    height: 176
+  - id: deco:sconce_52
+    room: room:foundry_w
+    decoration: scon100
+    at: [-4148, 2680]
+    height: 176
+  - id: deco:sconce_53
+    room: room:foundry_w
+    decoration: scon100
+    at: [-2092, 2680]
+    height: 176
+  - id: deco:sconce_54
+    room: room:foundry_w
+    decoration: scon100
+    at: [-3640, 2092]
+    height: 176
+  - id: deco:sconce_55
+    room: room:foundry_e
+    decoration: scon100
+    at: [2092, 2680]
+    height: 176
+  - id: deco:sconce_56
+    room: room:foundry_e
+    decoration: scon100
+    at: [4148, 2680]
+    height: 176
+  - id: deco:sconce_57
+    room: room:foundry_e
+    decoration: scon100
+    at: [2600, 4468]
+    height: 176
+  - id: deco:sconce_58
+    room: room:store
+    decoration: scon100
+    at: [-3188, 1080]
+    height: 176
+  - id: deco:sconce_59
+    room: room:keep_stair
+    decoration: scon100
+    at: [2092, 1280]
+    height: 176
+  - id: deco:sconce_60
+    room: room:keep_stair
+    decoration: scon100
+    at: [3188, 1280]
+    height: 176
+  - id: deco:sconce_61
+    room: room:bays
+    decoration: scon100
+    at: [-1268, 4800]
+    height: 176
+  - id: deco:sconce_62
+    room: room:gen_fire
+    decoration: scon100
+    at: [-3372, -4320]
+    height: 176
+  - id: deco:sconce_63
+    room: room:gen_fire
+    decoration: scon100
+    at: [-3960, -4788]
+    height: 176
+  - id: deco:sconce_64
+    room: room:gen_air
+    decoration: scon100
+    at: [3372, -4320]
+    height: 176
+  - id: deco:sconce_65
+    room: room:gen_air
+    decoration: scon100
+    at: [3560, -4788]
+    height: 176
+  - id: deco:sconce_66
+    room: room:upper_w
+    decoration: scon100
+    at: [-2092, -3320]
+    height: 176
+  - id: deco:sconce_67
+    room: room:upper_w
+    decoration: scon100
+    at: [-2920, -4148]
+    height: 176
+  - id: deco:sconce_68
+    room: room:upper_w
+    decoration: scon100
+    at: [-3188, -1640]
+    height: 176
+  - id: deco:sconce_69
+    room: room:upper_e
+    decoration: scon100
+    at: [2092, -3320]
+    height: 176
+  - id: deco:sconce_70
+    room: room:upper_e
+    decoration: scon100
+    at: [2360, -4148]
+    height: 176
+  - id: deco:sconce_71
+    room: room:upper_e
+    decoration: scon100
+    at: [2360, -812]
+    height: 176
+  - id: deco:sconce_72
+    room: room:war_room
+    decoration: scon100
+    at: [-3188, -240]
+    height: 176
+  - id: deco:sconce_73
+    room: room:war_room
+    decoration: scon100
+    at: [-2092, -240]
+    height: 176
+  - id: deco:sconce_74
+    room: room:quarters
+    decoration: scon100
+    at: [3372, -2240]
+    height: 176
+  - id: deco:sconce_75
+    room: room:quarters
+    decoration: scon100
+    at: [3560, -2708]
+    height: 176
+  - id: deco:sconce_76
+    room: room:barrier
+    decoration: scon100
+    at: [-560, -2708]
+    height: 176
+  - id: deco:sconce_77
+    room: room:barrier
+    decoration: scon100
+    at: [-560, -812]
+    height: 176
+  - id: deco:sconce_78
+    room: room:barrier_w
+    decoration: scon100
+    at: [-1908, -2240]
+    height: 176
+  - id: deco:sconce_79
+    room: room:barrier_w
+    decoration: scon100
+    at: [-1760, -2708]
+    height: 176
+  - id: deco:sconce_80
+    room: room:barrier_e
+    decoration: scon100
+    at: [1908, -2240]
+    height: 176
+  - id: deco:sconce_81
+    room: room:barrier_e
+    decoration: scon100
+    at: [1440, -2708]
+    height: 176
+  - id: deco:sconce_82
+    room: room:upper_landing
+    decoration: scon100
+    at: [-1908, -320]
+    height: 176
+  - id: deco:sconce_83
+    room: room:upper_landing
+    decoration: scon100
+    at: [-960, -628]
+    height: 176
+  - id: deco:sconce_84
+    room: room:upper_landing
+    decoration: scon100
+    at: [-960, 628]
+    height: 176
+  - id: deco:sconce_85
+    room: room:crown_stair
+    decoration: scon100
+    at: [-628, -3360]
+    height: 176
+  - id: deco:sconce_86
+    room: room:crown_stair
+    decoration: scon100
+    at: [628, -3360]
+    height: 176
+  - id: deco:sconce_87
+    room: room:crown_landing
+    decoration: scon100
+    at: [-1908, -4320]
+    height: 176
+  - id: deco:sconce_88
+    room: room:crown_landing
+    decoration: scon100
+    at: [-1640, -4788]
+    height: 176
+  - id: deco:sconce_89
+    room: room:walk_s
+    decoration: scon100
+    at: [-3188, -4080]
+    height: 176
+  - id: deco:sconce_90
+    room: room:walk_s
+    decoration: scon100
+    at: [-2920, -4788]
+    height: 176
+  - id: deco:sconce_91
+    room: room:walk_s
+    decoration: scon100
+    at: [-3188, -2640]
+    height: 176
+  - id: deco:sconce_92
+    room: room:walk_n
+    decoration: scon100
+    at: [-3188, -1280]
+    height: 176
+  - id: deco:sconce_93
+    room: room:walk_n
+    decoration: scon100
+    at: [-2092, -1280]
+    height: 176
+  - id: deco:sconce_94
+    room: room:loft
+    decoration: scon100
+    at: [3188, -2240]
+    height: 176
+  - id: deco:sconce_95
+    room: room:loft
+    decoration: scon100
+    at: [2360, -2708]
+    height: 176
+  - id: deco:sconce_96
+    room: room:threshold
+    decoration: scon100
+    at: [1908, -440]
+    height: 176
+  - id: deco:sconce_97
+    room: room:threshold
+    decoration: scon100
+    at: [-960, -628]
+    height: 176
+  - id: deco:sconce_98
+    room: room:threshold
+    decoration: scon100
+    at: [-960, 148]
+    height: 176
+  - id: deco:sconce_99
+    room: room:throne
+    decoration: scon100
+    at: [-1908, 1040]
+    height: 176
+  - id: deco:store_1
+    room: room:store
+    decoration: bigbarel
+    at: [-3104, 1824]
+  - id: deco:store_2
+    room: room:store
+    decoration: bigbarel
+    at: [-3000, 1824]
+  - id: deco:store_3
+    room: room:store
+    decoration: smlbarel
+    at: [-3104, 1720]
+  - id: deco:store_4
+    room: room:store
+    decoration: bag01
+    at: [-3104, 896]
+  - id: deco:store_5
+    room: room:store
+    decoration: bag_A
+    at: [-3000, 896]
+  - id: deco:store_6
+    room: room:store
+    decoration: floursac
+    at: [-3104, 1000]
+  - id: deco:store_7
+    room: room:store
+    decoration: bigbarel
+    at: [-2176, 896]
+  - id: deco:store_8
+    room: room:store
+    decoration: smlbarel
+    at: [-2280, 896]
+  - id: deco:throne_brazier_e
+    room: room:throne
+    decoration: flamb00
+    at: [960, 3008]
+  - id: deco:throne_brazier_w
+    room: room:throne
+    decoration: flamb00
+    at: [-960, 3008]
+exits:
+  - id: exit:gate_l
+    room: room:gate
+    at: [128, -4320]
+    size: [256, 512]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x9_gate
+    notes: "The gate's east leaf (the left wing seen from inside): out to X9's causeway."
+  - id: exit:gate_r
+    room: room:gate
+    at: [-128, -4320]
+    size: [256, 512]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x9_gate
+    notes: "The gate's west leaf (the right wing seen from inside): out to X9's causeway."
+relations: []
+destructibles:
+  - {id: destructible:gen_air, of: platform:gen_air, hp: 300, material: metal, on_destroyed: evt:gen_air_down, notes: "The Air Generator's core: the question breaks it, and blows and spells too (D-47 Q8); its faces vanish, the housings stay."}
+  - {id: destructible:gen_earth, of: platform:gen_earth, hp: 300, material: metal, on_destroyed: evt:gen_earth_down, notes: "The Earth Generator's core: the question breaks it, and blows and spells too (D-47 Q8); its faces vanish, the housings stay."}
+  - {id: destructible:gen_fire, of: platform:gen_fire, hp: 300, material: metal, on_destroyed: evt:gen_fire_down, notes: "The Fire Generator's core: the question breaks it, and blows and spells too (D-47 Q8); its faces vanish, the housings stay."}
+  - {id: destructible:gen_water, of: platform:gen_water, hp: 300, material: metal, on_destroyed: evt:gen_water_down, notes: "The Water Generator's core: the question breaks it, and blows and spells too (D-47 Q8); its faces vanish, the housings stay."}
+  - {id: destructible:machine_e, of: platform:machine_e, hp: 400, material: metal, on_destroyed: evt:machine_e_down, notes: "A guard-making machine: the question breaks it, blows and spells too (D-47 Q7/Q8); no experience (Q15)."}
+  - {id: destructible:machine_w, of: platform:machine_w, hp: 400, material: metal, on_destroyed: evt:machine_w_down, notes: "A guard-making machine: the question breaks it, blows and spells too (D-47 Q7/Q8); no experience (Q15)."}

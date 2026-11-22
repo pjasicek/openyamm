@@ -1,0 +1,121 @@
+# Xeen playthrough, segment 29: Newcastle's keep (X3, X4, XD-07), M11. Over X3's north edge into Burlock Savannah;
+# the castle walked to Emerson (Keep with five Megacredits: m11.keep); out by the castle door, over X4's south edge
+# back into Lifeforce Lagoon; Ebenezer (Workers: the Golem Stone), a night's rest and food.
+# Outdoors the party is placed. Routes: devdocs/xeen/briefs/x3/L4/playtest.yml, x2/L4/playtest.yml, x4/L4/playtest.yml
+# (the edges), xd07/L4/playtest.yml. Quest logic: source/quests/m11.yml, m9.yml (Ebenezer's Workers).
+#   python3 tests/playthrough/xeen/run.py 29
+id: xeen.playthrough.29_the_keep
+title: "Xeen playthrough 29: Newcastle's keep; the Golem Stone"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/27_the_tomb.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [111220, 111201]}
+  - assert: {qbit_clear: [111221, 111222]}
+  # X3's north road to its end and over the north edge (edge_spans: X4's x 36 arrival). The step plate and the detour
+  # by Rivercity that stood in for it are gone (X3's rebuild, D-11.6).
+  - set_pose: {map: xeen_x3.odm, x: -7168, y: 20480, z: 1120, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: 24064, z: 1120, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -14336, y: -22016, radius: 400}}
+  - play_lua: {source: "close()"}
+  # Castle Burlock's lane and gate (X4 event 180 leads into XD-07's gatehouse); the portcullis lifts for Crusaders.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 5120, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  # The gallery of arms: Emerson's office (house 4203).
+  - walk_to: {x: 0, y: 4000, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3936, y: 3780, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(6); wait(1)"}
+  - assert:
+      dialog: {source_id: 4403}
+  - select_topic: {match_label: "Keep"}
+  - assert:
+      dialog: {text_contains: "Thanks! We'll have the work done by the time you get back to the site."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(1) end
+        if item_count(12192) ~= 1 then error("Megacredits after the keep: " .. item_count(12192)) end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 4000 then error("the keep paid " .. xp .. " experience, not 4000") end
+  - assert: {qbit_set: [111221]}
+  # Out by the castle door onto the castle rise.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -1024, y: 6912, radius: 160, z_min: 1700, z_max: 1900}}
+  # Over X4's south edge west of x 0 into Lifeforce Lagoon (edge_spans: X3's north start). The step plate and the detour
+  # by Rivercity that stood in for it are gone (D-11.6).
+  - set_pose: {map: xeen_x4.odm, x: -7168, y: -20480, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -7168, y: -24064, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -7168, y: 22016, radius: 400}}
+  - play_lua: {source: "close()"}
+  # Ebenezer's Tent at the Newcastle site (X3 event 73, house 4101).
+  - set_pose: {map: xeen_x3.odm, x: 11776, y: 9216, z: 1100, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 73}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4101}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Workers"}
+  - assert:
+      dialog: {text_contains: "The Golem Dungeon, by the lagoon, is stuffed with Megacredits"}
+  - press_action: {action: cancel_dialog}
+  # Ebenezer's tent is a tavern: a night's rest and food for the road (D-29: packs to 14, an edge costs 5 food).
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Rent room for"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 60 do
+          if not string.find(conditions(0), "Asleep", 1, true) then break end
+          wait(1)
+        end
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          log("after the night: member " .. i .. " " .. conditions(i))
+        end
+  - execute_event: {id: 73}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Fill packs to"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        log("29 done: experience " .. experience(0) .. ", gold " .. gold())
+  - assert: {qbit_set: [111222]}
+  - save_game: {name: "29 The keep", path: output/playthrough/xeen/checkpoints/29_the_keep.oysav}

@@ -1,0 +1,749 @@
+format: 0
+themes:
+- id: theme:rock
+  wall: &id001
+    texture: cwb1
+    size: [128, 256]
+  floor: &id002
+    texture: cfb1
+    size: [128, 128]
+  ceiling: *id001
+  reveal: *id001
+  door: &id003
+    texture: trim9_32
+    size: [32, 64]
+    scale: 2
+  notes: 'The mine''s raw rock: MM7 Nighon Tunnels (7d35) cwb1 on walls and roofs, cfb1 underfoot.'
+- id: theme:timbered
+  wall: *id001
+  floor: *id002
+  ceiling:
+    texture: trim9_32a
+    size: [64, 32]
+    scale: 2
+  reveal: &id004
+    texture: trim9_32
+    size: [32, 64]
+  door: *id003
+  notes: 'Timbered drifts: 7d35''s cwb1 rock under plank lagging (trim9_32a), timber jambs (trim9_32).'
+- id: theme:gold
+  wall:
+    texture: cwb1gold
+    size: [128, 256]
+  floor: *id002
+  ceiling: *id001
+  reveal: *id001
+  door: *id003
+  notes: 'The God of Minerals'' hall: 7d35''s gold-veined cwb1gold walls under cwb1 rock, cfb1 underfoot.'
+defaults:
+  theme: theme:rock
+  ambient: 15
+rooms:
+- id: room:adit
+  name: East adit
+  outline:
+  - [-192, 0]
+  - [192, 0]
+  - [192, 896]
+  - [-192, 896]
+  floor: 0
+  ceiling: 352
+  theme: theme:timbered
+  ambient: 18
+  platforms:
+  - at: [-180, 288]
+    size: [24, 24]
+    rise: 320
+    surface: *id004
+    top_surface: &id005
+      texture: trim9_32a
+      size: [64, 32]
+    notes: Timber set post
+  - at: [180, 288]
+    size: [24, 24]
+    rise: 320
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [-180, 608]
+    size: [24, 24]
+    rise: 320
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [180, 608]
+    size: [24, 24]
+    rise: 320
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - rise: 6
+    surface: &id006
+      texture: xnrustirn
+      size: [64, 64]
+    top_surface: *id006
+    outline:
+    - [61, 48]
+    - [61, 840]
+    - [51, 840]
+    - [51, 48]
+    notes: Rail
+  - rise: 6
+    surface: *id006
+    top_surface: *id006
+    outline:
+    - [-51, 48]
+    - [-51, 840]
+    - [-61, 840]
+    - [-61, 48]
+    notes: Rail
+  beams:
+  - path:
+    - [-192, 288]
+    - [192, 288]
+    width: 24
+    bottom: 320
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  - path:
+    - [-192, 608]
+    - [192, 608]
+    width: 24
+    bottom: 320
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  notes: 'The timbered adit in the Gemstone foothills: the arrival. Two timber sets, the cart rails running in from the mouth
+    (the exit, south) to the plank door into the upper drift (north).'
+- id: room:upper
+  name: Upper drift
+  path:
+  - [0, 1024]
+  - [0, 2304]
+  - [1792, 2304]
+  width: 448
+  floor: 0
+  ceiling: 416
+  theme: theme:timbered
+  ambient: 15
+  platforms:
+  - at: [-212, 1408]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [212, 1408]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [-212, 1856]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [212, 1856]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [640, 2092]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [640, 2516]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [1664, 2092]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  - at: [1664, 2516]
+    size: [24, 24]
+    rise: 384
+    surface: *id004
+    top_surface: *id005
+    notes: Timber set post
+  beams:
+  - path:
+    - [-224, 1408]
+    - [224, 1408]
+    width: 24
+    bottom: 384
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  - path:
+    - [-224, 1856]
+    - [224, 1856]
+    width: 24
+    bottom: 384
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  - path:
+    - [640, 2080]
+    - [640, 2528]
+    width: 24
+    bottom: 384
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  - path:
+    - [1664, 2080]
+    - [1664, 2528]
+    width: 24
+    bottom: 384
+    depth: 24
+    surface: *id005
+    notes: Timber set cap
+  notes: A long timbered drift north from the adit's door, then east to the sapphire hall; a side cut off its north side,
+    the spiral ramp down off its south side.
+- id: room:cut
+  name: Side cut
+  outline:
+  - [896, 2656]
+  - [1408, 2656]
+  - [1408, 3136]
+  - [896, 3136]
+  floor: 0
+  ceiling: 352
+  theme: theme:timbered
+  ambient: 14
+  platforms:
+  - at: [1152, 2980]
+    size: [160, 80]
+    rise: 24
+    facing: 0
+    surface: *id005
+    top_surface: *id005
+    notes: The cart's chassis
+  - id: platform:cart
+    at: [1152, 2980]
+    size: [180, 100]
+    rise: 88
+    facing: 0
+    surface:
+      texture: xncartsd
+      size: [128, 64]
+      scale: 1.5
+    end_surface: *id006
+    top_surface: *id002
+    base: 24
+    top_size: [200, 120]
+    notes: An ore cart full of spoil, left in the side cut.
+  - at: [1092.0, 2914.0]
+    size: [48, 10]
+    rise: 48
+    facing: 0
+    surface: *id006
+    top_surface: *id006
+    notes: Cart wheel
+  - at: [1092.0, 3046.0]
+    size: [48, 10]
+    rise: 48
+    facing: 0
+    surface: *id006
+    top_surface: *id006
+    notes: Cart wheel
+  - at: [1212.0, 2914.0]
+    size: [48, 10]
+    rise: 48
+    facing: 0
+    surface: *id006
+    top_surface: *id006
+    notes: Cart wheel
+  - at: [1212.0, 3046.0]
+    size: [48, 10]
+    rise: 48
+    facing: 0
+    surface: *id006
+    top_surface: *id006
+    notes: Cart wheel
+  notes: 'A side cut off the drift where the miners stopped: a cart of spoil and their chest.'
+- id: room:sapphire
+  name: Sapphire hall
+  outline:
+  - [2048, 1664]
+  - [2816, 1600]
+  - [3584, 1728]
+  - [3840, 2048]
+  - [3840, 2816]
+  - [3456, 3200]
+  - [2688, 3264]
+  - [2176, 3072]
+  - [1920, 2688]
+  - [1920, 2048]
+  floor: 0
+  rough:
+    step: 192
+    depth: 32
+  ceiling: 576
+  ceiling_points:
+  - [2880, 2432, 832]
+  - [2432, 2816, 704]
+  - [3328, 2048, 704]
+  theme: theme:rock
+  ambient: 15
+  pillars:
+  - outline:
+    - [2752, 2304]
+    - [2944, 2272]
+    - [3008, 2432]
+    - [2912, 2560]
+    - [2752, 2496]
+    surface: *id001
+    notes: A rock pillar left to hold the hall's roof.
+  stalactites:
+  - at: [2368, 2240]
+    radius: 64
+    length: 192
+  - at: [3392, 2880]
+    radius: 72
+    length: 224
+  walls:
+  - wall: 0
+    panels:
+    - id: panel:sapphire_1
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'Sapphire vein 1: one rock (q-d7.sapphire_veins).'
+      at: centre
+  - wall: 1
+    panels:
+    - id: panel:sapphire_2
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'Sapphire vein 2: one rock (q-d7.sapphire_veins).'
+      at: centre
+  - wall: 4
+    panels:
+    - id: panel:sapphire_3
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'Sapphire vein 3: one rock (q-d7.sapphire_veins).'
+      at: centre
+  - wall: 5
+    panels:
+    - id: panel:sapphire_4
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'Sapphire vein 4: one rock (q-d7.sapphire_veins).'
+      at: centre
+  - wall: 6
+    panels:
+    - id: panel:sapphire_5
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'Sapphire vein 5: one rock (q-d7.sapphire_veins).'
+      at: centre
+  - wall: 7
+    panels:
+    - id: panel:false_vein
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvsaph
+        size: [128, 256]
+        fit: true
+      notes: 'The false vein (D-27): it explodes once (''A gem exploded!'').'
+      at: centre
+  notes: 'A high cave round a rock pillar: five sapphire veins in its walls (q-d7.sapphire_veins), one rock each, and a sixth
+    that is not a vein at all.'
+- id: room:throne
+  name: Gem maker's throne
+  outline:
+  - [4096, 1920]
+  - [4864, 1920]
+  - [4992, 2048]
+  - [4992, 2816]
+  - [4864, 2944]
+  - [4096, 2944]
+  - [3968, 2816]
+  - [3968, 2048]
+  floor: 0
+  ceiling: 512
+  ceiling_levels:
+  - ceiling: 704
+    top_scale: 0.5
+  theme: theme:rock
+  ambient: 16
+  platforms:
+  - id: platform:throne_dais
+    at: [4800, 2432]
+    size: [256, 384]
+    rise: 32
+    surface: &id007
+      texture: cwb
+      size: &id008 [128, 256]
+    top_surface: *id002
+    notes: The throne's dais, one step of dressed stone.
+  - id: platform:throne
+    at: [4832, 2432]
+    size: [128, 176]
+    rise: 80
+    base: 32
+    surface: *id007
+    top_surface: *id007
+    notes: 'The Gem maker''s throne: a seat of dressed stone.'
+  - id: platform:throne_back
+    at: [4912, 2432]
+    size: [32, 208]
+    rise: 400
+    base: 32
+    surface: *id007
+    top_surface: *id007
+    notes: The throne's back, a slab of dressed stone.
+  - at: [4890, 2432]
+    size: [12, 112]
+    rise: 224
+    base: 176
+    surface: &id009
+      texture: gcrysc3
+      size: [64, 128]
+      scale: 4
+      translucent:
+        opacity: 0.8
+        tint: [0.38, 0.52, 0.85]
+    end_surface:
+      texture: cwb
+      size: *id008
+      uneven: true
+    top_surface:
+      texture: cwb
+      size: *id008
+      uneven: true
+    notes: A great sapphire-blue crystal set in the throne's back.
+  - at: [4832, 2324]
+    size: [128, 24]
+    rise: 160
+    base: 32
+    surface: *id007
+    top_surface: *id007
+    notes: The throne's arm
+  - at: [4832, 2540]
+    size: [128, 24]
+    rise: 160
+    base: 32
+    surface: *id007
+    top_surface: *id007
+    notes: The throne's arm
+  notes: 'A hall cut square in the rock: a throne of dressed stone with a crystal in its back at its east side (''Gem maker''s
+    throne''), the stair down to the God of Minerals behind it in the south wall.'
+- id: room:stair
+  name: Throne stair
+  outline:
+  - [4416, 1088]
+  - [4800, 1088]
+  - [4800, 1792]
+  - [4416, 1792]
+  floor: 0
+  slope:
+    to: -480
+    toward: south
+    steps: 12
+    tread: *id002
+    riser: *id005
+  ceiling: 384
+  ceiling_slope:
+    to: -96
+    toward: south
+  theme: theme:rock
+  ambient: 14
+  notes: Twelve steps cut in the rock, down from the throne hall to the God of Minerals.
+- id: room:ramp
+  name: Spiral ramp
+  path:
+  - - 1280
+    - 1952
+    - 0
+  - - 1280
+    - 1280
+    - -128
+  - - 704
+    - 1280
+    - -224
+  - - 704
+    - 384
+    - -352
+  - - 2240
+    - 384
+    - -480
+  width: 320
+  floor: 0
+  ceiling: 320
+  theme: theme:rock
+  ambient: 13
+  notes: A ramp that winds down round the rock core, south, west, south and east, from the drift to the deep level's flooded
+    drift.
+- id: room:flooded
+  name: Flooded drift
+  outline:
+  - [2304, -256]
+  - [3712, -192]
+  - [3712, 832]
+  - [3200, 896]
+  - [2304, 768]
+  floor: -480
+  rough:
+    step: 192
+    depth: 24
+  ceiling: -32
+  ceiling_points:
+  - [3008, 384, 96]
+  theme: theme:rock
+  ambient: 12
+  levels:
+  - id: level:flood_pool
+    outline:
+    - [2560, 512]
+    - [3392, 480]
+    - [3584, 608]
+    - [3456, 768]
+    - [2560, 704]
+    floor: -528
+    edge: *id001
+    surface:
+      texture: 7wtrtyl
+      size: [128, 128]
+      liquid: water
+    notes: Knee-deep water along the drift's north side.
+  notes: 'The deep level''s drift, its north side under knee-deep water: lava roaches, and a chest the water has not reached.'
+- id: room:god
+  name: The God of Minerals
+  outline:
+  - [3840, -256]
+  - [4864, -256]
+  - [5120, 0]
+  - [5120, 704]
+  - [4864, 960]
+  - [4096, 960]
+  - [3840, 704]
+  floor: -480
+  steep_floor: true
+  rough:
+    step: 192
+    depth: 24
+  ceiling: 96
+  ceiling_points:
+  - [4544, 352, 288]
+  theme: theme:gold
+  ambient: 16
+  platforms:
+  - id: platform:god
+    rise: 0
+    surface: *id009
+    top_surface: *id009
+    outline:
+    - [5072, 352]
+    - [5024, 435]
+    - [4928, 435]
+    - [4880, 352]
+    - [4928, 269]
+    - [5024, 269]
+    top_heights:
+    - 230
+    - 260
+    - 250
+    - 215
+    - 205
+    - 220
+    notes: 'The God of Minerals: a great crystal grown out of the rock, humming.'
+  - rise: 0
+    surface: *id009
+    top_surface: *id009
+    outline:
+    - [5056, 176]
+    - [5024, 231]
+    - [4960, 231]
+    - [4928, 176]
+    - [4960, 121]
+    - [5024, 121]
+    top_heights:
+    - 150
+    - 170
+    - 140
+    - 120
+    - 125
+    - 135
+    notes: A lesser crystal
+  - rise: 0
+    surface: *id009
+    top_surface: *id009
+    outline:
+    - [5056, 536]
+    - [5024, 591]
+    - [4960, 591]
+    - [4928, 536]
+    - [4960, 481]
+    - [5024, 481]
+    top_heights:
+    - 170
+    - 145
+    - 130
+    - 140
+    - 160
+    - 180
+    notes: A lesser crystal
+  - rise: 0
+    surface: *id009
+    top_surface: *id009
+    outline:
+    - [4904, 256]
+    - [4884, 291]
+    - [4844, 291]
+    - [4824, 256]
+    - [4844, 221]
+    - [4884, 221]
+    top_heights:
+    - 140
+    - 160
+    - 120
+    - 100
+    - 110
+    - 130
+    notes: A lesser crystal
+  - rise: 0
+    surface: *id009
+    top_surface: *id009
+    outline:
+    - [4920, 456]
+    - [4896, 498]
+    - [4848, 498]
+    - [4824, 456]
+    - [4848, 414]
+    - [4896, 414]
+    top_heights:
+    - 180
+    - 150
+    - 130
+    - 150
+    - 190
+    - 200
+    notes: A lesser crystal
+  walls:
+  - wall: 2
+    panels:
+    - id: panel:god_face
+      at: centre
+      length: 448
+      bottom: 96
+      height: 448
+      surface:
+        texture: xdgodface
+        size: [256, 256]
+        fit: true
+      notes: 'The God of Minerals: a great bearded face in the gold-veined rock, sapphire eyes, his crystal grown out of the
+        rock below his chin.'
+  notes: 'The pocket''s bottom: gold-veined rock and, in the east wall, the God of Minerals, a face of crystal (q-d7.god_of_minerals).'
+openings:
+- id: open:adit_upper
+  from: room:adit
+  to: room:upper
+  link: link:b1
+  width: 224
+  height: 320
+  notes: The adit's plank door.
+- id: open:upper_sapphire
+  from: room:upper
+  to: room:sapphire
+  link: link:b2
+  to_wall: 8
+  width: 384
+  height: 352
+- id: open:upper_cut
+  from: room:upper
+  to: room:cut
+  link: link:b8
+  to_wall: south
+  width: 320
+  height: 320
+- id: open:sapphire_throne
+  from: room:sapphire
+  to: room:throne
+  link: link:b3
+  from_wall: 3
+  to_wall: 6
+  width: 224
+  height: 320
+  notes: The throne hall's plank door.
+- id: open:upper_ramp
+  from: room:upper
+  to: room:ramp
+  link: link:b4
+  from_wall: 1
+  to_wall: 9
+  width: 256
+  height: 288
+- id: open:ramp_flooded
+  from: room:ramp
+  to: room:flooded
+  link: link:b5
+  to_wall: 4
+  width: 224
+  height: 288
+  notes: The plank door at the ramp's foot.
+- id: open:flooded_god
+  from: room:flooded
+  to: room:god
+  link: link:b6
+  from_wall: 1
+  to_wall: 6
+  width: 384
+  height: 352
+- id: open:throne_stair
+  from: room:throne
+  to: room:stair
+  link: link:b7
+  from_wall: 0
+  to_wall: north
+  width: 320
+  height: 320
+- id: open:stair_god
+  from: room:stair
+  to: room:god
+  link: link:b9
+  from_wall: south
+  to_wall: 4
+  width: 320
+  height: 320
+notes: 'DD-10B at L3/L4: nine rooms in the plan''s frame (x east, y north, the adit''s mouth at y 0). Written by output/studio_cal/dd10b/tools/gen.py
+  with output/studio_cal/dd10a/tools/mine.py.'

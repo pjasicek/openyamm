@@ -1,0 +1,121 @@
+# Xeen side quest Q-D24, The Enchanted Boulders (D5), from a new game on D5 with a level-43 party. The east cluster by
+# the desert road: the weathered sign (the dying paladin), boulders 3-6 speak their lines. The west cluster: boulder 1
+# (its line, autonote 4640), 2, and 7 ("My last is in night but not in light.", "What am I?"): a wrong answer ("stone",
+# the boulder says nothing), then "paladin" (solved 113480: 10,000 XP per member, the Dead Paladin's Armour 12529).
+# Boulders 1 and 2 crumble (crumbled_1, crumbled_2: a T5 item each), then only sand; 7 is sand. The east cluster: 3-6
+# crumble (crumbled_3-6, a T5 item each), then only sand. Outdoors the party is placed (PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/d5/L4/playtest.yml (the two clusters). Quest logic: source/quests/q-d24.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d24_enchanted_boulders.yml --scenario-no-color
+id: xeen.side_quests.q-d24
+title: "Xeen Q-D24: the Enchanted Boulders' riddle, PALADIN, and the paladin's things"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 43, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 43, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 43, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 43, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d5.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113480, 113481, 113482, 113483, 113484, 113485, 113486]}
+  # The east cluster by the desert road: the sign, boulders 3-6.
+  - set_pose: {map: xeen_d5.odm, x: 12288, y: -7680, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(41); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "A dying paladin gave all his magical armor to the enchanted boulders of the land for safekeeping."}}
+  - play_lua: {source: "close(); click(42); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My third is in fable and also in tale."}}
+  - play_lua: {source: "close(); click(43); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My fourth is in lark and also in quail."}}
+  - play_lua: {source: "close(); click(44); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My fifth is in wind but not in gale."}}
+  - play_lua: {source: "close(); click(45); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My sixth is in glimpse and also in sight."}}
+  - play_lua: {source: "close(); if qbit(113483) or qbit(113486) then error('a boulder crumbled before the answer') end"}
+  # The west cluster: boulders 1, 2 and 7; the riddle answered.
+  - set_pose: {map: xeen_d5.odm, x: -12800, y: -2560, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(46); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My first is in apple and also in pear."}}
+  - play_lua: {source: "close(); click(47); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My second is in cave and also in lair."}}
+  - play_lua: {source: "close()"}
+  - assert: {autonote: {id: 4640}}
+  - play_lua: {source: "click(48); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "My last is in night but not in light."}}
+  - answer_input: {text: "stone"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The Enchanted Boulder says nothing. It is, after all, a boulder."}}
+  - play_lua: {source: "close(); wait(0.3); if qbit(113480) then error('solved by a wrong answer') end"}
+  - play_lua: {source: "remember('items', pack_items()); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(48); wait(0.5)"}
+  - answer_input: {text: "paladin"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Be sure to visit the other boulders for their treasure. The boulder crumbles to sand and leaves behind a suit of golden plate."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113480) then error("solved 113480 not set") end
+        if item_count(12529) ~= 1 then error("no Dead Paladin's Armour: " .. pack_items()) end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 10000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+        remember("items", pack_items())
+  # Boulders 1 and 2 crumble, each leaving a T5 item; then only sand; 7 is sand.
+  - play_lua:
+      source: |
+        local function count() local n = 0 for _, c in string.gmatch(pack_items(), "(%d+)x(%d+)") do n = n + tonumber(c) end return n end
+        for _, e in ipairs({46, 47}) do
+          local before = count()
+          click(e); wait(0.5)
+          for _ = 1, 3 do if not close() then break end end
+          for _ = 1, 3 do if held() ~= 0 then stow() end end
+          if count() ~= before + 1 then error("boulder event " .. e .. " left " .. (count() - before) .. " items") end
+        end
+        if not qbit(113481) or not qbit(113482) then error("crumbled_1/2 not set") end
+  - play_lua: {source: "click(46); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Where the boulder stood there is only sand."}}
+  - play_lua: {source: "close(); click(48); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Where the boulder stood there is only sand."}}
+  - play_lua: {source: "close()"}
+  # The east cluster: boulders 3-6 crumble, each leaving a T5 item; then only sand.
+  - set_pose: {map: xeen_d5.odm, x: 12288, y: -7680, z: 1536, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The boulder crumbles to sand and leaves behind something the paladin left in its care."}}
+  - play_lua:
+      source: |
+        local function count() local n = 0 for _, c in string.gmatch(pack_items(), "(%d+)x(%d+)") do n = n + tonumber(c) end return n end
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        for _, e in ipairs({43, 44, 45}) do
+          local before = count()
+          click(e); wait(0.5)
+          for _ = 1, 3 do if not close() then break end end
+          for _ = 1, 3 do if held() ~= 0 then stow() end end
+          if count() ~= before + 1 then error("boulder event " .. e .. " left " .. (count() - before) .. " items") end
+        end
+        for b = 113481, 113486 do if not qbit(b) then error("crumbled bit " .. b .. " not set") end end
+  - play_lua: {source: "click(45); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Where the boulder stood there is only sand."}}
+  - play_lua:
+      source: |
+        close()
+        local before, gained = {}, 0
+        for id, n in string.gmatch(recall("items"), "(%d+)x(%d+)") do before[id] = tonumber(n) end
+        for id, n in string.gmatch(pack_items(), "(%d+)x(%d+)") do gained = gained + tonumber(n) - (before[id] or 0) end
+        if gained ~= 6 then error("the six boulders left " .. gained .. " items: " .. pack_items()) end
+        if item_count(12529) ~= 1 then error("the armour is gone") end
+        log("Q-D24 done: " .. pack_items())

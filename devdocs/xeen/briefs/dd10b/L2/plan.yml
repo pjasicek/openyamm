@@ -1,0 +1,257 @@
+format: 0
+level: L2
+pitch: 'The east pocket of the Gemstone Mines, in the Gemstone foothills of Sprite Forest: a timbered adit and a long drift,
+  a high sapphire hall round a rock pillar, the Gem maker''s crystal throne, and at the bottom, down a spiral ramp or the
+  stair behind the throne, the God of Minerals, who refills every pocket''s veins for gold once something has been dug.'
+purpose: 'Q-D7 The Gemsmiths (repeatable): sapphire rocks for Toby on D1; the God of Minerals'' refill for all three pockets.
+  Party 23-27; band 16-28; 20 monsters; treasure 3. About 10 minutes.'
+mood: 'A worked mine going deeper: dark rock, old timber and torchlight above; crystal and gold below.'
+datum: arrival
+spaces:
+- id: room:adit
+  name: East adit
+  kind: corridor
+  size: S
+  extent: [384, 896]
+  floor: 0
+  clear_height: 352
+  purpose: 'The timbered adit in the Gemstone foothills: the arrival and the exit to D2.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  empty: true
+  safe: true
+- id: room:upper
+  name: Upper drift
+  kind: corridor
+  size: M
+  extent: [2240, 1728]
+  floor: 0
+  clear_height: 416
+  purpose: A long drift with side cuts.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  population:
+  - actor: Electrapede (11361)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+- id: room:cut
+  name: Side cut
+  kind: room
+  size: S
+  extent: [512, 480]
+  floor: 0
+  clear_height: 352
+  purpose: 'Where the miners stopped: a cart of spoil, their chest.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+    items: [2, 2]
+    notes: The miners' chest.
+  empty: true
+- id: room:sapphire
+  name: Sapphire hall
+  kind: room
+  size: L
+  extent: [1920, 1664]
+  floor: 0
+  clear_height: [576, 832]
+  purpose: Five sapphire veins (q-d7.sapphire_veins), one rock each; one false vein ('A gem exploded!').
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; A6''s sapphire vein xdvsaph'
+  population:
+  - actor: Electrapede (11361)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+  - actor: Stone Golem (11581)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [26, 26]
+    placed: true
+- id: room:throne
+  name: Gem maker's throne
+  kind: room
+  size: M
+  extent: [1024, 1024]
+  floor: 0
+  clear_height: [512, 704]
+  purpose: A throne of dressed stone with a great crystal in its back ('Gem maker's throne'); a stair down behind it.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; 7d35''s dressed stone cwb and MM8 d37''s crystal
+    gcrysc3 for the throne'
+  population:
+  - actor: Lava Roach (11362)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [26, 26]
+    placed: true
+  - actor: Stone Golem (11581)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [26, 26]
+    placed: true
+- id: room:stair
+  name: Throne stair
+  kind: corridor
+  size: S
+  extent: [384, 704]
+  floor: [0, -480]
+  clear_height: 384
+  purpose: Twelve steps down from the throne to the God of Minerals.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot'
+  empty: true
+- id: room:ramp
+  name: Spiral ramp
+  kind: corridor
+  size: M
+  extent: [1856, 1888]
+  floor: [0, -480]
+  clear_height: 320
+  purpose: A ramp round the rock core, down to the deep level.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot'
+  population:
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+- id: room:flooded
+  name: Flooded drift
+  kind: room
+  size: M
+  extent: [1408, 1152]
+  floor: -480
+  clear_height: [448, 576]
+  purpose: Knee-deep water; a chest.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; 7wtrtyl water'
+  population:
+  - actor: Lava Roach (11362)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [26, 26]
+    placed: true
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+    items: [2, 2]
+    notes: The flooded drift's chest.
+- id: room:god
+  name: The God of Minerals
+  kind: room
+  size: M
+  extent: [1280, 1216]
+  floor: -480
+  clear_height: [576, 768]
+  purpose: 'At the pocket''s bottom: the God of Minerals, a face in the rock (''I am the god of these mountains.''): pay to
+    refill the veins (q-d7.god_of_minerals).'
+  theme: 7d35's gold-veined cwb1gold; the God of crystal gcrysc3
+  empty: true
+links:
+- id: link:b1
+  from: room:adit
+  to: room:upper
+  kind: door
+  motion: swing
+- id: link:b2
+  from: room:upper
+  to: room:sapphire
+  kind: open
+- id: link:b3
+  from: room:sapphire
+  to: room:throne
+  kind: door
+  motion: swing
+- id: link:b4
+  from: room:upper
+  to: room:ramp
+  kind: open
+- id: link:b5
+  from: room:ramp
+  to: room:flooded
+  kind: door
+  motion: swing
+- id: link:b6
+  from: room:flooded
+  to: room:god
+  kind: open
+- id: link:b7
+  from: room:throne
+  to: room:stair
+  kind: open
+- id: link:b8
+  from: room:upper
+  to: room:cut
+  kind: open
+- id: link:b9
+  from: room:stair
+  to: room:god
+  kind: open
+loops:
+- id: loop:b
+  spaces:
+  - room:upper
+  - room:sapphire
+  - room:throne
+  - room:stair
+  - room:god
+  - room:flooded
+  - room:ramp
+  notes: 'East: down by the ramp, up by the throne''s stair.'
+entrances:
+- id: entrance:adit
+  space: room:adit
+  kind: both
+  neighbour: exit:d2_adit
+  facing: n
+  how: Just inside the adit's mouth, facing in.
+critical_path:
+- room:adit
+- room:upper
+- room:sapphire
+- room:throne
+- room:stair
+- room:god
+return_path:
+- room:god
+- room:flooded
+- room:ramp
+- room:upper
+- room:adit
+goals:
+- id: goal:sapphire
+  space: room:sapphire
+  kind: take
+  what: Five sapphire rocks from the five sapphire veins (q-d7.sapphire_veins).
+  handed_in_at: D1
+- id: goal:god
+  space: room:god
+  kind: use
+  what: Pay the God of Minerals 10,000 gold to refill the veins (q-d7.god_of_minerals).
+atmosphere: 'Torchlit timber in the adit and drift (ambient about 15-18), the caves darker (12-16), blue glints in the sapphire
+  hall, a cold crystal glow at the throne and the God. Music 18. Sounds: air at the adit''s mouth, seepage in the hall, water
+  in the flooded drift, the God''s hum.'
+diagram:
+  file: diagram.txt
+totals:
+  chests: 2
+  doors: 3
+  fixed_actors: 20
+  loops: 1
+  monsters_about: 20
+  rooms: 9
+  sectors: 9
+  spawn_points: 0
+  floor_area_millions: 11
+notes: 'Class S (MAPS, Dungeons): at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors. D-27: five veins,
+  one rock each, a map variable each; refill_b on entry; one false vein; Stone Golem 26 for the graph''s Sand Golem; the God
+  refuses while nothing is dug; 7d35 with A6''s sapphire vein.'

@@ -1,0 +1,35 @@
+# Playtest of the tomb door out to X3 (XD-08, L4; lane A7, 2026-11-20): from the map's start inside the tomb door the
+# party turns to the door in the entry's south wall (event 36, evt:exit_x3, hint "Leave the Tomb of a Thousand
+# Terrors", aaze0080:24), takes OK in the game's "Do you wish to leave ...?" and arrives on X3 Lifeforce Lagoon
+# (xeen_x3.odm, A5) at -15360, -9830, in front of the barrow door (X3 thing:tomb), facing north (MoveToMap 512). The
+# arrival's Z comes from X3's DOORS.md (1146, marked as the build's terrain): the step logs the party's Z there.
+id: xeen.xd08.l4.exit
+title: Tomb of a Thousand Terrors (XD-08 L4), out to X3
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd08.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd08.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_xd08.blv, x: 0, y: 160, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {text_contains: "leave"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -15360, y: -9830, radius: 160, z_min: 1000, z_max: 1300}}
+  - advance_runtime: {seconds: 2.0}
+  - assert: {party_position: {x: -15360, y: -9830, radius: 160, z_min: 1000, z_max: 1300}}

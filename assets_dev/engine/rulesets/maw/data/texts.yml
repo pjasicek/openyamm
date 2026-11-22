@@ -1131,7 +1131,7 @@ class_skills:
 #   physical_cut, total_cut   the percent of a physical blow armour takes off, and with avoiding blows
 #   fire_cut ... body_cut     the percent each resistance takes off a hit
 #   hp_regen, sp_regen        hit points and spell points regained per second (faster out of combat)
-#   levels_mm6, levels_mm7, levels_mm8, levels_mm9, levels_total   the levels banked in each world
+#   levels_mm6, levels_mm7, levels_mm8, levels_mm9, levels_xeen, levels_total   the levels banked in each world
 stats:
   Might:
     append: "Melee and bow damage +<good>{might_bonus:1}</> %."
@@ -1176,9 +1176,9 @@ stats:
   Level:
     append: >-
       Levels banked: <value>{levels_total:1}</> in all; <value>{levels_mm6:1}</> in Enroth, <value>{levels_mm7:1}</> in Antagarich, <value>{levels_mm8:1}</>
-      in Jadame, <value>{levels_mm9:1}</> in Chedian. Monsters grow with the levels banked in the other worlds: bolster
-      level <value>{bolster_mm6}</> in Enroth, <value>{bolster_mm7}</> in Antagarich, <value>{bolster_mm8}</> in Jadame,
-      <value>{bolster_mm9}</> in Chedian.
+      in Jadame, <value>{levels_mm9:1}</> in Chedian, <value>{levels_xeen:1}</> in Xeen. Monsters grow with the levels
+      banked in the other worlds: bolster level <value>{bolster_mm6}</> in Enroth, <value>{bolster_mm7}</> in Antagarich,
+      <value>{bolster_mm8}</> in Jadame, <value>{bolster_mm9}</> in Chedian, <value>{bolster_xeen}</> in Xeen.
   FireResistance:
     append: "Against level <value>{reference_level}</> monsters it takes <good>{fire_cut:1}</> % off fire hits."
   AirResistance:

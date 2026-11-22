@@ -1,0 +1,38 @@
+# Playtest of the Great Pyramid's torch wake (DD-15, L4; D-61 Q2, D-18): the north-east chapel's two niche mummies
+# (actors 33 and 34, group 21) stand hidden; the torch lever (evt:torch_ne 72) shows them, hostile; a second pull says
+# "The lever is stuck." (aaze0083:39). After a save and a load they are still shown and hostile (evt:torch_ne_load).
+# The mummies are made immobile (console) so they stand where the lever woke them. Run with --world xeen.
+id: xeen.dd15.l4.reload
+title: Great Pyramid (DD-15 L4), a lit torch's niche pair after a reload
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd15.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 45, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 45, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 45, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd15.blv, x: 3840, y: 4850, z: 0, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 33, monster_id: 11270, hidden: true}}
+  - assert: {actor_visible: {actor_index: 34, monster_id: 11270, hidden: true}}
+  - play_lua: {source: "status(); click(72); wait(0.5); if not qbit(117561) then error('torch_ne 117561 not set') end"}
+  - assert: {actor_visible: {actor_index: 33, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 34, monster_id: 11270, hidden: false, dead: false}}
+  - play_lua: {source: "status(); click(72); wait(0.5); local s = status(); if not string.find(s, 'The lever is stuck.', 1, true) then error('the second pull said: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  - reload: {}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if not qbit(117561) then error('torch_ne lost on reload') end; log('reloaded')"}
+  - assert: {actor_visible: {actor_index: 33, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 34, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_count: {monster_id: 11270, hostile: false, max: 0}}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11270, hidden: true}}

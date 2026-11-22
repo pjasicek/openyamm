@@ -1,0 +1,98 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-26
+key: xd26
+name: Gargoyle Eyrie
+stands_on: X4 Burlock Savannah
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [15, 17]
+monsters:
+  levels: [16, 28]
+  boss: null
+  count: 28
+  groups: [2, 3]
+  families:
+    - "Gargoyles 16 / 22 / 28 (all three tiers; they fly across the shaft)"
+treasure: {level: 2, hoard: 3}
+role: "Q-C10 Scarab of Imaging (Carlawna, X4)"
+role_short: "Q-C10"
+set_piece: "One tall cave: ledges up its walls joined by ladders and a rope bridge, gargoyles diving across the open shaft, the scarab in the top nest"
+floors:
+  - {floor: 4, name: "The roost", height: 2048}
+  - {floor: 3, name: "High ledge", height: 1536}
+  - {floor: 2, name: "Bridge level", height: 1024}
+  - {floor: 1, name: "Low ledges", height: 512}
+  - {floor: 0, name: "Shaft floor", height: 0}
+spaces:
+  - {id: room:roost, name: "Matriarch's roost", kind: cave, size: L, floor: 4, at: [1, 0], set_piece: true, goal: true,
+     chest: 3, monsters: 6, population: [{family: Gargoyles, count: 6, strength: heavy, rank: c}],
+     purpose: "The biggest nest under the shaft's top: the Scarab of Imaging among stolen silver (hoard tier 3)."}
+  - {id: room:sky_crack, name: Sky crack, kind: cave, size: S, floor: 4, at: [2, 0], monsters: 0,
+     purpose: "Daylight through a split in the peak: the quick way out."}
+  - {id: room:high_ledge, name: High ledge, kind: corridor, size: M, floor: 3, at: [1, 0], monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: light, rank: b}],
+     purpose: "A narrow shelf; the roost ladder; hanging moss along the wall."}
+  - {id: room:hidden_ledge, name: Hidden ledge, kind: cave, size: S, floor: 3, at: [0, 0], chest: 2, monsters: 0,
+     purpose: "Behind the moss: a dead climber's pack."}
+  - {id: room:ledge_w, name: West ledge, kind: corridor, size: M, floor: 2, at: [0, 0], monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: light, rank: a}],
+     purpose: "Where the climb from below arrives; the rope bridge starts."}
+  - {id: room:bridge, name: Rope bridge, kind: corridor, size: M, floor: 2, at: [1, 0], set_piece: true, monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: light, rank: b, notes: "They attack the party on the bridge."}],
+     purpose: "Across the open shaft, 1,024 above its floor; step off and you fall."}
+  - {id: room:ledge_e, name: East nests, kind: cave, size: M, floor: 2, at: [2, 0], monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: pack, rank: b}],
+     purpose: "Nests of sticks and bones; the drawn-up ladder to the high ledge hangs above."}
+  - {id: room:fence_cache, name: "The fence's cache", kind: room, size: S, floor: 2, at: [3, 0], chest: 2, monsters: 1,
+     population: [{family: Gargoyles, count: 1, strength: light, rank: c}],
+     purpose: "A dry cave of crates tagged for buyers; the winch that lowers the ladder."}
+  - {id: room:ledge_low, name: First ledge, kind: corridor, size: M, floor: 1, at: [0, 0], monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: light, rank: a}],
+     purpose: "The first shelf up the wall."}
+  - {id: room:low_nests, name: Low nests, kind: cave, size: M, floor: 1, at: [1, 0], monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: pack, rank: a}],
+     purpose: "Young gargoyles; a rock ramp climbs on to the west ledge."}
+  - {id: room:mouth, name: Cave mouth, kind: cave, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "From the bare peaks of the Gargoyle Range; droppings and bones."}
+  - {id: room:shaft_floor, name: Shaft floor, kind: shaft, size: L, floor: 0, at: [2, 0], set_piece: true, monsters: 3,
+     population: [{family: Gargoyles, count: 3, strength: light, rank: a, notes: "They dive from above."}],
+     purpose: "The bottom of the vertical cave, 2,300 high: every ledge seen from here, the roost a shadow at the top."}
+links:
+  - {id: link:mouth_shaft, from: room:mouth, to: room:shaft_floor, kind: open}
+  - {id: link:shaft_ledgelow, from: room:shaft_floor, to: room:ledge_low, kind: stair, label: ladder}
+  - {id: link:ledgelow_nests, from: room:ledge_low, to: room:low_nests, kind: open}
+  - {id: link:ledgelow_ledgew, from: room:ledge_low, to: room:ledge_w, kind: stair, label: ladder}
+  - {id: link:nests_ledgew, from: room:low_nests, to: room:ledge_w, kind: stair, label: rock ramp}
+  - {id: link:ledgew_bridge, from: room:ledge_w, to: room:bridge, kind: open}
+  - {id: link:bridge_ledgee, from: room:bridge, to: room:ledge_e, kind: open}
+  - {id: link:bridge_drop, from: room:bridge, to: room:shaft_floor, kind: drop, label: "fall 1,024"}
+  - {id: link:ledgee_fence, from: room:ledge_e, to: room:fence_cache, kind: door}
+  - {id: link:ledgee_high, from: room:ledge_e, to: room:high_ledge, kind: stair, label: "ladder: winch",
+     opened_by: state:winch, notes: "A rope ladder that hangs drawn up until the winch lowers it."}
+  - {id: link:high_hidden, from: room:high_ledge, to: room:hidden_ledge, kind: secret, notes: "Through the hanging moss."}
+  - {id: link:high_roost, from: room:high_ledge, to: room:roost, kind: stair, label: ladder}
+  - {id: link:high_drop, from: room:high_ledge, to: room:ledge_w, kind: drop, label: "jump 512"}
+  - {id: link:roost_crack, from: room:roost, to: room:sky_crack, kind: open}
+states:
+  - {id: state:winch, kind: lever, where: room:fence_cache, what: "The fence's winch lowers the rope ladder to the high ledge.",
+     opens: [link:ledgee_high]}
+exits:
+  - {id: exit:x4_range, space: room:mouth, at: [0, 0], kind: both, label: "X4: Gargoyle Range",
+     neighbour: "Cave mouth on X4's Gargoyle Range (north edge)"}
+  - {id: exit:x4_peak, space: room:sky_crack, at: [3, 0], kind: out, label: "X4: a peak above the mouth",
+     neighbour: "X4, a ledge high on the same peak with a path down (one way out)"}
+critical_path: [room:mouth, room:shaft_floor, room:ledge_low, room:ledge_w, room:bridge, room:ledge_e, room:fence_cache, room:ledge_e, room:high_ledge, room:roost]
+return_path: [room:roost, room:sky_crack]
+loops:
+  - {id: loop:low, spaces: [room:ledge_low, room:low_nests, room:ledge_w], notes: "Two ways up from the first ledge."}
+  - {id: loop:fall, spaces: [room:shaft_floor, room:ledge_low, room:ledge_w, room:bridge], notes: "Off the bridge and back up: the fall is the quick way down."}
+lines:
+  - {text: "The chest is empty.", ref: "aaze0081:8 (stock line)", where: room:fence_cache}
+  - {text: "I know not why they took it, only that gargoyles are hired to steal things for people.", ref: "aaze0010:9", where: "X4, Carlawna (the quest giver), echoed on a tag in the fence's cache"}
+  - {text: "Oh, thank you so much for recovering my Scarab.", ref: "aaze0010:11", where: "X4, Carlawna"}
+open_questions:
+  - "XD-26 has no source map: the source's scarab lies outdoors on the Gargoyle Range (C1 15,11). Its three original lines can only be Carlawna's and stock lines. Accept, or move one Gargoyle Range line in when A5 finds it?"
+  - "The fence's tags ('Deliver to Asp: one scarab') tie the theft to the transformer (Falagar's lore, Q-C11). Ours; keep?"
+  - "Ladders: the engine has climbable ladders in BLV scenes (`ladders`); the gargoyles fly across the shaft. Check that flying monsters path across an open shaft between ledges."

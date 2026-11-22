@@ -1,0 +1,64 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "You land on a mound of earth and old bones. Daylight is far above, and the pit's walls are too sheer to climb."
+    seconds: 6
+    notes: "The landing (a one-shot timer: the party arrives standing at the pit's bottom)."
+  - id: evt:boulder
+    preset: door
+    source: door:boulder
+    title: Boulder
+    action: open
+    text: "You put your shoulders to the boulder, and it rolls aside."
+    seconds: 4
+  - id: evt:chest_den
+    preset: chest
+    source: chest:den_hoard
+    title: Chest
+  - id: evt:chest_thief
+    preset: chest
+    source: chest:thief_pack
+    title: Bag
+  - id: evt:den_door
+    preset: door
+    source: door:den
+    title: Log door
+  - id: evt:expired
+    preset: text
+    source: deco:expired
+    title: Expired Adventurer
+    text: Nothing here.
+    notes: "aaze0040:3-4 (\"Expired Adventurer\" / \"Nothing here.\"): one who fell in before."
+  - id: evt:hatch
+    preset: exit
+    source: exit:hatch
+    title: Sod hatch
+    notes: "D-24/D-25: the burrow's top, the exit preset (the game's leave window, no 'Exit the Troll Hole?' question: aaze0040:12 stays in the ledger) to D2 beside the first hole (exit:d2_return, A6's return point)."
+  - id: evt:larder_seen
+    preset: text
+    source: room:larder
+    trigger: step
+    once: true
+    text: "Carcasses hang from root hooks: a deer, a wolf, and something with too many legs."
+    seconds: 5
+  - id: evt:midden_seen
+    preset: text
+    source: room:midden
+    trigger: step
+    once: true
+    text: "Bones, dented helms, a single boot: everything the trolls have eaten, heaped up the wall."
+    seconds: 5
+  - id: evt:thief
+    preset: script
+    source: deco:thief
+    title: Dead thief
+    lua: "XeenQuests.hook(\"q-d13.thieves_letter\")"
+    notes: "goal:letter: A3's q-d13.thieves_letter (started 113260, the autonote; aaze0040:5's letter; its else_text after)."
+  - id: evt:wicker
+    preset: door
+    source: door:wicker
+    title: Wicker gate

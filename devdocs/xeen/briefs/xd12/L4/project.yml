@@ -1,7 +1,7 @@
 format: 0
 id: xeen_xd12
 name: Darzog's Tower
-world: mm7
+world: xeen
 kind: indoor
 profile: dungeon
 map_code: XD-12
@@ -19,19 +19,18 @@ map_stats:
   environment: stone hall
   lock_difficulty: 12
   slots:
-    - {monster: Golem, tier: 3, per_marker: [2, 3], weight: 40}
-    - {monster: Mage, tier: 3, per_marker: [2, 3], weight: 30}
-    - {monster: Beholder, tier: 2, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Construct, tier: 5, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Wizard, tier: 0, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Eye, tier: 0, per_marker: [1, 2], weight: 30}
 neighbours:
   - id: exit:clouds_of_xeen
-    to: 7d25.blv
+    to: xeen_x9.blv
     kind: roof
-    arrival: [-2432, -1472, 1]
-    arrival_hint: "On the Clouds of Xeen (X9), at the foot of the cloud stair that rises from Darzog's roof."
-    direction: 90
-    condition: {qbit: m21_crodo_freed}
+    arrival: entrance:xd12_roof
+    arrival_hint: "On the Clouds of Xeen (X9), at the foot of the cloud stair (X9's entrance:xd12_roof, (0, -17920, 320) facing 512)."
+    condition: {qbit: crodo_freed}
     one_way: true
-    notes: "X9 is not built: a placeholder exit. Stand-in: MM7's Celeste (7d25.blv), a city on the clouds, at its gate."
+    notes: "The cloud stair's top step after m21.crodo: the map's own Yes/No 'Climb the cloud stair into the sky?' (D-66's rule for a roof exit into a BLV), Yes leaves at once."
   - id: exit:lake_island
     to: xeen_x2.odm
     kind: door
@@ -41,12 +40,13 @@ neighbours:
     condition: {item: skeleton_key}
     notes: "X2's door:xd12 (devdocs/xeen/briefs/x2/DOORS.md): the tower door opens from outside only to the Skeleton Key (M13); from inside it always opens. A fall from the keep also lands here."
 qbits:
+  arrived_once: 110503
+  crodo_freed: 110501
+  darzog_slain: 110500
   library_door_opened: 110502
-  m21_crodo_freed: 110501
-  m21_darzog_slain: 110500
 items:
-  library_key: 2112
-  skeleton_key: 1461
+  library_key: 12230
+  skeleton_key: 12100
 rules:
   no_spells: true
-notes: "Xeen design brief, level L4, for a new map (no original). Story step M21 (devdocs/xeen/QUESTS.md). Size L (MAPS.md section 0 and Dungeons): 50-75 sectors, 120-200 M units squared, about 70-80 monsters plus the boss; monster levels 30 to 48, Darzog 55; Tres 4 (chests at 4, Darzog's hoard at 5). Ids: map_stats 9140, qbits 110500-110599, items 12230-12299 (ACT2_BUILD.md). Built and played as an MM7 map (world mm7) until worlds/xeen exists, as XD-01 to XD-05: slot 1 Magic constructs (Carnage Hand) is MM7's Golem family (Brass Golem 35, Gold Golem 50), slot 2 Wizards MM7's Mage family (Wizard 35, Archmage 50), slot 3 Eyes MM7's Beholder family (Floating Eye 30, Gazer 40): the same three families MM7's Clanker's Laboratory and Castle Lambent use. Darzog is an Air Warlock (420, level 50, lightning) with three times the hit points and his name; his six clones Air Warlocks. Crodo is an MM7 peasant elder (peaceful). Items: the Skeleton Key 12100 (X2's range; X2's door tests MM7's William's Tower Key 1461), the library key 12230 as MM7's High Sorcerer's Key (2112). Music 22 (Castle Gloaming's track). exit:lake_island leads to X2 (xeen_x2.odm) at the arrival of X2's DOORS.md (provisional); exit:clouds_of_xeen is a placeholder: X9 is not built, MM7's Celeste stands in."
+notes: "Xeen design brief, level L4, for a new map (no original). Story step M21 (devdocs/xeen/QUESTS.md). Size L (MAPS.md section 0 and Dungeons): 50-75 sectors, 120-200 M units squared, about 70-80 monsters plus the boss; monster levels 30 to 48, Darzog 55; Tres 4 (chests at 4, Darzog's hoard at 5). Ids: map_stats 9140, qbits 110500-110599, items 12230-12299 (ACT2_BUILD.md). A map of the Xeen world: its map_stats, bolster and slot rows are the world's (source/map_rows.yml, A2), the slots here repeat them. Slot 1 Magic constructs (Xeen Construct; every marker tier c, Carnage Hand 35, 11602), slot 2 Wizards (Xeen Wizard; tier a, Wizard 36, 11190), slot 3 Eyes (Xeen Eye; tier a, Floating Eye 40, 11570; one or two a marker). Baron Darzog is the boss row 11194, his six clones 11195, the Chief Librarian a Sorcerer (11191) with his placed name, Crodo the world's peaceful character row 11900. Items: the Skeleton Key 12100 (the tower door from outside), the library key 12230. Quest bits 110500-110502 as M21 names them (source/quests/m21.yml). Music 22. exit:lake_island leads to X2 (xeen_x2.odm) at X2's DOORS.md arrival. The cloud stair's top step leads to X9 (exit:clouds_of_xeen, X9's entrance:xd12_roof) once Crodo is freed, after the map's own Yes/No."

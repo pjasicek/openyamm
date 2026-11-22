@@ -1,0 +1,194 @@
+# Xeen playthrough, segment 87: the Fire Sleeper (X5, X3, X2, X1, D1, D7, P1), M38 The Elemental Sleepers (Fire).
+# On X5 Winterkill Tundra by the Earth Reflector with the Cube of Power (12365) and the Scepter (12366), all four
+# Reflectors humming (111740-111743). The way up to the Skyroads: along the south of the Clouds east off X5's edge to
+# Lifeforce Lagoon (X3), east off X3's edge to Rivercity (X2), east along the river road off X2's edge to Vertigo
+# Meadows (X1) (7 + 5 + 3 travel days; back the way 85 came, north by X6, X4 and X7, is 24); X1's travel pyramid on the
+# knoll to D1 by Castleview; west from the pyramid to the Dark Grove's great tree, whose rope from the sky takes the
+# Chosen Ones all the way up (m30.grove_rope, D1 event 117: free and there every day, beside the pyramid's arrival;
+# Lucio's boats land in Olympus' middle, twice a week, from a jetty further off) to D7's rope head on the west road.
+# North up the west road past the Smoke Post and the West Lookout to the Fire Corner; its tip asks "What do you seek?":
+# "Fire" (m38.corner_fire) drops the party onto P1's Cinder Shelf. P1 walked: the statue's plaque (Step One), the
+# causeways to the Crucible, the test's plate ("Accept the test of Fire?" Yes: m38.test_fire, the three guardians rise
+# from the pit); the guardians die (m38.test_fire_passed: fire_test 111764, the gate grinds open); over the obsidian
+# bridge through the Sleeper's Gate into the hall; the Fire Sleeper on his couch (m38.sleeper_fire: awake, 111760, the
+# award Awakened the Fire Sleeper 412, 10,500 each); the return dais rises: "Step onto the dais and return to the
+# Skyroads?" Yes, back to D7's entrance:p1_return by the Fire Corner's Rest Stop. Ends on D7.
+# Routes: segment 85 (X1's pyramid), 21 and 35 (the X3 and X5 edges), devdocs/xeen/briefs/x2/L4/sketch.yml (X2's east
+# road), devdocs/xeen/briefs/d1/L4/sketch.yml (thing:grove_rope), devdocs/xeen/briefs/d7/L4/plan.yml (the west road)
+# and playtest_corner.yml, tests/scenarios/xeen/hooks_d7.yml (the Fire Corner), devdocs/xeen/briefs/p1/L4/playtest*.yml.
+# Quest logic: source/quests/m30.yml (grove_rope), m38.yml.
+#   python3 tests/playthrough/xeen/run.py 87
+id: xeen.playthrough.87_fire_sleeper
+title: "Xeen playthrough 87: the rope from the Dark Grove to the Skyroads, the Fire Corner, the test of Fire, the Fire Sleeper"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/85_reflectors.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - assert: {qbit_set: [111600, 111720, 111740, 111741, 111742, 111743]}
+  - assert: {qbit_clear: [111760, 111764]}
+  - play_lua: {source: "log('87 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # East off X5's edge to Lifeforce Lagoon (as segment 35).
+  - set_pose: {map: xeen_x5.odm, x: 21504, y: 2560, z: 896, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24576, y: 2560, z: 864, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # East off X3's edge to Rivercity (as segment 21).
+  - set_pose: {map: xeen_x3.odm, x: 20480, y: 12032, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 21504, y: 12288, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 24064, y: 12288, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # East along the river road (y 9216) off X2's edge to Vertigo Meadows.
+  - set_pose: {map: xeen_x2.odm, x: 20480, y: 9216, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 9216, z: 1024, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # X1's travel pyramid on the knoll east of Vertigo (event 103) to D1 (as segment 85).
+  - set_pose: {map: xeen_x1.odm, x: 8832, y: 9472, z: 800, yaw: 0.7854, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(103); wait(0.5)"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -1024, y: 13312, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The rope from the sky in the Dark Grove's great tree (D1 event 117, m30.grove_rope: the Chosen Ones climb all the
+  # way up) to D7's rope head.
+  - set_pose: {map: xeen_d1.odm, x: -8064, y: 14596, z: 1088, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(117); wait(0.5)"}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, text_contains: "Do you wish to enter The Skyroads?"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = status() or ""
+        log("rope: " .. s)
+        if not string.find(s, "all the way up", 1, true) then error("no rope line on D7: " .. s) end
+        wait(1); for _ = 1, 3 do if not close() then break end end
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -24768, y: -6624, radius: 300}}
+  # North up the west road: the Smoke Post, the West Lookout, the Fire Corner.
+  - walk_to: {x: -28160, y: 4096, z: 1152, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -28160, y: 12288, z: 1216, z_tolerance: 400, radius: 192, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -29978, y: 20063, z: 1288, z_tolerance: 400, radius: 128, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  # The Fire Corner's tip (event 38): stepped onto, the sky asks "What do you seek?" (as the map's playtest_corner).
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_d7.blv, x: -29978, y: 20063, z: 1288, yaw_degrees: 139, pitch: 0}
+      expect_stop: {map: xeen_d7.blv, x: -29978, y: 20063, z: 1288, yaw_degrees: 139, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2000
+      tolerance_z: 400
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "Fire"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - play_lua:
+      source: |
+        wait(1)
+        local s = status() or ""
+        log("corner: " .. s)
+        if not string.find(s, "the nothing glows like a forge", 1, true) then error("no corner line: " .. s) end
+        for _ = 1, 3 do if not close() then break end end
+  - assert: {map: xeen_p1.blv}
+  - setup_shortcut: {kind: immortal}
+  - assert: {party_position: {x: 3776, y: -3904, radius: 160, z_min: -8, z_max: 40}}
+  # P1: the Cinder Shelf to the statue of Fire, its plaque (Step One).
+  - walk_to: {x: 2200, y: -3240, z: 32, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 808, y: -2728, z: 64, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Step One: When the time is right, activate the machines in the four corners"}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Up the causeway to the Ember Islet, the long causeway to the Crucible.
+  - walk_to: {x: 312, y: -2852, z: 64, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -200, y: -1400, z: 80, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -896, y: -256, z: 96, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -300, y: 900, z: 180, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 256, y: 1760, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2600); if door_state(1) == 'open' then error('the gate is open before the test: ' .. door_state(1)) end"}
+  # The test's plate: "Accept the test of Fire?" Yes; the three guardians rise from the pit and die.
+  - walk_to: {x: 256, y: 2048, z: 262, z_tolerance: 60, radius: 48, timeout_seconds: 20, expect: dialog}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {dialog: {active: true, text_contains: "You accept the test of Fire."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(111764) then error('fire_test set before the guardians die') end"}
+  - assert: {actor_visible: {actor_index: 3, hidden: false}}
+  - assert: {actor_visible: {actor_index: 4, hidden: false}}
+  - assert: {actor_visible: {actor_index: 5, hidden: false}}
+  # The party fights its way on round the pit towards the bridge; the last guardian's fall stops it with its line.
+  - walk_to: {x: 1100, y: 3500, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 2600, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "The last guardian falls back into the pit. The gate to the Sleeper's chamber grinds open."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(111764) then error('fire_test 111764 not set after the guardians died') end"}
+  - advance_runtime: {seconds: 6}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if door_state(1) ~= 'open' then error('the gate: ' .. door_state(1)) end"}
+  # Round the pit on the glass, over the obsidian bridge, through the Sleeper's Gate into the hall.
+  - walk_to: {x: 900, y: 2300, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3500, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 300, y: 4700, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -900, y: 4000, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2600, y: 4090, z: 380, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -3300, y: 4096, z: 384, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -4055, y: 4567, z: 392, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
+  # The Fire Sleeper (event 17): awake, the Grunfeld field active (m38.sleeper_fire's third state).
+  - play_lua: {source: "clear_hostiles(3000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(17); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Fire Sleeper: I am awake and my confidence is at 100%. Grunfeld field generator is active]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local xp, xp3 = experience(0) - recall("xp"), experience(3) - recall("xp3")
+        if xp ~= 10500 or xp3 ~= 10500 then error("the Fire Sleeper paid " .. xp .. " / " .. xp3 .. " experience, not 10,500 each") end
+        if gold() ~= recall("gold") then error("the Fire Sleeper paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [111760]}
+  - assert: {award_acquired: [{id: 412, member_index: 0}, {id: 412, member_index: 3}]}
+  # Asked again, he only repeats it (no second payment).
+  - play_lua: {source: "remember('xp', experience(0)); click(17); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Grunfeld field generator is active and reports 100% confidence.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= recall('xp') then error('the Fire Sleeper paid twice') end"}
+  # The return dais rises (evt:dais_show): "Step onto the dais and return to the Skyroads?" Yes, to D7.
+  - advance_runtime: {seconds: 2.5}
+  - assert: {sprite_shown: [0]}
+  - walk_to: {x: -4500, y: 4100, z: 392, z_tolerance: 160, radius: 128, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -27456, y: 17728, radius: 256}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111740, 111741, 111742, 111743, 111760, 111764]}
+  - assert: {qbit_clear: [111761]}
+  - play_lua:
+      source: |
+        if not has_item(12366) then error("no Scepter (12366) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        log("87 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "87 The Fire Sleeper", path: output/playthrough/xeen/checkpoints/87_fire_sleeper.oysav}

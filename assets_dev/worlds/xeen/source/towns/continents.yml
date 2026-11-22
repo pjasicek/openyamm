@@ -1,0 +1,58 @@
+# The world's continent_settings rows (one per face: world.yml continents 6 and 7) and its new-game card. Owner: A4.
+# tools/xeen/gen_towns.py writes them in the engine's columns (devdocs/xeen/lanes/TABLES.md).
+#
+# start: the face's start (continent_settings "Death map 1"): an arrival of a town file. The engine starts a new game
+#   there (when the start map is the world's start map) and wakes a party that dies on the start map there.
+# death: where a party that dies elsewhere on the face wakes ("Death map 2"): the face's home temple, an arrival.
+# before: inside start or death, the place written while the arrival does not exist yet (its map is not built). The
+#   row stays complete, and a death on that face cannot happen before its first map is in the world. The generator
+#   switches to the arrival by itself once the map's town file has it, and stops on a place that has neither.
+# skies: clear to storm, sky texture names or aliases (Darkside's from A6's rendering/sky/sky.yml).
+# loading: the face's loading pages (icons_x2), A4's art; the engine shows world.yml loadingScreens today (A1).
+continents:
+  - id: 6
+    note: Cloudside
+    npc_followers: true
+    saturation: 0.9225
+    softness: 1.06
+    death_movie: 7losegame
+    start: {arrival: vertigo_square}
+    death: {map: xeen_x1.odm, at: [-2688, 9100, 640], direction: 512, note: "in front of Vertigo's temple"}
+    skies: [7plansky3, 7sky01, sky12, 7sky02, sky12, 7sky04, sky19]
+    loading: [xeenloadc1, xeenloadc2]
+  - id: 7
+    note: Darkside
+    npc_followers: true
+    saturation: 0.80
+    softness: 1.06
+    death_movie: 7losegame
+    start:
+      arrival: castleview_square
+      before: {map: xeen_x1.odm, at: [-2688, 9100, 640], direction: 512, note: "D1 is not built: Vertigo's temple"}
+    death:
+      arrival: castleview_temple
+      before: {map: xeen_x1.odm, at: [-2688, 9100, 640], direction: 512, note: "D1 is not built: Vertigo's temple"}
+    skies: [xeendark1, xeendark1, xeendark1, xeendark1, xeendark1, stormclds, stormclds]
+    loading: [xeenloadd1, xeenloadd2]
+
+# The new-game card (data_tables/new_game_continents.yml, the engine's character_selection.yml shape). One card,
+# "World of Xeen", starting on Cloudside (continent 6). Xeen's classes as MM6-MM8 classes (the Barbarian is left out,
+# ROADMAP Q8): Knight, Paladin, Archer, Cleric, Sorcerer, Robber as Thief, Ninja as Monk, Druid, Ranger; the racial
+# classes whose promotions are Xeen side quests (QUESTS 3): Dark Elf, Dragon, Vampire. Races: Human, Elf, Dwarf,
+# Goblin (Xeen's half-orc), and the racial Vampire, Dark Elf and Dragon (the Gnome is left out, Q8).
+# Class ids are class_skills.txt columns; race ids are character_selection.yml's.
+new_game:
+  - id: 6
+    key: xeen
+    name: World of Xeen
+    available_class_ids: [0, 4, 8, 10, 12, 16, 22, 26, 30, 34, 40, 42]
+    available_race_ids: [0, 1, 2, 5, 7, 8, 9]
+    portrait_exceptions: []
+    # the new-game screen's card (TABLES.md "New-game continents"): first, before Enroth, Antagarich, Jadame, Chedian
+    # (the user, 2026-11-21: Xeen is MM4+MM5, so it comes first; marked Experimental)
+    card:
+      order: 1
+      title: Xeen
+      subtitle: Might and Magic IV and V
+      caption: "Experimental: begin in Vertigo"
+      picture: worlds/xeen/ui/hud_x2/menus/omenu_continent_xeen.png

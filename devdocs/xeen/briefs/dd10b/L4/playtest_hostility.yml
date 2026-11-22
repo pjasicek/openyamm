@@ -1,0 +1,44 @@
+# Hostility check of the Gemstone Mines, east pocket (DD-10B) (the XD-27 form; lane A8, 2026-11-20). The kinds:
+# Electrapede 11361 and Lava Roach 11362 (giant crawlers), Beholder Bat 11312 (night bats), Stone Golem 11581 (material
+# golems): all hostile to the party by their rows, no map relations. At load every one is hostile; the kinds side by
+# side do not take each other on. Run with --world xeen --map xeen_dd10b.blv.
+id: xeen.dd10b.l4.hostility
+title: 'the Gemstone Mines, east pocket (DD-10B): every monster hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd10b.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run.
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11361, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11362, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11312, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11581, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11361, hostile: true, min: 6}}
+- assert: {actor_count: {monster_id: 11362, hostile: true, min: 4}}
+- assert: {actor_count: {monster_id: 11312, hostile: true, min: 6}}
+- assert: {actor_count: {monster_id: 11581, hostile: true, min: 4}}
+- note: 'The kinds of the map side by side in the adit, nearer each other than the party (a monster takes the nearest
+    of its foes): they must not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11361, x: -96, y: 640, z: 0}
+- spawn_actor: {monster_id: 11362, x: 96, y: 640, z: 0}
+- spawn_actor: {monster_id: 11312, x: -96, y: 800, z: 120}
+- spawn_actor: {monster_id: 11581, x: 96, y: 800, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11361, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11362, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11312, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11581, hurt: true, max: 0}}

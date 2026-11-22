@@ -1,0 +1,61 @@
+format: 0
+id: xeen_xd09
+name: Golem Dungeon
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-09
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 27
+  - 18
+  climbs: n
+map_stats:
+  id: 9125
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 4
+  perception_difficulty: 6
+  refill_days: 672
+  music: 43
+  environment: stone hall
+  lock_difficulty: 6
+  bolster: LowerToEqual
+  slots:
+  - monster: Xeen Golem
+    tier: 2
+    per_marker:
+    - 1
+    - 2
+    weight: 100
+neighbours:
+- id: door:x5
+  to: xeen_x5.odm
+  kind: door
+  arrival:
+  - 18688
+  - -3457
+  - 960
+  direction: 90
+  arrival_hint: On X5 (Winterkill Tundra) 120 north of the Golem Rocks' slab door (thing:xd09_door, near the east edge, by
+    X3), facing away from it, north.
+  notes: 'X5 installed (A6): the lane''s arrival 18688, -3457, 960 facing north. X5''s door (event 92, m10.golem_door, open
+    since D-89: no Golem Stone) brings the party to this map''s start on the landing.'
+qbits:
+  golem_credits: 111202
+  diamond_slain: 110600
+  arrived_once: 110601
+items:
+  megacredit: 12192
+  iron_key: 12261
+  golem_stone: 12305
+notes: 'Xeen design brief, level L1: the Golem Dungeon (XD-09, class M, on X5 near its east edge), story step M10 (the last
+  five King''s Megacredits for Newcastle) and the title Master of Golems. Four halls round the Hall of the Plaque, each a
+  two-state puzzle (D-4): four boughs to cut, nine blocks to push (six glowing rocks), the Iron Key and three tumblers, the
+  Diamond Golem. Monsters: slot 1 Material golems (Xeen Golem: Wood Golem 11580 at tier a, Stone Golem 11581 at b, Iron Golem
+  11582 at c), one or two per marker; placed the Diamond Golem 11583 (boss row) and an Iron Golem. Treasure level 3, the vault
+  a level-4 hoard. Map stats row 9125 (to come from A2''s map_rows.yml). Music 43. Items: King''s Megacredit 12192, the Iron
+  Key 12261 (requested from A2), the Golem Stone 12305 (X5''s door). Qbits: golem_credits 111202 (M10), diamond_slain 110600
+  (the map''s).'

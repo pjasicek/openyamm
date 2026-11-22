@@ -103,6 +103,11 @@ movers:
     notes: "The west bar of the treasury gate: an upright of d04's riveted, iron-banded timber (7gt001a), 48 thick and 512 tall, standing 32 out from the gate's west half; it sinks into the floor when the west chapel's lever is pulled."
 floors:
   - {id: floor:yak_pool, of: room:yak_pool, kind: water, notes: "The pool's water: MM7's slime water (7slimywtr), the fluid bit; stepping in sickens (wiring)."}
+sounds:
+  - {id: sound:altar_fire, room: room:sanctum, at: [512, 13200], sound: torch loop, radius: 1500, inner_radius: 400, volume: 0.5, notes: The torches round the Yak Master's altar.}
+  - {id: sound:crypt_drip, room: room:crypt, at: [-2976, 7680], sound: drip02, radius: 1400, volume: 0.6, wait: [3, 9], notes: Water dripping in the crypt.}
+  - {id: sound:ossuary_drip, room: room:ossuary, at: [-2976, 9184], sound: drip03, radius: 1300, volume: 0.5, wait: [4, 11], notes: Water dripping in the bone-house.}
+  - {id: sound:pool, room: room:yak_pool, at: [-768, 9696], sound: bubbling cauldron01, radius: 2400, inner_radius: 700, volume: 0.7, notes: "The Yak Pool bubbling: heard on both banks before it is seen."}
 lights:
   - id: light:altar
     room: room:sanctum
@@ -247,7 +252,7 @@ chests:
     facing: s
     random_items: 0
     items: [elixir]
-    notes: "The reliquary casket: the Elixir of Restoration."
+    notes: "The reliquary casket: the Elixir of Restoration lies in it, an ordinary chest item (F15, 2026-11-21: quest items are looted, MM6-MM8 style); opening it runs Q-C12's hook, which sets elixir_found."
   - id: chest:treasury
     room: room:treasury
     at: [-704, 6464]
@@ -257,38 +262,38 @@ chests:
     random_items: 2
     gold: 1500
     items: [megacredit, megacredit, megacredit, megacredit, megacredit]
-    notes: "The cult's strongbox: five King's Megacredits (stand-in items), gold and two rolls of level 2."
+    notes: "The cult's strongbox: five King's Megacredits, gold and two rolls of level 2."
 spawns:
   - id: spawn:chapel_e
     room: room:chapel_e
     at: [1760, 4224]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:chapel_w
     room: room:chapel_w
     at: [-1760, 4224]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:crypt_n
     room: room:crypt
     at: [-3328, 8192]
     slot: 2
-    tier: c
+    tier: b
     group: 51
   - id: spawn:crypt_s
     room: room:crypt
     at: [-2560, 7232]
     slot: 2
-    tier: c
+    tier: b
     group: 51
     notes: "The temple's dead, risen."
   - id: spawn:dormitory
     room: room:dormitory
     at: [-3040, 3008]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:far_bank_n
     room: room:far_bank
@@ -307,19 +312,19 @@ spawns:
     room: room:library
     at: [2880, 3328]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:lich_e
     room: room:lich_crypt
     at: [2688, 9728]
     slot: 3
-    tier: a
+    tier: c
     group: 51
   - id: spawn:lich_w
     room: room:lich_crypt
     at: [1920, 9600]
     slot: 3
-    tier: a
+    tier: c
     group: 51
   - id: spawn:nave_m
     room: room:nave
@@ -356,19 +361,19 @@ spawns:
     room: room:ossuary
     at: [-3328, 9216]
     slot: 2
-    tier: c
+    tier: b
     group: 51
   - id: spawn:refectory
     room: room:refectory
     at: [-2688, 4800]
     slot: 1
-    tier: b
+    tier: a
     group: 51
   - id: spawn:sanctum
     room: room:sanctum
     at: [512, 11776]
     slot: 1
-    tier: b
+    tier: c
     group: 51
   - id: spawn:vestry
     room: room:vestry
@@ -379,41 +384,36 @@ spawns:
 monsters:
   - id: monster:elder_e
     room: room:sanctum
-    monster: 307
+    monster: 11212
     at: [896, 12864]
     facing: 270
     hostile: true
     group: 2
-    name: Yak Elder
   - id: monster:elder_vestry
     room: room:vestry
-    monster: 307
+    monster: 11212
     at: [3200, 4864]
     facing: 270
     hostile: true
     group: 3
-    name: Yak Elder
     notes: An elder robing in the vestry.
   - id: monster:elder_w
     room: room:sanctum
-    monster: 307
+    monster: 11212
     at: [128, 12864]
     facing: 270
     hostile: true
     group: 2
-    name: Yak Elder
-    notes: "A Yak Elder (28): MM7's Necromancer (A, 25)."
+    notes: "A Yak Elder: the Cultists' tier c row 11212 (level 28; the row is named Yak Elder)."
   - id: monster:yak_master
     room: room:sanctum
-    monster: 308
+    monster: 11213
     at: [512, 12992]
     facing: 270
     hostile: true
     group: 2
-    hp: 680
-    name: Yak Master
     carries: megacredit
-    notes: "The Yak Master (35): MM7's Speaker for the Dead (Necromancer B, level 35) with three times his hit points, a name, and the sixth Megacredit on him."
+    notes: "The Yak Master: the world's boss row 11213 (level 35, boss hit points; the row is named Yak Master, so the scene names nothing). He carries the sixth Megacredit."
 decorations:
   - id: deco:altar_candle_e
     room: room:sanctum
@@ -428,27 +428,27 @@ decorations:
   - id: deco:cask_1
     room: room:refectory
     decoration: 7dec21
-    at: [-2368, 3840]
+    at: [-2368, 3776]
   - id: deco:cask_2
     room: room:refectory
     decoration: 7dec21
-    at: [-2368, 4032]
+    at: [-2528, 3776]
   - id: deco:cask_3
     room: room:refectory
     decoration: 7dec21
-    at: [-2368, 4224]
+    at: [-2528, 5152]
   - id: deco:chapel_e_statue
     room: room:chapel_e
     decoration: sta1a
-    at: [2000, 4224]
+    at: [1760, 3664]
     floor_height: 96
-    facing: 180
+    facing: 90
   - id: deco:chapel_w_statue
     room: room:chapel_w
     decoration: sta1a
-    at: [-2000, 4224]
+    at: [-1760, 3664]
     floor_height: 96
-    facing: 0
+    facing: 90
   - id: deco:crypt_bones_1
     room: room:crypt
     decoration: 7dec18
@@ -460,11 +460,15 @@ decorations:
   - id: deco:crypt_brazier_1
     room: room:crypt
     decoration: brazir2f
-    at: [-2976, 7232]
+    at: [-2272, 7488]
+    height: 556
+    hangs: true
   - id: deco:crypt_brazier_2
     room: room:crypt
     decoration: brazir2f
-    at: [-2976, 8192]
+    at: [-2272, 7936]
+    height: 556
+    hangs: true
   - id: deco:dais_candle_e
     room: room:nave
     decoration: cndlab0
@@ -488,15 +492,19 @@ decorations:
   - id: deco:far_bones
     room: room:far_bank
     decoration: 7dec18
-    at: [0, 9984]
+    at: [-64, 10240]
   - id: deco:far_brazier
     room: room:far_bank
     decoration: brazir2f
-    at: [896, 10368]
+    at: [1216, 10304]
+    height: 648
+    hangs: true
   - id: deco:far_brazier_2
     room: room:far_bank
     decoration: brazir2f
     at: [1152, 9088]
+    height: 644
+    hangs: true
   - id: deco:idol
     room: room:nave
     decoration: 7dec54
@@ -507,7 +515,9 @@ decorations:
   - id: deco:lich_brazier
     room: room:lich_crypt
     decoration: brazir2f
-    at: [2880, 9280]
+    at: [2944, 10240]
+    height: 492
+    hangs: true
   - id: deco:lich_pile
     room: room:lich_crypt
     decoration: sklplrev
@@ -515,11 +525,11 @@ decorations:
   - id: deco:master_barrel
     room: room:master_cell
     decoration: 7dec32
-    at: [2048, 12160]
+    at: [2752, 12784]
   - id: deco:master_candle
     room: room:master_cell
     decoration: cndlab0
-    at: [2176, 12352]
+    at: [2176, 12240]
     floor_height: -696
   - id: deco:master_skulls
     room: room:master_cell
@@ -529,6 +539,8 @@ decorations:
     room: room:near_bank
     decoration: brazir2f
     at: [-2000, 8896]
+    height: 581
+    hangs: true
   - id: deco:ossuary_bones_1
     room: room:ossuary
     decoration: 7dec18
@@ -536,7 +548,7 @@ decorations:
   - id: deco:ossuary_bones_2
     room: room:ossuary
     decoration: dec19
-    at: [-2752, 8832]
+    at: [-3264, 8832]
   - id: deco:ossuary_cage
     room: room:ossuary
     decoration: Bonecage
@@ -560,8 +572,8 @@ decorations:
   - id: deco:rim_bones_1
     room: room:near_bank
     decoration: 7dec18
-    at: [-1472, 9344]
-    notes: Bones at the pool's rim (the tell).
+    at: [-1456, 10336]
+    notes: "Bones at the pool's rim (the tell), beyond the kerb's north end (off the pool steps' landing)."
   - id: deco:rim_bones_2
     room: room:near_bank
     decoration: dec19
@@ -573,17 +585,21 @@ decorations:
   - id: deco:sanctum_brazier_e
     room: room:sanctum
     decoration: brazir2f
-    at: [864, 13440]
+    at: [864, 13584]
     floor_height: -736
+    height: 780
+    hangs: true
   - id: deco:sanctum_brazier_w
     room: room:sanctum
     decoration: brazir2f
-    at: [160, 13440]
+    at: [160, 13584]
     floor_height: -736
+    height: 780
+    hangs: true
   - id: deco:sanctum_skulls_e
     room: room:sanctum
     decoration: sklplrev
-    at: [1408, 12480]
+    at: [1344, 11776]
   - id: deco:sanctum_skulls_w
     room: room:sanctum
     decoration: sklplrev
@@ -591,7 +607,7 @@ decorations:
   - id: deco:stair_skulls
     room: room:master_stair
     decoration: sklplrev
-    at: [2600, 8960]
+    at: [2560, 8896]
   - id: deco:torch_1
     room: room:porch
     decoration: torch01
@@ -632,7 +648,7 @@ decorations:
     room: room:chapel_w
     decoration: torch01
     wall: south
-    along: 0.5
+    along: 0.12
     height: 176
   - id: deco:torch_16
     room: room:chapel_w
@@ -650,7 +666,7 @@ decorations:
     room: room:chapel_e
     decoration: torch01
     wall: south
-    along: 0.5
+    along: 0.12
     height: 176
   - id: deco:torch_19
     room: room:chapel_e
@@ -668,7 +684,7 @@ decorations:
     room: room:dormitory
     decoration: torch01
     wall: south
-    along: 0.75
+    along: 0.4
     height: 176
   - id: deco:torch_21
     room: room:dormitory
@@ -734,7 +750,7 @@ decorations:
     room: room:vestry
     decoration: torch01
     wall: south
-    along: 0.5
+    along: 0.2
     height: 176
   - id: deco:torch_31
     room: room:vestry
@@ -873,31 +889,31 @@ decorations:
     decoration: torch07
     wall: west
     along: 0.1
-    height: 176
+    height: -515
   - id: deco:torch_52
     room: room:master_stair
     decoration: torch07
     wall: east
     along: 0.3
-    height: 176
+    height: -54
   - id: deco:torch_53
     room: room:master_stair
     decoration: torch07
     wall: west
     along: 0.5
-    height: 176
+    height: -208
   - id: deco:torch_54
     room: room:master_stair
     decoration: torch07
     wall: east
     along: 0.7
-    height: 176
+    height: -362
   - id: deco:torch_55
     room: room:master_stair
     decoration: torch07
     wall: west
     along: 0.9
-    height: 176
+    height: 99
   - id: deco:torch_56
     room: room:reliquary
     decoration: torch07
@@ -949,9 +965,6 @@ exits:
     room: room:porch
     wall: south
     size: [224, 448]
-    surface: {texture: t5d1, size: [128, 256], fit: true}
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
     to: door:x2_woods
     notes: The temple's front door to the fairy woods' dark south end (X2).
-relations:
-  - {of: [214, 215, 216], toward: party, relation: hostile}
-  - {of: [289, 290, 291], toward: party, relation: hostile}

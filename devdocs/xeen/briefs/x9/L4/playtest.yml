@@ -1,0 +1,1263 @@
+# Playtest of the Clouds of Xeen (X9, L4; written by output/studio_cal/x9/tools/gen_playtests.py). From
+# XD-12's stair head over every cloud, bridge and the unseen way: signs, statues (A3's Linguist gate),
+# nests, offerings, Slick's booths and prize stand, the gate (m34.gate), the four chests.
+# Run with --world xeen --map xeen_x9.blv.
+id: xeen.x9.l4
+title: 'Clouds of Xeen (X9 L4): every cloud, bridge and the unseen way walked; signs, statues, nests, offerings, booths, the
+  prize stand, the gate and the chests used'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 20000
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); close()
+- assert:
+    map: xeen_x9.blv
+- assert:
+    party_position:
+      x: 0
+      y: -17920
+      radius: 160
+      z_min: 290
+      z_max: 360
+- note: 'The stair clouds: the ''Danger'' sign, the west statues, the south-west nest.'
+- walk_to:
+    x: 0
+    y: -16896
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: 640
+    y: -15552
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(13); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Danger! Go back!'', 1, true) then error(''evt:danger_sign
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -1766
+    y: -16959
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: -3751
+    y: -17029
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 352
+    z_tolerance: 200
+- walk_to:
+    x: -5736
+    y: -17100
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -7168
+    y: -17152
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -6144
+    y: -16744
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(36); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''strange runes'', 1, true) then error(''evt:statue_1
+      showed neither a window nor its line: '' .. s) end'
+- setup_shortcut:
+    kind: set_qbit
+    id: 116240
+- walk_to:
+    x: -8064
+    y: -17688
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(37); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''faithful vassal'', 1, true) then error(''evt:statue_2
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -8317
+    y: -16864
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -10002
+    y: -16443
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -11688
+    y: -16021
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -13312
+    y: -15616
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -13696
+    y: -15752
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: click(26); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(116220) then error(''nest sw: its bit is not set'') end'
+- walk_to:
+    x: -12416
+    y: -16672
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(11); wait(1); if held() ~= 0 then stow() end; close()
+- note: 'The west chain: four lone clouds and their offering statues, the cache.'
+- walk_to:
+    x: -13768
+    y: -14398
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -14549
+    y: -12315
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -15330
+    y: -10233
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -15616
+    y: -9872
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -15616
+    y: -9792
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(29); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''kept for Crusaders'', 1, true) then
+      error(''evt:offering_1 showed neither a window nor its line: '' .. s) end'
+- setup_shortcut:
+    kind: set_qbit
+    id: 110047
+- walk_to:
+    x: -15616
+    y: -9792
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: click(29); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: -15758
+    y: -8729
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: -16169
+    y: -6593
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 416
+    z_tolerance: 200
+- walk_to:
+    x: -16580
+    y: -4456
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -16896
+    y: -3136
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: click(30); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: -16896
+    y: -1029
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -16896
+    y: 1202
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 480
+    z_tolerance: 200
+- walk_to:
+    x: -16896
+    y: 3433
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -17280
+    y: 4288
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: click(31); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: -16698
+    y: 5378
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -16281
+    y: 7548
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 544
+    z_tolerance: 200
+- walk_to:
+    x: -15863
+    y: 9718
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- walk_to:
+    x: -15616
+    y: 11008
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- walk_to:
+    x: -16384
+    y: 11456
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- play_lua:
+    source: click(32); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: -14592
+    y: 10080
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(9); wait(1); if held() ~= 0 then stow() end; close()
+- note: 'The back lot and Slick''s carnival: the four booths.'
+- walk_to:
+    x: -14196
+    y: 10179
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- walk_to:
+    x: -12382
+    y: 9121
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 544
+    z_tolerance: 200
+- walk_to:
+    x: -10569
+    y: 8063
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -8960
+    y: 6912
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -8449
+    y: 6704
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -6531
+    y: 5354
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 480
+    z_tolerance: 200
+- walk_to:
+    x: -4613
+    y: 4005
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -2560
+    y: 2560
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -1024
+    y: 1280
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(5); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_might
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -1536
+    y: 3968
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(6); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_speed
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -4352
+    y: 3840
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(4); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_endurance
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -3712
+    y: 1536
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(3); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_accuracy
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: -3520
+    y: 960
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: click(59); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Sure-Eye Tonic, two bottles
+- play_lua:
+    source: close(); for _ = 1, 3 do if held() ~= 0 then stow() end end
+- play_lua:
+    source: status(); click(59); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''The free round was the first one.'',
+      1, true) then error(''evt:tonic_crate showed neither a window nor its line: '' .. s) end'
+- note: 'The Xeen road to the gate: the prize stand, the gate refused without a doll, sealed with one.'
+- walk_to:
+    x: 0
+    y: 3511
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 5964
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 576
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 8416
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 9472
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- walk_to:
+    x: -704
+    y: 9472
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(35); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, "Get lost and don''t come back", 1, true)
+      then error(''evt:prize_stand showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 0
+    y: 11456
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(16); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''without a cupie doll'', 1, true) then
+      error(''evt:gate_l showed neither a window nor its line: '' .. s) end'
+- grant_item:
+    item_id: 12371
+    member_index: 0
+- play_lua:
+    source: click(17); wait(1)
+- assert:
+    dialog:
+      active: true
+      text_contains: Castle Xeen, sitting on its cloud
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd19.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 0
+      y: -4064
+      radius: 256
+- execute_event:
+    id: 36
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x9.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: 0
+      y: 11264
+      radius: 256
+- note: 'Round the castle''s apron, up the aviary stair: the sign, three nests, the hoard.'
+- walk_to:
+    x: 0
+    y: 10624
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: 5792
+    y: 10624
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: 5792
+    y: 14288
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: 5974
+    y: 15048
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: 8388
+    y: 14528
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 896
+    z_tolerance: 200
+- walk_to:
+    x: 10801
+    y: 14008
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- walk_to:
+    x: 11136
+    y: 11968
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(2); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, "Xeen''s Aviary", 1, true) then error(''evt:aviary_sign
+      showed neither a window nor its line: '' .. s) end'
+- clear_hostiles:
+    radius: 5000
+- walk_to:
+    x: 12544
+    y: 13688
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- play_lua:
+    source: click(18); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(116222) then error(''nest a1: its bit is not set'') end'
+- walk_to:
+    x: 15232
+    y: 13432
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- play_lua:
+    source: click(20); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(116223) then error(''nest a2: its bit is not set'') end'
+- walk_to:
+    x: 14208
+    y: 11512
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- play_lua:
+    source: click(22); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(116224) then error(''nest a3: its bit is not set'') end'
+- walk_to:
+    x: 14464
+    y: 14512
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(10); wait(1); if held() ~= 0 then stow() end; close()
+- note: 'Down the east chain: the east horn, the offering ledge, the lone pillar, the south-east nest.'
+- walk_to:
+    x: 13783
+    y: 11506
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 200
+- walk_to:
+    x: 14193
+    y: 9194
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 864
+    z_tolerance: 200
+- walk_to:
+    x: 14603
+    y: 6883
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- walk_to:
+    x: 14848
+    y: 5504
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- walk_to:
+    x: 15616
+    y: 5696
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- play_lua:
+    source: click(34); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: 13952
+    y: 4704
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(12); wait(1); if held() ~= 0 then stow() end; close()
+- walk_to:
+    x: 14920
+    y: 4129
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 704
+    z_tolerance: 200
+- walk_to:
+    x: 15039
+    y: 1858
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 608
+    z_tolerance: 200
+- walk_to:
+    x: 15159
+    y: -413
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 15488
+    y: -2112
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: click(33); wait(0.5); if held() ~= 0 then stow() end
+- assert:
+    dialog:
+      active: true
+      text_contains: gift for a Crusader
+- play_lua:
+    source: close()
+- walk_to:
+    x: 15129
+    y: -3175
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 14960
+    y: -5452
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 14792
+    y: -7728
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 14720
+    y: -8704
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 14494
+    y: -9811
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 14027
+    y: -12104
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 13560
+    y: -14398
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 13312
+    y: -15616
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 13696
+    y: -15752
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- play_lua:
+    source: click(24); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: 'Yes'
+- select_topic:
+    match_label: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(116221) then error(''nest se: its bit is not set'') end'
+- walk_to:
+    x: 11813
+    y: -15990
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: 10116
+    y: -16414
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 8419
+    y: -16839
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 7168
+    y: -17152
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 6144
+    y: -16744
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(38); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''island tower'', 1, true) then error(''evt:statue_3
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 8064
+    y: -17688
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(39); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, "Xeen''s life can take", 1, true) then
+      error(''evt:statue_4 showed neither a window nor its line: '' .. s) end'
+- note: 'The brink and the unseen way: ''Xeen--9N.'', nine cells north over the gap to Xeendom.'
+- walk_to:
+    x: 5813
+    y: -17103
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 3789
+    y: -17031
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 352
+    z_tolerance: 200
+- walk_to:
+    x: 1764
+    y: -16959
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -15565
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 320
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -14025
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 384
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -12485
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -11296
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(28); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Xeen--9N.'', 1, true) then error(''evt:nine_north
+      showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 0
+    y: -11055
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -8352
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 352
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -5649
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -5345
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(40); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Now entering Xeendom'', 1, true) then
+      error(''evt:xeendom_sign showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 0
+    y: -3156
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: -880
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 352
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 1394
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: -2560
+    y: 2560
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- play_lua:
+    source: for _, k in ipairs({116220, 116221, 116222, 116223, 116224}) do if not qbit(k) then error('nest bit ' .. k ..
+      ' not set') end end
+- assert:
+    map: xeen_x9.blv

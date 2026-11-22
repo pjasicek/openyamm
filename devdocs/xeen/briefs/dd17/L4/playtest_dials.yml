@@ -1,0 +1,140 @@
+# Dial reset and sync (D-61): the water Head off, the water dial to nine (its slab rises), a save and a load (still
+# up), one more turn (the line, the slab drops), a save and a load (still down). No load greets the party again (the
+# arrival line once per real entry, A3's segment 77).
+# Run with --world xeen --map xeen_dd17.blv (output/studio_cal/dd17/four.sh). Written by tools/tests.py.
+id: xeen.dd17.l4.playtest_dials
+title: 'Castle Alamar (DD-17 L4): playtest_dials'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 53
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 53
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12364
+- lua_event:
+    source: evt.MoveToMap(0, -4736, 0, 512, 0, 0, 0, 0, "xeen_dd17.blv")
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+    follow_map_move: true
+- play_lua:
+    source: close()
+- set_pose:
+    map: xeen_dd17.blv
+    x: -4416
+    y: 672
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: click(54); wait(0.6)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: close()
+- set_pose:
+    map: xeen_dd17.blv
+    x: -3328
+    y: -2832
+    z: 640
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: status()
+- play_lua:
+    source: close(); click(24); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); click(24); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'The dial clicks home at nine.', 1, true)) then error('no line at nine' .. ' / '
+      .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(5) == 'open') then error('the water slab did not rise' .. ' / ' .. status() .. ' / doors '
+      .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: close()
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: 'if close() then error(''the castle greets again after a load: '' .. status()) end'
+- play_lua:
+    source: if not (door_state(5) == 'open') then error('the water slab dropped after a reload' .. ' / ' .. status() .. '
+      / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: if not (not qbit(111663)) then error('sundial_nine set with one dial at nine' .. ' / ' .. status() .. ' / doors
+      ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: close(); click(24); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: if not (string.find(status(), 'Somewhere below, stone drops away.', 1, true)) then error('no line leaving nine'
+      .. ' / ' .. status() .. ' / doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 4
+- play_lua:
+    source: if not (door_state(5) == 'closed') then error('the water slab did not drop' .. ' / ' .. status() .. ' / doors
+      ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end
+- play_lua:
+    source: close()
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: 'if close() then error(''the castle greets again after a load: '' .. status()) end'
+- play_lua:
+    source: if not (door_state(5) == 'closed') then error('the water slab rose after a reload' .. ' / ' .. status() .. ' /
+      doors ' .. door_state(1) .. ' ' .. door_state(21) .. ' / ' .. party()) end

@@ -1,0 +1,38 @@
+# D-58's planes (tools/xeen/quest_stub.py): a corner's right answer moves the party onto its plane standing (the status
+# line after the move), the wrong answer; the test refused until its three guardians are dead (Xeen.planeTestCheck),
+# then passed once; the hazards strike one time in three (the stub's RandomBetween); a device once a day; a find once;
+# D7's falls by zone. Owner: A3.
+name: Act VI, the planes
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - hook: m38.corner_fire
+  - expect: {last: "You step off."}
+  - hook: m38.corner_wrong
+  - hook: m38.test_fire
+  - lua: 'assert(Xeen.planeTestCheck("fire", 30) == false)'
+  - expect: {not_qbit: m38.fire_test}
+  - lua: 'Stub.killed[30] = true'
+  - lua: 'assert(Xeen.planeTestCheck("fire", 30) == true)'
+  - expect: {qbit: m38.fire_test, last: "grinds open"}
+  - lua: 'assert(Xeen.planeTestCheck("fire", 30) == true)'
+  - hook: planes.vent
+  - expect: {last: "A vent flares!"}
+  - lua: 'Stub.random = 2'
+  - hook: [planes.vent, false]
+  - hook: planes.font
+  - hook: planes.font
+  - expect: {stat: [FireResistanceBonus, 20], last: "Nothing more happens."}
+  - hook: planes.spire
+  - hook: planes.spire
+  - expect: {count: ["engine:185", 1], last: "Nothing else happens."}
+  - lua: 'Stub.random = 1'
+  - hook: planes.rockfall
+  - expect: {last: "Rocks fall from above!"}
+  - hook: planes.singing_stones
+  - expect: {stat: [SpeedBonus, 10]}
+  - lua: 'Stub.position = {20000, -5000, 0} Xeen.skyFallD7()'
+  - expect: {last: "xeen_d3.odm"}
+  - lua: 'Stub.position = {-20000, 5000, 0} Xeen.skyFallD7()'
+  - expect: {last: "xeen_d6.odm"}
+  - lua: 'Xeen.skyFallTo("p2")'
+  - expect: {last: "xeen_p2.blv"}

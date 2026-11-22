@@ -1,0 +1,433 @@
+format: 0
+variables: [find_n, find_s]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Sand on the steps, cool air from below, and a smell of resin and old linen."
+    seconds: 7
+  - id: evt:book_1
+    preset: text
+    source: deco:book_1
+    title: Book
+    text: "The book seems to be an account of one of Picard's favorite adventurers. You open it to a random page: ...Encoplius loosened his short sword in its scabbard. It looked like yet another fight with the hated mad fools. Bargus, the party's sorcerer, began to tremble with fright..."
+    window: true
+    notes: aazex126:15-16.
+  - id: evt:book_2
+    preset: text
+    source: deco:book_2
+    title: Book
+    text: "The book seems to be an account of one of Picard's favorite adventurers. You open it to a random page: ...Bruno cut through yet another insane beggar with his massive broadsword. \"As I was saying, this town is great! Just look at this place! An excellent trainer, a bank, a... excuse me...\""
+    window: true
+    notes: aazex126:17-18.
+  - id: evt:book_3
+    preset: text
+    source: deco:book_3
+    title: Book
+    text: "The book seems to be an account of one of Picard's favorite adventurers. You open it to a random page: And then princess Shiela... EDITOR'S NOTE: THE FOLLOWING TEXT HAS BEEN EXCISED FOR THE MORAL HEALTH OF OUR LOYAL PLAYERS."
+    window: true
+    notes: aazex126:19-20.
+  - id: evt:book_4
+    preset: text
+    source: deco:book_4
+    title: Book
+    text: This book has been hollowed out and used to store old cigars.
+    window: true
+    notes: aazex126:21.
+  - id: evt:chest_embalmer
+    preset: chest
+    source: chest:embalmer
+    title: Chest
+    notes: "The source's Super Dragon Embalmer (aazex127:12-13, +5 levels) to the ledger only; a T6 chest."
+  - id: evt:chest_sarc_n
+    preset: chest
+    source: chest:sarc_n
+    title: Sarcophagus
+    condition: {stat: {name: ActualMight, at_least: 60}}
+    else_effects:
+      - message: You are too weak to open the sarcophagus.
+    notes: "aazex125:4-5, D-57 Q10: Might 60 on the clicking member, potions and spells counting (ActualMight)."
+  - id: evt:chest_sarc_s
+    preset: chest
+    source: chest:sarc_s
+    title: Sarcophagus
+    condition: {stat: {name: ActualMight, at_least: 60}}
+    else_effects:
+      - message: You are too weak to open the sarcophagus.
+  - id: evt:chop_still
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: 118117}
+    closes: [mover:chop_1, mover:chop_2, mover:chop_3]
+    notes: "Paid (118117): the blades back in the ceiling for good."
+  - id: evt:chop_tick
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: 118117}}
+    toggles: [mover:chop_1, mover:chop_2, mover:chop_3]
+    notes: The Chopping Death's blades drop and rise until protection is paid.
+  - id: evt:door_body
+    preset: door
+    source: door:body
+    title: Doors
+  - id: evt:door_chop
+    preset: door
+    source: door:chop
+    title: Door
+  - id: evt:door_gal_n
+    preset: door
+    source: door:gal_n
+    title: Door
+  - id: evt:door_gal_s
+    preset: door
+    source: door:gal_s
+    title: Door
+  - id: evt:door_swing
+    preset: door
+    source: door:swing
+    title: Door
+  - id: evt:exit_l
+    preset: exit
+    source: exit:leaf_l
+    title: Exit the Southern Sphinx
+    notes: "Out to X6 (installed, A5) before the breast's leaves: the game's own leave window (D-24); 'Exit the Southern Sphinx?' (aazex125:3) is its meaning."
+  - id: evt:exit_r
+    preset: exit
+    source: exit:leaf_r
+    title: Exit the Southern Sphinx
+  - id: evt:find_n
+    preset: script
+    source: platform:find_n
+    title: Niche
+    condition: {not: {map_var: find_n}}
+    effects:
+      - set:
+          var:
+            map_var: find_n
+          value: 1
+      - give_item:
+          level: 6
+      - text: Grave goods left in the empty niche. You take them.
+    else_effects:
+      - text: Nothing here.
+    notes: aazex126:13 'Nothing here.' once taken.
+  - id: evt:find_s
+    preset: script
+    source: platform:find_s
+    title: Niche
+    condition: {not: {map_var: find_s}}
+    effects:
+      - set:
+          var:
+            map_var: find_s
+          value: 1
+      - give_item:
+          level: 6
+      - text: Grave goods left in the empty niche. You take them.
+    else_effects:
+      - text: Nothing here.
+  - id: evt:heap
+    preset: script
+    source: platform:heap
+    title: Alcove
+    condition: {not: {qbit: 118118}}
+    locked_text: Nothing here.
+    effects:
+      - lua: "XeenQuests.hook(\"m40.illusion\")"
+      - hide: platform:heap
+      - passable: platform:heap
+    notes: "aazex127:11, 14: the heap of gold is an illusion, gone at the click (118118), no harm."
+  - id: evt:heap_load
+    preset: script
+    trigger: load
+    condition: {qbit: 118118}
+    effects:
+      - hide: platform:heap
+      - passable: platform:heap
+    notes: The heap stays gone on every load.
+  - id: evt:home_enter
+    preset: script
+    source: room:home
+    trigger: step
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m40.stair\")"
+    notes: "The first step into the Home: A3's m40.stair (\"The door at the top of the stair opens on a room full of books, and an old man in a very good chair.\")."
+  - id: evt:mask_chop
+    preset: script
+    source: panel:mask_chop
+    title: Toll-keeper
+    lua: |-
+      if continueStep == 1 then
+          if XeenQuests.hook("m40.mask_chopping") then evt.PlaySoundName("gold01") end
+          return
+      end
+      if continueStep == 3 then XeenQuests.hook("m40.mask_clue") return end
+      if continueStep == 2 or continueStep == 4 then XeenQuests.hook("m40.mask_no") return end
+      if continueStep ~= nil then return end
+      if IsQBitSet(QBit(118117)) then
+          AskChoiceWithAnswerSteps(eventId, 6, "\"For another 500 I'll give you a clue. Will you pay?\"", {{Answer = "Yes", Step = 3}, {Answer = "No", Step = 4}})
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 5, "\"For 2,000 gold I can protect you from the Chopping Death. Will you pay?\"", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "aazex125:10-14: the same for the Chopping Death (118117)."
+  - id: evt:mask_swing
+    preset: script
+    source: panel:mask_swing
+    title: Toll-keeper
+    lua: |-
+      if continueStep == 1 then
+          if XeenQuests.hook("m40.mask_swinging") then evt.PlaySoundName("gold01") end
+          return
+      end
+      if continueStep == 3 then XeenQuests.hook("m40.mask_clue") return end
+      if continueStep == 2 or continueStep == 4 then XeenQuests.hook("m40.mask_no") return end
+      if continueStep ~= nil then return end
+      if IsQBitSet(QBit(118116)) then
+          AskChoiceWithAnswerSteps(eventId, 6, "\"For another 500 I'll give you a clue. Will you pay?\"", {{Answer = "Yes", Step = 3}, {Answer = "No", Step = 4}})
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 5, "\"For 2,000 gold I can protect you from the Swinging Death. Will you pay?\"", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "aazex125:9, 11-14 (sums rescaled, D-57 Q9): the map asks; Yes calls A3's m40.mask_swinging (2,000 gold, swinging_paid 118116: evt:swing_still puts the blades in their slots for good), the hook's line; every later click offers the clue (m40.mask_clue, 500); No m40.mask_no (\"Begone, then!\"), no throw. "
+  - id: evt:name_door
+    preset: script
+    source: door:name
+    question: {ask: "What is my name?", answers: [picard], wrong_effects: [{lua: "XeenQuests.hook(\"m40.name_wrong\")"}]}
+    side: room:name_stair
+    title: Door of the name
+    condition: {not: {qbit: 111800}}
+    opens: [door:name]
+    effects:
+      - lua: "XeenQuests.hook(\"m40.name_right\")"
+    else_effects:
+      - text: The door of the name stands open.
+    notes: The door's click from the landing asks as the landing does (the same hooks).
+  - id: evt:name_door_back
+    preset: door
+    source: door:name
+    side: room:home
+    title: Door
+    action: open
+    notes: From inside the Home the door opens.
+  - id: evt:name_landing
+    preset: script
+    source: level:landing
+    question: {ask: "What is my name?", answers: [picard], wrong_effects: [{lua: "XeenQuests.hook(\"m40.name_wrong\")"}]}
+    trigger: step
+    condition: {not: {qbit: 111800}}
+    opens: [door:name]
+    effects:
+      - lua: "XeenQuests.hook(\"m40.name_right\")"
+    else_effects:
+      - text: Home of the Aged
+    notes: "Once named, the landing shows the door's sign 'Home of the Aged' (aazex125:2). The top landing, on every climb until named: \"What is my name?\" (aazex125:16). PICARD (any case): A3's m40.name_right (\"Correct, come on up!\", name_said 111800) and the door of the name opens in the same visit; anything else m40.name_wrong (\"Wrong.\")."
+  - id: evt:name_load
+    preset: switch
+    trigger: load
+    condition: {qbit: 111800}
+    opens: [door:name]
+    notes: With name_said the door of the name stands open on every load (m40.stair true).
+  - id: evt:picard_load
+    preset: script
+    trigger: load
+    lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:picard\"), false)"
+    notes: "Picard cannot be killed: every hit on him is zeroed, on every load (D-51, D-52)."
+  - id: evt:plaque_dragons
+    preset: script
+    source: panel:plaque_dragons
+    title: Inscription
+    effects:
+      - lua: "XeenQuests.hook(\"m40.crypt_sign\")"
+    notes: aazex127:9 by the crypt's arch (A3's m40.crypt_sign).
+  - id: evt:plaque_name
+    preset: script
+    source: panel:plaque_name
+    title: Inscription
+    effects:
+      - lua: "XeenQuests.hook(\"m40.stair_plaque\")"
+    notes: aazex127:8 (A3's m40.stair_plaque).
+  - id: evt:plate_chop_1
+    preset: script
+    source: plate:chop_1
+    trigger: step
+    condition: {not: {qbit: 118117}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with axe01\", -3904, -256, 44)"
+      - damage:
+          amount: 11
+          kind: physical
+          who: all
+    notes: "A chopping blade: 11 Physical to each (about 8 %), once per crossing."
+  - id: evt:plate_chop_2
+    preset: script
+    source: plate:chop_2
+    trigger: step
+    condition: {not: {qbit: 118117}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with axe01\", -4160, -256, 44)"
+      - damage:
+          amount: 11
+          kind: physical
+          who: all
+    notes: "A chopping blade: 11 Physical to each (about 8 %), once per crossing."
+  - id: evt:plate_chop_3
+    preset: script
+    source: plate:chop_3
+    trigger: step
+    condition: {not: {qbit: 118117}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with axe01\", -4416, -256, 44)"
+      - damage:
+          amount: 11
+          kind: physical
+          who: all
+    notes: "A chopping blade: 11 Physical to each (about 8 %), once per crossing."
+  - id: evt:plate_swing_1
+    preset: script
+    source: plate:swing_1
+    trigger: step
+    condition: {not: {qbit: 118116}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with sword01\", -3840, 256, 44)"
+      - damage:
+          amount: 8
+          kind: physical
+          who: all
+    notes: "A swinging blade catches the party: 8 Physical to each (D-57: about 6 % of a level-59 member), once per crossing."
+  - id: evt:plate_swing_2
+    preset: script
+    source: plate:swing_2
+    trigger: step
+    condition: {not: {qbit: 118116}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with sword01\", -4032, 256, 44)"
+      - damage:
+          amount: 8
+          kind: physical
+          who: all
+    notes: "A swinging blade catches the party: 8 Physical to each (D-57: about 6 % of a level-59 member), once per crossing."
+  - id: evt:plate_swing_3
+    preset: script
+    source: plate:swing_3
+    trigger: step
+    condition: {not: {qbit: 118116}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with sword01\", -4224, 256, 44)"
+      - damage:
+          amount: 8
+          kind: physical
+          who: all
+    notes: "A swinging blade catches the party: 8 Physical to each (D-57: about 6 % of a level-59 member), once per crossing."
+  - id: evt:plate_swing_4
+    preset: script
+    source: plate:swing_4
+    trigger: step
+    condition: {not: {qbit: 118116}}
+    effects:
+      - lua: "evt.PlaySoundName(\"swing with sword01\", -4416, 256, 44)"
+      - damage:
+          amount: 8
+          kind: physical
+          who: all
+    notes: "A swinging blade catches the party: 8 Physical to each (D-57: about 6 % of a level-59 member), once per crossing."
+  - id: evt:rune_a
+    preset: script
+    source: platform:rune_a
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_a")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:5: the lesson of the letter A, map qbit 118113; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:rune_c
+    preset: script
+    source: platform:rune_c
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_c")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:4: the lesson of the letter C, map qbit 118112; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:rune_d
+    preset: script
+    source: platform:rune_d
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_d")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:7: the lesson of the letter D, map qbit 118115; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:rune_i
+    preset: script
+    source: platform:rune_i
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_i")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:3: the lesson of the letter I, map qbit 118111; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:rune_p
+    preset: script
+    source: platform:rune_p
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_p")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:2: the lesson of the letter P, map qbit 118110; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:rune_r
+    preset: script
+    source: platform:rune_r
+    title: Runes
+    lua: |-
+      XeenQuests.hook("m40.rune_r")
+      if XeenQuests.can("m40.runes") then XeenQuests.hook("m40.runes") end
+    notes: "aazex127:6: the lesson of the letter R, map qbit 118114; once all six are read, any stone calls A3's m40.runes (the six letters in the order of the halls)."
+  - id: evt:sign_pres_n
+    preset: text
+    source: room:pres_n
+    trigger: step
+    text: Preservation Room
+    seconds: 3
+    notes: aazex125:0.
+  - id: evt:sign_pres_s
+    preset: text
+    source: room:pres_s
+    trigger: step
+    text: Preservation Room
+    seconds: 3
+    notes: aazex125:1.
+  - id: evt:swing_still
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: 118116}
+    opens: [mover:swing_1, mover:swing_2, mover:swing_3, mover:swing_4]
+    notes: "Paid (118116): the blades go back into their slots and stay there, in the same visit and on every load."
+  - id: evt:swing_tick
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: 118116}}
+    toggles: [mover:swing_1, mover:swing_2, mover:swing_3, mover:swing_4]
+    notes: "The Swinging Death's blades sweep out and back, alternate ones together, until protection is paid."
+  - id: evt:table_boosts
+    preset: script
+    source: platform:table_s
+    title: Embalmer's table
+    lua: |-
+      if XeenQuests.hook("m40.embalming_table") then
+          evt.SetHeldItem(240, {bonus = 10}) evt.SetHeldItem(240, {bonus = 10})
+      end
+    notes: "D-57 Q10, D-22's pattern (XD-15): two Might Boosts of a fixed power 10, once per game (A3's m40.embalming_table sets embalming_boosts 118119 and says the line)."
+  - id: evt:table_n
+    preset: text
+    source: platform:table_n
+    title: Embalming table
+    text: "Jars of resin and natron, hooks and linen. Nothing you want."
+  - id: evt:throne
+    preset: script
+    source: deco:throne
+    title: Throne of Legends
+    effects:
+      - lua: "XeenQuests.hook(\"m40.chair\")"
+    notes: "aazex126:11 as the hover, A3's m40.chair (D-57 Q12): no reward."

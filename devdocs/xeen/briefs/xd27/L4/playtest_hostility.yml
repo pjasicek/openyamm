@@ -1,8 +1,12 @@
-# Hostility check of the Ogre Lair (XD-27) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
-# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+# Hostility check of the Ogre Lair (XD-27) (first written by output/studio_cal/hostility/gen_hostility_tests.py;
+# devdocs/xeen/ACT2_BUILD.md, "Hostility pass"; moved by hand to the Xeen rows, lane A8, 2026-11-20): its foes hostile
+# to the party, its kinds not fighting each other. The kinds: Ogre 11060 (slot 1 and the three Boulder Throwers), Ogre
+# Brute 11061 (slot 3), Dark Wolf 11410 (slot 2), the Ogre Chieftain 11063 (boss row); the world's relations.yml has
+# the ogres long and the wolves medium toward the party and no feud, which the map's own relations repeat. Run with
+# --world xeen --map xeen_xd27.blv (the world's start map X1 is not installed yet).
 id: xeen.xd27.l4.hostility
 title: 'the Ogre Lair (XD-27): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -39,62 +43,57 @@ steps:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 592
+      monster_id: 11060
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 593
+      monster_id: 11061
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 594
+      monster_id: 11062
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 85
+      monster_id: 11063
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 86
+      monster_id: 11410
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 87
+      monster_id: 11411
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 106
+      monster_id: 11412
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 107
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 108
-      hostile: false
-      max: 0
-- assert:
-    actor_count:
-      monster_id: 86
+      monster_id: 11060
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 106
+      monster_id: 11061
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 592
+      monster_id: 11063
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11410
       hostile: true
       min: 1
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
@@ -102,17 +101,17 @@ steps:
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 592
+    monster_id: 11060
     x: -300
     y: 1000
     z: 0
 - spawn_actor:
-    monster_id: 86
+    monster_id: 11410
     x: -204
     y: 1000
     z: 0
 - spawn_actor:
-    monster_id: 106
+    monster_id: 11061
     x: -108
     y: 1000
     z: 0
@@ -132,16 +131,16 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 592
+      monster_id: 11060
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 86
+      monster_id: 11410
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 106
+      monster_id: 11061
       hurt: true
       max: 0

@@ -25,6 +25,14 @@
       Write the liquid edge masks of every map of the world with a slot file (worlds/<world>/terrain_materials/
       liquid_edges/<tile>.png) and remove the ones no map uses: per edge tile over a liquid (water, tar, lava),
       where the liquid shows (255) at the liquid renderer's coverage size, from the native tile's alpha.
+  tools/terrain_materials.py plants --world xeen --map xeen_x1.odm
+      Write the map's ground plants (worlds/<world>/terrain_decorations/<map>.yml and the transition tiles' masks)
+      from the world's hand-written terrain_decorations/plants.yml: what grows on each material, per map. `weights`
+      does it too, so a map rebuilt and re-weighted keeps its plants. A world without plants.yml is left alone.
+  tools/terrain_materials.py check --world xeen [--map xeen_x7.odm ...] [--max-run 4]
+      Check every map's weights (open-air BLVs' too): each texel's layers sum to one (a NaN split stored zeros, a
+      texel without weight drew a hard straight seam, F11 2026-11-21) and no straight run of hard material switches
+      (both texels at 0.9 or more of different layers) is longer than --max-run texels. Non-zero exit on a failure.
 
 The native tiles are source art (assets_source/worlds/<world>/terrain_x2). The runtime reads only
 engine/terrain_materials/library.yml, the cooked arrays and each map's slot file, weights and liquid edge masks.
@@ -130,7 +138,9 @@ def prepare(ids):
             arm = image(maps["arm"], "RGB")
             ambient, roughness = arm[..., 0], arm[..., 1]
         else:
-            ambient, roughness = gray(maps["ao"]) * 255.0, gray(maps["roughness"]) * 255.0
+            roughness = gray(maps["roughness"]) * 255.0
+            # A scan without an occlusion map (ambientCG's ice) is unoccluded.
+            ambient = gray(maps["ao"]) * 255.0 if "ao" in maps else np.full_like(roughness, 255.0)
         if "pools" in entry:
             # Standing water in the material's broad hollows (swamps): flat, dark, smooth and lowest.
             pools = entry["pools"]
@@ -310,8 +320,17 @@ def tile_art_directory(world):
     return ROOT / "assets_source/worlds" / art_world / "terrain_x2"
 
 
+def tile_art_path(world, name):
+    """A tile's native art: the art world's, else a shipped world's (the MM7 table's lava rows are MM8's tiles)."""
+    for directory in [tile_art_directory(world)] + [ROOT / "assets_source/worlds" / other / "terrain_x2"
+                                                    for other in ("mm8", "mm7", "mm6")]:
+        if (directory / f"{name}.png").exists():
+            return directory / f"{name}.png"
+    return tile_art_directory(world) / f"{name}.png"
+
+
 def tile_pixels(world, name):
-    path = tile_art_directory(world) / f"{name}.png"
+    path = tile_art_path(world, name)
     with Image.open(path) as source:
         pixels = np.asarray(source.convert("RGBA"), dtype=np.float64) / 255.0
     return pixels
@@ -421,7 +440,7 @@ def liquid_edge_tiles(world, map_name, liquids):
 def write_liquid_edge(world, name):
     """The liquid's coverage of an edge tile: 255 minus the alpha (the engine's magenta and teal keys transparent),
     box-averaged to EDGE_MASK_SIZE as game/render/WaterCoverage.h waterCoverageFromOverlay."""
-    rgba = np.asarray(Image.open(tile_art_directory(world) / f"{name}.png").convert("RGBA"))
+    rgba = np.asarray(Image.open(tile_art_path(world, name)).convert("RGBA"))
     size = rgba.shape[0]
     if rgba.shape[1] != size or size % EDGE_MASK_SIZE:
         raise SystemExit(f"{world} tile {name} is {rgba.shape[1]}x{size}, not a multiple of {EDGE_MASK_SIZE} square")
@@ -441,7 +460,9 @@ def write_liquid_edge(world, name):
 def edges(world):
     directory = ASSETS / "worlds" / world / "terrain_materials"
     liquids = load_yaml(LIQUIDS)["liquids"]
-    maps = sorted(path.stem + ".odm" for path in directory.glob("*.yml") if path.name != "world.yml")
+    # Outdoor maps only: an open-air BLV's ground (`<map>_blv.yml`, XD-17) has no terrain tiles and no liquid edges.
+    maps = sorted(path.stem + ".odm" for path in directory.glob("*.yml")
+                  if path.name != "world.yml" and not path.stem.endswith("_blv"))
     used = set()
     for map_name in maps:
         used |= liquid_edge_tiles(world, map_name, liquids)
@@ -472,7 +493,7 @@ def reference_colors(world, config, names):
         for name in used:
             rule = matching_rule(config["tiles"], name)
             # A tile with no art of its own (Shadowspire's gdrdscap, drawn with `shape_from`) gives no colours.
-            if material in rule.get("materials", []) and (tile_art_directory(world) / f"{name}.png").exists():
+            if material in rule.get("materials", []) and tile_art_path(world, name).exists():
                 pixels = tile_pixels(world, name)
                 samples.append(pixels[..., :3][pixels[..., 3] > 0.5])
                 other = next(m for m in rule["materials"] if m != material)
@@ -517,6 +538,10 @@ def tile_coverage(world, name, rule, slot_of, lab, texels):
     to_first = np.linalg.norm(points - first_lab, axis=-1)
     to_second = np.linalg.norm(points - second_lab, axis=-1)
     softness = 0.12 * np.linalg.norm(first_lab - second_lab)
+    if softness < 0.12:
+        # Two materials of the same colour cannot split a tile: the share would be 0/0 (NaN weights, F11).
+        raise SystemExit(f"tile {name}: {first} and {second} have the same classification colour; give one of "
+                         "them its own reference_tile in world.yml")
     share = 1.0 / (1.0 + np.exp(np.clip((to_first - to_second) / softness, -40.0, 40.0)))
     share = ndimage.gaussian_filter(share, size / 170.0, mode="nearest")
     step = size // texels
@@ -614,16 +639,49 @@ def shore_distance(mask, texels):
     return ndimage.gaussian_filter(distance, 1.0, mode="nearest")
 
 
-def weights(world, map_name, texels, preview):
-    directory = ASSETS / "worlds" / world / "terrain_materials"
-    config = load_yaml(directory / "world.yml")
+def map_config(world, map_name):
+    """The world's material config with the map's own entries (world.yml `maps`) applied, and the world's materials
+    as they are without them."""
+    config = load_yaml(ASSETS / "worlds" / world / "terrain_materials" / "world.yml")
+    world_materials = {material: dict(entry) for material, entry in config["materials"].items()}
     for key, keys in (config.get("maps") or {}).get(map_name, {}).items():
         if key in ("shore", "slope"):
             config[key] = {**config[key], **keys}
+        elif key == "tiles":
+            # The map's own tile rules, tried before the world's.
+            config["tiles"] = list(keys) + config["tiles"]
         elif key in config["materials"]:
             config["materials"][key] = {**config["materials"][key], **keys}
         else:
             raise SystemExit(f"world.yml maps.{map_name} names unknown material {key}")
+    return config, world_materials
+
+
+def classification_colors(world, config, world_materials, names):
+    """The Lab colours that split transition tiles into their two materials: the world's own materials' (their
+    reference tiles show the native tile art), never a map's override of a material's look. X7 and D6 tint both their
+    ash and their edge cinder from 6voltyl; split by those, the two halves of every ash edge tile were equally near,
+    the split was 0/0 and the weights NaN, stored as zero: a hard straight seam where they met (F11, 2026-11-21)."""
+    lab, _ = reference_colors(world, {**config, "materials": world_materials}, names)
+    return lab
+
+
+def check_field(field, map_name):
+    """Refuse weights that are not a partition of the ground: every texel's weighted layers sum to one. A NaN (two
+    materials split by equal colours) is stored as zero, and a texel without weight draws its first layer with no
+    blend: a hard straight seam (F11, 2026-11-21)."""
+    if not np.isfinite(field).all():
+        bad = np.argwhere(~np.isfinite(field).all(axis=-1))
+        raise SystemExit(f"{map_name}: {len(bad)} weight texels are not numbers (first at row, column {bad[0]})")
+    sums = field.sum(axis=-1)
+    if np.abs(sums - 1.0).max() > 0.01:
+        bad = np.argwhere(np.abs(sums - 1.0) > 0.01)
+        raise SystemExit(f"{map_name}: {len(bad)} weight texels do not sum to one (first at row, column {bad[0]})")
+
+
+def weights(world, map_name, texels, preview):
+    directory = ASSETS / "worlds" / world / "terrain_materials"
+    config, world_materials = map_config(world, map_name)
     library = load_yaml(LIBRARY)["materials"]
     liquids = load_yaml(LIQUIDS)["liquids"]
     for name in sorted(liquid_edge_tiles(world, map_name, liquids)):
@@ -659,7 +717,8 @@ def weights(world, map_name, texels, preview):
     if len(layers) > 8:
         raise SystemExit(f"{map_name} needs {len(layers)} material layers; at most 8 are supported")
     slot_of = {material: index for index, material in enumerate(weighted)}
-    lab, display = reference_colors(world, config, names)
+    _, display = reference_colors(world, config, names)
+    lab = classification_colors(world, config, world_materials, names)
     variant_parent = {entry["variant"]: parent for parent, entry in config["materials"].items()
                       if entry.get("variant") in layers}
     fallback = slot_of.get("dirt", 0)
@@ -706,6 +765,11 @@ def weights(world, map_name, texels, preview):
         # The smoothed waterline rounds off the floors' corners; the ground stays under them all the same.
         distance[floors] = np.minimum(distance[floors], -512.0 / texels)
         sand = 1.0 - np.clip(distance / float(shore["beach_width"]), 0.0, 1.0) ** 0.75
+        if floors.any():
+            # A water face's floor ends where the face ends, maybe on land (D3's spring pool): the sand under it
+            # blends out over the edge softness, not in a straight line along the face's edge (F11, 2026-11-21).
+            sand = np.maximum(sand, ndimage.gaussian_filter(floors.astype(np.float64), max(softness, units) / units,
+                                                            mode="nearest"))
         slot_of_all = weighted.index(shore["material"])
         field *= (1.0 - sand)[..., None]
         field[..., slot_of_all] += sand
@@ -714,6 +778,7 @@ def weights(world, map_name, texels, preview):
         encoded = np.clip(128.0 + distance / shore_range * 127.0 + 0.5, 0, 255).astype(np.uint8)
         shore_file = f"{Path(map_name).stem}_shore.png"
         Image.fromarray(encoded, "L").save(directory / shore_file, optimize=True)
+    check_field(field, map_name)
     field = np.concatenate([field, np.zeros((size, size, channels - len(weighted)))], axis=-1)
     quantized = np.clip(field * 255.0 + 0.5, 0, 255).astype(np.uint8)
     stem = Path(map_name).stem
@@ -780,10 +845,162 @@ def weights(world, map_name, texels, preview):
                "# weights: RGBA images covering the 128x128 cell map, channels in layer order (north row first).\n"
                "# shore: signed distance to the waterline, 128 + distance / range * 127 (positive on land).\n")
     print(f"{map_name}: {len(used)} tiles, layers {layers}, weights {files}")
+    written = plants(world, map_name)
+    if written:
+        print(f"{map_name}: plants {written.relative_to(ASSETS)}")
     if preview:
         colors = np.array([display[m] for m in weighted] + [[0, 0, 0]] * (channels - len(weighted)))
         image_rgb = field @ colors
         Image.fromarray(np.clip(image_rgb * 255.0 + 0.5, 0, 255).astype(np.uint8), "RGB").save(preview)
+
+
+PLANT_RULE_KEYS = ("family", "density", "tint", "candidates", "width", "height", "wind_strength", "full_footprint")
+PLANT_SETTINGS = ("near_distance", "far_distance", "stone_distance", "lod_max_scale", "foliage_tint",
+                  "minimum_normal_z", "density_variation", "patch_size", "tall_grass_chance", "tall_grass_scale")
+
+
+def plants(world, map_name, texels=None):
+    """The map's ground plants (worlds/<world>/terrain_decorations/<map>.yml, level_generation/terrain/MEADOW.md) from
+    the world's plants.yml beside it: what grows on each ground material, per map. Each tile of the map grows the
+    plants of its material (world.yml `tiles`, with the map's own rules); a transition tile grows each part's plants
+    under a coverage mask of that part (masks/<tile>_<material>.png), split as the weights split it, so the plants
+    stand where their ground is drawn. A world without plants.yml is left alone. Returns the file written, or None.
+
+    plants.yml: `families_file` (a worlds/ or engine/ path, or a file beside it), `settings` (map file keys such as
+    near_distance, tall_grass_chance), `materials` ({material: {family, density, tint, ...}}; unlisted materials stay
+    bare) and `maps` ({<map>.odm: {enabled: false, reason}, or settings and materials that replace the world's}).
+    A grass rule's tint is multiplied by the map's shade of that material (world.yml maps.<map>.<material>.shade),
+    so the short mats keep the colour of the ground under them (MEADOW.md)."""
+    directory = ASSETS / "worlds" / world / "terrain_decorations"
+    source = directory / "plants.yml"
+    if not source.exists():
+        return None
+    spec = load_yaml(source)
+    stem = Path(map_name).stem
+    own = (spec.get("maps") or {}).get(map_name, {})
+    header = (f"# Generated by tools/terrain_materials.py plants --world {world} --map {map_name} (also by weights);\n"
+              "# edit plants.yml beside it, never this file.\n")
+    if own.get("enabled") is False:
+        write_yaml(directory / f"{stem}.yml", {"version": 2, "enabled": False, "reason": own.get("reason", "")},
+                   header)
+        return directory / f"{stem}.yml"
+    growth = {**(spec.get("materials") or {}), **(own.get("materials") or {})}
+    growth = {material: entry for material, entry in growth.items() if entry}
+    settings = {**(spec.get("settings") or {}), **(own.get("settings") or {})}
+    unknown = sorted(set(settings) - set(PLANT_SETTINGS))
+    if unknown:
+        raise SystemExit(f"plants.yml settings has unknown keys: {unknown}")
+    seed = int(hashlib.sha1(f"{world}/{stem}".encode()).hexdigest()[:8], 16) % 2147483647
+    if map_name.endswith(".blv"):
+        # An open-air BLV's ground (its scene's `terrain: {grass: worlds/<world>/terrain_decorations/<stem>_blv.yml}`,
+        # devdocs/INDOOR_OPEN_SKY.md): the grass grows at the density of the ground's meadow layers, with the first
+        # grass rule's family and tint; one rule per growing material of the ground file oymap wrote.
+        ground = load_yaml(ASSETS / "worlds" / world / "terrain_materials" / f"{stem}_blv.yml")
+        layers = [layer["name"] for layer in ground["layers"][:ground["weighted_layers"]]]
+        rules = [{"texture": material, **{key: entry[key] for key in PLANT_RULE_KEYS if key in entry}}
+                 for material, entry in growth.items() if material in layers]
+        if not rules:
+            raise SystemExit(f"{map_name}: no ground layer of {stem}_blv.yml grows plants in plants.yml")
+        written = directory / f"{stem}_blv.yml"
+        write_yaml(written, {"version": 2, "families_file": spec["families_file"], "seed": seed, **settings,
+                             "rules": rules}, header)
+        return written
+    config, world_materials = map_config(world, map_name)
+    unknown = sorted(set(growth) - set(config["materials"]))
+    if unknown:
+        raise SystemExit(f"plants.yml names materials world.yml does not have: {unknown}")
+    names = map_tiles(world, map_name)
+    used = sorted({name for row in names for name in row if name})
+    rules_of = {name: matching_rule(config["tiles"], name) for name in used}
+    lab = classification_colors(world, config, world_materials, names)
+    size = int(spec.get("mask_size", 64))
+    (directory / "masks").mkdir(exist_ok=True)
+    rules = []
+    for name in used:
+        tile_rule = rules_of[name]
+        if tile_rule.get("water"):
+            continue
+        parts = [tile_rule["material"]] if "material" in tile_rule else list(tile_rule.get("materials", []))
+        coverage = None
+        for material in parts:
+            entry = growth.get(material)
+            if not entry:
+                continue
+            rule = {"texture": name, **{key: entry[key] for key in PLANT_RULE_KEYS if key in entry}}
+            if "tint" in rule:
+                shade = np.array(config["materials"][material].get("shade", [1.0, 1.0, 1.0]))
+                rule["tint"] = [round(float(value), 4) for value in np.clip(np.array(rule["tint"]) * shade, 0, 2)]
+            if len(parts) == 2:
+                if coverage is None:
+                    coverage = tile_coverage(world, name, tile_rule, {part: index for index, part in enumerate(parts)},
+                                             lab, size)
+                mask = np.clip(coverage[..., parts.index(material)] * 255.0 + 0.5, 0, 255).astype(np.uint8)
+                mask_name = f"masks/{name}_{material}.png"
+                path = directory / mask_name
+                image_bytes = Image.fromarray(mask, "L")
+                if not path.exists() or not np.array_equal(np.asarray(Image.open(path).convert("L")), mask):
+                    image_bytes.save(path.with_name(path.name + ".new.png"), optimize=True)
+                    path.with_name(path.name + ".new.png").replace(path)
+                rule["mask"] = mask_name
+            rules.append(rule)
+    if not rules:
+        write_yaml(directory / f"{stem}.yml",
+                   {"version": 2, "enabled": False, "reason": "no ground of this map grows plants (plants.yml)"},
+                   header)
+        return directory / f"{stem}.yml"
+    document = {"version": 2, "families_file": spec["families_file"], "seed": seed, **settings, "rules": rules}
+    write_yaml(directory / f"{stem}.yml", document, header)
+    return directory / f"{stem}.yml"
+
+
+def seams(weights_field, hard=0.9):
+    """Hard switches between neighbouring weight texels: the strongest layer changes while both texels hold at least
+    `hard` of their own layer, so nothing blends across the line. Returns the number of such texel pairs and the
+    longest straight run of them (texels) along a row or a column."""
+    best = weights_field.argmax(axis=-1)
+    strong = weights_field.max(axis=-1) >= hard
+    pairs, longest = 0, 0
+    for axis in (0, 1):
+        a = [slice(None), slice(None)]
+        b = [slice(None), slice(None)]
+        a[axis], b[axis] = slice(0, -1), slice(1, None)
+        switch = (best[tuple(a)] != best[tuple(b)]) & strong[tuple(a)] & strong[tuple(b)]
+        pairs += int(switch.sum())
+        # A straight run: switches next to each other along the boundary line (across the other axis).
+        line = switch if axis == 0 else switch.T
+        for row in line:
+            if row.any():
+                padded = np.concatenate([[0], row.astype(np.int8), [0]])
+                edges = np.flatnonzero(np.diff(padded))
+                longest = max(longest, int((edges[1::2] - edges[0::2]).max()))
+    return pairs, longest
+
+
+def check(world, maps, max_run):
+    """Every slot file of the world (or the named maps): its weights sum to one on every texel and no straight run
+    of hard material switches is longer than max_run texels. Non-zero exit on a failure (F11, 2026-11-21)."""
+    directory = ASSETS / "worlds" / world / "terrain_materials"
+    files = sorted(path for path in directory.glob("*.yml") if path.name != "world.yml")
+    if maps:
+        wanted = {Path(name).stem for name in maps}
+        files = [path for path in files if path.stem in wanted or path.stem.removesuffix("_blv") in wanted]
+    failed = 0
+    for path in files:
+        slot = load_yaml(path)
+        if "weights" not in slot:
+            continue
+        field = np.concatenate([np.asarray(Image.open(directory / name).convert("RGBA"), dtype=np.float64)
+                                for name in slot["weights"]], axis=-1) / 255.0
+        field = field[..., :int(slot.get("weighted_layers", field.shape[-1]))]
+        sums = field.sum(axis=-1)
+        empty = int((np.abs(sums - 1.0) > 0.04).sum())
+        pairs, longest = seams(field)
+        bad = empty > 0 or longest > max_run
+        failed += bad
+        print(f"{'FAIL' if bad else 'ok  '} {path.stem}: {empty} texels whose weights do not sum to one, "
+              f"{pairs} hard switches, longest straight run {longest} texels")
+    if failed:
+        raise SystemExit(f"{world}: {failed} of {len(files)} maps fail the weight check")
 
 
 def main():
@@ -805,6 +1022,16 @@ def main():
     weights_parser.add_argument("--texels-per-cell", type=int, default=16)
     weights_parser.add_argument("--preview", type=Path)
     weights_parser.add_argument("--assets", type=Path, help="asset root to read the map from and write into")
+    plants_parser = commands.add_parser("plants")
+    plants_parser.add_argument("--world", required=True)
+    plants_parser.add_argument("--map", required=True)
+    plants_parser.add_argument("--assets", type=Path, help="asset root to read the map from and write into")
+    check_parser = commands.add_parser("check")
+    check_parser.add_argument("--world", required=True)
+    check_parser.add_argument("--map", action="append", default=[], help="only these maps (repeatable)")
+    check_parser.add_argument("--max-run", type=int, default=4,
+                              help="longest straight run of hard switches allowed, in texels (default 4)")
+    check_parser.add_argument("--assets", type=Path, help="asset root to read the maps from")
     edges_parser = commands.add_parser("edges")
     edges_parser.add_argument("--world", required=True)
     edges_parser.add_argument("--assets", type=Path, help="asset root to read the maps from and write into")
@@ -821,6 +1048,11 @@ def main():
         caustics()
     elif args.command == "edges":
         edges(args.world)
+    elif args.command == "plants":
+        written = plants(args.world, args.map)
+        print(f"{args.map}: plants {written.relative_to(ASSETS) if written else 'not configured (no plants.yml)'}")
+    elif args.command == "check":
+        check(args.world, args.map, args.max_run)
     else:
         weights(args.world, args.map, args.texels_per_cell, args.preview)
 

@@ -1,0 +1,619 @@
+# Xeen dungeon families (A6, 2026-11-20): per dungeon style the shipped BLV families the next acts should use, with
+# their textures by role and which Xeen dungeon (MAPS.md ids) takes which. Shipped only; contact sheet:
+# kits/dungeon_families_sheet.png (landmark_sheet.py). Built dungeons' choices from devdocs/xeen/briefs/*/L4/NOTES.md.
+title: Shipped indoor families per dungeon style for the next acts (selection only, nothing generated)
+rule: 'Each dungeon (or each area of one) takes one shipped BLV whose purpose fits and lays its textures as that map does
+  (the lead''s rule of 2026-11-13, XD-01..XD-03 NOTES). A second dungeon of a style takes a different family so the two
+  read apart. Roles: wall, floor, ceiling, trim, door, pillar, liquid; role shares measured on the shipped BLV (face area
+  by facet type).'
+styles:
+  mines:
+    covered:
+      XD-02 Red Dwarf Mines: MM6 Snergle's Caverns 6d05 + Snergle's Iron Mines 6d09 (red and dark rock, plank lagging)
+      XD-03 Deep Mine: MM7 Red Dwarf Mines 7d34 + MM6 Gharik's Forge 6d18 (lava, soot brick)
+      DD-25 Bosco's Hall (D5; D-62 Q35, A6 s16): 'MM7 Stone City 7d24''s town quarter (its timber house fronts no map uses),
+        the dwarves'' walk-in throne hall; XD-09 uses 7d24''s rock hub, another face, far apart; new xdbosban; the
+        gate MM8''s t09a03a/t09a03b pair (shipped, left and right leaves; D5''s outside door t09a03a mirrored)'
+      XD-09 Golem Dungeon (X5): 'one shipped family per area, 0 new (A8, briefs/xd09/L4/NOTES): MM7 Stone City 7d24
+        (hub, entry, stone level; cwb, cwb1, cfb1, 7tfb1, hdr1dl), MM6 Warlord''s Fortress 6d16 (wood level; cbeam5,
+        bemdk4, bemstrt1, d8ceild, d2smldor), MM6 Gharik''s Forge 6d18 (iron level, a forge as its own purpose; d2wlactr,
+        vlcwl3a, 6voltyl, d2ceil1, cvdor1, orfyrlga, vlcwl1, gset05; XD-03 has its lava and soot brick on another face;
+        the world''s xwiron for the three bolts and the great lock''s lid, 6d18 having no plain dark iron),
+        MM8 Prison of the Lord of Fire d37 (diamond level; gtempw3, gtempw1, gtempflr, gtemprf, gtempdor1, gcrysc3)'
+      DD-10 Gemstone Mines (D1 west, D2 east, D6 third pocket; D-27): 'MM7 Nighon Tunnels 7d35 for all three pockets
+        (cwb1 walls, cfb1 floors, 7wtrtyl water, cwb1gold, trim9_32); MM6 Gharik''s Forge 6d18 lava for C''s seam
+        (6voltyl, vlcwl3a); four new veins in one style on cwb1 (map_textures/darkside, A6): xdvruby and xdvemrld (A),
+        xdvsaph (B), xdvdiam (C). 7d35 is XD-09''s cwb1 rock too (its hub), another face, far apart'
+  caves (trolls, gargoyles, dragons):
+    covered:
+      DD-04 The Gremlin Court (D1; D-26): 'court, waiting room and wall cellar in D1''s own t09 grey ashlar (the
+        Darkside town kit: t09a01, t09b01, t09c01) with shipped floors and ceilings; burrows, barracks and the
+        sappers'' tunnel in MM7 Tularean Caves 7d08 earth; one new picture: xdmayor, the Mayor with a moustache added,
+        behind the throne (map_textures/darkside, A6)'
+      XD-05 Orc Caves: MM8 Ogre Fortress d12
+      XD-27 Ogre Lair: MM8 Dire Wolf Den d08
+      XD-10 Cave of Illusion (X5): 'MM8 Passage Under Regna d33 everywhere (t68a02b, t68a03b, t68a03a, t09a01, t09a02b,
+        t09b11b, t09a03c, t06a10, t09a05b, wtrtyl), MM6 Icewind Keep orair32 and MM8 snow for the ice at the mouths,
+        the world''s xngong, xnrustirn, xnnotice; 0 new; d17 stays XD-18''s (A8, briefs/xd10/L1/NOTES)'
+    families:
+    - map: mm8/d13.blv
+      name: Troll Tomb
+      why: 'the trolls'' own stone: rough slate-grey block walls, plank roofs, carved flags; the Troll Warren and the Troll
+        Holes are troll homes'
+      textures:
+        wall:
+        - mm8/gtrlwal1
+        floor:
+        - mm8/gtrlflr
+        ceiling:
+        - mm8/gtrlrf3
+        trim:
+        - mm8/gtrltrm2
+        door:
+        - mm8/gtrldrl
+        - mm8/gtrldrr
+        pillar:
+        - mm8/gston1wl
+    - map: mm8/d43.blv
+      name: Ancient Troll Home
+      why: 'the second troll family: pale cut-stone walls, dark flags, carved Celtic floor slabs; a warren that was a home'
+      textures:
+        wall:
+        - mm8/gkp2-bs1
+        floor:
+        - mm8/tfb11
+        ceiling:
+        - mm8/gkp2flr
+        trim:
+        - mm8/trim9_32a
+        pillar:
+        - mm8/hhr1p
+    assign:
+      XD-23 Troll Warren (X5): mm8/d13.blv
+      DD-11 Troll Holes (3 pockets, D2): mm8/d43.blv
+      XD-18 Dragon Cave (X7, D-57 Q6): 'MM8 d17 rock for the caves; MM8 d16 for the office, the waiting room, the
+        library and the King''s door; wtrtyl pools; xdhoard only if the bare t68a02a dais does not read as a hoard'
+      XD-16 Volcano Cave (D-45): 'MM7 Thunderfist 7d07: lava, and the same dark rock on the other face (7d07''s
+        dark brown-black c2b, as DD-23 on the Darkside)'
+      DD-24 Giants' Hall (D5; D-47 Q24): 'MM8 Cyclops Larder d14, the cyclopes'' own home (unused elsewhere in Xeen);
+        two new: xdgiantd (one wing of the great doors, mirrored on the pair, 384 x 512 opening) and xdthrone (the bloody
+        throne), A7; about 16 distinct of the S cap 30'
+      DD-23 Gargoyle Lair (D4; D-39, D-45): 'MM7 Thunderfist 7d07''s dark brown-black cave rock c2b, floor cfb1 (D-39''s
+        "grey" misdescribed 7d07; it reads apart from XD-26 and matches D4''s darkrock slope); MM6 straw on the nest; snow
+        as a floor texture under the crack (A7); one new picture, the Darkside crag view xdcraglt on exit:mouth (A7,
+        textures_xeen/a7_dd23_craglt; xddaylt the fallback). XD-16 takes the same 7d07 rock with its lava on the other
+        face'
+  sewers:
+    covered:
+      XD-01 culvert: MM6 Free Haven Sewer sewer.blv
+      XD-21 Robbers' Den: MM7 Erathian Sewers d01
+    families:
+    - map: mm6/6d03.blv
+      name: Shadow Guild Hideout
+      why: 'Free Haven''s thieves'' tunnels under the town: block-stone walls, cut-stone vaults and plank walks; the same
+        MM6 d1 stone as the sewer but laid as rooms, for a big town''s sewer with five shafts'
+      textures:
+        wall:
+        - mm6/d1wlbct1
+        - mm6/d1wlbre1
+        - mm6/d1wlble1
+        floor:
+        - mm6/bemvwal
+        ceiling:
+        - mm6/d2flor2
+        door:
+        - mm6/beemdorc
+        - mm6/d8dore
+        trim:
+        - mm6/bemh
+        - mm6/bemv
+        pillar:
+        - mm6/bd1ftbrsd
+        liquid:
+        - mm6/swprrf3
+    - map: mm6/6d08.blv
+      name: Shadow Guild
+      why: 'tan rubble and sandstone with carved stepped-fret ceilings: the drains under a sandstone city'
+      textures:
+        wall:
+        - mm6/d5walba
+        - mm6/d5walc
+        - mm6/d5walbre
+        - mm6/d5walble
+        floor:
+        - mm6/d5florc
+        - mm6/d5florb
+        ceiling:
+        - mm6/d5ceila
+        - mm6/d5ceild
+        door:
+        - mm6/d5dorsma
+        trim:
+        - mm6/d5smtrb
+        liquid:
+        - mm6/orwtrtyl
+    - map: mm7/7d17.blv
+      name: The Tidewater Caverns
+      why: 'MM7''s smugglers'' tidal caves: dark rock, wet floors, weathered plank walks and water; a lake town''s sewer
+        that opens into lakeside caves'
+      textures:
+        wall:
+        - mm7/c2b
+        floor:
+        - mm7/cfb1
+        - mm7/7trimd
+        ceiling:
+        - mm7/c2b
+        trim:
+        - mm7/7trimda
+        - mm8/trim9_32a
+        door:
+        - mm7/td1
+        liquid:
+        - mm7/7wtrtyl
+    assign:
+      DD-01 Castleview Sewer (D1): mm6/6d03.blv
+      DD-18 Sandcaster Sewer (D3): mm6/6d08.blv
+      DD-20 Lakeside Coven and Sewer (D4): mm7/7d17.blv (the coven's guild rooms in 7d06 Temple of the Moon dressed stone)
+      DD-21 Necropolis Sewer (D6): mm6/sewer.blv as XD-01's culvert (another face, far apart), Sandro's crypt in 6d14
+      DD-26 Olympus Sewer (D7): mm7/d01.blv as XD-21 (another face), its town shafts in the t3s2 marble of the royal kit
+  temples:
+    covered:
+      XD-06 Temple of Yak: MM7 Temple of Baa d04 + Barrow I mdt03
+      XD-04 coven floor: MM7 Temple of the Moon 7d06
+    families:
+    - map: mm6/pyramid.blv
+      name: Tomb of VARN
+      why: 'MM6''s sandstone pyramid (the Ancients'' ship hidden in it): hieroglyph walls, carved ceilings and big blocks;
+        the Sphinx and the Great Pyramid are Xeen''s Egyptian temples'
+      textures:
+        wall:
+        - mm6/egybigb
+        - mm6/egybiga
+        - mm6/egywla
+        - mm6/egywld
+        floor:
+        - mm6/egyflore
+        - mm6/egyflorc
+        ceiling:
+        - mm6/egyceila
+        - mm6/egyceilb
+        trim:
+        - mm6/egytrmc
+        - mm6/egytrma
+        pillar:
+        - mm6/egywlj
+        liquid:
+        - mm6/orwtrtyl
+    - map: mm7/d02.blv
+      name: The Maze
+      why: 'MM7''s labyrinth: hedge walls, grey brick and green stone; the Dungeon of Lost Souls is a labyrinth'
+      textures:
+        wall:
+        - mm7/eswamp
+        - mm7/cwb1
+        floor:
+        - mm7/cwb
+        - mm7/cfb1
+        ceiling:
+        - mm7/ceb1sa
+        - mm7/t5s1c
+        door:
+        - mm7/c1d1
+        trim:
+        - mm7/trim12_32
+    - map: mm7/7d22.blv
+      name: The Hall under the Hill
+      why: 'a fairy mound of rock, roots, grass and green stone: the nearest shipped interior to a temple grown in a tree
+        (the bark itself would be the brief''s own new texture)'
+      textures:
+        wall:
+        - mm7/c2b
+        - mm7/ceb1sa
+        floor:
+        - mm7/7grastyl
+        - mm7/7dirt1
+        - mm7/cfb1
+        ceiling:
+        - mm7/7dirttyl
+        trim:
+        - mm7/trim8_32
+        liquid:
+        - mm7/7wtrtyl
+    - map: mm8/d22.blv
+      name: Temple of the Sun
+      why: 'spare bright temple: pale blue-grey marble, flags and a gold-blue mosaic ceiling, for a temple of light (the
+        heretics'' chapel in DD-05, an Olympus shrine)'
+      textures:
+        wall:
+        - mm8/gtempw1
+        - mm8/gtempw2
+        - mm8/gtempw3
+        floor:
+        - mm8/gtempflr
+        ceiling:
+        - mm8/gtemprf
+        trim:
+        - mm8/gtempe2l
+        - mm8/gtempe2r
+        door:
+        - mm8/gtempdor1
+    assign:
+      XD-15 The Sphinx (X6), FD-02 Southern Sphinx: mm6/pyramid.blv upper (egy walls, carved ceilings)
+      FD-02 Southern Sphinx accent (D-57 Q11): 'the pyramid set''s other half: no striped columns, drifted sand;
+        new xsshelf, xsrunes; MM6 swankdk (dark steel) on the blade traps (A7, s16)'
+      DD-15 Great Pyramid (D5): mm6/pyramid.blv, its lower Ancient levels in the ancient kit (sw set) to read apart
+      DD-12 Dungeon of Lost Souls (D4): mm7/d02.blv
+      DD-09 Temple of Bark (D2): mm7/7d22.blv
+      DD-05 heretics' altar: mm8/d22.blv for the altar room inside the Mok tower
+  towers:
+    covered:
+      XD-04 Witch Tower: MM7 Clanker's Laboratory 7d12 + Temple of the Moon 7d06
+      XD-12 Darzog's Tower: MM7 Castle Gloaming d03 + School of Sorcery 7d14
+    families:
+    - map: mm7/7d25.blv
+      name: Celeste
+      why: 'the wizards'' city: Bracada''s tower set inside (pale plaster, rubble, marble, open sky), so High Magic''s inside
+        matches the towers kit outside, and reads pale beside the Witch Tower''s dark 7d12'
+      textures:
+        wall:
+        - mm7/hwp1bwall
+        - mm7/hwp1b
+        - mm7/hwm2wall
+        - mm7/hwr1wall
+        floor:
+        - mm7/7tws1f
+        ceiling:
+        - mm7/hwm2rf
+        - mm7/7plansky1
+        trim:
+        - mm7/7tws1fa
+        - mm7/t3s2b
+        door:
+        - mm7/hwm2d
+        - mm7/hwp1d
+        pillar:
+        - mm7/hwm2el
+        liquid:
+        - mm7/7wtrtyl
+    - map: mm6/6d19.blv
+      name: Agar's Laboratory
+      why: 'MM6''s mage''s laboratory: rose and white marble brick with columns, dark marble ceilings, marble floors; a
+        scholar''s tower for Ellinger'
+      textures:
+        wall:
+        - mm6/t1wl0lg
+        - mm6/t1wl9ctl
+        - mm6/t1wl4cts
+        - mm6/t1wl7ctb
+        floor:
+        - mm6/t1f3
+        - mm6/t1f1
+        - mm6/t1f2
+        ceiling:
+        - mm6/t1c3
+        trim:
+        - mm6/t1trima
+        door:
+        - mm6/t1d3
+        pillar:
+        - mm6/t1spcla
+    - map: mm8/d27.blv
+      name: Castle of Air
+      why: 'cold green-grey tiled ashlar, scale-pattern flags and panelled ceilings: one family for the four Towers of Mok
+        (the set reads as one order)'
+      textures:
+        wall:
+        - mm8/gston1wl
+        floor:
+        - mm8/gston1fl
+        ceiling:
+        - mm8/gstn1cl
+        trim:
+        - mm8/gstntilev
+        - mm8/gstn1bot
+        door:
+        - mm8/gcstdoor
+        pillar:
+        - mm8/gcstflor
+        liquid:
+        - mm8/wtrtyl
+    - map: mm8/d29.blv
+      name: Castle of Fire
+      why: 'the same ashlar over lava with riveted iron and rough blocks: the finale''s Darkstone Tower'
+      textures:
+        wall:
+        - mm8/gston1wl
+        - mm8/gtrlwal1
+        floor:
+        - mm8/gkp2ceil
+        - mm8/gcav1flr
+        ceiling:
+        - mm8/gston1fl
+        - mm8/gcst2cel
+        door:
+        - mm8/gcstdoor
+        trim:
+        - mm8/gkp4-bs
+        liquid:
+        - mm8/lavtyl
+    assign:
+      XD-11 Tower of High Magic (X3): mm7/7d25.blv
+      DD-02 Ellinger's Tower (D1): mm6/6d19.blv
+      DD-05..DD-08 Towers of Mok: mm8/d27.blv (one family; accents per tower)
+      DD-07 Eastern Tower accent (D-39): MM7 School of Sorcery 7d14 for L4's laboratory and study (A7)
+      DD-08 Northern Tower accent (D-61, confirmed by A6 s16): MM7 Castle Gryphonheart 7d33's dark cobble (dchb1, 7tfb1,
+        7trimd) for the knights' rooms (chapter hall, Hall of Thrones, cells), as Kalindra's unrestored wings; d27 elsewhere
+      FD-03 Darkstone Tower (X5): 'mm8/d29.blv; the vault''s force reuses xafield at about 0.5 (D-57 Q18), the
+        seal xdseal at 0.15-0.3 (Q21)'
+      FD-04 Dragon Tower and the Dungeon of Death (X7, D-57 Q28): 'the tower in MM6 6d04''s vlc block; Sandro''s
+        halls and the crossword in MM8 d19; the machine floor in sci-fi.blv with XD-19''s core textures; new xfgrid,
+        xfword'
+      XD-22 Ninja Pagoda: 'no shipped paper-walled interior: its brief''s own textures'
+  crypts:
+    covered:
+      XD-06 crypts: MM7 Barrow I mdt03
+    families:
+    - map: mm8/d21.blv
+      name: Vampire Crypt
+      why: 'MM8''s vampires'' crypt: rose cut-stone vaults, rough cave, cobbles and mud floors; Count Draco''s crypt is
+        a vampire''s'
+      textures:
+        wall:
+        - mm8/gcstwal1
+        - mm8/gcav1wal
+        - mm8/gcst1bs1
+        floor:
+        - mm8/t01a05b
+        - mm8/c1fl
+        - mm8/t01a01a
+        ceiling:
+        - mm8/hhr1p
+        - mm8/gcav1wal
+        door:
+        - mm8/gkp103a
+        - mm8/gkp103b
+        trim:
+        - mm8/trimda
+        pillar:
+        - mm8/gcstflor
+        liquid:
+        - mm8/wtrtyl
+    - map: mm6/6d14.blv
+      name: Tomb of Ethric the Mad
+      why: 'MM6''s mad lord''s tomb: brown stone with burial niches, posts and dark vaults; a tomb of terrors'
+      textures:
+        wall:
+        - mm6/d2wlbctr
+        - mm6/d2wlbpos
+        - mm6/d2wlble
+        - mm6/d2wlbre
+        floor:
+        - mm6/d2flor4
+        - mm6/d2flor1
+        ceiling:
+        - mm6/d2ceil3
+        door:
+        - mm6/d2lgdor
+        - mm6/crsmdr1
+        trim:
+        - mm6/d2niche1
+        - mm6/d2niche3
+        - mm6/d2niche4
+        pillar:
+        - mm6/cedsqrdk
+    - map: mm7/7d13.blv
+      name: Zokarr's Tomb
+      why: 'MM7''s royal tomb: dressed stone, flags and iron doors; a castle''s coffin vaults'
+      textures:
+        wall:
+        - mm7/twb2
+        - mm7/7tws2
+        - mm7/twb1
+        floor:
+        - mm7/7tfb1
+        ceiling:
+        - mm7/cfb1
+        - mm7/tfb2
+        door:
+        - mm7/t5d1
+        trim:
+        - mm7/7twb2vr
+        - mm7/7twb2vl
+        liquid:
+        - mm7/7wtrtyl
+    assign:
+      XD-24 Nightshadow Crypt (X3): mm8/d21.blv
+      XD-08 Tomb of a Thousand Terrors (X3): mm6/6d14.blv
+      DD-14 Castle Blackfang's coffins and dungeon: mm7/7d13.blv
+      DD-21 Necropolis Sewer's crypt (Sandro): mm6/6d14.blv niches (another face)
+  pods:
+    covered: {}
+    families:
+    - map: mm7/7d23.blv
+      name: The Lincoln
+      why: 'MM7''s crashed Ancient starship: dark hull steel, green light strips, capsule panels, screen consoles'
+      textures:
+        wall:
+        - mm7/a3b
+        - mm7/a2b
+        - mm7/a2d
+        - mm7/a3bs
+        floor:
+        - mm7/sfw7b
+        - mm7/sfw1a
+        ceiling:
+        - mm7/sfw7a
+        - mm7/a2j
+        trim:
+        - mm7/sfw2
+        - mm7/sfw3
+        - mm7/sfw1b
+        door:
+        - mm7/a2c
+        pillar:
+        - mm7/a1b
+        - mm7/a4b
+        console:
+        - mm7/sfpnlon
+        - mm7/sfpnloff
+    - map: mm6/sci-fi.blv
+      name: Control Center
+      why: 'MM6''s Ancient control centre: teal steel, rust, green and red energy grids; Sheltem''s pod ties to Alamar'
+      textures:
+        wall:
+        - mm6/swll4dk
+        - mm6/swll5dk
+        - mm6/swall5
+        - mm6/swall1
+        floor:
+        - mm6/swfloor2b
+        - mm6/swflora
+        ceiling:
+        - mm6/swceilf
+        - mm6/swankdk
+        trim:
+        - mm6/swr2dk
+        - mm6/swhorzad
+        door:
+        - mm6/swdoora
+        - mm6/swdoorb
+        pillar:
+        - mm6/swgirder
+        - mm6/swaled
+        console:
+        - mm6/trekscrn
+        - mm6/swor2
+    assign:
+      DD-16 Corak's Pod (D6): mm7/7d23.blv (with the ancient kit's xahullbn outside)
+      DD-22 Sheltem's Pod (D6): mm6/sci-fi.blv, red accents (swrdk2, swared, swfloor5a)
+      DD-17 Castle Alamar, FD-01 Alamar Depths: mm6/sci-fi.blv via the ancient kit (main sw set)
+  castles:
+    covered:
+      XD-12 Darzog's Tower: MM7 Castle Gloaming d03 (the dark castle)
+    families:
+    - map: mm7/7d09.blv
+      name: The Titans' Stronghold (+ Temple of the Light t01, furnishing from Castle Harmondale 7d29)
+      why: 'the royal_castle kit''s interior: cream marble halls for the white castles'
+      textures:
+        wall:
+        - mm7/t3s2b1
+        - mm7/t3s2b
+        - mm7/tap1
+        floor:
+        - mm7/t3s2fl1
+        - mm7/tfb08
+        - mm7/tfb09
+        ceiling:
+        - mm7/t3s2c
+        trim:
+        - mm7/7tws1fa
+        door:
+        - mm7/t5d1
+        pillar:
+        - mm7/t3elr
+    - map: mm7/7d29.blv
+      name: Castle Harmondale
+      why: 'MM7''s player castle, restored in stages: cobble walls, flags and marble ceilings with royal furnishing'
+      textures:
+        wall:
+        - mm7/chb1
+        - mm7/chb1el
+        - mm7/chb1er
+        floor:
+        - mm7/tfb09
+        ceiling:
+        - mm7/7tws1h
+        trim:
+        - mm7/trim1_16
+        door:
+        - mm7/t5d1
+        pillar:
+        - mm7/chb1s
+    - map: mm7/7d33.blv
+      name: Castle Gryphonheart
+      why: 'an older royal castle of brown cobble and dark stone: Kalindra''s unrestored, out-of-phase wings'
+      textures:
+        wall:
+        - mm7/chb1
+        - mm7/dchb1
+        floor:
+        - mm7/7tfb1
+        ceiling:
+        - mm7/tfb2
+        - mm7/7tfb11
+        trim:
+        - mm7/7trimd
+        - mm8/trim9_32
+        door:
+        - mm7/chb1dl
+        - mm7/chb1dr
+        pillar:
+        - mm7/chb1el
+    - map: mm7/7d32.blv
+      name: Castle Navan
+      why: 'a green-stone lord''s castle with coffered ceilings: Castle Blackfang''s halls'
+      textures:
+        wall:
+        - mm7/ceb1sa
+        - mm7/twb2
+        - mm7/cwb1
+        floor:
+        - mm7/t3s2fl1
+        - mm7/cfb1
+        ceiling:
+        - mm7/t5s1c2
+        trim:
+        - mm7/ceb1el
+        - mm7/ceb1re
+        door:
+        - mm7/twb1a
+        pillar:
+        - mm7/cwb
+    - map: mm6/cd1.blv
+      name: Castle Alamos
+      why: 'MM6''s dark keep of block stone, planks and beams: Castle Basenji''s kennels and halls'
+      textures:
+        wall:
+        - mm6/d1wcntr
+        - mm6/ctwl5
+        - mm6/d1smbw
+        floor:
+        - mm6/d2flor5
+        - mm6/d2flor1
+        ceiling:
+        - mm6/cedfncdk
+        - mm6/d1ceil1
+        trim:
+        - mm6/d1trimle
+        - mm6/bemh
+        pillar:
+        - mm6/bemob1
+    - map: mm8/d35.blv
+      name: Escaton's Palace
+      why: 'MM8''s lord''s palace in black stone under gold friezes: Lord Xeen''s castle, with the ancient kit''s machines'
+      textures:
+        wall:
+        - mm8/gnecwal4
+        - mm8/gnecwal1
+        floor:
+        - mm8/gnecflr
+        ceiling:
+        - mm8/gtrlflr
+        - mm8/gnecclg2
+        trim:
+        - mm8/tws1fa
+        door:
+        - mm8/gnecdr1l
+        - mm8/gnecdr1r
+        pillar:
+        - mm8/tws1f
+    assign:
+      XD-07 Castle Burlock (X4): 'royal_castle kit: 7d09/t01 marble + 7d29 furnishing (its dungeon: 7d33 cobble)'
+      DD-03 Castle Kalindra (D1): 'royal_castle kit restored; out-of-phase wings mm7/7d33.blv; the phase walls and D1''s
+        ghost-castle outside share one shimmer, xkshimmer (D-26, not xufield; map_textures/darkside, A6)'
+      XD-13 Newcastle Keep (X3, staged): mm7/7d29.blv (stage 0-1 roofless with ch1b1), stage 3 the royal kit
+      XD-14 Castle Basenji (X6): mm6/cd1.blv
+      XD-20 Warzone arena (X6 coach yard; D-39): MM7 The Arena 7d05 (A7)
+      DD-14 Castle Blackfang (D4): mm7/7d32.blv + crypts 7d13
+      XD-19 Castle Xeen (X9): mm8/d35.blv + ancient kit

@@ -147,6 +147,7 @@ class PackConfig:
         self.maximum = document["max_mib"] * MIB
         self.core_maximum = document["core_max_mib"] * MIB
         self.worlds = list(document["worlds"])
+        self.share_model_textures = bool(document.get("share_model_textures", False))
         self.packages = document["packages"]
         self.language_overlays = document.get("languages", {}).get("overlays", {})
 

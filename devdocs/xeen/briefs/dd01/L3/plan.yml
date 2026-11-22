@@ -1,0 +1,481 @@
+format: 0
+level: L3
+pitch: "Castleview's sewer: a vaulted cross under the square where four drains meet, slow sewage channels down their middles, five iron ladders up to street grates of which only the square's hatch opens. West, the town's sluice house, its gate wedged open by gremlins with the mill's stolen gears, floods an old culvert below; Felix the Tinker, who dug his own tunnel, says as much, and Valio the Simple lives in a bed beside it. Shut the sluice and the culvert drains, rats and all: beyond it the rat queen's nest, Rooka and her hoard of shiny things, Nadia's necklace among them. The way back climbs through a bone midden and a drowned cellar to a floor grate bolted from below; the outfall's barred grate opens on the mill gorge once its bar is lifted."
+purpose: "Story step M16 (QUESTS.md): Nadia's onyx necklace in the rats' nest (A3's hook m16.necklace). Side quest Q-D5: Valio wants Rooka the Queen Rat dead (q-d5.rooka at her death; his chest q-d5.valio_chest, opened early it angers him, q-d5.valio_angry). Class M, party 18-20, monsters 10-20, Rooka 24."
+mood: "Damp and close: mossy cut stone with a green tide line, flags slick under sewage, lamplight falling down the shafts through round grates, the rats' caves of fallen brick, straw and filth."
+datum: arrival
+spaces:
+  - id: room:bone_slide
+    name: Bone slide
+    kind: corridor
+    size: S
+    extent: [1280, 384]
+    at: [4672, -2048]
+    floor: [-224, -480]
+    clear_height: 384
+    purpose: A slope of filth from the nest down to the midden.
+    empty: true
+    theme: "Where the brick has fallen in: rough sewer stone d1wle in broken cave walls over the old flags."
+  - id: room:cellar
+    name: Drowned cellar
+    kind: room
+    size: M
+    extent: [1408, 1312]
+    at: [5184, -624]
+    floor: -480
+    clear_height: 384
+    purpose: "An old house cellar the drain broke into; gremlins store stolen tools here; a ladder up to the east drain's floor grate, bolted from this side (opens once, from below)."
+    theme: "The east drain and the drowned cellar: the oldest mossy stone (d1medbw)."
+    population:
+      - {actor: 11020, groups: 3, levels: [14, 14], placed: true, strength: pack}
+      - {actor: 11021, groups: 1, levels: [18, 18], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:cross
+    name: The drain cross
+    kind: room
+    size: L
+    extent: [1280, 1280]
+    at: [0, 0]
+    floor: 0
+    clear_height: 704
+    purpose: "Four drains meet under the square in a vaulted cross on four piers; lamplight down the hatch shaft."
+    empty: true
+    theme: "The drain cross: MM6 6d03's cut block stone d1wlbct1 on walls and vault, d2flor2 flags."
+  - id: room:culvert
+    name: Nest culvert
+    kind: corridor
+    size: M
+    extent: [512, 1152]
+    at: [1280, -2496]
+    floor: -512
+    clear_height: 288
+    purpose: "A low culvert to the nest, flooded to its roof until the sluice is shut (a sinking water mover). No monster stands below its high-water line: its four rats wait on the nest side, above it."
+    empty: true
+    theme: "The deep culverts and the outfall: rough sewer stone d1wle."
+  - id: room:deep_cistern
+    name: Deep cistern
+    kind: room
+    size: M
+    extent: [2304, 1792]
+    at: [-1152, -4736]
+    floor: -512
+    clear_height: 768
+    purpose: "The overflow stair's foot: a tall wet cistern; the outfall tunnel and the rat runs leave it east."
+    theme: "The overflow and deep cisterns: wet stone (d1wldle3), flags, the rough vault."
+    population:
+      - {actor: 11311, groups: 4, levels: [14, 14], placed: true, strength: pack}
+  - id: room:east_drain
+    name: East drain
+    kind: corridor
+    size: M
+    extent: [4352, 768]
+    at: [2944, 0]
+    floor: 0
+    clear_height: 480
+    purpose: "Under the temple and the stables; the oldest stone; the cellar's floor grate in its south walk, bolted from below."
+    theme: "The east drain and the drowned cellar: the oldest mossy stone (d1medbw)."
+    population:
+      - {actor: 11311, groups: 4, levels: [14, 14], placed: true, strength: pack}
+  - id: room:felix
+    name: Felix's tunnel
+    kind: corridor
+    size: S
+    extent: [384, 2432]
+    at: [-2880, -1728]
+    floor: 0
+    clear_height: 384
+    purpose: "A neat tunnel dug by Felix the Tinker (NPC 4958), who lives at its end by his bench and sells nothing; his line is the sluice hint (D-26)."
+    empty: true
+    theme: "Felix's tunnel: rough stone d1wle over flags."
+  - id: room:midden
+    name: Bone midden
+    kind: room
+    size: M
+    extent: [1280, 1536]
+    at: [5888, -2176]
+    floor: -480
+    clear_height: 608
+    purpose: "Where the rats drag what they kill: bones and a sodden pack (chest)."
+    theme: "Where the brick has fallen in: rough sewer stone d1wle in broken cave walls over the old flags."
+    population:
+      - {actor: 11393, groups: 3, levels: [10, 10], placed: true, strength: light}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:nest_ramp
+    name: Nest ramp
+    kind: corridor
+    size: S
+    extent: [1280, 768]
+    at: [1728, -1600]
+    floor: [-512, -224]
+    clear_height: 384
+    purpose: "From the culvert up to the nest, above the high water."
+    empty: true
+    theme: "The deep culverts and the outfall: rough sewer stone d1wle."
+  - id: room:north_drain
+    name: North drain
+    kind: corridor
+    size: M
+    extent: [3328, 768]
+    at: [896, 1152]
+    floor: 0
+    clear_height: 512
+    purpose: "Under the north street; gremlin tools and a cut rope."
+    theme: "The west and north drains: the sewer stone with its wet green tide line (d1wldle2), flags, block vault."
+    population:
+      - {actor: 11020, groups: 3, levels: [14, 14], placed: true, strength: pack}
+  - id: room:outfall
+    name: Outfall tunnel
+    kind: corridor
+    size: M
+    extent: [4224, 512]
+    at: [2240, -4864]
+    floor: -512
+    clear_height: 384
+    purpose: "The drain's way out under the town wall to the mill gorge: an iron grate barred on this side; lifting the bar opens it both ways."
+    empty: true
+    theme: "The deep culverts and the outfall: rough sewer stone d1wle."
+  - id: room:overflow
+    name: Overflow cistern
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    at: [-1152, -1664]
+    floor: 0
+    clear_height: 768
+    purpose: "A round cistern and its pool; the stair down to the culverts leaves from its south side."
+    theme: "The overflow and deep cisterns: wet stone (d1wldle3), flags, the rough vault."
+    population:
+      - {actor: 11393, groups: 4, levels: [10, 10], placed: true, strength: pack}
+  - id: room:overflow_stair
+    name: Overflow stair
+    kind: corridor
+    size: M
+    extent: [384, 1664]
+    at: [-1152, -3072]
+    floor: [0, -512]
+    clear_height: 384
+    purpose: A ramp of wet stone down from the overflow to the deep cistern.
+    empty: true
+    theme: "The overflow and deep cisterns: wet stone (d1wldle3), flags, the rough vault."
+  - id: room:rat_nest
+    name: The rat queen's nest
+    kind: room
+    size: L
+    extent: [1792, 1920]
+    at: [3200, -2112]
+    floor: -224
+    clear_height: 672
+    purpose: "A heap of rags, bottle caps and buttons in a collapsed vault; Rooka (q-d5.rooka at her death); the shiny things (m16.necklace); her hoard. The culvert's four rats wait at its mouth."
+    theme: "The rat queen's nest: rough stone over straw and muck (d1sbpa)."
+    population:
+      - {actor: 11403, role: boss, groups: 1, levels: [24, 24], placed: true, strength: boss}
+      - {actor: 11400, groups: 4, levels: [18, 18], placed: true, strength: heavy}
+      - {actor: 11393, groups: 4, levels: [10, 10], placed: true, strength: light}
+    treasure:
+      - {kind: chest, count: 1, tier: 3, notes: the hoard}
+  - id: room:rat_runs
+    name: Rat runs
+    kind: room
+    size: M
+    extent: [2432, 1280]
+    at: [1344, -3840]
+    floor: -512
+    clear_height: 512
+    purpose: "Where the brick has fallen in: burrows, gnawed bones, rat runs."
+    theme: "Where the brick has fallen in: rough sewer stone d1wle in broken cave walls over the old flags."
+    population:
+      - {actor: 11400, groups: 3, levels: [18, 18], placed: true, strength: pack}
+      - {actor: 11393, groups: 3, levels: [10, 10], placed: true, strength: pack}
+  - id: room:shaft_market
+    name: Market shaft
+    kind: room
+    size: S
+    extent: [512, 512]
+    at: [3200, 768]
+    floor: 0
+    clear_height: 1280
+    purpose: "Under the market: a grate bolted from above, a heap of things dropped through it over the years (a chest)."
+    theme: "The five shafts: Castleview's grey ashlar (t09a01 over a t09b11b plinth) up to a round street grate (d1lggrt)."
+    population:
+      - {actor: 11393, groups: 3, levels: [10, 10], placed: true, strength: light}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:shaft_north
+    name: North shaft (the gate)
+    kind: room
+    size: S
+    extent: [512, 512]
+    at: [1920, 1920]
+    floor: 0
+    clear_height: 1280
+    purpose: "A ladder up to a grate under the gatehouse, bolted from above; the bones of a gate guard who fell in, his purse still on him."
+    empty: true
+    theme: "The five shafts: Castleview's grey ashlar (t09a01 over a t09b11b plinth) up to a round street grate (d1lggrt)."
+  - id: room:shaft_square
+    name: Square shaft (the hatch)
+    kind: room
+    size: S
+    extent: [512, 512]
+    at: [0, -1024]
+    floor: 0
+    clear_height: 1280
+    purpose: "The iron hatch by the square's south-east corner: the ladder down, and the way in and out (D1 door:dd01)."
+    empty: true
+    theme: "The five shafts: Castleview's grey ashlar (t09a01 over a t09b11b plinth) up to a round street grate (d1lggrt)."
+  - id: room:shaft_temple
+    name: Temple shaft
+    kind: room
+    size: S
+    extent: [512, 512]
+    at: [5504, 0]
+    floor: 0
+    clear_height: 1280
+    purpose: "A ladder up to the temple's grate, bolted from above. A flask of Green Liquid (+2 Endurance, once per character)."
+    empty: true
+    theme: "The five shafts: Castleview's grey ashlar (t09a01 over a t09b11b plinth) up to a round street grate (d1lggrt)."
+  - id: room:shaft_west
+    name: West shaft (guild row)
+    kind: room
+    size: S
+    extent: [512, 512]
+    at: [-3584, 0]
+    floor: 0
+    clear_height: 1280
+    purpose: "A ladder up to a grate bolted from above (the guild row). On a ledge: a flask of Red Liquid (+2 Might, once per character)."
+    empty: true
+    theme: "The five shafts: Castleview's grey ashlar (t09a01 over a t09b11b plinth) up to a round street grate (d1lggrt)."
+  - id: room:sluice
+    name: The jammed sluice
+    kind: room
+    size: L
+    extent: [1920, 1536]
+    at: [-1856, 1280]
+    floor: 0
+    clear_height: 640
+    purpose: "The town's sluice house, its gate wedged half open by gremlins with stolen mill gears. The lever: closed, the gate drops, the channel stills and the deep culvert drains; opened, it floods again."
+    theme: "The town's sluice house: block stone, its iron door d8dore."
+    population:
+      - {actor: 11020, groups: 4, levels: [14, 14], placed: true, strength: pack}
+      - {actor: 11021, groups: 2, levels: [18, 18], placed: true, strength: heavy}
+  - id: room:valio
+    name: Valio's bed
+    kind: room
+    size: S
+    extent: [640, 640]
+    at: [-2240, -1728]
+    floor: 0
+    clear_height: 384
+    purpose: "A bed in a dry niche, Valio the Simple (NPC 4957) in it (Q-D5). His chest beside it: gold and a T2 item; opened before he pays, he gets out of bed (monster 11193, 45)."
+    theme: "Valio's dry niche: block stone over a plank floor (6d03's bemvwal)."
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:west_drain
+    name: West drain
+    kind: corridor
+    size: M
+    extent: [2432, 768]
+    at: [-1984, 0]
+    floor: 0
+    clear_height: 512
+    purpose: "A walk either side of a slow channel; rats on the walks."
+    theme: "The west and north drains: the sewer stone with its wet green tide line (d1wldle2), flags, block vault."
+    population:
+      - {actor: 11393, groups: 4, levels: [10, 10], placed: true, strength: pack}
+links:
+  - id: link:cellar_east
+    from: room:cellar
+    to: room:east_drain
+    kind: ladder
+    condition: {map_var: grate_open}
+    opened_by: poi:grate_bolt
+    purpose: "A ladder up to a floor grate in the east drain, bolted from below: opened once from the cellar; from above 'The grate is bolted from below.'"
+  - id: link:cross_east
+    from: room:cross
+    to: room:east_drain
+    kind: door
+  - id: link:cross_west
+    from: room:cross
+    to: room:west_drain
+    kind: door
+  - id: link:culvert
+    from: room:rat_runs
+    to: room:culvert
+    kind: open
+    condition: {map_var: sluice_shut}
+    opened_by: poi:sluice
+    purpose: "Flooded to its roof until the sluice is shut (the water a sinking mover, XD-10's word)."
+  - id: link:culvert_ramp
+    from: room:culvert
+    to: room:nest_ramp
+    kind: open
+  - id: link:deep_outfall
+    from: room:deep_cistern
+    to: room:outfall
+    kind: door
+  - id: link:deep_runs
+    from: room:deep_cistern
+    to: room:rat_runs
+    kind: open
+  - id: link:east_market
+    from: room:east_drain
+    to: room:shaft_market
+    kind: door
+  - id: link:east_temple
+    from: room:east_drain
+    to: room:shaft_temple
+    kind: open
+  - id: link:felix_valio
+    from: room:felix
+    to: room:valio
+    kind: open
+  - id: link:midden_cellar
+    from: room:midden
+    to: room:cellar
+    kind: open
+  - id: link:nest_slide
+    from: room:rat_nest
+    to: room:bone_slide
+    kind: open
+  - id: link:north_cross
+    from: room:north_drain
+    to: room:cross
+    kind: door
+  - id: link:north_shaft
+    from: room:north_drain
+    to: room:shaft_north
+    kind: open
+  - id: link:overflow_stair
+    from: room:overflow
+    to: room:overflow_stair
+    kind: open
+  - id: link:ramp_nest
+    from: room:nest_ramp
+    to: room:rat_nest
+    kind: open
+  - id: link:slide_midden
+    from: room:bone_slide
+    to: room:midden
+    kind: open
+  - id: link:sluice_north
+    from: room:sluice
+    to: room:north_drain
+    kind: door
+  - id: link:square_cross
+    from: room:shaft_square
+    to: room:cross
+    kind: open
+  - id: link:stair_deep
+    from: room:overflow_stair
+    to: room:deep_cistern
+    kind: open
+  - id: link:valio_overflow
+    from: room:valio
+    to: room:overflow
+    kind: door
+  - id: link:west_felix
+    from: room:west_drain
+    to: room:felix
+    kind: open
+  - id: link:west_shaft
+    from: room:west_drain
+    to: room:shaft_west
+    kind: open
+  - id: link:west_sluice
+    from: room:west_drain
+    to: room:sluice
+    kind: open
+loops:
+  - id: loop:deep
+    spaces: [room:cross, room:west_drain, room:felix, room:valio, room:overflow, room:overflow_stair, room:deep_cistern, room:rat_runs, room:culvert, room:nest_ramp, room:rat_nest, room:bone_slide, room:midden, room:cellar, room:east_drain]
+    notes: "Down past Valio, through the nest, up through the drowned cellar's floor grate."
+  - id: loop:upper
+    spaces: [room:cross, room:west_drain, room:sluice, room:north_drain]
+    notes: Round the sluice house.
+entrances:
+  - id: entrance:d1_hatch
+    space: room:shaft_square
+    kind: both
+    neighbour: exit:d1_hatch
+    facing: n
+    notes: "The arrival at the ladder's foot. 'Exit the Sewer?' (dark/aaze0030) is the game's leave window."
+  - id: entrance:d1_outfall
+    space: room:outfall
+    kind: both
+    neighbour: exit:d1_outfall
+    notes: "The outfall grate: barred on this side until the bar is lifted (q-d5.outfall_unbarred), then both ways."
+critical_path: [room:shaft_square, room:cross, room:west_drain, room:sluice, room:west_drain, room:felix, room:valio, room:overflow, room:overflow_stair, room:deep_cistern, room:rat_runs, room:culvert, room:nest_ramp, room:rat_nest]
+return_path: [room:rat_nest, room:bone_slide, room:midden, room:cellar, room:east_drain, room:cross, room:shaft_square]
+goals:
+  - id: goal:necklace
+    space: room:rat_nest
+    kind: take
+    what: "Nadia's onyx necklace among the shiny things (A3's hook m16.necklace, once)."
+  - id: goal:rooka
+    space: room:rat_nest
+    kind: kill
+    what: "Rooka the Rat Queen (q-d5.rooka at her death: rooka_slain 113101, 3,000 XP)."
+  - id: goal:valio
+    space: room:valio
+    kind: use
+    what: Valio's topic pays with his chest after rooka_slain (q-d5.valio_chest).
+keys:
+  - id: key:grate
+    grants: {map_var: grate_open}
+    found_in: room:cellar
+    how: lever
+    notes: "The cellar's bolt opens the floor grate into the east drain, once, from below."
+  - id: key:sluice
+    grants: {map_var: sluice_shut}
+    found_in: room:sluice
+    how: lever
+    notes: "The sluice lever drains the nest culvert; open again it floods it."
+points_of_interest:
+  - id: poi:bones
+    space: room:shaft_north
+    kind: sign
+    behaviour: "A gate guard's bones: his purse once (guard_purse 117002), then 'Nothing here.' (dark/aaze0030)."
+  - id: poi:grate_bolt
+    space: room:cellar
+    kind: lever
+    behaviour: "The bolt under the floor grate: drawn once, the grate slides aside over the ladder."
+  - id: poi:liquids
+    spaces: [room:shaft_west, room:shaft_temple]
+    count: 2
+    kind: fountain
+    behaviour: "Red Liquid (+2 Might) and Green Liquid (+2 Endurance), once per character (player bits 11310, 11311); the source's +5 rescaled."
+  - id: poi:outfall_bar
+    space: room:outfall
+    kind: lever
+    behaviour: "The outfall grate's bar: lifted (q-d5.outfall_unbarred) the grate opens both ways to the mill gorge; dropped, it bars again."
+  - id: poi:people
+    spaces: [room:felix, room:valio]
+    count: 2
+    kind: npc
+    behaviour: "Felix the Tinker (4958) at his bench; Valio the Simple (4957) in his bed (topic Rats, Q-D5)."
+  - id: poi:shaft_ladders
+    spaces: [room:shaft_west, room:shaft_north, room:shaft_market, room:shaft_temple]
+    count: 4
+    kind: sign
+    behaviour: "'Sewer Drain' (dark/aaze0030): the grate is bolted from above. You hear the town over your head."
+  - id: poi:shiny_heap
+    space: room:rat_nest
+    kind: sign
+    behaviour: "The rats' heap of shiny things: Nadia's necklace (m16.necklace), once."
+  - id: poi:sluice
+    space: room:sluice
+    kind: lever
+    behaviour: "The sluice lever: closed, the jammed gate drops, the channel stills and the culvert's water sinks (6 s); opened, it floods again."
+mechanisms:
+  - {kind: sluice lever and sinking culvert water (two states), count: 1}
+  - {kind: floor grate bolted from below, count: 1}
+  - {kind: outfall bar (two states), count: 1}
+  - {kind: bolted shaft ladder, count: 4}
+  - {kind: once-per-character liquid, count: 2}
+totals:
+  chests: 5
+  doors: 7
+  rooms: 23
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act3_graphs/dd01.graph.yml; D-26 (mockups/act3_a8_decisions_a.md) wins where they differ: Dire Rats for the Bat Queens, the cellar's way up a floor grate bolted from below, no monster below the culvert's high-water line (the culvert's four rats wait in the nest above it), Felix with the sluice hint, the outfall and the street grates on D1. Floors at 0 (the drains) and -512 (the deep culverts; the nest at -224 above the culvert's high water, the midden and cellar at -480). All 50 monsters placed (exact counts); Valio's monster (11193) placed hidden, shown when he is angered."

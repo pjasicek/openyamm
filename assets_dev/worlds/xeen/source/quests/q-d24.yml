@@ -1,0 +1,125 @@
+# Q-D24 The Enchanted Boulders (QUESTS 2.2 Q-D24; Act V, D-16). Owner: A3. Seven boulders on D5 each speak one line of
+# the source's riddle (dark/aaze0010, aaze0014: "My first is in apple and also in pear." ... "My last is in night but
+# not in light."); the last asks "What am I?". A sign by the road tells the story outright (dark/aaze0031:21: "A dying
+# paladin gave all his magical armor to the enchanted boulders of the land for safekeeping."), so the answer is
+# given. The right answer (PALADIN) gives the paladin's armour (A2's 12529) and experience; the source's "visit the
+# other boulders for their treasure": after it each of the other six crumbles once when clicked and leaves one random
+# treasure-level-5 item, then is hidden (D-49 Q3; two clusters: 1, 2 and 7 west, the sign and 3-6 east).
+id: Q-D24
+title: The Enchanted Boulders
+act: V
+kind: side
+status: full
+giver: null
+giver_name: (the seven Enchanted Boulders, D5)
+maps: [D5]
+level: 43
+block: 104
+after: []
+source: "QUESTS Q-D24; dark/aaze0010:0-9, aaze0014:0-14, aaze0031:21"
+
+qbits:
+  solved: {id: 113480}
+  crumbled_1: {id: 113481, note: "the first boulder crumbled after the answer (one random T5 item); D5 hides it"}
+  crumbled_2: {id: 113482, note: "the second boulder crumbled"}
+  crumbled_3: {id: 113483, note: "the third boulder crumbled"}
+  crumbled_4: {id: 113484, note: "the fourth boulder crumbled"}
+  crumbled_5: {id: 113485, note: "the fifth boulder crumbled"}
+  crumbled_6: {id: 113486, note: "the sixth boulder crumbled"}
+
+autonotes:
+  riddle: {id: 4640, text: "The Enchanted Boulders of the Desert of Doom keep a dead paladin's armour. One of them asks: What am I?", category: Misc}
+
+items:
+  paladins_armour: "the boulders' riddle (answer hook)"
+
+hooks:
+  sign:
+    map: D5
+    where: "the weathered sign where the road meets the boulder field"
+    text: "A weathered sign reads: A dying paladin gave all his magical armor to the enchanted boulders of the land for safekeeping."
+  boulder_1:
+    map: D5
+    where: "the first Enchanted Boulder (west cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_1; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_1}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_1}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My first is in apple and also in pear."
+        do: [{autonote: riddle}]
+  boulder_2:
+    map: D5
+    where: "the second Enchanted Boulder (west cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_2; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_2}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_2}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My second is in cave and also in lair."
+  boulder_3:
+    map: D5
+    where: "the third Enchanted Boulder (east cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_3; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_3}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_3}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My third is in fable and also in tale."
+  boulder_4:
+    map: D5
+    where: "the fourth Enchanted Boulder (east cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_4; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_4}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_4}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My fourth is in lark and also in quail."
+  boulder_5:
+    map: D5
+    where: "the fifth Enchanted Boulder (east cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_5; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_5}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_5}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My fifth is in wind but not in gale."
+  boulder_6:
+    map: D5
+    where: "the sixth Enchanted Boulder (east cluster, D-49 change 1). Before the answer it speaks; after it (solved) it crumbles once and gives one random treasure-level-5 item (crumbled_6; the map hides the boulder on load once set, and at once after the click)"
+    states:
+      - when: {qbit: crumbled_6}
+        text: "Where the boulder stood there is only sand."
+      - when: {qbit: solved}
+        text: "The boulder crumbles to sand and leaves behind something the paladin left in its care."
+        do: [{set: crumbled_6}, {treasure: 5}]
+      - text: "The Enchanted Boulder speaks: My sixth is in glimpse and also in sight."
+  boulder_7:
+    map: D5
+    where: "the seventh Enchanted Boulder"
+    text: "The Enchanted Boulder speaks: My last is in night but not in light."
+  answer:
+    map: D5
+    window: "a riddle's answer, long (the Paladin's armour, 251 characters; DECIDE: shorten for the status line)"
+    where: "the seventh boulder's prompt 'What am I?' ('Paladin' calls this hook; any other answer calls answer_wrong)"
+    sets: [solved]
+    gives: [paladins_armour]
+    once: true
+    do: [{xp: 10000}]
+    text: "Correct! You have solved my riddle. Please take the magical things that I have left in the care of these enchanted boulders. Be sure to visit the other boulders for their treasure. The boulder crumbles to sand and leaves behind a suit of golden plate."
+    else_text: "Where the boulder stood there is only sand."
+  answer_wrong:
+    map: D5
+    where: "the same prompt, any other answer"
+    text: "The Enchanted Boulder says nothing. It is, after all, a boulder."
+
+riddles:
+  - {answer: Paladin, where: "D5's seventh boulder (q-d24.answer)", said_by: "the weathered sign by the boulder field (q-d24.sign), and the seven boulders' letters"}
+
+rewards: {xp: 10000, gold: 0, items: "Dead Paladin's Armour (12529)"}
+playthrough: "D5: the sign, the seven boulders, the answer (Paladin); the six others crumble."

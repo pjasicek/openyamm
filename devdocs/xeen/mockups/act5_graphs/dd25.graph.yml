@@ -1,0 +1,190 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# DD-25 is a TOWN BLV, not a dungeon: 0 monsters, no kill XP, no chests, no rest encounters. Its graph is the walking
+# lines between the map door, the six house doors (A4's source/towns/dd25.yml, 4701-4706) and the King's hall. The six
+# `house:` boxes are house screens (a clicked door face opens the MM6-MM8 house dialog), not walk-in rooms: no geometry
+# behind them.
+# The source has no hall: Bosco the Dwarf King stands on the Desert of Doom itself (dark maze0013, cell (1,8), his
+# lines aaze0013:13-17: the seer, the Chalice of Protection, "I dub thee royal taste tester", "My halls will always be
+# open to you"). WORLD_DESIGN §5.2 gives him a small dwarf hall dug into the D5 highlands (smith, tavern, Earth guild,
+# 2 residences + the King). Ours: ONE BLV, the shipped precedent is MM7's Stone City 7d24, whose town quarter (the
+# octagonal hall with its timber house fronts, the King's throne room behind; sectors 4, 5, 11, 12, 15, 27-29, 31-34)
+# holds 9 services, 8 residences and the Throne Room (an EnterHouse inside a walk-in hall) in 12 sectors and about
+# 14 M units². Six doors want about half of that plus the walk-in throne hall.
+# Frame: x east, y north, z 0 = the gate's sill (D5's 2688); the gate in the east wall (D5's door faces east), the
+# hall running west into the crag. The throne hall stands 128 up (steps), the Deep Guild 384 down (one stair).
+format: mu6-0
+map: DD-25
+key: dd25
+name: Bosco's Hall
+stands_on: "D5 Desert of Doom (Bosco's crag over his terrace, thing:bosco_door at cell (60.7, 46.25), D-49)"
+class: town
+band: "town BLV (MAPS: 'dwarf hall, small BLV'; no dungeon class): proposed inside S's figures, 6-15 sectors, 7-20 M units², 3-8 doors; 0 monsters, 0 chests"
+size: "14 review boxes: 8 rooms (about 12 sectors: the great hall, the smiths' gallery and the throne hall two each, the guild stair one) and 6 house screens (no geometry). Floor about 9.9 M units² (great hall 2,048 x 1,536; throne hall 1,536 x 1,280; Deep Guild hall 1,280 x 1,024; gallery 2,048 x 512; the rest small). 8 doors: the gate and the throne hall's doors as two-leaf pairs (4 leaves), 6 house doors (clicked faces with one door picture each, no movers)"
+party: [45, 52]
+monsters:
+  levels: [0, 0]
+  boss: null
+  count: 0
+  groups: [0, 0]
+  families:
+    - "None: a town. MAPS's row DD-25 has no monsters ('—'), maps.yml monsters '0', party '-'. No kill XP; nothing counted toward Act V's kill budget"
+    - "Peaceful dwarves placed standing (uncounted, not monsters): two gate guards, two throne guards, four townsfolk (open question 3)"
+  mix: []
+  kill_xp: "0 (a town: no kill XP)"
+  kill_xp_target: "MAPS §0 / Darkside table row DD-25: town, no monsters; nothing to match"
+rest: "No rest encounters: no hostile row on the map (D-39's 10 % has nothing to draw from); resting is allowed and quiet. The Alehall (4702, D-29 price 20) sells food"
+treasure: {level: 0}
+role: "Q-D17 The Chalice of Protection: Bosco (5401) in the King's Hall (house 4704, a residence so his A3 topics show) gives the Northern Tower's key (113341, started 113340) and takes the Chalice (12525) back (done 113343: 'I dub thee royal taste testers', two Energy Disks, 5,000 gold, award 457). Services: Bosco's Forge (W, quality 4, axes and maces), the Alehall (tavern), the Deep Guild of Earth; teachers Axe, Chain, Earth Magic and Repair Item Grandmaster"
+role_short: "Q-D17 (Bosco), 3 services, 4 Grandmasters"
+set_piece: "The throne hall: Bosco's empty throne on a three-step dais under his banner (xdbosban, once per face), the long tasting table along the north wall with a row of cups and the taster's stool, braziers standing on the floor; the King's Hall door (house 4704) behind the dais. The great hall's round hearth (a dressing set piece the walking lines pass either side of) is the town's square"
+sounds: "music 31 (maps.yml); shipped indoor bed (stone hall hum); a shipped anvil ring looped low at the forge bay; the Alehall's murmur at its door (shipped tavern crowd, quiet); AU optional: distant hammering under the hall"
+textures:
+  family: "MM7 Stone City 7d24's town quarter (open question 4): dressed cwb walls under cwb1 rock vaults, 7tfb1 and cfb1 floors, trim1_32 frieze and 7trimd/7trimda trim, the timber house fronts hdr1b, hdm2b, hdp1b and hdp1er under hhm1rf eaves for the six house doors (XD-09 did not use them), 7cdb on the hearth, hdr1dl/hdr1dr as the throne hall's two leaves (each its own wing); the gate's inner face the D5 pair t09a03a mirrored (D-49); shipped signs over the service doors: sgweapon (Forge), 7sgtvrn (Alehall), sgearth (Deep Guild); 7wtrtyl in the well"
+  cap: 30
+  planned: 24
+  new: 1
+  new_names: ["xdbosban: Bosco's banner (a crowned anvil between two axes on dark red, no letters), once per face in the throne hall"]
+  distinct_from: "XD-02 Red Dwarf Mines (6d05/6d09, the Cloudside dwarves: red rock, plank lagging), XD-03 (7d34 + 6d18 lava; 7d24 only in its one Red Dwarf vault), XD-09 Golem Dungeon (7d24 rock hub and entry, cwb/cwb1 without the house fronts), DD-10 (7d35 cwb1 veins); on D5: DD-08 (d27 + 7d33 dark cobble), DD-15 (VARN stone), DD-24 (A7's giants' hall). Only DD-25 has a town's house fronts and signs indoors"
+floors:
+  - {floor: 0, name: "The hall (gate level)", height: 0}
+  - {floor: -1, name: "The Deep Guild", height: -384}
+spaces:
+  # floor 0
+  - {id: room:gate_passage, name: Gate passage, kind: corridor, size: S, floor: 0, at: [5, 2], monsters: 0,
+     purpose: "The arrival (entrance:d5_bosco): 512 long, 384 wide, 320 high (D5's doorway), the gate's two leaves behind (t09a03a mirrored, the D5 pair's inner face; the exit preset, D-24), the gate hall ahead. Quiet (D-11.3); map qbit 117680 dd25_arrived_once: the first-arrival line. Wall lamps on both walls, nothing on the floor."}
+  - {id: room:gate_hall, name: Gate hall, kind: room, size: M, floor: 0, at: [4, 2], monsters: 0,
+     townsfolk: "2 gate guards in the wall alcoves (standing)",
+     purpose: "768 x 1,024: the Alehall's door first on the south wall (the tavern nearest the arrival, TOWN_FEEL §4), two guard alcoves, the arch north to the smiths' gallery and the wide arch west into the great hall. A pair of ale barrels against the wall beside (not before) the Alehall's door."}
+  - {id: room:great_hall, name: Great hall, kind: hall, size: L, floor: 0, at: [3, 2], monsters: 0,
+     townsfolk: "2 townsfolk by the hearth",
+     purpose: "2,048 x 1,536 under a 768 vault: the town's square. The round hearth in the middle (7cdb; a dressing set piece) with the walking lines 512 clear either side; the well against the south wall (open question 8); benches by the walls, two chandeliers hung from the vault, sconces on the pillars. Ways off: the gate hall (east), the smiths' gallery (north-east arch), the burrow lane (south), the King's steps (west)."}
+  - {id: room:smiths_gallery, name: Smiths' gallery, kind: corridor, size: M, floor: 0, at: [4, 1], monsters: 0,
+     townsfolk: "1 townsfolk at the forge bay",
+     purpose: "2,048 x 512 along the north side, open at both ends (great hall, gate hall): the loop. Bosco's Forge and the Mailwright's Burrow side by side on its north wall, 768 apart (the weapon and armour pair, TOWN_FEEL §4); between them the forge bay, a lit hearth opening in the wall (its light inside the bay), an anvil by the wall beside the Forge's door, never on the line."}
+  - {id: room:burrow_lane, name: Burrow lane, kind: corridor, size: S, floor: 0, at: [3, 3], monsters: 0,
+     townsfolk: "1 townsfolk",
+     purpose: "1,280 x 512 off the great hall's south side: the Tinker's Burrow (a round burrow door in the rock) on its south wall; at its west end the guild stair down. A dead end on this floor that holds a house door and the stair."}
+  - {id: room:kings_steps, name: King's steps, kind: stair, size: S, floor: 0, at: [2, 2], monsters: 0,
+     purpose: "512 x 768 rising 128 in four steps from the great hall to the throne hall's two-leaf doors (hdr1dl/hdr1dr, 384 wide)."}
+  - {id: room:throne_hall, name: Throne hall, kind: hall, size: L, floor: 0, at: [1, 2], monsters: 0, set_piece: true,
+     townsfolk: "2 throne guards inside the doors (standing)",
+     purpose: "1,536 x 1,280 at z 128 under a 640 ceiling: the empty throne on a three-step dais at the west end under Bosco's banner, the long tasting table on the north wall (cups, the taster's stool), braziers on the floor by the dais, banners once per face. The King's Hall door behind the dais (house 4704). From q-d17.done the Chalice stands on the table (open question 6)."}
+  # floor -1
+  - {id: room:guild_hall, name: Deep Guild hall, kind: hall, size: M, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "1,280 x 1,024 at z -384 at the guild stair's foot: a raw-rock hall (cwb1) with a vein of crystal by the wall (dressing), floor lamps; the Deep Guild of Earth's door on its west wall under sgearth. A dead end with a service door. Quiet."}
+  # house screens (clicked doors; no geometry behind them)
+  - {id: house:alehall, name: The Alehall (4702), kind: room, size: tavern, floor: 0, at: [5, 3], monsters: 0,
+     purpose: "door:alehall, house 4702: tavern, Brunna (5403); hdm2b front, 7sgtvrn over the door, price 20 (D-29)."}
+  - {id: house:forge, name: "Bosco's Forge (4701)", kind: room, size: weapons, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "door:forge, house 4701: weapon shop, quality 4, axes and maces (A4's row 35); Durgan Ironfist (5402), Axe Grandmaster. hdr1b front, sgweapon."}
+  - {id: house:mailwright, name: "Mailwright's Burrow (4705)", kind: room, size: residence, floor: 0, at: [5, 0], monsters: 0,
+     purpose: "door:mailwright, house 4705: residence, Hilde Ringwright (5405), Chain Grandmaster. A round burrow door (hdp1b) in the gallery's rock."}
+  - {id: house:tinker, name: "Tinker's Burrow (4706)", kind: room, size: residence, floor: 0, at: [2, 3], monsters: 0,
+     purpose: "door:tinker, house 4706: residence, Gimble (5406), Repair Item Grandmaster. A round burrow door (hdp1b)."}
+  - {id: house:kings_hall, name: "The King's Hall (4704)", kind: room, size: residence, floor: 0, at: [0, 2], monsters: 0, goal: true,
+     purpose: "door:kings_hall, house 4704: residence, Bosco the Dwarf King (5401): his A3 topics (Q-D17 Chalice: the key, the hand-in). A carved door (hdp1er front) behind the dais."}
+  - {id: house:guild_earth, name: "Deep Guild of Earth (4703)", kind: room, size: guild, floor: -1, at: [2, 0], monsters: 0,
+     purpose: "door:guild_earth, house 4703: Earth guild, 11 spells; Stonebeard (5404), Earth Magic Grandmaster."}
+links:
+  - {id: link:gate_hall, from: room:gate_passage, to: room:gate_hall, kind: open}
+  - {id: link:gatehall_great, from: room:gate_hall, to: room:great_hall, kind: open}
+  - {id: link:gatehall_gallery, from: room:gate_hall, to: room:smiths_gallery, kind: open}
+  - {id: link:great_gallery, from: room:great_hall, to: room:smiths_gallery, kind: open}
+  - {id: link:great_burrow, from: room:great_hall, to: room:burrow_lane, kind: open}
+  - {id: link:great_steps, from: room:great_hall, to: room:kings_steps, kind: open}
+  - {id: link:steps_throne, from: room:kings_steps, to: room:throne_hall, kind: door, label: "Two leaves"}
+  - {id: link:guild_stair, from: room:burrow_lane, to: room:guild_hall, kind: stair, label: "Guild stair"}
+  # the six house doors (clicked faces)
+  - {id: link:door_alehall, from: room:gate_hall, to: house:alehall, kind: door, label: "door:alehall"}
+  - {id: link:door_forge, from: room:smiths_gallery, to: house:forge, kind: door, label: "door:forge"}
+  - {id: link:door_mailwright, from: room:smiths_gallery, to: house:mailwright, kind: door, label: "door:mailwright"}
+  - {id: link:door_tinker, from: room:burrow_lane, to: house:tinker, kind: door, label: "door:tinker"}
+  - {id: link:door_kings_hall, from: room:throne_hall, to: house:kings_hall, kind: door, label: "door:kings_hall"}
+  - {id: link:door_guild, from: room:guild_hall, to: house:guild_earth, kind: door, label: "door:guild_earth"}
+states:
+  - {id: state:arrived, kind: qbit, where: room:gate_passage,
+     what: "Map qbit 117680 dd25_arrived_once: on the first load the arrival line (new, A3): 'The hall rings with hammers. A dwarf at the gate looks you over, then your boots, and waves you in.'",
+     opens: [], draw: false}
+  - {id: state:key, kind: qbit, where: house:kings_hall,
+     what: "Q-D17 in Bosco's topics (A3, not a hook): the first talk sets started 113340 and key 113341 (DD-08's door reads it, q-d17.tower_door on D5) and autonote 4570; nothing in this map changes",
+     opens: [], draw: false}
+  - {id: state:chalice_shown, kind: stage, where: room:throne_hall,
+     what: "From q-d17.done 113343 (load event): a shipped goblet decoration on the tasting table, the Chalice in use (open question 6); Bosco's greeting after done aaze0013:17 (open question 5)",
+     opens: [], draw: false}
+  - {id: state:oath, kind: qbit, where: house:kings_hall,
+     what: "q-d17.oath 113344 (the knights' route): Bosco's Chalice topic turns to 'Get out.' (A3); the map stays open (open question 7)",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d5_gate, space: room:gate_passage, at: [6, 2], kind: both, label: "D5: Bosco's gate",
+     arrival: "entrance:d5_bosco (as D5 assumed): in the gate passage 256 inside the leaves, at (2,048, 0, 0) in the map's frame (the leaves in the east wall at x 2,304, the great hall centred on 0, 0), facing west (1024), into the hall",
+     neighbour: "D5 door:dd25 = thing:bosco_door (60.7, 46.25) = about (-1,690, 9,088), a doorway 384 x 320 in the crag, two t09a03a leaves mirrored, sealed with a message until DD-25 is built. Out by the exit preset (D-24; the game's 'Do you wish to leave Bosco's Hall?') to D5's installed entrance:dd25_door (-512, 9,216, 2,688) facing 0 (east): at the end of link:bosco_lane on the terrace, about 1,050 east of the leaves, facing away. Matches; keep it (D5's town-buffer figure, 2,700, is measured from it). D5 changes only the door: drop the sealed message, `into: {map: xeen_dd25.blv, arrival: entrance:d5_bosco}`"}
+hooks: []
+# No hook in data_tables/quest_hooks.yml names DD-25 (checked 2026-11-21: 0 of the table). Q-D17 lives in Bosco's
+# topics (house 4704, A3's q-d17.yml npcs 5401); the flavour topics are Brunna's, Stonebeard's and Gimble's
+# (source/npcs/flavour/dd25.yml, block 184). q-d17.tower_door is D5's; voice, chalice, oath are DD-08's.
+critical_path: [room:gate_passage, room:gate_hall, room:great_hall, room:kings_steps, room:throne_hall, house:kings_hall]
+return_path: [house:kings_hall, room:throne_hall, room:kings_steps, room:great_hall, room:smiths_gallery, room:gate_hall, room:gate_passage]
+loops:
+  - {id: loop:smiths, spaces: [room:gate_hall, room:great_hall, room:smiths_gallery],
+     notes: "The smiths' gallery opens at both ends: in by the wide arch, out past the Forge and the Mailwright to the gate (the return path)."}
+walking_lines:
+  - "Arrival -> Alehall door: about 800 (the first door)"
+  - "Arrival -> King's Hall door: about 5,300 along the hall's axis (gate passage, gate hall, great hall round the hearth, King's steps, throne hall)"
+  - "Arrival -> Forge: about 2,300 by the gallery; Forge -> Mailwright 768"
+  - "Arrival -> Tinker: about 3,000; Tinker -> Deep Guild: about 1,500 (the stair)"
+  - "Service to nearest service (straight line), median about 2,300: Alehall-Forge 2,290, Deep Guild-Forge about 3,950 (TOWN_FEEL 5c small: 854-2,424)"
+  - "Kept clear: 384 either side of every line and 256 before every door; props by the walls only"
+lines:
+  - {text: "Bosco / The Dwarf King", ref: "dark/aaze0013:13", where: "house:kings_hall (his name and title on the house screen; A4's title 'Dwarf King')"}
+  - {text: "Recently, my tribal seer told me I will die by imbibing a poison drink. ... I do have the key to the tower, which I'll give you. If you bring me the Chalice, I will reward you well.", ref: "dark/aaze0013:14", where: "house:kings_hall (A3's opening Chalice topic, adapted; A4's greeting 'A seer says ...', close)"}
+  - {text: "Please get the Chalice. I live in fear for my life.", ref: "dark/aaze0013:15", where: "house:kings_hall (A3's started state, verbatim start)"}
+  - {text: "Oh, thank the Gods! You have the Chalice. For saving my life, I dub thee royal taste tester and give you this treasure.", ref: "dark/aaze0013:16", where: "house:kings_hall (A3's hand-in; MAPS D5's original line; the +1,000,000 experience rescaled to A3's 14,000)"}
+  - {text: "Ah, the taste testers! Please, please, sit down and drink with me for awhile! My halls will always be open to you.", ref: "dark/aaze0013:17", where: "house:kings_hall after q-d17.done (proposed, open question 5)"}
+open_questions:
+  - q: "Size of a town BLV with six doors (no precedent in the graphs). MAPS 'small BLV'; WORLD_DESIGN §5.2 3 services and 2 residences + the King; Stone City's town quarter 12 sectors, about 14 M units² for 18 doors."
+    options: ["(a) about 12 sectors, about 9.9 M units², 8 doors (gate and throne hall two-leaf, 6 house doors), one loop, a walk-in throne hall and the guild one stair down: inside S's figures",
+              "(b) Stone City's octagon alone: one great hall with all six house fronts round it, about 6 sectors and 6 M units², no walk-in throne hall, no loop",
+              "(c) about 18 sectors and 15 M units², with four more closed dwarf house fronts ('Nobody answers.') to reach TOWN_FEEL 5c's 6 residences"]
+    recommend: "(a)"
+    depends: "A4 (towns.py residences: WORLD_DESIGN's 2 plus the King's Hall), A8 at L1"
+  - q: "The King's Hall: walk-in or a house front?"
+    options: ["(a) a walk-in throne hall (the set piece) with the house door door:kings_hall behind the dais: Stone City's Throne Room pattern (EnterHouse 216 bound inside its walk-in hall); the throne stands empty, Bosco is in the house screen",
+              "(b) a house front on the great hall like the other five (two sectors fewer, no set piece)",
+              "(c) as (a), plus Bosco as a placed talking actor on the throne (monsters[].npc 5401; a peaceful placed-only row and a dwarf king body from A2 and S)"]
+    recommend: "(a)"
+    depends: "A4 (the door id stays door:kings_hall), A2/S only under (c)"
+  - q: "Townsfolk. A town reads empty without people; Xeen has no peaceful dwarf row (the characters block is full at 11923)."
+    options: ["(a) eight peaceful dwarves standing, uncounted: two gate guards and two throne guards on the engine's Dwarf A rows (MM7's allied dwarves), four townsfolk on the engine's Peasant Dwarf rows; none on a walking line",
+              "(b) the four guards only",
+              "(c) none: the house screens are the people"]
+    recommend: "(a)"
+    depends: "A2 (rows or stand-ins and their faction: friendly), A4 (street townsfolk are its placement)"
+  - q: "Texture family. The dwarf families are taken: XD-02 6d05/6d09, XD-03 7d34/6d18, XD-09 7d24's rock hub."
+    options: ["(a) MM7 Stone City 7d24's town quarter: its dressed cwb, trim1_32 frieze and the timber house fronts (hdr1b, hdm2b, hdp1b, hhm1rf) that no Xeen map uses; the other face from XD-09 and an act apart; 24 of 30, 1 new",
+              "(b) MM8 Dark Dwarf Compound d41 (grey and black stone under plank ceilings, unused in Xeen) with 7d24's house fronts for the six doors (two sources)",
+              "(c) MM6 Snergle's Iron Mines 6d09: the same kin as XD-02's halls (carved d7 friezes, d7dor doors)"]
+    recommend: "(a)"
+    depends: "A6 (dungeon_families: add DD-25; register xdbosban)"
+  - q: "Bosco's fifth source line, aaze0013:17 ('Ah, the taste testers! ... My halls will always be open to you.'), unused by A3 and A4."
+    options: ["(a) his greeting once q-d17.done is set (A4's greeting by qbit, if the format has one; else (b))",
+              "(b) the first sentence of the Chalice topic's done state, before A3's 'I drink from it every morning.'",
+              "(c) not used"]
+    recommend: "(a)"
+    depends: "A3, A4"
+  - q: "The Chalice after the hand-in."
+    options: ["(a) a stage by qbit: from q-d17.done a shipped goblet decoration on the tasting table (load event)",
+              "(b) nothing in the map"]
+    recommend: "(a)"
+    depends: "A8 at L3 (a shipped goblet), S only if none fits"
+  - q: "The hall after the Voweless oath (q-d17.oath: Bosco's topic says 'Get out.')."
+    options: ["(a) no change in the map: the King's Hall still opens, his topic carries it; the services stay open",
+              "(b) the throne hall's doors refuse from oath on ('The guards cross their axes. The King will not see you.'), a condition on the two leaves"]
+    recommend: "(a)"
+    depends: "A3"
+  - q: "The great hall's well (TOWN_FEEL §7: 0-3 boon wells in town; D5 already holds the Fountain of Might and the Last Water)."
+    options: ["(a) a plain well, no boon: 'Cold and clean. The King had it tasted this morning.' (new line)",
+              "(b) no well: the hearth only",
+              "(c) a boon well, +5 Earth resistance once per character (a player bit)"]
+    recommend: "(a)"
+    depends: "A3 (the line)"

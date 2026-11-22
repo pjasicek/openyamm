@@ -1,0 +1,125 @@
+# Q-D3 The Drawkcab Way (QUESTS 2.2 Q-D3, 3.2: Initiate -> Master, Light). Owner: A3. Format: QUESTS_FORMAT.md.
+# Four palindrome monks in Castleview give their lessons in order (A4's names: Otto, Hannah, Bob, Ada, all
+# palindromes; the source's were Pip, Otto, Bob and Tinit); the last makes the party Drawkcabs and says the word they
+# study. Brother Reger, in his cell outside the walls, asks for the word at his door (the map's password prompt) and
+# promotes once the Queen's castle is rising (m20.started; D-12.2: only the promotion is gated, about level 30-32).
+# The lessons quote the source's palindromes. Experience: 11,000 per member (Ada 2,000, Reger 9,000; D-16: a promotion
+# that is its own quest pays a quarter to a half of a level, inside Act IV's budget).
+id: Q-D3
+title: The Drawkcab Way
+act: IV
+kind: side
+status: full
+giver: 4923          # Brother Otto, the first lesson; Brother Reger (4950) ends it
+maps: [D1]
+level: 32
+block: 83
+after: []
+source: "QUESTS Q-D3; dark/aaze0029:63-70 (the lessons), dark/aaze0004:26-34 (Reger), dark/aaze0037:6 (the sign)"
+
+qbits:
+  started: {id: 113060, journal: "The Drawkcab monks of Castleview teach in order, one lesson each. Brother Reger, outside the walls, asks for the word at the end.",
+            until: [done]}
+  lesson1: {id: 113061, note: "Brother Otto's lesson"}
+  lesson2: {id: 113062, note: "Sister Hannah's lesson"}
+  lesson3: {id: 113063, note: "Brother Bob's lesson"}
+  member: {id: 113064, note: "Sister Ada's lesson: the party are Drawkcabs (award)"}
+  word_said: {id: 113065, note: "D1's prompt at Reger's door (A6) sets it"}
+  done: {id: 113066, note: "Reger promoted (Initiate -> Master)"}
+
+autonotes:
+  lessons: {id: 4430, text: "Drawkcab lessons, in order: Brother Otto, Sister Hannah, Brother Bob, Sister Ada (their cells in Castleview).", category: Misc}
+  reger: {id: 4431, text: "Brother Reger's cell, outside Castleview's walls: say the word the monks study at his door.", category: Misc}
+
+awards:
+  drawkcab: {id: 443, text: "A member of the Drawkcab", sort: 2}
+
+npcs:
+  4923:              # Brother Otto
+    topics:
+      - n: 1
+        label: Lesson
+        states:
+          - when: {qbit: lesson1}
+            text: "Learned you have. Hannah Sister to go, now."
+          - text: "Ah, listeners! Allow me to enlighten you: No word, no bond, row on. Now do I repay a period won. Go, now, and visit Sister Hannah for more enlightenment."
+            do: [{set: started}, {set: lesson1}, {autonote: lessons}]
+  4924:              # Sister Hannah
+    topics:
+      - n: 2
+        label: Lesson
+        states:
+          - when: {qbit: lesson2}
+            text: "Learned you have. Bob Brother to go, now."
+          - when: {qbit: lesson1}
+            text: "Ah, listeners! Allow me to enlighten you: Oh who was it I saw, oh who? He lived as a devil, eh? Go, now, and visit Brother Bob for more enlightenment."
+            do: [{set: lesson2}]
+          - text: "Order wrong the. Otto first, Brother. Lesson one."
+  4925:              # Brother Bob
+    topics:
+      - n: 3
+        label: Lesson
+        states:
+          - when: {qbit: lesson3}
+            text: "Learned you have. Ada Sister to go, now."
+          - when: {qbit: lesson2}
+            text: "Ah, listeners! Allow me to enlighten you: Eva, can I stab bats in a cave? Was it a rat I saw? Go, now, and visit Sister Ada for more enlightenment."
+            do: [{set: lesson3}]
+          - text: "Order wrong the. Otto first, Brother. Lesson one."
+  4926:              # Sister Ada
+    topics:
+      - n: 4
+        label: Lesson
+        states:
+          - when: {qbit: member}
+            text: "Drawkcab a are you. Reger Brother see. The word say: palindrome."
+          - when: {qbit: lesson3}
+            text: "Ah, listeners! Live on time; emit no evil. Lepers repel. Congratulations! I dub thee a member of the Drawkcab! We study the palindrome, the word that reads the same both ways. Brother Reger, outside the walls, will ask you for it."
+            do: [{set: member}, {award: drawkcab}, {autonote: reger}, {xp: 2000}]
+          - text: "Order wrong the. Otto first, Brother. Lesson one."
+  4950:              # Brother Reger
+    topics:
+      - n: 5
+        label: The word
+        states:
+          - when: {qbit: done}
+            text: "Pleased to see you, fellow Drawkcabs."
+          - when: {all: [{qbit: word_said}, {qbit: m20.started}]}
+            text: "Correct. You are truly a Drawkcab! Those of you who walk the inner way walk it now as Masters. Backwards, naturally."
+            do: [{set: done}, {xp: 9000}, {promote: drawkcab}]
+          - when: {qbit: word_said}
+            text: "Correct. A Drawkcab truly are you. Masters, though, ready not yet are you. Return when the Queen's castle stands higher."
+          - when: {qbit: member}
+            text: "There is a word for what the monks of Castleview study. Say it at my door, not in my ear."
+          - text: "Wrong. Go visit the monks of Castleview for enlightenment and return to me when you feel you are ready."
+
+hooks:
+  reger_door:
+    map: D1
+    where: "the door of Brother Reger's cell (house 4500) outside Castleview's walls. The door event calls this hook first: a party without the Drawkcab award gets the fail line and nothing else; a member is then asked the map's password prompt \"What's the word?\" (answers palindrome or palindromes; the right one calls q-d3.reger_word, any other q-d3.reger_wrong). Once word_said is set the door simply opens"
+    requires: {qbit: member}
+    reads: [word_said]
+    fail_text: "Wrong. Go visit the monks of Castleview for enlightenment and return to me when you feel you are ready."
+  reger_word:
+    map: D1
+    where: "the right answer at Brother Reger's door (palindrome or palindromes): the door opens into his cell"
+    requires: {qbit: member}
+    sets: [word_said]
+    once: true
+    text: "'Correct,' says a voice behind the door. 'Come in. Ni emoc.'"
+    else_text: "The door is open to Drawkcabs."
+  reger_wrong:
+    map: D1
+    where: "any other answer at Brother Reger's door: the door stays shut"
+    text: "WRONG!!! You call yourself a Drawkcab. You know nothing of the Drawkcab! Go to the monks for further enlightenment and return to me when you feel you are ready."
+  drawkcab_sign:
+    map: D1
+    where: "a sign over the four monks' cells in Castleview (houses 4473-4476)"
+    text: "The Drawkcab Monks study the Palindrome."
+
+riddles:
+  - {answer: "palindrome (or palindromes)", where: "Brother Reger's door (D1, q-d3.reger_door, q-d3.reger_word)",
+     said_by: "Sister Ada's lesson (q-d3 npc 4926) and the sign over the cells (q-d3.drawkcab_sign, dark/aaze0037:6)"}
+
+rewards: {xp: 11000, gold: 0, award: "A member of the Drawkcab", promotion: "Initiate -> Master (Light)"}
+playthrough: "D1, Castleview: Otto, Hannah, Bob, Ada (Lesson). Reger's door (reger_door, then 'palindrome': reger_word). Reger (The word)."

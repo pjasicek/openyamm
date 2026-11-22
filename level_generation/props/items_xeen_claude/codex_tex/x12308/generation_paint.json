@@ -1,0 +1,14 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png in place. Its alpha is a locked stencil. Output transparent PNG 3:4 exact guide canvas. Image 2 is only the carved yellowed bone whistle and leather material design, image 3 its color reference (ignore magenta). Preserve every grey footprint including tiny end-on disks, horizontal edge views, vertical silhouette, openings and all padding, size and orientation. Three columns four rows of equal cells. Rows 1\u20132 replace grey with unlit base color, aged ivory bone, spiral carved detail and three finger holes on the facing surface, brown leather loop and wrap. No highlights, shadows, AO, halo, text, outlines or ground. Row 1: tiny end disk, tiny opposite end disk, horizontal whistle leather at left. Row 2: horizontal whistle leather at right, vertical whistle leather at top, empty. Rows 3\u20134 exactly repeat those silhouettes as flat categorical material IDs: #FFFF00 pure yellow bone and #00FF00 pure green leather, including wraps. Every opaque pixel exactly one material color, absolutely no shading, gradients, blended edges inside, or texture on mask half. Leave all guide transparency untouched. Do not rearrange or enlarge objects. Correction: trace guide exactly. Row 1 col 3 reads from left to right: tiny brown tab, horizontal thin brown edge-on strap, bulging ivory shoulder, long ivory body, blunt rounded ivory end on RIGHT. Row 2 col 1 reads left to right: blunt rounded ivory end on LEFT, long ivory body, bulging ivory shoulder, thin narrow brown tab at RIGHT. In horizontal views the loop is seen edge-on as a skinny rectangle, no full loop or finger holes are visible. Vertical view loop has the guide's open broken asymmetric shape. Copy these exact traces to mask rows without outlines or speckles.",
+  "inputs": {
+    "paint_mask_guide.png": "9996ba8a1d442de044ec3c64810898976648dc8f38389ffc44ef952ed7de67d3",
+    "design_reference.png": "1f452fd04192f7cdc7863a663fef49a3be271695d9aa08b0a41765f743c125a9",
+    "icon_x8.png": "766d23f1552ed81ea748df5a07c7b39c2401ed65561c9e6a479b921843e382b8"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91a-b04c-7a03-8248-b1911e2757b7/exec-daf0acb4-1f81-4aad-ad63-5531b198adba.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

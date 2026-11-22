@@ -1,0 +1,234 @@
+# X2 Rivercity and Lake Darzog: Rivercity, the hub, and the people of the lake and the fairy woods.
+# Owner: A4 (devdocs/xeen/lanes/A4.md). Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# Topics (quests, rumours, original lines) are A3's, in source/npcs/x2.yml, keyed by the npc ids below.
+key: X2
+stem: xeen_x2.odm
+town: Rivercity
+face: cloudside
+blocks:
+  houses: [4051, 4100]
+  npcs: [4101, 4200]
+
+# Where coaches, boats, mirrors and Town Portal set the party down (briefs/x2/L4/playtest.yml poses).
+arrivals:
+  rivercity_square: {at: [0, 9728, 1024], direction: 1536, note: "the party start on Bridge Square, by the mirror"}
+  rivercity_stables: {at: [4, 12928, 1024], direction: 1024, note: "in front of the stables' door"}
+  rivercity_dock: {at: [6660, 4240, 622], direction: 1024, note: "Nystor's dock house"}
+
+houses:
+  # ---- services (the hub: the full set, the boat and the skill row; WORLD_DESIGN 5.1) ----
+  - id: 4051
+    door: building:weapon_shop
+    was: 10
+    kind: weapon_shop
+    name: Rivercity Smithing
+    owner: 4101
+    shop: {quality: 2}
+  - id: 4052
+    door: building:armour_shop
+    was: 49
+    kind: armor_shop
+    name: Rivercity Armoury
+    owner: 4102
+    shop: {quality: 2}
+  - id: 4053
+    door: building:magic_shop
+    was: 86
+    kind: magic_shop
+    name: Witch's Cauldron
+    owner: 4103
+    shop: {quality: 2}
+  - id: 4054
+    door: building:alchemist
+    was: 118
+    kind: alchemist
+    name: The Bubbling Flask
+    owner: 4104
+    shop: {quality: 2}
+  - id: 4055
+    door: building:bank
+    was: 287
+    kind: bank
+    name: The Bank
+    owner: 4105
+  - id: 4056
+    door: building:tavern
+    was: 241
+    kind: tavern
+    name: Bull's Tavern
+    price: 14                # D-29: packs to 14 days off X1
+    owner: 4106
+    residents: [4130, 4131, 4132]
+  - id: 4057
+    door: building:training
+    was: 1572
+    kind: training
+    name: Street Fightin'
+    owner: 4107
+    training: {cap: 25, price: 20}
+  - id: 4058
+    door: building:temple
+    was: 312
+    kind: temple
+    name: Pray N Pay
+    owner: 4108
+    residents: [4133]
+  - id: 4059
+    door: building:guild_body
+    was: 165
+    kind: body_guild
+    name: Guild of Body
+    owner: 4109
+    guild: {spells: 7}
+  - id: 4060
+    door: building:guild_mind
+    was: 159
+    kind: mind_guild
+    name: Guild of Mind
+    owner: 4110
+    guild: {spells: 7}
+  - id: 4061
+    door: building:guild_spirit
+    was: 153
+    kind: spirit_guild
+    name: Guild of Spirit
+    owner: 4111
+    guild: {spells: 7}
+  - id: 4062
+    door: building:stables
+    was: 462
+    kind: stables
+    name: Royal Steeds of Rivercity
+    owner: 4112
+    routes:
+      - {id: 402, to: vertigo_stables, days: [tue, thu, sat], travel_days: 2}
+      - {id: 405, to: burlock_stables, days: [mon, fri], travel_days: 2}
+      - {id: 406, to: warzone_coach, days: [sun], travel_days: 4}
+  - id: 4063
+    door: thing:boat_house
+    also_doors: [thing:nystor_ship]   # the moored ship enters the same house (A5, X2 sketch)
+    was: 486
+    kind: boats
+    name: Captain Nystor's Dock
+    owner: 4113
+    routes:
+      - {id: 403, to: vertigo_creek, days: [mon, wed, fri, sun], travel_days: 1}
+      - {id: 407, to: x4_river_landing, days: [tue, sat], travel_days: 2, qbit: q-c23.done}   # Q-C23: the ogre boulders gone
+  - id: 4064
+    door: thing:mirror
+    kind: mirror
+    name: The Mirror of Rivercity
+    mirror: {face: cloudside, town: Rivercity, arrival: rivercity_square, qbit: 119002}
+
+  # ---- residences north of the river ----
+  - {id: 4065, door: building:north_houses#1, was: 910, kind: residence, name: Barlow House, residents: [4114]}
+  - {id: 4066, door: building:north_houses#2, was: 911, kind: residence, name: Kettle Residence, residents: [4115, 4116]}
+  - {id: 4067, door: building:north_houses#3, was: 912, kind: residence, name: Rook House, residents: [4117]}
+  - {id: 4068, door: building:north_houses#4, was: 913, kind: residence, name: Sallow Residence, residents: [4118]}
+  - {id: 4069, door: building:river_houses#1, was: 914, kind: residence, name: School of Navigation, residents: [4119]}
+  - {id: 4070, door: building:river_houses#2, was: 915, kind: residence, name: Tanner Residence, residents: [4120]}
+  - {id: 4071, door: building:river_houses#3, was: 920, kind: residence, name: Lantern Residence, residents: [4121]}
+  - {id: 4072, door: building:river_houses#4, was: 924, kind: residence, name: Captain Yang's House, residents: [4122]}
+  - {id: 4073, door: building:river_houses#5, was: 916, kind: residence, name: Ferris House, residents: [4123]}
+  - {id: 4074, door: building:river_houses#6, was: 917, kind: residence, name: Quill Residence, residents: [4124]}
+  - {id: 4075, door: building:river_houses#7, was: 919, kind: residence, name: Mudd House, residents: [4125, 4126]}
+  - {id: 4076, door: building:river_houses#8, was: 922, kind: residence, name: Ostler Residence, residents: [4127]}
+  - {id: 4077, door: building:river_houses#11, was: 921, kind: residence, name: Gaff House, residents: [4128]}
+  - {id: 4078, door: building:quay_houses#1, was: 943, kind: residence, name: Tackle House, residents: [4129]}
+
+  # ---- the skill row (aaze0030:0-5, :46-48) ----
+  - {id: 4079, door: building:skill_gym, was: 945, kind: residence, name: Arnold's Gym, residents: [4134]}
+  - {id: 4080, door: building:skill_martial, was: 923, kind: residence, name: Martial Training, residents: [4135, 4158]}
+  - {id: 4081, door: building:skill_temps, was: 929, kind: residence, name: Lindon's Temps, residents: [4136]}
+
+  # ---- residences south of the river and the guild stewards ----
+  - {id: 4082, door: building:south_houses#1, was: 926, kind: residence, name: Crane Residence, residents: [4137]}
+  - {id: 4083, door: building:south_houses#2, was: 927, kind: residence, name: Wharf House, residents: [4138]}
+  - {id: 4084, door: building:south_houses#3, was: 928, kind: residence, name: Ladle Residence, residents: [4139, 4140]}
+  - {id: 4085, door: building:south_houses#4, was: 936, kind: residence, name: Scull Residence, residents: [4141]}
+  - {id: 4086, door: building:south_houses#5, was: 939, kind: residence, name: Ferry House, residents: [4142]}
+  - {id: 4087, door: building:south_houses#7, was: 940, kind: residence, name: Hawser Residence, residents: [4143]}
+  - {id: 4088, door: building:south_houses#8, was: 941, kind: residence, name: Brine House, residents: [4144]}
+  - {id: 4089, door: building:south_houses#9, was: 931, kind: residence, name: Bargeman House, residents: [4145]}
+  - {id: 4090, door: building:south_houses#10, was: 932, kind: residence, name: Vatawna the Guildmaster, residents: [4146]}
+  - {id: 4091, door: building:south_houses#12, was: 933, kind: residence, name: Mind Guild Steward, residents: [4147]}
+  - {id: 4092, door: building:south_houses#13, was: 937, kind: residence, name: Spirit Guild Steward, residents: [4148]}
+  - {id: 4093, door: building:south_houses#14, was: 942, kind: residence, name: Reed Residence, residents: [4149]}
+  - {id: 4094, door: building:quay_houses#2, was: 944, kind: residence, name: Spratt Residence, residents: [4150]}
+
+  # ---- outside the town (huts that today give a message; A5 makes their doors enter these) ----
+  - {id: 4095, door: building:barok_hut, kind: residence, name: Barok's Hut, outside: true, residents: [4151]}
+  - {id: 4096, door: building:medin_hut, kind: residence, name: Medin's Hut, outside: true, residents: [4152]}
+  - {id: 4097, door: building:tito_chapel, kind: residence, name: Tito's Chapel, outside: true, residents: [4153]}
+  - {id: 4098, door: building:quay_houses#5, kind: residence, name: The Sorceresses' House, residents: [4156, 4157]}
+
+npcs:
+  # ---- proprietors ----
+  - {id: 4101, name: Brann, title: Blacksmith, profession: Smith, greet: ["Rivercity Smithing. Paid up front; this is Rivercity.", "Back for an edge?"]}
+  - {id: 4102, name: Ragna, title: Armorer, profession: Armorer, greet: ["Armour. In this town you'll want it.", "Still alive. My work, I expect."]}
+  - {id: 4103, name: Mother Grizzle, greet: ["Into the Cauldron, dearies. Wands, rings, oddments.", "Back, dearies?"]}
+  - {id: 4104, name: Pip, title: Alchemist, profession: Alchemist, greet: ["The Bubbling Flask. Don't drink the green one.", "Something bubbling for you?"]}
+  - {id: 4105, name: Pennyworth, title: Banker, profession: Banker, greet: ["The Bank. Deposits welcome. Robbers less so.", "Your gold is where you left it."]}
+  - {id: 4106, name: Bull, title: Innkeep, greet: ["Bull's Tavern. Sit, drink, don't start anything.", "The usual?"]}
+  - {id: 4107, name: Knuckles, title: Instructor, profession: Instructor, greet: ["Street Fightin'. I'll train you to twenty-fifth level, if you live.", "Back for a beating?"]}
+  - {id: 4108, name: Deacon Coyne, title: Healer, profession: Healer, greet: ["Pray, pay, and be healed today.", "Coin first, then prayers."], source: "xeen/aaze0030:31"}
+  - {id: 4109, name: Hesper, title: Guildmistress, greet: ["The Guild of Body. Members only.", "Feeling well?"]}
+  - {id: 4110, name: Thaddeus, title: Guildmaster, greet: ["The Guild of Mind. Think before you touch anything.", "I thought you'd come."]}
+  - {id: 4111, name: Sister Amity, greet: ["The Guild of Spirit. Be welcome.", "Peace on you again."]}
+  - {id: 4112, name: Garrick, title: Stablemaster, profession: Horseman, greet: ["Royal Steeds. Coaches east to Vertigo.", "Saddled and ready."]}
+  - {id: 4113, name: Captain Nystor, talks: true, profession: Sailor, greet: ["I can give ya a boat ride to the Eastern shore, if ya be interested.", "Those Ogres are ruining me!"], source: "xeen/aaze0030:66, aaze0010:23"}
+
+  # ---- residents north of the river ----
+  - {id: 4114, name: Barlow, title: Bruiser, profession: Guard, teaches: [{skill: Mace, mastery: expert}], greet: ["A mace settles arguments. I'll show you how.", "Still arguing with people?"]}
+  - {id: 4115, name: Mrs. Kettle, title: Gossip, profession: Peasant, greet: ["Have you heard? The robbers live under the bridge. Everybody knows.", "Have you heard the latest?"]}
+  - {id: 4116, name: Old Kettle, title: Peasant, profession: Peasant, greet: ["Don't listen to her.", "She's out."]}
+  - {id: 4117, name: Rook, title: Retired Thief, profession: Burglar, teaches: [{skill: Stealing, mastery: expert}], greet: ["Retired. Mostly. I could teach you a trick or two.", "Checked your pockets lately?"]}
+  - {id: 4118, name: Sallow, title: Locksmith, profession: Locksmith, teaches: [{skill: Disarm Trap, mastery: expert}], greet: ["Every lock in Rivercity has been picked. I fit the new ones.", "Mind the tripwire. Joking."]}
+  - {id: 4119, name: Magneto, title: Navigator, profession: Navigator, greet: ["For 2,000 gold I will teach you how to use the stars to keep from getting lost.", "School of Navigation 9N. Mountains in your way? Try due N."], source: "xeen/aaze0030:8-9, :27-28"}
+  - {id: 4120, name: Gideon Tanner, title: Leatherworker, profession: Tailor, teaches: [{skill: Leather, mastery: master}], greet: ["Agnes in Vertigo taught you the basics? Good. Now the rest.", "Good hide, that."]}
+  - {id: 4121, name: Lantern, title: Appraiser, profession: Scholar, teaches: [{skill: Identify Item, mastery: expert}], greet: ["Bring it into the light and I'll tell you what it is.", "Found something shiny?"]}
+  - {id: 4122, name: Captain Yang, profession: Squire, teaches: [{skill: Sword, mastery: master}], greet: ["Captain Yang, of the King's knights. We keep the peace here. Mostly.", "Report, Crusaders."]}
+  - {id: 4123, name: Old Ferris, title: Shepherd, profession: Farmer, teaches: [{skill: Staff, mastery: expert}], greet: ["A good staff walks you home and keeps the wolves off.", "Leaning on your staff?"]}
+  - {id: 4124, name: Quill, title: Scholar, profession: Scholar, teaches: [{skill: Learning, mastery: expert}], greet: ["Books, dear adventurer. Books.", "Reading anything good?"]}
+  - {id: 4125, name: Mudd, title: Ditch Digger, profession: Ditch Digger, greet: ["The river floods, I dig. The river floods again.", "Muddy work."]}
+  - {id: 4126, name: Bess Mudd, title: Peasant, profession: Peasant, greet: ["Boots off at the door.", "Boots!"]}
+  - {id: 4127, name: Martin, title: Mountaineer, profession: Guide, greet: ["For the low, low, price of 5,000 gold, I will teach you how to climb the highest mountains.", "Mountains are just tall hills."], source: "xeen/aaze0030:6-7"}
+  - {id: 4128, name: Gaff, title: Fisherman, profession: Sailor, teaches: [{skill: Spear, mastery: expert}], greet: ["A gaff hook is a short spear. I teach the long kind too.", "Fish are biting. People too."]}
+  - {id: 4129, name: Old Tackle, title: Fisherman, profession: Sailor, greet: ["Nystor's boats used to run upriver. Then the ogres came.", "Nothing biting."]}
+
+  # ---- the tavern and the temple ----
+  - {id: 4130, name: Snorri, title: Tavern Patron, profession: Peasant, greet: ["Get lost. Can't you see I'm drinkin'?", "(hic)"], source: "xeen/aaze0030:17"}
+  - {id: 4131, name: Tavern Patron, profession: Peasant, greet: ["If Barok ever got his pendant back, this place might charge me for drinks.", "Free water. Can't complain."], source: "xeen/aaze0030:19"}
+  - {id: 4132, name: Tavern Patron, profession: Gambler, greet: ["Now THIS is a wild town.", "The tavern hired the sorceresses to run Barok out of town."], source: "xeen/aaze0030:23, :21"}
+  - {id: 4133, name: Temple goer, profession: Peasant, greet: ["I can't believe the cost of healing these days!", "Still can't believe it."], source: "xeen/aaze0030:26"}
+
+  # ---- the skill row ----
+  - {id: 4134, name: Arnold, title: Strongman, profession: Arms Master, teaches: [{skill: Body Building, mastery: expert}], greet: ["I see that you are pale and weak. I will teach you Bodybuilding so that you can put some meat on your bones.", "Lift!"], source: "xeen/aaze0030:4-5"}
+  - {id: 4135, name: Flint, title: Armsmaster, profession: Weapons Master, teaches: [{skill: Armsmaster, mastery: expert}], greet: ["Fighting is simple. I'll teach you to be an Armsmaster in one easy lesson.", "One more lesson?"], source: "xeen/aaze0030:2-3"}
+  - {id: 4158, name: Sparrow, title: Pit Fighter, profession: Instructor, teaches: [{skill: Dodging, mastery: expert}, {skill: Unarmed, mastery: expert}], greet: ["Two lessons. How to hit with nothing in your hands, and how not to be there when they hit back.", "Duck."], note: "D-73: Dodging and Unarmed Expert, the Monk's core skills, before Castleview's Masters"}
+  - {id: 4136, name: Lindon, title: Taskmaster, profession: Quarter Master, greet: ["I'll give you 100 gold for a week of work. Sign up?", "Work's still there."], source: "xeen/aaze0030:0-1"}
+
+  # ---- residents south of the river ----
+  - {id: 4137, name: Crane, title: Old Soldier, profession: Guard, teaches: [{skill: Chain, mastery: expert}], greet: ["Chain mail is heavy until it saves your life.", "Still wearing it?"]}
+  - {id: 4138, name: Mercy Wharf, title: Trader, profession: Trader, teaches: [{skill: Merchant, mastery: expert}], greet: ["Everything has a price. Learn to haggle.", "Bargain hunting?"]}
+  - {id: 4139, name: Ladle, title: Cook, profession: Cook, greet: ["Stew's on. It's always on.", "Hungry?"]}
+  - {id: 4140, name: Dottie Ladle, title: Peasant, profession: Peasant, greet: ["Don't touch the stew.", "Did you touch the stew?"]}
+  - {id: 4141, name: Sister Ophelia, profession: Mystic, teaches: [{skill: Meditation, mastery: expert}], greet: ["Sit. Breathe. The bridge traffic fades.", "Breathe."]}
+  - {id: 4142, name: Ott, title: Ferryman, profession: Sailor, greet: ["The bridge put me out of work. I row for fun now.", "Need a ferry? There's a bridge."]}
+  - {id: 4143, name: Hawser, title: Rope Maker, profession: Laborer, greet: ["Rope for the boats, rope for the robbers. I don't ask.", "Need rope?"]}
+  - {id: 4144, name: Widow Brine, title: Fishwife, profession: Trader, greet: ["Fresh fish! Fresh-ish fish!", "Still fresh-ish."]}
+  - {id: 4145, name: Wenda, title: Ranger, profession: Hunter, teaches: [{skill: Bow, mastery: master}], greet: ["Rialdo taught you to hold a bow? I'll teach you to hit something.", "Still hitting the target?"]}
+  - {id: 4146, name: Vatawna, title: Guildmaster, profession: Clerk, teaches: [{skill: Body Magic, mastery: expert}], services: [{guild_membership: body}], greet: ["500 gold buys you guild membership. Nothing less will do.", "Membership has its privileges."], source: "xeen/aaze0030:12-13"}
+  - {id: 4147, name: Aldous, title: Mind Guild Steward, profession: Counselor, teaches: [{skill: Mind Magic, mastery: expert}], services: [{guild_membership: mind}], greet: ["The Guild of Mind keeps its roll here. Joining?", "I knew you'd be back."]}
+  - {id: 4148, name: Brother Cael, profession: Acolyte, teaches: [{skill: Spirit Magic, mastery: expert}], services: [{guild_membership: spirit}], greet: ["The Guild of Spirit takes all who seek. And pay.", "Be welcome again."]}
+  - {id: 4149, name: Reed, title: Basket Weaver, profession: Weaver, greet: ["Baskets. For fish, mostly.", "Basket?"]}
+  - {id: 4150, name: Darlene, title: Swimming Teacher, profession: Sailor, greet: ["I can teach you how to swim for a mere 100 gold. Or sell you a scroll, if you sink.", "Water's fine."], source: "xeen/aaze0030:10-11"}
+
+  # ---- outside the town ----
+  - {id: 4151, name: Barok, title: Sorcerer, profession: Spell Master, greet: ["The sorceresses of Rivercity have stolen a magical pendant of mine. I want it back.", "No pendant, no reward."], source: "xeen/aaze0030:34-35, :38"}
+  - {id: 4152, name: Medin, title: Fisherman, profession: Sailor, greet: ["Three dragons live in my lake. You can't fish with dragons.", "Are the beasts gone?"]}
+  - {id: 4153, name: Tito, title: Elf Priest, profession: Healer, teaches: [{skill: Spirit Magic, mastery: master, opens: q-c18.done}], greet: ["The Holy Book of Elvenkind was lost in the Troll Forest.", "Any word of the Book?"]}
+  - {id: 4154, name: Danulf, title: Faery King, profession: Noble, house: none, place: "X2, his ring of stones (A5)", greet: ["Crazed sprites hold my Wand of Faery Magic in the south woods.", "My wand?"]}
+  - {id: 4155, name: Ligono, title: Restless Spirit, profession: Mystic, house: none, place: "X2, the cliff top at the rim (A5)", greet: ["I hate the surf. Find my skull.", "My skull?"], source: "xeen/aaze0015:10"}
+  - {id: 4156, name: Velda, title: Sorceress for Hire, profession: Spell Master, greet: ["The tavern pays us to keep Barok out of town. You are not Barok. Sit, but touch nothing.", "Still not Barok? Good."], source: "xeen/aaze0030:21 (the tavern hired the sorceresses)"}
+  - {id: 4157, name: Ysmay, title: Sorceress for Hire, profession: Enchanter, greet: ["We plugged the fountain. Water is a growth business.", "Thirsty?"]}

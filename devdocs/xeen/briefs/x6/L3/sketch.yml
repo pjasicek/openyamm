@@ -1,0 +1,2213 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "X6 Desert of the Sphinx, L3/L4 sketch (A5, 2026-11-20), written by output/studio_cal/x6/tools/gen.py. Cells [x, y], x east, y south. Heights above the stars below the rims (0): the oasis pond 1,000, the pan and Sphinx Wells 1,248, the dunes 1,300-1,750, the red mesas to 2,240, the Basenji heights 2,400-2,750 (the castle's gate terrace 2,592), the Barbaric Mountains to 3,700 (D-31)."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [54, 66], neighbour: edge:east, notes: "The desert road runs out to x 128 at y 60 (X4's west edge, the same y)."}
+    - {side: south, span: [45, 56], neighbour: edge:south, notes: "The steppe road runs out to y 128 at x 50 (X5's north edge, the same x)."}
+  rim:
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 24; below, water at 0 stands for the stars; dunes pour over its lip."}
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at y 24 (as X4's north rim); Castle Basenji stands over it."}
+    - {side: east, span: [0, 24], form: level, height: 0, meet: 1, notes: The north rim's east end (X4's north rim continues it).}
+    - {side: east, span: [24, 50], form: ridge, height: [2400, 3200], floor: 1600, crest: 10, roughness: 120, notes: "The Gargoyle Range (X4's west edge [0, 50])."}
+    - {side: east, span: [50, 54], form: ridge, height: [1500, 1900], floor: 1300, crest: 10, roughness: 100, notes: "X4's edge [50, 54]."}
+    - {side: east, span: [54, 66], form: level, height: 1150, meet: 6, notes: "The desert road's saddle, open to X4 (X4's edge [54, 66] is level at 1,150)."}
+    - {side: east, span: [66, 86], form: ridge, height: [1500, 2200], floor: 1100, crest: 10, roughness: 100, notes: "Dry downs (X4's edge [66, 128])."}
+    - {side: east, span: [86, 128], form: ridge, height: [1800, 2200], floor: 1400, crest: 10, roughness: 100, notes: "The Barbaric Mountains' east foot falls to X4's dry downs (X4's edge [66, 128] is 1,500-2,200)."}
+    - {side: south, span: [0, 24], form: level, height: 0, meet: 1, notes: "The west rim's south end (X5's rim [0, 24] continues it)."}
+    - {side: south, span: [24, 45], form: ridge, height: [1900, 2700], floor: 1500, crest: 10, roughness: 100, notes: "Stony rises (X5's north edge [24, 45])."}
+    - {side: south, span: [45, 56], form: level, height: 1460, meet: 6, notes: "The steppe road's valley, open to X5 (X5's edge [45, 56] is level at 1,460)."}
+    - {side: south, span: [56, 128], form: ridge, height: [2000, 3200], floor: 1600, crest: 10, roughness: 100, notes: "The Barbaric Mountains' south flank meets the Frostspine's north end and the Ogre Hills' backs (X5's north edge [56, 128])."}
+  edge: {height: 1400, north: 0, east: 1150, south: 1460, west: 0}
+heights:
+  points:
+    - {at: [38, 30], h: 2752, notes: "Castle Basenji's crag at the north rim (D-31: never moved nearer)"}
+    - {at: [38, 36], h: 2592, notes: "the castle's gate terrace (A7: the sill at about 2,600)"}
+    - {at: [98, 98], h: 3712, notes: "the Barbaric Mountains' highest peak inside the box (D-31: the range >= 2,500)"}
+    - {at: [104, 92], h: 3296}
+    - {at: [94, 106], h: 3200}
+    - {at: [106, 104], h: 3488}
+    - {at: [66, 34], h: 2240, notes: a red mesa (the nest on its top)}
+    - {at: [71, 41], h: 2048, notes: a red mesa}
+    - {at: [97, 74], h: 1888, notes: the lone mesa in the dry downs}
+    - {at: [75, 51], h: 1632, notes: the obelisk's red knoll}
+    - {at: [41, 62], h: 1088, notes: "the oasis shore (the pond 1,000)"}
+    - {at: [61, 61], h: 1248, notes: Sphinx Wells}
+    - {at: [82, 40], h: 1408, notes: the Northern Sphinx's forecourt}
+    - {at: [86, 95], h: 1504, notes: the Warzone coach yard (D-8.1)}
+    - {at: [45, 45], h: 1472, notes: Arie's camp at the cliff foot}
+    - {at: [107, 60], h: 1184, notes: "the X4 arrival (X4's edge 1,150)"}
+    - {at: [50, 107], h: 1472, notes: "the X5 arrival (X5's edge 1,460)"}
+    - {at: [38, 96], h: 2304, notes: the dune crest of the signature view (raised for the cove's falls)}
+    - {at: [99, 102], h: 2688, notes: the prospector's notch}
+    - {at: [112, 36], h: 3008, notes: the Gargoyle foothills (X4 goes on east)}
+    - {at: [80, 27], h: 2048, notes: "the red ridge behind the Sphinx (D-31: no rim or stars behind it)"}
+    - {at: [90, 91], h: 2528}
+    - {at: [90, 92], h: 2528}
+    - {at: [90, 93], h: 2528}
+    - {at: [90, 94], h: 2528}
+    - {at: [90, 95], h: 2528}
+    - {at: [90, 96], h: 2528}
+    - {at: [90, 97], h: 2528}
+    - {at: [90, 98], h: 2528}
+    - {at: [91, 91], h: 2560}
+    - {at: [91, 92], h: 2560}
+    - {at: [91, 93], h: 2560}
+    - {at: [91, 94], h: 2560}
+    - {at: [91, 95], h: 2560}
+    - {at: [91, 96], h: 2560}
+    - {at: [91, 97], h: 2560}
+    - {at: [91, 98], h: 2560}
+    - {at: [84, 90], h: 2048}
+    - {at: [86, 90], h: 2048}
+    - {at: [88, 90], h: 2048}
+    - {at: [84, 100], h: 1984}
+    - {at: [86, 100], h: 1984}
+    - {at: [88, 100], h: 1984}
+    - {at: [82, 92], h: 2080}
+    - {at: [82, 93], h: 1984}
+    - {at: [82, 99], h: 2016}
+    - {at: [82, 98], h: 1952}
+    - {at: [92, 92], h: 2560}
+    - {at: [92, 94], h: 2560}
+    - {at: [92, 96], h: 2560}
+    - {at: [92, 98], h: 2560}
+    - {at: [48, 45], h: 1472}
+    - {at: [48, 44], h: 1472}
+    - {at: [49, 44], h: 1472}
+    - {at: [49, 43], h: 1472}
+    - {at: [50, 43], h: 1504}
+    - {at: [51, 42], h: 1568}
+    - {at: [52, 42], h: 1600}
+    - {at: [53, 41], h: 1728}
+    - {at: [52, 40], h: 1856}
+    - {at: [51, 40], h: 1920}
+    - {at: [50, 39], h: 2048}
+    - {at: [49, 39], h: 2112}
+    - {at: [48, 39], h: 2176}
+    - {at: [48, 38], h: 2208}
+    - {at: [47, 38], h: 2304}
+    - {at: [46, 38], h: 2368}
+    - {at: [45, 38], h: 2432}
+    - {at: [44, 38], h: 2496}
+    - {at: [44, 37], h: 2592}
+    - {at: [43, 37], h: 2592}
+    - {at: [42, 37], h: 2592}
+    - {at: [41, 37], h: 2592}
+    - {at: [40, 37], h: 2592}
+    - {at: [72, 38], h: 1600}
+    - {at: [71, 38], h: 1696}
+    - {at: [71, 37], h: 1760}
+    - {at: [70, 37], h: 1888}
+    - {at: [69, 36], h: 2048}
+    - {at: [68, 36], h: 2144}
+    - {at: [68, 35], h: 2208}
+    - {at: [86, 104], h: 1536}
+    - {at: [87, 104], h: 1600}
+    - {at: [88, 104], h: 1664}
+    - {at: [89, 104], h: 1728}
+    - {at: [90, 105], h: 1792}
+    - {at: [91, 104], h: 1888}
+    - {at: [92, 104], h: 1984}
+    - {at: [93, 104], h: 2048}
+    - {at: [93, 103], h: 2080}
+    - {at: [94, 103], h: 2176}
+    - {at: [95, 103], h: 2272}
+    - {at: [96, 103], h: 2336}
+    - {at: [97, 103], h: 2432}
+    - {at: [98, 103], h: 2528}
+    - {at: [98, 102], h: 2656}
+  cliffs:
+    - line: [[24, 24], [24, 42], [24, 70], [24, 84]]
+      drop: 1400
+      down: right
+      notes: "The west rim north of the cove (drawn north to south, the low side west): a cliff above the stars."
+    - line: [[24, 84], [33, 84], [33, 92], [24, 92]]
+      drop: 1300
+      down: right
+      notes: "The sand-fall cove cut into the rim before the dune crest (D-31's signature view): its north, east and south walls, the void inside."
+    - line: [[24, 92], [24, 110], [24, 128]]
+      drop: 1400
+      down: right
+      notes: The west rim south of the cove.
+    - line: [[128, 24], [60, 24], [24, 24]]
+      drop: 1500
+      down: right
+      notes: "The north rim at y 24 (as X4's), drawn east to west, the low side north."
+    - line: [[24, 42], [36, 38], [44, 38]]
+      drop: 900
+      down: right
+      notes: "Basenji's cliff, west of the cliff path (drawn west to east, the low side south)."
+    - line: [[55, 36], [57, 33], [59, 31]]
+      drop: 700
+      down: right
+      notes: "Basenji's cliff, east of the cliff path."
+    - line: [[83, 92], [89, 92]]
+      drop: 560
+      down: right
+      notes: "The coach yard's north shoulder (D-8.1), the low side the yard."
+    - line: [[89, 92], [89, 98]]
+      drop: 960
+      down: right
+      notes: "The Barbaric cliff at the yard's back: the arena gate's portal is sunk in it."
+    - line: [[89, 98], [83, 98]]
+      drop: 560
+      down: right
+      notes: "The coach yard's south shoulder, the low side the yard."
+  terraces:
+    - polygon: [[57, 57], [66, 57], [66, 65], [57, 65]]
+      height: 1248
+      slope: 0
+      notes: Sphinx Wells on the pan.
+    - polygon: [[83, 92], [89, 92], [89, 98], [83, 98]]
+      height: 1504
+      slope: 0
+      notes: "The Warzone coach yard (D-8.1), its floor level with the arena gate."
+    - polygon: [[43, 43], [48, 43], [48, 48], [43, 48]]
+      height: 1472
+      slope: 0
+    - polygon: [[32.6, 33.6], [44.4, 33.6], [44.4, 37.4], [32.6, 37.4]]
+      height: 2592
+      slope: 0
+      notes: "Castle Basenji's gate terrace on the crag (A7: XD-14's sill)."
+    - polygon: [[78, 33], [87, 33], [87, 46.6], [78, 46.6]]
+      height: 1408
+      slope: 0
+    - polygon: [[28, 68], [33, 68], [33, 73], [28, 73]]
+      height: 1408
+      slope: 0
+    - polygon: [[68, 87], [73, 87], [73, 92], [68, 92]]
+      height: 1440
+      slope: 0
+    - polygon: [[76, 74], [80.5, 74], [80.5, 78.5], [76, 78.5]]
+      height: 1504
+      slope: 0
+    - polygon: [[26.5, 52.5], [29.5, 52.5], [29.5, 55.5], [26.5, 55.5]]
+      height: 1440
+      slope: 0
+    - polygon: [[34, 81], [40.5, 81], [40.5, 87.5], [34, 87.5]]
+      height: 1536
+      slope: 0
+  rough:
+    - {polygon: [[88, 86], [128, 86], [128, 128], [86, 128], [86, 100]], amount: 1.6, notes: "The Barbaric Mountains: broken red-brown peaks"}
+    - {polygon: [[24, 24], [58, 24], [58, 33], [46, 37], [36, 37], [24, 41]], amount: 0.5, notes: "the Basenji heights: weathered rock"}
+    - {polygon: [[100, 24], [128, 24], [128, 54], [100, 50]], amount: 1.2, notes: the Gargoyle foothills}
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 74, 77, 78, 76, 76, 79, 77, 73, 66, 55, 55, 55, 55, 56, 56, 56, 56, 60, 49, 44, 44, 43, 43, 44, 61, 61], [0, 0, 0, 0, 0, 0, 75, 76, 77, 87, 77, 76, 79, 75, 66, 49, 51, 55, 57, 54, 50, 53, 55, 64, 56, 68, 68, 55, 54, 50, 81, 79], [0, 0, 0, 0, 0, 0, 77, 78, 81, 81, 81, 75, 75, 77, 43, 48, 70, 53, 54, 44, 44, 44, 51, 54, 50, 68, 74, 81, 82, 55, 61, 61], [0, 0, 0, 0, 0, 0, 73, 76, 77, 67, 81, 74, 63, 43, 43, 54, 53, 56, 46, 44, 44, 44, 48, 49, 47, 44, 55, 81, 82, 62, 53, 44], [0, 0, 0, 0, 0, 0, 47, 43, 43, 43, 44, 45, 47, 52, 43, 53, 50, 64, 44, 44, 44, 44, 45, 45, 44, 43, 44, 59, 62, 80, 78, 53], [0, 0, 0, 0, 0, 0, 43, 43, 43, 43, 45, 46, 43, 43, 43, 44, 46, 47, 45, 44, 44, 44, 48, 45, 45, 43, 51, 75, 59, 80, 79, 53], [0, 0, 0, 0, 0, 0, 43, 43, 43, 43, 43, 43, 43, 43, 43, 44, 44, 45, 47, 43, 46, 44, 44, 44, 46, 43, 43, 51, 43, 53, 53, 43], [0, 0, 0, 0, 0, 0, 45, 45, 43, 43, 43, 43, 43, 43, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 41, 41, 41, 41, 40, 40, 40, 40], [0, 0, 0, 0, 0, 0, 43, 43, 43, 40, 37, 43, 42, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 38, 38, 37, 37, 37], [0, 0, 0, 0, 0, 0, 43, 43, 43, 33, 29, 38, 41, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 39, 38, 38, 37, 37, 37], [0, 0, 0, 0, 0, 0, 43, 43, 43, 37, 34, 41, 42, 40, 39, 39, 39, 40, 40, 40, 40, 40, 41, 42, 42, 42, 42, 41, 42, 44, 44, 43], [0, 0, 0, 0, 0, 0, 42, 44, 44, 48, 47, 49, 51, 46, 43, 43, 43, 44, 42, 44, 43, 42, 47, 46, 45, 44, 50, 54, 52, 52, 51, 47], [0, 0, 0, 0, 0, 0, 41, 44, 46, 54, 57, 58, 55, 48, 43, 43, 44, 42, 44, 47, 44, 44, 51, 53, 59, 46, 50, 57, 55, 46, 45, 51], [0, 0, 0, 0, 0, 0, 43, 49, 50, 56, 59, 57, 53, 47, 43, 44, 43, 43, 44, 47, 45, 44, 47, 50, 48, 49, 51, 49, 50, 51, 50, 54], [0, 0, 0, 0, 0, 0, 48, 45, 48, 48, 52, 53, 52, 48, 44, 43, 42, 44, 42, 43, 44, 42, 43, 49, 54, 50, 46, 44, 46, 55, 61, 55], [0, 0, 0, 0, 0, 0, 0, 0, 48, 48, 50, 51, 53, 51, 44, 42, 44, 44, 44, 44, 42, 43, 48, 47, 49, 49, 45, 47, 52, 55, 58, 54], [0, 0, 0, 0, 0, 0, 0, 0, 47, 51, 54, 55, 50, 47, 42, 43, 44, 45, 44, 43, 48, 65, 73, 43, 43, 76, 76, 43, 43, 43, 43, 43], [0, 0, 0, 0, 0, 0, 43, 47, 53, 67, 61, 60, 51, 47, 44, 44, 44, 44, 44, 44, 45, 47, 79, 59, 76, 81, 79, 81, 52, 44, 44, 44], [0, 0, 0, 0, 0, 0, 45, 52, 58, 68, 58, 56, 46, 47, 46, 45, 43, 44, 46, 45, 51, 47, 79, 77, 114, 76, 55, 81, 52, 44, 44, 44], [0, 0, 0, 0, 0, 0, 46, 54, 56, 55, 54, 53, 45, 50, 45, 45, 45, 47, 45, 45, 45, 52, 47, 69, 83, 71, 96, 64, 45, 45, 45, 45], [0, 0, 0, 0, 0, 0, 49, 52, 53, 55, 54, 52, 45, 48, 44, 44, 45, 45, 44, 44, 46, 46, 56, 97, 55, 64, 96, 70, 59, 48, 45, 45], [0, 0, 0, 0, 0, 0, 48, 50, 53, 51, 52, 50, 45, 47, 44, 44, 46, 46, 44, 44, 46, 46, 45, 55, 61, 77, 55, 84, 91, 66, 45, 45], [0, 0, 0, 0, 0, 0, 45, 57, 66, 57, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 61, 76, 52, 83, 97, 66, 45, 45], [0, 0, 0, 0, 0, 0, 45, 57, 66, 57, 45, 45, 46, 44, 46, 46, 44, 44, 46, 46, 44, 44, 45, 45, 45, 45, 45, 54, 59, 48, 45, 45], [0, 0, 0, 0, 0, 0, 45, 47, 51, 47, 45, 45, 46, 44, 46, 46, 44, 44, 46, 46, 44, 44, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45], [0, 0, 0, 0, 0, 0, 45, 45, 45, 45, 45, 45, 46, 45, 44, 45, 46, 45, 44, 45, 46, 46, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45]]
+    notes: Written by output/studio_cal/x6/tools/land.py from its height function.
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+      notes: "Below the rims: stands for the stars."
+    - id: water:cove
+      kind: sea
+      level: 0
+      polygon: [[24, 84], [33, 84], [33, 92], [24, 92]]
+      notes: "The cove in the west rim: below it, the stars."
+    - id: water:oasis_pond
+      kind: pond
+      level: 1000
+      polygon: [[39, 61], [42, 60], [44, 61], [44, 64], [41, 65], [38, 63]]
+      notes: "The oasis pond: clear water under palms; the only water on X6."
+roads:
+  - link: link:desert_road
+    line: [[128, 60], [107, 60], [96, 60.5], [88, 61], [80, 61], [72, 61], [66, 61], [61.5, 61.5], [55.5, 61.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:steppe_road
+    line: [[55.5, 61.5], [54, 68], [52, 76], [50, 84], [50, 92], [50, 100], [50, 107], [50, 128]]
+    width: road
+    surface: road_pebbles
+  - link: link:basenji_road
+    line: [[55.5, 61.5], [54, 56], [51, 51], [48, 47.5], [46, 46]]
+    width: road
+    surface: road_pebbles
+  - link: link:cliff_path
+    line: [[47.5, 44.5], [50.5, 42.5], [53.5, 41], [50.5, 39.5], [47, 38], [42.5, 37], [39.5, 36.5]]
+    width: lane
+    surface: dirt
+  - link: link:reflector_path
+    line: [[38.5, 37.5], [33, 36], [30, 34.5], [28, 31], [26.5, 27.5]]
+    width: lane
+    surface: dirt
+  - link: link:sphinx_track
+    line: [[80, 61], [81, 56], [82, 50], [82.5, 45]]
+    width: lane
+    surface: dirt
+  - link: link:obelisk_path
+    line: [[81.5, 54.5], [78, 52.5], [75.5, 51.5]]
+    width: lane
+    surface: dirt
+  - link: link:oasis_track
+    line: [[55.5, 61.5], [50, 62], [46.5, 63], [45, 65.5], [42, 66.5], [38, 66.5], [35, 68], [33, 69], [31.5, 70.5]]
+    width: lane
+    surface: dirt
+  - link: link:shrine_path
+    line: [[46.5, 60], [44, 58.5], [40, 58], [36, 57.5], [32, 56], [29, 55]]
+    width: lane
+    surface: dirt
+  - link: link:rim_track
+    line: [[50, 84], [45, 84.5], [39.5, 85]]
+    width: lane
+    surface: dirt
+  - link: link:coach_track
+    line: [[50, 84], [56, 87], [62, 89], [68, 90.5], [74, 93], [80, 95.5], [83, 96.5]]
+    width: lane
+    surface: dirt
+  - link: link:prospector_path
+    line: [[86, 104], [90.5, 104.5], [94.5, 103], [97.5, 103], [99.5, 101.5]]
+    width: lane
+    surface: dirt
+districts:
+  - space: town:sphinx_wells
+    polygon: [[57, 57], [66, 57], [66, 65], [57, 65]]
+    plots:
+      - {building: building:x6_tavern, at: [58, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: body, at: [48, 48], size: [1184, 800], porches: [{wall: s, depth: 144, height: 288, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: xstavern, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, roof: flat, parapet: 64}, {id: wing, at: [640, 17], size: [512, 444], wall_height: 320, windows: none, roof: flat, parapet: 48}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07c07, post_right: t07c07, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: t07a01b, window: t07c04c}, house: 4301, title: The Last Waterskin, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:x6_stables, at: [61.5, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: body, at: [48, 326], size: [1184, 634], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, upper_walls: {e: [t07a01, t07a01, t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01, t07a01, t07a01]}, roof: flat, parapet: 64}, {id: shed, at: [96, 65], size: [1088, 309], posts: 24, wall_height: 320, windows: none, roof: lean_to}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4302, title: Sphinx Wells Caravans, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:x6_houses, index: 1, at: [58.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [672, 400], wall_height: 384, roof: flat, parapet: 64}], textures: {door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4303, title: The Well Keeper's House, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:x6_houses, index: 2, at: [61.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [416, 400], wall_height: 384, upper_walls: {e: [t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01]}, roof: flat, parapet: 64}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4304, title: The Saddle Loft, kit: plaster, door: {part: body, wall: n}}
+    notes: "A4's x6.yml: the caravan stop at the desert's wells (WORLD_DESIGN 5.1 hamlet): the tavern and the caravans' stables facing the road, two homes across it, Old Ibb's well between, a camel pen behind the stables, palms (9 x 8 cells)."
+  - space: zone:coach_yard
+    polygon: [[83, 92], [89, 92], [89, 98], [83, 98]]
+    plots:
+      - {building: building:warzone_coach, at: [84, 92.5], facing: s, door_to: zone:coach_yard, parts: [{id: body, at: [48, 48], size: [1184, 656], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, roof: flat, parapet: 64}], textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}, house: 4305, title: The Warzone Coach, kit: plaster, door: {part: body, wall: s}}
+    notes: "D-8.1: a walled pocket (6 x 6 cells) against the Barbaric cliffs holding only the arena gate (XD-20, in the cliff) and Gorm's coach house (4305); its desert gate in the west wall is barred from inside until opened from the desert side."
+  - space: zone:basenji_crag
+    polygon: [[33, 27], [44, 27], [44, 37], [33, 37]]
+  - space: zone:arie_camp
+    polygon: [[43, 43], [48, 43], [48, 48], [43, 48]]
+  - space: zone:oasis
+    polygon: [[37, 59], [45, 59], [45, 66], [37, 66]]
+  - space: zone:saul_hermitage
+    polygon: [[28, 68], [33, 68], [33, 73], [28, 73]]
+  - space: zone:sphinx_forecourt
+    polygon: [[78, 33], [87, 33], [87, 46], [78, 46]]
+  - space: zone:southern_sphinx
+    polygon: [[31, 81], [39, 81], [39, 88], [31, 88]]
+  - space: zone:druid_grove
+    polygon: [[68, 87], [73, 87], [73, 92], [68, 92]]
+  - space: zone:air_corner
+    polygon: [[24, 24], [29, 24], [29, 29], [24, 29]]
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+  - space: zone:basenji_heights
+    polygon: [[24, 24], [58, 24], [58, 32], [54, 37], [46, 38], [36, 38], [24, 42]]
+  - space: zone:cliff_foot
+    polygon: [[24, 42], [36, 38], [46, 38], [54, 37], [58, 32], [60, 44], [62, 52], [56, 56], [24, 56]]
+  - space: zone:sphinx_desert
+    polygon: [[58, 24], [100, 24], [100, 50], [90, 54], [76, 54], [62, 52], [60, 44], [58, 32]]
+  - space: zone:gargoyle_foothills
+    polygon: [[100, 24], [128, 24], [128, 54], [110, 56], [100, 50]]
+  - space: zone:central_pan
+    polygon: [[24, 56], [56, 56], [62, 52], [76, 54], [90, 54], [100, 50], [110, 56], [128, 54], [128, 66], [104, 66], [88, 64], [72, 68], [56, 70], [40, 70], [24, 68]]
+  - space: zone:east_downs
+    polygon: [[88, 64], [104, 66], [128, 66], [128, 86], [108, 86], [96, 88], [88, 80]]
+  - space: zone:ruin_fields
+    polygon: [[56, 70], [72, 68], [88, 64], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - space: zone:west_dunes
+    polygon: [[24, 68], [40, 70], [56, 70], [56, 88], [48, 100], [44, 110], [24, 110]]
+  - space: zone:south_steppe
+    polygon: [[56, 88], [66, 92], [80, 90], [90, 90], [90, 128], [44, 128], [44, 110], [48, 100]]
+  - space: zone:stony_rises
+    polygon: [[24, 110], [44, 110], [44, 128], [24, 128]]
+  - space: zone:barbaric_mountains
+    polygon: [[90, 90], [96, 88], [108, 86], [128, 86], [128, 128], [90, 128]]
+points:
+  - {id: entrance:east_road, at: [107, 60], facing: w, notes: "Arrival from X4 Burlock Savannah (the desert road; X4 leaves at y 60)."}
+  - {id: entrance:south_road, at: [50, 107], facing: n, notes: "Arrival from X5 Winterkill Tundra (the steppe road; X5 leaves at x 50)."}
+  - {id: entrance:sphinx_wells, at: [63, 61], facing: w, notes: "A4 arrival sphinx_wells: in front of the caravans' stables (Town Portal, routes 427, 428 and Asp's 431)."}
+  - {id: entrance:warzone_coach, at: [86, 96], facing: w, notes: "A4 arrival warzone_coach: inside the walled coach yard (Rivercity's 406, Castleview's 415)."}
+  - {id: entrance:yard_gate, at: [83, 96], facing: w, notes: "The coach yard's desert gate (D-8.1): barred from inside until a party opens it from the desert side (x6.warzone_gate)."}
+  - {id: entrance:xd14_gate, at: [38, 34], facing: s, notes: "XD-14 Castle Basenji: the gate at the top of the cliff path."}
+  - {id: entrance:xd15_door, at: [82, 44], facing: s, notes: "XD-15 The Sphinx: the door between the Northern Sphinx's paws (q-c9.door, the Jewelled Amulet)."}
+  - {id: entrance:xd20_gate, at: [88, 95], facing: w, notes: "XD-20 The Warzone: the arena gate in the cliff at the back of the coach yard."}
+  - {id: entrance:fd02_door, at: [40, 84], facing: e, notes: "FD-02 The Southern Sphinx: a door in the half-buried sphinx's breast (m40.sphinx_door, Roland's amulet; phase 6)."}
+  - {id: junction:wells_fork, at: [55, 61]}
+  - {id: junction:sphinx_fork, at: [80, 61]}
+  - {id: junction:south_fork, at: [50, 84]}
+  - {id: poi:obelisk, at: [75, 51], notes: On the red rock knoll west of the Sphinx track ('Obelisk of the Sphinx').}
+  - {id: poi:wells_well, at: [61, 60], notes: Old Ibb's well in the middle of Sphinx Wells.}
+  - {id: poi:oasis_fountain, at: [45, 61], notes: "The oasis fountain at the pond (+2 Endurance, permanent)."}
+  - {id: poi:well_accuracy, at: [52, 92]}
+  - {id: poi:shrine_energy, at: [28, 54]}
+  - {id: poi:sun_stones, at: [69, 103]}
+  - {id: poi:caravan_cairn, at: [96, 57]}
+  - {id: poi:waters_power, at: [30, 34]}
+  - {id: poi:air_reflector, at: [26, 26], notes: The Air Reflector on the rock spit where the west and north rims meet (m37.reflector_air).}
+  - {id: poi:saul_urn, at: [31, 71], notes: "Saul's urn, beside his hermitage."}
+  - {id: poi:cloud_hoard, at: [81, 44], notes: A mound of sand between the Sphinx's paws (obelisks.cloud_hoard).}
+  - {id: poi:arie, at: [45, 45], notes: "Arie the Apprentice (4608, Q-C8) at her camp below Castle Basenji."}
+  - {id: poi:saul, at: [30, 70], notes: "Saul the Hermit (4602): Meditation Master, outdoors."}
+  - {id: poi:summer_druid, at: [70, 89], notes: "The Summer Druid (4601, Q-C1) in her grove."}
+  - {id: poi:swallowed_wagon, at: [94, 32]}
+  - {id: poi:werewolf_den, at: [52, 31]}
+  - {id: poi:caravanserai, at: [78, 76]}
+  - {id: poi:bone_field, at: [62, 81]}
+  - {id: poi:rim_pack, at: [26, 100]}
+  - {id: poi:mesa_nest, at: [66, 34]}
+  - {id: poi:prospector_camp, at: [99, 101]}
+  - {id: landmark:basenji, at: [38, 31]}
+  - {id: landmark:northern_sphinx, at: [82, 39]}
+  - {id: landmark:southern_sphinx, at: [34, 84]}
+  - {id: landmark:red_mesas, at: [68, 38]}
+  - {id: landmark:barbaric_mountains, at: [98, 98]}
+  - {id: landmark:sand_falls, at: [25, 88], notes: "Dunes pouring over the west rim, sand streaming off into the stars."}
+  - {id: poi:signposts, index: 1, at: [54, 60]}
+  - {id: poi:signposts, index: 2, at: [80, 60]}
+  - {id: poi:signposts, index: 3, at: [51, 83]}
+areas:
+  - id: pop:sphinx_dunes
+    index: 1
+    count: 1
+    slot: 1
+    circle: {at: [79, 42], r: 1}
+    notes: "Sand burrowers (Sand Worm 30, Armadillo 38, Great Worm 45) in the dunes round the Northern Sphinx and the red mesas; they surface by the Sphinx track. The obelisk's knoll and the desert road stay outside."
+  - id: pop:sphinx_dunes
+    index: 2
+    count: 1
+    slot: 1
+    circle: {at: [99, 28], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 3
+    count: 1
+    slot: 1
+    circle: {at: [61, 32], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 4
+    count: 1
+    slot: 1
+    circle: {at: [98, 48], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 5
+    count: 1
+    slot: 1
+    circle: {at: [84, 28], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 6
+    count: 1
+    slot: 1
+    circle: {at: [65, 45], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 7
+    count: 1
+    slot: 1
+    circle: {at: [91, 38], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 8
+    count: 1
+    slot: 1
+    circle: {at: [76, 42], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 9
+    count: 1
+    slot: 1
+    circle: {at: [97, 29], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 10
+    count: 1
+    slot: 1
+    circle: {at: [63, 30], r: 1}
+    notes: walkable ground
+  - id: pop:sphinx_dunes
+    index: 11
+    count: 1
+    slot: 1
+    circle: {at: [100, 46], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 1
+    count: 1
+    slot: 1
+    circle: {at: [44, 100], r: 1}
+    notes: "Sand burrowers in the western dunes round the Southern Sphinx, down to the rim; the first fight from X5."
+  - id: pop:west_dunes
+    index: 2
+    count: 1
+    slot: 1
+    circle: {at: [27, 83], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 3
+    count: 1
+    slot: 1
+    circle: {at: [46, 80], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 4
+    count: 1
+    slot: 1
+    circle: {at: [27, 95], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 5
+    count: 1
+    slot: 1
+    circle: {at: [36, 87], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 6
+    count: 1
+    slot: 1
+    circle: {at: [34, 103], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 7
+    count: 1
+    slot: 1
+    circle: {at: [43, 97], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 8
+    count: 1
+    slot: 1
+    circle: {at: [29, 83], r: 1}
+    notes: walkable ground
+  - id: pop:west_dunes
+    index: 9
+    count: 1
+    slot: 1
+    circle: {at: [43, 81], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 1
+    count: 1
+    slot: 2
+    circle: {at: [42, 35], r: 1}
+    notes: "Werewolves (Wolfman 20, Werewolf 30, Greater Werewolf 40) of the Basenji cult on the heights round the castle, the Waters of Great Power and the Air Reflector, and down the west slope; at least 2,000 from Arie's camp."
+  - id: pop:basenji_heights
+    index: 2
+    count: 1
+    slot: 2
+    circle: {at: [28, 26], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 3
+    count: 1
+    slot: 2
+    circle: {at: [28, 43], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 4
+    count: 1
+    slot: 2
+    circle: {at: [55, 26], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 5
+    count: 1
+    slot: 2
+    circle: {at: [53, 36], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 6
+    count: 1
+    slot: 2
+    circle: {at: [38, 26], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 7
+    count: 1
+    slot: 2
+    circle: {at: [33, 34], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 8
+    count: 1
+    slot: 2
+    circle: {at: [47, 28], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 9
+    count: 1
+    slot: 2
+    circle: {at: [28, 37], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 10
+    count: 1
+    slot: 2
+    circle: {at: [33, 28], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 11
+    count: 1
+    slot: 2
+    circle: {at: [44, 33], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 12
+    count: 1
+    slot: 2
+    circle: {at: [30, 27], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 13
+    count: 1
+    slot: 2
+    circle: {at: [52, 27], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 14
+    count: 1
+    slot: 2
+    circle: {at: [51, 36], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 15
+    count: 1
+    slot: 2
+    circle: {at: [35, 26], r: 1}
+    notes: walkable ground
+  - id: pop:basenji_heights
+    index: 16
+    count: 1
+    slot: 2
+    circle: {at: [32, 31], r: 1}
+    notes: walkable ground
+  - id: pop:east_downs
+    index: 1
+    count: 1
+    slot: 3
+    circle: {at: [107, 66], r: 1}
+    notes: "Sand golems (Sand Golem 22, Water Golem 28, Cloud Golem 50) among the dry downs and the lone mesa; the first fight from X4."
+  - id: pop:east_downs
+    index: 2
+    count: 1
+    slot: 3
+    circle: {at: [89, 80], r: 1}
+    notes: walkable ground
+  - id: pop:east_downs
+    index: 3
+    count: 1
+    slot: 3
+    circle: {at: [106, 83], r: 1}
+    notes: walkable ground
+  - id: pop:east_downs
+    index: 4
+    count: 1
+    slot: 3
+    circle: {at: [93, 67], r: 1}
+    notes: walkable ground
+  - id: pop:east_downs
+    index: 5
+    count: 1
+    slot: 3
+    circle: {at: [105, 67], r: 1}
+    notes: walkable ground
+  - id: pop:east_downs
+    index: 6
+    count: 1
+    slot: 3
+    circle: {at: [91, 78], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 1
+    count: 1
+    slot: 3
+    circle: {at: [73, 77], r: 1}
+    notes: Sand golems round the ruined caravanserai and the bone fields.
+  - id: pop:ruin_fields
+    index: 2
+    count: 1
+    slot: 3
+    circle: {at: [87, 67], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 3
+    count: 1
+    slot: 3
+    circle: {at: [59, 78], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 4
+    count: 1
+    slot: 3
+    circle: {at: [86, 81], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 5
+    count: 1
+    slot: 3
+    circle: {at: [78, 69], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 6
+    count: 1
+    slot: 3
+    circle: {at: [71, 76], r: 1}
+    notes: walkable ground
+  - id: pop:ruin_fields
+    index: 7
+    count: 1
+    slot: 3
+    circle: {at: [87, 70], r: 1}
+    notes: walkable ground
+  - id: pop:barbaric
+    index: 1
+    count: 1
+    slot: 3
+    circle: {at: [89, 106], r: 1}
+    notes: "Sand golems in the Barbaric Mountains' notches round the prospector's camp; at least 2,500 from the coach yard."
+  - id: pop:barbaric
+    index: 2
+    count: 1
+    slot: 3
+    circle: {at: [108, 86], r: 1}
+    notes: walkable ground
+  - id: pop:barbaric
+    index: 3
+    count: 1
+    slot: 3
+    circle: {at: [108, 108], r: 1}
+    notes: walkable ground
+  - id: pop:barbaric
+    index: 4
+    count: 1
+    slot: 3
+    circle: {at: [86, 106], r: 1}
+    notes: walkable ground
+  - id: pop:barbaric
+    index: 5
+    count: 1
+    slot: 3
+    circle: {at: [106, 86], r: 1}
+    notes: walkable ground
+  - id: pop:pan_west
+    index: 1
+    count: 1
+    slot: 1
+    circle: {at: [26, 59], r: 1}
+    notes: "Sand burrowers on the west of the pan, between the cliff foot, the Shrine of Energy and the oasis."
+  - id: pop:pan_west
+    index: 2
+    count: 1
+    slot: 1
+    circle: {at: [36, 55], r: 1}
+    notes: walkable ground
+  - id: town:sphinx_wells
+    kind: keep_clear
+    polygon: [[52, 53], [71, 53], [71, 69], [52, 69]]
+    notes: "The caravan stop with its buffer (about 2,500 round the doors and the arrival)."
+  - id: zone:coach_yard
+    kind: keep_clear
+    polygon: [[78, 87], [92, 87], [92, 103], [78, 103]]
+    notes: "D-8.1: the walled coach yard outside every encounter area, with its buffer."
+  - id: zone:arie_camp
+    kind: keep_clear
+    polygon: [[41, 41], [50, 41], [50, 50], [41, 50]]
+    notes: Arie's camp.
+  - id: zone:saul_hermitage
+    kind: keep_clear
+    polygon: [[27, 66], [34, 66], [34, 74], [27, 74]]
+    notes: Saul's hermitage and the urn.
+  - id: zone:druid_grove
+    kind: keep_clear
+    polygon: [[66, 87], [75, 87], [75, 94], [66, 94]]
+    notes: The Summer Druid's grove.
+  - id: edge:east_end
+    kind: keep_clear
+    polygon: [[102, 56], [110, 56], [110, 64], [102, 64]]
+    notes: The X4 arrival.
+  - id: edge:south_end
+    kind: keep_clear
+    polygon: [[46, 103], [54, 103], [54, 110], [46, 110]]
+    notes: The X5 arrival.
+  - id: zone:central_pan
+    kind: open
+    polygon: [[52, 53], [100, 53], [104, 64], [88, 64], [72, 68], [56, 70], [45, 69], [36, 66], [30, 58], [44, 52]]
+    notes: "The quiet pan of the caravan road: Sphinx Wells, the oasis, the obelisk knoll, the long view to the Sphinx."
+  - id: zone:oasis
+    kind: open
+    polygon: [[36, 58], [46, 58], [46, 67], [36, 67]]
+    notes: "The oasis: palms, the pond and the fountain."
+views:
+  - {id: view:arrival, at: [106, 60], height: 200, look: [60, 50], purpose: "MU-4 arrival view from X4's desert road just inside the east edge: west-north-west down the road over the pan to Sphinx Wells' palms; on the right the Northern Sphinx lying in the dunes and the red mesas; far ahead Castle Basenji on its cliff at the north rim; on the left the dry downs."}
+  - {id: view:signature, at: [38, 96], height: 200, look: [26, 78], purpose: "MU-4 signature view: from a dune crest in the rim dunes, north-west along the world's west rim: on the left the dunes pour over the edge into the stars, sand streaming off the lip in the wind; ahead right the Southern Sphinx buried to its shoulders; far off on the right Castle Basenji on its cliff over the north rim."}
+scatter:
+  - id: scatter:oasis_palms
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 22
+    spacing: 1
+    spacing_group: trees
+    clusters: 9
+    polygon: [[36, 58.5], [41.5, 57.8], [47, 59], [47.5, 60.2], [44.2, 60.3], [44.8, 64.4], [43.4, 66.2], [39.6, 66.8], [36, 66.2], [35.4, 62.5]]
+  - id: scatter:oasis_reeds
+    decoration: plant02
+    count: 14
+    clusters: 8
+    polygon: [[37.6, 59.8], [44.6, 59.8], [44.6, 65.4], [37.6, 65.4]]
+  - id: scatter:wells_palms_n
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 1
+    spacing: 1.4
+    spacing_group: trees
+    polygon: [[56.2, 55.2], [61.2, 55.2], [61.2, 57.6], [56.2, 57.6]]
+  - id: scatter:wells_palms_s
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 3
+    spacing: 1.4
+    spacing_group: trees
+    polygon: [[56.5, 64], [66.5, 64], [66.5, 66.5], [56.5, 66.5]]
+  - id: scatter:wells_palms_e
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 2
+    spacing: 1.4
+    spacing_group: trees
+    polygon: [[66.2, 56], [68.5, 56], [68.5, 64.5], [66.2, 64.5]]
+  - id: scatter:druid_grove
+    kinds:
+      7tree19: 3
+      tree02: 1
+      tree05: 1
+    count: 8
+    spacing: 1.3
+    spacing_group: trees
+    polygon: [[67.6, 86.6], [73.6, 86.6], [74, 92.4], [67.4, 92.4]]
+  - id: scatter:grove_flowers
+    decoration: plant21
+    count: 14
+    clusters: 5
+    polygon: [[67.6, 86.6], [73.6, 86.6], [74, 92.4], [67.4, 92.4]]
+  - id: scatter:ne_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 3
+    spacing: 3
+    spacing_group: trees
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:ne_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 34
+    clusters: 9
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:ne_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 20
+    clusters: 8
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:ne_rocks
+    decoration: rock24
+    count: 6
+    clusters: 2
+    steep: true
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:ne_rocks
+    decoration: rock25
+    count: 6
+    clusters: 2
+    steep: true
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:ne_rocks
+    decoration: rock27
+    count: 6
+    clusters: 2
+    steep: true
+    polygon: [[58, 31], [76, 30], [77.5, 33], [77.5, 46.8], [88, 46.8], [88, 33], [99, 30], [100, 50], [90, 53], [76, 53], [62, 52], [59, 44]]
+  - id: scatter:mesa_rocks
+    kinds:
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 50
+    clusters: 14
+    steep: true
+    polygon: [[62, 30], [75, 30], [75, 45], [62, 45]]
+  - id: scatter:pan_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 2
+    spacing: 3.5
+    spacing_group: trees
+    polygon: [[46, 53.5], [100, 51.5], [104, 56], [104, 65.5], [88, 64], [72, 68], [56, 70], [46, 68]]
+  - id: scatter:pan_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 50
+    clusters: 15
+    polygon: [[46, 53.5], [100, 51.5], [104, 56], [104, 65.5], [88, 64], [72, 68], [56, 70], [46, 68]]
+  - id: scatter:pan_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 20
+    clusters: 6
+    polygon: [[46, 53.5], [100, 51.5], [104, 56], [104, 65.5], [88, 64], [72, 68], [56, 70], [46, 68]]
+  - id: scatter:pan_rocks
+    kinds:
+      7rock09: 1
+      rock28: 1
+      rock30: 1
+    count: 16
+    clusters: 5
+    polygon: [[46, 53.5], [100, 51.5], [104, 56], [104, 65.5], [88, 64], [72, 68], [56, 70], [46, 68]]
+  - id: scatter:road_palms
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 1
+    spacing: 2.6
+    spacing_group: trees
+    polygon: [[66, 58.6], [80, 58.6], [80, 63.6], [66, 63.6]]
+  - id: scatter:foot_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 18
+    clusters: 5
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 11
+    clusters: 4
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock24
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock25
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock27
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock28
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock30
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_rocks
+    decoration: rock33
+    count: 3
+    clusters: 2
+    steep: true
+    polygon: [[25, 43], [36, 39.2], [44, 39.2], [44, 47], [50, 49], [52, 53.5], [46, 57], [36, 57.5], [25, 57]]
+  - id: scatter:foot_palms
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 1
+    spacing: 2.4
+    spacing_group: trees
+    polygon: [[25, 49], [32, 49], [32, 57], [25, 57]]
+  - id: scatter:heights_rocks
+    kinds:
+      6rock07: 1
+      7rock08: 1
+      7rock09: 1
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 90
+    clusters: 24
+    steep: true
+    polygon: [[24.5, 24.5], [58, 24.5], [58, 31], [55.5, 36], [46, 37.4], [44.6, 37.4], [44.6, 33.4], [32.4, 33.4], [32.4, 37.6], [24.5, 41.5]]
+  - id: scatter:heights_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 40
+    clusters: 12
+    polygon: [[24.5, 24.5], [58, 24.5], [58, 31], [55.5, 36], [46, 37.4], [44.6, 37.4], [44.6, 33.4], [32.4, 33.4], [32.4, 37.6], [24.5, 41.5]]
+  - id: scatter:heights_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 2
+    spacing: 3
+    spacing_group: trees
+    polygon: [[24.5, 24.5], [58, 24.5], [58, 31], [55.5, 36], [46, 37.4], [44.6, 37.4], [44.6, 33.4], [32.4, 33.4], [32.4, 37.6], [24.5, 41.5]]
+  - id: scatter:west_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 49
+    clusters: 14
+    polygon: [[24.5, 68], [40, 70], [56, 70], [56, 88], [48, 100], [45, 110], [25.6, 110], [25.6, 76], [24.5, 76]]
+  - id: scatter:west_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 32
+    clusters: 13
+    polygon: [[24.5, 68], [40, 70], [56, 70], [56, 88], [48, 100], [45, 110], [25.6, 110], [25.6, 76], [24.5, 76]]
+  - id: scatter:west_rocks
+    decoration: rock24
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 68], [40, 70], [56, 70], [56, 88], [48, 100], [45, 110], [25.6, 110], [25.6, 76], [24.5, 76]]
+  - id: scatter:west_rocks
+    decoration: rock25
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 68], [40, 70], [56, 70], [56, 88], [48, 100], [45, 110], [25.6, 110], [25.6, 76], [24.5, 76]]
+  - id: scatter:west_rocks
+    decoration: rock27
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 68], [40, 70], [56, 70], [56, 88], [48, 100], [45, 110], [25.6, 110], [25.6, 76], [24.5, 76]]
+  - id: scatter:west_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 1
+    spacing: 3
+    spacing_group: trees
+    polygon: [[40, 70], [56, 70], [56, 88], [46, 88], [42, 80]]
+  - id: scatter:saul_palms
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 3
+    spacing: 1.2
+    spacing_group: trees
+    polygon: [[27, 66.5], [33.8, 66.5], [33.8, 68.4], [27, 68.4]]
+  - id: scatter:ruin_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 38
+    clusters: 11
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:ruin_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 19
+    clusters: 7
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:ruin_rocks
+    decoration: rock28
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:ruin_rocks
+    decoration: rock30
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:ruin_rocks
+    decoration: 7rock09
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:ruin_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 3
+    spacing: 3
+    spacing_group: trees
+    polygon: [[56, 70], [72, 68], [88, 64.5], [88, 80], [96, 88], [90, 90], [80, 90], [66, 92], [56, 88]]
+  - id: scatter:downs_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 48
+    clusters: 13
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 24
+    clusters: 9
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_rocks
+    decoration: rock24
+    count: 9
+    clusters: 3
+    steep: true
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_rocks
+    decoration: rock25
+    count: 9
+    clusters: 3
+    steep: true
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_rocks
+    decoration: rock27
+    count: 9
+    clusters: 3
+    steep: true
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 5
+    spacing: 3
+    spacing_group: trees
+    polygon: [[88, 65.5], [104, 66], [128, 66], [128, 87], [108, 86], [96, 88], [88, 80]]
+  - id: scatter:downs_palms
+    kinds:
+      tree01: 2
+      tree02: 2
+      tree03: 2
+      tree05: 1
+      tree07: 1
+      tree08: 1
+    count: 1
+    spacing: 2.2
+    spacing_group: trees
+    polygon: [[100, 68], [110, 68], [110, 74], [100, 74]]
+  - id: scatter:steppe_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 116
+    clusters: 33
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 41
+    clusters: 16
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_rocks
+    decoration: rock24
+    count: 13
+    clusters: 5
+    steep: true
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_rocks
+    decoration: rock25
+    count: 13
+    clusters: 5
+    steep: true
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_rocks
+    decoration: rock27
+    count: 13
+    clusters: 5
+    steep: true
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_grass
+    decoration: plant28
+    count: 99
+    clusters: 33
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:steppe_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 8
+    spacing: 3
+    spacing_group: trees
+    polygon: [[44, 88], [56, 88], [66, 92], [80, 90], [82, 91.5], [82, 99.5], [89, 99.5], [90, 128], [44, 128]]
+  - id: scatter:barbaric_rocks
+    kinds:
+      6rock07: 1
+      7rock08: 1
+      7rock09: 1
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 146
+    clusters: 40
+    steep: true
+    polygon: [[89.6, 86], [128, 85], [128, 128], [90, 128], [89.6, 99.5]]
+  - id: scatter:barbaric_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 48
+    clusters: 16
+    polygon: [[89.6, 86], [128, 85], [128, 128], [90, 128], [89.6, 99.5]]
+  - id: scatter:barbaric_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 8
+    spacing: 3
+    spacing_group: trees
+    steep: true
+    polygon: [[89.6, 86], [128, 85], [128, 128], [90, 128], [89.6, 99.5]]
+  - id: scatter:gargoyle_rocks
+    kinds:
+      6rock07: 1
+      7rock08: 1
+      7rock09: 1
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 72
+    clusters: 20
+    steep: true
+    polygon: [[100, 24.5], [128, 24.5], [128, 54], [110, 54], [100, 50]]
+  - id: scatter:gargoyle_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 24
+    clusters: 8
+    polygon: [[100, 24.5], [128, 24.5], [128, 54], [110, 54], [100, 50]]
+  - id: scatter:gargoyle_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 4
+    spacing: 3
+    spacing_group: trees
+    steep: true
+    polygon: [[100, 24.5], [128, 24.5], [128, 54], [110, 54], [100, 50]]
+  - id: scatter:north_ridge_rocks
+    kinds:
+      6rock07: 1
+      7rock08: 1
+      7rock09: 1
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 22
+    clusters: 6
+    steep: true
+    polygon: [[58, 24.5], [100, 24.5], [100, 30], [77, 30.5], [58, 30.5]]
+  - id: scatter:north_ridge_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 7
+    clusters: 2
+    polygon: [[58, 24.5], [100, 24.5], [100, 30], [77, 30.5], [58, 30.5]]
+  - id: scatter:north_ridge_dead
+    kinds:
+      plant43: 1
+      tree28: 3
+    count: 1
+    spacing: 3
+    spacing_group: trees
+    steep: true
+    polygon: [[58, 24.5], [100, 24.5], [100, 30], [77, 30.5], [58, 30.5]]
+  - id: scatter:sw_scrub
+    kinds:
+      bush03: 3
+      bush10: 1
+      bush12: 1
+      plant28: 1
+      plant49: 2
+    count: 18
+    clusters: 5
+    polygon: [[24.5, 110], [45, 110], [44, 128], [24.5, 128]]
+  - id: scatter:sw_cacti
+    kinds:
+      cac10: 1
+      cac15: 1
+      cac17: 1
+      cac23: 1
+      cac25: 1
+      cac3: 1
+      cac5: 1
+      cac7: 1
+      cac8: 1
+      plant50: 1
+      plant51: 1
+      plant53: 1
+    count: 7
+    clusters: 2
+    polygon: [[24.5, 110], [45, 110], [44, 128], [24.5, 128]]
+  - id: scatter:sw_rocks
+    decoration: 7rock08
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 110], [45, 110], [44, 128], [24.5, 128]]
+  - id: scatter:sw_rocks
+    decoration: 7rock09
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 110], [45, 110], [44, 128], [24.5, 128]]
+  - id: scatter:sw_rocks
+    decoration: 6rock07
+    count: 7
+    clusters: 2
+    steep: true
+    polygon: [[24.5, 110], [45, 110], [44, 128], [24.5, 128]]
+  - id: scatter:yard_rocks
+    kinds:
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 26
+    clusters: 8
+    steep: true
+    polygon: [[80, 88], [93, 88], [93, 91.6], [80, 91.6]]
+  - id: scatter:yard_rocks
+    kinds:
+      rock24: 1
+      rock25: 1
+      rock27: 1
+      rock28: 1
+      rock30: 1
+      rock33: 1
+    count: 24
+    clusters: 8
+    steep: true
+    polygon: [[80, 98.4], [93, 98.4], [93, 102], [80, 102]]
+  - id: scatter:lip_rocks
+    decoration: 7rock08
+    count: 26
+    line: [[24.6, 26], [24.6, 74], [24.6, 82.5]]
+  - id: scatter:lip_rocks
+    decoration: 7rock08
+    count: 34
+    line: [[27, 24.6], [100, 24.6], [126, 24.6]]
+ground:
+  - material: sand
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "desert sand everywhere first: dunes, pan, steppe and downs"
+  - material: wasteland
+    polygon: [[57, 75], [70, 72], [84, 72], [86, 80], [80, 84], [66, 86], [58, 84]]
+    notes: "the bone fields and the ruin fields: cracked crust"
+  - material: dirt
+    polygon: [[24, 24], [61, 24], [61, 31], [57, 37], [50, 40], [46, 41], [36, 41], [24, 45]]
+    notes: "the Basenji heights and their escarpment: bare red-brown rock"
+  - material: dirt
+    polygon: [[88, 87], [128, 84], [128, 128], [86, 128], [86, 104], [88, 99], [88, 90]]
+    notes: "the Barbaric Mountains: bare rock"
+  - material: dirt
+    polygon: [[61, 24], [128, 24], [128, 54], [110, 52], [100, 46], [100, 31], [76, 31], [61, 31]]
+    notes: "the red ridge along the north rim and the Gargoyle foothills: bare rock"
+  - material: dirt
+    polygon: [[80, 88], [93, 88], [93, 102], [80, 102]]
+    notes: "the coach yard and its rock shoulders: bare rock"
+  - material: dirt
+    polygon: [[61, 30], [69, 30], [69, 36], [61, 36]]
+    notes: "a red mesa: bare rock"
+  - material: dirt
+    polygon: [[66, 38], [73, 38], [73, 43], [66, 43]]
+    notes: "a red mesa: bare rock"
+  - material: dirt
+    polygon: [[93, 71], [101, 71], [101, 77], [93, 77]]
+    notes: "a red mesa: bare rock"
+structures:
+  - id: thing:wells_well
+    kind: well
+    at: [61, 60.85]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: Old Ibb's well
+    effects:
+      - text: The water is cool and refreshing.
+    notes: "Original line: xeen/aaze0001:4. \"The well is deeper than the Sphinx is tall\" (Old Ibb, A4)."
+  - id: thing:camel_pen
+    kind: fence
+    line: [[64.4, 57.75], [64.4, 55.4], [61.6, 55.4], [61.6, 57.75]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:pen_trough
+    kind: platform
+    at: [63, 56]
+    size: [640, 160]
+    height: 96
+    textures: {top: wtrtyl, wall: chb1}
+    title: Water trough
+  - id: thing:wells_prop_1
+    kind: decoration
+    at: [62, 57.2]
+    decoration: haybale2
+  - id: thing:wells_prop_2
+    kind: decoration
+    at: [62.35, 57.25]
+    decoration: haybale2
+  - id: thing:wells_prop_3
+    kind: decoration
+    at: [58.2, 57.75]
+    decoration: bigbarel
+  - id: thing:wells_prop_4
+    kind: decoration
+    at: [58.5, 57.75]
+    decoration: smlbarel
+  - id: thing:wells_prop_5
+    kind: decoration
+    at: [59, 63.8]
+    decoration: bigbarel
+  - id: thing:wells_prop_6
+    kind: decoration
+    at: [59.3, 63.8]
+    decoration: smlbarel
+  - id: thing:wells_prop_7
+    kind: decoration
+    at: [64.25, 59.75]
+    decoration: 7dec21
+  - id: thing:wells_prop_8
+    kind: decoration
+    at: [64.25, 59.45]
+    decoration: 7dec21
+  - id: thing:date_stall
+    kind: building
+    at: [55.6, 62.4]
+    size: [1, 0.75]
+    turn: 0
+    kit: timber
+    parts:
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm2rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    door: none
+    title: Market stall
+  - id: thing:yard_wall
+    kind: wall
+    line: [[83, 93.6], [83, 98.4]]
+    height: 448
+    thickness: 160
+    gates:
+      - {at: [83, 96], width: 512, height: 416}
+    textures: {top: cwb, wall: chb1}
+    title: The coach yard wall
+    notes: "A short fieldstone wall between the two rock shoulders; its gate opens on the coach track."
+  - id: thing:yard_gate_outer_n
+    kind: wall
+    line: [[82.7, 95.5], [82.7, 96]]
+    height: 384
+    thickness: 32
+    textures: {top: hhm1b1, wall: hhm1b1}
+    title: The yard gate
+    effects:
+      - hide: thing:yard_gate_outer_n
+      - hide: thing:yard_gate_outer_s
+      - hide: thing:yard_gate_inner_n
+      - hide: thing:yard_gate_inner_s
+      - lua: "evt.PlaySoundName(\"xeen_yard_gate\")"
+      - lua: "XeenQuests.hook(\"x6.warzone_gate\")"
+    notes: "D-8.1: the desert side lifts the bar (A3's x6.warzone_gate, once); two plank wings."
+  - id: thing:yard_gate_outer_s
+    kind: wall
+    line: [[82.7, 96], [82.7, 96.5]]
+    height: 384
+    thickness: 32
+    textures: {top: hhm1b1, wall: hhm1b1}
+    title: The yard gate
+    effects:
+      - hide: thing:yard_gate_outer_n
+      - hide: thing:yard_gate_outer_s
+      - hide: thing:yard_gate_inner_n
+      - hide: thing:yard_gate_inner_s
+      - lua: "evt.PlaySoundName(\"xeen_yard_gate\")"
+      - lua: "XeenQuests.hook(\"x6.warzone_gate\")"
+    notes: "D-8.1: the desert side lifts the bar (A3's x6.warzone_gate, once); two plank wings."
+  - id: thing:yard_gate_inner_n
+    kind: wall
+    line: [[83.3, 95.5], [83.3, 96]]
+    height: 384
+    thickness: 32
+    textures: {top: hhm1b1, wall: hhm1b1}
+    title: The yard gate
+    condition: {lua: "XeenQuests.hook(\"x6.warzone_gate_open\")"}
+    effects:
+      - hide: thing:yard_gate_outer_n
+      - hide: thing:yard_gate_outer_s
+      - hide: thing:yard_gate_inner_n
+      - hide: thing:yard_gate_inner_s
+      - lua: "evt.PlaySoundName(\"xeen_yard_gate\")"
+      - text: The yard gate swings open.
+    notes: "D-8.1: barred from the yard side until x6.warzone_gate; before it, Gorm's gate_line (A3's fail text: The sand's no place for you yet. Arena or home.)"
+  - id: thing:yard_gate_inner_s
+    kind: wall
+    line: [[83.3, 96], [83.3, 96.5]]
+    height: 384
+    thickness: 32
+    textures: {top: hhm1b1, wall: hhm1b1}
+    title: The yard gate
+    condition: {lua: "XeenQuests.hook(\"x6.warzone_gate_open\")"}
+    effects:
+      - hide: thing:yard_gate_outer_n
+      - hide: thing:yard_gate_outer_s
+      - hide: thing:yard_gate_inner_n
+      - hide: thing:yard_gate_inner_s
+      - lua: "evt.PlaySoundName(\"xeen_yard_gate\")"
+      - text: The yard gate swings open.
+    notes: "D-8.1: barred from the yard side until x6.warzone_gate; before it, Gorm's gate_line (A3's fail text: The sand's no place for you yet. Arena or home.)"
+  - id: thing:arena_gate
+    kind: building
+    at: [88.5, 94]
+    size: [0.5, 2]
+    kit: plaster
+    textures: {door: chb1dl, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    facing: w
+    parts:
+      - {id: portal, at: [96, 0], size: [672, 1024], wall_height: 640, walls: {w: [wall, wall, [door, 384], wall, wall]}, windows: none, roof: flat}
+    floor: 1504
+    door: none
+    doors:
+      - {part: portal, wall: w, bay: 2, into: {map: xeen_xd20.blv, arrival: entrance:x6_yard, screen: {text: 5020}}, title: The Warzone, notes: "XD-20 The Warzone (A7, D-8.1): \"Enter the War Zone?\" (xeen/aaze0006:4); sealed until XD-20 is installed and A7 gives the inside point. Two leaves 192 x 256 (chb1dl; the 448 height of A7 waits on A1).", arch: round, leaves: 2}
+    title: The Warzone
+    notes: "The arena gate (XD-20) in a stone portal sunk into the Barbaric cliff (its top under the rock), facing the yard (A7)."
+  - id: thing:arena_torch_1
+    kind: decoration
+    at: [88.45, 93.85]
+    decoration: dec06
+  - id: thing:arena_torch_2
+    kind: decoration
+    at: [88.45, 96.15]
+    decoration: dec06
+  - id: thing:warzone_coach_wagon
+    kind: tent
+    at: [87.2, 93]
+    size: [640, 1152]
+    height: 384
+    title: Gorm's coach
+    notes: "The Warzone coach (A4 4305): a closed coach standing by the cliff (dressing, no click)."
+    open: false
+  - id: thing:yard_prop_1
+    kind: decoration
+    at: [83.5, 97.6]
+    decoration: haybale2
+  - id: thing:yard_prop_2
+    kind: decoration
+    at: [83.85, 97.65]
+    decoration: haybale2
+  - id: thing:yard_prop_3
+    kind: decoration
+    at: [86.85, 92.35]
+    decoration: bigbarel
+  - id: thing:yard_prop_4
+    kind: decoration
+    at: [87.15, 92.35]
+    decoration: smlbarel
+  - id: thing:yard_trough
+    kind: platform
+    at: [85.6, 97.6]
+    size: [640, 160]
+    height: 96
+    textures: {top: wtrtyl, wall: chb1}
+    title: Water trough
+  - id: thing:northern_sphinx
+    kind: building
+    at: [80.25, 30]
+    size: [3.5, 15]
+    kit: plaster
+    textures: {door: egydrlgl, gable: egybiga, post_left: egywla, post_right: egywla, ridge: egywlb, roof: egywalh, trim: egywlb, wall: egybiga, window: egybiga}
+    facing: s
+    parts:
+      - {id: breast, at: [608, 6968], size: [576, 200], wall_height: 612, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: flat}
+    floor: 1408
+    door: none
+    doors:
+      - {part: breast, wall: s, bay: 1, into: {map: xeen_xd15.blv, arrival: entrance:x6_paws, screen: {text: 5015}}, title: The Sphinx's door, condition: {qbit: 112180}, else_effects: [{lua: "if XeenQuests.hook(\"q-c9.door\") then evt.PlaySoundName(\"xeen_sphinx_stir\") end"}], notes: "XD-15 The Sphinx (A7; Q-C9): A3's q-c9.door wants the Jewelled Amulet (12317); once it has opened (112180) the door leads to XD-15's entrance:x6_paws; the opening click stays (its line, xeen_sphinx_stir). Two leaves 192 x 256 (egydrlgl; the 512 height of A7 waits on the paired-leaf word of A1).", leaves: 2}
+    title: The Sphinx
+    notes: "XD-15's shell (D-31: at (82, 39) facing south, in sight of the X4 road), A7's numbers. The body is lane S's xeen_sphinx_north; this is the door's carrier."
+  - id: thing:northern_sphinx_model
+    kind: decoration
+    at: [82, 44]
+    turn: 180
+    decoration: xeen_sphinx_north
+    title: The Sphinx
+    notes: "Lane S's xeen_sphinx_north (row 4010): origin the door threshold's middle, facing 180 (turn 180)."
+  - id: thing:barrier_northern_sphinx_model_body
+    kind: barrier
+    line: [[81.811, 31.801], [81.318, 31.986], [80.853, 32.451], [80.543, 33.134], [80.418, 33.787], [80.418, 34.566], [80.481, 34.941], [80.45, 35.785], [80.512, 36.16], [80.48, 37.529], [80.658, 37.677], [80.908, 37.677], [81.073, 37.81], [81.106, 38.662], [80.856, 39.787], [80.887, 40.126], [81.012, 40.508], [80.942, 40.581], [80.505, 40.674], [80.355, 40.884], [80.387, 44.193], [80.324, 44.564], [80.387, 44.658], [80.324, 44.907], [80.378, 44.959], [80.457, 44.96], [80.493, 44.896], [80.595, 44.958], [80.926, 44.96], [80.963, 44.895], [81.034, 44.959], [81.142, 44.962], [81.138, 44.094], [81.208, 43.991], [81.474, 43.992], [81.506, 44.086], [81.61, 44.087], [81.61, 43.962], [82.383, 43.962], [82.383, 44.087], [82.517, 44.087], [82.517, 43.993], [82.821, 44.025], [82.824, 44.531], [82.887, 44.627], [82.824, 44.906], [82.878, 44.959], [82.957, 44.96], [82.993, 44.896], [83.095, 44.958], [83.176, 44.96], [83.211, 44.896], [83.311, 44.958], [83.468, 44.895], [83.534, 44.959], [83.642, 44.962], [83.638, 40.854], [83.458, 40.643], [83.083, 40.581], [82.981, 40.477], [83.137, 40.033], [83.137, 39.756], [82.887, 38.6], [82.919, 37.843], [83.052, 37.678], [83.336, 37.677], [83.484, 37.59], [83.544, 37.156], [83.7, 36.814], [83.606, 35.13], [83.607, 33.354], [83.452, 33.2], [83.202, 32.544], [82.768, 32.048], [82.336, 31.832]]
+    closed: true
+    height: 2450
+    bottom: -64
+    notes: Lane S's body ring of xeen_sphinx_north (sphinx_collision.yml).
+  - id: thing:barrier_northern_sphinx_model_head
+    kind: barrier
+    line: [[81.872, 40.426], [81.32, 40.515], [81.292, 40.791], [81.105, 41.072], [81.073, 41.448], [80.699, 41.885], [80.695, 42.462], [81.392, 42.462], [81.394, 42.117], [81.55, 42.179], [81.548, 42.025], [83.328, 41.995], [83.295, 41.855], [82.919, 41.448], [82.919, 41.165], [82.7, 40.759], [82.673, 40.516]]
+    closed: true
+    height: 2450
+    bottom: 1200
+    notes: Lane S's head ring of xeen_sphinx_north (sphinx_collision.yml).
+  - id: thing:cloud_hoard
+    kind: decoration
+    at: [82.62, 44.7]
+    decoration: 7dec11
+    title: A mound of sand
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.cloud_hoard\")"
+    notes: "A3's obelisks.cloud_hoard: with the seven Cloudside words an iron box, else sand."
+  - id: thing:southern_sphinx
+    kind: building
+    at: [34, 82]
+    size: [6, 4]
+    kit: plaster
+    textures: {door: egydrlgl, gable: egybiga, post_left: egywla, post_right: egywla, ridge: egywlb, roof: egywalh, trim: egywlb, wall: egybiga, window: egybiga}
+    facing: e
+    parts:
+      - {id: breast, at: [2616, 768], size: [200, 512], wall_height: 520, walls: {e: [wall, [door, 320], wall]}, windows: none, roof: flat}
+    floor: 1536
+    door: none
+    doors:
+      - {part: breast, wall: e, bay: 1, into: {map: xeen_fd02.blv, arrival: entrance:x6_door, screen: {text: 5063}}, title: The Southern Sphinx, condition: {lua: "XeenQuests.hook(\"m40.sphinx_door\")"}, notes: "FD-02 (A7, phase 6; M40): A3's m40.sphinx_door (Roland's amulet), then into FD-02 at entrance:x6_door. Two leaves 160 x 256 (egydrlgl; 448 high waits on A1).", leaves: 2}
+    title: The Southern Sphinx
+    notes: "FD-02's shell: buried to its shoulders at the cove's edge, facing the morning (east). The body is lane S's xeen_sphinx_south; this is the door's carrier."
+  - id: thing:southern_sphinx_model
+    kind: decoration
+    at: [39.5, 84]
+    turn: 90
+    decoration: xeen_sphinx_south
+    title: The Southern Sphinx
+    notes: "Lane S's xeen_sphinx_south (row 4011): origin the door threshold's middle, facing 270 (turn 90)."
+  - id: thing:barrier_southern_sphinx_model_body
+    kind: barrier
+    line: [[34.075, 84.017], [34.106, 84.262], [34.229, 84.539], [34.413, 84.754], [34.721, 84.939], [35.184, 85.001], [35.933, 84.813], [37.125, 84.813], [37.318, 84.878], [37.475, 85.035], [37.815, 85.22], [38.061, 85.282], [38.494, 85.282], [38.895, 85.128], [39.109, 84.914], [39.172, 84.725], [39.456, 84.567], [39.576, 84.417], [39.578, 84.338], [39.453, 84.307], [39.453, 83.694], [39.578, 83.663], [39.576, 83.584], [39.456, 83.434], [39.172, 83.276], [39.109, 83.087], [38.895, 82.873], [38.494, 82.719], [38.031, 82.719], [37.568, 82.905], [37.317, 83.124], [37.125, 83.188], [35.933, 83.188], [35.214, 83.001], [34.813, 83.031], [34.537, 83.155], [34.321, 83.339], [34.137, 83.647]]
+    closed: true
+    height: 1336
+    bottom: -64
+    notes: Lane S's body ring of xeen_sphinx_south (sphinx_collision.yml).
+  - id: thing:barrier_southern_sphinx_model_head
+    kind: barrier
+    line: [[37.449, 84.449], [37.506, 84.535], [38.191, 84.69], [38.596, 85.033], [39.017, 85.006], [39.015, 84.462], [38.95, 84.426], [39.078, 84.275], [38.844, 84.375], [38.642, 84.371], [38.643, 83.724], [39.003, 83.752], [39.145, 83.878], [39.108, 83.742], [38.95, 83.579], [39.014, 83.51], [39.017, 82.996], [38.596, 82.969], [38.191, 83.312], [37.505, 83.467], [37.449, 83.522]]
+    closed: true
+    height: 1336
+    bottom: 550
+    notes: Lane S's head ring of xeen_sphinx_south (sphinx_collision.yml).
+  - id: thing:castle_basenji
+    kind: building
+    at: [35, 27.4]
+    size: [6, 6]
+    kit: plaster
+    textures: {door: chb1dl, gable: hwm2b, post_left: hwm2el, post_right: hwm2er, ridge: trim11_32, roof: hwm2rf, trim: hwm2bs1, wall: hwm2wall, window: hwm2bw}
+    facing: s
+    parts:
+      - {id: hall, at: [192, 1600], size: [2688, 1408], wall_height: 896, windows: none, roof: flat, battlements: true}
+      - {id: gatehouse, at: [1152, 2880], size: [768, 352], wall_height: 352, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: gable, roof_pitch: 52, ridge_along: ns}
+      - {id: keep, at: [704, 320], size: [1664, 1408], wall_height: 1664, windows: none, roof: flat, battlements: true}
+      - {id: tower_sw, shape: round, at: [256, 2880], radius: 352, sides: 10, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
+      - {id: tower_se, shape: round, at: [2816, 2880], radius: 352, sides: 10, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
+      - {id: tower_nw, shape: round, at: [512, 448], radius: 320, sides: 10, wall_height: 2048, windows: alternate, roof: cone, roof_pitch: 64}
+      - {id: tower_ne, shape: round, at: [2560, 448], radius: 384, sides: 10, wall_height: 1792, windows: alternate, roof: cone, roof_pitch: 62}
+    floor: 2592
+    door: none
+    doors:
+      - {part: gatehouse, wall: s, bay: 1, into: {map: xeen_xd14.blv, arrival: entrance:x6_gate, screen: {text: 5014}}, title: Castle Basenji, notes: "XD-14 Castle Basenji (A7; Q-C8): \"Castle Basenji.  Enter?\" (xeen/aaze0001:19), then XD-14's entrance:x6_gate. Two leaves (chb1dl, mirrored).", arch: pointed, leaves: 2}
+    title: Castle Basenji
+    notes: "XD-14's shell on the crag (38, 31); D-31's grey rubble and black timber."
+  - id: thing:basenji_torch_1
+    kind: decoration
+    at: [37.3, 33.55]
+    decoration: dec06
+  - id: thing:basenji_torch_2
+    kind: decoration
+    at: [38.7, 33.55]
+    decoration: dec06
+  - id: thing:basenji_skulls
+    kind: decoration
+    at: [35, 34.6]
+    decoration: sklplrev
+  - id: thing:arie_tent
+    kind: tent
+    at: [44, 44]
+    size: [768, 640]
+    height: 384
+    title: Arie's tent
+    notes: "Arie's camp (Q-C8): her master's books under the awning."
+    awning: 256
+  - id: thing:arie_fire
+    kind: decoration
+    at: [45.9, 46.4]
+    decoration: 7dec02
+    title: Campfire
+  - id: thing:arie_pot
+    kind: decoration
+    at: [46.4, 45.9]
+    decoration: 7dec03
+  - id: thing:saul_hut
+    kind: building
+    at: [28.5, 68.8]
+    size: [2, 1.5]
+    kit: plaster
+    textures: {door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: hhm2rf, trim: t07a11a, wall: t07a01, window: t07a02c}
+    facing: e
+    parts:
+      - {id: hut, at: [64, 64], size: [768, 640], porches: [{wall: e, depth: 192, height: 224, posts: 24, floor: 16}], wall_height: 288, windows: alternate, roof: flat, parapet: 48}
+    door: none
+    title: Saul's hermitage
+  - id: thing:saul_urn
+    kind: decoration
+    at: [30.35, 71.2]
+    decoration: dec26
+    title: Saul's urn
+    effects:
+      - lua: "XeenQuests.hook(\"x6.saul_urn\")"
+  - id: thing:druid_spring
+    kind: fountain
+    at: [70.6, 89.3]
+    radius: 192
+    sides: 10
+    pillar: 0
+    textures: {wall: chb1}
+    title: The Summer Druid's spring
+    notes: "The one green place in the south (dressing: the spring is not a device, its title a hover)."
+  - id: thing:prospector_tent
+    kind: tent
+    at: [98.80000000000001, 100.69999999999999]
+    size: [512, 512]
+    height: 320
+    title: A prospector's tent
+    open: true
+  - id: thing:prospector_fire
+    kind: decoration
+    at: [100, 101.4]
+    decoration: dec24x
+    title: A cold fire
+  - id: thing:obelisk
+    kind: obelisk
+    at: [75, 51]
+    height: 768
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.x6\")"
+    notes: Cloudside's sixth obelisk (A3's obelisks.x6) on its red knoll.
+  - id: thing:oasis_fountain
+    kind: fountain
+    at: [45.7, 61]
+    radius: 224
+    sides: 10
+    textures: {wall: chb1}
+    tiers: [[64, 48]]
+    title: The oasis fountain
+    condition: {not: {player_bit: 11330}}
+    else_effects:
+      - text: "Clear, cold water. It has given you all it will."
+    effects:
+      - add:
+          var: BaseEndurance
+          value: 2
+      - text: "Clear water from deep under the sand. You feel it in your bones. (+2 Endurance, permanent)"
+      - player_bit: 11330
+    notes: "MAPS X6: +2 Endurance, permanent, once per character (player bit 11330, A3 to register)."
+  - id: thing:well_accuracy
+    kind: well
+    at: [52, 92]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: The Well of Accuracy
+    condition: {not: {lua: "Xeen.usedToday(\"x6_well_accuracy\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"x6_well_accuracy\") evt.ForPlayer(Players.All)"
+      - add:
+          var: AccuracyBonus
+          value: 10
+      - text: The water is so still you can see the bottom. Your eye sharpens. (+10 Accuracy until you rest)
+  - id: thing:waters_power
+    kind: fountain
+    at: [30.6, 34.4]
+    radius: 256
+    sides: 8
+    textures: {wall: hwm2wall}
+    tiers: [[64, 48]]
+    title: The Waters of Great Power
+    condition: {not: {player_bit: 11333}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - add:
+          var: HP
+          value: 200
+      - text: The water is cool and refreshing. (+200 hit points)
+      - player_bit: 11333
+    notes: "Original line: xeen/aaze0001:4; once per character a day (player bit 11333)."
+  - id: thing:shrine_energy_house
+    kind: building
+    at: [27.2, 53.2]
+    size: [1.6, 1.6]
+    kit: plaster
+    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    parts:
+      - {id: s, at: [96, 96], size: [627, 627], posts: 32, wall_height: 352, windows: none, roof: hip, roof_pitch: 38}
+    door: none
+    title: The Shrine of Energy
+  - id: thing:shrine_energy
+    kind: decoration
+    at: [28, 54]
+    decoration: dec64
+    title: Shrine of Energy
+    condition: {not: {player_bit: 11331}}
+    else_effects:
+      - text: "The sparks crackle, but leave you alone."
+    effects:
+      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"A pedestal crackling with blue sparks under an open roof. Shrine of Energy. Pray?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) end return end"
+      - add:
+          var: AirResistance
+          value: 5
+      - text: "Lightning runs over your skin and is gone. (+5 Air resistance, permanent)"
+      - player_bit: 11331
+    notes: "Original line: xeen/aaze0001:0; +5 Air resistance (D-4), once per character (player bit 11331)."
+  - id: thing:sun_stones
+    kind: stone_ring
+    at: [69, 103]
+    radius: 640
+    textures: {wall: chb1}
+    title: The sun stones
+    condition: {not: {lua: "Xeen.usedToday(\"x6_sun_stones\")"}}
+    else_effects:
+      - lua: "XeenQuests.hook(\"x6.sun_stones_again\")"
+    effects:
+      - lua: "Xeen.markToday(\"x6_sun_stones\") evt.ForPlayer(Players.All)"
+      - add:
+          var: FireResistanceBonus
+          value: 10
+      - lua: "XeenQuests.hook(\"x6.sun_stones\")"
+    seed: 6
+    count: 7
+    stone: [128, 96, 384]
+    lintel: false
+    altar: [320, 256, 96]
+  - id: thing:caravan_cairn
+    kind: decoration
+    at: [96, 57.4]
+    decoration: rock26
+    title: Caravan cairn
+    condition: {not: {lua: "Xeen.usedToday(\"x6_caravan_cairn\")"}}
+    else_effects:
+      - lua: "XeenQuests.hook(\"x6.caravan_cairn_again\")"
+    effects:
+      - lua: "Xeen.markToday(\"x6_caravan_cairn\") evt.ForPlayer(Players.All)"
+      - add:
+          var: LuckBonus
+          value: 10
+      - lua: "XeenQuests.hook(\"x6.caravan_cairn\")"
+  - id: thing:cairn_stone_1
+    kind: decoration
+    at: [95.5, 57]
+    decoration: 7rock08
+  - id: thing:cairn_stone_2
+    kind: decoration
+    at: [96.6, 57.9]
+    decoration: 7rock08
+  - id: thing:air_reflector
+    kind: obelisk
+    at: [26.4, 26.4]
+    height: 384
+    sides: 8
+    title: Air Reflector
+    effects:
+      - lua: "if continueStep == 1 then XeenQuests.hook(\"m37.reflector_air\") return end"
+      - lua: "if continueStep ~= nil then return end"
+      - lua: "AskChoiceWithAnswerSteps(eventId, 3, \"A disc of pale crystal on a stone stem, turned toward the wind off the edge. Reflector. Activate?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    notes: "Original line: xeen/aaze0001:17 (\"Reflector. Activate?\"); M37 after M36 (A3)."
+  - id: thing:swallowed_wagon
+    kind: tent
+    at: [93, 31.4]
+    size: [512, 960]
+    turn: 20
+    height: 288
+    title: A half-buried wagon
+    open: false
+  - id: thing:wagon_strongbox
+    kind: crate
+    at: [94.3, 32.7]
+    title: The wagon's strongbox
+    chest: {level: 3, random_items: 3}
+    effects:
+      - text: "Half a wagon sticks out of the dune. Beside it, a hole wide as a door, still settling."
+  - id: thing:werewolf_den
+    kind: cave_mouth
+    at: [52, 30]
+    size: [1024, 1024]
+    title: "The werewolves' den: gnawed bones and the stink of wet fur"
+    effects:
+      - text: Fallen earth and stones fill the den's mouth. The pack sleeps out in the open now.
+    notes: "D-91: a barrow on level land with no way in, blocked at its face (rubble); the pack stays outside."
+    mouth: {width: 448, height: 352, depth: 128}
+    roughness: 0.7
+    seed: 9
+    free: true
+    form: blocked
+  - id: thing:den_chest
+    kind: chest
+    at: [53.6, 31.4]
+    title: What the pack's victims carried
+    chest: {level: 3, random_items: 2}
+  - id: thing:den_bones_1
+    kind: decoration
+    at: [51.3, 31.6]
+    decoration: 7dec18
+  - id: thing:den_bones_2
+    kind: decoration
+    at: [53.4, 31.9]
+    decoration: dec19
+  - id: thing:den_bones_3
+    kind: decoration
+    at: [51.7, 32.5]
+    decoration: 7dec20
+  - id: thing:gargoyle_watch
+    kind: building
+    at: [104, 38]
+    size: [2, 2]
+    kit: plaster
+    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    parts:
+      - {id: t, shape: round, at: [512, 512], radius: 384, sides: 10, wall_height: 896, windows: alternate, roof: none, ruin: {height: [192, 896], gaps: 0.35, seed: 5}}
+    door: none
+    title: A fallen watchtower
+  - id: thing:watch_bones
+    kind: decoration
+    at: [103.6, 40.4]
+    decoration: 7dec18
+  - id: thing:caravanserai
+    kind: building
+    at: [76.4, 74.4]
+    size: [3.6, 3.6]
+    kit: plaster
+    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    parts:
+      - {id: r, at: [96, 96], size: [1650, 1650], wall_height: 416, windows: alternate, roof: none}
+    door: none
+    title: The ruined caravanserai
+    ruin:
+      height: [96, 416]
+      gaps: 0.4
+      thickness: 64
+      seed: 11
+  - id: thing:serai_strongbox
+    kind: chest
+    at: [78.2, 76.2]
+    title: The old keeper's strongbox
+    chest: {level: 3, random_items: 3}
+  - id: thing:serai_well
+    kind: decoration
+    at: [77.4, 77.4]
+    decoration: dec24x
+  - id: thing:bone_chest
+    kind: chest
+    at: [62.4, 81.4]
+    title: A dead caravan's pay chest
+    chest: {level: 3, random_items: 2}
+    effects:
+      - text: "The bones of something enormous, and among them the bones of the caravan it ate."
+  - id: thing:bones_1
+    kind: decoration
+    at: [61.4, 80.6]
+    decoration: dec29
+  - id: thing:bones_2
+    kind: decoration
+    at: [63.6, 80.2]
+    decoration: dec21
+  - id: thing:bones_3
+    kind: decoration
+    at: [60.8, 82.4]
+    decoration: 7dec18
+  - id: thing:bones_4
+    kind: decoration
+    at: [64, 82.8]
+    decoration: sklplrev
+  - id: thing:bones_5
+    kind: decoration
+    at: [62.2, 83.6]
+    decoration: dec19
+  - id: thing:bones_6
+    kind: decoration
+    at: [59.6, 80.8]
+    decoration: 7dec20
+  - id: thing:bones_7
+    kind: decoration
+    at: [65.4, 79.6]
+    decoration: dec29
+  - id: thing:bones_8
+    kind: decoration
+    at: [63, 78.8]
+    decoration: 7dec18
+  - id: thing:rim_pack
+    kind: chest
+    at: [25.9, 100.4]
+    title: An explorer's pack
+    chest: {level: 3, random_items: 2}
+    effects:
+      - text: "A note pinned to the pack: \"Gone to see where the sand goes.\""
+  - id: thing:rim_stake
+    kind: decoration
+    at: [25.2, 101.1]
+    decoration: dec13
+  - id: thing:mesa_nest
+    kind: chest
+    at: [66, 34.6]
+    title: A great bird's nest
+    chest: {level: 3, random_items: 2}
+    effects:
+      - text: "Sticks the size of spears, and among them, glittering things."
+  - id: thing:nest_bones
+    kind: decoration
+    at: [65.3, 34.1]
+    decoration: dec29
+  - id: thing:prospector_box
+    kind: chest
+    at: [99.60000000000001, 102.1]
+    title: The prospector's box
+    chest: {level: 3, random_items: 2}
+    effects:
+      - text: The fire is long cold. His pick is still in the rock.
+  - id: thing:signpost_1
+    kind: sign
+    at: [54.9, 60.5]
+    height: 256
+    arms:
+      - {title: Burlock and Asp, toward: e}
+      - {title: Winterkill, toward: s}
+      - {title: Castle Basenji, toward: n}
+      - {title: The oasis, toward: w}
+  - id: thing:signpost_2
+    kind: sign
+    at: [80.9, 60.2]
+    height: 256
+    arms:
+      - {title: The Sphinx, toward: n}
+      - {title: Sphinx Wells, toward: w}
+      - {title: Burlock, toward: e}
+  - id: thing:signpost_3
+    kind: sign
+    at: [51, 83.1]
+    height: 256
+    arms:
+      - {title: The Warzone, toward: e}
+      - {title: Winterkill, toward: s}
+      - {title: Sphinx Wells, toward: n}
+      - {title: The Southern Sphinx, toward: w}
+  - id: thing:sandfall_1
+    kind: decoration
+    at: [25.3, 84]
+    turn: 180
+    decoration: xeen_sandfall
+    notes: "Lane S's sand-fall (D-31, D-35): on the cove's north wall at the lip's height, turned 180 (A1, merge point 15) to pour south into the cove, its face toward the crest at [38, 96]."
+  - id: thing:sandfall_2
+    kind: decoration
+    at: [28.5, 84]
+    turn: 180
+    decoration: xeen_sandfall
+    notes: "Lane S's sand-fall (D-31, D-35): on the cove's north wall at the lip's height, turned 180 (A1, merge point 15) to pour south into the cove, its face toward the crest at [38, 96]."
+  - id: thing:sandfall_3
+    kind: decoration
+    at: [31.7, 84]
+    turn: 180
+    decoration: xeen_sandfall
+    notes: "Lane S's sand-fall (D-31, D-35): on the cove's north wall at the lip's height, turned 180 (A1, merge point 15) to pour south into the cove, its face toward the crest at [38, 96]."
+actors:
+  - {monster: "371", at: [60.4, 61.6], spread: 0, group: 51}
+  - {monster: "350", at: [62.2, 62], spread: 0, group: 51}
+  - {monster: "362", at: [56.6, 61], spread: 0, group: 51}
+  - {monster: "377", at: [64.6, 61.8], spread: 0, group: 51}
+  - {monster: "354", at: [45.4, 45], spread: 0, group: 53, npc: 4608, notes: "Arie the Apprentice (A4 4608, Q-C8) at her camp below Castle Basenji."}
+  - {monster: "368", at: [31.1, 70.6], spread: 0, group: 53, npc: 4602, notes: "Saul the Hermit (A4 4602): Meditation Master."}
+  - {monster: "11929", at: [69.6, 90.2], spread: 0, group: 53, npc: 4601, notes: "The Summer Druid (A4 4601, Q-C1) in her grove; D-91: lane S's row 11929 Xeen Druidess (Druidess A's body)."}
+sounds:
+  - {id: sound:bed_desert_1, at: [27, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_10, at: [41, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_11, at: [69, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_12, at: [97, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_2, at: [55, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_3, at: [83, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_4, at: [41, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_5, at: [69, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_6, at: [97, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_7, at: [27, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_8, at: [55, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_9, at: [83, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:sandfalls, at: [28.5, 84], sound: xeen_sandfall_loop, radius: 4500, inner_radius: 1800, volume: 0.6, loop: true}
+events:
+  - id: evt:daily_bits
+    trigger: daily
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          ClearPlayerBit(PlayerBit(11333))
+    notes: "Once per character a day: the Waters of Great Power (as MM7 7out02 clears its well bit; the temporary sources are daily for the party, D-70)."
+  - id: evt:yard_gate_state
+    trigger: load
+    condition: {qbit: warzone_gate}
+    effects:
+      - hide: thing:yard_gate_outer_n
+      - hide: thing:yard_gate_outer_s
+      - hide: thing:yard_gate_inner_n
+      - hide: thing:yard_gate_inner_s
+    notes: "D-8.1: once opened from the desert side the yard gate stays open (x6.warzone_gate, 116100)."

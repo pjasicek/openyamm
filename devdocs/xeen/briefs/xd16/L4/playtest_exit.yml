@@ -1,0 +1,31 @@
+# Playtest of the Volcano Cave's way out (XD-16, L4; written by output/studio_cal/xd16/tools/gen_tests.py): the
+# mouth (the exit preset) out to X7 at its named arrival entrance:xd16_mouth (512, 9728, 2240) facing west; the leave
+# window's OK pressed; the landing measured with status().
+id: xeen.xd16.l4.exit
+title: Volcano Cave (XD-16 L4), the mouth out to X7
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_xd16.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - walk_to: {x: 128, y: 0, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 20}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - advance_runtime: {seconds: 2.0}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 512, y: 9728, radius: 160, z_min: 2200, z_max: 2300}}

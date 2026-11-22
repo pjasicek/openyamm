@@ -1,0 +1,41 @@
+# D-11.3: the party stands 10 s on the arrival step, not immortal, and nobody is hurt. A2's rows: Ghost Mummy 11273 (16),
+# Phase Mummy 11274 (4) and Dragon Mummy 11672 (6) all hostile at load and after a save and load; Picard the Aged 11922
+# peaceful. No window is open before the reload.
+id: xeen.fd02.l4.hostility
+title: "Southern Sphinx (FD-02 L4): a quiet arrival; mummies and dragon mummies hostile, Picard peaceful"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_fd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 59, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 59, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 59, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 59, skills: [], equipment: {}}
+  - assert: {map: xeen_fd02.blv}
+  - advance_runtime: {seconds: 10}
+  - play_lua: {source: "close()"}
+  - assert: {member_points: {member_index: 0, health_min: 335, health_max: 335}}
+  - assert: {member_points: {member_index: 1, health_min: 150, health_max: 150}}
+  - assert: {member_points: {member_index: 2, health_min: 210, health_max: 210}}
+  - assert: {member_points: {member_index: 3, health_min: 140, health_max: 140}}
+  - assert: {party_position: {x: -256, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {actor_count: {monster_id: 11273, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11274, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11672, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11273, hostile: true, min: 16}}
+  - assert: {actor_count: {monster_id: 11274, hostile: true, min: 4}}
+  - assert: {actor_count: {monster_id: 11672, hostile: true, min: 6}}
+  - assert: {actor_count: {monster_id: 11922, hostile: false, min: 1}}
+  - reload: {}
+  - play_lua: {source: "wait(1); close()"}
+  - assert: {actor_count: {monster_id: 11273, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11273, hostile: true, min: 16}}
+  - assert: {actor_count: {monster_id: 11274, hostile: true, min: 4}}
+  - assert: {actor_count: {monster_id: 11672, hostile: true, min: 6}}
+  - assert: {actor_count: {monster_id: 11922, hostile: false, min: 1}}

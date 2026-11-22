@@ -1,0 +1,47 @@
+# Xeen's D6: Ambrose's "Fly to Blackfang" (41254) shows after m25.done (qbit 111503) and flies the party to DD-14.
+# Its CanShowTopic reads the map's name (Xeen.onMap, evt.GetCurrentMapName). A1, merge point 23; needs assets_dev's
+# Xeen world (git-ignored).
+id: xeen.d6.ambrose_flight
+title: Ambrose's flight from Griffin Pass (a topic that reads the current map's name)
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111503
+    value: true
+- advance_runtime:
+    seconds: 1
+- set_pose:
+    map: xeen_d6.odm
+    x: -1229
+    y: -16179
+    z: 2464
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 44
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: Fly to Blackfang
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- play_lua:
+    source: close(); wait(0.3)
+- advance_runtime:
+    seconds: 1.0
+    follow_map_move: true
+- assert:
+    map: xeen_dd14.blv

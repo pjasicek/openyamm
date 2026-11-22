@@ -1,0 +1,53 @@
+# Q-C19 Ligono's Skull (QUESTS 2.1). Owner: A3. Freed, Ligono leaves the surf for Olympus (D7): he moves into the
+# House of Hera (A4's 4814) and waits there with a warning for the Chosen Ones (Act V).
+# The source teaches Recharge Item; Ligono leaves its book in the surf instead (no event teaches a spell).
+id: Q-C19
+title: Ligono's Skull
+act: II
+kind: side
+status: full
+giver: 4155          # Ligono the Spirit (X2, the surf below the rim)
+maps: [X2]
+level: 14
+block: 69
+after: []
+source: "QUESTS Q-C19; xeen/aaze0015:10-12, :14"
+
+qbits:
+  started: {id: 112381, journal: "Ligono the Spirit is trapped in the surf. His skull lies near the edge of the world, to the south.",
+            until: [done]}
+  skull_found: {id: 110203, map: X2, pending: true, note: "nothing sets it since D-90 (c) (the skull is a ground item, map_gives); X2's project.yml still lists it as ligono_skull: drop both at X2's next rebuild"}
+  done: {id: 112380}
+
+items:
+  ligonos_skull: "Ligono's skull; the rocks at the world's edge (X2); cast into the surf at Ligono."
+
+npcs:
+  4155:              # Ligono
+    topics:
+      - n: 1
+        label: Skull
+        show: {not: {qbit: done}}
+        states:
+          - when: {item: ligonos_skull}
+            text: "My skull! Thank you! Already I can feel my tie to this world fading. Listen to the sound of the surf for your spell. (A book washes up at your feet: Recharge Item.)"
+            do: [{take: ligonos_skull}, {set: done}, {clear: started}, {give: "engine:427"}, {xp: 4000},
+                 {move_npc: [4155, 4814]}, {lua: "evt.SetMonGroupBit(55, MonsterBits.Invisible, 1)"}]   # X2's surf group 55 (A5's on-load event 221 does the same)
+          - when: {qbit: started}
+            text: "I see you don't have my skull yet. Well, that's ok. I've been here for a very long time. I don't mind another century or so. Don't worry about me. I'll just keep washing up on the shore here."
+          - text: "I hate the surf. I have been trapped here since I died, crashing forward and pulling back, forward and back. I am sick of it. If you bring my skull and cast it into the surf here, I will be set free. I think my skull was pulled by the currents to the south and lies near the edge of the world. Retrieve my skull and I will teach you a spell before I go."
+            do: [{set: started}]
+
+      - n: 2
+        label: Warning
+        show: {qbit: done}
+        text: "You came! Up here a spirit hears things. Alamar is not his name. Read the plaques of this city before you go to his castle, and do not go without a way to hide what you carry from him."
+
+hooks:
+  skull:
+    map: X2
+    where: "Ligono's skull among the rocks at the world's edge: a ground item since D-90 (c) (A5, X2 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the skull)"
+    map_gives: {ligonos_skull: 1}
+
+rewards: {xp: 4000, gold: 0}
+playthrough: "Ligono (Skull); the rocks at the rim; Ligono (Skull)."

@@ -1,0 +1,100 @@
+# The shrine refuses without the four sleepers.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.refusal
+title: 'Clouds of the Ancients (P5): the shrine refuses a party without the four sleepers, and keeps nothing'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- play_lua:
+    source: wait(1.5); close()
+- assert:
+    map: xeen_p5.blv
+- note: 'Only the Cube and the Scepter: the sleepers are still asleep, so the Pharaoh refuses.'
+- grant_item:
+    item_id: 12365
+    member_index: 0
+- grant_item:
+    item_id: 12366
+    member_index: 1
+- play_lua:
+    source: click(37); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Elemental Sleepers must be awakened
+- play_lua:
+    source: if not close() then error('evt:shrine showed no window') end
+- assert:
+    qbit_clear:
+    - 111840
+- play_lua:
+    source: if not has_item(12365) or not has_item(12366) then error('the refusal took the items') end
+- assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 11920
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 11921
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 11919
+      hidden: false
+- note: The gift is not there before state:wedding.
+- set_pose:
+    map: xeen_p5.blv
+    x: -576
+    y: 1152
+    z: 512
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -576
+    y: 1352
+    z: 512
+    z_tolerance: 200
+    radius: 32
+    timeout_seconds: 10
+    close_dialogs: true

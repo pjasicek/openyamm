@@ -1,0 +1,31 @@
+# The question's third answer (DD-02, lane A8, 2026-11-20): "Um, I... I just don't know." puts the party out of the
+# tower: m17.question_wrong ("Begone!") and a direct move onto D1 at the tower door's return point (A6's, D1 event
+# 102: 2560, 9216, 1152, facing east); question_passed stays clear and the door stays shut for the next try. Run with
+# --world xeen --map xeen_dd02.blv (output/studio_cal/dd02/four.sh).
+id: xeen.dd02.l4.question_wrong
+title: Ellinger's Tower (DD-02 L4), "I just don't know" puts the party out on D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 21, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 21, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 400, y: 480, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 912, y: 700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - answer_input: {text: "I just don't know"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Begone!"}}
+  - answer_input: {text: "Leave the tower"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: 2560, y: 9216, radius: 128, z_min: 1120, z_max: 1190}}
+  - play_lua: {source: "if qbit(111340) then error('question_passed set by answer 3') end"}

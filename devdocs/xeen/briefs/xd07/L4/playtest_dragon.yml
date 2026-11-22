@@ -1,0 +1,33 @@
+# D-32 check of Castle Burlock (XD-07, L4; lane A7, 2026-11-20): with Xeen's levelRadiusLimit 60 a wide monster
+# routes at radius 60 indoors, so the caged Fire Dragon (11642, 476 across, 487 high) is kept in its pit by the
+# pit stair's height (288: floor -640, ceiling -352), not its width (160). The warden's lever (event 7) raises the
+# portcullis (door 10); the party waits in the pit gallery above for 40 s; the dragon is still in the pit.
+id: xeen.xd07.l4.dragon
+title: Castle Burlock (XD-07 L4), the Fire Dragon stays in its pit with the portcullis raised (D-32)
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_xd07.blv, x: 3000, y: -2700, z: -640, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -5120, 1300], min: 1}}
+  - execute_event: {id: 7}
+  - advance_runtime: {seconds: 5}
+  - play_lua: {source: "close(); if door_state(10) == 'closed' then error('the portcullis did not move') end"}
+  - advance_runtime: {seconds: 40}
+  - play_lua: {source: "close(); if door_state(10) ~= 'open' then error('the portcullis is not up: ' .. door_state(10)) end"}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -5120, 1300], min: 1}}
+  - assert: {actor_count: {monster_id: 11642, near: [2816, -2432, 900], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -3456, 450], max: 0}}

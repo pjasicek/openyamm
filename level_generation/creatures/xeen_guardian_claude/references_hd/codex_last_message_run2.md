@@ -1,0 +1,5 @@
+Run 2 is complete. The built-in image generator produced all four Guardian views. Each master is an unresized 1024×1536 transparent PNG. The smallest measured skull margin is 92 px, above the required 80 px.
+
+[Five-view review sheet](level_generation/creatures/xeen_guardian_claude/references_hd/selected_views_review.png) · [Front](level_generation/creatures/xeen_guardian_claude/references_hd/01_front.png) · [Back](level_generation/creatures/xeen_guardian_claude/references_hd/02_back.png) · [Left](level_generation/creatures/xeen_guardian_claude/references_hd/03_left.png) · [Right](level_generation/creatures/xeen_guardian_claude/references_hd/04_right.png)
+
+All four first renders were selected. The right profile has a slightly narrower jaw gap than the left, with both tooth rows still distinct. The exact prompts, hashes and selection notes are in the [generation log](level_generation/creatures/xeen_guardian_claude/references_hd/generation_runs.json).

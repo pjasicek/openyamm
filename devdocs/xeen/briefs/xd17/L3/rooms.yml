@@ -1,0 +1,232 @@
+format: 0
+themes:
+  - id: theme:rock
+    wall: {texture: gcav2wal, size: [256, 512]}
+    floor: {texture: gcav1flr, size: [256, 256]}
+    ceiling: {texture: gcav2wal, size: [256, 512]}
+  - id: theme:slot
+    wall: {texture: gcav1flr, size: [256, 256], uneven: true}
+    floor: {texture: gcav1flr, size: [256, 256]}
+    ceiling: {texture: gcav2wal, size: [256, 512], sky: true}
+  - id: theme:valley
+    wall: {texture: gcav2wal, size: [256, 512], uneven: true, sky: true}
+    floor: {texture: 7grastyl, size: [128, 128]}
+    ceiling: {texture: gcav2wal, size: [256, 512], sky: true}
+defaults: {theme: theme:valley, ambient: 20}
+rooms:
+  - id: room:passage
+    name: The back passage
+    space: room:back_passage
+    outline: [[-5590, 3404], [-5356, 3690], [-6027, 4239], [-7680, 4416], [-7680, 4032], [-6261, 3953]]
+    floor: 0
+    ceiling: 640
+    ceiling_points: [[-5590, 3404, 640], [-5356, 3690, 640], [-6027, 4239, 1341], [-7680, 4416, 1536], [-7680, 4032, 1536], [-6261, 3953, 1347]]
+    theme: theme:slot
+    ambient: 28
+    notes: "D-50 Q8: a slot open to the sky, 384 wide and about 2,060 long, its walls from the valley's crest down to 1,536 at the rockfall; the rockfall at its west end is the way out to X7's cleft."
+  - id: room:throat
+    name: The cave throat
+    space: room:cave_mouth
+    outline: [[-1472, -6016], [-1088, -6016], [-1088, -5280], [-1472, -5280]]
+    floor: 0
+    ceiling: 448
+    theme: theme:rock
+    ambient: 24
+    notes: "The end of XD-16's cool passage: a low black throat 768 deep in the south bluff; its back is the way out to XD-16 (the exit preset)."
+  - id: room:valley
+    name: The valley
+    outline: [[-8640, 3152], [-8912, 1568], [-8976, 0], [-8832, -1552], [-8368, -3040], [-7712, -4448], [-6672, -5584], [-5456, -6496], [-4080, -7072], [-2455, -7458], [-1792, -5248], [-768, -5248], [-60, -7608], [1328, -7552], [2688, -7408], [4064, -7040], [5536, -6592], [6848, -5744], [8032, -4640], [8544, -3104], [8912, -1568], [9120, 1616], [8864, 3232], [8720, 3840], [10528, 4912], [10960, 5408], [11216, 5840], [11472, 6624], [11408, 7984], [10832, 9088], [9888, 9888], [8592, 10240], [7808, 10176], [7360, 10048], [6864, 9792], [6160, 9216], [4720, 7408], [4352, 7536], [2896, 7936], [1424, 8032], [0, 8032], [-2752, 7568], [-4160, 7216], [-5568, 6640], [-7040, 5904], [-8000, 4654], [-5946, 4338], [-5242, 3762], [-5638, 3278], [-6342, 3854], [-8372, 3796]]
+    floor: 0
+    floor_points: [[-8976, 0, 2166], [-8912, 1568, 2213], [-8832, -1552, 2113], [-8640, 3152, 2265], [-8463, 677, 2791], [-8372, 3796, 2391], [-8368, -3040, 2067], [-8249, -667, 2550], [-8166, -2000, 2520], [-8104, 2172, 2751], [-8000, 4654, 2316], [-7917, 3809, 2723], [-7712, -4448, 2009], [-7581, -3332, 2458], [-7493, 4576, 2671], [-7392, 3824, 2326], [-7319, 586, 1048], [-7205, -582, 1096], [-7053, -1727, 1144], [-7040, 5904, 2342], [-6986, 4498, 2448], [-6974, 1869, 1086], [-6955, 3255, 1200], [-6931, -4620, 2397], [-6905, 4955, 2781], [-6867, 3839, 1736], [-6672, -5584, 1959], [-6518, -2865, 1117], [-6479, 4420, 1809], [-6462, 5612, 2913], [-6400, 512, 0], [-6342, 3854, 1157], [-6336, -512, 0], [-6272, -1536, 0], [-6208, 1664, 0], [-6084, -4056, 985], [-6034, 3602, 652], [-6016, 2816, 0], [-5946, 4338, 1148], [-5840, -5506, 2515], [-5824, -2560, 0], [-5638, 3278, 0], [-5568, 6640, 2367], [-5550, 4014, 502], [-5544, 4815, 1086], [-5456, -6496, 1907], [-5376, -3584, 0], [-5242, 3762, 0], [-5024, -4737, 1067], [-5015, 6140, 2860], [-4864, 4224, 0], [-4684, -6357, 2448], [-4480, -4224, 0], [-4288, 5250, 1128], [-4160, 7216, 2393], [-4080, -7072, 1860], [-4079, -5536, 999], [-3712, 4544, 0], [-3584, -4864, 0], [-3525, 6697, 2931], [-3465, -6517, 2333], [-3104, -5838, 899], [-3002, 5704, 1324], [-2752, 7568, 2423], [-2688, -5056, 0], [-2560, 4864, 0], [-2455, -7458, 1829], [-2308, -6968, 2230], [-2161, -6478, 1720], [-2014, -5988, 986], [-1867, -5498, 333], [-1816, 7083, 2869], [-1792, -5248, 0], [-1531, 5969, 1163], [-1280, 4992, 0], [-768, -5248, 0], [-621, -5738, 634], [-474, -6228, 1297], [-327, -6718, 2003], [-180, -7208, 2174], [-60, -7608, 1867], [0, 5120, 0], [0, 6229, 1381], [0, 7365, 3100], [0, 8032, 2575], [512, -5184, 0], [582, -5892, 937], [695, -7033, 2468], [1152, 5056, 0], [1328, -7552, 1900], [1405, 6167, 1441], [1424, 8032, 2703], [1702, 7469, 3289], [1792, -5120, 0], [2043, -5836, 1061], [2304, 4992, 0], [2364, -6756, 2383], [2688, -7408, 1932], [2813, 6095, 1382], [2896, 7936, 2828], [3072, -4864, 0], [3363, 7287, 3357], [3456, 4736, 0], [3466, -5488, 962], [4064, -7040, 1970], [4092, -6479, 2385], [4139, 5672, 1248], [4352, -4608, 0], [4352, 7536, 2777], [4608, 4480, 0], [4720, 7408, 2764], [4865, -5151, 960], [4890, 6701, 3319], [5120, -3968, 0], [5312, 3904, 0], [5385, 5236, 1290], [5536, -6592, 2001], [5587, -5915, 2447], [5734, -4444, 987], [5888, -3328, 0], [6016, 3328, 0], [6140, 4512, 1281], [6144, -2304, 0], [6160, 9216, 2758], [6260, 7879, 3271], [6272, 2304, 0], [6331, 6480, 3221], [6400, -1280, 0], [6464, 0, 0], [6528, 1280, 0], [6548, -5075, 2606], [6659, -3764, 1174], [6840, 3784, 1334], [6848, -5744, 2030], [6864, 9792, 2751], [6977, -2616, 1105], [7005, 2573, 906], [7094, 9032, 3109], [7108, 5323, 3313], [7139, -1428, 1040], [7159, 6749, 4576], [7268, 7551, 4441], [7360, 0, 1044], [7360, 10048, 2745], [7450, 1461, 1170], [7514, -4247, 2643], [7664, 2815, 1941], [7692, 8209, 4507], [7727, 6176, 4512], [7808, 10176, 2738], [7950, 4398, 2952], [7980, -2992, 2606], [8000, 7168, 5632], [8032, -4640, 2060], [8131, 6851, 5632], [8131, 7485, 5632], [8288, 0, 2622], [8294, -1659, 2488], [8448, 4924, 3241], [8448, 5851, 4384], [8448, 6720, 5632], [8448, 7168, 5376], [8448, 7616, 5632], [8448, 8501, 4415], [8448, 9381, 3241], [8486, 1664, 2797], [8544, -3104, 2060], [8592, 10240, 2726], [8720, 3840, 2398], [8765, 6851, 5632], [8765, 7485, 5632], [8864, 3232, 2345], [8896, 7168, 5632], [8912, -1568, 2060], [9120, 1616, 2206], [9149, 8133, 4599], [9233, 6088, 4574], [9710, 6758, 4373], [9719, 7581, 4514], [9758, 8971, 3092], [9800, 5307, 3314], [9888, 9888, 2700], [10528, 4912, 2416], [10589, 7864, 3166], [10730, 6427, 3099], [10832, 9088, 2629], [10960, 5408, 2434], [11216, 5840, 2451], [11408, 7984, 2558], [11472, 6624, 2487]]
+    floor_lines:
+      - [[-768, -5248], [512, -5184], [1792, -5120], [3072, -4864], [4352, -4608], [5120, -3968], [5888, -3328], [6144, -2304], [6400, -1280], [6464, 0], [6528, 1280], [6272, 2304], [6016, 3328], [5312, 3904], [4608, 4480], [3456, 4736], [2304, 4992], [1152, 5056], [0, 5120], [-1280, 4992], [-2560, 4864], [-3712, 4544], [-4864, 4224], [-5242, 3762]]
+      - [[-5638, 3278], [-6016, 2816], [-6208, 1664], [-6400, 512], [-6336, -512], [-6272, -1536], [-5824, -2560], [-5376, -3584], [-4480, -4224], [-3584, -4864], [-2688, -5056], [-1792, -5248]]
+      - [[-7053, -1727], [-6518, -2865], [-6084, -4056], [-5024, -4737], [-4079, -5536], [-3104, -5838]]
+      - [[582, -5892], [2043, -5836], [3466, -5488], [4865, -5151], [5734, -4444], [6659, -3764], [6977, -2616], [7139, -1428], [7360, 0], [7450, 1461], [7005, 2573], [6840, 3784], [6140, 4512], [5385, 5236], [4139, 5672], [2813, 6095], [1405, 6167], [0, 6229], [-1531, 5969], [-3002, 5704], [-4288, 5250], [-5544, 4815]]
+      - [[-6955, 3255], [-6974, 1869], [-7319, 586], [-7205, -582], [-7053, -1727]]
+      - [[-8166, -2000], [-7581, -3332], [-6931, -4620], [-5840, -5506], [-4684, -6357], [-3465, -6517]]
+      - [[695, -7033], [2364, -6756], [4092, -6479], [5587, -5915], [6548, -5075], [7514, -4247], [7980, -2992], [8294, -1659], [8288, 0], [8486, 1664], [7664, 2815], [7950, 4398]]
+      - [[4890, 6701], [3363, 7287], [1702, 7469], [0, 7365], [-1816, 7083], [-3525, 6697], [-5015, 6140], [-6462, 5612], [-6905, 4955]]
+      - [[-8104, 2172], [-8463, 677], [-8249, -667], [-8166, -2000]]
+      - [[9719, 7581], [9149, 8133], [8448, 8501], [7692, 8209], [7268, 7551], [7159, 6749], [7727, 6176], [8448, 5851], [9233, 6088], [9710, 6758], [9719, 7581]]
+      - [[10589, 7864], [9758, 8971], [8448, 9381], [7094, 9032], [6260, 7879], [6331, 6480], [7108, 5323], [8448, 4924], [9800, 5307], [10730, 6427], [10589, 7864]]
+      - [[8896, 7168], [8765, 7485], [8448, 7616], [8131, 7485], [8000, 7168], [8131, 6851], [8448, 6720], [8765, 6851], [8896, 7168]]
+    floor_surfaces:
+      - {steeper_than: 0.5, surface: {texture: gcav1flr, size: [256, 256]}}
+      - {at: [8448, 7168], surface: {texture: gcav1flr, size: [256, 256]}}
+    steep_floor: true
+    ceiling: 6000
+    ceiling_points: [[-8976, 0, 2918], [-8912, 1568, 2972], [-8832, -1552, 2864], [-8640, 3152, 2596], [-8463, 677, 2943], [-8372, 3796, 2590], [-8368, -3040, 2810], [-8249, -667, 2893], [-8166, -2000, 2843], [-8104, 2172, 2983], [-8000, 4654, 2508], [-7917, 3809, 2915], [-7712, -4448, 2755], [-7581, -3332, 2789], [-7493, 4576, 2863], [-7392, 3824, 2518], [-7040, 5904, 2834], [-6986, 4498, 2640], [-6955, 3255, 1473], [-6931, -4620, 2735], [-6905, 4955, 2975], [-6867, 3839, 1928], [-6672, -5584, 2701], [-6479, 4420, 2001], [-6462, 5612, 3107], [-6342, 3854, 1349], [-6208, 1664, 2406], [-6034, 3602, 844], [-6016, 2816, 771], [-5946, 4338, 1340], [-5840, -5506, 2683], [-5638, 3278, 640], [-5568, 6640, 3133], [-5550, 4014, 694], [-5544, 4815, 1395], [-5456, -6496, 2647], [-5242, 3762, 640], [-5015, 6140, 3130], [-4864, 4224, 774], [-4743, 2950, 1125], [-4684, -6357, 2627], [-4160, 7216, 3162], [-4080, -7072, 2536], [-4047, 2380, 2598], [-3712, 4544, 2518], [-3584, -4864, 2275], [-3525, 6697, 3168], [-3465, -6517, 2551], [-2752, 7568, 3190], [-2688, -5056, 1091], [-2455, -7458, 2147], [-2308, -6968, 2424], [-2161, -6478, 1912], [-2048, 0, 2918], [-2014, -5988, 1178], [-1867, -5498, 704], [-1816, 7083, 3205], [-1792, -5248, 704], [-1280, -4348, 1070], [-1280, -3448, 2176], [-768, -5248, 704], [-621, -5738, 826], [-474, -6228, 1489], [-327, -6718, 2195], [-60, -7608, 2247], [0, 7365, 3352], [0, 8032, 3352], [512, -5184, 1520], [695, -7033, 2660], [1328, -7552, 2587], [1424, 8032, 3677], [1702, 7469, 3774], [2048, 0, 2917], [2364, -6756, 2671], [2688, -7408, 2674], [2896, 7936, 4119], [3363, 7287, 4274], [4064, -7040, 2708], [4092, -6479, 2716], [4352, 7536, 4566], [4720, 7408, 4679], [4890, 6701, 4723], [5536, -6592, 2742], [5587, -5915, 2753], [6160, 9216, 4879], [6548, -5075, 2783], [6848, -5744, 2776], [6864, 9792, 4880], [7159, 6749, 4816], [7268, 7551, 4681], [7360, 10048, 4876], [7514, -4247, 2810], [7664, 2815, 4473], [7692, 8209, 4747], [7727, 6176, 4752], [7808, 10176, 4877], [7950, 4398, 4956], [7980, -2992, 2810], [8000, 7168, 5872], [8032, -4640, 2810], [8131, 6851, 5872], [8131, 7485, 5872], [8288, 0, 3649], [8294, -1659, 3151], [8448, 5851, 4624], [8448, 6720, 5872], [8448, 7168, 5900], [8448, 7616, 5872], [8448, 8501, 4655], [8486, 1664, 4149], [8544, -3104, 2810], [8592, 10240, 4877], [8720, 3840, 4798], [8765, 6851, 5872], [8765, 7485, 5872], [8864, 3232, 4613], [8896, 7168, 5872], [8912, -1568, 3176], [9120, 1616, 4122], [9149, 8133, 4839], [9233, 6088, 4814], [9710, 6758, 4613], [9719, 7581, 4754], [9888, 9888, 4877], [10528, 4912, 4879], [10832, 9088, 4882], [10960, 5408, 4880], [11216, 5840, 4879], [11408, 7984, 4879], [11472, 6624, 4878]]
+    ceiling_lines:
+      - [[-8166, -2000], [-7581, -3332], [-6931, -4620], [-5840, -5506], [-4684, -6357], [-3465, -6517]]
+      - [[695, -7033], [2364, -6756], [4092, -6479], [5587, -5915], [6548, -5075], [7514, -4247], [7980, -2992], [8294, -1659], [8288, 0], [8486, 1664], [7664, 2815], [7950, 4398]]
+      - [[4890, 6701], [3363, 7287], [1702, 7469], [0, 7365], [-1816, 7083], [-3525, 6697], [-5015, 6140], [-6462, 5612], [-6905, 4955]]
+      - [[-8104, 2172], [-8463, 677], [-8249, -667], [-8166, -2000]]
+      - [[9719, 7581], [9149, 8133], [8448, 8501], [7692, 8209], [7268, 7551], [7159, 6749], [7727, 6176], [8448, 5851], [9233, 6088], [9710, 6758], [9719, 7581]]
+      - [[8896, 7168], [8765, 7485], [8448, 7616], [8131, 7485], [8000, 7168], [8131, 6851], [8448, 6720], [8765, 6851], [8896, 7168]]
+    walls:
+      - wall: 8
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 9
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 10
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+        panels:
+          - {id: panel:crystal, offset: 848, length: 32, bottom: 136, height: 64, surface: {texture: gcrysc2, size: [16, 32], fit: true}, notes: "The hidden crystal (D-50 Q5), at eye height east of the cave mouth: A3's xd17.crystal."}
+      - wall: 11
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 12
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 44
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 45
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 46
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 47
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 48
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 49
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+      - wall: 50
+        surface: {texture: gcav1flr, size: [256, 256], uneven: true}
+    platforms:
+      - {key: pave_0, at: [-1280, -4640], size: [384, 1088], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_1, at: [-1024, -3168], size: [1536, 1856], rise: 4, surface: {texture: gtempflr, size: [128, 128]}, notes: The first square's flagstones.}
+      - {key: pave_2, at: [-3712, -2656], size: [256, 576], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_3, at: [2560, -2208], size: [256, 1088], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_4, at: [-2720, -2496], size: [1728, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_5, at: [3136, -2176], size: [896, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_6, at: [-1280, -160], size: [256, 4160], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_7, at: [-1664, -1920], size: [512, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_8, at: [640, -1792], size: [3584, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_9, at: [1280, 128], size: [256, 3584], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_10, at: [-2016, -1280], size: [1216, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_11, at: [-2464, 704], size: [2112, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_12, at: [2688, 1152], size: [2560, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_13, at: [-1472, 1344], size: [128, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_14, at: [3200, 1664], size: [256, 768], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_15, at: [3840, 2272], size: [256, 1984], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_16, at: [-1600, 1792], size: [384, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_17, at: [0, 1792], size: [2304, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_18, at: [-1664, 2752], size: [256, 1664], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_19, at: [0, 2144], size: [256, 448], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_20, at: [4352, 3168], size: [768, 192], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {key: pave_21, at: [-3520, 3456], size: [3456, 256], rise: 4, surface: {texture: crdflr3, size: [128, 128]}, notes: Lane gravel.}
+      - {id: platform:tavern_xanadu, at: [-2432, -3072], size: [1152, 832], rise: 512, surface: {texture: 7hhr1bs2, size: [256, 512]}, end_surface: {texture: 7hhr1bs2, size: [256, 512], fit: false}, top_surface: {texture: 7hhr1rf, size: [128, 128]}, notes: "Tavern Xanadu: two storeys, timber and white plaster, a broad porch on the street, the sign of a domed palace."}
+      - {key: tavern_xanadu_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[-3008, -3072], [-3008, -3488], [-1856, -3488], [-1856, -3072], [-1856, -2656], [-3008, -2656]], top_surface: {texture: 7hhr1rf, size: [128, 128]}, base: 512, top_heights: [304, 16, 16, 304, 16, 16], notes: Tavern Xanadu's roof.}
+      - {id: door:tavern_xanadu, at: [-1848, -3072], size: [16, 128], rise: 256, surface: {texture: 7hhr1d, size: [128, 256], fit: true}, end_surface: {texture: 7hhr1bs2, size: [256, 512], fit: false}, notes: "Tavern Xanadu's door (house 4353): clicked, evt.EnterHouse(4353)."}
+      - {key: sign_tavern_xanadu, at: [-1852, -3072], size: [8, 96], rise: 96, surface: {texture: 7sgtvrn, size: [64, 64], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, base: 288, notes: The sign over Tavern Xanadu's door.}
+      - {id: platform:arm_and_hammer, at: [320, -3072], size: [896, 1536], rise: 384, surface: {texture: chb1, size: [128, 256]}, end_surface: {texture: chb1, size: [128, 256], fit: false}, top_surface: {texture: hhm1rf, size: [128, 128]}, notes: "Arm and Hammer: a long stone forge, a chimney between two doors on the street, one sign of a raised arm, one of a hammer."}
+      - {key: arm_and_hammer_roof, rise: 16, surface: {texture: chb1, size: [128, 256]}, outline: [[320, -3840], [768, -3840], [768, -2304], [320, -2304], [-128, -2304], [-128, -3840]], top_surface: {texture: hhm1rf, size: [128, 128]}, base: 384, top_heights: [272, 16, 16, 272, 16, 16], notes: Arm and Hammer's roof.}
+      - {id: door:arm_and_hammer_arms, at: [-136, -3456], size: [16, 128], rise: 256, surface: {texture: hhm3d, size: [128, 256], fit: true}, end_surface: {texture: chb1, size: [128, 256], fit: false}, notes: "Arm and Hammer's door (house 4351): clicked, evt.EnterHouse(4351)."}
+      - {key: sign_arm_and_hammer_arms, at: [-132, -3456], size: [8, 96], rise: 96, surface: {texture: sgweapon, size: [64, 64], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, base: 288, notes: The sign over Arm and Hammer's door.}
+      - {id: door:arm_and_hammer_armour, at: [-136, -2688], size: [16, 128], rise: 256, surface: {texture: hhm3d, size: [128, 256], fit: true}, end_surface: {texture: chb1, size: [128, 256], fit: false}, notes: "Arm and Hammer's door (house 4365): clicked, evt.EnterHouse(4365)."}
+      - {key: sign_arm_and_hammer_armour, at: [-132, -2688], size: [8, 96], rise: 96, surface: {texture: 7sgarm, size: [64, 64], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, base: 288, notes: The sign over Arm and Hammer's door.}
+      - {id: platform:earth_temple, at: [-5120, 704], size: [1152, 1152], rise: 448, surface: {texture: ch1b1, size: [128, 256]}, end_surface: {texture: ch1b1, size: [128, 256], fit: false}, top_surface: {texture: 6grastyl, size: [128, 128]}, base: 384, notes: "Earth Temple: squat dark stone, a turfed roof, half sunk into the west cliff foot."}
+      - {key: earth_temple_roof, rise: 16, surface: {texture: ch1b1, size: [128, 256]}, outline: [[-5696, 704], [-5696, 128], [-4544, 128], [-4544, 704], [-4544, 1280], [-5696, 1280]], top_surface: {texture: 6grastyl, size: [128, 128]}, base: 832, top_heights: [176, 16, 16, 176, 16, 16], notes: Earth Temple's roof.}
+      - {id: door:earth_temple, at: [-4536, 704], size: [16, 128], rise: 256, surface: {texture: hhm3d, size: [128, 256], fit: true}, end_surface: {texture: ch1b1, size: [128, 256], fit: false}, base: 384, notes: "Earth Temple's door (house 4352): clicked, evt.EnterHouse(4352)."}
+      - {key: sign_earth_temple, at: [-4540, 704], size: [8, 96], rise: 96, surface: {texture: sgtempl, size: [64, 64], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, base: 672, notes: The sign over Earth Temple's door.}
+      - {id: platform:guild_light, rise: 1152, surface: {texture: 7tws1f, size: [128, 128]}, outline: [[3648, 2746], [3386, 3008], [3014, 3008], [2752, 2746], [2752, 2374], [3014, 2112], [3386, 2112], [3648, 2374]], top_surface: {texture: ygtemprf, size: [128, 128]}, notes: "Shangri-La Wizard's Guild: a round white tower with a gilded dome, the valley's tallest roof."}
+      - {key: guild_light_roof0, at: [3200, 2560], size: [640, 640], rise: 160, surface: {texture: ygtemprf, size: [128, 128]}, base: 1152, top_size: [512, 512], notes: "Shangri-La Wizard's Guild's roof, tier 1."}
+      - {key: guild_light_roof1, at: [3200, 2560], size: [512, 512], rise: 160, surface: {texture: ygtemprf, size: [128, 128]}, base: 1312, top_size: [320, 320], notes: "Shangri-La Wizard's Guild's roof, tier 2."}
+      - {key: guild_light_roof2, at: [3200, 2560], size: [320, 320], rise: 128, surface: {texture: ygtemprf, size: [128, 128]}, base: 1472, top_size: [32, 32], notes: "Shangri-La Wizard's Guild's roof, tier 3."}
+      - {id: door:guild_light, at: [3200, 2104], size: [128, 16], rise: 256, surface: {texture: 7hhr1d, size: [128, 256], fit: true}, end_surface: {texture: 7tws1f, size: [128, 128], fit: false}, notes: "Shangri-La Wizard's Guild's door (house 4354): clicked, evt.EnterHouse(4354)."}
+      - {key: sign_guild_light, at: [3200, 2108], size: [96, 8], rise: 96, surface: {texture: sglight, size: [64, 64], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, base: 288, notes: The sign over Shangri-La Wizard's Guild's door.}
+      - {id: platform:an_education, at: [-2112, 1344], size: [1024, 768], rise: 512, surface: {texture: hhm2b2, size: [256, 512]}, end_surface: {texture: hhm2b2, size: [256, 512], fit: false}, top_surface: {texture: hhm2rf, size: [128, 128]}, notes: "An Education: a schoolhouse with a bell cote."}
+      - {key: an_education_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[-2624, 1344], [-2624, 960], [-1600, 960], [-1600, 1344], [-1600, 1728], [-2624, 1728]], top_surface: {texture: hhm2rf, size: [128, 128]}, base: 512, top_heights: [272, 16, 16, 272, 16, 16], notes: An Education's roof.}
+      - {id: door:an_education, at: [-1592, 1344], size: [16, 128], rise: 256, surface: {texture: hhm2d, size: [128, 256], fit: true}, end_surface: {texture: hhm2b2, size: [256, 512], fit: false}, notes: "An Education's door (house 4355): clicked, evt.EnterHouse(4355)."}
+      - {id: platform:public_library, at: [-4096, -1280], size: [1024, 1408], rise: 512, surface: {texture: 7tws1f, size: [128, 128]}, end_surface: {texture: 7tws1f, size: [128, 128], fit: false}, top_surface: {texture: xtslate, size: [128, 128]}, base: 256, notes: "Public Library: a pale stone hall, a colonnade and broad steps facing the court."}
+      - {key: public_library_roof, rise: 16, surface: {texture: 7tws1f, size: [128, 128]}, outline: [[-4096, -1984], [-3584, -1984], [-3584, -576], [-4096, -576], [-4608, -576], [-4608, -1984]], top_surface: {texture: xtslate, size: [128, 128]}, base: 768, top_heights: [272, 16, 16, 272, 16, 16], notes: Public Library's roof.}
+      - {id: door:public_library, at: [-3576, -1280], size: [16, 128], rise: 256, surface: {texture: 7hhr1d, size: [128, 256], fit: true}, end_surface: {texture: 7tws1f, size: [128, 128], fit: false}, base: 256, notes: "Public Library's door (house 4356): clicked, evt.EnterHouse(4356)."}
+      - {key: column0, at: [-3392, -1856], size: [64, 64], rise: 448, surface: {texture: 7tws1f, size: [128, 128]}, base: 256, notes: A column of the library's colonnade.}
+      - {key: column1, at: [-3392, -1600], size: [64, 64], rise: 448, surface: {texture: 7tws1f, size: [128, 128]}, base: 256, notes: A column of the library's colonnade.}
+      - {key: column2, at: [-3392, -960], size: [64, 64], rise: 448, surface: {texture: 7tws1f, size: [128, 128]}, base: 256, notes: A column of the library's colonnade.}
+      - {key: column3, at: [-3392, -704], size: [64, 64], rise: 448, surface: {texture: 7tws1f, size: [128, 128]}, base: 256, notes: A column of the library's colonnade.}
+      - {key: lintel, at: [-3392, -1280], size: [96, 1280], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, base: 704, notes: The colonnade's lintel on its four columns.}
+      - {id: platform:maurice, at: [-2240, 2304], size: [768, 704], rise: 512, surface: {texture: hhm3b, size: [256, 512]}, end_surface: {texture: hhm3b, size: [256, 512], fit: false}, top_surface: {texture: hhm3rf, size: [128, 128]}, notes: "Maurice's House: a narrow house with a tall gable."}
+      - {key: maurice_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[-2624, 2304], [-2624, 1952], [-1856, 1952], [-1856, 2304], [-1856, 2656], [-2624, 2656]], top_surface: {texture: hhm3rf, size: [128, 128]}, base: 512, top_heights: [336, 16, 16, 336, 16, 16], notes: Maurice's House's roof.}
+      - {id: door:maurice, at: [-1848, 2304], size: [16, 128], rise: 256, surface: {texture: hhm3d, size: [128, 256], fit: true}, end_surface: {texture: hhm3b, size: [256, 512], fit: false}, notes: "Maurice's House's door (house 4357): clicked, evt.EnterHouse(4357)."}
+      - {id: platform:alexander, at: [1952, 1664], size: [768, 640], rise: 512, surface: {texture: hhm1b1, size: [256, 512]}, end_surface: {texture: hhm1b1, size: [256, 512], fit: false}, top_surface: {texture: hhm1rf, size: [128, 128]}, notes: "Alexander's House: a stout house with a yard of weights."}
+      - {key: alexander_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[1568, 1664], [1568, 1344], [2336, 1344], [2336, 1664], [2336, 1984], [1568, 1984]], top_surface: {texture: hhm1rf, size: [128, 128]}, base: 512, top_heights: [240, 16, 16, 240, 16, 16], notes: Alexander's House's roof.}
+      - {id: door:alexander, at: [1560, 1664], size: [16, 128], rise: 256, surface: {texture: hhm1d, size: [128, 256], fit: true}, end_surface: {texture: hhm1b1, size: [256, 512], fit: false}, notes: "Alexander's House's door (house 4358): clicked, evt.EnterHouse(4358)."}
+      - {id: platform:pilar, at: [4480, 3712], size: [768, 768], rise: 512, surface: {texture: 7hhr1bs2, size: [256, 512]}, end_surface: {texture: 7hhr1bs2, size: [256, 512], fit: false}, top_surface: {texture: xtslate, size: [128, 128]}, notes: "Princess Pilar's Pavilion: a small garden house on the pool, white walls, a low dome and a door (D-50: a house, not an open gazebo)."}
+      - {key: pilar_dome0, at: [4480, 3712], size: [640, 640], rise: 128, surface: {texture: xtslate, size: [128, 128]}, base: 512, top_size: [448, 448], notes: Princess Pilar's Pavilion's low dome.}
+      - {key: pilar_dome1, at: [4480, 3712], size: [448, 448], rise: 160, surface: {texture: xtslate, size: [128, 128]}, base: 640, top_size: [64, 64], notes: Princess Pilar's Pavilion's low dome.}
+      - {id: door:pilar, at: [4480, 3320], size: [128, 16], rise: 256, surface: {texture: 7hhr1d, size: [128, 256], fit: true}, end_surface: {texture: 7hhr1bs2, size: [256, 512], fit: false}, notes: "Princess Pilar's Pavilion's door (house 4359): clicked, evt.EnterHouse(4359)."}
+      - {id: platform:benedict, at: [-2368, -1920], size: [768, 640], rise: 512, surface: {texture: hhp1b, size: [256, 512]}, end_surface: {texture: hhp1b, size: [256, 512], fit: false}, top_surface: {texture: hhp2rf, size: [128, 128]}, notes: "Benedict's House: a crooked little house, a weathervane that points the wrong way."}
+      - {key: benedict_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[-2752, -1920], [-2752, -2240], [-1984, -2240], [-1984, -1920], [-1984, -1600], [-2752, -1600]], top_surface: {texture: hhp2rf, size: [128, 128]}, base: 512, top_heights: [272, 16, 16, 272, 16, 16], notes: Benedict's House's roof.}
+      - {id: door:benedict, at: [-1976, -1920], size: [16, 128], rise: 256, surface: {texture: hhp1d, size: [128, 256], fit: true}, end_surface: {texture: hhp1b, size: [256, 512], fit: false}, notes: "Benedict's House's door (house 4360): clicked, evt.EnterHouse(4360)."}
+      - {id: platform:elona, at: [2560, -3104], size: [768, 640], rise: 512, surface: {texture: hhm2b1, size: [256, 512]}, end_surface: {texture: hhm2b1, size: [256, 512], fit: false}, top_surface: {texture: hhm2rf, size: [128, 128]}, notes: "Elona's House: a house hung with maps and a weathered pack."}
+      - {key: elona_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[2176, -3104], [2176, -3424], [2944, -3424], [2944, -3104], [2944, -2784], [2176, -2784]], top_surface: {texture: hhm2rf, size: [128, 128]}, base: 512, top_heights: [240, 16, 16, 240, 16, 16], notes: Elona's House's roof.}
+      - {id: door:elona, at: [2560, -2776], size: [128, 16], rise: 256, surface: {texture: hhm2d, size: [128, 256], fit: true}, end_surface: {texture: hhm2b1, size: [256, 512], fit: false}, notes: "Elona's House's door (house 4361): clicked, evt.EnterHouse(4361)."}
+      - {id: platform:murray, at: [1792, 4160], size: [1280, 896], rise: 512, surface: {texture: 7hhr1b, size: [256, 512]}, end_surface: {texture: 7hhr1b, size: [256, 512], fit: false}, top_surface: {texture: 7hhr1rf, size: [128, 128]}, base: 256, notes: "Murray's Villa: the valley's biggest house, a portico and urns."}
+      - {key: murray_roof, rise: 16, surface: {texture: 7hhr1p, size: [128, 128]}, outline: [[1152, 4160], [1152, 3712], [2432, 3712], [2432, 4160], [2432, 4608], [1152, 4608]], top_surface: {texture: 7hhr1rf, size: [128, 128]}, base: 768, top_heights: [304, 16, 16, 304, 16, 16], notes: Murray's Villa's roof.}
+      - {id: door:murray, at: [1792, 3704], size: [128, 16], rise: 256, surface: {texture: 7hhr1d, size: [128, 256], fit: true}, end_surface: {texture: 7hhr1b, size: [256, 512], fit: false}, base: 256, notes: "Murray's Villa's door (house 4362): clicked, evt.EnterHouse(4362)."}
+      - {id: platform:sally, rise: 512, surface: {texture: hhm3b, size: [256, 512]}, outline: [[2272, -1148], [2084, -960], [1820, -960], [1632, -1148], [1632, -1412], [1820, -1600], [2084, -1600], [2272, -1412]], top_surface: {texture: gtemprf, size: [128, 128]}, notes: "Psychic Sally's: a round hut, a starry painted roof."}
+      - {key: sally_roof0, at: [1952, -1280], size: [448, 448], rise: 288, surface: {texture: gtemprf, size: [128, 128]}, base: 512, top_size: [48, 48], notes: "Psychic Sally's's roof, tier 1."}
+      - {id: door:sally, at: [1624, -1280], size: [16, 128], rise: 256, surface: {texture: hhm3d, size: [128, 256], fit: true}, end_surface: {texture: hhm3b, size: [256, 512], fit: false}, notes: "Psychic Sally's's door (house 4363): clicked, evt.EnterHouse(4363)."}
+      - {id: platform:martok, at: [-3712, -3328], size: [768, 640], rise: 320, surface: {texture: gstrrf, size: [128, 128]}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, top_surface: {texture: hhm1rf, size: [128, 128]}, notes: "Martok's Lodge: a log lodge, a bench by the door."}
+      - {key: martok_roof, rise: 16, surface: {texture: gstrrf, size: [128, 128]}, outline: [[-4096, -3328], [-4096, -3648], [-3328, -3648], [-3328, -3328], [-3328, -3008], [-4096, -3008]], top_surface: {texture: hhm1rf, size: [128, 128]}, base: 320, top_heights: [240, 16, 16, 240, 16, 16], notes: Martok's Lodge's roof.}
+      - {id: door:martok, at: [-3712, -3000], size: [128, 16], rise: 256, surface: {texture: hhm1d, size: [128, 256], fit: true}, end_surface: {texture: gstrrf, size: [128, 128], fit: false}, notes: "Martok's Lodge's door (house 4364): clicked, evt.EnterHouse(4364)."}
+      - {id: platform:well, rise: 112, surface: {texture: chb1, size: [128, 256]}, outline: [[163, 67], [67, 163], [-67, 163], [-163, 67], [-163, -67], [-67, -163], [67, -163], [163, -67]], top_surface: {texture: orwtrmarb, size: [256, 256], liquid: water}, notes: "The well in the court (the source's (7, 8)): A3's xd17.well."}
+      - {key: pyramid, at: [0, 4032], size: [896, 896], rise: 704, surface: {texture: gcstroof, size: [128, 128]}, base: 256, top_size: [16, 16], notes: The small stone travel pyramid.}
+      - {id: platform:pyramid_portal, at: [0, 3576], size: [160, 16], rise: 320, surface: {texture: xdpyrdor, size: [128, 256], fit: true}, end_surface: {texture: gcstroof, size: [128, 128], fit: false}, base: 256, notes: "The pyramid's portal: A3's xd17.pyramid (Xeen.travelPyramid(\"shangrila\") after m30.done)."}
+      - {key: anvil, at: [-168, -3072], size: [80, 128], rise: 96, surface: {texture: t5d1, size: [128, 256]}, notes: "Arm and Hammer's anvil, against the wall between the doors."}
+    levels:
+      - id: level:library
+        outline: [[-4864, -2112], [-3264, -2112], [-3264, -512], [-4864, -512]]
+        floor: 256
+        bank: 192
+        edge: {texture: 7tws1f, size: [128, 128], uneven: true}
+        surface: {texture: 7tws1f, size: [128, 128]}
+        notes: "The library terrace at 256, its stone bank 192 wide."
+      - id: level:temple
+        outline: [[-5824, 64], [-4288, 64], [-4288, 1344], [-5824, 1344]]
+        floor: 384
+        bank: 256
+        edge: {texture: 7tws1f, size: [128, 128], uneven: true}
+        surface: {texture: 7tws1f, size: [128, 128]}
+        notes: "The temple terrace at 384, its stone bank 256 wide."
+      - id: level:pyramid
+        outline: [[-1280, 3072], [2496, 3072], [2496, 4672], [-1280, 4672]]
+        floor: 256
+        bank: 192
+        edge: {texture: 7tws1f, size: [128, 128], uneven: true}
+        surface: {texture: 7tws1f, size: [128, 128]}
+        notes: "The pyramid terrace at 256, its stone bank 192 wide."
+      - id: level:pool
+        outline: [[5263, 1607], [5587, 1677], [5859, 1817], [6051, 2010], [6139, 2236], [6115, 2469], [5982, 2684], [5754, 2857], [5455, 2969], [5120, 3008], [4785, 2969], [4486, 2857], [4258, 2684], [4125, 2469], [4101, 2236], [4189, 2010], [4381, 1817], [4653, 1677], [4977, 1607], [5049, 1570], [5361, -9], [5424, -1790], [5296, -3257], [5456, -3271], [5584, -1794], [5519, 9], [5191, 1570]]
+        floor: -40
+        edge: {texture: gcav1flr, size: [256, 256]}
+        surface: {texture: orwtrmarb, size: [256, 256], liquid: water}
+        notes: The cold pool at the east cliff and its stream to the sinkhole at the south-east foot.
+    flights:
+      - {key: library_steps, from: [-2624, -1280], to: [-3264, -1280], width: 512, riser: {texture: 7tws1f, size: [128, 128]}, tread: {texture: 7tws1f, size: [128, 128]}, notes: The broad steps up to the library terrace.}
+      - {key: temple_steps, from: [-3520, 704], to: [-4288, 704], width: 512, riser: {texture: 7tws1f, size: [128, 128]}, tread: {texture: 7tws1f, size: [128, 128]}, notes: The broad steps up to the temple terrace.}
+      - {key: pyramid_steps, from: [0, 2432], to: [0, 3072], width: 640, riser: {texture: 7tws1f, size: [128, 128]}, tread: {texture: 7tws1f, size: [128, 128]}, notes: The broad steps up to the pyramid terrace.}
+    ambient: 20
+    notes: "The hidden valley, open to the sky: the town floor level at 0, three terraces (the library 256, the temple 384, the pyramid 256) with stone banks and ramps, lanes on the compass axes, the black cliffs to a jagged crest (2,300 south to 3,300 north-east), Firestone's summit over the north-east rim (5,632). The south bluff holds the cave throat, the north-west bluff the back passage."
+openings:
+  - id: open:cleft
+    from: room:valley
+    to: room:passage
+    from_wall: 47
+    to_wall: 0
+    width: 336
+    height: full
+    reveal: {texture: gcav2wal, size: [256, 512]}
+    notes: "The back passage's mouth in the north-west bluff, open to the sky."
+  - id: open:mouth
+    from: room:valley
+    to: room:throat
+    from_wall: 10
+    to_wall: north
+    width: 352
+    height: 352
+    shape: arch
+    apex: 416
+    reveal: {texture: gcav2wal, size: [256, 512]}
+    notes: The cave mouth at the foot of the south bluff.
+notes: "XD-17 Shangri-La, L3/L4 geometry: written by output/studio_cal/xd17/tools/gen.py (geo.py, places_l2.py); never hand-edited."

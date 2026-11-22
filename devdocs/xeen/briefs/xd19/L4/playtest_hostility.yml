@@ -1,0 +1,249 @@
+# Hostility check of Castle Xeen (XD-19, L4; written by output/studio_cal/xd19/tools/gen_tests.py):
+# A2's demons (11630-11632), Xeen's Guard (11603; the four hidden at the chutes not counted while
+# hidden), the elementals (11620, 11624-11626, 11622), Xeen's Pet (11644) and Lord Xeen (11634) all
+# hostile at load and after a save and load; side by side they do not fight each other and go for the
+# party. No window is open before the reload.
+id: xeen.xd19.l4.hostility
+title: 'Castle Xeen (XD-19): its rows hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd19.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 50
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd19.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- assert:
+    actor_count:
+      monster_id: 11630
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11630
+      hostile: true
+      min: 28
+- assert:
+    actor_count:
+      monster_id: 11631
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11631
+      hostile: true
+      min: 14
+- assert:
+    actor_count:
+      monster_id: 11632
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11632
+      hostile: true
+      min: 4
+- assert:
+    actor_count:
+      monster_id: 11603
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11603
+      hostile: true
+      min: 10
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11622
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11622
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11644
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11644
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11634
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11634
+      hostile: true
+      min: 1
+- reload: {}
+- assert:
+    actor_count:
+      monster_id: 11630
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11631
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11632
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11603
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11620
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11624
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11625
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11626
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11622
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11644
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11634
+      hostile: false
+      max: 0
+- note: 'A Demon, a Xeen''s Guard, a Lesser Air Elemental and a Greater Elemental side by side in the great hall, nearer each
+    other than the party: they must not take each other on, and they go for the party.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11630
+    x: -200
+    y: -2300
+    z: 16
+- spawn_actor:
+    monster_id: 11603
+    x: 200
+    y: -2300
+    z: 16
+- spawn_actor:
+    monster_id: 11624
+    x: -200
+    y: -2000
+    z: 16
+- spawn_actor:
+    monster_id: 11622
+    x: 200
+    y: -2000
+    z: 16
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1

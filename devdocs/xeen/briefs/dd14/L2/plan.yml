@@ -1,0 +1,682 @@
+format: 0
+level: L2
+pitch: "A black castle on a crag in a storm of bats, entered from the sky: Ambrose's griffin sets the party down on the south wall walk, where coffins stand in a row with their lids ajar. The party fights down through the towers and the upper floor (the sleeping hall's coffins open on sleepers) to the Count's hall, and his death lifts the bar on the stair into the crag, where the Queen of the Darkside, made a vampire, waits in a cell she will not leave. Ambrose waits on the walls to fly the party out."
+purpose: "Story M27 (QUESTS.md): kill Count Blackfang (m27.blackfang) to open the dungeon stair (m27.dungeon_stair), find the Queen (m27.queen_cell: 3-31-62), fetch her crown from DD-03 and bring it back (m27.ambrose_return flies everyone to D1). Ambrose flies the party in and out (m25.gate_flight, m27.fly_out). Class M (large: 70 monsters), party 39-42, monsters 38-58, Count Blackfang 70."
+mood: "Wind and bats over black battlements; inside, Castle Navan's green stone and coffered ceilings gone cold and unlit but for candles nobody living needs; below, Zokarr's dressed stone, iron doors and black water."
+datum: arrival
+spaces:
+  - id: room:back_stair
+    name: Servants' back stair
+    kind: corridor
+    size: S
+    extent: [1792, 768]
+    at: [-3456, 640]
+    floor: [0, 640]
+    clear_height: 1152
+    purpose: From the kitchen up to the Countess's rooms.
+    empty: true
+    theme: "Kitchen, cellar and the back stair: dark brick (wall), pale worn flags (tfb2), block ceilings (twb2)."
+  - id: room:cellar
+    name: Cask cellar
+    kind: room
+    size: M
+    extent: [1024, 640]
+    at: [-1920, -704]
+    floor: 0
+    clear_height: 448
+    purpose: "A storeroom of casks; a find in one cask; the trapdoor in the floor, bolted from below."
+    theme: "Kitchen, cellar and the back stair: dark brick (wall), pale worn flags (tfb2), block ceilings (twb2)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:cells
+    name: The cells
+    kind: corridor
+    size: M
+    extent: [1024, 1536]
+    at: [-1920, 512]
+    floor: -640
+    clear_height: 448
+    purpose: "A row of barred cells, empty but for straw and chains; the Queen's at the far end."
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:chapel2
+    name: The black chapel
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    at: [640, -1664]
+    floor: 640
+    clear_height: 512
+    purpose: "The altar with its bat-embroidered cloth; candelabra either side; double doors from the gallery."
+    theme: "The black chapel: dark red stone (cwb1) round Navan's marble."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+      - {actor: 11292, groups: 2, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:cistern
+    name: The black cistern
+    kind: room
+    size: L
+    extent: [1792, 2944]
+    at: [2048, 1856]
+    floor: -640
+    clear_height: 512
+    purpose: "Black water, five octopods stationary in it (D-42 (4)); the chest on the far ledge."
+    theme: "The black cistern (7d13): pale slab walls (twb1) over black water (7wtrtyl), dark rock."
+    population:
+      - {actor: 11470, groups: 5, levels: [50, 50], placed: true, strength: heavy, notes: stationary in the water}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:coffin_dorm
+    name: Sleeping hall
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    at: [-2048, -512]
+    floor: 640
+    clear_height: 512
+    purpose: "Six coffins against the walls, two vampires on watch; three coffins hold a sleeper who rises when opened (D-18), three only a find."
+    theme: "Zokarr's Tomb (7d13): dressed stone under its frieze (7tws2), big flags (7tfb1), dark vaults (cfb1); the family crypt and the sleeping hall."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+      - {actor: 11291, groups: 3, levels: [40, 40], placed: true, strength: pack, notes: "hidden, one in each of three coffins, shown when it is opened"}
+  - id: room:countess
+    name: The Countess's rooms
+    kind: room
+    size: M
+    extent: [1024, 896]
+    at: [-1920, 576]
+    floor: 640
+    clear_height: 512
+    purpose: "Bedchamber and dressing room, no mirror anywhere; a jewel box (a find); the back stair down to the kitchen."
+    theme: "Castle Navan's halls (7d32): green dressed stone (ceb1sa), bordered marble flags (t3s2fl1), coffered ceilings (t5s1c2)."
+    population:
+      - {actor: 11292, groups: 2, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:courtyard
+    name: The courtyard
+    kind: room
+    size: L
+    extent: [2560, 2048]
+    at: [0, 0]
+    floor: 0
+    clear_height: 1792
+    purpose: "Open to the sky: the dry fountain and three gargoyles on its plinths; the courtyard stair up the south wall to the yard gate (its bar on the stair's side)."
+    theme: "The courtyard, open to the sky: dark brick walls (wall), big worn flags (7tfb1)."
+    population:
+      - {actor: 11551, groups: 3, levels: [38, 38], placed: true, strength: pack}
+  - id: room:crypt
+    name: The family crypt
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    at: [-640, 4480]
+    floor: 0
+    clear_height: 512
+    purpose: "Four named stone coffins (aaze0047:6-9): the Dutchess and the Lady rise when opened, the Countess's is empty, the Count's holds the hoard."
+    theme: "Zokarr's Tomb (7d13): dressed stone under its frieze (7tws2), big flags (7tfb1), dark vaults (cfb1); the family crypt and the sleeping hall."
+    population:
+      - {actor: 11292, groups: 2, levels: [50, 50], placed: true, strength: heavy, notes: "hidden in the Dutchess's and the Lady's coffins, shown when each is opened"}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, notes: "The Count's own coffin: the hoard."}
+  - id: room:dstair
+    name: Dungeon stair
+    kind: corridor
+    size: M
+    extent: [1024, 1408]
+    at: [-1920, 3264]
+    floor: [-640, 0]
+    clear_height: 1152
+    purpose: "Behind the black iron bar (m27.dungeon_stair until the Count is dead): the stair down into the crag, the gaolers' post at its foot."
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:east_walk
+    name: East wall walk
+    kind: corridor
+    size: M
+    extent: [1120, 2048]
+    at: [1872, 0]
+    floor: 1280
+    clear_height: 512
+    purpose: "The trapped walk: four fire plates in darker slabs, a clear line along the inner parapet."
+    theme: "The wall walks and the landing, open to the sky: D4's towers kit outside (hkm3b slate-blue stone under its skull frieze, once up the 512 parapet), dark stone underfoot (cfb1)."
+    population:
+      - {actor: 11551, groups: 2, levels: [38, 38], placed: true, strength: pack}
+      - {actor: 11552, groups: 1, levels: [45, 45], placed: true, strength: heavy}
+  - id: room:great_hall
+    name: Great hall
+    kind: room
+    size: L
+    extent: [2304, 1280]
+    at: [-1280, 1792]
+    floor: 0
+    clear_height: 512
+    purpose: "A long table beside the line between the doors; Blackfang's arms (xbfcrest) on the end wall; two chandeliers; the screens passage north."
+    theme: "Castle Navan's halls (7d32): green dressed stone (ceb1sa), bordered marble flags (t3s2fl1), coffered ceilings (t5s1c2)."
+    population:
+      - {actor: 11291, groups: 3, levels: [40, 40], placed: true, strength: pack}
+      - {actor: 11292, groups: 1, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:keep_hall2
+    name: The keep's upper hall
+    kind: room
+    size: L
+    extent: [2304, 1280]
+    at: [-1280, 1792]
+    floor: 640
+    clear_height: 512
+    purpose: "Two chandeliers; the grand stair's head gallery east; the panel the gong opens in the north wall."
+    theme: "Castle Navan's halls (7d32): green dressed stone (ceb1sa), bordered marble flags (t3s2fl1), coffered ceilings (t5s1c2)."
+    population:
+      - {actor: 11291, groups: 3, levels: [40, 40], placed: true, strength: pack}
+      - {actor: 11292, groups: 1, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:keep_top
+    name: The bat roost
+    kind: room
+    size: M
+    extent: [2560, 1152]
+    at: [0, 2368]
+    floor: 1280
+    clear_height: 768
+    purpose: "The keep's top chamber: a strongbox under the droppings; the roof trapdoor, bolted (D-42 (7))."
+    theme: "The corner towers: brown block (twb2), flags, the cone's slate soffit (xtslate)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:kitchen
+    name: Kitchen
+    kind: room
+    size: M
+    extent: [1024, 1280]
+    at: [-1920, 384]
+    floor: 0
+    clear_height: 512
+    purpose: "Cold for a century; barrels in pairs, the hearth; the back stair."
+    theme: "Kitchen, cellar and the back stair: dark brick (wall), pale worn flags (tfb2), block ceilings (twb2)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:landing
+    name: Griffin's landing
+    kind: room
+    size: M
+    extent: [2560, 1120]
+    at: [0, -1616]
+    floor: 1280
+    clear_height: 512
+    purpose: "The south wall walk's middle stretch, open to the sky: the griffin's arrival, m27.landing's text; coffins in a row against the outer parapet; the dead adventurer's notes (aaze0045:5); Ambrose and his griffin (D-42 Q1); the yard gate at the courtyard stair's head."
+    empty: true
+    theme: "The wall walks and the landing, open to the sky: D4's towers kit outside (hkm3b slate-blue stone under its skull frieze, once up the 512 parapet), dark stone underfoot (cfb1)."
+  - id: room:library
+    name: Library
+    kind: room
+    size: M
+    extent: [1024, 3456]
+    at: [1920, 704]
+    floor: 640
+    clear_height: 512
+    purpose: "Shelves of genealogy and sermons against garlic; The Blackfang Lineage (a find)."
+    theme: "The library and the study: brown block (twb2), marble, coffers."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:ne_tower
+    name: North-east tower
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    at: [1920, 1664]
+    floor: 1280
+    clear_height: 512
+    purpose: "Shuttered; two coffins by the wall (one find, one empty)."
+    theme: "The corner towers: brown block (twb2), flags, the cone's slate soffit (xtslate)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:north_walk
+    name: North wall walk
+    kind: corridor
+    size: M
+    extent: [2560, 608]
+    at: [0, 1360]
+    floor: 1280
+    clear_height: 512
+    purpose: "Along the foot of the keep's top storey; the keep's iron-bound door."
+    theme: "The wall walks and the landing, open to the sky: D4's towers kit outside (hkm3b slate-blue stone under its skull frieze, once up the 512 parapet), dark stone underfoot (cfb1)."
+    population:
+      - {actor: 11551, groups: 2, levels: [38, 38], placed: true, strength: pack}
+      - {actor: 11552, groups: 1, levels: [45, 45], placed: true, strength: heavy}
+  - id: room:nw_tower
+    name: North-west tower
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    at: [-1920, 1664]
+    floor: 1280
+    clear_height: 512
+    purpose: "The gong (aaze0045:6-7): sounding it slides open the panel into the Count's study on L2."
+    theme: "The corner towers: brown block (twb2), flags, the cone's slate soffit (xtslate)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:queen_cell
+    name: The Queen's cell
+    kind: room
+    size: S
+    extent: [640, 896]
+    at: [-960, -192]
+    floor: -640
+    clear_height: 384
+    purpose: "Queen Kalindra (5001), a vampire who will not come out: the crown (m27.queen_cell); hidden on done."
+    empty: true
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+  - id: room:question
+    name: Question room
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    at: [-1920, 1920]
+    floor: -640
+    clear_height: 448
+    purpose: "The gaolers' instruments, racks by the walls; their strongbox."
+    empty: true
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:se_tower
+    name: South-east tower
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    at: [2048, -1792]
+    floor: [640, 1280]
+    clear_height: 1152
+    purpose: "Two storeys: a quiet top storey with a coffin of loot; the stair down to L2 (the chapel, the library)."
+    empty: true
+    theme: "The corner towers: brown block (twb2), flags, the cone's slate soffit (xtslate)."
+  - id: room:shaft
+    name: Ladder shaft
+    kind: room
+    size: S
+    extent: [1024, 640]
+    at: [-1920, -704]
+    floor: -640
+    clear_height: 512
+    purpose: "The ladder up to the cellar's trapdoor, its bolt drawn from here; Zarkon's diary in the bones (aaze0047:4) and a rat-eaten one (aaze0047:5)."
+    empty: true
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+  - id: room:south_gallery
+    name: Long gallery
+    kind: room
+    size: L
+    extent: [1152, 1024]
+    at: [-704, -1664]
+    floor: 640
+    clear_height: 512
+    purpose: "Portraits of the Blackfangs, none with a reflection."
+    theme: "The long gallery: Navan's grey block (cwb), the stone its portraits (cwbport) are painted on; marble, coffers."
+    population:
+      - {actor: 11291, groups: 3, levels: [40, 40], placed: true, strength: pack}
+  - id: room:stair_hall3
+    name: Grand stair hall
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    at: [640, 1792]
+    floor: [0, 640]
+    clear_height: 1152
+    purpose: "The keep's double door on the courtyard; the grand stair up to its head gallery; the Count's hall's double doors north."
+    theme: "Castle Navan's halls (7d32): green dressed stone (ceb1sa), bordered marble flags (t3s2fl1), coffered ceilings (t5s1c2)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:study
+    name: The Count's study
+    kind: room
+    size: S
+    extent: [896, 768]
+    at: [-832, 2944]
+    floor: 640
+    clear_height: 448
+    purpose: "Behind the panel: a desk, the ledger (a find), the Count's strongbox."
+    empty: true
+    theme: "The library and the study: brown block (twb2), marble, coffers."
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:sw_tower
+    name: South-west tower
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    at: [-2048, -1792]
+    floor: [640, 1280]
+    clear_height: 1152
+    purpose: "Two storeys under the cone: the first fight on the top storey, the second adventurer's diary (aaze0045:4); the stair down to L2 (the gallery, the sleeping hall)."
+    theme: "The corner towers: brown block (twb2), flags, the cone's slate soffit (xtslate)."
+    population:
+      - {actor: 11291, groups: 2, levels: [40, 40], placed: true, strength: pack}
+  - id: room:throne
+    name: The Count's hall
+    kind: room
+    size: L
+    extent: [2560, 1280]
+    at: [0, 3200]
+    floor: 0
+    clear_height: 512
+    purpose: "The black throne on its dais under xbfcrest: Count Blackfang (m27.blackfang at his death) and his three Royal Vampires; the bar of the dungeon stair and the crypt's door behind the dais."
+    theme: "Castle Navan's halls (7d32): green dressed stone (ceb1sa), bordered marble flags (t3s2fl1), coffered ceilings (t5s1c2)."
+    population:
+      - {actor: 11294, role: boss, groups: 1, levels: [70, 70], placed: true, strength: boss}
+      - {actor: 11295, groups: 3, levels: [58, 58], placed: true, strength: heavy}
+  - id: room:undercroft
+    name: Pillared undercroft
+    kind: room
+    size: L
+    extent: [2304, 2944]
+    at: [-128, 1856]
+    floor: -640
+    clear_height: 384
+    purpose: Twelve square pillars in four rows of three under a low vault.
+    theme: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+    population:
+      - {actor: 11291, groups: 3, levels: [40, 40], placed: true, strength: pack}
+      - {actor: 11292, groups: 2, levels: [50, 50], placed: true, strength: heavy}
+  - id: room:west_walk
+    name: West wall walk
+    kind: corridor
+    size: M
+    extent: [1120, 2048]
+    at: [-1872, 0]
+    floor: 1280
+    clear_height: 512
+    purpose: "Open walk over the courtyard; the gargoyles on it."
+    theme: "The wall walks and the landing, open to the sky: D4's towers kit outside (hkm3b slate-blue stone under its skull frieze, once up the 512 parapet), dark stone underfoot (cfb1)."
+    population:
+      - {actor: 11551, groups: 3, levels: [38, 38], placed: true, strength: pack}
+links:
+  - id: link:back_stair
+    from: room:countess
+    to: room:kitchen
+    kind: stairs
+    notes: Through the servants' back stair (room:back_stair).
+  - id: link:cellar_kitchen
+    from: room:cellar
+    to: room:kitchen
+    kind: door
+  - id: link:cells_queen
+    from: room:cells
+    to: room:queen_cell
+    kind: open
+    purpose: "The cell's grille door, standing open."
+  - id: link:cells_shaft
+    from: room:cells
+    to: room:shaft
+    kind: open
+  - id: link:chapel_se2
+    from: room:chapel2
+    to: room:se_tower
+    kind: open
+  - id: link:countess_dorm
+    from: room:countess
+    to: room:coffin_dorm
+    kind: door
+  - id: link:dorm_sw2
+    from: room:coffin_dorm
+    to: room:sw_tower
+    kind: open
+  - id: link:dstair_down
+    from: room:throne
+    to: room:dstair
+    kind: door
+    opened_by: goal:count
+    purpose: "The black iron bar: lifts at the Count's death (m27.blackfang)."
+  - id: link:east_se
+    from: room:east_walk
+    to: room:se_tower
+    kind: open
+  - id: link:foot_question
+    from: room:dstair
+    to: room:question
+    kind: door
+  - id: link:foot_undercroft
+    from: room:dstair
+    to: room:undercroft
+    kind: open
+  - id: link:gallery_chapel
+    from: room:south_gallery
+    to: room:chapel2
+    kind: door
+    purpose: Double doors (two leaves).
+  - id: link:grand_stair
+    from: room:keep_hall2
+    to: room:stair_hall3
+    kind: stairs
+    purpose: The grand stair's head gallery.
+  - id: link:great_throne
+    from: room:great_hall
+    to: room:throne
+    kind: open
+    purpose: The screens passage.
+  - id: link:hatch
+    from: room:shaft
+    to: room:cellar
+    kind: door
+    opened_by: poi:hatch_bolt
+    purpose: "The cellar's trapdoor: the ladder; its bolt drawn from the shaft."
+  - id: link:keep_countess
+    from: room:keep_hall2
+    to: room:countess
+    kind: open
+  - id: link:keep_study
+    from: room:keep_hall2
+    to: room:study
+    kind: door
+    opened_by: poi:gong
+    purpose: The panel the gong opens.
+  - id: link:kitchen_yard
+    from: room:kitchen
+    to: room:courtyard
+    kind: open
+  - id: link:landing_sw
+    from: room:landing
+    to: room:sw_tower
+    kind: open
+  - id: link:library_keep
+    from: room:library
+    to: room:stair_hall3
+    kind: open
+    purpose: Onto the grand stair's head gallery.
+  - id: link:ne_east
+    from: room:ne_tower
+    to: room:east_walk
+    kind: open
+  - id: link:north_keep
+    from: room:north_walk
+    to: room:keep_top
+    kind: door
+    purpose: The keep's iron-bound door.
+  - id: link:north_ne
+    from: room:north_walk
+    to: room:ne_tower
+    kind: open
+  - id: link:nw_north
+    from: room:nw_tower
+    to: room:north_walk
+    kind: open
+  - id: link:question_cells
+    from: room:question
+    to: room:cells
+    kind: open
+  - id: link:se2_library
+    from: room:se_tower
+    to: room:library
+    kind: open
+  - id: link:se_landing
+    from: room:se_tower
+    to: room:landing
+    kind: open
+  - id: link:stairhall_throne
+    from: room:stair_hall3
+    to: room:throne
+    kind: door
+    purpose: Double doors.
+  - id: link:sw2_gallery
+    from: room:sw_tower
+    to: room:south_gallery
+    kind: open
+    purpose: The tower's foot on L2.
+  - id: link:sw_west
+    from: room:sw_tower
+    to: room:west_walk
+    kind: open
+  - id: link:throne_crypt
+    from: room:throne
+    to: room:crypt
+    kind: door
+  - id: link:undercroft_cells
+    from: room:undercroft
+    to: room:cells
+    kind: open
+  - id: link:undercroft_cistern
+    from: room:undercroft
+    to: room:cistern
+    kind: open
+  - id: link:west_nw
+    from: room:west_walk
+    to: room:nw_tower
+    kind: open
+  - id: link:yard_great
+    from: room:courtyard
+    to: room:great_hall
+    kind: door
+    purpose: Double doors.
+  - id: link:yard_stair
+    from: room:landing
+    to: room:courtyard
+    kind: door
+    opened_by: poi:yard_bar
+    purpose: "The yard gate at the courtyard stair's head: its bar on the stair's side."
+  - id: link:yard_stairhall
+    from: room:courtyard
+    to: room:stair_hall3
+    kind: door
+    purpose: The keep door (double).
+loops:
+  - id: loop:dungeon
+    spaces: [room:dstair, room:question, room:cells, room:undercroft]
+    notes: Through the question room or the undercroft.
+  - id: loop:ground
+    spaces: [room:courtyard, room:stair_hall3, room:throne, room:great_hall]
+    notes: The keep door and the great hall's doors both lead to the Count.
+  - id: loop:out
+    spaces: [room:cells, room:shaft, room:cellar, room:kitchen, room:courtyard, room:great_hall, room:throne, room:dstair]
+    notes: "Once the trapdoor is unbolted from below: the ladder closes the dungeon onto the ground floor."
+  - id: loop:stairs
+    spaces: [room:keep_hall2, room:stair_hall3, room:courtyard, room:kitchen, room:back_stair, room:countess]
+    notes: The grand stair and the back stair.
+  - id: loop:upper
+    spaces: [room:sw_tower, room:south_gallery, room:chapel2, room:se_tower, room:library, room:stair_hall3, room:keep_hall2, room:countess, room:coffin_dorm]
+    notes: L2's ranges round the courtyard (the grand stair's head gallery joins the library and the keep's upper hall).
+  - id: loop:walls
+    spaces: [room:landing, room:sw_tower, room:west_walk, room:nw_tower, room:north_walk, room:ne_tower, room:east_walk, room:se_tower]
+    notes: The wall walk round the courtyard.
+  - id: loop:yard
+    spaces: [room:landing, room:courtyard, room:stair_hall3, room:library, room:se_tower]
+    notes: "Once the yard gate's bar is lifted from the stair: the courtyard stair closes the walls onto the ground floor."
+entrances:
+  - id: entrance:d4_griffin
+    space: room:landing
+    kind: both
+    neighbour: exit:d4_griffin
+    facing: n
+    how: "Ambrose's griffin from D4's gate (m25.gate_flight, A6) sets the party down on the landing; Ambrose flies it back out (m27.fly_out) to D4's entrance:dd14_griffin."
+  - id: entrance:d6_griffin
+    space: room:landing
+    kind: arrival
+    facing: n
+    how: "Ambrose's flight from D6's Griffin Pass (m25.flight; D6 is phase 5): the same spot on the landing."
+critical_path: [room:landing, room:sw_tower, room:coffin_dorm, room:countess, room:keep_hall2, room:stair_hall3, room:throne, room:dstair, room:undercroft, room:cells, room:queen_cell]
+return_path: [room:queen_cell, room:cells, room:shaft, room:cellar, room:kitchen, room:courtyard, room:landing]
+goals:
+  - id: goal:count
+    space: room:throne
+    kind: kill
+    what: "Count Blackfang (m27.blackfang at his death: blackfang_slain 111540; the bar lifts)."
+  - id: goal:queen
+    space: room:queen_cell
+    kind: use
+    what: "Queen Kalindra (5001): the crown topic (queen_found 111543, then done 111542 with the crown)."
+keys:
+  - id: key:gong
+    grants: {map_var: study_open}
+    found_in: room:nw_tower
+    how: lever
+    notes: "The gong: the study's panel slides open."
+  - id: key:hatch
+    grants: {map_var: hatch_open}
+    found_in: room:shaft
+    how: lever
+    notes: "The trapdoor's bolt, drawn from the shaft: the ladder up into the cellar."
+  - id: key:yard_gate
+    grants: {map_var: yard_gate_open}
+    found_in: room:courtyard
+    how: lever
+    notes: "The yard gate's bar, lifted from the courtyard stair's head."
+points_of_interest:
+  - id: poi:ambrose
+    space: room:landing
+    kind: npc
+    behaviour: "Ambrose (5512) by his griffin: 'Are you ready to leave this awful place, friends?' (aaze0045:1); Yes: m27.fly_out and the flight to D4."
+  - id: poi:coffins
+    space: room:coffin_dorm
+    count: 6
+    kind: trap
+    behaviour: "Three sleepers rise when their coffins are opened (D-18); three finds."
+  - id: poi:crypt
+    space: room:crypt
+    count: 4
+    kind: trap
+    behaviour: "The four named coffins: two sleepers, one empty, the Count's hoard."
+  - id: poi:diary
+    space: room:sw_tower
+    kind: sign
+    behaviour: The second adventurer's diary (aaze0045:4).
+  - id: poi:fire_plates
+    space: room:east_walk
+    count: 4
+    kind: trap
+    behaviour: Fire from the merlons on each plate.
+  - id: poi:gong
+    space: room:nw_tower
+    kind: lever
+    behaviour: "'Gong' / 'You hear a rumbling in the distance.' (aaze0045:6-7): the study's panel opens."
+  - id: poi:hatch_bolt
+    space: room:shaft
+    kind: lever
+    behaviour: "The trapdoor's bolt, drawn from the shaft."
+  - id: poi:notes
+    space: room:landing
+    kind: sign
+    behaviour: "The dead adventurer's notes (aaze0045:5): coffins, floor traps, the Count's magic."
+  - id: poi:roof_trapdoor
+    space: room:keep_top
+    kind: sign
+    behaviour: "'A trapdoor in the roof, bolted from above. Wind howls over it.' (D-42 (7))."
+  - id: poi:shaft_bones
+    space: room:shaft
+    count: 2
+    kind: sign
+    behaviour: "Zarkon's diary (aaze0047:4); the rat-eaten diary (aaze0047:5)."
+  - id: poi:yard_bar
+    space: room:courtyard
+    kind: lever
+    behaviour: "The yard gate's bar, on the courtyard stair's side."
+mechanisms:
+  - {kind: hidden sleeper shown when its coffin is opened, count: 5}
+  - {kind: boss death lifts a bar, count: 1}
+  - {kind: gong opens a secret panel, count: 1}
+  - {kind: trapdoor with a bolt and a ladder, count: 1}
+  - {kind: gate with a bar, count: 1}
+  - {kind: fire plate, count: 4}
+  - {kind: "talking figure (Ambrose, the Queen)", count: 2}
+totals:
+  chests: 5
+  doors: 13
+  rooms: 31
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act4_graphs/dd14.graph.yml; D-42 (mockups/act4_a8_decisions.md) wins where they differ: both griffin arrivals on one spot of the landing, Ambrose waits there; the Royal Vampires; the gargoyles on the walls; the octopods stationary; the source's refusal at the stair; the roof trapdoor bolted. Changes from the graph (A8 L2): the towers' stair feet (sw_stair2, se_stair2) are the lower storeys of the two-storey stair towers, the dungeon stair's foot (dstair_foot) the lower floor of the dungeon stair, and the courtyard stair has its gate at its head (the bar on the stair's side). Floors 640 apart: the dungeon -640, the ground floor 0, the upper floor 640, the walls 1280. All 70 monsters placed."

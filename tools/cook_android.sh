@@ -25,6 +25,8 @@ cooker="${build_dir}/game/openyamm_model_texture_cook"
 
 python3 tools/cook_models.py --profile android --cooker "${cooker}"
 python3 tools/cook_surface_textures.py --profile android --cooker "${cooker}"
+# Xeen's x2 sources are the PNGs xtex.py installs beside its x4 cook in assets_dev (lane P, 2026-11-22).
+python3 tools/cook_surface_textures.py --profile android --world xeen --sources assets_dev --cooker "${cooker}"
 python3 tools/terrain_materials.py cook --profile android
 python3 tools/cook_effect_textures.py --profile android --cooker "${cooker}"
 python3 tools/cook_ui_textures.py --profile android --cooker "${cooker}"
@@ -32,6 +34,7 @@ python3 tools/cook_sky_textures.py --profile android --cooker "${cooker}"
 
 python3 tools/cook_models.py --verify
 python3 tools/cook_surface_textures.py --profile android --verify
+python3 tools/cook_surface_textures.py --profile android --world xeen --sources assets_dev --verify
 python3 tools/cook_effect_textures.py --profile android --verify
 python3 tools/cook_ui_textures.py --profile android --verify
 python3 tools/cook_sky_textures.py --profile android --verify

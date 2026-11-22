@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit guide_atlas.png in place. Its alpha is a locked stencil. Output a 1536x1024 transparent PNG, origin top left. Preserve each silhouette pixel for pixel, including the straight bottom edges on the four low side views. Paint only the grey pixels. Top row FRONT bounds x51\u2013460 y170\u2013341, BACK x563\u2013972 y170\u2013341, LEFT x1057\u20131502 y170\u2013341; second row RIGHT x33\u2013478 y682\u2013853, TOP x563\u2013972 y545\u2013990, lower right fully transparent. Keep every contour, gap, scale, orientation and margin. Apply unlit rough fractured dark purple-black stone albedo to all five views of one stone. Follow design_reference.png for mineral detail and the pale carved screaming-face rune with five spiked rays, sharp eyes, triangular nose and open mouth. The broad upward-facing surface seen in the TOP view bears the full upright rune; other views show the same stone edge-on. Match icon_x8.png's palette, ignore magenta background. No lighting, cast shadows, ambient occlusion, hot highlights, reflections, glow, sparkles, ground, outlines or text.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "15fcc499fdd894fdf109b50aa5ab2d022a398d961a274396a72efd1981f8fb40"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "c15218fd1dc4b2bd8dda83d5457dc5272afbd218fd9877818959352852779bf2"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "823bcb8da333b34b841417fbe365091a84d3a30755cd564c83dbfe35717ad889"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f919-8d33-7423-80fb-54b02ac6ac03/exec-7927f2cd-082d-40e8-b542-8419031b3345.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

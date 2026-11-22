@@ -1,0 +1,25 @@
+# Xeen's DD-12: a save and load while walking down the L1-L2 stair (the party is in the air between treads) must not
+# swallow the statue hall's step event (86, map variable 24) at the stair's foot. Before merge point 23 the first floor
+# face after such a load never ran (IndoorSceneRuntime::restoreSnapshot). A3's repro: output/playthrough/xeen/
+# a3_probe57c.yml. Needs assets_dev's Xeen world (git-ignored). A1, merge point 23.
+id: xeen.dd12.plate_after_load
+title: DD-12's statue hall speaks after a load on the stair
+world: xeen
+mode: faithful
+tags: [xeen, events, save_load, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd12.blv
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - clear_hostiles: {radius: 30000}
+  - set_pose: {map: xeen_dd12.blv, x: 2608, y: 192, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 2608, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2608, y: -1320, z: -640, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if mapvar(24) ~= 0 then error('the statue spoke on the stair') end"}
+  - reload: {}
+  - walk_to: {x: 2608, y: -1700, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "if mapvar(24) ~= 1 then error('the statue hall did not speak after the load: ' .. tostring(mapvar(24))) end"}

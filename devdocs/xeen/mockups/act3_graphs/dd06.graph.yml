@@ -1,0 +1,171 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# The source's four-storey tower as one BLV (WORLD_DESIGN §6): four floors stacked, each floor's stair up behind a
+# gong door, the stairs alternating sides so every floor is crossed; the thieves' getaway chute is the quick way down.
+format: mu6-0
+map: DD-06
+key: dd06
+name: Southern Tower
+stands_on: D2 Sprite Forest and Ogre Pass
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [22, 26]
+monsters:
+  levels: [12, 30]
+  boss: null
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Outlaws A-C: Rogue 12 (6, the ground floor's lookouts), Thief 18 (26), Master Thief 30 (9, four of them the Master Thief's peaceful bodyguards)"
+    - "Wolves and cats A-B: Dark Wolf 16 (2), Sabertooth 22 (2), the guild's hounds"
+    - "The Master Thief: talking actor NPC 5109 (Q-D19); fights if attacked (a boss row is an open question)"
+treasure: {level: 3, hoard: 4}
+role: "Q-D19 The Southern Tower: the thieves' ledger (Luna's statuettes, Thaddeus's jewel), the Ali Baba chest (the Eastern Tower key, Q-D18), 2 Energy Disks (M18), the Master Thief's inner circle (Assassin, Sniper)"
+role_short: "Q-D19, Assassin/Sniper"
+set_piece: "Three bronze gongs, one at each floor's stair door ('Ring gong how many times?'); the Ali Baba chest ('What's the password?'); the counting room where the Master Thief sits behind his ledger"
+floors:
+  - {floor: 3, name: "The inner circle", height: 1920}
+  - {floor: 2, name: "The practice floor", height: 1280}
+  - {floor: 1, name: "The den", height: 640}
+  - {floor: 0, name: "The front", height: 0}
+spaces:
+  # floor 3
+  - {id: room:bedchamber, name: "Master's bedchamber", kind: room, size: M, floor: 3, at: [1, 0], chest: 4, monsters: 0,
+     purpose: "A bed with velvet hangings ('Bed', 'Nothing here.'); under it the Master Thief's own strongbox, the tower's hoard (tier 4)."}
+  - {id: room:getaway, name: Getaway hatch, kind: shaft, size: S, floor: 3, at: [0, 1], monsters: 0,
+     purpose: "A trapdoor in the floor over a polished chute down the tower's inside wall: the thieves' way out when the door is watched."}
+  - {id: room:counting, name: Counting room, kind: room, size: L, floor: 3, at: [1, 1], set_piece: true, goal: true, monsters: 4,
+     population: [{family: Outlaws, count: 4, strength: heavy, rank: c, hostile: false, notes: "Bodyguards, peaceful until the Master Thief is attacked."}],
+     purpose: "Desks, scales, sacks of coin; the ledger on the big desk (q-d19.ledger); the Master Thief (NPC 5109) in a high chair: 'You got past the gongs and the chest. Impressive.'"}
+  - {id: room:landing4, name: Top landing, kind: stair, size: S, floor: 3, at: [2, 1], monsters: 0,
+     purpose: "The third stair arrives here under the slate cone's beams."}
+  - {id: room:library, name: "Thieves' library", kind: room, size: M, floor: 3, at: [3, 1], monsters: 2,
+     population: [{family: Outlaws, count: 1, strength: light, rank: b}, {family: Outlaws, count: 1, strength: light, rank: c}],
+     purpose: "Two books on a lectern: the Manual of Master Thievery and the Prince Book ('For the eyes of the prince only!'), and shelves of other people's diaries."}
+  # floor 2
+  - {id: room:gong3, name: Third gong, kind: room, size: M, floor: 2, at: [2, 0], set_piece: true, monsters: 3,
+     population: [{family: Outlaws, count: 2, strength: light, rank: b}, {family: Outlaws, count: 1, strength: light, rank: c}],
+     purpose: "The last gong before the stair to the top; its door bears the guild's sign."}
+  - {id: room:practice, name: Practice hall, kind: hall, size: L, floor: 2, at: [3, 0], monsters: 5,
+     population: [{family: Outlaws, count: 3, strength: pack, rank: b}, {family: Outlaws, count: 2, strength: light, rank: c}],
+     purpose: "Where thieves train: dummies hung with bells for pickpockets, a row of practice locks, straw targets for knife throwers and marksmen."}
+  - {id: room:strongroom, name: Strongroom, kind: room, size: S, floor: 2, at: [5, 0], goal: true, chest: 3, monsters: 0,
+     purpose: "Behind a locked iron door: the guild's best takings (the chest) and 2 Energy Disks wrapped in an invoice made out to nobody (q-d19.l3_disks)."}
+  - {id: room:trap_walk, name: Trap walk, kind: corridor, size: M, floor: 2, at: [4, 0], monsters: 3,
+     population: [{family: Outlaws, count: 3, strength: light, rank: b}],
+     purpose: "A corridor of practice traps (pressure plates, a swinging log, all disarmed by the thieves who live here and armed for everyone else)."}
+  - {id: room:landing3, name: Third-floor landing, kind: stair, size: S, floor: 2, at: [4, 1], monsters: 0,
+     purpose: "The second stair arrives here, on the tower's east side."}
+  # floor 1
+  - {id: room:bunks, name: Bunkroom, kind: room, size: M, floor: 1, at: [3, 0], monsters: 4,
+     population: [{family: Outlaws, count: 4, strength: pack, rank: b}],
+     purpose: "Two tiers of bunks, every pillow with a purse under it ('Bed', 'Nothing here.')."}
+  - {id: room:gong2, name: Second gong, kind: room, size: M, floor: 1, at: [4, 0], set_piece: true, monsters: 3,
+     population: [{family: Outlaws, count: 3, strength: light, rank: b}],
+     purpose: "The second gong at the stair door up."}
+  - {id: room:landing2, name: Second-floor landing, kind: stair, size: S, floor: 1, at: [2, 1], monsters: 0,
+     purpose: "The first stair arrives here, on the west side."}
+  - {id: room:mess, name: Mess hall, kind: hall, size: M, floor: 1, at: [3, 1], monsters: 5,
+     population: [{family: Outlaws, count: 5, strength: pack, rank: b}],
+     purpose: "Long tables, dice, a stew pot; thieves at dinner."}
+  - {id: room:fence, name: "Fence's room", kind: room, size: M, floor: 1, at: [4, 1], chest: 3, monsters: 3,
+     population: [{family: Outlaws, count: 2, strength: light, rank: b}, {family: Outlaws, count: 1, strength: light, rank: c}],
+     purpose: "Where the loot is sorted and tagged; the fence's lockbox (the chest) holds the Strongroom key."}
+  - {id: room:alibaba, name: Treasury, kind: room, size: S, floor: 1, at: [5, 1], set_piece: true, goal: true, chest: 3, monsters: 0,
+     purpose: "One great iron-bound chest on a dais: 'Ali Baba Chest. What's the password?' Inside, its treasure, the Eastern Tower's key and a receipt: 'Paid in full. One jewel.' (q-d19.ali_baba)"}
+  # floor 0
+  - {id: room:door_hall, name: Entrance hall, kind: room, size: M, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "Inside the iron-bound door (NO THIEVES on its brass plate outside). A straw heap in the corner where the getaway chute ends."}
+  - {id: room:guardroom, name: "Lookouts' room", kind: room, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{family: Outlaws, count: 2, strength: light, rank: a}, {family: Outlaws, count: 2, strength: light, rank: b}],
+     purpose: "Arrow slits on the clearing, a bell rope, a card game left in the middle."}
+  - {id: room:gong1, name: First gong, kind: room, size: M, floor: 0, at: [2, 0], set_piece: true, monsters: 2,
+     population: [{family: Outlaws, count: 2, strength: light, rank: a}],
+     purpose: "A bronze gong on a frame by the stair door, and the guild memo pinned beside it: ring each gong three times; the chest's word is 'open sesame'; do NOT write this down (q-d19.guild_memo)."}
+  - {id: room:tapestry, name: Tapestry hall, kind: hall, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{family: Outlaws, count: 2, strength: light, rank: a}, {family: Outlaws, count: 1, strength: light, rank: b}],
+     purpose: "A long tapestry of a Mok procession, left from the tower's priests; a button behind it ('Click.')."}
+  - {id: room:kennel, name: Kennel, kind: room, size: M, floor: 0, at: [2, 1], monsters: 4,
+     population: [{family: Wolves and cats, count: 2, strength: pack, rank: a}, {family: Wolves and cats, count: 2, strength: pack, rank: b}],
+     purpose: "The guild's hounds and two sabertooths in pens of iron bars; gnawed boots."}
+  - {id: room:stash, name: Behind the tapestry, kind: room, size: S, floor: 0, at: [1, 2], chest: 3, monsters: 0,
+     purpose: "The wall behind the tapestry is not there: 'An illusion!' A thief's private stash (the chest)."}
+links:
+  # floor 0
+  - {id: link:door_guard, from: room:door_hall, to: room:guardroom, kind: door}
+  - {id: link:guard_gong1, from: room:guardroom, to: room:gong1, kind: open}
+  - {id: link:gong1_kennel, from: room:gong1, to: room:kennel, kind: door, notes: "The kennel's barred gate."}
+  - {id: link:kennel_tapestry, from: room:kennel, to: room:tapestry, kind: open}
+  - {id: link:tapestry_door, from: room:tapestry, to: room:door_hall, kind: open}
+  - {id: link:tapestry_stash, from: room:tapestry, to: room:stash, kind: secret, label: "button; illusion", opened_by: state:button}
+  - {id: link:gong1_up, from: room:gong1, to: room:landing2, kind: stair, label: "gong: three rings", opened_by: state:gong1}
+  # floor 1
+  - {id: link:l2_mess, from: room:landing2, to: room:mess, kind: open}
+  - {id: link:mess_fence, from: room:mess, to: room:fence, kind: door}
+  - {id: link:fence_treasury, from: room:fence, to: room:alibaba, kind: door}
+  - {id: link:fence_gong2, from: room:fence, to: room:gong2, kind: open}
+  - {id: link:gong2_bunks, from: room:gong2, to: room:bunks, kind: door}
+  - {id: link:bunks_l2, from: room:bunks, to: room:landing2, kind: open}
+  - {id: link:gong2_up, from: room:gong2, to: room:landing3, kind: stair, label: "gong: three rings", opened_by: state:gong2}
+  # floor 2
+  - {id: link:l3_practice, from: room:landing3, to: room:practice, kind: open}
+  - {id: link:l3_trap, from: room:landing3, to: room:trap_walk, kind: open}
+  - {id: link:trap_practice, from: room:trap_walk, to: room:practice, kind: door}
+  - {id: link:trap_strong, from: room:trap_walk, to: room:strongroom, kind: locked, label: "Strongroom key", opened_by: state:strong_key}
+  - {id: link:practice_gong3, from: room:practice, to: room:gong3, kind: open}
+  - {id: link:gong3_up, from: room:gong3, to: room:landing4, kind: stair, label: "gong: three rings", opened_by: state:gong3}
+  # floor 3
+  - {id: link:l4_counting, from: room:landing4, to: room:counting, kind: door}
+  - {id: link:l4_library, from: room:landing4, to: room:library, kind: open}
+  - {id: link:counting_bed, from: room:counting, to: room:bedchamber, kind: door}
+  - {id: link:counting_getaway, from: room:counting, to: room:getaway, kind: open}
+  - {id: link:getaway_chute, from: room:getaway, to: room:door_hall, kind: drop, label: "getaway chute 1,920",
+     notes: "One way down the tower's inside wall into the entrance hall's straw heap; no fall damage."}
+states:
+  - {id: state:tower_key, kind: item, where: "D3, Thaddeus (Q-D19)",
+     what: "The Southern Tower key opens the tower's door on D2 (q-d19.tower_door; 'Locked. A brass plate reads NO THIEVES.').", opens: []}
+  - {id: state:gong1, kind: password, where: room:gong1,
+     what: "'Ring gong how many times?': 3 or three (q-d19.gongs) opens the stair door. Answer-giver: the guild memo beside this gong. A wrong answer: 'The gong booms, and the echo dies away.'",
+     opens: [link:gong1_up], draw: false}
+  - {id: state:gong2, kind: password, where: room:gong2, what: "The second gong, the same answer; opens the stair door to the third floor.",
+     opens: [link:gong2_up], draw: false}
+  - {id: state:gong3, kind: password, where: room:gong3, what: "The third gong, the same answer; opens the stair door to the top.",
+     opens: [link:gong3_up], draw: false}
+  - {id: state:alibaba, kind: password, where: room:alibaba,
+     what: "'Ali Baba Chest. What's the password?': open sesame or opensesame (q-d19.ali_baba). Answer-giver: the guild memo on the ground floor.",
+     opens: [], draw: false}
+  - {id: state:strong_key, kind: item, where: room:fence,
+     what: "The Strongroom key, a fixed item in the fence's lockbox on the den floor; opens the strongroom's iron door on the floor above.",
+     opens: [link:trap_strong]}
+  - {id: state:button, kind: lever, where: room:tapestry,
+     what: "The button behind the tapestry ('Click.') makes the false wall vanish ('An illusion!').",
+     opens: [link:tapestry_stash], draw: false}
+exits:
+  - {id: exit:d2_door, space: room:door_hall, at: [0, 1], kind: both, label: "D2: the tower's door",
+     neighbour: "D2 entrance:dd06_door (door:dd06): the Southern Tower's iron-bound door in its clearing, facing north; needs the Southern Tower key"}
+critical_path: [room:door_hall, room:guardroom, room:gong1, room:landing2, room:mess, room:fence, room:alibaba, room:fence, room:gong2,
+  room:landing3, room:trap_walk, room:strongroom, room:trap_walk, room:practice, room:gong3, room:landing4, room:counting]
+return_path: [room:counting, room:getaway, room:door_hall]
+loops:
+  - {id: loop:front, spaces: [room:door_hall, room:guardroom, room:gong1, room:kennel, room:tapestry], notes: "Round the ground floor."}
+  - {id: loop:den, spaces: [room:landing2, room:mess, room:fence, room:gong2, room:bunks], notes: "Round the den floor."}
+  - {id: loop:practice, spaces: [room:landing3, room:practice, room:trap_walk], notes: "Through the practice hall or the trap walk."}
+  - {id: loop:getaway, spaces: [room:door_hall, room:gong1, room:landing2, room:gong2, room:landing3, room:gong3, room:landing4, room:counting, room:getaway],
+     notes: "Up by the gong stairs, down by the getaway chute."}
+lines:
+  - {text: "Tapestry / Button / An illusion!", ref: "dark/aaze0061:4-5, :7", where: "room:tapestry, room:stash"}
+  - {text: "Ring gong how many times?", ref: "dark/aaze0062:2 (answers 3, Three: :3-4)", where: "room:gong1, room:gong2, room:gong3"}
+  - {text: "Ledger. One (1) Griffin Statuette ... One (1) Jewel of Ages, sold to Mages of the Great Eastern Tower.", ref: "dark/aaze0062:1 (prices dropped; A3's buyers)", where: "room:counting (q-d19.ledger)"}
+  - {text: "Ali Baba Chest / What's the password?", ref: "dark/aaze0063:6 (answers :7-8)", where: room:alibaba}
+  - {text: "Energy Disc", ref: "dark/aaze0063:0", where: room:strongroom}
+  - {text: "Manual of Master Thievery / You learn nothing new", ref: "dark/aaze0064:0-1", where: room:library}
+  - {text: "Prince Book / For the eyes of the prince only!", ref: "dark/aaze0064:3-4", where: room:library}
+  - {text: "Bed / Nothing here.", ref: "dark/aaze0064:7-8", where: "room:bunks, room:bedchamber"}
+  - {text: "A note reads: \"Three's the charm.\"", ref: "dark/aaze0064:9", where: "room:gong1 (in q-d19.guild_memo)"}
+open_questions:
+  - "The Master Thief fights if attacked: a boss row in the Outlaws block (11114, 'The Master Thief', level 30, hp x3), or his talking actor on the Master Thief tier row (30)? Proposed a boss row (A2)."
+  - "His four bodyguards peaceful until he is attacked (as Hobstadt's court), or hostile, so the party fights into the counting room and then talks?"
+  - "Rogue 12 is under DD-06's band of 14: six as light filler on the ground floor (as D-4 did with Mad Fools), or Thieves 18 instead?"
+  - "Manual of Master Thievery (source +500,000 experience): a lore book with a one-time 1,500 experience per reader, or a lore book only?"
+  - "Prince Book (source +5 levels, behind the Clouds 'Prince of Thieves' title): readable only by a member who sat on the Sphinx's Prince of Thieves throne (Q-C9 player bit 11292, XD-15, Act IV), +2 Luck once; others read 'For the eyes of the prince only!'. Keep, or a lore book only?"
+  - "The source's L1 mirror ('The mirror does not respond.'): left out (this world's mirrors are in towns), or one of the Darkside mirrors after M26?"

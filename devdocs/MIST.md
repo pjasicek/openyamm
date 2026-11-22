@@ -120,6 +120,15 @@ They are tuned by constants in `MistWisps.cpp` (`WispOpacity`, sizes) and `MistW
 **Cost.** Without mist: one uniform comparison per pixel in the shaders above. With a layer: two `exp`, and two noise
 reads where it is visible; each volume a square root and a cubic. Not measured on hardware yet.
 
+## From Lua
+
+`evt.SetMist(amount [, seconds])` draws `amount` (0 lifted .. 1 as authored) of the map's scene mist, every layer and
+volume alike (it scales the densities, as the player's mist strength does), faded from the share shown over `seconds`
+of real time; indoor wisps stop while it is 0. It is not saved: the map's Lua sets it again on load, so a mist that
+lifts for good is a load event's `if IsQBitSet(QBit(n)) then evt.SetMist(0) end` beside the call that lifts it with a
+fade (Nightshadow's fog on q-c7.done, decision D-11.1). Code: `EventRuntimeState::scriptedMist`, `MistScriptFade` in
+`game/render/Mist.h`, applied in `OutdoorGameView::skySurroundings` and the indoor renderer.
+
 ## Limits
 
 - **No lighting.** Torches, spells and the sun's shadows do not light or shade the mist. Light shafts need either
@@ -129,7 +138,7 @@ reads where it is visible; each volume a square root and a cubic. Not measured o
 - **Layers are flat.** Where the ground under one varies by hundreds of units (Deyja's plains), the mist is thin in
   places and thick in others; a terrain-following base is not built. At most four layers.
 - **Volumes are ellipsoids**: they do not follow walls, so one larger than its room shows in the next room.
-- **No script control** yet (`evt.SetFog` has no mist counterpart).
+- **Script control is one share** (`evt.SetMist`, below): a script lifts or thickens the whole mist, not one layer.
 - The Vulkan (SPIR-V) and Metal shader builds were not compiled on the machine that wrote this; GLSL 1.50 and ESSL
   3.00 were.
 

@@ -1,0 +1,130 @@
+# Playtest of the Olympus Sewer (DD-26, L4): the critical path of Q-D28's map side. A level-58 party starts on D7 and
+# comes down the marble grate (D7's door:dd26 is A6's and still sealed, so the step makes its move: entrance:d7_stair,
+# the stair's foot (0, 0, 0) facing north, 512): position and facing asserted, A3's q-d28.arrival (117800). The scroll
+# on the stair's wall: q-d28.scroll, "Search the drains." (aaze0038:11). The conduit; the den's plank pair; Cyrano's
+# counter door (house 4815, a residence: Cyrano Jones 5614 at once); the bed (q-d28.bed): one item once (117806), then
+# "Nothing here." (:17). Round the ring: drain TR in the west culvert, the spillway's grate, drain IB and the weir's chest; the cistern's
+# drain BL; the east culvert, the outfall's grate, drain ES (each its piece once in a window, 117801-117804, then
+# "Drain" (:0) in the status line). The tribble door: its prompt is the voice (:5), "TRIBBLE": "Correct! You may
+# pass." (:9), 117805, both leaves open; the vault's chest. Numbers are ids.lock.yml's (events, doors). Run with
+# --world xeen (output/studio_cal/dd26/four.sh).
+id: xeen.dd26.l4.walk
+title: Olympus Sewer (DD-26 L4), the arrival, the scroll, Cyrano's door, the bed, the four drains, the password and the chests
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d7.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Paladin, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Knight, level: 58, skills: [], equipment: {}}
+  - assert: {map: xeen_d7.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Down D7's marble grate (D7's door:dd26 will make this move): entrance:d7_stair at the foot, facing north.
+  - lua_event: {source: "evt.MoveToMap(0, 0, 0, 512, 0, 0, 0, 0, \"xeen_dd26.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd26.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Even the gods' drains are marble."}}
+  - play_lua: {source: "close(); if not qbit(117800) then error('arrived_once 117800 not set') end"}
+  - assert: {party_position: {x: 0, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}
+  # The scroll on the stair's wall (D-65 change 1).
+  - walk_to: {x: -200, y: -192, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Search the drains."}}
+  - play_lua: {source: "close()"}
+  # Into the conduit; its three lesser elementals.
+  - walk_to: {x: 0, y: 320, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500)"}
+  # The den's plank pair; Cyrano's counter door (a residence of one: Cyrano Jones at once).
+  - walk_to: {x: 0, y: 700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(1) ~= 'closed' or door_state(2) ~= 'closed' then error('the den door does not start shut') end; click(5); wait(3); if door_state(1) ~= 'open' or door_state(2) ~= 'open' then error('the den leaves did not open: ' .. door_state(1) .. ' ' .. door_state(2)) end"}
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5614}}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  # The bed: one item once (bed_searched 117806), then "Nothing here.".
+  - walk_to: {x: 220, y: 1216, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('items', #pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0)); click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Under the straw tick, something Cyrano has not got round to selling yet."}}
+  - play_lua: {source: "close(); local after = #pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0); if after ~= recall('items') + 1 then error('the bed gave ' .. (after - recall('items')) .. ' items') end; if not qbit(117806) then error('bed 117806 not set') end; click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Nothing here."}}
+  - play_lua: {source: "close()"}
+  # West along the conduit's north walkway into the west culvert.
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 704, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1700, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2080, y: 512, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  # Drain TR (117801), then "Drain".
+  - walk_to: {x: -2060, y: 1536, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: TR"}}
+  - play_lua: {source: "close(); if not qbit(117801) then error('drain TR not set') end; status(); click(9); wait(0.5); local seen = status(); if not string.find(seen, 'Drain', 1, true) then error('the emptied drain said: ' .. seen) end"}
+  # The spillway's grate, drain IB, the weir's chest.
+  - walk_to: {x: -2200, y: 1088, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(4) ~= 'closed' then error('the spillway grate does not start shut') end; click(14); for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' then error('the spillway grate did not open: ' .. door_state(4)) end"}
+  - walk_to: {x: -2600, y: 1088, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: -2624, y: 820, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: IB"}}
+  - play_lua: {source: "close(); if not qbit(117802) then error('drain IB not set') end"}
+  - walk_to: {x: -2624, y: 1250, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); loot_chest(3); if gold() <= before then error('the weir chest gave no gold') end"}
+  # North up the west culvert into the cistern; drain BL in its north wall.
+  - walk_to: {x: -2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2080, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3500)"}
+  - walk_to: {x: -2000, y: 2848, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 2880, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: BL"}}
+  - play_lua: {source: "close(); if not qbit(117803) then error('drain BL not set') end"}
+  # East: down the east culvert, the outfall's grate, drain ES.
+  - walk_to: {x: 2000, y: 2848, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2080, y: 1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(3) ~= 'closed' then error('the outfall grate does not start shut') end; click(11); for _ = 1, 20 do if door_state(3) == 'open' then break end; wait(0.5) end; if door_state(3) ~= 'open' then error('the outfall grate did not open: ' .. door_state(3)) end"}
+  - walk_to: {x: 2600, y: 1088, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 2624, y: 1360, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You find a piece of a note that reads: ES"}}
+  - play_lua: {source: "close(); if not qbit(117804) then error('drain ES not set') end"}
+  # Back up to the cistern and the tribble door's landing: the password.
+  - walk_to: {x: 2200, y: 1088, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2080, y: 1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2176, y: 2150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2200, y: 2560, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2900, y: 2560, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'closed' or door_state(6) ~= 'closed' then error('the bronze pair does not start shut') end; click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "What's the password?"}}
+  - answer_input: {text: "TRIBBLE"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Correct! You may pass."}}
+  - play_lua: {source: "close(); for _ = 1, 20 do if door_state(5) == 'open' and door_state(6) == 'open' then break end; wait(0.5) end; if not qbit(117805) then error('tribble_door not set') end; if door_state(5) ~= 'open' or door_state(6) ~= 'open' then error('the bronze pair did not open: ' .. door_state(5) .. ' ' .. door_state(6)) end"}
+  # The offering vault and its chest on the ledge.
+  - walk_to: {x: 3400, y: 2560, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: 4080, y: 2560, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); loot_chest(4); if gold() <= before then error('the vault chest gave no gold') end; log('vault reached: ' .. party())"}

@@ -1,0 +1,155 @@
+# The sleeper (A3's m38.sleeper_earth) and the return dais (D-58 C5, C7).
+# Written by output/studio_cal/p3/tools/gen_playtests.py; run with --world xeen --map xeen_p3.blv.
+id: xeen.p3.l4.sleeper
+title: 'Plane of Earth (P3): the Earth Sleeper''s three answers, the dais rising when he wakes, kept over a reload, to D7'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p3.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p3.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111766
+    value: true
+- clear_hostiles:
+    radius: 40000
+- set_pose:
+    map: xeen_p3.blv
+    x: -2048
+    y: -5084
+    z: -760
+    yaw_degrees: 270
+    pitch: 0
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    sprite_hidden:
+    - 0
+- note: 'Not Chosen: the Earth Sleeper cannot wake (A3''s first state); the dais stays dark'
+- play_lua:
+    source: click(22); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''has not informed me'', 1, true) then error(''status: '' .. s) end'
+- &id001
+  play_lua:
+    source: close(); wait(0.3); close()
+- play_lua:
+    source: 'click(3); wait(0.5); local s = status() or ''''; if not s:find(''dark and still'') then error(''dais before the
+      wake: '' .. s) end'
+- assert:
+    map: xeen_p3.blv
+- note: 'Chosen, the Reflectors not all humming: ''Awaiting Grunfeld field activation.'''
+- lua_event:
+    source: 'evt.ForPlayer(Players.All)
+
+      SetAward(Award(409))'
+- play_lua:
+    source: click(22); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''Awaiting Grunfeld field activation'', 1, true) then error(''status:
+      '' .. s) end'
+- *id001
+- assert:
+    qbit_clear:
+    - 111762
+- setup_shortcut:
+    kind: set_qbit
+    id: 111740
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111741
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111742
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111743
+    value: true
+- note: 'All four humming: he wakes (111762), the dais rises at once'
+- play_lua:
+    source: click(22); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''Grunfeld field generator is active'', 1, true) then error(''status:
+      '' .. s) end'
+- *id001
+- assert:
+    qbit_set:
+    - 111762
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    sprite_shown:
+    - 0
+- note: 'A save and a reload: the dais still shown'
+- reload: {}
+- advance_runtime:
+    seconds: 2
+- assert:
+    sprite_shown:
+    - 0
+- note: S's disc and the dais both ask; No stays, Yes up to D7
+- play_lua:
+    source: click(18); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: Close
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    map: xeen_p3.blv
+- *id001
+- play_lua:
+    source: click(3); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 2.0
+    follow_map_move: true
+- assert:
+    map: xeen_d7.blv
+- assert:
+    party_position:
+      x: 27136
+      y: -17408
+      radius: 256

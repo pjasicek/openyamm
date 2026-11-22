@@ -41,6 +41,15 @@ materials:
     physical_size_m: 4.0
     license: CC0 1.0
     origin: https://polyhaven.com/a/dry_ground_01
+  ice:
+    albedo_height: ice/albedo_height.oytex
+    normal_ao_rough: ice/normal_ao_rough.oytex
+    mean_color: [0.2881, 0.3476, 0.3499]
+    physical_size_m: 2.0
+    license: CC0 1.0
+    origin: https://ambientcg.com/view?id=Ice003
+    specular: 0.8
+    wet_sheen: 0.2
   mud_cracked:
     albedo_height: mud_cracked/albedo_height.oytex
     normal_ao_rough: mud_cracked/normal_ao_rough.oytex

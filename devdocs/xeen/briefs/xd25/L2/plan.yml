@@ -1,0 +1,228 @@
+format: 0
+level: L2
+pitch: "Under the desert town of Asp, whose people are turning into snakes, a cellar stair by the well leads down into the old dry cistern, now the snake men's hall. Past their moulting room and the pens where half-turned townsfolk wait in cages, a stair from the brood hall goes down to a granite level that hums: round the corner a wall of coloured light bars the way to the transformer, the machine that makes snake men. The light drops only when the pedestals round Asp's well are set. Behind the machine lie Falagar's stolen crystals; break it and the cages open."
+purpose: "Q-C5 The Snakes of Asp (destroy the transformer: Asp is liberated, its services open) and Q-C11 the Crystals of Piezoelectricity for Falagar. Party 14 to 16, Snake men 16/20/26, 28 monsters, treasure level 2 with the keeper's hoard at 3."
+mood: "Dry sandstone cellars, hissing in the dark, shed skins; then warm granite, a hum through the floor, blue light from the machine's crown."
+datum: arrival
+spaces:
+  - id: room:brood
+    name: Brood hall
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The new snake men, fresh from the machine; the stair down."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 7 snake men.}
+  - id: room:brood_stair
+    name: Brood stair
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: Twenty steps down to the machine level.
+    empty: true
+  - id: room:cistern
+    name: Old cistern
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The town's dry cistern, now the snake men's hall; hissing in the dark."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 4 snake men.}
+  - id: room:coil
+    name: Coil passage
+    kind: corridor
+    size: M
+    floor: -640
+    purpose: "A warm, humming passage round the machine hall."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 4 snake men.}
+  - id: room:crystal_niche
+    name: Crystal housing
+    kind: room
+    size: S
+    floor: -640
+    purpose: "The Crystals of Piezoelectricity, loose once the machine is broken (Q-C11)."
+    empty: true
+  - id: room:drain
+    name: Drain tunnel
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: The machine's run-off channel climbing to the grate under the pens (the way back).
+    empty: true
+  - id: room:field_gate
+    name: Field gate
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: "A wall of humming light across the way; the pedestals' rhyme cut over it."
+    empty: true
+  - id: room:hidden_cache
+    name: Hidden cache
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Behind a loose cistern slab: a townsman's hidden savings."
+    empty: true
+  - id: room:keeper
+    name: Keeper's cell
+    kind: room
+    size: S
+    floor: -640
+    purpose: The keeper's straw bed and his hoard (one step up).
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 2 snake men.}
+  - id: room:machine_hall
+    name: Transformer hall
+    kind: room
+    size: L
+    floor: -640
+    purpose: "The transformer: brass coils, a chamber of bars, an empty scarab socket, the crystals in its crown. Destroy it."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 3 snake men.}
+  - id: room:moulting
+    name: Moulting room
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Shed skins hung like washing; a chest of townsfolk's belongings."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 4 snake men.}
+  - id: room:pens
+    name: Holding pens
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Three cages of half-turned townsfolk (freed when the machine dies); the drain's grate."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], levels: [16, 26], notes: About 3 snake men.}
+  - id: room:stair
+    name: Cellar stair
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Down from Asp's square by the well; sloughed skins on the steps."
+    empty: true
+links:
+  - id: link:brood_coil
+    from: room:brood
+    to: room:coil
+    kind: stairs
+    notes: By the brood stair (its own room).
+  - id: link:cistern_cache
+    from: room:cistern
+    to: room:hidden_cache
+    kind: secret_door
+    motion: slide
+    notes: A slab that sinks.
+  - id: link:cistern_moulting
+    from: room:cistern
+    to: room:moulting
+    kind: open
+  - id: link:cistern_pens
+    from: room:cistern
+    to: room:pens
+    kind: door
+    motion: swing
+  - id: link:coil_field
+    from: room:coil
+    to: room:field_gate
+    kind: open
+  - id: link:coil_keeper
+    from: room:coil
+    to: room:keeper
+    kind: door
+    motion: swing
+  - id: link:drain_pens
+    from: room:drain
+    to: room:pens
+    kind: door
+    motion: slide
+    condition: {map_var: drain_reached}
+    notes: "The grate: bolted on the drain side; opened from below, then both ways."
+  - id: link:field_machine
+    from: room:field_gate
+    to: room:machine_hall
+    kind: door
+    motion: slide
+    condition: {qbit: q_c5_pedestals}
+    notes: "The field of light (a see-through leaf, xufield) sinks once the pedestals round Asp's well are set (q-c5.pedestals, X4)."
+  - id: link:machine_crystal
+    from: room:machine_hall
+    to: room:crystal_niche
+    kind: door
+    motion: slide
+    condition: {qbit: q_c5_done}
+    notes: Opens when the transformer is destroyed.
+  - id: link:machine_drain
+    from: room:machine_hall
+    to: room:drain
+    kind: open
+  - id: link:moulting_brood
+    from: room:moulting
+    to: room:brood
+    kind: open
+  - id: link:pens_brood
+    from: room:pens
+    to: room:brood
+    kind: open
+  - id: link:stair_cistern
+    from: room:stair
+    to: room:cistern
+    kind: door
+    motion: swing
+loops:
+  - id: loop:return
+    spaces: [room:pens, room:brood, room:coil, room:field_gate, room:machine_hall, room:drain]
+    closed_until: {map_var: drain_reached}
+    notes: "Down the brood stair, back up the drain: closed until the grate is opened from below."
+  - id: loop:upper
+    spaces: [room:cistern, room:moulting, room:brood, room:pens]
+    notes: Round the cellars.
+entrances:
+  - id: entrance:x4_asp
+    space: room:stair
+    kind: arrival
+    facing: e
+    how: "At the top of the cellar stair under Asp's square (X4's door:xd25); the door back up is sealed until X4 is built."
+critical_path: [room:stair, room:cistern, room:moulting, room:brood, room:brood_stair, room:coil, room:field_gate, room:machine_hall, room:crystal_niche]
+return_path: [room:crystal_niche, room:machine_hall, room:drain, room:pens, room:cistern, room:stair]
+goals:
+  - id: goal:crystals
+    space: room:crystal_niche
+    kind: take
+    what: The Crystals of Piezoelectricity in the housing behind the machine.
+    story: Q-C11
+    gives:
+      qbit: q_c11_crystals
+  - id: goal:transformer
+    space: room:machine_hall
+    kind: use
+    what: "Destroy the transformer (\"You have found the transformer! Do you wish to destroy it?\")."
+    story: Q-C5
+    gives:
+      qbit: q_c5_done
+keys:
+  - id: key:pedestals
+    grants: {qbit: q_c5_pedestals}
+    found_in: room:stair
+    how: "X4: the eight pedestals round Asp's well set red/blue from the south-west (A5's map; q-c5.pedestals)."
+set_pieces:
+  - id: set:field
+    kind: puzzle
+    spaces: [room:field_gate]
+    rule: "The field of light holds until the pedestals round Asp's well are set; the stone over it gives the second rhyme, Eve says the rule outright."
+  - id: set:transformer
+    kind: scripted
+    spaces: [room:machine_hall, room:pens, room:crystal_niche]
+    rule: "Yes to the source's question: the machine dies (q-c5.done), the crystal housing and the cages open; the freed townsfolk thank the party in the pens and are gone on the next entry."
+diagram: {file: diagram.txt}
+totals:
+  chests: 3
+  doors: 8
+  floor_area_munits2: 15
+  loops: 2
+  monsters_about: 28
+  rooms: 13
+  sectors: 13
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act2_graphs/xd25.graph.yml and D-4's decisions (act2_dungeon_decisions.md, XD-25): pedestals on X4, Guardian Asps left out, caged townsfolk kept, the door of light as XD-04's ward. The brood stair is its own room (13 rooms); the drain's grate is in the pens' south wall at the top of a stepped culvert (not a floor hatch with a ladder)."

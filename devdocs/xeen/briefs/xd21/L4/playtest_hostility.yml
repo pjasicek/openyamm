@@ -1,8 +1,12 @@
-# Hostility check of the Robbers' Den (XD-21) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
-# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+# Hostility check of the Robbers' Den (XD-21): its foes hostile to the party, its kinds not fighting each other.
+# First written by output/studio_cal/hostility/gen_hostility_tests.py (devdocs/xeen/ACT2_BUILD.md, "Hostility pass") for
+# the MM7 stand-ins; edited by hand for the Xeen rows at the move into the world (2026-11-20, lane A8): slot 1 Outlaws
+# (Rogue 11110 at tier a, Thief 11111 at the lieutenants' marker), slot 2 Evil rangers (Evil Ranger 11131), placed
+# Thieves 11111 and the Robber Boss 11113. In the Xeen world since 2026-11-20 (world_play.sh: --world xeen --map
+# xeen_xd21.blv, X1 not being installed; playtest.yml's header), with the world's rows and relations.yml.
 id: xeen.xd21.l4.hostility
 title: 'the Robbers'' Den (XD-21): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -34,47 +38,63 @@ steps:
 - setup_shortcut:
     kind: immortal
     value: true
-- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- note: The map's monsters are the Xeen world's rows; relations.yml (A2) makes the Outlaws (11110-11113) and the Evil rangers
+    (11130-11132) the party's foes; the map has no relations of its own.
 - advance_runtime:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 406
+      monster_id: 11110
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 407
+      monster_id: 11111
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 408
+      monster_id: 11112
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 256
+      monster_id: 11113
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 257
+      monster_id: 11130
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 258
+      monster_id: 11131
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 407
+      monster_id: 11132
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11110
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 408
+      monster_id: 11111
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11113
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11131
       hostile: true
       min: 1
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
@@ -82,12 +102,12 @@ steps:
 - console:
     line: arena trace on
 - spawn_actor:
-    monster_id: 407
+    monster_id: 11110
     x: -2400
     y: 900
     z: 0
 - spawn_actor:
-    monster_id: 257
+    monster_id: 11131
     x: -2304
     y: 900
     z: 0
@@ -107,11 +127,11 @@ steps:
       min_count: 1
 - assert:
     actor_count:
-      monster_id: 407
+      monster_id: 11110
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 257
+      monster_id: 11131
       hurt: true
       max: 0

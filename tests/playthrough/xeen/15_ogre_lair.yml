@@ -1,0 +1,207 @@
+# Xeen playthrough, segment 15: by coach to Rivercity (X2) and Q-C23, the Ogre Boulders. Burlock's Royal Stables (route
+# 409, Tuesdays, Thursdays and Saturdays, 2 days) to Rivercity; Captain Nystor at his dock (Ogres: Q-C23 started); the
+# Ogre Lair (XD-27) walked from its cave mouth in the north-west bluff: the barred log gate, the midden crack and the
+# bone den, the feast cave, the bar lifted from inside, the quarry, the boulder chute, the Chieftain and his throwers
+# on the ledge, the rack tipped, the lair broken from the Chieftain's seat, out by the gate. Nystor pays 1,500 gold.
+# Outdoors the party is placed (PLAYBOOK §2). Route: tests/scenarios/xeen/side_quests/q-c23_ogre_boulders.yml
+# (devdocs/xeen/briefs/xd27/L4/playtest.yml). Quest logic: source/quests/q-c23.yml.
+#   python3 tests/playthrough/xeen/run.py 15
+id: xeen.playthrough.15_ogre_lair
+title: "Xeen playthrough 15: by coach to Rivercity; the Ogre Lair broken for Captain Nystor"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/13_castle_burlock.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - assert: {qbit_set: [111100, 112060]}
+  - assert: {qbit_clear: [112460, 112461]}
+  # Down the castle lane to the Royal Stables (house 4155). The coach came in on a Saturday: Ned runs Rivercity today.
+  - walk_to: {x: -1024, y: 5120, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 772, y: 4096, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: 772, y: 4096, z: 1312, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4155}
+  - assert: {dialog: {action_label_present: "2 days to Rivercity and Lake Darzog for 75 gold"}}
+  - select_topic: {match_label: "2 days to Rivercity and Lake Darzog for 75 gold"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: 4, y: 12928, radius: 200, z_min: 900, z_max: 1150}}
+  - play_lua: {source: "close()"}
+  # Captain Nystor's Dock (house 4063): Ogres (Q-C23 started).
+  - set_pose: {map: xeen_x2.odm, x: 6660, y: 4240, z: 622, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4113}
+  - select_topic: {match_label: Ogres}
+  - assert:
+      dialog: {text_contains: "Those Ogres are ruining me!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
+  - assert: {dialog: {active: false}}
+  - assert: {qbit_set: [112460]}
+  # The lair's cave mouth in the north-west bluff (X2 event 135).
+  - set_pose: {map: xeen_x2.odm, x: -20992, y: 17375, z: 1260, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd27.blv}
+  - assert: {party_position: {x: 0, y: 448, radius: 96, z_min: -8, z_max: 8}}
+  # The arrival (q-c23.arrival, once).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The ogres' lair, in the river bluff."}}
+  - play_lua: {source: "close(); if not qbit(110342) then error('arrived_once not set') end"}
+  # The log gate is barred from inside.
+  - walk_to: {x: 0, y: 940, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(13); wait(1)
+        if door_state(1) ~= "closed" then error("the barred gate opened from the mouth") end
+        if not close() then error("the barred gate showed no message") end
+  # Up the midden crack into the bone den.
+  - walk_to: {x: -560, y: 544, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1280, y: 560, z: 54, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -1660, y: 820, z: 95, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -1850, y: 1300, z: 140, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -1856, y: 1800, z: 187, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: -1856, y: 2150, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The bundle in the far heap.
+  - walk_to: {x: -2600, y: 2880, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(2); wait(1); if held() ~= 0 then stow() end; close(); log('the bundle: +' .. (gold() - g) .. ' gold')"}
+  # Down the terrace steps into the feast cave.
+  - walk_to: {x: -1500, y: 2752, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1180, y: 2752, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -600, y: 2752, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The Chieftain's seat cannot be broken while he lives.
+  - walk_to: {x: -1100, y: 3616, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2752, y: 3740, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(14); wait(0.5)
+        local s = status()
+        if not s:find("throws from the ledge beyond the quarry", 1, true) then error("the seat said: " .. s) end
+        close()
+        if qbit(110340) then error("the lair broke with the Chieftain alive") end
+  - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 3616, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The gate yard: lift the bar, open the gate from inside.
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(11); wait(3)
+        if door_state(3) ~= "open" then error("the bar did not lift") end
+        click(12); wait(3)
+        if door_state(1) ~= "open" then error("the gate did not open from inside: " .. door_state(1)) end
+  # The quarry ramp and the quarry.
+  - walk_to: {x: -192, y: 3950, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -192, y: 4544, z: 184, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -64, y: 4928, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -64, y: 5300, z: 384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # Down the boulder chute (its trap) to the throwing ledge.
+  - walk_to: {x: 700, y: 5920, z: 384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1472, y: 5920, z: 290, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1700, y: 6000, z: 255, z_tolerance: 60, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 6080, z: 140, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2400, y: 6176, z: 128, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The Ogre Chieftain (actor 0) and his throwers.
+  - clear_hostiles: {radius: 3000}
+  - assert: {actor_visible: {actor_index: 0, dead: true}}
+  - advance_runtime: {seconds: 3.0}
+  - interact_actor: {actor_index: 0}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if not has_item(12170) then error('the Chieftain\\'s corpse did not hold the larder key') end"}
+  # The boulder rack (q-c23.rack): the heap goes into the river.
+  - walk_to: {x: 2752, y: 5800, z: 128, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[That is the end of the ogres' ammunition.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(110341) then error("ogre_boulders_dumped not set") end
+  # Back up the chute and the ramp to the Chieftain's seat: the lair broken (q-c23.chieftain).
+  - walk_to: {x: 2400, y: 6176, z: 128, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 6080, z: 140, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1472, y: 5920, z: 290, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 700, y: 5920, z: 384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -64, y: 5300, z: 384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -64, y: 4928, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -192, y: 4544, z: 184, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -192, y: 3950, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 3616, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2752, y: 3740, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You break everything you can find in the lair.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "if not qbit(110340) then error('ogre_lair_destroyed not set') end; close()"}
+  # The Chieftain's chest, then the larder (the key from his corpse): the boats' strongbox and the cargo.
+  - walk_to: {x: -2336, y: 4150, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); wait(1); if held() ~= 0 then stow() end; close(); log('the Chieftain\\'s chest: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: -3000, y: 3776, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(15); wait(3)
+        if door_state(2) ~= "open" then error("the larder door did not open with the key: " .. door_state(2)) end
+  - walk_to: {x: -3600, y: 3776, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -3808, y: 3850, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); wait(1); if held() ~= 0 then stow() end; close(); log('the strongbox: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: -3800, y: 4128, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(3); wait(1); if held() ~= 0 then stow() end; close(); log('the cargo: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: -3000, y: 3776, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Out by the gate and the mouth to X2.
+  - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 3616, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - execute_event: {id: 8}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave Ogre Lair?"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -20992, y: 17155, radius: 160, z_min: 1150, z_max: 1350}}
+  # Nystor: Ogres (Q-C23 done), 4,000 experience each and 1,500 gold.
+  - set_pose: {map: xeen_x2.odm, x: 6660, y: 4240, z: 622, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold())"}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4113}
+  - select_topic: {match_label: Ogres}
+  - assert:
+      dialog: {text_contains: "Thank you for getting rid of the Ogres"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
+  - play_lua:
+      source: |
+        close()
+        local xp, g = experience(0) - recall('xp'), gold() - recall('gold')
+        if xp ~= 4000 or g ~= 1500 then error("Nystor paid " .. xp .. " experience and " .. g .. " gold, not 4000 and 1500") end
+        log('15 done: experience ' .. experience(0) .. ', gold ' .. gold())
+  - assert: {qbit_set: [112461, 110340, 110341]}
+  - assert: {qbit_clear: [112460]}
+  - save_game: {name: "15 Ogre Lair", path: output/playthrough/xeen/checkpoints/15_ogre_lair.oysav}

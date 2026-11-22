@@ -1,0 +1,807 @@
+format: 0
+start:
+  room: room:shaft
+  at: [0, 128]
+  facing: s
+  notes: "At the shaft ladder's foot, facing the members' room's door under Barticus' sign (D3's street shaft arrives here)."
+doors:
+  - id: door:cobra_cistern
+    opening: open:cobra_cistern
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: A lattice door from the cobra drain into the great cistern.
+  - id: door:drain_alcoves
+    opening: open:drain_alcoves
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: A lattice door from the main drain to the alcoves.
+  - id: door:nest_drowned
+    opening: open:nest_drowned
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: An old lattice door between the mantis nest and the drowned vault.
+  - id: door:shaft_drain
+    opening: open:shaft_drain
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: A lattice door from the shaft into the main drain.
+  - id: door:shaft_gym
+    opening: open:shaft_gym
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: The members' room's door under Barticus' sign.
+  - id: door:tunnel_gate
+    opening: open:tunnel_gate
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: "A lattice door at the long tunnel's end, before the desert gate."
+  - id: door:warren_cistern
+    opening: open:warren_cistern
+    kind: slide_up
+    surface: {texture: d5dorsma, size: [128, 256], fit: true}
+    notes: A lattice door from the warren into the great cistern.
+ladders:
+  - {id: ladder:cistern_pool, room: room:cistern, at: [6528, -16], facing: n, height: 96, exit: [6528, 64], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the pool's north edge onto the cistern floor."}
+sounds:
+  - {id: sound:bed_cistern, room: room:cistern, at: [6528, 512], sound: xeen_amb_sewer, radius: 3200, inner_radius: 1000, volume: 0.4, notes: "The sewer's trickles and drips (bed, east).", pan: false}
+  - {id: sound:bed_drains, room: room:alcoves, at: [2304, -896], sound: xeen_amb_sewer, radius: 3200, inner_radius: 1000, volume: 0.4, notes: "The sewer's trickles and drips (bed, west drains).", pan: false}
+  - {id: sound:bed_nest, room: room:mantis_nest, at: [4608, -7424], sound: xeen_amb_sewer, radius: 3000, inner_radius: 1000, volume: 0.35, notes: "The sewer's trickles and drips (bed, nest).", pan: false}
+  - {id: sound:bed_tunnel, room: room:tunnel_east, at: [1664, -5696], sound: xeen_amb_sewer, radius: 3000, inner_radius: 1000, volume: 0.35, notes: "The sewer's trickles and drips (bed, tunnel).", pan: false}
+  - {id: sound:cistern, room: room:cistern, at: [6528, -288], sound: drip02, radius: 1800, inner_radius: 500, volume: 0.5, wait: [2, 6], notes: Drips into the cistern's pool.}
+  - {id: sound:cobra_drain, room: room:cobra_drain, at: [4352, -1536], sound: water lapping loop, radius: 1400, inner_radius: 400, volume: 0.35, notes: The warm drain's water.}
+  - {id: sound:collapse, room: room:collapse, at: [6528, -2432], sound: drip03, radius: 1300, inner_radius: 400, volume: 0.4, wait: [3, 7], notes: Water seeping into the broken drain.}
+  - {id: sound:desert_gate, room: room:desert_gate, at: [-7680, -5696], sound: whistling wind, radius: 1400, inner_radius: 300, volume: 0.45, notes: Sand blowing through the grate.}
+  - {id: sound:drowned, room: room:drowned, at: [2112, -6912], sound: drip01, radius: 1200, inner_radius: 300, volume: 0.5, wait: [2, 6], notes: The drowned vault dripping.}
+  - {id: sound:main_drain, room: room:main_drain, at: [1984, 0], sound: water lapping loop, radius: 1600, inner_radius: 500, volume: 0.35, notes: The channel's slow water.}
+  - {id: sound:sand_drift, room: room:sand_drift, at: [-1664, -5696], sound: whistling wind, radius: 1600, inner_radius: 400, volume: 0.25, notes: The desert's air down the long tunnel.}
+lights:
+  - id: light:alcoves_1
+    room: room:alcoves
+    at: [1632, -960]
+    radius: 1021
+    color: [205, 175, 125]
+  - id: light:alcoves_2
+    room: room:alcoves
+    at: [2848, -960]
+    radius: 1021
+    color: [205, 175, 125]
+  - id: light:breeding_vault_1
+    room: room:breeding_vault
+    at: [4352, 1472]
+    radius: 700
+    color: [175, 150, 110]
+  - id: light:cistern_1
+    room: room:cistern
+    at: [6528, -800]
+    radius: 1236
+    color: [205, 175, 125]
+  - id: light:cistern_2
+    room: room:cistern
+    at: [6528, 672]
+    radius: 1236
+    color: [205, 175, 125]
+  - id: light:cobra_drain_1
+    room: room:cobra_drain
+    at: [4352, -1536]
+    radius: 921
+    color: [205, 175, 125]
+  - id: light:collapse_1
+    room: room:collapse
+    at: [5888, -2432]
+    radius: 1075
+    color: [205, 175, 125]
+  - id: light:collapse_2
+    room: room:collapse
+    at: [7168, -2432]
+    radius: 1075
+    color: [205, 175, 125]
+  - id: light:desert_gate_1
+    room: room:desert_gate
+    at: [-7424, -5696]
+    height: 384
+    radius: 1200
+    color: [215, 205, 180]
+    notes: Daylight through the desert grate.
+  - id: light:drowned_1
+    room: room:drowned
+    at: [2368, -6848]
+    radius: 1152
+    color: [180, 165, 140]
+  - id: light:egg_cells_1
+    room: room:egg_cells
+    at: [6400, -8064]
+    radius: 768
+    color: [175, 150, 110]
+  - id: light:gym_1
+    room: room:gym
+    at: [0, -1120]
+    radius: 1075
+    color: [215, 180, 120]
+  - id: light:main_drain_1
+    room: room:main_drain
+    at: [1248, 0]
+    radius: 1236
+    color: [205, 175, 125]
+  - id: light:main_drain_2
+    room: room:main_drain
+    at: [2720, 0]
+    radius: 1236
+    color: [205, 175, 125]
+  - id: light:mantis_gallery_1
+    room: room:mantis_gallery
+    at: [4608, -5696]
+    radius: 1075
+    color: [175, 150, 110]
+  - id: light:mantis_nest_1
+    room: room:mantis_nest
+    at: [4608, -8576]
+    radius: 1075
+    color: [175, 150, 110]
+  - id: light:mantis_nest_2
+    room: room:mantis_nest
+    at: [4608, -7296]
+    radius: 1075
+    color: [175, 150, 110]
+  - id: light:niche_1_1
+    room: room:niche_1
+    at: [1472, -1728]
+    radius: 700
+    color: [205, 175, 125]
+  - id: light:niche_2_1
+    room: room:niche_2
+    at: [2240, -1856]
+    radius: 700
+    color: [205, 175, 125]
+  - id: light:niche_3_1
+    room: room:niche_3
+    at: [3008, -1728]
+    radius: 700
+    color: [205, 175, 125]
+  - id: light:sand_drift_1
+    room: room:sand_drift
+    at: [-2304, -5696]
+    radius: 1075
+    color: [180, 165, 140]
+  - id: light:sand_drift_2
+    room: room:sand_drift
+    at: [-1024, -5696]
+    radius: 1075
+    color: [180, 165, 140]
+  - id: light:shaft_1
+    room: room:shaft
+    at: [0, 0]
+    height: 1100
+    radius: 1000
+    color: [215, 205, 180]
+    notes: Daylight down through the street lid's grate.
+  - id: light:tunnel_east_1
+    room: room:tunnel_east
+    at: [704, -5696]
+    radius: 1400
+    color: [180, 165, 140]
+  - id: light:tunnel_east_2
+    room: room:tunnel_east
+    at: [2624, -5696]
+    radius: 1400
+    color: [180, 165, 140]
+  - id: light:tunnel_head_1
+    room: room:tunnel_head
+    at: [6528, -5760]
+    radius: 1075
+    color: [180, 165, 140]
+  - id: light:tunnel_west_1
+    room: room:tunnel_west
+    at: [-5760, -5696]
+    radius: 1400
+    color: [180, 165, 140]
+  - id: light:tunnel_west_2
+    room: room:tunnel_west
+    at: [-3968, -5696]
+    radius: 1400
+    color: [180, 165, 140]
+  - id: light:warren_1
+    room: room:warren
+    at: [4352, 0]
+    radius: 1075
+    color: [175, 150, 110]
+chests:
+  - id: chest:alcove
+    room: room:niche_2
+    at: [2240, -2048]
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 400
+    notes: The one alcove that holds something.
+  - id: chest:cistern
+    room: room:cistern
+    at: [7616, 448]
+    facing: w
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    notes: Under the overflow's grated mouth on the cistern's east wall.
+  - id: chest:nest
+    room: room:mantis_nest
+    at: [4608, -9088]
+    facing: n
+    treasure_level: 3
+    random_items: 3
+    gold: 900
+    notes: What the ants dragged in.
+  - id: chest:pack
+    room: room:desert_gate
+    at: [-7936, -6144]
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 500
+    notes: A sand-buried prospector's pack at the grate's foot (D-27's find).
+  - id: chest:strongbox
+    room: room:drowned
+    at: [1536, -6272]
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 700
+    notes: An old strongbox in the drowned vault's dry corner.
+monsters:
+  - id: monster:alcoves_stalker_1
+    room: room:alcoves
+    monster: 11401
+    at: [2240, -960]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:alcoves_stalker_2
+    room: room:alcoves
+    monster: 11401
+    at: [3072, -960]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:breeding_vault_matriarch_1
+    room: room:breeding_vault
+    monster: 11402
+    at: [4352, 1344]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:breeding_vault_stalker_1
+    room: room:breeding_vault
+    monster: 11401
+    at: [4096, 1600]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:breeding_vault_stalker_2
+    room: room:breeding_vault
+    monster: 11401
+    at: [4608, 1600]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_asp_1
+    room: room:cistern
+    monster: 11490
+    at: [6528, -1024]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_asp_2
+    room: room:cistern
+    monster: 11490
+    at: [6528, 768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_stalker_1
+    room: room:cistern
+    monster: 11401
+    at: [5632, -1152]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_stalker_2
+    room: room:cistern
+    monster: 11401
+    at: [5632, 1024]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_stalker_3
+    room: room:cistern
+    monster: 11401
+    at: [7424, -1152]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cistern_stalker_4
+    room: room:cistern
+    monster: 11401
+    at: [7424, 1024]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_1
+    room: room:cobra_drain
+    monster: 11490
+    at: [3840, -1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_2
+    room: room:cobra_drain
+    monster: 11490
+    at: [4224, -1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_3
+    room: room:cobra_drain
+    monster: 11490
+    at: [4608, -1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_4
+    room: room:cobra_drain
+    monster: 11490
+    at: [4992, -1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_5
+    room: room:cobra_drain
+    monster: 11490
+    at: [3840, -1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_asp_6
+    room: room:cobra_drain
+    monster: 11490
+    at: [4608, -1792]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_killer_cobra_1
+    room: room:cobra_drain
+    monster: 11491
+    at: [4224, -1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cobra_drain_killer_cobra_2
+    room: room:cobra_drain
+    monster: 11491
+    at: [4992, -1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_asp_1
+    room: room:collapse
+    monster: 11490
+    at: [5632, -2048]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_asp_2
+    room: room:collapse
+    monster: 11490
+    at: [7424, -2048]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_killer_cobra_1
+    room: room:collapse
+    monster: 11491
+    at: [6016, -2688]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_killer_cobra_2
+    room: room:collapse
+    monster: 11491
+    at: [7040, -2688]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_matriarch_1
+    room: room:collapse
+    monster: 11402
+    at: [5632, -2880]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:collapse_matriarch_2
+    room: room:collapse
+    monster: 11402
+    at: [7168, -2432]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:egg_cells_mantis_1
+    room: room:egg_cells
+    monster: 11371
+    at: [6144, -7808]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:egg_cells_mantis_2
+    room: room:egg_cells
+    monster: 11371
+    at: [6656, -8320]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:egg_cells_queen_1
+    room: room:egg_cells
+    monster: 11372
+    at: [6400, -8064]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:main_drain_stalker_1
+    room: room:main_drain
+    monster: 11401
+    at: [1280, -240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:main_drain_stalker_2
+    room: room:main_drain
+    monster: 11401
+    at: [1920, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:main_drain_stalker_3
+    room: room:main_drain
+    monster: 11401
+    at: [2560, -240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:main_drain_stalker_4
+    room: room:main_drain
+    monster: 11401
+    at: [3072, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_1
+    room: room:mantis_gallery
+    monster: 11371
+    at: [4096, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_2
+    room: room:mantis_gallery
+    monster: 11371
+    at: [4608, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_3
+    room: room:mantis_gallery
+    monster: 11371
+    at: [5120, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_4
+    room: room:mantis_gallery
+    monster: 11371
+    at: [4096, -6144]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_5
+    room: room:mantis_gallery
+    monster: 11371
+    at: [4608, -5760]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_gallery_mantis_6
+    room: room:mantis_gallery
+    monster: 11371
+    at: [5120, -6144]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_nest_mantis_1
+    room: room:mantis_nest
+    monster: 11371
+    at: [3968, -7424]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_nest_mantis_2
+    room: room:mantis_nest
+    monster: 11371
+    at: [5248, -7424]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_nest_queen_1
+    room: room:mantis_nest
+    monster: 11372
+    at: [4608, -7936]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_nest_queen_2
+    room: room:mantis_nest
+    monster: 11372
+    at: [4096, -8576]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mantis_nest_queen_3
+    room: room:mantis_nest
+    monster: 11372
+    at: [5120, -8576]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:tunnel_east_mantis_1
+    room: room:tunnel_east
+    monster: 11371
+    at: [512, -5696]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:tunnel_east_mantis_2
+    room: room:tunnel_east
+    monster: 11371
+    at: [1408, -5696]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:warren_matriarch_1
+    room: room:warren
+    monster: 11402
+    at: [4352, 0]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:warren_stalker_1
+    room: room:warren
+    monster: 11401
+    at: [3968, -448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:warren_stalker_2
+    room: room:warren
+    monster: 11401
+    at: [4736, -448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:warren_stalker_3
+    room: room:warren
+    monster: 11401
+    at: [3968, 448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:warren_stalker_4
+    room: room:warren
+    monster: 11401
+    at: [4736, 448]
+    facing: 270
+    hostile: true
+    group: 1
+decorations:
+  - id: deco:collapse_rock_1
+    room: room:collapse
+    decoration: 6rock01
+    at: [5440, -2560]
+  - id: deco:collapse_rock_2
+    room: room:collapse
+    decoration: 6rock03
+    at: [7616, -2048]
+  - id: deco:collapse_rock_3
+    room: room:collapse
+    decoration: 6rock05
+    at: [5440, -1856]
+  - id: deco:drift_sand_1
+    room: room:sand_drift
+    decoration: 7dec11
+    at: [-2240, -5376]
+  - id: deco:drift_sand_2
+    room: room:sand_drift
+    decoration: 7dec11
+    at: [-1152, -6016]
+  - id: deco:eggs_bones
+    room: room:egg_cells
+    decoration: 7dec18
+    at: [6080, -8512]
+  - id: deco:eggs_dirt
+    room: room:egg_cells
+    decoration: 7dec11
+    at: [6720, -7616]
+  - id: deco:gallery_rock
+    room: room:mantis_gallery
+    decoration: 7rock03
+    at: [5312, -5056]
+  - id: deco:gate_sand
+    room: room:desert_gate
+    decoration: 7dec11
+    at: [-7936, -5248]
+  - id: deco:gym_barrel_1
+    room: room:gym
+    decoration: bigbarel
+    at: [704, -1600]
+  - id: deco:gym_barrel_2
+    room: room:gym
+    decoration: bigbarel
+    at: [704, -1408]
+  - id: deco:milestone
+    room: room:tunnel_head
+    decoration: 6rock04
+    at: [7232, -6208]
+    notes: "Milestone (clicked: evt:milestone)."
+  - id: deco:nest_bones
+    room: room:mantis_nest
+    decoration: dec19
+    at: [3712, -8576]
+  - id: deco:nest_dirt_1
+    room: room:mantis_nest
+    decoration: 7dec11
+    at: [3712, -8192]
+  - id: deco:nest_dirt_2
+    room: room:mantis_nest
+    decoration: 7dec11
+    at: [5376, -8704]
+  - id: deco:protein_brew
+    room: room:gym
+    decoration: bucket
+    at: [128, -1712]
+    floor_height: 128
+    notes: "Protein Brew (clicked: evt:protein_brew)."
+  - id: deco:torch_0
+    room: room:gym
+    decoration: torch02
+    wall: n
+    along: 0.2
+    height: 224
+  - id: deco:torch_1
+    room: room:gym
+    decoration: torch02
+    wall: n
+    along: 0.8
+    height: 224
+  - id: deco:torch_10
+    room: room:alcoves
+    decoration: torch02
+    wall: n
+    along: 0.55
+    height: 224
+  - id: deco:torch_11
+    room: room:cobra_drain
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 224
+  - id: deco:torch_12
+    room: room:tunnel_head
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:torch_13
+    room: room:tunnel_east
+    decoration: torch02
+    wall: n
+    along: 0.2
+    height: 224
+  - id: deco:torch_14
+    room: room:tunnel_east
+    decoration: torch02
+    wall: n
+    along: 0.6
+    height: 224
+  - id: deco:torch_15
+    room: room:sand_drift
+    decoration: torch02
+    wall: s
+    along: 0.5
+    height: 224
+  - id: deco:torch_16
+    room: room:tunnel_west
+    decoration: torch02
+    wall: n
+    along: 0.3
+    height: 224
+  - id: deco:torch_17
+    room: room:tunnel_west
+    decoration: torch02
+    wall: n
+    along: 0.8
+    height: 224
+  - id: deco:torch_18
+    room: room:drowned
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 224
+  - id: deco:torch_2
+    room: room:gym
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 224
+  - id: deco:torch_3
+    room: room:gym
+    decoration: torch02
+    wall: w
+    along: 0.85
+    height: 224
+  - id: deco:torch_4
+    room: room:shaft
+    decoration: torch02
+    wall: e
+    along: 0.25
+    height: 224
+  - id: deco:torch_5
+    room: room:main_drain
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 224
+  - id: deco:torch_6
+    room: room:main_drain
+    decoration: torch02
+    wall: n
+    along: 0.75
+    height: 224
+  - id: deco:torch_7
+    room: room:cistern
+    decoration: torch02
+    wall: w
+    along: 0.25
+    height: 224
+  - id: deco:torch_8
+    room: room:cistern
+    decoration: torch02
+    wall: w
+    along: 0.8
+    height: 224
+  - id: deco:torch_9
+    room: room:cistern
+    decoration: torch02
+    wall: e
+    along: 0.2
+    height: 224
+  - id: deco:vitamin_brew
+    room: room:gym
+    decoration: dec35
+    at: [-128, -1712]
+    floor_height: 128
+    notes: "Vitamin Brew (clicked: evt:vitamin_brew)."
+  - id: deco:warren_bones
+    room: room:warren
+    decoration: dec29
+    at: [4928, -640]
+  - id: deco:warren_heap_1
+    room: room:warren
+    decoration: trasheap
+    at: [3840, 704]
+  - id: deco:warren_heap_2
+    room: room:breeding_vault
+    decoration: 7dec10
+    at: [4672, 1792]
+exits:
+  - id: exit:shaft
+    room: room:shaft
+    wall: north
+    size: [128, 256]
+    surface: {texture: d1ladder, size: [128, 256]}
+    to: exit:d3_shaft
+    notes: The iron ladder up to the street's lid beside Barticus' Gym (D3).
+notes: "DD-18's contents, written by output/studio_cal/dd18/tools/dress.py: 7 doors, five chests, 50 placed monsters (16 Sewer Stalkers, 4 Stalker Matriarchs, 10 Guardian Asps, 4 Killer Cobras, 12 Mantis Warriors, 4 Mantis Queens), the members' room's pay box, brews and book, the sealed desert grate."

@@ -1,0 +1,21 @@
+derived: xeen_vo_lord_xeen_death_take
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+undertone:
+  semitones: -12
+  gain_db: -16
+  delay_ms: 10
+shift:
+  pitch: 0
+  formant: -2
+room:
+  seconds: 0.5
+  mix: 0.1
+  lowpass_hz: 2000
+highpass_hz: 50
+loudness_db: -9
+line: 'Lord Xeen: You have no idea what you have broken.'

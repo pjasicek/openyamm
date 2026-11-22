@@ -26,6 +26,9 @@ lessons come from the MM9 guide's data (output/mm9_site/data/guide.js, rebuilt w
 sources); an MM9 lesson goes through the same evaluateSkillMasteryTraining as the others, so the same MAW requirements
 and prices are given for it. MM9's "Learn" lessons (first rank) are left out like the other continents' learning
 places.
+
+Xeen (MAW's fifth world): its lessons come from the Xeen guide's data (output/xeen_site/data/guide.js), which
+build_site.py loads and passes in; they get the same MAW requirements and prices.
 """
 
 import json
@@ -350,10 +353,11 @@ def mm9_guide() -> dict:
     return json.loads(text[text.index('{'):text.rindex('}') + 1])
 
 
-def build_chedian(guide: dict | None = None) -> list[dict]:
+def build_chedian(guide: dict | None = None, continent: str = 'Chedian', kind: str = 'mm9') -> list[dict]:
     """MM9's lessons (Expert to Grandmaster) as a MAW game would price them. A lesson in an MM9 skill teaches every
     OpenYAMM skill listed under it, each its own lesson; when they differ, the strictest requirement and the highest
-    price are given."""
+    price are given. The Xeen guide's lessons have the same shape (one skill each, the topic's price and rank) and go
+    through the same evaluateSkillMasteryTraining: continent 'Xeen', kind 'xeen'."""
     guide = guide or mm9_guide()
     teachers = []
     for lesson in guide['teachers']:
@@ -370,11 +374,11 @@ def build_chedian(guide: dict | None = None) -> list[dict]:
             'mastery': lesson['mastery'],
             'name': lesson['name'].replace('|', ' / '),
             'house': '',
-            'continent': 'Chedian',
+            'continent': continent,
             'map': lesson['at'][0]['map'] if lesson.get('at') else '',
             'map_name': lesson.get('region', ''),
             'region': lesson.get('region', ''),
-            'kind': 'mm9',
+            'kind': kind,
             'gold': price['free'],
             'prices': price,
             'escalates': any(s not in UTILITY_SKILLS for s in skills),
@@ -402,11 +406,14 @@ def teacherless() -> list[dict]:
     return rows
 
 
-def build(include_chedian: bool = True) -> dict:
+def build(include_chedian: bool = True, xeen: dict | None = None) -> dict:
+    """xeen: the Xeen guide's data (tools/maw_site/build_site.py loads it), whose lessons are added when given."""
     teachers = build_continents()
     if include_chedian:
         teachers += build_chedian()
-    order = {'Enroth': 0, 'Antagarich': 1, 'Jadame': 2, 'Chedian': 3}
+    if xeen:
+        teachers += build_chedian(xeen, 'Xeen', 'xeen')
+    order = {'Enroth': 0, 'Antagarich': 1, 'Jadame': 2, 'Chedian': 3, 'Xeen': 4}
     teachers.sort(key=lambda t: (order.get(t['continent'], 9), t['skill'], MASTERY_INDEX[t['mastery']], t['name'],
                                  t.get('house_id') or 0))
     return {'teachers': teachers, 'teacherless': teacherless(), 'modes': MODES,

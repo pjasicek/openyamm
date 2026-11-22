@@ -1,0 +1,236 @@
+# Xeen side quest Q-D4, Public Storage (D1), from a new game on D1 with a level-20 party. Dyson the puzzlemaster at the
+# Public Storage's door (house 4470, D1 event 79; he talks at the door): The chests (started, the orders autonote 4440),
+# and again ("Half" is not offered yet: the same opening). The yard south of the building: nine chests whose lids show
+# a number (their titles, "A chest with a 3 on its lid", in a shuffled row) and nine whose lids show a letter (read by
+# using them: "A letter on the lid reads: F"). The numbers: a wrong first chest ("2") springs every lid open again;
+# then 1 to 9 in order (each "Chest N: the lid drops shut."), the ninth: q-d4.number_chests (numbers_closed and its
+# line). Dyson: "Half the chests". The letters: every lid used once from west to east to read it (out of order, so
+# nothing stays shut), then P-I-T-C-H-F-O-R-K: q-d4.letter_chests (letters_closed and its line). Dyson: The chests
+# (done: 2,000 XP each, 500 gold, two items of treasure level 3), and again. Each chest is used from in front of it
+# (set_pose in the town, tests/playthrough/PLAYBOOK.md section 2, and the use key on what the party faces).
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (house 4470, events 225-242), sketch.yml (the chests' places).
+# Quest logic: source/quests/q-d4.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d4_public_storage.yml --scenario-no-color
+id: xeen.side_quests.q-d4
+title: "Xeen Q-D4: Dyson's Public Storage; the numbered chests 1 to 9 and the lettered ones spelling PITCHFORK"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 20, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113080, 113081, 113082, 113083]}
+  - assert: {autonote: {id: 4440, present: false}}
+  # Dyson at the Public Storage's door (house 4470): The chests (started, autonote 4440), and again.
+  - set_pose: {map: xeen_d1.odm, x: 128, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4920}
+  - select_topic: {match_label: "The chests"}
+  - assert:
+      dialog: {text_contains: "The letters spell something you'd find in a barn: PITCHFORK."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113080]}
+  - assert: {autonote: {id: 4440}}
+  # The numbered chests: chest "2" first will not shut and springs every lid open again.
+  - set_pose: {map: xeen_d1.odm, x: -870, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 2 will not shut. All nine lids spring open again.', 1, true) then error('chest 2 first: ' .. s) end"}
+  # 1 to 9 in order, each chest found by the number its lid shows.
+  # Chest 1 (event 227, the row's 3. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -1377, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 1: the lid drops shut.', 1, true) then error('chest 1: ' .. s) end"}
+  # Chest 2 (event 230, the row's 6. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -870, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 2: the lid drops shut.', 1, true) then error('chest 2: ' .. s) end"}
+  # Chest 3 (event 225, the row's 1. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -1715, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 3: the lid drops shut.', 1, true) then error('chest 3: ' .. s) end"}
+  # Chest 4 (event 232, the row's 8. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -532, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 4: the lid drops shut.', 1, true) then error('chest 4: ' .. s) end"}
+  # Chest 5 (event 229, the row's 5. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -1039, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 5: the lid drops shut.', 1, true) then error('chest 5: ' .. s) end"}
+  # Chest 6 (event 233, the row's 9. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -364, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 6: the lid drops shut.', 1, true) then error('chest 6: ' .. s) end"}
+  # Chest 7 (event 226, the row's 2. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -1546, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 7: the lid drops shut.', 1, true) then error('chest 7: ' .. s) end"}
+  # Chest 8 (event 231, the row's 7. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -701, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'Chest 8: the lid drops shut.', 1, true) then error('chest 8: ' .. s) end"}
+  # Chest 9 (event 228, the row's 4. from the west).
+  - set_pose: {map: xeen_d1.odm, x: -1208, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The ninth lid drops shut with a satisfying clunk."}}
+  - play_lua: {source: "close(); if not qbit(113081) then error('numbers_closed 113081 not set') end"}
+  # Dyson: half the chests.
+  - set_pose: {map: xeen_d1.odm, x: 128, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4920}
+  - select_topic: {match_label: "The chests"}
+  - assert:
+      dialog: {text_contains: "Half the chests. Half an accomplishment."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The lettered chests: each lid used once from west to east to read its letter.
+  - set_pose: {map: xeen_d1.odm, x: 589, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 1: ' .. s) end; remember('lid1', l); if not string.find(s, 'It will not shut. All nine lids spring open again.', 1, true) then error('lid 1 out of order: ' .. s) end"}
+  - set_pose: {map: xeen_d1.odm, x: 758, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 2: ' .. s) end; remember('lid2', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 927, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 3: ' .. s) end; remember('lid3', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 1096, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 4: ' .. s) end; remember('lid4', l); if not string.find(s, 'The lid drops shut.', 1, true) then error('lid 4 (P, first) did not shut: ' .. s) end"}
+  - set_pose: {map: xeen_d1.odm, x: 1265, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 5: ' .. s) end; remember('lid5', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 1434, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 6: ' .. s) end; remember('lid6', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 1603, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 7: ' .. s) end; remember('lid7', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 1772, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 8: ' .. s) end; remember('lid8', l)"}
+  - set_pose: {map: xeen_d1.odm, x: 1940, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); local l = string.match(s, 'A letter on the lid reads: (%a)'); if not l then error('lid 9: ' .. s) end; remember('lid9', l)"}
+  - play_lua:
+      source: |
+        local row = ""
+        for k = 1, 9 do row = row .. recall("lid" .. k) end
+        log("the lettered lids, west to east: " .. row)
+        if row ~= "FTKPOCRIH" then error("the lids read " .. row) end
+        if qbit(113082) then error("letters_closed set by reading the lids") end
+  # P-I-T-C-H-F-O-R-K: each letter's chest from the row just read; each shuts with "A letter on the lid reads: X. The
+  # lid drops shut." (A6, 14:31); P used again is "The P chest is shut."
+  # P (event 237, the row's 4. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1096, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: P. The lid drops shut.', 1, true) then error('P: ' .. s) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'The P chest is shut.', 1, true) then error('P again: ' .. s) end"}
+  # I (event 241, the row's 8. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1772, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: I. The lid drops shut.', 1, true) then error('I: ' .. s) end"}
+  # T (event 235, the row's 2. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 758, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: T. The lid drops shut.', 1, true) then error('T: ' .. s) end"}
+  # C (event 239, the row's 6. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1434, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: C. The lid drops shut.', 1, true) then error('C: ' .. s) end"}
+  # H (event 242, the row's 9. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1940, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: H. The lid drops shut.', 1, true) then error('H: ' .. s) end"}
+  # F (event 234, the row's 1. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 589, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: F. The lid drops shut.', 1, true) then error('F: ' .. s) end"}
+  # O (event 238, the row's 5. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1265, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: O. The lid drops shut.', 1, true) then error('O: ' .. s) end"}
+  # R (event 240, the row's 7. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 1603, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'A letter on the lid reads: R. The lid drops shut.', 1, true) then error('R: ' .. s) end"}
+  # K (event 236, the row's 3. from the west).
+  - set_pose: {map: xeen_d1.odm, x: 927, y: 650, z: 1152, yaw: -1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "P, I, T, C, H, F, O, R, K. The last lid drops."}}
+  - play_lua: {source: "close(); if not qbit(113082) then error('letters_closed 113082 not set') end"}
+  # Dyson: The chests (done: 2,000 XP each, 500 gold, two treasure-3 items), and again.
+  - set_pose: {map: xeen_d1.odm, x: 128, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        local n = 0; for c in string.gmatch(pack_items(), "x(%d+)") do n = n + tonumber(c) end
+        remember("gold", gold()); remember("xp", experience(2)); remember("items", n)
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4920}
+  - select_topic: {match_label: "The chests"}
+  - assert:
+      dialog: {text_contains: "Every lid down, in order. Quite an accomplishment."}
+  - select_topic: {match_label: "The chests"}
+  - assert:
+      dialog: {text_contains: "but to open them requires intellect most uncommon"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if gold() - recall("gold") ~= 500 then error("Dyson paid " .. (gold() - recall("gold")) .. " gold") end
+        if experience(2) - recall("xp") ~= 2000 then error("Dyson paid " .. (experience(2) - recall("xp")) .. " XP") end
+        local n = 0; for c in string.gmatch(pack_items(), "x(%d+)") do n = n + tonumber(c) end
+        if n - recall("items") ~= 2 then error("Dyson's things: " .. (n - recall("items")) .. " items") end
+        log("Dyson's things: " .. pack_items())
+  - assert: {qbit_set: [113080, 113081, 113082, 113083]}

@@ -1,0 +1,603 @@
+format: 1
+start:
+  room: room:air
+  at: [11520, -6802]
+  facing: n
+  notes: "The head of the Witch Clouds' stair: XD-04's cloud stair arrives here (the map's start)."
+sounds:
+  - {id: sound:bells, room: room:air, at: [-13312, 1792], height: 160, sound: 7chimes, radius: 2400, inner_radius: 900, volume: 0.5, loop: false, wait: [4, 12], notes: The wind bells on their posts.}
+  - {id: sound:gust_east, room: room:air, at: [11520, -5632], height: 384, sound: xeen_sky_gust, radius: 7000, inner_radius: 2500, volume: 0.5, wait: [6, 14]}
+  - {id: sound:gust_west, room: room:air, at: [-6656, 3072], height: 384, sound: xeen_sky_gust, radius: 7000, inner_radius: 2500, volume: 0.5, wait: [6, 14]}
+  - {id: sound:sky_bed, room: room:air, at: [0, 256], height: 256, sound: xeen_amb_sky, radius: 14000, inner_radius: 7000, volume: 0.4, pan: false}
+  - {id: sound:wind_east, room: room:air, at: [11520, -5632], height: 256, sound: whistling wind, radius: 9000, inner_radius: 3000, volume: 0.35}
+  - {id: sound:wind_high, room: room:air, at: [9728, 8960], height: 256, sound: whistling wind, radius: 6000, inner_radius: 2000, volume: 0.35}
+  - {id: sound:wind_middle, room: room:air, at: [0, 256], height: 256, sound: whistling wind, radius: 7000, inner_radius: 2500, volume: 0.45}
+  - {id: sound:wind_west, room: room:air, at: [-6656, 3072], height: 256, sound: whistling wind, radius: 9000, inner_radius: 3000, volume: 0.35}
+lights:
+  - id: light:lantern_1
+    room: room:air
+    at: [-9472, -7784]
+    height: 192
+    radius: 900
+    color: [255, 200, 120]
+    pulse: {intensity: [0.8, 1], frequency: 0.6, phase: 0}
+  - id: light:lantern_2
+    room: room:air
+    at: [-8192, -7528]
+    height: 192
+    radius: 900
+    color: [255, 200, 120]
+    pulse: {intensity: [0.8, 1], frequency: 0.6, phase: 0.25}
+  - id: light:lantern_3
+    room: room:air
+    at: [-8704, -8680]
+    height: 192
+    radius: 900
+    color: [255, 200, 120]
+    pulse: {intensity: [0.8, 1], frequency: 0.6, phase: 0.5}
+  - id: light:lantern_4
+    room: room:air
+    at: [-7808, -8552]
+    height: 192
+    radius: 900
+    color: [255, 200, 120]
+    pulse: {intensity: [0.8, 1], frequency: 0.6, phase: 0.75}
+chests:
+  - id: chest:golem_cache
+    room: room:air
+    at: [-11136, 10496]
+    kind: ch3
+    facing: s
+    treasure_level: 4
+    random_items: 3
+    gold: 500
+    notes: A cache at the Cloud Golems' feet.
+  - id: chest:hoard
+    room: room:air
+    at: [9984, 9088]
+    kind: ch2
+    facing: s
+    treasure_level: 4
+    random_items: 3
+    gold: 600
+    notes: "The Harpy Queen's hoard, in her nest."
+  - id: chest:lantern
+    room: room:air
+    at: [-8448, -8832]
+    kind: ch1
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 250
+    notes: An old chest among the lanterns.
+  - id: chest:star_charts
+    room: room:air
+    at: [-7424, 3520]
+    kind: ch1
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 300
+    notes: "The sorcerer's chest of star charts and coin, on the observatory's porch."
+monsters:
+  - id: monster:cloud_golem_1
+    room: room:air
+    monster: 11592
+    at: [-11648, 10240]
+    facing: 270
+    hostile: true
+    group: 30
+    immobile: true
+    notes: "A Cloud Golem (50) standing like weather at the back of the heights: the map's rare danger, a trap far above the band (D-1.2); it keeps its place."
+  - id: monster:cloud_golem_2
+    room: room:air
+    monster: 11592
+    at: [-10496, 9408]
+    facing: 270
+    hostile: true
+    group: 30
+    immobile: true
+    notes: "A Cloud Golem (50) standing like weather at the back of the heights: the map's rare danger, a trap far above the band (D-1.2); it keeps its place."
+  - id: monster:explorers_rock_harpy_1
+    room: room:air
+    monster: 11520
+    at: [13568, 11904]
+    facing: 0
+    hostile: true
+    group: 15
+  - id: monster:explorers_rock_harpy_2
+    room: room:air
+    monster: 11520
+    at: [14592, 11904]
+    facing: 180
+    hostile: true
+    group: 15
+  - id: monster:golem_heights_feet_1
+    room: room:air
+    monster: 11600
+    at: [-13056, 8576]
+    facing: 45
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_feet_2
+    room: room:air
+    monster: 11600
+    at: [-12544, 8064]
+    facing: 0
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_feet_3
+    room: room:air
+    monster: 11600
+    at: [-11776, 7744]
+    facing: 315
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_feet_4
+    room: room:air
+    monster: 11600
+    at: [-9728, 8320]
+    facing: 135
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_feet_5
+    room: room:air
+    monster: 11600
+    at: [-9472, 8960]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_feet_6
+    room: room:air
+    monster: 11600
+    at: [-10368, 7808]
+    facing: 315
+    hostile: true
+    group: 23
+  - id: monster:golem_heights_guardian_1
+    room: room:air
+    monster: 11601
+    at: [-11008, 8960]
+    facing: 315
+    hostile: true
+    group: 23
+  - id: monster:half_way_harpy_1
+    room: room:air
+    monster: 11520
+    at: [-256, 512]
+    facing: 45
+    hostile: true
+    group: 17
+  - id: monster:half_way_harpy_2
+    room: room:air
+    monster: 11520
+    at: [384, 128]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:lantern_cloud_feet_1
+    room: room:air
+    monster: 11600
+    at: [-8704, -8960]
+    facing: 135
+    hostile: true
+    group: 25
+  - id: monster:lantern_cloud_guardian_1
+    room: room:air
+    monster: 11601
+    at: [-9344, -8448]
+    facing: 45
+    hostile: true
+    group: 25
+  - id: monster:lantern_cloud_guardian_2
+    room: room:air
+    monster: 11601
+    at: [-8320, -7936]
+    facing: 225
+    hostile: true
+    group: 25
+  - id: monster:lantern_cloud_guardian_3
+    room: room:air
+    monster: 11601
+    at: [-7808, -8320]
+    facing: 225
+    hostile: true
+    group: 25
+  - id: monster:lantern_cloud_guardian_4
+    room: room:air
+    monster: 11601
+    at: [-8832, -7552]
+    facing: 315
+    hostile: true
+    group: 25
+  - id: monster:nest_spires_hag_1
+    room: room:air
+    monster: 11521
+    at: [10624, 3328]
+    facing: 135
+    hostile: true
+    group: 12
+  - id: monster:nest_spires_hag_2
+    room: room:air
+    monster: 11521
+    at: [11392, 4480]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:nest_spires_hag_3
+    room: room:air
+    monster: 11521
+    at: [12928, 2304]
+    facing: 315
+    hostile: true
+    group: 13
+  - id: monster:nest_spires_hag_4
+    room: room:air
+    monster: 11521
+    at: [12160, 2816]
+    facing: 315
+    hostile: true
+    group: 13
+  - id: monster:nest_spires_hag_5
+    room: room:air
+    monster: 11521
+    at: [11008, 1664]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:nest_spires_harpy_1
+    room: room:air
+    monster: 11520
+    at: [12160, 4608]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:nest_spires_harpy_2
+    room: room:air
+    monster: 11520
+    at: [13184, 3584]
+    facing: 315
+    hostile: true
+    group: 13
+  - id: monster:observatory_isle_feet_1
+    room: room:air
+    monster: 11600
+    at: [-5760, 4224]
+    facing: 45
+    hostile: true
+    group: 21
+  - id: monster:observatory_isle_feet_2
+    room: room:air
+    monster: 11600
+    at: [-8192, 3712]
+    facing: 315
+    hostile: true
+    group: 21
+  - id: monster:observatory_isle_guardian_1
+    room: room:air
+    monster: 11601
+    at: [-7808, 2688]
+    facing: 0
+    hostile: true
+    group: 21
+  - id: monster:observatory_isle_guardian_2
+    room: room:air
+    monster: 11601
+    at: [-5888, 2176]
+    facing: 225
+    hostile: true
+    group: 21
+  - id: monster:observatory_isle_guardian_3
+    room: room:air
+    monster: 11601
+    at: [-5248, 3328]
+    facing: 135
+    hostile: true
+    group: 21
+  - id: monster:observatory_isle_guardian_4
+    room: room:air
+    monster: 11601
+    at: [-6784, 1664]
+    facing: 135
+    hostile: true
+    group: 22
+  - id: monster:observatory_isle_guardian_5
+    room: room:air
+    monster: 11601
+    at: [-4992, 1792]
+    facing: 90
+    hostile: true
+    group: 22
+  - id: monster:offering_terrace_hag_1
+    room: room:air
+    monster: 11521
+    at: [5888, -128]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:offering_terrace_hag_2
+    room: room:air
+    monster: 11521
+    at: [7936, -384]
+    facing: 45
+    hostile: true
+    group: 11
+  - id: monster:offering_terrace_hag_3
+    room: room:air
+    monster: 11521
+    at: [6656, -2176]
+    facing: 135
+    hostile: true
+    group: 11
+  - id: monster:offering_terrace_harpy_1
+    room: room:air
+    monster: 11520
+    at: [5632, -1792]
+    facing: 135
+    hostile: true
+    group: 11
+  - id: monster:offering_terrace_harpy_2
+    room: room:air
+    monster: 11520
+    at: [8064, -1920]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:queens_eyrie_hag_1
+    room: room:air
+    monster: 11521
+    at: [8960, 9728]
+    facing: 135
+    hostile: true
+    group: 14
+  - id: monster:queens_eyrie_hag_2
+    room: room:air
+    monster: 11521
+    at: [10496, 9728]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:queens_eyrie_hag_3
+    room: room:air
+    monster: 11521
+    at: [9088, 8576]
+    facing: 45
+    hostile: true
+    group: 14
+  - id: monster:queens_eyrie_hag_4
+    room: room:air
+    monster: 11521
+    at: [10368, 8576]
+    facing: 315
+    hostile: true
+    group: 14
+  - id: monster:queens_eyrie_hag_5
+    room: room:air
+    monster: 11521
+    at: [9728, 10112]
+    facing: 135
+    hostile: true
+    group: 14
+  - id: monster:queens_eyrie_queen_1
+    room: room:air
+    monster: 11522
+    at: [9728, 9344]
+    facing: 315
+    hostile: true
+    group: 14
+    notes: "The Harpy Queen (24) on her great nest, her court of Hags round her."
+  - id: monster:rhyme_garden_feet_1
+    room: room:air
+    monster: 11600
+    at: [-13952, 1152]
+    facing: 180
+    hostile: true
+    group: 24
+  - id: monster:rhyme_garden_feet_2
+    room: room:air
+    monster: 11600
+    at: [-12672, 2304]
+    facing: 225
+    hostile: true
+    group: 24
+  - id: monster:rhyme_garden_guardian_1
+    room: room:air
+    monster: 11601
+    at: [-13824, 2304]
+    facing: 270
+    hostile: true
+    group: 24
+  - id: monster:rhyme_garden_guardian_2
+    room: room:air
+    monster: 11601
+    at: [-12800, 1280]
+    facing: 90
+    hostile: true
+    group: 24
+  - id: monster:rhyme_garden_guardian_3
+    room: room:air
+    monster: 11601
+    at: [-12288, 1792]
+    facing: 90
+    hostile: true
+    group: 24
+  - id: monster:stair_landing_feet_1
+    room: room:air
+    monster: 11600
+    at: [-11008, -1856]
+    facing: 45
+    hostile: true
+    group: 20
+  - id: monster:stair_landing_feet_2
+    room: room:air
+    monster: 11600
+    at: [-10240, -1728]
+    facing: 45
+    hostile: true
+    group: 20
+  - id: monster:stair_landing_feet_3
+    room: room:air
+    monster: 11600
+    at: [-9344, -1984]
+    facing: 270
+    hostile: true
+    group: 20
+  - id: monster:stair_landing_feet_4
+    room: room:air
+    monster: 11600
+    at: [-8832, -2560]
+    facing: 270
+    hostile: true
+    group: 20
+  - id: monster:stair_landing_guardian_1
+    room: room:air
+    monster: 11601
+    at: [-9856, -2176]
+    facing: 45
+    hostile: true
+    group: 20
+  - id: monster:witch_landing_hag_1
+    room: room:air
+    monster: 11521
+    at: [11648, -4672]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:witch_landing_harpy_1
+    room: room:air
+    monster: 11520
+    at: [10880, -4448]
+    facing: 135
+    hostile: true
+    group: 10
+  - id: monster:witch_landing_harpy_2
+    room: room:air
+    monster: 11520
+    at: [11520, -4256]
+    facing: 225
+    hostile: true
+    group: 10
+  - id: monster:witch_landing_harpy_3
+    room: room:air
+    monster: 11520
+    at: [12096, -4512]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:witch_perch_hag_1
+    room: room:air
+    monster: 11521
+    at: [11008, -9984]
+    facing: 315
+    hostile: true
+    group: 16
+  - id: monster:witch_perch_hag_2
+    room: room:air
+    monster: 11521
+    at: [10240, -9728]
+    facing: 270
+    hostile: true
+    group: 16
+  - id: monster:witch_perch_harpy_1
+    room: room:air
+    monster: 11520
+    at: [9856, -10880]
+    facing: 270
+    hostile: true
+    group: 16
+decorations:
+  - id: deco:explorer_statue
+    room: room:air
+    decoration: 7dec55
+    at: [14080, 12416]
+    facing: 270
+  - id: deco:eyrie_bones_1
+    room: room:air
+    decoration: 7dec18
+    at: [9472, 9344]
+  - id: deco:eyrie_bones_2
+    room: room:air
+    decoration: dec19
+    at: [9600, 9536]
+  - id: deco:eyrie_bones_3
+    room: room:air
+    decoration: 7dec18
+    at: [9408, 9024]
+  - id: deco:eyrie_bones_4
+    room: room:air
+    decoration: dec19
+    at: [9856, 9024]
+  - id: deco:heights_bones_1
+    room: room:air
+    decoration: dec19
+    at: [-12288, 8576]
+  - id: deco:heights_bones_2
+    room: room:air
+    decoration: dec19
+    at: [-10112, 8448]
+  - id: deco:lantern_1
+    room: room:air
+    decoration: dec02
+    at: [-9472, -7808]
+  - id: deco:lantern_2
+    room: room:air
+    decoration: dec02
+    at: [-8192, -7552]
+  - id: deco:lantern_3
+    room: room:air
+    decoration: dec02
+    at: [-8704, -8704]
+  - id: deco:lantern_4
+    room: room:air
+    decoration: dec02
+    at: [-7808, -8576]
+  - id: deco:n1_bones
+    room: room:air
+    decoration: 7dec18
+    at: [10944, 3360]
+  - id: deco:n1_skull
+    room: room:air
+    decoration: 7dec20
+    at: [11104, 3264]
+  - id: deco:n2_bones
+    room: room:air
+    decoration: 7dec18
+    at: [12608, 2912]
+  - id: deco:n2_skull
+    room: room:air
+    decoration: 7dec20
+    at: [12768, 2816]
+  - id: deco:n3_bones
+    room: room:air
+    decoration: 7dec18
+    at: [10560, -10464]
+  - id: deco:n3_skull
+    room: room:air
+    decoration: 7dec20
+    at: [10720, -10560]
+  - id: deco:offering_1
+    room: room:air
+    decoration: sta1a
+    at: [7168, -512]
+    facing: 180
+  - id: deco:offering_2
+    room: room:air
+    decoration: sta1a
+    at: [7680, -1280]
+    facing: 180
+  - id: deco:rhyme_1
+    room: room:air
+    decoration: 7dec54
+    at: [9728, -10112]
+    facing: 0
+  - id: deco:rhyme_2
+    room: room:air
+    decoration: 7dec54
+    at: [-13312, 1792]
+    facing: 270
+  - id: deco:rhyme_3
+    room: room:air
+    decoration: 7dec54
+    at: [-5248, 2432]
+    facing: 0
+notes: "X8 L4 objects (generated by output/studio_cal/x8/tools/gen_objects.py). 60 monsters placed (no spawn markers); four chests; the statues and nests' props; lanterns and wind."

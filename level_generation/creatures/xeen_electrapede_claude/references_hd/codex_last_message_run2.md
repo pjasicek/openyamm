@@ -1,0 +1,3 @@
+Saved the four Run 2 masters, updated the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_electrapede_claude/references_hd/generation_runs.json), and wrote the [five-view review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_electrapede_claude/references_hd/selected_views_review.png). All four new masters have at least 60 px of fully transparent margin on every side.
+
+The front and back are **1536×1024**. The rear view remains slightly elevated. The corrected profiles face the requested directions and each shows 15 near-side legs, but the generator returned them at **2172×724**. I kept them unresized and stopped at the brief’s one-correction limit.

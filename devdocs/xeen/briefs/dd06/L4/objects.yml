@@ -1,0 +1,1000 @@
+format: 0
+start:
+  room: room:door_hall
+  at: [640, 1700]
+  facing: s
+  notes: "Inside the tower's door from D2 (the door in the north wall at x 640), facing in (south)."
+doors:
+  - id: door:bedchamber
+    opening: open:counting_bed
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The bedchamber's door.
+  - id: door:bunks
+    opening: open:gong2_bunks
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The bunkroom door.
+  - id: door:counting
+    opening: open:landing4_counting
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The counting room's door.
+  - id: door:gong1
+    opening: open:gong1_stair
+    kind: slide_up
+    fold: true
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256]}
+    tile: true
+    notes: "The first stair door: shut until the gong is rung three times."
+  - id: door:gong2
+    opening: open:gong2_stair
+    kind: slide_up
+    fold: true
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256]}
+    tile: true
+    notes: "The second stair door, opened by its gong."
+  - id: door:gong3
+    opening: open:gong3_stair
+    kind: slide_up
+    fold: true
+    speed: 192
+    surface: {texture: gcstdoor, size: [128, 256]}
+    tile: true
+    notes: "The third stair door, opened by its gong."
+  - id: door:hall_guard
+    opening: open:hall_guard
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The lookouts' plank door.
+  - id: door:illusion
+    opening: open:tapestry_stash
+    kind: slide_down
+    fold: true
+    speed: 1200
+    surface: {texture: gston1wl, size: [128, 256]}
+    secret: true
+    tile: true
+    notes: "The false wall: the hall's own ashlar, a secret face; the button drops it at once ('An illusion!')."
+  - id: door:kennel_gate
+    opening: open:gong1_kennel
+    kind: slide_up
+    fold: true
+    speed: 192
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: The kennel's barred gate.
+  - id: door:mess_fence
+    opening: open:mess_fence
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The fence's door.
+  - id: door:strongroom
+    opening: open:trap_strong
+    kind: slide_left
+    fold: true
+    speed: 192
+    surface: {texture: xwiron, size: [128, 128]}
+    tile: true
+    notes: "The strongroom's iron door: the Strongroom key."
+  - id: door:trap_practice
+    opening: open:trap_practice
+    kind: slide_left
+    leaves: 2
+    fold: true
+    speed: 192
+    surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    tile: true
+    notes: The door from the trap walk to the practice hall.
+  - id: door:treasury
+    opening: open:fence_treasury
+    kind: slide_left
+    fold: true
+    speed: 192
+    surface: {texture: xwiron, size: [128, 128]}
+    tile: true
+    notes: The treasury's iron-bound door.
+plates:
+  - id: plate:trap_1
+    room: room:trap_walk
+    at: [1024, 200]
+    size: [256, 128]
+    rise: 4
+    surface: {texture: gcstflor, size: [128, 256]}
+    notes: A disarmed pressure plate.
+  - id: plate:trap_2
+    room: room:trap_walk
+    at: [1024, -1150]
+    size: [256, 128]
+    rise: 4
+    surface: {texture: gcstflor, size: [128, 256]}
+    notes: A disarmed pressure plate.
+sounds:
+  - {id: sound:stew, room: room:mess, at: [-300, -1220], sound: campfire, radius: 1200, inner_radius: 300, volume: 0.5, notes: The stew pot's fire.}
+  - {id: sound:wind, room: room:counting, at: [-256, -64], sound: whistling wind, radius: 2400, inner_radius: 800, volume: 0.35, notes: Wind round the slate cone.}
+lights:
+  - id: light:alibaba_1
+    room: room:alibaba
+    at: [1728, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:bedchamber_1
+    room: room:bedchamber
+    at: [128, 1536]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:bunks_1
+    room: room:bunks
+    at: [-512, -256]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:counting_1
+    room: room:counting
+    at: [-768, -64]
+    height: 460
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:counting_2
+    room: room:counting
+    at: [256, -64]
+    height: 460
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:door_hall_1
+    room: room:door_hall
+    at: [416, 1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:door_hall_2
+    room: room:door_hall
+    at: [1504, 1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:fence_1
+    room: room:fence
+    at: [960, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:getaway_1
+    room: room:getaway
+    at: [1216, 192]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:gong1_1
+    room: room:gong1
+    at: [-768, -512]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:gong1_2
+    room: room:gong1
+    at: [-768, 512]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:gong2_1
+    room: room:gong2
+    at: [832, -256]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:gong3_1
+    room: room:gong3
+    at: [-896, 640]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:guardroom_1
+    room: room:guardroom
+    at: [-1152, 1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:kennel_1
+    room: room:kennel
+    at: [-672, -1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:kennel_2
+    room: room:kennel
+    at: [544, -1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:landing2_1
+    room: room:landing2
+    at: [-896, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:landing3_1
+    room: room:landing3
+    at: [768, 1664]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:landing4_1
+    room: room:landing4
+    at: [-896, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:library_1
+    room: room:library
+    at: [448, -1600]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:mess_1
+    room: room:mess
+    at: [64, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:practice_1
+    room: room:practice
+    at: [128, -864]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:practice_2
+    room: room:practice
+    at: [128, 480]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:roof_stair_1
+    room: room:roof_stair
+    at: [1120, 1100]
+    floor_height: 1920
+    height: 460
+    radius: 1200
+    color: [230, 180, 120]
+  - id: light:roof_stair_2
+    room: room:roof_stair
+    at: [1120, 1900]
+    floor_height: 2432
+    height: 200
+    radius: 900
+    color: [230, 180, 120]
+  - id: light:stair1_1
+    room: room:stair1
+    at: [-1728, -1280]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stair1_2
+    room: room:stair1
+    at: [-1728, 256]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stair2_1
+    room: room:stair2
+    at: [1728, -256]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stair2_2
+    room: room:stair2
+    at: [1728, 1280]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stair3_1
+    room: room:stair3
+    at: [-1728, -1280]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stair3_2
+    room: room:stair3
+    at: [-1728, 256]
+    height: 460
+    radius: 1400
+    color: [170, 175, 185]
+  - id: light:stash_1
+    room: room:stash
+    at: [1664, 0]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:strongroom_1
+    room: room:strongroom
+    at: [1728, -1600]
+    height: 448
+    radius: 1000
+    color: [230, 180, 120]
+  - id: light:tapestry_1
+    room: room:tapestry
+    at: [512, -512]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:tapestry_2
+    room: room:tapestry
+    at: [512, 512]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:trap_walk_1
+    room: room:trap_walk
+    at: [1024, -1248]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+  - id: light:trap_walk_2
+    room: room:trap_walk
+    at: [1024, 352]
+    height: 448
+    radius: 1400
+    color: [230, 180, 120]
+switches:
+  - id: switch:button
+    room: room:tapestry
+    kind: button
+    at: [1152, 830]
+    height: 112
+    notes: The button at the tapestry's north end ('Button').
+chests:
+  - id: chest:alibaba
+    room: room:alibaba
+    at: [1792, -1792]
+    kind: 7gt002
+    facing: w
+    size: [192, 96, 80]
+    treasure_level: 3
+    random_items: 3
+    gold: 800
+    notes: "The Ali Baba chest on its dais (its password at evt:alibaba): the thieves' takings (D-89, 2026-11-22: the Eastern Tower is open, so no key; A3's receipt line says where the jewel went)."
+  - id: chest:hoard
+    room: room:bedchamber
+    at: [480, 1950]
+    kind: 7gt002
+    facing: w
+    treasure_level: 4
+    random_items: 3
+    gold: 1500
+    trap_level: 3
+    notes: "The Master Thief's own strongbox beside his bed: the tower's hoard (a level up)."
+  - id: chest:lockbox
+    room: room:fence
+    at: [1220, -1990]
+    kind: ch1
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 300
+    items: [strongroom_key]
+    notes: "The fence's lockbox: the Strongroom key and the week's takings."
+  - id: chest:stash
+    room: room:stash
+    at: [1950, 0]
+    kind: ch3
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: A thief's private stash behind the illusion.
+  - id: chest:strongroom
+    room: room:strongroom
+    at: [1950, -1600]
+    kind: 7gt002
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    items: [energy_disk, energy_disk]
+    notes: The guild's best takings and 2 Energy Disks wrapped in an invoice made out to nobody (q-d19.l3_disks).
+monsters:
+  - id: monster:bunks_1
+    room: room:bunks
+    monster: 11111
+    at: [-1000, -300]
+    facing: 0
+    hostile: true
+    group: 15
+  - id: monster:bunks_2
+    room: room:bunks
+    monster: 11111
+    at: [-600, -600]
+    facing: 0
+    hostile: true
+    group: 15
+  - id: monster:bunks_3
+    room: room:bunks
+    monster: 11111
+    at: [-200, -300]
+    facing: 0
+    hostile: true
+    group: 15
+  - id: monster:bunks_4
+    room: room:bunks
+    monster: 11111
+    at: [-900, -800]
+    facing: 0
+    hostile: true
+    group: 15
+  - id: monster:fence_1
+    room: room:fence
+    monster: 11111
+    at: [800, -1800]
+    facing: 0
+    hostile: true
+    group: 16
+  - id: monster:fence_2
+    room: room:fence
+    monster: 11111
+    at: [800, -1350]
+    facing: 0
+    hostile: true
+    group: 16
+  - id: monster:fence_3
+    room: room:fence
+    monster: 11112
+    at: [950, -1600]
+    facing: 180
+    hostile: true
+    group: 16
+  - id: monster:gong1_1
+    room: room:gong1
+    monster: 11110
+    at: [-600, 300]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:gong1_2
+    room: room:gong1
+    monster: 11110
+    at: [-900, -500]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:gong2_1
+    room: room:gong2
+    monster: 11111
+    at: [700, -600]
+    facing: 0
+    hostile: true
+    group: 17
+  - id: monster:gong2_2
+    room: room:gong2
+    monster: 11111
+    at: [700, 200]
+    facing: 0
+    hostile: true
+    group: 17
+  - id: monster:gong2_3
+    room: room:gong2
+    monster: 11111
+    at: [1000, -200]
+    facing: 0
+    hostile: true
+    group: 17
+  - id: monster:gong3_1
+    room: room:gong3
+    monster: 11111
+    at: [-900, 400]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:gong3_2
+    room: room:gong3
+    monster: 11111
+    at: [-700, 900]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:gong3_3
+    room: room:gong3
+    monster: 11112
+    at: [-1000, 700]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:guard_1
+    room: room:counting
+    monster: 11115
+    at: [-800, 300]
+    facing: 270
+    group: 30
+    immobile: true
+    notes: "An Inner Circle Guard (11115, faction inner_circle, friendly until attacked)."
+  - id: monster:guard_2
+    room: room:counting
+    monster: 11115
+    at: [300, 300]
+    facing: 270
+    group: 30
+    immobile: true
+    notes: "An Inner Circle Guard (11115, faction inner_circle, friendly until attacked)."
+  - id: monster:guard_3
+    room: room:counting
+    monster: 11115
+    at: [-800, -300]
+    facing: 270
+    group: 30
+    immobile: true
+    notes: "An Inner Circle Guard (11115, faction inner_circle, friendly until attacked)."
+  - id: monster:guard_4
+    room: room:counting
+    monster: 11115
+    at: [300, -300]
+    facing: 270
+    group: 30
+    immobile: true
+    notes: "An Inner Circle Guard (11115, faction inner_circle, friendly until attacked)."
+  - id: monster:guardroom_1
+    room: room:guardroom
+    monster: 11110
+    at: [-1700, 1400]
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:guardroom_2
+    room: room:guardroom
+    monster: 11110
+    at: [-1100, 1850]
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:guardroom_3
+    room: room:guardroom
+    monster: 11111
+    at: [-700, 1500]
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:guardroom_4
+    room: room:guardroom
+    monster: 11111
+    at: [-1300, 1400]
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:kennel_1
+    room: room:kennel
+    monster: 11410
+    at: [-700, -1700]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:kennel_2
+    room: room:kennel
+    monster: 11410
+    at: [-300, -1750]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:kennel_3
+    room: room:kennel
+    monster: 11411
+    at: [200, -1700]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:kennel_4
+    room: room:kennel
+    monster: 11411
+    at: [700, -1750]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:library_1
+    room: room:library
+    monster: 11111
+    at: [0, -1700]
+    facing: 90
+    hostile: true
+    group: 21
+  - id: monster:library_2
+    room: room:library
+    monster: 11112
+    at: [900, -1700]
+    facing: 90
+    hostile: true
+    group: 21
+  - id: monster:master_thief
+    room: room:counting
+    monster: 11114
+    at: [-256, 720]
+    facing: 270
+    group: 31
+    immobile: true
+    npc: 5109
+    notes: "The Master Thief (A2's boss row 11114, level 32, faction inner_circle, friendly until attacked) by his high chair; he is NPC 5109: clicked while peaceful, he talks (merge point 22, monsters[].npc)."
+  - id: monster:mess_1
+    room: room:mess
+    monster: 11111
+    at: [-200, -1700]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:mess_2
+    room: room:mess
+    monster: 11111
+    at: [300, -1700]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:mess_3
+    room: room:mess
+    monster: 11111
+    at: [-200, -1450]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:mess_4
+    room: room:mess
+    monster: 11111
+    at: [300, -1450]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:mess_5
+    room: room:mess
+    monster: 11111
+    at: [50, -1580]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:practice_1
+    room: room:practice
+    monster: 11111
+    at: [0, 300]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:practice_2
+    room: room:practice
+    monster: 11111
+    at: [300, 700]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:practice_3
+    room: room:practice
+    monster: 11111
+    at: [100, -400]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:practice_4
+    room: room:practice
+    monster: 11112
+    at: [400, 0]
+    facing: 180
+    hostile: true
+    group: 18
+  - id: monster:practice_5
+    room: room:practice
+    monster: 11112
+    at: [-150, 700]
+    facing: 180
+    hostile: true
+    group: 18
+  - id: monster:tapestry_1
+    room: room:tapestry
+    monster: 11110
+    at: [300, 600]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:tapestry_2
+    room: room:tapestry
+    monster: 11110
+    at: [700, -300]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:tapestry_3
+    room: room:tapestry
+    monster: 11111
+    at: [300, -700]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:trap_walk_1
+    room: room:trap_walk
+    monster: 11111
+    at: [1024, 500]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:trap_walk_2
+    room: room:trap_walk
+    monster: 11111
+    at: [1024, -800]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:trap_walk_3
+    room: room:trap_walk
+    monster: 11111
+    at: [1024, -1500]
+    facing: 270
+    hostile: true
+    group: 19
+decorations:
+  - id: deco:bed_candle
+    room: room:bedchamber
+    decoration: dec02
+    at: [-150, 1960]
+  - id: deco:bed_goblet
+    room: room:bedchamber
+    decoration: 7dec46
+    at: [700, 1100]
+  - id: deco:bunks_sack_1
+    room: room:bunks
+    decoration: bag01
+    at: [200, -950]
+  - id: deco:bunks_sack_2
+    room: room:bunks
+    decoration: bag01
+    at: [80, -950]
+  - id: deco:bunks_trash
+    room: room:bunks
+    decoration: trasheap
+    at: [-1220, -960]
+  - id: deco:count_candle_1
+    room: room:counting
+    decoration: cndlab0
+    at: [-430, 300]
+  - id: deco:count_candle_2
+    room: room:counting
+    decoration: cndlab0
+    at: [-80, 300]
+  - id: deco:count_cask_1
+    room: room:counting
+    decoration: 7dec21
+    at: [-1220, 840]
+  - id: deco:count_cask_2
+    room: room:counting
+    decoration: 7dec21
+    at: [-1220, 750]
+  - id: deco:count_chandelier
+    room: room:counting
+    decoration: dec27
+    at: [-256, -64]
+  - id: deco:count_coins_1
+    room: room:counting
+    decoration: bag_A
+    at: [700, 840]
+  - id: deco:count_coins_2
+    room: room:counting
+    decoration: bag_A
+    at: [610, 840]
+  - id: deco:fence_plates
+    room: room:fence
+    decoration: dec39
+    at: [960, -1930]
+  - id: deco:fence_sack_1
+    room: room:fence
+    decoration: floursac
+    at: [700, -1990]
+  - id: deco:fence_sack_2
+    room: room:fence
+    decoration: bag_A
+    at: [800, -1995]
+  - id: deco:gong1_torch_1
+    room: room:gong1
+    decoration: torch01
+    at: [-1268, 300]
+    height: 176
+  - id: deco:gong1_torch_2
+    room: room:gong1
+    decoration: torch01
+    at: [-1268, -400]
+    height: 176
+  - id: deco:gong2_torch_1
+    room: room:gong2
+    decoration: torch01
+    at: [396, -960]
+    height: 176
+  - id: deco:gong2_torch_2
+    room: room:gong2
+    decoration: torch01
+    at: [396, 450]
+    height: 176
+  - id: deco:gong3_torch_1
+    room: room:gong3
+    decoration: torch01
+    at: [-524, 190]
+    height: 176
+  - id: deco:gong3_torch_2
+    room: room:gong3
+    decoration: torch01
+    at: [-524, 1090]
+    height: 176
+  - id: deco:guard_candle
+    room: room:guardroom
+    decoration: cndlab0
+    at: [-1500, 1700]
+  - id: deco:guard_keg_1
+    room: room:guardroom
+    decoration: smlbarel
+    at: [-1990, 1500]
+  - id: deco:guard_keg_2
+    room: room:guardroom
+    decoration: smlbarel
+    at: [-1990, 1590]
+  - id: deco:guard_plates
+    room: room:guardroom
+    decoration: dec36
+    at: [-1440, 1660]
+  - id: deco:guard_torch
+    room: room:guardroom
+    decoration: torch01
+    at: [-268, 1990]
+    height: 176
+  - id: deco:hall_barrel_1
+    room: room:door_hall
+    decoration: bigbarel
+    at: [-60, 1990]
+  - id: deco:hall_barrel_2
+    room: room:door_hall
+    decoration: bigbarel
+    at: [30, 1990]
+  - id: deco:hall_torch_1
+    room: room:door_hall
+    decoration: torch01
+    at: [380, 2036]
+    height: 176
+  - id: deco:hall_torch_2
+    room: room:door_hall
+    decoration: torch01
+    at: [900, 2036]
+    height: 176
+  - id: deco:kennel_bones_1
+    room: room:kennel
+    decoration: 7dec18
+    at: [-1220, -1220]
+  - id: deco:kennel_bones_2
+    room: room:kennel
+    decoration: dec29
+    at: [1090, -1220]
+  - id: deco:kennel_bucket
+    room: room:kennel
+    decoration: Bucket
+    at: [-1220, -1990]
+  - id: deco:lib_candle
+    room: room:library
+    decoration: dec02
+    at: [-330, -1210]
+  - id: deco:mess_bowl
+    room: room:mess
+    decoration: foodbowl
+    at: [-100, -1290]
+  - id: deco:mess_cask_1
+    room: room:mess
+    decoration: 7dec21
+    at: [450, -1990]
+  - id: deco:mess_cask_2
+    room: room:mess
+    decoration: 7dec21
+    at: [360, -1990]
+  - id: deco:mess_goblet
+    room: room:mess
+    decoration: 7dec48
+    at: [150, -1900]
+  - id: deco:mess_plates
+    room: room:mess
+    decoration: dec36
+    at: [200, -1300]
+  - id: deco:mess_pot
+    room: room:mess
+    decoration: cauld00
+    at: [-300, -1220]
+  - id: deco:roof_torch
+    room: room:roof_stair
+    decoration: torch01
+    at: [1036, 1180]
+    height: 176
+  - id: deco:stash_sack_1
+    room: room:stash
+    decoration: bag01
+    at: [1960, 400]
+  - id: deco:stash_sack_2
+    room: room:stash
+    decoration: bag01
+    at: [1960, 300]
+  - id: deco:strong_barrel_1
+    room: room:strongroom
+    decoration: bigbarel
+    at: [1470, -1210]
+  - id: deco:strong_barrel_2
+    room: room:strongroom
+    decoration: bigbarel
+    at: [1560, -1210]
+  - id: deco:tap_torch_1
+    room: room:tapestry
+    decoration: torch01
+    at: [-116, 700]
+    height: 176
+  - id: deco:tap_torch_2
+    room: room:tapestry
+    decoration: torch01
+    at: [-116, -700]
+    height: 176
+  - id: deco:trap_torch_1
+    room: room:trap_walk
+    decoration: torch01
+    at: [1268, 0]
+    height: 176
+  - id: deco:trap_torch_2
+    room: room:trap_walk
+    decoration: torch01
+    at: [1268, -1200]
+    height: 176
+  - id: deco:treasury_torch_1
+    room: room:alibaba
+    decoration: torch01
+    at: [1420, -1990]
+    height: 176
+  - id: deco:treasury_torch_2
+    room: room:alibaba
+    decoration: torch01
+    at: [1420, -1210]
+    height: 176
+exits:
+  - id: exit:front_door
+    room: room:door_hall
+    at: [640, 2048]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d2_door
+    notes: "The tower's iron-bound door in the hall's north wall, out to D2 (Sprite Forest, the Southern Woods)."

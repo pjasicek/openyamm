@@ -1,0 +1,810 @@
+format: 0
+start:
+  room: room:breast
+  at: [-256, 0]
+  facing: w
+  notes: "entrance:x6_door: on the top step 256 inside the leaves, facing west down into the body."
+arrivals:
+  - {entrance: entrance:x6_door, room: room:breast, at: [-256, 0], facing: w, notes: "On the top step 256 inside the two leaves, facing west (X6's door:fd02, A5)."}
+doors:
+  - id: door:body
+    opening: open:breast_hall
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: "The body's doors at the foot of the breast steps (egydrsml/egydrsmr, Horus on each leaf): shut, the hall's mummies neither see nor reach the arrival (D-11.3, as D-57 made FD-03's east way a door)."
+  - id: door:chop
+    opening: open:chop_press
+    kind: hinged
+    thickness: 24
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    notes: The Chopping Death's end.
+  - id: door:gal_n
+    opening: open:home_galn
+    kind: hinged
+    thickness: 24
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    notes: The north lappet's door.
+  - id: door:gal_s
+    opening: open:home_gals
+    kind: hinged
+    thickness: 24
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    notes: The south lappet's door.
+  - id: door:name
+    opening: open:name_home
+    kind: hinged
+    thickness: 24
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    notes: "The door of the name: opened by PICARD (m40.name_right) in the same visit, and on every load (name_said 111800)."
+  - id: door:swing
+    opening: open:swing_presn
+    kind: hinged
+    thickness: 24
+    surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmd, size: [128, 256], fit: true}
+    edge_surface: {texture: egytrmas, size: [32, 32]}
+    notes: "The Swinging Death's end: a carved slab door."
+movers:
+  - id: mover:chop_1
+    room: room:chopping
+    at: [-3904, -256]
+    size: [4, 352]
+    bottom: 528
+    height: 28
+    travel: [0, 0, -304]
+    speed: 900
+    state: end
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-3904, -256], size: [2, 352], bottom: 520, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A chopping blade: down out of its ceiling slot and back."
+  - id: mover:chop_2
+    room: room:chopping
+    at: [-4160, -256]
+    size: [4, 352]
+    bottom: 528
+    height: 28
+    travel: [0, 0, -304]
+    speed: 900
+    state: start
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-4160, -256], size: [2, 352], bottom: 520, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A chopping blade: down out of its ceiling slot and back."
+  - id: mover:chop_3
+    room: room:chopping
+    at: [-4416, -256]
+    size: [4, 352]
+    bottom: 528
+    height: 28
+    travel: [0, 0, -304]
+    speed: 900
+    state: end
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-4416, -256], size: [2, 352], bottom: 520, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A chopping blade: down out of its ceiling slot and back."
+  - id: mover:swing_1
+    room: room:swinging
+    at: [-3840, 272]
+    size: [4, 352]
+    bottom: 224
+    height: 28
+    travel: [0, 360, 0]
+    speed: 900
+    state: end
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-3840, 272], size: [2, 352], bottom: 216, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A swinging blade: drawn at its start swept out over the walk, at its end back in its slot in the north wall."
+  - id: mover:swing_2
+    room: room:swinging
+    at: [-4032, 272]
+    size: [4, 352]
+    bottom: 224
+    height: 28
+    travel: [0, 360, 0]
+    speed: 900
+    state: start
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-4032, 272], size: [2, 352], bottom: 216, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A swinging blade: drawn at its start swept out over the walk, at its end back in its slot in the north wall."
+  - id: mover:swing_3
+    room: room:swinging
+    at: [-4224, 272]
+    size: [4, 352]
+    bottom: 224
+    height: 28
+    travel: [0, 360, 0]
+    speed: 900
+    state: end
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-4224, 272], size: [2, 352], bottom: 216, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A swinging blade: drawn at its start swept out over the walk, at its end back in its slot in the north wall."
+  - id: mover:swing_4
+    room: room:swinging
+    at: [-4416, 272]
+    size: [4, 352]
+    bottom: 224
+    height: 28
+    travel: [0, 360, 0]
+    speed: 900
+    state: start
+    surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    top_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    end_surface: {texture: ch004i, size: [64, 64], scale: 5.5, offset: [0, 30]}
+    parts:
+      - {at: [-4416, 272], size: [2, 352], bottom: 216, height: 8, surface: {texture: gn_mtl01, size: [128, 128]}, notes: The bevelled edge.}
+    notes: "A swinging blade: drawn at its start swept out over the walk, at its end back in its slot in the north wall."
+plates:
+  - id: plate:chop_1
+    room: room:chopping
+    at: [-3904, -256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's drop.
+  - id: plate:chop_2
+    room: room:chopping
+    at: [-4160, -256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's drop.
+  - id: plate:chop_3
+    room: room:chopping
+    at: [-4416, -256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's drop.
+  - id: plate:swing_1
+    room: room:swinging
+    at: [-3840, 256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's sweep.
+  - id: plate:swing_2
+    room: room:swinging
+    at: [-4032, 256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's sweep.
+  - id: plate:swing_3
+    room: room:swinging
+    at: [-4224, 256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's sweep.
+  - id: plate:swing_4
+    room: room:swinging
+    at: [-4416, 256]
+    size: [64, 352]
+    surface: {texture: egyflord, size: [256, 256]}
+    notes: Under the blade's sweep.
+sounds:
+  - {id: sound:bed, room: room:hall, at: [-2112, 0], sound: humming, radius: 9000, inner_radius: 4000, volume: 0.35, notes: The dungeon hum under the whole body (D-48)., pan: false}
+  - {id: sound:crypt, room: room:crypt, at: [-7600, 0], sound: humming, radius: 3200, inner_radius: 1200, volume: 0.5, notes: The crypt's deeper hum., pan: false}
+lights:
+  - id: light:doors
+    room: room:breast
+    at: [-120, 0]
+    height: 300
+    radius: 900
+    color: [255, 236, 200]
+    brightness: 18
+    notes: Daylight round the leaves.
+  - id: light:eye_n
+    room: room:home
+    at: [-600, 3392]
+    height: 480
+    radius: 1400
+    color: [255, 236, 200]
+    brightness: 30
+    notes: Daylight through the north eye.
+  - id: light:eye_s
+    room: room:home
+    at: [-600, 3008]
+    height: 480
+    radius: 1400
+    color: [255, 236, 200]
+    brightness: 30
+    notes: Daylight through the south eye.
+  - id: light:torch_01
+    room: room:breast
+    at: [-500, 308]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_02
+    room: room:breast
+    at: [-500, -308]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_03
+    room: room:hall
+    at: [-1700, 436]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_04
+    room: room:hall
+    at: [-1700, -436]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_05
+    room: room:hall
+    at: [-2700, 436]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_06
+    room: room:hall
+    at: [-2700, -436]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_07
+    room: room:swinging
+    at: [-3400, 76]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_08
+    room: room:chopping
+    at: [-3400, -76]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_09
+    room: room:pres_n
+    at: [-4748, 600]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_10
+    room: room:pres_s
+    at: [-4748, -600]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_11
+    room: room:canopic
+    at: [-6132, 450]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_12
+    room: room:canopic
+    at: [-6132, -450]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_13
+    room: room:name_stair
+    at: [-1524, 800]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_14
+    room: room:name_stair
+    at: [-1164, 2300]
+    floor_height: 768
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_15
+    room: room:home
+    at: [-1780, 2900]
+    floor_height: 768
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_16
+    room: room:home
+    at: [-1780, 3500]
+    floor_height: 768
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_17
+    room: room:gallery_n
+    at: [-780, 4000]
+    floor_height: 768
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_18
+    room: room:gallery_s
+    at: [-1012, 2400]
+    floor_height: 768
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_19
+    room: room:crypt
+    at: [-8436, 600]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_20
+    room: room:crypt
+    at: [-6284, 600]
+    floor_height: -256
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_21
+    room: room:crypt
+    at: [-6284, -600]
+    floor_height: -256
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_22
+    room: room:stalls
+    at: [-8588, 500]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_23
+    room: room:stalls
+    at: [-8588, -500]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+chests:
+  - id: chest:embalmer
+    room: room:stalls
+    at: [-9936, -384]
+    floor_height: -1280
+    kind: gt002
+    facing: s
+    treasure_level: 6
+    random_items: 4
+    gold: 5000
+    notes: The embalmer's chest in the south alcove.
+  - id: chest:sarc_n
+    room: room:pres_n
+    at: [-5056, 128]
+    facing: e
+    size: [192, 96, 96]
+    surface: {texture: egytrmc, size: [64, 64]}
+    top_surface: {texture: egywalgm, size: [128, 128]}
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The north great sarcophagus: opens for a clicking member with Might 60 (D-57 Q10)."
+  - id: chest:sarc_s
+    room: room:pres_s
+    at: [-5056, -128]
+    facing: e
+    size: [192, 96, 96]
+    surface: {texture: egytrmc, size: [64, 64]}
+    top_surface: {texture: egywalgm, size: [128, 128]}
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The south great sarcophagus (Might 60).
+monsters:
+  - id: monster:canopic_1
+    room: room:canopic
+    monster: 11273
+    at: [-5824, 250]
+    facing: 0
+    group: 15
+  - id: monster:canopic_2
+    room: room:canopic
+    monster: 11273
+    at: [-5824, -250]
+    facing: 0
+    group: 15
+  - id: monster:chopping_1
+    room: room:chopping
+    monster: 11273
+    at: [-4300, -256]
+    facing: 0
+    group: 12
+  - id: monster:chopping_2
+    room: room:chopping
+    monster: 11273
+    at: [-4460, -330]
+    facing: 0
+    group: 12
+  - id: monster:crypt_1
+    room: room:crypt
+    monster: 11672
+    at: [-7600, 420]
+    facing: 0
+    group: 18
+  - id: monster:crypt_2
+    room: room:crypt
+    monster: 11672
+    at: [-7600, -420]
+    facing: 0
+    group: 18
+  - id: monster:crypt_3
+    room: room:crypt
+    monster: 11672
+    at: [-8150, 380]
+    facing: 0
+    group: 18
+  - id: monster:crypt_4
+    room: room:crypt
+    monster: 11672
+    at: [-8150, -380]
+    facing: 0
+    group: 18
+  - id: monster:gallery_n_1
+    room: room:gallery_n
+    monster: 11274
+    at: [-1344, 4050]
+    facing: 270
+    group: 16
+  - id: monster:gallery_n_2
+    room: room:gallery_n
+    monster: 11274
+    at: [-1088, 4050]
+    facing: 270
+    group: 16
+  - id: monster:gallery_s_1
+    room: room:gallery_s
+    monster: 11274
+    at: [-850, 2200]
+    facing: 90
+    group: 17
+  - id: monster:gallery_s_2
+    room: room:gallery_s
+    monster: 11274
+    at: [-700, 2250]
+    facing: 90
+    group: 17
+  - id: monster:hall_1
+    room: room:hall
+    monster: 11273
+    at: [-2700, 250]
+    facing: 0
+    group: 10
+  - id: monster:hall_2
+    room: room:hall
+    monster: 11273
+    at: [-2850, -250]
+    facing: 0
+    group: 10
+  - id: monster:hall_3
+    room: room:hall
+    monster: 11273
+    at: [-3000, 150]
+    facing: 0
+    group: 10
+  - id: monster:hall_4
+    room: room:hall
+    monster: 11273
+    at: [-2950, -120]
+    facing: 0
+    group: 10
+  - id: monster:picard
+    room: room:home
+    monster: 11922
+    at: [-1520, 3200]
+    facing: 0
+    hostile: false
+    group: 40
+    immobile: true
+    npc: 5704
+    notes: "Picard the Aged (11922, A2's peaceful placed-only row; S's look to come): by his chair, talks as npc 5704 (m40), takes no damage (evt:picard_load, D-51/D-52)."
+  - id: monster:pres_n_1
+    room: room:pres_n
+    monster: 11273
+    at: [-5050, 420]
+    facing: 0
+    group: 13
+  - id: monster:pres_n_2
+    room: room:pres_n
+    monster: 11273
+    at: [-5220, 300]
+    facing: 0
+    group: 13
+  - id: monster:pres_n_3
+    room: room:pres_n
+    monster: 11273
+    at: [-4950, 300]
+    facing: 0
+    group: 13
+  - id: monster:pres_s_1
+    room: room:pres_s
+    monster: 11273
+    at: [-5050, -420]
+    facing: 0
+    group: 14
+  - id: monster:pres_s_2
+    room: room:pres_s
+    monster: 11273
+    at: [-5220, -300]
+    facing: 0
+    group: 14
+  - id: monster:pres_s_3
+    room: room:pres_s
+    monster: 11273
+    at: [-4950, -300]
+    facing: 0
+    group: 14
+  - id: monster:stalls_1
+    room: room:stalls
+    monster: 11672
+    at: [-9200, 380]
+    facing: 0
+    group: 19
+  - id: monster:stalls_2
+    room: room:stalls
+    monster: 11672
+    at: [-9200, -380]
+    facing: 0
+    group: 19
+  - id: monster:swinging_1
+    room: room:swinging
+    monster: 11273
+    at: [-4300, 256]
+    facing: 0
+    group: 11
+  - id: monster:swinging_2
+    room: room:swinging
+    monster: 11273
+    at: [-4460, 330]
+    facing: 0
+    group: 11
+decorations:
+  - id: deco:bones_1
+    room: room:crypt
+    decoration: dec29
+    at: [-8380, 650]
+  - id: deco:bones_2
+    room: room:crypt
+    decoration: 7dec18
+    at: [-8380, -650]
+  - id: deco:bones_3
+    room: room:stalls
+    decoration: dec19
+    at: [-8700, -560]
+  - id: deco:book_1
+    room: room:home
+    decoration: xeen_lectern
+    at: [-1600, 3667]
+    floor_height: 768
+    facing: 270
+    notes: "A lectern with a book (clicked: evt:book_1)."
+  - id: deco:book_2
+    room: room:home
+    decoration: xeen_lectern
+    at: [-704, 3667]
+    floor_height: 768
+    facing: 270
+    notes: "A lectern with a book (clicked: evt:book_2)."
+  - id: deco:book_3
+    room: room:home
+    decoration: xeen_lectern
+    at: [-1664, 2733]
+    floor_height: 768
+    facing: 90
+    notes: "A lectern with a book (clicked: evt:book_3)."
+  - id: deco:book_4
+    room: room:home
+    decoration: xeen_lectern
+    at: [-1088, 2733]
+    floor_height: 768
+    facing: 90
+    notes: "A lectern with a book (clicked: evt:book_4)."
+  - id: deco:jar_1
+    room: room:hall
+    decoration: dec97
+    at: [-2240, 352]
+    floor_height: -160
+  - id: deco:jar_2
+    room: room:hall
+    decoration: dec97
+    at: [-1984, 352]
+    floor_height: -160
+  - id: deco:jar_3
+    room: room:hall
+    decoration: dec97
+    at: [-2240, -352]
+    floor_height: -160
+  - id: deco:jar_4
+    room: room:canopic
+    decoration: dec97
+    at: [-6016, 528]
+    floor_height: -128
+  - id: deco:jar_6
+    room: room:canopic
+    decoration: dec97
+    at: [-5632, 528]
+    floor_height: -128
+  - id: deco:jar_7
+    room: room:canopic
+    decoration: dec97
+    at: [-6016, -528]
+    floor_height: -128
+  - id: deco:skulls_1
+    room: room:stalls
+    decoration: sklplrev
+    at: [-8700, 560]
+  - id: deco:throne
+    room: room:home
+    decoration: xeen_throne
+    at: [-1696, 3200]
+    facing: 0
+    notes: "Picard's very good chair, the Throne of Legends (clicked: evt:throne)."
+  - id: deco:torch_01
+    room: room:breast
+    decoration: torch01
+    at: [-500, 308]
+    height: 224
+  - id: deco:torch_02
+    room: room:breast
+    decoration: torch01
+    at: [-500, -308]
+    height: 224
+  - id: deco:torch_03
+    room: room:hall
+    decoration: torch01
+    at: [-1700, 436]
+    height: 224
+  - id: deco:torch_04
+    room: room:hall
+    decoration: torch01
+    at: [-1700, -436]
+    height: 224
+  - id: deco:torch_05
+    room: room:hall
+    decoration: torch01
+    at: [-2700, 436]
+    height: 224
+  - id: deco:torch_06
+    room: room:hall
+    decoration: torch01
+    at: [-2700, -436]
+    height: 224
+  - id: deco:torch_07
+    room: room:swinging
+    decoration: torch01
+    at: [-3400, 76]
+    height: 224
+  - id: deco:torch_08
+    room: room:chopping
+    decoration: torch01
+    at: [-3400, -76]
+    height: 224
+  - id: deco:torch_09
+    room: room:pres_n
+    decoration: torch01
+    at: [-4748, 600]
+    height: 224
+  - id: deco:torch_10
+    room: room:pres_s
+    decoration: torch01
+    at: [-4748, -600]
+    height: 224
+  - id: deco:torch_11
+    room: room:canopic
+    decoration: torch01
+    at: [-6132, 450]
+    height: 224
+  - id: deco:torch_12
+    room: room:canopic
+    decoration: torch01
+    at: [-6132, -450]
+    height: 224
+  - id: deco:torch_13
+    room: room:name_stair
+    decoration: torch01
+    at: [-1524, 800]
+    height: 224
+  - id: deco:torch_14
+    room: room:name_stair
+    decoration: torch01
+    at: [-1164, 2300]
+    floor_height: 768
+    height: 224
+  - id: deco:torch_15
+    room: room:home
+    decoration: torch01
+    at: [-1780, 2900]
+    floor_height: 768
+    height: 224
+  - id: deco:torch_16
+    room: room:home
+    decoration: torch01
+    at: [-1780, 3500]
+    floor_height: 768
+    height: 224
+  - id: deco:torch_17
+    room: room:gallery_n
+    decoration: torch01
+    at: [-780, 4000]
+    floor_height: 768
+    height: 224
+  - id: deco:torch_18
+    room: room:gallery_s
+    decoration: torch01
+    at: [-1012, 2400]
+    floor_height: 768
+    height: 224
+  - id: deco:torch_19
+    room: room:crypt
+    decoration: torch01
+    at: [-8436, 600]
+    height: 224
+  - id: deco:torch_20
+    room: room:crypt
+    decoration: torch01
+    at: [-6284, 600]
+    floor_height: -256
+    height: 224
+  - id: deco:torch_21
+    room: room:crypt
+    decoration: torch01
+    at: [-6284, -600]
+    floor_height: -256
+    height: 224
+  - id: deco:torch_22
+    room: room:stalls
+    decoration: torch01
+    at: [-8588, 500]
+    height: 224
+  - id: deco:torch_23
+    room: room:stalls
+    decoration: torch01
+    at: [-8588, -500]
+    height: 224
+  - id: deco:vase_1
+    room: room:home
+    decoration: dec97
+    at: [-576, 2752]
+  - id: deco:vase_2
+    room: room:home
+    decoration: dec97
+    at: [-576, 3648]
+exits:
+  - id: exit:leaf_l
+    room: room:breast
+    at: [0, 120]
+    floor_height: 0
+    size: [224, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:x6_door
+    notes: "The north leaf of the breast's doors (seen from inside, the left)."
+  - id: exit:leaf_r
+    room: room:breast
+    at: [0, -120]
+    floor_height: 0
+    size: [224, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:x6_door
+    notes: The south leaf.

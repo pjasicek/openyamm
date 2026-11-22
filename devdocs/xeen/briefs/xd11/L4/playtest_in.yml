@@ -1,0 +1,54 @@
+# The way in to the Tower of High Magic (XD-11) from X3's islet (lane A8, 2026-11-20). A new party on X3 (Lifeforce
+# Lagoon, A5) stands before the tower door (briefs/x3/DOORS.md, thing:high_magic: click face 256, -2074, 992; outside
+# arrival 256, -1674, 992). The door is open (D-89, 2026-11-22: A3's m13.tower_door needs nothing); X3's event
+# 38 loads xeen_xd11.blv at the map's start inside the enchanted door (-1408, -1792, 0), where the arrival window shows
+# once (arrived_once 110680). The party leaves by the enchanted door, comes in again, and no window opens.
+# Run with --world xeen and no --map (output/studio_cal/xd11/four.sh: the scenario starts on X3).
+id: xeen.xd11.l4.way_in
+title: Tower of High Magic (XD-11 L4), in from X3's islet with the Enchanted Key, the arrival window once
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x3.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_x3.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_x3.odm, x: 256, y: -1874, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  # D-89 (2026-11-22): the tower door is open (no key; the Enchanted Key opens the study's chest inside).
+  - set_pose: {map: xeen_x3.odm, x: 256, y: -1874, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: X3's door shows the entrance window (OK / Close) since A5's rebuild.
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd11.blv}
+  - assert: {party_position: {x: -1408, y: -1792, radius: 64, z_min: -8, z_max: 8}}
+  # First arrival only: the window once, then out by the enchanted door and in again with no window.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE TOWER OF HIGH MAGIC"}}
+  - play_lua: {source: "close(); wait(1); if not qbit(110680) then error('the arrival window did not set arrived_once') end"}
+  - walk_to: {x: -1408, y: -1900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - set_pose: {map: xeen_x3.odm, x: 256, y: -1874, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd11.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}

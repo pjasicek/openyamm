@@ -48,6 +48,9 @@ chapters:
         quests:
           - quest: clear-out-anskram-keep        # a quest id from the list below
             requires: "optional: what must happen first"
+            shortcut: "optional: a way past the quest's work that the rework added (Markel's awards instead of the
+              Thing's games). Shown as a marked box above the walkthrough, also while it is closed; [text](#route)
+              links work in it. Describe it in the steps as well."
             steps:
               - "Take the road north from Sturmford City to Anskram Keep; ..."
             tips:

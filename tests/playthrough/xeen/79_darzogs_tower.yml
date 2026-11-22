@@ -1,0 +1,258 @@
+# Xeen playthrough, segment 79: Darzog's Tower (D6, D1, X1, X2, XD-12), M21 Darzog's Tower done.
+# From Castle Alamar's gate on D6 back to Cloudside: down the mountain road off D6's south edge to Castleview Vale (D1);
+# D1's travel pyramid by Castleview (the Pyramid Sigil, m7) to the knoll east of Vertigo (X1); west off X1's edge by the
+# river road to Rivercity (X2); Medin's boat to the island; Darzog's door (the Skeleton Key, m13). No mirror is touched
+# yet on either side (119001-119013 clear), so the mirrors cannot carry the party; the pyramid is the cross-side link.
+# XD-12 walked along A8's critical path (devdocs/xeen/briefs/xd12/L4/playtest.yml, rooms.yml): the gate floor's
+# cloister and the west stair hall to the works; the assembly hall's winch raises the works gate; the east stair hall to
+# the library, the apprentice's note; the Chief Librarian slain, his cabinet's library key; round the west walk's
+# trapdoor to the library stair door; up to Darzog's floor; Darzog's doors, the Baron among his clones (m21.darzog:
+# darzog_slain 110500, the disc's grille opens); his journal names the portrait; the bedchamber, the portrait slides up
+# on Crodo's cell (m21.crodo: crodo_freed 110501, 35,000 each, the vault word's autonote 4121); the sky stair to the
+# roof; the cloud stair's top step opens the entrance window now that Crodo is free: No, the
+# party stays on the roof (segment 83 climbs). Back down the sky stair, Darzog's disc down the Well, out by the tower door onto the
+# island (X2). The books, the chests and the hoard are left alone. Quest logic: source/quests/m21.yml.
+#   python3 tests/playthrough/xeen/run.py 79
+id: xeen.playthrough.79_darzogs_tower
+title: "Xeen playthrough 79: by the pyramid back to Cloudside; Darzog slain, Crodo freed, the cloud stair opens"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/77_castle_alamar.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d6.odm}
+  - assert: {qbit_set: [111662, 110100, 111522, 110503]}
+  - assert: {qbit_clear: [110500, 110501, 110502, 111440, 111441]}
+  - play_lua: {source: "log('79 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12100) then error('no Skeleton Key (12100)') end"}
+  # Down the mountain road off D6's south edge to Castleview Vale (as segment 61).
+  - set_pose: {map: xeen_d6.odm, x: 0, y: -20480, z: 1888, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: -32512, z: 1500, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # D1's travel pyramid outside Castleview (event 109, Xeen.travelPyramid castleview: m7.sigil) to X1 by Vertigo.
+  - set_pose: {map: xeen_d1.odm, x: -1024, y: 13312, z: 1248, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(109); wait(0.5)"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 8832, y: 9472, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # West off X1's edge by the river road to Rivercity (X2).
+  - set_pose: {map: xeen_x1.odm, x: -22016, y: 9216, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -23552, y: 9216, z: 928, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Medin's boat rows the party to the island (event 141, as segment 37).
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(141); wait(1); close()"}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -14848, y: 1792, radius: 200}}
+  # Darzog's door on the island's east side: the Skeleton Key turns (m13.darzog_door).
+  - walk_to: {x: -15731, y: 3014, z: 768, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x2.odm, x: -15731, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd12.blv}
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 2752, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  # The gate hall, the cloister round the Well's foot, the west stair hall up to the works (768).
+  - walk_to: {x: 2200, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -1408, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: -1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: 1350, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: 1350, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -768, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: -768, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The works: the assembly hall's winch raises the works gate.
+  - walk_to: {x: -1408, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 768, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -2300, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 2200}
+  - clear_hostiles: {radius: 2200}
+  - walk_to: {x: -1560, y: -2784, z: 768, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(22) ~= "open" then
+          click(54); wait(4)
+        end
+        if door_state(22) ~= "open" then error("the winch did not raise the works gate: " .. door_state(22)) end
+  # Through the works gate to the east stair hall and up to the library (1536).
+  - walk_to: {x: 384, y: -2300, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -1408, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 640, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: 640, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 1600, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: -1350, z: 1536, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: -1400, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: 640, z: 1536, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 640, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The apprentice's note at the head of the stair: mind the cracked flags.
+  - play_lua: {source: "click(47); wait(1)"}
+  - assert: {dialog: {text_contains: "MIND THE CRACKED FLAGS"}}
+  - play_lua: {source: "close()"}
+  # The great library: the Chief Librarian; his cabinet holds the library key (12230).
+  - walk_to: {x: 1408, y: -1408, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -2300, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 2600}
+  - walk_to: {x: 1152, y: -2830, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        loot_chest(34)
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12230) then error("the librarian's cabinet did not give the library key 12230: " .. pack_items()) end
+  # Round the west walk's trapdoor to the library stair door: the key opens it (library_door_opened 110502).
+  - walk_to: {x: 384, y: -2300, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: -1408, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1680, y: -1500, z: 1536, radius: 48, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1680, y: 640, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(35); wait(4)
+        if door_state(15) ~= "open" then error("the library key did not open the library stair door: " .. door_state(15)) end
+  - assert: {qbit_set: [110502]}
+  # The library stair hall up to Darzog's floor (2304).
+  - walk_to: {x: -2112, y: 640, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: 1600, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2816, y: -1350, z: 2304, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: -1400, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2112, y: 640, z: 2304, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1408, y: 640, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Darzog's hall: his doors, the Baron among six clones.
+  - walk_to: {x: -1408, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -512, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(20); wait(4)
+        if door_state(10) ~= "open" or door_state(11) ~= "open" then error("Darzog's doors did not open") end
+  - walk_to: {x: -512, y: 2300, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 3600}
+  # His death (a timer, m21.darzog): the status line read in the killing step itself (a status line does not outlive
+  # the --reload run's reload), darzog_slain, the disc's grille opens.
+  - play_lua:
+      source: |
+        wait(2); clear_hostiles(3600); wait(7)
+        local s = tostring(status())
+        if not string.find(s, [[Baron Darzog falls]], 1, true) then error("status line: " .. s) end
+  - assert: {actor_visible: {actor_index: 7, dead: true}}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if door_state(13) ~= "open" then error("Darzog's death did not open the disc's grille: " .. door_state(13)) end
+  - assert: {qbit_set: [110500]}
+  # His study: the journal names the portrait.
+  - walk_to: {x: -1600, y: 2496, z: 2304, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(21); wait(3)
+        if door_state(12) ~= "open" then error("the study door did not open") end
+  - walk_to: {x: -2300, y: 2400, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(1)"}
+  - assert: {dialog: {text_contains: "behind my own portrait"}}
+  - play_lua: {source: "close()"}
+  # The bedchamber (its door in the hall's east wall, behind the Baron's dais): along the hall's south side, round the
+  # dais' south-east corner on the floor (the dais is a 64 rise with no step).
+  - walk_to: {x: -1600, y: 2496, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1728, y: 2160, z: 2304, via: [[-1000, 2040, 2304], [1728, 2040, 2304]], plan: false, radius: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(19); wait(3)
+        if door_state(7) ~= "open" then error("the bedchamber door did not open") end
+  - walk_to: {x: 2200, y: 2200, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 2200, z: 2304, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(36); wait(4)
+        if door_state(16) ~= "open" then error("the portrait did not open after Darzog's death: " .. door_state(16)) end
+  # Crodo's words as the party steps into the cell (m21.crodo): Lord Xeen, Artemus, the vault's word; he goes home.
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold())"}
+  - walk_to: {x: 2816, y: 2800, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 500, expect: dialog}
+  - assert: {dialog: {text_contains: "Lord Xeen"}}
+  - assert: {dialog: {text_contains: "Ask Artemus for leave to dig it out"}}
+  - assert: {dialog: {text_contains: "The vault's word is 'laboratory'"}}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        local xp = experience(0) - recall("xp")
+        if xp ~= 35000 then error("m21.crodo paid " .. xp .. " experience, not 35,000") end
+        if gold() ~= recall("gold") then error("m21.crodo paid gold " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [110501]}
+  - assert: {autonote: {id: 4121, present: true}}
+  - assert: {actor_visible: {actor_index: 6, hidden: true}}
+  # Out of the cell, back through the bedchamber to the east state gallery, and up the sky stair to the roof (3072).
+  - walk_to: {x: 2816, y: 2200, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 2240, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -512, y: 2100, z: 2304, via: [[1728, 2160, 2304], [1728, 2040, 2304]], plan: false, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -512, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: -1600, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 1350, z: 3072, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 2200, z: 3072, radius: 64, timeout_seconds: 30, clear_hostiles: 2500}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 2000, z: 3072, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  # The cloud stair's top step (event 9): Crodo is free, so the entrance window opens; closed, the party stays on the roof.
+  - play_lua: {source: "status()"}
+  - walk_to: {x: 0, y: 2752, z: 3232, z_tolerance: 64, radius: 24, timeout_seconds: 30, clear_hostiles: 1500, expect: dialog}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt; closing it keeps the party here.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - play_lua: {source: "close(); wait(2); close()"}
+  - assert: {map: xeen_xd12.blv}
+  - assert: {party_position: {x: 0, y: 2752, radius: 160, z_min: 3150, z_max: 3300}}
+  # Back down the sky stair to Darzog's floor and the disc's landing; the disc down the Well to the gate floor.
+  - walk_to: {x: 0, y: 2000, z: 3072, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 2200, z: 3072, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 1350, z: 3072, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: -1600, z: 2304, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2112, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: -512, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 1408, z: 2304, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1250, z: 2304, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 672, z: 2304, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(9)"}
+  - assert: {party_position: {x: 0, y: 672, radius: 120, z_min: -8, z_max: 56}}
+  # Off the disc into the north cloister, round to the gate hall; out by the tower door onto the island.
+  - walk_to: {x: 0, y: 1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 1408, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2752, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(41); wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: -15631, y: 3014, radius: 200}}
+  - assert: {qbit_set: [110500, 110501, 110502, 110503]}
+  - assert: {qbit_clear: [111440, 111441]}
+  # Pray N Pay on Rivercity's south street (house 4058): the tower's Floating Eyes (11570) paralyse with their missiles
+  # (A3 session 32); the temple heals whoever is down (D-82). Medin's boat waits on the island for segment 81.
+  - set_pose: {map: xeen_x2.odm, x: 276, y: 640, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4058, min: 0}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12100) then error("no Skeleton Key (12100)") end
+        log("79 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; Megacredits " .. item_count(12192))
+  - save_game: {name: "79 Darzog's Tower", path: output/playthrough/xeen/checkpoints/79_darzogs_tower.oysav}

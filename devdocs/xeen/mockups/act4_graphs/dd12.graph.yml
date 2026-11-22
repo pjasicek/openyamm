@@ -1,0 +1,300 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's five-level dungeon under the Isle of Lost Souls (dark maze0078, 0079, 0080, 0081, 0082 in floor order;
+# texts aaze0078-0082) as one BLV of five floors going down from the ruined tower's base. Each floor has a gate that
+# asks a cheerful question (A3's m24.gate1-5: yes opens it); each floor keeps the source's own puzzle (hourglasses,
+# levers, dials and the Soul Waters, the lever riddle and the Minotaur's Private Reserve, the Soul Maze and the birds).
+# BLV frame: x east, y north, z up; z 0 is L1's floor (the tower's base); the entrance hall is round, radius 512,
+# centred on (0, 0); its double door is in the south wall at y -512.
+format: mu6-0
+map: DD-12
+key: dd12
+name: Dungeon of Lost Souls
+stands_on: D4 Lakeside and Blackfang (the Isle of Lost Souls)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [37, 39]
+monsters:
+  levels: [38, 55]
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Minotaurs and gorgons (11090): Minotaur 38 (30), Gorgon 45 (12), Minotaur Lord 55 (3): the source's only family (XEEN_SYSTEMS: D37 Minotaur, D38 Gorgon in Lost Souls 1-5) and MM7's Maze (d02, the family's textures); in our story the coven's rejects (q-d22's prisoner: 'the rejects end up on the Isle of Lost Souls'; Widow Marsh's 'a girl with my eyes')"
+    - "Strongest at the bottom, as the source (gorgons mostly on L3-L5): L1 8, L2 9, L3 9, L4 9, L5 10; the entrance hall (the arrival, D-11.3) and the third and fourth gate halls quiet"
+    - "MAPS's band 35-55: the family's A tier is 38; no row under it is needed (open question 1)"
+  mix:
+    - {row: Minotaur, id: 11090, level: 38, count: 30}
+    - {row: Gorgon, id: 11091, level: 45, count: 12}
+    - {row: Minotaur Lord, id: 11092, level: 55, count: 3}
+  kill_xp: "23.79k per member (95,145 / 4): 30 x 1,824 + 12 x 2,475 + 3 x 3,575"
+  kill_xp_target: "23.5k (MAPS §0, DD-12's own row): +1.2 %"
+treasure: {level: 4, hoard: 5}
+role: "Story M24 (the carving, five yes-gates, the Songbird of Serenity on L5; M20's lost_souls_key opens D4's door, D-12.1); Q-D25 The Minotaur's Labyrinth (the horned throne at the Soul Maze's heart: Minotaur -> Minotaur Lord)"
+role_short: "Story M24, Minotaur Lord"
+set_piece: "Five floors down from a ruined tower, each closed by a gate that asks a cheerful question; at the bottom the Soul Maze, whose walls spell its maker's name, with the horned throne at its heart, and beyond the fifth gate the aviary of magic birds, the Songbird of Serenity in the last cage"
+textures:
+  family: "The Maze: MM7 d02 (dungeon_families temples, A6's assignment for DD-12: eswamp, cwb1 walls, cwb, cfb1 floors, ceb1sa, t5s1c ceilings, c1d1 doors, trim12_32) on all five floors; the entrance hall in D4's towers kit to match the ruined tower outside (mm7 hkm2b, hkm2bw, hkm2d black rubble); the Soul Waters in mm7/7wtrtyl; the bird cages and cell bars in XD-04's xwcage (reuse)"
+  cap: 45
+  planned: 22
+  new: 3
+  new_names:
+    - "xlsplaque: the carved plaque over the first gate, NEVER UNDERESTIMATE THE POWER OF POSITIVE THINKING (aaze0078:12), a sign placed once, in cwb1's grey stone"
+    - "xlsgate: one wing of a 'think positive' gate (dark iron bars over a bronze half-sun with a smiling half-face), mirrored on the other leaf so the two leaves make one smiling sun; the five gates' leaves"
+    - "xlsglass: an hourglass in a wall niche, once per face (L1's four hourglasses; flipped by event, the picture unchanged)"
+floors:
+  - {floor: 0, name: "L1: tower base, storage", height: 0}
+  - {floor: -1, name: "L2: the cells", height: -640}
+  - {floor: -2, name: "L3: Soul Waters", height: -1280}
+  - {floor: -3, name: "L4: the Reserve", height: -1920}
+  - {floor: -4, name: "L5: maze, aviary", height: -2560}
+spaces:
+  # floor 0, L1 (z 0)
+  - {id: room:entry, name: Entrance hall, kind: hall, size: M, floor: 0, at: [0, 0], set_piece: true, monsters: 0,
+     purpose: "The ruined tower's base, round (radius 512), D4's hkm2 black rubble; the roof broken open to the Darkside sky (open_sky, DD-03's stable-yard route) over the middle, a wall torch either side of the door. The arrival (entrance:d4_isle) just inside the double door on the south. On the north wall the first gate under the carved plaque (xlsplaque): m24.arrival on the first entry and on the plaque's click; the gate asks m24.gate1."}
+  - {id: room:gallery1, name: Hall of storage, kind: hall, size: L, floor: 0, at: [1, 0], monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "A long hall cut into the knoll's rock (d02's grey brick), four doors marked 'Minotaur Storage' (aaze0078:0-5, the doors' hover). Wall torches between the doors."}
+  - {id: room:vault1, name: Hourglass vault, kind: room, size: S, floor: 0, at: [1, 1], chest: 4, monsters: 0,
+     purpose: "Behind a panel in the hall's west end that grinds open when all four hourglasses are flipped: the minotaurs' strongbox (a chest)."}
+  - {id: room:store_a, name: "Minotaur Storage (north-west)", kind: room, size: M, floor: 0, at: [2, 0], monsters: 3, store: true,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "A storeroom (store: true): crates and sacks in clumps along the walls, clear of the line between its two doors. An hourglass in a wall niche (xlsglass): 'Flip the Hour Glass over?' (aaze0078:6)."}
+  - {id: room:store_b, name: "Minotaur Storage (north-east)", kind: room, size: M, floor: 0, at: [3, 0], monsters: 0, store: true,
+     purpose: "Barrels in pairs and racks of salted meat; an hourglass niche. The door on to the stair head."}
+  - {id: room:store_c, name: "Minotaur Storage (south-west)", kind: room, size: M, floor: 0, at: [2, 1], monsters: 2, store: true,
+     population: [{row: Minotaur, level: 38, count: 2}],
+     purpose: "Bales of straw and fodder in the corners; an hourglass niche."}
+  - {id: room:store_d, name: "Minotaur Storage (south-east)", kind: room, size: M, floor: 0, at: [3, 1], monsters: 0, store: true,
+     purpose: "Bones in a heap (a find: 'Bones' then 'Nothing here.'), a broken cart by the wall; an hourglass niche."}
+  - {id: room:stair1, name: Stair head, kind: stair, size: S, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "The stair down to L2; no gate here (the first gate is the entrance's). A door on to the lift head."}
+  - {id: room:lift_head, name: Lift head, kind: stair, size: S, floor: 0, at: [6, 0], monsters: 0,
+     purpose: "The upper stop of the aviary's lift: an iron cage at the top of a closed shaft (no openings on L2-L4). Before the Songbird is freed: 'The cage does not move. Far below, something sings.'"}
+  # floor -1, L2 (z -640)
+  - {id: room:statue_hall2, name: Hall of the statue, kind: hall, size: M, floor: -1, at: [4, 0], set_piece: true, monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "The stair's foot. A statue that speaks as you approach (aaze0079:1: 'All of the lost souls in this dungeon have become lost because they did not think positively ...'). The fourth lever by its plinth: 'The lever is stuck.' (aaze0079:9)."}
+  - {id: room:north_walk2, name: North walk, kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 2,
+     population: [{row: Minotaur, level: 38, count: 2}],
+     purpose: "A wall lever ('Pull lever?', aaze0079:2): raises the bars of the first cell."}
+  - {id: room:south_walk2, name: South walk, kind: corridor, size: M, floor: -1, at: [3, 1], monsters: 0,
+     purpose: "A second wall lever: the second cell's bars. The cells open off it."}
+  - {id: room:cells2, name: "Cells of the lost", kind: room, size: M, floor: -1, at: [4, 1], chest: 4, monsters: 2,
+     population: [{row: Gorgon, level: 45, count: 2}],
+     purpose: "A row of three barred cells (xwcage bars on door movers, each raised by its lever, two-state). In the first two the bones of adventurers who answered No (a find each: 'Bones'); in the third, behind the gate hall's lever, a chest. Two gorgons pace the row."}
+  - {id: room:gate_hall2, name: Second gate, kind: hall, size: M, floor: -1, at: [2, 0], monsters: 2,
+     population: [{row: Minotaur, level: 38, count: 2}],
+     purpose: "The third working lever on the wall beside the gate (the third cell). The double gate to the stair asks m24.gate2."}
+  - {id: room:stair2, name: Stair, kind: stair, size: S, floor: -1, at: [1, 0], monsters: 0, purpose: "Behind the second gate, down to L3."}
+  # floor -2, L3 (z -1280)
+  - {id: room:pool3, name: Stagnant pool, kind: hall, size: M, floor: -2, at: [1, 0], monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "The stair's foot opens on a sunken pool: 'The water is stagnant' (aaze0080:0). Wall torches."}
+  - {id: room:dials3, name: Gallery of dials, kind: corridor, size: M, floor: -2, at: [2, 0], set_piece: true, monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "Four dials in wall niches ('The dial is set at N. Turn?', 1 to 4 and round, map variables, aaze0080:6-9) and a statue: 'Turn all dials up, pull lever & drink the souls of adventurers past!' (aaze0080:3-4)."}
+  - {id: room:soul3, name: Soul Waters, kind: room, size: M, floor: -2, at: [3, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "A wall fountain ('Soul Waters', aaze0080:1) and its lever ('Lever'; 'The lever is stuck.' until all four dials read 4). Dials up and lever pulled: the waters run; each member drinking gains experience once (the source's '+654,321', rescaled: open question 5), then 'Refreshing.' (aaze0080:19)."}
+  - {id: room:flooded3, name: Flooded walk, kind: corridor, size: M, floor: -2, at: [2, 1], monsters: 3,
+     population: [{row: Gorgon, level: 45, count: 3}],
+     purpose: "A shin-deep walk round the pool's south side (a floor of 7wtrtyl over a raised walkway at the walls); the gorgons wait in it."}
+  - {id: room:negative3, name: Negative Soul Waters, kind: room, size: M, floor: -2, at: [3, 1], chest: 4, monsters: 0,
+     purpose: "A second fountain, black water ('Negative Soul Waters', aaze0080:10): drinking takes about a tenth of the member's HP and SP, never kills ('You feel emptier.'). A chest by the wall. A door to the gate hall."}
+  - {id: room:gate_hall3, name: Third gate, kind: hall, size: M, floor: -2, at: [4, 0], monsters: 0,
+     purpose: "The double gate to the stair asks m24.gate3."}
+  - {id: room:stair3, name: Stair, kind: stair, size: S, floor: -2, at: [5, 0], monsters: 0, purpose: "Behind the third gate, down to L4."}
+  # floor -3, L4 (z -1920)
+  - {id: room:plaque4, name: Hall of the plaque, kind: hall, size: M, floor: -3, at: [5, 0], monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 3}],
+     purpose: "The stair's foot. A statue on a plinth with a plaque (aaze0081:1-2): 'Start from the North and go to the South; third from the top and far to the East pull the lever you suspected least.'"}
+  - {id: room:barracks4, name: Minotaurs' barracks, kind: room, size: M, floor: -3, at: [5, 1], monsters: 1,
+     population: [{row: Gorgon, level: 45, count: 1}],
+     purpose: "Straw pallets along the walls, a trough (one find: a purse under the straw). Doors to the plaque hall and the lever hall."}
+  - {id: room:levers4, name: Hall of levers, kind: hall, size: L, floor: -3, at: [4, 0], set_piece: true, monsters: 4,
+     population: [{row: Minotaur, level: 38, count: 2}, {row: Gorgon, level: 45, count: 2}],
+     purpose: "Twelve lever posts in four rows of three, north to south, with clear aisles between the rows. The third row's east lever opens the Reserve's door (two-state); the other eleven: 'The lever is stuck.' (aaze0081:15)."}
+  - {id: room:reserve4, name: "The Minotaur's Private Reserve", kind: room, size: M, floor: -3, at: [4, 1], chest: 5, boss: true,
+     boss_label: "Lord 55", monsters: 1,
+     population: [{row: Minotaur Lord, level: 55, count: 1}],
+     purpose: "Behind the lever-worked door (hover 'Minotaur's Private Reserve', aaze0081:3): the hoard chest, casks in pairs by the walls, and the second Soul Waters in a wall niche (aaze0081:4-6: experience once per member, the larger draught; open question 5). Its keeper, a Minotaur Lord."}
+  - {id: room:gate_hall4, name: Fourth gate, kind: hall, size: M, floor: -3, at: [3, 0], monsters: 0,
+     purpose: "The double gate to the stair asks m24.gate4."}
+  - {id: room:stair4, name: Stair, kind: stair, size: S, floor: -3, at: [2, 0], monsters: 0, purpose: "Behind the fourth gate, down to L5."}
+  # floor -4, L5 (z -2560)
+  - {id: room:statues5, name: "Alamar's statues", kind: hall, size: M, floor: -4, at: [2, 0], set_piece: true, monsters: 2,
+     population: [{row: Gorgon, level: 45, count: 2}],
+     purpose: "The stair's foot and the Soul Maze's mouth: four statues of one tall figure, one verse each (aaze0082:18-22: 'This dungeon stand as tribute to me / my name in walls for all to see', 'The Soul Maze inside is dark, dreary, and vast / The name found within is the clue to my past', ...). Braziers stand on the floor between them, clear of the maze's mouth."}
+  - {id: room:maze_w, name: "Soul Maze, west", kind: corridor, size: L, floor: -4, at: [3, 0], set_piece: true, monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 2}, {row: Gorgon, level: 45, count: 1}],
+     purpose: "The labyrinth's west half: corridors 256 wide, ceilings 384, dark (a torch at each turn, few), its walls tracing the letters S, H, E on the automap (open question 3)."}
+  - {id: room:maze_heart, name: Heart of the maze, kind: room, size: M, floor: -4, at: [3, 1], set_piece: true, goal: true, boss: true,
+     boss_label: "Minotaur Lord 55", monsters: 1,
+     population: [{row: Minotaur Lord, level: 55, count: 1}],
+     purpose: "In the middle letter, the L, where the corridors of both halves end: the horned throne (geometry: a black stone seat with two horn spurs on a dais; hover 'Horned throne'), q-d25.throne and q-d25.throne_again. Two braziers on the floor either side of the dais. A Minotaur Lord keeps it."}
+  - {id: room:maze_e, name: "Soul Maze, east", kind: corridor, size: L, floor: -4, at: [4, 0], set_piece: true, monsters: 3,
+     population: [{row: Minotaur, level: 38, count: 2}, {row: Gorgon, level: 45, count: 1}],
+     purpose: "The east half: the letters T, E, M; its far end opens on the fifth gate's hall."}
+  - {id: room:maze_dead, name: Maze dead end, kind: room, size: S, floor: -4, at: [4, 1], chest: 4, monsters: 0,
+     purpose: "Behind an illusory wall in the east half ('An illusion!', aaze0082:23): a lost adventurer's camp, bones and a chest."}
+  - {id: room:gate_hall5, name: Fifth gate, kind: hall, size: M, floor: -4, at: [5, 0], monsters: 1,
+     population: [{row: Minotaur Lord, level: 55, count: 1}],
+     purpose: "A Minotaur Lord before the double gate; the gate asks m24.gate5."}
+  - {id: room:aviary, name: The aviary, kind: hall, size: M, floor: -4, at: [6, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "Eight wall alcoves with cages (xwcage), a hanging lamp in each alcove's head: six stat birds ('Lark of Luck. Set it free?' ... aaze0082:2-13: +2 to that stat for every member, once each; open question 4), the Parrot of Prophecy (its verse, aaze0082:16-17) and, last, the Songbird of Serenity (m24.songbird). Empty alcoves 'Nothing here.' The lift's lower stop in the north wall."}
+links:
+  # L1
+  - {id: link:entry_gallery, from: room:entry, to: room:gallery1, kind: door, label: "Gate 1 (double)", opened_by: state:gate1}
+  - {id: link:gallery_vault, from: room:gallery1, to: room:vault1, kind: secret, label: "Hourglass panel", opened_by: state:hourglasses}
+  - {id: link:gallery_store_a, from: room:gallery1, to: room:store_a, kind: door}
+  - {id: link:gallery_store_c, from: room:gallery1, to: room:store_c, kind: door}
+  - {id: link:store_a_b, from: room:store_a, to: room:store_b, kind: door}
+  - {id: link:store_c_d, from: room:store_c, to: room:store_d, kind: door}
+  - {id: link:store_b_stair, from: room:store_b, to: room:stair1, kind: door}
+  - {id: link:store_d_stair, from: room:store_d, to: room:stair1, kind: open}
+  - {id: link:stair_lift, from: room:stair1, to: room:lift_head, kind: open}
+  # L1 to L2
+  - {id: link:stair1_down, from: room:stair1, to: room:statue_hall2, kind: stair}
+  # L2
+  - {id: link:statue_north, from: room:statue_hall2, to: room:north_walk2, kind: open}
+  - {id: link:statue_south, from: room:statue_hall2, to: room:south_walk2, kind: open}
+  - {id: link:south_cells, from: room:south_walk2, to: room:cells2, kind: door, label: "Cell bars (levers)", opened_by: state:levers2}
+  - {id: link:north_gate, from: room:north_walk2, to: room:gate_hall2, kind: open}
+  - {id: link:south_gate, from: room:south_walk2, to: room:gate_hall2, kind: open}
+  - {id: link:gate2, from: room:gate_hall2, to: room:stair2, kind: door, label: "Gate 2 (double)", opened_by: state:gate2}
+  # L2 to L3
+  - {id: link:stair2_down, from: room:stair2, to: room:pool3, kind: stair}
+  # L3
+  - {id: link:pool_dials, from: room:pool3, to: room:dials3, kind: open}
+  - {id: link:dials_soul, from: room:dials3, to: room:soul3, kind: open}
+  - {id: link:soul_gate, from: room:soul3, to: room:gate_hall3, kind: door}
+  - {id: link:pool_flooded, from: room:pool3, to: room:flooded3, kind: open}
+  - {id: link:flooded_negative, from: room:flooded3, to: room:negative3, kind: open}
+  - {id: link:negative_gate, from: room:negative3, to: room:gate_hall3, kind: door}
+  - {id: link:gate3, from: room:gate_hall3, to: room:stair3, kind: door, label: "Gate 3 (double)", opened_by: state:gate3}
+  # L3 to L4
+  - {id: link:stair3_down, from: room:stair3, to: room:plaque4, kind: stair}
+  # L4
+  - {id: link:plaque_levers, from: room:plaque4, to: room:levers4, kind: open}
+  - {id: link:plaque_barracks, from: room:plaque4, to: room:barracks4, kind: door}
+  - {id: link:barracks_levers, from: room:barracks4, to: room:levers4, kind: door}
+  - {id: link:levers_reserve, from: room:levers4, to: room:reserve4, kind: door, label: "Third row, east lever", opened_by: state:riddle}
+  - {id: link:levers_gate, from: room:levers4, to: room:gate_hall4, kind: open}
+  - {id: link:gate4, from: room:gate_hall4, to: room:stair4, kind: door, label: "Gate 4 (double)", opened_by: state:gate4}
+  # L4 to L5
+  - {id: link:stair4_down, from: room:stair4, to: room:statues5, kind: stair}
+  # L5
+  - {id: link:statues_maze, from: room:statues5, to: room:maze_w, kind: open}
+  - {id: link:maze_w_e, from: room:maze_w, to: room:maze_e, kind: open}
+  - {id: link:maze_w_heart, from: room:maze_w, to: room:maze_heart, kind: open}
+  - {id: link:maze_e_heart, from: room:maze_e, to: room:maze_heart, kind: open}
+  - {id: link:maze_e_dead, from: room:maze_e, to: room:maze_dead, kind: secret, label: "An illusion!"}
+  - {id: link:maze_gate, from: room:maze_e, to: room:gate_hall5, kind: open}
+  - {id: link:gate5, from: room:gate_hall5, to: room:aviary, kind: door, label: "Gate 5 (double)", opened_by: state:gate5}
+  # the way back
+  - {id: link:lift, from: room:aviary, to: room:lift_head, kind: lift, label: "Lift: after the Songbird", opened_by: state:bird}
+states:
+  - {id: state:key, kind: item, where: "D4, the ruined tower's door",
+     what: "Megan's lost_souls_key (12344, M20) opens D4's double door (A6's door:dd12, condition item; D-12.1: the Isle's only gate).", opens: [], draw: false}
+  - {id: state:gate1, kind: password, where: room:entry,
+     what: "m24.gate1 'Will you find what you came for?': Yes calls m24.gate_open and the gate's two leaves swing apart (two-state, stays open); No calls m24.gate_shut, the gate stays shut and asks again on the next click. The carving is the answer-giver (m24.arrival).",
+     opens: [link:entry_gallery]}
+  - {id: state:hourglasses, kind: map_var, where: "room:store_a, store_b, store_c, store_d",
+     what: "Four hourglasses ('Flip the Hour Glass over?'): each a map variable that flips back and forth; when all four are flipped the hall's west panel grinds open ('Somewhere a panel grinds open.') and stays open.",
+     opens: [link:gallery_vault]}
+  - {id: state:gate2, kind: password, where: room:gate_hall2, what: "m24.gate2 'Is the glass half full?' (as gate 1).", opens: [link:gate2]}
+  - {id: state:levers2, kind: lever, where: "room:north_walk2, room:south_walk2, room:gate_hall2",
+     what: "Three working levers, each raising one cell's bars (two-state movers); the fourth, by the statue, 'The lever is stuck.'",
+     opens: [link:south_cells]}
+  - {id: state:dials, kind: map_var, where: room:dials3,
+     what: "Four dials, 1-4 and round (map variables); all at 4 ('all dials up'), the Soul Waters' lever moves and the waters run; otherwise 'The lever is stuck.' and the fountain 'The water is stagnant'.",
+     opens: [], draw: false}
+  - {id: state:gate3, kind: password, where: room:gate_hall3, what: "m24.gate3 'Will tomorrow be better than today?'", opens: [link:gate3]}
+  - {id: state:riddle, kind: lever, where: room:levers4,
+     what: "The plaque's lever (row three of four from the north, the east one): opens the Reserve's door (two-state, stays open); the other eleven 'The lever is stuck.' The plaque in the hall before it is the answer-giver.",
+     opens: [link:levers_reserve]}
+  - {id: state:gate4, kind: password, where: room:gate_hall4, what: "m24.gate4 'Are your friends glad you came?'", opens: [link:gate4]}
+  - {id: state:gate5, kind: password, where: room:gate_hall5, what: "m24.gate5 'Is the Songbird waiting for you?'", opens: [link:gate5]}
+  - {id: state:bird, kind: qbit, where: room:aviary,
+     what: "m24.bird_freed (111480), set by m24.songbird: the lift runs between the aviary and L1's lift head, called from either end (D-9.2's two-stop lift).",
+     opens: [link:lift]}
+  - {id: state:throne, kind: qbit, where: room:maze_heart, what: "q-d25.done (113500) by q-d25.throne; later clicks q-d25.throne_again.", opens: [], draw: false}
+exits:
+  - {id: exit:d4_isle, space: room:entry, at: [0, 1], kind: both, label: "D4: the ruined tower's door",
+     arrival: "entrance:d4_isle at (0, -352, 0) in this map's frame: the entrance hall a step inside the double door (the door in the south wall at y -512), facing north (MoveToMap 512), the carved first gate ahead",
+     neighbour: "D4 entrance:dd12_door (cell 72, 67) facing south, A6's door:dd12 (two leaves hkm2d1/hkm2d2, condition lost_souls_key; 'Enter the Isle of Lost Souls Dungeon?', aaze0022:0, as its meaning). The inside face of the same double door is the exit preset (D-24): out to the Isle a step south of the tower's door, facing south (1536) down the path to the jetty (72, 73) and the ferry back (poi:isle_boat, house 4667)"}
+hooks:
+  - {hook: m24.arrival, space: room:entry, how: "the first entry's message (a map variable) and the carved plaque's click over the first gate"}
+  - {hook: m24.gate1, space: room:entry, how: "the first gate's click: A3's yes/no question"}
+  - {hook: m24.gate2, space: room:gate_hall2, how: "the second gate (same)"}
+  - {hook: m24.gate3, space: room:gate_hall3, how: "the third gate (same)"}
+  - {hook: m24.gate4, space: room:gate_hall4, how: "the fourth gate (same)"}
+  - {hook: m24.gate5, space: room:gate_hall5, how: "the fifth gate (same)"}
+  - {hook: m24.gate_open, space: "every gate hall", how: "Yes: the map opens that gate's two leaves (its door state, kept)"}
+  - {hook: m24.gate_shut, space: "every gate hall", how: "No: the gate stays shut and asks again on the next click; no monster wave (open question 6)"}
+  - {hook: m24.songbird, space: room:aviary, how: "the last cage's click (once; sets bird_freed, gives the Songbird 12526; else 'An empty cage, door open.')"}
+  - {hook: q-d25.throne, space: room:maze_heart, how: "the horned throne's click (once: 3,000 XP, the party's Minotaurs promoted)"}
+  - {hook: q-d25.throne_again, space: room:maze_heart, how: "every later click, called when q-d25.throne returns false"}
+critical_path: [room:entry, room:gallery1, room:store_a, room:store_b, room:stair1, room:statue_hall2, room:north_walk2,
+  room:gate_hall2, room:stair2, room:pool3, room:dials3, room:soul3, room:gate_hall3, room:stair3, room:plaque4,
+  room:levers4, room:gate_hall4, room:stair4, room:statues5, room:maze_w, room:maze_e, room:gate_hall5, room:aviary]
+return_path: [room:aviary, room:lift_head, room:stair1, room:store_d, room:store_c, room:gallery1, room:entry]
+loops:
+  - {id: loop:storage, spaces: [room:gallery1, room:store_a, room:store_b, room:stair1, room:store_d, room:store_c],
+     notes: "Two ways through Minotaur Storage to the stair head."}
+  - {id: loop:cells, spaces: [room:statue_hall2, room:north_walk2, room:gate_hall2, room:south_walk2],
+     notes: "North and south walks round the cell block to the second gate."}
+  - {id: loop:waters, spaces: [room:pool3, room:dials3, room:soul3, room:gate_hall3, room:negative3, room:flooded3],
+     notes: "The dry way by the dials and the Soul Waters, the wet way by the Negative Soul Waters."}
+  - {id: loop:barracks, spaces: [room:plaque4, room:levers4, room:barracks4], notes: "Through the barracks or straight into the lever hall."}
+  - {id: loop:maze, spaces: [room:maze_w, room:maze_heart, room:maze_e], notes: "The two halves meet directly and again at the heart."}
+  - {id: loop:lift, spaces: [room:aviary, room:lift_head, room:stair1], notes: "After the Songbird the lift closes the whole descent into a ring (the way out)."}
+lines:
+  - {text: "A plaque reads: Welcome to the Dungeon of Lost Souls. Never underestimate the power of positive thinking.", ref: "dark/aaze0078:12", where: "room:entry, the carved plaque over gate 1 (A3's m24.arrival wording)"}
+  - {text: "Minotaur Storage / Flip the Hour Glass over?", ref: "dark/aaze0078:0-6", where: "L1's storeroom doors and hourglasses"}
+  - {text: "All of the lost souls in this dungeon have become lost because they did not think positively. If you wish to stay found...Think Positive!", ref: "dark/aaze0079:1", where: room:statue_hall2}
+  - {text: "Pull lever? / The lever is stuck.", ref: "dark/aaze0079:2, :9", where: "L2's levers, L3's lever before the dials, L4's eleven wrong levers"}
+  - {text: "The water is stagnant / Soul Waters / Refreshing. / Negative Soul Waters", ref: "dark/aaze0080:0-1, :10, :19", where: "room:pool3, room:soul3, room:negative3"}
+  - {text: "Turn all dials up, pull lever & drink the souls of adventurerers past! / The dial is set at 1. Turn?", ref: "dark/aaze0080:4, :6-9", where: room:dials3}
+  - {text: "Start from the North and go to the South; third from the top and far to the East pull the lever you suspected least.", ref: "dark/aaze0081:2", where: room:plaque4}
+  - {text: "Minotaur's Private Reserve / Soul Waters / Refreshing", ref: "dark/aaze0081:3-5", where: room:reserve4}
+  - {text: "This dungeon stand as tribute to me / my name in walls for all to see / The Soul Maze inside is dark, dreary, and vast / The name found within is the clue to my past / Long have I traveled through deep, dark space / Only to land and take over this place / I am saying this now for all to hear / None from this world shall I ever fear", ref: "dark/aaze0082:18-22", where: room:statues5}
+  - {text: "An illusion!", ref: "dark/aaze0082:23", where: "the maze's illusory wall"}
+  - {text: "Lark of Luck. Set it free? / In gratitude for setting it free, the bird flutters around the party and sings its magic song. +6 Luck (permanent). -> +2 (D-4); likewise the Eagle of Endurance, Sparrow of Speed, Parakeet of Personality, Magpie of Might, Albatross of Accuracy", ref: "dark/aaze0082:2-13", where: room:aviary}
+  - {text: "Parrot of Prophecy. Set it free? / His nights were filled with evil dreams / His days were spent in wicked schemes / You must destroy that wicked fiend / Before he controls all of XEEN", ref: "dark/aaze0082:16-17", where: room:aviary}
+  - {text: "How could you be so negative? Begone!", ref: "dark/aaze0078:11, aaze0080:17, aaze0081:14", where: "the ledger only (the source's No at a gate); A3's m24.gate_shut text is used"}
+open_questions:
+  - q: "Monster families. The source has only minotaurs and gorgons (XEEN_SYSTEMS D37, D38), and MM7's Maze, the textures' family, is a minotaur maze too."
+    options: ["(a) the minotaur family only: Minotaur 38 (30), Gorgon 45 (12), Minotaur Lord 55 (3), 23.79k (+1.2 %); the coven's rejects in our story",
+              "(b) a second, ghostly family for the 'lost souls': 6 Tomb Terrors 40 (spirits 11262) on L2-L3 in place of 6 Minotaurs (23.98k, +2 %), or a new spirits tier 'Lost Soul' 40 (A2)"]
+    recommend: "(a): the gorgons' bronze tier and Stone touch already read apart from the minotaurs, and the band's 35 needs no row under the A tier"
+    depends: "the mix and every room's population; A2's Act IV count"
+  - q: "The way back from L5. Five floors up again after the Songbird is a long walk with nothing left to do."
+    options: ["(a) a two-stop lift (D-9.2, DD-02's lift) from the aviary to L1's lift head beside the stair head, in a closed shaft (no openings on L2-L4), running only after m24.bird_freed; the map reads the qbit, no new hook",
+              "(b) walk back (the gates stay open)",
+              "(c) the exit preset in the aviary to a second door on the Isle (A6 adds a point; a stair up through the rock, bolted on the Isle side)"]
+    recommend: "(a): one shaft, no new outdoor door, and it cannot skip a gate on the way down"
+    depends: "the aviary's north wall, L1's lift head; state:bird"
+  - q: "The Soul Maze's letters. In the source the maze's walls spell its maker's true name, SHELTEM (the statues: 'my name in walls for all to see'). M31's plaque and M28 already give the name for M33's gate."
+    options: ["(a) the maze's corridors trace S-H-E-L-T-E-M across L5, read on the automap; the horned throne in the L's corner, where both halves end; about 14 M units² of corridor, 6-8 sectors",
+              "(b) a plain labyrinth; the statues' verses stay as flavour"]
+    recommend: "(a): it is the labyrinth's identity in the source and a third, optional answer-giver for M33; the name alone spoils nothing before M28"
+    depends: "L5's plan and its sector count (the map stays under 45); A8's L1 checks that the automap shows the letters"
+  - q: "The birds. The source frees six stat birds (+6 to one stat each, the whole party), the Parrot of Prophecy and the Songbird."
+    options: ["(a) all six stat birds at D-4's size: +2 to that stat for every member present, each bird once (a map variable; 'Nothing here.' after), +12 stat points per member in all",
+              "(b) three stat birds (Might, Endurance, Accuracy), the other three cages empty",
+              "(c) the stat birds as flavour (no stat)"]
+    recommend: "(a): the floor's reward for the deepest walk; A2 records the +12 in the Act IV ledger"
+    depends: "the aviary's events; A2 (permanent stats record)"
+  - q: "The Soul Waters. The source gives '+654,321' (L3) and '+7,654,321' experience (L4)."
+    options: ["(a) experience once per drinking member (player bits by A3, as DD-06's Manual of Master Thievery, D-25 Q11): L3 1,000, L4 2,000, 3k per member in the Act IV ledger",
+              "(b) +5 to a resistance each instead (D-4's fountains)",
+              "(c) 'Refreshing.' only"]
+    recommend: "(a): the source's joke kept as a small, real reward for the dials and the riddle"
+    depends: "A3 (two player bits, texts), A2 (Act IV ledger), the two fountains' events"
+  - q: "A No at a gate. A3's m24.gate_shut leaves it to A8 whether a gloomy wave of the floor's monsters comes."
+    options: ["(a) the gate stays shut and asks again on the next click; no wave (D-25 Q13's gong)",
+              "(b) a hidden group of 2 shown on the first No per floor, not counted",
+              "(c) the source's 'Begone!': the party put back in the entrance hall"]
+    recommend: "(a): the joke is the question, not a fight; the count stays 45"
+    depends: "the gates' events; the playtest (No, then Yes, on gate 1)"

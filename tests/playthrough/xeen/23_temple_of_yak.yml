@@ -1,0 +1,217 @@
+# Xeen playthrough, segment 23: the Temple of Yak (X4, X2, XD-06), M10's first six Megacredits and Q-C12's Elixir.
+# Down the Rivercity road to X4's south edge and over it into Rivercity; the temple's door in the fairy woods' dark
+# south end opens to the Yak Stone; the temple walked: the Yak door, the west chapel's button, the treasury gate
+# (refused, then opened when both bars are sunk), the library's button and chest, the treasury's strongbox (five
+# Megacredits, m10.yak_treasury), the hidden cell, the crypt (the heavy coffin wants base Might 25), the ossuary, the
+# causeway's buttons, the Yak Master (m10.yak_master: the sixth Megacredit on his corpse), the reliquary (the Elixir,
+# q-c12.reliquary), the Master's hoard, his stair and door, out by the porch. Outdoors the party is placed.
+# Routes: devdocs/xeen/briefs/x4/L4/playtest.yml (the south edge), xd06/L4/playtest.yml, playtest_exit.yml.
+# Quest logic: source/quests/m10.yml, q-c12.yml.
+#   python3 tests/playthrough/xeen/run.py 23
+id: xeen.playthrough.23_temple_of_yak
+title: "Xeen playthrough 23: the Temple of Yak: six Megacredits and Mirabeth's Elixir"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/21_court_again.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - assert: {qbit_set: [111180, 111200, 110101]}
+  - assert: {qbit_clear: [110400, 110401, 110402]}
+  # The packs fill with loot: the party drops what it will not use (keeps quest items, gems and potions).
+  - play_lua:
+      source: |
+        local dropped = 0
+        for entry in string.gmatch(pack_items(), "(%d+)x%d+") do
+          local id = tonumber(entry)
+          if id < 12000 and not (id >= 177 and id <= 186) and id ~= 240 then
+            while discard(id) do dropped = dropped + 1 end
+          end
+        end
+        log("dropped " .. dropped .. " loot items to make room")
+  # The Rivercity road south to X4's edge: the travel prompt names Rivercity.
+  - set_pose: {map: xeen_x4.odm, x: 16384, y: -20480, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 16384, y: -24064, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "close()"}
+  # The Temple of Yak's door in the fairy woods' dark south end (Q-C12's temple door: the Yak Stone).
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd06.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 128, z_min: -40, z_max: 80}}
+  # The arrival (m10.yak_arrival, once).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The Temple of Yak."}}
+  - play_lua: {source: "close()"}
+  # The Yak door and the narthex.
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(39, 13)"}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # The west chapel's button: the west bar sinks.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1594, y: 4690, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(3); wait(5); if door_state(15) ~= 'open' then error('the west button did not sink the west bar') end"}
+  # The treasury gate refuses: the east bar is up.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -704, y: 5420, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(1)"}
+  - assert:
+      dialog: {text_contains: "the east bar is up"}
+  - play_lua: {source: "close()"}
+  # East: the chapel, the vestry, the library's button and its chest.
+  - walk_to: {x: 1000, y: 4224, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3040, y: 3800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 3040, y: 3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3680, y: 3008, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(5); if door_state(14) ~= 'open' then error('the library button did not sink the east bar') end"}
+  - walk_to: {x: 3600, y: 3250, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(17); if held() ~= 0 then stow() end; close(); log('the library chest: +' .. (gold() - g) .. ' gold')"}
+  # Back to the nave: the treasury gate opens; the strongbox's five Megacredits (m10.yak_treasury).
+  - walk_to: {x: 3040, y: 3800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 4800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -704, y: 5420, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(4); if door_state(12) ~= 'open' then error('the treasury gate did not open with both bars sunk') end"}
+  - walk_to: {x: -704, y: 6150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(19)
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12192) ~= 5 then error("the strongbox did not give five Megacredits: " .. tostring(item_count(12192))) end
+        if not qbit(110402) then error("treasury_opened was not set") end
+        log("the treasury: +" .. (gold() - g) .. " gold, 5 Megacredits")
+  # The clerics' wing: the dormitory and the hidden cell's chest.
+  - walk_to: {x: -704, y: 5300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3040, y: 3900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -3040, y: 3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3700, y: 3104, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(4); if door_state(4) ~= 'open' then error('the secret door did not open') end"}
+  - walk_to: {x: -4192, y: 3050, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(15); if held() ~= 0 then stow() end; close(); log('the hidden cell: +' .. (gold() - g) .. ' gold')"}
+  # Down the west stair to the crypt: the heavy coffin wants base Might 25 (the party's is 15): it stays shut.
+  - walk_to: {x: -3700, y: 3104, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 3900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 5100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 7150, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3500, y: 7680, z: -768, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "status(); click(14); wait(1); log('the heavy coffin: ' .. status()); close()"}
+  # The ossuary and the near bank (the Yak Pool is left alone).
+  - walk_to: {x: -2500, y: 8200, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2976, y: 8700, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2500, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1950, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1500, y: 9312, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The causeway: the three buttons, then button 2 again raises all three blocks.
+  - walk_to: {x: -1480, y: 10080, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        click(10); wait(3); click(11); wait(3); click(12); wait(3)
+        if door_state(1) ~= "open" or door_state(2) ~= "closed" or door_state(3) ~= "closed" then
+          log("the causeway after buttons 1, 2, 3: " .. door_state(1) .. " " .. door_state(2) .. " " .. door_state(3)) end
+        for _ = 1, 3 do
+          if door_state(1) == "open" and door_state(2) == "open" and door_state(3) == "open" then break end
+          click(11); wait(3)
+        end
+        for i = 1, 3 do if door_state(i) ~= "open" then error("block " .. i .. " is not up") end end
+  - walk_to: {x: -1450, y: 9696, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -768, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 100, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The sanctum: the Yak Master; his death opens the reliquary (m10.yak_master).
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 512, y: 11050, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(34, 10)"}
+  - walk_to: {x: 512, y: 11700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - clear_hostiles: {radius: 4000}
+  - play_lua:
+      source: |
+        clear_hostiles(6000)
+        wait(5)
+        if not qbit(110401) then error("yak_master_slain was not set") end
+        if door_state(9) ~= "open" then error("the reliquary did not open on the Master's death") end
+  # The sixth Megacredit from the Master's corpse (actor 3).
+  - walk_to: {x: 512, y: 12700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - interact_actor: {actor_index: 3}
+  - play_lua: {source: "wait(1); if held() ~= 0 then stow() end; close(); if item_count(12192) ~= 6 then error('Megacredits after the Master: ' .. tostring(item_count(12192))) end"}
+  # The reliquary: the Elixir of Restoration (q-c12.reliquary).
+  - walk_to: {x: 150, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13620, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13950, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(18)
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12191) ~= 1 then error("Elixirs of Restoration in the packs: " .. tostring(item_count(12191))) end
+        if not qbit(110400) then error("elixir_found was not set") end
+        log("the reliquary: +" .. (gold() - g) .. " gold, the Elixir")
+  # The Master's cell and his hoard.
+  - walk_to: {x: 512, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1500, y: 12480, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 5)"}
+  - walk_to: {x: 1952, y: 12450, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(16); if held() ~= 0 then stow() end; close(); log('the hoard: +' .. (gold() - g) .. ' gold')"}
+  # Back by the Master's stair; his door opens from below; out through the nave to the porch.
+  - walk_to: {x: 1500, y: 12480, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 11500, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1200, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2272, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2784, y: 9250, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2784, y: 5450, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(4); if door_state(6) ~= 'open' then error('the Master\\'s door did not open from the stair') end"}
+  - walk_to: {x: 2784, y: 4900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 3000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 20}
+  - assert:
+      dialog: {text_contains: "leave Temple of Yak"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -1024, y: -17840, radius: 160, z_min: 970, z_max: 1130}}
+  - assert: {qbit_set: [110400, 110401, 110402]}
+  - play_lua: {source: "if item_count(12192) ~= 6 or item_count(12191) ~= 1 then error('Megacredits ' .. item_count(12192) .. ', Elixirs ' .. item_count(12191)) end"}
+  # Pray N Pay on Rivercity's south street (house 4058): the temple's fights can leave a member Petrified (the reload
+  # run of A3 session 32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_x2.odm, x: 276, y: 640, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4058, min: 0}
+  - play_lua: {source: "log('23 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "23 Temple of Yak", path: output/playthrough/xeen/checkpoints/23_temple_of_yak.oysav}

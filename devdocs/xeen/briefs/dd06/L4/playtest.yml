@@ -1,0 +1,256 @@
+# Playtest of the Southern Tower (DD-06, L4; lane A7, agent:xeen-a7-dd06): the critical path up the four floors and the
+# getaway chute down. A level-24 party (immortal) starts inside the tower's door (the arrival from D2's door:dd06, the
+# map's start): the arrival line, the sealed front door's line, the tapestry, its button and the false wall ("An
+# illusion!") and the stash behind it, the kennel and its gate, the guild memo (A3's q-d19.guild_memo) and the first
+# gong: a wrong answer ("The gong booms, and the echo dies away.", the door stays shut), then 3 (the door opens). Up the
+# first stair to the den: the mess, the fence's lockbox, the Ali Baba chest (a wrong word, then "open sesame": the
+# no key since D-89; A3's q-d19.ali_baba sets chest_opened 113383), the second gong ("three"). Up the second stair to
+# the practice floor: the trap walk's plate, the strongroom's iron door (opened with A2's Strongroom Key 12262 from the
+# fence's lockbox) and its chest's 2 Energy Disks (A3's q-d19.l3_disks, tower_disks 113382), the practice hall, the third gong. Up the third stair to the top: the library's Manual of Master
+# Thievery (1,500 experience to the reader once, player bit 11295; again "You learn nothing new") and the Prince Book
+# (A3's hook decides by q-c9's throne bit 11302), the counting room: the Master Thief clicked (NPC 5109 on the placed
+# monster) greets the party, his guards stay friendly, the ledger (A3's q-d19.ledger: ledger_read 113381), clicked again
+# he talks again; the bedchamber's bed ("Nothing here.") and hoard; the getaway hatch down the chute to the entrance hall's straw.
+# Then every window closed and a save and load: the gongs, the illusion and the Ali Baba word stay, the guards friendly.
+# Numbers are ids.lock.yml's: events (click / execute_event), doors (open_door, door_state), chests (loot_chest), map
+# variables (state_dump_map_var: 0 sesame, 2 illusion, 3-5 gong1-3). Actor indices follow objects.yml's monsters sorted
+# by id (15-18 the guards, 29 the Master Thief).
+id: xeen.dd06.l4.walk
+title: Southern Tower (DD-06 L4), the gongs, the Ali Baba chest, the ledger and the Master Thief, down the getaway chute
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd06.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - assert: {map: xeen_dd06.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 640, y: 1700, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); log('arrive: ' .. status()); close()"}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  # The front door leads out to D2 (playtest_exit.yml leaves by it): here its window asks, and Cancel stays.
+  - walk_to: {x: 640, y: 1880, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd06.blv}
+  # The tapestry hall: the tapestry, its button, the false wall and the stash.
+  - walk_to: {x: 512, y: 1300, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1000, y: 300, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(0.5); local s = status(); if not string.find(s, 'Tapestry', 1, true) then error('tapestry: ' .. s) end"}
+  - play_lua: {source: "click(23); wait(0.5); local s = status(); if not string.find(s, 'Cold stone', 1, true) then error('false wall before the button: ' .. s) end"}
+  - walk_to: {x: 1020, y: 830, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1); local s = status(); if not string.find(s, 'An illusion!', 1, true) then error('button: ' .. s) end; if door_state(8) ~= 'open' then error('false wall: ' .. door_state(8)) end"}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - walk_to: {x: 1000, y: -320, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: -100, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1850, y: 0, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(14); close(); if gold() < g + 450 then error('the stash did not hold its gold') end"}
+  # The kennel and its gate to the first gong.
+  - walk_to: {x: 1000, y: -320, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -800, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -768, y: -1300, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 9)"}
+  - walk_to: {x: -768, y: -700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The lookouts' room (and back).
+  - walk_to: {x: -768, y: 900, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -768, y: 1400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1400, y: 1700, z: 0, radius: 80, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5); local s = status(); if not string.find(s, 'five aces', 1, true) then error('card table: ' .. s) end"}
+  # The first gong: the stair door shut, the memo, a wrong answer, then three rings.
+  - walk_to: {x: -1000, y: 300, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1150, y: 768, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(35); wait(0.5); local s = status(); if not string.find(s, 'will not move', 1, true) then error('stair door 1 before the gong: ' .. s) end; if door_state(4) ~= 'closed' then error('stair door 1: ' .. door_state(4)) end"}
+  - walk_to: {x: -1150, y: 250, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 32}
+  - assert: {dialog: {active: true, text_contains: "Ring each gong three times"}}
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - answer_input: {text: "2"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local s = status(); log('wrong gong: ' .. s); if not string.find(s, 'echo dies away', 1, true) then error('wrong answer: ' .. s) end; if door_state(4) ~= 'closed' then error('stair door 1 opened on a wrong answer') end"}
+  - assert: {state_dump_map_var: {index: 3, value: 0}}
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - answer_input: {text: "3"}
+  - advance_runtime: {seconds: 3}
+  - assert: {dialog: {active: true, text_contains: "The gong booms three times"}}
+  - play_lua: {source: "close(); wait(3); if door_state(4) ~= 'open' then error('stair door 1: ' .. door_state(4)) end"}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  # Up the first stair to the den.
+  - walk_to: {x: -1150, y: 768, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1640, y: 768, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 500, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: -1700, z: 640, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -1792, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The mess, the fence's room and its lockbox.
+  - walk_to: {x: 0, y: -1600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 440, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 10)"}
+  - walk_to: {x: 900, y: -1600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1150, y: -1880, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(13); close(); if gold() < g + 300 then error('the lockbox did not hold its gold') end; if not has_item(12262) then error('no Strongroom Key in the lockbox') end"}
+  # The treasury: the Ali Baba chest, a wrong word, then open sesame.
+  - walk_to: {x: 1200, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(45, 13)"}
+  - walk_to: {x: 1600, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(0.5)"}
+  - answer_input: {text: "abracadabra"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(113383) then error('the chest opened on a wrong word') end"}
+  - assert: {state_dump_map_var: {index: 0, value: 0}}
+  - play_lua: {source: "click(1); wait(0.5)"}
+  - answer_input: {text: "open sesame"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        log('ali baba: ' .. status())
+        -- the password opens the chest (D-89, 2026-11-22: no Eastern Tower key in it any more)
+        if not take_chest() then loot_chest(1) end
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113383) then error('chest_opened 113383 not set') end
+        if has_item(12340) then error('an Eastern Tower key in the chest') end
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua: {source: "loot_chest(1); close(); stow()"}
+  # The second gong: three, in words.
+  - walk_to: {x: 1100, y: -1600, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 960, y: -1300, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 900, y: -600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1150, y: -420, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - answer_input: {text: "three"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); wait(3); if door_state(5) ~= 'open' then error('stair door 2: ' .. door_state(5)) end"}
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  # The bunkroom (a bed) and back.
+  - walk_to: {x: 500, y: 0, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 2)"}
+  - walk_to: {x: -400, y: 0, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -420, y: -50, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('bunk: ' .. s) end"}
+  - walk_to: {x: 500, y: 0, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  # Up the second stair to the practice floor.
+  - walk_to: {x: 1150, y: -768, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: -768, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: -500, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 1750, z: 1280, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 800, y: 1792, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The trap walk: a plate, the strongroom's iron door (the Strongroom Key 12262 from the lockbox) and its 2 Energy Disks.
+  - walk_to: {x: 1024, y: 900, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1024, y: 200, z: 1284, z_tolerance: 8, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(0.3); local s = status(); if not string.find(s, 'pressure plate', 1, true) then error('trap plate: ' .. s) end"}
+  - walk_to: {x: 1024, y: -1000, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1150, y: -1600, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(3); if door_state(11) ~= 'open' then error('strongroom door with the key: ' .. door_state(11)) end"}
+  - walk_to: {x: 1800, y: -1600, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "local n = item_count(12334); loot_chest(15); close(); if item_count(12334) < n + 2 then error('the strongroom chest did not give 2 Energy Disks: ' .. item_count(12334)) end; if not qbit(113382) then error('tower_disks 113382 not set') end; stow()"}
+  - walk_to: {x: 1150, y: -1600, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  # The practice hall and the third gong.
+  - walk_to: {x: 1024, y: -512, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(44, 12)"}
+  - walk_to: {x: 300, y: -512, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 100, y: 640, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -800, y: 640, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1150, y: 420, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - answer_input: {text: "3"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); wait(3); if door_state(6) ~= 'open' then error('stair door 3: ' .. door_state(6)) end"}
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  # Up the third stair to the top.
+  - walk_to: {x: -1150, y: 768, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1640, y: 768, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 500, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: -1700, z: 1920, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -1792, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  # The library: the Manual (1,500 experience once), the Prince Book (refused).
+  - walk_to: {x: 0, y: -1600, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 256, y: -1400, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local function total() return experience(0) + experience(1) + experience(2) + experience(3) end
+        local before = total()
+        click(27); wait(1)
+        log('manual: ' .. tostring(total() - before))
+        close()
+        if total() ~= before + 1500 then error('the Manual paid ' .. tostring(total() - before)) end
+        click(27); wait(1)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You learn nothing new]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 640, y: -1400, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  # The Prince Book is A3's hook alone (q-d19.prince_book decides by q-c9's 11302): a party without the throne bit
+  # reads "For the eyes of the prince only!" on the status line (F13: a touch effect, 2026-11-21).
+  - play_lua: {source: "click(34); wait(1); local s = tostring(status()); if not string.find(s, 'For the eyes of the prince only!', 1, true) then error('status line: ' .. s) end"}
+  # The counting room: the Master Thief clicked speaks; his guards stay friendly; the ledger; he is clicked again.
+  - walk_to: {x: -896, y: -1400, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 3)"}
+  - walk_to: {x: -896, y: -880, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - walk_to: {x: -256, y: -200, z: 1920, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # Clicking the Master Thief himself (actor 29, NPC 5109 by monsters[].npc): his greeting and his topics.
+  - interact_actor: {actor_index: 29}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You got past the gongs and the chest"}}
+  - play_lua: {source: "log('master thief: ' .. status()); close(); close()"}
+  - walk_to: {x: -256, y: 140, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Jewel of Ages, sold to Mages of the Great Eastern Tower"}}
+  - play_lua: {source: "close(); if not qbit(113381) then error('ledger_read 113381 not set') end"}
+  - interact_actor: {actor_index: 29}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - play_lua: {source: "close(); close()"}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  # The bedchamber: the bed, the hoard.
+  - walk_to: {x: 128, y: 700, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(4, 1)"}
+  - walk_to: {x: 128, y: 1450, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('bed: ' .. s) end"}
+  - walk_to: {x: 420, y: 1800, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(12); close(); if gold() < g + 1500 then error('the hoard did not hold its gold') end"}
+  # The getaway hatch: down the chute to the entrance hall's straw.
+  - walk_to: {x: 128, y: 700, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 192, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1100, y: 192, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(1); log('chute: ' .. status())"}
+  - assert: {party_position: {x: 1760, y: 1780, radius: 120, z_min: 0, z_max: 64}}
+  # Every window closed, then a save and load: the gongs, the illusion and the word stay; the guards friendly.
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(1); close()"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  - assert: {state_dump_map_var: {index: 5, value: 1}}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - play_lua: {source: "if door_state(4) ~= 'open' or door_state(8) ~= 'open' then error('doors after the reload: ' .. door_state(4) .. ' ' .. door_state(8)) end"}

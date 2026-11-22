@@ -1,0 +1,74 @@
+# M19 Castle Kalindra returns (QUESTS M19, 4.2; Act III). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Ellinger takes the disks, five at a time (the source's way, dark/aaze0056): 5 bring back the gate, the throne room,
+# Gem and Errol (A4's DD-03 houses open on stage1), 10 the second floor with Dimitri, Megan and the telescope (stage2).
+# Stages 3 and 4 are M26's (Act IV), on a topic of the same label that shows from stage 2 on. The castle's exterior on
+# D1 and its BLV read Xeen.stageOf("kalindra").
+id: M19
+title: Castle Kalindra Returns
+act: III
+kind: main
+status: full
+giver: 4954          # Ellinger
+maps: [D1, DD-02, DD-03]
+level: 24
+block: 19
+after: [m17.done]
+source: "QUESTS M19, 4.2; dark/aaze0056 (Ellinger's disc lines)"
+
+qbits:
+  started: {id: 111380, note: "the first disks shown to Ellinger"}
+  stage1: {id: 111381, journal: "Five disks brought Castle Kalindra's gate and first floor back into the world.", until: [stage2]}
+  stage2: {id: 111382, journal: "Ten disks: Castle Kalindra's second floor is back. Someone up there is very sad.", until: [m26.stage3]}
+  safes_opened: {id: 111383, note: "the throne room's thievery safes (DD-03, m19_safes)"}
+  dd03_arrived_once: {id: 117320, map: DD-03, note: "the map's own: first arrival in DD-03 (A8; block 117320-117359)"}
+
+player_bits:         # DD-03's, once per character (A8's numbers; 11320-11321 are D3's)
+  queens_brew: {id: 11304, map: DD-03, note: "the Queen's Brew: +2 Personality (base)"}
+  knights_brew: {id: 11305, map: DD-03, note: "the Knight's Brew: +2 Might (base)"}
+
+npcs:
+  4954:              # Ellinger
+    topics:
+      - n: 1
+        label: Energy discs
+        show: {all: [{qbit: m17.done}, {not: {qbit: stage2}}]}
+        states:
+          - when: {all: [{qbit: stage1}, {items: [energy_disk, 5]}]}
+            text: "Have I taken the time to tell you that you are doing a wonderful job? All of you. I mean it. These discs will free the second level of the castle from Alamar's curse. Perhaps you will find more on the newly restored section."
+            do: [{take: energy_disk, count: 5}, {set: stage2}, {xp: 4000}]
+          - when: {items: [energy_disk, 5]}
+            text: "Excellent work. You have brought enough discs to restore the first level of the castle. Go to the castle as soon as you can. Perhaps you will find more energy discs inside."
+            do: [{take: energy_disk, count: 5}, {set: started}, {set: stage1}, {xp: 4000}]
+          - when: {all: [{qbit: stage1}, {items: [energy_disk, 1]}]}
+            text: "Good, good. More discs. I still need five to restore level two of the castle. Keep the discs with you and come back when you have them."
+          - when: {items: [energy_disk, 1]}
+            text: "Ahh! I see you have energy discs for me! I will need five to power the spells that will restore the first level of the castle. Keep the discs with you and return when you have at least five. The world of Xeen is counting on you."
+            do: [{set: started}]
+          - when: {qbit: stage1}
+            text: "No discs? Well, don't worry. When Alamar destroys the world, you won't be the only ones to die. Millions will go with you. That must be comforting."
+          - text: "You haven't found any energy discs yet, eh? Perhaps you fail to grasp the urgency of your mission. ALAMAR IS GOING TO DESTROY XEEN! NOW GET BACK OUT THERE AND SAVE THE WORLD!"
+
+hooks:
+  ghost_castle:
+    map: D1
+    entrance: DD-03
+    sealed: "the out-of-phase castle is the story (staged)"
+    where: "Castle Kalindra's gate on its rise south-west of Castleview while the castle is out of phase (stage 0): the gate's event shows this instead of entering"
+    reads: [stage1]
+    requires: {qbit: stage1}
+    fail_text: "Castle Kalindra stands on its rise like a reflection in a window. Your hand passes through the gate. The castle is not quite here."
+  first_entry:
+    map: DD-03
+    where: "the first arrival in the restored castle (a one-shot timer)"
+    reads: [stage1]
+    text: "Castle Kalindra. Half of it is solid stone; the rest still shimmers behind walls of light. The throne is empty, and dust lies on it like snow."
+  safes:
+    map: DD-03
+    where: "the throne room's thievery safes (stage 1): the map's safes, two Energy Disks among their contents"
+    sets: [safes_opened]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "Behind the safe's door, wrapped in velvet like jewels: two energy discs. Someone in this castle knew what they were worth."
+
+rewards: {xp: 8000, gold: 0}
+playthrough: "Disks to Ellinger (Energy discs): 5 (stage 1); DD-03: the throne room's safes (2 disks); disks to Ellinger: 10 (stage 2)."

@@ -1,0 +1,47 @@
+# Playtest of the cool passage's end (XD-16, L4; written by output/studio_cal/xd16/tools/gen_tests.py): with
+# q-c26.done (112522), the passage's end (the exit preset; into an indoor map, so no leave window) to XD-17 at its
+# named arrival entrance:xd16_way (-1280, -4736, 4) facing north; then XD-17's way back (its event 20,
+# A5) to this map's entrance:xd17_way (4864, -18176, -1280).
+id: xeen.xd16.l4.way
+title: Volcano Cave (XD-16 L4), the cool passage to XD-17 and back
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_xd16.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 112522, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - console: {line: tp 4864 -18176 -1280}
+  - advance_runtime: {seconds: 1.0}
+  - play_lua: {source: "close(); wait(0.3); close()"}
+  - walk_to: {x: 4864, y: -18250, z: -1280, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - play_lua: {source: "close(); wait(0.3); close()"}
+  - walk_to: {x: 4864, y: -18250, z: -1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd17.blv}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - assert: {party_position: {x: -1280, y: -4736, radius: 160, z_min: -40, z_max: 60}}
+  - advance_runtime: {seconds: 1.0, present_dialogs: true}
+  - play_lua: {source: "close(); wait(0.3); close()"}
+  - execute_event: {id: 20}
+  # XD-17's way back is a BLV-to-BLV move with the leave window (picture 1, A5's rebuild on oymap MP40+): answer it.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd16.blv}
+  - assert: {party_position: {x: 4864, y: -18176, radius: 160, z_min: -1320, z_max: -1240}}
+  # The arrival line (daylight behind) speaks only in the mouth, not to a party back from XD-17.
+  - play_lua: {source: "wait(2.5); local s = tostring(status()); log('back: ' .. s); if string.find(s, 'Heat on your face', 1, true) then error('the mouth line in the cool passage') end"}

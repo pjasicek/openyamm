@@ -1,0 +1,48 @@
+format: 0
+id: xeen_dd06
+name: Southern Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-06
+units: {plan_grid: 512}
+extent: {footprint_cells: [8, 8], climbs: n}
+map_stats:
+  id: 9155
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 7
+  refill_days: 672
+  music: 34
+  environment: stone hall
+  lock_difficulty: 7
+  slots:
+    - {monster: Xeen Outlaw, tier: 1, per_marker: [2, 3], weight: 85}
+    - {monster: Xeen Wolf, tier: 1, per_marker: [1, 2], weight: 15}
+neighbours:
+  - id: exit:d2_door
+    to: xeen_d2.odm
+    kind: door
+    arrival: [15872, -7680, 1056]
+    arrival_hint: "D2's Southern Woods, in front of door:dd06 in the tower's clearing, facing away from the tower (north)."
+    direction: 90
+    notes: "A6's point (2026-11-20, D2 event 20). D2's door:dd06 leads in to this map's start (640, 1700, 0) facing south."
+  - id: exit:d7_roof
+    to: xeen_d7.blv
+    kind: roof
+    arrival: entrance:dd06_roof
+    arrival_hint: "D7 The Skyroads, by the Southern Tower's hatch (A6's entrance:dd06_roof (5632, -14848, 710) facing 1536)."
+    one_way: true
+    notes: "D-58: the roof trapdoor (evt:roof_trapdoor), one way up after m30.done; D7 installed (A6), live."
+qbits:
+  chest_opened: 113383
+  inner_circle: 113385
+  ledger_read: 113381
+  master_slain: 113384
+  tower_disks: 113382
+items:
+  energy_disk: 12334
+  strongroom_key: 12262
+notes: "Xeen design brief, level L4: DD-06 the Great Southern Tower in D2's Southern Woods, the Thieves' Guild's den (Q-D19). Monsters: A2's Outlaws (6 Rogue 11110 12, 26 Thief 11111 18, 5 Master Thief 11112 30), the guild's hounds (2 Dark Wolf 11410 16, 2 Sabertooth 11411 22), all placed and hostile in groups 10-21 by room; the Master Thief's four bodyguards Inner Circle Guard 11115 (group 30) and The Master Thief 11114 (32, boss row, group 31), faction inner_circle, friendly until attacked; he is NPC 5109 (monsters[].npc: clicked while peaceful, he talks). Map card slots Xeen Outlaw and Xeen Wolf (no rest encounters). Map qbits 110950-110959: none used; A3's Q-D19 bits named (113381-113385). Hooks: q-d19.gongs, guild_memo, ali_baba, l3_disks, ledger, master_thief, thievery_manual(_again), prince_book(_refused). Music 34. Exit: the tower's door to D2 (A6's point (15872, -7680, 1056) facing north); the start is inside it, (640, 1700, 0) facing south."

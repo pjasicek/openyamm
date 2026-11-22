@@ -1,0 +1,175 @@
+# M35 Castle Xeen (QUESTS M35 ◆; Act V, the Cloudside half). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Lord Xeen's castle on the clouds (XD-19, A7). Its barriers are fed by four elemental generators and guarded by
+# machines that make guards; each generator destroyed is a hook, and the map drops the inner barrier when all four are
+# down. Xeen's Pet guards the aviary; Lord Xeen takes damage only from the Xeen Slayer Sword (M23; per-actor behaviour,
+# PRODUCTION E11; D-2.3's `slaying`). His death leaves the Scepter of Temporal Distortion; taking it shatters the Sixth
+# Mirror behind his throne (the cinematic is the map's). King Burlock (4401) closes the mirror quest of M5: the
+# source's thanks, then his brother (the real Roland, M39) is on the other side; the original "Your destiny lies on the
+# darkside of Xeen" only for a party that has never been there.
+id: M35
+title: Castle Xeen
+act: V
+kind: main
+status: full
+giver: null
+giver_name: (Crodo sends the party, m21; Castle Xeen, XD-19)
+maps: [X9, XD-19, XD-07]
+level: 49
+block: 35
+after: [m23.done, m34.done]
+source: "QUESTS M35; xeen/aaze0064:14-15 (the King); xeen/aaze0027:4-5 (the statues)"
+
+qbits:
+  started: {id: 111700, journal: "Lord Xeen holds his castle on the clouds. Only the Xeen Slayer Sword can harm him.",
+            until: [done]}
+  gen_fire: {id: 111701}
+  gen_air: {id: 111702}
+  gen_earth: {id: 111703}
+  gen_water: {id: 111704}
+  pet_slain: {id: 111705}
+  lord_xeen_slain: {id: 111706}
+  done: {id: 111707, journal: "Lord Xeen is dead and his Scepter is yours. The Sixth Mirror shattered with him. Tell King Burlock.",
+            until: [king_told]}
+  king_told: {id: 111708, note: "King Burlock has heard"}
+  lord_xeen_seen: {id: 111709}
+  xd19_machine_w_down: {id: 118060, map: XD-19, note: "the map's own: the west guard machine destroyed (A7; its stamping stops)"}
+  xd19_machine_e_down: {id: 118061, map: XD-19, note: "the map's own: the east guard machine destroyed (A7)"}
+  xd19_barrier_down: {id: 118062, map: XD-19, note: "the map's own: the crown stair's field down (A7; m35.barrier's can on load and after each generator)"}
+  xd19_bays_open: {id: 118063, map: XD-19, note: "the map's own: both machines down, the guard bays open (A7)"}
+
+awards:
+  lord_xeen: {id: 411, text: "Defeated Lord Xeen", sort: 2}
+
+items:
+  xeens_scepter: "Lord Xeen's throne (scepter hook); the Pharaoh's (Act VI)"
+  xeen_slayer_sword: "M23's; the only weapon that harms Lord Xeen (the map's actor reads the wielder's weapon, A1/A7)"
+
+npcs:
+  4401:              # King Burlock
+    topics:
+      - n: 5
+        label: Lord Xeen
+        show: {qbit: done}
+        states:
+          - when: {qbit: king_told}
+            text: "Thank you again. Castle Xeen is a cloud again. The court misses the mirror more than it misses my brother's double."
+          - when: {not: {qbit: m7.sigil}}
+            text: "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though. Your destiny lies on the darkside of Xeen."
+            do: [{set: king_told}]
+            locked: true     # voiced (D-38, aaze0064:14): the voice reads the first two sentences
+            voice: {speaker: King Burlock, line: "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though."}
+            sound: xeen_vo_burlock_thanks
+          - text: "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though. And my brother? If he lives, he is on the other side. Go to him."
+            do: [{set: king_told}]
+            locked: true     # voiced (D-38): the same take as the state above
+            voice: {speaker: King Burlock, line: "Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though."}
+            sound: xeen_vo_burlock_thanks
+
+hooks:
+  arrival:
+    map: XD-19
+    where: "Castle Xeen's entrance hall, first arrival"
+    sets: [started]
+    once: true
+    text: "Castle Xeen. The walls hum with the generators somewhere inside, and the guard machines are already making more guards."
+  gen_fire:
+    map: XD-19
+    where: "the Fire Generator (the source's Fire Generator, aaze0075:1) at the top of the south-west tower: its click asks 'Fire Generator. Destroy?'; the destructible's on_destroyed (Yes, blows or spells) calls this; its pylon in the barrier hall goes dark (D-47 Q8)"
+    sets: [gen_fire]
+    once: true
+    text: "The fire generator coughs, roars, and goes out. Somewhere a barrier flickers."
+    else_text: "A dead generator, still warm."
+  gen_air:
+    map: XD-19
+    where: "the Air Generator (the source's Electricity Generator, aaze0075:2) at the top of the south-east tower: its click asks 'Air Generator. Destroy?'; the destructible's on_destroyed (Yes, blows or spells) calls this; its pylon in the barrier hall goes dark (D-47 Q8)"
+    sets: [gen_air]
+    once: true
+    text: "The air generator whines down to silence. Somewhere a barrier flickers."
+    else_text: "A dead generator. The air in here is very still."
+  gen_earth:
+    map: XD-19
+    where: "the Earth Generator (the source's Poison Generator, aaze0075:4) in the gravel vault, L1 north-east: its click asks 'Earth Generator. Destroy?'; the destructible's on_destroyed (Yes, blows or spells) calls this; its pylon in the barrier hall goes dark (D-47 Q8)"
+    sets: [gen_earth]
+    once: true
+    text: "The earth generator grinds to a stop. Somewhere a barrier flickers."
+    else_text: "A dead generator, packed with gravel."
+  gen_water:
+    map: XD-19
+    where: "the Water Generator (the source's Cold Generator, aaze0075:3) in the cold vault, L1 north-west: its click asks 'Water Generator. Destroy?'; the destructible's on_destroyed (Yes, blows or spells) calls this; its pylon in the barrier hall goes dark (D-47 Q8)"
+    sets: [gen_water]
+    once: true
+    text: "The water generator drains with a long gurgle. Somewhere a barrier flickers."
+    else_text: "A dead generator, dripping."
+  barrier:
+    map: XD-19
+    gate: beat
+    where: "the one field across the crown stair, fed by four pylons (D-47 Q9). The map asks XeenQuests.can(\"m35.barrier\") on load and after each generator (true: the field falls and stays down, map qbit 118062); it calls the hook once, after the generator that puts out the last pylon (the line), and on the field's click while it stands (the fail line)"
+    requires: {all: [{qbit: gen_fire}, {qbit: gen_air}, {qbit: gen_earth}, {qbit: gen_water}]}
+    status: true
+    text: "The last pylon goes dark, and the field across the crown stair collapses with a crackle."
+    fail_text: "A field of crackling light bars the crown stair. Four pylons feed it, and while one still burns nothing passes."
+  untouchable:
+    map: XD-19
+    where: "XD-19's MonsterDamage hook (D-47 Q12, A1's E11): the first hit on Lord Xeen per visit that the hook zeroes (anything but melee with the Xeen Slayer Sword 12500) calls this; a status line, the fight goes on"
+    status: true
+    text: "Lord Xeen laughs. Only the Slayer Sword can touch him."
+  mirror:
+    map: XD-19
+    where: "the Sixth Mirror behind the throne, clicked before the scepter is taken (xeen/aaze0078:5)"
+    text: "The mirror is protected by some sort of force field that reeks of Lord Xeen's peculiar brand of magic. You are unable to use or touch it."
+  scepter_ask:
+    map: XD-19
+    window: "the question before a choice (Take it?)"
+    gate: order
+    where: "the throne's click after Lord Xeen's death, before the scepter is taken (D-47 Q14): the map shows this text and asks Take (Yes/No)?; Yes calls m35.scepter, then the cinematic (its subtitles under m35.scepter) and the leave to X9's causeway; No: nothing. Before his death the throne's click calls m35.scepter for its fail line"
+    requires: {qbit: lord_xeen_slain}
+    reads: [lord_xeen_slain]
+    text: "The Scepter of Temporal Distortion lies across the arms of the throne. The whole castle seems to hold its breath. Take it?"
+  pet:
+    map: XD-19
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Xeen's Pet's death in the aviary (A7, level 75)"
+    sets: [pet_slain]
+    once: true
+    text: "Xeen's Pet lies still. Its cage door was never locked."
+  lord_xeen_sight:
+    map: XD-19
+    where: "the throne room, the first time the party comes in sight of Lord Xeen on his throne (D-38; once per save): the map calls it"
+    sets: [lord_xeen_seen]
+    once: true
+    locked: true     # voiced (D-38): an edit means AU re-voices
+    voice: {speaker: Lord Xeen, line: "(a slow, amused laugh) The King's little crusaders, all this way up. Kneel, and I may let you fall gently."}
+    sound: xeen_vo_lord_xeen_sight
+    text: "Lord Xeen looks up from his throne and laughs. \"The King's little crusaders, all this way up. Kneel, and I may let you fall gently.\""
+  lord_xeen:
+    map: XD-19
+    window: "a voiced line that ends the act (Lord Xeen's death)"
+    where: "Lord Xeen's death at his throne (A7, level 85; only the Slayer Sword harms him; once per save)"
+    sets: [lord_xeen_slain]
+    once: true
+    locked: true     # voiced (D-38): the quoted words
+    voice: {speaker: Lord Xeen, line: "You have no idea what you have broken."}
+    sound: xeen_vo_lord_xeen_death
+    text: "\"You have no idea what you have broken.\" Lord Xeen falls, and the face he wore at court, Prince Roland's, slides off him like wet paper."
+  scepter:
+    map: XD-19
+    gate: order
+    where: "Lord Xeen's throne after his death, the Yes of m35.scepter_ask: the Scepter (a status line: the cinematic follows at once and then the party leaves to X9); behind the throne the Sixth Mirror shatters (the map's cinematic, subtitles below, xeen/aaze0078:4 shortened)"
+    status: true
+    cinematic_subtitles:   # for XD-19's cinematics.yml (A7), in order; English source text
+      - "Xeen's scepter gives a high whine, like a blade drawn across a whetstone. The mirror takes up the sound and throws it back, louder and louder."
+      - "Just as you realize that the mirror and the scepter are not compatible, the mirror shatters in a spectacular display of light, noise and violence."
+      - "The castle gives an awful shudder and groans like a beast mortally wounded."
+      - "With masonry falling and dust filling the air, you all decide to remain calm and proceed to the nearest exit in an orderly fashion."
+    requires: {qbit: lord_xeen_slain}
+    gives: [xeens_scepter]
+    sets: [done]
+    once: true
+    # A4: the real Roland's greeting (4406) from here; the impostor leaves the throne room until m39.roland
+    do: [{award: lord_xeen}, {xp: 35000}, {lua: "evt.SetNPCGreeting(4405, 4406)"}, {move_npc: [4405, 0]}]
+    text: "You take the Scepter of Temporal Distortion from the throne. Behind it, the Sixth Mirror begins to sing."
+    fail_text: "Lord Xeen sits on his throne, holding his scepter, and smiles with somebody else's face."
+    else_text: "An empty throne, and a mirror frame with nothing in it."
+
+rewards: {xp: 35000, gold: 0, items: "Xeen's Scepter", award: "Defeated Lord Xeen"}
+playthrough: "X9: the gate (the Lord Xeen doll). XD-19: the four generators, Xeen's Pet, Lord Xeen (the Slayer Sword), the scepter. XD-07: King Burlock (Lord Xeen)."

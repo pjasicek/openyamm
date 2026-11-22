@@ -1,7 +1,7 @@
 format: 0
 id: xeen_x1
 name: Vertigo Meadows
-world: mm7
+world: xeen
 kind: outdoor
 profile: odm
 map_code: X1
@@ -9,6 +9,7 @@ units: {plan_grid: 512}
 extent: {terrain_cells: 128}
 map_stats:
   id: 9130
+  continent: 6
   encounter_chance: 10
   treasure_level: 1
   trap_dice: 1
@@ -18,9 +19,9 @@ map_stats:
   environment: plains
   lock_difficulty: 0
   slots:
-    - {monster: Goblin, tier: 1, per_marker: [2, 4], weight: 50}
-    - {monster: Dragonfly, tier: 1, per_marker: [2, 4], weight: 25}
-    - {monster: Skeleton Warrior, tier: 1, per_marker: [2, 5], weight: 25}
+    - {monster: Xeen Orc, tier: 1, per_marker: [2, 3], weight: 50}
+    - {monster: Xeen Toad, tier: 1, per_marker: [2, 3], weight: 25}
+    - {monster: Xeen Skeleton, tier: 1, per_marker: [2, 3], weight: 25}
 neighbours:
   - id: door:xd01
     to: xeen_xd01.blv
@@ -51,14 +52,16 @@ neighbours:
     kind: door
     arrival_hint: "Inside the skull-hung mouth, facing in."
   - id: edge:north
-    to: 7out04.odm
+    to: xeen_x7.odm
     kind: edge
     side: north
     days: 5
+    arrival: [2560, -22016, 1856]
     arrival_side: south
     approach: The north road over the hills to the north edge at x 69.
     screened: true
-    notes: "X7 (Mount Firestone) in the design. Stand-in until X7 exists: the Tularean Forest (MM7)."
+    direction: 90
+    notes: "X7 Mount Firestone (installed 21:39, D-40): arrives at X7's entrance:south_road; X7's south edge arrives here at entrance:north_road (69, 21)."
   - id: edge:west
     to: xeen_x2.odm
     kind: edge
@@ -73,9 +76,9 @@ neighbours:
     kind: pyramid
     listed_only: true
     condition: {qbit: m7_sigil}
-    notes: "D1 Castleview in the design (M7, Act II). Not built: the pyramid says so."
+    notes: "D1 Castleview (installed): the pyramid's click (Xeen.travelPyramid('vertigo')) opens on A3's m7.sigil (110100) and arrives at D1's pyramid. D1's pyramid arrives on the orchard road's end west of the knoll: (8832, 9472, 800) facing west (1024)."
   - id: stable:rivercity
-    to: 7out03.odm
+    to: xeen_x2.odm
     kind: stable
     days: 2
     schedule: {weekdays: [monday, thursday]}
@@ -84,6 +87,7 @@ neighbours:
 qbits:
   captive_freed: 110052
   clan_king_slain: 110030
+  crodo_bottle_creek: 110104
   culvert_grate_open: 110012
   escape_shaft_open: 110031
   gunther_errand: 110103
@@ -94,11 +98,11 @@ qbits:
   war_drums_burned: 110050
   yak_stone: 110101
 items:
-  crystal_key: 2110
-  warehouse_key: 2176
+  crystal_key: 12031
+  warehouse_key: 12001
 rules:
   weather: world default
   home_town: Vertigo
   respawn: entrance:party_start
   town_portal_anchor: entrance:party_start
-notes: "X1 Vertigo Meadows, Xeen's starting outdoor map, a new map with no original (devdocs/xeen/MAPS.md). Built and played as an MM7 map (world: mm7) until worlds/xeen exists, as XD-01 to XD-05 are. Stand-ins: slot 1 Orcs is MM7's Goblin family (Goblin 4), slot 2 Giant toads and snakes is the Dragonfly family (MM7 has no toad or snake), slot 3 Skeletons and zombies the Skeleton Warrior family; houses open MM7 house rows under Vertigo's names; the Crystal Key is the plain Key 2110 (as XD-04 says). Written by output/studio_cal/x1/tools/gen.py."
+notes: "X1 Vertigo Meadows, Xeen's starting outdoor map, a new map with no original (devdocs/xeen/MAPS.md). Built and played as an MM7 map (world: mm7) until worlds/xeen exists, as XD-01 to XD-05 are. Stand-ins: slot 1 Orcs is MM7's Goblin family (Goblin 4), slot 2 Toads the Dragonfly family (MM7 has no toad or snake; the placed snakes are Dragonflies too), slot 3 Skeletons the Skeleton Warrior family, the placed zombies MM7's Ghoul family (Ghast 9); houses open MM7 house rows under Vertigo's names; the Crystal Key is the plain Key 2110 (as XD-04 says). Rebase of 2026-11-20 (A5): 130 hostiles in four encounter areas, 12 chests, about 45 points of interest, at most 800 decorations (CHANGES_FOR_BUILT_MAPS X1-2 to X1-8). Written by output/studio_cal/x1/tools/gen.py."

@@ -1,0 +1,216 @@
+# Xeen side quest Q-C26, Shangri-La (X7, XD-16, XD-17), from a new game on X7 with a level-48 party whose Master Archer
+# has Bow at Master. No giver: the Volcano Cave's two skulls. X7: the cave mouth between the idols (event 38, "Enter the
+# Volcano Cave?" Yes) into XD-16. XD-16 walked as its L4 playtest: the ash gallery, the causeway to the fire lake's
+# island, the devil skull (event 15, Yes: devil_skull, 5,000 XP each; again: the splinters line); the fissure, the demon
+# shrine's iron door, the demon skull (event 13, Yes: demon_skull and done, the Shangri-La autonote 4260, 5,000 XP each;
+# the way's rock (door 7) grinds open in the same visit, map qbit 118054); the cinder run and the rough steps; the four
+# lever stones round the black pillar (events 21-24, each slab down, each "The lever is down." again); the gate run, the
+# deep stair, the heart's ledges, the last cave, the cool passage (q-c26.way's line), the way's end (event 33) into
+# XD-17. Shangri-La: Elona's House (house 4361): "Grand Master Bow", then "Become Grandmaster in Bow for 8000 gold" (the
+# gold paid; then "You are already a grandmaster in this skill."). The skulls may be smashed in either order (the hooks
+# are symmetric); the devil skull goes first here, as in the map's playtest. Outdoors and in Shangri-La the party is
+# placed (tests/playthrough/PLAYBOOK.md section 2); XD-16 is walked.
+# Routes: devdocs/xeen/briefs/x7/L4/playtest.yml (the cave mouth 38), devdocs/xeen/briefs/xd16/L4/playtest.yml and
+# playtest_way.yml (the walk, the way's end 33), devdocs/xeen/briefs/xd17/L4/playtest.yml (Elona's door). Quest logic:
+# source/quests/q-c26.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c26_shangri_la.yml --scenario-no-color
+id: xeen.side_quests.q-c26
+title: "Xeen Q-C26: both skulls of the Volcano Cave smashed; the way to Shangri-La and its Grandmaster teachers"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x7.odm
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ivar, class: MasterArcher, level: 48, skills: [{name: Bow, level: 12, mastery: 3}], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x7.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112520, 112521, 112522, 118054]}
+  - assert: {autonote: {id: 4260, present: false}}
+  # X7: the Volcano Cave's mouth between the demon and devil idols (event 38): Yes, into XD-16's mouth.
+  - set_pose: {map: xeen_x7.odm, x: 512, y: 9728, z: 2240, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(38); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd16.blv}
+  - assert: {party_position: {x: 256, y: 0, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); log('arrive: ' .. tostring(status())); for _ = 1, 3 do if not close() then break end end"}
+  # The ash gallery and the causeway to the fire lake's island: the devil skull (event 15), Yes.
+  - walk_to: {x: 1920, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 3328, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 4200, y: 0, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4480, y: 0, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "remember('xp', experience(1)); click(15); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: skull of a devil stares at you}}
+  - answer_input: {text: "yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[cracks in two]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if not qbit(112521) then error('devil_skull 112521 not set') end
+        if experience(1) - recall('xp') ~= 5000 then error('the devil skull paid ' .. (experience(1) - recall('xp')) .. ' XP') end
+        if qbit(112522) then error('q-c26.done set after one skull') end
+        if door_state(7) ~= 'closed' then error('the rock moved after one skull: ' .. door_state(7)) end
+  # The devil skull again: the splinters line.
+  - play_lua: {source: "click(15); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Splinters of black bone]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The fissure north to the demon shrine's iron door (event 17, door 1): the demon skull (event 13), Yes: done.
+  - walk_to: {x: 3328, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 3328, y: 1340, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5568, y: 1340, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5568, y: 2500, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 5568, y: 3200, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 1)"}
+  - walk_to: {x: 5568, y: 3800, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 5696, y: 4160, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(1)); click(13); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: skull of a demon grins wickedly}}
+  - answer_input: {text: "yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[rock grinds on rock]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(6)
+        if not qbit(112520) then error('demon_skull 112520 not set') end
+        if experience(1) - recall('xp') ~= 5000 then error('the demon skull paid ' .. (experience(1) - recall('xp')) .. ' XP') end
+        if not qbit(112522) then error('q-c26.done 112522 not set by the second skull') end
+        if not qbit(118054) then error('rock_drawn 118054 not set in the same visit') end
+        if door_state(7) ~= 'open' then error('the rock is not open in the same visit: ' .. door_state(7)) end
+  - assert: {autonote: {id: 4260}}
+  # The cinder run south, the rough steps down to the lever hall: the four lever stones (events 21-24).
+  - walk_to: {x: 6464, y: 3150, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 6464, y: 900, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 6464, y: -1984, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 5760, y: -1984, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5760, y: -2700, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5760, y: -4900, z: -640, z_tolerance: 24, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 4900, y: -5120, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 4416, y: -4880, z: -640, radius: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: lever stone drops into its socket}}
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(118050) then error('slab_1 118050 not set') end
+        if door_state(2) ~= 'open' then error('slab 1 not down: ' .. door_state(2)) end
+  - play_lua: {source: "click(21); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: The lever is down.}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4680, y: -4880, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4680, y: -5120, z: -640, radius: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: lever stone drops into its socket}}
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(118051) then error('slab_2 118051 not set') end
+        if door_state(3) ~= 'open' then error('slab 2 not down: ' .. door_state(3)) end
+  - play_lua: {source: "click(22); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: The lever is down.}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4680, y: -5360, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -5360, z: -640, radius: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(23); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: lever stone drops into its socket}}
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(118052) then error('slab_3 118052 not set') end
+        if door_state(4) ~= 'open' then error('slab 3 not down: ' .. door_state(4)) end
+  - play_lua: {source: "click(23); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: The lever is down.}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 4150, y: -5360, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4150, y: -5120, z: -640, radius: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: lever stone drops into its socket}}
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(118053) then error('slab_4 118053 not set') end
+        if door_state(5) ~= 'open' then error('slab 4 not down: ' .. door_state(5)) end
+  - play_lua: {source: "click(24); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: The lever is down.}}
+  - play_lua: {source: "close()"}
+  # The gate run past the four lowered slabs, the deep stair, the heart's ledges, the last cave, the cool passage.
+  - walk_to: {x: 4150, y: -4880, z: -640, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -6000, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -6650, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -7300, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -7940, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -8580, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -9216, z: -640, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 4416, y: -9700, z: -640, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4416, y: -11900, z: -1280, z_tolerance: 24, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 4416, y: -12032, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3700, y: -12096, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2880, y: -12300, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2880, y: -14144, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3744, y: -14144, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 3744, y: -15350, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4864, y: -15350, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4864, y: -16300, z: -1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4864, y: -16650, z: -1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4864, y: -17150, z: -1280, radius: 64, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Beyond the last cave, cool air"}}
+  - play_lua: {source: "close()"}
+  # The way's end (event 33, "The way to Shangri-La") into XD-17's cave throat.
+  - walk_to: {x: 4864, y: -18250, z: -1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 33}
+  # F16: the standard entrance window (with the way's line from trans.txt).
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd17.blv}
+  - assert: {party_position: {x: -1280, y: -4736, radius: 160, z_min: -40, z_max: 60}}
+  - advance_runtime: {seconds: 1.0, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Shangri-La: Elona's House (house 4361): Grandmaster Bow for the Master Archer, 8,000 gold.
+  - set_pose: {map: xeen_xd17.blv, x: 2560, y: -2592, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.6}
+  - assert: {dialog: {active: true, source_id: 4714}}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "Grand Master Bow"}
+  - select_topic: {match_label: "Become Grandmaster in Bow for 8000 gold"}
+  - play_lua: {source: "local paid = recall('gold') - gold(); if paid ~= 8000 then error('Elona took ' .. paid .. ' gold') end"}
+  - assert: {dialog: {active: true, action_label_present: "You are already a grandmaster in this skill."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112520, 112521, 112522, 118054]}

@@ -1,0 +1,121 @@
+# MAW in the World of Xeen (devdocs/maw/XEEN_SUPPORT.md section 7): MAW's people. Zephyra, Castle Burlock's Court
+# Magician (X4), and Madame Oorla in Castleview (D1) are Xeen's Seers: MAW's skill reset and Dimensional Maps
+# (rulesets/maw/worlds/xeen/npc_seers_patch.txt, ruleset.yml `world: xeen`). Vertigo's and Castleview's town halls
+# post MAW's bounty hunts: none until the town's map is cleared, then a named boss target with its map note, and the
+# reward once it is slain. Standard games have no Seer topics.
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/maw_seers_and_bounties.yml --scenario-no-color
+id: xeen.maw_seers_and_bounties
+title: "MAW in Xeen: the Seers of Burlock and Castleview, and the town halls' bounty hunts"
+world: xeen
+mode: faithful
+tags: [xeen, rulesets, maw]
+steps:
+  # Zephyra (npc 4312): her two topics and MAW's three.
+  - new_game_flow:
+      start_map: xeen_x4.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - speak_npc: {source_id: 4312}
+  - assert:
+      dialog: {action_label_present: "Dimensional Maps"}
+  - select_topic: {match_label: "Skill reset"}
+  - assert:
+      dialog: {text_contains: "forget every skill lesson"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+
+  # Vertigo Town Hall (house 4003, its door; the mayor's counter, action 4003): no bounty before Vertigo Meadows is cleared, then a target, its note
+  # and the reward.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x1.odm, x: -7808, y: 11348, z: 991, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4003}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - assert:
+      dialog: {text_contains: "COMPLETELY"}
+      journal_map_note: {map: xeen_x1.odm, id: 9999, present: false}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - set_pose: {map: xeen_x1.odm, x: -7808, y: 11348, z: 991, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4003}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 1}
+      journal_map_note: {map: xeen_x1.odm, id: 9999, text: Bounty}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      journal_map_note: {map: xeen_x1.odm, id: 9999, present: false}
+  - set_pose: {map: xeen_x1.odm, x: -7808, y: 11348, z: 991, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4003}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - assert:
+      dialog: {text_contains: "defeating the"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+
+  # Madame Oorla (npc 4921) and Castleview Town Hall (house 4466, the mayor's counter).
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - speak_npc: {source_id: 4921}
+  - assert:
+      dialog: {action_label_present: "Dimensional Maps"}
+  - select_topic: {match_label: "Skill reset"}
+  - assert:
+      dialog: {text_contains: "forget every skill lesson"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: 1540, y: 5888, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4466}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - assert:
+      dialog: {text_contains: "COMPLETELY"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - set_pose: {map: xeen_d1.odm, x: 1540, y: 5888, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4466}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_count: {boss: true, min: 1}
+      journal_map_note: {map: xeen_d1.odm, id: 9999, text: Bounty}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - damage_actor: {all: true, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - set_pose: {map: xeen_d1.odm, x: 1540, y: 5888, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 4466}
+  - select_topic: {match_label: "Bounty Hunt"}
+  - assert:
+      dialog: {text_contains: "defeating the"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+
+  # Standard: the Seers have only their own topics.
+  - new_game_flow:
+      start_map: xeen_d1.odm
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - speak_npc: {source_id: 4921}
+  - assert:
+      dialog: {action_label_absent: "Dimensional Maps"}

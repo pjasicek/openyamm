@@ -1,0 +1,33 @@
+# The Ninja Pagoda's way out to X5 (Winterkill Tundra, installed): the north door (evt:north_door, 21) to the mere's
+# shore 400 north of X5's thing:pagoda door face (320, 9472), facing north (away from it). Leaving a BLV for an ODM asks
+# for confirmation (OK). Height measured 2026-11-20 by leaving through the door: the ground there 993 (arrival 1000);
+# NOTES.md "Measured heights".
+id: xeen.xd22.l4.exit
+title: Ninja Pagoda (XD-22 L4), out by the north door to X5
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd22.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - assert: {map: xeen_xd22.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 0, y: -256, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 21}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 320, y: 9872, radius: 150, z_min: 985, z_max: 1010}}
+  - advance_runtime: {seconds: 3.0}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 320, y: 9872, radius: 200, z_min: 985, z_max: 1010}}

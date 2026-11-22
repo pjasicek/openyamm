@@ -1,0 +1,51 @@
+# Mayor Randon after D-87.1 (A6, 2026-11-21, hand-written): a fresh load, Q-C6's first wave alive and nothing cleared,
+# a level-26 party by the gongs. Randon (actor 120, NPC 4502, 3 HP) takes no damage (evt:randon_load,
+# SetMm9ActorCanReceiveDamage as Corak's D-51): the party's blows and a Fireball at him leave his HP at 3 and he stays
+# peaceful; after 20 s among the Spirit Bones he is alive and his dialogue opens.
+id: xeen.x5.l4.randon
+title: 'X5 Mayor Randon: undamageable in the haunted square, still peaceful, still talks (D-87.1)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x5.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Hilda, class: Knight, level: 26, skills: [], equipment: {}}
+      - {name: Aldric, class: Cleric, level: 26, skills: [], equipment: {}}
+      - {name: Brann, class: Ranger, level: 26, skills: [], equipment: {}}
+      - {name: Mirel, class: Sorcerer, level: 26, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- play_lua:
+    source: wait(1); for _ = 1, 3 do if not close() then break end end
+- note: The first wave alive, Randon whole and peaceful
+- assert: {actor_count: {monster_id: 11241, hostile: true, min: 6}}
+- assert: {actor_visible: {actor_index: 120, monster_id: 361, dead: false, hp: 3, report_state: true}}
+- set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- note: The party's blows on Randon
+- lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+- party_attack: {actor_index: 120, member_index: 0, count: 30, kill: true, min_hit_rate: 0.025, report: true}
+- assert: {actor_visible: {actor_index: 120, monster_id: 361, dead: false, hp: 3, report_state: true}}
+- assert: {actor_count: {monster_id: 361, hostile: true, near: [-14029, 10752, 1500], max: 0}}
+- note: A Fireball at Randon (its blast is an area)
+- cast_spell: {member_index: 3, spell_id: 6, skill: 10, mastery: 3, actor_index: 120}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 120, monster_id: 361, dead: false, hp: 3, report_state: true}}
+- assert: {actor_count: {monster_id: 361, hostile: true, near: [-14029, 10752, 1500], max: 0}}
+- note: 20 s among the Spirit Bones, then Randon talks
+- advance_runtime: {seconds: 20}
+- assert: {actor_visible: {actor_index: 120, monster_id: 361, dead: false, hp: 3, report_state: true}}
+- assert: {actor_count: {monster_id: 361, hostile: true, near: [-14029, 10752, 1500], max: 0}}
+- play_lua:
+    source: for _ = 1, 3 do if not close() then break end end
+- set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- interact_actor: {actor_index: 120}
+- advance_runtime: {seconds: 0.5, present_dialogs: true}
+- assert:
+    dialog: {active: true, source_id: 4502}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 0.3}

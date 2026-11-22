@@ -1,0 +1,44 @@
+# Hostility check of the Sphinx (XD-15, L4; written by output/studio_cal/xd15/tools/gen_tests.py): A2's golems (Sand
+# Golem 11590, Stone Golem 11581, Iron Golem 11582) and Tomb Mummies (11270) all hostile at load and after a save and
+# load; side by side they do not fight each other and go for the party. No window is open before the reload.
+id: xeen.xd15.l4.hostility
+title: 'the Sphinx (XD-15): golems and mummies hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd15.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 31, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 31, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 31, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 31, skills: [], equipment: {}}
+  - assert: {map: xeen_xd15.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11590, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11581, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11582, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11270, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11590, hostile: true, min: 16}}
+  - assert: {actor_count: {monster_id: 11581, hostile: true, min: 18}}
+  - assert: {actor_count: {monster_id: 11582, hostile: true, min: 4}}
+  - assert: {actor_count: {monster_id: 11270, hostile: true, min: 7}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11590, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11581, hostile: true, min: 18}}
+  - assert: {actor_count: {monster_id: 11270, hostile: true, min: 7}}
+  - note: 'A Sand Golem, a Stone Golem and a Tomb Mummy side by side in the breast gate, nearer each other than the party:
+      they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11590, x: -256, y: 560, z: 16}
+  - spawn_actor: {monster_id: 11270, x: 256, y: 560, z: 16}
+  - spawn_actor: {monster_id: 11581, x: 0, y: 620, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11270, hurt: true, max: 0}}

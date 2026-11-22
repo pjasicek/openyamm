@@ -1,0 +1,328 @@
+# Xeen terrain materials: a copy of MM7's (world.yml terrainTileset: mm7; X1 and X2 stand on MM7 tiles). Copied by A5
+# on 2026-11-20 for X1's install; a Xeen-specific material set (A6) replaces it when there is one.
+version: 1
+tile_table: terrain_tile_data_2.txt
+tile_art_world: mm7
+edge_softness: 110
+fringe:
+  strength: 1.6
+  scale: 2048
+# meadow: colour multipliers of the driest and lushest ground (OutdoorMeadowField: crests and steep slopes dry,
+# hollows and shores lush). A material's meadow key is how strongly it takes them (grass 1, default 0).
+meadow:
+  dry: [1.2, 1.06, 0.64]
+  lush: [0.78, 0.94, 0.82]
+materials:
+  grass:
+    meadow: 1.0
+    library: grass_meadow
+    reference_tile: 7grastyl
+    cliff_from: dirt
+    variant: grass_patches
+    variant_amount: 0.3
+    repeat: 360
+    height_contrast: 0.45
+    macro_brightness: 0.15
+    macro_tint: [1.1, 1.05, 0.85]
+    cavity: 0.3
+  # Smooth Erathian earth; the native stony tiles (7dirt1, 7dirt2, about a tenth of the dirt) become stony
+  # patches of the variant.
+  dirt:
+    library: soil
+    reference_tile: 7dirttyl
+    variant: dirt_stones
+    variant_amount: 0.12
+    repeat: 520
+    height_contrast: 0.4
+    macro_brightness: 0.18
+    macro_tint: [0.9, 0.86, 0.86]
+    cavity: 0.6
+    normal_strength: 1.5
+  road:
+    library: road_pebbles
+    cliff_from: dirt
+    edge_softness: 24
+    fringe: 0.15
+    tint_scale: [0.808, 0.77, 0.785]
+    repeat: 640
+    height_contrast: 0.6
+    macro_brightness: 0.12
+    cavity: 1.0
+    normal_strength: 2.0
+  desert:
+    library: sand_flat
+    reference_tile: 7sand
+    repeat: 520
+    height_contrast: 0.3
+    macro_brightness: 0.12
+    macro_tint: [1.06, 1.0, 0.9]
+    cavity: 0.3
+    normal_strength: 1.2
+  snow:
+    library: snow
+    # Snowy slopes break into rock, not white rock.
+    cliff_from: dirt
+    tint_scale: [0.9, 0.92, 0.95]
+    reference_tile: 7snow
+    repeat: 640
+    height_contrast: 0.3
+    macro_brightness: 0.06
+    macro_tint: [0.96, 0.98, 1.04]
+    cavity: 0.15
+    normal_strength: 1.3
+  swamp:
+    library: swamp
+    reference_tile: 7swtyl
+    # Olive moss like the native tile; large repeat so the pools read as pools.
+    tint_scale: [0.85, 0.8, 0.55]
+    repeat: 900
+    height_contrast: 0.5
+    macro_brightness: 0.15
+    macro_tint: [0.9, 1.0, 0.9]
+    cavity: 0.3
+    normal_strength: 1.2
+  wasteland:
+    library: mud_cracked
+    reference_tile: 7wastetile
+    repeat: 760
+    height_contrast: 0.4
+    macro_brightness: 0.2
+    macro_tint: [0.9, 0.85, 0.85]
+    cavity: 0.85
+    normal_strength: 2.0
+  cliff:
+    library: rock_cliff
+    reference_tile: 7dirttyl
+    repeat: 640
+    height_contrast: 0.5
+    macro_brightness: 0.15
+    cavity: 0.4
+    normal_strength: 1.3
+  # Darkside slope rock (A6, ninth session; A5's request): the steep ground of the Darkside maps breaks into grey
+  # layered stone (ambientCG Rock023) instead of the soil-tinted rock_cliff, which read as bark mulch on D3's crest.
+  # Used only as a map's slope material (maps below: slope.material darkrock, the ground layers' cliff_from road,
+  # whose display colour is the native road tiles' neutral grey-brown).
+  darkrock:
+    library: rock_layered
+    reference_tile: 7dirttyl
+    repeat: 720
+    height_contrast: 0.5
+    macro_brightness: 0.15
+    cavity: 0.5
+    normal_strength: 1.5
+  # Black basalt (A6, session 11; D-40's Dragon Tower crag on X7): MM6's volcanic tile 6voltyl as its colour on
+  # the rock-face photoscan. Used as X7's slope material: the cliffs under X7's ash ground take its near-black grey.
+  basalt:
+    library: rock_cliff
+    reference_tile: 6voltyl
+    repeat: 640
+    height_contrast: 0.55
+    macro_brightness: 0.12
+    cavity: 0.5
+    normal_strength: 1.6
+  # Edge dirt (A6, session 13): the dirt half of transition tiles (the lava shore lvdr*; a map's own rules may add
+  # others), the same look as dirt on flat ground; its own layer so a map can give it its own cliff colour (X7: the
+  # Dragon Tower crag's south cliff, lava-shore and ash-edge tiles, in basalt instead of the red dirt's rock).
+  edgedirt:
+    library: soil
+    reference_tile: 7dirttyl
+    variant: dirt_stones
+    variant_amount: 0.12
+    repeat: 520
+    height_contrast: 0.4
+    macro_brightness: 0.18
+    macro_tint: [0.9, 0.86, 0.86]
+    cavity: 0.6
+    normal_strength: 1.5
+  grass_patches:
+    meadow: 0.8
+    library: grass_patchy
+    tint_scale: [0.68, 0.72, 0.6]
+    repeat: 640
+    height_contrast: 0.25
+    cavity: 0.35
+  # Keeps its own stones under the soil's tint: the scale cancels its lighter mean colour.
+  dirt_stones:
+    library: soil_stony
+    tint_scale: [0.57, 0.49, 0.48]
+    repeat: 640
+    height_contrast: 0.5
+    cavity: 0.8
+    normal_strength: 1.8
+  # The beach and seabed take the native shore tiles' dirt, lightened, as in MM6.
+  sand:
+    library: sand_ripples
+    reference_tile: 7dirttyl
+    tint_scale: [1.45, 1.42, 1.35]
+    repeat: 520
+    height_contrast: 0.3
+    macro_brightness: 0.12
+    cavity: 0.35
+    normal_strength: 1.2
+shore:
+  material: sand
+  beach_width: 150
+  beach_slope: 0.3
+  seabed_slope: 0.4
+  seabed_depth: 96
+  opaque_depth: 72
+  detail_depth: 24
+  range: 1024
+tiles:
+  - match: [7wtrtyl, "7hdwtr*"]
+    water: true
+  - match: [7grastyl]
+    material: grass
+  - match: [7dirttyl, 7dirt1, 7dirt2]
+    material: dirt
+  - match: [7sand]
+    material: desert
+  - match: [7snow]
+    material: snow
+  - match: ["7swtyl*"]
+    material: swamp
+  - match: [7wastetile]
+    material: wasteland
+  - match: ["7grdrt*"]
+    materials: [grass, dirt]
+  - match: ["7sndrt*"]
+    materials: [snow, dirt]
+  - match: ["7sddrt*"]
+    materials: [desert, dirt]
+  - match: ["7swdrt*"]
+    materials: [swamp, dirt]
+  - match: ["7wstdrt*"]
+    materials: [wasteland, dirt]
+  - match: ["7drsr*"]
+    materials: [road, dirt]
+  - match: ["7hwtrdr*"]
+    material: dirt
+  # Lava (decision D-40, X7 and the Darkside's fire lands; A1 2026-11-20): MM8's lava set in the MM7 table's rows
+  # 450-485, drawn by the liquid renderer as MM8's; its edge tiles stand on dirt, no beach or seabed beside it.
+  - match: [lavtyl]
+    water: true
+    shore: false
+  - match: ["lvdr*"]
+    material: edgedirt
+    shore: false
+# Each map's own shade of the shared ground. Harmondale and the Barrow
+# Downs paint their stony dirt in clumps, about a quarter of the dirt.
+maps:
+  7out01.odm:
+    grass: {shade: [0.95, 1.06, 0.9]}
+  7out02.odm:
+    dirt: {variant_amount: 0.25}
+  7out03.odm:
+    grass: {shade: [1.03, 1.0, 0.92]}
+  7out04.odm:
+    grass: {shade: [0.9, 1.02, 0.88]}
+  7out05.odm:
+    dirt: {shade: [0.85, 0.83, 0.85]}
+    desert: {shade: [0.9, 0.88, 0.88]}
+    wasteland: {shade: [0.88, 0.85, 0.85]}
+  7out06.odm:
+    desert: {shade: [1.08, 1.02, 0.92]}
+  out09.odm:
+    grass: {shade: [0.95, 1.04, 0.95]}
+  out10.odm:
+    dirt: {shade: [0.85, 0.82, 0.82]}
+    desert: {shade: [0.9, 0.88, 0.86]}
+  out11.odm:
+    grass: {shade: [0.95, 0.93, 0.85]}
+    dirt: {variant_amount: 0.25}
+  out14.odm:
+    grass: {shade: [0.94, 1.05, 0.92]}
+  # X5 Winterkill Tundra (A6, D-6.3): the frozen mere, the frozen river and the glacier are laid with the sand tiles
+  # (7sand), drawn here as the library's ice (A1, ambientCG Ice003), tinted from the snow tile to a pale blue-grey.
+  xeen_x5.odm:
+    desert:
+      library: ice
+      reference_tile: 7snow
+      tint_scale: [0.74, 0.86, 1.0]
+      repeat: 900
+      height_contrast: 0.12
+      macro_brightness: 0.1
+      macro_tint: [0.95, 1.0, 1.06]
+      cavity: 0.1
+      normal_strength: 0.7
+    dirt: {variant_amount: 0.35, shade: [0.82, 0.84, 0.88]}
+  # D1 Castleview Vale (A6, D-23): the Darkside's dry, desaturated grass under the amber sky; the town's packed
+  # earth and the grove floor a cool grey dirt.
+  xeen_d1.odm:
+    grass: {cliff_from: road, shade: [0.9, 0.93, 0.8]}
+    dirt: {cliff_from: road, variant_amount: 0.3, shade: [0.84, 0.83, 0.84]}
+    desert: {cliff_from: road}
+    wasteland: {cliff_from: road}
+    snow: {cliff_from: road}
+    slope: {material: darkrock, start: 0.12, end: 0.26}
+  # D2 Sprite Forest and Ogre Pass (A6, D-23; MU-2's tint): a darker, greener forest floor under the amber sky and
+  # darker trodden earth.
+  xeen_d2.odm:
+    grass: {cliff_from: road, shade: [0.62, 0.73, 0.6]}
+    dirt: {cliff_from: road, shade: [0.74, 0.7, 0.66]}
+    desert: {cliff_from: road}
+    wasteland: {cliff_from: road}
+    snow: {cliff_from: road}
+    slope: {material: darkrock, start: 0.12, end: 0.26}
+  # D3 Sandcaster and the Aging Forest (A5's map; the Darkside slope rock, A6 ninth session).
+  xeen_d3.odm:
+    grass: {cliff_from: road}
+    dirt: {cliff_from: road}
+    desert: {cliff_from: road}
+    wasteland: {cliff_from: road}
+    snow: {cliff_from: road}
+    slope: {material: darkrock, start: 0.12, end: 0.26}
+  # D4 Lakeside and Blackfang (A6, ninth session, D-36): the Darkside forest floor and shores a little darker and
+  # greener than D1's, dry heath soil, the uplands' snow a touch grey; the Darkside slope rock.
+  xeen_d4.odm:
+    grass: {cliff_from: road, shade: [0.72, 0.8, 0.68]}
+    dirt: {cliff_from: road, shade: [0.84, 0.8, 0.74]}
+    desert: {cliff_from: road}
+    wasteland: {cliff_from: road}
+    snow: {cliff_from: road, shade: [0.9, 0.92, 0.95]}
+    slope: {material: darkrock, start: 0.12, end: 0.26}
+  # D5 Desert of Doom (A6 sub-agent, thirteenth session, D-49; MU-2's row): amber rippled dunes, cracked stony ground
+  # in the Desert of Doom and on the highlands, the stony earth track of D-49 (7) (soil_stony, not paving), snow on
+  # the crest, Darkside rock on the steep ground (the cliffs and mesas).
+  xeen_d5.odm:
+    # the road a pale stony earth track (D-49 change 7), lifted from the grey road tiles' colour (A6 session 13)
+    road: {library: soil_stony, tint_scale: [1.72, 1.41, 1.08], cavity: 0.5, height_contrast: 0.45}
+    desert: {library: sand_ripples, tint_scale: [1.3, 1.1, 0.8], cliff_from: road}
+    dirt: {library: dirt_cracked, tint_scale: [1.2, 1.04, 0.88], cliff_from: road}
+    wasteland: {library: dirt_cracked, cliff_from: road}
+    snow: {cliff_from: road, shade: [0.9, 0.92, 0.95]}
+    slope: {material: darkrock, start: 0.12, end: 0.26}
+  # X6 Desert of the Sphinx (A5's draft in its L4 NOTES, D-31; added by A6 session 8): the pale 3-4 m pebble road on
+  # cracked dry ground.
+  xeen_x6.odm:
+    road: {library: road_pebbles, tint_scale: [1.35, 1.25, 1.05]}
+    dirt: {library: dirt_cracked, tint_scale: [1.25, 1.1, 0.9]}
+    wasteland: {library: dirt_cracked}
+  # X7 Mount Firestone (A6, session 11; A5's draft in X7's L4 NOTES, D-40): the pale 3-4 m pebble road of X6, red-brown
+  # stony dirt on the Red Dwarf Range, grey ash (volcanic cinder tinted from MM6's 6voltyl) on the north's plains and
+  # flows; steep ground is black basalt under the ash (the Dragon Tower's crag, the crater) and red rock in the south.
+  xeen_x7.odm:
+    road: {library: road_pebbles, tint_scale: [1.35, 1.25, 1.05]}
+    dirt: {library: soil_stony, shade: [1.04, 0.9, 0.84]}
+    # the lava shore and the ash's edge tiles: dark cinder (the crag's south cliff rises within a cell of the
+    # lava, too narrow for the slope layer, A5's relay of session 13)
+    edgedirt: {library: gravel_volcanic, reference_tile: 6voltyl, tint_scale: [1.3, 1.27, 1.2], cliff_from: basalt}
+    tiles:
+      - match: ["7wstdrt*"]
+        materials: [wasteland, edgedirt]
+    wasteland: {library: gravel_volcanic, reference_tile: 6voltyl, tint_scale: [2.0, 1.96, 1.84], cliff_from: basalt}
+    slope: {material: basalt, start: 0.14, end: 0.28}
+  xeen_d6.odm:
+    road: {library: road_pebbles, tint_scale: [1.2, 1.15, 1.05]}
+    dirt: {library: soil_stony, shade: [0.8, 0.74, 0.7]}
+    # the lava shores (lvdr*) and the ash's edge tiles: dark volcanic cinder, as X7's (A6 lead, D6 session 2)
+    edgedirt: {library: gravel_volcanic, reference_tile: 6voltyl, tint_scale: [1.3, 1.27, 1.2], cliff_from: basalt}
+    tiles:
+      - match: ["7wstdrt*"]
+        materials: [wasteland, edgedirt]
+    wasteland: {library: gravel_volcanic, reference_tile: 6voltyl, tint_scale: [1.8, 1.76, 1.68], cliff_from: basalt}
+    slope: {material: basalt, start: 0.14, end: 0.28}
+slope:
+  material: cliff
+  start: 0.36
+  end: 0.56

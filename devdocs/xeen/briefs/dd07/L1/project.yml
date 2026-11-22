@@ -1,0 +1,62 @@
+format: 0
+id: xeen_dd07
+name: Eastern Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-07
+units: {plan_grid: 512}
+extent: {footprint_cells: [11, 8], climbs: e}
+map_stats:
+  id: 9156
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 43
+  environment: stone
+  lock_difficulty: 8
+  slots:
+  - {monster: Xeen Floating Mage, tier: 0, per_marker: [1, 2], weight: 70}
+  - {monster: Xeen Eye, tier: 0, per_marker: [1, 1], weight: 30}
+neighbours:
+- id: exit:d3_door
+  to: xeen_d3.odm
+  kind: door
+  arrival: entrance:dd07_door
+  arrival_hint: On D3's knoll in front of the Great Eastern Tower's west door (A5's entrance:dd07_door, (15360, 9216, 1888)
+    facing west).
+  notes: 'D3 installed (A5). The way out names D3''s named arrival entrance:dd07_door; the facing comes with it. D3''s door
+    (q-d18.tower_door, the Key to the Eastern Tower 12340) names this map''s arrival entrance:d3_door: in the door hall (-2496,
+    0, 0) facing east.'
+- id: exit:d7_roof
+  to: xeen_d7.blv
+  kind: roof
+  one_way: true
+  arrival: entrance:dd07_roof
+  arrival_hint: D7 The Skyroads, by the Eastern Tower's hatch at the East Rest Stop (A6's entrance:dd07_roof (27136, -6144,
+    1024) facing 1024).
+  notes: 'D-58: the roof trapdoor (evt:roof_trapdoor), one way up after m30.done; D7 installed (A6), live.'
+qbits:
+  griffin_found: 113403
+  jewel_found: 113361
+  letter_found: 113363
+  started: 113360
+  tower_disks: 113362
+items:
+  jewel_of_ages: 12527
+  energy_disk: 12334
+  ellingers_letter: 12361
+  golden_griffin: 12351
+notes: 'Xeen design brief, level L1: DD-07 the Great Eastern Tower, on D3 (Sandcaster and the Aging Forest), Act IV, class
+  M (MU-6 graph devdocs/xeen/mockups/act4_graphs/dd07.graph.yml, decider D-39 in mockups/act4_a7_decisions.md). Q-D18 The
+  Jewel of Ages (the vault on L3 behind the door of light: q-d18.jewel, q-d18.l3_disks; Ellinger''s letter in the top floor''s
+  study: q-d18.letter), Q-D20''s Golden Griffin in the cabinet on L2 (q-d20.griffin); L4''s gifts by A3''s hooks (q-d18.minimal_fountain,
+  q-d18.fantastic_book, q-d18.great_power_book). Monsters, all placed and hostile in groups 10-22 by room: 15 Floating Adept
+  11203 (28), 9 Floating Magus 11204 (38), 4 Mystic Mage 11200 (45), 2 Floating Eye 11570 (40): 30 (D-9.3). Rest encounters
+  10 % from the map''s own hostile rows: slot 1 Xeen Floating Mage tier 0 (Mystic Mage only: the Adept and Magus tiers are
+  placed only), slot 2 Xeen Eye tier 0 (Floating Eye only). Map card 9156, music 43, treasure 4. Map qbits 118030-118039:
+  none used (map variables do the pylons and the disc). A3''s bits named. The way out to D3 (installed) is live by its named
+  arrival entrance:dd07_door.'

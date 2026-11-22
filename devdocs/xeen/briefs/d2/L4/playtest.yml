@@ -1,0 +1,1221 @@
+# Written by output/studio_cal/d2/tools/gen_walk.py from the built map (A6). Houses opened: yes; dungeons entered: ['dd06', 'dd09', 'dd10b', 'dd11a', 'dd11b', 'dd11c', 'dd13'].
+id: xeen.d2.walk
+title: 'D2 Sprite Forest and Ogre Pass: the village, the forest, the pass, the woods'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d2.odm
+- assert:
+    map: xeen_d2.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -21504
+      y: 2048
+      radius: 160
+- advance_runtime:
+    seconds: 2
+- note: 'D-23 at load: the pass ogres hostile (A2''s relations), Graalg''s three and the village sprites peaceful'
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      min: 10
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: false
+      min: 5
+- note: East along the Castleview road to Forest Fork
+- walk_to:
+    x: -16384
+    y: 2048
+    z: 1056
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 150
+    clear_hostiles: 3000
+- note: The forest track
+- walk_to:
+    x: -14848
+    y: 0
+    z: 1120
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -13312
+    y: -1536
+    z: 1152
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Bark Glade
+- walk_to:
+    x: -11264
+    y: -3072
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Nibbler's Hollow (4556)
+- walk_to:
+    x: -9985
+    y: -5888
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -9985
+    y: -5888
+    z: 992
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 5106
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The great tree''s door: refused without the bark key (q-d9.bark_door)'
+- walk_to:
+    x: -11396
+    y: -6640
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -11396
+    y: -6640
+    z: 992
+    yaw: -1.3746
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: A door in the trunk of the great tree
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- grant_item:
+    item_id: 12342
+- note: With the bark key the door asks to enter (and is sealed until DD-09 is installed)
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd09.blv
+- assert:
+    party_position:
+      x: 0
+      y: -1920
+      radius: 200
+- note: DD-09's trunk door (its event 33), back on D2 at (-11264, -6656, 992)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 33
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: -11264
+      y: -6656
+      radius: 200
+      z_min: 952
+      z_max: 1112
+- note: The village lane
+- walk_to:
+    x: -12800
+    y: -4096
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -14336
+    y: -5632
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -15616
+    y: -7680
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -16640
+    y: -9728
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The village green
+- walk_to:
+    x: -17664
+    y: -12288
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Dewdrop Potions (building:sprite_potions): its door'
+- walk_to:
+    x: -20323
+    y: -13058
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -20323
+    y: -13058
+    z: 992
+    yaw: -3.0716
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Light Guild of the Treetops (building:sprite_guild_light): its door'
+- walk_to:
+    x: -15602
+    y: -10459
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -15602
+    y: -10459
+    z: 992
+    yaw: 0.8378
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sharla''s Treehouse (building:sharla_tree): its door'
+- walk_to:
+    x: -19300
+    y: -10839
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -19300
+    y: -10839
+    z: 992
+    yaw: 2.2513
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 5101
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Mossbell''s Bower (building:sprite_houses#1): its door'
+- walk_to:
+    x: -15748
+    y: -12988
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -15748
+    y: -12988
+    z: 992
+    yaw: -0.1051
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 5104
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Thistledown''s Bower (building:sprite_houses#2): its door'
+- walk_to:
+    x: -17864
+    y: -14971
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_d2.odm
+    x: -17864
+    y: -14971
+    z: 992
+    yaw: -1.6579
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      source_id: 5105
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Sharla's stair (the only way up, D-23)
+- walk_to:
+    x: -19701
+    y: -9103
+    z: 992
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -19985
+    y: -9321
+    z: 996
+    z_tolerance: 200
+    radius: 48
+    timeout_seconds: 30
+- set_pose:
+    map: xeen_d2.odm
+    x: -19985
+    y: -9321
+    z: 996
+    yaw: -2.4886
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -20326
+    y: -9582
+    z: 1107
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20440
+    y: -9711
+    z: 1219
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20528
+    y: -9860
+    z: 1330
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20585
+    y: -10022
+    z: 1330
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20611
+    y: -10193
+    z: 1441
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20603
+    y: -10365
+    z: 1553
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20563
+    y: -10533
+    z: 1664
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20529
+    y: -10618
+    z: 1666
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- walk_to:
+    x: -20375
+    y: -10547
+    z: 1666
+    z_tolerance: 140
+    radius: 96
+    timeout_seconds: 40
+- assert:
+    party_position:
+      x: -20375
+      y: -10547
+      radius: 400
+      z_min: 1600
+- note: 'The chest on Sharla''s deck: a sprite sits on it (q-d10.treehouse)'
+- execute_event:
+    id: 23
+- advance_runtime:
+    seconds: 0.5
+- note: 'q-d10.robbery (113203): the village''s sprites turn hostile; all dead sets sprites_slain (113208)'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113203
+    value: true
+- advance_runtime:
+    seconds: 4
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: true
+      min: 3
+- play_lua:
+    source: local n = clear_hostiles(6000); log("cleared " .. n)
+- advance_runtime:
+    seconds: 7
+- play_lua:
+    source: if not qbit(113208) then error("sprites_slain (113208) not set") end
+- note: 'The treehouse chest now: two Energy Disks (q-d10.treehouse)'
+- execute_event:
+    id: 23
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if not has_item(12334) then error("no Energy Disk") end
+- note: Troll hole A (q-d13.troll_holes) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -2048
+    y: -6144
+    z: 992
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'D-25 (a): the return spot of DD-11A is clear ground'
+- note: '''Troll Hole. Descend?'' then DD-11A at A7''s inside point, facing east'
+- execute_event:
+    id: 32
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd11a.blv
+- assert:
+    party_position:
+      x: 96
+      y: -32
+      radius: 200
+- note: DD-11A's sod hatch (its event 7), back on D2 at (-2048, -6144, 992)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 7
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: -2048
+      y: -6144
+      radius: 200
+      z_min: 952
+      z_max: 1112
+- note: Troll hole B (q-d13.troll_holes) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 3072
+    y: -10240
+    z: 960
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'D-25 (a): the return spot of DD-11B is clear ground'
+- note: '''Troll Hole. Descend?'' then DD-11B at A7''s inside point, facing east'
+- execute_event:
+    id: 33
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd11b.blv
+- assert:
+    party_position:
+      x: 96
+      y: -32
+      radius: 200
+- note: DD-11B's sod hatch (its event 7), back on D2 at (3072, -10240, 960)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 7
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 3072
+      y: -10240
+      radius: 200
+      z_min: 920
+      z_max: 1080
+- note: Troll hole C (q-d13.troll_holes) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 1536
+    y: -17408
+    z: 928
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'D-25 (a): the return spot of DD-11C is clear ground'
+- note: '''Troll Hole. Descend?'' then DD-11C at A7''s inside point, facing east'
+- execute_event:
+    id: 34
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd11c.blv
+- assert:
+    party_position:
+      x: 128
+      y: -64
+      radius: 200
+- note: DD-11C's sod hatch (its event 12), back on D2 at (1536, -17408, 928)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 12
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 1536
+      y: -17408
+      radius: 200
+      z_min: 888
+      z_max: 1048
+- note: The Forbidden Fruit clearing (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -3328
+    y: -12544
+    z: 960
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The coconut of confusion
+- execute_event:
+    id: 37
+- advance_runtime:
+    seconds: 0.5
+- note: The label on the basket
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Down the brink path
+- walk_to:
+    x: -2560
+    y: -14848
+    z: 960
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -2048
+    y: -16896
+    z: 960
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: -1536
+    y: -18944
+    z: 928
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: The sprites' lookout over Sprite Falls
+- execute_event:
+    id: 29
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The fairy ring (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -24576
+    y: -13056
+    z: 992
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The fairy ring heals
+- execute_event:
+    id: 42
+- advance_runtime:
+    seconds: 0.5
+- note: The obelisk on its knoll (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -14336
+    y: 5632
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The obelisk: A3''s obelisks.d2 (BENEATH, dark_2)'
+- execute_event:
+    id: 43
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- play_lua:
+    source: if not qbit(115051) then error("dark_2 (115051) not set") end
+- note: The east adit's foot (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -15360
+    y: 16384
+    z: 1696
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The adit into DD-10B at A8's point (0, 192), facing north
+- execute_event:
+    id: 44
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd10b.blv
+- assert:
+    party_position:
+      x: 0
+      y: 192
+      radius: 200
+- note: DD-10B's boarded mouth (its event 9), back on D2 at (-15360, 16384, 1696)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 9
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: -15360
+      y: 16384
+      radius: 200
+      z_min: 1656
+      z_max: 1816
+- note: The crystal seam (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -8192
+    y: 17664
+    z: 2016
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The crystal seam (Might 30)
+- execute_event:
+    id: 45
+- advance_runtime:
+    seconds: 0.5
+- note: The caravan road below the west fort (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -1536
+    y: 10752
+    z: 1696
+    yaw: 0.3
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Kramer's strongbox
+- execute_event:
+    id: 55
+- advance_runtime:
+    seconds: 0.5
+- press_action:
+    action: cancel_dialog
+- note: The west fort's gate (DD-13) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 4096
+    y: 13824
+    z: 2016
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The west fort's gate into DD-13's start (0, -64), facing north
+- execute_event:
+    id: 49
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd13.blv
+- assert:
+    party_position:
+      x: 0
+      y: -64
+      radius: 200
+- note: DD-13's west gateway (its event 15), back on D2 at (4096, 13824, 2016)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 15
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 4096
+      y: 13824
+      radius: 200
+      z_min: 1976
+      z_max: 2136
+- note: Graalg's parley fire (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 6912
+    y: 13568
+    z: 2048
+    yaw: 0.6
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Graalg at the parley fire (Q-D11): peaceful, he talks'
+- walk_to:
+    x: 7373
+    y: 13824
+    z: 2048
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 22
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The east fort's gate (DD-13) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 11776
+    y: 11776
+    z: 2048
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The east fort's gate into DD-13 at A7's point (7552, 32), south
+- execute_event:
+    id: 52
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd13.blv
+- assert:
+    party_position:
+      x: 7552
+      y: 32
+      radius: 200
+- note: DD-13's east gateway (its event 14), back on D2 at (11776, 11776, 2048)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 14
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 11776
+      y: 11776
+      radius: 200
+      z_min: 2008
+      z_max: 2168
+- note: The Southern Tower's door (q-d19.tower_door) (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 15872
+    y: -7424
+    z: 1056
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Refused without Thaddeus''s key: ''NO THIEVES'''
+- execute_event:
+    id: 20
+- advance_runtime:
+    seconds: 0.5
+- grant_item:
+    item_id: 12339
+- note: 'With the key: into DD-06 at A7''s inside point (640, 1700, 0) facing south'
+- execute_event:
+    id: 20
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd06.blv
+- assert:
+    party_position:
+      x: 640
+      y: 1700
+      radius: 200
+- note: DD-06's front door (its event 17) back out onto D2's entrance:dd06_door (15872, -7680)
+- execute_event:
+    id: 17
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 15872
+      y: -7680
+      radius: 200
+- note: The Shrine of the Elements (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 20480
+    y: -13824
+    z: 1024
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Shrine of the Elements: +5 to four resistances'
+- execute_event:
+    id: 59
+- advance_runtime:
+    seconds: 0.5
+- note: The genie's ledge (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 18432
+    y: 16640
+    z: 2288
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The genie's lamp
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- note: 'The genie''s lamp again: cold'
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'wait(0.2); local s = status(); if not string.find(s, ''Its genie has gone back in for good.'', 1, true) then
+      error(''second rub: '' .. s) end'
+- note: The milestone on the Sandcaster road (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 21504
+    y: 11520
+    z: 1312
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The milestone
+- execute_event:
+    id: 87
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'q-d11.west_burned (113224) and hostile (113222), as DD-13 sets them: the west fort a ruin on load'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113224
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 113222
+    value: true
+- load_map:
+    map: xeen_d2.odm
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      min: 10
+- note: West off the edge to D1 (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: -29696
+    y: 2048
+    z: 1056
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -32256
+    y: 2048
+    z: 1024
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d1.odm
+- note: East along the caravan road off the edge to D3 (by teleport)
+- set_pose:
+    map: xeen_d2.odm
+    x: 29696
+    y: 10240
+    z: 1408
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Off D2''s east edge: the travel prompt (D3, 5 days), accepted; D3''s west start (-22528, 10240, 1312)'
+- walk_to:
+    x: 32512
+    y: 10240
+    z: 1376
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: -22528
+      y: 10240
+      radius: 700
+- note: 'Back west off D3''s west edge (by teleport near it on D3''s flat road at 1312): the prompt, accepted; D2''s east
+    start (21504, 10240, 1312)'
+- set_pose:
+    map: xeen_d3.odm
+    x: -30208
+    y: 10240
+    z: 1312
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -32512
+    y: 10240
+    z: 1312
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d2.odm
+- assert:
+    party_position:
+      x: 21504
+      y: 10240
+      radius: 700

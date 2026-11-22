@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit guide_atlas.png in place. Use its existing alpha channel as a locked stencil. Replace only the grey RGB inside its five masks with unlit base colour of the Tribble, a small round ball of soft tan and white fur, no visible face. Match the fine overlapping shaggy locks and crown swirl in design_reference.png and cream-white, honey-tan fur palette of icon_x8.png (ignore magenta). Keep hairs clipped inside the exact polygonal guide edges including the flattened bottoms. 1536x1024 transparent PNG, six 512px cells. Top row front, back, left; bottom row right, top, fully empty. Preserve every shape, size, gap, orientation and position exactly. Paint natural variations in coat colour and hair direction scaled to each view. No baked lighting, highlights, shadows, AO, reflections, halo, outlines, text, or ground. Correction: preserve the input guide alpha mask pixel for pixel. All pixels outside it must have alpha zero, especially the bottom-right cell. The painted shapes must fill the mask to its very edge, fully opaque throughout the interiors. No feathering or translucent perimeter.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "0b74838338517bb2eb798406494d59f9931709c0ca2a66ccf597f98e47d0e3c4"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "cb1edf1fe17e26f8aeddee68348e6937f6b1f482295844ed0cfb77a9f45f58ea"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "ce3e39d4f1228f8c5638908ad41e8cbd7757ad6bc47a582d8e9ace358cee207a"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f932-1513-7c60-86b8-34159ac2bb38/exec-de87d077-d636-41b8-9e9a-f416350424d2.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

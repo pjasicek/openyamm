@@ -1,0 +1,252 @@
+format: 0
+variables: [log_page]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: dd22_arrived_once}}
+    once: true
+    effects:
+      - qbit: dd22_arrived_once
+      - text: "Escape Pod 2. Cold air, red light, and somewhere above, machines still on guard."
+    notes: "The first arrival (dd22_arrived_once 117760): one status line (map-local, for A3; A3 has no hook text for it); the airlock is quiet (D-11.3)."
+  - id: evt:blast
+    preset: script
+    source: door:blast
+    title: Blast door
+    condition: {not: {qbit: lockdown_released}}
+    effects:
+      - lua: "XeenQuests.hook(\"dd22.blast_door\")"
+    else_effects:
+      - text: The blast door stands open.
+    notes: "While the lockdown holds: A3's dd22.blast_door (its fail text 'The bridge door is sealed. Security lockdown.')."
+  - id: evt:cell_1
+    preset: text
+    source: panel:cell_1
+    title: Stasis cell
+    text: An empty stasis cell. Its field is dark.
+    window: false
+    notes: "The brig's cells (log XL70I's), map-local (Lines for A3)."
+  - id: evt:cell_2
+    preset: text
+    source: panel:cell_2
+    title: Stasis cell
+    text: An empty stasis cell. Its field is dark.
+    window: false
+    notes: "The brig's cells (log XL70I's), map-local (Lines for A3)."
+  - id: evt:chest_brig
+    preset: chest
+    source: chest:brig
+    title: Chest
+    notes: The guards' locker.
+  - id: evt:chest_couch
+    preset: chest
+    source: chest:couch
+    title: Chest
+    notes: Sheltem's locker.
+  - id: evt:chest_stores
+    preset: chest
+    source: chest:stores
+    title: Chest
+    notes: The stores locker.
+  - id: evt:couch
+    preset: text
+    source: platform:couch
+    title: Command couch
+    text: "Sheltem's command couch, empty. The harness hangs open."
+    window: false
+    notes: Map-local (Lines for A3).
+  - id: evt:device_1
+    preset: text
+    source: platform:device_1
+    title: Strange Alien Device
+    text: The strange alien device seems to be dormant.
+    window: false
+    notes: "dark/aaze0088:0 (D-62 Q53: dressing, no reward)."
+  - id: evt:device_2
+    preset: text
+    source: platform:device_2
+    title: Strange Alien Device
+    text: The strange alien device seems to be dormant.
+    window: false
+    notes: "dark/aaze0088:0 (D-62 Q53: dressing, no reward)."
+  - id: evt:door_airlock
+    preset: door
+    source: door:airlock
+    title: Airlock door
+  - id: evt:door_brig
+    preset: door
+    source: door:brig
+    title: Brig
+  - id: evt:door_gun
+    preset: door
+    source: door:gun
+    title: Gun deck
+  - id: evt:door_maint
+    preset: door
+    source: door:maint
+    title: Maintenance hatch
+  - id: evt:door_security
+    preset: door
+    source: door:security
+    title: Security post
+  - id: evt:door_stores
+    preset: door
+    source: door:stores
+    title: Stores
+  - id: evt:drive_rack
+    preset: script
+    source: platform:rack
+    title: Tool rack
+    condition: {not: {qbit: drive_find}}
+    effects:
+      - give_item:
+          level: 6
+      - lua: "XeenQuests.hook(\"dd22.drive_rack\")"
+    else_effects:
+      - text: Nothing here.
+    notes: "D-62 APPROVAL: the first search gives one random T6 item (the map) and calls A3's dd22.drive_rack (drive_find 117762, its line); afterwards 'Nothing here.' (the map's)."
+  - id: evt:generator
+    preset: text
+    source: platform:generator
+    title: Stasis generator
+    text: The stasis generator that carried Sheltem through the crash. It is cold.
+    window: false
+    notes: "Map-local (Lines for A3); log XLDBA."
+  - id: evt:hatch
+    preset: exit
+    source: exit:hatch
+    title: Exit Escape Pod 2
+    notes: "Out to D6 at its named arrival entrance:dd22_hatch (7168, 12288, 1952) facing 1536: the game's own leave window (D-24); 'Exit Escape Pod 2?' (aaze0088:1) is its meaning, as DD-16's 'Exit Escape Pod 1'."
+  - id: evt:lift_a1
+    preset: switch
+    source: switch:lift_a1
+    title: Lift
+    toggles: [lift:a]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -160, 256, 448)"
+    notes: "Lift A from deck 1: up or called down."
+  - id: evt:lift_a2
+    preset: switch
+    source: switch:lift_a2
+    title: Lift
+    toggles: [lift:a]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", -160, 256, 448)"
+    notes: "Lift A from deck 2: down or called up."
+  - id: evt:lift_b2
+    preset: switch
+    source: switch:lift_b2
+    title: Lift
+    toggles: [lift:b]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 160, 256, 896)"
+    notes: "Lift B from deck 2: up or called down."
+  - id: evt:lift_b3
+    preset: switch
+    source: switch:lift_b3
+    title: Lift
+    toggles: [lift:b]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 160, 256, 896)"
+    notes: "Lift B from deck 3: down or called up."
+  - id: evt:lockdown_load
+    preset: script
+    trigger: load
+    condition: {qbit: lockdown_released}
+    opens: [door:blast]
+    effects:
+      - lua: "evt.SetMapVar(\"AmbientSound1\", 2)"
+    notes: "Every load after the release: the blast door open, the alarm silent."
+  - id: evt:log
+    preset: script
+    source: panel:log
+    title: Log Computer
+    lua: |-
+      local page = 1
+      for n = 1, 5 do
+          if IsAtLeast(MapVar(log_page), n) then page = n + 1 end
+      end
+      evt.PlaySoundName("xeen_log_chirp", 896, 1088, 1056)
+      if page == 1 then
+          XeenQuests.hook("dd22.log_page_1")
+      elseif page == 2 then
+          XeenQuests.hook("dd22.log_page_2")
+      elseif page == 3 then
+          XeenQuests.hook("dd22.log_page_3")
+      elseif page == 4 then
+          XeenQuests.hook("dd22.log_page_4")
+      elseif page == 5 then
+          XeenQuests.hook("dd22.log_page_5")
+      elseif page == 6 then
+          XeenQuests.hook("dd22.log_page_6")
+      end
+      SetValue(MapVar(log_page), page % 6)
+    notes: "D-62 Q54 (D-47 Q19's pattern): each click shows A3's next page (dd22.log_page_1..6) with a computer chirp, wrapping round after the sixth; the map variable log_page holds the page shown last. Page 6's hook adds autonote 4139 sheltem_log."
+  - id: evt:main_console
+    preset: text
+    source: platform:main_console
+    title: Main Console
+    text: Main Console. The computer seems to be malfunctioning.
+    window: false
+    notes: dark/aaze0088:5 (map-local).
+  - id: evt:phaser
+    preset: script
+    source: platform:phaser
+    title: Phaser Control
+    lua: |-
+      if continueStep == 1 then
+          XeenQuests.hook("dd22.weapons")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      evt.SetMessage("Phaser Control. A status indicator on the weapon shows it to be disarmed. Fire anyway?")
+      AskChoiceWithAnswerSteps(eventId, 3, "Fire anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "dark/aaze0088:2: the message ends on the request (D-65 B1) over Yes/No buttons (D-67 change 7); Yes calls A3's dd22.weapons ('Nothing happens.'), as DD-16 (D-47)."
+  - id: evt:photon
+    preset: script
+    source: platform:photon
+    title: Photon Control
+    lua: |-
+      if continueStep == 1 then
+          XeenQuests.hook("dd22.weapons")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      evt.SetMessage("Photon Control. A status indicator on the weapon shows it to be disarmed. Fire anyway?")
+      AskChoiceWithAnswerSteps(eventId, 3, "Fire anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "dark/aaze0088:3: the message ends on the request (D-65 B1) over Yes/No buttons (D-67 change 7); Yes calls A3's dd22.weapons ('Nothing happens.'), as DD-16 (D-47)."
+  - id: evt:scan_console
+    preset: text
+    source: platform:scan_console
+    title: Scanning Console
+    text: Scanning Console. The computer seems to be malfunctioning.
+    window: false
+    notes: dark/aaze0088:6 (map-local).
+  - id: evt:security_console
+    preset: script
+    source: platform:sec_console
+    title: Security Console
+    lua: |-
+      if continueStep == 1 then
+          evt.SetDoorState(4, DoorAction.Open)
+          evt.SetDoorState(5, DoorAction.Open)
+          XeenQuests.hook("dd22.security_console")
+          evt.SetMapVar("AmbientSound1", 2)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(117761)) then
+          XeenQuests.hook("dd22.security_console")
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Security lockdown: bridge sealed. Release?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "goal:lockdown (D-62; D-67 change 7: Yes/No buttons; D-65 B1: no message before the prompt, so the prompt keeps its own text): Yes calls A3's dd22.security_console (lockdown_released 117761, once), opens the bridge's blast door for good (both leaves, one way, D-43) and stops the alarm. Later clicks: the hook's else text."
+notes: "DD-22's events, written by output/studio_cal/dd22/tools/dress.py."

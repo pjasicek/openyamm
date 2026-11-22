@@ -1,0 +1,221 @@
+# Q-F2 The Dungeon of Death (QUESTS 2.3 Q-F2; optional finale). Owner: A3. Format: QUESTS_FORMAT.md.
+# FD-04's lower half, Sandro's old home under the Dragon Tower (X7), opened by his Key to the Dungeon of Death (Q-D23;
+# kept, D-4; D-57 Q24). A walk-in crossword of twelve clues whose answers the story has named gates the descent (D-57
+# Q25: the source's 42 Down "Tower located in Troll Forest" is untrue in our world and is replaced by 45 Down "City of
+# Ghosts", Winterkill); then the ballroom, the game rooms and four Shrines of Evil (the Ultimate one throws the party
+# out, never lethal, Q26), the gongs and the lever, and the Lord Xeen Machine to destroy. The main terminal keeps the
+# source's code prompt; FD-03's heads give the code (Q35). Rewards (D-57 Q32): crossword 6,000; shrines Minor 1,000,
+# Lesser 2,000, Great 3,000, Ultimate 0; the machine 10,000; the code 2,000 (24,000 per member).
+id: Q-F2
+title: The Dungeon of Death
+act: opt
+kind: side
+status: full
+giver: null
+giver_name: "(Sandro, Q-D23, gives the key: it opens the way to his old home)"
+maps: [FD-04]
+level: 64
+block: 112
+after: [q-d23.released]
+source: "QUESTS Q-F2; dark/aazex121:0-2, :7-8, :11-163, aazex122:4-18, :24, aazex123:0-5, aazex124:0-13; D-57 Q24-Q26, Q32, Q34, Q35"
+
+qbits:
+  started: {id: 114040, journal: "Sandro's key has opened his old home under the Dragon Tower, the Dungeon of Death. Something down there is still running.",
+            until: [done]}
+  done: {id: 114041}
+  shrine_minor: {id: 114043, note: "the Shrine of Minor Evil destroyed (its experience once)"}
+  shrine_lesser: {id: 114044, note: "the Shrine of Lesser Evil destroyed"}
+  shrine_great: {id: 114045, note: "the Shrine of Great Evil destroyed"}
+  # FD-04's map qbits (block 118130-118149, D-57; 118146-118147 are q-f1's)
+  door_open: {id: 118130, map: FD-04, note: "Sandro's black iron door opened with his key, for good (the map opens it on every load)"}
+  word_1a: {id: 118131, map: FD-04, note: "1 Across lit (Scepter)"}
+  word_5a: {id: 118132, map: FD-04, note: "5 Across lit (Vampire)"}
+  word_6a: {id: 118133, map: FD-04, note: "6 Across lit (Kalindra)"}
+  word_13a: {id: 118134, map: FD-04, note: "13 Across lit (Corak)"}
+  word_21a: {id: 118135, map: FD-04, note: "21 Across lit (Alamar)"}
+  word_24a: {id: 118136, map: FD-04, note: "24 Across lit (Necropolis)"}
+  word_40a: {id: 118137, map: FD-04, note: "40 Across lit (Sandcaster)"}
+  word_44d: {id: 118138, map: FD-04, note: "44 Down lit (Castleview)"}
+  word_45d: {id: 118139, map: FD-04, note: "45 Down lit (Winterkill; replaces the source's 42 Down, D-57 Q25)"}
+  word_47d: {id: 118140, map: FD-04, note: "47 Down lit (Sphinx)"}
+  word_76d: {id: 118141, map: FD-04, note: "76 Down lit (Mirror)"}
+  word_77d: {id: 118142, map: FD-04, note: "77 Down lit (Xeen)"}
+  crossword_done: {id: 118143, map: FD-04, note: "the crossword done: the descent open (the map opens it on every load)"}
+  shutter_up: {id: 118144, map: FD-04, note: "FD-04 (A7): the lever pulled after the four gongs; the iron shutter raised on every load"}
+  machine_broken: {id: 118145, map: FD-04, note: "the Lord Xeen Machine broken (the map shows it dark on every load)"}
+  ultimate_broken: {id: 118148, map: FD-04, note: "the Shrine of Ultimate Evil broken: it stays broken (D-57 Q26)"}
+  code_entered: {id: 118149, map: FD-04, note: "the main terminal's code entered: 2,000 once (D-57 Q35)"}
+
+items:
+  death_dungeon_key: "Q-D23's (Sandro); Sandro's door, kept"
+
+hooks:
+  door:
+    map: FD-04
+    gate: beat
+    where: "Sandro's black iron door in the gate hall's cellar well, over the stair down (D-57 Q24): its click calls this; true opens it for good (door_open, opened on every load). From below it always opens"
+    requires: {item: death_dungeon_key}
+    sets: [door_open, started]
+    once: true
+    text: "The Key to the Dungeon of Death turns in the skull's eye. The black iron door opens on a stair, and a smell of old incense and older dust comes up it."
+    fail_text: "A black iron door with Sandro's mark, a skull with a keyhole for an eye. It answers only to his key, the Key to the Dungeon of Death."
+    else_text: "Sandro's door stands open."
+
+  clue_1a:
+    map: FD-04
+    where: "the crossword hall's clue plaque 1 (D-57 Q25): the map asks \"1 Across: King's Staff. Answer?\"; Scepter, Sceptre, Xeen's Scepter or the Scepter of Temporal Distortion (any case, with or without a leading 'the'; the words as written, punctuation counts) calls this hook, any other answer clue_wrong; the word lights across the floor (word_1a, shown on every load)"
+    sets: [word_1a]
+    text: "Correct!"
+  clue_5a:
+    map: FD-04
+    where: "clue plaque 5: \"5 Across: Count Blackfang. Answer?\"; Vampire or Vampires (as clue_1a)"
+    sets: [word_5a]
+    text: "Correct!"
+  clue_6a:
+    map: FD-04
+    where: "clue plaque 6: \"6 Across: Imprisoned Queen. Answer?\"; Kalindra, Kalindra's or Queen Kalindra"
+    sets: [word_6a]
+    text: "Correct!"
+  clue_13a:
+    map: FD-04
+    where: "clue plaque 13: \"13 Across: Freed from spaceship. Answer?\"; Corak"
+    sets: [word_13a]
+    text: "Correct!"
+  clue_21a:
+    map: FD-04
+    where: "clue plaque 21: \"21 Across: Castle beyond the Forbidden Zone. Answer?\"; Alamar or Castle Alamar"
+    sets: [word_21a]
+    text: "Correct!"
+  clue_24a:
+    map: FD-04
+    where: "clue plaque 24: \"24 Across: City of the undead. Answer?\"; Necropolis"
+    sets: [word_24a]
+    text: "Correct!"
+  clue_40a:
+    map: FD-04
+    where: "clue plaque 40: \"40 Across: City of sorcerers. Answer?\"; Sandcaster"
+    sets: [word_40a]
+    text: "Correct!"
+  clue_44d:
+    map: FD-04
+    where: "clue plaque 44: \"44 Down: Ellinger's Tower is located here. Answer?\"; Castleview"
+    sets: [word_44d]
+    text: "Correct!"
+  clue_45d:
+    map: FD-04
+    where: "clue plaque 45: \"45 Down: City of Ghosts. Answer?\"; Winterkill (the source's 45 Down, in place of its 42 Down, D-57 Q25)"
+    sets: [word_45d]
+    text: "Correct!"
+  clue_47d:
+    map: FD-04
+    where: "clue plaque 47: \"47 Down: You need an amulet to gain entry. Answer?\"; Sphinx, Southern Sphinx or the Southern Sphinx"
+    sets: [word_47d]
+    text: "Correct!"
+  clue_76d:
+    map: FD-04
+    where: "clue plaque 76: \"76 Down: Way of transportation in the Land of Xeen. Answer?\"; Mirror or Mirrors"
+    sets: [word_76d]
+    text: "Correct!"
+  clue_77d:
+    map: FD-04
+    where: "clue plaque 77: \"77 Down: He had a pet dragon. Answer?\"; Xeen or Lord Xeen"
+    sets: [word_77d]
+    text: "Correct!"
+  clue_wrong:
+    map: FD-04
+    where: "any clue plaque, a wrong answer (dark/aazex121:7): nothing else; ask again"
+    text: "Wrong!"
+  crossword:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: beat
+    where: "the descent's door at the crossword hall's far end (dark/aazex121:1-2): true with all twelve words lit sets crossword_done and pays once (the source's +5 levels as 6,000); the map opens the descent then and on every load"
+    requires: {all: [{qbit: word_1a}, {qbit: word_5a}, {qbit: word_6a}, {qbit: word_13a}, {qbit: word_21a}, {qbit: word_24a},
+                     {qbit: word_40a}, {qbit: word_44d}, {qbit: word_45d}, {qbit: word_47d}, {qbit: word_76d}, {qbit: word_77d}]}
+    sets: [crossword_done]
+    once: true
+    do: [{xp: 6000}]
+    text: "You may pass. For completing the puzzle, here is your reward. (+6,000 experience)"
+    fail_text: "Sorry, the crossword puzzle is not done yet. You may not descend!"
+
+  shrine_minor:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Shrine of Minor Evil (a destructible; the map asks \"Shrine of Minor Evil. Destroy?\", dark/aazex122:17; its on_destroyed calls this, once)"
+    sets: [shrine_minor]
+    once: true
+    do: [{xp: 1000}]
+    text: "The Shrine of Minor Evil cracks and falls in. Something small and spiteful goes out of the room. (+1,000 experience)"
+  shrine_lesser:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Shrine of Lesser Evil, as shrine_minor (\"Shrine of Lesser Evil. Destroy?\", dark/aazex122:15)"
+    sets: [shrine_lesser]
+    once: true
+    do: [{xp: 2000}]
+    text: "The Shrine of Lesser Evil breaks apart. The air in the gallery is easier to breathe. (+2,000 experience)"
+  shrine_great:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Shrine of Great Evil, as shrine_minor (\"Shrine of Great Evil. Destroy?\", dark/aazex122:13)"
+    sets: [shrine_great]
+    once: true
+    do: [{xp: 3000}]
+    text: "The Shrine of Great Evil shatters with a sound like a scream cut short. (+3,000 experience)"
+  shrine_ultimate:
+    map: FD-04
+    where: "the Shrine of Ultimate Evil (D-57 Q26): the map asks the tell \"Shrine of Ultimate Evil. The walls seem to lean on it, and dust runs from the ceiling. Destroy?\" (dark/aazex122:11 with the tell). Yes: its on_destroyed calls this (Fire damage, the line on the status line), then the map's camera shake and falling dust and `leave` to X7's entrance:fd04_door. No experience; the shrine stays broken (ultimate_broken, on every load); the dungeon is still there"
+    sets: [ultimate_broken]
+    once: true
+    status: true
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Fire, 70)"}]
+    text: "You destroy the shrine, which destroys this dungeon, taking you with it."
+  note:
+    map: FD-04
+    where: "the Throne of the Dead (the throne hall): the note on the seat (dark/aazex122:24)"
+    text: "You find a note that reads: Gone to Necropolis, will return soon. Please keep the place clean. I've de-activated most of the defenses so that you and your friends can roam around freely. The vampires have requested their privacy, so leave them alone. Have fun... (signed) Sandro"
+  coffin:
+    map: FD-04
+    where: "the coffins behind Do Not Disturb (D-57 Q34: they stay shut, the vampires never wake; dark/aazex122:4-7): every coffin, every time"
+    text: "You try to open the lid of the coffin, but it is too heavy and you are too weak. From inside, someone turns over."
+  gongs_reset:
+    map: FD-04
+    where: "the gong hall's chest opened before the shutter is up (D-57 FD-04, the source's \"Touch any treasure and you'll have to start over!\", dark/aazex123:3): the map resets the four gongs (map variables, their lamps out) and calls this"
+    status: true
+    text: "The gongs fall silent."
+
+  terminal:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the main terminal in the control room (D-57 Q35): the map asks the source's prompt \"Main Terminal. Enter Code\" (dark/aazex124:7) until code_entered is set; 'Computer' (any case) calls this hook, any other answer terminal_wrong. The code is FD-03's heads' (m41.plaques_l4 and its autonote)"
+    sets: [code_entered]
+    once: true
+    do: [{xp: 2000}]
+    text: "The screen flashes with the response: CODE ACCEPTED. WELCOME, OPERATOR. Somewhere below, a great many fans slow down. (+2,000 experience)"
+    else_text: "The screen flashes with the response: Code accepted already. Have a nice day."
+  terminal_wrong:
+    map: FD-04
+    where: "the main terminal, a wrong code (dark/aazex124:10-11): the first wrong answer of the visit says Goober, every one after SUPER Goober (map variable fd04_goober)"
+    states:
+      - when: {lua: "evt.GetMapVar(\"fd04_goober\", 0) >= 1"}
+        text: "The screen flashes with the response: You are a SUPER Goober!"
+      - text: "The screen flashes with the response: You are a Goober!"
+        do: [{lua: "evt.SetMapVar(\"fd04_goober\", 1)"}]
+  machine:
+    map: FD-04
+    window: "a choice's answer, long (the Lord Xeen Machine, 213 characters)"
+    where: "the Lord Xeen Machine in the machine hall (behind the iron shutter): the map asks \"Lord Xeen Machine. Destroy?\" (dark/aazex124:0); Yes calls this, once; the map shows it dark on every load (machine_broken)"
+    sets: [machine_broken, done]
+    once: true
+    do: [{xp: 10000}]
+    text: "You pull the four cores out of the Lord Xeen Machine one by one. It shudders, sparks and stops. Somewhere a great many lights go out, and nothing else happens, which is how you know it worked. (+10,000 experience)"
+    else_text: "The Lord Xeen Machine is dark and cold. Somebody will have to write a new maintenance schedule."
+
+riddles:
+  - {answer: "the twelve crossword words (Scepter, Vampire, Kalindra, Corak, Alamar, Necropolis, Sandcaster, Castleview, Winterkill, Sphinx, Mirror, Xeen)",
+     where: "FD-04's crossword (q-f2.clue_*)",
+     said_by: "the main path names each: Xeen's Scepter (m35), Count Blackfang the vampire (m27, DD-14), the imprisoned Queen Kalindra (m27), Corak freed from the starship (m29), Castle Alamar beyond the Forbidden Zone (m33, D6), the Necropolis (q-d23, D6), Sandcaster's Guild of Light (q-d18, D3), Ellinger's Tower in Castleview (m17), the Ghosts of Winterkill (q-c6, X5), the Southern Sphinx and Roland's amulet (m39, m40), the town mirrors (world.yml), Xeen's Pet and Lord Xeen (m35)"}
+  - {answer: Computer, where: "FD-04's main terminal (q-f2.terminal)", said_by: "FD-03's four heads (m41.plaques_l4, autonote m41.heads)"}
+
+rewards: {xp: 24000, gold: 0}
+playthrough: "FD-04: Sandro's door (his key); the crossword's twelve clues and the descent; the Throne of the Dead (Sandro's note); the shrines Minor, Lesser, Great; the gongs and the lever; the main terminal (Computer); the machine. The Shrine of Ultimate Evil throws the party out to X7."

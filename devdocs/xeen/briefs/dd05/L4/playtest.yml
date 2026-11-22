@@ -1,0 +1,354 @@
+# Playtest of the Western Tower of Mok (DD-05, L4): the critical path from the rope window to the front door through
+# every mechanism, the boss and the hooks. A level-37 party arrives by D1's rope in the hoist room (the arrival
+# window), crosses the bone gallery (a heap of bones: a find, then "Nothing here."), opens the chapel's double doors:
+# the Cult Leader dies (q-d6.cult_leader), the key lies on the altar (a ground item, D-90: picked up).
+# Through the cells (a bed's find) to the tapestry walk: the west tapestry "Nothing here.", the middle one's button
+# slides the panel into the vestry; the vestry's chest; the vestry's door into the chapel; down the altar stair.
+# L3: the cloister; Pious's cell: a save, No (q-d6.pious: pious_spared, he is gone), a load, Yes (the source's kill
+# line, pious_slain, he is gone), the bed's line; the cold fountain (+5 Water to member 1 once, the refusal, then +5
+# to member 2) and the venom fountain once and its refusal; the dormitory's chest; down the west stair. L2: the
+# refectory, the fountains of fire and lightning (once each, then the refusal), the lower dormitory's purse, Humble's
+# cell entered on foot: a save, Yes (humble_slain), a load, No (q-d6.humble). Down the east stair. L1: the alcoves: the
+# west disc gives both Energy Disks (q-d6.l1_alcoves), the east says "The alcove is empty.", the Golden
+# Pegasus on the north ledge (a ground item, D-90: picked up); the dead mirror; the door hall: the front door with the key (q-d6.front_door,
+# tower_opened); a save and a load on the way keep the alcoves empty. Numbers are ids.lock.yml's (events, doors).
+# Run with --world xeen --map xeen_dd05.blv (output/studio_cal/dd05/four.sh).
+id: xeen.dd05.l4.walk
+title: Western Tower of Mok (DD-05 L4), the rope to the front door
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd05.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 37, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 37, skills: [], equipment: {}}
+  - assert: {map: xeen_dd05.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE WESTERN TOWER OF MOK"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117360) then error('arrived_once not set') end"}
+  - assert: {party_position: {x: 1376, y: 1472, radius: 64, z_min: 1912, z_max: 1928}}
+  # L4: the hoist room's door, the bone gallery.
+  - walk_to: {x: 1120, y: 1376, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 6)"}
+  - walk_to: {x: 700, y: 1376, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 560, y: 1560, z: 1920, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before = gold()
+        status()
+        click(14); wait(0.5)
+        if gold() ~= before + 300 then error("the bones gave " .. (gold() - before) .. " gold") end
+        status()
+        click(14); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the bones again said: " .. seen) end
+  # The chapel: the double doors, the Cult Leader and his group, the key on the altar.
+  - walk_to: {x: 480, y: 1216, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(1) ~= 'closed' then error('the chapel doors do not start shut') end; open_door(23, 1); if door_state(2) ~= 'open' then error('the second leaf did not open: ' .. door_state(2)) end"}
+  - walk_to: {x: 0, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 3500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "wait(3); if not qbit(113123) then error('leader_slain not set after the Cult Leader died') end"}
+  - walk_to: {x: -1216, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  # D-90 (2026-11-22): the key lies on the altar as a ground item.
+  - play_lua: {source: "if ground_items(12338) ~= 1 then error('the key is not on the altar') end"}
+  # from the altar's south side, clear of the Cult Leader's body
+  - walk_to: {x: -1472, y: 950, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - pick_up: {item_id: 12338}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(12338) ~= 1 then error('no key from the altar') end"}
+  # Back out to the gallery and down its south end into the cells (a bed's find).
+  - walk_to: {x: 480, y: 1216, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: 200, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 672, y: -500, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1632, y: -1200, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before = gold()
+        click(12); wait(0.5)
+        if gold() ~= before + 600 then error("the cells' bed gave " .. (gold() - before) .. " gold") end
+        status()
+        click(12); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the bed again said: " .. seen) end
+  # The tapestry walk: the west tapestry; the button behind the middle one slides the panel into the vestry.
+  - walk_to: {x: 672, y: -416, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 200, y: -416, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: -300, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(52); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the west tapestry said: " .. seen) end
+        if door_state(12) ~= "closed" then error("the vestry panel does not start shut") end
+        status()
+        click(53); wait(4)
+        seen = status()
+        if not string.find(seen, "Click", 1, true) then error("the middle tapestry said: " .. seen) end
+        if door_state(12) ~= "open" then error("the button did not slide the panel: " .. door_state(12)) end
+  - walk_to: {x: -700, y: -384, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1088, y: -384, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1088, y: -480, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(20)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The vestry's door into the chapel; down the altar stair.
+  - walk_to: {x: -1088, y: 520, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 13)"}
+  - walk_to: {x: -1088, y: 860, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: 800, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: 500, z: 1920, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1568, y: -560, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # L3: the cloister; Pious's cell, No then (after a load) Yes.
+  - walk_to: {x: -1568, y: -960, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 0, y: -1000, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 10)"}
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: false}}
+  - assert: {actor_count: {monster_id: 11911, hostile: false, min: 1, max: 1}}
+  - save_game: {name: dd05_pious}
+  - execute_event: {id: 48}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for sparing my life."}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113128) then error('pious_spared not set') end; if qbit(117362) then error('pious_slain set by No') end"}
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: true}}
+  - load_game: {name: dd05_pious}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(113128) then error('the load kept pious_spared') end"}
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: false}}
+  - walk_to: {x: 0, y: -1450, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The screams of the unarmed cleric"}}
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if not qbit(117362) then error("pious_slain not set") end
+        if qbit(113128) then error("pious_spared set by Yes") end
+        status()
+        click(49); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "lifeless body", 1, true) then error("Pious's bed said: " .. seen) end
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: true}}
+  # The fountains of cold and venom: once per character (A3's hooks decide).
+  - walk_to: {x: 0, y: -1000, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -300, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -400, y: 0, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - lua_event: {source: "SetValue(WaterResistance, 10)"}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Water resistance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(40); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(WaterResistance, 15) or IsAtLeast(WaterResistance, 16) then error('member 1 Water resistance is not 15 after two drinks') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - lua_event: {source: "SetValue(WaterResistance, 10)"}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Water resistance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(WaterResistance, 15) or IsAtLeast(WaterResistance, 16) then error('member 2 Water resistance is not 15') end"}
+  - press_action: {action: select_member, member_index: 0}
+  - walk_to: {x: 400, y: 0, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - lua_event: {source: "SetValue(BodyResistance, 10)"}
+  - play_lua: {source: "click(38); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Body resistance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(38); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(BodyResistance, 15) or IsAtLeast(BodyResistance, 16) then error('Body resistance is not 15 after two drinks') end"}
+  # The upper dormitory: its door, a bed's find, the senior priest's chest; down the west stair.
+  - walk_to: {x: 0, y: 500, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 4)"}
+  - walk_to: {x: 0, y: 900, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -192, y: 1180, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "close(); status(); click(8); wait(0.5); local seen = status(); if not string.find(seen, 'Nothing here.', 1, true) then error('the dormitory bed again said: ' .. seen) end"}
+  - walk_to: {x: 544, y: 1440, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(17)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1184, y: 860, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1184, y: 500, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1184, y: -560, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # L2: the landing, the refectory, the fountains of fire and lightning.
+  - walk_to: {x: -1184, y: -900, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -400, y: -896, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -416, y: 500, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(32, 11)"}
+  - walk_to: {x: -416, y: 900, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1216, y: 1060, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - lua_event: {source: "SetValue(FireResistance, 10); SetValue(AirResistance, 10)"}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Fire resistance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -576, y: 1060, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Air resistance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(37); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(FireResistance, 15) or IsAtLeast(FireResistance, 16) then error('Fire resistance is not 15') end; if not IsAtLeast(AirResistance, 15) or IsAtLeast(AirResistance, 16) then error('Air resistance is not 15') end"}
+  # The lower dormitory: the purse; Humble's cell on foot, Yes then (after a load) No.
+  - walk_to: {x: 300, y: 992, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 256, y: 820, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(7); wait(0.5); if gold() ~= before + 750 then error('the purse gave ' .. (gold() - before)) end"}
+  - walk_to: {x: 1024, y: 1150, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 7)"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: false}}
+  - assert: {actor_count: {monster_id: 11910, hostile: false, min: 1, max: 1}}
+  - save_game: {name: dd05_humble}
+  - walk_to: {x: 1024, y: 1450, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The screams of the unarmed cleric"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117361) then error('humble_slain not set') end"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: true}}
+  - load_game: {name: dd05_humble}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(117361) then error('the load kept humble_slain') end"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: false}}
+  - walk_to: {x: 1024, y: 1450, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Slay him anyway?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for sparing my life."}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(113124) then error('humble_spared not set') end; if qbit(117361) then error('humble_slain set by No') end; click(42); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Nothing here."}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: true}}
+  # Down the east stair to L1.
+  - walk_to: {x: 1024, y: 1150, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1568, y: 860, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1568, y: 500, z: 640, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # A guard waits at the stair's foot on L1 (merge point 33's storey-bound clears no longer reach it from L2): fight it.
+  - walk_to: {x: 1568, y: -560, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1568, y: -900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # L1: the hall of alcoves: the discs (both disks from the first), the Pegasus.
+  - walk_to: {x: 1184, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -700, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Two of them, Energy Disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        local disks = item_count(12334) + (held() == 12334 and 1 or 0)
+        if disks ~= 2 then error("the first alcove gave " .. disks .. " disks") end
+        if not qbit(113126) then error("alcove_disks not set") end
+        click(22); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The alcove is empty.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 700, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The alcove is empty.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) + (held() == 12334 and 1 or 0) ~= 2 then error('the second alcove gave more disks') end"}
+  - walk_to: {x: 400, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # D-90 (2026-11-22): the Golden Pegasus stands on the north ledge as a ground item.
+  - play_lua: {source: "if ground_items(12349) ~= 1 then error('the Golden Pegasus is not on its ledge') end"}
+  - walk_to: {x: 0, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - pick_up: {item_id: 12349}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(12349) ~= 1 then error('no Golden Pegasus') end; if ground_items(12349) ~= 0 then error('a second Pegasus') end"}
+  # A save and a load: the alcoves stay empty.
+  - save_game: {name: dd05_alcoves}
+  - load_game: {name: dd05_alcoves}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The alcove is empty.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) + (held() == 12334 and 1 or 0) ~= 2 then error('a disk came back after the load') end"}
+  # The mirror hall, the door hall, the front door from inside with the key.
+  - walk_to: {x: 0, y: -300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "status(); click(46); wait(0.5); local seen = status(); if not string.find(seen, 'The mirror does not respond.', 1, true) then error('the mirror said: ' .. seen) end"}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: -1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(113125) then error('tower_opened set before the door') end; click(35); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the heretics' wards on the door die"}}
+  - play_lua: {source: "close(); if not qbit(113125) then error('tower_opened not set') end"}
+  - execute_event: {id: 35}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd05.blv}

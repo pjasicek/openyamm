@@ -1,0 +1,36 @@
+format: 0
+id: xeen_xd25
+name: Asp Undercroft
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-25
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 13], climbs: n}
+map_stats:
+  id: 9148
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 44
+  environment: stone hall
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Snake Man, tier: 2, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:asp_square
+    to: xeen_x4.odm
+    kind: door
+    arrival: [-11520, -9448, 1056]
+    arrival_hint: "On Asp's square on X4, in front of the undercroft hatch (door:xd25), facing away from it."
+    direction: 270
+    notes: "A5's points (briefs/x4/DOORS.md); X4's door:xd25 arrives here at the map's start (-2208, 1760, 256) facing east."
+qbits:
+  q_c11_crystals: 112222
+  q_c5_done: 112102
+  q_c5_pedestals: 112101
+  townsfolk_thanked: 110840
+notes: "Xeen design brief, level L4: the Asp Undercroft under the town of Asp on X4 (Q-C5 The Snakes of Asp, Q-C11 the Crystals of Piezoelectricity). Monsters: A2's Snake men (slot 1 Xeen Snake Man: A Snake Man 11500 16, B Snake Warrior 11501 20; placed Snake Lords 11502 26 in the machine hall and the keeper's cell); the caged townsfolk engine peasants 358, 352, 355. Map qbits 110840-110879 (used: townsfolk_thanked 110840); A3's q-c5.pedestals 112101, q-c5.done 112102 and q-c11.crystals_found 112222 read by name. Hooks q-c5.field_gate, q-c5.transformer, q-c11.crystals called from lua effects. Music 44. No neighbour: X4 is not built, so the cellar door up to Asp is sealed (panel:asp_door) and the map's start is the arrival from X4's door:xd25."

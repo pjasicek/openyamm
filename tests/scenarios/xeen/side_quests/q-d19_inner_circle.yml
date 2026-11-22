@@ -1,0 +1,62 @@
+# Xeen side quest Q-D19, the Master Thief's inner circle (DD-06), from a new game in the Southern Tower. The main
+# chain's party has no Rogue or Warrior Mage (segment 55 only hears his greeting); this party has both. Placed on the
+# top floor outside the counting room (the gongs and the chest are segment 55's), the party comes before the desk
+# (evt:master_approach: the Master Thief speaks), asks "Inner circle" (q-d19 npc 5109: inner_circle 113385, the
+# `southern` promotion: Rogue -> Assassin, Warrior Mage -> Sniper; the Knight and the Cleric stay), and the high
+# chair (evt:master_chair 29) speaks for him again without the topic.
+# Route: tests/playthrough/xeen/55_southern_tower.yml (the counting room). Quest logic: source/quests/q-d19.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d19_inner_circle.yml --scenario-no-color
+id: xeen.side_quests.q-d19
+title: "Xeen Q-D19: the Master Thief's inner circle promotes a Rogue and a Warrior Mage"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd06.blv
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Vesk, class: Rogue, level: 30, skills: [], equipment: {}}
+          - {name: Orla, class: WarriorMage, level: 30, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_dd06.blv}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113384, 113385]}
+  # The top floor, outside the counting room (segment 55's last landing).
+  - set_pose: {map: xeen_dd06.blv, x: -896, y: -1400, z: 1920, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 1200}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "open_door(16, 3)"}
+  - walk_to: {x: -896, y: -880, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - walk_to: {x: -256, y: -560, z: 1920, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -256, y: -200, z: 1920, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "for _, i in ipairs({0, 1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the inner circle: ' .. c) end end end"}
+  # The Master Thief is clicked (actor 29; A7's 05:20 DD-06 has no walk-in greeting).
+  - interact_actor: {actor_index: 29}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert:
+      dialog: {active: true, source_id: 5109}
+  - select_topic: {match_label: "Inner circle"}
+  - assert:
+      dialog: {text_contains: "Join the inner circle."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(113385) then error("inner_circle 113385 not set") end
+        if qbit(113384) then error("master_slain set") end
+        if classes() ~= "Assassin Sniper Knight Cleric" then error("the southern promotion: " .. classes()) end
+        log("Q-D19 inner circle: " .. classes())
+  # He speaks again when clicked; the topic is gone (asked once).
+  - interact_actor: {actor_index: 29}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert:
+      dialog: {active: true, source_id: 5109}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113384]}

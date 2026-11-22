@@ -1,0 +1,321 @@
+# Xeen items (owner: A2, devdocs/xeen/lanes/A2.md). tools/xeen/gen_items.py writes data_tables/items.txt,
+# item_effects.txt, item_sets.txt and complex_item_pictures.txt from this file (random_items.txt: the spellbooks' weights).
+#
+# Every row copies an engine item (`like: <engine item id>`: equip slot, skill, sprite, paper-doll placement, icon) and
+# changes what it lists. Keys are what quest files and map projects use (A3 resolves them through
+# ctx.shared['items']); ids never move once used. The built maps' provisional ids 12001-12299 stay where they are.
+#
+# Ranges: 12000-12299 the maps' own items (in each built map's block), 12300-12499 story and side-quest items,
+# 12500-12599 artifacts and relics (12540-12549 the gemsmith gear), 12901-12999 the spellbooks. The world adds no
+# equipment bases: random loot and shops use the MM6-MM8 engine items (the user, 2026-11-20, DECISIONS U-1).
+#
+# Fields: id, key (the map), name, like, icon (quest items and books only: the icon file; default the like-item's),
+# value, notes (the description), readable (`a3`: a readable letter, note or book whose text A3 writes, gen_quests
+# adding its readable_items row; readable_draft is A2's suggested wording for A3, not written anywhere), damage / bonus
+# (weapon dice and flat bonus; armour value and bonus), effects (item_effects columns by name), set.
+# Artifacts, relics and the gemsmith gear wear an MM6-MM8 item's skin (DECISIONS U-1): `like` is an engine artifact,
+# relic or special item of the same slot and skill where one fits, and its picture, paper-doll art and ground model
+# are that item's; such a row has no icon of its own (gen_items refuses one). The description is the borrowed item's,
+# adapted to Xeen, with an "(Effects: ...)" tail. A worn item (armour, helm, belt, cloak, boots) uses an engine picture
+# that has doll files; gen_items copies that picture's doll offsets.
+# `books` are readable items sold in shops (A4 stocks them): Readable|NoRandom|World:xeen. `crafted` are named items an
+# NPC makes on demand (the Q-D7 gemsmiths): NoRandom|NoShop|World:xeen, `tier` their normalized tier.
+schema: xeen.items.v1
+
+quest_items:
+  # Act I: Vertigo and its dungeons (built maps' ids)
+  warehouse_key: {id: 12001, name: Warehouse Key, like: 2176, notes: "Joe's key, found under the rain barrel in his yard."}
+  joes_invoice:
+    id: 12002
+    name: Joe's Invoice
+    like: 1530
+    notes: A crumpled invoice from Joe's warehouse.
+    readable: a3
+  pen_key: {id: 12003, name: Pen Key, like: 2110, notes: The key to the slime pens in Joe's cistern.}
+  brake_key: {id: 12011, name: Brake Key, like: 2111, notes: The key to the brake of the mine cart in the Red Dwarf Mines.}
+  clan_king_key: {id: 12021, name: Clan King's Key, like: 2108, notes: The mad Clan King's own key.}
+  crystal_key: {id: 12031, name: Crystal Key, like: 2110, notes: "Old Valia's key to the Witch Tower."}
+  warden_ring: {id: 12032, name: "Warden's Ring of Keys", like: 629, notes: The goblin warden's keys to the children's cages.}
+  alacorn: {id: 12033, name: Alacorn of Falista, like: 2110, icon: item172,
+            notes: "The horn of the unicorn Falista, stolen by the witches. Old Valia wants it back."}
+  coven_key: {id: 12034, name: Coven Key, like: 2187, notes: The key the witches of the tower carry.}
+  # Act II: Rivercity and its dungeons
+  skeleton_key: {id: 12100, name: Skeleton Key, like: 1461, notes: "The key to Darzog's Tower."}
+  # Not wearable, no effects (DECISIONS D-2.6); the wearable copy is roxannes_tiara_gift 12520.
+  roxannes_tiara: {id: 12150, name: "Princess Roxanne's Tiara", like: 2110, equip: Misc, icon: 7item098,
+                   notes: "Princess Roxanne's tiara, taken by the Rivercity robbers. She wants it back."}
+  ring_of_keys: {id: 12151, name: "Robbers' Ring of Keys", like: 629, notes: The robber boss's keys to the den's vault.}
+  # D-9.4: stat-less, Barok takes it back (Q-C2); was the artifact 12523.
+  baroks_pendant: {id: 12152, name: "Barok's Pendant", like: 148, equip: Misc, value: 0, icon: xeen_item_12523,
+                   notes: "Barok the Sorcerer's pendant, stolen by the sorceresses. He wants it back."}
+  larder_key: {id: 12170, name: Larder Key, like: 641, icon: keys3, notes: "The Ogre Chieftain's key to his larder."}
+  elixir: {id: 12191, name: Elixir of Restoration, like: 1431, notes: "Mirabeth's cure, kept in the Temple of Yak."}
+  megacredit: {id: 12192, name: "King's Megacredit", like: 1438, icon: xeen_item_12192,
+               notes: "A King's Megacredit, worth a great deal to King Burlock's engineers."}
+  library_key: {id: 12230, name: Library Key, like: 2112, notes: "The key to Darzog's library."}
+  # XD-11 Tower of High Magic (D-4): carried by the Head Sorceress 11185, dropped at her death.
+  librarian_key: {id: 12260, name: "Librarian's Key", like: 2112, notes: "The Head Sorceress's key to the tower's library."}
+  # XD-09 Golem Dungeon (A8): in the forge chest; opens the great iron lock (not taken).
+  iron_key: {id: 12261, name: Iron Key, like: 2112, notes: "A great key of dark iron from the golem-makers' forge."}
+  # DD-06 Southern Tower (A7): in the fence's lockbox; opens the strongroom's iron door (not taken).
+  strongroom_key: {id: 12262, name: Strongroom Key, like: 2112, notes: "A heavy key from the fence's lockbox, cut for the strongroom door."}
+  # Story and side quests (QUESTS.md), Acts I-III
+  crodos_bottle:
+    id: 12300
+    name: "Crodo's Bottle"
+    like: 1530
+    icon: 7item273
+    notes: A bottle with a note inside.
+    readable: a3
+    readable_draft: "Help! I'm in Darzog's tower!--Crodo"
+  yak_stone: {id: 12301, name: Yak Stone of Opening, like: 2110, icon: xeen_item_12301,
+              notes: "Mirabeth's stone. It opens the Temple of Yak."}
+  pyramid_sigil: {id: 12302, name: Pyramid Sigil, like: 2110, icon: xeen_item_12302,
+                  notes: "Artemus's sigil. The old pyramids answer to it."}
+  deed_to_newcastle:
+    id: 12303
+    name: Deed to Newcastle
+    like: 1530
+    notes: The deed to the ruins of Newcastle.
+    readable: a3
+    readable_draft: "Be it known that the bearer owns the ruins of Newcastle and all the land within its old walls. Sold by Ebenezer, Taxman to the King, for twelve thousand gold."
+  stone_of_terrors: {id: 12304, name: Stone of a Thousand Terrors, like: 2110, icon: xeen_item_12304,
+                     notes: The stone that opens the Tomb of a Thousand Terrors.}
+  golem_stone: {id: 12305, name: Golem Stone of Admittance, like: 2110, icon: xeen_item_12305,
+                notes: The stone that opens the Golem Dungeon.}
+  enchanted_key: {id: 12306, name: Enchanted Key, like: 2112, notes: The key to the Tower of High Magic.}
+  excavation_permit:
+    id: 12307
+    name: Excavation Permit
+    like: 1530
+    notes: "Artemus's permit to dig under Newcastle."
+    readable: a3
+    readable_draft: "By the King's leave, the bearer may clear and dig the caved-in dungeon below Newcastle. Artemus, for King Burlock."
+  bone_whistle: {id: 12308, name: "Orothin's Bone Whistle", like: 2110, icon: xeen_item_12308,
+                 notes: "The hermit Orothin's whistle, lost in Pitchfork Creek."}
+  phirna_root: {id: 12309, name: Phirna Root, like: 2110, icon: xeen_item_12309,
+                notes: A root from Toad Meadow. Myra the Herbalist pays for these.}
+  wand_of_faery_magic: {id: 12310, name: Wand of Faery Magic, like: 2110, icon: xeen_item_12310,
+                        notes: "Danulf the Faery King's wand, taken by the killer sprites."}
+  ligonos_skull: {id: 12311, name: "Ligono's Skull", like: 2110, icon: xeen_item_12311,
+                  notes: "The skull of Ligono, whose spirit waits in the surf."}
+  scarab_of_imaging: {id: 12312, name: Scarab of Imaging, like: 2110, icon: xeen_item_12312,
+                      notes: "Carlawna's scarab, stolen by the gargoyles."}
+  piezo_crystals: {id: 12313, name: Crystals of Piezoelectricity, like: 2110, icon: xeen_item_12313,
+                   notes: "Crystals from Asp. Falagar the Wizard wants them."}
+  lava_rock: {id: 12314, name: Ever-Hot Lava Rock, like: 2110, icon: xeen_item_12314,
+              notes: "A rock from Mount Firestone that never cools."}
+  widget: {id: 12315, name: Widget, like: 2110, icon: xeen_item_12315, notes: "Halon's widget. Someone will want it."}
+  scroll_of_insight:
+    id: 12316
+    name: Scroll of Insight
+    like: 1530
+    notes: "Arie's master's scroll, taken by the wizard cult of Castle Basenji."
+    readable: a3
+    readable_draft: "To see what is hidden, look twice: once with the eyes and once without."
+  northern_sphinx_amulet: {id: 12317, name: Jewelled Amulet of the Northern Sphinx, like: 2110, icon: item148,
+                           notes: The amulet the Northern Sphinx gives to those who answer it.}
+  castleview_pass: {id: 12330, name: Castleview Pass, like: 1530, notes: A pass into Castleview.,
+                    readable: a3, readable_draft: "Let the bearer pass the gates of Castleview. By order of the Mayor."}
+  pharaoh_orb: {id: 12331, name: "Dragon Pharaoh's Orb", like: 2110, icon: xeen_item_12331,
+                notes: "A glowing orb from a crater. It belongs to the Dragon Pharaoh."}
+  onyx_necklace: {id: 12332, name: Onyx Necklace, like: 2110, icon: item149, notes: "Nadia's necklace, taken by the sewer rats."}
+  ellinger_key: {id: 12333, name: "Key to Ellinger's Tower", like: 2112, notes: "Nadia's key to Ellinger's tower."}
+  energy_disk: {id: 12334, name: Energy Disk, like: 2110, icon: xeen_item_12334,
+                notes: Twenty of these bring Castle Kalindra back into phase.}
+
+  # Acts III-VI, Darkside and the finale (QUESTS.md 1, 2.2)
+  sandcaster_pass: {id: 12335, name: Sandcaster Pass, like: 1530, notes: A pass into Sandcaster.,
+                    readable: a3, readable_draft: "Let the bearer enter Sandcaster. Vespar vouches for them."}
+  necropolis_pass: {id: 12336, name: Necropolis Pass, like: 1530, notes: A pass into the Necropolis.,
+                    readable: a3, readable_draft: "The dead admit the bearer. Mind your manners."}
+  olympus_pass: {id: 12337, name: Pass to Olympus, like: 1530, notes: "The Dragon Pharaoh's pass to the city of the gods.",
+                 readable: a3, readable_draft: "The Chosen Ones may walk in Olympus. By the word of the Dragon Pharaoh."}
+  west_tower_key: {id: 12338, name: Key to the Western Tower, like: 2108, notes: "The key to the Western Tower of Mok."}
+  south_tower_key: {id: 12339, name: Key to the Southern Tower, like: 2108, notes: The key to the Southern Tower.}
+  east_tower_key: {id: 12340, name: Key to the Eastern Tower, like: 2108, notes: The key to the Eastern Tower.}
+  north_tower_key: {id: 12341, name: Key to the Northern Tower, like: 2108, notes: The key to the Northern Tower.}
+  bark_key: {id: 12342, name: Key to the Temple of Bark, like: 2112, notes: "Nibbler's key to the Temple of Bark."}
+  monga_melon: {id: 12343, name: Monga Melon, like: 2110, icon: xeen_item_12343,
+                notes: Nibbler the monkeydog loves these.}
+  lost_souls_key: {id: 12344, name: Key to the Dungeon of Lost Souls, like: 2112, notes: "Megan's key to the island dungeon."}
+  vespars_handle: {id: 12345, name: "Vespar's Emerald Handle", like: 2110, icon: xeen_item_12345,
+                   notes: "The handle of Vespar's staff."}
+  bridle: {id: 12346, name: Bridle, like: 2110, icon: xeen_item_12346, notes: "Ambrose's bridle for the griffin."}
+  enchanted_bridle: {id: 12347, name: Enchanted Bridle, like: 2110, icon: xeen_item_12347,
+                     notes: The bridle Natasha the Enchantress has charmed. A griffin will bear it.}
+  pyramid_key: {id: 12348, name: Key to the Great Pyramid, like: 2112, notes: "Queen Kalindra's key to the Great Pyramid."}
+  golden_pegasus: {id: 12349, name: Golden Pegasus Statuette, like: 2110, icon: xeen_item_12349,
+                   notes: "One of Luna's three statuettes."}
+  golden_dragon: {id: 12350, name: Golden Dragon Statuette, like: 2110, icon: xeen_item_12350,
+                  notes: "One of Luna's three statuettes."}
+  golden_griffin: {id: 12351, name: Golden Griffin Statuette, like: 2110, icon: xeen_item_12351,
+                   notes: "One of Luna's three statuettes."}
+  calebs_glass: {id: 12352, name: "Caleb's Magnifying Glass", like: 2110, icon: xeen_item_12352,
+                 notes: "Caleb the Inventor's glass, taken by the gargoyles."}
+  sandros_heart: {id: 12353, name: "Sandro's Heart", like: 2110, icon: xeen_item_12353,
+                  notes: "The lich Sandro's heart. Without it he cannot rise again."}
+  death_dungeon_key: {id: 12354, name: Key to the Dungeon of Death, like: 2112, notes: "Sandro's key to the Dungeon of Death."}
+  fake_treasure_map: {id: 12355, name: "Joe's Treasure Map", like: 1530, notes: A treasure map sold by Joe.,
+                      readable: a3, readable_draft: "X marks the spot! Dig where the three trees meet the rock. (The trees are drawn in different inks.)"}
+  real_treasure_map: {id: 12356, name: "Jethro's Treasure Map", like: 1530, notes: "Jethro the mapmaker's honest map.",
+                      readable: a3, readable_draft: "Slibo's cache: on Lakeside's eastern shore, under the cairn of five stones, two paces north."}
+  ruby_rock: {id: 12357, name: Ruby Rock, like: 2110, icon: xeen_item_12357, notes: A rock with rubies in it.}
+  emerald_rock: {id: 12358, name: Emerald Rock, like: 2110, icon: xeen_item_12358, notes: A rock with emeralds in it.}
+  sapphire_rock: {id: 12359, name: Sapphire Rock, like: 2110, icon: xeen_item_12359, notes: A rock with sapphires in it.}
+  diamond_rock: {id: 12360, name: Diamond Rock, like: 2110, icon: xeen_item_12360, notes: A rock with diamonds in it.}
+  ellingers_letter: {id: 12361, name: "Ellinger's Sealed Letter", like: 1530, notes: A letter sealed with Ellinger's mark.,
+                     readable: a3, readable_draft: "To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage. Ellinger."}
+  tribble: {id: 12362, name: Tribble, like: 2110, value: 5000, icon: xeen_item_12362,
+            notes: A useless and expensive pet. It purrs.}
+  soul_box: {id: 12363, name: Soul Box, like: 2110, icon: xeen_item_12363, notes: The only Soul Box in Olympus.}
+  soul_box_corak: {id: 12364, name: "Soul Box (Corak)", like: 2110, icon: xeen_item_12364,
+                   notes: The Soul Box. Corak is inside it.}
+  cube_of_power: {id: 12365, name: Cube of Power, like: 2110, icon: xeen_item_12365,
+                  notes: "Taken from Castle Alamar as it fell."}
+  xeens_scepter: {id: 12366, name: "Xeen's Scepter", like: 2110, icon: xeen_item_12366,
+                  notes: "Lord Xeen's Scepter of Temporal Distortion."}
+  might_doll: {id: 12367, name: Might Doll, like: 2110, icon: xeen_item_12367, notes: A carnival prize.}
+  speed_doll: {id: 12368, name: Speed Doll, like: 2110, icon: xeen_item_12368, notes: A carnival prize.}
+  endurance_doll: {id: 12369, name: Endurance Doll, like: 2110, icon: xeen_item_12369, notes: A carnival prize.}
+  accuracy_doll: {id: 12370, name: Accuracy Doll, like: 2110, icon: xeen_item_12370, notes: A carnival prize.}
+  lord_xeen_doll: {id: 12371, name: Lord Xeen Doll, like: 2110, icon: xeen_item_12371,
+                   notes: "No one may enter Castle Xeen without a cupie doll!"}
+  southern_sphinx_amulet: {id: 12372, name: Amulet of the Southern Sphinx, like: 2110, icon: item148,
+                           notes: "Prince Roland's amulet. The Southern Sphinx knows it."}
+  chime_of_opening: {id: 12373, name: Chime of Opening, like: 2110, icon: xeen_item_12373,
+                     notes: "Picard's chime. It breaks the seal on Darkstone Tower's roof."}
+  # M27 (A3): the crown that cures the Queen, from her bedroom safe in DD-03; not worn (as the stolen tiara, D-2.6).
+  # The wedding artifact is kalindras_crown 12521.
+  kalindra_crown: {id: 12374, name: "Kalindra's Crown", like: 2110, equip: Misc, icon: item258,
+                   notes: "Queen Kalindra's crown, locked in her bedroom safe. She cannot be cured without it."}
+  # D-57 (FD-04, Q-F1 and Q23): no new art. The egg is MM7's Dragon Egg (1449, 7item291), found on the tower's third
+  # landing and taken by Alister; the tower key is a shipped key picture (keys5), placed by A8 on or beside FD-01's
+  # critical path, and opens X7's door:fd04 (A3's hook refuses without it; kept, D-4).
+  dragon_egg: {id: 12375, name: Dragon Egg, like: 1449,
+               notes: "A great egg, rough and leathery and warm. Alister the druid wants one badly."}
+  dragon_tower_key: {id: 12376, name: Key to the Dragon Tower, like: 2111,
+                     notes: "A heavy black key, warm to the touch. It opens the gate of the Dragon Tower on Mount Firestone."}
+  # D-58 Q8 (Q-D26, A3): in the Megadragon's hoard on D7 beside Wyrmfang 12530; opens Castle Alamar's roof hatch
+  # (DD-17's side bolted from above until then). A shipped key picture (like 2112), no new icon.
+  alamar_roof_key: {id: 12377, name: "Key to Castle Alamar's Roof", like: 2112,
+                    notes: "A great iron key, scorched black, from the Megadragon's hoard. It opens the hatch on Castle Alamar's roof."}
+
+# Readable books sold in shops (12400-12419). Text is A3's (source/npcs/books.yml), stock A4's.
+books:
+  eeried_guide_cloudside: {id: 12400, name: "Eerie's Guide to Cloudside", like: 1530, value: 30,
+                           readable: a3, icon: xeen_item_12400,
+                           notes: "Eerie the Cartographer's guide to Cloudside, one volume of two."}
+
+# Spellbooks (12901-12999 = id_base + spell id): Xeen's own book of each of the 99 spells, as every world has
+# (devdocs/LOOT_POOL.md: a book sells and drops only in its world). Copies of MM8's books 400-498 (the books Xeen's maps
+# place, D-2.2): name, price, picture, ground object, description and random-treasure weights; World:xeen, no new art
+# (U-1). Without them every Xeen guild's shelf was empty (feedback F7, 2026-11-21).
+spellbooks: {id_base: 12900, like_first: 400}
+
+# Gemsmith gear (Q-D7, MONSTERS_AND_ITEMS 4.2): named items the four gemsmiths make from five rocks and two gems,
+# made again for each payment, so not unique (12540-12549): NoRandom|NoShop|World:xeen, the tier as normalized_tier.
+# Skins: MM8 artifacts (Terminus 502, Serendine's Preservation 513, Staff of Elements 530, Supreme Plate 515), common
+# here (gen_items drops the borrowed rarity).
+crafted:
+  ruby_gear: {id: 12540, name: Ruby Broadsword, like: 502, tier: 4, damage: 3d3, bonus: 16, value: 6000,
+              effects: {might: 10, fire_resistance: 20},
+              notes: "A broadsword of the gemsmith Linus, a ruby set where the guard meets the blade. Each one takes him a month and every rock you bring. (Effects: +10 Might, +20 Fire resistance)"}
+  emerald_gear: {id: 12541, name: Emerald Leather, like: 513, tier: 5, bonus: 30, value: 9000,
+                 effects: {endurance: 15, earth_resistance: 20},
+                 notes: "Simon the gemsmith built this armour for those who are frail of body, emeralds set at the collar and shoulders. (Effects: +15 Endurance, +20 Earth resistance)"}
+  sapphire_gear: {id: 12542, name: Sapphire Staff, like: 530, tier: 5, damage: 3d6, bonus: 18, value: 9000,
+                  effects: {intellect: 15, water_resistance: 20},
+                  notes: "Toby the gemsmith's staff, sapphires along its head. It deepens the wielder's concentration. (Effects: +15 Intellect, +20 Water resistance)"}
+  diamond_gear: {id: 12543, name: Diamond Plate, like: 515, tier: 6, bonus: 55, value: 15000,
+                 effects: {armor_class: 10, all_resistances: 15},
+                 notes: "Hector the gemsmith's masterpiece, diamonds along every edge. A gemsmith makes one suit to prove his right to the trade. (Effects: +10 Armor Class, +15 all resistances)"}
+
+# Skins (DECISIONS U-1): each row's like is the MM6-MM8 item whose picture, paper-doll art and ground model it wears.
+artifacts:
+  xeen_slayer_sword:
+    # DECISIONS D-2.3: double damage on demons through the effect flag SlayingDemon (A1's merge point 21; the demons
+    # carry the Demon kind, monsters.yml `kind`). Lord Xeen 2,200 HP (monsters.yml): 21-30 landed blows.
+    id: 12500
+    name: Xeen Slayer Sword
+    like: 1303  # MM7 Iron Feather
+    rarity: Relic
+    damage: 3d10
+    bonus: 14
+    value: 0     # D-47 Q12: kept until M35; no shop buys it (value 0) and it cannot be dropped (`keep`, NoDrop)
+    keep: true
+    effects: {might: 15, endurance: 15, effect_flags: SlayingDemon}
+    notes: "An impossibly light two-handed sword, the King's experiment, buried under Newcastle. It alone can harm Lord Xeen. (Effects: +15 Might, +15 Endurance, double damage against demons)"
+  # The six Elder weapons of the Swords of Xeen.
+  elder_long_sword: {id: 12501, name: Elder Long Sword, like: 1302, rarity: Artifact, damage: 3d6, bonus: 14, value: 20000,
+                     set: elder, effects: {might: 15},
+                     notes: "Ancient and light, it all but flies at the enemy's throat. One of the six Elder weapons; no one knows when or where they were forged. (Effects: +15 Might)"}
+  elder_dagger: {id: 12502, name: Elder Dagger, like: 2020, rarity: Artifact, damage: 3d5, bonus: 15, value: 20000,
+                 set: elder, effects: {speed: 15},
+                 notes: "A long blade with a gilded guard, one of the six Elder weapons. Its owners have all been quick, and most of them unknown. (Effects: +15 Speed)"}
+  elder_mace: {id: 12503, name: Elder Mace, like: 538, rarity: Artifact, damage: 3d5, bonus: 15, value: 20000,
+               set: elder, effects: {endurance: 15},
+               notes: "It looks like any cleric's mace, but it thrums in the hand. One of the six Elder weapons. (Effects: +15 Endurance)"}
+  elder_spear: {id: 12504, name: Elder Spear, like: 1310, rarity: Artifact, damage: 2d9, bonus: 14, value: 20000,
+                set: elder, effects: {accuracy: 15},
+                notes: "A humourless weapon, one of the six Elder weapons. It goes missing for years and turns up in some monster's hoard. (Effects: +15 Accuracy)"}
+  # Q-F1's reward (D-57 Q36): the Eye of the Dragon on X9 gives the Elder Staff (A3's q-f1.eye; not placed elsewhere).
+  elder_staff: {id: 12505, name: Elder Staff, like: 1317, rarity: Artifact, damage: 4d6, bonus: 16, value: 20000,
+                set: elder, effects: {intellect: 15, max_sp: 20},
+                notes: "Much more a tool than a weapon: a crystal on a golden shaft that magnifies the wielder's magic. One of the six Elder weapons. (Effects: +15 Intellect, +20 spell points)"}
+  elder_long_bow: {id: 12506, name: Elder Long Bow, like: 2025, rarity: Artifact, damage: 5d2, bonus: 12, value: 20000,
+                   set: elder, effects: {accuracy: 15},
+                   notes: "A green and gold bow of exotic woods that no bowyer can make again. One of the six Elder weapons. (Effects: +15 Accuracy)"}
+  # The four Seasons (Q-C1).
+  last_flower_of_summer: {id: 12510, name: Last Flower of Summer, like: 1348, rarity: Artifact, value: 8000, set: seasons,
+                          effects: {fire_resistance: 10},
+                          notes: "A ring of gems set like a flower, the Summer druid's token, one of the four Seasons. (Effects: +10 Fire resistance)"}
+  leaf_of_autumn: {id: 12511, name: Leaf of Autumn, like: 2034, rarity: Artifact, bonus: 0, value: 8000, set: seasons,
+                   effects: {earth_resistance: 10},
+                   notes: "A red and gold star on a chain, the Autumn druid's token. (Effects: +10 Earth resistance)"}
+  snowflake_of_winter: {id: 12512, name: Snowflake of Winter, like: 1326, rarity: Artifact, value: 8000, set: seasons,
+                        effects: {water_resistance: 10},
+                        notes: "A belt set with ice-blue stones, the Winter druid's token. (Effects: +10 Water resistance)"}
+  raindrop_of_spring: {id: 12513, name: Raindrop of Spring, like: 1350, rarity: Artifact, bonus: 0, value: 8000, set: seasons,
+                       effects: {air_resistance: 10},
+                       notes: "A cloak the blue of a spring night, the Spring druid's token. (Effects: +10 Air resistance)"}
+  # A unique helm scaled to its level-14 timing (DECISIONS D-2.6). It keeps the look of the stolen tiara 12150 (the
+  # Noble Crown picture): it is that tiara's copy.
+  roxannes_tiara_gift: {id: 12520, name: "Roxanne's Tiara", like: 900, rarity: Artifact, value: 12000,
+                        effects: {personality: 10, intellect: 10, mind_resistance: 30},
+                        notes: "A copy of her tiara in gold leaf and amethysts, Princess Roxanne's thanks. (Effects: +10 Personality, +10 Intellect, +30 Mind resistance)"}
+  kalindras_crown: {id: 12521, name: "Queen Kalindra's Crown", like: 1325, rarity: Artifact, value: 15000,
+                    effects: {personality: 20, all_resistances: 10},
+                    notes: "The Queen's own crown, given after the wedding. Its jewels cast a reddish light on the wearer's face. (Effects: +20 Personality, +10 all resistances)"}
+  ectors_ring: {id: 12522, name: "Ector's Ring", like: 1315, rarity: Artifact, value: 10000,
+                effects: {might: 10, endurance: 10, health_regen_per_second: 1.0},
+                notes: "A ring made to rule and to endure, not inherently good or evil. Its wearer's wounds close by themselves. (Effects: +10 Might, +10 Endurance, regeneration)"}
+  # 12523 retired (D-9.4): Barok's Pendant is the quest item baroks_pendant 12152.
+  holy_book: {id: 12524, name: Holy Book of Elvenkind, like: 1202, equip: Misc, damage: 0, bonus: 0, rarity: Relic,
+              value: 10000, effects: {skill_bonuses: "Learning:5|SpiritMagic:10", effect_flags: CarriedPartyEffect},
+              notes: "The elves' holy book, lost in the Troll Forest. It is not a spell book: carried, it blesses the party. (Effects: +5 Learning, +10 Spirit Magic)"}
+  chalice_of_protection: {id: 12525, name: Chalice of Protection, like: 2054, equip: Misc, rarity: Relic, value: 10000,
+                          effects: {all_resistances: 10, effect_flags: CarriedPartyEffect},
+                          notes: "A chalice of silver with white gold tracery. A faint, steady humming comes from its cup. Carried, it shields the party. (Effects: +10 all resistances)"}
+  songbird_of_serenity: {id: 12526, name: Songbird of Serenity, like: 2073, equip: Misc, rarity: Relic, value: 10000,
+                         effects: {mind_resistance: 20, effect_flags: CarriedPartyEffect|FearImmunity},
+                         notes: "A golden songbird, stylized and yet strangely lifelike. Its song lifts despair. (Effects: +20 Mind resistance, no fear)"}
+  # DECISIONS D-2.4: AgingImmunity (merge point 11), party-wide while carried.
+  jewel_of_ages: {id: 12527, name: Jewel of Ages, like: 623, equip: Misc, rarity: Relic, value: 10000,
+                  effects: {endurance: 10, effect_flags: CarriedPartyEffect|AgingImmunity},
+                  notes: "A flawless red jewel that pulses with a slow heartbeat, stolen from the youth-giving fountain. Carried, it keeps the party from aging. (Effects: +10 Endurance, no aging)"}
+  vespars_staff: {id: 12528, name: "Vespar's Staff", like: 2024, rarity: Artifact, damage: 4d6, bonus: 16, value: 20000,
+                  effects: {air_resistance: 20, intellect: 10},
+                  notes: "Vespar's staff, rehilted with its emerald handle. A reservoir of power for the wielder. (Effects: +10 Intellect, +20 Air resistance)"}
+  paladins_armour: {id: 12529, name: "Dead Paladin's Armour", like: 2027, rarity: Artifact, damage: 18, bonus: 57, value: 25000,
+                    effects: {endurance: 15},
+                    notes: "The golden plate of a paladin who died in it. It fortifies its wearer with an unnatural health. (Effects: +15 Endurance)"}
+  # D-58 Q8: in the Megadragon's hoard chest on D7 (A6 places it; Q-D26), with the Alamar roof key 12377.
+  megadragon_hoard_blade: {id: 12530, name: Wyrmfang, like: 1333, rarity: Artifact, damage: 4d8, bonus: 12, value: 40000,
+                           effects: {might: 25, fire_resistance: 20},
+                           notes: "A wavy two-handed sword, the finest piece of the Megadragon's hoard. Its red stone is warm to the touch. (Effects: +25 Might, +20 Fire resistance)"}
+
+sets:
+  elder: {name: Elder weapons, pieces: 6, effects: {all_resistances: 10}}
+  seasons: {name: The Four Seasons, pieces: 4,
+            effects: {might: 10, intellect: 10, personality: 10, endurance: 10, speed: 10, accuracy: 10, luck: 10}}

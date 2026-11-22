@@ -1,0 +1,142 @@
+# Xeen playthrough, segment 11: Oslo's son Tam and the Orc Caves (XD-05), X1-TAM. Oslo asks for his boy (the party
+# placed at his hut and at the cave mouth, PLAYBOOK §2); the caves walked: the palisade gate, the east firing step and
+# its signal drum (burnt), the run to the cookfire cave, the sleeping hollows, the cage gate and Tam in the pit (freed),
+# the ladder up, the shaman's den and the spirit drum, the Drum Hall, the Drum-Master and the great drum (the third
+# burnt: war_drums_burned), out by the bat chimney and the upper ledge to the mouth. Oslo pays; his Drums topic opens.
+# Route: devdocs/xeen/briefs/xd05/L4/playtest.yml. Quest logic: source/quests/x1-tam.yml.
+#   python3 tests/playthrough/xeen/run.py 11
+id: xeen.playthrough.11_orc_caves
+title: "Xeen playthrough 11: Oslo's son Tam freed from the Orc Caves and the war drums burnt"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/09_witch_tower.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - assert: {qbit_clear: [115000, 110052, 110102]}
+  # Oslo's hut (event 1, house of Oslo 4039): Tam.
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Tam}
+  - assert:
+      dialog: {text_contains: "The orcs took my boy Tam"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [115000]}
+  # The skull-hung cave mouth in the north-east hills (X1 event 74).
+  - set_pose: {map: xeen_x1.odm, x: 9216, y: 16761, z: 1376, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd05.blv}
+  - assert: {party_position: {x: 0, y: 448, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The palisade gate.
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        click(22); wait(3)
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then error("the gate did not open both leaves") end
+  - walk_to: {x: 0, y: 2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  # The east firing step: the signal drum burnt.
+  - walk_to: {x: 1056, y: 2900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 1056, y: 2400, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 900, y: 2000, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); wait(6)"}
+  # Down and along the run to the cookfire cave.
+  - walk_to: {x: 1056, y: 2400, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 1056, y: 2900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 864, y: 3400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 864, y: 4000, z: -86, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 600, y: 4700, z: -96, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 384, y: 5150, z: -96, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 384, y: 5900, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The sleeping hollows: the cage gate, and Tam in the pit (x1-tam.tam).
+  - walk_to: {x: -1100, y: 6200, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1600, y: 6150, z: -224, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2400, y: 5900, z: -224, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua:
+      source: |
+        click(3); wait(3)
+        if door_state(2) ~= "open" then error("the cage gate did not lift") end
+  - walk_to: {x: -2400, y: 5300, z: -480, radius: 96, timeout_seconds: 30, expect: dialog}
+  - assert:
+      dialog: {text_contains: "Tam"}
+  - play_lua: {source: "if not close() then error('Tam opened no message window') end; if not qbit(110052) then error('Tam was not freed') end"}
+  - walk_to: {x: -2400, y: 5600, z: -480, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: pit, timeout_seconds: 30}
+  # The shaman's den: the spirit drum burnt.
+  - walk_to: {x: -1600, y: 6150, z: -224, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 6880, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1900, y: 7000, z: -192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2650, y: 7200, z: -192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  # The Drum Hall: the Drum-Master on his scaffold, and the great drum (x1-tam.drums).
+  - walk_to: {x: -1100, y: 6880, z: -256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 7100, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 7900, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1600, y: 8000, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1600, y: 10176, z: -384, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1150, y: 10100, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_visible: {actor_index: 0, dead: true}}
+  - advance_runtime: {seconds: 3.0}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 3.0}
+  - play_lua: {source: "close(); if not qbit(110050) then error('war_drums_burned not set') end"}
+  # Out by the bat chimney and the upper ledge to the mouth.
+  - walk_to: {x: -1600, y: 10176, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1600, y: 8000, z: -384, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1600, y: 8000, z: -384, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2000, y: 8544, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2300, y: 8736, z: -350, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3008, y: 8704, z: -192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3040, y: 7776, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2080, y: 7712, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: 7300, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 6656, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 2048, z: 192, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 900, y: 2000, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1056, y: 2400, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1056, y: 2900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - walk_to: {x: 9216, y: 16200, z: 1284, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Oslo: Tam is home (X1-TAM done); the Drums topic.
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Tam}
+  - assert:
+      dialog: {text_contains: "He walked in the door an hour ago"}
+  - select_topic: {match_label: Drums}
+  - assert:
+      dialog: {text_contains: "The drums have stopped"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [110102, 110050, 110052]}
+  - assert: {qbit_clear: [115000]}
+  - play_lua: {source: "log('X1-TAM done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "11 Orc Caves", path: output/playthrough/xeen/checkpoints/11_orc_caves.oysav}

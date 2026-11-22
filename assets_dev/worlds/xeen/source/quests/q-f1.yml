@@ -1,0 +1,231 @@
+# Q-F1 Alister and the Dragon Egg (QUESTS 2.3 Q-F1; optional finale). Owner: A3. Format: QUESTS_FORMAT.md.
+# FD-04's upper half, the Dragon Tower on Mount Firestone (X7), opened by the Key to the Dragon Tower from the Alamar
+# Depths (FD-01, M39; D-57 Q23). In the gate hall a druid named Alister (5705) wants a dragon egg from the nest on floor 2;
+# the dead adventurers' notes say he is a fraud, and that the secret of the Dragon has to do with forever. He takes the
+# egg, pays, drinks it, and is a lizard (D-57 Q27). The roof stair leads to the Dragon Clouds (X9, D-57 Q36): the Eye of
+# the Dragon asks "What is the secret of the Dragon?" (INFINITY, on the four Ancient Books' runes, the note and the
+# crystal balls) and holds the Elder Staff. Rewards (D-57 Q32): Alister 5,000, the Tome 4,000 once per character, the
+# Eye 8,000; the potion +2 Endurance once per character. X9's devices (D-59): the crystal balls at Intellect 60, the
+# Well of Fantastic Skill +20 to every statistic until rest (daily), the Dragon Power Crystals 3,000/4,000/5,000 once per
+# character.
+id: Q-F1
+title: Alister and the Dragon Egg
+act: opt
+kind: side
+status: full
+giver: 5705          # Alister the Druid (FD-04, a talking actor in the gate hall's west alcove)
+maps: [X7, FD-01, FD-04, X9]
+level: 62
+block: 111
+after: [m39.done]
+source: "QUESTS Q-F1; dark/aazex117:0-4, aazex118:3-4, aazex119:2-6, aazex120:2-4, aazex128:1-27; D-57 Q23, Q27, Q32, Q36"
+
+qbits:
+  started: {id: 114020, journal: "Alister the Druid, in the Dragon Tower on Mount Firestone, wants a dragon egg from the tower's nest.",
+            until: [alister_gone]}
+  done: {id: 114021}
+  # FD-04's map qbits (block 118130-118149, D-57)
+  egg_taken: {id: 118146, map: FD-04, note: "the Dragon Egg taken from the nest (egg)"}
+  alister_gone: {id: 118147, map: FD-04, note: "Alister took the egg and drank it: the map hides him and shows the lizard in his alcove when the talk closes and on every load (D-57 Q27)"}
+
+player_bits:         # once per character; the hooks decide for the clicking member
+  endurance_potion: {id: 11360, map: FD-04, note: "the last climber's potion: +2 Endurance (base) (the source's +40, D-57 Q32)"}
+  great_tome: {id: 11361, map: FD-04, note: "the Tome of Great Experience: 4,000 experience (the source's +10,000,000, D-57 Q32)"}
+  crystal_1: {id: 11362, map: X9, note: "the first Dragon Power Crystal: 3,000 experience (D-59)"}
+  crystal_2: {id: 11363, map: X9, note: "the second Dragon Power Crystal: 4,000 experience (D-59)"}
+  crystal_3: {id: 11364, map: X9, note: "the third Dragon Power Crystal: 5,000 experience (D-59)"}
+
+items:
+  dragon_tower_key: "the Alamar Depths (FD-01, A8's place on or beside M39's path, tower_key); X7's door:fd04 needs it, kept (D-4)"
+  dragon_egg: "the nest on FD-04's floor 2 (egg); Alister takes it"
+  elder_staff: "the Eye of the Dragon (X9, eye): Q-F1's artifact (A2's existing row 12505, D-57)"
+
+npcs:
+  5705:              # Alister the Druid (FD-04's gate hall)
+    topics:
+      - n: 1
+        label: Dragon egg
+        states:
+          - when: {item: dragon_egg}
+            text: "You are truly courageous! Thank you soooo much. Now I'll just drink this egg potion and..."
+            do: [{take: dragon_egg}, {set: alister_gone}, {xp: 5000}]
+          - when: {qbit: started}
+            text: "Well, I can see you weren't brave enough to steal an egg, either. Well, don't worry, perhaps some adventurers with some REAL courage will come along soon."
+          - text: "Ah, brave adventurers, perhaps you can help me. I need a dragon egg to mix into one of my potions, but I'm not brave enough to go further into the tower to steal one. If you bring me one I will reward you."
+            do: [{set: started}]
+
+hooks:
+  tower_key:
+    map: FD-01
+    where: "the box in the key vault (D-69; A8's find, once, map qbit m39.key_box 117844, on the critical path, D-57 Q23): the map gives it; nothing to call"
+    map_gives: {dragon_tower_key: 1}
+  tower_door:
+    map: X7
+    entrance: FD-04
+    sealed: "optional endgame at 65-100; the key lies under Castle Alamar (FD-01)"
+    where: "the Dragon Tower's gate on Mount Firestone's crag (door:fd04, A5's door event; true opens it into FD-04's entrance:x7_gate). The key is kept"
+    requires: {item: dragon_tower_key}
+    status: true   # a status line: the door moves the party into FD-04 in the same click (A5, 2026-11-21)
+    text: "The black key turns with a sound like a sigh. The gate of the Dragon Tower swings in on warm air."
+    fail_text: "Two black leaves, warm to the touch, with a keyhole shaped like a dragon's eye. The gate opens only to the Key to the Dragon Tower. The dragons say its key lies under Castle Alamar."
+  egg:
+    map: FD-04
+    where: "the nest on floor 2: the bowl of black rock with three warm eggs (clicked; once, egg_taken)"
+    sets: [egg_taken]
+    gives: [dragon_egg]
+    once: true
+    text: "You lift one of the eggs out of the nest. It is heavy, leathery and warm, and something inside it turns over."
+    else_text: "Two eggs are left in the nest. Taking another would be pushing your luck."
+  note_fraud:
+    map: FD-04
+    where: "the bones in the bone alcove on floor 1, the first note (dark/aazex118:3)"
+    text: "You find a note amongst the bones that was part of this dead adventurer's diary. It reads: I don't trust that druid guy. He seemed too eager to get his hands on a dragon egg, and he sure didn't look like he had ten million gold pieces!"
+  note_forever:
+    map: FD-04
+    where: "the bones in the bone alcove, the second note (dark/aazex118:4): an answer-giver for the Eye"
+    text: "You find a note amongst the bones that was part of this dead adventurer's diary. It reads: I think the secret of the dragon has something to do with forever, or really, really big..."
+  note_eye:
+    map: FD-04
+    where: "the last climber's bones (floor 2's dead end): the note (dark/aazex119:6, the Silver Key Card renamed to Q-F1's reward)"
+    text: "A note amongst the bones reads: The eye of the Dragon holds the Elder Staff."
+  note_balls:
+    map: FD-04
+    where: "the hatchery's bones (or the last climber's second note, as A7 places it): dark/aazex119:5"
+    text: "A note amongst the bones reads: You have to be pretty smart to survive a look in one of the crystal balls on the Dragon Cloud."
+  endurance:
+    status: true   # F13: a touch effect answers on the status line
+    map: FD-04
+    where: "the last climber's potion (\"Potion\", dark/aazex119:2-3): the map only calls this; the hook decides for the clicking member (player bit 11360)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11360))"}
+        text: "The flask has been drained. By you, as it happens."
+      - text: "Potion. It is thick, bitter and faintly warm, and your bones seem to set harder as it goes down. (+2 Endurance, permanent)"
+        do: [{lua: "AddValue(BaseEndurance, 2)"}, {lua: "SetPlayerBit(PlayerBit(11360))"}]
+  tome:
+    map: FD-04
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Tome of Great Experience in the tome room on floor 3 (dark/aazex120:2-4): the map only calls this; the hook decides for the reading member (player bit 11361)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11361))"}
+        text: "You learn nothing new from the Tome."
+      - text: "Tome of Great Experience. You read it cover to cover, and several of its chapters read you. (+4,000 experience)"
+        do: [{lua: "AddValue(Experience, 4000)"}, {lua: "SetPlayerBit(PlayerBit(11361))"}]
+
+  eye:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Eye of the Dragon in the dragon-head rock on the Dragon Clouds (D-57 Q36, A5): the map shows \"Look into the eye of the Dragon and despair. Answer correctly or perish!\" and asks \"What is the secret of the Dragon?\" (dark/aazex128:1-2); 'Infinity' (any case; 'infinite' too) calls this hook, any other answer eye_wrong. Once done, a click calls this hook alone (its else line)"
+    sets: [done]
+    gives: [elder_staff]
+    once: true
+    do: [{xp: 8000}]
+    text: "\"Very good, mortals!\" The Eye of the Dragon closes, and opens again on a crystal set in a golden shaft: the Elder Staff."
+    else_text: "The Eye of the Dragon looks at you. It has nothing more to say, and it says so."
+  eye_wrong:
+    map: X9
+    where: "the Eye of the Dragon, any other answer (dark/aazex128:4): Energy event damage of about a fifth of a level-64 member's hit points, never lethal to a healthy party; the party may answer again"
+    text: "\"Die fools!\""
+    do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Energy, 70)"}]
+  runes_in:
+    map: X9
+    where: "the first Ancient Book of the Dragon (dark/aazex128:9-11): only a Linguist reads it (xd07.linguist, the Book of Languages in Castle Burlock); otherwise the source's line"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange Dragon Runes."
+    text: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription: IN"
+  runes_fi:
+    map: X9
+    where: "the second Ancient Book of the Dragon, as runes_in (dark/aazex128:12)"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange Dragon Runes."
+    text: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription: FI"
+  runes_ni:
+    map: X9
+    where: "the third Ancient Book of the Dragon, as runes_in (dark/aazex128:13)"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange Dragon Runes."
+    text: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription: NI"
+  runes_ty:
+    map: X9
+    where: "the fourth Ancient Book of the Dragon, as runes_in (dark/aazex128:14)"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange Dragon Runes."
+    text: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription: TY"
+  ball_mind:
+    window: "a long text to read (the Dragon's vision)"
+    map: X9
+    where: "the crystal ball \"Mind of the Dragon\" (dark/aazex128:19, :22-23; D-59): the clicking member's current Intellect at least 60 hears the clue; below, about a fifth of the hit points and Weak, never lethal. No reward either way"
+    states:
+      - when: {lua: "IsAtLeast(ActualIntellect, 60)"}
+        text: "As your mind links with the Dragon's, its knowledge fills your brain with fire. You break the link before it is overloaded, weak and drained, and find yourself saying one phrase over and over: The knowledge is limitless."
+      - text: "As your mind links with the Dragon you feel its knowledge combine with your own. Your feeble mind tries to absorb the new wisdom but is found lacking. You tear yourself away, your head ringing."
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Mind, 70)"}, {lua: "SetValue(Weak, 1)"}]
+  ball_past:
+    window: "a long text to read (the Dragon's vision)"
+    map: X9
+    where: "the crystal ball \"Past of the Dragon\" (dark/aazex128:20, :24-25), as ball_mind"
+    states:
+      - when: {lua: "IsAtLeast(ActualIntellect, 60)"}
+        text: "The past of the Dragon fills your brain, faster and faster, towards the creation of time and beyond. You break the link in a desperate attempt at self preservation, and the words tumble from your lips: The history is endless."
+      - text: "Images of times long past fill your mind, and you watch worlds being uncreated. You try to break free from the grip of the Dragon and only just manage it. Your body aches as if something had been trying to leave it."
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Mind, 70)"}, {lua: "SetValue(Weak, 1)"}]
+  ball_future:
+    window: "a long text to read (the Dragon's vision)"
+    map: X9
+    where: "the crystal ball \"Future of the Dragon\" (dark/aazex128:21, :26-27), as ball_mind"
+    states:
+      - when: {lua: "IsAtLeast(ActualIntellect, 60)"}
+        text: "The countless futures of the Dragon stream into your brain like fire licking at tender wood. You break its grip before you are destroyed, and can only mutter the words: The possibilities are unlimited."
+      - text: "The lock is instantaneous, and endless futures flash before you. The mortal shell you wear cannot hold what the mind now sees. Fire flares in your head, and the link breaks just in time."
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Mind, 70)"}, {lua: "SetValue(Weak, 1)"}]
+  well:
+    status: true   # F13: a touch effect answers on the status line
+    map: X9
+    where: "the Well of Fantastic Skill (dark/aazex128:6-8; D-59: the source's +50 levels as +20 to every statistic until rest): once a day for the party (Xeen.usedToday \"x9_well\"), every member"
+    states:
+      - when: {lua: "Xeen.usedToday(\"x9_well\")"}
+        text: "The water is cool and refreshing."
+      - text: "Well of Fantastic Skill. The water is cool and refreshing, and for a while everything seems easy. (+20 to every statistic until you rest)"
+        do:
+          - {lua: "Xeen.markToday(\"x9_well\")"}
+          - {lua: "evt.ForPlayer(Players.All)"}
+          - {lua: "AddValue(MightBonus, 20)"}
+          - {lua: "AddValue(IntellectBonus, 20)"}
+          - {lua: "AddValue(PersonalityBonus, 20)"}
+          - {lua: "AddValue(EnduranceBonus, 20)"}
+          - {lua: "AddValue(AccuracyBonus, 20)"}
+          - {lua: "AddValue(SpeedBonus, 20)"}
+          - {lua: "AddValue(LuckBonus, 20)"}
+  crystal_1:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the first Dragon Power Crystal (dark/aazex128:15-16; D-59: the source's +3 levels as 3,000 experience once per character, a surge of about a fifth of the hit points, never lethal): the map only calls this; the hook decides for the clicking member (player bit 11362)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11362))"}
+        text: "Dragon Power Crystal. It has nothing more for you."
+      - text: "The power from the Dragon Crystal discharges into your body in a nearly fatal surge. Your body is able to absorb some of the mystic energy. (+3,000 experience)"
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Energy, 70)"}, {lua: "AddValue(Experience, 3000)"}, {lua: "SetPlayerBit(PlayerBit(11362))"}]
+  crystal_2:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the second Dragon Power Crystal (dark/aazex128:17), as crystal_1 with 4,000 (player bit 11363)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11363))"}
+        text: "Dragon Power Crystal. It has nothing more for you."
+      - text: "The power from the Dragon Crystal discharges into your body in a nearly fatal surge. Your body is able to absorb some of the mystic energy. (+4,000 experience)"
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Energy, 70)"}, {lua: "AddValue(Experience, 4000)"}, {lua: "SetPlayerBit(PlayerBit(11363))"}]
+  crystal_3:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the third Dragon Power Crystal (dark/aazex128:18), as crystal_1 with 5,000 (player bit 11364)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11364))"}
+        text: "Dragon Power Crystal. It has nothing more for you."
+      - text: "The power from the Dragon Crystal discharges into your body in a nearly fatal surge. Your body is able to absorb some of the mystic energy. (+5,000 experience)"
+        do: [{lua: "evt.DamagePlayer(Players.Current, const.Damage.Energy, 70)"}, {lua: "AddValue(Experience, 5000)"}, {lua: "SetPlayerBit(PlayerBit(11364))"}]
+
+riddles:
+  - {answer: Infinity, where: "the Eye of the Dragon on the Dragon Clouds (q-f1.eye)",
+     said_by: "the four Ancient Books' runes IN, FI, NI, TY (q-f1.runes_*), the bone alcove's note (q-f1.note_forever) and the three crystal balls' phrases (q-f1.ball_*)"}
+
+rewards: {xp: 13000, gold: 0, items: "the Elder Staff (artifact)", stats: "+2 Endurance once per character; the Tome 4,000 once per character; X9's crystals 12,000 once per character; the well +20 all stats until rest, daily"}
+playthrough: "FD-01: the Key to the Dragon Tower. X7: the Dragon Tower's gate. FD-04: Alister (Dragon egg); the bone alcove's notes; the nest (egg); the last climber (note, potion); Alister (Dragon egg) pays and is gone; the tome; the crown; the roof to X9. X9: the four books (a Linguist), the balls, the Eye (Infinity)."

@@ -802,3 +802,334 @@ Troglodytes (412-414), both ways. `playtest_hostility.yml` (written by
 `output/studio_cal/hostility/gen_hostility_tests.py`) checks the slot and placed foes hostile, the peaceful ones
 peaceful and the map's kinds, spawned side by side near the party, not taking each other on; it passes twice, as do the
 map's other playtests.
+
+## Rebase, phase 0 (2026-11-20, lane A7)
+
+The design part of the rebase (`devdocs/xeen/CHANGES_FOR_BUILT_MAPS.md` A1-A3, A5, A7, XD02-1 to XD02-3) and the texture
+trim (ROADMAP §5.2, dungeon M cap 45). Still `world: mm7` on MM7 stand-in rows: the Xeen world package, its rows and
+hooks do not exist yet. Backup of the project before: `output/studio_cal/xd02/a7_backup/`; work, builds, logs and
+pictures: `output/studio_cal/xd02/a7/` (build `output/studio_cal/xd02/a7_build/`); asset root
+`output/studio_cal/a7/root_mines` (a hard-link copy of `assets_dev` with the Xeen stand-in maps). Edits by hand (small
+Python replacements whose diffs were read), then `oymap fmt` and `oymap record --author agent:xeen-a7-mines`.
+
+**Monsters** (`output/studio_cal/a7/count.py xd02`: spawn points times the mean per marker, plus placed):
+
+| | Before | After |
+|---|---|---|
+| Monsters | about 71 | **about 56** (MAPS §0: 55) |
+| Levels | 3-30 (the ten untiered Dwarf spawns rolled Soldier 10, Lieutenant 20 or Commander 30; the Tallymaster a Lieutenant 20) | **3-10** |
+| Monster spawn points | 23 | 18 |
+| Placed | 11 (the Tallymaster a named Lieutenant 230 with `hp: 80`, `immobile`) | 11 (four tally room guards, all Dwarven Soldiers 229) |
+
+- `project.yml` slots: Dwarf difficulty 1 -> 0 and Spider 2 -> 0 (rest encounters too: every Dwarf a Soldier 10,
+  every Spider a Giant Spider 5), Bats 2-4 -> 2-3 a marker. The seven Dwarf spawns left say `tier: a`.
+- Spawn points dropped where the map was densest: `spawn:mess_leg` (the mess hall keeps two, beside the bunk cut's and
+  the tally room's four), `spawn:turntable_s` (the Turntable keeps a Dwarf and a Spider point), `spawn:galleries_mid`
+  (the galleries keep one and the cocoon's three), `spawn:stope_floor_s` (the stope floor keeps one Dwarf and two Spider
+  points) and `spawn:sorting` (the sorting floor keeps pass 3's `spawn:sorting_south`, far from the chutes).
+- **The Tallymaster is an ordinary Clan Guard** (CHANGES A1: XD-02 has no boss): Dwarven Soldier 229, no name, no
+  `hp`, no longer `immobile`. He carried nothing; the brake key was and is in the strongbox behind him. The id
+  `monster:tallymaster` stays (the lock). The texts that named him now name the strongbox: the arrival window ("the
+  brake key lies in their strongbox in the tally room"), the brake's window, the tally room's entry line ("The clan's
+  tally room: its strongbox stands behind the tally table.").
+- Kinds are unchanged (Dwarves 229-231, Spiders 400-402, Troglodytes 412-414, Bats 205-207), so `relations` and
+  `playtest_hostility.yml` stand as they were.
+
+**Treasure:** map_stats treasure level 2 -> **1**; the payroll chest 3 -> **2**, the strongbox 2 -> 1, the cocoon's
+chest 2 -> 1; the footlockers and the lamp room's chest were 1; both item spawns were 1. Fixed contents unchanged (the
+payroll's 400 gold and amethyst, the strongbox's 150 gold and the brake key).
+
+**Original lines** (CHANGES XD02-3, A5; the source text `reference/mm4_5_world_of_xeen/unpacked/text/xeen/`, the
+dwarf mines are `aaze0033` to `aaze0035`):
+
+| Line | Source | Where |
+|---|---|---|
+| "Scribbled on a piece of parchment, a note reads: 1 bottle orc's milk, 2 boxes of Dwarf biscuits, 1 can of split toadsoup, and one everlasting stick of troll jerky." | aaze0033 #9 | the mess hall's provisions barrel (`deco:mess_hall_64`, hover "Barrel", `evt:barrel_note`, a message window), as the original keeps its notes in barrels and crates |
+| "Scribbled on a piece of parchment, a note reads: There are many DEEP mines." | aaze0034 #14 | the keg by the brake wheel at the Deep Line's head (`deco:deep_station_100`, "Barrel", `evt:deep_note`, a window) |
+| "The mine car doesn't move." | aaze0033 #25, aaze0034 #30 | the chained Deep Line cart's locked line ("... it is chained to the brake wheel.") |
+| "A cave in!" | aaze0033 #34, aaze0034 #31 | the foot drift's rockfall ("A cave in! The rotten props give way and rock thunders down.") |
+| "The barrel is empty." | aaze0033 #5 | the barrel beside each note (`deco:mess_hall_65`, `deco:deep_station_101`), so the two barrels side by side read alike |
+
+**Exits** (CHANGES A7): `exit:deep_mine` now leads into XD-03, `xeen_xd03.blv` at its start, the foot of the Deep
+Line ([8192, 1088, 384], room:deep_line, facing west over the Deep Landing); the cart's own click (`evt:deep_cart`,
+Lua) repeats it. A move into another dungeon asks no question (Emerald Island did), so the playtest no longer answers
+one. `exit:x1_adit` leads to X1 as before. `exit:x4_adit` is **still a stand-in** (Emerald Island): X4 is built in
+phase 2 (ROADMAP §6); change its `to`, `arrival` and `direction` then.
+
+**Doors (XD02-4, optional): not done.** The 34 door records are 15 doors, 6 movers (two carts, the hoist, the chain,
+the fall, the rubble) and their gates; every one opens a way, guards a ride or is a secret: none goes cheaply.
+
+**Textures** (`oymap metrics <installed blv> --world mm7 --assets <root>`, palette.textures): **48 -> 45**
+(`texture_use.py --project`: 41 -> 38; the built map also counts the chest set and other build-side pictures). Three
+repeats inside the 6d09 / 6d05 families, each a small surface:
+
+| Was | Now | Where | Why it costs no look |
+|---|---|---|---|
+| `mnwl2` (6d09 smooth rock roof) | `d7ceil2` | the forgotten strongroom's ceiling (one face) | the same family's carved ceiling of the chapel and tally room; reads as dwarf work (`shots/06-strongroom-roof.png`) |
+| `cbedsqr` (6d09 furniture wood) | `d2ceil2` top, `t3d2abe` sides | the tally table | the camp's long-table timber; the old one was the bright orange slab pass 1 called weak (`shots/04-tally-table.png`) |
+| `d7dor3` (6d09 skull door) | `t3dr1` | the tally door (theme dwarf_hall) | the camp's plank door, as the bunk door beside it in the same mess hall; the tally room behind keeps its 6d09 walls |
+
+**Checks** (from `openyamm-studio/build-xeen/oymap` and `build-xeen/game/openyamm`, the binaries of A1's merge
+point 1): `validate` no issues; `build` 3 warnings, all older (the four moles' name "Tiger Mole", the brake's
+`else_effects` Lua, one squashed beam face); installed into the root; `audit --reach --solve`: 0 faces in one plane, no
+dead handler, nothing stranded or waiting, the brake key (item 2111) reached in wave 3, never reached only the three
+bunk shelves and three chutes (by design), the three hanging braziers' `thing.floating` (known); `fmt --check` clean;
+`playtest.yml` (207 steps: new are the shopping list's window, the empty barrels, the cart's original line, the Deep
+Line note's window, and the arrival in XD-03 at its start) **4 of 4**, `playtest_hostility.yml` (30 steps) **4 of 4**
+(`output/studio_cal/xd02/a7/run/summary.out`, logs beside it).
+
+**Pictures** (`output/studio_cal/xd02/a7/shots/`, `shots2/`, `shots3/`; sheets `sheet.jpg`, `sheet2.jpg`): the mess
+hall's barrels with a clan pack before them (`shots3/01`), the shopping list's window (`shots/02`), the tally room
+with its four guards and the timber table (`03`, `04`), the strongroom's carved roof (`06`), the Deep Line station, its
+kegs and the note (`07`, `08`, `shots2/03`), the cart's locked line (`shots/10`), the cave-in line (`shots2/02`).
+
+**Still blocked** (the move into the world, phase 0 item 3): the Mad Dwarf, Spider, Bat and Tiger Mole rows and the
+brake key 12011 (A2); the quest bits 110020-110021 and Gunther's errand as a real quest (A3); `world: xeen`, music by
+name and sounds (A1's install); the X4 exit (X4 not built).
+
+## Into the world (2026-11-20, lane A7)
+
+Phase 0 step 3, on the recipe of XD-05's move (lane lead). Files before: `output/studio_cal/xd02/a7_backup_move/`;
+edits by `output/studio_cal/xd02/a7_move/move.py` (rows, items, relations, notes) and `a7_move/smithy.py` (the smithy
+door), then `oymap fmt` and `oymap record --author agent:xeen-a7-move`.
+
+- `world: xeen`. Slots by A2's slot names, tiers, counts and weights kept: 1 `Xeen Mad Dwarf` (Dif 0), 2 `Xeen Spider`
+  (Dif 0), 3 `Xeen Bat` (Dif 1). The spawn points fix the tier: the three deep Dwarf points (`deep_station`,
+  `stope_floor_n`, `turntable_n`) now at **b**, Clan Sergeant 11051 (10), as the Soldiers 10 they were; the four upper
+  ones at a, Mad Dwarf 11050 (7); Spiders at a, Giant Spider 11320 (5); Bats at a, Giant Bat 11300 (3).
+- Placed: the tally room's three guards Clan Sergeants 11051 (10); the fourth, once the Tallymaster, a Clan Guard
+  11052 (12; CHANGES A1: an ordinary Clan Guard, one level over the band's top 10 as A2's row is); the four Tiger
+  Moles 11430 (6, the row's own name: `name` dropped); the cocoon's three spiders Cave Spiders 11321 (10).
+- Monsters at load (`output/studio_cal/a7/xcount.py xd02`, count.py reading the world's rows too): **about 56**
+  (MAPS §0: 55), levels **3-12** (3-10 and the one Clan Guard).
+- Items: `brake_key` 12011 (A2). The payroll amethyst 181, the lamp scroll 300 and the floor items (220, 222, 203, 825)
+  are engine items and stay.
+- `relations`: **all dropped**. They made MM7's Dwarves the party's foes and kept them apart from MM7's Spiders and
+  Troglodytes; the world's `relations.yml` makes every Xeen family hostile and sets none on another. No peaceful
+  actor stands in this map.
+- Quest bits unchanged (110020-110021, A3's m3.yml), plus **`m3_done: 111061`** for the smithy below. A3's m3 hooks on
+  this map (`winch`, `x4_adit`, `deep_line`, `dwarf_shop`) only name the built events and the bits they set or read;
+  `xeen_quests.lua` defines no `m3.*` hook, so the map calls none.
+
+**The Red Dwarf Smithy** (orchestrator's request from A4, `source/towns/xd02.yml` house 4851, TOWNS_FORMAT §1 `opens`):
+`door:dwarf_smithy`, a wall panel of the area's plank door (`t3dr1`, the timbered theme's own door) 192 x 288 on the
+adit mouth's south wall, between two timber sets, the first room past X1's portal (the party starts facing west with it
+on the left). `evt:dwarf_smithy` (hover "Red Dwarf Smithy", a `script` with `condition: {qbit: m3_done}`): with M3 done
+`evt.EnterHouse(4851)`; before, a message window with A4's closed text exactly ("The smithy is barred. Behind the
+door, someone is sharpening something and swearing at the Mad Clan."). `playtest.yml` clicks it on arrival (the
+window), sets 111061 by the console (`qbit set`), clicks again and asserts the house dialog "Red Dwarf Smithy" (the
+world's house row 4851 loads), closes it and clears the bit. The audit's `click.silent` on it is its own blindness
+to Lua (the EnterHouse).
+
+**Dressing pass** (the user's rule of 2026-11-20, `devdocs/xeen/formats/DRESSING.md` "Measurements"; checker
+`output/studio_cal/a7/dressing/check_dressing.py`, spots proposed by the lane's `output/studio_cal/a7/dressing/suggest_moves.py`
+along the sector's real walls and off every walking line, edits `output/studio_cal/xd02/a7_dressing/batch1.py`,
+`batch2.py`). Findings **25 -> 4** (`output/studio_cal/xd02/a7_dressing_before.txt`, `a7_dressing_after.txt`):
+- moved to a wall or off the line: the adit mouth's two barrels (`adit_mouth_2`, `_3`, out of the portal's way to the
+  north wall either side of the tipped cart); the Deep Line note's keg (`deep_station_100`, 300 from the line's mouth)
+  to the brake wheel's side, still a stride from its empty partner; the lamp room's barrel; the mess hall's trash heap
+  (out of the line between its two doors); the spider galleries' skeleton; the stope floor's dirt and rock (nudged 32
+  and 48 off the walking line); the Top Station's third barrel (the clump of three made a pair and a single) and its
+  bucket; the Turntable's two barrels (out of the trestle's doorway to its north wall, a pair) and trash heap;
+- removed: the Top Station's two sacks on the loading deck (`top_station_17`, `_18`: on the deck between its openings,
+  and every wall spot left would clump them with the barrels);
+- kept, centre set pieces that narrow nothing: the mess hall's cook cauldron on its hearth (`mess_hall_58`) and the
+  bowls, goblet and plates on the two long tables (`mess_hall_60`, `_62`, `_63`): the hearth and tables stand there as
+  platforms, the things on them add nothing to the walk.
+
+
+**After the pictures** (`output/studio_cal/xd02/a7_dressing/batch3.py`): the adit mouth's trash heap (`adit_mouth_4`)
+stood against the Red Dwarf Smithy door's east jamb (the checker sees the smithy as a wall panel, not a door): moved to
+the south wall's west bay, between the first two timber sets; the mess hall's trash heap, off the walking line but 230
+from the west doorway, moved 330 off it (as a container would stand). The helper now keeps every prop 200 from a door
+leaf, and with `STRICT=1` 330 from an open doorway.
+
+## Sealed exits
+
+The orchestrator's rule of 2026-11-20: no exit of a map in the Xeen world leads to an MM7 map. **The west adit to X4**
+(X4, Burlock Savannah, is built in phase 2):
+- **was:** project neighbour `exit:x4_adit` to `7out01.odm` (Emerald Island at [15816, 12161, 1133], direction 180,
+  condition x4_adit_open, one way), the exit face `exit:x4` (sky_clo1, 320 x 352) on the collapsed adit's west wall with
+  `evt:exit_x4` (an exit preset; locked text "Rock fills the adit to the roof. The winch might drag it away."), the
+  plan's `entrance:west_adit`, and the winch's daylight (`light:west_daylight`, `lights_on`, "...: daylight!").
+- **now:** the winch still drags the old fall away (mover:fall) and sets `x4_adit_open` (110020, A3's m3), and says
+  "The props come out and the whole fall slides away, but behind it the rock has come down afresh." The adit ends at a
+  rock panel of the fall's own rock (`panel:fresh_fall`, t3ll6, 320 x 352) where the sky face was; clicking it
+  (`evt:exit_x4`, a script) shows before the winch the old status line and after it a message window: "Behind the old
+  fall, fresh rock has come down and chokes the adit's mouth to the roof. No way out to the savannah here. Not yet."
+  The built Lua has no MoveToMap but to X1 and XD-03. `playtest.yml` clicks it after the winch and checks the window
+  and that the map is still XD-02.
+- **to open it when X4 exists:** add back the neighbour `exit:x4_adit` (to X4's stem, arrival at X4's adit, direction,
+  `condition: {qbit: x4_adit_open}`; drop `one_way` if it is two-way as M3 says), put back an `exits` entry on the
+  collapsed adit's west wall (or turn `panel:fresh_fall` into it: same wall, centre, 320 x 352) with `to:
+  exit:x4_adit`, make `evt:exit_x4` an exit preset again (condition x4_adit_open, the locked line above), restore the
+  daylight light and the winch's line, the plan's `entrance:west_adit`, and a playtest step that takes it.
+- **prepared (2026-11-20, lane A7, third session):** `output/studio_cal/a7/unseal_xd02_x4.py` makes every change above
+  in one run once X4 is installed: neighbour `exit:x4_adit` to `xeen_x4.odm` at A5's arrival (20336, -16128, 1504)
+  facing west (direction 180; X4's doorway face at x 20736, briefs/x4/DOORS.md), two-way, condition x4_adit_open; the
+  exit face `exit:x4` (sky_clo1) in place of `panel:fresh_fall`; `evt:exit_x4` an exit preset; the daylight light and
+  the winch's "daylight!" line back; the plan's `entrance:west_adit`; a load handler `evt:fall_cleared` that sends the
+  fall away again whenever x4_adit_open is set (a map whose state was reset would otherwise put the rock back with the
+  winch slack); `playtest.yml` no longer clicks the mouth, and a new `playtest_x4.yml` works the winch and leaves for
+  X4. A dry run validated and built (MoveToMap (20336, -16128, 1504, 1024) to X4) and was put back. **The inside end:**
+  A5's guess (2720, 5184, 256) stands inside the fall's footprint (x 2440-2776, y 4960-5408): the party would arrive in
+  the rock if the fall were ever back; this map's arrival for X4's door:xd02_adit should be **(2880, 5120, 256) facing
+  east** (direction 0), east of the fall's place and 180 clear of the winch (2920, 5300).
+
+## Into the world: balance (2026-11-20, lane A7)
+
+**Balance** (the orchestrator, 2026-11-20: kill XP per member within MAPS §0 ±15 %, by the tier mix first). Figures from `tools/xeen/balance.py --detail` (A2) and the lane's copy `output/studio_cal/a7/xbalance.py`, which skips objects.yml item spawns: A2's tool reads every indoor spawn entry as a monster marker of slot 1, item spawns included (a defect reported to A2; the lane's copy differs by that one filter). Reports: `output/studio_cal/a7/balance_before.txt`, `xbalance_before.txt`, `balance_after_tool.txt`, `xbalance_after.txt`; edits `output/studio_cal/a7/balance_move.py`. The slots' Dif, per_marker and weight are unchanged, so A2's map_stats row needs no copy.
+
+| | Monsters | Kill XP per member (MAPS 1.1k) | Ratio, item spawns skipped | A2's tool |
+|---|---|---|---|---|
+| Before | 56 | 1.6k | 1.42 | 1.55 |
+| After | 56 | 1.2k | **1.08** | 1.21 (the two item spawns read as 5 Mad Dwarves) |
+
+- the three deep dwarf points (`deep_station`, `stope_floor_n`, `turntable_n`) back from b to a: every Dwarf point a Mad Dwarf 7 (the Clan Sergeant markers were the main excess);
+- three of the open stope's spider points (`ledge_sse`, `ledge_wsw`, `foot_drift`) to slot 3 at a: bats over the stope's air instead of spiders (same count, half the XP);
+- the tally room's three guards Clan Sergeants -> Mad Dwarves 11050 (the fourth stays the Clan Guard, CHANGES A1), the cocoon's three Cave Spiders 11321 -> Giant Spiders 11320.
+
+Count unchanged (about 56), levels 3-12 (3-7 and the one Clan Guard 12). `playtest.yml`'s tally-room check now counts Mad Dwarves and the Clan Guard.
+
+**Checks (final, 2026-11-20):** Studio checks against `output/studio_cal/a7/root_xeen` (its engine monster tables and, since this move, its engine items.txt carry the world's rows: `mk_studio_root.py`, then the lane's `mk_studio_root_items.py`, both write new files and rename); built into `output/studio_cal/xd02/a7_xbuild/`, installed with `oymap install --root assets_dev` and `--root output/studio_cal/a7/root_xgame`. Game checks with `build-xeen/game/openyamm --world xeen` from root_xgame (missing new world and engine files hard-linked into it with `cp -rl --update=none` twice during the move: a world.yml table, monster models; its X1 stand-in and XD-05 left as they were). `validate` no issues; `build` the three older warnings, plus the studio's
+hostility warning for the three Xeen slots (engine `hostile.txt`, not the world's relations.yml: a studio defect);
+`audit --reach --solve`: three hanging braziers' `thing.floating` (known), six sectors never reached (the bunk shelves
+and chutes, by design), five steps, nothing stranded, exits to X1 and XD-03 only; `fmt --check` clean; playtests
+**4 of 4**: `playtest.yml` 220 steps (the smithy barred and open, the sealed adit's window), `playtest_hostility.yml` 30
+(`output/studio_cal/a7/final3_four.out`, logs `output/studio_cal/xd02/a7_xrun/`). Balance 1.08 (A2's tool 1.21: its
+item-spawn defect). Pictures: `output/studio_cal/xd02/a7_xshots/` (sheet `a7_xshots_sheet.jpg`: the smithy door, the
+tally guards, the drift, the barrel pairs, a Mad Dwarf and a Giant Spider at the Turntable) and `a7_xshots2/` (the smithy
+door with the heap moved off it, the mess hall); looked at. Open: X4 (the sealed adit), A3's dwarf_shop question (the
+house opens on m3.done 111061: whether Gunther's reward sets it is A3's).
+
+## Lighting bake (2026-11-20, lane A7)
+
+Profile `tools/lighting/baked_indoors/profiles/xeen_xd02.yml` (16 units per texel, one 2048-wide page, 128 samples, 3
+bounces, light size 24; direct 2.0, bounce 5.0, ambient 0.9, ceiling 1.5: one calibration for the five, set on XD-05
+against the unbaked map). Baked with `bake_indoor.py --game-binary build-xeen/game/openyamm --sources
+output/studio_cal/xd05/a7_bake/xeen_sources` (Blender 5.3 in one process under a 16 GB cap; scripts in
+`output/studio_cal/xd05/a7_bake/scripts/`, passes kept in `output/studio_cal/xd02/a7_bake/bake/` for `--recompose`).
+`--sources` is a staged root of the world's own x4 masters (links to `level_generation/textures_xeen/finished/`): the
+bake needs a material for every face and the Xeen textures have no source in `assets_source/worlds/xeen/textures_x4/`
+yet. Installed `xeen_xd02.lighting` and `.bake.json` (new file, then rename).
+
+- Bake: 2048 x 831 (1.70 M texels), 2,805 charts for 3,180 of 3,309 faces (242 mover faces), 56 static lights; 69 s
+  Cycles, 75 s in all; `xeen_xd02.lighting` 3.65 MB, `.bake.json` 760 bytes.
+- Pictures `output/studio_cal/xd02/a7_bake/` (`baked/`, `unbaked/` with `--set video.lightmaps=false`, `compare.jpg`
+  baked left): 58.3 baked against 64.3 unbaked. Top station, mess hall, chapel and the stope floor match the unbaked map
+  within a few percent, with shadows under the timber sets and pools round the lanterns; the gold pool and the grotto
+  keep their colour. No black faces, seams or leaks seen.
+- Switched lights (the bake keeps every BLV light as the map starts): The two signal lamps are BLV lights:
+  `light:signal_trestle` (on at start) is baked and stays lit on the turntable's wall when the points are thrown;
+  `light:signal_east` (off at start) never shows on the walls when it comes on (`turntable-points` pose: the baked map
+  shows the green over the wrong gate). The six gold glints are pulsing lights: they go out correctly. The fix is the
+  map's: build an event-switched light as a pulsing light (constant pulse) as INDOOR_PULSING_LIGHTS.md says, then
+  re-bake.
+- Stale check: listed only for the world's own x4 masters (`worlds/xeen/textures_x4/*.png`), which have no home in
+  `assets_source` yet; with them in a source root at that path it lists nothing (checked), so installing the finished
+  masters there byte for byte clears it without a re-bake.
+- Playtest (`playtest.yml`, `assets_dev`, `--world xeen`): passed (`output/studio_cal/xd02/a7_bake/playtest.out`).
+- Re-bake after any rebuild of the map: `output/studio_cal/xd05/a7_bake/scripts/bake_one.sh 2`, then `install.py 2`.
+
+## Hooks, switched lights and D-7 dressing (2026-11-20, lane A7, second session)
+
+**Switched lights as steady pulsing lights.** A bake keeps every BLV light as the map starts (INDOOR_BAKED_LIGHTING.md, INDOOR_PULSING_LIGHTS.md "Switched lights"), so each light an event switches is now a scene light with `pulse: {intensity: [1, 1], frequency: 0.1}` (constant): it is not baked, and `lights_on` / `lights_off` switch it as before (`evt.SetLight` key 40000 + its ids.lock number). Script: `output/studio_cal/a7/hooks/pulse_lights.py`. Here: `light:signal_trestle`, `light:signal_east`.
+
+**Dressing (D-7.1, A1's recalibrated audit of 14:41).** `oymap audit --world xeen --reach --solve` on the installed map (scratch root `output/studio_cal/a7/root_d7`, lane script `output/studio_cal/a7/xcycle.sh`; walking-line pushes by `output/studio_cal/a7/dressing/fix_lines.py` and `d7_moves.py`): no error left. Changes: off the walking lines `main_drift_9`, `sorting_floor_29/30`, `west_line_76`, `west_line_upper_78` (rocks, heaps, dirt, 20-110 aside); removed `stope_floor_93` (a rock between the stope's lines), `sorting_floor_33` (a bucket 269 in front of a doorway) and `top_station_19` (a bucket on the line, no wall spot). The hanging braziers (`mess_hall_54/55`, `top_station_13`, `hangs: true`) reach their beams (the build's hang check is silent); the new audit no longer lists them.
+
+### Dressing exceptions
+
+- None: no dressing warning left.
+
+## X4 linked (2026-11-20, lane A7, third session)
+
+`output/studio_cal/a7/unseal_xd02_x4.py` applied (Sealed exits, "prepared"): the west adit leads to X4 at (20336,
+-16128) facing west, measured **Z 1505** (A5's 1504); `playtest_x4.yml` (16 steps: shut, winch, leave via the
+leave-map "OK"), `playtest` (216), `playtest_hostility` (30) every step 4 of 4 in `output/studio_cal/a7/root_x4`
+(`output/studio_cal/a7/x4_four2.out`; the binary's exit crash as XD-07's); audit clean. Installed into `assets_dev`,
+re-baked. X4's door:xd02_adit should arrive at (2880, 5120, 256) facing east, not (2720, 5184, 256), which stands in the
+fall's footprint (asked of A5).
+
+**A5's built X4 points (2026-11-20, later):** the exits now use A5's built arrivals (they supersede the provisional
+DOORS.md ones above): XD-07 gate (-1024, 6912, 1808) south, throw (-4608, 9728, 2504) east; XD-25 (-11520, -9448, 1056)
+south; XD-02 adit (20080, -16128, 1504) west; XD-26 mouth (-9216, 11208, 1824) south, sky crack (-7424, 14592, 3600)
+south. Measured landing Z: 1802, 1505 (ground), 1057, 1505, 1821.5, 3593. Exit playtests 4 of 4 with clean exits in
+`output/studio_cal/a7/root_x4` (`output/studio_cal/a7/x4_built_four.out`); installed, re-baked.
+
+## Build warnings (2026-11-20, merge point 11)
+
+Lane A7's warnings pass (oymap of merge point 11). Build warnings 1 → 0. Edited in the L4 YAML (the generators are
+retired, above); before: `output/studio_cal/a7w/backup/xd02/`.
+
+- "t3d2abe on BEAM is squashed (1 across, 0.41 down)": the trestle bents' ten X braces (16 wide, raking 66°: the plank
+  picture's height is drawn out by 1/cos 66° along the brace). On a brace 16 wide it does not show (pictures from the
+  chasm floor, before | after: `output/studio_cal/a7w/shots/xd02/sheet.jpg`), so the ten braces' surface says
+  `uneven: true`; nothing else changed.
+- Checks (root `output/studio_cal/a7w/root`): validate clean, build 0 warnings, audit `--reach --solve` no warning or
+  error; `playtest.yml`, `playtest_hostility.yml`, `playtest_x4.yml` 4 of 4 each (`output/studio_cal/a7w/xd02_four.out`,
+  logs `output/studio_cal/xd02/a7_xrun/`). The .blv is the same geometry; no re-bake needed for this change alone.
+
+## Lamp rule (2026-11-20, lane A7, sixth session)
+
+A1's light check (`oymap audit`, `devdocs/xeen/formats/LIGHTS.md`) found 15 errors and 4 warnings; now none
+(root `output/studio_cal/a7/root_lights`, build `output/studio_cal/xd02/a7_xbuild`, 0 build warnings as before).
+- The four `dec56` "pole torches" were the MM6 wall torch (bound `mount: wall`) standing on the floor: the chapel's pair
+  (`dwarf_shrine_49`, `_50`) now hang on the south wall either side of the tablet, 144 up (level with its foot); the
+  Turntable's pair by the points lever (`turntable_42`, `_43`) are standing flambeaux (`flamb00`) where they stood.
+- Torches inside the timber props (`foot_drift_35`, `main_drift_6`, `main_drift_7`, `west_line_upper_77`: placed on the
+  prop, they stood on its top) are now on the prop's open face, 12 off it, at their heights over the floor.
+- In doorways: `mess_hall_56` moves along wall 0 from 0.85 to 0.92 (beside the Turntable door, 97 from its jamb);
+  `stope_rim_83` from wall 3 (the gallery opening) to wall 2, along 0.6; `stope_floor_88` (the spiral's top ledge torch,
+  on wall 1, the rim's mouth) to wall 0 along 0.75, height 928 (200 over the ramp's top there).
+- `turntable_40` 73 from its wall: moved onto it at [7610, 4853].
+- Not changed: `light:west_daylight` lies inside the rockfall plug that its event removes (switched off at the start).
+
+## Texture fit (2026-11-20, merge point 16, lane A7, eighth session)
+
+- The six ore carts' sides `xncartsd` (128 x 64) at `scale: 1.5` (a sloped side ignores `fit`): 1.04 x 0.92 of the picture on each 200 x 88 side, once.
+- The tally room's four `xntally` boards 256 long (were 512: the board shown twice).
+- AU's mine bed `xeen_amb_mine` placed twice (`sound:stope_mine` in the stope, `sound:sorting_mine` by the sorting floor; volume 0.45-0.5).
+- Audit: no `textures.*` finding.
+
+## Mine beds centred (2026-11-21, fifteenth session, lane A7 sub-agent)
+
+- D-48 (AUDIO.md "Indoor beds"): `sound:sorting_mine` and `sound:stope_mine`, AU's `xeen_amb_mine` filling their
+  rooms, take `pan: false` (heard centred, the falloff kept). No generator writes the sound lines
+  (`tools/gen_objects.py` has none): edited in L4 `objects.yml` by hand.
+- `xcycle.sh`: build warnings 0, audit 0 errors, 0 warnings. Installed with bake (01:55:33), stale bakes 0. From
+  `assets_dev`, 4 of 4 each: `playtest` 216, `playtest_hostility` 30, `playtest_x4` 16
+  (`output/studio_cal/a7/s15_xd02_four.out`).
+
+## Twentieth session (2026-11-21, lane A7 lead)
+
+- `exit:x1_adit` names X1's `entrance:xd02_portal` (-10240, 15872, 1184) facing south (A5 moved it in front of the portal; it was a raw point 400 south of the face, 259 from the named one; `direction` dropped, the facing comes with the name). `playtest.yml` asserts the landing and facing (measured (-10240, 15872, 1185) facing 1536).
+- Built into `output/studio_cal/a7/s20/xd02/` with the oymap of merge point 27: BLV and scene byte for byte the installed ones (no rebake; stale bakes 0); the Lua differs by the way out only. Lua and studio file installed 06:51:18. Audit from `assets_dev` 0 errors, 0 warnings (`output/studio_cal/a7/s20/audit/xd02.txt`). **12/12 from `assets_dev`** (playtest 216, hostility 30, x4 16; `output/studio_cal/a7/s20/four_xd02.out`).
+
+## Twenty-first session (2026-11-21, lane A7 lead)
+
+- `exit:x4_adit` names X4's `entrance:xd02_adit` (19968, -15872, 1504) facing 1024 (west, out of the adit; A5 moved it;
+  it was the raw point (20080, -16128, 1504) with `direction: 180`, now dropped). `playtest_x4.yml` asserts the landing
+  and the facing. project.yml edited by hand (no generator writes it).
+- Built with the oymap of merge point 27: BLV and scene byte for byte the installed ones (no rebake; stale bakes 0); the
+  Lua differs by the X4 MoveToMap only. Lua and studio file installed 08:03:55. Audit from `assets_dev` 0 errors,
+  0 warnings (`output/studio_cal/a7/s21/audit/xd02.txt`). **12/12 from `assets_dev`** (playtest 216, hostility 30, x4 16;
+  `output/studio_cal/a7/s21/four_xd02.out`).
+
+## Merge point 30 (2026-11-21, lane A7 twenty-third session)
+
+- `panel:chalk_mark` stood over 112 of the strongroom's secret wall (merge point 30's panel warning: the sinking wall's
+  top is 96, the mark's bottom was 64). Now bottom 296 (104 to 216, 8 above the wall's top) and offset 430, centred
+  over the 192 of the wall. Edited in L4 `rooms.yml` by hand (`tools/gen_rooms.py` is stale since earlier hand edits).
+
+## F14 drops (2026-11-22, lane A7 twenty-seventh session)
+
+`tools/xeen/check_drops.py` (with A7 s27's blocks-on-floor fix) lists five pockets, all the trestle ride, kept by
+design: the chasm floor under the trestle (-1792, reached only by stepping off the moving car; the gates at both ends
+are down where the car stands, so nobody falls on foot) and four slivers of the car's own deck faces along its run
+(the check does not ride movers). The car and its two levers carry the party both ways.
+
+## chest.front (2026-11-22, lane A7 twenty-seventh session)
+
+The build's `chest.front` warning (merge point 41: an indoor chest's `facing` is its long axis, its front 90 degrees
+anticlockwise of it): the chest(s) it named turned 180 degrees in place, back to the wall, front to the room.
+Installed with the bake; build warnings and audit as before.

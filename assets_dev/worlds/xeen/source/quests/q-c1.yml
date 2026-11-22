@@ -1,0 +1,78 @@
+# Q-C1 The Seasons Relay (QUESTS 2.1); T1-C moved to Q-C10 (D-1, 2026-11-20). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The relay starts with Summer on X6 (Stumpy's "Visit the Druid of Summer first"), then Autumn (X4), Winter (X5) and
+# Spring (X1). Act III's quest by the orchestrator's decision (2026-11-20). The druids are A4's: Summer 4601 (X6),
+# Autumn 4321 (X4), Winter 4529 (X5), Spring 4048 (X1). Xeen.renewAges() (xeen_common.lua) sets every member's magical
+# age back to none (the engine's Age variable, the same one MM6-MM8's events set).
+id: Q-C1
+title: The Seasons Relay
+act: III
+kind: side
+status: full
+giver: 4601          # the Summer Druid (X6) starts it; the Spring Druid (4048, X1) ends it
+maps: [X1, X4, X5, X6]
+level: 26
+block: 51
+after: []
+source: "QUESTS Q-C1; xeen/aaze0010:5-7, :29 (Autumn); xeen/aaze0019:13-19 (Spring); xeen/aaze0049:6 (Stumpy)"
+
+qbits:
+  started: {id: 112020, journal: "The four druids of the seasons pass the year from hand to hand: the Last Flower, Leaf, Snowflake and Raindrop.",
+            until: [done]}
+  summer: {id: 112021, note: "the Summer Druid gave the Last Flower of Summer"}
+  autumn: {id: 112022, note: "the Autumn Druid gave the Leaf of Autumn"}
+  winter: {id: 112023, note: "the Winter Druid gave the Snowflake of Winter"}
+  done: {id: 112024, note: "spring renewed: magical aging removed"}
+
+items:
+  last_flower_of_summer: "the Last Flower of Summer; the Summer Druid (X6) gives it; the Autumn Druid takes it."
+  leaf_of_autumn: "the Leaf of Autumn; the Autumn Druid (X4); the Winter Druid takes it."
+  snowflake_of_winter: "the Snowflake of Winter; the Winter Druid (X5); the Spring Druid takes it."
+  raindrop_of_spring: "the Raindrop of Spring; the Spring Druid (X1) gives it with the renewal; the party keeps it (A2: an artifact of the seasons set), or the Summer Druid takes it to start the year again."
+
+npcs:
+  4601:              # the Summer Druid (X6)
+    topics:
+      - n: 1
+        label: Summer
+        states:
+          - when: {qbit: summer}
+            text: "Take the Last Flower of Summer to the Autumn Druid on the savannah, so that summer can end."
+          - text: "I am the Summer Druid. Summer will not end until someone carries its last flower away. Take it to the Autumn Druid, on Burlock's savannah. The year is a relay, and I have held it long enough."
+            do: [{give: last_flower_of_summer}, {set: summer}, {set: started}]
+  4321:              # the Autumn Druid (X4; A4's id)
+    topics:
+      - n: 2
+        label: Autumn
+        states:
+          - when: {qbit: autumn}
+            text: "Please take the Last Fallen Leaf of Autumn to the Winter Druid."
+          - when: {item: last_flower_of_summer}
+            text: "Thank you for the Last Flower of Summer. Here is the Last Fallen Leaf of Autumn. Take the Leaf to the Winter Druid so Winter can begin."
+            do: [{take: last_flower_of_summer}, {give: leaf_of_autumn}, {set: autumn}]
+          - text: "I am the Autumn Druid. I require the Last Flower of Summer before I can give you the last fallen Leaf of Autumn. Without the last flower of summer I cannot make summer end."
+  4529:              # the Winter Druid (X5)
+    topics:
+      - n: 3
+        label: Winter
+        states:
+          - when: {qbit: winter}
+            text: "Take the Snowflake to the Spring Druid by Pitchfork Creek. He has waited all winter. He always does."
+          - when: {item: leaf_of_autumn}
+            text: "The last leaf. Then winter may begin. Here is the last Snowflake of Winter; carry it to the Spring Druid, by Pitchfork Creek in Vertigo's meadows."
+            do: [{take: leaf_of_autumn}, {give: snowflake_of_winter}, {set: winter}]
+          - text: "I am the Winter Druid. Bring me the last fallen Leaf of Autumn, or winter waits, and so does everything after it."
+  4048:              # the Spring Druid (X1)
+    topics:
+      - n: 4
+        label: Spring
+        states:
+          - when: {qbit: done}
+            text: "Spring comes to those who wait. You did not wait; you walked. That works too."
+          - when: {item: snowflake_of_winter}
+            text: "The last snowflake of Winter. Here is the Last Raindrop of Spring, and your reward. As I renew the year, so will I renew you."
+            do: [{take: snowflake_of_winter}, {give: raindrop_of_spring}, {set: done}, {lua: "Xeen.renewAges()"},
+                 {xp: 8000}]
+          - text: "I require the last snowflake of Winter before I can give you the Last Raindrop of Spring and your reward. The Summer Druid begins the year, in the west."
+
+rewards: {xp: 8000, gold: 0}
+playthrough: "X6: Summer Druid (Summer). X4: Autumn Druid (Autumn). X5: Winter Druid (Winter). X1: Spring Druid (Spring): renewal (magical aging removed), the Last Raindrop of Spring."

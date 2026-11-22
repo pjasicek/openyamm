@@ -1,0 +1,884 @@
+# Per-map table data that the registry (maps.yml, the orchestrator's) does not hold. Owner: A2. Map lanes send
+# changes (spawn slots above all) to A2. tools/xeen/gen_maps.py writes map_stats.txt, bolster_maps.txt and
+# outdoor_travels.txt from maps.yml and this file.
+#
+# Rows are written for every map that is built (maps.yml built_as_mm7_stand_in) or installed in the world
+# (assets_dev/worlds/xeen/maps/<stem>); `include: all` writes all of maps.yml. Travel rows join two surface maps that
+# are both installed in the world (an unbuilt neighbour's edge gets no row; its lane seals it with a sign).
+#
+# A spawn slot names a Xeen family (`family: goblins`, monsters.yml) or, until a built map is rebased, the installed
+# monster family it was built with (`monster: Goblin`); `tier` is map_stats' Dif (0-5), `count` the group size per
+# marker, `weight` the slot's share of the markers (%). `traps` lists placed monster rows that are deliberate traps far
+# above the map's band (DECISIONS D-1.2): tools/xeen/balance.py counts them, in a column of their own, in the act of
+# the quest that asks for the kill (`quest:`, that quest file's `act`; an explicit `act:` wins), or with no quest in the
+# first act whose leaving party level (MAPS 0) is at least 60 % of the trap's level. `act_regions` (balance.py only, not table data) count the
+# monsters standing in a part of the map in another act's budget, beside the traps (X5's east pocket in Act II, D-4 and
+# D-6.1): {act, x_min, x_max, y_min, y_max, z_min, z_max} in game units, any bound left out is open (z for a BLV's
+# floors: DD-03's stages).
+# `act_rows: {IV: [row ids]}` (balance.py only) counts those rows in another act, placed or from a spawn marker
+# (XD-13's stage 3 in Act IV, D-4; X7's south orcs in Act I, D-40).
+# `no_travel: [north, ...]` leaves those edges out of outdoor_travels (the map leaves them by its own device).
+# `count_friendly: [row ids]` (balance.py only) counts those rows although they are friendly at load (DD-24's People:
+# the budget counts the war route, D-47).
+# `arrivals: {<neighbour>: entrance:<id>}` lands the party crossing from that neighbour's edge at this map's named
+# arrival (its installed <stem>.studio.yml, D-4) instead of the side's default; gen_maps writes the edge_spans entry.
+# `xp_choices: {<quest id>.<hook>: times}` (balance.py only): an experience-or-goods choice the map offers that many
+# times (Q-D27's wish lamps), added at its highest `xp` to the act's "most experience" line (D-53).
+# `most_experience: [row ids]` (balance.py only) leaves those placed rows, peaceful or not, off the map's counted kill
+# XP and adds them to the act's "most experience" kill line (D7's Megadragon and Sky Bandits, D-58).
+# `row_before_install: true` writes the map's rows before the map is installed in the world, so its lane can test it
+# from a scratch root (the game cannot load a map without its map_stats row).
+schema: xeen.map_rows.v1
+
+include: built
+
+defaults:
+  # continent_settings ids by the map's face (world.yml idRanges.continents: 6 Cloudside, 7 Darkside); the face's first
+  # word decides (`cloudside sky` is 6, `darkside sky` 7). The elemental planes and the finale are 7 (A1, 2026-11-20:
+  # the world's continent comes from the start map's bolster row). A face not listed stops the build.
+  continents: {cloudside: 6, darkside: 7, planes: 7, finale: 7}
+  encounter_chance: 10
+  refill_days: 672
+  alert_days: 0
+  steal_perm: 0
+  environment: {odm: PLAINS, blv: STONEROOM, open_air_blv: PLAINS}
+  # Lock and trap difficulty by the map's treasure level, outdoors from the sheets (MAPS 1-2): 0/1 at the start,
+  # about 4 mid-world, 8-10 late, 20 at the finale (research/MM678_CALIBRATION.md). Perception follows the lock.
+  lock_trap_by_treasure: {0: [0, 0], 1: [1, 1], 2: [4, 2], 3: [6, 3], 4: [10, 5], 5: [15, 8], 6: [20, 10]}
+  bolster:
+    kind: LowerToEqual
+    spells: true
+    summons: false
+    profs_max_rarity: 0
+  travel_days: {default: 5, wilderness: 7}
+
+travel_days:
+  - {between: [X1, X2], days: 3}
+
+# Engine award rows reworded while the party is in Xeen (data_tables/english/award_texts.txt, mode override; A1's merge
+# point 18). The Warzone's arena (XD-20, D-39 Q2) adds award 45 + tier and counts the wins in %u; `sort` left out keeps
+# the engine's.
+award_texts:
+  - {id: 46, text: "Won %u Page battles in the Warzone.", note: XD-20}
+  - {id: 47, text: "Won %u Squire battles in the Warzone.", note: XD-20}
+  - {id: 48, text: "Won %u Knight battles in the Warzone.", note: XD-20}
+  - {id: 49, text: "Won %u Lord battles in the Warzone.", note: XD-20}
+
+maps:
+  X1:
+    lock: 0
+    trap: 1
+    perception: 1
+    music: 19
+    environment: PLAINS
+    slots:   # A5's fuller X1 (D-1.3; output/studio_cal/x1/fuller/density.md): 55 markers of 2-3 at Dif 1 (90/8/2)
+      - {family: orcs, tier: 1, count: [2, 3], weight: 50}
+      - {family: toads, tier: 1, count: [2, 3], weight: 25}
+      - {family: skeletons, tier: 1, count: [2, 3], weight: 25}
+  X2:
+    lock: 2
+    trap: 1
+    perception: 2
+    alert_days: 7
+    steal_perm: 3
+    music: 32
+    environment: PLAINS
+    bolster: {profs_max_rarity: 30, rain: true}
+    slots:   # A5's rebase (2026-11-20)
+      - {family: sprites, tier: 1, count: [2, 3], weight: 45}
+      - {family: evil_rangers, tier: 1, count: [2, 3], weight: 35}
+      - {family: ogres, tier: 0, count: [2, 3], weight: 20}
+    # Deliberate traps far above the map's band (A5, DECISIONS D-1.2): not counted in X2's act. Not table data.
+    traps:
+      - {monster: 11640, quest: q-c13, note: the three lake dragons (Water Dragon 60), Medin's Lake Beasts}
+  X3:
+    lock: 4
+    trap: 2
+    perception: 2
+    environment: PLAINS
+    slots:   # A5's L4; Dif raised for kill XP (A5, 2026-11-20: 0.77 at Dif 1; not Dif 3 on the swamp things)
+      - {family: swamp_things, tier: 2, count: [2, 3], weight: 40}
+      - {family: toads, tier: 2, count: [2, 4], weight: 20}
+      - {family: rotting_dead, tier: 4, count: [2, 3], weight: 40}
+    no_travel: [north]   # the north edge to X4 is a step plate and a barrier (D-11.6), not a travel row
+  X4:
+    lock: 4
+    trap: 2
+    perception: 4
+    environment: PLAINS
+    slots:   # A5's L4 (briefs/x4/L4/NOTES.md "Slots wanted"); the renegade knights are their own family (D-11.2)
+      - {family: renegade_knights, tier: 1, count: [2, 3], weight: 27}
+      - {family: ogres, tier: 0, count: [2, 3], weight: 33}
+      - {family: gargoyles, tier: 1, count: [2, 4], weight: 40}
+  X5:
+    lock: 6
+    trap: 3
+    perception: 3
+    environment: PLAINS
+    bolster: {snow: true}
+    slots:   # A6's L4 (briefs/x5/L4/NOTES.md "Monsters"): snowfields, steppe, Troll Forest; all in the west (Act III)
+      - {family: wolves, tier: 0, count: [1, 3], weight: 30}
+      - {family: barbarians, tier: 3, count: [1, 3], weight: 30}
+      - {family: trolls, tier: 2, count: [1, 3], weight: 40}
+    # The east pocket beyond the Frostspine (x cell 82 and east; D-4, D-6.1): XD-09 and XD-10's country, party 16-19,
+    # placed A-tier wolves, ogres and archers in Act II's budget. The cyclopes count in Act III with the map (Q-C16).
+    act_regions:
+      - {act: II, x_min: 9216, note: the east pocket (Halon's yard, the Golem Rocks, the Lagoon Marches)}
+  X6:
+    lock: 8
+    trap: 4
+    perception: 4
+    environment: DESERT
+    slots:   # A5's L4 (D-31: no scorpions): markers 20 worms, 16 werewolves, 18 golems; 135 at load, 42.1k
+      - {family: sand_burrowers, tier: 2, count: [2, 3], weight: 37}
+      - {family: werewolves, tier: 4, count: [2, 3], weight: 30}
+      - {family: elemental_golems, tier: 2, count: [2, 3], weight: 33}
+  X7:
+    row_before_install: true   # A5 tests it from a scratch root (D-40)
+    lock: 10
+    trap: 5
+    perception: 5
+    environment: MOUNTAINS
+    slots:   # A5's L1 (briefs/x7/L1/NOTES.md, D-40): markers 10 orcs (the south), 19 hydras, 18 dragons; placed: 8 Lava
+      # Golems 11593 on the lava island, 2 Orcs 11030 and 1 Orc Guard 11032 at the outpost; 101 hostiles, 75.9k
+      # F10 (2026-11-21): the orcs 1-2 per marker on 13 markers (was 2-3 on 8): the same 19.5-20 orcs spread over the
+      # south slopes' middle and east, which held no monster within 12,000 (tools/xeen/empty_zones.py)
+      - {family: orcs, tier: 1, count: [1, 2], weight: 21}
+      - {family: hydras, tier: 3, count: [1, 3], weight: 40}
+      - {family: cloud_dragons, tier: 5, count: [1, 2], weight: 39}
+    act_rows:   # D-40 Q2: the south's orcs (5-10) are met by an Act I party from X1's road; the rest is Act V
+      I: [11030, 11031, 11032]
+  D1:
+    row_before_install: true   # A6 tests it from a scratch root (2026-11-20)
+    lock: 4
+    trap: 2
+    perception: 2
+    environment: PLAINS
+    slots:   # A6's L4 (briefs/d1/L4/NOTES.md "Monsters"): Dif 3/3/2 after A2's 0.81 recount at Dif 1
+      - {family: gremlins, tier: 3, count: [2, 3], weight: 40}
+      - {family: arachnoids, tier: 3, count: [2, 4], weight: 30}
+      - {family: giant_crawlers, tier: 2, count: [2, 3], weight: 30}
+    arrivals: {D6: "entrance:north_road"}   # D6's south edge lands on the north road, cell (64, 19), facing south
+  D2:
+    row_before_install: true   # A6 tests it from a scratch root (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    environment: FOREST
+    slots:   # A6's L1 families (D-23); the wild sprites are the Darkside tiers (Gorgon Sprite 16, Elder Gorgon Sprite
+      # 22, the Sprite Queen 18 the rare third). Graalg's ogres, his Brutes and the eight village sprites are placed.
+      # Dif 3 at [2, 3] (A2, 2026-11-20): A6's L4 asked [2, 4] at Dif 2 for the kill XP (175 hostiles, 25.8k, 1.04);
+      # Dif 3 gives the same 25.5k (1.03) with 150 hostiles against MAPS 0's 135, as D1's Dif raise did.
+      - {family: wolves, tier: 3, count: [2, 3], weight: 40}
+      - {family: trolls, tier: 3, count: [2, 3], weight: 35}
+      - {family: dark_sprites, tier: 3, count: [2, 3], weight: 25}
+  D3:
+    lock: 8
+    trap: 4
+    perception: 4
+    environment: FOREST
+    slots:   # A5's L4 (briefs/d3/L4/project.yml): markers 24 mantis, 12 cobra, 11 sand worm; placed: 15 Hell Hornets
+      # 11350 and 3 Hornet Swarms 11351 in the Aging Forest's nests (D-28: kept); kill XP 37.4k planned, +7 % (D-28)
+      - {family: mantis_ants, tier: 1, count: [2, 3], weight: 50}
+      - {family: cobras, tier: 1, count: [2, 3], weight: 26}
+      - {family: sand_burrowers, tier: 1, count: [2, 3], weight: 24}
+  # D-50 (X9 and XD-17, briefs/x9/L1/D50_DECISION.md): written before install (A5 starts L2 on them).
+  X9:
+    row_before_install: true
+    lock: 10
+    trap: 5
+    perception: 5
+    encounter_chance: 0   # X9's project card: every monster placed
+    environment: PLAINS
+    slots:   # A5's L1 (briefs/x9/L1/project.yml), the card only: placed 38 Rocs 11561, 6 Griffins 11562, 6 Cloud
+      # Golems 11592; Slick the Gamemaster 11914 peaceful, not counted
+      - {family: great_birds, tier: 1, count: [2, 3], weight: 80}
+      - {family: elemental_golems, tier: 2, count: [1, 3], weight: 20}
+  XD-17:
+    row_before_install: true
+    encounter_chance: 0   # the hidden town: no monsters (D-50); Lacey 11915 and Stumpy 11916 peaceful
+    environment: PLAINS
+    # no slots; music 51 (maps.yml)
+  # D-56 (A5's P5 L1, briefs/p5/L1/D56_DECISION.md): written before install so A5 can test from a scratch root.
+  P5:
+    row_before_install: true
+    lock: 0
+    trap: 0
+    perception: 0
+    encounter_chance: 0   # no monsters (D-56 Q2); the Pharaoh, Roland and Kalindra are peaceful placed rows
+    environment: PLAINS
+    bolster: {kind: NoBolster}   # D-56: no bolster; the row stays for the continent (7, Town Portal's home page)
+    # no slots; treasure 6 and music 15 from maps.yml; refill 672 (the default)
+  # D-58 (A6's D7 and plane L1s, briefs/d7/L1/D58_DECISION.md "ROWS AND NUMBERS"): written before install, so A6's L2
+  # can start. Encounter 0 on all five (D-57's rule: every monster placed); treasure 6 and music from maps.yml.
+  D7:
+    row_before_install: true
+    lock: 12
+    trap: 6
+    perception: 6
+    encounter_chance: 0
+    environment: PLAINS
+    slots:   # kept as a record (A6's project.yml); encounter 0, so no slot spawns. Placed (L1 plan): Griffins 11562 x 12,
+      # Sky Golems 11594 x 8, Cloud Dragons 11650 x 8, Cloud Golems 11592 x 22 (48.8k); not counted: the Megadragon
+      # 11654 (unique, Q-D26) and 8 Sky Bandits 11116 (peaceful, the tolls)
+      - {family: elemental_golems, tier: 2, count: [1, 3], weight: 50}
+      - {family: great_birds, tier: 2, count: [2, 3], weight: 25}
+      - {family: dark_dragons, tier: 0, count: [1, 3], weight: 25}
+    most_experience: [11654, 11116]   # off the counted route (D-58): Megadragon 16.9k for the party (4.2k per
+    # member), Sky Bandits 7.15k per member (D-77)
+    # The tired and kind genies' wish lamps (Q-D27, D-58), 2,000 each, and the angry genie's first answer (+500): all
+    # `alternative`, so only in Act VI's "most experience" line (A2's 14th session)
+    xp_choices: {Q-D27.wish_experience: 2, Q-D27.angry_self: 1}
+  P1:
+    row_before_install: true
+    lock: 15
+    trap: 8
+    perception: 8
+    encounter_chance: 0
+    environment: MOUNTAIN   # the engine's spelling (IndoorSceneRuntime: MOUNTAIN, CAVE, STONEROOM pick stone door sounds)
+    # placed: Lesser Fire Elemental 11620, Fire Elemental 11621, Fire Blower 11622, Lava Golems 11593; the test raises
+    # Sleeper's Guardian of Fire 11623 and two Fire Blowers (D-58 C3)
+  P2:
+    row_before_install: true
+    lock: 15
+    trap: 8
+    perception: 8
+    encounter_chance: 0
+    environment: PLAINS
+    # placed: Lesser Air Elemental 11624, Air Elemental 11700, Whirlwind 11701; the test: Sleeper's Guardian of Air 11702
+    # and two Whirlwinds
+  P3:
+    row_before_install: true
+    lock: 15
+    trap: 8
+    perception: 8
+    encounter_chance: 0
+    environment: MOUNTAIN   # P3's L1 and project (the engine has no QUARRY; MOUNTAIN gives stone door sounds)
+    # placed: Lesser Earth Elemental 11626, Earth Elemental 11720, Earth Blaster 11721; the test: Sleeper's Guardian of
+    # Earth 11722 and two Earth Blasters
+  P4:
+    row_before_install: true
+    lock: 15
+    trap: 8
+    perception: 8
+    encounter_chance: 0
+    environment: UNDERWATER
+    # placed: Lesser Water Elemental 11625, Water Elemental 11710, Tidal Terror 11711, Great Octopods 11471 x 5 (swimmers);
+    # the test: Sleeper's Guardian of Water 11712 and two Tidal Terrors
+  # D-57 (A7's Act VI graphs, devdocs/xeen/mockups/act6_a7_decisions.md): written before install so A7 can test from a
+  # scratch root. Rest encounters 0 on all four (no slot rolls in-band tiers that fit the rooms, D-43); every monster
+  # is placed (the new tiers D/E cannot come from a slot), so no slots until A7's L4 sends some. Lock, trap and
+  # perception from treasure 6 (20/10/20) until A7's L4.
+  XD-18:
+    row_before_install: true
+    encounter_chance: 0   # Q5 (b): Dif 5 rolls Water/Acid/Fire, 487 tall, into 288-384 rooms
+    environment: CAVE     # MM8 d17's rock (Q6)
+    # placed: Acid 66 x 9, Fire 75 x 17, Frost 85 x 14, the Dragon King 11645 (D-57 Q1); music 13 from maps.yml
+  # D-69 (A8's FD-01 graph, devdocs/xeen/mockups/act6_fd01_decisions.md): written before install. Rest encounters 0
+  # (Q71: the robots' slot rolls Patrol 50 at Dif 0, under the band, D-57's rule); every robot placed, no slots.
+  # Treasure 6 and music 50 from maps.yml; lock, trap and perception the treasure level's (20/10/20) until A8's L4.
+  FD-01:
+    row_before_install: true
+    lock: 20
+    trap: 10
+    perception: 20
+    encounter_chance: 0
+    environment: STONEROOM   # Alamar's metal substructure, as DD-17
+    # placed: Annihilator 11611 x 28, Autobot 11612 x 6 (40.81k, D-69 Q63)
+  FD-02:
+    row_before_install: true
+    lock: 20          # A7's L4 (briefs/fd02/L4/project.yml): 20/10/20, the treasure-6 defaults
+    trap: 10
+    perception: 20
+    encounter_chance: 0   # Q13 (b): the slot rolls Tomb Mummy 42 / Pyramid Guard 52; Ghost and Phase are D/E
+    environment: STONEROOM
+    # placed: Ghost Mummy 11273 x 16, Phase Mummy 11274 x 4, Dragon Mummy 11672 x 6 (D-57 Q7); Picard 11922 peaceful
+  FD-03:
+    row_before_install: true
+    lock: 20          # A7's L4 (briefs/fd03/L4/project.yml): 20/10/20, the treasure-6 defaults
+    trap: 10
+    perception: 20
+    encounter_chance: 0   # D-57 general rule
+    environment: STONEROOM
+    # placed: Onyx Sentry 11585 x 20, Onyx Warden 11586 x 16, Sky Golem 11594 x 8, Onyx Golem 11584 (D-57 Q14)
+  FD-04:
+    row_before_install: true
+    encounter_chance: 0   # Q31 (a): the liches' slot rolls 35 and 50; the dragons cannot fit the dungeon
+    environment: STONEROOM
+    # placed: tower Acid 11641 x 6, Fire 11642 x 8, Frost 11643 x 6, Phase 11652 x 5, Energy Dragon 11653; dungeon
+    # Lich Lord 11282 x 10, Power Lich 11284 x 6, Skeletal Lich 11285 x 8, Doom Knight 11152 x 4, Autobot 11612 x 6
+    # (D-57 Q22); Alister 11923 peaceful
+  # D-49 (A6's D5/D6 L1s, briefs/d5/L1/D49_DECISION.md): written before install so A6 can test from a scratch root.
+  D5:
+    row_before_install: true
+    lock: 12
+    trap: 6
+    perception: 6
+    environment: DESERT
+    slots:   # A6's L4 (briefs/d5/L4/project.yml), checked 2026-11-21: same slots, lock, trap, perception; markers 15 lizards, 21 birds, 11 wild cyclopes (11080-11082, hostile);
+      # placed: 3 Griffins at the eyrie; the six People at the hold (11083-11085) are peaceful and not counted
+      - {family: great_lizards, tier: 3, count: [2, 3], weight: 40}
+      - {family: great_birds, tier: 2, count: [1, 3], weight: 40}
+      - {family: giants, tier: 1, count: [2, 3], weight: 20}
+    arrivals: {D6: "entrance:d6_pass", D4: "entrance:d4_road"}   # A6's L4: the pass (west), the road to Lakeside (east)
+    xp_choices: {Q-D27.wish_experience: 2}   # the hill shrine's and the dune's wish lamps (D-53)
+  D6:
+    row_before_install: true
+    lock: 15
+    trap: 8
+    perception: 8
+    environment: MOUNTAINS
+    slots:   # A6's L4 (briefs/d6/L4/project.yml), checked 2026-11-21: same slots, lock, trap, perception; 33 markers;
+      # placed 44: 18 robots in groups (change 7 hides them), 14 lava-dweller fire elementals (11 Lesser Elemental
+      # 11620, 3 Elemental 11621) and 12 archers (9 Barbarian Archer 11104, 3 Archer Chief 11105); Ambrose's
+      # Tethered Griffin 11913 peaceful, not counted
+      - {family: eyes, tier: 2, count: [1, 3], weight: 40}
+      - {family: great_birds, tier: 5, count: [1, 3], weight: 38}
+      - {family: robots, tier: 1, count: [1, 3], weight: 22}
+    arrivals: {D1: "entrance:south_road", D5: "entrance:east_pass"}
+    xp_choices: {Q-D27.wish_experience: 2}   # the pinnacle's and the islet's wish lamps; the crag's is the greedy one
+  D4:
+    lock: 10
+    trap: 5
+    perception: 5
+    environment: FOREST
+    slots:   # A6's L4 project (briefs/d4/L4/project.yml, prepared before A6's slot lines; written on install)
+      - {family: gargoyles_mm, tier: 2, count: [2, 3], weight: 30}
+      - {family: great_birds, tier: 1, count: [1, 3], weight: 55}
+      - {family: coven, tier: 1, count: [2, 3], weight: 15}
+    arrivals: {D5: "entrance:west_road"}   # D5's east edge lands on the west road (A6's L4)
+    # The lake's octopods are the trap
+    # (D-36: counted in Act IV, not by the 60 % rule, which would put the Octopod 50 in Act III).
+    traps:
+      - {monster: 11470, act: IV, note: Octopod 50 in the deep water}
+      - {monster: 11471, act: IV, note: Great Octopod 60}
+      - {monster: 11472, act: IV, note: Kraken 70}
+  XD-01:
+    lock: 0
+    trap: 1
+    perception: 0
+    music: 18
+    environment: STONEROOM
+    slots:   # A7's move into the world (briefs/xd01/L4/NOTES.md "Into the world", 2026-11-20)
+      - {family: oozes, tier: 1, count: [2, 3], weight: 50}
+      - {family: swarms, tier: 1, count: [2, 3], weight: 50}
+  XD-02:
+    lock: 1
+    trap: 1
+    perception: 1
+    music: 18
+    environment: CAVE
+    slots:   # A7's rebase (briefs/xd02/L4/project.yml, world: xeen, 2026-11-20); markers fix a or b
+      - {family: mad_dwarves, tier: 0, count: [2, 3], weight: 40}
+      - {family: spiders, tier: 0, count: [2, 3], weight: 30}
+      - {family: bats, tier: 1, count: [2, 3], weight: 30}
+  XD-03:
+    lock: 2
+    trap: 1
+    perception: 2
+    music: 18
+    environment: CAVE
+    slots:   # A7's rebase (briefs/xd03/L4/project.yml, world: xeen, 2026-11-20); spiders only at their markers
+      - {family: mad_dwarves, tier: 0, count: [2, 3], weight: 60}
+      - {family: spiders, tier: 3, count: [2, 3], weight: 0}
+      - {family: burrowers, tier: 0, count: [1, 2], weight: 40}
+  XD-04:
+    lock: 2
+    trap: 2
+    perception: 2
+    music: 28
+    environment: STONEROOM
+    slots:   # A7's move into the world (briefs/xd04/L4/NOTES.md "Into the world", 2026-11-20)
+      - {family: goblins, tier: 2, count: [2, 3], weight: 60}
+      - {family: witches, tier: 1, count: [1, 1], weight: 10}
+      - {family: toads, tier: 3, count: [1, 2], weight: 30}
+  XD-05:
+    lock: 1
+    trap: 1
+    perception: 1
+    music: 18
+    environment: CAVE
+    slots:   # A7's move into the world (briefs/xd05/L4/NOTES.md "Into the world", 2026-11-20)
+      - {family: orcs, tier: 2, count: [2, 3], weight: 60}
+      - {family: bats, tier: 1, count: [2, 3], weight: 25}
+      - {family: serpents, tier: 1, count: [1, 2], weight: 15}
+  XD-07:
+    lock: 2
+    trap: 1
+    perception: 2
+    environment: STONEROOM
+    slots:   # A7's L4 (briefs/xd07/L4/NOTES.md "Monsters", the tested row); markers carry fixed tiers
+      - {family: madmen, tier: 5, count: [2, 3], weight: 40}
+      - {family: gargoyles, tier: 1, count: [1, 2], weight: 30}
+      - {family: trolls, tier: 0, count: [1, 2], weight: 30}
+    # The caged Fire Dragon (D-4: optional, far above the band). The King's Guards 11143 are friendly (not counted).
+    traps:
+      - {monster: 11642, note: the caged Fire Dragon 75 in the dragon pit}
+  XD-08:
+    lock: 2
+    trap: 1
+    perception: 2
+    environment: STONEROOM
+    # A7's L4 (briefs/xd08/L4/NOTES.md "Monsters"): markers fixed, zombies c 11, spirits a 3 and b 9, skeletons c 2;
+    # weights by those markers. Dif only steers rest encounters: the spirits at 0, so none brings a Tomb Terror (D-4).
+    slots:
+      - {family: rotting_dead, tier: 5, count: [2, 3], weight: 44}
+      - {family: spirits, tier: 0, count: [1, 2], weight: 48}
+      - {family: skeletons, tier: 5, count: [2, 3], weight: 8}
+  XD-13:
+    lock: 2
+    trap: 1
+    perception: 2
+    encounter_chance: 0
+    environment: STONEROOM
+    slots:   # A7's L4: every monster placed, no rest encounters; the slots fill the card only
+      - {family: material_golems, tier: 0, count: [1, 2], weight: 60}
+      - {family: swamp_things, tier: 1, count: [1, 2], weight: 40}
+    act_rows:   # stage 3 (D-4): the cellar's swamp things and the laboratory's Iron Golems, hidden until M22
+      IV: [11461, 11462, 11582]
+  XD-23:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 0   # the burnt warren stays empty (A7's L4 NOTES "Map card")
+    environment: CAVE
+    slots:   # every monster placed (20 Troll, 7 Troll Guard, the Matron 11074); the slot fills the card only
+      - {family: trolls, tier: 1, count: [2, 3], weight: 100}
+  XD-14:
+    lock: 8
+    trap: 4
+    perception: 8
+    encounter_chance: 10
+    environment: STONEROOM   # the project's "castle"
+    slots:   # A7's L4 (briefs/xd14/L4/project.yml); the werewolf slot's Wolfmen 20 (~6 % of rest encounters) accepted, D-43
+      - {family: werewolves, tier: 5, count: [1, 2], weight: 60}
+      - {family: wizards, tier: 0, count: [1, 2], weight: 40}
+  XD-15:
+    lock: 8
+    trap: 4
+    perception: 8
+    encounter_chance: 10
+    environment: STONEROOM   # the project's "stone"
+    slots:   # A7's L4 (briefs/xd15/L4/project.yml); no material golems (a slot would roll the Wood Golem 18)
+      - {family: elemental_golems, tier: 0, count: [2, 3], weight: 70}
+      - {family: pyramid_mummies, tier: 0, count: [1, 2], weight: 30}
+  # D-47 (A7's Act V graphs): written before install; lock/trap/perception from A7's L4 cards (2026-11-21): XD-16 and
+  # XD-19 15/8/15 (treasure 5's defaults), DD-16 and DD-24 8/4/8.
+  XD-16:
+    row_before_install: true
+    environment: CAVE
+    encounter_chance: 10   # D-47 Q6: demons Dif 5 (Screamer 58 the band's top)
+    slots:   # every monster placed (Demon 20, Devil 14, Screamer 6)
+      - {family: demons, tier: 5, count: [1, 2], weight: 100}
+  XD-19:
+    row_before_install: true
+    environment: STONEROOM
+    encounter_chance: 10   # D-47: demons Dif 5
+    # installed 2026-11-21 02:07; row checked against A7's L4 (briefs/xd19/L4/project.yml): lock 15, trap 8,
+    # perception 15, treasure 5, encounter 10, music 22, STONEROOM, the one slot below
+    slots:   # every monster placed (70, Xeen's Pet, Lord Xeen); rests from the demons only
+      - {family: demons, tier: 5, count: [1, 2], weight: 100}
+  DD-16:
+    row_before_install: true
+    lock: 8
+    trap: 4
+    perception: 8
+    environment: STONEROOM   # Corak's pod
+    encounter_chance: 10   # D-47 Q21: the Floating Eye 40 only (Dif 1 and up can roll the Gamma Gazer 65)
+    slots:   # every monster placed (3 Floating Eyes, 2 Terrible Eyes, 2 Lesser Elementals)
+      - {family: eyes, tier: 0, count: [1, 1], weight: 100}
+  DD-24:
+    row_before_install: true
+    lock: 8
+    trap: 4
+    perception: 8
+    environment: CAVE   # MM8's Cyclops Larder d14 (D-47 Q24)
+    encounter_chance: 0   # D-47 Q25: the People are peaceful at peace; no rest slot may reach them
+    # no slots: every giant is a placed People row (11083-11085)
+    count_friendly: [11083, 11084, 11085]   # balance.py: D-47 counts the hall's 30 (20.80k), the war route
+  XD-20:
+    encounter_chance: 0   # the arena: no rest encounters (D-39); every fight is Varro's, from the arena range
+    environment: STONEROOM
+    # no slots: nothing is placed and nothing respawns; lock/trap/perception 0 (no chests, treasure "-")
+  DD-07:
+    lock: 8
+    trap: 4
+    perception: 8
+    music: 43
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # A7's L4 (briefs/dd07/L4/project.yml): Dif 0 keeps rest encounters on the Mystic Mage and the Floating Eye
+      - {family: floating_mages, tier: 0, count: [1, 2], weight: 70}
+      - {family: eyes, tier: 0, count: [1, 1], weight: 30}
+  DD-23:
+    lock: 6
+    trap: 3
+    perception: 6
+    music: 31
+    encounter_chance: 10
+    environment: CAVE
+    slots:   # A7's L4 (briefs/dd23/L4/project.yml)
+      - {family: gargoyles_mm, tier: 1, count: [2, 3], weight: 100}
+  XD-24:
+    lock: 3
+    trap: 3
+    perception: 3
+    encounter_chance: 0   # the vault stair is the resting place (D-25)
+    environment: STONEROOM
+    slots:   # A7's L4 (briefs/xd24/L4/project.yml): every monster placed (16 Gnome Vampire, 5 Vampire, Count Draco)
+      - {family: vampires, tier: 0, count: [2, 3], weight: 75}
+      - {family: vampires, tier: 1, count: [1, 2], weight: 25}
+  XD-22:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 0
+    environment: STONEROOM   # the project's "wood hall"; the engine knows STONEROOM, CAVE, PLAINS, FOREST
+    slots:   # A7's L4 (briefs/xd22/L4/project.yml): every monster placed, the card only
+      - {family: ninjas, tier: 1, count: [2, 3], weight: 100}
+  XD-26:
+    lock: 6
+    trap: 3
+    perception: 6
+    environment: CAVE
+    slots:   # A7's L4 (briefs/xd26/L4/project.yml): markers 5 a, 3 b, 2 c
+      - {family: gargoyles, tier: 2, count: [2, 3], weight: 100}
+  XD-09:
+    lock: 6
+    trap: 4
+    perception: 6
+    environment: STONEROOM
+    slots:   # A8's L4 (lanes/A8.md "Owed to A2"); markers carry fixed tiers: 15 wood, 11 stone, 3 iron
+      - {family: material_golems, tier: 2, count: [1, 2], weight: 100}
+  XD-10:
+    row_before_install: true   # A8 tests it from a scratch root (lanes/A8.md, 2026-11-20)
+    lock: 5
+    trap: 3
+    perception: 5
+    environment: CAVE
+    slots:   # A8's L1 (briefs/xd10/L1/project.yml); every monster placed
+      - {family: magic_constructs, tier: 0, count: [2, 3], weight: 75}
+      - {family: elemental_golems, tier: 1, count: [2, 3], weight: 25}
+  XD-11:
+    lock: 6
+    trap: 3
+    perception: 6
+    environment: STONEROOM
+    slots:   # A8's L4 (lanes/A8.md "Owed to A2"): 9 tier-a and 6 tier-b markers
+      - {family: magic_constructs, tier: 0, count: [2, 3], weight: 100}
+  XD-25:
+    lock: 6
+    trap: 3
+    perception: 6
+    environment: STONEROOM
+    slots:   # A7's L4 (briefs/xd25/L4/NOTES.md "Monsters and treasure"): 6 tier-a, 4 tier-b markers
+      - {family: snake_men, tier: 2, count: [2, 3], weight: 100}
+  X8:
+    lock: 4
+    trap: 2
+    perception: 3
+    encounter_chance: 0
+    environment: PLAINS
+    slots:   # A6's L4 (briefs/x8/L4/project.yml); the monsters are placed
+      - {family: harpies, tier: 0, count: [1, 3], weight: 50}
+      - {family: magic_constructs, tier: 0, count: [1, 2], weight: 50}
+    traps:   # D-1.2: the two Cloud Golems on the golem heights, a visible dead end (D-6.2)
+      - {monster: 11592, note: two Cloud Golems 50}
+  # A8's phase-3 dungeons (D-26, D-27): traps prepared; lock, slots and the rest come with A8's installs.
+  DD-04:
+    lock: 4
+    trap: 2
+    perception: 2
+    encounter_chance: 0   # a rest must not bring D1's hostile gremlins into a court at peace (A8's L4 NOTES)
+    environment: CAVE
+    slots:   # every monster placed (court 11024-11026 and Gettlewaithe friendly until court_hostile; army 11027)
+      - {family: gremlins, tier: 0, count: [2, 3], weight: 100}
+  DD-01:
+    lock: 3
+    trap: 2
+    perception: 3
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd01/L4/project.yml): every monster placed; rest encounters on (encounter 10)
+      - {family: rats, tier: 3, count: [2, 3], weight: 50}
+      - {family: gremlins, tier: 0, count: [2, 3], weight: 30}
+      - {family: sewer_stalkers, tier: 0, count: [1, 2], weight: 20}
+    traps:   # Valio 45, the wizard in the sewer: Act III by the 60 % rule (D-26)
+      - {monster: 11193, note: Valio}
+  DD-02:
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 0   # every monster placed (A8's L4 NOTES)
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd02/L4/project.yml), the card only
+      - {family: night_bats, tier: 1, count: [2, 3], weight: 40}
+      - {family: gargoyles, tier: 0, count: [2, 3], weight: 35}
+      - {family: magic_constructs, tier: 0, count: [1, 2], weight: 25}
+  DD-05:
+    row_before_install: true   # A8's phase-4 maps load from assets_dev when installed (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 10   # D-42: rest encounters from the hostile in-band families only
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd05/L4/project.yml), checked 2026-11-20: every monster placed; rests from the heretics only
+      - {family: heretics, tier: 0, count: [2, 3], weight: 75}
+      - {family: heretics, tier: 1, count: [1, 2], weight: 25}
+  DD-20:
+    row_before_install: true   # A8's phase-4 maps load from assets_dev when installed (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 10   # D-42: rest encounters from the hostile in-band families only
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd20/L4/project.yml), checked 2026-11-20: every monster placed; rests from the stalkers only
+      # Wererats 18 in ~10 % of rests accepted, D-46 (no tier range per slot; Dif 5 is the highest)
+      - {family: sewer_stalkers, tier: 5, count: [2, 3], weight: 100}
+  DD-12:
+    row_before_install: true   # A8's phase-4 maps load from assets_dev when installed (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 10   # D-42: rest encounters from the hostile in-band families only
+    environment: CAVE
+    slots:   # A8's card: minotaurs, Dif 1 for the gorgon tier (every monster placed); exact slot lines from its L4 to come
+      - {family: minotaurs, tier: 0, count: [2, 3], weight: 75}
+      - {family: minotaurs, tier: 1, count: [1, 2], weight: 25}
+  DD-14:
+    row_before_install: true   # A8's phase-4 maps load from assets_dev when installed (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 10   # D-42: rest encounters from the hostile in-band families only
+    environment: STONEROOM
+    slots:   # D-52 (1): every monster placed; rests from the vampires only, at the highest Dif
+      # Gnome Vampire 32 in ~10 % of rests accepted, D-52 (no tier range per slot; Dif 5 is the highest)
+      - {family: vampires, tier: 5, count: [2, 3], weight: 100}
+  # D-61 (A8's Act V graphs DD-15, DD-17, DD-08, devdocs/xeen/mockups/act5_a8_decisions.md): written before install so A8
+  # can test from a scratch root. Rest encounters 10 % from one hostile in-band slot each, at the Dif whose tier mix is
+  # closest to the placed one; treasure 5 and music from maps.yml.
+  DD-15:
+    row_before_install: true
+    lock: 12   # D5's lock and trap (D-61); perception follows the lock
+    trap: 6
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # Q10: Tomb 70 / Guard 20 / Royal 10 (the Ghost Mummy, tier D, is never rolled). Placed: Tomb Mummy 11270 x 34,
+      # Pyramid Guard 11271 x 24, Ghost Mummy 11273 x 6, Royal Mummy 11272 x 6 (51.92k); the Dragon Pharaoh 11919
+      # (npc 5453) peaceful, not counted
+      - {family: pyramid_mummies, tier: 2, count: [2, 3], weight: 100}
+  DD-17:
+    row_before_install: true
+    lock: 15   # A8's installed card (briefs/dd17/L4/project.yml), the treasure level's: lock 15, trap 8, perception 15
+    trap: 8    # (perception back to 15 from 5 on 2026-11-21: A8 fixed the card to equal the lock)
+    perception: 15
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # Q21: Patrol 70 / Annihilator 20 / Autobot 10. Placed: Patrol 11610 x 30, Annihilator 11611 x 20, Autobot
+      # 11612 x 6, Lesser Fire/Air/Water/Earth Elemental 11620/11624/11625/11626 x 2 each, Gamma Gazer 11572 x 6
+      # (68.85k); Sheltem 11924 and Corak 11912 peaceful, not counted. Groups of 1-2 (the decision names no size)
+      - {family: robots, tier: 2, count: [1, 2], weight: 100}
+  DD-08:
+    row_before_install: true
+    lock: 15   # A8's installed card (briefs/dd08/L4/project.yml), the treasure level's; music 43 as maps.yml
+    trap: 8
+    perception: 15
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # Q31: Slayer Knights only (Dif 1 and up could roll the Doom Knight 75); they are xeen_voweless_knights,
+      # friendly after the oath (113344). Placed: Slayer Knight 11150 x 33, Death Knight 11151 x 12 (31.14k); four
+      # Voweless Knight figures 11925 peaceful, not counted. Groups of 1-2 (the decision names no size)
+      - {family: dark_knights, tier: 0, count: [1, 2], weight: 100}
+  # D-62 (A8's graphs DD-25, DD-21, DD-10C, DD-22, devdocs/xeen/mockups/act5_a8_decisions_b.md): written before install
+  # so A8 can test from a scratch root. Rest encounters 10 % from one hostile in-band slot at Dif 0 (no tier C can roll);
+  # DD-25 none. Treasure and music from maps.yml; lock, trap and perception the treasure level's unless A8's card says.
+  DD-25:
+    row_before_install: true
+    encounter_chance: 0   # Q34: no hostile row; eight peaceful dwarves (Bosco's Guard 11054 x 4, MM7 Peasant Dwarves x 4)
+    environment: STONEROOM
+    # no slots: nothing hostile is placed; treasure "-" (no chests), so lock/trap/perception 0
+  DD-21:
+    row_before_install: true
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # Q47: Tomb Mummies only (the crawler slot rolls tiers A-C 16-26; liches Dif 0 the Lich 35, Dif 1+ the Lich
+      # Lord 65). Placed: Cinder Roach 11363 x 10 (2 hidden at the barrel), Greater Lich 11281 x 3, Ghost Mummy 11273
+      # x 2, Sandro 11283 once (10.70k); risen Sandro 11926 peaceful, not counted. Groups of 1-2 (the decision names no size)
+      - {family: pyramid_mummies, tier: 0, count: [1, 2], weight: 100}
+  DD-10C:
+    row_before_install: true
+    lock: 10   # A8's card (briefs/dd10c/L4/project.yml)
+    trap: 5
+    perception: 8
+    encounter_chance: 10   # Q50 (D-27's 0 before)
+    environment: CAVE
+    slots:   # Q50: Floating Eyes only (Dif 1+ can roll the Gamma Gazer 65, any robot Dif the Autobot 75); the Patrols are
+      # placed by row id. Placed: Floating Eye 11570 x 14, Terrible Eye 11571 x 4, Patrol 11610 x 2 (11.50k)
+      - {family: eyes, tier: 0, count: [2, 3], weight: 100}
+  DD-22:
+    row_before_install: true
+    encounter_chance: 10
+    environment: STONEROOM
+    slots:   # Q55: Patrols only (Dif 1+ can roll the Autobot 75); none placed by the slot. Placed: Patrol 11610 x 14,
+      # Annihilator 11611 x 6 (17.20k). Groups of 1-2 (the decision names no size)
+      - {family: robots, tier: 0, count: [1, 2], weight: 100}
+  # D-65 (A8's DD-26 graph, devdocs/xeen/mockups/act6_a8_decisions.md): written before install so A8 can test from a
+  # scratch root. Treasure 6 and music 44 from maps.yml; lock, trap and perception the treasure level's (20/10/20).
+  DD-26:
+    row_before_install: true
+    encounter_chance: 10
+    environment: STONEROOM   # the marble sewer (stone door sounds)
+    slots:   # Q61: Water Elementals 62 only (Dif 1+ can roll the Tidal Terror 70; the 55s are the elementals' tier F,
+      # placed only). Placed: Lesser Water Elemental 11625 x 16, Water Elemental 11710 x 4 (18.76k); Cyrano Jones is a
+      # house npc (4815/5614), not an actor. Groups of 1-2 (the decision names no size)
+      - {family: water_elementals, tier: 0, count: [1, 2], weight: 100}
+  DD-19:
+    row_before_install: true   # A8's phase-4 maps load from assets_dev when installed (2026-11-20)
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 10   # D-42: rest encounters from the hostile in-band families only
+    environment: STONEROOM
+    slots:   # A8's card: sorceresses, not the wizards (D-42; every monster placed); exact slot lines from its L4 to come
+      - {family: sorceresses, tier: 0, count: [2, 3], weight: 75}
+      - {family: sorceresses, tier: 1, count: [1, 2], weight: 25}
+  DD-03:
+    lock: 6
+    trap: 3
+    perception: 3
+    encounter_chance: 0
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd03/L4/project.yml), the card only
+      - {family: spirits, tier: 1, count: [2, 3], weight: 40}
+      - {family: liches, tier: 0, count: [1, 2], weight: 25}
+      - {family: vampires, tier: 1, count: [2, 3], weight: 35}
+    traps:   # Scraps 70 behind the kennel portcullis: Act IV (D-26)
+      - {monster: 11673, note: Scraps}
+    # Stages 3-4 count in Act IV (MAPS 0's split row), by floor (A8's measured heights, L4 NOTES): stage 3 on the
+    # dungeon floor (z -640, rooms to -128), stage 4 on the third floor (z 1280); stages 1-2 at z 0 and 640.
+    act_regions:
+      - {act: IV, z_max: -100, note: stage 3, the dungeon and the old well}
+      - {act: IV, z_min: 1200, note: stage 4, the Queen's floor and the attic}
+  DD-06:
+    lock: 7
+    trap: 3
+    perception: 7
+    encounter_chance: 0
+    environment: STONEROOM   # the project's "stone hall"; the engine knows STONEROOM, CAVE, PLAINS, FOREST
+    slots:   # A7's L4 (briefs/dd06/L4/NOTES.md "Map card"): no spawn markers, the card only
+      - {family: outlaws, tier: 1, count: [2, 3], weight: 85}
+      - {family: wolves, tier: 1, count: [1, 2], weight: 15}
+  DD-11A:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 10   # D-33; every slot tier is a xeen_warren_trolls row (11690-11692), so rests follow the tribute
+    environment: CAVE
+    slots:   # A7's L4 (briefs/dd11a/L4/project.yml): every monster placed, the card only
+      - {family: warren_trolls, tier: 1, count: [2, 3], weight: 100}
+  DD-11B:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 10   # D-33; every slot tier is a xeen_warren_trolls row (11690-11692), so rests follow the tribute
+    environment: CAVE
+    slots:   # A7's L4 (briefs/dd11b/L4/project.yml): every monster placed, the card only
+      - {family: warren_trolls, tier: 1, count: [2, 3], weight: 100}
+  DD-11C:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 10   # D-33; every slot tier is a xeen_warren_trolls row (11690-11692), so rests follow the tribute
+    environment: CAVE
+    slots:   # A7's L4 (briefs/dd11c/L4/project.yml): every monster placed, the card only
+      - {family: warren_trolls, tier: 1, count: [2, 3], weight: 100}
+  DD-09:
+    lock: 4
+    trap: 3
+    perception: 3
+    encounter_chance: 0
+    environment: CAVE
+    slots:   # A8's L4 (briefs/dd09/L4/project.yml), the card only
+      - {family: orc_warband, tier: 0, count: [2, 3], weight: 60}
+      - {family: arachnoids, tier: 0, count: [2, 3], weight: 40}
+    traps:   # Barkman 60, hidden in his hollow: Act IV (D-27)
+      - {monster: 11633, note: Barkman}
+  DD-13:
+    lock: 6
+    trap: 3
+    perception: 6
+    encounter_chance: 0   # D-34: a rest slot reaches only the generic ogre rows, which stay hostile after the peace
+    environment: CAVE
+    # A7's L4 (briefs/dd13/L4/project.yml), the card only: a slot names a picture's A-C, so it cannot reach the pass
+    # ogres 11066-11068 (Xeen Ogre E-G); it names the Ogres' own A-C (xeen_ogres), and every monster is placed.
+    slots:
+      - {family: ogres, tier: 1, count: [2, 3], weight: 100}
+  DD-10B:
+    lock: 4
+    trap: 3
+    perception: 2
+    encounter_chance: 0
+    environment: CAVE
+    slots:   # A8's L4 (briefs/dd10b/L4/project.yml), the card only
+      - {family: giant_crawlers, tier: 5, count: [2, 3], weight: 35}
+      - {family: night_bats, tier: 5, count: [2, 3], weight: 35}
+      - {family: material_golems, tier: 4, count: [1, 2], weight: 30}
+  DD-18:
+    lock: 3
+    trap: 3
+    perception: 3
+    environment: STONEROOM
+    slots:   # A8's L4 (briefs/dd18/L4/project.yml); rest encounters on (encounter 10)
+      - {family: sewer_stalkers, tier: 2, count: [2, 3], weight: 40}
+      - {family: cobras, tier: 1, count: [2, 3], weight: 30}
+      - {family: mantis_ants, tier: 2, count: [2, 3], weight: 30}
+  DD-10A:
+    lock: 4
+    trap: 3
+    perception: 2
+    encounter_chance: 0
+    environment: CAVE
+    slots:   # A8's L4 (briefs/dd10a/L4/project.yml), the card only
+      - {family: arachnoids, tier: 5, count: [2, 3], weight: 40}
+      - {family: night_bats, tier: 5, count: [2, 3], weight: 35}
+      - {family: giant_crawlers, tier: 4, count: [1, 2], weight: 25}
+  XD-06:
+    lock: 2
+    trap: 2
+    perception: 2
+    music: 28
+    environment: STONEROOM
+    slots:   # A8's rebase (briefs/xd06/L4/NOTES.md "Rebase, phase 0"); markers carry fixed tiers
+      - {family: cultists, tier: 2, count: [2, 3], weight: 45}
+      - {family: skeletons, tier: 4, count: [2, 3], weight: 45}
+      - {family: rotting_dead, tier: 5, count: [1, 2], weight: 10}
+  XD-12:
+    lock: 12
+    trap: 6
+    perception: 12
+    refill_days: 336
+    music: 22
+    environment: STONEROOM
+    slots:   # A8's rebase (briefs/xd12/L4/NOTES.md "Rebase, phase 0"); markers carry fixed tiers
+      - {family: magic_constructs, tier: 5, count: [2, 3], weight: 40}
+      - {family: wizards, tier: 0, count: [2, 3], weight: 30}
+      - {family: eyes, tier: 0, count: [1, 2], weight: 30}
+  XD-21:
+    lock: 5
+    trap: 3
+    perception: 5
+    music: 18
+    environment: STONEROOM
+    slots:   # A8's rebase (briefs/xd21/L4/NOTES.md "Rebase, phase 0"); markers carry fixed tiers
+      - {family: outlaws, tier: 1, count: [2, 3], weight: 60}
+      - {family: evil_rangers, tier: 2, count: [2, 3], weight: 40}
+  XD-27:
+    lock: 4
+    trap: 2
+    perception: 2
+    music: 18
+    environment: CAVE
+    slots:   # A8's rebase (briefs/xd27/L4/NOTES.md "Rebase, phase 0"); slot 3 is the Ogres' B tier (the shamans)
+      - {family: ogres, tier: 0, count: [2, 3], weight: 60}
+      - {family: wolves, tier: 0, count: [2, 3], weight: 25}
+      - {family: ogres, tier: 2, count: [1, 2], weight: 15}

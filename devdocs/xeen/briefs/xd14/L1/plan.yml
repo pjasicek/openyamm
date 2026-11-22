@@ -1,0 +1,393 @@
+format: 0
+level: L1
+pitch: "The fortress of a wizard cult on its crag at X6's north rim. The gate opens on a gatehouse and the cult's great hall, where werewolves lie by the fire like dogs; the cult keeps them in iron pens round a feeding pit beside the hall, and the overflow in a den cut into the crag below, by the cell row where a peasant waits in a chain. Two towers climb to a battlement walk over the gate; between them the cult's own wing (the hall of scrolls and the wizards' dormitory) lies behind a stone door that asks for a password, and the keep stair climbs from the dormitory to the Cult Leader's study, the roof walk and the moon tower. Readable scrolls everywhere: blessings and curses, their names on hover."
+purpose: "Q-C8 The Scroll of Insight: the Scroll of Insight on the Cult Leader's desk (q-c8.scroll); the L2 door's password 'There wolf' (Arie's note; the Trapped Peasant, q-c8.peasant), q-c8.l2_door / q-c8.l2_wrong; the peasant freed after the jailers' lever (q-c8.peasant_freed, 500 experience). Party 31-34, monsters 24-45 (the Basenji Cult Leader 45), 45 placed, treasure 4."
+mood: "Dark block stone and black timber lit by torches and the hall's fire; the reek of the kennels; cold dark stone and dripping rock in the dungeon; the white desert light on the walks over the gate and the tower tops."
+datum: arrival
+spaces:
+  - id: room:battlements
+    name: Battlement walk
+    kind: corridor
+    size: L
+    floor: 640
+    purpose: "The walk over the gate between the towers, open to the sky."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 2 placed Werewolf (11421).}
+      - {actor: 11422, groups: 1, levels: [40, 40], notes: 1 placed Greater Werewolf (11422).}
+  - id: room:bone_pit
+    name: Bone pit
+    kind: room
+    size: S
+    floor: -512
+    purpose: "A dead end: a box under the bones (chest), the scrolls of Death and Insanity on a ledge."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 1 placed Werewolf (11421).}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:cell
+    name: The peasant's cell
+    kind: room
+    size: S
+    floor: -512
+    purpose: "The Trapped Peasant in a chain: he talks through the bars (q-c8.peasant); freed after the lever (q-c8.peasant_freed)."
+    empty: true
+  - id: room:cells
+    name: Cell row
+    kind: corridor
+    size: M
+    floor: -512
+    purpose: "A passage of barred cells; two werewolves watch the shut one."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 2 placed Werewolf (11421).}
+  - id: room:den
+    name: Werewolf den
+    kind: room
+    size: M
+    floor: -512
+    purpose: "A cellar dug into the crag: straw beds ('Werewolf Bed', 'Straw Bed') and bones."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 4 placed Werewolf (11421).}
+  - id: room:dormitory
+    name: Wizards' dormitory
+    kind: room
+    size: L
+    floor: 640
+    purpose: "Cots and robes, the chest of the wizards' pay; the barred door (lifted from here) and the keep stair."
+    population:
+      - {actor: 11190, groups: 1, levels: [36, 36], notes: 2 placed Wizard (11190).}
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 3 placed Cult Acolyte (11197).}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:dungeon_stair
+    name: Dungeon stair
+    kind: room
+    size: S
+    floor: [-512, 0]
+    purpose: Down from the kennels' far end to the jailers' room.
+    empty: true
+  - id: room:east_foot
+    name: East tower foot
+    kind: room
+    size: S
+    floor: 0
+    purpose: The east tower's foot off the kennels.
+    empty: true
+  - id: room:east_landing
+    name: East landing
+    kind: room
+    size: M
+    floor: 640
+    purpose: "The east tower's landing; the dormitory's heavy door, barred from the dormitory's side."
+    population:
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 2 placed Cult Acolyte (11197).}
+  - id: room:east_stair
+    name: East tower stair
+    kind: room
+    size: S
+    floor: [0, 640]
+    purpose: Twenty steps up to the east landing (the second way up).
+    empty: true
+  - id: room:gatehouse
+    name: Gatehouse
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The arrival (entrance:x6_gate), quiet (D-11.3): a guard bench, two sconces either side of the great hall's double doors."
+    empty: true
+  - id: room:great_hall
+    name: Great hall
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The cult's hall behind wolf-headed double doors: long tables, a hearth with werewolves lying by it like dogs, chandeliers."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 2 placed Werewolf (11421).}
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 2 placed Cult Acolyte (11197).}
+  - id: room:guard_room
+    name: Jailers' room
+    kind: room
+    size: M
+    floor: -512
+    purpose: A table and the cell lever (it raises the bars of the peasant's cell).
+    population:
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 2 placed Cult Acolyte (11197).}
+  - id: room:keep_landing
+    name: Keep landing
+    kind: room
+    size: M
+    floor: 1280
+    purpose: "The keep stair's head: the study's door west, the moon tower east."
+    population:
+      - {actor: 11190, groups: 1, levels: [36, 36], notes: 1 placed Wizard (11190).}
+  - id: room:keep_stair
+    name: Keep stair
+    kind: room
+    size: S
+    floor: [640, 1280]
+    purpose: Twenty steps up to the keep's top.
+    empty: true
+  - id: room:kennels
+    name: The kennels
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The set piece: iron pens with open gates round a sunken feeding pit, straw beds ('Werewolf Bed', a find each); the dungeon stair east."
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 5 placed Werewolf (11421).}
+      - {actor: 11422, groups: 1, levels: [40, 40], notes: 1 placed Greater Werewolf (11422).}
+  - id: room:moon_tower
+    name: Moon tower
+    kind: room
+    size: M
+    floor: 1280
+    purpose: "The tower top open to the sky: the rack of six scrolls (Energy; a faded Magic; Depression, Confusion, Death, Insanity), a brazier."
+    population:
+      - {actor: 11190, groups: 1, levels: [36, 36], notes: 1 placed Wizard (11190).}
+  - id: room:roof_walk
+    name: Roof walk
+    kind: corridor
+    size: M
+    floor: 1280
+    purpose: "A walk on the keep's leads under open sky, the study's back door to the moon tower."
+    empty: true
+  - id: room:scriptorium
+    name: Lower scriptorium
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Copying desks and the rack of six scrolls (Fire, Electricity: blessings; Depression, Confusion, Insanity, Weakness: curses)."
+    population:
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 3 placed Cult Acolyte (11197).}
+  - id: room:scroll_hall
+    name: Hall of scrolls
+    kind: room
+    size: L
+    floor: 640
+    purpose: "Lecterns with five scrolls: Intellect, Personality, Speed (+2 once), Magic (+5 Mind once), Aging (a curse)."
+    population:
+      - {actor: 11190, groups: 1, levels: [36, 36], notes: 2 placed Wizard (11190).}
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 2 placed Cult Acolyte (11197).}
+  - id: room:stores
+    name: Kitchen and stores
+    kind: room
+    size: M
+    floor: 0
+    purpose: "A dead end: the kitchen and stores (a storeroom), the steward's strongbox."
+    population:
+      - {actor: 11197, groups: 1, levels: [24, 24], notes: 2 placed Cult Acolyte (11197).}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:study
+    name: Cult Leader's study
+    kind: room
+    size: M
+    floor: 1280
+    purpose: "The Cult Leader and his two sorcerers; the Scroll of Insight on the desk (q-c8.scroll), his chest beside it; a door to the roof walk."
+    population:
+      - {actor: 11198, groups: 1, levels: [45, 45], notes: 1 placed Basenji Cult Leader (11198).}
+      - {actor: 11191, groups: 1, levels: [45, 45], notes: 2 placed Sorcerer (11191).}
+    treasure:
+      - {kind: chest, count: 1, tier: 4}
+  - id: room:west_foot
+    name: West tower foot
+    kind: room
+    size: S
+    floor: 0
+    purpose: The west tower's foot off the great hall.
+    empty: true
+  - id: room:west_landing
+    name: West landing
+    kind: room
+    size: M
+    floor: 640
+    purpose: "The west tower's landing: the battlement door, and the cult's door that asks 'STOP!  What is the password?'"
+    population:
+      - {actor: 11421, groups: 1, levels: [30, 30], notes: 2 placed Werewolf (11421).}
+  - id: room:west_stair
+    name: West tower stair
+    kind: room
+    size: S
+    floor: [0, 640]
+    purpose: Twenty steps up to the west landing.
+    empty: true
+links:
+  - id: link:battle_east
+    from: room:battlements
+    to: room:east_landing
+    kind: door
+  - id: link:cells_cell
+    from: room:cells
+    to: room:cell
+    kind: door
+    notes: "Bars, raised by the jailers' lever (state:cell_lever)."
+  - id: link:cells_guard
+    from: room:cells
+    to: room:guard_room
+    kind: door
+    notes: The cell row's iron door.
+  - id: link:den_bones
+    from: room:den
+    to: room:bone_pit
+    kind: open
+  - id: link:den_cells
+    from: room:den
+    to: room:cells
+    kind: open
+  - id: link:dorm_east
+    from: room:dormitory
+    to: room:east_landing
+    kind: door
+    notes: "Barred on the dormitory's side: one way until lifted."
+  - id: link:dorm_keep
+    from: room:dormitory
+    to: room:keep_stair
+    kind: open
+  - id: link:dstair_down
+    from: room:dungeon_stair
+    to: room:guard_room
+    kind: stairs
+  - id: link:eastfoot_stair
+    from: room:east_foot
+    to: room:east_stair
+    kind: open
+  - id: link:easttower_up
+    from: room:east_stair
+    to: room:east_landing
+    kind: stairs
+  - id: link:gate_hall
+    from: room:gatehouse
+    to: room:great_hall
+    kind: door
+    notes: "Double doors: two wolf-headed wings."
+  - id: link:guard_den
+    from: room:guard_room
+    to: room:den
+    kind: open
+  - id: link:hall_kennels
+    from: room:great_hall
+    to: room:kennels
+    kind: door
+  - id: link:hall_script
+    from: room:great_hall
+    to: room:scriptorium
+    kind: door
+  - id: link:hall_westtower
+    from: room:great_hall
+    to: room:west_foot
+    kind: open
+  - id: link:keep_up
+    from: room:keep_stair
+    to: room:keep_landing
+    kind: stairs
+  - id: link:kennels_dstair
+    from: room:kennels
+    to: room:dungeon_stair
+    kind: open
+  - id: link:kennels_easttower
+    from: room:kennels
+    to: room:east_foot
+    kind: open
+  - id: link:landing_study
+    from: room:keep_landing
+    to: room:study
+    kind: door
+  - id: link:moon_landing
+    from: room:moon_tower
+    to: room:keep_landing
+    kind: open
+  - id: link:password_door
+    from: room:west_landing
+    to: room:scroll_hall
+    kind: door
+    notes: "'There wolf' (state:password)."
+  - id: link:roof_moon
+    from: room:roof_walk
+    to: room:moon_tower
+    kind: open
+  - id: link:script_stores
+    from: room:scriptorium
+    to: room:stores
+    kind: door
+  - id: link:scroll_dorm
+    from: room:scroll_hall
+    to: room:dormitory
+    kind: open
+  - id: link:study_roof
+    from: room:study
+    to: room:roof_walk
+    kind: door
+  - id: link:west_battle
+    from: room:west_landing
+    to: room:battlements
+    kind: door
+  - id: link:westfoot_stair
+    from: room:west_foot
+    to: room:west_stair
+    kind: open
+  - id: link:westtower_up
+    from: room:west_stair
+    to: room:west_landing
+    kind: stairs
+loops:
+  - id: loop:dungeon
+    spaces: [room:guard_room, room:den, room:cells]
+    notes: "Round the dungeon: the jailers' room, the den, the cell row."
+  - id: loop:keep
+    spaces: [room:keep_landing, room:study, room:roof_walk, room:moon_tower]
+    notes: Round the keep's top through the study's two doors.
+  - id: loop:towers
+    spaces: [room:great_hall, room:west_foot, room:west_stair, room:west_landing, room:battlements, room:east_landing, room:east_stair, room:east_foot, room:kennels]
+    notes: "Up one tower, over the battlement walk, down the other: open from the start."
+  - id: loop:wing
+    spaces: [room:west_landing, room:scroll_hall, room:dormitory, room:east_landing, room:battlements]
+    notes: "Through the cult's wing and out by its barred door (lifted from inside), back over the battlements."
+entrances:
+  - id: entrance:x6_gate
+    space: room:gatehouse
+    kind: both
+    neighbour: exit:x6_gate
+    facing: n
+    notes: "From and to X6's Castle Basenji door ('Castle Basenji.  Enter?', aaze0001:19): in the gatehouse 256 inside the gate's wings, facing north. Out by either wing (the game's leave window; 'Leave Castle Basenji?', aaze0068:14)."
+critical_path: [room:gatehouse, room:great_hall, room:west_foot, room:west_stair, room:west_landing, room:scroll_hall, room:dormitory, room:keep_stair, room:keep_landing, room:study]
+return_path: [room:study, room:keep_landing, room:keep_stair, room:dormitory, room:east_landing, room:east_stair, room:east_foot, room:kennels, room:great_hall, room:gatehouse]
+goals:
+  - id: goal:password
+    space: room:west_landing
+    kind: use
+    what: "'STOP!  What is the password?' 'There wolf' (q-c8.l2_door)."
+    story: Q-C8
+    gives:
+      qbit: password
+  - id: goal:peasant
+    space: room:cell
+    kind: use
+    what: "The Trapped Peasant: his hint through the bars (q-c8.peasant); freed after the jailers' lever (q-c8.peasant_freed)."
+    story: Q-C8
+    gives:
+      qbit: peasant_freed
+  - id: goal:scroll
+    space: room:study
+    kind: take
+    what: The Scroll of Insight on the Cult Leader's desk (q-c8.scroll).
+    story: Q-C8
+    gives:
+      qbit: scroll_found
+set_pieces:
+  - id: set:kennels
+    kind: scripted
+    spaces: [room:kennels]
+    rule: "Iron pens with open gates round a sunken feeding pit; each pen's straw bed is a find once ('Werewolf Bed', then 'Nothing here.')."
+  - id: set:password
+    kind: scripted
+    spaces: [room:west_landing]
+    rule: "The cult's door asks 'STOP!  What is the password?': 'There wolf' opens it for good; any other answer laughs at you and asks again next time."
+diagram: {file: diagram.txt}
+totals:
+  chests: 4
+  doors: 12
+  floor_area_munits2: 31.1
+  loops: 4
+  monsters_about: 45
+  rooms: 25
+  sectors: 25
+notes: "Size M (MAPS: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From the MU-6 graph devdocs/xeen/mockups/act4_graphs/xd14.graph.yml with D-39 (mockups/act4_a7_decisions.md: 16 Cult Acolytes 11197, the Basenji Cult Leader 11198, the Trapped Peasant 11233 freed by q-c8.peasant_freed, scrolls once per character and curses on the reader, the dormitory door barred from inside, the interior larger than the shell). The gate is the gatehouse's south wall (two exit wings, each its own picture); the two tower stairs and the keep stair are rooms of their own (straight flights); the battlement walk runs over the gate between the towers (not over the hall, which is open to its high beamed ceiling); the cult's wing stands over the gatehouse."

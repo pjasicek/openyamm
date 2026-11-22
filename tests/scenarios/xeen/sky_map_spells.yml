@@ -1,0 +1,39 @@
+# Xeen's sky maps keep Town Portal and Lloyd's Beacon and refuse only Fly (WORLD_DESIGN 3.4; D-56 Q10 for P5): on X9 and
+# X8, open-air BLVs like P5 (world.yml openAirMaps, continent 0, no noTeleportMaps, no allow_lloyds_beacon: false),
+# both teleport spells open their windows and Fly fails. Cast from scrolls, so no member needs the mana. P5 (A5,
+# installed 2026-11-21 06:41) the same; it has no monsters, so nothing near blocks the spells either.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/sky_map_spells.yml --scenario-no-color
+id: xeen.sky_map_spells
+title: "Xeen sky maps: Town Portal and Lloyd's Beacon open their windows, Fly is refused"
+world: xeen
+mode: faithful
+tags: [xeen, spells]
+steps:
+  - new_game_flow:
+      start_map: xeen_x9.blv
+      party:
+        gold: 1000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {map: xeen_x9.blv}
+  - cast_spell: {member_index: 3, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 21, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - load_map: {map: xeen_x8.blv}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {map: xeen_x8.blv}
+  - cast_spell: {member_index: 3, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 21, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}
+  - load_map: {map: xeen_p5.blv}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {map: xeen_p5.blv}
+  - cast_spell: {member_index: 3, spell_id: 31, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 33, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: needs_window}
+  - cast_spell: {member_index: 3, spell_id: 21, skill: 10, mastery: 4, scroll: true, expect: refused, expect_status: failed}

@@ -1,0 +1,47 @@
+format_version: 1
+kind: openyamm_cinematics
+source: "Written by oymap build from the Map Studio project \"xeen_xd19\" (wiring.yml cinematics). Change the project, not this file."
+cinematics:
+  mirror:
+    shots:
+      - duration: 5
+        position: [0, 2648, 2180]
+        look_at: [0, 4048, 2180]
+      - duration: 5
+        position: [-700, 3148, 2280]
+        look_at: [0, 4048, 2120]
+      - duration: 6
+        position: [0, 1448, 2400]
+        look_at: [0, 4048, 2080]
+    cues:
+      - at: 0
+        fade: in
+        seconds: 1
+      - at: 0.5
+        subtitle: "Xeen's scepter gives a high whine, like a blade drawn across a whetstone. The mirror takes up the sound and throws it back, louder and louder."
+        seconds: 4.5
+      - at: 5
+        sound: xeen_mirror_shatter
+      - at: 5.2
+        event: 61
+      - at: 5.2
+        subtitle: "Just as you realize that the mirror and the scepter are not compatible, the mirror shatters in a spectacular display of light, noise and violence."
+        seconds: 4.5
+      - at: 5.2
+        shake: 0.8
+        seconds: 2
+      - at: 10
+        sound: xeen_castle_groan
+      - at: 10
+        shake: 1
+        seconds: 3
+      - at: 10
+        subtitle: The castle gives an awful shudder and groans like a beast mortally wounded.
+        seconds: 3
+      - at: 13
+        subtitle: "With masonry falling and dust filling the air, you all decide to remain calm and proceed to the nearest exit in an orderly fashion."
+        seconds: 3
+      - at: 15
+        fade: out
+        seconds: 1
+    note: "D-47 Q14: the Sixth Mirror shatters after the scepter is taken. Subtitles are A3's m35.scepter cinematic_subtitles (aaze0078:4, shortened), in order; sounds AU's xeen_mirror_shatter then xeen_castle_groan."

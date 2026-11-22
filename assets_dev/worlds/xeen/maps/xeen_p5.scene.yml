@@ -1,0 +1,182 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_p5.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+sky:
+  mode: open
+  sky_texture: xeencloud
+  view: outdoor
+  view_distance_scale: 1.5
+daylight:
+  ambient_rgb: [110, 112, 125]
+  sun_rgb: [255, 248, 232]
+  night_scale_rgb: [134, 143, 168]
+  sun_gain: 3
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags:
+    - entity_index: 0
+      flag: 32
+    - entity_index: 1
+      flag: 32
+    - entity_index: 7
+      flag: 32
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 5001
+      attributes: 65536
+      hp: 280
+      hostility_type: 0
+      monster_info_id: 11921
+      monster_id: 2000
+      radius: 43
+      height: 165
+      move_speed: 160
+      position:
+        x: 224
+        y: 960
+        z: 512
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 51
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 880
+      hostility_type: 0
+      monster_info_id: 11919
+      monster_id: 7200
+      radius: 60
+      height: 230
+      move_speed: 200
+      position:
+        x: 0
+        y: 192
+        z: 520
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 50
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: ""
+      npc_id: 4405
+      attributes: 65536
+      hp: 280
+      hostility_type: 0
+      monster_info_id: 11920
+      monster_id: 2000
+      radius: 51
+      height: 152
+      move_speed: 250
+      position:
+        x: -224
+        y: 960
+        z: 512
+      initial_yaw_units: 1536
+      immobile: true
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 51
+      ally: 0
+      unique_name_index: 0
+  sprite_objects: []
+  chests: []
+  doors: []
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [4608, -3968, 0]
+    direction_degrees: 90
+loot_containers:
+  - source_id: xeen:xeen_p5:gift
+    source_object_index: 0
+    source_name: gift
+    position:
+      x: -576
+      y: 1352
+      z: 512
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 2000
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+ambient_sounds:
+  - key: 1
+    sound: xeen_sky_gust
+    position: [4352, -1792, 542]
+    inner_radius: 2500
+    outer_radius: 7000
+    volume: 0.5
+    loop: true
+    wait: [6, 14]
+    start_on: true
+  - key: 2
+    sound: xeen_sky_gust
+    position: [-4352, 1792, -5488]
+    inner_radius: 2500
+    outer_radius: 7000
+    volume: 0.5
+    loop: true
+    wait: [6, 14]
+    start_on: true
+  - key: 3
+    sound: xeen_amb_sky
+    position: [0, 0, 1032]
+    inner_radius: 11000
+    outer_radius: 16000
+    volume: 0.4
+    loop: true
+    start_on: true
+    pan: false

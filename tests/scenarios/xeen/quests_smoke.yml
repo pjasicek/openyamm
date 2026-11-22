@@ -1,0 +1,29 @@
+id: xeen.quests_smoke
+title: "Xeen quests in the game: the new game's opening hook (M1, the inn roster), the creek bottle and Old Valia's Falista topic (M4)"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - note:
+      text: >-
+        A3's smoke check that the generated xeen_quests.lua loads in the game and that X1's events reach it
+        (devdocs/xeen/formats/QUESTS_FORMAT.md). X1's timer event 102 calls m1.opening (M1 started, Vertigo's inn
+        roster 119020 open); event 237 is the creek bottle (m1.crodo_bottle_creek); event 57 is Old Valia's cottage
+        (house 4040), whose Falista topic (40201) starts M4 (D-89: no Crystal Key 12031 any more; the witches' tower
+        is open, "they lock nothing"). The quest logic itself
+        is proven by tools/xeen/quest_stub.py; the Act I playthrough segments follow in tests/playthrough/xeen/.
+  - new_game_flow: {start_map: xeen_x1.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - assert:
+      qbit_set: [110103, 111020, 119020]
+  - execute_event: {id: 237}
+  - assert:
+      qbit_set: [110104, 111022]
+  - press_action: {action: cancel_dialog}
+  - execute_event: {id: 57}
+  - select_topic: {match_label: Falista}
+  - play_lua:
+      source: |
+        if has_item(12031) then error("Valia handed over the Crystal Key (D-89: the tower is open)") end
+  - assert:
+      qbit_set: [111080]

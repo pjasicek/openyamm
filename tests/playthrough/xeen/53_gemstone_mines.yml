@@ -1,0 +1,244 @@
+# Xeen playthrough, segment 53: the Gemsmiths (D1, D2, DD-10A, DD-10B), Q-D7. Castleview Vale: Linus the ruby smith
+# on the gemsmiths' row (Ruby work: no rocks yet; the quest and its autonote). East into Sprite Forest, the east adit
+# into the Gemstone Mines' east pocket (DD-10B): the adit's door, the upper drift, down the spiral ramp to its door, the
+# flooded drift, the God of Minerals' hall: nothing dug yet, so he refuses. Up the throne stair to the sapphire hall:
+# five sapphire veins (q-d7.dug); back down to the God, who takes 10,000 gold, sets the three refill bits and clears
+# dug. Out by the ramp and the adit, west back to the vale; the west adit into DD-10A (its entry refills its veins and
+# clears refill_a): the timbered gallery, the ruby stope's five veins; out by the adit. Linus: five ruby rocks and two
+# gems make the Ruby Broadsword (A2's 12540).
+# Routes: devdocs/xeen/briefs/dd10a/L4/playtest.yml, playtest_exit.yml; dd10b/L4/playtest.yml, playtest_exit.yml;
+# d1/L4/playtest.yml (the gemsmiths' doors, the west adit, D1 event 187); d2/L4/playtest.yml (the east adit, D2
+# event 44).
+# Quest logic: source/quests/q-d7.yml.
+#   python3 tests/playthrough/xeen/run.py 53
+id: xeen.playthrough.53_gemstone_mines
+title: "Xeen playthrough 53: the Gemstone Mines: the God of Minerals, sapphire and ruby veins, Linus's Ruby Broadsword"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/51_kalindra_stage_one.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - assert: {qbit_clear: [113140, 113141, 113142, 113143, 113144, 117160, 117200]}
+  - play_lua:
+      source: |
+        local gems = 0
+        for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do gems = gems + item_count(id) end
+        remember("gems", gems)
+        if gems < 2 then error("only " .. gems .. " gems for Linus's fee") end
+        if gold() < 10000 then error("only " .. gold() .. " gold for the God of Minerals") end
+        log("53 start: " .. classes() .. "; gems " .. gems .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  # Linus's Ruby Works (house 4495, a residence of one: his talk opens): Ruby work, no rocks yet: the quest starts.
+  - set_pose: {map: xeen_d1.odm, x: -16275, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4945}
+  - select_topic: {match_label: "Ruby work"}
+  - assert:
+      dialog: {text_contains: "you don't have enough Ruby rocks"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113140]}
+  - assert: {autonote: {id: 4470}}
+  # East along the road off D1's edge into Sprite Forest.
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The east adit in the Gemstone foothills (D2 event 44) into DD-10B.
+  - set_pose: {map: xeen_d2.odm, x: -15360, y: 16384, z: 1696, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(44)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd10b.blv}
+  - assert: {party_position: {x: 0, y: 192, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GEMSTONE MINES, EAST POCKET"}}
+  - play_lua: {source: "close(); if not qbit(117200) then error('arrived_once not set') end"}
+  # The adit's door, the upper drift, down the spiral ramp to its door, the flooded drift.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(5, 1)"}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1152, y: 2304, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 1280, y: 2300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1800, z: -30, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1330, z: -120, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 750, y: 1280, z: -215, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 704, y: 440, z: -345, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 384, z: -470, z_tolerance: 80, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1600}
+  - play_lua: {source: "open_door(6, 2)"}
+  - walk_to: {x: 2600, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The God of Minerals' hall: his own line on the first step in; nothing dug yet, so he refuses and takes nothing.
+  - walk_to: {x: 3500, y: 256, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4100, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4800, y: 352, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if qbit(113144) then error("dug set before any vein") end
+        remember("gold", gold())
+        click(11); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The mountains are full. Empty them first."}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold") then error("the God took gold while nothing was dug") end
+        for _, b in ipairs({113141, 113142, 113143}) do if qbit(b) then error("refill bit " .. b .. " set by a refusal") end end
+  # Up the throne stair, the throne hall's door, the sapphire hall: five veins, one rock each.
+  - walk_to: {x: 4608, y: 880, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4608, y: 1860, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4500, y: 2200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 4120, y: 2432, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(7, 3)"}
+  - walk_to: {x: 3500, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - play_lua:
+      source: |
+        remember("sapphire", item_count(12359))
+        for _, e in ipairs({14, 15, 16, 17, 18}) do click(e); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end end
+        if item_count(12359) ~= recall("sapphire") + 5 then error("five sapphire veins gave " .. (item_count(12359) - recall("sapphire")) .. " rocks") end
+        if not qbit(113144) then error("q-d7.dug not set by a sapphire vein") end
+        status(); click(16); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("no spent line") end
+  # Back down the stair to the God: something is dug now; he takes 10,000 gold.
+  - walk_to: {x: 4300, y: 2432, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 2050, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 880, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4800, y: 352, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        close(); remember("gold", gold())
+        if gold() < 10000 then error("not enough gold to pay the God: " .. gold()) end
+        click(11); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "takes your gold"}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold") - 10000 then error("the God took " .. (recall("gold") - gold()) .. " gold") end
+        for _, b in ipairs({113141, 113142, 113143}) do if not qbit(b) then error("refill bit " .. b .. " not set") end end
+        if qbit(113144) then error("dug not cleared by the payment") end
+  # Out by the flooded drift, the ramp and the adit (DD-10B event 9) onto D2.
+  - walk_to: {x: 4100, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3000, y: 256, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 384, z: -470, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 704, y: 440, z: -345, z_tolerance: 80, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 750, y: 1280, z: -215, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1330, z: -120, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 2300, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: -15360, y: 16384, radius: 160, z_min: 1640, z_max: 1760}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # West along the road back to Castleview Vale.
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The west adit above the gemsmiths' row (D1 event 187) into DD-10A: its entry refills its veins (refill_a cleared).
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: 20480, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(187)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd10a.blv}
+  - assert: {party_position: {x: 0, y: 192, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GEMSTONE MINES"}}
+  # refill_b (113142) stays set: DD-10B refills on a fresh entry only, not on a load in the same visit (A8, 2026-11-21).
+  - play_lua:
+      source: |
+        close()
+        if not qbit(113142) then error("refill_b cleared before DD-10B is entered again") end
+        if not qbit(117160) then error("arrived_once not set") end
+        if qbit(113141) then error("refill_a not cleared on entry") end
+        if not qbit(113143) then error("DD-10A's entry cleared refill_c") end
+  # The adit's door, the timbered gallery, the ruby stope: five veins.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 1)"}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1400, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2000, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2200}
+  - play_lua:
+      source: |
+        remember("ruby", item_count(12357))
+        for _, e in ipairs({21, 22, 23, 24, 25}) do click(e); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end end
+        if item_count(12357) ~= recall("ruby") + 5 then error("five ruby veins gave " .. (item_count(12357) - recall("ruby")) .. " rocks") end
+        if not qbit(113144) then error("q-d7.dug not set by a ruby vein") end
+  # Back through the gallery and out by the adit (DD-10A event 19) onto D1.
+  - walk_to: {x: 1400, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -9728, y: 20480, radius: 160, z_min: 1560, z_max: 1660}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Linus: five ruby rocks and two gems make the Ruby Broadsword.
+  - set_pose: {map: xeen_d1.odm, x: -16275, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        local gems = 0
+        for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do gems = gems + item_count(id) end
+        remember("gems", gems); remember("ruby", item_count(12357)); remember("sword", item_count(12540))
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4945}
+  - select_topic: {match_label: "Ruby work"}
+  - assert:
+      dialog: {text_contains: "Five ruby rocks and two gems"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local gems = 0
+        for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do gems = gems + item_count(id) end
+        if item_count(12357) ~= recall("ruby") - 5 then error("Linus took " .. (recall("ruby") - item_count(12357)) .. " ruby rocks") end
+        if gems ~= recall("gems") - 2 then error("Linus took " .. (recall("gems") - gems) .. " gems") end
+        if item_count(12540) ~= recall("sword") + 1 then error("no Ruby Broadsword (12540)") end
+        log("53 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold() .. "; gems " .. gems .. "; Energy Disks " .. item_count(12334) .. "; sapphire rocks " .. item_count(12359))
+  - assert: {qbit_set: [113140, 113142, 113143, 113144, 117160, 117200]}
+  - assert: {qbit_clear: [113141]}
+  # The Temple of Mok (house 4455) across the vale's square: Sprite Forest's Gorgon Sprites can leave a member Petrified
+  # on the way to and from the east adit (the reload run of A3 session 32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  - save_game: {name: "53 The Gemstone Mines", path: output/playthrough/xeen/checkpoints/53_gemstone_mines.oysav}

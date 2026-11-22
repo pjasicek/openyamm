@@ -1,0 +1,81 @@
+# Hostility check of Castle Blackfang (DD-14) (the XD-27 form; lane A8, 2026-11-21). The kinds: the vampires (Vampire
+# 11291, Vampire Lord 11292, Royal Vampire 11295, Count Blackfang 11294), the Magic Mountain gargoyles on the walls
+# (Gargoyle Sentinel 11551, Gargoyle Overlord 11552) and the cistern's octopods (11473), all hostile at load (the five
+# sleepers hidden in coffins are counted: 39 Vampires, 10 Vampire Lords), none peaceful. Vampires and gargoyles side by
+# side on the landing (nearer each other than the party) do not take each other on (D-42 (3): the walls are the
+# gargoyles', the vampires keep indoors; no relation between them). Ambrose's griffin (A2's Tethered Griffin 11913)
+# stands hidden until m25.done (not set here) and is never hostile; after m25.done it shows peaceful, and the vampires
+# and gargoyles beside it leave it alone. Ambrose (A2's row 11917, npc 5512, actor 0, in the griffin's group) is
+# hidden with it and shown peaceful with it; Queen Kalindra (11918, npc 5001, actor 49) is peaceful at load; the kinds
+# beside Ambrose leave him alone (D-52). Run with --world
+# xeen --map xeen_dd14.blv (output/studio_cal/dd14/four.sh).
+id: xeen.dd14.l4.hostility
+title: 'Castle Blackfang (DD-14): vampires, gargoyles and octopods hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd14.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 42, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 42, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 42, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 42, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival text).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11291, hostile: true, min: 39, max: 39}}
+- assert: {actor_count: {monster_id: 11292, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11295, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11294, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11551, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11552, hostile: true, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 11473, hostile: true, min: 5, max: 5}}
+- assert: {actor_count: {monster_id: 11291, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11292, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11295, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11294, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11551, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11552, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11473, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11913, hostile: true, max: 0}}
+- assert: {actor_visible: {actor_index: 31, monster_id: 11913, hidden: true}}
+- assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: true}}
+- assert: {actor_visible: {actor_index: 49, monster_id: 11918, hidden: false}}
+- assert: {actor_count: {monster_id: 11918, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11917, hostile: true, max: 0}}
+- assert: {actor_visible: {actor_index: 56, monster_id: 11291, hidden: true}}
+- assert: {actor_visible: {actor_index: 53, monster_id: 11292, hidden: true}}
+- lua_event: {source: "SetQBit(QBit(111503))"}
+- save_game: {name: dd14_hostility}
+- load_game: {name: dd14_hostility}
+- advance_runtime: {seconds: 1}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 31, monster_id: 11913, hidden: false}}
+- assert: {actor_count: {monster_id: 11913, hostile: false, min: 1, max: 1}}
+- assert: {actor_visible: {actor_index: 0, monster_id: 11917, hidden: false}}
+- assert: {actor_count: {monster_id: 11917, hostile: false, min: 1, max: 1}}
+- note: 'Kinds of the map side by side on the landing by the griffin, nearer each other than the party (a monster takes
+    the nearest of its foes): they must not take each other on, nor the griffin.'
+- set_pose: {map: xeen_dd14.blv, x: 0, y: -1250, z: 1280, yaw: 1.5708, pitch: 0.0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11291, x: -640, y: -1600, z: 1280}
+- spawn_actor: {monster_id: 11551, x: -384, y: -1600, z: 1280}
+- spawn_actor: {monster_id: 11292, x: -128, y: -1600, z: 1280}
+- spawn_actor: {monster_id: 11552, x: 128, y: -1600, z: 1280}
+- spawn_actor: {monster_id: 11295, x: 384, y: -1600, z: 1280}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11291, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11292, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11295, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11551, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11552, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11913, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11917, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11917, hostile: false, min: 1, max: 1}}
+- console: {line: arena trace off}

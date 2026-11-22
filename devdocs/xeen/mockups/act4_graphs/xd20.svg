@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1366" height="424" viewBox="0 0 1366 424" font-family="DejaVu Sans, Verdana, Arial, sans-serif">
+<defs>
+<marker id="a_dark" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f2f2f"/></marker>
+<marker id="a_tel" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7b3fa0"/></marker>
+<marker id="a_drop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8d5a2b"/></marker>
+<marker id="a_lift" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f6fb2"/></marker>
+<marker id="s_lever" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_map_var" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_puzzle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07b00"/></marker>
+<marker id="s_item" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b3261e"/></marker>
+<marker id="s_kill" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7a1010"/></marker>
+<marker id="s_qbit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_stage" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_award" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a3fb5"/></marker>
+<marker id="s_password" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0f7c7c"/></marker>
+</defs>
+<rect x="0" y="0" width="1366" height="424" fill="#fbfaf6" stroke="#bbb"/>
+<text x="20" y="32" font-size="22" font-weight="bold" fill="#222">XD-20 The Warzone</text>
+<text x="20" y="56" font-size="13.5" fill="#444">X6 Desert of the Sphinx (the coach yard in the Barbaric cliffs) · class arena · party any → any · monsters L/2–2L, by tier · treasure gold by tier · Arena, Page to Lord</text>
+<text x="20" y="75" font-size="12" fill="#666">3 rooms · 0 monsters placed · 0 chests · 0 loops</text>
+<rect x="10" y="86" width="1346" height="110" rx="6" fill="#f1eee4" stroke="#ddd8c8"/>
+<text x="20" y="108" font-size="13" font-weight="bold" fill="#555">Floor 0</text>
+<text x="20" y="124" font-size="11" fill="#777">The Warzone</text>
+<text x="20" y="137" font-size="11" fill="#999">z 0</text>
+<path d="M583.0,140.0 Q606.0,140.0 629.0,140.0" fill="none" stroke="#2f2f2f" stroke-width="2.4"/>
+<path d="M827.0,140.0 Q850.0,140.0 873.0,140.0" fill="none" stroke="#7b3fa0" stroke-width="2.4" stroke-dasharray="9 3 2 3" marker-end="url(#a_tel)"/>
+<rect x="385.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#e2e2e2" stroke="#666" stroke-width="1.3"/>
+<text x="484.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Gate passage</text>
+<text x="391.0" y="162.0" font-size="10.5" fill="#555">corridor S</text>
+<rect x="629.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#666" stroke-width="1.3"/>
+<text x="728.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">Hall of the War Games</text>
+<text x="635.0" y="162.0" font-size="10.5" fill="#555">hall M</text>
+<rect x="633.0" y="104.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="653.0" y="114.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<rect x="873.0" y="112.0" width="198.0" height="56.0" rx="7" fill="#e9d29a" stroke="#c08a00" stroke-width="3.6"/>
+<text x="972.0" y="133.0" font-size="12" font-weight="bold" fill="#1d1d1d" text-anchor="middle">The war floor</text>
+<text x="879.0" y="162.0" font-size="10.5" fill="#555">hall L</text>
+<text x="1065.0" y="162.0" font-size="10.5" font-weight="bold" fill="#b3261e" text-anchor="end">by tier</text>
+<rect x="999.4" y="104.0" width="67.6" height="14" rx="3" fill="#c08a00"/><text x="1033.2" y="114.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">SET PIECE</text>
+<rect x="877.0" y="104.0" width="40" height="14" rx="3" fill="#2e6b3a"/><text x="897.0" y="114.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle">GOAL</text>
+<path d="M339.0,140.0 Q362.0,140.0 385.0,140.0" fill="none" stroke="#3b5b8c" stroke-width="2.2"/>
+<rect x="141.0" y="120.0" width="198.0" height="40.0" rx="20.0" fill="#e3ecf8" stroke="#3b5b8c" stroke-width="1.6"/>
+<text x="240.0" y="137.0" font-size="11" fill="#1f3a66" text-anchor="middle">X6: the arena gate (coach</text>
+<text x="240.0" y="150.0" font-size="11" fill="#1f3a66" text-anchor="middle">yard)</text>
+<path d="M1071.0,140.0 Q1094.0,140.0 1117.0,140.0" fill="none" stroke="#3b5b8c" stroke-width="2.2" stroke-dasharray="7 3" marker-end="url(#a_dark)"/>
+<rect x="1117.0" y="120.0" width="198.0" height="40.0" rx="20.0" fill="#e3ecf8" stroke="#3b5b8c" stroke-width="1.6"/>
+<text x="1216.0" y="137.0" font-size="11" fill="#1f3a66" text-anchor="middle">X6: the coach yard (victors'</text>
+<text x="1216.0" y="150.0" font-size="11" fill="#1f3a66" text-anchor="middle">gate)</text>
+<path d="M850.0,140.0 L850.0,182.0" stroke="#888" stroke-width="1" fill="none"/><circle cx="850.0" cy="140.0" r="2.2" fill="#888"/>
+<rect x="803.9" y="173.5" width="92.2" height="17" rx="4" fill="#fffdf7" stroke="#7b3fa0" stroke-width="1.4"/>
+<rect x="809.9" y="178.0" width="8" height="8" fill="#e07b00"/>
+<text x="821.9" y="186.0" font-size="11" fill="#7b3fa0">Tier chosen</text>
+<rect x="10" y="214" width="1346" height="200" rx="6" fill="#ffffff" stroke="#ddd8c8"/>
+<text x="22" y="234" font-size="12.5" font-weight="bold" fill="#333">Legend</text>
+<rect x="22" y="248" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#666"/>
+<text x="54" y="260" font-size="11" fill="#333">room</text>
+<rect x="22" y="269" width="26" height="16" rx="3" fill="#e9d29a" stroke="#666"/>
+<text x="54" y="281" font-size="11" fill="#333">hall</text>
+<rect x="22" y="290" width="26" height="16" rx="3" fill="#cfe8c9" stroke="#666"/>
+<text x="54" y="302" font-size="11" fill="#333">stair or lift core</text>
+<rect x="22" y="311" width="26" height="16" rx="3" fill="#e2e2e2" stroke="#666"/>
+<text x="54" y="323" font-size="11" fill="#333">corridor, ledge, bridge</text>
+<rect x="22" y="332" width="26" height="16" rx="3" fill="#dcc7b0" stroke="#666"/>
+<text x="54" y="344" font-size="11" fill="#333">cave</text>
+<rect x="22" y="353" width="26" height="16" rx="3" fill="#c9def0" stroke="#666"/>
+<text x="54" y="365" font-size="11" fill="#333">shaft</text>
+<rect x="227" y="248" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#c08a00" stroke-width="3"/>
+<text x="259" y="260" font-size="11" fill="#333">set piece (gold frame)</text>
+<rect x="227" y="269" width="26" height="16" rx="3" fill="#f3e6c8" stroke="#b3261e" stroke-width="3"/>
+<text x="259" y="281" font-size="11" fill="#333">boss (red frame)</text>
+<rect x="227" y="290" width="26" height="13" rx="2" fill="#e8b923" stroke="#8a6a00"/>
+<text x="259" y="302" font-size="11" fill="#333">chest, treasure tier</text>
+<text x="227" y="323" font-size="11" font-weight="bold" fill="#9b1c1c">6 m</text>
+<text x="259" y="323" font-size="11" fill="#333">monsters placed</text>
+<rect x="227" y="332" width="26" height="14" rx="3" fill="#2e6b3a"/>
+<text x="259" y="344" font-size="11" fill="#333">quest goal</text>
+<rect x="227" y="353" width="26" height="16" rx="8" fill="#e3ecf8" stroke="#3b5b8c"/>
+<text x="259" y="365" font-size="11" fill="#333">exit to another map</text>
+<path d="M427,252 h44" stroke="#7a7a7a" stroke-width="2.0" fill="none"/>
+<text x="479" y="256" font-size="11" fill="#333">open way</text>
+<path d="M427,273 h44" stroke="#2f2f2f" stroke-width="2.4" fill="none"/>
+<text x="479" y="277" font-size="11" fill="#333">door</text>
+<path d="M427,294 h44" stroke="#b3261e" stroke-width="2.8" fill="none"/>
+<text x="479" y="298" font-size="11" fill="#333">locked door (key named)</text>
+<path d="M427,315 h44" stroke="#4a4a4a" stroke-width="2.0" fill="none" stroke-dasharray="1.5 4.5"/>
+<text x="479" y="319" font-size="11" fill="#333">secret or illusory</text>
+<path d="M427,336 h44" stroke="#2f2f2f" stroke-width="2.2" fill="none" marker-end="url(#a_dark)"/>
+<text x="479" y="340" font-size="11" fill="#333">one-way</text>
+<path d="M642,252 h44" stroke="#1f6fb2" stroke-width="5.0" fill="none"/>
+<path d="M642,252 h44" stroke="#fff" stroke-width="1.6"/>
+<text x="694" y="256" font-size="11" fill="#333">lift or moving cage</text>
+<path d="M642,273 h44" stroke="#2e7d32" stroke-width="2.6" fill="none" stroke-dasharray="10 3"/>
+<text x="694" y="277" font-size="11" fill="#333">stairs or ladder</text>
+<path d="M642,294 h44" stroke="#7b3fa0" stroke-width="2.4" fill="none" stroke-dasharray="9 3 2 3" marker-end="url(#a_tel)"/>
+<text x="694" y="298" font-size="11" fill="#333">teleport or throw</text>
+<path d="M642,315 h44" stroke="#8d5a2b" stroke-width="2.4" fill="none" stroke-dasharray="6 4" marker-end="url(#a_drop)"/>
+<text x="694" y="319" font-size="11" fill="#333">drop (one-way down)</text>
+<path d="M857,252 h40" stroke="#e07b00" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_lever)"/><circle cx="857" cy="252" r="3.2" fill="#e07b00"/>
+<text x="907" y="256" font-size="11" fill="#333">lever, button, puzzle</text>
+<path d="M857,273 h40" stroke="#b3261e" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_item)"/><circle cx="857" cy="273" r="3.2" fill="#b3261e"/>
+<text x="907" y="277" font-size="11" fill="#333">key found here</text>
+<path d="M857,294 h40" stroke="#7a1010" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_kill)"/><circle cx="857" cy="294" r="3.2" fill="#7a1010"/>
+<text x="907" y="298" font-size="11" fill="#333">boss kill</text>
+<path d="M857,315 h40" stroke="#6a3fb5" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_qbit)"/><circle cx="857" cy="315" r="3.2" fill="#6a3fb5"/>
+<text x="907" y="319" font-size="11" fill="#333">quest state or stage</text>
+<path d="M857,336 h40" stroke="#0f7c7c" stroke-width="1.7" stroke-dasharray="5 4" fill="none" marker-end="url(#s_password)"/><circle cx="857" cy="336" r="3.2" fill="#0f7c7c"/>
+<text x="907" y="340" font-size="11" fill="#333">password</text>
+<text x="22" y="404" font-size="10.5" fill="#666">Dashed state lines run from the room that holds the key, lever or boss to the gate they open; a label with a small square names the state.</text>
+</svg>

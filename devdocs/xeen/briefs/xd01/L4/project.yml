@@ -1,7 +1,7 @@
 format: 0
 id: xeen_xd01
 name: Joe's Warehouse
-world: mm7
+world: xeen
 kind: indoor
 profile: dungeon
 map_code: XD-01
@@ -18,8 +18,8 @@ map_stats:
   environment: stone hall
   lock_difficulty: 0
   slots:
-    - {monster: Rat, tier: 1, per_marker: [2, 3], weight: 50}
-    - {monster: Dragonfly, tier: 1, per_marker: [2, 3], weight: 50}
+    - {monster: Xeen Ooze, tier: 1, per_marker: [2, 3], weight: 50}
+    - {monster: Xeen Swarm, tier: 1, per_marker: [2, 3], weight: 50}
 neighbours:
   - id: exit:vertigo_riverbank
     to: xeen_x1.odm
@@ -41,8 +41,8 @@ qbits:
   joe_invoice_found: 110010
   joe_pair_slain: 110011
 items:
-  joes_invoice: 1530
-  pen_key: 2110
-  warehouse_key: 2176
+  joes_invoice: 12002
+  pen_key: 12003
+  warehouse_key: 12001
 migrated: [ceiling_level_sides]
-notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-12 (sixteen-sided cistern under a brick dome, pens behind barred gates, the culvert as a tunnel with a cross-section, the loft as a gallery inside the grain hall under a ridged roof, stairs with treads), themes, objects and wiring; a playable map (NOTES.md). Story step M2 (devdocs/xeen/QUESTS.md). The Xeen world has no package, monsters or items yet, so this L4 is built and played as an MM7 map: `world: mm7` until worlds/xeen exists (one line to change back). Stand-ins, each to be replaced by the Xeen row when it is registered: encounter slot 1 Oozes (Slime 2) is MM7's Rat family (Giant Rat 2), slot 2 Swarms (Doom Bug 2) is the Dragonfly family (Dragonfly 2); the two Breeder Slimes are MM7 Fire Rats (monster 387, the Rat family's C rank: level 6, 21 hit points; no ooze will do: every ooze row of MM6-MM8 is level 12 or more and immune to physical damage); the pen slimes are Giant Rats (385). Items: warehouse_key 12001 is MM6's Store Room Key (2176), pen_key 12003 the plain Key (2110), joes_invoice 12002 MM7's Bill of Sale (1530). Quest bits keep their provisional Xeen numbers (110010-110012). Music is the MM7 dungeon track 18 in place of the name dungeon_light, which the game refuses. Both neighbours lead to X1 (xeen_x1.odm), each to its own door."
+notes: "Xeen design brief, level L4: L3's rooms redrawn with the studio's words of 2026-11-12 (sixteen-sided cistern under a brick dome, pens behind barred gates, the culvert as a tunnel with a cross-section, the loft as a gallery inside the grain hall under a ridged roof, stairs with treads), themes, objects and wiring; a playable map (NOTES.md). Story step M2 (devdocs/xeen/QUESTS.md, A3's quests/m2.yml). World of Xeen since 2026-11-20 (lane A7): slot 1 Xeen Ooze (Slime 11380 2, Breeder Slime 11381 4; the spawn points fix a or b), slot 2 Xeen Swarm (Doom Bug 11340 2, Insect Swarm 11341 4); the pens' Slimes 11380, Mr and Mrs Wobbles the boss row 11383 (4), their splits Slimes of slot 1. About 28 monsters, levels 2-4, kill XP 1.00 of MAPS 0 (NOTES.md). Items: warehouse_key 12001, joes_invoice 12002, pen_key 12003; quest bits 110010-110012 (m2.yml). The map card (map_stats 9131, music, treasure 1) is A2's row from source/map_rows.yml: the block below is the studio's copy for its checks. Both neighbours lead to X1 (xeen_x1.odm), each to its own door."

@@ -1,0 +1,140 @@
+# Xeen sky presets (written by level_generation/xeen_art/sky/make_sky.py; do not edit by hand).
+# Schema: level_generation/lighting/SKY_RENDERING.md. The engine reads engine/rendering/sky/sky.yml only;
+# these entries take effect when A1 merges a world sky file (or copies them into the engine file).
+# Colours are linear RGB; times are game-clock HH:MM.
+version: 1
+
+# Sky texture names an ODM or `evt.SetOutdoorSky` gives, resolved to presets. Darkside maps start on
+# xeendark1; xeen_common.lua switches to xeendark2 at M17 and xeendark3 at M27, and back to xeendark1 at M33.
+aliases:
+  xeendark1: xeen_darkside_day
+  xeendark2: xeen_darkside_fading
+  xeendark3: xeen_darkside_failing
+  xeencloud: xeen_cloud_sea
+  xeenroads: xeen_skyroads
+
+presets:
+  # Darkside by day: a low amber-gold band at the horizon, a muted warm zenith, a pale small sun.
+  xeen_darkside_day:
+    inherits: base
+    keys:
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '02:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+      - {ambient_tint: [0.9, 0.869, 0.97], cloud_lit: [0.199, 0.115, 0.129], cloud_shadow: [0.019, 0.019, 0.036], fog: [0.06, 0.053, 0.064], horizon: [0.108, 0.073, 0.099], stars: 0.6, sun_disc: [1.0, 0.449, 0.198], sun_disc_visibility: 1.0, sun_glow: [0.7, 0.345, 0.242], sun_glow_strength: 0.371, time: '04:40', water_sky: [0.205, 0.192, 0.276], water_sun: [0.9, 0.541, 0.382], zenith: [0.012, 0.014, 0.036]}
+      - {ambient_tint: [1.0, 0.857, 0.722], cloud_lit: [0.976, 0.462, 0.237], cloud_shadow: [0.158, 0.087, 0.128], fog: [0.4, 0.249, 0.186], horizon: [1.0, 0.376, 0.146], stars: 0.0, sun_disc: [1.0, 0.497, 0.192], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.425, 0.132], sun_glow_strength: 1.24, time: '05:20', water_sky: [0.442, 0.299, 0.285], water_sun: [1.0, 0.562, 0.289], zenith: [0.086, 0.068, 0.121]}
+      - {ambient_tint: [1.0, 0.883, 0.736], cloud_lit: [0.96, 0.624, 0.324], cloud_shadow: [0.288, 0.194, 0.184], fog: [0.55, 0.38, 0.228], horizon: [1.0, 0.511, 0.168], stars: 0.0, sun_disc: [1.0, 0.841, 0.56], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.591, 0.28], sun_glow_strength: 0.84, time: '06:15', water_sky: [0.4, 0.316, 0.251], water_sun: [1.0, 0.76, 0.46], zenith: [0.22, 0.152, 0.152]}
+      - {ambient_tint: [1.0, 0.92, 0.8], cloud_lit: [0.96, 0.72, 0.44], cloud_shadow: [0.36, 0.27, 0.24], fog: [0.56, 0.43, 0.29], horizon: [0.86, 0.56, 0.26], stars: 0.0, sun_disc: [1.0, 0.96, 0.84], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.8, 0.52], sun_glow_strength: 0.35, time: '12:00', water_sky: [0.4, 0.33, 0.26], water_sun: [1.0, 0.84, 0.58], zenith: [0.22, 0.19, 0.21]}
+      - {ambient_tint: [1.0, 0.902, 0.76], cloud_lit: [0.96, 0.683, 0.394], cloud_shadow: [0.336, 0.238, 0.22], fog: [0.56, 0.416, 0.272], horizon: [0.938, 0.544, 0.239], stars: 0.0, sun_disc: [1.0, 0.911, 0.728], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.745, 0.44], sun_glow_strength: 0.49, time: '17:30', water_sky: [0.4, 0.316, 0.251], water_sun: [1.0, 0.804, 0.53], zenith: [0.198, 0.167, 0.186]}
+      - {ambient_tint: [1.0, 0.857, 0.697], cloud_lit: [0.966, 0.542, 0.245], cloud_shadow: [0.249, 0.146, 0.157], fog: [0.55, 0.342, 0.209], horizon: [1.0, 0.527, 0.164], stars: 0.0, sun_disc: [1.0, 0.694, 0.33], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.508, 0.183], sun_glow_strength: 1.072, time: '19:50', water_sky: [0.437, 0.289, 0.24], water_sun: [1.0, 0.655, 0.338], zenith: [0.141, 0.111, 0.158]}
+      - {ambient_tint: [1.0, 0.819, 0.686], cloud_lit: [0.976, 0.378, 0.19], cloud_shadow: [0.141, 0.072, 0.115], fog: [0.42, 0.232, 0.173], horizon: [1.0, 0.322, 0.105], stars: 0.0, sun_disc: [1.0, 0.447, 0.173], sun_disc_visibility: 1.0, sun_glow: [1.0, 0.359, 0.106], sun_glow_strength: 1.364, time: '20:35', water_sky: [0.398, 0.249, 0.258], water_sun: [1.0, 0.468, 0.231], zenith: [0.069, 0.051, 0.109]}
+      - {ambient_tint: [0.92, 0.869, 0.921], cloud_lit: [0.298, 0.134, 0.129], cloud_shadow: [0.029, 0.023, 0.041], fog: [0.1, 0.077, 0.092], horizon: [0.217, 0.097, 0.108], stars: 0.35, sun_disc: [1.0, 0.399, 0.178], sun_disc_visibility: 1.0, sun_glow: [0.7, 0.247, 0.145], sun_glow_strength: 0.424, time: '21:10', water_sky: [0.185, 0.153, 0.221], water_sun: [0.8, 0.443, 0.335], zenith: [0.014, 0.017, 0.045]}
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+    sun_disc_degrees: 1.0
+    clouds:
+      - {coverage: 0.55, curvature: 0.16, direction_deg: 30, opacity: 0.85, scale: 0.09, softness: 0.55, speed: 0.001, texture: clouds_stratus}
+      - {coverage: 0.3, curvature: 0.13, direction_deg: 40, opacity: 0.9, scale: 0.12, softness: 0.35, speed: 0.0018, texture: clouds_cumulus}
+
+  # Acts III-IV after M17: the sun weakens; the band browns, the day is dimmer.
+  xeen_darkside_fading:
+    inherits: base
+    keys:
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '02:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+      - {ambient_tint: [0.893, 0.859, 0.958], cloud_lit: [0.191, 0.11, 0.125], cloud_shadow: [0.019, 0.018, 0.035], fog: [0.057, 0.051, 0.062], horizon: [0.102, 0.07, 0.097], stars: 0.6, sun_disc: [1.0, 0.442, 0.192], sun_disc_visibility: 0.978, sun_glow: [0.7, 0.337, 0.234], sun_glow_strength: 0.36, time: '04:40', water_sky: [0.195, 0.184, 0.268], water_sun: [0.886, 0.525, 0.371], zenith: [0.01, 0.014, 0.035]}
+      - {ambient_tint: [0.97, 0.814, 0.682], cloud_lit: [0.82, 0.375, 0.2], cloud_shadow: [0.13, 0.071, 0.11], fog: [0.331, 0.204, 0.158], horizon: [0.807, 0.301, 0.128], stars: 0.03, sun_disc: [1.0, 0.466, 0.168], sun_disc_visibility: 0.91, sun_glow: [1.0, 0.383, 0.113], sun_glow_strength: 1.12, time: '05:20', water_sky: [0.358, 0.243, 0.24], water_sun: [0.94, 0.493, 0.248], zenith: [0.059, 0.051, 0.103]}
+      - {ambient_tint: [0.95, 0.806, 0.662], cloud_lit: [0.7, 0.399, 0.199], cloud_shadow: [0.192, 0.115, 0.115], fog: [0.393, 0.247, 0.142], horizon: [0.789, 0.328, 0.104], stars: 0.05, sun_disc: [1.0, 0.754, 0.44], sun_disc_visibility: 0.85, sun_glow: [1.0, 0.488, 0.205], sun_glow_strength: 0.72, time: '06:15', water_sky: [0.28, 0.201, 0.154], water_sun: [0.9, 0.597, 0.333], zenith: [0.13, 0.08, 0.087]}
+      - {ambient_tint: [0.95, 0.84, 0.72], cloud_lit: [0.7, 0.46, 0.27], cloud_shadow: [0.24, 0.16, 0.15], fog: [0.4, 0.28, 0.18], horizon: [0.62, 0.36, 0.16], stars: 0.05, sun_disc: [1.0, 0.86, 0.66], sun_disc_visibility: 0.85, sun_glow: [1.0, 0.66, 0.38], sun_glow_strength: 0.3, time: '12:00', water_sky: [0.28, 0.21, 0.16], water_sun: [0.9, 0.66, 0.42], zenith: [0.13, 0.1, 0.12]}
+      - {ambient_tint: [0.95, 0.823, 0.684], cloud_lit: [0.7, 0.437, 0.242], cloud_shadow: [0.224, 0.141, 0.138], fog: [0.4, 0.271, 0.169], horizon: [0.676, 0.349, 0.147], stars: 0.05, sun_disc: [1.0, 0.816, 0.572], sun_disc_visibility: 0.85, sun_glow: [1.0, 0.615, 0.322], sun_glow_strength: 0.42, time: '17:30', water_sky: [0.28, 0.201, 0.154], water_sun: [0.9, 0.632, 0.384], zenith: [0.117, 0.088, 0.106]}
+      - {ambient_tint: [0.958, 0.795, 0.64], cloud_lit: [0.745, 0.384, 0.176], cloud_shadow: [0.181, 0.101, 0.116], fog: [0.416, 0.246, 0.153], horizon: [0.942, 0.372, 0.124], stars: 0.043, sun_disc: [1.0, 0.633, 0.271], sun_disc_visibility: 0.872, sun_glow: [1.0, 0.433, 0.142], sun_glow_strength: 0.936, time: '19:50', water_sky: [0.323, 0.204, 0.173], water_sun: [0.915, 0.538, 0.263], zenith: [0.088, 0.069, 0.113]}
+      - {ambient_tint: [0.97, 0.777, 0.649], cloud_lit: [0.82, 0.307, 0.16], cloud_shadow: [0.115, 0.059, 0.099], fog: [0.348, 0.19, 0.147], horizon: [0.861, 0.258, 0.092], stars: 0.03, sun_disc: [1.0, 0.419, 0.151], sun_disc_visibility: 0.91, sun_glow: [1.0, 0.323, 0.09], sun_glow_strength: 1.232, time: '20:35', water_sky: [0.322, 0.202, 0.217], water_sun: [0.94, 0.411, 0.198], zenith: [0.047, 0.038, 0.093]}
+      - {ambient_tint: [0.913, 0.859, 0.91], cloud_lit: [0.286, 0.129, 0.125], cloud_shadow: [0.028, 0.022, 0.04], fog: [0.096, 0.074, 0.089], horizon: [0.204, 0.093, 0.105], stars: 0.35, sun_disc: [1.0, 0.393, 0.173], sun_disc_visibility: 0.978, sun_glow: [0.7, 0.241, 0.141], sun_glow_strength: 0.412, time: '21:10', water_sky: [0.175, 0.147, 0.214], water_sun: [0.788, 0.43, 0.324], zenith: [0.013, 0.016, 0.044]}
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+    sun_disc_degrees: 0.85
+    clouds:
+      - {coverage: 0.62, curvature: 0.16, direction_deg: 30, opacity: 0.9, scale: 0.09, softness: 0.55, speed: 0.0012, texture: clouds_stratus}
+      - {coverage: 0.28, curvature: 0.13, direction_deg: 40, opacity: 0.85, scale: 0.12, softness: 0.35, speed: 0.0018, texture: clouds_cumulus}
+
+  # Act V after M27 until Sheltem falls (M33): a failing ember of a sun, a brown dusk all day, the brightest stars showing through; lamps and windows burn all day (map events).
+  xeen_darkside_failing:
+    inherits: base
+    keys:
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '02:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+      - {ambient_tint: [0.884, 0.846, 0.943], cloud_lit: [0.183, 0.107, 0.122], cloud_shadow: [0.018, 0.017, 0.035], fog: [0.055, 0.049, 0.061], horizon: [0.096, 0.067, 0.095], stars: 0.6, sun_disc: [1.0, 0.426, 0.183], sun_disc_visibility: 0.948, sun_glow: [0.7, 0.327, 0.227], sun_glow_strength: 0.35, time: '04:40', water_sky: [0.184, 0.177, 0.262], water_sun: [0.873, 0.51, 0.36], zenith: [0.009, 0.013, 0.035]}
+      - {ambient_tint: [0.928, 0.76, 0.633], cloud_lit: [0.664, 0.304, 0.171], cloud_shadow: [0.101, 0.06, 0.096], fog: [0.263, 0.168, 0.137], horizon: [0.627, 0.242, 0.116], stars: 0.108, sun_disc: [1.0, 0.392, 0.133], sun_disc_visibility: 0.79, sun_glow: [1.0, 0.333, 0.096], sun_glow_strength: 1.0, time: '05:20', water_sky: [0.273, 0.196, 0.208], water_sun: [0.88, 0.424, 0.212], zenith: [0.04, 0.042, 0.093]}
+      - {ambient_tint: [0.88, 0.71, 0.57], cloud_lit: [0.44, 0.217, 0.103], cloud_shadow: [0.096, 0.058, 0.061], fog: [0.236, 0.141, 0.079], horizon: [0.509, 0.182, 0.058], stars: 0.18, sun_disc: [1.0, 0.543, 0.267], sun_disc_visibility: 0.65, sun_glow: [1.0, 0.369, 0.14], sun_glow_strength: 0.6, time: '06:15', water_sky: [0.16, 0.105, 0.087], water_sun: [0.8, 0.434, 0.222], zenith: [0.065, 0.04, 0.047]}
+      - {ambient_tint: [0.88, 0.74, 0.62], cloud_lit: [0.44, 0.25, 0.14], cloud_shadow: [0.12, 0.08, 0.08], fog: [0.24, 0.16, 0.1], horizon: [0.4, 0.2, 0.09], stars: 0.18, sun_disc: [1.0, 0.62, 0.4], sun_disc_visibility: 0.65, sun_glow: [1.0, 0.5, 0.26], sun_glow_strength: 0.25, time: '12:00', water_sky: [0.16, 0.11, 0.09], water_sun: [0.8, 0.48, 0.28], zenith: [0.065, 0.05, 0.065]}
+      - {ambient_tint: [0.88, 0.725, 0.589], cloud_lit: [0.44, 0.237, 0.125], cloud_shadow: [0.112, 0.07, 0.073], fog: [0.24, 0.155, 0.094], horizon: [0.436, 0.194, 0.083], stars: 0.18, sun_disc: [1.0, 0.588, 0.347], sun_disc_visibility: 0.65, sun_glow: [1.0, 0.466, 0.22], sun_glow_strength: 0.35, time: '17:30', water_sky: [0.16, 0.105, 0.087], water_sun: [0.8, 0.46, 0.256], zenith: [0.058, 0.044, 0.058]}
+      - {ambient_tint: [0.898, 0.717, 0.569], cloud_lit: [0.524, 0.257, 0.124], cloud_shadow: [0.113, 0.069, 0.084], fog: [0.283, 0.17, 0.112], horizon: [0.653, 0.248, 0.096], stars: 0.153, sun_disc: [1.0, 0.485, 0.185], sun_disc_visibility: 0.703, sun_glow: [1.0, 0.348, 0.108], sun_glow_strength: 0.8, time: '19:50', water_sky: [0.209, 0.134, 0.126], water_sun: [0.83, 0.421, 0.198], zenith: [0.049, 0.045, 0.086]}
+      - {ambient_tint: [0.928, 0.726, 0.602], cloud_lit: [0.664, 0.249, 0.137], cloud_shadow: [0.09, 0.05, 0.086], fog: [0.276, 0.157, 0.128], horizon: [0.669, 0.208, 0.083], stars: 0.108, sun_disc: [1.0, 0.353, 0.12], sun_disc_visibility: 0.79, sun_glow: [1.0, 0.282, 0.077], sun_glow_strength: 1.1, time: '20:35', water_sky: [0.246, 0.163, 0.189], water_sun: [0.88, 0.353, 0.169], zenith: [0.032, 0.031, 0.083]}
+      - {ambient_tint: [0.903, 0.846, 0.896], cloud_lit: [0.275, 0.124, 0.122], cloud_shadow: [0.027, 0.022, 0.039], fog: [0.091, 0.071, 0.087], horizon: [0.192, 0.089, 0.104], stars: 0.35, sun_disc: [1.0, 0.378, 0.165], sun_disc_visibility: 0.948, sun_glow: [0.7, 0.234, 0.136], sun_glow_strength: 0.4, time: '21:10', water_sky: [0.166, 0.142, 0.21], water_sun: [0.776, 0.417, 0.315], zenith: [0.011, 0.016, 0.043]}
+      - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
+    sun_disc_degrees: 0.7
+    clouds:
+      - {coverage: 0.68, curvature: 0.16, direction_deg: 30, opacity: 0.9, scale: 0.09, softness: 0.55, speed: 0.0014, texture: clouds_stratus}
+      - {coverage: 0.3, curvature: 0.1, direction_deg: 25, opacity: 0.5, scale: 0.07, softness: 0.45, speed: 0.001, texture: clouds_cirrus}
+
+  # Cloudside sky maps (X8 Cloudreach, X9 Clouds of Xeen): bright, high sun, the cloud sea below the islands.
+  xeen_cloud_sea:
+    inherits: above_clouds
+    keys:
+      - {time: "12:00", zenith: [0.070, 0.210, 0.640], horizon: [0.640, 0.760, 0.920], sun_glow_strength: 0.35, aerial_haze: 0.9}
+    clouds:
+      - {texture: clouds_cirrus, scale: 0.070, speed: 0.0012, direction_deg: 25, coverage: 0.25, softness: 0.45, opacity: 0.5, curvature: 0.10}
+      - {texture: clouds_cumulus, scale: 0.110, speed: 0.0024, direction_deg: 30, coverage: 0.62, softness: 0.30, opacity: 1.0, curvature: 0.13}
+
+  # D7 The Skyroads: Darkside's amber day seen from the clouds, the cloud sea below.
+  xeen_skyroads:
+    inherits: xeen_darkside_day
+    below_horizon: sky
+
+  # P3 Plane of Earth of Xeen (P1 and P2 use the engine's plane_fire and plane_air, P4 xeen_plane_water): a
+  # cavern-brown sky of
+  # dust, no sun, no stars, dim crystal light.
+  xeen_plane_earth:
+    inherits: base
+    keys:
+      - {time: "12:00", zenith: [0.050, 0.038, 0.030], horizon: [0.300, 0.220, 0.150], horizon_exponent: 2.6,
+         sun_glow: [0.60, 0.50, 0.40], sun_glow_strength: 0.0, fog: [0.22, 0.17, 0.12], sun_disc_visibility: 0.0,
+         stars: 0.0, moon_visibility: 0.0, cloud_lit: [0.40, 0.32, 0.24], cloud_shadow: [0.08, 0.06, 0.05],
+         ambient_tint: [1.0, 0.92, 0.82], water_sun: [0.6, 0.5, 0.4], water_sky: [0.20, 0.16, 0.12]}
+    horizon_ring: {opacity: 0.0}
+    clouds:
+      - {texture: clouds_storm, scale: 0.096, speed: 0.0008, direction_deg: 60, coverage: 0.70, softness: 0.50, opacity: 0.8, curvature: 0.12}
+
+  # P4 Plane of Water of Xeen (D-58 P4 Q3; replaces WORLD_DESIGN 4's `underwater`, which draws no sky): the party
+  # swims at a surface under a sea-green zenith and an aquamarine horizon, no sun disc, bright diffuse light, slow
+  # cloud; the sky continues below the horizon (no world beneath).
+  xeen_plane_water:
+    inherits: base
+    below_horizon: sky
+    keys:
+      - {time: "12:00", zenith: [0.030, 0.300, 0.260], horizon: [0.300, 0.780, 0.700], horizon_exponent: 2.4,
+         sun_glow: [0.80, 1.00, 0.92], sun_glow_strength: 0.12, sun_glow_exponent: 2.0, fog: [0.24, 0.58, 0.54],
+         sun_disc_visibility: 0.0, stars: 0.0, moon_visibility: 0.0, cloud_lit: [0.86, 1.00, 0.96],
+         cloud_shadow: [0.36, 0.60, 0.58], ambient_tint: [0.90, 1.00, 0.97], water_sun: [0.80, 1.00, 0.92],
+         water_sky: [0.16, 0.48, 0.44]}
+    horizon_ring: {opacity: 0.0}
+    clouds:
+      - {texture: clouds_stratus, scale: 0.100, speed: 0.0008, direction_deg: 15, coverage: 0.40, softness: 0.60, opacity: 0.6, curvature: 0.14}
+
+# Map themes: Cloudside maps use the shipped themes; Darkside maps keep the stage preset and add their own air.
+themes:
+  # D5 Desert of Doom: dust in the amber air.
+  xeen_doom: {sky_tint: [1.06, 0.98, 0.86], cloud_tint: [1.02, 0.96, 0.86], saturation: 0.8, haze: 0.22}
+  # D6 The Forbidden Zone: ash fall over the amber day.
+  xeen_ash: {sky_tint: [0.92, 0.84, 0.80], sun_tint: [1.05, 0.85, 0.72], cloud_tint: [0.82, 0.76, 0.74], saturation: 0.55, haze: 0.28, stars: 0.6}
+  # D2 Sprite Forest: a faint green cast in the forest air.
+  xeen_sprite: {sky_tint: [0.94, 1.0, 0.94], cloud_tint: [0.95, 1.0, 0.95], saturation: 0.85, haze: 0.14}
+  # D3 and D4 (D-36): the bright face's light over the east rim, pale white-gold, fixed in the east, brighter at
+  # night; the stage preset is untouched.
+  xeen_bright_rim: {rim_glow: {below_deg: 1.5, color: [1.0, 0.88, 0.62], day: 0.3, direction_deg: 90, height_deg: 12, night: 0.6, width_deg: 75}}
+
+maps:
+  xeen_x3.odm: swamp
+  xeen_x4.odm: arid
+  xeen_x5.odm: frozen
+  xeen_x6.odm: arid
+  xeen_x7.odm: ashen
+  xeen_d2.odm: xeen_sprite
+  xeen_d3.odm: xeen_bright_rim
+  xeen_d4.odm: xeen_bright_rim
+  xeen_d5.odm: xeen_doom
+  xeen_d6.odm: xeen_ash

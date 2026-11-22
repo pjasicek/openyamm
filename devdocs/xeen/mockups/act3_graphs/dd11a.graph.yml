@@ -1,0 +1,86 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# One of three separate pockets under D2's troll holes (WORLD_DESIGN §6): one BLV each, no joined network. The party
+# falls in by the pocket's own hole and climbs out by one burrow that comes up a few hundred units beside that hole.
+format: mu6-0
+map: DD-11A
+key: dd11a
+name: Troll Holes, first pocket
+stands_on: D2 Sprite Forest and Ogre Pass
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [23, 27]
+monsters:
+  levels: [18, 28]
+  boss: null
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Trolls A-B: Troll 18 (14), Troll Guard 28 (6). The Ice Trolls are DD-11C's only."
+treasure: {level: 3}
+role: "Q-D13 starts here: the dead thief's letter (q-d13.thieves_letter)"
+role_short: "Q-D13 (the letter)"
+set_piece: "The bone midden: a slope of gnawed bones and adventurers' gear climbing to the dead thief's crawl high in the wall"
+floors:
+  - {floor: 0, name: "The pocket", height: 0}
+  - {floor: -1, name: "Lower warren", height: -384}
+spaces:
+  # floor 0
+  - {id: room:pit, name: Pit bottom, kind: shaft, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Where the party lands: a mound of earth and old bones under a shaft of daylight 768 up. The roots on its walls are too thin to climb."}
+  - {id: room:root_tunnel, name: Root tunnel, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a}],
+     purpose: "A tunnel dug under the forest, roots hanging from its roof; the first trolls come to see what fell in."}
+  - {id: room:midden, name: Bone midden, kind: cave, size: M, floor: 0, at: [3, 0], set_piece: true, monsters: 3,
+     population: [{family: Trolls, count: 3, strength: light, rank: a}],
+     purpose: "Everything the trolls have eaten, heaped up a slope: bones, dented helms, a boot. The slope climbs to a crawl high in the wall; the bone slope down to the larder."}
+  - {id: room:thief_crawl, name: "Dead thief's crawl", kind: cave, size: S, floor: 0, at: [4, 0], goal: true, chest: 3, monsters: 0,
+     purpose: "Behind a boulder the trolls rolled across it: a thief who crawled in to hide and never came out. His pack (the chest) and the guild's letter (Q-D13 starts)."}
+  - {id: room:burrow, name: The burrow up, kind: stair, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "The trolls' own way out: a steep burrow of packed earth and root steps up to a sod hatch in the forest floor. 'Exit the Troll Hole?'"}
+  - {id: room:hollow, name: Sleeping hollow, kind: cave, size: M, floor: 0, at: [2, 1], monsters: 4,
+     population: [{family: Trolls, count: 4, strength: pack, rank: a, notes: "Asleep in their nests until the party comes close."}],
+     purpose: "Nests of straw and pulled-up bracken; snoring. The burrow up starts at its back wall."}
+  # floor -1
+  - {id: room:seep, name: Dripping seep, kind: cave, size: M, floor: -1, at: [2, 0], monsters: 3,
+     population: [{family: Trolls, count: 2, strength: light, rank: a}, {family: Trolls, count: 1, strength: light, rank: b}],
+     purpose: "Water seeps through the roof into a pool the trolls drink from; a stair of roots climbs to the sleeping hollow."}
+  - {id: room:larder, name: Troll larder, kind: cave, size: M, floor: -1, at: [3, 0], monsters: 4,
+     population: [{family: Trolls, count: 2, strength: light, rank: a}, {family: Trolls, count: 2, strength: light, rank: b}],
+     purpose: "Carcasses on root hooks behind a wicker gate: deer, a wolf, something with too many legs. Two guards keep the cooks off the meat."}
+  - {id: room:guard_den, name: Guard den, kind: cave, size: M, floor: -1, at: [4, 0], chest: 3, monsters: 3,
+     population: [{family: Trolls, count: 3, strength: pack, rank: b}],
+     purpose: "The guards' den behind a log door; their pile of shiny things (the chest)."}
+links:
+  - {id: link:pit_tunnel, from: room:pit, to: room:root_tunnel, kind: open}
+  - {id: link:tunnel_midden, from: room:root_tunnel, to: room:midden, kind: open}
+  - {id: link:midden_crawl, from: room:midden, to: room:thief_crawl, kind: door, label: boulder,
+     notes: "A boulder across the crawl's mouth at the top of the bone slope; it rolls aside when pushed (a door mover)."}
+  - {id: link:midden_larder, from: room:midden, to: room:larder, kind: stair, label: bone slope}
+  - {id: link:larder_den, from: room:larder, to: room:guard_den, kind: door}
+  - {id: link:larder_seep, from: room:larder, to: room:seep, kind: door, notes: "The larder's wicker gate."}
+  - {id: link:seep_hollow, from: room:seep, to: room:hollow, kind: stair, label: root stair}
+  - {id: link:hollow_tunnel, from: room:hollow, to: room:root_tunnel, kind: open}
+  - {id: link:hollow_burrow, from: room:hollow, to: room:burrow, kind: open}
+states:
+  - {id: state:letter, kind: qbit, where: room:thief_crawl,
+     what: "The dead thief's letter: q-d13.thieves_letter sets q-d13.started and the autonote (Hobstadt sits at the bottom of the troll holes).",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d2_hole, space: room:pit, at: [0, 0], kind: in, label: "D2: first troll hole (fall in)",
+     neighbour: "D2 entrance:dd11a_hole (door:dd11a): the pit in Troll country, 'Troll Hole. Descend?'"}
+  - {id: exit:d2_burrow, space: room:burrow, at: [0, 1], kind: out, label: "D2: beside the first hole",
+     neighbour: "D2, a sod hatch about 300 from the first pit's lip (not on it); the same door:dd11a, its return arrival"}
+critical_path: [room:pit, room:root_tunnel, room:midden, room:thief_crawl]
+return_path: [room:thief_crawl, room:midden, room:root_tunnel, room:hollow, room:burrow]
+loops:
+  - {id: loop:warren, spaces: [room:root_tunnel, room:midden, room:larder, room:seep, room:hollow],
+     notes: "Down the bone slope, through the larder and the seep, up the root stair to the hollow."}
+lines:
+  - {text: "Troll Hole. Descend?", ref: "dark/aaze0008:2", where: "D2, the first hole (q-d13.troll_holes)"}
+  - {text: "A message on thieves' guild letterhead reads: To all members: The Trolls have stolen our gold. Get it back no matter the cost!", ref: "dark/aaze0040:5", where: room:thief_crawl}
+  - {text: "Chest", ref: "dark/aaze0040:0", where: "room:thief_crawl, room:guard_den"}
+  - {text: "Exit the Troll Hole?", ref: "dark/aaze0040:12", where: room:burrow}
+open_questions:
+  - "Troll Guards 28 in the first pocket at party 23: six of the twenty, in the lower warren only (the larder and the guard den, both off the critical path). Agreed, or Trolls 18 only here?"
+  - "The exit is a burrow that comes up about 300 from the pit (the lane's rule). It is reached from the sleeping hollow, two rooms from the landing, so a party that only wants out is not trapped; the letter is two rooms the other way. Agreed?"

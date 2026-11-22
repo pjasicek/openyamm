@@ -5,10 +5,12 @@ events:
     preset: script
     trigger: timer
     every: 1
+    condition: {not: {qbit: arrived_once}}
     once: true
     effects:
-      - message: "The Temple of Yak. Mirabeth's stone opened its door. Somewhere in here the clerics of Yak keep the Elixir of Restoration that Mirabeth needs to become a mermaid again, and King Burlock's Megacredits, which Emerson needs to raise Newcastle's walls: the clerics hoard them in a treasury behind their idol, and the Yak Master below keeps the Elixir."
-    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
+      - lua: "XeenQuests.hook(\"m10.yak_arrival\")"
+      - qbit: arrived_once
+    notes: "Say why the party is here: A3's hook m10.yak_arrival (its window text; a one-shot timer: a load event's window is not shown), on the first arrival only (arrived_once)."
   - id: evt:bar_e
     preset: switch
     source: switch:bar_e
@@ -94,10 +96,10 @@ events:
     preset: chest
     source: chest:coffin
     title: Coffin
-    condition: {stat: {name: BaseMight, at_least: 25}}
+    condition: {stat: {name: ActualMight, at_least: 25}}
     else_effects:
       - text: You are not strong enough to open the coffin.
-    notes: "A might test (25) on the member who tries, as the source's coffins."
+    notes: "A might test (25, the member's actual Might: a Might potion or spell helps, as the other stat chests; A3 2026-11-22) on the member who tries, as the source's coffins."
   - id: evt:chest_hidden
     preset: chest
     source: chest:hidden
@@ -115,15 +117,15 @@ events:
     source: chest:reliquary
     title: Chest
     effects:
-      - qbit: elixir_found
-    text: "You have found the Elixir of Restoration!"
+      - lua: "XeenQuests.hook(\"q-c12.reliquary\")"
+    notes: "A3's hook q-c12.reliquary (once): sets elixir_found; the Elixir of Restoration is the casket's item (F15)."
   - id: evt:chest_treasury
     preset: chest
     source: chest:treasury
     title: Chest
     effects:
-      - qbit: treasury_opened
-    text: "King's Megacredits!"
+      - lua: "XeenQuests.hook(\"m10.yak_treasury\")"
+    notes: "A3's hook m10.yak_treasury (once): sets treasury_opened, the experience and the text; the chest holds the five Megacredits (the hook's map_gives)."
   - id: evt:crate
     preset: text
     source: platform:crate
@@ -180,7 +182,7 @@ events:
     preset: door
     source: door:master_door
     side: room:master_stair
-    title: Door
+    title: Stone door
     action: open
     sets: {map_var: master_door}
     text: "The slab grinds up: beyond lies the temple's vestry. The way out is short from here."
@@ -285,7 +287,7 @@ events:
           var: BaseEndurance
           value: 2
       - lua: "SetValue(DiseasedGreen, 0)"
-      - message: "You drink from the Yak Pool. Strength runs through your limbs (+2 Endurance, permanent), and then the sickness takes you: the pool makes you ill."
+      - text: "You drink from the Yak Pool. Strength runs through your limbs (+2 Endurance, permanent), and then the sickness takes you: the pool makes you ill."
     else_effects:
       - lua: "SetValue(DiseasedGreen, 0)"
       - text: The pool makes you ill.

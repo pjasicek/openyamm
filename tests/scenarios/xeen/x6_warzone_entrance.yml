@@ -1,0 +1,28 @@
+# Feedback F16 (2026-11-21, 15.png): a way into a dungeon shows the standard MM6-MM8 entrance window (the map's name,
+# the stairs picture, "Do you wish to enter ...?", OK and Close), not a scene picture with Yes/No of the map's own.
+# X6's War Zone gate (event 80) into XD-20. Since A5's MP41 rebuild of X6 the window carries the world's own entrance
+# line (D-90 item 4: Xeen's trans.txt row 5020, "Beyond it a crowd roars") in place of "Do you wish to enter ...?".
+id: xeen.f16.x6_warzone_entrance
+title: "F16: X6's War Zone gate opens the standard entrance window; Close stays, OK enters XD-20"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x6.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_x6.odm, x: 12237, y: -15872, z: 1504, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(80); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert:
+      dialog: {active: true, text_contains: "Beyond it a crowd roars", action_label_present: OK}
+  - assert:
+      dialog: {active: true, action_label_absent: "Yes"}
+  - select_topic: {match_label: "Close"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "click(80); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd20.blv}

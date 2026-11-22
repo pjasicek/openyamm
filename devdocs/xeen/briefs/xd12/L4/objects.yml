@@ -7,36 +7,45 @@ start:
 doors:
   - id: door:bedchamber
     opening: open:hall_bedchamber
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:cells
     opening: open:cistern_cells
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:crypt
     opening: open:hands_crypt
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:darzog_hall
     opening: open:state_hall
-    kind: slide_left
+    kind: hinged
     leaves: 2
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
-    notes: "Darzog's doors: two plank leaves that part."
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    notes: "Darzog's doors: a hinged pair of braced plank wings (hhm1d | hhm1d2), 256 by 384 each."
   - id: door:darzog_study
     opening: open:hall_study
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:disc_grille
     opening: open:disc_landing
     kind: slide_up
@@ -46,17 +55,21 @@ doors:
     notes: "A black iron grille (the School of Sorcery's grate c1d1) over the disc's landing; open only while the disc is up and Darzog is dead."
   - id: door:guardroom
     opening: open:gate_guardroom
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:library_stair
     opening: open:library_lstair
-    kind: slide_left
-    fold: true
-    surface: {texture: hhm1d2, size: [128, 256]}
-    tile: true
-    notes: "The library stair door (the School of Sorcery's carved door hhm1d2), locked: the High Sorcerer's key."
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    notes: "The library stair door (the School of Sorcery's carved door hhm1d2), locked: the library key."
   - id: door:portrait
     opening: open:bedchamber_cell
     kind: slide_up
@@ -66,34 +79,44 @@ doors:
     notes: "Darzog's portrait over the cell's door: a secret leaf (cnbport-3) that rises once Darzog is dead."
   - id: door:quarters
     opening: open:assembly_quarters
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:smelter
     opening: open:forge_smelter
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:storeroom
     opening: open:gate_store
-    kind: slide_left
-    fold: true
-    surface: {texture: 7trimd, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:study_nw
     opening: open:reading_study_nw
-    kind: slide_left
-    fold: true
-    surface: {texture: hhm1d2, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:study_sw
     opening: open:great_study_sw
-    kind: slide_left
-    fold: true
-    surface: {texture: hhm1d2, size: [128, 256]}
-    tile: true
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hhm1d, size: [128, 256]}, {texture: hhm1d2, size: [128, 256]}]
   - id: door:works_gate
     opening: open:works_estair
     kind: slide_up
@@ -168,6 +191,24 @@ floors:
   - {id: floor:cistern, of: level:cistern, kind: water}
   - {id: floor:forge_lava, of: level:forge_lava, kind: lava}
   - {id: floor:smelter_pit, of: level:smelter_pit, kind: lava}
+ladders:
+  - {id: ladder:cistern_n, room: room:cistern, at: [-512, -2248], facing: n, height: 160, exit: [-512, -2144], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the cistern's north edge onto the walk."}
+  - {id: ladder:cistern_s, room: room:cistern, at: [512, -2744], facing: s, height: 160, exit: [512, -2848], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the cistern's south edge onto the walk."}
+  - {id: ladder:forge_lava_e, room: room:forge, at: [1024, 2760], facing: s, height: 96, exit: [1024, 2656], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the lava channel's south edge onto the forge floor."}
+  - {id: ladder:forge_lava_w, room: room:forge, at: [-1344, 2760], facing: s, height: 96, exit: [-1344, 2656], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the lava channel's south edge onto the forge floor."}
+  - {id: ladder:smelter_pit, room: room:smelter, at: [2496, 2736], facing: n, height: 128, exit: [2496, 2848], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the smelting pit's north edge onto the smelter floor."}
+sounds:
+  - {id: sound:cistern_drip, room: room:cistern, at: [-768, -2496], sound: drip02, radius: 900, inner_radius: 250, volume: 0.5, wait: [3, 9], notes: Water dripping into the cistern.}
+  - {id: sound:clone_vats, room: room:clone_vats, at: [2656, -2656], height: 160, sound: bubbling cauldron01, radius: 1000, inner_radius: 350, volume: 0.7, notes: The green brew bubbling in the four clone vats.}
+  - {id: sound:forge_lava, room: room:forge, at: [0, 2848], height: 256, sound: lava loop, radius: 1500, inner_radius: 640, volume: 0.8, notes: The lava channel along the forge's north wall.}
+  - {id: sound:lightning_foot, room: room:well, at: [0, 0], height: 96, sound: 7sparks, radius: 1600, inner_radius: 400, volume: 0.8, wait: [4, 10], notes: "Darzog's lightning crackling at the rune circle, the Well's foot."}
+  - {id: sound:lightning_high, room: room:well, at: [0, 0], height: 2496, sound: 7sparks, radius: 1400, inner_radius: 400, volume: 0.7, wait: [5, 12], notes: "Darzog's lightning crackling up the Well, level with Darzog's floor."}
+  - {id: sound:smelter_pit, room: room:smelter, at: [2496, 2496], height: 288, sound: lava loop, radius: 1000, inner_radius: 300, volume: 0.5, notes: "The smelting pit's lava, quieter than the forge's channel."}
+  - {id: sound:tower_bed, room: room:well, at: [0, 0], height: 1472, sound: xeen_amb_tower, radius: 5120, inner_radius: 2560, volume: 0.35, notes: "The tower's bed: Darzog's magic chiming up the Well, heard faintly through every hall.", pan: false}
+  - {id: sound:wind_e, room: room:roof_e, at: [1472, 0], height: 256, sound: whistling wind, radius: 2000, inner_radius: 800, volume: 0.3, notes: Wind over the roof terrace.}
+  - {id: sound:wind_n, room: room:roof_n, at: [-1024, 2176], height: 256, sound: whistling wind, radius: 2000, inner_radius: 800, volume: 0.3, notes: Wind over the roof terrace.}
+  - {id: sound:wind_s, room: room:roof_s, at: [1024, -2176], height: 256, sound: whistling wind, radius: 2000, inner_radius: 800, volume: 0.3, notes: Wind over the roof terrace.}
+  - {id: sound:wind_w, room: room:roof_w, at: [-2176, 0], height: 256, sound: whistling wind, radius: 2000, inner_radius: 800, volume: 0.3, notes: Wind over the roof terrace.}
 lights:
   - id: light:chandelier_0
     room: room:reading_room
@@ -193,6 +234,12 @@ lights:
     height: 520
     radius: 1000
     color: [255, 220, 170]
+  - id: light:cloud_stair
+    room: room:roof_n
+    at: [0, 2496]
+    height: 288
+    radius: 640
+    color: [235, 240, 255]
   - id: light:crodo
     room: room:crodo_cell
     at: [2816, 2816]
@@ -241,7 +288,7 @@ lights:
     color: [255, 200, 150]
   - id: light:hall_candle_2
     room: room:darzog_hall
-    at: [896, 2176]
+    at: [1152, 2880]
     height: 200
     radius: 800
     color: [255, 200, 150]
@@ -629,21 +676,21 @@ lights:
     notes: The candles of the sconce beside it.
   - id: light:sconce_170
     room: room:great_library
-    at: [1237, -1960]
+    at: [1355, -1960]
     height: 176
     radius: 700
     color: [255, 205, 150]
     notes: The candles of the sconce beside it.
   - id: light:sconce_171
     room: room:great_library
-    at: [-384, -1960]
+    at: [-32, -1960]
     height: 176
     radius: 700
     color: [255, 205, 150]
     notes: The candles of the sconce beside it.
   - id: light:sconce_172
     room: room:great_library
-    at: [-1237, -1960]
+    at: [-650, -1960]
     height: 176
     radius: 700
     color: [255, 205, 150]
@@ -723,7 +770,7 @@ lights:
     color: [255, 210, 150]
   - id: light:vats
     room: room:clone_vats
-    at: [2496, -2496]
+    at: [2656, -2656]
     height: 300
     radius: 900
     color: [140, 255, 140]
@@ -846,7 +893,7 @@ chests:
     items: [library_key]
   - id: chest:quarters
     room: room:quarters
-    at: [-2048, -2048]
+    at: [-1984, -2880]
     kind: 7gt002
     facing: s
     treasure_level: 4
@@ -871,124 +918,130 @@ spawns:
     room: room:assembly
     at: [1024, -2432]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:assembly_w
     room: room:assembly
     at: [-1024, -2432]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:cells
     room: room:cells
     at: [-2496, -2368]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:cistern
     room: room:cistern
     at: [0, -2496]
     slot: 3
     tier: a
     notes: Floating eyes over the cistern.
+  - id: spawn:cistern_w
+    room: room:cistern
+    at: [-1152, -2496]
+    slot: 3
+    tier: a
+    notes: "Floating eyes over the cistern (west end), out of sight of the arrival."
   - id: spawn:clone_vats
     room: room:clone_vats
     at: [2496, -2112]
     slot: 1
     tier: c
-    notes: Gold hands guarding the vats.
+    notes: Carnage hands guarding the vats.
   - id: spawn:forge_e
     room: room:forge
     at: [512, 2496]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:forge_w
     room: room:forge
     at: [-1152, 2496]
     slot: 1
-    tier: b
+    tier: c
     notes: Smiths of the hands.
   - id: spawn:great_library
     room: room:great_library
     at: [-512, -2496]
     slot: 2
-    tier: b
+    tier: a
   - id: spawn:guard_hall
     room: room:guard_hall
     at: [-2496, -2368]
     slot: 1
     tier: c
-    notes: "Gold hands, the Baron's guard."
+    notes: "Carnage hands, the Baron's guard."
   - id: spawn:guardroom
     room: room:guardroom
     at: [2304, 2752]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:hands_e
     room: room:hall_of_hands
     at: [1056, 2496]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:hands_w
     room: room:hall_of_hands
     at: [-1056, 2496]
     slot: 1
-    tier: b
+    tier: c
     notes: Carnage hands stepping off their plinths.
   - id: spawn:library_n
     room: room:library_n
     at: [384, 1408]
     slot: 3
-    tier: b
+    tier: a
   - id: spawn:library_s
     room: room:library_s
     at: [0, -1408]
     slot: 2
-    tier: b
+    tier: a
   - id: spawn:library_stair
     room: room:library_stair
     at: [-2496, 0]
     slot: 3
-    tier: b
+    tier: a
   - id: spawn:portrait_hall
     room: room:portrait_hall
     at: [-768, -2496]
     slot: 2
-    tier: b
+    tier: a
   - id: spawn:quarters
     room: room:quarters
     at: [-2560, -2496]
     slot: 2
-    tier: b
+    tier: a
     notes: Apprentices in their quarters.
   - id: spawn:reading_e
     room: room:reading_room
     at: [1536, 2240]
     slot: 2
-    tier: b
+    tier: a
   - id: spawn:reading_w
     room: room:reading_room
     at: [-1152, 2624]
     slot: 2
-    tier: b
+    tier: a
     notes: Apprentices at their books.
   - id: spawn:roof_n
     room: room:roof_n
     at: [-2048, 2304]
     slot: 3
-    tier: b
+    tier: a
   - id: spawn:roof_s
     room: room:roof_s
     at: [1024, -2304]
     slot: 3
-    tier: b
+    tier: a
   - id: spawn:scrap
     room: room:scrap_hall
     at: [-2304, 2560]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:smelter
     room: room:smelter
     at: [2112, 2880]
     slot: 1
-    tier: b
+    tier: c
   - id: spawn:state_s
     room: room:state_s
     at: [0, -1408]
@@ -998,18 +1051,12 @@ spawns:
     room: room:study_nw
     at: [-2304, 2240]
     slot: 3
-    tier: b
+    tier: a
   - id: spawn:study_sw
     room: room:study_sw
     at: [-2240, -2304]
     slot: 2
-    tier: b
-  - id: spawn:well
-    room: room:well
-    at: [-384, -384]
-    slot: 3
     tier: a
-    notes: Floating eyes drifting in the Well.
   - id: spawn:works_e
     room: room:works_e
     at: [1408, -512]
@@ -1020,94 +1067,84 @@ spawns:
     at: [-2112, 384]
     floor_height: 768
     slot: 1
-    tier: b
+    tier: c
     notes: "Hands on the upper gallery, coming down the stair."
 monsters:
   - id: monster:clone_1
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [-1280, 2240]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:clone_2
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [-1280, 2752]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:clone_3
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [-384, 2240]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:clone_4
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [-384, 2752]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:clone_5
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [512, 2240]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:clone_6
     room: room:darzog_hall
-    monster: 294
+    monster: 11195
     at: [512, 2752]
     facing: 180
     hostile: true
     group: 31
-    name: Darzog Clone
     notes: "One of Darzog's six clones: his face, his robes, his lightning."
   - id: monster:crodo
     room: room:crodo_cell
-    monster: 292
+    monster: 11900
     at: [2880, 2880]
     facing: 225
     hostile: false
     group: 40
-    name: Crodo
     immobile: true
-    notes: "Crodo (stand-in: a Sorcerer of the Mage family, an old man in blue robes), peaceful, in his cell."
+    notes: "Crodo (the world's character row 11900: an old man in robes, friendly), peaceful, in his cell."
   - id: monster:darzog
     room: room:darzog_hall
-    monster: 294
+    monster: 11194
     at: [1344, 2496]
     floor_height: 2368
     facing: 180
     hostile: true
     group: 30
-    hp: 1200
-    name: Baron Darzog
-    notes: "Baron Darzog (an Archmage, level 50; three times its hit points and his name) on his dais."
+    notes: "Baron Darzog (the boss row 11194: level 55, three times the hit points, his name) on his dais."
   - id: monster:librarian
     room: room:great_library
-    monster: 294
+    monster: 11191
     at: [1152, -2560]
     facing: 90
     hostile: true
     group: 21
-    hp: 600
     name: Chief Librarian
-    notes: The Chief Librarian (an Archmage) guards his cabinet with the library stair's key.
+    notes: "The Chief Librarian (the Wizards' B tier, Sorcerer 45, with his own name) guards his cabinet with the library stair's key."
 decorations:
   - id: deco:cells_bones1
     room: room:cells
@@ -1165,7 +1202,7 @@ decorations:
   - id: deco:crypt_skulls
     room: room:crypt
     decoration: sklplrev
-    at: [-2944, 2496]
+    at: [-2944, 2768]
   - id: deco:desk_candle
     room: room:darzog_study
     decoration: cndlab0
@@ -1185,27 +1222,33 @@ decorations:
     room: room:forge
     decoration: brzier00
     at: [-1664, 2048]
+    height: 492
+    hangs: true
+    notes: A brazier hung on its chains from the ceiling.
   - id: deco:forge_brazier2
     room: room:forge
     decoration: brzier00
     at: [1664, 2048]
+    height: 492
+    hangs: true
+    notes: A brazier hung on its chains from the ceiling.
   - id: deco:forge_hand1
     room: room:forge
     decoration: 7dec55
-    at: [-1408, 2240]
+    at: [-1344, 2048]
     notes: A half-built hand (statue).
   - id: deco:forge_hand2
     room: room:forge
     decoration: 7dec55
-    at: [1408, 2240]
+    at: [1344, 2048]
   - id: deco:gate_barrel1
     room: room:gate_hall
     decoration: bigbarel
-    at: [2944, -1664]
+    at: [2944, -1600]
   - id: deco:gate_barrel2
     room: room:gate_hall
     decoration: smlbarel
-    at: [2832, -1680]
+    at: [2832, -1616]
   - id: deco:gate_bucket
     room: room:gate_hall
     decoration: Bucket
@@ -1221,7 +1264,7 @@ decorations:
   - id: deco:hall_candelabrum_2
     room: room:darzog_hall
     decoration: dec02
-    at: [896, 2176]
+    at: [1152, 2880]
   - id: deco:hall_candelabrum_3
     room: room:darzog_hall
     decoration: dec02
@@ -1229,7 +1272,7 @@ decorations:
   - id: deco:hand_statue_00
     room: room:hall_of_hands
     decoration: 7dec54
-    at: [-1408, 2240]
+    at: [-1408, 2048]
     floor_height: 64
     notes: A carnage hand not yet woken (statue).
   - id: deco:hand_statue_02
@@ -1241,7 +1284,7 @@ decorations:
   - id: deco:hand_statue_04
     room: room:hall_of_hands
     decoration: 7dec54
-    at: [1408, 2240]
+    at: [1408, 2048]
     floor_height: 64
     notes: A carnage hand not yet woken (statue).
   - id: deco:hand_statue_11
@@ -1276,17 +1319,17 @@ decorations:
   - id: deco:reading_candle_0
     room: room:reading_room
     decoration: cndlab0
-    at: [-640, 2304]
+    at: [-640, 2688]
     floor_height: 1608
   - id: deco:reading_candle_1
     room: room:reading_room
     decoration: cndlab0
-    at: [128, 2304]
+    at: [128, 2688]
     floor_height: 1608
   - id: deco:reading_candle_2
     room: room:reading_room
     decoration: cndlab0
-    at: [896, 2304]
+    at: [896, 2688]
     floor_height: 1608
   - id: deco:rock_00
     room: room:out_n
@@ -1295,7 +1338,7 @@ decorations:
   - id: deco:rock_01
     room: room:out_n
     decoration: 6rock05
-    at: [1280, 3600]
+    at: [1280, 3712]
   - id: deco:rock_10
     room: room:out_w
     decoration: 6rock01
@@ -1303,7 +1346,7 @@ decorations:
   - id: deco:rock_11
     room: room:out_w
     decoration: 6rock05
-    at: [-3600, 1280]
+    at: [-3712, 1280]
   - id: deco:rock_20
     room: room:out_s
     decoration: 6rock01
@@ -1311,7 +1354,7 @@ decorations:
   - id: deco:rock_21
     room: room:out_s
     decoration: 6rock05
-    at: [-1280, -3600]
+    at: [-1280, -3712]
   - id: deco:rock_30
     room: room:out_e
     decoration: 6rock01
@@ -1319,7 +1362,7 @@ decorations:
   - id: deco:rock_31
     room: room:out_e
     decoration: 6rock05
-    at: [3600, -1280]
+    at: [3712, -1280]
   - id: deco:scrap_0
     room: room:scrap_hall
     decoration: trasheap
@@ -1331,19 +1374,19 @@ decorations:
   - id: deco:scrap_2
     room: room:scrap_hall
     decoration: 7dec10
-    at: [-2880, 2240]
+    at: [-3000, 1990]
   - id: deco:scrap_3
     room: room:scrap_hall
     decoration: trasheap
-    at: [-2176, 2176]
+    at: [-2048, 2816]
   - id: deco:store_barrel1
     room: room:storeroom
     decoration: bigbarel
-    at: [2176, -2176]
+    at: [2960, -2004]
   - id: deco:store_barrel2
     room: room:storeroom
     decoration: bigbarel
-    at: [2368, -2176]
+    at: [2832, -2004]
   - id: deco:store_sack1
     room: room:storeroom
     decoration: floursac
@@ -1389,77 +1432,77 @@ decorations:
   - id: deco:trap1_bones_0
     room: room:library_n
     decoration: dec29
-    at: [-1322, 1348]
+    at: [-1362, 1348]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap1_bones_1
     room: room:library_n
     decoration: dec29
-    at: [-1212, 1580]
+    at: [-1212, 1620]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap1_bones_2
     room: room:library_n
     decoration: 7dec20
-    at: [-980, 1558]
+    at: [-908, 1578]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap2_bones_0
     room: room:reading_room
     decoration: dec29
-    at: [1046, 2436]
+    at: [1006, 2436]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap2_bones_1
     room: room:reading_room
     decoration: dec29
-    at: [1156, 2668]
+    at: [1156, 2708]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap2_bones_2
     room: room:reading_room
     decoration: 7dec20
-    at: [1388, 2646]
+    at: [1296, 2176]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap3_bones_0
     room: room:library_w
     decoration: dec29
-    at: [-1578, -1212]
+    at: [-1618, -1212]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap3_bones_1
     room: room:library_w
     decoration: dec29
-    at: [-1468, -980]
+    at: [-1468, -940]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap3_bones_2
     room: room:library_w
     decoration: 7dec20
-    at: [-1236, -1002]
+    at: [-1164, -982]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap4_bones_0
     room: room:study_se
     decoration: dec29
-    at: [2070, -2620]
+    at: [2030, -2620]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap4_bones_1
     room: room:study_se
     decoration: dec29
-    at: [2180, -2388]
+    at: [2180, -2348]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap4_bones_2
     room: room:study_se
     decoration: 7dec20
-    at: [2412, -2410]
+    at: [2340, -2796]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap5_bones_0
     room: room:study_nw
     decoration: dec29
-    at: [-2666, 2244]
+    at: [-2706, 2244]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap5_bones_1
     room: room:study_nw
     decoration: dec29
-    at: [-2556, 2476]
+    at: [-2556, 2516]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:trap5_bones_2
     room: room:study_nw
     decoration: 7dec20
-    at: [-2324, 2454]
+    at: [-2252, 2474]
     notes: "Bones by the broken flags: someone who did not mind them."
   - id: deco:tree_00
     room: room:out_n
@@ -1479,27 +1522,27 @@ decorations:
   - id: deco:tree_03
     room: room:out_n
     decoration: 6tree09
-    at: [-640, 3536]
+    at: [-640, 3632]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_04
     room: room:out_n
     decoration: 7tree16
-    at: [384, 3536]
+    at: [384, 3680]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_05
     room: room:out_n
     decoration: 6tree17
-    at: [1024, 3536]
+    at: [1024, 3680]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_06
     room: room:out_n
     decoration: 7tree01
-    at: [1664, 3536]
+    at: [1664, 3712]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_07
     room: room:out_n
     decoration: 6tree03
-    at: [2432, 3536]
+    at: [2432, 3712]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_08
     room: room:out_w
@@ -1519,27 +1562,27 @@ decorations:
   - id: deco:tree_11
     room: room:out_w
     decoration: 6tree17
-    at: [-3536, -640]
+    at: [-3632, -640]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_12
     room: room:out_w
     decoration: 7tree01
-    at: [-3536, 384]
+    at: [-3680, 384]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_13
     room: room:out_w
     decoration: 6tree03
-    at: [-3536, 1024]
+    at: [-3680, 1024]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_14
     room: room:out_w
     decoration: 6tree07
-    at: [-3536, 1664]
+    at: [-3712, 1664]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_15
     room: room:out_w
     decoration: 6tree09
-    at: [-3536, 2432]
+    at: [-3712, 2432]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_16
     room: room:out_s
@@ -1559,27 +1602,27 @@ decorations:
   - id: deco:tree_19
     room: room:out_s
     decoration: 6tree03
-    at: [640, -3536]
+    at: [640, -3632]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_20
     room: room:out_s
     decoration: 6tree07
-    at: [-384, -3536]
+    at: [-384, -3680]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_21
     room: room:out_s
     decoration: 6tree09
-    at: [-1024, -3536]
+    at: [-1024, -3680]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_22
     room: room:out_s
     decoration: 7tree16
-    at: [-1664, -3536]
+    at: [-1664, -3712]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_23
     room: room:out_s
     decoration: 6tree17
-    at: [-2432, -3536]
+    at: [-2432, -3712]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_24
     room: room:out_e
@@ -1599,27 +1642,27 @@ decorations:
   - id: deco:tree_27
     room: room:out_e
     decoration: 6tree09
-    at: [3536, 640]
+    at: [3632, 640]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_28
     room: room:out_e
     decoration: 7tree16
-    at: [3536, -384]
+    at: [3680, -384]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_29
     room: room:out_e
     decoration: 6tree17
-    at: [3536, -1024]
+    at: [3680, -1024]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_30
     room: room:out_e
     decoration: 7tree01
-    at: [3536, -1664]
+    at: [3712, -1664]
     notes: A tree on the island at the keep's foot.
   - id: deco:tree_31
     room: room:out_e
     decoration: 6tree03
-    at: [3536, -2432]
+    at: [3712, -2432]
     notes: A tree on the island at the keep's foot.
   - id: deco:wall_torch_000
     room: room:cloister_n
@@ -2115,12 +2158,12 @@ decorations:
     room: room:quarters
     decoration: torch02
     wall: 0
-    along: 0.2778
+    along: 0.2361
   - id: deco:wall_torch_098
     room: room:quarters
     decoration: torch02
     wall: 1
-    along: 0.1944
+    along: 0.8056
   - id: deco:wall_torch_099
     room: room:quarters
     decoration: torch02
@@ -2485,17 +2528,17 @@ decorations:
     room: room:great_library
     decoration: scon100
     wall: 2
-    along: 0.1548
+    along: 0.122
   - id: deco:wall_torch_171
     room: room:great_library
     decoration: scon100
     wall: 2
-    along: 0.6071
+    along: 0.5089
   - id: deco:wall_torch_172
     room: room:great_library
     decoration: scon100
     wall: 2
-    along: 0.8452
+    along: 0.6815
   - id: deco:wall_torch_173
     room: room:great_library
     decoration: scon100
@@ -2650,12 +2693,12 @@ decorations:
     room: room:clone_vats
     decoration: torch07
     wall: 0
-    along: 0.5
+    along: 0.1944
   - id: deco:wall_torch_203
     room: room:clone_vats
     decoration: torch07
     wall: 1
-    along: 0.2778
+    along: 0.8056
   - id: deco:wall_torch_204
     room: room:clone_vats
     decoration: torch07
@@ -2745,17 +2788,17 @@ decorations:
     room: room:portrait_hall
     decoration: torch07
     wall: 2
-    along: 0.1726
+    along: 0.1533
   - id: deco:wall_torch_222
     room: room:portrait_hall
     decoration: torch07
     wall: 2
-    along: 0.5536
+    along: 0.2812
   - id: deco:wall_torch_223
     room: room:portrait_hall
     decoration: torch07
     wall: 2
-    along: 0.8274
+    along: 0.7351
   - id: deco:wall_torch_224
     room: room:portrait_hall
     decoration: torch07
@@ -2765,7 +2808,7 @@ decorations:
     room: room:bedchamber
     decoration: torch07
     wall: 0
-    along: 0.5
+    along: 0.3333
   - id: deco:wall_torch_226
     room: room:bedchamber
     decoration: torch07
@@ -2788,34 +2831,43 @@ decorations:
     along: 0.3056
   - id: deco:well_brazier_0
     room: room:well
-    decoration: brzier00
-    at: [-448, -448]
+    decoration: dec04
+    at: [-632, -632]
+    notes: A fire of logs by the rune circle.
   - id: deco:well_brazier_1
     room: room:well
-    decoration: brzier00
-    at: [448, -448]
+    decoration: dec04
+    at: [632, -632]
+    notes: A fire of logs by the rune circle.
   - id: deco:well_brazier_2
     room: room:well
-    decoration: brzier00
-    at: [448, 448]
+    decoration: dec04
+    at: [632, 632]
+    notes: A fire of logs by the rune circle.
   - id: deco:well_brazier_3
     room: room:well
-    decoration: brzier00
-    at: [-448, 448]
+    decoration: dec04
+    at: [-632, 632]
+    notes: A fire of logs by the rune circle.
 exits:
   - id: exit:tower_door
     room: room:gate_hall
     wall: e
     size: [128, 256]
-    surface: {texture: 7trimd, size: [128, 256]}
+    surface: {texture: 7solid01, size: [128, 256]}
     to: exit:lake_island
     notes: "The tower door (two plank leaves of Gloaming's 7trimd), out to the island (X2)."
 relations:
-  - {of: [277, 278, 279, 293, 294], toward: party, relation: hostile}
-  - {of: [211, 212, 213], toward: 277, relation: friendly, both_ways: true}
-  - {of: [211, 212, 213], toward: 278, relation: friendly, both_ways: true}
-  - {of: [211, 212, 213], toward: 279, relation: friendly, both_ways: true}
-  - {of: [211, 212, 213], toward: 292, relation: friendly, both_ways: true}
-  - {of: [211, 212, 213], toward: 293, relation: friendly, both_ways: true}
-  - {of: [211, 212, 213], toward: 294, relation: friendly, both_ways: true}
-notes: "Objects of XD-12 (written by output/studio_cal/xd12/tools/dress.py). Stand-ins: slot 1 MM7 Golem (Brass Golem 35, Gold Golem 50), slot 2 Mage (Wizard 35, Archmage 50), slot 3 Beholder (Floating Eye 30, Gazer 40); Darzog and his six clones Archmages (294, the Mage family's C tier: the clones wear his face); the Chief Librarian an Archmage (294); Crodo an MM7 Sorcerer (292, the Mage family's A tier), peaceful."
+  - {of: [11570, 11571, 11572], toward: 11600, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11601, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11602, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11603, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11190, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11191, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11192, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11193, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11194, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11195, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11196, relation: friendly, both_ways: true}
+  - {of: [11570, 11571, 11572], toward: 11900, relation: friendly, both_ways: true}
+notes: "Objects of XD-12 (written by output/studio_cal/xd12/tools/dress.py). Xeen rows: slot 1 Magic constructs (every marker tier c, Carnage Hand 35, 11602), slot 2 Wizards (tier a, Wizard 36, 11190), slot 3 Eyes (tier a, Floating Eye 40, 11570); Baron Darzog 11194 and his six clones 11195 (boss rows); the Chief Librarian a Sorcerer 11191 with his name; Crodo 11900, peaceful."

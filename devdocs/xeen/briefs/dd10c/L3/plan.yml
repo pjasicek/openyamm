@@ -1,0 +1,209 @@
+format: 0
+level: L3
+pitch: 'The north pocket of the Gemstone Mines, under the Forbidden Zone''s mountains: a timbered adit, a gallery of black
+  rock along a seam of cooling lava, and at its end a high cavern with five diamond veins (and one that explodes); a geode
+  behind a door; round the other way a collapse and a cold nest of dead ash and split egg cases.'
+purpose: 'Q-D7 The Gemsmiths (repeatable): diamond rocks for Hector on D1 (D-27: Act V, the only diamonds). Party 48-51; 40-50;
+  20 monsters (Floating Eye 14, Terrible Eye 4, Patrol 2, D-62); treasure 5. About 10 minutes.'
+mood: 'Heat and black rock: lava light in the gallery, cold white glints in the diamond cavern.'
+datum: arrival
+spaces:
+- id: room:adit
+  name: North adit
+  kind: corridor
+  size: S
+  extent: [384, 896]
+  floor: 0
+  clear_height: 352
+  purpose: 'The timbered adit under the Forbidden Zone''s mountains: the arrival and the exit to D6.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  empty: true
+  safe: true
+- id: room:lava
+  name: Lava gallery
+  kind: room
+  size: M
+  extent: [2688, 768]
+  floor: 0
+  clear_height: [448, 576]
+  purpose: A drift along a seam of cooling lava; heat shimmer. 3 Floating Eyes and a Patrol.
+  theme: 'MM6 Gharik''s Forge (6d18): black vlcwl3a rock, 6voltyl lava in the seam; 7d35''s cfb1 underfoot'
+  population:
+  - actor: Floating Eye (11570)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [40, 40]
+    placed: true
+  - actor: Patrol (11610)
+    groups: 1
+    per_marker: [1, 1]
+    levels: [50, 50]
+    placed: true
+- id: room:diamond
+  name: Diamond cavern
+  kind: room
+  size: L
+  extent: [2112, 2048]
+  floor: 0
+  clear_height: [640, 960]
+  purpose: Five diamond veins in black rock (q-d7.diamond_veins), one rock each; one false vein ('A gem exploded!'). 4 Floating
+    Eyes, 2 Terrible Eyes.
+  theme: 7d35's cwb1 walls, 6d18's black vlcwl3a roof and pillars; A6's diamond vein xdvdiam
+  population:
+  - actor: Floating Eye (11570)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [40, 40]
+    placed: true
+  - actor: Terrible Eye (11571)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [50, 50]
+    placed: true
+- id: room:grotto
+  name: Crystal grotto
+  kind: room
+  size: S
+  extent: [768, 768]
+  floor: 0
+  clear_height: [384, 576]
+  purpose: A geode; a dead miner's chest. A Floating Eye and a Terrible Eye.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; MM8 d37''s crystal gcrysc3'
+  population:
+  - actor: Floating Eye (11570)
+    groups: 1
+    per_marker: [1, 1]
+    levels: [40, 40]
+    placed: true
+  - actor: Terrible Eye (11571)
+    groups: 1
+    per_marker: [1, 1]
+    levels: [50, 50]
+    placed: true
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 5
+    items: [2, 2]
+    notes: The dead miner's chest.
+- id: room:collapse
+  name: The collapse
+  kind: room
+  size: M
+  extent: [1792, 1216]
+  floor: 0
+  clear_height: [416, 704]
+  purpose: Rubble from a fallen roof ('Rubble'). 3 Floating Eyes and a Patrol.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot'
+  population:
+  - actor: Floating Eye (11570)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [40, 40]
+    placed: true
+  - actor: Patrol (11610)
+    groups: 1
+    per_marker: [1, 1]
+    levels: [50, 50]
+    placed: true
+- id: room:nest
+  name: Cold nest
+  kind: room
+  size: M
+  extent: [2176, 1024]
+  floor: 0
+  clear_height: [448, 576]
+  purpose: Cold ash and split egg cases ('Empty egg cases', D-62 Q49). 3 Floating Eyes, a Terrible Eye.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; 6d18''s black vlcwl3a egg cases'
+  population:
+  - actor: Floating Eye (11570)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [40, 40]
+    placed: true
+  - actor: Terrible Eye (11571)
+    groups: 1
+    per_marker: [1, 1]
+    levels: [50, 50]
+    placed: true
+links:
+- id: link:c1
+  from: room:adit
+  to: room:lava
+  kind: door
+  motion: swing
+- id: link:c2
+  from: room:lava
+  to: room:diamond
+  kind: open
+- id: link:c3
+  from: room:diamond
+  to: room:grotto
+  kind: door
+  motion: swing
+- id: link:c4
+  from: room:lava
+  to: room:collapse
+  kind: door
+  motion: swing
+- id: link:c5
+  from: room:collapse
+  to: room:nest
+  kind: open
+- id: link:c6
+  from: room:nest
+  to: room:diamond
+  kind: open
+loops:
+- id: loop:c
+  spaces:
+  - room:lava
+  - room:diamond
+  - room:nest
+  - room:collapse
+  notes: 'North: round the diamond cavern.'
+entrances:
+- id: entrance:d6_adit
+  space: room:adit
+  kind: both
+  neighbour: exit:d6_adit
+  facing: n
+  how: Just inside the adit's mouth, facing in (D6's door:dd10c, D-37).
+critical_path:
+- room:adit
+- room:lava
+- room:diamond
+return_path:
+- room:diamond
+- room:nest
+- room:collapse
+- room:lava
+- room:adit
+goals:
+- id: goal:diamond
+  space: room:diamond
+  kind: take
+  what: Five diamond rocks from the five diamond veins (q-d7.diamond_veins).
+  handed_in_at: D1
+atmosphere: 'Torchlit timber in the adit (ambient 16), the caves dark (12-14): lava light along the seam, white glints at
+  the veins, a cold glow in the geode, cold grey light on the dead ash of the nest. Music 18. Sounds: air at the boarded mouth,
+  the lava, seepage in the cavern, the collapse settling, the geode''s hum.'
+diagram:
+  file: diagram.txt
+totals:
+  chests: 1
+  doors: 3
+  fixed_actors: 20
+  loops: 1
+  monsters_about: 20
+  rooms: 6
+  sectors: 6
+  spawn_points: 0
+  floor_area_millions: 11
+notes: 'Class S (MAPS, Dungeons): at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors. D-27/D-62: Act
+  V; 20 monsters (Floating Eye 14, Terrible Eye 4, Patrol 2); the exit to D6; five veins, one rock each, a map variable each;
+  refill_c on entry; one false vein; 7d35 with A6''s diamond vein and 6d18''s lava.'
+sketch:
+  file: rooms.yml
+  grid: 512

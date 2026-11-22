@@ -1,0 +1,37 @@
+# WORLD: the world systems' qbits (no quest of the source): the twelve town mirrors (each also its town's Town Portal
+# unlock), Asp's mirror (119013, a mirror only) and the inn rosters (Vertigo 119020, Castleview 119021). Numbers from the orchestrator (2026-11-20, for A4's travel state and roster).
+# Writers and readers: a town's mirror event (Xeen.useMirror, xeen_common.lua) sets its mirror bit; Town Portal
+# (towns/town_portal.yml) and Xeen.mirrorDestinations read it; the roster rows (towns/roster.yml) read the inn bit,
+# which M1's opening sets, so Vertigo's inn recruits from the first minute. The audit reads A4's town files for these.
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md (section 3: world systems 119000-119099).
+id: WORLD
+title: World systems
+act: I
+kind: ours
+status: full
+giver: null
+maps: [X1, X2, X3, X4, X5, D1, D3, D4, D6, D7]
+level: 1
+block: 149
+after: []
+source: "WORLD_DESIGN 3.3 (mirrors, Town Portal), 5.3 (the inns)"
+
+qbits:
+  mirror_vertigo: {id: 119001, note: "Vertigo's mirror (X1, house 4017)"}
+  mirror_rivercity: {id: 119002, note: "Rivercity's mirror (X2, house 4064)"}
+  mirror_burlock: {id: 119003, note: "Castle Burlock's mirror (X4, Xeen.useMirror 4157)"}
+  mirror_winterkill: {id: 119004, note: "Winterkill's mirror (X5 event 69, Xeen.useMirror 4256)"}
+  mirror_nightshadow: {id: 119005, note: "Nightshadow's mirror (X3 event 57, Xeen.useMirror 4110)"}
+  mirror_newcastle: {id: 119006, note: "Newcastle's mirror (X3, Xeen.useMirror 4121)"}
+  mirror_castleview: {id: 119007, note: "Castleview's mirror (D1, Xeen.useMirror 4467)"}
+  mirror_kalindra: {id: 119008, pending: "Castle Kalindra's mirror: D1, DD-03 not built (phase 3)"}
+  mirror_sandcaster: {id: 119009, pending: "Sandcaster's mirror: D3 not built (phase 3)"}
+  mirror_lakeside: {id: 119010, pending: "Lakeside's mirror: D4 not built (phase 4)"}
+  mirror_necropolis: {id: 119011, pending: "Necropolis's mirror: D6 not built (phase 5)"}
+  mirror_olympus: {id: 119012, pending: "Olympus's mirror: D7 not built (phase 6)"}
+  mirror_asp: {id: 119013, pending: "Asp's mirror (X4, A4's house): a mirror only, not a Town Portal town; X4 not built (phase 2)"}
+  inn_vertigo: {id: 119020, note: "the Adventurer's Inn roster's first set (towns/roster.yml); set by m1.opening"}
+  inn_castleview: {id: 119021, pending: "Castleview's inn roster unlock (A4's towns/roster.yml, D1 not built, phase 3); its writer (the Darkside arrival) comes with Act III"}
+
+rewards: {xp: 0, gold: 0}
+playthrough: "New game: the opening sets inn_vertigo (Vertigo's inn recruits at once); touching a mirror sets its town's bit."

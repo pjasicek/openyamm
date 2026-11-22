@@ -1,0 +1,1032 @@
+{
+ "x12192": {
+  "title": "King's Megacredit",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12192
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12192/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12192/paint_a.png",
+  "icon": "xeen_item_12192",
+  "builder": "custom",
+  "identity": "King's Megacredit: a thick round gold token, stamped on its face with King Burlock's crown, a little worn at the rim",
+  "materials": "King's Megacredit: a thick round gold token, stamped on its face with King Burlock's crown, a little worn at the rim",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "surface_material": "metal"
+ },
+ "x12301": {
+  "title": "Yak Stone of Opening",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12301
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12301/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12301/paint_a.png",
+  "icon": "xeen_item_12301",
+  "builder": "rock",
+  "identity": "Yak Stone of Opening: a smooth palm-sized grey-green stone carved with a stylised yak's head; the carving lightly inlaid with dull gold",
+  "materials": "Yak Stone of Opening: a smooth palm-sized grey-green stone carved with a stylised yak's head; the carving lightly inlaid with dull gold",
+  "material_classes": [
+   "horn",
+   "metal"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.05,
+   "flat": 0.5
+  }
+ },
+ "x12302": {
+  "title": "Pyramid Sigil",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12302
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12302/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12302/paint_a.png",
+  "icon": "xeen_item_12302",
+  "builder": "outline_slab",
+  "identity": "Pyramid Sigil: a flat gold sigil plate shaped like a step pyramid, an eye engraved in its centre, a small loop at the top",
+  "materials": "Pyramid Sigil: a flat gold sigil plate shaped like a step pyramid, an eye engraved in its centre, a small loop at the top",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "slab_depth": 0.08,
+  "slab_class": "gold",
+  "surface_material": "metal"
+ },
+ "x12304": {
+  "title": "Stone of a Thousand Terrors",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12304
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12304/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12304/paint_a.png",
+  "icon": "xeen_item_12304",
+  "builder": "rock",
+  "identity": "Stone of a Thousand Terrors: a rough dark purple-black stone with a pale carved rune of a screaming face",
+  "materials": "Stone of a Thousand Terrors: a rough dark purple-black stone with a pale carved rune of a screaming face",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.22,
+   "flat": 0.6
+  },
+  "surface_material": "horn"
+ },
+ "x12305": {
+  "title": "Golem Stone of Admittance",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12305
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12305/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12305/paint_a.png",
+  "icon": "xeen_item_12305",
+  "builder": "outline_slab",
+  "identity": "Golem Stone of Admittance: a squared grey granite tablet with a carved rune of a blocky golem figure",
+  "materials": "Golem Stone of Admittance: a squared grey granite tablet with a carved rune of a blocky golem figure",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "slab_depth": 0.15,
+  "slab_class": "stone",
+  "surface_material": "horn"
+ },
+ "x12308": {
+  "title": "Orothin's Bone Whistle",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   12308
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12308/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12308/paint_a.png",
+  "icon": "xeen_item_12308",
+  "builder": "auto_weapon",
+  "identity": "Orothin's Bone Whistle: a carved bone whistle, yellowed, with three finger holes and a leather loop at the top",
+  "materials": "Orothin's Bone Whistle: a carved bone whistle, yellowed, with three finger holes and a leather loop at the top",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 55.8,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12309": {
+  "title": "Phirna Root",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12309
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12309/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12309/paint_a.png",
+  "icon": "xeen_item_12309",
+  "builder": "outline_slab",
+  "identity": "Phirna Root: a pale twisted forked root with fine root hairs and a few earth crumbs",
+  "materials": "Phirna Root: a pale twisted forked root with fine root hairs and a few earth crumbs",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 55.8,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "slab_depth": 0.1,
+  "slab_class": "wood",
+  "slab_bevel": 0.45,
+  "surface_material": "horn"
+ },
+ "x12310": {
+  "title": "Wand of Faery Magic",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   12310
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12310/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12310/paint_a.png",
+  "icon": "xeen_item_12310",
+  "builder": "auto_weapon",
+  "identity": "Wand of Faery Magic: a short faery wand of pale silver-white wood, as thick as a finger, its head an open silver crescent moon holding a violet crystal, a faint sparkle around the crystal",
+  "materials": "Wand of Faery Magic: a short faery wand of pale silver-white wood, as thick as a finger, its head an open silver crescent moon holding a violet crystal, a faint sparkle around the crystal",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 55.8,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12312": {
+  "title": "Scarab of Imaging",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12312
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12312/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12312/paint_a.png",
+  "icon": "xeen_item_12312",
+  "builder": "rock",
+  "identity": "Scarab of Imaging: a jewelled scarab: a lapis-blue beetle body edged in gold, wings closed, seen from above",
+  "materials": "Scarab of Imaging: a jewelled scarab: a lapis-blue beetle body edged in gold, wings closed, seen from above",
+  "material_classes": [
+   "gem",
+   "metal"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.0,
+   "flat": 0.5
+  }
+ },
+ "x12313": {
+  "title": "Crystals of Piezoelectricity",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12313
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12313/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12313/paint_a.png",
+  "icon": "xeen_item_12313",
+  "builder": "custom",
+  "identity": "Crystals of Piezoelectricity: a cluster of three pale blue quartz crystals growing from a small grey rock base",
+  "materials": "Crystals of Piezoelectricity: a cluster of three pale blue quartz crystals growing from a small grey rock base",
+  "material_classes": [
+   "gem",
+   "horn"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12314": {
+  "title": "Ever-Hot Lava Rock",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12314
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12314/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12314/paint_a.png",
+  "icon": "xeen_item_12314",
+  "builder": "rock",
+  "identity": "Ever-Hot Lava Rock: a black volcanic rock with glowing orange-red cracks",
+  "materials": "Ever-Hot Lava Rock: a black volcanic rock with glowing orange-red cracks",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.25,
+   "flat": 0.62
+  },
+  "surface_material": "horn"
+ },
+ "x12315": {
+  "title": "Widget",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12315
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12315/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12315/paint_a.png",
+  "icon": "xeen_item_12315",
+  "builder": "custom",
+  "identity": "Widget: a small brass gadget of gears, a spring and a tiny crank handle",
+  "materials": "Widget: a small brass gadget of gears, a spring and a tiny crank handle",
+  "material_classes": [
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12331": {
+  "title": "Dragon Pharaoh's Orb",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12331
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12331/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12331/paint_a.png",
+  "icon": "xeen_item_12331",
+  "builder": "sphere",
+  "identity": "Dragon Pharaoh's Orb: a polished glowing amber orb with a darker swirl inside",
+  "materials": "Dragon Pharaoh's Orb: a polished glowing amber orb with a darker swirl inside",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "surface_material": "gem"
+ },
+ "x12334": {
+  "title": "Energy Disk",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12334
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12334/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12334/paint_a.png",
+  "icon": "xeen_item_12334",
+  "builder": "disc",
+  "identity": "Energy Disk: a thin round metal disk with a glowing blue-white core and engraved circuit-like lines",
+  "materials": "Energy Disk: a thin round metal disk with a glowing blue-white core and engraved circuit-like lines",
+  "material_classes": [
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12343": {
+  "title": "Monga Melon",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12343
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12343/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12343/paint_a.png",
+  "icon": "xeen_item_12343",
+  "builder": "rock",
+  "identity": "Monga Melon: a striped green melon, round, with a short stem",
+  "materials": "Monga Melon: a striped green melon, round, with a short stem",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.0,
+   "flat": 0.85,
+   "bottom": 0.3
+  },
+  "surface_material": "horn"
+ },
+ "x12345": {
+  "title": "Vespar's Emerald Handle",
+  "family": "staff",
+  "route": "blender",
+  "items": [
+   12345
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12345/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12345/paint_a.png",
+  "icon": "xeen_item_12345",
+  "builder": "auto_weapon",
+  "identity": "Vespar's Emerald Handle: a short staff handle of carved emerald-green stone, banded with gold at both ends",
+  "materials": "Vespar's Emerald Handle: a short staff handle of carved emerald-green stone, banded with gold at both ends",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 55.8,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12346": {
+  "title": "Bridle",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12346
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12346/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12346/paint_a.png",
+  "icon": "xeen_item_12346",
+  "builder": "custom",
+  "identity": "Bridle: a coiled brown leather bridle with brass buckles and a steel bit",
+  "materials": "Bridle: a coiled brown leather bridle with brass buckles and a steel bit",
+  "material_classes": [
+   "leather",
+   "metal"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12347": {
+  "title": "Enchanted Bridle",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12347
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12347/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12347/paint_a.png",
+  "icon": "xeen_item_12347",
+  "builder": "custom",
+  "identity": "Enchanted Bridle: a coiled brown leather bridle with brass buckles and a steel bit, enchanted: pale blue glowing runes along every strap and a soft pale blue light around the bit",
+  "materials": "Enchanted Bridle: a coiled brown leather bridle with brass buckles and a steel bit, enchanted: pale blue glowing runes along every strap and a soft pale blue light around the bit",
+  "material_classes": [
+   "leather",
+   "metal",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12349": {
+  "title": "Golden Pegasus Statuette",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12349
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12349/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12349/paint_a.png",
+  "icon": "xeen_item_12349",
+  "builder": "stand_meshy",
+  "identity": "Golden Pegasus Statuette: a small solid gold statuette of a winged horse rearing on a little square base",
+  "materials": "Golden Pegasus Statuette: a small solid gold statuette of a winged horse rearing on a little square base",
+  "material_classes": [
+   "metal"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40,
+  "surface_material": "metal"
+ },
+ "x12351": {
+  "title": "Golden Griffin Statuette",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12351
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12351/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12351/paint_a.png",
+  "icon": "xeen_item_12351",
+  "builder": "stand_meshy",
+  "identity": "Golden Griffin Statuette: a small solid gold statuette of a sitting griffin on a little square base",
+  "materials": "Golden Griffin Statuette: a small solid gold statuette of a sitting griffin on a little square base",
+  "material_classes": [
+   "metal"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40,
+  "surface_material": "metal"
+ },
+ "x12352": {
+  "title": "Caleb's Magnifying Glass",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12352
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12352/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12352/paint_a.png",
+  "icon": "xeen_item_12352",
+  "builder": "custom",
+  "identity": "Caleb's Magnifying Glass: a brass magnifying glass with a round lens and a turned wooden handle",
+  "materials": "Caleb's Magnifying Glass: a brass magnifying glass with a round lens and a turned wooden handle",
+  "material_classes": [
+   "metal",
+   "gem",
+   "horn"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 55.8,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12353": {
+  "title": "Sandro's Heart",
+  "family": "bottle",
+  "route": "blender",
+  "items": [
+   12353
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12353/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12353/paint_a.png",
+  "icon": "xeen_item_12353",
+  "builder": "vessel_upright",
+  "identity": "Sandro's Heart: a shrivelled dark red heart in a small stoppered glass jar",
+  "materials": "Sandro's Heart: a shrivelled dark red heart in a small stoppered glass jar",
+  "material_classes": [
+   "gem",
+   "horn",
+   "cloth"
+  ],
+  "unseen_material": "gem",
+  "normal": 1.0,
+  "length": 23.4,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12357": {
+  "title": "Ruby Rock",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12357
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12357/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12357/paint_a.png",
+  "icon": "xeen_item_12357",
+  "builder": "rock",
+  "identity": "Ruby Rock: a rough grey rock veined with red ruby crystals",
+  "materials": "Ruby Rock: a rough grey rock veined with red ruby crystals",
+  "material_classes": [
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.22,
+   "flat": 0.72
+  }
+ },
+ "x12358": {
+  "title": "Emerald Rock",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12358
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12358/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12358/paint_a.png",
+  "icon": "xeen_item_12358",
+  "builder": "rock",
+  "identity": "Emerald Rock: a rough grey rock veined with green emerald crystals",
+  "materials": "Emerald Rock: a rough grey rock veined with green emerald crystals",
+  "material_classes": [
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.22,
+   "flat": 0.72
+  }
+ },
+ "x12359": {
+  "title": "Sapphire Rock",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12359
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12359/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12359/paint_a.png",
+  "icon": "xeen_item_12359",
+  "builder": "rock",
+  "identity": "Sapphire Rock: a rough grey rock veined with blue sapphire crystals",
+  "materials": "Sapphire Rock: a rough grey rock veined with blue sapphire crystals",
+  "material_classes": [
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.22,
+   "flat": 0.72
+  }
+ },
+ "x12360": {
+  "title": "Diamond Rock",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12360
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12360/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12360/paint_a.png",
+  "icon": "xeen_item_12360",
+  "builder": "rock",
+  "identity": "Diamond Rock: a rough grey rock studded with glittering clear white diamond crystals",
+  "materials": "Diamond Rock: a rough grey rock studded with glittering clear white diamond crystals",
+  "material_classes": [
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.25,
+   "flat": 0.72
+  }
+ },
+ "x12362": {
+  "title": "Tribble",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12362
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12362/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12362/paint_a.png",
+  "icon": "xeen_item_12362",
+  "builder": "rock",
+  "identity": "Tribble: a small round ball of soft tan and white fur, no face visible",
+  "materials": "Tribble: a small round ball of soft tan and white fur, no face visible",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "rock": {
+   "roughness": 0.03,
+   "flat": 0.75,
+   "bottom": 0.28
+  },
+  "surface_material": "cloth"
+ },
+ "x12363": {
+  "title": "Soul Box",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12363
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12363/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12363/paint_a.png",
+  "icon": "xeen_item_12363",
+  "builder": "custom",
+  "identity": "Soul Box: a small dark iron box with a domed lid and tarnished silver corner fittings, a keyhole in front",
+  "materials": "Soul Box: a small dark iron box with a domed lid and tarnished silver corner fittings, a keyhole in front",
+  "material_classes": [
+   "metal",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12364": {
+  "title": "Soul Box (Corak)",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12364
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12364/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12364/paint_a.png",
+  "icon": "xeen_item_12364",
+  "builder": "custom",
+  "identity": "Soul Box (Corak): a small dark iron box with a domed lid and tarnished silver corner fittings, a pale blue-white light shining from the seam under the lid",
+  "materials": "Soul Box (Corak): a small dark iron box with a domed lid and tarnished silver corner fittings, a pale blue-white light shining from the seam under the lid",
+  "material_classes": [
+   "metal",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12365": {
+  "title": "Cube of Power",
+  "family": "misc",
+  "route": "blender",
+  "items": [
+   12365
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12365/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12365/paint_a.png",
+  "icon": "xeen_item_12365",
+  "builder": "custom",
+  "identity": "Cube of Power: a cube of clear humming crystal with a faint violet light inside, edges bound in silver",
+  "materials": "Cube of Power: a cube of clear humming crystal with a faint violet light inside, edges bound in silver",
+  "material_classes": [
+   "gem",
+   "metal"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 39.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12366": {
+  "title": "Xeen's Scepter",
+  "family": "mace",
+  "route": "blender",
+  "items": [
+   12366
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12366/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12366/paint_a.png",
+  "icon": "xeen_item_12366",
+  "builder": "custom",
+  "identity": "Xeen's Scepter: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes",
+  "materials": "Xeen's Scepter: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes",
+  "material_classes": [
+   "metal",
+   "leather",
+   "cloth",
+   "horn",
+   "gem"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 48.6,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12367": {
+  "title": "Might Doll",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12367
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12367/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12367/paint_a.png",
+  "icon": "xeen_item_12367",
+  "builder": "stand_meshy",
+  "identity": "Might Doll: a small stuffed cloth carnival-prize toy: a round-faced strongman doll in a red and white striped strongman suit, holding a tiny painted wooden barbell",
+  "materials": "Might Doll: a small stuffed cloth carnival-prize toy: a round-faced strongman doll in a red and white striped strongman suit, holding a tiny painted wooden barbell",
+  "material_classes": [
+   "cloth",
+   "leather",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "cloth",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40
+ },
+ "x12368": {
+  "title": "Speed Doll",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12368
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12368/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12368/paint_a.png",
+  "icon": "xeen_item_12368",
+  "builder": "stand_meshy",
+  "identity": "Speed Doll: a small stuffed cloth carnival-prize toy: a round-faced runner doll in a green tunic with little white felt wings on its boots",
+  "materials": "Speed Doll: a stuffed cloth carnival-prize toy: shaggy ginger-orange yarn hair (the whole lumpy cap on the head, painted as thick yarn strands), a cream felt face, a green felt tunic with a thin brown belt, cream felt arms and legs, brown felt boots with little white felt wings",
+  "material_classes": [
+   "cloth",
+   "leather",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "cloth",
+  "normal": 1.0,
+  "length": 31.5,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40,
+  "hair_cap": {
+   "max_faces": 40,
+   "above": 0.62,
+   "brow": 0.83,
+   "reach": 5.0,
+   "thickness": 2.2,
+   "frequency": 0.4
+  }
+ },
+ "x12369": {
+  "title": "Endurance Doll",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12369
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12369/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12369/paint_a.png",
+  "icon": "xeen_item_12369",
+  "builder": "stand_meshy",
+  "identity": "Endurance Doll: a small stuffed cloth carnival-prize toy: a round-faced knight doll in a grey felt helmet and a padded grey felt breastplate",
+  "materials": "Endurance Doll: a small stuffed cloth carnival-prize toy: a round-faced knight doll in a grey felt helmet and a padded grey felt breastplate",
+  "material_classes": [
+   "cloth",
+   "leather",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "cloth",
+  "normal": 1.0,
+  "length": 30.6,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40
+ },
+ "x12370": {
+  "title": "Accuracy Doll",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12370
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12370/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12370/paint_a.png",
+  "icon": "xeen_item_12370",
+  "builder": "stand_meshy",
+  "identity": "Accuracy Doll: a small stuffed cloth carnival-prize toy: a round-faced archer doll in a brown hood and green tunic holding a tiny wooden bow",
+  "materials": "Accuracy Doll: a small stuffed cloth carnival-prize toy: a round-faced archer doll in a brown hood and green tunic holding a tiny wooden bow",
+  "material_classes": [
+   "cloth",
+   "leather",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "cloth",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40
+ },
+ "x12371": {
+  "title": "Lord Xeen Doll",
+  "family": "misc",
+  "route": "meshy",
+  "items": [
+   12371
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12371/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12371/paint_a.png",
+  "icon": "xeen_item_12371",
+  "builder": "stand_meshy",
+  "identity": "Lord Xeen Doll: a small stuffed cloth carnival-prize toy of a grim lord: black felt spiked armour, a dark red felt cape, a stern stitched face",
+  "materials": "Lord Xeen Doll: a small stuffed cloth carnival-prize toy of a grim lord: black felt spiked armour, a dark red felt cape, a stern stitched face",
+  "material_classes": [
+   "cloth",
+   "leather",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "cloth",
+  "normal": 1.0,
+  "length": 34.2,
+  "geometry": "meshy_st",
+  "tris": 3000,
+  "smooth_angle": 40
+ },
+ "x12373": {
+  "title": "Chime of Opening",
+  "family": "bottle",
+  "route": "blender",
+  "items": [
+   12373
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12373/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12373/paint_a.png",
+  "icon": "xeen_item_12373",
+  "builder": "vessel_upright",
+  "identity": "Chime of Opening: a small silver hand chime: a bell-shaped chime on a short silver handle",
+  "materials": "Chime of Opening: a small silver hand chime: a bell-shaped chime on a short silver handle",
+  "material_classes": [
+   "gem",
+   "metal",
+   "horn",
+   "cloth"
+  ],
+  "unseen_material": "gem",
+  "normal": 1.0,
+  "length": 28.8,
+  "geometry": "procedural",
+  "smooth_angle": 35,
+  "surface_material": "metal"
+ },
+ "x12523": {
+  "title": "Barok's Pendant",
+  "family": "amulet",
+  "route": "blender",
+  "items": [
+   12523
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12523/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12523/paint_a.png",
+  "icon": "xeen_item_12523",
+  "builder": "amulet_generic",
+  "identity": "Barok's Pendant: a silver pendant holding an oval violet stone, on a short chain loop",
+  "materials": "Barok's Pendant: a silver pendant holding an oval violet stone, on a short chain loop",
+  "material_classes": [
+   "metal",
+   "gem",
+   "cloth"
+  ],
+  "unseen_material": "metal",
+  "normal": 1.0,
+  "length": 43.2,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ },
+ "x12400": {
+  "title": "Eerie's Guide to Cloudside",
+  "family": "book",
+  "route": "blender",
+  "items": [
+   12400
+  ],
+  "icon_path": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12400/icon_a_x2.png",
+  "painting": "/home/pjasicek/github/OpenYAMM/level_generation/ui/xeen_item_icons/items/xeen_item_12400/paint_a.png",
+  "icon": "xeen_item_12400",
+  "builder": "book_generic",
+  "identity": "Eerie's Guide to Cloudside: a small closed travel guidebook bound in green cloth, a gold-tooled map of a flat world with a cliff edge on its cover",
+  "materials": "Eerie's Guide to Cloudside: a small closed travel guidebook bound in green cloth, a gold-tooled map of a flat world with a cliff edge on its cover",
+  "material_classes": [
+   "leather",
+   "cloth",
+   "metal",
+   "horn"
+  ],
+  "unseen_material": "horn",
+  "normal": 1.0,
+  "length": 52.2,
+  "geometry": "procedural",
+  "smooth_angle": 35
+ }
+}

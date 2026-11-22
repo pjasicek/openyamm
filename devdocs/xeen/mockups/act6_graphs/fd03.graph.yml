@@ -1,0 +1,250 @@
+# MU-6 dungeon graph, a review file for phase 6 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Darkstone Tower (dark mazes 113-116, four 16 x 16 levels; text dark/aazex113-116): on every level a
+# central gong ((7,9) and (7,7) on L1, (7,9) on L2, two on L3) whose ringing summons onyx golems, and at the stair
+# (7,12) or (7,4) the voice 'No Sound No Ground!': the way up is there only after the gong; four plaques at
+# (4,6), (4,10), (10,10), (10,6) whose letter rows, read down the columns, spell New World Computing's messages
+# (L1 "NEW WORLD THANKS YOU FOR PLAYING MIGHT AND MAGIC", L2 "SO END THE SAGA OF CORAK AND SHELTEM!", L3 "1994 BEGINS
+# THE NEXT MIGHT AND MAGIC SAGA!", L4's four speaking heads "TYPE "COMPUTER" ON LEVEL 4 OF THE DUNGEON OF DEATH. SEE YA
+# SOON!"); on L4 the skull's riddle (120, dropped by A3) guarding the Gold ID Card behind 'A force repels you.', and
+# at (7,4) the invisible seal before the way to the Clouds of the Ancients (map 129). Monsters (XEEN_SYSTEMS): onyx
+# golems only, L1 x6, L3 x10, L4 x6 + 1. Ours is one BLV of four storeys 768 apart in a round tower of radius 2,048
+# (the interior is larger than X5's shell of radius 544, as XD-14's and DD-07's, D-39 Q6/Q7), a roof stair to P5.
+format: mu6-0
+map: FD-03
+key: fd03
+name: Darkstone Tower
+stands_on: X5 Winterkill Tundra (the black tower on Darkstone's rock in the frozen mere)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+size: "26 review rooms, about 30 sectors (the four rotundas two each); four storeys of radius 2,048 (4,096 across) at z 0, 768, 1,536, 2,304 and the roof stair's head at 3,072: about 9.5 M units² of rooms per storey, about 38 M units² in all; 11 doors (the inner gate as a pair, the forge, library, cistern and vault doors, the skull hall's pair, the seal's leaf, and the four movers of the ground)"
+party: [60, 63]
+monsters:
+  levels: [62, 85]
+  boss: "Onyx Golem 85"
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Material golems (11580; `where` names Darkstone Tower): the source's onyx golems as two new ordinary onyx tiers (DECIDE 1): Onyx Sentry 62 and Onyx Warden 72 (recolours of xgol_e on xeen_m254), and the existing boss row Onyx Golem 85 (11584) once, the source's L4 '+1', master of the tower before the seal"
+    - "Elemental golems (11590): Sky Golem 75 (11594) on the upper storeys, where the cloud light comes down"
+    - "Not placed: Iron Golem 40, Diamond Golem 50, Lava Golem 55 (under the band 60-85)"
+  mix:
+    - {row: "Onyx Sentry (new tier, A2: e.g. 11585)", id: 11585, level: 62, count: 20}
+    - {row: "Onyx Warden (new tier, A2: e.g. 11586)", id: 11586, level: 72, count: 16}
+    - {row: Sky Golem, id: 11594, level: 75, count: 8}
+    - {row: Onyx Golem (boss), id: 11584, level: 85, count: 1}
+  kill_xp: "60.70k per member (242,819 / 4)"
+  kill_xp_target: "58.9k (MAPS §0, 45 at 60-85): +3.1 %"
+  by_floor: "L1 10 (Sentry 10); L2 10 (Sentry 6, Warden 4); L3 12 (Sentry 4, Warden 6, Sky 2); L4 13 (Warden 6, Sky 6, Onyx Golem 1); 8 of the 45 wait hidden by the gongs (two per gong, the source's summons, DECIDE 3)"
+treasure: {level: 6}
+role: "M41 Darkstone Tower: the gongs (m41.gong_voice) raise the ground to each next storey; on the top storey the Onyx Golem guards the foot of the roof stair, where the invisible seal (m41.seal) takes the Chime of Opening (seal_broken 111820, 27,000) and opens the stair to the Clouds of the Ancients (P5, M42)"
+role_short: "M41, the gongs, the seal"
+set_piece: "Two. The gong well: on each storey a round rotunda round an open well that runs from the ground storey to the top, a bronze gong on its wall; rung, the voice booms and with a grinding the missing landing of the next flight rises out of the dark, and from L1 the raised landings are seen stacked up the well. The seal: on the top storey the roof stair's foot under a shaft of cloud light, the air in its doorway rippling like heat; the Chime's note cracks it across like ice"
+sounds: "the dungeon hum bed (D-48, pan false); the gong (shipped gong, as XD-03/DD-06's xngong panels); the ground's grinding rise (shipped stone door); wind and cloud light at the roof stair (shipped wind); the seal's crack (shipped glass, AU optional); music 43 (maps.yml)"
+textures:
+  family: "Towers: MM8 Castle of Fire d29 (A6's towers.yml and dungeon_families: 'FD-03 Darkstone Tower (X5): mm8/d29.blv'): gston1wl and gtrlwal1 walls (gtrlwal1 is the tower's outside too), gkp2ceil and gcav1flr floors, gston1fl and gcst2cel ceilings, gcstdoor leaves, gkp4-bs trim; d29's lava left out (no lava in the tower); X5's hkm3b skull frieze once round the door hall (the outside's band brought in); XD-03's xngong for the three gong panels (a reused world texture)"
+  cap: 45
+  planned: 18
+  new: 3
+  new_list: "xdplaque (a bronze letter plaque, one picture for the twelve plaques, the letters in the click's text), xdhead (a carved speaking head, one picture for L4's four), xdseal (the seal's ripple on a translucent leaf); proposed names, A6 decides"
+  distinct_from: "DD-24 Giants' Hall (d14: shares the ceilings gston1fl and gcst2cel; FD-03 reads apart by the black ashlar walls), XD-23 Troll Warren (X5, d13: shares gtrlwal1; FD-03 has no cave rock), DD-06 Southern Tower (gongs open stair doors: FD-03's gongs raise the ground instead)"
+floors:
+  - {floor: 4, name: "The roof stair's head", height: 3072}
+  - {floor: 3, name: "L4: the seal", height: 2304}
+  - {floor: 2, name: "L3: the twin gongs", height: 1536}
+  - {floor: 1, name: "L2", height: 768}
+  - {floor: 0, name: "L1: the door storey (X5's rock top 1,500)", height: 0}
+spaces:
+  # floor 0, L1 (z 0 = X5's rock top 1,500)
+  - {id: room:door_hall, name: Door hall, kind: room, size: M, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The arrival (entrance:x5_door): inside the tower door (north wall), black polished ashlar, X5's skull frieze round the walls once, the inner gate (two leaves) south into the ring. Quiet (D-11.3)."}
+  - {id: room:l1_west, name: West arc (L1), kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 3}],
+     purpose: "The ring gallery's west half round the rotunda, 384 wide; two plaques on its outer wall (aazex113:3-4)."}
+  - {id: room:l1_east, name: East arc (L1), kind: corridor, size: M, floor: 0, at: [2, 1], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 3}],
+     purpose: "The east half, two plaques (aazex113:5-6); the forge door off it."}
+  - {id: room:l1_gong, name: Gong rotunda (L1), kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, monsters: 2,
+     population: [{row: Onyx Sentry, level: 62, count: 2, hidden: "shown by the gong"}],
+     purpose: "Set piece: the rotunda (radius 896) round the well (radius 384, a parapet 192 high, open to the top storey's roof); the gong panel on the rotunda's south wall (hover 'Gong', aazex113:1). Rung: m41.gong_voice, the two hidden Sentries in the wall niches beside it shown (the source's summons), the ground of the south stair rises (map qbit 118120)."}
+  - {id: room:l1_forge, name: Onyx forge, kind: room, size: M, floor: 0, at: [3, 1], chest: 6, monsters: 2,
+     population: [{row: Onyx Sentry, level: 62, count: 2}],
+     purpose: "A dead end off the east arc: a cold forge where the golems were cut, black blocks by the walls, a T6 chest."}
+  - {id: room:l1_stair, name: South stair (L1-L2), kind: stair, size: M, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "A flight of 24 steps of 32 round the outer wall, ending 640 short of L2 at a dark slot: the ground (a 512 x 512 slab, a door mover) lies sunk below until the gong. Before it the top step's plate gives the voice's line (aazex113:2, map text) once per visit."}
+  # floor 1, L2 (z 768)
+  - {id: room:l2_landing, name: Landing (L2), kind: stair, size: S, floor: 1, at: [4, 1], monsters: 0,
+     purpose: "The risen ground and the stair head; ways round both arcs."}
+  - {id: room:l2_south, name: South arc (L2), kind: corridor, size: M, floor: 1, at: [3, 1], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 2}, {row: Onyx Warden, level: 72, count: 1}],
+     purpose: "Ring gallery, two plaques (aazex114:3-4)."}
+  - {id: room:l2_north, name: North arc (L2), kind: corridor, size: M, floor: 1, at: [3, 0], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 2}, {row: Onyx Warden, level: 72, count: 1}],
+     purpose: "Ring gallery, two plaques (aazex114:5-6); the library door off it."}
+  - {id: room:l2_library, name: Mason's library, kind: room, size: M, floor: 1, at: [2, 0], chest: 6, monsters: 2,
+     population: [{row: Onyx Sentry, level: 62, count: 2}],
+     purpose: "A dead end: the builders' plans on tables by the walls, shelves; a T6 chest."}
+  - {id: room:l2_gong, name: Gong rotunda (L2), kind: hall, size: L, floor: 1, at: [2, 1], monsters: 2,
+     population: [{row: Onyx Warden, level: 72, count: 2, hidden: "shown by the gong"}],
+     purpose: "The well's second ring; the gong on the north wall: the voice, two hidden Wardens shown, the north stair's ground rises (118121)."}
+  - {id: room:l2_stair, name: North stair (L2-L3), kind: stair, size: M, floor: 1, at: [1, 1], monsters: 0,
+     purpose: "The same flight on the north side, its ground sunk until the gong."}
+  # floor 2, L3 (z 1,536)
+  - {id: room:l3_landing, name: Landing (L3), kind: stair, size: S, floor: 2, at: [1, 1], monsters: 0,
+     purpose: "The risen ground."}
+  - {id: room:l3_west, name: West arc (L3), kind: corridor, size: M, floor: 2, at: [2, 1], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 2}, {row: Onyx Warden, level: 72, count: 1}],
+     purpose: "Ring gallery, two plaques (aazex115:3-4)."}
+  - {id: room:l3_east, name: East arc (L3), kind: corridor, size: M, floor: 2, at: [2, 0], monsters: 3,
+     population: [{row: Onyx Sentry, level: 62, count: 2}, {row: Onyx Warden, level: 72, count: 1}],
+     purpose: "Ring gallery, two plaques (aazex115:5-6); the cistern door off it."}
+  - {id: room:l3_cistern, name: Rain cistern, kind: room, size: M, floor: 2, at: [3, 0], chest: 6, monsters: 2,
+     population: [{row: Sky Golem, level: 75, count: 2}],
+     purpose: "A dead end: a round cistern sunk 128 (an edge to step out of), fed from the roof by a shaft of grey light; the Sky Golems; a T6 chest on its rim."}
+  - {id: room:l3_gong, name: Twin gongs (L3), kind: hall, size: L, floor: 2, at: [3, 1], monsters: 4,
+     population: [{row: Onyx Warden, level: 72, count: 4, hidden: "two shown by each gong"}],
+     purpose: "The source's two gongs, on the rotunda's east and west walls: each rung shows its two Wardens and lifts the south ground halfway (320); both rung, the ground is up (118122, 118123)."}
+  - {id: room:l3_stair, name: South stair (L3-L4), kind: stair, size: M, floor: 2, at: [4, 1], monsters: 0,
+     purpose: "The last flight, its ground in two halves."}
+  # floor 3, L4 (z 2,304)
+  - {id: room:l4_landing, name: Landing (L4), kind: stair, size: S, floor: 3, at: [4, 1], monsters: 0,
+     purpose: "The risen ground under the top storey's vault."}
+  - {id: room:l4_south, name: South arc (L4), kind: corridor, size: M, floor: 3, at: [3, 1], monsters: 4,
+     population: [{row: Onyx Warden, level: 72, count: 2}, {row: Sky Golem, level: 75, count: 2}],
+     purpose: "Ring gallery, two speaking heads on the wall (xdhead; 'Head 13 speaks: ...', aazex116:3-4)."}
+  - {id: room:l4_north, name: North arc (L4), kind: corridor, size: M, floor: 3, at: [3, 0], monsters: 4,
+     population: [{row: Onyx Warden, level: 72, count: 2}, {row: Sky Golem, level: 75, count: 2}],
+     purpose: "Ring gallery, the other two heads (aazex116:5-6)."}
+  - {id: room:skull_hall, name: Hall of the skull, kind: hall, size: L, floor: 3, at: [2, 1], boss: true, boss_label: "Onyx 85", monsters: 3,
+     population: [{row: Onyx Golem, level: 85, count: 1}, {row: Onyx Warden, level: 72, count: 2}],
+     purpose: "The top rotunda round the well's head, entered through a pair of leaves: the skull in its niche ('The skull is silent.', aazex116:15; A3 dropped the riddle). The Onyx Golem (11584) stands between the well and the seal's door; his death drops the vault's force."}
+  - {id: room:vault, name: The skull's vault, kind: room, size: S, floor: 3, at: [2, 0], chest: 6, monsters: 0,
+     purpose: "Behind 'A force repels you.' (aazex116:0, a translucent field leaf): the source's prize (the Gold ID Card) as a T6 chest; the field drops with the Onyx Golem (DECIDE 5)."}
+  - {id: room:seal, name: Foot of the roof stair, kind: room, size: M, floor: 3, at: [1, 1], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Sky Golem, level: 75, count: 2}],
+     purpose: "Set piece: a tall room under a shaft of cloud light, the roof stair's mouth in its west wall closed by the seal: a translucent leaf (xdseal, opacity about 0.15) rippling like heat. Clicked or walked into: m41.seal (with the Chime: taken, seal_broken 111820, 27,000, the leaf opens in the same visit and on every load; without: 'An invisible seal prevents passage.'; after: 'The stair to the roof is open. Cloud light comes down it.')."}
+  - {id: room:roof_stair, name: The roof stair, kind: stair, size: S, floor: 3, at: [0, 1], monsters: 0,
+     purpose: "A straight stair 256 wide in the wall's thickness, 24 steps of 32 up to the roof's hatch; quiet (it is the first room from P5)."}
+  # floor 4 (z 3,072)
+  - {id: room:roof_head, name: Roof stair's head, kind: stair, size: S, floor: 4, at: [0, 0], monsters: 0,
+     purpose: "The top landing under the open hatch (`sky: true`, P5's cloud sky, DECIDE 7): entrance:p5_stair on the top step facing down the stair (D-56); the hatch's ladder of light is the exit preset up to P5's entrance:fd03_roof."}
+links:
+  - {id: link:door_west, from: room:door_hall, to: room:l1_west, kind: door, label: "Inner gate (two leaves)"}
+  - {id: link:door_east, from: room:door_hall, to: room:l1_east, kind: open}
+  - {id: link:l1w_gong, from: room:l1_west, to: room:l1_gong, kind: open}
+  - {id: link:l1e_gong, from: room:l1_east, to: room:l1_gong, kind: open}
+  - {id: link:l1e_forge, from: room:l1_east, to: room:l1_forge, kind: door}
+  - {id: link:l1_gong_stair, from: room:l1_gong, to: room:l1_stair, kind: open}
+  - {id: link:l1_up, from: room:l1_stair, to: room:l2_landing, kind: stair, label: "The ground", opened_by: state:gong1}
+  - {id: link:l2_land_s, from: room:l2_landing, to: room:l2_south, kind: open}
+  - {id: link:l2_land_n, from: room:l2_landing, to: room:l2_north, kind: open}
+  - {id: link:l2s_gong, from: room:l2_south, to: room:l2_gong, kind: open}
+  - {id: link:l2n_gong, from: room:l2_north, to: room:l2_gong, kind: open}
+  - {id: link:l2n_lib, from: room:l2_north, to: room:l2_library, kind: door}
+  - {id: link:l2_gong_stair, from: room:l2_gong, to: room:l2_stair, kind: open}
+  - {id: link:l2_up, from: room:l2_stair, to: room:l3_landing, kind: stair, label: "The ground", opened_by: state:gong2}
+  - {id: link:l3_land_w, from: room:l3_landing, to: room:l3_west, kind: open}
+  - {id: link:l3_land_e, from: room:l3_landing, to: room:l3_east, kind: open}
+  - {id: link:l3w_gong, from: room:l3_west, to: room:l3_gong, kind: open}
+  - {id: link:l3e_gong, from: room:l3_east, to: room:l3_gong, kind: open}
+  - {id: link:l3e_cistern, from: room:l3_east, to: room:l3_cistern, kind: door}
+  - {id: link:l3_gong_stair, from: room:l3_gong, to: room:l3_stair, kind: open}
+  - {id: link:l3_up, from: room:l3_stair, to: room:l4_landing, kind: stair, label: "The ground (two halves)", opened_by: state:gong3}
+  - {id: link:l4_land_s, from: room:l4_landing, to: room:l4_south, kind: open}
+  - {id: link:l4_land_n, from: room:l4_landing, to: room:l4_north, kind: open}
+  - {id: link:l4s_skull, from: room:l4_south, to: room:skull_hall, kind: door, label: "Two leaves"}
+  - {id: link:l4n_skull, from: room:l4_north, to: room:skull_hall, kind: open}
+  - {id: link:skull_vault, from: room:skull_hall, to: room:vault, kind: door, label: "The force", opened_by: state:onyx}
+  - {id: link:skull_seal, from: room:skull_hall, to: room:seal, kind: open}
+  - {id: link:seal_stair, from: room:seal, to: room:roof_stair, kind: door, label: "The seal", opened_by: state:seal}
+  - {id: link:roof_up, from: room:roof_stair, to: room:roof_head, kind: stair}
+states:
+  - {id: state:gong1, kind: lever, where: room:l1_gong,
+     what: "The L1 gong (click): m41.gong_voice ('A voice booms: \"No Sound No Ground!\"'), the two hidden Sentries shown, the south ground rises 640 into the flight (map qbit 118120). With 118120 set the ground is up on every load (D-56: the floors stay raised; a qbit, not a map variable, so it outlives a rebuild of the map). A second ring: the voice only.",
+     opens: [link:l1_up]}
+  - {id: state:gong2, kind: lever, where: room:l2_gong,
+     what: "The L2 gong: the same (118121), the north ground.", opens: [link:l2_up]}
+  - {id: state:gong3, kind: lever, where: room:l3_gong,
+     what: "The twin gongs: each lifts the south ground 320 (118122 west, 118123 east); both rung, it is up. On load each half by its own bit.", opens: [link:l3_up]}
+  - {id: state:onyx, kind: kill, where: room:skull_hall,
+     what: "The Onyx Golem's death (the map's death event for his actor): the vault's field leaf opens (map qbit 118124, open on every load).", opens: [link:skull_vault]}
+  - {id: state:seal, kind: item, where: room:seal,
+     what: "m41.seal: needs the Chime of Opening 12373 (Picard's, m40); takes it, sets seal_broken 111820, 27,000; the leaf opens in the same visit and on every load with the bit (A3's text and else text).",
+     opens: [link:seal_stair]}
+  - {id: state:plaques, kind: map_var, where: room:l1_west,
+     what: "Each storey's four plaques (L4: the heads): every click gives its row (the source's text); the fourth read on a storey (map variables, one per plaque) adds one line reading the columns down (DECIDE 4).", opens: [], draw: false}
+exits:
+  - {id: exit:x5_door, space: room:door_hall, at: [0, 0], kind: both, label: "X5: Darkstone Tower's door",
+     arrival: "entrance:x5_door: in the door hall about 256 inside the door, facing south (1536) into the tower",
+     neighbour: "X5 thing:darkstone (A6, built): the door on the base's north face, front about (-4608, 2060, 1500) facing north, the tower centred at (-4608, 1536) on the rock top (1,500); m41.tower_door (m39.darkstone_key). Out by the exit preset ('Exit Darkstone Tower?', aazex113:0, D-24) to X5's proposed entrance:fd03_door (-4608, 2304, 1500) facing north (512), the spot of D-56's entrance:p5_fall turned away from the door. X5 has no neighbour line for FD-03 yet (A6)"}
+  - {id: exit:p5_roof, space: room:roof_head, at: [1, 0], kind: both, label: "P5: the stair house on the cloud",
+     arrival: "entrance:p5_stair: on the roof stair's top step, facing down the stair (D-56); P5's stair house door ('Descend into Darkstone Tower?', aazex129:14) arrives here",
+     neighbour: "P5 door:fd03 (A5): the hatch's exit preset leads to P5's entrance:fd03_roof (4608, -3968, 0) facing north (512), out of the stair house's door; usable once seal_broken (the seal is below it). The window's meaning needs a line from A3 (the source moves the party without one)"}
+hooks:
+  - {hook: m41.gong_voice, space: "room:l1_gong, room:l2_gong, room:l3_gong (twice)", how: "each gong's click, then the map's ground mover"}
+  - {hook: m41.seal, space: room:seal, how: "the seal leaf's click (and a step plate at its face)"}
+  - {hook: m41.tower_door, space: "X5 (A6)", how: "X5's door; listed for the pair, not placed here"}
+critical_path: [room:door_hall, room:l1_west, room:l1_gong, room:l1_stair, room:l2_landing, room:l2_south, room:l2_gong, room:l2_stair, room:l3_landing, room:l3_west, room:l3_gong, room:l3_stair, room:l4_landing, room:l4_south, room:skull_hall, room:seal, room:roof_stair, room:roof_head]
+return_path: [room:roof_head, room:roof_stair, room:seal, room:skull_hall, room:l4_north, room:l4_landing, room:l3_stair, room:l3_gong, room:l3_east, room:l3_landing, room:l2_stair, room:l2_gong, room:l2_north, room:l2_landing, room:l1_stair, room:l1_gong, room:l1_east, room:door_hall]
+loops:
+  - {id: loop:l1_ring, spaces: [room:door_hall, room:l1_west, room:l1_gong, room:l1_east], notes: "Round the L1 rotunda by either arc."}
+  - {id: loop:l2_ring, spaces: [room:l2_landing, room:l2_south, room:l2_gong, room:l2_north], notes: "Round L2."}
+  - {id: loop:l3_ring, spaces: [room:l3_landing, room:l3_west, room:l3_gong, room:l3_east], notes: "Round L3 (both gongs are in the rotunda)."}
+  - {id: loop:l4_ring, spaces: [room:l4_landing, room:l4_south, room:skull_hall, room:l4_north], notes: "Round L4: into the skull hall by its leaves or the open north side."}
+lines:
+  - {text: "Exit Darkstone Tower?", ref: "dark/aazex113:0", where: "exit:x5_door (the exit preset's meaning, D-24)"}
+  - {text: "Gong", ref: "dark/aazex113-116:1", where: "the gongs (hover)"}
+  - {text: "A voice booms: \"No Sound No Ground!\"", ref: "dark/aazex113-116:2", where: "the gongs (A3's m41.gong_voice) and each stair's top step before its gong (map text)"}
+  - {text: "A plaque reads: NWDA---Y-HNA (and fifteen more rows)", ref: "dark/aazex113:3-6, aazex114:3-6, aazex115:3-6, aazex116:3-6 ('Head 13 speaks: ...')", where: "the arcs' plaques and L4's heads"}
+  - {text: "A force repels you.", ref: "dark/aazex116:0", where: "room:vault (the field before the Onyx Golem dies)"}
+  - {text: "An invisble seal prevents passage. / The seal has been broken.", ref: "dark/aazex116:7-8 (A3's fail text spells 'invisible')", where: "room:seal"}
+  - {text: "The skull is silent.", ref: "dark/aazex116:15", where: "room:skull_hall (the skull; the riddle aazex116:9-14 dropped by A3, ledger)"}
+  - {text: "Descend into Darkstone Tower?", ref: "dark/aazex129:14", where: "P5's stair house (A5); arrives at entrance:p5_stair"}
+open_questions:
+  - q: "Rows: the source's onyx golems at 60-85 (Onyx Golem 11584 is a boss row at 85; Iron 40, Diamond 50 and Lava 55 are under the band)."
+    options: ["(a) two new ordinary onyx tiers, Onyx Sentry 62 and Onyx Warden 72 (e.g. 11585-11586, recolours of xgol_e), with Sky Golem 75 and the Onyx Golem 85 once: Sentry 20, Warden 16, Sky 8, Onyx 1 = 60.70k (+3.1 %)",
+              "(b) existing rows only: Lava Golem 55 x24 (under the band), Sky Golem 75 x20, Onyx 1 = 55.34k (-6.0 %)",
+              "(c) Alamar's robots: Annihilator 62 x20, Autobot 75 x16, Sky Golem 8, Onyx 1 = 62.59k (+6.3 %), off the source's family"]
+    recommend: "(a): the source's one family, inside 10 %"
+    depends: "A2 (rows, Act VI recount), S (two recolour skins)"
+  - q: "The gongs ('the gongs raise the next floor')."
+    options: ["(a) each stair's flight ends 640 short at a dark slot; the ground, a 512 x 512 slab (a door mover), rises from below into place when the gong is rung; the twin gongs of L3 lift it 320 each; kept up by map qbits 118120-118123 on every load (D-56)",
+              "(b) a round lift platform in the well, rung up to the next storey and left there (a lift ride instead of a walked flight)",
+              "(c) the gong opens a door at the stair's head (DD-06's pattern)"]
+    recommend: "(a): the source's 'no ground' made literal and walked; distinct from DD-06; uses doors and qbits only"
+    depends: "nothing (door movers, qbits and the load event exist)"
+  - q: "The gong guards (the source's gongs summon onyx golems)."
+    options: ["(a) two hidden guards in wall niches beside each gong, shown by its ring (eight of the 45, always met since every gong must be rung)",
+              "(b) all 45 placed in sight; the gongs only raise the ground"]
+    recommend: "(a)"
+    depends: "nothing (showing a hidden actor by event, D-18)"
+  - q: "The plaques (letter rows whose columns spell New World Computing's messages; L4's heads point at the Dungeon of Death's 'COMPUTER', FD-04)."
+    options: ["(a) the source's rows on click, and on the fourth plaque read on a storey one more line reading the columns down (the game gives the answer); no reward",
+              "(b) the rows only, as the source",
+              "(c) dropped"]
+    recommend: "(a): no puzzle the game does not answer; the joke kept"
+    depends: "A3 (four summary lines as map-local text), A7's FD-04 sub-agent (whether 'COMPUTER' is a word there)"
+  - q: "The skull's prize (A3 dropped the riddle 120: no answer-giver)."
+    options: ["(a) the skull silent ('The skull is silent.'); the vault's field ('A force repels you.') drops when the Onyx Golem dies; a T6 chest (the Gold ID Card is not in our quests)",
+              "(b) the vault open, no field",
+              "(c) no vault"]
+    recommend: "(a)"
+    depends: "nothing"
+  - q: "Interior size (X5's shell: base radius 544, the top storey 448)."
+    options: ["(a) radius 2,048 (4,096 across), storeys 768 apart, rotundas 640 high, about 38 M units² in all, larger than the shell as XD-14 and DD-07 (D-39 Q6/Q7)",
+              "(b) radius 1,536: about 26 M units², under M's 30 with four storeys (a fifth storey needed)",
+              "(c) radius 2,560: about 55 M units², long walks between the gongs"]
+    recommend: "(a)"
+    depends: "nothing"
+  - q: "The roof stair's head and the way up to P5."
+    options: ["(a) an open hatch over the top landing (`sky: true` with P5's cloud sky preset, D-56 Q9) and the exit preset up to P5's entrance:fd03_roof; P5's way down arrives at entrance:p5_stair on the top step facing down",
+              "(b) a closed hatch (no sky), the same exit",
+              "(c) the stair's top step as a plain in-map exit with no landing"]
+    recommend: "(a)"
+    depends: "A5 (P5's door:fd03, entrance:fd03_roof), A3 (the up-exit's line), A1 (the preset's name for a BLV room if P5's differs)"
+  - q: "The seal's look (it must be 'invisible' and still a readable tell)."
+    options: ["(a) a translucent leaf (opacity about 0.15, D-51's word) with a faint ripple texture, solid until seal_broken, then opened by the hook in the same visit and on every load",
+              "(b) a fully clear leaf (no tell)"]
+    recommend: "(a)"
+    depends: "A6 (xdseal)"

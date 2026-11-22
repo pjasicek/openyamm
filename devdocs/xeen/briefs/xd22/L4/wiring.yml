@@ -1,0 +1,203 @@
+format: 0
+events:
+  - id: evt:altar
+    preset: text
+    source: platform:altar
+    title: Altar
+    text: "Kai Wu's altar. The clan has hung its black banner over it, and the incense bowls are full of shuriken."
+    seconds: 5
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The barred door gives way. The pagoda smells of cold incense and lamp oil, and somewhere above a floorboard creaks."
+    seconds: 6
+    notes: "Arrival line (a one-shot timer: the party arrives standing in the entry hall)."
+  - id: evt:bell
+    preset: text
+    source: platform:bell
+    title: Bell
+    text: "The monks' bell, green with age. Kai Wu rang it every dawn, until the Evil Ninja clan drove him from his sacred home."
+    seconds: 6
+    notes: "Echoes Kai Wu, aaze0003:15 ('I am a peace loving old monk driven from my sacred home ... until the Evil Ninja clan drove me out')."
+  - id: evt:broom
+    preset: text
+    source: platform:broom
+    title: Broom
+    text: "A broom, dropped where an old monk let it fall. \"There are still Ninja in my Pagoda,\" Kai Wu said. Nobody has swept since."
+    seconds: 6
+    notes: "Echoes Kai Wu, aaze0003:16 ('There are still Ninja in my Pagoda. I cannot go home until they are gone.')."
+  - id: evt:cellar_seen
+    preset: text
+    source: room:cellar
+    trigger: step
+    once: true
+    text: "The clan's storeroom: coils of rope, bolts of black cloth, sacks of rice."
+    seconds: 6
+  - id: evt:chest_armoury
+    preset: chest
+    source: chest:armoury
+    title: Chest
+  - id: evt:chest_cellar
+    preset: chest
+    source: chest:cellar
+    title: Chest
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:clan_mark
+    preset: text
+    source: panel:clan_mark
+    title: The clan's banner
+    text: "A black banner with a carrion bird: the clan's mark, hung over a monk's altar."
+    seconds: 4
+  - id: evt:clan_master_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:clan_master}}
+    lua: "XeenQuests.hook(\"q-c4.clan_master\")"
+    once: true
+    notes: "state:clan_master (a kill timer, XD-05's drums): A3's q-c4.clan_master sets clan_master_slain (112081) and gives 'The clan master falls. You have dishonored the Ninjas ...' (aaze0003:5)."
+  - id: evt:crane
+    preset: script
+    source: door:crane
+    title: Crane screen
+    effects:
+      - destroy: destructible:crane
+    text: "The paper tears from top to bottom, and the crane falls away. Behind it a stair climbs into the dark."
+    seconds: 5
+    notes: "D-25 Q15: clicking (or striking) the crane screen breaks it; the stair up stands behind it. No riddle."
+  - id: evt:door_armoury
+    preset: door
+    source: door:armoury
+    title: Door
+  - id: evt:door_dojo
+    preset: door
+    source: door:dojo_dorm
+    title: Sliding door
+  - id: evt:door_kitchen
+    preset: door
+    source: door:porch_kitchen
+    title: Door
+  - id: evt:door_shrine
+    preset: door
+    source: door:porch_shrine
+    title: Door
+  - id: evt:gallery_seen
+    preset: text
+    source: room:gallery
+    trigger: step
+    once: true
+    text: "The moon gallery. Below, the frozen mere stretches away under the sky, and the wind pulls at your cloaks."
+    seconds: 6
+  - id: evt:gong
+    preset: text
+    source: panel:gong
+    title: Gong
+    text: "The gong booms through all five storeys, and the pagoda falls silent to listen."
+    seconds: 4
+  - id: evt:hatch
+    preset: switch
+    source: mover:hatch
+    title: Mat
+    opens: [mover:hatch]
+    text: "A draught comes up between the floorboards. The mat lifts: a trapdoor, and a ladder down into the dark."
+    seconds: 5
+    notes: "state:hatch (the graph's secret link): the altar mat slides aside over the cellar hatch."
+  - id: evt:hearth
+    preset: text
+    source: platform:hearth
+    title: Hearth
+    text: "The kitchen hearth, cold. Rice is trodden into the ashes."
+    seconds: 4
+  - id: evt:kitchen_table
+    preset: text
+    source: platform:kitchen_table
+    title: Table
+    text: "Kai Wu's rice jars, smashed. Whoever did it was looking for something, or for nothing."
+    seconds: 4
+  - id: evt:north_door
+    preset: exit
+    source: exit:north_door
+    title: Winterkill Tundra
+    notes: "Out to X5 in front of the pagoda's north door (exit:x5_pagoda); the game's leave window (D-24)."
+  - id: evt:rack_1
+    preset: text
+    source: platform:rack_1
+    title: Weapon rack
+    text: "Racks of blades, bows and shuriken. The best of it is locked in the chest."
+    seconds: 4
+  - id: evt:rack_2
+    preset: text
+    source: platform:rack_2
+    title: Weapon rack
+    text: "Racks of blades, bows and shuriken. The best of it is locked in the chest."
+    seconds: 4
+  - id: evt:rack_3
+    preset: text
+    source: platform:rack_3
+    title: Weapon rack
+    text: "Racks of blades, bows and shuriken. The best of it is locked in the chest."
+    seconds: 4
+  - id: evt:screens_seen
+    preset: text
+    source: room:screens
+    trigger: step
+    once: true
+    text: "Paper screens stand everywhere, lit from behind. Shadows move on the paper, and stop when you do."
+    seconds: 6
+  - id: evt:shinobu
+    preset: text
+    source: platform:cushion
+    title: Cushion
+    text: "A worn cushion on the cellar floor, still warm."
+    seconds: 4
+    notes: "Shinobu's cushion (she talks when clicked herself, monsters[].npc): before the done stage the hint that someone lives here (Kai Wu's 'Someone lives in the cellar')."
+  - id: evt:stage_done
+    preset: script
+    trigger: load
+    condition: {qbit: 112082}
+    opens: [mover:hatch]
+    effects:
+      - hide_actors: 10
+      - hide_actors: 11
+      - hide_actors: 12
+      - hide_actors: 13
+      - hide_actors: 14
+      - hide_actors: 15
+      - hide_actors: 16
+      - hide_actors: 17
+      - hide_actors: 18
+      - hide_actors: 19
+      - hide_actors: 20
+      - hide_actors: 21
+      - show_actors: 30
+      - show_actors: 31
+    notes: "Stage q-c4.done (112082, D-25 Q14) on every load: the clan's surviving hostile ninjas hidden, the cellar hatch open, Shinobu and four Clan Survivors shown."
+  - id: evt:target_1
+    preset: text
+    source: platform:target_1
+    title: Straw target
+    text: "A straw target, bristling with shuriken."
+    seconds: 4
+  - id: evt:target_2
+    preset: text
+    source: platform:target_2
+    title: Straw target
+    text: "A straw target, bristling with shuriken."
+    seconds: 4
+  - id: evt:target_3
+    preset: text
+    source: platform:target_3
+    title: Straw target
+    text: "A straw target, bristling with shuriken."
+    seconds: 4
+  - id: evt:weapon_wall
+    preset: text
+    source: platform:weapon_wall
+    title: Weapon wall
+    text: "Wooden practice blades, worn smooth at the grip."
+    seconds: 4

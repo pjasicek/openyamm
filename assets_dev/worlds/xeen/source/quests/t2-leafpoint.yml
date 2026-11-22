@@ -1,0 +1,39 @@
+# T2-LEAFPOINT Leafpoint's Grove: Great Druid -> Arch Druid (QUESTS 3.2, Light). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. Leafpoint the tree (D4's Forest of Peril, the source's E2) is
+# Thickbark's cousin: she talks only to the "Civilized Ones" who cleared Thickbark's trolls (q-c15.done). Pays 3,000
+# once (D-16: a promotion on a talk). Leafpoint is A4's 5319 (towns/d4.yml).
+id: T2-LEAFPOINT
+title: Leafpoint's Grove
+act: IV
+kind: promotion
+status: full
+giver: 5319          # Leafpoint the tree (D4, the Forest of Peril)
+maps: [D4]
+level: 34
+block: 122
+after: [q-c15.done]
+source: "QUESTS 3.2 (Arch Druid: Leafpoint's Grove, needs Q-C15's Civilized One); xeen/dark E2 (Leafpoint the tree)"
+
+qbits:
+  done: {id: 114560, note: "Leafpoint made the party's Great Druids Arch Druids (paid once)"}
+
+npcs:
+  5319:              # Leafpoint
+    topics:
+      - n: 1
+        label: Civilized ones
+        states:
+          - when: {all: [{qbit: done}, {promotable: leafpoint}]}
+            text: "Another druid who listens to trees. Stand in my shade a while. There. Arch Druid."
+            do: [{promote: leafpoint}]
+          - when: {qbit: done}
+            text: "The wind says Thickbark has grown a new ring. He is unbearable about it."
+          - when: {all: [{qbit: q-c15.done}, {promotable: leafpoint}]}
+            text: "My cousin Thickbark says you are civilized. He is a poor judge of most things, but not of that. Druids, stand in my shade. A tree's patience is the last lesson, and you have just learned it."
+            do: [{set: done}, {xp: 3000}, {promote: leafpoint}]
+          - when: {qbit: q-c15.done}
+            text: "Civilized ones! Thickbark wrote, which for a tree means a century of rustling. If a druid among you ever wants the last lesson, come back."
+          - text: "A tree does not talk to strangers who might be carrying axes."
+
+rewards: {xp: 3000, gold: 0, promotion: "Great Druid -> Arch Druid (Light)"}
+playthrough: "D4: Leafpoint (Civilized ones), after Q-C15: Great Druids become Arch Druids."

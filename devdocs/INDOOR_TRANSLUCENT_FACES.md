@@ -32,7 +32,9 @@ Why the scene file and not the alternatives:
   record would change the format every MM6–MM8 tool reads. The scene file is already the map's per-face sidecar
   (face overrides, doors), parsed at load and written by the converter and the editor.
 
-The converter emits the data (below); by hand, list the face indices from the editor or the compiler's `faces.yml`.
+The converter emits the data (below); the Map Studio writes it from a surface's `translucent` (an opacity, or `{opacity, tint, two_sided}`; openyamm-studio/README.md); by hand, list the face indices from the editor or the compiler's `faces.yml`.
+
+A texture with a graded alpha (a glow, a force field, soft edges) laid as an ordinary face is a cut-out: every texel above alpha 0.001 draws opaque in its own colour, so the faint texels show as speckles (Xeen's `xufield`, `xwward` on door leaves, 2026-11-20). Lay such a texture translucent (`translucent: 1`: the texture's alpha blends), or give it a clean alpha of 0 and 255.
 
 ## Opaque faces: the scene's `opaque_faces`
 
@@ -81,9 +83,30 @@ converter gives these faces an opaque variant of the texture (`<first seven>OPQ`
   faces; on any other map the face lookup returns at once (empty list), no batch is split and no pass runs.
 - **Not covered.** Water reflections leave translucent faces out. Particles, effects and spell sprites behind a pane
   draw over it (they come later and the pane writes no depth); within one pane's room the order is by face centre, so
-  two large panes crossing each other may sort wrongly. Classic outdoor BModel faces have no translucency: their
-  renderer (`OutdoorRenderer` draw groups) is a separate path; only the old MM9 `bmodel_world` ODMs blend, by a
-  `.render` flag, texture alpha only and unsorted.
+  two large panes crossing each other may sort wrongly. Outdoor BModel faces: below.
+
+## Outdoor BModel faces (classic ODM)
+
+Since Xeen merge point 23 (D5's Parabolic Barrier curtain) an ODM scene may list BModel faces drawn see-through:
+
+```yaml
+bmodel_faces:
+  translucent_faces:
+    - {bmodel_index: 41, face_index: 0}
+    - {bmodel_index: 41, face_index: 1}
+```
+
+- **Data.** `OutdoorSceneYml` reads them (an overlay's entries add; a face listed twice counts once; an index outside the
+  map fails the load) and sets `OutdoorBModelFace::translucent`. There is no opacity or tint: the texture's own alpha is
+  the opacity (texels at 0.1 or below are cut out, as on every outdoor face), and both sides draw, as every outdoor
+  BModel face does. Map Studio writes the list from a sketch structure's `translucent: true` (every face of the models
+  named after it).
+- **Rendering** (`OutdoorRenderer`). Such a face leaves the static draw groups and draws as a per-face batch in a
+  second BModel pass after the opaque world (the pass MM9's `bmodel_world` maps already had): alpha blend, depth test,
+  no depth write, in the transparent view, back to front by the distance from the eye to the face's bounds centre.
+  `OutdoorGameView::m_hasTranslucentBModelBatches` gates the pass: a map without such faces (every MM6-MM8 map) draws
+  exactly as before. Not covered: water reflections and the sun shadow map treat the faces as before (not reflected;
+  the sun shadow pass is unchanged), and the faces keep their collision and clicks.
 
 ## See-through liquids
 

@@ -1,0 +1,210 @@
+# Xeen playthrough, segment 27: the Tomb of a Thousand Terrors (X3, XD-08), M10's second five Megacredits. West
+# through the Gloomwood to the barrow door (the Stone of a Thousand Terrors: m10.tomb_door); the tomb walked: the
+# statue's plaque (m10.tomb_welcome), the manacles (the portcullis below rises), the west mourning hall's and the
+# stocks' chests, the gallery's east door, the hanging cage down to the crypt ring, the great coffin (refused at
+# Might 15), the barracks' pay chest (two Might Boosts), the first member drinks one (+30) and opens the coffin
+# (m10.tomb_vault: five Megacredits), the deep and its hoard, back up behind the iron maiden, out by the tomb door.
+# Route: devdocs/xeen/briefs/xd08/L4/playtest.yml, x3/L4/playtest.yml (the tomb door, event 85).
+# Quest logic: source/quests/m10.yml.
+#   python3 tests/playthrough/xeen/run.py 27
+id: xeen.playthrough.27_the_tomb
+title: "Xeen playthrough 27: the Tomb of a Thousand Terrors: five Megacredits"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/25_the_walls.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [111182]}
+  - assert: {qbit_clear: [111201]}
+  - play_lua: {source: "if item_count(12192) ~= 1 then error('Megacredits: ' .. item_count(12192)) end"}
+  # The packs fill with loot: the party drops what it will not use (keeps quest items, gems and potions).
+  - play_lua:
+      source: |
+        local dropped = 0
+        for entry in string.gmatch(pack_items(), "(%d+)x%d+") do
+          local id = tonumber(entry)
+          if id < 12000 and not (id >= 177 and id <= 186) and id ~= 240 then
+            while discard(id) do dropped = dropped + 1 end
+          end
+        end
+        log("dropped " .. dropped .. " loot items to make room")
+  # The Tomb's barrow door in the Gloomwood (X3 event 85): the Stone of a Thousand Terrors opens it (m10.tomb_door).
+  - set_pose: {map: xeen_x3.odm, x: -15360, y: -9370, z: 1120, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - execute_event: {id: 85}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd08.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 160}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The Hall of Welcome: the statue's plaque (m10.tomb_welcome).
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -300, y: 1664, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(35); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Insanity is our fame, undead is our game."}
+  - play_lua: {source: "close()"}
+  # The Gallery of Terrors and the chain room: the manacles raise the portcullis below.
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 1792, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1632, y: 2160, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: 2200, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: 2800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: 3150, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(12); if not qbit(110760) then error('manacles_pulled not set') end; if door_state(8) ~= 'open' then error('the manacles did not raise the portcullis: ' .. door_state(8)) end"}
+  # The west mourning hall's chest and the stocks yard's chest.
+  - walk_to: {x: 640, y: 2944, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 2)"}
+  - walk_to: {x: -200, y: 2944, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1300, y: 2720, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(8); if held() ~= 0 then stow() end; close(); log('the west mourning hall: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: -1400, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2100, y: 3200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -2150, y: 3740, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2880, y: 3760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(7); if held() ~= 0 then stow() end; close(); log('the stocks: +' .. (gold() - g) .. ' gold')"}
+  # Back to the Hall of Welcome, along the gallery to its east door and the hanging cage.
+  - walk_to: {x: -2150, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -256, y: 2700, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 11)"}
+  - walk_to: {x: -256, y: 2000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3000, y: 1792, z: 0, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4200, y: 1792, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 3)"}
+  - walk_to: {x: 5000, y: 1792, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 4992, y: 2700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4992, y: 3440, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 4672, y: 3500, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4672, y: 3904, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The cage down to the crypt ring.
+  - play_lua: {source: "click(2); wait(8); if door_state(5) ~= 'open' then error('the cage did not come down: ' .. door_state(12) .. ' ' .. door_state(5)) end"}
+  - assert: {party_position: {x: 4672, y: 3904, radius: 96, z_min: -660, z_max: -600}}
+  - walk_to: {x: 4672, y: 4500, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The crypt ring and the open portcullis to the coffin vault; the great coffin refuses Might 15.
+  - walk_to: {x: 4000, y: 5184, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 5184, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2944, y: 6912, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1664, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2176, y: 8820, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        -- the first member must be ready (not recovering from a blow) to be picked
+        for _ = 1, 30 do
+          if string.match(party(), "recovery ([%d%.]+) s") == "0.000" then break end
+          wait(0.5)
+        end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(19); wait(1)"}
+  - assert:
+      dialog: {text_contains: "You are not strong enough to open the coffin."}
+  - play_lua: {source: "close()"}
+  # The barracks' pay chest: two Might Boosts.
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 100, y: 6656, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 1)"}
+  - walk_to: {x: -700, y: 6656, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1300, y: 6900, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        -- the first member must be ready (not recovering from a blow) to be picked
+        for _ = 1, 30 do
+          if string.match(party(), "recovery ([%d%.]+) s") == "0.000" then break end
+          wait(0.5)
+        end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(5); if held() ~= 0 then stow() end; close()
+        if item_count(240) < 2 then error('the pay chest gave ' .. item_count(240) .. ' Might Boosts') end
+        log("the pay chest: +" .. (gold() - g) .. " gold, two Might Boosts")
+  # The first member drinks a Might Boost (+30) and opens the great coffin (m10.tomb_vault: five Megacredits).
+  - use_item: {item_id: 240, member_index: 0}
+  - walk_to: {x: -700, y: 6656, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 1)"}
+  - walk_to: {x: 100, y: 6656, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: 8820, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        -- the first member must be ready (not recovering from a blow) to be picked
+        for _ = 1, 30 do
+          if string.match(party(), "recovery ([%d%.]+) s") == "0.000" then break end
+          wait(0.5)
+        end
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      source: |
+        local before, g = item_count(12192), gold()
+        log("at the great coffin: " .. party())
+        loot_chest(19)
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12192) ~= before + 5 then error('the great coffin gave ' .. (item_count(12192) - before) .. ' Megacredits') end
+        if not qbit(111201) then error('tomb_credits not set') end
+        log("the great coffin: +" .. (gold() - g) .. " gold, 5 Megacredits")
+  # The deep: the deep stair, the deep crypt, the Hall of a Thousand Terrors and its hoard.
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 7300, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 8550, z: -1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 300, y: 9100, z: -1280, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -128, y: 10100, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -128, y: 10900, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -128, y: 11420, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 9)"}
+  - walk_to: {x: -128, y: 12200, z: -1280, radius: 96, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 620, y: 13450, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(6); if held() ~= 0 then stow() end; close(); log('the hoard: +' .. (gold() - g) .. ' gold')"}
+  # Back up behind the iron maiden to the Hall of Welcome and out by the tomb door.
+  - walk_to: {x: -128, y: 12200, z: -1280, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -128, y: 11000, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 300, y: 9300, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 8600, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 7300, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 4950, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 3720, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 7)"}
+  - walk_to: {x: 2944, y: 2944, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3296, y: 2160, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3296, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 36}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -15360, y: -9830, radius: 160, z_min: 1000, z_max: 1300}}
+  - assert: {qbit_set: [111201, 110760]}
+  - play_lua: {source: "if item_count(12192) ~= 6 then error('Megacredits after the Tomb: ' .. item_count(12192)) end; log('27 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "27 The Tomb", path: output/playthrough/xeen/checkpoints/27_the_tomb.oysav}

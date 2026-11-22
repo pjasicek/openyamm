@@ -1,0 +1,148 @@
+format: 0
+events:
+  - id: evt:altar
+    preset: text
+    source: platform:altar
+    title: Black altar
+    text: "A black altar under a painted moon. The candles on it burned down long ago, and nobody here needs light."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: draco_done}}
+    once: true
+    effects:
+      - message: "Draco's coffin was a door: the stair under it ends in the old crypt of Nightshadow. Somewhere below, the Count waits in his vault."
+    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown; XD-07's method)."
+  - id: evt:bed
+    preset: text
+    source: platform:bed
+    title: Sexton's cot
+    text: "The sexton's cot. The blanket is folded; he went out one night and came back different."
+  - id: evt:chest_feast
+    preset: chest
+    source: chest:feast
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_sexton
+    preset: chest
+    source: chest:sexton
+    title: Chest
+  - id: evt:coffin_1
+    preset: text
+    source: platform:coffin_1
+    title: Coffin
+    text: The coffin is empty.
+    notes: Original line (aaze0029:3).
+  - id: evt:coffin_3
+    preset: text
+    source: platform:coffin_3
+    title: Coffin
+    text: The coffin is empty.
+    notes: Original line (aaze0029:3).
+  - id: evt:coffin_5
+    preset: text
+    source: platform:coffin_5
+    title: Coffin
+    text: The coffin is empty.
+    notes: Original line (aaze0029:3).
+  - id: evt:count_stair_seen
+    preset: text
+    source: room:count_stair
+    trigger: step
+    once: true
+    text: "A narrow ramp, worn smooth by one pair of feet over many centuries, climbs toward the crypt above."
+    seconds: 5
+  - id: evt:count_state
+    preset: script
+    trigger: load
+    condition: {qbit: draco_done}
+    opens: [door:count_base, door:count_top]
+    effects:
+      - lua: "-- the Count's stair stays open"
+    notes: After Draco's death the Count's stair stays open (every load).
+  - id: evt:door_feast_e
+    preset: door
+    source: door:feast_e
+    title: Door
+    action: open
+  - id: evt:door_feast_w
+    preset: door
+    source: door:feast_w
+    title: Door
+    action: open
+  - id: evt:door_ossuary
+    preset: door
+    source: door:ossuary
+    title: Door
+    action: open
+  - id: evt:door_sexton
+    preset: door
+    source: door:sexton
+    title: Door
+    action: open
+  - id: evt:draco_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:draco}}
+    opens: [door:count_base, door:count_top]
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"q-c7.draco\")"
+      - message: "Behind the dais a slab of the wall sinks into the floor: a narrow stair climbs into the dark, the Count's own way up."
+    notes: "goal:draco: the kill timer (XD-05's drum method) calls A3's q-c7.draco (q-c7.done 112141, 10,000 experience, its text) and opens the Count's stair at both ends (D-25: yes)."
+  - id: evt:exit
+    preset: exit
+    source: exit:coffin
+    title: Up to Nightshadow's square
+    notes: "D-24: the exit preset (the game's own leave window), live to X3 at (17664, -5120, 992) facing south."
+  - id: evt:iron_door
+    preset: script
+    source: door:iron
+    title: Iron door
+    opens: [door:iron]
+    sets: {qbit: vault_open}
+    effects:
+      - text: The symbol on the iron door flares once and goes dark. The door swings inward.
+    notes: "The iron door opens at any hour (D-89, orchestrator 2026-11-22: the vault follows the outer door, no night condition; was D-25 Q1's Xeen.isNight). Once opened (vault_open, map qbit 110940) it stays open."
+  - id: evt:moon
+    preset: text
+    source: panel:moon
+    title: Moon window
+    text: "A window painted on the stone: a full moon over Nightshadow. The chapel's congregation never wanted a real one."
+  - id: evt:portrait
+    preset: text
+    source: panel:portrait_1
+    title: Portrait
+    text: "Count Draco, painted in the fashion of one century or another. Every portrait in the gallery has the same pale face."
+  - id: evt:sarcophagus
+    preset: text
+    source: platform:sarcophagus
+    title: Inscription
+    text: "Words are cut into the foot of the great sarcophagus: Open his coffin and bid him farewell; only then can you use the magic of the well."
+    window: true
+    notes: "Original line (aaze0029:8), the rhyme's second half (X3's board has all of it)."
+  - id: evt:sign_night
+    preset: text
+    source: panel:sign_night
+    title: Inscription
+    text: "Cut into the stone over the iron door: Only at night can you put up a fight."
+    window: true
+    notes: Original line (aaze0029:6).
+  - id: evt:table
+    preset: text
+    source: platform:table
+    title: Feast table
+    text: A long table laid for guests who never left. The wine has dried to a black crust in the goblets.
+  - id: evt:vault_state
+    preset: script
+    trigger: load
+    condition: {qbit: vault_open}
+    opens: [door:iron]
+    effects:
+      - lua: "-- the iron door stays open once opened"
+    notes: "Once opened, the iron door stays open (every load)."

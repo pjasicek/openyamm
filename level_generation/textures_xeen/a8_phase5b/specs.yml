@@ -1,0 +1,42 @@
+# Lane A8 session 13 (2026-11-21, decision D-62): the new textures of A8's Act V maps DD-25 Bosco's Hall and DD-21
+# Necropolis Sewer, each placed once per face (fit). See ../README.md for the kinds and the finishing.
+dungeons:
+  dd25:
+    family_words: >-
+      Stone City of Might and Magic VII, the dwarves' underground city: warm grey-brown dressed stone and rough cave
+      rock, dark timber house fronts, deep red and dull gold heraldic cloth, lit by braziers
+  dd21:
+    family_words: >-
+      the Tomb of Ethric the Mad of Might and Magic VI: dark grey-green carved crypt stone, bone and skull niches,
+      cold dim light, a lich's crypt over a sewer
+textures:
+  xdbosban:
+    dungeon: dd25
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/bannwc-a, mm7/tap1, mm7/cwb1]
+    tone: {like: [mm7/bannwc-a], factor: 0.9}
+    family: MM7 woven hangings (bannwc-a, tap1) in Stone City 7d24
+    where: DD-25's throne hall, over Bosco's empty throne on the dais, once per face
+    standin: bannwc-a
+    what: >-
+      A tall hanging cloth banner seen straight on, the banner itself filling the whole canvas from edge to edge
+      and top to bottom, woven like the references: a deep red field with a broad dull gold border on all four
+      edges, and in the middle, small enough to sit well inside the central half of the width, a dwarf king's
+      arms in dull gold: a heavy anvil with a crown resting on it and two short crossed axes behind the anvil.
+      The weave shows, a little worn and smoke-darkened. No letters, no words, nothing else.
+  xdsandro:
+    dungeon: dd21
+    size: [128, 128]
+    kind: picture
+    refs: [mm6/d2niche1, mm6/d2wlbctr, mm6/d2skulas]
+    tone: {like: [mm6/d2wlbctr], factor: 1.0}
+    family: MM6 Tomb of Ethric 6d14 (d2wlbctr crypt stone, d2niche1 bone niches)
+    where: DD-21's crypt, over the doors of Sandro's crypt, once per face
+    standin: d2niche1
+    what: >-
+      A square carved stone seal panel seen straight on, filling the whole canvas: a slab of the references' dark
+      grey-green crypt stone with a plain raised square rim, and carved deep in relief in its middle a human heart
+      pierced right through by a long bone laid diagonally, the heart and bone in pale bone colour against the
+      darker stone, faint dark grooves, cold and old, a little chipped. Symmetric framing, centred. No letters, no
+      words, no skulls, nothing else.

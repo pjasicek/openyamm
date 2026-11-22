@@ -1,0 +1,109 @@
+# The main terminal (D-57 Q35; written by output/studio_cal/fd04/tools/gen_tests.py): 'Main Terminal / Enter
+# Code'; a wrong code gives 'You are a Goober!', a second 'You are a SUPER Goober!'; 'Computer' in any case
+# pays once (118149, A3's q-f2.terminal); a later click gives the hook's else line.
+id: xeen.fd04.l4.terminal
+title: 'Dragon Tower (FD-04 L4): the main terminal'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- console:
+    line: tp -1344 10300 -2560
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- clear_hostiles:
+    radius: 6000
+- play_lua:
+    source: if qbit(118149) then error('code set at the start') end
+- play_lua:
+    source: click(98); wait(0.5)
+- answer_input:
+    text: Darkstone
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:terminal Darkstone: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: You are a Goober!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(98); wait(0.5)
+- answer_input:
+    text: password
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:terminal password: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: You are a SUPER Goober!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: remember('xp', tostring(experience(0)))
+- play_lua:
+    source: click(98); wait(0.5)
+- answer_input:
+    text: cOmPuTeR
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:terminal cOmPuTeR: '' .. s); if not string.find(s, [[CODE ACCEPTED]],
+      1, true) then error(''status line: '' .. s) end'
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if not qbit(118149) then error('code_entered 118149 not set') end; log('xp before ' .. recall('xp') .. ', after
+      ' .. tostring(experience(0)))
+- play_lua:
+    source: click(98); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Code accepted already
+- play_lua:
+    source: close()

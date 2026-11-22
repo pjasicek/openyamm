@@ -1,0 +1,52 @@
+format: 0
+sectors:
+  room:air: 1
+events:
+  evt:basket: 29
+  evt:cairn: 1
+  evt:chest_cache: 2
+  evt:chest_test: 3
+  evt:dais: 4
+  evt:dais_disc: 23
+  evt:dais_hide: 5
+  evt:dais_load: 24
+  evt:dais_show: 25
+  evt:fall_check: 6
+  evt:fall_floor: 7
+  evt:gate: 8
+  evt:gate_open: 9
+  evt:passed_load: 10
+  evt:plaque: 11
+  evt:plaque_statue: 26
+  evt:singing1: 12
+  evt:singing2: 13
+  evt:singing3: 14
+  evt:singing4: 15
+  evt:singing5: 16
+  evt:singing6: 17
+  evt:singing7: 18
+  evt:sleeper: 27
+  evt:storm: 19
+  evt:test: 20
+  evt:test_check: 21
+  evt:way_up: 22
+  evt:way_up_column: 28
+containers:
+  chest:basket_cache: 0
+  chest:test: 1
+cogs:
+  platform:dais: 1
+  platform:wind_curtain: 2
+map_vars:
+  dais_shown: 2
+  gate_open: 0
+  test_accepted: 1
+sounds:
+  sound:plane_bed: 1
+decorations:
+  deco:basket: 0
+  deco:dais: 1
+  deco:pedestal: 2
+  deco:sleeper: 3
+  deco:statue: 4
+  deco:way_up: 5

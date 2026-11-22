@@ -1,0 +1,22 @@
+# D7 Olympus: flavour topics of the gods (source/towns/d7.yml; source dark/aaze0037). Owner: A4. Format:
+# QUESTS_FORMAT.md section 5 (talk only). Soul Storage, the plaques and the Prince's whereabouts are A3's.
+map: D7
+block: 183
+source: "dark/aaze0037 (Olympus)"
+
+npcs:
+  5602:              # Dionysus
+    topics:
+      - {n: 1, label: Nectar, text: "Fill your packs with the nectar of the Gods while you are here. Those supplies will last much longer than the earthly ones you are used to.", source: "dark/aaze0037:21"}
+  5604:              # Heracles
+    topics:
+      - {n: 2, label: Labours, text: "Twelve labours, and the hardest was the paperwork."}
+  5608:              # Adonis
+    topics:
+      - {n: 4, label: Ants, text: "The people are so small they look like ants, and the mountains and trees look like children's toys. I'm the only thing up here worth looking at.", source: "dark/aaze0037:17 (close)"}
+  5611:              # Atlas
+    topics:
+      - {n: 5, label: Nine, text: "Alamar's birth number is nine, so he naturally prefers to use that number, for any particular purpose, above all others.", source: "dark/aaze0037:25"}
+  5613:              # Hera
+    topics:
+      - {n: 6, label: Ligono, text: "Ligono is a ghost who hated the surf. Someone set him free, I'm told. He's always late."}

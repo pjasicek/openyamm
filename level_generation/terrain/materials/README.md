@@ -120,7 +120,8 @@ Grass004), `grass_patchy` (Ground037), `dirt_cracked` (Poly Haven cracked_red_gr
 `soil_stony` (rocky_trail), `road_pebbles` (large_pebbles: rounded grey fieldstones with deep joints like the native
 road, tinted to its grey with `tint_scale`), `road_flagstone` (stone_pathway: Ironsand's stepping stones),
 `rock_ground` (rock_ground_02), `rock_layered` (Rock023), `rock_red` (Rock061), `rock_cliff` (rock_face),
-`gravel_volcanic` (Gravel024), `sand_ripples` (Ground097), `sand_flat` (dense_sand), `snow` (Snow008A) and `swamp`
+`gravel_volcanic` (Gravel024), `sand_ripples` (Ground097), `sand_flat` (dense_sand), `snow` (Snow008A), `ice`
+(Ice003: frozen lake ice, blue-grey and smooth, no occlusion map; Xeen's frozen mere, 2026-11-20) and `swamp`
 (Moss004 with standing water: a `pools` entry in `sources.yml` fills that share of its broad hollows with flat,
 dark, smooth water when it is prepared; the library marks it `pools`, and on level ground the shader draws its
 smoothest texels as water that mirrors the sky at grazing angles, ripples and glints).
@@ -151,7 +152,18 @@ damage key beside `depth`; none exists yet. No MM6-MM8 liquid uses these keys.
    tiles like the engine, including a map's `<map>_1.scene.yml` overlay (Shadowspire's master tile). Beaches and
    seabeds use the native shore tiles' dirt, lightened (`sand` with the dirt `reference_tile`).
 2. `python3 tools/terrain_materials.py weights --world <world> --map <map>.odm --preview /tmp/preview.png`
-   writes the map's slot file and weights; check the preview against the native tile map.
+   writes the map's slot file and weights; check the preview against the native tile map. Transition tiles are split
+   by the world's own materials' colours (their reference tiles), never by a map's override of a material's look:
+   X7 and D6 tinted their ash and edge cinder both from `6voltyl`, the split became 0/0 and the weights NaN, stored as
+   zero, which drew hard straight seams (Xeen F11, 2026-11-21). `weights` now refuses two materials of one colour and
+   any texel whose weights do not sum to one. A BModel water face's floor (D3's spring pool) blends its sand out over
+   `edge_softness` instead of ending in a straight line at the face's edge.
+   `python3 tools/terrain_materials.py check --world <world> [--map <map>.odm]` checks the written weights of every
+   map (open-air BLVs' too): each texel sums to one, and no straight run of hard switches (neighbouring texels at 0.9
+   or more of different layers) is longer than `--max-run` texels (4). MM6-MM9 and Xeen pass (2026-11-21); Xeen's
+   `output/studio_cal/a5/terrain_swap.sh` runs it before every swap.
+   A world with a hand-written `worlds/<world>/terrain_decorations/plants.yml` also gets the map's ground plants from
+   `weights` (or `plants --world <world> --map <map>`): see [Meadow](../MEADOW.md), "Plants by material".
 3. New library material: download the CC0 maps under `assets_source/engine/terrain_materials/<id>/download/`, add it
    to `sources.yml`, then `tools/terrain_materials.py prepare <id>`, `cook --profile desktop` and
    `cook --profile android`. The Android package overlays its cooked arrays (`tools/package_runtime_assets.py`).

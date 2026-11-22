@@ -1,0 +1,231 @@
+# The ending skipped: its event cues still run.
+# Written by output/studio_cal/p5/tools/gen_playtests.py; run with --world xeen --map xeen_p5.blv.
+id: xeen.p5.l4.ending_skipped
+title: 'Clouds of the Ancients (P5): the ending skipped: m42.done, the items taken, state:wedding shown mid-visit, the ceremony
+  text once, the gift, a reload'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p5.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p5.blv
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- play_lua:
+    source: wait(1.5); close()
+- assert:
+    map: xeen_p5.blv
+- grant_item:
+    item_id: 12365
+    member_index: 0
+- grant_item:
+    item_id: 12366
+    member_index: 1
+- setup_shortcut:
+    kind: set_qbit
+    id: 111760
+- setup_shortcut:
+    kind: set_qbit
+    id: 111761
+- setup_shortcut:
+    kind: set_qbit
+    id: 111762
+- setup_shortcut:
+    kind: set_qbit
+    id: 111763
+- assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 11920
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 11921
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 11919
+      hidden: false
+- note: The gift is not there before state:wedding.
+- set_pose:
+    map: xeen_p5.blv
+    x: -576
+    y: 1152
+    z: 512
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -576
+    y: 1352
+    z: 512
+    z_tolerance: 200
+    radius: 32
+    timeout_seconds: 10
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -900
+    z: 520
+    z_tolerance: 200
+    radius: 160
+    timeout_seconds: 30
+    close_dialogs: true
+- note: 'The shrine with everything: A3''s m42.shrine takes the two, sets m42.done, plays `unification`.'
+- play_lua:
+    source: click(37)
+- advance_runtime:
+    seconds: 0.5
+- console:
+    line: cinematic list
+    expect_contains: playing unification
+- assert:
+    qbit_set:
+    - 111840
+- play_lua:
+    source: if has_item(12365) or has_item(12366) then error('the items were not taken') end
+- assert:
+    award_acquired:
+    - id: 417
+      member_index: 0
+- advance_runtime:
+    seconds: 2.0
+- note: 'Skipped: its event cues (state:wedding) still run, then the done event (A3''s 42149).'
+- console:
+    line: cinematic skip
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- note: 'The done event: A3''s m42.ceremony text, once.'
+- assert:
+    dialog:
+      active: true
+      text_contains: reading the vows
+- assert:
+    qbit_set:
+    - 111841
+- play_lua:
+    source: if not close() then error('the ceremony showed no window') end
+- advance_runtime:
+    seconds: 2.0
+    present_dialogs: true
+- console:
+    line: cinematic list
+    expect_contains: 'Cinematics: unification'
+- assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 11920
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 11921
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 11919
+      hidden: false
+- note: 'The gift (treasure 6) against the pavilion''s back, shown with state:wedding: a click opens it.'
+- walk_to:
+    x: -576
+    y: 1064
+    z: 512
+    z_tolerance: 200
+    radius: 160
+    timeout_seconds: 40
+    close_dialogs: true
+- set_pose:
+    map: xeen_p5.blv
+    x: -576
+    y: 1192
+    z: 512
+    yaw: 1.5708
+    pitch: -0.6
+- advance_runtime:
+    seconds: 0.5
+- press_interact: {}
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    chest_view:
+      open: true
+- play_lua:
+    source: wait(0.3); if held() ~= 0 then stow() end; close(); wait(0.3)
+- note: 'The shrine again: m42''s else_text.'
+- walk_to:
+    x: 0
+    y: -900
+    radius: 160
+    timeout_seconds: 90
+    close_dialogs: true
+    z: 520
+    z_tolerance: 200
+- play_lua:
+    source: click(37); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: somebody has left cake
+- play_lua:
+    source: if not close() then error('evt:shrine showed no window') end
+- note: 'A reload after the ending: the state is shown, no ceremony text again.'
+- load_map:
+    map: xeen_p5.blv
+    pos: 0, -1200, 512
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: false
+- assert:
+    actor_visible:
+      actor_index: 2
+      monster_id: 11920
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 0
+      monster_id: 11921
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 1
+      monster_id: 11919
+      hidden: false

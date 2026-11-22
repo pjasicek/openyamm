@@ -16,7 +16,8 @@
 #
 # Sources: Enroth, worlds/mm6/events/Global_mm6_mmmerge.lua promotionFamilies; Antagarich,
 # worlds/mm7/events/Global_mm7_mmmerge.lua (MM7.CompletePromotion calls); Jadame,
-# worlds/mm8/events/Global_mm8_promotions.lua. Chedian's promotions come from the MM9 guide's data.
+# worlds/mm8/events/Global_mm8_promotions.lua. Chedian's promotions come from the MM9 guide's data, Xeen's from the
+# Xeen guide's (Xeen.Promotions; MAW counts one by its quest bits against data/promotions.yml's `xeen` and `mid`).
 
 quests:
   # Enroth (MM6): six lords, two quests each; the second opens after the first.

@@ -1,0 +1,105 @@
+# Xeen side quest Q-D7, the God of Minerals' refill (DD-10B), from a new game in the Gemstone Mines' east pocket. The
+# five sapphire veins (q-d7.dug); the God takes 10,000 gold (refill_a/b/c set, dug cleared); a save and load in the
+# same visit does not refill the veins (A8's in_visit fix); out by the adit onto D2 and back in by D2's event 44: the
+# entry refills the veins and clears refill_b; the God now refuses ("The mountains are full."), the veins give again.
+# Route: tests/playthrough/xeen/53_gemstone_mines.yml (DD-10B), devdocs/xeen/briefs/dd10b/L4/playtest.yml.
+# Quest logic: source/quests/q-d7.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d7_god_of_minerals.yml --scenario-no-color
+id: xeen.side_quests.q-d7
+title: "Xeen Q-D7: the God of Minerals refills the veins on the next entry, not on a reload"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd10b.blv
+      party:
+        gold: 12000
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 24, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_dd10b.blv}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113141, 113142, 113143, 113144]}
+  # The sapphire hall: five veins, one rock each; a spent vein says so.
+  - set_pose: {map: xeen_dd10b.blv, x: 4120, y: 2432, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "open_door(7, 3)"}
+  - walk_to: {x: 3500, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - play_lua:
+      source: |
+        remember("sapphire", item_count(12359))
+        for _, e in ipairs({14, 15, 16, 17, 18}) do click(e); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end end
+        if item_count(12359) ~= recall("sapphire") + 5 then error("five veins gave " .. (item_count(12359) - recall("sapphire"))) end
+        if not qbit(113144) then error("dug 113144 not set") end
+  # The God of Minerals takes 10,000 gold.
+  - set_pose: {map: xeen_dd10b.blv, x: 4800, y: 352, z: -480, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); remember('gold', gold()); click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "takes your gold"}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold") - 10000 then error("the God took " .. (recall("gold") - gold())) end
+        for _, b in ipairs({113141, 113142, 113143}) do if not qbit(b) then error("refill bit " .. b .. " not set") end end
+        if qbit(113144) then error("dug not cleared") end
+  # A save and load in the same visit: the veins stay spent, refill_b stays set.
+  - save_game: {name: qd7_paid}
+  - load_game: {name: qd7_paid}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_dd10b.blv, x: 3500, y: 2432, z: 0, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        if not qbit(113142) then error("the load refilled DD-10B (refill_b cleared)") end
+        status(); click(16); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("a vein refilled on load: " .. status()) end
+  # Out by the adit (event 9) onto D2, and back in by the east adit (D2 event 44): the entry refills.
+  - set_pose: {map: xeen_dd10b.blv, x: 0, y: 112, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: -15360, y: 16384, z: 1696, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(44)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd10b.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if qbit(113142) then error("refill_b not cleared by the entry") end
+        if not qbit(113141) then error("refill_a cleared by DD-10B's entry") end
+  # The God refuses while nothing is dug; the refilled veins give again.
+  - set_pose: {map: xeen_dd10b.blv, x: 4800, y: 352, z: -480, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); remember('gold', gold()); click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The mountains are full."}}
+  - play_lua: {source: "close(); if gold() ~= recall('gold') then error('the God took gold from full mountains') end"}
+  - set_pose: {map: xeen_dd10b.blv, x: 3500, y: 2432, z: 0, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 2400}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        remember("sapphire", item_count(12359))
+        for _, e in ipairs({14, 15, 16, 17, 18}) do click(e); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end end
+        if item_count(12359) ~= recall("sapphire") + 5 then error("the refilled veins gave " .. (item_count(12359) - recall("sapphire"))) end
+        if not qbit(113144) then error("dug not set again") end
+        log("Q-D7 refill: five more sapphire rocks, " .. item_count(12359) .. " in all")

@@ -1,0 +1,189 @@
+# Xeen side quest Q-D11, Graalg's Ogres (D1, D2, DD-13), the burning route, from a new game on D1 with a level-24
+# party with a Hunter (Kramer's bounty serves Hunter -> Bounty Hunter, Dark). Kramer's Caravans (house 4464, NPC
+# 4914): Ogres (started, the Ogre Pass autonote 4510). East off D1's edge into Sprite Forest. The east fort's gate (D2
+# event 52) into the Ogre Forts (DD-13): the gateway's doors, Graalg's quarters (his two chiefs), the strongbox (event
+# 27: the hook's line, fort_disks, 2 Energy Disks), the east hall's fire pit (event 19): Burn? Yes (east_burned,
+# hostile); out by the east gate (event 14, OK). The west fort's gate (D2 event 49): the blockhouse's double door, the
+# hall's pit (event 20): Yes (west_burned); out by the west gate (event 15, OK). Back west off D2's edge; Kramer: Ogres
+# (done: 4,000 XP each, 1,500 gold), Bounty (1,000 XP each, 1,000 gold; the Hunter rises a Bounty Hunter, the others
+# kept), again: Bounty gone. The peace route is q-d11_peace_graalgs_ogres.yml.
+# Outdoors and in towns the party is placed (PLAYBOOK §2); the forts are walked. Routes:
+# devdocs/xeen/briefs/dd13/L4/playtest.yml (the east fort, the strongbox), the promotions chain's segment 47 (both
+# forts' gates and pits). Quest logic: source/quests/q-d11.yml. Prep: prep/q-d11.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d11_forts
+id: xeen.side_quests.q-d11.forts
+title: "Xeen Q-D11 (forts): both ogre forts burned, Graalg's strongbox, Kramer's bounty and the Bounty Hunter"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Ivar, class: Hunter, level: 24, skills: [], equipment: {}}
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Hunter Knight Cleric Sorcerer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113220, 113221, 113222, 113223, 113224, 113225, 113226, 113227, 113228]}
+  # Kramer's Caravans (house 4464): Ogres (started, the autonote).
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "There is a reward, and a bounty if both their forts burn."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113220]}
+  - assert: {autonote: {id: 4510}}
+  # East along the road off D1's edge into Sprite Forest.
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The east fort's gate (D2 event 52) into DD-13.
+  - set_pose: {map: xeen_d2.odm, x: 11776, y: 11776, z: 2048, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(52); wait(0.3)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd13.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The gateway, Graalg's quarters and his chiefs, the strongbox: 2 Energy Disks.
+  - walk_to: {x: 7552, y: 60, z: 0, radius: 40, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "if door_state(2) ~= 'open' then open_door(7, 2) end"}
+  - walk_to: {x: 7552, y: -760, z: 0, radius: 40, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 7)"}
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 6760, y: -992, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 6)"}
+  - walk_to: {x: 6300, y: -992, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 5520, y: -560, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You search the fort and find 2 energy disks.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        if take_chest() then close() end
+        while held() ~= 0 do if not stow() then error("cannot stow " .. held()) end end
+        if not qbit(113226) then error("fort_disks 113226 not set") end
+        if item_count(12334) ~= 2 then error("the strongbox gave " .. item_count(12334) .. " Energy Disks") end
+  # The east hall's fire pit: Burn? Yes.
+  - walk_to: {x: 6300, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 7552, y: -1480, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "the Ogres are out hunting. Burn?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "collapses in a heap of burning timbers"}}
+  - play_lua: {source: "close(); if not qbit(113225) then error('east_burned 113225 not set') end; if not qbit(113222) then error('hostile 113222 not set') end"}
+  - clear_hostiles: {radius: 2500}
+  # Out by the east gate (event 14).
+  - walk_to: {x: 6900, y: -992, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 7552, y: -760, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(7) ~= 'open' then open_door(10, 7) end"}
+  - walk_to: {x: 7552, y: 60, z: 0, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(2) ~= 'open' then open_door(7, 2) end"}
+  - walk_to: {x: 7552, y: 470, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(0.3)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The west fort's gate (D2 event 49): the blockhouse's double door, the hall's pit, Yes.
+  - set_pose: {map: xeen_d2.odm, x: 4096, y: 13824, z: 2016, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(49); wait(0.3)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd13.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: 380, z: 0, radius: 40, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 9)"}
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "the Ogres are out hunting. Burn?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "collapses in a heap of burning timbers"}}
+  - play_lua: {source: "close(); if not qbit(113224) then error('west_burned 113224 not set') end"}
+  - clear_hostiles: {radius: 2500}
+  # Back out by the west gate (event 15).
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 380, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -64, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.3)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # West off D2's edge to Castleview Vale; Kramer: Ogres (done), Bounty (the promotion), again.
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24400, y: 2048, z: 992, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Bounty topic: ' .. c) end end end"}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, action_label_present: "Bounty"}}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "Thank you so much for getting rid of the Ogres!"}
+  - select_topic: {match_label: "Bounty"}
+  - assert:
+      dialog: {text_contains: "the caravan guild has a title for hunters like you"}
+  - assert: {dialog: {active: true, action_label_absent: "Bounty"}}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "The caravans run through Ogre Pass on time."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if gold() - recall("gold") ~= 2500 then error("Kramer paid " .. (gold() - recall("gold")) .. ", not 1,500 + 1,000") end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 5000 then error("member " .. i .. " Q-D11 experience " .. gain .. ", not 4,000 + 1,000") end
+        end
+        if classes() ~= "BountyHunter Knight Cleric Sorcerer" then error("Kramer's bounty: " .. classes()) end
+        log("Q-D11 forts done: " .. classes() .. "; Energy Disks " .. item_count(12334))
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113220, 113222, 113224, 113225, 113226, 113227, 113228]}
+  - assert: {qbit_clear: [113221, 113223]}

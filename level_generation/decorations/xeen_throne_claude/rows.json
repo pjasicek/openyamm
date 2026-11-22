@@ -1,0 +1,21 @@
+{
+ "_note": "D-66 seats and statue (lane S, session 9). Rows 4043-4046, sprites 27043-27046 (pending texture), bindings in worlds/xeen/models/indoor_decorations.yml. yaw_offset -90 deg: an entity's facing is the direction the seat (or the statue) looks.",
+ "rows": [
+  {"row": 4043, "sprite": 27043, "name": "xeen_throne", "hint": "throne", "radius": 70, "height": 250,
+   "model": "worlds/xeen/models/xeen_deco_throne.glb", "binding_height": 250, "yaw_offset": -1.570796327,
+   "comment": ["D-66 thrones (lane S; level_generation/decorations/xeen_throne_claude): MM9's carved throne copied into Xeen",
+               "(D-44), dark gilded wood, red cushion; 250 tall, 150 x 133, seat about 78 up; origin at the foot's centre.",
+               "DD-08's four Emotion Thrones and the Throne of the Dunce."]},
+  {"row": 4044, "sprite": 27044, "name": "xeen_throne_steel", "hint": "throne", "radius": 70, "height": 250,
+   "model": "worlds/xeen/models/xeen_deco_throne_steel.glb", "binding_height": 250, "yaw_offset": -1.570796327,
+   "comment": ["The same throne in Ancient steel with a dark teal cushion: DD-17's throne in Command Central's apse."]},
+  {"row": 4045, "sprite": 27045, "name": "xeen_throne_gold", "hint": "throne", "radius": 70, "height": 250,
+   "model": "worlds/xeen/models/xeen_deco_throne_gold.glb", "binding_height": 250, "yaw_offset": -1.570796327,
+   "comment": ["The same throne gilded with an ivory cushion: DD-08's Euphoria Throne (on its dais)."]},
+  {"row": 4046, "sprite": 27046, "name": "xeen_statue_teal", "hint": "statue", "radius": 60, "height": 300,
+   "model": "worlds/xeen/models/xeen_deco_statue_teal.glb", "binding_height": 300, "yaw_offset": -1.570796327,
+   "comment": ["DD-17's propaganda and true-name statues (D-61): MM8's sword-raising elf statue cast in teal metal on a",
+               "dark steel two-step plinth (124 x 100, 50 high); 300 tall, the figure about 250; origin at the plinth's",
+               "bottom centre; replaces MM6's sta1a."]}
+ ]
+}

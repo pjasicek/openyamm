@@ -1,0 +1,148 @@
+# Xeen side quest Q-C1, The Seasons Relay (X6, X4, X5, X1), from a new game on X6 with a level-26 party. The Summer
+# Druid in her grove (X6 actor 6, NPC 4601): Summer (started, summer, the Last Flower of Summer 12510), and again.
+# Overland to X4: the Autumn Druid (actor 35, NPC 4321): Autumn (the flower for the Leaf of Autumn 12511), and again.
+# Overland to X5: the Winter Druid (actor 123, NPC 4529): Winter (the leaf for the Snowflake of Winter 12512), and
+# again. Overland to X1, the ten years of magical age the party was given at the start (a scenario event,
+# AddValue(Age, 10): the stand-in for an aging monster's touch, logged CONVENTION) still on it: rest and travel keep
+# magical age since merge point 33. The Spring Druid (actor 77, NPC 4048): Spring (done, the snowflake for the Last Raindrop of Spring
+# 12513, 8,000 XP each, Xeen.renewAges(): every member's magical age back to none, the engine's Age variable 11 back to
+# the natural age), and again. Outdoors the party is placed beside each druid (tests/playthrough/PLAYBOOK.md section 2).
+# No journal assert form exists: the started bit (which shows the journal line until done, quests.txt's forbidden) and
+# done are asserted.
+# Routes: devdocs/xeen/briefs/x6/L4/playtest.yml (the Summer Druid), x4/L4/playtest.yml (Autumn),
+# x5/L4/playtest.yml (Winter); the Spring Druid stands in X1's scene (actor 77). Quest logic: source/quests/q-c1.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c1_seasons_relay.yml --scenario-no-color
+id: xeen.side_quests.q-c1
+title: "Xeen Q-C1: the Seasons Relay round the four druids; magical aging removed"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x6.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 26, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 26, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 26, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 26, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x6.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112020, 112021, 112022, 112023, 112024]}
+  # The natural age of the new party's members (the engine's Age variable, 11).
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 28}}
+  # Magical age for the renewal to remove: ten years on every member (the road's rests and travel days keep it).
+  - play_lua: {source: "log('CONVENTION magical-age q-c1: every member +10 years (AddValue(Age, 10)) for the renewal to remove')"}
+  - lua_event: {source: "evt.ForPlayer(Players.All); AddValue(Age, 10)"}
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 38}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 3, value: 38}}
+  # The Summer Druid in her grove (X6 actor 6, NPC 4601): Summer (started, summer, the Last Flower), and again.
+  - set_pose: {map: xeen_x6.odm, x: 2560, y: -13926, z: 1440, yaw: 1.03, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 6}
+  - assert:
+      dialog: {active: true, source_id: 4601}
+  - select_topic: {match_label: "Summer"}
+  - assert:
+      dialog: {text_contains: "The year is a relay, and I have held it long enough."}
+  - select_topic: {match_label: "Summer"}
+  - assert:
+      dialog: {text_contains: "Take the Last Flower of Summer to the Autumn Druid on the savannah"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12510) ~= 1 then error("the Summer Druid gave " .. item_count(12510) .. " Last Flowers") end
+  - assert: {qbit_set: [112020, 112021]}
+  - assert: {qbit_clear: [112022, 112023, 112024]}
+  # Overland to X4: the Autumn Druid in his ring (actor 35, NPC 4321): the flower for the Leaf, and again.
+  - travel: {map: xeen_x4.odm, days: 4}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x4.odm, x: -19149, y: -3584, z: 1120, yaw: 2.55, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 35}
+  - assert:
+      dialog: {active: true, source_id: 4321}
+  - select_topic: {match_label: "Autumn"}
+  - assert:
+      dialog: {text_contains: "Thank you for the Last Flower of Summer."}
+  - select_topic: {match_label: "Autumn"}
+  - assert:
+      dialog: {text_contains: "Please take the Last Fallen Leaf of Autumn to the Winter Druid."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12510) then error("the Autumn Druid did not take the Last Flower") end
+        if item_count(12511) ~= 1 then error("the Autumn Druid gave " .. item_count(12511) .. " Leaves") end
+  - assert: {qbit_set: [112022]}
+  # Overland to X5: the Winter Druid in her grove (actor 123, NPC 4529): the leaf for the Snowflake, and again.
+  - travel: {map: xeen_x5.odm, days: 4}
+  - assert: {map: xeen_x5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x5.odm, x: -16589, y: 1331, z: 1043, yaw: 3.3, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 123}
+  - assert:
+      dialog: {active: true, source_id: 4529}
+  - select_topic: {match_label: "Winter"}
+  - assert:
+      dialog: {text_contains: "The last leaf. Then winter may begin."}
+  - select_topic: {match_label: "Winter"}
+  - assert:
+      dialog: {text_contains: "Take the Snowflake to the Spring Druid by Pitchfork Creek."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12511) then error("the Winter Druid did not take the Leaf") end
+        if item_count(12512) ~= 1 then error("the Winter Druid gave " .. item_count(12512) .. " Snowflakes") end
+  - assert: {qbit_set: [112023]}
+  # Overland to X1: the Spring Druid by Pitchfork Creek (actor 77, NPC 4048): the snowflake for the Raindrop, the
+  # renewal and 8,000 XP each (done), and again.
+  - travel: {map: xeen_x1.odm, days: 4}
+  - assert: {map: xeen_x1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The magical age given at the start is still there after three overland trips (merge point 33): at least 38 on every
+  # member (a ghost's or other aging touch on the road may add a year; the renewal takes that too).
+  - lua_event: {source: "for i = 0, 3 do evt.ForPlayer(i); if not IsAtLeast(Age, 38) then error('member ' .. i .. ' lost the magical age on the road') end end"}
+  - set_pose: {map: xeen_x1.odm, x: -18500, y: 1638, z: 640, yaw: 3.14, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3))"}
+  - interact_actor: {actor_index: 77}
+  - assert:
+      dialog: {active: true, source_id: 4048}
+  - select_topic: {match_label: "Spring"}
+  - assert:
+      dialog: {text_contains: "As I renew the year, so will I renew you."}
+  - select_topic: {match_label: "Spring"}
+  - assert:
+      dialog: {text_contains: "You did not wait; you walked. That works too."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12512) then error("the Spring Druid did not take the Snowflake") end
+        if item_count(12513) ~= 1 then error("the Spring Druid gave " .. item_count(12513) .. " Raindrops") end
+        if experience(0) - recall("xp0") ~= 8000 then error("the renewal paid " .. (experience(0) - recall("xp0")) .. " XP") end
+        if experience(3) - recall("xp3") ~= 8000 then error("the renewal paid member 3 " .. (experience(3) - recall("xp3")) .. " XP") end
+  # started stays set (the quest does not clear it); its journal line hides behind done (quests.txt's forbidden).
+  - assert: {qbit_set: [112020, 112024]}
+  # The renewal: every member's magical age is gone (Age back to the natural age).
+  - assert: {runtime_event_variable: {id: 11, member_index: 0, value: 28}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 1, value: 28}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 2, value: 28}}
+  - assert: {runtime_event_variable: {id: 11, member_index: 3, value: 28}}

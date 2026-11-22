@@ -90,6 +90,8 @@ race_class_availability:
     race_id: 10
     classes: []
 
+# card: the new-game screen's card (gameplay/continent_selection.yml places one per card, left to right by order);
+# a continent without one is not offered there.
 new_game_continents:
   - id: 1
     key: jadame
@@ -97,18 +99,36 @@ new_game_continents:
     available_class_ids: [5, 8, 10, 16, 20, 38, 40, 44]
     available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
     portrait_exceptions: []
+    card:
+      order: 4
+      title: Jadame
+      subtitle: Might and Magic VIII
+      caption: Begin in Dagger Wound Islands
+      picture: hud_x2/menus/omenu_continent_jadame.png
   - id: 2
     key: antagarich
     name: Antagarich
     available_class_ids: [0, 4, 12, 16, 22, 26, 30, 34, 42]
     available_race_ids: [0, 3, 7, 8, 9]
     portrait_exceptions: []
+    card:
+      order: 3
+      title: Antagarich
+      subtitle: Might and Magic VII
+      caption: Begin in Emerald Island
+      picture: hud_x2/menus/omenu_continent_antagarich.png
   - id: 3
     key: enroth
     name: Enroth
     available_class_ids: [0, 4, 12, 16, 26, 42]
     available_race_ids: [0, 3, 7, 9]
     portrait_exceptions: []
+    card:
+      order: 2
+      title: Enroth
+      subtitle: Might and Magic VI
+      caption: Begin in New Sorpigal
+      picture: hud_x2/menus/omenu_continent_enroth.png
   - id: 4
     key: between_time
     name: "Between time"
@@ -124,3 +144,9 @@ new_game_continents:
     available_class_ids: [0, 4, 8, 10, 12, 16, 20, 22, 26, 30, 34, 38, 40, 42]
     available_race_ids: [0, 1, 2, 3, 4, 5, 7, 8, 9]
     portrait_exceptions: []
+    card:
+      order: 5
+      title: Chedian
+      subtitle: Might and Magic IX
+      caption: Begin in Ravensford
+      picture: hud_x2/menus/omenu_continent_chedian.png

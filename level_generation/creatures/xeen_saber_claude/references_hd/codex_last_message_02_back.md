@@ -1,0 +1,3 @@
+Saved [02_back.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/02_back.png) and its [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/generation_run_02_back.json). The selected 1536×1024 PNG is the unmodified output from the one corrective generation. It shows the cat straight from behind, with all four paws visible and the tail curling up at the tip.
+
+The visible silhouette clears every edge by at least 106 pixels. Trace alpha below 8/255 extends into the outer padding.

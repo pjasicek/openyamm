@@ -1,0 +1,54 @@
+{
+ "_note": "The shrine's stone hand (right hand; the left is its mirror). Source: the Carnage Hand's rigged Meshy mesh (level_generation/creatures/xeen_hand_claude/work/rig_v1.blend), mouth parts removed, palm closed, posed open and cupped, palm up, on a built forearm and round plinth. Model metres, Blender Z up, the front -Y.",
+ "flex": {
+  "Thumb": [
+   -12,
+   -6,
+   0
+  ],
+  "Index": [
+   -22,
+   -10,
+   -4
+  ],
+  "Middle": [
+   -22,
+   -10,
+   -4
+  ],
+  "Ring": [
+   -20,
+   -8,
+   -2
+  ],
+  "Pinky": [
+   -18,
+   -6,
+   0
+  ]
+ },
+ "spread": -4,
+ "palm_tilt_deg": 14,
+ "palm_height": 0.62,
+ "forearm": {
+  "back": 0.0,
+  "wrist_inset": 0.06,
+  "wrist_scale": 0.86,
+  "base_scale": 1.3,
+  "rings": 18,
+  "segments": 36,
+  "wrist_half": [
+   0.112,
+   0.072
+  ],
+  "wrist_drop": 0.025
+ },
+ "plinth": {
+  "radius_scale": 1.35,
+  "height": 0.045,
+  "step": 0.018
+ },
+ "voxel": 0.004,
+ "lod0_tris": 7000,
+ "seed": 21
+}

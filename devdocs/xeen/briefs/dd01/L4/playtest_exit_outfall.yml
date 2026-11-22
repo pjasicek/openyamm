@@ -1,0 +1,52 @@
+# The outfall out of the Castleview Sewer (DD-01) into D1's mill gorge (lane A8, 2026-11-20). A party set in the
+# outfall tunnel by the grate: the grate refuses while barred (event 18); the bar (event 28, two states) lifts
+# (q-d5.outfall_unbarred 117001), drops (cleared, refused again) and lifts again; then the exit, the game's leave
+# window, OK: the party stands on D1 in the gorge 256 east of the outfall grate (thing:dd01_outfall at (7680, 8192)),
+# on the gorge floor measured at 833, facing east, away from it. Run with --world xeen --map xeen_dd01.blv
+# (output/studio_cal/dd01/four.sh).
+id: xeen.dd01.l4.exit_outfall
+title: Castleview Sewer (DD-01 L4), out by the outfall to D1's mill gorge
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd01.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 19, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 19, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd01.blv, x: 4096, y: -4864, z: -512, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if qbit(117001) then error("the outfall is unbarred at the start") end
+        status()
+        click(18); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The grate is barred.", 1, true) then error("the barred grate said: " .. seen) end
+        status()
+        click(28); wait(0.5)
+        seen = status()
+        if not string.find(seen, "lift the iron bar", 1, true) then error("the bar said: " .. seen) end
+        if not qbit(117001) then error("outfall_unbarred not set") end
+        click(28); wait(0.5)
+        if qbit(117001) then error("the bar did not drop back") end
+        status()
+        click(18); wait(0.5)
+        seen = status()
+        if not string.find(seen, "The grate is barred.", 1, true) then error("the barred grate said again: " .. seen) end
+        click(28); wait(0.5)
+        if not qbit(117001) then error("outfall_unbarred not set again") end
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: 8192, y: 8192, radius: 128, z_min: 800, z_max: 870}}
+  - walk_to: {x: 8500, y: 8192, z: 833, z_tolerance: 120, radius: 128, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {map: xeen_d1.odm}

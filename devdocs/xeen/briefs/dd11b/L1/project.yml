@@ -1,0 +1,31 @@
+format: 0
+id: xeen_dd11b
+name: "Troll Holes, second pocket"
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-11B
+units: {plan_grid: 512}
+extent: {footprint_cells: [14, 8], climbs: n}
+map_stats:
+  id: 9163
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 8
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Warren Troll, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d2_return
+    to: xeen_d2.odm
+    kind: door
+    arrival: [3072, -10240, 960]
+    arrival_hint: "A6's return point for the second hole (D2 event 33, thing:dd11b_hole, by the dead adventurer's pack): on the forest floor about 300 from the pit's lip, facing west, clear of D2's troll spawns."
+    direction: 180
+    notes: "The burrow's sod hatch out to D2 (D-25: one way in by the hole, one way out by the burrow)."
+notes: "Xeen design brief, level L1: DD-11B Troll Holes, second pocket (see L4/NOTES.md)."

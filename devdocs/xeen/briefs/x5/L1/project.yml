@@ -1,0 +1,81 @@
+format: 0
+id: xeen_x5
+name: Winterkill Tundra
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X5
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9103
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 47
+  environment: plains
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Wolf, tier: 1, per_marker: [2, 4], weight: 40}
+    - {monster: Xeen Barbarian, tier: 1, per_marker: [2, 4], weight: 30}
+    - {monster: Xeen Troll, tier: 1, per_marker: [2, 3], weight: 30}
+neighbours:
+  - id: edge:east
+    to: xeen_x3.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The lagoon road along the frozen river's north bank, west into the Ogre Hills pocket, at y 59."
+    notes: "X3 Lifeforce Lagoon. The Act II way in (party 16-19): it lands in the east pocket, where XD-09 and XD-10 stand."
+  - id: edge:north
+    to: xeen_x6.odm
+    kind: edge
+    side: north
+    days: 7
+    arrival_side: south
+    approach: "The steppe road from the desert's edge, south to the Steppe Cross, at x 50."
+    notes: "X6 Desert of the Sphinx (a wilderness edge, 7 days)."
+  - id: door:xd09
+    to: xeen_xd09.blv
+    kind: door
+    arrival_hint: "At the foot of the entry stair inside the Golem Rocks."
+    condition: {item: golem_stone}
+    notes: "XD-09 Golem Dungeon (A8). The slab door in the Golem Rocks, south of the pocket, by the lagoon border."
+  - id: door:xd10_north
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the north mouth, ice at the lip (XD-10's arrival)."
+    notes: "XD-10 Cave of Illusion (A8), north mouth in the Ogre Hills."
+  - id: door:xd10_south
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the south mouth, facing in."
+    notes: "XD-10's south mouth, at the Troll Forest's north-east edge, across the river from the pocket."
+  - id: door:xd22
+    to: xeen_xd22.blv
+    kind: door
+    arrival_hint: "Inside the pagoda's lowest storey."
+    notes: "XD-22 Ninja Pagoda (Q-C4), on the north-east shore of the Winterkill Mere."
+  - id: door:xd23
+    to: xeen_xd23.blv
+    kind: door
+    arrival_hint: "Inside the warren's mouth."
+    notes: "XD-23 Troll Warren (Q-C15), deep in the Troll Forest."
+  - id: door:fd03
+    to: xeen_fd03.blv
+    kind: door
+    listed_only: true
+    arrival_hint: "Inside Darkstone Tower's door."
+    notes: "FD-03 Darkstone Tower, on the rock island in the frozen mere: sealed until the finale (a message)."
+qbits:
+  winterkill_liberated: 112121   # provisional: Q-C6's done bit in A3's block 56 (111000 + 20 x 56 + 1); A3 confirms
+items:
+  golem_stone: 12305
+  holy_book: 12524
+rules:
+  weather: snow
+  town_portal_anchor: entrance:winterkill_square
+notes: "X5 Winterkill Tundra, MU-3 plan for gate G1 (A6, 2026-11-20). No geometry until the user has seen it. Plan: plan.yml; to-scale layout: sketch.yml; drawing and review board: level_generation/xeen_art/phase2/."

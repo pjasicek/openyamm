@@ -342,6 +342,10 @@ entrances:
     space: edge:west_end
     kind: both
     neighbour: edge:west
+  - id: entrance:x9_fall
+    space: zone:island
+    kind: arrival
+    how: "A fall from X9, the Clouds of Xeen (D-50 change 4; Xeen.skyFall, with falling damage): on Darzog's island by the tower door; the lake dragons are leashed at least 5,888 from it (D-54)."
   - id: entrance:xd06_yak
     space: zone:yak_front
     kind: both

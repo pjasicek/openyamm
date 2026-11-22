@@ -1,0 +1,589 @@
+format: 0
+start:
+  room: room:stair_foot
+  at: [0, 704]
+  facing: 270
+  notes: "At the foot of the coffin stair, facing into the crypt (south): where X3's open coffin (thing:coffin_open) arrives (A5's `into`: 0, 704, 0 facing south, 1536)."
+doors:
+  - id: door:count_base
+    opening: open:vault_count
+    kind: slide_down
+    thickness: 32
+    speed: 200
+    surface: {texture: cnb, size: [128, 256]}
+    back_surface: {texture: cnb, size: [128, 256]}
+    tile: true
+    notes: "A slab of the wall behind the dais (drawn as the wall, no secret flag: the stair is found by his death, not by Perception): sinks when Count Draco dies."
+  - id: door:count_top
+    opening: open:count_foot
+    kind: slide_down
+    thickness: 32
+    speed: 200
+    surface: {texture: cnb, size: [128, 256]}
+    back_surface: {texture: cnb, size: [128, 256]}
+    tile: true
+    notes: "A slab of the stair foot's east wall, drawn as the wall: sinks when Count Draco dies."
+  - id: door:feast_e
+    opening: open:feast_catae
+    kind: hinged
+    thickness: 16
+    surface: {texture: cndl, size: [128, 256], fit: true}
+    notes: The feast hall's east door.
+  - id: door:feast_w
+    opening: open:cataw_feast
+    kind: hinged
+    thickness: 16
+    surface: {texture: cndl, size: [128, 256], fit: true}
+    notes: The feast hall's west door.
+  - id: door:iron
+    opening: open:vault_door
+    kind: hinged
+    thickness: 24
+    speed: 96
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    back_surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The iron door with the Count's symbol: opens only by night (D-25 Q1), stays open once opened."
+  - id: door:ossuary
+    opening: open:ossuary_chapel
+    kind: hinged
+    thickness: 16
+    surface: {texture: cndl, size: [128, 256], fit: true}
+    notes: The chapel's door from the ossuary.
+  - id: door:sexton
+    opening: open:chapel_sexton
+    kind: hinged
+    thickness: 16
+    surface: {texture: cndl, size: [128, 256], fit: true}
+    notes: The sexton's door.
+sounds:
+  - {id: sound:draught, room: room:gallery, at: [-1280, -2496], sound: whistling wind, radius: 1600, inner_radius: 300, volume: 0.35, notes: A draught along the gallery.}
+  - {id: sound:drip_e, room: room:cata_e, at: [-576, -4096], sound: drip03, radius: 1200, volume: 0.5, wait: [4, 11]}
+  - {id: sound:drip_w, room: room:cata_w, at: [-2752, -3584], sound: drip02, radius: 1400, volume: 0.5, wait: [3, 9], notes: Water seeping through the catacomb's vault.}
+  - {id: sound:hum, room: room:vault_stair, at: [768, -2496], sound: humming, radius: 1100, inner_radius: 300, volume: 0.4, notes: The Count's symbol hums in the iron door.}
+lights:
+  - id: light:cata_e
+    room: room:cata_e
+    at: [-576, -3776]
+    height: 320
+    radius: 900
+    color: [160, 170, 200]
+  - id: light:cata_w
+    room: room:cata_w
+    at: [-2752, -2816]
+    height: 320
+    radius: 1000
+    color: [160, 170, 200]
+  - id: light:cata_w_s
+    room: room:cata_w
+    at: [-2752, -4000]
+    height: 320
+    radius: 900
+    color: [255, 190, 120]
+  - id: light:chapel
+    room: room:chapel
+    at: [-2688, 0]
+    height: 560
+    radius: 1300
+    color: [255, 170, 100]
+  - id: light:chapel_moon
+    room: room:chapel
+    at: [-2688, 900]
+    height: 500
+    radius: 1200
+    color: [170, 185, 230]
+    notes: The painted moon's cold light over the altar.
+  - id: light:chapel_stair
+    room: room:chapel_stair
+    at: [-2688, -1344]
+    height: 0
+    radius: 800
+    color: [255, 190, 120]
+  - id: light:coffin_stair
+    room: room:coffin_stair
+    at: [0, 1536]
+    height: 600
+    radius: 700
+    color: [170, 185, 230]
+    notes: The night (or day) through Draco's open coffin at the top.
+  - id: light:count_stair
+    room: room:count_stair
+    at: [2048, -400]
+    height: 0
+    radius: 900
+    color: [255, 170, 100]
+  - id: light:feast
+    room: room:feast_hall
+    at: [-1600, -3776]
+    height: 460
+    radius: 1300
+    color: [255, 170, 100]
+  - id: light:foot
+    room: room:stair_foot
+    at: [0, 512]
+    height: 384
+    radius: 1000
+    color: [255, 170, 100]
+  - id: light:gallery_e
+    room: room:gallery
+    at: [-768, -2496]
+    height: 480
+    radius: 1100
+    color: [255, 170, 100]
+  - id: light:gallery_w
+    room: room:gallery
+    at: [-1792, -2496]
+    height: 480
+    radius: 1100
+    color: [255, 170, 100]
+  - id: light:niches_e
+    room: room:niches
+    at: [-128, -384]
+    height: 280
+    radius: 900
+    color: [255, 170, 100]
+  - id: light:niches_w
+    room: room:niches
+    at: [-1280, -384]
+    height: 280
+    radius: 900
+    color: [255, 170, 100]
+  - id: light:ossuary
+    room: room:ossuary
+    at: [-1280, 640]
+    height: 420
+    radius: 1100
+    color: [255, 190, 120]
+  - id: light:sexton
+    room: room:sexton
+    at: [-3776, 704]
+    height: 280
+    radius: 700
+    color: [255, 170, 100]
+  - id: light:vault
+    room: room:draco_vault
+    at: [2048, -2496]
+    height: 640
+    radius: 1700
+    color: [200, 120, 130]
+  - id: light:vault_dais
+    room: room:draco_vault
+    at: [2048, -1800]
+    height: 300
+    radius: 900
+    color: [255, 170, 100]
+  - id: light:vault_stair
+    room: room:vault_stair
+    at: [448, -2496]
+    height: 0
+    radius: 900
+    color: [150, 170, 255]
+    pulse: {intensity: [0.8, 1], frequency: 0.6}
+    notes: The Count's symbol on the iron door glows faintly.
+chests:
+  - id: chest:feast
+    room: room:feast_hall
+    at: [-2192, -4000]
+    facing: e
+    treasure_level: 3
+    random_items: 3
+    gold: 900
+    trap_level: 2
+    notes: "The Count's silver plate, at the head of the table."
+  - id: chest:hoard
+    room: room:draco_vault
+    at: [2688, -1648]
+    facing: s
+    treasure_level: 4
+    random_items: 3
+    gold: 2000
+    trap_level: 3
+    notes: "Draco's hoard (tier 4), by the north wall."
+  - id: chest:sexton
+    room: room:sexton
+    at: [-4000, 512]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 600
+    trap_level: 2
+    notes: The sexton's lockbox of burial fees.
+monsters:
+  - id: monster:catae_1
+    room: room:cata_e
+    monster: 11290
+    at: [-576, -3456]
+    facing: 90
+    hostile: true
+    group: 8
+  - id: monster:catae_2
+    room: room:cata_e
+    monster: 11290
+    at: [-576, -4160]
+    facing: 90
+    hostile: true
+    group: 8
+  - id: monster:cataw_1
+    room: room:cata_w
+    monster: 11290
+    at: [-2752, -3264]
+    facing: 90
+    hostile: true
+    group: 6
+  - id: monster:cataw_2
+    room: room:cata_w
+    monster: 11290
+    at: [-2752, -3520]
+    facing: 90
+    hostile: true
+    group: 6
+  - id: monster:chapel_1
+    room: room:chapel
+    monster: 11290
+    at: [-2944, 640]
+    facing: 0
+    hostile: true
+    group: 5
+  - id: monster:chapel_2
+    room: room:chapel
+    monster: 11290
+    at: [-2688, 768]
+    facing: 0
+    hostile: true
+    group: 5
+  - id: monster:chapel_3
+    room: room:chapel
+    monster: 11290
+    at: [-2432, 640]
+    facing: 0
+    hostile: true
+    group: 5
+  - id: monster:draco
+    room: room:draco_vault
+    monster: 11293
+    at: [2048, -2688]
+    facing: 180
+    hostile: true
+    group: 11
+    notes: "Count Draco (A2's boss row 11293, level 45, blink on hit); his death runs A3's q-c7.draco."
+  - id: monster:feast_1
+    room: room:feast_hall
+    monster: 11291
+    at: [-1920, -3456]
+    facing: 270
+    hostile: true
+    group: 9
+  - id: monster:feast_2
+    room: room:feast_hall
+    monster: 11291
+    at: [-1280, -3616]
+    facing: 270
+    hostile: true
+    group: 9
+  - id: monster:gallery_1
+    room: room:gallery
+    monster: 11291
+    at: [-1280, -2496]
+    facing: 180
+    hostile: true
+    group: 7
+    notes: "One of the Count's household, alone among his portraits."
+  - id: monster:niches_1
+    room: room:niches
+    monster: 11290
+    at: [-1664, -384]
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:niches_2
+    room: room:niches
+    monster: 11290
+    at: [-1472, -448]
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:niches_3
+    room: room:niches
+    monster: 11290
+    at: [-1024, -320]
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:niches_4
+    room: room:niches
+    monster: 11290
+    at: [-896, -480]
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:niches_5
+    room: room:niches
+    monster: 11290
+    at: [-768, -320]
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:ossuary_1
+    room: room:ossuary
+    monster: 11290
+    at: [-1600, 896]
+    facing: 0
+    hostile: true
+    group: 1
+  - id: monster:ossuary_2
+    room: room:ossuary
+    monster: 11290
+    at: [-1408, 1024]
+    facing: 0
+    hostile: true
+    group: 1
+  - id: monster:ossuary_3
+    room: room:ossuary
+    monster: 11290
+    at: [-1536, 256]
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:ossuary_4
+    room: room:ossuary
+    monster: 11290
+    at: [-1280, 352]
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:vault_1
+    room: room:draco_vault
+    monster: 11291
+    at: [1664, -2240]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:vault_2
+    room: room:draco_vault
+    monster: 11291
+    at: [1664, -2752]
+    facing: 180
+    hostile: true
+    group: 10
+decorations:
+  - id: deco:altar_candle_1
+    room: room:chapel
+    decoration: cndlab0
+    at: [-2880, 992]
+    floor_height: 96
+  - id: deco:altar_candle_2
+    room: room:chapel
+    decoration: cndlab0
+    at: [-2496, 992]
+    floor_height: 96
+  - id: deco:catae_bones
+    room: room:cata_e
+    decoration: dec29
+    at: [-400, -4200]
+  - id: deco:catae_torch
+    room: room:cata_e
+    decoration: torch01
+    wall: north
+    along: 0.2
+    height: 176
+  - id: deco:cataw_bones
+    room: room:cata_w
+    decoration: dec29
+    at: [-2960, -2816]
+  - id: deco:cataw_torch
+    room: room:cata_w
+    decoration: torch01
+    wall: south
+    along: 0.5
+    height: 176
+  - id: deco:chapel_candles_1
+    room: room:chapel
+    decoration: dec02
+    at: [-3136, 1024]
+  - id: deco:chapel_candles_2
+    room: room:chapel
+    decoration: dec02
+    at: [-2176, 1024]
+  - id: deco:chapel_stair_torch
+    room: room:cata_w
+    decoration: torch01
+    wall: north
+    along: 0.15
+    height: 176
+  - id: deco:chapel_torch_s
+    room: room:chapel
+    decoration: torch01
+    wall: south
+    along: 0.2
+    height: 176
+  - id: deco:feast_candle
+    room: room:feast_hall
+    decoration: cndlab0
+    at: [-1600, -3952]
+    floor_height: -568
+  - id: deco:feast_candles_1
+    room: room:feast_hall
+    decoration: dec02
+    at: [-2176, -4224]
+  - id: deco:feast_candles_2
+    room: room:feast_hall
+    decoration: dec02
+    at: [-1152, -4224]
+  - id: deco:feast_goblet_1
+    room: room:feast_hall
+    decoration: 7dec46
+    at: [-1728, -3936]
+    floor_height: -568
+  - id: deco:feast_goblet_2
+    room: room:feast_hall
+    decoration: 7dec48
+    at: [-1472, -4064]
+    floor_height: -568
+  - id: deco:feast_plate_1
+    room: room:feast_hall
+    decoration: dec39
+    at: [-1600, -4048]
+    floor_height: -568
+  - id: deco:feast_plate_2
+    room: room:feast_hall
+    decoration: dec39
+    at: [-1344, -3952]
+    floor_height: -568
+  - id: deco:feast_plates_1
+    room: room:feast_hall
+    decoration: dec39
+    at: [-1856, -4000]
+    floor_height: -568
+  - id: deco:feast_torch
+    room: room:feast_hall
+    decoration: torch01
+    wall: north
+    along: 0.5
+    height: 176
+  - id: deco:foot_bones
+    room: room:stair_foot
+    decoration: dec29
+    at: [-320, 896]
+  - id: deco:foot_candle_2
+    room: room:stair_foot
+    decoration: cndlab0
+    at: [352, 96]
+  - id: deco:foot_torch
+    room: room:stair_foot
+    decoration: torch01
+    wall: west
+    along: 0.85
+    height: 176
+  - id: deco:gallery_candles_1
+    room: room:gallery
+    decoration: dec02
+    at: [-1600, -2144]
+  - id: deco:gallery_candles_2
+    room: room:gallery
+    decoration: dec02
+    at: [-960, -2144]
+  - id: deco:gallery_torch_e
+    room: room:gallery
+    decoration: torch01
+    wall: east
+    along: 0.2
+    height: 176
+  - id: deco:gallery_torch_w
+    room: room:gallery
+    decoration: torch01
+    wall: west
+    along: 0.2
+    height: 176
+  - id: deco:niches_bones_1
+    room: room:niches
+    decoration: dec29
+    at: [-1152, -768]
+    floor_height: 64
+  - id: deco:niches_bones_2
+    room: room:niches
+    decoration: dec29
+    at: [192, -768]
+    floor_height: 64
+  - id: deco:niches_torch
+    room: room:niches
+    decoration: torch01
+    wall: north
+    along: 0.75
+    height: 176
+  - id: deco:ossuary_bones
+    room: room:ossuary
+    decoration: dec29
+    at: [-1120, 160]
+  - id: deco:ossuary_skull
+    room: room:ossuary
+    decoration: 7dec20
+    at: [-1664, 1226]
+    floor_height: 160
+  - id: deco:ossuary_skulls_1
+    room: room:ossuary
+    decoration: sklplrev
+    at: [-1824, 96]
+  - id: deco:ossuary_skulls_2
+    room: room:ossuary
+    decoration: sklplrev
+    at: [-736, 96]
+  - id: deco:ossuary_torch_e
+    room: room:ossuary
+    decoration: torch01
+    wall: east
+    along: 0.85
+    height: 176
+  - id: deco:ossuary_torch_w
+    room: room:ossuary
+    decoration: torch01
+    wall: west
+    along: 0.15
+    height: 176
+  - id: deco:sexton_torch
+    room: room:sexton
+    decoration: torch01
+    wall: south
+    along: 0.5
+    height: 176
+  - id: deco:vault_candle_1
+    room: room:draco_vault
+    decoration: cndlab0
+    at: [1696, -1952]
+    floor_height: -1248
+  - id: deco:vault_candle_2
+    room: room:draco_vault
+    decoration: cndlab0
+    at: [2400, -1952]
+    floor_height: -1248
+  - id: deco:vault_candles_1
+    room: room:draco_vault
+    decoration: dec02
+    at: [1344, -1728]
+  - id: deco:vault_candles_2
+    room: room:draco_vault
+    decoration: dec02
+    at: [2880, -3264]
+  - id: deco:vault_goblet
+    room: room:draco_vault
+    decoration: 7dec46
+    at: [2048, -2032]
+    floor_height: -1168
+  - id: deco:vault_torch_e
+    room: room:draco_vault
+    decoration: torch01
+    wall: east
+    along: 0.5
+    height: 176
+  - id: deco:vstair_torch
+    room: room:vault_stair
+    decoration: torch01
+    wall: north
+    along: 0.3
+    height: 176
+exits:
+  - id: exit:coffin
+    room: room:coffin_stair
+    wall: north
+    size: [256, 352]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x3_coffin
+    notes: "The top of the coffin stair: up through Draco's open coffin to Nightshadow's square (X3)."

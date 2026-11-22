@@ -1,0 +1,57 @@
+# The two ways out of the Lakeside Coven and Sewer (DD-20) onto D4 (Lakeside, A6), and the two inside arrivals they
+# pair with (lane A8, 2026-11-20). From the map's start (entrance:d4_guild, the foot of the Guild's back stair in the
+# coven hall) up the stair to the landing: the cellar door's leave window (event 33), OK: the party stands on D4 beside
+# the Guild's west-wall hatch at A6's entrance:dd20_guild (-1024, -13312, 1120) facing west. Then back in by D4's shaft
+# (its move, evt.MoveToMap to entrance:d4_shaft (14208, -1152, -512) facing west): the party stands at the jetty
+# shaft's ladder foot; the ladder's leave window (event 34), OK: D4's entrance:dd20_shaft (3072, -9728, 1120) facing
+# north. Each arrival's measured position is logged ("measured ..."). Run with --world xeen --map xeen_dd20.blv
+# (output/studio_cal/dd20/four.sh).
+id: xeen.dd20.l4.exits
+title: Lakeside Coven and Sewer (DD-20 L4), out by the cellar door and by the jetty shaft to D4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd20.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_dd20.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "LAKESIDE'S UNDERSIDE"}}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: -640, y: -384, radius: 64, z_min: -8, z_max: 8}}
+  # Up the Guild's back stair to the landing and its cellar door.
+  - walk_to: {x: -640, y: -900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: -3000, z: 600, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -640, y: -3800, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured guild exit ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  - assert: {party_position: {x: -1024, y: -13312, radius: 128, z_min: 1080, z_max: 1180}}
+  # In again by the jetty shaft (D4's door:dd20_sewer moves the party to entrance:d4_shaft).
+  - lua_event: {source: "evt.MoveToMap(14208, -1152, -512, 1024, 0, 0, 0, 0, \"xeen_dd20.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured shaft arrival ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  - assert: {party_position: {x: 14208, y: -1152, radius: 64, z_min: -520, z_max: -504}}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 34}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - lua_event: {source: "local x, y, z = evt.GetPartyPosition(); evt.StatusText('measured shaft exit ' .. x .. ' ' .. y .. ' ' .. z)"}
+  - play_lua: {source: "log(status())"}
+  - assert: {party_position: {x: 3072, y: -9728, radius: 128, z_min: 1080, z_max: 1180}}

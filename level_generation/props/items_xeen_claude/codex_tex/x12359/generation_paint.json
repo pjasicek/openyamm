@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely edit input 1 paint_mask_guide.png in place as a texture projection atlas. Input 2 is the material reference and input 3 the palette reference. Preserve the guide alpha pixel for pixel across the whole transparent 1536x2048 portrait canvas. Keep the generous empty space, all five shapes per half, their exact horizontal flat bases, spacing, sizes and orientations. Three columns by four rows of square cells. Rows 1 and 2: front, back, left / right, overhead, empty. Paint only inside the grey shapes with detailed unlit rough grey stone split by jagged veins of faceted rich blue sapphire as in the references. No directional lighting, hot highlights, AO, reflections, shadows, glows, text or ground. Rows 3 and 4: repeat the upper two rows' shapes exactly at offset +1024 y, with each opaque stone pixel replaced by pure flat #FFFF00 and each opaque blue crystal pixel by pure flat #000000. No shading, texture, borders or intermediate colours in masks. Keep empty cells transparent. Never rearrange or rescale the shapes. Critical edge correction: trace strictly inside the exact silhouette stencil. Absolutely clean, crisp cutout edges in the bottom half. Zero speckles, stray pigment, edge fringe, thin lines, halos or brush overshoot. Fill each lower silhouette with a solid opaque yellow shape and fill its sapphire regions solid opaque black.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "cf83fd87a252c42e6ed7d4cd1997fbac9559879008ceb7841c1c371de695d3a4"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "86e829c79925f91677f365e08bc38348a9baf60f4b8b2751d1afc2b267e50d75"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "100aaad5230e9c9619148ef0a74aca9204cfa0e0aa154e5ca311e72081caaaa3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f921-3fb1-75b2-9a2a-5ba406e8ee9a/exec-2906b3f8-81cd-4461-ad74-ce5f92130d56.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

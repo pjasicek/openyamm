@@ -1,0 +1,491 @@
+format: 0
+variables: [wall_w_open, wall_e_open, iron_open]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - qbit: arrived_once
+      - text: "The Northern Tower of the Voweless Knights. Bosco's Chalice is kept at the top, where a voice asks what you seek."
+    notes: "The first arrival (117640): the errand and where to go (the build's arrival check)."
+  - id: evt:bed_dorm0_1
+    preset: text
+    source: platform:bed_dorm0_1
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: A bed (aaze0069:13-14).
+  - id: evt:bed_dorm0_2
+    preset: text
+    source: platform:bed_dorm0_2
+    title: Bed
+    text: "A note under the pillow reads:  In life, to appreciate the highs one must experience the lows."
+    window: true
+    notes: "The pillow note (aaze0069:15): the thrones' answer-giver."
+  - id: evt:bed_dorm0_3
+    preset: text
+    source: platform:bed_dorm0_3
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: A bed (aaze0069:13-14).
+  - id: evt:bed_dorm0_4
+    preset: text
+    source: platform:bed_dorm0_4
+    title: Bed
+    text: Nothing here.
+    window: false
+    notes: A bed (aaze0069:13-14).
+  - id: evt:bed_lesson_1
+    preset: text
+    source: platform:bed_lesson_1
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 1:
+      EEEIOIE
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:14)."
+  - id: evt:bed_lesson_2
+    preset: text
+    source: platform:bed_lesson_2
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 2:
+      EOAUAAUE
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:15)."
+  - id: evt:bed_lesson_3
+    preset: text
+    source: platform:bed_lesson_3
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 3:
+      EEEOEAOUEIEEEOEE
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:16)."
+  - id: evt:bed_lesson_4
+    preset: text
+    source: platform:bed_lesson_4
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 4:
+      OEOOEIEOOOAEI
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:17)."
+  - id: evt:bed_lesson_5
+    preset: text
+    source: platform:bed_lesson_5
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 5:
+      OOOAIOEIEOU
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:18)."
+  - id: evt:bed_lesson_6
+    preset: text
+    source: platform:bed_lesson_6
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 6:
+      AOOAIOEAEOOAE
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:19)."
+  - id: evt:bed_lesson_7
+    preset: text
+    source: platform:bed_lesson_7
+    title: Bed
+    text: |-
+      You find a note under the pillow that reads:  Cliff Notes Lesson 7:
+      IIEEEOEEEOUIE
+    window: true
+    notes: "A bed in the cells: the Cliff Notes (aaze0072:20)."
+  - id: evt:book_fool_and_money
+    preset: script
+    source: platform:book_fool_and_money
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("fool_and_money", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"fool_and_money\"): the proverb or its vowels runs q-d17.book_fool_and_money (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_gift_horse
+    preset: script
+    source: platform:book_gift_horse
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("gift_horse", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"gift_horse\"): the proverb or its vowels runs q-d17.book_gift_horse (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_laughs_last
+    preset: script
+    source: platform:book_laughs_last
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("laughs_last", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"laughs_last\"): the proverb or its vowels runs q-d17.book_laughs_last (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_love_of_money
+    preset: script
+    source: platform:book_love_of_money
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("love_of_money", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"love_of_money\"): the proverb or its vowels runs q-d17.book_love_of_money (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_needs_of_many
+    preset: script
+    source: platform:book_needs_of_many
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("needs_of_many", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"needs_of_many\"): the proverb or its vowels runs q-d17.book_needs_of_many (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_sleeping_dogs
+    preset: script
+    source: platform:book_sleeping_dogs
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("sleeping_dogs", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"sleeping_dogs\"): the proverb or its vowels runs q-d17.book_sleeping_dogs (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:book_wishes_horses
+    preset: script
+    source: platform:book_wishes_horses
+    title: Book
+    lua: |-
+      if continueStep == 2 then
+          evt.PlaySoundName("closebook")
+      end
+      Xeen.vowelessBook("wishes_horses", eventId, continueStep)
+    notes: "A Voweless book (D-61 Q25): A3's Xeen.vowelessBook(\"wishes_horses\"): the proverb or its vowels runs q-d17.book_wishes_horses (+1 to one statistic for each member new to it, a player bit); a wrong answer q-d17.book_wrong (the slam) and it may be tried again."
+  - id: evt:chalice
+    preset: script
+    source: platform:stand
+    title: Chalice
+    condition: {not: {qbit: chalice_taken}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d17.chalice\")"
+      - hide: deco:chalice
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d17.chalice\")"
+    notes: "q-d17.chalice (113345): the Chalice of Protection (12525); 'An empty stand.' after (the hook's else text)."
+  - id: evt:chalice_load
+    preset: script
+    trigger: load
+    condition: {qbit: chalice_taken}
+    effects:
+      - hide: deco:chalice
+    notes: The stand stays empty once the Chalice is taken.
+  - id: evt:chest_niche_e
+    preset: chest
+    source: chest:niche_e
+    title: Chest
+  - id: evt:chest_niche_w
+    preset: chest
+    source: chest:niche_w
+    title: Chest
+  - id: evt:chest_quartermaster
+    preset: chest
+    source: chest:quartermaster
+    title: Chest
+  - id: evt:chest_west_dorm
+    preset: chest
+    source: chest:west_dorm
+    title: Chest
+  - id: evt:door_chapter
+    preset: door
+    source: door:chapter
+    title: Chapter hall
+  - id: evt:door_east_dorm
+    preset: door
+    source: door:east_dorm
+    title: Door
+  - id: evt:door_east_study
+    preset: door
+    source: door:east_study
+    title: Door
+  - id: evt:door_helms
+    preset: door
+    source: door:helms
+    title: Door
+  - id: evt:door_iron
+    preset: door
+    source: door:iron
+    title: Iron door
+    condition: {qbit: voice_answered}
+    locked_text: "An iron door with no handle and no lock. Beside it, the mask waits."
+    notes: "The iron door: shut until the voice is answered."
+  - id: evt:door_lectern
+    preset: door
+    source: door:lectern
+    title: Door
+  - id: evt:door_mail
+    preset: door
+    source: door:mail
+    title: Door
+  - id: evt:door_quartermaster
+    preset: door
+    source: door:quartermaster
+    title: Door
+  - id: evt:door_refectory
+    preset: door
+    source: door:refectory
+    title: Door
+  - id: evt:door_west_dorm
+    preset: door
+    source: door:west_dorm
+    title: Door
+  - id: evt:door_west_study
+    preset: door
+    source: door:west_study
+    title: Door
+  - id: evt:exit_gate
+    preset: script
+    source: door:gate
+    title: Exit the Knight's Tower
+    effects:
+      - exit: exit:d5_door
+    notes: "The gate: the game's own leave window (D-24; 'Exit the Knight's Tower?', aaze0069:0) to D5's entrance:dd08_door (2560, 11776, 3008) facing 1536."
+  - id: evt:figures_load
+    preset: script
+    trigger: load
+    condition: {qbit: oath}
+    effects:
+      - show_actors: 40
+    notes: The four Voweless Knights stay shown on every load after the oath (D-61 Q28).
+  - id: evt:helm_find
+    preset: script
+    source: panel:helm_find
+    title: Helm
+    condition: {not: {qbit: helm_find}}
+    effects:
+      - qbit: helm_find
+      - give_item:
+          level: 5
+          kind: 6
+      - text: You take the helm from its peg.
+    else_effects:
+      - text: Nothing here.
+    notes: "A hung piece taken once (Helm, a T5 item of kind 6); then 'Nothing here.' (aaze0069:17, aaze0070:8)."
+  - id: evt:iron_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: voice_answered, not: {map_var: iron_open}}
+    opens: [door:iron]
+    effects:
+      - set:
+          var:
+            map_var: iron_open
+          value: 1
+    notes: The iron door swings open with the voice's answer and stays open on every later load.
+  - id: evt:mail_find
+    preset: script
+    source: panel:mail_find
+    title: Armor
+    condition: {not: {qbit: mail_find}}
+    effects:
+      - qbit: mail_find
+      - give_item:
+          level: 5
+          kind: 4
+      - text: You take the black plate from its stand.
+    else_effects:
+      - text: Nothing here.
+    notes: "A hung piece taken once (Armor, a T5 item of kind 4); then 'Nothing here.' (aaze0069:17, aaze0070:8)."
+  - id: evt:mirror
+    preset: script
+    source: panel:mirror
+    title: Mirror
+    lua: |-
+      if continueStep ~= nil then
+          evt.StatusText("The mirror does not respond.")
+          return
+      end
+      AskQuestionWithAnswerSteps(eventId, 1, "Where to?", {{Answer = "\1", Step = 1}})
+    notes: "The dead mirror (D-37's xkmirror): 'Where to?' then 'The mirror does not respond.' (aaze0069:3, :5)."
+  - id: evt:oath
+    preset: script
+    source: panel:plaque
+    title: Plaque
+    lua: |-
+      if IsQBitSet(QBit(113344)) then
+          if XeenQuests.can("q-d17.oath_again") then
+              XeenQuests.hook("q-d17.oath_again")
+          else
+              XeenQuests.hook("q-d17.oath")
+          end
+          return
+      end
+      if continueStep == 1 then
+          if XeenQuests.hook("q-d17.oath") then
+              evt.SetMonGroupBit(40, MonsterBits.Invisible, 0)
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if not XeenQuests.can("q-d17.oath") then
+          XeenQuests.hook("q-d17.oath")
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Swear the Voweless oath?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "The order's plaque: with the Chalice, 'Swear the Voweless oath?' Yes calls q-d17.oath (113344) and shows the four figures; without it the hook's fail text; after the oath q-d17.oath_again for a newly eligible member, else the hook's else text."
+  - id: evt:pulpit
+    preset: text
+    source: platform:pulpit
+    title: Pulpit
+    text: "The silent reader's pulpit. Nobody reads here: the book is gone."
+    window: false
+    notes: The refectory's pulpit (map-local).
+  - id: evt:roof
+    preset: script
+    source: platform:roof_hatch
+    title: Trapdoor
+    condition: {lua: "XeenQuests.hook(\"d7.roof_dd08\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "The roof trapdoor (D-58): before m30.done the hook's 'The trapdoor is shut fast.'; after it the standard entrance window (F16, 2026-11-22: OK/Close, no Yes/No): OK up to D7's entrance:dd08_roof (5632, 15104, 1158) facing 512."
+  - id: evt:shield_find
+    preset: script
+    source: panel:shield_find
+    title: Shield
+    condition: {not: {qbit: shield_find}}
+    effects:
+      - qbit: shield_find
+      - give_item:
+          level: 5
+          kind: 5
+      - text: You lift the shield from its hooks.
+    else_effects:
+      - text: Nothing here.
+    notes: "A hung piece taken once (Shield, a T5 item of kind 5); then 'Nothing here.' (aaze0069:17, aaze0070:8)."
+  - id: evt:statue
+    preset: text
+    source: platform:statue
+    title: Statue
+    text: |-
+      A plaque reads:
+      "In honor of the Grand Order of Voweless Knights"
+    window: true
+    notes: The founder's statue (aaze0069:1-2).
+  - id: evt:throne_confused
+    preset: script
+    source: deco:throne_confused
+    title: Emotion Throne
+    lua: "Xeen.vowelessThrone(\"confused\")"
+    notes: "A3's Xeen.vowelessThrone(\"confused\") (D-61 Q26)."
+  - id: evt:throne_depressed
+    preset: script
+    source: deco:throne_depressed
+    title: Emotion Throne
+    lua: "Xeen.vowelessThrone(\"depressed\")"
+    notes: "A3's Xeen.vowelessThrone(\"depressed\") (D-61 Q26)."
+  - id: evt:throne_dunce
+    preset: script
+    source: deco:throne_dunce
+    title: Throne of the Dunce
+    lua: "Xeen.vowelessThrone(\"dunce\")"
+    notes: "A3's Xeen.vowelessThrone(\"dunce\") (D-61 Q26)."
+  - id: evt:throne_euphoria
+    preset: script
+    source: deco:throne_euphoria
+    title: Euphoria Throne
+    lua: "Xeen.vowelessThrone(\"euphoria\")"
+    notes: "A3's Xeen.vowelessThrone(\"euphoria\") (D-61 Q26)."
+  - id: evt:throne_heartbroken
+    preset: script
+    source: deco:throne_heartbroken
+    title: Emotion Throne
+    lua: "Xeen.vowelessThrone(\"heartbroken\")"
+    notes: "A3's Xeen.vowelessThrone(\"heartbroken\") (D-61 Q26)."
+  - id: evt:throne_insane
+    preset: script
+    source: deco:throne_insane
+    title: Emotion Throne
+    lua: "Xeen.vowelessThrone(\"insane\")"
+    notes: "A3's Xeen.vowelessThrone(\"insane\") (D-61 Q26)."
+  - id: evt:voice
+    preset: script
+    source: panel:mask
+    title: Mask
+    lua: |-
+      if IsQBitSet(QBit(113342)) then
+          evt.StatusText("The mask is silent.")
+          return
+      end
+      if continueStep == 1 then
+          XeenQuests.hook("q-d17.voice")
+          return
+      elseif continueStep == 2 then
+          XeenQuests.hook("q-d17.voice_wrong")
+          return
+      elseif continueStep ~= nil then
+          XeenQuests.hook("q-d17.voice_other")
+          return
+      end
+      AskQuestionWithAnswerSteps(eventId, 3, "A disembodied voice thunders through your brain, \"What do you seek?\"\nWht d y sk?",
+          {{Answer = "Chlc", Step = 1}, {Answer = "aie", Step = 1}, {Answer = "Chalice", Step = 2}})
+    notes: "The voice (D-61 Q27): aaze0072:2 and 'Wht d y sk?': Chlc or aie calls q-d17.voice (113342, the iron door opens); Chalice q-d17.voice_wrong (aaze0072:6); anything else q-d17.voice_other (aaze0072:7). After the answer: 'The mask is silent.'."
+  - id: evt:wall_e
+    preset: script
+    source: plate:wall_e
+    trigger: step
+    condition: {not: {qbit: wall_e}}
+    opens: [door:wall_e]
+    effects:
+      - qbit: wall_e
+      - lua: "evt.PlaySoundName(\"stone door0301\")"
+      - text: "With a grinding of stone, the wall before you slides aside."
+    notes: "The east study's sliding wall (the source's grinding wall): opens as the party walks up, for good."
+  - id: evt:wall_e_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: wall_e, not: {map_var: wall_e_open}}
+    opens: [door:wall_e]
+    effects:
+      - set:
+          var:
+            map_var: wall_e_open
+          value: 1
+    notes: The wall stays open on later loads (and after a refill).
+  - id: evt:wall_w
+    preset: script
+    source: plate:wall_w
+    trigger: step
+    condition: {not: {qbit: wall_w}}
+    opens: [door:wall_w]
+    effects:
+      - qbit: wall_w
+      - lua: "evt.PlaySoundName(\"stone door0301\")"
+      - text: "With a grinding of stone, the wall before you slides aside."
+    notes: "The west study's sliding wall (the source's grinding wall): opens as the party walks up, for good."
+  - id: evt:wall_w_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: wall_w, not: {map_var: wall_w_open}}
+    opens: [door:wall_w]
+    effects:
+      - set:
+          var:
+            map_var: wall_w_open
+          value: 1
+    notes: The wall stays open on later loads (and after a refill).
+notes: "DD-08's events, written by output/studio_cal/dd08/tools/dress.py."

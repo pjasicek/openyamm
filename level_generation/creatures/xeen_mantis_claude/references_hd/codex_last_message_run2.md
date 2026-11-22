@@ -1,0 +1,3 @@
+Saved all four Run 2 masters as unresized 1536×1024 transparent PNGs. The [five-view review sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_mantis_claude/references_hd/selected_views_review.png) shows them alongside the selected three-quarter master. The [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_mantis_claude/references_hd/generation_runs.json) includes all seven built-in image generations, their prompts, input hashes, and selection reasons.
+
+The back passed on its first render. The front and both profiles each used one correction. Only one antenna is distinguishable in the right profile. All four visible silhouettes clear every edge by at least 86 px, though trace alpha below 5/255 extends into the margins.

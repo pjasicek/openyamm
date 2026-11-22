@@ -1,0 +1,16 @@
+BOSCO'S HALL (x east, y north; z 0 = the gate's sill)
+
+            [FORGE 4701]   (bay)   [MAILWRIGHT 4705]
+   +--------------------- SMITHS' GALLERY ---------------------+
+   |  anvil                                                    |
+   +----arch----+                                     +--arch--+
+                |                                     |
+ [THRONE HALL]=leaves=[KING'S STEPS]--[GREAT HALL: hearth, well]--arch--[GATE HALL]--[GATE PASSAGE]=gate= D5
+  dais, throne,   (0 -> 128)              |                        [ALEHALL 4702]   arrival, 2 guards
+  banner, table                           |
+  [KING'S HALL 4704]               [BURROW LANE]
+  2 guards                          [TINKER 4706]
+                                         | guild stair (0 -> -384)
+                                  [DEEP GUILD HALL (-384)]
+                                  [DEEP GUILD OF EARTH 4703]
+ =leaves= hinged pair (hdr1dl|hdr1dr)   =gate= two leaves, the exit (t09a03a|t09a03b)

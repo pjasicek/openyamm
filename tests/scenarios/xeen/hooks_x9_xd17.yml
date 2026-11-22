@@ -1,0 +1,272 @@
+# Xeen hooks on X9 (the Clouds of Xeen) and XD-17 (Shangri-La): the amounts D-50 and D-53 set, in the installed maps
+# (A5's playtests check the texts). X9 from a new game at the cloud stair's head with a level-46 party (as A5's
+# x9/L4/playtest.yml, whose walk points this uses): the five roc nests (Yes: 2,000 experience to every member, once);
+# the first offering statue strikes a party that is not Crusaders (80 Air to everyone: the party is hurt with the
+# Immortal cheat off) and gives a Crusader party one item, once (map variable), then "empty"; Slick's high-striker
+# (100 gold a swing: a member under 60 Might loses the gold, a member at 60 or more wins the doll and rings the bell,
+# xeen_striker_ding; a winner is refused) and the race (1,000 gold a try, lost by a slow member). XD-17: the well gives
+# 15,000 experience and the award Found Shangri-La (421) once per character: member 0, refused for member 0, then
+# member 1.
+# Quest logic: source/npcs/x9.yml, source/quests/m34.yml, source/npcs/xd17.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_x9_xd17.yml --scenario-no-color
+id: xeen.hooks.x9_xd17
+title: "Xeen X9 and XD-17: the nests' 2,000, the offering statue, Slick's striker and race, the well's 15,000 once each"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_x9.blv
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {map: xeen_x9.blv}
+  - assert: {party_position: {x: 0, y: -17920, radius: 160, z_min: 290, z_max: 360}}
+  - assert: {qbit_clear: [110047, 116220, 116221, 116222, 116223, 116224, 111680]}
+  # The stair clouds west to the south-west cloud: its nest (event 26).
+  - walk_to: {x: 0, y: -16896, z: 320, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 640, y: -15552, z: 320, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1766, y: -16959, z: 320, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -3751, y: -17029, z: 352, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -5736, y: -17100, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -7168, y: -17152, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -8317, y: -16864, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -10002, y: -16443, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -11688, y: -16021, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -13312, y: -15616, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -13696, y: -15752, z: 512, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(26); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(116220) then error("nest sw: its bit 116220 is not set") end
+        local a, b = experience(0) - recall("xp0"), experience(3) - recall("xp3")
+        if a ~= 2000 or b ~= 2000 then error("nest sw paid " .. a .. " and " .. b .. " experience, not 2,000 each") end
+        log("NEST nest sw: 2000 each")
+  # The west chain's first cloud: the offering statue (event 29) strikes a party that is not Crusaders (m4.done clear).
+  - walk_to: {x: -13768, y: -14398, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -14549, y: -12315, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -15330, y: -10233, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -15616, y: -9872, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -15616, y: -9792, z: 384, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {party_health: {full: true}}
+  - setup_shortcut: {kind: immortal, value: false}
+  - play_lua: {source: "click(29); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "It is kept for Crusaders."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {party_health: {full: false}}
+  - setup_shortcut: {kind: immortal, value: true}
+  # A Crusader party (M4 done in the Witch Tower, Act I): one gift (treasure level 5), then empty hands.
+  - setup_shortcut: {kind: set_qbit, id: 110047, value: true}
+  - play_lua:
+      source: |
+        local before = pack_items()
+        click(29); wait(0.5)
+        local gift = held()
+        if gift == 0 then error("the statue's gift did not reach the cursor") end
+        stow()
+        remember("gift", gift)
+        log("OFFERING gift item " .. gift .. "; pack before: " .. before)
+  - assert: {dialog: {active: true, text_contains: "gift for a Crusader"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not has_item(recall("gift")) then error("the gift " .. recall("gift") .. " is not in the packs") end
+        remember("pack", pack_items())
+        click(29); wait(0.5)
+        if held() ~= 0 then error("the empty statue gave item " .. held()) end
+  - assert: {dialog: {active: true, text_contains: "The statue's hands are empty."}}
+  - play_lua: {source: "close(); wait(0.3); if pack_items() ~= recall('pack') then error('the empty statue gave an item') end"}
+  # On up the west chain and across the back lot to Slick's carnival.
+  - walk_to: {x: -15758, y: -8729, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16169, y: -6593, z: 416, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16580, y: -4456, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16896, y: -3136, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16896, y: -1029, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16896, y: 1202, z: 480, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16896, y: 3433, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -17280, y: 4288, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16698, y: 5378, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -16281, y: 7548, z: 544, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -15863, y: 9718, z: 576, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -15616, y: 11008, z: 576, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -14196, y: 10179, z: 576, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -12382, y: 9121, z: 544, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -10569, y: 8063, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -8960, y: 6912, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: -8449, y: 6704, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -6531, y: 5354, z: 480, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -4613, y: 4005, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2560, y: 2560, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1024, y: 1280, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # Slick's high-striker (event 5): the members' current Might first (the hook asks IsAtLeast(ActualMight, 60)).
+  - console: {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(ActualMight, v + 1) do v = v + 1 end out = out .. v .. ' ' end evt.StatusText('might ' .. out)", expect_contains: "Lua ran."}
+  - play_lua: {source: "log('MIGHT ' .. status())"}
+  # The Sorcerer (member 3, weak): 100 gold and a thunk, no doll; she may swing again.
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "remember('gold', gold()); click(5); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "(thunk.) Oh! Too bad."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if recall("gold") - gold() ~= 100 then error("the losing swing cost " .. (recall("gold") - gold())) end
+        if qbit(111681) then error("might_won set by a losing swing") end
+  # The Knight (member 0) made strong enough to ring the bell (a console boost of his base Might to 60 or more; no
+  # level-46 starting member has it): 100 gold, the DING, the doll, might_won; then Slick refuses him.
+  - console: {line: "lua evt.ForPlayer(0) local v = 0 while v < 255 and IsAtLeast(ActualMight, v + 1) do v = v + 1 end if v < 60 then AddValue(BaseMight, 60 - v) end", expect_contains: "Lua ran."}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "remember('gold', gold()); click(5); wait(0.5); local d = held(); if d ~= 0 then stow() end; remember('doll', d)"}
+  - assert: {dialog: {active: true, text_contains: "(DING.) You win a prize."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if recall("gold") - gold() ~= 100 then error("the winning swing cost " .. (recall("gold") - gold())) end
+        if not qbit(111681) then error("might_won 111681 not set") end
+        log("STRIKER doll item " .. recall("doll"))
+        click(5); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "You've already won the prize."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The race (event 6): the Sorcerer pays 1,000 gold and loses to the gremlin.
+  - walk_to: {x: -1536, y: 3968, z: 448, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "remember('gold', gold()); click(6); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "For only 1000 gold"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if recall("gold") - gold() ~= 1000 then error("the race cost " .. (recall("gold") - gold())) end
+  - press_action: {action: select_member, member_index: 0}
+  # The Xeen road, round the castle's apron, up the aviary stair: three nests (events 18, 20, 22).
+  - walk_to: {x: 0, y: 3511, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 5964, z: 576, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 8416, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 9472, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 10624, z: 768, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 5792, y: 10624, z: 768, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 5792, y: 14288, z: 768, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 5974, y: 15048, z: 768, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 8388, y: 14528, z: 896, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 10801, y: 14008, z: 1024, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 11136, y: 11968, z: 1024, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 5000}
+  - walk_to: {x: 12544, y: 13688, z: 1024, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(18); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(116222) then error("nest a1: its bit 116222 is not set") end
+        local a, b = experience(0) - recall("xp0"), experience(3) - recall("xp3")
+        if a ~= 2000 or b ~= 2000 then error("nest a1 paid " .. a .. " and " .. b .. " experience, not 2,000 each") end
+        log("NEST nest a1: 2000 each")
+  - walk_to: {x: 15232, y: 13432, z: 1024, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(20); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(116223) then error("nest a2: its bit 116223 is not set") end
+        local a, b = experience(0) - recall("xp0"), experience(3) - recall("xp3")
+        if a ~= 2000 or b ~= 2000 then error("nest a2 paid " .. a .. " and " .. b .. " experience, not 2,000 each") end
+        log("NEST nest a2: 2000 each")
+  - walk_to: {x: 14208, y: 11512, z: 1024, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(22); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(116224) then error("nest a3: its bit 116224 is not set") end
+        local a, b = experience(0) - recall("xp0"), experience(3) - recall("xp3")
+        if a ~= 2000 or b ~= 2000 then error("nest a3 paid " .. a .. " and " .. b .. " experience, not 2,000 each") end
+        log("NEST nest a3: 2000 each")
+  # Down the east chain to the south-east cloud: its nest (event 24).
+  - walk_to: {x: 13783, y: 11506, z: 1024, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14193, y: 9194, z: 864, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14603, y: 6883, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14848, y: 5504, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14920, y: 4129, z: 704, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 15039, y: 1858, z: 608, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 15159, y: -413, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 15129, y: -3175, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14960, y: -5452, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14792, y: -7728, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14720, y: -8704, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14494, y: -9811, z: 384, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 14027, y: -12104, z: 448, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 13560, y: -14398, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 13312, y: -15616, z: 512, z_tolerance: 200, radius: 128, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 13696, y: -15752, z: 512, z_tolerance: 200, radius: 160, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp3', experience(3)); click(24); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(116221) then error("nest se: its bit 116221 is not set") end
+        local a, b = experience(0) - recall("xp0"), experience(3) - recall("xp3")
+        if a ~= 2000 or b ~= 2000 then error("nest se paid " .. a .. " and " .. b .. " experience, not 2,000 each") end
+        log("NEST nest se: 2000 each")
+  # XD-17, Shangri-La: the well in the court (event 21), once per character.
+  - load_map: {map: xeen_xd17.blv}
+  - advance_runtime: {seconds: 2.5, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_xd17.blv}
+  - set_pose: {map: xeen_xd17.blv, x: 320, y: 0, z: 0, yaw: 3.1416, pitch: -0.25}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "remember('xp0', experience(0)); remember('xp1', experience(1))"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.6}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Congratulations, You found Shangri-La!]], 1, true) then error("status line: " .. s) end
+  - assert: {award_acquired: [{id: 421, member_index: 0}]}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local a, b = experience(0) - recall("xp0"), experience(1) - recall("xp1")
+        if a ~= 15000 then error("the well gave member 0 " .. a .. " experience, not 15,000") end
+        if b ~= 0 then error("the well gave member 1 " .. b .. " experience while member 0 drank") end
+  - set_pose: {map: xeen_xd17.blv, x: 320, y: 0, z: 0, yaw: 3.1416, pitch: -0.25}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.6}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The water is cool and refreshing.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); if experience(0) - recall('xp0') ~= 15000 then error('the well paid member 0 twice') end"}
+  - press_action: {action: select_member, member_index: 1}
+  - set_pose: {map: xeen_xd17.blv, x: 320, y: 0, z: 0, yaw: 3.1416, pitch: -0.25}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.6}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Congratulations, You found Shangri-La!]], 1, true) then error("status line: " .. s) end
+  - assert: {award_acquired: [{id: 421, member_index: 1}]}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local b = experience(1) - recall("xp1")
+        if b ~= 15000 then error("the well gave member 1 " .. b .. " experience, not 15,000") end
+        log("WELL 15000 for members 0 and 1, once each")
+  - assert: {qbit_set: [116220, 116221, 116222, 116223, 116224, 111681]}

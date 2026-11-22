@@ -1,0 +1,94 @@
+{
+ "land_cells": 7039,
+ "quiet_share": 0.615,
+ "areas": [
+  {
+   "id": "pop:siege_north",
+   "cells": 409,
+   "big_cells": 6.4,
+   "markers": 9
+  },
+  {
+   "id": "pop:east_road_camp",
+   "cells": 417,
+   "big_cells": 6.5,
+   "markers": 7
+  },
+  {
+   "id": "pop:grove_arachnoids",
+   "cells": 256,
+   "big_cells": 4.0,
+   "markers": 7
+  },
+  {
+   "id": "pop:grove_electrapedes",
+   "cells": 110,
+   "big_cells": 1.7,
+   "markers": 3
+  },
+  {
+   "id": "pop:west_heath",
+   "cells": 378,
+   "big_cells": 5.9,
+   "markers": 6
+  },
+  {
+   "id": "pop:centipede_meadows",
+   "cells": 824,
+   "big_cells": 12.9,
+   "markers": 10
+  },
+  {
+   "id": "pop:foothills",
+   "cells": 432,
+   "big_cells": 6.8,
+   "markers": 5
+  }
+ ],
+ "markers": 47,
+ "hostiles_by_area": {
+  "pop:siege_north": 26.5,
+  "pop:east_road_camp": 24.5,
+  "pop:grove_arachnoids": 21,
+  "pop:grove_electrapedes": 7.5,
+  "pop:west_heath": 18,
+  "pop:centipede_meadows": 25.0,
+  "pop:foothills": 12.5
+ },
+ "hostiles_at_load": 135,
+ "height_min": 790,
+ "height_max": 3830,
+ "road_share": 0.039,
+ "first_fight": {
+  "entrance:castleview_pyramid": {
+   "nearest_area_edge": 2459,
+   "planned_marker": 2560
+  },
+  "entrance:north_road": {
+   "nearest_area_edge": 2048,
+   "planned_marker": 4375
+  },
+  "entrance:east_road": {
+   "nearest_area_edge": 2560,
+   "planned_marker": 4222
+  },
+  "entrance:castleview_square": {
+   "nearest_area_edge": 8704
+  },
+  "entrance:castleview_temple": {
+   "nearest_area_edge": 8704
+  },
+  "entrance:castleview_stables": {
+   "nearest_area_edge": 7680
+  },
+  "entrance:kalindra_gate": {
+   "nearest_area_edge": 7815
+  }
+ },
+ "town_door_to_nearest_area": 3780,
+ "poi_devices": 44,
+ "poi_with_service_doors": 61,
+ "service_doors": 17,
+ "plots": 50,
+ "town_plots": 44
+}

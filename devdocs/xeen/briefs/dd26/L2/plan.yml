@@ -1,0 +1,233 @@
+format: 0
+level: L2
+pitch: "The gods' drains under Olympus: a ring of marble and stone channels full of clear sky-water round a closed room where Cyrano Jones sells tribbles. Four drains hold the pieces of a note; a bronze door in the cistern asks for the password, and behind it lies the undercroft where the temples' offerings wash down."
+purpose: "Side quest Q-D28 Cyrano's Tribble (QUESTS.md; A3's q-d28 file): the drains' pieces TR, IB, BL, ES and Cyrano's patter to a tribble's owner give the word TRIBBLES; the tribble door opens on it into the offering vault. Class S, party 56-60, monsters 55-62, treasure 6."
+mood: "Pale marble and grey sewer stone, the sound of running water everywhere, clean and cold; a pet shop's straw and purring in the middle; gold and temple marble behind the bronze door."
+datum: arrival
+spaces:
+  - id: room:cistern
+    name: The gods' cistern
+    kind: room
+    size: M
+    extent: [4864, 1024]
+    at: [0, 2496]
+    floor: 0
+    clear_height: 768
+    purpose: "The ring's north side: a deep clear basin sunk 256 under a high marble vault, walkways round it; drain 3 (BL, 117803); the tribble door's landing off its east wall."
+    theme: "The gods' marble (the royal kit's t3s2: knot-band dado t3s2b, pale panels t3s2b1 above and over the vault) over d01's grey flags (tfb07): the stair, the south conduit, the cistern, the tribble door's landing."
+    population:
+      - {actor: 11710, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11625, groups: 2, levels: [55, 55], placed: true, strength: pack}
+  - id: room:conduit
+    name: South conduit
+    kind: corridor
+    size: M
+    extent: [3584, 640]
+    at: [0, 512]
+    floor: 0
+    clear_height: 512
+    purpose: "The main channel under the gods' row, east to west: its water down the middle, walkways on both banks, a dry crossing between the stair and the den's door."
+    theme: "The gods' marble (the royal kit's t3s2: knot-band dado t3s2b, pale panels t3s2b1 above and over the vault) over d01's grey flags (tfb07): the stair, the south conduit, the cistern, the tribble door's landing."
+    population:
+      - {actor: 11625, groups: 3, levels: [55, 55], placed: true, strength: pack}
+  - id: room:den
+    name: Pets Unlimited
+    kind: room
+    size: S
+    extent: [1280, 896]
+    at: [0, 1408]
+    floor: 0
+    clear_height: 448
+    purpose: "Cyrano Jones's den in the ring's middle: tribble cages by the walls, his counter with his door (A4's house 4815 'Pets Unlimited', aaze0038:19), and his bed: 'Bed' (:16), one random T6 item once (117806), then 'Nothing here.' (:17). 'Cyrano sells the password.' (:12) on the den's door. Quiet."
+    empty: true
+    theme: "Cyrano's den: d01's dressed light stone (cwb), the flags, the rough vault."
+  - id: room:east
+    name: East culvert
+    kind: corridor
+    size: M
+    extent: [512, 1664]
+    at: [2176, 1024]
+    floor: 0
+    clear_height: 448
+    purpose: "The ring's east side, back to the conduit; the outfall's grate in its outer wall."
+    theme: "MM7 Erathian Sewers' stone-channel face: dark grey blocks (wall) under rough rock (cfb1), grey flag walkways (tfb07)."
+    population:
+      - {actor: 11625, groups: 3, levels: [55, 55], placed: true, strength: pack}
+  - id: room:outfall
+    name: The outfall
+    kind: room
+    size: S
+    extent: [640, 768]
+    at: [2784, 1088]
+    floor: 0
+    clear_height: 448
+    purpose: "Dead end behind a grate: the sewer's mouth on the island's edge, the water falling away into cloud through a barred opening (no way out); drain 4 (ES, 117804)."
+    theme: "MM7 Erathian Sewers' stone-channel face: dark grey blocks (wall) under rough rock (cfb1), grey flag walkways (tfb07)."
+    population:
+      - {actor: 11625, groups: 2, levels: [55, 55], placed: true, strength: pack}
+  - id: room:spill
+    name: West spillway
+    kind: room
+    size: S
+    extent: [640, 768]
+    at: [-2784, 1088]
+    floor: 0
+    clear_height: 448
+    purpose: "Dead end behind a grate: the overflow weir, drain 2 (IB, 117802) and a T6 chest on the weir's dry ledge."
+    theme: "MM7 Erathian Sewers' stone-channel face: dark grey blocks (wall) under rough rock (cfb1), grey flag walkways (tfb07)."
+    population:
+      - {actor: 11625, groups: 2, levels: [55, 55], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:stair
+    name: Marble stair
+    kind: room
+    size: S
+    extent: [640, 1280]
+    at: [0, -576]
+    floor: 0
+    clear_height: 896
+    purpose: "The arrival (entrance:d7_stair) at the stair's foot facing north into the conduit; the marble stair climbs south 448 to the grate's underside, the exit preset up to D7. A scroll pinned to the wall: 'Scroll' (aaze0038:10), 'Search the drains.' (:11). Quiet (D-11.3); map qbit 117800 dd26_arrived_once."
+    empty: true
+    theme: "The gods' marble (the royal kit's t3s2: knot-band dado t3s2b, pale panels t3s2b1 above and over the vault) over d01's grey flags (tfb07): the stair, the south conduit, the cistern, the tribble door's landing."
+  - id: room:tdoor
+    name: Tribble door
+    kind: corridor
+    size: S
+    extent: [512, 512]
+    at: [2816, 2560]
+    floor: 0
+    clear_height: 640
+    purpose: "The landing before the bronze pair: 'A disembodied voice booms, \"What's the password?\"' (aaze0038:5) as the prompt's own text; TRIBBLES or TRIBBLE (any case): 'Correct! You may pass.' (:9), 117805, the leaves open for good; anything else 'Wrong! You may not pass!' (:8). Quiet."
+    empty: true
+    theme: "The gods' marble (the royal kit's t3s2: knot-band dado t3s2b, pale panels t3s2b1 above and over the vault) over d01's grey flags (tfb07): the stair, the south conduit, the cistern, the tribble door's landing."
+  - id: room:vault
+    name: Offering vault
+    kind: room
+    size: M
+    extent: [1152, 1024]
+    at: [3776, 2560]
+    floor: 0
+    clear_height: 512
+    purpose: "The set piece: the undercroft where Olympus's offerings wash down, gilded cups, coin and a gilt statue by the walls, the T6 chest on a ledge. The map's goal."
+    theme: "The offering vault: MM8 Temple of the Sun's pale marble (gtempw1, gtempflr) under gold-knotted coffers (gtemprf)."
+    population:
+      - {actor: 11710, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11625, groups: 1, levels: [55, 55], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:west
+    name: West culvert
+    kind: corridor
+    size: M
+    extent: [512, 1664]
+    at: [-2176, 1024]
+    floor: 0
+    clear_height: 448
+    purpose: "The ring's west side, its channel along the outer wall; drain 1 (TR, 117801); the spillway's grate in its outer wall."
+    theme: "MM7 Erathian Sewers' stone-channel face: dark grey blocks (wall) under rough rock (cfb1), grey flag walkways (tfb07)."
+    population:
+      - {actor: 11625, groups: 3, levels: [55, 55], placed: true, strength: pack}
+links:
+  - id: link:1
+    from: room:stair
+    to: room:conduit
+    kind: open
+  - id: link:10
+    from: room:tdoor
+    to: room:vault
+    kind: door
+    opened_by: key:password
+    purpose: "The tribble door: a bronze two-leaf pair opened by the password."
+  - id: link:2
+    from: room:conduit
+    to: room:den
+    kind: door
+    purpose: "The den's plank door: 'Cyrano sells the password.'"
+  - id: link:3
+    from: room:conduit
+    to: room:west
+    kind: open
+  - id: link:4
+    from: room:west
+    to: room:spill
+    kind: door
+    purpose: The spillway's grate.
+  - id: link:5
+    from: room:west
+    to: room:cistern
+    kind: open
+  - id: link:6
+    from: room:cistern
+    to: room:east
+    kind: open
+  - id: link:7
+    from: room:east
+    to: room:conduit
+    kind: open
+  - id: link:8
+    from: room:east
+    to: room:outfall
+    kind: door
+    purpose: The outfall's grate.
+  - id: link:9
+    from: room:cistern
+    to: room:tdoor
+    kind: open
+loops:
+  - id: loop:ring
+    spaces: [room:conduit, room:west, room:cistern, room:east]
+    notes: "The source's ring of channels round Cyrano's den: either way round from the stair."
+entrances:
+  - id: entrance:d7_stair
+    space: room:stair
+    kind: both
+    neighbour: exit:d7_stair
+    facing: n
+    how: "D7's marble grate in the gods' row (A6's door:dd26) brings the party down to the stair's foot facing north into the conduit; the grate at the stair's top is the way back to D7's entrance:dd26_stair."
+critical_path: [room:stair, room:conduit, room:den, room:conduit, room:west, room:spill, room:west, room:cistern, room:east, room:outfall, room:east, room:cistern, room:tdoor, room:vault]
+return_path: [room:vault, room:tdoor, room:cistern, room:west, room:conduit, room:stair]
+goals:
+  - id: goal:vault
+    space: room:vault
+    kind: take
+    what: The offering vault's T6 chest behind the tribble door.
+keys:
+  - id: key:password
+    grants: {qbit: tribble_door}
+    found_in: room:tdoor
+    how: riddle
+    notes: "The word TRIBBLES: the four drains' pieces in the ring's order (TR, IB, BL, ES) and Cyrano's patter to a tribble's owner (A3's q-d28 topic)."
+points_of_interest:
+  - id: poi:bed
+    space: room:den
+    kind: treasure
+    behaviour: "'Bed' (:16): one random T6 item once (117806), then 'Nothing here.' (:17)."
+  - id: poi:counter
+    space: room:den
+    kind: npc
+    behaviour: "Cyrano's counter door (house 4815, Pets Unlimited): his topics (A3)."
+  - id: poi:drains
+    space: room:west
+    count: 4
+    kind: sign
+    behaviour: "Four drains (west culvert, spillway, cistern, outfall): each its piece of the note once (:1-:4, 117801-117804), then 'Drain' (:0)."
+  - id: poi:scroll
+    space: room:stair
+    kind: sign
+    behaviour: "'Scroll' (aaze0038:10): 'Search the drains.' (:11)."
+  - id: poi:voice
+    space: room:tdoor
+    kind: sign
+    behaviour: "The tribble door's voice: 'What's the password?' (:5)."
+mechanisms:
+  - {kind: typed password opens a two-leaf door for good, count: 1}
+  - {kind: "lore finds once each, then a plain line", count: 4}
+  - {kind: a find once (the bed), count: 1}
+  - {kind: walk-in house door (a residence), count: 1}
+totals:
+  chests: 2
+  doors: 4
+  rooms: 10
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act6_graphs/dd26.graph.yml; D-65 (mockups/act6_a8_decisions.md) wins where they differ: the scroll on the stair's wall (change 1), the tribble door's prompt with no message before it (change 2), walkways >= 256 and ceilings >= 320 for the Water Elemental (change 3), Cyrano a residence in towns/dd26.yml (4815/5614, change 4). Doors: the den's plank pair, the spillway's and the outfall's grates, the tribble door's bronze pair (4; the graph's fifth, a vault grille behind the bronze pair, is left out: the pair alone keeps the vault). The channels sunk 128 slope up at their ends; the cistern's basin sinks 256."

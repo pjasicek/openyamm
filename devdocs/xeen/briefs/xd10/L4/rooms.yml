@@ -1,0 +1,522 @@
+format: 0
+themes:
+  - id: theme:cave
+    wall: {texture: t68a02b, size: [256, 256]}
+    floor: {texture: t68a03b, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    door: {texture: t68a02b, size: [256, 256]}
+    notes: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+  - id: theme:deep
+    wall: {texture: t68a03a, size: [128, 128]}
+    floor: {texture: t68a03a, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    door: {texture: t09a01, size: [128, 256]}
+    notes: "The drowned galleries and the reservoir bed: d33's dark granite t68a03a on the walls, its wet rock above, over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+  - id: theme:ice
+    wall: {texture: t68a02b, size: [256, 256]}
+    floor: {texture: snow, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    door: {texture: t68a02b, size: [256, 256]}
+    notes: "The two mouths: d33's grey rock, snow blown in over the floor (MM8 snow), icicles of snow-white ice."
+  - id: theme:sluice
+    wall: {texture: t09a01, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t09b11b, size: [128, 32]}}
+    floor: {texture: t09a02b, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    reveal: {texture: t09a01, size: [128, 256]}
+    door: {texture: t09a03c, size: [128, 256]}
+    notes: "The sluice: d33's bricks t09a01 over a trim t09b11b, its flags t09a02b, its door t09a03c, rock overhead."
+defaults: {theme: theme:cave, ambient: 14}
+rooms:
+  - id: room:drowned
+    name: Drowned gallery
+    outline: [[512, 3584], [1664, 3584], [1664, 4608], [1408, 4864], [512, 4864], [256, 4608], [256, 3840]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: -192
+    theme: theme:deep
+    levels:
+      - id: level:pool_1
+        outline: [[608, 3840], [864, 3840], [960, 3936], [960, 4192], [864, 4288], [608, 4288], [512, 4192], [512, 3936]]
+        floor: -704
+        bank: 96
+        surface: {texture: wtrtyl, liquid: water, flow: down}
+        notes: A pool left in the gallery.
+      - id: level:pool_2
+        outline: [[1312, 4096], [1376, 4096], [1472, 4192], [1472, 4320], [1376, 4416], [1312, 4416], [1216, 4320], [1216, 4192]]
+        floor: -704
+        bank: 96
+        surface: {texture: wtrtyl, liquid: water, flow: down}
+        notes: A pool left in the gallery.
+    notes: "Behind its sluice gate until the plug is pulled: a wet gallery with pools; water golems."
+  - id: room:echo_cave
+    name: Echo cave
+    outline: [[-928, 3584], [-224, 3584], [0, 3808], [0, 4512], [-224, 4736], [-928, 4736], [-1152, 4512], [-1152, 3808]]
+    floor: -640
+    floor_points: [[-749, 4275, -600], [-403, 3987, -656]]
+    rough: {step: 192, depth: 40}
+    ceiling: -224
+    ceiling_points: [[-576, 4160, -96]]
+    theme: theme:deep
+    notes: "A round cave that answers in the party's own voices; the gem cache."
+  - id: room:false_passage
+    name: Phantom safe
+    outline: [[-1792, 7296], [-1152, 7296], [-896, 7552], [-896, 8704], [-1152, 8960], [-1792, 8960], [-2048, 8704], [-2048, 7552]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 448
+    ceiling_points: [[-1472, 8128, 544]]
+    theme: theme:cave
+    platforms:
+      - {id: platform:safe, at: [-1856, 7616], size: [160, 128], rise: 160, surface: {texture: xwiron, size: [128, 128], liquid: liquid}, top_surface: {texture: xwiron, size: [128, 128], liquid: liquid}, notes: "The phantom safe: an iron safe that ripples like the mirages (click: your hand passes through it)."}
+    notes: "A side cave off the icicle hall ending at a safe that is not there; its north wall shimmers (the mirage into the cache)."
+  - id: room:frost_cavern
+    name: Frost cavern
+    outline: [[-512, 2304], [1024, 2304], [1280, 2560], [1280, 3840], [1024, 4096], [-512, 4096], [-768, 3840], [-768, 2560]]
+    floor: 0
+    floor_points: [[-154, 3021, 40], [666, 3558, -16], [461, 2842, 24]]
+    rough: {step: 192, depth: 40}
+    ceiling: 576
+    ceiling_points: [[256, 3200, 704]]
+    theme: theme:cave
+    stalactites:
+      - {at: [-384, 2752], radius: 80, length: 256}
+      - {at: [896, 3712], radius: 88, length: 256}
+      - {at: [-384, 3712], radius: 72, length: 224}
+    notes: "Between the hall and the south mouth: the sluice's door east, the skull alcoves west."
+  - id: room:grotto
+    name: Grotto of the great skull
+    outline: [[6464, 2560], [7104, 2560], [7424, 2880], [7424, 3776], [7104, 4096], [6144, 4096], [6144, 2880]]
+    floor: -1280
+    rough: {step: 192, depth: 40}
+    ceiling: -640
+    ceiling_points: [[6784, 3328, -448]]
+    theme: theme:deep
+    platforms:
+      - {id: platform:great_shelf, at: [7200, 3328], size: [256, 256], rise: 128, surface: {texture: t68a02b, size: [256, 256]}, top_surface: {texture: t68a02b, size: [256, 256]}, notes: The great skull's rock seat by the east wall.}
+    notes: "The great skull on its rock seat; a mirage north into the phantom vault."
+  - id: room:guard_post
+    name: Guardian post
+    outline: [[-1024, 4864], [-128, 4864], [128, 5120], [128, 6144], [-128, 6400], [-1024, 6400], [-1280, 6144], [-1280, 5120]]
+    floor: -640
+    floor_points: [[-858, 5325, -616], [-294, 5939, -600]]
+    rough: {step: 192, depth: 40}
+    ceiling: -192
+    ceiling_points: [[-576, 5632, -64]]
+    theme: theme:deep
+    notes: The Guardians' post round a chest.
+  - id: room:ice_stair
+    name: Ice stair
+    path: [[1344, 6912], [1344, 7296], [2432, 7296], [2432, 6400]]
+    width: 384
+    smooth: 1
+    floor: 0
+    slope: {to: -640}
+    ceiling: 384
+    theme: theme:cave
+    notes: A winding ramp of rock down from the Hall of Mirages to the ledge (0 to -640).
+  - id: room:icicle_hall
+    name: Icicle hall
+    outline: [[-512, 6912], [768, 6912], [1024, 7168], [1024, 8576], [768, 8832], [-512, 8832], [-768, 8576], [-768, 7168]]
+    floor: 0
+    floor_points: [[-230, 7488, 32], [486, 8064, -24], [38, 8448, 40]]
+    rough: {step: 192, depth: 40}
+    ceiling: 640
+    ceiling_points: [[128, 7872, 800], [-384, 7424, 704], [640, 8320, 704]]
+    theme: theme:cave
+    stalactites:
+      - {at: [-384, 7360], radius: 96, length: 320, surface: {texture: snow, size: [128, 128]}}
+      - {at: [576, 7424], radius: 88, length: 288, surface: {texture: snow, size: [128, 128]}}
+      - {at: [640, 8256], radius: 96, length: 320, surface: {texture: snow, size: [128, 128]}}
+      - {at: [-320, 8384], radius: 80, length: 256, surface: {texture: snow, size: [128, 128]}}
+      - {at: [192, 7616], radius: 72, length: 224, surface: {texture: snow, size: [128, 128]}}
+      - {at: [832, 7872], radius: 64, length: 192, surface: {texture: snow, size: [128, 128]}}
+    notes: "A long cave hung with ice: icicles (stalactites of Icewind Keep's ice) down both sides; the phantom safe's cave west."
+  - id: room:ledge
+    name: Ledge over the water
+    outline: [[1984, 3840], [2688, 3840], [2688, 6272], [1984, 6272], [1792, 6080], [1792, 4032]]
+    floor: -640
+    ceiling: -64
+    theme: theme:deep
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:notice, at: centre, length: 192, bottom: 96, height: 160, surface: {texture: t09a05b, size: [128, 128], fit: true}, notes: A scratched notice by the way down.}
+    notes: "A railed shelf over the reservoir, high and open: the water below, the sluice gates of the drowned gallery and of the steps."
+  - id: room:mirage_cache
+    name: Behind the mirage
+    outline: [[-1600, 9088], [-960, 9088], [-768, 9280], [-768, 9664], [-960, 9856], [-1600, 9856], [-1792, 9664], [-1792, 9280]]
+    floor: 0
+    floor_points: [[-1280, 9472, 32]]
+    rough: {step: 192, depth: 40}
+    ceiling: 384
+    theme: theme:cave
+    notes: "A small dry pocket between the two mirages: the chest with the Potion of Might."
+  - id: room:mirage_hall
+    name: Hall of Mirages
+    outline: [[-640, 4224], [1152, 4224], [1536, 4608], [1536, 6784], [-640, 6784], [-1024, 6400], [-1024, 4608]]
+    floor: 0
+    floor_points: [[-256, 4992, -24], [768, 5248, 40], [0, 6144, 32]]
+    rough: {step: 192, depth: 40}
+    ceiling: 768
+    ceiling_points: [[256, 5504, 1024], [-512, 5376, 896], [1024, 5632, 896], [256, 4736, 896], [256, 6272, 896]]
+    theme: theme:cave
+    pillars:
+      - {surface: {texture: t68a02b, size: [256, 256]}, outline: [[-704, 5248], [-512, 5248], [-448, 5440], [-640, 5568], [-768, 5440]], notes: A rock column that shimmers in the heat haze of the mirages.}
+    stalactites:
+      - {at: [-576, 4800], radius: 112, length: 320}
+      - {at: [1088, 4864], radius: 96, length: 288}
+      - {at: [-640, 6080], radius: 104, length: 320}
+      - {at: [960, 6144], radius: 96, length: 256}
+      - {at: [448, 5248], radius: 112, length: 320}
+      - {at: [-256, 5888], radius: 80, length: 224}
+    notes: "The great hall: walls that seem to waver, a roof that rises to 1,024; the ice stair down to the ledge in its north-east corner."
+  - id: room:mirror_maze
+    name: Mirror maze
+    outline: [[512, 4992], [1408, 4992], [1664, 5248], [1664, 6016], [1408, 6272], [512, 6272], [256, 6016], [256, 5248]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: -224
+    theme: theme:deep
+    pillars:
+      - {surface: {texture: orair32, size: [128, 128], scale: 4}, outline: [[512, 5248], [768, 5248], [832, 5440], [640, 5568], [480, 5440]], notes: "A rock island faced with ice: the maze's mirrors."}
+      - {surface: {texture: orair32, size: [128, 128], scale: 4}, outline: [[960, 5696], [1216, 5696], [1280, 5888], [1088, 6016], [928, 5888]], notes: "A rock island faced with ice: the maze's mirrors."}
+      - {surface: {texture: orair32, size: [128, 128], scale: 4}, outline: [[1152, 5184], [1408, 5184], [1408, 5376], [1216, 5440]], notes: "A rock island faced with ice: the maze's mirrors."}
+      - {surface: {texture: orair32, size: [128, 128], scale: 4}, outline: [[448, 5824], [640, 5824], [704, 5952], [512, 6016]], notes: "A rock island faced with ice: the maze's mirrors."}
+    notes: "Ice walls round rock islands that throw back the party's reflections; one wall is a mirage into the deep skulls."
+  - id: room:north_mouth
+    name: North mouth
+    outline: [[-448, 8960], [448, 8960], [640, 9152], [640, 9728], [384, 9984], [-384, 9984], [-640, 9728], [-640, 9152]]
+    floor: 0
+    ceiling: 576
+    ceiling_points: [[0, 9472, 704], [-320, 9600, 640], [320, 9600, 640]]
+    theme: theme:ice
+    stalactites:
+      - {at: [-384, 9216], radius: 64, length: 192, surface: {texture: snow, size: [128, 128]}}
+      - {at: [416, 9280], radius: 72, length: 224, surface: {texture: snow, size: [128, 128]}}
+      - {at: [256, 9792], radius: 56, length: 160, surface: {texture: snow, size: [128, 128]}}
+    notes: "The arrival: a funnel of grey rock under icicles, snow blown in over the floor; the daylight of the tundra in its north wall (the exit to X5); a shimmering wall on the west is a mirage into the cache."
+  - id: room:phantom_vault
+    name: Phantom vault
+    outline: [[6464, 4224], [7104, 4224], [7296, 4416], [7296, 4928], [7104, 5120], [6464, 5120], [6272, 4928], [6272, 4416]]
+    floor: -1280
+    floor_points: [[6784, 4627, -1248]]
+    rough: {step: 192, depth: 40}
+    ceiling: -768
+    theme: theme:deep
+    notes: "Behind the grotto's mirage: the cave's hoard."
+  - id: room:reservoir
+    name: Reservoir bed
+    outline: [[3200, 1024], [6016, 1024], [6016, 6016], [5632, 6400], [3200, 6400], [2816, 6016], [2816, 1408]]
+    floor: -1280
+    ceiling: 448
+    ceiling_points: [[4416, 3712, 704], [3584, 2304, 576], [5248, 5120, 576]]
+    theme: theme:deep
+    stalactites:
+      - {at: [4992, 2048], radius: 128, length: 448}
+      - {at: [3840, 5248], radius: 112, length: 384}
+      - {at: [5376, 4160], radius: 120, length: 448}
+    notes: "A tall cavern from the bed (-1280) to a roof above the upper caves: drowned to -660 until the plug is pulled, then a bed of silt, weed and shells; the ledge and the sluice look down on it from the west, the grotto opens east."
+  - id: room:skulls_1
+    name: Skull alcoves
+    outline: [[-1728, 2688], [-1088, 2688], [-896, 2880], [-896, 3520], [-1088, 3712], [-1728, 3712], [-1920, 3520], [-1920, 2880]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 384
+    theme: theme:cave
+    platforms:
+      - {id: platform:shelf_luck, at: [-1728, 3456], size: [192, 128], rise: 96, surface: {texture: t68a02b, size: [256, 256]}, top_surface: {texture: t68a02b, size: [256, 256]}, notes: "A rock shelf: the skull of Luck."}
+      - {id: platform:shelf_pers, at: [-1728, 2944], size: [192, 128], rise: 96, surface: {texture: t68a02b, size: [256, 256]}, top_surface: {texture: t68a02b, size: [256, 256]}, notes: "A rock shelf: the skull of Personality."}
+    notes: Two talking skulls on rock shelves along the west wall.
+  - id: room:skulls_2
+    name: Deep skull alcoves
+    outline: [[416, 6400], [864, 6400], [1024, 6560], [1024, 7008], [864, 7168], [416, 7168], [256, 7008], [256, 6560]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: -288
+    theme: theme:deep
+    platforms:
+      - {id: platform:shelf_int, at: [448, 6976], size: [192, 128], rise: 96, surface: {texture: t68a02b, size: [256, 256]}, top_surface: {texture: t68a02b, size: [256, 256]}, notes: The skull of Intellect.}
+      - {id: platform:shelf_speed, at: [832, 6976], size: [192, 128], rise: 96, surface: {texture: t68a02b, size: [256, 256]}, top_surface: {texture: t68a02b, size: [256, 256]}, notes: The skull of Speed.}
+    notes: "Behind the maze's mirage: two skulls on shelves along the north wall."
+  - id: room:sluice
+    name: Sluice
+    outline: [[1408, 2432], [2688, 2432], [2688, 3712], [1408, 3712]]
+    floor: 0
+    ceiling: 512
+    theme: theme:sluice
+    levels:
+      - id: level:pool
+        outline: [[1792, 2688], [2304, 2688], [2304, 3200], [1792, 3200]]
+        floor: -64
+        edge: {texture: t09a01, size: [128, 256]}
+        surface: {texture: wtrtyl, liquid: water, flow: down}
+        notes: "The plug's pool, a step down in the flags."
+    notes: "A brick chamber over the reservoir: the great bronze plug on its chain in a pool; the railed window east looks down on the water."
+  - id: room:south_mouth
+    name: South mouth
+    outline: [[-256, 1152], [384, 1152], [640, 1408], [640, 1984], [448, 2176], [-320, 2176], [-512, 1984], [-512, 1408]]
+    floor: 0
+    ceiling: 512
+    ceiling_points: [[64, 1600, 640]]
+    theme: theme:ice
+    stalactites:
+      - {at: [-256, 1472], radius: 64, length: 192, surface: {texture: snow, size: [128, 128]}}
+      - {at: [384, 1792], radius: 64, length: 192, surface: {texture: snow, size: [128, 128]}}
+    notes: "The way out to the Troll Forest side of X5: ice at the lip, snow on the floor, daylight in the south wall."
+  - id: room:steps
+    name: Reservoir steps
+    path: [[2240, 3712], [2240, 2496], [2688, 2496]]
+    width: 384
+    smooth: 1
+    floor: -640
+    slope: {to: -1280}
+    ceiling: -256
+    theme: theme:deep
+    notes: "Steps of rock from the ledge down to the reservoir bed, behind a stone sluice gate (-640 to -1280)."
+  - id: room:sump
+    name: Sump
+    outline: [[0, 768], [704, 768], [960, 1024], [960, 1792], [704, 2048], [0, 2048], [-256, 1792], [-256, 1024]]
+    floor: -1280
+    rough: {step: 192, depth: 40}
+    ceiling: -832
+    theme: theme:deep
+    levels:
+      - id: level:sump_hole
+        outline: [[192, 1088], [384, 1088], [512, 1216], [512, 1408], [384, 1536], [192, 1536], [64, 1408], [64, 1216]]
+        floor: -1344
+        bank: 96
+        surface: {texture: wtrtyl, liquid: water, flow: down}
+        notes: "The sump's hole, where the water went."
+    notes: "Where the water went: a roaring hole in the floor; the last water golems."
+  - id: room:wreck
+    name: Sunken boat
+    outline: [[1344, 1024], [2688, 1024], [2688, 2176], [1088, 2176], [1088, 1280]]
+    floor: -1280
+    rough: {step: 192, depth: 40}
+    ceiling: -768
+    theme: theme:deep
+    platforms:
+      - {id: platform:hull, rise: 64, surface: {texture: t09a05b, size: [128, 128]}, outline: [[1664, 1408], [2240, 1408], [2432, 1536], [2240, 1664], [1664, 1664]], top_surface: {texture: t09a05b, size: [128, 128]}, notes: "The sunken boat's hull, keel-up in the silt."}
+    notes: "A boat stranded on the drained floor, its strongbox intact."
+  - id: room:wreck_stair
+    name: Gallery stair
+    path: [[1408, 3456], [1408, 2304]]
+    width: 384
+    smooth: 1
+    floor: -640
+    slope: {to: -1280}
+    ceiling: -256
+    theme: theme:deep
+    notes: "A ramp from the drowned gallery down to the wreck, behind a stone sluice gate (-640 to -1280)."
+openings:
+  - id: open:cache_n
+    from: room:mirage_cache
+    to: room:north_mouth
+    from_wall: 2
+    to_wall: 6
+    link: link:cache_n
+    width: 256
+    height: 320
+  - id: open:drowned_wstair
+    from: room:drowned
+    to: room:wreck_stair
+    link: link:drowned_wstair
+    width: 320
+    height: 352
+  - id: open:false_cache
+    from: room:false_passage
+    to: room:mirage_cache
+    from_wall: 4
+    to_wall: 0
+    link: link:false_cache
+    along: 0.4286
+    width: 256
+    height: 320
+  - id: open:frost_s
+    from: room:frost_cavern
+    to: room:south_mouth
+    from_wall: 0
+    to_wall: 4
+    link: link:frost_s
+    width: 512
+    height: 416
+  - id: open:frost_skulls
+    from: room:frost_cavern
+    to: room:skulls_1
+    from_wall: 6
+    to_wall: 2
+    link: link:frost_skulls
+    width: 384
+    height: 352
+  - id: open:frost_sluice
+    from: room:frost_cavern
+    to: room:sluice
+    from_wall: 2
+    to_wall: 3
+    link: link:frost_sluice
+    along: 0.4444
+    width: 256
+    height: 352
+  - id: open:grotto_vault
+    from: room:grotto
+    to: room:phantom_vault
+    from_wall: 4
+    to_wall: 0
+    link: link:grotto_vault
+    width: 256
+    height: 320
+  - id: open:icestair_ledge
+    from: room:ice_stair
+    to: room:ledge
+    link: link:stair_ledge
+    width: 320
+    height: 352
+  - id: open:icicle_false
+    from: room:icicle_hall
+    to: room:false_passage
+    from_wall: 6
+    to_wall: 2
+    link: link:icicle_false
+    width: 384
+    height: 384
+  - id: open:icicle_mirage
+    from: room:icicle_hall
+    to: room:mirage_hall
+    from_wall: 0
+    to_wall: 3
+    link: link:icicle_mirage
+    along: 0.45
+    width: 640
+    height: 512
+  - id: open:ledge_drowned
+    from: room:ledge
+    to: room:drowned
+    from_wall: 4
+    to_wall: 1
+    link: link:ledge_drowned
+    along: 0.4444
+    width: 320
+    height: 352
+  - id: open:ledge_maze
+    from: room:ledge
+    to: room:mirror_maze
+    from_wall: 4
+    to_wall: 2
+    link: link:ledge_maze
+    along: 0.3333
+    width: 384
+    height: 352
+  - id: open:ledge_reservoir
+    from: room:ledge
+    to: room:reservoir
+    from_wall: 1
+    to_wall: 5
+    along: 0.5588
+    width: 1664
+    height: 448
+    sill: 128
+    notes: The ledge's railed overlook (sill 128) over the reservoir.
+  - id: open:ledge_steps
+    from: room:ledge
+    to: room:steps
+    link: link:ledge_steps
+    width: 320
+    height: 352
+  - id: open:maze_post
+    from: room:mirror_maze
+    to: room:guard_post
+    from_wall: 6
+    to_wall: 2
+    link: link:maze_post
+    width: 384
+    height: 352
+  - id: open:maze_skulls
+    from: room:mirror_maze
+    to: room:skulls_2
+    from_wall: 4
+    to_wall: 0
+    link: link:maze_skulls
+    along: 0.4545
+    width: 256
+    height: 320
+  - id: open:mirage_frost
+    from: room:mirage_hall
+    to: room:frost_cavern
+    from_wall: 0
+    to_wall: 4
+    link: link:mirage_frost
+    width: 640
+    height: 480
+  - id: open:mirage_icestair
+    from: room:mirage_hall
+    to: room:ice_stair
+    link: link:mirage_ledge
+    width: 320
+    height: 352
+  - id: open:n_icicle
+    from: room:north_mouth
+    to: room:icicle_hall
+    from_wall: 0
+    to_wall: 4
+    link: link:n_icicle
+    width: 512
+    height: 448
+  - id: open:post_echo
+    from: room:guard_post
+    to: room:echo_cave
+    from_wall: 0
+    to_wall: 4
+    link: link:post_echo
+    width: 384
+    height: 352
+  - id: open:reservoir_grotto
+    from: room:reservoir
+    to: room:grotto
+    from_wall: 1
+    to_wall: 5
+    link: link:reservoir_grotto
+    along: 0.3684
+    width: 512
+    height: 448
+  - id: open:sluice_window
+    from: room:sluice
+    to: room:reservoir
+    from_wall: 1
+    to_wall: 5
+    width: 640
+    height: 256
+    sill: 128
+    notes: "The sluice's railed window over the reservoir (sill 128): the water far below, later the bed."
+  - id: open:steps_reservoir
+    from: room:steps
+    to: room:reservoir
+    from_wall: 3
+    to_wall: 5
+    link: link:steps_reservoir
+    width: 320
+    height: 352
+  - id: open:wreck_reservoir
+    from: room:wreck
+    to: room:reservoir
+    from_wall: 1
+    to_wall: 5
+    link: link:wreck_reservoir
+    width: 512
+    height: 448
+  - id: open:wreck_sump
+    from: room:wreck
+    to: room:sump
+    from_wall: 3
+    to_wall: 2
+    link: link:wreck_sump
+    width: 384
+    height: 384
+  - id: open:wstair_wreck
+    from: room:wreck_stair
+    to: room:wreck
+    link: link:wstair_wreck
+    width: 320
+    height: 352
+notes: "XD-10 Cave of Illusion: three levels (upper caves 0, drowned galleries -640, reservoir bed -1280) in the plan's frame (x east, y north, heights from the arrival floor); the reservoir a tall cavern east of everything. Written by output/studio_cal/xd10/tools/gen.py (geo.py)."

@@ -1,0 +1,173 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE GREMLIN COURT. A burrow under Castleview's wall, built for folk half your size. Mayor Snarfblad wants the gremlins' pranks stopped, and their king, Gettlewaithe, holds court at the far end. His courtiers watch you pass. Nobody has drawn a sword. Yet."
+      - qbit: arrived_once
+    notes: "Why the party is here (Q-D1), on the first arrival only (arrived_once 117040)."
+  - id: evt:bench
+    preset: text
+    source: platform:bench_e
+    title: Bench
+    text: Nothing here.
+    notes: "Original line (dark/aaze0029:2, 'Nothing here.')."
+  - id: evt:chest_pay
+    preset: chest
+    source: chest:pay
+    title: Chest
+  - id: evt:chest_plunder
+    preset: chest
+    source: chest:plunder
+    title: Chest
+  - id: evt:chest_throne
+    preset: chest
+    source: chest:throne
+    title: Chest
+    condition: {any: [{qbit: throne_searched}, {lua: "XeenQuests.can(\"q-d1.throne\")"}]}
+    effects:
+      - lua: "if not IsQBitSet(QBit(113028)) then XeenQuests.hook(\"q-d1.throne\") end"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d1.throne\")"
+    notes: "q-d1.throne: opens after Gettlewaithe's death (gettlewaithe_slain) and never after a peace; its fail text otherwise. The first opening runs the hook (throne_searched, its line); the chest holds the 3 Energy Disks (map_gives) and the hoard."
+  - id: evt:court_roused
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{not: {qbit: court_hostile}}, {not: {qbit: court_peace}}]}
+    lua: |-
+      local roused = false
+      for _, i in ipairs({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}) do
+          if evt.IsMapActorHostile(i) and not evt.IsMapActorDead(i) then roused = true end
+      end
+      if roused then
+          SetQBit(QBit(113024))
+          evt.StatusText("The court shrieks for its guards!", 4)
+      end
+    notes: "Attacking Gettlewaithe or any court-side gremlin sets court_hostile: the engine has no 'attacked' event (Words needed), so a timer asks each court actor (indices 0-16, the c.. ids) whether it has turned on the party; A2's relations then turn the whole court (Gettlewaithe, in a faction of his own, only when struck himself: D-37)."
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: Gettlewaithe's throne
+    lua: |-
+      if IsQBitSet(QBit(113027)) then
+          if IsQBitSet(QBit(113028)) then
+              XeenQuests.hook("q-d1.throne")
+          else
+              evt.StatusText("The throne of chairs is empty. The royal treasury stands beside it.", 4)
+          end
+      else
+          evt.SpeakNPC(4955)
+      end
+    notes: The dais does what the throne does (a bigger thing to click).
+  - id: evt:door_court
+    preset: door
+    source: door:court
+    title: Door
+  - id: evt:door_larder
+    preset: door
+    source: door:larder
+    title: Door
+  - id: evt:door_waiting
+    preset: door
+    source: door:waiting
+    title: Door
+  - id: evt:drains
+    preset: text
+    source: room:mud
+    trigger: step
+    text: "Beyond the mud you hear water running: the town's drains."
+    seconds: 5
+    notes: "D-26: the sappers' tunnel ends at water; no link to DD-01."
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: "Under Castleview's wall: mind your heads."
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d1
+    title: The tiny door
+    notes: "Out to D1 in front of the burrow (exit:d1_burrow): the game's own window (D-24)."
+  - id: evt:gears
+    preset: text
+    source: platform:gears
+    title: Plunder
+    text: "Castleview's missing things: the mill's gears, two bell clappers, a bucket of chain rings, and the bridge's rope cut into neat little lengths."
+    seconds: 6
+  - id: evt:guards_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {group: 1}}
+    lua: "XeenQuests.hook(\"q-d1.guards_beaten\")"
+    once: true
+    notes: q-d1.guards_beaten when the three court guards (group 1) are dead.
+  - id: evt:hatch
+    preset: door
+    source: door:hatch
+    title: Loose stones
+    notes: "The servants' hatch, secret, opened from either side."
+  - id: evt:king_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:c00_gettlewaithe}}
+    lua: "XeenQuests.hook(\"q-d1.gettlewaithe\")"
+    once: true
+    text: "Gettlewaithe, Imperator Primus of the Gremlins, topples off his throne of chairs."
+    seconds: 5
+    notes: "q-d1.gettlewaithe: gettlewaithe_slain and court_won; the treasury opens."
+  - id: evt:king_gone
+    preset: script
+    trigger: load
+    condition: {qbit: gettlewaithe_slain}
+    effects:
+      - hide_actors: 2
+    notes: "A slain Gettlewaithe stays dead after a refill: his group is hidden on entry once gettlewaithe_slain is set."
+  - id: evt:portrait
+    preset: text
+    source: panel:portrait
+    title: The Mayor's portrait
+    text: "Mayor Snarfblad in oils, gold chain and all. Someone has given him a magnificent charcoal moustache."
+  - id: evt:sign
+    preset: text
+    source: panel:sign
+    title: Sign
+    text: WAIT HERE. FOREVER.
+    window: true
+    notes: The graph's sign in the waiting room.
+  - id: evt:table
+    preset: text
+    source: platform:table
+    title: Larder table
+    text: "Pip's melons, a ham, and the Mayor's cheese, with small bites out of all three."
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: Gettlewaithe's throne
+    lua: |-
+      if IsQBitSet(QBit(113027)) then
+          if IsQBitSet(QBit(113028)) then
+              XeenQuests.hook("q-d1.throne")
+          else
+              evt.StatusText("The throne of chairs is empty. The royal treasury stands beside it.", 4)
+          end
+      else
+          evt.SpeakNPC(4955)
+      end
+    notes: "Talking to Gettlewaithe (NPC 4955): the studio has no word to give a placed indoor monster its NPC (Words needed), so the throne he stands before speaks for him. After his death: the hook's else_text once the treasury is searched."
+  - id: evt:trapdoor
+    preset: door
+    source: door:trapdoor
+    title: Trapdoor
+  - id: evt:wheel
+    preset: text
+    source: platform:wheel
+    title: A cart wheel
+    text: A wheel off Cole's cart. Somebody has painted a face on it.
+notes: "DD-04's events (gen.py): Q-D1's hooks (court_guards through the world's relations and evt:court_roused, guards_beaten, gettlewaithe, throne), Gettlewaithe's talk by the throne, the exit to D1, the doors and chests, flavour."

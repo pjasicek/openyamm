@@ -1,0 +1,33 @@
+# Playtest of Nightshadow Crypt's way out onto X3 (XD-24, L4; lane A7, agent:xeen-a7-xd24): from the map's start at the
+# coffin stair's foot (0, 704, 0, facing south: X3's `into`) up the twelve steps to the stair's top (event 17,
+# evt:exit, the exit preset: the game's "Do you wish to leave ...?" window, answered OK, D-24) to A5's arrival on
+# Nightshadow's square, 512 south of Draco's coffin (thing:coffin_open): (17664, -5120) facing south (1536). Measured
+# 2026-11-20 from this root: the party stands at z 1009 there (the square's ground; the arrival names 992, the game
+# lifts the party onto the ground). Run with output/studio_cal/xd24/play.sh.
+id: xeen.xd24.l4.exit
+title: Nightshadow Crypt (XD-24 L4), up the coffin stair onto X3's Nightshadow square
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+  - assert: {map: xeen_xd24.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {party_position: {x: 0, y: 704, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: 1800, z: 384, z_tolerance: 60, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: 17664, y: -5120, radius: 160, z_min: 990, z_max: 1030}}
+  - advance_runtime: {seconds: 2.0}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 17664, y: -5120, radius: 200, z_min: 990, z_max: 1030}}

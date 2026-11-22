@@ -1,0 +1,53 @@
+format: 0
+id: xeen_dd05
+name: Western Tower of Mok
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-05
+units: {plan_grid: 512}
+extent: {footprint_cells: [7, 7], climbs: n}
+map_stats:
+  id: 9154
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 34
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Heretic, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Heretic, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:d1_door
+    to: xeen_d1.odm
+    kind: door
+    arrival: entrance:dd05_door
+    arrival_hint: "On D1 before the Western Tower's front door (A6's entrance:dd05_door, (-16896, 14848, 1600))."
+    notes: "D1's front door (door:dd05_front, event 118: tower_opened or q-d6.front_door_outside) lands at this map's entrance:d1_door in the door hall: (0, -1536, 0) facing north."
+  - id: exit:d1_rope
+    to: xeen_d1.odm
+    kind: door
+    arrival: entrance:dd05_rope
+    arrival_hint: "On D1 at the foot of the Western Tower's north wall, by the heretics' rope (A6's entrance:dd05_rope, (-16896, 16896, 1600))."
+    notes: "D1 installed (A6). D1's rope (door:dd05_rope, event 121, q-d6.tower_rope) lands at this map's entrance:d1_rope in the hoist room: (1376, 1472, 1920) facing south."
+qbits:
+  alcove_disks: 113126
+  arrived_once: 117360
+  humble_slain: 117361
+  humble_spared: 113124
+  key_found: 113122
+  leader_slain: 113123
+  pegasus_found: 113401
+  pious_slain: 117362
+  pious_spared: 113128
+  started: 113120
+  tower_opened: 113125
+items:
+  energy_disk: 12334
+  golden_pegasus: 12349
+  west_tower_key: 12338
+notes: "Xeen design brief, DD-05 Western Tower of Mok (D1; Q-D6 The Heretics of Mok, Q-D20's Pegasus), class M, built from the MU-6 graph (devdocs/xeen/mockups/act4_graphs/dd05.graph.yml) with decider D-42 (mockups/act4_a8_decisions.md), which wins. Party 35-39, band 25-45, 45 placed monsters: heretics 11220 Mok Heretic 25 (22), 11221 Heretic Priest 35 (11), 11222 Heretic Lord 45 (3), the Cult Leader 11223 (45, hp x3); Mok's golems 11581 Stone Golem 26 (5), 11582 Iron Golem 40 (3); Humble 11910 and Pious 11911 peaceful, placed, not counted. Kill XP 57,155 for the party, 14.29k per member. Rest encounters 10 % from the heretics only (D-42). Treasure 4 (the vestry's hoard 5), music 34. Q-D6's bits 113120-113128 through A3's hooks; the map's arrived_once 117360, humble_slain 117361, pious_slain 117362 (provisional block 117360-117399). Player bits 11341-11344 (the fountains) are A3's, set by the hooks. Map card 9154."

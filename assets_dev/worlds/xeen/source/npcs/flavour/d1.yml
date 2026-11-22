@@ -1,0 +1,87 @@
+# D1 Castleview Vale: flavour topics of Castleview's people with no quest role (source/towns/d1.yml). Owner: A4.
+# Format: QUESTS_FORMAT.md section 5 (talk only). Quest and story topics are A3's: Mayor Snarfblad (Q-D1), Jethro and
+# Jasper (Q-D2), the Drawkcab monks and Brother Reger (Q-D3), Dyson (Q-D4), Dreyfus (Q-D6), the gemsmiths (Q-D7),
+# Vespar (Q-D8), Kramer (Q-D11), Yog (Q-D12), Luna (Q-D20), Zelda and Madame Oorla (M15), Nadia (M16), Justine (M14),
+# Ellinger (M17); Warden Krupp (the jail, Q-D2) and Librarian Ormond (the Voweless Knights' answers, Q-D17) are left to
+# A3 as well. Rumours here point at places and quests without solving them.
+map: D1
+block: 175
+source: "dark/aaze0029 (Castleview)"
+
+npcs:
+  4903:              # Philippa, The Amber Lamp
+    topics:
+      - {n: 1, label: The guidebook, text: "Eeried's guidebook calls the Darkside cosy. He wrote it before the siege. And, I think, before the sun went small."}
+  4906:              # Bertha, The Catapult and Crust
+    topics:
+      - {n: 2, label: Gremlins, text: "The Gremlin King has more bark than bite. He'll send his guards against you, but he's too cowardly to fight you personally. If you defeat his guards, he will probably do anything you want.", source: "dark/aaze0029:46"}
+      - {n: 3, label: Joe, text: "Don't trust Joe. He has some sort of scheme to sell fake treasure maps to fools willing to believe his lies about buried treasure.", source: "dark/aaze0029:10"}
+  4907:              # Crispin Mint, Castleview Strongroom
+    topics:
+      - {n: 4, label: Monsters, text: "Monsters can't count. Monsters can't spel, either. That's why the vault is safe.", source: "dark/aaze0029:145, :147 (close)"}
+  4908:              # Captain Varga, the barracks yard
+    topics:
+      - {n: 5, label: The siege, text: "They camp outside and wait. We sit inside and wait. Whoever gets bored first loses. We have the tavern."}
+  4910:              # Aeolus, Guild of Air
+    topics:
+      - {n: 6, label: Spells, text: "You will have a hard time finding spells if you don't look for them in the guild. That's a hint.", source: "dark/aaze0029:39 (close)"}
+  4911:              # Marisol, Guild of Water
+    topics:
+      - {n: 7, label: The pond, text: "The acid pond outside the walls is not water. Don't drink it, don't swim in it, and don't believe the frogs."}
+  4912:              # Grund, Guild of Earth
+    topics:
+      - {n: 8, label: The mines, text: "The Gemstone Mines run under the hills. Rubies, emeralds, and things with teeth that like rubies too."}
+  4915:              # Old Hamish, the Adventurer's Inn
+    topics:
+      - {n: 9, label: The roster, text: "Folk sign on here to wait for a party worth joining. Some have waited years. Some are worth it."}
+  4927:              # Lyle the pigeon feeder
+    topics:
+      - {n: 10, label: The bench, text: "'This bench reserved for Lyle the Pigeon Feeder.' That's me. I had the sign made. I've sat on it twice.", source: "dark/aaze0029:6"}
+  4929:              # Velana, dark elf exile
+    topics:
+      - {n: 11, label: Dark elves, text: "My people talk to no one. I talked to someone. Hence, Castleview."}
+  4930:              # Fletch, fletcher
+    topics:
+      - {n: 12, label: The Dark Grove, text: "The tallest tree in the Dark Grove has a rope hanging down from the sky. Nobody who climbed it has come back down to say what's up there."}
+  4931:              # Gerda, the rope walk
+    topics:
+      - {n: 13, label: The monks, text: "Don't listen to the Drawkcab Monks. Little of what they say makes sense, and what little makes sense is just plain wrong! They've got it all backwards.", source: "dark/aaze0029:44"}
+  4932:              # Gatewarden Boll
+    topics:
+      - {n: 14, label: Passes, text: "Every city requires a pass to enter since Alamar took over. Someone is selling passes to Castleview just outside the gate, for cheap. Be sure to get one before you try to get back inside the town.", source: "dark/aaze0029:14 (close)"}
+  4933:              # Miller Dunn
+    topics:
+      - {n: 15, label: The mill, text: "The gremlins burned my mill and left a note. It said 'Ha'. Spelled wrong."}
+  4934:              # Mother Pottage, the soup kitchen
+    topics:
+      - {n: 16, label: Soup, text: "Melon soup again. The melon farmer sends what the monkeydog doesn't eat."}
+  4935:              # Wainwright Cole
+    topics:
+      - {n: 17, label: Work, text: "Wanna job? Fifty gold a week, no experience necessary. You'd be fixing what the gremlins break. Forever.", source: "dark/aaze0029:42 (close)"}
+  4936:              # Pip Melonby, melon farmer
+    topics:
+      - {n: 18, label: The monkeydog, text: "There's a monkeydog in the sprite forest who'll do anything for a Monga melon. Anything. Mind your melons."}
+  4937:              # Thatcher Nell
+    topics:
+      - {n: 19, label: Towers, text: "Each tower requires a key for entry... but sometimes they leave the door on top of the towers unlocked. You may be able to get into some towers from the skyroads above Darkside.", source: "dark/aaze0029:52"}
+  4938:              # Widow Grey
+    topics:
+      - {n: 20, label: Treasure, text: "Don't waste your time chasing treasure that runs from you. You can't catch it. My husband tried.", source: "dark/aaze0029:50 (close)"}
+  4939:              # Bellringer Toll
+    topics:
+      - {n: 21, label: Doom, text: "It is the beginning of the end. These are the final days! Ruin is upon us! We are doomed, DOOMED I tell you! Also, supper is at six.", source: "dark/aaze0029:8 (close: the Queen's fate left out)"}
+  4940:              # Wick Ambers, lamplighter
+    topics:
+      - {n: 22, label: The sun, text: "The sun gets smaller every year and my lamps get bigger. One of us is going to win."}
+  4941:              # Saddler Rook
+    topics:
+      - {n: 23, label: Ellinger, text: "Ellinger has a great fondness for boots. Why, I couldn't say. I make saddles.", source: "dark/aaze0029:7"}
+  4942:              # Ditchwater Dan
+    topics:
+      - {n: 24, label: The sewer, text: "The sewer drains into my moat, and the rats come with it. Big ones. One of them was wearing a necklace."}
+  4943:              # Mason Hild
+    topics:
+      - {n: 25, label: Gremlins, text: "The Gremlins sure have ruined this city. Mayor Snarfblad is too nice. He should have executed those little creeps long ago.", source: "dark/aaze0029:11"}
+  4944:              # Tilly, the pigeon loft
+    topics:
+      - {n: 26, label: Alamar, text: "Perhaps Alamar will just go away if we close our eyes and wish real hard!", source: "dark/aaze0029:54"}

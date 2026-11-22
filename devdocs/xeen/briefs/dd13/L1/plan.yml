@@ -1,0 +1,347 @@
+format: 0
+level: L1
+pitch: 'Two ogre forts on their knolls either side of D2''s pass road, each a timber blockhouse round a fire-pit hall over
+  a cellar dug into the knoll, the cellars joined by the ogres'' run under the road. The halls are empty (''the Ogres are
+  out hunting''); the stay-behinds sleep in the bunks, guard the plunder and the cellars, and Graalg''s two chiefs sit by
+  his strongbox. Each hall''s fire pit asks the source''s ''Burn?'': yes sets the hall ablaze round the party, and the fort
+  stands charred and empty on every later visit.'
+purpose: 'Q-D11 Graalg''s Ogres, the war route: A3''s hooks q-d11.fort_west and q-d11.fort_east at the two fire pits (west_burned
+  113224 / east_burned 113225 and hostile 113222), q-d11.fort_search at Graalg''s strongbox (2 Energy Disks, barred after
+  a peace 113223). Party 22-26, the pass ogres 11066-11068 (18, 22, 30) and the Kennel Sabertooth 11413 (22), 25 placed, treasure
+  3.'
+mood: 'Smoky timber halls lit by fire pits and wall torches, straw and hides; cold rock under them. After a burn: black timber,
+  fallen roof, ash.'
+datum: arrival
+spaces:
+- id: room:gateway_w
+  name: West gateway
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: 'The way through the west palisade: the log gate''s two leaves, the yard and D2 beyond.'
+  empty: true
+- id: room:gate_w
+  name: West fort gate
+  kind: room
+  size: S
+  floor: 0
+  purpose: 'Inside the west fort''s log gate: the yard''s noise behind, the blockhouse door ahead. Burned: charred.'
+  empty: true
+- id: room:hall_w
+  name: West fort hall
+  kind: room
+  size: L
+  floor: 0
+  purpose: 'The west blockhouse''s hall: a fire pit, hides on the walls, a long table of stolen plates. Empty: the ogres are
+    out hunting. ''Burn?'''
+  empty: true
+- id: room:bunks_w
+  name: West bunkhouse
+  kind: room
+  size: M
+  floor: 0
+  purpose: Bunks of logs and furs, snoring ogres; a ladder down to the cellar.
+  population:
+  - actor: 11066
+    groups: 1
+    levels:
+    - 18
+    - 18
+    notes: 4 placed Ogre (11066).
+- id: room:plunder_w
+  name: Plunder store
+  kind: room
+  size: M
+  floor: 0
+  purpose: Kramer's stolen cargo in heaps, a strongbox (the chest); a trapdoor to the cellar.
+  population:
+  - actor: 11066
+    groups: 1
+    levels:
+    - 18
+    - 18
+    notes: 2 placed Ogre (11066).
+- id: room:gateway_e
+  name: East gateway
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: 'The way through the east palisade: the log gate''s two leaves, the yard and D2 beyond.'
+  empty: true
+- id: room:gate_e
+  name: East fort gate
+  kind: room
+  size: S
+  floor: 0
+  purpose: 'Inside the east fort''s log gate. Burned: charred.'
+  empty: true
+- id: room:hall_e
+  name: East fort hall
+  kind: room
+  size: L
+  floor: 0
+  purpose: 'Graalg''s own hall: a bigger fire pit, his seat of antlers. Empty: out hunting. ''Burn?'''
+  empty: true
+- id: room:kennel_e
+  name: Kennel
+  kind: room
+  size: M
+  floor: 0
+  purpose: A pen of chewed logs behind a barred gate; sabertooths; its floor a ramp down to the east cellar.
+  population:
+  - actor: 11413
+    groups: 1
+    levels:
+    - 22
+    - 22
+    notes: 4 placed Kennel Sabertooth (11413).
+- id: room:graalg
+  name: Graalg's quarters
+  kind: room
+  size: M
+  floor: 0
+  purpose: 'Furs, a bed the size of a cart, and Graalg''s strongbox: the Sardaj''s 2 Energy Disks (q-d11.fort_search, barred
+    after a peace). A trapdoor to the cellar.'
+  population:
+  - actor: 11068
+    groups: 1
+    levels:
+    - 30
+    - 30
+    notes: 2 placed Ogre Chief (11068).
+- id: room:cellar_w
+  name: West cellar
+  kind: room
+  size: M
+  floor: -512
+  purpose: 'Dug into the knoll under the blockhouse: barrels, smoked meat, the run''s mouth.'
+  population:
+  - actor: 11066
+    groups: 1
+    levels:
+    - 18
+    - 18
+    notes: 3 placed Ogre (11066).
+- id: room:run
+  name: The ogres' run
+  kind: corridor
+  size: L
+  floor: -512
+  purpose: A long timbered tunnel under the pass between the forts; cart wheels rumble overhead.
+  population:
+  - actor: 11066
+    groups: 1
+    levels:
+    - 18
+    - 18
+    notes: 2 placed Ogre (11066).
+  - actor: 11067
+    groups: 1
+    levels:
+    - 22
+    - 22
+    notes: 2 placed Ogre Brute (11067).
+- id: room:loot_cave
+  name: Sardaj loot
+  kind: room
+  size: S
+  floor: -512
+  purpose: Barbarian shields and spears taken from Yog's Sardaj, a broken disk case with Graalg's boast; brutes on the pile
+    (the chest).
+  population:
+  - actor: 11067
+    groups: 1
+    levels:
+    - 22
+    - 22
+    notes: 3 placed Ogre Brute (11067).
+- id: room:cellar_e
+  name: East cellar
+  kind: room
+  size: M
+  floor: -512
+  purpose: 'Under the east blockhouse: Graalg''s beer, a rack of clubs; the kennel''s ramp and the trapdoor to his quarters.'
+  population:
+  - actor: 11066
+    groups: 1
+    levels:
+    - 18
+    - 18
+    notes: 1 placed Ogre (11066).
+  - actor: 11067
+    groups: 1
+    levels:
+    - 22
+    - 22
+    notes: 2 placed Ogre Brute (11067).
+links:
+- id: link:gate_w
+  from: room:gate_w
+  to: room:gateway_w
+  kind: door
+  notes: 'The west fort''s log gate: two leaves that part in the middle.'
+- id: link:gatew_hall
+  from: room:gate_w
+  to: room:hall_w
+  kind: door
+  notes: The blockhouse's double door.
+- id: link:hallw_bunks
+  from: room:hall_w
+  to: room:bunks_w
+  kind: door
+- id: link:hallw_plunder
+  from: room:hall_w
+  to: room:plunder_w
+  kind: door
+- id: link:bunks_cellar
+  from: room:bunks_w
+  to: room:cellar_w
+  kind: ladder
+  notes: The bunkhouse's ladder through a hole in its floor.
+- id: link:plunder_cellar
+  from: room:plunder_w
+  to: room:cellar_w
+  kind: ladder
+  notes: The trapdoor (a hinged plank leaf) and its ladder.
+- id: link:cellarw_run
+  from: room:cellar_w
+  to: room:run
+  kind: open
+- id: link:run_loot
+  from: room:run
+  to: room:loot_cave
+  kind: open
+- id: link:run_cellare
+  from: room:run
+  to: room:cellar_e
+  kind: open
+- id: link:cellare_kennel
+  from: room:cellar_e
+  to: room:kennel_e
+  kind: open
+  notes: The kennel's floor is the ramp (512 up to the east).
+- id: link:kennel_hall
+  from: room:kennel_e
+  to: room:hall_e
+  kind: door
+  notes: The kennel's barred gate, opened from either side.
+- id: link:halle_graalg
+  from: room:hall_e
+  to: room:graalg
+  kind: door
+- id: link:graalg_cellar
+  from: room:graalg
+  to: room:cellar_e
+  kind: ladder
+  notes: Graalg's trapdoor (a hinged plank leaf) and its ladder.
+- id: link:halle_gate
+  from: room:hall_e
+  to: room:gate_e
+  kind: door
+  notes: The blockhouse's double door.
+- id: link:gate_e
+  from: room:gate_e
+  to: room:gateway_e
+  kind: door
+  notes: 'The east fort''s log gate: two leaves that part in the middle.'
+loops:
+- id: loop:west
+  spaces:
+  - room:hall_w
+  - room:bunks_w
+  - room:cellar_w
+  - room:plunder_w
+  notes: Round the west blockhouse and its cellar.
+- id: loop:east
+  spaces:
+  - room:hall_e
+  - room:kennel_e
+  - room:cellar_e
+  - room:graalg
+  notes: Round the east blockhouse and its cellar.
+- id: loop:pass
+  spaces:
+  - room:gate_w
+  - room:hall_w
+  - room:bunks_w
+  - room:cellar_w
+  - room:run
+  - room:cellar_e
+  - room:graalg
+  - room:hall_e
+  - room:gate_e
+  notes: In at one gate, through the run, out at the other, back over the pass road on D2.
+entrances:
+- id: entrance:d2_west
+  space: room:gate_w
+  kind: both
+  neighbour: exit:d2_west
+  facing: n
+  how: 'From and to D2''s entrance:dd13_west, the west fort''s gate on its knoll north of the road: inside the gate, facing
+    in (north).'
+- id: entrance:d2_east
+  space: room:gate_e
+  kind: both
+  neighbour: exit:d2_east
+  facing: s
+  how: 'From and to D2''s entrance:dd13_east, the east fort''s gate on its knoll south of the road: inside the gate, facing
+    in (south); D2 arrives here by explicit coordinates (D-25 Q10).'
+critical_path:
+- room:gate_w
+- room:hall_w
+- room:bunks_w
+- room:cellar_w
+- room:run
+- room:cellar_e
+- room:graalg
+- room:hall_e
+return_path:
+- room:hall_e
+- room:gate_e
+- room:gateway_e
+goals:
+- id: goal:burn_w
+  space: room:hall_w
+  kind: use
+  story: Q-D11
+  what: '''Burn?'' at the west hall''s fire pit (aaze0015:7): A3''s q-d11.fort_west.'
+  gives:
+    qbit: west_burned
+- id: goal:burn_e
+  space: room:hall_e
+  kind: use
+  story: Q-D11
+  what: '''Burn?'' at the east hall''s fire pit: A3''s q-d11.fort_east.'
+  gives:
+    qbit: east_burned
+- id: goal:disks
+  space: room:graalg
+  kind: take
+  story: Q-D11
+  what: 'Graalg''s strongbox: 2 Energy Disks (q-d11.fort_search, aaze0015:23), barred after a peace.'
+  gives:
+    qbit: fort_disks
+set_pieces:
+- id: set:burn
+  kind: scripted
+  spaces:
+  - room:hall_w
+  - room:hall_e
+  rule: 'Yes at a hall''s fire pit: the hall''s walls and roof burn (xoburn), fire lights pulse, the hides and the table burn
+    away; 4 s later every timber face of that fort is charred (xochar), the roof is down round the pit, embers glow. Every
+    later load with that fort''s qbit: charred, the roof down, that fort''s ogres (and the kennel''s cats) gone.'
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 14
+  sectors: 14
+  monsters_about: 25
+  chests: 3
+  doors: 10
+  loops: 3
+  floor_area_munits2: 19
+notes: 'Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/dd13.graph.yml
+  with D-25 (mockups/act3_a7_decisions.md: the party stays in the burning hall; the kennel''s cats a row in the ogres'' faction;
+  a peace-then-burn playtest; the east gate by explicit coordinates). The two gateways are rooms of their own (the gates are
+  two-leaf doors, the user''s rule of 2026-11-20); the kennel''s floor is the graph''s ramp; the trapdoors are hinged plank
+  leaves over pole ladders (merge point 22). 14 rooms.'

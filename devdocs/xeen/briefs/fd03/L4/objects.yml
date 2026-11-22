@@ -1,0 +1,946 @@
+format: 0
+start:
+  room: room:door_hall
+  at: [0, 1792]
+  facing: s
+  notes: "entrance:x5_door: 256 inside the tower door, facing south into the tower."
+arrivals:
+  - {entrance: entrance:x5_door, room: room:door_hall, at: [0, 1792], facing: s, notes: "X5's Darkstone Tower door (A6): 256 inside the door, facing south (1536). Quiet: both ways shut."}
+  - {entrance: entrance:p5_stair, room: room:roof_stair, at: [224, 1904], floor_height: 3072, facing: w, notes: "P5's stair house (A5, D-56): on the roof stair's top step (3,072), facing down (west)."}
+doors:
+  - id: door:cistern
+    opening: open:l3e_cistern
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The cistern's iron door.
+  - id: door:east_way
+    opening: open:hall_east
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: "The door hall's east way into the east arc (D-57: a door, so the arc's Sentries cannot reach the arrival)."
+  - id: door:force
+    opening: open:skull_vault
+    kind: slide_down
+    fold: true
+    thickness: 8
+    speed: 160
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The vault's force (xafield, translucent 0.5, D-51): down when the Onyx Golem dies (118124)."
+  - id: door:forge
+    opening: open:l1e_forge
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The forge's iron door.
+  - id: door:inner_gate
+    opening: open:hall_west
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 96
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    pictures:
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+    back_pictures:
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+    notes: "The inner gate: two iron-bound leaves (MM8 gkp103a/gkp103b), swinging apart."
+  - id: door:library
+    opening: open:l2w_lib
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The library's iron door.
+  - id: door:seal
+    opening: open:seal_stair
+    kind: slide_up
+    thickness: 8
+    speed: 96
+    surface: {texture: xdseal, size: [128, 256], fit: true, translucent: 0.3}
+    notes: "The invisible seal (xdseal, translucent 0.3): m41.seal with the Chime opens it (111820)."
+  - id: door:skull_pair
+    opening: open:l4w_skull
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 96
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    pictures:
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+    back_pictures:
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+    notes: The hall of the skull's double doors (gkp103a/gkp103b).
+movers:
+  - id: mover:riser3
+    room: room:l3_stair
+    at: [272, -1760]
+    size: [512, 512]
+    bottom: 0
+    height: 128
+    travel: [0, 0, 320]
+    speed: 128
+    surface: {texture: gkp4-bs, size: [128, 256]}
+    top_surface: {texture: gcav1flr, size: [256, 256]}
+    notes: "L3's riser: the dais, raised 320 by the first of the twin gongs (118122 or 118123): half height 448."
+  - id: mover:slab1
+    room: room:l1_stair
+    at: [272, -1760]
+    size: [512, 512]
+    bottom: 0
+    height: 128
+    travel: [0, 0, 640]
+    speed: 128
+    surface: {texture: gkp4-bs, size: [128, 256]}
+    top_surface: {texture: gcav1flr, size: [256, 256]}
+    notes: "L1's slab: a dais 128 high on the stairwell's floor; the L1 gong (118120) raises it 640, flush with L2."
+  - id: mover:slab2
+    room: room:l2_stair
+    at: [-272, 1760]
+    size: [512, 512]
+    bottom: 0
+    height: 128
+    travel: [0, 0, 640]
+    speed: 128
+    surface: {texture: gkp4-bs, size: [128, 256]}
+    top_surface: {texture: gcav1flr, size: [256, 256]}
+    notes: "L2's slab (north): raised by the L2 gong (118121)."
+  - id: mover:slab3
+    room: room:l3_stair
+    at: [272, -1760]
+    size: [512, 512]
+    bottom: -130
+    height: 128
+    travel: [0, 0, 770]
+    speed: 128
+    surface: {texture: gkp4-bs, size: [128, 256]}
+    top_surface: {texture: gcav1flr, size: [256, 256]}
+    notes: "L3's slab: sunk in the floor under the riser; raised to 768 (flush with L4) when both twin gongs are rung (118122 and 118123)."
+sounds:
+  - {id: sound:hatch_wind, room: room:roof_stair, at: [400, 1904], sound: whistling wind, radius: 1800, inner_radius: 500, volume: 0.4, notes: Wind down the open hatch., pan: false}
+  - {id: sound:hum_1, room: room:l1_gong, at: [0, 640], sound: humming, radius: 2600, inner_radius: 800, volume: 0.4, notes: "The dungeon bed (D-48), heard centred.", pan: false}
+  - {id: sound:hum_3, room: room:l3_gong, at: [0, 640], sound: humming, radius: 2600, inner_radius: 800, volume: 0.4, notes: The dungeon bed (D-48)., pan: false}
+lights:
+  - id: light:cistern_shaft
+    room: room:l3_cistern
+    at: [1792, 0]
+    height: 900
+    radius: 900
+    color: [150, 160, 190]
+    notes: Grey light down the rain shaft.
+  - id: light:hatch
+    room: room:roof_stair
+    at: [400, 1904]
+    height: 400
+    radius: 1400
+    color: [190, 200, 220]
+    notes: Cloud light down the hatch.
+  - id: light:seal
+    room: room:seal
+    at: [0, 1264]
+    height: 700
+    radius: 900
+    color: [150, 160, 190]
+    notes: A cold light at the foot of the roof stair.
+  - id: light:torch_01
+    room: room:door_hall
+    at: [-500, 1760]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_02
+    room: room:door_hall
+    at: [500, 1760]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_03
+    room: room:l1_west
+    at: [-1428, 300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_04
+    room: room:l1_east
+    at: [1428, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_05
+    room: room:l1_forge
+    at: [2036, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_06
+    room: room:l1_pass
+    at: [-500, -1300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_07
+    room: room:l1_stair
+    at: [-1076, -1400]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_08
+    room: room:l2_landing
+    at: [-300, -1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_09
+    room: room:l2_west
+    at: [-1428, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_10
+    room: room:l2_east
+    at: [1428, 300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_11
+    room: room:l2_library
+    at: [-1516, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_12
+    room: room:l2_pass
+    at: [500, 1300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_13
+    room: room:l2_stair
+    at: [1076, 1400]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_14
+    room: room:l3_landing
+    at: [300, 1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_15
+    room: room:l3_west
+    at: [-1428, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_16
+    room: room:l3_east
+    at: [1428, 300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_17
+    room: room:l3_cistern
+    at: [1516, 300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_18
+    room: room:l3_pass
+    at: [-500, -1300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_19
+    room: room:l3_stair
+    at: [-1076, -1400]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_20
+    room: room:l4_landing
+    at: [-300, -1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_21
+    room: room:l4_west
+    at: [-1428, 300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_22
+    room: room:l4_east
+    at: [1428, -300]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_23
+    room: room:vault
+    at: [-1010, 1010]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_24
+    room: room:seal
+    at: [-300, 1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_25
+    room: room:seal
+    at: [300, 1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_26
+    room: room:roof_stair
+    at: [-400, 1516]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_27
+    room: room:l1_gong
+    at: [0, 884]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_28
+    room: room:l1_gong
+    at: [-625, -625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_29
+    room: room:l2_gong
+    at: [0, -884]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_30
+    room: room:l2_gong
+    at: [625, 625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_31
+    room: room:l3_gong
+    at: [-625, -625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_32
+    room: room:l3_gong
+    at: [625, -625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_33
+    room: room:skull_hall
+    at: [-625, -625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_34
+    room: room:skull_hall
+    at: [625, -625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_35
+    room: room:skull_hall
+    at: [625, 625]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+chests:
+  - id: chest:cistern
+    room: room:l3_cistern
+    at: [1990, -400]
+    facing: w
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The cistern's chest on its rim (T6).
+  - id: chest:forge
+    room: room:l1_forge
+    at: [1980, -320]
+    facing: w
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The forge's chest (T6).
+  - id: chest:library
+    room: room:l2_library
+    at: [-1980, 0]
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The mason's chest (T6).
+  - id: chest:vault
+    room: room:vault
+    at: [-1050, 820]
+    facing: e
+    treasure_level: 6
+    random_items: 4
+    gold: 6000
+    notes: "The skull's vault: the source's prize as a T6 chest."
+monsters:
+  - id: monster:l1_east_1
+    room: room:l1_east
+    monster: 11585
+    at: [1264, 300]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:l1_east_2
+    room: room:l1_east
+    monster: 11585
+    at: [1264, -300]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:l1_east_3
+    room: room:l1_east
+    monster: 11585
+    at: [950, -950]
+    facing: 135
+    hostile: true
+    group: 12
+  - id: monster:l1_forge_1
+    room: room:l1_forge
+    monster: 11585
+    at: [1680, -128]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:l1_forge_2
+    room: room:l1_forge
+    monster: 11585
+    at: [1680, 256]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:l1_gong_1
+    room: room:l1_gong
+    monster: 11585
+    at: [960, -248]
+    facing: 180
+    hostile: true
+    group: 21
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l1_gong_2
+    room: room:l1_gong
+    monster: 11585
+    at: [960, 248]
+    facing: 180
+    hostile: true
+    group: 21
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l1_west_1
+    room: room:l1_west
+    monster: 11585
+    at: [-1264, 300]
+    facing: 90
+    hostile: true
+    group: 11
+  - id: monster:l1_west_2
+    room: room:l1_west
+    monster: 11585
+    at: [-1264, -300]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:l1_west_3
+    room: room:l1_west
+    monster: 11585
+    at: [-950, 950]
+    facing: 315
+    hostile: true
+    group: 11
+  - id: monster:l2_east_1
+    room: room:l2_east
+    monster: 11585
+    at: [1264, -300]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:l2_east_2
+    room: room:l2_east
+    monster: 11585
+    at: [950, 950]
+    facing: 225
+    hostile: true
+    group: 15
+  - id: monster:l2_east_3
+    room: room:l2_east
+    monster: 11586
+    at: [950, -950]
+    facing: 135
+    hostile: true
+    group: 15
+  - id: monster:l2_gong_1
+    room: room:l2_gong
+    monster: 11586
+    at: [-960, 248]
+    facing: 0
+    hostile: true
+    group: 22
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l2_gong_2
+    room: room:l2_gong
+    monster: 11586
+    at: [-960, -248]
+    facing: 0
+    hostile: true
+    group: 22
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l2_library_1
+    room: room:l2_library
+    monster: 11585
+    at: [-1620, -330]
+    facing: 0
+    hostile: true
+    group: 16
+  - id: monster:l2_library_2
+    room: room:l2_library
+    monster: 11585
+    at: [-1620, 330]
+    facing: 0
+    hostile: true
+    group: 16
+  - id: monster:l2_west_1
+    room: room:l2_west
+    monster: 11585
+    at: [-1264, 300]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:l2_west_2
+    room: room:l2_west
+    monster: 11585
+    at: [-950, -950]
+    facing: 45
+    hostile: true
+    group: 14
+  - id: monster:l2_west_3
+    room: room:l2_west
+    monster: 11586
+    at: [-950, 950]
+    facing: 315
+    hostile: true
+    group: 14
+  - id: monster:l3_cistern_1
+    room: room:l3_cistern
+    monster: 11594
+    at: [1600, -380]
+    facing: 180
+    hostile: true
+    group: 19
+  - id: monster:l3_cistern_2
+    room: room:l3_cistern
+    monster: 11594
+    at: [1600, 380]
+    facing: 180
+    hostile: true
+    group: 19
+  - id: monster:l3_east_1
+    room: room:l3_east
+    monster: 11585
+    at: [1264, 300]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:l3_east_2
+    room: room:l3_east
+    monster: 11585
+    at: [950, -950]
+    facing: 135
+    hostile: true
+    group: 18
+  - id: monster:l3_east_3
+    room: room:l3_east
+    monster: 11586
+    at: [1264, -300]
+    facing: 90
+    hostile: true
+    group: 18
+  - id: monster:l3_gong_31_1
+    room: room:l3_gong
+    monster: 11586
+    at: [-960, 248]
+    facing: 0
+    hostile: true
+    group: 31
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l3_gong_31_2
+    room: room:l3_gong
+    monster: 11586
+    at: [-960, -248]
+    facing: 0
+    hostile: true
+    group: 31
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l3_gong_32_1
+    room: room:l3_gong
+    monster: 11586
+    at: [960, -248]
+    facing: 180
+    hostile: true
+    group: 32
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l3_gong_32_2
+    room: room:l3_gong
+    monster: 11586
+    at: [960, 248]
+    facing: 180
+    hostile: true
+    group: 32
+    hidden: true
+    notes: "A gong's guard in its niche, hidden until the gong is rung (D-18, D-57 Q16)."
+  - id: monster:l3_west_1
+    room: room:l3_west
+    monster: 11585
+    at: [-1264, 300]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:l3_west_2
+    room: room:l3_west
+    monster: 11585
+    at: [-950, -950]
+    facing: 45
+    hostile: true
+    group: 17
+  - id: monster:l3_west_3
+    room: room:l3_west
+    monster: 11586
+    at: [-1264, -300]
+    facing: 90
+    hostile: true
+    group: 17
+  - id: monster:l4_east_1
+    room: room:l4_east
+    monster: 11586
+    at: [1264, -300]
+    facing: 90
+    hostile: true
+    group: 42
+  - id: monster:l4_east_2
+    room: room:l4_east
+    monster: 11586
+    at: [950, 950]
+    facing: 225
+    hostile: true
+    group: 42
+  - id: monster:l4_east_3
+    room: room:l4_east
+    monster: 11594
+    at: [1264, 300]
+    facing: 270
+    hostile: true
+    group: 42
+  - id: monster:l4_east_4
+    room: room:l4_east
+    monster: 11594
+    at: [760, -1150]
+    facing: 90
+    hostile: true
+    group: 42
+  - id: monster:l4_west_1
+    room: room:l4_west
+    monster: 11586
+    at: [-1264, -300]
+    facing: 90
+    hostile: true
+    group: 41
+  - id: monster:l4_west_2
+    room: room:l4_west
+    monster: 11586
+    at: [-950, -950]
+    facing: 45
+    hostile: true
+    group: 41
+  - id: monster:l4_west_3
+    room: room:l4_west
+    monster: 11594
+    at: [-1264, 300]
+    facing: 270
+    hostile: true
+    group: 41
+  - id: monster:l4_west_4
+    room: room:l4_west
+    monster: 11594
+    at: [-760, -1150]
+    facing: 90
+    hostile: true
+    group: 41
+  - id: monster:onyx
+    room: room:skull_hall
+    monster: 11584
+    at: [-200, 680]
+    facing: 270
+    hostile: true
+    group: 43
+  - id: monster:seal_1
+    room: room:seal
+    monster: 11594
+    at: [-380, 1180]
+    facing: 270
+    hostile: true
+    group: 44
+  - id: monster:seal_2
+    room: room:seal
+    monster: 11594
+    at: [380, 1180]
+    facing: 270
+    hostile: true
+    group: 44
+  - id: monster:skull_hall_2
+    room: room:skull_hall
+    monster: 11586
+    at: [-640, -300]
+    facing: 0
+    hostile: true
+    group: 43
+  - id: monster:skull_hall_3
+    room: room:skull_hall
+    monster: 11586
+    at: [640, -300]
+    facing: 180
+    hostile: true
+    group: 43
+decorations:
+  - id: deco:block_1
+    room: room:l1_forge
+    decoration: 7rock03
+    at: [1960, -470]
+  - id: deco:block_2
+    room: room:l1_forge
+    decoration: 7rock03
+    at: [1960, 440]
+  - id: deco:bones_1
+    room: room:vault
+    decoration: 7dec18
+    at: [-820, 1110]
+  - id: deco:sack_1
+    room: room:l2_library
+    decoration: bag01
+    at: [-1700, 450]
+  - id: deco:sack_2
+    room: room:l2_library
+    decoration: bag01
+    at: [-1700, -450]
+  - id: deco:skull
+    room: room:skull_hall
+    decoration: dec29
+    at: [0, -824]
+    floor_height: 2464
+    notes: The skull on its plinth.
+  - id: deco:torch_01
+    room: room:door_hall
+    decoration: torch01
+    at: [-500, 1760]
+    height: 224
+  - id: deco:torch_02
+    room: room:door_hall
+    decoration: torch01
+    at: [500, 1760]
+    height: 224
+  - id: deco:torch_03
+    room: room:l1_west
+    decoration: torch01
+    at: [-1428, 300]
+    height: 224
+  - id: deco:torch_04
+    room: room:l1_east
+    decoration: torch01
+    at: [1428, -300]
+    height: 224
+  - id: deco:torch_05
+    room: room:l1_forge
+    decoration: torch01
+    at: [2036, -300]
+    height: 224
+  - id: deco:torch_06
+    room: room:l1_pass
+    decoration: torch01
+    at: [-500, -1300]
+    height: 224
+  - id: deco:torch_07
+    room: room:l1_stair
+    decoration: torch01
+    at: [-1076, -1400]
+    height: 224
+  - id: deco:torch_08
+    room: room:l2_landing
+    decoration: torch01
+    at: [-300, -1100]
+    height: 224
+  - id: deco:torch_09
+    room: room:l2_west
+    decoration: torch01
+    at: [-1428, -300]
+    height: 224
+  - id: deco:torch_10
+    room: room:l2_east
+    decoration: torch01
+    at: [1428, 300]
+    height: 224
+  - id: deco:torch_11
+    room: room:l2_library
+    decoration: torch01
+    at: [-1516, -300]
+    height: 224
+  - id: deco:torch_12
+    room: room:l2_pass
+    decoration: torch01
+    at: [500, 1300]
+    height: 224
+  - id: deco:torch_13
+    room: room:l2_stair
+    decoration: torch01
+    at: [1076, 1400]
+    height: 224
+  - id: deco:torch_14
+    room: room:l3_landing
+    decoration: torch01
+    at: [300, 1100]
+    height: 224
+  - id: deco:torch_15
+    room: room:l3_west
+    decoration: torch01
+    at: [-1428, -300]
+    height: 224
+  - id: deco:torch_16
+    room: room:l3_east
+    decoration: torch01
+    at: [1428, 300]
+    height: 224
+  - id: deco:torch_17
+    room: room:l3_cistern
+    decoration: torch01
+    at: [1516, 300]
+    height: 224
+  - id: deco:torch_18
+    room: room:l3_pass
+    decoration: torch01
+    at: [-500, -1300]
+    height: 224
+  - id: deco:torch_19
+    room: room:l3_stair
+    decoration: torch01
+    at: [-1076, -1400]
+    height: 224
+  - id: deco:torch_20
+    room: room:l4_landing
+    decoration: torch01
+    at: [-300, -1100]
+    height: 224
+  - id: deco:torch_21
+    room: room:l4_west
+    decoration: torch01
+    at: [-1428, 300]
+    height: 224
+  - id: deco:torch_22
+    room: room:l4_east
+    decoration: torch01
+    at: [1428, -300]
+    height: 224
+  - id: deco:torch_23
+    room: room:vault
+    decoration: torch01
+    at: [-1010, 1010]
+    height: 224
+  - id: deco:torch_24
+    room: room:seal
+    decoration: torch01
+    at: [-300, 1100]
+    height: 224
+  - id: deco:torch_25
+    room: room:seal
+    decoration: torch01
+    at: [300, 1100]
+    height: 224
+  - id: deco:torch_26
+    room: room:roof_stair
+    decoration: torch01
+    at: [-400, 1516]
+    height: 224
+  - id: deco:torch_27
+    room: room:l1_gong
+    decoration: torch01
+    at: [0, 884]
+    height: 224
+  - id: deco:torch_28
+    room: room:l1_gong
+    decoration: torch01
+    at: [-625, -625]
+    height: 224
+  - id: deco:torch_29
+    room: room:l2_gong
+    decoration: torch01
+    at: [0, -884]
+    height: 224
+  - id: deco:torch_30
+    room: room:l2_gong
+    decoration: torch01
+    at: [625, 625]
+    height: 224
+  - id: deco:torch_31
+    room: room:l3_gong
+    decoration: torch01
+    at: [-625, -625]
+    height: 224
+  - id: deco:torch_32
+    room: room:l3_gong
+    decoration: torch01
+    at: [625, -625]
+    height: 224
+  - id: deco:torch_33
+    room: room:skull_hall
+    decoration: torch01
+    at: [-625, -625]
+    height: 224
+  - id: deco:torch_34
+    room: room:skull_hall
+    decoration: torch01
+    at: [625, -625]
+    height: 224
+  - id: deco:torch_35
+    room: room:skull_hall
+    decoration: torch01
+    at: [625, 625]
+    height: 224
+exits:
+  - id: exit:door
+    room: room:door_hall
+    wall: n
+    size: [224, 448]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x5_door
+    notes: "The tower door's inner face: out onto Darkstone's rock (X5)."
+  - id: exit:hatch
+    room: room:roof_stair
+    at: [400, 2048]
+    floor_height: 3072
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:p5_roof
+    notes: "The hatch's ladder under the open sky, up to P5 (its own Yes/No, D-66)."

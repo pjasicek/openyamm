@@ -1,0 +1,194 @@
+# Xeen side quest Q-D7, the Gemsmiths' full route (D1, DD-10A), from a new game in Castleview Vale with a level-25
+# party (the quest is level 20). The gemsmiths' row: Linus (Ruby work) and Simon (Emerald work) with no rocks: their
+# offer lines, the quest (113140) and its autonote (4470). Up the west adit (D1 event 187) into the Gemstone Mines'
+# west pocket (DD-10A): the adit's door, the timbered gallery, the ruby stope's five veins (dug 113144), the cobweb
+# drift, the sump's door, the emerald gallery's five veins; back by the bone pocket and out by the adit. Linus with
+# five ruby rocks and no gems: "The fee is two gems" and nothing taken; the fee (a new game carries no gems: two,
+# logged CONVENTION); Ruby work: the rocks and gems taken, the Ruby Broadsword (12540). Simon the same with four gems:
+# the emerald gear (12541). Linus again with no rocks left: the offer line once more (repeatable). The God of
+# Minerals' refill is q-d7_god_of_minerals.yml. Outdoors the party is placed (PLAYBOOK §2); the mine is walked.
+# Routes: tests/playthrough/xeen/53_gemstone_mines.yml, devdocs/xeen/briefs/dd10a/L4/playtest.yml, d1/L4/playtest.yml.
+# Quest logic: source/quests/q-d7.yml. Prep: prep/q-d7.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d7_gem
+id: xeen.side_quests.q-d7.gemsmiths
+title: "Xeen Q-D7: the Gemsmiths, ruby and emerald rocks from DD-10A made into Linus's and Simon's gear"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 500
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 25, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        local gems = 0
+        for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186}) do gems = gems + item_count(id) end
+        if gems ~= 0 then error("a new game carries " .. gems .. " gems") end
+  - assert: {qbit_clear: [113140, 113141, 113142, 113143, 113144, 117160]}
+  # Linus's Ruby Works (house 4495): Ruby work with no rocks: the offer, the quest and its autonote.
+  - set_pose: {map: xeen_d1.odm, x: -16275, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4945}}
+  - select_topic: {match_label: "Ruby work"}
+  - assert: {dialog: {text_contains: "With 5 Ruby rocks I will make a weapon or piece of armor for you. The cost is 2 gems. The rocks are in the Gemstone Mines; I'm sorry, but you don't have enough Ruby rocks."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113140]}
+  - assert: {autonote: {id: 4470}}
+  # Simon's Emerald Works (house 4496): Emerald work with no rocks.
+  - set_pose: {map: xeen_d1.odm, x: -14739, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4946}}
+  - select_topic: {match_label: "Emerald work"}
+  - assert: {dialog: {text_contains: "The cost is 4 gems. I'm sorry, but you don't have enough Emerald rocks. Come back when you do!"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The west adit above the row (D1 event 187) into DD-10A.
+  - set_pose: {map: xeen_d1.odm, x: -9728, y: 20480, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(187)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd10a.blv}
+  - assert: {party_position: {x: 0, y: 192, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GEMSTONE MINES"}}
+  - play_lua: {source: "close(); if not qbit(117160) then error('arrived_once not set') end"}
+  # The adit's door, the timbered gallery, the ruby stope: five veins, one rock each, then the spent line.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 1)"}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1400, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2000, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2200}
+  - play_lua:
+      source: |
+        if qbit(113144) then error("dug set before any vein") end
+        for _, e in ipairs({21, 22, 23, 24, 25}) do click(e); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end end
+        if item_count(12357) ~= 5 then error("five ruby veins gave " .. item_count(12357) .. " rocks") end
+        if not qbit(113144) then error("q-d7.dug not set by a ruby vein") end
+        status(); click(23); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("no spent line") end
+        if item_count(12357) ~= 5 then error("a spent vein gave a rock") end
+  # The cobweb drift, the sump's door, the emerald gallery's door: five emerald veins.
+  - walk_to: {x: 3200, y: 2560, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3900, y: 2560, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 4288, y: 2200, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 3)"}
+  - walk_to: {x: 4288, y: 1800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4096, y: 1240, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3900, y: 1376, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 2)"}
+  - walk_to: {x: 3300, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua:
+      source: |
+        for _, e in ipairs({13, 14, 15, 16, 17}) do
+          status(); click(e); wait(0.3)
+          local s = status() or ""
+          if not string.find(s, "You work an emerald rock out of the vein.", 1, true) then error("emerald vein " .. e .. " said: " .. s) end
+          for _ = 1, 3 do if held() ~= 0 then stow() end end
+        end
+        if item_count(12358) ~= 5 then error("five emerald veins gave " .. item_count(12358) .. " rocks") end
+  # Back by the bone pocket and the gallery, out by the adit (DD-10A event 19) onto D1.
+  - walk_to: {x: 2300, y: 1024, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1300, y: 1250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1024, y: 1900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: 2432, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2432, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -9728, y: 20480, radius: 160, z_min: 1560, z_max: 1660}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Linus with five ruby rocks and no gems: the fee asked, nothing taken.
+  - set_pose: {map: xeen_d1.odm, x: -16275, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4945}}
+  - select_topic: {match_label: "Ruby work"}
+  - assert: {dialog: {text_contains: "The rocks are fine. The fee is two gems, and you have the rocks."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12357) ~= 5 then error('the refusal took ruby rocks') end"}
+  # The fee: a new game's party carries no gems (a level-20 party has found some on the way).
+  - play_lua: {source: "log('CONVENTION loot q-d7 gems: 0 -> 2 (Linus fee; a new game carries no gems)')"}
+  - grant_item: {item_id: 177, count: 2, member_index: 1}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(177) ~= 2 then error('gems granted: ' .. item_count(177)) end"}
+  # Ruby work: the rocks and the gems taken, the Ruby Broadsword given.
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4945}}
+  - select_topic: {match_label: "Ruby work"}
+  - assert: {dialog: {text_contains: "Five ruby rocks and two gems. Give me an hour. There. Ruby. Mind the edge."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12357) ~= 0 then error("Linus left " .. item_count(12357) .. " ruby rocks") end
+        if item_count(177) ~= 0 then error("Linus left " .. item_count(177) .. " gems") end
+        if item_count(12540) ~= 1 then error("no Ruby Broadsword (12540): " .. item_count(12540)) end
+  # Simon with five emerald rocks and no gems: refused; the fee (four, CONVENTION); Emerald work: the emerald gear.
+  - set_pose: {map: xeen_d1.odm, x: -14739, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4946}}
+  - select_topic: {match_label: "Emerald work"}
+  - assert: {dialog: {text_contains: "Rocks, yes. Gems, no. Four gems."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12358) ~= 5 then error('the refusal took emerald rocks') end"}
+  - play_lua: {source: "log('CONVENTION loot q-d7 gems: 0 -> 4 (Simon fee; a new game carries no gems)')"}
+  - grant_item: {item_id: 178, count: 4, member_index: 2}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(178) ~= 4 then error('gems granted: ' .. item_count(178)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4946}}
+  - select_topic: {match_label: "Emerald work"}
+  - assert: {dialog: {text_contains: "Five emerald rocks and four gems. Emerald steel never dulls. Neither does my invoice."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12358) ~= 0 then error("Simon left " .. item_count(12358) .. " emerald rocks") end
+        if item_count(178) ~= 0 then error("Simon left " .. item_count(178) .. " gems") end
+        if item_count(12541) ~= 1 then error("no emerald gear (12541): " .. item_count(12541)) end
+  # Linus again, the rocks spent: the offer once more (repeatable), nothing given.
+  - set_pose: {map: xeen_d1.odm, x: -16275, y: 19764, z: 1600, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4945}}
+  - select_topic: {match_label: "Ruby work"}
+  - assert: {dialog: {text_contains: "you don't have enough Ruby rocks"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if item_count(12540) ~= 1 then error("a second broadsword without rocks") end
+        log("Q-D7 done: Ruby Broadsword " .. item_count(12540) .. ", emerald gear " .. item_count(12541) .. ", gold " .. gold())
+  - assert: {qbit_set: [113140, 113144, 117160]}
+  - assert: {qbit_clear: [113141, 113142, 113143]}
+  - assert: {autonote: {id: 4470}}

@@ -1,0 +1,626 @@
+format: 0
+level: L2
+pitch: "The white south-west of Cloudside. A frozen mere lies at the tundra's heart with a black tower on a rock in the ice; the ghost town Winterkill huddles on its north-west shore, a stone's throw from the world's edge. North the wind-scoured steppe of the barbarians; on a crag above it Kai Wu's monastery. South the Troll Forest's snowy firs. In the south-west corner the Land of the Giants rises to crags, and a glacier slides off the end of the world into the stars. In the east, by the Lifeforce Lagoon, the Frostspine and its cliffed spur wall off a gentler pocket, the Ogre Hills and the Lagoon Marches, where the Golem Dungeon and the Cave of Illusion open."
+purpose: "Two ages on one map. The east pocket (party 16-19, Act II) holds XD-09 and XD-10 for M10 and M12, with Halon, a well, a hot spring and Act II monsters. West of the Frostspine is the wilderness of Act III (party 24-28): Winterkill and its ghosts (Q-C6), the Ninja Pagoda (Q-C4), the Troll Warren (Q-C15), the Holy Book (Q-C18), Glom's cyclops outpost, the Winter Druid (Q-C1), the Earth Reflector, and the sealed Darkstone Tower for the finale."
+mood: "Cold, bright and quiet; snow light under a low overcast. Winterkill dead still. The pocket softer: running water, sedge, smoke from Halon's chimney."
+datum: water:rim_sea
+spaces:
+  - id: edge:east_end
+    name: East edge
+    kind: road
+    part_of: zone:pocket
+    purpose: Where the lagoon road leaves for X3.
+  - id: edge:north_end
+    name: North edge
+    kind: road
+    part_of: zone:steppe
+    purpose: Where the steppe road leaves for X6.
+  - id: junction:glom_fork
+    name: Glom's fork
+    kind: junction
+    purpose: "Glom's burrow, the shrine and the forest track, the giants' path."
+    signpost: true
+  - id: junction:lagoon_fork
+    name: Lagoon fork
+    kind: junction
+    purpose: "West: the pass and the monastery. South: the Golem Rocks. North: Halon's."
+    signpost: true
+  - id: junction:monastery_foot
+    name: Monastery foot
+    kind: junction
+    purpose: "Under Kai Wu's crag: the stair up, the pagoda path, the shore road west."
+    signpost: true
+  - id: junction:pass_crest
+    name: Pass crest
+    kind: junction
+    purpose: Top of the Frostspine pass.
+    signpost: true
+  - id: junction:steppe_cross
+    name: Steppe Cross
+    kind: junction
+    purpose: "North to the desert (X6), west to Winterkill, east to the monastery."
+    signpost: true
+  - id: town:glom
+    name: Glom's burrow
+    kind: town
+    floor: 1300
+    purpose: The Gnome King's two burrows in a knoll on the giants' border.
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:glom_burrow, type: house, service: Glom's Burrow, count: 2, doors: 1, footprint_cells: [[1, 1], [1, 1]]}
+  - id: town:monastery
+    name: Kai Wu's monastery
+    kind: town
+    where: on a crag west of the Frostspine pass
+    floor: 1900
+    purpose: "Temple and training to 40 from day one (WORLD_DESIGN 5.1), one short road west of the pass, so an Act II party can use it."
+    safe: true
+    keep_clear: [spawns]
+    theme: "Fieldstone cloister (cloudside_town chb1) with dark slate roofs (towers kit), a bell frame, a walled court on the crag; a stair road."
+    buildings:
+      - {id: building:monastery_training, type: house, service: Kai Wu's Monastery, count: 1, doors: 1, footprint_cells: [[3, 2.5]]}
+      - {id: building:monastery_temple, type: house, service: Hall of Stillness, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]]}
+  - id: town:winterkill
+    name: Winterkill
+    kind: town
+    where: "north-west shore of the mere, 4 cells from the rim cliff"
+    floor: 1000
+    purpose: "The ghost town (Q-C6): only the Mindmeld Guild is open until the ghosts are laid; the gongs in the square summon them."
+    safe: true
+    keep_clear: [spawns]
+    theme: "Cloudside half-timber kit (MU-5), poor and middle grades, snow on the roofs, shutters hanging; a broken palisade."
+    density: medium
+    buildings:
+      - {id: building:winterkill_houses, type: house, service: residence, count: 12, doors: 1, footprint_cells: [[1, 1.5], [1.5, 1], [1.5, 1.5], [1, 1], [1, 1], [1, 1], [1.5, 1.5], [1, 1], [1, 1], [1, 1.5], [1.5, 1.5], [1, 1]]}
+      - {id: building:winterkill_tavern, type: house, service: The Frozen Flagon, count: 1, doors: 1, footprint_cells: [[2, 1.5]]}
+      - {id: building:winterkill_temple, type: house, service: Temple of the Thaw, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]]}
+      - {id: building:winterkill_armour, type: house, service: Furs and Fittings, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:mindmeld_guild, type: house, service: The Mindmeld Guild, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:winterkill_guild_dark, type: house, service: The Guild of Shadows, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+    population:
+      - {id: pop:winterkill_ghosts, actor: "11241", groups: 3, placed: true, hostile: true, notes: "Q-C6: the Spirit Bones haunt the town at load (16); the Polter-Fools and the Ghost Riders (16 each) show when Randon has heard of the wave before."}
+      - {id: pop:townsfolk, actor: "361", groups: 1, placed: true, hostile: false, notes: "Ten townsfolk, shown when Winterkill is liberated (112121)."}
+  - id: water:halon_pond
+    name: Halon's millpond
+    kind: water
+    part_of: zone:halon_yard
+    purpose: "The pond that feeds the water clock; frozen, which is Halon's problem."
+  - id: water:mere
+    name: The Winterkill Mere
+    kind: water
+    purpose: "The frozen lake: walkable ice (a new ice ground; MU-2's gap), dark open water only where the river runs in."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: "The stars below the world's edge (water at 0, as X1)."
+  - id: water:river
+    name: The Lagoon Water
+    kind: water
+    purpose: "From the Lifeforce Lagoon (X3) west through the pocket and the Frostspine gorge into the mere; open water in the pocket, ice floes, frozen below the gorge."
+  - id: zone:arrival_meadow
+    name: The lagoon road's end
+    kind: zone
+    part_of: zone:pocket
+    floor: 900
+    purpose: "Where the party comes in from X3: open snow by the river, a well, the signpost at the fork."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:cave_north
+    name: The Cave of Illusion's north mouth
+    kind: zone
+    part_of: zone:ogre_hills
+    purpose: "XD-10's arrival mouth (D-4), in the Ogre Hills just above Halon's yard, 9,000 units from the X3 arrival: ice at its lip and warm, wet breath coming out."
+  - id: zone:darkstone_isle
+    name: Darkstone isle
+    kind: zone
+    floor: 1500
+    purpose: "A black rock in the ice with the Darkstone Tower on it, sealed until the finale; seen from all round the mere."
+    empty: true
+  - id: zone:druid_grove
+    name: The Winter Druid's grove
+    kind: zone
+    part_of: zone:snowfields
+    floor: 1050
+    purpose: A ring of frosted stones in a stand of firs near the rim (Q-C1's Winter step).
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:frostspine
+    name: The Frostspine
+    kind: wild
+    floor: [1700, 4000]
+    relief: uneven
+    purpose: "The ridge between the pocket and the west: bare rock and snow, crossed by one pass; the river cuts through it in a gorge; south of the gorge a cliffed spur runs on to the rim (D-6.1), no crossing."
+    empty: true
+  - id: zone:giants
+    name: The Land of the Giants
+    kind: wild
+    floor: [1900, 3600]
+    relief: uneven
+    purpose: "The trap corner: a high plateau between crags, cyclopes and giants (36-50), the cyclops outpost to burn, the glacier, the Earth Reflector at the edge."
+    density: sparse
+    population:
+      - {id: pop:cyclopes, actor: "11080", groups: 4, placed: true, hostile: true, notes: "Encounter area 6: three pairs of Cyclopes (36) and one Giant (50) on the east crag."}
+      - {id: pop:cyclops_outpost, actor: "11080", groups: 1, placed: true, hostile: true, notes: "The outpost Glom wants burnt: eight Cyclopes."}
+  - id: zone:glacier
+    name: The glacier
+    kind: zone
+    part_of: zone:giants
+    floor: [1900, 2600]
+    purpose: "Ice from the crags to the rim, ending in a broken ice cliff over the stars: the signature view."
+  - id: zone:golem_rocks
+    name: The Golem Rocks
+    kind: zone
+    part_of: zone:lagoon_marches
+    floor: [1000, 1500]
+    purpose: "A knot of grey stone just south of the river, 7,000 units from the X3 arrival; the Golem Dungeon's slab door in its north face (D-4)."
+  - id: zone:halon_yard
+    name: Halon's yard
+    kind: district
+    part_of: zone:ogre_hills
+    floor: 1350
+    purpose: "Halon the Efficient's workshop on the shoulder above the pass road, its water clock tower and the millpond that feeds it, frozen; seen from the X3 arrival."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:halon_workshop, type: house, service: Halon's Workshop, count: 1, doors: 1, footprint_cells: [[2, 1.5]]}
+  - id: zone:lagoon_marches
+    name: The Lagoon Marches
+    kind: wild
+    part_of: zone:pocket
+    floor: [880, 1000]
+    relief: flat
+    purpose: "Snowy fen of sedge and black pools south of the river, running east into the lagoon country: the rangers' camp, a trapper's lean-to, the Golem Rocks."
+    density: medium
+    population:
+      - {id: pop:pocket_marsh, actor: "11410", groups: 6, placed: true, hostile: true, notes: "Act II: Dark Wolves 16 by the river and in the fen; the first fight about 2,500 from the X3 arrival."}
+      - {id: pop:archer_camp, actor: "11130", groups: 1, placed: true, hostile: true, notes: "Seven Evil Archers (8) at their camp (D-4: A tier only)."}
+  - id: zone:ogre_hills
+    name: The Ogre Hills
+    kind: wild
+    part_of: zone:pocket
+    floor: [1100, 2200]
+    relief: uneven
+    purpose: "Snow-capped humps with firs in the folds: the ogres' camp, Halon's workshop on a shoulder, the Cave of Illusion's north mouth."
+    density: sparse
+    population:
+      - {id: pop:pocket_hills, actor: "11410", groups: 5, placed: true, hostile: true, notes: "Act II: Dark Wolves 16 (the A tier only, D-4), placed in packs of two and three."}
+      - {id: pop:ogre_camp, actor: "11060", groups: 1, placed: true, hostile: true, notes: "Six at the camp: four Ogres (18), two Ogre Brutes (22)."}
+  - id: zone:pagoda_shore
+    name: The pagoda shore
+    kind: zone
+    floor: 1000
+    purpose: "The Ninja Pagoda on the mere's north-east shore, under the monastery crag."
+  - id: zone:pass
+    name: The Frostspine pass
+    kind: zone
+    part_of: zone:frostspine
+    floor: 1700
+    purpose: "The one road west: Freeda the Mountaineer's camp at the crest."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:pocket
+    name: The Ogre Hills and the Lagoon Marches
+    kind: wild
+    share: 0.17
+    where: "east, from the Frostspine (x 84) to the X3 border, y 24 to 104"
+    floor: [880, 2200]
+    purpose: "Act II's pocket: the X3 road comes in here; XD-09 and XD-10 open here; its monsters fit a party of 16-19. The Frostspine and the river keep the harder land out."
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "West and south the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:snowfields
+    name: The snowfields
+    kind: wild
+    floor: [900, 1300]
+    relief: uneven
+    purpose: "Open snow round the mere's west and south shores: wolves, sabertooths, snow beasts; the Winter Druid's grove by the rim, Old Knut's fishing hole."
+    density: sparse
+    population:
+      - {id: pop:snow_beasts, slot: 1, groups: 11, per_marker: [2, 3], levels: [16, 16], notes: "Encounter area 5: Dark Wolves in packs round the west and south shores."}
+      - {id: pop:snow_packs, actor: "11411", groups: 4, placed: true, hostile: true, notes: Two packs of Sabertooths (22) and two of Snow Beasts (28).}
+  - id: zone:steppe
+    name: The barbarian steppe
+    kind: wild
+    floor: [1100, 1600]
+    relief: uneven
+    purpose: "Wind-scoured stony ground under thin snow, north of the mere, rising toward the desert: two barbarian camps, the Well of Accuracy, the road from X6."
+    density: sparse
+    population:
+      - {id: pop:barbarians, slot: 2, groups: 10, per_marker: [2, 3], levels: [14, 28], notes: "Encounter area 4; none within 2,000 of the pass descent or the monastery foot (D-6.1)."}
+      - {id: pop:barbarian_camp, actor: "11100", groups: 2, placed: true, hostile: true, notes: The camp (six round the fire and the chief) and the hunting camp (three).}
+  - id: zone:troll_forest
+    name: The Troll Forest
+    kind: wild
+    floor: [1000, 1500]
+    relief: uneven
+    purpose: "Snowy firs from the mere's south shore to the rim: trolls, the Troll Warren, the Holy Book of Elvenkind by it; Thickbark on its north-east edge by the frozen river; XD-10's south mouth in the spur's west face (D-6.1)."
+    density: dense
+    population:
+      - {id: pop:trolls, slot: 3, groups: 14, per_marker: [1, 3], levels: [18, 38], notes: "Encounter area 3: Trolls at the edges, Troll Guards and Ice Trolls deeper."}
+  - id: zone:west_plateau
+    name: The rim plateau
+    kind: wild
+    floor: [1300, 1600]
+    purpose: "Quiet high snow between Winterkill and the steppe's west end: the Fountain of Great Protection, the Edge Watch on the rim."
+    safe: true
+    keep_clear: [spawns]
+    density: sparse
+  - id: zone:winterkill_square
+    name: Winterkill square
+    kind: zone
+    part_of: town:winterkill
+    floor: 1000
+    purpose: "The gongs (two north, one south), the mirror, Mayor Randon, the old strength well."
+    empty: true
+    safe: true
+links:
+  - id: link:cave_south_path
+    from: link:forest_track
+    to: zone:troll_forest
+    kind: path
+    notes: To XD-10's south mouth in the spur's west face (D-6.1).
+  - id: link:druid_path
+    from: link:south_track
+    to: zone:druid_grove
+    kind: path
+  - id: link:forest_track
+    from: junction:glom_fork
+    to: zone:troll_forest
+    kind: path
+    notes: by the Shrine of Cold into the forest and the warren
+  - id: link:giants_path
+    from: junction:glom_fork
+    to: zone:giants
+    kind: path
+    notes: "up onto the plateau: no signpost, cyclops bones beside it"
+  - id: link:glom_lane
+    from: junction:glom_fork
+    to: town:glom
+    kind: path
+  - id: link:golem_lane
+    from: junction:lagoon_fork
+    to: zone:golem_rocks
+    kind: path
+    crosses: [water:river]
+    features: ["a plank footbridge over the river at (97.5, 63)"]
+  - id: link:hill_track
+    from: junction:lagoon_fork
+    to: zone:cave_north
+    kind: path
+    notes: by Halon's yard
+  - id: link:lagoon_road
+    from: edge:east_end
+    to: junction:lagoon_fork
+    kind: road
+    purpose: "travel: X3 to the pocket"
+  - id: link:monastery_stair
+    from: junction:monastery_foot
+    to: town:monastery
+    kind: stairs
+    rise: 700
+  - id: link:pagoda_path
+    from: junction:monastery_foot
+    to: zone:pagoda_shore
+    kind: path
+  - id: link:pass_descent
+    from: junction:pass_crest
+    to: junction:monastery_foot
+    kind: road
+  - id: link:pass_road
+    from: junction:lagoon_fork
+    to: junction:pass_crest
+    kind: road
+    rise: 800
+    purpose: the one way west
+  - id: link:rim_walk
+    from: town:winterkill
+    to: zone:west_plateau
+    kind: path
+    notes: to the Edge Watch
+  - id: link:shore_road
+    from: junction:monastery_foot
+    to: junction:steppe_cross
+    kind: road
+  - id: link:south_track
+    from: zone:winterkill_square
+    to: junction:glom_fork
+    kind: path
+    notes: down the mere's west shore past the druid's grove
+  - id: link:steppe_road
+    from: edge:north_end
+    to: junction:steppe_cross
+    kind: road
+    purpose: "travel: X6"
+  - id: link:thickbark_path
+    from: link:forest_track
+    to: zone:troll_forest
+    kind: path
+    notes: From the Shrine of Cold along the forest's north edge to Thickbark by the frozen river (D-6.1).
+  - id: link:winterkill_road
+    from: junction:steppe_cross
+    to: zone:winterkill_square
+    kind: road
+entrances:
+  - id: entrance:east_road
+    space: edge:east_end
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: "The lagoon road at the river; the frozen river and the pass ahead."
+  - id: entrance:fd03_door
+    space: zone:darkstone_isle
+    kind: both
+    facing: n
+    how: "Darkstone Tower's door (FD-03, A7): A3's m41.tower_door opens it; FD-03's way out lands here on the rock top, facing north toward Winterkill."
+  - id: entrance:north_road
+    space: edge:north_end
+    kind: both
+    neighbour: edge:north
+    facing: s
+    how: The steppe road down from the desert's edge.
+  - id: entrance:p5_fall
+    space: zone:darkstone_isle
+    kind: both
+    facing: s
+    how: "P5's fall (D-56): on Darkstone's rock top (1,500) before the tower door, 256 and more of flat rock to every edge; off by the door (FD-03, after M41) or the 700 drop to the ice."
+  - id: entrance:winterkill_square
+    space: zone:winterkill_square
+    kind: arrival
+    how: "Town Portal, the mirror (house 4256, opens with q-c6.done), the respawn; tests start here."
+  - id: entrance:xd09_door
+    space: zone:golem_rocks
+    kind: both
+    neighbour: door:xd09
+    facing: n
+    how: "A slab door with no handle in the rocks' north face; a slot beside it for a stone tablet."
+    condition: {item: golem_stone}
+  - id: entrance:xd10_north
+    space: zone:cave_north
+    kind: both
+    neighbour: door:xd10_north
+    facing: s
+    how: XD-10's arrival (D-4).
+  - id: entrance:xd10_south
+    space: zone:troll_forest
+    kind: both
+    neighbour: door:xd10_south
+    facing: w
+    how: "A low mouth in the spur's west face among the firs (D-6.1): the pocket's second way west; only A-tier trolls within 6 cells."
+critical_path: [entrance:winterkill_square, zone:golem_rocks, zone:cave_north]
+goals:
+  - id: goal:cave
+    space: zone:cave_north
+    kind: reach
+    what: Enter the Cave of Illusion for the Enchanted Key (M12).
+    story: M12
+  - id: goal:ghosts
+    space: zone:winterkill_square
+    kind: set
+    what: "Three waves of ghosts laid; Winterkill liberated (Q-C6)."
+    story: Q-C6
+  - id: goal:golem_door
+    space: zone:golem_rocks
+    kind: use
+    what: Open the Golem Dungeon with the Golem Stone (M10).
+    story: M10
+points_of_interest:
+  - id: poi:archer_camp
+    space: zone:lagoon_marches
+    kind: camp
+    behaviour: "The evil archers' camp on a dry rise in the fen: burn it (XP); a chest."
+  - id: poi:barbarian_camp
+    space: zone:steppe
+    kind: camp
+    behaviour: "The barbarian camp: burn it (XP); the chief's chest."
+  - id: poi:cyclops_outpost
+    space: zone:giants
+    kind: camp
+    behaviour: "The cyclops outpost: burn it for Glom (100 XP rescaled by A3); hoard chest."
+  - id: poi:earth_reflector
+    space: zone:glacier
+    kind: story_device
+    behaviour: "The Earth Reflector on a rock spur at the glacier's lip (M37), switched on late; until then a message."
+  - id: poi:edge_watch
+    space: zone:west_plateau
+    kind: ruin
+    behaviour: "A broken watch post at the world's edge: a view down into the stars; an old note."
+  - id: poi:fountain_great_protection
+    space: zone:west_plateau
+    kind: fountain
+    behaviour: "Fountain of Great Protection: +AC, temporary (the source's +30, rescaled by A2)."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:freeda
+    space: zone:pass
+    kind: teacher
+    behaviour: "Freeda the Mountaineer (4527) at her camp on the crest: Body Building, Master."
+  - id: poi:frozen_pack
+    space: water:mere
+    kind: chest
+    behaviour: "A pack frozen into the ice near the isle: chop it out (a chest)."
+  - id: poi:frozen_sledge
+    space: zone:pocket
+    kind: chest
+    behaviour: "A trader's sledge lost in a drift below the pass, its chest still lashed on."
+  - id: poi:giant_stones
+    space: zone:giants
+    kind: stat_challenge
+    behaviour: "The Giants' Stones: lift the smallest (Might): a permanent +2 Might once (the map's stat challenge)."
+    rule: native:stat_challenge
+  - id: poi:giants_cairn
+    space: zone:giants
+    kind: chest
+    behaviour: "A giant's grave of piled boulders: grave goods (a chest)."
+  - id: poi:gongs
+    space: zone:winterkill_square
+    count: 3
+    kind: set_piece
+    behaviour: "Two northern gongs and a southern one: banging the southern gong summons the next wave (Q-C6). Signs: 'Bang twice on each northern gong is all you have to do.'"
+  - id: poi:holy_book
+    space: zone:troll_forest
+    kind: item
+    behaviour: "The Holy Book of Elvenkind in the snow under a fallen pack, by the warren (Q-C18)."
+    gives:
+      item: holy_book
+  - id: poi:hot_spring
+    space: zone:pocket
+    kind: pool
+    behaviour: "A steaming spring by the river: heals and cures frostbite (Cure Weakness), daily."
+    uses: {times: 1, per: party, reset: daily}
+  - id: poi:hunting_camp
+    space: zone:steppe
+    kind: camp
+    behaviour: "A barbarian hunting camp: a fire, a rack of furs, three barbarians."
+  - id: poi:ice_fishing
+    space: water:mere
+    kind: device
+    behaviour: "Old Knut's fishing hole in the ice, a stool and a line: a catch of food once a day."
+  - id: poi:obelisk
+    space: zone:steppe
+    kind: obelisk
+    behaviour: "One of Cloudside's obelisks: a word of the world's riddle."
+    rule: native:obelisk
+    notes: "On the mere's north shore promontory, Darkstone in view."
+  - id: poi:ogre_camp
+    space: zone:ogre_hills
+    kind: camp
+    behaviour: "The ogres' camp in a hollow: burn it (XP); a chest of loot."
+  - id: poi:randon
+    space: zone:winterkill_square
+    kind: npc
+    behaviour: "Mayor Randon (4502) by the gongs, outdoors."
+  - id: poi:shrine_cold
+    space: zone:snowfields
+    kind: shrine
+    behaviour: "Shrine of Cold: +Water resistance, permanent, once."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:signposts
+    spaces: [junction:lagoon_fork, junction:pass_crest, junction:monastery_foot, junction:steppe_cross, junction:glom_fork]
+    count: 5
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:thickbark
+    space: zone:troll_forest
+    kind: npc
+    behaviour: "Thickbark the Civilized (4528), a talking tree: burn the troll warren (Q-C15)."
+  - id: poi:trapper
+    space: zone:lagoon_marches
+    kind: chest
+    behaviour: "A trapper's lean-to with a dead fire: a chest of furs and a few coins."
+  - id: poi:waters_great_magic
+    space: zone:giants
+    kind: well
+    behaviour: "Waters of Great Magic: spell points restored and raised, temporary. The lure at the trap corner's edge."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:well_accuracy
+    space: zone:steppe
+    kind: well
+    behaviour: "Well of Accuracy: +Accuracy, temporary."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:well_intellect
+    space: zone:arrival_meadow
+    kind: well
+    behaviour: "Well of Intellect: +Intellect, temporary (the source's B3 well)."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:winter_druid
+    space: zone:druid_grove
+    kind: npc
+    behaviour: "The Winter Druid (4529): Q-C1's Winter step."
+  - id: poi:winterkill_well
+    space: zone:winterkill_square
+    kind: well
+    behaviour: "The old strength well: +Might, temporary; frozen (a message) until q-c6.done."
+    condition: {qbit: winterkill_liberated}
+landmarks:
+  - id: landmark:darkstone
+    space: zone:darkstone_isle
+    what: "The Darkstone Tower: black slate and blackened stone on its rock in the ice"
+    seen_from: [town:winterkill, zone:steppe, zone:snowfields, zone:pagoda_shore, town:monastery]
+  - id: landmark:frostspine
+    space: zone:frostspine
+    what: "The ridge and its pass notch, the gorge at its south end"
+    seen_from: [zone:pocket, town:monastery]
+  - id: landmark:glacier
+    space: zone:glacier
+    what: The glacier's tongue breaking off over the rim into the stars
+    seen_from: [town:glom, zone:snowfields, zone:troll_forest]
+  - id: landmark:halon_clock
+    space: zone:halon_yard
+    what: "Halon's water clock tower on its shoulder, smoke from the workshop"
+    seen_from: [zone:arrival_meadow, zone:lagoon_marches]
+  - id: landmark:monastery
+    space: town:monastery
+    what: "Kai Wu's walled cloister on its crag, a bell"
+    seen_from: [zone:steppe, water:mere, zone:pass]
+  - id: landmark:pagoda
+    space: zone:pagoda_shore
+    what: Five storeys of dark timber and slate on the shore
+    seen_from: [water:mere, town:monastery]
+sightlines:
+  - id: view:arrival
+    from: zone:arrival_meadow
+    to: [landmark:frostspine, landmark:halon_clock]
+    what: "Arrival from X3: the river leading west to the gorge, the pass notch, Halon's tower on the right."
+  - id: view:glacier
+    from: poi:waters_great_magic
+    to: [landmark:glacier, poi:earth_reflector]
+    what: "The signature view, earned at the trap corner's edge: west along the rim, the glacier breaking off the world into the stars, the Reflector on its spur."
+  - id: view:mere
+    from: poi:obelisk
+    to: [landmark:darkstone, landmark:pagoda]
+    what: The black tower across the ice.
+set_pieces:
+  - id: set:ghost_waves
+    kind: scripted
+    spaces: [zone:winterkill_square]
+    rule: "Banging the southern gong (after both northern gongs twice) summons a wave of 20 ghosts in the town: Spirit Bones, then Polter-Fools, then Ghost Riders. Each wave must be destroyed and Randon visited before the next."
+    states: [quiet, wave_1, wave_2, wave_3, liberated]
+    gives:
+      qbit: winterkill_liberated
+height_bands:
+  - id: band:high
+    range: [1300, 3600]
+    spaces: [zone:ogre_hills, town:monastery, zone:giants, zone:glacier]
+    partly: [zone:frostspine]
+    notes: "The giants' crags rise to 3,600 inside it."
+  - id: band:ice
+    range: [780, 1500]
+    spaces: [water:mere, water:river]
+  - id: band:low
+    range: [860, 1550]
+    spaces: [zone:lagoon_marches, zone:arrival_meadow, town:winterkill, zone:snowfields]
+  - id: band:mid
+    range: [950, 1650]
+    spaces: [zone:steppe, zone:troll_forest, zone:west_plateau, town:glom, zone:darkstone_isle]
+  - id: band:peaks
+    range: [1600, 4000]
+    spaces: [zone:frostspine]
+    partly: [zone:giants]
+    notes: "Frostspine crest to 4,000; the giants' crags to 3,600."
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+states:
+  - id: state:winterkill_cursed
+    condition: {not: {qbit: winterkill_liberated}}
+    locks: [building:winterkill_tavern, building:winterkill_temple, building:winterkill_guild_dark, building:winterkill_armour, building:winterkill_houses]
+    atmosphere: "No townsfolk; drifted doors; a cold wind sound."
+    notes: "A4's closed texts on each door; the Mindmeld Guild stays open."
+  - id: state:winterkill_liberated
+    condition: {qbit: winterkill_liberated}
+    opens: [building:winterkill_tavern, building:winterkill_temple, building:winterkill_guild_dark, building:winterkill_armour, building:winterkill_houses]
+    effects: ["Townsfolk appear (about 10), smoke from chimneys, the mirror works (qbit 119004)."]
+landform:
+  relief: "A frozen bowl round the mere (800), stony steppe rising north (to 1,600), the Frostspine wall in the east (to 4,000), the giants' plateau and crags in the south-west (2,000 to 3,600)."
+  height_range: [800, 4000]
+  water: "The frozen mere (about 300 cells), the Lagoon Water from the east edge into it, Halon's millpond."
+  water_share: 0.05
+  caps:
+    - {kind: snow, share: 0.85, where: everywhere but the pocket's fen and the steppe's scoured patches}
+    - {kind: bare rock, share: 0.08, where: "the Frostspine crest, the crags"}
+  rim: {notes: "The world rim along the whole west and south: a cliff of 1,000 (marsh) to 1,900 (glacier lip) down to the stars. North and east the land runs to the map's edge; the roads and the river run out to it."}
+atmosphere: "Sky winter_overcast (shipped); snow weather; music 47. Wind and creaking ice; the river's running water in the pocket; Winterkill silent but for a loose shutter; the monastery bell at dawn."
+notes: "L3/L4 written by output/studio_cal/x5/tools/gen.py from the approved L1 and D-6.1, D-6.3, D-6.5. The plan keeps the L1 spaces; the pocket's wolves are placed actors (Act II), the west's are slot 1 markers."

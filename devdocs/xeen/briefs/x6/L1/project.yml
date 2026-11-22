@@ -1,0 +1,114 @@
+format: 0
+id: xeen_x6
+name: Desert of the Sphinx
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X6
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9104
+  continent: 6
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 4
+  perception_difficulty: 4
+  refill_days: 672
+  music: 17
+  environment: desert
+  lock_difficulty: 8
+  slots:
+    - {monster: Xeen Sand Worm, tier: 2, per_marker: [2, 3], weight: 37}
+    - {monster: Xeen Werewolf, tier: 4, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Elemental Golem, tier: 2, per_marker: [2, 3], weight: 33}
+neighbours:
+  - id: door:fd02
+    to: xeen_fd02.blv
+    kind: door
+    arrival_hint: "Inside the Southern Sphinx's breast, on the first step."
+    condition: {item: southern_sphinx_amulet}
+    notes: "FD-02 The Southern Sphinx (A7, phase 6; M40): a second, half-buried sphinx in the western dunes; A3's m40.sphinx_door wants Roland's amulet (12372). Sealed until FD-02 exists."
+  - id: door:xd14
+    to: xeen_xd14.blv
+    kind: door
+    arrival_hint: "Inside Castle Basenji's gate, in its entry hall."
+    notes: "XD-14 Castle Basenji (A7, phase 4; Q-C8): the castle on its crag at the north rim, its gate at the top of the cliff path above Arie's camp. Sealed until XD-14 exists."
+  - id: door:xd15
+    to: xeen_xd15.blv
+    kind: door
+    arrival_hint: "Inside the Sphinx's breast, at the foot of the stair to the body."
+    condition: {item: northern_sphinx_amulet}
+    notes: "XD-15 The Sphinx (A7, phase 4; Q-C9): the door between the Northern Sphinx's paws. A3's q-c9.door wants the Jewelled Amulet (12317, Arie's). Sealed until XD-15 exists."
+  - id: door:xd20
+    to: xeen_xd20.blv
+    kind: door
+    arrival_hint: "Inside the arena gate, in the fighters' passage."
+    notes: "XD-20 The Warzone (A7, phase 4; D-8.1): the arena gate in the cliff at the back of the walled coach yard. \"Enter the War Zone?\" Sealed until XD-20 exists."
+  - id: edge:east
+    to: xeen_x4.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The desert road in from the east edge at y 60, over the dry downs from the Asp road."
+    notes: "X4 Burlock Savannah (installed): its west road (L4 link:west_road) runs out to its x 0 at y 60 over the desert road's saddle (level span 54-66 at 1,150), sealed until X6 exists. The same y here and the same span and height; X4's other west spans continue (Gargoyle Range 0-50, dry downs 66-128)."
+  - id: edge:south
+    to: xeen_x5.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The steppe road in from the south edge at x 50, up from Winterkill's steppe."
+    notes: "X5 Winterkill Tundra (A6, installed): its steppe road runs out to its y 0 at x 50 (level span 45-56 at 1,460), sealed with a sign until X6 exists. The same x here; X5's other north spans continue (rim 0-24, stony rises 24-45, the Frostspine and Ogre Hills' backs 56-128)."
+  - id: stable:sphinx_wells_asp
+    to: xeen_x4.odm
+    kind: stable
+    days: 2
+    schedule: {weekdays: [monday, friday]}
+    service: "Sphinx Wells Caravans (4302), route 427"
+    notes: "A4's x6.yml: to Asp's Travel Pit; Asp's route 431 lands here (arrival sphinx_wells)."
+  - id: stable:sphinx_wells_rivercity
+    to: xeen_x2.odm
+    kind: stable
+    days: 4
+    schedule: {weekdays: [wednesday]}
+    service: "Sphinx Wells Caravans (4302), route 428"
+    notes: "A4's x6.yml: to Rivercity's stables."
+  - id: stable:warzone_castleview
+    to: xeen_d1.odm
+    kind: stable
+    days: 5
+    schedule: {weekdays: [tuesday]}
+    service: "The Warzone Coach (4305), route 430"
+    condition: {qbit: m7_sigil}
+    notes: "D-8.1: the coach to Castleview, a way between the faces, waits for the Pyramid Sigil (m7.sigil); Castleview's 415 lands at warzone_coach."
+  - id: stable:warzone_rivercity
+    to: xeen_x2.odm
+    kind: stable
+    days: 4
+    schedule: {weekdays: [monday]}
+    service: "The Warzone Coach (4305), route 429"
+    notes: "A4's x6.yml: Gorm's coach back to Rivercity; Rivercity's 406 lands at warzone_coach."
+qbits:
+  cloud_6: 115045
+  cloud_hoard_found: 115048
+  m36_started: 111720
+  m7_sigil: 110100
+  q_c8_done: 112163
+  reflector_air: 111740
+  sphinx_entered: 112180
+  summer_given: 112021
+  warzone_gate: 116100
+items:
+  northern_sphinx_amulet: 12317
+  southern_sphinx_amulet: 12372
+rules:
+  weather: clear
+  rim:
+    cliff_x: 24
+    cliff_y: 24
+    fall: death
+    sides: [west, north]
+  town_portal_anchor: entrance:sphinx_wells
+notes: "X6 Desert of the Sphinx, MU-3 plan for the phase 4 review (A5, 2026-11-20). No geometry until a decider has approved it. Plan: plan.yml; to-scale layout: sketch.yml; generator, drawings and review board: output/studio_cal/x6/ (tools/gen_l1.py writes these three files). Sky: the shipped clear preset with the arid theme (as Bracada 7out06 and Dragonsand outb3)."

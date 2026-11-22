@@ -1,0 +1,96 @@
+# XD-17: Lacey (11915) and Stumpy (11916) peaceful, no hostile actor, also
+# after a save and load.
+# Written by output/studio_cal/xd17/tools/gen_playtests.py (A5, 2026-11-21); run with output/studio_cal/xd17/run.sh.
+id: xeen.xd17.l4.hostility
+title: 'Shangri-La (XD-17 L4): Lacey and Stumpy peaceful, nothing hostile'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd17.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 48
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd17.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2.5
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    actor_count:
+      monster_id: 11915
+      hostile: false
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11915
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11916
+      hostile: false
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11916
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      hostile: true
+      max: 0
+- advance_runtime:
+    seconds: 20
+- reload: {}
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    actor_count:
+      monster_id: 11915
+      hostile: false
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11916
+      hostile: false
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      hostile: true
+      max: 0
+- assert:
+    map: xeen_xd17.blv

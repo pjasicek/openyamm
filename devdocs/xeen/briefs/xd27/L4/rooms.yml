@@ -81,8 +81,8 @@ rooms:
     theme: theme:den
     platforms:
       - {id: platform:terrace, rise: 192, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-1344, 2560], [-1024, 2560], [-1024, 3008], [-1344, 3008]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The rock terrace under the bone den's mouth, 192 up."}
-      - {at: [-192, 2528], size: [512, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
-      - {at: [-192, 3744], size: [512, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
+      - {at: [-64, 2528], size: [320, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench (clear of the line from the gate yard to the Chieftain's den)}
+      - {at: [-48, 3744], size: [320, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench (clear of the lines from the steps and the kennel to the ramp)}
       - {at: [-848, 3264], size: [96, 384], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
       - {at: [432, 3136], size: [96, 448], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
     levels:
@@ -112,19 +112,14 @@ rooms:
     name: River gorge
     outline: [[3168, 5376], [4128, 5376], [4128, 6976], [3168, 6976]]
     floor: -320
-    ceiling: 1408
+    ceiling: 832
     theme: theme:gorge
     walls:
-      - wall: west
-        surface: {texture: gcav1wal, size: [256, 256]}
-        bands: false
-        notes: "The bluff under and over the ledge: rock over its whole height (no bands)."
-    bands:
-      - {height: 512, surface: {texture: gcav1wal, size: [256, 256]}}
-      - {height: 1216, surface: {texture: xodaylt, size: [256, 128], scale: 8.2, offset: [0, 42]}}
-      - {height: 1728, surface: {texture: 7plansky1, size: [256, 256], scale: 4}}
+      - wall: east
+        panels:
+          - {offset: 0, length: 1600, bottom: 552, height: 600, surface: {texture: xogorge, size: [512, 256], fit: true, uneven: true}, notes: "The hills beyond the river, the picture once across the far wall above the far cliff, up to the sky."}
     ambient: 2
-    notes: "The river gorge below the throwing ledge: flowing water 448 below the ledge, the far cliff rising to about the ledge, the hills beyond the river and the sky above (bands on the far walls), the bluff itself on the west."
+    notes: "The river gorge below the throwing ledge: flowing water 448 below the ledge, rock cliffs north, south and west (the bluff), the far cliff on the east rising to just under the ledge, the far bank and the river bending away as one picture (1600 x 600, A6's xogorge laid once), the sky as the roof."
   - id: room:kennel
     name: Kennel
     outline: [[928, 2752], [1536, 2688], [1920, 2880], [1984, 3328], [1728, 3648], [928, 3584]]
@@ -146,6 +141,7 @@ rooms:
     name: Chieftain's larder
     outline: [[-4096, 3584], [-3168, 3584], [-3168, 4224], [-3392, 4352], [-3968, 4352], [-4160, 4096], [-4160, 3776]]
     floor: 32
+    store: true
     ceiling: 416
     theme: theme:den
     beams:

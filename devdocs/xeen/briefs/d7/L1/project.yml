@@ -1,0 +1,190 @@
+format: 0
+id: xeen_d7
+name: The Skyroads
+world: xeen
+kind: indoor
+profile: region
+map_code: D7
+units: {plan_grid: 512}
+extent: {footprint_cells: [128, 88]}
+map_stats:
+  id: 9114
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 6
+  perception_difficulty: 6
+  refill_days: 672
+  music: 30
+  environment: plains
+  lock_difficulty: 12
+  slots:
+    - {monster: Xeen Elemental Golem, tier: 2, per_marker: [1, 3], weight: 50}
+    - {monster: Xeen Roc, tier: 2, per_marker: [2, 3], weight: 25}
+    - {monster: Xeen Dark Dragon, tier: 0, per_marker: [1, 3], weight: 25}
+neighbours:
+  - id: boat:lucio
+    to: xeen_d1.odm
+    kind: boat
+    listed_only: true
+    notes: "D-5.3: Lucio's celestial boats sail up only, from Castleview's jetty (D1, 4901), Sandcaster's (D3, 4649) and Lakeside's dock (D4, route 426), twice a week after m30.done, to entrance:olympus_dock. No boat leaves D7."
+  - id: door:dd15
+    to: xeen_dd15.blv
+    kind: door
+    arrival: entrance:d7_sky
+    condition: {qbit: m30_done}
+    notes: "The Great Pyramid's sky door (the source's D2 'Enter the Pyramid?'), both ways for the Chosen Ones; A8 names DD-15's arrival entrance:d7_sky and its way out to entrance:dd15_sky."
+  - id: door:dd17
+    to: xeen_dd17.blv
+    kind: door
+    arrival: entrance:d7_roof
+    notes: "Castle Alamar's roof hatch under the Megadragon (Q-D26): locked with the source's line until the key from the hoard; then both ways (A8's DD-17 adds entrance:d7_roof)."
+  - id: door:dd26
+    to: xeen_dd26.blv
+    kind: door
+    arrival: entrance:d7_stair
+    notes: "The Olympus Sewer's stair under a marble grate in the gods' row (A8, Q-D28); its way out comes back to entrance:dd26_stair."
+  - id: fall:d1
+    to: xeen_d1.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares A3-B4 land on D1 at (-6656, 6144), ground 1152, facing s: 1,024 north of Lucio's Jetty (entrance:lucio_jetty (-6656, 5120)), outside Castleview's Queen's Gate side: the boats go back up, and the Dark Grove rope is 8,300 north (the grove itself is full of electrapedes, 7 within 3,072 of the rope's foot); with falling damage (Feather Fall none). A6 adds entrance:d7_fall there (request)."
+  - id: fall:d2
+    to: xeen_d2.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares C3-D4 land on D2 at (15872, -6656), ground 1056, facing s: 1,024 before the Southern Tower's door (entrance:dd06_door (15872, -7680)): its roof leads up; with falling damage (Feather Fall none). A6 adds entrance:d7_fall there (request)."
+  - id: fall:d3
+    to: xeen_d3.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares E3-F4 land on D3 at (-15360, 11776), ground 1440, facing e: outside Sandcaster's south gate (entrance:south_gate (-14336, 12800)), 1,400 south-west of it, by the Sky Stair and Lucio's Jetty (house 4649); with falling damage (Feather Fall none). A5 adds entrance:d7_fall there (request)."
+  - id: fall:d4
+    to: xeen_d4.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares E1-F2 land on D4 at (5632, -13312), ground 1120, facing w: Lakeside's square, 1,024 east of entrance:lakeside_square (4608, -13312): the ferry dock's Olympus slot (route 426) and the mirror; with falling damage (Feather Fall none). A6 adds entrance:d7_fall there (request)."
+  - id: fall:d5
+    to: xeen_d5.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares C1-D2 land on D5 at (0, -8704), ground 1248, facing n: 1,536 south of the Great Pyramid's door (entrance:dd15_door (0, -7168)): its sky door leads back up after m30.done; with falling damage (Feather Fall none). A6 adds entrance:d7_fall there (request)."
+  - id: fall:d6
+    to: xeen_d6.odm
+    kind: fall
+    arrival: entrance:d7_fall
+    notes: "Falls over squares A1-B2 land on D6 at (13824, -7680), ground 1664, facing s: before the Necropolis' gate (entrance:necropolis_gate (13824, -6656)), 1,024 south: the mirror inside (pass) leads back to Olympus; with falling damage (Feather Fall none). A6 adds entrance:d7_fall there (request)."
+  - id: mirror:olympus
+    to: xeen_d1.odm
+    kind: mirror
+    listed_only: true
+    notes: "The Mirror of Olympus (A4's house 4807, qbit 119012): to the discovered Darkside mirrors; the others' and Town Portal's arrival here is entrance:olympus_square."
+  - id: plane:p1
+    to: xeen_p1.blv
+    kind: scripted
+    arrival: entrance:d7_fall
+    notes: "corners.yml: the Fire Corner's tip, m38.corner_fire; the plane's way out comes back to entrance:p1_return."
+  - id: plane:p2
+    to: xeen_p2.blv
+    kind: scripted
+    arrival: entrance:d7_fall
+    notes: "corners.yml: the Air Corner's tip, m38.corner_air; the plane's way out comes back to entrance:p2_return."
+  - id: plane:p3
+    to: xeen_p3.blv
+    kind: scripted
+    arrival: entrance:d7_fall
+    notes: "corners.yml: the Earth Corner's tip, m38.corner_earth; the plane's way out comes back to entrance:p3_return."
+  - id: plane:p4
+    to: xeen_p4.blv
+    kind: scripted
+    arrival: entrance:d7_fall
+    notes: "corners.yml: the Water Corner's tip, m38.corner_water; the plane's way out comes back to entrance:p4_return."
+  - id: roof:dd02
+    to: xeen_dd02.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): Ellinger's Tower's top floor (A8) to entrance:dd02_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd03
+    to: xeen_dd03.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): Castle Kalindra's third floor (stage 4) (A8) to entrance:dd03_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd05
+    to: xeen_dd05.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): the Western Tower's roof (A8) to entrance:dd05_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd06
+    to: xeen_dd06.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): the Southern Tower's roof (A7) to entrance:dd06_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd07
+    to: xeen_dd07.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): the Eastern Tower's roof (A7) to entrance:dd07_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd08
+    to: xeen_dd08.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): the Northern Tower's roof (A8) to entrance:dd08_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: roof:dd14
+    to: xeen_dd14.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up (WORLD_DESIGN 3.3, D-5.3; question 2): Castle Blackfang's roost trapdoor (A8) to entrance:dd14_roof. The hatch on D7 reads the source's line and 'Bolted from below.'"
+  - id: rope:d1
+    to: xeen_d1.odm
+    kind: scripted
+    arrival: entrance:d7_rope
+    notes: "The Dark Grove rope, both ways after m30.done (D-23): up from D1's rope (m30.grove_rope) to entrance:d1_rope; 'Pull up the rope?' (aaze0091:6) / 'Descend to the Darkness Below?' (:5) back down to D1's rope foot (-8192, 14336, 1088), facing 768 (A6 names it entrance:d7_rope)."
+qbits:
+  m30_done: 111600
+  m31_done: 111621
+  m31_started: 111620
+  m31_true_name: 111622
+  m38_air: 111761
+  m38_earth: 111762
+  m38_fire: 111760
+  m38_water: 111763
+  mirror_olympus: 119012
+items:
+  soul_box: 12363
+rules:
+  no_fly: true
+  weather: none
+  town_buffer: 3072
+  fall_through:
+    below: -1000
+    zones:
+      - to: fall:d6
+        x: [-32768, -10923]
+        y: [0, 22528]
+        arrival: entrance:d7_fall
+        landing: [13824, -7680, 1664]
+      - to: fall:d5
+        x: [-10923, 10923]
+        y: [0, 22528]
+        arrival: entrance:d7_fall
+        landing: [0, -8704, 1248]
+      - to: fall:d4
+        x: [10923, 32768]
+        y: [0, 22528]
+        arrival: entrance:d7_fall
+        landing: [5632, -13312, 1120]
+      - to: fall:d1
+        x: [-32768, -10923]
+        y: [-22528, 0]
+        arrival: entrance:d7_fall
+        landing: [-6656, 6144, 1152]
+      - to: fall:d2
+        x: [-10923, 10923]
+        y: [-22528, 0]
+        arrival: entrance:d7_fall
+        landing: [15872, -6656, 1056]
+      - to: fall:d3
+        x: [10923, 32768]
+        y: [-22528, 0]
+        arrival: entrance:d7_fall
+        landing: [-15360, 11776, 1440]
+notes: "D7 The Skyroads, MU-3 plan for the phase 6 review (A6 sub-agent, 2026-11-21): an open-air BLV region (devdocs/INDOOR_OPEN_SKY.md; X8 and X9's route) of cloud roads and islands over the whole Darkside, with Olympus (A4's d7.yml) on its own cloud. Islands are plan spaces with `at` (map units, the middle) and `extent`. The corner contract with P1-P4: level_generation/xeen_art/phase6/corners.yml. Drawings and board: level_generation/xeen_art/phase6/d7/."

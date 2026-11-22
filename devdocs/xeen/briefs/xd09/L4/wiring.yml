@@ -1,0 +1,639 @@
+format: 0
+variables: [boughs, cut_ln, cut_ls, cut_hn, cut_hs, stone_open, rocks, bolt_n, bolt_e, bolt_s, lid_open, diamond_open, block_11, block_12, block_13, block_21, block_22, block_23, block_31, block_32, block_33]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - qbit: arrived_once
+      - message: "The slab door grinds open at a push, and shut again behind you. Emerson's King's Megacredits for Newcastle lie somewhere below, the golems' hoard; the golems that keep this place were never told to stop."
+    notes: "Why the party is here (M10: the five Megacredits for Newcastle's keep; no arrival hook exists for XD-09); first arrival only (arrived_once 110601)."
+  - id: evt:bench
+    preset: text
+    source: platform:bench
+    title: Bench
+    text: "Chisels, mallets and stone dust: the golem-makers' bench."
+  - id: evt:block_11
+    preset: script
+    source: mover:block_11
+    title: Stone Block
+    condition: {not: {map_var: block_11}}
+    opens: [mover:block_11]
+    sets: {map_var: block_11}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_11, light:lamp_1]
+      - set_texture:
+          of: panel:lamp_1
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 1 (aaze0081:12) and lights lamp 1.
+  - id: evt:block_12
+    preset: script
+    source: mover:block_12
+    title: Stone Block
+    condition: {not: {map_var: block_12}}
+    opens: [mover:block_12]
+    sets: {map_var: block_12}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_12, light:lamp_2]
+      - set_texture:
+          of: panel:lamp_2
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 2 (aaze0081:12) and lights lamp 2.
+  - id: evt:block_13
+    preset: script
+    source: mover:block_13
+    title: Stone Block
+    condition: {not: {map_var: block_13}}
+    opens: [mover:block_13]
+    sets: {map_var: block_13}
+    effects:
+      - text: The block grinds into its recess. Bare stone beneath it.
+    else_effects:
+      - text: The block sits in its recess.
+    seconds: 4
+  - id: evt:block_21
+    preset: script
+    source: mover:block_21
+    title: Stone Block
+    condition: {not: {map_var: block_21}}
+    opens: [mover:block_21]
+    sets: {map_var: block_21}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_21, light:lamp_3]
+      - set_texture:
+          of: panel:lamp_3
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 3 (aaze0081:12) and lights lamp 3.
+  - id: evt:block_22
+    preset: script
+    source: mover:block_22
+    title: Stone Block
+    condition: {not: {map_var: block_22}}
+    opens: [mover:block_22]
+    sets: {map_var: block_22}
+    effects:
+      - text: The block grinds into its recess. Bare stone beneath it.
+    else_effects:
+      - text: The block sits in its recess.
+    seconds: 4
+  - id: evt:block_23
+    preset: script
+    source: mover:block_23
+    title: Stone Block
+    condition: {not: {map_var: block_23}}
+    opens: [mover:block_23]
+    sets: {map_var: block_23}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_23, light:lamp_4]
+      - set_texture:
+          of: panel:lamp_4
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 4 (aaze0081:12) and lights lamp 4.
+  - id: evt:block_31
+    preset: script
+    source: mover:block_31
+    title: Stone Block
+    condition: {not: {map_var: block_31}}
+    opens: [mover:block_31]
+    sets: {map_var: block_31}
+    effects:
+      - text: The block grinds into its recess. Bare stone beneath it.
+    else_effects:
+      - text: The block sits in its recess.
+    seconds: 4
+  - id: evt:block_32
+    preset: script
+    source: mover:block_32
+    title: Stone Block
+    condition: {not: {map_var: block_32}}
+    opens: [mover:block_32]
+    sets: {map_var: block_32}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_32, light:lamp_5]
+      - set_texture:
+          of: panel:lamp_5
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 5 (aaze0081:12) and lights lamp 5.
+  - id: evt:block_33
+    preset: script
+    source: mover:block_33
+    title: Stone Block
+    condition: {not: {map_var: block_33}}
+    opens: [mover:block_33]
+    sets: {map_var: block_33}
+    effects:
+      - add:
+          var:
+            map_var: rocks
+          value: 1
+      - lights_on: [light:rock_33, light:lamp_6]
+      - set_texture:
+          of: panel:lamp_6
+          to: orfyrlga
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    else_effects:
+      - text: The block sits in its recess.
+    notes: Bares glowing rock 6 (aaze0081:12) and lights lamp 6.
+  - id: evt:bough_hn
+    preset: script
+    source: platform:bough_hn
+    title: Bough
+    condition: {not: {map_var: cut_hn}}
+    locked_text: The bough lies cut.
+    sets: {map_var: cut_hn}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - destroy: destructible:bough_hn
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    notes: "Clicked, the party cuts the bough (its breaking runs the count)."
+  - id: evt:bough_hn_cut
+    preset: script
+    trigger: call
+    condition: {not: {map_var: cut_hn}}
+    sets: {map_var: cut_hn}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('The bough falls. ' .. s, 6)
+    notes: "The bough's on_destroyed (broken by blows or missiles): counts down on the plaque; a cut by click has counted already."
+  - id: evt:bough_hs
+    preset: script
+    source: platform:bough_hs
+    title: Bough
+    condition: {not: {map_var: cut_hs}}
+    locked_text: The bough lies cut.
+    sets: {map_var: cut_hs}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - destroy: destructible:bough_hs
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    notes: "Clicked, the party cuts the bough (its breaking runs the count)."
+  - id: evt:bough_hs_cut
+    preset: script
+    trigger: call
+    condition: {not: {map_var: cut_hs}}
+    sets: {map_var: cut_hs}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('The bough falls. ' .. s, 6)
+    notes: "The bough's on_destroyed (broken by blows or missiles): counts down on the plaque; a cut by click has counted already."
+  - id: evt:bough_ln
+    preset: script
+    source: platform:bough_ln
+    title: Bough
+    condition: {not: {map_var: cut_ln}}
+    locked_text: The bough lies cut.
+    sets: {map_var: cut_ln}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - destroy: destructible:bough_ln
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    notes: "Clicked, the party cuts the bough (its breaking runs the count)."
+  - id: evt:bough_ln_cut
+    preset: script
+    trigger: call
+    condition: {not: {map_var: cut_ln}}
+    sets: {map_var: cut_ln}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('The bough falls. ' .. s, 6)
+    notes: "The bough's on_destroyed (broken by blows or missiles): counts down on the plaque; a cut by click has counted already."
+  - id: evt:bough_ls
+    preset: script
+    source: platform:bough_ls
+    title: Bough
+    condition: {not: {map_var: cut_ls}}
+    locked_text: The bough lies cut.
+    sets: {map_var: cut_ls}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - destroy: destructible:bough_ls
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    notes: "Clicked, the party cuts the bough (its breaking runs the count)."
+  - id: evt:bough_ls_cut
+    preset: script
+    trigger: call
+    condition: {not: {map_var: cut_ls}}
+    sets: {map_var: cut_ls}
+    effects:
+      - add:
+          var:
+            map_var: boughs
+          value: 1
+      - lua: |-
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          evt.StatusText('The bough falls. ' .. s, 6)
+    notes: "The bough's on_destroyed (broken by blows or missiles): counts down on the plaque; a cut by click has counted already."
+  - id: evt:chest_forge
+    preset: chest
+    source: chest:forge
+    title: Chest
+  - id: evt:chest_heart
+    preset: chest
+    source: chest:heart
+    title: Chest
+  - id: evt:chest_mason
+    preset: chest
+    source: chest:mason
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"m10.golem_vault\")"
+    notes: "m10.golem_vault (once): sets golem_credits, the Master of Golems award and 3,000 experience, and the plaque's lines; the chest holds the five Megacredits."
+  - id: evt:diamond_back
+    preset: door
+    source: door:diamond
+    side: room:vault_stair
+    title: Door
+    action: open
+    sets: {map_var: diamond_open}
+    text: "The Diamond door swings up: beyond it is the entry stair, by the Hall of the Plaque."
+    seconds: 5
+  - id: evt:diamond_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:diamond}}
+    opens: [door:vault]
+    once: true
+    effects:
+      - qbit: diamond_slain
+    text: "The Diamond Golem shatters, and the vault door grinds up."
+    seconds: 6
+    notes: "set:diamond: its death opens the vault."
+  - id: evt:diamond_front
+    preset: script
+    source: door:diamond
+    side: room:entry
+    title: Home of the Diamond
+    condition: {not: {map_var: diamond_open}}
+    effects:
+      - text: "A plaque over the door reads: Home of the Diamond. The door has no ring or keyhole on this side."
+    else_effects:
+      - text: "A plaque over the door reads: Home of the Diamond"
+  - id: evt:diamond_seen
+    preset: text
+    source: room:diamond_hall
+    trigger: step
+    once: true
+    text: "A golem of living diamond turns its head. Behind it, the vault door."
+    seconds: 5
+  - id: evt:exit_x5
+    preset: exit
+    source: exit:x5
+    title: Exit Golem Dungeon
+    notes: "Out to X5 (installed): the original 'Exit Golem Dungeon?' (aaze0081:10) as the hint; the game's window asks 'Do you wish to leave Golem Dungeon?'."
+  - id: evt:field_seen
+    preset: text
+    source: room:quarry_s
+    trigger: step
+    once: true
+    text: "Below the rail, nine great stone blocks stand on the quarry floor, each beside an empty recess."
+    seconds: 6
+  - id: evt:forge_lock_door
+    preset: door
+    source: door:forge_lock
+    title: Door
+    action: open
+  - id: evt:great_lock
+    preset: script
+    source: mover:lid
+    title: Great lock
+    condition: {all: [{item: iron_key}, {map_var: bolt_n}, {map_var: bolt_e}, {map_var: bolt_s}, {not: {map_var: lid_open}}]}
+    opens: [mover:lid]
+    sets: {map_var: lid_open}
+    effects:
+      - message: "The Iron Key turns. All is set: the great lock slides aside, and a stair goes down into a cold light."
+    else_effects:
+      - lua: |-
+          if not HasItem(12261) then
+              evt.SimpleMessage('A lock as big as a door is set in the floor, held by three bolts. Its keyhole is cut for a great iron key.')
+          else
+              local n = 0
+              if not IsAtLeast(MapVar(bolt_n), 1) then n = n + 1 end
+              if not IsAtLeast(MapVar(bolt_e), 1) then n = n + 1 end
+              if not IsAtLeast(MapVar(bolt_s), 1) then n = n + 1 end
+              if n == 0 then evt.StatusText('The great lock lies open.', 4) else
+              evt.SimpleMessage('The Iron Key will not turn: ' .. n .. ' of the three bolts still hold the lock. Their levers are in this hall and in the rooms north and east.') end
+          end
+    notes: "set:iron: the Iron Key (forge chest) and the three drawn bolts open the great lock."
+  - id: evt:hearth
+    preset: text
+    source: platform:hearth
+    title: Forge
+    text: "The forge's coals still glow, though no smith has worked them in an age."
+  - id: evt:iron_door
+    preset: script
+    source: door:iron
+    title: Home of the Iron
+    condition: {not: {map_var: {name: rocks, at_least: 6}}}
+    effects:
+      - lua: |-
+          local n = 0
+          for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end
+          evt.SimpleMessage('A plaque over the door reads: Home of the Iron. The door is shut fast. Six lamps are set in the stone above it; ' .. n .. ' of them burn.')
+    else_effects:
+      - text: "A plaque over the door reads: Home of the Iron"
+  - id: evt:iron_open
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: rocks, at_least: 6}}
+    opens: [door:iron]
+    once: true
+    effects:
+      - text: "Six rocks glow. Far below, the Iron door grinds open."
+    seconds: 6
+    notes: "set:stone: six lamps open the Iron door."
+  - id: evt:lamps_seen
+    preset: text
+    source: room:lamp_gallery
+    trigger: step
+    once: true
+    text: "Through the window ahead: the Hall of the Plaque, and six lamps over the Iron door."
+    seconds: 5
+  - id: evt:lever_e
+    preset: switch
+    source: switch:lever_e
+    title: Lever
+    condition: {not: {map_var: bolt_e}}
+    opens: [mover:bolt_e]
+    sets: {map_var: bolt_e}
+    effects:
+      - text: "Iron grinds on iron: the east bolt draws back from the great lock."
+    else_effects:
+      - set:
+          var:
+            map_var: bolt_e
+          value: 0
+      - lua: "evt.SetDoorState(17, DoorAction.Close)"
+      - text: "Iron grinds on iron: the east bolt shoots home into the great lock."
+    seconds: 5
+    notes: "Tumbler lever (east): two-way; the east bolt follows it."
+  - id: evt:lever_n
+    preset: switch
+    source: switch:lever_n
+    title: Lever
+    condition: {not: {map_var: bolt_n}}
+    opens: [mover:bolt_n]
+    sets: {map_var: bolt_n}
+    effects:
+      - text: "Iron grinds on iron: the north bolt draws back from the great lock."
+    else_effects:
+      - set:
+          var:
+            map_var: bolt_n
+          value: 0
+      - lua: "evt.SetDoorState(18, DoorAction.Close)"
+      - text: "Iron grinds on iron: the north bolt shoots home into the great lock."
+    seconds: 5
+    notes: "Tumbler lever (north): two-way; the north bolt follows it."
+  - id: evt:lever_s
+    preset: switch
+    source: switch:lever_s
+    title: Lever
+    condition: {not: {map_var: bolt_s}}
+    opens: [mover:bolt_s]
+    sets: {map_var: bolt_s}
+    effects:
+      - text: "Iron grinds on iron: the south bolt draws back from the great lock."
+    else_effects:
+      - set:
+          var:
+            map_var: bolt_s
+          value: 0
+      - lua: "evt.SetDoorState(19, DoorAction.Close)"
+      - text: "Iron grinds on iron: the south bolt shoots home into the great lock."
+    seconds: 5
+    notes: "Tumbler lever (south): two-way; the south bolt follows it."
+  - id: evt:lock_hearth
+    preset: text
+    source: platform:lock_hearth
+    title: Golem forge
+    text: An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems.
+  - id: evt:lock_seen
+    preset: text
+    source: room:lock_hall
+    trigger: step
+    once: true
+    text: "A lock as big as a door lies in the floor, three iron bolts shot into it."
+    seconds: 5
+  - id: evt:mason_door
+    preset: door
+    source: door:mason
+    title: Door
+    action: open
+  - id: evt:rock_step_11
+    preset: text
+    source: plate:rock_11
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:rock_step_12
+    preset: text
+    source: plate:rock_12
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:rock_step_21
+    preset: text
+    source: plate:rock_21
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:rock_step_23
+    preset: text
+    source: plate:rock_23
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:rock_step_32
+    preset: text
+    source: plate:rock_32
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:rock_step_33
+    preset: text
+    source: plate:rock_33
+    trigger: step
+    text: The glowing rock is warm under your feet.
+    seconds: 3
+  - id: evt:statue
+    preset: script
+    source: deco:statue
+    title: Statue
+    condition: {all: [{map_var: {name: boughs, at_least: 4}}, {not: {map_var: stone_open}}]}
+    opens: [door:stone]
+    sets: {map_var: stone_open}
+    effects:
+      - message: "You touch the statue. Deep in the north wall a bar draws back, and the Stone door grinds open."
+    else_effects:
+      - lua: |-
+          XeenQuests.hook("m10.golem_plaque")
+          local s
+          if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'
+          elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'
+          elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'
+          elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'
+          else s = 'Four branches remain.' end
+          if not IsAtLeast(MapVar(stone_open), 1) then evt.StatusText(s, 5) end
+    notes: "set:wood: m10.golem_plaque shows the rhyme and the count of boughs left; with all four cut, a touch opens the Stone door."
+  - id: evt:stone_door
+    preset: script
+    source: door:stone
+    title: Home of the Stone
+    condition: {not: {map_var: stone_open}}
+    effects:
+      - text: "A plaque over the door reads: Home of the Stone. The door is shut fast; there is no ring or keyhole."
+    else_effects:
+      - text: "A plaque over the door reads: Home of the Stone"
+  - id: evt:vault_door
+    preset: script
+    source: door:vault
+    title: Vault door
+    condition: {not: {qbit: diamond_slain}}
+    effects:
+      - text: The vault door is sealed. It will not move while the Diamond Golem stands.
+    else_effects:
+      - text: The vault stands open.
+  - id: evt:wood_door
+    preset: door
+    source: door:wood
+    title: Home of the Wood
+    action: open
+    text: "A plaque over the door reads: Home of the Wood"
+    seconds: 4

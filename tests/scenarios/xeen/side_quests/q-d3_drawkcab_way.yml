@@ -1,0 +1,192 @@
+# Xeen side quest Q-D3, The Drawkcab Way (D1, Castleview), from a new game on D1 with a level-32 party with an
+# Initiate (Brother Reger's word serves Initiate -> Master, Light). The Drawkcab sign over the four cells (D1 event 146).
+# Out of order: Sister Hannah's Lesson refuses ("Order wrong the"); Brother Reger's door outside the walls (event 99)
+# turns a non-member away. In order, the four cells (houses 4473-4476; each resident's talk): Brother Otto (Lesson:
+# started, lesson1, the lessons autonote 4430; again), Sister Hannah (lesson2; again), Brother Bob (lesson3; again),
+# Sister Ada (member: the Drawkcab award 443 for every member, the Reger autonote 4431, 2,000 XP each; again "The word
+# say: palindrome"). Reger's door: "What's the word?" a wrong word ("WRONG!!!"), then "palindrome" (word_said); the door
+# then opens his cell (house 4500). Reger: The word before the Queen's castle rises: refused ("Masters, though, ready
+# not yet are you"; no promotion). The story precondition: M20 started (Dimitri, segment 59), set by console. Reger:
+# The word (done: 9,000 XP each; the Initiate a Master, the others kept), again ("Pleased to see you").
+# Outdoors and in towns the party is placed (PLAYBOOK §2). Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (the sign,
+# the four cells, Reger's door). Quest logic: source/quests/q-d3.yml. Prep: prep/q-d3.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d3_
+id: xeen.side_quests.q-d3
+title: "Xeen Q-D3: the four Drawkcab lessons in order, the word at Reger's door and the Master's promotion"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Tenzin, class: Initiate, level: 32, skills: [], equipment: {}}
+          - {name: Brokk, class: Knight, level: 32, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 32, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 32, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Initiate Knight Cleric Sorcerer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113060, 113061, 113062, 113063, 113064, 113065, 113066, 111400]}
+  - assert: {autonote: {id: 4430, present: false}}
+  # The Drawkcab sign over the cells (event 146).
+  - set_pose: {map: xeen_d1.odm, x: -4147, y: 1700, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(146); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The Drawkcab Monks study the Palindrome."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Out of order: Sister Hannah first.
+  - set_pose: {map: xeen_d1.odm, x: -3072, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4924}}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Order wrong the. Otto first, Brother. Lesson one."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113060, 113062]}
+  # Reger's door (event 99) before the lessons: the fail line, no prompt.
+  - set_pose: {map: xeen_d1.odm, x: -3328, y: -15892, z: 1023, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Wrong. Go visit the monks of Castleview for enlightenment"}}
+  - play_lua: {source: "close(); wait(0.3); if qbit(113065) then error('word_said set by a non-member') end"}
+  # In order: Brother Otto (house 4473).
+  - set_pose: {map: xeen_d1.odm, x: -3584, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4923}}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "No word, no bond, row on. Now do I repay a period won."}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Learned you have. Hannah Sister to go, now."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113060, 113061]}
+  - assert: {autonote: {id: 4430}}
+  # Sister Hannah (house 4474).
+  - set_pose: {map: xeen_d1.odm, x: -3072, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4924}}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Oh who was it I saw, oh who? He lived as a devil, eh?"}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Learned you have. Bob Brother to go, now."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113062]}
+  # Brother Bob (house 4475).
+  - set_pose: {map: xeen_d1.odm, x: -2560, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4925}}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Eva, can I stab bats in a cave? Was it a rat I saw?"}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Learned you have. Ada Sister to go, now."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113063]}
+  # Sister Ada (house 4476): a member of the Drawkcab (award, autonote, 2,000 XP each).
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - set_pose: {map: xeen_d1.odm, x: -2048, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4926}}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Congratulations! I dub thee a member of the Drawkcab! We study the palindrome"}
+  - select_topic: {match_label: "Lesson"}
+  - assert:
+      dialog: {text_contains: "Drawkcab a are you. Reger Brother see. The word say: palindrome."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 2000 then error("member " .. i .. ": Ada's lesson paid " .. gain) end
+        end
+  - assert: {qbit_set: [113064]}
+  - assert: {autonote: {id: 4431}}
+  - assert: {award_acquired: [{id: 443, member_index: 0}, {id: 443, member_index: 1}, {id: 443, member_index: 2}, {id: 443, member_index: 3}]}
+  # Reger's door: "What's the word?" A wrong word, then the right one.
+  - set_pose: {map: xeen_d1.odm, x: -3328, y: -15892, z: 1023, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "What's the word?"}}
+  - answer_input: {text: "racecar"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "WRONG!!! You call yourself a Drawkcab."}}
+  - play_lua: {source: "close(); wait(0.3); if qbit(113065) then error('word_said set by a wrong word') end"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "What's the word?"}}
+  - answer_input: {text: "palindrome"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Come in. Ni emoc."}}
+  - play_lua: {source: "close(); wait(0.3); if not qbit(113065) then error('word_said not set') end"}
+  # The door now opens his cell: Reger, The word, before M20: refused.
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4950}}
+  - select_topic: {match_label: "The word"}
+  - assert:
+      dialog: {text_contains: "Masters, though, ready not yet are you. Return when the Queen's castle stands higher."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "if qbit(113066) then error('done set before M20') end; if classes() ~= 'Initiate Knight Cleric Sorcerer' then error('promoted before M20: ' .. classes()) end"}
+  # Story precondition: M20 started (Dimitri gives the Lost Souls key, chain segment 59).
+  - console: {line: "qbit set 111400"}
+  - assert: {qbit_set: [111400]}
+  # Reger: The word (done, 9,000 XP each, Initiate -> Master), again.
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the word at Reger: ' .. c) end end end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4950}}
+  - select_topic: {match_label: "The word"}
+  - assert:
+      dialog: {text_contains: "Correct. You are truly a Drawkcab! Those of you who walk the inner way walk it now as Masters."}
+  - select_topic: {match_label: "The word"}
+  - assert:
+      dialog: {text_contains: "Pleased to see you, fellow Drawkcabs."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 9000 then error("member " .. i .. ": Reger paid " .. gain) end
+        end
+        if classes() ~= "Master Knight Cleric Sorcerer" then error("the Drawkcab promotion: " .. classes()) end
+        log("Q-D3 done: " .. classes())
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113060, 113061, 113062, 113063, 113064, 113065, 113066]}

@@ -1,0 +1,60 @@
+# Hostility check of the Temple of Bark (DD-09) (the XD-27 form; lane A8, 2026-11-20). The kinds: the orc warband
+# (Orc Elite 11040, Orc Shaman 11041, Orc Captain 11042, Shaalth 11043) and the arachnoids (Arachnoid 11330, Arachnoid
+# Hunter 11331) hostile; Barkman 11633 hidden (hostile when shown); the peaceful ones: Snog 11044 (his own friendly
+# faction, xeen_orc_warband_snog) and A2's rows Nathan 11902, Sky 11903, Alicia the Just 11904 and Princess Sheewana
+# 11905, each its own friendly faction (session 6; they stood on engine peasants before).
+# At load: 16, 10, 5, 1, 10, 8 hostile, none of them peaceful; the five talking people peaceful. Orcs and arachnoids
+# side by side do not take each other on. Run with --world xeen --map xeen_dd09.blv.
+id: xeen.dd09.l4.hostility
+title: 'the Temple of Bark (DD-09): orcs and arachnoids hostile, the prisoners peaceful, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd09.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run.
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11040, hostile: true, min: 16, max: 16}}
+- assert: {actor_count: {monster_id: 11041, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11042, hostile: true, min: 5, max: 5}}
+- assert: {actor_count: {monster_id: 11043, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11330, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11331, hostile: true, min: 8, max: 8}}
+- assert: {actor_count: {monster_id: 11040, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11041, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11042, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11330, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11331, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11044, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11044, hostile: false, min: 1}}
+- assert: {actor_count: {monster_id: 11902, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11902, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11903, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11903, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11904, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11904, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11905, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11905, hostile: false, min: 1, max: 1}}
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11040, x: -160, y: -700, z: 0}
+- spawn_actor: {monster_id: 11330, x: -32, y: -700, z: 0}
+- spawn_actor: {monster_id: 11041, x: 96, y: -700, z: 0}
+- spawn_actor: {monster_id: 11331, x: 224, y: -700, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11040, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11041, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11330, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11331, hurt: true, max: 0}}

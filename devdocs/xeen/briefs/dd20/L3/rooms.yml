@@ -1,0 +1,617 @@
+format: 0
+themes:
+  - id: theme:cave
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    door: {texture: td1, size: [512, 512]}
+    notes: "Where the vault has fallen in: rough wet rock (the warren)."
+  - id: theme:cells
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    door: {texture: td1, size: [512, 512]}
+    notes: "The cells: 7d17's wet rock (c2b), wet floors (cfb1)."
+  - id: theme:coven
+    wall: {texture: 7tws2, size: [128, 256], scale: 2}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: "The coven: 7d06's dressed stone under its frieze (7tws2, once up a 512 wall), dark flags (7tfb11), block ceilings (twb2)."
+  - id: theme:drain
+    wall: {texture: c2b, size: [256, 256]}
+    bands:
+      - {height: 32, surface: {texture: trim9_32a, size: [64, 32]}}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    door: {texture: td1, size: [512, 512]}
+    notes: "The drains: 7d17's wet rock over a timber kerb (trim9_32a), plank walks (7trimd) either side of the water."
+  - id: theme:guild
+    wall: {texture: t09a01, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: t09b11b, size: [128, 32]}}
+    floor: {texture: tfb2, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: "The Guild's back stair: D4's t09 ashlar (t09a01 over a t09b11b plinth), worn flags (tfb2), 7d06 block above."
+  - id: theme:head
+    wall: {texture: tws2b, size: [128, 256], scale: 2}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: "The Head Witch's room: 7d06's ram-skull frieze (tws2b)."
+  - id: theme:outfall
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    door: {texture: td1, size: [512, 512]}
+    notes: "The lake outfall: wet rock, plank walks round the tidal pool."
+  - id: theme:sewer
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    door: {texture: td1, size: [512, 512]}
+    notes: "The sewer's chambers: 7d17's wet rock and wet floors."
+  - id: theme:store
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: tfb2, size: [128, 128]}
+    door: {texture: twb1, size: [128, 256]}
+    notes: "The coven store: 7d06's dark brick ('wall')."
+defaults: {theme: theme:coven, ambient: 12}
+rooms:
+  - id: room:antechamber
+    name: Antechamber
+    outline: [[-3328, 2816], [-2432, 2816], [-2432, 3584], [-3328, 3584]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    platforms:
+      - {id: platform:bench, at: [-2880, 3456], size: [512, 96], rise: 64, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: "A stone bench along the north wall, beside her door."}
+    notes: "Her door-wardens' room: a bench along the north wall beside her door."
+  - id: room:brewery
+    name: Brewery
+    outline: [[-1920, 2816], [512, 2816], [512, 4352], [-1920, 4352]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    platforms:
+      - {id: platform:hearth_personality, at: [-1344, 4032], size: [256, 256], rise: 24, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: The personality cauldron's hearth.}
+      - {id: platform:hearth_endurance, at: [-640, 4032], size: [256, 256], rise: 24, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: The endurance cauldron's hearth.}
+      - {id: platform:hearth_speed, at: [64, 4032], size: [256, 256], rise: 24, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: The speed cauldron's hearth.}
+      - {id: platform:skull_personality, at: [-1088, 4272], size: [128, 96], rise: 96, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A ledge by the personality cauldron with a skull on it (its recipe).}
+      - {id: platform:skull_endurance, at: [-384, 4272], size: [128, 96], rise: 96, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A ledge by the endurance cauldron with a skull on it (its recipe).}
+      - {id: platform:skull_speed, at: [320, 4272], size: [128, 96], rise: 96, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A ledge by the speed cauldron with a skull on it (its recipe).}
+    notes: "Three brewing cauldrons on their hearths along the north wall, each with a talking skull on a ledge (the recipes); the walk's door south, her private door west."
+  - id: room:cells
+    name: The cells
+    outline: [[4224, 768], [7680, 768], [7680, 1920], [4224, 1920]]
+    floor: -256
+    ceiling: 192
+    theme: theme:cells
+    platforms:
+      - {at: [4676, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Camilla's cage: its west side of bars."}
+      - {at: [5444, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Aretha's cage: its west side of bars."}
+      - {at: [6212, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Isabella's cage: its west side of bars."}
+      - {at: [6980, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Rhett's cage: its west side of bars."}
+      - {at: [5052, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Camilla's cage: its east side of bars."}
+      - {at: [5820, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Aretha's cage: its east side of bars."}
+      - {at: [6588, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Isabella's cage: its east side of bars."}
+      - {at: [7356, 1728], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Rhett's cage: its east side of bars."}
+    notes: "A wet rock corridor half a storey under the coven: four cages on the north side, lanterns on the south wall; the drain stair down to the sewer at the east end, past Rhett's cage."
+  - id: room:cistern
+    name: Cistern
+    outline: [[1024, -2560], [3072, -2560], [3072, -1152], [1024, -1152]]
+    floor: -512
+    ceiling: -128
+    theme: theme:sewer
+    pillars:
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[1480, -2128], [1592, -2128], [1616, -2104], [1616, -1992], [1592, -1968], [1480, -1968], [1456, -1992], [1456, -2104]]}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[2504, -2128], [2616, -2128], [2640, -2104], [2640, -1992], [2616, -1968], [2504, -1968], [2480, -1992], [2480, -2104]]}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[1480, -1616], [1592, -1616], [1616, -1592], [1616, -1480], [1592, -1456], [1480, -1456], [1456, -1480], [1456, -1592]]}
+    levels:
+      - id: level:cistern_water
+        outline: [[1728, -2432], [2368, -2432], [2432, -2368], [2432, -2240], [2368, -2176], [1728, -2176], [1664, -2240], [1664, -2368]]
+        floor: -576
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: Still water between the pillars.
+    notes: "The old cistern under the coven store: pillars, still water; the ladder up to the store's hatch."
+  - id: room:coven_hall
+    name: Coven hall
+    outline: [[-1536, -640], [1024, -640], [1024, 1920], [-1536, 1920]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:sigil, at: centre, length: 256, bottom: 0, height: 512, surface: {texture: tws1a, size: [128, 256], fit: true}, notes: The coven's sigil carved in the west wall.}
+    platforms:
+      - {id: platform:init_hearth, at: [-128, -320], size: [256, 256], rise: 24, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: "The initiation cauldron's low hearth, two steps from the stair's foot."}
+    notes: "Dressed 7d06 stone under block ceilings: the Guild's stair comes in from the south, the initiation cauldron on its hearth two steps east of its foot; the Moon seal's double doors north, the dormitory and the gaol east."
+  - id: room:cross
+    name: Drain cross
+    outline: [[8704, -1024], [10240, -1024], [10240, 640], [8704, 640]]
+    floor: -512
+    ceiling: 64
+    theme: theme:sewer
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:sidedrain_n, offset: 1088, length: 128, bottom: 0, height: 256, surface: {texture: cws1d, size: [128, 256], fit: true}}
+      - wall: s
+        panels:
+          - {id: panel:sidedrain_s, offset: 256, length: 128, bottom: 0, height: 256, surface: {texture: cws1d, size: [128, 256], fit: true}}
+    pillars:
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[9104, -640], [9200, -640], [9216, -624], [9216, -528], [9200, -512], [9104, -512], [9088, -528], [9088, -624]]}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[9744, -640], [9840, -640], [9856, -624], [9856, -528], [9840, -512], [9744, -512], [9728, -528], [9728, -624]]}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[9744, 128], [9840, 128], [9856, 144], [9856, 240], [9840, 256], [9744, 256], [9728, 240], [9728, 144]]}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[9104, 128], [9200, 128], [9216, 144], [9216, 240], [9200, 256], [9104, 256], [9088, 240], [9088, 144]]}
+    levels:
+      - id: level:cross_sump
+        outline: [[9376, -352], [9568, -352], [9632, -288], [9632, -96], [9568, -32], [9376, -32], [9312, -96], [9312, -288]]
+        floor: -576
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "Where the drains meet: a sump of slow water."
+    ceiling_levels:
+      - outline: [[9344, -256], [9600, -256], [9600, 0], [9344, 0]]
+        ceiling: 448
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: d1lggrt, size: [256, 256]}
+        notes: The street grate over the cross.
+    notes: "Five drains meet under the square on four piers; side drains grilled in the walls (the source's spawn points); a street grate overhead; the sump of slow water."
+  - id: room:dormitory
+    name: Witches' dormitory
+    outline: [[1152, -896], [3072, -896], [3072, 640], [1152, 640]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    platforms:
+      - {id: platform:bed_1, at: [1664, 512], size: [384, 192], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A witch's bed by the wall (1).}
+      - {id: platform:bed_2, at: [2560, 512], size: [384, 192], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A witch's bed by the wall (2).}
+      - {id: platform:bed_3, at: [2752, -768], size: [384, 192], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A witch's bed by the wall (3).}
+      - {id: platform:bed_4, at: [2112, -768], size: [384, 192], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: A witch's bed by the wall (4).}
+    notes: "Four beds along the north and south walls; the senior witch's chest by hers; the store's door south."
+  - id: room:drain_stair
+    name: Drain stair
+    path: [[7808, 1280], [8960, 1280]]
+    width: 320
+    smooth: 1
+    floor: -256
+    slope: {to: -512}
+    ceiling: 192
+    ceiling_slope: {to: -64}
+    theme: theme:sewer
+    notes: The drain stair from the cells' east end down to the slop pit (-256 to -512).
+  - id: room:east_drain
+    name: East drain
+    outline: [[10368, -1664], [13696, -1664], [13696, -640], [10368, -640]]
+    floor: -512
+    ceiling: -64
+    theme: theme:drain
+    levels:
+      - id: level:east_drain_channel
+        outline: [[10496, -1568], [13568, -1568], [13568, -1376], [10496, -1376]]
+        floor: -560
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "Slow water down the drain, a plank walk either side."
+    notes: "From the cross east to the jetty shaft under the waterfront: slow water, plank walks."
+  - id: room:gaol
+    name: Gaoler's room
+    outline: [[1152, 768], [2688, 768], [2688, 1920], [1152, 1920]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    platforms:
+      - {id: platform:gaol_table, at: [1920, 1792], size: [512, 128], rise: 80, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: The gaolers' table along the north wall.}
+    notes: "Off the hall's east side: the gaolers' table, the prisoners' confiscated things in a locked chest; the stair down to the cells east."
+  - id: room:gaol_stair
+    name: Cell stair
+    path: [[2816, 1344], [4096, 1344]]
+    width: 320
+    smooth: 1
+    floor: 0
+    slope: {to: -256}
+    ceiling: 448
+    ceiling_slope: {to: 192}
+    theme: theme:cells
+    notes: From the gaoler's room down east to the cells (0 to -256).
+  - id: room:guild_landing
+    name: Guild's back landing
+    outline: [[-1024, -3968], [-256, -3968], [-256, -3328], [-1024, -3328]]
+    floor: 640
+    ceiling: 1024
+    theme: theme:guild
+    notes: "The top of the Guild's back stair, under the Guild's back room: the cellar door up to the square (D4) in the south wall."
+  - id: room:guild_stair
+    name: Guild's back stair
+    path: [[-640, -3200], [-640, -768]]
+    width: 320
+    smooth: 1
+    floor: 640
+    slope: {to: 0}
+    ceiling: 1088
+    ceiling_slope: {to: 448}
+    theme: theme:guild
+    notes: "The Guild's back stair, from its landing under the Guild's back room down northward into the coven hall (640 to 0)."
+  - id: room:head_witch
+    name: Head Witch's room
+    outline: [[-4352, 3712], [-2048, 3712], [-2048, 5248], [-4352, 5248]]
+    floor: 0
+    ceiling: 512
+    theme: theme:head
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:mirror, offset: 1344, length: 192, bottom: 128, height: 192, surface: {texture: xkmirror, size: [128, 128], fit: true}, notes: Her mirror (A6's silvered glass).}
+          - {id: panel:witch_shelf, offset: 384, length: 256, bottom: 0, height: 512, surface: {texture: 7t1books, size: [128, 256], fit: true}, notes: Her shelf of books and jars.}
+    platforms:
+      - {id: platform:witch_bed, at: [-3904, 4800], size: [384, 640], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: The Head Witch's bed against the west wall.}
+      - {id: platform:dresser, at: [-2560, 5120], size: [384, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: "Her dresser, candles on it, beside the mirror."}
+    notes: "The coven's north-west corner, above the cells as Naomi says: the ram-skull frieze, her bed and her chest at its foot, her mirror and dresser on the north wall; the antechamber's door south, her private door to the brewery east."
+  - id: room:hideout
+    name: Dead man's hideout
+    outline: [[9216, -2176], [9856, -2176], [9984, -2048], [9984, -1280], [9856, -1152], [9216, -1152]]
+    floor: -512
+    ceiling: -128
+    theme: theme:sewer
+    ceiling_levels:
+      - outline: [[9472, -1792], [9728, -1792], [9728, -1536], [9472, -1536]]
+        ceiling: 320
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: d1lggrt, size: [256, 256]}
+        notes: "The second street grate, over the hideout."
+    notes: "A dead end under a street grate: the bones of a man who hid from the witches."
+  - id: room:jetty_shaft
+    name: Jetty shaft
+    outline: [[13824, -1664], [14592, -1664], [14592, -640], [13824, -640]]
+    floor: -512
+    ceiling: 640
+    theme: theme:sewer
+    walls:
+      - wall: e
+        panels:
+          - {at: centre, length: 128, bottom: 256, height: 896, surface: {texture: d1ladder, size: [128, 256]}, notes: "The iron ladder above the exit's face, up to the jetty grate."}
+    ceiling_levels:
+      - outline: [[14080, -1280], [14336, -1280], [14336, -1024], [14080, -1024]]
+        ceiling: 896
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: d1lggrt, size: [256, 256]}
+        notes: The jetty grate at the shaft's top.
+    notes: "The ladder's foot in the east wall, up to D4's grate by the jetty; the outfall north, the east drain west."
+  - id: room:main_drain
+    name: Main drain
+    outline: [[4096, -768], [8576, -768], [8576, 0], [4096, 0]]
+    floor: -512
+    ceiling: -64
+    theme: theme:drain
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:drain_mouth, offset: 1152, length: 128, bottom: 0, height: 256, surface: {texture: cws1d, size: [128, 256], fit: true}}
+    levels:
+      - id: level:main_drain_channel
+        outline: [[4224, -256], [8448, -256], [8448, -64], [4224, -64]]
+        floor: -560
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "Slow water down the drain, a plank walk either side."
+    ceiling_levels:
+      - outline: [[6400, -512], [6656, -512], [6656, -256], [6400, -256]]
+        ceiling: 320
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: d1lggrt, size: [256, 256]}
+        notes: A street grate over the main drain.
+    notes: "East under the square: slow water between two plank walks; a street grate overhead; the pump room's door south."
+  - id: room:niche
+    name: The Dragon's niche
+    outline: [[14976, 1536], [15744, 1536], [15744, 2176], [15616, 2304], [14976, 2304]]
+    floor: -512
+    ceiling: -128
+    theme: theme:sewer
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:alcove, at: centre, length: 192, bottom: 0, height: 384, surface: {texture: cws1, size: [128, 256], fit: true}, notes: The alcove in the rock.}
+    notes: "A ledge out of sight of the walks: a dead adventurer's bones two steps short of the alcove."
+  - id: room:outfall
+    name: Lake outfall
+    outline: [[12672, -512], [14848, -512], [14848, 1920], [14464, 2304], [12288, 2304], [12288, -128]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: 256
+    theme: theme:outfall
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:lake_bars, offset: 1024, length: 256, bottom: 0, height: 512, surface: {texture: cws1d, size: [128, 256], fit: true}, notes: The barred mouth to the lake.}
+    levels:
+      - id: level:outfall_pool
+        outline: [[13120, 128], [14016, 128], [14208, 320], [14208, 1472], [14016, 1664], [13120, 1664], [12928, 1472], [12928, 320]]
+        floor: -608
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: The tidal pool.
+    notes: "Under the jetty's root: the drains fall into a tidal pool, plank walks round it, the barred mouth to the lake north; the ledge east to the Dragon's niche, the jetty shaft south."
+  - id: room:pump_room
+    name: Old pump room
+    outline: [[5632, -2048], [6912, -2048], [6912, -896], [5632, -896]]
+    floor: -512
+    ceiling: -64
+    theme: theme:sewer
+    platforms:
+      - {id: platform:pump, at: [6272, -1856], size: [256, 192], rise: 192, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: "The town's broken pump, a box of rotten planks against the south wall."}
+    notes: "Dry behind its door: the town's broken pump and a chest left by whoever last hid here."
+  - id: room:slop_pit
+    name: Slop pit
+    outline: [[9280, 768], [9920, 768], [10112, 960], [10112, 1600], [9920, 1792], [9280, 1792], [9088, 1600], [9088, 960]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: -64
+    theme: theme:sewer
+    notes: "The drain stair's foot, where the coven's slops land: heaps of filth."
+  - id: room:store
+    name: Coven store
+    outline: [[1152, -2304], [2432, -2304], [2432, -1024], [1152, -1024]]
+    floor: 0
+    store: true
+    ceiling: 512
+    theme: theme:store
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:shelf, at: centre, length: 256, bottom: 0, height: 384, surface: {texture: 7t1cabs, size: [64, 128]}, notes: Shelves of jars and herbs.}
+    notes: "A storeroom in dark brick: jars, sacks and a barrel pair along the walls, a shelf on the west wall; the floor hatch to the cistern in its south-east corner, bolted from this side."
+  - id: room:sump
+    name: Trapdoor sump
+    outline: [[3200, -1920], [3968, -1920], [3968, 384], [3200, 384]]
+    floor: -512
+    ceiling: 0
+    theme: theme:sewer
+    levels:
+      - id: level:sump_puddle
+        outline: [[3424, -1792], [3744, -1792], [3840, -1696], [3840, -1376], [3744, -1280], [3424, -1280], [3328, -1376], [3328, -1696]]
+        floor: -544
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: Standing water at the sump's south end.
+    ceiling_levels:
+      - outline: [[3328, -768], [3584, -768], [3584, -512], [3328, -512]]
+        ceiling: 64
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: 7gt002c, size: [64, 64], scale: 4}
+        notes: "The trapdoor, shut fast above."
+    notes: "Under the square before the Guild's door: the trapdoor shut in the roof, bones of earlier wrong answers; the main drain east, the cistern west."
+  - id: room:warren
+    name: Stalker warren
+    outline: [[10624, 0], [11776, 0], [12160, 384], [12160, 1344], [11840, 1664], [10368, 1664], [10368, 256]]
+    floor: -512
+    rough: {step: 192, depth: 40}
+    ceiling: 0
+    theme: theme:cave
+    notes: "A collapsed side vault the stalkers nest in; a chest half-sunk in their midden."
+  - id: room:witches_walk
+    name: Witches' walk
+    outline: [[-3328, 2048], [512, 2048], [512, 2688], [-3328, 2688]]
+    floor: 0
+    ceiling: 512
+    theme: theme:coven
+    notes: "A long walk behind the double doors: the antechamber west, the brewery north."
+openings:
+  - id: open:ante_head
+    from: room:antechamber
+    to: room:head_witch
+    from_wall: 2
+    to_wall: 0
+    link: link:ante_head
+    width: 224
+    height: 448
+  - id: open:brewery_head
+    from: room:brewery
+    to: room:head_witch
+    from_wall: 3
+    to_wall: 1
+    link: link:brewery_head
+    width: 224
+    height: 448
+  - id: open:cells_drain
+    from: room:cells
+    to: room:drain_stair
+    link: link:cells_slop
+    width: full
+    height: 384
+  - id: open:cistern_sump
+    from: room:cistern
+    to: room:sump
+    from_wall: 1
+    to_wall: 3
+    link: link:cistern_sump
+    width: 320
+    height: 352
+  - id: open:cross_east
+    from: room:cross
+    to: room:east_drain
+    from_wall: 1
+    to_wall: 3
+    link: link:cross_east
+    width: 256
+    height: 352
+  - id: open:cross_hideout
+    from: room:cross
+    to: room:hideout
+    from_wall: 0
+    to_wall: 4
+    link: link:cross_hideout
+    along: 0.6
+    width: 256
+    height: 320
+  - id: open:cross_slop
+    from: room:cross
+    to: room:slop_pit
+    from_wall: 2
+    to_wall: 0
+    link: link:cross_slop
+    width: 320
+    height: 384
+  - id: open:cross_warren
+    from: room:cross
+    to: room:warren
+    from_wall: 1
+    to_wall: 5
+    link: link:cross_warren
+    width: 256
+    height: 352
+  - id: open:dorm_store
+    from: room:dormitory
+    to: room:store
+    from_wall: 0
+    to_wall: 2
+    link: link:dorm_store
+    along: 0.3
+    width: 224
+    height: 448
+  - id: open:drain_slop
+    from: room:drain_stair
+    to: room:slop_pit
+    link: link:cells_slop
+    width: full
+    height: 384
+  - id: open:east_shaft
+    from: room:east_drain
+    to: room:jetty_shaft
+    from_wall: 1
+    to_wall: 3
+    link: link:shaft_east
+    width: 320
+    height: 384
+  - id: open:gaol_stair
+    from: room:gaol
+    to: room:gaol_stair
+    link: link:gaol_cells
+    width: full
+    height: 384
+  - id: open:hall_dorm
+    from: room:coven_hall
+    to: room:dormitory
+    from_wall: 1
+    to_wall: 3
+    link: link:hall_dorm
+    width: 224
+    height: 448
+  - id: open:hall_gaol
+    from: room:coven_hall
+    to: room:gaol
+    from_wall: 1
+    to_wall: 3
+    link: link:hall_gaol
+    width: 224
+    height: 448
+  - id: open:hall_walk
+    from: room:coven_hall
+    to: room:witches_walk
+    from_wall: 2
+    to_wall: 0
+    link: link:hall_walk
+    along: 0.5625
+    width: 448
+    height: 448
+  - id: open:landing_stair
+    from: room:guild_landing
+    to: room:guild_stair
+    link: link:stair_hall
+    width: full
+    height: 384
+  - id: open:main_cross
+    from: room:main_drain
+    to: room:cross
+    from_wall: 1
+    to_wall: 3
+    link: link:main_cross
+    width: 320
+    height: 384
+  - id: open:main_pump
+    from: room:main_drain
+    to: room:pump_room
+    from_wall: 0
+    to_wall: 2
+    link: link:main_pump
+    width: 320
+    height: 320
+  - id: open:outfall_niche
+    from: room:outfall
+    to: room:niche
+    from_wall: 1
+    to_wall: 4
+    link: link:outfall_niche
+    width: 256
+    height: 320
+  - id: open:outfall_shaft
+    from: room:outfall
+    to: room:jetty_shaft
+    from_wall: 0
+    to_wall: 2
+    link: link:outfall_shaft
+    width: 320
+    height: 384
+  - id: open:stair_cells
+    from: room:gaol_stair
+    to: room:cells
+    link: link:gaol_cells
+    width: full
+    height: 384
+  - id: open:stair_hall
+    from: room:guild_stair
+    to: room:coven_hall
+    link: link:stair_hall
+    width: full
+    height: 448
+  - id: open:store_hatch
+    from: room:store
+    to: room:cistern
+    in: floor
+    at: [2176, -1792]
+    size: [224, 224]
+    link: link:store_cistern
+    notes: "The hole under the store's floor hatch: the cistern ladder's way up."
+  - id: open:sump_main
+    from: room:sump
+    to: room:main_drain
+    from_wall: 1
+    to_wall: 3
+    link: link:sump_main
+    width: 320
+    height: 352
+  - id: open:walk_ante
+    from: room:witches_walk
+    to: room:antechamber
+    from_wall: 2
+    to_wall: 0
+    link: link:walk_ante
+    width: 224
+    height: 448
+  - id: open:walk_brewery
+    from: room:witches_walk
+    to: room:brewery
+    from_wall: 2
+    to_wall: 0
+    link: link:walk_brewery
+    along: 0.3421
+    width: 224
+    height: 448
+  - id: open:warren_outfall
+    from: room:warren
+    to: room:outfall
+    from_wall: 2
+    to_wall: 4
+    link: link:warren_outfall
+    along: 0.4667
+    width: 384
+    height: 448
+notes: "DD-20 Lakeside Coven and Sewer: the coven at 0, the cells at -256, the sewer at -512, in one frame (x east, y north as D4, origin under the Guild's centre). Written by output/studio_cal/dd20/tools/gen.py (geo.py)."

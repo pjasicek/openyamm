@@ -1,0 +1,45 @@
+format: 0
+id: xeen_xd13
+name: Newcastle Keep
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-13
+units: {plan_grid: 512}
+extent: {footprint_cells: [13, 12], climbs: n}
+map_stats:
+  id: 9128
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 2
+  trap_dice: 1
+  perception_difficulty: 2
+  refill_days: 672
+  music: 49
+  environment: stone hall
+  lock_difficulty: 2
+  slots:
+    - {monster: Xeen Golem, tier: 0, per_marker: [1, 2], weight: 60}
+    - {monster: Xeen Swamp Thing, tier: 1, per_marker: [1, 2], weight: 40}
+neighbours:
+  - id: exit:x3_site
+    to: xeen_x3.odm
+    kind: door
+    arrival: [10496, 15216, 1760]
+    arrival_hint: "On X3's Newcastle site, 400 south of the keep's hatch (thing:xd13_stair), facing away from it."
+    direction: 270
+    notes: "A5's points (briefs/x3/DOORS.md). X3's hatch leads in to this map's start (0, 320, 0) facing north."
+qbits:
+  deed: 111160
+  dungeon: 111441
+  keep: 111221
+  sword_done: 111462
+  vault_opened: 111461
+  walls: 111181
+items:
+  xeen_slayer_sword: 12500
+notes: "Xeen design brief, level L4: XD-13 Newcastle Keep (staged), the party's castle on X3 (story M8, M9, M11, M22, M23; QUESTS 4.1). Built as stage 0; load events make stage 2 (m11.keep 111221) and stage 3 (m22.dungeon 111441). Monsters placed (A2's rows): 15 Wood Golems 11580 (group 10, stage 0-1), 4 Bog Things 11461 and 2 Marsh Horrors 11462 and 4 Iron Golems 11582 (group 30, stage 3; D-4). Slots for the map card: 1 Xeen Golem, 2 Xeen Swamp Thing (no spawn points; no rest encounters in the party's own castle). A3's quest bits by name; the map's own block 110800-110839 is unused (its once-flags are map variables). Hooks m23.syllable_la/bo/ra/to/ry, m23.vault_door, m23.sword. A4's houses 4141-4144 as house doors. Music 49. The gate leads out to X3 (A5's arrival)."
+identity:
+  shape: castle
+  family: 7d29
+  seen: ["Castle Harmondale's ruin: the great hall's roof fallen in on the sky, a breach in its corner and rubble heaped up the walls, wood golems among the beams", "the keep mended by stages: Newcastle's banners and arms, the chalk marks turned to shop signs, the breach bricked up and the roof closed", "the scientists' laboratory at work below, and the heavy steel vault door that wants a word"]

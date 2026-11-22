@@ -1,0 +1,74 @@
+# Q-C20 The Bone Whistle (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source's statues teach Cure Poison and Cure Disease; OpenYAMM has no event that teaches a spell, so each
+# statue gives the spell's book once (ours).
+id: Q-C20
+title: The Bone Whistle
+act: I
+kind: side
+status: full
+giver: 4047          # Orothin the Hermit, by his island statues
+maps: [X1]
+level: 5
+block: 70
+after: []
+source: "QUESTS Q-C20; xeen/aaze0023:20-22, :36-43"
+
+qbits:
+  started: {id: 112400, journal: "Orothin the Hermit lost his bone whistle somewhere in Pitchfork Creek.", until: [done]}
+  whistle_found: {id: 112401}
+  done: {id: 112402}
+  statue_poison: {id: 112403}
+  statue_disease: {id: 112404}
+
+items:
+  bone_whistle: "Orothin's bone whistle; in the mud of Pitchfork Creek (X1); Orothin takes it."
+
+npcs:
+  4047:              # Orothin
+    topics:
+      - n: 1
+        label: Whistle
+        states:
+          - when: {qbit: done}
+            text: "The statues are awake. Each holds a book for the first caster who comes."
+          - when: {item: bone_whistle}
+            text: "The Whistle! Thank you. I'll activate the statues now. Bye."
+            do: [{take: bone_whistle}, {set: done}, {clear: started}, {xp: 1000}]
+          - when: {qbit: started}
+            text: "No luck finding the whistle? Well, if you find it be sure to bring it back to me. I'm sure I dropped it somewhere in Pitchfork Creek."
+          - text: "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it somewhere in Pitchfork Creek. If you can find my whistle I will activate the statues."
+            do: [{set: started}]
+
+hooks:
+  whistle:
+    map: X1
+    where: "the mud of Pitchfork Creek, upstream of the bridge"
+    sets: [whistle_found]
+    gives: [bone_whistle]
+    once: true
+    text: "Half buried in the creek mud: a whistle carved from bone."
+  statue_poison:
+    map: X1
+    where: "Orothin's statue on the north isle of the delta pond (built: Orothin's statue)"
+    reads: [done]
+    requires: {qbit: done}
+    sets: [statue_poison]
+    once: true
+    gives: [engine:471]
+    text: "The statue's stone hands open. In them lies a book: Cure Poison."
+    fail_text: "The statue repels you."
+    else_text: "Orothin the Wise: 'The world has an edge. Mind it.'"
+  statue_disease:
+    map: X1
+    where: "Orothin's statue on the south isle of the delta pond"
+    reads: [done]
+    requires: {qbit: done}
+    sets: [statue_disease]
+    once: true
+    gives: [engine:473]
+    text: "The statue's stone hands open. In them lies a book: Cure Disease."
+    fail_text: "The statue repels you."
+    else_text: "Orothin the Wise: 'What falls past the rim does not come back.'"
+
+rewards: {xp: 1000, gold: 0}
+playthrough: "Orothin (Whistle); the creek mud; Orothin (Whistle); both statues give their books."

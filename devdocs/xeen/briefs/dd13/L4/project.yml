@@ -1,0 +1,47 @@
+format: 0
+id: xeen_dd13
+name: Ogre Forts
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-13
+units: {plan_grid: 512}
+extent: {footprint_cells: [22, 10], climbs: n}
+map_stats:
+  id: 9166
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 13
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Ogre, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d2_east
+    to: xeen_d2.odm
+    kind: door
+    arrival: [11776, 11776, 2048]
+    arrival_hint: "A6's point on D2 in front of the east fort's gate (entrance:dd13_east), facing north toward the pass road."
+    direction: 90
+    notes: "D2: the east fort's gate on its knoll south of the road. D2's door into DD-13 here arrives by explicit coordinates (gate_e, facing south)."
+  - id: exit:d2_west
+    to: xeen_d2.odm
+    kind: door
+    arrival: [4096, 13824, 2016]
+    arrival_hint: "A6's point on D2 in front of the west fort's gate (entrance:dd13_west), facing south toward the pass road."
+    direction: 270
+    notes: "D2 Sprite Forest and Ogre Pass (A6's): the west fort's gate in its palisade on the knoll north of the road."
+qbits:
+  east_burned: 113225
+  fort_disks: 113226
+  friends: 113221
+  hostile: 113222
+  peace: 113223
+  west_burned: 113224
+items:
+  energy_disk: 12334
+notes: "Xeen design brief, level L4: DD-13 Ogre Forts on D2's Ogre Pass (Q-D11 Graalg's Ogres, the war route). Monsters: A2's pass ogres, all placed (12 Ogre 11066 at 18, 7 Ogre Brute 11067 at 22, 2 Ogre Chief 11068 at 30) and 4 Kennel Sabertooth 11413 (22), faction pass (hostile at load, friendly on q-d11.friends 113221, hostile on q-d11.hostile 113222), groups 10-17 by room; no rest encounters (encounter 0: the forts are empty or burned, and a rest spawn would ignore the peace). Hooks q-d11.fort_west and q-d11.fort_east at the halls' fire pits, q-d11.fort_search at Graalg's strongbox (the 2 Energy Disks 12334 in it). Map qbits 110990-110999: none used. Music 13. Neighbours on D2 (installed): the west gate (the map's start) and the east gate (inside point (7552, 32, 0) facing south, explicit coordinates for D2's door)."

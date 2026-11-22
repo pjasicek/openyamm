@@ -1,0 +1,73 @@
+format: 0
+sectors:
+  room:air: 1
+events:
+  evt:arrive: 1
+  evt:chest_golem_cache: 2
+  evt:chest_hoard: 3
+  evt:chest_lantern: 4
+  evt:chest_star_charts: 5
+  evt:explorer: 6
+  evt:fall_check: 7
+  evt:fall_floor: 8
+  evt:nest_1: 9
+  evt:nest_2: 10
+  evt:nest_3: 11
+  evt:offering_1: 12
+  evt:offering_2: 13
+  evt:rhyme_1: 14
+  evt:rhyme_2: 15
+  evt:rhyme_3: 16
+  evt:telescope: 17
+containers:
+  chest:golem_cache: 0
+  chest:hoard: 1
+  chest:lantern: 2
+  chest:star_charts: 3
+cogs:
+  platform:nest_1: 1
+  platform:nest_2: 2
+  platform:nest_3: 3
+map_vars:
+  offering_1: 3
+  offering_2: 4
+  once.arrive: 0
+  once.offering_1: 1
+  once.offering_2: 2
+lights:
+  light:lantern_1: 1
+  light:lantern_2: 2
+  light:lantern_3: 3
+  light:lantern_4: 4
+sounds:
+  sound:bells: 1
+  sound:gust_east: 6
+  sound:gust_west: 7
+  sound:sky_bed: 8
+  sound:wind_east: 2
+  sound:wind_high: 3
+  sound:wind_middle: 4
+  sound:wind_west: 5
+decorations:
+  deco:explorer_statue: 0
+  deco:eyrie_bones_1: 1
+  deco:eyrie_bones_2: 2
+  deco:eyrie_bones_3: 3
+  deco:eyrie_bones_4: 4
+  deco:heights_bones_1: 5
+  deco:heights_bones_2: 6
+  deco:lantern_1: 7
+  deco:lantern_2: 8
+  deco:lantern_3: 9
+  deco:lantern_4: 10
+  deco:n1_bones: 11
+  deco:n1_skull: 12
+  deco:n2_bones: 13
+  deco:n2_skull: 14
+  deco:n3_bones: 15
+  deco:n3_skull: 16
+  deco:offering_1: 17
+  deco:offering_2: 18
+  deco:rhyme_1: 19
+  deco:rhyme_2: 20
+  deco:rhyme_3: 21

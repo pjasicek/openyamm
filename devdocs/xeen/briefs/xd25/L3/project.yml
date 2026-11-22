@@ -1,0 +1,28 @@
+format: 0
+id: xeen_xd25
+name: Asp Undercroft
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-25
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 13], climbs: n}
+map_stats:
+  id: 9148
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 44
+  environment: stone hall
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Snake Man, tier: 2, per_marker: [2, 3], weight: 100}
+qbits:
+  q_c11_crystals: 112222
+  q_c5_done: 112102
+  q_c5_pedestals: 112101
+  townsfolk_thanked: 110840
+notes: "Xeen design brief, level L3: XD-25 Asp Undercroft, the plan and the to-scale shell (rooms.yml)."

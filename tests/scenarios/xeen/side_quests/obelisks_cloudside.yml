@@ -1,0 +1,133 @@
+# Xeen own quest OBELISKS, the Cloudside face (X1-X7): "SEEK THE HOARD BURIED FOR THE SPHINX", from a new game in
+# Vertigo Meadows with a level-40 party (the quest is level 40). Each map's obelisk read in map order (the party
+# placed beside it, PLAYBOOK §2; overland between maps by `travel`, as the side quests do): its word in a message, its
+# bit (115040-115046) and its autonote (4700-4706). On X6 the mound of sand between the Sphinx's paws (event 27)
+# before the seventh word: "Without knowing where to dig", nothing given. After X7's SPHINX, back to X6: the hoard
+# (115048, 10,000 gold and two level-6 items, drawn at random: counted, not named); again: "Sand, and more sand."
+# Quest logic: source/quests/obelisks.yml. Prep: prep/obelisks.md. The Darkside face: obelisks_darkside.yml.
+#   python3 tests/scenarios/xeen/side_quests/run.py obelisks_c
+id: xeen.side_quests.obelisks.cloudside
+title: "Xeen OBELISKS, Cloudside: seven words on X1-X7 and the hoard before the Sphinx's paws"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 100
+        food: 40
+        members:
+          - {name: Hilda, class: Knight, level: 40, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 40, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 40, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 40, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [115040, 115041, 115042, 115043, 115044, 115045, 115046, 115048]}
+  # Vertigo Meadows (X1 event 75): the first word, SEEK (115040, autonote 4700).
+  - set_pose: {map: xeen_x1.odm, x: 5120, y: 14848, z: 897, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(75); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the first of seven words: SEEK."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115040) then error('x1 obelisk bit 115040 not set') end"}
+  - assert: {autonote: {id: 4700}}
+  - travel: {map: xeen_x2.odm, days: 2}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # by Rivercity (X2 event 168): the second word, THE (115041, autonote 4701).
+  - set_pose: {map: xeen_x2.odm, x: -20480, y: -7424, z: 1505, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(168); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the second of seven words: THE."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115041) then error('x2 obelisk bit 115041 not set') end"}
+  - assert: {autonote: {id: 4701}}
+  - travel: {map: xeen_x3.odm, days: 2}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Lifeforce Lagoon (X3 event 105): the third word, HOARD (115042, autonote 4702).
+  - set_pose: {map: xeen_x3.odm, x: -2304, y: 16896, z: 1201, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(105); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the third of seven words: HOARD."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115042) then error('x3 obelisk bit 115042 not set') end"}
+  - assert: {autonote: {id: 4702}}
+  - travel: {map: xeen_x4.odm, days: 2}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Burlock Savannah (X4 event 139): the fourth word, BURIED (115043, autonote 4703).
+  - set_pose: {map: xeen_x4.odm, x: -8192, y: -1792, z: 1345, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(139); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the fourth of seven words: BURIED."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115043) then error('x4 obelisk bit 115043 not set') end"}
+  - assert: {autonote: {id: 4703}}
+  - travel: {map: xeen_x5.odm, days: 2}
+  - assert: {map: xeen_x5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Winterkill Tundra (X5 event 73): the fifth word, FOR (115044, autonote 4704).
+  - set_pose: {map: xeen_x5.odm, x: -2816, y: 10496, z: 1089, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(73); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the fifth of seven words: FOR."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115044) then error('x5 obelisk bit 115044 not set') end"}
+  - assert: {autonote: {id: 4704}}
+  - travel: {map: xeen_x6.odm, days: 2}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # the Desert of the Sphinx (X6 event 36): the sixth word, THE (115045, autonote 4705).
+  - set_pose: {map: xeen_x6.odm, x: 5632, y: 6144, z: 1473, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(36); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the sixth of seven words: THE."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115045) then error('x6 obelisk bit 115045 not set') end"}
+  - assert: {autonote: {id: 4705}}
+  # Before the last word: the mound of sand between the Sphinx's paws (X6 event 27) refuses; nothing given.
+  - set_pose: {map: xeen_x6.odm, x: 9533, y: 9370, z: 1432, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; remember('gold', gold()); local function packed() local n = 0; for c in string.gmatch(pack_items(), '%d+x(%d+)') do n = n + tonumber(c) end; return n end; remember('packed', packed()); click(27); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "A mound of sand between the paws. Without knowing where to dig, you could dig all week."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local function packed() local n = 0; for c in string.gmatch(pack_items(), '%d+x(%d+)') do n = n + tonumber(c) end; return n end; if gold() ~= recall('gold') or packed() ~= recall('packed') then error('the hoard gave before the last word') end; if qbit(115048) then error('hoard bit 115048 set before the last word') end"}
+  - travel: {map: xeen_x7.odm, days: 2}
+  - assert: {map: xeen_x7.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Mount Firestone (X7 event 13): the last word, SPHINX (115046, autonote 4706).
+  - set_pose: {map: xeen_x7.odm, x: 0, y: 0, z: 2305, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; click(13); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Carved into the obelisk, the last of seven words: SPHINX."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(115046) then error('x7 obelisk bit 115046 not set') end"}
+  - assert: {autonote: {id: 4706}}
+  - assert: {qbit_set: [115040, 115041, 115042, 115043, 115044, 115045, 115046]}
+  # Every word read: back to the hoard.
+  - travel: {map: xeen_x6.odm, days: 2}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x6.odm, x: 9533, y: 9370, z: 1432, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; remember('gold', gold()); local function packed() local n = 0; for c in string.gmatch(pack_items(), '%d+x(%d+)') do n = n + tonumber(c) end; return n end; remember('packed', packed()); click(27); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "You dig where the seven words said. An iron box lies under the sand, left for a Sphinx that never came for it."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 4 do if held() ~= 0 then stow() end end
+        local function packed() local n = 0; for c in string.gmatch(pack_items(), '%d+x(%d+)') do n = n + tonumber(c) end; return n end
+        if gold() - recall('gold') ~= 10000 then error('the hoard gave ' .. (gold() - recall('gold')) .. ' gold') end
+        if packed() - recall('packed') ~= 2 then error('the hoard gave ' .. (packed() - recall('packed')) .. ' items') end
+        if not qbit(115048) then error('hoard bit 115048 not set') end
+        log('cloudside hoard: +' .. (gold() - recall('gold')) .. ' gold, +2 items: ' .. pack_items())
+        remember('gold', gold()); remember('packed', packed()); click(27); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "Sand, and more sand."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local function packed() local n = 0; for c in string.gmatch(pack_items(), '%d+x(%d+)') do n = n + tonumber(c) end; return n end; if gold() ~= recall('gold') or packed() ~= recall('packed') then error('the hoard gave twice') end"}
+  - assert: {qbit_set: [115040, 115041, 115042, 115043, 115044, 115045, 115046, 115048]}

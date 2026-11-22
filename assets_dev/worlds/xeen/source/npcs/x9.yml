@@ -1,0 +1,153 @@
+# X9 The Clouds of Xeen: the clouds' own bits and lines that belong to no quest (D-50). Quest places: m34 (Slick's
+# carnival, the gate, the four rhyme statues), m35 (Castle Xeen, XD-19; the castle-gone stage reads m35.done), xd07
+# (the Linguist gate the rhymes ask). The devices decide for themselves: the map only asks its question (where one is
+# given) and calls the hook. A fall off any cloud lands on X2's Darzog island (Xeen.skyFallTo("x9"), entrance:x9_fall (-15360, 3072)). Owner: A3.
+# Format: QUESTS_FORMAT.md section 5.
+map: X9
+block: 164
+source: "D-50 (devdocs/xeen/briefs/x9/L1/D50_DECISION.md Q5, changes 3, 4); xeen/aaze0027:0, :6-9, :33, :44"
+
+qbits:
+  nest_sw: {id: 116220, note: "the roc nest on the south-west cloud destroyed (nest_sw); the map hides it on load once set"}
+  nest_se: {id: 116221, note: "the roc nest on the south-east cloud destroyed"}
+  nest_a1: {id: 116222, note: "the first aviary nest destroyed"}
+  nest_a2: {id: 116223, note: "the second aviary nest destroyed"}
+  nest_a3: {id: 116224, note: "the third aviary nest destroyed"}
+
+hooks:
+  arrival:
+    map: X9
+    where: "the first arrival on the clouds from XD-12's cloud stair (the map's own once, its arrival bit)"
+    text: "The clouds hold under your feet. Far ahead, past the rocs, stand the black walls of Castle Xeen, and between here and there someone has set up a carnival."
+  nest_sw:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the roc nest on the south-west cloud (the source's rookery): the map asks \"Roc Nest. Destroy?\" (xeen/aaze0027:0); Yes calls this once (No: nothing); the nest burns and is gone"
+    sets: [nest_sw]
+    once: true
+    do: [{xp: 2000}]
+    text: "Sticks the size of spars, eggshells the size of shields, and the bones of things that flew too near. It all burns."
+  nest_se:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the roc nest on the south-east cloud, as nest_sw"
+    sets: [nest_se]
+    once: true
+    do: [{xp: 2000}]
+    text: "Sticks the size of spars, eggshells the size of shields, and the bones of things that flew too near. It all burns."
+  nest_a1:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the first nest in Xeen's aviary, as nest_sw"
+    sets: [nest_a1]
+    once: true
+    do: [{xp: 2000}]
+    text: "The nest goes up, and the aviary's rocs scream at you from every perch."
+  nest_a2:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the second nest in Xeen's aviary, as nest_sw"
+    sets: [nest_a2]
+    once: true
+    do: [{xp: 2000}]
+    text: "The nest goes up. A roc's egg cracks in the heat, and nothing comes out of it any more."
+  nest_a3:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the third nest in Xeen's aviary, as nest_sw"
+    sets: [nest_a3]
+    once: true
+    do: [{xp: 2000}]
+    text: "The last nest burns. Lord Xeen will have to buy his rocs somewhere else."
+
+  offering_1:
+    map: X9
+    where: "the 'Offering' statue on the west pillar (xeen/aaze0027:33; as X8's, D-50 Q5): a Crusader party (m4.done) is given one item of treasure level 5, once (map variable x9_offering_1); anyone else is struck"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_1\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_1\", 1)"}, {treasure: 5}]
+  offering_2:
+    map: X9
+    where: "the 'Offering' statue on the west spine, as offering_1 (map variable x9_offering_2)"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_2\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_2\", 1)"}, {treasure: 5}]
+  offering_3:
+    map: X9
+    where: "the 'Offering' statue on the west shelf, as offering_1 (map variable x9_offering_3)"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_3\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_3\", 1)"}, {treasure: 5}]
+  offering_4:
+    map: X9
+    where: "the 'Offering' statue on the north-west isle, as offering_1 (map variable x9_offering_4)"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_4\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_4\", 1)"}, {treasure: 5}]
+  offering_5:
+    map: X9
+    where: "the 'Offering' statue on the east ledge, as offering_1 (map variable x9_offering_5)"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_5\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_5\", 1)"}, {treasure: 5}]
+  offering_6:
+    map: X9
+    where: "the 'Offering' statue on the east horn, as offering_1 (map variable x9_offering_6)"
+    states:
+      - when: {not: {qbit: m4.done}}
+        text: "A gust of wind strikes you from the statue's hands. It is kept for Crusaders."
+        do: [{lua: "evt.DamagePlayer(Players.All, const.Damage.Air, 80)"}]
+      - when: {lua: "evt.GetMapVar(\"x9_offering_6\", 0) == 1"}
+        text: "The statue's hands are empty."
+      - text: "The statue's open hands hold a gift for a Crusader."
+        do: [{lua: "evt.SetMapVar(\"x9_offering_6\", 1)"}, {treasure: 5}]
+
+  sign_danger:
+    map: X9
+    where: "the sign on the neck from the stair head to the brink (xeen/aaze0027:7)"
+    text: "Danger! Go back!"
+  sign_nine_north:
+    map: X9
+    where: "the sign at the unseen way's foot, on the brink (xeen/aaze0027:6, word for word: the answer to the way, D-50 Q1)"
+    text: "Xeen--9N."
+  sign_xeendom:
+    map: X9
+    where: "the sign at the unseen way's head, Xeendom's landing (xeen/aaze0027:8)"
+    text: "Now entering Xeendom"
+  sign_aviary:
+    map: X9
+    where: "the sign at the head of the aviary stair, by the rookery (xeen/aaze0027:9, D-50 Q3)"
+    text: "Xeen's Aviary"
+  castle_gone:
+    map: X9
+    entrance: XD-19
+    sealed: "the castle is gone after the finale"
+    where: "the castle gate's spot after m35.done (the castle-gone stage): a click or a step there (xeen/aaze0027:44)"
+    requires: {qbit: m35.done}
+    reads: [m35.done]
+    text: "The great Castle Xeen recently stood here."

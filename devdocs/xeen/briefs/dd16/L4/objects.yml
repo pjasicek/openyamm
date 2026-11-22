@@ -1,0 +1,347 @@
+format: 0
+start:
+  room: room:airlock
+  at: [-832, 0]
+  facing: e
+  notes: "entrance:d6_hatch: 192 inside the hatch, facing east toward the inner door."
+arrivals:
+  - {entrance: entrance:d6_hatch, room: room:airlock, at: [-832, 0], facing: e, notes: "192 inside the hatch, facing east into the pod (D6's hatch, A6)."}
+doors:
+  - id: door:blast
+    opening: open:couches_bridge
+    kind: slide_up
+    fold: true
+    thickness: 24
+    speed: 192
+    surface: {texture: a2d, size: [128, 256], fit: true}
+    tile: true
+    notes: "The bridge's blast door: sealed until the main power is on (power_on 118080)."
+  - id: door:device
+    opening: open:engine_device
+    kind: slide_left
+    fold: true
+    thickness: 16
+    speed: 256
+    surface: {texture: a2c, size: [128, 256], fit: true}
+    tile: true
+    notes: The device bay's door.
+  - id: door:engine
+    opening: open:slope_engine
+    kind: slide_left
+    fold: true
+    thickness: 16
+    speed: 256
+    surface: {texture: a2c, size: [128, 256], fit: true}
+    tile: true
+    notes: The engine room's door at the slope's foot.
+  - id: door:field
+    opening: open:bridge_stasis
+    kind: slide_down
+    fold: true
+    thickness: 8
+    speed: 160
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The stasis field across the alcove (xafield, translucent): down with m29.done."
+  - id: door:gun
+    opening: open:deck_gun
+    kind: slide_left
+    fold: true
+    thickness: 16
+    speed: 256
+    surface: {texture: a2c, size: [128, 256], fit: true}
+    tile: true
+    notes: The gun deck's door.
+  - id: door:inner
+    opening: open:airlock_deck
+    kind: slide_left
+    fold: true
+    thickness: 16
+    speed: 256
+    surface: {texture: a2c, size: [128, 256], fit: true}
+    tile: true
+    notes: The airlock's inner door.
+floors:
+  - {id: floor:breach, of: level:breach, kind: lava, notes: "The breach's lava burns (D-47: off every walking line, behind the torn plates)."}
+ladders:
+  - {id: ladder:hatch, room: room:crawlway, at: [1024, -90], facing: n, height: 384, exit: [1024, 16], surface: {texture: trim11_32, size: [32, 64], uneven: true}, notes: The crawlway's ladder up through the gun deck's floor hatch.}
+sounds:
+  - {id: sound:lava, room: room:engine_room, at: [448, -2400], sound: lava loop, radius: 1600, inner_radius: 500, volume: 0.5, notes: Lava against the hull at the breach.}
+  - {id: sound:stasis, room: room:stasis, at: [0, 3136], sound: humming, radius: 1500, inner_radius: 400, volume: 0.5, notes: "The stasis field's hum (AU session 3), off when Corak is woken."}
+lights:
+  - id: light:airlock
+    room: room:airlock
+    at: [-832, 0]
+    height: 300
+    radius: 700
+    color: [170, 190, 180]
+    on: false
+  - id: light:airlock_red
+    room: room:airlock
+    at: [-832, 0]
+    height: 300
+    radius: 489
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:blast_green
+    room: room:couches
+    at: [0, 1856]
+    height: 270
+    radius: 280
+    color: [40, 220, 60]
+    brightness: 20
+    on: false
+    notes: "The blast door's lamp: green once the power is on."
+  - id: light:blast_red
+    room: room:couches
+    at: [0, 1856]
+    height: 270
+    radius: 280
+    color: [220, 30, 20]
+    brightness: 20
+    notes: "The blast door's lamp: red while the power is off (D-47)."
+  - id: light:breach
+    room: room:engine_room
+    at: [448, -2400]
+    height: 40
+    radius: 900
+    color: [220, 110, 40]
+    brightness: 24
+    pulse: {intensity: [0.6, 1], frequency: 0.4}
+    notes: The lava's glow through the breach.
+  - id: light:bridge
+    room: room:bridge
+    at: [0, 2432]
+    height: 492
+    radius: 1300
+    color: [170, 190, 180]
+    on: false
+  - id: light:bridge_red
+    room: room:bridge
+    at: [0, 2432]
+    height: 492
+    radius: 909
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:couches_n
+    room: room:couches
+    at: [0, 1600]
+    height: 300
+    radius: 800
+    color: [170, 190, 180]
+    on: false
+  - id: light:couches_n_red
+    room: room:couches
+    at: [0, 1600]
+    height: 300
+    radius: 560
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:couches_s
+    room: room:couches
+    at: [0, 960]
+    height: 300
+    radius: 800
+    color: [170, 190, 180]
+    on: false
+  - id: light:couches_s_red
+    room: room:couches
+    at: [0, 960]
+    height: 300
+    radius: 560
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:crawl_n
+    room: room:crawlway
+    at: [1024, -640]
+    height: 364
+    radius: 700
+    color: [170, 190, 180]
+    on: false
+  - id: light:crawl_n_red
+    room: room:crawlway
+    at: [1024, -640]
+    height: 364
+    radius: 489
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:crawl_s
+    room: room:crawlway
+    at: [1024, -1728]
+    height: 364
+    radius: 700
+    color: [170, 190, 180]
+    on: false
+  - id: light:crawl_s_red
+    room: room:crawlway
+    at: [1024, -1728]
+    height: 364
+    radius: 489
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:deck
+    room: room:main_deck
+    at: [0, 0]
+    height: 428
+    radius: 1200
+    color: [170, 190, 180]
+    on: false
+  - id: light:deck_red
+    room: room:main_deck
+    at: [0, 0]
+    height: 428
+    radius: 840
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:device
+    room: room:device_bay
+    at: [-1152, -2240]
+    height: 300
+    radius: 700
+    color: [170, 190, 180]
+    on: false
+  - id: light:device_red
+    room: room:device_bay
+    at: [-1152, -2240]
+    height: 300
+    radius: 489
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:engine
+    room: room:engine_room
+    at: [-256, -2240]
+    height: 520
+    radius: 1200
+    color: [170, 190, 180]
+    on: false
+  - id: light:engine_red
+    room: room:engine_room
+    at: [-256, -2240]
+    height: 520
+    radius: 840
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:field
+    room: room:stasis
+    at: [0, 3136]
+    height: 220
+    radius: 800
+    color: [150, 200, 230]
+    brightness: 26
+    pulse: {intensity: [0.5, 1], frequency: 0.7}
+    notes: The stasis field's pale light (off once Corak is woken).
+  - id: light:gun
+    room: room:gun_deck
+    at: [896, 0]
+    height: 300
+    radius: 800
+    color: [170, 190, 180]
+    on: false
+  - id: light:gun_red
+    room: room:gun_deck
+    at: [896, 0]
+    height: 300
+    radius: 560
+    color: [150, 40, 30]
+    brightness: 10
+  - id: light:slope
+    room: room:stern_slope
+    at: [0, -1152]
+    height: 300
+    radius: 800
+    color: [170, 190, 180]
+    on: false
+  - id: light:slope_red
+    room: room:stern_slope
+    at: [0, -1152]
+    height: 300
+    radius: 560
+    color: [150, 40, 30]
+    brightness: 10
+chests:
+  - id: chest:locker
+    room: room:gun_deck
+    at: [1056, 192]
+    facing: s
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: The weapons locker (nothing in it fires).
+  - id: chest:stores
+    room: room:engine_room
+    at: [-688, -2560]
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: The engine room's stores locker.
+monsters:
+  - id: monster:corak
+    room: room:stasis
+    monster: 11912
+    at: [0, 3200]
+    facing: 270
+    hostile: false
+    group: 30
+    immobile: true
+    npc: 5513
+    notes: "Corak (11912, A2's peaceful placed-only row; S's look to come): in the field until m29.done, by his console until m32.done, then hidden. Takes no damage (evt:corak_load, D-51). Talks as NPC 5513 when clicked (merge point 22's indoor npc word) once the field is down."
+  - id: monster:couches_fe
+    room: room:couches
+    monster: 11570
+    at: [0, 1100]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:couches_te
+    room: room:couches
+    monster: 11571
+    at: [0, 1500]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:deck_1
+    room: room:main_deck
+    monster: 11570
+    at: [-200, 250]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:deck_2
+    room: room:main_deck
+    monster: 11570
+    at: [220, 220]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:engine_1
+    room: room:engine_room
+    monster: 11620
+    at: [200, -2100]
+    facing: 90
+    hostile: true
+    group: 13
+    notes: A fire elemental risen out of the lava through the breach.
+  - id: monster:engine_2
+    room: room:engine_room
+    monster: 11620
+    at: [-160, -2400]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:slope_te
+    room: room:stern_slope
+    monster: 11571
+    at: [0, -1300]
+    facing: 90
+    hostile: true
+    group: 12
+decorations: []
+exits:
+  - id: exit:hatch
+    room: room:airlock
+    wall: w
+    size: [256, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d6_hatch
+    notes: "The hatch's inner face, burnt plates: out onto D6's crust."

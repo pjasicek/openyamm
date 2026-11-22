@@ -1,0 +1,114 @@
+# Xeen side quest Q-D8, Vespar's Staff (D1, D3), from a new game on D1 with a level-21 party. Vespar's House in the
+# vale (house 4499, D1; Vespar the Wizard, NPC 4949, talks at the door): Emerald handle (started, the handle autonote
+# 4480), and again. Overland to D3: Sandcaster's south gate from outside (event 188, q-d8.sandcaster_gate) opens (D-89)
+# without the pass. The roadside ruin by the caravan road (event 135, q-d8.handle): the emerald handle (12345,
+# handle_found); again: "Rubble, and nothing green in it." Overland to D1: Vespar: Emerald handle (done: the handle
+# for the Sandcaster Pass 12335 and Vespar's Staff 12528, 5,000 XP each), and again. Overland to D3: the south gate
+# now swings open and the party walks in. Outdoors the party is placed (tests/playthrough/PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (Vespar's House), devdocs/xeen/briefs/d3/L4/playtest.yml (the south
+# gate 188, the ruin 135). Quest logic: source/quests/q-d8.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d8_vespars_staff.yml --scenario-no-color
+id: xeen.side_quests.q-d8
+title: "Xeen Q-D8: Vespar's emerald handle from D3's ruin; the Sandcaster Pass and his staff"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 21, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 21, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 21, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 21, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113160, 113161, 113162]}
+  - assert: {autonote: {id: 4480, present: false}}
+  # Vespar's House (house 4499): Vespar at the door, Emerald handle (started, autonote 4480), and again.
+  - set_pose: {map: xeen_d1.odm, x: 13828, y: 14664, z: 1344, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4949}
+  - select_topic: {match_label: "Emerald handle"}
+  - assert:
+      dialog: {text_contains: "It must have come off on my journey back from visiting Sandcaster."}
+  - select_topic: {match_label: "Emerald handle"}
+  - assert:
+      dialog: {text_contains: "You haven't found my staff's emerald handle yet."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113160]}
+  - assert: {autonote: {id: 4480}}
+  # Overland to D3: Sandcaster's south gate (event 188) before Vespar's reward (D-89: Sandcaster is open, no pass).
+  - travel: {map: xeen_d3.odm, days: 3}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: -14080, y: 11520, z: 1328, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(188); wait(0.5); local s = status(); if not string.find(s, 'The gate swings open.', 1, true) then error('the gate without a pass: ' .. s) end"}
+  # The ruin by the caravan road (event 135): the emerald handle, and again.
+  - set_pose: {map: xeen_d3.odm, x: -9728, y: 9216, z: 1248, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(135); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You found an emerald handle.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12345) ~= 1 then error("the ruin gave " .. item_count(12345) .. " handles") end
+        if not qbit(113161) then error("handle_found 113161 not set") end
+        click(135); wait(0.5)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Rubble, and nothing green in it.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12345) ~= 1 then error('a second handle') end"}
+  # Overland to D1: Vespar, Emerald handle (done: the pass, the staff, 5,000 XP each), and again.
+  - travel: {map: xeen_d1.odm, days: 3}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: 13828, y: 14664, z: 1344, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('xp', experience(3))"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4949}
+  - select_topic: {match_label: "Emerald handle"}
+  - assert:
+      dialog: {text_contains: "You've found the emerald handle. Here's something for your trouble: the staff."}
+  - select_topic: {match_label: "Emerald handle"}
+  - assert:
+      dialog: {text_contains: "Retirement suits me."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if has_item(12345) then error("Vespar did not take the handle") end
+        if item_count(12528) ~= 1 then error("Vespar gave " .. item_count(12528) .. " staffs") end
+        if experience(3) - recall("xp") ~= 5000 then error("Vespar paid " .. (experience(3) - recall("xp")) .. " XP") end
+  - assert: {qbit_set: [113160, 113161, 113162]}
+  # Overland to D3: the south gate swings open again; in through it.
+  - travel: {map: xeen_d3.odm, days: 3}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: -14080, y: 11520, z: 1328, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(188); wait(0.5); local s = status(); if not string.find(s, 'The gate swings open.', 1, true) then error('the gate with the pass: ' .. s) end"}
+  - walk_to: {x: -14080, y: 14336, z: 1504, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - assert: {party_position: {x: -14080, y: 14336, radius: 400}}

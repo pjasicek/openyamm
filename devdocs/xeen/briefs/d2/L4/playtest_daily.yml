@@ -1,0 +1,105 @@
+# Written by output/studio_cal/a6/s22/gen_daily.py (A6, D-70 Q2); do not edit by hand.
+# Each temporary source: once (every member gains), again the same day (refused, no gain), the next day again.
+id: xeen.d2.playtest_daily
+title: 'Xeen D2: temporary sources once a day for the party (D-70)'
+world: xeen
+mode: faithful
+tags:
+- xeen
+- daily
+steps:
+- new_game_flow:
+    start_map: xeen_d2.odm
+    party:
+      gold: 200
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 10
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+- assert:
+    map: xeen_d2.odm
+- advance_runtime:
+    seconds: 4
+    present_dialogs: true
+- play_lua:
+    source: for _ = 1, 3 do if not close() then break end end
+- press_action:
+    action: select_member
+    member_index: 0
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({LuckBonus}) do local v = 0 while v < 255 and IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out
+      .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s0_0", s) log("s0_0: " .. s)'
+- note: 'The Glimmer Pool (event 89): every member +20'
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+20 Luck until you rest.", 1, true) then error("want +20 Luck until you rest., status: " .. s) end'
+- note: 'The Glimmer Pool again the same day: the refusal line only'
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "The water is cool and refreshing.", 1, true) then error("want The water is cool and refreshing., status: " .. s) end'
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({LuckBonus}) do local v = 0 while v < 255 and IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out
+      .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s0_1", s) log("s0_1: " .. s)'
+- play_lua:
+    source: 'local function parse(s) local m = {} for g in string.gmatch(s, "[%d/]+") do local r = {} for v in string.gmatch(g, "%d+") do r[#r + 1] = tonumber(v) end m[#m + 1] = r end return m end local
+      a, b = parse(recall("s0_0")), parse(recall("s0_1")) local names = {"LuckBonus"} local bad = "" for m = 1, 4 do for k = 1, #names do if b[m][k] - a[m][k] ~= 20 then bad = bad .. " member " .. (m -
+      1) .. " " .. names[k] .. " " .. a[m][k] .. "->" .. b[m][k] end end end if bad ~= "" then error("The Glimmer Pool today (want +20):" .. bad) end log("The Glimmer Pool today: +20 for every member")'
+- advance_game_time:
+    hours: 24
+- note: 'The Glimmer Pool the next day: the gain again'
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+20 Luck until you rest.", 1, true) then error("want +20 Luck until you rest., status: " .. s) end'
+- note: 'The Glimmer Pool again that day: refused'
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "The water is cool and refreshing.", 1, true) then error("want The water is cool and refreshing., status: " .. s) end'
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({LuckBonus}) do local v = 0 while v < 255 and IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out
+      .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s0_2", s) log("s0_2: " .. s)'
+- play_lua:
+    source: 'local function parse(s) local m = {} for g in string.gmatch(s, "[%d/]+") do local r = {} for v in string.gmatch(g, "%d+") do r[#r + 1] = tonumber(v) end m[#m + 1] = r end return m end local
+      a, b = parse(recall("s0_1")), parse(recall("s0_2")) local names = {"LuckBonus"} local bad = "" for m = 1, 4 do for k = 1, #names do if b[m][k] - a[m][k] ~= 20 then bad = bad .. " member " .. (m -
+      1) .. " " .. names[k] .. " " .. a[m][k] .. "->" .. b[m][k] end end end if bad ~= "" then error("The Glimmer Pool the next day (want +20):" .. bad) end log("The Glimmer Pool the next day: +20 for every
+      member")'

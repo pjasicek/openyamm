@@ -1,0 +1,177 @@
+# Playtest of Castle Basenji (XD-14, L4; lane A7, agent:xeen-a7-xd14): Q-C8's critical path, the wing loop and the
+# dungeon. A level-32 party arrives in the gatehouse (entrance:x6_gate, the map's start): the arrival window; the cult
+# (Cult Acolyte 11197, Werewolf 11421, Greater Werewolf 11422, Wizard 11190, Sorcerer 11191, the Basenji Cult Leader
+# 11198) hostile, the Trapped Peasant 11233 not. The great hall's double doors (two leaves), the hall, the west tower
+# up to the west landing; the cult's door asks "STOP!  What is the password?": a wrong answer (A3's q-c8.l2_wrong, no
+# password), then "There wolf" (q-c8.l2_door, password 112161, the door opens). The hall of scrolls (the Scroll of
+# Intellect: +2 Intellect once for the reader, then "read this scroll before"), the dormitory; its barred door lifted
+# from inside (dorm_bar 118000), after the landing side said it is barred. The keep stair, the keep landing, the study: the Cult Leader and his sorcerers, the
+# writing box on the desk (a chest, D-90: the Scroll of Insight 12316; q-c8.scroll sets scroll_found 112162), his chest. The roof
+# walk and the moon tower (the faded Scroll of Magic). Down by the dormitory's door, the east landing (barred side now
+# open), the east tower, the kennels (a Werewolf Bed's find, then "Nothing here."), the dungeon stair, the jailers'
+# room, the cell row: the peasant through the bars (q-c8.peasant: "There wolf"), his chain before the lever (no
+# freeing), the lever (cell_lever 118001, the bars up), his chain (q-c8.peasant_freed: peasant_freed 112164, hidden).
+# A save and load: the peasant stays hidden, the doors stay open. Numbers are ids.lock.yml's (events, doors, chests);
+# actor indices follow objects.yml's monsters sorted by id (0-2 battlements, 17-20 great hall, 24-29 kennels,
+# 31 the peasant, 41 the Cult Leader, 42-43 the sorcerers).
+id: xeen.xd14.l4.walk
+title: "Castle Basenji (XD-14 L4): the password, the wing, the Scroll of Insight, the keep loop, the peasant freed"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd14.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 32, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 32, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 32, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 32, skills: [], equipment: {}}
+  - assert: {map: xeen_xd14.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: -1280, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11197, hostile: true, min: 16}}
+  - assert: {actor_count: {monster_id: 11421, hostile: true, min: 18}}
+  - assert: {actor_count: {monster_id: 11198, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11233, hostile: false, min: 1}}
+  - assert: {actor_visible: {actor_index: 31, hidden: false}}
+  # The great hall's double doors (both leaves) and the hall.
+  - walk_to: {x: 0, y: -700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 8); if door_state(9) ~= 'open' then error('hall door leaf 2: ' .. door_state(9)) end"}
+  - walk_to: {x: 0, y: 100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The dormitory's door from the east landing before its bar is lifted (D-39 Q5): barred.
+  - set_pose: {map: xeen_xd14.blv, x: 1792, y: -1800, z: 640, yaw_degrees: 90, pitch: 0}
+  - clear_hostiles: {radius: 1200}
+  - play_lua: {source: "click(26); wait(0.5); local s = status(); log('dorm door from the landing: ' .. s); if not string.find(s, 'barred from the other side', 1, true) then error('not barred: ' .. s) end; if door_state(5) ~= 'closed' then error('dorm door: ' .. door_state(5)) end"}
+  - set_pose: {map: xeen_xd14.blv, x: 0, y: 100, z: 0, yaw_degrees: 180, pitch: 0}
+  # The west tower: its arch, the stair up to the west landing.
+  - walk_to: {x: -1200, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2368, y: -100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2368, y: -1450, z: 620, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2368, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The password: a wrong answer, then "There wolf".
+  - walk_to: {x: -1792, y: -1800, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - answer_input: {text: "Woof"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "Wrong"}}
+  - play_lua: {source: "log('after a wrong answer: ' .. status()); close(); if qbit(112161) then error('password set on a wrong answer') end; if door_state(11) ~= 'closed' then error('password door: ' .. door_state(11)) end"}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - answer_input: {text: "There wolf"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "the bolts draw back"}}
+  - play_lua: {source: "log('after There wolf: ' .. status()); close(); if not qbit(112161) then error('password 112161 not set') end; wait(2); if door_state(11) ~= 'open' then error('password door: ' .. door_state(11)) end"}
+  # The hall of scrolls: the Scroll of Intellect (once for the reader).
+  - walk_to: {x: -1792, y: -1300, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1872, y: -900, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(32); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Intellect]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(32); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[read this scroll before]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The dormitory; its barred door lifted from inside.
+  - walk_to: {x: -320, y: -1024, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 600, y: -1024, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1792, y: -1400, z: 640, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 5); close(); if not qbit(118000) then error('dorm_bar 118000 not set') end"}
+  # The keep stair, the keep landing, the study.
+  - walk_to: {x: 1728, y: -650, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1728, y: 550, z: 1260, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1728, y: 1000, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 1360, y: 1152, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 14)"}
+  - walk_to: {x: 900, y: 1152, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - assert: {actor_visible: {actor_index: 41, dead: true}}
+  - assert: {actor_visible: {actor_index: 42, dead: true}}
+  - assert: {actor_visible: {actor_index: 43, dead: true}}
+  - walk_to: {x: 384, y: 980, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  # The writing box on the desk (D-90): the Scroll of Insight is its item; the hook says so on the status line.
+  - play_lua: {source: "loot_chest(14); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[INSIGHT]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(112162) then error('scroll_found 112162 not set') end
+        local n = item_count(12316) + (held() == 12316 and 1 or 0)
+        if n < 1 then error('no Scroll of Insight') end
+  - play_lua: {source: "close(); loot_chest(13); close()"}
+  # The roof walk and the moon tower (the keep loop): the faded Scroll of Magic.
+  - walk_to: {x: 832, y: 1500, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 15)"}
+  - walk_to: {x: 832, y: 1984, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2560, y: 1984, z: 1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2700, y: 1300, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 3080, y: 1000, z: 1280, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The writing has faded"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1728, y: 1152, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Down: the keep stair, the dormitory's open door, the east landing, the east tower, the kennels.
+  - walk_to: {x: 1728, y: 550, z: 1260, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1728, y: -700, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1792, y: -1450, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1900, y: -1900, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2368, y: -1750, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2368, y: -600, z: 20, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2368, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2112, y: 700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1824, y: 1720, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); click(6); wait(0.5); close(); if gold() <= g then error('no find in the bed') end; click(6); wait(0.5); log('bed again: ' .. status())"}
+  # The dungeon: the stair, the jailers' room, the cell row's iron door.
+  - walk_to: {x: 3300, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: 1216, z: -420, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4950, y: 1216, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 5120, y: 880, z: -512, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 4)"}
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_visible: {actor_index: 31, hidden: false, dead: false}}
+  # The peasant through the bars, his chain out of reach before the lever.
+  - walk_to: {x: 3776, y: 260, z: -512, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "There wolf"}}
+  - play_lua: {source: "close(); click(29); wait(0.5); close(); if qbit(112164) then error('freed before the lever') end; if door_state(3) ~= 'closed' then error('bars: ' .. door_state(3)) end"}
+  # The jailers' lever, the bars up, the peasant freed.
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5300, y: 1500, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(5); close(); if not qbit(118001) then error('cell_lever 118001 not set') end; if door_state(3) ~= 'open' then error('bars: ' .. door_state(3)) end"}
+  - walk_to: {x: 5120, y: 384, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3776, y: 260, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3700, y: -300, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local x = experience(0); click(29); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Thank you for saving me]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(112164) then error('peasant_freed 112164 not set') end; log('experience of member 0: ' .. experience(0))"}
+  - assert: {actor_visible: {actor_index: 31, hidden: true}}
+  # A save and load: the peasant stays gone, the doors stay open.
+  - play_lua: {source: "close()"}
+  - reload: {}
+  - assert: {actor_visible: {actor_index: 31, hidden: true}}
+  - play_lua: {source: "wait(2); if door_state(3) ~= 'open' then error('bars after reload: ' .. door_state(3)) end; if door_state(11) ~= 'open' then error('password door after reload: ' .. door_state(11)) end; if door_state(5) ~= 'open' then error('dorm door after reload: ' .. door_state(5)) end"}

@@ -1,0 +1,41 @@
+# D2 Sprite Forest and Ogre Pass: Nibbler's hollow and Sharla's treehouse village (Act III). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A6's L4 project `devdocs/xeen/briefs/d2/L4`): every door as drawn; no arrival (no mirror, stable or Town
+# Portal town). A3 writes the topics in source/npcs/d2.yml. No human town (WORLD_DESIGN 5.2, MAPS D2): the sprites' treehouse village sells potions and has a branch
+# of the Light guild; Nibbler the monkeydog has his hollow.
+key: D2
+stem: xeen_d2.odm
+town: Sprite Forest and Ogre Pass
+face: darkside
+blocks:
+  houses: [4551, 4600]
+  npcs: [5101, 5200]
+
+houses:
+  # ---- Sharla's treehouse village (town: the treehouse village) ----
+  - {id: 4551, door: building:sprite_potions, town: the treehouse village, was: 119, kind: alchemist, name: Dewdrop Potions, owner: 5102, shop: {quality: 3}}
+  - {id: 4552, door: building:sprite_guild_light, town: the treehouse village, was: 176, kind: light_guild, name: Light Guild of the Treetops, owner: 5103, guild: {spells: 7}}
+  - {id: 4553, door: building:sharla_tree, town: the treehouse village, kind: residence, name: Sharla's Treehouse, residents: [5101]}
+  - {id: 4554, door: "building:sprite_houses#1", town: the treehouse village, kind: residence, name: Mossbell's Bower, residents: [5104]}
+  - {id: 4555, door: "building:sprite_houses#2", town: the treehouse village, kind: residence, name: Thistledown's Bower, residents: [5105]}
+  # ---- the forest ----
+  - {id: 4556, door: building:nibbler_hollow, kind: residence, outside: true, name: Nibbler's Hollow, residents: [5106]}
+
+npcs:
+  - {id: 5101, name: Sharla, title: Queen of the Sprites, profession: Noble, talks: true, greet: ["Orcs hold my Princess Sheewana in the Temple of Bark. Ask politely, pay, or take her.", "Sheewana?"]}
+  - {id: 5102, name: Dewdrop, title: Sprite Potioner, profession: Alchemist, greet: ["Potions brewed from morning dew. Mostly dew.", "A sip?"]}
+  - {id: 5103, name: Lumen, title: Sprite Lightkeeper, profession: Spell Master, greet: ["The sun is weak; we keep a little of it in jars.", "Glow."]}
+  - {id: 5104, name: Mossbell, title: Sprite, profession: Peasant, greet: ["Big people! Mind the branches. And the sprites on them.", "Hello again, big people."]}
+  - {id: 5105, name: Thistledown, title: Sprite, profession: Piper, greet: ["I play for the trees. They don't clap, but they listen.", "A tune?"]}
+  - {id: 5106, name: Nibbler, title: Monkeydog, profession: Peasant, talks: true, greet: ["(Nibbler sniffs your pack hopefully. He is looking for melons.)", "(Nibbler wags at you.)"]}
+  - {id: 5107, name: Princess Sheewana, profession: Noble, talks: true, house: none, place: "DD-09 Temple of Bark, held by the orcs; A3 moves her to Sharla's treehouse (4553) after Q-D10", greet: ["You came for me? Oh, how proper.", "Take me home."]}
+  - {id: 5108, name: Graalg, title: Ogre Chief, profession: Noble, talks: true, house: none, place: "D2, Ogre Pass between the forts (A6)", greet: ["You come to Graalg's pass. Talk peace or Graalg talks with club.", "Peace?"]}
+  # ---- A3's quest people, added in the fourth session (talking actors; portraits in a later batch) ----
+  - {id: 5109, name: The Master Thief, title: Head of the Thieves' Guild, profession: Burglar, house: none, place: "DD-06, the Southern Tower's top-floor counting room (A7)", greet: ["You got past the gongs and the chest. Impressive. Sit down before I'm impressed enough to kill you.", "Business, then?"], note: "Q-D19's Dark promotion (A3)"}
+  - {id: 5110, name: Hobstadt, title: Troll King, profession: Noble, house: none, place: "DD-11C, his throne hall at the bottom of the troll holes (A7)", greet: ["You fell in. Everyone falls in. Now you pay, or you stay.", "Brought my gold?"], note: "Q-D13 (A3); monster 11073 when he fights"}
+  # ---- DD-09 Temple of Bark's prisoners (D-27; peaceful talking actors A8 places, hidden on the next entry once freed;
+  #      A3 writes their thanks topics, 500 experience each, with the source's hints) ----
+  - {id: 5111, name: Nathan, title: Prisoner, profession: Peasant, house: none, place: "DD-09, the orcs' pens (A8)", greet: ["The orcs drag one of us out every morning. Nobody comes back.", "Still in the pen. Still breathing."], source: "dark/aaze0073:2"}
+  - {id: 5112, name: Sky, title: Prisoner, profession: Peasant, house: none, place: "DD-09, the orcs' pens (A8)", greet: ["Days in this pen. I've forgotten the sun. Not that there's much of it left.", "Is it day out there?"], source: "dark/aaze0073:4"}
+  - {id: 5113, name: Snog, title: Orc Prisoner, profession: Laborer, house: none, place: "DD-09, the cells (A8); his own peaceful group, not the orcs' relation (A2)", greet: ["Snog no do evil. Other orcs no like that. So Snog in here.", "Snog still here."], source: "dark/aaze0075:8"}
+  - {id: 5114, name: Alicia the Just, title: Prisoner, profession: Peasant, house: none, place: "DD-09, the cells (A8)", greet: ["They chained me for saying aloud what the shaman is. The truth does not care for chains.", "The truth keeps."], source: "dark/aaze0075:10"}

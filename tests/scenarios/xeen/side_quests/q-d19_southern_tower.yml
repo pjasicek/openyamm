@@ -1,0 +1,289 @@
+# Xeen side quest Q-D19, The Southern Tower's full route (D3, D2, DD-06), with the Master Thief's inner circle, from a
+# new game in Sandcaster with a level-30 party holding a Rogue and a Warrior Mage (the quest is level 28). West into
+# Sprite Forest: the Southern Tower's door without the key: "Locked ... NO THIEVES". Back east to Thaddeus (the
+# Fountain Keeper's Hut): Southern Tower, the key (113380, 12339); asked again: "Thieves write things down". West to
+# the tower: its door opens with the key. DD-06 walked as segment 55: the tapestry hall, the kennel's gate, the guild
+# memo and the first gong (three rings); the den: the fence's lockbox (the Strongroom Key), the Ali Baba chest ("open
+# sesame": the Eastern Tower key, 113383), the second gong; the practice floor: the strongroom and its two Energy Disks
+# (113382), the practice hall, the third gong; the top: the counting room, the Master Thief's "Inner circle" (113385:
+# Rogue -> Assassin, Warrior Mage -> Sniper), the ledger (113381, autonote 4590; again: "The prices are obscene."); the
+# getaway chute and the front door. Thaddeus: done (113386, 5,000 experience each, 1,500 gold; the started bit stays,
+# `until: done` hides only its journal line); again his done line. Outdoors the party is placed (PLAYBOOK §2); the
+# tower is walked.
+# Routes: tests/playthrough/xeen/55_southern_tower.yml, devdocs/xeen/briefs/dd06/L4/playtest.yml.
+# Quest logic: source/quests/q-d19.yml. Prep: prep/q-d19.md. The inner circle alone: q-d19_inner_circle.yml.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d19_south
+id: xeen.side_quests.q-d19.southern_tower
+title: "Xeen Q-D19: the Southern Tower from Thaddeus's key to the ledger, with the inner circle"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d3.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Vesk, class: Rogue, level: 30, skills: [], equipment: {}}
+          - {name: Orla, class: WarriorMage, level: 30, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d3.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113380, 113381, 113382, 113383, 113384, 113385, 113386]}
+  # West off D3's edge into Sprite Forest; the Southern Tower's door (D2 event 20) without the key.
+  - set_pose: {map: xeen_d3.odm, x: -30208, y: 10240, z: 1312, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 10240, z: 1312, z_tolerance: 900, radius: 128, timeout_seconds: 90, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: 15872, y: -7424, z: 1056, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true, present_dialogs: true}
+  - assert: {map: xeen_dd06.blv}
+  # Back east along the caravan road to Sandcaster.
+  - set_pose: {map: xeen_d2.odm, x: 29696, y: 10240, z: 1408, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 10240, z: 1376, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Thaddeus (the Fountain Keeper's Hut, house 4648): Southern Tower, the key; asked again, the started line.
+  - set_pose: {map: xeen_d3.odm, x: 8468, y: -5504, z: 960, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 5246}}
+  - select_topic: {match_label: "Southern Tower"}
+  - assert: {dialog: {text_contains: "A thief bragged of it in his haste to escape: the Great Southern Tower"}}
+  - select_topic: {match_label: "Southern Tower"}
+  - assert: {dialog: {text_contains: "Thieves write things down. Look for that."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+  - assert: {qbit_set: [113380]}
+  # West again; the tower door opens with the key.
+  - set_pose: {map: xeen_d3.odm, x: -30208, y: 10240, z: 1312, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 10240, z: 1312, z_tolerance: 900, radius: 128, timeout_seconds: 90, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d2.odm, x: 15872, y: -7424, z: 1056, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(20)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd06.blv}
+  - assert: {party_position: {x: 640, y: 1700, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The tapestry hall, the kennel and its gate to the first gong.
+  - walk_to: {x: 512, y: 1300, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1000, y: 300, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: -320, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -800, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: -1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -768, y: -1300, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 9)"}
+  - walk_to: {x: -768, y: -700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The guild memo (q-d19.guild_memo) and the first gong: three rings open the stair door.
+  - walk_to: {x: -1000, y: 300, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1150, y: 250, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(32); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Ring each gong three times"}}
+  - play_lua: {source: "close(); click(18); wait(0.5)"}
+  - answer_input: {text: "3"}
+  - advance_runtime: {seconds: 3}
+  - assert: {dialog: {active: true, text_contains: "The gong booms three times"}}
+  - play_lua: {source: "close(); wait(3); if door_state(4) ~= 'open' then error('stair door 1: ' .. door_state(4)) end"}
+  # Up the first stair to the den; the mess, the fence's room and its lockbox (the Strongroom Key).
+  - walk_to: {x: -1150, y: 768, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1640, y: 768, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 500, z: 0, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: -1700, z: 640, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -1792, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 0, y: -1600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 440, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(33, 10)"}
+  - walk_to: {x: 900, y: -1600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1150, y: -1880, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        loot_chest(13); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not has_item(12262) then error("no Strongroom Key in the lockbox") end
+  # The treasury: the Ali Baba chest, "open sesame" (the Eastern Tower key).
+  - walk_to: {x: 1200, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(45, 13)"}
+  - walk_to: {x: 1600, y: -1600, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(0.5)"}
+  - answer_input: {text: "open sesame"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The lid swings up. Among the thieves' takings, a receipt: 'Paid in full. One jewel. Delivered to the Eastern Tower.']], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        -- F15: the Eastern Tower key is an item in the chest, which the password opens
+        if not take_chest() then loot_chest(1) end
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113383) then error("chest_opened 113383 not set") end
+        loot_chest(1); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+  # The second gong: three.
+  - walk_to: {x: 1100, y: -1600, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 960, y: -1300, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 900, y: -600, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1150, y: -420, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - answer_input: {text: "3"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); wait(3); if door_state(5) ~= 'open' then error('stair door 2: ' .. door_state(5)) end"}
+  # Up the second stair to the practice floor: the trap walk, the strongroom's iron door (the Strongroom Key), 2 disks.
+  - walk_to: {x: 1150, y: -768, z: 640, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: -768, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: -500, z: 640, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 1750, z: 1280, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 800, y: 1792, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1024, y: 900, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1024, y: -1000, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1150, y: -1600, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(3); if door_state(11) ~= 'open' then error('strongroom door with the key: ' .. door_state(11)) end"}
+  - walk_to: {x: 1800, y: -1600, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua:
+      source: |
+        remember("disks", item_count(12334))
+        loot_chest(15); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12334) ~= recall("disks") + 2 then error("the strongroom chest gave " .. (item_count(12334) - recall("disks")) .. " Energy Disks") end
+        if not qbit(113382) then error("tower_disks 113382 not set") end
+  - walk_to: {x: 1150, y: -1600, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  # The practice hall and the third gong.
+  - walk_to: {x: 1024, y: -512, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(44, 12)"}
+  - walk_to: {x: 300, y: -512, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 100, y: 640, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -800, y: 640, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1150, y: 420, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - answer_input: {text: "3"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close(); wait(3); if door_state(6) ~= 'open' then error('stair door 3: ' .. door_state(6)) end"}
+  # Up the third stair to the top; the counting room: the Master Thief speaks as the party comes before his desk.
+  - walk_to: {x: -1150, y: 768, z: 1280, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1640, y: 768, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 500, z: 1280, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: -1700, z: 1920, z_tolerance: 40, radius: 64, clear_hostiles: 1200, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -1792, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -1400, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 3)"}
+  - walk_to: {x: -896, y: -880, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11114, hostile: true, max: 0}}
+  - walk_to: {x: -256, y: -560, z: 1920, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -256, y: -200, z: 1920, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "for _, i in ipairs({0, 1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the inner circle: ' .. c) end end end"}
+  # The Master Thief is clicked (actor 29; A7's 05:20 DD-06 has no walk-in greeting).
+  - interact_actor: {actor_index: 29}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5109}}
+  - select_topic: {match_label: "Inner circle"}
+  - assert: {dialog: {text_contains: "You got past the gongs, the chest and my accountants. Rogues and marksmen that good are wasted on heroics. Join the inner circle."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(113385) then error("inner_circle 113385 not set") end
+        if qbit(113384) then error("master_slain set") end
+        if classes() ~= "Assassin Sniper Knight Cleric" then error("the southern promotion: " .. classes()) end
+        log("Q-D19 inner circle: " .. classes())
+  # The ledger (q-d19.ledger): ledger_read and its autonote.
+  - walk_to: {x: -256, y: 140, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Jewel of Ages, sold to Mages of the Great Eastern Tower"}}
+  - play_lua: {source: "close(); if not qbit(113381) then error('ledger_read 113381 not set') end; wait(0.3); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The ledger. The prices are obscene."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {autonote: {id: 4590}}
+  - assert: {actor_count: {monster_id: 11115, hostile: true, max: 0}}
+  # The getaway hatch: down the chute to the entrance hall's straw; out by the front door (event 17) onto D2.
+  - walk_to: {x: 600, y: 192, z: 1920, radius: 64, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1100, y: 192, z: 1920, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(1)"}
+  - assert: {party_position: {x: 1760, y: 1780, radius: 120, z_min: 0, z_max: 64}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 640, y: 1880, z: 0, radius: 48, clear_hostiles: 1200, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - assert: {party_position: {x: 15872, y: -7680, radius: 160, z_min: 1000, z_max: 1120}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # East to Sandcaster: Thaddeus hears what the ledger says (done: 5,000 experience each, 1,500 gold); again, done.
+  - set_pose: {map: xeen_d2.odm, x: 29696, y: 10240, z: 1408, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 10240, z: 1376, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d3.odm, x: 8468, y: -5504, z: 960, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; remember('gold', gold())"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 5246}}
+  - select_topic: {match_label: "Southern Tower"}
+  - assert: {dialog: {text_contains: "Sold to the mages of the Eastern Tower? Then that is where my jewel is."}}
+  - select_topic: {match_label: "Southern Tower"}
+  - assert: {dialog: {text_contains: "Thieves who keep accounts. The world is full of surprises, most of them bad."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 5000 then error("Thaddeus paid member " .. i .. " " .. d .. " experience") end
+        end
+        if gold() - recall("gold") ~= 1500 then error("Thaddeus paid " .. (gold() - recall("gold")) .. " gold") end
+        log("Q-D19 done: " .. classes() .. "; Energy Disks " .. item_count(12334) .. "; gold " .. gold())
+  - assert: {qbit_set: [113380, 113381, 113382, 113383, 113385, 113386]}
+  - assert: {qbit_clear: [113384]}
+  - assert: {autonote: {id: 4590}}

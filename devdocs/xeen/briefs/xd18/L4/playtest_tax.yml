@@ -1,0 +1,30 @@
+# D-89 (2026-11-22): a level-62 party with no gold or gems clicks the inner door from the tax hall: it opens (A3's
+# q-c25.inner_door, 118100) and nobody is moved. Put in the King's antechamber, the party clicks the Dragon King's door:
+# A3's q-c25.king_door says "Tax first," on the status line, the leaves stay shut and the party stays in the map.
+id: xeen.xd18.l4.tax
+title: "Dragon Cave (XD-18 L4), no tax: the inner door opens, the Dragon King's door refuses"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd18.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - assert: {map: xeen_xd18.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - walk_to: {x: 2560, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door did not open without the tax: ' .. door_state(2)) end; if not qbit(118100) then error('118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  - set_pose: {map: xeen_xd18.blv, x: 128, y: -256, z: -1024, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - play_lua: {source: "click(7); wait(0.5); local s = tostring(status()); log('refused: ' .. s); if not string.find(s, 'Tax first', 1, true) then error('fail line: ' .. s) end"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_xd18.blv}
+  - play_lua: {source: "if door_state(4) ~= 'closed' then error('the King door opened without the tax: ' .. door_state(4)) end; if qbit(112500) then error('tax_paid set') end"}

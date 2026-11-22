@@ -1,0 +1,90 @@
+# X2 Rivercity and Lake Darzog: the topics of the people A4 placed (source/towns/x2.yml) that belong to no quest, and
+# Rivercity's signs and ads with original text (MAPS X2 "Original lines"). Quest topics are in source/quests/.
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md section 5. Original lines: devdocs/xeen/ORIGINAL_LINES.md.
+map: X2
+block: 151
+source: "xeen/aaze0030 (Rivercity), xeen/aaze0011 (the lake people)"
+
+qbits:
+  vault_joke: {id: 116020, note: "the bank's empty display chest has been opened"}
+
+npcs:
+  4101:              # Brann, Rivercity Smithing
+    topics:
+      - {n: 1, label: Prices, text: "Paid up front, because in Rivercity the customer is gone by morning, and so is the sword."}
+  4105:              # Pennyworth, the banker
+    topics:
+      - {n: 2, label: Robbers, text: "The robbers under the bridge have never robbed this bank. We pay them not to. It's called insurance."}
+  4106:              # Bull
+    topics:
+      - {n: 3, label: Water, text: "Water's two coppers since the fountain dried up. I didn't plug it. I just noticed it was plugged."}
+  4107:              # Knuckles, Street Fightin'
+    topics:
+      - {n: 4, label: Training, text: "Twenty-fifth level, no further. After that you want the King's own hall at Castle Burlock, and a title to get in."}
+  4108:              # Deacon Coyne, Pray N Pay
+    topics:
+      - {n: 5, label: Healing, text: "Pray, pay, and be healed today. Pray without paying and we'll see about tomorrow."}
+  4112:              # Garrick, Royal Steeds
+    topics:
+      - {n: 6, label: Coaches, text: "East to Vertigo on the river road. North to the King when the savannah road's clear."}
+  4115:              # Mrs. Kettle, the gossip
+    topics:
+      - {n: 7, label: Gossip, text: "The robbers live under the bridge. The sorceresses live by the south quay. The King lives in a castle and never comes here. Everybody knows everything in Rivercity, and nobody does anything."}
+  4117:              # Rook, the retired thief
+    topics:
+      - {n: 8, label: The den, text: "The den's under the bridge, behind the third pier. There's a door you can't see until you look at it properly. I never told you that."}
+  4119:              # Magneto the Navigator
+    topics:
+      - {n: 9, label: Stars, text: "For 2,000 gold I will teach you how to use the stars to keep from getting lost. Nobody pays. Nobody ever gets lost either. I don't understand it."}
+  4122:              # Captain Yang
+    topics:
+      - {n: 10, label: The King, text: "King Burlock holds court at his castle north of here. Only Crusaders pass the inner gate. Earn the title and he may see you."}
+  4124:              # Quill, the scholar
+    topics:
+      - {n: 11, label: Darzog, text: "Baron Darzog was the King's master sorcerer. His tower on the lake isle has been shut for years. Some say a skeleton key opens it; nobody says where the key is."}
+  4127:              # Martin the Mountaineer
+    topics:
+      - {n: 12, label: Climbing, text: "For the low, low, price of 5,000 gold, I will teach you how to climb the highest mountains. Mountains in your way? Try due north."}
+  4129:              # Old Tackle
+    topics:
+      - {n: 13, label: The lake, text: "Medin says beasts eat the fish. I've seen them. They eat the boats too, when the boats are near enough."}
+  4134:              # Arnold the Strong
+    topics:
+      - {n: 14, label: Bodybuilding, text: "I see that you are pale and weak. Bodybuilding will put some meat on your bones. I teach it; the meat is extra."}
+  4135:              # Flint the Armsmaster
+    topics:
+      - {n: 15, label: Fighting, text: "Fighting is simple. Hit them before they hit you. The rest is details, and I teach the details."}
+  4136:              # Lindon the Taskmaster
+    topics:
+      - {n: 16, label: Work, text: "I'll give you 100 gold for a week of work. Not today, though. Today all the work went to the robbers."}
+  4142:              # Ott the ferryman
+    topics:
+      - {n: 17, label: Mirrors, text: "Touch the mirror on the square, and any other mirror you've touched will send you there. Faster than my ferry. Everything is faster than my ferry."}
+  4150:              # Darlene the Swimmer
+    topics:
+      - {n: 18, label: Swimming, text: "I can teach you how to swim for a mere 100 gold. Or sell you a Water Walk scroll, if you sink."}
+
+hooks:
+  ad_customers:
+    map: X2
+    where: "an ad board on the bridge"
+    text: "If you can read this ad, so can your customers."
+  ad_deep_mine:
+    map: X2
+    where: "an ad board by the north road"
+    text: "REAL adventurers try Deep Mine Alpha!"
+  ad_navigation:
+    map: X2
+    where: "the sign of the School of Navigation (house 4069)"
+    text: "School of Navigation 9N"
+  ad_mountains:
+    map: X2
+    where: "a sign by Martin's door (house 4076)"
+    text: "Mountains in your way? Try due N."
+  bank_chest:
+    map: X2
+    where: "a display chest in the bank's hall"
+    sets: [vault_joke]
+    once: true
+    text: "What did you expect, money?"
+    else_text: "The chest is empty."

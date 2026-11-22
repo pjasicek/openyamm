@@ -1,0 +1,405 @@
+format: 0
+variables: [find_d1, find_d2, find_k1, find_k2, find_k3]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Castle Basenji: the wizard cult's keep on its crag over the rim. Somewhere above is Arie's master's Scroll of Insight; somewhere below, the dogs that are not dogs. The gate is the way back out."
+    notes: "Why the party is here (Q-C8), once, on the first arrival."
+  - id: evt:bars
+    preset: script
+    source: door:cell_bars
+    side: room:cells
+    title: Trapped Peasant
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.peasant\")"
+    notes: "The Trapped Peasant talks through the bars at any time (A3's q-c8.peasant: 'There wolf', and the Sphinx is Golux)."
+  - id: evt:battle_seen
+    preset: text
+    source: room:battlements
+    trigger: step
+    once: true
+    text: "The battlement walk over the gate: the desert lies white under the sun below the crag."
+    seconds: 6
+  - id: evt:bed_d1
+    preset: script
+    source: platform:bed_d1
+    title: Werewolf Bed
+    condition: {map_var: {name: find_d1, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: find_d1
+          value: 1
+      - gold: 260
+      - text: "Under the straw: 260 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's 'Werewolf Bed' (aaze0067:0-1, aaze0068:0-1): a find once, then 'Nothing here.' (aaze0067:10)."
+  - id: evt:bed_d2
+    preset: script
+    source: platform:bed_d2
+    title: Straw Bed
+    condition: {map_var: {name: find_d2, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: find_d2
+          value: 1
+      - gold: 120
+      - text: "Under the straw: 120 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's 'Straw Bed' (aaze0067:0-1, aaze0068:0-1): a find once, then 'Nothing here.' (aaze0067:10)."
+  - id: evt:bed_k1
+    preset: script
+    source: platform:bed_k1
+    title: Werewolf Bed
+    condition: {map_var: {name: find_k1, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: find_k1
+          value: 1
+      - gold: 150
+      - text: "Under the straw: 150 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's 'Werewolf Bed' (aaze0067:0-1, aaze0068:0-1): a find once, then 'Nothing here.' (aaze0067:10)."
+  - id: evt:bed_k2
+    preset: script
+    source: platform:bed_k2
+    title: Werewolf Bed
+    condition: {map_var: {name: find_k2, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: find_k2
+          value: 1
+      - gold: 220
+      - text: "Under the straw: 220 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's 'Werewolf Bed' (aaze0067:0-1, aaze0068:0-1): a find once, then 'Nothing here.' (aaze0067:10)."
+  - id: evt:bed_k3
+    preset: script
+    source: platform:bed_k3
+    title: Werewolf Bed
+    condition: {map_var: {name: find_k3, equals: 0}}
+    effects:
+      - set:
+          var:
+            map_var: find_k3
+          value: 1
+      - gold: 180
+      - text: "Under the straw: 180 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's 'Werewolf Bed' (aaze0067:0-1, aaze0068:0-1): a find once, then 'Nothing here.' (aaze0067:10)."
+  - id: evt:cell_lever
+    preset: switch
+    source: switch:cell_lever
+    title: Lever
+    condition: {not: {qbit: cell_lever}}
+    opens: [door:cell_bars]
+    sets: {qbit: cell_lever}
+    else_effects:
+      - text: The lever is down. The shut cell stands open.
+    text: "The lever creaks down. Out in the cell row, bars grind up into the ceiling."
+    notes: "state:cell_lever (cell_lever 118001): raises the bars of the peasant's cell for good."
+  - id: evt:chest_bone_pit
+    preset: chest
+    source: chest:bone_pit
+    title: Box
+  - id: evt:chest_dormitory
+    preset: chest
+    source: chest:dormitory
+    title: Chest
+  - id: evt:chest_stores
+    preset: chest
+    source: chest:stores
+    title: Chest
+  - id: evt:chest_study
+    preset: chest
+    source: chest:study
+    title: Chest
+  - id: evt:desk
+    preset: chest
+    source: chest:desk
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll\")"
+    notes: "The writing box on the desk (D-90): the Scroll of Insight (12316) is its item; A3's q-c8.scroll (once) sets scroll_found 112162 and says so on the status line."
+  - id: evt:door_battle_e
+    preset: door
+    source: door:battle_e
+    title: Battlements
+  - id: evt:door_battle_w
+    preset: door
+    source: door:battle_w
+    title: Battlements
+  - id: evt:door_cells
+    preset: door
+    source: door:cells
+    title: Cell row
+  - id: evt:door_hall
+    preset: door
+    source: door:hall_doors
+    title: Great hall
+  - id: evt:door_kennels
+    preset: door
+    source: door:kennels
+    title: Kennels
+  - id: evt:door_scriptorium
+    preset: door
+    source: door:scriptorium
+    title: Scriptorium
+  - id: evt:door_stores
+    preset: door
+    source: door:stores
+    title: Kitchen
+  - id: evt:door_study
+    preset: door
+    source: door:study
+    title: Study
+  - id: evt:door_study_roof
+    preset: door
+    source: door:study_roof
+    title: Roof walk
+  - id: evt:dorm_inside
+    preset: door
+    source: door:dorm_bar
+    side: room:dormitory
+    title: Door
+    action: open
+    sets: {qbit: dorm_bar}
+    text: "You lift the heavy bar out of its brackets, and the door swings open onto the east landing."
+    notes: "From the dormitory: the bar lifted, the door opens and stays open (the wing's loop back)."
+  - id: evt:dorm_landing
+    preset: door
+    source: door:dorm_bar
+    side: room:east_landing
+    title: Door
+    condition: {qbit: dorm_bar}
+    locked_text: The door is barred from the other side.
+    action: open
+    notes: "From the east landing: barred until the bar is lifted in the dormitory (dorm_bar 118000)."
+  - id: evt:dungeon_seen
+    preset: text
+    source: room:guard_room
+    trigger: step
+    once: true
+    text: "The jailers' room. Somewhere along the cells a chain rattles, and someone coughs."
+    seconds: 6
+  - id: evt:exit_left
+    preset: exit
+    source: exit:gate_left
+    title: Gate
+    notes: "The gate's left wing: out to X6 as evt:exit_right."
+  - id: evt:exit_right
+    preset: exit
+    source: exit:gate_right
+    title: Gate
+    notes: "Out to X6 on the terrace in front of the gatehouse (-13312, 15104, 2592) facing south; the game's leave window (D-24; 'Leave Castle Basenji?', aaze0068:14, is its meaning)."
+  - id: evt:free_peasant
+    preset: script
+    source: platform:chain_post
+    title: Trapped Peasant
+    condition: {qbit: cell_lever, not: {qbit: peasant_freed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.peasant_freed\")"
+      - hide_actors: 30
+    else_effects:
+      - text: An empty chain hangs from the post.
+    notes: "state:freed: once the lever has raised the bars, a click on his chain frees him (A3's q-c8.peasant_freed: 'Thank you for saving me!', 500 experience per member, peasant_freed 112164) and he is gone (group 30 hidden)."
+  - id: evt:kennels_seen
+    preset: text
+    source: room:kennels
+    trigger: step
+    once: true
+    text: "The kennels: iron pens round a feeding pit, the straw soiled. What sleeps here is not a dog."
+    seconds: 6
+  - id: evt:lectern_aging
+    preset: script
+    source: platform:lectern_aging
+    title: Scroll of Aging
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_aging\")"
+    notes: "A3's q-c8.scroll_aging (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:lectern_intellect
+    preset: script
+    source: platform:lectern_intellect
+    title: Scroll of Intellect
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_intellect\")"
+    notes: "A3's q-c8.scroll_intellect (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:lectern_magic
+    preset: script
+    source: platform:lectern_magic
+    title: Scroll of Magic
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_magic\")"
+    notes: "A3's q-c8.scroll_magic (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:lectern_personality
+    preset: script
+    source: platform:lectern_personality
+    title: Scroll of Personality
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_personality\")"
+    notes: "A3's q-c8.scroll_personality (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:lectern_speed
+    preset: script
+    source: platform:lectern_speed
+    title: Scroll of Speed
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_speed\")"
+    notes: "A3's q-c8.scroll_speed (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_1
+    preset: script
+    source: panel:moon_rack_1
+    title: Scroll of Energy
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_energy\")"
+    notes: "A3's q-c8.scroll_energy (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_2
+    preset: script
+    source: panel:moon_rack_2
+    title: Scroll of Magic
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_faded\")"
+    notes: "A3's q-c8.scroll_faded (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_3
+    preset: script
+    source: panel:moon_rack_3
+    title: Scroll of Depression
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_depression\")"
+    notes: "A3's q-c8.scroll_depression (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_4
+    preset: script
+    source: panel:moon_rack_4
+    title: Scroll of Confusion
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_confusion\")"
+    notes: "A3's q-c8.scroll_confusion (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_5
+    preset: script
+    source: panel:moon_rack_5
+    title: Scroll of Death
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_death\")"
+    notes: "A3's q-c8.scroll_death (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:moon_rack_6
+    preset: script
+    source: panel:moon_rack_6
+    title: Scroll of Insanity
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_insanity\")"
+    notes: "A3's q-c8.scroll_insanity (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:password
+    preset: script
+    source: door:password
+    question: {ask: "Password:", answers: [There wolf, therewolf, There-wolf], message: "STOP!  What is the password?", wrong_effects: [{lua: "XeenQuests.hook(\"q-c8.l2_wrong\")"}]}
+    side: room:west_landing
+    title: Door
+    condition: {not: {qbit: password}}
+    opens: [door:password]
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.l2_door\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c8.l2_door\")"
+    notes: "state:password: the source's prompt (aaze0069:10). 'There wolf' or 'therewolf' (aaze0069:8, :16): A3's q-c8.l2_door (password 112161), the door opens and stays open; any other answer q-c8.l2_wrong (its first word the source's 'Wrong!', aaze0069:9), and the next click asks again. Once answered: the hook's else line, 'The door stands open.'"
+  - id: evt:password_in
+    preset: door
+    source: door:password
+    side: room:scroll_hall
+    title: Door
+    action: open
+    notes: From the hall of scrolls the door simply opens.
+  - id: evt:pit_ledge_1
+    preset: script
+    source: panel:pit_ledge_1
+    title: Scroll of Death
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_death\")"
+    notes: "A3's q-c8.scroll_death (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:pit_ledge_2
+    preset: script
+    source: panel:pit_ledge_2
+    title: Scroll of Insanity
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_insanity\")"
+    notes: "A3's q-c8.scroll_insanity (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_1
+    preset: script
+    source: panel:script_rack_1
+    title: Scroll of Fire
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_fire\")"
+    notes: "A3's q-c8.scroll_fire (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_2
+    preset: script
+    source: panel:script_rack_2
+    title: Scroll of Electricity
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_electricity\")"
+    notes: "A3's q-c8.scroll_electricity (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_3
+    preset: script
+    source: panel:script_rack_3
+    title: Scroll of Depression
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_depression\")"
+    notes: "A3's q-c8.scroll_depression (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_4
+    preset: script
+    source: panel:script_rack_4
+    title: Scroll of Confusion
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_confusion\")"
+    notes: "A3's q-c8.scroll_confusion (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_5
+    preset: script
+    source: panel:script_rack_5
+    title: Scroll of Insanity
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_insanity\")"
+    notes: "A3's q-c8.scroll_insanity (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:script_rack_6
+    preset: script
+    source: panel:script_rack_6
+    title: Scroll of Weakness
+    effects:
+      - lua: "XeenQuests.hook(\"q-c8.scroll_weakness\")"
+    notes: "A3's q-c8.scroll_weakness (D-39 XD-14 Q3: blessings once per character, curses on the reading member)."
+  - id: evt:stage_bar
+    preset: script
+    trigger: load
+    condition: {qbit: dorm_bar}
+    lua: "-- the event opens the door"
+    opens: [door:dorm_bar]
+    notes: The dormitory's door stays open once its bar is lifted.
+  - id: evt:stage_doors
+    preset: script
+    trigger: load
+    condition: {qbit: password}
+    lua: "-- the event opens the door"
+    opens: [door:password]
+    notes: The password door stays open once answered.
+  - id: evt:stage_lever
+    preset: script
+    trigger: load
+    condition: {qbit: cell_lever}
+    lua: "-- the event opens the door"
+    opens: [door:cell_bars]
+    notes: The shut cell stays open once the lever is down.
+  - id: evt:stage_peasant
+    preset: script
+    trigger: load
+    condition: {qbit: peasant_freed}
+    effects:
+      - hide_actors: 30
+    notes: The freed peasant stays gone on every later load (D-39 XD-14 Q4).

@@ -1,0 +1,27 @@
+# Playtest of the Asp Undercroft's way out onto X4 (XD-25, L4; lane A7, 2026-11-20). Prepared before X4 was installed:
+# copy into devdocs/xeen/briefs/xd25/L4/ once gen.py has been run with X4 present (NOTES "When X4 exists").
+# The party starts at the top of the cellar stair (the arrival from X4's door:xd25) and clicks the cellar door
+# (event 2, evt:asp_door): out onto Asp's square at A5's arrival (-11520, -9360, 1056), facing south.
+id: xeen.xd25.l4.exit
+title: Asp Undercroft (XD-25 L4), the cellar door up to Asp's square on X4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd25.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 16, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 16, skills: [], equipment: {}}
+  - assert: {map: xeen_xd25.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: -2208, y: 1760, radius: 96}}
+  - execute_event: {id: 2}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -11520, y: -9448, radius: 160, z_min: 990, z_max: 1130}}

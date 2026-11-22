@@ -1,0 +1,145 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-08
+key: xd08
+name: Tomb of a Thousand Terrors
+stands_on: X3 Lifeforce Lagoon
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [15, 17]
+monsters:
+  levels: [15, 30]
+  boss: null
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Rotting dead C: Grave Ghoul 18"
+    - "Spirits A-B: Polter-Fool 18, Tomb Guard 26"
+    - "Tomb Terror 40 only if the user wants one at the hoard (open question)"
+treasure: {level: 2, hoard: 3}
+role: "Story M10: five King's Megacredits (proposed; the source holds 8)"
+role_short: "Story M10"
+set_piece: "Torture devices that work: the manacles raise a portcullis, the iron maiden is a secret stair, the hanging cage is a lift; seven coloured tomb juices"
+floors:
+  - {floor: 0, name: "The tomb", height: 0}
+  - {floor: -1, name: "Crypts", height: -640}
+  - {floor: -2, name: "The deep", height: -1280}
+spaces:
+  # floor 0
+  - {id: room:door, name: Tomb door, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Inside the door the Stone of a Thousand Terrors opened."}
+  - {id: room:welcome, name: Hall of Welcome, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{family: Spirits, count: 2, strength: light, rank: a}],
+     purpose: "The statue and its plaque: 'Insanity is our fame, undead is our game.'"}
+  - {id: room:gallery, name: Gallery of Terrors, kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, monsters: 4,
+     population: [{family: Spirits, count: 2, strength: light, rank: a}, {family: Rotting dead, count: 2, strength: light}],
+     purpose: "A long hall of devices on plinths, each named on a plaque; three of them do something."}
+  - {id: room:east_mourning, name: East mourning hall, kind: hall, size: M, floor: 0, at: [4, 0], monsters: 4,
+     population: [{family: Spirits, count: 4, strength: pack, rank: b}],
+     purpose: "Biers and tomb guards."}
+  - {id: room:cage_room, name: Hanging cage, kind: room, size: S, floor: 0, at: [5, 0], set_piece: true, monsters: 2,
+     population: [{family: Rotting dead, count: 2, strength: light}],
+     purpose: "An iron cage on a chain over a dark hole. Step in and pull the chain: it lowers to the crypts."}
+  - {id: room:stocks, name: Stocks yard, kind: room, size: M, floor: 0, at: [1, 1], chest: 2, monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: light}],
+     purpose: "Rows of stocks with skeletons still in them; a chest under the last."}
+  - {id: room:west_mourning, name: West mourning hall, kind: hall, size: M, floor: 0, at: [2, 1], chest: 2, monsters: 4,
+     population: [{family: Rotting dead, count: 4, strength: pack}],
+     purpose: "Coffins ('The coffin is empty.'); ghouls; a chest."}
+  - {id: room:chain_room, name: Chain room, kind: room, size: S, floor: 0, at: [3, 1], set_piece: true, monsters: 0,
+     purpose: "Manacles on long chains running into the floor. Pull them: below, a portcullis grinds up."}
+  - {id: room:maiden_niche, name: Iron maiden, kind: room, size: S, floor: 0, at: [4, 1], set_piece: true, monsters: 0,
+     purpose: "An iron maiden on a dais. Open it: its back is a door, and a stair goes down behind the spikes."}
+  # floor -1
+  - {id: room:barracks, name: "Tomb guards' barracks", kind: room, size: M, floor: -1, at: [1, 0], chest: 2, monsters: 4,
+     population: [{family: Spirits, count: 4, strength: pack, rank: b}],
+     purpose: "Racks of rusted halberds; the guards' pay chest."}
+  - {id: room:coffin_vault, name: Coffin vault, kind: room, size: L, floor: -1, at: [2, 0], chest: 2, goal: true, monsters: 2,
+     population: [{family: Spirits, count: 2, strength: heavy, rank: b}],
+     purpose: "Heavy coffins ('You are not strong enough to open the coffin.'); in the largest, the King's Megacredits."}
+  - {id: room:portcullis, name: Portcullis way, kind: corridor, size: S, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "The portcullis before the coffin vault, raised by the chains above."}
+  - {id: room:crypt_ring_e, name: East crypt ring, kind: corridor, size: M, floor: -1, at: [4, 1], monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: light}],
+     purpose: "Wall niches of bones round the crypts."}
+  - {id: room:cage_pit, name: Cage pit, kind: room, size: S, floor: -1, at: [5, 0], monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: pack}],
+     purpose: "Where the cage lands; ghouls waiting for it."}
+  - {id: room:embalming, name: Embalming room, kind: room, size: M, floor: -1, at: [1, 1], set_piece: true, monsters: 2,
+     population: [{family: Spirits, count: 2, strength: light, rank: a}],
+     purpose: "Seven basins of tomb juice: red, blue, orange, green, yellow, purple, white. One drink each per character."}
+  - {id: room:crypt_ring_w, name: West crypt ring, kind: corridor, size: M, floor: -1, at: [2, 1], monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: light}],
+     purpose: "The ring's west side; the deep stair."}
+  - {id: room:ossuary, name: Ossuary, kind: room, size: M, floor: -1, at: [3, 1], monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: pack}],
+     purpose: "Skull walls; bone piles that rise."}
+  - {id: room:maiden_stair, name: "Maiden's stair", kind: stair, size: S, floor: -1, at: [4, 0], monsters: 0,
+     purpose: "The stair from behind the iron maiden."}
+  - {id: room:deep_stair, name: Deep stair, kind: stair, size: S, floor: -1, at: [2, 2], monsters: 0,
+     purpose: "Down to the deep; cold air."}
+  # floor -2
+  - {id: room:deep_crypt, name: Deep crypt, kind: cave, size: M, floor: -2, at: [2, 0], monsters: 4,
+     population: [{family: Rotting dead, count: 4, strength: pack}],
+     purpose: "Raw rock and old graves; grave ghouls."}
+  - {id: room:bone_pit, name: Bone pit, kind: room, size: M, floor: -2, at: [3, 0], monsters: 3,
+     population: [{family: Rotting dead, count: 3, strength: pack}],
+     purpose: "A pit of bones crossed on a ledge."}
+  - {id: room:terror_hall, name: Hall of a Thousand Terrors, kind: hall, size: L, floor: -2, at: [4, 0], chest: 3, monsters: 4,
+     population: [{family: Spirits, count: 4, strength: heavy, rank: b}],
+     purpose: "The tomb's heart: a throne of skulls, tomb guards, the hoard (tier 3)."}
+links:
+  - {id: link:door_welcome, from: room:door, to: room:welcome, kind: open}
+  - {id: link:welcome_gallery, from: room:welcome, to: room:gallery, kind: open}
+  - {id: link:welcome_westm, from: room:welcome, to: room:west_mourning, kind: door}
+  - {id: link:westm_stocks, from: room:west_mourning, to: room:stocks, kind: open}
+  - {id: link:westm_chain, from: room:west_mourning, to: room:chain_room, kind: door}
+  - {id: link:gallery_chain, from: room:gallery, to: room:chain_room, kind: open}
+  - {id: link:gallery_maiden, from: room:gallery, to: room:maiden_niche, kind: open}
+  - {id: link:gallery_eastm, from: room:gallery, to: room:east_mourning, kind: door}
+  - {id: link:eastm_cage, from: room:east_mourning, to: room:cage_room, kind: open}
+  - {id: link:cage_lift, from: room:cage_room, to: room:cage_pit, kind: lift, label: "the hanging cage"}
+  - {id: link:maiden_stair, from: room:maiden_niche, to: room:maiden_stair, kind: secret, label: "open the maiden"}
+  - {id: link:pit_ringe, from: room:cage_pit, to: room:crypt_ring_e, kind: open}
+  - {id: link:mstair_ringe, from: room:maiden_stair, to: room:crypt_ring_e, kind: open}
+  - {id: link:ringe_portcullis, from: room:crypt_ring_e, to: room:portcullis, kind: open}
+  - {id: link:ringe_ossuary, from: room:crypt_ring_e, to: room:ossuary, kind: open}
+  - {id: link:ossuary_ringw, from: room:ossuary, to: room:crypt_ring_w, kind: open}
+  - {id: link:ringw_barracks, from: room:crypt_ring_w, to: room:barracks, kind: door}
+  - {id: link:ringw_portcullis, from: room:crypt_ring_w, to: room:portcullis, kind: open}
+  - {id: link:portcullis_vault, from: room:portcullis, to: room:coffin_vault, kind: door, label: "portcullis: manacles",
+     opened_by: state:manacles}
+  - {id: link:ringw_embalming, from: room:crypt_ring_w, to: room:embalming, kind: door}
+  - {id: link:ringw_deep, from: room:crypt_ring_w, to: room:deep_stair, kind: open}
+  - {id: link:deep_crypt, from: room:deep_stair, to: room:deep_crypt, kind: stair}
+  - {id: link:crypt_bonepit, from: room:deep_crypt, to: room:bone_pit, kind: open}
+  - {id: link:bonepit_terror, from: room:bone_pit, to: room:terror_hall, kind: door}
+states:
+  - {id: state:stone, kind: item, where: "Newcastle, Ebenezer (M9)", what: "The Stone of a Thousand Terrors opens the tomb's door on X3.", opens: []}
+  - {id: state:manacles, kind: lever, where: room:chain_room, what: "Pull the manacles: the portcullis below rises ('Far below, iron grinds upward.').",
+     opens: [link:portcullis_vault]}
+  - {id: state:coffin_might, kind: puzzle, where: room:coffin_vault, what: "The great coffin wants Might (the source's 'not strong enough'); a Might potion sits in the barracks chest.", opens: [], draw: false}
+exits:
+  - {id: exit:x3_tomb, space: room:door, at: [0, 0], kind: both, label: "X3: the tomb door",
+     neighbour: "Door on X3's tomb in the marsh woods; needs the Stone of a Thousand Terrors"}
+critical_path: [room:door, room:welcome, room:gallery, room:chain_room, room:gallery, room:east_mourning, room:cage_room, room:cage_pit,
+  room:crypt_ring_e, room:portcullis, room:coffin_vault]
+return_path: [room:coffin_vault, room:portcullis, room:crypt_ring_e, room:maiden_stair, room:maiden_niche, room:gallery, room:welcome, room:door]
+loops:
+  - {id: loop:upper, spaces: [room:welcome, room:gallery, room:chain_room, room:west_mourning], notes: "Round the chain room."}
+  - {id: loop:cage_maiden, spaces: [room:gallery, room:east_mourning, room:cage_room, room:cage_pit, room:crypt_ring_e, room:maiden_stair, room:maiden_niche], notes: "Down in the cage, up behind the maiden."}
+  - {id: loop:crypts, spaces: [room:crypt_ring_e, room:ossuary, room:crypt_ring_w, room:portcullis], notes: "Round the crypts."}
+lines:
+  - {text: "A plaque at the base of the statue reads: Welcome to the Tomb of a Thousand Terrors. Insanity is our fame, undead is our game.", ref: "aaze0080:0", where: room:welcome}
+  - {text: "Manacles / Cage / Iron Maiden / Stocks", ref: "aaze0080:11-13,25", where: "room:gallery and its rooms"}
+  - {text: "The coffin is empty.", ref: "aaze0080:1", where: room:west_mourning}
+  - {text: "You are not strong enough to open the coffin.", ref: "aaze0080:10", where: room:coffin_vault}
+  - {text: "King's Megacredit!", ref: "aaze0080:26", where: room:coffin_vault}
+  - {text: "Red Tomb Juice ... White Tomb Juice / The liquid is powerless.", ref: "aaze0080:2-9", where: room:embalming}
+  - {text: "Leave the Tomb of a Thousand Terrors?", ref: "aaze0080:24", where: room:door}
+open_questions:
+  - "The tomb is named for its Tomb Terrors, but the Spirits' C tier (Tomb Terror) is 40, over the band's 30. Leave them out, or place one at the hoard as an optional strong guard?"
+  - "Tomb juices: the source gives +5 permanent per colour (seven stats). Proposed +2 once per character, as XD-02's pools; A2 sets it."
+  - "Megacredits: proposed 5 here (Yak 6 + Tomb 5 + Golem 5 = 16 for the 15 needed). The source has 8. A3's call."
+  - "The cage as a lift (a moving cage with the party inside): the studio has lifts; check a lift can carry a cage model that rides with it."

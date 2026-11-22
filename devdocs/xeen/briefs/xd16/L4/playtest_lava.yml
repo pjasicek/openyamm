@@ -1,0 +1,151 @@
+# Playtest of the Volcano Cave's lava (XD-16, L4; written by output/studio_cal/xd16/tools/gen_tests.py): D-47 Q5. A
+# level-48 party (not immortal: the burn is measured) is set on the shore of each lava basin (console tp), walks into the
+# lava (it burns: every member set to 100 is under 100 a second later) and walks out by the basin's bank (the floor again, no more
+# burning): the lake's north reach, the lake under the causeway, both reaches of the river, the heart.
+id: xeen.xd16.l4.lava
+title: Volcano Cave (XD-16 L4), into every lava basin and out again
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_xd16.blv}
+  - play_lua: {source: "wait(2); close()"}
+  - note: "the lake (north reach)"
+  - console: {line: tp 4864 1400 8}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 4864, y: 1400, z: 0, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - walk_to: {x: 4864, y: 760, z: -128, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 4864, y: 760, radius: 160, z_min: -136, z_max: -120}}
+  - assert: {member_points: {member_index: 0, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 1, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 2, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 3, health_min: 1, health_max: 99}}
+  - walk_to: {x: 4864, y: 1400, z: 0, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - assert: {party_position: {x: 4864, y: 1400, radius: 120, z_min: -8, z_max: 8}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - play_lua: {source: "wait(3)"}
+  - assert: {member_points: {member_index: 0, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 1, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 2, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 3, health_min: 100, health_max: 100}}
+  - note: "the lake (west reach, below the causeway)"
+  - console: {line: tp 3250 600 8}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 3250, y: 600, z: 0, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - walk_to: {x: 3900, y: 400, z: -128, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 3900, y: 400, radius: 160, z_min: -136, z_max: -120}}
+  - assert: {member_points: {member_index: 0, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 1, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 2, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 3, health_min: 1, health_max: 99}}
+  - walk_to: {x: 3250, y: 600, z: 0, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - assert: {party_position: {x: 3250, y: 600, radius: 120, z_min: -8, z_max: 8}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - play_lua: {source: "wait(3)"}
+  - assert: {member_points: {member_index: 0, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 1, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 2, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 3, health_min: 100, health_max: 100}}
+  - note: "the river (north reach)"
+  - console: {line: tp 2000 -4800 -632}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 2000, y: -4800, z: -640, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - walk_to: {x: 2496, y: -4800, z: -768, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2496, y: -4800, radius: 160, z_min: -776, z_max: -760}}
+  - assert: {member_points: {member_index: 0, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 1, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 2, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 3, health_min: 1, health_max: 99}}
+  - walk_to: {x: 2900, y: -4800, z: -640, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - assert: {party_position: {x: 2900, y: -4800, radius: 120, z_min: -648, z_max: -632}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - play_lua: {source: "wait(3)"}
+  - assert: {member_points: {member_index: 0, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 1, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 2, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 3, health_min: 100, health_max: 100}}
+  - note: "the river (south reach)"
+  - console: {line: tp 2900 -5650 -632}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 2900, y: -5650, z: -640, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - walk_to: {x: 2496, y: -5650, z: -768, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 2496, y: -5650, radius: 160, z_min: -776, z_max: -760}}
+  - assert: {member_points: {member_index: 0, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 1, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 2, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 3, health_min: 1, health_max: 99}}
+  - walk_to: {x: 2000, y: -5650, z: -640, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - assert: {party_position: {x: 2000, y: -5650, radius: 120, z_min: -648, z_max: -632}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - play_lua: {source: "wait(3)"}
+  - assert: {member_points: {member_index: 0, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 1, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 2, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 3, health_min: 100, health_max: 100}}
+  - note: "the heart"
+  - console: {line: tp 3744 -14144 -1272}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: 3744, y: -14144, z: -1280, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - walk_to: {x: 4500, y: -14144, z: -1408, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {party_position: {x: 4500, y: -14144, radius: 160, z_min: -1416, z_max: -1400}}
+  - assert: {member_points: {member_index: 0, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 1, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 2, health_min: 1, health_max: 99}}
+  - assert: {member_points: {member_index: 3, health_min: 1, health_max: 99}}
+  - walk_to: {x: 4864, y: -12900, z: -1280, z_tolerance: 24, radius: 64, clear_hostiles: 6000, timeout_seconds: 40, close_dialogs: true}
+  - assert: {party_position: {x: 4864, y: -12900, radius: 120, z_min: -1288, z_max: -1272}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 100}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 100}
+  - play_lua: {source: "wait(3)"}
+  - assert: {member_points: {member_index: 0, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 1, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 2, health_min: 100, health_max: 100}}
+  - assert: {member_points: {member_index: 3, health_min: 100, health_max: 100}}

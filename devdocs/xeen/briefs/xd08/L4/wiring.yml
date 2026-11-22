@@ -1,0 +1,280 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "The tomb door grinds shut behind you. The air is cold and smells of old graves; from somewhere deep below comes a sound like laughter."
+    notes: "Say where the party is (a one-shot timer: a load event's window is not shown). A3 has no arrival hook for XD-08."
+  - id: evt:cage
+    preset: switch
+    source: mover:cage
+    title: Hanging cage
+    toggles: [mover:cage, door:gate_top, door:gate_bottom]
+    text: You pull the chain. The winch overhead groans and the cage moves.
+    notes: "link:cage_lift: ride the cage (D-4.4)."
+  - id: evt:call_bottom
+    preset: switch
+    source: switch:call_bottom
+    title: Call the cage
+    opens: [door:gate_bottom]
+    closes: [mover:cage, door:gate_top]
+    text: "The chain rattles: the cage comes down."
+  - id: evt:call_top
+    preset: switch
+    source: switch:call_top
+    title: Call the cage
+    opens: [mover:cage, door:gate_top]
+    closes: [door:gate_bottom]
+    text: "The chain rattles: the cage comes up."
+  - id: evt:chest_barracks
+    preset: chest
+    source: chest:barracks
+    title: Chest
+    effects:
+      - lua: "if not IsQBitSet(QBit(110761)) then SetQBit(QBit(110761)) evt.SetHeldItem(240, {bonus = 10}) evt.SetHeldItem(240, {bonus = 10}) evt.StatusText(\"Two flasks of red draught lie on top of the pay.\") end"
+    notes: "D-22.2: two Might Boosts of a fixed power 10 (+30 Might: any member reaches the great coffin's 30), once per game on the pay chest's first opening (map qbit pay_potions 110761); the chest holds no random Might Boost."
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_stocks
+    preset: chest
+    source: chest:stocks
+    title: Chest
+  - id: evt:chest_west_mourning
+    preset: chest
+    source: chest:west_mourning
+    title: Chest
+  - id: evt:coffin_w1
+    preset: text
+    source: platform:coffin_w1
+    title: Coffin
+    text: The coffin is empty.
+    window: true
+    notes: aaze0080:1.
+  - id: evt:coffin_w2
+    preset: text
+    source: platform:coffin_w2
+    title: Coffin
+    text: The coffin is empty.
+    window: true
+    notes: aaze0080:1.
+  - id: evt:door_barracks
+    preset: door
+    source: door:barracks
+    title: Barracks
+  - id: evt:door_chain
+    preset: door
+    source: door:chain
+    title: Door
+  - id: evt:door_eastm
+    preset: door
+    source: door:eastm
+    title: Door
+  - id: evt:door_embalming
+    preset: door
+    source: door:embalming
+    title: Door
+  - id: evt:door_terror
+    preset: door
+    source: door:terror
+    title: Great doors
+  - id: evt:door_westm
+    preset: door
+    source: door:westm
+    title: Door
+  - id: evt:exit_x3
+    preset: exit
+    source: exit:x3
+    title: Leave the Tomb of a Thousand Terrors
+    notes: "Out to X3 (installed): the original 'Leave the Tomb of a Thousand Terrors?' (aaze0080:24) as the hint; the game's window asks 'Do you wish to leave ...?'."
+  - id: evt:gate_bottom
+    preset: switch
+    source: door:gate_bottom
+    title: Cage gate
+    opens: [door:gate_bottom]
+    closes: [mover:cage, door:gate_top]
+    text: "The chain rattles: the cage comes down."
+  - id: evt:gate_top
+    preset: switch
+    source: door:gate_top
+    title: Cage gate
+    opens: [mover:cage, door:gate_top]
+    closes: [door:gate_bottom]
+    text: "The chain rattles: the cage comes up."
+    notes: The upper gate calls the cage like the button beside it (XD-04's hoist gate).
+  - id: evt:great_coffin
+    preset: chest
+    source: chest:great_coffin
+    title: Coffin
+    condition: {stat: {name: ActualMight, at_least: 30}}
+    effects:
+      - lua: "XeenQuests.hook(\"m10.tomb_vault\")"
+    else_effects:
+      - message: You are not strong enough to open the coffin.
+    notes: "D-4.5: the clicking member needs Might 30 (ActualMight: potions and spells count); A3's hook m10.tomb_vault (once): bit 111201, 2,500 xp and its words; the coffin holds the five Megacredits."
+  - id: evt:juice_blue
+    preset: script
+    source: platform:juice_blue
+    title: Blue Tomb Juice
+    condition: {not: {player_bit: 11271}}
+    effects:
+      - player_bit: 11271
+      - add:
+          var: BasePersonality
+          value: 2
+      - text: Blue Tomb Juice. +2 Personality (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:3 and :9; D-4.2: +2 Personality once per character (player bit 11271)."
+  - id: evt:juice_green
+    preset: script
+    source: platform:juice_green
+    title: Green Tomb Juice
+    condition: {not: {player_bit: 11273}}
+    effects:
+      - player_bit: 11273
+      - add:
+          var: BaseEndurance
+          value: 2
+      - text: Green Tomb Juice. +2 Endurance (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:5 and :9; D-4.2: +2 Endurance once per character (player bit 11273)."
+  - id: evt:juice_orange
+    preset: script
+    source: platform:juice_orange
+    title: Orange Tomb Juice
+    condition: {not: {player_bit: 11272}}
+    effects:
+      - player_bit: 11272
+      - add:
+          var: BaseIntellect
+          value: 2
+      - text: Orange Tomb Juice. +2 Intellect (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:4 and :9; D-4.2: +2 Intellect once per character (player bit 11272)."
+  - id: evt:juice_purple
+    preset: script
+    source: platform:juice_purple
+    title: Purple Tomb Juice
+    condition: {not: {player_bit: 11275}}
+    effects:
+      - player_bit: 11275
+      - add:
+          var: BaseSpeed
+          value: 2
+      - text: Purple Tomb Juice. +2 Speed (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:7 and :9; D-4.2: +2 Speed once per character (player bit 11275)."
+  - id: evt:juice_red
+    preset: script
+    source: platform:juice_red
+    title: Red Tomb Juice
+    condition: {not: {player_bit: 11270}}
+    effects:
+      - player_bit: 11270
+      - add:
+          var: BaseMight
+          value: 2
+      - text: Red Tomb Juice. +2 Might (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:2 and :9; D-4.2: +2 Might once per character (player bit 11270)."
+  - id: evt:juice_white
+    preset: script
+    source: platform:juice_white
+    title: White Tomb Juice
+    condition: {not: {player_bit: 11276}}
+    effects:
+      - player_bit: 11276
+      - add:
+          var: BaseLuck
+          value: 2
+      - text: White Tomb Juice. +2 Luck (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:8 and :9; D-4.2: +2 Luck once per character (player bit 11276)."
+  - id: evt:juice_yellow
+    preset: script
+    source: platform:juice_yellow
+    title: Yellow Tomb Juice
+    condition: {not: {player_bit: 11274}}
+    effects:
+      - player_bit: 11274
+      - add:
+          var: BaseAccuracy
+          value: 2
+      - text: Yellow Tomb Juice. +2 Accuracy (permanent).
+    else_effects:
+      - text: The liquid is powerless.
+    notes: "aaze0080:6 and :9; D-4.2: +2 Accuracy once per character (player bit 11274)."
+  - id: evt:maiden
+    preset: door
+    source: door:maiden
+    title: Iron Maiden
+    action: open
+    text: "The iron maiden swings open. Its back is no back at all: behind the spikes a stair goes down into the dark."
+    notes: "link:maiden_stair: the secret door (D-4)."
+  - id: evt:manacles
+    preset: switch
+    source: switch:manacles
+    title: Manacles
+    condition: {not: {qbit: manacles_pulled}}
+    opens: [door:portcullis]
+    sets: {qbit: manacles_pulled}
+    effects:
+      - shake:
+          strength: 0.4
+          seconds: 2
+    else_effects:
+      - text: "The manacles hang slack. Below, the portcullis stands open."
+    text: "You haul on the manacles and their chains run down into the floor. Far below, iron grinds upward."
+    notes: "state:manacles: the portcullis before the coffin vault (D-4)."
+  - id: evt:plaque_cage
+    preset: text
+    source: panel:plaque_cage
+    title: Plaque
+    text: "The plaque reads: Cage."
+    window: true
+    notes: "The source's plaques (aaze0080:11-13, 25)."
+  - id: evt:plaque_maiden
+    preset: text
+    source: panel:plaque_maiden
+    title: Plaque
+    text: "The plaque reads: Iron Maiden."
+    window: true
+    notes: "The source's plaques (aaze0080:11-13, 25)."
+  - id: evt:plaque_manacles
+    preset: text
+    source: panel:plaque_manacles
+    title: Plaque
+    text: "The plaque reads: Manacles."
+    window: true
+    notes: "The source's plaques (aaze0080:11-13, 25)."
+  - id: evt:plaque_stocks
+    preset: text
+    source: panel:plaque_stocks
+    title: Plaque
+    text: "The plaque reads: Stocks."
+    window: true
+    notes: "The source's plaques (aaze0080:11-13, 25)."
+  - id: evt:portcullis
+    preset: door
+    source: door:portcullis
+    title: Portcullis
+    condition: {qbit: manacles_pulled}
+    locked_text: The portcullis does not move. Its chains run up through the roof toward the tomb above.
+    action: open
+  - id: evt:welcome
+    preset: script
+    source: platform:statue
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m10.tomb_welcome\")"
+    notes: "A3's hook m10.tomb_welcome: the plaque's words (aaze0080:0)."

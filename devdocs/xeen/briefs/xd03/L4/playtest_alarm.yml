@@ -2,12 +2,12 @@
 # cart down, steps off and on again (it rides back up to the line's foot) and down once more; walks the cut, opens the
 # gallery door and lets the gong sentry live: about six seconds later he rings the gong himself (alarm_rung, the
 # barracks' doors and the back-stair door open); then it walks back to the landing, rides the cart up and leaves by the
-# Deep Line (the stand-in neighbour is Emerald Island).
+# Deep Line to XD-02's Deep Line station.
 # Nothing depends on chance: the sentry is never attacked (the party only stands on the gallery, immortal), the walks
 # back clear hostiles round the party.
 id: xeen.xd03.l4.alarm
 title: Deep Mine (XD-03 L4), the cart both ways, the sentry's alarm, the way back up the Deep Line
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -62,7 +62,7 @@ steps:
           error("the sentry did not ring the alarm: " .. door_state(3) .. door_state(4) .. door_state(2))
         end
   - assert: {state_dump_map_var: {index: 8, value: 1}}
-  - assert: {light: {key: 4, on: true}}
+  - assert: {light: {key: 40001, on: true}}
   # Back out through the cut to the landing (fighting what follows), up on the cart, and up the Deep Line.
   - walk_to: {x: 5300, y: 2752, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
   - walk_to: {x: 6272, y: 2752, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500}
@@ -77,6 +77,9 @@ steps:
   - walk_to: {x: 7420, y: 1088, z: 384, radius: 40, timeout_seconds: 30}
   - walk_to: {x: 8200, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
   - execute_event: {id: 25}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  - assert: {map: 7out01.odm}
+  # Up at XD-02's Deep Line station (rebase phase 0, 2026-11-20: was the stand-in Emerald Island, which asked first).
+  - assert: {map: xeen_xd02.blv}
+  - assert: {party_position: {x: 4480, y: 4620, radius: 128, z_min: -1230, z_max: -1200}}

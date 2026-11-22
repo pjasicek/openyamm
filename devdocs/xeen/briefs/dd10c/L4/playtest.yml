@@ -1,0 +1,175 @@
+# Playtest of the Gemstone Mines, north pocket (DD-10C, L4; lane A8, 2026-11-20): the loop through every mechanism and
+# Q-D7's refill (D-27: pick, pay, re-enter, full). Phase 5 (D-62): 20 monsters (Floating Eye 11570 x14, Terrible Eye
+# 11571 x4, Patrol 11610 x2), cleared on the walk; the cold nest's egg cases; the exit to D6 is playtest_exit.yml.
+# A level-48 party (Act V, party 48-51) comes in at the adit (the arrival window, once); nothing is dug yet. Through the adit's door, the lava gallery past the seam, the diamond cavern:
+# five diamond veins, one rock each (q-d7.dug set), a spent vein says so; the false vein explodes once (fire to every
+# member) and is spent after. The grotto's door, the dead miner's chest (treasure 5). Round the loop by the cold nest (its line) and the
+# collapse (the rubble), its door, back to the adit. Re-entered (out to D6 and back) unpaid: the veins stay spent. The God of Minerals is
+# paid in DD-10B (his hook's do-list played by an event script, as DD-10A's test: the scenario's event Lua has no
+# XeenQuests); re-entered: this pocket's veins are full again, refill_c is cleared (refill_a and refill_b stay for the
+# other pockets), a vein gives a rock again and sets dug; re-entered once more: no second refill.
+# A rock given while the hand is empty lands in the hand (as any GiveItem): the test stows it.
+# Played with --world xeen --map xeen_dd10c.blv (output/studio_cal/dd10c/four.sh). Numbers are ids.lock.yml's: events
+# 4-8 diamond veins, 13 the false vein, 17 the egg cases, 18 the exit, 15 the rubble, 3 the chest, 9-11 doors (doors 1 adit,
+# 2 collapse, 3 grotto); map variables 1-5 the veins, 6 false_vein.
+id: xeen.dd10c.l4.walk
+title: Gemstone Mines north pocket (DD-10C L4), the loop, five veins, the false vein, the chest, the refill
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd10c.blv
+      party:
+        gold: 12000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_dd10c.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 192, radius: 64, z_min: -8, z_max: 8}}
+  # D-62: 20 monsters, all hostile.
+  - assert: {actor_count: {monster_id: 11570, min: 14, max: 14}}
+  - assert: {actor_count: {monster_id: 11571, min: 4, max: 4}}
+  - assert: {actor_count: {monster_id: 11610, min: 2, max: 2}}
+  - assert: {actor_count: {hostile: false, max: 0}}
+  # Why the party is here: the arrival window, once (arrived_once 117240).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GEMSTONE MINES, NORTH POCKET"}}
+  - play_lua: {source: "close(); if not qbit(117240) then error('arrived_once not set') end"}
+  - play_lua: {source: "if qbit(113144) or qbit(113143) then error('q-d7.dug or refill_c set at the start') end"}
+  # The adit's door, the lava gallery (past the seam in its south bay), the diamond cavern.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 1)"}
+  - walk_to: {x: 0, y: 1250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1100, y: 1400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2000, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {party_health: {full: true}}
+  - walk_to: {x: 3300, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Five diamond veins, one rock each; the spent line.
+  - play_lua:
+      source: |
+        for _, e in ipairs({4, 5, 6, 7, 8}) do click(e); wait(0.3); if held() ~= 0 then stow() end end
+        if item_count(12360) ~= 5 then error("five diamond veins gave " .. item_count(12360) .. " rocks") end
+        if not qbit(113144) then error("q-d7.dug not set by a diamond vein") end
+        for v = 1, 5 do if mapvar(v) ~= 1 then error("diamond vein variable " .. v .. " is " .. mapvar(v)) end end
+        click(6); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("no spent line: " .. status()) end
+        if item_count(12360) ~= 5 then error("a spent vein gave a rock") end
+  # The false vein by the lava: "A gem exploded!", fire to every member, once.
+  - walk_to: {x: 2600, y: 1950, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {party_health: {full: true}}
+  - setup_shortcut: {kind: immortal, value: false}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, text_contains: "A gem exploded!"}}
+  - play_lua: {source: "close(); if mapvar(6) ~= 1 then error('false_vein not set') end"}
+  - assert: {party_health: {full: false}}
+  - assert: {member_points: {member_index: 3, health_min: 1}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua:
+      source: |
+        click(13); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("the false vein exploded twice: " .. status()) end
+        if item_count(12360) ~= 5 then error("the false vein gave a rock") end
+  # The crystal grotto: its door, the dead miner's chest.
+  - walk_to: {x: 3300, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4280, y: 1344, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 3)"}
+  - walk_to: {x: 4950, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(3); close(); if held() ~= 0 then stow() end
+        if gold() < g + 1500 then error("the dead miner's chest did not hold its 1,500 gold") end
+  # Round the loop: the nest, the collapse (the rubble), its door, the lava gallery, the adit.
+  - walk_to: {x: 4250, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3600, y: 2000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3072, y: 2200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3072, y: 2600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2400, y: 2700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The cold nest (D-62 Q49): the egg cases' line.
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(17); wait(0.5)
+        if not string.find(status(), "Split and cold", 1, true) then error("the egg cases said nothing: " .. status()) end
+  - walk_to: {x: 1700, y: 2550, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1000, y: 2528, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 560, y: 2250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(15); wait(0.5)
+        if not string.find(status(), "Rubble from a fallen roof", 1, true) then error("the rubble said nothing: " .. status()) end
+  - walk_to: {x: 320, y: 2000, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 2)"}
+  - walk_to: {x: 320, y: 1450, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 1150, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 6000}
+  # Re-entered before the God is paid: the veins stay spent.
+  # Out by the adit to D6 (the leave event ends the visit), then back in.
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - load_map: {map: xeen_dd10c.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {map: xeen_dd10c.blv}
+  - play_lua:
+      source: |
+        close()
+        for v = 1, 5 do if mapvar(v) ~= 1 then error("vein variable " .. v .. " reset without a payment") end end
+        click(4); wait(0.3); if held() ~= 0 then stow() end
+        if item_count(12360) ~= 5 then error("a vein refilled without a payment") end
+  # The God of Minerals is paid in DD-10B (dug is set): its hook's do-list (A3's q-d7.god_of_minerals: 10,000 gold, the
+  # three refill bits, dug cleared) is played here by an event script; the scenario's event Lua has no XeenQuests.
+  - lua_event: {source: "if IsQBitSet(QBit(113144)) and IsAtLeast(Gold, 10000) then SubtractValue(Gold, 10000); SetQBit(QBit(113141)); SetQBit(QBit(113142)); SetQBit(QBit(113143)); ClearQBit(QBit(113144)) end"}
+  - play_lua:
+      source: |
+        close()
+        for _, b in ipairs({113141, 113142, 113143}) do if not qbit(b) then error("refill bit " .. b .. " not set") end end
+        if qbit(113144) then error("dug not cleared by the payment") end
+        for v = 1, 5 do if mapvar(v) ~= 1 then error("a vein refilled before the pocket was re-entered") end end
+  # Re-entered: this pocket refills (refill_c cleared; refill_a and refill_b stay for the other pockets).
+  # Out by the adit to D6 (the leave event ends the visit), then back in.
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - load_map: {map: xeen_dd10c.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {map: xeen_dd10c.blv}
+  - play_lua:
+      source: |
+        close()
+        for v = 1, 5 do if mapvar(v) ~= 0 then error("vein variable " .. v .. " not refilled: " .. mapvar(v)) end end
+        if qbit(113143) then error("refill_c not cleared on entry") end
+        if not qbit(113141) or not qbit(113142) then error("the other pockets' refill bits were cleared") end
+        if mapvar(6) ~= 1 then error("the false vein came back with the veins") end
+        click(4); wait(0.3); if held() ~= 0 then stow() end
+        if item_count(12360) ~= 6 then error("a refilled diamond vein gave no rock: " .. item_count(12360)) end
+        if not qbit(113144) then error("dug not set again by the refilled vein") end
+        click(4); wait(0.3); if held() ~= 0 then stow() end
+        if item_count(12360) ~= 6 then error("the refilled vein gave twice") end
+  # Re-entered once more: no second refill without a second payment.
+  # Out by the adit to D6 (the leave event ends the visit), then back in.
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - load_map: {map: xeen_dd10c.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if mapvar(1) ~= 1 then error("the picked vein refilled again without a payment") end
+        if mapvar(2) ~= 0 then error("an unpicked vein is spent") end

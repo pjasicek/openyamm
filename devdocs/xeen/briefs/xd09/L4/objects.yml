@@ -1,0 +1,1071 @@
+format: 0
+start:
+  room: room:entry
+  at: [384, -2176]
+  facing: 90
+  notes: "On the landing inside the tundra door, facing in (north)."
+doors:
+  - id: door:diamond
+    opening: open:entry_vstair
+    kind: slide_up
+    surface: {texture: gtempdor1, size: [128, 256]}
+    notes: "Home of the Diamond: the rune door (gtempdor1) by the entry; opens from the vault stair only."
+  - id: door:forge_lock
+    opening: open:forge_lock
+    kind: slide_up
+    surface: {texture: cvdor1, size: [128, 256]}
+  - id: door:iron
+    opening: open:hub_forge
+    kind: slide_up
+    surface: {texture: cvdor1, size: [128, 256]}
+    notes: "Home of the Iron: the forge's iron-bound door (cvdor1); opens when the six lamps over it burn."
+  - id: door:mason
+    opening: open:qe_mason
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    notes: "Stone City's double door (hdr1dl, hdr1dr): a hinged pair (the user's double-door rule, merge point 15)."
+  - id: door:stone
+    opening: open:hub_stone
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hdr1dl, size: [128, 256]}, {texture: hdr1dr, size: [128, 256]}]
+    notes: "Home of the Stone: Stone City's double door (hdr1dl, hdr1dr, a hinged pair); opened by touching the statue once the four boughs are cut."
+  - id: door:vault
+    opening: open:dhall_vault
+    kind: slide_up
+    surface: {texture: gtempdor1, size: [128, 256]}
+    notes: "The vault door: rises when the Diamond Golem falls."
+  - id: door:wood
+    opening: open:hub_trunk
+    kind: slide_up
+    surface: {texture: d2smldor, size: [128, 256]}
+    notes: "Home of the Wood: the fortress's plank door (d2smldor); opens."
+movers:
+  - id: mover:block_11
+    room: room:quarry
+    at: [-896, 3904]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 11 (row 1 from the south, column 1 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:block_12
+    room: room:quarry
+    at: [-128, 3904]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 12 (row 1 from the south, column 2 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:block_13
+    room: room:quarry
+    at: [640, 3904]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 13 (row 1 from the south, column 3 from the west): pushed, it slides 256 east into its recess and stays. Bare stone under it."
+  - id: mover:block_21
+    room: room:quarry
+    at: [-896, 4416]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 21 (row 2 from the south, column 1 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:block_22
+    room: room:quarry
+    at: [-128, 4416]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 22 (row 2 from the south, column 2 from the west): pushed, it slides 256 east into its recess and stays. Bare stone under it."
+  - id: mover:block_23
+    room: room:quarry
+    at: [640, 4416]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 23 (row 2 from the south, column 3 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:block_31
+    room: room:quarry
+    at: [-896, 4928]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 31 (row 3 from the south, column 1 from the west): pushed, it slides 256 east into its recess and stays. Bare stone under it."
+  - id: mover:block_32
+    room: room:quarry
+    at: [-128, 4928]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 32 (row 3 from the south, column 2 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:block_33
+    room: room:quarry
+    at: [640, 4928]
+    size: [256, 256]
+    height: 192
+    travel: [256, 0, 0]
+    speed: 128
+    surface: {texture: cwb, size: [128, 256]}
+    top_surface: {texture: cwb1, size: [128, 256]}
+    notes: "Stone block 33 (row 3 from the south, column 3 from the west): pushed, it slides 256 east into its recess and stays. It hides a glowing rock."
+  - id: mover:bolt_e
+    room: room:lock_hall
+    at: [4496, 376]
+    size: [160, 96]
+    height: 72
+    travel: [128, 0, 0]
+    speed: 96
+    surface: {texture: xwiron, size: [128, 128], offset: [-8, 42]}
+    top_surface: {texture: xwiron, size: [128, 128], offset: [8, 90]}
+    end_surface: {texture: xwiron, size: [128, 128], offset: [4, 42]}
+    notes: "The east bolt (dark riveted iron, a band across its end); drawn back by the east tumbler's lever."
+  - id: mover:bolt_n
+    room: room:lock_hall
+    at: [4224, 1040]
+    size: [96, 160]
+    height: 72
+    travel: [0, 128, 0]
+    speed: 96
+    surface: {texture: xwiron, size: [128, 128], offset: [-8, 42]}
+    top_surface: {texture: xwiron, size: [128, 128], offset: [52, 14]}
+    end_surface: {texture: xwiron, size: [128, 128], offset: [4, 42]}
+    notes: "The north bolt (dark riveted iron, a band across its end), shot into the lock; drawn back 128 north by the north tumbler's lever (seen through its slot)."
+  - id: mover:bolt_s
+    room: room:lock_hall
+    at: [4224, -288]
+    size: [96, 160]
+    height: 72
+    travel: [0, -128, 0]
+    speed: 96
+    surface: {texture: xwiron, size: [128, 128], offset: [-8, 42]}
+    top_surface: {texture: xwiron, size: [128, 128], offset: [52, 38]}
+    end_surface: {texture: xwiron, size: [128, 128], offset: [4, 42]}
+    notes: "The south bolt (dark riveted iron, a band across its end); drawn back by the lever on the lock hall's south wall."
+  - id: mover:lid
+    room: room:lock_hall
+    at: [4224, 376]
+    size: [384, 1168]
+    floor_height: 0
+    height: 24
+    travel: [-512, 0, 0]
+    speed: 96
+    surface: {texture: xwiron, size: [128, 128], offset: [0, 54]}
+    top_surface: {texture: xwiron, size: [128, 128], offset: [52, 26]}
+    notes: "The great lock: a plate of dark riveted iron (xwiron) 384 by 1,168 lying over the stairwell; it slides 512 west when the Iron Key turns with the three bolts drawn."
+plates:
+  - id: plate:rock_11
+    room: room:quarry
+    at: [-896, 3904]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+  - id: plate:rock_12
+    room: room:quarry
+    at: [-128, 3904]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+  - id: plate:rock_21
+    room: room:quarry
+    at: [-896, 4416]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+  - id: plate:rock_23
+    room: room:quarry
+    at: [640, 4416]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+  - id: plate:rock_32
+    room: room:quarry
+    at: [-128, 4928]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+  - id: plate:rock_33
+    room: room:quarry
+    at: [640, 4928]
+    size: [192, 192]
+    surface: {texture: vlcwl1, size: [128, 256], scale: 1.5}
+    notes: A glowing rock under the block (veined rock vlcwl1).
+floors: []
+sounds:
+  - {id: sound:forge, room: room:forge, at: [1792, 960], sound: raging fire loop, radius: 1800, inner_radius: 500, volume: 0.5, notes: The forge's fire.}
+  - {id: sound:furnace, room: room:furnace, at: [2560, 1700], sound: raging fire loop, radius: 1100, inner_radius: 300, volume: 0.4}
+  - {id: sound:heart_drip, room: room:heartwood, at: [-6944, 0], sound: drip03, radius: 1000, volume: 0.4, wait: [5, 12]}
+  - {id: sound:lock_forge, room: room:lock_hall, at: [5136, -704], sound: raging fire loop, radius: 1300, inner_radius: 400, volume: 0.4, notes: The golem forge's coals.}
+  - {id: sound:quarry_drip, room: room:quarry, at: [0, 4416], sound: drip02, radius: 1800, volume: 0.5, wait: [4, 10], notes: Water dripping in the quarry.}
+lights:
+  - id: light:bolt_e
+    room: room:lock_hall
+    at: [4640, 376]
+    height: 160
+    radius: 600
+    color: [255, 160, 90]
+  - id: light:bolt_n
+    room: room:lock_hall
+    at: [4224, 1150]
+    height: 160
+    radius: 600
+    color: [255, 160, 90]
+  - id: light:bolt_s
+    room: room:lock_hall
+    at: [4224, -420]
+    height: 160
+    radius: 600
+    color: [255, 160, 90]
+  - id: light:diamond
+    room: room:diamond_hall
+    at: [4224, -2080]
+    height: 600
+    radius: 1800
+    color: [170, 220, 255]
+    notes: The diamond hall's cold glow.
+  - id: light:field_e
+    room: room:quarry
+    at: [640, 4416]
+    height: 900
+    radius: 1700
+    color: [255, 220, 170]
+  - id: light:field_w
+    room: room:quarry
+    at: [-640, 4416]
+    height: 900
+    radius: 1700
+    color: [255, 220, 170]
+  - id: light:forge_glow
+    room: room:forge
+    at: [2240, 448]
+    height: 360
+    radius: 1700
+    color: [255, 140, 70]
+    pulse: {intensity: [0.75, 1], frequency: 0.5}
+    notes: "D-89: the forge's red glow over the anvils (6d18)."
+  - id: light:furnace
+    room: room:furnace
+    at: [2560, 1700]
+    height: 160
+    radius: 900
+    color: [255, 110, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.5}
+  - id: light:heart
+    room: room:heartwood
+    at: [-6944, 0]
+    height: 300
+    radius: 700
+    color: [190, 255, 150]
+    pulse: {intensity: [0.6, 1], frequency: 0.3}
+    notes: A green glow in the tree's heart.
+  - id: light:hearth
+    room: room:forge
+    at: [1792, 980]
+    height: 220
+    radius: 1400
+    color: [255, 120, 50]
+    pulse: {intensity: [0.7, 1], frequency: 0.7}
+    notes: The forge's coals.
+  - id: light:lamp_1
+    room: room:hub
+    at: [1216, -16]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 1 over the Iron door, dark until its rock is bared."
+  - id: light:lamp_2
+    room: room:hub
+    at: [1216, 144]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 2 over the Iron door, dark until its rock is bared."
+  - id: light:lamp_3
+    room: room:hub
+    at: [1216, 304]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 3 over the Iron door, dark until its rock is bared."
+  - id: light:lamp_4
+    room: room:hub
+    at: [1216, 464]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 4 over the Iron door, dark until its rock is bared."
+  - id: light:lamp_5
+    room: room:hub
+    at: [1216, 624]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 5 over the Iron door, dark until its rock is bared."
+  - id: light:lamp_6
+    room: room:hub
+    at: [1216, 784]
+    height: 576
+    radius: 700
+    color: [255, 140, 60]
+    on: false
+    notes: "Lamp 6 over the Iron door, dark until its rock is bared."
+  - id: light:lever_e
+    room: room:tumbler_e
+    at: [5450, 96]
+    height: 220
+    radius: 520
+    color: [255, 150, 80]
+  - id: light:lever_n
+    room: room:tumbler_n
+    at: [4000, 1480]
+    height: 220
+    radius: 520
+    color: [255, 150, 80]
+  - id: light:lever_s
+    room: room:lock_hall
+    at: [4224, -880]
+    height: 220
+    radius: 520
+    color: [255, 150, 80]
+    notes: A glow on tumbler lever 2's plate.
+  - id: light:lock
+    room: room:lock_hall
+    at: [4224, 376]
+    height: 640
+    radius: 1500
+    color: [255, 170, 110]
+    notes: Light over the great lock (the room's torches gathered).
+  - id: light:lock_forge
+    room: room:lock_hall
+    at: [5040, -704]
+    height: 200
+    radius: 1300
+    color: [255, 120, 50]
+    pulse: {intensity: [0.7, 1], frequency: 0.6}
+    notes: The golem forge's coals in the lock hall.
+  - id: light:rock_11
+    room: room:quarry
+    at: [-896, 3904]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:rock_12
+    room: room:quarry
+    at: [-128, 3904]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:rock_21
+    room: room:quarry
+    at: [-896, 4416]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:rock_23
+    room: room:quarry
+    at: [640, 4416]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:rock_32
+    room: room:quarry
+    at: [-128, 4928]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:rock_33
+    room: room:quarry
+    at: [640, 4928]
+    height: 64
+    radius: 640
+    color: [255, 150, 60]
+    pulse: {intensity: [0.7, 1], frequency: 0.4}
+    on: false
+    notes: The bared rock's glow.
+  - id: light:statue
+    room: room:hub
+    at: [0, 0]
+    height: 520
+    radius: 1200
+    color: [200, 210, 255]
+    notes: A cold light on the statue.
+  - id: light:vault
+    room: room:diamond_vault
+    at: [2880, -1632]
+    height: 320
+    radius: 800
+    color: [190, 230, 255]
+switches:
+  - id: switch:lever_e
+    room: room:tumbler_e
+    kind: lever
+    reach: 48
+    at: [5312, 96]
+    notes: "Tumbler lever 3 (east tumbler, west wall): two-way; the east bolt, seen through the slot."
+  - id: switch:lever_n
+    room: room:tumbler_n
+    kind: lever
+    reach: 48
+    at: [4000, 1344]
+    notes: "Tumbler lever 1 (north tumbler): two-way; it draws or shoots the north bolt, seen through the slot beside it."
+  - id: switch:lever_s
+    room: room:lock_hall
+    kind: lever
+    reach: 48
+    at: [4224, -1024]
+    notes: "Tumbler lever 2 (lock hall, south wall): two-way; the south bolt."
+chests:
+  - id: chest:forge
+    room: room:forge
+    at: [1472, 1152]
+    kind: ch3
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    items: [iron_key]
+    notes: "The forge chest: the Iron Key and two rolls of level 3."
+  - id: chest:heart
+    room: room:heartwood
+    at: [-7296, 0]
+    kind: ch3
+    facing: n
+    treasure_level: 3
+    random_items: 3
+    notes: The seed chest in the tree's heart.
+  - id: chest:mason
+    room: room:mason
+    at: [2816, 4480]
+    kind: 7gt002
+    facing: n
+    treasure_level: 3
+    random_items: 3
+    gold: 600
+    notes: The masons' chest (Stone City's chest).
+  - id: chest:vault
+    room: room:diamond_vault
+    at: [2880, -1248]
+    kind: 7gt002
+    facing: s
+    treasure_level: 4
+    random_items: 4
+    gold: 3000
+    items: [megacredit, megacredit, megacredit, megacredit, megacredit]
+    notes: "The vault chest: five King's Megacredits (m10.golem_vault's map_gives) and a level-4 hoard."
+spawns:
+  - id: spawn:canopy_n
+    room: room:canopy_n
+    at: [-4288, 1408]
+    slot: 1
+    tier: a
+    radius: 64
+    group: 51
+  - id: spawn:crown_n
+    room: room:crown
+    at: [-5248, 512]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:crown_s
+    room: room:crown
+    at: [-5248, -512]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:field_1
+    room: room:quarry
+    at: [-384, 3648]
+    slot: 1
+    tier: b
+    radius: 64
+    group: 51
+  - id: spawn:field_2
+    room: room:quarry
+    at: [384, 4672]
+    slot: 1
+    tier: b
+    radius: 64
+    group: 51
+  - id: spawn:field_3
+    room: room:quarry
+    at: [-1152, 5120]
+    slot: 1
+    tier: b
+    radius: 64
+    group: 51
+  - id: spawn:forge
+    room: room:forge
+    at: [2240, -256]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:furnace
+    room: room:furnace
+    at: [3072, 1920]
+    slot: 1
+    tier: c
+    radius: 64
+    group: 51
+  - id: spawn:heart
+    room: room:heartwood
+    at: [-6784, -128]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:hn_1
+    room: room:branch_hn
+    at: [-5888, 1472]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:hn_2
+    room: room:branch_hn
+    at: [-5376, 1600]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:hs_1
+    room: room:branch_hs
+    at: [-5888, -1472]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:hs_2
+    room: room:branch_hs
+    at: [-5376, -1600]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:hub
+    room: room:hub
+    at: [-640, 0]
+    slot: 1
+    tier: a
+    group: 51
+    notes: Wood golems standing guard in the hall.
+  - id: spawn:landing
+    room: room:quarry_s
+    at: [1024, 3200]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:ln_1
+    room: room:branch_ln
+    at: [-3200, 1088]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:ln_2
+    room: room:branch_ln
+    at: [-2688, 1216]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:lock
+    room: room:lock_hall
+    at: [3584, 768]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:ls_1
+    room: room:branch_ls
+    at: [-3200, -1088]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:ls_2
+    room: room:branch_ls
+    at: [-2688, -1216]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:mason_1
+    room: room:mason
+    at: [2176, 4608]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:mason_2
+    room: room:mason
+    at: [2688, 4864]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:qe_1
+    room: room:quarry_e
+    at: [1600, 3968]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:qe_2
+    room: room:quarry_e
+    at: [1600, 4864]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:qw_1
+    room: room:quarry_w
+    at: [-1600, 3968]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:qw_2
+    room: room:quarry_w
+    at: [-1600, 4864]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:stone_stair
+    room: room:stone_stair
+    at: [384, 2560]
+    slot: 1
+    tier: b
+    radius: 96
+    group: 51
+  - id: spawn:trunk_e
+    room: room:trunk
+    at: [-2944, 0]
+    slot: 1
+    tier: a
+    group: 51
+  - id: spawn:trunk_w
+    room: room:trunk
+    at: [-4480, 0]
+    slot: 1
+    tier: a
+    group: 51
+monsters:
+  - id: monster:diamond
+    room: room:diamond_hall
+    monster: 11583
+    at: [4224, -2496]
+    facing: 90
+    hostile: true
+    group: 2
+    notes: "The Diamond Golem: the world's boss row 11583 (level 50, 1,200 hit points); its death opens the vault."
+  - id: monster:iron_guard
+    room: room:diamond_hall
+    monster: 11582
+    at: [3712, -1408]
+    facing: 0
+    hostile: true
+    group: 2
+    notes: An Iron Golem at the vault door.
+decorations:
+  - id: deco:crys_1
+    room: room:diamond_hall
+    decoration: crclstr
+    at: [3456, -2944]
+  - id: deco:crys_2
+    room: room:diamond_hall
+    decoration: crys5
+    at: [4992, -2944]
+  - id: deco:crys_3
+    room: room:diamond_hall
+    decoration: crclstr
+    at: [4992, -1216]
+  - id: deco:forge_brazier
+    room: room:lock_hall
+    decoration: brzier00
+    at: [5152, -320]
+    height: 748
+    hangs: true
+    notes: "A lit brazier hung on its chains over the hearth's north end, by the east wall."
+  - id: deco:forge_fire
+    room: room:forge
+    decoration: ckfyr00
+    at: [1792, 1120]
+    floor_height: 96
+    notes: "D-89: the fire on the forge's coals, under the hood."
+  - id: deco:forge_pot
+    room: room:lock_hall
+    decoration: cauld00
+    at: [5136, -704]
+    floor_height: 96
+    notes: The golem forge's casting pot on the hearth's coals (MM6's bubbling cauldron).
+  - id: deco:mason_rock
+    room: room:mason
+    decoration: 6rock02
+    at: [2816, 4864]
+  - id: deco:mason_rock_2
+    room: room:mason
+    decoration: 6rock04
+    at: [2816, 5248]
+  - id: deco:statue
+    room: room:hub
+    decoration: 7dec54
+    at: [0, 0]
+    floor_height: 160
+    facing: 270
+    notes: "The statue over the plaque (MM7's large statue: the golem-maker); clicked, it runs the plaque's event."
+  - id: deco:torch_1
+    room: room:hub
+    decoration: torch01
+    wall: north
+    along: 0.1
+  - id: deco:torch_10
+    room: room:trunk
+    decoration: torch01
+    wall: north
+    along: 0.1
+  - id: deco:torch_11
+    room: room:trunk
+    decoration: torch01
+    wall: north
+    along: 0.6
+  - id: deco:torch_12
+    room: room:trunk
+    decoration: torch01
+    wall: south
+    along: 0.1
+  - id: deco:torch_13
+    room: room:trunk
+    decoration: torch01
+    wall: south
+    along: 0.6
+  - id: deco:torch_14
+    room: room:trunk
+    decoration: torch01
+    wall: north
+    along: 0.9
+  - id: deco:torch_15
+    room: room:trunk
+    decoration: torch01
+    wall: south
+    along: 0.9
+  - id: deco:torch_16
+    room: room:branch_ln
+    decoration: torch01
+    wall: west
+    along: 0.85
+  - id: deco:torch_17
+    room: room:branch_ln
+    decoration: torch01
+    wall: east
+    along: 0.5
+  - id: deco:torch_18
+    room: room:branch_ls
+    decoration: torch01
+    wall: west
+    along: 0.15
+  - id: deco:torch_19
+    room: room:branch_ls
+    decoration: torch01
+    wall: east
+    along: 0.5
+  - id: deco:torch_2
+    room: room:hub
+    decoration: torch01
+    wall: north
+    along: 0.9
+  - id: deco:torch_20
+    room: room:branch_hn
+    decoration: torch01
+    wall: west
+    along: 0.5
+  - id: deco:torch_21
+    room: room:branch_hn
+    decoration: torch01
+    wall: east
+    along: 0.75
+  - id: deco:torch_22
+    room: room:branch_hs
+    decoration: torch01
+    wall: west
+    along: 0.5
+  - id: deco:torch_23
+    room: room:branch_hs
+    decoration: torch01
+    wall: east
+    along: 0.25
+  - id: deco:torch_24
+    room: room:crown
+    decoration: torch01
+    wall: west
+    along: 0.2
+  - id: deco:torch_25
+    room: room:crown
+    decoration: torch01
+    wall: west
+    along: 0.8
+  - id: deco:torch_26
+    room: room:crown
+    decoration: torch01
+    wall: north
+    along: 0.85
+  - id: deco:torch_27
+    room: room:crown
+    decoration: torch01
+    wall: south
+    along: 0.15
+  - id: deco:torch_28
+    room: room:heartwood
+    decoration: torch01
+    wall: north
+    along: 0.5
+  - id: deco:torch_29
+    room: room:heartwood
+    decoration: torch01
+    wall: south
+    along: 0.5
+  - id: deco:torch_3
+    room: room:hub
+    decoration: torch01
+    wall: south
+    along: 0.1
+  - id: deco:torch_30
+    room: room:stone_stair
+    decoration: torch01
+    wall: west
+    along: 0.3
+    height: 486
+  - id: deco:torch_31
+    room: room:stone_stair
+    decoration: torch01
+    wall: east
+    along: 0.7
+    height: 486
+  - id: deco:torch_32
+    room: room:quarry_s
+    decoration: torch01
+    wall: south
+    along: 0.1
+  - id: deco:torch_33
+    room: room:quarry_s
+    decoration: torch01
+    wall: south
+    along: 0.9
+  - id: deco:torch_34
+    room: room:quarry_s
+    decoration: torch01
+    wall: south
+    along: 0.25
+  - id: deco:torch_35
+    room: room:quarry_w
+    decoration: torch01
+    wall: west
+    along: 0.2
+  - id: deco:torch_36
+    room: room:quarry_w
+    decoration: torch01
+    wall: west
+    along: 0.5
+  - id: deco:torch_37
+    room: room:quarry_w
+    decoration: torch01
+    wall: west
+    along: 0.8
+  - id: deco:torch_38
+    room: room:quarry_e
+    decoration: torch01
+    wall: east
+    along: 0.2
+  - id: deco:torch_39
+    room: room:quarry_e
+    decoration: torch01
+    wall: east
+    along: 0.8
+  - id: deco:torch_4
+    room: room:hub
+    decoration: torch01
+    wall: south
+    along: 0.9
+  - id: deco:torch_40
+    room: room:quarry
+    decoration: torch01
+    wall: south
+    along: 0.1
+  - id: deco:torch_41
+    room: room:quarry
+    decoration: torch01
+    wall: south
+    along: 0.9
+  - id: deco:torch_42
+    room: room:quarry
+    decoration: torch01
+    wall: north
+    along: 0.5
+  - id: deco:torch_43
+    room: room:mason
+    decoration: torch01
+    wall: south
+    along: 0.5
+  - id: deco:torch_44
+    room: room:mason
+    decoration: torch01
+    wall: east
+    along: 0.5
+  - id: deco:torch_45
+    room: room:forge
+    decoration: torch01
+    wall: south
+    along: 0.2
+  - id: deco:torch_46
+    room: room:forge
+    decoration: torch01
+    wall: south
+    along: 0.8
+  - id: deco:torch_47
+    room: room:forge
+    decoration: torch01
+    wall: west
+    along: 0.15
+  - id: deco:torch_48
+    room: room:lock_hall
+    decoration: torch01
+    wall: west
+    along: 0.6
+  - id: deco:torch_49
+    room: room:lock_hall
+    decoration: torch01
+    wall: west
+    along: 0.2
+  - id: deco:torch_5
+    room: room:hub
+    decoration: torch01
+    wall: west
+    along: 0.2
+  - id: deco:torch_50
+    room: room:lock_hall
+    decoration: torch01
+    wall: east
+    along: 0.85
+  - id: deco:torch_51
+    room: room:lock_hall
+    decoration: torch01
+    wall: south
+    along: 0.2
+  - id: deco:torch_52
+    room: room:lock_hall
+    decoration: torch01
+    wall: south
+    along: 0.8
+  - id: deco:torch_53
+    room: room:lock_hall
+    decoration: torch01
+    wall: north
+    along: 0.85
+  - id: deco:torch_54
+    room: room:lock_hall
+    decoration: torch01
+    wall: north
+    along: 0.1
+  - id: deco:torch_55
+    room: room:tumbler_n
+    decoration: torch01
+    wall: north
+    along: 0.25
+  - id: deco:torch_56
+    room: room:tumbler_n
+    decoration: torch01
+    wall: north
+    along: 0.75
+  - id: deco:torch_57
+    room: room:tumbler_n
+    decoration: torch01
+    wall: east
+    along: 0.5
+  - id: deco:torch_58
+    room: room:tumbler_e
+    decoration: torch01
+    wall: east
+    along: 0.25
+  - id: deco:torch_59
+    room: room:tumbler_e
+    decoration: torch01
+    wall: east
+    along: 0.75
+  - id: deco:torch_6
+    room: room:hub
+    decoration: torch01
+    wall: west
+    along: 0.8
+  - id: deco:torch_60
+    room: room:tumbler_e
+    decoration: torch01
+    wall: north
+    along: 0.5
+  - id: deco:torch_7
+    room: room:hub
+    decoration: torch01
+    wall: east
+    along: 0.15
+  - id: deco:torch_8
+    room: room:entry
+    decoration: torch01
+    wall: west
+    along: 0.3
+  - id: deco:torch_9
+    room: room:entry
+    decoration: torch01
+    wall: east
+    along: 0.25
+    height: 320
+exits:
+  - id: exit:x5
+    room: room:entry
+    wall: south
+    floor_height: 192
+    size: [224, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: door:x5
+    notes: "The stone door to Winterkill Tundra (X5) on the landing: out to the Golem Rocks' slab door."
+destructibles:
+  - {id: destructible:bough_hn, of: platform:bough_hn, hp: 30, material: wood, sound: Events/shatterwood02.wav, effect_scale: 1.5, on_destroyed: evt:bough_hn_cut, notes: "A living bough: blows, missiles or a click (a cut) break it; its breaking counts on the plaque."}
+  - {id: destructible:bough_hs, of: platform:bough_hs, hp: 30, material: wood, sound: Events/shatterwood02.wav, effect_scale: 1.5, on_destroyed: evt:bough_hs_cut, notes: "A living bough: blows, missiles or a click (a cut) break it; its breaking counts on the plaque."}
+  - {id: destructible:bough_ln, of: platform:bough_ln, hp: 30, material: wood, sound: Events/shatterwood02.wav, effect_scale: 1.5, on_destroyed: evt:bough_ln_cut, notes: "A living bough: blows, missiles or a click (a cut) break it; its breaking counts on the plaque."}
+  - {id: destructible:bough_ls, of: platform:bough_ls, hp: 30, material: wood, sound: Events/shatterwood02.wav, effect_scale: 1.5, on_destroyed: evt:bough_ls_cut, notes: "A living bough: blows, missiles or a click (a cut) break it; its breaking counts on the plaque."}

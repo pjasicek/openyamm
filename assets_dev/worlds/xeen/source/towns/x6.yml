@@ -1,0 +1,73 @@
+# X6 Desert of the Sphinx (Act IV, a wilderness map; MAPS X6, WORLD_DESIGN 3.3 and 5.1). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5's L4 project `devdocs/xeen/briefs/x6/L4`, installed 2026-11-20 19:40): every door as drawn (its DOORS.md);
+# the arrivals are A5's points, Z the installed terrain.
+# Sphinx Wells, the hamlet (WORLD_DESIGN 5.1 "Hamlets"; MAPS X6 "a caravan stop (tavern, stables)"): a caravan stop at
+#   the desert's wells with a tavern, the caravan yard and two houses. Its caravans run to Asp's Travel Pit and to
+#   Rivercity (routes 427, 428); Asp's Travel Pit runs one back (431, x4.yml).
+# The Warzone coach (WORLD_DESIGN 3.3, the arena XD-20, A7): Rivercity's stables (406) and Castleview's (415) send a
+#   coach once a week to the yard by the Warzone's gate (arrival warzone_coach); its coachman takes the party back,
+#   once a week to each (429, 430). The coach to Castleview, a way between the faces, waits for the Pyramid Sigil
+#   (m7.sigil) like the pyramids (D-8). The coach yard is a walled pocket holding only the arena gate (XD-20) and Gorm's
+#   coach house; its desert gate is barred from inside until opened from the desert side (A3's x6.warzone_gate, qbit
+#   116100), so a party that comes by coach leaves by the arena or by coach.
+# The Summer Druid and Saul (Q-C1, Saul's Meditation Master) stand outdoors.
+key: X6
+stem: xeen_x6.odm
+town: Desert of the Sphinx
+face: cloudside
+blocks:
+  houses: [4301, 4350]
+  npcs: [4601, 4700]
+
+arrivals:
+  sphinx_wells: {at: [-512, 1536, 1248], direction: 1024, note: "Sphinx Wells' street before the caravans' shed (the hamlet's stables; Asp's and Rivercity's caravans set down here)"}
+  warzone_coach: {at: [11264, -16384, 1504], direction: 1024, note: "inside the coach yard by the Warzone's gate (D-8): a walled pocket with only the arena gate (XD-20) and Gorm's coach house (4305); its desert gate is barred from inside until opened from the desert side (x6.warzone_gate, 116100, A3); no spawns inside, the coach lands parties of any level here (A5)"}
+
+houses:
+  # ---- Sphinx Wells, the caravan stop ----
+  - {id: 4301, door: building:x6_tavern, town: Sphinx Wells, was: 248, kind: tavern, name: The Last Waterskin, owner: 4603}
+  - id: 4302
+    door: building:x6_stables
+    town: Sphinx Wells
+    was: 465
+    kind: stables
+    name: Sphinx Wells Caravans
+    owner: 4604
+    routes:
+      - {id: 427, to: asp_travel_pit, days: [mon, fri], travel_days: 2}
+      - {id: 428, to: rivercity_stables, days: [wed], travel_days: 4}
+  - {id: 4303, door: "building:x6_houses#1", town: Sphinx Wells, kind: residence, name: The Well Keeper's House, residents: [4606]}
+  - {id: 4304, door: "building:x6_houses#2", town: Sphinx Wells, kind: residence, name: The Saddle Loft, residents: [4607]}
+  # ---- the Warzone coach ----
+  - id: 4305
+    door: building:warzone_coach
+    town: The Warzone
+    was: 462
+    kind: stables
+    name: The Warzone Coach
+    owner: 4605
+    routes:
+      - {id: 429, to: rivercity_stables, days: [mon], travel_days: 4}
+      - {id: 430, to: castleview_stables, days: [tue], travel_days: 5, qbit: m7.sigil}
+
+npcs:
+  - {id: 4601, name: The Summer Druid, profession: Mystic, house: none, place: "X6, the Summer Druid's grove (A5)", greet: ["The sun is kind here, and nowhere else on Xeen.", "The flower?"]}
+  - {id: 4602, name: Saul, title: Hermit, profession: Mystic, house: none, place: "X6, his hermitage by the urn (A5)", teaches: [{skill: Meditation, mastery: master}], greet: ["Sit by the urn. Breathe. The sand will wait.", "Still breathing?"]}
+  - {id: 4603, name: Hadda, title: Keeper of the Last Waterskin, profession: Cook, greet: ["Water's free. The cup costs a gold. The shade costs two.", "Thirsty again?"]}
+  - {id: 4604, name: Oskar, title: Caravan Master, profession: Trader, greet: ["Camels to Asp, wagons to Rivercity. The sand comes along for free.", "Riding?"]}
+  - {id: 4605, name: Gorm, title: Coachman of the Warzone, profession: Horseman, greet: ["One coach a week to Rivercity. One to Castleview, if you hold the sigil. Same seats, fewer passengers.", "Still in one piece? Climb in."], gate_line: "The sand's no place for you yet. Arena or home.", note: "D-8: gate_line is what Gorm says at the barred desert gate before x6.warzone_gate is set (A3's gate event)"}
+  - {id: 4606, name: Old Ibb, title: Well Keeper, profession: Laborer, greet: ["The well is deeper than the Sphinx is tall. I've measured both.", "Water?"]}
+  - {id: 4607, name: Tansy, title: Saddler, profession: Tailor, greet: ["Saddles for camels. The camels have opinions about saddles.", "Mind the camel. He bites."]}
+  # ---- added in the fourth session for A3 (a talking actor; portrait batch 6) ----
+  - {id: 4608, name: Arie, title: Apprentice, profession: Apprentice, house: none, place: "X6, Arie's camp below Castle Basenji (A5)", greet: ["The wizards of Castle Basenji killed my master. His scroll is still in there.", "Did you find the scroll?"], note: "Q-C8, Q-C9's 'Its name is Golux' (A3)"}
+  # ---- added in the tenth session for A7's XD-20 (D-39 XD-20 Q3; a voice behind the booth windows; portrait batch 11) ----
+  - id: 4609
+    name: Varro
+    title: Arena Master
+    house: none
+    place: "XD-20 The Warzone (on X6's coach yard): no actor; the lodge's booth window and the war floor's booth window both call evt.SpeakNPC(4609) (A7)"
+    engine_topics: [704]
+    greet: ["You look like tough fighters. Would you like to participate in the War Games? The odds can be high but the thrill of victory is well worth the risk.", "If you didn't come to fight, you have no business being here! Pick your battle, or come back when you have the mettle to do battle for glory!"]
+    source: "xeen/aaze0085:0 (first greeting); xeen/aaze0085:1 adapted (later greetings, the decline line)"
+    note: "D-39 XD-20 Q3: the engine's arena topic 704 (Page, Squire, Knight, Lord; the reward when all are dead); the source's master is unnamed"

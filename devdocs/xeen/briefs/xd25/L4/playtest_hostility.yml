@@ -1,0 +1,48 @@
+# Hostility check of the Asp Undercroft (XD-25): its foes hostile to the party, the caged townsfolk peaceful, and no
+# fights among the map's kinds. After XD-21's (output/studio_cal/hostility/gen_hostility_tests.py's pattern). The snake
+# men are A2's rows (Snake Man 11500 and Snake Warrior 11501 from the slot's markers, the placed Snake Lords 11502),
+# hostile by the world's relations.yml; the townsfolk are engine peasants (358, 352, 355) placed peaceful, and the map's
+# own `relations` keep the snake men and the peasants apart both ways (they would otherwise not fight anyway, but the
+# map says it, as XD-04 does for its caged children).
+id: xeen.xd25.l4.hostility
+title: 'the Asp Undercroft (XD-25): foes hostile to the party, the townsfolk peaceful, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd25.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11500, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11501, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11502, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11500, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11501, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11502, hostile: true, min: 3}}
+  - assert: {actor_count: {monster_id: 358, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 352, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 355, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 358, hostile: false, min: 1}}
+  - note: 'The map''s kinds side by side on the stair, nearer each other than the party (a monster takes the nearest of its
+      foes): they must not take each other on, and the snake men go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11500, x: -1700, y: 1700, z: 64}
+  - spawn_actor: {monster_id: 11502, x: -1700, y: 1820, z: 64}
+  - spawn_actor: {monster_id: 11501, x: -1600, y: 1760, z: 64}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11500, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11501, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11502, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 358, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 352, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 355, hurt: true, max: 0}}

@@ -1,0 +1,54 @@
+# D6 The Forbidden Zone: Necropolis, the walled city of the dead (WORLD_DESIGN 5.2; MAPS D6). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A6's L4 project `devdocs/xeen/briefs/d6/L4`, installed 2026-11-21 01:22 with its bake): every door as drawn;
+# the arrival is A6's point (NOTES "Doors and arrivals"), Z on the Square of Mourning's paving (8 over the terrain). The living need a pass to pass
+# the gate (the Necropolis pass from the coven's chest, Q-D22: the gate is A3's hook and A6's event, not a house);
+# inside, every house is open. Services: the Dark guild, the temple of the dead (resurrection; cheaper Raise Dead), a
+# black-market magic shop, the embalmer (alchemist), a tavern for the dead and the mirror (waking with Kalindra's
+# stage 4, A3's helper). The Necromancers' House is the MMerge Necromancer line's promotion (A3, with Sandro, Q-D23);
+# Sandro himself is in the sewer (DD-21). The skull's story, the Books of the Dead and the "Food for the dead, keep
+# warm." barrel are the map's lines (A6, A3).
+# Teachers: Dagger, Dark Magic, Disarm Trap, Stealing and Vampire Grandmaster (place necropolis).
+# D-49: Necropolis runs `town_feel --small` (5 services: guild, temple, market, embalmer, tavern; the mirror is no
+# service); the gate opens on item 12336, refuses with A3's line, is always open from inside. No Freeda on D6 (she is
+# X5's 4527, Master Body Building).
+key: D6
+stem: xeen_d6.odm
+town: Necropolis
+face: darkside
+blocks:
+  houses: [4751, 4800]
+  npcs: [5501, 5600]
+
+arrivals:
+  necropolis_gate: {at: [13824, -6656, 1672], direction: 1536, note: "inside Necropolis' gate on the Square of Mourning, by the mirror (Town Portal; sketch cell 91, 77)"}
+
+houses:
+  - {id: 4751, door: building:np_guild, kind: dark_guild, name: Necropolis Guild, owner: 5501, guild: {spells: 11}, hours: [21, 6]}
+  - {id: 4752, door: building:np_temple, was: 315, kind: temple, name: Temple of the Dead, owner: 5502, price: 0.7}
+  - {id: 4753, door: building:np_market, was: 88, kind: magic_shop, name: The Grave Market, owner: 5503, shop: {quality: 4}, hours: [21, 6]}
+  - {id: 4754, door: building:np_embalmer, was: 120, kind: alchemist, name: The Embalmer, owner: 5504, shop: {quality: 6}}
+  - {id: 4755, door: building:np_tavern, kind: tavern, name: The Warm Barrel, owner: 5505, price: 30}
+  - {id: 4756, door: thing:np_mirror, kind: mirror, name: The Mirror of Necropolis, mirror: {face: darkside, town: Necropolis, arrival: necropolis_gate, qbit: 119011}}
+  - {id: 4757, door: building:np_houses#1, kind: residence, name: The Necromancers' House, residents: [5506]}
+  - {id: 4758, door: building:np_houses#2, kind: residence, name: Count Velkor's Crypt, residents: [5507]}
+  - {id: 4759, door: building:np_houses#3, kind: residence, name: The Quiet Tomb, residents: [5508]}
+  - {id: 4760, door: building:np_houses#4, kind: residence, name: The Trapsmith's Vault, residents: [5509]}
+  - {id: 4761, door: building:np_houses#5, kind: residence, name: The Gravedigger's, residents: [5510]}
+  - {id: 4762, door: building:np_houses#6, kind: residence, name: The Weeping Mausoleum, residents: [5511]}
+
+npcs:
+  - {id: 5501, name: Mordant the Pale, title: Master of the Necropolis Guild, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: grandmaster}], greet: ["Membership used to cost fifty thousand. Now it costs your attention. Pay it.", "You are still alive. Remarkable."]}
+  - {id: 5502, name: Mother Mortis, profession: Healer, greet: ["We raise the dead here at a discount. We have a great deal of practice.", "Feeling poorly? Feeling dead?"]}
+  - {id: 5503, name: Knell, title: Dealer in Grave Goods, profession: Merchant, teaches: [{skill: Stealing, mastery: grandmaster}], greet: ["Everything here was buried with someone who no longer needs it. I asked. Nobody objected.", "Nothing is stolen. It's re-homed."]}
+  - {id: 5504, name: Embalmer Vesk, profession: Alchemist, greet: ["Potions for the living, preserves for the rest. Don't mix them up. I did once.", "Something to keep?"]}
+  - {id: 5505, name: Barrelman Crane, title: Keeper of the Warm Barrel, profession: Cook, greet: ["Food for the dead, keep warm. The dead don't eat, but they like the smell.", "A bowl? It's for display."]}
+  - {id: 5506, name: Master Morbius, title: Necromancer, profession: Spell Master, talks: true, greet: ["Death is a door. We are the locksmiths.", "Back already?"]}
+  - {id: 5507, name: Count Velkor, profession: Noble, teaches: [{skill: Vampire, mastery: grandmaster}], greet: ["I have been a vampire for four hundred years. The first hundred are the hardest.", "Do sit. I won't."]}
+  - {id: 5508, name: Lady Vex, profession: Burglar, teaches: [{skill: Dagger, mastery: grandmaster}], greet: ["The best dagger work is never seen. I'm told mine is excellent.", "You didn't hear me come in."]}
+  - {id: 5509, name: Old Bones, title: Trapsmith, profession: Locksmith, teaches: [{skill: Disarm Trap, mastery: grandmaster}], greet: ["I built every trap in the city. One of them got me. I've forgiven it.", "Mind the floor. Not that bit. That bit either."]}
+  - {id: 5510, name: Digby, title: Gravedigger, profession: Ditch Digger, greet: ["I dig them in. They dig themselves out. It's steady work.", "Need a hole?"]}
+  - {id: 5511, name: The Weeping Lady, title: Ghost, profession: Mystic, greet: ["I am not sad. I just like the acoustics.", "Oooh. Hello again."]}
+  # ---- A3's story people, added in the fourth session (talking actors; portraits batch 6) ----
+  - {id: 5512, name: Ambrose, title: Queen's Knight, profession: Squire, house: none, place: "D6, his camp at Griffin Pass on the south edge, sketch cell (61, 95), as A2's row 11917 Ambrose (D-52) by the tethered griffin (row 11913), shown until m25.done and then hidden with the griffin (D-49 D6 change 6; A3's hook, A6's placement); from m25.done he waits on DD-14's landing (actors: below) and his griffin answers at D4's gate (D-42)", actors: [{map: D6, row: 11917, at: "Griffin Pass, his camp at sketch cell (61, 95), beside the tethered griffin (row 11913)", shown: "until m25.done", peaceful: true, decided: "D-49 D6 change 6; D-52 item 6 (row 11917 Ambrose, placed only, unkillable)"}, {map: DD-14, row: 11917, at: "the landing on Blackfang's walls, beside his griffin (the griffin figure D6 uses, placed only, not counted); may share the spot of entrance:d6_griffin and entrance:d4_griffin", shown: m25.done, peaceful: true, click: "if not XeenQuests.can(\"m27.fly_out\") then evt.SpeakNPC(5512) return end; evt.AskQuestion: \"Are you ready to leave this awful place, friends?\" (dark/aaze0045:1), Yes/No; Yes: XeenQuests.hook(\"m27.fly_out\") then evt.MoveToMap(6144, 5120, 1216, 1024, 0, 0, 0, 0, \"xeen_d4.odm\", {direct = true}), D4's entrance:dd14_griffin, cell (76, 54), facing west; No: nothing", decided: "D-42 Q1; D-52 item 6 (row 11917)"}], greet: ["I caught a griffin. Now I need it to agree to be ridden. The bridle wants a spell.", "The bridle?"], note: "M24-M25 (A3); not Old Ambrose 4218 of Nightshadow"}
+  - {id: 5513, name: Corak, title: Guardian, profession: Mystic, house: none, place: "DD-16 Corak's Pod: stands in the stasis field from the first load (monster row 11912, D-51), talks through the pod's console once woken (A7's evt:console); from M32 in the Soul Box with the party (A3)", greet: ["Sheltem must not sense me. Speak quietly, and carry me carefully.", "We are close now."], note: "M29-M33 (A3)"}

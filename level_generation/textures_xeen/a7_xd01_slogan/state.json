@@ -1,0 +1,62 @@
+{
+ "xnslogan": {
+  "chosen": 4,
+  "versions": [
+   {
+    "note": "",
+    "prompt": "prompts/xnslogan_v1.txt",
+    "raw": "raw/xnslogan_v1.png",
+    "refs": [
+     "refs/xnslogan_v1_1.png",
+     "refs/xnslogan_v1_2.png",
+     "refs/xnslogan_v1_3.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.298,
+     "raw_size": [
+      1536,
+      1024
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xnslogan_v2.txt",
+    "raw": "raw/xnslogan_v2.png",
+    "refs": [
+     "refs/xnslogan_v2_1.png",
+     "refs/xnslogan_v2_2.png"
+    ],
+    "version": 2
+   },
+   {
+    "note": "The bricks came out too big in the last attempt: make them smaller, fourteen bricks across the canvas and thirteen courses from top to bottom, each brick about twice as wide as it is tall, so the wall matches the reference's scale; keep the letters as large as before.",
+    "prompt": "prompts/xnslogan_v3.txt",
+    "raw": "raw/xnslogan_v3.png",
+    "refs": [
+     "refs/xnslogan_v3_1.png",
+     "refs/xnslogan_v3_2.png"
+    ],
+    "version": 3
+   },
+   {
+    "finished": {
+     "gain": 1.409,
+     "raw_size": [
+      1536,
+      1024
+     ]
+    },
+    "note": "Small bricks: fourteen bricks across the canvas and thirteen courses top to bottom, each brick about twice as wide as tall. Spell every word exactly: SLIME LORDS SHALL RULE, and below it exactly The end is near. (four words: The, end, is, near; near is spelled n-e-a-r).",
+    "prompt": "prompts/xnslogan_v4.txt",
+    "raw": "raw/xnslogan_v4.png",
+    "refs": [
+     "refs/xnslogan_v4_1.png",
+     "refs/xnslogan_v4_2.png"
+    ],
+    "version": 4
+   }
+  ]
+ }
+}

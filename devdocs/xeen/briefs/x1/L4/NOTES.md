@@ -4,6 +4,31 @@ Xeen's starting outdoor map, a new map with no original, built from `devdocs/xee
 sketch), WORLD_DESIGN.md 5.1, QUESTS.md Act I and PLAN_YAML_NEEDS.md section 3. Built and played in MM7's world as
 a stand-in (`world: mm7`), as XD-01 to XD-05 are. Map file `xeen_x1.odm`, map_stats row 9130.
 
+## Tenth session (2026-11-20, A5): texture fit (merge point 16)
+
+- The base course (`foundation` 128) fell back to the wall texture, so the plaster kit's half-timber panel `hhm2b2` (a
+  storey module, D-41) showed 1.5 times up a one-storey wall (2.5 on the tavern): 12 `trim_tiled` errors. gen.py now
+  gives every plaster plot a dark seamless stone footing (`textures.base: cwb1`). The sketch differs from the
+  previous L4 by that word only. Audit (merge point 16's oymap, D-41 live): 0 errors, no texture warnings; the
+  dressing warnings are the kept ones below (decoration 724 is the shaft head's log pile, formerly 725).
+- Installed with its bake 21:09:41 (after A1's 21:05:55 tile table, so not stale). Walk and hostility from assets_dev:
+  see the lane's log (`output/studio_cal/a5/fit/x1_*.log`).
+- AU's `xeen_fire_ignite`: X1 has no event where the orc drums or outposts burn (the drums are XD-05's, gap 6
+  below), so nothing on X1 plays it; it belongs to the event that burns them (A7's XD-05, or an outpost burn word).
+
+- **The north edge to X7 (D-40 change 6), installed with its bake 21:47:35** (after A1's X1/X7 travel rows): gen.py's `X7_LIVE` is on now that xeen_x7.odm is
+  installed (21:39): `edge:north` to xeen_x7.odm arriving at X7's `entrance:south_road` (2560, -22016, 1856),
+  direction 90, 5 days; `entrance:north_road` (69, 21) back; the "Rockfall" sign gone. First fight from
+  `entrance:north_road` **2,957** (2,000-6,000: no X1 pair moves). Audit 0 errors (merge point 17's oymap). The walk
+  (`gen_walk.py`, 417 steps) now crosses into X7 (asserts its south road (2560, -22016)) and back over X7's south edge
+  (asserts (2560, 22016)): **2 of 2**; hostility **2 of 2** (`output/studio_cal/a5/fit/x1_*.log`).
+
+- **Shop signs (A6's texture classes of 21:58: the MM7 `7sg*` signs are pictures meant once):** the kit hung them on 96 x 96 boards, showing the 64 x 64 picture 1.5 times (`feature_repeated`); the board now takes the picture's own size from `texture_classes.yml` (`sign_size`). Reinstalled with its bake in the second pass (`output/studio_cal/a5/fit/pipeline2.log`), walk and hostility 2/2 there.
+
+### Texture fit exceptions
+
+None.
+
 ## How it is written
 
 The project files (`project.yml`, `plan.yml`, `sketch.yml`, `atmosphere.yml`) are written by
@@ -75,6 +100,8 @@ Textures to generate: a carved stone portal for the dwarf mine, a skull-hung cav
 lock door for the Witch Tower.
 
 ## The walk
+
+**2026-11-20 (A5 ninth session):** the walk enters the Adventurer's Inn (4007): the door opens the roster (`assert dialog adventurers_inn: true`), `press_action: escape` closes it (merge point 13); 401 steps **2 of 2** from assets_dev (`output/studio_cal/x1/run/s9_walk1.log`, `s9_walk2.log`; generated from `build_rb`, the build of the installed map). No reinstall: the map is unchanged. For the next install: AU's `xeen_fire_ignite` when the orc drums burn (`devdocs/xeen/AUDIO.md`). Audit with merge point 15's oymap: 0 errors (door check included).
 
 `playtest.yml`, 305 steps: new game in the square; the errand window; ten core houses (temple, bank, alchemist,
 magic, town hall, armoury, ironworks, tavern, the inn's event, a residence), training through the west gate, the
@@ -579,3 +606,330 @@ each other, 3 and 2); all three are the party's foes by the table already. Towns
 by the table). `playtest_hostility.yml` (written by `output/studio_cal/hostility/gen_hostility_tests.py`) checks the
 slot and placed foes hostile, the peaceful ones peaceful and the map's kinds, spawned side by side near the party, not
 taking each other on; it passes twice, as do the map's other playtests.
+
+## Rebase, design part (2026-11-20, A5)
+
+CHANGES_FOR_BUILT_MAPS X1-2 to X1-8 and the hooks of X1-9 to X1-11 and X1-13, on the MM7 stand-in (`world: mm7`).
+Backup before the pass: `output/studio_cal/x1/rebase_backup/` (`project/`, `tools/`). Generator changed:
+`tools/gen.py` (and `dress.py`: two flowers a strip, were four); new `tools/measure.py` (the figures below, from a
+build folder), `tools/gen_hostility_x1.py` (X1's hostility scenario from the shared generator with the new kinds),
+`tools/gen_tour_rb.py`; run `output/studio_cal/x1/rb.sh [--root]` (generate, fmt, validate, build into `build_rb`,
+measure; with `--root` install into `xroot` and run town_feel). Play root: `output/studio_cal/x1/xroot`, a hard-link copy
+of today's `assets_dev` with the old stand-in maps laid over it (`make_root.sh`; `output/studio_play/xeen_root` no longer
+loads in today's game).
+
+| figure | before (pass six + falls) | now | target |
+|---|--:|--:|---|
+| hostiles at load (markers x mean + placed) | 208 | **133** | 130 ±15 % (MAPS 0) |
+| spawn markers / placed groups | 61 / 7 | 31 / 9 | 45-70 (MONSTERS 3), 55-60 (X1-4): see below |
+| encounter areas (designed) / 8-connected 4,096-cell regions | 10 camps / 4 | **4** / 6 (two single cells) | 3-8; at most 3 single cells |
+| quiet central land cells | 0.64 | 0.81 | at least a third |
+| first fight from the arrivals (west, north, XD-02..05 exits) | 724-4,602 | 3,081-4,883 | 2,000-6,000 (gen.py refuses under 2,000) |
+| nearest group to a Vertigo door | 5,368 | 4,925 | 4,500-6,796 |
+| chests (opened by events) | 9 | **12**, 6 in quiet land | 8-12, half in plain sight |
+| points of interest out in the land (+ in town) | about 32 | **52** (+5) | 40-50 (X1-7); shipped hubs 52-57 |
+| land farther than 3,000 from a place or fight; farthest | 0.24; 8,264 | 0.16; 5,771 | the 6,000 rule |
+| decorations | 1,151 | **789** | at most 800 |
+| central land cells with fewer than 3 decorations | 16 | **45** | at least 40 |
+| distinct face textures | 60 | 60 | 120 |
+| town_feel figures outside the shipped ranges | 1 | 1 (built footprint 0.15, as before) | 0 |
+
+What changed:
+- **Monsters (X1-4, X1-5).** Slots orcs 3-5, toads 2-4, skeletons 2-4 (`FAMILY`, MM7 Goblin, Dragonfly, Skeleton Warrior as
+  stand-ins). Four encounter areas: the northern hills' orc country (the west road's camp, outpost 1, the mine; 7
+  markers), the orc outposts' road (the north road's camp, the shaft head, the orc caves, the cache, outpost 3; 9), Toad
+  Meadow (8), the dead forest (7), markers in pairs and threes. Placed: the three outposts at 4 orcs each, snakes 3 + 2 in
+  the marsh, zombies 3 + 2 round the ruined shrine (MM7 Ghast as the stand-in; kept from the Dragonflies by `relations`),
+  an orc scout and a skeleton alone. Pass six's meadow camps, creek dragonflies and road wanderers are gone: the meadows,
+  the orchard, the pond and the south-central land are quiet. **Markers:** at the adopted 130 with groups 3-5 / 2-4 a
+  map holds about 31-38 markers; MONSTERS 3's 45-70 and X1-4's 55-60 (from the review's 1-3 a marker) cannot hold
+  together with them. The total and the group sizes were kept.
+- **Chests (X1-6).** Guarded: the three outposts' crates, the smugglers' cache in the hills, the drowned peddler's chest in
+  the marsh, the ruined shrine's. In quiet land: Derek's, the hunters' camp, the ruined cottage, the grave field, the
+  ruined watchtower, the stone ring's offerings. The road camps' crates became casks.
+- **Points of interest (X1-2, X1-7).** The Temple of Yak's rise holds a ruined shrine with a chest (its bank bump dropped,
+  the shrine before the ridge). New: hunters', travellers' and woodcutters' camps; the ruined cottage, grave field, burned
+  farmstead, watchtower; the shepherd's spring (+10 SP); three signposts (tower path, forest path, orchard road); a great
+  boulder (Might 15, 150 gold); Crodo's bottle; the wayside shrine, the north-road cairn, the fisherman's shelter, the
+  rim lookout ("the edge of the world"), the sheepfold, the eel traps, the bog bones (each where `measure.py` showed land
+  more than 6,000 without anything); Vertigo's mirror on the square. Signs name the neighbours (Rivercity, Mount
+  Firestone), not their codes. Wells: TOWN_FEEL's 3-8 on the map (the town has five) beat X1-7's four more: one spring.
+  The count is 52, over X1-7's 40-50; the 6,000 rule needed the small places.
+- **Decorations (X1-8).** The meadows' even stands are six groves and copses with open grass between; flowers in a few
+  patches; the wild fill only beyond the play bounds (trees to the map's edge stay) and in the marsh's east strip; fewer
+  bones and rocks in the dead forest, its trees at 0.105 a cell; town flower strips halved; hill trees 32.
+- **Hooks (X1-9 to X1-11, X1-13)**, by A3's names from `assets_dev/worlds/xeen/source/quests/` and `source/npcs/x1.yml`
+  (gen.py reads them; their texts are A3's): m1.opening (the arrival window), m1.crodo_bottle_creek (qbit 110104),
+  m2.rain_barrel, m2.out_of_business and Joe's line (Joe's shop door, X1-13), m2.gate_sign (a new sign at the west gate),
+  m2.temple_name (world only), q-c20.whistle (new, the creek mud west of town), q-c20.statue_poison and
+  q-c20.statue_disease (Orothin's statues), q-c21.phirna_plant (four new plants in Toad Meadow), x1.money_tree (100 gold,
+  qbit 116000), x1.sign_rent and x1.sign_joe (two new boards), m7.pyramid_x1 ("The moons are not aligned."). On the stand-in
+  each shows its text; with `IN_WORLD` each calls `XeenQuests.hook`. Not wired: q-c22.derek_camp (Celia at Derek's fire
+  after Q-C22: a second figure, `hidden` + `show_actors`, once A3 says which event shows it), x1-tam.outposts (the outposts
+  are placed and never refill; the drums' map state needs spawn markers or a Lua clear), m2.warehouse_door (A2's key on
+  the door: the hand-held item defect, see "Tool defects"), the four Plague Cult members and Derek, Orothin, the Spring
+  Druid as NPC actors (world only, A4's NPCs 4046-4052).
+- **X1-12** (training cap 10) is A4's house data, not the map's.
+
+Checks on the final stand-in build: `validate` and `build` clean (10 warnings: not-built notes, 33 wild-fill decorations
+on steep land, no face pairs in one plane); `audit --reach --solve` 0 errors (the two gate-wall pairs, as before); the
+walk (`playtest.yml`, 388 steps) 2 of 2 and `playtest_hostility.yml` (Ghasts added) 2 of 2 against `xroot`
+(`run/walk_rb_7.log`, `walk_rb_8.log`, `host_rb_7.log`, `host_rb_8.log`).
+
+Pictures: `output/studio_cal/x1/rebase/tour/` (20 views of what changed), sheets `rebase/sheet_1.jpg`, `sheet_2.jpg`,
+`sheet_fix.jpg`, `sheet_fix2.jpg`. Looked at: the meadows read open but rolling, under the terrain's grass; the ruins, camps, tents, fold and
+watchtower read as what they are. Fixed after the first look: the fisherman's shelter stood in the creek (moved to the
+bank), the ruined shrine sat on top of the old cave bank (bank dropped, shrine before the ridge, walls 256-704), the shelter's lean-to read as a slab on posts (hip roof now). The graves (rock65/66)
+read as small brown stones from afar; Crodo's bottle is hard to see.
+
+### Into the world (step 2, 2026-11-20): installed
+
+`IN_WORLD = True` in `tools/gen.py` (False rebuilds the MM7 stand-in): the project is `world: xeen` with A2's rows (slots
+Xeen Orc, Xeen Toad, Xeen Skeleton; placed 11030 Orc, 11480 Giant Snake, 11240 Skeleton, 11250 Zombie), A2's items
+(warehouse key 12001, Crystal Key 12031), A4's 39 house doors (`HOUSE_XEEN`; the temple 4009 before M2 and 4010 after by
+`evt.EnterHouse`; Joe 4041 with the closed sign after M2; Valia 4040, her key in her topics), the mirror as
+`Xeen.useMirror(4017)` (its event id and continuation are not passed yet: xeen_common.lua:299 takes them), every hook as
+`XeenQuests.hook`, no `relations` of its own (the world's relations.yml), A4's houseless NPCs 4046-4052 placed (Derek,
+Orothin, the Spring Druid, four Plague Cult members), the north edge sealed by a sign at the road's end with its way in
+dropped (X7 is not built: an arrival without a neighbour became the party start), the stable's listed route to X2.
+Built with `openyamm-studio/build-xeen/oymap` after A1's kit fix (a world without kits takes MM7's), installed with
+`oymap install --root assets_dev` (`worlds/xeen/maps/xeen_x1.*`, `events/maps/xeen_x1.lua`). Terrain materials: new
+`worlds/xeen/terrain_materials/world.yml` (MM7's materials, `tile_table: terrain_tile_data_2.txt`, `tile_art_world:
+mm7`), X1's weights and the liquid edges by `tools/terrain_materials.py weights --world xeen --map xeen_x1.odm` and
+`edges --world xeen`.
+
+Checks with `build-xeen/game/openyamm --world xeen --asset-root assets_dev`:
+- a new game on X1 starts in the square with A3's opening window (`output/studio_cal/x1/world/newgame.yml`, passes;
+  desktop picture `world/start.png`);
+- `playtest_hostility.yml` (now `world: xeen`, A2's kinds; `tools/gen_hostility_x1.py --world`) 2 of 2
+  (`run/host_world_1.log`, `_2.log`): every foe hostile, none fighting another, the townsfolk peaceful.
+
+Not yet: the walk (`playtest.yml` is still the stand-in's `world: mm7`; for the world it needs A4's house ids, the hooks'
+texts, Valia's key from her topic, and the dungeons and X2 installed in the world before its dungeon and edge steps can
+run), the minimap, the lighting bake, X1-X2 travel (A2's row once X2 is installed). Studio words still missing: the
+world's continent (`map_stats.continent` 6 refused: the studio reads the engine's continent_settings only; built without
+it, so the build warns of the fallback sky) and the world's relations.yml in the hostility check (it warns that the Xeen
+slots are friendly by hostile.txt; the game says otherwise).
+
+### In the world, second session (2026-11-20, A5)
+
+- **The walk for `--world xeen`** (`playtest.yml`, 383 steps, from `assets_dev`; `output/studio_cal/x1/walk_world.sh`):
+  passes 2 of 2 (`run/walk_world_21.log`, `_22.log`), every dungeon now installed (XD-01 to XD-05 entered) and the west
+  edge's prompt to Rivercity. `tools/gen_walk.py` follows `gen.IN_WORLD`: each door asserts the build's own house (A4's
+  ids); a residence of one person opens that person's talk, so residences assert only a dialog; Valia's key comes from
+  her Falista topic (`select_topic`); the Adventurer's Inn (4007) is passed by, since its roster screen holds a headless
+  run's input and no scenario word closes it (asked of A1); a dungeon or the X2 edge not yet installed is passed by
+  with a note. `playtest_hostility.yml` 2 of 2 again (`run/host_world_5.log`, `_6.log`); A3's playthrough segment 01
+  passes.
+- **Doors gated by A3's hooks** (A3's segment 01 found the warehouse door let the party in without the key): the
+  warehouse door's condition is `evt.GetHeldItemId() == 12001 or XeenQuests.hook("m2.warehouse_door")`, the Witch Tower's
+  the same with 12031 and `m4.tower_door` (the hooks' texts when refused). The held-item half stays because a key just
+  given lies in the party's hand and the hooks' `HasItem` does not see it (asked of A3).
+- **Celia at Derek's fire** (`q-c22.derek_camp`): a hidden figure (NPC 4041, MM7 peasant 350) in group 53
+  (`celia_at_fire`) by the fire; `evt:celia_at_fire` (load) shows the group when qbit 112442 is set and hides it otherwise.
+- **The houseless NPCs** are MM7's peasant 371 (the name `Peasant` found row 49, MM7's vampire peasant). A3's chain saw
+  Derek, Orothin and the Druid open as "Peasant" with no topics: A1 is checking the engine's reading of a scene
+  `npc_id` in a non-MM9 world.
+- **The mirror** is still `Xeen.useMirror(4017)` (event 238): A3's form `function(continueStep) Xeen.useMirror(4017,
+  238, continueStep) end` needs the event id and continuation in a studio `lua:` effect (A1); wired when the studio has it.
+- **Kill XP** (A2's `tools/xeen/balance.py`: 2.9k against 2.4k, 1.23): the three slots at Dif 0 (A tier only: Orc 5,
+  Giant Toad 5, Skeleton 6), count unchanged at 133; by `balance.py --detail`'s rows this is about 2.70k, 1.12. The
+  installed map_stats row is A2's (`source/map_rows.yml` X1: `tier: 0` for all three slots, sent through the report).
+- **Dressing** (the user's rule, `devdocs/xeen/formats/DRESSING.md`; `output/studio_cal/x1/tools/dress_check.py <build>
+  <stem>` lists anything within 448 before a door and 288 either side, and the barrel groups): the inn's wood pile moved
+  off its door's front; every lone town barrel got a partner against the same wall (19 pairs); Joe's rain barrel and its
+  partner stand against the warehouse's south wall (they stood out in the yard); the shaft head, the road camps and the
+  fisherman's casks paired; the temple's pair against its south wall (it stood a third of a cell off its corner). Left: two flower pairs flanking two cottage paths (320-448 apart, the path between them open).
+  Decorations 798 (at most 800).
+- **Minimap**: `assets_dev/worlds/xeen/icons_x2/xeen_x1.png` (1024 x 1024, the approved MM6 capture recipe with MM7's
+  tile table; work and `redo.sh` in `output/studio_cal/x1/present/`); checked in game (`present/shots/minimap_ingame2.png`).
+- **Lighting bake: blocked.** `tools/lighting/bake_outdoor.py` picks the terrain tile table by world name (any world but
+  mm6/mm7 reads MM8's), so X1 would bake with MM8's ground. The two-line fix (read `terrainTileset` from world.yml) is
+  written out, not applied: `output/studio_cal/x1/present/bake_outdoor_terrain_tileset.diff`; then `present/redo.sh bake`.
+- Pictures: `output/studio_cal/x2/world_tour/x1/` (sheet `sheet_x1.jpg`): Joe's yard, the stables, the temple, the
+  alchemist's barrels and Derek at his fire looked at; the inn's camera stood in a roof (not retaken).
+
+### Third session (2026-11-20, A5)
+
+- **The mirror** is `function(continueStep) Xeen.useMirror(4017, eventId, continueStep) end` (event 238; studio merge
+  point 3 gives a `lua` effect naming `eventId` its handler's number). Checked headless
+  (`output/studio_cal/x1/mirror/mirror.yml`, passes, `mirror/run1.log`): with no other mirror touched it shows the
+  square and sets 119001; with Rivercity's 119002 set it asks "Where to?" with Rivercity and lands the party at
+  (0, 9728) on X2; Rivercity's mirror then lists Vertigo and lands it at (-5120, 8704), Vertigo square.
+- **`map_stats.continent: 6`** (Cloudside, read by the studio since merge point 3): the fallback-sky warning is gone.
+  Rebuilt and installed (`oymap install --root assets_dev`); walk 2 of 2 (`run/walk_world_23.log`, `_24.log`),
+  hostility 2 of 2 (`run/host_world_7.log`, `_8.log`).
+- **Kill XP** (`balance.py`): 2.7k against 2.4k, 1.12, inside the gate.
+- **The fuller X1 (D-1.3)**, built in scratch only, not installed: `X1_FULLER=1` in `tools/gen.py` (the default output
+  is byte-identical to the installed brief). `output/studio_cal/x1/fuller/run.sh` copies the brief to `fuller/L4`,
+  generates, validates and builds into `fuller/build`; `fuller/density.py` writes the table `fuller/density.md` and the
+  heat picture `fuller/heat.png` (installed beside fuller). What it changes: all three slots 2-3 a marker at Dif 1
+  (90/8/2); 24 more markers in 15 circles beside the wild roads (the west road, the mine and orc lanes, the north
+  road, the south road and toad lane, the forest path), outside the 4,500 town buffer and 2,000 from every arrival;
+  six placed groups of the level 2-4 band (doom bugs on the south road and at the pyramid knoll's foot, slimes in the
+  orchard's ditch, rats by the toad lane, giant bats in the dead wood and over the mine lane). Figures: **176 at load,
+  55 markers, 70 groups** (median size 2.5; groups of four or more 0.04), hostiles within 1,500 of a wild road 0.22
+  of all (town_feel's per-1,000-of-road 0.18 → 0.29, shipped start maps 0.18-0.32), 4,096 squares with no hostile
+  0.79 → 0.66, the busiest square 8 hostiles as before, group to nearest group median 2,332 → 2,007 (shipped
+  403-2,433), first fight from each arrival 2,957-4,883, town_feel with no monster figure out of range. Kill XP by hand
+  3.75k against 3.3k (1.14; `balance.py` reads the installed row and says 4.5k). The orchard road (the signature
+  view) has no spawn marker still, only the weak placed slimes and doom bugs.
+- **Doors on the hooks alone** (A1's merge point 4: HasItem counts a key held on the cursor): the warehouse door and
+  the Witch Tower door ask only `XeenQuests.hook("m2.warehouse_door")` / `("m4.tower_door")`; the held-key half is
+  gone. Rebuilt (the ODM unchanged), installed; walk 2 of 2 (`run/walk_world_25.log`, `_26.log`), both doors entered.
+- **Lighting bake** (A1's merge point 4 reads `terrainTileset`): `present/redo.sh bake` with MM7's tile table, installed
+  `worlds/xeen/maps/xeen_x1.lighting` and `.bake.json`; `stale_bakes.py` lists nothing for X1. In game
+  (`output/studio_cal/x2/world_tour/x1/`, `sheet_bake.jpg`): shaded sides, no black faces.
+- **A3's Q-C22 hooks**: Celia's fire scene (`evt:celia_at_fire`, load) now asks `XeenQuests.can("q-c22.derek_camp")`,
+  so it also hides once q-c22.moved is set; Derek (NPC 4046) stands in a group of his own (54) and `evt:derek_moved`
+  (load, hook q-c22.on_darkside) hides him when q-c22.moved (112443) is set. Rebuilt, installed, re-baked (the scene
+  changed; `stale_bakes.py` lists nothing for X1); walk 2 of 2 (`run/walk_world_27.log`, `_28.log`), hostility
+  (`run/host_world_9.log`).
+
+## Flicker found by the audit (2026-11-20, A5, fourth session)
+
+`oymap audit` (merge point 5) found two pairs of faces in one plane: the east and west gate arches' parapet tops at
+the town wall runs' height (608) over the last 0.2 cell where each run enters its arch (2,160 and 1,396 square
+units). `tools/town.py` now raises the gate arch 16 (to 624); a scratch build audits clean (0 pairs). Not yet in this
+brief or the installed map: it goes in with the next X1 install (the fuller X1 after G0, or the 133 version if the
+user keeps it), so the user's G0 saves are not reset mid-review.
+
+The fix is installed with the fuller X1 below (the project audit: 0 pairs).
+
+## The fuller X1 installed (2026-11-20, A5, fifth session)
+
+State: **the fuller X1 (D-1.3) is the installed X1.** The orchestrator had it installed without waiting for G0; the
+user's G0 saves reset X1's map state on entry (accepted).
+
+- **Generator**: `FULLER` is on by default in `output/studio_cal/x1/tools/gen.py` (`X1_FULLER=0` rebuilds the 133
+  version). Built with `output/studio_cal/x1/rb.sh` into `build_rb`; `oymap install --root assets_dev` at 15:43:38;
+  terrain weights and liquid edges through `output/studio_cal/a5/terrain_swap.sh xeen_x1` (no file changed);
+  `present/redo.sh all` under the lane's Blender lock: minimap 15:46:19, bake 15:48:30 (MM7's tile table);
+  `stale_bakes.py` does not list xeen_x1.
+- **Figures** (`measure.py`): **176 at load**, 55 markers, 39 placed
+  hostiles, 70 groups (`fuller/density.md`); quiet central cells 0.69; decorations 798; first fight from the west road
+  4,883, the XD-02 to XD-05 exits 3,081-3,582, the XD-01 yard 5,891, the party start (Vertigo square, a town
+  arrival: the town buffer) 11,310. A2's map_stats row 9130 carries the slots (Orc, Toad, Skeleton, each Dif 1, 2-3).
+- **Kill XP** (`tools/xeen/balance.py`): X1 3.8k against 3.3k, **1.14**; Act I 9.3k against 8.5k, 1.10.
+- **The obelisk** calls A3's `XeenQuests.hook("obelisks.x1")` (autonote cloud_1, the word SEEK) in place of the map's
+  own message.
+- **Checks**: `validate` no issues; `fmt --check` clean; 7 build warnings (the not-built notes, scatter's 33 unplaced
+  wild decorations, the waterfall cut, roads taken out of squares of four), as before; `texture_budget.py --map X1`
+  60/120; the audit 0 coplanar pairs (the gate arches at 624), no dressing error, 4 warnings kept (below).
+- **Walk** 2 of 2 (383 steps, `run/walk_world_31.log`, `_32.log`; the walk is unchanged by the fuller map) and
+  **hostility** 2 of 2 (64 steps, `run/host_world_11.log`, `_12.log`; `tools/gen_hostility_x1.py --world` now adds the
+  placed pests: 11340 Doom Bug, 11380 Slime, 11390 Sewer Rat, 11300 Giant Bat), headless from assets_dev.
+- **Dressing** (D-14): log pile 725 moved off the north road to the shaft head's west side, beside the other pile
+  (60.65, 28.8). Moved within 240 of their walls: the town hall's barrel, the alchemist's pair, the west houses' wood
+  pile, the warehouse's barrel and cask, the fisherman's keg and cask.
+- **Tour** (HUD off, `output/studio_cal/x1/fuller/tour/shots/`, `shots2/`): the square, both gate arches, the shaft
+  head's piles on the grass west of the hatch, the alchemist's barrel against its wall. Seen: the warehouse's 7dec32
+  barrel and 7dec21 cask do not draw (no outdoor model binding for either in `engine/models/decorations.yml`; X1 also
+  places 7dec11, 7dec12, 7dec18, 7dec20, 7dec24, 7dec41, haybale2, rock66, rock67 without one); a thin dark sliver
+  runs from the shaft head hatch's west edge across the grass.
+
+### Dressing exceptions
+
+- Decoration 693 (7dec16 log pile) at the mine mouth, 442 from the mine portal's shell: the mine yard's timber stack,
+  standing on the hill beside the mouth (the mouth's 0.8-cell click space kept clear).
+- Decorations 696 and 697 (keg and barrel) at the mine mouth, 256 and 310 from the shell: the mine yard's pair, beside
+  the mouth on the hill.
+- Decoration 724 (7dec16 log pile) at the shaft head, 299 from its shell: the second pile of the shaft head's timber
+  (D-14 moved it off the north road).
+- Decoration 780 (7dec21 cask) at the travellers' camp, 397 from the open tent: camp gear by the campfire; the tent is
+  not a house.
+
+## Sixth session (2026-11-20, A5): decorations with models; the shaft head's sliver
+
+- Every placed kind without an outdoor model (A1's list, merge point 8) swapped in `tools/gen.py` for a bound kind
+  of the same use, same places: the orc and Derek's campfires `fire01` -> `dec24` (a campfire with its red light), Joe's
+  rain barrel `7dec24` -> `bigbarel`, the barrel at (63.9, 48.3) `7dec24` -> `7dec21`, the graves `rock66` ->
+  `rock65`, the great boulder `rock67` -> `rock68`. Left without a model (no bound kind fits): 3 hay bales
+  (`haybale2`), 2 woodpiles (`7dec12`), Crodo's bottle (`7dec41`). Rebuilt (`rb.sh`), audit as before (the four kept
+  dressing warnings, "Dressing exceptions"), installed 16:27, baked 16:28 (`present/redo.sh bake`, not stale). Walk 2/2 (`run/walk_world_33.log`, `_34.log`) and
+  hostility 2/2 (`run/host_world_13.log`, `_14.log`) from assets_dev on the 16:06 binary.
+- The dark sliver west of the shaft head's arch (fifth session's tour, `fuller/tour/shots2/03-logpile_close.png`) is
+  the studio's wedge, not the map: `caveFaces` (`openyamm-studio/core/OutdoorWaysIn.cpp`, the mound strips) splits
+  every quad along the same diagonal, so the right end of the front gets an upright cheek
+  (-888,17920,1608)-(-832,17920,1472)-(-512,17920,1472) and the left end does not: there the lid triangle
+  (-1216,17920,1472)-(-1536,18684,1615)-(-1536,17920,1472) lies on the land's front edge (same line, 1472) and under
+  the hill behind it, and shows as a thin black line along the edge; its neighbour (-1216,17920,1472)-(-1160,17920,1608)-
+  (-1536,18684,1615) pokes 80 x 160 through the hill at the jamb. The left half's quads should split on the other
+  diagonal (mirror of the right). Asked of A1; X1 needs only a rebuild and install when it lands.
+
+## Seventh session (2026-11-20, A5): the shaft head after merge point 11
+
+- A1's wedge fix (merge point 11, oymap 17:26:09) closes both ends of the hatch's front. X1 rebuilt (`rb.sh`, no
+  generator change; audit as before: the five kept dressing warnings), installed with its bake through
+  `output/studio_cal/a5/install_baked.sh` at 17:29:51 (0 stale bakes). Tour `fuller/tour/tour3.yml`, shots in
+  `fuller/tour/shots3/`: the front is symmetric, both cheeks of stone, no dark line along the left edge and nothing
+  through the hill at the jamb. Walk 2/2 (383 steps, `run/walk_world_35.log`, `_36.log`), hostility 2/2
+  (`run/host_world_15.log`, `_16.log`) from assets_dev on the 17:10:53 game binary.
+- A3's `m37.reflector_water` wired on the Water Reflector (`thing:water_reflector`, [102, 96], the south-east rim):
+  the source's prompt ("Reflector. Activate?", Yes) calls the hook, which answers with its own fail text until M36
+  (111720) and then sets 111743 once. The walk clicks it, answers Yes and checks 111743 stays clear (391 steps).
+  Reinstalled with its bake 17:42:22.
+- The travel pyramid (A3, D1 installed): X1's pyramid arrival for `Xeen.PyramidArrivals.vertigo` (A3's file) is the
+  orchard road's end west of the knoll, `{8832, 9472, 800, 1024, "xeen_x1.odm"}` (cell [81.25, 45.5], ground 800-832,
+  facing west toward Vertigo, about 770 west of the pyramid's foot, so a click lands nowhere). `pyramid:castleview`'s
+  `condition: {qbit: m7_sigil}` is the project's name for A3's `m7.sigil`: the same bit, 110100; the click itself runs
+  `Xeen.travelPyramid("vertigo")`, which checks `m7.sigil`. Only the neighbour's notes changed: the rebuilt map and its
+  Lua are byte-identical to the installed ones, so no reinstall.
+
+## Eighteenth session (2026-11-21, A5): arrivals off the cave mounds (merge point 25)
+
+- The studio stands a named arrival on a structure's top and warns over a 64 lift. Two arrivals sat on cave mounds:
+  `entrance:xd02_portal` [44, 31] (-10240, 16896, 1472; +188) is now [44, 33] = (-10240, 15872, 1184), and
+  `entrance:xd05_mouth` [82, 30] (9216, 17408, 1728; +148) is now [82, 32] = (9216, 16384, 1376). Both 512 in front
+  of the mouth's footprint, on the floor-level ground, facing south (1536, out of the dungeon; they faced east, 0, by
+  default). gen.py backup `tools/gen.py.pre_s18`. No lift warning left; no plaza arrival changed height on X1.
+- XD-02's and XD-05's exits (A7) use raw points, not the names: (-10240, 16131, 1184) and (9216, 16643, 1376), 253 in
+  front of the footprints, on open ground. They still work; asked of A7 to use the names or the points above.
+- Rebuilt (`rb.sh`), audit 0 errors (5 kept warnings), installed with its bake 06:18:36 (0 stale bakes). Walk 417 2/2,
+  hostility 2/2, the new points stood on and walked off (`output/studio_cal/a5/s18/x1_*.log`); walks unchanged by
+  regeneration (the XD-05 round trip asserts the exit's own point).
+
+## Nineteenth session (A5, 2026-11-21)
+
+- The Reflector is one Yes/No prompt with buttons (D-65 B1: a message before a question drops the question's text; D-66 item 6): the look and "Reflector. Activate?" joined, `AskChoiceWithAnswerSteps` written as `lua` effects (the studio's `question` word has only typed answers); Yes calls the hook, No does nothing. Only the Lua changed (odm and scene byte-identical, the bake stays fresh); the walk asserts the joined prompt. Lua installed 07:45:53 (`tools/gen.py`, `gen.py.pre_s19`).
+- The XD-05 round trip now expects the dungeon's exit on `entrance:xd05_mouth` (9216, 16384, 1376), walking off south
+  to (9216, 15872) (A7, 06:51). Audit 0 errors (the 5 kept warnings). Walk 419 2/2, hostility 2/2 from assets_dev
+  (`output/studio_cal/a5/s19/x1_*.log`).
+
+## Twenty-third session (A5, 2026-11-21): AU's night beds
+
+- AU's session 5 list (`level_generation/sounds/xeen_20261120/review/beds/x1.yml`) copied into
+  `output/studio_cal/a5/beds/x1.yml` (the previous list in `a5/beds/before_s23/`): the night beds `bed_night_*`
+  (`xeen_amb_night`, `night_only`, `pan: false`, volume 0.3) at the day beds' points; day lines unchanged. Sketch diff
+  only `sounds`; audit as before. Installed with its bake (`output/studio_cal/a5/s23/`, `pipeline.sh`); 0 stale.
+- Walk 419 and hostility 64, each 2/2 from assets_dev (`output/studio_cal/a5/s23/x1_*.log`). Night check: a minimised run at the start with `time set 23:00` and the audio trace: the four nearest meadow beds stop and four `xeen_amb_night` beds start at the same points (`a5/s23/x1_night/game.log`).
+
+## Twenty-sixth session (A5, 2026-11-21): D-85, hostiles 5,888 from the talking NPCs
+
+- D-85's rule measured on every placed talking NPC (`output/studio_cal/x2/tools/check_d85.py`, now in
+  `output/studio_cal/a5/s26/pipeline.sh`'s build step): Derek (4046) had the forest path's dead pair at 1,976 / 2,674,
+  Celia (4041) the same at 1,268 / 1,965, Orothin (4047) the south road's doom bugs (actors 60-62) at 4,245-4,851 and
+  the toad lane's single at 4,650. Moved in `gen.py` (backup `.pre_s26`): `ROAD_CAMPS` pop:dead (45, 80) -> (37, 91),
+  pop:toads (68, 72) -> (70, 76), `ROAD_PESTS` doom bugs (56, 69) -> (53, 72). Nearest hostile now: Derek 6,342,
+  Celia 5,959, Orothin 6,329 (all doom bugs); the other NPCs over 10,000. Only those three spawns and three actors
+  changed (55 markers, slots 28/14/13, 176 at load as before); odm and Lua byte-identical. First fights from the
+  edge and dungeon arrivals unchanged (2,957 north road the nearest); from the party start 11,310 -> 12,314 and the
+  XD-01 yard 5,891 -> 7,931 (the doom bugs moved off the south road's top).
+- Installed with its bake 19:26:45; audit 0 errors (5 kept warnings); walk 419 and hostility 64, each 2/2 from
+  assets_dev (`output/studio_cal/a5/s26/x1_*.log`).
+
+## Twenty-ninth session (A5 s29, 2026-11-22, merge point 41 rebuild; run files output/studio_cal/a5/s29/)
+- Rebuilt and installed with its bake (01:10-01:14). D-91: the Spring Druid (4048) on lane S's Xeen Elder Druid 11928.
+  F8: Red Dwarf Mines 576 and Orc Caves 640 wide. F16: trans 5001/5002/5004/5005 (culvert and shaft head: the standard
+  window). F10: one hill-orc marker (17, 38) -> (44, 66) r 0.25 (move only; output/studio_cal/a5/s29/x1_spot.py): the
+  druid's meadows 12,731 -> largest 10,747, 303 tiles; Derek 6,000+; Act I 1.15 (unchanged). The shaft head's keg off the
+  road (63.4, 29.5) -> (64.3, 29.1) (audit dressing.road). Walk 429 (no Crystal Key check: D-89) and hostility pass.
+- Not done: the warehouse key 12001 on the rain barrel's lid (no outdoor ground-item kind, A1 request); the barrel's
+  click stays.
+
+## Thirtieth session (A5 s30, 2026-11-22, merge point 42 oymap; run files output/studio_cal/a5/s30/)
+- D-90: the warehouse key (12001) is a 3D ground item at the rain barrel's foot (sketch `items`, cell (61.8, 60.0),
+  (-1126, 2048, 640); a decoration is no floor, orchestrator's decision); the barrel keeps its name, no click
+  (`m2.rain_barrel` no longer called: A3 makes it `map_gives`). Walk: `ground_items(12001)` 1, `pick_up` takes it
+  (436 away), `has_item`. `gen.py`, `gen_walk.py` backups `*.pre_s30`.
+- Installed with its bake 01:59; audit 0; walk and hostility pass from assets_dev.

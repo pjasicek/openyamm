@@ -1,0 +1,195 @@
+format: 0
+variables: []
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Sulphur and old smoke on the air. Somewhere far in, something very large is breathing."
+    seconds: 7
+  - id: evt:chest_den
+    preset: chest
+    source: chest:den
+    title: Chest
+  - id: evt:chest_egg
+    preset: chest
+    source: chest:egg
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_rime
+    preset: chest
+    source: chest:rime
+    title: Chest
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:door_king
+    preset: script
+    source: door:king
+    title: The Dragon King's door
+    condition: {lua: "XeenQuests.hook(\"q-c25.king_door\")"}
+    opens: [door:king]
+    effects:
+      - lua: "-- the leaves open (the hook has run)"
+    notes: "D-89 INWARD (2026-11-22): A3's q-c25.king_door needs tax_paid (112500); true opens the leaves for good, false has shown \"Tax first,\" on the status line and nobody moves."
+  - id: evt:door_library_e
+    preset: door
+    source: door:library_e
+    title: Doors
+  - id: evt:door_library_n
+    preset: door
+    source: door:library_n
+    title: Doors
+  - id: evt:door_waiting
+    preset: door
+    source: door:waiting
+    title: Doors
+  - id: evt:exit
+    preset: exit
+    source: exit:mouth
+    title: Exit Dragon Cave
+    notes: "Out to X7 (installed, A5) by the game's own leave window (D-24); 'Exit Dragon Cave?' (aaze0050:17) is its meaning."
+  - id: evt:grate
+    preset: switch
+    source: door:grate
+    title: Grate
+    condition: {qbit: 118101}
+    locked_text: "A heavy grate, set deep in the rock behind the dais. It does not move."
+    opens: [door:grate]
+    notes: The grate rises only at the King's death.
+  - id: evt:inner_back
+    preset: door
+    source: door:inner
+    side: room:scorch
+    title: Door
+    action: open
+    notes: From the passage the inner door always opens.
+  - id: evt:inner_door
+    preset: script
+    source: door:inner
+    side: room:tax_hall
+    title: Inner door
+    opens: [door:inner]
+    sets: {qbit: 118100}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.inner_door\")"
+    notes: "D-89 (2026-11-22): the inner door opens to everyone and stays open (118100); A3's q-c25.inner_door runs. The tax now guards only the Dragon King's door (evt:door_king) and the Great Wyrm promotion; no refusal moves the party (the old throw to X7 is gone)."
+  - id: evt:inner_load
+    preset: switch
+    trigger: load
+    condition: {qbit: 118100}
+    opens: [door:inner]
+    notes: Once opened (118100) the inner door stands open on every load.
+  - id: evt:king_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:king}}
+    opens: [door:grate]
+    once: true
+    sets: {qbit: 118101}
+    effects:
+      - text: The Dragon King is dead. Behind the dais the grate grinds up into the rock.
+    notes: "The kill timer (XD-05's drum method): king_slain 118101, the grate rises in the same visit."
+  - id: evt:king_load
+    preset: switch
+    trigger: load
+    condition: {qbit: 118101}
+    opens: [door:grate]
+    notes: With king_slain the grate stands up on every load.
+  - id: evt:office
+    preset: script
+    source: door:tax_office
+    title: The Dragon Tax Office
+    effects:
+      - lua: evt.EnterHouse(4852)
+    notes: "A4's house 4852 (Scaldrith 5702): the tax, Great Wyrm (A3's Q-C25 topics), the Dragon Grandmaster."
+  - id: evt:office_r
+    preset: script
+    source: panel:tax_office_r
+    title: The Dragon Tax Office
+    effects:
+      - lua: evt.EnterHouse(4852)
+    notes: The right wing of house 4852's door.
+  - id: evt:receipt
+    preset: script
+    source: platform:knight
+    title: Remains
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.receipt\")"
+    notes: "A3's q-c25.receipt: the knight's receipt."
+  - id: evt:see_ledge
+    preset: text
+    source: level:ledge
+    trigger: step
+    once: true
+    text: "Past the lip the rock drops away into the dark. Down there, wings."
+    seconds: 4
+  - id: evt:see_library
+    preset: text
+    source: room:library
+    trigger: step
+    once: true
+    text: "Shelves cut to a dragon's reach, and books the size of doors."
+    seconds: 4
+  - id: evt:see_starwell
+    preset: text
+    source: room:starwell
+    trigger: step
+    once: true
+    text: "Cold pours in through a gap in the north wall: stars, and nothing under them."
+    seconds: 4
+  - id: evt:taxation
+    preset: script
+    source: platform:ledger
+    title: The Art of Taxation
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.taxation\")"
+    notes: "aaze0050:10; A3's hook needs the five volumes read."
+  - id: evt:urn
+    preset: script
+    source: platform:counter
+    title: Urn
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.urn\")"
+    notes: "A3's q-c25.urn: before the tax its waiting line; after it aaze0050:1 'The urn is empty and powerless.'"
+  - id: evt:volume1
+    preset: script
+    source: platform:lectern
+    title: Dragon Lore Volume 1
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.volume1\")"
+    notes: "aaze0050:5 as the hover; A3's q-c25.volume1."
+  - id: evt:volume2
+    preset: script
+    source: platform:shelf2
+    title: Dragon Lore Volume 2
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.volume2\")"
+    notes: aaze0050:6.
+  - id: evt:volume3
+    preset: script
+    source: platform:shelf3
+    title: Dragon Lore Volume 3
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.volume3\")"
+    notes: aaze0050:7.
+  - id: evt:volume4
+    preset: script
+    source: platform:shelf4
+    title: Dragon Lore Volume 4
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.volume4\")"
+    notes: aaze0050:8.
+  - id: evt:volume5
+    preset: script
+    source: platform:shelf5
+    title: Dragon Lore Volume 5
+    effects:
+      - lua: "XeenQuests.hook(\"q-c25.volume5\")"
+    notes: "aaze0050:9, by the King's door."

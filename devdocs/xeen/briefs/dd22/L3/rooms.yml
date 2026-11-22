@@ -1,0 +1,323 @@
+format: 0
+themes:
+  - id: theme:airlock
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll5dk, size: [128, 256]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The airlock: the hull's inner skin (swll4dk, the hull D6 shows outside), the only teal room (D-67)."
+  - id: theme:dark
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll5dk, size: [128, 256]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The drive room and the brig: the red-pilot panels (swll5dk) over grey metal."
+  - id: theme:deck2
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll5dk, size: [128, 256]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "Deck 2 and the bridge landing: the red-pilot panels under rust ceiling panels (D-67: no teal ceilings)."
+  - id: theme:hull
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll5dk, size: [128, 256]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The pod's corridors and deck 1 (MM6 Control Center in its red accents, D-67 change 6): dark panels with red pilot lights (swll5dk), grey metal floors (swfloor2b), rust ceiling panels (swceilf), dark reveals."
+  - id: theme:red
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor5a, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll5dk, size: [128, 256]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The red accents (A6's assign): dark panels with red pilot lights (swll5dk) over the red floor grid (swfloor5a): the bridge and the security post."
+defaults: {theme: theme:hull, ambient: 14}
+rooms:
+  - id: room:airlock
+    name: Airlock
+    outline: [[-256, -1024], [256, -1024], [256, -640], [-256, -640]]
+    floor: 0
+    ceiling: 320
+    theme: theme:airlock
+    notes: "Behind the round hatch (the exit's face in the south wall): the arrival, cold and red-lit; the inner door north. Quiet."
+  - id: room:bridge
+    name: The bridge
+    outline: [[-960, 576], [960, 576], [960, 1216], [576, 1600], [-576, 1600], [-960, 1216]]
+    floor: 896
+    ceiling: 1344
+    theme: theme:red
+    walls:
+      - wall: 1
+        panels:
+          - {at: centre, length: 320, bottom: 64, height: 192, surface: {texture: swgirder, size: [64, 64]}, notes: The log computer's riveted frame.}
+          - {id: panel:log, at: centre, length: 256, bottom: 96, height: 128, surface: {texture: trekscrn, size: [128, 64], fit: true}, cover: true, notes: "The log computer, still paging Sheltem's entries."}
+    platforms:
+      - {id: platform:couch_dais, at: [0, 1024], size: [448, 384], rise: 32, surface: {texture: swgirder, size: [64, 64]}, top_surface: {texture: swfloor5a, size: [128, 128]}, notes: The dais of Sheltem's command couch.}
+      - {id: platform:couch, at: [0, 1040], size: [192, 160], rise: 40, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swor2, size: [256, 256], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, base: 32, notes: "Sheltem's command couch, empty, facing the viewport."}
+      - {at: [-116, 1040], size: [32, 160], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, base: 32, notes: The couch's left arm.}
+      - {at: [116, 1040], size: [32, 160], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, base: 32, notes: The couch's right arm.}
+      - {id: platform:couch_back, at: [0, 944], size: [264, 32], rise: 160, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, base: 32, notes: The couch's high back.}
+      - {id: platform:main_console, at: [-320, 1528], size: [320, 96], rise: 112, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: "The Main Console, flickering red (aaze0088:5)."}
+      - {id: platform:scan_console, at: [320, 1528], size: [320, 96], rise: 112, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: "The Scanning Console, flickering red (aaze0088:6)."}
+    ceiling_levels:
+      - outline: [[-704, 768], [704, 768], [704, 1120], [480, 1344], [-480, 1344], [-704, 1120]]
+        ceiling: 1856
+        top_scale: 0.35
+        edge: {texture: swll5dk, size: [128, 256]}
+        surface: {texture: swceilf, size: [256, 256], sky: true}
+        notes: "The domed viewport: dark panels leaning in to an oculus open to the Darkside's sky."
+    beams:
+      - path: [[-598, 811], [598, 811], [598, 1110], [408, 1301], [-408, 1301], [-598, 1110]]
+        width: 32
+        depth: 24
+        bottom: 1374
+        surface: {texture: swll5dk, size: [128, 256]}
+        notes: A ring of dark steel under the domed viewport (five of its six sides).
+      - path: [[-598, 1094], [-598, 827]]
+        width: 32
+        depth: 24
+        bottom: 1374
+        surface: {texture: swll5dk, size: [128, 256]}
+        notes: The ring's sixth side.
+      - path: [[-422, 883], [422, 883], [422, 1094], [288, 1229], [-288, 1229], [-422, 1094]]
+        width: 32
+        depth: 24
+        bottom: 1571
+        surface: {texture: swll5dk, size: [128, 256]}
+        notes: A ring of dark steel under the domed viewport (five of its six sides).
+      - path: [[-422, 1078], [-422, 899]]
+        width: 32
+        depth: 24
+        bottom: 1571
+        surface: {texture: swll5dk, size: [128, 256]}
+        notes: The ring's sixth side.
+    notes: "The set piece in the pod's nose: a domed viewport of dark steel ribs over Sheltem's empty command couch; the main and scanning consoles against the nose (north), the log computer on the east wall; red light."
+  - id: room:bridge_ante
+    name: Bridge landing
+    outline: [[-576, -128], [448, -128], [448, 448], [-576, 448]]
+    floor: 896
+    ceiling: 1344
+    theme: theme:deck2
+    notes: "Lift B's head through the floor; the bridge's blast door in the north wall; the lift's call button beside it."
+  - id: room:brig
+    name: The brig
+    outline: [[-1088, -512], [-576, -512], [-576, 448], [-1216, 448], [-1216, -384]]
+    floor: 448
+    ceiling: 768
+    theme: theme:dark
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:cell_1, offset: 512, length: 256, bottom: 0, height: 256, surface: {texture: swrdk2, size: [128, 128], fit: true}, notes: "An empty stasis cell, its field dark."}
+          - {id: panel:cell_2, offset: 128, length: 256, bottom: 0, height: 256, surface: {texture: swrdk2, size: [128, 128], fit: true}, notes: "An empty stasis cell, its field dark."}
+    notes: "Two empty stasis cells in the west wall where Sheltem shut the Ancients' agents (log XL70I), their fields dark; the guards' locker by the south wall."
+  - id: room:drive
+    name: Drive room
+    outline: [[-704, 576], [704, 576], [832, 704], [832, 1152], [704, 1280], [-704, 1280], [-832, 1152], [-832, 704]]
+    floor: 0
+    ceiling: 320
+    theme: theme:dark
+    walls:
+      - wall: 6
+        panels:
+          - {at: centre, length: 384, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256], fit: false}}
+    platforms:
+      - {id: platform:device_1, at: [-448, 1200], size: [128, 96], rise: 192, surface: {texture: swaled, size: [128, 256], fit: true}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "A strange alien device, dark (aaze0088:0)."}
+      - {id: platform:device_2, at: [448, 1200], size: [128, 96], rise: 192, surface: {texture: swaled, size: [128, 256], fit: true}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "A strange alien device, dark (aaze0088:0)."}
+      - {id: platform:generator, at: [744, 896], size: [144, 256], rise: 224, surface: {texture: swor2, size: [256, 256], fit: true}, end_surface: {texture: swor2, size: [256, 256], fit: true}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "The stasis generator that carried Sheltem through the crash, cold."}
+      - {id: platform:rack, at: [752, 1088], size: [128, 96], rise: 112, surface: {texture: swgirder, size: [64, 64]}, top_surface: {texture: swrdk2, size: [128, 128]}, notes: "The stasis generator's tool rack (the find, D-62 APPROVAL)."}
+    levels:
+      - id: level:grilles
+        outline: [[-448, 704], [448, 704], [448, 1088], [-448, 1088]]
+        floor: -24
+        edge: {texture: swr2dk, size: [64, 64]}
+        surface: {texture: swrdk2, size: [128, 128]}
+        notes: The stern drive under red floor grilles (a step of 24 down).
+    notes: "The stern drive under red floor grilles; the two alien devices dark against the north wall; the stasis generator and its tool rack on the east wall."
+  - id: room:gun_deck
+    name: Gun deck
+    outline: [[576, -512], [1088, -512], [1216, -384], [1216, 640], [1088, 768], [576, 768]]
+    floor: 448
+    ceiling: 768
+    theme: theme:deck2
+    platforms:
+      - {id: platform:phaser, at: [1152, 96], size: [96, 192], rise: 112, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: "Phaser Control: a weapon console against the hull."}
+      - {id: platform:photon, at: [1152, 416], size: [96, 192], rise: 112, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: "Photon Control: a weapon console against the hull."}
+    notes: "Phaser and Photon Control against the hull (east wall); the maintenance hatch in the floor by the north-west."
+  - id: room:ladder
+    name: Maintenance ladder
+    outline: [[832, -128], [1088, -128], [1088, 256], [832, 256]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hull
+    notes: "A narrow space in the hull's thickness: the ladder up through the gun deck's floor hatch."
+  - id: room:ring0
+    name: Lower ring
+    outline: [[-704, -512], [576, -512], [704, -384], [704, 448], [448, 448], [448, -256], [-704, -256]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hull
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 192, length: 128, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256], fit: true}, notes: A red-pilot machine panel set into the ring's wall.}
+          - {offset: 1024, length: 128, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256], fit: true}, notes: A red-pilot machine panel set into the ring's wall.}
+    notes: "An L-shaped corridor round the shaft's foot, its outer corner cut; the maintenance hatch in its east arm."
+  - id: room:ring1
+    name: Middle ring
+    outline: [[-448, -384], [448, -384], [448, 448], [-448, 448]]
+    floor: 448
+    ceiling: 768
+    theme: theme:deck2
+    walls:
+      - wall: s
+        panels:
+          - {offset: 128, length: 128, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256], fit: true}, notes: A red-pilot machine panel set into the ring's wall.}
+          - {offset: 640, length: 128, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256], fit: true}, notes: A red-pilot machine panel set into the ring's wall.}
+    notes: "The middle ring round the spine: lift A's well in its floor (west), lift B's pad (east), both call buttons on the north wall; the gun deck east, the brig west. Quiet."
+  - id: room:security
+    name: Security post
+    outline: [[-1216, 576], [-576, 576], [-576, 1088], [-1216, 1088]]
+    floor: 448
+    ceiling: 768
+    theme: theme:red
+    walls:
+      - wall: w
+        panels:
+          - {at: centre, length: 384, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256]}}
+      - wall: e
+        panels:
+          - {at: centre, length: 256, bottom: 0, height: 256, surface: {texture: swared, size: [128, 256]}}
+    platforms:
+      - {id: platform:sec_console, at: [-896, 1040], size: [256, 80], rise: 112, surface: {texture: swor2, size: [256, 256]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: "The security console: 'Security lockdown: bridge sealed. Release?'"}
+    notes: "The machines' charging alcoves (red-pilot machine panels, swared) along the walls; the security console against the north wall."
+  - id: room:shaft0
+    name: Lift shaft foot
+    outline: [[-320, -128], [320, -128], [320, 448], [-320, 448]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hull
+    notes: "The spine's foot: lift A's pad against the north wall (its call button above it), the drive room north, the stores west."
+  - id: room:stores
+    name: Stores
+    outline: [[-832, -128], [-448, -128], [-448, 448], [-832, 448]]
+    floor: 0
+    ceiling: 320
+    theme: theme:hull
+    notes: "A dead end: the pod's stores locker and a few barrels by the walls."
+openings:
+  - id: open:airlock_ring
+    from: room:airlock
+    to: room:ring0
+    from_wall: n
+    to_wall: 0
+    link: link:airlock_ring
+    width: 256
+    height: 256
+    notes: "The airlock's inner door, north into the lower ring."
+  - id: open:blast
+    from: room:bridge_ante
+    to: room:bridge
+    from_wall: n
+    to_wall: 0
+    link: link:blast
+    along: 0.6875
+    width: 384
+    height: 320
+    notes: The bridge's blast door (two leaves parting in the middle).
+  - id: open:brig_security
+    from: room:brig
+    to: room:security
+    from_wall: 2
+    to_wall: s
+    link: link:brig_security
+    width: 256
+    height: 256
+    notes: The security post's door in the brig's north wall.
+  - id: open:ladder_hatch
+    from: room:gun_deck
+    to: room:ladder
+    in: floor
+    at: [960, 168]
+    size: [192, 144]
+    link: link:ladder
+    notes: The maintenance hatch in the gun deck's floor over the ladder.
+  - id: open:lift_a
+    from: room:ring1
+    to: room:shaft0
+    in: floor
+    at: [-160, 256]
+    size: [224, 256]
+    link: link:lift_a
+    notes: "Lift A's well in the middle ring's floor: the lift rises through it from the shaft's foot."
+  - id: open:lift_b
+    from: room:bridge_ante
+    to: room:ring1
+    in: floor
+    at: [160, 256]
+    size: [224, 256]
+    link: link:lift_b
+    notes: "Lift B's well in the bridge landing's floor: the lift rises through it from the middle ring."
+  - id: open:ring_brig
+    from: room:ring1
+    to: room:brig
+    from_wall: w
+    to_wall: 1
+    link: link:ring_brig
+    along: 0.5385
+    width: 256
+    height: 256
+    notes: The brig's door in the middle ring's west wall.
+  - id: open:ring_gun
+    from: room:ring1
+    to: room:gun_deck
+    from_wall: e
+    to_wall: 5
+    link: link:ring_gun
+    along: 0.4615
+    width: 256
+    height: 256
+    notes: The gun deck's door in the middle ring's east wall.
+  - id: open:ring_ladder
+    from: room:ring0
+    to: room:ladder
+    from_wall: 2
+    to_wall: w
+    link: link:ring_ladder
+    width: 192
+    height: 256
+    notes: The maintenance hatch in the lower ring's east arm.
+  - id: open:ring_shaft
+    from: room:ring0
+    to: room:shaft0
+    from_wall: 5
+    to_wall: s
+    link: link:ring_shaft
+    width: 384
+    height: 288
+    notes: The lower ring into the shaft's foot.
+  - id: open:shaft_drive
+    from: room:shaft0
+    to: room:drive
+    from_wall: n
+    to_wall: 0
+    link: link:shaft_drive
+    along: 0.275
+    width: 256
+    height: 288
+    notes: The shaft's foot north into the drive room.
+  - id: open:shaft_stores
+    from: room:shaft0
+    to: room:stores
+    from_wall: w
+    to_wall: e
+    link: link:shaft_stores
+    along: 0.6111
+    width: 256
+    height: 256
+    notes: The stores' door in the shaft's west wall.
+notes: "DD-22 Sheltem's Pod: deck 1 at 0, deck 2 at 448, deck 3 at 896, in one frame (x east, y north, z up; the lift spine at x 0). Written by output/studio_cal/dd22/tools/gen.py (geo.py)."

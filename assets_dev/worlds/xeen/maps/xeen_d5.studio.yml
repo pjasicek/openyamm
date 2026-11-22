@@ -1,0 +1,16 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d5/L4"
+revision: "4dd487a17c838554ea8b79ed53bad0ab"
+lock_hash: "54bf6ff4e8c49ce396ebe7defb629efb"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [20992, -8192, 1504], facing: 1024}
+  - {name: "entrance:d4_road", at: [20992, -8192, 1504], facing: 1024}
+  - {name: "entrance:d6_pass", at: [-20992, 0, 1696], facing: 0}
+  - {name: "entrance:d7_fall", at: [1024, -4608, 1600], facing: 1536}
+  - {name: "entrance:dd08_door", at: [2560, 11776, 3008], facing: 1536}
+  - {name: "entrance:dd15_door", at: [0, -7168, 1248], facing: 512}
+  - {name: "entrance:dd18_grate", at: [18944, -18944, 1440], facing: 512}
+  - {name: "entrance:dd24_hold", at: [11264, 10752, 2688], facing: 1536}
+  - {name: "entrance:dd25_door", at: [-512, 9216, 2688], facing: 0}

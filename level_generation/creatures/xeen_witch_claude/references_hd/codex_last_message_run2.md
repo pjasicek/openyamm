@@ -1,0 +1,3 @@
+Run 2 is complete. The built-in image generator produced all five requested PNGs at the specified dimensions. After clearing stray alpha, every new view has at least 77 pixels of fully transparent margin. The [six-view contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_witch_claude/references_hd/selected_views_review.png) includes the accepted primary, and the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_witch_claude/references_hd/generation_runs.json) contains all seven attempts, prompts, input hashes, and selection decisions.
+
+One discrepancy remains in the back view. The bare right palm faces the camera. I kept that version because the corrective attempt added three blue beads to the back of the robe.

@@ -1,0 +1,107 @@
+format: 0
+id: xeen_d6
+name: The Forbidden Zone
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D6
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9113
+  continent: 7
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 8
+  refill_days: 672
+  music: 11
+  environment: mountains
+  lock_difficulty: 15
+  slots:
+    - {monster: Xeen Eye, tier: 2, per_marker: [1, 3], weight: 40}
+    - {monster: Xeen Roc, tier: 5, per_marker: [1, 3], weight: 38}
+    - {monster: Xeen Robot, tier: 1, per_marker: [1, 3], weight: 22}
+neighbours:
+  - id: door:dd10c
+    to: xeen_dd10c.blv
+    kind: door
+    arrival: entrance:d6_adit
+    arrival_hint: "DD-10C's start (0, 192, 0), facing north (A8's L3 project)."
+    notes: "DD-10C Gemstone Mines, north pocket (A8, built in scratch; installed in phase 5, D-27): the north adit; DD-10C's exit:d6_adit returns outside the adit facing away from it (A6 measures the point at L3; D6_ARRIVAL in A8's gen.py)."
+  - id: door:dd16
+    to: xeen_dd16.blv
+    kind: door
+    arrival: entrance:d6_hatch
+    arrival_hint: "entrance:d6_hatch: DD-16's airlock about 192 inside the hatch, facing into the pod (D-47)."
+    notes: "DD-16 Corak's Pod (A7, phase 5; D-47 approved): m29.pod_door names arrival: entrance:d6_hatch. DD-16's way out lands on the crust about 384 before the hatch, facing away from it (south-east, toward the shore): (74, 70.75) facing s at L1; A6 measures it on the crust at L3."
+  - id: door:dd17
+    to: xeen_dd17.blv
+    kind: door
+    arrival: entrance:d6_gate
+    arrival_hint: "DD-17's entrance hall (L1); its arrival hook (m33.arrival) refuses a party without the Soul Box and moves it back outside the gate."
+    notes: "DD-17 Castle Alamar (A8, phase 5): the double gate on the approach (two leaves). Until m33.done; after it the gate is rubble (set:alamar). Sealed with a line until DD-17 exists."
+  - id: door:dd21
+    to: xeen_dd21.blv
+    kind: door
+    arrival: entrance:d6_stair
+    arrival_hint: At the foot of the crypt stair in the Necropolis Sewer.
+    notes: "DD-21 Necropolis Sewer (phase 5, Q-D23): the crypt stair in Necropolis's south-east corner, inside the walls (the pass already shown). Two grille leaves."
+  - id: door:dd22
+    to: xeen_dd22.blv
+    kind: door
+    arrival: entrance:d6_hatch
+    arrival_hint: Inside Sheltem's pod's hatch.
+    notes: "DD-22 Sheltem's Pod (phase 6, optional lore): sealed with a line until then (set:sheltem_pod)."
+  - id: door:fd01
+    to: xeen_fd01.blv
+    kind: door
+    arrival: entrance:d6_stair
+    arrival_hint: "The foot of the stair, FD-01's first hall (the statue's boast)."
+    notes: "FD-01 Alamar Depths (phase 6, M39): the stair in the ruin's gatehouse, m39.depths_door (the Cube of Power). Shown only in the ruin state; sealed until FD-01 exists."
+  - id: edge:east
+    to: xeen_d5.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: The Forbidden Zone's border pass from D5's west edge at y 64.
+    listed_only: true
+    notes: "D5 Desert of Doom (A6, phase 5, planned beside this): the shared border edge_d5_d6.json (A6's lead), the pass at y 64 at 1,700 over y 62-66; D6's x 109 column carries its heights (edge_d5.json). D5's arrival from D6 at about (23, 64) facing east; D6's at entrance:east_pass (105, 64) facing west."
+  - id: edge:south
+    to: xeen_d1.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The long mountain road from D1's north edge at x 64, up to Griffin Pass."
+    notes: "D1 Castleview Vale (installed): its mountain road's valley runs out to its y 0 at x 64 (rim [59, 70] level, the road 1,550 at (64, 19)), sealed with a sign until D6 exists. D1's arrival from D6 is its north road's end; D6's south arrival is entrance:south_road (64, 105) facing north. D6's y 109 row repeats D1's installed y 19 row cell for cell (edge_d1.json). A2 writes the travel row."
+  - id: scripted:griffin
+    to: xeen_dd14.blv
+    kind: scripted
+    listed_only: true
+    notes: "M25: Ambrose's topic calls A3's m25.flight, which moves the party to DD-14's entrance:d6_griffin itself (A3, 2026-11-21)."
+  - id: scripted:pyramid
+    to: xeen_xd17.blv
+    kind: scripted
+    listed_only: true
+    notes: "D-50 Q9: the travel pyramid outside Alamar's gate, Xeen.travelPyramid(\"alamar_gate\") to XD-17 Shangri-La (PyramidArrivals.shangrila, A3); XD-17's pyramid lands here at entrance:xd17_pyramid."
+qbits:
+  alamar_destroyed: 111662
+  alamar_inside: 111660
+  archers_burned: 116200
+  lava_cooled: 111564
+  m25_done: 111503
+  mirror_necropolis: 119011
+  obelisk_dark_6: 115055
+items:
+  necropolis_pass: 12336
+rules:
+  rim:
+    cliff_x: 24
+    cliff_y: 24
+    fall: death
+    sides: [north, west]
+  respawn: entrance:necropolis_gate
+  town_portal_anchor: entrance:necropolis_gate
+notes: "D6 The Forbidden Zone (A6, 2026-11-21), built from the approved L1 with D-49 and D-50. The south edge (D1) is live; the east edge (D5) is sealed by a sign until D5 is installed; each dungeon door shows its hook and a sealed line until its BLV is installed and lists the door's entrance. Written by output/studio_cal/d6/tools/gen.py."

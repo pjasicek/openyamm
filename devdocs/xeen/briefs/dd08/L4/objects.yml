@@ -1,0 +1,986 @@
+format: 0
+start:
+  room: room:gatehouse
+  at: [0, -1152]
+  facing: n
+  notes: "Inside the gate, 256 in, facing north into the tower."
+arrivals:
+  - {entrance: entrance:d5_tower, room: room:gatehouse, at: [0, -1152], facing: n, notes: "From D5's tower door (A6's door:dd08, q-d17.tower_door): (0, -1152, 0) facing north (512)."}
+doors:
+  - id: door:chapter
+    opening: open:chapter
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The chapter hall's doors: two hinged leaves of 7d33's arched door (chb1dl|chb1dr)."
+  - id: door:east_dorm
+    opening: open:thrones_edorm
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The east cells off the Hall of Thrones.
+  - id: door:east_study
+    opening: open:estair_study
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The east study off the east wall stair's head.
+  - id: door:gate
+    opening: open:gate
+    kind: hinged
+    leaves: 2
+    pictures:
+      - [{texture: 7solid01, size: [128, 256]}, {texture: 7solid01, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hkm1dl, size: [128, 256]}, {texture: hkm1dr, size: [128, 256]}]
+    notes: "The tower's gate (D-49: the Northern Tower's pair hkm1dl|hkm1dr, mirrored inside): clicked, the exit preset ('Exit the Knight's Tower?', aaze0069:0). It stays shut."
+  - id: door:helms
+    opening: open:core_helms
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The west armoury's door off the great stair's head.
+  - id: door:iron
+    opening: open:iron
+    kind: slide_up
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The iron door to the chalice room: opened by the voice's answer (q-d17.voice, 113342) and open on every later load."
+  - id: door:lectern
+    opening: open:wgal_lect
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The west lectern room's door.
+  - id: door:mail
+    opening: open:core_mail
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The east armoury's door off the great stair's head.
+  - id: door:quartermaster
+    opening: open:mail_qm
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The quartermaster's store.
+  - id: door:refectory
+    opening: open:refec_hall
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The refectory's door from the Hall of Arms.
+  - id: door:wall_e
+    opening: open:estudy_niche
+    kind: slide_left
+    surface: {texture: gston1wl, size: [128, 256]}
+    secret: true
+    back_surface: {texture: gston1wl, size: [128, 256]}
+    notes: "The east study's sliding wall: the step plate before it opens it with a grind, for good (117653)."
+  - id: door:wall_w
+    opening: open:wstudy_niche
+    kind: slide_left
+    surface: {texture: gston1wl, size: [128, 256]}
+    secret: true
+    back_surface: {texture: gston1wl, size: [128, 256]}
+    notes: "The west study's sliding wall: the step plate before it opens it with a grind, for good (117652)."
+  - id: door:west_dorm
+    opening: open:chapter_wdorm
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The west cells off the chapter hall.
+  - id: door:west_study
+    opening: open:wstair_study
+    kind: slide_left
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: The west study off the west wall stair's head.
+plates:
+  - id: plate:wall_e
+    room: room:east_study
+    at: [2048, 1728]
+    size: [192, 192]
+    notes: "Before the east wall (the source's (11, 8)): the wall slides open."
+  - id: plate:wall_w
+    room: room:west_study
+    at: [-2048, 1728]
+    size: [192, 192]
+    notes: "Before the west wall (the source's (3, 8)): the wall slides open."
+sounds:
+  - {id: sound:drill_wind, room: room:drill_s, at: [0, -1024], sound: whistling wind, radius: 1400, inner_radius: 400, volume: 0.3, notes: Wind at the drill yard's slits.}
+  - {id: sound:loft_wind, room: room:roof_loft, at: [2688, 1536], height: 352, sound: whistling wind, radius: 1000, inner_radius: 300, volume: 0.3, notes: Wind round the roof trapdoor.}
+  - {id: sound:tower_bed, room: room:core2, at: [0, 320], height: 64, sound: xeen_amb_tower, radius: 4200, inner_radius: 2400, volume: 0.3, notes: "The tower of Mok's bed (AUDIO.md xeen_amb_tower, quiet): one source in the core on L3, heard on every floor; a bed, not panned (D-48).", pan: false}
+lights:
+  - id: light:antechamber_1
+    room: room:antechamber
+    at: [0, 1600]
+    height: 320
+    radius: 1800
+    color: [200, 215, 200]
+  - id: light:chalice_room_1
+    room: room:chalice_room
+    at: [0, 2368]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:chalice_room_2
+    room: room:chalice_room
+    at: [0, 2496]
+    height: 300
+    radius: 500
+    color: [220, 230, 255]
+    notes: The one lamp over the Chalice.
+  - id: light:chapter_hall_1
+    room: room:chapter_hall
+    at: [-1536, 512]
+    height: 400
+    radius: 921
+    color: [255, 200, 140]
+  - id: light:core2_1
+    room: room:core2
+    at: [0, 320]
+    floor_height: 896
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:core2_2
+    room: room:core2
+    at: [0, 960]
+    floor_height: 1344
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:core_1
+    room: room:core
+    at: [0, 320]
+    floor_height: 0
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:core_2
+    room: room:core
+    at: [0, 960]
+    floor_height: 448
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:dormitory0_1
+    room: room:dormitory0
+    at: [1344, 1664]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:drill_e_1
+    room: room:drill_e
+    at: [1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:drill_s_1
+    room: room:drill_s
+    at: [0, -704]
+    height: 320
+    radius: 1800
+    color: [200, 215, 200]
+  - id: light:drill_w_1
+    room: room:drill_w
+    at: [-1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:dunce_1
+    room: room:dunce
+    at: [1600, -512]
+    height: 320
+    radius: 489
+    color: [255, 200, 140]
+  - id: light:east_dorm_1
+    room: room:east_dorm
+    at: [2816, 512]
+    height: 320
+    radius: 768
+    color: [255, 200, 140]
+  - id: light:east_study_1
+    room: room:east_study
+    at: [1792, 1728]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:egal_1
+    room: room:egal
+    at: [1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:estair_1
+    room: room:estair
+    at: [1984, -256]
+    floor_height: 448
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:estair_2
+    room: room:estair
+    at: [1984, 1024]
+    floor_height: 896
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:gatehouse_1
+    room: room:gatehouse
+    at: [0, -1152]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:hall_1
+    room: room:hall
+    at: [384, -512]
+    height: 320
+    radius: 1800
+    color: [200, 215, 200]
+  - id: light:helms_1
+    room: room:helms
+    at: [-1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:lectern_w0_1
+    room: room:lectern_w0
+    at: [-1216, 1600]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:mail_1
+    room: room:mail
+    at: [1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:niche_e_1
+    room: room:niche_e
+    at: [2560, 1728]
+    height: 320
+    radius: 420
+    color: [200, 215, 200]
+  - id: light:niche_w_1
+    room: room:niche_w
+    at: [-2560, 1728]
+    height: 320
+    radius: 420
+    color: [200, 215, 200]
+  - id: light:north_gallery1_1
+    room: room:north_gallery1
+    at: [0, 1600]
+    height: 320
+    radius: 1800
+    color: [200, 215, 200]
+  - id: light:quartermaster_1
+    room: room:quartermaster
+    at: [1216, -512]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:refectory_1
+    room: room:refectory
+    at: [2240, 128]
+    height: 320
+    radius: 1075
+    color: [200, 215, 200]
+  - id: light:roof_loft_1
+    room: room:roof_loft
+    at: [2560, 1408]
+    height: 400
+    radius: 489
+    color: [200, 215, 200]
+  - id: light:thrones_1
+    room: room:thrones
+    at: [1536, 832]
+    height: 400
+    radius: 921
+    color: [255, 200, 140]
+  - id: light:west_dorm_1
+    room: room:west_dorm
+    at: [-2752, 512]
+    height: 320
+    radius: 768
+    color: [255, 200, 140]
+  - id: light:west_study_1
+    room: room:west_study
+    at: [-1792, 1728]
+    height: 320
+    radius: 700
+    color: [200, 215, 200]
+  - id: light:wgal_1
+    room: room:wgal
+    at: [-1216, 512]
+    height: 320
+    radius: 768
+    color: [200, 215, 200]
+  - id: light:wstair_1
+    room: room:wstair
+    at: [-1984, -256]
+    floor_height: 448
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+  - id: light:wstair_2
+    room: room:wstair
+    at: [-1984, 1024]
+    floor_height: 896
+    height: 320
+    radius: 1100
+    color: [200, 215, 200]
+chests:
+  - id: chest:niche_e
+    room: room:niche_e
+    at: [2720, 1728]
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 1200
+    notes: Behind the east sliding wall.
+  - id: chest:niche_w
+    room: room:niche_w
+    at: [-2720, 1728]
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 1200
+    notes: Behind the west sliding wall.
+  - id: chest:quartermaster
+    room: room:quartermaster
+    at: [1536, -672]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 1500
+    notes: The quartermaster's strongbox in the corner (the source's cabinet).
+  - id: chest:west_dorm
+    room: room:west_dorm
+    at: [-2560, 1040]
+    facing: s
+    treasure_level: 5
+    random_items: 3
+    gold: 2000
+    notes: The order's strongbox in the west cells.
+monsters:
+  - id: monster:chapter_hall_death_1
+    room: room:chapter_hall
+    monster: 11151
+    at: [-1536, 896]
+    facing: 270
+    group: 1
+  - id: monster:chapter_hall_slayer_1
+    room: room:chapter_hall
+    monster: 11150
+    at: [-1856, 256]
+    facing: 270
+    group: 1
+  - id: monster:chapter_hall_slayer_2
+    room: room:chapter_hall
+    monster: 11150
+    at: [-1152, 512]
+    facing: 270
+    group: 1
+  - id: monster:dormitory0_slayer_1
+    room: room:dormitory0
+    monster: 11150
+    at: [1152, 1472]
+    facing: 270
+    group: 1
+  - id: monster:dormitory0_slayer_2
+    room: room:dormitory0
+    monster: 11150
+    at: [1408, 1536]
+    facing: 270
+    group: 1
+  - id: monster:drill_e_death_1
+    room: room:drill_e
+    monster: 11151
+    at: [1024, 512]
+    facing: 270
+    group: 1
+  - id: monster:drill_e_slayer_1
+    room: room:drill_e
+    monster: 11150
+    at: [1408, 0]
+    facing: 270
+    group: 1
+  - id: monster:drill_e_slayer_2
+    room: room:drill_e
+    monster: 11150
+    at: [1408, 896]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_death_1
+    room: room:drill_s
+    monster: 11151
+    at: [1408, -640]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_slayer_1
+    room: room:drill_s
+    monster: 11150
+    at: [-1280, -704]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_slayer_2
+    room: room:drill_s
+    monster: 11150
+    at: [-896, -896]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_slayer_3
+    room: room:drill_s
+    monster: 11150
+    at: [-512, -640]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_slayer_4
+    room: room:drill_s
+    monster: 11150
+    at: [640, -704]
+    facing: 270
+    group: 1
+  - id: monster:drill_s_slayer_5
+    room: room:drill_s
+    monster: 11150
+    at: [1024, -896]
+    facing: 270
+    group: 1
+  - id: monster:drill_w_slayer_1
+    room: room:drill_w
+    monster: 11150
+    at: [-1408, 0]
+    facing: 270
+    group: 1
+  - id: monster:drill_w_slayer_2
+    room: room:drill_w
+    monster: 11150
+    at: [-1024, 512]
+    facing: 270
+    group: 1
+  - id: monster:drill_w_slayer_3
+    room: room:drill_w
+    monster: 11150
+    at: [-1408, 896]
+    facing: 270
+    group: 1
+  - id: monster:east_dorm_death_1
+    room: room:east_dorm
+    monster: 11151
+    at: [2624, 768]
+    facing: 270
+    group: 1
+  - id: monster:east_dorm_slayer_1
+    room: room:east_dorm
+    monster: 11150
+    at: [2624, 256]
+    facing: 270
+    group: 1
+  - id: monster:estair_death_1
+    room: room:estair
+    monster: 11151
+    at: [2048, 1216]
+    floor_height: 896
+    facing: 270
+    group: 1
+  - id: monster:estair_death_2
+    room: room:estair
+    monster: 11151
+    at: [1872, 1024]
+    floor_height: 896
+    facing: 270
+    group: 1
+  - id: monster:estair_slayer_1
+    room: room:estair
+    monster: 11150
+    at: [1872, 1216]
+    floor_height: 896
+    facing: 270
+    group: 1
+  - id: monster:figure_1
+    room: room:chapter_hall
+    monster: 11925
+    at: [-2176, 864]
+    facing: 0
+    hostile: false
+    group: 40
+    immobile: true
+    hidden: true
+    notes: "A Voweless Knight (11925, D-61 Q28) in a niche of the chapter hall: placed hidden, shown by the oath (q-d17.oath) and on every later load; peaceful, immobile, not counted."
+  - id: monster:figure_2
+    room: room:chapter_hall
+    monster: 11925
+    at: [-2176, 224]
+    facing: 0
+    hostile: false
+    group: 40
+    immobile: true
+    hidden: true
+    notes: "A Voweless Knight (11925, D-61 Q28) in a niche of the chapter hall: placed hidden, shown by the oath (q-d17.oath) and on every later load; peaceful, immobile, not counted."
+  - id: monster:figure_3
+    room: room:chapter_hall
+    monster: 11925
+    at: [-1984, 0]
+    facing: 90
+    hostile: false
+    group: 40
+    immobile: true
+    hidden: true
+    notes: "A Voweless Knight (11925, D-61 Q28) in a niche of the chapter hall: placed hidden, shown by the oath (q-d17.oath) and on every later load; peaceful, immobile, not counted."
+  - id: monster:figure_4
+    room: room:chapter_hall
+    monster: 11925
+    at: [-1088, 0]
+    facing: 90
+    hostile: false
+    group: 40
+    immobile: true
+    hidden: true
+    notes: "A Voweless Knight (11925, D-61 Q28) in a niche of the chapter hall: placed hidden, shown by the oath (q-d17.oath) and on every later load; peaceful, immobile, not counted."
+  - id: monster:hall_slayer_1
+    room: room:hall
+    monster: 11150
+    at: [-1280, -512]
+    facing: 270
+    group: 1
+  - id: monster:hall_slayer_2
+    room: room:hall
+    monster: 11150
+    at: [1024, -512]
+    facing: 270
+    group: 1
+  - id: monster:hall_slayer_3
+    room: room:hall
+    monster: 11150
+    at: [1408, -640]
+    facing: 270
+    group: 1
+  - id: monster:helms_slayer_1
+    room: room:helms
+    monster: 11150
+    at: [-1408, 256]
+    facing: 270
+    group: 1
+  - id: monster:helms_slayer_2
+    room: room:helms
+    monster: 11150
+    at: [-1088, 640]
+    facing: 270
+    group: 1
+  - id: monster:helms_slayer_3
+    room: room:helms
+    monster: 11150
+    at: [-1408, 896]
+    facing: 270
+    group: 1
+  - id: monster:mail_death_1
+    room: room:mail
+    monster: 11151
+    at: [1408, 640]
+    facing: 270
+    group: 1
+  - id: monster:mail_slayer_1
+    room: room:mail
+    monster: 11150
+    at: [1088, 256]
+    facing: 270
+    group: 1
+  - id: monster:mail_slayer_2
+    room: room:mail
+    monster: 11150
+    at: [1088, 896]
+    facing: 270
+    group: 1
+  - id: monster:north_gallery1_death_1
+    room: room:north_gallery1
+    monster: 11151
+    at: [0, 1600]
+    facing: 270
+    group: 1
+  - id: monster:north_gallery1_slayer_1
+    room: room:north_gallery1
+    monster: 11150
+    at: [-1024, 1600]
+    facing: 270
+    group: 1
+  - id: monster:north_gallery1_slayer_2
+    room: room:north_gallery1
+    monster: 11150
+    at: [1024, 1600]
+    facing: 270
+    group: 1
+  - id: monster:quartermaster_death_1
+    room: room:quartermaster
+    monster: 11151
+    at: [1216, -640]
+    facing: 270
+    group: 1
+  - id: monster:quartermaster_slayer_1
+    room: room:quartermaster
+    monster: 11150
+    at: [960, -512]
+    facing: 270
+    group: 1
+  - id: monster:quartermaster_slayer_2
+    room: room:quartermaster
+    monster: 11150
+    at: [1408, -448]
+    facing: 270
+    group: 1
+  - id: monster:refectory_slayer_1
+    room: room:refectory
+    monster: 11150
+    at: [2048, -512]
+    facing: 270
+    group: 1
+  - id: monster:refectory_slayer_2
+    room: room:refectory
+    monster: 11150
+    at: [2304, 320]
+    facing: 270
+    group: 1
+  - id: monster:refectory_slayer_3
+    room: room:refectory
+    monster: 11150
+    at: [2048, 512]
+    facing: 270
+    group: 1
+  - id: monster:thrones_death_1
+    room: room:thrones
+    monster: 11151
+    at: [1536, 0]
+    facing: 270
+    group: 1
+  - id: monster:thrones_death_2
+    room: room:thrones
+    monster: 11151
+    at: [1536, 960]
+    facing: 270
+    group: 1
+  - id: monster:thrones_slayer_1
+    room: room:thrones
+    monster: 11150
+    at: [2176, 384]
+    facing: 270
+    group: 1
+  - id: monster:west_dorm_death_1
+    room: room:west_dorm
+    monster: 11151
+    at: [-2560, 640]
+    facing: 270
+    group: 1
+  - id: monster:west_dorm_slayer_1
+    room: room:west_dorm
+    monster: 11150
+    at: [-2560, 256]
+    facing: 270
+    group: 1
+decorations:
+  - id: deco:chalice
+    room: room:chalice_room
+    decoration: 7dec46
+    at: [0, 2496]
+    floor_height: 1456
+  - id: deco:drill_barrel_1
+    room: room:drill_s
+    decoration: bigbarel
+    at: [1568, -1056]
+  - id: deco:drill_barrel_2
+    room: room:drill_s
+    decoration: bigbarel
+    at: [1472, -1056]
+  - id: deco:qm_barrel_1
+    room: room:quartermaster
+    decoration: bigbarel
+    at: [896, -672]
+  - id: deco:qm_barrel_2
+    room: room:quartermaster
+    decoration: bigbarel
+    at: [992, -672]
+  - id: deco:qm_sack_1
+    room: room:quartermaster
+    decoration: floursac
+    at: [1568, -384]
+  - id: deco:qm_sack_2
+    room: room:quartermaster
+    decoration: bag01
+    at: [880, -384]
+  - id: deco:refectory_candle
+    room: room:refectory
+    decoration: cndlab0
+    at: [2368, 832]
+    floor_height: 80
+  - id: deco:refectory_cask_1
+    room: room:refectory
+    decoration: 7dec21
+    at: [2592, 960]
+  - id: deco:refectory_cask_2
+    room: room:refectory
+    decoration: 7dec21
+    at: [2496, 960]
+  - id: deco:sconce_0
+    room: room:gatehouse
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 240
+  - id: deco:sconce_1
+    room: room:gatehouse
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 240
+  - id: deco:sconce_10
+    room: room:refectory
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 240
+  - id: deco:sconce_11
+    room: room:core
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 240
+  - id: deco:sconce_12
+    room: room:core
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 240
+  - id: deco:sconce_13
+    room: room:helms
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 240
+  - id: deco:sconce_14
+    room: room:mail
+    decoration: scon100
+    wall: n
+    along: 0.75
+    height: 240
+  - id: deco:sconce_15
+    room: room:north_gallery1
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 240
+  - id: deco:sconce_16
+    room: room:quartermaster
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 240
+  - id: deco:sconce_17
+    room: room:wstair
+    decoration: scon100
+    wall: w
+    along: 0.25
+    height: 240
+  - id: deco:sconce_18
+    room: room:estair
+    decoration: scon100
+    wall: e
+    along: 0.25
+    height: 240
+  - id: deco:sconce_19
+    room: room:drill_w
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 240
+  - id: deco:sconce_2
+    room: room:hall
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 240
+  - id: deco:sconce_20
+    room: room:drill_e
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 240
+  - id: deco:sconce_21
+    room: room:drill_s
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 240
+  - id: deco:sconce_22
+    room: room:west_study
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 240
+  - id: deco:sconce_23
+    room: room:east_study
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 240
+  - id: deco:sconce_24
+    room: room:core2
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 240
+  - id: deco:sconce_25
+    room: room:core2
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 240
+  - id: deco:sconce_26
+    room: room:chapter_hall
+    decoration: scon100
+    wall: e
+    along: 0.25
+    height: 240
+  - id: deco:sconce_27
+    room: room:chapter_hall
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 240
+  - id: deco:sconce_28
+    room: room:antechamber
+    decoration: scon100
+    wall: s
+    along: 0.5
+    height: 240
+  - id: deco:sconce_29
+    room: room:antechamber
+    decoration: scon100
+    wall: n
+    along: 0.15
+    height: 240
+  - id: deco:sconce_3
+    room: room:hall
+    decoration: scon100
+    wall: s
+    along: 0.75
+    height: 240
+  - id: deco:sconce_30
+    room: room:chalice_room
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 240
+  - id: deco:sconce_31
+    room: room:chalice_room
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 240
+  - id: deco:sconce_32
+    room: room:thrones
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 240
+  - id: deco:sconce_33
+    room: room:thrones
+    decoration: scon100
+    wall: s
+    along: 0.25
+    height: 240
+  - id: deco:sconce_34
+    room: room:east_dorm
+    decoration: scon100
+    wall: w
+    along: 0.15
+    height: 240
+  - id: deco:sconce_35
+    room: room:west_dorm
+    decoration: scon100
+    wall: e
+    along: 0.85
+    height: 240
+  - id: deco:sconce_36
+    room: room:roof_loft
+    decoration: scon100
+    wall: e
+    along: 0.5
+    height: 240
+  - id: deco:sconce_4
+    room: room:hall
+    decoration: scon100
+    wall: n
+    along: 0.5
+    height: 240
+  - id: deco:sconce_5
+    room: room:wgal
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 240
+  - id: deco:sconce_6
+    room: room:egal
+    decoration: scon100
+    wall: w
+    along: 0.75
+    height: 240
+  - id: deco:sconce_7
+    room: room:lectern_w0
+    decoration: scon100
+    wall: n
+    along: 0.25
+    height: 240
+  - id: deco:sconce_8
+    room: room:dormitory0
+    decoration: scon100
+    wall: e
+    along: 0.75
+    height: 240
+  - id: deco:sconce_9
+    room: room:refectory
+    decoration: scon100
+    wall: e
+    along: 0.3
+    height: 240
+  - id: deco:statue
+    room: room:hall
+    decoration: 7dec55
+    at: [-768, -416]
+    floor_height: 64
+  - id: deco:throne_confused
+    room: room:thrones
+    decoration: xeen_throne
+    at: [2176, 0]
+    floor_height: 1344
+    facing: 180
+    notes: "Emotion Throne (clicked: evt:throne_confused)."
+  - id: deco:throne_depressed
+    room: room:thrones
+    decoration: xeen_throne
+    at: [896, 0]
+    floor_height: 1344
+    facing: 0
+    notes: "Emotion Throne (clicked: evt:throne_depressed)."
+  - id: deco:throne_dunce
+    room: room:dunce
+    decoration: xeen_throne
+    at: [1600, -576]
+    floor_height: 1344
+    facing: 90
+    notes: "Throne of the Dunce (clicked: evt:throne_dunce)."
+  - id: deco:throne_euphoria
+    room: room:thrones
+    decoration: xeen_throne_gold
+    at: [1536, 384]
+    floor_height: 1392
+    facing: 270
+    notes: "Euphoria Throne (clicked: evt:throne_euphoria)."
+  - id: deco:throne_heartbroken
+    room: room:thrones
+    decoration: xeen_throne
+    at: [896, 512]
+    floor_height: 1344
+    facing: 0
+    notes: "Emotion Throne (clicked: evt:throne_heartbroken)."
+  - id: deco:throne_insane
+    room: room:thrones
+    decoration: xeen_throne
+    at: [2176, 960]
+    floor_height: 1344
+    facing: 180
+    notes: "Emotion Throne (clicked: evt:throne_insane)."
+notes: "DD-08's contents, written by output/studio_cal/dd08/tools/dress.py: 14 doors (the gate and the chapter hall's doors as hinged pairs, two sliding walls, the iron door), two step plates, four chests, 45 placed knights (33 Slayer, 12 Death) and, not counted, the four oath figures (11925) hidden in the chapter hall's niches."

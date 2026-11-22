@@ -1,0 +1,230 @@
+format: 0
+variables: [sapphire_1, sapphire_2, sapphire_3, sapphire_4, sapphire_5, false_vein, in_visit]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE GEMSTONE MINES, EAST POCKET. Timber, rails and, somewhere deep down, a hum in the rock. Toby the sapphire smith wants five rocks; the veins give one each. They say the God of Minerals lives at the bottom, and that he likes gold."
+      - qbit: arrived_once
+    notes: "Why the party is here (Q-D7), on the first arrival only."
+  - id: evt:cart
+    preset: text
+    source: platform:cart
+    title: Ore cart
+    text: An ore cart heaped with spoil. Somebody meant to come back for it.
+  - id: evt:chest_cut
+    preset: chest
+    source: chest:cut
+    title: Chest
+  - id: evt:chest_flooded
+    preset: chest
+    source: chest:flooded
+    title: Chest
+  - id: evt:door_adit
+    preset: door
+    source: door:adit
+    title: Door
+  - id: evt:door_ramp
+    preset: door
+    source: door:ramp
+    title: Door
+  - id: evt:door_throne
+    preset: door
+    source: door:throne
+    title: Door
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: "Cold air, old timber, a hum in the rock."
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d2
+    title: Adit
+    notes: "Out to the outdoor map by the adit: the game's own leave window (D-24); 'Exit the Gemstone Mines?' (dark/aaze0039:0) is its meaning."
+  - id: evt:false_vein
+    preset: script
+    source: panel:false_vein
+    title: Sapphire vein
+    condition: {not: {map_var: false_vein}}
+    effects:
+      - set:
+          var:
+            map_var: false_vein
+          value: 1
+      - damage:
+          amount: 16
+          kind: fire
+      - message: "A gem exploded!"
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "D-27's false vein (dark/aaze0039:11): 16 fire to every member, once."
+  - id: evt:god
+    preset: script
+    source: platform:god
+    title: God of Minerals
+    effects:
+      - lua: "XeenQuests.hook(\"q-d7.god_of_minerals\")"
+    notes: "A3's q-d7.god_of_minerals (D-27): refuses while q-d7.dug (113144) is clear ('The mountains are full. Empty them first.'); without 10,000 gold says the price; else takes it, sets refill_a/b/c (113141-113143) and clears dug. Each pocket's entry then refills its veins."
+  - id: evt:god_face
+    preset: script
+    source: panel:god_face
+    title: God of Minerals
+    effects:
+      - lua: "XeenQuests.hook(\"q-d7.god_of_minerals\")"
+    notes: "D-37 (4): the God's face behind his crystal does as the crystal does (evt:god)."
+  - id: evt:god_speaks
+    preset: script
+    source: room:god
+    trigger: step
+    once: true
+    effects:
+      - message: "A voice like grinding stone: \"I am the god of these mountains. If you give me 10,000 of your gold pieces, I will use them to replenish the gems inside the mountains.\""
+    notes: "The God's own line (dark/aaze0039:16, the price rescaled to 10,000), the first time the party comes into his hall."
+  - id: evt:refill
+    preset: script
+    trigger: load
+    condition: {qbit: refill_b, not: {map_var: in_visit}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_1
+          value: 0
+      - set:
+          var:
+            map_var: sapphire_2
+          value: 0
+      - set:
+          var:
+            map_var: sapphire_3
+          value: 0
+      - set:
+          var:
+            map_var: sapphire_4
+          value: 0
+      - set:
+          var:
+            map_var: sapphire_5
+          value: 0
+      - clear_qbit: refill_b
+      - text: "The veins glitter again: the God of Minerals has been at work."
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    else_effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    notes: "D-27: the God of Minerals (DD-10B, q-d7.god_of_minerals) sets the three refill bits; this pocket's fresh entry (not a load inside a visit: in_visit) resets its veins and clears its own bit (refill_b)."
+  - id: evt:sapphire_1
+    preset: script
+    source: panel:sapphire_1
+    title: Sapphire vein
+    condition: {not: {map_var: sapphire_1}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_1
+          value: 1
+      - give_item: sapphire_rock
+      - lua: "XeenQuests.hook(\"q-d7.sapphire_veins\")"
+      - text: You work a sapphire rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Sapphire vein 1 (dark/aaze0039:1-4 the hover, :10 when spent): one sapphire rock (12359, the hook's map_gives), q-d7.sapphire_veins sets q-d7.dug (113144); map variable sapphire_1."
+  - id: evt:sapphire_2
+    preset: script
+    source: panel:sapphire_2
+    title: Sapphire vein
+    condition: {not: {map_var: sapphire_2}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_2
+          value: 1
+      - give_item: sapphire_rock
+      - lua: "XeenQuests.hook(\"q-d7.sapphire_veins\")"
+      - text: You work a sapphire rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Sapphire vein 2 (dark/aaze0039:1-4 the hover, :10 when spent): one sapphire rock (12359, the hook's map_gives), q-d7.sapphire_veins sets q-d7.dug (113144); map variable sapphire_2."
+  - id: evt:sapphire_3
+    preset: script
+    source: panel:sapphire_3
+    title: Sapphire vein
+    condition: {not: {map_var: sapphire_3}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_3
+          value: 1
+      - give_item: sapphire_rock
+      - lua: "XeenQuests.hook(\"q-d7.sapphire_veins\")"
+      - text: You work a sapphire rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Sapphire vein 3 (dark/aaze0039:1-4 the hover, :10 when spent): one sapphire rock (12359, the hook's map_gives), q-d7.sapphire_veins sets q-d7.dug (113144); map variable sapphire_3."
+  - id: evt:sapphire_4
+    preset: script
+    source: panel:sapphire_4
+    title: Sapphire vein
+    condition: {not: {map_var: sapphire_4}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_4
+          value: 1
+      - give_item: sapphire_rock
+      - lua: "XeenQuests.hook(\"q-d7.sapphire_veins\")"
+      - text: You work a sapphire rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Sapphire vein 4 (dark/aaze0039:1-4 the hover, :10 when spent): one sapphire rock (12359, the hook's map_gives), q-d7.sapphire_veins sets q-d7.dug (113144); map variable sapphire_4."
+  - id: evt:sapphire_5
+    preset: script
+    source: panel:sapphire_5
+    title: Sapphire vein
+    condition: {not: {map_var: sapphire_5}}
+    effects:
+      - set:
+          var:
+            map_var: sapphire_5
+          value: 1
+      - give_item: sapphire_rock
+      - lua: "XeenQuests.hook(\"q-d7.sapphire_veins\")"
+      - text: You work a sapphire rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Sapphire vein 5 (dark/aaze0039:1-4 the hover, :10 when spent): one sapphire rock (12359, the hook's map_gives), q-d7.sapphire_veins sets q-d7.dug (113144); map variable sapphire_5."
+  - id: evt:throne
+    preset: text
+    source: platform:throne
+    title: Gem maker's throne
+    text: The throne hums. It was not made for you.
+    notes: "D-27: flavour. dark/aaze0039:8 the hover."
+  - id: evt:throne_back
+    preset: text
+    source: platform:throne_back
+    title: Gem maker's throne
+    text: The throne hums. It was not made for you.
+  - id: evt:throne_dais
+    preset: text
+    source: platform:throne_dais
+    title: Gem maker's throne
+    text: The throne hums. It was not made for you.
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving ends the visit: the next load is a fresh entry (evt:refill)."
+notes: "DD-10B's events (gen.py, mine.py): the five sapphire veins (q-d7.sapphire_veins: one rock each, a map variable each) and the false vein (D-27), the refill on entry (q-d7.refill_b), the God of Minerals (q-d7.god_of_minerals), the Gem maker's throne, the exit to D2, doors, chests."

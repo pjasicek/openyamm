@@ -1,0 +1,1499 @@
+format: 0
+grid: 512
+notes: "D5 Desert of Doom, written by output/studio_cal/d5/tools/gen.py. Cells [x, y], x east, y south. Heights above the stars below the rim (0): the salt pan 1,000, the sands 1,100-1,700, the Desert of Doom 1,300-2,000, the highlands 2,500-3,000, the crest 3,850, the Gemstone spurs to 2,900."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [72, 88], neighbour: edge:east, notes: "The desert road runs out to x 127 at y 80 (D4's west edge, D-36)."}
+    - {side: west, span: [58, 70], neighbour: edge:west, notes: The road runs out to x 0 at y 64 over the pass (edge_d5_d6.json).}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 24; below, water at 0 stands for the stars."}
+    - {side: east, span: [0, 24], form: level, height: 0, meet: 1, notes: "D4's west edge [0, 24]: the north rim."}
+    - {side: east, span: [24, 60], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: "D4's west edge [24, 60]: Magic Mountain's west flank."}
+    - {side: east, span: [60, 72], form: ridge, height: [1800, 2300], floor: 1500, crest: 8, roughness: 80, notes: "D4's west edge [60, 72]: forested hills."}
+    - {side: east, span: [72, 88], form: level, height: 1500, meet: 6, notes: "D4's west edge [72, 88]: the desert road's valley into the Forest of Peril."}
+    - {side: east, span: [88, 104], form: ridge, height: [1500, 2000], floor: 1400, crest: 10, roughness: 80, notes: "D4's west edge [88, 104]: dunes of the desert edge."}
+    - {side: east, span: [104, 128], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: "D4's west edge [104, 128]: the last Gemstone crags (D3's north-west corner)."}
+    - {side: west, span: [0, 24], form: level, height: 0, meet: 1, notes: "The D5/D6 border [0, 24]: the north rim."}
+    - {side: west, span: [24, 58], form: ridge, height: [2600, 3300], floor: 2200, crest: 10, roughness: 120, notes: "The D5/D6 border [24, 58]: barren highlands of the Forbidden Zone."}
+    - {side: west, span: [58, 70], form: level, height: 1700, meet: 6, notes: "The D5/D6 border [58, 70]: the Forbidden Zone pass (1,700 at y 62-66)."}
+    - {side: west, span: [70, 128], form: ridge, height: [2500, 3000], floor: 2100, crest: 10, roughness: 120, notes: "The D5/D6 border [70, 128]: the Forbidden Zone's south-east hills."}
+    - {side: south, span: [0, 100], form: ridge, height: [3400, 4400], floor: 2600, crest: 10, roughness: 140, notes: "D2's north rim: the Gemstone Range, slate crags with crystal veins (no crossing)."}
+    - {side: south, span: [100, 128], form: ridge, height: [1500, 2400], floor: 1300, crest: 10, roughness: 80, notes: "The corner where D2, D3 and D4 meet: dunes of D4's desert edge, D3's crags beyond."}
+  edge: {height: 1500, north: 0}
+heights:
+  points:
+    - {at: [19, 25], h: 3136}
+    - {at: [109, 25], h: 3168}
+    - {at: [19, 26], h: 3136}
+    - {at: [109, 26], h: 3200}
+    - {at: [19, 27], h: 3168}
+    - {at: [109, 27], h: 3296}
+    - {at: [19, 28], h: 3200}
+    - {at: [109, 28], h: 3296}
+    - {at: [19, 29], h: 3232}
+    - {at: [109, 29], h: 3296}
+    - {at: [19, 30], h: 3264}
+    - {at: [109, 30], h: 3296}
+    - {at: [19, 31], h: 3264}
+    - {at: [109, 31], h: 3264}
+    - {at: [19, 32], h: 3296}
+    - {at: [109, 32], h: 3200}
+    - {at: [19, 33], h: 3264}
+    - {at: [109, 33], h: 3136}
+    - {at: [19, 34], h: 3232}
+    - {at: [109, 34], h: 3104}
+    - {at: [19, 35], h: 3200}
+    - {at: [109, 35], h: 3040}
+    - {at: [19, 36], h: 3168}
+    - {at: [109, 36], h: 3008}
+    - {at: [19, 37], h: 3136}
+    - {at: [109, 37], h: 2976}
+    - {at: [19, 38], h: 3104}
+    - {at: [109, 38], h: 2944}
+    - {at: [19, 39], h: 3072}
+    - {at: [109, 39], h: 2912}
+    - {at: [19, 40], h: 3040}
+    - {at: [109, 40], h: 2912}
+    - {at: [19, 41], h: 3008}
+    - {at: [109, 41], h: 2912}
+    - {at: [19, 42], h: 2976}
+    - {at: [109, 42], h: 2912}
+    - {at: [19, 43], h: 2944}
+    - {at: [109, 43], h: 2880}
+    - {at: [19, 44], h: 2912}
+    - {at: [109, 44], h: 2816}
+    - {at: [19, 45], h: 2848}
+    - {at: [109, 45], h: 2784}
+    - {at: [19, 46], h: 2816}
+    - {at: [109, 46], h: 2720}
+    - {at: [19, 47], h: 2752}
+    - {at: [109, 47], h: 2656}
+    - {at: [19, 48], h: 2688}
+    - {at: [109, 48], h: 2560}
+    - {at: [19, 49], h: 2656}
+    - {at: [109, 49], h: 2496}
+    - {at: [19, 50], h: 2592}
+    - {at: [109, 50], h: 2432}
+    - {at: [19, 51], h: 2560}
+    - {at: [109, 51], h: 2400}
+    - {at: [19, 52], h: 2496}
+    - {at: [109, 52], h: 2368}
+    - {at: [19, 53], h: 2464}
+    - {at: [109, 53], h: 2368}
+    - {at: [19, 54], h: 2400}
+    - {at: [109, 54], h: 2336}
+    - {at: [19, 55], h: 2304}
+    - {at: [109, 55], h: 2272}
+    - {at: [19, 56], h: 2208}
+    - {at: [109, 56], h: 2208}
+    - {at: [19, 57], h: 2112}
+    - {at: [109, 57], h: 2144}
+    - {at: [19, 58], h: 1984}
+    - {at: [109, 58], h: 2080}
+    - {at: [19, 59], h: 1888}
+    - {at: [109, 59], h: 2016}
+    - {at: [19, 60], h: 1792}
+    - {at: [109, 60], h: 1920}
+    - {at: [19, 61], h: 1760}
+    - {at: [109, 61], h: 1856}
+    - {at: [19, 62], h: 1696}
+    - {at: [109, 62], h: 1824}
+    - {at: [19, 63], h: 1696}
+    - {at: [109, 63], h: 1824}
+    - {at: [19, 64], h: 1696}
+    - {at: [109, 64], h: 1824}
+    - {at: [19, 65], h: 1696}
+    - {at: [109, 65], h: 1824}
+    - {at: [19, 66], h: 1696}
+    - {at: [109, 66], h: 1824}
+    - {at: [19, 67], h: 1760}
+    - {at: [109, 67], h: 1824}
+    - {at: [19, 68], h: 1792}
+    - {at: [109, 68], h: 1792}
+    - {at: [19, 69], h: 1888}
+    - {at: [109, 69], h: 1792}
+    - {at: [19, 70], h: 1984}
+    - {at: [109, 70], h: 1760}
+    - {at: [19, 71], h: 2048}
+    - {at: [109, 71], h: 1760}
+    - {at: [19, 72], h: 2144}
+    - {at: [109, 72], h: 1760}
+    - {at: [19, 73], h: 2208}
+    - {at: [109, 73], h: 1760}
+    - {at: [19, 74], h: 2272}
+    - {at: [109, 74], h: 1760}
+    - {at: [19, 75], h: 2304}
+    - {at: [109, 75], h: 1664}
+    - {at: [19, 76], h: 2368}
+    - {at: [109, 76], h: 1600}
+    - {at: [19, 77], h: 2432}
+    - {at: [109, 77], h: 1536}
+    - {at: [19, 78], h: 2496}
+    - {at: [109, 78], h: 1536}
+    - {at: [19, 79], h: 2528}
+    - {at: [109, 79], h: 1536}
+    - {at: [19, 80], h: 2592}
+    - {at: [109, 80], h: 1536}
+    - {at: [19, 81], h: 2624}
+    - {at: [109, 81], h: 1536}
+    - {at: [19, 82], h: 2656}
+    - {at: [109, 82], h: 1504}
+    - {at: [19, 83], h: 2688}
+    - {at: [109, 83], h: 1504}
+    - {at: [19, 84], h: 2688}
+    - {at: [109, 84], h: 1536}
+    - {at: [19, 85], h: 2720}
+    - {at: [109, 85], h: 1536}
+    - {at: [19, 86], h: 2752}
+    - {at: [109, 86], h: 1568}
+    - {at: [19, 87], h: 2784}
+    - {at: [109, 87], h: 1568}
+    - {at: [19, 88], h: 2816}
+    - {at: [109, 88], h: 1600}
+    - {at: [19, 89], h: 2816}
+    - {at: [109, 89], h: 1600}
+    - {at: [19, 90], h: 2848}
+    - {at: [109, 90], h: 1600}
+    - {at: [19, 91], h: 2880}
+    - {at: [109, 91], h: 1632}
+    - {at: [19, 92], h: 2912}
+    - {at: [109, 92], h: 1664}
+    - {at: [19, 93], h: 2912}
+    - {at: [109, 93], h: 1696}
+    - {at: [19, 94], h: 2912}
+    - {at: [109, 94], h: 1696}
+    - {at: [19, 95], h: 2912}
+    - {at: [109, 95], h: 1664}
+    - {at: [19, 96], h: 2944}
+    - {at: [109, 96], h: 1600}
+    - {at: [19, 97], h: 2944}
+    - {at: [109, 97], h: 1568}
+    - {at: [19, 98], h: 2944}
+    - {at: [109, 98], h: 1504}
+    - {at: [19, 99], h: 2944}
+    - {at: [109, 99], h: 1472}
+    - {at: [19, 100], h: 2976}
+    - {at: [109, 100], h: 1408}
+    - {at: [19, 101], h: 2976}
+    - {at: [109, 101], h: 1376}
+    - {at: [19, 102], h: 2976}
+    - {at: [109, 102], h: 1344}
+    - {at: [19, 103], h: 2976}
+    - {at: [109, 103], h: 1312}
+    - {at: [19, 104], h: 3008}
+    - {at: [109, 104], h: 1280}
+    - {at: [19, 105], h: 2944}
+    - {at: [109, 105], h: 1248}
+    - {at: [19, 106], h: 2636}
+    - {at: [109, 106], h: 1248}
+    - {at: [19, 107], h: 2440}
+    - {at: [109, 107], h: 1248}
+    - {at: [19, 108], h: 2260}
+    - {at: [109, 108], h: 1248}
+    - {at: [19, 109], h: 2176}
+    - {at: [109, 109], h: 1248}
+    - {at: [20, 109], h: 2496}
+    - {at: [21, 109], h: 2496}
+    - {at: [22, 109], h: 2496}
+    - {at: [23, 109], h: 2496}
+    - {at: [24, 109], h: 2592}
+    - {at: [25, 109], h: 2656}
+    - {at: [26, 109], h: 2624}
+    - {at: [27, 109], h: 2592}
+    - {at: [28, 109], h: 2592}
+    - {at: [29, 109], h: 2624}
+    - {at: [30, 109], h: 2656}
+    - {at: [31, 109], h: 2656}
+    - {at: [32, 109], h: 2656}
+    - {at: [33, 109], h: 2688}
+    - {at: [34, 109], h: 2688}
+    - {at: [35, 109], h: 2656}
+    - {at: [36, 109], h: 2688}
+    - {at: [37, 109], h: 2624}
+    - {at: [38, 109], h: 2560}
+    - {at: [39, 109], h: 2560}
+    - {at: [40, 109], h: 2528}
+    - {at: [41, 109], h: 2528}
+    - {at: [42, 109], h: 2528}
+    - {at: [43, 109], h: 2528}
+    - {at: [44, 109], h: 2528}
+    - {at: [45, 109], h: 2528}
+    - {at: [46, 109], h: 2560}
+    - {at: [47, 109], h: 2624}
+    - {at: [48, 109], h: 2720}
+    - {at: [49, 109], h: 2816}
+    - {at: [50, 109], h: 2848}
+    - {at: [51, 109], h: 2816}
+    - {at: [52, 109], h: 2720}
+    - {at: [53, 109], h: 2656}
+    - {at: [54, 109], h: 2560}
+    - {at: [55, 109], h: 2528}
+    - {at: [56, 109], h: 2464}
+    - {at: [57, 109], h: 2464}
+    - {at: [58, 109], h: 2432}
+    - {at: [59, 109], h: 2464}
+    - {at: [60, 109], h: 2464}
+    - {at: [61, 109], h: 2528}
+    - {at: [62, 109], h: 2560}
+    - {at: [63, 109], h: 2656}
+    - {at: [64, 109], h: 2752}
+    - {at: [65, 109], h: 2848}
+    - {at: [66, 109], h: 2912}
+    - {at: [67, 109], h: 2880}
+    - {at: [68, 109], h: 2880}
+    - {at: [69, 109], h: 2816}
+    - {at: [70, 109], h: 2784}
+    - {at: [71, 109], h: 2752}
+    - {at: [72, 109], h: 2720}
+    - {at: [73, 109], h: 2720}
+    - {at: [74, 109], h: 2688}
+    - {at: [75, 109], h: 2688}
+    - {at: [76, 109], h: 2688}
+    - {at: [77, 109], h: 2656}
+    - {at: [78, 109], h: 3104}
+    - {at: [79, 109], h: 3552}
+    - {at: [80, 109], h: 3552}
+    - {at: [81, 109], h: 3552}
+    - {at: [82, 109], h: 3552}
+    - {at: [83, 109], h: 3072}
+    - {at: [84, 109], h: 2752}
+    - {at: [85, 109], h: 2752}
+    - {at: [86, 109], h: 2752}
+    - {at: [87, 109], h: 2752}
+    - {at: [88, 109], h: 2752}
+    - {at: [89, 109], h: 2720}
+    - {at: [90, 109], h: 2720}
+    - {at: [91, 109], h: 2720}
+    - {at: [92, 109], h: 2720}
+    - {at: [93, 109], h: 2720}
+    - {at: [94, 109], h: 2720}
+    - {at: [95, 109], h: 2752}
+    - {at: [96, 109], h: 2752}
+    - {at: [97, 109], h: 2784}
+    - {at: [98, 109], h: 2816}
+    - {at: [99, 109], h: 2816}
+    - {at: [100, 109], h: 2816}
+    - {at: [101, 109], h: 2731}
+    - {at: [102, 109], h: 2590}
+    - {at: [103, 109], h: 2362}
+    - {at: [104, 109], h: 2106}
+    - {at: [105, 109], h: 1835}
+    - {at: [106, 109], h: 1605}
+    - {at: [107, 109], h: 1414}
+    - {at: [108, 109], h: 1292}
+    - {at: [80, 30], h: 3850, notes: "Gurodel's Crown, the highlands' crest (D-49 (6))"}
+    - {at: [90, 92], h: 1000, notes: the salt pan}
+    - {at: [83, 41], h: 3264}
+    - {at: [84, 41], h: 3264}
+    - {at: [85, 41], h: 3264}
+    - {at: [86, 41], h: 3264, notes: the hillside over DD-24's doors}
+    - {at: [87, 41], h: 3264}
+    - {at: [88, 41], h: 3264}
+    - {at: [89, 41], h: 3264}
+    - {at: [90, 41], h: 3264}
+    - {at: [83, 40], h: 3392}
+    - {at: [84, 40], h: 3392}
+    - {at: [85, 40], h: 3392}
+    - {at: [86, 40], h: 3392}
+    - {at: [87, 40], h: 3392}
+    - {at: [88, 40], h: 3392}
+    - {at: [89, 40], h: 3392}
+    - {at: [90, 40], h: 3392}
+  cliffs:
+    - line: [[0, 24], [128, 24]]
+      drop: 2000
+      down: left
+      notes: "The world rim (drawn west to east, the low side outward)."
+    - line: [[30, 57], [40, 55], [50, 52], [56, 49], [62, 53], [70, 55]]
+      drop: 700
+      down: right
+      notes: "The Griffin Cliffs' west half (the eyrie's ledge at (50, 54))."
+    - line: [[78, 56], [86, 57], [94, 58]]
+      drop: 500
+      down: right
+      notes: "The Griffin Cliffs' east half, lower toward the valley."
+    - line: [[83, 42], [90, 42]]
+      drop: 560
+      down: right
+      notes: "The hillside behind the hold: DD-24's great doors in its foot."
+    - line: [[59, 44], [59, 48]]
+      drop: 400
+      down: right
+      notes: "Bosco's crag over his terrace (drawn north to south, the low side east)."
+    - line: [[29, 86], [34, 86], [34, 90], [29, 90], [29, 86]]
+      drop: 380
+      down: right
+      notes: The shrine mesa's sides (its ramp on the north side).
+  ridges:
+    - {line: [[56, 28], [64, 31], [72, 31], [80, 30], [90, 28], [100, 27]], height: 3500, width: 2, slope: 4, notes: "The highlands' crest along the Barrier, Gurodel's Crown 3,750 at (80, 30)."}
+    - {line: [[62, 105], [72, 105], [80, 106], [90, 105]], height: 2700, width: 2, slope: 3, notes: "The Gemstone spurs under D2's 3,550 peak."}
+    - {line: [[86, 99], [82, 98], [77, 95], [70, 97]], height: 1550, width: 1, slope: 3, notes: The great dune's crest (the signature camera on it).}
+  terraces:
+    - polygon: [[57, 78.6], [71, 78.6], [71, 93], [57, 93]]
+      height: 1248
+      slope: 3
+      notes: The Great Pyramid's sand plinth and the door's apron.
+    - polygon: [[83, 42.6], [90, 42.6], [90, 48.5], [83, 48.5]]
+      height: 2688
+      slope: 1
+      notes: "Gurodel's shelf: the ring of slabs, the fire and the great doors."
+    - polygon: [[59.2, 44.5], [63, 44.5], [63, 48], [59.2, 48]]
+      height: 2656
+      slope: 1
+      notes: Bosco's terrace under the crag.
+    - polygon: [[67, 37.5], [71.5, 37.5], [71.5, 41.5], [67, 41.5]]
+      height: 3008
+      slope: 3
+      notes: The Northern Tower's knoll.
+    - polygon: [[29, 86], [34, 86], [34, 90], [29, 90]]
+      height: 1888
+      slope: 1
+      notes: The Shrine of Great Power's mesa top.
+    - polygon: [[99.5, 99], [103, 99], [103, 101.6], [99.5, 101.6]]
+      height: 1440
+      slope: 1
+      notes: The grate's hollow before the hill foot.
+    - polygon: [[102, 77.5], [108, 77.5], [108, 82.5], [102, 82.5]]
+      height: 1504
+      slope: 4
+      notes: "The D4 arrival: the level valley (D-36 (7))."
+    - polygon: [[20.5, 62], [26, 62], [26, 66], [20.5, 66]]
+      height: 1696
+      slope: 3
+      notes: The D6 arrival on the pass (edge_d5_d6.json).
+    - polygon: [[93, 70.5], [97, 70.5], [97, 74.5], [93, 74.5]]
+      height: 1600
+      slope: 2
+      notes: The broken travel pyramid's shelf by the road.
+    - polygon: [[33.5, 38], [37, 38], [37, 42], [33.5, 42]]
+      height: 2688
+      slope: 2
+      notes: The cyclopes' lair clearing.
+    - polygon: [[84, 79.5], [87.5, 79.5], [87.5, 83], [84, 83]]
+      height: 1376
+      slope: 2
+      notes: The east boulders by the desert road.
+    - polygon: [[35.5, 69], [39, 69], [39, 72], [35.5, 72]]
+      height: 1488
+      slope: 2
+      notes: The west boulders by the west road.
+    - polygon: [[45, 71], [47.5, 71], [47.5, 73.5], [45, 73.5]]
+      height: 1472
+      slope: 2
+      notes: The obelisk's knoll.
+    - polygon: [[45.5, 28], [48.5, 28], [48.5, 30.5], [45.5, 30.5]]
+      height: 2944
+      slope: 2
+      notes: The Fountain of Energy Resistance by the Barrier's west end.
+    - polygon: [[100.5, 29.5], [103.5, 29.5], [103.5, 32.5], [100.5, 32.5]]
+      height: 3136
+      slope: 2
+      notes: The Fountain of Might under the rim.
+    - polygon: [[100, 48.5], [104, 48.5], [104, 51.5], [100, 51.5]]
+      height: 2496
+      slope: 2
+      notes: The dwarf prospectors' camp.
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [98, 98, 98, 98, 98, 99, 99, 96, 94, 98, 95, 92, 91, 97, 99, 100, 101, 103, 106, 112, 112, 106, 107, 102, 104, 104, 99, 100, 100, 100, 100, 100], [102, 102, 102, 102, 102, 101, 103, 99, 95, 97, 93, 92, 92, 97, 98, 104, 105, 110, 111, 117, 117, 106, 108, 101, 100, 98, 101, 103, 103, 103, 103, 103], [101, 101, 101, 101, 101, 99, 97, 96, 91, 89, 87, 89, 90, 92, 92, 97, 100, 106, 107, 106, 106, 102, 101, 97, 94, 95, 97, 97, 97, 97, 97, 97], [97, 97, 97, 97, 97, 95, 91, 89, 84, 84, 86, 88, 88, 89, 89, 88, 94, 94, 97, 97, 101, 103, 102, 95, 91, 90, 92, 92, 92, 92, 92, 92], [93, 93, 93, 93, 93, 92, 89, 86, 84, 84, 87, 86, 84, 89, 93, 89, 92, 94, 93, 96, 102, 97, 95, 92, 90, 90, 90, 91, 91, 91, 91, 91], [88, 88, 88, 88, 88, 91, 90, 83, 78, 79, 81, 81, 80, 90, 97, 83, 87, 83, 84, 88, 90, 84, 84, 87, 86, 83, 84, 85, 85, 85, 85, 85], [81, 81, 81, 81, 81, 82, 79, 77, 76, 76, 78, 78, 77, 84, 91, 85, 81, 80, 78, 80, 81, 80, 78, 78, 79, 78, 76, 76, 76, 76, 76, 76], [75, 75, 75, 75, 75, 74, 75, 72, 72, 67, 67, 72, 71, 74, 71, 69, 73, 74, 74, 75, 76, 76, 76, 75, 73, 74, 73, 73, 73, 73, 73, 73], [62, 62, 62, 62, 62, 62, 65, 64, 65, 59, 59, 67, 70, 67, 53, 52, 64, 65, 64, 64, 64, 58, 67, 65, 63, 65, 66, 65, 65, 65, 65, 65], [53, 53, 53, 53, 53, 53, 53, 60, 59, 58, 59, 62, 63, 60, 51, 47, 57, 61, 50, 54, 61, 59, 60, 61, 63, 60, 59, 57, 57, 57, 57, 57], [53, 53, 53, 53, 53, 53, 53, 52, 47, 50, 51, 55, 55, 52, 48, 51, 49, 49, 45, 57, 59, 50, 54, 62, 61, 58, 57, 57, 57, 57, 57, 57], [62, 62, 62, 62, 62, 63, 60, 55, 50, 46, 50, 47, 49, 45, 44, 50, 49, 51, 47, 49, 51, 47, 52, 50, 52, 56, 55, 55, 55, 55, 55, 55], [71, 71, 71, 71, 71, 70, 59, 55, 53, 53, 47, 46, 49, 45, 44, 47, 50, 48, 45, 51, 49, 46, 51, 50, 52, 54, 54, 55, 55, 55, 55, 55], [78, 78, 78, 78, 78, 75, 55, 53, 59, 54, 42, 38, 48, 41, 40, 40, 39, 40, 49, 48, 46, 48, 53, 51, 46, 47, 47, 48, 48, 48, 48, 48], [83, 83, 83, 83, 83, 78, 70, 65, 63, 56, 46, 45, 44, 49, 39, 39, 39, 39, 49, 48, 45, 43, 50, 52, 48, 47, 47, 47, 47, 47, 47, 47], [86, 86, 86, 86, 86, 82, 73, 59, 59, 59, 52, 47, 48, 47, 39, 39, 39, 39, 44, 50, 45, 43, 47, 46, 47, 49, 49, 49, 49, 49, 49, 49], [89, 89, 89, 89, 89, 86, 76, 59, 59, 60, 55, 47, 50, 52, 39, 39, 39, 39, 45, 39, 41, 48, 37, 32, 42, 49, 50, 50, 50, 50, 50, 50], [91, 91, 91, 91, 91, 87, 78, 71, 62, 53, 59, 56, 49, 50, 42, 43, 42, 41, 44, 51, 47, 45, 37, 43, 46, 49, 52, 53, 53, 53, 53, 53], [92, 92, 92, 92, 92, 84, 77, 78, 69, 59, 62, 62, 53, 49, 48, 56, 48, 50, 56, 53, 48, 55, 54, 48, 50, 50, 48, 47, 47, 47, 47, 47], [93, 93, 93, 93, 93, 87, 78, 75, 75, 71, 69, 68, 68, 65, 62, 64, 64, 65, 71, 75, 69, 65, 66, 63, 56, 47, 47, 42, 42, 42, 42, 42], [75, 77, 80, 78, 81, 79, 79, 79, 81, 80, 77, 74, 81, 79, 74, 71, 86, 83, 84, 91, 89, 80, 77, 77, 70, 69, 53, 45, 44, 47, 45, 40], [34, 47, 66, 53, 76, 78, 82, 83, 84, 80, 79, 80, 89, 80, 76, 80, 91, 87, 84, 97, 111, 86, 85, 85, 88, 87, 82, 77, 69, 88, 79, 43], [34, 47, 66, 53, 76, 78, 82, 83, 84, 80, 79, 80, 89, 80, 76, 80, 91, 87, 84, 97, 111, 86, 85, 85, 88, 87, 82, 77, 69, 88, 79, 43], [34, 47, 66, 53, 76, 78, 82, 83, 84, 80, 79, 80, 89, 80, 76, 80, 91, 87, 84, 97, 111, 86, 85, 85, 88, 87, 82, 77, 69, 88, 79, 43], [34, 47, 66, 53, 76, 78, 82, 83, 84, 80, 79, 80, 89, 80, 76, 80, 91, 87, 84, 97, 111, 86, 85, 85, 88, 87, 82, 77, 69, 88, 79, 43], [34, 47, 66, 53, 76, 78, 82, 83, 84, 80, 79, 80, 89, 80, 76, 80, 91, 87, 84, 97, 111, 86, 85, 85, 88, 87, 82, 77, 69, 88, 79, 43]]
+    notes: Written by gen.py from its land function.
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:last_water
+      kind: pond
+      level: 1312
+      polygon: [[42, 77], [45, 77], [46, 78], [45, 80], [43, 80]]
+      notes: "The Last Water's spring pool (D-23: no river)."
+roads:
+  - link: link:desert_road
+    line: [[127, 80], [109, 80], [105, 80], [100, 79], [94, 78.5], [88, 78.5], [84, 78], [80, 77]]
+    width: road
+    surface: road_pebbles
+  - link: link:west_road
+    line: [[80, 77], [76.5, 75], [74, 73], [70, 72.5], [64, 72], [58, 71.5], [52, 71], [47, 70.5], [43, 69.5], [40, 68], [36, 67], [32, 66], [28, 64.5], [24, 64], [19, 64], [0, 64]]
+    width: road
+    surface: road_pebbles
+  - link: link:pyramid_track
+    line: [[80, 77], [77, 78], [72, 78.5], [68, 78.5], [65, 78.5]]
+    width: lane
+    surface: dirt
+  - link: link:highland_road
+    line: [[74, 73], [74, 70], [72.5, 67], [75, 64.5], [72.5, 62], [75, 59.5], [73.5, 57], [75.5, 55], [76, 53]]
+    width: lane
+    surface: dirt
+  - link: link:hold_lane
+    line: [[76, 53], [79, 51], [82, 49.5], [84.5, 49]]
+    width: lane
+    surface: dirt
+  - link: link:tower_lane
+    line: [[76, 53], [74.5, 49], [72, 45], [70.5, 42], [69.5, 41]]
+    width: lane
+    surface: dirt
+  - link: link:bosco_lane
+    line: [[76, 53], [72, 52], [68, 50.5], [65, 48], [63, 46.5]]
+    width: lane
+    surface: dirt
+  - link: link:might_path
+    line: [[88.5, 47.5], [91, 45], [95, 39], [99, 35], [101, 32.5]]
+    width: lane
+    surface: dirt
+  - link: link:broken_lane
+    line: [[96, 79], [96, 77], [95.5, 75]]
+    width: lane
+    surface: dirt
+  - link: link:grate_track
+    line: [[100, 79], [100.5, 84], [100, 90], [100.5, 96], [101, 100.5]]
+    width: lane
+    surface: dirt
+  - link: link:forest_track
+    line: [[30, 65.5], [31, 61], [33, 57], [34.5, 53], [35, 48], [35, 43]]
+    width: lane
+    surface: dirt
+  - link: link:barrier_path
+    line: [[35, 41.5], [38, 36], [42, 33], [45, 31], [46.5, 30]]
+    width: lane
+    surface: dirt
+  - link: link:oasis_track
+    line: [[40, 68], [41.5, 72], [44, 75], [46.5, 76.5]]
+    width: lane
+    surface: dirt
+  - link: link:shrine_path
+    line: [[47, 80], [45.5, 81.5], [40.5, 82.5], [37, 84], [33.5, 85.5], [32, 86.5]]
+    width: lane
+    surface: dirt
+districts:
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [0, 24]]
+  - space: zone:barrier_lee
+    polygon: [[46, 24], [52, 29], [58, 32], [64, 34], [70, 35], [76, 35], [82, 34], [88, 32], [94, 29], [100, 24]]
+  - space: zone:quivering_forest
+    polygon: [[19, 24], [46, 24], [51, 30], [54, 40], [55, 47], [50, 51], [40, 53], [28, 56], [19, 57]]
+  - space: zone:cyclops_lair
+    polygon: [[32, 37], [38, 37], [38, 42], [32, 42]]
+  - space: zone:highlands
+    polygon: [[46, 24], [109, 24], [109, 58], [100, 58], [92, 57], [80, 56], [66, 54], [60, 50], [55, 47], [54, 40], [51, 30]]
+  - space: zone:giants_hold
+    polygon: [[82, 43], [91, 43], [91, 49], [82, 49]]
+  - space: zone:tower_knoll
+    polygon: [[66, 36], [73, 36], [73, 42], [66, 42]]
+  - space: zone:bosco_terrace
+    polygon: [[58, 44], [64, 44], [64, 49], [58, 49]]
+  - space: zone:escarpment
+    polygon: [[19, 57], [28, 56], [40, 53], [50, 51], [55, 47], [60, 50], [66, 54], [80, 56], [92, 57], [100, 58], [100, 62], [86, 62], [72, 61], [56, 60], [42, 60], [32, 61], [19, 60]]
+  - space: zone:west_pass
+    polygon: [[19, 60], [32, 61], [34, 68], [19, 68]]
+  - space: zone:desert_of_doom
+    polygon: [[19, 68], [34, 68], [32, 61], [42, 60], [56, 60], [56, 72], [52, 78], [54, 96], [52, 101], [19, 101]]
+  - space: zone:oasis
+    polygon: [[40, 75], [48, 75], [48, 82], [40, 82]]
+  - space: zone:shrine_mesa
+    polygon: [[28, 85], [35, 85], [35, 91], [28, 91]]
+  - space: zone:perishing_sands
+    polygon: [[56, 60], [72, 61], [86, 62], [100, 62], [100, 74], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
+  - space: zone:pyramid_precinct
+    polygon: [[56, 77], [72, 77], [72, 94], [56, 94]]
+  - space: zone:boulder_field
+    polygon: [[82, 79], [88, 79], [88, 84], [82, 84]]
+  - space: zone:boulders_west
+    polygon: [[34, 68], [40, 68], [40, 73], [34, 73]]
+  - space: zone:east_valley
+    polygon: [[100, 62], [109, 62], [109, 101], [102, 101], [100, 86], [100, 74]]
+  - space: zone:south_hills
+    polygon: [[19, 101], [102, 101], [109, 101], [109, 109], [19, 109]]
+  - space: zone:grate_hollow
+    polygon: [[98, 99], [105, 99], [105, 104], [98, 104]]
+points:
+  - {id: entrance:d4_road, at: [105, 80], facing: w}
+  - {id: entrance:d6_pass, at: [23, 64], facing: e}
+  - {id: entrance:dd15_door, at: [64, 78], facing: n}
+  - {id: entrance:dd08_door, at: [69, 41], facing: s}
+  - {id: entrance:dd24_hold, at: [86, 43], facing: s}
+  - {id: entrance:dd25_door, at: [63, 46], facing: e}
+  - {id: entrance:dd18_grate, at: [101, 101], facing: n}
+  - {id: entrance:d7_fall, at: [66, 73], facing: s}
+  - {id: junction:pyramid_fork, at: [80, 77]}
+  - {id: junction:scarp_foot, at: [74, 73]}
+  - {id: junction:highland_fork, at: [76, 53]}
+  - {id: junction:doom_fork, at: [40, 68]}
+  - {id: landmark:great_pyramid, at: [64, 86]}
+  - {id: landmark:barrier, at: [73, 35]}
+  - {id: landmark:barrier, at: [89, 32]}
+  - {id: landmark:barrier, at: [56, 31]}
+  - {id: landmark:broken_pyramid, at: [95, 72]}
+  - {id: landmark:northern_tower, at: [69, 38]}
+  - {id: landmark:giants_fire, at: [86, 45]}
+  - {id: poi:obelisk, at: [46, 72]}
+  - {id: poi:shrine_great_power, at: [32, 88]}
+  - {id: poi:last_water, at: [47, 79]}
+  - {id: poi:fountain_energy, at: [47, 29]}
+  - {id: poi:fountain_might, at: [102, 31]}
+  - {id: poi:capstone, at: [96, 73]}
+  - {id: poi:lamp_doom, at: [24, 98]}
+  - {id: poi:lamp_sands, at: [85, 96]}
+  - {id: poi:boulder_sign, at: [85, 81]}
+  - {id: poi:giants_lair, at: [35, 40]}
+  - {id: poi:lair_hoard, at: [36, 39]}
+  - {id: poi:eyrie_nest, at: [50, 54]}
+  - {id: poi:caravan_wreck, at: [95, 91]}
+  - {id: poi:prospector, at: [28, 77]}
+  - {id: poi:dwarf_camp, at: [102, 50]}
+  - {id: poi:robbers_camp, at: [72, 93]}
+  - {id: poi:gurodel, at: [86, 46]}
+  - {id: poi:boulders, index: 1, at: [86, 81]}
+  - {id: poi:boulders, index: 2, at: [86, 81]}
+  - {id: poi:boulders, index: 3, at: [86, 82]}
+  - {id: poi:boulders, index: 4, at: [85, 82]}
+  - {id: poi:boulders_west, index: 1, at: [37, 71]}
+  - {id: poi:boulders_west, index: 2, at: [37, 70]}
+  - {id: poi:boulders_west, index: 3, at: [38, 70]}
+  - {id: poi:munchies, index: 1, at: [38, 95]}
+  - {id: poi:munchies, index: 2, at: [70, 99]}
+  - {id: poi:signposts, index: 1, at: [81, 76]}
+  - {id: poi:signposts, index: 2, at: [77, 52]}
+  - {id: poi:signposts, index: 3, at: [41, 67]}
+areas:
+  - id: pop:sands_lizards
+    kind: encounter
+    count: 8
+    slot: 1
+    polygon: [[80, 88], [92, 86], [99, 85], [102, 90], [100, 97], [93, 97], [90, 104], [74, 105], [72, 96]]
+    notes: "E1: Iguanasaurus 42 (Great 50, Ancient 55; Dif 3) in the dunes east of the pyramid and round the salt pan; the first fight from D4 (about 4,400 off). The grate hollow kept clear."
+  - id: pop:pyramid_lizards
+    kind: encounter
+    count: 7
+    slot: 1
+    polygon: [[48, 73], [57, 74], [56, 81], [55, 92], [71, 95], [72, 105], [52, 105], [48, 96], [50, 86]]
+    notes: "E2: the same west and south of the pyramid; none on the north door's apron or the track."
+  - id: pop:cliff_birds
+    index: 1
+    kind: encounter
+    count: 11
+    slot: 2
+    polygon: [[36, 51], [50, 49], [56, 49], [62, 53], [70, 55], [80, 56], [92, 57], [100, 57], [108, 56], [108, 64], [98, 64], [92, 62], [80, 62], [70, 61], [56, 61], [44, 61], [36, 62]]
+    notes: "E3: Vulture Rocs 30, Rocs 38, Griffins 48 (Dif 2) on the Griffin Cliffs, east to the valley's north slope at the D4 border; 3 Griffins placed at the eyrie (50, 54)."
+  - id: pop:forest_cyclopes
+    kind: encounter
+    count: 11
+    slot: 3
+    polygon: [[21, 27], [43, 26], [44, 33], [51, 34], [54, 41], [53, 47], [44, 50], [32, 53], [21, 54]]
+    notes: "E4: wild Cyclopes 36 (Giants 50, Elder Giants 62 rare; Dif 1) in the Quivering Forest round their lair; the Barrier's west end and its fountain outside it."
+  - id: zone:east_valley
+    kind: keep_clear
+    polygon: [[99, 74], [109, 74], [109, 86], [99, 86]]
+    notes: The D4 arrival.
+  - id: zone:west_pass
+    kind: keep_clear
+    polygon: [[19, 60], [32, 61], [34, 68], [19, 68]]
+    notes: The D6 arrival.
+  - id: zone:giants_hold
+    kind: keep_clear
+    polygon: [[80, 40], [93, 40], [93, 51], [80, 51]]
+    notes: Gurodel's hold and DD-24's doors (peaceful People only).
+  - id: zone:bosco_terrace
+    kind: keep_clear
+    polygon: [[58, 44], [64, 44], [64, 49], [58, 49]]
+  - id: zone:tower_knoll
+    kind: keep_clear
+    polygon: [[66, 36], [73, 36], [73, 42], [66, 42]]
+  - id: zone:oasis
+    kind: keep_clear
+    polygon: [[40, 75], [48, 75], [48, 82], [40, 82]]
+  - id: zone:boulder_field
+    kind: keep_clear
+    polygon: [[82, 79], [88, 79], [88, 84], [82, 84]]
+  - id: zone:boulders_west
+    kind: keep_clear
+    polygon: [[34, 68], [40, 68], [40, 73], [34, 73]]
+  - id: zone:grate_hollow
+    kind: keep_clear
+    polygon: [[98, 99], [105, 99], [105, 104], [98, 104]]
+    notes: The DD-18 grate and its arrival.
+  - id: pop:doom_birds
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [24, 72], r: 1}
+  - id: pop:doom_birds
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [33, 80], r: 1}
+  - id: pop:doom_birds
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [68, 73], r: 1}
+  - id: pop:doom_birds
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [37, 87], r: 1}
+  - id: pop:doom_birds
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [26, 92], r: 1}
+  - id: pop:doom_birds
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [40, 92], r: 1}
+  - id: pop:doom_birds
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [44, 98], r: 1}
+  - id: pop:cliff_birds
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [102, 28], r: 1}
+  - id: pop:cliff_birds
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [104, 40], r: 1}
+  - id: pop:cliff_birds
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [77, 37], r: 1}
+views:
+  - {id: view:arrival, at: [105, 80], height: 180, look: [64, 80], purpose: "MU-4 arrival view (about 76 degrees): from the D4 arrival in the level valley, looking west: the last firs of the Forest of Peril either side, the road running down to the boulder field, the dunes opening beyond, the Great Pyramid far off (about 21,000 away), the broken travel pyramid on the right-hand slope, the Griffin Cliffs and the highlands along the north (right)."}
+  - {id: view:signature, at: [82, 98], height: 180, look: [64, 85], purpose: "MU-4 signature view (about 60 degrees): from the dune crest south-east of the pyramid, looking north-west: the Great Pyramid rising from the dunes (about 11,300 away, its apex 15 degrees up), the robbers' tent at its foot, the pale small sun low in the amber band, the Griffin Cliffs and the Barrier's line faint beyond."}
+scatter:
+  - id: scatter:aspens
+    kinds:
+      tree28: 1
+      tree62c: 3
+      tree63b: 2
+    count: 202
+    spacing: 1.1
+    spacing_group: trees
+    close_share: 0.2
+    close_spacing: 0.8
+    polygon: [[19.5, 24.8], [45, 24.8], [50, 30], [53, 40], [54, 47], [50, 50.5], [40, 52.5], [28, 55.5], [19.5, 56.5]]
+  - id: scatter:forest_undergrowth
+    decoration: plant50
+    count: 50
+    clusters: 16
+    polygon: [[19.5, 24.8], [45, 24.8], [50, 30], [53, 40], [54, 47], [50, 50.5], [40, 52.5], [28, 55.5], [19.5, 56.5]]
+  - id: scatter:forest_rocks
+    decoration: rock10
+    count: 20
+    clusters: 8
+    polygon: [[19.5, 24.8], [45, 24.8], [50, 30], [53, 40], [54, 47], [50, 50.5], [40, 52.5], [28, 55.5], [19.5, 56.5]]
+  - id: scatter:highland_rocks
+    decoration: rock24
+    count: 40
+    clusters: 14
+    steep: true
+    polygon: [[50, 30], [100, 24.8], [108.5, 25], [108.5, 57], [92, 56.5], [80, 55.5], [66, 53.5], [60, 49.5], [55, 46.5], [53, 40]]
+  - id: scatter:highland_rocks
+    decoration: rock16
+    count: 40
+    clusters: 12
+    polygon: [[50, 30], [100, 24.8], [108.5, 25], [108.5, 57], [92, 56.5], [80, 55.5], [66, 53.5], [60, 49.5], [55, 46.5], [53, 40]]
+  - id: scatter:highland_weeds
+    decoration: snoweed1
+    count: 90
+    clusters: 40
+    polygon: [[50, 30], [100, 24.8], [108.5, 25], [108.5, 57], [92, 56.5], [80, 55.5], [66, 53.5], [60, 49.5], [55, 46.5], [53, 40]]
+  - id: scatter:highland_firs
+    kinds:
+      snotre01: 2
+      tree30: 1
+    count: 12
+    spacing: 3
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[50, 30], [100, 24.8], [108.5, 25], [108.5, 57], [92, 56.5], [80, 55.5], [66, 53.5], [60, 49.5], [55, 46.5], [53, 40]]
+  - id: scatter:cliff_rocks
+    decoration: 6rock07
+    count: 70
+    clusters: 30
+    steep: true
+    polygon: [[19.5, 57], [28, 56], [40, 53], [50, 51], [56, 48], [62, 51.5], [70, 54.5], [80, 56], [92, 57], [100, 58], [100, 62], [86, 62], [72, 60.5], [56, 59.5], [42, 60], [32, 61], [19.5, 60]]
+  - id: scatter:cliff_scrub
+    decoration: plant53
+    count: 40
+    clusters: 20
+    polygon: [[19.5, 57], [28, 56], [40, 53], [50, 51], [56, 48], [62, 51.5], [70, 54.5], [80, 56], [92, 57], [100, 58], [100, 62], [86, 62], [72, 60.5], [56, 59.5], [42, 60], [32, 61], [19.5, 60]]
+  - id: scatter:doom_rocks
+    decoration: rock28
+    count: 50
+    clusters: 16
+    polygon: [[19.5, 68.5], [34, 68.5], [32, 61], [42, 60.5], [55.5, 60], [55.5, 72], [51.5, 78], [53.5, 96], [51.5, 100.5], [19.5, 100.5]]
+  - id: scatter:doom_rocks
+    decoration: rock30
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[19.5, 68.5], [34, 68.5], [32, 61], [42, 60.5], [55.5, 60], [55.5, 72], [51.5, 78], [53.5, 96], [51.5, 100.5], [19.5, 100.5]]
+  - id: scatter:doom_scrub
+    decoration: plant53
+    count: 90
+    clusters: 40
+    polygon: [[19.5, 68.5], [34, 68.5], [32, 61], [42, 60.5], [55.5, 60], [55.5, 72], [51.5, 78], [53.5, 96], [51.5, 100.5], [19.5, 100.5]]
+  - id: scatter:doom_scrub
+    decoration: plant49
+    count: 60
+    clusters: 30
+    polygon: [[19.5, 68.5], [34, 68.5], [32, 61], [42, 60.5], [55.5, 60], [55.5, 72], [51.5, 78], [53.5, 96], [51.5, 100.5], [19.5, 100.5]]
+  - id: scatter:sands_scrub
+    decoration: plant51
+    count: 110
+    clusters: 55
+    polygon: [[56, 59.5], [72, 60.5], [86, 62], [100, 62], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
+  - id: scatter:sands_rocks
+    decoration: rock27
+    count: 40
+    clusters: 24
+    polygon: [[56, 59.5], [72, 60.5], [86, 62], [100, 62], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
+  - id: scatter:palms
+    kinds:
+      tree02: 2
+      tree03: 1
+    count: 5
+    spacing: 1.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[40.5, 75.5], [48, 75.5], [48, 81.5], [40.5, 81.5]]
+  - id: scatter:last_firs
+    kinds:
+      tree60a: 2
+      tree62a: 2
+    count: 5
+    spacing: 1.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[100.5, 62.5], [108.5, 62.5], [108.5, 76.5], [101, 76.5]]
+  - id: scatter:last_firs_s
+    kinds:
+      tree60a: 1
+      tree62a: 1
+    count: 3
+    spacing: 2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[101, 83.5], [108.5, 83.5], [108.5, 98], [102, 98]]
+  - id: scatter:hill_rocks
+    decoration: rock24
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[19.5, 101], [102, 101], [108.5, 101], [108.5, 108.5], [19.5, 108.5]]
+  - id: scatter:hill_scrub
+    decoration: plant49
+    count: 60
+    clusters: 30
+    polygon: [[19.5, 101], [102, 101], [108.5, 101], [108.5, 108.5], [19.5, 108.5]]
+ground:
+  - material: sand
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: The Perishing Sands and the dunes (sand_ripples in the terrain materials).
+  - material: dirt
+    polygon: [[0, 57], [34, 57], [42, 60], [56, 59], [56, 72], [52, 78], [54, 96], [52, 101], [128, 101], [128, 128], [0, 128]]
+    notes: "The Desert of Doom and the southern hills: cracked stony ground."
+  - material: dirt
+    polygon: [[0, 0], [128, 0], [128, 62], [100, 62], [86, 62], [72, 60], [56, 60], [42, 60], [32, 61], [0, 60]]
+    notes: "The highlands, the forest and the cliffs."
+  - material: snow
+    polygon: [[52, 24], [104, 24], [104, 33], [90, 34], [76, 37], [64, 37], [56, 33]]
+    notes: "Snow on the highlands' crest along the Barrier (above 3,000)."
+  - material: dirt
+    polygon: [[100, 62], [128, 62], [128, 101], [102, 101], [100, 86]]
+    notes: "The forest's end: the valley out of D4."
+  - material: dirt
+    steeper_than: 560
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: Bare rock on the steep slopes.
+structures:
+  - id: thing:great_pyramid
+    kind: building
+    at: [58, 78.75]
+    size: [12, 13.25]
+    kit: grey
+    textures: {door: xdpyrdor, post_left: egybiga, post_right: egybiga, roof: egybigb, trim: egybiga, wall: egybiga, window: egybiga}
+    facing: n
+    parts:
+      - {id: course_1, at: [0, 640], size: [6144, 6144], textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512]], n: [[wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512]], s: [[wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512]], w: [[wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512], [wall, 512]]}, windows: none, roof: flat, batter: 459}
+      - {id: course_2, at: [459, 1099], size: [5226, 5226], bottom: 600, textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907]], n: [[wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907]], s: [[wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907]], w: [[wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907], [wall, 475.09090909090907]]}, windows: none, roof: flat, batter: 459}
+      - {id: course_3, at: [918, 1558], size: [4308, 4308], bottom: 1200, textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667]], n: [[wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667]], s: [[wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667]], w: [[wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667], [wall, 478.6666666666667]]}, windows: none, roof: flat, batter: 459}
+      - {id: course_4, at: [1377, 2017], size: [3390, 3390], bottom: 1800, textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143]], n: [[wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143]], s: [[wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143]], w: [[wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143], [wall, 484.2857142857143]]}, windows: none, roof: flat, batter: 459}
+      - {id: course_5, at: [1836, 2476], size: [2472, 2472], bottom: 2400, textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4]], n: [[wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4]], s: [[wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4]], w: [[wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4], [wall, 494.4]]}, windows: none, roof: flat, batter: 459}
+      - {id: course_6, at: [2295, 2935], size: [1554, 1554], bottom: 3000, textures: {roof: egybigb, wall: {fit: true, size: [256, 256], texture: egybigb}}, wall_height: 600, walls: {e: [[wall, 388.5], [wall, 388.5], [wall, 388.5], [wall, 388.5]], n: [[wall, 388.5], [wall, 388.5], [wall, 388.5], [wall, 388.5]], s: [[wall, 388.5], [wall, 388.5], [wall, 388.5], [wall, 388.5]], w: [[wall, 388.5], [wall, 388.5], [wall, 388.5], [wall, 388.5]]}, windows: none, roof: flat, batter: 459}
+      - {id: cap, at: [2754, 3394], size: [636, 636], bottom: 3600, textures: {roof: xngold6, wall: xngold6}, wall_height: 16, windows: none, roof: hip, roof_pitch: 53}
+      - {id: porch, at: [2624, 0], size: [896, 1024], textures: {roof: egybiga, wall: {fit: true, size: [256, 256], texture: egybiga}}, wall_height: 512, walls: {e: [[wall, 512], [wall, 512]], n: [[wall, 224], [door, 448], [wall, 224]], w: [[wall, 512], [wall, 512]]}, windows: none, roof: flat, door_height: 384}
+    floor: 1248
+    door:
+      leaves: 2
+      part: porch
+      wall: n
+    title: The Great Pyramid
+    into: {map: xeen_dd15.blv, arrival: entrance:d5_door, screen: {text: 5047}}
+    condition: {lua: "XeenQuests.hook(\"m28.door\")"}
+    notes: "DD-15 (A8): m28.door with the Key to the Ancient Pyramid (12348); two leaves of A6's xdpyrdor (the wing, mirrored on the pair). 12 x 12 cells, about 3,600 high, smooth-faced courses of MM6's egybigb under a gilded cap (xngold5), one egytrma band round the foot (D-49 Q6, change 7)."
+  - id: thing:robbers_tent
+    kind: tent
+    at: [71.6, 94.2]
+    size: [512, 640]
+    turn: 20
+    height: 288
+    title: A tomb robber's tent
+  - id: thing:robbers_chest
+    kind: chest
+    at: [72, 93.2]
+    title: A tomb robber's loot box
+    chest: {level: 5, random_items: 2}
+  - id: thing:robbers_bones
+    kind: decoration
+    at: [72.7, 93]
+    decoration: dec05
+  - id: thing:broken_pyramid
+    kind: building
+    at: [94, 71]
+    size: [2, 2]
+    kit: grey
+    textures: {roof: gn_mtl01, trim: gn_mtl01, wall: xahull, window: xahull}
+    parts:
+      - {id: body, at: [64, 64], size: [896, 896], wall_height: 576, windows: none, roof: flat, title: A broken pyramid, effects: [{lua: "XeenQuests.hook(\"obelisks.dark_hoard\")"}], batter: 352}
+      - {id: apex, at: [352, 352], size: [320, 320], bottom: 576, wall_height: 288, windows: none, roof: none, ruin: {height: [48, 288], gaps: 0.45, thickness: 48, seed: 11}}
+    floor: 1600
+    door: none
+    title: A broken pyramid
+    notes: "The broken travel pyramid (aaze0013:12): its click is obelisks.dark_hoard, as the capstone's."
+  - id: thing:capstone
+    kind: building
+    at: [95.19999999999999, 72.94999999999999]
+    size: [0.8, 0.8]
+    kit: grey
+    parts:
+      - {id: cap, at: [32, 32], size: [344, 344], textures: {roof: xahull, wall: gn_mtl01}, wall_height: 24, windows: none, roof: hip, roof_pitch: 50, title: A fallen capstone, effects: [{lua: "XeenQuests.hook(\"obelisks.dark_hoard\")"}]}
+    floor: 1600
+    door: none
+    title: A fallen capstone
+    notes: "D-49 change 2: the capstone at the pyramid's foot, within 400 of its click: one spot."
+  - id: thing:barrier_frame_1
+    kind: building
+    at: [45.7, 23.9]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_2
+    kind: building
+    at: [48.7, 26.05]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_3
+    kind: building
+    at: [51.7, 28.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_4
+    kind: building
+    at: [54.7, 29.7]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_5
+    kind: building
+    at: [57.7, 31.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_6
+    kind: building
+    at: [60.7, 32.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_7
+    kind: building
+    at: [63.7, 33.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_8
+    kind: building
+    at: [66.7, 33.7]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_9
+    kind: building
+    at: [69.7, 34.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_10
+    kind: building
+    at: [72.7, 34.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_11
+    kind: building
+    at: [75.7, 34.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_12
+    kind: building
+    at: [78.7, 33.7]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_13
+    kind: building
+    at: [81.7, 33.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_14
+    kind: building
+    at: [84.7, 32.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_15
+    kind: building
+    at: [87.7, 31.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_16
+    kind: building
+    at: [90.7, 29.7]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_17
+    kind: building
+    at: [93.7, 28.2]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_18
+    kind: building
+    at: [96.7, 26.05]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_frame_19
+    kind: building
+    at: [99.7, 23.9]
+    size: [0.6, 0.6]
+    kit: grey
+    parts:
+      - {id: foot, at: [64, 64], size: [180, 180], textures: {roof: gn_mtl01, wall: gn_mtl01}, wall_height: 256, windows: none, roof: flat}
+      - {id: pylon, at: [90, 90], size: [128, 128], bottom: 256, textures: {roof: gn_mtl01, wall: xaenergy}, wall_height: 1280, windows: none, roof: hip, roof_pitch: 70}
+    door: none
+  - id: thing:barrier_curtain
+    kind: wall
+    line: [[46, 24.2], [49, 26.35], [52, 28.5], [55, 30], [58, 31.5], [61, 32.5], [64, 33.5], [67, 34], [70, 34.5], [73, 34.5], [76, 34.5], [79, 34], [82, 33.5], [85, 32.5], [88, 31.5], [91, 30], [94, 28.5], [97, 26.35], [100, 24.2]]
+    height: 1280
+    thickness: 32
+    textures: {top: xafield, wall: xafield}
+    translucent: true
+    notes: "The shimmering curtain between the frames (D-49 Q4): a landmark, no event; see-through by xafield's graded alpha (merge point 23)."
+  - id: thing:barrier_block
+    kind: barrier
+    line: [[46, 24.2], [49, 26.35], [52, 28.5], [55, 30], [58, 31.5], [61, 32.5], [64, 33.5], [67, 34], [70, 34.5], [73, 34.5], [76, 34.5], [79, 34], [82, 33.5], [85, 32.5], [88, 31.5], [91, 30], [94, 28.5], [97, 26.35], [100, 24.2]]
+    height: 6000
+    notes: "The Barrier blocks walking and flying up to the fly ceiling (D-49 change 4); past its ends the rim rule."
+  - id: thing:hold_ring
+    kind: stone_ring
+    at: [86.5, 46.5]
+    radius: 1000
+    title: Gurodel's hold
+    count: 9
+    lintel: false
+  - id: thing:hold_fire
+    kind: decoration
+    at: [86.5, 46.5]
+    decoration: dec24
+    title: The giants' fire
+  - id: thing:hold_boulders_1
+    kind: decoration
+    at: [88.9, 47.7]
+    decoration: rock16
+  - id: thing:hold_boulders_2
+    kind: decoration
+    at: [89.3, 47.1]
+    decoration: rock16
+  - id: thing:giants_hall_doors
+    kind: doorway
+    at: [86, 42.4]
+    height: 512
+    width: 768
+    depth: 256
+    hood: 128
+    textures: {door: xdgiantd, wall: hkm2bs}
+    title: The Giants' Hall
+    into: {map: xeen_dd24.blv, arrival: entrance:d5_hold, screen: {text: 5059}}
+    notes: "DD-24 Giants' Hall (A7): two leaves 384 x 512 of A7's xdgiantd, mirrored (D-47), in the hillside."
+    leaves: 2
+  - id: thing:bosco_door
+    kind: doorway
+    at: [60.7, 46.25]
+    turn: -90
+    height: 320
+    width: 384
+    depth: 256
+    hood: 96
+    textures: {door: t09a03a, wall: cswl128}
+    title: Bosco's Hall
+    into: {map: xeen_dd25.blv, arrival: entrance:d5_bosco, screen: {text: 5060}}
+    notes: "DD-25 Bosco's Hall (A8): a carved stone double door (shipped t09a03a, mirrored) in the crag."
+    leaves: 2
+  - id: thing:bosco_lantern_1
+    kind: decoration
+    at: [61.15, 45.3]
+    decoration: dec60
+  - id: thing:bosco_lantern_2
+    kind: decoration
+    at: [61.15, 47.2]
+    decoration: dec60
+  - id: thing:northern_tower
+    kind: building
+    at: [67.75, 37.75]
+    size: [2.5, 2.5]
+    kit: grey
+    textures: {door: hkm1dl, post_left: hkm1b1, post_right: hkm1b1, roof: hkm1b1, trim: hkm1b1, wall: hkm1b1, window: hkm1elw}
+    facing: s
+    parts:
+      - {id: storey_1, at: [128, 128], size: [1024, 1024], signs: [{wall: s, bay: 3, texture: xdvowel, size: [256, 64], bottom: 252, out: 8}], textures: {window: hkm1b1}, wall_height: 320, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, [door, 256], wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, door_height: 240}
+      - {id: storey_2, at: [128, 128], size: [1024, 1024], bottom: 320, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
+      - {id: storey_3, at: [128, 128], size: [1024, 1024], bottom: 640, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat}
+      - {id: storey_4, at: [128, 128], size: [1024, 1024], bottom: 960, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
+      - {id: storey_5, at: [128, 128], size: [1024, 1024], bottom: 1280, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+    floor: 3008
+    door:
+      leaves: 2
+      part: storey_1
+      wall: s
+    title: The Northern Tower
+    into: {map: xeen_dd08.blv, arrival: entrance:d5_tower, screen: {text: 5036}}
+    condition: {lua: "XeenQuests.hook(\"q-d17.tower_door\")"}
+    notes: "DD-08 (A8): q-d17.tower_door with Bosco's key; two iron-bound leaves (hkm1dl, mirrored); A6's xdvowel lintel once over the door (D-49 change 8)."
+  - id: thing:dd18_grate
+    kind: doorway
+    at: [101, 101.6]
+    turn: 180
+    height: 288
+    width: 256
+    depth: 256
+    textures: {door: jailc08oq3, wall: cswl128}
+    title: An iron grate
+    into: {map: xeen_dd18.blv, arrival: entrance:d5_grate, screen: {text: 5052}}
+    condition: {qbit: d5_tunnel}
+    else_effects:
+      - lua: "XeenQuests.hook(\"dd18.d5_grate\")"
+    notes: "DD-18 (A8, installed): the bolt drawn by dd18.d5_grate (116121), then the way in both ways."
+  - id: thing:boulder_sign
+    kind: decoration
+    at: [84.978, 80.974]
+    decoration: searka01
+    title: A weathered sign
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.sign\")"
+  - id: thing:boulder_3
+    kind: decoration
+    at: [85.623, 80.538]
+    turn: -88
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_3\") if IsQBitSet(QBit(113483)) then HideThing(\"thing:boulder_3\") end"
+  - id: thing:boulder_4
+    kind: decoration
+    at: [86.236, 81.017]
+    turn: -16
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_4\") if IsQBitSet(QBit(113484)) then HideThing(\"thing:boulder_4\") end"
+  - id: thing:boulder_5
+    kind: decoration
+    at: [85.97, 81.749]
+    turn: 56
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_5\") if IsQBitSet(QBit(113485)) then HideThing(\"thing:boulder_5\") end"
+  - id: thing:boulder_6
+    kind: decoration
+    at: [85.192, 81.722]
+    turn: 128
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_6\") if IsQBitSet(QBit(113486)) then HideThing(\"thing:boulder_6\") end"
+  - id: thing:boulder_1
+    kind: decoration
+    at: [37.2, 71.049]
+    turn: 90
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_1\") if IsQBitSet(QBit(113481)) then HideThing(\"thing:boulder_1\") end"
+  - id: thing:boulder_2
+    kind: decoration
+    at: [36.811, 70.375]
+    turn: -150
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "XeenQuests.hook(\"q-d24.boulder_2\") if IsQBitSet(QBit(113482)) then HideThing(\"thing:boulder_2\") end"
+  - id: thing:boulder_7
+    kind: decoration
+    at: [37.589, 70.375]
+    turn: -30
+    decoration: xeen_boulder
+    title: An Enchanted Boulder
+    effects:
+      - lua: "if continueStep == 2 then XeenQuests.hook(\"q-d24.answer\") HideThing(\"thing:boulder_7\") return end if continueStep == 1 then XeenQuests.hook(\"q-d24.answer_wrong\") return end if continueStep ~= nil then return end if IsQBitSet(QBit(113480)) then XeenQuests.hook(\"q-d24.answer\") return end XeenQuests.hook(\"q-d24.boulder_7\") evt.AskQuestion(eventId, 1, 0, 2, \"What am I?\", {\"paladin\", \"a paladin\", \"the paladin\"})"
+  - id: thing:boulder_rock_1
+    kind: decoration
+    at: [84.2, 83.2]
+    decoration: rock14
+  - id: thing:boulder_rock_2
+    kind: decoration
+    at: [87.3, 79.6]
+    decoration: rock14
+  - id: thing:boulder_rock_3
+    kind: decoration
+    at: [36, 71.6]
+    decoration: rock14
+  - id: thing:obelisk
+    kind: obelisk
+    at: [46.25, 72.25]
+    height: 768
+    textures: {wall: cswl128}
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.d5\")"
+  - id: thing:last_water
+    kind: fountain
+    at: [46.6, 78.8]
+    textures: {wall: egybiga}
+    tiers: [[64, 24]]
+    title: The Last Water
+    effects:
+      - lua: "XeenQuests.hook(\"d5.last_water\")"
+  - id: thing:fountain_energy
+    kind: fountain
+    at: [47, 29.2]
+    textures: {wall: gn_mtl01}
+    tiers: [[64, 24]]
+    title: Fountain of Energy Resistance
+    effects:
+      - lua: "XeenQuests.hook(\"d5.fountain_energy\")"
+  - id: thing:fountain_might
+    kind: fountain
+    at: [102, 31]
+    textures: {wall: hkm2bs}
+    tiers: [[64, 24]]
+    title: Fountain of Might
+    effects:
+      - lua: "XeenQuests.hook(\"d5.fountain_might\")"
+  - id: thing:shrine_ring
+    kind: stone_ring
+    at: [31.5, 88]
+    radius: 600
+    title: The Shrine of Great Power
+    count: 8
+    lintel: false
+  - id: thing:shrine_altar
+    kind: platform
+    at: [31.5, 88]
+    size: [256, 192]
+    height: 96
+    textures: {top: egybiga, wall: egybiga}
+    title: The Shrine of Great Power
+    effects:
+      - lua: "XeenQuests.hook(\"d5.shrine\")"
+    question:
+      ask: "Shrine of Great Power. Will the party pray? (Yes/No)"
+      answers: [Yes, Y]
+  - id: thing:lamp_hills
+    kind: decoration
+    at: [24, 98]
+    decoration: xeen_genielamp
+    title: A genie's lamp
+    effects:
+      - lua: "Xeen.genieLamp(\"d5_hills\", eventId, continueStep)"
+  - id: thing:lamp_dune
+    kind: decoration
+    at: [85, 96]
+    decoration: xeen_genielamp
+    title: A genie's lamp
+    effects:
+      - lua: "Xeen.genieLamp(\"d5_dune\", eventId, continueStep)"
+  - id: thing:hill_shrine
+    kind: building
+    at: [23, 97]
+    size: [2, 2]
+    kit: grey
+    textures: {trim: egybiga, wall: egybiga, window: egybiga}
+    parts:
+      - {id: body, at: [128, 128], size: [768, 768], wall_height: 448, windows: none, roof: none}
+    door: none
+    title: A ruined hill shrine
+    ruin:
+      height: [96, 448]
+      gaps: 0.4
+      thickness: 64
+      seed: 7
+  - id: thing:lair_leanto
+    kind: building
+    at: [34.300000000000004, 39.3]
+    size: [1.8, 1.4]
+    kit: poor
+    parts:
+      - {id: leanto, at: [64, 64], size: [790, 590], posts: 48, textures: {post: t06a10, roof: hhp2rf, trim: t06a10}, wall_height: 320, windows: none, roof: lean_to, title: A Giant's lair, effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"d5.lair\") return end if continueStep ~= nil then return end evt.AskQuestion(eventId, 1, 0, 2, \"You have found a Giant's lair. Destroy? (Yes/No)\", {\"yes\", \"y\"})"}]}
+    door: none
+    title: A Giant's lair
+  - id: thing:lair_hoard
+    kind: chest
+    at: [35.800000000000004, 39.4]
+    title: The cyclopes' hoard
+    chest: {level: 5, random_items: 3}
+  - id: thing:lair_bones
+    kind: decoration
+    at: [33.8, 41]
+    decoration: 7dec18
+  - id: thing:eyrie_nest
+    kind: chest
+    at: [50, 54]
+    title: A griffin-hunter's satchel
+    chest: {level: 5, random_items: 2}
+  - id: thing:eyrie_bones
+    kind: decoration
+    at: [50.7, 54.3]
+    decoration: 7dec18
+  - id: thing:caravan_wreck
+    kind: chest
+    at: [95, 91]
+    title: A caravan's strongbox
+    chest: {level: 5, random_items: 2}
+  - id: thing:caravan_ribs
+    kind: decoration
+    at: [94.2, 91.4]
+    decoration: dec24x
+  - id: thing:prospector
+    kind: chest
+    at: [28, 77]
+    title: A dead prospector's pack
+    chest: {level: 4, random_items: 2}
+  - id: thing:prospector_bones
+    kind: decoration
+    at: [28.5, 77.3]
+    decoration: dec05
+  - id: thing:dwarf_camp
+    kind: chest
+    at: [102, 50]
+    title: The dwarves' strongbox
+    chest: {level: 5, random_items: 2}
+  - id: thing:dwarf_fire
+    kind: decoration
+    at: [101.2, 49.6]
+    decoration: dec24x
+    title: A cold fire
+  - id: thing:dwarf_tent
+    kind: tent
+    at: [102.6, 51.2]
+    size: [448, 576]
+    turn: 90
+    height: 256
+    title: An abandoned dwarves' tent
+  - id: thing:munchies_1
+    kind: platform
+    at: [38, 95]
+    size: [384, 384]
+    height: 0
+    effects:
+      - lua: "XeenQuests.hook(\"d5.munchies\")"
+    trigger: step
+    invisible: true
+  - id: thing:munchies_2
+    kind: platform
+    at: [70, 99]
+    size: [384, 384]
+    height: 0
+    effects:
+      - lua: "XeenQuests.hook(\"d5.munchies\")"
+    trigger: step
+    invisible: true
+  - id: thing:sign_pyramid_fork
+    kind: sign
+    at: [81, 76]
+    height: 256
+    arms:
+      - {title: The forest road, toward: e}
+      - {title: The Great Pyramid, toward: s}
+      - {title: The Forbidden Zone, toward: w}
+      - {title: The highlands, toward: n}
+  - id: thing:sign_highland_fork
+    kind: sign
+    at: [77, 52]
+    height: 256
+    arms:
+      - {title: Gurodel's hold, toward: e}
+      - {title: The Northern Tower, toward: n}
+      - {title: Bosco's Hall, toward: w}
+      - {title: The desert, toward: s}
+  - id: thing:sign_doom_fork
+    kind: sign
+    at: [41, 67]
+    height: 256
+    arms:
+      - {title: The pyramid, toward: e}
+      - {title: The Forbidden Zone, toward: w}
+      - {title: The Last Water, toward: s}
+  - id: thing:scarp_cairn
+    kind: decoration
+    at: [74.6, 72.2]
+    decoration: searka01
+    title: A cairn at the cliff road's foot
+  - id: thing:spur_stone_w
+    kind: obelisk
+    at: [36, 104.6]
+    height: 512
+    textures: {wall: cswl128}
+    title: A boundary stone
+  - id: thing:spur_stone_e
+    kind: obelisk
+    at: [88.5, 104]
+    height: 512
+    textures: {wall: cswl128}
+    title: A boundary stone
+actors:
+  - {monster: "11083", at: [84.4, 47.2], count: 3, spread: 1.2, group: 3, hostile: false}
+  - {monster: "11084", at: [88.6, 47], count: 2, spread: 0.8, group: 3, hostile: false}
+  - {monster: "11085", at: [88.8, 45.2], count: 1, spread: 0, group: 3, hostile: false}
+  - {monster: "11085", at: [86.5, 47.4], spread: 0, group: 2, hostile: false, npc: 5452}
+  - {monster: "11562", at: [50, 54], count: 3, spread: 1, group: 1, hostile: true}
+sounds:
+  - {id: sound:barrier_hum_1, at: [48.7, 26.05], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:barrier_hum_2, at: [57.7, 31.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:barrier_hum_3, at: [66.7, 33.7], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:barrier_hum_4, at: [75.7, 34.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:barrier_hum_5, at: [84.7, 32.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:barrier_hum_6, at: [93.7, 28.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:bed_aspen_1, at: [25, 27], sound: xeen_amb_aspen, radius: 9000, inner_radius: 3500, volume: 0.45, pan: false}
+  - {id: sound:bed_aspen_2, at: [40, 27], sound: xeen_amb_aspen, radius: 9000, inner_radius: 3500, volume: 0.45, pan: false}
+  - {id: sound:bed_aspen_3, at: [32.5, 40], sound: xeen_amb_aspen, radius: 9000, inner_radius: 3500, volume: 0.45, pan: false}
+  - {id: sound:bed_aspen_4, at: [47.5, 40], sound: xeen_amb_aspen, radius: 9000, inner_radius: 3500, volume: 0.45, pan: false}
+  - {id: sound:bed_aspen_5, at: [25, 53], sound: xeen_amb_aspen, radius: 9000, inner_radius: 3500, volume: 0.45, pan: false}
+  - {id: sound:bed_desert_1, at: [25, 64.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_10, at: [73, 106], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_11, at: [97, 106], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_2, at: [49, 64.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_3, at: [73, 64.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_4, at: [97, 64.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_5, at: [37, 85.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_6, at: [61, 85.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_7, at: [85, 85.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_8, at: [25, 106], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_9, at: [49, 106], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.4, pan: false}
+  - {id: sound:bed_highland_1, at: [49, 25], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_highland_2, at: [73, 25], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_highland_3, at: [97, 25], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_highland_4, at: [61, 46], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_highland_5, at: [85, 46], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:hold_fire, at: [86.5, 46.5], sound: campfire, radius: 1500, inner_radius: 300, volume: 0.5}
+events:
+  - id: evt:sky
+    trigger: load
+    effects:
+      - lua: Xeen.applyDarksideSky()
+    notes: Darkside's sky by the sun's stage (A3's helper).
+  - id: evt:boulders_gone
+    trigger: load
+    lua: "if IsQBitSet(QBit(113481)) then HideThing(\"thing:boulder_1\") end if IsQBitSet(QBit(113482)) then HideThing(\"thing:boulder_2\") end if IsQBitSet(QBit(113483)) then HideThing(\"thing:boulder_3\") end if IsQBitSet(QBit(113484)) then HideThing(\"thing:boulder_4\") end if IsQBitSet(QBit(113485)) then HideThing(\"thing:boulder_5\") end if IsQBitSet(QBit(113486)) then HideThing(\"thing:boulder_6\") end if IsQBitSet(QBit(113480)) then HideThing(\"thing:boulder_7\") end"
+    notes: "q-d24: the crumbled boulders and the answered seventh are gone (A3's crumbled_1-6, solved)."
+  - id: evt:hold_struck
+    trigger: timer
+    every: 1
+    condition: {not: {any: [{qbit: giants_war}, {qbit: hall_attacked}, {qbit: sardaj_hostile}, {qbit: sardaj_camp_burned}]}}
+    lua: "local struck = false for i = 0, 5 do if evt.IsMapActorHostile(i) and not evt.IsMapActorDead(i) then struck = true end end if struck then XeenQuests.hook(\"q-d16.hold_attacked\") end"
+    notes: "D-47 Q22 / D-49 Q1: a People giant struck at peace (the first six actors) calls q-d16.hold_attacked once; A2's relations then turn the People on both maps."

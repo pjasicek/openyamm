@@ -1,0 +1,351 @@
+format: 0
+themes:
+  - id: theme:catacomb
+    wall: {texture: cwb, size: [128, 256]}
+    floor: {texture: t3s2fl, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: cndl, size: [128, 256], fit: true}
+    notes: "The Count's catacombs: older brick (cwb) under rough vaults (cwb1), loculi panels (d2niche) in the walls."
+  - id: theme:count
+    wall: {texture: cnb, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: 7tfb11, size: [128, 128]}
+    reveal: {texture: cnb, size: [128, 256]}
+    door: {texture: cndl, size: [128, 256], fit: true}
+    notes: "The Count's own rooms: the same grey stone on dark slabs (7tfb11), dressed with his portraits."
+  - id: theme:crypt
+    wall: {texture: cnb, size: [128, 256]}
+    floor: {texture: t3s2fl, size: [128, 128]}
+    ceiling: {texture: cnb, size: [128, 256]}
+    reveal: {texture: cnb, size: [128, 256]}
+    door: {texture: cndl, size: [128, 256], fit: true}
+    notes: "The town's crypt: MM7's grey castle stone (cnb, Castle Navan's dungeon 7d15) on grey flags (t3s2fl)."
+defaults: {theme: theme:crypt, ambient: 16}
+rooms:
+  - id: room:cata_e
+    name: East catacomb
+    outline: [[-896, -4352], [-256, -4352], [-256, -3072], [-896, -3072]]
+    floor: -640
+    ceiling: -192
+    theme: theme:catacomb
+    walls:
+      - wall: east
+        surface: {texture: d2niche3, size: [256, 256]}
+        panels:
+          - {offset: 0, length: 256, bottom: 0, height: 256, surface: {texture: d2niche2, size: [256, 256], fit: true}}
+          - {offset: 512, length: 256, bottom: 0, height: 256, surface: {texture: d2niche4, size: [256, 256], fit: true}}
+          - {offset: 1024, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+      - wall: west
+        surface: {texture: d2niche3, size: [256, 256]}
+    platforms:
+      - {at: [-384, -4224], size: [192, 160], rise: 48, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cwb1, size: [128, 256]}, notes: "A collapsed loculus: rubble."}
+    ambient: 12
+    notes: "Older loculi, collapsed in places, 640 by 1,280: a draught from the feast hall's door."
+  - id: room:cata_w
+    name: West catacomb
+    outline: [[-3072, -4352], [-2432, -4352], [-2432, -2048], [-3072, -2048]]
+    floor: -640
+    ceiling: -192
+    theme: theme:catacomb
+    walls:
+      - wall: west
+        surface: {texture: d2niche3, size: [256, 256]}
+        panels:
+          - {offset: 256, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+          - {offset: 768, length: 256, bottom: 0, height: 256, surface: {texture: d2niche2, size: [256, 256], fit: true}}
+          - {offset: 1280, length: 256, bottom: 0, height: 256, surface: {texture: d2niche4, size: [256, 256], fit: true}}
+          - {offset: 1792, length: 256, bottom: 0, height: 256, surface: {texture: d2niche1, size: [256, 256], fit: true}}
+      - wall: east
+        surface: {texture: d2niche3, size: [256, 256]}
+    ambient: 12
+    notes: "Loculi three high in both long walls, 640 by 2,304: the chapel stair arrives at its north end; Draco's gallery opens east, the feast hall's door further south."
+  - id: room:chapel
+    name: Night chapel
+    outline: [[-3264, -640], [-2048, -640], [-2048, 1152], [-3264, 1152]]
+    floor: 0
+    ceiling: 768
+    theme: theme:crypt
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:moon, offset: 512, length: 256, bottom: 256, height: 384, surface: {texture: xmoonwin, size: [128, 256], fit: true}, notes: The moon window painted on the wall over the black altar.}
+          - {offset: 928, length: 192, bottom: 192, height: 192, surface: {texture: d2skulas, size: [64, 64], fit: true}}
+          - {offset: 160, length: 192, bottom: 192, height: 192, surface: {texture: d2skulas, size: [64, 64], fit: true}}
+    platforms:
+      - {id: platform:altar, at: [-2688, 992], size: [512, 160], rise: 96, surface: {texture: 7tfb11, size: [128, 128]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: "The black altar against the north wall, under the painted moon."}
+    ceiling_levels:
+      - ceiling: 1088
+        top_scale: 0.35
+    ambient: 14
+    notes: "The town's burial chapel turned to the moon, 1,216 by 1,792, its roof rising to a point: a black altar under a moon window painted on the north wall, carved skulls either side. The ossuary's door and the niches open in the east wall, the sexton's door in the west, the stair down in the south."
+  - id: room:chapel_stair
+    name: Chapel stair
+    outline: [[-2880, -1920], [-2496, -1920], [-2496, -768], [-2880, -768]]
+    floor: 0
+    slope: {to: -640, toward: south, steps: 20, riser: {texture: cnb1s, size: [128, 256]}, tread: {texture: t3s2fl, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: -192, toward: south}
+    theme: theme:crypt
+    ambient: 22
+    notes: Twenty steps of 32 down south from the chapel into the Count's catacombs.
+  - id: room:coffin_stair
+    name: Coffin stair
+    outline: [[-192, 1152], [192, 1152], [192, 1920], [-192, 1920]]
+    floor: 0
+    slope: {to: 384, toward: north, steps: 12, riser: {texture: cnb1s, size: [128, 256]}, tread: {texture: t3s2fl, size: [128, 128]}}
+    ceiling: 512
+    ceiling_slope: {to: 896, toward: north}
+    theme: theme:crypt
+    ambient: 22
+    notes: Twelve steps of 32 up north to the underside of Draco's coffin on the square (the way out to X3).
+  - id: room:count_stair
+    name: The Count's stair
+    path: [[2048, -1408, -1280], [2048, -1152, -1280], [2048, 512, -384], [576, 512, 0]]
+    width: 320
+    floor: -1280
+    ceiling: -896
+    theme: theme:crypt
+    ambient: 22
+    notes: "The Count's own way up: a narrow ramp from behind his dais, 1,280 up to the stair foot (a level start, 1,664 north climbing 896, a turn west climbing the last 384). Shut at both ends by secret slabs that his death opens (D-25: one way back up)."
+  - id: room:draco_vault
+    name: Draco's resting vault
+    outline: [[1152, -3456], [3072, -3456], [3072, -1536], [1152, -1536]]
+    floor: -1280
+    ceiling: -512
+    theme: theme:count
+    walls:
+      - wall: south
+        panels:
+          - {offset: 768, length: 256, bottom: 128, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:sarcophagus, at: [2048, -2144], size: [224, 448], rise: 112, surface: {texture: cnb1s, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: "The Count's great sarcophagus on the dais; the rhyme cut into its foot."}
+    levels:
+      - id: level:dais
+        outline: [[1536, -2432], [2560, -2432], [2560, -1856], [1536, -1856]]
+        floor: -1248
+        edge: {texture: cnb1s, size: [128, 256]}
+        surface: {texture: 7tfb11, size: [128, 128]}
+    ceiling_levels:
+      - ceiling: 0
+        top_scale: 0.3
+    beams:
+      - path: [[1152, -2432], [3072, -2432]]
+        width: 48
+        depth: 48
+        bottom: -560
+        surface: {texture: cnb1s, size: [128, 256]}
+        notes: A rib across the vault.
+      - path: [[2048, -3456], [2048, -2456]]
+        width: 48
+        depth: 48
+        bottom: -560
+        surface: {texture: cnb1s, size: [128, 256]}
+        notes: A rib along the vault (south half).
+      - path: [[2048, -2408], [2048, -1536]]
+        width: 48
+        depth: 48
+        bottom: -560
+        surface: {texture: cnb1s, size: [128, 256]}
+        notes: A rib along the vault (north half).
+    ambient: 10
+    notes: "The deepest room, 1,920 square at 1,280 under the square, under a hipped ribbed vault rising to 1,280: the great sarcophagus on a dais (a step of 32), Count Draco and two of his household. His hoard (tier 4) by the north wall. The iron door west; the Count's stair behind the dais, in the north wall (secret, opened by his death)."
+  - id: room:feast_hall
+    name: The Count's feast hall
+    outline: [[-2304, -4352], [-1024, -4352], [-1024, -3072], [-2304, -3072]]
+    floor: -640
+    ceiling: -64
+    theme: theme:count
+    walls:
+      - wall: south
+        panels:
+          - {offset: 512, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:table, at: [-1600, -4000], size: [768, 224], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: A long table laid for guests who never left.}
+    ambient: 14
+    notes: "1,280 by 1,280: a long table laid for guests who never left, the Count's portrait at its foot; the silver plate in a chest at the head of the table. Doors west (west catacomb) and east (east catacomb), both along the north side so the table is off the walking line."
+  - id: room:gallery
+    name: Draco's gallery
+    outline: [[-2304, -2944], [-256, -2944], [-256, -2048], [-2304, -2048]]
+    floor: -640
+    ceiling: 0
+    theme: theme:count
+    walls:
+      - wall: north
+        panels:
+          - {offset: 1536, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+          - {id: panel:portrait_1, offset: 896, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+          - {offset: 256, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+      - wall: south
+        panels:
+          - {offset: 256, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+          - {offset: 896, length: 256, bottom: 96, height: 384, surface: {texture: xdracoport, size: [128, 256], fit: true}}
+    ceiling_levels:
+      - ceiling: 192
+        top_scale: 0.5
+    ambient: 14
+    notes: "The set piece on the way down, 2,048 by 896, 640 high under a low hipped roof: the Count's portraits down both long walls, the same pale face in every frame, centuries apart. The west catacomb west, the east catacomb south, the vault stair east."
+  - id: room:niches
+    name: Gnome niches
+    outline: [[-1920, -640], [-1728, -640], [-1728, -832], [-1472, -832], [-1472, -640], [-1280, -640], [-1280, -832], [-1024, -832], [-1024, -640], [-832, -640], [-832, -832], [-576, -832], [-576, -640], [-384, -640], [-384, -832], [-128, -832], [-128, -640], [64, -640], [64, -832], [320, -832], [320, -640], [512, -640], [512, -128], [-1920, -128]]
+    floor: 0
+    ceiling: 384
+    theme: theme:crypt
+    platforms:
+      - {id: platform:coffin_1, at: [-1600, -768], size: [192, 96], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A gnome-sized coffin in its niche, the lid pushed aside."}
+      - {at: [-1152, -768], size: [192, 96], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A gnome-sized coffin in its niche, the lid pushed aside."}
+      - {id: platform:coffin_3, at: [-704, -768], size: [192, 96], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A gnome-sized coffin in its niche, the lid pushed aside."}
+      - {at: [-256, -768], size: [192, 96], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A gnome-sized coffin in its niche, the lid pushed aside."}
+      - {id: platform:coffin_5, at: [192, -768], size: [192, 96], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "A gnome-sized coffin in its niche, the lid pushed aside."}
+    ambient: 14
+    notes: "A corridor 2,432 long and 512 wide under the square: five niches in its south wall, each with a small coffin whose lid is ajar ('The coffin is empty.', aaze0029:3). Their owners are up: two and three gnome vampires (D-25). The stair foot north-east, the chapel west."
+  - id: room:ossuary
+    name: Town ossuary
+    outline: [[-1920, 0], [-640, 0], [-640, 1280], [-1920, 1280]]
+    floor: 0
+    ceiling: 576
+    theme: theme:crypt
+    walls:
+      - wall: north
+        surface: {texture: xobones, size: [128, 256]}
+      - wall: south
+        surface: {texture: xobones, size: [128, 256]}
+    platforms:
+      - {id: platform:bone_shelf_w, at: [-1664, 1184], size: [384, 128], rise: 160, surface: {texture: xobones, size: [128, 256]}, top_surface: {texture: t3s2fl, size: [128, 128]}, notes: Skulls stacked on a stone shelf against the north wall.}
+      - {at: [-896, 1184], size: [384, 128], rise: 160, surface: {texture: xobones, size: [128, 256]}, top_surface: {texture: t3s2fl, size: [128, 128]}, notes: More of Nightshadow's dead.}
+    ambient: 16
+    notes: "Nightshadow's dead, 1,280 square, the bones stacked to the vault along the north and south walls; gnome vampires sleeping among them (two pairs, D-25). The stair foot east, the chapel's door west."
+  - id: room:sexton
+    name: Sexton's room
+    outline: [[-4096, 384], [-3456, 384], [-3456, 1024], [-4096, 1024]]
+    floor: 0
+    ceiling: 384
+    theme: theme:crypt
+    platforms:
+      - {id: platform:bed, at: [-3584, 896], size: [192, 224], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: The sexton's cot in the north-east corner.}
+    ambient: 18
+    notes: "A dead end, 640 square: the old sexton's cot and his lockbox of burial fees, untouched since he was bitten."
+  - id: room:stair_foot
+    name: Coffin stair foot
+    outline: [[-448, 0], [448, 0], [448, 1024], [-448, 1024]]
+    floor: 0
+    ceiling: 512
+    theme: theme:crypt
+    ambient: 20
+    notes: "The foot of the stair from Draco's coffin on Nightshadow's square, 896 by 1,024: old earth and candle stubs. The party arrives here from X3 and leaves up the coffin stair (north). The ossuary west, the niches south, the Count's secret stair (once he is dead) east. No monsters (D-11.3)."
+  - id: room:vault_stair
+    name: Vault stair
+    outline: [[-128, -2688], [1024, -2688], [1024, -2304], [-128, -2304]]
+    floor: -1280
+    slope: {to: -640, toward: west, steps: 20, riser: {texture: cnb1s, size: [128, 256]}, tread: {texture: 7tfb11, size: [128, 128]}}
+    ceiling: -768
+    ceiling_slope: {to: -128, toward: west}
+    theme: theme:count
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:sign_night, offset: 64, length: 256, bottom: 384, height: 96, surface: {texture: cnb1s, size: [128, 256]}, notes: "Cut over the iron door: 'Only at night can you put up a fight.'"}
+    ambient: 16
+    notes: "Twenty steps of 32 down east from the gallery to the iron door with the Count's symbol (open only by night, D-25 Q1). No monsters: the party may rest here until 21:00."
+openings:
+  - id: open:cataw_feast
+    from: room:cata_w
+    to: room:feast_hall
+    link: link:feast_cataw
+    along: 0.83
+    width: 192
+    height: 320
+  - id: open:cataw_gallery
+    from: room:cata_w
+    to: room:gallery
+    link: link:cataw_gallery
+    width: 384
+    height: 384
+  - id: open:chapel_sexton
+    from: room:chapel
+    to: room:sexton
+    link: link:chapel_sexton
+    width: 192
+    height: 320
+  - id: open:chapel_stair
+    from: room:chapel
+    to: room:chapel_stair
+    link: link:chapel_cataw
+    width: 320
+    height: 320
+  - id: open:count_foot
+    from: room:count_stair
+    to: room:stair_foot
+    link: link:private_stair
+    width: 256
+    height: 320
+  - id: open:feast_catae
+    from: room:feast_hall
+    to: room:cata_e
+    link: link:catae_feast
+    along: 0.83
+    width: 192
+    height: 320
+  - id: open:foot_coffin
+    from: room:stair_foot
+    to: room:coffin_stair
+    link: link:coffin_stair
+    width: 320
+    height: 320
+  - id: open:foot_niches
+    from: room:stair_foot
+    to: room:niches
+    link: link:foot_niches
+    width: 384
+    height: 320
+  - id: open:foot_ossuary
+    from: room:stair_foot
+    to: room:ossuary
+    link: link:foot_ossuary
+    width: 384
+    height: 352
+    shape: arch
+    apex: 432
+  - id: open:gallery_catae
+    from: room:gallery
+    to: room:cata_e
+    link: link:gallery_catae
+    width: 384
+    height: 384
+  - id: open:gallery_vstair
+    from: room:gallery
+    to: room:vault_stair
+    link: link:gallery_vstair
+    width: 320
+    height: 320
+  - id: open:niches_chapel
+    from: room:niches
+    to: room:chapel
+    link: link:niches_chapel
+    width: 384
+    height: 320
+  - id: open:ossuary_chapel
+    from: room:ossuary
+    to: room:chapel
+    link: link:ossuary_chapel
+    width: 192
+    height: 320
+  - id: open:stair_cataw
+    from: room:chapel_stair
+    to: room:cata_w
+    link: link:chapel_cataw
+    width: 320
+    height: 320
+  - id: open:vault_count
+    from: room:draco_vault
+    to: room:count_stair
+    link: link:private_stair
+    width: 256
+    height: 320
+  - id: open:vault_door
+    from: room:vault_stair
+    to: room:draco_vault
+    link: link:vault_door
+    width: 256
+    height: 352
+notes: "XD-24 Nightshadow Crypt: the town's crypt at z 0, the Count's catacombs at -640, his vault at -1280; x east, y north. Written by output/studio_cal/xd24/tools/gen.py."

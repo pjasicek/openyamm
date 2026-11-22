@@ -1,0 +1,1626 @@
+format: 0
+themes:
+- id: theme:timber
+  wall: &id001
+    texture: gkp1ceil
+    size: &id006
+    - 256
+    - 256
+  floor: &id003
+    texture: gcav2flr
+    size:
+    - 128
+    - 128
+  ceiling: *id001
+  door: &id002
+    texture: gkp103a
+    size:
+    - 128
+    - 256
+  reveal: *id001
+  notes: 'The blockhouses: plank walls on posts (MM8''s gkp1ceil), beaten earth floors, plank roofs.'
+- id: theme:straw
+  wall: *id001
+  floor: &id009
+    texture: gkp1flr
+    size:
+    - 128
+    - 128
+  ceiling: *id001
+  door: *id002
+  reveal: *id001
+  notes: 'Bunks, kennel, Graalg''s quarters: the same timber, the floor deep in straw (gkp1flr).'
+- id: theme:palisade
+  wall: &id004
+    texture: xopalis
+    size:
+    - 128
+    - 256
+  floor: *id003
+  ceiling: *id001
+  door: *id002
+  reveal: *id004
+  notes: 'The gateways through the palisade: lashed logs (xopalis).'
+- id: theme:cave
+  wall: &id005
+    texture: gcav1flr
+    size:
+    - 256
+    - 256
+  floor:
+    texture: gcav2flr
+    size:
+    - 128
+    - 128
+  ceiling: *id005
+  door: *id002
+  reveal: *id005
+  notes: 'The cellars dug into the knolls and the run: d12''s cave rock.'
+defaults:
+  theme: theme:timber
+  ambient: 16
+rooms:
+- id: room:gateway_w
+  name: West gateway
+  outline:
+  - - -384
+    - -576
+  - - 384
+    - -576
+  - - 384
+    - -320
+  - - -384
+    - -320
+  floor: 0
+  ceiling: 448
+  theme: theme:palisade
+  ambient: 22
+  walls:
+  - wall: south
+    panels:
+    - id: panel:gateway_w_south
+      offset: 0
+      length: 768
+      surface: *id004
+  - wall: east
+    panels:
+    - id: panel:gateway_w_east
+      offset: 0
+      length: 256
+      surface: *id004
+  - wall: north
+    panels:
+    - id: panel:gateway_w_north
+      offset: 0
+      length: 768
+      surface: *id004
+  - wall: west
+    panels:
+    - id: panel:gateway_w_west
+      offset: 0
+      length: 256
+      surface: *id004
+  notes: 'The way through the west fort''s palisade, 768 by 256: the log gate''s two leaves north, the yard and the pass south
+    (the exit to D2).'
+- id: room:gate_w
+  name: West fort gate
+  outline:
+  - - -512
+    - -192
+  - - 512
+    - -192
+  - - 512
+    - 512
+  - - -512
+    - 512
+  floor: 0
+  theme: theme:timber
+  ambient: 18
+  walls:
+  - wall: south
+    panels:
+    - id: panel:gate_w_south
+      offset: 0
+      length: 1024
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:gate_w_east
+      offset: 0
+      length: 704
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:gate_w_north
+      offset: 0
+      length: 1024
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:gate_w_west
+      offset: 0
+      length: 704
+      surface: *id001
+  ceiling: 448
+  ceiling_points:
+  - - 0
+    - 160
+    - 512
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:gate_w_roof
+    surface: *id001
+  notes: 'Inside the west fort''s log gate, 1,024 by 704: the gate''s two leaves behind (south), the blockhouse''s double
+    door ahead (north). The party''s start (from D2''s entrance:dd13_west).'
+- id: room:hall_w
+  name: West fort hall
+  outline:
+  - - -896
+    - 640
+  - - 896
+    - 640
+  - - 896
+    - 2240
+  - - -896
+    - 2240
+  floor: 0
+  theme: theme:timber
+  ambient: 16
+  walls:
+  - wall: south
+    panels:
+    - id: panel:hall_w_south
+      offset: 0
+      length: 1792
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:hall_w_east
+      offset: 0
+      length: 1600
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:hall_w_north
+      offset: 0
+      length: 1792
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:hall_w_west
+      offset: 0
+      length: 1600
+      surface: *id001
+  ceiling: 512
+  ceiling_points:
+  - - 0
+    - 640
+    - 768
+  - - 0
+    - 2240
+    - 768
+  - - -224
+    - 1632
+    - 704
+  - - 0
+    - 1632
+    - 768
+  - - 224
+    - 1632
+    - 704
+  - - 224
+    - 2080
+    - 704
+  - - 0
+    - 2080
+    - 768
+  - - -224
+    - 2080
+    - 704
+  - - -176
+    - 1680
+    - 880
+  - - 176
+    - 1680
+    - 880
+  - - 176
+    - 2032
+    - 880
+  - - -176
+    - 2032
+    - 880
+  ceiling_lines:
+  - - - 0
+      - 640
+    - - 0
+      - 1632
+  - - - 0
+      - 2080
+    - - 0
+      - 2240
+  - - - -224
+      - 1632
+    - - 0
+      - 1632
+    - - 224
+      - 1632
+    - - 224
+      - 2080
+    - - 0
+      - 2080
+    - - -224
+      - 2080
+    - - -224
+      - 1632
+  - - - -176
+      - 1680
+    - - 176
+      - 1680
+    - - 176
+      - 2032
+    - - -176
+      - 2032
+    - - -176
+      - 1680
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:hall_w_roof
+    surface: *id001
+  - at:
+    - 0
+    - 1856
+    id: region:hall_w_sky
+    surface: &id010
+      texture: gkp1ceil
+      size: *id006
+      sky: true
+  beams:
+  - path:
+    - - -320
+      - 1776
+    - - 320
+      - 1776
+    bottom: 645
+    width: 32
+    depth: 32
+    surface: &id007
+      texture: xochar
+      size:
+      - 128
+      - 128
+    notes: A tie beam across the smoke hole under its rim, black with the fire's smoke.
+  - path:
+    - - -320
+      - 1936
+    - - 320
+      - 1936
+    bottom: 645
+    width: 32
+    depth: 32
+    surface: *id007
+    notes: A tie beam across the smoke hole under its rim, black with the fire's smoke.
+  platforms:
+  - id: platform:pit_w
+    outline:
+    - - -72
+      - 1680
+    - - 72
+      - 1680
+    - - 176
+      - 1784
+    - - 176
+      - 1928
+    - - 72
+      - 2032
+    - - -72
+      - 2032
+    - - -176
+      - 1928
+    - - -176
+      - 1784
+    rise: 24
+    surface: *id005
+    top_surface: *id007
+    notes: The west hall's fire pit under the smoke hole.
+  - id: platform:roof_patch_w
+    outline:
+    - - -176
+      - 1680
+    - - 176
+      - 1680
+    - - 176
+      - 2032
+    - - -176
+      - 2032
+    base: 863
+    rise: 16
+    surface: *id001
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: 'The plank patch over the smoke hole while the fort stands (shown by evt:standing; burns, then gone: the sky over
+      the tie beams).'
+  - id: platform:table_w
+    outline:
+    - - -720
+      - 2016
+    - - -240
+      - 2016
+    - - -240
+      - 2144
+    - - -720
+      - 2144
+    base: 56
+    rise: 12
+    surface: *id001
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A long table of stolen plates.
+  - id: platform:table_leg_1
+    outline:
+    - - -680
+      - 2040
+    - - -664
+      - 2040
+    - - -664
+      - 2056
+    - - -680
+      - 2056
+    rise: 56
+    surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+    top_surface: *id001
+    notes: A leg of the long table.
+  - id: platform:table_leg_2
+    outline:
+    - - -296
+      - 2040
+    - - -280
+      - 2040
+    - - -280
+      - 2056
+    - - -296
+      - 2056
+    rise: 56
+    surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+    top_surface: *id001
+    notes: A leg of the long table.
+  - id: platform:table_leg_3
+    outline:
+    - - -680
+      - 2104
+    - - -664
+      - 2104
+    - - -664
+      - 2120
+    - - -680
+      - 2120
+    rise: 56
+    surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+    top_surface: *id001
+    notes: A leg of the long table.
+  - id: platform:table_leg_4
+    outline:
+    - - -296
+      - 2104
+    - - -280
+      - 2104
+    - - -280
+      - 2120
+    - - -296
+      - 2120
+    rise: 56
+    surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+    top_surface: *id001
+    notes: A leg of the long table.
+  - id: platform:hide_w1
+    at:
+    - -576
+    - 2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: &id008
+      texture: xohide
+      size:
+      - 128
+      - 256
+      fit: true
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_w2
+    at:
+    - -320
+    - 2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_w3
+    at:
+    - 320
+    - 2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_w4
+    at:
+    - 576
+    - 2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_w5
+    at:
+    - -888
+    - 1664
+    size:
+    - 16
+    - 128
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_w6
+    at:
+    - 888
+    - 1664
+    size:
+    - 16
+    - 128
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:rubble_w1
+    outline:
+    - - 380
+      - 1714
+    - - 500
+      - 1620
+    - - 650
+      - 1620
+    - - 740
+      - 1725
+    - - 650
+      - 1900
+    - - 470
+      - 1900
+    rise: 64
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_w2
+    outline:
+    - - -710
+      - 1587
+    - - -610
+      - 1480
+    - - -485
+      - 1480
+    - - -410
+      - 1600
+    - - -485
+      - 1800
+    - - -635
+      - 1800
+    rise: 56
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_w3
+    outline:
+    - - 0
+      - 2067
+    - - 100
+      - 2020
+    - - 225
+      - 2020
+    - - 300
+      - 2073
+    - - 225
+      - 2160
+    - - 75
+      - 2160
+    rise: 48
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_w4
+    outline:
+    - - -290
+      - 2050
+    - - -230
+      - 2010
+    - - -155
+      - 2010
+    - - -110
+      - 2055
+    - - -155
+      - 2130
+    - - -245
+      - 2130
+    rise: 40
+    surface: *id007
+    top_surface: *id007
+    notes: Charred rafters fallen through the smoke hole.
+  notes: 'The west blockhouse''s hall, 1,792 by 1,600 under a pitched plank roof: a fire pit under the smoke hole, hides on
+    the walls, a long table of stolen plates. Empty: the ogres are out hunting. ''Burn?'' at the pit.'
+- id: room:bunks_w
+  name: West bunkhouse
+  outline:
+  - - 1024
+    - 832
+  - - 2176
+    - 832
+  - - 2176
+    - 1984
+  - - 1024
+    - 1984
+  floor: 0
+  theme: theme:straw
+  ambient: 16
+  walls:
+  - wall: south
+    panels:
+    - id: panel:bunks_w_south
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:bunks_w_east
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:bunks_w_north
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:bunks_w_west
+      offset: 0
+      length: 1152
+      surface: *id001
+  ceiling: 448
+  ceiling_points:
+  - - 1600
+    - 1408
+    - 512
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:bunks_w_roof
+    surface: *id001
+  platforms:
+  - id: platform:bunk_1
+    outline:
+    - - 1088
+      - 1792
+    - - 1344
+      - 1792
+    - - 1344
+      - 1952
+    - - 1088
+      - 1952
+    rise: 32
+    surface: *id001
+    top_surface: *id009
+    notes: A bunk of logs and furs.
+  - id: platform:bunk_2
+    outline:
+    - - 1408
+      - 1792
+    - - 1664
+      - 1792
+    - - 1664
+      - 1952
+    - - 1408
+      - 1952
+    rise: 32
+    surface: *id001
+    top_surface: *id009
+    notes: A bunk of logs and furs.
+  - id: platform:bunk_3
+    outline:
+    - - 1088
+      - 864
+    - - 1344
+      - 864
+    - - 1344
+      - 1024
+    - - 1088
+      - 1024
+    rise: 32
+    surface: *id001
+    top_surface: *id009
+    notes: A bunk of logs and furs.
+  - id: platform:bunk_4
+    outline:
+    - - 1472
+      - 864
+    - - 1728
+      - 864
+    - - 1728
+      - 1024
+    - - 1472
+      - 1024
+    rise: 32
+    surface: *id001
+    top_surface: *id009
+    notes: A bunk of logs and furs.
+  notes: Bunks of logs and furs along the walls, 1,152 square; the ladder's hole down to the west cellar by the east wall.
+- id: room:plunder_w
+  name: Plunder store
+  outline:
+  - - -2176
+    - 832
+  - - -1024
+    - 832
+  - - -1024
+    - 1984
+  - - -2176
+    - 1984
+  floor: 0
+  theme: theme:timber
+  ambient: 16
+  store: true
+  walls:
+  - wall: south
+    panels:
+    - id: panel:plunder_w_south
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:plunder_w_east
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:plunder_w_north
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:plunder_w_west
+      offset: 0
+      length: 1152
+      surface: *id001
+  ceiling: 448
+  ceiling_points:
+  - - -1600
+    - 1408
+    - 512
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:plunder_w_roof
+    surface: *id001
+  notes: 'Kramer''s stolen cargo in heaps, 1,152 square: bolts of cloth, sacks, his caravan''s barrels, a strongbox (the chest);
+    the trapdoor''s hole down to the west cellar by the west wall.'
+- id: room:gateway_e
+  name: East gateway
+  outline:
+  - - 7168
+    - 320
+  - - 7936
+    - 320
+  - - 7936
+    - 576
+  - - 7168
+    - 576
+  floor: 0
+  ceiling: 448
+  theme: theme:palisade
+  ambient: 22
+  walls:
+  - wall: south
+    panels:
+    - id: panel:gateway_e_south
+      offset: 0
+      length: 768
+      surface: *id004
+  - wall: east
+    panels:
+    - id: panel:gateway_e_east
+      offset: 0
+      length: 256
+      surface: *id004
+  - wall: north
+    panels:
+    - id: panel:gateway_e_north
+      offset: 0
+      length: 768
+      surface: *id004
+  - wall: west
+    panels:
+    - id: panel:gateway_e_west
+      offset: 0
+      length: 256
+      surface: *id004
+  notes: 'The way through the east fort''s palisade: the log gate''s two leaves south, the yard and the pass north (the exit
+    to D2).'
+- id: room:gate_e
+  name: East fort gate
+  outline:
+  - - 7040
+    - -512
+  - - 8064
+    - -512
+  - - 8064
+    - 192
+  - - 7040
+    - 192
+  floor: 0
+  theme: theme:timber
+  ambient: 18
+  walls:
+  - wall: south
+    panels:
+    - id: panel:gate_e_south
+      offset: 0
+      length: 1024
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:gate_e_east
+      offset: 0
+      length: 704
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:gate_e_north
+      offset: 0
+      length: 1024
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:gate_e_west
+      offset: 0
+      length: 704
+      surface: *id001
+  ceiling: 448
+  ceiling_points:
+  - - 7552
+    - -160
+    - 512
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:gate_e_roof
+    surface: *id001
+  notes: 'Inside the east fort''s log gate: the gate north, Graalg''s hall''s double door south. The arrival from D2''s entrance:dd13_east.'
+- id: room:hall_e
+  name: East fort hall
+  outline:
+  - - 6656
+    - -2240
+  - - 8448
+    - -2240
+  - - 8448
+    - -640
+  - - 6656
+    - -640
+  floor: 0
+  theme: theme:timber
+  ambient: 16
+  walls:
+  - wall: south
+    panels:
+    - id: panel:hall_e_south
+      offset: 0
+      length: 1792
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:hall_e_east
+      offset: 0
+      length: 1600
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:hall_e_north
+      offset: 0
+      length: 1792
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:hall_e_west
+      offset: 0
+      length: 1600
+      surface: *id001
+  ceiling: 512
+  ceiling_points:
+  - - 7552
+    - -2240
+    - 768
+  - - 7552
+    - -640
+    - 768
+  - - 7328
+    - -2080
+    - 704
+  - - 7552
+    - -2080
+    - 768
+  - - 7776
+    - -2080
+    - 704
+  - - 7776
+    - -1632
+    - 704
+  - - 7552
+    - -1632
+    - 768
+  - - 7328
+    - -1632
+    - 704
+  - - 7376
+    - -2032
+    - 880
+  - - 7728
+    - -2032
+    - 880
+  - - 7728
+    - -1680
+    - 880
+  - - 7376
+    - -1680
+    - 880
+  ceiling_lines:
+  - - - 7552
+      - -2240
+    - - 7552
+      - -2080
+  - - - 7552
+      - -1632
+    - - 7552
+      - -640
+  - - - 7328
+      - -2080
+    - - 7552
+      - -2080
+    - - 7776
+      - -2080
+    - - 7776
+      - -1632
+    - - 7552
+      - -1632
+    - - 7328
+      - -1632
+    - - 7328
+      - -2080
+  - - - 7376
+      - -2032
+    - - 7728
+      - -2032
+    - - 7728
+      - -1680
+    - - 7376
+      - -1680
+    - - 7376
+      - -2032
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:hall_e_roof
+    surface: *id001
+  - at:
+    - 7552
+    - -1856
+    id: region:hall_e_sky
+    surface: *id010
+  beams:
+  - path:
+    - - 7232
+      - -1936
+    - - 7872
+      - -1936
+    bottom: 645
+    width: 32
+    depth: 32
+    surface: *id007
+    notes: A tie beam across the smoke hole under its rim, black with the fire's smoke.
+  - path:
+    - - 7232
+      - -1776
+    - - 7872
+      - -1776
+    bottom: 645
+    width: 32
+    depth: 32
+    surface: *id007
+    notes: A tie beam across the smoke hole under its rim, black with the fire's smoke.
+  platforms:
+  - id: platform:pit_e
+    outline:
+    - - 7467
+      - -2064
+    - - 7637
+      - -2064
+    - - 7760
+      - -1941
+    - - 7760
+      - -1771
+    - - 7637
+      - -1648
+    - - 7467
+      - -1648
+    - - 7344
+      - -1771
+    - - 7344
+      - -1941
+    rise: 24
+    surface: *id005
+    top_surface: *id007
+    notes: Graalg's fire pit, the bigger one.
+  - id: platform:roof_patch_e
+    outline:
+    - - 7376
+      - -2032
+    - - 7728
+      - -2032
+    - - 7728
+      - -1680
+    - - 7376
+      - -1680
+    base: 863
+    rise: 16
+    surface: *id001
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: 'The plank patch over the smoke hole while the fort stands (shown by evt:standing; burns, then gone: the sky over
+      the tie beams).'
+  - id: platform:seat
+    outline:
+    - - 8100
+      - -1140
+    - - 8200
+      - -1220
+    - - 8325
+      - -1220
+    - - 8400
+      - -1130
+    - - 8325
+      - -980
+    - - 8175
+      - -980
+    rise: 96
+    surface: &id011
+      texture: xobones
+      size:
+      - 128
+      - 256
+    top_surface: *id011
+    notes: 'Graalg''s seat: a heap of antlers and bones.'
+  - id: platform:hide_e1
+    at:
+    - 6976
+    - -2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_e2
+    at:
+    - 7232
+    - -2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_e3
+    at:
+    - 7872
+    - -2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_e4
+    at:
+    - 8128
+    - -2232
+    size:
+    - 128
+    - 16
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_e5
+    at:
+    - 8440
+    - -1984
+    size:
+    - 16
+    - 128
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:hide_e6
+    at:
+    - 8440
+    - -1536
+    size:
+    - 16
+    - 128
+    base: 64
+    rise: 256
+    surface: *id008
+    end_surface:
+      texture: t66abc10a
+      size:
+      - 32
+      - 128
+      fit: false
+    top_surface: *id001
+    bottom_surface: *id001
+    notes: A hide hung on the wall.
+  - id: platform:rubble_e1
+    outline:
+    - - 7860
+      - -1996
+    - - 7987
+      - -2090
+    - - 8145
+      - -2090
+    - - 8240
+      - -1985
+    - - 8145
+      - -1810
+    - - 7955
+      - -1810
+    rise: 64
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_e2
+    outline:
+    - - 7490
+      - -2183
+    - - 7597
+      - -2220
+    - - 7730
+      - -2220
+    - - 7810
+      - -2178
+    - - 7730
+      - -2110
+    - - 7570
+      - -2110
+    rise: 48
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_e3
+    outline:
+    - - 7900
+      - -1540
+    - - 8000
+      - -1620
+    - - 8125
+      - -1620
+    - - 8200
+      - -1530
+    - - 8125
+      - -1380
+    - - 7975
+      - -1380
+    rise: 56
+    surface: *id007
+    top_surface: *id007
+    notes: Fallen roof timbers, charred.
+  - id: platform:rubble_e4
+    outline:
+    - - 7260
+      - -2106
+    - - 7320
+      - -2140
+    - - 7395
+      - -2140
+    - - 7440
+      - -2102
+    - - 7395
+      - -2040
+    - - 7305
+      - -2040
+    rise: 40
+    surface: *id007
+    top_surface: *id007
+    notes: Charred rafters fallen through the smoke hole.
+  notes: 'Graalg''s own hall, 1,792 by 1,600: a bigger fire pit, his seat of antlers by the east wall, hides on the walls.
+    Empty: out hunting. ''Burn?'' at the pit.'
+- id: room:kennel_e
+  name: Kennel
+  outline:
+  - - 5376
+    - -2240
+  - - 6528
+    - -2240
+  - - 6528
+    - -1472
+  - - 5376
+    - -1472
+  floor: 0
+  slope:
+    to: -512
+    toward: west
+  ceiling: 448
+  ceiling_slope:
+    to: -64
+    toward: west
+  theme: theme:straw
+  ambient: 14
+  walls:
+  - wall: south
+    panels:
+    - id: panel:kennel_e_south
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:kennel_e_east
+      offset: 0
+      length: 768
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:kennel_e_north
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:kennel_e_west
+      offset: 0
+      length: 768
+      surface: *id001
+  notes: A pen of chewed logs behind the barred gate, its floor a ramp of trampled straw falling 512 west to the east cellar;
+    the ogres' sabertooths.
+- id: room:graalg
+  name: Graalg's quarters
+  outline:
+  - - 5376
+    - -1344
+  - - 6528
+    - -1344
+  - - 6528
+    - -320
+  - - 5376
+    - -320
+  floor: 0
+  theme: theme:straw
+  ambient: 16
+  walls:
+  - wall: south
+    panels:
+    - id: panel:graalg_south
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: east
+    panels:
+    - id: panel:graalg_east
+      offset: 0
+      length: 1024
+      surface: *id001
+  - wall: north
+    panels:
+    - id: panel:graalg_north
+      offset: 0
+      length: 1152
+      surface: *id001
+  - wall: west
+    panels:
+    - id: panel:graalg_west
+      offset: 0
+      length: 1024
+      surface: *id001
+  ceiling: 448
+  ceiling_points:
+  - - 5952
+    - -832
+    - 512
+  ceiling_surfaces:
+  - steeper_than: 0.001
+    id: region:graalg_roof
+    surface: *id001
+  platforms:
+  - id: platform:graalg_bed
+    outline:
+    - - 6048
+      - -704
+    - - 6464
+      - -704
+    - - 6464
+      - -416
+    - - 6048
+      - -416
+    rise: 40
+    surface: *id001
+    top_surface: *id009
+    notes: Graalg's bed, the size of a cart.
+  notes: Furs, a bed the size of a cart and Graalg's strongbox, 1,152 by 1,024; the trapdoor's hole down to the east cellar
+    by the west wall.
+- id: room:cellar_w
+  name: West cellar
+  outline:
+  - - -1984
+    - 1152
+  - - 1984
+    - 1152
+  - - 1984
+    - 1792
+  - - -1984
+    - 1792
+  floor: -512
+  ceiling: -128
+  theme: theme:cave
+  ambient: 14
+  notes: 'Dug into the knoll under the west blockhouse, 3,968 by 640: barrels, smoked meat; the two ladders up at its ends,
+    the run''s mouth south.'
+- id: room:run
+  name: The ogres' run
+  path:
+  - - 1536
+    - 1024
+  - - 1536
+    - 384
+  - - 1728
+    - 0
+  - - 2176
+    - -192
+  - - 3712
+    - -192
+  - - 4096
+    - -320
+  - - 4352
+    - -576
+  - - 4352
+    - -768
+  width: 320
+  floor: -512
+  ceiling: -128
+  theme: theme:cave
+  ambient: 12
+  beams:
+  - path:
+    - - 2432
+      - -352
+    - - 2432
+      - -32
+    bottom: -208
+    width: 32
+    depth: 48
+    surface: &id012
+      texture: t66abc11a
+      size:
+      - 128
+      - 32
+  - path:
+    - - 2944
+      - -352
+    - - 2944
+      - -32
+    bottom: -208
+    width: 32
+    depth: 48
+    surface: *id012
+  - path:
+    - - 3456
+      - -352
+    - - 3456
+      - -32
+    bottom: -208
+    width: 32
+    depth: 48
+    surface: *id012
+  notes: A timbered tunnel under the pass road, 320 wide and about 4,000 long, from the west cellar to the east cellar; the
+    Sardaj loot cave off its north side.
+- id: room:loot_cave
+  name: Sardaj loot
+  outline:
+  - - 2560
+    - 96
+  - - 3328
+    - 96
+  - - 3328
+    - 832
+  - - 2560
+    - 832
+  floor: -512
+  ceiling: -96
+  theme: theme:cave
+  ambient: 14
+  platforms:
+  - id: platform:disk_case
+    outline:
+    - - 3136
+      - 640
+    - - 3232
+      - 640
+    - - 3232
+      - 704
+    - - 3136
+      - 704
+    rise: 32
+    surface: *id001
+    top_surface: *id007
+    notes: A broken disk case, empty, with Graalg's boast scratched on it.
+  notes: 'A side cave off the run, 768 by 736: barbarian shields and bead-strung spears taken from Yog''s Sardaj, the brutes''
+    pile (the chest), and a broken disk case, empty.'
+- id: room:cellar_e
+  name: East cellar
+  outline:
+  - - 4096
+    - -2240
+  - - 5248
+    - -2240
+  - - 5248
+    - -1344
+  - - 5760
+    - -1344
+  - - 5760
+    - -896
+  - - 4096
+    - -896
+  floor: -512
+  ceiling: -128
+  theme: theme:cave
+  ambient: 14
+  notes: 'Under the east blockhouse: Graalg''s beer, a rack of clubs; the run comes in from the north, the kennel''s ramp
+    east, the ladder up to Graalg''s quarters in its north-east arm.'
+openings:
+- id: open:gate_w
+  from: room:gate_w
+  to: room:gateway_w
+  link: link:gate_w
+  width: 384
+  height: 352
+  notes: 'The west fort''s log gate: two leaves.'
+- id: open:gatew_hall
+  from: room:gate_w
+  to: room:hall_w
+  link: link:gatew_hall
+  width: 320
+  height: 352
+  notes: The blockhouse's double door.
+- id: open:hallw_bunks
+  from: room:hall_w
+  to: room:bunks_w
+  link: link:hallw_bunks
+  width: 192
+  height: 288
+  along: 0.25
+- id: open:hallw_plunder
+  from: room:hall_w
+  to: room:plunder_w
+  link: link:hallw_plunder
+  width: 192
+  height: 288
+  along: 0.75
+- id: open:bunks_cellar
+  from: room:bunks_w
+  to: room:cellar_w
+  link: link:bunks_cellar
+  in: floor
+  at:
+  - 1872
+  - 1472
+  size:
+  - 192
+  - 192
+  reveal: *id001
+  notes: The bunkhouse's ladder hole.
+- id: open:plunder_cellar
+  from: room:plunder_w
+  to: room:cellar_w
+  link: link:plunder_cellar
+  in: floor
+  at:
+  - -1872
+  - 1472
+  size:
+  - 192
+  - 192
+  reveal: *id001
+  notes: The plunder store's trapdoor hole.
+- id: open:cellarw_run
+  from: room:cellar_w
+  to: room:run
+  link: link:cellarw_run
+  width: 288
+  height: 320
+- id: open:run_loot
+  from: room:run
+  to: room:loot_cave
+  link: link:run_loot
+  width: 288
+  height: 320
+- id: open:run_cellare
+  from: room:run
+  to: room:cellar_e
+  link: link:run_cellare
+  width: 288
+  height: 320
+- id: open:cellare_kennel
+  from: room:cellar_e
+  to: room:kennel_e
+  link: link:cellare_kennel
+  width: 288
+  height: 320
+  from_wall: 1
+  to_wall: west
+  notes: The foot of the kennel's ramp.
+- id: open:halle_kennel
+  from: room:hall_e
+  to: room:kennel_e
+  link: link:kennel_hall
+  width: 256
+  height: 288
+  notes: The kennel's barred gate.
+- id: open:halle_graalg
+  from: room:hall_e
+  to: room:graalg
+  link: link:halle_graalg
+  width: 192
+  height: 288
+  along: 0.5
+- id: open:graalg_cellar
+  from: room:graalg
+  to: room:cellar_e
+  link: link:graalg_cellar
+  in: floor
+  at:
+  - 5648
+  - -1120
+  size:
+  - 192
+  - 192
+  reveal: *id001
+  notes: Graalg's trapdoor hole.
+- id: open:halle_gate
+  from: room:hall_e
+  to: room:gate_e
+  link: link:halle_gate
+  width: 320
+  height: 352
+  notes: The blockhouse's double door.
+- id: open:gate_e
+  from: room:gate_e
+  to: room:gateway_e
+  link: link:gate_e
+  width: 384
+  height: 352
+  notes: 'The east fort''s log gate: two leaves.'
+notes: 'DD-13 Ogre Forts: two blockhouses on floor 0 (west fort north of D2''s pass road, east fort south of it), their cellars
+  and the ogres'' run under the road at -512; x east, y north. Written by output/studio_cal/dd13/tools/gen.py.'

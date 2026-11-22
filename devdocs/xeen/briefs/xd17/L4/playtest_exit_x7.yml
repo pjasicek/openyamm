@@ -1,0 +1,161 @@
+# XD-17: the back passage to the rockfall (the exit preset) and out to X7's
+# entrance:xd17_cleft; A3's xd17.cleft_opened sets cleft_open 116140. X7's door back in is not open yet.
+# Written by output/studio_cal/xd17/tools/gen_playtests.py (A5, 2026-11-21); run with output/studio_cal/xd17/run.sh.
+id: xeen.xd17.l4.exit_x7
+title: 'Shangri-La (XD-17 L4): the back passage and the rockfall out to X7, the cleft opened'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd17.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 48
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd17.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2.5
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    qbit_clear:
+    - 116140
+- walk_to:
+    x: -1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -1664
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -1664
+    y: 3456
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -5120
+    y: 3456
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -5440
+    y: 3540
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -5900
+    y: 3920
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -6200
+    y: 4140
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -7000
+    y: 4230
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- walk_to:
+    x: -7400
+    y: 4230
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 120
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -7400
+    y: 4230
+    z: 0
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.8
+    present_dialogs: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: 4096
+      y: 8192
+      radius: 192
+      z_min: 2336
+      z_max: 2696
+- assert:
+    qbit_set:
+    - 116140

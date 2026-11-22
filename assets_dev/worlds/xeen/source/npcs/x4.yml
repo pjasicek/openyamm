@@ -1,0 +1,33 @@
+# X4 Burlock Savannah: the topics of the people A4 placed (source/towns/x4.yml) that belong to no quest, and the
+# savannah's own lines (MAPS X4 "Original lines"). Quest topics: q-c5.yml (Adam, Eve), q-c10.yml (Carlawna),
+# q-c11.yml (Falagar). Sarah Slither's lisp is A4's greeting. Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: X4
+block: 154
+source: "xeen/aaze0010 (the savannah, Carlawna, Falagar), aaze0031 (Asp)"
+
+qbits:
+  barbarian_camp: {id: 116060, note: "the barbarian encampment on the savannah has been burnt"}
+
+npcs:
+  4303:              # Carlawna
+    topics:
+      - {n: 1, label: Falagar, text: "My brother Falagar thinks every theft is a plot. This time he might be right, which he'll never let me forget."}
+  4304:              # Falagar
+    topics:
+      - {n: 2, label: Carlawna, text: "My sister's a cleric and I'm a wizard. At dinner we argue whether the soup is a miracle or a reaction."}
+  4332:              # Sarah Slither, Asp's guild (A4: her greeting carries the source's lisp)
+    topics:
+      - {n: 3, label: The curse, text: "The guild never closed. We met in the cellar and took the minutesss with our tailsss. Nobody could read them after."}
+
+hooks:
+  sign_asp:
+    map: X4
+    where: "the signpost where the savannah road forks to Asp"
+    text: "Asp-->"
+  barbarian_camp:
+    map: X4
+    where: "the barbarian encampment on the savannah: the map asks \"You have stumbled upon a Barbarian encampment. Burn?\" and burns it (a destructible), then calls this"
+    sets: [barbarian_camp]
+    once: true
+    do: [{lua: "evt.PlaySoundName(\"xeen_fire_ignite\")"}]
+    text: "The encampment burns to the sound of distant howls of anger and frustration."

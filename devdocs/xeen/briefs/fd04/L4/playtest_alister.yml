@@ -1,0 +1,163 @@
+# Alister (D-57 Q27; written by output/studio_cal/fd04/tools/gen_tests.py): peaceful and unkillable (struck
+# twenty times, still alive and peaceful); his first talk starts Q-F1; the nest's egg (q-f1.egg, 118146, once);
+# his paying talk takes it; the second after the talk closes he is hidden (118147) and the lizard he became
+# shown (S's xeen_lizard, hidden till then) in the same visit; a reload keeps him gone, the lizard and two eggs.
+id: xeen.fd04.l4.alister
+title: 'Dragon Tower (FD-04 L4): Alister, the egg and his vanish'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    actor_visible:
+      actor_index: 0
+      name: Alister, Druid
+      hidden: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11923
+      hostile: false
+      min: 1
+- walk_to:
+    x: -640
+    y: -768
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- party_attack:
+    actor_index: 0
+    member_index: 0
+    count: 20
+    kill: true
+    min_hit_rate: 0.0
+    report: true
+- assert:
+    actor_visible:
+      actor_index: 0
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11923
+      hostile: false
+      min: 1
+- assert:
+    sprite_hidden: &id001
+    - 13
+- play_lua:
+    source: close(); wait(0.5); close()
+- interact_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: Dragon egg
+- assert:
+    dialog:
+      active: true
+      text_contains: I need a dragon egg
+- play_lua:
+    source: close(); close(); wait(0.5); close(); if not qbit(114020) then error('Q-F1 started not set') end; if qbit(118147)
+      then error('alister_gone too early') end
+- assert:
+    sprite_shown:
+    - 9
+    - 10
+    - 11
+- play_lua:
+    source: click(56); wait(0.5)
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, ''You lift one of the eggs'', 1, true) then error(''status
+      line: '' .. s) end'
+- play_lua:
+    source: close(); wait(0.5); if not has_item(12375) then error('no Dragon Egg') end; if not qbit(118146) then error('egg_taken
+      118146 not set') end; click(56); wait(0.5)
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, [[Two eggs are left]], 1, true) then error(''status line:
+      '' .. s) end'
+- assert:
+    sprite_hidden:
+    - 11
+    sprite_shown:
+    - 9
+    - 10
+- play_lua:
+    source: close(); wait(0.5); close()
+- interact_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- select_topic:
+    match_label: Dragon egg
+- assert:
+    dialog:
+      active: true
+      text_contains: drink this egg potion
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- play_lua:
+    source: close(); close(); wait(0.3); close(); wait(2); if not qbit(118147) then error('alister_gone 118147 not set') end;
+      if has_item(12375) then error('the egg was not taken') end
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- assert:
+    sprite_shown: *id001
+- play_lua:
+    source: close(); wait(1); close()
+- reload: {}
+- play_lua:
+    source: wait(4); close()
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- assert:
+    sprite_hidden:
+    - 11
+    sprite_shown:
+    - 9
+    - 10
+    - 13

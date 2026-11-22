@@ -1,0 +1,177 @@
+format: 0
+variables: [test_accepted, gate_open, dais_shown]
+events:
+  - id: evt:bell
+    preset: script
+    source: platform:bell_frame
+    title: The Drowned Bell
+    lua: "XeenQuests.hook(\"planes.bell\")"
+    notes: "A3's planes.bell: it tolls under the waves; the first time an emerald (map variable p4_bell)."
+  - id: evt:bell_deco
+    preset: script
+    source: deco:bell
+    title: The Drowned Bell
+    lua: "XeenQuests.hook(\"planes.bell\")"
+    notes: evt:bell clicked on S's decoration over it.
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:wreck_cache
+    title: Chest
+    notes: The ship's strongbox (trapped).
+  - id: evt:chest_test
+    preset: chest
+    source: chest:test
+    title: Chest
+    notes: The test's chest (aaze0028:4).
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: The return dais
+    condition: {qbit: m38_water}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(-27456, -17728, 768, 256, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the dais after the sleeper, to D7's entrance:p4_return (A3's m38.dais_water)."
+  - id: evt:dais_disc
+    preset: script
+    source: deco:dais
+    title: The return dais
+    condition: {qbit: m38_water}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(-27456, -17728, 768, 256, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:dais clicked on S's decoration over it.
+  - id: evt:dais_hide
+    preset: script
+    trigger: load
+    condition: {not: {qbit: m38_water}}
+    effects:
+      - hide: platform:dais
+      - passable: platform:dais
+    notes: "C5: the return dais shows once the Water Sleeper is awake (qbit 111763, m38.sleeper_water)."
+  - id: evt:dais_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_water}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: "P-1: the dais shown on every load once m38_water is set (S's disc starts hidden)."
+  - id: evt:dais_show
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_water}, {not: {map_var: dais_shown}}]}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: The dais rises the second the Water Sleeper wakes (m38_water).
+  - id: evt:gate
+    preset: script
+    source: platform:veil_water
+    title: The Veil
+    effects:
+      - text: The falling water throws you back.
+    notes: "Clicked: the Veil does not let anyone through before the test."
+  - id: evt:gate_open
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_water_test}, {not: {map_var: gate_open}}]}
+    effects:
+      - passable: platform:veil_water
+      - hide: platform:veil_water
+      - text: The falling water stills and parts.
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: The Veil stills the second the qbit is set (C4).
+  - id: evt:log
+    preset: script
+    source: platform:log
+    title: The ship's log
+    lua: "XeenQuests.hook(\"planes.log\")"
+    notes: "A3's planes.log: the log's lines; its find (Water Resistance) lies beside it."
+  - id: evt:passed_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_water_test}
+    effects:
+      - passable: platform:veil_water
+      - hide: platform:veil_water
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: "P-1: the load event reads qbit 111767: the Veil stilled, the guardians hidden, the whirlpool quiet (through refills and the reset after a map rebuild)."
+  - id: evt:plaque
+    preset: script
+    source: platform:plinth
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_water\")"
+    notes: "A3's m38.plaque_water: 'Step Four' at the base of the statue (the statue on it is S's)."
+  - id: evt:plaque_statue
+    preset: script
+    source: deco:statue
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_water\")"
+    notes: evt:plaque clicked on S's decoration over it.
+  - id: evt:sleeper
+    preset: script
+    source: deco:sleeper
+    title: The Water Sleeper
+    lua: "XeenQuests.hook(\"m38.sleeper_water\")"
+    notes: "A3's m38.sleeper_water (clicked, every time): not Chosen; 'Awaiting Grunfeld field activation.'; awake (the qbit, the award, 10,500 experience)."
+  - id: evt:test
+    preset: script
+    source: platform:test_plate
+    question: {ask: "Accept the test of Water?", answers: [Yes, Y]}
+    trigger: step
+    condition: {all: [{not: {qbit: m38_water_test}}, {not: {map_var: test_accepted}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m38.test_water\")"
+      - show_actors: 60
+      - set:
+          var:
+            map_var: test_accepted
+          value: 1
+    notes: "D-58 C3: the test (aaze0028:5). Yes: A3's m38.test_water line, the guardians rise from the whirlpool (group 60 shown); any other answer does nothing. Not asked again while they live."
+  - id: evt:test_check
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: test_accepted}, {not: {qbit: m38_water_test}}]}
+    lua: "Xeen.planeTestCheck(\"water\", 60)"
+    notes: "A3's killed-group check (xeen_common.lua): once the three guardians are dead it runs m38.test_water_passed, which sets qbit 111767 (P-1) with its line."
+  - id: evt:tide_pool
+    preset: script
+    source: platform:tide_pool
+    title: The Tide Pool
+    lua: "XeenQuests.hook(\"planes.tide_pool\")"
+    notes: "A3's planes.tide_pool: once a day, +20 Water resistance until rest (the buff device)."
+  - id: evt:wave
+    preset: script
+    source: platform:wave1
+    trigger: step
+    sources: [platform:wave2, platform:wave3, platform:wave4, platform:wave5, platform:wave6, platform:wave7, platform:wave8, platform:wave9]
+    lua: "XeenQuests.hook(\"planes.wave\")"
+    notes: "D-58 P4: A3's planes.wave (one time in three, 50 water damage to each member, 'A freezing wave breaks over you!')."
+  - id: evt:way_up
+    preset: script
+    source: platform:way_up
+    title: The waterspout
+    effects:
+      - lua: "evt.MoveToMap(-27456, -17728, 768, 256, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the way up, always open, to D7's entrance:p4_return; A3's m38.way_up_water is its question."

@@ -1,0 +1,33 @@
+# The adit out of the Gemstone Mines, north pocket (DD-10C) onto D6 (lane A8, 2026-11-21, D-62). From the map's start
+# just inside the adit's mouth (entrance:d6_adit), the exit window (exit the Gemstone Mines?, aaze0039:0), OK: the party
+# stands on D6 (the Forbidden Zone, A6) at entrance:dd10c_adit (-9216, -16384, 2688), outside the north adit, facing
+# north (512), away from it, and walks on. Run with --world xeen --map xeen_dd10c.blv (output/studio_cal/dd10c/four.sh).
+id: xeen.dd10c.l4.exit_d6
+title: Gemstone Mines north pocket (DD-10C L4), out by the adit to D6
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd10c.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_dd10c.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: 192, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: 112, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "log('arrival ' .. status())"}
+  - assert: {party_position: {x: -9216, y: -16384, radius: 128, z_min: 2600, z_max: 2780, facing: 512, facing_within: 64}}
+  # Facing north, away from the adit: walking on takes the party out onto the crags.
+  - walk_to: {x: -9216, y: -16000, z: 2688, z_tolerance: 250, radius: 160, timeout_seconds: 30}
+  - assert: {map: xeen_d6.odm}

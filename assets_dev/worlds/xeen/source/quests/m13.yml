@@ -1,0 +1,61 @@
+# M13 The Tower of High Magic and the Skeleton Key (QUESTS M13). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M13
+title: The Skeleton Key
+act: II
+kind: main
+status: full
+giver: null          # found in XD-11's study; Artemus (M12) points the way
+giver_name: (found in XD-11)
+maps: [X3, XD-11, X8, X2]
+level: 19
+block: 13
+after: [m12.key_bought]
+source: "QUESTS M13; xeen/aaze0058:6-7"
+
+qbits:
+  done: {id: 111260, journal: "The Skeleton Key from the Tower of High Magic opens Darzog's Tower on Lake Darzog's island.",
+         until: [m21.darzog_slain]}
+  xd11_arrived_once: {id: 110680, map: XD-11, note: "the map's own: first arrival (A8)"}
+
+player_bits:         # once per character (D-4 item 1): XD-11's six brews, +5 to one resistance each (A8); the map raises it
+  brew_fire: {id: 11246, map: XD-11}
+  brew_electric: {id: 11247, map: XD-11}
+  brew_cold: {id: 11248, map: XD-11}
+  brew_poison: {id: 11249, map: XD-11}
+  brew_energy: {id: 11250, map: XD-11}
+  brew_magic: {id: 11251, map: XD-11}
+
+items:
+  enchanted_key: "see M12"
+  skeleton_key: "the Skeleton Key to Darzog's Tower; XD-11's study. Was MM7 1461 (X2, XD-12)."
+
+hooks:
+  tower_door:
+    map: X3
+    where: "XD-11's door in the lagoon (D-89: open; the Enchanted Key locks the Skeleton Key's chest, study_door)"
+    entrance: XD-11
+  study_door:
+    map: XD-11
+    where: "the Skeleton Key's chest in the Archmage's study on the top floor (D-89 INWARD; orchestrator 2026-11-22: the Enchanted Key locks the chest, not the study door, so the study stays clearable). XD-11's evt:study_chest (39) calls this before it opens the chest: true opens it, false has shown the line. The name is kept for the map's call"
+    gate: beat
+    needs: [enchanted_key]
+    fail_text: "The chest has no lock you can see, only a faint shimmer where a key would go. The great skull in the Cave of Illusion sells such keys, they say."
+  skeleton_key:
+    map: XD-11
+    where: "the chest in the Archmage's study on the top floor (the third above the ground, 1920 up): the key is an ordinary item in it (F15, 2026-11-21); the map calls this after the chest opens"
+    sets: [done]
+    map_gives: {skeleton_key: 1}
+    once: true
+    status: true   # F15: shown over the open chest; a window would close it
+    do: [{xp: 6000}]
+    text: "A skeleton key lies in the chest. Its bow is a grinning skull, and its teeth fit no lock in this tower."
+  darzog_door:
+    map: X2
+    where: "XD-12's door on the lake island (built: door:xd12, item skeleton_key)"
+    entrance: XD-12
+    sealed: "the Act IV hinge: a level-30-48 no-magic tower beside the Act II hub; the key is loot in XD-11"
+    needs: [skeleton_key]
+    fail_text: "The tower door is sealed. Its lock is shaped like a grinning skull, and nothing you carry fits it. The Skeleton Key that fits it went up the Tower of High Magic with the King's alchemists, they say."
+
+rewards: {xp: 6000, gold: 0}
+playthrough: "X3: the tower door. XD-11: up to the study (Enchanted Key): the Skeleton Key. X2: Darzog's door opens."

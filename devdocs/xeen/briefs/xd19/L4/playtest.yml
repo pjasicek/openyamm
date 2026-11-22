@@ -1,0 +1,887 @@
+# Playtest of Castle Xeen (XD-19, L4; lane A7, agent:xeen-a7-xd19; written by
+# output/studio_cal/xd19/tools/gen_tests.py from ids.lock.yml): the critical path. A level-50 party
+# (immortal) arrives in the gatehall (entrance:x9_gate): m35.arrival; the great hall,
+# the west ward and gallery, the cold vault's Water Generator ('Destroy?' Yes); the stair hall, the
+# gravel vault's Earth Generator; the east gallery, up the south-east tower to the Air Generator; the
+# barrier hall with three generators down (the field stands); the south-west tower top's Fire
+# Generator: the field falls (barrier_down 118062); up the crown stair, the aviary (Xeen's Pet,
+# m35.pet), the throne doors' plate (m35.lord_xeen_sight, Lord Xeen freed 4 s later), no damage
+# without the Slayer Sword (m35.untouchable once), then his death by the sword (m35.lord_xeen; the
+# treasury opens), the mirror (aaze0078:5), the scepter: No; the hoard, a save and load; the scepter: Yes
+# (m35.scepter, the cinematic, then out on X9 before the gate: the done event's direct leave).
+id: xeen.xd19.l4.walk
+title: 'Castle Xeen (XD-19 L4): the generators, the barrier, the crown, Lord Xeen and the scepter'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd19.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 50
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 50
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd19.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 0
+      y: -4064
+      radius: 64
+      z_min: -8
+      z_max: 8
+- note: 'The arrival line (a one-shot timer; the headless runner opens no window from a timer: the step asserts that the event
+    ran and the hook set m35.started).'
+- play_lua:
+    source: wait(3)
+- assert:
+    state_dump_map_var:
+      index: 0
+      value: 1
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111700) then error('m35.started not set') end
+- assert:
+    map: xeen_xd19.blv
+- walk_to:
+    x: 0
+    y: -3100
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -2500
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: -900
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1500
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1700
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -2300
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -2980
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -3580
+    y: -1760
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -3760
+    y: -1020
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(28, 18)
+- walk_to:
+    x: -3760
+    y: -420
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: -3120
+    y: 1396
+    z: 0
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(47); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111704) then error('gen_water not set') end
+- console:
+    line: destructible 4 state
+    expect_contains: broken
+- play_lua:
+    source: click(47); wait(0.8); close()
+- walk_to:
+    x: -2300
+    y: 0
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(29, 19)
+- walk_to:
+    x: -1700
+    y: 0
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 1700
+    y: 0
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(27, 17)
+- walk_to:
+    x: 2300
+    y: 0
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 3120
+    y: 1396
+    z: 0
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(41); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111703) then error('gen_earth not set') end
+- console:
+    line: destructible 2 state
+    expect_contains: broken
+- walk_to:
+    x: 3760
+    y: -420
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(26, 16)
+- walk_to:
+    x: 3760
+    y: -1020
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 3760
+    y: -2500
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 3760
+    y: -3100
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4040
+    y: -3280
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4040
+    y: -4600
+    z: 0
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 3760
+    y: -4480
+    z: 0
+    radius: 64
+    z_tolerance: 40
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 3760
+    y: -3320
+    z: 640
+    radius: 64
+    z_tolerance: 48
+    clear_hostiles: 1600
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 3940
+    y: -3120
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4540
+    y: -3120
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4720
+    y: -3080
+    z: 640
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4720
+    y: -3200
+    z: 640
+    radius: 64
+    z_tolerance: 40
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 4720
+    y: -4360
+    z: 1280
+    radius: 64
+    z_tolerance: 48
+    clear_hostiles: 1600
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 4540
+    y: -4480
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 3940
+    y: -4480
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 3760
+    y: -4276
+    z: 1280
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(38); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111702) then error('gen_air not set') end
+- console:
+    line: destructible 1 state
+    expect_contains: broken
+- walk_to:
+    x: 3580
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(18, 5)
+- walk_to:
+    x: 2980
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 2300
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 1700
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 1500
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 900
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: 0
+    y: -2520
+    z: 1280
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: 'wait(2); if door_state(4) ~= ''closed'' then error(''field with three generators down: '' .. door_state(4)) end;
+      if qbit(118062) then error(''barrier_down early'') end'
+- play_lua:
+    source: click(33); wait(0.8)
+- assert:
+    dialog:
+      active: true
+      text_contains: Four pylons feed it
+- play_lua:
+    source: close()
+- walk_to:
+    x: -900
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1500
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1700
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -2300
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: -2980
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(19, 6)
+- walk_to:
+    x: -3580
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2400
+- walk_to:
+    x: -3760
+    y: -4276
+    z: 1280
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(44); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111701) then error('gen_fire not set') end
+- console:
+    line: destructible 3 state
+    expect_contains: broken
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(118062) then error('barrier_down not set') end
+- play_lua:
+    source: 'wait(2); if door_state(4) ~= ''open'' then error(''field after four generators: '' .. door_state(4)) end'
+- walk_to:
+    x: -3580
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -2980
+    y: -3520
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -2300
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1700
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1500
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -900
+    y: -1760
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -2500
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -3100
+    z: 1280
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -3200
+    z: 1280
+    radius: 64
+    z_tolerance: 40
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -4360
+    z: 1920
+    radius: 64
+    z_tolerance: 48
+    clear_hostiles: 1600
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: -420
+    y: -4480
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1020
+    y: -4480
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1360
+    y: -3100
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -1360
+    y: -2500
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- clear_hostiles:
+    radius: 3000
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111705) then error('pet_slain not set') end
+- walk_to:
+    x: 0
+    y: -2060
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -1460
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -1020
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -420
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 0
+    z: 1920
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: open_door(25, 13)
+- walk_to:
+    x: 0
+    y: 416
+    z: 1920
+    radius: 40
+    clear_hostiles: 0
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: wait(1.5); close()
+- play_lua:
+    source: if not qbit(111709) then error('lord_xeen_seen not set') end
+- assert:
+    actor_visible:
+      actor_index: 25
+      dead: false
+- play_lua:
+    source: wait(5); close()
+- assert:
+    state_dump_map_var:
+      index: 12
+      value: 1
+- party_attack:
+    actor_index: 25
+    member_index: 0
+    count: 48
+    kill: true
+    report: true
+- party_attack:
+    actor_index: 25
+    member_index: 2
+    count: 48
+    kill: true
+    report: true
+- assert:
+    actor_visible:
+      actor_index: 25
+      dead: false
+      hp: 2200
+      report_state: true
+- assert:
+    state_dump_map_var:
+      index: 13
+      value: 1
+- grant_item:
+    item_id: 12500
+    member_index: 0
+    equip: main_hand
+- party_attack:
+    actor_index: 25
+    member_index: 0
+    count: 1500
+    kill: true
+    report: true
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_visible:
+      actor_index: 25
+      dead: true
+      report_state: true
+- clear_hostiles:
+    radius: 4000
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not qbit(111706) then error('lord_xeen_slain not set') end
+- play_lua:
+    source: 'wait(2); if door_state(15) ~= ''open'' then error(''treasury: '' .. door_state(15)) end'
+- walk_to:
+    x: 0
+    y: 3480
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -420
+    y: 3632
+    z: 1984
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(59); wait(0.8)
+- assert:
+    dialog:
+      active: true
+      text_contains: force field
+- play_lua:
+    source: close()
+- walk_to:
+    x: 0
+    y: 3632
+    z: 1984
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(70); wait(0.8)
+- assert:
+    dialog:
+      active: true
+      text_contains: Take it?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: close()
+- play_lua:
+    source: if qbit(111707) then error('done after No set') end
+- walk_to:
+    x: 768
+    y: 3960
+    z: 1920
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 768
+    y: 4540
+    z: 1920
+    radius: 64
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(11); wait(0.8); if take_chest() then close() end; close()
+- reload: {}
+- play_lua:
+    source: if door_state(4) ~= 'open' then error('field after reload') end; if door_state(15) ~= 'open' then error('treasury
+      after reload') end
+- walk_to:
+    x: 768
+    y: 3960
+    z: 1920
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3632
+    z: 1984
+    radius: 48
+    clear_hostiles: 1600
+    timeout_seconds: 40
+    close_dialogs: true
+- play_lua:
+    source: click(70); wait(0.8)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 18
+    follow_map_move: true
+- advance_runtime:
+    seconds: 2
+    follow_map_move: true
+- play_lua:
+    source: if not qbit(111707) then error('m35.done not set') end
+- assert:
+    map: xeen_x9.blv
+- assert:
+    party_position:
+      x: 0
+      y: 11264
+      radius: 200
+      z_min: 700
+      z_max: 860
+- play_lua:
+    source: 'log(''after the cinematic: '' .. status()); close()'

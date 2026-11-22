@@ -1,0 +1,1588 @@
+format: 0
+start:
+  room: room:gate_hall
+  at: [0, -1280]
+  facing: n
+  notes: "entrance:x7_gate: 256 inside the tower's gate, facing north into the tower."
+arrivals:
+  - {entrance: entrance:x7_gate, room: room:gate_hall, at: [0, -1280], facing: n, notes: "X7's Dragon Tower gate (door:fd04, A5): 256 inside the gate, facing north (512). Quiet: Alister is peaceful, the scorched hall's Acid pair round a turn and more than 1,024 from its low opening."}
+  - {entrance: entrance:x9_clouds, room: room:roof_stair, at: [-1312, 608], floor_height: 4224, facing: s, notes: "X9's way down from the Dragon Clouds (A5): on the roof stair's head under the hatch (z 4,224), facing down the stair (south). Quiet: the crown's door is shut."}
+doors:
+  - id: door:ballroom
+    opening: open:welcome_ball
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 96
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    pictures:
+      - [{texture: gnecdr1l, size: [128, 256]}, {texture: gnecdr1r, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gnecdr1l, size: [128, 256]}, {texture: gnecdr1r, size: [128, 256]}]
+    notes: The welcome hall's double doors (gnecdr1l/gnecdr1r) into the ballroom.
+  - id: door:control
+    opening: open:maint_control
+    kind: slide_up
+    thickness: 24
+    surface: {texture: swdoora, size: [256, 256], fit: true}
+    back_surface: {texture: swdoora, size: [256, 256], fit: true}
+    notes: The control room's door.
+  - id: door:crypt
+    opening: open:welcome_crypt
+    kind: hinged
+    thickness: 24
+    surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr2, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: "'Do Not Disturb' (aazex122:4)."
+  - id: door:descent
+    opening: open:crossword_descent
+    kind: slide_up
+    thickness: 24
+    speed: 128
+    surface: {texture: gnecdr3, size: [256, 256], fit: true}
+    back_surface: {texture: gnecdr3, size: [256, 256], fit: true}
+    notes: "The descent's gate: up when the twelve words are lit (q-f2.crossword, 118143)."
+  - id: door:dorm
+    opening: open:l1_dorm
+    kind: hinged
+    thickness: 24
+    surface: {texture: vlcdora, size: [256, 256]}
+    back_surface: {texture: vlcdora, size: [256, 256]}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The dormitory's door from the landing.
+  - id: door:roof
+    opening: open:crown_roof
+    kind: hinged
+    thickness: 24
+    surface: {texture: vlcdora, size: [256, 256]}
+    back_surface: {texture: vlcdora, size: [256, 256]}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The crown's low door to the roof stair.
+  - id: door:sandro
+    opening: open:gate_cellar
+    kind: hinged
+    thickness: 24
+    surface: {texture: gnecdr6, size: [128, 256], fit: true}
+    back_surface: {texture: gnecdr6, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: "Sandro's black iron door (q-f2.door, item 12354): open for good with 118130."
+  - id: door:shutter
+    opening: open:gongs_maint
+    kind: slide_up
+    thickness: 24
+    speed: 96
+    surface: {texture: swdoora, size: [256, 256], fit: true}
+    back_surface: {texture: swdoora, size: [256, 256], fit: true}
+    notes: "The iron shutter: up when the lever is pulled after the four gongs (118144)."
+  - id: door:tome
+    opening: open:crown_tome
+    kind: hinged
+    thickness: 24
+    surface: {texture: vlcdora, size: [256, 256]}
+    back_surface: {texture: vlcdora, size: [256, 256]}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The tome room's door off the crown.
+plates:
+  - id: plate:cw_13a_10
+    room: room:crossword
+    outline: [[-768, 2816], [-384, 2816], [-384, 2944], [-768, 2944]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 13a (xfgrid; xfword when solved)."
+  - id: plate:cw_13a_12
+    room: room:crossword
+    outline: [[-256, 2816], [-128, 2816], [-128, 2944], [-256, 2944]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 13a (xfgrid; xfword when solved)."
+  - id: plate:cw_1a_1
+    room: room:crossword
+    outline: [[0, 2304], [384, 2304], [384, 2432], [0, 2432]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 1a (xfgrid; xfword when solved)."
+  - id: plate:cw_1a_3
+    room: room:crossword
+    outline: [[512, 2304], [768, 2304], [768, 2432], [512, 2432]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 1a (xfgrid; xfword when solved)."
+  - id: plate:cw_21a_13
+    room: room:crossword
+    outline: [[-1280, 1408], [-512, 1408], [-512, 1536], [-1280, 1536]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 21a (xfgrid; xfword when solved)."
+  - id: plate:cw_24a_14
+    room: room:crossword
+    outline: [[-1408, 2048], [-1024, 2048], [-1024, 2176], [-1408, 2176]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 24a (xfgrid; xfword when solved)."
+  - id: plate:cw_24a_16
+    room: room:crossword
+    outline: [[-896, 2048], [-384, 2048], [-384, 2176], [-896, 2176]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 24a (xfgrid; xfword when solved)."
+  - id: plate:cw_24a_18
+    room: room:crossword
+    outline: [[-256, 2048], [-128, 2048], [-128, 2176], [-256, 2176]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 24a (xfgrid; xfword when solved)."
+  - id: plate:cw_40a_19
+    room: room:crossword
+    outline: [[-1280, 2560], [-384, 2560], [-384, 2688], [-1280, 2688]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 40a (xfgrid; xfword when solved)."
+  - id: plate:cw_40a_21
+    room: room:crossword
+    outline: [[-256, 2560], [0, 2560], [0, 2688], [-256, 2688]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 40a (xfgrid; xfword when solved)."
+  - id: plate:cw_44d_22
+    room: room:crossword
+    outline: [[-384, 2944], [-256, 2944], [-256, 3072], [-384, 3072]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 44d (xfgrid; xfword when solved)."
+  - id: plate:cw_44d_23
+    room: room:crossword
+    outline: [[-384, 2688], [-256, 2688], [-256, 2816], [-384, 2816]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 44d (xfgrid; xfword when solved)."
+  - id: plate:cw_44d_24
+    room: room:crossword
+    outline: [[-384, 2176], [-256, 2176], [-256, 2560], [-384, 2560]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 44d (xfgrid; xfword when solved)."
+  - id: plate:cw_44d_25
+    room: room:crossword
+    outline: [[-384, 1792], [-256, 1792], [-256, 2048], [-384, 2048]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 44d (xfgrid; xfword when solved)."
+  - id: plate:cw_45d_26
+    room: room:crossword
+    outline: [[768, 2816], [896, 2816], [896, 3072], [768, 3072]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 45d (xfgrid; xfword when solved)."
+  - id: plate:cw_45d_27
+    room: room:crossword
+    outline: [[768, 2432], [896, 2432], [896, 2688], [768, 2688]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 45d (xfgrid; xfword when solved)."
+  - id: plate:cw_45d_28
+    room: room:crossword
+    outline: [[768, 1792], [896, 1792], [896, 2304], [768, 2304]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 45d (xfgrid; xfword when solved)."
+  - id: plate:cw_47d_29
+    room: room:crossword
+    outline: [[384, 2432], [512, 2432], [512, 2560], [384, 2560]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 47d (xfgrid; xfword when solved)."
+  - id: plate:cw_47d_30
+    room: room:crossword
+    outline: [[384, 1792], [512, 1792], [512, 2304], [384, 2304]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 47d (xfgrid; xfword when solved)."
+  - id: plate:cw_5a_5
+    room: room:crossword
+    outline: [[256, 1536], [1024, 1536], [1024, 1664], [256, 1664]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 5a (xfgrid; xfword when solved)."
+  - id: plate:cw_6a_7
+    room: room:crossword
+    outline: [[256, 2688], [768, 2688], [768, 2816], [256, 2816]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 6a (xfgrid; xfword when solved)."
+  - id: plate:cw_6a_9
+    room: room:crossword
+    outline: [[896, 2688], [1280, 2688], [1280, 2816], [896, 2816]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 6a (xfgrid; xfword when solved)."
+  - id: plate:cw_76d_31
+    room: room:crossword
+    outline: [[-1024, 2176], [-896, 2176], [-896, 2432], [-1024, 2432]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 76d (xfgrid; xfword when solved)."
+  - id: plate:cw_76d_32
+    room: room:crossword
+    outline: [[-1024, 1664], [-896, 1664], [-896, 2048], [-1024, 2048]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 76d (xfgrid; xfword when solved)."
+  - id: plate:cw_77d_33
+    room: room:crossword
+    outline: [[1024, 1664], [1152, 1664], [1152, 1792], [1024, 1792]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 77d (xfgrid; xfword when solved)."
+  - id: plate:cw_77d_34
+    room: room:crossword
+    outline: [[1024, 1280], [1152, 1280], [1152, 1536], [1024, 1536]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "Cells of 77d (xfgrid; xfword when solved)."
+  - id: plate:cw_x_13a_44d
+    room: room:crossword
+    outline: [[-384, 2816], [-256, 2816], [-256, 2944], [-384, 2944]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 13a and 44d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_1a_45d
+    room: room:crossword
+    outline: [[768, 2304], [896, 2304], [896, 2432], [768, 2432]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 1a and 45d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_1a_47d
+    room: room:crossword
+    outline: [[384, 2304], [512, 2304], [512, 2432], [384, 2432]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 1a and 47d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_24a_44d
+    room: room:crossword
+    outline: [[-384, 2048], [-256, 2048], [-256, 2176], [-384, 2176]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 24a and 44d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_24a_76d
+    room: room:crossword
+    outline: [[-1024, 2048], [-896, 2048], [-896, 2176], [-1024, 2176]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 24a and 76d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_40a_44d
+    room: room:crossword
+    outline: [[-384, 2560], [-256, 2560], [-256, 2688], [-384, 2688]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 40a and 44d cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_45d_6a
+    room: room:crossword
+    outline: [[768, 2688], [896, 2688], [896, 2816], [768, 2816]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 45d and 6a cross (xfgrid; xfword when solved)."
+  - id: plate:cw_x_5a_77d
+    room: room:crossword
+    outline: [[1024, 1536], [1152, 1536], [1152, 1664], [1024, 1664]]
+    surface: {texture: xfgrid, size: [128, 128]}
+    notes: "The cell where 5a and 77d cross (xfgrid; xfword when solved)."
+sounds:
+  - {id: sound:hum_cw, room: room:crossword, at: [0, 2176], sound: humming, radius: 2400, inner_radius: 800, volume: 0.3, notes: The dungeon bed (D-48)., pan: false}
+  - {id: sound:hum_halls, room: room:ballroom, at: [0, 5760], sound: humming, radius: 3000, inner_radius: 1000, volume: 0.3, pan: false}
+  - {id: sound:machine, room: room:machine, at: [0, 12160], sound: xeen_machine_stamp_loop, radius: 3600, inner_radius: 900, volume: 0.45, notes: "The Lord Xeen Machine running; off when it breaks (AmbientSound<n> 2).", pan: false}
+  - {id: sound:tower_1, room: room:ring_hall, at: [288, 400], sound: xeen_amb_tower, radius: 3000, inner_radius: 1000, volume: 0.3, notes: The tower's bed (AU)., pan: false}
+  - {id: sound:tower_2, room: room:nest, at: [-416, -288], sound: xeen_amb_tower, radius: 3000, inner_radius: 1000, volume: 0.3, pan: false}
+lights:
+  - id: light:bowl
+    room: room:nest
+    at: [-416, -288]
+    height: 160
+    radius: 900
+    color: [240, 110, 60]
+    notes: The warm glow of the eggs' rock.
+  - id: light:core_air
+    room: room:machine
+    at: [0, 12800]
+    height: 560
+    radius: 700
+    color: [220, 230, 255]
+    notes: The air core's glow (out when the machine breaks).
+  - id: light:core_earth
+    room: room:machine
+    at: [-640, 12160]
+    height: 560
+    radius: 700
+    color: [150, 200, 90]
+    notes: The earth core's glow (out when the machine breaks).
+  - id: light:core_fire
+    room: room:machine
+    at: [0, 11520]
+    height: 560
+    radius: 700
+    color: [255, 120, 60]
+    notes: The fire core's glow (out when the machine breaks).
+  - id: light:core_water
+    room: room:machine
+    at: [640, 12160]
+    height: 560
+    radius: 700
+    color: [80, 150, 255]
+    notes: The water core's glow (out when the machine breaks).
+  - id: light:crown
+    room: room:crown
+    at: [0, 700]
+    height: 1700
+    radius: 2400
+    color: [200, 170, 230]
+    notes: A violet glow under the crown.
+  - id: light:gong_1
+    room: room:gong_hall
+    at: [-976, 8992]
+    height: 120
+    radius: 520
+    color: [255, 200, 110]
+    on: false
+    notes: "The lamp-glow under gong 1: lit when it is rung, out when the chest silences the gongs (D-43, D-57)."
+  - id: light:gong_2
+    room: room:gong_hall
+    at: [-976, 9568]
+    height: 120
+    radius: 520
+    color: [255, 200, 110]
+    on: false
+    notes: "The lamp-glow under gong 2: lit when it is rung, out when the chest silences the gongs (D-43, D-57)."
+  - id: light:gong_3
+    room: room:gong_hall
+    at: [976, 9568]
+    height: 120
+    radius: 520
+    color: [255, 200, 110]
+    on: false
+    notes: "The lamp-glow under gong 3: lit when it is rung, out when the chest silences the gongs (D-43, D-57)."
+  - id: light:gong_4
+    room: room:gong_hall
+    at: [976, 8992]
+    height: 120
+    radius: 520
+    color: [255, 200, 110]
+    on: false
+    notes: "The lamp-glow under gong 4: lit when it is rung, out when the chest silences the gongs (D-43, D-57)."
+  - id: light:hatch
+    room: room:roof_stair
+    at: [-1312, 592]
+    height: 600
+    radius: 1200
+    color: [190, 200, 220]
+    notes: Cloud light down the hatch.
+  - id: light:torch_01
+    room: room:gate_hall
+    at: [-756, -1100]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_02
+    room: room:gate_hall
+    at: [756, -1100]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_03
+    room: room:gate_hall
+    at: [-400, -524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_04
+    room: room:gate_hall
+    at: [400, -524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_05
+    room: room:landing0
+    at: [-1184, -1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_06
+    room: room:scorched_hall
+    at: [332, 300]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_07
+    room: room:scorched_hall
+    at: [1524, 1000]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_08
+    room: room:landing1
+    at: [-1024, 1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_09
+    room: room:ring_hall
+    at: [-948, -700]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_10
+    room: room:ring_hall
+    at: [1524, -300]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_11
+    room: room:ring_hall
+    at: [600, -1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_12
+    room: room:ring_hall
+    at: [300, 948]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_13
+    room: room:dormitory
+    at: [-1036, -300]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_14
+    room: room:bone_alcove
+    at: [1524, 1280]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_15
+    room: room:landing2
+    at: [900, 1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_16
+    room: room:nest
+    at: [-1524, -800]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_17
+    room: room:nest
+    at: [692, -800]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_18
+    room: room:nest
+    at: [-600, -1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_19
+    room: room:nest
+    at: [-300, 948]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_20
+    room: room:hatchery
+    at: [1524, -500]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_21
+    room: room:last_climber
+    at: [-900, 1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_22
+    room: room:landing3
+    at: [900, -1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_23
+    room: room:high_hall
+    at: [-1524, -860]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_24
+    room: room:high_hall
+    at: [-600, -204]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_25
+    room: room:wyrm_gallery
+    at: [1524, -500]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_26
+    room: room:wyrm_gallery
+    at: [1524, 1200]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_27
+    room: room:crown
+    at: [-1012, 600]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_28
+    room: room:crown
+    at: [948, 300]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_29
+    room: room:crown
+    at: [0, 1524]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_30
+    room: room:tome_room
+    at: [-1524, 1250]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_31
+    room: room:roof_stair
+    at: [-1100, 400]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_32
+    room: room:crossword
+    at: [-800, 1164]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_33
+    room: room:crossword
+    at: [800, 3188]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_34
+    room: room:welcome
+    at: [-400, 4428]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_35
+    room: room:welcome
+    at: [400, 4428]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_36
+    room: room:crypt
+    at: [-844, 4600]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_37
+    room: room:ballroom
+    at: [-1012, 5450]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_38
+    room: room:ballroom
+    at: [1012, 6100]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_39
+    room: room:game_west
+    at: [-1600, 5260]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_40
+    room: room:game_east
+    at: [1600, 5260]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_41
+    room: room:shrines_lesser
+    at: [-1100, 6600]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_42
+    room: room:shrines_great
+    at: [1100, 7350]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_43
+    room: room:throne
+    at: [-700, 7604]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_44
+    room: room:throne
+    at: [700, 7604]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_45
+    room: room:gong_hall
+    at: [-500, 8844]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_46
+    room: room:gong_hall
+    at: [500, 8844]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:torch_47
+    room: room:fountain
+    at: [1440, 9588]
+    height: 256
+    radius: 900
+    color: [235, 150, 80]
+  - id: light:tube_1
+    room: room:maintenance
+    at: [0, 10432]
+    height: 560
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:tube_2
+    room: room:control
+    at: [-1344, 10432]
+    height: 560
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:tube_3
+    room: room:machine
+    at: [-900, 11300]
+    height: 900
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:tube_4
+    room: room:machine
+    at: [900, 11300]
+    height: 900
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:tube_5
+    room: room:machine
+    at: [-900, 13000]
+    height: 900
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:tube_6
+    room: room:machine
+    at: [900, 13000]
+    height: 900
+    radius: 1400
+    color: [150, 200, 220]
+  - id: light:word_13a
+    room: room:crossword
+    at: [-448, 2880]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 13a once it is solved.
+  - id: light:word_1a
+    room: room:crossword
+    at: [448, 2368]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 1a once it is solved.
+  - id: light:word_21a
+    room: room:crossword
+    at: [-896, 1472]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 21a once it is solved.
+  - id: light:word_24a
+    room: room:crossword
+    at: [-768, 2112]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 24a once it is solved.
+  - id: light:word_40a
+    room: room:crossword
+    at: [-640, 2624]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 40a once it is solved.
+  - id: light:word_44d
+    room: room:crossword
+    at: [-320, 2432]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 44d once it is solved.
+  - id: light:word_45d
+    room: room:crossword
+    at: [832, 2432]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 45d once it is solved.
+  - id: light:word_47d
+    room: room:crossword
+    at: [448, 2176]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 47d once it is solved.
+  - id: light:word_5a
+    room: room:crossword
+    at: [704, 1600]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 5a once it is solved.
+  - id: light:word_6a
+    room: room:crossword
+    at: [768, 2752]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 6a once it is solved.
+  - id: light:word_76d
+    room: room:crossword
+    at: [-960, 2048]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 76d once it is solved.
+  - id: light:word_77d
+    room: room:crossword
+    at: [1088, 1536]
+    height: 48
+    radius: 560
+    color: [255, 200, 110]
+    on: false
+    notes: The glow over 77d once it is solved.
+switches:
+  - id: switch:lever
+    room: room:gong_hall
+    kind: lever
+    reach: 48
+    at: [-500, 9984]
+    notes: The lever by the iron shutter (aazex123:1).
+chests:
+  - id: chest:climber
+    room: room:last_climber
+    at: [-620, 1440]
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The last climber's chest (aazex119:7, T6)."
+  - id: chest:crypt
+    room: room:crypt
+    at: [-1300, 4500]
+    facing: n
+    treasure_level: 6
+    random_items: 4
+    gold: 5000
+    notes: The crypt's chest among the coffins (T6).
+  - id: chest:dorm
+    room: room:dormitory
+    at: [-1250, -440]
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The keepers' chest (aazex118:5, T6)."
+  - id: chest:gongs
+    room: room:gong_hall
+    at: [600, 9850]
+    facing: s
+    treasure_level: 6
+    random_items: 4
+    gold: 6000
+    notes: "The gong hall's chest: opened before the shutter is up, it silences the gongs (aazex123:3)."
+  - id: chest:tome
+    room: room:tome_room
+    at: [-1280, 824]
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: "The tome room's chest (aazex120:5, T6), its back to the south wall between the bed and the corner, its front to the room (A7 s28: was 96 from the door's swing, merge point 42's chest.entrance)."
+monsters:
+  - id: monster:alister
+    room: room:alcove
+    monster: 11923
+    at: [-1040, -768]
+    facing: 0
+    hostile: false
+    group: 60
+    immobile: true
+    npc: 5705
+    inside: deco:lizard
+    notes: "Alister the Druid (A2's peaceful placed-only row 11923, A4's npc 5705): talks from his body (Q-F1's topics); unkillable (evt:alister_load); hidden when his paying talk closes and on every load with 118147 (D-57 Q27)."
+  - id: monster:ballroom_43_1
+    room: room:ballroom
+    monster: 11285
+    at: [-600, 5600]
+    facing: 90
+    hostile: true
+    group: 43
+  - id: monster:ballroom_43_2
+    room: room:ballroom
+    monster: 11285
+    at: [-300, 5600]
+    facing: 90
+    hostile: true
+    group: 43
+  - id: monster:ballroom_44_1
+    room: room:ballroom
+    monster: 11285
+    at: [300, 5950]
+    facing: 270
+    hostile: true
+    group: 44
+  - id: monster:ballroom_44_2
+    room: room:ballroom
+    monster: 11285
+    at: [600, 5950]
+    facing: 270
+    hostile: true
+    group: 44
+  - id: monster:control_53_1
+    room: room:control
+    monster: 11152
+    at: [-1500, 10300]
+    facing: 0
+    hostile: true
+    group: 53
+  - id: monster:control_53_2
+    room: room:control
+    monster: 11152
+    at: [-1150, 10600]
+    facing: 0
+    hostile: true
+    group: 53
+  - id: monster:crossword_41_1
+    room: room:crossword
+    monster: 11282
+    at: [-900, 2600]
+    facing: 0
+    hostile: true
+    group: 41
+  - id: monster:crossword_41_2
+    room: room:crossword
+    monster: 11282
+    at: [900, 1700]
+    facing: 180
+    hostile: true
+    group: 41
+  - id: monster:crown_33_2
+    room: room:crown
+    monster: 11652
+    at: [-600, 1100]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:crown_33_3
+    room: room:crown
+    monster: 11652
+    at: [600, 1100]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:energy_dragon
+    room: room:crown
+    monster: 11653
+    at: [0, 900]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:game_east_46_1
+    room: room:game_east
+    monster: 11282
+    at: [1750, 5500]
+    facing: 180
+    hostile: true
+    group: 46
+  - id: monster:game_east_46_2
+    room: room:game_east
+    monster: 11282
+    at: [1400, 5500]
+    facing: 180
+    hostile: true
+    group: 46
+  - id: monster:game_east_46_3
+    room: room:game_east
+    monster: 11284
+    at: [1568, 6000]
+    facing: 270
+    hostile: true
+    group: 46
+  - id: monster:game_west_45_1
+    room: room:game_west
+    monster: 11282
+    at: [-1750, 5500]
+    facing: 0
+    hostile: true
+    group: 45
+  - id: monster:game_west_45_2
+    room: room:game_west
+    monster: 11282
+    at: [-1400, 5500]
+    facing: 0
+    hostile: true
+    group: 45
+  - id: monster:game_west_45_3
+    room: room:game_west
+    monster: 11284
+    at: [-1568, 6000]
+    facing: 270
+    hostile: true
+    group: 45
+  - id: monster:gong_hall_51_1
+    room: room:gong_hall
+    monster: 11612
+    at: [-600, 9500]
+    facing: 270
+    hostile: true
+    group: 51
+  - id: monster:gong_hall_51_2
+    room: room:gong_hall
+    monster: 11612
+    at: [600, 9400]
+    facing: 270
+    hostile: true
+    group: 51
+  - id: monster:hatchery_24_1
+    room: room:hatchery
+    monster: 11642
+    at: [1000, -480]
+    facing: 90
+    hostile: true
+    group: 24
+  - id: monster:hatchery_24_2
+    room: room:hatchery
+    monster: 11643
+    at: [1300, -100]
+    facing: 90
+    hostile: true
+    group: 24
+  - id: monster:hatchery_25_1
+    room: room:hatchery
+    monster: 11642
+    at: [1000, 280]
+    facing: 270
+    hostile: true
+    group: 25
+  - id: monster:hatchery_25_2
+    room: room:hatchery
+    monster: 11643
+    at: [1300, 660]
+    facing: 270
+    hostile: true
+    group: 25
+  - id: monster:high_hall_31_1
+    room: room:high_hall
+    monster: 11643
+    at: [-1150, -1150]
+    facing: 45
+    hostile: true
+    group: 31
+  - id: monster:high_hall_31_2
+    room: room:high_hall
+    monster: 11643
+    at: [-1150, -560]
+    facing: 315
+    hostile: true
+    group: 31
+  - id: monster:high_hall_32_1
+    room: room:high_hall
+    monster: 11652
+    at: [-500, -1150]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:high_hall_32_2
+    room: room:high_hall
+    monster: 11652
+    at: [-500, -560]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:high_hall_32_3
+    room: room:high_hall
+    monster: 11652
+    at: [-20, -860]
+    facing: 180
+    hostile: true
+    group: 32
+  - id: monster:machine_54_1
+    room: room:machine
+    monster: 11612
+    at: [-800, 11300]
+    facing: 90
+    hostile: true
+    group: 54
+  - id: monster:machine_54_2
+    room: room:machine
+    monster: 11612
+    at: [800, 11300]
+    facing: 90
+    hostile: true
+    group: 54
+  - id: monster:machine_55_1
+    room: room:machine
+    monster: 11284
+    at: [-800, 13000]
+    facing: 270
+    hostile: true
+    group: 55
+  - id: monster:machine_55_2
+    room: room:machine
+    monster: 11284
+    at: [800, 13000]
+    facing: 270
+    hostile: true
+    group: 55
+  - id: monster:machine_56_1
+    room: room:machine
+    monster: 11285
+    at: [-950, 12160]
+    facing: 0
+    hostile: true
+    group: 56
+  - id: monster:machine_56_2
+    room: room:machine
+    monster: 11285
+    at: [950, 12160]
+    facing: 180
+    hostile: true
+    group: 56
+  - id: monster:maintenance_52_1
+    room: room:maintenance
+    monster: 11612
+    at: [-400, 10432]
+    facing: 270
+    hostile: true
+    group: 52
+  - id: monster:maintenance_52_2
+    room: room:maintenance
+    monster: 11612
+    at: [300, 10432]
+    facing: 270
+    hostile: true
+    group: 52
+  - id: monster:nest_21_1
+    room: room:nest
+    monster: 11642
+    at: [-1150, -1150]
+    facing: 45
+    hostile: true
+    group: 21
+  - id: monster:nest_21_2
+    room: room:nest
+    monster: 11642
+    at: [-1150, 560]
+    facing: 315
+    hostile: true
+    group: 21
+  - id: monster:nest_22_1
+    room: room:nest
+    monster: 11642
+    at: [330, 560]
+    facing: 225
+    hostile: true
+    group: 22
+  - id: monster:nest_22_2
+    room: room:nest
+    monster: 11642
+    at: [330, -1150]
+    facing: 135
+    hostile: true
+    group: 22
+  - id: monster:nest_23_1
+    room: room:nest
+    monster: 11643
+    at: [-416, -1150]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:nest_23_2
+    room: room:nest
+    monster: 11643
+    at: [-1150, -288]
+    facing: 0
+    hostile: true
+    group: 23
+  - id: monster:ring_hall_12_1
+    room: room:ring_hall
+    monster: 11641
+    at: [-560, -1100]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:ring_hall_12_2
+    room: room:ring_hall
+    monster: 11641
+    at: [-560, 500]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:ring_hall_13_1
+    room: room:ring_hall
+    monster: 11641
+    at: [1100, 500]
+    facing: 180
+    hostile: true
+    group: 13
+  - id: monster:ring_hall_13_2
+    room: room:ring_hall
+    monster: 11641
+    at: [1100, -1100]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:ring_hall_14_1
+    room: room:ring_hall
+    monster: 11642
+    at: [288, -1150]
+    facing: 90
+    hostile: true
+    group: 14
+  - id: monster:ring_hall_14_2
+    room: room:ring_hall
+    monster: 11642
+    at: [288, 560]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:scorched_hall_11_1
+    room: room:scorched_hall
+    monster: 11641
+    at: [760, 1150]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:scorched_hall_11_2
+    room: room:scorched_hall
+    monster: 11641
+    at: [1260, 1150]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:shrines_great_48_1
+    room: room:shrines_great
+    monster: 11284
+    at: [1400, 6700]
+    facing: 90
+    hostile: true
+    group: 48
+  - id: monster:shrines_great_48_2
+    room: room:shrines_great
+    monster: 11284
+    at: [1750, 6950]
+    facing: 90
+    hostile: true
+    group: 48
+  - id: monster:shrines_great_48_3
+    room: room:shrines_great
+    monster: 11285
+    at: [1568, 7300]
+    facing: 270
+    hostile: true
+    group: 48
+  - id: monster:shrines_lesser_47_1
+    room: room:shrines_lesser
+    monster: 11282
+    at: [-1400, 6700]
+    facing: 90
+    hostile: true
+    group: 47
+  - id: monster:shrines_lesser_47_2
+    room: room:shrines_lesser
+    monster: 11282
+    at: [-1750, 6950]
+    facing: 90
+    hostile: true
+    group: 47
+  - id: monster:shrines_lesser_47_3
+    room: room:shrines_lesser
+    monster: 11285
+    at: [-1568, 7300]
+    facing: 270
+    hostile: true
+    group: 47
+  - id: monster:throne_49_1
+    room: room:throne
+    monster: 11152
+    at: [-400, 7050]
+    facing: 270
+    hostile: true
+    group: 49
+  - id: monster:throne_49_2
+    room: room:throne
+    monster: 11152
+    at: [400, 7050]
+    facing: 270
+    hostile: true
+    group: 49
+  - id: monster:welcome_42_1
+    room: room:welcome
+    monster: 11282
+    at: [-400, 4950]
+    facing: 270
+    hostile: true
+    group: 42
+  - id: monster:welcome_42_2
+    room: room:welcome
+    monster: 11282
+    at: [400, 4950]
+    facing: 270
+    hostile: true
+    group: 42
+decorations:
+  - id: deco:bones_balls
+    room: room:hatchery
+    decoration: dec29
+    at: [1450, 880]
+    notes: A climber who got as far as the hatchery (q-f1.note_balls).
+  - id: deco:bones_eye
+    room: room:last_climber
+    decoration: dec05
+    at: [-1300, 1150]
+    notes: The last climber (q-f1.note_eye).
+  - id: deco:bones_forever
+    room: room:bone_alcove
+    decoration: dec19
+    at: [1400, 1120]
+    notes: The second (q-f1.note_forever).
+  - id: deco:bones_fraud
+    room: room:bone_alcove
+    decoration: 7dec18
+    at: [1000, 1440]
+    notes: The first dead adventurer (q-f1.note_fraud).
+  - id: deco:candles_1
+    room: room:throne
+    decoration: dec02
+    at: [-700, 6560]
+  - id: deco:candles_2
+    room: room:throne
+    decoration: dec02
+    at: [700, 6560]
+  - id: deco:chandelier_1
+    room: room:ballroom
+    decoration: ChndLir0
+    at: [-512, 5760]
+    hangs: true
+    notes: A dead chandelier.
+  - id: deco:chandelier_2
+    room: room:ballroom
+    decoration: ChndLir0
+    at: [0, 5760]
+    hangs: true
+    notes: A dead chandelier.
+  - id: deco:chandelier_3
+    room: room:ballroom
+    decoration: ChndLir0
+    at: [512, 5760]
+    hangs: true
+    notes: A dead chandelier.
+  - id: deco:egg_1
+    room: room:nest
+    decoration: xeen_dragonegg
+    at: [-456, -300]
+    floor_height: 2512
+    facing: 20
+    notes: A dragon egg in the nest.
+  - id: deco:egg_2
+    room: room:nest
+    decoration: xeen_dragonegg
+    at: [-380, -320]
+    floor_height: 2512
+    facing: 140
+    notes: A dragon egg in the nest.
+  - id: deco:egg_3
+    room: room:nest
+    decoration: xeen_dragonegg
+    at: [-416, -240]
+    floor_height: 2512
+    facing: 260
+    notes: A dragon egg in the nest.
+  - id: deco:fountain
+    room: room:fountain
+    decoration: sta1a
+    at: [1600, 9280]
+    notes: The fountain (aazex123:4-5).
+  - id: deco:lizard
+    room: room:alcove
+    decoration: xeen_lizard
+    at: [-1040, -768]
+    hidden: true
+    facing: 0
+    notes: "The small lizard Alister became (shown with 118147, D-57 Q27)."
+  - id: deco:scorched_bones
+    room: room:scorched_hall
+    decoration: 7dec18
+    at: [1450, -100]
+  - id: deco:scorched_skull
+    room: room:scorched_hall
+    decoration: 7dec20
+    at: [390, 100]
+    notes: "On the floor by the west wall, south of the stall (F3, 2026-11-21: at (400, 200) it stood on the stall wall's end, half over its edge)."
+  - id: deco:skulls_crypt
+    room: room:crypt
+    decoration: sklplrev
+    at: [-920, 5080]
+  - id: deco:torch_01
+    room: room:gate_hall
+    decoration: torch01
+    at: [-756, -1100]
+    height: 224
+  - id: deco:torch_02
+    room: room:gate_hall
+    decoration: torch01
+    at: [756, -1100]
+    height: 224
+  - id: deco:torch_03
+    room: room:gate_hall
+    decoration: torch01
+    at: [-400, -524]
+    height: 224
+  - id: deco:torch_04
+    room: room:gate_hall
+    decoration: torch01
+    at: [400, -524]
+    height: 224
+  - id: deco:torch_05
+    room: room:landing0
+    decoration: torch01
+    at: [-1184, -1524]
+    height: 224
+  - id: deco:torch_06
+    room: room:scorched_hall
+    decoration: torch01
+    at: [332, 300]
+    height: 224
+  - id: deco:torch_07
+    room: room:scorched_hall
+    decoration: torch01
+    at: [1524, 1000]
+    height: 224
+  - id: deco:torch_08
+    room: room:landing1
+    decoration: torch01
+    at: [-1024, 1524]
+    height: 224
+  - id: deco:torch_09
+    room: room:ring_hall
+    decoration: torch01
+    at: [-948, -700]
+    height: 224
+  - id: deco:torch_10
+    room: room:ring_hall
+    decoration: torch01
+    at: [1524, -300]
+    height: 224
+  - id: deco:torch_11
+    room: room:ring_hall
+    decoration: torch01
+    at: [600, -1524]
+    height: 224
+  - id: deco:torch_12
+    room: room:ring_hall
+    decoration: torch01
+    at: [300, 948]
+    height: 224
+  - id: deco:torch_13
+    room: room:dormitory
+    decoration: torch01
+    at: [-1036, -300]
+    height: 224
+  - id: deco:torch_14
+    room: room:bone_alcove
+    decoration: torch01
+    at: [1524, 1280]
+    height: 224
+  - id: deco:torch_15
+    room: room:landing2
+    decoration: torch01
+    at: [900, 1524]
+    height: 224
+  - id: deco:torch_16
+    room: room:nest
+    decoration: torch01
+    at: [-1524, -800]
+    height: 224
+  - id: deco:torch_17
+    room: room:nest
+    decoration: torch01
+    at: [692, -800]
+    height: 224
+  - id: deco:torch_18
+    room: room:nest
+    decoration: torch01
+    at: [-600, -1524]
+    height: 224
+  - id: deco:torch_19
+    room: room:nest
+    decoration: torch01
+    at: [-300, 948]
+    height: 224
+  - id: deco:torch_20
+    room: room:hatchery
+    decoration: torch01
+    at: [1524, -500]
+    height: 224
+  - id: deco:torch_21
+    room: room:last_climber
+    decoration: torch01
+    at: [-900, 1524]
+    height: 224
+  - id: deco:torch_22
+    room: room:landing3
+    decoration: torch01
+    at: [900, -1524]
+    height: 224
+  - id: deco:torch_23
+    room: room:high_hall
+    decoration: torch01
+    at: [-1524, -860]
+    height: 224
+  - id: deco:torch_24
+    room: room:high_hall
+    decoration: torch01
+    at: [-600, -204]
+    height: 224
+  - id: deco:torch_25
+    room: room:wyrm_gallery
+    decoration: torch01
+    at: [1524, -500]
+    height: 224
+  - id: deco:torch_26
+    room: room:wyrm_gallery
+    decoration: torch01
+    at: [1524, 1200]
+    height: 224
+  - id: deco:torch_27
+    room: room:crown
+    decoration: torch01
+    at: [-1012, 600]
+    height: 224
+  - id: deco:torch_28
+    room: room:crown
+    decoration: torch01
+    at: [948, 300]
+    height: 224
+  - id: deco:torch_29
+    room: room:crown
+    decoration: torch01
+    at: [0, 1524]
+    height: 224
+  - id: deco:torch_30
+    room: room:tome_room
+    decoration: torch01
+    at: [-1524, 1250]
+    height: 224
+  - id: deco:torch_31
+    room: room:roof_stair
+    decoration: torch01
+    at: [-1100, 400]
+    height: 224
+  - id: deco:torch_32
+    room: room:crossword
+    decoration: torch01
+    at: [-800, 1164]
+    height: 224
+  - id: deco:torch_33
+    room: room:crossword
+    decoration: torch01
+    at: [800, 3188]
+    height: 224
+  - id: deco:torch_34
+    room: room:welcome
+    decoration: torch01
+    at: [-400, 4428]
+    height: 224
+  - id: deco:torch_35
+    room: room:welcome
+    decoration: torch01
+    at: [400, 4428]
+    height: 224
+  - id: deco:torch_36
+    room: room:crypt
+    decoration: torch01
+    at: [-844, 4600]
+    height: 224
+  - id: deco:torch_37
+    room: room:ballroom
+    decoration: torch01
+    at: [-1012, 5450]
+    height: 224
+  - id: deco:torch_38
+    room: room:ballroom
+    decoration: torch01
+    at: [1012, 6100]
+    height: 224
+  - id: deco:torch_39
+    room: room:game_west
+    decoration: torch01
+    at: [-1600, 5260]
+    height: 224
+  - id: deco:torch_40
+    room: room:game_east
+    decoration: torch01
+    at: [1600, 5260]
+    height: 224
+  - id: deco:torch_41
+    room: room:shrines_lesser
+    decoration: torch01
+    at: [-1100, 6600]
+    height: 224
+  - id: deco:torch_42
+    room: room:shrines_great
+    decoration: torch01
+    at: [1100, 7350]
+    height: 224
+  - id: deco:torch_43
+    room: room:throne
+    decoration: torch01
+    at: [-700, 7604]
+    height: 224
+  - id: deco:torch_44
+    room: room:throne
+    decoration: torch01
+    at: [700, 7604]
+    height: 224
+  - id: deco:torch_45
+    room: room:gong_hall
+    decoration: torch01
+    at: [-500, 8844]
+    height: 224
+  - id: deco:torch_46
+    room: room:gong_hall
+    decoration: torch01
+    at: [500, 8844]
+    height: 224
+  - id: deco:torch_47
+    room: room:fountain
+    decoration: torch01
+    at: [1440, 9588]
+    height: 224
+exits:
+  - id: exit:gate
+    room: room:gate_hall
+    wall: s
+    size: [384, 384]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:x7_gate
+    notes: "The tower gate's inner face: out onto X7's crag (aazex117:4)."
+  - id: exit:hatch
+    room: room:roof_stair
+    at: [-1312, 704]
+    floor_height: 4224
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [256, 256], fit: true, uneven: true}
+    to: exit:x9_roof
+    notes: "The hatch's ladder under the open sky, up onto the Dragon Clouds (X9). The black exit picture (F12) is one flat black, fitted to the hatch's 192 by 320 (uneven: no picture to squash)."
+destructibles:
+  - {id: destructible:machine, of: platform:machine, hp: 600, material: metal, on_destroyed: evt:machine_down, notes: "The Lord Xeen Machine's engine: the question breaks it, blows and spells too (D-47 Q8)."}
+  - {id: destructible:shrine_great, of: platform:shrine_great, hp: 200, material: stone, on_destroyed: evt:shrine_great_down, notes: "The Shrine of Great Evil: the question breaks it, blows and spells too."}
+  - {id: destructible:shrine_lesser, of: platform:shrine_lesser, hp: 200, material: stone, on_destroyed: evt:shrine_lesser_down, notes: "The Shrine of Lesser Evil: the question breaks it, blows and spells too."}
+  - {id: destructible:shrine_minor, of: platform:shrine_minor, hp: 200, material: stone, on_destroyed: evt:shrine_minor_down, notes: "The Shrine of Minor Evil: the question breaks it, blows and spells too."}
+  - {id: destructible:shrine_ultimate, of: platform:shrine_ultimate, hp: 200, material: stone, on_destroyed: evt:shrine_ultimate_down, notes: "The Shrine of Ultimate Evil: the question breaks it, blows and spells too."}

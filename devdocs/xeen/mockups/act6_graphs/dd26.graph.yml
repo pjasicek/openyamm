@@ -1,0 +1,150 @@
+# MU-6 dungeon graph, a review file for phase 6 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# Lane A8, session 13 (2026-11-21), from D-62 (DD-22 + DD-26 = 40 monsters at 48-65, 33.5k; DD-22 took 20 at 17.20k, so
+# DD-26 takes 20 at 13.0k-19.6k).
+# The source's Olympus Sewer (dark maze0038, text aaze0038; entered from Olympus maze0037 by four grates, "Descend into
+# the sewer?", aaze0037:1): a ring of water channels with walkways round a closed central room, Cyrano Jones the
+# Salesman behind the "Pets Unlimited" door with his bed, four drains each holding a piece of a note (TR, IB, BL, ES),
+# the "Search the drains." and "Cyrano sells the password." lines, and a door whose voice asks "What's the password?"
+# (tribbles; "Wrong! You may not pass!" / "Correct! You may pass."). Cyrano sells a tribble for 100,000 gold; to an
+# owner he says "You know TRIBBLES are great companions but you'll be surprised what doors they can open for you!".
+# The source placed no monsters. Ours keeps the plan (the ring round Cyrano's den, the four drains, the tribble door)
+# as one level of marble-lined channels under D7's Olympus, with one stair up to D7's marble grate (D-58: both ways).
+format: mu6-0
+map: DD-26
+key: dd26
+name: "Olympus Sewer"
+stands_on: D7 The Skyroads (under Olympus, the gods' row)
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+size: "10 review rooms, about 12 sectors (the south conduit and the cistern two each); one level at z 0, the channels sunk 128 and the cistern 256; the ring about 3,072 x 2,560 round the den, the stair and the vault outside it: about 11 M units²; 5 doors (the den's door, the tribble door as a two-leaf bronze pair, the spillway grate, the outfall grate, the vault's inner grille opened by the tribble door's event)"
+party: [56, 60]
+monsters:
+  levels: [55, 62]
+  boss: null
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Water elementals: Lesser Water Elemental 55 (11625, elementals tier F, water_elementals faction) x16 and Water Elemental 62 (11710, water_elementals tier A) x4: the sky-water that drains from the gods' city, gathered in its cisterns; one faction, so no infighting; bodies installed (MM7's water elemental with S's skins); in the band 48-65"
+  mix:
+    - {row: Lesser Water Elemental, id: 11625, level: 55, count: 16}
+    - {row: Water Elemental, id: 11710, level: 62, count: 4}
+  kill_xp: "18.76k per member (75,056 / 4): Lesser Water Elemental 16 x 3,575 + Water Elemental 4 x 4,464"
+  kill_xp_target: "MAPS §0 row DD-22 + DD-26: 40 at 48-65, 33.5k; D-62 gives DD-26 13.0k-19.6k. DD-22 17.20k + DD-26 18.76k = 35.96k, +7.3 % (open question 1 has two mixes nearer 33.5k)"
+treasure: {level: 6}
+role: "Q-D28 Cyrano's Tribble (A3): the four drains' note pieces (TR, IB, BL, ES) and Cyrano's patter give the word TRIBBLES; the tribble door opens on it into the offering vault. Two T6 chests and Cyrano's bed (a find)"
+role_short: "Q-D28 (the tribble door)"
+set_piece: "The tribble door and the offering vault: a bronze two-leaf door in the cistern's east wall under a marble lintel, a grille mouth in the wall above it from which the voice asks 'What's the password?'; behind it the undercroft where the temples' offerings wash down through the gods' drains: coins in the silt, gilded cups and a toppled gilt statue, a T6 chest on a ledge"
+sounds: "a running-water bed (shipped, pan: false) in the channels, the cistern's deeper drip, the grilles' wind from the city above; the voice at the tribble door is a text line (no voiced line); Cyrano's den has tribble purring if AU has one (optional)"
+textures:
+  family: "A6's assign (dungeon_families sewers): MM7 Erathian Sewers d01 as XD-21 (another face: XD-21 its brick culverts, DD-26 its stone channels and grates) with the town shafts in the royal kit's t3s2 marble (t3s2b, t3s2b1): the stair, the conduit's walls and the tribble door's surround in marble; d01's stone channels, grates and water elsewhere; the offering vault in MM8 Temple of the Sun's gtempw1/gtempflr marble with gold trim (A6's temples family, 'an Olympus shrine'); the tribble door a shipped bronze two-leaf pair"
+  cap: 30
+  planned: 20
+  new: 0
+  new_names: []
+  distinct_from: "XD-21 Robbers' Den (d01's brick and plank face), DD-21 Necropolis Sewer (MM6 sewer.blv grey stone and 6d14), DD-01/DD-18/DD-20 (6d03, 6d08, 7d17): DD-26 is the only marble sewer"
+floors:
+  - {floor: 0, name: "The sewer", height: 0}
+spaces:
+  - {id: room:stair, name: Marble stair, kind: stair, size: S, floor: 0, at: [2, 3], monsters: 0,
+     purpose: "The arrival (entrance:d7_stair) at the stair's foot, facing north into the conduit; the marble stair climbs south 448 to the grate's underside, where the exit preset takes the party up to D7 (its meaning map-local, 'Climb up to Olympus?'; D7's side keeps 'Descend into the sewer?', aaze0037:1). On the wall: 'Search the drains.' (aaze0038:11). Quiet (D-11.3). Map qbit 117800 dd26_arrived_once (the arrival line)."}
+  - {id: room:conduit, name: South conduit, kind: corridor, size: M, floor: 0, at: [2, 2], monsters: 3,
+     population: [{row: Lesser Water Elemental, level: 55, count: 3}],
+     purpose: "The main channel under the gods' row, east to west, walkways on both banks and a marble footbridge at the stair; the den's door in its north wall."}
+  - {id: room:den, name: Pets Unlimited, kind: room, size: S, floor: 0, at: [2, 1], monsters: 0,
+     purpose: "Cyrano Jones's den in the ring's middle (the source's closed central room): tribble cages by the walls, his counter with 'Pets Unlimited' over it (aaze0038:19), Cyrano behind it (open question 2) selling the tribble (12362), and his bed: 'Bed' (aaze0038:16), a find, one random T6 item once (map qbit 117806), then 'Nothing here.' (aaze0038:17). 'Cyrano sells the password.' (aaze0038:12) on the den's door. Quiet."}
+  - {id: room:west, name: West culvert, kind: corridor, size: M, floor: 0, at: [0, 1], monsters: 3,
+     population: [{row: Lesser Water Elemental, level: 55, count: 3}],
+     purpose: "The ring's west side; drain 1 in its floor: 'You find a piece of a note that reads: TR' (aaze0038:1, map qbit 117801); the spillway's grate in its west wall."}
+  - {id: room:spill, name: West spillway, kind: room, size: S, floor: 0, at: [0, 2], chest: 6, monsters: 2,
+     population: [{row: Lesser Water Elemental, level: 55, count: 2}],
+     purpose: "Dead end behind a grate: the overflow weir, drain 2 ('... IB', aaze0038:2, 117802) and a T6 chest on the weir's dry ledge."}
+  - {id: room:cistern, name: The gods' cistern, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Water Elemental, level: 62, count: 2}, {row: Lesser Water Elemental, level: 55, count: 2}],
+     purpose: "The ring's north side: a deep clear cistern sunk 256 under a vault of marble ribs, walkways round it, light falling through the city's grates; drain 3 ('... BL', aaze0038:3, 117803); the tribble door in its east wall."}
+  - {id: room:east, name: East culvert, kind: corridor, size: M, floor: 0, at: [4, 1], monsters: 3,
+     population: [{row: Lesser Water Elemental, level: 55, count: 3}],
+     purpose: "The ring's east side, back to the conduit; the outfall's grate in its east wall."}
+  - {id: room:outfall, name: The outfall, kind: room, size: S, floor: 0, at: [4, 2], monsters: 2,
+     population: [{row: Lesser Water Elemental, level: 55, count: 2}],
+     purpose: "Dead end behind a grate: the sewer's mouth on the island's edge, the water falling away into cloud through a barred opening (no way out); drain 4 ('... ES', aaze0038:4, 117804) is its find."}
+  - {id: room:tdoor, name: Tribble door, kind: corridor, size: S, floor: 0, at: [3, 0], monsters: 0,
+     purpose: "The landing before the bronze pair: the voice from the grille above, 'A disembodied voice booms, \"What's the password?\"' (aaze0038:5); a text prompt takes 'tribbles' or 'tribble' (:6, :7): 'Correct! You may pass.' (:9), the leaves open for good (map qbit 117805; a load event keeps them open); anything else 'Wrong! You may not pass!' (:8)."}
+  - {id: room:vault, name: Offering vault, kind: room, size: M, floor: 0, at: [4, 0], set_piece: true, goal: true, chest: 6, monsters: 3,
+     population: [{row: Water Elemental, level: 62, count: 2}, {row: Lesser Water Elemental, level: 55, count: 1}],
+     purpose: "The set piece: the undercroft where Olympus's offerings wash down, coins in the silt, gilded cups, a toppled gilt statue (dressing by the walls), the T6 chest on a ledge. A dead end with the map's goal."}
+links:
+  - {id: link:1, from: room:stair, to: room:conduit, kind: open}
+  - {id: link:2, from: room:conduit, to: room:den, kind: door, label: "Pets Unlimited"}
+  - {id: link:3, from: room:conduit, to: room:west, kind: open}
+  - {id: link:4, from: room:west, to: room:spill, kind: door, label: "grate"}
+  - {id: link:5, from: room:west, to: room:cistern, kind: open}
+  - {id: link:6, from: room:cistern, to: room:east, kind: open}
+  - {id: link:7, from: room:east, to: room:conduit, kind: open}
+  - {id: link:8, from: room:east, to: room:outfall, kind: door, label: "grate"}
+  - {id: link:9, from: room:cistern, to: room:tdoor, kind: open}
+  - {id: link:10, from: room:tdoor, to: room:vault, kind: locked, label: "tribble door"}
+states:
+  - {id: state:password, kind: password, where: room:tdoor,
+     what: "The tribble door's prompt: TRIBBLES (or TRIBBLE, any case) sets map qbit 117805 and opens the bronze pair for good; a load event keeps it open. The answer-givers: the four drains' pieces TR, IB, BL, ES (in the ring's order west, spillway, cistern, outfall) and Cyrano's line to a tribble's owner (A3).",
+     opens: [link:10], draw: true}
+  - {id: state:drains, kind: qbit, where: "room:west, room:spill, room:cistern, room:outfall",
+     what: "Each drain's piece once (117801-117804), then the source's 'Drain' (aaze0038:0) as a plain line; the pieces are A3's autonote under Q-D28 if A3 wants one.", opens: [], draw: false}
+exits:
+  - {id: exit:d7_stair, space: room:stair, at: [2, 4], kind: both, label: "D7: the marble grate (Olympus)",
+     arrival: "entrance:d7_stair: at the stair's foot, (0, 0, 0) in the map's frame (the conduit's centre line at y 512, the stair climbing south from y -256 to the grate at y -1,024, z 448), facing north (512). The name is the one D7 assumes (D-37; D7's wiring names entrance:d7_stair)",
+     neighbour: "D7 door:dd26 (the marble grate platform:sewer_grate at (-8704, 8704) in the gods' row), sealed with a line until DD-26 is installed and names the arrival; D-58: both ways. Out by the exit preset to D7's installed entrance:dd26_stair (-8704, 8192, 1808) facing 0 (east), 512 south of the grate (A6's point; D7's own facing, kept)"}
+hooks: []
+critical_path: [room:stair, room:conduit, room:den, room:conduit, room:west, room:spill, room:west, room:cistern, room:east, room:outfall, room:east, room:cistern, room:tdoor, room:vault]
+return_path: [room:vault, room:tdoor, room:cistern, room:west, room:conduit, room:stair]
+loops:
+  - {id: loop:ring, spaces: [room:conduit, room:west, room:cistern, room:east],
+     notes: "The source's ring of channels round Cyrano's den: either way round from the stair."}
+lines:
+  - {text: "Search the drains.", ref: "dark/aaze0038:11", where: room:stair}
+  - {text: "You find a piece of a note that reads: TR / IB / BL / ES", ref: "dark/aaze0038:1-4", where: "the four drains"}
+  - {text: "A disembodied voice booms, \"What's the password?\" / Wrong! You may not pass! / Correct! You may pass.", ref: "dark/aaze0038:5, :8, :9", where: room:tdoor}
+  - {text: "Cyrano Jones, the Salesman: How would you like one of these little furry creatures? ... only 100,000 gold.", ref: "dark/aaze0038:13, :14", where: "room:den (A3's topics; price per open question 3)"}
+  - {text: "You know TRIBBLES are great companions but you'll be surprised what doors they can open for you!", ref: "dark/aaze0038:15", where: "room:den (Cyrano, to a tribble's owner)"}
+  - {text: "Cyrano sells the password.", ref: "dark/aaze0038:12", where: "room:den's door"}
+  - {text: "Bed / Nothing here.", ref: "dark/aaze0038:16, :17", where: "room:den (the bed find)"}
+open_questions:
+  - q: "Count and mix. D-62: 20 monsters at 13.0k-19.6k (DD-22 17.20k; the row 33.5k ±10 %). The source sewer placed none; no family has a sewer tier in 48-65 (sewer stalkers end at 35, oozes and rats are low)."
+    options: ["(a) water elementals: Lesser Water Elemental 55 (11625) x16, Water Elemental 62 (11710) x4: 18.76k, group 35.96k (+7.3 %); existing rows and bodies, one faction",
+              "(b) Lesser Water Elemental 55 x14 and DD-14's grounded cistern Octopod 50 (11473, placed only, immobile) x6 in the cistern: 17.01k, group 34.21k (+2.1 %); two factions side by side (a hostility check)",
+              "(c) a new sewer-stalker tier D 'Sewer Lord' 50 (placed only, the ratman body with a new recolour, no mesh) x14 and Water Elemental 62 x6: 17.20k, group 34.40k (+2.7 %); A2 row and S skin"]
+    recommend: "(a)"
+    depends: "A2 (Act VI recount; DD-26 added to the rows' where); S only under (c)"
+  - q: "Cyrano Jones. The source has him behind the 'Pets Unlimited' door, talking, with his bed."
+    options: ["(a) a walk-in den with his counter as a house door: A4 adds 'Pets Unlimited' (a house from D7's block 4801-4850, Cyrano an npc from 5601-5700, a residence or a shop of one item) and A3 his topics (the sale, the TRIBBLES line to an owner); no row, no body",
+              "(b) Cyrano as a placed talking actor (monsters[].npc) in the den: a peaceful placed-only row from A2 and a body from S (a shipped merchant)",
+              "(c) a house front only on the conduit, no walk-in den (the bed find moves to a drain)"]
+    recommend: "(a)"
+    depends: "A4 (house and npc ids), A3 (topics), S only under (b)"
+  - q: "The tribble's price and use. items.yml has the Tribble (12362, value 5,000, 'A useless and expensive pet. It purrs.'). The source asks 100,000 gold, and only an owner hears the TRIBBLES line."
+    options: ["(a) 10,000 gold (the source's joke price at MM6-MM8 scale for Act VI); owning it, Cyrano says the TRIBBLES line; the drains alone also give the word (four pieces in order); the tribble does nothing else",
+              "(b) 100,000 gold as the source",
+              "(c) as (a), and a carried tribble also opens the door without the word ('what doors they can open')"]
+    recommend: "(a)"
+    depends: "A3 (Q-D28's file, the sale), A2 (the item's ledger)"
+  - q: "What the tribble door guards. The source opens a wall onto a short passage."
+    options: ["(a) the offering vault: the set piece and a T6 chest, a dead end with the goal",
+              "(b) a short cut from the cistern back to the stair (no chest; the map's chests then 1)"]
+    recommend: "(a)"
+    depends: "A2 (treasure count)"
+  - q: "Q-D28's experience. QUESTS gives the pet as the reward; A2's Act VI quest XP line is not drawn yet."
+    options: ["(a) none: the joke pet and the vault are the reward (as D-62's general rule for Act V)",
+              "(b) a small sum on the door's first opening (A3, A2's Act VI ledger)"]
+    recommend: "(a)"
+    depends: "A2, A3"
+  - q: "Rest encounters (D-39, D-61). The placed mix is water elementals; tier D never rolls."
+    options: ["(a) 10 % from the water elementals at Dif 0 (Water Elemental 62 only, in the band; the 55s are the elementals family's placed-only tier F)",
+              "(b) 0"]
+    recommend: "(a)"
+    depends: "A2 (the map row 9178)"
+  - q: "Textures. A6's assign: d01 as XD-21 (another face) with the t3s2 marble shafts; the vault from the temples family."
+    options: ["(a) as assigned, about 20 of 30, 0 new; the tribble door a shipped bronze pair",
+              "(b) as (a) plus 1 new: a bronze relief for the tribble door's leaves (a small furry ball with a smug face, once per leaf)"]
+    recommend: "(a)"
+    depends: "A6 (the assign, the count)"

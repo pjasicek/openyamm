@@ -1,0 +1,134 @@
+# Q-D19 The Southern Tower (QUESTS 2.2 Q-D19, 3.2: Warrior Mage -> Sniper, Rogue -> Assassin, Dark). Owner: A3.
+# Thaddeus has the tower's key, dropped by a fleeing thief. The thieves' den (DD-06, Sprite Forest): gongs that want
+# three rings, the Ali Baba chest that wants "open sesame" (a guild memo on L1 says both plainly, and says not to
+# write them down), the ledger of who bought Luna's statuettes and Thaddeus's jewel, and the Master Thief, who offers
+# rogues and marksmen the guild's inner circle (the Dark promotion). The Ali Baba chest holds the Eastern Tower's key
+# (the mages paid for the jewel with it; Q-D18). Thaddeus, told of the ledger, is the common hand-in.
+# Energy Disks (M18: 2): DD-06 L3 (map_gives). Experience: 5,000 per member (Thaddeus); the promotion pays nothing extra.
+id: Q-D19
+title: The Southern Tower
+act: III
+kind: side
+status: full
+giver: 5246          # Thaddeus, fountain keeper (the Fountain Keeper's Hut, 4648, D3)
+maps: [D2, D3, DD-06]
+level: 28
+block: 99
+after: [m7.sigil]
+source: "QUESTS Q-D19; dark/aaze0024:16-18 (Thaddeus), dark/aaze0062:0-5 (ledger, gongs), dark/aaze0063:0-8 (gongs, Ali Baba chest), dark/aaze0064:9 (the note)"
+
+qbits:
+  started: {id: 113380, journal: "Thieves stole the Jewel of Ages and Luna's statuettes. Thaddeus gave you the key of their den, the Great Southern Tower.",
+            until: [done]}
+  ledger_read: {id: 113381, note: "DD-06's ledger (A7)"}
+  tower_disks: {id: 113382, note: "DD-06 L3 (A7)"}
+  chest_opened: {id: 113383, note: "DD-06's Ali Baba chest, after the map's password prompt (A7)"}
+  master_slain: {id: 113384, note: "DD-06, the Master Thief's death (A7)"}
+  inner_circle: {id: 113385, note: "the Master Thief (5109) took promotable members into the inner circle: the Dark promotion"}
+  done: {id: 113386, note: "Thaddeus heard what the ledger says"}
+
+autonotes:
+  ledger: {id: 4590, text: "The thieves' ledger: the Jewel of Ages and the Griffin statuette sold to the mages of the Eastern Tower, east of Sandcaster; the Dragon to the Head Witch of Lakeside; the Pegasus to the head heretical cleric of the Western Tower.", category: Misc}
+
+items:
+  energy_disk: "2 on DD-06 L3 (M18)"
+
+npcs:
+  5246:              # Thaddeus
+    topics:
+      - n: 1
+        label: Southern Tower
+        states:
+          - when: {qbit: done}
+            text: "Thieves who keep accounts. The world is full of surprises, most of them bad."
+          - when: {qbit: ledger_read}
+            text: "Sold to the mages of the Eastern Tower? Then that is where my jewel is. And where Luna's statuettes went, she should hear. Thank you. Take this for the trouble."
+            do: [{set: done}, {xp: 5000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "The Great Southern Tower is in Sprite Forest, rumored to be a hideout for thieves. Thieves write things down. Look for that."
+          - text: "A thief bragged of it in his haste to escape: the Great Southern Tower, in the woods south of Ogre Pass. It is the only help I can offer. Whoever took the Jewel of Ages went there first."
+            do: [{set: started}]
+  5109:              # The Master Thief (DD-06, the counting room)
+    topics:
+      - n: 2
+        label: Inner circle
+        show: {all: [{not: {qbit: inner_circle}}, {not: {qbit: master_slain}}]}
+        states:
+          - when: {promotable: southern}
+            text: "You got past the gongs, the chest and my accountants. Rogues and marksmen that good are wasted on heroics. Join the inner circle. No paperwork. Well, a ledger."
+            do: [{set: inner_circle}, {promote: southern}]
+          - text: "Nobody in your party has the hands for my trade. Take what you came for and go. Quietly. Thieves appreciate quiet."
+
+player_bits:         # once per character; the map raises them (D-25)
+  thievery_manual: {id: 11295, map: DD-06, note: "the Manual of Master Thievery read: 1,500 experience"}
+  prince_book: {id: 11296, map: DD-06, note: "the Prince Book read by a Prince of Thieves (q-c9 throne_thieves 11302): +2 Luck; the hook prince_book reads and sets it"}
+
+hooks:
+  tower_door:
+    map: D2
+    where: "the Southern Tower's door, in the woods south of Ogre Pass (D-89: open; Thaddeus's key is retired)"
+    entrance: DD-06
+  guild_memo:
+    map: DD-06
+    where: "a memo pinned by the first gong on L1 (before any gong or the chest)"
+    text: "A message on thieves' guild letterhead reads: To all members: Ring each gong three times. Three's the charm. The Ali Baba chest's word is 'open sesame'. Do NOT write this down."
+  gongs:
+    map: DD-06
+    where: "each gong (L1-L3; the map's prompt 'Ring gong how many times?', answer 3 or three; the right answer opens the floor's next door)"
+    text: "The gong booms three times and a door grinds open somewhere."
+  ali_baba:
+    map: DD-06
+    where: "the Ali Baba chest on L2 (the map's password prompt 'What's the password?', answers open sesame or opensesame; the map's chest keeps its own treasure)"
+    sets: [chest_opened]
+    once: true
+    status: true   # over the open chest: a window would close it
+    text: "The lid swings up. Among the thieves' takings, a receipt: 'Paid in full. One jewel. Delivered to the Eastern Tower.'"
+  ledger:
+    map: DD-06
+    where: "the ledger on the counting-room desk, top floor"
+    sets: [ledger_read]
+    once: true
+    do: [{autonote: ledger}]
+    text: "Ledger. One (1) Griffin Statuette, sold to Mages of the Great Eastern Tower. One (1) Dragon Statuette, sold to Head Witch of Lakeside. One (1) Pegasus Statuette, sold to Head Heretical Cleric. One (1) Jewel of Ages, sold to Mages of the Great Eastern Tower."
+    else_text: "The ledger. The prices are obscene."
+  l3_disks:
+    map: DD-06
+    where: "the strongroom on L3: the map places 2 Energy Disks"
+    sets: [tower_disks]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "Energy Disc. Two, wrapped in a thieves' guild invoice made out to nobody."
+    else_text: "The strongroom is empty."
+  master_thief:
+    map: DD-06
+    where: "the Master Thief's death (A2's boss row 11114 The Master Thief, level 32, faction inner_circle, NPC 5109's talking actor; he fights if attacked; the Dark promotion is lost then)"
+    reads: [inner_circle]
+    sets: [master_slain]
+  thievery_manual:
+    map: DD-06
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Manual of Master Thievery in the tower's library (D-25 Q11): the map pays 1,500 experience to the reading member once (player bit thievery_manual) and shows this text; a member who has read it gets thievery_manual_again"
+    text: "The Manual of Master Thievery. Locks, lures, ledgers, and how to leave a room so that nobody remembers you were in it. You will remember it."
+  thievery_manual_again:
+    map: DD-06
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the same manual, a member who has read it"
+    text: "You learn nothing new."
+  prince_book:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-06
+    where: "the Prince Book in the library (D-25): the map only calls this; the hook decides for the clicking member: without q-c9's throne_thieves (player bit 11302, the Prince of Thieves' throne in XD-15) the refusal; read before (player bit prince_book 11296) nothing new; else +2 Luck (base), the bit and the reading"
+    states:
+      - when: {lua: "not IsPlayerBitSet(PlayerBit(11302))"}
+        text: "For the eyes of the prince only!"
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11296))"}
+        text: "You know the Prince Book by heart. You learn nothing new."
+      - text: "The Prince Book: the private rules of the Prince of Thieves, written for one reader. You read them, and your luck seems to read over your shoulder. (+2 Luck, permanent)"
+        do: [{lua: "AddValue(BaseLuck, 2)"}, {lua: "SetPlayerBit(PlayerBit(11296))"}]
+
+riddles:
+  - {answer: "three (rings on each gong)", where: "DD-06's gongs", said_by: "the guild memo on L1 (q-d19.guild_memo)"}
+  - {answer: "open sesame", where: "DD-06's Ali Baba chest", said_by: "the guild memo on L1 (q-d19.guild_memo)"}
+
+rewards: {xp: 5000, gold: 1500, items: "2 Energy Disks, the Eastern Tower key", promotion: "Warrior Mage -> Sniper, Rogue -> Assassin (Dark, the Master Thief)"}
+playthrough: "D3: Thaddeus (Southern Tower). D2: the tower door. DD-06: the memo, the gongs (3), the Ali Baba chest (open sesame), L3's disks, the ledger, the Master Thief (Inner circle). D3: Thaddeus (Southern Tower)."

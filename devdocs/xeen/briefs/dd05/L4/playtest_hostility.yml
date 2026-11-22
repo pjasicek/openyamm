@@ -1,0 +1,62 @@
+# Hostility check of the Western Tower of Mok (DD-05) (the XD-27 form; lane A8, 2026-11-20). The kinds: the heretics
+# (Mok Heretic 11220, Heretic Priest 11221, Heretic Lord 11222, the Cult Leader 11223) and the golem guardians (Stone
+# Golem 11581, Iron Golem 11582) hostile; the peaceful ones: Humble 11910 and Pious 11911, A2's named rows, each in his
+# own friendly faction (xeen_character_humble / xeen_character_pious). At load: 22, 11, 3, 1, 5, 3 hostile, none of
+# them peaceful; Humble and Pious peaceful, one each. Heretics and golems side by side (the hoist room, nearer each
+# other than the party) do not take each other on (D-42: no relation between them). Run with --world xeen
+# --map xeen_dd05.blv (output/studio_cal/dd05/four.sh).
+id: xeen.dd05.l4.hostility
+title: 'the Western Tower of Mok (DD-05): heretics and golems hostile, Humble and Pious peaceful, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd05.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 37, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 37, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival text, the load event).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11220, hostile: true, min: 22, max: 22}}
+- assert: {actor_count: {monster_id: 11221, hostile: true, min: 11, max: 11}}
+- assert: {actor_count: {monster_id: 11222, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11223, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11581, hostile: true, min: 5, max: 5}}
+- assert: {actor_count: {monster_id: 11582, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11220, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11221, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11222, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11223, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11581, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11582, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11910, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11910, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11911, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11911, hostile: false, min: 1, max: 1}}
+- assert: {actor_visible: {actor_index: 35, monster_id: 11910, hidden: false}}
+- assert: {actor_visible: {actor_index: 40, monster_id: 11911, hidden: false}}
+- note: 'Kinds of the map side by side in the hoist room, nearer each other than the party (a monster takes the nearest
+    of its foes): they must not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11220, x: 1120, y: 1120, z: 1920}
+- spawn_actor: {monster_id: 11581, x: 1248, y: 1120, z: 1920}
+- spawn_actor: {monster_id: 11221, x: 1376, y: 1120, z: 1920}
+- spawn_actor: {monster_id: 11582, x: 1504, y: 1120, z: 1920}
+- spawn_actor: {monster_id: 11222, x: 1632, y: 1120, z: 1920}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11220, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11221, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11222, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11581, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11582, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11910, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11911, hurt: true, max: 0}}
+- console: {line: arena trace off}

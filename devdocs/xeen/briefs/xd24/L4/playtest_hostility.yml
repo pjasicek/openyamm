@@ -1,0 +1,40 @@
+# Hostility check of Nightshadow Crypt (XD-24), after XD-13's: at load the 16 Gnome Vampires (11290), the 5 Vampires
+# (11291) and Count Draco (11293) are hostile to the party (none peaceful); and the map's three kinds, side by side in
+# the stair foot, do not fight each other. Written by hand (agent:xeen-a7-xd24).
+id: xeen.xd24.l4.hostility
+title: 'Nightshadow Crypt (XD-24): the vampires and Count Draco hostile to the party at load, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd24.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: At load - the map entry events run (the world's relations.yml sets each family's relation to the party).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11290, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11290, hostile: true, min: 16}}
+- assert: {actor_count: {monster_id: 11291, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11291, hostile: true, min: 5}}
+- assert: {actor_count: {monster_id: 11293, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11293, hostile: true, min: 1}}
+- note: The map's kinds side by side at the far side of the stair foot, nearer each other than the party (a monster
+    takes the nearest of its foes) - none may take another on.
+- walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11290, x: -256, y: 96, z: 0}
+- spawn_actor: {monster_id: 11291, x: 0, y: 96, z: 0}
+- spawn_actor: {monster_id: 11293, x: 256, y: 96, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+- assert: {actor_count: {monster_id: 11290, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11291, hurt: true, max: 0}}

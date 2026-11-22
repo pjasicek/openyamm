@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST input paint_mask_guide.png directly as a fixed alpha stencil. Keep every silhouette, gap, orthographic projection, position, size, padding and the exact 3:4 sheet layout. 1536x2048 RGBA. Paint ONLY existing opaque surfaces. 3 columns x 4 equal rows. Row 1 front with latch, back without latch, left end. Row 2 right end, overhead top, transparent empty. Rows 3 and 4 exactly repeat these positions/shapes but flood-fill EVERY opaque pixel pure uniform #FF0000 metal. All visible surfaces are metal. Absolutely no outlines, details, gradients or traces of the guides in the lower half. Top half texture as Soul Box (Corak): dark iron domed chest, subtle rusty patina, tarnished silver corners, rivets, central front escutcheon and keyhole, four-point metal lid emblem and lower curved scrollwork as shown in second input approved design. Third input original icon provides colour. Thin pale blue-white light strictly within lid seam. Unlit diffuse colour, no hot highlights, reflections, cast shadows, AO, halos, labels or ground. Preserve transparent pixels and exact grey guide proportions; no perspective, moving, enlarging or redesigning. Correct the mask silhouettes: each lower shape is a separate clean solid red cutout with completely transparent clear space right up to its boundary. No red speckles or residue anywhere between or around the objects. Use a perfect hard-edged opaque red silhouette matching each grey object in the bottom half of the first input. Maintain exact alpha of first input across entire atlas.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "ae5f9fe355227dad5c1933c9d896e84d825eda50b3064162a403887c65a619e6"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "0bb1b7afe57e3aac0335ba85e5479f34f3f235b79adf55fc88e41a518b1c5fe4"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "aafcd8944ddf5741dbf303028a2e1905ca6933a8cf9a4c178e2c0eadd22389fd"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f922-d551-7bf1-a838-6864bf5e3a05/exec-54936b25-96d4-4a40-8e48-8fbdbac08525.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

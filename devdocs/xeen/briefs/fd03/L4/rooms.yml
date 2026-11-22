@@ -1,0 +1,691 @@
+format: 0
+themes:
+  - id: theme:ashlar
+    wall: {texture: gtrlwal2, size: [128, 256], scale: 2}
+    floor: {texture: gkp2ceil, size: [128, 128], scale: 2}
+    ceiling: {texture: gcst2cel, size: [128, 128], scale: 2}
+    reveal: {texture: gtrlwal2, size: [128, 256], scale: 2}
+    door: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The tower's halls: d29's grey-green granite ashlar, worn slab floors, fan-paved ceilings."
+  - id: theme:rubble
+    wall: {texture: gtrlwal1, size: [128, 256], scale: 2}
+    floor: {texture: gcav1flr, size: [256, 256]}
+    ceiling: {texture: gcst2cel, size: [128, 128], scale: 2}
+    reveal: {texture: gtrlwal2, size: [128, 256], scale: 2}
+    door: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: "The ring galleries, the stairwells and the side rooms: d29's dark rubble walls, flag floors."
+defaults: {theme: theme:rubble, ambient: 14}
+rooms:
+  - id: room:door_hall
+    name: Door hall
+    outline: [[512, 2048], [-512, 2048], [-512, 1504], [512, 1504]]
+    floor: 0
+    ceiling: 640
+    theme: theme:ashlar
+    bands:
+      - {height: 192, surface: {texture: gtrlwal2, size: [128, 256], scale: 2}}
+      - {height: 448, surface: {texture: hkm3b, size: [128, 256]}}
+    ambient: 18
+    notes: "Inside the tower door (north wall): granite ashlar with X5's skull frieze round the walls once; the inner gate (two leaves) south-west into the west arc, a single door south-east into the east arc. The arrival from X5 (entrance:x5_door). Quiet: both ways are shut doors (D-57)."
+  - id: room:l1_east
+    name: East arc (L1)
+    outline: [[576, -1440], [596, -1440], [1440, -596], [1440, 596], [596, 1440], [32, 1440], [32, 1088], [451, 1088], [1088, 451], [1088, -451], [576, -963]]
+    floor: 0
+    ceiling: 512
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque1_3, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 3 of L1).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque1_4, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 4 of L1).}
+    ambient: 14
+    notes: "The ring gallery's east half; two plaques (aazex113:5-6); the forge door in its outer wall."
+  - id: room:l1_forge
+    name: Onyx forge
+    outline: [[2048, -512], [2048, 512], [1504, 512], [1504, -512]]
+    floor: 0
+    ceiling: 512
+    theme: theme:rubble
+    platforms:
+      - {id: platform:anvil, at: [1792, -320], size: [192, 96], rise: 112, surface: {texture: gtrlwal2, size: [128, 256], scale: 2}, top_surface: {texture: gcst2cel, size: [128, 128], scale: 2}, notes: A black anvil block.}
+      - {id: platform:hearth, at: [1984, 192], size: [96, 320], rise: 64, surface: {texture: gtrlwal2, size: [128, 256], scale: 2}, top_surface: {texture: gcst2cel, size: [128, 128], scale: 2}, notes: The cold forge's hearth against the outer wall.}
+    ambient: 14
+    notes: "A dead end off the east arc: a cold forge where the golems were cut, black blocks by the walls, a T6 chest."
+  - id: room:l1_gong
+    name: Gong rotunda (L1)
+    outline: [[896, -371], [896, -344], [1024, -344], [1024, -152], [896, -152], [896, 152], [1024, 152], [1024, 344], [896, 344], [896, 371], [371, 896], [-371, 896], [-896, 371], [-896, -371], [-371, -896], [371, -896]]
+    floor: 0
+    ceiling: 640
+    theme: theme:ashlar
+    walls:
+      - wall: 4
+        panels:
+          - {id: panel:gong1, offset: 8, length: 288, bottom: 96, height: 288, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall between two niches (XD-03's great gong picture).}
+    levels:
+      - id: level:well_foot
+        outline: [[368, -152], [368, 152], [152, 368], [-152, 368], [-368, 152], [-368, -152], [-152, -368], [152, -368]]
+        floor: -192
+        edge: {texture: gcav1flr, size: [256, 256]}
+        surface: {texture: gcav1flr, size: [256, 256]}
+        notes: "The well's foot, sunk 192 inside the parapet."
+    parapets:
+      - path: [[416, -172], [416, 172], [172, 416], [-172, 416], [-416, 172], [-416, -172], [-172, -416], [172, -416], [416, -172]]
+        height: 192
+        thickness: 32
+        surface: {texture: gtrlwal2, size: [128, 256], scale: 2}
+        notes: "The well's parapet, 192 high."
+    ambient: 16
+    notes: "The rotunda round the well's foot: the parapet round a pit; the gong on the east wall between two niches (its two hidden Sentries)."
+  - id: room:l1_pass
+    name: South passage (L1)
+    outline: [[-512, -1440], [512, -1440], [512, -1027], [451, -1088], [-451, -1088], [-512, -1027]]
+    floor: 0
+    ceiling: 512
+    theme: theme:rubble
+    ambient: 12
+    notes: "From the rotunda to the south stairwell, under L2's landing."
+  - id: room:l1_stair
+    name: South stair (L1-L2)
+    outline: [[-1088, -1808], [-848, -2048], [592, -2048], [592, -1504], [-623, -1504], [-1088, -1039]]
+    floor: 0
+    ceiling: 1408
+    theme: theme:rubble
+    platforms:
+      - {id: platform:top1, rise: 768, surface: {texture: gtrlwal1, size: [128, 256], scale: 2}, outline: [[-112, -2000], [16, -2000], [16, -1776], [-112, -1776]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The flight's top step (768): its plate gives the voice's line before the gong."}
+    flights:
+      - {from: [-832, -1888], to: [-112, -1888], width: 224, steps: 24, notes: 24 steps of 32 up the outer wall to the top step.}
+    ambient: 12
+    notes: "A stairwell open from L1's floor to L2's ceiling: the flight up the outer wall, the top step, and beside it the gap where the landing belongs: the slab, a dais 128 high until the L1 gong raises it 640."
+  - id: room:l1_west
+    name: West arc (L1)
+    outline: [[-32, 1440], [-596, 1440], [-1440, 596], [-1440, -596], [-596, -1440], [-576, -1440], [-576, -963], [-1088, -451], [-1088, 451], [-451, 1088], [-32, 1088]]
+    floor: 0
+    ceiling: 512
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque1_1, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 1 of L1).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque1_2, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 2 of L1).}
+    ambient: 14
+    notes: "The ring gallery's west half, 352 wide; two plaques on its outer wall (aazex113:3-4)."
+  - id: room:l2_east
+    name: East arc (L2)
+    outline: [[576, -1440], [596, -1440], [1440, -596], [1440, 596], [596, 1440], [576, 1440], [576, 963], [1088, 451], [1088, -451], [576, -963]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque2_3, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 3 of L2).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque2_4, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 4 of L2).}
+    ambient: 14
+    notes: "Ring gallery, two plaques (aazex114:5-6)."
+  - id: room:l2_gong
+    name: Gong rotunda (L2)
+    outline: [[896, -371], [896, 371], [371, 896], [-371, 896], [-896, 371], [-896, 344], [-1024, 344], [-1024, 152], [-896, 152], [-896, -152], [-1024, -152], [-1024, -344], [-896, -344], [-896, -371], [-371, -896], [371, -896]]
+    floor: 768
+    ceiling: 1408
+    theme: theme:ashlar
+    walls:
+      - wall: 8
+        panels:
+          - {id: panel:gong2, offset: 8, length: 288, bottom: 96, height: 288, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall between two niches (XD-03's great gong picture).}
+    parapets:
+      - path: [[416, -172], [416, 172], [172, 416], [-172, 416], [-416, 172], [-416, -172], [-172, -416], [172, -416], [416, -172]]
+        height: 192
+        thickness: 32
+        surface: {texture: gtrlwal2, size: [128, 256], scale: 2}
+        notes: "The well's parapet, 192 high."
+    ambient: 16
+    notes: "The well's second ring; the gong on the west wall between its two niches (two hidden Wardens)."
+  - id: room:l2_landing
+    name: Landing (L2)
+    outline: [[-512, -1440], [512, -1440], [512, -1027], [451, -1088], [-451, -1088], [-512, -1027]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:rubble
+    ambient: 14
+    notes: "The slab's head: when it is up, the way from the south stair; ways west and east into both arcs."
+  - id: room:l2_library
+    name: Mason's library
+    outline: [[-2048, 512], [-2048, -512], [-1504, -512], [-1504, 512]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:rubble
+    platforms:
+      - {id: platform:shelf_1, at: [-1984, -352], size: [64, 256], rise: 320, surface: {texture: gkp1ceil, size: [128, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: A shelf of plans against the outer wall.}
+      - {id: platform:shelf_2, at: [-1984, 352], size: [64, 256], rise: 320, surface: {texture: gkp1ceil, size: [128, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: A shelf of plans against the outer wall.}
+      - {id: platform:plan_table, at: [-1800, 0], size: [160, 320], rise: 96, surface: {texture: gkp1ceil, size: [128, 128]}, top_surface: {texture: gkp1ceil, size: [128, 128]}, notes: The builders' plan table.}
+    ambient: 14
+    notes: "A dead end off the west arc: the builders' plans on tables by the walls, shelves; a T6 chest."
+  - id: room:l2_pass
+    name: North passage (L2)
+    outline: [[512, 1440], [-512, 1440], [-512, 1027], [-451, 1088], [451, 1088], [512, 1027]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:rubble
+    ambient: 12
+    notes: "From the rotunda to the north stairwell, under L3's landing."
+  - id: room:l2_stair
+    name: North stair (L2-L3)
+    outline: [[1088, 1808], [848, 2048], [-592, 2048], [-592, 1504], [623, 1504], [1088, 1039]]
+    floor: 768
+    ceiling: 2176
+    theme: theme:rubble
+    platforms:
+      - {id: platform:top2, rise: 768, surface: {texture: gtrlwal1, size: [128, 256], scale: 2}, outline: [[-16, 1776], [112, 1776], [112, 2000], [-16, 2000]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The flight's top step (768): its plate gives the voice's line before the gong."}
+    flights:
+      - {from: [832, 1888], to: [112, 1888], width: 224, steps: 24, notes: 24 steps of 32 up the outer wall to the top step.}
+    ambient: 12
+    notes: "The same stairwell on the north side, its slab sunk until the L2 gong."
+  - id: room:l2_west
+    name: West arc (L2)
+    outline: [[-576, 1440], [-596, 1440], [-1440, 596], [-1440, -596], [-596, -1440], [-576, -1440], [-576, -963], [-1088, -451], [-1088, 451], [-576, 963]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque2_1, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 1 of L2).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque2_2, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 2 of L2).}
+    ambient: 14
+    notes: "Ring gallery, two plaques (aazex114:3-4); the library door in its outer wall."
+  - id: room:l3_cistern
+    name: Rain cistern
+    outline: [[2048, -512], [2048, 512], [1504, 512], [1504, -512]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:rubble
+    levels:
+      - id: level:cistern
+        outline: [[1744, -160], [1840, -160], [1840, 160], [1744, 160]]
+        floor: 1408
+        bank: 160
+        edge: {texture: gkp4-bs, size: [128, 256]}
+        surface: {texture: gcav1flr, size: [256, 256]}
+        notes: "The cistern's bottom, 128 down, its sides sloping (walked)."
+    ceiling_levels:
+      - outline: [[1712, -128], [1872, -128], [1872, 128], [1712, 128]]
+        ceiling: 2560
+        edge: {texture: gtrlwal1, size: [128, 256], scale: 2}
+        surface: {texture: gcst2cel, size: [128, 128], scale: 2}
+        notes: The rain shaft over the cistern.
+    ambient: 12
+    notes: "A dead end: a cistern sunk 128 with sloping sides to step down and out, fed from the roof by a shaft of grey light; the Sky Golems; a T6 chest on its rim."
+  - id: room:l3_east
+    name: East arc (L3)
+    outline: [[576, -1440], [596, -1440], [1440, -596], [1440, 596], [596, 1440], [576, 1440], [576, 963], [1088, 451], [1088, -451], [576, -963]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque3_3, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 3 of L3).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque3_4, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 4 of L3).}
+    ambient: 14
+    notes: "Ring gallery, two plaques (aazex115:5-6); the cistern door in its outer wall."
+  - id: room:l3_gong
+    name: Twin gongs (L3)
+    outline: [[896, -371], [896, -344], [1024, -344], [1024, -152], [896, -152], [896, 152], [1024, 152], [1024, 344], [896, 344], [896, 371], [371, 896], [-371, 896], [-896, 371], [-896, 344], [-1024, 344], [-1024, 152], [-896, 152], [-896, -152], [-1024, -152], [-1024, -344], [-896, -344], [-896, -371], [-371, -896], [371, -896]]
+    floor: 1536
+    ceiling: 2176
+    theme: theme:ashlar
+    walls:
+      - wall: 16
+        panels:
+          - {id: panel:gong3w, offset: 8, length: 288, bottom: 96, height: 288, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall between two niches (XD-03's great gong picture).}
+      - wall: 4
+        panels:
+          - {id: panel:gong3e, offset: 8, length: 288, bottom: 96, height: 288, surface: {texture: xngong, size: [128, 128], fit: true}, notes: A bronze gong on the wall between two niches (XD-03's great gong picture).}
+    parapets:
+      - path: [[416, -172], [416, 172], [172, 416], [-172, 416], [-416, 172], [-416, -172], [-172, -416], [172, -416], [416, -172]]
+        height: 192
+        thickness: 32
+        surface: {texture: gtrlwal2, size: [128, 256], scale: 2}
+        notes: "The well's parapet, 192 high."
+    ambient: 16
+    notes: "The source's two gongs, on the rotunda's east and west walls, each between two niches: each rung shows its two Wardens and lifts the south ground 320; both rung, it is up."
+  - id: room:l3_landing
+    name: Landing (L3)
+    outline: [[512, 1440], [-512, 1440], [-512, 1027], [-451, 1088], [451, 1088], [512, 1027]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:rubble
+    ambient: 14
+    notes: "The north slab's head; ways west and east into both arcs."
+  - id: room:l3_pass
+    name: South passage (L3)
+    outline: [[-512, -1440], [512, -1440], [512, -1027], [451, -1088], [-451, -1088], [-512, -1027]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:rubble
+    ambient: 12
+    notes: "From the rotunda to the last stairwell, under L4's landing."
+  - id: room:l3_stair
+    name: South stair (L3-L4)
+    outline: [[-1088, -1808], [-848, -2048], [592, -2048], [592, -1504], [-623, -1504], [-1088, -1039]]
+    floor: 1536
+    ceiling: 2944
+    theme: theme:rubble
+    platforms:
+      - {id: platform:top3, rise: 768, surface: {texture: gtrlwal1, size: [128, 256], scale: 2}, outline: [[-112, -2000], [16, -2000], [16, -1776], [-112, -1776]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The flight's top step (768): its plate gives the voice's line before the gong."}
+    flights:
+      - {from: [-832, -1888], to: [-112, -1888], width: 224, steps: 24, notes: 24 steps of 32 up the outer wall to the top step.}
+    ambient: 12
+    notes: "The last stairwell: the ground in two stages (a riser raised 320 by the first gong, the slab raised to the top by the second)."
+  - id: room:l3_west
+    name: West arc (L3)
+    outline: [[-576, 1440], [-596, 1440], [-1440, 596], [-1440, -596], [-596, -1440], [-576, -1440], [-576, -963], [-1088, -451], [-1088, 451], [-576, 963]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:plaque3_1, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 1 of L3).}
+      - wall: 3
+        panels:
+          - {id: panel:plaque3_2, offset: 469, length: 256, bottom: 160, height: 192, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: A bronze letter plaque (row 2 of L3).}
+    ambient: 14
+    notes: "Ring gallery, two plaques (aazex115:3-4)."
+  - id: room:l4_east
+    name: East arc (L4)
+    outline: [[576, -1440], [596, -1440], [1440, -596], [1440, 596], [596, 1440], [576, 1440], [576, 963], [1088, 451], [1088, -451], [576, -963]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:rubble
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:head_3, offset: 501, length: 192, bottom: 128, height: 256, surface: {texture: xdhead, size: [128, 256], fit: true}, notes: A speaking head of black stone (head 3).}
+      - wall: 3
+        panels:
+          - {id: panel:head_4, offset: 501, length: 192, bottom: 128, height: 256, surface: {texture: xdhead, size: [128, 256], fit: true}, notes: A speaking head of black stone (head 4).}
+    ambient: 14
+    notes: "Ring gallery: the other two heads (aazex116:5-6); open into the hall of the skull."
+  - id: room:l4_landing
+    name: Landing (L4)
+    outline: [[-512, -1440], [512, -1440], [512, -1027], [451, -1088], [-451, -1088], [-512, -1027]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:rubble
+    ambient: 14
+    notes: "The last slab's head under the top storey's vault; ways west and east into both arcs."
+  - id: room:l4_west
+    name: West arc (L4)
+    outline: [[-1440, 512], [-1440, -596], [-596, -1440], [-576, -1440], [-576, -963], [-1088, -451], [-1088, 451], [-1027, 512]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:rubble
+    walls:
+      - wall: 0
+        panels:
+          - {id: panel:head_1, offset: 672, length: 192, bottom: 128, height: 256, surface: {texture: xdhead, size: [128, 256], fit: true}, notes: A speaking head of black stone (head 1).}
+      - wall: 1
+        panels:
+          - {id: panel:head_2, offset: 501, length: 192, bottom: 128, height: 256, surface: {texture: xdhead, size: [128, 256], fit: true}, notes: A speaking head of black stone (head 2).}
+    ambient: 14
+    notes: "Ring gallery: two speaking heads on its outer wall (aazex116:3-4); the hall of the skull's double doors in its inner wall."
+  - id: room:roof_stair
+    name: The roof stair
+    outline: [[704, 2048], [-704, 2048], [-704, 1423], [-623, 1504], [623, 1504], [704, 1423]]
+    floor: 2304
+    ceiling: 3584
+    theme: theme:rubble
+    platforms:
+      - {id: platform:roof_head, rise: 768, surface: {texture: gtrlwal1, size: [128, 256], scale: 2}, outline: [[128, 1792], [672, 1792], [672, 2048], [128, 2048]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The roof stair's head (3,072): entrance:p5_stair on its top step, facing down (west)."}
+    ceiling_levels:
+      - outline: [[256, 1824], [544, 1824], [544, 1984], [256, 1984]]
+        ceiling: 3840
+        edge: {texture: gtrlwal1, size: [128, 256], scale: 2}
+        surface: {texture: gston1fl, size: [128, 128], sky: true}
+        notes: "The open hatch over the head: P5's cloud sky (atmosphere.yml)."
+    flights:
+      - {from: [-600, 1904], to: [128, 1904], width: 224, steps: 24, notes: 24 steps of 32 up the outer wall to the head.}
+    ambient: 12
+    notes: "A tall stair hall in the outer north: through the seal, west along the floor, then the flight of 24 steps east up the outer wall to the top landing (3,072) under the open hatch."
+  - id: room:seal
+    name: Foot of the roof stair
+    outline: [[512, 1440], [-512, 1440], [-512, 1027], [-451, 1088], [451, 1088], [512, 1027]]
+    floor: 2304
+    ceiling: 3072
+    theme: theme:ashlar
+    ambient: 16
+    notes: "A tall room north of the hall of the skull; in its north wall the roof stair's mouth, closed by the seal (a translucent leaf, xdseal)."
+  - id: room:skull_hall
+    name: Hall of the skull
+    outline: [[896, -371], [896, 371], [371, 896], [-371, 896], [-896, 371], [-896, -371], [-371, -896], [371, -896]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:ashlar
+    platforms:
+      - {id: platform:skull, at: [0, -824], size: [160, 144], rise: 160, surface: {texture: gtrlwal2, size: [128, 256], scale: 2}, top_surface: {texture: gcst2cel, size: [128, 128], scale: 2}, notes: "The skull's plinth against the south wall (F3, 2026-11-21: 160 by 144 and flush with the wall, the skull 64 from every edge; it was 128 by 96, 48 off the wall)."}
+    parapets:
+      - path: [[416, -172], [416, 172], [172, 416], [-172, 416], [-416, 172], [-416, -172], [-172, -416], [172, -416], [416, -172]]
+        height: 192
+        thickness: 32
+        surface: {texture: gtrlwal2, size: [128, 256], scale: 2}
+        notes: "The well's parapet, 192 high."
+    ambient: 18
+    notes: "The top rotunda round the well's head: double doors from the west arc, open from the east arc; the skull on its plinth by the south wall ('The skull is silent.'); the vault's force north-west, the seal's room north. The Onyx Golem stands between the well and the seal."
+  - id: room:vault
+    name: The skull's vault
+    outline: [[-576, 1440], [-596, 1440], [-1440, 596], [-1440, 576], [-963, 576], [-576, 963]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:rubble
+    ambient: 12
+    notes: "Behind the force ('A force repels you.'): the source's prize as a T6 chest; the force drops with the Onyx Golem."
+openings:
+  - id: open:hall_east
+    from: room:door_hall
+    to: room:l1_east
+    from_wall: 2
+    to_wall: 4
+    link: link:door_east
+    along: 0.5333
+    width: 256
+    height: 384
+  - id: open:hall_west
+    from: room:door_hall
+    to: room:l1_west
+    from_wall: 2
+    to_wall: 0
+    link: link:door_west
+    along: 0.5
+    width: 384
+    height: 384
+  - id: open:l1_gong_pass
+    from: room:l1_gong
+    to: room:l1_pass
+    from_wall: 14
+    to_wall: 3
+    link: link:l1_gong_stair
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l1_pass_stair
+    from: room:l1_pass
+    to: room:l1_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l1_gong_stair
+    along: 0.1719
+    width: 320
+    height: 384
+  - id: open:l1e_forge
+    from: room:l1_east
+    to: room:l1_forge
+    from_wall: 2
+    to_wall: 2
+    link: link:l1e_forge
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:l1e_gong
+    from: room:l1_east
+    to: room:l1_gong
+    from_wall: 7
+    to_wall: 9
+    link: link:l1e_gong
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l1w_gong
+    from: room:l1_west
+    to: room:l1_gong
+    from_wall: 7
+    to_wall: 12
+    link: link:l1w_gong
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l2_gong_pass
+    from: room:l2_gong
+    to: room:l2_pass
+    from_wall: 2
+    to_wall: 3
+    link: link:l2_gong_stair
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l2_land_e
+    from: room:l2_landing
+    to: room:l2_east
+    from_wall: 1
+    to_wall: 9
+    link: link:l2_land_e
+    along: 0.4988
+    width: 288
+    height: 384
+  - id: open:l2_land_stair
+    from: room:l2_landing
+    to: room:l1_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l1_up
+    along: 0.7656
+    width: 448
+    height: 448
+  - id: open:l2_land_w
+    from: room:l2_landing
+    to: room:l2_west
+    from_wall: 5
+    to_wall: 5
+    link: link:l2_land_w
+    along: 0.5012
+    width: 288
+    height: 384
+  - id: open:l2_pass_stair
+    from: room:l2_pass
+    to: room:l2_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l2_gong_stair
+    along: 0.1719
+    width: 320
+    height: 384
+  - id: open:l2e_gong
+    from: room:l2_east
+    to: room:l2_gong
+    from_wall: 7
+    to_wall: 0
+    link: link:l2e_gong
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l2w_gong
+    from: room:l2_west
+    to: room:l2_gong
+    from_wall: 6
+    to_wall: 13
+    link: link:l2w_gong
+    along: 0.4243
+    width: 320
+    height: 448
+  - id: open:l2w_lib
+    from: room:l2_west
+    to: room:l2_library
+    from_wall: 2
+    to_wall: 2
+    link: link:l2w_lib
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:l3_gong_pass
+    from: room:l3_gong
+    to: room:l3_pass
+    from_wall: 22
+    to_wall: 3
+    link: link:l3_gong_stair
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l3_land_e
+    from: room:l3_landing
+    to: room:l3_east
+    from_wall: 5
+    to_wall: 5
+    link: link:l3_land_e
+    along: 0.5012
+    width: 288
+    height: 384
+  - id: open:l3_land_stair
+    from: room:l3_landing
+    to: room:l2_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l2_up
+    along: 0.7656
+    width: 448
+    height: 448
+  - id: open:l3_land_w
+    from: room:l3_landing
+    to: room:l3_west
+    from_wall: 1
+    to_wall: 9
+    link: link:l3_land_w
+    along: 0.4988
+    width: 288
+    height: 384
+  - id: open:l3_pass_stair
+    from: room:l3_pass
+    to: room:l3_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l3_gong_stair
+    along: 0.1719
+    width: 320
+    height: 384
+  - id: open:l3e_cistern
+    from: room:l3_east
+    to: room:l3_cistern
+    from_wall: 2
+    to_wall: 2
+    link: link:l3e_cistern
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:l3e_gong
+    from: room:l3_east
+    to: room:l3_gong
+    from_wall: 6
+    to_wall: 9
+    link: link:l3e_gong
+    along: 0.4243
+    width: 320
+    height: 448
+  - id: open:l3w_gong
+    from: room:l3_west
+    to: room:l3_gong
+    from_wall: 8
+    to_wall: 11
+    link: link:l3w_gong
+    along: 0.5757
+    width: 320
+    height: 448
+  - id: open:l4_land_e
+    from: room:l4_landing
+    to: room:l4_east
+    from_wall: 1
+    to_wall: 9
+    link: link:l4_land_e
+    along: 0.4988
+    width: 288
+    height: 384
+  - id: open:l4_land_stair
+    from: room:l4_landing
+    to: room:l3_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:l3_up
+    along: 0.7656
+    width: 448
+    height: 448
+  - id: open:l4_land_w
+    from: room:l4_landing
+    to: room:l4_west
+    from_wall: 5
+    to_wall: 3
+    link: link:l4_land_w
+    along: 0.5012
+    width: 288
+    height: 384
+  - id: open:l4e_skull
+    from: room:l4_east
+    to: room:skull_hall
+    from_wall: 7
+    to_wall: 0
+    link: link:l4e_skull
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:l4w_skull
+    from: room:l4_west
+    to: room:skull_hall
+    from_wall: 5
+    to_wall: 4
+    link: link:l4w_skull
+    along: 0.5
+    width: 384
+    height: 448
+  - id: open:seal_stair
+    from: room:seal
+    to: room:roof_stair
+    from_wall: 0
+    to_wall: 3
+    link: link:seal_stair
+    along: 0.5
+    width: 224
+    height: 384
+  - id: open:skull_seal
+    from: room:skull_hall
+    to: room:seal
+    from_wall: 2
+    to_wall: 3
+    link: link:skull_seal
+    along: 0.5
+    width: 384
+    height: 448
+  - id: open:skull_vault
+    from: room:skull_hall
+    to: room:vault
+    from_wall: 3
+    to_wall: 4
+    link: link:skull_vault
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:well_1
+    from: room:l2_gong
+    to: room:l1_gong
+    in: floor
+    outline: [[384, -159], [384, 159], [159, 384], [-159, 384], [-384, 159], [-384, -159], [-159, -384], [159, -384]]
+    notes: "The open well (radius 384) through the floor, parapet round it."
+  - id: open:well_2
+    from: room:l3_gong
+    to: room:l2_gong
+    in: floor
+    outline: [[384, -159], [384, 159], [159, 384], [-159, 384], [-384, 159], [-384, -159], [-159, -384], [159, -384]]
+    notes: "The open well (radius 384) through the floor, parapet round it."
+  - id: open:well_3
+    from: room:skull_hall
+    to: room:l3_gong
+    in: floor
+    outline: [[384, -159], [384, 159], [159, 384], [-159, 384], [-384, 159], [-384, -159], [-159, -384], [159, -384]]
+    notes: "The open well (radius 384) through the floor, parapet round it."
+notes: "FD-03 Darkstone Tower: x east, y north; four storeys 768 apart round an open well, the door from X5 in the north wall of L1, the roof stair in the outer north of L4. Written by output/studio_cal/fd03/tools/gen.py."

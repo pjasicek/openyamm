@@ -1,0 +1,146 @@
+[
+ {
+  "zone": "fall:d6",
+  "map": "xeen_d6.odm",
+  "owner": "A6",
+  "landing": [
+   13824,
+   -7680,
+   1664
+  ],
+  "facing": "s",
+  "near": "before the Necropolis' gate (entrance:necropolis_gate (13824, -6656)), 1,024 south: the mirror inside (pass) leads back to Olympus",
+  "nearest_actor": {
+   "distance": 11520,
+   "monster": 11621
+  },
+  "actors_within_3072": 0,
+  "nearest_spawn": 7975,
+  "nearest_decoration": 1133,
+  "nearest_arrival": {
+   "name": "entrance:d7_fall",
+   "distance": 0.0,
+   "z": 1672
+  }
+ },
+ {
+  "zone": "fall:d5",
+  "map": "xeen_d5.odm",
+  "owner": "A6",
+  "landing": [
+   0,
+   -8704,
+   1248
+  ],
+  "facing": "n",
+  "near": "1,536 south of the Great Pyramid's door (entrance:dd15_door (0, -7168)): its sky door leads back up after m30.done",
+  "nearest_actor": {
+   "distance": 15477,
+   "monster": 11562
+  },
+  "actors_within_3072": 0,
+  "nearest_spawn": 7454,
+  "nearest_decoration": 3315,
+  "nearest_arrival": {
+   "name": "entrance:dd15_door",
+   "distance": 1536.0,
+   "z": 1248
+  }
+ },
+ {
+  "zone": "fall:d4",
+  "map": "xeen_d4.odm",
+  "owner": "A6",
+  "landing": [
+   5632,
+   -13312,
+   1120
+  ],
+  "facing": "w",
+  "near": "Lakeside's square, 1,024 east of entrance:lakeside_square (4608, -13312): the ferry dock's Olympus slot (route 426) and the mirror",
+  "nearest_actor": {
+   "distance": 2254,
+   "monster": 377
+  },
+  "actors_within_3072": 1,
+  "nearest_spawn": 10969,
+  "nearest_decoration": 3304,
+  "nearest_arrival": {
+   "name": "entrance:d7_fall",
+   "distance": 0.0,
+   "z": 1120
+  }
+ },
+ {
+  "zone": "fall:d1",
+  "map": "xeen_d1.odm",
+  "owner": "A6",
+  "landing": [
+   -6656,
+   6144,
+   1152
+  ],
+  "facing": "s",
+  "near": "1,024 north of Lucio's Jetty (entrance:lucio_jetty (-6656, 5120)), outside Castleview's Queen's Gate side: the boats go back up, and the Dark Grove rope is 8,300 north (the grove itself is full of electrapedes, 7 within 3,072 of the rope's foot)",
+  "nearest_actor": {
+   "distance": 6326,
+   "monster": 377
+  },
+  "actors_within_3072": 0,
+  "nearest_spawn": 7571,
+  "nearest_decoration": 928,
+  "nearest_arrival": {
+   "name": "entrance:d7_fall",
+   "distance": 0.0,
+   "z": 1152
+  }
+ },
+ {
+  "zone": "fall:d2",
+  "map": "xeen_d2.odm",
+  "owner": "A6",
+  "landing": [
+   15872,
+   -6656,
+   1056
+  ],
+  "facing": "s",
+  "near": "1,024 before the Southern Tower's door (entrance:dd06_door (15872, -7680)): its roof leads up",
+  "nearest_actor": {
+   "distance": 17194,
+   "monster": 11066
+  },
+  "actors_within_3072": 0,
+  "nearest_spawn": 5504,
+  "nearest_decoration": 375,
+  "nearest_arrival": {
+   "name": "entrance:d7_fall",
+   "distance": 0.0,
+   "z": 1056
+  }
+ },
+ {
+  "zone": "fall:d3",
+  "map": "xeen_d3.odm",
+  "owner": "A5",
+  "landing": [
+   -15360,
+   11776,
+   1440
+  ],
+  "facing": "e",
+  "near": "outside Sandcaster's south gate (entrance:south_gate (-14336, 12800)), 1,400 south-west of it, by the Sky Stair and Lucio's Jetty (house 4649)",
+  "nearest_actor": {
+   "distance": 1316,
+   "monster": 377
+  },
+  "actors_within_3072": 1,
+  "nearest_spawn": 9618,
+  "nearest_decoration": 1416,
+  "nearest_arrival": {
+   "name": "entrance:d7_fall",
+   "distance": 0.0,
+   "z": 1312
+  }
+ }
+]

@@ -1,0 +1,34 @@
+format: 0
+id: xeen_dd16
+name: Corak's Pod
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-16
+units: {plan_grid: 512}
+extent: {footprint_cells: [6, 12], climbs: n}
+map_stats:
+  id: 9169
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 8
+  slots:
+    - {monster: Xeen Eye, tier: 0, per_marker: [1, 1], weight: 100}
+neighbours:
+  - id: exit:d6_hatch
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:dd16_hatch
+    arrival_hint: "On D6's cooled crust 384 before the pod's hatch, facing south-east (A6's entrance:dd16_hatch)."
+    notes: "D6 installed (A6). The way out names D6's named arrival entrance:dd16_hatch, now on the crust at (5120, -2560, 1466) facing 1792 (merge point 25 stands an outdoor arrival on a structure's top); the facing comes with it. D6's door:dd16 (thing:corak_pod, A3's m29.pod_door after lava_cooled) names this map's arrival entrance:d6_hatch: (-832, 0, 0) facing east."
+qbits:
+  corak_boxed: 111640
+  power_on: 118080
+  stasis_done: 111582
+notes: "Xeen design brief, level L4: DD-16 Corak's Pod, Escape Pod 1 in D6's lava (M29, M32). D-47: 7 monsters (Floating Eye 11570 x 3, Terrible Eye 11571 x 2, Lesser Elemental 11620 x 2; 4.79k), the peaceful placed-only Corak 11912; rest encounters eyes at Dif 0 (Floating Eye 40 only, 10 %). Hooks m29.* (A3), Corak's topics npc 5513 (m32) on his own body (merge point 22). Map qbit power_on 118080. Music 46. The hatch leads to D6's entrance:dd16_hatch (A6); D6's door arrives at entrance:d6_hatch."

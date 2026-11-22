@@ -1,0 +1,79 @@
+# Act III on Cloudside (tools/xeen/quest_stub.py): the Seasons Relay (Q-C1), Kai Wu's pagoda with T1-D (Q-C4),
+# Winterkill's ghosts (Q-C6), Nightshadow's Count with the Nosferatu promotion (Q-C7), Thickbark's trolls (Q-C15),
+# Glom's cyclopes (Q-C16); and Halon's lava (Q-C14, Act V, its giver on X5). Owner: A3.
+name: Act III, Cloudside
+party: [Monk, Cleric, Vampire, Sorcerer]
+steps:
+  # Q-C1: the relay, Summer -> Autumn -> Winter -> Spring
+  - talk: [4321, Autumn]
+  - expect: {not_qbit: q-c1.autumn}
+  - talk: [4601, Summer]
+  - expect: {qbit: [q-c1.started, q-c1.summer], item: last_flower_of_summer}
+  - talk: [4529, Winter]
+  - expect: {not_qbit: q-c1.winter}
+  - talk: [4321, Autumn]
+  - expect: {qbit: q-c1.autumn, item: leaf_of_autumn, no_item: last_flower_of_summer}
+  - talk: [4529, Winter]
+  - expect: {qbit: q-c1.winter, item: snowflake_of_winter, no_item: leaf_of_autumn}
+  - talk: [4048, Spring]
+  - expect: {qbit: q-c1.done, item: raindrop_of_spring, no_item: snowflake_of_winter, stat: [Age, 0], xp: 8000}
+  - expect: {class: [1, Cleric]}
+  # Q-C4 and T1-D
+  - talk: [4521, The Pagoda]
+  - expect: {qbit: q-c4.started}
+  - hidden: [4521, Initiation]
+  - hook: q-c4.clan_master
+  - talk: [4521, The Pagoda]
+  - expect: {qbit: q-c4.done, class: [0, Initiate], stat: [Food, 20], xp: 24000}
+  - class: [3, Monk]
+  - talk: [4521, Initiation]
+  - expect: {class: [3, Initiate], xp: 24000}
+  - class: [3, Sorcerer]
+  # Q-C6: three waves, the gong, the mayor
+  - talk: [4502, Ghosts]
+  - expect: {qbit: q-c6.started}
+  - hook: q-c6.gong
+  - expect: {not_qbit: q-c6.rung}
+  - set: q-c6.wave1_laid
+  - hook: q-c6.gong
+  - expect: {qbit: q-c6.rung}
+  - talk: [4502, Ghosts]
+  - expect: {qbit: q-c6.reported1, not_qbit: q-c6.rung, xp: 26000}
+  - hook: q-c6.gong
+  - talk: [4502, Ghosts]
+  - expect: {not_qbit: q-c6.reported2, xp: 26000}
+  - set: q-c6.wave2_laid
+  - hook: q-c6.gong
+  - talk: [4502, Ghosts]
+  - expect: {qbit: q-c6.reported2, xp: 28000}
+  - set: q-c6.wave3_laid
+  - hook: q-c6.gong
+  - talk: [4502, Ghosts]
+  - expect: {qbit: q-c6.done, award: q-c6.ghostslayers, xp: 32000, gold: 2000}
+  # Q-C7: the rhyme, the dials, the coffin at night, Draco, Nosferatu
+  - hook: q-c7.rhyme
+  - expect: {qbit: q-c7.started}
+  - hidden: [4205, Nosferatu]
+  - hook: [q-c7.coffin, false]
+  - set: q-c7.dials_set
+  - hook: q-c7.coffin   # D-89: the dials alone open it, at any hour
+  - hook: q-c7.draco
+  - expect: {qbit: q-c7.done, xp: 42000}
+  - talk: [4205, Nosferatu]
+  - expect: {class: [2, Nosferatu], xp: 42000}
+  # Q-C15 and Q-C16
+  - talk: [4528, Trolls]
+  - hook: q-c15.lair
+  - talk: [4528, Trolls]
+  - expect: {qbit: q-c15.done, xp: 47000}
+  - talk: [4524, Cyclopes]
+  - hook: q-c16.outpost
+  - talk: [4524, Cyclopes]
+  - expect: {qbit: q-c16.done, xp: 53000, gold: 3500}
+  # Q-C14 (Act V): Halon's lava
+  - talk: [4526, Water clock]
+  - talk: [4526, Water clock]
+  - expect: {not_qbit: q-c14.done}
+  - give: lava_rock   # D-90 (c): a ground item (q-c14.lava_rock is a map_gives record)
+  - talk: [4526, Water clock]
+  - expect: {qbit: q-c14.done, item: widget, no_item: lava_rock, xp: 65000}

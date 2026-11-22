@@ -1,0 +1,154 @@
+# Q-C25 The Dragon Tax (QUESTS 2.1 Q-C25, 3.2: Dragon -> Great Wyrm; D-5.2). Owner: A3. Format: QUESTS_FORMAT.md.
+# The Dragon Tax Office (house 4852) at the Dragon Cave's mouth (XD-18, X7), before the first dragon: Scaldrith (5702)
+# collects the source's urn tax, 2,000 gold and 20 gems; without it the cave's inner door throws the party out. Dragon
+# Lore, volume 1, lies on the office's own lectern: a Dragon who has read it and paid takes the Great Wyrm promotion from
+# Scaldrith (about level 50, D-5.2). Volumes 2-5 and The Art of Taxation are in the cave's library beyond the dragons
+# (level 60+): titles, the source's Loremaster ladder up to Taxman Emeritus. Scaldrith's Grandmaster Dragon teaching is
+# A4's (towns/xd18.yml). Optional content (MAPS: XD-18 is optional).
+id: Q-C25
+title: The Dragon Tax
+act: opt
+kind: side
+status: full
+giver: 5702          # Scaldrith, Collector of the Dragon Tax (the Dragon Tax Office, 4852)
+maps: [X7, XD-18]
+level: 50
+block: 75
+after: []
+source: "QUESTS Q-C25; xeen/aaze0050:0-2, :5-18 (the urn, Dragon Lore 1-5, The Art of Taxation, the Loremaster titles), aaze0017:0; D-5.2, D-57 Q2"
+
+qbits:
+  tax_paid: {id: 112500}
+  volume1: {id: 112501, note: "Dragon Lore, volume 1 read (the tax office's lectern)"}
+  volume2: {id: 112502, note: "XD-18's library (A7)"}
+  volume3: {id: 112503, note: "XD-18's library (A7)"}
+  volume4: {id: 112504, note: "XD-18's library (A7)"}
+  volume5: {id: 112505, note: "XD-18's library (A7)"}
+  taxation: {id: 112506, note: "XD-18's library (A7)"}
+  wyrm: {id: 112507, note: "Scaldrith paid the promotion's experience once"}
+  asked: {id: 112508, note: "Scaldrith named the tax to a party that could not pay it",
+         journal: "Scaldrith, at the Dragon Tax Office in the Dragon Cave's mouth, wants 2,000 gold and 20 gems before the Dragon King will see you.",
+         until: [tax_paid]}
+  # XD-18's map qbits (block 118100-118109, D-57; 118102-118109 spare)
+  inner_door_open: {id: 118100, map: XD-18, note: "XD-18 (A7): the inner door drawn open after inner_door returned true; its load event opens it"}
+  king_slain: {id: 118101, map: XD-18, note: "XD-18 (A7): the Dragon King slain; the hoard's grate opens on it, on every load"}
+
+autonotes:
+  tax: {id: 4390, text: "The Dragon Tax Office, at the Dragon Cave's mouth on Mount Firestone: 2,000 gold and 20 gems to see the Dragon King. Dragons who have read Dragon Lore become Great Wyrms there.", category: Misc}
+
+awards:
+  worms: {id: 430, text: "Loremaster of Worms", sort: 3}
+  lizards: {id: 431, text: "Loremaster of Lizards", sort: 3}
+  serpents: {id: 432, text: "Loremaster of Serpents", sort: 3}
+  drakes: {id: 433, text: "Loremaster of Drakes", sort: 3}
+  dragons: {id: 434, text: "Loremaster of Dragons", sort: 3}
+  taxman: {id: 435, text: "Taxman Emeritus", sort: 3}
+
+npcs:
+  5702:              # Scaldrith
+    topics:
+      - n: 1
+        label: The tax
+        states:
+          - when: {qbit: tax_paid}
+            text: "Paid in full. Keep the receipt. The dragons inside don't ask for it, but they do eat people who argue."
+          - when: {all: [{gold: 2000}, {lua: "Xeen.gemCount() >= 20"}]}
+            text: "Dragon tax! 2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter. Peering inside the urn, you see that your money has vanished. Scaldrith stamps a receipt. \"Proceed. Mind the dragons; they are exempt from manners.\""
+            do: [{pay: 2000}, {lua: "Xeen.payGems(20)"}, {set: tax_paid}, {autonote: tax}]
+          - text: "Everyone who wants an audience with the Dragon King pays the dragon tax: two thousand gold and twenty gems. No gems, no audience. No exceptions. I was an exception once. Never again."
+            do: [{set: asked}]
+      - n: 2
+        label: Great Wyrm
+        show: {all: [{qbit: tax_paid}, {qbit: volume1}]}
+        states:
+          - when: {all: [{promotable: dragon}, {not: {qbit: wyrm}}]}
+            text: "A dragon who pays tax and reads. Rarer than gold. The last lesson costs the most, and you have paid it. Rise, Great Wyrm."
+            do: [{set: wyrm}, {xp: 12000}, {promote: dragon}]
+          - when: {promotable: dragon}
+            text: "Another dragon who reads? The office is becoming a library. Rise, Great Wyrm."
+            do: [{promote: dragon}]
+          - text: "Great Wyrms are made of dragons, and you have none with you. Paperwork does not stretch that far."
+
+hooks:
+  inner_door:
+    map: XD-18
+    where: "the inner door in the tax hall's east wall (D-57 Q2; XD-18 rooms.yml): its click calls this; true opens it for good (map qbit 118100, opened on every load). False: the fail line on the status line, then the map's `leave` to X7's entrance:xd18_mouth (the source's ejection, xeen/aaze0050:2). The office stays open to all, and the door always opens from inside"
+  king_door:
+    map: XD-18
+    where: "the Dragon King's door (D-89 INWARD: the tax buys the audience and the Great Wyrm promotion only; A7 moves the tax check here from the inner door and drops the inner door's `leave`: true opens it, false has shown the line on the status line, nobody moves)"
+    gate: beat
+    requires: {qbit: tax_paid}
+    reads: [tax_paid]
+    fail_status: true
+    fail_text: "\"Tax first,\" says the door in Scaldrith's voice. It stays shut."
+  urn:
+    map: XD-18
+    where: "the brass urn on the counter's sill in the tax hall (dressing; clicked). Before the tax, the urn waits; after it, the source's line (xeen/aaze0050:1)"
+    states:
+      - when: {qbit: tax_paid}
+        text: "The urn is empty and powerless."
+      - text: "A brass urn on the counter, lettered DRAGON TAX. It is empty, and it looks hungry. The collector is behind the office door."
+  receipt:
+    map: XD-18
+    where: "the last taxpayer's dead end: a knight's remains in good armour, his strongbox (the map's T6 chest) and, pinned under it, a receipt (clicked; the bones, not the chest)"
+    text: "Pinned under the strongbox, a slip from the Dragon Tax Office: \"Paid in full. Receipt no. 4,118. Valid for one entry.\" He had paid. He had also, it seems, argued."
+  volume1:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the lectern in the tax office's waiting room: Dragon Lore, volume 1"
+    sets: [volume1]
+    once: true
+    do: [{award: worms}, {xp: 2000}]
+    text: "Dragon Lore, volume 1: Worms. \"A dragon begins as a worm and ends as a wyrm. The difference is a Y and about nine hundred years.\""
+    else_text: "Dragon Lore, volume 1. You have read it. It has not changed."
+  volume2:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cave's library, shelf 2"
+    sets: [volume2]
+    once: true
+    do: [{award: lizards}, {xp: 2000}]
+    text: "Dragon Lore, volume 2: Lizards. \"A lizard is a dragon that has given up. Do not tell it so.\""
+    else_text: "Dragon Lore, volume 2. Read."
+  volume3:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cave's library, shelf 3"
+    sets: [volume3]
+    once: true
+    do: [{award: serpents}, {xp: 2000}]
+    text: "Dragon Lore, volume 3: Serpents. \"No legs, no wings, and no patience for reading. They will not have got this far.\""
+    else_text: "Dragon Lore, volume 3. Read."
+  volume4:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cave's library, shelf 4"
+    sets: [volume4]
+    once: true
+    do: [{award: drakes}, {xp: 2000}]
+    text: "Dragon Lore, volume 4: Drakes. \"A drake is a dragon that has not yet been taxed.\""
+    else_text: "Dragon Lore, volume 4. Read."
+  volume5:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cave's library, shelf 5, by the Dragon King's door"
+    sets: [volume5]
+    once: true
+    do: [{award: dragons}, {xp: 2000}]
+    text: "Dragon Lore, volume 5: Dragons. \"There is only one. All the others are practice.\""
+    else_text: "Dragon Lore, volume 5. Read."
+  taxation:
+    map: XD-18
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: beat
+    where: "the cave's library, the ledger stand: The Art of Taxation (needs the five volumes read)"
+    requires: {all: [{qbit: volume1}, {qbit: volume2}, {qbit: volume3}, {qbit: volume4}, {qbit: volume5}]}
+    sets: [taxation]
+    once: true
+    do: [{award: taxman}, {xp: 2000}]
+    text: "The Art of Taxation, by Scaldrith. \"Chapter One: Everyone pays. Chapter Two: See Chapter One.\""
+    fail_text: "The Art of Taxation. The first page says: Read the Lore first. Then we'll talk money."
+    else_text: "The Art of Taxation. You know it by heart, regrettably."
+
+rewards: {xp: 24000, gold: "2000 paid", promotion: "Dragon -> Great Wyrm (racial)", awards: "six titles"}
+playthrough: "X7: the Dragon Tax Office (XD-18's mouth): Scaldrith (The tax), 2,000 gold and 20 gems; the lectern (volume 1); Scaldrith (Great Wyrm) for a Dragon. Optional, level 60+: the library's volumes 2-5 and The Art of Taxation."

@@ -1,0 +1,45 @@
+# P4 Plane of Water's own textures (A6's planes sub-agent, seventeenth session, 2026-11-21; D-58 ROWS: Dungeon S, at
+# most 4 new, three named: xpwspray, xpwcoral, xpwhull). xpwhull is not made: MM8's shipped bwoodb1 (the ship planking
+# of MM8's own Plane of Water, elemw) is the wreck's hull (a shipped plank texture first). Made with
+# level_generation/textures_xeen/xtex.py --project level_generation/xeen_art/map_textures/p4; registered by the A6 lead
+# from output/studio_cal/p4/tex/REGISTER_A6.yml.
+dungeons:
+  p4:
+    family_words: >-
+      the drowned temple stone of Might and Magic VIII's temples (gtempflr, gtempw1): blue-grey slate flagstones and
+      pale blue-veined marble, wet and cool, hand-painted in the games' soft painted manner under flat even light
+textures:
+  xpwspray:
+    dungeon: p4
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/gtempflr, mm8/gtempw1]
+    tone: {like: [mm8/gtempflr], factor: 1.05}
+    family: map P4; MM8 temple flagstones (gtempflr) under breaking sea spray
+    where: P4's nine freezing-wave faces (PressurePlate platforms 192 x 192 on the terraces, once per face, fit; planes.wave)
+    standin: gtempflr
+    what: >-
+      The blue-grey slate flagstones of the first reference seen from straight above, their colour, joints and grain
+      unchanged at the edges of the picture, drenched by a wave that has just broken over them: in the middle a wide
+      irregular sheet of white sea foam and lacy spray about half the picture wide, thinning outward into streaks and
+      bubbles of foam lying in the joints, the stone under and round it darkened and glossy with standing sea water in
+      pale aquamarine pools, a little frost-white rime on the wettest stones. The outer quarter of the picture on every
+      side is plain wet flagstone that matches the first reference, so the face sits in a flagstone floor without a
+      seam. No waves standing up, no droplets in the air, no shells, no ice blocks.
+  xpwcoral:
+    dungeon: p4
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/gtempflr, mm8/gtempw1]
+    tone: {like: [mm8/gtempflr], factor: 1.0}
+    family: map P4; MM8 temple flagstones (gtempflr) grown over with coral and shells
+    where: the Coral Garden's terrace top and the coral crusts on the walks' feet (tile, seamless)
+    standin: gtempflr
+    what: >-
+      The blue-grey slate flagstones of the first reference seen from straight above, half grown over by a living reef:
+      low crusts and knobbly heads of coral in muted salmon pink, ochre and pale lilac, small branching sprigs lying
+      flat, scattered cockle and scallop shells and a few tiny spiral snails, patches of green-brown weed in the
+      joints, with the flagstones still showing between the growth in about a third of the picture. Even scatter with
+      no large single feature and nothing centred; hand-painted in the manner of the references, flat even light, no
+      water surface, seamless in both directions.

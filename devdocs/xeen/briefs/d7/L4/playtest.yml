@@ -1,0 +1,899 @@
+# Playtest of the Skyroads (D7, L4): the walk.
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4
+title: 'The Skyroads (D7 L4): from the rope''s head round the whole ring through the four corners, the inner road, into Olympus
+  by its south-west gate, the square, out of the north and east gates, Lucio''s jetty'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_d7.blv
+- note: 'The rope''s head (entrance:d1_rope): the map''s start. The walk checks the ways, not the fights: the hostile groups
+    are cleared first (playtest_hostility counts them).'
+- play_lua:
+    source: log('cleared ' .. clear_hostiles(80000))
+- walk_to:
+    x: -24768
+    y: -6624
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -24768
+    y: -5856
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -26624
+    y: -6144
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -26844
+    y: -4678
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -27422
+    y: -822
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1101
+    z_tolerance: 240
+- walk_to:
+    x: -28001
+    y: 3034
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: 4096
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: 5162
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: 8256
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1198
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: 11349
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1216
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: 12288
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1216
+    z_tolerance: 240
+- walk_to:
+    x: -28230
+    y: 13203
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1216
+    z_tolerance: 240
+- walk_to:
+    x: -28392
+    y: 15308
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1261
+    z_tolerance: 240
+- walk_to:
+    x: -28554
+    y: 17414
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -28672
+    y: 18944
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -26887
+    y: 18870
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -22275
+    y: 18677
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1294
+    z_tolerance: 240
+- walk_to:
+    x: -17664
+    y: 18485
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -16384
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -15144
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -9156
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1294
+    z_tolerance: 240
+- walk_to:
+    x: -3168
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: -1536
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 1
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 2300
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1294
+    z_tolerance: 240
+- walk_to:
+    x: 4598
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 5632
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 6734
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 10751
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1294
+    z_tolerance: 240
+- walk_to:
+    x: 14768
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 16384
+    y: 18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 17965
+    y: 18498
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 22411
+    y: 18683
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1294
+    z_tolerance: 240
+- walk_to:
+    x: 26856
+    y: 18868
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 28672
+    y: 18944
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 28614
+    y: 17424
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1280
+    z_tolerance: 240
+- walk_to:
+    x: 28409
+    y: 12107
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1230
+    z_tolerance: 240
+- walk_to:
+    x: 28205
+    y: 6789
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: 28160
+    y: 5632
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: 28160
+    y: 4395
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: 28160
+    y: 14
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1102
+    z_tolerance: 240
+- walk_to:
+    x: 28160
+    y: -4367
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: 28160
+    y: -5632
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: 28209
+    y: -6906
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: 28411
+    y: -12151
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 909
+    z_tolerance: 240
+- walk_to:
+    x: 28612
+    y: -17395
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 28672
+    y: -18944
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 26845
+    y: -18868
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 22401
+    y: -18683
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 782
+    z_tolerance: 240
+- walk_to:
+    x: 17957
+    y: -18498
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 16384
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 14781
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 10811
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 782
+    z_tolerance: 240
+- walk_to:
+    x: 6841
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 5632
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 4432
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: 23
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 782
+    z_tolerance: 240
+- walk_to:
+    x: -4386
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -5632
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -6973
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -10932
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 782
+    z_tolerance: 240
+- walk_to:
+    x: -14892
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -16384
+    y: -18432
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -17763
+    y: -18489
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -22322
+    y: -18679
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 782
+    z_tolerance: 240
+- walk_to:
+    x: -26881
+    y: -18869
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -28672
+    y: -18944
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -28553
+    y: -17395
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 768
+    z_tolerance: 240
+- walk_to:
+    x: -28394
+    y: -15328
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 814
+    z_tolerance: 240
+- walk_to:
+    x: -28235
+    y: -13262
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 832
+    z_tolerance: 240
+- walk_to:
+    x: -28160
+    y: -12288
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 832
+    z_tolerance: 240
+- walk_to:
+    x: -27933
+    y: -11380
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 832
+    z_tolerance: 240
+- walk_to:
+    x: -27451
+    y: -9454
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 941
+    z_tolerance: 240
+- walk_to:
+    x: -26970
+    y: -7527
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -26624
+    y: -6144
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -24558
+    y: -5674
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1024
+    z_tolerance: 240
+- walk_to:
+    x: -20689
+    y: -4795
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1102
+    z_tolerance: 240
+- walk_to:
+    x: -16821
+    y: -3916
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -15360
+    y: -3584
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -14374
+    y: -2530
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1152
+    z_tolerance: 240
+- walk_to:
+    x: -11018
+    y: 1057
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1485
+    z_tolerance: 240
+- walk_to:
+    x: -7936
+    y: 4352
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -7936
+    y: 5888
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -6272
+    y: 5888
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -5120
+    y: 5888
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -4608
+    y: 6400
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 6400
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 9216
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3072
+    y: 10048
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3072
+    y: 10560
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3072
+    y: 10048
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 9216
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -2048
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -768
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -320
+    y: 5792
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: 3656
+    y: 4513
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1614
+    z_tolerance: 240
+- walk_to:
+    x: -320
+    y: 5792
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -768
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -2048
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 7488
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 5888
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -3328
+    y: 4096
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -2048
+    y: 3968
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1808
+    z_tolerance: 240
+- walk_to:
+    x: -1280
+    y: 3616
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1804
+    z_tolerance: 240
+- walk_to:
+    x: -640
+    y: 3200
+    radius: 192
+    timeout_seconds: 120
+    close_dialogs: true
+    z: 1804
+    z_tolerance: 240
+- note: 'Lucio''s jetty: entrance:olympus_dock; m31.arrival ran on stepping onto it (its started bit).'
+- assert:
+    qbit_set:
+    - 111620
+- assert:
+    map: xeen_d7.blv

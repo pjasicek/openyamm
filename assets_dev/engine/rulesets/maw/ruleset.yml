@@ -16,8 +16,9 @@ credits:
   - With thanks to GrayFace and Rodril
 contentSchemaVersion: 1
 # The worlds MAW plays in: its four continents, Jadame, Antagarich, Enroth and Chedian (MM9: the user, 2026-11-09;
-# devdocs/maw/MM9_SUPPORT.md). A world left out here is greyed out at a new game and has no dimension door portal.
-worlds: [mm6, mm7, mm8, mm9]
+# devdocs/maw/MM9_SUPPORT.md), and the World of Xeen, its fifth (both faces; devdocs/maw/XEEN_SUPPORT.md). A world left
+# out here is greyed out at a new game and has no dimension door portal.
+worlds: [mm6, mm7, mm8, mm9, xeen]
 # The player's guide, linked from the Rules panel and the journal's Progress tab.
 guide_url: https://jasicek.net/openyamm/maw-guide/
 # The ids MAW's own rows take (the quests and topics it adds, its boss names, the Lich Troll portrait); a world may not
@@ -244,6 +245,20 @@ tables:
   - table: character_selection.yml
     mode: replace
     path: content/character_selection.yml
+  # Xeen's new-game card with MAW's four new class lines (written by tools/maw/xeen_balance.py from the world's own).
+  - world: xeen
+    table: data_tables/new_game_continents.yml
+    mode: replace
+    path: worlds/xeen/new_game_continents.yml
+  # Xeen's Seers (devdocs/maw/XEEN_SUPPORT.md section 7): the skill reset (10010, 10011) and Dimensional Maps (10040)
+  # on Zephyra, Castle Burlock's Court Magician (X4, npc 4312), and Madame Oorla in Castleview (D1, npc 4921), in
+  # their free topic slots 2-4 (Global_maw.lua's DimensionMapsSlots names slot 4).
+  - world: xeen
+    table: data_tables/npc.txt
+    mode: override
+    path: worlds/xeen/npc_seers_patch.txt
+    keyColumn: 0
+    headerRow: 2
   - table: english/class.txt
     mode: override
     path: content/class_patch.txt

@@ -1,0 +1,32 @@
+# Town Portal destinations (WORLD_DESIGN 3.3; ROADMAP 5.6): six towns per face on two face pages.
+# Owner: A4. tools/xeen/gen_towns.py writes town_portal_switch.txt rows (engine columns) for every destination whose
+# arrival exists (its town file is written); A1's W4 turns the two groups into the world's pages.
+# Each destination opens when the party touches that town's mirror: the mirror's qbit is the Town Portal qbit
+# (qbits 119001-119012, requested from the orchestrator for A4's travel state).
+# icon: the hover picture and its box on the page art (640x480 units): level_generation/ui/xeen_town_portal_20261120/.
+# Page art: icons_x2/tpcloudside.png, tpdarkside.png.
+pages:
+  - group: TPCloudside
+    label: Cloudside
+    continent: 6
+    face: cloudside
+    art: tpcloudside
+    destinations:
+      - {town: Vertigo, map: X1, arrival: vertigo_square, qbit: 119001, icon: {name: tpvertigo, x: 400, y: 281, w: 83, h: 50}}
+      - {town: Rivercity, map: X2, arrival: rivercity_square, qbit: 119002, icon: {name: tprivercity, x: 310, y: 232, w: 108, h: 48}}
+      - {town: Castle Burlock, map: X4, arrival: burlock_square, qbit: 119003, icon: {name: tpcastleburlock, x: 220, y: 113, w: 84, h: 61}}
+      - {town: Winterkill, map: X5, arrival: winterkill_square, qbit: 119004, icon: {name: tpwinterkill, x: 100, y: 283, w: 72, h: 60}}
+      - {town: Nightshadow, map: X3, arrival: nightshadow_square, qbit: 119005, icon: {name: tpnightshadow, x: 205, y: 327, w: 80, h: 51}}
+      - {town: Newcastle, map: X3, arrival: newcastle_gate, qbit: 119006, icon: {name: tpnewcastle, x: 222, y: 276, w: 82, h: 49}}
+  - group: TPDarkside
+    label: Darkside
+    continent: 7
+    face: darkside
+    art: tpdarkside
+    destinations:
+      - {town: Castleview, map: D1, arrival: castleview_square, qbit: 119007, icon: {name: tpcastleview, x: 77, y: 248, w: 98, h: 55}}
+      - {town: Castle Kalindra, map: D1, arrival: kalindra_gate, qbit: 119008, icon: {name: tpcastlekalindra, x: 85, y: 307, w: 45, h: 44}}
+      - {town: Sandcaster, map: D3, arrival: sandcaster_square, qbit: 119009, icon: {name: tpsandcaster, x: 375, y: 217, w: 89, h: 58}}
+      - {town: Lakeside, map: D4, arrival: lakeside_square, qbit: 119010, icon: {name: tplakeside, x: 382, y: 163, w: 64, h: 40}}
+      - {town: Necropolis, map: D6, arrival: necropolis_gate, qbit: 119011, icon: {name: tpnecropolis, x: 121, y: 136, w: 84, h: 59}}
+      - {town: Olympus, map: D7, arrival: olympus_square, qbit: 119012, icon: {name: tpolympus, x: 327, y: 53, w: 91, h: 43}}

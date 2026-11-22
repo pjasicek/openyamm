@@ -1,0 +1,983 @@
+format: 0
+start:
+  room: room:mouth
+  at: [256, 0]
+  facing: e
+  notes: "In the cave mouth about 256 inside, facing east into the cave."
+arrivals:
+  - {entrance: entrance:x7_mouth, room: room:mouth, at: [256, 0], facing: e, notes: "In the cave mouth about 256 inside, facing east (X7's door between the idols arrives here)."}
+  - {entrance: entrance:xd17_way, room: room:cool_passage, at: [4864, -18176], facing: n, notes: "In the cool passage about 256 inside its far end, facing back down toward the last cave (XD-17's way back arrives here; XD-17 is not built)."}
+doors:
+  - id: door:shrine
+    opening: open:fissure_shrine
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: The demon shrine's iron door.
+  - id: door:slab_1
+    opening: open:gate_1_2
+    kind: slide_down
+    thickness: 48
+    speed: 96
+    surface: {texture: c2bb, size: [256, 256]}
+    edge_surface: {texture: 7solid01, size: [16, 16]}
+    top_surface: {texture: 7solid01, size: [16, 16]}
+    tile: true
+    notes: "The first slab of black rock across the gate run: its lever stone on the pillar grinds it down into the floor (one-way, D-43)."
+  - id: door:slab_2
+    opening: open:gate_2_3
+    kind: slide_down
+    thickness: 48
+    speed: 96
+    surface: {texture: c2bb, size: [256, 256]}
+    edge_surface: {texture: 7solid01, size: [16, 16]}
+    top_surface: {texture: 7solid01, size: [16, 16]}
+    tile: true
+    notes: "The second slab of black rock across the gate run: its lever stone on the pillar grinds it down into the floor (one-way, D-43)."
+  - id: door:slab_3
+    opening: open:gate_3_4
+    kind: slide_down
+    thickness: 48
+    speed: 96
+    surface: {texture: c2bb, size: [256, 256]}
+    edge_surface: {texture: 7solid01, size: [16, 16]}
+    top_surface: {texture: 7solid01, size: [16, 16]}
+    tile: true
+    notes: "The third slab of black rock across the gate run: its lever stone on the pillar grinds it down into the floor (one-way, D-43)."
+  - id: door:slab_4
+    opening: open:gate_4_5
+    kind: slide_down
+    thickness: 48
+    speed: 96
+    surface: {texture: c2bb, size: [256, 256]}
+    edge_surface: {texture: 7solid01, size: [16, 16]}
+    top_surface: {texture: 7solid01, size: [16, 16]}
+    tile: true
+    notes: "The fourth slab of black rock across the gate run: its lever stone on the pillar grinds it down into the floor (one-way, D-43)."
+  - id: door:vault
+    opening: open:ante_vault
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The vault's iron door (one leaf); smoke curls from under it."
+  - id: door:way
+    opening: open:last_way
+    kind: slide_left
+    thickness: 48
+    speed: 64
+    surface: {texture: c2bb, size: [256, 256]}
+    edge_surface: {texture: c2b, size: [256, 256]}
+    tile: true
+    notes: "The way's rock: bare rock, hot to the touch; it grinds aside into the wall when the second skull breaks (q-c26.done) and stands open on every later load (D-47 Q4)."
+floors:
+  - {id: floor:heart, of: level:heart, kind: lava}
+  - {id: floor:lake, of: level:lake, kind: lava}
+  - {id: floor:river_n, of: level:river_n, kind: lava}
+  - {id: floor:river_s, of: level:river_s, kind: lava}
+sounds:
+  - {id: sound:cool, room: room:cool_passage, at: [4864, -18176], sound: whistling wind, radius: 1400, inner_radius: 400, volume: 0.3, notes: Cool air through the fallen stones.}
+  - {id: sound:heart, room: room:magma_heart, at: [4864, -14144], sound: bubbling cauldron01, radius: 3200, inner_radius: 1200, volume: 0.5}
+  - {id: sound:lake, room: room:fire_lake, at: [4608, 0], sound: bubbling cauldron01, radius: 3200, inner_radius: 1200, volume: 0.5, notes: The lava's bubbling (the shipped cauldron).}
+  - {id: sound:river, room: room:magma_caves, at: [2496, -5248], sound: bubbling cauldron01, radius: 2200, inner_radius: 700, volume: 0.4}
+lights:
+  - id: light:ash_gallery
+    room: room:ash_gallery
+    at: [1920, 0]
+    height: 320
+    radius: 1400
+    color: [200, 120, 80]
+  - id: light:ash_pits
+    room: room:ash_pits
+    at: [6848, -13440]
+    height: 440
+    radius: 1500
+    color: [200, 120, 80]
+  - id: light:chest_vault
+    room: room:chest_vault
+    at: [2176, -1856]
+    height: 400
+    radius: 1100
+    color: [200, 120, 80]
+  - id: light:cinder_run
+    room: room:cinder_run
+    at: [6464, 512]
+    height: 280
+    radius: 1600
+    color: [200, 120, 80]
+  - id: light:cool_passage
+    room: room:cool_passage
+    at: [4864, -17664]
+    height: 320
+    radius: 900
+    color: [190, 210, 230]
+  - id: light:deep_steps
+    room: room:deep_stair
+    at: [4416, -10560]
+    height: 320
+    radius: 1000
+    color: [200, 120, 80]
+  - id: light:demon_shrine
+    room: room:demon_shrine
+    at: [5696, 4096]
+    height: 560
+    radius: 1500
+    color: [255, 140, 80]
+  - id: light:ember_pocket
+    room: room:ember_pocket
+    at: [5504, -11136]
+    height: 320
+    radius: 800
+    color: [255, 120, 48]
+  - id: light:ember_vent
+    room: room:ember_pocket
+    at: [5376, -10944]
+    height: 400
+    radius: 500
+    color: [255, 90, 30]
+    pulse: {intensity: [0.3, 1], frequency: 0.5}
+  - id: light:embers_trap_1
+    room: room:chest_vault
+    at: [1760, -2312]
+    floor_height: 32
+    height: 24
+    radius: 240
+    color: [255, 100, 24]
+    pulse: {intensity: [0.45, 1], frequency: 0.7, phase: 0}
+  - id: light:embers_trap_2
+    room: room:chest_vault
+    at: [1928, -2312]
+    floor_height: 32
+    height: 24
+    radius: 240
+    color: [255, 100, 24]
+    pulse: {intensity: [0.45, 1], frequency: 0.7, phase: 0.17}
+  - id: light:embers_trap_3
+    room: room:chest_vault
+    at: [2264, -2312]
+    floor_height: 32
+    height: 24
+    radius: 240
+    color: [255, 100, 24]
+    pulse: {intensity: [0.45, 1], frequency: 0.7, phase: 0.5}
+  - id: light:embers_trap_4
+    room: room:chest_vault
+    at: [2432, -2312]
+    floor_height: 32
+    height: 24
+    radius: 240
+    color: [255, 100, 24]
+    pulse: {intensity: [0.45, 1], frequency: 0.7, phase: 0.67}
+  - id: light:embers_trap_5
+    room: room:chest_vault
+    at: [2600, -2312]
+    floor_height: 32
+    height: 24
+    radius: 240
+    color: [255, 100, 24]
+    pulse: {intensity: [0.45, 1], frequency: 0.7, phase: 0.83}
+  - id: light:fissure
+    room: room:fissure
+    at: [5568, 2496]
+    height: 520
+    radius: 1100
+    color: [255, 150, 70]
+  - id: light:gate_run_1
+    room: room:gate_run_1
+    at: [4416, -6656]
+    height: 320
+    radius: 600
+    color: [200, 120, 80]
+  - id: light:gate_run_3
+    room: room:gate_run_3
+    at: [4416, -7936]
+    height: 320
+    radius: 600
+    color: [200, 120, 80]
+  - id: light:gate_run_5
+    room: room:gate_run_5
+    at: [4416, -9216]
+    height: 320
+    radius: 600
+    color: [200, 120, 80]
+  - id: light:glass_caves
+    room: room:glass_caves
+    at: [2880, -13440]
+    height: 480
+    radius: 1500
+    color: [230, 110, 90]
+  - id: light:heart_1
+    room: room:magma_heart
+    at: [4352, -13440]
+    height: 160
+    radius: 1700
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:heart_2
+    room: room:magma_heart
+    at: [5376, -13440]
+    height: 160
+    radius: 1700
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:heart_3
+    room: room:magma_heart
+    at: [4352, -14848]
+    height: 160
+    radius: 1700
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:heart_4
+    room: room:magma_heart
+    at: [5376, -14848]
+    height: 160
+    radius: 1700
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:heart_5
+    room: room:magma_heart
+    at: [4864, -14144]
+    height: 160
+    radius: 1700
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:isle
+    room: room:fire_lake
+    at: [4736, 0]
+    height: 512
+    radius: 1000
+    color: [255, 150, 90]
+  - id: light:lake_1
+    room: room:fire_lake
+    at: [3840, 704]
+    height: 160
+    radius: 1600
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:lake_2
+    room: room:fire_lake
+    at: [3840, -704]
+    height: 160
+    radius: 1600
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:lake_3
+    room: room:fire_lake
+    at: [5376, 704]
+    height: 160
+    radius: 1600
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:lake_4
+    room: room:fire_lake
+    at: [5376, -704]
+    height: 160
+    radius: 1600
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:lake_5
+    room: room:fire_lake
+    at: [5376, 0]
+    height: 160
+    radius: 1600
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:landing
+    room: room:landing
+    at: [4864, -12032]
+    height: 400
+    radius: 1100
+    color: [210, 120, 120]
+  - id: light:last_cave
+    room: room:last_cave
+    at: [4864, -16256]
+    height: 400
+    radius: 900
+    color: [230, 110, 70]
+  - id: light:lever_hall
+    room: room:lever_hall
+    at: [4416, -4608]
+    height: 720
+    radius: 1400
+    color: [230, 150, 110]
+  - id: light:mouth
+    room: room:mouth
+    at: [384, 0]
+    height: 360
+    radius: 1200
+    color: [255, 236, 200]
+  - id: light:river_1
+    room: room:magma_caves
+    at: [2496, -4800]
+    height: 160
+    radius: 1300
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:river_2
+    room: room:magma_caves
+    at: [2496, -5664]
+    height: 160
+    radius: 1300
+    color: [255, 104, 40]
+    pulse: {intensity: [0.6, 1], frequency: 0.33}
+  - id: light:slag_pocket
+    room: room:slag_pocket
+    at: [1216, -5248]
+    height: 320
+    radius: 800
+    color: [200, 120, 80]
+  - id: light:stair_foot
+    room: room:stair_foot
+    at: [5760, -5120]
+    height: 400
+    radius: 900
+    color: [200, 120, 80]
+  - id: light:stair_head
+    room: room:stair_head
+    at: [5760, -2048]
+    height: 400
+    radius: 900
+    color: [200, 120, 80]
+  - id: light:steam_vents
+    room: room:steam_vents
+    at: [5952, -6336]
+    height: 440
+    radius: 1200
+    color: [200, 120, 80]
+  - id: light:steps
+    room: room:rough_steps
+    at: [5760, -3584]
+    height: 320
+    radius: 1000
+    color: [200, 120, 80]
+  - id: light:vault_ante
+    room: room:vault_ante
+    at: [2176, -928]
+    height: 320
+    radius: 900
+    color: [200, 120, 80]
+switches:
+  - id: switch:lever_1
+    room: room:lever_hall
+    kind: lever
+    reach: 64
+    base: {texture: cwb, size: [128, 256]}
+    block: platform:pillar
+    side: n
+    height: 128
+    size: [24, 72]
+    off: {texture: ch1b1, size: [128, 256]}
+    notes: The first slab's lever stone on the pillar's north side.
+  - id: switch:lever_2
+    room: room:lever_hall
+    kind: lever
+    reach: 64
+    base: {texture: cwb, size: [128, 256]}
+    block: platform:pillar
+    side: e
+    height: 128
+    size: [24, 72]
+    off: {texture: ch1b1, size: [128, 256]}
+    notes: The second slab's lever stone on the pillar's east side.
+  - id: switch:lever_3
+    room: room:lever_hall
+    kind: lever
+    reach: 64
+    base: {texture: cwb, size: [128, 256]}
+    block: platform:pillar
+    side: s
+    height: 128
+    size: [24, 72]
+    off: {texture: ch1b1, size: [128, 256]}
+    notes: The third slab's lever stone on the pillar's south side.
+  - id: switch:lever_4
+    room: room:lever_hall
+    kind: lever
+    reach: 64
+    base: {texture: cwb, size: [128, 256]}
+    block: platform:pillar
+    side: w
+    height: 128
+    size: [24, 72]
+    off: {texture: ch1b1, size: [128, 256]}
+    notes: The fourth slab's lever stone on the pillar's west side.
+chests:
+  - id: chest:ante
+    room: room:vault_ante
+    at: [1904, -1280]
+    kind: ch1
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: "A lone chest by the wall (the source's (15,11))."
+  - id: chest:ember
+    room: room:ember_pocket
+    at: [5760, -10880]
+    kind: ch1
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: A chest at the pocket's end.
+  - id: chest:slag
+    room: room:slag_pocket
+    at: [896, -5504]
+    kind: ch1
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: An old dwarf's chest by his pick and pack.
+  - id: chest:trap_1
+    room: room:chest_vault
+    at: [1760, -2376]
+    kind: ch1
+    facing: n
+    random_items: 0
+    notes: "A trap chest (D-47 Q2): embers glow under it; it bursts in flame on the first opening and holds nothing."
+  - id: chest:trap_2
+    room: room:chest_vault
+    at: [1928, -2376]
+    kind: ch1
+    facing: n
+    random_items: 0
+    notes: "A trap chest (D-47 Q2): embers glow under it; it bursts in flame on the first opening and holds nothing."
+  - id: chest:trap_3
+    room: room:chest_vault
+    at: [2264, -2376]
+    kind: ch1
+    facing: n
+    random_items: 0
+    notes: "A trap chest (D-47 Q2): embers glow under it; it bursts in flame on the first opening and holds nothing."
+  - id: chest:trap_4
+    room: room:chest_vault
+    at: [2432, -2376]
+    kind: ch1
+    facing: n
+    random_items: 0
+    notes: "A trap chest (D-47 Q2): embers glow under it; it bursts in flame on the first opening and holds nothing."
+  - id: chest:trap_5
+    room: room:chest_vault
+    at: [2600, -2376]
+    kind: ch1
+    facing: n
+    random_items: 0
+    notes: "A trap chest (D-47 Q2): embers glow under it; it bursts in flame on the first opening and holds nothing."
+  - id: chest:vault_real
+    room: room:chest_vault
+    at: [2096, -2376]
+    kind: ch1
+    facing: n
+    treasure_level: 5
+    random_items: 4
+    gold: 4000
+    notes: "The vault's one real chest (the third from the west): no embers under it."
+  - id: chest:vents
+    room: room:steam_vents
+    at: [6400, -6912]
+    kind: ch1
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: A chest wedged in a dry corner.
+monsters:
+  - id: monster:ash_gallery_1
+    room: room:ash_gallery
+    monster: 11630
+    at: [1664, -128]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:ash_gallery_2
+    room: room:ash_gallery
+    monster: 11630
+    at: [2048, 128]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:ash_gallery_3
+    room: room:ash_gallery
+    monster: 11630
+    at: [2560, -96]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:ash_pits_1
+    room: room:ash_pits
+    monster: 11631
+    at: [6848, -13248]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:ash_pits_2
+    room: room:ash_pits
+    monster: 11632
+    at: [6848, -14336]
+    facing: 90
+    hostile: true
+    group: 32
+  - id: monster:cinder_run_1
+    room: room:cinder_run
+    monster: 11630
+    at: [6464, 1792]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:cinder_run_2
+    room: room:cinder_run
+    monster: 11630
+    at: [6464, -512]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:demon_shrine_1
+    room: room:demon_shrine
+    monster: 11630
+    at: [5248, 4096]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:demon_shrine_2
+    room: room:demon_shrine
+    monster: 11630
+    at: [6144, 4096]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:demon_shrine_3
+    room: room:demon_shrine
+    monster: 11630
+    at: [5696, 3840]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:ember_pocket_1
+    room: room:ember_pocket
+    monster: 11631
+    at: [5376, -11008]
+    facing: 270
+    hostile: true
+    group: 30
+  - id: monster:ember_pocket_2
+    room: room:ember_pocket
+    monster: 11632
+    at: [5696, -11136]
+    facing: 270
+    hostile: true
+    group: 30
+  - id: monster:fire_lake_1
+    room: room:fire_lake
+    monster: 11630
+    at: [3328, 1344]
+    facing: 180
+    hostile: true
+    group: 11
+  - id: monster:fire_lake_2
+    room: room:fire_lake
+    monster: 11630
+    at: [3328, -1344]
+    facing: 180
+    hostile: true
+    group: 11
+  - id: monster:fire_lake_3
+    room: room:fire_lake
+    monster: 11631
+    at: [5920, 1344]
+    facing: 180
+    hostile: true
+    group: 11
+  - id: monster:fire_lake_4
+    room: room:fire_lake
+    monster: 11631
+    at: [4544, 192]
+    facing: 180
+    hostile: true
+    group: 12
+  - id: monster:fire_lake_5
+    room: room:fire_lake
+    monster: 11631
+    at: [4928, 192]
+    facing: 180
+    hostile: true
+    group: 12
+  - id: monster:fire_lake_6
+    room: room:fire_lake
+    monster: 11631
+    at: [4928, -192]
+    facing: 180
+    hostile: true
+    group: 12
+  - id: monster:fissure_1
+    room: room:fissure
+    monster: 11630
+    at: [5440, 2368]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:fissure_2
+    room: room:fissure
+    monster: 11630
+    at: [5696, 2880]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:gate_run_4_1
+    room: room:gate_run_4
+    monster: 11632
+    at: [4416, -8576]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:gate_run_5_1
+    room: room:gate_run_5
+    monster: 11631
+    at: [4320, -9216]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:gate_run_5_2
+    room: room:gate_run_5
+    monster: 11631
+    at: [4512, -9216]
+    facing: 90
+    hostile: true
+    group: 23
+  - id: monster:glass_caves_1
+    room: room:glass_caves
+    monster: 11630
+    at: [2880, -14336]
+    facing: 90
+    hostile: true
+    group: 31
+  - id: monster:glass_caves_2
+    room: room:glass_caves
+    monster: 11630
+    at: [2880, -13248]
+    facing: 90
+    hostile: true
+    group: 31
+  - id: monster:glass_caves_3
+    room: room:glass_caves
+    monster: 11631
+    at: [3456, -12160]
+    facing: 90
+    hostile: true
+    group: 31
+  - id: monster:lever_hall_1
+    room: room:lever_hall
+    monster: 11630
+    at: [3904, -4672]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:lever_hall_2
+    room: room:lever_hall
+    monster: 11630
+    at: [3904, -5888]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:lever_hall_3
+    room: room:lever_hall
+    monster: 11631
+    at: [4928, -5888]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:magma_caves_1
+    room: room:magma_caves
+    monster: 11630
+    at: [3136, -4800]
+    facing: 0
+    hostile: true
+    group: 22
+  - id: monster:magma_caves_2
+    room: room:magma_caves
+    monster: 11630
+    at: [3136, -5696]
+    facing: 0
+    hostile: true
+    group: 22
+  - id: monster:magma_caves_3
+    room: room:magma_caves
+    monster: 11631
+    at: [2048, -5248]
+    facing: 0
+    hostile: true
+    group: 22
+  - id: monster:magma_heart_1
+    room: room:magma_heart
+    monster: 11632
+    at: [4864, -12928]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:magma_heart_2
+    room: room:magma_heart
+    monster: 11632
+    at: [3744, -14144]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:magma_heart_3
+    room: room:magma_heart
+    monster: 11632
+    at: [5984, -14144]
+    facing: 270
+    hostile: true
+    group: 33
+  - id: monster:steam_vents_1
+    room: room:steam_vents
+    monster: 11630
+    at: [5760, -6272]
+    facing: 90
+    hostile: true
+    group: 21
+  - id: monster:steam_vents_2
+    room: room:steam_vents
+    monster: 11630
+    at: [6208, -6656]
+    facing: 90
+    hostile: true
+    group: 21
+  - id: monster:steam_vents_3
+    room: room:steam_vents
+    monster: 11631
+    at: [5952, -6784]
+    facing: 90
+    hostile: true
+    group: 21
+  - id: monster:vault_ante_1
+    room: room:vault_ante
+    monster: 11631
+    at: [2048, -960]
+    facing: 90
+    hostile: true
+    group: 16
+  - id: monster:vault_ante_2
+    room: room:vault_ante
+    monster: 11631
+    at: [2368, -1152]
+    facing: 90
+    hostile: true
+    group: 16
+decorations:
+  - id: deco:brazier_1
+    room: room:demon_shrine
+    decoration: flamb00
+    at: [5248, 4480]
+  - id: deco:brazier_2
+    room: room:demon_shrine
+    decoration: flamb00
+    at: [6144, 4480]
+  - id: deco:brazier_3
+    room: room:demon_shrine
+    decoration: flamb00
+    at: [5248, 3712]
+  - id: deco:brazier_4
+    room: room:demon_shrine
+    decoration: flamb00
+    at: [6144, 3712]
+  - id: deco:demon_skull
+    room: room:demon_shrine
+    decoration: 7dec20
+    at: [5696, 4480]
+    floor_height: 96
+    notes: The skull of a demon on the black altar.
+  - id: deco:devil_skull
+    room: room:fire_lake
+    decoration: 7dec20
+    at: [4736, 0]
+    floor_height: 96
+    notes: The skull of a devil on the island's black altar.
+  - id: deco:rubble_01
+    room: room:mouth
+    decoration: dec29
+    at: [128, 320]
+  - id: deco:rubble_02
+    room: room:mouth
+    decoration: 7dec18
+    at: [640, -320]
+  - id: deco:rubble_03
+    room: room:ash_gallery
+    decoration: 7dec18
+    at: [1216, 240]
+  - id: deco:rubble_04
+    room: room:ash_gallery
+    decoration: dec29
+    at: [2752, -256]
+  - id: deco:rubble_05
+    room: room:fire_lake
+    decoration: dec29
+    at: [3200, 1440]
+  - id: deco:rubble_06
+    room: room:fire_lake
+    decoration: 7dec18
+    at: [6048, -1440]
+  - id: deco:rubble_07
+    room: room:fire_lake
+    decoration: dec19
+    at: [3168, -1440]
+  - id: deco:rubble_08
+    room: room:fissure
+    decoration: dec29
+    at: [5344, 3200]
+  - id: deco:rubble_09
+    room: room:cinder_run
+    decoration: dec29
+    at: [6560, 2560]
+  - id: deco:rubble_10
+    room: room:cinder_run
+    decoration: dec29
+    at: [6368, 448]
+  - id: deco:rubble_11
+    room: room:stair_head
+    decoration: 7dec18
+    at: [5472, -2336]
+  - id: deco:rubble_12
+    room: room:steam_vents
+    decoration: dec29
+    at: [5504, -6912]
+  - id: deco:rubble_13
+    room: room:steam_vents
+    decoration: 7dec18
+    at: [6400, -5760]
+  - id: deco:rubble_14
+    room: room:magma_caves
+    decoration: dec29
+    at: [1920, -4608]
+  - id: deco:rubble_15
+    room: room:magma_caves
+    decoration: dec29
+    at: [3328, -5888]
+  - id: deco:rubble_16
+    room: room:slag_pocket
+    decoration: 7rock03
+    at: [1536, -4992]
+  - id: deco:rubble_17
+    room: room:glass_caves
+    decoration: 7dec18
+    at: [2432, -11904]
+  - id: deco:rubble_18
+    room: room:glass_caves
+    decoration: dec29
+    at: [3328, -14976]
+  - id: deco:rubble_19
+    room: room:ash_pits
+    decoration: dec29
+    at: [7296, -11904]
+  - id: deco:rubble_20
+    room: room:ash_pits
+    decoration: 7dec18
+    at: [6400, -14976]
+  - id: deco:rubble_21
+    room: room:magma_heart
+    decoration: dec29
+    at: [3712, -12800]
+  - id: deco:rubble_22
+    room: room:magma_heart
+    decoration: 7dec18
+    at: [6016, -15488]
+  - id: deco:rubble_23
+    room: room:last_cave
+    decoration: dec19
+    at: [5184, -16640]
+  - id: deco:rubble_24
+    room: room:ember_pocket
+    decoration: Brnrock0
+    at: [5248, -10880]
+  - id: deco:rubble_25
+    room: room:chest_vault
+    decoration: dec29
+    at: [1664, -1664]
+  - id: deco:rubble_26
+    room: room:slag_pocket
+    decoration: 7dec18
+    at: [1536, -5504]
+  - id: deco:smoke_trap_1
+    room: room:chest_vault
+    decoration: smoke
+    at: [1760, -2288]
+    floor_height: 32
+    notes: "A thin smoke over the embers at the trap chest's foot (the tell); the real chest has none."
+  - id: deco:smoke_trap_2
+    room: room:chest_vault
+    decoration: smoke
+    at: [1928, -2288]
+    floor_height: 32
+    notes: "A thin smoke over the embers at the trap chest's foot (the tell); the real chest has none."
+  - id: deco:smoke_trap_3
+    room: room:chest_vault
+    decoration: smoke
+    at: [2264, -2288]
+    floor_height: 32
+    notes: "A thin smoke over the embers at the trap chest's foot (the tell); the real chest has none."
+  - id: deco:smoke_trap_4
+    room: room:chest_vault
+    decoration: smoke
+    at: [2432, -2288]
+    floor_height: 32
+    notes: "A thin smoke over the embers at the trap chest's foot (the tell); the real chest has none."
+  - id: deco:smoke_trap_5
+    room: room:chest_vault
+    decoration: smoke
+    at: [2600, -2288]
+    floor_height: 32
+    notes: "A thin smoke over the embers at the trap chest's foot (the tell); the real chest has none."
+  - id: deco:torch_01
+    room: room:demon_shrine
+    decoration: torch01
+    at: [4748, 4096]
+    height: 176
+  - id: deco:torch_02
+    room: room:demon_shrine
+    decoration: torch01
+    at: [6644, 4096]
+    height: 176
+  - id: deco:torch_03
+    room: room:demon_shrine
+    decoration: torch01
+    at: [5248, 4724]
+    height: 176
+  - id: deco:torch_04
+    room: room:demon_shrine
+    decoration: torch01
+    at: [6144, 4724]
+    height: 176
+  - id: deco:torch_05
+    room: room:vault_ante
+    decoration: torch01
+    at: [1804, -768]
+    height: 176
+  - id: deco:torch_06
+    room: room:chest_vault
+    decoration: torch01
+    at: [1548, -1920]
+    height: 176
+  - id: deco:torch_07
+    room: room:chest_vault
+    decoration: torch01
+    at: [2804, -1920]
+    height: 176
+exits:
+  - id: exit:mouth
+    room: room:mouth
+    wall: west
+    size: [448, 384]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:x7_mouth
+    notes: "The cave mouth: daylight on X7's slope between the idols."
+  - id: exit:way_end
+    room: room:cool_passage
+    at: [4864, -18432]
+    size: [256, 320]
+    surface: {texture: 7solid01, size: [128, 256]}
+    to: exit:xd17_way
+    notes: "The passage's end: fallen stones with cool air between them, the way to XD-17."
+relations: []
+destructibles:
+  - {id: destructible:demon_skull, of: deco:demon_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: "Broken only by the altar's question (q-c26.demon_skull); shown broken on every later load."}
+  - {id: destructible:devil_skull, of: deco:devil_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: Broken only by the altar's question (q-c26.devil_skull).}

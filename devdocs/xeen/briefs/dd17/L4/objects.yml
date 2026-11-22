@@ -1,0 +1,1442 @@
+format: 0
+start:
+  room: room:gatehall
+  at: [0, -4736]
+  facing: n
+  notes: "Inside the gate, facing the Hall of Order's leaves."
+arrivals:
+  - {entrance: entrance:d6_gate, room: room:gatehall, at: [0, -4736], facing: n, notes: "From D6's door:dd17 (A6, m33.castle_door)."}
+  - {entrance: entrance:d7_roof, room: room:hatch_room, at: [-2832, 2336], floor_height: 1280, facing: e, notes: "From D7's door:dd17 (A6, q-d26.hatch): at the ladder's foot, facing east."}
+doors:
+  - id: door:ante_command
+    opening: open:ante_command
+    kind: slide_left
+    leaves: 2
+    pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    back_pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    notes: "Command Central's two leaves (hover 'Command Central', aaze0051:3): a blast door parting in the middle."
+  - id: door:deck_bay
+    opening: open:deck_bay
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The robot bay's door.
+  - id: door:deck_screen
+    opening: open:deck_screen
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The screen room's door.
+  - id: door:ew_store
+    opening: open:ew_store
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The parts store's door.
+  - id: door:ew_watch
+    opening: open:ew_watch
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The moat watch's door.
+  - id: door:ewalk_post
+    opening: open:ewalk_post
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The watchers' post's door.
+  - id: door:field_air
+    opening: open:ne_dial
+    kind: slide_down
+    fold: true
+    speed: 256
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The air field (xafield, translucent 0.5, D-51) across the sundial alcove: it drops when the air Lava Head is shut down (one-way, D-43)."
+  - id: door:field_earth
+    opening: open:se_dial
+    kind: slide_down
+    fold: true
+    speed: 256
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The earth field (xafield, translucent 0.5, D-51) across the sundial alcove: it drops when the earth Lava Head is shut down (one-way, D-43)."
+  - id: door:field_fire
+    opening: open:nw_dial
+    kind: slide_down
+    fold: true
+    speed: 256
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The fire field (xafield, translucent 0.5, D-51) across the sundial alcove: it drops when the fire Lava Head is shut down (one-way, D-43)."
+  - id: door:field_water
+    opening: open:sw_dial
+    kind: slide_down
+    fold: true
+    speed: 256
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    tile: true
+    notes: "The water field (xafield, translucent 0.5, D-51) across the sundial alcove: it drops when the water Lava Head is shut down (one-way, D-43)."
+  - id: door:gate
+    opening: open:gate
+    kind: hinged
+    leaves: 2
+    surface: {texture: xaglyph, size: [128, 256], fit: true}
+    notes: "The true-name gate: two hinged leaves of xaglyph (the left leaf's picture, mirrored on the right, completes the glyph ring); it opens on 'Sheltem' (m33.true_name_gate) and stays open."
+  - id: door:gate_hall
+    opening: open:gate_hall
+    kind: slide_left
+    leaves: 2
+    pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    back_pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    notes: "The gate's inner leaves: a blast door (swdoora) on each leaf, the right one mirrored, parting in the middle."
+  - id: door:hall_stair
+    opening: open:hall_stair
+    kind: slide_left
+    leaves: 2
+    pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    back_pictures:
+      - [{texture: swdoora, size: [224, 448]}, {texture: swdoora, size: [224, 448], mirror: true}]
+    notes: "The stair hall's two leaves from the Hall of Order: a blast door parting in the middle."
+  - id: door:maint_air
+    opening: open:hair_ret
+    kind: slide_left
+    surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    notes: "The air Head's maintenance door to the return gallery: bolted on the Head's side (D-61 Q11)."
+  - id: door:maint_earth
+    opening: open:hearth_ret
+    kind: slide_left
+    surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    notes: "The earth Head's maintenance door to the return gallery: bolted on the Head's side (D-61 Q11)."
+  - id: door:maint_fire
+    opening: open:hfire_ret
+    kind: slide_left
+    surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    notes: "The fire Head's maintenance door to the return gallery: bolted on the Head's side (D-61 Q11)."
+  - id: door:maint_water
+    opening: open:hwater_ret
+    kind: slide_left
+    surface: {texture: swtrpnl, size: [128, 256], fit: true}
+    notes: "The water Head's maintenance door to the return gallery: bolted on the Head's side (D-61 Q11)."
+  - id: door:sump
+    opening: open:sump_stair
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The sump's door into the stair hall: its lever is on the sump's side."
+  - id: door:vault
+    opening: open:ante_vault
+    kind: slide_up
+    surface: {texture: swdoora, size: [256, 256], fit: true}
+    notes: "The strongroom's door: the robot bay's vault release raises it (117605)."
+  - id: door:west_ante
+    opening: open:west_ante
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The antechamber's door.
+  - id: door:west_hatch
+    opening: open:west_hatch
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The hatch room's door.
+  - id: door:west_juice
+    opening: open:west_juice
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The Power Juice room's door.
+  - id: door:ww_barracks
+    opening: open:ww_barracks
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: The barracks' door.
+lifts:
+  - id: lift:core
+    room: room:lift_core
+    at: [2080, 0]
+    size: [320, 320]
+    travel: 640
+    thickness: 16
+    speed: 320
+    surface: {texture: swfloor2b, size: [128, 128]}
+    notes: "The lift from the core (640) up through the lift head's floor to the deck (1280); it runs once gate_open 111661 is set."
+  - id: lift:slab_air
+    room: room:rings
+    at: [-496, 0]
+    size: [240, 320]
+    travel: 640
+    thickness: 32
+    speed: 200
+    surface: {texture: swankdk, size: [128, 128]}
+    notes: "The air chasm's bridge slab on the west line: on the chasm floor until the air dial reads nine, then level with the rims (640) (D-61 Q13, a two-state slab)."
+  - id: lift:slab_earth
+    room: room:rings
+    at: [672, 0]
+    size: [240, 320]
+    travel: 640
+    thickness: 32
+    speed: 200
+    surface: {texture: swankdk, size: [128, 128]}
+    notes: "The earth chasm's bridge slab on the west line: on the chasm floor until the earth dial reads nine, then level with the rims (640) (D-61 Q13, a two-state slab)."
+  - id: lift:slab_fire
+    room: room:rings
+    at: [80, 0]
+    size: [240, 320]
+    travel: 640
+    thickness: 32
+    speed: 200
+    surface: {texture: swankdk, size: [128, 128]}
+    notes: "The fire chasm's bridge slab on the west line: on the chasm floor until the fire dial reads nine, then level with the rims (640) (D-61 Q13, a two-state slab)."
+  - id: lift:slab_water
+    room: room:rings
+    at: [-1088, 0]
+    size: [240, 320]
+    travel: 640
+    thickness: 32
+    speed: 200
+    surface: {texture: swankdk, size: [128, 128]}
+    notes: "The water chasm's bridge slab on the west line: on the chasm floor until the water dial reads nine, then level with the rims (640) (D-61 Q13, a two-state slab)."
+  - id: lift:trap_t1
+    room: room:rings
+    at: [672, 464]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+  - id: lift:trap_t2
+    room: room:rings
+    at: [80, -464]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+  - id: lift:trap_t3
+    room: room:rings
+    at: [80, 704]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+  - id: lift:trap_t4
+    room: room:rings
+    at: [-496, 464]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+  - id: lift:trap_t5
+    room: room:rings
+    at: [-1088, -464]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+  - id: lift:trap_t6
+    room: room:rings
+    at: [576, 1664]
+    size: [192, 192]
+    travel: 1280
+    thickness: 32
+    speed: 900
+    state: up
+    surface: {texture: xatrapplt, size: [128, 128], scale: 1.5, offset: [96, 0]}
+    trap: true
+    notes: "A hatched deck plate (xatrapplt): a trapdoor that drops the party 1,280 to the chasm floor (D-61 Q18)."
+plates:
+  - id: plate:belt_air_back
+    room: room:belt_air
+    at: [2496, 672]
+    size: [480, 192]
+    notes: "Near the air belt's far end: walking back down the belt carries the party forward again."
+  - id: plate:belt_air_mouth
+    room: room:belt_air
+    at: [2496, -2912]
+    size: [480, 192]
+    notes: "The air belt's mouth: the floor lurches and carries the party to the far end."
+  - id: plate:belt_earth_back
+    room: room:belt_earth
+    at: [4416, -1504]
+    size: [608, 192]
+    notes: "Near the earth belt's far end: walking back down the belt carries the party forward again."
+  - id: plate:belt_earth_mouth
+    room: room:belt_earth
+    at: [4416, -2912]
+    size: [608, 192]
+    notes: "The earth belt's mouth: the floor lurches and carries the party to the far end."
+  - id: plate:belt_fire_back
+    room: room:belt_fire
+    at: [-2496, 672]
+    size: [480, 192]
+    notes: "Near the fire belt's far end: walking back down the belt carries the party forward again."
+  - id: plate:belt_fire_mouth
+    room: room:belt_fire
+    at: [-2496, -2912]
+    size: [480, 192]
+    notes: "The fire belt's mouth: the floor lurches and carries the party to the far end."
+  - id: plate:belt_water_back
+    room: room:belt_water
+    at: [-4416, -1504]
+    size: [608, 192]
+    notes: "Near the water belt's far end: walking back down the belt carries the party forward again."
+  - id: plate:belt_water_mouth
+    room: room:belt_water
+    at: [-4416, -2912]
+    size: [608, 192]
+    notes: "The water belt's mouth: the floor lurches and carries the party to the far end."
+  - id: plate:come_to_me
+    room: room:west_hall
+    at: [-2000, 0]
+    size: [192, 384]
+    notes: "Inside the Hall of Vengeance from the deck: 'A voice bellows, \"Come to ME!\"' (aaze0051:2), once (117606)."
+  - id: plate:dais
+    room: room:command
+    at: [-2960, -4000]
+    size: [192, 320]
+    notes: "Before the dais: 'Before the throne. Open the Soul Box?' (D-61 Q16)."
+  - id: plate:statue1
+    room: room:hall_order
+    at: [-1584, -3824]
+    size: [256, 192]
+    notes: "Before a propaganda statue: it speaks as the party approaches."
+  - id: plate:statue2
+    room: room:north_walk
+    at: [464, 3072]
+    size: [256, 192]
+    notes: "Before a propaganda statue: it speaks as the party approaches."
+  - id: plate:statue3
+    room: room:west_hall
+    at: [-2992, 1088]
+    size: [256, 192]
+    notes: "Before a propaganda statue: it speaks as the party approaches."
+sounds:
+  - {id: sound:bed_deck, room: room:deck, at: [0, 0], sound: humming, radius: 5456, inner_radius: 2592, volume: 0.2, notes: "The deck's and Command Central's hum, a bed.", pan: false}
+  - {id: sound:bed_dials, room: room:rings, at: [0, 0], height: 700, sound: humming, radius: 5456, inner_radius: 2592, volume: 0.25, notes: "The dial hall's and the dial floor's hum, a bed not panned (D-48).", pan: false}
+  - {id: sound:bed_works, room: room:hall_order, at: [0, -3824], sound: xeen_machine_stamp_loop, radius: 5456, inner_radius: 2336, volume: 0.22, notes: "The works' machine bed over L1 (an engine stand-in for AU's belt rumble), not panned (D-48).", pan: false}
+  - {id: sound:field_air, room: room:bay_ne, at: [3248, 2656], sound: xeen_barrier_loop, radius: 1168, inner_radius: 256, volume: 0.35, notes: "The air field's crackle; it stops when the field drops."}
+  - {id: sound:field_earth, room: room:bay_se, at: [3248, -3040], sound: xeen_barrier_loop, radius: 1168, inner_radius: 256, volume: 0.35, notes: "The earth field's crackle; it stops when the field drops."}
+  - {id: sound:field_fire, room: room:bay_nw, at: [-2336, 2656], sound: xeen_barrier_loop, radius: 1168, inner_radius: 256, volume: 0.35, notes: "The fire field's crackle; it stops when the field drops."}
+  - {id: sound:field_water, room: room:bay_sw, at: [-2336, -3040], sound: xeen_barrier_loop, radius: 1168, inner_radius: 256, volume: 0.35, notes: "The water field's crackle; it stops when the field drops."}
+  - {id: sound:hum_air, room: room:head_air, at: [2992, 2832], sound: xeen_amb_plane_air, radius: 1424, inner_radius: 384, volume: 0.35, notes: "The air Lava Head's roar: its element's plane bed (AU session 5) as a point sound; it stops when the Head is shut down (AmbientSound map variable)."}
+  - {id: sound:hum_earth, room: room:head_earth, at: [4416, 672], sound: xeen_amb_plane_earth, radius: 1424, inner_radius: 384, volume: 0.7, notes: "The earth Lava Head's roar: its element's plane bed (AU session 5) as a point sound; it stops when the Head is shut down (AmbientSound map variable)."}
+  - {id: sound:hum_fire, room: room:head_fire, at: [-2992, 2832], sound: xeen_amb_plane_fire, radius: 1424, inner_radius: 384, volume: 0.35, notes: "The fire Lava Head's roar: its element's plane bed (AU session 5) as a point sound; it stops when the Head is shut down (AmbientSound map variable)."}
+  - {id: sound:hum_water, room: room:head_water, at: [-4416, 672], sound: xeen_amb_plane_water, radius: 1424, inner_radius: 384, volume: 0.35, notes: "The water Lava Head's roar: its element's plane bed (AU session 5) as a point sound; it stops when the Head is shut down (AmbientSound map variable)."}
+lights:
+  - id: light:antechamber_1
+    room: room:antechamber
+    at: [-2496, -2336]
+    height: 320
+    radius: 912
+    color: [230, 90, 80]
+  - id: light:barracks_1
+    room: room:barracks
+    at: [-4080, -4736]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:bay_ne_1
+    room: room:bay_ne
+    at: [3248, 2656]
+    height: 320
+    radius: 992
+    color: [120, 210, 200]
+  - id: light:bay_nw_1
+    room: room:bay_nw
+    at: [-2336, 2656]
+    height: 320
+    radius: 992
+    color: [120, 210, 200]
+  - id: light:bay_se_1
+    room: room:bay_se
+    at: [3248, -3040]
+    height: 320
+    radius: 1440
+    color: [120, 210, 200]
+  - id: light:bay_sw_1
+    room: room:bay_sw
+    at: [-2336, -3040]
+    height: 320
+    radius: 1440
+    color: [120, 210, 200]
+  - id: light:belt_air_1
+    room: room:belt_air
+    at: [2496, -2176]
+    height: 320
+    radius: 1904
+    color: [130, 230, 150]
+  - id: light:belt_air_2
+    room: room:belt_air
+    at: [2496, -64]
+    height: 320
+    radius: 1904
+    color: [130, 230, 150]
+  - id: light:belt_air_end_1
+    room: room:belt_air_end
+    at: [2496, 1664]
+    height: 320
+    radius: 912
+    color: [130, 230, 150]
+  - id: light:belt_earth_1
+    room: room:belt_earth
+    at: [4416, -2208]
+    height: 320
+    radius: 1248
+    color: [130, 230, 150]
+  - id: light:belt_earth_end_1
+    room: room:belt_earth_end
+    at: [4416, -496]
+    height: 320
+    radius: 912
+    color: [130, 230, 150]
+  - id: light:belt_fire_1
+    room: room:belt_fire
+    at: [-2496, -2176]
+    height: 320
+    radius: 1904
+    color: [130, 230, 150]
+  - id: light:belt_fire_2
+    room: room:belt_fire
+    at: [-2496, -64]
+    height: 320
+    radius: 1904
+    color: [130, 230, 150]
+  - id: light:belt_fire_end_1
+    room: room:belt_fire_end
+    at: [-2496, 1664]
+    height: 320
+    radius: 912
+    color: [130, 230, 150]
+  - id: light:belt_water_1
+    room: room:belt_water
+    at: [-4416, -2208]
+    height: 320
+    radius: 1248
+    color: [130, 230, 150]
+  - id: light:belt_water_end_1
+    room: room:belt_water_end
+    at: [-4416, -496]
+    height: 320
+    radius: 912
+    color: [130, 230, 150]
+  - id: light:command_1
+    room: room:command
+    at: [-2496, -4000]
+    height: 320
+    radius: 992
+    color: [230, 90, 80]
+  - id: light:command_apse_1
+    room: room:command_apse
+    at: [-3664, -4000]
+    height: 320
+    radius: 912
+    color: [230, 90, 80]
+  - id: light:command_bay_1
+    room: room:command_bay
+    at: [-1296, -4000]
+    height: 320
+    radius: 992
+    color: [230, 90, 80]
+  - id: light:deck_1
+    room: room:deck
+    at: [-48, -1200]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:deck_2
+    room: room:deck
+    at: [-48, 1200]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:dial_air_1
+    room: room:dial_air
+    at: [4496, 2656]
+    height: 320
+    radius: 912
+    color: [150, 230, 170]
+  - id: light:dial_earth_1
+    room: room:dial_earth
+    at: [4496, -2832]
+    height: 320
+    radius: 912
+    color: [150, 230, 170]
+  - id: light:dial_fire_1
+    room: room:dial_fire
+    at: [-3584, 2656]
+    height: 320
+    radius: 912
+    color: [150, 230, 170]
+  - id: light:dial_water_1
+    room: room:dial_water
+    at: [-3584, -2832]
+    height: 320
+    radius: 912
+    color: [150, 230, 170]
+  - id: light:east_walk_1
+    room: room:east_walk
+    at: [3248, -832]
+    height: 320
+    radius: 1504
+    color: [120, 210, 200]
+  - id: light:east_walk_2
+    room: room:east_walk
+    at: [3248, 832]
+    height: 320
+    radius: 1504
+    color: [120, 210, 200]
+  - id: light:east_ward_1
+    room: room:east_ward
+    at: [3488, -3824]
+    height: 320
+    radius: 1600
+    color: [120, 210, 200]
+  - id: light:gatehall_1
+    room: room:gatehall
+    at: [0, -4736]
+    height: 320
+    radius: 1200
+    color: [120, 210, 200]
+  - id: light:gazer_post_1
+    room: room:gazer_post
+    at: [4496, 0]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:gazer_watch_1
+    room: room:gazer_watch
+    at: [-880, 3120]
+    height: 320
+    radius: 912
+    color: [230, 90, 80]
+  - id: light:hall_order_1
+    room: room:hall_order
+    at: [-992, -3824]
+    height: 320
+    radius: 1792
+    color: [120, 210, 200]
+  - id: light:hall_order_2
+    room: room:hall_order
+    at: [992, -3824]
+    height: 320
+    radius: 1792
+    color: [120, 210, 200]
+  - id: light:hatch_room_1
+    room: room:hatch_room
+    at: [-2496, 2336]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:head_air
+    room: room:head_air
+    at: [2992, 2832]
+    height: 320
+    radius: 1168
+    color: [225, 235, 255]
+    notes: "The air Head's glow: it goes out when the Head is shut down."
+  - id: light:head_air_2
+    room: room:head_air
+    at: [2992, 2832]
+    height: 320
+    radius: 784
+    color: [140, 150, 150]
+  - id: light:head_earth
+    room: room:head_earth
+    at: [4416, 672]
+    height: 320
+    radius: 1168
+    color: [110, 220, 110]
+    notes: "The earth Head's glow: it goes out when the Head is shut down."
+  - id: light:head_earth_2
+    room: room:head_earth
+    at: [4416, 672]
+    height: 320
+    radius: 784
+    color: [140, 150, 150]
+  - id: light:head_fire
+    room: room:head_fire
+    at: [-2992, 2832]
+    height: 320
+    radius: 1168
+    color: [255, 110, 60]
+    notes: "The fire Head's glow: it goes out when the Head is shut down."
+  - id: light:head_fire_2
+    room: room:head_fire
+    at: [-2992, 2832]
+    height: 320
+    radius: 784
+    color: [140, 150, 150]
+  - id: light:head_water
+    room: room:head_water
+    at: [-4416, 672]
+    height: 320
+    radius: 1168
+    color: [90, 150, 255]
+    notes: "The water Head's glow: it goes out when the Head is shut down."
+  - id: light:head_water_2
+    room: room:head_water
+    at: [-4416, 672]
+    height: 320
+    radius: 784
+    color: [140, 150, 150]
+  - id: light:juice_1
+    room: room:juice
+    at: [-3952, 0]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:landing_1
+    room: room:landing
+    at: [1504, -3824]
+    height: 320
+    radius: 1200
+    color: [120, 210, 200]
+  - id: light:landing_w_1
+    room: room:landing_w
+    at: [-624, -3824]
+    height: 320
+    radius: 1152
+    color: [120, 210, 200]
+  - id: light:lift_core_1
+    room: room:lift_core
+    at: [2000, 0]
+    height: 320
+    radius: 912
+    color: [120, 210, 200]
+  - id: light:lift_top_1
+    room: room:lift_top
+    at: [2000, 0]
+    height: 320
+    radius: 912
+    color: [120, 210, 200]
+  - id: light:north_walk_1
+    room: room:north_walk
+    at: [-560, 3040]
+    height: 320
+    radius: 1840
+    color: [120, 210, 200]
+  - id: light:north_walk_2
+    room: room:north_walk
+    at: [1472, 3040]
+    height: 320
+    radius: 1840
+    color: [120, 210, 200]
+  - id: light:return_e_1
+    room: room:return_e
+    at: [3408, -1888]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:return_e_2
+    room: room:return_e
+    at: [3408, 816]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:return_w_1
+    room: room:return_w
+    at: [-3408, -1888]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:return_w_2
+    room: room:return_w
+    at: [-3408, 816]
+    height: 320
+    radius: 1952
+    color: [120, 210, 200]
+  - id: light:rings_1
+    room: room:rings
+    at: [80, 1088]
+    height: 720
+    radius: 1168
+    color: [255, 110, 60]
+    notes: The fire chasm's glow (north arm).
+  - id: light:rings_10
+    room: room:rings
+    at: [672, 496]
+    height: 720
+    radius: 1168
+    color: [110, 220, 110]
+    notes: The earth chasm's glow (north arm).
+  - id: light:rings_11
+    room: room:rings
+    at: [672, -496]
+    height: 720
+    radius: 1168
+    color: [110, 220, 110]
+    notes: The earth chasm's glow (south arm).
+  - id: light:rings_12
+    room: room:rings
+    at: [672, 0]
+    height: 200
+    radius: 656
+    color: [110, 220, 110]
+    notes: The earth chasm's floor at the bridge line.
+  - id: light:rings_13
+    room: room:rings
+    at: [-1408, 0]
+    height: 900
+    radius: 1168
+    color: [120, 210, 200]
+    notes: Over the lip.
+  - id: light:rings_14
+    room: room:rings
+    at: [1168, 0]
+    height: 900
+    radius: 1040
+    color: [210, 225, 230]
+    notes: Over the gate island.
+  - id: light:rings_2
+    room: room:rings
+    at: [80, -1088]
+    height: 720
+    radius: 1168
+    color: [255, 110, 60]
+    notes: The fire chasm's glow (south arm).
+  - id: light:rings_3
+    room: room:rings
+    at: [80, 0]
+    height: 200
+    radius: 656
+    color: [255, 110, 60]
+    notes: The fire chasm's floor at the bridge line.
+  - id: light:rings_4
+    room: room:rings
+    at: [-496, 1664]
+    height: 720
+    radius: 1168
+    color: [225, 235, 255]
+    notes: The air chasm's glow (north arm).
+  - id: light:rings_5
+    room: room:rings
+    at: [-496, -1664]
+    height: 720
+    radius: 1168
+    color: [225, 235, 255]
+    notes: The air chasm's glow (south arm).
+  - id: light:rings_6
+    room: room:rings
+    at: [-496, 0]
+    height: 200
+    radius: 656
+    color: [225, 235, 255]
+    notes: The air chasm's floor at the bridge line.
+  - id: light:rings_7
+    room: room:rings
+    at: [-1088, 2240]
+    height: 720
+    radius: 1168
+    color: [90, 150, 255]
+    notes: The water chasm's glow (north arm).
+  - id: light:rings_8
+    room: room:rings
+    at: [-1088, -2240]
+    height: 720
+    radius: 1168
+    color: [90, 150, 255]
+    notes: The water chasm's glow (south arm).
+  - id: light:rings_9
+    room: room:rings
+    at: [-1088, 0]
+    height: 200
+    radius: 656
+    color: [90, 150, 255]
+    notes: The water chasm's floor at the bridge line.
+  - id: light:robot_bay_1
+    room: room:robot_bay
+    at: [752, 3120]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:stair_hall_1
+    room: room:stair_hall
+    at: [336, -3120]
+    height: 448
+    radius: 1424
+    color: [120, 210, 200]
+  - id: light:store_ne_1
+    room: room:store_ne
+    at: [2752, -4736]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:sump_1
+    room: room:sump
+    at: [-960, -2912]
+    height: 320
+    radius: 912
+    color: [150, 170, 160]
+  - id: light:vault_1
+    room: room:vault
+    at: [-3952, -2336]
+    height: 288
+    radius: 912
+    color: [230, 90, 80]
+  - id: light:watch_se_1
+    room: room:watch_se
+    at: [4160, -4736]
+    height: 320
+    radius: 912
+    color: [210, 225, 230]
+  - id: light:west_hall_1
+    room: room:west_hall
+    at: [-2496, 0]
+    height: 320
+    radius: 1792
+    color: [120, 210, 200]
+  - id: light:west_walk_1
+    room: room:west_walk
+    at: [-2336, -832]
+    height: 320
+    radius: 1504
+    color: [120, 210, 200]
+  - id: light:west_walk_2
+    room: room:west_walk
+    at: [-2336, 832]
+    height: 320
+    radius: 1504
+    color: [120, 210, 200]
+  - id: light:west_ward_1
+    room: room:west_ward
+    at: [-3488, -3824]
+    height: 320
+    radius: 1600
+    color: [120, 210, 200]
+switches:
+  - id: switch:lift_high
+    room: room:lift_top
+    kind: button
+    at: [2336, 0]
+    height: 112
+    notes: "The lift's button on the lift head's east wall, beside the shaft."
+  - id: switch:lift_low
+    room: room:lift_core
+    kind: button
+    at: [2336, 0]
+    height: 112
+    notes: "The lift's button on the core's east wall, beside the lift."
+  - id: switch:sump_lever
+    room: room:sump
+    kind: lever
+    reach: 40
+    at: [-576, -2576]
+    notes: "The sump door's lever, on the sump's north wall."
+  - id: switch:vault_release
+    room: room:robot_bay
+    kind: lever
+    reach: 40
+    at: [1504, 2912]
+    notes: "The vault release on the robot bay's east wall: one-way (D-43), it raises the strongroom's door (117605)."
+chests:
+  - id: chest:barracks
+    room: room:barracks
+    at: [-4704, -4736]
+    facing: e
+    treasure_level: 5
+    random_items: 2
+    gold: 2500
+    notes: Among the charging racks.
+  - id: chest:hoard
+    room: room:vault
+    at: [-4368, -2336]
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 8000
+    notes: Sheltem's hoard in the strongroom (T6).
+  - id: chest:post
+    room: room:gazer_post
+    at: [4864, 0]
+    facing: w
+    treasure_level: 5
+    random_items: 2
+    gold: 3000
+    notes: In the watchers' glazed bay.
+  - id: chest:robot_bay
+    room: room:robot_bay
+    at: [752, 3536]
+    facing: s
+    treasure_level: 5
+    random_items: 2
+    gold: 3000
+    notes: At the robot bay's back wall.
+  - id: chest:screen
+    room: room:gazer_watch
+    at: [-1456, 2960]
+    facing: e
+    treasure_level: 5
+    random_items: 2
+    gold: 3000
+    notes: Under the screens.
+  - id: chest:store
+    room: room:store_ne
+    at: [2752, -4944]
+    facing: n
+    treasure_level: 5
+    random_items: 2
+    gold: 2500
+    notes: Behind the parts store's barrels.
+  - id: chest:watch
+    room: room:watch_se
+    at: [4704, -4736]
+    facing: w
+    treasure_level: 5
+    random_items: 2
+    gold: 2500
+    notes: Under the moat watch's slit.
+monsters:
+  - id: monster:barracks_annihilator_1
+    room: room:barracks
+    monster: 11611
+    at: [-4080, -4576]
+    facing: 270
+    group: 1
+  - id: monster:barracks_patrol_1
+    room: room:barracks
+    monster: 11610
+    at: [-4496, -4736]
+    facing: 270
+    group: 1
+  - id: monster:barracks_patrol_2
+    room: room:barracks
+    monster: 11610
+    at: [-3664, -4736]
+    facing: 270
+    group: 1
+  - id: monster:bay_ne_patrol_1
+    room: room:bay_ne
+    monster: 11610
+    at: [3248, 2336]
+    facing: 270
+    group: 1
+  - id: monster:bay_ne_patrol_2
+    room: room:bay_ne
+    monster: 11610
+    at: [3248, 3072]
+    facing: 270
+    group: 1
+  - id: monster:bay_nw_patrol_1
+    room: room:bay_nw
+    monster: 11610
+    at: [-2336, 2336]
+    facing: 270
+    group: 1
+  - id: monster:bay_nw_patrol_2
+    room: room:bay_nw
+    monster: 11610
+    at: [-2336, 3072]
+    facing: 270
+    group: 1
+  - id: monster:bay_se_patrol_1
+    room: room:bay_se
+    monster: 11610
+    at: [3248, -3824]
+    facing: 270
+    group: 1
+  - id: monster:bay_se_patrol_2
+    room: room:bay_se
+    monster: 11610
+    at: [3248, -2656]
+    facing: 270
+    group: 1
+  - id: monster:bay_sw_patrol_1
+    room: room:bay_sw
+    monster: 11610
+    at: [-2336, -3824]
+    facing: 270
+    group: 1
+  - id: monster:bay_sw_patrol_2
+    room: room:bay_sw
+    monster: 11610
+    at: [-2336, -2656]
+    facing: 270
+    group: 1
+  - id: monster:corak
+    room: room:command_apse
+    monster: 11912
+    at: [-3584, -4240]
+    facing: 180
+    hostile: false
+    group: 41
+    immobile: true
+    hidden: true
+    notes: "Corak (DD-16's row 11912) on the dais: peaceful, immobile, unkillable, not counted; hidden until the cinematic shows him stepping out of the Soul Box."
+  - id: monster:deck_annihilator_1
+    room: room:deck
+    monster: 11611
+    at: [-336, 1328]
+    facing: 270
+    group: 1
+  - id: monster:deck_annihilator_2
+    room: room:deck
+    monster: 11611
+    at: [992, 992]
+    facing: 270
+    group: 1
+  - id: monster:deck_autobot_1
+    room: room:deck
+    monster: 11612
+    at: [0, 0]
+    facing: 270
+    group: 1
+  - id: monster:deck_patrol_1
+    room: room:deck
+    monster: 11610
+    at: [-832, -992]
+    facing: 270
+    group: 1
+  - id: monster:deck_patrol_2
+    room: room:deck
+    monster: 11610
+    at: [832, -1664]
+    facing: 270
+    group: 1
+  - id: monster:east_walk_annihilator_1
+    room: room:east_walk
+    monster: 11611
+    at: [3248, 0]
+    facing: 270
+    group: 1
+  - id: monster:east_walk_patrol_1
+    room: room:east_walk
+    monster: 11610
+    at: [3248, -992]
+    facing: 270
+    group: 1
+  - id: monster:east_walk_patrol_2
+    room: room:east_walk
+    monster: 11610
+    at: [3248, 992]
+    facing: 270
+    group: 1
+  - id: monster:east_ward_annihilator_1
+    room: room:east_ward
+    monster: 11611
+    at: [2912, -3664]
+    facing: 270
+    group: 1
+  - id: monster:east_ward_patrol_1
+    room: room:east_ward
+    monster: 11610
+    at: [3328, -3824]
+    facing: 270
+    group: 1
+  - id: monster:east_ward_patrol_2
+    room: room:east_ward
+    monster: 11610
+    at: [4160, -3664]
+    facing: 270
+    group: 1
+  - id: monster:gazer_post_annihilator_1
+    room: room:gazer_post
+    monster: 11611
+    at: [4320, 0]
+    facing: 270
+    group: 1
+  - id: monster:gazer_post_gazer_1
+    room: room:gazer_post
+    monster: 11572
+    at: [4656, -336]
+    facing: 270
+    group: 2
+  - id: monster:gazer_post_gazer_2
+    room: room:gazer_post
+    monster: 11572
+    at: [4656, 336]
+    facing: 270
+    group: 2
+  - id: monster:gazer_watch_gazer_1
+    room: room:gazer_watch
+    monster: 11572
+    at: [-1168, 3120]
+    facing: 270
+    group: 2
+  - id: monster:gazer_watch_gazer_2
+    room: room:gazer_watch
+    monster: 11572
+    at: [-576, 3120]
+    facing: 270
+    group: 2
+  - id: monster:hall_order_annihilator_1
+    room: room:hall_order
+    monster: 11611
+    at: [576, -3616]
+    facing: 270
+    group: 1
+  - id: monster:hall_order_patrol_1
+    room: room:hall_order
+    monster: 11610
+    at: [-1504, -3824]
+    facing: 270
+    group: 1
+  - id: monster:hall_order_patrol_2
+    room: room:hall_order
+    monster: 11610
+    at: [1504, -3824]
+    facing: 270
+    group: 1
+  - id: monster:hall_order_patrol_3
+    room: room:hall_order
+    monster: 11610
+    at: [0, -3744]
+    facing: 270
+    group: 1
+  - id: monster:head_air_air_el_1
+    room: room:head_air
+    monster: 11624
+    at: [2656, 2912]
+    facing: 270
+    group: 4
+  - id: monster:head_air_air_el_2
+    room: room:head_air
+    monster: 11624
+    at: [3328, 2912]
+    facing: 270
+    group: 4
+  - id: monster:head_earth_earth_el_1
+    room: room:head_earth
+    monster: 11626
+    at: [4240, 672]
+    facing: 270
+    group: 6
+  - id: monster:head_earth_earth_el_2
+    room: room:head_earth
+    monster: 11626
+    at: [4576, 672]
+    facing: 270
+    group: 6
+  - id: monster:head_fire_fire_el_1
+    room: room:head_fire
+    monster: 11620
+    at: [-3328, 2912]
+    facing: 270
+    group: 3
+  - id: monster:head_fire_fire_el_2
+    room: room:head_fire
+    monster: 11620
+    at: [-2656, 2912]
+    facing: 270
+    group: 3
+  - id: monster:head_water_water_el_1
+    room: room:head_water
+    monster: 11625
+    at: [-4576, 672]
+    facing: 270
+    group: 5
+  - id: monster:head_water_water_el_2
+    room: room:head_water
+    monster: 11625
+    at: [-4240, 672]
+    facing: 270
+    group: 5
+  - id: monster:landing_patrol_1
+    room: room:landing
+    monster: 11610
+    at: [1664, -3824]
+    facing: 270
+    group: 1
+  - id: monster:landing_w_patrol_1
+    room: room:landing_w
+    monster: 11610
+    at: [-832, -3824]
+    facing: 270
+    group: 1
+  - id: monster:north_walk_annihilator_1
+    room: room:north_walk
+    monster: 11611
+    at: [-672, 3040]
+    facing: 270
+    group: 1
+  - id: monster:north_walk_annihilator_2
+    room: room:north_walk
+    monster: 11611
+    at: [1664, 3040]
+    facing: 270
+    group: 1
+  - id: monster:north_walk_gazer_1
+    room: room:north_walk
+    monster: 11572
+    at: [576, 2912]
+    facing: 270
+    group: 2
+  - id: monster:return_e_patrol_1
+    room: room:return_e
+    monster: 11610
+    at: [3408, -1328]
+    facing: 270
+    group: 1
+  - id: monster:return_e_patrol_2
+    room: room:return_e
+    monster: 11610
+    at: [3408, 832]
+    facing: 270
+    group: 1
+  - id: monster:return_w_patrol_1
+    room: room:return_w
+    monster: 11610
+    at: [-3408, -1328]
+    facing: 270
+    group: 1
+  - id: monster:return_w_patrol_2
+    room: room:return_w
+    monster: 11610
+    at: [-3408, 832]
+    facing: 270
+    group: 1
+  - id: monster:rings_autobot_1
+    room: room:rings
+    monster: 11612
+    at: [1168, -160]
+    floor_height: 640
+    facing: 270
+    group: 1
+    notes: On the gate island (640).
+  - id: monster:rings_autobot_2
+    room: room:rings
+    monster: 11612
+    at: [1168, 160]
+    floor_height: 640
+    facing: 270
+    group: 1
+    notes: On the gate island (640).
+  - id: monster:robot_bay_annihilator_1
+    room: room:robot_bay
+    monster: 11611
+    at: [416, 3120]
+    facing: 270
+    group: 1
+  - id: monster:robot_bay_annihilator_2
+    room: room:robot_bay
+    monster: 11611
+    at: [1088, 3120]
+    facing: 270
+    group: 1
+  - id: monster:robot_bay_autobot_1
+    room: room:robot_bay
+    monster: 11612
+    at: [752, 2864]
+    facing: 270
+    group: 1
+  - id: monster:sheltem
+    room: room:command_apse
+    monster: 11924
+    at: [-3616, -4000]
+    facing: 0
+    hostile: false
+    group: 40
+    immobile: true
+    hidden: true
+    notes: "Sheltem (A2's row 11924, D-61 Q15) before his throne: peaceful, immobile, unkillable (evt:figures_load), not counted; hidden until the cinematic shows him."
+  - id: monster:stair_hall_annihilator_1
+    room: room:stair_hall
+    monster: 11611
+    at: [1248, -2752]
+    facing: 270
+    group: 1
+  - id: monster:stair_hall_annihilator_2
+    room: room:stair_hall
+    monster: 11611
+    at: [-48, -2992]
+    facing: 270
+    group: 1
+  - id: monster:stair_hall_autobot_1
+    room: room:stair_hall
+    monster: 11612
+    at: [1248, -3072]
+    facing: 270
+    group: 1
+  - id: monster:store_ne_annihilator_1
+    room: room:store_ne
+    monster: 11611
+    at: [2496, -4656]
+    facing: 270
+    group: 1
+  - id: monster:store_ne_annihilator_2
+    room: room:store_ne
+    monster: 11611
+    at: [2992, -4656]
+    facing: 270
+    group: 1
+  - id: monster:watch_se_gazer_1
+    room: room:watch_se
+    monster: 11572
+    at: [4160, -4736]
+    facing: 270
+    group: 2
+  - id: monster:watch_se_patrol_1
+    room: room:watch_se
+    monster: 11610
+    at: [3824, -4736]
+    facing: 270
+    group: 1
+  - id: monster:watch_se_patrol_2
+    room: room:watch_se
+    monster: 11610
+    at: [4496, -4576]
+    facing: 270
+    group: 1
+  - id: monster:west_hall_annihilator_1
+    room: room:west_hall
+    monster: 11611
+    at: [-2832, -672]
+    facing: 270
+    group: 1
+  - id: monster:west_hall_annihilator_2
+    room: room:west_hall
+    monster: 11611
+    at: [-2160, 672]
+    facing: 270
+    group: 1
+  - id: monster:west_hall_autobot_1
+    room: room:west_hall
+    monster: 11612
+    at: [-2496, -160]
+    facing: 270
+    group: 1
+  - id: monster:west_walk_annihilator_1
+    room: room:west_walk
+    monster: 11611
+    at: [-2496, 496]
+    facing: 270
+    group: 1
+  - id: monster:west_walk_annihilator_2
+    room: room:west_walk
+    monster: 11611
+    at: [-2336, 1168]
+    facing: 270
+    group: 1
+  - id: monster:west_walk_patrol_1
+    room: room:west_walk
+    monster: 11610
+    at: [-2336, -992]
+    facing: 270
+    group: 1
+  - id: monster:west_ward_annihilator_1
+    room: room:west_ward
+    monster: 11611
+    at: [-2912, -3664]
+    facing: 270
+    group: 1
+  - id: monster:west_ward_patrol_1
+    room: room:west_ward
+    monster: 11610
+    at: [-3328, -3824]
+    facing: 270
+    group: 1
+  - id: monster:west_ward_patrol_2
+    room: room:west_ward
+    monster: 11610
+    at: [-4160, -3664]
+    facing: 270
+    group: 1
+decorations:
+  - id: deco:barracks_1
+    room: room:barracks
+    decoration: smlbarel
+    at: [-3456, -4944]
+  - id: deco:barracks_2
+    room: room:barracks
+    decoration: smlbarel
+    at: [-3456, -4784]
+  - id: deco:statue1
+    room: room:hall_order
+    decoration: xeen_statue_teal
+    at: [-1584, -3536]
+    floor_height: 0
+    facing: 270
+    notes: "Statue (clicked: evt:statue1)."
+  - id: deco:statue2
+    room: room:north_walk
+    decoration: xeen_statue_teal
+    at: [464, 3376]
+    floor_height: 640
+    facing: 270
+    notes: "Statue (clicked: evt:statue2)."
+  - id: deco:statue3
+    room: room:west_hall
+    decoration: xeen_statue_teal
+    at: [-2992, 1408]
+    floor_height: 1280
+    facing: 270
+    notes: "Statue (clicked: evt:statue3)."
+  - id: deco:store_1
+    room: room:store_ne
+    decoration: bigbarel
+    at: [2288, -4944]
+  - id: deco:store_2
+    room: room:store_ne
+    decoration: bigbarel
+    at: [2448, -4944]
+  - id: deco:store_3
+    room: room:store_ne
+    decoration: smlbarel
+    at: [2288, -4784]
+  - id: deco:store_4
+    room: room:store_ne
+    decoration: bigbarel
+    at: [3200, -4944]
+  - id: deco:store_5
+    room: room:store_ne
+    decoration: bigbarel
+    at: [3200, -4784]
+  - id: deco:store_6
+    room: room:store_ne
+    decoration: smlbarel
+    at: [3040, -4944]
+  - id: deco:store_7
+    room: room:store_ne
+    decoration: smlbarel
+    at: [3200, -4624]
+  - id: deco:store_8
+    room: room:store_ne
+    decoration: bigbarel
+    at: [2288, -4624]
+  - id: deco:sump_bones
+    room: room:sump
+    decoration: dec29
+    at: [-1408, -3072]
+    notes: "Bones (clicked: evt:sump_bones)."
+  - id: deco:sump_bones_2
+    room: room:sump
+    decoration: dec05
+    at: [-576, -3072]
+  - id: deco:throne
+    room: room:command_apse
+    decoration: xeen_throne_steel
+    at: [-3840, -4000]
+    floor_height: 1312
+    facing: 0
+    notes: "Sheltem's throne (clicked: evt:throne)."
+  - id: deco:true_name_statue
+    room: room:rings
+    decoration: xeen_statue_teal
+    at: [992, -192]
+    floor_height: 640
+    facing: 180
+    notes: "Statue (clicked: evt:true_name_statue)."
+exits:
+  - id: exit:gate
+    room: room:gatehall
+    at: [0, -5072]
+    size: [448, 448]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d6_gate
+    notes: "The gate from inside: out to D6's approach (entrance:dd17_gate)."
+notes: "DD-17's contents, written by output/studio_cal/dd17/tools/dress.py: 24 doors (three blast-door pairs, the true-name gate's hinged pair, nine single doors, the sump's and the strongroom's doors, four maintenance doors, four field leaves), the lift, four bridge slabs and six trapdoors (lifts), eight belt plates, seven chests, 70 placed monsters (Patrol 30, Annihilator 20, Autobot 6, the eight Head elementals, Gamma Gazer 6) and, not counted, Sheltem and Corak, hidden."

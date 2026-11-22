@@ -1,0 +1,1440 @@
+# The Xeen map registry (owner: the orchestrator, devdocs/xeen/ROADMAP.md section 3).
+# One entry per map. Numbers from devdocs/xeen/MAPS.md section 0 and the dungeon tables (2026-11-14).
+# tools/xeen/build_world.py writes map_stats, outdoor_travels and bolster_maps rows from this file.
+# party: arrive-leave levels on a full clear; levels: monster levels A-C, bosses after the comma;
+# treasure: map_stats treasure level; monsters: target count (a group total where MAPS gives one).
+# music: MM6-MM8 track number, chosen by the orchestrator per map (null: not chosen yet).
+maps:
+  - key: X1
+    name: "Vertigo Meadows"
+    stem: xeen_x1.odm
+    map_id: 9130
+    kind: odm
+    face: cloudside
+    role: start pocket
+    act: "I"
+    party: "1-4"
+    levels: "2-12"
+    treasure: "1"
+    monsters: "130"
+    neighbours: {west: "X2", north: "X7"}
+    # The north edge lands on X7's south road start (A5's X7 arrival, the orchestrator, 2026-11-20).
+    edge_spans:
+      north:
+        - {from: -32768, to: 32768, map: "X7", at: [2560, -22016, 1856], facing: 512}
+    music: 19
+    lane: A5
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: X2
+    name: "Rivercity and Lake Darzog"
+    stem: xeen_x2.odm
+    map_id: 9136
+    kind: odm
+    face: cloudside
+    role: hub
+    act: "II"
+    party: "7-11"
+    levels: "6-24 (lake dragons 60, trap)"
+    treasure: "1"
+    monsters: "135"
+    neighbours: {east: "X1", west: "X3", north: "X4"}
+    music: 32
+    lane: A5
+    phase: 1
+    built_as_mm7_stand_in: true
+  - key: X3
+    name: "Lifeforce Lagoon"
+    stem: xeen_x3.odm
+    map_id: 9101
+    kind: odm
+    face: cloudside
+    role: town map
+    act: "II"
+    party: "13-16"
+    levels: "10-30"
+    treasure: "2"
+    monsters: "135"
+    neighbours: {east: "X2", north: "X4", west: "X5"}
+    music: 48
+    lane: A5
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: X4
+    name: "Burlock Savannah"
+    stem: xeen_x4.odm
+    map_id: 9102
+    kind: odm
+    face: cloudside
+    role: town map
+    act: "II"
+    party: "11-15"
+    levels: "10-30"
+    treasure: "2"
+    monsters: "135"
+    neighbours: {south: "X2", west: "X6", east: "X7"}
+    # D-11.6 (A2 writes data_tables/edge_spans.yml from these): the south edge west of x cell 64 (x < 0) leads to X3's
+    # x 50 arrival (its north start), east of it (the river included) to X2.
+    edge_spans:
+      south:
+        - {from: -32768, to: 0, map: "X3", at: [-7168, 22016, 1120], facing: 1536}
+        - {from: 0, to: 32768, map: "X2"}
+      # The west edge lands on X6's east road start (the orchestrator, 2026-11-20).
+      west:
+        - {from: -32768, to: 32768, map: "X6", at: [22016, 2048, 1216], facing: 1024}
+      # The east edge lands on X7's west road start (A5's X7 arrival, the orchestrator, 2026-11-20).
+      east:
+        - {from: -32768, to: 32768, map: "X7", at: [-22016, -1024, 1408], facing: 0}
+    # Where parties leaving a neighbour's edge toward X4 land: from X3 at the x 36 point, from X2 by the river road.
+    arrivals:
+      X3: {at: [-14336, -22016, 992], facing: 512}
+      X2: {at: [16384, -22016, 992], facing: 512}
+    music: 29
+    lane: A5
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: X5
+    name: "Winterkill Tundra"
+    stem: xeen_x5.odm
+    map_id: 9103
+    kind: odm
+    face: cloudside
+    role: wilderness
+    act: "III"
+    party: "24-28"
+    levels: "16-40 (cyclops corner 36-50, trap)"
+    treasure: "3"
+    monsters: "135"
+    neighbours: {east: "X3", north: "X6"}
+    # The north edge lands on X6's south road start (the orchestrator, 2026-11-20).
+    edge_spans:
+      north:
+        - {from: -32768, to: 32768, map: "X6", at: [-7168, -22016, 1472], facing: 512}
+    music: 47
+    lane: A6
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: X6
+    name: "Desert of the Sphinx"
+    stem: xeen_x6.odm
+    map_id: 9104
+    kind: odm
+    face: cloudside
+    role: wilderness
+    act: "IV"
+    party: "30-33"
+    levels: "22-50"
+    treasure: "3"
+    monsters: "135"
+    neighbours: {east: "X4", south: "X5"}
+    # Edges land on the built roads (the orchestrator, 2026-11-20): east on X4's west road, south on X5's steppe road.
+    edge_spans:
+      east:
+        - {from: -32768, to: 32768, map: "X4", at: [-22528, 2048, 1184], facing: 0}
+      south:
+        - {from: -32768, to: 32768, map: "X5", at: [-7168, 22528, 1280], facing: 1536}
+    music: 17
+    lane: A5
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: X7
+    name: "Mount Firestone"
+    stem: xeen_x7.odm
+    map_id: 9105
+    kind: odm
+    face: cloudside
+    role: trap and endgame
+    act: "V"
+    party: "40-55"
+    levels: "south 6-12 orcs; north 40-85"
+    treasure: "5"
+    monsters: "90"
+    neighbours: {south: "X1", west: "X4"}
+    # Edges land on the built roads (A5's arrivals, the orchestrator, 2026-11-20).
+    edge_spans:
+      south:
+        - {from: -32768, to: 32768, map: "X1", at: [2560, 22016, 1824], facing: 1536}
+      west:
+        - {from: -32768, to: 32768, map: "X4", at: [22016, -1280, 1056], facing: 1024}
+    music: 26
+    lane: A5
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: X8
+    name: "Cloudreach"
+    stem: xeen_x8.blv
+    map_id: 9106
+    kind: open_air_blv
+    face: cloudside sky
+    role: sky
+    act: "II"
+    party: "18-20"
+    levels: "14-30 (cloud golem 50 rare)"
+    treasure: "3"
+    monsters: "60"
+    neighbours: {falls_to: "X1, X3"}
+    music: 25
+    lane: A6
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: X9
+    name: "Clouds of Xeen"
+    stem: xeen_x9.blv
+    map_id: 9107
+    kind: open_air_blv
+    face: cloudside sky
+    role: sky
+    act: "V"
+    party: "46-48"
+    levels: "35-55"
+    treasure: "5"
+    monsters: "50"
+    neighbours: {falls_to: "X2"}
+    music: 21
+    lane: A5
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: D1
+    name: "Castleview Vale"
+    stem: xeen_d1.odm
+    map_id: 9108
+    kind: odm
+    face: darkside
+    role: hub
+    act: "III"
+    party: "18-21"
+    levels: "14-30"
+    treasure: "2"
+    monsters: "135"
+    neighbours: {east: "D2", north: "D6"}
+    music: 37
+    lane: A6
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: D2
+    name: "Sprite Forest and Ogre Pass"
+    stem: xeen_d2.odm
+    map_id: 9109
+    kind: odm
+    face: darkside
+    role: town map
+    act: "III"
+    party: "21-25"
+    levels: "16-38"
+    treasure: "3"
+    monsters: "135"
+    neighbours: {west: "D1", east: "D3"}
+    # The east edge lands on D3's west road start (entrance:west_road), not a default point (the orchestrator, 2026-11-20).
+    edge_spans:
+      east:
+        - {from: -32768, to: 32768, map: "D3", at: [-22528, 10240, 1312], facing: 0}
+    music: 33
+    lane: A6
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: D3
+    name: "Sandcaster and the Aging Forest"
+    stem: xeen_d3.odm
+    map_id: 9110
+    kind: odm
+    face: darkside
+    role: town map
+    act: "III"
+    party: "27-30"
+    levels: "20-45"
+    treasure: "3"
+    monsters: "135"
+    neighbours: {west: "D2", north: "D4"}
+    # The west edge lands on D2's east start by the road (the orchestrator, 2026-11-20).
+    edge_spans:
+      west:
+        - {from: -32768, to: 32768, map: "D2", at: [21504, 10240, 1312], facing: 1024}
+    music: 39
+    lane: A5
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: D4
+    name: "Lakeside and Blackfang"
+    stem: xeen_d4.odm
+    map_id: 9111
+    kind: odm
+    face: darkside
+    role: wilderness
+    act: "IV"
+    party: "35-38"
+    levels: "26-50 (octopods 60, lake trap)"
+    treasure: "4"
+    monsters: "120"
+    neighbours: {south: "D3", west: "D5"}
+    music: 41
+    lane: A6
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: D5
+    name: "Desert of Doom"
+    stem: xeen_d5.odm
+    map_id: 9112
+    kind: odm
+    face: darkside
+    role: wilderness
+    act: "V"
+    party: "42-45"
+    levels: "32-55"
+    treasure: "5"
+    monsters: "110"
+    neighbours: {east: "D4", west: "D6"}
+    music: 6
+    lane: A6
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: D6
+    name: "The Forbidden Zone"
+    stem: xeen_d6.odm
+    map_id: 9113
+    kind: odm
+    face: darkside
+    role: trap and endgame
+    act: "V"
+    party: "48-51"
+    levels: "38-65"
+    treasure: "5"
+    monsters: "110"
+    neighbours: {east: "D5", south: "D1"}
+    music: 11
+    lane: A6
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: D7
+    name: "The Skyroads"
+    stem: xeen_d7.blv
+    map_id: 9114
+    kind: open_air_blv
+    face: darkside sky
+    role: sky
+    act: "VI"
+    party: "55-58"
+    levels: "50-75 (Megadragon 125, optional)"
+    treasure: "6"
+    monsters: "50"
+    music: 30
+    lane: A6
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: P1
+    name: "Plane of Fire of Xeen"
+    stem: xeen_p1.blv
+    map_id: 9115
+    kind: open_air_blv
+    face: planes
+    role: plane
+    act: "VI"
+    party: "56-60"
+    levels: "55-70, guardians 75"
+    treasure: "6"
+    monsters: "30"
+    music: 10
+    lane: A6
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: P2
+    name: "Plane of Air of Xeen"
+    stem: xeen_p2.blv
+    map_id: 9116
+    kind: open_air_blv
+    face: planes
+    role: plane
+    act: "VI"
+    party: "56-60"
+    levels: "55-70, guardians 75"
+    treasure: "6"
+    monsters: "30"
+    music: 9
+    lane: A6
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: P3
+    name: "Plane of Earth of Xeen"
+    stem: xeen_p3.blv
+    map_id: 9117
+    kind: open_air_blv
+    face: planes
+    role: plane
+    act: "VI"
+    party: "56-60"
+    levels: "55-70, guardians 75"
+    treasure: "6"
+    monsters: "30"
+    music: 3
+    lane: A6
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: P4
+    name: "Plane of Water of Xeen"
+    stem: xeen_p4.blv
+    map_id: 9118
+    kind: open_air_blv
+    face: planes
+    role: plane
+    act: "VI"
+    party: "56-60"
+    levels: "55-70, guardians 75"
+    treasure: "6"
+    monsters: "30"
+    music: 7
+    lane: A6
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: P5
+    name: "Clouds of the Ancients"
+    stem: xeen_p5.blv
+    map_id: 9119
+    kind: open_air_blv
+    face: finale
+    role: finale
+    act: "VI"
+    party: "-"
+    levels: "none or a last guardian"
+    treasure: "6"
+    monsters: "0"
+    music: 15
+    lane: A5
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: XD-17
+    name: "Shangri-La"
+    stem: xeen_xd17.blv
+    map_id: 9120
+    kind: open_air_blv
+    face: cloudside
+    role: hidden town
+    act: "V"
+    on_map: X7
+    party: "-"
+    levels: "-"
+    treasure: "-"
+    monsters: "0"
+    music: 51
+    lane: A5
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: XD-20
+    name: "The Warzone"
+    stem: xeen_xd20.blv
+    map_id: 9121
+    kind: blv
+    face: cloudside
+    role: arena
+    act: "any"
+    on_map: X6
+    party: "-"
+    levels: "by tier"
+    treasure: "-"
+    monsters: "-"
+    music: 45
+    lane: A7
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-25
+    name: "Bosco's Hall"
+    stem: xeen_dd25.blv
+    map_id: 9122
+    kind: blv
+    face: darkside
+    role: town
+    act: "V"
+    on_map: D5
+    party: "-"
+    levels: "-"
+    treasure: "-"
+    monsters: "0"
+    music: 31
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: XD-01
+    name: "Joe's Warehouse"
+    stem: xeen_xd01.blv
+    map_id: 9131
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "I"
+    on_map: X1
+    party: "1-3"
+    levels: "2-6, Wobbles 4"
+    treasure: "1"
+    monsters: "28"
+    music: 18
+    lane: A7
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-02
+    name: "Red Dwarf Mines"
+    stem: xeen_xd02.blv
+    map_id: 9132
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "I"
+    on_map: X1
+    party: "3-5"
+    levels: "3-10"
+    treasure: "1"
+    monsters: "55"
+    music: 18
+    lane: A7
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-03
+    name: "Deep Mine"
+    stem: xeen_xd03.blv
+    map_id: 9133
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "I"
+    on_map: X1
+    party: "5-6"
+    levels: "6-12, Clan King 18"
+    treasure: "1 (hoard 2)"
+    monsters: "40"
+    music: 18
+    lane: A7
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-04
+    name: "Witch Tower"
+    stem: xeen_xd04.blv
+    map_id: 9134
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "I"
+    on_map: X1
+    party: "5-7"
+    levels: "4-14, Head Witch 20"
+    treasure: "1 (hoard 2)"
+    monsters: "50"
+    music: 28
+    lane: A7
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-05
+    name: "Orc Caves"
+    stem: xeen_xd05.blv
+    map_id: 9135
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "I"
+    on_map: X1
+    party: "3-5"
+    levels: "4-10, Drum-Master 12"
+    treasure: "1"
+    monsters: "40"
+    music: 18
+    lane: A7
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-06
+    name: "Temple of Yak"
+    stem: xeen_xd06.blv
+    map_id: 9139
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X2
+    party: "14-16"
+    levels: "14-28, Yak Master 35"
+    treasure: "2"
+    monsters: "50"
+    music: 28
+    lane: A8
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-07
+    name: "Castle Burlock"
+    stem: xeen_xd07.blv
+    map_id: 9123
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X4
+    party: "12-14"
+    levels: "10-24 (caged fire dragon optional)"
+    treasure: "2"
+    monsters: "50"
+    music: 29
+    lane: A7
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-08
+    name: "Tomb of a Thousand Terrors"
+    stem: xeen_xd08.blv
+    map_id: 9124
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X3
+    party: "15-17"
+    levels: "15-30"
+    treasure: "2"
+    monsters: "50"
+    music: 20
+    lane: A7
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-09
+    name: "Golem Dungeon"
+    stem: xeen_xd09.blv
+    map_id: 9125
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X5
+    party: "16-18"
+    levels: "18-40, Diamond Golem 50"
+    treasure: "3"
+    monsters: "45"
+    music: 43
+    lane: A8
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-10
+    name: "Cave of Illusion"
+    stem: xeen_xd10.blv
+    map_id: 9126
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X5
+    party: "17-19"
+    levels: "18-28"
+    treasure: "3"
+    monsters: "50"
+    music: 2
+    lane: A8
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-11
+    name: "Tower of High Magic"
+    stem: xeen_xd11.blv
+    map_id: 9127
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "II"
+    on_map: X3
+    party: "18-20"
+    levels: "18-32"
+    treasure: "3"
+    monsters: "50"
+    music: 34
+    lane: A8
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-12
+    name: "Darzog's Tower"
+    stem: xeen_xd12.blv
+    map_id: 9140
+    kind: blv
+    face: cloudside
+    role: dungeon L
+    act: "IV"
+    on_map: X2
+    party: "33-36"
+    levels: "30-48, Darzog 55"
+    treasure: "4"
+    monsters: "72.5 plus Crodo (A8 rebase design)"
+    music: 22
+    lane: A8
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-13
+    name: "Newcastle Keep"  # staged by qbits (D-13); the name shows in game
+    stem: xeen_xd13.blv
+    map_id: 9128
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "II-IV"
+    on_map: X3
+    party: "14-16"
+    levels: "16-24 (wood golems)"
+    treasure: "2"
+    monsters: "28"
+    music: 49
+    lane: A7
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-14
+    name: "Castle Basenji"
+    stem: xeen_xd14.blv
+    map_id: 9129
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "IV"
+    on_map: X6
+    party: "31-34"
+    levels: "22-45"
+    treasure: "4"
+    monsters: "group XD-14+15: 90"
+    music: 42
+    lane: A7
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: XD-15
+    name: "The Sphinx"
+    stem: xeen_xd15.blv
+    map_id: 9141
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "IV"
+    on_map: X6
+    party: "31-34"
+    levels: "28-45"
+    treasure: "4"
+    monsters: "group XD-14+15: 90"
+    music: 46
+    lane: A7
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: XD-16
+    name: "Volcano Cave"
+    stem: xeen_xd16.blv
+    map_id: 9142
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "V"
+    on_map: X7
+    party: "48-52"
+    levels: "42-58"
+    treasure: "5"
+    monsters: "40"
+    music: 7
+    lane: A7
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: XD-18
+    name: "Dragon Cave"
+    stem: xeen_xd18.blv
+    map_id: 9143
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "optional"
+    on_map: X7
+    party: "60-64"
+    levels: "65-100, Dragon King 110"
+    treasure: "6"
+    monsters: "40"
+    music: 13
+    lane: A7
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: XD-19
+    name: "Castle Xeen"
+    stem: xeen_xd19.blv
+    map_id: 9144
+    kind: blv
+    face: cloudside
+    role: dungeon L
+    act: "V"
+    on_map: X9
+    party: "47-50"
+    levels: "42-70, Xeen's Pet 75, Lord Xeen 85"
+    treasure: "5 (hoard 6)"
+    monsters: "70"
+    music: 22
+    lane: A7
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: XD-21
+    name: "Robbers' Den"
+    stem: xeen_xd21.blv
+    map_id: 9137
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "II"
+    on_map: X2
+    party: "9-11"
+    levels: "10-18"
+    treasure: "2"
+    monsters: "26 (A8 rebase design, 2026-11-20)"
+    music: 18
+    lane: A8
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: XD-22
+    name: "Ninja Pagoda"
+    stem: xeen_xd22.blv
+    map_id: 9145
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "III"
+    on_map: X5
+    party: "25-29"
+    levels: "20-40"
+    treasure: "3"
+    monsters: "group XD-22..24: 84"
+    music: 12
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: XD-23
+    name: "Troll Warren"
+    stem: xeen_xd23.blv
+    map_id: 9146
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "III"
+    on_map: X5
+    party: "25-29"
+    levels: "18-28"
+    treasure: "3"
+    monsters: "group XD-22..24: 84"
+    music: 8
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: XD-24
+    name: "Nightshadow Crypt"
+    stem: xeen_xd24.blv
+    map_id: 9147
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "III"
+    on_map: X3
+    party: "25-29"
+    levels: "30-40, Count Draco 45"
+    treasure: "3"
+    monsters: "group XD-22..24: 84"
+    music: 3
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: XD-25
+    name: "Asp Undercroft"
+    stem: xeen_xd25.blv
+    map_id: 9148
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "II"
+    on_map: X4
+    party: "14-16"
+    levels: "14-26"
+    treasure: "2"
+    monsters: "28"
+    music: 44
+    lane: A7
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-26
+    name: "Gargoyle Eyrie"
+    stem: xeen_xd26.blv
+    map_id: 9149
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "II"
+    on_map: X4
+    party: "15-17"
+    levels: "16-28"
+    treasure: "2"
+    monsters: "28"
+    music: 31
+    lane: A7
+    phase: 2
+    built_as_mm7_stand_in: false
+  - key: XD-27
+    name: "Ogre Lair"
+    stem: xeen_xd27.blv
+    map_id: 9138
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "II"
+    on_map: X2
+    party: "10-12"
+    levels: "12-20"
+    treasure: "2"
+    monsters: "22 (A8 rebase design: 28 would be +27 % kill XP)"
+    music: 18
+    lane: A8
+    phase: 0
+    built_as_mm7_stand_in: true
+  - key: DD-01
+    name: "Castleview Sewer"
+    stem: xeen_dd01.blv
+    map_id: 9150
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III"
+    on_map: D1
+    party: "18-20"
+    levels: "10-20"
+    treasure: "2"
+    monsters: "50"
+    music: 44
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-02
+    name: "Ellinger's Tower"
+    stem: xeen_dd02.blv
+    map_id: 9151
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III"
+    on_map: D1
+    party: "20-22"
+    levels: "14-24"
+    treasure: "2"
+    monsters: "50"
+    music: 34
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-03
+    name: "Castle Kalindra"  # staged by qbits (D-18); the name shows in game
+    stem: xeen_dd03.blv
+    map_id: 9152
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III-IV"
+    on_map: D1
+    party: "30-40"
+    levels: "28-48 (Scraps 70, optional)"
+    treasure: "4"
+    monsters: "55"
+    music: 29
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-04
+    name: "The Gremlin Court"
+    stem: xeen_dd04.blv
+    map_id: 9153
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D1
+    party: "19-20"
+    levels: "12-20, Gettlewaithe 24"
+    treasure: "2"
+    monsters: "28"
+    music: 2
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-05
+    name: "Western Tower of Mok"
+    stem: xeen_dd05.blv
+    map_id: 9154
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "IV"
+    on_map: D1
+    party: "35-39"
+    levels: "25-45"
+    treasure: "4"
+    monsters: "group DD-05+20+23: 100"
+    music: 34
+    lane: A8
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-06
+    name: "Southern Tower"
+    stem: xeen_dd06.blv
+    map_id: 9155
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III"
+    on_map: D2
+    party: "22-26"
+    levels: "14-30"
+    treasure: "3"
+    monsters: "group DD-06+09+13: 120"
+    music: 34
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-07
+    name: "Eastern Tower"
+    stem: xeen_dd07.blv
+    map_id: 9156
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "IV"
+    on_map: D3
+    party: "36-40"
+    levels: "28-48"
+    treasure: "4"
+    monsters: "30 (moved to Act IV, D-9.3)"
+    music: 43
+    lane: A7
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-08
+    name: "Northern Tower"
+    stem: xeen_dd08.blv
+    map_id: 9157
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "V"
+    on_map: D5
+    party: "49-52"
+    levels: "40-62"
+    treasure: "5"
+    monsters: "45 (group DD-08+21: 60 + Sandro, D-61)"
+    music: 43
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-09
+    name: "Temple of Bark"
+    stem: xeen_dd09.blv
+    map_id: 9158
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III"
+    on_map: D2
+    party: "22-26"
+    levels: "14-30 (Barkman 60, optional)"
+    treasure: "3"
+    monsters: "group DD-06+09+13: 120"
+    music: 12
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-10A
+    name: "Gemstone Mines, west pocket"
+    stem: xeen_dd10a.blv
+    map_id: 9159
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D1
+    party: "23-27"
+    levels: "16-28"
+    treasure: "3"
+    monsters: "group DD-10+11: 120"
+    music: 18
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-10B
+    name: "Gemstone Mines, east pocket"
+    stem: xeen_dd10b.blv
+    map_id: 9160
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D2
+    party: "23-27"
+    levels: "16-28"
+    treasure: "3"
+    monsters: "group DD-10+11: 120"
+    music: 18
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-10C
+    name: "Gemstone Mines, north pocket"
+    stem: xeen_dd10c.blv
+    map_id: 9161
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "V"
+    on_map: D6
+    # D-27: Act V on D6 (Floating Eyes 40, Terrible Eyes 50, Patrols 50; MAPS 0's own row, 11.5k), installed in phase 5.
+    party: "48-51"
+    levels: "40-50"
+    treasure: "5"
+    monsters: "20"
+    music: 18
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-11A
+    name: "Troll Holes, first pocket"
+    stem: xeen_dd11a.blv
+    map_id: 9162
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D2
+    party: "23-27"
+    levels: "18-38"
+    treasure: "3"
+    monsters: "group DD-10+11: 120"
+    music: 8
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-11B
+    name: "Troll Holes, second pocket"
+    stem: xeen_dd11b.blv
+    map_id: 9163
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D2
+    party: "23-27"
+    levels: "18-38"
+    treasure: "3"
+    monsters: "group DD-10+11: 120"
+    music: 8
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-11C
+    name: "Troll Holes, third pocket"
+    stem: xeen_dd11c.blv
+    map_id: 9164
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D2
+    party: "23-27"
+    levels: "18-38, Hobstadt 42"
+    treasure: "3"
+    monsters: "group DD-10+11: 120"
+    music: 8
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-12
+    name: "Dungeon of Lost Souls"
+    stem: xeen_dd12.blv
+    map_id: 9165
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "IV"
+    on_map: D4
+    party: "37-39"
+    levels: "35-55"
+    treasure: "4"
+    monsters: "45"
+    music: 20
+    lane: A8
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-13
+    name: "Ogre Forts"
+    stem: xeen_dd13.blv
+    map_id: 9166
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "III"
+    on_map: D2
+    party: "22-26"
+    levels: "18-30"
+    treasure: "3"
+    monsters: "group DD-06+09+13: 120"
+    music: 13
+    lane: A7
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-14
+    name: "Castle Blackfang"
+    stem: xeen_dd14.blv
+    map_id: 9167
+    kind: blv
+    face: darkside
+    role: dungeon M (large)
+    act: "IV"
+    on_map: D4
+    party: "39-42"
+    levels: "36-58, Count Blackfang 70"
+    treasure: "4 (hoard 5)"
+    monsters: "70"
+    music: 3
+    lane: A8
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-15
+    name: "Great Pyramid"
+    stem: xeen_dd15.blv
+    map_id: 9168
+    kind: blv
+    face: darkside
+    role: dungeon L
+    act: "V"
+    on_map: D5
+    party: "44-47"
+    levels: "42-65"
+    treasure: "5"
+    monsters: "70"
+    music: 46
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-16
+    name: "Corak's Pod"
+    stem: xeen_dd16.blv
+    map_id: 9169
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "V"
+    on_map: D6
+    party: "45-47"
+    levels: "40-58 (few)"
+    treasure: "5"
+    monsters: "group DD-16+24: 45"
+    music: 46
+    lane: A7
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-17
+    name: "Castle Alamar"
+    stem: xeen_dd17.blv
+    map_id: 9170
+    kind: blv
+    face: darkside
+    role: dungeon L
+    act: "V"
+    on_map: D6
+    party: "52-55"
+    levels: "50-75"
+    treasure: "5 (hoard 6)"
+    monsters: "70"
+    music: 50
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-18
+    name: "Sandcaster Sewer"
+    stem: xeen_dd18.blv
+    map_id: 9171
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "III"
+    on_map: D3
+    party: "28-30"
+    levels: "25-40"
+    treasure: "3"
+    monsters: "50"
+    music: 44
+    lane: A8
+    phase: 3
+    built_as_mm7_stand_in: false
+  - key: DD-19
+    name: "Wizard Quarter"
+    stem: xeen_dd19.blv
+    map_id: 9172
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "IV"
+    on_map: D3
+    party: "38-41"
+    levels: "32-55, Xenoc 60"
+    treasure: "4"
+    monsters: "50"
+    music: 34
+    lane: A8
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-20
+    name: "Lakeside Coven and Sewer"
+    stem: xeen_dd20.blv
+    map_id: 9173
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "IV"
+    on_map: D4
+    party: "35-39"
+    levels: "24-45"
+    treasure: "4"
+    monsters: "group DD-05+20+23: 100"
+    music: 28
+    lane: A8
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-21
+    name: "Necropolis Sewer"
+    stem: xeen_dd21.blv
+    map_id: 9174
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "V"
+    on_map: D6
+    party: "49-52"
+    levels: "40-62, Sandro 65"
+    treasure: "5"
+    monsters: "15 + Sandro (group DD-08+21: 60 + Sandro, D-62)"
+    music: 11
+    lane: A8
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-22
+    name: "Sheltem's Pod"
+    stem: xeen_dd22.blv
+    map_id: 9175
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "VI"
+    on_map: D6
+    party: "56-60"
+    levels: "48-65"
+    treasure: "6"
+    monsters: "20 (group DD-22+26: 40, D-62)"
+    music: 46
+    lane: A8
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: DD-23
+    name: "Gargoyle Lair"
+    stem: xeen_dd23.blv
+    map_id: 9176
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "IV"
+    on_map: D4
+    party: "35-39"
+    levels: "24-40"
+    treasure: "4"
+    monsters: "group DD-05+20+23: 100"
+    music: 31
+    lane: A7
+    phase: 4
+    built_as_mm7_stand_in: false
+  - key: DD-24
+    name: "Giants' Hall"
+    stem: xeen_dd24.blv
+    map_id: 9177
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "V"
+    on_map: D5
+    party: "45-47"
+    levels: "38-58"
+    treasure: "5"
+    monsters: "group DD-16+24: 45"
+    music: 31
+    lane: A7
+    phase: 5
+    built_as_mm7_stand_in: false
+  - key: DD-26
+    name: "Olympus Sewer"
+    stem: xeen_dd26.blv
+    map_id: 9178
+    kind: blv
+    face: darkside
+    role: dungeon S
+    act: "VI"
+    on_map: D7
+    party: "56-60"
+    levels: "48-65"
+    treasure: "6"
+    monsters: "20 (Lesser Water Elemental 55 × 16, Water Elemental 62 × 4; group DD-22+26: 40, D-62, D-65)"
+    music: 44
+    lane: A8
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: FD-01
+    name: "Alamar Depths"
+    stem: xeen_fd01.blv
+    map_id: 9179
+    kind: blv
+    face: darkside
+    role: dungeon M
+    act: "VI"
+    on_map: D6
+    party: "58-61"
+    levels: "55-80"
+    treasure: "6"
+    monsters: "group FD-01+02: 60 (FD-01 34: Annihilator 28, Autobot 6; D-69)"
+    music: 50
+    lane: A8
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: FD-02
+    name: "Southern Sphinx"
+    stem: xeen_fd02.blv
+    map_id: 9180
+    kind: blv
+    face: cloudside
+    role: dungeon S
+    act: "VI"
+    on_map: X6
+    party: "58-61"
+    levels: "55-75"
+    treasure: "6"
+    monsters: "group FD-01+02: 60"
+    music: 46
+    lane: A7
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: FD-03
+    name: "Darkstone Tower"
+    stem: xeen_fd03.blv
+    map_id: 9181
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "VI"
+    on_map: X5
+    party: "60-63"
+    levels: "60-85"
+    treasure: "6"
+    monsters: "45"
+    music: 43
+    lane: A7
+    phase: 6
+    built_as_mm7_stand_in: false
+  - key: FD-04
+    name: "Dragon Tower and the Dungeon of Death"
+    stem: xeen_fd04.blv
+    map_id: 9182
+    kind: blv
+    face: cloudside
+    role: dungeon M
+    act: "optional"
+    on_map: X7
+    party: "62-66"
+    levels: "65-100"
+    treasure: "6"
+    monsters: "60"
+    music: 13
+    lane: A7
+    phase: 6
+    built_as_mm7_stand_in: false

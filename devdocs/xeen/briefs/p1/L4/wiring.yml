@@ -1,0 +1,172 @@
+format: 0
+variables: [test_accepted, gate_open, dais_shown]
+events:
+  - id: evt:camp
+    preset: script
+    source: deco:camp
+    title: A burnt camp
+    lua: "XeenQuests.hook(\"planes.camp\")"
+    notes: "A3's planes.camp: the fire-walker's note by the burnt bedroll."
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:ember_cache
+    title: Chest
+    notes: The ember cache (trapped).
+  - id: evt:chest_test
+    preset: chest
+    source: chest:test
+    title: Chest
+    notes: The test's chest (aaze0025:5).
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: The return dais
+    condition: {qbit: m38_fire}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(-27456, 17728, 1280, 1792, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the dais after the sleeper, to D7's entrance:p1_return (A3's m38.dais_fire)."
+  - id: evt:dais_disc
+    preset: script
+    source: deco:dais
+    title: The return dais
+    condition: {qbit: m38_fire}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(-27456, 17728, 1280, 1792, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:dais clicked on S's decoration over it.
+  - id: evt:dais_hide
+    preset: script
+    trigger: load
+    condition: {not: {qbit: m38_fire}}
+    effects:
+      - hide: platform:dais
+      - passable: platform:dais
+    notes: "C5: the return dais shows once the Fire Sleeper is awake (qbit 111760, m38.sleeper_fire)."
+  - id: evt:dais_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_fire}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: "P-1: the dais shown on every load once m38_fire is set (S's disc starts hidden)."
+  - id: evt:dais_show
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_fire}, {not: {map_var: dais_shown}}]}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: The dais rises the second the Fire Sleeper wakes (m38_fire).
+  - id: evt:font
+    preset: script
+    source: deco:font
+    title: The Ember Font
+    lua: "XeenQuests.hook(\"planes.font\")"
+    notes: "A3's planes.font: once a day for the party (Xeen.usedToday), +20 Fire resistance until rest, every member."
+  - id: evt:gate
+    preset: script
+    source: door:sleeper
+    title: The Sleeper's Gate
+    condition: {not: {qbit: m38_fire_test}}
+    effects:
+      - text: The gate of black glass does not move.
+    else_effects:
+      - text: The gate stands open.
+    notes: "Clicked: the gate never moves by hand (it opens on the test)."
+  - id: evt:gate_open
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_fire_test}, {not: {map_var: gate_open}}]}
+    opens: [door:sleeper]
+    effects:
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: The gate opens the second the qbit is set (C4).
+  - id: evt:passed_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_fire_test}
+    opens: [door:sleeper]
+    effects:
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: "P-1: the load event reads qbit 111764: the gate open, the guardians hidden, the pit quiet (through refills and the reset after a map rebuild)."
+  - id: evt:plaque
+    preset: script
+    source: deco:statue
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_fire\")"
+    notes: "A3's m38.plaque_fire: 'Step One' on the plaque of the statue's own black plinth (S's decoration, radius 224, solid and clickable)."
+  - id: evt:sleeper
+    preset: script
+    source: deco:sleeper
+    title: The Fire Sleeper
+    lua: "XeenQuests.hook(\"m38.sleeper_fire\")"
+    notes: "A3's m38.sleeper_fire (clicked, every time): not Chosen; 'Awaiting Grunfeld field activation.'; awake (the qbit, the award, 10,500 experience)."
+  - id: evt:spire
+    preset: script
+    source: platform:spire_seam
+    title: A seam of red crystal
+    lua: "XeenQuests.hook(\"planes.spire\")"
+    notes: "A3's planes.spire: the first time a ruby (map variable p1_spire)."
+  - id: evt:test
+    preset: script
+    source: platform:test_plate
+    question: {ask: "Accept the test of Fire?", answers: [Yes, Y]}
+    trigger: step
+    condition: {all: [{not: {qbit: m38_fire_test}}, {not: {map_var: test_accepted}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m38.test_fire\")"
+      - show_actors: 60
+      - set:
+          var:
+            map_var: test_accepted
+          value: 1
+    notes: "D-58 C3: the test (aaze0025:6). Yes: A3's m38.test_fire line, the guardians rise (group 60 shown); any other answer does nothing. Not asked again while they live."
+  - id: evt:test_check
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: test_accepted}, {not: {qbit: m38_fire_test}}]}
+    lua: "Xeen.planeTestCheck(\"fire\", 60)"
+    notes: "A3's killed-group check (xeen_common.lua): once the three guardians are dead it runs m38.test_fire_passed, which sets qbit 111764 (P-1) with its line."
+  - id: evt:vents
+    preset: script
+    source: platform:vent1
+    trigger: step
+    sources: [platform:vent2, platform:vent3, platform:vent4, platform:vent5, platform:vent6, platform:vent7, platform:vent8, platform:vent9]
+    lua: "XeenQuests.hook(\"planes.vent\")"
+    notes: "D-58 P1 Q2: A3's planes.vent (one time in three, 50 fire to each member, 'A vent flares!')."
+  - id: evt:way_up
+    preset: script
+    source: exit:way_up
+    title: The heat column
+    effects:
+      - lua: "evt.MoveToMap(-27456, 17728, 1280, 1792, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the way up to D7's entrance:p1_return; A3's m38.way_up_fire is its question."
+  - id: evt:way_up_column
+    preset: script
+    source: deco:way_up
+    title: The heat column
+    effects:
+      - lua: "evt.MoveToMap(-27456, 17728, 1280, 1792, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:way_up clicked on S's decoration over it.

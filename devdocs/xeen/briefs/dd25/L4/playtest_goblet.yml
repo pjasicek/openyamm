@@ -1,0 +1,45 @@
+# Playtest of the Chalice on the tasting table (DD-25, L4; D-62 Q37): before q-d17.done (113343) the goblet
+# (deco:chalice, entity 4, a shipped 7dec48 placed hidden) is not shown, after a save and a load either; with 113343
+# set (as Bosco's hand-in does, A3's Q-D17) it is shown on the next load of the map: a save and a load inside the hall,
+# then an entry from D5 (as D5's door will, A6). Run with --world xeen --map xeen_dd25.blv
+# (output/studio_cal/dd25/four.sh).
+id: xeen.dd25.l4.goblet
+title: Bosco's Hall (DD-25 L4), the Chalice on the table from q-d17.done
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd25.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+  - assert: {map: xeen_dd25.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close(); wait(0.5); if qbit(113343) then error('q-d17.done set at the start') end"}
+  # Before the hand-in: the table holds only the cups.
+  - assert: {sprite_hidden: [4]}
+  - assert: {sprite_shown: [7, 8, 9, 10]}
+  - save_game: {name: dd25_before}
+  - load_game: {name: dd25_before}
+  - advance_runtime: {seconds: 1}
+  - assert: {sprite_hidden: [4]}
+  # Bosco takes the Chalice (113343): shown on the next load.
+  - setup_shortcut: {kind: set_qbit, id: 113343, value: true}
+  - save_game: {name: dd25_done}
+  - load_game: {name: dd25_done}
+  - advance_runtime: {seconds: 1}
+  - assert: {map: xeen_dd25.blv}
+  - assert: {sprite_shown: [4]}
+  # Out to D5 and in again by the gate: still on the table.
+  - lua_event: {source: "evt.MoveToMap(-512, 9216, 2688, 0, 0, 0, 0, 0, \"xeen_d5.odm\", {direct = true})"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - lua_event: {source: "evt.MoveToMap(2048, 0, 0, 1024, 0, 0, 0, 0, \"xeen_dd25.blv\")"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_dd25.blv}
+  - assert: {sprite_shown: [4]}

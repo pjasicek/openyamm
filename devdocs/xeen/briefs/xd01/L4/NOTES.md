@@ -833,3 +833,315 @@ the Rats (385-387), both ways. `playtest_hostility.yml` (written by
 `output/studio_cal/hostility/gen_hostility_tests.py`) checks the slot and placed foes hostile, the peaceful ones
 peaceful and the map's kinds, spawned side by side near the party, not taking each other on; it passes twice, as do the
 map's other playtests.
+
+## Rebase, phase 0 (2026-11-20, lane A7)
+
+The design part of the rebase (CHANGES_FOR_BUILT_MAPS A2, A3, A5 and XD01-1 to XD01-4) and the texture trim of ROADMAP
+§5.2. The map stays `world: mm7` on MM7 stand-in rows: the Xeen world package, its rows and hooks do not exist yet.
+Built and checked with A1's merge-point-1 binaries (`openyamm-studio/build-xeen/oymap`, `build-xeen/game/openyamm`)
+against the lane root `output/studio_cal/a7/root_tower` (installed there, not in `assets_dev`). Scratch and pictures:
+`output/studio_cal/xd01/a7/` (`backup_before/` is the project before the pass, `bb/` a copy built for comparison;
+`texcount.py`, `four.sh`, `tex_before.txt`, `tex_after.txt`, `audit.txt`, `solve.txt`). The edits were scripted text
+swaps (each counted), then `oymap fmt` and `oymap record`.
+
+**Monsters** (`output/studio_cal/a7/count.py xd01`):
+
+| | Before | After |
+|---|---|---|
+| Dragonfly spawn points (slot 2, Dif 1) | 6, no tier: each rolls Dragonfly 2, Fire Dragonfly 4 or Queen Dragonfly **8** | 4 with a tier: the bay, the hall's bins and the loft `a` (Dragonfly 2), the cracked tank `b` (Fire Dragonfly 4); `spawn:hall_east` and `spawn:feed_store` gone (the hall keeps its bins and gutter, the feed store is the quiet room the pacing above calls it) |
+| Rat spawn points (slot 1, Dif 1) | 3, no tier: Giant Rat 2, Lightning Rat 4 or Fire Rat 6 (the Wobbles' kind: the playtest's flaky Fire Rat count, texture pass) | 3 with a tier: the hall's gutter `a` (Giant Rat 2), the drain shaft and the shipping room `b` (Lightning Rat 4); a spawned Fire Rat cannot be taken for a Wobble any more |
+| Placed | 8 Giant Rats (2) in the pens; Mr and Mrs Wobbles (Fire Rat 387, 6, named) | unchanged |
+| Summoned | 2 Giant Rats at each Wobble's death (the splits) | unchanged |
+| In all (spawn points x 2.5 + placed) | about 32, levels 2-8 | **about 28, levels 2-6** (MAPS §0: 28, 2-6); 4 more when the pair split |
+
+The Wobbles stay the two named Fire Rats (6): A2 makes their boss row (Breeder Slime, level 4) with the Xeen rows.
+
+**Treasure**: `map_stats.treasure_level` 1 (unchanged); every chest at 1: Joe's stash (his "retirement fund") 2 -> 1
+(it is Joe's, not the Wobbles'; the pair keep no hoard: their nest gives the rival's purse, 75 gold). The stash is now
+the pirate maps' chest (`kind: gt002`, Joe's strongbox's kind) instead of the default MM7 chest.
+
+**Original lines** (`reference/mm4_5_world_of_xeen/unpacked/text/xeen/aaze0028.txt.json`, Vertigo with Joe's
+warehouse):
+
+| Line | Where | Reference |
+|---|---|---|
+| The invoice: "Inside the crate you find a piece of paper that reads: \"Breeder Slimes, 1 mated pair, 287. 5 Doom Bugs at 145 each, 725. Total: 1012 gold.\" It appears that Joe has been buying monsters and distributing them around town! Mayor Gunther will want to hear about this." | the invoice crate (`evt:invoice_crate`), now a message window (it was a status line saying "Doom Bugs, 5 (assorted)") | aaze0028:16 |
+| "Slime lords shall rule" | the Plague Cult's slogan daubed in slime on the grain hall's west wall (`panel:slogan`, `evt:slogan`, hover "Words daubed in slime", a message window: "SLIME LORDS SHALL RULE") | aaze0028:21 (a sign in Vertigo) |
+| "The end is near." | under the slogan, "in another hand" (the same window) | aaze0028:18 (a Plague Cult member's line) |
+
+The invoice's words are A3's (`assets_dev/worlds/xeen/source/quests/m2.yml`, `hooks.invoice_crate.text`), so the map
+and the quest agree. A3 writes the source's two-column invoice as sentences ("1 mated pair, 287. 5 Doom Bugs at 145
+each, 725. Total: 1012 gold.") where CHANGES XD01-2 quotes it with slashes ("1 mated pair 287 / 5 Doom Bugs at 145
+each 725 / Total: 1012 gold"); every name and number is the source's in both.
+
+The slogan is a wall panel of MM7's slime (`7slimywtr`, the liquid shader's moving green) 336 x 160, 192 above the
+floor, on the hall's brick north of its lantern: no new texture (this S map already has eleven generated ones against S's 4). A painted
+lettering would need a new texture; the green daub with its hover name is the cheap form CHANGES allows.
+
+**XD01-4** (fewer gates): not done; optional, and not cheap (18 door records: the pens' six bars and the doors the
+order of play uses).
+
+**Textures** (`texcount.py`, portals left out): **57 -> 46** against S's cap of 30. Merged within one area's family
+where the two pictures are near-identical or mirror images (`cands.png` is the sheet looked at):
+- the stash chest's default `7gt002a/b/c/e/g` -> the strongbox's `gt002*` (-5);
+- the lever's default arm `BemH16a` -> the cellar's beam `cbeam5` (-1);
+- `ch002a` (d06's studded crate) -> `gt001a` (d32's, near-identical, already on most crates) (-1);
+- `t66b03r` (the office door, the mirror of `t66b03l`) -> `t66b03l` (-1);
+- `gkp103b` (the lane gate, the mirror of the KEEP OUT door's `gkp103a`) -> `gkp103a` (-1);
+- `d1wldle3` (the culvert's lower walls, `d1wldle2` with a little more moss) -> `d1wldle2` (-1);
+- `gt003a` (MM8 pallet planks, on a pallet in the bay and one in the feed store) -> the bay's `t66floor` and the
+  cellar's `crcn96`, so neither area borrows the other's wood (-1).
+
+Stopped at 46, where the next trims cost a look: the eleven generated signs, tanks, gate, shutter and tonic rack (one
+or two faces each, each a readable set piece); the cellar's two bricks (`cbmxbrck`, `cbrdbrck`: the cistern's own
+look, kept on purpose by the texture pass); the river beyond the grate (`orwtrtyl`, one face: sewage there would read as
+the culvert, not the river); d06's rope-lashed roof and flagstones, d32's horizontal beam, the ledgers' bookcase and the
+key cabinet (each the only picture of its thing). 30 would mean dropping the signs or whole materials.
+
+**Checks** (new binaries): `validate` no issues; `build` warnings the same as the project before the pass (the ladder's
+squashed pictures, liquids on faces without the fluid bit, the boss names), the renamed crates and gate aside;
+`fmt --check` clean; `audit --reach --solve` on the installed map: no warning, the same infos as before the pass
+(squashed pictures, two silent second clicks, one unread variable); `solve` opens all 26 sectors in the same six steps,
+the pen key 2110 from Joe's cabinet (the warehouse key 2176 comes from X1, or Perception 3). Playtests from the lane
+root with `build-xeen/game/openyamm`: **4 of 4 each** on the final build (`output/studio_cal/xd01/a7/four_final.out`,
+logs `output/studio_cal/xd01/run/a7_*`). The walk gained the slogan's window and the
+invoice's window (`playtest.yml`, 138 steps); `playtest_perception.yml` (14) and `playtest_hostility.yml` (23)
+unchanged: no kind changed, and Dragonflies (226) stay on the map for its "slot kind hostile" check.
+
+**Pictures**: `output/studio_cal/xd01/a7/shots3/` (the slogan from the hall, close, and its window; `slogan3.jpg`) and
+`shots/` (the bay's crates, the office door, the stash chest, the feed store, the lever, the culvert's walls;
+`contact.jpg`; its slogan pictures are the first try). The first try (`flow: down`, 448 long, centred) drew a pale
+streaked sheet with the hall's lantern hanging in front of it; without `flow` the slime moves green, and the panel
+now stands north of the lantern (`slogan2.jpg`, `slogan3.jpg`). The user should look at it: a green daub that the
+hover name and the window explain, not painted letters.
+
+**Still blocked** (not this pass's): the Wobbles' boss row and the Slime and Doom Bug families (A2); the quest items
+(warehouse key 12001, invoice 12002, pen key 12003) as Xeen rows (A2) and the qbits 110010-110012 from the quest file
+(A3, whose numbers these already are); `world: xeen` and the install into the world (A1's install).
+
+**Tool defect**: `oymap record` on a project with no history says "nothing to record: no unattributed outside edit
+since agent:xeen-a7-tower's last entry" and adds no entry (history count 0): the first `fmt`/`build` takes hand edits
+as the baseline silently (XD-04's NOTES, same pass).
+
+## Into the world (2026-11-20, lane A7)
+
+Phase 0 step 3, on the recipe of XD-05's move (lane lead). Files before: `output/studio_cal/xd01/a7_backup_move/`;
+edits by `output/studio_cal/xd01/a7_move.py` (helpers `output/studio_cal/a7/movelib.py`), then `oymap fmt` and
+`oymap record --author agent:xeen-a7-move`.
+
+- `world: xeen`. Slots by A2's slot names, Dif, counts and weights kept: 1 **`Xeen Ooze`** (the hall's gutter a, Slime
+  11380 2; the culvert and the shipping room b, Breeder Slime 11381 4), 2 **`Xeen Swarm`** (the bay, the hall's bins
+  and the loft a, Doom Bug 11340 2; the cracked tank b, Insect Swarm 11341 4).
+- Placed: the pens' eight Slimes 11380 (2); **Mr and Mrs Wobbles the boss row 11383** (4, about three Breeder Slimes'
+  hit points; names kept, `hp` dropped). Their splits (`evt:mr_splits`, `evt:mrs_splits`) summon two of slot 1 at
+  tier a each: Slimes 11380 now, as the brief's split wants.
+- Monsters at load (`output/studio_cal/a7/xcount.py xd01`): **about 28** (MAPS §0: 28), levels **2-4** (the band 2-6:
+  Sewer Slug 6 is only slot 1's c, which no point fixes), 4 more when the pair split.
+- Items (A2): `warehouse_key` 12001, `joes_invoice` 12002, `pen_key` 12003.
+- `relations`: **all dropped** (they kept MM7's Dragonflies off its Rats); no peaceful actor here.
+- Quest bits unchanged (110010-110012). **A3's `m2.invoice_crate` hook is not called:** the map's own
+  `evt:invoice_crate` already shows the hook's text word for word (the rebase took A3's wording), sets 110010 and the
+  crate holds the invoice; the hook would give the invoice a second time. The one thing the hook does that the map did
+  not, the autonote 4002 (Joe's invoice, the world's `english/autonote.txt`), is now an `autonote: 4002` effect of the
+  map's event. So the map's text wins, and it is the hook's.
+
+**Dressing pass** (the user's rule of 2026-11-20, `devdocs/xeen/formats/DRESSING.md` "Measurements"; checker
+`output/studio_cal/a7/dressing/check_dressing.py`, spots from `output/studio_cal/a7/dressing/suggest_moves.py`, edits
+`output/studio_cal/xd01/a7_dressing/batch1.py`). Findings **32 -> 17** (`output/studio_cal/xd01/a7_dressing_before.txt`,
+`a7_dressing_after.txt`):
+- moved: the feed store's sacks out of its two doorways into a second row along its north wall (a storeroom: 270-300
+  from the wall, within the storeroom's 320); the loading bay's two sacks out of the bay door's way, a pair; the grain
+  hall's west sack and its middle sack (off the line between the hall's doors);
+- removed: one of the grain hall's three barrels (`hall_barrel_1`) and one of its four sacks (`hall_sacks_5`), one of
+  the aisle's three sacks (`aisle_sacks_3`) and the feed store's sixth sack (`feed_sacks_6`, its only free spot 1,400
+  away): the hall's clumps are now pairs (the hall is no storeroom by the rule's words, though it holds grain);
+- kept, the centre set piece: the cistern's feeding station (`pens_mash` the chow cauldron, `pens_bucket`,
+  `pens_cage_1` the cage hung over them): the cistern is a sixteen-sided hub with eleven openings (five doorways, six
+  pen gates), so every spot off its walls lies on a line between two of them; the station stands beside the drain pool
+  in the middle, 400 from the nearest doorway, in a room 1,600 across, and narrows nothing (all 17 findings left are
+  these three).
+
+**The drain shaft's slimes** (found by the move's playtest): `spawn:culvert` stood on the shaft's dry ledge 120 from the
+Bronze Ring (item 137); the ooze stand-in's corpse is broad, and a slime killed on the ledge lay over the ring, so the
+use key hit the corpse (as a player's click would). The spawn point moved off the 88-wide ledge to the shaft floor's
+north-west corner ([3640, 5580], 280 from the ring): slimes in the drain water.
+
+No exit of this map leads to an MM7 map (both to X1), so nothing was sealed here.
+
+**Balance** (the orchestrator, 2026-11-20: kill XP per member within MAPS §0 ±15 %, by the tier mix first). Figures from `tools/xeen/balance.py --detail` (A2) and the lane's copy `output/studio_cal/a7/xbalance.py`, which skips objects.yml item spawns: A2's tool reads every indoor spawn entry as a monster marker of slot 1, item spawns included (a defect reported to A2; the lane's copy differs by that one filter). Reports: `output/studio_cal/a7/balance_before.txt`, `xbalance_before.txt`, `balance_after_tool.txt`, `xbalance_after.txt`; edits `output/studio_cal/a7/balance_move.py`. The slots' Dif, per_marker and weight are unchanged, so A2's map_stats row needs no copy.
+
+| | Monsters | Kill XP per member (MAPS 0.3k) | Ratio |
+|---|---|---|---|
+| Before | 28 | 0.24k | 0.80 (both tools) |
+| After | 28 | 0.30k | **1.00** (both tools) |
+
+Three spawn points from a to b: the grain hall's gutter (Breeder Slimes 4 for Slimes 2), the hall's bins and the loft (Insect Swarms 4 for Doom Bugs 2). The bay keeps its Doom Bugs (a), the pens their Slimes. Levels 2-4 as before.
+
+**Checks (final, 2026-11-20):** Studio checks against `output/studio_cal/a7/root_xeen` (its engine monster tables and, since this move, its engine items.txt carry the world's rows: `mk_studio_root.py`, then the lane's `mk_studio_root_items.py`, both write new files and rename); built into `output/studio_cal/xd01/a7_xbuild/`, installed with `oymap install --root assets_dev` and `--root output/studio_cal/a7/root_xgame`. Game checks with `build-xeen/game/openyamm --world xeen` from root_xgame (missing new world and engine files hard-linked into it with `cp -rl --update=none` twice during the move: a world.yml table, monster models; its X1 stand-in and XD-05 left as they were). `validate` no issues; `build` warnings as before the move, plus the studio's
+hostility warning for the two Xeen slots (it reads engine `hostile.txt`, not the world's relations.yml: a studio defect)
+and new "stand inside each other" notes for the pen slimes and their bowls and muck and for Mrs Wobbles and the nest's
+bones (the ooze stand-in's radius is the BOoze's, larger than a rat's: S's model will set it); `audit --reach --solve`:
+no warning, all 26 sectors, six steps, nothing stranded, both exits to X1, the warehouse key from X1; `fmt --check`
+clean; playtests **4 of 4**: `playtest.yml` 138 steps, `playtest_perception.yml` 14, `playtest_hostility.yml` 24
+(`output/studio_cal/a7/final2_four.out`, logs `output/studio_cal/xd01/a7_xrun/`). Balance (A2's tool and the lane's copy)
+1.00. Pictures: `output/studio_cal/xd01/a7_xshots/` (sheet `a7_xshots_sheet.jpg`: the Wobbles' pen, the pens' slimes, the
+swarms on the grain hall's shelves, the cistern's feeding station, the hall's pairs, the shaft's slimes) and
+`a7_xshots2/` (the feed store's row of sacks, the bay's sacks with a Doom Bug); looked at. Open: S's models for the
+slimes and swarms (stand-in sprites now; a Doom Bug model is being bound), X1 in the world for both exits' arrival.
+
+## The slogan texture (2026-11-20, lane A7, decision D-3)
+
+The green slime panel read as a framed painting; a decider asked for one new picture texture. **`xnslogan`** (256 by 128
+logical, x4 master 1024 by 512): the grain hall's own brick (MM8 `t66c01a`, its scale matched) with SLIME LORDS SHALL
+RULE daubed in dripping green slime and "The end is near" smaller below. Made with Codex in
+`level_generation/textures_xeen/a7_xd01_slogan/` (`xtex.py --project`, one generation at a time: v1 had a carved
+wainscot and brick piers round it, v2 bricks too big, v3 misspelt "near", **v4 used**, gain 1.41), installed in
+`assets_dev/worlds/xeen/textures_x4` and `textures_x2`. `panel:slogan` now carries it (`size [256, 128]`, `fit`); hover
+name and message unchanged. Pictures: `output/studio_cal/xd01/a7/shots_slogan/` (looked at: the letters read on the
+wall; the panel is a shade darker than the wall round it, its edge faint). Rebuilt and reinstalled: validate clean, `fmt --check` clean,
+playtests 4 of 4 each (`playtest` 138 steps, `playtest_perception` 14, `playtest_hostility` 24;
+`output/studio_cal/a7/slogan_four.out`). Entry for A6's `source/textures.yml` in the lane report. Act I's other textures are grandfathered (D-3): nothing else added.
+
+**A1's merge-point-4 audit** (dressing check) reports on this map: five sacks off the walls (the loading bay's pallet
+in the middle of the bay, `deco:bay_pallet_sacks_1/2`; the feed store's pallet, `deco:feed_sacks_4/7`, and
+`feed_sacks_3`) and a clump of four sacks in the feed store, which by A1's rule (8 or more containers) is not a
+storeroom. Open: move both pallets against walls (or bring the feed store to 8 containers along its south wall), then
+rebake.
+
+## Lighting bake (2026-11-20, lane A7)
+
+Profile `tools/lighting/baked_indoors/profiles/xeen_xd01.yml` (16 units per texel, one 2048-wide page, 128 samples, 3
+bounces, light size 24; direct 2.0, bounce 5.0, ambient 0.9, ceiling 1.5: one calibration for the five, set on XD-05
+against the unbaked map). Baked with `bake_indoor.py --game-binary build-xeen/game/openyamm --sources
+output/studio_cal/xd05/a7_bake/xeen_sources` (Blender 5.3 in one process under a 16 GB cap; scripts in
+`output/studio_cal/xd05/a7_bake/scripts/`, passes kept in `output/studio_cal/xd01/a7_bake/bake/` for `--recompose`).
+`--sources` is a staged root of the world's own x4 masters (links to `level_generation/textures_xeen/finished/`): the
+bake needs a material for every face and the Xeen textures have no source in `assets_source/worlds/xeen/textures_x4/`
+yet. Installed `xeen_xd01.lighting` and `.bake.json` (new file, then rename).
+
+- Bake: 2048 x 413 (0.85 M texels), 1,700 charts for 2,120 of 2,146 faces (329 mover faces), 38 static lights; 57 s
+  Cycles, 63 s in all; `xeen_xd01.lighting` 2.04 MB, `.bake.json` 760 bytes.
+- Pictures `output/studio_cal/xd01/a7_bake/` (`baked/`, `unbaked/` with `--set video.lightmaps=false`, `compare.jpg`
+  baked left): 47.9 baked against 52.7 unbaked (centre-crop mean of the six poses). The office lamp and the grain hall's
+  chandeliers throw pools with soft falloff; the hall and the loading bay read about a quarter darker in their corners
+  (bay 26 against 35); the shaft's iron door loses the green wash the vertex light put through the wall. No black faces,
+  no seams, no leaks seen. The first poses from `tour3.yml` predate the rebuild (two looked into the void in both
+  renders): kept in `first_poses/`, replaced by poses from `a7_xshots*.yml`. Baked after the 14:05 rebuild (the slogan
+  panel `xnslogan`).
+- Switched lights (the bake keeps every BLV light as the map starts): `light:heart_candle` (BLV light, on at start) is
+  baked: its glow stays on the walls after "The pink candle gutters out" (the actors' light does go out). The red
+  FEEDING TIME lamp is a pulsing light: fine. The fix is the map's: build an event-switched light as a pulsing light
+  (constant pulse) as INDOOR_PULSING_LIGHTS.md says, then re-bake.
+- Stale check: listed only for the world's own x4 masters (`worlds/xeen/textures_x4/*.png`), which have no home in
+  `assets_source` yet; with them in a source root at that path it lists nothing (checked), so installing the finished
+  masters there byte for byte clears it without a re-bake.
+- Playtest (`playtest.yml`, `assets_dev`, `--world xeen`): passed (`output/studio_cal/xd01/a7_bake/playtest.out`).
+- Re-bake after any rebuild of the map: `output/studio_cal/xd05/a7_bake/scripts/bake_one.sh 1`, then `install.py 1`.
+
+**Back to 46 textures (2026-11-20, D-3.4).** The slogan added one texture (`7slimywtr` stays in the gutter, the pool and
+the cracked tank), so the map counted 47. Joe's ledger shelf (`panel:ledger`) now takes the loft's book shelving
+`t1books1` instead of the Pirate Outpost's single bookcase panel `t66d01j`: **46**. Rebuilt, reinstalled, rebaked
+(`output/studio_cal/xd01/a7_bake/rebake_ledger.log`; `stale_bakes.py`: 0 stale), playtests 4 of 4 each
+(`output/studio_cal/a7/ledger_four.out`).
+
+## Hooks, switched lights and D-7 dressing (2026-11-20, lane A7, second session)
+
+**Hooks.** `evt:invoice_crate` calls A3's `m2.invoice_crate` (once: the invoice 12002, autonote 4002, joe_invoice_found 110010 and the source's words); `chest:invoice` keeps only its 40 gold. The hook hands the invoice over on the cursor: the playtest stows it (`stow()`), as a player puts it in a pack.
+
+**Switched lights as steady pulsing lights.** A bake keeps every BLV light as the map starts (INDOOR_BAKED_LIGHTING.md, INDOOR_PULSING_LIGHTS.md "Switched lights"), so each light an event switches is now a scene light with `pulse: {intensity: [1, 1], frequency: 0.1}` (constant): it is not baked, and `lights_on` / `lights_off` switch it as before (`evt.SetLight` key 40000 + its ids.lock number). Script: `output/studio_cal/a7/hooks/pulse_lights.py`. Here: `light:heart_candle` (key 40013; the playtest's assert follows).
+
+**Dressing (D-7.1, A1's recalibrated audit of 14:41).** `oymap audit --world xeen --reach --solve` on the installed map (scratch root `output/studio_cal/a7/root_d7`, lane script `output/studio_cal/a7/xcycle.sh`; walking-line pushes by `output/studio_cal/a7/dressing/fix_lines.py` and `d7_moves.py`): no error left. Changes: `room:feed_store` tagged `store: true` (D-7.5; its two pallet sacks `feed_sacks_4/7` and the pallet against the west wall, its bucket against the north wall); the loading bay's pallet and `bay_pallet_sacks_1/2` moved out of the cart way into the south-east corner (the bay is no store), the bottle beside it; `pens_bucket` (between the cistern's lines, no free spot) and `culvert_bucket` (268 in front of a doorway) removed.
+
+### Dressing exceptions
+
+- `pens_mash` (the chow cauldron, a set piece): the cistern's feeding station in the middle of the sixteen-sided hub, 100 from the line between the west arch and the east doorway; every spot off its walls lies on a line between two of its eleven openings, and it leaves the room's 1,600 width free.
+
+## Merge point 9's `facing` warning (2026-11-20, lane lead A7, fourth session)
+
+The studio now warns when a decoration names `facing` but its 3D model is turned at random by where it stands. The
+five such (`deco:bay_cask`, `dock_cask`, `ship_cask` on 7dec21, `honeymoon_corpse` on corpse01, `outfall_junk` on
+7dec10) lost their `facing` (it never reached the game: the look is unchanged; the BLV differs by the stored direction
+only). Rebuilt, installed, re-baked; playtests in `output/studio_cal/a7/s4_facing_chain.out`. The build's other
+warnings (squashed pictures, placeholders) are A1's newer checks, not looked at yet.
+
+## Build warnings (2026-11-20, merge point 11)
+
+Lane A7's warnings pass (oymap of merge point 11). Build warnings 73 → 3. Edited in the L4 YAML (the project files are
+the source); before: `output/studio_cal/a7w/backup/xd01/`. Pictures before | after, lightmaps off:
+`output/studio_cal/a7w/shots/xd01/sheet.jpg` (22 poses).
+
+- **Hanging lanterns** (`hall_hanging_*`, dec27): they hang under the three tie beams; `height` 400 → 512 brings each
+  top to the beam's underside (576).
+- **Floating blocks:** the loft rail's six posts stand on the loft by `base: 256` (where the build already put them;
+  the floating check measured them from the hall floor), 20 square and 4 taller than the rail so no faces coincide; the
+  east rail meets the east wall; Joe's desk top overhangs 12 front and back (was 16, past the check's quarter-in
+  samples); the hoist crate hangs on two ropes at its sides (was one in the middle).
+- **Overlaps:** each pen's slime stands in its muck (`inside: deco:pen_<n>_muck`), its bowl in the pen's back corner;
+  in pens 2 and 5 the second slime stands at the front on the other side (gameplay unchanged: same monsters, groups,
+  pens). The four honeymoon candles stand beside the bed (30 out), the bones by Mrs Wobbles 80 further on, the dock's
+  east lantern clear of the hoist arm (`along` 0.17).
+- **Liquids:** `liquid: liquid` on the slime surfaces (cracked tank, drain pool, hall gutter), `liquid: water` on the
+  river grate's water, and `floor:river_sill` (kind water) for the one sewage floor the `floors` list missed.
+- **Pictures, fixed:** the loft ladder wore the bookshelf picture `t1books1` (at 16 times): now the rail's timber
+  `t66abc10a`, `uneven: true` as every Xeen ladder (the ladder fits its picture to each rail and rung); the cabinet's
+  ends are laid at size (`fit: false`, were fitted); the dock's 192-by-96 crate is 128 square (one crate picture per face).
+- **Pictures, meant (`uneven: true`)**, looked at in the game and reading as intended: the crate stacks (`gt001a`, one
+  studded-crate picture fitted to each crate face: big crates), the wide barn and street doors and the lane gate (a
+  braced plank door fitted to a wide leaf), the heart gate, the dock shutter, the shipping chute's sloped planks, the
+  bug tanks' glass (small; the squashed bug does not show) and the loft chest.
+- **Kept:** "nothing tells the player on arrival why he is here": XD-01's arrival is handled by its quests (M2 sends the
+  party here from Vertigo), no map message added; the names "Mr Wobbles" and "Mrs Wobbles" (corpse only until the
+  world has a placed-monster name table). Texture count unchanged (46).
+- Checks (root `output/studio_cal/a7w/root`): validate clean, audit `--reach --solve` as before (the `pens_mash`
+  exception above; 0 coplanar pairs); `playtest.yml`, `playtest_hostility.yml`, `playtest_perception.yml` 4 of 4 each
+  (`output/studio_cal/a7w/xd01_four.out`, logs `output/studio_cal/xd01/a7_xrun/`). Needs a re-bake after install
+  (geometry changed: posts, rail, desk top, crate, ropes).
+
+## Sixth session (2026-11-20, lane A7)
+
+- **D-32 (indoor radius cap 60):** the drain shaft's Breeder Slimes climbed the 88-wide dry ledge and stood or died
+  over the Bronze Ring, so the use key hit the slime. The ring now lies on `platform:drain_catch`, a fallen block of the
+  shaft's lining (48 by 72, its top 96 over the ledge, d1medbw) at the ledge's north end against the east wall; the
+  slimes (step 40) cannot stand there and the use key reaches over them. Playtests 4 of 4 from `assets_dev` (walk 139
+  steps, hostility, perception: `output/studio_cal/a7/s6_xd01.out`); re-baked.
+- Lamp rule: A1's lights audit (merge point 14) and `output/studio_cal/a7/lampcheck.py` find nothing.
+
+## Merge point 15 doors (2026-11-20, lane A7, seventh session)
+
+L4 edited directly (no generator); `objects.yml` only, as text (PyYAML turns the `on:` keys into `true:`: never
+round-trip these files through `yaml.safe_dump`).
+- **Barn doors and street doors** (`door:barn`, `door:street`, sliding pairs, `doors.wing_unmirrored`: both leaves
+  showed `t66b03l`): `pictures: [[t66b03l, t66b03r]]`, the left and the right wing.
+- **KEEP OUT** (`door:keep_out`, 224 wide, `gkp103a` alone) and **Joe's office** (`door:office`, 224 wide, `t66b03l`
+  from the theme alone; `doors.half_wing`): hinged pairs (`leaves: 2`, `hinge` dropped as the pair refuses it) with
+  `gkp103a`/`gkp103b` and `t66b03l`/`t66b03r`. Their leaves' second door records are new lock entries; the first leaf
+  keeps its number (the playtests' `door_state` checks unchanged).
+- Audit: no error; the one kept dressing warning (`pens_mash`). Build warnings 3 (unchanged). Installed, re-baked; from
+  `assets_dev`: `playtest` (139), `playtest_perception` (14), `playtest_hostility` (24) 4 of 4 each
+  (`output/studio_cal/a7/s7_mp15_chain.out`).
+
+## Merge point 17 (2026-11-20, ninth session, lane A7)
+
+- Mr and Mrs Wobbles' names are A2's place_mon rows 408 and 409: the corpse-name warning is gone. One build warning
+  left (no arrival line, kept: the slogan and the ledger tell the errand).
+
+## Texture count back to 46 (2026-11-20, twelfth session, lane A7)
+
+A6's count was 48 against D-3.4's accepted 46, since the slogan (`xnslogan`) and merge point 15's door pairs (`gkp103b`,
+`t66b03r`) came in. Two textures went, both on one or two faces, with no new texture:
+- `d6dorb` (the shipping room's single plank door, 256 wide): now a hinged pair `t66b03l`/`t66b03r` like Joe's office
+  door (new lock entry `door:shipping.leaf2` 10; door 14 keeps its number for the playtest's `door_state`).
+- `orwtrtyl` (the river exit's face beyond the grate): the culvert's own liquid `swprrf3`, its outflow.
+
+`tools/xeen/texture_budget.py --map XD-01`: 46/30, grandfathered (D-3.4). Build warnings 1 (the arrival line, kept),
+audit no error and the one kept dressing warning (`pens_mash`). Installed, re-baked; playtests from `assets_dev` in
+`output/studio_cal/a7/s12_xd01_four.out`: playtest (139), `playtest_perception` (14), `playtest_hostility` (24) 4 of 4 each;
+`stale_bakes.py` 0.
+
+## F14: steps out of the drain pool (2026-11-22, lane A7 twenty-seventh session)
+
+The drain pool (sunk 64 in slime behind a 24 lip) was a pocket (`check_drops.py`): two stone steps (d1medbw) against
+its north edge, 32 and 64 over its floor, the upper level with the room's floor; the drain grate untouched. L4
+`rooms.yml` by hand (no generator). Installed with its bake; build 1 warning (the arrival line, kept), audit 0 errors,
+`check_drops` 0 pockets. `playtest.yml` step 128 (the culvert walk to (3956, 4000)) failed 2 of 4: the party snags at
+(3821, 4256) and jumps on (before this change too: F6's note); not the pool.

@@ -1,0 +1,47 @@
+# Flyers across the shaft (D-4, XD-26): the gargoyles reach a party on any ledge across the open shaft. The map's own
+# gargoyles are killed first; then one Gargoyle (11540) is spawned on each other ledge that sees the party (none in a nook or
+# a shelf opening) and must come within 480 of it (they stop about 390 from the party to strike), inside its ledge: first on the east nests, then on the west
+# ledge, then on the high ledge. Spawns stand within about 3,000 of the party and where they see it over the ledges' lips (farther, or deep in a ledge below, they do not notice it). (A gargoyle on the shaft floor does not see a party 1,024 up behind a ledge's lip, and
+# does not come: as it should.)
+id: xeen.xd26.l4.flyers
+title: Gargoyle Eyrie (XD-26 L4), gargoyles fly across the shaft to the party on every ledge
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd26.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd26.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "actor kill 200000"}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_count: {monster_id: 11540, max: 0}}
+  # The party inside the east nests; gargoyles on the west ledge and the first ledge, across the shaft.
+  - set_pose: {map: xeen_xd26.blv, x: 2750, y: 1536, z: 1024, yaw_degrees: 180, pitch: 0}
+  - spawn_actor: {monster_id: 11540, x: -576, y: 1536, z: 1024}
+  - spawn_actor: {monster_id: 11540, x: -576, y: 450, z: 512}
+  - advance_runtime: {seconds: 25}
+  - assert: {actor_count: {monster_id: 11540, near: [2750, 1536, 480], min: 2}}
+  - console: {line: "actor kill 200000"}
+  # The party inside the west ledge; gargoyles on the east nests and the high ledge's east end.
+  - set_pose: {map: xeen_xd26.blv, x: -750, y: 1536, z: 1024, yaw_degrees: 0, pitch: 0}
+  - spawn_actor: {monster_id: 11540, x: 2900, y: 1300, z: 1024}
+  - spawn_actor: {monster_id: 11540, x: 1800, y: 2280, z: 1536}
+  - advance_runtime: {seconds: 25}
+  - assert: {actor_count: {monster_id: 11540, near: [-750, 1536, 480], min: 2}}
+  - console: {line: "actor kill 200000"}
+  # The party at the high ledge's lip over the shaft; gargoyles on the east nests, the west ledge and the first ledge.
+  - set_pose: {map: xeen_xd26.blv, x: 1024, y: 2240, z: 1536, yaw_degrees: 270, pitch: 0}
+  - spawn_actor: {monster_id: 11540, x: 2700, y: 1300, z: 1024}
+  - spawn_actor: {monster_id: 11540, x: -600, y: 1300, z: 1024}
+  - spawn_actor: {monster_id: 11540, x: -300, y: 450, z: 512}
+  - advance_runtime: {seconds: 25}
+  - assert: {actor_count: {monster_id: 11540, near: [1024, 2240, 480], min: 3}}

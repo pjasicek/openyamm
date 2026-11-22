@@ -9,6 +9,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -23,7 +24,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bake_geometry import (TERRAIN_CELL_TRIANGLES, face_basis, fnv, pack_lightmap_charts, point_in_polygon, rgbm,
                            rle_bgra, terrain_triangles_on_floors)
-from bake_assets import bake_texture_paths, dependency_file, source_roots, texture_logical_scale
+from bake_assets import (bake_texture_paths, dependency_file, dependency_name, liquid_face_colours,
+                         texture_logical_scale)
 
 sys.path.insert(0, str(ROOT / 'util'))
 from map_export import parse_odm_file
@@ -50,9 +52,15 @@ def casting_faces_only(obj):
     return len(obj.data.polygons) > 0
 
 
-def terrain_tile_table_name(world):
-    """The engine's terrain tile table for a world (terrainTileDataFileNameForWorld): MM6 and MM7 have their own
-    merged tables; MM8 and every other world (Hesper borrows MM8's tiles) use the MM8 table."""
+def terrain_tile_table_name(assets, world):
+    """The engine's terrain tile table for a world (game/maps/TerrainTileData.cpp): MM6, MM7 and MM8 their own; another
+    world the tileset its world.yml names in terrainTileset (Xeen: mm7), MM8's when it names none (Hesper)."""
+    if world not in ('mm6', 'mm7', 'mm8'):
+        manifest = assets / 'worlds' / world / 'world.yml'
+        named = re.search(r'^terrainTileset:\s*(\w+)', manifest.read_text(), re.M) if manifest.exists() else None
+        world = named.group(1).lower() if named else 'mm8'
+        if world not in ('mm6', 'mm7', 'mm8'):
+            raise ValueError(f'{manifest}: terrainTileset must be mm6, mm7 or mm8')
     return {'mm6': 'terrain_tile_data_3.txt', 'mm7': 'terrain_tile_data_2.txt'}.get(world, 'terrain_tile_data.txt')
 
 
@@ -177,8 +185,7 @@ def main():
     deps = {}
     def dependency(path):
         # Recorded relative to the runtime tree; source art in assets_source keeps the same relative path.
-        base = next((root for root in source_roots(assets, extra_sources) if path.is_relative_to(root)), assets)
-        rel = str(path.relative_to(base))
+        rel = dependency_name(assets, path, extra_sources)
         deps[rel] = fnv(path.read_bytes())
     dependency(source)
     dependency(source.with_suffix('.scene.yml'))
@@ -221,6 +228,9 @@ def main():
     sun.rotation_euler = (-toward_sun).to_track_quat('-Z', 'Y').to_euler()
     materials = {}
     texture_paths, terrain_paths = bake_texture_paths(assets, world, extra_sources)
+    # A face liquid with no picture of its own (engine/liquids/liquids.yml, e.g. Xeen's mirror xmirror) bakes as its
+    # liquids.yml colour, as in bake_indoor.py.
+    liquid_colours, liquids_path = liquid_face_colours(assets, world)
     def material(name, terrain=False):
         key = name.lower() + ('_terrain' if terrain else '')
         if key in materials:
@@ -231,6 +241,11 @@ def main():
         bsdf.inputs['Roughness'].default_value = 1
         bsdf.inputs['Specular IOR Level'].default_value = 0
         path = (terrain_paths if terrain else texture_paths).get(name.lower())
+        if path is None and not terrain and name.lower() in liquid_colours:
+            dependency(liquids_path)
+            bsdf.inputs['Base Color'].default_value = (*liquid_colours[name.lower()], 1)
+            materials[key] = (mat, (128, 128))
+            return materials[key]
         if path is None:
             raise ValueError('Missing authoritative bake material: '+key)
         dependency(path)
@@ -355,7 +370,7 @@ def main():
         return obj, dimensions
 
     # Exact native diagonal and world coordinates. One world-space terrain atlas in the first proof.
-    table = assets / 'engine/data_tables' / terrain_tile_table_name(world)
+    table = assets / 'engine/data_tables' / terrain_tile_table_name(assets, world)
     dependency(table)
     descriptors = list(csv.DictReader(table.open(), delimiter='\t'))
     entries = []

@@ -1,0 +1,241 @@
+# Alamar's hatch, the Pyramid's sky door, a lamp.
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4.doors
+title: 'The Skyroads (D7): Alamar''s hatch into DD-17 (refused without the Soul Box), the Pyramid''s sky door into DD-15 after
+  m30.done, the sewer grate into DD-26, a genie''s lamp'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_d7.blv
+- note: 'Alamar''s hatch without the roof key: ''Descend to Castle Alamar?'' Yes, A3''s locked line'
+- set_pose:
+    map: xeen_d7.blv
+    x: -18688
+    y: 8448
+    z: 1544
+    yaw_degrees: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: click(49); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Megadragon has the key
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_d7.blv
+- note: 's32: with the key (12377) but without Corak''s Soul Box: m33.roof_arrival''s refusal on the status line, no move
+    (D-89: the hatch checks it, DD-17 no longer throws the party out)'
+- grant_item:
+    item_id: 12377
+- play_lua:
+    source: click(49); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''nothing I need to fear'', 1, true) then error(''no refusal: '' ..
+      s) end'
+- assert:
+    map: xeen_d7.blv
+- note: 'With the Soul Box (12364): the entrance window (row 5050), OK, DD-17 at entrance:d7_roof'
+- grant_item:
+    item_id: 12364
+    member_index: 0
+- play_lua:
+    source: click(49); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd17.blv
+- play_lua:
+    source: discard(12364)
+- load_map:
+    map: xeen_d7.blv
+- note: 'The Pyramid''s sky door before m30.done: A3''s d7.pyramid_door ''Access Denied!'', no move'
+- set_pose:
+    map: xeen_d7.blv
+    x: 11424
+    y: 2560
+    z: 1416
+    yaw_degrees: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: click(105); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Access Denied!
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_d7.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111600
+    value: true
+- note: 'After m30.done: ''Enter the Pyramid?'' Yes into DD-15 at entrance:d7_sky'
+- play_lua:
+    source: click(105); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd15.blv
+- note: 'The Olympus Sewer''s grate (session 19): ''Descend into the sewer?'' No stays; Yes into DD-26 at entrance:d7_stair
+    (0, 0, 0) facing 512'
+- load_map:
+    map: xeen_d7.blv
+- set_pose:
+    map: xeen_d7.blv
+    x: -8704
+    y: 8192
+    z: 1816
+    yaw_degrees: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: click(104); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Even their sewer is marble
+      action_label_present: Close
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_d7.blv
+- play_lua:
+    source: click(104); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd26.blv
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 64
+      facing: 512
+      facing_within: 64
+- note: 'A genie''s lamp (S''s xeen_genielamp): the kind genie asks for a wish'
+- load_map:
+    map: xeen_d7.blv
+- set_pose:
+    map: xeen_d7.blv
+    x: 17440
+    y: 17368
+    z: 1288
+    yaw_degrees: 90
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: click(78); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Thank you for releasing me
+- play_lua:
+    source: close()
+- note: 'After m33.done (111662): ''Descend to Castle Alamar?'' No stays; Yes (the key) into FD-01 Alamar Depths at entrance:d7_roof
+    (D-61 Q14, D-69 change 6)'
+- load_map:
+    map: xeen_d7.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111662
+    value: true
+- grant_item:
+    item_id: 12377
+- set_pose:
+    map: xeen_d7.blv
+    x: -18688
+    y: 8448
+    z: 1544
+    yaw_degrees: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: click(49); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: log('FD01 ' .. (status() or '')); for i = 1, 3 do if not close() then break end wait(0.5) end
+- assert:
+    party_position:
+      x: -7744
+      y: 7168
+      radius: 64
+      facing: 0
+      facing_within: 64

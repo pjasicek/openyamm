@@ -1,0 +1,23 @@
+{
+  "prompt": "precise-object-edit. Edit the FIRST image (paint_mask_guide.png) in place on a transparent 1536x2048 canvas. Retain the exact placement, size, orientation, alpha silhouettes and holes in the 3-column x 4-row grid of 512px cells. Each small view is centered within its cell. Preserve all whitespace. Images 2 and 3 are material/design and palette references only. Rows 1\u20132: Apply unlit Elder Long Sword albedo to the five existing grey silhouettes, bright steel faceted blade, gold guard with curled ends and engraved scrolls, brown diagonally wrapped leather grip, gold pommel with small blue gemstone. End views must remain end views, edge views razor thin as in guide. No highlights, shadow, AO, reflections, glow, outlines or text. Rows 3\u20134: exactly repeat those silhouettes and replace material regions by flat pure colors: ALL metals including blade guard and pommel #FF0000, leather grip #00FF00, gemstone opaque #000000, cloth/hair #0000FF, matte nonmetal solid #FFFF00. No interior blends or outlines. Row 1 and 3: two tiny horizontal end-on views, then side profile pointing left. Row 2 and 4: side profile pointing right, upright sword pointing up, empty. All gaps and empty cells stay transparent. Do not enlarge or reposition any part.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "1774321d9b9b363e680d34d8b32c25d2220a4ceedfd1c672e15b30fcce5a8b11"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "ea423bb893d4e65fdd2bbde77066f2cdada2441ce98158361eb975041b41fff6"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "0c07dd5e64c44b0cc3707c31edd4d87c495d61cd16ed5cd55acd584c99907d67"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f924-ea88-7933-9633-1755d2ae984c/exec-d778cd49-ad16-4b35-9921-19e6f6f96f54.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

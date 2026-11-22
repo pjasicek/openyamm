@@ -1,0 +1,171 @@
+# Hostility check of Darkstone Tower (FD-03, L4; written by output/studio_cal/fd03/tools/gen_tests.py): the
+# arrival is quiet (nothing targets the party for 10 s at the door, D-11.3); every onyx golem, Sky Golem and the
+# Onyx Golem hostile (the hidden guards included); spawned golems go for the party, never for each other.
+id: xeen.fd03.l4.hostility
+title: 'Darkstone Tower (FD-03 L4): a quiet arrival, every golem hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd03.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd03.blv
+- console:
+    line: arena trace on
+- advance_runtime:
+    seconds: 10
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 0
+      y: 1792
+      radius: 96
+      z_min: -8
+      z_max: 8
+- assert:
+    ai_trace:
+      event: target
+      target: party
+      max_count: 0
+      report: true
+- setup_shortcut:
+    kind: immortal
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111820
+    value: true
+- reload: {}
+- play_lua:
+    source: wait(8); close()
+- play_lua:
+    source: if door_state(8) ~= 'open' then error('seal not open with 111820') end
+- console:
+    line: tp 224 1904 3072
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: close()
+- console:
+    line: arena trace on
+- advance_runtime:
+    seconds: 10
+- assert:
+    party_position:
+      x: 224
+      y: 1904
+      radius: 96
+      z_min: 3064
+      z_max: 3080
+- assert:
+    ai_trace:
+      event: target
+      target: party
+      max_count: 0
+      report: true
+- assert:
+    actor_count:
+      monster_id: 11585
+      hostile: true
+      min: 20
+- assert:
+    actor_count:
+      monster_id: 11586
+      hostile: true
+      min: 16
+- assert:
+    actor_count:
+      monster_id: 11594
+      hostile: true
+      min: 8
+- assert:
+    actor_count:
+      monster_id: 11584
+      hostile: true
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11585
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11586
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11594
+      hostile: false
+      max: 0
+- console:
+    line: tp -700 0 0
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: close()
+- spawn_actor:
+    monster_id: 11585
+    x: -500
+    y: -500
+    z: 0
+- spawn_actor:
+    monster_id: 11586
+    x: -500
+    y: 500
+    z: 0
+- spawn_actor:
+    monster_id: 11594
+    x: -300
+    y: -600
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11585
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11586
+      hurt: true
+      max: 0

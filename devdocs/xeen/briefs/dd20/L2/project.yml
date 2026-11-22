@@ -1,0 +1,47 @@
+format: 0
+id: xeen_dd20
+name: Lakeside Coven and Sewer
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-20
+units: {plan_grid: 512}
+extent: {footprint_cells: [40, 18], climbs: n}
+map_stats:
+  id: 9173
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 28
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Sewer Stalker, tier: 5, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d4_guild
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd20_guild
+    arrival_hint: "On D4 (Lakeside), beside the Guild's west-wall cellar hatch, facing west (A6's entrance:dd20_guild, (-1024, -13312, 1120) facing 1024, D-42 (4))."
+    notes: "D4 installed by A6; its door:dd20_guild (the Guild's back cellar hatch, open once riddle_answered 113442) leads in to entrance:d4_guild at the foot of the Guild's back stair. The way out is the exit preset at the stair's top landing."
+  - id: exit:d4_shaft
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd20_shaft
+    arrival_hint: "On D4, by the grate at the jetty's foot, facing north (A6's entrance:dd20_shaft, (3072, -9728, 1120) facing 512)."
+    notes: "D4's door:dd20_sewer ('Climb down to the sewer?', aaze0033:3; open from day one, D-36 (4)) leads in to entrance:d4_shaft at the ladder's foot. The way out is the exit preset up the ladder."
+qbits:
+  aretha_freed: 113444
+  arrived_once: 117400
+  camilla_freed: 113443
+  dragon_found: 113402
+  head_witch_slain: 113447
+  isabella_freed: 113445
+  joined: 113449
+  pass_found: 113448
+  rhett_freed: 113446
+  riddle_answered: 113442
+notes: "Xeen design brief for a new map: DD-20 Lakeside Coven and Sewer (the source's dark Lakeside town maze0033: the coven, its prisoners and cauldrons; and Lakeside Sewer maze0034: the stalkers, the statuette, two dead men's journals) as one BLV under D4's Lakeside. Side quest Q-D22 The Coven (A3's hooks q-d22.initiation, head_witch, witch_chest, camilla, aretha, isabella, rhett, cauldron_personality, cauldron_endurance, cauldron_speed; the Warlock promotion) and Q-D20's Golden Dragon (q-d20.dragon). Size M (MAPS.md section 0, D-42): 20-45 sectors, 30-90 M units squared, 45 monsters at levels 25-45, the Head Witch 45, party 35-39, treasure 4 (hoard 5), music 28. Graph devdocs/xeen/mockups/act4_graphs/dd20.graph.yml with decider D-42 (mockups/act4_a8_decisions.md, which wins): the Guild's back cellar door (entrance:d4_guild), the trapdoor (entrance:d4_trapdoor, one way) and the jetty shaft (entrance:d4_shaft); the Head Witch 11173 with her own skin, her group of three; the prisoners 11906-11909 named peaceful rows, hidden by their freed bits; the three brewery cauldrons +2 once per character (A3's player bits 11345-11347); the drain cross's ambush of five shown on the first step (D-18); Joseph left out. Rows (A2): coven 11170 (Witch 11170 32 x13, Coven Witch 11171 40 x4; peaceful to members, joined 113449, until the Head Witch dies, 113447), Head Witch 11173; sewer stalkers 11400 (Sewer Stalker 11401 25 x24, Stalker Matriarch 11402 35 x3). Kill XP 53,672 for the party, 13.42k per member. Rest encounters 10 %: sewer stalkers at Dif 5 only (D-42, D-46). Map qbits 117400-117439 (provisional); map_stats 9173."

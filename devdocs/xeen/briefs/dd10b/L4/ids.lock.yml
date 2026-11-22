@@ -1,0 +1,80 @@
+format: 0
+sectors:
+  room:adit: 1
+  room:cut: 2
+  room:flooded: 3
+  room:god: 4
+  room:ramp: 5
+  room:sapphire: 6
+  room:stair: 7
+  room:throne: 8
+  room:upper: 9
+events:
+  evt:arrive: 1
+  evt:cart: 2
+  evt:chest_cut: 3
+  evt:chest_flooded: 4
+  evt:door_adit: 5
+  evt:door_ramp: 6
+  evt:door_throne: 7
+  evt:enter: 8
+  evt:exit: 9
+  evt:false_vein: 10
+  evt:god: 11
+  evt:god_face: 23
+  evt:god_speaks: 12
+  evt:refill: 13
+  evt:sapphire_1: 14
+  evt:sapphire_2: 15
+  evt:sapphire_3: 16
+  evt:sapphire_4: 17
+  evt:sapphire_5: 18
+  evt:throne: 19
+  evt:throne_back: 20
+  evt:throne_crystal: 22
+  evt:throne_dais: 21
+  evt:visit_end: 24
+doors:
+  door:adit: 1
+  door:ramp: 2
+  door:throne: 3
+containers:
+  chest:cut: 0
+  chest:flooded: 1
+map_vars:
+  false_vein: 1
+  in_visit: 8
+  once.arrive: 0
+  once.god_speaks: 2
+  sapphire_1: 3
+  sapphire_2: 4
+  sapphire_3: 5
+  sapphire_4: 6
+  sapphire_5: 7
+sounds:
+  sound:adit_wind: 1
+  sound:bed_flooded: 5
+  sound:bed_sapphire: 6
+  sound:bed_upper: 7
+  sound:flood_water: 2
+  sound:god_hum: 3
+  sound:saph_drip: 4
+decorations:
+  deco:adit_torch_w: 0
+  deco:cut_rocks: 1
+  deco:cut_torch: 2
+  deco:flood_bones: 3
+  deco:flood_torch: 4
+  deco:god_crystal_c: 5
+  deco:god_crystal_n: 6
+  deco:god_crystal_s: 7
+  deco:ramp_skull: 8
+  deco:saph_crystal: 9
+  deco:saph_rocks: 10
+  deco:saph_torch_1: 11
+  deco:saph_torch_2: 12
+  deco:throne_crystal_n: 13
+  deco:throne_crystal_s: 14
+  deco:throne_torch: 15
+  deco:upper_torch_1: 16
+  deco:upper_torch_2: 17

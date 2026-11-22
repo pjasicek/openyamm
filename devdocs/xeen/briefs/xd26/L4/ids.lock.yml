@@ -1,0 +1,71 @@
+format: 0
+sectors:
+  room:fence_cache: 1
+  room:hidden_ledge: 2
+  room:high_ledge: 3
+  room:hoist_foot: 13
+  room:ledge_e: 4
+  room:ledge_low: 5
+  room:ledge_w: 6
+  room:low_nests: 7
+  room:mouth: 8
+  room:rock_ramp: 9
+  room:roost: 10
+  room:shaft_floor: 11
+  room:sky_crack: 12
+events:
+  evt:arrive: 1
+  evt:chest_climber: 2
+  evt:chest_fence: 3
+  evt:chest_hoard: 4
+  evt:fence_door: 5
+  evt:fence_seen: 6
+  evt:hoist: 16
+  evt:hoist_bottom: 17
+  evt:hoist_top: 18
+  evt:moss: 7
+  evt:mouth: 8
+  evt:nest: 9
+  evt:roost_seen: 10
+  evt:shaft_seen: 11
+  evt:sky_crack: 12
+  evt:tags: 15
+  evt:winch: 13
+doors:
+  door:fence: 1
+  door:moss: 2
+  lift:hoist: 5
+  switch:hoist_bottom: 6
+  switch:hoist_top: 7
+  switch:winch: 4
+containers:
+  chest:climber: 0
+  chest:fence: 1
+  chest:hoard: 2
+map_vars:
+  once.arrive: 0
+  once.fence_seen: 1
+  once.roost_seen: 2
+  once.shaft_seen: 3
+sounds:
+  sound:wind: 1
+decorations:
+  deco:fence_keg: 0
+  deco:fence_lantern: 1
+  deco:fence_sack_1: 2
+  deco:fence_sack_2: 3
+  deco:hidden_corpse: 4
+  deco:high_bones: 5
+  deco:ledge_e_skull: 6
+  deco:ledge_low_bones: 7
+  deco:ledge_w_bones: 8
+  deco:low_nests_skulls: 9
+  deco:mouth_bones: 10
+  deco:mouth_rock: 11
+  deco:roost_bones: 12
+  deco:roost_skulls: 13
+  deco:shaft_bones_1: 14
+  deco:shaft_bones_2: 15
+  deco:shaft_corpse: 16
+  deco:shaft_mite_1: 17
+  deco:shaft_mite_2: 18

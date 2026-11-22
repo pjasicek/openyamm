@@ -1,0 +1,53 @@
+# D7 The Skyroads: Olympus, the city of the gods (WORLD_DESIGN 5.2; MAPS D7; source dark/aaze0037). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A6's install of 2026-11-21 04:53, briefs/d7/L4): the doors as A6's wiring names them. Reached after M30 (the Chosen
+# Ones). Services: smith, tavern, temple, training without a cap (x80), the Light and Spirit guilds, the mirror (with
+# Kalindra's stage 4, A3's helper) and Lucio's dock, the landing of his celestial boats from Castleview, Sandcaster and
+# Lakeside (D-5.3: the boats only sail up, routes 424-426 in d1, d3, d4, after M30; the way down is the falls, the
+# mirror and Town Portal, so the dock is Lucio's house, not a boats house; routes 421-423 retired). The source's six
+# gods live in the six houses (Adonis, Athena, Hermes, Atlas, Zeus, Hera). Soul Storage (M31), the plaques and the
+# prophecy statues are A3's and the map's. Ligono (4155, X2) arrives here after Q-C19 (A3 moves him; he waits by
+# Hera's house).
+# Teachers: Spear, Air, Spirit, Light, Merchant, Regeneration and Identify Monster Grandmaster (place olympus).
+key: D7
+stem: xeen_d7.blv
+town: Olympus
+face: darkside
+blocks:
+  houses: [4801, 4850]
+  npcs: [5601, 5700]
+
+arrivals:
+  olympus_square: {at: [-4608, 6400, 1808], direction: 512, note: "Olympus' square by the mirror (Town Portal; A6's entrance:olympus_square)"}
+  olympus_dock: {at: [-640, 3200, 1804], direction: 512, note: "Lucio's cloud jetty (A6's entrance:olympus_dock)"}
+
+houses:
+  - {id: 4801, door: door:ol_smith, was: 12, kind: weapon_shop, name: The Forge of the Gods, owner: 5601, shop: {quality: 5}}
+  - {id: 4802, door: door:ol_tavern, was: 245, kind: tavern, name: The Nectar House, owner: 5602}
+  - {id: 4803, door: door:ol_temple, was: 315, kind: temple, name: Temple of Olympus, owner: 5603}
+  - {id: 4804, door: door:ol_training, was: 1574, kind: training, name: The Hall of Heroes, owner: 5604, training: {cap: 65535, price: 80}}
+  - {id: 4805, door: door:ol_guild_light, kind: light_guild, name: Olympus Guild of Light, owner: 5605, guild: {spells: 11}}
+  - {id: 4806, door: door:ol_guild_spirit, kind: spirit_guild, name: Olympus Guild of Spirit, owner: 5606, guild: {spells: 11}}
+  - {id: 4807, door: platform:mirror, also_doors: [platform:mirror_frame], kind: mirror, name: The Mirror of Olympus, mirror: {face: darkside, town: Olympus, arrival: olympus_square, qbit: 119012}}
+  - {id: 4808, door: door:ol_dock, kind: residence, name: "Lucio's Dock", residents: [5607], note: "D-5.3: the landing (olympus_dock) of the jetties' boats; Lucio lives here"}
+  - {id: 4809, door: door:ol_adonis, kind: residence, name: House of Adonis, residents: [5608]}
+  - {id: 4810, door: door:ol_athena, kind: residence, name: House of Athena, residents: [5609]}
+  - {id: 4811, door: door:ol_hermes, kind: residence, name: House of Hermes, residents: [5610]}
+  - {id: 4812, door: door:ol_atlas, kind: residence, name: House of Atlas, residents: [5611]}
+  - {id: 4813, door: door:ol_zeus, kind: residence, name: House of Zeus, residents: [5612]}
+  - {id: 4814, door: door:ol_hera, kind: residence, name: House of Hera, residents: [5613]}
+
+npcs:
+  - {id: 5601, name: Hephaestus, title: Smith of the Gods, profession: Smith, greet: ["I forged the thunderbolts. These are smaller. They're on sale.", "Hammer or tongs?"]}
+  - {id: 5602, name: Dionysus, title: Keeper of the Nectar House, profession: Cook, greet: ["Nectar, ambrosia, and a cheese plate. Even gods like cheese.", "Another cup?"]}
+  - {id: 5603, name: Pythia, title: Priestess of Olympus, profession: Healer, greet: ["I see the future. It needs healing. So do you.", "Be well. You will be."]}
+  - {id: 5604, name: Heracles, title: Master of the Hall of Heroes, profession: Weapons Master, greet: ["No ceiling in this hall. Only sky, and we're above most of it.", "Twelve labours. Start with one."]}
+  - {id: 5605, name: Apollo, title: Light Guildmaster, profession: Spell Master, teaches: [{skill: Light Magic, mastery: grandmaster}], greet: ["The sun below is failing. Up here we keep a spare.", "Shine."]}
+  - {id: 5606, name: Hestia, title: Spirit Guildmistress, profession: Healer, teaches: [{skill: Spirit Magic, mastery: grandmaster}], greet: ["Every hearth has a spirit. Mine has a guild.", "Warm yourself."]}
+  - {id: 5607, name: Lucio, title: Boatman, profession: Sailor, talks: true, greet: ["Celestial boats. Castleview, Sandcaster, Lakeside. Don't lean over the side.", "Going down? Use the mirror. My boats only sail up."], source: "dark/aaze0095, aaze0098 (Lucio the Boatman)"}
+  - {id: 5608, name: Adonis, title: God of Beauty, profession: Noble, greet: ["Ever lie down on your belly and look over the edge of the cloud? The people are so small they look like ants.", "Still handsome. Thank you for noticing."], source: "dark/aaze0037:17"}
+  - {id: 5609, name: Athena, title: Goddess of War, profession: Weapons Master, teaches: [{skill: Spear, mastery: grandmaster}], greet: ["Fill your packs with the nectar of the Gods while you are here. Then pick up a spear.", "Hungry? Armed?"], source: "dark/aaze0037:21 (close)"}
+  - {id: 5610, name: Hermes, title: Messenger of the Gods, profession: Merchant, teaches: [{skill: Merchant, mastery: grandmaster}], greet: ["Pears just about everywhere cost but 1 gold. Know that, and you know trade.", "Buying or selling?"], source: "dark/aaze0037:23"}
+  - {id: 5611, name: Atlas, title: Titan, profession: Weapons Master, teaches: [{skill: Regeneration, mastery: grandmaster}], greet: ["I held up the sky once. My back healed. Yours will too.", "Shoulders back."]}
+  - {id: 5612, name: Zeus, title: King of the Gods, profession: Noble, teaches: [{skill: Air Magic, mastery: grandmaster}], greet: ["I am Zeus. You may have heard. Lightning is mostly wrist.", "Thunder?"]}
+  - {id: 5613, name: Hera, title: Queen of the Gods, profession: Scholar, teaches: [{skill: Identify Monster, mastery: grandmaster}], greet: ["I'm waiting for my friend Ligono. If you see him, tell him to meet me here.", "Know thine enemy. I do."], source: "dark/aaze0037:35"}

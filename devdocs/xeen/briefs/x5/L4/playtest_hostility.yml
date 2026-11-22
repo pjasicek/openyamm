@@ -1,0 +1,256 @@
+# Hostility check of X5 Winterkill Tundra (written by output/studio_cal/x5/tools/gen_hostility_x5.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.x5.l4.hostility
+title: 'X5 Winterkill Tundra: foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x5.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11410
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11411
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11412
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11100
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11101
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11102
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11070
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11071
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11072
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11080
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11081
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11060
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11061
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11130
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11241
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11260
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11261
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11263
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11410
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11411
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11100
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11080
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11060
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11130
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11241
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 361
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 451
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 517
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 583
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- set_pose:
+    map: xeen_x5.odm
+    x: -17408
+    y: -2072
+    z: 2200
+    yaw_degrees: -90
+- advance_runtime:
+    seconds: 2
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11410
+    x: -17408
+    y: -3072
+    z: 1100
+- spawn_actor:
+    monster_id: 11100
+    x: -17312
+    y: -3072
+    z: 1100
+- spawn_actor:
+    monster_id: 11070
+    x: -17216
+    y: -3072
+    z: 1100
+- spawn_actor:
+    monster_id: 11080
+    x: -17120
+    y: -3072
+    z: 1100
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11410
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11100
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11070
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11080
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 361
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 451
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 517
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 583
+      hurt: true
+      max: 0

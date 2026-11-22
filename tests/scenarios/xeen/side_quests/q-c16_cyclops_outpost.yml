@@ -1,0 +1,97 @@
+# Xeen side quest Q-C16, Cyclops Outpost (X5), from a new game on X5 with a level-28 party. Glom's Burrow (house 4272,
+# X5 event 39: Glom the Gnome King, NPC 4524, talks at the door): Cyclopes (started), and again. The Land of the Giants
+# in X5's south-west corner: the cyclops outpost's tent (X5 event 112) asks "You have found the Cyclops' outpost!
+# Burn?" on Yes/No buttons (D-72; A6, 2026-11-21 14:35); Yes burns the tents and calls q-c16.outpost (outpost_burnt and
+# "You destroy the outpost. Glom will be pleased."); clicked again: nothing more. Glom: Cyclopes (done, started
+# cleared, 6,000 XP each, 1,500 gold, one item of treasure level 4), and again. Outdoors the party is placed beside
+# each place (tests/playthrough/PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/x5/L4/playtest.yml (Glom's burrow, the outpost 112). Quest logic: source/quests/q-c16.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c16_cyclops_outpost.yml --scenario-no-color
+id: xeen.side_quests.q-c16
+title: "Xeen Q-C16: Glom's cyclopes; the outpost in the Land of the Giants burnt"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 28, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 28, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 28, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 28, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112320, 112321, 112322]}
+  # Glom's Burrow (house 4272, event 39): Glom at the door, Cyclopes (started), and again.
+  - set_pose: {map: xeen_x5.odm, x: -10496, y: -7944, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4524}
+  - select_topic: {match_label: "Cyclopes"}
+  - assert:
+      dialog: {text_contains: "a group of cyclops established an outpost near our lands, in the Land of the Giants"}
+  - select_topic: {match_label: "Cyclopes"}
+  - assert:
+      dialog: {text_contains: "Every day the casualties increase."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112320]}
+  # The cyclops outpost in the Land of the Giants (event 112): burnt.
+  - set_pose: {map: xeen_x5.odm, x: -10752, y: -14336, z: 2272, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(112); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You have found the Cyclops' outpost! Burn?"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "You destroy the outpost. Glom will be pleased."}}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(112321) then error("outpost_burnt 112321 not set") end
+        click(112); wait(0.5)
+        local seen = status()
+        log("outpost again: " .. seen)
+        if not close() then log("the outpost's second click opens nothing") end
+  - assert: {dialog: {active: false}}
+  # Glom: Cyclopes (done: 6,000 XP, 1,500 gold, a treasure-4 item), and again.
+  - set_pose: {map: xeen_x5.odm, x: -10496, y: -7944, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        local n = 0; for c in string.gmatch(pack_items(), "x(%d+)") do n = n + tonumber(c) end
+        remember("gold", gold()); remember("xp", experience(0)); remember("items", n)
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4524}
+  - select_topic: {match_label: "Cyclopes"}
+  - assert:
+      dialog: {text_contains: "We saw the Cyclops' outpost burning in the distance."}
+  - select_topic: {match_label: "Cyclopes"}
+  - assert:
+      dialog: {text_contains: "Friends, you are always welcome here."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if gold() - recall("gold") ~= 1500 then error("Glom paid " .. (gold() - recall("gold")) .. " gold") end
+        if experience(0) - recall("xp") ~= 6000 then error("Glom paid " .. (experience(0) - recall("xp")) .. " XP") end
+        local n = 0; for c in string.gmatch(pack_items(), "x(%d+)") do n = n + tonumber(c) end
+        local gained = n - recall("items")
+        if gained ~= 1 then error("Glom's treasures: " .. gained .. " items") end
+        log("Glom's treasure: " .. pack_items())
+  - assert: {qbit_set: [112321, 112322]}
+  - assert: {qbit_clear: [112320]}

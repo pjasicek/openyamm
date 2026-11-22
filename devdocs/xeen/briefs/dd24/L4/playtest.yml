@@ -1,0 +1,128 @@
+# Playtest of the Giants' Hall (DD-24, L4; lane A7, thirteenth session): D-47's peace walk, the refusals, a blow that
+# turns the hall, and the throne at war. A level-46 party arrives at the threshold (entrance:d5_hold, the map's start):
+# the People friendly; the law stone (A3's q-d16.law_stone); the larder chest (opens at peace); up the Great Stair, the
+# throne hall's double doors; the bloody throne refuses ("Gurodel would notice.", q-d16.throne) and so does the hoard
+# (q-d16.hoard). Then one blow at a giant: the map's timer calls q-d16.hall_attacked (113323) and A2's relations turn
+# every one of the People; the throne gives two Energy Disks (12334) and throne_searched 113322; the hoard opens; a save
+# and load keeps the war; back down at the threshold the People's challenge shows once (q-d16.war_threshold).
+# Numbers are ids.lock.yml's: events (click), chest events (loot_chest).
+id: xeen.dd24.l4.walk
+title: Giants' Hall (DD-24 L4), at peace, a blow, the throne at war
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - assert: {map: xeen_dd24.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11083, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11084, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11085, hostile: true, max: 0}}
+  # The longhall and the law stone.
+  - walk_to: {x: 0, y: 800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -860, y: 1100, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -860, y: 1720, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "ALAMAR'S PLANS"}}
+  - play_lua: {source: "close()"}
+  # The larder chest opens at peace.
+  - walk_to: {x: -900, y: 1344, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if door_state(3) ~= 'open' then click(6) end"}
+  - advance_runtime: {seconds: 3}
+  - walk_to: {x: -1600, y: 1480, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        for _ = 1, 3 do
+          loot_chest(3)
+          if held() ~= 0 then stow() end
+          if gold() >= g + 2000 then return end
+        end
+        error("the larder chest held no gold")
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  # Up the Great Stair to the landing and through the double doors.
+  - walk_to: {x: -900, y: 1344, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 1850, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 500, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 4500, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(8)"}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: 0, y: 5300, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 5780, z: 1024, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - play_lua: {source: "close()"}
+  # The throne and the hoard refuse at peace.
+  - play_lua: {source: "click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Gurodel would notice.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if qbit(113322) then error('throne searched at peace') end; if item_count(12334) ~= 0 then error('disks at peace') end"}
+  - walk_to: {x: -512, y: 6150, z: 1024, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'open' then click(5) end"}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: -512, y: 6600, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Gurodel would notice."}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11084, hostile: true, max: 0}}
+  # One blow at one of the People turns the hall.
+  - damage_actor: {actor_index: 0, amount: 1}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "log('struck: ' .. status()); close(); if not qbit(113323) then error('hall_attacked 113323 not set') end"}
+  - assert: {actor_count: {monster_id: 11083, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11085, hostile: false, max: 0}}
+  # The hoard opens at war; the throne gives its two disks.
+  - play_lua:
+      source: |
+        local g = gold()
+        for _ = 1, 3 do
+          loot_chest(2)
+          if held() ~= 0 then stow() end
+          if gold() >= g + 5000 then return end
+        end
+        error("the hoard held no gold at war")
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - walk_to: {x: -512, y: 6150, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 5780, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[find two energy disks]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end; if item_count(12334) ~= 2 then error('disks: ' .. item_count(12334)) end; if not qbit(113322) then error('throne_searched not set') end"}
+  - play_lua: {source: "click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Nothing left on it but the blood.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) ~= 2 then error('the disks were given twice') end"}
+  # A save and load keeps the war.
+  - reload: {}
+  - play_lua: {source: "wait(2); close(); if not qbit(113323) then error('war lost on reload') end"}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  # Back down: the People's challenge at the threshold, once.
+  - walk_to: {x: 0, y: 5300, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 4500, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 500, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 1850, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 1000, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - set_pose: {map: xeen_dd24.blv, x: 0, y: 500, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "We recognize you as enemies"}}
+  - play_lua: {source: "close(); if not qbit(113324) then error('war_announced not set') end"}

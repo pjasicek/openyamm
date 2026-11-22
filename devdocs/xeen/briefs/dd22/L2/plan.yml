@@ -1,0 +1,278 @@
+format: 0
+level: L2
+pitch: "Sheltem's escape pod, standing upright in its crater on the Darkside: three decks round a lift spine, cold and red-lit, still kept by his guard machines. A lockdown seals the bridge until the security post below releases it; on the bridge, under a domed viewport, his empty command couch and the log computer that still pages his own account, from his break with the Ancients to the crash on Xeen."
+purpose: "Optional lore for Act VI (MAPS: 'The other ship's log (six pages); opens after M33'): D6's hatch opens once m33.done (A3's d6.sheltem_hatch). The security console (dd22.security_console) opens the blast door; the log computer pages dd22.log_page_1..6 (autonote 4139 sheltem_log); the gun deck's weapons (dd22.weapons); the drive rack's find (dd22.drive_rack). Class S, party 56-60, robots 50-62."
+mood: "MM6's Control Center in its red accents: dark teal hull panels and rust ceilings in cold light, red pilot lights and red floor grids where the pod still works; the bridge's red glow under a dome of dark steel ribs."
+datum: arrival
+spaces:
+  - id: room:airlock
+    name: Airlock
+    kind: room
+    size: S
+    extent: [512, 384]
+    at: [0, -832]
+    floor: 0
+    clear_height: 320
+    purpose: "The arrival (entrance:d6_hatch) behind the round hatch (the exit preset, 'Exit Escape Pod 2?', aaze0088:1); the inner door north. Quiet (D-11.3); map qbit 117760 dd22_arrived_once."
+    empty: true
+    theme: "The airlock: the hull's inner skin (swll4dk, the hull D6 shows outside), the only teal room (D-67)."
+  - id: room:bridge
+    name: The bridge
+    kind: room
+    size: M
+    extent: [1920, 1024]
+    at: [0, 1088]
+    floor: 896
+    clear_height: 448
+    purpose: "The set piece: Sheltem's empty command couch under the domed viewport of dark steel ribs, the main and scanning consoles flickering red ('The computer seems to be malfunctioning.', aaze0088:5, :6), the log computer paging his six entries (A3's dd22.log_page_1..6; autonote 4139 after the sixth); his locker by the couch (T6)."
+    theme: "The red accents (A6's assign): dark panels with red pilot lights (swll5dk) over the red floor grid (swfloor5a): the bridge and the security post."
+    population:
+      - {actor: 11610, groups: 1, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:bridge_ante
+    name: Bridge landing
+    kind: corridor
+    size: S
+    extent: [1024, 576]
+    at: [-64, 160]
+    floor: 896
+    clear_height: 448
+    purpose: "Lift B's head; the bridge's blast door (two leaves parting in the middle), sealed ('The bridge door is sealed. Security lockdown.', A3's dd22.blast_door) until the security post releases it."
+    theme: "Deck 2 and the bridge landing: the red-pilot panels under rust ceiling panels (D-67: no teal ceilings)."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:brig
+    name: The brig
+    kind: room
+    size: M
+    extent: [640, 960]
+    at: [-896, -32]
+    floor: 448
+    clear_height: 320
+    purpose: "Two empty stasis cells, their fields dark, where Sheltem shut the Ancients' two agents (log XL70I); the guards' locker (T6) by the wall."
+    theme: "The drive room and the brig: the red-pilot panels (swll5dk) over grey metal."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:drive
+    name: Drive room
+    kind: room
+    size: M
+    extent: [1664, 704]
+    at: [0, 928]
+    floor: 0
+    clear_height: 320
+    purpose: "The stern drive under red floor grilles; the two alien devices, dark ('The strange alien device seems to be dormant.', aaze0088:0, D-62 Q53); the stasis generator that carried Sheltem through the crash, cold, and its tool rack (the find: one random T6 item once, 117762, D-62 APPROVAL)."
+    theme: "The drive room and the brig: the red-pilot panels (swll5dk) over grey metal."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: pack}
+  - id: room:gun_deck
+    name: Gun deck
+    kind: room
+    size: M
+    extent: [640, 1280]
+    at: [896, 128]
+    floor: 448
+    clear_height: 320
+    purpose: "Phaser Control and Photon Control ('A status indicator on the weapon shows it to be disarmed. Fire anyway?', aaze0088:2, :3; Yes: 'Nothing happens.', A3's dd22.weapons); the ladder's hatch in the floor."
+    theme: "Deck 2 and the bridge landing: the red-pilot panels under rust ceiling panels (D-67: no teal ceilings)."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: pack}
+  - id: room:ladder
+    name: Maintenance ladder
+    kind: room
+    size: S
+    extent: [256, 384]
+    at: [960, 64]
+    floor: 0
+    clear_height: 320
+    purpose: "A ladder in the hull's thickness from the lower ring up through the gun deck's floor hatch: the second way between decks 1 and 2 (the loop). Quiet."
+    empty: true
+    theme: "The pod's corridors and deck 1 (MM6 Control Center in its red accents, D-67 change 6): dark panels with red pilot lights (swll5dk), grey metal floors (swfloor2b), rust ceiling panels (swceilf), dark reveals."
+  - id: room:ring0
+    name: Lower ring
+    kind: corridor
+    size: M
+    extent: [1408, 960]
+    at: [0, -32]
+    floor: 0
+    clear_height: 320
+    purpose: "An L-shaped corridor round the lift shaft's foot; the maintenance hatch in its east arm (the ladder up)."
+    theme: "The pod's corridors and deck 1 (MM6 Control Center in its red accents, D-67 change 6): dark panels with red pilot lights (swll5dk), grey metal floors (swfloor2b), rust ceiling panels (swceilf), dark reveals."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:ring1
+    name: Middle ring
+    kind: corridor
+    size: M
+    extent: [896, 832]
+    at: [0, 32]
+    floor: 448
+    clear_height: 320
+    purpose: "Lift A's head and lift B's foot in the middle of the ring; doors to the gun deck and the brig. Quiet."
+    empty: true
+    theme: "Deck 2 and the bridge landing: the red-pilot panels under rust ceiling panels (D-67: no teal ceilings)."
+  - id: room:security
+    name: Security post
+    kind: room
+    size: S
+    extent: [640, 512]
+    at: [-896, 832]
+    floor: 448
+    clear_height: 320
+    purpose: "The machines' charging alcoves and the security console: 'Security lockdown: bridge sealed. Release?' Yes opens the bridge's blast door, one way (D-43; 117761); the alarm stops."
+    theme: "The red accents (A6's assign): dark panels with red pilot lights (swll5dk) over the red floor grid (swfloor5a): the bridge and the security post."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: pack}
+      - {actor: 11610, groups: 1, levels: [50, 50], placed: true, strength: pack}
+  - id: room:shaft0
+    name: Lift shaft foot
+    kind: room
+    size: S
+    extent: [640, 576]
+    at: [0, 160]
+    floor: 0
+    clear_height: 320
+    purpose: "The pod's spine: lift A's pad (deck 1 to 2) with its call button; the drive room north, the stores west. Quiet."
+    empty: true
+    theme: "The pod's corridors and deck 1 (MM6 Control Center in its red accents, D-67 change 6): dark panels with red pilot lights (swll5dk), grey metal floors (swfloor2b), rust ceiling panels (swceilf), dark reveals."
+  - id: room:stores
+    name: Stores
+    kind: room
+    size: S
+    extent: [384, 576]
+    at: [-640, 160]
+    floor: 0
+    clear_height: 320
+    purpose: A dead end with the pod's stores locker (T6) and barrels by the walls.
+    theme: "The pod's corridors and deck 1 (MM6 Control Center in its red accents, D-67 change 6): dark panels with red pilot lights (swll5dk), grey metal floors (swfloor2b), rust ceiling panels (swceilf), dark reveals."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+links:
+  - id: link:airlock_ring
+    from: room:airlock
+    to: room:ring0
+    kind: door
+    purpose: The airlock's inner door.
+  - id: link:blast
+    from: room:bridge_ante
+    to: room:bridge
+    kind: double_door
+    opened_by: key:lockdown
+    purpose: "The bridge's blast door: the security console releases it, one way."
+  - id: link:brig_security
+    from: room:brig
+    to: room:security
+    kind: door
+  - id: link:ladder
+    from: room:ladder
+    to: room:gun_deck
+    kind: ladder
+    purpose: The maintenance ladder up through the gun deck's floor hatch.
+  - id: link:lift_a
+    from: room:shaft0
+    to: room:ring1
+    kind: lift
+    purpose: "Lift A, deck 1 to deck 2."
+  - id: link:lift_b
+    from: room:ring1
+    to: room:bridge_ante
+    kind: lift
+    purpose: "Lift B, deck 2 to deck 3."
+  - id: link:ring_brig
+    from: room:ring1
+    to: room:brig
+    kind: door
+  - id: link:ring_gun
+    from: room:ring1
+    to: room:gun_deck
+    kind: door
+  - id: link:ring_ladder
+    from: room:ring0
+    to: room:ladder
+    kind: door
+    purpose: The maintenance hatch.
+  - id: link:ring_shaft
+    from: room:ring0
+    to: room:shaft0
+    kind: open
+  - id: link:shaft_drive
+    from: room:shaft0
+    to: room:drive
+    kind: open
+  - id: link:shaft_stores
+    from: room:shaft0
+    to: room:stores
+    kind: door
+loops:
+  - id: loop:decks
+    spaces: [room:ring0, room:shaft0, room:ring1, room:gun_deck, room:ladder]
+    notes: "Up by lift A, down by the gun deck's ladder (or the other way): two ways between decks 1 and 2."
+entrances:
+  - id: entrance:d6_hatch
+    space: room:airlock
+    kind: both
+    neighbour: exit:d6_hatch
+    facing: n
+    how: "D6's hatch (A6's door:dd22, A3's d6.sheltem_hatch once m33.done) brings the party into the airlock 192 inside the hatch, facing north; the hatch's inner face is the way back to D6's entrance:dd22_hatch."
+critical_path: [room:airlock, room:ring0, room:shaft0, room:ring1, room:brig, room:security, room:brig, room:ring1, room:bridge_ante, room:bridge]
+return_path: [room:bridge, room:bridge_ante, room:ring1, room:gun_deck, room:ladder, room:ring0, room:airlock]
+goals:
+  - id: goal:lockdown
+    space: room:security
+    kind: use
+    what: "'Security lockdown: bridge sealed. Release?' Yes (dd22.security_console: lockdown_released 117761): the blast door opens for good."
+  - id: goal:log
+    space: room:bridge
+    kind: use
+    what: "The log computer's six pages (dd22.log_page_1..6); the sixth adds autonote 4139 sheltem_log."
+keys:
+  - id: key:lockdown
+    grants: {qbit: lockdown_released}
+    found_in: room:security
+    how: lever
+    notes: "The security console's release opens the bridge's blast door, one way (D-43)."
+points_of_interest:
+  - id: poi:cells
+    space: room:brig
+    count: 2
+    kind: sign
+    behaviour: "Two empty stasis cells, their fields dark."
+  - id: poi:consoles
+    space: room:bridge
+    count: 2
+    kind: sign
+    behaviour: "Main and Scanning Console: 'The computer seems to be malfunctioning.' (aaze0088:5, :6)."
+  - id: poi:devices
+    space: room:drive
+    count: 2
+    kind: sign
+    behaviour: "'The strange alien device seems to be dormant.' (aaze0088:0; D-62 Q53 dressing)."
+  - id: poi:rack
+    space: room:drive
+    kind: cache
+    behaviour: "The stasis generator's tool rack: one random T6 item once (drive_find 117762, dd22.drive_rack), then 'Nothing here.'."
+  - id: poi:weapons
+    space: room:gun_deck
+    count: 2
+    kind: sign
+    behaviour: "Phaser and Photon Control: 'Fire anyway?' Yes: 'Nothing happens.' (aaze0088:2, :3; dd22.weapons)."
+mechanisms:
+  - {kind: one-way console releases a two-leaf blast door, count: 1}
+  - {kind: paged log computer wrapping round (map variable), count: 1}
+  - {kind: two-stop lift with call buttons, count: 2}
+  - {kind: ladder through a floor hatch (the loop), count: 1}
+totals:
+  chests: 3
+  doors: 8
+  rooms: 12
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act5_graphs/dd22.graph.yml; D-62 (mockups/act5_a8_decisions_b.md) wins where they differ: 20 robots, the drive rack's find (117762), Patrol at Dif 0. Changes from the graph (A8 L2): the lift spine is two lifts side by side (A deck 1 to 2, B deck 2 to 3; a lift has two stops), each rising through a hole in the deck above, so the middle ring and the bridge landing are the lifts' landings and the shaft's foot is the only shaft room; the drive room is one room (12 rooms, 12 sectors). Doors: the airlock's inner door, the stores', the maintenance hatch, the gun deck's, the brig's, the security post's, the blast door (two leaves); the hatch is the exit face (8 with the graph's count)."

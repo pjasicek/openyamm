@@ -1,0 +1,256 @@
+# The test (D-58 C3, C4, P-1).
+# Written by output/studio_cal/p3/tools/gen_playtests.py; run with --world xeen --map xeen_p3.blv.
+id: xeen.p3.l4.test
+title: 'Plane of Earth (P3): the test raises the guardians, their deaths set 111766 and sink the slab, kept over a reload'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p3.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p3.blv
+- set_pose:
+    map: xeen_p3.blv
+    x: -2876
+    y: -1792
+    z: -376
+    yaw_degrees: 0
+    pitch: 0
+- clear_hostiles:
+    radius: 40000
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 11
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 12
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- note: 'Onto the test''s floor: ''Accept the test of Earth?'' Yes.'
+- walk_to:
+    x: -2496
+    y: -1792
+    z: -380
+    z_tolerance: 60
+    radius: 48
+    timeout_seconds: 20
+    expect: dialog
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close(); wait(0.5); close()
+- assert:
+    actor_visible:
+      actor_index: 11
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 12
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: false
+- play_lua:
+    source: if qbit(111766) then error('the test qbit is set before the guardians die') end
+- note: Before the kill the slab still holds.
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -3378
+      y: -2658
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -3378
+      y: -2658
+      z: -384
+      yaw_degrees: -61.9275
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: -3250
+      y: -2896
+      radius: 160
+      z_min: -392
+      z_max: -360
+- note: 'The three guardians die (the scenario strikes them): Xeen.planeTestCheck sets 111766.'
+- damage_actor:
+    actor_index: 11
+    amount: 1000000
+- damage_actor:
+    actor_index: 12
+    amount: 1000000
+- damage_actor:
+    actor_index: 13
+    amount: 1000000
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if not qbit(111766) then error('qbit 111766 not set after the kill') end
+- advance_runtime:
+    seconds: 5
+- play_lua:
+    source: close(); wait(0.5); close()
+- note: 'The slab sunk: down the Root Stair into the Sleeper''s Hollow.'
+- walk_to:
+    x: -3378
+    y: -2658
+    z: -384
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -3274
+    y: -2852
+    z: -384
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -2818
+    y: -3706
+    z: -576
+    z_tolerance: 120
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -2267
+    y: -4740
+    z: -768
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -2267
+      y: -4740
+      radius: 200
+      z_min: -776
+      z_max: -744
+- note: 'A save and a reload: the qbit kept, the guardians dead, the slab sunk again.'
+- reload: {}
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: if not qbit(111766) then error('qbit lost') end
+- set_pose:
+    map: xeen_p3.blv
+    x: -3378
+    y: -2658
+    z: -376
+    yaw_degrees: -61.9275
+    pitch: 0
+- advance_runtime:
+    seconds: 5
+- assert:
+    actor_visible:
+      actor_index: 11
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 12
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 13
+      dead: true
+- walk_to:
+    x: -3378
+    y: -2658
+    z: -384
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -3274
+    y: -2852
+    z: -384
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -2818
+    y: -3706
+    z: -576
+    z_tolerance: 120
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -2267
+    y: -4740
+    z: -768
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -2267
+      y: -4740
+      radius: 200
+      z_min: -776
+      z_max: -744

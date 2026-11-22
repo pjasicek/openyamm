@@ -1,0 +1,20 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d2/L4"
+revision: "4eab51a2b12628c13967ef11a1f03983"
+lock_hash: "024ebe68f14dbcf6775a9dd08a8b5267"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-21504, 2048, 992], facing: 0}
+  - {name: "entrance:d7_fall", at: [15872, -6656, 1056], facing: 1536}
+  - {name: "entrance:dd06_door", at: [15872, -7680, 1056], facing: 512}
+  - {name: "entrance:dd09_door", at: [-11264, -6656, 992], facing: 512}
+  - {name: "entrance:dd10b_adit", at: [-15360, 16384, 1696], facing: 1536}
+  - {name: "entrance:dd11a_hole", at: [-2048, -6144, 992], facing: 1024}
+  - {name: "entrance:dd11b_hole", at: [3072, -10240, 960], facing: 1024}
+  - {name: "entrance:dd11c_hole", at: [1536, -17408, 928], facing: 1024}
+  - {name: "entrance:dd13_east", at: [11776, 11776, 2048], facing: 512}
+  - {name: "entrance:dd13_west", at: [4096, 13824, 2016], facing: 1536}
+  - {name: "entrance:east_road", at: [21504, 10240, 1312], facing: 1024}
+  - {name: "entrance:forest_edge", at: [-21504, 2048, 992], facing: 0}
+  - {name: "entrance:west_road", at: [-22016, 2048, 992], facing: 0}

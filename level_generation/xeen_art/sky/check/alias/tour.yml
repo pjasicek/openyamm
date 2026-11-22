@@ -1,0 +1,34 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/xeen_art/sky/check/alias
+exit: true
+settle_seconds: 2
+shots:
+  - name: xeendark1
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky name xeendark1", "sky"]
+  - name: xeendark2
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky name xeendark2", "sky"]
+  - name: xeendark3
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky name xeendark3", "sky"]
+  - name: xeencloud
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky name xeencloud", "sky"]
+  - name: xeenroads
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky name xeenroads", "sky"]

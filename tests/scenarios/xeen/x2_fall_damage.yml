@@ -1,0 +1,141 @@
+# Xeen (A6, D7's fall probes, 2026-11-21): a fall from exactly 850 over the ground did no damage on D5, D1 and D2 (and on
+# X2 under X9's falls) while D4 and D6 took a third: the last falling step stopped within the 1-unit snap band above
+# the ground and the party stood without landing. Two falls onto entrance:x9_fall (ground 768): from 850 and from 858
+# above, each about a third of every member's HP (D-6.2). Same-map {keepHeight = true} keeps the height (merge point
+# 26). The island's landing event opens a window; it is closed before the second fall. Needs assets_dev's Xeen world
+# (git-ignored). A1.
+id: xeen.x2.fall_damage_same_height
+title: 'X2: falls of the same height do the same damage wherever the last step stops (a third of HP from 850)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x2.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- clear_hostiles:
+    radius: 40000
+- lua_event:
+    source: evt.MoveToMap(-15360, 3072, 1618, 0, 0, 0, 0, 0, "", {keepHeight = true})
+- advance_runtime:
+    seconds: 0.05
+    follow_map_move: true
+- assert:
+    party_position:
+      x: -15360
+      y: 3072
+      radius: 8
+      z_min: 1610
+      z_max: 1626
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    party_position:
+      x: -15360
+      y: 3072
+      radius: 8
+      z_min: 760
+      z_max: 776
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 181
+      health_max: 181
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 85
+      health_max: 85
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 115
+      health_max: 115
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 78
+      health_max: 78
+- play_lua:
+    source: wait(1); close()
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 270
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 124
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 171
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 114
+- lua_event:
+    source: evt.MoveToMap(-15360, 3072, 1626, 0, 0, 0, 0, 0, "", {keepHeight = true})
+- advance_runtime:
+    seconds: 0.05
+    follow_map_move: true
+- assert:
+    party_position:
+      x: -15360
+      y: 3072
+      radius: 8
+      z_min: 1618
+      z_max: 1634
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    party_position:
+      x: -15360
+      y: 3072
+      radius: 8
+      z_min: 760
+      z_max: 776
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 180
+      health_max: 181
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 84
+      health_max: 85
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 114
+      health_max: 115
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 77
+      health_max: 78

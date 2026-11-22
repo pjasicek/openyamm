@@ -1,0 +1,1098 @@
+# Written by output/studio_cal/x6/tools/gen_walk.py from the built map (A5, 2026-11-20).
+id: xeen.x6.walk
+title: 'X6 Desert of the Sphinx: every door, the hooks, the yard gate and both edges'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x6.odm
+- assert:
+    map: xeen_x6.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -512
+      y: 1536
+      radius: 128
+- note: Old Ibb's well (xeen/aaze0001:4)
+- execute_event:
+    id: 18
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Last Waterskin (building:x6_tavern, house 4301): before its door, open it'
+- set_pose:
+    map: xeen_x6.odm
+    x: -2432
+    y: 1924
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Sphinx Wells Caravans (building:x6_stables, house 4302): before its door, open it'
+- set_pose:
+    map: xeen_x6.odm
+    x: -640
+    y: 1812
+    z: 1248
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Well Keeper''s House (building:x6_houses#1, house 4303): before its door, open it'
+- set_pose:
+    map: xeen_x6.odm
+    x: -2432
+    y: 1004
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The Saddle Loft (building:x6_houses#2, house 4304): before its door, open it'
+- set_pose:
+    map: xeen_x6.odm
+    x: -1024
+    y: 1004
+    z: 1248
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- note: a residence of one person opens that person's talk (MM7's rule), not the house screen
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The oasis fountain: +2 Endurance once per character, then its plain line'
+- set_pose:
+    map: xeen_x6.odm
+    x: -9011
+    y: 1126
+    z: 1254
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The oasis fountain (player bit 11330)
+- execute_event:
+    id: 37
+- advance_runtime:
+    seconds: 0.5
+- note: 'The oasis fountain again: "It has given you all it will."'
+- execute_event:
+    id: 37
+- advance_runtime:
+    seconds: 0.5
+- note: The caravan cairn (x6.caravan_cairn, once per character a day)
+- set_pose:
+    map: xeen_x6.odm
+    x: 16384
+    y: 2765
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'A stone for luck: A3''s x6.caravan_cairn'
+- execute_event:
+    id: 42
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The same day: A3''s x6.caravan_cairn_again'
+- execute_event:
+    id: 42
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The obelisk on its red knoll (obelisks.x6)
+- set_pose:
+    map: xeen_x6.odm
+    x: 6042
+    y: 6144
+    z: 1446
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The obelisk (obelisks.x6: THE)'
+- execute_event:
+    id: 36
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(115045) then error("cloud_6 not set") end
+- note: Along the road to the Sphinx fork
+- walk_to:
+    x: 8704
+    y: 1536
+    z: 1248
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Up the Sphinx track
+- walk_to:
+    x: 9216
+    y: 6144
+    z: 1408
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Into the forecourt, before the paws
+- walk_to:
+    x: 9216
+    y: 9011
+    z: 1440
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'With the amulet: q-c9.door (sets 112180), its status line on X6 and xeen_sphinx_stir; no move'
+- play_lua:
+    source: 'status(); click(81); wait(0.5); local s = status(); if not string.find(s, "slides aside", 1, true) then error("no
+      q-c9.door line: " .. s) end; if not qbit(112180) then error("q-c9.entered not set") end'
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    map: xeen_x6.odm
+- assert:
+    dialog:
+      active: false
+- note: 'The door again, open: into XD-15 at entrance:x6_paws'
+- execute_event:
+    id: 81
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+      text_contains: paws the size of houses
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd15.blv
+- assert:
+    party_position:
+      x: 0
+      y: 256
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-15's way out (evt:exit_e) back to X6 before the Sphinx's breast
+- execute_event:
+    id: 23
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: 9216
+      y: 9728
+      radius: 300
+      z_min: 1288
+      z_max: 1608
+- play_lua:
+    source: if not qbit(112180) then error("q-c9.entered not set") end
+- note: 'The door again, now open: no second hook run, straight in (the bit 112180)'
+- execute_event:
+    id: 81
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+      text_contains: paws the size of houses
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd15.blv
+- assert:
+    party_position:
+      x: 0
+      y: 256
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-15's other way out (evt:exit_w) back to X6
+- execute_event:
+    id: 24
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: 9216
+      y: 9728
+      radius: 300
+      z_min: 1288
+      z_max: 1608
+- note: 'The mound between the paws (obelisks.cloud_hoard): silent without the seven words (A3: the hook has no fail text)'
+- execute_event:
+    id: 27
+- advance_runtime:
+    seconds: 0.5
+- note: Arie at her camp below the cliff (Q-C8)
+- walk_to:
+    x: -9011
+    y: 9318
+    z: 1472
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 4
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Up the cliff path to the castle gate (walked: the path must hold)'
+- walk_to:
+    x: -7987
+    y: 10138
+    z: 1472
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -6912
+    y: 10957
+    z: 1542
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -5632
+    y: 11725
+    z: 1725
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -6963
+    y: 12595
+    z: 1981
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -8806
+    y: 13312
+    z: 2317
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -10957
+    y: 13722
+    z: 2586
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -12595
+    y: 14029
+    z: 2557
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -12595
+      y: 14029
+      radius: 400
+      z_min: 2400
+- note: Before Castle Basenji's gate on the terrace
+- walk_to:
+    x: -13312
+    y: 15258
+    z: 2592
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: '"Castle Basenji. Enter?" (xeen/aaze0001:19) after the look, Yes/No buttons (D-72); Yes into XD-14 at entrance:x6_gate:
+    Close stays'
+- play_lua:
+    source: click(83); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: a dog howls
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x6.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: click(83); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: a dog howls
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd14.blv
+- assert:
+    party_position:
+      x: 0
+      y: -1280
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-14's gate (evt:exit_left) back to X6 on the terrace before the gatehouse
+- execute_event:
+    id: 56
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: -13312
+      y: 15104
+      radius: 300
+      z_min: 2472
+      z_max: 2792
+- note: The Waters of Great Power on the heights
+- set_pose:
+    map: xeen_x6.odm
+    x: -16691
+    y: 14848
+    z: 2541
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The Waters of Great Power (+200 hit points, once per character a day)
+- execute_event:
+    id: 39
+- advance_runtime:
+    seconds: 0.5
+- note: The Air Reflector on the rock spit where the rims meet
+- set_pose:
+    map: xeen_x6.odm
+    x: -18739
+    y: 18637
+    z: 2437
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
+- play_lua:
+    source: click(43); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Reflector. Activate?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if qbit(111740) then error("the Reflector set its bit before M36") end
+- note: The Shrine of Energy by the west rim
+- set_pose:
+    map: xeen_x6.odm
+    x: -17920
+    y: 4506
+    z: 1408
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: '"Shrine of Energy. Pray?" (xeen/aaze0001:0) after the look, Yes/No buttons (D-72): No leaves it'
+- play_lua:
+    source: click(40); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Shrine of Energy. Pray?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: false
+- note: '"Shrine of Energy. Pray?" (xeen/aaze0001:0): Yes, +5 Air resistance once'
+- play_lua:
+    source: click(40); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Shrine of Energy. Pray?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- note: Saul at his hermitage (Meditation)
+- walk_to:
+    x: -16282
+    y: -3584
+    z: 1408
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 5
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Saul's urn (x6.saul_urn)
+- execute_event:
+    id: 32
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: Before the Southern Sphinx's breast
+- set_pose:
+    map: xeen_x6.odm
+    x: -11981
+    y: -10240
+    z: 1555
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'FD-02 without Roland''s amulet: m40.sphinx_door refuses'
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- grant_item:
+    item_id: 12372
+    member_index: 0
+- note: 'With Roland''s amulet: m40.sphinx_door''s line, into FD-02 at entrance:x6_door'
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+      text_contains: stone jaw
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd02.blv
+- assert:
+    party_position:
+      x: -256
+      y: 0
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: FD-02's way out (evt:exit_l) back to X6 before the Southern Sphinx's breast
+- execute_event:
+    id: 17
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: -12288
+      y: -10240
+      radius: 300
+      z_min: 1416
+      z_max: 1736
+- note: 'The door again: into FD-02, out by its other way (evt:exit_r)'
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+      text_contains: stone jaw
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd02.blv
+- assert:
+    party_position:
+      x: -256
+      y: 0
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: FD-02's other way out (evt:exit_r) back to X6
+- execute_event:
+    id: 18
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: -12288
+      y: -10240
+      radius: 300
+      z_min: 1416
+      z_max: 1736
+- note: The Well of Accuracy by the steppe road
+- set_pose:
+    map: xeen_x6.odm
+    x: -6144
+    y: -14950
+    z: 1568
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The Well of Accuracy (+10 Accuracy until tomorrow)
+- execute_event:
+    id: 38
+- advance_runtime:
+    seconds: 0.5
+- note: 'Again the same day: "You have drunk your fill of this well today."'
+- execute_event:
+    id: 38
+- advance_runtime:
+    seconds: 0.5
+- note: The sun stones on their rise
+- set_pose:
+    map: xeen_x6.odm
+    x: 2560
+    y: -19149
+    z: 1485
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The sun stones: +10 Fire resistance and A3''s x6.sun_stones'
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The same day: A3''s x6.sun_stones_again'
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Summer Druid in her grove (Q-C1)
+- walk_to:
+    x: 2560
+    y: -13926
+    z: 1440
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 6
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Inside the coach yard (the warzone_coach arrival), as a coach party
+- set_pose:
+    map: xeen_x6.odm
+    x: 11469
+    y: -16589
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The desert gate from the yard: Gorm''s gate_line (x6.warzone_gate_open)'
+- execute_event:
+    id: 77
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The Warzone Coach (building:warzone_coach, house 4305): before its door, open it'
+- set_pose:
+    map: xeen_x6.odm
+    x: 10880
+    y: -15596
+    z: 1504
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The arena gate (XD-20)
+- set_pose:
+    map: xeen_x6.odm
+    x: 12237
+    y: -15872
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: '"Enter the War Zone?" (xeen/aaze0006:4) after the look, Yes/No buttons (D-72); Yes into XD-20 at entrance:x6_yard:
+    Close stays'
+- play_lua:
+    source: click(80); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: crowd roars
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x6.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: click(80); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: crowd roars
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd20.blv
+- assert:
+    party_position:
+      x: 256
+      y: 0
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-20's yard door (evt:yard_l) back to X6 before the arena gate
+- execute_event:
+    id: 8
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: 12288
+      y: -15872
+      radius: 300
+      z_min: 1384
+      z_max: 1704
+- note: Outside the yard on the desert side
+- set_pose:
+    map: xeen_x6.odm
+    x: 8499
+    y: -16384
+    z: 1574
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'From the desert side the bar lifts: A3''s x6.warzone_gate (116100)'
+- execute_event:
+    id: 75
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(116100) then error("x6.warzone_gate not set") end
+- note: Through the open gate into the yard
+- walk_to:
+    x: 11059
+    y: -16384
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 11059
+      y: -16384
+      radius: 400
+- load_map:
+    map: xeen_x6.odm
+- advance_runtime:
+    seconds: 1.0
+- note: After a reload the gate stays open (evt:yard_gate_state)
+- set_pose:
+    map: xeen_x6.odm
+    x: 8499
+    y: -16384
+    z: 1574
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: Through the gate without a click
+- walk_to:
+    x: 11059
+    y: -16384
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 11059
+      y: -16384
+      radius: 400
+- note: 'The desert road east to the edge: X4'
+- set_pose:
+    map: xeen_x6.odm
+    x: 20480
+    y: 2048
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'East edge: travel to X4 Burlock Savannah'
+- walk_to:
+    x: 24320
+    y: 2048
+    z: 1216
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: -22528
+      y: 2048
+      radius: 600
+- note: 'On X4''s west road: west over its edge back to X6 (the scratch root''s edge_spans row)'
+- walk_to:
+    x: -24320
+    y: 2048
+    z: 1184
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: 22016
+      y: 2048
+      radius: 600
+- note: 'The steppe road south to the edge: X5'
+- set_pose:
+    map: xeen_x6.odm
+    x: -7168
+    y: -20480
+    z: 1440
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'South edge: travel to X5 Winterkill Tundra'
+- walk_to:
+    x: -7168
+    y: -24320
+    z: 1440
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x5.odm
+- assert:
+    party_position:
+      x: -7168
+      y: 22528
+      radius: 600
+- note: 'On X5''s steppe road: north over its edge back to X6'
+- walk_to:
+    x: -7168
+    y: 24320
+    z: 1280
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x6.odm
+- assert:
+    party_position:
+      x: -7168
+      y: -22016
+      radius: 600

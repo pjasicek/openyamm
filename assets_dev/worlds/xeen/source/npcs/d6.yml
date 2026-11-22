@@ -1,0 +1,81 @@
+# D6 The Forbidden Zone (Darkside): the zone's own bits and lines that belong to no quest (D-49). Quest places: m25
+# (Ambrose at Griffin Pass, camp_gone), m28/m29 (the lava and Corak's pod), m33 (Castle Alamar, robots_gone), m39
+# (the ruin's stair), q-d23 (Necropolis's Sandro), q-d27 (the three lamps), obelisks (d6). The devices decide for
+# themselves: the map only asks its question (where one is given) and calls the hook. Owner: A3. Format:
+# QUESTS_FORMAT.md section 5.
+map: D6
+block: 163
+source: "D-49 (devdocs/xeen/briefs/d5/L1/D49_DECISION.md, D6 changes 5-9); dark/aaze0006:10-12, aaze0035:2-16, :24, :31, :32"
+
+qbits:
+  archers_burned: {id: 116200, note: "the barbarian archers' camp put to the torch (archers_camp); the map shows it burnt on every load once set"}
+
+player_bits:         # the Books of the Dead, once per character each (D-49 rows: +3,000 experience and +8 years per book)
+  book_dead_1: {id: 11355, map: D6, note: "the first Book of the Dead (Necropolis, the Square of Mourning's west edge)"}
+  book_dead_2: {id: 11356, map: D6, note: "the second Book of the Dead"}
+  book_dead_3: {id: 11357, map: D6, note: "the third Book of the Dead"}
+
+hooks:
+  necropolis_gate:
+    map: D6
+    entrance: Necropolis (DD-21 inside)
+    sealed: "the pass is loot in the Lakeside Coven (DD-20)"
+    where: "Necropolis's gate in the north wall, from outside (D-49 change 8): the door opens when this returns true (the Head Witch's pass, Q-D22); from inside it is always open, and a party that arrives by the mirror is inside without a pass (D-30)"
+    needs: [necropolis_pass]
+    status: true
+    text: "The gatekeeper reads your pass through the grille, twice, and the leaves swing open."
+    fail_text: "The gate stays shut. A voice through the grille: \"The living need a pass. The dead need nothing. The Lakeside witches write passes for both.\""
+  skull:
+    map: D6
+    where: "the talking skull on the mirror's plinth in the Square of Mourning (one spot with the Mirror of Necropolis): every click, the source's tale of the two necromancers, shortened (dark/aaze0035:24, :31, :32)"
+    text: "Unprompted, the magic skull begins to speak: Once upon a time two necromancers had a little disagreement. Darkness said he was the most powerful, foul and evil necromancer in all of Xeen; Death said HE was. On the darkest night of the year they met in a graveyard and raised the dead against each other, and the battle raged a full five days. When the corpses were piled so high that they made a bridge between the two burial mounds, the necromancers met on top. Death caught hold of Darkness' throat, and Darkness of Death's, and they died as one at the top of the hideous mountain they had made. They built the town on it afterwards. The view is very good."
+  book_dead_1:
+    status: true   # F13: a touch effect answers on the status line
+    map: D6
+    where: "the first Book of the Dead, chained to its lectern (Necropolis, west edge of the Square of Mourning): the map only calls this; the hook decides for the clicking member (player bit 11355)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11355))"}
+        text: "You've already read it."
+      - text: "Book of the Dead, Vol. 1. The words are cold, and they stay with you. The experience aged you. (+3,000 experience, +8 years)"
+        do: [{lua: "AddValue(Experience, 3000)"}, {lua: "AddValue(Age, 8)"}, {lua: "SetPlayerBit(PlayerBit(11355))"}]
+  book_dead_2:
+    status: true   # F13: a touch effect answers on the status line
+    map: D6
+    where: "the second Book of the Dead, on the next lectern: the map only calls this; the hook decides for the clicking member (player bit 11356)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11356))"}
+        text: "You've already read it."
+      - text: "Book of the Dead, Vol. 2. Somewhere in the middle, the book reads you back. The experience aged you. (+3,000 experience, +8 years)"
+        do: [{lua: "AddValue(Experience, 3000)"}, {lua: "AddValue(Age, 8)"}, {lua: "SetPlayerBit(PlayerBit(11356))"}]
+  book_dead_3:
+    status: true   # F13: a touch effect answers on the status line
+    map: D6
+    where: "the third Book of the Dead, on the last lectern: the map only calls this; the hook decides for the clicking member (player bit 11357)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11357))"}
+        text: "You've already read it."
+      - text: "Book of the Dead, Vol. 3. The last page is a mirror. You look older in it. The experience aged you. (+3,000 experience, +8 years)"
+        do: [{lua: "AddValue(Experience, 3000)"}, {lua: "AddValue(Age, 8)"}, {lua: "SetPlayerBit(PlayerBit(11357))"}]
+  zone_sign:
+    map: D6
+    where: "the sign at the border pass from D5 (D-49 change 9): the source's words and one warning line"
+    text: "The Forbidden Zone. Beyond: Castle Alamar. The dead keep the road."
+  sheltem_hatch:
+    map: D6
+    entrance: DD-22
+    sealed: "sealed from inside until its master falls (Act VI)"
+    where: "Escape Pod 2's round hatch in its crater in the Ancient field (Sheltem's pod, DD-22; D-62 Q52): its click calls this; true goes on into DD-22's entrance:d6_hatch (A6's door at DD-22's install; until then the map stays sealed), so the line is a status line; false has shown the sealed line"
+    requires: {qbit: m33.done}
+    reads: [m33.done]
+    status: true
+    text: "With Sheltem gone, the pod's lock has died too. The hatch rolls aside on a cold, red-lit airlock."
+    fail_text: "The second pod's hatch is sealed from inside. The hull is cold. Whoever came down in this one is not answering the door."
+  archers_camp:
+    map: D6
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the barbarian archers' camp, on its strongbox spot in the chief's tent (D-49 change 5, Q3: no new point of interest): the map asks the source's \"You have discovered a barbarian camp. Destroy?\" (dark/aaze0006:11); Yes calls this once; the strongbox is the map's chest"
+    sets: [archers_burned]
+    once: true
+    do: [{xp: 1000}]
+    text: "Smoke rises into the sky as you put the camp to the torch."
+    else_text: "Ash and arrowheads. The archers have not come back."

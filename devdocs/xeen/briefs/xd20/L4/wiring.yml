@@ -1,0 +1,62 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "A passage through the cliff. Ahead, the Hall of the War Games, where the Arena Master takes challenges."
+    seconds: 6
+    notes: The errand on arrival (the build's rule for a new dungeon).
+  - id: evt:bones_ne
+    preset: text
+    source: deco:bones_ne
+    title: Bones
+    text: There is nothing amongst the bones.
+    notes: Original lines xeen/aaze0085:6 (the name) and :5.
+  - id: evt:bones_se
+    preset: text
+    source: deco:bones_se
+    title: Bones
+    text: There is nothing amongst the bones.
+  - id: evt:bones_sw
+    preset: text
+    source: deco:bones_sw
+    title: Bones
+    text: There is nothing amongst the bones.
+  - id: evt:booth_floor
+    preset: script
+    source: panel:booth_floor
+    title: The Arena Master
+    effects:
+      - lua: evt.SpeakNPC(4609)
+    notes: "The same master from the sand: the reward when every opponent is dead, else the engine's 'not yet won' and back to the mark."
+  - id: evt:booth_lodge
+    preset: script
+    source: panel:booth_lodge
+    title: The Arena Master
+    effects:
+      - lua: evt.SpeakNPC(4609)
+    notes: "Varro (A4's 4609, topic 704): the War Games, Page to Lord; his greeting is aaze0085:0."
+  - id: evt:door_lodge
+    preset: door
+    source: door:lodge
+    title: Hall of the War Games
+  - id: evt:victors_l
+    preset: exit
+    source: exit:victors_l
+    title: Exit the Warzone
+    notes: "The victors' gate: any time (D-39); leaving before the win forfeits the challenge."
+  - id: evt:victors_r
+    preset: exit
+    source: exit:victors_r
+    title: Exit the Warzone
+  - id: evt:yard_l
+    preset: exit
+    source: exit:yard_l
+    title: Exit the Warzone
+    notes: "To X6's entrance:xd20_gate in the coach yard (exit:x6_yard); the meaning of xeen/aaze0085:7 'Exit the Warzone?'."
+  - id: evt:yard_r
+    preset: exit
+    source: exit:yard_r
+    title: Exit the Warzone

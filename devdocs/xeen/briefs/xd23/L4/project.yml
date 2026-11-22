@@ -1,0 +1,45 @@
+format: 0
+id: xeen_xd23
+name: Troll Warren
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-23
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 14], climbs: n}
+map_stats:
+  id: 9146
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 8
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Troll, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x5_crown
+    to: xeen_x5.odm
+    kind: door
+    arrival: [768, -15616, 1631]
+    arrival_hint: "A6's crown point (2026-11-20): on the mound's crown over its middle, facing south, away from the mouth and the smoke hole (X5 cells [65.5, 94.5])."
+    direction: 270
+    notes: One way out (the smoke hole).
+  - id: exit:x5_mouth
+    to: xeen_x5.odm
+    kind: door
+    arrival: [768, -14595, 1210]
+    arrival_hint: "X5's Troll Forest, 400 north of thing:warren's mouth face (768, -14995), facing away from it (north); the ground there is 1,201 (measured 2026-11-20)."
+    direction: 90
+    notes: "X5 (Winterkill Tundra, A6's): the barrow mound's mouth, thing:warren at cells [65.5, 94.5], turn 180 (its mouth faces north)."
+qbits:
+  lair_burnt: 112301
+  matron_dead: 110930
+notes: "Xeen design brief, level L4: XD-23 Troll Warren under X5's barrow mound in the Troll Forest (Q-C15 Troll Problem). Monsters: A2's Trolls, all placed (20 Troll 11070 18, 7 Troll Guard 11071 28; Ice Troll left out) in groups 10-18 by room, and the Troll Matron 11074 (32, boss row, group 19). Slot 1 Xeen Troll for the map card (no rest encounters: encounter 0, the burnt warren stays empty). Map qbits 110930-110939 (used: matron_dead 110930); A3's q-c15.lair_burnt 112301 named. Hook q-c15.lair called from the fire pit's question. Music 8. Neighbours on X5 (installed): the mouth (exit:mouth → exit:x5_mouth, in front of thing:warren) and the one-way smoke hole (exit:smoke_hole → exit:x5_crown, A6's point); the map's start is the arrival from X5's thing:warren."
+identity:
+  shape: cave
+  family: d13
+  seen: ["a dug warren under the barrow mound in MM8's troll-cave rock, rough walls, floors that rise and fall", "straw beds and hides hung for warmth in the sleeping hollows, gnawed bark and bones everywhere", "the Matron's hearth under the chimney stuffed with hides, the fire pit that burns the lair"]

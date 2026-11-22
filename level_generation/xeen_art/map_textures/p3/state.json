@@ -1,0 +1,56 @@
+{
+ "xpegeode": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.527,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      1.054,
+      1.092,
+      1.014
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xpegeode_v1.txt",
+    "raw": "raw/xpegeode_v1.png",
+    "refs": [
+     "refs/xpegeode_v1_1.png",
+     "refs/xpegeode_v1_2.png"
+    ],
+    "seam_raw": "raw/xpegeode_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xperubble": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.856,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xperubble_v1.txt",
+    "raw": "raw/xperubble_v1.png",
+    "refs": [
+     "refs/xperubble_v1_1.png",
+     "refs/xperubble_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

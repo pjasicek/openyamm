@@ -1,0 +1,2958 @@
+format: 0
+grid: 512
+notes: "D1 Castleview Vale, written by output/studio_cal/d1/tools/gen.py. Cells [x, y], x east, y south. Heights are map units above the stars below the rim (0): the Vale Water 830, the vale 1,000-1,250, Castleview 1,150 (its walls 600 high), Kalindra's rise 1,750, the north hills to 3,600."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [56, 64], neighbour: edge:east}
+  rim:
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 24; below, water at 0 stands for the stars."}
+    - {side: south, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at y 104 (D-23); the Vale Water falls over it at x 31."}
+    - {side: north, span: [0, 24], form: level, height: 0, meet: 1}
+    - {side: north, span: [24, 59], form: ridge, height: [2600, 3400], floor: 2000, crest: 10, roughness: 120, notes: The mine hills and the Forbidden Zone's southern border.}
+    - {side: north, span: [59, 70], form: level, height: 2000, meet: 6, notes: "The mountain road's valley, open to the edge (D6, sealed)."}
+    - {side: north, span: [70, 128], form: ridge, height: [2800, 3600], floor: 2200, crest: 10, roughness: 120, notes: The Sardaj Horn and the Gemstone Range's western foothills.}
+    - {side: east, span: [0, 46], form: ridge, height: [2200, 3000], floor: 1800, crest: 10, roughness: 120, notes: The Gemstone foothills run on into D2.}
+    - {side: east, span: [46, 104], form: level, height: 1100, meet: 6, notes: "The vale opens east into D2's woods; the road at y 60."}
+    - {side: east, span: [104, 128], form: level, height: 0, meet: 1}
+  edge: {height: 2000, east: 1100, south: 0, west: 0}
+heights:
+  points:
+    - {at: [64, 19], h: 1550, notes: the D6 road at the foot of the mountain valley}
+    - {at: [78, 8], h: 3600, notes: the Sardaj Horn}
+    - {at: [44, 8], h: 3300, notes: the mine hills' crest}
+    - {at: [84, 17], h: 2100, notes: the cliff over the Sardaj spring}
+  cliffs:
+    - line: [[24, 0], [24, 22]]
+      drop: 1800
+      down: right
+      notes: "The rim, west: the crag."
+    - line: [[24, 22], [24, 40]]
+      drop: 1500
+      down: right
+      notes: "The rim, west: by the Western Tower's knoll."
+    - line: [[24, 40], [24, 70]]
+      drop: 1100
+      down: right
+      notes: "The rim, west: the heath."
+    - line: [[24, 70], [24, 84]]
+      drop: 1300
+      down: right
+      notes: "The rim, west: the headland."
+    - line: [[24, 84], [24, 104]]
+      drop: 1000
+      down: right
+    - line: [[24, 104], [30, 104]]
+      drop: 1000
+      down: right
+    - line: [[33, 104], [60, 104]]
+      drop: 1000
+      down: right
+      notes: "The rim, south: the bank."
+    - line: [[60, 104], [128, 104]]
+      drop: 950
+      down: right
+      notes: "The rim, south: the meadows."
+    - line: [[36, 78], [46, 80]]
+      drop: 450
+      down: right
+      notes: "Kalindra's rise, its south face over the Vale Water."
+    - line: [[43, 21], [47, 21]]
+      drop: 300
+      down: right
+      notes: The adit's face in the mine hill.
+  ridges:
+    - {line: [[70, 4], [78, 8], [84, 14]], height: [3000, 3600, 2800], width: 2, slope: 3, notes: "The Sardaj Horn's ridge, east of the mountain road."}
+    - {line: [[34, 6], [44, 8], [54, 12]], height: [2900, 3300, 2600], width: 2, slope: 3, notes: "The mine hills' crest, west of the mountain road."}
+  terraces:
+    - polygon: [[47.5, 46], [52.5, 41.5], [73.5, 41.5], [78.2, 46], [78.2, 62], [74, 66.8], [53.5, 66.8], [47.5, 61.5]]
+      height: 1150
+      slope: 3
+      notes: Castleview and its walls.
+    - polygon: [[30, 22.8], [47, 22.8], [47, 27], [30, 27]]
+      height: 1600
+      slope: 3
+      notes: The gemsmiths' row on its shelf.
+    - polygon: [[29, 31], [33, 31], [33, 35.5], [29, 35.5]]
+      height: 1600
+      slope: 3
+      notes: The Western Tower's knoll top.
+    - polygon: [[57.5, 33.5], [62.8, 33.5], [62.8, 39], [57.5, 39]]
+      height: 1250
+      slope: 3
+      notes: The travel pyramid's knoll.
+    - polygon: [[84.5, 21.5], [92.5, 21.5], [92.5, 29], [84.5, 29]]
+      height: 1550
+      slope: 3
+      notes: The Sardaj camp.
+    - polygon: [[90, 33], [95, 33], [95, 38], [90, 38]]
+      height: 1350
+      slope: 3
+      notes: Vespar's knoll.
+    - polygon: [[34.5, 63], [43.5, 63], [43.5, 77], [34.5, 77]]
+      height: 1750
+      slope: 3
+      notes: Castle Kalindra's rise.
+    - polygon: [[43.5, 67.5], [48.5, 67.5], [48.5, 72.5], [43.5, 72.5]]
+      height: 1650
+      slope: 3
+      notes: Kalindra's forecourt at the ramp's top.
+    - polygon: [[49.5, 88], [54.5, 88], [54.5, 92], [49.5, 92]]
+      height: 1250
+      slope: 2
+      notes: The prayer shrine's knoll (the signature view).
+    - polygon: [[57.5, 66], [71, 66], [71, 71], [57.5, 71]]
+      height: 1100
+      slope: 2
+      notes: Pip Melonby's field.
+    - polygon: [[102, 56], [110, 56], [110, 64], [102, 64]]
+      height: 1100
+      slope: 2
+      notes: "The east road's end: the D2 arrival."
+    - polygon: [[43.2, 21], [46.8, 21], [46.8, 22.8], [43.2, 22.8]]
+      height: 1600
+      slope: 0
+      notes: The adit's floor.
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 97, 99, 95, 100, 110, 109, 97, 93, 101, 87, 80, 107, 113, 120, 107, 97, 101, 105, 103, 114, 127, 129, 125, 122, 125, 130], [0, 0, 0, 0, 0, 0, 102, 111, 102, 103, 116, 119, 106, 96, 102, 85, 76, 106, 125, 143, 125, 100, 105, 116, 117, 119, 125, 134, 141, 137, 129, 127], [0, 0, 0, 0, 0, 0, 103, 110, 104, 102, 110, 110, 103, 100, 103, 78, 67, 103, 122, 135, 117, 97, 104, 114, 113, 117, 128, 140, 149, 146, 133, 122], [0, 0, 0, 0, 0, 0, 71, 74, 71, 71, 75, 74, 71, 73, 77, 67, 59, 75, 83, 90, 78, 67, 69, 78, 78, 85, 100, 114, 123, 117, 103, 95], [0, 0, 0, 0, 0, 0, 39, 38, 44, 48, 47, 43, 41, 40, 42, 52, 56, 50, 50, 51, 33, 31, 36, 37, 41, 58, 69, 73, 78, 75, 67, 63], [0, 0, 0, 0, 0, 0, 34, 34, 43, 49, 48, 45, 33, 32, 37, 43, 46, 47, 46, 42, 28, 30, 41, 34, 34, 52, 67, 65, 60, 59, 62, 64], [0, 0, 0, 0, 0, 0, 34, 37, 41, 47, 45, 39, 33, 29, 37, 47, 49, 44, 39, 40, 28, 34, 45, 35, 36, 51, 64, 63, 63, 67, 69, 69], [0, 0, 0, 0, 0, 0, 34, 42, 40, 39, 37, 34, 34, 35, 38, 42, 41, 32, 32, 36, 28, 33, 37, 35, 35, 51, 62, 60, 66, 77, 79, 70], [0, 0, 0, 0, 0, 0, 35, 48, 42, 34, 34, 34, 34, 37, 38, 39, 34, 34, 35, 36, 28, 33, 35, 38, 35, 48, 60, 62, 67, 74, 74, 66], [0, 0, 0, 0, 0, 0, 34, 35, 35, 33, 33, 34, 35, 37, 36, 37, 32, 32, 36, 33, 28, 33, 34, 38, 36, 47, 54, 57, 62, 65, 60, 53], [0, 0, 0, 0, 0, 0, 34, 31, 35, 37, 35, 34, 35, 35, 34, 34, 34, 34, 37, 31, 28, 33, 33, 33, 34, 41, 47, 46, 45, 46, 45, 42], [0, 0, 0, 0, 0, 0, 34, 34, 33, 35, 38, 37, 34, 34, 34, 34, 34, 34, 34, 31, 28, 32, 33, 34, 34, 35, 38, 38, 34, 31, 31, 36], [0, 0, 0, 0, 0, 0, 34, 36, 35, 34, 35, 36, 34, 34, 34, 34, 34, 34, 34, 30, 28, 36, 35, 33, 34, 37, 37, 34, 31, 31, 33, 37], [0, 0, 0, 0, 0, 0, 34, 35, 34, 34, 34, 33, 34, 34, 34, 34, 34, 34, 34, 30, 28, 36, 38, 36, 33, 33, 35, 34, 32, 32, 36, 39], [0, 0, 0, 0, 0, 0, 34, 35, 35, 32, 32, 34, 34, 34, 34, 34, 34, 34, 34, 31, 28, 34, 35, 37, 36, 34, 34, 34, 37, 38, 36, 34], [0, 0, 0, 0, 0, 0, 34, 34, 35, 35, 35, 33, 35, 34, 34, 34, 34, 34, 34, 30, 28, 35, 34, 34, 34, 34, 34, 34, 37, 40, 37, 30], [0, 0, 0, 0, 0, 0, 34, 34, 35, 43, 46, 38, 34, 35, 34, 34, 34, 34, 36, 28, 28, 32, 32, 34, 34, 33, 35, 36, 37, 35, 33, 32], [0, 0, 0, 0, 0, 0, 34, 34, 37, 49, 54, 43, 35, 31, 33, 34, 34, 34, 28, 28, 34, 34, 32, 32, 35, 37, 36, 35, 34, 32, 31, 33], [0, 0, 0, 0, 0, 0, 39, 36, 35, 43, 46, 38, 33, 31, 32, 34, 30, 28, 28, 29, 32, 36, 36, 33, 33, 36, 39, 35, 30, 29, 34, 38], [0, 0, 0, 0, 0, 0, 39, 36, 34, 35, 34, 31, 31, 29, 28, 28, 28, 29, 30, 30, 32, 33, 35, 35, 33, 32, 32, 33, 31, 30, 33, 37], [0, 0, 0, 0, 0, 0, 34, 36, 36, 30, 28, 28, 28, 28, 29, 30, 31, 30, 29, 30, 32, 33, 32, 32, 32, 31, 28, 28, 32, 35, 34, 31], [0, 0, 0, 0, 0, 0, 34, 33, 31, 28, 30, 32, 33, 36, 38, 29, 25, 28, 34, 35, 32, 30, 32, 32, 31, 29, 29, 31, 34, 35, 34, 29], [0, 0, 0, 0, 0, 0, 34, 33, 28, 29, 35, 36, 38, 38, 34, 30, 28, 29, 33, 36, 34, 29, 28, 31, 31, 31, 30, 32, 35, 34, 29, 27], [0, 0, 0, 0, 0, 0, 34, 30, 28, 36, 36, 35, 35, 34, 31, 29, 32, 34, 33, 31, 31, 31, 30, 28, 32, 32, 35, 32, 30, 29, 30, 30], [0, 0, 0, 0, 0, 0, 34, 28, 28, 35, 38, 37, 32, 29, 32, 34, 35, 33, 31, 29, 29, 31, 32, 32, 31, 32, 35, 34, 28, 25, 29, 35], [0, 0, 0, 0, 0, 0, 34, 28, 30, 34, 34, 34, 34, 34, 34, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    notes: Written by gen.py from its land function.
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars (the game draws no void)."
+    - id: water:acid_pond
+      kind: pond
+      level: 1080
+      polygon: [[68, 28], [73, 27], [76, 29], [75, 33], [70, 34], [67, 31]]
+      notes: "The acid pond: green, no fish, a cracked mud rim."
+    - id: water:vale_water
+      kind: pond
+      level: 830
+      polygon: [[82, 17], [86, 17], [87, 21], [83, 21], [81, 19]]
+      notes: "The Sardaj spring: the Vale Water rises in a pool at the cliff foot."
+  rivers:
+    - id: water:vale_water
+      line: [[84, 20], [83, 26], [82, 34], [81, 40], [81, 46], [81, 52], [81, 60], [80, 66], [76, 71], [70, 75], [64, 78], [57, 80], [50, 82], [45, 81], [41, 83], [37, 87], [34, 92], [32, 98], [31, 103]]
+      width_cells: 2.5
+      level: 830
+      notes: "The Vale Water (D-23: D1's own): from the Sardaj spring south through the mill gorge, west under Kalindra's rise, over the south rim at x 31."
+roads:
+  - link: link:north_road
+    line: [[64, 0], [64, 10], [64, 19], [64.5, 26], [64, 33], [63, 40]]
+    width: road
+    surface: road_pebbles
+  - link: link:gate_lane
+    line: [[63, 40], [63, 44], [63, 51]]
+    width: road
+    surface: road_flagstone
+  - link: link:east_road
+    line: [[128, 60], [106, 60], [100, 60], [90, 60], [84, 60], [78, 60]]
+    width: road
+    surface: road_pebbles
+    notes: "Over the Vale Water by the East Bridge (thing:east_bridge); no tiles in the water."
+  - link: link:wall_road
+    line: [[78, 60], [77.5, 56], [77, 50], [77, 44.5], [73, 41.5], [66, 40], [63, 40]]
+    width: road
+    surface: road_pebbles
+  - link: link:west_road
+    line: [[63, 40], [58, 41.5], [53, 41.5], [48, 44], [47.5, 47]]
+    width: road
+    surface: road_pebbles
+  - link: link:kalindra_road
+    line: [[47.5, 47], [47.5, 54], [47.5, 62], [48, 67], [47.5, 70]]
+    width: road
+    surface: road_pebbles
+  - link: link:east_bank_lane
+    line: [[84.5, 60], [84.5, 52], [85, 46], [85.5, 42.5], [88, 38]]
+    width: lane
+  - link: link:sardaj_lane
+    line: [[88, 38], [88, 32], [88, 28.5]]
+    width: lane
+  - link: link:vespar_lane
+    line: [[88, 38], [90, 36], [91, 35.5]]
+    width: lane
+  - link: link:pond_lane
+    line: [[66, 40], [68.5, 37], [70, 34.5]]
+    width: lane
+  - link: link:heath_lane
+    line: [[47.5, 47], [42, 45.5], [38, 44]]
+    width: lane
+  - link: link:tower_lane
+    line: [[38, 44], [35, 40.5], [32, 37.5]]
+    width: lane
+  - link: link:mine_lane
+    line: [[38, 44], [36, 37], [36, 30], [37, 26], [44, 26], [45.5, 24]]
+    width: lane
+  - link: link:grove_path
+    line: [[36, 31], [41, 32.5], [44.5, 36], [47.5, 36.5]]
+    width: lane
+  - link: link:edge_path
+    line: [[38, 44], [31, 45.5], [26.5, 46]]
+    width: lane
+  - link: link:queen_lane
+    line: [[51, 63.5], [49.5, 64], [48, 64.5]]
+    width: lane
+  - link: link:luna_lane
+    line: [[47.5, 58], [40, 60], [33.5, 62]]
+    width: lane
+  - link: link:obelisk_path
+    line: [[33.5, 62], [30, 68], [28, 75]]
+    width: lane
+  - link: link:south_lane
+    line: [[90, 60], [90.5, 68], [88, 76], [84, 82], [76, 84], [68, 85.5], [60, 87.5], [53, 90]]
+    width: lane
+  - link: link:reger_path
+    line: [[53, 90], [56, 93], [57.5, 94.5]]
+    width: lane
+  - link: link:falista_path
+    line: [[53, 90], [49, 93], [46.5, 95]]
+    width: lane
+  - link: link:wreck_path
+    line: [[55, 88.5], [54, 85]]
+    width: lane
+  - link: link:well_path
+    line: [[84, 82], [92, 88], [99, 92.5]]
+    width: lane
+  - link: link:melon_path
+    line: [[79, 84.5], [82, 90]]
+    width: lane
+  - link: link:guild_row
+    line: [[51, 58], [71.5, 58]]
+    width: lane
+    surface: road_flagstone
+  - link: link:west_lane
+    line: [[59, 56], [51.5, 56]]
+    width: lane
+    surface: road_flagstone
+  - link: link:back_lane
+    line: [[55, 61], [62, 61]]
+    width: lane
+    surface: road_flagstone
+  - link: link:back_lane
+    line: [[65.5, 61], [69.5, 61]]
+    width: lane
+    surface: road_flagstone
+  - link: link:yard_lane
+    line: [[63, 48], [71.5, 48], [71.5, 58]]
+    width: lane
+    surface: road_flagstone
+  - link: link:queen_lane
+    line: [[53, 62], [55, 61]]
+    width: lane
+    surface: road_flagstone
+districts:
+  - space: town:castleview
+    polygon: [[50, 47], [53, 44], [73, 44], [76, 47], [76, 61], [73, 64], [54, 64], [50, 60]]
+    plots:
+      - {building: building:cv_tavern, at: [59.5, 45.5], facing: e, parts: [{id: body, at: [64, 64], size: [800, 896], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {e: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4456, title: The Catapult and Crust, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_inn, at: [59.5, 48], facing: e, parts: [{id: body, at: [464, 48], size: [512, 928], signs: [{wall: e, bay: 0, texture: sginn, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {e: [[post_left, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [64, 512], size: [480, 400], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4465, title: The Adventurer's Inn, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_weapons, at: [65, 45], facing: w, parts: [{id: body, at: [96, 48], size: [608, 634], signs: [{wall: w, bay: 0, texture: sgweap, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {w: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: chimney, at: [528, 570], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [160, 698], size: [448, 302], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: s}, {id: bench, at: [224, 722], size: [256, 96], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [472, 864], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4451, title: The Siege Smithy, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_armour, at: [64.5, 48.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [window, 128], [wall, 32], [door, 256], [wall, 32], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 32], [wall, 64], [window, 128], [wall, 64], [wall, 32], [window, 128], [post_right, 128]]}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4452, title: Castleview Mail, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_jail, at: [66.5, 45], facing: s, parts: [{id: body, at: [64, 64], size: [1152, 640], signs: [{wall: s, bay: 0, texture: xljail, size: [128, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4468, title: Castleview Jail, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 11, at: [66.5, 48.5], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], walls: {s: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {s: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4485, title: Wainwright's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_magic, at: [57, 50.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgmagic, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4453, title: The Amber Lamp, kit: grey, door: {part: body, wall: e}}
+      - {building: building:cv_alchemist, at: [57, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4454, title: Zelda's Herbs and Remedies, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_town_hall, at: [67.5, 51], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1440], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [608, 768], size: [608, 656], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4466, title: Castleview Town Hall, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_bank, at: [67.5, 54.5], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: w, bay: 0, texture: sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4457, title: Castleview Strongroom, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4459, title: Castleview Guild of Fire, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4460, title: Castleview Guild of Air, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4461, title: Castleview Guild of Water, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4462, title: Castleview Guild of Earth, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: n, bay: 0, texture: sgspell, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4463, title: Castleview Guild of Body, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_temple, at: [70.5, 58.5], facing: w, parts: [{id: nave, at: [64, 64], size: [1152, 1408], wall_height: 416, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: tower, at: [1184, 624], size: [288, 288], wall_height: 832, windows: none, roof: hip, roof_pitch: 62}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4455, title: Temple of Mok, kit: grey, door: {part: nave, wall: w}}
+      - {building: building:cv_training, at: [72, 48.5], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1184], signs: [{wall: w, bay: 0, texture: sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1024], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4458, title: The Barracks Yard, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_stables, at: [72, 52], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1440], signs: [{wall: w, bay: 0, texture: sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1280], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4464, title: Kramer's Caravans, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_houses, index: 17, at: [73, 56], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4491, title: Saddler's, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_houses, index: 15, at: [69, 49.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4489, title: Bellringer's House, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_houses, index: 6, at: [55, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4480, title: Fletch House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 8, at: [57, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4482, title: Gatewarden's House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 20, at: [56.5, 47], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4494, title: Pigeon Loft, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 4, at: [54.5, 47.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4477, title: Lyle's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 7, at: [52.5, 48], facing: e, parts: [{id: body, at: [147, 48], size: [317, 1440], textures: {door: t06a03}, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [33, 96], size: [130, 1280], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4481, title: The Rope Walk, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 1, at: [54.5, 49.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4469, title: Jethro's Maps, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 2, at: [57.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4471, title: Madame Oorla's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_library, at: [53.5, 51.5], facing: e, parts: [{id: body, at: [464, 48], size: [512, 1184], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [64, 640], size: [480, 528], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4478, title: Castleview Library, kit: grey, door: {part: body, wall: e}}
+      - {building: building:cv_houses, index: 5, at: [52, 52], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4479, title: Velana's House, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 14, at: [52, 54], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4488, title: Widow Grey's, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 3, at: [53.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4472, title: Nadia's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 16, at: [55.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4490, title: Lamp House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 19, at: [52.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4493, title: The Wall House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 10, at: [54.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4484, title: Pottage House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 13, at: [56.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4487, title: Thatcher's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_drawkcab, index: 1, at: [56.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4473, title: Brother Otto's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 2, at: [57.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4474, title: Sister Hannah's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 3, at: [58.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4475, title: Brother Bob's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 4, at: [59.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4476, title: Sister Ada's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_public_storage, at: [63.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], signs: [{wall: n, bay: 0, texture: xlstorage, size: [128, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4470, title: Public Storage, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_houses, index: 9, at: [68, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4483, title: Millhouse Ruin, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_houses, index: 12, at: [69.5, 62], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: t06a03}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4486, title: Melon House, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_houses, index: 18, at: [71.5, 62], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4492, title: Ditchwater House, kit: grey, door: {leaves: 2, part: body, wall: e}}
+  - space: zone:cv_square
+    polygon: [[59, 51], [67, 51], [67, 57], [59, 57]]
+  - space: zone:cv_coach_yard
+    polygon: [[70, 47], [72, 47], [72, 58], [70, 58]]
+  - space: zone:cv_wall_top
+    polygon: [[47, 52], [52, 52], [52, 56], [47, 56]]
+    plots:
+      - {building: building:cv_lucio_jetty, at: [49, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], signs: [{wall: e, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4901, title: Lucio's Jetty, kit: grey, door: {part: body, wall: e}, condition: {qbit: lucio_open}, else_effects: [{lua: "evt.SimpleMessage(\"A jetty that ends in thin air. A sign: \\\"Celestial boats. Chosen Ones only.\\\"\")"}], on: thing:jetty_deck}
+  - space: zone:gate_yard
+    polygon: [[55, 39], [71, 39], [71, 44], [55, 44]]
+  - space: zone:pyramid_knoll
+    polygon: [[57, 33], [63, 33], [63, 39], [57, 39]]
+  - space: wild:siege_lines
+    polygon: [[56, 22], [80, 22], [80, 39], [71, 39], [66, 37], [63, 32], [56, 30]]
+  - space: zone:mill_gorge
+    polygon: [[77, 41], [86, 41], [86, 49], [77, 49]]
+  - space: wild:sardaj_lands
+    polygon: [[84, 19], [100, 19], [100, 30], [96, 42], [96, 50], [86, 50], [85, 42], [83, 30]]
+  - space: zone:sardaj_camp
+    polygon: [[84, 21], [93, 21], [93, 30], [84, 30]]
+  - space: zone:vespar_knoll
+    polygon: [[90, 33], [96, 33], [96, 39], [90, 39]]
+    plots:
+      - {building: building:vespar_house, at: [91.5, 34.5], facing: w, parts: [{id: tower, shape: round, at: [628, 512], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [48, 225], size: [430, 573], roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4499, title: Vespar's House, kit: grey, door: {part: body, wall: w}}
+  - space: wild:gemstone_foothills
+    polygon: [[96, 19], [110, 19], [110, 51], [100, 51], [96, 44]]
+  - space: wild:east_road_camp
+    polygon: [[86, 52], [101, 52], [101, 78], [90, 79], [86, 70]]
+  - space: zone:east_arrival
+    polygon: [[102, 56], [110, 56], [110, 64], [102, 64]]
+  - space: wild:dark_grove
+    polygon: [[38, 28], [56, 28], [57, 33], [53, 38], [44, 42], [38, 38]]
+  - space: zone:great_tree
+    polygon: [[45, 32], [50, 32], [50, 37], [45, 37]]
+  - space: wild:west_heath
+    polygon: [[25, 28], [37, 28], [38, 46], [45, 57], [25, 57]]
+  - space: zone:western_tower
+    polygon: [[27, 29], [35, 29], [35, 37], [27, 37]]
+  - space: zone:gemsmiths_row
+    polygon: [[30, 19], [48, 19], [48, 27], [30, 27]]
+    plots:
+      - {building: building:gemsmith, index: 1, at: [31.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4495, title: Linus's Ruby Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 2, at: [34.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4496, title: Simon's Emerald Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 3, at: [37.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4497, title: Toby's Sapphire Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 4, at: [40.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4498, title: Hector's Diamond Works, kit: grey, door: {part: body, wall: s}}
+  - space: zone:kalindra_rise
+    polygon: [[34, 63], [46, 62], [50, 68], [47, 78], [40, 80], [34, 77]]
+  - space: zone:kalindra_gate
+    polygon: [[44, 68], [49, 68], [49, 73], [44, 73]]
+  - space: zone:luna_grove
+    polygon: [[27, 58], [35, 58], [35, 66], [27, 66]]
+  - space: zone:rim_headland
+    polygon: [[24, 70], [31, 70], [31, 80], [24, 80]]
+  - space: zone:melon_field
+    polygon: [[57, 66], [71, 66], [71, 71], [57, 71]]
+  - space: wild:south_meadows
+    polygon: [[60, 84], [80, 76], [90, 74], [110, 74], [110, 104], [60, 104]]
+  - space: zone:melon_patch
+    polygon: [[79, 89], [85, 89], [85, 94], [79, 94]]
+  - space: zone:might_well
+    polygon: [[96, 90], [103, 90], [103, 97], [96, 97]]
+  - space: wild:south_bank
+    polygon: [[38, 88], [44, 84], [52, 84], [60, 84], [60, 104], [33, 104], [33, 100]]
+    plots:
+      - {building: building:reger_cell, at: [57, 95.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4500, title: Brother Reger's Cell, kit: grey, door: {part: body, wall: n}, condition: {lua: "Xeen.isSet(\"q-d3.word_said\")"}, else_effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"q-d3.reger_word\") return end if continueStep == 1 then XeenQuests.hook(\"q-d3.reger_wrong\") return end if continueStep ~= nil then return end if not XeenQuests.hook(\"q-d3.reger_door\") then return end evt.AskQuestion(eventId, 1, 0, 2, \"What's the word?\", {\"palindrome\", \"palindromes\"})"}]}
+  - space: zone:shrine_knoll
+    polygon: [[49, 88], [55, 88], [55, 93], [49, 93]]
+  - space: wild:north_hills
+    polygon: [[24, 0], [128, 0], [128, 18], [110, 19], [100, 17], [86, 16], [72, 16], [67, 14], [61, 14], [56, 17], [46, 16], [36, 18], [24, 19]]
+  - space: zone:rim
+    polygon: [[0, 0], [24, 0], [24, 104], [128, 104], [128, 128], [0, 128]]
+points:
+  - {id: entrance:castleview_square, at: [63, 56], facing: n}
+  - {id: entrance:north_road, at: [64, 21], facing: s}
+  - {id: entrance:east_road, at: [106, 60], facing: w}
+  - {id: entrance:castleview_pyramid, at: [62, 38], facing: se}
+  - {id: entrance:castleview_temple, at: [69, 60], facing: e}
+  - {id: entrance:castleview_stables, at: [71, 54], facing: e}
+  - {id: entrance:kalindra_gate, at: [46, 70], facing: w}
+  - {id: entrance:north_gate, at: [63, 43], facing: s}
+  - {id: entrance:queens_gate, at: [51, 64], facing: ne}
+  - {id: entrance:dd01_hatch, at: [66, 58], facing: e}
+  - {id: entrance:dd01_outfall, at: [80, 48], facing: e}
+  - {id: entrance:dd02_tower, at: [69, 46], facing: e}
+  - {id: entrance:dd03_gate, at: [45, 70], facing: w}
+  - {id: entrance:dd04_burrow, at: [68, 42], facing: s}
+  - {id: entrance:dd05_rope, at: [31, 31], facing: n}
+  - {id: entrance:dd05_door, at: [31, 35], facing: s}
+  - {id: entrance:dd10a_adit, at: [45, 24], facing: n}
+  - {id: entrance:d7_rope, at: [48, 36], facing: nw}
+  - {id: entrance:d7_fall, at: [51, 52], facing: s}
+  - {id: entrance:lucio_jetty, at: [51, 54], facing: w}
+  - {id: junction:gate_fork, at: [63, 40]}
+  - {id: junction:mill_fork, at: [77, 44]}
+  - {id: junction:east_bridge, at: [78, 60]}
+  - {id: junction:east_fork, at: [90, 60]}
+  - {id: junction:pond_fork, at: [88, 38]}
+  - {id: junction:west_fork, at: [48, 47]}
+  - {id: junction:heath_fork, at: [38, 44]}
+  - {id: junction:south_fork, at: [84, 82]}
+  - {id: junction:shrine_fork, at: [53, 90]}
+  - {id: landmark:castleview_walls, at: [63, 44]}
+  - {id: landmark:ellinger_tower, at: [71, 46]}
+  - {id: landmark:pyramid, at: [60, 36]}
+  - {id: landmark:grove_tree, at: [46, 34]}
+  - {id: landmark:western_tower, at: [31, 33]}
+  - {id: landmark:kalindra, at: [39, 70]}
+  - {id: landmark:broken_bridge, at: [81, 43]}
+  - {id: landmark:falls, at: [31, 104]}
+  - {id: landmark:sardaj_horn, at: [78, 8]}
+  - {id: poi:pyramid, at: [60, 36]}
+  - {id: poi:gate_notice, at: [62, 43]}
+  - {id: poi:joe_stall, at: [66, 41]}
+  - {id: poi:justine_camp, at: [57, 41]}
+  - {id: poi:broken_bridge, at: [81, 43]}
+  - {id: poi:burned_mill, at: [79, 46]}
+  - {id: poi:acid_pond, at: [70, 34]}
+  - {id: poi:sardaj_camp, at: [88, 25]}
+  - {id: poi:yog, at: [89, 24]}
+  - {id: poi:great_tree, at: [48, 35]}
+  - {id: poi:luna, at: [31, 63]}
+  - {id: poi:obelisk, at: [27, 76]}
+  - {id: poi:falista_hut, at: [46, 95]}
+  - {id: poi:prayer_shrine, at: [52, 90]}
+  - {id: poi:might_well, at: [100, 93]}
+  - {id: poi:melon_patch, at: [82, 91]}
+  - {id: poi:melon_field, at: [64, 67]}
+  - {id: poi:shipwreck, at: [53, 83]}
+  - {id: poi:besiegers_camp, at: [96, 63]}
+  - {id: poi:heretic_pack, at: [32, 31]}
+  - {id: poi:webbed_pack, at: [43, 38]}
+  - {id: poi:wayside_shrine, at: [103, 58]}
+  - {id: poi:edge_stone, at: [26, 46]}
+  - {id: poi:west_well, at: [46, 48]}
+  - {id: poi:bottle, at: [53, 83]}
+  - {id: poi:falls, at: [31, 104]}
+  - {id: poi:mirror, at: [63, 54]}
+  - {id: poi:lyle_bench, at: [64, 54]}
+  - {id: poi:drawkcab_sign, at: [56, 61]}
+  - {id: poi:jail_window, at: [68, 45]}
+  - {id: poi:storage_numbers, at: [62, 64]}
+  - {id: poi:storage_letters, at: [66, 64]}
+  - {id: poi:runaway_chest, at: [54, 63]}
+  - {id: poi:signposts, index: 1, at: [62, 39]}
+  - {id: poi:signposts, index: 2, at: [77, 61]}
+  - {id: poi:signposts, index: 3, at: [49, 46]}
+  - {id: poi:signposts, index: 4, at: [85, 81]}
+areas:
+  - id: pop:siege_north
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [63, 28], r: 1.5}
+  - id: pop:siege_north
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [80, 36], r: 1.5}
+  - id: pop:siege_north
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [58, 27], r: 1.5}
+  - id: pop:siege_north
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [69, 24], r: 1.5}
+  - id: pop:siege_north
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [77, 30], r: 1.5}
+  - id: pop:siege_north
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [78, 32], r: 1.5}
+  - id: pop:siege_north
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [53, 24], r: 1.5}
+  - id: pop:east_road_camp
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [93, 56], r: 1.5}
+  - id: pop:east_road_camp
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [95, 57], r: 1.5}
+  - id: pop:east_road_camp
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [97, 68], r: 1.5}
+  - id: pop:east_road_camp
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [99, 70], r: 1.5}
+  - id: pop:east_road_camp
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [91, 73], r: 1.5}
+  - id: pop:east_road_camp
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [92, 75], r: 1.5}
+  - id: pop:east_road_camp
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [100, 54], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [40, 30], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [42, 31], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [52, 30], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [54, 31], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [44, 40], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [42, 39], r: 1.5}
+  - id: pop:grove_arachnoids
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [49, 29], r: 1.5}
+  - id: pop:west_heath
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [28, 40], r: 1.5}
+  - id: pop:west_heath
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [27, 50], r: 1.5}
+  - id: pop:west_heath
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [28, 49], r: 1.5}
+  - id: pop:west_heath
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [35, 50], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [66, 92], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [66, 84], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [79, 96], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [81, 97], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [86, 92], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [87, 94], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [97, 86], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [99, 87], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [107, 88], r: 1.5}
+  - id: pop:centipede_meadows
+    index: 10
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [77, 79], r: 1.5}
+  - id: pop:foothills
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [100, 26], r: 1.5}
+  - id: pop:foothills
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [102, 28], r: 1.5}
+  - id: pop:foothills
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [104, 44], r: 1.5}
+  - id: pop:rim_headland
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [27, 84], r: 1.5}
+  - id: pop:rim_headland
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [28, 86], r: 1.5}
+  - id: pop:south_bank
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [39, 94], r: 1.5}
+  - id: pop:south_bank
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [41, 96], r: 1.5}
+  - id: pop:north_bank
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [56, 75], r: 1.5}
+  - id: pop:north_bank
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [58, 77], r: 1.5}
+  - id: town:castleview
+    kind: keep_clear
+    polygon: [[45, 40], [53, 38], [74, 38], [80, 43], [80, 56], [79, 65], [73, 69], [53, 69], [45, 63]]
+  - id: zone:gate_yard
+    kind: keep_clear
+    polygon: [[55, 39], [71, 39], [71, 44], [55, 44]]
+  - id: zone:kalindra_gate
+    kind: keep_clear
+    polygon: [[34, 62], [52, 62], [52, 79], [34, 79]]
+  - id: zone:luna_grove
+    kind: keep_clear
+    polygon: [[26, 57], [36, 57], [36, 67], [26, 67]]
+  - id: zone:sardaj_camp
+    kind: keep_clear
+    polygon: [[82, 19], [96, 19], [96, 31], [82, 31]]
+  - id: zone:gemsmiths_row
+    kind: keep_clear
+    polygon: [[29, 19], [48, 19], [48, 28], [29, 28]]
+  - id: zone:east_arrival
+    kind: keep_clear
+    polygon: [[102, 55], [112, 55], [112, 65], [102, 65]]
+  - id: wild:sardaj_lands
+    kind: open
+    polygon: [[84, 31], [96, 31], [96, 50], [85, 50], [84, 42]]
+  - id: wild:south_bank
+    kind: open
+    polygon: [[38, 88], [44, 84], [52, 84], [60, 84], [60, 104], [33, 104], [33, 100]]
+  - id: zone:rim_headland
+    kind: open
+    polygon: [[24, 66], [34, 66], [34, 82], [24, 82]]
+views:
+  - {id: view:arrival, at: [62, 38], height: 180, look: [69, 46], purpose: "From beside the travel pyramid: the walls and the gatehouse, the gorge with the cut bridge."}
+  - {id: view:signature, at: [52, 90], height: 200, look: [46, 62], purpose: "From the prayer shrine: Castle Kalindra on its rise, the great tree's rope, the walls."}
+scatter:
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [46.691, 28.822], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [51.716, 33.167], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.596, 36.159], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [51.422, 36.178], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.063, 30.866], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [53.272, 32.8], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [40.428, 38.69], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [42.784, 35.591], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [39.507, 33.911], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [45.286, 31.013], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [46.887, 31.056], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [55.608, 31.307], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [46.092, 40.211], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [45.927, 37.509], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [55.627, 29.521], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [46.593, 37.839], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [45.289, 38.713], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [39.972, 37.595], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.042, 34.971], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [53.197, 34.711], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [51.674, 34.595], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [48.756, 38.519], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [48.1, 39.668], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [48.132, 31.237], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [53.313, 36.161], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [44.175, 37.22], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [45.384, 29.242], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [51.258, 37.19], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.004, 36.384], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [41.255, 37.46], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.57, 36.455], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [47.624, 39.024], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [43.292, 36.302], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [42.95, 28.998], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [49.965, 38.369], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [46.856, 38.63], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.766, 33.749], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [45.274, 38.025], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.505, 37.509], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [55.52, 33.705], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [41.266, 28.642], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [43.444, 30.012], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [49.786, 37.508], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [54.083, 33.117], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [51.933, 32.169], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [53.342, 35.534], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [42.813, 36.789], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [38.512, 33.725], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.27, 29.639], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [41.731, 36.509], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [38.889, 36.798], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [48.911, 31.052], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.409, 35.017], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [45.906, 39.285], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [39.298, 34.6], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [40.94, 33.831], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.593, 34.776], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [46.724, 39.574], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [54.277, 29.32], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [53.079, 36.952], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [48.286, 38.899], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [47.591, 30.576], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [40.072, 33.343], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [55.803, 32.932], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [53.767, 28.669], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [39.085, 37.874], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [43.983, 31.411], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [44.97, 37.307], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [38.52, 35.302], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [54.936, 34.735], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [39.152, 33.085], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [55.817, 30.454], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [46.456, 30.064], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [47.437, 28.51], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [50.446, 34.058], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.842, 32.712], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [51.834, 36.98], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [45.324, 30.07], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.41, 33.977], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [46.248, 29.459], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [44.24, 30.361], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [44.617, 28.828], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [45.581, 28.523], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [43.726, 29.279], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [44.231, 38.406], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.627, 37.37], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [51.315, 31.529], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [49.492, 34.115], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [52.768, 32.023], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [56.23, 32.176], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [50.269, 30.265], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [55.473, 28.66], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.98, 38.279], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [55.159, 32.193], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [41.94, 34.934], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [54.783, 28.625], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [38.587, 28.569], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [50.805, 38.464], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [52.482, 36.763], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.898, 35.867], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [44.366, 29.768], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [46.033, 38.311], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [41.934, 28.999], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [51.938, 35.499], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [45.991, 30.846], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [49.431, 38.049], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [44.697, 31.355], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [38.844, 35.981], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.398, 39.691], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [45.55, 40.632], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [42.631, 37.473], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [51.573, 38.125], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.753, 33.415], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.222, 35.827], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [50.093, 36.928], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [48.333, 30.613], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [38.516, 32.916], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
+    count: 1
+    circle: {at: [53.432, 33.993], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [50.64, 31.153], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.647, 29.025], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [43.788, 30.842], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [40.81, 37.023], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [51.2, 34.032], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [49.419, 39.024], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [43.355, 37.05], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.255, 37.993], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [39.414, 37.21], r: 0.1}
+  - id: scatter:grove_undergrowth
+    kinds:
+      bush02: 3
+      bush03: 3
+      plant05: 2
+      plant32: 2
+    count: 70
+    clusters: 26
+    polygon: [[38.5, 28.5], [55.5, 28.5], [56.5, 33], [53, 37.5], [44, 41.5], [38.5, 37.5]]
+  - id: scatter:grove_bones
+    decoration: 7dec18
+    count: 12
+    clusters: 5
+    polygon: [[38.5, 28.5], [55.5, 28.5], [56.5, 33], [53, 37.5], [44, 41.5], [38.5, 37.5]]
+  - id: scatter:grove_rocks
+    decoration: 6rock03
+    count: 14
+    clusters: 6
+    polygon: [[38.5, 28.5], [55.5, 28.5], [56.5, 33], [53, 37.5], [44, 41.5], [38.5, 37.5]]
+  - id: scatter:heath_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 5
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[25, 37], [37, 37], [38.5, 46], [44.5, 56.5], [25, 56.5]]
+  - id: scatter:heath_rocks
+    decoration: 6rock03
+    count: 30
+    clusters: 10
+    polygon: [[25, 37], [37, 37], [38.5, 46], [44.5, 56.5], [25, 56.5]]
+  - id: scatter:heath_plants
+    decoration: plant02
+    count: 40
+    clusters: 12
+    polygon: [[25, 37], [37, 37], [38.5, 46], [44.5, 56.5], [25, 56.5]]
+  - id: scatter:siege_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 3
+    spacing: 3
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[56, 23], [80, 23], [80, 38.5], [71, 38.5], [66, 36.5], [63, 32], [56, 30]]
+  - id: scatter:siege_rocks
+    decoration: 6rock07
+    count: 25
+    clusters: 8
+    polygon: [[56, 23], [80, 23], [80, 38.5], [71, 38.5], [66, 36.5], [63, 32], [56, 30]]
+  - id: scatter:siege_bones
+    decoration: 7dec18
+    count: 10
+    clusters: 4
+    polygon: [[56, 23], [80, 23], [80, 38.5], [71, 38.5], [66, 36.5], [63, 32], [56, 30]]
+  - id: scatter:sardaj_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 4
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[84, 30], [96, 30], [96, 50], [86, 50], [85, 42]]
+  - id: scatter:sardaj_rocks
+    decoration: 6rock03
+    count: 18
+    clusters: 6
+    polygon: [[84, 30], [96, 30], [96, 50], [86, 50], [85, 42]]
+  - id: scatter:foothill_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 10
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[96, 19], [110, 19], [110, 51], [100, 51], [96, 44]]
+  - id: scatter:foothill_rocks
+    decoration: 6rock07
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[96, 19], [110, 19], [110, 51], [100, 51], [96, 44]]
+  - id: scatter:camp_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 5
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[86, 52], [101, 52], [101, 78], [90, 79], [86, 70]]
+  - id: scatter:camp_bones
+    decoration: 7dec18
+    count: 8
+    clusters: 3
+    polygon: [[86, 52], [101, 52], [101, 78], [90, 79], [86, 70]]
+  - id: scatter:meadow_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 20
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[60, 85], [80, 77], [90, 75], [109.5, 75], [109.5, 103.5], [60, 103.5]]
+  - id: scatter:meadow_plants
+    decoration: plant02
+    count: 70
+    clusters: 20
+    polygon: [[60, 85], [80, 77], [90, 75], [109.5, 75], [109.5, 103.5], [60, 103.5]]
+  - id: scatter:meadow_rocks
+    decoration: 6rock03
+    count: 20
+    clusters: 8
+    polygon: [[60, 85], [80, 77], [90, 75], [109.5, 75], [109.5, 103.5], [60, 103.5]]
+  - id: scatter:bank_trees
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 11
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[38, 88], [44, 84], [52, 84], [60, 84.5], [60, 103.5], [33, 103.5], [33, 100]]
+  - id: scatter:bank_plants
+    decoration: plant02
+    count: 30
+    clusters: 10
+    polygon: [[38, 88], [44, 84], [52, 84], [60, 84.5], [60, 103.5], [33, 103.5], [33, 100]]
+  - id: scatter:luna_birches
+    kinds:
+      tree12: 1
+      tree13: 2
+    count: 11
+    spacing: 1.3
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[27, 58.5], [34.5, 58.5], [34.5, 65.5], [27, 65.5]]
+  - id: scatter:edge_n
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 38
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[24.5, 0], [128, 0], [128, 18.5], [24.5, 18.5]]
+  - id: scatter:edge_rocks_n
+    decoration: 6rock07
+    count: 15
+    clusters: 10
+    steep: true
+    polygon: [[24.5, 0], [128, 0], [128, 18.5], [24.5, 18.5]]
+  - id: scatter:edge_e
+    kinds:
+      tree12: 2
+      tree13: 1
+      tree20: 2
+    count: 44
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[110.5, 18.5], [128, 18.5], [128, 103.5], [110.5, 103.5]]
+  - id: scatter:edge_rocks_e
+    decoration: 6rock07
+    count: 11
+    clusters: 10
+    steep: true
+    polygon: [[110.5, 18.5], [128, 18.5], [128, 103.5], [110.5, 103.5]]
+  - id: scatter:lip_rocks
+    decoration: 6rock03
+    count: 30
+    line: [[24.6, 20], [24.6, 103.4]]
+  - id: scatter:lip_rocks
+    decoration: 6rock03
+    count: 30
+    line: [[25, 103.4], [108, 103.4]]
+  - id: scatter:sea_stacks
+    decoration: rock26
+    count: 12
+    on: water
+    polygon: [[4, 20], [21, 20], [21, 110], [4, 110]]
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [77.084, 63.767], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [74.53, 66.515], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree20
+    count: 1
+    circle: {at: [47.343, 41.641], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree20
+    count: 1
+    circle: {at: [76.916, 40.982], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree20
+    count: 1
+    circle: {at: [50.217, 66.287], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [59.544, 66.829], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree13
+    count: 1
+    circle: {at: [74.687, 40.535], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [71.528, 66.882], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [49.503, 40.939], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree13
+    count: 1
+    circle: {at: [46.334, 44.654], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [46.281, 66.464], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [77.941, 43.06], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree20
+    count: 1
+    circle: {at: [52.665, 66.561], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree20
+    count: 1
+    circle: {at: [56.847, 66.992], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree13
+    count: 1
+    circle: {at: [46.007, 63.56], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [68.403, 66.859], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree13
+    count: 1
+    circle: {at: [51.808, 40.295], r: 0.1}
+  - id: scatter:ring_trees
+    decoration: tree12
+    count: 1
+    circle: {at: [65.794, 66.882], r: 0.1}
+ground:
+  - material: grass
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "Grass everywhere but the town, the tracks, the bare hills and the grove floor."
+  - material: dirt
+    polygon: [[38, 28], [56, 28], [56, 33], [53, 38], [44, 42], [38, 38]]
+    notes: "The Dark Grove: a dark leaf-litter floor."
+  - material: dirt
+    polygon: [[66, 26], [78, 26], [78, 30], [66, 30]]
+    notes: The siege trenches.
+  - material: dirt
+    polygon: [[67, 27], [77, 27], [77, 35], [67, 35]]
+    notes: The acid pond's rim.
+  - material: dirt
+    polygon: [[93, 60], [100, 60], [100, 66], [93, 66]]
+    notes: The besiegers' trampled camp.
+  - material: dirt
+    polygon: [[84, 22], [92, 22], [92, 29], [84, 29]]
+    notes: The Sardaj camp.
+  - material: dirt
+    polygon: [[58, 66], [70, 66], [70, 70], [58, 70]]
+    notes: Pip Melonby's melon rows.
+  - material: dirt
+    steeper_than: 640
+    polygon: [[0, 0], [128, 0], [128, 104], [0, 104]]
+    notes: "Bare rock on the steep hills, the gorge walls and the cliffs."
+  - material: dirt
+    polygon: [[50, 47], [53, 44], [73, 44], [76, 47], [76, 61], [73, 64], [54, 64], [50, 60]]
+    notes: "Castleview inside its walls: packed earth and paving."
+  - material: dirt
+    line: [[84.5, 60], [84.5, 52], [85, 46], [85.5, 42.5], [88, 38]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[88, 38], [88, 32], [88, 28.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[88, 38], [90, 36], [91, 35.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[66, 40], [68.5, 37], [70, 34.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[47.5, 47], [42, 45.5], [38, 44]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[38, 44], [35, 40.5], [32, 37.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[38, 44], [36, 37], [36, 30], [37, 26], [44, 26], [45.5, 24]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[36, 31], [41, 32.5], [44.5, 36], [47.5, 36.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[38, 44], [31, 45.5], [26.5, 46]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[51, 63.5], [49.5, 64], [48, 64.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[47.5, 58], [40, 60], [33.5, 62]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[33.5, 62], [30, 68], [28, 75]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[90, 60], [90.5, 68], [88, 76], [84, 82], [76, 84], [68, 85.5], [60, 87.5], [53, 90]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[53, 90], [56, 93], [57.5, 94.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[53, 90], [49, 93], [46.5, 95]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[55, 88.5], [54, 85]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[84, 82], [92, 88], [99, 92.5]]
+    width: 2
+    notes: a track
+  - material: dirt
+    line: [[79, 84.5], [82, 90]]
+    width: 2
+    notes: a track
+structures:
+  - id: thing:wall_north_w
+    kind: wall
+    line: [[53, 44], [61.25, 44]]
+    height: 600
+    thickness: 256
+    textures: {top: csbr128, wall: cswl128}
+    battlements: true
+    title: Castleview's walls
+  - id: thing:wall_north_e
+    kind: wall
+    line: [[64.75, 44], [73, 44]]
+    height: 600
+    thickness: 256
+    textures: {top: csbr128, wall: cswl128}
+    battlements: true
+    title: Castleview's walls
+  - id: thing:wall_ne
+    kind: wall
+    line: [[73, 44], [76, 47], [76, 61], [73, 64.5], [54.5, 64.5], [50, 60.5], [50, 55.6]]
+    height: 600
+    thickness: 256
+    gates:
+      - {at: [52.25, 62.5], width: 320, height: 320, notes: The Queen's Gate (D-23)., arch: round, sides: 6}
+    textures: {top: csbr128, wall: cswl128}
+    battlements: true
+    title: Castleview's walls
+  - id: thing:wall_nw
+    kind: wall
+    line: [[50, 52.8], [50, 47], [53, 44]]
+    height: 600
+    thickness: 256
+    textures: {top: csbr128, wall: cswl128}
+    battlements: true
+    title: Castleview's walls
+  - id: thing:gatehouse
+    kind: building
+    at: [61.25, 43]
+    size: [3.5, 2]
+    kit: grey
+    textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128, window: csaro128}
+    parts:
+      - {id: tower_w, at: [0, 64], size: [640, 896], wall_height: 576, windows: none, roof: none}
+      - {id: tower_w_top, at: [0, 64], size: [640, 896], bottom: 576, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall], w: [wall, wall, window, wall, window, wall, wall]}, roof: flat, battlements: true}
+      - {id: tower_e, at: [1152, 64], size: [640, 896], wall_height: 576, windows: none, roof: none}
+      - {id: tower_e_top, at: [1152, 64], size: [640, 896], bottom: 576, wall_height: 256, walls: {e: [wall, wall, window, wall, window, wall, wall], n: [wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+      - {id: arch, at: [640, 128], size: [512, 768], bottom: 384, wall_height: 320, windows: none, roof: flat, battlements: true}
+      - {id: crest_frame, at: [816, 136], size: [160, 32], bottom: 400, textures: {roof: cstr128, wall: cstr128}, wall_height: 288, windows: none, roof: flat}
+      - {id: crest, at: [832, 120], size: [128, 32], bottom: 416, wall_height: 256, walls: {n: [xkkalcrst], s: [cstr128]}, windows: none, roof: none}
+    floor: 1150
+    door: none
+    title: The north gatehouse
+  - id: thing:north_gate_lintel
+    kind: building
+    at: [62.625, 43.938]
+    size: [0.75, 0.125]
+    turn: 0
+    kit: grey
+    textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128}
+    parts:
+      - {id: lintel, at: [0, 0], size: [384, 64], bottom: 256, wall_height: 128, windows: none, roof: flat}
+    floor: 1150
+    door: none
+    title: The north gate
+  - id: thing:north_gate_outer
+    kind: wall
+    line: [[62.625, 43.68], [63.375, 43.68]]
+    height: 256
+    thickness: 32
+    textures: {top: cstr128, wall: xkportc}
+    title: The north gate
+    condition: {lua: "XeenQuests.can(\"m14.gate_open\") or XeenQuests.hook(\"m14.gate\")"}
+    effects:
+      - hide: thing:north_gate_outer
+      - hide: thing:north_gate_inner
+      - text: The gate swings open.
+  - id: thing:north_gate_inner
+    kind: wall
+    line: [[62.625, 44.32], [63.375, 44.32]]
+    height: 256
+    thickness: 32
+    textures: {top: cstr128, wall: xkportc}
+    title: The north gate
+    condition: {lua: "XeenQuests.can(\"m14.gate_open\")"}
+    else_effects:
+      - teleport:
+          to: [-512, 10752, 1152]
+          direction: 270
+      - lua: "XeenQuests.hook(\"m14.let_out\")"
+    effects:
+      - hide: thing:north_gate_outer
+      - hide: thing:north_gate_inner
+      - text: The gate swings open.
+  - id: thing:queens_gate_lintel
+    kind: building
+    at: [51.938, 62.438]
+    size: [0.625, 0.125]
+    turn: 41.63
+    kit: grey
+    textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128}
+    parts:
+      - {id: lintel, at: [0, 0], size: [320, 64], bottom: 256, wall_height: 64, windows: none, roof: flat}
+    floor: 1150
+    door: none
+    title: The Queen's Gate
+  - id: thing:queens_gate_outer
+    kind: wall
+    line: [[51.804, 62.532], [52.271, 62.947]]
+    height: 256
+    thickness: 32
+    textures: {top: cstr128, wall: xkportc}
+    title: The Queen's Gate
+    condition: {lua: "XeenQuests.can(\"m14.gate_open\") or XeenQuests.hook(\"m14.gate\")"}
+    effects:
+      - hide: thing:queens_gate_outer
+      - hide: thing:queens_gate_inner
+      - text: The gate swings open.
+  - id: thing:queens_gate_inner
+    kind: wall
+    line: [[52.229, 62.053], [52.696, 62.468]]
+    height: 256
+    thickness: 32
+    textures: {top: cstr128, wall: xkportc}
+    title: The Queen's Gate
+    condition: {lua: "XeenQuests.can(\"m14.gate_open\")"}
+    else_effects:
+      - teleport:
+          to: [-6656, 0, 1152]
+          direction: 45
+      - lua: "XeenQuests.hook(\"m14.let_out\")"
+    effects:
+      - hide: thing:queens_gate_outer
+      - hide: thing:queens_gate_inner
+      - text: The gate swings open.
+  - id: thing:jetty_bastion
+    kind: wall
+    line: [[50, 52.8], [50, 55.6]]
+    height: 600
+    thickness: 768
+    textures: {top: csbr128, wall: cswl128}
+    title: Castleview's walls
+  - id: thing:jetty_deck
+    kind: deck
+    kerb: 64
+    textures: {deck: 7trimda}
+    title: Lucio's Jetty
+    outline: [[48.4, 52.6], [51.7, 52.6], [51.7, 55.8], [48.4, 55.8]]
+    level: 1766
+    posts: 32
+  - id: thing:jetty_pier
+    kind: bridge
+    line: [[48.5, 54.9], [45.9, 54.9]]
+    height: 1766
+    width: 320
+    kerb: 48
+    piers: 2
+    textures: {deck: 7trimda}
+    title: Lucio's Jetty
+    notes: "D-5.3: the jetty that ends in thin air, the celestial boats' mooring."
+  - id: thing:jetty_stair
+    kind: stairs
+    line: [[51.15, 58.9], [51.15, 55.8]]
+    width: 256
+    rise: 616
+    textures: {wall: cswl128}
+    title: The wall stair
+  - id: thing:jetty_sign
+    kind: sign
+    at: [51.45, 58.95]
+    height: 224
+    width: 160
+    title: Lucio's Jetty
+    arms:
+      - {title: Lucio's Jetty, toward: n}
+  - id: thing:ellinger_tower
+    kind: building
+    at: [70.2, 44.9]
+    size: [2, 2]
+    kit: grey
+    textures: {door: hkm1d, roof: xtslatew, wall: hkm1b1, window: hkm1bw}
+    facing: w
+    parts:
+      - {id: base, shape: round, at: [512, 512], radius: 416, sides: 12, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_1, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 368, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_2, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 384, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_2, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 752, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_3, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 768, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_3, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1136, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_4, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1152, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_4, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1520, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_5, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1536, wall_height: 384, windows: alternate, roof: cone, roof_pitch: 70}
+    floor: 1150
+    door:
+      part: base
+      wall: "9"
+    title: Ellinger's Tower
+    into: {map: xeen_dd02.blv, arrival: entrance:front_door, screen: {text: 5029}}
+    condition: {lua: "XeenQuests.hook(\"m17.tower_door\")"}
+  - id: thing:square_paving
+    kind: platform
+    at: [63, 54]
+    size: [4096, 3072]
+    height: 8
+    textures: {top: t09a02a, wall: t09a02a}
+    title: Castleview square
+  - id: thing:cv_mirror
+    kind: portal
+    at: [63, 53.6]
+    turn: 0
+    radius: 112
+    sides: 12
+    textures: {membrane: {texture: xmirror}}
+    title: The Mirror of Castleview
+    effects:
+      - lua: "Xeen.useMirror(4467, eventId, continueStep)"
+    notes: "A4's 4467; asleep until Kalindra's stage 4 (A3's mirror helper)."
+  - id: thing:lyle_bench
+    kind: building
+    at: [63.4, 54.15]
+    size: [0.75, 0.3]
+    kit: grey
+    parts:
+      - {id: bench, at: [32, 24], size: [320, 96], textures: {roof: 7trimda, wall: t06a10}, wall_height: 64, windows: none, roof: flat, title: Lyle's bench, effects: [{text: "A brass plate: \"This bench reserved for Lyle the Pigeon Feeder.\""}]}
+    floor: 1158
+    door: none
+    title: Lyle's bench
+  - id: thing:dd01_hatch
+    kind: hatch
+    at: [66.5, 57.5]
+    turn: 90
+    height: 96
+    title: An iron hatch
+    into: {map: xeen_dd01.blv, arrival: entrance:d1_hatch, screen: {text: 5028}}
+    hint: Castleview Sewer
+    form: wedge
+  - id: thing:drawkcab_sign
+    kind: sign
+    at: [55.9, 61.35]
+    height: 224
+    width: 160
+    title: Sign
+    effects:
+      - lua: "XeenQuests.hook(\"q-d3.drawkcab_sign\")"
+  - id: thing:jail_window
+    kind: building
+    at: [67.4, 44.95]
+    size: [0.5, 0.25]
+    kit: grey
+    parts:
+      - {id: bars, at: [64, 40], size: [128, 32], bottom: 96, textures: {roof: t09b11b, wall: t09a04a}, wall_height: 128, windows: none, roof: flat, title: A barred window, effects: [{lua: "XeenQuests.hook(\"q-d2.jail_window\")"}]}
+    floor: 1150
+    door: none
+    title: A barred window
+  - id: thing:number_chest_1
+    kind: building
+    at: [60.65, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 3 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 3 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 3: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 3 then evt.StatusText(\"Chest 3 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 3 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_2
+    kind: building
+    at: [60.98, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 7 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 7 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 7: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 7 then evt.StatusText(\"Chest 7 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 7 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_3
+    kind: building
+    at: [61.31, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 1 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 1 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 1: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 1 then evt.StatusText(\"Chest 1 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 1 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_4
+    kind: building
+    at: [61.64, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 9 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 9 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 9: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 9 then evt.StatusText(\"Chest 9 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 9 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_5
+    kind: building
+    at: [61.97, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 5 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 5 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 5: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 5 then evt.StatusText(\"Chest 5 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 5 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_6
+    kind: building
+    at: [62.3, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 2 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 2 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 2: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 2 then evt.StatusText(\"Chest 2 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 2 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_7
+    kind: building
+    at: [62.63, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 8 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 8 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 8: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 8 then evt.StatusText(\"Chest 8 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 8 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_8
+    kind: building
+    at: [62.96, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 4 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 4 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 4: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 4 then evt.StatusText(\"Chest 4 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 4 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:number_chest_9
+    kind: building
+    at: [63.29, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a 6 on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.numbers_closed\") then XeenQuests.hook(\"q-d4.number_chests\") return end local k = evt.GetMapVar(\"d1_numbers\", 1) if k == 6 then k = k + 1 evt.SetMapVar(\"d1_numbers\", k) evt.StatusText(\"Chest 6: the lid drops shut.\") if k == 10 then XeenQuests.hook(\"q-d4.number_chests\") end elseif k > 6 then evt.StatusText(\"Chest 6 is shut.\") else evt.SetMapVar(\"d1_numbers\", 1) evt.StatusText(\"Chest 6 will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_1
+    kind: building
+    at: [65.15, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 5 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: F. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 5 then evt.StatusText(\"The F chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: F. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_2
+    kind: building
+    at: [65.48, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 2 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: T. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 2 then evt.StatusText(\"The T chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: T. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_3
+    kind: building
+    at: [65.81, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 8 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: K. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 8 then evt.StatusText(\"The K chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: K. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_4
+    kind: building
+    at: [66.14, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 0 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: P. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 0 then evt.StatusText(\"The P chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: P. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_5
+    kind: building
+    at: [66.47, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 6 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: O. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 6 then evt.StatusText(\"The O chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: O. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_6
+    kind: building
+    at: [66.8, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 3 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: C. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 3 then evt.StatusText(\"The C chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: C. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_7
+    kind: building
+    at: [67.13, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 7 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: R. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 7 then evt.StatusText(\"The R chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: R. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_8
+    kind: building
+    at: [67.46, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 1 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: I. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 1 then evt.StatusText(\"The I chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: I. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:letter_chest_9
+    kind: building
+    at: [67.79, 63.45]
+    size: [0.2, 0.2]
+    kit: grey
+    parts:
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 4 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: H. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 4 then evt.StatusText(\"The H chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: H. It will not shut. All nine lids spring open again.\") end"}]}
+    floor: 1150
+    door: none
+  - id: thing:runaway_chest
+    kind: chest
+    at: [54, 62.6]
+    title: A chest on little brass feet
+    chest: {level: 3, random_items: 3}
+    condition: {lua: "XeenQuests.hook(\"m17.runaway_chest\")"}
+  - id: thing:prop_1
+    kind: decoration
+    at: [59.3, 45.9]
+    decoration: bigbarel
+  - id: thing:prop_2
+    kind: decoration
+    at: [59.3, 46.25]
+    decoration: bigbarel
+  - id: thing:prop_3
+    kind: decoration
+    at: [66.75, 46]
+    decoration: 7dec32
+  - id: thing:prop_4
+    kind: decoration
+    at: [66.75, 46.35]
+    decoration: 7dec32
+  - id: thing:prop_5
+    kind: decoration
+    at: [74.7, 52.4]
+    decoration: bigbarel
+  - id: thing:prop_6
+    kind: decoration
+    at: [74.7, 52.75]
+    decoration: bigbarel
+  - id: thing:prop_7
+    kind: decoration
+    at: [74.7, 49]
+    decoration: haybale2
+  - id: thing:prop_8
+    kind: decoration
+    at: [74.7, 49.35]
+    decoration: haybale2
+  - id: thing:pyramid
+    kind: building
+    at: [58.5, 34.5]
+    size: [3, 3]
+    kit: stone
+    textures: {roof: csbr128, wall: csbr128}
+    parts:
+      - {id: p, at: [128, 128], size: [1280, 1280], wall_height: 64, windows: none, roof: hip, roof_pitch: 52, title: Travel Pyramid, effects: [{lua: "Xeen.travelPyramid(\"castleview\")"}]}
+    floor: 1250
+    door: none
+    title: Travel Pyramid
+    notes: "hook: m7.pyramid_d1 (A3): Xeen.travelPyramid('castleview') reads the Pyramid Sigil (m7.sigil) and sets the party down at castleview_pyramid."
+  - id: thing:gate_notice
+    kind: sign
+    at: [62.3, 43.25]
+    height: 224
+    width: 160
+    title: The Mayor's notice
+    effects:
+      - lua: "XeenQuests.hook(\"q-d1.gate_notice\")"
+  - id: thing:joe_stall
+    kind: building
+    at: [65.6, 40.7]
+    size: [1, 0.75]
+    turn: 0
+    kit: timber
+    parts:
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    door: none
+    title: Market stall
+  - id: thing:joe_sign
+    kind: sign
+    at: [66.75, 40.55]
+    height: 256
+    width: 192
+    title: Joe's sign
+    effects:
+      - lua: "XeenQuests.hook(\"q-c24.joes_sign\")"
+  - id: thing:justine_tent
+    kind: tent
+    at: [56, 40]
+    size: [640, 512]
+    height: 288
+    title: Justine's lean-to
+    open: true
+  - id: thing:justine_fire
+    kind: decoration
+    at: [57.6, 41.9]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:dd04_burrow
+    kind: doorway
+    at: [68.5, 43.62]
+    turn: 180
+    height: 192
+    width: 128
+    depth: 96
+    textures: {door: hhp1d, wall: t06a02}
+    floor: 1150
+    title: A burrow under the wall
+    into: {map: xeen_dd04.blv, screen: {text: 5031}}
+    effects: []
+  - id: thing:rope_bridge_cut_w
+    kind: building
+    at: [78.4, 42.6]
+    size: [0.4, 0.8]
+    kit: poor
+    parts:
+      - {id: post_n, at: [64, 64], size: [48, 48], textures: {roof: t06a10, wall: t06a10}, wall_height: 416, windows: none, roof: flat, title: The rope bridge, effects: [{lua: "evt.SimpleMessage(\"The rope bridge hangs in two halves into the gorge, its ropes sawn clean through. Small teeth, by the look of it.\")"}]}
+      - {id: post_s, at: [64, 296], size: [48, 48], textures: {roof: t06a10, wall: t06a10}, wall_height: 416, windows: none, roof: flat}
+    floor: 1100
+    door: none
+  - id: thing:rope_bridge_cut_e
+    kind: building
+    at: [83.3, 42.6]
+    size: [0.4, 0.8]
+    kit: poor
+    parts:
+      - {id: post_n, at: [64, 64], size: [48, 48], textures: {roof: t06a10, wall: t06a10}, wall_height: 416, windows: none, roof: flat, title: The rope bridge, effects: [{lua: "evt.SimpleMessage(\"The rope bridge hangs in two halves into the gorge, its ropes sawn clean through. Small teeth, by the look of it.\")"}]}
+      - {id: post_s, at: [64, 296], size: [48, 48], textures: {roof: t06a10, wall: t06a10}, wall_height: 416, windows: none, roof: flat}
+    floor: 1100
+    door: none
+  - id: thing:rope_bridge
+    kind: bridge
+    line: [[78.6, 43], [83.4, 43]]
+    width: 256
+    rise: -96
+    kerb_invisible: 352
+    piers: 0
+    textures: {deck: 7trimda}
+    title: The rope bridge
+    hidden: true
+    notes: "Mended once q-d1.court_won (A3's q-d1.sabotage): shown by evt:sabotage."
+    railing: rope
+    towers: [96, 96, 352]
+  - id: thing:mill_burnt
+    kind: building
+    at: [77.8, 45.2]
+    size: [1.4, 1.6]
+    kit: grey
+    parts:
+      - {id: m, at: [64, 64], size: [589, 692], textures: {wall: t06a01}, wall_height: 384, windows: none, roof: none}
+    floor: 1100
+    door: none
+    title: Miller Dunn's mill
+    ruin:
+      height: [96, 384]
+      gaps: 0.4
+      thickness: 48
+      seed: 7
+  - id: thing:mill
+    kind: building
+    at: [77.8, 45.2]
+    size: [1.4, 1.6]
+    kit: grey
+    parts:
+      - {id: m, at: [64, 64], size: [589, 692], textures: {roof: xlslatemos, wall: t06a01, window: t06a04}, wall_height: 448, windows: alternate, roof: gable, roof_pitch: 45}
+    floor: 1100
+    door: none
+    title: Miller Dunn's mill
+    hidden: true
+  - id: thing:mill_chest
+    kind: chest
+    at: [78.6, 47.3]
+    title: The miller's strongbox
+    chest: {level: 2, random_items: 2}
+  - id: thing:mill_beam
+    kind: decoration
+    at: [78, 47.4]
+    decoration: 7dec18
+  - id: thing:dd01_outfall
+    kind: culvert
+    at: [79, 48]
+    turn: -90
+    title: An iron grate
+    into: {map: xeen_dd01.blv, arrival: entrance:d1_outfall}
+    condition: {lua: "XeenQuests.hook(\"m16.outfall\")"}
+    hint: The sewer's outfall
+    notes: "DD-01's outfall (D-26): a two-way exit once A8's bar is lifted from inside (A3's m16.outfall, its fail text 'An iron grate, barred from inside.')."
+  - id: thing:street_grate_1
+    kind: platform
+    at: [57.5, 58]
+    size: [192, 128]
+    height: 8
+    textures: {top: xkportc, wall: t09a02a}
+    notes: the guild row
+  - id: thing:street_grate_2
+    kind: platform
+    at: [63, 45.5]
+    size: [192, 128]
+    height: 8
+    textures: {top: xkportc, wall: t09a02a}
+    notes: the gate passage
+  - id: thing:street_grate_3
+    kind: platform
+    at: [69.5, 58]
+    size: [192, 128]
+    height: 8
+    textures: {top: xkportc, wall: t09a02a}
+    notes: by the temple
+  - id: thing:street_grate_4
+    kind: platform
+    at: [60.5, 56.5]
+    size: [192, 128]
+    height: 8
+    textures: {top: xkportc, wall: t09a02a}
+    notes: the market (the square)
+  - id: thing:acid_pond
+    kind: sign
+    at: [69.6, 35]
+    height: 160
+    width: 128
+    title: The acid pond
+    effects:
+      - damage:
+          amount: 20
+          kind: body
+      - lua: "evt.SimpleMessage(\"The acid pond is not water. It bites through boot leather.\")"
+  - id: thing:acid_skeleton
+    kind: decoration
+    at: [70.8, 34.7]
+    decoration: dec05
+  - id: thing:east_bridge
+    kind: bridge
+    line: [[78.8, 60], [83.3, 60]]
+    width: 448
+    rise: 96
+    kerb: 96
+    textures: {deck: csbr128, pier: cswl128, side: cswl128}
+    title: The East Bridge
+  - id: thing:sardaj_tent_1
+    kind: tent
+    at: [86.5, 23]
+    size: [896, 704]
+    height: 384
+    title: A Sardaj tent
+    effects:
+      - lua: "if continueStep == 1 then if XeenQuests.hook(\"q-d12.camp\") then evt.SetMonGroupBit(60, MonsterBits.Hostile, true) end return end"
+      - lua: "if continueStep ~= nil then return end"
+      - lua: "AskChoiceWithAnswerSteps(eventId, 3, \"You have found a Barbarian camp. Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    open: true
+  - id: thing:sardaj_tent_2
+    kind: tent
+    at: [90, 22.8]
+    size: [896, 704]
+    same_event_as: thing:sardaj_tent_1
+    height: 384
+    open: true
+  - id: thing:sardaj_fire
+    kind: decoration
+    at: [88.6, 25.6]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:sardaj_totem
+    kind: decoration
+    at: [87, 26.6]
+    decoration: 7dec18
+  - id: thing:trebuchet
+    kind: building
+    at: [95, 62]
+    size: [1.5, 1]
+    kit: poor
+    parts:
+      - {id: frame, at: [64, 64], size: [640, 384], textures: {wall: t06a10}, wall_height: 448, windows: none, roof: none}
+    door: none
+    title: A wrecked trebuchet
+    ruin:
+      height: [96, 448]
+      gaps: 0.5
+      thickness: 48
+      seed: 3
+  - id: thing:trebuchet_sign
+    kind: sign
+    at: [96.4, 62.4]
+    height: 224
+    width: 160
+    title: Sign
+    effects:
+      - lua: "evt.SimpleMessage(\"Property of Castleview. Do not touch.\")"
+  - id: thing:camp_chest
+    kind: chest
+    at: [96.9, 62.9]
+    title: The gremlins' loot
+    chest: {level: 2, random_items: 3}
+  - id: thing:wayside_shrine
+    kind: building
+    at: [102.4, 57.3]
+    size: [1.2, 1.2]
+    kit: stone
+    parts:
+      - {id: s, at: [154, 154], size: [307, 307], posts: 32, textures: {roof: xlslate, wall: t09a01}, wall_height: 288, windows: none, roof: hip, roof_pitch: 50, title: A wayside shrine of Mok, condition: {not: {lua: "Xeen.usedToday(\"d1_wayside_shrine\")"}}, else_effects: [{text: The shrine is quiet. Come back tomorrow.}], effects: [{lua: "Xeen.markToday(\"d1_wayside_shrine\")"}, {lua: evt.ForPlayer(Players.All)}, {add: {var: LuckBonus, value: 10}}, {text: Mok bless your road. +10 Luck until you rest.}]}
+    door: none
+    title: A wayside shrine of Mok
+  - id: thing:north_road_end
+    kind: sign
+    at: [64.9, 20.5]
+    height: 224
+    width: 160
+    title: Sign
+    effects:
+      - lua: "evt.SimpleMessage(\"North: Griffin Pass and the Forbidden Zone.\")"
+  - id: thing:great_tree
+    kind: building
+    at: [43.95, 31.75]
+    size: [4.5, 4.5]
+    kit: timber
+    parts:
+      - {id: foot, shape: round, at: [1152, 1152], radius: 760, sides: 16, textures: {roof: xdbark, trim: xdbark, wall: xdbark}, wall_height: 384, windows: none, roof: flat, buttresses: {count: 1, width: 176, depth: 320, height: 352, walls: [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]}}
+      - {id: trunk, shape: round, at: [1152, 1152], radius: 760, sides: 16, bottom: 384, taper: 0.72, textures: {roof: xdbark, wall: xdbark}, wall_height: 2800, windows: none, roof: flat}
+    floor: 1088
+    door: none
+    title: The great tree
+    notes: "The Dark Grove's great tree (MAPS): the tallest thing round it, the rope hanging from its crown."
+  - id: thing:great_crown
+    kind: decoration
+    at: [46.2, 34]
+    turn: 11.25
+    raise: 2984
+    decoration: xeen_greatcrown
+  - id: thing:grove_rope
+    kind: building
+    at: [47.357, 35.302]
+    size: [0.3, 0.3]
+    kit: grey
+    parts:
+      - {id: rope, at: [57, 57], size: [40, 40], textures: {roof: t06a10, wall: t06a10}, wall_height: 3900, windows: none, roof: flat, title: A rope from the sky, effects: [{lua: "if XeenQuests.hook(\"m30.grove_rope\") then evt.MoveToMap(-24768, -6624, 1024, 0, 0, 0, 0, 1, \"xeen_d7.blv\") end"}]}
+    floor: 1088
+    door: none
+    title: A rope from the sky
+  - id: thing:webbed_pack
+    kind: chest
+    at: [43.2, 38.3]
+    title: A pack wrapped in web
+    chest: {level: 2, random_items: 2}
+  - id: thing:western_tower
+    kind: building
+    at: [29.5, 31.5]
+    size: [3, 3]
+    kit: grey
+    textures: {door: hkm3dr, roof: xtslate, wall: hkm3b, window: hkm3elw}
+    facing: s
+    parts:
+      - {id: base, shape: round, at: [768, 768], radius: 640, sides: 12, textures: {post_left: cswl128, post_right: cswl128, slit: csaro128, trim: cswl128, wall: cswl128, window: cswl128}, wall_height: 1280, upper_walls: {"6": [[wall, 101.644], [slit, 128], [wall, 101.644]]}, windows: none, roof: none}
+      - {id: mid, shape: round, at: [768, 768], radius: 576, sides: 12, bottom: 1280, textures: {post_left: cswl128, post_right: cswl128, roof: cswl128, slit: csaro128, trim: cswl128, wall: cswl128, window: cswl128}, wall_height: 1024, walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, upper_walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, windows: none, roof: none}
+      - {id: top, shape: round, at: [768, 768], radius: 640, sides: 12, bottom: 2304, textures: {post_left: hkm3b, post_right: hkm3b, trim: cswl128}, wall_height: 256, walls: {"0": [[wall, 101.644], [window, 128], [wall, 101.644]], "1": [wall, wall], "10": [[wall, 101.644], [window, 128], [wall, 101.644]], "11": [wall, wall], "2": [[wall, 101.644], [window, 128], [wall, 101.644]], "3": [wall, wall], "4": [[wall, 101.644], [window, 128], [wall, 101.644]], "5": [wall, wall], "6": [[wall, 101.644], [window, 128], [wall, 101.644]], "7": [wall, wall], "8": [[wall, 101.644], [window, 128], [wall, 101.644]], "9": [wall, wall]}, windows: none, roof: cone, roof_pitch: 68}
+    floor: 1600
+    door:
+      part: base
+      wall: "0"
+    title: The Western Tower
+    into: {map: xeen_dd05.blv, arrival: entrance:d1_door, screen: {text: 5032}}
+    condition: {lua: "Xeen.isSet(\"q-d6.tower_opened\")"}
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.front_door_outside\")"
+  - id: thing:tower_rope
+    kind: building
+    at: [30.7719, 31.559]
+    size: [0.3, 0.3]
+    kit: grey
+    parts:
+      - {id: rope, at: [64, 64], size: [32, 32], textures: {roof: t06a10, wall: t06a10}, wall_height: 2432, windows: none, roof: flat, title: A rope down the north wall, effects: [{lua: "if XeenQuests.hook(\"q-d6.tower_rope\") then evt.MoveToMap(1376, 1472, 1920, 1536, 0, 0, 5033, 1, \"xeen_dd05.blv\") end"}]}
+    floor: 1600
+    door: none
+    title: A rope down the north wall
+  - id: thing:heretic_pack
+    kind: chest
+    at: [31.55, 30.85]
+    title: A heretic's pack
+    chest: {level: 3, random_items: 2}
+    notes: "Where he fell from the rope: one spot with the rope (D-23)."
+  - id: thing:edge_stone
+    kind: obelisk
+    at: [26.2, 46.3]
+    height: 320
+    width: 96
+    textures: {wall: cswl128}
+    title: The Edge Stone
+    effects:
+      - text: "Cut into the stone, one word: DON'T."
+  - id: thing:west_well
+    kind: well
+    at: [46.4, 47.8]
+    frame: {height: 200}
+    title: The old west well
+    condition: {not: {lua: "Xeen.usedToday(\"d1_west_well\")"}}
+    else_effects:
+      - text: The water is cool and refreshing.
+    effects:
+      - lua: "Xeen.markToday(\"d1_west_well\")"
+      - lua: evt.ForPlayer(Players.All)
+      - add:
+          var: PersonalityBonus
+          value: 10
+      - text: "+10 Personality until you rest."
+  - id: thing:dd10a_adit
+    kind: doorway
+    at: [45, 22]
+    height: 320
+    width: 256
+    depth: 384
+    hood: 64
+    textures: {door: 7solid01, wall: t06a02}
+    floor: 1600
+    title: A timbered adit
+    into: {map: xeen_dd10a.blv, at: [0, 192, 0], facing: 512, screen: {text: 5038}}
+    hint: Gemstone Mines
+  - id: thing:kalindra_1_ghost
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: xkshimmer, post_right: xkshimmer, roof: xtslate, trim: cstr128, wall: xkshimmer, window: xkshimmer}
+    parts:
+      - {id: curtain_n, at: [512, 256], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_s, at: [512, 5632], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_w, at: [256, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_e, at: [3584, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: keep_1, at: [1024, 1536], size: [2048, 2560], bottom: 0, wall_height: 384, windows: none, roof: none, battlements: false}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: false
+    notes: "Stage 1's part, out of phase (D-30): shown at load, swapped by evt:kalindra_1."
+  - id: thing:kalindra_1
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    parts:
+      - {id: curtain_n, at: [512, 256], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_s, at: [512, 5632], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_w, at: [256, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_e, at: [3584, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: keep_1, at: [1024, 1536], size: [2048, 2560], bottom: 0, wall_height: 384, windows: none, roof: none, battlements: false}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: true
+    notes: "Stage 1's part, restored in white stone (D-30): hidden at load, swapped by evt:kalindra_1."
+  - id: thing:kalindra_2_ghost
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: xkshimmer, post_right: xkshimmer, roof: xtslate, trim: cstr128, wall: xkshimmer, window: xkshimmer}
+    parts:
+      - {id: keep_2, at: [1024, 1536], size: [2048, 2560], bottom: 384, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: none, battlements: false}
+      - {id: observatory, shape: round, at: [2784, 1824], radius: 224, sides: 10, bottom: 416, wall_height: 736, windows: none, roof: none}
+      - {id: observatory_lantern, shape: round, at: [2784, 1824], radius: 207.11, sides: 10, bottom: 1152, wall_height: 256, walls: {"0": [window], "1": [wall], "2": [window], "3": [wall], "4": [window], "5": [wall], "6": [window], "7": [wall], "8": [window], "9": [wall]}, roof: cone, roof_pitch: 66}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: false
+    notes: "Stage 2's part, out of phase (D-30): shown at load, swapped by evt:kalindra_2."
+  - id: thing:kalindra_2
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    parts:
+      - {id: keep_2, at: [1024, 1536], size: [2048, 2560], bottom: 384, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: none, battlements: false}
+      - {id: observatory, shape: round, at: [2784, 1824], radius: 224, sides: 10, bottom: 416, wall_height: 736, windows: none, roof: none}
+      - {id: observatory_lantern, shape: round, at: [2784, 1824], radius: 207.11, sides: 10, bottom: 1152, wall_height: 256, walls: {"0": [window], "1": [wall], "2": [window], "3": [wall], "4": [window], "5": [wall], "6": [window], "7": [wall], "8": [window], "9": [wall]}, roof: cone, roof_pitch: 66}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: true
+    notes: "Stage 2's part, restored in white stone (D-30): hidden at load, swapped by evt:kalindra_2."
+  - id: thing:kalindra_3_ghost
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: xkshimmer, post_right: xkshimmer, roof: xtslate, trim: cstr128, wall: xkshimmer, window: xkshimmer}
+    parts:
+      - {id: tower_sw, shape: round, at: [384, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_sw_top, shape: round, at: [384, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_se, shape: round, at: [3712, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_se_top, shape: round, at: [3712, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: false
+    notes: "Stage 3's part, out of phase (D-30): shown at load, swapped by evt:kalindra_3."
+  - id: thing:kalindra_3
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    parts:
+      - {id: tower_sw, shape: round, at: [384, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_sw_top, shape: round, at: [384, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_se, shape: round, at: [3712, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_se_top, shape: round, at: [3712, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: true
+    notes: "Stage 3's part, restored in white stone (D-30): hidden at load, swapped by evt:kalindra_3."
+  - id: thing:kalindra_4_ghost
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: xkportc, post_left: xkshimmer, post_right: xkshimmer, roof: xtslate, trim: cstr128, wall: xkshimmer, window: xkshimmer}
+    parts:
+      - {id: keep_3, at: [1024, 1536], size: [2048, 2560], bottom: 768, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+      - {id: bell_tower, at: [1792, 2560], size: [512, 512], bottom: 1152, wall_height: 512, windows: none, roof: none}
+      - {id: belfry, at: [1792, 2560], size: [512, 512], bottom: 1664, wall_height: 256, walls: {e: [wall, [window, 128], wall], n: [wall, [window, 128], wall], s: [wall, [window, 128], wall], w: [wall, [window, 128], wall]}, roof: hip, roof_pitch: 55}
+      - {id: tower_nw, shape: round, at: [384, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_nw_top, shape: round, at: [384, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_ne, shape: round, at: [3712, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_ne_top, shape: round, at: [3712, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: stable_gate, at: [2112, 160], size: [640, 448], wall_height: 768, windows: none, roof: flat, battlements: true}
+    floor: 1750
+    door: none
+    title: Castle Kalindra
+    hidden: false
+    notes: "Stage 4's part, out of phase (D-30): shown at load, swapped by evt:kalindra_4."
+  - id: thing:kalindra_4
+    kind: building
+    at: [35, 64]
+    size: [8, 12]
+    kit: grey
+    textures: {door: chb1dl, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    parts:
+      - {id: keep_3, at: [1024, 1536], size: [2048, 2560], bottom: 768, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+      - {id: bell_tower, at: [1792, 2560], size: [512, 512], bottom: 1152, wall_height: 512, windows: none, roof: none}
+      - {id: belfry, at: [1792, 2560], size: [512, 512], bottom: 1664, wall_height: 256, walls: {e: [wall, [window, 128], wall], n: [wall, [window, 128], wall], s: [wall, [window, 128], wall], w: [wall, [window, 128], wall]}, roof: hip, roof_pitch: 55}
+      - {id: tower_nw, shape: round, at: [384, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_nw_top, shape: round, at: [384, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_ne, shape: round, at: [3712, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
+      - {id: tower_ne_top, shape: round, at: [3712, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: stable_gate, at: [2112, 160], size: [640, 448], wall_height: 768, walls: {n: [[wall, 192], [door, 256], [wall, 192]]}, upper_walls: {n: [[wall, 192], [wall, 256], [wall, 192]]}, windows: none, roof: flat, battlements: true}
+      - {id: banner, at: [1664, 1504], size: [128, 32], bottom: 832, wall_height: 256, walls: {n: [xkkalban], s: [wall]}, windows: none, roof: none}
+    floor: 1750
+    door:
+      leaves: 2
+      part: stable_gate
+      wall: n
+    title: Castle Kalindra
+    effects:
+      - text: The stable yard's gate is barred from inside.
+    hidden: true
+    notes: "Stage 4's part, restored in white stone (D-30): hidden at load, swapped by evt:kalindra_4."
+  - id: thing:kalindra_gate
+    kind: building
+    at: [42.300000000000004, 69]
+    size: [1.4, 2]
+    kit: grey
+    textures: {door: xkportc, post_left: xkshimmer, post_right: xkshimmer, roof: csbr128, trim: cstr128, wall: xkshimmer, window: xkshimmer}
+    facing: e
+    parts:
+      - {id: gatehouse, at: [64, 64], size: [589, 896], wall_height: 896, walls: {e: [[wall, 320], [door, 256], [wall, 320]]}, upper_walls: {e: [[wall, 320], [wall, 256], [wall, 320]]}, windows: none, roof: flat, battlements: true}
+      - {id: crest_frame, at: [653, 432], size: [32, 160], bottom: 304, textures: {roof: cstr128, wall: cstr128}, wall_height: 288, windows: none, roof: flat}
+      - {id: crest, at: [669, 448], size: [48, 128], bottom: 320, wall_height: 256, walls: {e: [xkkalcrst], w: [cstr128]}, windows: none, roof: none}
+    floor: 1750
+    door:
+      part: gatehouse
+      wall: e
+    title: Castle Kalindra
+    into: {map: xeen_dd03.blv, arrival: entrance:gate, screen: {text: 5030}}
+    condition: {lua: "XeenQuests.hook(\"m19.ghost_castle\")"}
+    hidden: false
+    notes: "Stage 1's gate (D-30), out of phase, shown at load."
+  - id: thing:kalindra_gate_restored
+    kind: building
+    at: [42.300000000000004, 69]
+    size: [1.4, 2]
+    kit: grey
+    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: csbr128, trim: cstr128, wall: hcwall, window: hcwindo}
+    facing: e
+    parts:
+      - {id: gatehouse, at: [64, 64], size: [589, 896], wall_height: 896, walls: {e: [[wall, 320], [door, 256], [wall, 320]]}, upper_walls: {e: [[wall, 320], [wall, 256], [wall, 320]]}, windows: none, roof: flat, battlements: true}
+      - {id: crest_frame, at: [653, 432], size: [32, 160], bottom: 304, textures: {roof: cstr128, wall: cstr128}, wall_height: 288, windows: none, roof: flat}
+      - {id: crest, at: [669, 448], size: [48, 128], bottom: 320, wall_height: 256, walls: {e: [xkkalcrst], w: [cstr128]}, windows: none, roof: none}
+    floor: 1750
+    door:
+      part: gatehouse
+      wall: e
+    title: Castle Kalindra
+    into: {map: xeen_dd03.blv, arrival: entrance:gate, screen: {text: 5030}}
+    condition: {lua: "XeenQuests.hook(\"m19.ghost_castle\")"}
+    hidden: true
+    notes: "Stage 1's gate (D-30), restored, hidden at load."
+  - id: thing:kalindra_rubble_1
+    kind: decoration
+    at: [40.4, 83.8]
+    decoration: rock26
+    title: Fallen white stone
+  - id: thing:kalindra_rubble_2
+    kind: decoration
+    at: [41.6, 84.4]
+    decoration: rock12
+  - id: thing:kalindra_rubble_3
+    kind: decoration
+    at: [39.2, 84.6]
+    decoration: rock26
+  - id: thing:kalindra_ramp
+    kind: stairs
+    line: [[47.6, 67.4], [46.6, 69]]
+    width: 512
+    rise: 120
+    ramp: true
+    textures: {top: csbr128, wall: cswl128}
+    title: Kalindra's ramp
+  - id: thing:luna_ring
+    kind: stone_ring
+    at: [30, 62]
+    radius: 448
+    title: Luna's stones
+    count: 7
+    lintel: false
+  - id: thing:obelisk
+    kind: obelisk
+    at: [27, 76]
+    height: 768
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.d1\")"
+  - id: thing:prayer_shrine
+    kind: building
+    at: [51.2, 89.2]
+    size: [1.6, 1.6]
+    kit: stone
+    parts:
+      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {roof: xlslate, wall: t09a01}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: The prayer shrine, condition: {not: {lua: "Xeen.usedToday(\"d1_prayer_shrine\")"}}, else_effects: [{text: "You pray, and the shrine is silent. Come back tomorrow."}], effects: [{lua: "Xeen.markToday(\"d1_prayer_shrine\")"}, {lua: evt.ForPlayer(Players.All)}, {add: {var: MightBonus, value: 10}}, {add: {var: IntellectBonus, value: 10}}, {add: {var: PersonalityBonus, value: 10}}, {add: {var: EnduranceBonus, value: 10}}, {add: {var: AccuracyBonus, value: 10}}, {add: {var: SpeedBonus, value: 10}}, {add: {var: LuckBonus, value: 10}}, {text: You pray. +10 to every stat until you rest.}]}
+    door: none
+    title: The prayer shrine
+  - id: thing:falista_hut
+    kind: building
+    at: [45.5, 94.5]
+    size: [1.5, 1]
+    kit: poor
+    textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}
+    parts:
+      - {id: hut, at: [64, 64], size: [640, 384], wall_height: 256, windows: alternate, roof: gable, roof_pitch: 40, title: Falista's hut, effects: [{lua: "evt.SimpleMessage(\"Falista's hut is empty. A note on the table: \\\"Gone to the Clouds. Back when I am restored.\\\"\")"}]}
+    door: none
+    title: Falista's hut
+  - id: thing:shipwreck
+    kind: building
+    at: [52.6, 82.4]
+    size: [2, 1]
+    turn: 20
+    kit: poor
+    parts:
+      - {id: hull, at: [96, 64], size: [832, 384], textures: {wall: 7trimd}, wall_height: 256, windows: none, roof: none}
+    floor: 900
+    door: none
+    title: A castaway's wreck
+    ruin:
+      height: [64, 256]
+      gaps: 0.45
+      thickness: 32
+      seed: 5
+  - id: thing:castaway_camp
+    kind: tent
+    at: [30.2, 89.4]
+    size: [576, 448]
+    height: 256
+    title: The castaway's lean-to
+    effects:
+      - text: "A cold fire, fish bones, and a calendar scratched into a plank: forty days, then nothing."
+    notes: "The wreck's castaway camped here, under Kalindra's cliff (a place for the 6,000 rule)."
+    open: true
+  - id: thing:castaway_fire
+    kind: decoration
+    at: [31.6, 90.6]
+    decoration: dec24x
+    title: A dead fire
+  - id: thing:wreck_chest
+    kind: chest
+    at: [53.6, 82.9]
+    title: A castaway's sea chest
+    chest: {level: 2, random_items: 3}
+  - id: thing:wreck_bottle
+    kind: decoration
+    at: [53, 83.3]
+    decoration: dec05
+    title: A bottle in the reeds
+    effects:
+      - text: "A message in the bottle: \"Day 40. Still no boat. The sky is the wrong colour here.\""
+    once: true
+  - id: thing:might_well
+    kind: well
+    at: [100, 93]
+    frame: {height: 200}
+    title: The Well of Might
+    condition: {not: {player_bit: 11290}}
+    else_effects:
+      - text: Cool water.
+    effects:
+      - player_bit: 11290
+      - add:
+          var: BaseMight
+          value: 2
+      - text: "+2 Might (permanent)"
+  - id: thing:melon_patch
+    kind: decoration
+    at: [82, 91]
+    decoration: plant02
+    title: Melon vines
+    effects:
+      - lua: "if XeenQuests.hook(\"q-d9.melons_south\") then for i = 1, 3 do evt.GiveItem(0, 0, 12343) end end"
+  - id: thing:melon_field
+    kind: decoration
+    at: [64, 67.4]
+    decoration: plant02
+    title: Pip Melonby's field
+    effects:
+      - lua: "XeenQuests.hook(\"q-d9.melon_field\") evt.GiveItem(0, 0, 12343)"
+      - text: "A Monga melon at the field's edge, ripe."
+    once: true
+  - id: thing:rim_falls
+    kind: waterfall
+    line: [[31, 103.5], [31, 105.5]]
+    rise: 64
+    textures: {rock: t2bs}
+    title: The Vale Falls
+    notes: "The Vale Water's fall off the world rim: a view, no click (D-23)."
+    top: 830
+    lean: 220
+    foot: 0
+    spread: 1.7
+    back: 768
+    pool: 768
+    rock_size: 400
+  - id: thing:falls_sound
+    kind: decoration
+    at: [31.2, 103]
+    decoration: Snd_Brook
+  - id: thing:sign_gate_fork
+    kind: sign
+    at: [62.2, 39.3]
+    height: 256
+    arms:
+      - {title: Castleview, toward: s}
+      - {title: The Forbidden Zone, toward: n}
+      - {title: "The Dark Grove, Kalindra", toward: w}
+      - {title: The East Bridge, toward: e}
+  - id: thing:sign_east_bridge
+    kind: sign
+    at: [77, 61]
+    height: 256
+    arms:
+      - {title: Castleview, toward: n}
+      - {title: Sprite Forest, toward: e}
+  - id: thing:sign_west_fork
+    kind: sign
+    at: [48.6, 46.4]
+    height: 256
+    arms:
+      - {title: Castle Kalindra, toward: s}
+      - {title: The Western Tower, toward: w}
+      - {title: Castleview, toward: e}
+  - id: thing:sign_south_fork
+    kind: sign
+    at: [84.8, 81.2]
+    height: 256
+    arms:
+      - {title: The Well of Might, toward: e}
+      - {title: The prayer shrine, toward: w}
+      - {title: The east road, toward: n}
+  - id: thing:town_tree_1
+    kind: decoration
+    at: [53.6, 45.6]
+    decoration: tree12
+  - id: thing:town_tree_2
+    kind: decoration
+    at: [69.8, 63.6]
+    decoration: tree20
+  - id: thing:town_tree_3
+    kind: decoration
+    at: [55.4, 63.7]
+    decoration: tree12
+  - id: thing:town_tree_4
+    kind: decoration
+    at: [74.6, 58.6]
+    decoration: tree20
+  - id: thing:town_tree_5
+    kind: decoration
+    at: [57.9, 63.6]
+    decoration: tree12
+  - id: thing:town_tree_6
+    kind: decoration
+    at: [51.2, 50.2]
+    decoration: tree20
+actors:
+  - {monster: "11021", at: [77.6, 42], count: 4, spread: 0.6, group: 1, hostile: true}
+  - {monster: "11020", at: [96, 64.4], count: 4, spread: 1.2, group: 2, hostile: true}
+  - {monster: "11022", at: [97.6, 63.6], count: 2, spread: 0.6, group: 2, hostile: true}
+  - {monster: "11021", at: [94.6, 61.4], count: 1, spread: 0, group: 2, hostile: true}
+  - {monster: "11361", at: [49.8, 32.6], count: 3, spread: 0.7, group: 3, hostile: true}
+  - {monster: "11361", at: [40.5, 35.5], count: 2, spread: 0.7, group: 4, hostile: true}
+  - {monster: "11361", at: [43.2, 33.2], count: 2, spread: 0.7, group: 5, hostile: true}
+  - {monster: "11100", at: [88, 25], count: 7, spread: 1.4, group: 60, hostile: false}
+  - {monster: "11101", at: [89.4, 26.2], count: 3, spread: 1.4, group: 60, hostile: false}
+  - {monster: "11102", at: [87.2, 24], count: 1, spread: 0, group: 60, hostile: false}
+  - {monster: "11103", at: [89.2, 24], spread: 0, group: 60, hostile: false, npc: 4953}
+  - {monster: "361", at: [66, 41.9], spread: 0, group: 52, npc: 4956}
+  - {monster: "377", at: [57, 41.2], spread: 0, group: 52, npc: 4951}
+  - {monster: "517", at: [30.6, 62.6], spread: 0, group: 52, npc: 4952}
+sounds:
+  - {id: sound:bed_darkside_1, at: [27, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_10, at: [41, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_11, at: [69, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_12, at: [97, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_2, at: [55, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_3, at: [83, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_4, at: [41, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_5, at: [69, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_6, at: [97, 49], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_7, at: [27, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_8, at: [55, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_9, at: [83, 73.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:kalindra_shimmer, at: [39, 70], sound: xeen_phase_loop, radius: 3500, inner_radius: 1200, volume: 0.35}
+relations:
+  - {of: [517, 518, 519], toward: party, relation: friendly}
+events:
+  - id: evt:sky
+    trigger: load
+    effects:
+      - lua: Xeen.applyDarksideSky()
+    notes: Darkside's sky by the sun's stage (A3's helper).
+  - id: evt:arrival
+    trigger: timer
+    every: 2
+    effects:
+      - lua: "XeenQuests.hook(\"m14.arrival\")"
+    once: true
+    notes: "M14: the first arrival's text (A3's hook runs once)."
+  - id: evt:gates_open
+    trigger: load
+    condition: {qbit: pass_entered}
+    effects:
+      - hide: thing:north_gate_outer
+      - hide: thing:north_gate_inner
+      - hide: thing:queens_gate_outer
+      - hide: thing:queens_gate_inner
+    notes: "m14.gate_open (A3): after the first entry both gates stand open."
+  - id: evt:kalindra_1
+    trigger: load
+    condition: {lua: "Xeen.stageOf(\"kalindra\") >= 1"}
+    else_effects:
+      - show: [thing:kalindra_1_ghost, thing:kalindra_gate]
+      - hide: [thing:kalindra_1, thing:kalindra_gate_restored]
+    effects:
+      - hide: [thing:kalindra_1_ghost, thing:kalindra_gate]
+      - show: [thing:kalindra_1, thing:kalindra_gate_restored]
+    notes: "D-30: Castle Kalindra's stage 1 parts restored (Xeen.stageOf, A3)."
+  - id: evt:kalindra_2
+    trigger: load
+    condition: {lua: "Xeen.stageOf(\"kalindra\") >= 2"}
+    else_effects:
+      - show: [thing:kalindra_2_ghost]
+      - hide: [thing:kalindra_2]
+    effects:
+      - hide: [thing:kalindra_2_ghost]
+      - show: [thing:kalindra_2]
+    notes: "D-30: Castle Kalindra's stage 2 parts restored (Xeen.stageOf, A3)."
+  - id: evt:kalindra_3
+    trigger: load
+    condition: {lua: "Xeen.stageOf(\"kalindra\") >= 3"}
+    else_effects:
+      - show: [thing:kalindra_3_ghost]
+      - hide: [thing:kalindra_3]
+    effects:
+      - hide: [thing:kalindra_3_ghost]
+      - show: [thing:kalindra_3]
+    notes: "D-30: Castle Kalindra's stage 3 parts restored (Xeen.stageOf, A3)."
+  - id: evt:kalindra_4
+    trigger: load
+    condition: {lua: "Xeen.stageOf(\"kalindra\") >= 4"}
+    else_effects:
+      - show: [thing:kalindra_4_ghost]
+      - hide: [thing:kalindra_4]
+      - lua: "evt.SetMapVar(\"AmbientSound13\", 1)"
+    effects:
+      - hide: [thing:kalindra_4_ghost]
+      - show: [thing:kalindra_4]
+      - lua: "evt.SetMapVar(\"AmbientSound13\", 2)"
+    notes: "D-30: Castle Kalindra's stage 4 parts restored (Xeen.stageOf, A3). Stage 4: the castle wholly in phase, AU's shimmer loop (sound:kalindra_shimmer) off."
+  - id: evt:kalindra_phase
+    trigger: load
+    effects:
+      - lua: "local s = Xeen.stageOf(\"kalindra\") if s ~= evt.GetMapVar(\"kalindra_stage_shown\", 0) then evt.SetMapVar(\"kalindra_stage_shown\", s) evt.PlaySoundName(\"xeen_phase_shift\", -12800, -3072, 2550) end"
+    notes: "AU (2026-11-20): xeen_phase_shift on the castle hill when the stage shown differs from the last one shown on this map (the named map variable kalindra_stage_shown), not on every load."
+  - id: evt:sabotage
+    trigger: load
+    condition: {qbit: court_won}
+    effects:
+      - hide: thing:rope_bridge_cut_w
+      - hide: thing:rope_bridge_cut_e
+      - show: thing:rope_bridge
+      - hide: thing:mill_burnt
+      - show: thing:mill
+    notes: "q-d1.sabotage (A3): the bridge and the mill mended once the court is won."
+  - id: evt:sardaj
+    trigger: load
+    condition: {any: [{qbit: sardaj_hostile}, {qbit: sardaj_camp_burned}]}
+    effects:
+      - lua: "evt.SetMonGroupBit(60, MonsterBits.Hostile, true)"
+    notes: "hook: q-d12.sardaj (A3): the Sardaj hostile on hostile or camp_burned."
+  - id: evt:sardaj_war
+    trigger: timer
+    every: 1
+    condition: {all: [{any: [{qbit: sardaj_hostile}, {qbit: sardaj_camp_burned}]}, {not: {map_var: sardaj_turned}}]}
+    effects:
+      - set:
+          var:
+            map_var: sardaj_turned
+          value: 1
+      - lua: "evt.SetMonGroupBit(60, MonsterBits.Hostile, true)"
+    notes: "hook: q-d12.sardaj (A3): the Sardaj turn within a second of Yog's Battle! (the dialogue sets the bit); evt:sardaj keeps them hostile on every later load."

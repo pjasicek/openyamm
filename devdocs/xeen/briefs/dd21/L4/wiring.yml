@@ -1,0 +1,385 @@
+format: 0
+variables: [grille_open, gate_up, roaches_out]
+events:
+  - id: evt:alcove
+    preset: text
+    source: panel:alcove
+    title: Alcove
+    text: Nothing here.
+    window: false
+    notes: The source's alcove (aaze0036:0).
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: dd21_arrived_once}}
+    once: true
+    effects:
+      - qbit: dd21_arrived_once
+      - text: "Sandro's crypts under the Necropolis. Below them runs the sewer, where his heart is said to lie."
+    notes: "The first arrival (dd21_arrived_once 117720): a status line naming the errand (map-local, for A3); the stair's foot is quiet (D-11.3)."
+  - id: evt:barrel_cellar_e1
+    preset: script
+    source: deco:barrel_cellar_e1
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_cellar_n1
+    preset: script
+    source: deco:barrel_cellar_n1
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_cellar_n2
+    preset: script
+    source: deco:barrel_cellar_n2
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_cellar_s1
+    preset: script
+    source: deco:barrel_cellar_s1
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_cellar_s2
+    preset: script
+    source: deco:barrel_cellar_s2
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_landing_1
+    preset: script
+    source: deco:barrel_landing_1
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_landing_2
+    preset: script
+    source: deco:barrel_landing_2
+    title: Barrel
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.barrel_sign\")"
+    notes: "A3's q-d23.barrel_sign: 'A sign on the barrel says: Food for the dead, keep warm.' (aaze0036:4-5)."
+  - id: evt:barrel_roaches
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: dead_food_pried, not: {map_var: roaches_out}}
+    effects:
+      - show_actors: 20
+      - set:
+          var:
+            map_var: roaches_out
+          value: 1
+    notes: "The two roaches come out of the Dead Food barrel once it is first pried (dead_food_pried 117723), shown once (map variable roaches_out; no load event shows them, D-18: the map state keeps them)."
+  - id: evt:bier
+    preset: script
+    source: platform:bier
+    title: Sandro's bier
+    lua: |-
+      if continueStep == nil and IsQBitSet(QBit(113462)) then
+          evt.StatusText("Sandro's bier, empty. Grave dust lies over it.")
+          return
+      end
+      if continueStep == nil and not IsQBitSet(QBit(117727)) then
+          evt.StatusText("Sandro's bier.")
+          return
+      end
+      if continueStep == 1 then
+          if not IsQBitSet(QBit(113463)) and XeenQuests.can("q-d23.ritual") then
+              AskChoiceWithAnswerSteps(eventId, 4, "Ask Sandro for his ritual first?", {{Answer = "Yes", Step = 3}, {Answer = "No", Step = 4}})
+              return
+          end
+          continueStep = 4
+      end
+      if continueStep == 3 then
+          XeenQuests.hook("q-d23.ritual")
+          continueStep = 4
+      end
+      if continueStep == 4 then
+          if XeenQuests.hook("q-d23.release") then
+              evt.SpawnWorldEffect("mm9:smoke", 288, -3200, 128, 1.0)
+              evt.SetMonGroupBit(30, MonsterBits.Invisible, 1)
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113462)) or not IsQBitSet(QBit(117727)) then
+          return
+      end
+      XeenQuests.hook("q-d23.sandro")
+      if HasItem(12353) then
+          AskChoiceWithAnswerSteps(eventId, 2, "Give Sandro his heart?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+      end
+    notes: "The bier's click: before his fall 'Sandro's bier.'; after the release an empty bier; between, the same talk as the dais."
+  - id: evt:chest_box
+    preset: chest
+    source: chest:box
+    title: Box
+    notes: The source's trapped Box (aaze0036:2).
+  - id: evt:chest_mummy
+    preset: chest
+    source: chest:mummy
+    title: Chest
+  - id: evt:chest_reliquary
+    preset: chest
+    source: chest:reliquary
+    title: Chest
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    trigger: step
+    lua: |-
+      if continueStep == 1 then
+          if not IsQBitSet(QBit(113463)) and XeenQuests.can("q-d23.ritual") then
+              AskChoiceWithAnswerSteps(eventId, 4, "Ask Sandro for his ritual first?", {{Answer = "Yes", Step = 3}, {Answer = "No", Step = 4}})
+              return
+          end
+          continueStep = 4
+      end
+      if continueStep == 3 then
+          XeenQuests.hook("q-d23.ritual")
+          continueStep = 4
+      end
+      if continueStep == 4 then
+          if XeenQuests.hook("q-d23.release") then
+              evt.SpawnWorldEffect("mm9:smoke", 288, -3200, 128, 1.0)
+              evt.SetMonGroupBit(30, MonsterBits.Invisible, 1)
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113462)) or not IsQBitSet(QBit(117727)) then
+          return
+      end
+      XeenQuests.hook("q-d23.sandro")
+      if HasItem(12353) then
+          AskChoiceWithAnswerSteps(eventId, 2, "Give Sandro his heart?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+      end
+    notes: "The dais's step: from sandro_fell while released is clear, the risen Sandro speaks (q-d23.sandro: its beaten text, or its heart text); with the heart 'Give Sandro his heart?', then (when someone can learn it) 'Ask Sandro for his ritual first?' (q-d23.ritual), then q-d23.release: the grave-dust puff (mm9:smoke) and Sandro hidden; the grille opens (evt:grille_opens). No to the first prompt: he waits."
+  - id: evt:dead_food
+    preset: script
+    source: deco:barrel_dead_food
+    title: Dead Food
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.dead_food\")"
+    notes: "A3's q-d23.dead_food (D-62 Q43): Might 30 for the clicking member, else its fail line (aaze0036:7); the first pry sets dead_food_pried 117723 (evt:barrel_roaches then shows the two hidden roaches once); each pry feeds every member present who has not eaten (+2 Endurance, player bit 11378)."
+  - id: evt:door_cellar
+    preset: door
+    source: door:cellar
+    title: Door
+  - id: evt:door_crypt
+    preset: door
+    source: door:crypt
+    title: Double doors
+  - id: evt:door_sluice_room
+    preset: door
+    source: door:sluice_room
+    title: Door
+  - id: evt:door_vault
+    preset: door
+    source: door:vault
+    title: Mummy's Secret Treasure
+    notes: The old tomb wall's stone door (aaze0036:10).
+  - id: evt:drain_1
+    preset: script
+    source: panel:drain_1
+    title: Sewer Drain
+    condition: {not: {qbit: drain_1}}
+    effects:
+      - qbit: drain_1
+      - gold: 900
+      - text: "Wedged in the drain's bars, a purse. (+900 gold)"
+    else_effects:
+      - text: Nothing here.
+    notes: "A drain with a find once (map qbit drain_1), then 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:drain_2
+    preset: text
+    source: panel:drain_2
+    title: Sewer Drain
+    text: Nothing here.
+    window: false
+    notes: "'Sewer Drain' / 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:drain_3
+    preset: script
+    source: panel:drain_3
+    title: Sewer Drain
+    condition: {not: {qbit: drain_2}}
+    effects:
+      - qbit: drain_2
+      - give_item:
+          level: 5
+          kind: 40
+      - text: "Something glints in the muck behind the bars: a ring."
+    else_effects:
+      - text: Nothing here.
+    notes: "A drain with a find once (map qbit drain_2), then 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:drain_4
+    preset: text
+    source: panel:drain_4
+    title: Sewer Drain
+    text: Nothing here.
+    window: false
+    notes: "'Sewer Drain' / 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:drain_5
+    preset: script
+    source: panel:drain_5
+    title: Sewer Drain
+    condition: {not: {qbit: drain_3}}
+    effects:
+      - qbit: drain_3
+      - gold: 1200
+      - text: "Caught in the drain's bars, a dead man's purse. (+1200 gold)"
+    else_effects:
+      - text: Nothing here.
+    notes: "A drain with a find once (map qbit drain_3), then 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:drain_6
+    preset: text
+    source: panel:drain_6
+    title: Sewer Drain
+    text: Nothing here.
+    window: false
+    notes: "'Sewer Drain' / 'Nothing here.' (aaze0036:3, :1)."
+  - id: evt:exit_left
+    preset: exit
+    source: exit:wing_left
+    title: Climb up to the Necropolis
+    notes: "The grille pair at the stair's top: the game's leave window (D-24), to D6's entrance:dd21_stair (17408, -11776, 1664) facing 512. A3's q-d23.stair_exit: 'Climb up to the Necropolis?' is its meaning."
+  - id: evt:exit_right
+    preset: exit
+    source: exit:wing_right
+    title: Climb up to the Necropolis
+    notes: "The grille pair at the stair's top: the game's leave window (D-24), to D6's entrance:dd21_stair (17408, -11776, 1664) facing 512. A3's q-d23.stair_exit: 'Climb up to the Necropolis?' is its meaning."
+  - id: evt:first_entry
+    preset: script
+    source: room:sandro_crypt
+    trigger: step
+    condition: {not: {qbit: sandro_met}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.first_entry\")"
+    notes: "The first step into the crypt (A3's q-d23.first_entry, once, sandro_met 117722): 'Sandro the Lich rises from his bier. \"And now my hunger for the living compels me to attack you.\"' (aaze0035:25, :26)."
+  - id: evt:gate
+    preset: script
+    source: door:sluice_gate
+    title: Culvert gate
+    condition: {not: {qbit: sluice_open}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.culvert_gate\")"
+    else_effects:
+      - text: The culvert gate stands open.
+    notes: "The culvert gate: A3's q-d23.culvert_gate while shut (the wheel is upstream)."
+  - id: evt:gate_up
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: sluice_open, not: {map_var: gate_up}}
+    opens: [door:sluice_gate]
+    effects:
+      - set:
+          var:
+            map_var: gate_up
+          value: 1
+    notes: After a refill the gate lifts again (sluice_open stays set).
+  - id: evt:grille
+    preset: script
+    source: door:grille
+    title: Grille
+    condition: {not: {qbit: released}}
+    locked_text: The grille stands open.
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.grille\")"
+    notes: "A3's q-d23.grille before the release: 'Don't even THINK about taking my statuette!' (aaze0035:29) and 'The grille is locked.'"
+  - id: evt:grille_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: released, not: {map_var: grille_open}}
+    opens: [door:grille]
+    effects:
+      - set:
+          var:
+            map_var: grille_open
+          value: 1
+    notes: "goal:release: the reliquary grille lifts once released 113462 is set (at the release, and again after a refill)."
+  - id: evt:heart_quiet
+    preset: script
+    trigger: load
+    condition: {qbit: heart_found}
+    lua: "evt.SetMapVar(\"AmbientSound6\", 2)"
+    notes: "Every load once heart_found 113461 is set: the jar's heartbeat stays off."
+  - id: evt:jar
+    preset: script
+    source: platform:jar_ledge
+    title: Jar of green glass
+    effects:
+      - lua: "XeenQuests.hook(\"q-d23.heart\")"
+      - lua: "if IsQBitSet(QBit(113461)) then evt.SetMapVar(\"AmbientSound6\", 2) end"
+    notes: "goal:heart: A3's q-d23.heart (once: Sandro's Heart 12353, heart_found 113461; then 'An empty jar.'); the heartbeat stops once heart_found is set."
+  - id: evt:risen_figure
+    preset: script
+    trigger: load
+    lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:sandro_risen\"), false)"
+    notes: "The risen Sandro cannot be hurt (DD-15's Pharaoh, D-51's word), on every load."
+  - id: evt:risen_gone
+    preset: script
+    trigger: load
+    condition: {qbit: released}
+    effects:
+      - hide_actors: 30
+      - hide_actors: 5
+    notes: "Every load after the release: Sandro is gone, both bodies hidden."
+  - id: evt:risen_show
+    preset: script
+    trigger: load
+    condition: {qbit: sandro_fell, not: {qbit: released}}
+    effects:
+      - show_actors: 30
+      - hide_actors: 5
+    notes: "Every load: the risen Sandro stands by his bier while sandro_fell is set and released clear; the fallen (or refilled) hostile body stays hidden."
+  - id: evt:sandro_fell
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {kills: {monster: monster:sandro}, not: {qbit: sandro_fell}}
+    effects:
+      - qbit: sandro_fell
+      - lua: "XeenQuests.hook(\"q-d23.sandro\")"
+      - show_actors: 30
+      - hide_actors: 5
+      - lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:sandro_risen\"), false)"
+    notes: "goal:sandro (D-62 Q41): his fall sets sandro_fell 117727, calls q-d23.sandro (its first text and beaten, or its heart text when the party already has the heart), shows the risen Sandro by the bier and hides the fallen body."
+  - id: evt:seal
+    preset: text
+    source: panel:seal
+    title: Sandro's seal
+    text: "A heart pierced by a bone, carved in the dark stone over the doors."
+    window: false
+    notes: xdsandro over the crypt's doors.
+  - id: evt:wheel
+    preset: switch
+    source: switch:wheel
+    title: Sluice wheel
+    condition: {not: {qbit: sluice_open}}
+    opens: [door:sluice_gate]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\")"
+      - lua: "XeenQuests.hook(\"q-d23.sluice_wheel\")"
+      - set:
+          var:
+            map_var: gate_up
+          value: 1
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d23.sluice_wheel\")"
+    notes: "key:sluice (D-62 Q44, D-43): A3's q-d23.sluice_wheel (sluice_open 117721, once) and the culvert gate lifts for good; a second turn: its else line."
+notes: "DD-21's events, written by output/studio_cal/dd21/tools/dress.py."

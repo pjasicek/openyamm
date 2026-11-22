@@ -1,0 +1,444 @@
+format: 0
+level: L3
+pitch: "King Burlock's castle on the savannah: a white-stone gatehouse whose portcullis lifts only for Crusaders, a marble great hall and throne room where the King hunts his mirror, the gallery of arms with Artemus's and Emerson's doors, the library and the well court in a ring round the court. The east tower is the royal family's (Roxanne's parlour, the bedroom); the west tower has been given up to the court's mad fools and roosting gargoyles, and at its top stands the old King's throne that throws whoever sits on it into the air outside. Under the kitchens the wine cellar's iron door opens on the dungeon the trolls broke out of, its old cistern, their den, and the warden's pit where a Fire Dragon waits behind a portcullis and a sign that says 'Do not pull'."
+purpose: "Story M5-M7 (the audience, Artemus, the dungeon key), Emerson for Newcastle (M9, M11, M22), Roxanne (Q-C3, T1-E); optional fights in the west tower and the dungeon, an optional dragon. Party 12-14, monsters 8-22 (the band 10-24; Mad Fools 8 mixed in, D-4)."
+mood: "A bright, busy court of white stone and cream marble, banners and guards; the abandoned west tower draughty and noisy; the cellars and dungeon grey, cold and quiet; the pit a hot red cave."
+datum: arrival
+spaces:
+  - id: room:armour_gallery
+    name: Gallery of arms
+    kind: corridor
+    size: M
+    extent: [2816, 768]
+    floor: 0
+    clear_height: 640
+    purpose: "The ceremonial armour and their plaques; Artemus's and Emerson's doors."
+    empty: true
+  - id: room:cell_block
+    name: Cell block
+    kind: room
+    size: L
+    extent: [2048, 1792]
+    floor: -640
+    clear_height: 576
+    purpose: "Broken cells, the warden's strongbox; trolls."
+    population:
+      - {slot: 3, groups: 3, per_marker: [1, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:cellar
+    name: Wine cellar
+    kind: room
+    size: M
+    extent: [1792, 1280]
+    floor: -640
+    clear_height: 512
+    purpose: "The wine cellar (the map's storeroom); the dungeon door; the den's barred door."
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], strength: light, rank: c}
+  - id: room:dragon_pit
+    name: Dragon pit
+    kind: room
+    size: L
+    extent: [2304, 2048]
+    floor: -1152
+    clear_height: 1024
+    purpose: The caged Fire Dragon on its hoard (optional).
+    population:
+      - {actor: Fire Dragon, role: optional, levels: [75, 75], placed: true, strength: boss}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:east_landing
+    name: Princess's landing
+    kind: room
+    size: M
+    extent: [1024, 1024]
+    floor: 640
+    clear_height: 512
+    purpose: "Roxanne's parlour door (house 4204, Q-C3) and her plaque."
+    empty: true
+  - id: room:east_stair_1
+    name: East tower stair
+    kind: room
+    size: S
+    extent: [1024, 512]
+    floor: [0, 640]
+    clear_height: 448
+    purpose: Up the east tower.
+    empty: true
+  - id: room:east_stair_2
+    name: East tower upper stair
+    kind: room
+    size: S
+    extent: [512, 1024]
+    floor: [640, 1280]
+    clear_height: 448
+    purpose: Up to the royal bedroom.
+    empty: true
+  - id: room:east_tower_base
+    name: East tower foot
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    floor: 0
+    clear_height: 640
+    purpose: "The royal family's tower foot behind the throne; a guard."
+    empty: true
+  - id: room:fools_hall
+    name: Fools' hall
+    kind: room
+    size: M
+    extent: [1280, 1536]
+    floor: 640
+    clear_height: 512
+    purpose: The court's fools gone mad.
+    population:
+      - {slot: 1, groups: 3, per_marker: [2, 3], strength: pack, rank: c}
+  - id: room:gargoyle_loft
+    name: Gargoyle loft
+    kind: room
+    size: M
+    extent: [1792, 1280]
+    floor: 1280
+    clear_height: 768
+    purpose: "The roosts; the gargoyles' chest."
+    population:
+      - {slot: 2, groups: 5, per_marker: [1, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:gatehouse
+    name: Gatehouse
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    shape: "White ashlar room, the portcullis in its north wall between Burlock's arms."
+    floor: 0
+    clear_height: 640
+    purpose: "Arrival inside the castle door; the Crusaders' portcullis; two King's Guards."
+    empty: true
+  - id: room:great_hall
+    name: Great hall
+    kind: room
+    size: L
+    extent: [3072, 2048]
+    shape: Long marble hall with four pilasters and two chandeliers.
+    floor: 0
+    clear_height: 960
+    purpose: "The court: banners, King's Guards, the plaque 'Don't worry, be happy.'"
+    empty: true
+  - id: room:kitchen_stair
+    name: Cellar stair
+    kind: room
+    size: S
+    extent: [512, 1024]
+    floor: [-640, 0]
+    clear_height: 448
+    purpose: Down to the wine cellar.
+    empty: true
+  - id: room:kitchens
+    name: Kitchens
+    kind: room
+    size: M
+    extent: [1408, 1280]
+    floor: 0
+    clear_height: 640
+    purpose: "The servants' way; two fools in the larder; the cellar stair."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+  - id: room:library
+    name: Library
+    kind: room
+    size: M
+    extent: [1536, 1024]
+    floor: 0
+    clear_height: 640
+    purpose: The Book of Languages and the Book of Astrology on reading desks.
+    empty: true
+  - id: room:old_cistern
+    name: Old cistern
+    kind: room
+    size: M
+    extent: [2048, 1792]
+    floor: -640
+    clear_height: 576
+    purpose: "The old cistern (D-4: no ice); the Black Liquid (+2 Might once each)."
+    population:
+      - {slot: 3, groups: 3, per_marker: [1, 2], strength: pack, rank: a}
+  - id: room:old_throne
+    name: Old King's throne
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    floor: 1280
+    clear_height: 640
+    purpose: "The old King's throne: the throw onto X4."
+    population:
+      - {slot: 2, groups: 2, per_marker: [1, 2], strength: light, rank: b}
+  - id: room:pit_gallery
+    name: Pit gallery
+    kind: corridor
+    size: M
+    extent: [2048, 768]
+    floor: -640
+    clear_height: 512
+    purpose: The warden's lever and his sign over the pit.
+    population:
+      - {slot: 3, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+  - id: room:pit_stair
+    name: Pit stair
+    kind: room
+    size: S
+    extent: [160, 768]
+    floor: [-1152, -640]
+    clear_height: 448
+    purpose: A narrow low stair to the pit's portcullis.
+    empty: true
+  - id: room:postern
+    name: Postern tunnel
+    kind: corridor
+    size: S
+    extent: [1024, 512]
+    floor: -640
+    clear_height: 384
+    purpose: The sally port to the moat (sealed until X4 exists).
+    empty: true
+  - id: room:royal_bedroom
+    name: Royal bedroom
+    kind: room
+    size: M
+    extent: [1536, 1024]
+    floor: 1280
+    clear_height: 512
+    purpose: Roxanne's chest (q-c3.bedroom_chest).
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 3, notes: Opens once Q-C3 is done.}
+  - id: room:throne_room
+    name: Throne room
+    kind: room
+    size: L
+    extent: [2560, 2560]
+    shape: "Tall marble hall, the throne on a dais under the arms."
+    floor: 0
+    clear_height: 1152
+    purpose: "King Burlock on his throne, Prince Roland beside him (house 4201, M5)."
+    empty: true
+  - id: room:troll_den
+    name: Troll den
+    kind: room
+    size: M
+    extent: [2048, 2048]
+    floor: -640
+    clear_height: 512
+    purpose: "Where the trolls sleep; their loot; the bar of the cellar door."
+    population:
+      - {slot: 3, groups: 3, per_marker: [1, 2], strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 2}
+  - id: room:well_court
+    name: Well court
+    kind: room
+    size: S
+    extent: [1024, 768]
+    floor: 0
+    clear_height: 768
+    purpose: "The castle well: 'The water refreshes you.'"
+    empty: true
+  - id: room:west_gallery
+    name: West tower gallery
+    kind: corridor
+    size: M
+    extent: [768, 2048]
+    floor: 640
+    clear_height: 448
+    purpose: "Arrow slits and three joke plaques; fools and a gargoyle."
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 3], strength: light, rank: c}
+      - {slot: 2, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+  - id: room:west_stair_1
+    name: West tower stair
+    kind: room
+    size: S
+    extent: [1024, 512]
+    floor: [0, 640]
+    clear_height: 448
+    purpose: Up the west tower.
+    empty: true
+  - id: room:west_stair_2
+    name: West tower upper stair
+    kind: room
+    size: S
+    extent: [512, 1024]
+    floor: [640, 1280]
+    clear_height: 448
+    purpose: Up to the tower top.
+    empty: true
+  - id: room:west_tower_base
+    name: West tower foot
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    floor: 0
+    clear_height: 640
+    purpose: "Behind the closed door: the stair up into the abandoned west tower."
+    empty: true
+links:
+  - id: link:cellar_cells
+    from: room:cellar
+    to: room:cell_block
+    kind: door
+    condition: {qbit: dungeon_key}
+    notes: "The iron dungeon door: Artemus's key (a qbit, xd07.dungeon_door)."
+  - id: link:cells_cistern
+    from: room:cell_block
+    to: room:old_cistern
+    kind: open
+  - id: link:cells_pitgallery
+    from: room:cell_block
+    to: room:pit_gallery
+    kind: door
+  - id: link:cistern_den
+    from: room:old_cistern
+    to: room:troll_den
+    kind: open
+  - id: link:den_cellar
+    from: room:troll_den
+    to: room:cellar
+    kind: door
+    condition: {qbit: den_bar_lifted}
+    one_way: true
+    notes: "Barred on the den side; lifted, both ways."
+  - id: link:den_postern
+    from: room:troll_den
+    to: room:postern
+    kind: door
+  - id: link:easttower_parlour
+    from: room:east_tower_base
+    to: room:east_landing
+    kind: stairs
+    rise: 640
+  - id: link:fools_gallery
+    from: room:fools_hall
+    to: room:west_gallery
+    kind: open
+  - id: link:gallery_loft
+    from: room:west_gallery
+    to: room:gargoyle_loft
+    kind: stairs
+    rise: 640
+  - id: link:gate_hall
+    from: room:gatehouse
+    to: room:great_hall
+    kind: portcullis
+    condition: {qbit: crusader}
+    notes: "The portcullis: lifts only for Crusaders (m5.crusaders_gate)."
+  - id: link:gate_kitchens
+    from: room:gatehouse
+    to: room:kitchens
+    kind: door
+  - id: link:hall_throne
+    from: room:great_hall
+    to: room:throne_room
+    kind: double_door
+  - id: link:hall_well
+    from: room:great_hall
+    to: room:well_court
+    kind: open
+  - id: link:hall_westtower
+    from: room:great_hall
+    to: room:west_tower_base
+    kind: door
+    notes: Closed (D-4).
+  - id: link:kitchens_cellar
+    from: room:kitchens
+    to: room:cellar
+    kind: stairs
+    rise: -640
+  - id: link:library_gallery
+    from: room:library
+    to: room:armour_gallery
+    kind: door
+  - id: link:loft_throne
+    from: room:gargoyle_loft
+    to: room:old_throne
+    kind: door
+  - id: link:parlour_bedroom
+    from: room:east_landing
+    to: room:royal_bedroom
+    kind: stairs
+    rise: 640
+  - id: link:pitgallery_pit
+    from: room:pit_gallery
+    to: room:dragon_pit
+    kind: stairs
+    condition: {qbit: cage_lever_pulled}
+    rise: -512
+    notes: "A narrow low stair; the portcullis at its foot rises by the warden's lever."
+  - id: link:throne_easttower
+    from: room:throne_room
+    to: room:east_tower_base
+    kind: door
+  - id: link:throne_gallery
+    from: room:throne_room
+    to: room:armour_gallery
+    kind: open
+  - id: link:well_library
+    from: room:well_court
+    to: room:library
+    kind: door
+  - id: link:westtower_fools
+    from: room:west_tower_base
+    to: room:fools_hall
+    kind: stairs
+    rise: 640
+loops:
+  - id: loop:court
+    spaces: [room:great_hall, room:well_court, room:library, room:armour_gallery, room:throne_room]
+    notes: Round the court.
+  - id: loop:dungeon
+    spaces: [room:cellar, room:cell_block, room:old_cistern, room:troll_den]
+    notes: "Round the dungeon, closed once the den's bar is lifted."
+entrances:
+  - id: entrance:castle_door
+    space: room:gatehouse
+    kind: both
+    facing: n
+    how: "Inside the castle door from X4; sealed until X4 exists (NOTES)."
+critical_path: [room:gatehouse, room:great_hall, room:throne_room, room:armour_gallery]
+goals:
+  - id: goal:artemus
+    space: room:armour_gallery
+    kind: use
+    what: "Artemus (M6, M7; the dungeon key) through his door (house 4202)."
+  - id: goal:audience
+    space: room:throne_room
+    kind: use
+    what: The audience with King Burlock (M5) through the throne (house 4201).
+  - id: goal:roxanne
+    space: room:east_landing
+    kind: use
+    what: "Roxanne (Q-C3) through her parlour's door (house 4204); her chest in the bedroom."
+set_pieces:
+  - id: set:dragon_cage
+    kind: boss
+    spaces: [room:pit_gallery, room:dragon_pit]
+    rule: "The warden's lever raises the pit's portcullis at the foot of a stair too narrow for the dragon; the fight is optional."
+  - id: set:old_throne
+    kind: scripted
+    spaces: [room:old_throne]
+    rule: Sitting on the old throne throws the party into the air outside the west tower (onto X4).
+  - id: set:portcullis
+    kind: scripted
+    spaces: [room:gatehouse]
+    rule: "The portcullis lifts for a Crusader party; others hear 'Only Crusaders are allowed to enter Castle Burlock.'"
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 5
+  doors: 14
+  fixed_actors: 8
+  loops: 2
+  monsters_about: 48
+  rooms: 28
+  sectors: 28
+notes: "Class M (MAPS: 20-45 sectors, 45-75 monsters). The court floor is peaceful (King's Guards 40 by the world's relation); the fights are behind the west tower's closed door and below the dungeon door. Every room is a rectangle; stairs are stepped rooms of 32 risers."

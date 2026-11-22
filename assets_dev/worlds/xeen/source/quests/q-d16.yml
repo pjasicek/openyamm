@@ -1,0 +1,103 @@
+# Q-D16 Gurodel's Giants (QUESTS 2.2 Q-D16; Act V, D-16). Owner: A3. Gurodel, King of the People (5452, D5's giant
+# hold; his hall is DD-24), greets the party as the source does ("Greetings, little ones."). Peaceful: ask for the
+# People's friendship and he gives two Energy Disks. Violent: tell him you want his hall; the giants turn hostile
+# (A2's relations read `war`, as they read Q-D12's `hostile`/`camp_burned`, which also close his talk), and the
+# bloody throne in DD-24 holds the two disks (the source's "You search the bloody throne and find two energy disks.").
+# Both routes give the disks; the violent one pays more experience and DD-24's loot.
+id: Q-D16
+title: Gurodel's Giants
+act: V
+kind: side
+status: full
+giver: 5452          # Gurodel, King of the People (D5)
+maps: [D5, DD-24]
+level: 45
+block: 96
+after: []
+source: "QUESTS Q-D16; dark/aaze0013:7, 18-19, 34"
+
+qbits:
+  friends: {id: 113320}
+  war: {id: 113321, journal: "You told Gurodel you want his hall. The giants are at war with you; two Energy Disks are said to lie on his throne.",
+        until: [throne_searched], note: "A2's relations: the People hostile"}
+  throne_searched: {id: 113322, note: "the bloody throne searched"}
+  hall_attacked: {id: 113323, note: "a People giant struck at peace in DD-24 or D5's hold (D-47 Q22: the map's timer calls q-d16.hall_attacked); closes Gurodel's talk like war; A2's relations read it with war 113321 and Q-D12's 113242, 113244"}
+  war_announced: {id: 113324, note: "the war line has been shown at DD-24's threshold (once per war)"}
+
+items:
+  energy_disk: "two from Gurodel (friends) or the bloody throne (war); Ellinger takes them (m19)"
+
+npcs:
+  5452:              # Gurodel
+    topics:
+      - n: 1
+        label: The People
+        states:
+          - when: {qbit: hall_attacked}
+            text: "You struck one of the People in our own hall, little ones. We recognize you as enemies."
+          - when: {qbit: friends}
+            text: "The People remember their friends, little ones. Walk our hills as you like; mind where you step."
+          - text: "We are the People. We were here before Alamar, and we will be here after him. He wants to drive this world away from its sun, like a cart from a stable, and ride it home. The People do not want to be driven. What do you want of the People, little ones?"
+      - n: 2
+        label: Friendship
+        show: {not: {any: [{qbit: friends}, {qbit: war}, {qbit: hall_attacked}]}}
+        text: "Friendship. Good. That is a small word for small people, and a large one for us. Take these, little ones. Alamar's people dropped them in our hills, and they hum when we sleep."
+        do: [{give: energy_disk, count: 2}, {set: friends}, {xp: 12000}]
+      - n: 3
+        label: Your hall
+        show: {not: {any: [{qbit: friends}, {qbit: war}, {qbit: hall_attacked}]}}
+        text: "My hall? Then come and take it, little ones, if you can. The People will be waiting on the stair."
+        do: [{set: war}]
+
+hooks:
+  throne:
+    map: DD-24
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the bloody throne at the top of the Giants' Hall (clicked). At peace it refuses; at war it gives two Energy Disks and 14,000 once, but only to a party without friends (D-47 Q22: a party that took Gurodel's gift and then fights finds no second pair)"
+    states:
+      - when: {qbit: throne_searched}
+        text: "The bloody throne. Nothing left on it but the blood."
+      - when: {not: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: q-d12.hostile}, {qbit: q-d12.camp_burned}]}}
+        text: "A throne of black wood, big enough for four of you. Gurodel would notice."
+      - when: {qbit: friends}
+        text: "The bloody throne. Whatever the People had to give, they gave you in friendship."
+        do: [{set: throne_searched}]
+      - text: "You search the bloody throne and find two energy disks."
+        do: [{set: throne_searched}, {give: energy_disk, count: 2}, {xp: 14000}]
+        alternative: true    # the violent route; Friendship pays 12,000
+  hall_attacked:
+    map: DD-24
+    where: "a People giant struck or turned at peace, in DD-24 or in D5's hold (D-47 Q22, D-37's timer pattern: the map's timer calls this); a status line, the fight starts. The People rows serve both maps, so one blow turns both"
+    sets: [hall_attacked]
+    once: true
+    status: true
+    text: "The People turn on you as one."
+  hold_attacked:
+    map: D5
+    where: "D5's hold (D-49 Q1: six People placed at Gurodel's fire, peaceful): a People giant struck or turned at peace there; the map's timer calls this, as DD-24's hall_attacked (the same bit, so a blow on either map turns both and the line shows once)"
+    sets: [hall_attacked]
+    once: true
+    status: true
+    text: "The People turn on you as one."
+  war_threshold:
+    map: DD-24
+    gate: faction
+    where: "the hall's threshold, the first step in while the People are at war (war, hall_attacked or Q-D12's bits; once per war, war_announced)"
+    requires: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: q-d12.hostile}, {qbit: q-d12.camp_burned}]}
+    sets: [war_announced]
+    once: true
+    text: "We recognize you as enemies! Prepare to defend yourselves!"
+  hoard:
+    map: DD-24
+    gate: faction
+    where: "the People's hoard chest: refuses at peace; at war the hook returns true and the map opens its chest (its own treasure). The larder chest is the map's and opens at peace"
+    requires: {any: [{qbit: war}, {qbit: hall_attacked}, {qbit: q-d12.hostile}, {qbit: q-d12.camp_burned}]}
+    reads: [war, hall_attacked]
+    fail_text: "The People's hoard, under a lid three of you could not lift without a reason. Gurodel would notice."
+  law_stone:
+    map: DD-24
+    where: "the law stone in the long hall (dark/aaze0013:26, close)"
+    text: "A standing stone cut with the People's law, in letters a hand deep: ALAMAR'S PLANS WILL DESTROY ALL CREATURES ON DARKSIDE. NO SANE PEOPLE SUPPORT A TYRANT."
+
+rewards: {xp: 12000, gold: 0, items: "2 Energy Disks (14,000 by the violent route)"}
+playthrough: "D5: Gurodel (The People, Friendship). DD-24: the law stone; the throne and the hoard refuse at peace."

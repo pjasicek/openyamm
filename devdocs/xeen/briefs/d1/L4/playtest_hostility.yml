@@ -1,0 +1,225 @@
+# Hostility check of D1 Castleview Vale (written by output/studio_cal/d1/tools/gen_hostility_d1.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.d1.l4.hostility
+title: 'D1 Castleview Vale: foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d1.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- advance_runtime:
+    seconds: 3
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    actor_count:
+      monster_id: 11020
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11021
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11022
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11330
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11331
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11332
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11360
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11361
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11362
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11020
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11330
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11360
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11021
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11022
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11361
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 361
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 517
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11100
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11101
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11102
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11103
+      hostile: true
+      max: 0
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- set_pose:
+    map: xeen_d1.odm
+    x: 13312
+    y: -14872
+    z: 2100
+    yaw_degrees: -90
+- advance_runtime:
+    seconds: 2
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11020
+    x: 13312
+    y: -15872
+    z: 1000
+- spawn_actor:
+    monster_id: 11330
+    x: 13408
+    y: -15872
+    z: 1000
+- spawn_actor:
+    monster_id: 11360
+    x: 13504
+    y: -15872
+    z: 1000
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11020
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11330
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11360
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 361
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 517
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11100
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11101
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11102
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11103
+      hurt: true
+      max: 0

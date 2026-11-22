@@ -1,0 +1,10 @@
+{
+ "_note": "Sandro's heart jar (D-62, DD-21; lane S session 9). Row 4047, sprite 27047, binding in worlds/xeen/models/indoor_decorations.yml.",
+ "rows": [
+  {"row": 4047, "sprite": 27047, "name": "xeen_heartjar", "hint": "jar of green glass", "radius": 20, "height": 66,
+   "model": "worlds/xeen/models/xeen_deco_heartjar.glb", "binding_height": 66,
+   "comment": ["Sandro's heart jar (D-62; lane S, level_generation/decorations/xeen_heartjar_claude): MM7's vase dec97 recast",
+               "in green glass glowing from inside (emissive), the same size as A8's dec97 (66 tall, 37 across); origin at its",
+               "foot. DD-21's deco:jar on the ledge; the green light stays A8's (light:heart_culvert_2)."]}
+ ]
+}

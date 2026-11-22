@@ -1,0 +1,327 @@
+# Xeen playthrough, segment 17: Rivercity's side quests (X2) and the Robbers' Den (XD-21). Q-C2: Barok's Pendant from
+# the sorceresses' strongbox on the south quay (his promotion T1-B: the Sorcerer becomes a Wizard); Q-C17: Danulf's
+# wand from the sprites' nest (1,500 gold); Q-C13: Medin's lake beasts, the three water dragons killed where they swim
+# (the party placed on the lake beside each), 2,000 gold, and his boat to Darzog's island free; Q-C3: the den under the bridge walked from its quay door: the footprints and
+# the worn block, the crawl, the dicing room, the bunks' loose brick, the sluice catwalk, the winch and the plank bridge,
+# the Robber Boss and his ring of keys, his chest, the ledger, the catch, the dart slabs, the iron door and the
+# strongbox (the tiara), the fence's chest, back west and out by the quay door. Outdoors the party is placed (PLAYBOOK
+# §2). Routes: tests/scenarios/xeen/side_quests/q-c2_baroks_pendant.yml, q-c17_faery_wand.yml,
+# devdocs/xeen/briefs/xd21/L4/playtest.yml. Quest logic: source/quests/q-c2.yml, t1-b.yml, q-c17.yml,
+# q-c13.yml, q-c3.yml. Q-C13's route: tests/scenarios/xeen/side_quests/q-c13_lake_beasts.yml.
+#   python3 tests/playthrough/xeen/run.py 17
+id: xeen.playthrough.17_rivercity
+title: "Xeen playthrough 17: Barok's pendant, Danulf's wand, Medin's lake beasts and Roxanne's tiara"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/15_ogre_lair.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - assert: {qbit_set: [112060, 112461]}
+  - assert: {qbit_clear: [112040, 110204, 112340, 112341, 110300, 112260, 112261, 110201]}
+  - play_lua: {source: "if classes() ~= 'Cavalier Crusader Sorcerer Hunter' then error('party: ' .. classes()) end"}
+  # Barok's hut (event 1): Pendant (Q-C2 started).
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "They keep their loot in a strongbox"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112040]}
+  # The sorceresses' strongbox on the south quay (event 215): the pendant; their two apprentices come out.
+  - set_pose: {map: xeen_x2.odm, x: 4045, y: 4301, z: 615, yaw: -2.146, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(215); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[a pendant on a silver chain]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        -- D-90 (b) (A5's X2 2026-11-22): the strongbox is a chest holding the pendant; Take All.
+        if take_chest() then close() end
+        wait(0.5); for _ = 1, 3 do if not close() then break end wait(0.3) end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12152) ~= 1 then error("pendants from the strongbox: " .. item_count(12152)) end
+  - clear_hostiles: {radius: 3000}
+  - assert: {qbit_set: [112041]}
+  # Barok: the pendant back (Q-C2 done); 14,000 experience each, the Enchant Item book, the Sorcerer a Wizard.
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "Thank you for returning my pendant"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12152) then error("Barok did not take the pendant") end
+        if item_count(429) < 1 then error("no Enchant Item book from Barok") end
+        if classes() ~= "Cavalier Crusader Wizard Hunter" then error("classes after Barok: " .. classes()) end
+        local xp = experience(0) - recall("xp")
+        if xp ~= 14000 then error("Barok paid " .. xp .. " experience, not 14000") end
+  - assert: {qbit_set: [110204]}
+  - assert: {qbit_clear: [112040]}
+  # Danulf at his ring of stones in the south woods (actor 51): Wand (Q-C17 started).
+  - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "My Wand of Faery Magic has been stolen by the Sprites"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {qbit_set: [112340]}
+  # The sprites' nest (event 147): the wand.
+  - set_pose: {map: xeen_x2.odm, x: -7578, y: -11700, z: 1092, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(147); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Danulf's Wand of Faery Magic]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if held() ~= 0 then stow() end
+        if item_count(12310) ~= 1 then error("no wand from the nest") end
+  # Danulf: the wand back (Q-C17 done): 4,000 experience each and 1,500 gold.
+  - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); remember('xp', experience(0))"}
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "You have returned my Wand of Faery Magic"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if has_item(12310) then error("Danulf did not take the wand") end
+        local g, xp = gold() - recall("gold"), experience(0) - recall("xp")
+        if g ~= 1500 or xp ~= 4000 then error("Danulf paid " .. g .. " gold and " .. xp .. " experience") end
+  - assert: {qbit_set: [112341]}
+  # Q-C13: Medin's Hut by Lake Darzog (X2 event 3, house 4096): Lake beasts (Q-C13 started).
+  - set_pose: {map: xeen_x2.odm, x: -7552, y: 748, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4152}
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "The fish supply is low"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {qbit_set: [112260]}
+  # Medin's boat (event 141): tied up while the beasts live.
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(141); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Not while those beasts circle the island"}}
+  - play_lua: {source: "close()"}
+  # The three dragons where they swim (X2's spawns since its 2026-11-21 rebuild).
+  - set_pose: {map: xeen_x2.odm, x: -20400, y: 8192, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - set_pose: {map: xeen_x2.odm, x: -22200, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - set_pose: {map: xeen_x2.odm, x: -17900, y: -3584, z: 640, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 1800, min: 1}
+  - assert: {actor_count: {monster_id: 11640, max: 0}}
+  - advance_runtime: {seconds: 10, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The last of the lake beasts sinks beneath the waves"}}
+  - play_lua: {source: "close(); if not qbit(110201) then error('lake_beasts_slain not set') end"}
+  # Medin: Lake beasts (Q-C13 done): 6,000 experience each and 2,000 gold.
+  - set_pose: {map: xeen_x2.odm, x: -7552, y: 748, z: 992, yaw: -1.5708, pitch: 0.0}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold())"}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {match_label: Lake beasts}
+  - assert:
+      dialog: {text_contains: "You have slain the monsters of the lake!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        local xp, g = experience(0) - recall('xp'), gold() - recall('gold')
+        if xp ~= 6000 or g ~= 2000 then error("Medin paid " .. xp .. " experience and " .. g .. " gold, not 6000 and 2000") end
+  - assert: {qbit_set: [112261]}
+  # The Robbers' Den's door in the south quay wall (X2 event 114).
+  - set_pose: {map: xeen_x2.odm, x: 1280, y: 3950, z: 640, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd21.blv}
+  - assert: {party_position: {x: -2560, y: 320, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The robbers' den, under the great bridge."}}
+  - play_lua: {source: "close()"}
+  # The hidden way in: the footprints' clue, then the worn block.
+  - walk_to: {x: -2560, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(5) ~= "closed" then error("the worn block does not start shut") end
+        if qbit(110302) then error("robbers_den_found set before the block moved") end
+        open_door(22, 5)
+        if not qbit(110302) then error("robbers_den_found not set") end
+  # The crawl and its tripwire (once).
+  - walk_to: {x: -2560, y: 1400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 2600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 3350, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 3)"}
+  # The dicing room: the first fight; the dues box.
+  - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2560, y: 4480, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -3000, y: 4480, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(1); close()"}
+  # The undercroft's west bank: the race, the bridge drawn back out of reach.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        if door_state(8) ~= "closed" then error("the plank bridge does not start drawn back") end
+  # North by the bunks: the loose brick.
+  - walk_to: {x: -2432, y: 4700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 2)"}
+  - walk_to: {x: -2432, y: 5400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua:
+      source: |
+        click(4); wait(1); close()
+        local g = gold()
+        click(21); wait(1); close()
+        if gold() < g + 150 then error("the loose brick held no purse") end
+        log("the loose brick: +" .. (gold() - g) .. " gold")
+        click(21); wait(1); close()
+        if gold() > g + 150 then error("the purse paid twice") end
+  # The sluice chamber and its catwalk across the race.
+  - walk_to: {x: -1850, y: 5632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 6)"}
+  - walk_to: {x: -1100, y: 5632, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -400, y: 5760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 5760, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 450, y: 5760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Down the arch onto the undercroft's east bank; the winch runs the bridge out.
+  - walk_to: {x: 442, y: 5250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 442, y: 4600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 3600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(30); wait(7); close()
+        if door_state(8) ~= "open" then error("the winch did not run the bridge out") end
+  - walk_to: {x: 420, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -600, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The boss's stair and his rooms.
+  - walk_to: {x: 1500, y: 3968, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2050, y: 3968, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2850, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(3, 1)"}
+  # The boss and his guards fall from the doorway (open_door already clears hostiles within 1500 while the door moves),
+  # before any walk closes the window: A3's hook q-c3.boss (from the map's death timer), its window and
+  # robber_boss_slain.
+  # The death line is read in the step right after the door (a status line does not outlive the --reload run's
+  # save and load); the map's death timer shows it within the wait.
+  - play_lua:
+      source: |
+        clear_hostiles(3000); wait(3); local s = tostring(status())
+        if not string.find(s, [[The Robber Boss falls.]], 1, true) then error("status line: " .. s) end
+  - assert: {actor_visible: {actor_index: 2, dead: true}}
+  - play_lua: {source: "close(); if not qbit(110301) then error('robber_boss_slain not set') end"}
+  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - combat_loot: {actor_index: 2, expected_item_id: 12151}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(12151) then error('no ring of keys from the Robber Boss') end"}
+  # The ledger, the catch, the dart slabs.
+  - walk_to: {x: 4150, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(1); if not close() then error('the ledger opened no window') end"}
+  - walk_to: {x: 3600, y: 3560, z: 256, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(10); wait(1); if held() ~= 0 then stow() end; close(); log('the boss chest: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: 3680, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3680, y: 4480, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(2); close()"}
+  - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3904, y: 5440, z: 256, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3904, y: 5950, z: 256, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The iron door (the boss's keys) and the strongbox.
+  - play_lua:
+      source: |
+        if door_state(7) ~= "closed" then error("the iron door does not start shut") end
+        open_door(29, 7); close()
+        if not qbit(110303) then error("robbers_vault_opened not set") end
+  - walk_to: {x: 3904, y: 6400, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        if has_item(12150) or qbit(110300) then error("the tiara before the strongbox") end
+        -- F15 (2026-11-21): the tiara is an ordinary item in the strongbox with the takings; its trap goes off on the
+        -- first opening and leaves it shut (loot_chest's rule); the vault hook sets tiara_recovered when it opens
+        local g = gold()
+        loot_chest(12)
+        close()
+        if held() ~= 0 then stow() end
+        log("the vault's strongbox: +" .. (gold() - g) .. " gold")
+        if gold() == g then error("XD-21's vault strongbox (event 12) gave no gold") end
+        if not qbit(110300) then error("tiara_recovered not set by the strongbox: " .. status()) end
+        if item_count(12150) ~= 1 then error("tiaras after the strongbox: " .. tostring(item_count(12150)) .. " " .. pack_items()) end
+  # The strongbox again: a plain chest, no second tiara.
+  - play_lua:
+      source: |
+        loot_chest(12)
+        if held() ~= 0 then stow() end
+        if item_count(12150) ~= 1 then error("a second tiara: " .. tostring(item_count(12150))) end
+  # Back down, and the fence's door with the keys; his chest.
+  - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1500, y: 3968, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 442, y: 4600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 442, y: 5300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 650, y: 5632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 4)"}
+  - walk_to: {x: 1500, y: 5632, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1856, y: 5450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(11)
+        if held() ~= 0 then stow() end
+        log("the fence's chest: +" .. (gold() - g) .. " gold")
+  # Home: west over the plank bridge, through the dicing room and the crawl to the quay door.
+  - walk_to: {x: 650, y: 5632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 442, y: 4600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -600, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2560, y: 1300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2560, y: 250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+
+  - assert: {qbit_set: [110300, 110301, 110302, 110303]}
+  - play_lua: {source: "if item_count(12150) ~= 1 then error('the tiara was lost') end"}
+  # Out by the quay door onto X2's south quay.
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: 1280, y: 4172, radius: 160, z_min: 600, z_max: 700}}
+  # Pray N Pay on the south street (house 4058, D-82): the vault's fights can leave a member Petrified (the --reload
+  # run met it); a player has him cured before going on.
+  - set_pose: {map: xeen_x2.odm, x: 276, y: 640, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4058, min: 0}
+  - play_lua:
+      source: |
+        if item_count(12150) ~= 1 then error("the tiara lost on the way out") end
+        log("17 done: experience " .. experience(0) .. ", gold " .. gold() .. ", " .. classes())
+  - save_game: {name: "17 Rivercity", path: output/playthrough/xeen/checkpoints/17_rivercity.oysav}

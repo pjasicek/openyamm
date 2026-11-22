@@ -1,0 +1,86 @@
+# The water: the outer sea pushes swimmers back.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.current
+title: 'Plane of Water (P4): an edge band carries a swimmer inward (D-58: constant current 256)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- clear_hostiles:
+    radius: 40000
+- note: 'At the surface in the east band (x 6356): its constant current of 256 pushes west.'
+- movement_segment:
+    input: none
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: 6356
+      y: -2744
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: 6356
+      y: -2744
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- advance_runtime:
+    seconds: 5.0
+- note: Carried inward to the band's inner edge (x 5,632), where the current ends; held at the surface.
+- assert:
+    party_position:
+      x: 5630
+      y: -2744
+      radius: 40
+      z_min: -201
+      z_max: -193
+- assert:
+    water:
+      eye_under: false
+      breath_min: 0.99
+      state: surface

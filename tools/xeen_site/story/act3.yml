@@ -1,0 +1,216 @@
+chapters:
+  - id: 3
+    title: "Act III: The Land Below"
+    intro: "Artemus's Pyramid Sigil (Act II) wakes the travel pyramid east of Vertigo and takes you to Castleview Vale on the Darkside. Get into Castleview, fetch Nadia's necklace from the sewers and carry Zelda's orb to Ellinger through his trapped tower, then gather Energy Disks from the Darkside's factions so that Ellinger can bring Castle Kalindra back, half of it in this act. Act III runs alongside the end of Act II: the Cloudside quests wait for you."
+    sections:
+      - title: "Castleview Vale: the way in"
+        intro: "The travel pyramid on the knoll east of Vertigo (X1) works once you carry the Pyramid Sigil. It sets you down on the hill north of Castleview, and the same pyramid takes you back to Vertigo."
+        quests:
+          - quest: m14
+            requires: "The Pyramid Sigil from Artemus (Act II, The Land Below the Land)."
+            steps:
+              - "Click the travel pyramid on the knoll east of Vertigo. You arrive on Castleview Vale under an amber sky (the arrival message starts the quest). Castleview's walls are just south of the pyramid."
+              - "The north gate turns strangers away ('No strangers!'). The Mayor's notice nailed beside it starts the gremlin side quest, which is the other way in (below)."
+              - "Justine the Thief has her camp outside the wall, west of the north gate. Ask her 'Passes': with 1,000 gold in your purse she sells you a Castleview pass on the spot. Without the gold she only tells you the price."
+              - "Click the north gate again with the pass in your packs. The guard reads it and lets you in (2,000 XP). Castleview's Adventurer's Inn roster opens at the same time."
+              - "The Queen's Gate in the south-west wall works the same way. Once you are in, both gates open for you freely from then on."
+            tips:
+              - "Instead of paying, you can win the Gremlin Court (side quest The Gremlin Court): its burrow is under the wall just east of the north gate, outside the town. Once the court is won, by talk or by force, the gate opens without a pass. Its peaceful route also pays three Energy Disks, which you need later anyway."
+              - "If you end up inside without a pass (after a death, or off Sandcaster's caravan), the inner gate leaves only let you out: 'Out is free. In takes a pass.'"
+            reward: "2,000 XP at the gate (the pass costs 1,000 gold)."
+            points:
+              - {map: xeen_d1, name: "Justine"}
+              - {map: xeen_d1, name: "The Mayor's notice"}
+              - {map: xeen_d1, name: "Travel pyramid"}
+            maps:
+              - map: xeen_d1
+                show: [exit, transport]
+                focus: "Justine"
+                caption: "The pyramid north of Castleview, Justine's camp west of the north gate, and the Queen's Gate in the south-west wall."
+              - map: xeen_x1
+                show: [transport]
+                focus: "Travel pyramid"
+                caption: "Vertigo's travel pyramid stands on the knoll east of the town."
+
+      - title: "Castleview: Zelda, Madame Oorla and Nadia"
+        intro: "Three houses in the west half of Castleview, each a short walk from the next: Zelda's shop, Madame Oorla's parlour north of it, and Nadia's house further west."
+        giver: {map: xeen_d1, npc: "Zelda"}
+        quests:
+          - quest: m15
+            requires: "Inside Castleview (The Land Below)."
+            steps:
+              - "Zelda's Herbs and Remedies is in the west of the town, south of the Amber Lamp magic shop. Pick Zelda in the shop and ask 'The orb': she found it in a crater by the river and gives it away. You get the Dragon Pharaoh's Orb."
+              - "Madame Oorla's is just north of the Amber Lamp. Ask her 'The orb' (the topic shows only while you carry it). She reads it: it belongs to the Dragon Pharaoh, but first it must see Ellinger, the Queen's wizard."
+              - "Her reading also gives you the password of Ellinger's tower: at the top the tower asks whom you seek, and the answer is his name, 'Ellinger'. The journal and an autonote keep it."
+            tips:
+              - "Keep the orb until Act V: the Dragon Pharaoh himself takes it in the Great Pyramid."
+              - "Madame Oorla's 'Fortune' topic is the seer: it always points to your next step in this act (Nadia, the tower, the disks, the songbird)."
+            reward: "3,000 XP from Madame Oorla; the Dragon Pharaoh's Orb."
+            points:
+              - {map: xeen_d1, name: "Madame Oorla"}
+            maps:
+              - map: xeen_d1
+                show: [vendor, quest]
+                focus: "Zelda's Herbs"
+                caption: "Zelda's shop in the west of the town; Madame Oorla's is north of the Amber Lamp."
+
+          - quest: m16
+            requires: "Madame Oorla's reading of the orb."
+            steps:
+              - "Nadia's House is in the west quarter, west of Zelda's shop. Ask her 'Necklace': the sewer rats took her onyx necklace, and she will make it worth your while."
+              - "The way down is the iron hatch in the paving of the square between the bank and the Temple of Mok. The ladder ends at a cross of drains; doors lead east and west."
+              - "Take the west drain to its end and then south. Felix the Tinker sits at his bench at the far end of that tunnel: the gremlins wedged the town sluice open, and shutting it drains the old culvert. Valio the Simple lies in the bed nearby and asks you to kill the Queen Rat (side quest)."
+              - "East of Valio's bed a door opens on the overflow stair down to the deep cistern. Follow the cistern east to the old culvert: while the sluice runs it is flooded to its roof, and you cannot get through."
+              - "Go back up and north: from the west drain take the north passage to the sluice at the north end of the sewer. Pull the Sluice lever: the gremlins' wedge spits out, the gate drops shut and the culvert below drains."
+              - "Go down to the cistern again and through the drained culvert, then north and up the nest ramp to the east. Rooka the Queen Rat and her rats hold the nest; kill her."
+              - "Click the Heap of shiny things just south-east of the nest: Nadia's onyx necklace lies among the bottle caps and buttons. A chest with 800 gold stands north of the heap."
+              - "Back in Castleview, give Nadia the necklace ('Necklace'). She pays you 1,500 gold and tells you Ellinger owes her a favour."
+            tips:
+              - "To leave, either walk back to the ladder under the square, or go on east from the nest down the bone slide and through the drowned cellar: draw the bolt by the grate at the cellar's north end and climb the ladder into the east drain, which leads back to the cross."
+              - "The iron bar by the outfall grate in the far south-east lifts out from inside and opens a second way in, from the burnt mill's gorge east of the town."
+              - "The Red and Green Liquids in the sewer give +2 Might and +2 Endurance once per character. The bones under the gate shaft in the north-east carry a purse of 150 gold."
+              - "The rats and bats leave members Paralyzed or Diseased: the Temple of Mok is right by the hatch."
+              - "Killing Rooka also finishes Valio's quest; he pays you with the chest beside his bed."
+            reward: "4,000 XP and 1,500 gold from Nadia."
+            points:
+              - {map: xeen_d1, name: "Nadia"}
+              - {map: xeen_dd01, name: "Sluice lever"}
+              - {map: xeen_dd01, name: "Heap of shiny things"}
+            maps:
+              - map: xeen_dd01
+                show: [exit, lever, door]
+                focus: "Heap of shiny things"
+                caption: "The ladder from the square is in the middle; the sluice lever is in the north, the nest and its heap in the east."
+              - map: xeen_d1
+                show: [exit, quest]
+                focus: "Nadia"
+                caption: "Nadia's house in the west quarter; the iron hatch is in the square west of the Temple of Mok."
+
+      - title: "Ellinger's Tower"
+        intro: "Ellinger's Tower stands inside the walls in the north-east of Castleview, east of the jail. Its door is not locked. Five floors of guards and traps lead to Ellinger's study at the top."
+        giver: {map: xeen_dd02, npc: "Ellinger"}
+        quests:
+          - quest: m17
+            requires: "The Dragon Pharaoh's Orb and Madame Oorla's password (Zelda's Orb)."
+            steps:
+              - "Click the tower door: the entrance window opens, and OK takes you in. A storeroom with bats and a chest lies south of the entrance hall (optional)."
+              - "The door east of the entrance asks a question about a villain you have disarmed. Either honest answer passes: 'Let him take up his sword' or 'Cut him down'. 'I just don't know' throws you out of the tower."
+              - "Climb the main stair to the second floor and fight east along the gallery (vampire bats, gargoyles, flying feet). Open the door at its east end and go south to the tapestries. The tapestry at the south-east end, beside the panel, hides a button ('Click'); the others do nothing. It opens the back stair."
+              - "Take the back stair up to the library floor. The Books of Fire and Electricity give each reader +5 to that resistance, once. The Book of Sorcerer's Knowledge in the middle gives +2 Intellect to a reader with 20 Intellect or more and hurts anyone below that. The reading room north of the library has a chest."
+              - "Take the main stair, on the west side, up to the tapestry floor. Fight through the tapestry rooms to the door at the north-east, into the beholder loft, and on round the outer wall: east, then south, then west along the south wall. Fire bolts leap from the walls along this walk."
+              - "At the walk's west end, climb the last stair to the top. The door before the study asks 'Who do you seek?': answer 'Ellinger' (Madame Oorla's word). Any other answer is turned away."
+              - "Ellinger stands in his study beyond. Ask him 'Alamar' while you carry the orb. The Pharaoh's pyramid key is in Castle Kalindra, which Alamar moved out of phase; twenty Energy Disks bring it back, and Ellinger takes them here."
+              - "Ride the lift down: walk back south from the study to the lift, click 'Call the lift' to bring the cage up, step in and click 'Lift: down'. Outside, the chest on little brass feet in the south-west corner of Castleview, near the Queen's Gate, now stands still and holds Ellinger's gift."
+            tips:
+              - "Ellinger asks you to come back if you arrive without the orb, so bring it the first time."
+              - "From now on the lift north of the entrance hall runs both ways ('Lift: up' in the cage): every later disk delivery skips the gauntlet."
+              - "On the tapestry floor, the tapestry at the east end of the south arm opens a panel to the crate room's chest. It is optional."
+              - "Ellinger's list on his desk becomes an autonote of the disk sources (next section). The Book o' Boots is only a joke, and the boot closet north of the study has a chest."
+              - "When Ellinger has spoken, the Darkside's sun begins to fade."
+            reward: "8,000 XP from Ellinger; his gift in the runaway chest (treasure level 3)."
+            points:
+              - {map: xeen_d1, name: "Ellinger's Tower"}
+              - {map: xeen_d1, name: "A chest on little brass feet"}
+              - {map: xeen_dd02, name: "Ellinger"}
+            maps:
+              - map: xeen_dd02
+                show: [exit, door, lever]
+                focus: "Ellinger"
+                caption: "All five floors are drawn on one plan: the entrance and the lift in the west, the tapestry panels in the south-east, the study in the north-west."
+              - map: xeen_d1
+                show: [exit]
+                focus: "Ellinger's Tower"
+                caption: "The tower door is inside the north-east of the town; the runaway chest is in the south-west corner."
+
+      - title: "Ellinger: the Energy Disks and Castle Kalindra"
+        intro: "Ellinger takes the disks in his study, five at a time ('Energy discs'); each five restores a quarter of Castle Kalindra. This act covers the first two quarters, ten disks. Twenty-five disks exist in all, and every faction gives its disks on either the peaceful or the violent route."
+        giver: {map: xeen_dd02, npc: "Ellinger"}
+        quests:
+          - quest: m18
+            requires: "Ellinger's Tower done."
+            steps:
+              - "The Gremlin Court (3 disks, side quest The Gremlin Court): the burrow under the wall east of Castleview's north gate. Win the court by talk and Mayor Snarfblad in the Town Hall hands you Gettlewaithe's gift of three disks. If you kill Gettlewaithe instead, the disks are in the chest under his throne."
+              - "Graalg's ogres (2 disks, Graalg's Ogres): Graalg sits at his parley fire on Ogre Pass, in the north of Sprite Forest (east of Castleview Vale). Make peace ('Bow low before us, slave' makes him laugh; a gift of gold also works) and ask 'Energy disks'. If you burn his two forts instead, the same two disks are in Graalg's strongbox, a chest in the east fort."
+              - "Sharla's sprites and the Temple of Bark (2 + 2, Princess Sheewana): Sharla in the treehouse village of south-west Sprite Forest pays two disks once Sheewana is freed from the Temple of Bark. If you rob the sprites instead, the two disks are in her treehouse chest. Inside the temple, the west and east root alcoves at the foot of the trunk each give one disk for one gem ('Feed me! Give gem?')."
+              - "The Southern Tower (2 disks, The Southern Tower): Thaddeus in the Fountain Keeper's Hut in Sandcaster names the thieves' tower in the woods south of Ogre Pass. Its door is not locked. The fence's lockbox on the second floor holds the Strongroom Key, and the strongroom behind the iron door on the third floor holds a chest with two disks."
+              - "Castle Kalindra's throne room (2 disks): the first of its two safes you open, once the castle's first stage is back (next quest)."
+              - "Those 13 disks are enough for the first two stages. Act IV adds 8 more: the Western Tower of Mok (2, The Heretics of Mok), the Eastern Tower (2, The Jewel of Ages) and Kalindra's second-floor disk safe (4, with Dimitri's combination). Act V has the last 4: Gurodel's giants (2) and the Chalice of Protection (2), from Bosco or from the Voweless Knights of the Northern Tower."
+            tips:
+              - "Ellinger's list on his study desk (an autonote once read) names the sources, but not where they are."
+              - "Keep gems for the Temple of Bark's two roots."
+              - "You need 20 of the 25 disks, so you may skip a source or two. Twenty-one are possible before Act V."
+            reward: "No reward of its own: the disks pay through Castle Kalindra's stages."
+            points:
+              - {map: xeen_d1, name: "Castleview Town Hall"}
+              - {map: xeen_d1, name: "The Gremlin Court"}
+              - {map: xeen_d2, name: "Graalg"}
+              - {map: xeen_d2, name: "Sharla"}
+              - {map: xeen_d2, name: "Temple of Bark"}
+              - {map: xeen_d2, name: "Southern Tower"}
+              - {map: xeen_d3, name: "Thaddeus"}
+              - {map: xeen_dd02, name: "Ellinger's list"}
+            maps:
+              - map: xeen_d2
+                show: [exit, quest, promoter]
+                focus: "Graalg"
+                caption: "Sprite Forest: Graalg on Ogre Pass in the north, Sharla's village and the Temple of Bark in the south-west, the Southern Tower in the south-east."
+              - map: xeen_d1
+                show: [exit, service]
+                focus: "The Gremlin Court"
+                caption: "The Gremlin Court's burrow outside the north wall; Mayor Snarfblad in the Town Hall."
+
+          - quest: m19
+            requires: "Ellinger's Tower done; five Energy Disks for each stage."
+            steps:
+              - "With five disks, go back into Ellinger's Tower and ride 'Lift: up' from the cage north of the entrance hall to his study. Ask 'Energy discs': he takes five, and the castle's first stage returns (4,000 XP). With fewer than five he only counts them, so keep them until you have five."
+              - "Castle Kalindra's gate is on its rise in the vale, west-south-west of Castleview's Queen's Gate. Before the first stage, your hand passes through it. Now clicking the gate opens the entrance window; OK takes you in."
+              - "Stage 1 restores the gate, the entrance hall and the throne room, east through the Throne Room door. Undead guards walk the halls. Gem (Perception) and Errol (Armsmaster) teach at the empty throne at the throne room's east end."
+              - "Two safes stand against the throne room's north wall. The first one you open holds two Energy Disks; after that both open as ordinary chests (600 gold, treasure level 4 each)."
+              - "With five more disks, ask Ellinger 'Energy discs' again: the second stage returns (4,000 XP). The Cloud Stairs at the west end of the North Wing (north of the entrance hall) now lead to the second floor."
+              - "Stage 2 restores the second floor: Dimitri, captain of the guard, and his daughter Megan (next section), Astronomer Tycho at the telescope (Identify Item), and the Vaults' disk safe, which wants a combination you get later from Dimitri."
+            tips:
+              - "Still out of phase after stage 2: the upper stair to the third floor ('Your foot passes through the stairs as though they were mist'), the dungeon stair ('ends in shimmering nothing') and the stables behind the shimmering wall. Stages 3 and 4 (15 and 20 disks) come in Act IV (Kalindra Restored)."
+              - "The castle's undead (tomb guards, ghost riders, tomb terrors) are tougher than the vale's monsters. Come with a party around level 24 or higher."
+              - "The Darkside's town mirrors do not answer until Kalindra's fourth stage."
+            reward: "4,000 XP per stage from Ellinger (8,000 for both); two Energy Disks in the throne room safes; Gem, Errol and Tycho as teachers."
+            points:
+              - {map: xeen_d1, name: "Castle Kalindra"}
+              - {map: xeen_dd02, name: "Ellinger"}
+              - {map: xeen_dd03, name: "Gem and Errol"}
+              - {map: xeen_dd03, name: "Cloud Stairs"}
+            maps:
+              - map: xeen_dd03
+                show: [exit, door, sign]
+                focus: "Gem and Errol"
+                caption: "The gate is in the west, the throne room east of the entrance hall, with its two safes on the north wall. The Cloud Stairs are at the west end of the North Wing."
+              - map: xeen_d1
+                show: [exit]
+                focus: "Castle Kalindra"
+                caption: "Castle Kalindra's rise is west-south-west of Castleview."
+
+      - title: "Castle Kalindra: Megan"
+        intro: "On the restored second floor, the corridor east of the Cloud Stairs runs past the Captain's Quarters to Megan's Room."
+        giver: {map: xeen_dd03, npc: "Megan"}
+        quests:
+          - quest: m20
+            requires: "Castle Kalindra's second stage (ten disks)."
+            steps:
+              - "Climb the Cloud Stairs and walk east along the second-floor corridor. Dimitri sits in the Captain's Quarters. His only topic, 'The Queen', is grief, and he cannot help yet."
+              - "Megan's Room is the next door east. Ask her 'Father': only the Songbird of Serenity can lift her father's despair, and it is caged in the Dungeon of Lost Souls on the lake isle past Lakeside. She gives you the key to the Songbird's cage."
+              - "The dungeon is Act IV's (The Songbird of Serenity): from Sandcaster north to Lakeside, then Lakeside Yachts sails to the Isle of Lost Souls every day between 6 AM and 6 PM (250 gold), and the ruined tower's door is not locked."
+            tips:
+              - "Megan warns you that the dungeon is 'all doors that ask you to cheer up'."
+            reward: "3,000 XP; the key to the Songbird's cage."
+            points:
+              - {map: xeen_dd03, name: "Dimitri"}
+              - {map: xeen_d4, name: "Lakeside Yachts"}
+              - {map: xeen_d4, name: "Dungeon of Lost Souls"}
+            maps:
+              - map: xeen_dd03
+                show: [door, sign]
+                focus: "Megan"
+                caption: "Megan's Room and Dimitri's quarters on the second floor, east of the Cloud Stairs."
+              - map: xeen_d4
+                show: [transport, exit]
+                focus: "Lakeside Yachts"
+                caption: "Lakeside Yachts sails to the Isle of Lost Souls, where the ruined tower is the dungeon's door."

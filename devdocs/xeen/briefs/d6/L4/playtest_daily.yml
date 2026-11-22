@@ -1,0 +1,211 @@
+# Written by output/studio_cal/a6/s22/gen_daily.py (A6, D-70 Q2); do not edit by hand.
+# Each temporary source: once (every member gains), again the same day (refused, no gain), the next day again.
+id: xeen.d6.playtest_daily
+title: 'Xeen D6: temporary sources once a day for the party (D-70)'
+world: xeen
+mode: faithful
+tags:
+- xeen
+- daily
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 200
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 10
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+- assert:
+    map: xeen_d6.odm
+- advance_runtime:
+    seconds: 4
+    present_dialogs: true
+- play_lua:
+    source: for _ = 1, 3 do if not close() then break end end
+- press_action:
+    action: select_member
+    member_index: 0
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 1
+- note: 'Fountain of Super Resilience (event 86): every member restored'
+- execute_event:
+    id: 86
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+100 Hit points", 1, true) then error("want +100 Hit points, status: " .. s) end'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 30
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 1
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 1
+- note: 'Fountain of Super Resilience again the same day: the refusal line only'
+- execute_event:
+    id: 86
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "The spring has gone still. Come back tomorrow.", 1, true) then error("want The spring has gone still. Come back tomorrow., status: " .. s) end'
+- assert:
+    member_points:
+      member_index: 0
+      health_max: 1
+- assert:
+    member_points:
+      member_index: 1
+      health_max: 1
+- assert:
+    member_points:
+      member_index: 2
+      health_max: 1
+- assert:
+    member_points:
+      member_index: 3
+      health_max: 1
+- advance_game_time:
+    hours: 24
+- note: 'Fountain of Super Resilience the next day: restored again'
+- execute_event:
+    id: 86
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+100 Hit points", 1, true) then error("want +100 Hit points, status: " .. s) end'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 30
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 30
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({FireResistanceBonus, AirResistanceBonus, WaterResistanceBonus, EarthResistanceBonus}) do local v = 0 while v < 255 and
+      IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s1_0", s) log("s1_0: " .. s)'
+- note: 'The Well of Warding (event 100): every member +20'
+- execute_event:
+    id: 100
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+20 Fire, Air, Water and Earth resistance until you rest.", 1, true) then error("want +20 Fire, Air, Water and Earth resistance until you rest., status:
+      " .. s) end'
+- note: 'The Well of Warding again the same day: the refusal line only'
+- execute_event:
+    id: 100
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "The well is dry today.", 1, true) then error("want The well is dry today., status: " .. s) end'
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({FireResistanceBonus, AirResistanceBonus, WaterResistanceBonus, EarthResistanceBonus}) do local v = 0 while v < 255 and
+      IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s1_1", s) log("s1_1: " .. s)'
+- play_lua:
+    source: 'local function parse(s) local m = {} for g in string.gmatch(s, "[%d/]+") do local r = {} for v in string.gmatch(g, "%d+") do r[#r + 1] = tonumber(v) end m[#m + 1] = r end return m end local
+      a, b = parse(recall("s1_0")), parse(recall("s1_1")) local names = {"FireResistanceBonus", "AirResistanceBonus", "WaterResistanceBonus", "EarthResistanceBonus"} local bad = "" for m = 1, 4 do for k
+      = 1, #names do if b[m][k] - a[m][k] ~= 20 then bad = bad .. " member " .. (m - 1) .. " " .. names[k] .. " " .. a[m][k] .. "->" .. b[m][k] end end end if bad ~= "" then error("The Well of Warding today
+      (want +20):" .. bad) end log("The Well of Warding today: +20 for every member")'
+- advance_game_time:
+    hours: 24
+- note: 'The Well of Warding the next day: the gain again'
+- execute_event:
+    id: 100
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "+20 Fire, Air, Water and Earth resistance until you rest.", 1, true) then error("want +20 Fire, Air, Water and Earth resistance until you rest., status:
+      " .. s) end'
+- note: 'The Well of Warding again that day: refused'
+- execute_event:
+    id: 100
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status() if not string.find(s, "The well is dry today.", 1, true) then error("want The well is dry today., status: " .. s) end'
+- console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) for _, st in ipairs({FireResistanceBonus, AirResistanceBonus, WaterResistanceBonus, EarthResistanceBonus}) do local v = 0 while v < 255 and
+      IsAtLeast(st, v + 1) do v = v + 1 end out = out .. v .. '/' end out = out .. ' ' end evt.StatusText('stats ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s1_2", s) log("s1_2: " .. s)'
+- play_lua:
+    source: 'local function parse(s) local m = {} for g in string.gmatch(s, "[%d/]+") do local r = {} for v in string.gmatch(g, "%d+") do r[#r + 1] = tonumber(v) end m[#m + 1] = r end return m end local
+      a, b = parse(recall("s1_1")), parse(recall("s1_2")) local names = {"FireResistanceBonus", "AirResistanceBonus", "WaterResistanceBonus", "EarthResistanceBonus"} local bad = "" for m = 1, 4 do for k
+      = 1, #names do if b[m][k] - a[m][k] ~= 20 then bad = bad .. " member " .. (m - 1) .. " " .. names[k] .. " " .. a[m][k] .. "->" .. b[m][k] end end end if bad ~= "" then error("The Well of Warding the
+      next day (want +20):" .. bad) end log("The Well of Warding the next day: +20 for every member")'

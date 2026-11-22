@@ -1,0 +1,420 @@
+# Sandro's door and the crossword (D-57 Q24, Q25; written by output/studio_cal/fd04/tools/gen_tests.py): the
+# door refused without item 12354, opened with it (118130, the key kept); the descent refused; 45 Down wrong
+# (Darkstone, the replaced clue's answer), then Winterkill; 1 Across wrong twice (Sceptor, Staff.); the other
+# eleven in mixed case and variants (a trailing full stop, Sceptre, no or a curly apostrophe); the
+# descent pays and opens (118143); down to the Welcome hall; a reload keeps the doors and the lit words.
+id: xeen.fd04.l4.crossword
+title: 'Dragon Tower (FD-04 L4): Sandro''s door and the crossword'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- walk_to:
+    x: 0
+    y: -720
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- play_lua:
+    source: click(75); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: answers only to his key
+- play_lua:
+    source: close(); wait(0.5); if door_state(8) ~= 'closed' then error('opened without the key') end
+- grant_item:
+    item_id: 12354
+- play_lua:
+    source: click(75); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: turns in the skull
+- play_lua:
+    source: close(); wait(3); if not qbit(118130) then error('door_open 118130 not set') end; if door_state(8) ~= 'open' then
+      error('door not open') end; if not has_item(12354) then error('the key was taken') end
+- walk_to:
+    x: 0
+    y: -300
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: -180
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 1060
+    z: -1024
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: 0
+    y: 1400
+    z: -1024
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: click(47); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: crossword puzzle is not done yet
+- play_lua:
+    source: close(); wait(0.5)
+- play_lua:
+    source: click(30); wait(0.5)
+- answer_input:
+    text: Darkstone
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_45d Darkstone: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Wrong!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if qbit(118139) then error('a wrong answer lit 45 Down') end
+- play_lua:
+    source: click(30); wait(0.5)
+- answer_input:
+    text: Winterkill
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_45d Winterkill: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if not qbit(118139) then error('word_45d 118139 not set') end
+- assert:
+    light:
+      key: 70
+      'on': true
+- play_lua:
+    source: click(20); wait(0.5)
+- answer_input:
+    text: Sceptor
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_1a Sceptor: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Wrong!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(20); wait(0.5)
+- answer_input:
+    text: Staff.
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_1a Staff.: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Wrong!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if qbit(118131) then error('a wrong answer lit 1 Across') end
+- play_lua:
+    source: click(20); wait(0.5)
+- answer_input:
+    text: Xeens Sceptre.
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_1a Xeens Sceptre.: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(34); wait(0.5)
+- answer_input:
+    text: VAMPIRE.
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_5a VAMPIRE.: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(36); wait(0.5)
+- answer_input:
+    text: Kalindra’s
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_6a Kalindra’s: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(18); wait(0.5)
+- answer_input:
+    text: corak.
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_13a corak.: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(22); wait(0.5)
+- answer_input:
+    text: Castle Alamar
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_21a Castle Alamar: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(24); wait(0.5)
+- answer_input:
+    text: Necropolis
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_24a Necropolis: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(26); wait(0.5)
+- answer_input:
+    text: Sandcaster
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_40a Sandcaster: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(28); wait(0.5)
+- answer_input:
+    text: Castleview
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_44d Castleview: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(32); wait(0.5)
+- answer_input:
+    text: The Southern Sphinx
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_47d The Southern Sphinx: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(38); wait(0.5)
+- answer_input:
+    text: Mirror
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_76d Mirror: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: click(40); wait(0.5)
+- answer_input:
+    text: Xeen
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); log(''evt:clue_77d Xeen: '' .. s);'
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct!
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: for b = 118131, 118142 do if not qbit(b) then error('word ' .. b .. ' not set') end end
+- assert:
+    light:
+      key: 65
+      'on': true
+- assert:
+    light:
+      key: 75
+      'on': true
+- play_lua:
+    source: 'click(30); wait(0.5); log(''solved plaque: '' .. tostring(status()))'
+- play_lua:
+    source: click(47); wait(0.5)
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, ''You may pass'', 1, true) then error(''status line: '' ..
+      s) end'
+- play_lua:
+    source: 'close(); wait(6); if not qbit(118143) then error(''crossword_done 118143 not set'') end; if door_state(5) ~=
+      ''open'' then error(''descent shut: '' .. door_state(5)) end'
+- walk_to:
+    x: 0
+    y: 3000
+    z: -1024
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 3420
+    z: -1024
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 4320
+    z: -1792
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: 0
+    y: 4560
+    z: -1792
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- play_lua:
+    source: 'wait(0.5); local s = tostring(status()); log(''welcome: '' .. s); if not string.find(s, ''Welcome'', 1, true)
+      then error(''no Welcome sign: '' .. s) end'
+- play_lua:
+    source: close(); wait(1); close()
+- reload: {}
+- play_lua:
+    source: wait(6); close(); if door_state(8) ~= 'open' then error('Sandro door after reload') end; if door_state(5) ~= 'open'
+      then error('descent after reload') end
+- assert:
+    light:
+      key: 70
+      'on': true
+- assert:
+    light:
+      key: 73
+      'on': true

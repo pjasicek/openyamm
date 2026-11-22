@@ -1,0 +1,82 @@
+# M41 Darkstone Tower (QUESTS M41; Act VI). Owner: A3. FD-03 on X5, opened with the key from Sheltem's dungeon (M39).
+# Onyx golems; on every level a gong (the voice: "No Sound No Ground!": the map's gongs raise the next floor) and the
+# letter-grid plaques of the source as flavour; the source's skull riddle (120) is dropped (no answer-giver). On the
+# top floor an invisible seal stops the stair to the roof until the Chime of Opening breaks it; the roof leads to the
+# Clouds of the Ancients (P5).
+id: M41
+title: Darkstone Tower
+act: VI
+kind: main
+status: full
+giver: null
+giver_name: (Roland, m39, and Picard, m40, point the way)
+maps: [X5, FD-03]
+level: 61
+block: 41
+after: [m39.done]
+source: "QUESTS M41; dark/aazex113:0-6, aazex114:2-6, aazex115:2-6, aazex116:0-8, :15; D-57 (FD-03), D-56"
+
+qbits:
+  seal_broken: {id: 111820, journal: "The seal on Darkstone Tower's roof is broken. The Clouds of the Ancients are above it.", until: [m42.done]}
+  # FD-03's map qbits (block 118120-118129, D-57 Q15; 118125-118129 spare). The gongs raise the stairwells' daises.
+  ground_l1: {id: 118120, map: FD-03, pending: "phase 6: FD-03 (A7): L1's gong rung, the dais raised (on every load)"}
+  ground_l2: {id: 118121, map: FD-03, pending: "phase 6: FD-03 (A7): L2's gong rung"}
+  ground_l3_west: {id: 118122, map: FD-03, pending: "phase 6: FD-03 (A7): L3's west twin gong rung (the dais half way)"}
+  ground_l3_east: {id: 118123, map: FD-03, pending: "phase 6: FD-03 (A7): L3's east twin gong rung (the dais the rest of the way)"}
+  vault_open: {id: 118124, map: FD-03, pending: "phase 6: FD-03 (A7): the Onyx Golem dead, the skull vault's field down"}
+
+autonotes:
+  heads: {id: 4720, text: "Darkstone Tower, the four heads of the top floor, read down: TYPE \"COMPUTER\" ON LEVEL 4 OF THE DUNGEON OF DEATH. SEE YA SOON!", category: Misc}
+
+hooks:
+  tower_door:
+    map: X5
+    entrance: FD-03
+    sealed: "a finale seal (the Darkstone key)"
+    where: "Darkstone Tower's door (the map's door event; true moves the party into FD-03, so the line is a status line: the map change drops a message box)"
+    requires: {qbit: m39.darkstone_key}
+    status: true
+    text: "The black key turns without a sound. So does the door."
+    fail_text: "A tower of black stone, polished like a mirror. The door has a keyhole and no handle."
+  gong_voice:
+    map: FD-03
+    where: "each level's gong (the map's own floor mechanism after this text)"
+    status: true
+    text: "A voice booms: \"No Sound No Ground!\""
+  plaques_l1:
+    map: FD-03
+    where: "L1's plaques (D-57 Q17): each click shows its row (the map's text, dark/aazex113:3-6); the fourth plaque read on the storey (map variables) also calls this, the columns read down"
+    text: "Read down the columns, the four plaques say: NEW WORLD THANKS YOU FOR PLAYING MIGHT AND MAGIC"
+  plaques_l2:
+    map: FD-03
+    where: "L2's plaques, as plaques_l1 (dark/aazex114:3-6)"
+    text: "Read down the columns, the four plaques say: SO ENDS THE SAGA OF CORAK AND SHELTEM!"
+  plaques_l3:
+    map: FD-03
+    where: "L3's plaques, as plaques_l1 (dark/aazex115:3-6)"
+    text: "Read down the columns, the four plaques say: 1994 BEGINS THE NEXT MIGHT AND MAGIC SAGA!"
+  plaques_l4:
+    map: FD-03
+    where: "L4's four heads, as plaques_l1 (\"Head 13 speaks: ...\", dark/aazex116:3-6); the line is also written as an autonote (D-57 Q35: FD-04's main terminal asks the code)"
+    do: [{autonote: heads}]
+    text: "Read down the columns, the four heads say: TYPE \"COMPUTER\" ON LEVEL 4 OF THE DUNGEON OF DEATH. SEE YA SOON!"
+  seal:
+    map: FD-03
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: beat
+    where: "the invisible seal at the foot of the roof stair (L4; true opens the way to P5)"
+    requires: {item: chime_of_opening}
+    takes: [chime_of_opening]
+    sets: [seal_broken]
+    once: true
+    do: [{xp: 27000}]
+    text: "You strike the Chime of Opening. The note goes on long after it should have stopped, and something you could not see cracks across like ice. The seal has been broken."
+    fail_text: "An invisible seal prevents passage."
+    else_text: "The stair to the roof is open. Cloud light comes down it."
+  roof_exit:
+    map: FD-03
+    where: "the open hatch over the roof stair's head (D-57 Q20): the `exit` preset up to P5's entrance:fd03_roof; its question means this line (A7 writes it as the preset's meaning; nothing to call). P5's way down means \"Descend into Darkstone Tower?\" (dark/aazex129:14)"
+    question: "Climb to the Clouds of the Ancients?"   # the preset's meaning, not a text the hook shows
+
+rewards: {xp: 27000, gold: 0}
+playthrough: "X5: Darkstone Tower (the black key). FD-03: the gongs to L4; the seal (the Chime); the roof stair."

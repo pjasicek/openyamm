@@ -1,0 +1,887 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_dd22.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+sky:
+  mode: open
+  preset: xeen_darkside_day
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: 640
+        y: 896
+        z: 896
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 2
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -384
+        y: 0
+        z: 896
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 3
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -160
+        y: -64
+        z: 896
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 3
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 3
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -640
+        y: 896
+        z: 896
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 2
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 4
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: -960
+        y: 64
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 4
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 5
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -896
+        y: -256
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 4
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 6
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -768
+        y: 256
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 4
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 7
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: 0
+        y: 1184
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 5
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 8
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -640
+        y: 896
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 5
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 9
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: 512
+        y: 704
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 5
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 10
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: 1024
+        y: -192
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 6
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 11
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: 768
+        y: -320
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 6
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 12
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: 768
+        y: 576
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 6
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 13
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -384
+        y: -384
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 8
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 14
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: 256
+        y: -400
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 8
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 15
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: -1024
+        y: 704
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 10
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 16
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11611
+      monster_id: 4464
+      radius: 63
+      height: 188
+      move_speed: 200
+      position:
+        x: -704
+        y: 768
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 10
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 17
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -896
+        y: 864
+        z: 448
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 10
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 18
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -640
+        y: 64
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 12
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 19
+      name: ""
+      npc_id: 0
+      attributes: 0
+      hp: 400
+      hostility_type: 0
+      monster_info_id: 11610
+      monster_id: 3000
+      radius: 63
+      height: 168
+      move_speed: 200
+      position:
+        x: -704
+        y: 256
+        z: 0
+      initial_yaw_units: 1536
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 12
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+  sprite_objects: []
+  chests: []
+  doors:
+    - door_index: 0
+      legacy_attributes: 0
+      door_id: 3
+      time_since_triggered_ms: 0
+      direction: [65536, 0, 0]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [728, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739]
+      face_ids: [542, 543, 544, 545]
+      sector_ids: [1]
+      delta_us: [384, -128, 0, 0]
+      delta_vs: [256, 256, 0, 0]
+      x_offsets: [-384, -128, -128, -384, -384, -128, -128, -384, -130, -130, -130, -130]
+      y_offsets: [-584, -584, -584, -584, -568, -568, -568, -568, -584, -568, -568, -584]
+      z_offsets: [0, 0, 256, 256, 256, 256, 0, 0, 0, 0, 256, 256]
+    - door_index: 1
+      legacy_attributes: 0
+      door_id: 4
+      time_since_triggered_ms: 0
+      direction: [65536, 0, 0]
+      move_length: 192
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751]
+      face_ids: [546, 547, 548, 549]
+      sector_ids: [3]
+      delta_us: [0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0]
+      x_offsets: [-640, -448, -448, -640, -640, -448, -448, -640, -450, -450, -450, -450]
+      y_offsets: [504, 504, 504, 504, 520, 520, 520, 520, 504, 520, 520, 504]
+      z_offsets: [896, 896, 1216, 1216, 1216, 1216, 896, 896, 896, 896, 1216, 1216]
+    - door_index: 2
+      legacy_attributes: 0
+      door_id: 5
+      time_since_triggered_ms: 0
+      direction: [-65536, 0, 0]
+      move_length: 192
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763]
+      face_ids: [550, 551, 552, 553]
+      sector_ids: [3]
+      delta_us: [0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0]
+      x_offsets: [-64, 128, 128, -64, -64, 128, 128, -64, -62, -62, -62, -62]
+      y_offsets: [504, 504, 504, 504, 520, 520, 520, 520, 504, 520, 520, 504]
+      z_offsets: [896, 896, 1216, 1216, 1216, 1216, 896, 896, 1216, 1216, 896, 896]
+    - door_index: 3
+      legacy_attributes: 0
+      door_id: 6
+      time_since_triggered_ms: 0
+      direction: [0, 65536, 0]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775]
+      face_ids: [554, 555, 556, 557]
+      sector_ids: [9]
+      delta_us: [384, -128, 0, 0]
+      delta_vs: [704, 704, 0, 0]
+      x_offsets: [-504, -504, -504, -504, -520, -520, -520, -520, -504, -520, -520, -504]
+      y_offsets: [-384, -128, -128, -384, -384, -128, -128, -384, -130, -130, -130, -130]
+      z_offsets: [448, 448, 704, 704, 704, 704, 448, 448, 448, 448, 704, 704]
+    - door_index: 4
+      legacy_attributes: 0
+      door_id: 7
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787]
+      face_ids: [558, 559, 560, 561]
+      sector_ids: [9]
+      delta_us: [384, -128, 0, 0]
+      delta_vs: [704, 704, 0, 0]
+      x_offsets: [504, 504, 504, 504, 520, 520, 520, 520, 504, 520, 520, 504]
+      y_offsets: [384, 128, 128, 384, 384, 128, 128, 384, 130, 130, 130, 130]
+      z_offsets: [448, 448, 704, 704, 704, 704, 448, 448, 448, 448, 704, 704]
+    - door_index: 5
+      legacy_attributes: 0
+      door_id: 8
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 192
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [788, 789, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799]
+      face_ids: [562, 563, 564, 565]
+      sector_ids: [8]
+      delta_us: [0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0]
+      x_offsets: [760, 760, 760, 760, 776, 776, 776, 776, 760, 776, 776, 760]
+      y_offsets: [352, 160, 160, 352, 352, 160, 160, 352, 162, 162, 162, 162]
+      z_offsets: [0, 0, 256, 256, 256, 256, 0, 0, 0, 0, 256, 256]
+    - door_index: 6
+      legacy_attributes: 0
+      door_id: 9
+      time_since_triggered_ms: 0
+      direction: [65536, 0, 0]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811]
+      face_ids: [566, 567, 568, 569]
+      sector_ids: [4]
+      delta_us: [1280, -1024, 0, 0]
+      delta_vs: [704, 704, 0, 0]
+      x_offsets: [-1280, -1024, -1024, -1280, -1280, -1024, -1024, -1280, -1026, -1026, -1026, -1026]
+      y_offsets: [504, 504, 504, 504, 520, 520, 520, 520, 504, 520, 520, 504]
+      z_offsets: [448, 448, 704, 704, 704, 704, 448, 448, 448, 448, 704, 704]
+    - door_index: 7
+      legacy_attributes: 0
+      door_id: 10
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 256
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823]
+      face_ids: [570, 571, 572, 573]
+      sector_ids: [11]
+      delta_us: [-224, 480, 0, 0]
+      delta_vs: [256, 256, 0, 0]
+      x_offsets: [-376, -376, -376, -376, -392, -392, -392, -392, -376, -392, -392, -376]
+      y_offsets: [224, 480, 480, 224, 224, 480, 480, 224, 226, 226, 226, 226]
+      z_offsets: [0, 0, 256, 256, 256, 256, 0, 0, 256, 256, 0, 0]
+    - door_index: 8
+      legacy_attributes: 0
+      door_id: 1
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 448
+      open_speed: 224
+      close_speed: 224
+      state: 2
+      vertex_ids: [824, 825, 826, 827, 828, 829, 830, 831]
+      face_ids: [574, 575, 576, 577, 578, 579]
+      sector_ids: [11]
+      delta_us: [272, -128, -48, 384, 384, 384]
+      delta_vs: [456, 456, 456, 456, 384, 512]
+      x_offsets: [-48, -272, -272, -48, -48, -48, -272, -272]
+      y_offsets: [128, 128, 128, 128, 384, 384, 384, 384]
+      z_offsets: [456, 456, 440, 440, 456, 440, 456, 440]
+    - door_index: 9
+      legacy_attributes: 0
+      door_id: 2
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 448
+      open_speed: 224
+      close_speed: 224
+      state: 2
+      vertex_ids: [832, 833, 834, 835, 836, 837, 838, 839]
+      face_ids: [580, 581, 582, 583, 584, 585]
+      sector_ids: [9]
+      delta_us: [-48, -128, 272, 384, 0, 0]
+      delta_vs: [904, 904, 904, 904, 384, 512]
+      x_offsets: [272, 48, 48, 272, 272, 272, 48, 48]
+      y_offsets: [128, 128, 128, 128, 384, 384, 384, 384]
+      z_offsets: [904, 904, 888, 888, 904, 888, 904, 888]
+    - door_index: 10
+      legacy_attributes: 0
+      door_id: 11
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [840, 841, 842, 843, 844, 845, 846, 847]
+      face_ids: [586, 587, 588, 589, 590]
+      sector_ids: [11]
+      delta_us: [463, 176, -447, 192, 192]
+      delta_vs: [128, 128, 128, 463, 463]
+      x_offsets: [-176, -176, -176, -176, -144, -144, -144, -144]
+      y_offsets: [447, 463, 463, 447, 447, 447, 463, 463]
+      z_offsets: [128, 128, 96, 96, 128, 96, 128, 96]
+      mover:
+        carry: true
+    - door_index: 11
+      legacy_attributes: 0
+      door_id: 12
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [848, 849, 850, 851, 852, 853, 854, 855]
+      face_ids: [591, 592, 593, 594, 595]
+      sector_ids: [9]
+      delta_us: [463, 176, -447, 192, 192]
+      delta_vs: [576, 576, 576, 463, 463]
+      x_offsets: [-176, -176, -176, -176, -144, -144, -144, -144]
+      y_offsets: [447, 463, 463, 447, 447, 447, 463, 463]
+      z_offsets: [576, 576, 544, 544, 576, 544, 576, 544]
+      mover:
+        carry: true
+    - door_index: 12
+      legacy_attributes: 0
+      door_id: 13
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [856, 857, 858, 859, 860, 861, 862, 863]
+      face_ids: [596, 597, 598, 599, 600]
+      sector_ids: [9]
+      delta_us: [463, -144, -447, -128, -128]
+      delta_vs: [576, 576, 576, 463, 463]
+      x_offsets: [144, 144, 144, 144, 176, 176, 176, 176]
+      y_offsets: [447, 463, 463, 447, 447, 447, 463, 463]
+      z_offsets: [576, 576, 544, 544, 576, 544, 576, 544]
+      mover:
+        carry: true
+    - door_index: 13
+      legacy_attributes: 0
+      door_id: 14
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [864, 865, 866, 867, 868, 869, 870, 871]
+      face_ids: [601, 602, 603, 604, 605]
+      sector_ids: [3]
+      delta_us: [463, -144, -447, -128, -128]
+      delta_vs: [1024, 1024, 1024, 463, 463]
+      x_offsets: [144, 144, 144, 144, 176, 176, 176, 176]
+      y_offsets: [447, 463, 463, 447, 447, 447, 463, 463]
+      z_offsets: [1024, 1024, 992, 992, 1024, 992, 1024, 992]
+      mover:
+        carry: true
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [0, -832, 0]
+    direction_degrees: 90
+loot_containers:
+  - source_id: xeen:xeen_dd22:brig
+    source_object_index: 0
+    source_name: brig
+    position:
+      x: -832
+      y: -464
+      z: 448
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 4000
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_dd22:couch
+    source_object_index: 1
+    source_name: couch
+    position:
+      x: 0
+      y: 880
+      z: 928
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 6000
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_dd22:stores
+    source_object_index: 2
+    source_name: stores
+    position:
+      x: -640
+      y: 400
+      z: 0
+    container_id: 2
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 4000
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+ladders:
+  - id: maint
+    bottom: [960, 230, 0]
+    top: [960, 230, 448]
+    facing_degrees: 90
+    width: 96
+    reach: 48
+    top_exit: [960, 320, 448]
+    grab_at_top: true
+pulsing_lights:
+  - key: 40001
+    position: [-320, 1472, 1056]
+    color: [235, 60, 50]
+    intensity: [0.3, 1, 2.3, 0]
+    radius: [600, 600, 2.3, 0]
+    start_on: true
+  - key: 40002
+    position: [320, 1472, 1056]
+    color: [235, 60, 50]
+    intensity: [0.3, 1, 1.7, 0.4]
+    radius: [600, 600, 1.7, 0.4]
+    start_on: true
+  - key: 40003
+    position: [0, 896, 0]
+    color: [235, 60, 50]
+    intensity: [0.6, 1, 0.25, 0]
+    radius: [800, 800, 0.25, 0]
+    start_on: true
+  - key: 40004
+    position: [-896, 832, 736]
+    color: [235, 60, 50]
+    intensity: [0.35, 1, 1, 0]
+    radius: [900, 900, 1, 0]
+    start_on: true
+ambient_sounds:
+  - key: 1
+    sound: xeen_pod_alarm
+    position: [-896, 960, 512]
+    inner_radius: 400
+    outer_radius: 1300
+    volume: 0.35
+    loop: true
+    start_on: true
+  - key: 2
+    sound: humming
+    position: [0, 1088, 1032]
+    inner_radius: 1000
+    outer_radius: 2000
+    volume: 0.2
+    loop: true
+    start_on: true
+    pan: false
+  - key: 3
+    sound: humming
+    position: [0, 160, 64]
+    inner_radius: 1100
+    outer_radius: 2200
+    volume: 0.22
+    loop: true
+    start_on: true
+    pan: false
+  - key: 4
+    sound: humming
+    position: [0, 0, 512]
+    inner_radius: 1100
+    outer_radius: 2200
+    volume: 0.2
+    loop: true
+    start_on: true
+    pan: false

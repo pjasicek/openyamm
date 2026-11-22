@@ -1,0 +1,877 @@
+format: 0
+variables: [d7_toll_north, d7_toll_east, d7_toll_south, d7_toll_west]
+events:
+  - id: evt:board_danger_road
+    preset: text
+    source: platform:board_danger_road
+    title: "DANGER!  Mega Dragon"
+    text: "DANGER!  Mega Dragon"
+    window: false
+  - id: evt:board_danger_road_back
+    preset: text
+    source: platform:board_danger_road_back
+    title: "DANGER!  Mega Dragon"
+    text: "DANGER!  Mega Dragon"
+    window: false
+  - id: evt:board_danger_watch
+    preset: text
+    source: platform:board_danger_watch
+    title: "DANGER!  Mega Dragon"
+    text: "DANGER!  Mega Dragon"
+    window: false
+  - id: evt:board_danger_watch_back
+    preset: text
+    source: platform:board_danger_watch_back
+    title: "DANGER!  Mega Dragon"
+    text: "DANGER!  Mega Dragon"
+    window: false
+  - id: evt:board_joes_camp
+    preset: text
+    source: platform:board_joes_camp
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_joes_camp_back
+    preset: text
+    source: platform:board_joes_camp_back
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_joes_rope
+    preset: text
+    source: platform:board_joes_rope
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_joes_rope_back
+    preset: text
+    source: platform:board_joes_rope_back
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_joes_south
+    preset: text
+    source: platform:board_joes_south
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_joes_south_back
+    preset: text
+    source: platform:board_joes_south_back
+    title: Eat at Joe's
+    text: Eat at Joe's
+    window: false
+  - id: evt:board_lake_board
+    preset: text
+    source: platform:board_lake_board
+    title: Sky Lake
+    text: Sky Lake
+    window: false
+  - id: evt:board_lake_board_back
+    preset: text
+    source: platform:board_lake_board_back
+    title: Sky Lake
+    text: Sky Lake
+    window: false
+  - id: evt:board_skyroad_board
+    preset: text
+    source: platform:board_skyroad_board
+    title: XEEN Skyroad
+    text: XEEN Skyroad
+    window: false
+  - id: evt:board_skyroad_board_back
+    preset: text
+    source: platform:board_skyroad_board_back
+    title: XEEN Skyroad
+    text: XEEN Skyroad
+    window: false
+  - id: evt:board_speeding_east
+    preset: text
+    source: platform:board_speeding_east
+    title: "Speeding???"
+    text: "Speeding???"
+    window: false
+  - id: evt:board_speeding_east_back
+    preset: text
+    source: platform:board_speeding_east_back
+    title: "Speeding???"
+    text: "Speeding???"
+    window: false
+  - id: evt:board_speeding_north
+    preset: text
+    source: platform:board_speeding_north
+    title: "Speeding??"
+    text: "Speeding??"
+    window: false
+  - id: evt:board_speeding_north_back
+    preset: text
+    source: platform:board_speeding_north_back
+    title: "Speeding??"
+    text: "Speeding??"
+    window: false
+  - id: evt:board_zone_air
+    preset: text
+    source: platform:board_zone_air
+    title: Air Zone
+    text: Air Zone
+    window: false
+  - id: evt:board_zone_air_back
+    preset: text
+    source: platform:board_zone_air_back
+    title: Air Zone
+    text: Air Zone
+    window: false
+  - id: evt:board_zone_earth
+    preset: text
+    source: platform:board_zone_earth
+    title: Earth Zone
+    text: Earth Zone
+    window: false
+  - id: evt:board_zone_earth_back
+    preset: text
+    source: platform:board_zone_earth_back
+    title: Earth Zone
+    text: Earth Zone
+    window: false
+  - id: evt:board_zone_fire
+    preset: text
+    source: platform:board_zone_fire
+    title: Fire Zone
+    text: Fire Zone
+    window: false
+  - id: evt:board_zone_fire_back
+    preset: text
+    source: platform:board_zone_fire_back
+    title: Fire Zone
+    text: Fire Zone
+    window: false
+  - id: evt:board_zone_water
+    preset: text
+    source: platform:board_zone_water
+    title: Water Zone
+    text: Water Zone
+    window: false
+  - id: evt:board_zone_water_back
+    preset: text
+    source: platform:board_zone_water_back
+    title: Water Zone
+    text: Water Zone
+    window: false
+  - id: evt:bottle_a2
+    preset: script
+    source: deco:bottle_a2
+    title: A bottle
+    effects:
+      - lua: "XeenQuests.hook(\"d7.bottle_west\")"
+    notes: A3's d7.bottle_west.
+  - id: evt:bottle_c3
+    preset: script
+    source: deco:bottle_c3
+    title: A bottle
+    effects:
+      - lua: "XeenQuests.hook(\"d7.bottle_south\")"
+    notes: A3's d7.bottle_south.
+  - id: evt:bottle_genies
+    preset: script
+    source: deco:bottle_genies
+    title: A bottle
+    effects:
+      - lua: "XeenQuests.hook(\"d7.bottle_genies\")"
+    notes: A3's d7.bottle_genies.
+  - id: evt:bottle_test
+    preset: script
+    source: deco:bottle_test
+    title: A bottle
+    effects:
+      - lua: "XeenQuests.hook(\"d7.bottle_test\")"
+    notes: A3's d7.bottle_test.
+  - id: evt:chest_camp
+    preset: chest
+    source: chest:camp
+  - id: evt:chest_castaway_south
+    preset: chest
+    source: chest:castaway_south
+  - id: evt:chest_castaway_west
+    preset: chest
+    source: chest:castaway_west
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+  - id: evt:chest_pack
+    preset: chest
+    source: chest:pack
+  - id: evt:corner_air
+    preset: script
+    source: platform:tip_air
+    question: {ask: "Answer?", answers: [Air, air, AIR], message: "What do you seek?", wrong_effects: [{lua: "XeenQuests.hook(\"m38.corner_wrong\")"}]}
+    trigger: step
+    effects:
+      - lua: "XeenQuests.hook(\"m38.corner_air\")"
+    notes: "The Air Corner's tip (corners.yml): 'What do you seek?'; 'Air' runs A3's m38.corner_air, any other answer m38.corner_wrong."
+  - id: evt:corner_earth
+    preset: script
+    source: platform:tip_earth
+    question: {ask: "Answer?", answers: [Earth, earth, EARTH], message: "What do you seek?", wrong_effects: [{lua: "XeenQuests.hook(\"m38.corner_wrong\")"}]}
+    trigger: step
+    effects:
+      - lua: "XeenQuests.hook(\"m38.corner_earth\")"
+    notes: "The Earth Corner's tip (corners.yml): 'What do you seek?'; 'Earth' runs A3's m38.corner_earth, any other answer m38.corner_wrong."
+  - id: evt:corner_fire
+    preset: script
+    source: platform:tip_fire
+    question: {ask: "Answer?", answers: [Fire, fire, FIRE], message: "What do you seek?", wrong_effects: [{lua: "XeenQuests.hook(\"m38.corner_wrong\")"}]}
+    trigger: step
+    effects:
+      - lua: "XeenQuests.hook(\"m38.corner_fire\")"
+    notes: "The Fire Corner's tip (corners.yml): 'What do you seek?'; 'Fire' runs A3's m38.corner_fire, any other answer m38.corner_wrong."
+  - id: evt:corner_water
+    preset: script
+    source: platform:tip_water
+    question: {ask: "Answer?", answers: [Water, water, WATER], message: "What do you seek?", wrong_effects: [{lua: "XeenQuests.hook(\"m38.corner_wrong\")"}]}
+    trigger: step
+    effects:
+      - lua: "XeenQuests.hook(\"m38.corner_water\")"
+    notes: "The Water Corner's tip (corners.yml): 'What do you seek?'; 'Water' runs A3's m38.corner_water, any other answer m38.corner_wrong."
+  - id: evt:fall_check
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if z > -1000 then return end
+      Xeen.skyFallD7()
+    notes: "set:fall: a party under -1,000 has fallen off the roads; A3's Xeen.skyFallD7() picks the map below by the party's x, y (six zones, Q10) and sets it down at that map's entrance:d7_fall with falling damage."
+  - id: evt:fall_floor
+    preset: script
+    source: room:air
+    trigger: step
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      Xeen.skyFallD7()
+    notes: "The safety floor at -6,000: a fall the one-second check missed."
+  - id: evt:hatch_dd02
+    preset: script
+    source: platform:hatch_dd02
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend into Ellinger's Tower?"}
+    title: Ellinger's Tower's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd02\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd02 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd03
+    preset: script
+    source: platform:hatch_dd03
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend into Castle Kalindra?"}
+    title: Castle Kalindra's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd03\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd03 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd05
+    preset: script
+    source: platform:hatch_dd05
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Enter West Tower?"}
+    title: The Western Tower's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd05\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd05 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd06
+    preset: script
+    source: platform:hatch_dd06
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend into the South Tower?"}
+    title: The Southern Tower's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd06\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd06 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd07
+    preset: script
+    source: platform:hatch_dd07
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend to the East Tower?"}
+    title: The Eastern Tower's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd07\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd07 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd08
+    preset: script
+    source: platform:hatch_dd08
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend to the North Tower?"}
+    title: The Northern Tower's hatch
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd08\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd08 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd14
+    preset: script
+    source: platform:hatch_dd14
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Descend to Castle Blackfang?"}
+    title: Castle Blackfang's trapdoor
+    effects:
+      - lua: "XeenQuests.hook(\"d7.hatch_dd14\")"
+    notes: "One way up (D-4): A3's d7.hatch_dd14 (the source's line, then 'Bolted from below.')."
+  - id: evt:hatch_dd17
+    preset: script
+    source: platform:hatch_dd17
+    title: Castle Alamar's roof hatch
+    lua: |-
+      if IsQBitSet(QBit(111662)) then
+          if not XeenQuests.hook("q-d26.hatch") then return end
+          evt.MoveToMap(-7744, 7168, 0, 0, 0, 0, 5062, 1, "xeen_fd01.blv")
+          return
+      end
+      if not XeenQuests.hook("q-d26.hatch") then return end
+      if not XeenQuests.can("m33.roof_arrival") then evt.StatusText("A voice, everywhere at once: \"Chosen Ones. You have nothing I need to fear.\" The ladder bucks, and you are back on the roof in the smoke.", 6) return end
+      evt.MoveToMap(-2832, 2336, 1280, 0, 0, 0, 5050, 1, "xeen_dd17.blv")
+    notes: "aaze0089:4-5; D-5: opens with the hoard's key (A3's Q-D26: its refusal line); F16: the entrance window (row 5050) into DD-17's entrance:d7_roof (FD-01's after m33.done, row 5062)."
+  - id: evt:hut_air_back
+    preset: text
+    source: platform:hut_air_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_air_sign
+    preset: text
+    source: platform:hut_air_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_air_sign_back
+    preset: text
+    source: platform:hut_air_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_earth_back
+    preset: text
+    source: platform:hut_earth_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_earth_sign
+    preset: text
+    source: platform:hut_earth_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_earth_sign_back
+    preset: text
+    source: platform:hut_earth_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_east_back
+    preset: text
+    source: platform:hut_east_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_east_sign
+    preset: text
+    source: platform:hut_east_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_east_sign_back
+    preset: text
+    source: platform:hut_east_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_fire_back
+    preset: text
+    source: platform:hut_fire_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_fire_sign
+    preset: text
+    source: platform:hut_fire_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_fire_sign_back
+    preset: text
+    source: platform:hut_fire_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_junction_back
+    preset: text
+    source: platform:hut_junction_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_junction_sign
+    preset: text
+    source: platform:hut_junction_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_junction_sign_back
+    preset: text
+    source: platform:hut_junction_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_north_back
+    preset: text
+    source: platform:hut_north_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_north_sign
+    preset: text
+    source: platform:hut_north_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_north_sign_back
+    preset: text
+    source: platform:hut_north_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_rope_back
+    preset: text
+    source: platform:hut_rope_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_rope_sign
+    preset: text
+    source: platform:hut_rope_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_rope_sign_back
+    preset: text
+    source: platform:hut_rope_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_south_back
+    preset: text
+    source: platform:hut_south_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_south_sign
+    preset: text
+    source: platform:hut_south_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_south_sign_back
+    preset: text
+    source: platform:hut_south_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_water_back
+    preset: text
+    source: platform:hut_water_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_water_sign
+    preset: text
+    source: platform:hut_water_sign
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:hut_water_sign_back
+    preset: text
+    source: platform:hut_water_sign_back
+    title: Rest Stop
+    text: Rest Stop
+    window: false
+  - id: evt:lamp_angry
+    preset: script
+    source: deco:lamp_angry
+    title: A genie's lamp
+    lua: "Xeen.genieLamp(\"d7_angry\", eventId, continueStep)"
+    notes: "Q-D27: A3's Xeen.genieLamp('d7_angry') (q-d27.d7_angry)."
+  - id: evt:lamp_kind
+    preset: script
+    source: deco:lamp_kind
+    title: A genie's lamp
+    lua: "Xeen.genieLamp(\"d7_kind\", eventId, continueStep)"
+    notes: "Q-D27: A3's Xeen.genieLamp('d7_kind') (q-d27.d7_kind)."
+  - id: evt:lamp_tired
+    preset: script
+    source: deco:lamp_tired
+    title: A genie's lamp
+    lua: "Xeen.genieLamp(\"d7_tired\", eventId, continueStep)"
+    notes: "Q-D27: A3's Xeen.genieLamp('d7_tired') (q-d27.d7_tired)."
+  - id: evt:megadragon_death
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {not: {qbit: qd26_slain}}
+    lua: |-
+      if evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, false) then
+          XeenQuests.hook("q-d26.slain")
+          evt.SetMapVar("AmbientSound14", 2)
+      end
+    notes: "D-3: the Megadragon's death (its group) runs A3's q-d26.slain (sets slain, 113520) and switches sound:megadragon_sleep off (AmbientSound<key> 2)."
+  - id: evt:megadragon_gone
+    preset: script
+    trigger: load
+    condition: {qbit: qd26_slain}
+    effects:
+      - hide_actors: 60
+      - lua: "evt.SetMapVar(\"AmbientSound14\", 2)"
+    notes: "D-3: unique; once slain it stays gone (and its sleep sound off) through refills and a reset after a rebuild."
+  - id: evt:merchant_dust
+    preset: script
+    source: deco:barge_dust
+    title: Merchant of the Elements
+    lua: "Xeen.merchantRiddle(\"dust\", eventId, continueStep)"
+    notes: "A3's Xeen.merchantRiddle: d7.merchant_dust or d7.merchant_wrong."
+  - id: evt:merchant_mud
+    preset: script
+    source: deco:barge_mud
+    title: Merchant of the Elements
+    lua: "Xeen.merchantRiddle(\"mud\", eventId, continueStep)"
+    notes: "A3's Xeen.merchantRiddle: d7.merchant_mud or d7.merchant_wrong."
+  - id: evt:merchant_smoke
+    preset: script
+    source: deco:barge_smoke
+    title: Merchant of the Elements
+    lua: "Xeen.merchantRiddle(\"smoke\", eventId, continueStep)"
+    notes: "A3's Xeen.merchantRiddle: d7.merchant_smoke or d7.merchant_wrong."
+  - id: evt:merchant_steam
+    preset: script
+    source: deco:barge_steam
+    title: Merchant of the Elements
+    lua: "Xeen.merchantRiddle(\"steam\", eventId, continueStep)"
+    notes: "A3's Xeen.merchantRiddle: d7.merchant_steam or d7.merchant_wrong."
+  - id: evt:mirror
+    preset: script
+    source: platform:mirror
+    title: The Mirror of Olympus
+    effects:
+      - lua: "Xeen.useMirror(4807, eventId, continueStep)"
+    notes: "A4's house 4807 (qbit 119012): Xeen.useMirror, as Castleview's."
+  - id: evt:mirror_frame
+    preset: script
+    source: platform:mirror_frame
+    title: The Mirror of Olympus
+    effects:
+      - lua: "Xeen.useMirror(4807, eventId, continueStep)"
+    notes: "A4's house 4807 (qbit 119012): Xeen.useMirror, as Castleview's."
+  - id: evt:mirror_post_e
+    preset: script
+    source: platform:mirror_post_e
+    title: The Mirror of Olympus
+    effects:
+      - lua: "Xeen.useMirror(4807, eventId, continueStep)"
+    notes: "A4's house 4807 (qbit 119012): Xeen.useMirror, as Castleview's."
+  - id: evt:mirror_post_w
+    preset: script
+    source: platform:mirror_post_w
+    title: The Mirror of Olympus
+    effects:
+      - lua: "Xeen.useMirror(4807, eventId, continueStep)"
+    notes: "A4's house 4807 (qbit 119012): Xeen.useMirror, as Castleview's."
+  - id: evt:mirror_sill
+    preset: script
+    source: platform:mirror_sill
+    title: The Mirror of Olympus
+    effects:
+      - lua: "Xeen.useMirror(4807, eventId, continueStep)"
+    notes: "A4's house 4807 (qbit 119012): Xeen.useMirror, as Castleview's."
+  - id: evt:ol_adonis
+    preset: script
+    source: door:ol_adonis
+    title: House of Adonis
+    effects:
+      - lua: evt.EnterHouse(4809)
+    notes: "A4's house 4809, House of Adonis."
+  - id: evt:ol_athena
+    preset: script
+    source: door:ol_athena
+    title: House of Athena
+    effects:
+      - lua: evt.EnterHouse(4810)
+    notes: "A4's house 4810, House of Athena."
+  - id: evt:ol_atlas
+    preset: script
+    source: door:ol_atlas
+    title: House of Atlas
+    effects:
+      - lua: evt.EnterHouse(4812)
+    notes: "A4's house 4812, House of Atlas."
+  - id: evt:ol_dock
+    preset: script
+    source: door:ol_dock
+    title: Lucio's Dock
+    effects:
+      - lua: evt.EnterHouse(4808)
+    notes: "A4's house 4808, Lucio's Dock."
+  - id: evt:ol_guild_light
+    preset: script
+    source: door:ol_guild_light
+    title: Olympus Guild of Light
+    effects:
+      - lua: evt.EnterHouse(4805)
+    notes: "A4's house 4805, Olympus Guild of Light."
+  - id: evt:ol_guild_spirit
+    preset: script
+    source: door:ol_guild_spirit
+    title: Olympus Guild of Spirit
+    effects:
+      - lua: evt.EnterHouse(4806)
+    notes: "A4's house 4806, Olympus Guild of Spirit."
+  - id: evt:ol_hera
+    preset: script
+    source: door:ol_hera
+    title: House of Hera
+    effects:
+      - lua: evt.EnterHouse(4814)
+    notes: "A4's house 4814, House of Hera."
+  - id: evt:ol_hermes
+    preset: script
+    source: door:ol_hermes
+    title: House of Hermes
+    effects:
+      - lua: evt.EnterHouse(4811)
+    notes: "A4's house 4811, House of Hermes."
+  - id: evt:ol_smith
+    preset: script
+    source: door:ol_smith
+    title: The Forge of the Gods
+    effects:
+      - lua: evt.EnterHouse(4801)
+    notes: "A4's house 4801, The Forge of the Gods."
+  - id: evt:ol_tavern
+    preset: script
+    source: door:ol_tavern
+    title: The Nectar House
+    effects:
+      - lua: evt.EnterHouse(4802)
+    notes: "A4's house 4802, The Nectar House."
+  - id: evt:ol_temple
+    preset: script
+    source: door:ol_temple
+    title: Temple of Olympus
+    effects:
+      - lua: evt.EnterHouse(4803)
+    notes: "A4's house 4803, Temple of Olympus."
+  - id: evt:ol_training
+    preset: script
+    source: door:ol_training
+    title: The Hall of Heroes
+    effects:
+      - lua: evt.EnterHouse(4804)
+    notes: "A4's house 4804, The Hall of Heroes."
+  - id: evt:ol_zeus
+    preset: script
+    source: door:ol_zeus
+    title: House of Zeus
+    effects:
+      - lua: evt.EnterHouse(4813)
+    notes: "A4's house 4813, House of Zeus."
+  - id: evt:olympus_arrival
+    preset: script
+    source: platform:olympus_jetty
+    trigger: step
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m31.arrival\")"
+    notes: A3's m31.arrival on the first landing at Lucio's jetty (entrance:olympus_dock).
+  - id: evt:rope
+    preset: script
+    source: platform:rope
+    question: {ask: "Descend (Yes/No)?", answers: [Yes, Y, yes, y], message: "Descend to the Darkness Below?", wrong_text: You leave the rope be.}
+    title: Bucket o' Darkness
+    effects:
+      - lua: "evt.MoveToMap(-8192, 14336, 1088, 768, 0, 0, 0, 0, \"xeen_d1.odm\", {direct = true})"
+    notes: "The Dark Grove rope (aaze0091:5, :7): down to D1's entrance:d7_rope (by name)."
+  - id: evt:rope_beam
+    preset: script
+    source: platform:rope_beam
+    question: {ask: "Descend (Yes/No)?", answers: [Yes, Y, yes, y], message: "Descend to the Darkness Below?", wrong_text: You leave the rope be.}
+    title: Bucket o' Darkness
+    effects:
+      - lua: "evt.MoveToMap(-8192, 14336, 1088, 768, 0, 0, 0, 0, \"xeen_d1.odm\", {direct = true})"
+    notes: "The Dark Grove rope (aaze0091:5, :7): down to D1's entrance:d7_rope (by name)."
+  - id: evt:sewer_grate
+    preset: script
+    source: platform:sewer_grate
+    title: A marble grate
+    lua: "evt.MoveToMap(0, 0, 0, 512, 0, 0, 5061, 1, \"xeen_dd26.blv\")"
+    notes: "The Olympus Sewer's stair (DD-26, Q-D28): F16, the entrance window (row 5061; A3's q-d28.sewer_grate question 'Descend into the sewer?' retired), DD-26's entrance:d7_stair."
+  - id: evt:sky_door
+    preset: script
+    source: platform:sky_door
+    title: The Great Pyramid
+    lua: |-
+      if not XeenQuests.hook("d7.pyramid_door") then return end
+      evt.MoveToMap(0, 2944, 2304, 1536, 0, 0, 5047, 1, "xeen_dd15.blv")
+    notes: "aazex102:0, A3's d7.pyramid_door; F16: the entrance window (row 5047), DD-15's entrance:d7_sky after m30.done."
+  - id: evt:stall_clara
+    preset: script
+    source: platform:stall_clara
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Clara the Cold: \"I sell scarabs that protect against cold. Buy it for 8 gems or begone.\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_water\")"
+    notes: "Q5: A3's d7.scarab_water (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_clara_awning
+    preset: script
+    source: platform:stall_clara_awning
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Clara the Cold: \"I sell scarabs that protect against cold. Buy it for 8 gems or begone.\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_water\")"
+    notes: "Q5: A3's d7.scarab_water (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_dorion
+    preset: script
+    source: platform:stall_dorion
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Dorion the Energy Merchant: \"Will you buy my Kinetic Scarab for 16 gems? Guaranteed...\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_earth\")"
+    notes: "Q5: A3's d7.scarab_earth (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_dorion_awning
+    preset: script
+    source: platform:stall_dorion_awning
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Dorion the Energy Merchant: \"Will you buy my Kinetic Scarab for 16 gems? Guaranteed...\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_earth\")"
+    notes: "Q5: A3's d7.scarab_earth (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_rahib
+    preset: script
+    source: platform:stall_rahib
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Rahib the Scarab Merchant: \"I have the best possible Fire scarab available, just 8 gems. Would you like to purchase it?\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_fire\")"
+    notes: "Q5: A3's d7.scarab_fire (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_rahib_awning
+    preset: script
+    source: platform:stall_rahib_awning
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Rahib the Scarab Merchant: \"I have the best possible Fire scarab available, just 8 gems. Would you like to purchase it?\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_fire\")"
+    notes: "Q5: A3's d7.scarab_fire (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_wardoz
+    preset: script
+    source: platform:stall_wardoz
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Wardoz the Blue: \"What would you pay for a powerful scarab that will protect you from electricity? 3 gems? 5? Nay, you are a customer of fine, discerning taste. For you, 8 gems! A customer of your quality would never pay less!\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_air\")"
+    notes: "Q5: A3's d7.scarab_air (a permanent +10 resistance for gems, once a member)."
+  - id: evt:stall_wardoz_awning
+    preset: script
+    source: platform:stall_wardoz_awning
+    question: {ask: "Yes or No?", answers: [Yes, Y, yes, y], message: "Wardoz the Blue: \"What would you pay for a powerful scarab that will protect you from electricity? 3 gems? 5? Nay, you are a customer of fine, discerning taste. For you, 8 gems! A customer of your quality would never pay less!\""}
+    title: Scarab seller
+    effects:
+      - lua: "XeenQuests.hook(\"d7.scarab_air\")"
+    notes: "Q5: A3's d7.scarab_air (a permanent +10 resistance for gems, once a member)."
+  - id: evt:statue_1
+    preset: script
+    source: deco:statue_1
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m31.statue_1\")"
+    notes: A3's m31.statue_1 (a prophecy).
+  - id: evt:statue_2
+    preset: script
+    source: deco:statue_2
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m31.statue_2\")"
+    notes: A3's m31.statue_2 (a prophecy).
+  - id: evt:statue_3
+    preset: script
+    source: deco:statue_3
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m31.statue_3\")"
+    notes: A3's m31.statue_3 (a prophecy).
+  - id: evt:statue_4
+    preset: script
+    source: deco:statue_4
+    title: Statue
+    effects:
+      - lua: "XeenQuests.hook(\"m31.statue_4\")"
+    notes: A3's m31.statue_4 (a prophecy).
+  - id: evt:toll_east
+    preset: script
+    source: platform:toll_east_line
+    trigger: step
+    lua: "Xeen.toll(\"east\", 71, eventId, continueStep)"
+    notes: "D-6: A3's Xeen.toll (d7.toll_paid, d7.toll_refused) for the east toll; its bandits are group 71."
+  - id: evt:toll_east_booth
+    preset: text
+    source: platform:toll_east
+    title: Toll booth
+    text: A toll booth. Nobody inside.
+    window: false
+  - id: evt:toll_north
+    preset: script
+    source: platform:toll_north_line
+    trigger: step
+    lua: "Xeen.toll(\"north\", 70, eventId, continueStep)"
+    notes: "D-6: A3's Xeen.toll (d7.toll_paid, d7.toll_refused) for the north toll; its bandits are group 70."
+  - id: evt:toll_north_booth
+    preset: text
+    source: platform:toll_north
+    title: Toll booth
+    text: A toll booth. Nobody inside.
+    window: false
+  - id: evt:toll_south
+    preset: script
+    source: platform:toll_south_line
+    trigger: step
+    lua: "Xeen.toll(\"south\", 72, eventId, continueStep)"
+    notes: "D-6: A3's Xeen.toll (d7.toll_paid, d7.toll_refused) for the south toll; its bandits are group 72."
+  - id: evt:toll_south_booth
+    preset: text
+    source: platform:toll_south
+    title: Toll booth
+    text: A toll booth. Nobody inside.
+    window: false
+  - id: evt:toll_west
+    preset: script
+    source: platform:toll_west_line
+    trigger: step
+    lua: "Xeen.toll(\"west\", 73, eventId, continueStep)"
+    notes: "D-6: A3's Xeen.toll (d7.toll_paid, d7.toll_refused) for the west toll; its bandits are group 73."
+  - id: evt:toll_west_booth
+    preset: text
+    source: platform:toll_west
+    title: Toll booth
+    text: A toll booth. Nobody inside.
+    window: false
+  - id: evt:true_name_plaque
+    preset: script
+    source: platform:true_name_plaque
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"m31.true_name_plaque\")"
+    notes: A3's m31.true_name_plaque.
+  - id: evt:vault_door
+    preset: text
+    source: platform:vault_door
+    title: Soul Storage
+    text: "A vault door with no handle. A servant of the gods says, politely, that it opens only for the Chosen Ones."
+    window: false
+    notes: "Before m30.done the door stays shut: A3's m31.soul_storage fail_text (source/quests/m31.yml)."
+  - id: evt:vault_open
+    preset: script
+    trigger: load
+    condition: {qbit: m30_done}
+    effects:
+      - hide: platform:vault_door
+      - passable: platform:vault_door
+    notes: "Soul Storage's door stands open for the Chosen Ones (m30.done; A3's m31.soul_storage)."
+  - id: evt:vault_shelf
+    preset: script
+    source: platform:vault_shelf
+    title: Shelves
+    effects:
+      - lua: "XeenQuests.hook(\"m31.soul_storage\")"
+    notes: "A3's m31.soul_storage: the Soul Box."

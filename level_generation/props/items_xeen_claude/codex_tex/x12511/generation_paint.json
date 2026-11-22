@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit first input paint_mask_guide.png with its alpha locked. Return the entire sparse transparent 1536x2048 3:4 atlas retaining every source gray pixel's position, footprint, holes, scale and silhouette. The other images are detail and color references only. Upper half: recolor grey shapes to unlit warm autumn bronze, fine branching leaf veins following design_reference.png, short bronze chain links, icon_x8.png palette. Preserve edge-on orthographic projections exactly as seen. Lower half: same exact silhouettes as guide, every visible pixel uniformly pure solid #FF0000 because the entire object is metal. Leave all transparent pixels transparent. Three equal columns, four equal rows, empty last cell of rows 2 and 4. No relighting, cast shadows, highlights, AO, outlines, text or added geometry. Do not expand or recenter any shape. Most of this sheet is transparent. Correction: trace the original guide alpha with exact registration including isolated narrow stems, the separated pieces and the thin open links. Do not thicken wires. No specks, fringe or pixels in blank areas. Fill lower silhouettes as clean opaque binary red with no gradients or other hue.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "c159d32e9544890b2bff2b2dfa9f3d9b5aab04cd600248e3f7ffaee4a2ca87d1"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "f84e6b5b3a32ad26d694484ccf4df6b0ded49d198f197e1d7ea66020d0d72caa"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "6c3e63c30d69db5a497bcef03772404bf8f3e526d524337de1138804d9269c38"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f928-37cc-70a2-9824-194f2fbcd521/exec-a6384c35-d730-4891-9624-3dcb6756a085.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

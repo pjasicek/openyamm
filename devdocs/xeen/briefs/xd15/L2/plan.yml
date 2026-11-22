@@ -1,0 +1,514 @@
+format: 0
+level: L2
+pitch: 'The Northern Sphinx from inside: the breast between the paws, a hall of striped columns under its chest, sarcophagus
+  galleries along its flanks, the belly hall where two carved throne doors wait for the Sphinx''s name, the vault in its haunches.
+  Up the throat, the head: two lappets and, behind the face, the riddle chamber, lit by the eyes, where a sun disc in the
+  floor asks ''What is my name?''. GOLUX opens the thrones; anything else drops the party into the hieroglyph dungeon below,
+  whose walls spell the name and whose stair climbs back to the body.'
+purpose: 'Q-C9 The Sphinx (Act IV, party 31-34): the name (q-c9.riddle, name_right, name_wrong), the hieroglyph clues (q-c9.hieroglyphs),
+  the four thrones (+2 once per character), the Starburst and Divine Intervention spellbooks. 45 monsters at 22-42 (Sand,
+  Stone and Iron Golems, Tomb Mummies), treasure 4.'
+mood: Warm sandstone lit by torches and braziers; gold and blue in the throne rooms; two bright bars of desert light behind
+  the face; carved orange hieroglyphs and drifted sand below.
+datum: arrival
+spaces:
+- id: room:breast_gate
+  name: Breast gate
+  kind: room
+  size: S
+  extent: [896, 704]
+  floor: 0
+  purpose: 'The arrival (entrance:x6_paws): inside the breast between the paws, the two leaves behind. Quiet (D-11.3).'
+  empty: true
+- id: room:paw_hall
+  name: Hall of the paws
+  kind: room
+  size: M
+  extent: [2560, 1216]
+  floor: 0
+  purpose: 'Under the chest: two rows of striped columns, braziers between them; the throat stair''s mouth; the galleries
+    west and east.'
+  population:
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 3 placed Sand Golems.
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 1 placed Stone Golem.
+- id: room:throat_stair
+  name: Throat stair
+  kind: corridor
+  size: S
+  extent: [384, 2624]
+  floor: [0, 1280]
+  purpose: A straight stair in the throat up to the head ('Stairs up.' on a sign).
+  empty: true
+- id: room:gallery_w
+  name: West sarcophagus gallery
+  kind: corridor
+  size: M
+  extent: [768, 2496]
+  floor: 0
+  purpose: 'Sarcophagi in niches, their sleepers up and about; the great sarcophagus is the chest: ''You aren''t strong enough
+    to open the sarcophagus.'' below Might 40.'
+  population:
+  - actor: 11270
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Tomb Mummys.
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 2 placed Sand Golems.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:gallery_e
+  name: East sarcophagus gallery
+  kind: corridor
+  size: M
+  extent: [768, 2496]
+  floor: 0
+  purpose: 'The same niches: ''There is nothing in the sarcophagus.''; gems in the last one.'
+  population:
+  - actor: 11270
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Tomb Mummys.
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 2 placed Sand Golems.
+- id: room:belly_hall
+  name: The belly hall
+  kind: room
+  size: L
+  extent: [2560, 2944]
+  floor: 0
+  purpose: A long hall of striped columns; the crown door and the veil door, sealed until the Sphinx is named.
+  population:
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 5 placed Stone Golems.
+  - actor: 11582
+    groups: 1
+    levels: [40, 40]
+    notes: 1 placed Iron Golem.
+- id: room:king_throne
+  name: King's throne
+  kind: room
+  size: M
+  extent: [1024, 1152]
+  floor: 0
+  purpose: 'The King''s throne on a dais (q-c9.throne_king: +2 Might once per character).'
+  empty: true
+- id: room:queen_throne
+  name: Queen's throne
+  kind: room
+  size: M
+  extent: [1024, 1152]
+  floor: 0
+  purpose: 'The Queen''s throne (q-c9.throne_queen: +2 Personality); the loose panel with the carved mask.'
+  empty: true
+- id: room:thieves_throne
+  name: Thieves' throne
+  kind: room
+  size: S
+  extent: [640, 512]
+  floor: 0
+  purpose: 'The Prince of Thieves'' throne in a closet (q-c9.throne_thieves: +2 Accuracy; player bit 11302).'
+  empty: true
+- id: room:haunch_vault
+  name: Vault of the haunches
+  kind: room
+  size: M
+  extent: [1792, 896]
+  floor: 0
+  purpose: Grave goods in niches and the vault's chest (two Might Boosts on its first opening); the dungeon stair beside it.
+  population:
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 3 placed Stone Golems.
+  - actor: 11582
+    groups: 1
+    levels: [40, 40]
+    notes: 1 placed Iron Golem.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:dungeon_stair
+  name: Dungeon stair
+  kind: corridor
+  size: S
+  extent: [384, 1024]
+  floor: [-640, 0]
+  purpose: 'Steps down into the hieroglyph dungeon (''Stairs down.'' on a sign): the dungeon is open without the drop.'
+  empty: true
+- id: room:neck_landing
+  name: Neck landing
+  kind: room
+  size: S
+  extent: [768, 768]
+  floor: 1280
+  purpose: The top of the throat stair; passages into the lappets.
+  population:
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 3 placed Stone Golems.
+- id: room:west_lappet
+  name: West lappet
+  kind: room
+  size: S
+  extent: [768, 1152]
+  floor: 1280
+  purpose: 'Inside the striped lappet before the west shoulder: a priest''s chest.'
+  population:
+  - actor: 11270
+    groups: 1
+    levels: [42, 42]
+    notes: 1 placed Tomb Mummy.
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 1 placed Stone Golem.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:east_lappet
+  name: East lappet
+  kind: room
+  size: S
+  extent: [768, 1152]
+  floor: 1280
+  purpose: 'The east lappet: an offering niche with gems.'
+  population:
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 2 placed Stone Golems.
+- id: room:riddle
+  name: The riddle chamber
+  kind: room
+  size: M
+  extent: [2560, 1408]
+  floor: 1280
+  purpose: 'Behind the face: two bars of light from the eyes, two plaques, the sun disc that asks ''What is my name?'' and
+    sinks on a wrong answer; two iron guardians.'
+  population:
+  - actor: 11582
+    groups: 1
+    levels: [40, 40]
+    notes: 2 placed Iron Golems.
+- id: room:legend_throne
+  name: Throne of legends
+  kind: room
+  size: M
+  extent: [896, 896]
+  floor: 1280
+  purpose: 'The throne of legends (+2 Endurance) and two lecterns: the Book of the Heavens (Starburst, Air) and the Book of
+    the Sun (Divine Intervention, Light).'
+  empty: true
+- id: room:stair_foot
+  name: Stair foot
+  kind: room
+  size: S
+  extent: [1024, 768]
+  floor: -640
+  purpose: The foot of the dungeon stair.
+  population:
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 2 placed Sand Golems.
+- id: room:glyph_w
+  name: West hieroglyph hall
+  kind: corridor
+  size: M
+  extent: [2176, 768]
+  floor: -640
+  purpose: A low hall of hieroglyph walls, the second clue; sand drifted in.
+  population:
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 3 placed Sand Golems.
+  - actor: 11270
+    groups: 1
+    levels: [42, 42]
+    notes: 1 placed Tomb Mummy.
+- id: room:glyph_e
+  name: East hieroglyph hall
+  kind: corridor
+  size: M
+  extent: [2176, 768]
+  floor: -640
+  purpose: Two more clue walls; the drop cell's door at its end.
+  population:
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 2 placed Sand Golems.
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 1 placed Stone Golem.
+- id: room:library
+  name: Scribes' library
+  kind: room
+  size: M
+  extent: [2432, 1408]
+  floor: -640
+  purpose: Shelves of clay tablets, the scribes' lectern (two gem finds), a chest; the fifth clue and the whole riddle on
+    the end wall.
+  population:
+  - actor: 11590
+    groups: 1
+    levels: [22, 22]
+    notes: 2 placed Sand Golems.
+  - actor: 11581
+    groups: 1
+    levels: [26, 26]
+    notes: 2 placed Stone Golems.
+  - actor: 11270
+    groups: 1
+    levels: [42, 42]
+    notes: 1 placed Tomb Mummy.
+  treasure:
+  - {kind: chest, count: 1, tier: 4}
+- id: room:drop_cell
+  name: Drop cell
+  kind: room
+  size: S
+  extent: [768, 768]
+  floor: -640
+  purpose: 'Where the wrong name lands the party (fall damage): a sand heap, the first clue, a door that opens from inside
+    and stays open.'
+  empty: true
+links:
+- id: link:gate_paws
+  from: room:breast_gate
+  to: room:paw_hall
+  kind: open
+- id: link:paws_throat
+  from: room:paw_hall
+  to: room:throat_stair
+  kind: open
+- id: link:paws_gw
+  from: room:paw_hall
+  to: room:gallery_w
+  kind: open
+- id: link:paws_ge
+  from: room:paw_hall
+  to: room:gallery_e
+  kind: open
+- id: link:gw_belly
+  from: room:gallery_w
+  to: room:belly_hall
+  kind: open
+- id: link:ge_belly
+  from: room:gallery_e
+  to: room:belly_hall
+  kind: open
+- id: link:belly_king
+  from: room:belly_hall
+  to: room:king_throne
+  kind: double_door
+  condition: &id001
+    qbit: 112181
+  notes: 'The crown door: opens when the Sphinx is named (q-c9.done).'
+- id: link:belly_queen
+  from: room:belly_hall
+  to: room:queen_throne
+  kind: door
+  condition: *id001
+  notes: 'The veil door: opens when the Sphinx is named.'
+- id: link:queen_thieves
+  from: room:queen_throne
+  to: room:thieves_throne
+  kind: secret_door
+  notes: The loose panel with the carved mask.
+- id: link:belly_haunch
+  from: room:belly_hall
+  to: room:haunch_vault
+  kind: door
+- id: link:haunch_dstair
+  from: room:haunch_vault
+  to: room:dungeon_stair
+  kind: open
+- id: link:throat_up
+  from: room:throat_stair
+  to: room:neck_landing
+  kind: stairs
+  rise: 1280
+- id: link:neck_wl
+  from: room:neck_landing
+  to: room:west_lappet
+  kind: open
+- id: link:neck_el
+  from: room:neck_landing
+  to: room:east_lappet
+  kind: open
+- id: link:wl_riddle
+  from: room:west_lappet
+  to: room:riddle
+  kind: open
+- id: link:el_riddle
+  from: room:east_lappet
+  to: room:riddle
+  kind: open
+- id: link:riddle_legend
+  from: room:riddle
+  to: room:legend_throne
+  kind: double_door
+  condition: *id001
+  notes: 'The legend door: opens with the name.'
+- id: link:riddle_drop
+  from: room:riddle
+  to: room:drop_cell
+  kind: drop
+  one_way: true
+  notes: 'A wrong name: the sun disc sinks and the party lands in the drop cell (moved inside the map, the event''s damage).'
+- id: link:dstair_down
+  from: room:dungeon_stair
+  to: room:stair_foot
+  kind: stairs
+  rise: -640
+- id: link:foot_gw
+  from: room:stair_foot
+  to: room:glyph_w
+  kind: open
+- id: link:gw_ge
+  from: room:glyph_w
+  to: room:glyph_e
+  kind: open
+- id: link:gw_library
+  from: room:glyph_w
+  to: room:library
+  kind: door
+- id: link:library_ge
+  from: room:library
+  to: room:glyph_e
+  kind: open
+- id: link:drop_out
+  from: room:drop_cell
+  to: room:glyph_e
+  kind: door
+  opens_from: room:drop_cell
+  notes: Opens from inside and stays open (D-39).
+loops:
+- id: loop:flanks
+  spaces:
+  - room:paw_hall
+  - room:gallery_w
+  - room:belly_hall
+  - room:gallery_e
+  notes: Round the body by the two sarcophagus galleries.
+- id: loop:head
+  spaces:
+  - room:neck_landing
+  - room:west_lappet
+  - room:riddle
+  - room:east_lappet
+  notes: Round the head through both lappets.
+- id: loop:glyphs
+  spaces:
+  - room:glyph_w
+  - room:library
+  - room:glyph_e
+  notes: Round the dungeon's halls through the library.
+- id: loop:drop
+  spaces:
+  - room:riddle
+  - room:drop_cell
+  - room:glyph_e
+  - room:glyph_w
+  - room:stair_foot
+  - room:dungeon_stair
+  - room:haunch_vault
+  - room:belly_hall
+  - room:gallery_w
+  - room:paw_hall
+  - room:throat_stair
+  - room:neck_landing
+  - room:west_lappet
+  notes: 'The wrong name''s way: down by the floor, up by the dungeon stair, back to the head.'
+entrances:
+- id: entrance:x6_paws
+  space: room:breast_gate
+  kind: both
+  neighbour: exit:x6_paws
+  facing: n
+  how: 'From X6''s door between the Northern Sphinx''s paws (q-c9.door, Arie''s amulet): in the breast gate about 256 inside
+    the leaves, facing north; the same leaves lead back out (the exit preset).'
+critical_path:
+- room:breast_gate
+- room:paw_hall
+- room:throat_stair
+- room:neck_landing
+- room:west_lappet
+- room:riddle
+- room:legend_throne
+return_path:
+- room:legend_throne
+- room:riddle
+- room:east_lappet
+- room:neck_landing
+- room:throat_stair
+- room:paw_hall
+- room:gallery_w
+- room:belly_hall
+- room:king_throne
+- room:belly_hall
+- room:queen_throne
+- room:thieves_throne
+- room:queen_throne
+- room:belly_hall
+- room:gallery_e
+- room:paw_hall
+- room:breast_gate
+goals:
+- id: goal:name
+  space: room:riddle
+  kind: use
+  story: Q-C9
+  what: 'Name the Sphinx on the sun disc: GOLUX (q-c9.name_right: done 112181, award 419, 6,000).'
+  gives:
+    qbit: 112181
+- id: goal:thrones
+  space: room:king_throne
+  kind: use
+  story: Q-C9
+  what: 'Sit on the four thrones (King, Queen, Thieves, legend): +2 Might, Personality, Accuracy, Endurance once per character
+    (player bits 11300-11303).'
+set_pieces:
+- id: set:riddle
+  kind: scripted
+  spaces:
+  - room:riddle
+  - room:drop_cell
+  rule: 'The sun disc asks ''What is my name?'' on every step until named: GOLUX opens the crown, veil and legend doors with
+    the Sphinx''s stir; anything else sinks the disc and drops the party, hurt, into the drop cell; the disc rises again.'
+- id: set:clues
+  kind: scripted
+  spaces:
+  - room:drop_cell
+  - room:glyph_w
+  - room:glyph_e
+  - room:library
+  rule: Five clue walls, one letter each, and the whole riddle on the library's end wall.
+diagram: {file: diagram.txt}
+totals:
+  rooms: 21
+  sectors: 21
+  monsters_about: 45
+  chests: 4
+  loops: 4
+  doors: 7
+  fixed_actors: 0
+  floor_area_munits2: 35
+notes: 'Class M (MAPS: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From the MU-6 graph devdocs/xeen/mockups/act4_graphs/xd15.graph.yml
+  and D-39 (two carved throne doors in the belly hall, the mask on the loose panel; the drop cell''s door opens from inside
+  and stays open; the drop''s damage by event; Starburst (Air) and Divine Intervention books; two Might Boosts by event; levels
+  22-45). 21 rooms, one rectangle each; the stairs are stepped rooms of 32 risers.'

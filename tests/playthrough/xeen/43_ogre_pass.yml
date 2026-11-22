@@ -1,0 +1,117 @@
+# Xeen playthrough, segment 43: Ogre Pass and the Monga melons (D1, D2), Q-D11's peace route and Q-D9. Kramer's
+# caravans (Ogres: started); the wild melon patch in Castleview Vale's southern meadows (3 Monga melons); east over
+# the edge into Sprite Forest; Nibbler's Hollow (Monga melons: the Bark key); Graalg at his parley fire (Bow low,
+# slave!; Energy disks: 2, the pass is safe); back west to Castleview and Kramer (Ogres: Q-D11 done).
+# Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (Kramer's door, the east edge), d2/L4/playtest.yml (Nibbler, Graalg).
+# Quest logic: source/quests/q-d11.yml, q-d9.yml.
+#   python3 tests/playthrough/xeen/run.py 43
+id: xeen.playthrough.43_ogre_pass
+title: "Xeen playthrough 43: Kramer's ogres talked round; Nibbler's melons buy the Bark key"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/41_gremlin_court.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  # Kramer's Caravans (house 4464): Ogres (Q-D11 started).
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4914}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "These blasted Ogres are killing my business."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113220]}
+  # The wild melon patch in the southern meadows (q-d9.melons_south): three Monga melons.
+  - set_pose: {map: xeen_d1.odm, x: 9216, y: -13312, z: 2500, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 3.0}
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 194}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Monga Melons, three of them, ripe.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 4 do if held() ~= 0 then stow() end end
+        if item_count(12343) ~= 3 then error("Monga melons: " .. item_count(12343) .. " " .. pack_items()) end
+  # East along the road off D1's edge into Sprite Forest.
+  - set_pose: {map: xeen_d1.odm, x: 21504, y: 2048, z: 1088, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 2048, z: 1088, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "close()"}
+  # Nibbler's Hollow (4556, NPC 5106): Monga melons, twice (started; then three melons for the Bark key).
+  - set_pose: {map: xeen_d2.odm, x: -9985, y: -5888, z: 992, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 5106}
+  - select_topic: {match_label: "Monga melons"}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if not qbit(113181) then error("Q-D9 done not set (melons " .. item_count(12343) .. ")") end
+        if item_count(12343) ~= 0 then error("melons left: " .. item_count(12343)) end
+  # Graalg at the parley fire (actor 22, NPC 5108): Bow low, slave! (friends); Energy disks (2, peace).
+  - set_pose: {map: xeen_d2.odm, x: 6912, y: 13568, z: 2048, yaw: 0.6, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 7373, y: 13824, z: 2048, z_tolerance: 700, radius: 192, timeout_seconds: 120, clear_hostiles: 3000}
+  - interact_actor: {actor_index: 22}
+  - select_topic: {match_label: "Bow low, slave!"}
+  - assert:
+      dialog: {text_contains: "You make big laugh!"}
+  - select_topic: {match_label: "Energy disks"}
+  - assert:
+      dialog: {text_contains: "Here are two energy disks."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12334) ~= 5 then error("Energy Disks after Graalg: " .. item_count(12334)) end
+  - assert: {qbit_set: [113221, 113223]}
+  - assert: {qbit_clear: [113222]}
+  # Back west off D2's edge to Castleview Vale, and Kramer (Ogres: Q-D11 done).
+  - set_pose: {map: xeen_d2.odm, x: -22016, y: 2048, z: 992, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24576, y: 2048, z: 992, z_tolerance: 900, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "Ogres"}
+  - assert:
+      dialog: {text_contains: "Thank you so much for getting rid of the Ogres!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if gold() - recall("gold") ~= 1500 then error("Kramer paid " .. (gold() - recall("gold"))) end
+        for i = 0, 3 do
+          if string.find(conditions(i), "Weak", 1, true) then error("member " .. i .. " is Weak: " .. conditions(i)) end
+        end
+        log("43 done: experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [113181, 113223, 113227]}
+  # The Temple of Mok (house 4455) on Castleview's square: Sprite Forest (D2), crossed on this segment's road, can leave
+  # a member Petrified (its Gorgon and Medusa Sprites; A3 sessions 30-32); the temple heals whoever is down (D-82).
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4455, min: 0}
+  - save_game: {name: "43 Ogre Pass", path: output/playthrough/xeen/checkpoints/43_ogre_pass.oysav}

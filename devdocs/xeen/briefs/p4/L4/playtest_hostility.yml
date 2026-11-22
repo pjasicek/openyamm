@@ -1,0 +1,67 @@
+# Hostility: the field groups hostile, the guardians hidden until the test.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.hostility
+title: 'Plane of Water (P4): 27 hostiles placed, the test''s three hidden, a quiet arrival'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      hostile: true
+      min: 27
+- assert:
+    actor_visible:
+      actor_index: 2
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- advance_runtime:
+    seconds: 6
+- assert:
+    party_position:
+      x: 3968
+      y: 3968
+      radius: 96
+      z_min: -8
+      z_max: 40

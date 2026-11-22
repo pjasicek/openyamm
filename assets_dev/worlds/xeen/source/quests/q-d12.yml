@@ -1,0 +1,69 @@
+# Q-D12 Yog's Barbarians (QUESTS 2.2 Q-D12). Owner: A3. Format: QUESTS_FORMAT.md.
+# Yog's Sardaj camp in Castleview Vale asks whether you came for battle. Peace makes the barbarians friends (and,
+# through them, the giants: QUESTS' "easier Q-D16"); battle, or burning their camp, makes them enemies. The experience
+# is on the peace; the violent route pays in loot and kills.
+id: Q-D12
+title: "Yog's Barbarians"
+act: III
+kind: side
+status: full
+giver: 4953          # Yog, chief of the Sardaj (D1, the Sardaj camp)
+maps: [D1]
+level: 20
+block: 92
+after: [m7.sigil]
+source: "QUESTS Q-D12; dark/aaze0007:12-13, :20-30"
+
+qbits:
+  started: {id: 113240, journal: "Yog of the Sardaj barbarians asks whether you have come to his lands for battle.",
+            until: [done]}
+  friends: {id: 113241, note: "peace with the Sardaj"}
+  hostile: {id: 113242, note: "the Sardaj attack (A6 reads it)"}
+  done: {id: 113243, note: "friends or enemies, Yog has his answer"}
+  camp_burned: {id: 113244, note: "D1's Sardaj camp (A6)"}
+  fed: {id: 113245, note: "Yog filled the party's packs"}
+
+npcs:
+  4953:              # Yog
+    topics:
+      - n: 1
+        label: We come in peace
+        show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
+        text: "I am Yog, chief of the Sardaj tribe. You do not come for battle? Then you are welcome among us."
+        do: [{set: started}, {set: friends}, {set: done}, {xp: 1000}]
+      - n: 2
+        label: Battle!
+        show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
+        text: "Then you shall not leave these lands alive!"
+        do: [{set: started}, {set: hostile}, {set: done}]
+      - n: 3
+        label: Energy disks
+        show: {qbit: friends}
+        text: "We would gladly give energy disks to you if we had them, but the Ogres stole the only ones we owned."
+      - n: 4
+        label: Help against Alamar
+        show: {qbit: friends}
+        states:
+          - when: {qbit: fed}
+            text: "You are welcome among us, friend. The giants of the desert are our friends too. Tell Gurodel that Yog sent you."
+          - text: "We will fill your packs with food so that your journey will be without hunger."
+            do: [{set: fed}, {lua: "AddValue(Food, 10)"}]
+
+hooks:
+  sardaj:
+    map: D1
+    where: "the Sardaj camp on the vale's north edge: Yog (talking actor 4953) and his barbarians; A6 makes them hostile on hostile or camp_burned, peaceful otherwise"
+    reads: [hostile, camp_burned, friends]
+  camp:
+    map: D1
+    where: "the Sardaj tents (the map's question 'You have found a Barbarian camp. Destroy?')"
+    sets: [camp_burned, hostile, done]
+    once: true
+    do: [{gold: 800}]
+    text: "Smoke rises into the sky as you put the camp to the torch. Among the ashes, the tribe's small hoard of gold."
+    else_text: "Ash and blackened tent poles."
+
+rewards: {xp: 1000, gold: 0, items: "food (peace) or the camp's gold (war)"}
+notes:
+  - "relations.yml (A2): friends: the Sardaj barbarians (D1) and Gurodel's giants (D5, Q-D16) friendly; hostile or camp_burned: both hostile."
+playthrough: "D1: Yog (We come in peace; Help against Alamar)."

@@ -1,0 +1,96 @@
+format: 0
+sectors:
+  room:barracks: 1
+  room:bolt_hole: 2
+  room:burrow: 3
+  room:cellar: 4
+  room:court: 5
+  room:door: 6
+  room:larder: 7
+  room:mud: 8
+  room:plunder: 9
+  room:sap: 10
+  room:sap_stair: 11
+  room:waiting: 12
+events:
+  evt:arrive: 1
+  evt:bench: 2
+  evt:chest_pay: 3
+  evt:chest_plunder: 4
+  evt:chest_throne: 5
+  evt:court_roused: 6
+  evt:dais: 7
+  evt:door_court: 8
+  evt:door_larder: 9
+  evt:door_waiting: 10
+  evt:drains: 11
+  evt:enter: 12
+  evt:exit: 13
+  evt:gears: 14
+  evt:guards_dead: 15
+  evt:hatch: 16
+  evt:king_dead: 17
+  evt:king_gone: 18
+  evt:portrait: 19
+  evt:sign: 20
+  evt:table: 21
+  evt:throne: 22
+  evt:trapdoor: 23
+  evt:wheel: 24
+doors:
+  door:court: 1
+  door:hatch: 2
+  door:larder: 3
+  door:trapdoor: 4
+  door:waiting: 5
+containers:
+  chest:pay: 0
+  chest:plunder: 1
+  chest:throne: 2
+map_vars:
+  once.arrive: 0
+  once.guards_dead: 1
+  once.king_dead: 2
+lights:
+  light:barracks: 1
+sounds:
+  sound:barracks_fire: 1
+  sound:drains: 2
+  sound:drip: 3
+decorations:
+  deco:barracks_bones: 0
+  deco:barracks_fire: 1
+  deco:barracks_straw_1: 2
+  deco:barracks_straw_2: 3
+  deco:burrow_sconce_1: 4
+  deco:burrow_sconce_2: 5
+  deco:cellar_barrel_1: 6
+  deco:cellar_barrel_2: 7
+  deco:cellar_cask_1: 8
+  deco:cellar_cask_2: 9
+  deco:cellar_sack_1: 10
+  deco:cellar_sack_2: 11
+  deco:cellar_sconce: 12
+  deco:court_chandelier: 13
+  deco:court_goblet: 14
+  deco:court_heap_e_bag: 15
+  deco:court_heap_e_barrel: 16
+  deco:court_heap_e_keg: 17
+  deco:court_heap_e_sack: 18
+  deco:court_heap_w_bag: 19
+  deco:court_heap_w_barrel: 20
+  deco:court_heap_w_keg: 21
+  deco:court_heap_w_sack: 22
+  deco:court_sconce_e: 23
+  deco:court_sconce_w: 24
+  deco:larder_barrel_1: 25
+  deco:larder_barrel_2: 26
+  deco:larder_bowl: 27
+  deco:larder_plate: 28
+  deco:plunder_bucket_1: 29
+  deco:plunder_bucket_2: 30
+  deco:plunder_dirt: 31
+  deco:plunder_sconce_n: 32
+  deco:plunder_sconce_w: 33
+  deco:sap_dirt_1: 34
+  deco:waiting_sconce_e: 35

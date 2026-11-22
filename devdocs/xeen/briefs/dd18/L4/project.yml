@@ -1,0 +1,45 @@
+format: 0
+id: xeen_dd18
+name: Sandcaster Sewer
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-18
+units: {plan_grid: 512}
+extent: {footprint_cells: [32, 23], climbs: n}
+map_stats:
+  id: 9171
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 44
+  environment: stoneroom
+  lock_difficulty: 3
+  slots:
+    - {monster: Xeen Sewer Stalker, tier: 2, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Cobra, tier: 1, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Mantis, tier: 2, per_marker: [2, 3], weight: 30}
+neighbours:
+  - id: exit:d3_shaft
+    to: xeen_d3.odm
+    kind: door
+    arrival: [-17408, 15872, 1504]
+    arrival_hint: "On D3 (Sandcaster), 256 south of the street shaft's iron lid against Barticus' Gym, facing south, away from it and the gym."
+    direction: 270
+    notes: "D3 installed by A5; its street shaft (thing:dd18_shaft, sketch [30, 32] = (-17408, 16384), entrance:dd18_shaft, D3 door:dd18, 'Descend to the sewer?' as its meaning) leads here, to this map's start at the shaft ladder's foot: (0, 128, 0) facing south (270, game 1536)."
+  - id: exit:d5_grate
+    to: xeen_d5.odm
+    kind: door
+    arrival: [0, 0, 0]
+    arrival_hint: "On D5 (Desert of Doom), outside the long tunnel's grate (A6, phase 5)."
+    listed_only: true
+    direction: 0
+    notes: "SEALED until phase 5 (D-27): the grate is bolted on the desert side; this map's grate runs A3's dd18.tunnel_grate (\"Sand blows through the bars. The bolt is on the other side.\") until D5's grate sets d5_tunnel (116121). Unsealing: D5's arrival point here, and evt:desert_grate becomes the exit preset to exit:d5_grate with condition {qbit: d5_tunnel} (dress.py, one change). D5's way in should land at (-7680, -5696, -640) facing east (0), inside the grate."
+qbits:
+  arrived_once: 117280
+  d5_tunnel: 116121
+  gym_paid: 116120
+notes: "Xeen design brief for a new map: DD-18 Sandcaster Sewer (the source's dark/aaze0032 sewer under Sandcaster), an optional dungeon (D-27): Barticus' members' room (a pay box, 5,000 gold once per party by A3's dd18.pay_box, gym_paid 116120; the Vitamin Brew +2 Endurance and the Protein Brew +2 Might once per character, player bits 11318 and 11319; The Art of Bodybuilding) and the long tunnel under the desert to D5, bolted on the desert side (dd18.tunnel_grate reads d5_tunnel 116121; phase 5 opens it). Size M (MAPS.md section 0): 20-45 sectors, 30-90 M units squared, 50 monsters at levels 25-38, party 28-30, treasure 3. Graph devdocs/xeen/mockups/act3_graphs/dd18.graph.yml with decider D-27 (mockups/act3_a8_decisions_b.md, which wins). Rows (A2): sewer stalkers 11400 (Sewer Stalker 11401, 16; Stalker Matriarch 11402, 4), cobras 11490 (Guardian Asp 11490, 10; Killer Cobra 11491, 4), mantis ants 11370 (Mantis Warrior 11371, 12; Mantis Queen 11372, 4); no hornets. Kill XP 61,292 for the party, 15.3k per member. Map qbits 117280-117319 (provisional); map_stats 9171 (source/maps.yml: music 44, treasure 3)."

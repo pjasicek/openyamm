@@ -1,0 +1,65 @@
+# X1-TAM Oslo's son: the quest the Orc Caves (XD-05) brief invented (MAPS X1 "Added by the Act I briefs"). Ours, not the
+# source's; the orc outposts' wording is (CHANGES XD05-3). Owner: A3.
+id: X1-TAM
+title: Oslo's Son
+act: I
+kind: ours
+status: full
+giver: 4039          # Oslo the farmer
+maps: [X1, XD-05]
+level: 4
+block: 140
+after: []
+source: "briefs/xd05/L4 (Tam, the drums); xeen/aaze0019:6-7 (the outposts' wording)"
+
+qbits:
+  started: {id: 115000, journal: "The orcs took Oslo's son Tam to their caves in the north-east hills.", until: [done]}
+  war_drums_burned: {id: 110050, map: XD-05, note: "all three drums burnt (journal and Oslo's Drums topic); X1's outposts are placed groups that never refill, so the drums change nothing outside (A5, 2026-11-20)"}
+  orc_back_gate_open: {id: 110051, map: XD-05, note: "the back gate to X7's south slopes"}
+  captive_freed: {id: 110052, map: XD-05}
+  done: {id: 110102, map: X1, note: "was tam_reward"}
+
+npcs:
+  4039:              # Oslo
+    topics:
+      - n: 1
+        label: Tam
+        states:
+          - when: {qbit: done}
+            text: "Tam eats like an orc now. I'm not complaining. Thank you."
+          - when: {qbit: captive_freed}
+            text: "Tam! He walked in the door an hour ago and asked what's for supper, as if nothing happened. Here. It's what I put by for his wedding, and he can earn another."
+            do: [{set: done}, {clear: started}, {xp: 400}, {gold: 200}, {move_npc: [4040, 4036]}]
+          - when: {qbit: started}
+            text: "The caves are in the north-east hills. Follow the drums."
+          - text: "The orcs took my boy Tam to their caves in the hills, north-east of town. You can hear their drums at night. I'm a farmer. I can't fight orcs."
+            do: [{set: started}]
+      - n: 2
+        label: Drums
+        show: {qbit: war_drums_burned}
+        text: "The drums have stopped. Nights are quiet again, and the cows have started giving milk."
+
+hooks:
+  tam:
+    map: XD-05
+    window: "a long story text to read (Tam in the pit, 242 characters)"
+    where: "the prisoner pit in the sleeping hollows: the cage gate over its rim (evt:cage_gate) lowers the rope ladder; stepping down to Tam (built: evt:tam, once; the map hides group 20 after the call) runs this in place of the map's message, bit and experience"
+    sets: [captive_freed]
+    once: true
+    do: [{xp: 300}]
+    text: "A skinny farm boy scrambles to his feet. \"You came! I'm Tam, Oslo's son. They were going to sell me back to Pa for every cow he's got. I can climb out myself now. I'll run straight home and tell him!\" He swarms up the rope ladder and is gone."
+  drums:
+    map: XD-05
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the last of the three war drums burnt (built: evt:drums_all, once) in place of the map's bit, message and its 750 experience; each drum's own 250 stays the map's"
+    sets: [war_drums_burned]
+    once: true
+    do: [{xp: 500}]
+    text: "The last drum burns, and the caves fall silent but for dripping water. Without their drums the warband's raiders will not ride out again. Oslo will want to hear of it."
+  back_gate:
+    map: XD-05
+    where: "the bar of the back gate (built: evt:gate_bar)"
+    sets: [orc_back_gate_open]
+
+rewards: {xp: 1200, gold: 200}
+playthrough: "Oslo (Tam); XD-05: the three drums, the cage gate and Tam in the pit; Oslo (Tam)."

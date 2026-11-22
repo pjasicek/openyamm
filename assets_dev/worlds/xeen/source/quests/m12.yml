@@ -1,0 +1,86 @@
+# M12 The talking skull's Enchanted Key (QUESTS M12). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source's skull wants 300 gems; MM6-MM8 parties carry a handful, so ten (the deep skulls sell +2 for 10, XD-10).
+id: M12
+title: The Enchanted Key
+act: II
+kind: main
+status: full
+giver: 4402          # Artemus points the way; the skull in XD-10 sells the key
+maps: [XD-07, X5, XD-10]
+level: 18
+block: 12
+after: [m6.crodo_quest]
+source: "QUESTS M12; xeen/aaze0045:48, :54; xeen/aaze0049:12 (\"The key to the Tower of High Magic lies in the Cave of Illusion.\")"
+
+qbits:
+  started: {id: 111241, journal: "Darzog's tower opens to a Skeleton Key kept in the Archmage's study atop the Tower of High Magic. A talking skull in the Cave of Illusion sells the study's key for ten gems.",
+            until: [key_bought]}
+  key_bought: {id: 111240, journal: "A talking skull in the Cave of Illusion sold you the Enchanted Key to the Archmage's study atop the Tower of High Magic, in the lagoon.",
+               until: [m13.done]}
+  plug_pulled: {id: 110640, map: XD-10, note: "the map's own: the reservoir's plug pulled, the bed drained (A8)"}
+  xd10_arrived_once: {id: 110641, map: XD-10, note: "the map's own: first arrival in XD-10 (A8)"}
+  cache_potion: {id: 110642, map: XD-10, note: "the map's own: the cache's Potion of Might at power 10, given once (D-22.2, A8)"}
+
+player_bits:         # once per character (D-4): the stat skulls of XD-10 (A8); the map pays the gems and raises the stat
+  skull_upper_luck: {id: 11236, map: XD-10}
+  skull_upper_personality: {id: 11237, map: XD-10}
+  skull_deep_intellect: {id: 11238, map: XD-10}
+  skull_deep_speed: {id: 11239, map: XD-10}
+  skull_grotto: {id: 11240, map: XD-10}       # one per member: Might, Endurance or Accuracy
+
+items:
+  enchanted_key: "the Enchanted Key; bought from XD-10's great skull for 10 gems (Xeen.payGems); opens XD-11's study (D-89)."
+
+npcs:
+  4402:              # Artemus
+    topics:
+      - n: 1
+        label: Darzog's tower
+        show: {qbit: m6.crodo_quest}
+        states:
+          - when: {any: [{qbit: key_bought}, {found: skeleton_key}]}   # D-90 5: the key held once, not the chest opened
+            text: "The Tower of High Magic stands in the lagoon. Mind the top floors: the wizards brewed things up there they never named."
+          - text: "Darzog sealed his tower with a Skeleton Key, and the Archmage's study atop the Tower of High Magic keeps it for him. The study's key is sold by a talking skull deep in the Cave of Illusion, in the tundra. Skulls take gems, not gold: ten, for that key. Don't ask me what a skull does with a gem."
+            do: [{set: started}]
+
+hooks:
+  skull:
+    map: XD-10
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: beat
+    where: "the great skull in the grotto at the cave's bottom (reached once the plug is pulled)"
+    requires: {lua: "Xeen.gemCount() >= 10"}
+    fail_text: "\"For ten gems I'll give you a key,\" the skull says. You don't have ten gems."
+    sets: [key_bought]
+    gives: [enchanted_key]
+    once: true
+    do: [{lua: "Xeen.payGems(10)"}, {xp: 1500}]
+    text: "\"For ten gems I'll give you a key,\" the skull says. It takes ten of your gems. The skull gives you the key to the Archmage's study in the Tower of High Magic."
+    else_text: "The skull has nothing more to sell you but its opinions."
+  skull_upper:
+    map: XD-10
+    where: "the upper skull alcoves off the frost cavern, near the south mouth: the offer (the map asks Yes/No, then pays 3 gems and gives +2 to the clicking member once)"
+    text: "\"Three gems,\" the skull says, \"and I'll make you two better than you are. Once. I'm not a charity.\""
+  skull_deep:
+    map: XD-10
+    where: "the deep skull alcoves behind the mirror maze's mirage: the offer (5 gems, +3 once per member)"
+    text: "\"Five gems for three points,\" the skull says. \"Down here prices are honest. Up there they're cheap.\""
+  skull_grotto:
+    map: XD-10
+    where: "the great skull in the grotto, after the key is bought: the stat offer (10 gems, +5 to Might, Endurance or Accuracy, once per member)"
+    text: "\"Ten gems,\" the great skull says, \"and five points of Might, Endurance or Accuracy. Choose. I don't do refunds.\""
+  skull_sold:
+    map: XD-10
+    where: "any skull, when the member has already bought from it"
+    text: "\"You've had yours,\" the skull says. \"Next.\""
+  skull_poor:
+    map: XD-10
+    where: "any skull, when the party lacks the gems"
+    text: "The skull looks at your purse and says nothing at all, which is worse."
+
+rewards: {xp: 1500, gold: 0}
+# XD-10's other skulls sell stat rises for gems, once per character (D-4, 2026-11-20): the upper alcoves +2 for 3 gems,
+# the deep alcoves +3 for 5, the great skull +5 to Might, Endurance or Accuracy for 10. The map pays and raises the
+# stat for the member who clicks (Xeen.payGems, a player bit per skull, registered in `player_bits` above); these
+# hooks are their words.
+playthrough: "XD-07: Artemus (Darzog's tower). XD-10: pull the plug; the great skull with 10 gems: the Enchanted Key."

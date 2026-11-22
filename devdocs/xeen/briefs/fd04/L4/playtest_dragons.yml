@@ -1,0 +1,722 @@
+# D-32 and D-57 Q29 (written by output/studio_cal/fd04/tools/gen_tests.py): the party (immortal) waits 30 s at
+# each dragon hall's low opening (256 x 288), floor by floor; then every dragon of that floor is still in its
+# own hall, on its floor (position within the hall's circle, its feet at least the floor's height), and none of
+# the 26 stands in the stair's ring.
+id: xeen.fd04.l4.dragons
+title: 'Dragon Tower (FD-04 L4): each floor keeps its dragons'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- console:
+    line: tp 1216 -500 0
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- assert:
+    actor_visible:
+      actor_index: 49
+      report_state: true
+      dead: false
+      near:
+        x: 928.0
+        y: 656.0
+        max_distance: 1070
+        min_z: -16
+- assert:
+    actor_visible:
+      actor_index: 50
+      report_state: true
+      dead: false
+      near:
+        x: 928.0
+        y: 656.0
+        max_distance: 1070
+        min_z: -16
+- console:
+    line: tp -736 1150 1280
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- assert:
+    actor_visible:
+      actor_index: 43
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- assert:
+    actor_visible:
+      actor_index: 44
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- assert:
+    actor_visible:
+      actor_index: 45
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- assert:
+    actor_visible:
+      actor_index: 46
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- assert:
+    actor_visible:
+      actor_index: 47
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- assert:
+    actor_visible:
+      actor_index: 48
+      report_state: true
+      dead: false
+      near:
+        x: 288.0
+        y: -288.0
+        max_distance: 1765
+        min_z: 1264
+- console:
+    line: tp 544 1150 2560
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- console:
+    line: tp 1152 1150 2560
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- assert:
+    actor_visible:
+      actor_index: 20
+      report_state: true
+      dead: false
+      near:
+        x: 1152.0
+        y: 96.0
+        max_distance: 945
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 21
+      report_state: true
+      dead: false
+      near:
+        x: 1152.0
+        y: 96.0
+        max_distance: 945
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 22
+      report_state: true
+      dead: false
+      near:
+        x: 1152.0
+        y: 96.0
+        max_distance: 945
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+      dead: false
+      near:
+        x: 1152.0
+        y: 96.0
+        max_distance: 945
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 37
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 38
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 39
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 40
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 41
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- assert:
+    actor_visible:
+      actor_index: 42
+      report_state: true
+      dead: false
+      near:
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2544
+- console:
+    line: tp 480 -1280 3840
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- console:
+    line: tp 1280 600 3840
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- advance_runtime:
+    seconds: 30
+- play_lua:
+    source: close()
+- assert:
+    actor_visible:
+      actor_index: 9
+      report_state: true
+      dead: false
+      near:
+        x: -32.0
+        y: 704.0
+        max_distance: 1295
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 10
+      report_state: true
+      dead: false
+      near:
+        x: -32.0
+        y: 704.0
+        max_distance: 1295
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 11
+      report_state: true
+      dead: false
+      near:
+        x: -32.0
+        y: 704.0
+        max_distance: 1295
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 24
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 25
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 26
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 27
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 28
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - -1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - -1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - -1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - -1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - -1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - -1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - -1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - -1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - -1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - -1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - -1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - -1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - -1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - -1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - -1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - -800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - -800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - -800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - -800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - -800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - 0
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - 0
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - 0
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - 0
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - 0
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - 800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - 800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - 800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - 800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - 800
+      - 1744
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - 1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - 1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - 1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - 1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - 1744
+      - 800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - 1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - 1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - 1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - 1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - 1744
+      - 0
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11641
+      near:
+      - 1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      near:
+      - 1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11643
+      near:
+      - 1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11652
+      near:
+      - 1744
+      - -800
+      - 200
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11653
+      near:
+      - 1744
+      - -800
+      - 200
+      max: 0

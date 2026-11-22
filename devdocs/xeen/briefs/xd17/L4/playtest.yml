@@ -1,0 +1,1283 @@
+# XD-17 Shangri-La: the walk. Every house door is clicked from in front of it (A4's
+# houses 4351-4365), its screen asserted and closed with Escape; the pyramid refuses before m30.done; the
+# well gives its award once, then the water; the crystal speaks.
+# Written by output/studio_cal/xd17/tools/gen_playtests.py (A5, 2026-11-21); run with output/studio_cal/xd17/run.sh.
+id: xeen.xd17.l4.walk
+title: 'Shangri-La (XD-17 L4): the valley walked, every door opened, the well, the pyramid, the crystal'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd17.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 48
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 48
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_xd17.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Green grass, still air and a clear sky
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: -1280
+      y: -4736
+      radius: 96
+      z_min: -40
+      z_max: 60
+- walk_to:
+    x: -1280
+    y: -4100
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- note: 'Tavern Xanadu (door:tavern_xanadu, house 4353): walk to its door and open it'
+- walk_to:
+    x: -1664
+    y: -3072
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -1664
+    y: -3072
+    z: 0
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4353
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Arm and Hammer (door:arm_and_hammer_arms, house 4351): walk to its door and open it'
+- walk_to:
+    x: -640
+    y: -3200
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -320
+    y: -3456
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -320
+    y: -3456
+    z: 0
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4351
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Arm and Hammer (door:arm_and_hammer_armour, house 4365): walk to its door and open it'
+- walk_to:
+    x: -320
+    y: -2688
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -320
+    y: -2688
+    z: 0
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4365
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Martok''s Lodge (door:martok, house 4364): walk to its door and open it'
+- walk_to:
+    x: -1280
+    y: -2480
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3712
+    y: -2480
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3712
+    y: -2816
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -3712
+    y: -2816
+    z: 0
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4717
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Benedict''s House (door:benedict, house 4360): walk to its door and open it'
+- walk_to:
+    x: -3712
+    y: -2480
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -2480
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -1920
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1792
+    y: -1920
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -1792
+    y: -1920
+    z: 0
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4713
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Public Library (door:public_library, house 4356): walk to its door and open it'
+- walk_to:
+    x: -1280
+    y: -1920
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -2560
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3264
+    y: -1280
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3392
+    y: -1280
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -3392
+    y: -1280
+    z: 256
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4356
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Earth Temple (door:earth_temple, house 4352): walk to its door and open it'
+- walk_to:
+    x: -3264
+    y: -1280
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -2560
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: 704
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3456
+    y: 704
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -4288
+    y: 704
+    z: 384
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -4352
+    y: 704
+    z: 384
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -4352
+    y: 704
+    z: 384
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4352
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'An Education (door:an_education, house 4355): walk to its door and open it'
+- walk_to:
+    x: -4288
+    y: 704
+    z: 384
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -3456
+    y: 704
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: 704
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: 1344
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1408
+    y: 1344
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -1408
+    y: 1344
+    z: 0
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4706
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Maurice''s House (door:maurice, house 4357): walk to its door and open it'
+- walk_to:
+    x: -1280
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1664
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1664
+    y: 2304
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -1664
+    y: 2304
+    z: 0
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4710
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Alexander''s House (door:alexander, house 4358): walk to its door and open it'
+- walk_to:
+    x: -1664
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1376
+    y: 1664
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 1376
+    y: 1664
+    z: 0
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4711
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'The travel pyramid: refused before M30 (aaze0049:25)'
+- walk_to:
+    x: 1280
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 2368
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3072
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3360
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 0
+    y: 3360
+    z: 256
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      text_contains: The moons are not aligned
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- assert:
+    map: xeen_xd17.blv
+- note: 'M30 done: the pyramid to D6''s entrance:xd17_pyramid, and D6''s pyramid (its event 41) back here'
+- console:
+    line: qbit set 111600
+- set_pose:
+    map: xeen_xd17.blv
+    x: 0
+    y: 3360
+    z: 256
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d6.odm
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.3)
+- assert:
+    party_position:
+      x: -5120
+      y: 1024
+      radius: 192
+      z_min: 1700
+      z_max: 2000
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd17.blv
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: 0
+      y: 3200
+      radius: 160
+      z_min: 216
+      z_max: 316
+- note: 'Murray''s Villa (door:murray, house 4362): walk to its door and open it'
+- walk_to:
+    x: 1792
+    y: 3360
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1792
+    y: 3520
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 1792
+    y: 3520
+    z: 256
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4715
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Shangri-La Wizard''s Guild (door:guild_light, house 4354): walk to its door and open it'
+- walk_to:
+    x: 1792
+    y: 3360
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3360
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 3072
+    z: 256
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 2368
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3200
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3200
+    y: 1920
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 3200
+    y: 1920
+    z: 0
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4354
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Princess Pilar''s Pavilion (door:pilar, house 4359): walk to its door and open it'
+- walk_to:
+    x: 3200
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3840
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3840
+    y: 3168
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 4480
+    y: 3136
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 4480
+    y: 3136
+    z: 0
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4712
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Psychic Sally''s (door:sally, house 4363): walk to its door and open it'
+- walk_to:
+    x: 3840
+    y: 3168
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3840
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 1152
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1440
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 1440
+    y: -1280
+    z: 0
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4716
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Elona''s House (door:elona, house 4361): walk to its door and open it'
+- walk_to:
+    x: 1280
+    y: -1280
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -2592
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 2560
+    y: -2592
+    z: 0
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      source_id: 4714
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'The well (A3''s xd17.well): 20,000 experience and the award Found Shangri-La, then the water'
+- walk_to:
+    x: 2560
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 0
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 320
+    y: 0
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 320
+    y: 0
+    z: 0
+    yaw: 3.1416
+    pitch: -0.25
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Congratulations, You'', 1, true) then
+      error(''no line: '' .. s) end'
+- assert:
+    award_acquired:
+    - id: 421
+      member_index: 0
+- set_pose:
+    map: xeen_xd17.blv
+    x: 320
+    y: 0
+    z: 0
+    yaw: 3.1416
+    pitch: -0.25
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''The water is cool an'', 1, true) then
+      error(''no line: '' .. s) end'
+- note: 'Lacey (actor 0, NPC 4719) by the well: her greeting'
+- interact_actor:
+    actor_index: 0
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      text_contains: The moons will align when you are able to visit the Darkside.
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- note: 'Stumpy (actor 1, NPC 4718) in the orchard: his greeting'
+- walk_to:
+    x: 1280
+    y: 0
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -2176
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 3584
+    y: -2176
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 4300
+    y: -2176
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: 4300
+    y: -2176
+    z: 0
+    yaw: -0.39
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 1
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      text_contains: the druids can help you
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- walk_to:
+    x: 3584
+    y: -2176
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -2176
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 2560
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: 0
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- note: The hidden crystal in the bluff by the cave mouth (A3's xd17.crystal)
+- walk_to:
+    x: 1280
+    y: 0
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: 1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -1792
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -1280
+    y: -4736
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- walk_to:
+    x: -928
+    y: -5056
+    z: 0
+    z_tolerance: 400
+    radius: 96
+    timeout_seconds: 90
+    close_dialogs: true
+- set_pose:
+    map: xeen_xd17.blv
+    x: -928
+    y: -5056
+    z: 0
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.6
+- assert:
+    dialog:
+      active: true
+      text_contains: broadcast to millions
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.4
+- play_lua:
+    source: close(); wait(0.2)
+- assert:
+    map: xeen_xd17.blv

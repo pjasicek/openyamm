@@ -1,0 +1,46 @@
+# Hostility check of the Ogre Forts (DD-13): the pass ogres (Ogre 11066, Ogre Brute 11067, Ogre Chief 11068, faction
+# pass) and the kennel's sabertooths (Kennel Sabertooth 11413, the same faction) hostile to the party at load by the
+# world's relations (none placed with a `hostile` key), and no fights among them. After XD-23's pattern. No window is
+# open before the reload.
+id: xeen.dd13.l4.hostility
+title: "the Ogre Forts (DD-13): pass ogres and kennel cats hostile to the party, no fights among them"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd13.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11066, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11067, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11068, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11066, hostile: true, min: 12}}
+  - assert: {actor_count: {monster_id: 11067, hostile: true, min: 7}}
+  - assert: {actor_count: {monster_id: 11068, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, min: 4}}
+  # A save and load keeps them hostile (every window closed first, so the reload runs).
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11066, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hostile: true, min: 4}}
+  - note: 'An Ogre, an Ogre Chief and a Kennel Sabertooth side by side in the west gate room, nearer each other than the party
+      (a monster takes the nearest of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11066, x: -300, y: 330, z: 16}
+  - spawn_actor: {monster_id: 11413, x: 300, y: 330, z: 16}
+  - spawn_actor: {monster_id: 11068, x: 0, y: 420, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11066, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11068, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11413, hurt: true, max: 0}}

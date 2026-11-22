@@ -1,0 +1,457 @@
+format: 0
+themes:
+- id: theme:hull
+  wall:
+    texture: a3b
+    size:
+    - 128
+    - 256
+  floor: &id001
+    texture: sfw7a
+    size:
+    - 128
+    - 256
+  ceiling: *id001
+  reveal: &id002
+    texture: sfw1b
+    size:
+    - 128
+    - 256
+  door: &id003
+    texture: a2c
+    size:
+    - 128
+    - 256
+    fit: true
+  notes: 'The pod''s decks: MM7 The Lincoln''s grey hull (a3b), deck plates (sfw7a) underfoot and overhead, sfw1b trim in
+    the doorways.'
+- id: theme:engine
+  wall:
+    texture: a1b
+    size:
+    - 128
+    - 256
+  floor: *id001
+  ceiling: *id001
+  reveal: *id002
+  door: *id003
+  notes: 'The stern: the hull''s ribs (a1b) bare.'
+defaults:
+  theme: theme:hull
+  ambient: 14
+rooms:
+- id: room:airlock
+  name: Hatch airlock
+  outline:
+  - - -1024
+    - -192
+  - - -640
+    - -192
+  - - -640
+    - 192
+  - - -1024
+    - 192
+  floor: 0
+  ceiling: 320
+  walls:
+  - wall: w
+    panels:
+    - id: panel:hatch
+      offset: 64
+      length: 256
+      bottom: 0
+      height: 256
+      surface: &id006
+        texture: xahullbn
+        size:
+        - 256
+        - 256
+        fit: true
+      notes: The hatch's inner face, burnt plates (sealed until D6 exists).
+  ambient: 14
+  notes: 'The arrival from D6''s crust: the hatch''s inner face in the west wall, the inner door east.'
+- id: room:main_deck
+  name: Main deck
+  outline:
+  - - -209
+    - -512
+  - - 209
+    - -512
+  - - 512
+    - -209
+  - - 512
+    - 209
+  - - 209
+    - 512
+  - - -209
+    - 512
+  - - -512
+    - 209
+  - - -512
+    - -209
+  floor: 0
+  ceiling: 448
+  platforms:
+  - id: platform:scanner
+    at:
+    - 256
+    - -256
+    size:
+    - 128
+    - 64
+    rise: 112
+    surface:
+      texture: a2b
+      size:
+      - 128
+      - 256
+    top_surface: &id004
+      texture: sfpnloff
+      size:
+      - 128
+      - 64
+      fit: true
+    notes: The scanning console (aaze0087:22).
+  ambient: 14
+  notes: 'The round main hull, 1,024 across: the hub. The couch row climbs north to the bow, the slope falls south to the
+    stern, the gun deck opens east.'
+- id: room:gun_deck
+  name: Gun deck
+  outline:
+  - - 640
+    - -256
+  - - 1152
+    - -256
+  - - 1152
+    - 256
+  - - 640
+    - 256
+  floor: 0
+  ceiling: 320
+  walls:
+  - wall: e
+    panels:
+    - id: panel:phaser
+      offset: 96
+      length: 128
+      bottom: 96
+      height: 64
+      surface: *id004
+    - id: panel:photon
+      offset: 288
+      length: 128
+      bottom: 96
+      height: 64
+      surface: *id004
+  ambient: 14
+  notes: The phaser and photon controls on the east wall; the weapons locker; the service hatch in the floor.
+- id: room:couches
+  name: Couch row
+  outline:
+  - - -192
+    - 640
+  - - 192
+    - 640
+  - - 192
+    - 1920
+  - - -192
+    - 1920
+  floor: 0
+  slope:
+    to: 256
+    toward: north
+  ceiling: 352
+  ceiling_slope:
+    to: 608
+    toward: north
+  ambient: 14
+  notes: 'The midship corridor tilted up to the bow: six empty acceleration couches along its walls, the blast door at its
+    top.'
+- id: room:bridge
+  name: The bridge
+  outline:
+  - - -640
+    - 2048
+  - - 640
+    - 2048
+  - - 640
+    - 2816
+  - - -640
+    - 2816
+  floor: 256
+  ceiling: 768
+  walls:
+  - wall: n
+    panels:
+    - id: panel:console
+      offset: 192
+      length: 192
+      bottom: 96
+      height: 64
+      surface: *id004
+      notes: The main console beside the stasis field (m29.console; Corak's after m29.done).
+  - wall: w
+    panels:
+    - id: panel:log1
+      offset: 192
+      length: 128
+      bottom: 96
+      height: 64
+      surface: *id004
+    - id: panel:log2
+      offset: 448
+      length: 128
+      bottom: 96
+      height: 64
+      surface: *id004
+  - wall: e
+    panels:
+    - id: panel:log3
+      offset: 320
+      length: 128
+      bottom: 96
+      height: 64
+      surface: *id004
+      notes: 'The third log computer: the source''s entries in five pages (D-47 Q19).'
+  ambient: 16
+  notes: 'A tilted cockpit of dark hull steel: the stasis alcove in the north wall behind its field, the main console beside
+    it, the log computers on the side walls.'
+- id: room:stasis
+  name: Stasis alcove
+  outline:
+  - - -192
+    - 2944
+  - - 192
+    - 2944
+  - - 192
+    - 3328
+  - - -192
+    - 3328
+  floor: 256
+  ceiling: 704
+  ambient: 24
+  notes: 'Behind the field: where Corak hangs in stasis.'
+- id: room:stern_slope
+  name: Stern slope
+  outline:
+  - - -192
+    - -1664
+  - - 192
+    - -1664
+  - - 192
+    - -640
+  - - -192
+    - -640
+  floor: 0
+  slope:
+    to: -384
+    toward: south
+  ceiling: 352
+  ceiling_slope:
+    to: -32
+    toward: south
+  theme: theme:engine
+  ambient: 14
+  notes: A corridor sloping down into the heat, the deck plates warm.
+- id: room:engine_room
+  name: Engine room
+  outline:
+  - - -768
+    - -2688
+  - - 768
+    - -2688
+  - - 768
+    - -1792
+  - - -768
+    - -1792
+  floor: -384
+  ceiling: 160
+  theme: theme:engine
+  levels:
+  - id: level:breach
+    outline:
+    - - 256
+      - -2560
+    - - 640
+      - -2560
+    - - 640
+      - -2240
+    - - 256
+      - -2240
+    floor: -512
+    edge: &id005
+      texture: xahullbn
+      size:
+      - 256
+      - 256
+    surface:
+      texture: lavtyl
+      liquid: lava
+    notes: 'The breach: the hull torn open onto D6''s lava, 128 below the deck (floors: lava; behind the torn plates, off
+      every walking line, D-47).'
+  parapets:
+  - path:
+    - - 232
+      - -2584
+    - - 664
+      - -2584
+    - - 664
+      - -2216
+    - - 232
+      - -2216
+    - - 232
+      - -2584
+    height: 112
+    thickness: 16
+    surface: *id005
+    notes: Torn hull plates bent up round the breach.
+  walls:
+  - wall: n
+    panels:
+    - id: panel:power
+      offset: 1088
+      length: 192
+      bottom: 96
+      height: 64
+      surface: *id004
+      notes: The Main Power Console (aaze0087:7).
+  - wall: s
+    panels:
+    - id: panel:breach
+      offset: 1024
+      length: 448
+      bottom: 0
+      height: 448
+      surface: *id006
+      notes: The torn hull over the breach.
+  ambient: 20
+  notes: 'The breached stern: the hull torn open onto the lava in its south-east corner, the Main Power Console on the north
+    wall, the stores locker by the west wall.'
+- id: room:device_bay
+  name: Device bay
+  outline:
+  - - -1408
+    - -2432
+  - - -896
+    - -2432
+  - - -896
+    - -2048
+  - - -1408
+    - -2048
+  floor: -384
+  ceiling: -64
+  theme: theme:engine
+  platforms:
+  - id: platform:device_1
+    at:
+    - -1280
+    - -2368
+    size:
+    - 128
+    - 64
+    rise: 128
+    surface: &id007
+      texture: xaenergy
+      size:
+      - 128
+      - 256
+    top_surface: *id007
+    notes: A strange energy device (aaze0087:8).
+  - id: platform:device_2
+    at:
+    - -1024
+    - -2368
+    size:
+    - 128
+    - 64
+    rise: 128
+    surface: *id007
+    top_surface: *id007
+    notes: The second strange energy device.
+  ambient: 16
+  notes: A dead end with the two alien devices against its south wall.
+- id: room:crawlway
+  name: Service crawlway
+  outline:
+  - - 896
+    - -2304
+  - - 1152
+    - -2304
+  - - 1152
+    - -64
+  - - 896
+    - -64
+  floor: -384
+  ceiling: 0
+  theme: theme:engine
+  ambient: 12
+  notes: A service crawlway from the engine room north under the gun deck, to a ladder up through the gun deck's floor hatch.
+openings:
+- id: open:airlock_deck
+  from: room:airlock
+  to: room:main_deck
+  link: link:airlock_deck
+  width: 256
+  height: 256
+- id: open:deck_couches
+  from: room:main_deck
+  to: room:couches
+  link: link:deck_couches
+  width: 256
+  height: 288
+- id: open:couches_bridge
+  from: room:couches
+  to: room:bridge
+  link: link:couches_bridge
+  width: 256
+  height: 288
+- id: open:bridge_stasis
+  from: room:bridge
+  to: room:stasis
+  link: link:bridge_stasis
+  width: 256
+  height: 320
+- id: open:deck_gun
+  from: room:main_deck
+  to: room:gun_deck
+  link: link:deck_gun
+  width: 256
+  height: 256
+- id: open:deck_slope
+  from: room:main_deck
+  to: room:stern_slope
+  link: link:deck_slope
+  width: 256
+  height: 288
+- id: open:slope_engine
+  from: room:stern_slope
+  to: room:engine_room
+  link: link:slope_engine
+  width: 256
+  height: 288
+- id: open:engine_device
+  from: room:engine_room
+  to: room:device_bay
+  link: link:engine_device
+  width: 256
+  height: 256
+- id: open:engine_crawl
+  from: room:engine_room
+  to: room:crawlway
+  link: link:engine_crawl
+  width: 224
+  height: 288
+- id: open:gun_hatch
+  from: room:gun_deck
+  to: room:crawlway
+  link: link:crawl_gun
+  in: floor
+  at:
+  - 1024
+  - -144
+  size:
+  - 192
+  - 128
+  notes: The service hatch in the gun deck's floor.
+notes: 'DD-16 Corak''s Pod: x east, y north; the bridge (256) north, the hatch midship (0) west, the sunk stern (-384) south.
+  Written by output/studio_cal/dd16/tools/gen.py.'

@@ -1,7 +1,7 @@
 format: 0
 id: xeen_x2
 name: Rivercity and Lake Darzog
-world: mm7
+world: xeen
 kind: outdoor
 profile: odm
 map_code: X2
@@ -9,7 +9,7 @@ units: {plan_grid: 512}
 extent: {terrain_cells: 128}
 map_stats:
   id: 9136
-  reference: 7out03.odm
+  continent: 6
   encounter_chance: 10
   treasure_level: 1
   trap_dice: 1
@@ -19,9 +19,9 @@ map_stats:
   environment: plains
   lock_difficulty: 2
   slots:
-    - {monster: Will ' O Wisp, tier: 1, per_marker: [2, 4], weight: 45}
-    - {monster: Archer, tier: 1, per_marker: [2, 3], weight: 35}
-    - {monster: Ogre, tier: 2, per_marker: [2, 3], weight: 20}
+    - {monster: Xeen Sprite, tier: 1, per_marker: [2, 3], weight: 45}
+    - {monster: Xeen Ranger, tier: 1, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Ogre, tier: 0, per_marker: [2, 3], weight: 20}
 neighbours:
   - id: boat:vertigo
     to: xeen_x1.odm
@@ -62,24 +62,20 @@ neighbours:
     approach: "The river road along the Great River's north bank, east to Vertigo, at y 46."
     notes: "X1 Vertigo Meadows: arrives at X1's west start (its west road); X1's own edge:west leads back here."
   - id: edge:north
-    to: 7out13.odm
+    to: xeen_x4.odm
     kind: edge
     side: north
     days: 5
     arrival_side: south
     approach: The north road through the farmland to the north edge at x 66.
-    screened: true
-    one_way: true
     notes: "X4 Burlock Savannah in the design (not built). Stand-in until X4 exists: Tatalia (MM7), one way."
   - id: edge:west
-    to: 7out03.odm
+    to: xeen_x3.odm
     kind: edge
     side: west
     days: 5
     arrival_side: east
     approach: "The west road along Lake Darzog's north shore, over the ogres' bridge, to the west edge at y 40."
-    screened: true
-    one_way: true
     notes: "X3 Lifeforce Lagoon in the design (not built). Stand-in until X3 exists: Erathia (MM7), one way so that Erathia keeps its own travel."
 qbits:
   barok_pendant: 110204
@@ -90,7 +86,8 @@ qbits:
   sprite_eggs: 110206
   yak_stone: 110101
 items:
-  skeleton_key: 1461
+  baroks_pendant: 12152
+  skeleton_key: 12100
 rules:
   weather: world default
   respawn: entrance:party_start

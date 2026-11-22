@@ -1,0 +1,56 @@
+{
+ "xpfglass": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 3.289,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.905,
+      0.968,
+      0.981
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "P1 D-58",
+    "prompt": "prompts/xpfglass_v1.txt",
+    "raw": "raw/xpfglass_v1.png",
+    "refs": [
+     "refs/xpfglass_v1_1.png",
+     "refs/xpfglass_v1_2.png"
+    ],
+    "seam_raw": "raw/xpfglass_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xpfvent": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.629,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "P1 D-58",
+    "prompt": "prompts/xpfvent_v1.txt",
+    "raw": "raw/xpfvent_v1.png",
+    "refs": [
+     "refs/xpfvent_v1_1.png",
+     "refs/xpfvent_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

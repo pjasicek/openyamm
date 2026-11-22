@@ -1,0 +1,195 @@
+format: 0
+variables: [diamond_1, diamond_2, diamond_3, diamond_4, diamond_5, false_vein, in_visit]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE GEMSTONE MINES, NORTH POCKET. Heat breathes out of the rock, and somewhere ahead lava ticks as it cools. Hector the diamond smith wants five diamond rocks; the veins give one each. Few who come here go back, they say."
+      - qbit: arrived_once
+    notes: "Why the party is here (Q-D7), on the first arrival only."
+  - id: evt:chest_grotto
+    preset: chest
+    source: chest:grotto
+    title: Chest
+  - id: evt:diamond_1
+    preset: script
+    source: panel:diamond_1
+    title: Diamond vein
+    condition: {not: {map_var: diamond_1}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_1
+          value: 1
+      - give_item: diamond_rock
+      - lua: "XeenQuests.hook(\"q-d7.diamond_veins\")"
+      - text: You work a diamond rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Diamond vein 1 (dark/aaze0039:1-4 the hover, :10 when spent): one diamond rock (12360, the hook's map_gives), q-d7.diamond_veins sets q-d7.dug (113144); map variable diamond_1."
+  - id: evt:diamond_2
+    preset: script
+    source: panel:diamond_2
+    title: Diamond vein
+    condition: {not: {map_var: diamond_2}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_2
+          value: 1
+      - give_item: diamond_rock
+      - lua: "XeenQuests.hook(\"q-d7.diamond_veins\")"
+      - text: You work a diamond rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Diamond vein 2 (dark/aaze0039:1-4 the hover, :10 when spent): one diamond rock (12360, the hook's map_gives), q-d7.diamond_veins sets q-d7.dug (113144); map variable diamond_2."
+  - id: evt:diamond_3
+    preset: script
+    source: panel:diamond_3
+    title: Diamond vein
+    condition: {not: {map_var: diamond_3}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_3
+          value: 1
+      - give_item: diamond_rock
+      - lua: "XeenQuests.hook(\"q-d7.diamond_veins\")"
+      - text: You work a diamond rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Diamond vein 3 (dark/aaze0039:1-4 the hover, :10 when spent): one diamond rock (12360, the hook's map_gives), q-d7.diamond_veins sets q-d7.dug (113144); map variable diamond_3."
+  - id: evt:diamond_4
+    preset: script
+    source: panel:diamond_4
+    title: Diamond vein
+    condition: {not: {map_var: diamond_4}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_4
+          value: 1
+      - give_item: diamond_rock
+      - lua: "XeenQuests.hook(\"q-d7.diamond_veins\")"
+      - text: You work a diamond rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Diamond vein 4 (dark/aaze0039:1-4 the hover, :10 when spent): one diamond rock (12360, the hook's map_gives), q-d7.diamond_veins sets q-d7.dug (113144); map variable diamond_4."
+  - id: evt:diamond_5
+    preset: script
+    source: panel:diamond_5
+    title: Diamond vein
+    condition: {not: {map_var: diamond_5}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_5
+          value: 1
+      - give_item: diamond_rock
+      - lua: "XeenQuests.hook(\"q-d7.diamond_veins\")"
+      - text: You work a diamond rock out of the vein.
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "Diamond vein 5 (dark/aaze0039:1-4 the hover, :10 when spent): one diamond rock (12360, the hook's map_gives), q-d7.diamond_veins sets q-d7.dug (113144); map variable diamond_5."
+  - id: evt:door_adit
+    preset: door
+    source: door:adit
+    title: Door
+  - id: evt:door_collapse
+    preset: door
+    source: door:collapse
+    title: Door
+  - id: evt:door_grotto
+    preset: door
+    source: door:grotto
+    title: Door
+  - id: evt:eggs
+    preset: text
+    source: platform:eggs
+    title: Empty egg cases
+    text: Split and cold. Whatever hatched here was eaten by whatever lives here now.
+    notes: "The cold nest (D-62 Q49): map-local line for A3."
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: "Hot air, black rock, the tick of cooling lava."
+    notes: "Every entry: a status line."
+  - id: evt:exit
+    preset: exit
+    source: exit:d6
+    title: Adit
+    notes: "Out to the outdoor map by the adit: the game's own leave window (D-24); 'Exit the Gemstone Mines?' (dark/aaze0039:0) is its meaning."
+  - id: evt:false_vein
+    preset: script
+    source: panel:false_vein
+    title: Diamond vein
+    condition: {not: {map_var: false_vein}}
+    effects:
+      - set:
+          var:
+            map_var: false_vein
+          value: 1
+      - damage:
+          amount: 28
+          kind: fire
+      - message: "A gem exploded!"
+    else_effects:
+      - text: You've got all this vein has to offer.
+    notes: "D-27's false vein (dark/aaze0039:11): 28 fire to every member, once."
+  - id: evt:refill
+    preset: script
+    trigger: load
+    condition: {qbit: refill_c, not: {map_var: in_visit}}
+    effects:
+      - set:
+          var:
+            map_var: diamond_1
+          value: 0
+      - set:
+          var:
+            map_var: diamond_2
+          value: 0
+      - set:
+          var:
+            map_var: diamond_3
+          value: 0
+      - set:
+          var:
+            map_var: diamond_4
+          value: 0
+      - set:
+          var:
+            map_var: diamond_5
+          value: 0
+      - clear_qbit: refill_c
+      - text: "The veins glitter again: the God of Minerals has been at work."
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    else_effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+    notes: "D-27: the God of Minerals (DD-10B, q-d7.god_of_minerals) sets the three refill bits; this pocket's fresh entry (not a load inside a visit: in_visit) resets its veins and clears its own bit (refill_c)."
+  - id: evt:rubble
+    preset: text
+    source: platform:rubble
+    title: Rubble
+    text: Rubble from a fallen roof. Nothing under it but more rock.
+    notes: The graph's 'Rubble' (the collapse).
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving ends the visit: the next load is a fresh entry (evt:refill)."
+notes: "DD-10C's events (gen.py, mine.py): the five diamond veins (q-d7.diamond_veins: one rock each, a map variable each) and the false vein (D-27), the refill on entry (q-d7.refill_c), the rubble, the cold nest's egg cases, the exit to D6, doors, the chest."

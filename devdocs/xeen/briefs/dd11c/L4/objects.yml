@@ -1,0 +1,369 @@
+format: 0
+start:
+  room: room:pit
+  at: [128, -64]
+  facing: e
+  notes: "Where D2's third troll hole drops the party: the pit's bottom, facing the hall gate (east)."
+doors:
+  - id: door:antler
+    opening: open:den_run
+    kind: slide_right
+    thickness: 24
+    speed: 160
+    surface: {texture: xopoles, size: [128, 128]}
+    tile: true
+    notes: A door of lashed antlers and hide.
+  - id: door:flap
+    opening: open:pit_tunnel
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 192
+    surface: {texture: xohide, size: [128, 256]}
+    tile: true
+    notes: "A hide flap: the warren beyond is not the court's."
+  - id: door:hall
+    opening: open:gate_hall
+    kind: slide_left
+    leaves: 2
+    state: open
+    thickness: 32
+    speed: 160
+    surface: {texture: xdbark, size: [128, 256]}
+    tile: true
+    notes: "The two great log doors carved with troll faces: open at load."
+plates:
+  - id: plate:before_throne
+    room: room:hall
+    at: [2688, 0]
+    size: [192, 1280]
+    notes: "The floor across the hall before the throne: Hobstadt speaks the first time the party crosses it."
+sounds:
+  - {id: sound:cold, room: room:frost_seep, at: [2176, -3968], sound: whistling wind, radius: 1600, inner_radius: 400, volume: 0.5, notes: Cold air through the cracks under the rim.}
+  - {id: sound:hall_fire, room: room:hall, at: [2432, 0], sound: campfire, radius: 2000, inner_radius: 600, volume: 0.5, notes: The court's fires.}
+  - {id: sound:wind, room: room:pit, at: [0, 0], sound: whistling wind, radius: 1300, inner_radius: 300, volume: 0.35, notes: Wind over the hole far above.}
+lights:
+  - id: light:den
+    room: room:ice_den
+    at: [1024, -3968]
+    height: 290
+    radius: 1100
+    color: [150, 175, 215]
+  - id: light:gate
+    room: room:hall_gate
+    at: [960, 0]
+    height: 400
+    radius: 900
+    color: [180, 130, 90]
+  - id: light:hall_e
+    room: room:hall
+    at: [2944, 0]
+    height: 520
+    radius: 1400
+    color: [190, 135, 90]
+  - id: light:hall_w
+    room: room:hall
+    at: [1920, 0]
+    height: 520
+    radius: 1400
+    color: [190, 135, 90]
+  - id: light:hoard
+    room: room:hoard
+    at: [3904, -320]
+    height: 320
+    radius: 800
+    color: [180, 150, 90]
+  - id: light:pit_day
+    room: room:pit
+    at: [0, 0]
+    height: 820
+    radius: 1300
+    color: [150, 140, 122]
+    notes: Daylight down the shaft.
+  - id: light:run
+    room: room:bone_run
+    at: [1024, -2600]
+    height: 200
+    radius: 900
+    color: [140, 130, 120]
+  - id: light:seep
+    room: room:frost_seep
+    at: [2176, -3968]
+    height: 360
+    radius: 1200
+    color: [150, 175, 215]
+    notes: "Faint cold light through the cracks: the stars below the rim."
+  - id: light:slope
+    room: room:cold_slope
+    at: [2176, -2900]
+    height: 220
+    radius: 800
+    color: [140, 150, 170]
+  - id: light:stair_top
+    room: room:kings_stair
+    at: [-1650, 0]
+    height: 220
+    radius: 900
+    color: [150, 140, 122]
+    notes: Daylight round the sod hatch.
+  - id: light:trophy
+    room: room:trophy
+    at: [2176, -1536]
+    height: 400
+    radius: 1100
+    color: [160, 125, 95]
+  - id: light:tunnel
+    room: room:side_tunnel
+    at: [600, -1536]
+    height: 280
+    radius: 1000
+    color: [160, 125, 95]
+chests:
+  - id: chest:hoard
+    room: room:hoard
+    at: [4150, -560]
+    facing: e
+    treasure_level: 4
+    random_items: 2
+    gold: 800
+    trap_level: 3
+    notes: "The trolls' strongbox behind the throne (the map's hoard, a level up)."
+  - id: chest:ice
+    room: room:ice_den
+    at: [600, -4380]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 450
+    notes: The ice trolls' cache.
+  - id: chest:trophy
+    room: room:trophy
+    at: [2600, -1960]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 400
+    notes: A chest among the trophies.
+monsters:
+  - id: monster:bone_run_1
+    room: room:bone_run
+    monster: 11690
+    at: [1024, -2300]
+    facing: 270
+    group: 12
+  - id: monster:bone_run_2
+    room: room:bone_run
+    monster: 11690
+    at: [1024, -2900]
+    facing: 90
+    group: 12
+  - id: monster:frost_seep_1
+    room: room:frost_seep
+    monster: 11692
+    at: [1950, -3800]
+    facing: 90
+    group: 14
+  - id: monster:frost_seep_2
+    room: room:frost_seep
+    monster: 11692
+    at: [2400, -4100]
+    facing: 180
+    group: 14
+  - id: monster:hall_1
+    room: room:hall
+    monster: 11075
+    at: [1900, -500]
+    facing: 90
+    group: 30
+  - id: monster:hall_2
+    room: room:hall
+    monster: 11075
+    at: [2350, -500]
+    facing: 90
+    group: 30
+  - id: monster:hall_3
+    room: room:hall
+    monster: 11075
+    at: [2800, -500]
+    facing: 90
+    group: 30
+  - id: monster:hall_4
+    room: room:hall
+    monster: 11075
+    at: [1900, 500]
+    facing: 270
+    group: 30
+  - id: monster:hall_5
+    room: room:hall
+    monster: 11075
+    at: [2350, 500]
+    facing: 270
+    group: 30
+  - id: monster:hall_6
+    room: room:hall
+    monster: 11075
+    at: [2800, 500]
+    facing: 270
+    group: 30
+  - id: monster:hall_gate_1
+    room: room:hall_gate
+    monster: 11075
+    at: [960, -260]
+    facing: 90
+    group: 30
+  - id: monster:hall_gate_2
+    room: room:hall_gate
+    monster: 11075
+    at: [960, 260]
+    facing: 270
+    group: 30
+  - id: monster:hobstadt
+    room: room:hall
+    monster: 11073
+    at: [3050, 320]
+    facing: 180
+    group: 31
+    npc: 5110
+    notes: "Hobstadt 42 (A2's boss row 11073, faction hobstadt, friendly at load), before his throne. He is NPC 5110 (merge point 22, monsters[].npc): clicked while at peace he talks; plate:before_throne greets once on approach, as the source does."
+  - id: monster:ice_den_1
+    room: room:ice_den
+    monster: 11692
+    at: [850, -3800]
+    facing: 90
+    group: 13
+  - id: monster:ice_den_2
+    room: room:ice_den
+    monster: 11692
+    at: [1200, -4100]
+    facing: 90
+    group: 13
+  - id: monster:side_tunnel_1
+    room: room:side_tunnel
+    monster: 11690
+    at: [0, -1000]
+    facing: 90
+    group: 10
+  - id: monster:side_tunnel_2
+    room: room:side_tunnel
+    monster: 11690
+    at: [500, -1536]
+    facing: 180
+    group: 10
+  - id: monster:side_tunnel_3
+    room: room:side_tunnel
+    monster: 11690
+    at: [1100, -1536]
+    facing: 180
+    group: 10
+  - id: monster:trophy_1
+    room: room:trophy
+    monster: 11690
+    at: [1900, -1300]
+    facing: 180
+    group: 11
+  - id: monster:trophy_2
+    room: room:trophy
+    monster: 11690
+    at: [2400, -1300]
+    facing: 180
+    group: 11
+  - id: monster:trophy_3
+    room: room:trophy
+    monster: 11690
+    at: [2200, -1800]
+    facing: 90
+    group: 11
+decorations:
+  - id: deco:den_bones
+    room: room:ice_den
+    decoration: dec29
+    at: [1450, -4400]
+    floor_height: -512
+  - id: deco:den_mite
+    room: room:ice_den
+    decoration: stlmite2
+    at: [600, -3550]
+    floor_height: -512
+  - id: deco:gate_skulls_n
+    room: room:hall_gate
+    decoration: sklplrev
+    at: [720, 320]
+    floor_height: 0
+  - id: deco:gate_skulls_s
+    room: room:hall_gate
+    decoration: sklplrev
+    at: [720, -320]
+    floor_height: 0
+  - id: deco:hall_bones_1
+    room: room:hall
+    decoration: 7dec18
+    at: [3380, -690]
+    floor_height: 0
+  - id: deco:hall_bones_2
+    room: room:hall
+    decoration: dec29
+    at: [2432, 700]
+    floor_height: 0
+  - id: deco:hall_bones_3
+    room: room:hall
+    decoration: dec29
+    at: [2432, -700]
+    floor_height: 0
+  - id: deco:hall_skulls_1
+    room: room:hall
+    decoration: sklplrev
+    at: [1500, 690]
+    floor_height: 0
+  - id: deco:hall_skulls_2
+    room: room:hall
+    decoration: sklplrev
+    at: [1500, -690]
+    floor_height: 0
+  - id: deco:hoard_bones
+    room: room:hoard
+    decoration: 7dec20
+    at: [3660, -80]
+    floor_height: 0
+  - id: deco:pit_bones
+    room: room:pit
+    decoration: dec29
+    at: [-300, -330]
+    floor_height: 0
+  - id: deco:pit_skull
+    room: room:pit
+    decoration: 7dec20
+    at: [330, 320]
+    floor_height: 0
+  - id: deco:seep_mite
+    room: room:frost_seep
+    decoration: stlmite1
+    at: [1750, -4400]
+    floor_height: -512
+  - id: deco:seep_mite_2
+    room: room:frost_seep
+    decoration: stlmite2
+    at: [2600, -3550]
+    floor_height: -512
+  - id: deco:trophy_bones
+    room: room:trophy
+    decoration: 7dec18
+    at: [2610, -1110]
+    floor_height: 0
+  - id: deco:trophy_skull
+    room: room:trophy
+    decoration: 7dec20
+    at: [1740, -1110]
+    floor_height: 0
+  - id: deco:trophy_skulls
+    room: room:trophy
+    decoration: sklplrev
+    at: [1740, -1960]
+    floor_height: 0
+exits:
+  - id: exit:hatch
+    room: room:kings_stair
+    at: [-1792, 0]
+    size: [224, 256]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:d2_return
+    notes: "The sod hatch at the trolls' stair's top: daylight through the roots (D2)."

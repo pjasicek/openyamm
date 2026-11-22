@@ -1,0 +1,118 @@
+# Lane A8 (2026-11-21, decision D-61): the new textures of A8's Act V dungeons DD-15 (and later DD-17, DD-08), each
+# placed once per face (fit). See ../README.md for the kinds and the finishing.
+dungeons:
+  dd15:
+    family_words: >-
+      the Tomb of VARN of Might and Magic VI, the Dragon Pharaoh's Great Pyramid: sandy yellow-brown limestone
+      blocks, carved hieroglyph wall panels, dull gold trim and dark green-blue painted accents, dim and ancient
+  dd17:
+    family_words: >-
+      the Control Center of Might and Magic VI, Castle Alamar of the Ancients: bright teal and dark teal riveted
+      sci-fi steel panels, green lit grids, brushed metal trims, clean painted game-art look with flat even light
+  dd08:
+    family_words: >-
+      Castle Gryphonheart of Might and Magic VII and the Castle of Air of Might and Magic VIII: dark grey cobble and
+      dressed stone, black iron, woven heraldic hangings, a grim knightly order's tower
+textures:
+  xdregplq:
+    dungeon: dd15
+    size: [128, 64]
+    art: [128, 64]
+    kind: sign
+    refs: [mm6/egymeda, mm6/egytrma, mm6/egywla]
+    tone: {like: [mm6/egytrma], factor: 1.0}
+    family: MM6 Tomb of VARN (egymeda gold medallion, egytrma trim)
+    where: DD-15's registry door on L2, beside it on the wall, once
+    standin: egymeda
+    what: >-
+      A small rectangular brass plaque, the kind fixed beside a door, seen straight on: a sheet of old tarnished
+      brass with a raised bevelled rim and four round rivets in its corners, dull gold like the references' gold
+      trim, darker in the corners. Engraved deep into it in two lines of plain, evenly spaced capital letters, dark
+      in the grooves and fully readable: "REGISTRY" on the first line, smaller, and "NCC-1701" on the second line,
+      larger. Nothing else on it: no other words, no pictures, no hieroglyphs. Slight wear and a few scratches.
+  xalavahd:
+    dungeon: dd17
+    size: [128, 128]
+    kind: picture
+    refs: [mm6/swll4dk, mm6/swtrpnl, mm6/swaled]
+    tone: {like: [mm6/swll4dk], factor: 1.2}
+    family: MM6 Control Center sw set (swll4dk teal walls, swtrpnl panels)
+    where: DD-17's four Lava Heads, once per face (a wall panel at each Head; the element shown by the light colour)
+    standin: swtrpnl
+    what: >-
+      A square wall panel seen straight on, filling the whole canvas: a thick frame of riveted teal sci-fi steel
+      like the references, and set into it a large stern bald metal face, a machine's mask, sculpted in dark
+      cast metal, eyes and open mouth glowing with molten orange-white lava light, cracks in its cheeks glowing too,
+      thin heat haze. Symmetric, centred, the face fills most of the panel. No words, no letters.
+  xasundial:
+    dungeon: dd17
+    size: [128, 128]
+    kind: picture
+    refs: [mm6/swcirc1, mm6/swll4dk, mm6/swfloor5]
+    tone: {like: [mm6/swll4dk], factor: 1.1}
+    family: MM6 Control Center sw set
+    where: DD-17's four sundial plinth tops, once per face, seen from above
+    standin: swcirc1
+    what: >-
+      A square top plate of a machine sundial seen straight down from above, filling the whole canvas: a round
+      dial of brushed teal-grey steel in a riveted square frame like the references, with twelve evenly spaced
+      engraved hour marks round its rim (short bars, one longer bar at the top), no numerals, no letters, and a
+      single thin triangular steel gnomon fin across the centre pointing to the top mark, its short shadow on
+      the dial. Clean, a little worn.
+  xaglyphfull:
+    dungeon: dd17
+    size: [256, 256]
+    kind: picture
+    refs: [mm6/swdoora, mm6/swll4dk, mm6/swcirc2]
+    tone: {like: [mm6/swdoora], factor: 1.1}
+    family: MM6 Control Center door leaves (swdoora)
+    where: cut at its vertical centre line into xaglyph, the left leaf of DD-17's true-name gate (the right leaf mirrors it)
+    standin: swdoora
+    what: >-
+      A square heavy double bulkhead door of teal sci-fi steel seen straight on, filling the whole canvas, exactly
+      left-right symmetric, its seam a straight vertical line down the exact centre. On it one large round seal
+      centred on the seam: a ring of strange angular alien glyphs engraved round a plain circular boss, lit faintly
+      green in the grooves. Rivets and plain panels round it like the references. The glyphs are abstract marks,
+      no readable letters.
+  xatrapplt:
+    dungeon: dd17
+    size: [128, 128]
+    kind: picture
+    refs: [mm6/swfloor5, mm6/swfloor2b, mm6/swll4dk]
+    tone: {like: [mm6/swfloor5], factor: 1.0}
+    family: MM6 Control Center floors
+    where: DD-17's deck, one trapdoor plate per face (six trapdoors), beside plain swfloor plates
+    standin: swfloor5
+    what: >-
+      A square teal steel floor plate seen straight down, filling the whole canvas, like the reference floors, but
+      plainly a hatch: two leaves meeting in a straight seam down the centre, a dark gap round the plate's whole
+      edge just inside the border, four recessed hinge bars at the outer edges and two yellow and black hazard
+      chevron strips along the seam. Worn, scuffed metal. No words.
+  xvkban:
+    dungeon: dd08
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/tap1, mm7/tap5, mm7/hkm1bw]
+    tone: {like: [mm7/tap1], factor: 0.85}
+    family: MM7 woven hangings (tap1) in Castle Gryphonheart 7d33
+    where: DD-08's chapter hall and Hall of Arms, once per face
+    standin: tap1
+    what: >-
+      A tall woven heraldic banner seen straight on, filling the whole canvas, woven like the references: a deep
+      black field with a narrow dark red border on all four edges, and in the middle a silver chalice with a long
+      red sword thrust down through it, point below the cup's foot, hilt above its rim. The weave texture shows,
+      a little faded. No letters, no words, nothing else.
+  xvkmask:
+    dungeon: dd08
+    size: [128, 128]
+    kind: picture
+    refs: [mm7/hkm1bw, mm8/gston1wl, mm7/7trimd]
+    tone: {like: [mm7/hkm1bw], factor: 0.9}
+    family: MM7 Castle Gryphonheart 7d33 dark stone
+    where: DD-08's antechamber of the voice, once, in the north wall
+    standin: hkm1bw
+    what: >-
+      A square dark grey stone wall panel seen straight on, filling the whole canvas, like the references' stone,
+      with a large stone face of a knight carved in relief out of the wall: a closed great helm's shape with the
+      visor raised, and under it a stern bearded face with its eyes shut and its mouth firmly closed. Symmetric and
+      centred, weathered, dust in the carving. No letters.

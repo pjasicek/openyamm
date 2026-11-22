@@ -1,0 +1,28 @@
+# X3 Lifeforce Lagoon: the topics of the people A4 placed (source/towns/x3.yml) that belong to no quest, and the
+# lagoon's own lines (MAPS X3 "Original lines"). Quest topics: m8.yml, m9.yml (Ebenezer), q-c12.yml (Mirabeth).
+# Nightshadow's rhymes and Count Du Monay belong to Q-C7 (Act III). Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: X3
+block: 153
+source: "xeen/aaze0012 (Newcastle, the ranger camp), aaze0016 (Mirabeth)"
+
+qbits:
+  ranger_camp: {id: 116040, note: "the evil rangers' camp in the marsh woods has been burnt"}
+
+player_bits:
+  lifeforce_spring: {id: 11280, map: X3, note: "the Lifeforce Spring, +2 Endurance once per character (D-11.1, A5)"}
+
+npcs:
+  4201:              # Ebenezer
+    topics:
+      - {n: 1, label: Taxes, text: "Death and taxes. Out here in the lagoon it's mostly death. That's why the land is cheap."}
+  4202:              # Mirabeth
+    topics:
+      - {n: 2, label: The sorceress, text: "The sorceress who did this lives in Rivercity now, by the south quay, with her sisters. Barok the Sorcerer knows them. Everyone who has lost something to them knows them."}
+
+hooks:
+  ranger_camp:
+    map: X3
+    where: "the evil rangers' camp in the marsh woods: the map asks \"You have come upon an Evil Ranger camp. Destroy?\" and burns it (a destructible), then calls this"
+    sets: [ranger_camp]
+    once: true
+    text: "You ruin their food, burn their tents, and poison their water."

@@ -1,0 +1,156 @@
+# The scree (D-58 P3 Q1): falling damage, no teleport; a scree slope back up.
+# Written by output/studio_cal/p3/tools/gen_playtests.py; run with --world xeen --map xeen_p3.blv.
+id: xeen.p3.l4.scree
+title: 'Plane of Earth (P3): a drop off the statue''s terrace into the scree is a real fall; the scree slope leads back up'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p3.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p3.blv
+- clear_hostiles:
+    radius: 40000
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 140
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 140
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 140
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 140
+- note: 'Before the drop: 140 HP each (logged)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 140
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 140
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 140
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 140
+      health_max: 140
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p3.blv
+      x: -855
+      y: 847
+      z: -128
+      yaw_degrees: 250
+      pitch: 0
+    expect_stop:
+      map: xeen_p3.blv
+      x: -855
+      y: 847
+      z: -128
+      yaw_degrees: 250
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 100000
+      z_min: -1032
+      z_max: -984
+- note: 'After the drop into the scree: the falling damage (logged; tools/check_scree.py)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 1
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 1
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 1
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 1
+      health_max: 140
+- note: Back up the statue terrace's scree slope.
+- walk_to:
+    x: -2897
+    y: 122
+    z: -1024
+    z_tolerance: 200
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -1167
+    y: 1333
+    z: -128
+    z_tolerance: 120
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 0
+    close_dialogs: true
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: -1167
+      y: 1333
+      radius: 200
+      z_min: -136
+      z_max: -104

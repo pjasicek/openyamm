@@ -1,0 +1,233 @@
+# Playtest of the Northern Tower (DD-08, L4): the party starts on D5 and moves in to entrance:d5_tower as A6's door
+# does (0, -1152, 0) facing 512; the first arrival's line (117640). L1: the founder's statue (aaze0069:2), the shield
+# find once (117654) then "Nothing here.", the dead mirror. Up the great stair to its head (L2), the west armoury's
+# door, the helm find (117655), the west wall stair's landing: the third book (+1 Might): a wrong answer slams it, the
+# proverb is right, a second read says the party has it. Up the wall stair to L3, the drill hall, the Stair of Silence
+# to L4, the chapter hall's doors, the antechamber: the voice's three other answers ("Chalice": voice_wrong; anything
+# else: voice_other; "aie": voice, 113342) and the iron door opens; the Chalice (12525, 113345) once, then "An empty
+# stand.". The other six books (vowels or proverb, both forms), the pillow note and a Cliff Note; the thrones (the
+# Euphoria Throne before the lows "You're not worthy!", the four lows with their conditions, the Euphoria Throne: +1
+# Might, then unworthy again; the Dunce's 50 damage); the mail find (117656); the two sliding walls by their plates
+# (117652, 117653) and the niches' chests; last, out by the gate to D5's entrance:dd08_door (2560, 11776) facing 1536.
+# Numbers are ids.lock.yml's (events, doors). Run with --world xeen (output/studio_cal/dd08/four.sh).
+id: xeen.dd08.l4.walk
+title: Northern Tower (DD-08 L4), the books, the voice, the Chalice, the thrones, the sliding walls and out
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_d5.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # In by D5's tower door (A6's door:dd08 names entrance:d5_tower: (0, -1152, 0) facing 512).
+  - lua_event: {source: "evt.MoveToMap(0, -1152, 0, 512, 0, 0, 0, 0, \"xeen_dd08.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd08.blv}
+  - assert: {party_position: {x: 0, y: -1152, radius: 48, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "local s = status(); if not string.find(s, 'Northern Tower of the Voweless Knights', 1, true) then error('the arrival said: ' .. s) end; if not qbit(117640) then error('arrived_once 117640 not set') end"}
+  # The Hall of Arms: the founder's statue, the shield find.
+  - walk_to: {x: 0, y: -620, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500)"}
+  - execute_event: {id: 47}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "In honor of the Grand Order of Voweless Knights"}}
+  - play_lua: {source: "close(); status(); click(46); wait(0.5); local s = status(); if not string.find(s, 'You lift the shield', 1, true) then error('the shield said: ' .. s) end; if not qbit(117654) then error('shield_find 117654 not set') end"}
+  - play_lua: {source: "status(); click(46); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('the second shield click said: ' .. s) end"}
+  # The dead mirror in the west gallery.
+  - execute_event: {id: 42}
+  - answer_input: {text: "Castleview"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local s = status(); if not string.find(s, 'The mirror does not respond.', 1, true) then error('the mirror said: ' .. s) end"}
+  # Up the great stair to its head (L2) and through the west armoury's door.
+  - walk_to: {x: 0, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 448, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(29, 7)"}
+  - walk_to: {x: -1100, y: 960, z: 448, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500); status(); click(39); wait(0.5); local s = status(); if not string.find(s, 'You take the helm', 1, true) then error('the helm said: ' .. s) end; if not qbit(117655) then error('helm_find 117655 not set') end"}
+  # The west wall stair's landing: the third book (+1 Might).
+  - walk_to: {x: -1300, y: 32, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1984, y: 32, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local m = tonumber(string.match(party(), 'Brokk %(might (%d+)')); log('might before the book: ' .. m); remember('might', m); click(17); wait(0.5)"}
+  - answer_input: {text: "The needs of the few"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The book slams shut in disgust"}}
+  - play_lua: {source: "close(); click(17); wait(0.5)"}
+  - answer_input: {text: "The needs of the many outweigh the needs of the few"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "fills in its own vowels"}}
+  - play_lua: {source: "close(); local m = tonumber(string.match(party(), 'Brokk %(might (%d+)')); if m ~= recall('might') + 1 then error('might after the book: ' .. m .. ', before ' .. recall('might')) end; remember('might', m); click(17); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You have all taken it to heart."}}
+  - play_lua: {source: "close()"}
+  # Up the west wall stair to L3, through the drill hall into the core, up the Stair of Silence to L4.
+  - walk_to: {x: -1984, y: 900, z: 896, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1400, y: 960, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000)"}
+  - walk_to: {x: -1100, y: 128, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -300, y: 60, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 1344, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 1)"}
+  - walk_to: {x: -1200, y: 960, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000)"}
+  - walk_to: {x: -1216, y: 1600, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The voice: "Chalice", anything else, then "aie"; the iron door opens.
+  - walk_to: {x: -256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(30); wait(0.5); local s = status(); if not string.find(s, 'Beside it, the mask waits.', 1, true) then error('the iron door said: ' .. s) end; if door_state(8) ~= 'closed' then error('the iron door is not shut') end"}
+  - play_lua: {source: "click(54); wait(0.5)"}
+  - answer_input: {text: "Chalice"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Have you learned nothing of the Voweless Knights?"}}
+  - play_lua: {source: "close(); click(54); wait(0.5)"}
+  - answer_input: {text: "Treasure"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Study your lessons."}}
+  - play_lua: {source: "close(); if qbit(113342) then error('voice_answered set on a wrong answer') end; click(54); wait(0.5)"}
+  - answer_input: {text: "aie"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Lv Lng nd prspr!"}}
+  - play_lua: {source: "close(); wait(4); if not qbit(113342) then error('voice_answered 113342 not set') end; if door_state(8) ~= 'open' then error('the iron door did not open: ' .. door_state(8)) end; status(); click(54); wait(0.5); local s = status(); if not string.find(s, 'The mask is silent.', 1, true) then error('the answered mask said: ' .. s) end"}
+  # The Chalice, once.
+  - walk_to: {x: 256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: 2300, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[A chalice of silver]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not has_item(12525) then error('no Chalice of Protection') end; if not qbit(113345) then error('chalice_taken 113345 not set') end; click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[An empty stand.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The other six books: the vowels or the proverb (with and without its punctuation).
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - answer_input: {text: "eeeioie"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Let sleeping dogs lie."}}
+  - assert: {dialog: {active: true, text_contains: "+1 Endurance"}}
+  - play_lua: {source: "close(); click(15); wait(0.5)"}
+  - answer_input: {text: "He who laughs last, laughs best."}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "+1 Personality"}}
+  - play_lua: {source: "close(); click(16); wait(0.5)"}
+  - answer_input: {text: "OEOOEIEOOOAEI"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "+1 Luck"}}
+  - play_lua: {source: "close(); click(14); wait(0.5)"}
+  - answer_input: {text: "Dont look a gift horse in the mouth"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "+1 Accuracy"}}
+  - play_lua: {source: "close(); click(13); wait(0.5)"}
+  - answer_input: {text: "aooaioeaeooae"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "+1 Intellect"}}
+  - play_lua: {source: "close(); click(19); wait(0.5)"}
+  - answer_input: {text: "If wishes were horses, beggars would ride"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "+1 Speed"}}
+  - play_lua: {source: "close()"}
+  # The pillow note (L1) and a Cliff Note (L4's cells).
+  - execute_event: {id: 3}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "to appreciate the highs one must experience the lows"}}
+  - play_lua: {source: "close()"}
+  - execute_event: {id: 12}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "IIEEEOEEEOUIE"}}
+  - play_lua: {source: "close()"}
+  # The Hall of Thrones.
+  - set_pose: {map: xeen_dd08.blv, x: 1536, y: 900, z: 1344, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(3000); click(51); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You're not worthy!"}}
+  - play_lua: {source: "close(); click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel depressed.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(48); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel confused.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(52); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel heart broken.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(53); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel insane.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); local c = conditions(0); log('the sitter after the lows: ' .. c); for _, k in ipairs({'Fear', 'Drunk', 'Weak', 'Insane'}) do if not string.find(c, k, 1, true) then error('no ' .. k .. ' on the sitter: ' .. c) end end; remember('might', tonumber(string.match(party(), 'Brokk %(might (%d+)'))); click(51); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You feel euphoric!]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); local m = tonumber(string.match(party(), 'Brokk %(might (%d+)')); if m ~= recall('might') + 1 then error('might after the Euphoria Throne: ' .. m .. ', before ' .. recall('might')) end; click(51); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You're not worthy!"}}
+  - play_lua: {source: "close()"}
+  - setup_shortcut: {kind: immortal, value: false}
+  - console: {line: "hp full"}
+  - assert: {party_health: {full: true}}
+  - execute_event: {id: 50}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You're not worthy!"}}
+  - play_lua: {source: "close()"}
+  - assert: {party_health: {full: false}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - console: {line: "hp full"}
+  # The mail find (L2).
+  - play_lua: {source: "status(); click(41); wait(0.5); local s = status(); if not string.find(s, 'black plate', 1, true) then error('the plate said: ' .. s) end; if not qbit(117656) then error('mail_find 117656 not set') end"}
+  # The sliding walls: the west and east studies' plates, the niches' chests.
+  - set_pose: {map: xeen_dd08.blv, x: -1700, y: 1600, z: 896, yaw_degrees: 180, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(3000); if door_state(14) ~= 'closed' then error('the west wall is not shut') end"}
+  - walk_to: {x: -2048, y: 1728, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "wait(3); if not qbit(117652) then error('wall_w 117652 not set') end; if door_state(14) ~= 'open' then error('the west wall did not open: ' .. door_state(14)) end"}
+  - walk_to: {x: -2600, y: 1728, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); click(23); wait(0.5); take_chest(); close(); if gold() <= g then error('the west niche held no gold') end"}
+  - set_pose: {map: xeen_dd08.blv, x: 1700, y: 1600, z: 896, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(3000)"}
+  - walk_to: {x: 2048, y: 1728, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "wait(3); if not qbit(117653) then error('wall_e 117653 not set') end; if door_state(13) ~= 'open' then error('the east wall did not open: ' .. door_state(13)) end"}
+  - walk_to: {x: 2600, y: 1728, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); click(22); wait(0.5); take_chest(); close(); if gold() <= g then error('the east niche held no gold') end"}
+  # Out by the gate to D5.
+  - set_pose: {map: xeen_dd08.blv, x: 0, y: -1150, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 37}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - assert: {party_position: {x: 2560, y: 11776, radius: 128, facing: 1536, facing_within: 64}}
+  - play_lua: {source: "log('D5 arrival: ' .. party())"}

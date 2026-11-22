@@ -1,0 +1,211 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Sphinx (xeen maze0082 body, 0083 head, 0084 dungeon) as one BLV (MAPS): the body at the door's level,
+# the head above it up the throat stair, the hieroglyph dungeon below. The name riddle is in the head; a wrong name
+# drops the party into the dungeon, whose stair climbs back to the body. GOLUX opens the four thrones.
+format: mu6-0
+map: XD-15
+key: xd15
+name: The Sphinx
+stands_on: X6 Desert of the Sphinx (the Northern Sphinx)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+size: "21 review rooms, about 26 sectors (the belly hall three, the paw hall and the riddle chamber two each); body about 3,000 x 4,000, head 2,000 x 1,800, dungeon 2,800 x 2,000: about 40 M units²; 9 doors"
+party: [31, 34]
+monsters:
+  levels: [22, 42]
+  boss: null
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Elemental golems (11590): Sand Golem 22 (16), X6's ruin golems, in the dungeon and the paws (the source's 'Earth Golems')"
+    - "Material golems (11580): Stone Golem 26 (18), Iron Golem 40 (4): the Sphinx's own guardians, Iron in the belly hall and at the riddle"
+    - "Pyramid mummies (11270): Tomb Mummy 42 (7) in the sarcophagus galleries, the lappets and the dungeon's library (the family's 'where' gains the Northern Sphinx)"
+  mix:
+    - {row: Sand Golem, id: 11590, level: 22, count: 16}
+    - {row: Stone Golem, id: 11581, level: 26, count: 18}
+    - {row: Iron Golem, id: 11582, level: 40, count: 4}
+    - {row: Tomb Mummy, id: 11270, level: 42, count: 7}
+  kill_xp: "12.85k per member (51,400 / 4)"
+  kill_xp_target: "12.65k (half of the XD-14+15 group's 25.3k); with XD-14's 14.00k the group is 26.85k, +6 %"
+treasure: {level: 4}
+role: "Q-C9 The Sphinx: the door opens to Arie's amulet (X6's q-c9.door); the head asks its name (GOLUX: q-c9.name_right, award 'Named the Sphinx', 6,000; wrong: the drop); the four thrones once per character (player bits 11300-11303); the source's spell books"
+role_short: "Q-C9, the thrones"
+set_piece: "The riddle chamber inside the head: the back of the stone face, two hieroglyph plaques, a voice that booms 'What is my name?' and the floor that agrees with it when the answer is wrong; below, the belly hall's three sealed throne doors"
+sounds: "xeen_sphinx_stir (62506) when GOLUX is named (the throne doors open) and when the floor drops; the shipped humming as the dungeon bed"
+textures:
+  family: "Temples: MM6 Tomb of VARN (pyramid.blv) upper levels everywhere (dungeon_families temples: 'XD-15 The Sphinx (X6), FD-02 Southern Sphinx: mm6/pyramid.blv upper (egy walls, carved ceilings)'): egybigb, egybiga block walls, egywla and egywld hieroglyph walls for the plaques and the dungeon, carved ceilings; the thrones' rooms with egycol64 striped columns (X6's nemes stone)"
+  cap: 45
+  planned: 26
+  new: 0
+  distinct_from: "FD-02 Southern Sphinx (phase 6, same family): FD-02 takes the darker lower egy set; DD-15 Great Pyramid (A8) its lower Ancient levels in the ancient kit"
+floors:
+  - {floor: 1, name: "The head", height: 1280}
+  - {floor: 0, name: "The body", height: 0}
+  - {floor: -1, name: "The hieroglyph dungeon", height: -640}
+spaces:
+  # floor 0, the body (z 0 = X6's sill at 1,408)
+  - {id: room:breast_gate, name: Breast gate, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The arrival (entrance:x6_paws): inside the breast between the paws, the two leaves behind; a step up into the paw hall. Quiet (D-11.3)."}
+  - {id: room:paw_hall, name: Hall of the paws, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Sand Golem, level: 22, count: 3}, {row: Stone Golem, level: 26, count: 1}],
+     purpose: "Under the chest: two rows of columns, the throat stair rising at the front, the flank galleries leaving left and right. Floor braziers between the columns."}
+  - {id: room:throat_stair, name: Throat stair, kind: stair, size: S, floor: 0, at: [3, 0], monsters: 0,
+     purpose: "A straight stair in the throat up to the neck landing in the head ('Stairs up.  Take them?' as a sign)."}
+  - {id: room:gallery_w, name: West sarcophagus gallery, kind: corridor, size: M, floor: 0, at: [1, 1], chest: 4, monsters: 4,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Sand Golem, level: 22, count: 2}],
+     purpose: "Along the west flank: sarcophagi in niches, their sleepers up and about. The great sarcophagus at the middle is the chest: 'You aren't strong enough to open the sarcophagus.' below Might 40 on the clicking member (potions counting)."}
+  - {id: room:gallery_e, name: East sarcophagus gallery, kind: corridor, size: M, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Sand Golem, level: 22, count: 2}],
+     purpose: "Along the east flank, the same niches: 'There is nothing in the sarcophagus.' in each, and a cache of gems in the last one (a find)."}
+  - {id: room:belly_hall, name: The belly hall, kind: hall, size: L, floor: 0, at: [2, 2], set_piece: true, monsters: 6,
+     population: [{row: Stone Golem, level: 26, count: 5}, {row: Iron Golem, level: 40, count: 1}],
+     purpose: "Under the vaulted back: a long hall of striped columns; on its sides three sealed throne doors carved with a crown, a veil and a mask (they open when the Sphinx is named). The golems stand as statues until the party is close."}
+  - {id: room:king_throne, name: "King's throne", kind: room, size: M, floor: 0, at: [1, 2], goal: true, monsters: 0,
+     purpose: "Behind the crown door: the King's throne on a dais (q-c9.throne_king: +Might once per character)."}
+  - {id: room:queen_throne, name: "Queen's throne", kind: room, size: M, floor: 0, at: [3, 2], goal: true, monsters: 0,
+     purpose: "Behind the veil door: the Queen's throne (q-c9.throne_queen: +Personality). One wall panel is cracked and loose (hover 'Loose panel')."}
+  - {id: room:thieves_throne, name: "Thieves' throne", kind: room, size: S, floor: 0, at: [4, 2], goal: true, monsters: 0,
+     purpose: "Behind the loose panel (a secret door: click it): the Prince of Thieves' throne in a closet (q-c9.throne_thieves: +Accuracy; player bit 11302, which DD-06's Prince Book reads)."}
+  - {id: room:haunch_vault, name: Vault of the haunches, kind: room, size: M, floor: 0, at: [2, 3], chest: 4, monsters: 4,
+     population: [{row: Stone Golem, level: 26, count: 3}, {row: Iron Golem, level: 40, count: 1}],
+     purpose: "In the haunches at the back: grave goods on shelves and the vault's chest; the dungeon stair goes down beside it."}
+  - {id: room:dungeon_stair, name: Dungeon stair, kind: stair, size: S, floor: 0, at: [1, 3], monsters: 0,
+     purpose: "Steps down from the vault into the hieroglyph dungeon ('Stairs down.  Take them?' as a sign): the dungeon is open without the drop."}
+  # floor 1, the head (z 1280)
+  - {id: room:neck_landing, name: Neck landing, kind: room, size: S, floor: 1, at: [3, 1], monsters: 3,
+     population: [{row: Stone Golem, level: 26, count: 3}],
+     purpose: "The top of the throat stair; passages left and right into the lappets."}
+  - {id: room:west_lappet, name: West lappet, kind: room, size: S, floor: 1, at: [4, 0], chest: 4, monsters: 2,
+     population: [{row: Tomb Mummy, level: 42, count: 1}, {row: Stone Golem, level: 26, count: 1}],
+     purpose: "Inside the striped lappet that falls before the west shoulder: a priest's chest; a slit window over the desert."}
+  - {id: room:east_lappet, name: East lappet, kind: room, size: S, floor: 1, at: [4, 1], monsters: 2,
+     population: [{row: Stone Golem, level: 26, count: 2}],
+     purpose: "The east lappet: an offering niche with gems in it ('Gems', a find)."}
+  - {id: room:riddle, name: The riddle chamber, kind: hall, size: M, floor: 1, at: [5, 1], set_piece: true, goal: true, monsters: 2,
+     population: [{row: Iron Golem, level: 40, count: 2}],
+     purpose: "Behind the face: the eyes' slits let in two bars of light; two hieroglyph plaques ('You're looking for my name, it's five letters long.' / 'I think you'll like my name. Try not to get it wrong.'); stepping on the floor's sun disc: 'What is my name?' (q-c9.riddle). GOLUX: the Sphinx stirs, the throne doors open (q-c9.name_right). Anything else: the disc drops (q-c9.name_wrong). Two iron guardians flank the disc."}
+  - {id: room:legend_throne, name: Throne of legends, kind: room, size: M, floor: 1, at: [5, 0], goal: true, monsters: 0,
+     purpose: "In the nemes' crown, behind a door that opens with the name: the throne of legends (q-c9.throne_legend: +Endurance) and two lecterns, the Book of the Heavens and the Book of the Sun (spellbooks)."}
+  # floor -1, the hieroglyph dungeon (z -640)
+  - {id: room:stair_foot, name: Stair foot, kind: room, size: S, floor: -1, at: [1, 0], monsters: 2,
+     population: [{row: Sand Golem, level: 22, count: 2}],
+     purpose: "The foot of the dungeon stair: a painted procession of animal-headed figures on the walls (pictures only, no clue)."}
+  - {id: room:glyph_w, name: West hieroglyph hall, kind: corridor, size: M, floor: -1, at: [2, 0], monsters: 4,
+     population: [{row: Sand Golem, level: 22, count: 3}, {row: Tomb Mummy, level: 42, count: 1}],
+     purpose: "A low hall of hieroglyph walls, one of them a clue ('My second is in mole but not in mule.'); sand drifted in from the cracks."}
+  - {id: room:glyph_e, name: East hieroglyph hall, kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 3,
+     population: [{row: Sand Golem, level: 22, count: 2}, {row: Stone Golem, level: 26, count: 1}],
+     purpose: "Two more clue walls ('My third is in lich but not in stitch.', 'My fourth is in guard but not in Girard.'); the door of the drop cell at its end."}
+  - {id: room:library, name: "Scribes' library", kind: room, size: M, floor: -1, at: [2, 1], chest: 4, monsters: 5,
+     population: [{row: Sand Golem, level: 22, count: 2}, {row: Stone Golem, level: 26, count: 2}, {row: Tomb Mummy, level: 42, count: 1}],
+     purpose: "Shelves of clay tablets: the Book of Teleport and the Book of Alchemy on a lectern (spellbooks, questions 3), a scribe's chest; the fifth clue on the end wall ('My fifth is in XEEN but not in Queen.')."}
+  - {id: room:drop_cell, name: Drop cell, kind: cave, size: S, floor: -1, at: [5, 0], monsters: 0,
+     purpose: "Where the wrong name lands the party (fall damage only): a sand heap under a shaft that has closed; the first clue on the wall ('My first is in giant but not in defiant.'); a door that opens from inside."}
+links:
+  # body
+  - {id: link:gate_paws, from: room:breast_gate, to: room:paw_hall, kind: open}
+  - {id: link:paws_throat, from: room:paw_hall, to: room:throat_stair, kind: open}
+  - {id: link:paws_gw, from: room:paw_hall, to: room:gallery_w, kind: open}
+  - {id: link:paws_ge, from: room:paw_hall, to: room:gallery_e, kind: open}
+  - {id: link:gw_belly, from: room:gallery_w, to: room:belly_hall, kind: open}
+  - {id: link:ge_belly, from: room:gallery_e, to: room:belly_hall, kind: open}
+  - {id: link:belly_king, from: room:belly_hall, to: room:king_throne, kind: door, label: "Golux", opened_by: state:named}
+  - {id: link:belly_queen, from: room:belly_hall, to: room:queen_throne, kind: door, label: "Golux", opened_by: state:named}
+  - {id: link:queen_thieves, from: room:queen_throne, to: room:thieves_throne, kind: secret, label: "Loose panel"}
+  - {id: link:belly_haunch, from: room:belly_hall, to: room:haunch_vault, kind: door}
+  - {id: link:haunch_dstair, from: room:haunch_vault, to: room:dungeon_stair, kind: open}
+  # body to head
+  - {id: link:throat_up, from: room:throat_stair, to: room:neck_landing, kind: stair}
+  # head
+  - {id: link:neck_wl, from: room:neck_landing, to: room:west_lappet, kind: open}
+  - {id: link:neck_el, from: room:neck_landing, to: room:east_lappet, kind: open}
+  - {id: link:wl_riddle, from: room:west_lappet, to: room:riddle, kind: open}
+  - {id: link:el_riddle, from: room:east_lappet, to: room:riddle, kind: open}
+  - {id: link:riddle_legend, from: room:riddle, to: room:legend_throne, kind: door, label: "Golux", opened_by: state:named}
+  - {id: link:riddle_drop, from: room:riddle, to: room:drop_cell, kind: drop, label: "Wrong name", opened_by: state:riddle}
+  # body to the dungeon
+  - {id: link:dstair_down, from: room:dungeon_stair, to: room:stair_foot, kind: stair}
+  # dungeon
+  - {id: link:foot_gw, from: room:stair_foot, to: room:glyph_w, kind: open}
+  - {id: link:gw_ge, from: room:glyph_w, to: room:glyph_e, kind: open}
+  - {id: link:gw_library, from: room:glyph_w, to: room:library, kind: door}
+  - {id: link:library_ge, from: room:library, to: room:glyph_e, kind: open}
+  - {id: link:drop_out, from: room:drop_cell, to: room:glyph_e, kind: one_way, label: "Opens from inside"}
+states:
+  - {id: state:door, kind: item, where: "X6, the door between the paws",
+     what: "q-c9.door: the Jewelled Amulet of the Northern Sphinx (12317, Arie's, Q-C8) opens the two leaves and is kept (sets q-c9.entered, 112180). X6's event (A5); this map holds the arrival.", opens: [], draw: false}
+  - {id: state:riddle, kind: password, where: room:riddle,
+     what: "The sun disc's text prompt 'What is my name?' (q-c9.riddle). Any answer but GOLUX: q-c9.name_wrong ('\"No,\" says the Sphinx, and the floor agrees with it.'), xeen_sphinx_stir, the party falls to the drop cell (moved inside the map, fall damage). Asks again on every step onto the disc until named.",
+     opens: [link:riddle_drop], draw: false}
+  - {id: state:named, kind: qbit, where: room:riddle,
+     what: "GOLUX: q-c9.name_right (sets q-c9.done, 112181; award 419 'Named the Sphinx'; 6,000): xeen_sphinx_stir, the three throne doors in the body and the legend door in the head open and stay open (on every later load by q-c9.done); the disc no longer asks ('\"Golux. Yes. Still me.\"').",
+     opens: [link:belly_king, link:belly_queen, link:riddle_legend], draw: false}
+  - {id: state:thrones, kind: award, where: "room:king_throne, room:queen_throne, room:thieves_throne, room:legend_throne",
+     what: "Each throne once per character by its player bit (11300 King, 11301 Queen, 11302 Thieves, 11303 Legend; A3's hooks with requires q-c9.done); a second sitting q-c9.throne_sat.", opens: [], draw: false}
+exits:
+  - {id: exit:x6_paws, space: room:breast_gate, at: [0, 0], kind: both, label: "X6: the Sphinx's paws",
+     arrival: "entrance:x6_paws: in the breast gate about 256 inside the leaves, facing north (512), the paw hall ahead",
+     neighbour: "X6 thing:northern_sphinx door (q-c9.door, two leaves egydrlgl) at (9216, 10240, 1408), 384 x 256, facing south between the forelegs; out by the exit preset ('Leave the Sphinx?', aaze0082:12) to X6 (9216, 9728, 1408) facing south (1536), between the paws' tips, clear of the hoard mound by the east foreleg"}
+hooks:
+  - {hook: q-c9.door, space: "X6 (A5)", how: "the door between the paws; listed for the pair, not placed here"}
+  - {hook: q-c9.riddle, space: room:riddle, how: "the sun disc's step event: the text prompt"}
+  - {hook: q-c9.name_right, space: room:riddle, how: "the prompt's answer GOLUX (case-insensitive)"}
+  - {hook: q-c9.name_wrong, space: room:riddle, how: "any other answer: then the drop"}
+  - {hook: q-c9.hieroglyphs, space: "room:drop_cell, room:glyph_w, room:glyph_e, room:library", how: "five walls, one clue each as map-local lines (the source's one clue per wall, aaze0084:2-6); A3's hook text (all five) on the library's end wall as the scribes' summary (open question 2)"}
+  - {hook: q-c9.throne_king, space: room:king_throne, how: "the throne (clicked; player bit 11300)"}
+  - {hook: q-c9.throne_queen, space: room:queen_throne, how: "the throne (player bit 11301)"}
+  - {hook: q-c9.throne_thieves, space: room:thieves_throne, how: "the throne (player bit 11302)"}
+  - {hook: q-c9.throne_legend, space: room:legend_throne, how: "the throne (player bit 11303)"}
+  - {hook: q-c9.throne_sat, space: "the four throne rooms", how: "a member who has sat before"}
+  - {hook: obelisks.cloud_hoard, space: "X6 (A5)", how: "the sand mound before the paws, outside the door: not in this map"}
+critical_path: [room:breast_gate, room:paw_hall, room:throat_stair, room:neck_landing, room:west_lappet, room:riddle, room:legend_throne]
+return_path: [room:legend_throne, room:riddle, room:east_lappet, room:neck_landing, room:throat_stair, room:paw_hall, room:gallery_w, room:belly_hall, room:king_throne, room:belly_hall, room:queen_throne, room:thieves_throne, room:queen_throne, room:belly_hall, room:gallery_e, room:paw_hall, room:breast_gate]
+loops:
+  - {id: loop:flanks, spaces: [room:paw_hall, room:gallery_w, room:belly_hall, room:gallery_e], notes: "Round the body by the two sarcophagus galleries."}
+  - {id: loop:head, spaces: [room:neck_landing, room:west_lappet, room:riddle, room:east_lappet], notes: "Round the head through both lappets."}
+  - {id: loop:glyphs, spaces: [room:glyph_w, room:library, room:glyph_e], notes: "Round the dungeon's halls through the library."}
+  - {id: loop:drop, spaces: [room:riddle, room:drop_cell, room:glyph_e, room:glyph_w, room:stair_foot, room:dungeon_stair, room:haunch_vault, room:belly_hall, room:gallery_w, room:paw_hall, room:throat_stair, room:neck_landing],
+     notes: "The wrong name's way: down by the floor, up by the dungeon stair, back to the head (MAPS: 'climbs back to the body')."}
+lines:
+  - {text: "Leave the Sphinx?", ref: "xeen/aaze0082:12", where: "room:breast_gate (the exit preset's meaning, D-24)"}
+  - {text: "Hiero- glyphics / The message reads: You're looking for my name, it's five letters long. / The message reads: I think you'll like my name. Try not to get it wrong. / A voice booms, \"What is my name?\" / golux / Wrong!", ref: "xeen/aaze0082:1-6", where: "room:riddle (A3's q-c9.riddle carries 2-4; 'Wrong!' becomes A3's name_wrong)"}
+  - {text: "King's throne / Queen's throne / Thieves throne", ref: "xeen/aaze0082:8-10", where: "the throne rooms (hover names)"}
+  - {text: "Sarcophagus / You aren't strong enough to open the sarcophagus. / There is nothing in the sarcophagus", ref: "xeen/aaze0082:15, :11, :7", where: "room:gallery_w, room:gallery_e"}
+  - {text: "Stairs up.  Take them? / Stairs down.  Take them?", ref: "xeen/aaze0082:13-14, aaze0084:9", where: "signs by the throat stair and the dungeon stair (no question: the stairs are walked)"}
+  - {text: "Human throne / Elf throne / Gnome throne / Orc throne / Dwarf throne -> one throne of legends; You are awarded the title ... +500,000 experience -> A3's +stat lines", ref: "xeen/aaze0083:0-4, :9-13", where: "room:legend_throne (old names carved in it: Human, Elf, Gnome, Orc, Dwarf)"}
+  - {text: "Book of The Heavens / Book of The Sun / You learn the Divine Intervention Spell / You learn the Starburst Spell", ref: "xeen/aaze0083:15-16, :5-6", where: "room:legend_throne (the two lecterns)"}
+  - {text: "Gems", ref: "xeen/aaze0083:14, aaze0084:12", where: "room:east_lappet, room:gallery_e"}
+  - {text: "The message reads: My first is in giant but not in defiant. ... My fifth is in XEEN but not in Queen.", ref: "xeen/aaze0084:2-6", where: "the five clue walls (drop cell, the two halls, the library)"}
+  - {text: "Book of Teleport / Book of Alchemy / You learn the Teleport Spell / You learn the Item to Gold Spell", ref: "xeen/aaze0084:13, :11, :7-8", where: room:library}
+open_questions:
+  - q: "The thrones' size. A3's q-c9 gives +5 to a statistic per throne (the source's titles 'at small MM6-MM8 size'); the rule for permanent rewards is pools +2, brews +5 (to resistances), no levels."
+    options: ["(a) +2 per throne, once per character (four thrones: +2 Might, Personality, Accuracy, Endurance), A3 edits the four texts",
+              "(b) +5 as A3 wrote: a quest's reward behind the riddle, bigger than a pool",
+              "(c) +3"]
+    recommend: "(a): the rule's size; the Sphinx's prize is four of them in one place plus the award"
+    depends: "A3 (four hook texts), A2 (Act IV values)"
+  - q: "The hieroglyph clues. A3's hook holds all five clues in one text; the source puts one clue per wall (and needs Linguist, gone)."
+    options: ["(a) five walls, one clue each as map-local lines (the drop cell the first, the west hall the second, the east hall the third and fourth, the library the fifth), every party can read them; A3's whole text on the library's end wall as the scribes' summary",
+              "(b) one wall with A3's whole text, in the drop cell"]
+    recommend: "(a): the dungeon is the puzzle's answer-giver, as the source; the drop cell holds the first clue so a party that fell starts reading at once"
+    depends: "A3 (ORIGINAL_LINES: the five lines as map-local signs)"
+  - q: "The spell books. The source teaches Divine Intervention and Starburst in the head, Teleport and Item to Gold in the dungeon; MM7's spells have Divine Intervention and Starburst (Light), neither Teleport nor Item to Gold."
+    options: ["(a) spellbook items on lecterns: Starburst and Divine Intervention in the head; in the dungeon Town Portal for 'Teleport' and Lloyd's Beacon for 'Item to Gold'",
+              "(b) as (a) with the dungeon's two dropped (gems instead)",
+              "(c) none: the books as readable lore only"]
+    recommend: "(b): the two Light books keep their source names; the dungeon's library keeps a gem cache and its chest"
+    depends: "A2 (fixed items in Act IV), the lecterns' events"
+  - q: "The sarcophagus' Might check. XD-08 used Might 30 for a party of 15-17 (D-4)."
+    options: ["(a) Might 40 on the clicking member, potions and spells counting; the gallery's chest is the sarcophagus", "(b) no check"]
+    recommend: "(a), with a fixed Might potion in the haunch vault's chest"
+    depends: "A2 (the fixed potion)"
+  - q: "The drop. A wrong name 'drops the party into the hieroglyph dungeon'. The disc is a door leaf that sinks (two-state) while the party is moved inside the map to the drop cell (MoveTo with fall damage), then rises."
+    options: ["(a) the disc sinks, the party is moved to the drop cell, the disc rises after 2 s (no hole left open)", "(b) only the move, no visible disc"]
+    recommend: "(a)"
+    depends: "A1 only if an in-map move after a door event is lost (XD-12's falls already move the party)"
+  - q: "Monster levels. MAPS's dungeon table says XD-15 28-45; its §0 row (the group) says 22-45. The Sand Golems (22) and Stone Golems (26) are under 28."
+    options: ["(a) §0's 22-45 for both maps (X6's own Sand Golems, the source's 'Stone and Earth Golems'), MAPS's dungeon row corrected", "(b) 28-45: Water Golems 28 for the Sand Golems and more mummies (about +3k)"]
+    recommend: "(a)"
+    depends: "MAPS (the orchestrator)"

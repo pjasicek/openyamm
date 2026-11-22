@@ -1,0 +1,72 @@
+# DD-18 Sandcaster Sewer: Barticus' members' room and the long tunnel to D5 (D-27). No quest: the gym's pay box, its
+# brews and book, and the tunnel's grate. Barticus's town topic is A4's (towns/d3.yml, 5207); training stays in town
+# (4607). Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: DD-18
+block: 158
+source: "D-27 (devdocs/xeen/mockups/act3_a8_decisions_b.md); dark/aaze0032:2-14"
+
+qbits:
+  gym_paid: {id: 116120, note: "the members' room's pay box paid (hook pay_box)"}
+  arrived_once: {id: 117280, map: DD-18, note: "the map's own: first arrival in DD-18 (A8; block 117280-117319)"}
+  d5_tunnel: {id: 116121, pending: "D5 not built (phase 5): the desert grate's bolt drawn; DD-18's tunnel grate reads it"}
+
+player_bits:         # DD-18's, once per character (A8's provisional numbers)
+  vitamin_brew: {id: 11318, map: DD-18, note: "the Vitamin Brew: +2 Endurance (base)"}
+  protein_brew: {id: 11319, map: DD-18, note: "the Protein Brew: +2 Might (base)"}
+
+hooks:
+  pay_box:
+    map: DD-18
+    gate: beat
+    where: "the pay box at the members' room's door, under the xstraining sign: the map asks \"It costs 5,000 gold to use the gym. Pay?\" and calls this on Yes; once per party"
+    requires: {gold: 5000}
+    sets: [gym_paid]
+    once: true
+    do: [{pay: 5000}]
+    text: "Enjoy the facilities."
+    fail_text: "What do ya think this is, a charity gym? Come back when you have enough gold."
+    else_text: "Paid up. Enjoy the facilities."
+  members_room:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: DD-18
+    gate: beat
+    where: "the brews' shelf and the book: the map's events ask XeenQuests.can(\"dd18.members_room\") first"
+    requires: {qbit: gym_paid}
+    reads: [gym_paid]
+    fail_text: "Members only. The pay box is by the door."
+  vitamin_brew:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-18
+    where: "the Vitamin Brew: the map gives the clicking member +2 Endurance (base) once (player bit vitamin_brew) and shows this; a member who has drunk gets brew_again"
+    text: "Vitamin Brew. It tastes of chalk and good intentions. +2 Endurance (permanent)."
+  protein_brew:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-18
+    where: "the Protein Brew, as the Vitamin Brew (player bit protein_brew)"
+    text: "Protein Brew. It is thick enough to chew. +2 Might (permanent)."
+  brew_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-18
+    where: "either brew, a member who has drunk it"
+    text: "One per member. Barticus counts."
+  bodybuilding:
+    map: DD-18
+    where: "The Art of Bodybuilding, on the bench"
+    text: "The Art of Bodybuilding, by Barticus. Chapter One: Lift. Chapter Two: Lift Again. The other forty chapters say the same, with pictures."
+  tunnel_grate:
+    map: DD-18
+    gate: shortcut
+    where: "the grate at the far end of the long tunnel, bolted on the desert side: the map's exit to D5 asks XeenQuests.can(\"dd18.tunnel_grate\") (phase 5); until then this refusal"
+    requires: {qbit: d5_tunnel}
+    reads: [d5_tunnel]
+    fail_text: "Sand blows through the bars. The bolt is on the other side."
+  d5_grate:
+    map: D5
+    entrance: DD-18
+    gate: shortcut
+    where: "the tunnel's grate in the desert (phase 5, A6): a plain click draws the bolt; then the exit preset both ways"
+    sets: [d5_tunnel]
+    once: true
+    text: "You draw the bolt. The grate swings open on a long tunnel."
+    else_text: "The grate stands open on the long tunnel to Sandcaster."

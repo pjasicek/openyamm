@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/00_three_quarter.png) as the original 1536×1024 RGBA output. Used one corrective generation and recorded both attempts in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/generation_runs.json). Stopped after Run 1.
+
+The full cat clears every edge by at least 134 px. A few nearly invisible pixels with alpha 1/255 extend into the outer padding.

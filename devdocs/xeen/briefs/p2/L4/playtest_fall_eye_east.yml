@@ -1,0 +1,164 @@
+# A fall off the Eye's east rim (D-58 P2 Q1): Xeen.skyFallTo("p2").
+# Written by output/studio_cal/p2/tools/gen_playtests.py; run with --world xeen --map xeen_p2.blv.
+id: xeen.p2.l4.fall_eye_east
+title: 'Plane of Air (P2): a fall off the Eye''s east rim lands on the Gale Landing; the party lives and loses nothing more
+  in 20 s (D-58 P2 Q1, D-54)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p2.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p2.blv
+- clear_hostiles:
+    radius: 40000
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 200
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 140
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 140
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 140
+- note: 'Before the fall: the HP set (logged)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 200
+      health_max: 200
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 140
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 140
+      health_max: 140
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 140
+      health_max: 140
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p2.blv
+      x: 5412
+      y: -3326
+      z: 256
+      yaw_degrees: -10
+      pitch: 0
+    expect_stop:
+      map: xeen_p2.blv
+      x: 5412
+      y: -3326
+      z: 256
+      yaw_degrees: -10
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 6.0
+    follow_map_move: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_p2.blv
+- assert:
+    party_position:
+      x: -4096
+      y: -4096
+      radius: 256
+      z_min: -8
+      z_max: 40
+- note: '0.5 s after the landing: everyone alive, the fall''s damage only (D-6.2)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 88
+      health_max: 88
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 91
+      health_max: 91
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 71
+      health_max: 71
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 94
+      health_max: 94
+- advance_runtime:
+    seconds: 20.0
+- note: 'After 20 s on the Gale Landing (D-54): nobody has lost a point more'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 88
+      health_max: 88
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 91
+      health_max: 91
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 71
+      health_max: 71
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 94
+      health_max: 94
+- assert:
+    party_position:
+      x: -4096
+      y: -4096
+      radius: 256
+      z_min: -8
+      z_max: 40

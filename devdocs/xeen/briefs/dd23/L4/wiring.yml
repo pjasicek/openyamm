@@ -1,0 +1,224 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The cave in the crag runs up into the mountain, its floor white with droppings. Somewhere above, claws scrape on rock."
+    seconds: 7
+  - id: evt:bones_seen
+    preset: text
+    source: room:bone_ledge
+    trigger: step
+    once: true
+    text: "A climber's bones lie in the cleft, still roped to his pack."
+    seconds: 5
+  - id: evt:chest_climber
+    preset: chest
+    source: chest:climber
+    title: Chest
+  - id: evt:chest_nest
+    preset: chest
+    source: chest:nest
+    title: Chest
+  - id: evt:gallery_seen
+    preset: text
+    source: room:still_gallery
+    trigger: step
+    once: true
+    text: Weathered pillars of rock stand about the gallery like statues. Some of the statues have wings.
+    seconds: 6
+  - id: evt:heap_east
+    preset: script
+    source: platform:heap_east
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\""
+  - id: evt:heap_high
+    preset: script
+    source: platform:heap_high
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\""
+  - id: evt:heap_north
+    preset: script
+    source: platform:heap_north
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\""
+  - id: evt:heap_south
+    preset: script
+    source: platform:heap_south
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\""
+  - id: evt:heap_west
+    preset: script
+    source: platform:heap_west
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\""
+  - id: evt:mouth
+    preset: exit
+    source: exit:mouth
+    title: Leave the Gargoyle Lair
+    notes: To D4's entrance:dd23_lair before the lair's mouth (exit:d4_mouth).
+  - id: evt:nest
+    preset: script
+    source: platform:nest
+    title: Nest
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.glass\")"
+    notes: "goal:glass: A3's hook q-d15.glass gives its text and Caleb's Magnifying Glass (12352) once (glass_found 113302); later clicks its else text \"Spoons, buckles, broken mirrors.\""
+  - id: evt:nest_seen
+    preset: text
+    source: room:nest
+    trigger: step
+    once: true
+    text: "Straw, and in it everything that glitters: spoons, buckles, broken mirrors. Gargoyles like shiny things."
+    seconds: 6
+  - id: evt:perch_seen
+    preset: text
+    source: room:perch_hall
+    trigger: step
+    once: true
+    text: Perches worn smooth by claws stand out from the walls of a high cave. Ledges look down from the dark above.
+    seconds: 6
+  - id: evt:rock_east
+    preset: script
+    source: platform:rock_east
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
+  - id: evt:rock_high
+    preset: script
+    source: platform:rock_high
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
+  - id: evt:rock_north
+    preset: script
+    source: platform:rock_north
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
+  - id: evt:rock_south
+    preset: script
+    source: platform:rock_south
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
+  - id: evt:rock_west
+    preset: script
+    source: platform:rock_west
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Do you wish to destroy the Gargoyle Lair?", wrong_text: You leave the roosting rocks standing.}
+    title: Roosting rock
+    condition: {not: {qbit: lair_destroyed}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+      - destroy: destructible:rock_high
+      - destroy: destructible:rock_north
+      - destroy: destructible:rock_west
+      - destroy: destructible:rock_east
+      - destroy: destructible:rock_south
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d15.roost\")"
+    notes: "goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
+  - id: evt:roost_seen
+    preset: text
+    source: room:roost
+    trigger: step
+    once: true
+    text: "The roost: a tall cave under a crack of sky, snow sifted onto the droppings. Roosting rocks stand round it in a ring, worn smooth by claws."
+    seconds: 7

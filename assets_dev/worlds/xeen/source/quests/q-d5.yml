@@ -1,0 +1,71 @@
+# Q-D5 Rooka (QUESTS 2.2 Q-D5): Valio the Simple, hiding in a bed in the Castleview Sewer (DD-01), wants the Queen Rat
+# dead. Owner: A3. Format: QUESTS_FORMAT.md. Valio is not so simple: his chest holds a diploma from the School of Evil
+# Wizardry, and A2's monster row 11193 is a level-45 wizard. Open his chest before he pays and he drops the act.
+# The experience sits on Rooka's death (a hook, so the audit counts it); Valio's topic opens his chest as the reward.
+id: Q-D5
+title: Rooka
+act: III
+kind: side
+status: full
+giver: 4957          # Valio the Simple (DD-01, in the bed by Felix's tunnel; a talking actor A8 places)
+maps: [DD-01]
+level: 19
+block: 85
+after: [m7.sigil]
+source: "QUESTS Q-D5; dark/aaze0030:9-12, :22-25"
+
+qbits:
+  started: {id: 113100, journal: "Valio, who lives in the Castleview Sewer, wants Rooka the Queen Rat dead.",
+            until: [done]}
+  rooka_slain: {id: 113101, note: "DD-01 sets it at Rooka's death (hook q-d5.rooka)"}
+  done: {id: 113102, note: "Valio's topic: his chest is the party's"}
+  chest_opened: {id: 113103, note: "DD-01's chest by Valio's bed (hook q-d5.valio_chest)"}
+  valio_angered: {id: 113104, note: "the chest hook sets it when the chest is opened before Valio pays; A8 turns Valio (monster 11193) hostile"}
+
+autonotes:
+  rooka: {id: 4450, text: "Rooka, the Queen Rat, nests in the Castleview Sewer. Valio, in the bed, will give you something for her.", category: Misc}
+
+npcs:
+  4957:              # Valio the Simple (DD-01; monster 11193 if angered)
+    topics:
+      - n: 1
+        label: Rats
+        states:
+          - when: {qbit: done}
+            text: "It's good to see you again."
+          - when: {qbit: rooka_slain}
+            text: "You've killed the Queen Rat! Here is your reward: my chest. Go on, open it. It's yours. Thanks."
+            do: [{set: done}]
+          - when: {qbit: started}
+            text: "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet!"
+          - text: "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill the Queen Rat for me. I'll give you something if you do."
+            do: [{set: started}, {autonote: rooka}]
+
+hooks:
+  rooka:
+    map: DD-01
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Rooka's death in the rat queen's nest (A8: her group)"
+    sets: [rooka_slain]
+    once: true
+    do: [{xp: 3000}]
+    text: "Rooka the Queen Rat is dead. Down the tunnel, someone in a bed cheers."
+    else_text: "The nest is quiet."
+  valio_chest:
+    map: DD-01
+    where: "the chest beside Valio's bed (the map's chest holds the diploma, some gold and a T2 item)"
+    sets: [chest_opened]
+    once: true
+    states:
+      - when: {qbit: done}
+        text: "You find a diploma that reads: Valio Magnus, graduated 787 cum laude, School of Evil Wizardry. Valio smiles simply."
+      - text: "You hear Valio (the peasant hiding in the bed) yell, 'Hey, that's MY chest. Leave it alone!' You open it anyway. Inside, a diploma: Valio Magnus, cum laude, School of Evil Wizardry. Valio gets out of bed."
+        do: [{set: valio_angered}]
+    else_text: "The chest is empty."
+  valio_angry:
+    map: DD-01
+    where: "Valio's bed: once valio_angered is set, A8 swaps the talking Valio for monster 11193 (level 45), hostile"
+    reads: [valio_angered]
+
+rewards: {xp: 3000, gold: 0, items: "Valio's chest (DD-01's own contents)"}
+playthrough: "DD-01: Valio (Rats); kill Rooka; Valio (Rats); his chest."

@@ -1,0 +1,3 @@
+Saved [03_left.png](level_generation/creatures/xeen_octopod_claude/references_hd/03_left.png) and its [generation record](level_generation/creatures/xeen_octopod_claude/references_hd/generation_runs_03_left.json). Verified a left-facing profile with eight distinct tentacle tips, true transparency, and at least 80 px of clear margin on the 1536×1024 canvas.
+
+The selected view reads higher than the requested 15°. The single corrective generation lowered the angle but introduced a ninth tip, so I kept the first image and cleaned its alpha fringe at native resolution.

@@ -1,0 +1,11 @@
+{
+ "_note": "FD-02's lecterns (D-63 polish; lane S session 10). Row 4050, sprite 27050, binding in worlds/xeen/models/indoor_decorations.yml.",
+ "rows": [
+  {"row": 4050, "sprite": 27050, "name": "xeen_lectern", "hint": "lectern", "radius": 28, "height": 120,
+   "model": "worlds/xeen/models/xeen_deco_lectern.glb", "binding_height": 120.5, "yaw_offset": -1.570796327,
+   "comment": ["FD-02's lecterns (D-63 polish; lane S, level_generation/decorations/xeen_lectern_claude): a carved reading",
+               "stand in the Throne of Legends' own wood atlas with MM9's open book (bookflat, copied in) on its sloped",
+               "desk; 54 x 41 at the desk, foot 44 x 36, 120 tall; origin at the foot's bottom centre; facing = the",
+               "reader's side (the desk slopes down toward it)."]}
+ ]
+}

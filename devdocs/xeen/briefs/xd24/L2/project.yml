@@ -1,0 +1,35 @@
+format: 0
+id: xeen_xd24
+name: Nightshadow Crypt
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-24
+units: {plan_grid: 512}
+extent: {footprint_cells: [15, 10], climbs: n}
+map_stats:
+  id: 9147
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 3
+  environment: STONEROOM
+  lock_difficulty: 3
+  slots:
+    - {monster: Xeen Vampire, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Vampire, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:x3_coffin
+    to: xeen_x3.odm
+    kind: door
+    arrival: [17664, -5120, 992]
+    arrival_hint: "On Nightshadow's square, 512 south of Draco's coffin (thing:coffin_open), facing away from it."
+    direction: 270
+    notes: "A5's points (briefs/x3/DOORS.md). X3's open coffin leads in to this map's start (0, 704, 0) facing south (1536)."
+qbits:
+  draco_done: 112141
+  vault_open: 110940
+notes: "Xeen design brief, level L2: XD-24 Nightshadow Crypt (see L4/NOTES.md)."

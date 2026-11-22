@@ -1,0 +1,17 @@
+THE COVEN (0)
+  [HEAD WITCH'S ROOM $$ boss, mirror] =her door= [BREWERY: 3 cauldrons, skulls]
+        |door                                        |door
+  [ANTECHAMBER] =door= [WITCHES' WALK] ==============+
+                              || Moon seal (two leaves)
+  [COVEN HALL: initiation cauldron] =door= [GAOL $] -> cell stair (0 -> -256)
+        ^ Guild's back stair (640 -> 0)  =door= [DORMITORY $] =door= [STORE: hatch bolt]
+  [GUILD LANDING: exit to D4]                                           | hatch (ladder)
+THE CELLS (-256)
+  [CELLS: cages Camilla, Aretha, Isabella, Rhett] -> drain stair (-256 -> -512)
+THE SEWER (-512)
+  [CISTERN] -- [SUMP: trapdoor arrival] -- [MAIN DRAIN] =door [PUMP ROOM $] -- [CROSS: ambush] -- [SLOP PIT]
+                                                                               |        |        \
+                                                                        [HIDEOUT] [EAST DRAIN] [WARREN $]
+                                                                                       |           |
+                                                                              [JETTY SHAFT: exit] [OUTFALL] -- [NICHE: Dragon]
+ $ chest   =door= door

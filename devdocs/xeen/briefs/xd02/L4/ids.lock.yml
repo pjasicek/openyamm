@@ -45,6 +45,8 @@ sectors:
   room:west_line_upper: 36
 events:
   evt:arrive: 46
+  evt:barrel_empty: 56
+  evt:barrel_note: 57
   evt:brake: 1
   evt:chalk_mark: 2
   evt:chest_cocoon: 3
@@ -55,7 +57,9 @@ events:
   evt:chest_strongbox: 8
   evt:clan_hostile: 45
   evt:clan_sign: 9
+  evt:deep_barrel: 59
   evt:deep_cart: 47
+  evt:deep_note: 58
   evt:deep_station_arrive: 48
   evt:door_bunk: 10
   evt:door_chapel: 11
@@ -64,6 +68,7 @@ events:
   evt:door_tally: 14
   evt:door_vent_1: 15
   evt:door_vent_2: 16
+  evt:dwarf_smithy: 60
   evt:east_cart: 17
   evt:east_landing: 18
   evt:east_ride_landing: 49
@@ -72,6 +77,7 @@ events:
   evt:exit_deep: 20
   evt:exit_x1: 21
   evt:exit_x4: 22
+  evt:fall_cleared: 61
   evt:hoist_cage: 23
   evt:hoist_floor: 24
   evt:hoist_ride_rim: 51
@@ -201,6 +207,9 @@ lights:
   light:station_bay: 31
   light:west_daylight: 15
   light:west_line_lamp: 30
+sounds:
+  sound:sorting_mine: 1
+  sound:stope_mine: 2
 decorations:
   deco:adit_mouth_1: 0
   deco:adit_mouth_2: 1
@@ -276,53 +285,48 @@ decorations:
   deco:sorting_floor_30: 71
   deco:sorting_floor_31: 72
   deco:sorting_floor_32: 73
-  deco:sorting_floor_33: 74
-  deco:spider_galleries_102: 75
-  deco:spider_galleries_103: 76
-  deco:spider_galleries_104: 77
-  deco:spider_galleries_105: 78
-  deco:spider_galleries_106: 79
-  deco:spider_galleries_107: 80
-  deco:stope_floor_84: 81
-  deco:stope_floor_85: 82
-  deco:stope_floor_86: 83
-  deco:stope_floor_87: 84
-  deco:stope_floor_88: 85
-  deco:stope_floor_89: 86
-  deco:stope_floor_90: 87
-  deco:stope_floor_91: 88
-  deco:stope_floor_92: 89
-  deco:stope_floor_93: 90
-  deco:stope_floor_94: 91
-  deco:stope_floor_95: 92
-  deco:stope_rim_82: 93
-  deco:stope_rim_83: 94
-  deco:tally_room_70: 95
-  deco:tally_room_71: 96
-  deco:tally_room_72: 97
-  deco:tally_room_73: 98
-  deco:top_station_11: 99
-  deco:top_station_12: 100
-  deco:top_station_13: 101
-  deco:top_station_14: 102
-  deco:top_station_15: 103
-  deco:top_station_16: 104
-  deco:top_station_17: 105
-  deco:top_station_18: 106
-  deco:top_station_19: 107
-  deco:turntable_38: 108
-  deco:turntable_39: 109
-  deco:turntable_40: 110
-  deco:turntable_41: 111
-  deco:turntable_42: 112
-  deco:turntable_43: 113
-  deco:turntable_44: 114
-  deco:turntable_45: 115
-  deco:turntable_46: 116
-  deco:turntable_47: 117
-  deco:turntable_48: 118
-  deco:west_line_75: 119
-  deco:west_line_76: 120
-  deco:west_line_landing_72: 121
-  deco:west_line_upper_77: 122
-  deco:west_line_upper_78: 123
+  deco:spider_galleries_102: 74
+  deco:spider_galleries_103: 75
+  deco:spider_galleries_104: 76
+  deco:spider_galleries_105: 77
+  deco:spider_galleries_106: 78
+  deco:spider_galleries_107: 79
+  deco:stope_floor_84: 80
+  deco:stope_floor_85: 81
+  deco:stope_floor_86: 82
+  deco:stope_floor_87: 83
+  deco:stope_floor_88: 84
+  deco:stope_floor_89: 85
+  deco:stope_floor_90: 86
+  deco:stope_floor_91: 87
+  deco:stope_floor_92: 88
+  deco:stope_floor_94: 89
+  deco:stope_floor_95: 90
+  deco:stope_rim_82: 91
+  deco:stope_rim_83: 92
+  deco:tally_room_70: 93
+  deco:tally_room_71: 94
+  deco:tally_room_72: 95
+  deco:tally_room_73: 96
+  deco:top_station_11: 97
+  deco:top_station_12: 98
+  deco:top_station_13: 99
+  deco:top_station_14: 100
+  deco:top_station_15: 101
+  deco:top_station_16: 102
+  deco:turntable_38: 103
+  deco:turntable_39: 104
+  deco:turntable_40: 105
+  deco:turntable_41: 106
+  deco:turntable_42: 107
+  deco:turntable_43: 108
+  deco:turntable_44: 109
+  deco:turntable_45: 110
+  deco:turntable_46: 111
+  deco:turntable_47: 112
+  deco:turntable_48: 113
+  deco:west_line_75: 114
+  deco:west_line_76: 115
+  deco:west_line_landing_72: 116
+  deco:west_line_upper_77: 117
+  deco:west_line_upper_78: 118

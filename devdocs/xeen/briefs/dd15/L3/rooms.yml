@@ -1,0 +1,1001 @@
+format: 0
+themes:
+  - id: theme:ancient
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swankdk, size: [128, 128]}
+    door: {texture: swdoorc, size: [128, 256]}
+    notes: "The Ancients' levels (A6's assign: the lower Ancient levels in the sw set): steel panels (swll4dk), worn grey floor (swfloor2b), a grated ceiling (swceilf); L3's pad maze, the apex stair and the sky corridor."
+  - id: theme:atrium
+    wall: {texture: egywlf, size: [256, 256]}
+    floor: {texture: egyflore, size: [256, 256]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The Visitor's Atrium: gold hieroglyph columns (egywlf), pale slabs (egyflore), a coffered ceiling (egyceild)."
+  - id: theme:chapel
+    wall: {texture: egywld, size: [256, 256]}
+    floor: {texture: egyflorc, size: [128, 128]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The four torch chapels: orange hieroglyph walls (egywld), pale flags (egyflorc); the niches (egywlspa/egywlspb)."
+  - id: theme:gallery
+    wall: {texture: egymeda, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The galleries round the atrium: dressed blocks (egymeda)."
+  - id: theme:hall
+    wall: {texture: egybiga, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The Royal Pyramid's public halls (MM6's Tomb of VARN): big sandstone blocks (egybiga), sand slabs (egyflord), block ceilings (egyceilb), hieroglyph trim in the doorways (egytrmc)."
+  - id: theme:numbers
+    wall: {texture: egywla, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The number hall: small blocks (egywla); the eight niches (egyspca)."
+  - id: theme:office
+    wall: {texture: egywlj, size: [256, 256]}
+    floor: {texture: egyflorf, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The Overseer's Office and vault, the embalmers' room: cracked plaster (egywlj), marbled slabs (egyflorf)."
+  - id: theme:processional
+    wall: {texture: egywlh, size: [256, 256], scale: 2}
+    floor: {texture: egyflore, size: [256, 256]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The processional and the registry: plaster between two hieroglyph friezes (egywlh, once up the wall), pale slabs, coffers."
+  - id: theme:reception
+    wall: {texture: egywalg1, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "Reception and Information: coursed blocks (egywalg1)."
+  - id: theme:royal
+    wall: {texture: egywlc, size: [128, 256]}
+    floor: {texture: egyflora, size: [128, 128]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The Pharaoh's apartments: gold plaster (egywlc), blue tiles in white (egyflora), coffers; xngold5 gilding on the dais and the throne."
+  - id: theme:stair
+    wall: {texture: egybigb, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The stairs, the porch and the lift shaft: big blocks (egybigb)."
+  - id: theme:tomb
+    wall: {texture: egywle, size: [128, 128]}
+    floor: {texture: egyflorf, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egytrmc, size: [64, 64]}
+    door: {texture: egydrsmc, size: [128, 256]}
+    notes: "The tombs and the cloister: orange hieroglyph tiles (egywle), marbled slabs."
+defaults: {theme: theme:hall, ambient: 12}
+rooms:
+  - id: room:ante_n
+    name: Antechamber
+    space: room:antechamber
+    outline: [[-640, -1984], [2048, -1984], [2048, -768], [-640, -768]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:royal
+    pillars:
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2.5}, outline: [[-336, -1488], [-176, -1488], [-176, -1328], [-336, -1328]]}
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2.5}, outline: [[1584, -1488], [1744, -1488], [1744, -1328], [1584, -1328]]}
+    platforms:
+      - {id: platform:book_stand, at: [1408, -1088], size: [96, 96], rise: 112, surface: {texture: egytrmc, size: [64, 64]}, end_surface: {texture: egytrmc, size: [64, 64], fit: false}, top_surface: {texture: egyceila, size: [128, 128]}, notes: "The book stand: The Prime Directive."}
+  - id: room:ante_s
+    name: Antechamber
+    space: room:antechamber
+    outline: [[-640, -3200], [2048, -3200], [2048, -1984], [-640, -1984]]
+    floor: 2304
+    ceiling: 2944
+    theme: theme:royal
+    pillars:
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2.5}, outline: [[-336, -2640], [-176, -2640], [-176, -2480], [-336, -2480]]}
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2.5}, outline: [[1584, -2640], [1744, -2640], [1744, -2480], [1584, -2480]]}
+  - id: room:apex_landing
+    name: Apex landing
+    outline: [[2176, -1280], [3072, -1280], [3072, -256], [2176, -256]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:royal
+  - id: room:apex_stair
+    name: Apex stair
+    outline: [[2176, -2688], [3072, -2688], [3072, -1408], [2176, -1408]]
+    floor: 1536
+    ceiling: 2816
+    theme: theme:ancient
+    platforms:
+      - {id: platform:apex_head, rise: 32, surface: {texture: swll4dk, size: [128, 256]}, outline: [[2176, -1792], [3072, -1792], [3072, -1408], [2176, -1408]], top_surface: {texture: egyflora, size: [128, 128]}, bottom_surface: {texture: swll4dk, size: [128, 256]}, base: 736, notes: "The apex stair's head (2304) across the north end: the apex landing north."}
+    flights:
+      - {from: [2880, -2560], to: [2880, -1792], open_below: 32, to_height: 2304, width: 320, steps: 24, sides: {height: 48, thickness: 16, surface: {texture: swll4dk, size: [128, 256]}}, notes: "Twenty-four steps up the east side, rising north to the head."}
+    notes: From the far cell's door up to the Pharaoh's apartments.
+  - id: room:atrium_ne
+    name: Visitor's Atrium
+    space: room:atrium
+    outline: [[0, 768], [1280, 768], [1280, 2816], [0, 2816]]
+    floor: 0
+    ceiling: 640
+    theme: theme:atrium
+    platforms:
+      - {id: platform:brazier_ne, at: [896, 2432], size: [160, 160], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A cold brazier's stand (lit with the north-east torch).}
+  - id: room:atrium_nw
+    name: Visitor's Atrium
+    space: room:atrium
+    outline: [[-1280, 768], [0, 768], [0, 2816], [-1280, 2816]]
+    floor: 0
+    ceiling: 640
+    theme: theme:atrium
+    platforms:
+      - {id: platform:brazier_nw, at: [-896, 2432], size: [160, 160], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A cold brazier's stand (lit with the north-west torch).}
+  - id: room:atrium_se
+    name: Visitor's Atrium
+    space: room:atrium
+    outline: [[0, -1280], [1280, -1280], [1280, 768], [0, 768]]
+    floor: 0
+    ceiling: 640
+    theme: theme:atrium
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:statue_torch_statue, offset: 480, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+    platforms:
+      - {id: platform:brazier_se, at: [896, -896], size: [160, 160], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A cold brazier's stand (lit with the south-east torch).}
+  - id: room:atrium_sw
+    name: Visitor's Atrium
+    space: room:atrium
+    outline: [[-1280, -1280], [0, -1280], [0, 768], [-1280, 768]]
+    floor: 0
+    ceiling: 640
+    theme: theme:atrium
+    platforms:
+      - {id: platform:brazier_sw, at: [-896, -896], size: [160, 160], rise: 64, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egywalgm, size: [128, 128]}, notes: A cold brazier's stand (lit with the south-west torch).}
+  - id: room:bedchamber
+    name: Bedchamber
+    outline: [[1664, 1152], [2944, 1152], [2944, 2688], [1664, 2688]]
+    floor: 2304
+    ceiling: 2816
+    theme: theme:royal
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:tapestry, offset: 192, length: 384, bottom: 64, height: 384, surface: {texture: egywlspc, size: [256, 256], fit: true}, notes: "The tapestry: the safe's numbers in its border."}
+    platforms:
+      - {id: platform:bed, at: [2624, 2304], size: [384, 448], rise: 64, surface: {texture: egyceila, size: [128, 128]}, top_surface: {texture: egyceila, size: [128, 128]}, notes: The ornate bed against the east wall.}
+    notes: "The ornate bed, the tapestry, the wall safe; the carved button by the west wall."
+  - id: room:cell_a
+    name: Cell of the sun
+    outline: [[-2944, -1280], [-1920, -1280], [-1920, -256], [-2944, -256]]
+    floor: 1536
+    ceiling: 1984
+    theme: theme:ancient
+  - id: room:cell_b
+    name: Cell of the eye
+    outline: [[2176, -1280], [3200, -1280], [3200, -256], [2176, -256]]
+    floor: 1536
+    ceiling: 1984
+    theme: theme:ancient
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:pad_map, at: centre, length: 256, bottom: 128, height: 128, surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: The Overseer's lost map of the pads.}
+    notes: "A dead end: the Overseer's lost map of the pads glows on the north wall."
+  - id: room:cell_c
+    name: Cell of the scarab
+    outline: [[2176, 128], [3200, 128], [3200, 1152], [2176, 1152]]
+    floor: 1536
+    ceiling: 1984
+    theme: theme:ancient
+    platforms:
+      - {id: platform:weapon_rack, at: [3136, 640], size: [64, 384], rise: 192, surface: {texture: swpnl, size: [128, 256], fit: false}, end_surface: {texture: swankdk, size: [128, 128], fit: false}, top_surface: {texture: swankdk, size: [128, 128]}, notes: The guard post's weapon rack.}
+  - id: room:cell_d
+    name: Cell of the bird
+    outline: [[-384, -2688], [640, -2688], [640, -1664], [-384, -1664]]
+    floor: 1536
+    ceiling: 1984
+    theme: theme:ancient
+  - id: room:cell_e
+    name: Far cell
+    outline: [[1024, -2688], [2048, -2688], [2048, -1664], [1024, -1664]]
+    floor: 1536
+    ceiling: 1984
+    theme: theme:ancient
+  - id: room:chapel_ne
+    name: North-east chapel
+    outline: [[3072, 3584], [4608, 3584], [4608, 5120], [3072, 5120]]
+    floor: 0
+    ceiling: 512
+    theme: theme:chapel
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:niche_ne_1, offset: 320, length: 256, bottom: 0, height: 256, surface: {texture: egywlspa, size: [256, 256], fit: true}, notes: A niche.}
+          - {id: panel:niche_ne_2, offset: 960, length: 256, bottom: 0, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: A niche.}
+      - wall: n
+        panels:
+          - {id: panel:torch_plaque, offset: 1088, length: 128, bottom: 96, height: 256, surface: {texture: egywlhle, size: [128, 256], fit: true}, notes: The plaque by the torch (m28.torch_plaque).}
+  - id: room:chapel_nw
+    name: North-west chapel
+    outline: [[-4608, 3584], [-3072, 3584], [-3072, 5120], [-4608, 5120]]
+    floor: 0
+    ceiling: 512
+    theme: theme:chapel
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:niche_nw_1, offset: 320, length: 256, bottom: 0, height: 256, surface: {texture: egywlspa, size: [256, 256], fit: true}, notes: A niche.}
+          - {id: panel:niche_nw_2, offset: 960, length: 256, bottom: 0, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: A niche.}
+  - id: room:chapel_se
+    name: South-east chapel
+    outline: [[2048, -3712], [3584, -3712], [3584, -2432], [2048, -2432]]
+    floor: 0
+    ceiling: 512
+    theme: theme:chapel
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:niche_se_1, offset: 320, length: 256, bottom: 0, height: 256, surface: {texture: egywlspa, size: [256, 256], fit: true}, notes: A niche.}
+          - {id: panel:niche_se_2, offset: 960, length: 256, bottom: 0, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: A niche.}
+  - id: room:chapel_sw
+    name: South-west chapel
+    outline: [[-3584, -3712], [-2048, -3712], [-2048, -2432], [-3584, -2432]]
+    floor: 0
+    ceiling: 512
+    theme: theme:chapel
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:niche_sw_1, offset: 256, length: 256, bottom: 0, height: 256, surface: {texture: egywlspa, size: [256, 256], fit: true}, notes: A niche.}
+          - {id: panel:niche_sw_2, offset: 768, length: 256, bottom: 0, height: 256, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: A niche.}
+  - id: room:cloister_n
+    name: North cloister
+    space: room:cloister
+    outline: [[-128, 2688], [1792, 2688], [1792, 3712], [-128, 3712]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:tomb
+    pillars:
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2}, outline: [[256, 3136], [384, 3136], [384, 3264], [256, 3264]]}
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2}, outline: [[1280, 3136], [1408, 3136], [1408, 3264], [1280, 3264]]}
+  - id: room:cloister_s
+    name: North cloister
+    space: room:cloister
+    outline: [[-128, 1664], [1792, 1664], [1792, 2688], [-128, 2688]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:tomb
+    pillars:
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2}, outline: [[256, 2112], [384, 2112], [384, 2240], [256, 2240]]}
+      - {surface: {texture: egycol64, size: [64, 256], scale: 2}, outline: [[1280, 2112], [1408, 2112], [1408, 2240], [1280, 2240]]}
+  - id: room:embalmers
+    name: Embalmers' room
+    outline: [[-3584, -3200], [-2048, -3200], [-2048, -2048], [-3584, -2048]]
+    floor: 768
+    ceiling: 1216
+    theme: theme:office
+    platforms:
+      - {id: platform:embalming_table, at: [-2816, -2624], size: [512, 192], rise: 80, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorf, size: [256, 256]}, notes: An embalming table.}
+    notes: "Tables, jars and linen; the jar of salts is a find."
+  - id: room:entry
+    name: Entrance hall
+    outline: [[-1280, 2944], [1280, 2944], [1280, 5120], [-1280, 5120]]
+    floor: 0
+    ceiling: 640
+    theme: theme:hall
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:statue_welcome, offset: 640, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+    notes: "Inside the green doors: a hall of big sandstone blocks, the welcome statue in its niche on the west wall, two arches south into the atrium; Reception west, Information east."
+  - id: room:information
+    name: Information
+    outline: [[1408, 1152], [4608, 1152], [4608, 3456], [1408, 3456]]
+    floor: 0
+    ceiling: 512
+    theme: theme:reception
+    platforms:
+      - {id: platform:counter, at: [3072, 2944], size: [768, 128], rise: 96, surface: {texture: egywalg1, size: [256, 256], fit: false}, top_surface: {texture: egyceila, size: [128, 128]}, notes: The information counter.}
+    notes: "The information counter, the visitors' strongbox behind it."
+  - id: room:landing
+    name: Stair head
+    outline: [[-1920, -3200], [-128, -3200], [-128, -2176], [-1920, -2176]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:processional
+  - id: room:maze_landing
+    name: Maze landing
+    outline: [[-1536, 1280], [-256, 1280], [-256, 2304], [-1536, 2304]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:ancient
+  - id: room:number_n
+    name: Number hall
+    space: room:number_hall
+    outline: [[2048, -640], [3584, -640], [3584, 1024], [2048, 1024]]
+    floor: 0
+    ceiling: 512
+    theme: theme:numbers
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:niche_7, offset: 192, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 7.}
+          - {id: panel:niche_8, offset: 576, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 8.}
+          - {id: panel:niche_9, offset: 960, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 9.}
+          - {id: panel:niche_10, offset: 1344, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 10.}
+      - wall: w
+        panels:
+          - {id: panel:statue_rule_n, offset: 512, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+  - id: room:number_s
+    name: Number hall
+    space: room:number_hall
+    outline: [[2048, -2304], [3584, -2304], [3584, -640], [2048, -640]]
+    floor: 0
+    ceiling: 512
+    theme: theme:numbers
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:niche_3, offset: 192, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 3.}
+          - {id: panel:niche_4, offset: 576, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 4.}
+          - {id: panel:niche_5, offset: 960, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 5.}
+          - {id: panel:niche_6, offset: 1344, length: 256, bottom: 64, height: 256, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: Niche 6.}
+      - wall: w
+        panels:
+          - {id: panel:statue_rule_s, offset: 512, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+  - id: room:overseer
+    name: Overseer's Office
+    outline: [[3712, -3712], [4736, -3712], [4736, -2560], [3712, -2560]]
+    floor: 0
+    ceiling: 512
+    theme: theme:office
+    platforms:
+      - {id: platform:desk, at: [4224, -2816], size: [384, 160], rise: 80, surface: {texture: egyceila, size: [128, 128]}, end_surface: {texture: egyceila, size: [128, 128], fit: false}, top_surface: {texture: egyceila, size: [128, 128]}, notes: The Overseer's desk and his note.}
+  - id: room:pad_c
+    name: Pad hall
+    space: room:pad_hall
+    outline: [[-384, -1280], [768, -1280], [768, 1152], [-384, 1152]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:ancient
+  - id: room:pad_e
+    name: Pad hall
+    space: room:pad_hall
+    outline: [[768, -1280], [1920, -1280], [1920, 1152], [768, 1152]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:ancient
+  - id: room:pad_w
+    name: Pad hall
+    space: room:pad_hall
+    outline: [[-1536, -1280], [-384, -1280], [-384, 1152], [-1536, 1152]]
+    floor: 1536
+    ceiling: 2048
+    theme: theme:ancient
+  - id: room:porch
+    name: Porch
+    outline: [[-384, 5248], [384, 5248], [384, 5504], [-384, 5504]]
+    floor: 0
+    ceiling: 512
+    theme: theme:stair
+  - id: room:proc_1
+    name: Processional
+    space: room:processional
+    outline: [[-1536, -2048], [-256, -2048], [-256, -512], [-1536, -512]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:processional
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:statue_verse_1, offset: 448, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+  - id: room:proc_2
+    name: Processional
+    space: room:processional
+    outline: [[-1536, -512], [-256, -512], [-256, 1024], [-1536, 1024]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:processional
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:statue_verse_2, offset: 1120, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+  - id: room:proc_3
+    name: Processional
+    space: room:processional
+    outline: [[-1536, 1024], [-256, 1024], [-256, 2560], [-1536, 2560]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:processional
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:statue_verse_3, offset: 640, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+      - wall: e
+        panels:
+          - {id: panel:statue_verse_4, offset: 960, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+  - id: room:reception
+    name: Reception
+    outline: [[-4608, 1152], [-1408, 1152], [-1408, 3456], [-4608, 3456]]
+    floor: 0
+    ceiling: 512
+    theme: theme:reception
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:statue_history, offset: 400, length: 320, bottom: 64, height: 320, surface: {texture: egywlspb, size: [256, 256], fit: true}, notes: "A statue in its niche: it speaks as the party approaches."}
+    platforms:
+      - {at: [-4480, 1856], size: [96, 512], rise: 48, surface: {texture: egybigb, size: [256, 256]}, top_surface: {texture: egybigb, size: [256, 256]}, notes: A visitors' bench.}
+      - {at: [-4480, 2752], size: [96, 512], rise: 48, surface: {texture: egybigb, size: [256, 256]}, top_surface: {texture: egybigb, size: [256, 256]}, notes: A visitors' bench.}
+    notes: "Visitors' benches by the west wall, the history statue in the middle."
+  - id: room:registry
+    name: Registry door
+    outline: [[-1536, 2688], [-256, 2688], [-256, 3712], [-1536, 3712]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:processional
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:registry_plaque, offset: 768, length: 256, bottom: 128, height: 128, surface: {texture: xdregplq, size: [128, 64], fit: true}, notes: The brass registry plaque (xdregplq) beside the door.}
+  - id: room:registry_stair
+    name: Registry stair
+    outline: [[-3072, 1280], [-1664, 1280], [-1664, 3712], [-3072, 3712]]
+    floor: 768
+    ceiling: 2048
+    theme: theme:stair
+    platforms:
+      - {id: platform:registry_head, rise: 32, surface: {texture: egybigb, size: [256, 256]}, outline: [[-3072, 1280], [-1664, 1280], [-1664, 1664], [-3072, 1664]], top_surface: {texture: swfloor2b, size: [128, 128]}, bottom_surface: {texture: egybigb, size: [256, 256]}, base: 736, notes: "The registry stair's head (1536) across the south end: the maze landing east."}
+    flights:
+      - {from: [-2720, 3520], to: [-2720, 1664], open_below: 32, to_height: 1536, width: 320, steps: 24, sides: {height: 48, thickness: 16, surface: {texture: egybigb, size: [256, 256]}}, notes: "Twenty-four steps up the west side, rising south to the head."}
+    notes: "Behind the bronze registry door: the stair up to the Ancients' level."
+  - id: room:shaft
+    name: Pharaoh's lift
+    space: room:lift_foot
+    outline: [[0, -3840], [512, -3840], [512, -3328], [0, -3328]]
+    floor: 0
+    ceiling: 2816
+    theme: theme:stair
+  - id: room:sky_corridor
+    name: Sky door
+    outline: [[-384, 2176], [1536, 2176], [1536, 2688], [384, 2688], [384, 3200], [-384, 3200]]
+    floor: 2304
+    ceiling: 2752
+    theme: theme:ancient
+    walls:
+      - wall: 4
+        panels:
+          - {id: panel:sky_door, at: centre, length: 384, bottom: 0, height: 384, surface: {texture: swdoora, size: [256, 256], fit: true}, notes: The sky door in the pyramid's face near the apex.}
+  - id: room:south_gal_e
+    name: South gallery
+    space: room:south_gallery
+    outline: [[0, -3200], [1920, -3200], [1920, -1408], [0, -1408]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+  - id: room:south_gal_w
+    name: South gallery
+    space: room:south_gallery
+    outline: [[-1920, -3200], [0, -3200], [0, -1408], [-1920, -1408]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+  - id: room:stair_foot
+    name: Grand stair
+    outline: [[-1920, -4864], [-128, -4864], [-128, -3328], [-1920, -3328]]
+    floor: 0
+    ceiling: 1280
+    theme: theme:stair
+    platforms:
+      - {id: platform:grand_head, rise: 32, surface: {texture: egybigb, size: [256, 256]}, outline: [[-1920, -3712], [-128, -3712], [-128, -3328], [-1920, -3328]], top_surface: {texture: egyflord, size: [256, 256]}, bottom_surface: {texture: egybigb, size: [256, 256]}, base: 736, notes: "The grand stair's head (768) across the room's north end: L2's stair head north."}
+    flights:
+      - {from: [-1696, -4736], to: [-1696, -3712], open_below: 32, to_height: 768, width: 320, steps: 24, sides: {height: 48, thickness: 16, surface: {texture: egybigb, size: [256, 256]}}, notes: "The grand stair: twenty-four steps of 32 up the west wall, rising north to the head."}
+    notes: "Behind the torch door: the grand stair up the west wall to its head (L2); the Pharaoh's lift's cage east, under the head."
+  - id: room:throne_c
+    name: Throne hall
+    space: room:throne_hall
+    outline: [[-1536, 256], [1536, 256], [1536, 1152], [-1536, 1152]]
+    floor: 2304
+    ceiling: 3200
+    theme: theme:royal
+  - id: room:throne_n
+    name: Throne hall
+    space: room:throne_hall
+    outline: [[-1536, 1152], [1536, 1152], [1536, 2048], [-1536, 2048]]
+    floor: 2304
+    ceiling: 3200
+    theme: theme:royal
+    platforms:
+      - {id: platform:dais, at: [-384, 1728], size: [1024, 512], rise: 48, surface: {texture: xngold5, size: [256, 256]}, top_surface: {texture: egyflora, size: [128, 128]}, notes: The stepped dais at the hall's north end.}
+      - {id: platform:throne, at: [-384, 1856], size: [192, 128], rise: 112, surface: {texture: xngold5, size: [256, 256]}, top_surface: {texture: xngold5, size: [256, 256]}, base: 48, notes: The Pharaoh's throne.}
+      - {at: [-384, 1936], size: [192, 32], rise: 352, surface: {texture: xngold5, size: [256, 256]}, top_surface: {texture: xngold5, size: [256, 256]}, base: 48, notes: The throne's back.}
+      - {id: platform:vat, at: [512, 1664], size: [192, 192], rise: 96, surface: {texture: xngold5, size: [256, 256], fit: false}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: "The Brew of Pure Power, bubbling in its vat beside the dais."}
+    notes: "Under the apex: the throne on its gilded dais, the Dragon Pharaoh at it, the Brew of Pure Power beside it; behind the dais to the east the way to the sky corridor."
+  - id: room:throne_s
+    name: Throne hall
+    space: room:throne_hall
+    outline: [[-1536, -640], [1536, -640], [1536, 256], [-1536, 256]]
+    floor: 2304
+    ceiling: 3200
+    theme: theme:royal
+  - id: room:tomb_e
+    name: East tomb
+    outline: [[-128, -512], [1792, -512], [1792, 1536], [-128, 1536]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:tomb
+    platforms:
+      - {id: platform:gilded_sarcophagus, at: [1056, 512], size: [416, 192], rise: 112, surface: {texture: xngold5, size: [256, 256], fit: false}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: "The royal sarcophagus, gilded."}
+    notes: "A royal tomb: one gilded sarcophagus; north, the cloister."
+  - id: room:tomb_w
+    name: West tomb
+    outline: [[-3712, -1792], [-1664, -1792], [-1664, 1152], [-3712, 1152]]
+    floor: 768
+    ceiling: 1280
+    theme: theme:tomb
+    platforms:
+      - {at: [-3552, -1280], size: [160, 416], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+      - {at: [-3552, -320], size: [160, 416], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+      - {at: [-3552, 640], size: [160, 416], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+      - {at: [-3200, 992], size: [416, 160], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+      - {at: [-2176, 992], size: [416, 160], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+      - {at: [-3200, -1632], size: [416, 160], rise: 96, surface: {texture: egywalgm, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: A sarcophagus.}
+    notes: "A burial chamber: six sarcophagi by the walls, the grave goods' chest."
+  - id: room:vault
+    name: Overseer's vault
+    outline: [[3712, -4864], [4736, -4864], [4736, -3840], [3712, -3840]]
+    floor: 0
+    ceiling: 448
+    theme: theme:office
+  - id: room:west_gal_n
+    name: West gallery
+    space: room:west_gallery
+    outline: [[-3584, -640], [-2048, -640], [-2048, 1024], [-3584, 1024]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+  - id: room:west_gal_s
+    name: West gallery
+    space: room:west_gallery
+    outline: [[-3584, -2304], [-2048, -2304], [-2048, -640], [-3584, -640]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gallery
+openings:
+  - id: open:ante
+    from: room:apex_landing
+    to: room:ante_n
+    from_wall: w
+    to_wall: e
+    link: link:apex_ante
+    width: 192
+    height: 384
+  - id: open:ante_sn
+    from: room:ante_s
+    to: room:ante_n
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:apex
+    from: room:cell_e
+    to: room:apex_stair
+    from_wall: e
+    to_wall: w
+    link: link:apex_door
+    along: 0.25
+    width: 192
+    height: 384
+    notes: The apex stair's door from the far cell.
+  - id: open:apex_head
+    from: room:apex_stair
+    to: room:apex_landing
+    from_wall: n
+    to_wall: s
+    link: link:stair_l4
+    width: 384
+    height: 384
+    notes: The apex stair's head (2304) onto the apex landing.
+  - id: open:atrium_e
+    from: room:atrium_ne
+    to: room:atrium_se
+    from_wall: s
+    to_wall: n
+    width: full
+    height: full
+  - id: open:atrium_n
+    from: room:atrium_nw
+    to: room:atrium_ne
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:atrium_s
+    from: room:atrium_sw
+    to: room:atrium_se
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:atrium_w
+    from: room:atrium_nw
+    to: room:atrium_sw
+    from_wall: s
+    to_wall: n
+    width: full
+    height: full
+  - id: open:bed_sky
+    from: room:bedchamber
+    to: room:sky_corridor
+    from_wall: w
+    to_wall: 1
+    link: link:bed_sky
+    width: 192
+    height: 384
+    notes: "The secret way from the bedchamber, opened by the carved button."
+  - id: open:bedchamber
+    from: room:throne_n
+    to: room:bedchamber
+    from_wall: e
+    to_wall: w
+    link: link:throne_bed
+    width: 192
+    height: 384
+  - id: open:chapel_ne
+    from: room:information
+    to: room:chapel_ne
+    from_wall: n
+    to_wall: s
+    link: link:information_chapel_ne
+    width: 448
+    height: 448
+  - id: open:chapel_nw
+    from: room:reception
+    to: room:chapel_nw
+    from_wall: n
+    to_wall: s
+    link: link:reception_chapel_nw
+    width: 448
+    height: 448
+  - id: open:chapel_se_numbers
+    from: room:chapel_se
+    to: room:number_s
+    from_wall: n
+    to_wall: s
+    link: link:chapel_se_numbers
+    width: 512
+    height: 384
+  - id: open:chapel_sw_south
+    from: room:chapel_sw
+    to: room:south_gal_w
+    from_wall: e
+    to_wall: w
+    link: link:chapel_sw_south
+    width: 384
+    height: 384
+  - id: open:cloister
+    from: room:cloister_s
+    to: room:cloister_n
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:cloister_registry
+    from: room:cloister_n
+    to: room:registry
+    from_wall: w
+    to_wall: e
+    link: link:cloister_registry
+    width: 192
+    height: 384
+  - id: open:embalmers
+    from: room:landing
+    to: room:embalmers
+    from_wall: w
+    to_wall: e
+    link: link:landing_embalmers
+    width: 192
+    height: 384
+  - id: open:entry_atrium_e
+    from: room:entry
+    to: room:atrium_ne
+    from_wall: s
+    to_wall: n
+    link: link:entry_atrium
+    along: 0.45
+    width: 640
+    height: 448
+    notes: "Into the atrium, east of the middle pier."
+  - id: open:entry_atrium_w
+    from: room:entry
+    to: room:atrium_nw
+    from_wall: s
+    to_wall: n
+    link: link:entry_atrium
+    along: 0.55
+    width: 640
+    height: 448
+    notes: "Into the atrium, west of the middle pier."
+  - id: open:entry_information
+    from: room:entry
+    to: room:information
+    from_wall: e
+    to_wall: w
+    link: link:entry_information
+    width: 192
+    height: 384
+  - id: open:entry_reception
+    from: room:entry
+    to: room:reception
+    from_wall: w
+    to_wall: e
+    link: link:entry_reception
+    width: 192
+    height: 384
+  - id: open:green
+    from: room:entry
+    to: room:porch
+    from_wall: n
+    to_wall: s
+    link: link:green
+    width: 448
+    height: 448
+    notes: The green doors (two leaves of A6's xdpyrdor) on the entrance hall's north wall.
+  - id: open:landing_pads
+    from: room:maze_landing
+    to: room:pad_w
+    from_wall: s
+    to_wall: n
+    link: link:landing_pads
+    width: 512
+    height: 384
+  - id: open:landing_proc
+    from: room:landing
+    to: room:proc_1
+    from_wall: n
+    to_wall: s
+    link: link:landing_processional
+    width: 512
+    height: 384
+  - id: open:lift_foot
+    from: room:stair_foot
+    to: room:shaft
+    from_wall: e
+    to_wall: w
+    link: link:stair_liftfoot
+    width: 384
+    height: 384
+    notes: The gilded cage's mouth at the foot (L1).
+  - id: open:lift_top
+    from: room:shaft
+    to: room:ante_s
+    from_wall: n
+    to_wall: s
+    link: link:lift
+    width: 384
+    height: 384
+    notes: "The cage's gate at the top (L4): shut while the cage is down."
+  - id: open:numbers
+    from: room:number_s
+    to: room:number_n
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:numbers_information
+    from: room:number_n
+    to: room:information
+    from_wall: n
+    to_wall: s
+    link: link:numbers_information
+    along: 0.7083
+    width: 192
+    height: 384
+  - id: open:overseer
+    from: room:chapel_se
+    to: room:overseer
+    from_wall: e
+    to_wall: w
+    link: link:west_overseer
+    width: 192
+    height: 384
+  - id: open:pad_ce
+    from: room:pad_c
+    to: room:pad_e
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:pad_wc
+    from: room:pad_w
+    to: room:pad_c
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:proc_12
+    from: room:proc_1
+    to: room:proc_2
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:proc_23
+    from: room:proc_2
+    to: room:proc_3
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:proc_registry
+    from: room:proc_3
+    to: room:registry
+    from_wall: n
+    to_wall: s
+    link: link:processional_registry
+    width: 512
+    height: 384
+  - id: open:reception_west
+    from: room:reception
+    to: room:west_gal_n
+    from_wall: s
+    to_wall: n
+    link: link:reception_west
+    width: 512
+    height: 384
+  - id: open:registry
+    from: room:registry
+    to: room:registry_stair
+    from_wall: w
+    to_wall: e
+    link: link:registry_door
+    width: 192
+    height: 384
+    notes: "The bronze registry door: its lock asks 'Registry?'."
+  - id: open:registry_head
+    from: room:registry_stair
+    to: room:maze_landing
+    from_wall: e
+    to_wall: w
+    link: link:registry_up
+    along: 0.1875
+    width: 256
+    height: 384
+    notes: The registry stair's head (1536) onto the maze landing.
+  - id: open:south_atrium
+    from: room:south_gal_w
+    to: room:atrium_sw
+    from_wall: n
+    to_wall: s
+    link: link:south_atrium
+    width: 448
+    height: 448
+  - id: open:south_chapel_se
+    from: room:south_gal_e
+    to: room:chapel_se
+    from_wall: e
+    to_wall: w
+    link: link:south_chapel_se
+    width: 384
+    height: 384
+  - id: open:south_gal
+    from: room:south_gal_w
+    to: room:south_gal_e
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:stair
+    from: room:south_gal_w
+    to: room:stair_foot
+    from_wall: s
+    to_wall: n
+    link: link:atrium_stair
+    width: 448
+    height: 448
+    notes: "The stair door: two leaves of xdpyrdor, shut until the four torches burn."
+  - id: open:stair_head
+    from: room:stair_foot
+    to: room:landing
+    from_wall: n
+    to_wall: s
+    link: link:stair_l2
+    along: 0.2857
+    width: 384
+    height: 384
+    notes: The grand stair's head (768) onto L2's stair head.
+  - id: open:throne
+    from: room:ante_n
+    to: room:throne_s
+    from_wall: n
+    to_wall: s
+    link: link:ante_throne
+    width: 768
+    height: 384
+    notes: "The throne hall's great doors: two leaves, the seated Pharaoh (egydrlgl) and his queen (egydrlgr)."
+  - id: open:throne_cn
+    from: room:throne_c
+    to: room:throne_n
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:throne_sc
+    from: room:throne_s
+    to: room:throne_c
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:throne_sky
+    from: room:throne_n
+    to: room:sky_corridor
+    from_wall: n
+    to_wall: 0
+    link: link:throne_sky
+    along: 0.2667
+    width: 384
+    height: 384
+    notes: "Behind the throne, east of the dais: the sky corridor."
+  - id: open:tomb_e
+    from: room:proc_2
+    to: room:tomb_e
+    from_wall: e
+    to_wall: w
+    link: link:processional_tomb_e
+    width: 448
+    height: 448
+  - id: open:tomb_e_cloister
+    from: room:tomb_e
+    to: room:cloister_s
+    from_wall: n
+    to_wall: s
+    link: link:tomb_e_cloister
+    width: 512
+    height: 384
+  - id: open:tomb_w
+    from: room:proc_2
+    to: room:tomb_w
+    from_wall: w
+    to_wall: e
+    link: link:processional_tomb_w
+    width: 448
+    height: 448
+  - id: open:vault
+    from: room:overseer
+    to: room:vault
+    from_wall: s
+    to_wall: n
+    link: link:overseer_vault
+    width: 192
+    height: 384
+  - id: open:west_chapel_sw
+    from: room:west_gal_s
+    to: room:chapel_sw
+    from_wall: s
+    to_wall: n
+    link: link:west_chapel_sw
+    width: 512
+    height: 384
+  - id: open:west_gal
+    from: room:west_gal_n
+    to: room:west_gal_s
+    from_wall: s
+    to_wall: n
+    width: full
+    height: full
+notes: "DD-15 Great Pyramid: L1 at 0, L2 at 768, L3 at 1536, L4 at 2304, in one frame (x east, y north, z up). Written by output/studio_cal/dd15/tools/gen.py (geo.py)."

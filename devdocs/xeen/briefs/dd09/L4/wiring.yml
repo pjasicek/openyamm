@@ -1,0 +1,605 @@
+format: 0
+variables: [voice_heard, limb_1_fed, limb_2_fed, limb_3_fed, barkman_woken, barkman_shown, cage_moved, sheewana_hidden, pens_open, prisoners_gone, dial_west, dial_north, dial_east, lever_pulled, in_visit]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE TEMPLE OF BARK. The round door shuts behind you on the bark glade. Inside the great tree the air is warm and smells of sap and orc. Shaalth's orcs hold the old temple, and somewhere in it Princess Sheewana, the sprites' sister. This door is the way back out."
+      - qbit: arrived_once
+    notes: "Say why the party is here (Q-D10: Sheewana), on the first arrival only (arrived_once 117120)."
+  - id: evt:asc_lever
+    preset: switch
+    source: switch:asc_lever
+    title: Lever
+    effects:
+      - lua: |-
+          if (IsAtLeast(MapVar(dial_west), 0) and not IsAtLeast(MapVar(dial_west), 1)) and (IsAtLeast(MapVar(dial_north), 1) and not IsAtLeast(MapVar(dial_north), 2)) and (IsAtLeast(MapVar(dial_east), 2) and not IsAtLeast(MapVar(dial_east), 3)) then
+              SetValue(MapVar(lever_pulled), 1)
+              evt.SimpleMessage("The lever clicks home. In the Crystal Water's basin the scum parts and the water runs clear.")
+          else
+              SetValue(MapVar(lever_pulled), 0)
+              evt.StatusText("Nothing happens.")
+          end
+    notes: "poi:asc_lever: with the dials at west 1, north 2, east 3 the Crystal Water clears (lever_pulled); otherwise 'Nothing happens.' (D-27)."
+  - id: evt:barkman_wakes
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: barkman_woken, not: {map_var: barkman_shown}}
+    effects:
+      - show_actors: 30
+      - set:
+          var:
+            map_var: barkman_shown
+          value: 1
+    notes: "D-27: Barkman (group 30) shows the first time a limb alcove takes a gem and stays shown (his state is saved with the map); a refill resets him hidden with the variables."
+  - id: evt:black_barrel
+    preset: script
+    source: deco:black_barrel
+    question: {ask: "Drink (Yes/No)?", answers: [Yes, Y], message: "The barrel is filled with a strange black sludge. A note on the inside of the lid reads, \"Danger: Unpredictable Effects.\" Drink?"}
+    title: Black barrel
+    condition: {not: {player_bit: 11317}}
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      for _, stat in ipairs({BaseMight, BaseIntellect, BasePersonality, BaseEndurance, BaseSpeed, BaseAccuracy, BaseLuck}) do
+          AddValue(stat, 1)
+      end
+      AddValue(Age, 1)
+      SetPlayerBit(PlayerBit(11317))
+      evt.SimpleMessage("Your statistics have improved, but you have suffered a little magical aging.")
+    else_effects:
+      - text: The black sludge has done all it will do to you.
+    notes: "poi:black_barrel (D-27; dark/aaze0074:4-9): once per character (player bit 11317): +1 to all seven stats and one year of age (the event age variable; an AgingImmunity item, the Jewel of Ages, protects, D-2.4)."
+  - id: evt:blue_flask
+    preset: script
+    source: deco:blue_flask
+    title: Blue flask
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11316)) then
+          evt.StatusText("The flask is empty for you.")
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(BasePersonality, 2)
+      SetPlayerBit(PlayerBit(11316))
+      evt.StatusText("+2 Personality (permanent).")
+    notes: "poi:flasks: Blue Potion (dark/aaze0073:10-11, rescaled to +2), once per character (player bit 11316)."
+  - id: evt:book_ascension
+    preset: script
+    source: platform:lectern
+    title: Book of Ascension
+    lua: "XeenQuests.hook(\"q-d10.book_of_ascension\")"
+    notes: "poi:book_ascension: A3's text (dark/aaze0076:2, naming the Crystal Water, D-27)."
+  - id: evt:book_ceremonies
+    preset: script
+    source: panel:book_ceremonies
+    title: Morning Ceremonies
+    effects:
+      - message: "Morning Ceremonies. Take ye then the Bark of the Tree, and sprinkle it with ash. The ash symbolizes the Yak, the Bark the Moo. March ye the congregation in a circle about the Tree, directing the half of them to chant \"Yak\" and the other half \"Moo\". ... The Morning Ceremonies are complete. Break for breakfast, then repeat before lunch."
+    notes: poi:books (dark/aaze0073:24-30).
+  - id: evt:book_history
+    preset: script
+    source: panel:book_history
+    title: History of Bark
+    effects:
+      - message: "History of Bark. Ages past, before the time when men walked the Earth, there was Bark. From Bark did all good things come; Bark's roots drew water from the Earth, Bark's leaves drew sustenance from the sun, Bark's branches held the sky above the ground, lest the sky fall and crush the world beneath it."
+    notes: poi:books (dark/aaze0073:24-30).
+  - id: evt:book_sap
+    preset: script
+    source: panel:book_sap
+    title: Book of Sap
+    effects:
+      - message: "Book of Sap. The Sap of Bark runs with power. Store the Sap with care, and add the Holy Bark of Yak on the spring equinox to the Sap to make it potent. The Sap will make Holy Potions that improve the health and character of the drinker. The Holy Potions must be reserved for the disciples of Bark, for Bark requires Her Clerics to be strong of limb and mind."
+    notes: poi:books (dark/aaze0073:24-30).
+  - id: evt:cabinet
+    preset: text
+    source: panel:cabinet
+    title: Cabinet
+    text: Nothing here.
+    window: false
+    notes: dark/aaze0075:1.
+  - id: evt:cage
+    preset: script
+    source: mover:cage_sheewana
+    title: Cage
+    lua: |-
+      if IsQBitSet(QBit(113206)) then
+          XeenQuests.hook("q-d10.cage")
+          return
+      end
+      if IsQBitSet(QBit(113205)) then
+          evt.SpeakNPC(5107)
+          return
+      end
+      XeenQuests.hook("q-d10.cage")
+    notes: "goal:sheewana: A3's q-d10.cage (needs shaalth_slain; its fail and else texts); once open, Princess Sheewana talks (NPC 5107, topic Home). Words needed: an indoor monster with an npc id."
+  - id: evt:cage_opens
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: cage_opened, not: {map_var: cage_moved}}
+    opens: [mover:cage_sheewana]
+    effects:
+      - set:
+          var:
+            map_var: cage_moved
+          value: 1
+    notes: The cage's gate lifts once q-d10.cage has set cage_opened (113205).
+  - id: evt:chest_barkman
+    preset: chest
+    source: chest:barkman
+    title: Chest
+    condition: {kills: {monster: monster:barkman}}
+    locked_text: "The life force of the BARKMAN binds the lid of the chest shut, making it impossible to open."
+    notes: "Barkman's chest (hoard 4): his life force binds it shut until he is dead (dark/aaze0077:21)."
+  - id: evt:chest_sap
+    preset: chest
+    source: chest:sap
+    title: Chest
+  - id: evt:chest_shaalth
+    preset: chest
+    source: chest:shaalth
+    title: Chest
+  - id: evt:chest_treasure
+    preset: chest
+    source: chest:treasure
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:crystal_water
+    preset: script
+    source: platform:crystal_water
+    title: Crystal Water
+    lua: |-
+      if IsQBitSet(QBit(113216)) then
+          XeenQuests.hook("q-d10.crystal_water")
+          return
+      end
+      if not IsAtLeast(MapVar(lever_pulled), 1) then
+          evt.StatusText("The water is stagnant.")
+          return
+      end
+      XeenQuests.hook("q-d10.crystal_water")
+    notes: "poi:crystal_water: before the lever 'The water is stagnant.' (dark/aaze0076:9); after it A3's once-hook q-d10.crystal_water (disciples 113216, award 418 for every member); then its else text. The vault's door reads disciples."
+  - id: evt:danger
+    preset: text
+    source: panel:danger
+    title: Sign
+    text: "Danger: Unpredictable Effects."
+    window: false
+    notes: The black barrel's sign (dark/aaze0074:7).
+  - id: evt:dark_water
+    preset: script
+    source: platform:dark_water
+    title: Dark Water
+    lua: |-
+      XeenQuests.hook("q-d10.dark_water")
+      evt.ForPlayer(Players.Current)
+      local now, step = 0, 4096
+      while step >= 1 do
+          if IsAtLeast(CurrentHealth, now + step) then now = now + step end
+          step = math.floor(step / 2)
+      end
+      SetValue(PoisonedGreen, 1)
+      local hurt = math.floor(now / 10)
+      if hurt > 0 and now - hurt >= 1 then SubtractValue(CurrentHealth, hurt) end
+    notes: "poi:dark_water (D-27): A3's q-d10.dark_water; the drinker is poisoned and loses about a tenth of the hit points, never the last 10."
+  - id: evt:dial_east
+    preset: script
+    source: panel:dial_east
+    title: Dial
+    lua: |-
+      if continueStep == 2 then
+          if IsAtLeast(MapVar(dial_east), 3) then SetValue(MapVar(dial_east), 0) else AddValue(MapVar(dial_east), 1) end
+          SetValue(MapVar(lever_pulled), 0)
+          local m = 1
+          for v = 1, 3 do if IsAtLeast(MapVar(dial_east), v) then m = v + 1 end end
+          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      local n = 1
+      for v = 1, 3 do if IsAtLeast(MapVar(dial_east), v) then n = v + 1 end end
+      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
+  - id: evt:dial_north
+    preset: script
+    source: panel:dial_north
+    title: Dial
+    lua: |-
+      if continueStep == 2 then
+          if IsAtLeast(MapVar(dial_north), 3) then SetValue(MapVar(dial_north), 0) else AddValue(MapVar(dial_north), 1) end
+          SetValue(MapVar(lever_pulled), 0)
+          local m = 1
+          for v = 1, 3 do if IsAtLeast(MapVar(dial_north), v) then m = v + 1 end end
+          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      local n = 1
+      for v = 1, 3 do if IsAtLeast(MapVar(dial_north), v) then n = v + 1 end end
+      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
+  - id: evt:dial_west
+    preset: script
+    source: panel:dial_west
+    title: Dial
+    lua: |-
+      if continueStep == 2 then
+          if IsAtLeast(MapVar(dial_west), 3) then SetValue(MapVar(dial_west), 0) else AddValue(MapVar(dial_west), 1) end
+          SetValue(MapVar(lever_pulled), 0)
+          local m = 1
+          for v = 1, 3 do if IsAtLeast(MapVar(dial_west), v) then m = v + 1 end end
+          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      local n = 1
+      for v = 1, 3 do if IsAtLeast(MapVar(dial_west), v) then n = v + 1 end end
+      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
+  - id: evt:diary
+    preset: script
+    source: platform:diary
+    title: Barkman's diary
+    effects:
+      - message: "The book seems to be a lengthy diary of Barkman's life. Only a small portion still survives: 4/8/400: SQUEEZED branch feeders today. 9/7/413: SQUEEZED branch feeders today. 8/2/476: SQUEEZED branch feeders today. 3/6/655: SQUEEZED branch feeders today."
+    notes: poi:diary (dark/aaze0077:19).
+  - id: evt:door_guard_chapel
+    preset: door
+    source: door:guard_chapel
+    title: Door
+  - id: evt:door_hall_barracks
+    preset: door
+    source: door:hall_barracks
+    title: Door
+  - id: evt:door_ring_shaalth
+    preset: door
+    source: door:ring_shaalth
+    title: Door
+  - id: evt:door_roots_vats
+    preset: door
+    source: door:roots_vats
+    title: Door
+  - id: evt:door_shaalth_shaman
+    preset: door
+    source: door:shaalth_shaman
+    title: Door
+  - id: evt:door_shaman_asc
+    preset: door
+    source: door:shaman_asc
+    title: Door
+  - id: evt:door_treasure_crown
+    preset: door
+    source: door:treasure_crown
+    title: Door
+  - id: evt:door_vault
+    preset: door
+    source: door:vault
+    title: Disciples' door
+    condition: {qbit: disciples}
+    locked_text: "Disciples of Bark ONLY!"
+    notes: "'Disciples of Bark ONLY!' (dark/aaze0076:0): opens to a party that has drunk the Crystal Water (disciples 113216)."
+  - id: evt:exit_trunk
+    preset: exit
+    source: exit:trunk_door
+    title: Trunk door
+    notes: "The game's own leave window, to D2's bark glade outside the great tree's door (D-24)."
+  - id: evt:fountain_air
+    preset: script
+    source: platform:fountain_air
+    title: Fountain
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11307)) then
+          evt.StatusText("The water is cool, clear and refreshing. You have had your fill.", 6)
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(AirResistance, 5)
+      SetPlayerBit(PlayerBit(11307))
+      evt.StatusText("The water is cool, clear and refreshing. +5 Air resistance (permanent).", 6)
+    notes: "poi:fountains (D-37): +5 to the clicking member, once per character (player bit 11307); 'The water is cool, clear and refreshing.' (dark/aaze0077:2), then '... You have had your fill.'"
+  - id: evt:fountain_body
+    preset: script
+    source: platform:fountain_body
+    title: Fountain
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11309)) then
+          evt.StatusText("The water is cool, clear and refreshing. You have had your fill.", 6)
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(BodyResistance, 5)
+      SetPlayerBit(PlayerBit(11309))
+      evt.StatusText("The water is cool, clear and refreshing. +5 Body resistance (permanent).", 6)
+    notes: "poi:fountains (D-37): +5 to the clicking member, once per character (player bit 11309); 'The water is cool, clear and refreshing.' (dark/aaze0077:2), then '... You have had your fill.'"
+  - id: evt:fountain_fire
+    preset: script
+    source: platform:fountain_fire
+    title: Fountain
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11306)) then
+          evt.StatusText("The water is cool, clear and refreshing. You have had your fill.", 6)
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(FireResistance, 5)
+      SetPlayerBit(PlayerBit(11306))
+      evt.StatusText("The water is cool, clear and refreshing. +5 Fire resistance (permanent).", 6)
+    notes: "poi:fountains (D-37): +5 to the clicking member, once per character (player bit 11306); 'The water is cool, clear and refreshing.' (dark/aaze0077:2), then '... You have had your fill.'"
+  - id: evt:fountain_water
+    preset: script
+    source: platform:fountain_water
+    title: Fountain
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11308)) then
+          evt.StatusText("The water is cool, clear and refreshing. You have had your fill.", 6)
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(WaterResistance, 5)
+      SetPlayerBit(PlayerBit(11308))
+      evt.StatusText("The water is cool, clear and refreshing. +5 Water resistance (permanent).", 6)
+    notes: "poi:fountains (D-37): +5 to the clicking member, once per character (player bit 11308); 'The water is cool, clear and refreshing.' (dark/aaze0077:2), then '... You have had your fill.'"
+  - id: evt:kettle
+    preset: script
+    source: deco:kettle
+    title: Kettle
+    lua: |-
+      if continueStep == 2 then
+          XeenQuests.hook("q-d10.kettle_drunk")
+          evt.ForPlayer(Players.Current)
+          SetValue(PoisonedGreen, 1)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      XeenQuests.hook("q-d10.kettle")
+      evt.AskQuestion(eventId, 1, 0, 2, "Drink (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    notes: "poi:kettle (D-27): A3's q-d10.kettle (the source's invitation, dark/aaze0075:17), then 'Drink?'; Yes: q-d10.kettle_drunk and the drinker is poisoned; repeatable."
+  - id: evt:ledger
+    preset: script
+    source: platform:ledger
+    title: Ledger
+    effects:
+      - message: "Ledger. Purchased Item, Cost. 6/6/787: 5 tons manure, 500. 8/10/787: 40 vials, 400. 9/10/787: 12 barrels, 245. 10/1/787: 55 magic skulls, 12,000. 1/5/788: 100 iron spikes, 1,000. 1/7/788: 3 bottles ink, 6. 1/7/788: 10000 pgs paper, 8000. 2/8/788: 84 shovels, 450."
+    notes: poi:ledger (dark/aaze0073:19-20).
+  - id: evt:limb_1
+    preset: script
+    source: panel:limb_1
+    question: {ask: "Give gem (Yes/No)?", answers: [Yes, Y], message: "Feed me! Give gem?"}
+    title: Limb alcove
+    condition: {not: {map_var: limb_1_fed}}
+    lua: |-
+      if Xeen.payGems(1) then
+          SetValue(MapVar(limb_1_fed), 1)
+          SetValue(MapVar(barkman_woken), 1)
+          XeenQuests.hook("q-d10.limb_alcoves")
+      else
+          evt.StatusText("You have no gem. The limb creaks, unfed.")
+      end
+    else_effects:
+      - text: The limb alcove is fed. Something in the trunk is still awake.
+    notes: "poi:limb_alcoves: one gem each (the map takes it), A3's q-d10.limb_alcoves for the words; the first gem wakes Barkman (barkman_woken)."
+  - id: evt:limb_2
+    preset: script
+    source: panel:limb_2
+    question: {ask: "Give gem (Yes/No)?", answers: [Yes, Y], message: "Feed me! Give gem?"}
+    title: Limb alcove
+    condition: {not: {map_var: limb_2_fed}}
+    lua: |-
+      if Xeen.payGems(1) then
+          SetValue(MapVar(limb_2_fed), 1)
+          SetValue(MapVar(barkman_woken), 1)
+          XeenQuests.hook("q-d10.limb_alcoves")
+      else
+          evt.StatusText("You have no gem. The limb creaks, unfed.")
+      end
+    else_effects:
+      - text: The limb alcove is fed. Something in the trunk is still awake.
+    notes: "poi:limb_alcoves: one gem each (the map takes it), A3's q-d10.limb_alcoves for the words; the first gem wakes Barkman (barkman_woken)."
+  - id: evt:limb_3
+    preset: script
+    source: panel:limb_3
+    question: {ask: "Give gem (Yes/No)?", answers: [Yes, Y], message: "Feed me! Give gem?"}
+    title: Limb alcove
+    condition: {not: {map_var: limb_3_fed}}
+    lua: |-
+      if Xeen.payGems(1) then
+          SetValue(MapVar(limb_3_fed), 1)
+          SetValue(MapVar(barkman_woken), 1)
+          XeenQuests.hook("q-d10.limb_alcoves")
+      else
+          evt.StatusText("You have no gem. The limb creaks, unfed.")
+      end
+    else_effects:
+      - text: The limb alcove is fed. Something in the trunk is still awake.
+    notes: "poi:limb_alcoves: one gem each (the map takes it), A3's q-d10.limb_alcoves for the words; the first gem wakes Barkman (barkman_woken)."
+  - id: evt:pen_lever
+    preset: switch
+    source: switch:pen_lever
+    title: Lever
+    toggles: [mover:gate_nathan, mover:gate_sky, mover:gate_snog, mover:gate_alicia]
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(pens_open), 1) then
+              SetValue(MapVar(pens_open), 0)
+          else
+              SetValue(MapVar(pens_open), 1)
+              SetQBit(QBit(117121))
+          end
+          evt.StatusText("You hear a rumbling in the distance.")
+    notes: "poi:pen_lever (D-27): two states, the four cages open and shut together; 'You hear a rumbling in the distance.' (dark/aaze0073:15). The first opening sets prisoners_freed (117121)."
+  - id: evt:prisoner_alicia
+    preset: script
+    source: mover:gate_alicia
+    title: Alicia the Just
+    lua: |-
+      if IsAtLeast(MapVar(prisoners_gone), 1) then
+          evt.StatusText("The cage is empty.")
+          return
+      end
+      if not IsAtLeast(MapVar(pens_open), 1) then
+          evt.StatusText("Locked. A lever somewhere in the temple works these cages.")
+          return
+      end
+      evt.SpeakNPC(5114)
+    notes: "poi:prisoners: NPC 5114 talks through the opened cage (A3's topic: thanks, 500 XP once). Words needed: an indoor monster with an npc id."
+  - id: evt:prisoner_nathan
+    preset: script
+    source: mover:gate_nathan
+    title: Nathan the Prisoner
+    lua: |-
+      if IsAtLeast(MapVar(prisoners_gone), 1) then
+          evt.StatusText("The cage is empty.")
+          return
+      end
+      if not IsAtLeast(MapVar(pens_open), 1) then
+          evt.StatusText("Locked. A lever somewhere in the temple works these cages.")
+          return
+      end
+      evt.SpeakNPC(5111)
+    notes: "poi:prisoners: NPC 5111 talks through the opened cage (A3's topic: thanks, 500 XP once). Words needed: an indoor monster with an npc id."
+  - id: evt:prisoner_sky
+    preset: script
+    source: mover:gate_sky
+    title: Sky the Prisoner
+    lua: |-
+      if IsAtLeast(MapVar(prisoners_gone), 1) then
+          evt.StatusText("The cage is empty.")
+          return
+      end
+      if not IsAtLeast(MapVar(pens_open), 1) then
+          evt.StatusText("Locked. A lever somewhere in the temple works these cages.")
+          return
+      end
+      evt.SpeakNPC(5112)
+    notes: "poi:prisoners: NPC 5112 talks through the opened cage (A3's topic: thanks, 500 XP once). Words needed: an indoor monster with an npc id."
+  - id: evt:prisoner_snog
+    preset: script
+    source: mover:gate_snog
+    title: Snog the Orc
+    lua: |-
+      if IsAtLeast(MapVar(prisoners_gone), 1) then
+          evt.StatusText("The cage is empty.")
+          return
+      end
+      if not IsAtLeast(MapVar(pens_open), 1) then
+          evt.StatusText("Locked. A lever somewhere in the temple works these cages.")
+          return
+      end
+      evt.SpeakNPC(5113)
+    notes: "poi:prisoners: NPC 5113 talks through the opened cage (A3's topic: thanks, 500 XP once). Words needed: an indoor monster with an npc id."
+  - id: evt:prisoners_gone
+    preset: script
+    trigger: load
+    lua: |-
+      if IsQBitSet(QBit(117121)) and not IsAtLeast(MapVar(in_visit), 1) then
+          evt.SetMonGroupBit(20, MonsterBits.Invisible, 1)
+          SetValue(MapVar(prisoners_gone), 1)
+      end
+      SetValue(MapVar(in_visit), 1)
+    notes: "D-27: once the cages have been opened, the prisoners are gone on the next entry. A load inside a visit (a saved game) finds in_visit set (saved with the map) and leaves them; leaving clears it (evt:visit_end), so only a fresh entry hides them."
+  - id: evt:red_flask
+    preset: script
+    source: deco:red_flask
+    title: Red flask
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11315)) then
+          evt.StatusText("The flask is empty for you.")
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      AddValue(BaseMight, 2)
+      SetPlayerBit(PlayerBit(11315))
+      evt.StatusText("+2 Might (permanent).")
+    notes: "poi:flasks: Red Potion (dark/aaze0073:8-9, '+5 Might (permanent).' rescaled to +2), once per character (player bit 11315)."
+  - id: evt:root_east
+    preset: script
+    source: panel:root_east
+    question: {ask: "Give gem (Yes/No)?", answers: [Yes, Y], message: "Feed me! Give gem?"}
+    title: Root alcove
+    condition: {not: {qbit: root_east}}
+    effects:
+      - lua: "if XeenQuests.hook(\"q-d10.root_east\") then AddValue(InventoryItem(12334), 12334) end"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d10.root_east\")"
+    notes: "poi:root_alcoves: as the west (q-d10.root_east)."
+  - id: evt:root_west
+    preset: script
+    source: panel:root_west
+    question: {ask: "Give gem (Yes/No)?", answers: [Yes, Y], message: "Feed me! Give gem?"}
+    title: Root alcove
+    condition: {not: {qbit: root_west}}
+    effects:
+      - lua: "if XeenQuests.hook(\"q-d10.root_west\") then AddValue(InventoryItem(12334), 12334) end"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d10.root_west\")"
+    notes: "poi:root_alcoves: 'Feed me! Give gem?' (dark/aaze0077:14); A3's once-hook q-d10.root_west takes the gem, the map gives the Energy Disk (map_gives)."
+  - id: evt:shaalth_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:shaalth}}
+    lua: "XeenQuests.hook(\"q-d10.shaalth\")"
+    once: true
+    notes: "goal:shaalth: Shaalth's death runs A3's q-d10.shaalth (shaalth_slain 113204)."
+  - id: evt:sheewana_gone
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: sheewana_freed, not: {map_var: sheewana_hidden}}
+    effects:
+      - hide_actors: 21
+      - set:
+          var:
+            map_var: sheewana_hidden
+          value: 1
+    notes: "Sheewana goes home once her topic has freed her (sheewana_freed 113206): her body is hidden."
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving ends the visit: the next load is a fresh entry (evt:prisoners_gone)."
+  - id: evt:voice
+    preset: script
+    source: room:first_hall
+    trigger: step
+    condition: {not: {map_var: voice_heard}}
+    effects:
+      - set:
+          var:
+            map_var: voice_heard
+          value: 1
+      - lua: "XeenQuests.hook(\"q-d10.voice\")"
+    notes: "poi:voice: A3's q-d10.voice on coming into the hall, once per visit (voice_heard, cleared on leaving)."
+  - id: evt:voice_reset
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: voice_heard
+          value: 0
+    notes: The voice speaks again on the next visit.
+notes: "DD-09's events, written by output/studio_cal/dd09/tools/dress.py."

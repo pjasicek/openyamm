@@ -1,0 +1,36 @@
+# Playtest of the way into Sheltem's Pod (DD-22, L4): on D6 with m33.done (111662) set, the pod's hatch (D6's
+# door:dd22, evt:door:thing:sheltem_pod 44 in D6's ids.lock.yml, A3's d6.sheltem_hatch) moves the party into this map
+# at entrance:d6_hatch, the airlock (0, -832, 0) facing north (512). A6 opened the hatch at 06:48 (D-62 RELAYS). Run with --world xeen (output/studio_cal/dd22/four.sh).
+id: xeen.dd22.l4.in
+title: Sheltem's Pod (DD-22 L4), in by D6's hatch after M33
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d6.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 58, skills: [], equipment: {}}
+  - assert: {map: xeen_d6.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 111662, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 6000}
+  # Set at D6's entrance:dd22_hatch (7168, 12288, 1952), a step north to the hatch; the hatch's click.
+  - set_pose: {map: xeen_d6.odm, x: 7168, y: 12288, z: 1952, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1}
+  - walk_to: {x: 7168, y: 12480, z: 1952, radius: 64, z_tolerance: 200, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 7168, y: 12480, radius: 96}}
+  - execute_event: {id: 44}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "log('hatch: ' .. status()); close(); wait(0.3)"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd22.blv}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 0, y: -832, radius: 64, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}

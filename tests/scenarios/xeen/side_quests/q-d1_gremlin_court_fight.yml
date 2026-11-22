@@ -1,0 +1,161 @@
+# Xeen side quest Q-D1, The Gremlin Court (D1, DD-04), the fight route, from a new game on D1 with a level-19 party.
+# Castleview Town Hall (house 4466): Mayor Snarfblad, Gremlins (started, the court autonote 4410), again ("No gold for
+# you"). The burrow under the wall (D1 event 170) into DD-04; the peaceful court walked to its throne room as on the
+# peace route. The treasury (event 5) refuses while Gettlewaithe lives. The party strikes the king down without a word:
+# the map's line (gettlewaithe_slain, court_won, court_hostile, autonote 4411); the court turns and its guards fall
+# (guards_beaten). The treasury: the hook's line and its chest (throne_searched, 3 Energy Disks); the throne afterwards
+# ("Under the throne: crumbs"). Out through the roused court by the tiny door (event 13, OK). Snarfblad: Gremlins (done:
+# 5,000 XP each, 2,500 gold, the Castleview Pass); no "Gettlewaithe's gift" (it needs the peace). The peace route is
+# q-d1_gremlin_court.yml.
+# Outdoors and in towns the party is placed (PLAYBOOK §2). Routes: devdocs/xeen/briefs/d1/L4/playtest.yml,
+# devdocs/xeen/briefs/dd04/L4/playtest_kill.yml. Quest logic: source/quests/q-d1.yml. Prep: prep/q-d1.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d1_gremlin_court_fight
+id: xeen.side_quests.q-d1.fight
+title: "Xeen Q-D1 (fight): Gettlewaithe killed, his treasury's three Energy Disks, Snarfblad pays without a gift"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 19, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 19, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 19, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 19, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113020, 113021, 113022, 113023, 113024, 113025, 113026, 113027, 113028, 113029]}
+  - assert: {autonote: {id: 4410, present: false}}
+  # Castleview Town Hall (house 4466): Mayor Snarfblad, Gremlins (started, the court autonote), again.
+  - set_pose: {map: xeen_d1.odm, x: 1540, y: 5888, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Gremlins"}
+  - assert:
+      dialog: {text_contains: "Their king, Gettlewaithe, holds court in a burrow under our wall."}
+  - select_topic: {match_label: "Gremlins"}
+  - assert:
+      dialog: {text_contains: "The Gremlins' reign of terror persists. No gold for you.", action_label_absent: "Gettlewaithe's gift"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(113020) then error('q-d1.started 113020 not set by Snarfblad') end"}
+  - assert: {autonote: {id: 4410}}
+  # The burrow under the wall, east of the gate (event 170): into the Gremlin Court.
+  - set_pose: {map: xeen_d1.odm, x: 2304, y: 11059, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(170); wait(0.3)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd04.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 4 do if not close() then break end end; if not qbit(117040) then error('dd04 arrived_once not set') end"}
+  - assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11026, hostile: true, max: 0}}
+  # The burrow, the hall of pranks, the waiting room and its door, the court's door.
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 256, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2816, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 5)"}
+  - walk_to: {x: -150, y: 3776, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3980, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 1)"}
+  - walk_to: {x: 0, y: 4900, z: 2, z_tolerance: 8, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The treasury refuses while Gettlewaithe lives.
+  - play_lua: {source: "click(5); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The throne is occupied.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); if qbit(113024) then error('court_hostile set before any blow') end"}
+  # The party strikes Gettlewaithe (actor 0) down without a word: the map's line, gettlewaithe_slain, court_won.
+  - damage_actor: {actor_index: 0, amount: 100000}
+  - advance_runtime: {seconds: 3}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "topples off his throne of chairs", 1, true) then error("no line at his death: " .. s) end
+        if not qbit(113027) or not qbit(113021) or not qbit(113024) then error("gettlewaithe_slain, court_won or court_hostile not set") end
+        if qbit(113026) then error("court_peace set on the fight route") end
+  - assert: {autonote: {id: 4411}}
+  # The court turns; its guards fall (guards_beaten).
+  - clear_hostiles: {radius: 2500}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(113025) then error('guards_beaten not set') end"}
+  # The treasury beside the throne: the hook's line, its chest (3 Energy Disks), throne_searched.
+  - walk_to: {x: 208, y: 5330, z: 2, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You find 3 Energy Disks under the late Gettlewaithe's throne.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if not take_chest() then click(5); wait(1); if not take_chest() then error("the treasury did not open") end end
+        close()
+        while held() ~= 0 do if not stow() then error("cannot stow " .. held()) end end
+        if item_count(12334) ~= 3 then error("Energy Disks from the treasury: " .. tostring(item_count(12334))) end
+        if not qbit(113028) then error("throne_searched not set") end
+  # The throne afterwards: the hook's else_text.
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Under the throne: crumbs]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Out through the roused court, by the tiny door to D1.
+  - walk_to: {x: 0, y: 4500, z: 2, z_tolerance: 8, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 3776, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2816, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2150, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 256, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 160, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(0.3)"}
+  - assert: {dialog: {active: true, text_contains: "The Gremlin Court"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Castleview Town Hall: Snarfblad, Gremlins (done); no gift without the peace.
+  - set_pose: {map: xeen_d1.odm, x: 1540, y: 5888, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, house_dialog: false}
+  - select_topic: {match_label: "Gremlins"}
+  - assert:
+      dialog: {text_contains: "Oh, frabjous day!"}
+  - select_topic: {match_label: "Gremlins"}
+  - assert:
+      dialog: {text_contains: "Castleview likes you! Visit anytime!", action_label_absent: "Gettlewaithe's gift"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        while held() ~= 0 do if not stow() then error("cannot stow " .. held()) end end
+        if item_count(12334) ~= 3 then error("Energy Disks after the pay: " .. item_count(12334)) end
+        if item_count(12330) ~= 1 then error("Castleview Pass: " .. item_count(12330)) end
+        if gold() - recall("gold") ~= 2500 then error("Snarfblad paid " .. (gold() - recall("gold"))) end
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 5000 then error("member " .. i .. " Q-D1 experience " .. gain) end
+        end
+        log("Q-D1 fight done: gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113020, 113021, 113022, 113024, 113025, 113027, 113028]}
+  - assert: {qbit_clear: [113026, 113029]}

@@ -1,0 +1,663 @@
+format: 0
+start:
+  room: room:porch
+  at: [0, -256]
+  facing: s
+  notes: "Just inside the pagoda's north door from X5's thing:pagoda, facing in (south)."
+doors:
+  - id: door:armoury
+    opening: open:armoury_gallery
+    kind: hinged
+    speed: 192
+    surface: {texture: hkm2d, size: [160, 320]}
+    notes: The armoury's plank door out to the gallery.
+  - id: door:crane
+    opening: open:screens_crane
+    kind: slide_right
+    travel: 64
+    thickness: 16
+    surface: {texture: xjcrane, size: [256, 256], fit: true, translucent: 0.75}
+    back_surface: {texture: xjshoji, size: [128, 256], fit: true, uneven: true, translucent: 0.75}
+    notes: "The crane screen: the stair up shows through it; clicked or struck it breaks (destructible:crane)."
+  - id: door:dojo_dorm
+    opening: open:dojo_dorm_door
+    kind: slide_left
+    leaves: 2
+    speed: 192
+    pictures:
+      - [{texture: hkm1dl, size: [128, 256]}, {texture: hkm1dr, size: [128, 256]}]
+    notes: The sliding door between the dojo and the sleeping loft.
+  - id: door:paper_dorm
+    opening: open:dojo_dorm_paper
+    kind: slide_right
+    travel: 16
+    thickness: 16
+    surface: {texture: xjshoji, size: [128, 256], fit: true, uneven: true, translucent: 0.75}
+    notes: "The paper wall between the dojo and the sleeping loft, its north panel: never opens; breaks (destructible:paper_dorm)."
+  - id: door:paper_dorm2
+    opening: open:dojo_dorm_paper2
+    kind: slide_left
+    travel: 16
+    thickness: 16
+    surface: {texture: xjshoji, size: [128, 256], fit: true, uneven: true, translucent: 0.75}
+    notes: "The paper wall's south panel: never opens; breaks (destructible:paper_dorm2)."
+  - id: door:porch_kitchen
+    opening: open:porch_kitchen
+    kind: slide_left
+    leaves: 2
+    speed: 192
+    pictures:
+      - [{texture: hkm1dl, size: [128, 256]}, {texture: hkm1dr, size: [128, 256]}]
+    notes: A plank door into the kitchen.
+  - id: door:porch_shrine
+    opening: open:porch_shrine
+    kind: slide_left
+    leaves: 2
+    speed: 192
+    pictures:
+      - [{texture: hkm1dl, size: [128, 256]}, {texture: hkm1dr, size: [128, 256]}]
+    notes: A plank door (the shell's hkm2d) into the shrine hall.
+movers:
+  - id: mover:hatch
+    room: room:shrine
+    at: [0, -1736]
+    size: [288, 272]
+    floor_height: 0
+    height: 24
+    travel: [-352, 0, 0]
+    speed: 128
+    surface: {texture: hwm2rf, size: [128, 128]}
+    top_surface: {texture: straw, size: [256, 256]}
+    notes: "The altar mat over the cellar hatch: a straw mat on a plank lid, which slides aside west."
+floors: []
+ladders:
+  - {id: ladder:cellar, room: room:cellar, at: [0, -1626], facing: n, height: 448, exit: [0, -1520], surface: {texture: trim11_32, size: [32, 64], uneven: true}, notes: The cellar ladder up to the hatch under the altar mat.}
+  - {id: ladder:kitchen, room: room:kitchen, at: [-666, -384], facing: e, height: 512, exit: [-520, -384], surface: {texture: trim11_32, size: [32, 64], uneven: true}, notes: The kitchen ladder up the east wall through the dojo's hatch.}
+  - {id: ladder:rope, room: room:screens, at: [986, -1568], facing: w, height: 512, exit: [900, -1568], surface: {texture: trim11_32, size: [32, 64], uneven: true}, notes: The clan's climbing ladder (black rope and rungs) from the gallery's slot down into the Hall of Screens' south-east alcove., grab_in_air: true}
+sounds:
+  - {id: sound:wind, room: room:gallery, at: [0, -1568], sound: whistling wind, radius: 2400, inner_radius: 800, volume: 0.5, notes: The wind over the frozen mere at the gallery.}
+lights:
+  - id: light:armoury_19
+    room: room:armoury
+    at: [-250, -750]
+    height: 380
+    radius: 1000
+    color: [235, 190, 130]
+  - id: light:armoury_20
+    room: room:armoury
+    at: [700, -1300]
+    height: 380
+    radius: 900
+    color: [235, 190, 130]
+  - id: light:cellar_7
+    room: room:cellar
+    at: [0, -2080]
+    height: 330
+    radius: 1300
+    color: [200, 170, 130]
+  - id: light:dojo_8
+    room: room:dojo
+    at: [-100, -1300]
+    height: 380
+    radius: 1400
+    color: [235, 190, 130]
+  - id: light:dojo_9
+    room: room:dojo
+    at: [-800, -380]
+    height: 380
+    radius: 1100
+    color: [235, 190, 130]
+  - id: light:dorm_10
+    room: room:dorm
+    at: [700, -1500]
+    height: 380
+    radius: 1200
+    color: [235, 190, 130]
+  - id: light:dorm_11
+    room: room:dorm
+    at: [700, -600]
+    height: 380
+    radius: 1000
+    color: [235, 190, 130]
+  - id: light:gallery_21
+    room: room:gallery
+    at: [-1024, -1000]
+    height: 420
+    radius: 1400
+    color: [175, 185, 205]
+  - id: light:gallery_22
+    room: room:gallery
+    at: [100, -1568]
+    height: 420
+    radius: 1600
+    color: [175, 185, 205]
+  - id: light:kitchen_2
+    room: room:kitchen
+    at: [-1088, -512]
+    height: 360
+    radius: 1100
+    color: [235, 190, 130]
+  - id: light:master_24
+    room: room:master
+    at: [-400, -1000]
+    height: 340
+    radius: 1300
+    color: [235, 190, 130]
+  - id: light:master_25
+    room: room:master
+    at: [400, -1000]
+    height: 340
+    radius: 1300
+    color: [255, 160, 90]
+  - id: light:porch_1
+    room: room:porch
+    at: [0, -512]
+    height: 380
+    radius: 1300
+    color: [235, 190, 130]
+  - id: light:screens_13
+    room: room:screens
+    at: [-450, -600]
+    height: 360
+    radius: 700
+    color: [255, 200, 140]
+  - id: light:screens_14
+    room: room:screens
+    at: [150, -600]
+    height: 360
+    radius: 700
+    color: [255, 200, 140]
+  - id: light:screens_15
+    room: room:screens
+    at: [-200, -1500]
+    height: 380
+    radius: 1000
+    color: [235, 190, 130]
+  - id: light:screens_16
+    room: room:screens
+    at: [700, -1540]
+    height: 380
+    radius: 900
+    color: [235, 190, 130]
+  - id: light:screens_17
+    room: room:screens
+    at: [-300, -950]
+    height: 380
+    radius: 1000
+    color: [235, 190, 130]
+  - id: light:shrine_3
+    room: room:shrine
+    at: [-500, -1600]
+    height: 420
+    radius: 1300
+    color: [235, 190, 130]
+  - id: light:shrine_4
+    room: room:shrine
+    at: [700, -1600]
+    height: 420
+    radius: 1300
+    color: [235, 190, 130]
+  - id: light:shrine_5
+    room: room:shrine
+    at: [0, -1880]
+    height: 260
+    radius: 700
+    color: [255, 170, 90]
+  - id: light:stair_c_18
+    room: room:stair_c
+    at: [672, -1200]
+    height: 300
+    radius: 900
+    color: [235, 190, 130]
+  - id: light:stair_e_6
+    room: room:stair_e
+    at: [1120, -900]
+    height: 300
+    radius: 900
+    color: [235, 190, 130]
+  - id: light:stair_t_23
+    room: room:stair_t
+    at: [-600, -1184]
+    height: 300
+    radius: 900
+    color: [235, 190, 130]
+  - id: light:stair_w_12
+    room: room:stair_w
+    at: [-896, -800]
+    height: 300
+    radius: 900
+    color: [235, 190, 130]
+chests:
+  - id: chest:armoury
+    room: room:armoury
+    at: [100, -872]
+    facing: n
+    treasure_level: 3
+    random_items: 2
+    gold: 300
+    notes: A chest of the clan's best blades.
+  - id: chest:cellar
+    room: room:cellar
+    at: [-680, -2400]
+    facing: e
+    treasure_level: 3
+    random_items: 2
+    gold: 400
+    notes: "The clan's stores: a chest among the rice sacks."
+  - id: chest:strongbox
+    room: room:master
+    at: [700, -800]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1500
+    trap_level: 3
+    notes: "The clan's strongbox behind the dais (the hoard, a level up)."
+monsters:
+  - id: monster:armoury_1
+    room: room:armoury
+    monster: 11121
+    at: [-400, -760]
+    facing: 0
+    hostile: true
+    group: 18
+  - id: monster:armoury_2
+    room: room:armoury
+    monster: 11121
+    at: [0, -760]
+    facing: 180
+    hostile: true
+    group: 18
+  - id: monster:clan_master
+    room: room:master
+    monster: 11123
+    at: [200, -840]
+    floor_height: 2096
+    facing: 270
+    hostile: true
+    group: 21
+    notes: "The Clan Master 42 (A2's boss row 11123: look C, shuriken, blink on hit 0.2), on his dais."
+  - id: monster:dojo_1
+    room: room:dojo
+    monster: 11120
+    at: [-200, -1300]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:dojo_2
+    room: room:dojo
+    monster: 11120
+    at: [100, -1000]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:dojo_3
+    room: room:dojo
+    monster: 11120
+    at: [-300, -700]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:dojo_4
+    room: room:dojo
+    monster: 11120
+    at: [0, -400]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:dojo_5
+    room: room:dojo
+    monster: 11120
+    at: [-1000, -380]
+    facing: 0
+    hostile: true
+    group: 14
+  - id: monster:dorm_1
+    room: room:dorm
+    monster: 11120
+    at: [600, -420]
+    facing: 180
+    hostile: true
+    group: 13
+    notes: two behind the paper wall
+  - id: monster:dorm_2
+    room: room:dorm
+    monster: 11120
+    at: [640, -300]
+    facing: 180
+    hostile: true
+    group: 13
+    notes: two behind the paper wall
+  - id: monster:dorm_3
+    room: room:dorm
+    monster: 11120
+    at: [1150, -1500]
+    facing: 180
+    hostile: true
+    group: 13
+    notes: two behind the paper wall
+  - id: monster:gallery_1
+    room: room:gallery
+    monster: 11120
+    at: [-1020, -1000]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:gallery_2
+    room: room:gallery
+    monster: 11120
+    at: [400, -1568]
+    facing: 180
+    hostile: true
+    group: 19
+  - id: monster:kitchen_1
+    room: room:kitchen
+    monster: 11120
+    at: [-1200, -500]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:kitchen_2
+    room: room:kitchen
+    monster: 11120
+    at: [-900, -800]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:master_1
+    room: room:master
+    monster: 11122
+    at: [-300, -880]
+    facing: 270
+    hostile: true
+    group: 20
+  - id: monster:porch_1
+    room: room:porch
+    monster: 11120
+    at: [-250, -760]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:porch_2
+    room: room:porch
+    monster: 11120
+    at: [250, -760]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:screens_15_1
+    room: room:screens
+    monster: 11121
+    at: [-450, -560]
+    facing: 270
+    hostile: true
+    group: 15
+    notes: behind cell 1's paper
+  - id: monster:screens_15_2
+    room: room:screens
+    monster: 11121
+    at: [-450, -680]
+    facing: 270
+    hostile: true
+    group: 15
+    notes: behind cell 1's paper
+  - id: monster:screens_16_1
+    room: room:screens
+    monster: 11121
+    at: [150, -560]
+    facing: 270
+    hostile: true
+    group: 16
+    notes: behind cell 2's paper
+  - id: monster:screens_16_2
+    room: room:screens
+    monster: 11121
+    at: [150, -680]
+    facing: 270
+    hostile: true
+    group: 16
+    notes: behind cell 2's paper
+  - id: monster:screens_17_1
+    room: room:screens
+    monster: 11120
+    at: [-200, -1230]
+    facing: 0
+    hostile: true
+    group: 17
+  - id: monster:screens_17_2
+    room: room:screens
+    monster: 11120
+    at: [200, -1230]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:shinobu
+    room: room:cellar
+    monster: 11124
+    at: [-380, -2230]
+    facing: 90
+    group: 31
+    immobile: true
+    hidden: true
+    npc: 4530
+    notes: "Shinobu, the clan master's heir (NPC 4530, look C) on a Clan Survivor (11124), by her cushion; shown with q-c4.done. She is NPC 4530 (merge point 22, monsters[].npc): clicked, she talks."
+  - id: monster:shrine_1
+    room: room:shrine
+    monster: 11120
+    at: [-700, -1500]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:shrine_2
+    room: room:shrine
+    monster: 11120
+    at: [600, -1500]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:shrine_3
+    room: room:shrine
+    monster: 11120
+    at: [-600, -1900]
+    facing: 90
+    hostile: true
+    group: 12
+  - id: monster:survivor_1
+    room: room:cellar
+    monster: 11124
+    at: [200, -2200]
+    facing: 180
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "A Clan Survivor (11124, faction clan, friendly), shown with q-c4.done."
+  - id: monster:survivor_2
+    room: room:cellar
+    monster: 11124
+    at: [420, -2280]
+    facing: 180
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "A Clan Survivor (11124, faction clan, friendly), shown with q-c4.done."
+  - id: monster:survivor_3
+    room: room:cellar
+    monster: 11124
+    at: [200, -2420]
+    facing: 180
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "A Clan Survivor (11124, faction clan, friendly), shown with q-c4.done."
+  - id: monster:survivor_4
+    room: room:cellar
+    monster: 11124
+    at: [-60, -2460]
+    facing: 180
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "A Clan Survivor (11124, faction clan, friendly), shown with q-c4.done."
+decorations:
+  - id: deco:cellar_barrel_1
+    room: room:cellar
+    decoration: bigbarel
+    at: [690, -2050]
+  - id: deco:cellar_barrel_2
+    room: room:cellar
+    decoration: bigbarel
+    at: [690, -2160]
+  - id: deco:cellar_sack_1
+    room: room:cellar
+    decoration: floursac
+    at: [-690, -2130]
+  - id: deco:cellar_sack_2
+    room: room:cellar
+    decoration: floursac
+    at: [-690, -2230]
+  - id: deco:cellar_sack_3
+    room: room:cellar
+    decoration: bag01
+    at: [-560, -2490]
+  - id: deco:cellar_sack_4
+    room: room:cellar
+    decoration: bag01
+    at: [-460, -2490]
+  - id: deco:dorm_bowl
+    room: room:dorm
+    decoration: foodbowl
+    at: [560, -1800]
+  - id: deco:kitchen_bowl
+    room: room:kitchen
+    decoration: foodbowl
+    at: [-1450, -700]
+  - id: deco:kitchen_sack_1
+    room: room:kitchen
+    decoration: bag01
+    at: [-1470, -80]
+  - id: deco:kitchen_sack_2
+    room: room:kitchen
+    decoration: bag01
+    at: [-1470, -180]
+  - id: deco:shrine_candle_1
+    room: room:shrine
+    decoration: dec02
+    at: [-300, -1980]
+  - id: deco:shrine_candle_2
+    room: room:shrine
+    decoration: dec02
+    at: [300, -1980]
+  - id: deco:torch_armoury
+    room: room:armoury
+    decoration: torch01
+    wall: 4
+    along: 0.3
+    height: 160
+  - id: deco:torch_cellar
+    room: room:cellar
+    decoration: torch01
+    wall: 3
+    along: 0.5
+    height: 160
+  - id: deco:torch_dojo_1
+    room: room:dojo
+    decoration: torch01
+    wall: 0
+    along: 0.15
+    height: 160
+  - id: deco:torch_dojo_2
+    room: room:dojo
+    decoration: torch01
+    wall: 2
+    along: 0.5
+    height: 160
+  - id: deco:torch_dorm
+    room: room:dorm
+    decoration: torch01
+    wall: 1
+    along: 0.2
+    height: 160
+  - id: deco:torch_kitchen
+    room: room:kitchen
+    decoration: torch01
+    wall: 0
+    along: 0.5
+    height: 160
+  - id: deco:torch_master_1
+    room: room:master
+    decoration: torch01
+    wall: 1
+    along: 0.5
+    height: 160
+  - id: deco:torch_master_2
+    room: room:master
+    decoration: torch01
+    wall: 3
+    along: 0.5
+    height: 160
+  - id: deco:torch_porch_1
+    room: room:porch
+    decoration: torch01
+    wall: 3
+    along: 0.2
+    height: 160
+  - id: deco:torch_porch_2
+    room: room:porch
+    decoration: torch01
+    wall: 1
+    along: 0.5
+    height: 160
+  - id: deco:torch_screens_1
+    room: room:screens
+    decoration: torch01
+    wall: 4
+    along: 0.5
+    height: 160
+  - id: deco:torch_screens_2
+    room: room:screens
+    decoration: torch01
+    wall: 0
+    along: 0.3
+    height: 160
+  - id: deco:torch_shrine_1
+    room: room:shrine
+    decoration: torch01
+    wall: 2
+    along: 0.25
+    height: 160
+  - id: deco:torch_shrine_2
+    room: room:shrine
+    decoration: torch01
+    wall: 2
+    along: 0.75
+    height: 160
+exits:
+  - id: exit:north_door
+    room: room:porch
+    wall: north
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [160, 320]}
+    to: exit:x5_pagoda
+    notes: "The pagoda's north door, out to X5 (the mere's north-east shore)."
+destructibles:
+  - {id: destructible:cell1_e, of: platform:cell1_e, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell1_e_2, of: platform:cell1_e_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell1_s, of: platform:cell1_s, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell1_s_2, of: platform:cell1_s_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell1_w, of: platform:cell1_w, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell1_w_2, of: platform:cell1_w_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell2_s, of: platform:cell2_s, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell2_s_2, of: platform:cell2_s_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell2_w, of: platform:cell2_w, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:cell2_w_2, of: platform:cell2_w_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:crane, of: door:crane, hp: 20, material: wood, effect_scale: 0.6, notes: "The crane screen: struck, shot or clicked (evt:crane) it falls; the stair up behind it."}
+  - {id: destructible:paper_dorm, of: door:paper_dorm, hp: 20, material: wood, effect_scale: 0.6, notes: "The paper wall between the dojo and the sleeping loft, its north panel."}
+  - {id: destructible:paper_dorm2, of: door:paper_dorm2, hp: 20, material: wood, effect_scale: 0.6, notes: The paper wall's south panel.}
+  - {id: destructible:screen_a, of: platform:screen_a, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_a_2, of: platform:screen_a_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_a_3, of: platform:screen_a_3, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_b, of: platform:screen_b, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_b_2, of: platform:screen_b_2, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_b_3, of: platform:screen_b_3, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_b_4, of: platform:screen_b_4, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}
+  - {id: destructible:screen_x, of: platform:screen_x, hp: 20, material: wood, effect_scale: 0.6, notes: A paper screen of the maze.}

@@ -1,0 +1,48 @@
+format: 0
+id: xeen_dd08
+name: Northern Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-08
+units: {plan_grid: 512}
+extent: {footprint_cells: [13, 10], climbs: n}
+map_stats:
+  id: 9157
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 15
+  refill_days: 672
+  music: 43
+  environment: stoneroom
+  lock_difficulty: 15
+  slots:
+    - {monster: Xeen Dark Knight, tier: 0, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:d5_door
+    to: xeen_d5.odm
+    kind: door
+    arrival: entrance:dd08_door
+    arrival_hint: "Before the Northern Tower's south door on D5, facing south away from it (A6's entrance:dd08_door, (2560, 11776, 3008) facing 1536)."
+    notes: "The tower's door (D5's door:dd08, q-d17.tower_door with Bosco's key) arrives at entrance:d5_tower in the gatehouse; out by the gate's exit preset ('Exit the Knight's Tower?', aaze0069:0, D-24)."
+  - id: exit:d7_roof
+    to: xeen_d7.blv
+    kind: roof
+    arrival: entrance:dd08_roof
+    arrival_hint: "D7 The Skyroads, by the Northern Tower's hatch (A6's entrance:dd08_roof, (5632, 15104, 1158) facing 512)."
+    one_way: true
+    notes: "D-58: the ladder loft's roof trapdoor, one way up after m30.done ('Climb up through the trapdoor?', d7.roof_dd08); before it 'The trapdoor is shut fast.'. D7's hatch refuses from above."
+qbits:
+  arrived_once: 117640
+  chalice_taken: 113345
+  helm_find: 117655
+  m30_done: 111600
+  mail_find: 117656
+  oath: 113344
+  shield_find: 117654
+  voice_answered: 113342
+  wall_e: 117653
+  wall_w: 117652
+notes: "Xeen design brief for a new map: DD-08 Northern Tower (the source's dark maze0069-0072: the Voweless Knights' tower) as one BLV of four floors 448 apart round a split stair core on D5, entered by the tower's south door (q-d17.tower_door, A6). Quest Q-D17 The Chalice of Protection (A3's hooks q-d17.voice, voice_wrong, voice_other, chalice, oath, oath_again, the seven book_* hooks through Xeen.vowelessBook, the thrones through Xeen.vowelessThrone); D-58's roof trapdoor one way up to D7 after m30.done (d7.roof_dd08). Class M: 20-45 sectors, 30-90 M units squared, levels 45-55, no boss, party 49-52, treasure 5, music 43. Graph devdocs/xeen/mockups/act5_graphs/dd08.graph.yml with decider D-61 (mockups/act5_a8_decisions.md, which wins): 45 knights (Slayer Knight 11150 45 x33, Death Knight 11151 55 x12; a Death Knight in the Doom Knight's place), 31.14k per member, in A2's faction xeen_voweless_knights (hostile, friendly after the oath 113344); four Voweless Knight figures 11925 hidden in the chapter hall's niches, shown by the oath and on every later load; seven books (+1 to one statistic each, once per character, A3's player bits 11370-11376); the thrones (four lows, the Euphoria Throne 11377, the Dunce); the voice takes Chlc or aie. Rest encounters 10 %: dark knights Dif 0 [1, 2] w100 (D-61 Q31, A2's row 9157). Map qbits 117640, 117652-117656; map_stats 9157."

@@ -1,0 +1,855 @@
+format: 0
+level: L1
+pitch: 'A black tower on Mount Firestone''s crag where the dragons nest, and under it Sandro''s old home: a walk-in crossword,
+  a ballroom of liches, four Shrines of Evil, the gongs and the Lord Xeen Machine.'
+purpose: 'Optional finale. Q-F1: Alister''s egg (the nest), the dead climbers'' notes, the Tome, the roof to X9''s Dragon
+  Clouds. Q-F2: Sandro''s door, the crossword, the shrines, the gongs and the lever, the main terminal (COMPUTER), the machine.
+  Party 62 to 66; 60 placed at 65-100; treasure 6.'
+mood: Warm black basalt that ticks as it cools, the smell of scorched straw; below, dust, incense and a machine that has run
+  for a thousand years.
+datum: arrival
+spaces:
+- id: room:gate_hall
+  name: Gate hall
+  kind: room
+  size: L
+  floor: 0
+  purpose: 'The arrival (entrance:x7_gate), quiet: Alister''s alcove, the stair''s foot, Sandro''s door (q-f2.door), the passage
+    to the scorched hall.'
+  empty: true
+- id: room:alcove
+  name: Alister's alcove
+  kind: room
+  size: S
+  floor: 0
+  purpose: 'Alister the druid (npc 5705, q-f1 topics): peaceful, unkillable; hidden with 118147.'
+  empty: true
+- id: room:landing0
+  name: Stair's foot
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: The stair's foot.
+  empty: true
+- id: room:scorch_pass
+  name: Scorched passage
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: A low passage round a turn (the quiet gate hall).
+  empty: true
+- id: room:scorched_hall
+  name: Scorched hall
+  kind: room
+  size: L
+  floor: 0
+  purpose: 'The old stable: two Acid Dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 66
+    - 66
+    notes: 2 Acid Dragon 66 (placed)
+- id: room:cellar_stair
+  name: The cellar well
+  kind: corridor
+  size: M
+  floor: -1024
+  purpose: 'Behind Sandro''s door: the stair down 1,024 to the crossword.'
+  empty: true
+- id: room:ramp01
+  name: The stair (first turn)
+  kind: corridor
+  size: M
+  floor: 0
+  purpose: The stair in the wall (z 0 to 1,280).
+  empty: true
+- id: room:landing1
+  name: First landing
+  kind: corridor
+  size: M
+  floor: 1280
+  purpose: The first landing.
+  empty: true
+- id: room:ring_hall
+  name: Ring hall
+  kind: room
+  size: L
+  floor: 1280
+  purpose: Three dragon pairs round a pier.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 66
+    - 66
+    notes: 4 Acid Dragon 66 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Fire Dragon 75 (placed)
+- id: room:dormitory
+  name: Old dormitory
+  kind: room
+  size: M
+  floor: 1280
+  purpose: Beds and a chest (T6).
+  empty: true
+- id: room:bone_alcove
+  name: Bone alcove
+  kind: room
+  size: S
+  floor: 1280
+  purpose: Two dead adventurers' notes (q-f1.note_fraud, note_forever).
+  empty: true
+- id: room:ramp12
+  name: The stair (second turn)
+  kind: corridor
+  size: M
+  floor: 1280
+  purpose: The stair (z 1,280 to 2,560).
+  empty: true
+- id: room:landing2
+  name: Second landing
+  kind: corridor
+  size: M
+  floor: 2560
+  purpose: The second landing.
+  empty: true
+- id: room:nest
+  name: The nest
+  kind: room
+  size: L
+  floor: 2560
+  purpose: 'Set piece: the bowl with the eggs (q-f1.egg); six dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 75
+    - 75
+    notes: 4 Fire Dragon 75 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed)
+- id: room:hatchery
+  name: Hatchery
+  kind: room
+  size: M
+  floor: 2560
+  purpose: Four dragons; a note (q-f1.note_balls).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Fire Dragon 75 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed)
+- id: room:last_climber
+  name: The last climber
+  kind: room
+  size: S
+  floor: 2560
+  purpose: The note (q-f1.note_eye), the potion (q-f1.endurance), a chest (T6).
+  empty: true
+- id: room:ramp23
+  name: The stair (third turn)
+  kind: corridor
+  size: M
+  floor: 2560
+  purpose: The stair (z 2,560 to 3,840).
+  empty: true
+- id: room:landing3
+  name: Third landing
+  kind: corridor
+  size: M
+  floor: 3840
+  purpose: The stair's top.
+  empty: true
+- id: room:high_hall
+  name: High hall
+  kind: room
+  size: L
+  floor: 3840
+  purpose: Frost pair and three Phase Dragons.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Frost Dragon 85 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 90
+    - 90
+    notes: 3 Phase Dragon 90 (placed)
+- id: room:wyrm_gallery
+  name: Wyrm's gallery
+  kind: corridor
+  size: M
+  floor: 3840
+  purpose: The Wyrm's Hall's door (house 4853).
+  empty: true
+- id: room:crown
+  name: The crown
+  kind: room
+  size: L
+  floor: 3840
+  purpose: 'Boss: the Energy Dragon and two Phase Dragons.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 100
+    - 100
+    notes: 1 Energy Dragon 100 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 90
+    - 90
+    notes: 2 Phase Dragon 90 (placed)
+- id: room:tome_room
+  name: Tome room
+  kind: room
+  size: S
+  floor: 3840
+  purpose: The Tome (q-f1.tome) and a chest (T6).
+  empty: true
+- id: room:roof_stair
+  name: Roof stair
+  kind: corridor
+  size: S
+  floor: 3840
+  purpose: The hatch onto X9 (entrance:x9_clouds on its head).
+  empty: true
+- id: room:crossword
+  name: The crossword
+  kind: room
+  size: L
+  floor: -1024
+  purpose: 'Set piece: the walk-in crossword (twelve clues, q-f2.clue_*).'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Lich Lord 65 (placed)
+- id: room:descent
+  name: The descent
+  kind: corridor
+  size: M
+  floor: -1792
+  purpose: 'Beyond the gate (q-f2.crossword): 768 down.'
+  empty: true
+- id: room:welcome
+  name: Welcome hall
+  kind: room
+  size: M
+  floor: -1792
+  purpose: '''Welcome'': two Lich Lords.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Lich Lord 65 (placed)
+- id: room:crypt
+  name: Do Not Disturb
+  kind: room
+  size: M
+  floor: -1792
+  purpose: 'Do Not Disturb: four coffins (q-f2.coffin), a chest (T6).'
+  empty: true
+- id: room:ballroom
+  name: Ballroom
+  kind: room
+  size: L
+  floor: -1792
+  purpose: Four Skeletal Liches under dead chandeliers.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 85
+    - 85
+    notes: 4 Skeletal Lich 85 (placed)
+- id: room:game_west
+  name: Game room
+  kind: room
+  size: M
+  floor: -1792
+  purpose: 'Game room: three liches.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Lich Lord 65 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 75
+    - 75
+    notes: 1 Power Lich 75 (placed)
+- id: room:game_east
+  name: Game room
+  kind: room
+  size: M
+  floor: -1792
+  purpose: 'Game room: three liches.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Lich Lord 65 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 75
+    - 75
+    notes: 1 Power Lich 75 (placed)
+- id: room:shrines_lesser
+  name: Shrines of Lesser Evil
+  kind: room
+  size: M
+  floor: -1792
+  purpose: The Shrines of Minor and Lesser Evil.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 65
+    - 65
+    notes: 2 Lich Lord 65 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 85
+    - 85
+    notes: 1 Skeletal Lich 85 (placed)
+- id: room:shrines_great
+  name: Shrines of Great Evil
+  kind: room
+  size: M
+  floor: -1792
+  purpose: The Shrines of Great and Ultimate Evil.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Power Lich 75 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 85
+    - 85
+    notes: 1 Skeletal Lich 85 (placed)
+- id: room:throne
+  name: Throne of the Dead
+  kind: room
+  size: L
+  floor: -1792
+  purpose: Two thrones, Sandro's note (q-f2.note), two Doom Knights.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Doom Knight 75 (placed)
+- id: room:bone_stair
+  name: Bone stair
+  kind: corridor
+  size: M
+  floor: -2560
+  purpose: 768 down to the gongs.
+  empty: true
+- id: room:gong_hall
+  name: Gong hall
+  kind: room
+  size: L
+  floor: -2560
+  purpose: 'Four gongs with lamps, the lever, the chest (T6): the iron shutter.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Autobot 75 (placed)
+- id: room:fountain
+  name: Fountain
+  kind: room
+  size: S
+  floor: -2560
+  purpose: The fountain.
+  empty: true
+- id: room:maintenance
+  name: Maintenance
+  kind: room
+  size: M
+  floor: -2560
+  purpose: Papers; two Autobots.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Autobot 75 (placed)
+- id: room:control
+  name: Control room
+  kind: room
+  size: M
+  floor: -2560
+  purpose: The main terminal (q-f2.terminal); two Doom Knights.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Doom Knight 75 (placed)
+- id: room:machine
+  name: The Lord Xeen Machine
+  kind: room
+  size: L
+  floor: -2560
+  purpose: 'Set piece: the Lord Xeen Machine (q-f2.machine) and its six guards.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Autobot 75 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 75
+    - 75
+    notes: 2 Power Lich 75 (placed)
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 85
+    - 85
+    notes: 2 Skeletal Lich 85 (placed)
+links:
+- id: link:gate_alcove
+  from: room:gate_hall
+  to: room:alcove
+  kind: open
+- id: link:gate_up
+  from: room:gate_hall
+  to: room:landing0
+  kind: open
+- id: link:gate_scorched
+  from: room:gate_hall
+  to: room:scorch_pass
+  kind: open
+- id: link:scorch_hall
+  from: room:scorch_pass
+  to: room:scorched_hall
+  kind: open
+- id: link:gate_crossword
+  from: room:gate_hall
+  to: room:cellar_stair
+  kind: door
+- id: link:cellar_down
+  from: room:cellar_stair
+  to: room:crossword
+  kind: stairs
+- id: link:foot_ramp
+  from: room:landing0
+  to: room:ramp01
+  kind: stairs
+- id: link:ramp_l1
+  from: room:ramp01
+  to: room:landing1
+  kind: stairs
+- id: link:l1_ring
+  from: room:landing1
+  to: room:ring_hall
+  kind: open
+- id: link:dorm_l1
+  from: room:landing1
+  to: room:dormitory
+  kind: door
+- id: link:ring_dorm
+  from: room:ring_hall
+  to: room:dormitory
+  kind: open
+- id: link:ring_bones
+  from: room:ring_hall
+  to: room:bone_alcove
+  kind: open
+- id: link:l1_ramp
+  from: room:landing1
+  to: room:ramp12
+  kind: stairs
+- id: link:ramp_l2
+  from: room:ramp12
+  to: room:landing2
+  kind: stairs
+- id: link:l2_nest
+  from: room:landing2
+  to: room:nest
+  kind: open
+- id: link:hatch_l2
+  from: room:landing2
+  to: room:hatchery
+  kind: open
+- id: link:nest_hatch
+  from: room:nest
+  to: room:hatchery
+  kind: open
+- id: link:nest_dead
+  from: room:nest
+  to: room:last_climber
+  kind: open
+- id: link:l2_ramp
+  from: room:landing2
+  to: room:ramp23
+  kind: stairs
+- id: link:ramp_l3
+  from: room:ramp23
+  to: room:landing3
+  kind: stairs
+- id: link:l3_high
+  from: room:landing3
+  to: room:high_hall
+  kind: open
+- id: link:l3_gallery
+  from: room:landing3
+  to: room:wyrm_gallery
+  kind: open
+- id: link:high_crown
+  from: room:high_hall
+  to: room:crown
+  kind: open
+- id: link:gallery_crown
+  from: room:wyrm_gallery
+  to: room:crown
+  kind: open
+- id: link:crown_tome
+  from: room:crown
+  to: room:tome_room
+  kind: door
+- id: link:crown_roof
+  from: room:crown
+  to: room:roof_stair
+  kind: door
+- id: link:crossword_descent
+  from: room:crossword
+  to: room:descent
+  kind: portcullis
+- id: link:descent_welcome
+  from: room:descent
+  to: room:welcome
+  kind: stairs
+- id: link:welcome_crypt
+  from: room:welcome
+  to: room:crypt
+  kind: door
+- id: link:welcome_ball
+  from: room:welcome
+  to: room:ballroom
+  kind: double_door
+- id: link:ball_west
+  from: room:ballroom
+  to: room:game_west
+  kind: open
+- id: link:ball_east
+  from: room:ballroom
+  to: room:game_east
+  kind: open
+- id: link:west_lesser
+  from: room:game_west
+  to: room:shrines_lesser
+  kind: open
+- id: link:east_great
+  from: room:game_east
+  to: room:shrines_great
+  kind: open
+- id: link:lesser_throne
+  from: room:shrines_lesser
+  to: room:throne
+  kind: open
+- id: link:great_throne
+  from: room:shrines_great
+  to: room:throne
+  kind: open
+- id: link:throne_stair
+  from: room:throne
+  to: room:bone_stair
+  kind: open
+- id: link:stair_gongs
+  from: room:bone_stair
+  to: room:gong_hall
+  kind: stairs
+- id: link:gongs_fountain
+  from: room:gong_hall
+  to: room:fountain
+  kind: open
+- id: link:gongs_maint
+  from: room:gong_hall
+  to: room:maintenance
+  kind: portcullis
+- id: link:maint_machine
+  from: room:maintenance
+  to: room:machine
+  kind: open
+- id: link:maint_control
+  from: room:maintenance
+  to: room:control
+  kind: door
+- id: link:control_machine
+  from: room:control
+  to: room:machine
+  kind: open
+loops:
+- id: loop:ring1
+  spaces:
+  - room:landing1
+  - room:ring_hall
+  - room:dormitory
+  notes: 'Floor 1: into the ring hall from the landing or through the dormitory.'
+- id: loop:nest
+  spaces:
+  - room:landing2
+  - room:nest
+  - room:hatchery
+  notes: 'Floor 2: the nest directly or through the hatchery.'
+- id: loop:top
+  spaces:
+  - room:landing3
+  - room:high_hall
+  - room:crown
+  - room:wyrm_gallery
+  notes: 'Floor 3: the crown through the high hall or along the Wyrm''s gallery.'
+- id: loop:sandro
+  spaces:
+  - room:ballroom
+  - room:game_east
+  - room:shrines_great
+  - room:throne
+  - room:shrines_lesser
+  - room:game_west
+  notes: 'Sandro''s halls: a ring from the ballroom through either game room and its shrines to the thrones.'
+- id: loop:machine
+  spaces:
+  - room:maintenance
+  - room:machine
+  - room:control
+  notes: 'The machine floor: from maintenance directly or through the control room.'
+entrances:
+- id: entrance:x7_gate
+  space: room:gate_hall
+  kind: both
+  facing: n
+  how: 'From X7''s Dragon Tower gate (A5, door:fd04 with the key): 256 inside the gate, facing north.'
+- id: entrance:x9_clouds
+  space: room:roof_stair
+  kind: both
+  facing: s
+  how: 'From X9''s door in the dragon-head rock (A5): on the roof stair''s head, facing down the stair.'
+critical_path:
+- room:gate_hall
+- room:landing0
+- room:ramp01
+- room:landing1
+- room:ring_hall
+- room:landing1
+- room:ramp12
+- room:landing2
+- room:nest
+- room:landing2
+- room:ramp23
+- room:landing3
+- room:high_hall
+- room:crown
+- room:roof_stair
+return_path:
+- room:roof_stair
+- room:crown
+- room:wyrm_gallery
+- room:landing3
+- room:ramp23
+- room:landing2
+- room:ramp12
+- room:landing1
+- room:ramp01
+- room:landing0
+- room:gate_hall
+- room:cellar_stair
+- room:crossword
+- room:descent
+- room:welcome
+- room:ballroom
+- room:game_east
+- room:shrines_great
+- room:throne
+- room:bone_stair
+- room:gong_hall
+- room:maintenance
+- room:machine
+goals:
+- id: goal:egg
+  space: room:nest
+  kind: use
+  story: Q-F1
+  what: The Dragon Egg (q-f1.egg) for Alister.
+- id: goal:crossword
+  space: room:crossword
+  kind: use
+  story: Q-F2
+  what: Twelve words (q-f2.clue_*); the descent (q-f2.crossword).
+- id: goal:machine
+  space: room:machine
+  kind: use
+  story: Q-F2
+  what: The Lord Xeen Machine (q-f2.machine).
+set_pieces:
+- id: set:nest
+  kind: scripted
+  spaces:
+  - room:nest
+  rule: The bowl of black rock and the eggs.
+- id: set:crown
+  kind: boss
+  spaces:
+  - room:crown
+  rule: The Energy Dragon before the roof stair.
+- id: set:crossword
+  kind: scripted
+  spaces:
+  - room:crossword
+  rule: A solved word lights across the floor (xfword, a glow).
+- id: set:machine
+  kind: scripted
+  spaces:
+  - room:machine
+  rule: 'The machine breaks: the hall shakes, the cores go dark.'
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 39
+  sectors: 39
+  monsters_about: 60
+  chests: 5
+  doors: 9
+  loops: 5
+  floor_area_munits2: 60
+notes: 'Size M (20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From act6_graphs/fd04.graph.yml and
+  D-57 (FD-04, Q22-Q35): the graph''s rooms plus the stair''s landings and three ramps, the scorched hall''s passage and Alister''s
+  alcove.'

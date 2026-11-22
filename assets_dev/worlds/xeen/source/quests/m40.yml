@@ -1,0 +1,176 @@
+# M40 The Southern Sphinx (QUESTS M40; Act VI). Owner: A3. FD-02 on X6, opened with Roland's amulet (M39). In the
+# source (dark/aazex125-126) a voice at the stair asks "What is my name?" (Picard; runes in the halls spell PICARD), and
+# Picard the Aged, who has seen everything but a widget, trades the Chime of Opening for one. The Widget is Halon's
+# (Q-C14). Picard is A4's NPC 5704 (towns/fd02.yml), a talking actor A7 places in the Home of the Aged.
+id: M40
+title: The Southern Sphinx
+act: VI
+kind: main
+status: full
+giver: null
+giver_name: (Picard the Aged, FD-02; Roland points the way, m39)
+maps: [X6, FD-02]
+level: 59
+block: 40
+after: [m39.done]
+source: "QUESTS M40; dark/aazex125:2-19, aazex126:0-10, aazex127:2-9, :14; D-57 (FD-02)"
+
+qbits:
+  name_said: {id: 111800, pending: "phase 6: FD-02's stair prompt 'What is my name?' (the map) calls name_right"}
+  done: {id: 111801, journal: "Picard the Aged traded you the Chime of Opening for Halon's widget. It breaks the seal on Darkstone Tower's roof.",
+            until: [m41.seal_broken]}
+  # FD-02's map qbits (block 118110-118119, D-57)
+  rune_p: {id: 118110, map: FD-02, note: "the first rune stone read (rune_p sets it)"}
+  rune_i: {id: 118111, map: FD-02, note: "the second rune stone read"}
+  rune_c: {id: 118112, map: FD-02, note: "the third rune stone read"}
+  rune_a: {id: 118113, map: FD-02, note: "the fourth rune stone read"}
+  rune_r: {id: 118114, map: FD-02, note: "the fifth rune stone read"}
+  rune_d: {id: 118115, map: FD-02, note: "the sixth rune stone read"}
+  swinging_paid: {id: 118116, map: FD-02, note: "the Swinging Death's protection paid: its blades stop for good (the map reads it on every load)"}
+  chopping_paid: {id: 118117, map: FD-02, note: "the Chopping Death's protection paid: its blades stop for good"}
+  illusion_gone: {id: 118118, map: FD-02, note: "the illusion heap in the stalls gone (the map hides it on load)"}
+  embalming_boosts: {id: 118119, map: FD-02, note: "D-57 Q10: the two Might Boosts on the hall of embalming's table taken, once per game"}
+
+items:
+  widget: "Q-C14's (Halon); Picard takes it"
+  chime_of_opening: "Picard gives it; m41.seal takes it"
+
+hooks:
+  sphinx_door:
+    map: X6
+    entrance: FD-02
+    sealed: "a finale seal (Roland's amulet)"
+    where: "the Southern Sphinx's door in the desert (the map's door event; true opens it)"
+    requires: {item: southern_sphinx_amulet}
+    text: "The Sphinx's stone eyes find Roland's amulet. Its jaw opens on a stair."
+    fail_text: "A sphinx of sand-coloured stone, its jaw shut. There is a hollow in its breast the size of an amulet."
+  rune_p:
+    map: FD-02
+    where: "the first rune stone of the Preservation Rooms (clicked; dark/aazex127:2); the sixth also calls runes after its own text"
+    sets: [rune_p]
+    text: "The strange writings seem to give a lesson about the letter \"P\"."
+  rune_i:
+    map: FD-02
+    where: "the second rune stone of the Preservation Rooms (clicked; dark/aazex127:3); the sixth also calls runes after its own text"
+    sets: [rune_i]
+    text: "The strange writings seem to give a lesson about the letter \"I\"."
+  rune_c:
+    map: FD-02
+    where: "the third rune stone of the Preservation Rooms (clicked; dark/aazex127:4); the sixth also calls runes after its own text"
+    sets: [rune_c]
+    text: "The strange writings seem to give a lesson about the letter \"C\"."
+  rune_a:
+    map: FD-02
+    where: "the fourth rune stone of the Preservation Rooms (clicked; dark/aazex127:5); the sixth also calls runes after its own text"
+    sets: [rune_a]
+    text: "The strange writings seem to give a lesson about the letter \"A\"."
+  rune_r:
+    map: FD-02
+    where: "the fifth rune stone of the Preservation Rooms (clicked; dark/aazex127:6); the sixth also calls runes after its own text"
+    sets: [rune_r]
+    text: "The strange writings seem to give a lesson about the letter \"R\"."
+  rune_d:
+    map: FD-02
+    where: "the sixth rune stone of the Preservation Rooms (clicked; dark/aazex127:7); the sixth also calls runes after its own text"
+    sets: [rune_d]
+    text: "The strange writings seem to give a lesson about the letter \"D\"."
+  runes:
+    map: FD-02
+    gate: puzzle
+    where: "after a rune stone's own text, once all six are read (the second Preservation Room's sixth stone, or any stone after that): the summary"
+    requires: {all: [{qbit: rune_p}, {qbit: rune_i}, {qbit: rune_c}, {qbit: rune_a}, {qbit: rune_r}, {qbit: rune_d}]}
+    text: "The lessons you have studied, in the order of the halls: P, I, C, A, R, D."
+  stair_plaque:
+    map: FD-02
+    where: "the plaque at the foot of the stair of the name (dark/aazex127:8)"
+    text: "The strange runes read: \"Study the lessons to learn my name.\""
+  name_right:
+    map: FD-02
+    where: "the stair of the name: the map's prompt \"What is my name?\" (dark/aazex125:16) on the top landing's plate, on every climb until named, and at the door's click; 'Picard' (any case) calls this hook, any other answer name_wrong; the door opens in the same visit"
+    sets: [name_said]
+    text: "\"Correct, come on up!\""
+  stair:
+    map: FD-02
+    gate: puzzle
+    where: "the door at the top of the stair to the Home of the Aged (the map's door event; true opens it)"
+    requires: {qbit: name_said}
+    text: "The door at the top of the stair opens on a room full of books, and an old man in a very good chair."
+    fail_text: "A voice from behind the door: \"What is my name?\""
+  name_wrong:
+    map: FD-02
+    where: "the same stair, any other answer"
+    text: "\"Wrong.\""
+  mask_swinging:
+    map: FD-02
+    gate: beat
+    where: "the carved mask at the Swinging Death's run (D-57 Q9): the map asks \"For 2,000 gold I can protect you from the Swinging Death. Will you pay?\" (dark/aazex125:9, the sum rescaled) while swinging_paid is clear. Yes calls this; true stops the run's blades for good and the map then asks the clue (mask_clue); No calls mask_no. No throw"
+    requires: {gold: 2000}
+    sets: [swinging_paid]
+    once: true
+    do: [{pay: 2000}]
+    text: "The mask's eyes glow and dim. Along the run, the blades swing slower, slower, and hang still."
+    fail_text: "\"Well, maybe next time.\""
+    else_text: "The mask says nothing. Its blades hang still."
+  mask_chopping:
+    map: FD-02
+    gate: beat
+    where: "the carved mask at the Chopping Death's run, as mask_swinging: \"For 2,000 gold I can protect you from the Chopping Death. Will you pay?\" (dark/aazex125:10)"
+    requires: {gold: 2000}
+    sets: [chopping_paid]
+    once: true
+    do: [{pay: 2000}]
+    text: "The mask's eyes glow and dim. Overhead, the blades draw up into their slots and stay there."
+    fail_text: "\"Well, maybe next time.\""
+    else_text: "The mask says nothing. Its blades stay in their slots."
+  mask_clue:
+    map: FD-02
+    gate: beat
+    where: "after a mask's protection is paid, the map asks \"For another 500 I'll give you a clue. Will you pay?\" (dark/aazex125:11, rescaled); Yes calls this (No: mask_no). Every time it is bought, it is the same clue"
+    requires: {gold: 500}
+    do: [{pay: 500}]
+    text: "\"There's one born every minute.\""
+    fail_text: "\"Well, maybe next time.\""
+  mask_no:
+    map: FD-02
+    where: "No to a mask's offer (protection or clue): nothing happens but the line (dark/aazex125:14)"
+    text: "\"Begone, then!\""
+  embalming_table:
+    map: FD-02
+    where: "the hall of embalming's table (D-57 Q10): once per game (embalming_boosts), the map gives two Might Boosts (item 240, power per A2's ledger, `evt.SetHeldItem` twice, as XD-15) and calls this for the line; after that the else line. The two great sarcophagi check Might 60 on the clicking member (the map; \"You are too weak to open the sarcophagus.\", dark/aazex125:5)"
+    sets: [embalming_boosts]
+    once: true
+    text: "Among the jars of embalming fluid on the table stand two flasks of red draught, stoppered and still warm. The embalmers needed strong arms for the lids."
+    else_text: "Jars of embalming fluid. Nothing you would drink."
+  illusion:
+    map: FD-02
+    where: "the treasure heap in the stalls off the crypt (clicked): it is an illusion; the map hides it on this and on every load after (dark/aazex127:14)"
+    sets: [illusion_gone]
+    once: true
+    text: "It was an illusion! An angry voice booms: \"No one steals from ME!\""
+  crypt_sign:
+    map: FD-02
+    where: "the sign at the top of the canopic chamber's steps down to the crypt (dark/aazex127:9)"
+    text: "The strange runes read: \"Don't feed the dragons.\""
+  chair:
+    map: FD-02
+    where: "Picard's very good chair in the Home of the Aged: hovers \"Throne of Legends\" (dark/aazex126:10, D-57 Q12); clicked, this line, no reward"
+    text: "Throne of Legends. It is a very good chair, and Picard would like it back."
+
+npcs:
+  5704:              # Picard the Aged (FD-02, a talking actor in the Home of the Aged)
+    topics:
+      - n: 1
+        label: Chime of Opening
+        states:
+          - when: {qbit: done}
+            text: "Nice to see you again, adventurers! The widget that you brought to me is fascinating! I turn it over every morning. It still does nothing. Marvellous."
+          - when: {item: widget}
+            text: "Really? You have one? A widget! Then the Chime of Opening is yours. Make it so!"
+            do: [{take: widget}, {give: chime_of_opening}, {set: done}, {xp: 20000}]
+          - text: "So you've come to me for the Chime of Opening. What could you possibly offer me in exchange? I've been around for thousands of years and I've seen everything... well, almost everything. There is one mysterious item that I haven't seen. It's called a widget. Go and see Halon the Efficient, the clockmaker, whose workshop stands east of Darkstone Tower in Winterkill Tundra. He's the one who first told me of it. Then don't come back 'til you find one!"
+
+riddles:
+  - {answer: Picard, where: "FD-02's stair (m40.name_right)", said_by: "the six rune stones (m40.rune_p ... rune_d, the summary m40.runes) and the stair's plaque (m40.stair_plaque), which the party reads on the way up"}
+
+rewards: {xp: 20000, gold: 0, items: "Chime of Opening"}
+playthrough: "X6: the Southern Sphinx (Roland's amulet). FD-02: the runes, the stair (Picard), Picard (Chime of Opening) with the Widget."

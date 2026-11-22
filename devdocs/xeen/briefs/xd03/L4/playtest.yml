@@ -10,13 +10,14 @@
 # loots the prospector's pack; opens the King's Gate (gate guards), kills the King's guard (the King's wrath: the
 # gutters fill with slag and burn, the hall turns red), kills the King (clan_king_slain), takes his key from his
 # corpse, opens the hoard, loots the King's chest, throws the shaft lever (escape_shaft_open), rides the cage up and
-# down and up again and leaves for the X1 stand-in by the shaft head.
+# down and up again and leaves for X1 by the shaft head; on the way it reads the prospector's bones and the dead
+# thief's note in the hoard (original lines).
 # Event, door, map-variable and light numbers are ids.lock.yml's; the King is actor 7 of the scene. Nothing depends on
 # chance: only chests with fixed items are checked by those items, every walk past a spawn point or a placed group
 # clears hostiles near it, and the gem cluster's gem is counted, not named.
 id: xeen.xd03.l4.walk
 title: Deep Mine (XD-03 L4), the Deep Line to the shaft head, every mechanism
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -73,11 +74,13 @@ steps:
         seen = status()
         if not string.find(seen, "still hums", 1, true) then error("the gong rang twice: " .. seen) end
   - assert: {state_dump_map_var: {index: 8, value: 1}}
-  - assert: {light: {key: 4, on: true}}
+  - assert: {light: {key: 40001, on: true}}
   # The sergeants come up the back stair and round by the hall; the party fights them on the gallery.
   - play_lua: {source: "wait(6)"}
   - clear_hostiles: {radius: 2600}
-  - assert: {actor_count: {monster_id: 229, near: [4672, 4352, 800], max: 0}}
+  - assert: {actor_count: {monster_id: 11050, near: [4672, 4352, 800], max: 0}}
+  - assert: {actor_count: {monster_id: 11051, near: [4672, 4352, 800], max: 0}}
+  - assert: {actor_count: {monster_id: 11052, near: [4672, 4352, 800], max: 0}}
   # Down the gallery stair into the hall; through the heavy doors into the barracks; lever A in its alcove.
   - walk_to: {x: 5008, y: 2380, z: -128, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
   - walk_to: {x: 5008, y: 1820, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
@@ -125,7 +128,9 @@ steps:
   - assert: {party_position: {x: 3900, y: 3560, radius: 80, z_min: -520, z_max: -504}}
   - walk_to: {x: 3600, y: 3650, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1500}
   - clear_hostiles: {radius: 1500}
-  - assert: {actor_count: {monster_id: 229, near: [2900, 3450, 700], max: 0}}
+  - assert: {actor_count: {monster_id: 11050, near: [2900, 3450, 700], max: 0}}
+  - assert: {actor_count: {monster_id: 11051, near: [2900, 3450, 700], max: 0}}
+  - assert: {actor_count: {monster_id: 11052, near: [2900, 3450, 700], max: 0}}
   # The antechamber: the gate guards; the King's Gate is still barred with one bar up.
   - walk_to: {x: 3200, y: 3950, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
   - walk_to: {x: 3200, y: 4400, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
@@ -236,6 +241,10 @@ steps:
         local before = gold()
         loot_chest(9)
         if gold() < before + 100 then error("the prospector's pack did not hold his gold") end
+        status()
+        click(58); wait(1)
+        local seen = status()
+        if not string.find(seen, "Nothing here but bones", 1, true) then error("the prospector's bones said nothing: " .. seen) end
   # Back up to the hall, over the north span, through the antechamber: the King's Gate opens.
   - walk_to: {x: 4100, y: 760, z: -760, radius: 64, timeout_seconds: 40}
   - walk_to: {x: 3968, y: 1100, z: -720, radius: 64, timeout_seconds: 40}
@@ -257,7 +266,9 @@ steps:
   - walk_to: {x: 3320, y: 4760, z: -512, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
   - walk_to: {x: 3200, y: 4900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
   - play_lua: {source: "clear_hostiles(1100); wait(1)"}
-  - assert: {actor_count: {monster_id: 229, near: [3200, 5470, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11050, near: [3200, 5470, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11051, near: [3200, 5470, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11052, near: [3200, 5470, 500], max: 0}}
   - assert: {actor_visible: {actor_index: 7, dead: false}}
   - play_lua: {source: "wait(5)"}
   - assert: {state_dump_map_var: {index: 9, value: 1}}
@@ -280,7 +291,7 @@ steps:
   - walk_to: {x: 3000, y: 5900, z: -512, radius: 64, timeout_seconds: 30}
   - walk_to: {x: 3200, y: 6080, z: -320, radius: 96, timeout_seconds: 30}
   - interact_actor: {actor_index: 7}
-  - play_lua: {source: "wait(1); if not has_item(2108) then error('the King\\'s corpse did not hold his key') end"}
+  - play_lua: {source: "wait(1); if not has_item(12021) then error('the King\\'s corpse did not hold his key') end"}
   # The hoard door behind the throne opens with the key (kept); the King's chest; the shaft lever.
   - walk_to: {x: 3000, y: 6380, z: -320, radius: 48, timeout_seconds: 30}
   - walk_to: {x: 3200, y: 6420, z: -320, radius: 40, timeout_seconds: 30}
@@ -288,13 +299,24 @@ steps:
       source: |
         click(22); wait(4)
         if door_state(8) ~= "open" then error("the hoard door did not open with the key: " .. door_state(8)) end
-        if not has_item(2108) then error("the hoard door took the key") end
+        if not has_item(12021) then error("the hoard door took the key") end
   - walk_to: {x: 3200, y: 6800, z: -320, radius: 64, timeout_seconds: 30}
   - walk_to: {x: 2980, y: 7120, z: -320, radius: 48, timeout_seconds: 30}
   - play_lua:
       source: |
         loot_chest(7)
         if not has_item(185) then error("the King's chest did not hold its ruby") end
+  # The dead thief inside the hoard's door: the clan's warning (original, aaze0035 #11) and his bones (aaze0035 #27).
+  - play_lua: {source: "click(57); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Robbers and thieves"}
+  - play_lua:
+      source: |
+        if not close() then error("the thief's note opened no message window") end
+        status()
+        click(56); wait(1)
+        local seen = status()
+        if not string.find(seen, "Dead men tell no tales", 1, true) then error("the thief's bones said nothing: " .. seen) end
   # A heap of the King's gold: clicked, its coins once.
   - walk_to: {x: 3130, y: 6980, z: -320, radius: 48, timeout_seconds: 30}
   - play_lua:
@@ -328,4 +350,4 @@ steps:
   - play_lua:
       source: |
         if not qbit(110030) or not qbit(110031) then error("the bits did not survive the shaft") end
-        if not has_item(2108) or not has_item(185) then error("the King's key or his ruby was lost") end
+        if not has_item(12021) or not has_item(185) then error("the King's key or his ruby was lost") end

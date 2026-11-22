@@ -1,0 +1,15 @@
+# XD-13 Newcastle Keep: flavour topics of the keep's people (source/towns/xd13.yml). Owner: A4. Format:
+# QUESTS_FORMAT.md section 5 (talk only). The castle's stages and the sword vault are A3's (m9, m11, m22, m23).
+map: XD-13
+block: 174
+
+npcs:
+  4282:              # Sir Percival Hale, training hall (stage 2)
+    topics:
+      - {n: 1, label: Golems, text: "There were wood golems in the foundations when we came. We kept one as a hat stand. It keeps the hats."}
+  4283:              # Father Cuthbert, chapel (stage 3)
+    topics:
+      - {n: 2, label: The well, text: "The diggers call the courtyard well your well. Drink and you'll feel well armoured. It's a pun. I didn't make it."}
+  4284:              # Lyle Ledger, counting room (stage 3)
+    topics:
+      - {n: 3, label: Megacredits, text: "King's Megacredits pay the King's engineers. Gold pays everyone else. I keep both columns."}

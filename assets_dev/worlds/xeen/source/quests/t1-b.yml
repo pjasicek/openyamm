@@ -1,0 +1,25 @@
+# T1-B The Pendant: Sorcerer -> Wizard, Archer -> Warrior Mage (QUESTS 3.1). Owner: A3.
+# Paid in Q-C2's hand-in (10,000 per member, as T1-A's share of its act); this topic promotes later members, unpaid.
+id: T1-B
+title: The Pendant
+act: II
+kind: promotion
+status: full
+giver: 4151          # Barok
+maps: [X2]
+level: 12
+block: 116
+after: [q-c2.done]
+source: "QUESTS 3.1"
+
+npcs:
+  4151:
+    topics:
+      - n: 1
+        label: Promotion
+        show: {all: [{qbit: q-c2.done}, {promotable: pendant}]}
+        text: "Another spellcaster without a proper title? Stand there. Sorcerers rise as Wizards, Archers as Warrior Mages. Mind the fountain on your way out."
+        do: [{promote: pendant}]
+
+rewards: {xp: 0, gold: 0}
+playthrough: "After Q-C2 with a Sorcerer recruited later: Barok (Promotion)."

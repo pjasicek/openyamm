@@ -1,0 +1,228 @@
+format: 0
+themes:
+  - id: theme:nest
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2b, size: [256, 256]}
+    notes: "The nest: the same rock, the floor deep in old straw (MM6 straw)."
+  - id: theme:rock
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128], scale: 2}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2b, size: [256, 256]}
+    notes: "The lair's caves: MM7 Thunderfist's (7d07) dark cave rock c2b on walls and roofs, its rock floor cfb1."
+defaults: {theme: theme:rock, ambient: 16}
+rooms:
+  - id: room:bone_ledge
+    name: Bone ledge
+    outline: [[-1024, 1280], [-448, 1280], [-448, 1792], [-1024, 1792], [-1088, 1664], [-1088, 1408]]
+    floor: 0
+    floor_points: [[-608, 1536, -32], [-832, 1376, 0], [-640, 1376, 0], [-544, 1451, 0], [-544, 1621, 0], [-640, 1696, 0], [-832, 1696, 0], [-992, 1536, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 384
+    ceiling_points: [[-768, 1536, 448]]
+    theme: theme:rock
+    ambient: 16
+    notes: "A dead-end cleft, 640 by 512, where a climber died: his bones, rope and pack."
+  - id: room:guano_slope
+    name: Guano slope
+    outline: [[-256, 896], [256, 896], [320, 1152], [320, 1920], [256, 2176], [-256, 2176], [-320, 1920], [-320, 1152]]
+    floor: 0
+    floor_points: [[-160, 1056, -48], [-160, 1696, 32], [160, 1056, 16], [160, 2016, 16], [-85, 992, 0], [85, 992, 0], [224, 1344, 0], [224, 1536, 0], [224, 1728, 0], [85, 2080, 0], [-85, 2080, 0], [-224, 1728, 0], [-224, 1536, 0], [-224, 1344, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 448
+    ceiling_points: [[0, 1056, 560], [0, 1536, 512], [0, 2016, 528]]
+    theme: theme:rock
+    stalactites:
+      - {at: [120, 1400], radius: 64, length: 160}
+      - {at: [-140, 1900], radius: 56, length: 144}
+    ambient: 18
+    notes: "A passage 640 wide and 1,280 long, slick with droppings and scratched by claws; the bone ledge's cleft opens off its west wall."
+  - id: room:mouth
+    name: Cave mouth
+    outline: [[-256, 0], [256, 0], [384, 128], [384, 640], [256, 768], [-256, 768], [-384, 640], [-384, 128]]
+    floor: 0
+    floor_points: [[-160, 544, 32], [0, 256, 0], [-64, 192, 0], [-64, 320, 0], [64, 192, 0], [64, 320, 0], [-85, 96, 0], [85, 96, 0], [288, 299, 0], [288, 469, 0], [85, 672, 0], [-85, 672, 0], [-288, 469, 0], [-288, 299, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 512
+    ceiling_points: [[0, 384, 592]]
+    theme: theme:rock
+    ambient: 24
+    notes: "The way in from D4's crags, 768 square with its corners broken off: the mouth white with droppings, the Darkside's day behind (the exit in its south wall), the cave bending north and in."
+  - id: room:nest
+    name: Nest of shiny things
+    outline: [[1088, 6016], [1728, 6016], [1728, 6400], [1600, 6528], [1216, 6528], [1088, 6400]]
+    floor: 640
+    rough: {step: 192, depth: 48}
+    ceiling: 960
+    ceiling_points: [[1408, 6272, 1024]]
+    theme: theme:nest
+    platforms:
+      - {id: platform:nest, rise: 32, surface: {texture: t66abc10a, size: [32, 128]}, outline: [[1349, 6156], [1467, 6156], [1552, 6241], [1552, 6359], [1467, 6444], [1349, 6444], [1264, 6359], [1264, 6241]], top_surface: {texture: straw, size: [256, 256]}, notes: "The nest: straw and sticks heaped with spoons, buckles, broken mirrors; Caleb's glass in the middle."}
+    ambient: 18
+    notes: "A hollow behind the roost, 640 by 512, lined with straw: the gargoyles' nest of shiny things."
+  - id: room:perch_hall
+    name: Perch hall
+    outline: [[-768, 2304], [640, 2304], [640, 3456], [-768, 3456]]
+    floor: 0
+    floor_points: [[-384, 2720, -48], [-384, 3040, -96], [-64, 2720, -32], [-64, 3040, -32], [256, 2720, 48], [256, 3040, -48], [-672, 3136, 0], [-736, 3072, 0], [-736, 3200, 0], [-608, 3072, 0], [-608, 3200, 0], [448, 2400, 0], [384, 2336, 0], [384, 2464, 0], [512, 2336, 0], [512, 2464, 0], [-768, 2880, 0], [-768, 3008, 0], [-768, 3136, 0], [-768, 3264, 0], [-768, 3392, 0], [-664, 2880, 0], [-664, 3008, 0], [-664, 3264, 0], [-664, 3392, 0], [-560, 2880, 0], [-560, 3008, 0], [-560, 3136, 0], [-560, 3264, 0], [-560, 3392, 0], [-560, 3320, 0], [256, 2304, 0], [256, 2408, 0], [256, 2512, 0], [384, 2408, 0], [384, 2512, 0], [512, 2408, 0], [512, 2512, 0], [304, 2464, 0], [-567, 2400, 0], [-366, 2400, 0], [-165, 2400, 0], [37, 2400, 0], [544, 2688, 0], [544, 2880, 0], [544, 3072, 0], [544, 3264, 0], [439, 3360, 0], [238, 3360, 0], [37, 3360, 0], [-165, 3360, 0], [-366, 3360, 0], [-672, 3072, 0], [-672, 2688, 0], [-672, 2496, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 1216
+    ceiling_points: [[-304, 2640, 1376], [-304, 3120, 1392], [176, 2640, 1376], [176, 3120, 1440]]
+    theme: theme:rock
+    platforms:
+      - {id: platform:perch_w, rise: 352, surface: {texture: c2b, size: [256, 256]}, outline: [[-768, 2880], [-640, 2904], [-584, 3008], [-600, 3200], [-560, 3320], [-648, 3392], [-768, 3392]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: A rock ledge on the west wall where the young ones sit.}
+      - {id: platform:perch_se, rise: 320, surface: {texture: c2b, size: [256, 256]}, outline: [[256, 2304], [640, 2304], [640, 2496], [544, 2472], [424, 2512], [304, 2464]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: A rock ledge on the south wall.}
+    stalactites:
+      - {at: [-200, 2900], radius: 96, length: 320}
+      - {at: [300, 3050], radius: 80, length: 272}
+      - {at: [-380, 2560], radius: 72, length: 240}
+    ambient: 16
+    notes: "A high cave, 1,408 by 1,152 and 1,216 high: perches on its walls where the young ones sit; the upper perches look down from its north side; the rock ramp climbs behind its west wall."
+  - id: room:rock_ramp
+    name: Rock ramp
+    path: [[-896, 2496, 0], [-1088, 2496, 0], [-1088, 3840, 640], [-896, 3840, 640]]
+    width: 256
+    floor: 0
+    ceiling: 448
+    theme: theme:rock
+    ambient: 16
+    notes: "A ramp of broken rock climbing 640 behind the perch hall's west wall, from the hall to the upper perches."
+  - id: room:rock_steps
+    name: Rock steps
+    outline: [[1376, 3328], [1696, 3328], [1696, 4352], [1376, 4352]]
+    floor: 0
+    slope: {to: 640, toward: north, steps: 16}
+    ceiling: 448
+    ceiling_slope: {to: 1088, toward: north}
+    theme: theme:rock
+    ambient: 16
+    notes: Rock steps climbing 640 north from the still gallery to the roost.
+  - id: room:roost
+    name: The roost
+    outline: [[640, 4480], [2176, 4480], [2176, 5760], [2048, 5888], [768, 5888], [640, 5760]]
+    floor: 640
+    rough: {step: 192, depth: 48}
+    ceiling: 1792
+    theme: theme:rock
+    platforms:
+      - {id: platform:snow, rise: 8, surface: {texture: 7snow, size: [128, 128], scale: 2}, outline: [[1216, 4992], [1600, 5056], [1664, 5312], [1472, 5440], [1152, 5248]], top_surface: {texture: 7snow, size: [128, 128], scale: 2}, notes: "Snow sifted down the crack onto the droppings (a floor, no weather indoors)."}
+      - {id: platform:heap_high, rise: 16, surface: {texture: c2b, size: [256, 256]}, outline: [[1861, 5456], [1979, 5456], [2064, 5541], [2064, 5659], [1979, 5744], [1861, 5744], [1776, 5659], [1776, 5541]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: "The high roosting rock's foot: worn rock that stays as dust when the rock is pounded."}
+      - {id: platform:heap_north, rise: 16, surface: {texture: c2b, size: [256, 256]}, outline: [[841, 5456], [959, 5456], [1044, 5541], [1044, 5659], [959, 5744], [841, 5744], [756, 5659], [756, 5541]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: "The north roosting rock's foot: worn rock that stays as dust when the rock is pounded."}
+      - {id: platform:heap_west, rise: 16, surface: {texture: c2b, size: [256, 256]}, outline: [[941, 4556], [1059, 4556], [1144, 4641], [1144, 4759], [1059, 4844], [941, 4844], [856, 4759], [856, 4641]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: "The west roosting rock's foot: worn rock that stays as dust when the rock is pounded."}
+      - {id: platform:heap_east, rise: 16, surface: {texture: c2b, size: [256, 256]}, outline: [[1891, 4806], [2009, 4806], [2094, 4891], [2094, 5009], [2009, 5094], [1891, 5094], [1806, 5009], [1806, 4891]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: "The east roosting rock's foot: worn rock that stays as dust when the rock is pounded."}
+      - {id: platform:heap_south, rise: 16, surface: {texture: c2b, size: [256, 256]}, outline: [[1821, 5156], [1939, 5156], [2024, 5241], [2024, 5359], [1939, 5444], [1821, 5444], [1736, 5359], [1736, 5241]], top_surface: {texture: cfb1, size: [128, 128], scale: 2}, notes: "The south roosting rock's foot: worn rock that stays as dust when the rock is pounded."}
+      - {id: platform:rock_high, rise: 432, surface: {texture: c2b, size: [256, 256]}, outline: [[1875, 5488], [1965, 5488], [2032, 5555], [2032, 5645], [1965, 5712], [1875, 5712], [1808, 5645], [1808, 5555]], top_surface: {texture: c2b, size: [256, 256]}, base: 16, notes: "The high roosting rock, worn smooth by claws (the highest: the Overlord's)."}
+      - {id: platform:rock_north, rise: 272, surface: {texture: c2b, size: [256, 256]}, outline: [[855, 5488], [945, 5488], [1012, 5555], [1012, 5645], [945, 5712], [855, 5712], [788, 5645], [788, 5555]], top_surface: {texture: c2b, size: [256, 256]}, base: 16, notes: "The north roosting rock, worn smooth by claws."}
+      - {id: platform:rock_west, rise: 208, surface: {texture: c2b, size: [256, 256]}, outline: [[955, 4588], [1045, 4588], [1112, 4655], [1112, 4745], [1045, 4812], [955, 4812], [888, 4745], [888, 4655]], top_surface: {texture: c2b, size: [256, 256]}, base: 16, notes: "The west roosting rock, worn smooth by claws."}
+      - {id: platform:rock_east, rise: 240, surface: {texture: c2b, size: [256, 256]}, outline: [[1905, 4838], [1995, 4838], [2062, 4905], [2062, 4995], [1995, 5062], [1905, 5062], [1838, 4995], [1838, 4905]], top_surface: {texture: c2b, size: [256, 256]}, base: 16, notes: "The east roosting rock, worn smooth by claws."}
+      - {id: platform:rock_south, rise: 176, surface: {texture: c2b, size: [256, 256]}, outline: [[1835, 5188], [1925, 5188], [1992, 5255], [1992, 5345], [1925, 5412], [1835, 5412], [1768, 5345], [1768, 5255]], top_surface: {texture: c2b, size: [256, 256]}, base: 16, notes: "The south roosting rock, worn smooth by claws."}
+    ceiling_levels:
+      - outline: [[1216, 4992], [1600, 5056], [1664, 5312], [1472, 5440], [1152, 5248]]
+        ceiling: 2304
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: c2b, size: [256, 256], sky: true}
+        notes: "The crack of sky: a chimney 512 high whose top is open to the Darkside's day (2,944 at first: only a sliver of sky showed from the floor)."
+    ambient: 20
+    notes: "A tall cave, 1,536 by 1,408 and 1,152 high, under a crack of sky: snow sifted onto the droppings below it, a ring of five roosting rocks worn smooth round it, the highest in the north-east where the Overlord sits. The nest opens north."
+  - id: room:still_gallery
+    name: Still gallery
+    outline: [[768, 2304], [1664, 2304], [1792, 2432], [1792, 3200], [768, 3200]]
+    floor: 0
+    floor_points: [[1120, 2912, -64], [1024, 2560, 0], [928, 2464, 0], [928, 2560, 0], [928, 2656, 0], [1024, 2464, 0], [1024, 2656, 0], [1120, 2464, 0], [1120, 2560, 0], [1120, 2656, 0], [1536, 2560, 0], [1448, 2472, 0], [1448, 2648, 0], [1624, 2472, 0], [1624, 2648, 0], [1500, 2472, 0], [1572, 2472, 0], [1624, 2524, 0], [1624, 2596, 0], [1572, 2648, 0], [1500, 2648, 0], [1448, 2596, 0], [1448, 2524, 0], [1600, 2880, 0], [1520, 2800, 0], [1520, 2960, 0], [1680, 2800, 0], [1680, 2960, 0], [1568, 2800, 0], [1632, 2800, 0], [1680, 2848, 0], [1680, 2912, 0], [1632, 2960, 0], [1568, 2960, 0], [1520, 2912, 0], [1520, 2848, 0], [947, 2400, 0], [1126, 2400, 0], [1306, 2400, 0], [1485, 2400, 0], [1696, 2624, 0], [1696, 3008, 0], [1587, 3104, 0], [1382, 3104, 0], [1178, 3104, 0], [973, 3104, 0], [864, 3021, 0], [864, 2842, 0], [864, 2662, 0], [864, 2483, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 704
+    ceiling_points: [[1040, 2752, 832], [1520, 2752, 864]]
+    theme: theme:rock
+    pillars:
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[985, 2464], [1063, 2464], [1120, 2521], [1120, 2599], [1063, 2656], [985, 2656], [928, 2599], [928, 2521]], notes: A weathered pillar like a statue.}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[1500, 2472], [1572, 2472], [1624, 2524], [1624, 2596], [1572, 2648], [1500, 2648], [1448, 2596], [1448, 2524]], notes: A weathered pillar like a statue.}
+      - {surface: {texture: c2b, size: [256, 256]}, outline: [[1568, 2800], [1632, 2800], [1680, 2848], [1680, 2912], [1632, 2960], [1568, 2960], [1520, 2912], [1520, 2848]], notes: A weathered pillar like a statue.}
+    ambient: 16
+    notes: "A cave of weathered rock pillars like statues, 1,024 by 896; three of the still shapes are gargoyles. The rock steps climb north from its far end to the roost."
+  - id: room:upper_perches
+    name: Upper perches
+    outline: [[-768, 3584], [512, 3584], [512, 4864], [128, 4864], [128, 3968], [-768, 3968]]
+    floor: 640
+    rough: {step: 192, depth: 48}
+    ceiling: 1216
+    theme: theme:rock
+    ambient: 16
+    notes: "The top of the ramp: a ledge 384 wide along the perch hall's north side, open over the hall, then north along a ledge walk to the roost."
+openings:
+  - id: open:mouth_slope
+    from: room:mouth
+    to: room:guano_slope
+    link: link:mouth_slope
+    width: 320
+    height: 384
+  - id: open:perch_ramp
+    from: room:perch_hall
+    to: room:rock_ramp
+    from_wall: 3
+    to_wall: 7
+    link: link:perch_up
+    width: 224
+    height: 320
+    notes: The foot of the rock ramp in the hall's west wall.
+  - id: open:perch_still
+    from: room:perch_hall
+    to: room:still_gallery
+    link: link:perch_still
+    width: 384
+    height: 448
+  - id: open:perch_upper
+    from: room:perch_hall
+    to: room:upper_perches
+    link: link:upper_overlook
+    width: full
+    height: full
+    notes: "The upper perches' lip, 640 over the perch hall's floor."
+  - id: open:ramp_upper
+    from: room:rock_ramp
+    to: room:upper_perches
+    from_wall: 3
+    to_wall: 5
+    link: link:perch_up
+    width: 224
+    height: 320
+    notes: The top of the rock ramp.
+  - id: open:roost_nest
+    from: room:roost
+    to: room:nest
+    link: link:roost_nest
+    width: 288
+    height: 288
+  - id: open:slope_bones
+    from: room:guano_slope
+    to: room:bone_ledge
+    link: link:slope_bones
+    width: 256
+    height: 320
+    notes: The cleft off the slope's west wall.
+  - id: open:slope_perch
+    from: room:guano_slope
+    to: room:perch_hall
+    link: link:slope_perch
+    width: 320
+    height: 384
+  - id: open:steps_roost
+    from: room:rock_steps
+    to: room:roost
+    link: link:still_up
+    width: 288
+    height: 384
+  - id: open:still_steps
+    from: room:still_gallery
+    to: room:rock_steps
+    link: link:still_up
+    width: 288
+    height: 384
+  - id: open:upper_roost
+    from: room:upper_perches
+    to: room:roost
+    link: link:upper_roost
+    width: 320
+    height: 448
+notes: "DD-23 Gargoyle Lair: x east, y north; the mouth (floor 0) south, the roost (floor 640) north under its crack of sky. Written by output/studio_cal/dd23/tools/gen.py."

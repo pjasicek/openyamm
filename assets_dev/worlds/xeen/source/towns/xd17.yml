@@ -1,0 +1,60 @@
+# XD-17 Shangri-La: the hidden utopia behind the Volcano Cave, an open-air BLV valley (WORLD_DESIGN 5.1; MAPS XD-17;
+# source xeen/aaze0049). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5's L4 project `devdocs/xeen/briefs/xd17/L4`, installed 2026-11-21 01:45): all 15 doors as wired (D-50
+# change 5: the residences' indoor ids are named after their residents); no arrival of A4's (no mirror, no Town Portal). Opens with Q-C26 (both skulls
+# smashed; the way in is A3's and A7's). Services (D-5.1, all from the source): Arm and Hammer as two doors (arms and
+# armour), the Earth Temple, Tavern Xanadu and the Light guild (guildmistress Brunhilde, membership free); no training
+# hall, no mirror (not a Town Portal town); the travel pyramid and the +1 level well are A3's and the map's. The Public
+# Library and Jack Alltrades' "An Education" hold the world's late Grandmasters; the source's hint people keep their
+# houses. Their hint lines are A3's (they solve quests: Maurice the sword, Alexander the Sphinx's name, Pilar the key,
+# Elona the password, Psychic Sally the mirror); Benedict, Wilbur, Murray, Martok, Kublai Khan, Stumpy and Lacey are
+# flavour (A4, source/npcs/flavour/xd17.yml). Stumpy the Tree and Lacey the Unicorn stand in the valley as peaceful
+# placed actors on shipped bodies (D-50 Q2: A2's rows 11916 Stumpy on MM7's treant, immobile, and 11915 Lacey on
+# MM8's unicorn, wandering by the well; A5 places them with these NPC ids). No NPC for X9's Slick (D-50 Q6).
+# Teachers: Staff, Bow, Fire Magic, Body Magic, Body Building, Meditation, Dodging, Unarmed, Learning and Dark Elf
+# Grandmaster (place shangrila).
+key: XD-17
+stem: xeen_xd17.blv
+town: Shangri-La
+face: cloudside
+blocks:
+  houses: [4351, 4400]
+  npcs: [4701, 4800]
+
+houses:
+  - {id: 4351, door: door:arm_and_hammer_arms, was: 12, kind: weapon_shop, name: Arm and Hammer, owner: 4703, shop: {quality: 5}}
+  - {id: 4365, door: door:arm_and_hammer_armour, was: 52, kind: armor_shop, name: Arm and Hammer, owner: 4703, shop: {quality: 5}, note: "D-5.1: the second door of the same shop (armour); Tolliver keeps both counters"}
+  - {id: 4352, door: door:earth_temple, was: 315, kind: temple, name: Earth Temple, owner: 4704}
+  - {id: 4353, door: door:tavern_xanadu, was: 245, kind: tavern, name: Tavern Xanadu, owner: 4701, residents: [4702]}
+  - {id: 4354, door: door:guild_light, kind: light_guild, name: "Shangri-La Wizard's Guild", owner: 4705, guild: {spells: 11}}
+  - {id: 4355, door: door:an_education, kind: residence, name: An Education, residents: [4706]}
+  - {id: 4356, door: door:public_library, kind: residence, name: Public Library, residents: [4707, 4708, 4709]}
+  - {id: 4357, door: door:maurice, kind: residence, name: "Maurice's House", residents: [4710]}
+  - {id: 4358, door: door:alexander, kind: residence, name: "Alexander's House", residents: [4711]}
+  - {id: 4359, door: door:pilar, kind: residence, name: "Princess Pilar's Pavilion", residents: [4712]}
+  - {id: 4360, door: door:benedict, kind: residence, name: "Benedict's House", residents: [4713]}
+  - {id: 4361, door: door:elona, kind: residence, name: "Elona's House", residents: [4714]}
+  - {id: 4362, door: door:murray, kind: residence, name: "Murray's Villa", residents: [4715]}
+  - {id: 4363, door: door:sally, kind: residence, name: "Psychic Sally's", residents: [4716], enter_sound: xeen_fortune}   # a fortune teller: AU's reading sound
+  - {id: 4364, door: door:martok, kind: residence, name: "Martok's Lodge", residents: [4717]}
+
+npcs:
+  - {id: 4701, name: Wilbur, title: Snackmaster, profession: Cook, greet: ["Try peanut butter and honey on your morning toast. Or anything on anything. It's Shangri-La.", "Snack?"], source: "xeen/aaze0049:22"}
+  - {id: 4702, name: Kublai Khan, title: Bouncer, profession: Guard, greet: ["Shangri-La welcomes you!", "Still welcome. Behave."], source: "xeen/aaze0049:29"}
+  - {id: 4703, name: Tolliver, title: Smith of Arm and Hammer, profession: Smith, greet: ["Arm and Hammer: arms through this door, armour through the other. The hammers are also arms.", "What'll it be?"]}
+  - {id: 4704, name: Mother Terra, profession: Healer, greet: ["The earth heals all things, slowly. I do it faster, for a fee.", "Rest a while."]}
+  - {id: 4705, name: Brunhilde, title: Guildmistress, profession: Spell Master, greet: ["You folks look like you want membership in the Shangri-La Wizard's Guild. I'll put your name on the list. Membership is free here.", "Welcome back, members."], source: "xeen/aaze0049:0 (close)"}
+  - {id: 4706, name: Jack Alltrades, title: Master of Everything, profession: Teacher, teaches: [{skill: Learning, mastery: grandmaster}], greet: ["I will teach you everything. Well, learning. Learning is everything, if you think about it.", "Learned anything?"], source: "xeen/aaze0049:3 (close)"}
+  - {id: 4707, name: Librarian Wen, title: Keeper of the Public Library, profession: Scholar, teaches: [{skill: Meditation, mastery: grandmaster}], greet: ["Silence is the first lesson. You've already failed it. Sit.", "Shh."]}
+  - {id: 4708, name: Scholar Ilse, title: Reader in Fire, profession: Spell Master, teaches: [{skill: Fire Magic, mastery: grandmaster}], greet: ["Fire in a library. Yes, I know. That's why I'm very, very good at it.", "Mind the scrolls."]}
+  - {id: 4709, name: Brother Aldo, profession: Healer, teaches: [{skill: Body Magic, mastery: grandmaster}], greet: ["Every wound in the book, I've read about. Most of them I've healed.", "Page forty, I think."]}
+  - {id: 4710, name: Maurice, title: Know-it-All, profession: Scholar, talks: true, greet: ["I know things. Ask me. No, go on, ask me.", "I knew you'd be back."]}
+  - {id: 4711, name: Alexander, title: Hero, profession: Weapons Master, teaches: [{skill: Body Building, mastery: grandmaster}], greet: ["Bravery is mostly muscle. The rest is not thinking about it.", "Lift something."]}
+  - {id: 4712, name: Princess Pilar, profession: Noble, teaches: [{skill: Dodging, mastery: grandmaster}], greet: ["A princess learns to dodge early. Suitors, mostly.", "Duck."]}
+  - {id: 4713, name: Benedict, title: Prankster, profession: Instructor, teaches: [{skill: Unarmed, mastery: grandmaster}], greet: ["Smile. The intent expression you are wearing is being broadcast to millions from the hidden crystal in the wall.", "Still smiling?"], source: "xeen/aaze0049:14 (close: the camera in your monitor as a crystal in the wall)"}
+  - {id: 4714, name: Elona, title: Explorer, profession: Scout, teaches: [{skill: Bow, mastery: grandmaster}], greet: ["I've been everywhere on Xeen. Twice, on the flat bits.", "Back from somewhere?"]}
+  - {id: 4715, name: Murray, title: Snob, profession: Noble, teaches: [{skill: Staff, mastery: grandmaster}], greet: ["A staff is a walking stick with ambitions. Not unlike yourselves.", "Oh. You again."]}
+  - {id: 4716, name: Psychic Sally, title: Seer, profession: Psychic, talks: true, greet: ["I knew you were coming. I always know. It's very tiring.", "Yes, I know."]}
+  - {id: 4717, name: Martok, title: Wanderer, profession: Scout, teaches: [{skill: Dark Elf, mastery: grandmaster}], greet: ["The tavern in Shangri-La has the best tips. I wander here for them.", "Still wandering?"], source: "xeen/aaze0049:31"}
+  - {id: 4718, name: Stumpy, title: Talking Tree, profession: Mystic, house: none, place: "XD-17, rooted in the valley's orchard at (4608, -2304) (A5; monster row 11916, MM7's treant)", greet: ["If you have suffered magical aging, the druids can help you. Visit the Druid of Summer first.", "Rustle."], source: "xeen/aaze0049:6"}
+  - {id: 4719, name: Lacey, title: Unicorn, profession: Mystic, house: none, place: "XD-17, by the valley's well at (448, -384) (A5; monster row 11915, MM8's unicorn)", greet: ["The moons will align when you are able to visit the Darkside.", "The moons are fine."], source: "xeen/aaze0049:18"}

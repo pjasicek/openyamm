@@ -1,0 +1,330 @@
+format: 0
+themes:
+  - id: theme:rock
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: trim9_32, size: [32, 64], scale: 2}
+    notes: "The mine's raw rock: MM7 Nighon Tunnels (7d35) cwb1 on walls and roofs, cfb1 underfoot."
+  - id: theme:timbered
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: trim9_32a, size: [64, 32], scale: 2}
+    reveal: {texture: trim9_32, size: [32, 64]}
+    door: {texture: trim9_32, size: [32, 64], scale: 2}
+    notes: "Timbered drifts: 7d35's cwb1 rock under plank lagging (trim9_32a), timber jambs (trim9_32)."
+defaults: {theme: theme:rock, ambient: 15}
+rooms:
+  - id: room:adit
+    name: West adit
+    outline: [[-192, 0], [192, 0], [192, 896], [-192, 896]]
+    floor: 0
+    ceiling: 352
+    theme: theme:timbered
+    platforms:
+      - {at: [-180, 288], size: [24, 24], rise: 320, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [180, 288], size: [24, 24], rise: 320, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [-180, 608], size: [24, 24], rise: 320, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [180, 608], size: [24, 24], rise: 320, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[61, 48], [61, 840], [51, 840], [51, 48]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[-51, 48], [-51, 840], [-61, 840], [-61, 48]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+    beams:
+      - path: [[-192, 288], [192, 288]]
+        width: 24
+        depth: 24
+        bottom: 320
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+      - path: [[-192, 608], [192, 608]]
+        width: 24
+        depth: 24
+        bottom: 320
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+    ambient: 18
+    notes: "The timbered adit under the hill above the gemsmiths' row: the arrival. Two timber sets, the cart rails running in from the mouth (the exit, south) to the plank door into the gallery (north)."
+  - id: room:bones
+    name: Bone pocket
+    outline: [[768, 1024], [1408, 768], [1920, 768], [1920, 1408], [1408, 1664], [1280, 2080], [768, 2080], [640, 1536]]
+    floor: 0
+    floor_points: [[880, 1300, 64], [1024, 1856, 40]]
+    rough: {step: 192, depth: 32}
+    ceiling: 384
+    ceiling_points: [[1280, 1280, 448]]
+    theme: theme:rock
+    ambient: 13
+    notes: "A dead end where miners died: heaps of bones (one of them explodes) and their chest; open to the gallery north and the emerald gallery east."
+  - id: room:cobweb
+    name: Cobweb drift
+    outline: [[3584, 2176], [3968, 2048], [4608, 2048], [4864, 2304], [4992, 2816], [4736, 3200], [4096, 3264], [3584, 2944]]
+    floor: 0
+    floor_points: [[4352, 2496, 40], [3840, 2816, -24], [4608, 3008, 24]]
+    rough: {step: 192, depth: 32}
+    ceiling: 448
+    ceiling_points: [[4288, 2688, 576], [4608, 2880, 544]]
+    ceiling_surfaces:
+      - {steeper_than: 0.25, surface: {texture: xnweb, size: [128, 128]}}
+    theme: theme:rock
+    platforms:
+      - {id: platform:cocoon, rise: 0, surface: {texture: xnweb, size: [128, 128]}, outline: [[4704, 2624], [4784, 2600], [4856, 2656], [4840, 2744], [4760, 2768], [4696, 2712]], top_surface: {texture: xnweb, size: [128, 128]}, top_heights: [24, 40, 48, 44, 32, 20], notes: A miner cocooned in old web by the drift's east wall.}
+      - {id: platform:cocoon_2, rise: 0, surface: {texture: xnweb, size: [128, 128]}, outline: [[4160, 3120], [4256, 3104], [4320, 3152], [4296, 3200], [4192, 3208], [4144, 3168]], top_surface: {texture: xnweb, size: [128, 128]}, top_heights: [20, 36, 44, 40, 28, 18], notes: A second web-wrapped bundle by the north wall.}
+    ambient: 12
+    notes: "The queens' den: a drift choked with old web, the sump's plank door in its south wall."
+  - id: room:emerald
+    name: Emerald gallery
+    outline: [[2048, 640], [3072, 576], [3584, 960], [3584, 1600], [2560, 1536], [2048, 1280]]
+    floor: 0
+    floor_points: [[2816, 1216, 40], [2368, 1088, 24]]
+    rough: {step: 192, depth: 32}
+    ceiling: 512
+    ceiling_points: [[2816, 1088, 640], [2368, 960, 576]]
+    theme: theme:rock
+    walls:
+      - wall: 0
+        panels:
+          - {id: panel:emerald_1, offset: 160, length: 256, bottom: 16, height: 384, surface: {texture: xdvemrld, size: [128, 256], fit: true}, notes: "Emerald vein 1: one rock (q-d7.emerald_veins)."}
+          - {id: panel:emerald_2, offset: 640, length: 256, bottom: 16, height: 384, surface: {texture: xdvemrld, size: [128, 256], fit: true}, notes: "Emerald vein 2: one rock (q-d7.emerald_veins)."}
+      - wall: 1
+        panels:
+          - {id: panel:emerald_3, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvemrld, size: [128, 256], fit: true}, notes: "Emerald vein 3: one rock (q-d7.emerald_veins)."}
+      - wall: 3
+        panels:
+          - {id: panel:emerald_4, offset: 320, length: 256, bottom: 16, height: 384, surface: {texture: xdvemrld, size: [128, 256], fit: true}, notes: "Emerald vein 4: one rock (q-d7.emerald_veins)."}
+      - wall: 4
+        panels:
+          - {id: panel:emerald_5, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvemrld, size: [128, 256], fit: true}, notes: "Emerald vein 5: one rock (q-d7.emerald_veins)."}
+    platforms:
+      - {at: [2204, 702], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2168, 693], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2230, 737], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2476, 685], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2511, 671], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2454, 723], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2683, 672], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2647, 663], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2709, 707], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2955, 655], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2990, 641], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2933, 693], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3176, 744], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3154, 713], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3174, 787], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3394, 907], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3430, 919], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3353, 922], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3277, 1509], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3312, 1523], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3255, 1471], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3006, 1492], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2969, 1501], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [3032, 1457], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2458, 1404], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2485, 1431], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2452, 1361], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2215, 1283], size: [44, 44], rise: 152, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2177, 1277], size: [32, 32], rise: 100, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+      - {at: [2252, 1261], size: [28, 28], rise: 72, surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_surface: {texture: gcrysc1, size: [16, 32], scale: 5}, top_size: [8, 8], notes: Emerald crystal grown beside the vein.}
+    stalactites:
+      - {at: [3200, 1280], radius: 56, length: 176}
+    ambient: 15
+    notes: "A low winding gallery with five emerald veins (q-d7.emerald_veins); the sump's door east, the bone pocket open to the west."
+  - id: room:gallery
+    name: Timbered gallery
+    path: [[0, 1024], [0, 2432], [1536, 2432]]
+    width: 512
+    floor: 0
+    ceiling: 416
+    theme: theme:timbered
+    platforms:
+      - {at: [-244, 1280], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [244, 1280], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [-244, 1664], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [244, 1664], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [-244, 2048], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [244, 2048], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [448, 2188], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [448, 2676], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [1344, 2188], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [1344, 2676], size: [24, 24], rise: 384, surface: {texture: trim9_32, size: [32, 64]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: Timber set post}
+      - {at: [800, 2600], size: [160, 80], rise: 24, facing: 0, surface: {texture: trim9_32a, size: [64, 32]}, top_surface: {texture: trim9_32a, size: [64, 32]}, notes: The cart's chassis}
+      - {id: platform:cart, at: [800, 2600], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: cfb1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: An old ore cart pushed off the rails against the gallery's wall.}
+      - {at: [740, 2534], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [740, 2666], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [860, 2534], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {at: [860, 2666], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[61, 1040], [61, 2370], [51, 2370], [51, 1040]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[-51, 1040], [-51, 2370], [-61, 2370], [-61, 1040]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[62, 2371], [1500, 2371], [1500, 2381], [62, 2381]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+      - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[62, 2483], [1500, 2483], [1500, 2493], [62, 2493]], top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Rail}
+    beams:
+      - path: [[-256, 1280], [256, 1280]]
+        width: 24
+        depth: 24
+        bottom: 384
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+      - path: [[-256, 1664], [256, 1664]]
+        width: 24
+        depth: 24
+        bottom: 384
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+      - path: [[-256, 2048], [256, 2048]]
+        width: 24
+        depth: 24
+        bottom: 384
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+      - path: [[448, 2176], [448, 2688]]
+        width: 24
+        depth: 24
+        bottom: 384
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+      - path: [[1344, 2176], [1344, 2688]]
+        width: 24
+        depth: 24
+        bottom: 384
+        surface: {texture: trim9_32a, size: [64, 32]}
+        notes: Timber set cap
+    ambient: 15
+    notes: "A timbered gallery north from the adit's door, then east to the ruby stope: props and lagging, the rails run on to the ruby stope, an old cart against the north wall; the bone pocket opens off its south side."
+  - id: room:ruby
+    name: Ruby stope
+    outline: [[1664, 2112], [2048, 1856], [2816, 1792], [3328, 2048], [3456, 2304], [3456, 2816], [3328, 3072], [2816, 3328], [2176, 3328], [1664, 2944]]
+    floor: 0
+    floor_points: [[2560, 2880, 48], [3200, 2560, 32], [2240, 2560, 24]]
+    rough: {step: 192, depth: 32}
+    ceiling: 576
+    ceiling_points: [[2560, 2560, 832], [2304, 2944, 704], [3072, 2304, 704]]
+    theme: theme:rock
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:ruby_1, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvruby, size: [128, 256], fit: true}, notes: "Ruby vein 1: one rock (q-d7.ruby_veins)."}
+      - wall: 2
+        panels:
+          - {id: panel:ruby_2, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvruby, size: [128, 256], fit: true}, notes: "Ruby vein 2: one rock (q-d7.ruby_veins)."}
+      - wall: 6
+        panels:
+          - {id: panel:ruby_3, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvruby, size: [128, 256], fit: true}, notes: "Ruby vein 3: one rock (q-d7.ruby_veins)."}
+      - wall: 7
+        panels:
+          - {id: panel:ruby_4, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvruby, size: [128, 256], fit: true}, notes: "Ruby vein 4: one rock (q-d7.ruby_veins)."}
+      - wall: 8
+        panels:
+          - {id: panel:ruby_5, at: centre, length: 256, bottom: 16, height: 384, surface: {texture: xdvruby, size: [128, 256], fit: true}, notes: "Ruby vein 5: one rock (q-d7.ruby_veins)."}
+    pillars:
+      - {surface: {texture: cwb1, size: [128, 256]}, outline: [[2560, 2432], [2720, 2400], [2784, 2560], [2688, 2688], [2560, 2624]], notes: A rock pillar the miners left to hold the stope's roof.}
+    platforms:
+      - {at: [2302, 1907], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2266, 1898], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2329, 1941], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2574, 1884], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2608, 1870], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2553, 1922], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2918, 1924], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2891, 1897], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2924, 1967], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3161, 2045], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3199, 2051], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3124, 2067], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3161, 3075], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3199, 3069], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [3124, 3053], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2918, 3196], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2891, 3223], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2924, 3153], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2632, 3256], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2668, 3268], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2608, 3220], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2360, 3256], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2324, 3268], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2384, 3220], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2072, 3160], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2094, 3191], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [2074, 3117], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [1854, 2997], size: [44, 44], rise: 152, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [1818, 2985], size: [32, 32], rise: 100, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+      - {at: [1895, 2982], size: [28, 28], rise: 72, surface: {texture: gcryswal, size: [256, 256]}, top_surface: {texture: gcryswal, size: [256, 256]}, top_size: [8, 8], notes: Ruby crystal grown beside the vein.}
+    stalactites:
+      - {at: [2240, 2240], radius: 64, length: 192}
+      - {at: [3104, 2880], radius: 72, length: 224}
+    ambient: 16
+    notes: "A worked-out stope about 1,800 by 1,500 round a rock pillar, its roof high in the middle: five ruby veins in its walls (q-d7.ruby_veins), one rock each."
+  - id: room:sump
+    name: Sump
+    outline: [[3840, 1024], [4608, 960], [4864, 1344], [4736, 1920], [3840, 1920], [3712, 1792], [3712, 1152]]
+    floor: 0
+    floor_points: [[3904, 1472, 32], [4096, 1824, 24], [4224, 1216, 0], [4608, 1152, 0], [4704, 1408, 0], [4608, 1664, 0], [4288, 1664, 0], [4192, 1408, 0]]
+    floor_lines:
+      - [[4224, 1216], [4608, 1152], [4704, 1408], [4608, 1664], [4288, 1664], [4192, 1408], [4224, 1216]]
+    rough: {step: 192, depth: 24}
+    ceiling: 384
+    ceiling_points: [[4352, 1472, 448]]
+    theme: theme:rock
+    levels:
+      - id: level:sump_pool
+        outline: [[4224, 1216], [4608, 1152], [4704, 1408], [4608, 1664], [4288, 1664], [4192, 1408]]
+        floor: -32
+        edge: {texture: cwb1, size: [128, 256]}
+        surface: {texture: 7wtrtyl, size: [128, 128], liquid: water}
+        notes: Standing water where the mine drains.
+    ambient: 13
+    notes: "Where the west pocket drains: a pool of standing water and the miners' strongbox; plank doors north (the cobweb drift) and west (the emerald gallery)."
+openings:
+  - id: open:adit_gallery
+    from: room:adit
+    to: room:gallery
+    link: link:a1
+    width: 224
+    height: 320
+    notes: The adit's plank door.
+  - id: open:bones_gallery
+    from: room:bones
+    to: room:gallery
+    from_wall: 5
+    link: link:a7
+    width: 384
+    height: 320
+  - id: open:cobweb_sump
+    from: room:cobweb
+    to: room:sump
+    from_wall: 1
+    to_wall: 3
+    link: link:a4
+    width: 224
+    height: 320
+    notes: The sump's plank door.
+  - id: open:emerald_bones
+    from: room:emerald
+    to: room:bones
+    from_wall: 5
+    to_wall: 2
+    link: link:a6
+    width: 384
+    height: 352
+  - id: open:gallery_ruby
+    from: room:gallery
+    to: room:ruby
+    link: link:a2
+    width: 384
+    height: 352
+  - id: open:ruby_cobweb
+    from: room:ruby
+    to: room:cobweb
+    from_wall: 4
+    link: link:a3
+    width: 384
+    height: 352
+  - id: open:sump_emerald
+    from: room:sump
+    to: room:emerald
+    from_wall: 5
+    to_wall: 2
+    link: link:a5
+    width: 224
+    height: 320
+    notes: The emerald gallery's plank door.
+notes: "DD-10A at L3/L4: seven rooms in the plan's frame (x east, y north, the adit's mouth at y 0). Written by output/studio_cal/dd10a/tools/gen.py with tools/mine.py."

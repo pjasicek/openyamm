@@ -1,0 +1,446 @@
+# Playtest of the Temple of Bark (DD-09, L4): the critical path through every mechanism, the boss, the hooks.
+# A level-24 party arrives inside the trunk door (the arrival window), walks into the Hall of the Trunk (A3's voice),
+# goes down the root stair: the west and east root alcoves take a gem each and give an Energy Disk (q-d10.root_west,
+# root_east; a second feeding is refused); the sap store's black barrel (Yes: +1 to all seven stats and one year of
+# age, once per character), its ledger and chest; the pens: Nathan's cage is locked, the pen lever ("You hear a
+# rumbling in the distance.") opens the four cages, Nathan and Sky thank the party (A3's topics, 500 XP). Up again, the
+# Chapel of Sap's red and blue flasks (+2 Might, +2 Personality, once per character) and a book; through the guardroom
+# and up the orcs' back stair to the cell row; a save and a reload inside the map: the four prisoners are still there
+# and Snog and Alicia thank the party (session 6: hidden on re-entry only). Shaalth's hall: the cage refuses while Shaalth lives; Shaalth dies
+# (q-d10.shaalth), the cage opens (q-d10.cage), Sheewana's topic Home frees her and she is gone; his hoard. The tea room:
+# the kettle's invitation, "Drink?", Yes poisons. The Chapel of Ascension: the Crystal Water is stagnant, the lever with
+# wrong dials does nothing, the Dark Water poisons and takes about a tenth of HP (not the last), the Book, the dials
+# turned to west 1, north 2, east 3, the lever, the Crystal Water (disciples, award 418); the vault refuses before and
+# opens after. Then the limbs: Barkman hidden; a limb alcove takes a gem and shows him; still shown after a save and a
+# reload; his chest is bound while he lives and opens after; the treasure room and a crown fountain (+5 Fire to the
+# drinker, once per character: a second drink "You have had your fill." and nothing more, D-37). Last, out by the trunk
+# door to D2 and back in: the four prisoners are gone, their cages empty (the next entry).
+# Numbers are ids.lock.yml's (events, doors, map variables). Run with --world xeen --map xeen_dd09.blv
+# (output/studio_cal/dd09/four.sh).
+id: xeen.dd09.l4.walk
+title: Temple of Bark (DD-09 L4), the roots, the prisoners, Shaalth and Sheewana, the Disciples, Barkman
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd09.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+  - assert: {map: xeen_dd09.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE TEMPLE OF BARK"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117120) then error('arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: -1920, radius: 64, z_min: -8, z_max: 8}}
+  # The Hall of the Trunk: the voice from the wood.
+  # (the walk closes the voice's window as it opens: voice_heard says it ran)
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 15, value: 1}}
+  # Down the root stair to the root cellar.
+  - walk_to: {x: -1000, y: -128, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3456, y: -128, z: -512, z_tolerance: 120, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3900, y: -128, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  - grant_item: {item_id: 180, member_index: 1}
+  # The west root alcove: one gem, one Energy Disk; then "The root is fed."
+  - walk_to: {x: -5300, y: 0, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -6300, y: 0, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Feed me! Give gem?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The bark parts on an Energy Disc]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        local disks = item_count(12334) + (held() == 12334 and 1 or 0)
+        if disks ~= 1 then error("the west root gave " .. disks .. " disks; held " .. tostring(held()) .. " packs " .. tostring(pack_items())) end
+        if item_count(180) ~= 2 then error("the west root took " .. (3 - item_count(180)) .. " gems") end
+        if not qbit(113210) then error("root_west not set") end
+        click(51); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The root is fed.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) + (held() == 12334 and 1 or 0) ~= 1 then error('a second feeding gave another disk') end"}
+  # The east root alcove.
+  - walk_to: {x: -5300, y: 0, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -4480, y: 700, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -4480, y: 1500, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(50); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The bark parts on an Energy Disc]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); local d = item_count(12334) + (held() == 12334 and 1 or 0); if d < 2 then error('two disks expected, not ' .. d .. ' (held ' .. held() .. ')') end; if not qbit(113211) then error('root_east not set') end"}
+  # The sap store: the black barrel (+1 to all seven stats, a year of age, once per character), the ledger, the chest.
+  - walk_to: {x: -4480, y: 700, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -4544, y: -900, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 4)"}
+  - walk_to: {x: -4544, y: -1700, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - lua_event:
+      source: |
+        for _, stat in ipairs({BaseMight, BaseIntellect, BasePersonality, BaseEndurance, BaseSpeed, BaseAccuracy, BaseLuck}) do
+            SetValue(stat, 10)
+        end
+        local a = 0
+        for v = 1, 250 do if IsAtLeast(Age, v) then a = v end end
+        if a < 1 then error("no age read") end
+        SetValue(MapVar(40), a)
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Danger: Unpredictable Effects."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "suffered a little magical aging"}}
+  - play_lua: {source: "close()"}
+  - lua_event:
+      source: |
+        for i, stat in ipairs({BaseMight, BaseIntellect, BasePersonality, BaseEndurance, BaseSpeed, BaseAccuracy, BaseLuck}) do
+            if not IsAtLeast(stat, 11) or IsAtLeast(stat, 12) then error("stat " .. i .. " is not 11") end
+        end
+        local a = 0
+        for v = 1, 250 do if IsAtLeast(Age, v) then a = v end end
+        if not IsAtLeast(MapVar(40), a - 1) or IsAtLeast(MapVar(40), a) then error("the barrel did not add one year of age: now " .. a) end
+  - play_lua:
+      source: |
+        status()
+        click(4); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "done all it will do", 1, true) then error("a second drink said: " .. seen) end
+        click(39); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "55 magic skulls"}}
+  - play_lua: {source: "close(); loot_chest(14); close()"}
+  # The pens: the cages are locked; the lever opens all four; Nathan and Sky thank the party.
+  - walk_to: {x: -5250, y: -1920, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -6100, y: -1920, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status()
+        click(45); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Locked.", 1, true) then error("the locked cage said: " .. seen) end
+        if door_state(11) ~= "closed" then error("Nathan's gate is not shut: " .. door_state(11)) end
+        status()
+        click(43); wait(3)
+        seen = status()
+        if not string.find(seen, "You hear a rumbling in the distance.", 1, true) then error("the pen lever said: " .. seen) end
+        if door_state(11) ~= "open" then error("Nathan's gate did not open: " .. door_state(11)) end
+        if door_state(13) ~= "open" then error("Snog's gate did not open: " .. door_state(13)) end
+        if not qbit(117121) then error("prisoners_freed not set") end
+        click(45); wait(1)
+  - select_topic: {match_label: Thanks}
+  - assert: {dialog: {text_contains: "Orcs can't jump"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113212]}
+  - play_lua: {source: "click(46); wait(1)"}
+  - select_topic: {match_label: Thanks}
+  - assert: {dialog: {text_contains: "seen the sun in days"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113213]}
+  # Back up to the hall, the Chapel of Sap: the flasks once per character, a book.
+  - walk_to: {x: -6272, y: -900, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -6272, y: 0, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -5300, y: 0, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3800, y: -128, z: -512, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1500, y: -128, z: 0, z_tolerance: 120, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - lua_event: {source: "SetValue(BaseMight, 10); SetValue(BasePersonality, 10)"}
+  - play_lua:
+      source: |
+        status()
+        click(49); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "+2 Might (permanent).", 1, true) then error("the red flask said: " .. seen) end
+        status()
+        click(49); wait(0.5)
+        seen = status()
+        if not string.find(seen, "empty for you", 1, true) then error("a second red flask said: " .. seen) end
+        status()
+        click(5); wait(0.5)
+        seen = status()
+        if not string.find(seen, "+2 Personality (permanent).", 1, true) then error("the blue flask said: " .. seen) end
+  - lua_event: {source: "if not IsAtLeast(BaseMight, 12) or IsAtLeast(BaseMight, 13) then error('Might is not 12') end; if not IsAtLeast(BasePersonality, 12) or IsAtLeast(BasePersonality, 13) then error('Personality is not 12') end"}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the Bark the Moo"}}
+  - play_lua: {source: "close()"}
+  # The guardroom and the orcs' back stair up to the cell row: Snog and Alicia.
+  - walk_to: {x: 1100, y: 2112, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 1)"}
+  - walk_to: {x: 1700, y: 2112, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3100, y: 2304, z: 0, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5504, y: 2304, z: 640, z_tolerance: 120, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5900, y: 2304, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  # A save and a load inside the visit: the freed prisoners stay (they go only on the next entry), and still thank.
+  - play_lua: {source: "close()"}
+  - save_game: {name: dd09_freed}
+  - load_game: {name: dd09_freed}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_map_var: {index: 12, value: 0}}
+  - assert: {state_dump_map_var: {index: 16, value: 1}}
+  - assert: {actor_count: {monster_id: 11044, hostile: false, min: 1}}
+  - assert: {actor_count: {monster_id: 11902, hostile: false, min: 1}}
+  - assert: {actor_count: {monster_id: 11903, hostile: false, min: 1}}
+  - assert: {actor_count: {monster_id: 11904, hostile: false, min: 1}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11904, hidden: false}}
+  - assert: {actor_visible: {actor_index: 30, monster_id: 11902, hidden: false}}
+  - assert: {actor_visible: {actor_index: 52, monster_id: 11903, hidden: false}}
+  - assert: {actor_visible: {actor_index: 53, monster_id: 11044, hidden: false}}
+  - play_lua: {source: "click(47); wait(1)"}
+  - select_topic: {match_label: Thanks}
+  - assert: {dialog: {text_contains: "refusing to do evil"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "click(44); wait(1)"}
+  - select_topic: {match_label: Thanks}
+  - assert: {dialog: {text_contains: "his tea is poisonous"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113214, 113215]}
+  - play_lua: {source: "close()"}
+  # Shaalth's hall: the cage refuses while he lives; his death; the cage; Sheewana goes home.
+  - walk_to: {x: 6528, y: 1900, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 6528, y: 1300, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "locked. The princess inside waves politely"}}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [113204]}
+  - play_lua: {source: "close(); click(11); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Shaalth's key turns in the cage lock"}}
+  - play_lua: {source: "close(); wait(4); if door_state(9) ~= 'open' then error('the cage did not open: ' .. door_state(9)) end; if not qbit(113205) then error('cage_opened not set') end; click(11); wait(1)"}
+  - select_topic: {match_label: Home}
+  - assert: {dialog: {text_contains: "Thank you for freeing me"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113206]}
+  - advance_runtime: {seconds: 2}
+  - assert: {state_dump_map_var: {index: 14, value: 1}}
+  - play_lua: {source: "close(); click(11); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "open and empty"}}
+  - play_lua: {source: "close(); loot_chest(15); close()"}
+  # The tea room: the kettle.
+  - walk_to: {x: 8500, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(29, 5)"}
+  - walk_to: {x: 9100, y: 0, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(38); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "cup of tea"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the Orcs won it"}}
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(PoisonedGreen, 1) then error('the tea did not poison') end"}
+  # The Chapel of Ascension.
+  - walk_to: {x: 10200, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 6)"}
+  - walk_to: {x: 10900, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(18); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The water is stagnant.", 1, true) then error("the Crystal Water before the lever said: " .. seen) end
+        status()
+        click(2); wait(0.5)
+        seen = status()
+        if not string.find(seen, "Nothing happens.", 1, true) then error("the lever with wrong dials said: " .. seen) end
+        status()
+        click(32); wait(0.5)
+        seen = status()
+        if not string.find(seen, "Disciples of Bark ONLY!", 1, true) then error("the vault door said: " .. seen) end
+        if door_state(8) ~= "closed" then error("the vault door opened: " .. door_state(8)) end
+        if door_state(16) ~= "closed" then error("the vault's right leaf opened: " .. door_state(16)) end
+  # The Dark Water: poisoned, about a tenth of HP, never the last.
+  - setup_shortcut: {kind: immortal, value: false}
+  - lua_event:
+      source: |
+        SetValue(PoisonedGreen, 0)
+        SetValue(CurrentHealth, 5000)
+        local now, step = 0, 4096
+        while step >= 1 do
+            if IsAtLeast(CurrentHealth, now + step) then now = now + step end
+            step = math.floor(step / 2)
+        end
+        if now < 50 then error("the drinker has only " .. now .. " hit points") end
+        SetValue(MapVar(41), math.floor(now / 16))
+  - assert: {party_health: {full: true}}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[burns your throat]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); log('after the Dark Water ' .. party())"}
+  - assert: {party_health: {full: false}}
+  - lua_event:
+      source: |
+        local before = 0
+        for v = 1, 255 do if IsAtLeast(MapVar(41), v) then before = v end end
+        before = before * 16
+        if IsAtLeast(CurrentHealth, before + 16) then error("the Dark Water took no hit points") end
+        if not IsAtLeast(CurrentHealth, math.floor(before * 0.85)) then error("the Dark Water took more than about a tenth of " .. before) end
+        if not IsAtLeast(PoisonedGreen, 1) then error("the Dark Water did not poison") end
+        if not IsAtLeast(CurrentHealth, 1) then error("the Dark Water killed") end
+  - setup_shortcut: {kind: immortal, value: true}
+  # The Book, the dials (west 1, north 2, east 3), the lever, the Crystal Water; the vault.
+  - play_lua: {source: "click(6); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "drink of the Crystal Water"}}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Dial reads 1. Turn?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Dial reads 2. Turn?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); click(23); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Dial reads 1. Turn?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {state_dump_map_var: {index: 1, value: 0}}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - assert: {state_dump_map_var: {index: 3, value: 2}}
+  - play_lua: {source: "click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the water runs clear"}}
+  - play_lua: {source: "close(); click(18); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You are hereby dubbed a Disciple of Bark!"}}
+  - play_lua: {source: "close()"}
+  - assert: {qbit_set: [113216]}
+  - walk_to: {x: 12100, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(32, 8); wait(2); if door_state(8) ~= 'open' then error('the vault did not open: ' .. door_state(8)) end; if door_state(16) ~= 'open' then error('the vault right leaf did not open: ' .. door_state(16)) end"}
+  - walk_to: {x: 12750, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(17); close()"}
+  # Up into the limbs: Barkman hidden until a limb alcove takes a gem.
+  - walk_to: {x: 10900, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 8500, y: 0, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 6100, y: -896, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 3)"}
+  - walk_to: {x: 4992, y: -896, z: 640, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4992, y: -1500, z: 640, z_tolerance: 60, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4992, y: -3584, z: 1280, z_tolerance: 120, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4992, y: -4096, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5900, y: -4096, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 6000}
+  - console: {line: "actor remaining", expect_contains: "hidden"}
+  - assert: {state_dump_map_var: {index: 6, value: 0}}
+  - walk_to: {x: 8800, y: -4000, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063}) do n = n + item_count(id) end; if held() >= 177 and held() <= 186 then n = n + 1 end; return n end; remember('gems', gems()); click(40); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Feed me! Give gem?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "very large and very wooden wakes up"}}
+  - play_lua: {source: "local function gems() local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997, 998, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063}) do n = n + item_count(id) end; if held() >= 177 and held() <= 186 then n = n + 1 end; return n end; close(); if gems() ~= tonumber(recall('gems')) - 1 then error('the limb took ' .. (tonumber(recall('gems')) - gems()) .. ' gems') end"}
+  - advance_runtime: {seconds: 2}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - console: {line: "actor remaining", expect_not_contains: "hidden"}
+  - assert: {actor_count: {monster_id: 11633, hostile: true, min: 1}}
+  - save_game: {name: dd09_barkman}
+  - load_game: {name: dd09_barkman}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "actor remaining", expect_not_contains: "hidden"}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  # His chest is bound while he lives.
+  - play_lua:
+      source: |
+        close()
+        status()
+        click(13); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "binds the lid of the chest shut", 1, true) then error("the bound chest said: " .. seen) end
+        close()
+  - clear_hostiles: {radius: 8000}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11633, max: 0}}
+  - play_lua: {source: "close(); loot_chest(13); close()"}
+  # The fruit rooms, the crown's fire fountain, the treasure room.
+  - walk_to: {x: 9300, y: -4096, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 10300, y: -4064, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 11700, y: -4064, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - lua_event:
+      source: |
+        evt.ForPlayer(Players.Current)
+        local r = 0
+        for v = 1, 250 do if IsAtLeast(FireResistance, v) then r = v end end
+        SetValue(MapVar(40), r)
+  - play_lua: {source: "click(36); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Fire resistance', 1, true) then error('no line: ' .. s) end"}
+  - lua_event:
+      source: |
+        evt.ForPlayer(Players.Current)
+        local r = 0
+        for v = 1, 250 do if IsAtLeast(FireResistance, v) then r = v end end
+        if not IsAtLeast(MapVar(40), r - 5) or IsAtLeast(MapVar(40), r - 4) then error("the fire fountain did not add 5: now " .. r) end
+        if not IsPlayerBitSet(PlayerBit(11306)) then error("player bit 11306 not set") end
+        SetValue(MapVar(40), r)
+  - play_lua:
+      source: |
+        status()
+        click(36); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "You have had your fill.", 1, true) then error("a second drink said: " .. seen) end
+        if qbit(117122) then error("the retired map qbit 117122 was set") end
+  - lua_event:
+      source: |
+        evt.ForPlayer(Players.Current)
+        local r = 0
+        for v = 1, 250 do if IsAtLeast(FireResistance, v) then r = v end end
+        if not IsAtLeast(MapVar(40), r) or IsAtLeast(MapVar(40), r + 1) then error("a second drink changed fire resistance: now " .. r) end
+  - walk_to: {x: 11500, y: -5120, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 7)"}
+  - walk_to: {x: 10600, y: -5120, z: 1280, radius: 64, clear_hostiles: 2000, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(16); close()"}
+  - assert: {map: xeen_dd09.blv}
+  # Out by the trunk door to D2 and in again by D2's door (its move): the next entry hides the freed prisoners.
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - lua_event: {source: "evt.MoveToMap(0, -1920, 0, 512, 0, 0, 0, 0, \"xeen_dd09.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd09.blv}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_map_var: {index: 12, value: 1}}
+  # actor_count counts hidden actors too: the four bodies (scene actors 0 Alicia, 30 Nathan, 52 Sky, 53 Snog) hidden.
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11904, hidden: true}}
+  - assert: {actor_visible: {actor_index: 30, monster_id: 11902, hidden: true}}
+  - assert: {actor_visible: {actor_index: 52, monster_id: 11903, hidden: true}}
+  - assert: {actor_visible: {actor_index: 53, monster_id: 11044, hidden: true}}
+  - play_lua:
+      source: |
+        close()
+        status()
+        click(47); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The cage is empty.", 1, true) then error("Snog's empty cell said: " .. seen) end

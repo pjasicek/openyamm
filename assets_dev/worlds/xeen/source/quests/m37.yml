@@ -1,0 +1,80 @@
+# M37 The Reflectors (QUESTS M37; Act VI). Owner: A3. The four Ancient machines on the world's rim at Cloudside's
+# corners, each guarded (the map lanes' fights): Air on X6 (north-west), Fire on X7 (north-east), Earth on X5
+# (south-west), Water on X1 (south-east) (research MM4 3a: the Air and Earth corners named in the source's map; MAPS'
+# sheets). The source's prompt "Reflector. Activate?" and answer "The Reflector hums quietly." (xeen/aaze0001:17-18).
+# The source switches them on at any time; here they wake only after the Pharaoh's checklist (m36.started), so a low
+# party on X1 meets a silent machine. The sleepers (M38) read all four bits.
+id: M37
+title: The Reflectors
+act: VI
+kind: main
+status: full
+giver: 5453          # The Dragon Pharaoh (M36's checklist)
+maps: [X1, X5, X6, X7]
+level: 56
+block: 37
+after: [m36.started]
+source: "QUESTS M37; xeen/aaze0001:17-18, aaze0004:0-1, aaze0021:0, aaze0024:1"
+
+qbits:
+  air: {id: 111740, note: "X6's north-west rim (A5, event 43)",
+       journal: "The Dragon Pharaoh wants the Air Reflector at the north-west corner of the Desert of the Sphinx turned on.",
+       journal_while: [m36.started], until: [air]}
+  fire: {id: 111741, note: "X7's north-east rim (A5, event 37)",
+        journal: "The Dragon Pharaoh wants the Fire Reflector at the north-east corner of Mount Firestone turned on.",
+        journal_while: [m36.started], until: [fire]}
+  earth: {id: 111742, note: "X5's south-west rim (A6, event 119)",
+         journal: "The Dragon Pharaoh wants the Earth Reflector at the south-west corner of Winterkill Tundra turned on.",
+         journal_while: [m36.started], until: [earth]}
+  water: {id: 111743, note: "X1's south-east rim (A5, event 79)",
+         journal: "The Dragon Pharaoh wants the Water Reflector at the south-east corner of Vertigo Meadows turned on.",
+         journal_while: [m36.started], until: [water]}
+
+hooks:
+  reflector_air:
+    map: X6
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Air Reflector on the north-west rim corner (prompt 'Reflector. Activate?'; Yes calls the hook)"
+    requires: {qbit: m36.started}
+    sets: [air]
+    once: true
+    do: [{xp: 8000}]
+    text: "The Reflector hums quietly. Somewhere far to the south, something answers it."
+    fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
+    else_text: "The Reflector hums quietly."
+  reflector_fire:
+    map: X7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Fire Reflector on the north-east rim corner (prompt 'Reflector. Activate?')"
+    requires: {qbit: m36.started}
+    sets: [fire]
+    once: true
+    do: [{xp: 8000}]
+    text: "The Reflector hums quietly. The heat of the mountain seems to lean towards it."
+    fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
+    else_text: "The Reflector hums quietly."
+  reflector_earth:
+    map: X5
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Earth Reflector on the south-west rim corner, in the Land of the Giants (prompt 'Reflector. Activate?')"
+    requires: {qbit: m36.started}
+    sets: [earth]
+    once: true
+    do: [{xp: 8000}]
+    text: "The Reflector hums quietly. The snow on its housing slides off in one sheet."
+    fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
+    else_text: "The Reflector hums quietly."
+  reflector_water:
+    map: X1
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Water Reflector on the south-east rim corner (prompt 'Reflector. Activate?')"
+    requires: {qbit: m36.started}
+    sets: [water]
+    once: true
+    do: [{xp: 8000}]
+    text: "The Reflector hums quietly. The creek beside it runs backwards for a moment, then thinks better of it."
+    fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
+    else_text: "The Reflector hums quietly."
+
+rewards: {xp: 32000, gold: 0}
+playthrough: "X1, X5, X6, X7: each corner's Reflector (Activate)."

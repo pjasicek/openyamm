@@ -1,0 +1,109 @@
+# M25 Ambrose's griffin (QUESTS M25; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Ambrose, the Queen's Knight, camps at Griffin Pass (D6's south edge) with a griffin he caught; he asks who sent the
+# party (Dimitri, who says so in M24). The griffin will not bear a plain bridle: Natasha the Enchantress in Sandcaster
+# (needs the Sandcaster pass, Q-D8) enchants it for a fee. With the enchanted bridle Ambrose flies the party onto Castle
+# Blackfang's walls (M27), the only way in. Ambrose is 5512 (A4, D6's Griffin Pass; not Old Ambrose 4218 of
+# Nightshadow).
+id: M25
+title: The Griffin
+act: IV
+kind: main
+status: full
+giver: 5512
+maps: [D6, D3, D4, DD-14]
+level: 40
+block: 25
+after: [m24.done]
+source: "QUESTS M25; dark research 1 (steps 11-13): \"Who sent you?\" (Dimitri), the bridle, Natasha"
+
+qbits:
+  started: {id: 111500, journal: "Dimitri sends you to Ambrose, the Queen's Knight, at Griffin Pass on the south edge of the Forbidden Zone.",
+            until: [bridle_given]}
+  bridle_given: {id: 111501, journal: "Ambrose's griffin will not bear a plain bridle. Natasha the Enchantress, in Sandcaster, enchants things for a fee.",
+                 until: [enchanted]}
+  enchanted: {id: 111502, journal: "Natasha enchanted the bridle. Ambrose waits at Griffin Pass.", until: [done]}
+  done: {id: 111503, journal: "Ambrose's griffin will carry you onto the walls of Castle Blackfang, on Lakeside's north shore.",
+         until: [m27.blackfang_slain]}
+
+autonotes:
+  griffin: {id: 4125, text: "Ambrose, the Queen's Knight, flies to Castle Blackfang from Griffin Pass (the Forbidden Zone's south edge). Castle Blackfang has no other way in.", category: Misc}
+
+items:
+  bridle: "Ambrose gives it; Natasha takes it"
+  enchanted_bridle: "Natasha gives it; Ambrose takes it"
+
+npcs:
+  5218:              # Natasha the Enchantress (Sandcaster, house 4619)
+    topics:
+      - n: 1
+        label: The bridle
+        show: {any: [{item: bridle}, {qbit: enchanted}]}
+        states:
+          - when: {qbit: enchanted}
+            text: "If the griffin bites, that is the griffin's business, not the bridle's. No refunds."
+          - when: {gold: 5000}
+            text: "A griffin's bridle. Double fee, as the sign says: five thousand. ... There. It hums when a griffin is near, and the griffin hums back. Mostly."
+            do: [{pay: 5000}, {take: bridle}, {give: enchanted_bridle}, {set: enchanted}]
+          - text: "A griffin's bridle? Five thousand gold. Griffins are a specialty, and specialties cost extra."
+
+  5512:              # Ambrose, the Queen's Knight (Griffin Pass, D6)
+    topics:
+      - n: 2
+        label: Who sent you?
+        show: {all: [{qbit: started}, {not: {qbit: bridle_given}}]}
+        text: "Dimitri? Then the old bear is awake again. Good. I caught a griffin to fly into Blackfang, and the beast will not take a bridle. An enchanted one, it might. Natasha in Sandcaster could do it. Here is the bridle."
+        do: [{give: bridle}, {set: bridle_given}]
+      - n: 3
+        label: The griffin
+        show: {all: [{qbit: bridle_given}, {not: {lua: "Xeen.onMap(\"Castle Blackfang\")"}}]}   # D6; DD-14 has m27's topic
+        states:
+          - when: {qbit: done}
+            text: "The griffin is fed and grumpy. Say the word, and we fly to Blackfang."
+          - when: {item: enchanted_bridle}
+            text: "It took it! Look at him, calm as a cart horse. Blackfang has no gate that opens to the living, but it has walls, and walls have tops. When you are ready, we fly. And take this, from the Queen's own purse; she would want it spent on her rescue."
+            do: [{take: enchanted_bridle}, {set: done}, {autonote: griffin}, {xp: 5000}, {gold: 4000}]
+          - text: "The griffin still bites anything that looks like leather. Natasha, in Sandcaster."
+      - n: 4
+        label: Fly to Blackfang
+        show: {all: [{qbit: done}, {not: {lua: "Xeen.onMap(\"Castle Blackfang\")"}}]}
+        text: "Hold on to something that isn't the griffin."
+        do: [{lua: "XeenQuests.hook(\"m25.flight\")"}]
+
+hooks:
+  flight:
+    map: D6
+    where: "Ambrose's flight from Griffin Pass: his topic (Fly to Blackfang) calls it and the hook moves the party to DD-14's landing, entrance:d6_griffin (0, -1472, 1280) facing 512 (A8, installed; D-42: from then on he waits on the walls and flies both ways). A status line: the move follows at once"
+    requires: {qbit: done}
+    reads: [done]
+    status: true
+    do: [{lua: "evt.MoveToMap(0, -1472, 1280, 512, 0, 0, 0, 0, \"xeen_dd14.blv\", {direct = true})"}]
+    text: "The griffin drops you on Castle Blackfang's walls. Ambrose sets it down beside you and waits."
+  camp_gone:
+    map: D6
+    where: "D6's load event (D-49 change 6): once the griffin will fly (done), the map hides Ambrose (5512) and his tethered griffin at Griffin Pass (the tent and the cold fire stay); it asks XeenQuests.can(\"m25.camp_gone\") and hides them when true. From then on he waits on Blackfang's walls and at D4's gate (gate_flight)"
+    requires: {qbit: done}
+    reads: [done]
+  blackfang_gate:
+    map: D4
+    where: "Castle Blackfang's gate on Lakeside's north shore: never opens (the map's door text)"
+    text: "Iron, black, and no handle on this side. Castle Blackfang does not take visitors on foot."
+  gate_flight:
+    map: D4
+    entrance: DD-14
+    sealed: "the griffin flight is M25's beat; the castle on the crag is the story"
+    where: "Castle Blackfang's gate on Lakeside's north shore once Ambrose has flown the party in (done; D-42 Q1): the gate calls XeenQuests.can(\"m25.gate_flight\"); true: the map asks dark/aaze0021:9, \"Hello again, Adventurers. Would you like my griffin to fly you inside?\", and Yes calls this and moves the party to DD-14's entrance:d4_griffin (0, -1472, 1280) facing 512 (A8); false: blackfang_gate's text. The gate itself never opens"
+    requires: {qbit: done}
+    reads: [done]
+    status: true
+    text: "The griffin lifts you over the walls and sets you down on the battlements."
+  bat_storm:
+    map: D4
+    where: "the air over Castle Blackfang's crag top (D-36.1): a flying party entering it loses Fly and falls; the map ends Fly and drops the party, then calls this (a status line)"
+    status: true
+    text: "Bats boil out of the towers and beat you out of the sky."
+
+riddles:
+  - {answer: Dimitri, where: "Ambrose's question (his topic 'Who sent you?')", said_by: "Dimitri (m24) and autonote 4124"}
+
+rewards: {xp: 5000, gold: "4000 (5000 paid to Natasha)"}
+playthrough: "D6: Ambrose (Who sent you?): the bridle. D3: Natasha (The bridle), 5,000 gold. D6: Ambrose (The griffin; Fly to Blackfang): DD-14's walls."

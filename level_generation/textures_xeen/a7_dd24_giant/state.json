@@ -1,0 +1,84 @@
+{
+ "xdgiantd": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.157,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "lane A7 s13, D-47 Q24",
+    "prompt": "prompts/xdgiantd_v1.txt",
+    "raw": "raw/xdgiantd_v1.png",
+    "refs": [
+     "refs/xdgiantd_v1_1.png",
+     "refs/xdgiantd_v1_2.png",
+     "refs/xdgiantd_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xdthrone": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.339,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      1.047,
+      1.181,
+      1.414
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "lane A7 s13, D-47 Q24",
+    "prompt": "prompts/xdthrone_v1.txt",
+    "raw": "raw/xdthrone_v1.png",
+    "refs": [
+     "refs/xdthrone_v1_1.png",
+     "refs/xdthrone_v1_2.png"
+    ],
+    "seam_raw": "raw/xdthrone_v1_seam.png",
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.05,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.814,
+      0.963,
+      1.079
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "Much darker than the last attempt: near-black, almost colourless charred-dark wood (only a faint cold brown in the grain), so that the old dried blood, dark maroon and rust red, is the only clearly coloured thing in it. Keep the broad planks, beams and thick pegs.",
+    "prompt": "prompts/xdthrone_v2.txt",
+    "raw": "raw/xdthrone_v2.png",
+    "refs": [
+     "refs/xdthrone_v2_1.png",
+     "refs/xdthrone_v2_2.png"
+    ],
+    "seam_raw": "raw/xdthrone_v2_seam.png",
+    "version": 2
+   }
+  ]
+ }
+}

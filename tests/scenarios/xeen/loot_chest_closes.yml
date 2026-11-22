@@ -1,0 +1,27 @@
+# A1 merge point 36 (A8's XD-06 relay): loot_chest leaves no window open when the chest's event also shows a message.
+id: xeen.a1.loot_chest_closes
+title: loot_chest closes the message and the chest
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd06.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, experience: 105000, might: 30, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, experience: 105000, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; wait(1)"}
+  - set_pose: {map: xeen_xd06.blv, x: -704, y: 6150, z: 0, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 6000, height: 2000}
+  - play_lua:
+      source: |
+        loot_chest(19)
+        log("after loot_chest(19): Megacredits " .. tostring(item_count(12192)))
+  - assert: {chest_view: {open: false}}
+  - assert: {dialog: {active: false}}

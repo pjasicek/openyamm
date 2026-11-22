@@ -1,0 +1,271 @@
+# D7 The Skyroads (D-58): the tolls, the Merchants of the Elements, the bottles, the Sky Lake's scarabs, the roof hatches
+# and the trapdoors up from the towers below, which belong to no quest. Quest places on D7 are m31's (Olympus), m38's (the
+# corners), q-d26's (the Megadragon, its hoard and Castle Alamar's hatch) and q-d27's (the three lamps).
+# The helpers in xeen_common.lua ask the tolls' and merchants' questions (Xeen.toll, Xeen.merchantRiddle); a hook with a
+# `question:` is asked by the map (Yes calls the hook), and the hook table lists the question for the map lane.
+# The seven roofs (D-58 D-4): each tower's trapdoor up to D7 opens only after m30.done; before it, the trapdoor is shut
+# fast. On D7 the hatches above them read the source's line and then "Bolted from below." (one way up).
+# Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: D7
+block: 166
+source: "D-58 (devdocs/xeen/briefs/d7/L1/D58_DECISION.md D-4, D-6, Q2, Q3, Q5); D7's L1 NOTES and plan.yml; dark/aaze0089-0099, aazex100-112"
+
+qbits:
+  riddle_smoke: {id: 116260, map: D7, note: "the Smoke merchant's riddle solved (Xeen.merchantRiddle)"}
+  riddle_dust: {id: 116261, map: D7, note: "the Dust merchant's riddle solved"}
+  riddle_steam: {id: 116262, map: D7, note: "the Steam merchant's riddle solved"}
+  riddle_mud: {id: 116263, map: D7, note: "the Mud merchant's riddle solved"}
+
+player_bits:         # the Sky Lake's scarabs, once per character; the hooks give every member present who lacks one
+  scarab_fire: {id: 11365, map: D7, note: "Rahib's Fire scarab: +10 Fire resistance, permanent (D-58 Q5)"}
+  scarab_air: {id: 11366, map: D7, note: "Wardoz's electricity scarab: +10 Air resistance, permanent"}
+  scarab_water: {id: 11367, map: D7, note: "Clara's cold scarab: +10 Water resistance, permanent"}
+  scarab_earth: {id: 11368, map: D7, note: "Dorion's Kinetic scarab: +10 Earth resistance, permanent"}
+
+hooks:
+  # The tolls (D-58 Q3, D-6): four triggers on the road, each with two peaceful Sky Bandits (11116) beside it. The map's
+  # event calls Xeen.toll("<north|east|south|west>", <the pair's group>, eventId, continueStep), which asks and runs these.
+  toll_paid:
+    map: D7
+    where: "a toll's first answer (Xeen.toll): the source's 10,000 gold; the toll then stays open until the map refills (map variable d7_toll_<key>). Without the gold, the fail line, and the pair turns hostile"
+    requires: {gold: 10000}
+    do: [{pay: 10000}]
+    text: "The Sky Bandits count the gold twice and wave you on."
+    fail_text: "You do not have 10,000 gold. The Sky Bandits take that as a no."
+  toll_refused:
+    map: D7
+    where: "a toll's second answer (Xeen.toll): only this toll's two Sky Bandits turn hostile; the toll asks no more until the map refills"
+    status: true
+    text: "The Sky Bandits draw steel."
+
+  # The Merchants of the Elements on their barges: the map's event calls Xeen.merchantRiddle("<cargo>", eventId,
+  # continueStep), which asks the riddle (a typed answer) and runs these. The source's 250,000 experience is 1,000.
+  merchant_smoke:
+    map: D7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Smoke merchant's barge at the Smoke Post (poi:merchants, merchant_smoke): the right answer (Xeen.merchantRiddle)"
+    sets: [riddle_smoke]
+    once: true
+    do: [{xp: 1000}]
+    text: "Correct. (+1,000 experience)"
+    else_text: "You know my cargo is Smoke. Please be on your way."
+  merchant_dust:
+    map: D7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Dust merchant's barge at the North Crossing (merchant_dust): the right answer"
+    sets: [riddle_dust]
+    once: true
+    do: [{xp: 1000}]
+    text: "Correct. (+1,000 experience)"
+    else_text: "You know my cargo is Dust. Please be on your way."
+  merchant_steam:
+    map: D7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Steam merchant's barge at the Steam Post (merchant_steam): the right answer"
+    sets: [riddle_steam]
+    once: true
+    do: [{xp: 1000}]
+    text: "Correct. (+1,000 experience)"
+    else_text: "You know my cargo is Steam. Please be on your way."
+  merchant_mud:
+    map: D7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Mud merchant's barge at the Mud Wharf (merchant_mud): the right answer"
+    sets: [riddle_mud]
+    once: true
+    do: [{xp: 1000}]
+    text: "Correct! (+1,000 experience)"
+    else_text: "You know my cargo is Mud. Please be on your way."
+  merchant_wrong:
+    map: D7
+    where: "any merchant, any other answer (Xeen.merchantRiddle); the riddle can be tried again"
+    text: "Wrong."
+
+  # The bottles (poi:bottles): readable notes, clicked.
+  bottle_genies:
+    map: D7
+    where: "the bottle in the Broken Launch's planks (bottle_genies)"
+    text: "A message in the bottle reads: Evil Genies NEVER let their victims off the hook. They will always kill someone."
+  bottle_test:
+    map: D7
+    where: "the bottle on the South Rest Stop's bench (bottle_test)"
+    text: "A message in the bottle reads: The test of the elements is merely difficult, not impossible."
+  bottle_west:
+    map: D7
+    where: "the first bottle on the Sky Lake's shore (bottle_a2): its castaway's island lies off the West Lookout, by a rope bridge"
+    text: "A note in the bottle reads: Help! I'm stranded on an air island off the West Lookout."
+  bottle_south:
+    map: D7
+    where: "the second bottle on the Sky Lake's shore (bottle_c3): its castaway's island lies past the Genie's Rock, south of the Broken Launch"
+    text: "A note in the bottle reads: Help! I'm stranded on an air island past the genie's rock, south of the old launch."
+
+  # The Sky Lake's four stalls (D-58 Q5): the map asks the seller's question (Yes calls the hook). The hook pays in gem
+  # items and gives every member present who lacks it +10 to one resistance for good; it charges nothing when nobody
+  # lacks it. Prices 8, 8, 8, 16 gems: the source's 300, 300, 300, 600 at 1:1:1:2 (A2's gem ledger, 2026-11-21).
+  scarab_fire:
+    window: "a choice's answer (Wardoz asks before he sells)"
+    map: D7
+    where: "Rahib's stall (the Fire scarab)"
+    question: "Rahib the Scarab Merchant: \"I have the best possible Fire scarab available, just 8 gems. Would you like to purchase it?\""
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11365)"}
+        text: "\"You already carry a Fire scarab's power,\" says Rahib. \"One is all a soul can hold.\""
+      - when: {lua: "Xeen.gemCount() < 8"}
+        text: "You do not have 8 gems."
+      - text: "The scarab crumbles to dust as its power passes into you. (+10 Fire resistance, permanent)"
+        do: [{lua: "Xeen.payGems(8)"}, {lua: "Xeen.giveEachOnce(11365, FireResistance, 10)"}]
+  scarab_air:
+    window: "a choice's answer (Wardoz asks before he sells)"
+    map: D7
+    where: "Wardoz the Blue's stall (the electricity scarab)"
+    question: "Wardoz the Blue: \"What would you pay for a powerful scarab that will protect you from electricity? 3 gems? 5? Nay, you are a customer of fine, discerning taste. For you, 8 gems! A customer of your quality would never pay less!\""
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11366)"}
+        text: "\"You already carry its power,\" says Wardoz. \"A customer of your quality would never buy twice.\""
+      - when: {lua: "Xeen.gemCount() < 8"}
+        text: "You do not have 8 gems."
+      - text: "The scarab crumbles to dust as its power passes into you. (+10 Air resistance, permanent)"
+        do: [{lua: "Xeen.payGems(8)"}, {lua: "Xeen.giveEachOnce(11366, AirResistance, 10)"}]
+  scarab_water:
+    window: "a choice's answer (Wardoz asks before he sells)"
+    map: D7
+    where: "Clara the Cold's stall (the cold scarab)"
+    question: "Clara the Cold: \"I sell scarabs that protect against cold. Buy it for 8 gems or begone.\""
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11367)"}
+        text: "\"You have one already,\" says Clara. \"Begone.\""
+      - when: {lua: "Xeen.gemCount() < 8"}
+        text: "You do not have 8 gems."
+      - text: "The scarab crumbles to dust as its power passes into you. (+10 Water resistance, permanent)"
+        do: [{lua: "Xeen.payGems(8)"}, {lua: "Xeen.giveEachOnce(11367, WaterResistance, 10)"}]
+  scarab_earth:
+    window: "a choice's answer (Wardoz asks before he sells)"
+    map: D7
+    where: "Dorion the Energy Merchant's stall (the Kinetic scarab)"
+    question: "Dorion the Energy Merchant: \"Will you buy my Kinetic Scarab for 16 gems? Guaranteed...\""
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11368)"}
+        text: "\"Guaranteed to work once,\" says Dorion. \"It already has.\""
+      - when: {lua: "Xeen.gemCount() < 16"}
+        text: "You do not have 16 gems."
+      - text: "The scarab crumbles to dust as its power passes into you. (+10 Earth resistance, permanent)"
+        do: [{lua: "Xeen.payGems(16)"}, {lua: "Xeen.giveEachOnce(11368, EarthResistance, 10)"}]
+
+  # D7's hatches over the towers (D-58 Q2): the map asks the source's question; Yes calls the hook. One way up only.
+  hatch_dd02:
+    map: D7
+    where: "Ellinger's Tower's hatch at the Water Corner (poi:hatch_dd02); the party comes up here from DD-02's roof (entrance:dd02_roof)"
+    question: "Descend into Ellinger's Tower?"
+    text: "Bolted from below."
+  hatch_dd03:
+    map: D7
+    where: "Castle Kalindra's hatch at the Water Corner (poi:hatch_dd03); up from DD-03 stage 4 (entrance:dd03_roof)"
+    question: "Descend into Castle Kalindra?"
+    text: "Bolted from below."
+  hatch_dd05:
+    map: D7
+    where: "the Western Tower's hatch at the Rope's Head (poi:hatch_dd05); up from DD-05 (entrance:dd05_roof)"
+    question: "Enter West Tower?"
+    text: "Bolted from below."
+  hatch_dd06:
+    map: D7
+    where: "the Southern Tower's hatch (poi:hatch_dd06); up from DD-06 (entrance:dd06_roof)"
+    question: "Descend into the South Tower?"
+    text: "Bolted from below."
+  hatch_dd07:
+    map: D7
+    where: "the Eastern Tower's hatch at the junction (poi:hatch_dd07); up from DD-07 (entrance:dd07_roof)"
+    question: "Descend to the East Tower?"
+    text: "Bolted from below."
+  hatch_dd08:
+    map: D7
+    where: "the Northern Tower's hatch (poi:hatch_dd08); up from DD-08 (entrance:dd08_roof)"
+    question: "Descend to the North Tower?"
+    text: "Bolted from below."
+  hatch_dd14:
+    map: D7
+    where: "Castle Blackfang's hatch (poi:hatch_dd14); up from DD-14's roost trapdoor (entrance:dd14_roof)"
+    question: "Descend to Castle Blackfang?"
+    text: "Bolted from below."
+  pyramid_door:
+    map: D7
+    entrance: DD-15
+    sealed: "the sky is Act VI's map, sealed by the story"
+    where: "the Great Pyramid's sky door at the Pyramid's Door (D-58 Q2): its click calls this first; true asks the question and goes on to DD-15's entrance:d7_sky (both ways after m30.done), false has shown the refusal (DD-15's side says the same, sky_door_dd15)"
+    question: "Enter the Pyramid?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "Access Denied!"     # dark/aaze0086:5 (D-61), as the door's DD-15 side
+
+  # The trapdoors up (D-58 D-4): each tower's way up to D7 calls its hook first; true goes on to the `exit` preset (its
+  # question is this hook's), false has shown the line. They open after m30.done, when the party are the Chosen Ones.
+  roof_dd02:
+    map: DD-02
+    gate: shortcut
+    where: "Ellinger's Tower's trapdoor on the top floor, up to D7's entrance:dd02_roof (A8)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd03:
+    map: DD-03
+    gate: shortcut
+    where: "Castle Kalindra's trapdoor on the third floor (stage 4), up to D7's entrance:dd03_roof (A8)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd05:
+    map: DD-05
+    gate: shortcut
+    where: "the Western Tower's roof trapdoor, up to D7's entrance:dd05_roof (A8)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd06:
+    map: DD-06
+    gate: shortcut
+    where: "the Southern Tower's roof stair's trapdoor, up to D7's entrance:dd06_roof (A7)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd07:
+    map: DD-07
+    gate: shortcut
+    where: "the Eastern Tower's roof stair's trapdoor, up to D7's entrance:dd07_roof (A7)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd08:
+    map: DD-08
+    gate: shortcut
+    where: "the Northern Tower's roof trapdoor, up to D7's entrance:dd08_roof (A8)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  roof_dd14:
+    map: DD-14
+    gate: shortcut
+    where: "Castle Blackfang's roost trapdoor, up to D7's entrance:dd14_roof (A8)"
+    question: "Climb up through the trapdoor?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "The trapdoor is shut fast."
+  sky_door_dd15:
+    map: DD-15
+    gate: shortcut
+    where: "the Great Pyramid's sky door, up to D7's entrance:dd15_sky, both ways after m30.done (A8); D7's side is pyramid_door"
+    question: "Step out onto the Skyroads?"
+    requires: {qbit: m30.done}
+    reads: [m30.done]
+    fail_text: "Access Denied!"     # dark/aaze0086:5 (D-61)
+
+riddles:
+  - {answer: smoke, where: "D7's Smoke merchant (d7.merchant_smoke)", said_by: "the riddle itself: between Fire and Air"}
+  - {answer: dust, where: "D7's Dust merchant (d7.merchant_dust)", said_by: "the riddle itself: between Air and Earth"}
+  - {answer: steam, where: "D7's Steam merchant (d7.merchant_steam)", said_by: "the riddle itself: between Fire and Water"}
+  - {answer: mud, where: "D7's Mud merchant (d7.merchant_mud)", said_by: "the riddle itself: between Water and Earth"}

@@ -1,0 +1,382 @@
+# Playtest of the Lakeside Coven and Sewer (DD-20, L4): both arrivals from D4 and the critical path through every
+# mechanism, the boss and the hooks. A level-36 party starts on D4 (Lakeside) and goes down by the Guild's back cellar
+# door (D4's move, evt.MoveToMap to entrance:d4_guild): the arrival window (arrived_once 117400) at the foot of the
+# Guild's back stair; the Head Witch's chest from afar says she stands beside it. Back up to D4, then in by the
+# trapdoor a wrong answer at the Guild's door opens (D4's q-d22.guild_wrong move to entrance:d4_trapdoor): the sump,
+# "The trapdoor is shut fast above you." once on the drop, never on a walk back under it (no second arrival window); the bones' purse (then "Nothing here."); the
+# cistern under the store: the hatch "is bolted from above". The main drain to the cross: the five of the ambush are
+# hidden until the first step onto the cross ("Things climb out of the side drains!"), then shown, and still shown
+# after a save and a reload. The hideout's dead man (his journal and pack). The east drain, the jetty shaft and the
+# outfall to the Dragon's niche: the dead man's journal two steps short, the Golden Dragon lies in the alcove (a ground item)
+# (D-90; picked up). Back by the warren (its chest) and the slop pit up the drain stair to
+# the cells: the four cages (q-d22.rhett, isabella, aretha, camilla: each line, each prisoner hidden at once, each cage
+# front sinks); a second click "Nothing here."; a save and a reload keep all four hidden. Up the cell stair to the
+# gaol (its chest) and the hall: the initiation cauldron is cold before the riddle (riddle_answered 113442, D4's), then
+# Yes joins the coven (joined 113449; the coven turns friendly), then "It is still toad." Through the Moon seal's
+# double doors (two leaves) to the antechamber and the Head Witch's room among friendly witches: the mirror, her bed's
+# purse, her chest opens to a member and gives the Necropolis pass (q-d22.witch_chest). She dies (q-d22.head_witch,
+# head_witch_slain 113447): the coven hostile again. The brewery: the skull's recipe, the Personality cauldron once
+# (+2) and again "You have had your fill.", the other two once each. Back through the hall and the dormitory (a bed's
+# coins) into the store: the shelf, the hatch's bolt opens the hatch (then "The bolt is drawn"), and the hatch "lies
+# open over the ladder". Numbers are ids.lock.yml's (events, doors, map variables) and the built scene's actor
+# indices (0-4 the ambush, 26 the Head Witch, 11 Camilla, 7 Aretha, 29 Isabella, 38 Rhett). Run with --world xeen
+# --map xeen_dd20.blv (output/studio_cal/dd20/four.sh).
+id: xeen.dd20.l4.walk
+title: Lakeside Coven and Sewer (DD-20 L4), both ways in from D4, the sewer, the cells, the coven
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_d4.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # In by the Guild's back cellar door (D4's door:dd20_guild): entrance:d4_guild.
+  - lua_event: {source: "evt.MoveToMap(-640, -384, 0, 512, 0, 0, 0, 0, \"xeen_dd20.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "LAKESIDE'S UNDERSIDE"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117400) then error('arrived_once not set') end"}
+  - assert: {party_position: {x: -640, y: -384, radius: 64, z_min: -8, z_max: 8}}
+  - execute_event: {id: 54}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Head Witch is standing next to it.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if qbit(113448) then error('pass_found set by a shut chest') end"}
+  # Back up to D4 and in by the trapdoor (D4's q-d22.guild_wrong): entrance:d4_trapdoor, one way.
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - lua_event: {source: "evt.MoveToMap(3456, -640, -512, 0, 0, 0, 0, 0, \"xeen_dd20.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - assert: {party_position: {x: 3456, y: -640, radius: 64, z_min: -520, z_max: -504}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11402, hidden: true}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11401, hidden: true}}
+  - assert: {actor_visible: {actor_index: 4, monster_id: 11401, hidden: true}}
+  - assert: {state_dump_map_var: {index: 0, value: 0}}
+  - play_lua:
+      source: |
+        local seen = status()
+        if not string.find(seen, "The trapdoor is shut fast above you.", 1, true) then error("the drop said: " .. seen) end
+  - walk_to: {x: 3400, y: 0, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        local seen = status()
+        if string.find(seen, "The trapdoor is shut fast above you.", 1, true) then error("the trapdoor line again on a walk: " .. seen) end
+        local before = gold()
+        click(51); wait(0.5)
+        if gold() ~= before + 250 then error("the sump bones gave " .. (gold() - before) .. " gold") end
+        status()
+        click(51); wait(0.5)
+        seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the bones again said: " .. seen) end
+  # The cistern under the store: the hatch is bolted from above.
+  - walk_to: {x: 3400, y: -1536, z: -512, z_tolerance: 60, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2700, y: -1536, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2300, y: -1700, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(35); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The hatch is bolted from above.", 1, true) then error("the hatch from below said: " .. seen) end
+        if door_state(15) ~= "closed" then error("the hatch is not shut: " .. door_state(15)) end
+  # The main drain to the cross: the ambush on the first step onto it.
+  - walk_to: {x: 2700, y: -1536, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3500, y: -1000, z: -512, z_tolerance: 60, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3456, y: -640, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua:
+      source: |
+        local seen = status()
+        if string.find(seen, "The trapdoor is shut fast above you.", 1, true) then error("the trapdoor line on walking back under it: " .. seen) end
+  - walk_to: {x: 3700, y: -450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4400, y: -500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 6400, y: -560, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 8400, y: -500, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11402, hidden: true}}
+  - assert: {actor_visible: {actor_index: 2, monster_id: 11401, hidden: true}}
+  - play_lua: {source: "status()"}
+  - walk_to: {x: 8900, y: -420, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local seen = status()
+        if not string.find(seen, "Things climb out of the side drains!", 1, true) then error("the cross said: " .. seen) end
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11402, hidden: false}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11401, hidden: false}}
+  - assert: {actor_visible: {actor_index: 2, monster_id: 11401, hidden: false}}
+  - assert: {actor_visible: {actor_index: 3, monster_id: 11401, hidden: false}}
+  - assert: {actor_visible: {actor_index: 4, monster_id: 11401, hidden: false}}
+  - save_game: {name: dd20_ambush}
+  - load_game: {name: dd20_ambush}
+  - advance_runtime: {seconds: 1}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11402, hidden: false}}
+  - assert: {actor_visible: {actor_index: 3, monster_id: 11401, hidden: false}}
+  - play_lua: {source: "close()"}
+  - clear_hostiles: {radius: 3000}
+  # The hideout's dead man: his journal and his pack once, then the journal alone.
+  - walk_to: {x: 9600, y: -900, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 9600, y: -1500, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('gold', gold()); click(38); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Beside him, his pack."}}
+  - play_lua: {source: "close(); if gold() ~= tonumber(recall('gold')) + 400 then error('the pack gave ' .. (gold() - tonumber(recall('gold')))) end; click(38); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "witches won't find me under here"}}
+  - play_lua: {source: "close(); if gold() ~= tonumber(recall('gold')) + 400 then error('the pack paid twice') end"}
+  # The east drain, the jetty shaft, the outfall, the Dragon's niche.
+  - walk_to: {x: 9600, y: -900, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 10100, y: -832, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 11000, y: -900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 13400, y: -900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 14100, y: -1152, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 14208, y: -400, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 14550, y: 0, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 14600, y: 1728, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 15350, y: 1850, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "still haven't a clue where that statuette is"}}
+  # D-90 (2026-11-22): the Golden Dragon lies at the alcove's foot as a ground item (no click on the alcove).
+  - play_lua: {source: "close(); if ground_items(12350) ~= 1 then error('the Golden Dragon is not in the alcove') end"}
+  - walk_to: {x: 15560, y: 1856, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - pick_up: {item_id: 12350}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if item_count(12350) ~= 1 then error('no Golden Dragon: ' .. item_count(12350)) end; if ground_items(12350) ~= 0 then error('a second dragon on the floor') end"}
+  # Back by the warren (its chest) to the cross, the slop pit and up the drain stair to the cells.
+  - walk_to: {x: 14600, y: 1900, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 12600, y: 1950, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 12500, y: 832, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 11900, y: 900, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 11650, y: 1150, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(22); close()"}
+  - walk_to: {x: 10500, y: 448, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 9600, y: 450, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 9600, y: 1100, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 9250, y: 1280, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 7600, y: 1280, z: -256, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The cells: the four cages.
+  - walk_to: {x: 7168, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 38, monster_id: 11909, hidden: false}}
+  - play_lua: {source: "if door_state(14) ~= 'closed' then error('Rhett cage not shut: ' .. door_state(14)) end; click(14); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[the dragon statuette is in the sewer below us]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 38, monster_id: 11909, hidden: true}}
+  - walk_to: {x: 6400, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(yawn) Thank you for saving me]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 29, monster_id: 11908, hidden: true}}
+  - walk_to: {x: 5632, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[spare parts in their potions]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 7, monster_id: 11907, hidden: true}}
+  - walk_to: {x: 4864, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'Thanks for getting me out of there.', 1, true) then error('status line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 11, monster_id: 11906, hidden: true}}
+  - assert: {qbit_set: [113443, 113444, 113445, 113446]}
+  - advance_runtime: {seconds: 4}
+  - play_lua:
+      source: |
+        for d = 11, 14 do
+            if door_state(d) ~= "open" then error("cage front " .. d .. " is " .. door_state(d)) end
+        end
+        click(10); wait(0.5)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Nothing here."}}
+  - play_lua: {source: "close()"}
+  - save_game: {name: dd20_freed}
+  - load_game: {name: dd20_freed}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 11, monster_id: 11906, hidden: true}}
+  - assert: {actor_visible: {actor_index: 7, monster_id: 11907, hidden: true}}
+  - assert: {actor_visible: {actor_index: 29, monster_id: 11908, hidden: true}}
+  - assert: {actor_visible: {actor_index: 38, monster_id: 11909, hidden: true}}
+  - play_lua: {source: "close(); for d = 11, 14 do if door_state(d) ~= 'open' then error('cage front ' .. d .. ' after the load: ' .. door_state(d)) end end"}
+  # Up the cell stair to the gaol (its chest) and into the coven hall.
+  - walk_to: {x: 4400, y: 1344, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2700, y: 1344, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2400, y: 1650, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(20); close()"}
+  - walk_to: {x: 1300, y: 1344, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 5)"}
+  - walk_to: {x: 600, y: 1344, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The initiation: cold before the riddle; Yes after it (joined, the coven friendly); then "still toad".
+  - walk_to: {x: -128, y: -100, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Drink"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The cauldron is cold."}}
+  - play_lua: {source: "close(); if qbit(113449) then error('joined without the riddle') end"}
+  - lua_event: {source: "SetQBit(QBit(113442))"}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Drink"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The brew tastes of toad and ambition."}}
+  - play_lua: {source: "close(); if not qbit(113449) then error('joined not set') end; click(39); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "It is still toad."}}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11170, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11171, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11173, hostile: true, max: 0}}
+  # Through the Moon seal's double doors to the Head Witch's room among friendly witches.
+  - walk_to: {x: -640, y: 1750, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(6) ~= 'closed' or door_state(7) ~= 'closed' then error('the seal does not start shut') end; open_door(28, 6); if door_state(7) ~= 'open' then error('the second leaf did not open: ' .. door_state(7)) end"}
+  - walk_to: {x: -640, y: 2350, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2880, y: 2450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: -2880, y: 3200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 1)"}
+  - walk_to: {x: -2880, y: 4000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2900, y: 4900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(41); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You are the most beautiful one of all."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -3550, y: 4300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before = gold()
+        click(53); wait(0.5)
+        if gold() ~= before + 500 then error("her bed gave " .. (gold() - before) .. " gold") end
+        status()
+        click(53); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("her bed again said: " .. seen) end
+        loot_chest(54); close()
+        if not qbit(113448) then error("pass_found not set by her chest") end
+        if not has_item(12336) and held() ~= 12336 then error("no Necropolis pass") end
+  # The Head Witch dies: head_witch_slain, the coven hostile again.
+  - assert: {actor_count: {monster_id: 11173, hostile: false, min: 1}}
+  - damage_actor: {actor_index: 26, amount: 100000}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [113447]}
+  - assert: {actor_count: {monster_id: 11173, max: 0}}
+  - assert: {actor_count: {monster_id: 11170, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11171, hostile: false, max: 0}}
+  - clear_hostiles: {radius: 2500}
+  # The brewery: a skull's recipe, the cauldrons once per character.
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -2250, y: 4032, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 2)"}
+  - walk_to: {x: -1500, y: 3750, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1344, y: 3750, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "To make a Potion of Personality"}}
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "SetValue(BasePersonality, 10); SetValue(BaseEndurance, 10); SetValue(BaseSpeed, 10)"}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Personality, permanent]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(17); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have had your fill.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(BasePersonality, 12) or IsAtLeast(BasePersonality, 13) then error('Personality is not 12 after two tastes') end; if not IsPlayerBitSet(PlayerBit(11345)) then error('player bit 11345 not set') end"}
+  - walk_to: {x: -640, y: 3750, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Endurance, permanent]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 64, y: 3750, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Speed, permanent]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "if not IsAtLeast(BaseEndurance, 12) or IsAtLeast(BaseEndurance, 13) then error('Endurance is not 12') end; if not IsAtLeast(BaseSpeed, 12) or IsAtLeast(BaseSpeed, 13) then error('Speed is not 12') end"}
+  # Back through the walk and the hall to the dormitory and the store: the hatch's bolt.
+  - walk_to: {x: -320, y: 3000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 10)"}
+  - walk_to: {x: -320, y: 2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: 2250, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 6)"}
+  - walk_to: {x: -640, y: 1500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 850, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 4)"}
+  - walk_to: {x: 1500, y: 0, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2750, y: -450, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(6); wait(0.5); if gold() ~= before + 150 then error('the bed gave ' .. (gold() - before)) end"}
+  - walk_to: {x: 1536, y: -700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 3)"}
+  - walk_to: {x: 1536, y: -1300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1350, y: -1664, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); click(44); wait(0.5); if gold() ~= before + 200 then error('the shelf gave ' .. (gold() - before)) end"}
+  - walk_to: {x: 2350, y: -1600, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(36); wait(3)
+        local seen = status()
+        if not string.find(seen, "You draw the bolt.", 1, true) then error("the bolt said: " .. seen) end
+        if door_state(15) ~= "open" then error("the hatch did not open: " .. door_state(15)) end
+        status()
+        click(36); wait(0.5)
+        seen = status()
+        if not string.find(seen, "The bolt is drawn; the hatch lies open.", 1, true) then error("the bolt again said: " .. seen) end
+        status()
+        click(35); wait(0.5)
+        seen = status()
+        if not string.find(seen, "The hatch lies open over the ladder.", 1, true) then error("the open hatch said: " .. seen) end
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  - assert: {map: xeen_dd20.blv}

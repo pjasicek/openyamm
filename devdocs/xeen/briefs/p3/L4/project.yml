@@ -1,0 +1,44 @@
+format: 0
+id: xeen_p3
+name: Plane of Earth of Xeen
+world: xeen
+kind: indoor
+profile: region
+map_code: P3
+new: false
+units: {plan_grid: 512}
+extent: {footprint_cells: [26, 26]}
+map_stats:
+  id: 9117
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 8
+  perception_difficulty: 8
+  refill_days: 672
+  music: 3
+  environment: mountains
+  lock_difficulty: 15
+neighbours:
+  - id: corner:d7
+    to: xeen_d7.blv
+    kind: scripted
+    notes: "D7 The Skyroads (A6, phase 6): its south-east corner (m38.corner_earth) drops the party here, to entrance:d7_fall (corners.yml)."
+  - id: exit:d7_dais
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:p3_return
+    condition: {qbit: m38_earth}
+    notes: "The return dais by the sleeper, shown once the sleeper is awake (common question C5)."
+  - id: exit:d7_way_up
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:p3_return
+    arrival_hint: "On D7 by the south-east corner's rest stop, facing the road."
+    notes: "The way up at the arrival, an exit preset (D-24), always open (common question C5)."
+qbits:
+  m38_earth: 111762
+  m38_earth_test: 111766
+rules:
+  no_fly: true
+  weather: none
+notes: "Xeen design brief, level L4: P3 Plane of Earth of Xeen, an open-air BLV (devdocs/INDOOR_OPEN_SKY.md; X9's and P5's route) built with the studio (profile region): one room, a bowl of rock open to the xeen_plane_earth sky, its terraces stepping down to the Anvil and the Sleeper's Hollow. map_stats 9117 (A2's row), music 3, treasure 6; Earth rows 11626, 11720-11722; hooks: A3's m38.*_earth, planes.rockfall, planes.geode, planes.echo, planes.last_block, Xeen.planeTestCheck."

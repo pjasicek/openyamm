@@ -1,0 +1,26 @@
+# Lane A7 (2026-11-20, decision D-3): XD-01's Plague Cult slogan on the grain hall's west wall, painted into the hall's
+# own timber-and-brick wall (MM8 Pirate Outpost t66c01a). One texture; see ../README.md for the route.
+dungeons:
+  xd01:
+    family_words: >-
+      the Pirate Outpost of Might and Magic VIII: dark reddish-brown hand-painted wooden planks and old brick, carved
+      panelling, warm and slightly stylised
+textures:
+  xnslogan:
+    dungeon: xd01
+    size: [256, 128]
+    art: [336, 160]
+    kind: picture
+    refs: [mm8/t66c01a, mm7/7slimywtr]
+    tone: {like: [mm8/t66c01a], factor: 1.0}
+    family: MM8 t66c01a (the grain hall's brick wall) with MM7 slime
+    where: XD-01 grain hall, west wall, panel:slogan (336 by 160, 192 above the floor)
+    standin: 7slimywtr
+    what: >-
+      A plain stretch of brick wall seen straight on, filling the whole canvas edge to edge: exactly the bricks of the
+      first reference (warm tan and brown painted bricks with dark mortar, the same colours and the same size), about
+      eleven bricks across and ten courses high, evenly lit, nothing but bricks behind the writing: no planks, no
+      panels, no frieze, no frame, no border. Across the bricks, daubed by hand in thick glistening bright green slime
+      (the colour of the second reference) with drips running down from every letter, the words SLIME LORDS SHALL RULE
+      in big crude capital letters on two lines across the upper two thirds, spelled exactly so, and below them,
+      smaller and in a thinner hand, also in green slime, the words The end is near. No other writing, no people.

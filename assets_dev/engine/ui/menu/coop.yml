@@ -1,0 +1,55 @@
+screen: CoopMenu
+elements:
+- id: CoopMenuRoot
+  anchor: center
+  anchor_space: screen
+  width: 853.3333
+  height: 480
+  z_index: 0
+  scale:
+    min: 0.1
+    max: 8.0
+    reference_width: 853.3333
+    reference_height: 480
+  notes: Native menu canvas fitted uniformly by MenuDesignScreen. The screen's controls are laid out in code (CoopMenuScreen), on this canvas.
+  children:
+  - id: CoopMenuBackground
+    anchor: top_left
+    offset_x: 0.0
+    offset_y: 0.0
+    width: 853.3333
+    height: 480.0
+    z_index: 0
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_title_backdrop.png
+    notes: The live dimmed game view is used instead, as the screen is entered from the game menu.
+  - id: CoopMenuPanel
+    anchor: top_left
+    offset_x: 62.9333
+    offset_y: 48.5333
+    width: 727.4667
+    height: 417.0667
+    z_index: 2
+    visible: true
+    interactive: false
+    asset:
+      default: hud_x2/menus/omenu_frame.png
+  - id: CoopMenuTitle
+    anchor: top_left
+    offset_x: 96.0
+    offset_y: 66.0
+    width: 400.0
+    height: 24.0
+    z_index: 10
+    visible: true
+    interactive: false
+    text:
+      value: Multiplayer
+      font: fondamento
+      color: '#ffe4ac'
+      align_x: left
+      align_y: middle
+      scale: 0.55
+      pad_x: 0.0

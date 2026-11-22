@@ -1,0 +1,870 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_p2.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+sky:
+  mode: open
+  preset: plane_air
+  view: outdoor
+  view_distance_scale: 1.5
+daylight:
+  ambient_rgb: [118, 122, 134]
+  sun_rgb: [255, 250, 240]
+  night_scale_rgb: [255, 255, 255]
+  sun_gain: 3
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags:
+    - entity_index: 1
+      flag: 32
+  actors:
+    - actor_index: 0
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 4779
+        y: -3821
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 9
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 4606
+        y: -3743
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 9
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 4606
+        y: -4014
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 9
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 3
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: 4946
+        y: -2490
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 10
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 4
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: 4786
+        y: -2309
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 10
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 5
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: 4786
+        y: -2581
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 10
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 6
+      name: ""
+      npc_id: 0
+      attributes: 589824
+      hp: 788
+      hostility_type: 0
+      monster_info_id: 11702
+      monster_id: 6375
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: 3968
+        y: -3072
+        z: 258
+      initial_yaw_units: 1024
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 60
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 7
+      name: ""
+      npc_id: 0
+      attributes: 589824
+      hp: 700
+      hostility_type: 0
+      monster_info_id: 11701
+      monster_id: 5600
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: 3712
+        y: -3232
+        z: 258
+      initial_yaw_units: 1024
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 60
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 8
+      name: ""
+      npc_id: 0
+      attributes: 589824
+      hp: 700
+      hostility_type: 0
+      monster_info_id: 11701
+      monster_id: 5600
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: 4224
+        y: -3232
+        z: 258
+      initial_yaw_units: 1024
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 60
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 9
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -3360
+        y: 3200
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 6
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 10
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -3696
+        y: 3394
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 6
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 11
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -3696
+        y: 3006
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 6
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 12
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 700
+      hostility_type: 0
+      monster_info_id: 11701
+      monster_id: 5600
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: -4384
+        y: 4224
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 8
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 13
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 700
+      hostility_type: 0
+      monster_info_id: 11701
+      monster_id: 5600
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: -4720
+        y: 4418
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 8
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 14
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 700
+      hostility_type: 0
+      monster_info_id: 11701
+      monster_id: 5600
+      radius: 89
+      height: 150
+      move_speed: 260
+      position:
+        x: -4720
+        y: 4030
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 8
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 15
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: -4256
+        y: 2560
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 7
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 16
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: -4704
+        y: 2560
+        z: 320
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 7
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 17
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 427
+        y: -2086
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 18
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 254
+        y: -1963
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 19
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 209
+        y: -2212
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 20
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: -1440
+        y: -2432
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 21
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: -1362
+        y: -2253
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 1
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 22
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -230
+        y: 2432
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 23
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -624
+        y: 2754
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 24
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 570
+      hostility_type: 0
+      monster_info_id: 11700
+      monster_id: 4464
+      radius: 62
+      height: 150
+      move_speed: 240
+      position:
+        x: -343
+        y: 2165
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 25
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 936
+        y: 1248
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 5
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 26
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 720
+        y: 1114
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 5
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 27
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 778
+        y: 2957
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 28
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 449
+        y: 3064
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 29
+      name: ""
+      npc_id: 0
+      attributes: 524288
+      hp: 468
+      hostility_type: 0
+      monster_info_id: 11624
+      monster_id: 3575
+      radius: 62
+      height: 168
+      move_speed: 220
+      position:
+        x: 528
+        y: 2878
+        z: 256
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 1
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 4
+      ally: 0
+      unique_name_index: 0
+  sprite_objects:
+    - sprite_object_index: 0
+      sprite_id: 62
+      object_description_id: 58
+      position:
+        x: -3616
+        y: 4160
+        z: 320
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 1
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: -3616
+        y: 4160
+        z: 320
+      raw_containing_item_hex: "010100000000000000000000000000000000000000000000000000000000000000000000"
+    - sprite_object_index: 1
+      sprite_id: 62
+      object_description_id: 58
+      position:
+        x: -3552
+        y: 4224
+        z: 320
+      velocity:
+        x: 0
+        y: 0
+        z: 0
+      yaw_angle: 0
+      sound_id: 0
+      attributes: 0
+      sector_id: 1
+      time_since_created: 0
+      temporary_lifetime: 0
+      glow_radius_multiplier: 0
+      spell_id: 0
+      spell_level: 0
+      spell_skill: 0
+      field54: 0
+      spell_caster_pid: 0
+      spell_target_pid: 0
+      lod_distance: 0
+      spell_caster_ability: 0
+      initial_position:
+        x: -3552
+        y: 4224
+        z: 320
+      raw_containing_item_hex: "010100000000000000000000000000000000000000000000000000000000000000000000"
+  chests: []
+  doors: []
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [-4096, -4096, 0]
+    direction_degrees: 45
+loot_containers:
+  - source_id: xeen:xeen_p2:basket_cache
+    source_object_index: 0
+    source_name: basket_cache
+    position:
+      x: -3824
+      y: 4400
+      z: 320
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 1200
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 8
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_p2:test
+    source_object_index: 1
+    source_name: test
+    position:
+      x: 3584
+      y: 4224
+      z: 768
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 6
+    treasure_type: 0
+    gold: 2500
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+ambient_sounds:
+  - key: 1
+    sound: xeen_amb_plane_air
+    position: [0, 0, 712.1931674759711]
+    inner_radius: 11000
+    outer_radius: 16000
+    volume: 0.4
+    loop: true
+    start_on: true
+    pan: false
+translucent_faces:
+  - faces: [3765, 3766]
+    opacity: 0.55
+    tint: [1, 1, 1]
+    two_sided: false
+  - faces: [3732, 3733, 3734, 3735, 3736, 3737]
+    opacity: 0.8
+    tint: [0.72, 0.86, 1.15]
+    two_sided: false

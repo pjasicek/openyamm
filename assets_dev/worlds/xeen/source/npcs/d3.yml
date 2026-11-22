@@ -1,0 +1,9 @@
+# D3 Sandcaster and the Aging Forest: the map's own once-per-character bits that belong to no quest. Quest topics of
+# D3's people are in their quest files. Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: D3
+block: 159
+source: "D-28 (4): the two fruit huts, once per character"
+
+player_bits:         # D3's, once per character (A5 wires the huts)
+  fruit_pear: {id: 11320, map: D3, note: "the pear hut by the river: +2 Might (base) and Weak"}
+  fruit_fig: {id: 11321, map: D3, note: "the fig hut in the forest: +2 Intellect (base) and Insane"}

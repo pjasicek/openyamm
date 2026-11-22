@@ -1,0 +1,82 @@
+# The Necropolis Sewer (DD-21, L4): the heart taken BEFORE the fight (D-62 Q41). A level-50 party with a Priest and a
+# Wizard starts at the stair's foot, is set down in the sluice room (the wheel lifts the culvert gate, sluice_open
+# 117721), then at the outfall's gate, and takes the heart from the jar (q-d23.heart, heart_found 113461). Set down in
+# the Hall of Biers, it opens the crypt's doors (q-d23.first_entry) and kills Sandro: the fall's event sets
+# sandro_fell 117727 and runs q-d23.sandro, whose heart text reads right at a first fall ("stands up out of what is left
+# of him"); beaten 113460 stays clear (the hook's heart state comes first); the risen Sandro is shown, the fallen body
+# hidden. On the dais: the heart text (Yes), "Ask Sandro for his ritual first?" (Yes):
+# q-d23.ritual (taught 113463; the Priest and the Wizard promoted), then q-d23.release (released 113462, the key 12354);
+# the risen Sandro hidden, the grille lifts. Numbers are ids.lock.yml's and the actor indices of playtest.yml. Run with
+# --world xeen --map xeen_dd21.blv (output/studio_cal/dd21/four.sh).
+id: xeen.dd21.l4.heart_first
+title: Necropolis Sewer (DD-21 L4), the heart before the fight, the ritual, the release
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd21.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_dd21.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The sluice room: the wheel lifts the culvert gate.
+  - set_pose: {map: xeen_dd21.blv, x: -2240, y: -2200, z: -512, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -2240, y: -2020, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The wheel turns with a groan."}}
+  - play_lua: {source: "close(); for _ = 1, 20 do if door_state(5) == 'open' then break end; wait(0.5) end; if door_state(5) ~= 'open' then error('the culvert gate did not lift') end"}
+  # Through the gate, down the steps, the jar.
+  - set_pose: {map: xeen_dd21.blv, x: -704, y: -3200, z: -512, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -704, y: -3800, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: -4480, z: -896, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1400)"}
+  - walk_to: {x: -832, y: -4500, z: -896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[In a jar of green glass]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not has_item(12353) then error('no heart') end; if qbit(117727) or qbit(113460) then error('Sandro fell already') end"}
+  # The Hall of Biers: the crypt's doors, the first step in, the fight.
+  - set_pose: {map: xeen_dd21.blv, x: 0, y: -1700, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(700)"}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(3); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('the crypt doors did not open') end"}
+  - walk_to: {x: 0, y: -2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "And now my hunger for the living compels me to attack you."}}
+  - play_lua: {source: "close(); clear_hostiles(900)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "stands up out of what is left of him"}}
+  - assert: {dialog: {active: true, text_contains: "My heart. You have it."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(117727) then error('sandro_fell not set') end; if qbit(113460) then error('beaten set although the party had the heart') end; if not has_item(12353) then error('the heart was taken at the fall') end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: true}}
+  # The dais: Yes, the ritual (Yes), the release.
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Yes", text_contains: "My heart. You have it."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Ask Sandro for his ritual first?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Asked nicely. Very well."}}
+  - assert: {dialog: {active: true, text_contains: "Thank you for returning my heart."}}
+  - play_lua: {source: "close(); wait(0.5); close(); wait(1); if not qbit(113463) then error('taught not set') end; if not qbit(113462) then error('released not set') end; if not has_item(12354) then error('no key') end; if has_item(12353) then error('the heart was not taken') end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  - play_lua: {source: "for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' then error('the grille did not lift') end"}

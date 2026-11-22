@@ -1,0 +1,277 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "X5 Winterkill Tundra, MU-3 to-scale plan (A6, 2026-11-20), for gate G1: composition, scale and density only. Cells [x, y], x east, y south. Heights are map units above the stars below the rim (0): the mere's ice at 800, Winterkill at 1,000, the steppe 1,100-1,600, the Frostspine to 4,000, the giants' crags to 3,600. The later L3 adds plots' detail, ground, scatter and structures to this file."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [52, 68], neighbour: edge:east, notes: "The lagoon road and the river run out to x 127."}
+    - {side: north, span: [44, 58], neighbour: edge:north, notes: "The steppe road runs out to y 0."}
+  rim:
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 24; below, water at 0 stands for the stars."}
+    - {side: south, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at y 104; the glacier breaks off over it at x 28-40."}
+    - {side: north, span: [0, 44], form: ridge, height: [1900, 2800], floor: 1500, crest: 10, roughness: 100, notes: "Stony rises toward the desert."}
+    - {side: north, span: [44, 58], form: level, height: 1450, meet: 6, notes: "The steppe road's valley, open to the edge."}
+    - {side: north, span: [58, 128], form: ridge, height: [2000, 3000], floor: 1600, crest: 10, roughness: 100, notes: "The Frostspine's north end and the Ogre Hills' backs."}
+    - {side: east, span: [0, 50], form: ridge, height: [1800, 2600], floor: 1400, crest: 10, roughness: 100, notes: "The Ogre Hills go on."}
+    - {side: east, span: [50, 104], form: level, height: 900, meet: 6, notes: "The river valley and the fen run on to X3's lagoon."}
+    - {side: east, span: [104, 128], form: level, height: 0, meet: 1, notes: "The rim's south-east end."}
+  edge: {height: 1500, west: 0, south: 0, east: 900}
+heights:
+  bands:
+    - {band: band:rim_sea, space: zone:rim, polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]}
+    - {band: band:ice, space: water:mere, polygon: [[40, 53], [47, 50], [56, 50], [63, 52], [68, 56], [70, 61], [67, 66], [60, 70], [50, 71], [43, 68], [39, 61]]}
+    - {band: band:low, space: zone:lagoon_marches, polygon: [[86, 64], [128, 64], [128, 104], [86, 104]]}
+    - {band: band:low, space: zone:snowfields, polygon: [[24, 50], [30, 49], [37, 51], [40, 53], [39, 61], [43, 68], [50, 71], [60, 70], [67, 66], [70, 61], [77, 60], [78, 64], [54, 76], [52, 84], [24, 84]]}
+    - {band: band:low, space: town:winterkill, polygon: [[29, 33], [45, 33], [47, 40], [45, 49], [37, 51], [30, 49], [28, 41]]}
+    - {band: band:low, space: zone:arrival_meadow, polygon: [[86, 54], [128, 52], [128, 64], [86, 64]]}
+    - {band: band:mid, space: zone:steppe, polygon: [[36, 0], [77, 0], [77, 58], [70, 60], [68, 56], [63, 52], [56, 50], [47, 50], [45, 46], [47, 40], [45, 33], [36, 32]]}
+    - {band: band:mid, space: zone:west_plateau, polygon: [[24, 0], [36, 0], [36, 32], [29, 33], [28, 41], [29, 50], [24, 50]]}
+    - {band: band:mid, space: zone:troll_forest, polygon: [[54, 76], [78, 66], [85, 66], [85, 104], [52, 104], [52, 86]]}
+    - {band: band:high, space: zone:ogre_hills, polygon: [[87, 0], [128, 0], [128, 52], [110, 54], [100, 54], [92, 55], [87, 52]]}
+    - {band: band:high, space: town:monastery, polygon: [[64, 27], [74, 27], [74, 36], [64, 36]]}
+    - {band: band:high, space: zone:giants, polygon: [[24, 84], [52, 84], [52, 104], [24, 104]]}
+    - {band: band:peaks, space: zone:frostspine, polygon: [[77, 0], [87, 0], [87, 60], [85, 64], [78, 64], [77, 58]]}
+  points:
+    - {at: [82, 12], h: 3600, notes: Frostspine north peak}
+    - {at: [83, 24], h: 4000, notes: Frostspine high peak}
+    - {at: [82, 36], h: 3600}
+    - {at: [82, 46], h: 1700, notes: the pass crest (Freeda's camp)}
+    - {at: [82, 53], h: 3400}
+    - {at: [81, 58], h: 3000, notes: the gorge's north shoulder}
+    - {at: [81, 66], h: 2200, notes: the gorge's south shoulder}
+    - {at: [92, 28], h: 2200, notes: Ogre Hills}
+    - {at: [104, 26], h: 2100, notes: Ogre Hills}
+    - {at: [116, 34], h: 2000, notes: Ogre Hills}
+    - {at: [101, 37], h: 1600, notes: the ogres' hollow rim}
+    - {at: [109, 42], h: 1800, notes: Ogre Hills}
+    - {at: [96, 50], h: 1300, notes: Halon's shoulder above the pass road}
+    - {at: [96, 44], h: 1400, notes: "the cave's north mouth (XD-10's arrival, D-4)"}
+    - {at: [98, 60], h: 900, notes: the lagoon fork}
+    - {at: [106, 59], h: 900, notes: the X3 arrival}
+    - {at: [104, 86], h: 1050, notes: the archers' dry rise}
+    - {at: [101, 75], h: 1500, notes: the Golem Rocks' top}
+    - {at: [100, 72], h: 960, notes: the Golem Dungeon's door}
+    - {at: [69, 32], h: 1900, notes: Kai Wu's crag}
+    - {at: [73, 40], h: 1200, notes: the monastery's foot}
+    - {at: [37, 42], h: 1000, notes: Winterkill square}
+    - {at: [50, 35], h: 1250, notes: Steppe Cross}
+    - {at: [50, 19], h: 1450, notes: the X6 arrival}
+    - {at: [42, 25], h: 1450, notes: the barbarian camp}
+    - {at: [30, 29], h: 1550, notes: the fountain plateau}
+    - {at: [26, 41], h: 1200, notes: the Edge Watch}
+    - {at: [58, 42], h: 1150, notes: the obelisk's promontory}
+    - {at: [64, 48], h: 1000, notes: the pagoda}
+    - {at: [55, 61], h: 1500, notes: Darkstone isle}
+    - {at: [30, 61], h: 1050, notes: the Winter Druid's grove}
+    - {at: [44, 81], h: 1350, notes: Glom's knoll}
+    - {at: [49, 100], h: 2050, notes: "the Reflector's ledge by the Waters of Great Magic: the signature view's camera"}
+    - {at: [37, 85], h: 2000, notes: the Giants' Stones}
+    - {at: [28, 88], h: 3400, notes: the west crags}
+    - {at: [50, 93], h: 3600, notes: the east crags}
+    - {at: [36, 87], h: 2600, notes: the glacier's head}
+    - {at: [34, 102], h: 1900, notes: the glacier's lip over the rim}
+    - {at: [44, 93], h: 2200, notes: the cyclops outpost}
+    - {at: [40, 103], h: 1900, notes: the Earth Reflector's spur}
+    - {at: [66, 95], h: 1450, notes: the troll warren}
+    - {at: [53, 75], h: 950, notes: the Shrine of Cold}
+  cliffs:
+    - line: [[24, 19], [24, 104]]
+      drop: 1000
+      down: right
+      notes: "The world rim, west (the low side west)."
+    - line: [[24, 104], [128, 104]]
+      drop: 1000
+      down: right
+      notes: "The world rim, south; 1,900 at the glacier's lip (x 28-40), where the ice breaks off."
+    - line: [[64, 37], [74, 37]]
+      drop: 600
+      down: right
+      notes: "Kai Wu's crag, its south face over the road."
+    - line: [[98, 72], [103, 72]]
+      drop: 450
+      down: left
+      notes: "The Golem Rocks' north face with the slab door."
+  ridges:
+    - {line: [[82, 4], [82, 12], [83, 24], [82, 36], [82, 43]], height: 3400, width: 2, slope: 3, notes: "The Frostspine crest, north of the pass."}
+    - {line: [[82, 49], [82, 53], [81, 58]], height: 3000, width: 2, slope: 3, notes: "The Frostspine south of the pass, down to the gorge."}
+water:
+  bodies:
+    - id: water:mere
+      kind: lake
+      level: 800
+      polygon: [[40, 53], [47, 50], [56, 50], [63, 52], [68, 56], [70, 61], [67, 66], [60, 70], [50, 71], [43, 68], [39, 61]]
+      notes: "Frozen: walkable ice (a new ice ground material, MU-2's gap); open water only at the river mouth (x 66-70, y 60-62)."
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:halon_pond
+      kind: pond
+      level: 1290
+      polygon: [[97, 48], [99, 48], [99, 50], [97, 50]]
+      notes: "Halon's millpond (frozen) beside the workshop."
+  rivers:
+    - id: water:river
+      line: [[127, 62], [118, 62], [110, 63], [103, 63], [97, 63], [91, 63], [86, 62], [82, 62], [77, 61], [72, 61], [69, 61]]
+      width_cells: 2.5
+      notes: "The Lagoon Water from X3: open and fast in the pocket (840), through the Frostspine gorge (x 78-86), frozen from the gorge to the mere (800)."
+roads:
+  - {link: link:lagoon_road, line: [[128, 59], [118, 59], [110, 59], [104, 59.5], [98, 60]], width: road, surface: road_pebbles}
+  - {link: link:pass_road, line: [[98, 60], [93, 58], [89, 55], [86, 51], [83, 47], [82, 46]], width: road, surface: soil_stony}
+  - {link: link:pass_descent, line: [[82, 46], [80, 44], [77, 41], [73, 40]], width: road, surface: soil_stony}
+  - {link: link:monastery_stair, line: [[73, 40], [71, 38], [70, 36]], width: lane}
+  - {link: link:shore_road, line: [[73, 40], [66, 41], [60, 39], [54, 37], [50, 35]], width: road, surface: soil_stony}
+  - {link: link:steppe_road, line: [[50, 0], [50, 10], [50, 21], [50, 35]], width: road, surface: soil_stony}
+  - {link: link:winterkill_road, line: [[50, 35], [47, 39], [44, 40.5], [40, 40.5]], width: road, surface: road_pebbles}
+  - {link: link:hill_track, line: [[98, 60], [97, 55], [96, 53], [97.5, 50], [97.5, 47], [96, 45]], width: lane}
+  - {link: link:golem_lane, line: [[98, 60], [97, 63], [98, 67], [100, 71]], width: lane}
+  - {link: link:thickbark_bridge, line: [[89, 55], [87, 59], [86, 63], [84, 66], [82, 68], [83, 71], [84, 74]], width: lane}
+  - {link: link:pagoda_path, line: [[73, 40], [70, 43], [67, 46], [65, 47]], width: lane}
+  - {link: link:south_track, line: [[37, 45], [37, 50], [36, 55], [35, 60], [37, 66], [40, 72], [42, 77]], width: lane}
+  - {link: link:druid_path, line: [[35, 60], [32, 61]], width: lane}
+  - {link: link:glom_lane, line: [[42, 77], [44, 80]], width: lane}
+  - {link: link:giants_path, line: [[42, 77], [40, 82], [39, 86], [42, 91], [44, 92]], width: lane}
+  - {link: link:forest_track, line: [[42, 77], [48, 77], [53, 75], [58, 81], [63, 88], [66, 94]], width: lane}
+  - {link: link:rim_walk, line: [[34, 40.5], [29, 40.5], [27, 41]], width: lane}
+districts:
+  - space: town:winterkill
+    polygon: [[29, 33], [45, 33], [47, 40], [45, 49], [37, 51], [30, 49], [28, 41]]
+    plots:
+      - {building: building:mindmeld_guild, at: [31, 36], facing: e, door_to: zone:winterkill_square, kit: stone}
+      - {building: building:winterkill_tavern, at: [35, 34.5], facing: s, door_to: zone:winterkill_square, kit: timber}
+      - {building: building:winterkill_temple, at: [40.5, 34], facing: s, door_to: zone:winterkill_square, kit: stone}
+      - {building: building:winterkill_guild_dark, at: [41, 42], facing: w, door_to: zone:winterkill_square, kit: stone}
+      - {building: building:winterkill_armour, at: [42, 37.5], facing: s, door_to: link:winterkill_road, kit: plaster}
+      - {building: building:winterkill_houses, index: 1, at: [29.5, 39], facing: e, kit: poor}
+      - {building: building:winterkill_houses, index: 2, at: [29.5, 41], facing: e, kit: plaster}
+      - {building: building:winterkill_houses, index: 3, at: [31, 43.5], facing: e, kit: timber}
+      - {building: building:winterkill_houses, index: 4, at: [29.5, 46], facing: n, kit: poor}
+      - {building: building:winterkill_houses, index: 5, at: [32, 46.5], facing: n, kit: grey}
+      - {building: building:winterkill_houses, index: 6, at: [34.5, 47.5], facing: n, kit: poor}
+      - {building: building:winterkill_houses, index: 7, at: [39, 47], facing: n, kit: plaster}
+      - {building: building:winterkill_houses, index: 8, at: [41.5, 45.5], facing: w, kit: poor}
+      - {building: building:winterkill_houses, index: 9, at: [44, 42.5], facing: w, kit: grey}
+      - {building: building:winterkill_houses, index: 10, at: [44, 45], facing: w, kit: poor}
+      - {building: building:winterkill_houses, index: 11, at: [45, 36.5], facing: s, door_to: link:winterkill_road, kit: timber}
+      - {building: building:winterkill_houses, index: 12, at: [29, 36.5], facing: e, kit: poor}
+    notes: "17 doors of A4's x5.yml (4251-4255, 4257-4268) and the mirror (4256) in the square; about 200 cells."
+  - {space: zone:winterkill_square, polygon: [[34, 38], [40, 38], [40, 45], [34, 45]]}
+  - space: town:monastery
+    polygon: [[64, 27], [74, 27], [74, 36], [64, 36]]
+    plots:
+      - {building: building:monastery_training, at: [66, 29], facing: s, kit: stone}
+      - {building: building:monastery_temple, at: [70, 30], facing: w, kit: stone}
+  - space: town:glom
+    polygon: [[42, 79], [48, 79], [48, 83], [42, 83]]
+    plots:
+      - {building: building:glom_burrow, index: 1, at: [43, 80], facing: s, kit: poor}
+      - {building: building:glom_burrow, index: 2, at: [45.5, 80.5], facing: s, kit: poor}
+  - space: zone:halon_yard
+    polygon: [[93, 47], [100, 47], [100, 53], [93, 53]]
+    plots:
+      - {building: building:halon_workshop, at: [94, 49.5], facing: s, kit: timber}
+  - {space: zone:pocket, polygon: [[86, 19], [128, 19], [128, 104], [85, 104], [85, 66], [86, 60]]}
+  - {space: zone:ogre_hills, polygon: [[87, 19], [128, 19], [128, 52], [110, 54], [100, 54], [92, 55], [87, 52]]}
+  - {space: zone:lagoon_marches, polygon: [[86, 66], [128, 66], [128, 104], [86, 104]]}
+  - {space: zone:arrival_meadow, polygon: [[100, 54], [112, 54], [112, 61], [100, 61]]}
+  - {space: zone:golem_rocks, polygon: [[96, 70], [105, 70], [105, 78], [96, 78]]}
+  - {space: zone:cave_north, polygon: [[93, 41], [99, 41], [99, 46], [93, 46]]}
+  - {space: zone:frostspine, polygon: [[77, 0], [87, 0], [87, 60], [85, 64], [78, 64], [77, 58]]}
+  - {space: zone:pass, polygon: [[79, 43], [85, 43], [85, 49], [79, 49]]}
+  - {space: zone:steppe, polygon: [[36, 0], [77, 0], [77, 58], [70, 60], [68, 56], [63, 52], [56, 50], [47, 50], [45, 46], [47, 40], [45, 33], [36, 32]]}
+  - {space: zone:west_plateau, polygon: [[24, 0], [36, 0], [36, 32], [29, 33], [28, 41], [29, 50], [24, 50]]}
+  - {space: zone:snowfields, polygon: [[24, 50], [30, 49], [37, 51], [40, 53], [39, 61], [43, 68], [50, 71], [60, 70], [67, 66], [70, 61], [77, 60], [78, 64], [54, 76], [52, 84], [24, 84]]}
+  - {space: zone:druid_grove, polygon: [[27, 58], [33, 58], [33, 64], [27, 64]]}
+  - {space: zone:darkstone_isle, polygon: [[53, 59], [57, 59], [57, 63], [53, 63]]}
+  - {space: zone:pagoda_shore, polygon: [[61, 45], [67, 45], [67, 51], [61, 51]]}
+  - {space: zone:troll_forest, polygon: [[54, 76], [78, 66], [85, 66], [85, 104], [52, 104], [52, 86]]}
+  - {space: zone:giants, polygon: [[24, 84], [52, 84], [52, 104], [24, 104]]}
+  - {space: zone:glacier, polygon: [[31, 85], [40, 85], [41, 92], [40, 104], [28, 104], [29, 94]]}
+  - {space: zone:rim, polygon: [[0, 0], [24, 0], [24, 104], [128, 104], [128, 128], [0, 128]]}
+points:
+  - {id: entrance:east_road, at: [106, 59], facing: w}
+  - {id: entrance:north_road, at: [50, 21], facing: s}
+  - {id: entrance:winterkill_square, at: [37, 42], facing: s}
+  - {id: entrance:xd09_door, at: [100, 72], facing: n}
+  - {id: entrance:xd10_north, at: [96, 44], facing: s}
+  - {id: entrance:xd10_south, at: [84, 75], facing: n}
+  - {id: entrance:xd22_pagoda, at: [64, 48], facing: n}
+  - {id: entrance:xd23_warren, at: [66, 95], facing: n}
+  - {id: entrance:fd03_tower, at: [55, 61], facing: n}
+  - {id: junction:lagoon_fork, at: [98, 60]}
+  - {id: junction:pass_crest, at: [82, 46]}
+  - {id: junction:monastery_foot, at: [73, 40]}
+  - {id: junction:steppe_cross, at: [50, 35]}
+  - {id: junction:glom_fork, at: [42, 77]}
+  - {id: poi:obelisk, at: [58, 42]}
+  - {id: poi:fountain_great_protection, at: [30, 29]}
+  - {id: poi:waters_great_magic, at: [47, 100]}
+  - {id: poi:shrine_cold, at: [53, 75]}
+  - {id: poi:well_intellect, at: [105, 56]}
+  - {id: poi:well_accuracy, at: [60, 30]}
+  - {id: poi:hot_spring, at: [93, 61]}
+  - {id: poi:winterkill_well, at: [39, 44]}
+  - {id: poi:gongs, at: [35, 37], notes: north gong 1}
+  - {id: poi:gongs, at: [39, 37], notes: north gong 2}
+  - {id: poi:gongs, at: [37, 46], notes: the southern gong}
+  - {id: poi:randon, at: [36, 43]}
+  - {id: poi:thickbark, at: [81, 68]}
+  - {id: poi:winter_druid, at: [30, 61]}
+  - {id: poi:freeda, at: [82, 46]}
+  - {id: poi:holy_book, at: [69, 92]}
+  - {id: poi:earth_reflector, at: [40, 103]}
+  - {id: poi:cyclops_outpost, at: [44, 93]}
+  - {id: poi:barbarian_camp, at: [42, 25]}
+  - {id: poi:hunting_camp, at: [66, 22]}
+  - {id: poi:ogre_camp, at: [101, 37]}
+  - {id: poi:archer_camp, at: [104, 86]}
+  - {id: poi:frozen_sledge, at: [88, 48]}
+  - {id: poi:trapper, at: [92, 90]}
+  - {id: poi:frozen_pack, at: [61, 66]}
+  - {id: poi:giants_cairn, at: [50, 87]}
+  - {id: poi:giant_stones, at: [37, 85]}
+  - {id: poi:ice_fishing, at: [47, 58]}
+  - {id: poi:edge_watch, at: [26, 41]}
+  - {id: poi:signposts, at: [98, 60]}
+  - {id: poi:signposts, at: [82, 46]}
+  - {id: poi:signposts, at: [73, 40]}
+  - {id: poi:signposts, at: [50, 35]}
+  - {id: poi:signposts, at: [42, 77]}
+  - {id: landmark:frostspine, at: [83, 24]}
+  - {id: landmark:darkstone, at: [55, 61]}
+  - {id: landmark:monastery, at: [69, 31]}
+  - {id: landmark:pagoda, at: [64, 48]}
+  - {id: landmark:halon_clock, at: [96, 49]}
+  - {id: landmark:glacier, at: [34, 100]}
+areas:
+  - {id: pop:pocket_hills, count: 7, slot: 1, polygon: [[87, 22], [108, 22], [108, 50], [100, 50], [96, 52], [88, 50]], notes: "Act II: Dark Wolves 16 (fixed tier A only, D-4); the ogres' camp placed (Ogres, tier A)."}
+  - {id: pop:pocket_marsh, count: 6, slot: 1, polygon: [[88, 65], [108, 65], [108, 102], [88, 102]], notes: "Act II: Dark Wolves 16; one marker 4-10 cells from the X3 arrival (the first fight); the archers' camp placed."}
+  - {id: pop:trolls, count: 14, slot: 3, polygon: [[56, 78], [78, 68], [84, 72], [84, 102], [54, 102], [54, 88]], notes: "Trolls at the edges, Troll Guards and Ice Trolls deeper; none within 6 cells of XD-10's south mouth."}
+  - {id: pop:barbarians, count: 5, slot: 2, polygon: [[36, 19], [47, 19], [47, 31], [36, 31]], notes: "West of the steppe road, round the camp."}
+  - {id: pop:barbarians, count: 5, slot: 2, polygon: [[54, 22], [76, 22], [76, 32], [62, 34], [54, 30]], notes: "East of the road, round the hunting camp; the X6 arrival stays clear (first fight 4,000-5,000 off)."}
+  - {id: pop:snow_beasts, count: 12, slot: 1, polygon: [[25, 52], [37, 52], [38, 62], [42, 70], [52, 74], [50, 78], [38, 78], [25, 80]], notes: "Packs of wolves, sabertooths and snow beasts round the west and south shores."}
+  - {id: pop:giant_markers, count: 4, slot: 2, polygon: [[25, 86], [51, 86], [51, 103], [25, 103]], notes: "The trap corner: single cyclopes at a fixed tier."}
+  - {id: zone:arrival_meadow, kind: keep_clear, polygon: [[100, 54], [112, 54], [112, 61], [100, 61]]}
+  - {id: town:winterkill, kind: keep_clear, polygon: [[25, 30], [50, 30], [52, 40], [48, 53], [37, 55], [25, 52]], notes: "The town and its buffer (about 2,500 round the doors)."}
+  - {id: town:monastery, kind: keep_clear, polygon: [[62, 25], [78, 25], [78, 44], [62, 44]]}
+  - {id: zone:west_plateau, kind: open, polygon: [[24, 19], [36, 19], [36, 30], [24, 30]], notes: "Quiet high snow: the fountain, the view west over the rim."}
+  - {id: zone:druid_grove, kind: keep_clear, polygon: [[26, 57], [34, 57], [34, 65], [26, 65]]}
+  - {id: town:glom, kind: keep_clear, polygon: [[40, 78], [50, 78], [50, 85], [40, 85]], notes: "Glom's knoll."}
+  - {id: zone:pass, kind: keep_clear, polygon: [[78, 40], [88, 40], [88, 52], [78, 52]]}
+  - {id: water:mere, kind: open, polygon: [[40, 53], [47, 50], [56, 50], [63, 52], [68, 56], [70, 61], [67, 66], [60, 70], [50, 71], [43, 68], [39, 61]], notes: "The ice: open on purpose, the tower in its middle."}
+views:
+  - {id: view:arrival, at: [106, 59], height: 180, look: [84, 54], purpose: "MU-4 arrival view: the frozen river leading west into the Frostspine's gorge, the pass notch to its right, Halon's water clock on the hill to the right, sedge and firs on the left."}
+  - {id: view:glacier, at: [49, 100], height: 200, look: [30, 103], purpose: "MU-4 signature view, from the Reflector's ledge by the Waters of Great Magic, looking west along the south rim: the cliff and the stars on the left, the glacier's tongue breaking off the edge ahead, the Earth Reflector on its spur in the middle ground, the giants' crags on the right."}
+  - {id: view:mere, at: [58, 43], height: 180, look: [55, 61], purpose: "Review view: the Darkstone Tower across the ice."}
+actors:
+  - {monster: "11060", at: [101, 37], count: 6, spread: 2, group: 1, hostile: true, notes: "Ogres and Ogre Brutes (18, 22)."}
+  - {monster: "11130", at: [104, 86], count: 7, spread: 2, group: 2, hostile: true, notes: "Evil Archers (A tier only near the dungeons, D-4)."}
+  - {monster: "11101", at: [42, 25], count: 5, spread: 2, group: 3, hostile: true, notes: "Barbarians, Sardaj, the chief (14-28)."}
+  - {monster: "11102", at: [43, 24], count: 1, spread: 0, group: 3, hostile: true, notes: "The Barbarian Chief 28."}
+  - {monster: "11080", at: [44, 93], count: 8, spread: 2, group: 4, hostile: true, notes: "Cyclopes 36 at their outpost."}
+  - {monster: "11080", at: [33, 91], count: 2, spread: 1, group: 5, hostile: true}
+  - {monster: "11080", at: [48, 98], count: 2, spread: 1, group: 6, hostile: true}
+  - {monster: "11080", at: [29, 97], count: 2, spread: 1, group: 7, hostile: true}
+  - {monster: "11081", at: [50, 92], count: 1, group: 8, hostile: true, notes: "One Giant 50 on the east crags."}

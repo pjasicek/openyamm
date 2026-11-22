@@ -1,0 +1,302 @@
+format: 0
+level: L3
+pitch: "The Plane of Air of Xeen: islands of wind-carved white stone hanging in a sky with no ground under it. Bridges of cloud-stone cross the gaps; the wind sings in a ring of hollow stones. In the south-east the Eye of the Winds, a ring of standing stones where the test of Air waits; from it the Stair of Wind climbs to the Sleeper's Aerie, the highest island, where the Air Sleeper dreams."
+purpose: "M38 (Act VI, party 56-60): the plaque (Step Two), the test of Air, the Air Sleeper (m38.sleeper_air, award 413) and the test's chest. Reached by stepping off D7's north-east corner after answering 'Air'; left by the updraft at the arrival or the return dais in the aerie, both to D7."
+mood: "Bright, cold and roaring: wind in the ears, the stones' long notes, nothing under the bridges. The lightning out of a clear sky is played straight."
+datum: room:landing
+spaces:
+  - id: room:arena
+    name: The Eye of the Winds
+    kind: room
+    extent: [3328, 3328]
+    shape: "a round island ringed by twelve standing stones, the wind circling inside"
+    at: [3968, -3072]
+    floor: 256
+    relief: flat
+    purpose: "The test of Air: the pedestal at the west gate asks 'Accept the test of Air?'; the guardians form in the eye. The foot of the Stair of Wind on the north side."
+    population:
+      - {id: pop:arena_approach, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Air Elemental (55) as one group, at (4992, -4224)"}
+      - {id: pop:arena_rim, actor: Air Elemental (11700), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Air Elemental (62) as one group, at (5248, -2176)"}
+  - id: room:chamber
+    name: The Sleeper's Aerie
+    kind: room
+    extent: [2560, 2304]
+    shape: "the highest island, a pale dome open on all sides over the couch"
+    at: [4224, 3456]
+    floor: 768
+    relief: flat
+    purpose: "The Air Sleeper on his couch (m38.sleeper_air); the test's chest; the return dais (after the sleeper wakes)."
+    safe: true
+    keep_clear: [spawns]
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The test's chest (treasure 6): the source's chest, now in the aerie the test opens. at (3584, 4224)"}
+  - id: room:kite_isle
+    name: The Kite Isle
+    kind: room
+    extent: [2560, 2560]
+    shape: "a ragged island of wind-carved stone, a wrecked basket in its rocks"
+    at: [-4224, 3584]
+    floor: 320
+    relief: flat
+    purpose: "The source's chest corner: a balloonist's basket with no balloon and his cache; the Whirlwinds that roam it."
+    population:
+      - {id: pop:kite_elementals, actor: Air Elemental (11700), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Air Elemental (62) as one group, at (-3584, 3200)"}
+      - {id: pop:kite_south, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Air Elemental (55) as one group, at (-4480, 2560)"}
+      - {id: pop:kite_greater, actor: Whirlwind (11701), groups: 1, per_marker: [3, 3], levels: [70, 70], placed: true, notes: "3 Whirlwind (70) as one group, at (-4608, 4224)"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The balloonist's cache (treasure 6, a lightning trap): his strongbox wedged in the basket. at (-3824, 4400)"}
+      - {kind: floor_item, count: 1, tier: 6, notes: "basket: the find, at (-3712, 4224)"}
+  - id: room:landing
+    name: The Gale Landing
+    kind: room
+    extent: [2560, 2304]
+    shape: "a flat island of white stone, the updraft's ring at its west edge"
+    at: [-4096, -4352]
+    floor: 0
+    relief: flat
+    purpose: Arrival from D7's north-east corner (entrance:d7_fall) and the way up (the updraft). Quiet.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:statue
+    name: The Wind Statue
+    kind: room
+    extent: [2560, 2304]
+    shape: "a round island of packed cloud, the statue of Air on a stone plinth"
+    at: [-384, -1920]
+    floor: 128
+    relief: flat
+    purpose: "The statue and its plaque (m38.plaque_air, Step Two); bridges part here."
+    population:
+      - {id: pop:statue_west, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Air Elemental (55) as one group, at (-1664, -2432), the first fight"}
+      - {id: pop:statue_east, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Air Elemental (55) as one group, at (640, -2176)"}
+  - id: room:stones
+    name: The Singing Stones
+    kind: room
+    extent: [2560, 2560]
+    shape: a high island crowned by a ring of hollow standing stones that sing in the wind
+    at: [0, 1920]
+    floor: 256
+    relief: flat
+    purpose: "The Singing Stones (a device); the middle of the plane."
+    population:
+      - {id: pop:stones_elementals, actor: Air Elemental (11700), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Air Elemental (62) as one group, at (-512, 2560)"}
+      - {id: pop:stones_north, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Air Elemental (55) as one group, at (640, 3072)"}
+      - {id: pop:stones_lip, actor: Lesser Air Elemental (11624), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Air Elemental (55) as one group, at (1024, 1024)"}
+  - id: void:sky
+    name: The sky
+    kind: void
+    purpose: "Open sky round, over and under the islands (below_horizon: sky); a fall is caught by the wind and lands on the Gale Landing (question 1)."
+links:
+  - id: link:bridge_e
+    from: room:statue
+    to: room:arena
+    kind: bridge
+    width: 640
+    rise: 128
+    notes: "a bridge of cloud-stone over the sky; 1,511 rim to rim"
+  - id: link:bridge_n
+    from: room:statue
+    to: room:stones
+    kind: bridge
+    width: 640
+    rise: 128
+    notes: "a bridge of cloud-stone over the sky; 1,487 rim to rim"
+  - id: link:bridge_s
+    from: room:landing
+    to: room:statue
+    kind: bridge
+    width: 768
+    rise: 128
+    notes: "a bridge of cloud-stone over the sky; 1,884 rim to rim"
+  - id: link:bridge_se
+    from: room:stones
+    to: room:arena
+    kind: bridge
+    width: 640
+    rise: 0
+    notes: "a bridge of cloud-stone over the sky; 3,368 rim to rim"
+  - id: link:bridge_w
+    from: room:stones
+    to: room:kite_isle
+    kind: bridge
+    width: 640
+    rise: 64
+    notes: "a bridge of cloud-stone over the sky; 1,914 rim to rim"
+  - id: link:stair_of_wind
+    from: room:arena
+    to: room:chamber
+    kind: stairs
+    condition: {qbit: m38_air_test}
+    opened_by: set:test
+    width: 768
+    rise: 512
+    notes: "cloud-stone steps over the sky; 3,717 rim to rim; the Stair of Wind: cloud-stone steps climbing 512 north; its gate opens on the test"
+entrances:
+  - id: entrance:d7_fall
+    space: room:landing
+    kind: arrival
+    neighbour: corner:d7
+    facing: ne
+    how: "The drop from D7's north-east corner (Sky F1 in the source) after the sky's 'What do you seek?' is answered 'Air' (m38.corner_air): the party lands standing on The Gale Landing (D-58 C2: no falling damage; Xeen.toPlane(\"air\"), Xeen.PlaneArrivals.air)."
+    notes: "at (-4096, -4096), z 0, quiet ground (keep_clear spawns)"
+  - id: entrance:dais
+    space: room:chamber
+    kind: exit
+    neighbour: exit:d7_dais
+    how: "The return dais: a disc of white stone, shown once the Air Sleeper is awake (m38.air); an exit preset to D7's entrance:p2_return."
+    condition: {qbit: m38_air}
+    notes: "at (3456, 2944)"
+  - id: entrance:way_up
+    space: room:landing
+    kind: exit
+    neighbour: exit:d7_way_up
+    how: "The updraft: a ring of white stones where the wind blows straight up, mist streaming skyward. An exit preset ('Ride the wind back to the Skyroads?'), always open, to D7's entrance:p2_return (the source's (2,2), a fall back to Skyroad F1)."
+    notes: "at (-5248, -4864)"
+critical_path: [room:landing, room:statue, room:arena, room:chamber]
+return_path: [room:chamber]
+goals:
+  - id: goal:sleeper
+    space: room:chamber
+    kind: use
+    what: "Wake the Air Sleeper (m38.sleeper_air: Chosen One and M37's four reflectors)"
+    story: M38
+    gives:
+      qbit: m38_air
+  - id: goal:test
+    space: room:arena
+    kind: kill
+    what: "The test of Air: the Sleeper's Guardian of Air and two Whirlwinds"
+    story: M38
+    gives:
+      qbit: m38_air_test
+points_of_interest:
+  - id: poi:basket
+    space: room:kite_isle
+    kind: device
+    behaviour: "The basket with no balloon: a wicker gondola wedged in the rocks, a logbook: 'Wind fair. Balloon fairer. Balloon gone.' (ours) A find: Air Resistance potions."
+    notes: "at (-3712, 4224)"
+  - id: poi:basket_cache
+    space: room:kite_isle
+    kind: chest
+    behaviour: "The balloonist's cache (treasure 6, a lightning trap): his strongbox wedged in the basket."
+    notes: "at (-3824, 4400)"
+  - id: poi:dais
+    space: room:chamber
+    kind: exit
+    behaviour: "The return dais: a disc of white stone, shown once the Air Sleeper is awake (m38.air); an exit preset to D7's entrance:p2_return. A3's line m38.dais_air is the window's meaning."
+    also: [entrance:dais]
+    condition: {qbit: m38_air}
+    notes: "at (3456, 2944), 17,687 along the walk"
+  - id: poi:singing_stones
+    space: room:stones
+    kind: device
+    behaviour: "The Singing Stones: a ring of hollow stones. Clicked: they sing; +20 Air resistance and +10 Speed for a day, once a day ('The stones sing. You feel lighter.')."
+    notes: "at (0, 2176)"
+  - id: poi:sleeper
+    space: room:chamber
+    kind: sleeper
+    behaviour: "The Air Sleeper on his couch under the dome: A3's m38.sleeper_air, three states (not Chosen; 'Awaiting Grunfeld field activation.'; awake, award 413, 10,500 XP)."
+    gives:
+      qbit: m38_air
+    condition: {lua: "XeenQuests.hook(\"m38.sleeper_air\")"}
+    notes: "at (4864, 3840), 16,018 along the walk"
+  - id: poi:statue
+    space: room:statue
+    kind: statue
+    behaviour: "The statue of Air: a winged figure of white stone, robes streaming, on a plinth. A3's m38.plaque_air: 'A message at the base of the statue reads: Step Two: Awaken the Four Sleepers of Darkside.' (aaze0026:2-3)"
+    condition: {lua: "XeenQuests.hook(\"m38.plaque_air\")"}
+    notes: "at (-384, -1792), 4,303 along the walk"
+  - id: poi:storm_cairn
+    space: room:statue
+    kind: device
+    behaviour: "The storm cairn: a cairn of fused stones. Clicked: 'Lightning has struck here. Often.' The first time, a blue gem in the glass (a find)."
+    notes: "at (1024, -2560)"
+  - id: poi:test
+    space: room:arena
+    kind: pedestal
+    behaviour: "The test pedestal at the Eye's west gate: 'Accept the test of Air?' (aaze0026:5). Yes calls A3's m38.test_air; the map forms the guardians in the eye (set:test). Offered while the guardians are hidden and m38_air_test (111765) is clear; declining does nothing (D-58 C3)."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: test_accepted
+    condition: {lua: "XeenQuests.hook(\"m38.test_air\")"}
+    notes: "at (2432, -3072), 7,355 along the walk"
+  - id: poi:test_chest
+    space: room:chamber
+    kind: chest
+    behaviour: "The test's chest (treasure 6): the source's chest, now in the aerie the test opens."
+    notes: "at (3584, 4224)"
+  - id: poi:way_up
+    space: room:landing
+    kind: exit
+    behaviour: "The updraft: a ring of white stones where the wind blows straight up, mist streaming skyward. An exit preset ('Ride the wind back to the Skyroads?'), always open, to D7's entrance:p2_return (the source's (2,2), a fall back to Skyroad F1). A3's line m38.way_up_air is the window's meaning."
+    also: [entrance:way_up]
+    notes: "at (-5248, -4864)"
+landmarks:
+  - id: landmark:arena
+    space: room:arena
+    what: "a round island ringed by twelve standing stones, the wind circling inside"
+    seen_from: [room:landing, room:statue, room:stones, room:kite_isle, room:chamber]
+  - id: landmark:chamber
+    space: room:chamber
+    what: "the highest island, a pale dome open on all sides over the couch"
+    seen_from: [room:landing, room:statue, room:arena]
+  - id: landmark:statue
+    space: room:statue
+    what: The statue of Air
+    seen_from: [room:landing, room:stones, room:kite_isle, room:arena]
+  - id: landmark:way_up
+    space: room:landing
+    what: "The updraft: a ring of white stones where the wind blows straight up, mist streaming skyward"
+    seen_from: [room:landing, room:statue]
+sightlines:
+  - id: view:arrival
+    from: room:landing
+    to: [landmark:statue, landmark:arena, landmark:chamber]
+    what: "The arrival: from the Gale Landing north-east across the gap, the bridge to the Wind Statue, the Singing Stones' ring on its high island beyond, the Eye's standing stones to the right, the Sleeper's Aerie high and far, the sky above and below."
+    notes: "camera at (-3584, -3712), z 176 (eye), yaw 45 degrees, pitch -7; the MU-4 concept"
+set_pieces:
+  - id: set:fall
+    kind: scripted
+    spaces: [void:sky]
+    rule: "D-58 P2 Q1 (a): a party below z -1,500 (and the room's safety floor) is moved by Xeen.skyFallTo(\"p2\") (A3's SkyFalls key `p2`) to entrance:d7_fall on the Gale Landing in this map, from Xeen.SkyFallHeight (850) above it, with falling damage (D-6.2: a third of HP at most; Feather Fall none). The smallest unbridged gap between islands is 1,801: no jump across."
+  - id: set:storm
+    kind: trap
+    spaces: [room:kite_isle, room:statue, room:stones]
+    rule: "The source's nine storm squares: scorched patches on the islands (a small floor face each). Stepping on one: one time in three 50 electrical damage to each member, 'Lightning strikes from a clear sky!' (resistance applies). PressurePlate faces textured `xpascorch`, each calling A3's planes.storm. Cells: at (-1408, -1408); at (256, -1152); at (-1024, 1280); at (1152, 2560); at (-4736, 3072); at (-3456, 4480); at (-640, -896); at (768, 1280); at (-768, 2816). None on the critical path (measured 0 within 384 of the walk; 0 on a link, 0 in the arena)."
+  - id: set:test
+    kind: boss
+    spaces: [room:arena]
+    rule: "D-58 C3 (a): the pedestal's 'Accept the test of Air?' (A3's m38.test_air) shows the three guardians, a hidden group until then, rising from the pit at (3968, -3072): 1 Sleeper's Guardian of Air (75), 2 Whirlwind (70). Each guardian's death event calls Xeen.planeTestCheck(\"air\", <the group>); when the three are dead it runs m38.test_air_passed, which sets m38_air_test (111765, P-1) and opens the gate. A party that leaves mid-fight finds the guardians still shown on return; the test is not offered again while they live."
+    enabled_by: {map_var: test_accepted}
+    gives:
+      qbit: m38_air_test
+    population:
+      - {id: pop:guardians, actors: [{actor: Sleeper's Guardian of Air (11702), count: 1}, {actor: Whirlwind (11701), count: 2}], placed: true, notes: "hidden until the test is accepted, at (3968, -3072)"}
+height_bands:
+  - id: band:fall
+    level: -1500
+    spaces: [void:sky]
+    notes: the fall check
+  - id: band:floors
+    range: [0, 768]
+    spaces: [room:landing, room:statue, room:stones, room:kite_isle, room:arena, room:chamber]
+    notes: "the arrival 0, rising to the sleeper"
+states:
+  - id: state:sleeper_awake
+    condition: {qbit: m38_air}
+    shows: [poi:dais]
+    effects: ["The return dais shows (common question C5 (a)); m38.sleeper_air answers its first line."]
+  - id: state:test_passed
+    condition: {qbit: m38_air_test}
+    opens: [link:stair_of_wind]
+    effects: ["P-1: the map's load event reads m38_air_test (111765): the gate stays open, the guardians stay hidden and the pit stays quiet, through refills and the reset after a map rebuild (D-58 C4 (a))."]
+atmosphere: "Sky `plane_air` (shipped; question 3); daylight [118, 122, 134] ambient; view distance x1.5; no weather; music 9. No Fly (WORLD_DESIGN 3.4). No lighting bake (open air)."
+totals:
+  chests: 2
+  first_fight: 2947
+  kill_xp_per_member: 32044
+  placed_monsters: 30
+  points_of_interest: 10
+  walk_length: 17687
+  walkable_area_millions: 45
+notes: "MU-3 for the phase 6 review (A6's planes sub-agent, 2026-11-21). Room 26 x 26 cells (13,312 a side). Written by level_generation/xeen_art/phase6/planes_brief.py from planes_design.py; drawings, measure.json and the board in level_generation/xeen_art/phase6/planes/. Source: the Elemental Plane of Air, MM5 maze 26 (dark/aaze0026). Corner contract: level_generation/xeen_art/phase6/corners.yml. L2-L4 (A6's planes sub-agent, sixteenth session, 2026-11-21): built by output/studio_cal/p2/tools/gen.py; the islands rough floating rock with cloud skirts; the gate a curtain of wind between two standing stones made passable on qbit 111765; the Stair of Wind's cheeks keep P-2; S's pieces blocked by name."

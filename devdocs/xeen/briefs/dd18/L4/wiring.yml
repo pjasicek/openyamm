@@ -1,0 +1,167 @@
+format: 0
+variables: []
+events:
+  - id: evt:alcove_1
+    preset: text
+    source: panel:alcove_1
+    title: Alcove
+    text: Nothing here.
+    window: false
+    notes: "'Alcove' (dark/aaze0032:11)."
+  - id: evt:alcove_3
+    preset: text
+    source: panel:alcove_3
+    title: Alcove
+    text: Nothing here.
+    window: false
+    notes: "'Alcove' (dark/aaze0032:11)."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE SANDCASTER SEWER. The ladder from the street ends by a door under Barticus' sign: his members' room, where the brews are kept. Barticus says the stalkers got in. East, the drains run round the city's old cistern, and they say there is a passage in the sewer that leads a long ways under the desert."
+      - qbit: arrived_once
+    notes: "Say what is here (the members' room, the drains, the long tunnel; Barticus' town topic, D-27), on the first arrival only (arrived_once 117280)."
+  - id: evt:book
+    preset: script
+    source: platform:bench
+    title: The Art of Bodybuilding
+    lua: "if XeenQuests.hook(\"dd18.members_room\") then XeenQuests.hook(\"dd18.bodybuilding\") end"
+    notes: "The Art of Bodybuilding (dark/aaze0032:6) on the bench: members only; A3's text."
+  - id: evt:chest_alcove
+    preset: chest
+    source: chest:alcove
+    title: Chest
+  - id: evt:chest_cistern
+    preset: chest
+    source: chest:cistern
+    title: Chest
+  - id: evt:chest_nest
+    preset: chest
+    source: chest:nest
+    title: Chest
+  - id: evt:chest_pack
+    preset: chest
+    source: chest:pack
+    title: Bag
+    notes: "D-27's find at the grate's foot: a sand-buried prospector's pack (treasure 3)."
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:desert_grate
+    preset: script
+    source: panel:desert_grate
+    title: Grate
+    lua: "XeenQuests.hook(\"dd18.tunnel_grate\")"
+    notes: "poi:grate (D-27): bolted on the desert side; A3's dd18.tunnel_grate refuses with \"Sand blows through the bars. The bolt is on the other side.\" until D5's grate sets d5_tunnel (116121). Phase 5: this event becomes the exit preset to exit:d5_grate with condition {qbit: d5_tunnel} (project.yml neighbours, sealed)."
+  - id: evt:door_cobra_cistern
+    preset: door
+    source: door:cobra_cistern
+    title: Door
+  - id: evt:door_drain_alcoves
+    preset: door
+    source: door:drain_alcoves
+    title: Door
+  - id: evt:door_nest_drowned
+    preset: door
+    source: door:nest_drowned
+    title: Door
+  - id: evt:door_shaft_drain
+    preset: door
+    source: door:shaft_drain
+    title: Door
+  - id: evt:door_shaft_gym
+    preset: door
+    source: door:shaft_gym
+    title: Door
+  - id: evt:door_tunnel_gate
+    preset: door
+    source: door:tunnel_gate
+    title: Door
+  - id: evt:door_warren_cistern
+    preset: door
+    source: door:warren_cistern
+    title: Door
+  - id: evt:exit_shaft
+    preset: exit
+    source: exit:shaft
+    title: Ladder to the street
+    notes: "The game's own leave window, up the ladder to D3's street shaft beside Barticus' Gym (D-24)."
+  - id: evt:milestone
+    preset: text
+    source: deco:milestone
+    title: Milestone
+    text: "Cut in the stone: TO THE DESERT."
+    window: false
+    notes: "poi:milestone: the long tunnel's start."
+  - id: evt:outlet_cistern
+    preset: text
+    source: panel:outlet_cistern
+    title: Sewer Drain
+    text: Water trickles through the grate from the city above.
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0032:0)."
+  - id: evt:outlet_cobra
+    preset: text
+    source: panel:outlet_cobra
+    title: Sewer Drain
+    text: Water trickles through the grate from the city above.
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0032:0)."
+  - id: evt:outlet_main
+    preset: text
+    source: panel:outlet_main
+    title: Sewer Drain
+    text: Water trickles through the grate from the city above.
+    window: false
+    notes: "'Sewer Drain' (dark/aaze0032:0)."
+  - id: evt:paybox
+    preset: script
+    source: panel:paybox
+    question: {ask: "Pay (Yes/No)?", answers: [Yes, Y], message: "It costs 5,000 gold to use the gym. Pay?", wrong_text: "Get lost!"}
+    title: Pay box
+    condition: {not: {qbit: gym_paid}}
+    effects:
+      - lua: "XeenQuests.hook(\"dd18.pay_box\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"dd18.pay_box\")"
+    notes: "poi:paybox (D-27): 'It costs 50,000 gold to use the gym. Pay?' / 'Get lost!' (dark/aaze0032:3-4, the price rescaled); Yes runs A3's once-hook dd18.pay_box (5,000 gold, gym_paid 116120, 'Enjoy the facilities.'; short of gold the charity-gym refusal, dark/aaze0032:14); once paid the hook's 'Paid up.'"
+  - id: evt:protein_brew
+    preset: script
+    source: deco:protein_brew
+    title: Protein Brew
+    lua: |-
+      if not XeenQuests.hook("dd18.members_room") then
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      if IsPlayerBitSet(PlayerBit(11319)) then
+          XeenQuests.hook("dd18.brew_again")
+          return
+      end
+      AddValue(BaseMight, 2)
+      SetPlayerBit(PlayerBit(11319))
+      XeenQuests.hook("dd18.protein_brew")
+    notes: "Protein Brew (dark/aaze0032:9): members only; +2 Might once per character (player bit 11319)."
+  - id: evt:vitamin_brew
+    preset: script
+    source: deco:vitamin_brew
+    title: Vitamin Brew
+    lua: |-
+      if not XeenQuests.hook("dd18.members_room") then
+          return
+      end
+      evt.ForPlayer(Players.Current)
+      if IsPlayerBitSet(PlayerBit(11318)) then
+          XeenQuests.hook("dd18.brew_again")
+          return
+      end
+      AddValue(BaseEndurance, 2)
+      SetPlayerBit(PlayerBit(11318))
+      XeenQuests.hook("dd18.vitamin_brew")
+    notes: "Vitamin Brew (dark/aaze0032:8): members only (dd18.members_room); +2 Endurance once per character (player bit 11318), A3's text; again: dd18.brew_again."
+notes: "DD-18's events, written by output/studio_cal/dd18/tools/dress.py."

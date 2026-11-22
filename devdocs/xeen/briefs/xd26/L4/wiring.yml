@@ -1,0 +1,123 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: The cave runs into the mountain and opens on a shaft so tall its top is lost in shadow. Wings beat somewhere far above.
+    seconds: 7
+  - id: evt:chest_climber
+    preset: chest
+    source: chest:climber
+    title: Chest
+  - id: evt:chest_fence
+    preset: chest
+    source: chest:fence
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:fence_door
+    preset: door
+    source: door:fence
+    title: Door
+    action: open
+  - id: evt:fence_seen
+    preset: text
+    source: room:fence_cache
+    trigger: step
+    once: true
+    text: "Crates and sacks stand along the walls, each with a tag on a string: \"Deliver to Asp: one silver mirror.\" \"Deliver to Asp: two candlesticks.\" Someone pays the gargoyles to steal, and keeps the goods here."
+    seconds: 7
+  - id: evt:hoist
+    preset: switch
+    source: lift:hoist
+    title: Hoist
+    condition: {qbit: hoist_winched}
+    toggles: [lift:hoist]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\")"
+      - message: The platform creaks on its ropes and moves.
+    else_effects:
+      - message: The platform hangs on its ropes at the ledge above. Its winch must be in the cave beside you.
+  - id: evt:hoist_bottom
+    preset: switch
+    source: switch:hoist_bottom
+    title: Call rope
+    condition: {qbit: hoist_winched}
+    toggles: [lift:hoist]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\")"
+      - message: "You pull the rope; the platform creaks on its ropes and moves."
+    else_effects:
+      - message: The platform hangs on its ropes at the ledge above. Its winch must be in the cave beside you.
+  - id: evt:hoist_top
+    preset: switch
+    source: switch:hoist_top
+    title: Call rope
+    condition: {qbit: hoist_winched}
+    toggles: [lift:hoist]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\")"
+      - message: "You pull the rope; the platform creaks on its ropes and moves."
+    else_effects:
+      - message: "The rope will not run: the hoist's winch in the fence's cave below is still locked."
+  - id: evt:moss
+    preset: door
+    source: door:moss
+    title: Hanging moss
+    action: open
+    text: You push the hanging moss aside. Behind it a crack opens on a hidden ledge.
+  - id: evt:mouth
+    preset: exit
+    source: exit:mouth
+    title: Leave the Gargoyle Eyrie
+    notes: To X4's Gargoyle Range in front of its door:xd26 (exit:x4_range).
+  - id: evt:nest
+    preset: script
+    source: platform:great_nest
+    title: Great nest
+    effects:
+      - lua: "XeenQuests.hook(\"q-c10.scarab\")"
+    notes: "goal:scarab: A3's hook q-c10.scarab gives its text and the Scarab of Imaging (12312) once (scarab_found 112202); later clicks its else text \"The chest is empty.\" (aaze0081:8)."
+  - id: evt:roost_seen
+    preset: text
+    source: room:roost
+    trigger: step
+    once: true
+    text: "The matriarch's roost: a great nest of sticks and bones, heaped with things that glitter."
+    seconds: 6
+  - id: evt:shaft_seen
+    preset: text
+    source: room:shaft_floor
+    trigger: step
+    once: true
+    text: "Ledges climb the walls of the shaft, one above another, and a rope bridge sags across it high overhead. Grey shapes wheel between them."
+    seconds: 6
+  - id: evt:sky_crack
+    preset: exit
+    source: exit:sky_crack
+    title: Climb out through the crack
+    notes: "One way out to X4: A5's ledge platform high on the peak above the mouth (exit:x4_peak)."
+  - id: evt:tags
+    preset: script
+    source: panel:tagged_crates
+    title: Tagged crates
+    effects:
+      - message: "Each crate has a tag on a string. One tag is a scrap torn from a complaint to the Burlock watch, in a careful hand: \"I know not why they took it, only that gargoyles are hired to steal things for people.\" Under it someone has scrawled: \"Deliver to Asp. Quickly.\""
+    notes: "D-4: Carlawna's theft line (aaze0010:9) on the fence's tag."
+  - id: evt:winch
+    preset: switch
+    source: switch:winch
+    title: Winch
+    condition: {not: {qbit: hoist_winched}}
+    closes: [lift:hoist]
+    sets: {qbit: hoist_winched}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\")"
+      - message: "You crank the winch. A rope runs out through a hole in the rock, and beyond the wall a plank platform comes creaking down on its ropes from the high ledge."
+    else_effects:
+      - message: "The winch is wound out; the hoist answers its deck and its call ropes now."
+    notes: "link:hoist_high (hoist: winch): lowers the hoist the first time and sets hoist_winched."

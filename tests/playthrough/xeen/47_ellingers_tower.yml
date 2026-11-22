@@ -1,0 +1,225 @@
+# Xeen playthrough, segment 47: Ellinger's Tower (D1, DD-02), M17 done and M18 started. Nadia's key opens the tower
+# door in Castleview; the tower walked: the storeroom's chest, the question at the first floor's door (an honest
+# answer), the gauntlet floor and the Hall of Wards, the tapestry button to the back stair, the library (the Books of
+# Fire and of Electricity), the reading room, the tapestry floor's third button, the crate room, the beholder loft,
+# the trapped walk round the outer wall, "Who do you seek?" (Ellinger, Madame Oorla's word), Ellinger with the Dragon
+# Pharaoh's orb (Alamar: M17 done, the disks, M18), the Book o' Boots and his list, the boot closet; the lift down
+# (it runs now that he has spoken) and out of the front door; the runaway chest in the south-west, standing still.
+# Routes: devdocs/xeen/briefs/dd02/L4/playtest.yml, playtest_exit.yml; d1/L4 (the tower door, event 102; the chest, 165).
+# Quest logic: source/quests/m17.yml, m18.yml.
+#   python3 tests/playthrough/xeen/run.py 47
+id: xeen.playthrough.47_ellingers_tower
+title: "Xeen playthrough 47: Ellinger's Tower: the question, the gauntlet, the password and Ellinger"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/45_castleview_sewer.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - assert: {qbit_set: [111322]}
+  - assert: {qbit_clear: [111340, 111341, 111342, 111343]}
+  - play_lua: {source: "if item_count(12331) ~= 1 then error('no Dragon Pharaoh\\'s orb') end"}
+  # Ellinger's Tower inside Castleview's walls (D1 event 102): Nadia's key opens its door.
+  - set_pose: {map: xeen_d1.odm, x: 2560, y: 9216, z: 1152, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(102)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd02.blv}
+  - assert: {party_position: {x: -1216, y: 640, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "ELLINGER'S TOWER"}}
+  - play_lua: {source: "close(); if not qbit(117080) then error('arrived_once not set') end"}
+  # The storeroom: its door, its bats, its chest.
+  - walk_to: {x: -448, y: 150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(1.5)"}
+  - walk_to: {x: -448, y: -384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -224, y: -440, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(44)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end"}
+  # The question's door: an honest answer (m17.question_right).
+  - walk_to: {x: -448, y: 150, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 400, y: 480, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 912, y: 700, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - answer_input: {text: "Let him take up his sword"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Not the one I'd give"}}
+  - play_lua: {source: "close(); wait(2.5); if door_state(9) ~= 'open' then error('the question door did not open: ' .. door_state(9)) end"}
+  - assert: {qbit_set: [111340]}
+  # Up the main stair to the gauntlet floor; the Hall of Wards.
+  - walk_to: {x: 912, y: 1000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 912, y: 2432, z: 480, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1700, y: 2432, z: 480, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2700, y: 2368, z: 480, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(1.5)"}
+  - walk_to: {x: 3392, y: 2368, z: 480, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The tapestry gallery: the button behind the east tapestry opens the back stair.
+  - walk_to: {x: 3392, y: 1650, z: 480, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3700, y: 900, z: 480, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(32); wait(4.5); if door_state(2) ~= 'open' then error('the back stair panel: ' .. door_state(2)) end"}
+  # Up the back stair to the library floor; the gargoyle gallery and the library.
+  - walk_to: {x: 3760, y: 672, z: 480, radius: 48, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 4112, y: 672, z: 480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4112, y: 1000, z: 480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4112, y: 2432, z: 960, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3700, y: 2432, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3100, y: 1408, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2500, y: 1408, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The Book of Fire and the Book of Electricity, read by the selected member.
+  - walk_to: {x: 1856, y: 640, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Fire]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1856, y: 1792, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+5 Elec]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The reading room: its door, its gargoyles, its chest.
+  - walk_to: {x: 2176, y: 2050, z: 960, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(1.5)"}
+  - walk_to: {x: 2176, y: 2500, z: 960, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2600, y: 2944, z: 960, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(43)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end"}
+  # Up the main stair to the tapestry floor.
+  - walk_to: {x: 2176, y: 2450, z: 960, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: 1900, z: 960, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1650, y: 640, z: 960, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 912, y: 640, z: 960, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 912, y: 1000, z: 960, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 912, y: 2432, z: 1440, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1700, y: 2432, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The tapestry floor: the third button (at the arm's east end) opens the back stair's top.
+  - walk_to: {x: 2500, y: 2432, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 2050, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1800, y: 2050, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1800, y: 1450, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 1450, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 700, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 3600, y: 700, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - play_lua: {source: "click(34); wait(4.5); if door_state(3) ~= 'open' then error('the top panel: ' .. door_state(3)) end"}
+  # The back stair's top and the crate room's chest.
+  - walk_to: {x: 4112, y: 672, z: 1440, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 4112, y: 1100, z: 1440, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3120, y: 1376, z: 1440, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(42)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end"}
+  # Back into the tapestries, the loft's door, the beholder loft.
+  - walk_to: {x: 4112, y: 1100, z: 1440, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4112, y: 672, z: 1440, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2500, y: 700, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 1450, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1800, y: 1450, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1800, y: 2050, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 2050, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2700, y: 2368, z: 1440, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(1.5)"}
+  - walk_to: {x: 3392, y: 2368, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The trapped walk round the outer wall to the last stair.
+  - walk_to: {x: 4100, y: 2400, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 4992, y: 2400, z: 1440, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 4992, y: 224, z: 1440, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 1600, y: 224, z: 1440, radius: 64, timeout_seconds: 50, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 1264, y: 300, z: 1440, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1264, y: 800, z: 1440, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1264, y: 2432, z: 1920, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 500, y: 2432, z: 1920, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The last door: "Who do you seek?" Ellinger (Madame Oorla's word).
+  - walk_to: {x: 250, y: 2464, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(0.5)"}
+  - answer_input: {text: "Ellinger"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You may pass!"}}
+  - play_lua: {source: "close(); wait(1.5); if door_state(8) ~= 'open' then error('the last door did not open: ' .. door_state(8)) end"}
+  - assert: {qbit_set: [111341]}
+  # The study: Ellinger, with the Dragon Pharaoh's orb (Alamar: M17 done, M18 started).
+  - walk_to: {x: -300, y: 2464, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -704, y: 3050, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(15); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - select_topic: {match_label: "Alamar"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Twenty energy discs will bring it back"}}
+  - play_lua:
+      source: |
+        close(); wait(0.5); close()
+        if experience(0) - recall("xp") < 8000 then error("Ellinger's 8,000 XP missing: " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [111342, 111343, 111360]}
+  # The Book o' Boots and Ellinger's list of disk sources (M18).
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Boots of Paradise"}}
+  - play_lua: {source: "close(); click(28); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A list in Ellinger's hand"}}
+  - play_lua: {source: "close()"}
+  # The boot closet's chest (DD-02's identity rebuild 2026-11-22, A8: the closet door at x -448, as its playtest).
+  - walk_to: {x: -448, y: 3600, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1.5)"}
+  - walk_to: {x: -448, y: 4000, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -96, y: 4120, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(41)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); if held() ~= 0 then stow() end"}
+  # The lift: called to the top, ridden down to the ground floor (it runs now that Ellinger has spoken).
+  - walk_to: {x: -448, y: 3600, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2400, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -768, y: 2080, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(7); if door_state(1) ~= 'open' then error('the cage did not come up: ' .. door_state(1)) end"}
+  - walk_to: {x: -768, y: 1600, z: 1920, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(6)"}
+  - assert: {party_position: {x: -768, y: 1600, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -768, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Out by the front door to Castleview.
+  - walk_to: {x: -1216, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1310, y: 640, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: 2560, y: 9216, radius: 160, z_min: 1120, z_max: 1190}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # The runaway chest in the south-west of Castleview (D1 event 165): it stands still now; Ellinger's gift.
+  - set_pose: {map: xeen_d1.odm, x: -5120, y: 1000, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local before = #pack_items()
+        loot_chest(165); close()
+        if held() ~= 0 then stow() end
+        log("47 the runaway chest: packs " .. before .. " -> " .. #pack_items())
+        log("47 done: experience " .. experience(0) .. "; gold " .. gold() .. "; Energy Disks " .. item_count(12334))
+  - assert: {qbit_set: [111340, 111341, 111342, 111343, 117080]}
+  - save_game: {name: "47 Ellinger's Tower", path: output/playthrough/xeen/checkpoints/47_ellingers_tower.oysav}

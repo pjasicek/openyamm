@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png as a locked alpha stencil. Keep its entire 1536x2048 portrait canvas 3:4, three columns and FOUR rows, each cell 512 square. Recolour only existing nontransparent pixels. Copy exactly their position, silhouette, thickness, scale, and orientation. Preserve all transparent gaps and margins. Images 2 and 3 are the HD material reference and icon colour reference only. Upper two rows: unlit albedo paint of a flamberge with silver steel wavy blade, straight steel crossguard, pommel and collars, long warm brown diagonally wrapped leather grip. Render the reference's facets and subdued detail. No reflections, hot highlights, lighting, shadows, AO, outlines, text or ground. First row at cell centers: two tiny end-on steel bars (108x21 pixels each), then a thin horizontal edge-on sword pointing LEFT (446x20). Second row: thin edge-on sword pointing RIGHT, then upright broadside wavy sword point up (108x446), then fully transparent cell. The lower half exactly duplicates the upper five silhouettes translated straight down 1024 px, but paint flat material IDs only: all metal pure #FF0000, leather pure #00FF00. Every silhouette pixel one pure colour, no shading, mixed hues, outlines or texture. Other material IDs if present: cloth/hair blue, matte solid yellow, gemstone/glass black. Last cell empty. Maintain transparent background everywhere outside those original pixels; no visible grid or cell borders. Corrective pass: bind all colour to the exact original guide's alpha, especially the blade edges and the two tiny end views. The upper and lower alpha channels must be identical. Output the lower half like a clean digital segmentation pass: flood fill uniform RGB(255,0,0) or RGB(0,255,0) to the edge with zero bleed, noise, speckles, halos, dark borders or softened colours.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "793fa0a18e3d0d4bf4315cd3cd4e79fe26d883e0ab7038dca1b4419c6985bdfc"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "25b53a2e757f74d954c0efb9f8a6f747cc537b7f14010333ba3412fddd2500e1"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "e5faf6b8d15b5e044e859c1aba4b78d45b24dc8ffc6d9f7d7179ca13669150d3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92b-bc0b-70e2-8716-c1a52e89cf7d/exec-dda5f892-04a9-47f2-a32b-d38e9d39e7bb.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

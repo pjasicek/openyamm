@@ -1,0 +1,136 @@
+# Xeen playthrough, segment 71: Corak's Pod (D5, D6, DD-16), M29 Corak's Pod done.
+# From the Great Pyramid's green doors on D5 west along the desert road off D5's west edge into the Forbidden Zone (D6):
+# the edge a player walks. D6: Escape Pod 1's hatch on the cooled crust (m29.pod_door: the lava cooled by the Pharaoh,
+# m28.lava_cooled 111564) into DD-16. DD-16 walked along A7's critical path (devdocs/xeen/briefs/dd16/L4/playtest.yml):
+# the inner door, the main deck's eyes; up the couch row to the blast door ("No power."); down the stern slope to the
+# engine room's elementals and the Main Power Console (Yes: power_on 118080, the blast door opens); back up to the
+# bridge: the two logs, the third's first page; the console's phrase (m29.console); the stasis field answered "where
+# no man has gone before" (m29.stasis: M29 done 111582, 8,000 each, the autonote 4129); Corak's Sheltem topic; back to
+# the airlock and out by the hatch to D6's crust (entrance:dd16_hatch). The device bay, the lockers and the gun deck's
+# loop are left alone. Quest logic: source/quests/m29.yml.
+#   python3 tests/playthrough/xeen/run.py 71
+id: xeen.playthrough.71_corak
+title: "Xeen playthrough 71: west to the Forbidden Zone, Corak's pod, power, the stasis field and Corak awake"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/69_great_pyramid.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d5.odm}
+  - assert: {qbit_set: [111563, 111564, 111580]}
+  - assert: {qbit_clear: [111581, 111582]}
+  - play_lua: {source: "log('71 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end"}
+  # West along the desert road (y 0) off D5's west edge into the Forbidden Zone.
+  - set_pose: {map: xeen_d5.odm, x: -20992, y: 0, z: 1696, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -32512, y: 0, z: 1700, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('D6 arrival: ' .. status())"}
+  # Escape Pod 1's hatch on the crust (D6 event 42, m29.pod_door).
+  - set_pose: {map: xeen_d6.odm, x: 5001, y: -2442, z: 1472, yaw: 2.3562, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(42); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd16.blv}
+  - assert: {party_position: {x: -832, y: 0, radius: 160}}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The inner door and the main deck's eyes: fought before the door opens (D-82; a reload with their Paralyze shots in
+  # flight left one or two members Paralyzed, A3 session 33).
+  - walk_to: {x: -720, y: 0, z: 0, radius: 40, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(13); wait(2); if door_state(6) ~= 'open' then error('inner door: ' .. door_state(6)) end"}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # Up the couch row: the blast door sealed without power.
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: 1760, z: 230, z_tolerance: 60, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "No power"}}
+  - play_lua: {source: "close(); if door_state(1) == 'open' then error('blast door open without power') end"}
+  # Down the stern slope to the engine room and the Main Power Console: Yes.
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: -400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: -1100, z: -200, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: -1600, z: -370, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(2); if door_state(3) ~= 'open' then error('engine door: ' .. door_state(3)) end"}
+  - walk_to: {x: 0, y: -2000, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: -416, y: -1880, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "machines wake"}}
+  - play_lua: {source: "close(); if not qbit(118080) then error('power_on 118080 not set') end; wait(3); if door_state(1) ~= 'open' then error('blast door: ' .. door_state(1)) end"}
+  # Back up to the bridge through the open blast door.
+  - walk_to: {x: 0, y: -1600, z: -370, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -1100, z: -200, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The logs: the two short ones and the third's first page.
+  - walk_to: {x: -540, y: 2368, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Pursuit of renegade guardian"}}
+  - play_lua: {source: "close(); click(18); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Second pod landed"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 540, y: 2368, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 1 of 5"}}
+  - play_lua: {source: "close()"}
+  # The console's phrase; the stasis field.
+  - walk_to: {x: 300, y: 2700, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "TO BOLDLY GO WHERE NO MAN HAS GONE BEFORE"}}
+  - play_lua: {source: "close(); remember('xp', experience(0))"}
+  - walk_to: {x: 0, y: 2760, z: 256, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - answer_input: {text: "where no man has gone before"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "The field flickers out"}}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(111582) then error("m29.done 111582 not set") end
+        if experience(0) - recall("xp") ~= 8000 then error("M29 paid " .. (experience(0) - recall("xp"))) end
+        wait(4)
+        if door_state(4) ~= 'open' then error('field: ' .. door_state(4)) end
+  - assert: {qbit_set: [111581, 111582]}
+  # Corak, awake: his Sheltem topic.
+  - walk_to: {x: 0, y: 2900, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Sheltem"}
+  - assert: {dialog: {active: true, text_contains: "drifting out of its orbit"}}
+  - play_lua: {source: "close(); close(); wait(0.5); close()"}
+  # Back to the airlock and out by the hatch to D6's crust.
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -832, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -940, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 16}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: 5120, y: -2560, radius: 160}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111564, 111581, 111582, 118080]}
+  - play_lua: {source: "log('71 done: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - save_game: {name: "71 Corak's Pod", path: output/playthrough/xeen/checkpoints/71_corak.oysav}

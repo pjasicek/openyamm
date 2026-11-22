@@ -1,0 +1,96 @@
+format: 0
+variables: []
+events:
+  - id: evt:alehall
+    preset: script
+    source: door:alehall
+    title: The Alehall
+    effects:
+      - lua: evt.EnterHouse(4702)
+    notes: A4's house 4702 (source/towns/dd25.yml door:alehall).
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"dd25.arrival\")"
+      - qbit: arrived_once
+    notes: "The first arrival only: A3's once-hook dd25.arrival (its line, sets arrived_once 117680; D-62)."
+  - id: evt:chalice
+    preset: script
+    trigger: load
+    condition: {qbit: chalice_done}
+    effects:
+      - show: deco:chalice
+    notes: "D-62 Q37: the Chalice stands on the tasting table from q-d17.done (113343), shown on every load."
+  - id: evt:exit_gate_left
+    preset: exit
+    source: exit:gate_left
+    title: Bosco's gate
+    notes: "The game's own leave window (D-24), to D5's entrance:dd25_door on the terrace."
+  - id: evt:exit_gate_right
+    preset: exit
+    source: exit:gate_right
+    title: Bosco's gate
+    notes: "The game's own leave window (D-24), to D5's entrance:dd25_door on the terrace."
+  - id: evt:forge
+    preset: script
+    source: door:forge
+    title: Bosco's Forge
+    effects:
+      - lua: evt.EnterHouse(4701)
+    notes: A4's house 4701 (source/towns/dd25.yml door:forge).
+  - id: evt:guild_earth
+    preset: script
+    source: door:guild_earth
+    title: The Deep Guild of Earth
+    effects:
+      - lua: evt.EnterHouse(4703)
+    notes: A4's house 4703 (source/towns/dd25.yml door:guild_earth).
+  - id: evt:kings_hall
+    preset: script
+    source: door:kings_hall
+    title: The King's Hall
+    effects:
+      - lua: evt.EnterHouse(4704)
+    notes: A4's house 4704 (source/towns/dd25.yml door:kings_hall).
+  - id: evt:mailwright
+    preset: script
+    source: door:mailwright
+    title: The Mailwright's Burrow
+    effects:
+      - lua: evt.EnterHouse(4705)
+    notes: A4's house 4705 (source/towns/dd25.yml door:mailwright).
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: Bosco's throne
+    lua: "XeenQuests.hook(\"dd25.throne\")"
+    notes: "D-62 Q33: the hover \"Bosco's throne\" and A3's hook dd25.throne (its line in a window)."
+  - id: evt:throne_back
+    preset: script
+    source: platform:throne_back
+    title: Bosco's throne
+    lua: "XeenQuests.hook(\"dd25.throne\")"
+    notes: The throne's back answers as its seat.
+  - id: evt:throne_leaves
+    preset: door
+    source: door:throne_leaves
+    title: Door
+    notes: "The throne hall's two leaves: open to all (D-62 Q38: no change after the oath)."
+  - id: evt:tinker
+    preset: script
+    source: door:tinker
+    title: The Tinker's Burrow
+    effects:
+      - lua: evt.EnterHouse(4706)
+    notes: A4's house 4706 (source/towns/dd25.yml door:tinker).
+  - id: evt:well
+    preset: script
+    source: platform:well
+    title: Well
+    lua: "XeenQuests.hook(\"dd25.well\")"
+    notes: "D-62 Q39: a plain well, no boon; A3's hook dd25.well (its line)."
+notes: "DD-25's events, written by output/studio_cal/dd25/tools/dress.py."

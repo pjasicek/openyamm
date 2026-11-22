@@ -1,0 +1,78 @@
+# Q-D26 The Megadragon (QUESTS 2.2 Q-D26; D-58 Q8, D-3, D-5). Owner: A3. Format: QUESTS_FORMAT.md.
+# Optional. The Megadragon (11654, level 125, unique) sleeps on Castle Alamar's roof hatch at the end of its own dead-end
+# road on D7. Its hoard (a treasure-6 chest beside it, A6) holds Wyrmfang 12530 and the Key to Castle Alamar's Roof 12377.
+# Its death sets `slain`; D7's load event keeps it hidden after that, through refills and the reset after a map rebuild
+# (A6). The hatch reads the source's lines until the key opens it (`roof_unlocked`); after that it works both ways, and
+# DD-17's side, "Bolted from above." until then, opens too (A8). Kill experience is the monster's (most experience, A2).
+id: Q-D26
+title: The Megadragon
+act: VI
+kind: side
+status: full
+giver: null
+giver_name: (the hatch on Castle Alamar's roof, D7)
+maps: [D7, DD-17, FD-01]
+level: 60
+block: 106
+after: [m30.done]
+source: "QUESTS Q-D26; D-58 (devdocs/xeen/briefs/d7/L1/D58_DECISION.md D-3, D-5, Q8); D-61 Q14 (the hatch into FD-01 after M33); dark/aaze0089:4-5, aaze0090:0"
+
+qbits:
+  slain: {id: 113520, map: D7, note: "the Megadragon is dead: D7's load event keeps its group hidden on every load after (D-58 D-3)"}
+  roof_unlocked: {id: 113521, map: D7,
+                  note: "the hatch opened with the key (unlock); D7's hatch and DD-17's way up both read it (D-58 D-5)"}
+
+items:
+  megadragon_hoard_blade: "Wyrmfang 12530, in the Megadragon's hoard (A6 places it)"
+  alamar_roof_key: "the Key to Castle Alamar's Roof 12377, in the hoard (A6 places it); the hatch keeps it"
+
+hooks:
+  slain:
+    map: D7
+    where: "the Megadragon's death event (its group, A6): sets slain; the map's load event hides the group once slain is set"
+    sets: [slain]
+    reads: [slain]
+    once: true
+    status: true
+    text: "The Megadragon is dead. The sky is a little quieter."
+  hoard:
+    map: D7
+    where: "the Megadragon's hoard, a treasure-6 chest among the bones beside Alamar's hatch on the roost: the map's chest holds both items (the hook gives nothing)"
+    map_gives: {megadragon_hoard_blade: 1, alamar_roof_key: 1}
+  hatch:
+    map: D7
+    entrance: DD-17, FD-01
+    sealed: "the roof from D7, Act VI: the Megadragon's key"
+    where: "Castle Alamar's roof hatch under the Megadragon (poi:hatch_dd17). The target follows m33.done (D-61 Q14, D-69 change 6). Before it: the map asks the source's question, Yes calls this; true goes on to the `exit` preset to DD-17's entrance:d7_roof (whose arrival calls m33.roof_arrival), false has shown the source's locked line. After m33.done the exit goes to FD-01's entrance:d7_roof the same way (A6's LIVE['fd01']; FD-01's first arrival there: m39.shaft_arrival). The key unlocks the hatch the first time either way"
+    question: "Descend to Castle Alamar?"
+    requires: {any: [{qbit: roof_unlocked}, {item: alamar_roof_key}]}
+    reads: [roof_unlocked, m33.done]
+    fail_text: "The door is locked. Scratched on the surface are some words: The Megadragon has the key!"
+    do: [{lua: "XeenQuests.hook(\"q-d26.unlock\")"}]
+  unlock:
+    map: D7
+    where: "called by hatch the first time (the key in hand): the key stays in the lock; the line on the status line, because the map leaves the map at once"
+    sets: [roof_unlocked]
+    once: true
+    takes: [alamar_roof_key]
+    status: true
+    text: "The Megadragon's key turns in the lock and stays there. The hatch swings down."
+  alamar_hatch:
+    map: DD-17
+    gate: shortcut
+    where: "the hatch at the top of Castle Alamar, up to D7's entrance:dd17_roof (A8): its click calls this first; true goes on to the `exit` preset, false has shown the line"
+    question: "Climb up through the hatch?"
+    requires: {qbit: roof_unlocked}
+    reads: [roof_unlocked]
+    fail_text: "Bolted from above."
+  depths_hatch:
+    map: FD-01
+    gate: shortcut
+    where: "the ladder's foot in the Alamar Depths' shaft (D-69 change 5, Q68): the map's own Yes/No with no message before it; Yes calls this; true moves the party at once to D7's entrance:fd01_roof, false has shown the line"
+    question: "Climb up through the hatch?"
+    requires: {qbit: roof_unlocked}
+    reads: [roof_unlocked]
+    fail_text: "Bolted from above."
+
+rewards: {xp: 0, gold: 0, items: "the hoard: Wyrmfang 12530 and the roof key 12377; the Megadragon's own 16,875 kill experience for the party (4,218 per member of four; monster_data row 11654)"}
+playthrough: "D7: the Smoke Post, the dragon road; kill the Megadragon; open the hoard (Wyrmfang, the key); the hatch: Descend to Castle Alamar (the key unlocks it)."

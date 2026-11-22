@@ -1,0 +1,3 @@
+Saved [01_front.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/01_front.png) and its [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_saber_claude/references_hd/generation_run_01_front.json). The first render shows the symmetric front pose with both fangs and all four paws visible.
+
+The unresized PNG is 1536×1024 with transparency. The visible silhouette clears every edge by at least 69 px. Stray pixels at 1/255 opacity extend into the padding.

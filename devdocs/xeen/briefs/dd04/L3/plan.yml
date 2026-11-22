@@ -1,0 +1,236 @@
+format: 0
+level: L3
+pitch: "Castleview is falling to pieces: the mill's gears gone, the bridge's ropes cut, the bells without clappers. The gremlins did it, and their king Gettlewaithe holds court in a burrow under the town wall. Behind a tiny door a crooked burrow leads to a hall heaped with the town's missing things, a waiting room with benches built for gremlins, and the court itself: a throne of stacked chairs on a dais of the bridge's planks, a carpet of the mill's sails, the Mayor's portrait with a moustache added. The court lets the party walk in and talk; the gremlin army in the wall's old cellar, the larder and the barracks below does not. Talk Gettlewaithe round in three rounds (and beat his guards), or kill him and take the three Energy Disks from his treasury."
+purpose: "Q-D1 The Gremlin Court (Mayor Snarfblad, D1): a dialogue first, or a fight. Party 19-20; band 14-22, Gettlewaithe 24; 28 monsters; treasure 2, the treasury 3. About 15 minutes."
+mood: "A comic court: low earthen burrows, then the town's own grey stone, firelight, stolen finery."
+datum: arrival
+spaces:
+  - id: room:barracks
+    name: The mighty army
+    kind: room
+    size: M
+    extent: [1536, 1280]
+    floor: -384
+    clear_height: [480, 576]
+    purpose: "Gettlewaithe's 'mighty army': straw beds, a fire, toy catapults, the pay chest."
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+    population:
+      - {actor: "Gremlin (army, 11027)", groups: 1, per_marker: [5, 5], levels: [14, 14], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 2], notes: The army's pay chest.}
+  - id: room:bolt_hole
+    name: Bolt-hole
+    kind: corridor
+    size: S
+    extent: [832, 320]
+    floor: [0, -384]
+    clear_height: 288
+    purpose: A steep earthen ramp down from the burrow to the army.
+    empty: true
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+  - id: room:burrow
+    name: The burrow
+    kind: corridor
+    size: M
+    extent: [640, 1664]
+    floor: 0
+    clear_height: [416, 480]
+    purpose: "A crooked passage dug through the wall's rubble core; stolen lanterns; court gremlins come and go."
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+    population:
+      - {actor: "Gremlin (court, 11024)", groups: 1, per_marker: [4, 4], levels: [14, 14], placed: true, notes: Peaceful until court_hostile.}
+  - id: room:cellar
+    name: The wall's old cellar
+    kind: room
+    size: M
+    extent: [1024, 2304]
+    floor: 0
+    clear_height: [448, 544]
+    purpose: "A vaulted store in the wall's footings, forgotten by the town and found by the gremlins."
+    theme: "D1's t09 grey ashlar (t09a01 over t09b11b), the town's flags t09a02b, t09a02a overhead"
+    population:
+      - {actor: "Gremlin (army, 11027)", groups: 1, per_marker: [4, 4], levels: [14, 14], placed: true, notes: Hostile until court_peace.}
+  - id: room:court
+    name: The Gremlin Court
+    kind: room
+    size: L
+    extent: [1792, 1536]
+    floor: 0
+    clear_height: [704, 832]
+    purpose: "Signature room and goal: Gettlewaithe on his throne of stacked chairs (NPC 4955, boss row 11023), three court guards, the Mayor's portrait with a moustache, the treasury with 3 Energy Disks (q-d1.throne)."
+    theme: "D1's t09 grey ashlar (t09a01 over t09b11b), the town's flags t09a02b, t09a02a overhead; a coffered oak roof (t09a10a); a carpet of sailcloth (t68a13a)"
+    population:
+      - {actor: Gettlewaithe (11023), groups: 1, per_marker: [1, 1], levels: [24, 24], placed: true, notes: "Boss row; immobile on his dais."}
+      - {actor: "Gremlin Guard (court, 11026)", groups: 1, per_marker: [3, 3], levels: [22, 22], placed: true, notes: The court guards (group 1).}
+    treasure:
+      - {kind: chest, count: 1, tier: 3, items: [2, 2], notes: "The royal treasury: the hoard and 3 Energy Disks, after Gettlewaithe's death."}
+  - id: room:door
+    name: The tiny door
+    kind: corridor
+    size: S
+    extent: [320, 640]
+    floor: 0
+    clear_height: 240
+    purpose: "Arrival and the exit to D1: just inside the burrow's tiny door, the party stooping (a 240-high passage, which clears the party; the stoop is a look)."
+    empty: true
+    safe: true
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+  - id: room:larder
+    name: The larder
+    kind: room
+    size: S
+    extent: [640, 768]
+    floor: 0
+    clear_height: 384
+    purpose: "Pip's melons, a ham, the Mayor's cheese; the trapdoor stair down to the sappers' tunnel; the servants' hatch into the court."
+    theme: "D1's t09 grey ashlar (t09a01 over t09b11b), the town's flags t09a02b, t09a02a overhead"
+    population:
+      - {actor: "Gremlin (army, 11027)", groups: 1, per_marker: [2, 2], levels: [14, 14], placed: true}
+  - id: room:mud
+    name: The sappers' last dig
+    kind: room
+    size: S
+    extent: [704, 512]
+    floor: -400
+    clear_height: 352
+    purpose: "The tunnel's end in a pool of seeping water: 'Beyond the mud you hear water running: the town's drains.'"
+    empty: true
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot; MM8's water wtrtyl in the pool"
+  - id: room:plunder
+    name: Hall of pranks
+    kind: room
+    size: M
+    extent: [1280, 1024]
+    floor: 0
+    clear_height: [544, 640]
+    purpose: "Castleview's missing things: mill gears, bell clappers, Ingrid's chain rings by the bucket, a wheel off Cole's cart; the pranksters' chest."
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+    population:
+      - {actor: "Gremlin (court, 11024)", groups: 1, per_marker: [4, 4], levels: [14, 14], placed: true}
+      - {actor: "Gremlin Saboteur (court, 11025)", groups: 1, per_marker: [2, 2], levels: [18, 18], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [2, 2], notes: The pranksters' plunder.}
+  - id: room:sap
+    name: Sappers' tunnel
+    kind: corridor
+    size: M
+    extent: [320, 3840]
+    floor: -384
+    clear_height: 352
+    purpose: "A tunnel under the town towards the sewers, given up where it met water."
+    empty: true
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+  - id: room:sap_stair
+    name: Trapdoor stair
+    kind: corridor
+    size: S
+    extent: [640, 320]
+    floor: [-384, 0]
+    clear_height: [352, 736]
+    purpose: Twelve earthen steps up to the larder's trapdoor.
+    empty: true
+    theme: "MM7 Tularean Caves (7d08): red-brown earth cwb1 on walls and roofs, cfb1 underfoot"
+  - id: room:waiting
+    name: The waiting room
+    kind: room
+    size: S
+    extent: [768, 640]
+    floor: 0
+    clear_height: 416
+    purpose: "Petitioners' benches, much too small; a sign 'Wait here. Forever.'; gremlin heralds."
+    theme: "D1's t09 grey ashlar (t09a01 over t09b11b), the town's flags t09a02b, t09a02a overhead"
+    population:
+      - {actor: "Gremlin (court, 11024)", groups: 1, per_marker: [3, 3], levels: [14, 14], placed: true}
+links:
+  - id: link:barracks_sap
+    from: room:barracks
+    to: room:sap
+    kind: open
+  - id: link:bolt_barracks
+    from: room:bolt_hole
+    to: room:barracks
+    kind: ramp
+    rise: -384
+  - id: link:burrow_bolt
+    from: room:burrow
+    to: room:bolt_hole
+    kind: open
+  - id: link:burrow_plunder
+    from: room:burrow
+    to: room:plunder
+    kind: open
+  - id: link:cellar_larder
+    from: room:cellar
+    to: room:larder
+    kind: door
+    motion: swing
+  - id: link:door_burrow
+    from: room:door
+    to: room:burrow
+    kind: open
+  - id: link:larder_court
+    from: room:larder
+    to: room:court
+    kind: secret_door
+    notes: "The servants' hatch, opened from either side."
+  - id: link:plunder_cellar
+    from: room:plunder
+    to: room:cellar
+    kind: open
+    notes: A broken arch into the wall's old cellar.
+  - id: link:plunder_waiting
+    from: room:plunder
+    to: room:waiting
+    kind: door
+    motion: swing
+  - id: link:sap_larder
+    from: room:sap
+    to: room:larder
+    kind: stairs
+    rise: 384
+    notes: "Up the trapdoor stair (sap_stair) into the larder; a plank trapdoor at its head."
+  - id: link:sap_mud
+    from: room:sap
+    to: room:mud
+    kind: open
+  - id: link:waiting_court
+    from: room:waiting
+    to: room:court
+    kind: door
+    motion: swing
+loops:
+  - id: loop:army
+    spaces: [room:burrow, room:bolt_hole, room:barracks, room:sap, room:sap_stair, room:larder, room:cellar, room:plunder]
+    notes: "Down through the army, up the trapdoor stair into the larder."
+  - id: loop:court
+    spaces: [room:plunder, room:waiting, room:court, room:larder, room:cellar]
+    notes: Round the court through the cellar and the servants' hatch.
+entrances:
+  - id: entrance:tiny_door
+    space: room:door
+    kind: both
+    neighbour: exit:d1_burrow
+    facing: n
+    how: "Just inside the tiny door, facing in."
+critical_path: [room:door, room:burrow, room:plunder, room:waiting, room:court]
+return_path: [room:court, room:waiting, room:plunder, room:burrow, room:door]
+goals:
+  - id: goal:court
+    space: room:court
+    kind: set
+    what: "Win the court: three rounds of talk with Gettlewaithe and his guards beaten (court_peace), or his death (gettlewaithe_slain); either sets court_won."
+    handed_in_at: D1
+atmosphere: "Burrows dim and warm (ambient about 12-16), the court side lit by stolen chandeliers (about 22-24). Music 2. Sounds: the army's fire, water seeping in the sappers' tunnel, the drains beyond the mud."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 3
+  doors: 5
+  fixed_actors: 28
+  floor_area_millions: 12
+  loops: 2
+  monsters_about: 28
+  rooms: 12
+  sectors: 12
+  spawn_points: 0
+notes: "Class S (MAPS, Dungeons): at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors. The graph's ten review rooms as twelve rooms (the trapdoor stair and the tunnel's end of their own). D-26: the court side peaceful until court_hostile, the army hostile; the challenge is Gettlewaithe's first greeting; one new picture (xdmayor, A6's, installed)."

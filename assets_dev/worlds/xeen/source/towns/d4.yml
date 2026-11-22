@@ -1,0 +1,90 @@
+# D4 Lakeside and Blackfang: Lakeside, the coven-ruled lakeshore town (WORLD_DESIGN 5.2; MAPS D4). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A6's L4 project `devdocs/xeen/briefs/d4/L4`, installed 2026-11-20 21:29 with its bake): every door as drawn;
+# the arrivals are A6's points from the sketch's entrance cells (NOTES "Doors and arrivals for the other lanes").
+# Cursed until Q-D22 (the Coven, Naomi the prisoner; A3's q-d22.done): before it only the guild works (its door asks
+# the coven's riddle, A3's hook), the ferry to the Isle of Lost Souls (DD-12) runs (D-12.1: from day one, daily) and
+# one old fisherman keeps his house; after it the tavern, the smithy, the temple, the mirror (also waiting for
+# Kalindra's stage 4, A3's mirror helper) and the town's houses open. Before liberation the closed tavern and smithy
+# read the source's lines (dark/aaze0033:1-2). The source's sign "This boat under repair." (:18) goes on a second,
+# beached boat by the dock (D-12.1; A6 places it, a map event, not a house). The ferry dock also takes Lucio's celestial boat to Olympus twice a week once the party are
+# the Chosen Ones (D-5.3, route 426, A3's m30.done). The five prisoners are in the coven's dungeon (DD-20, A8), not here.
+# The way back from the Isle (D-36 (6)): Ferris Gull's mate Tern keeps a second boat at the Isle's jetty (A6's
+# thing:isle_ferry sign at the jetty, cell (73.4, 73.6)), house 4667, daily to lakeside_dock (route 432, route 420's day); open at all hours, so a party that
+# comes out of the Dungeon of Lost Souls at night is not left on the Isle.
+# Teachers: Leather and Water Magic Grandmaster, Vampire Master (teachers_plan.yml, place lakeside).
+key: D4
+stem: xeen_d4.odm
+town: Lakeside
+face: darkside
+blocks:
+  houses: [4651, 4700]
+  npcs: [5301, 5400]
+
+arrivals:
+  lakeside_square: {at: [4608, -13312, 1120], direction: 512, note: "Lakeside's square by the mirror, on the paving (Town Portal; sketch cell 73, 90)"}
+  lakeside_dock: {at: [4608, -9216, 1056], direction: 1536, place: Lakeside, note: "Lakeside's jetty: the caravans of Castleview and Sandcaster (routes 414, 417) and the ferry back from the Isle (route 432) land here; Lucio's boat leaves from here (route 426)"}
+  isle_landing: {at: [4096, -4096, 1120], direction: 512, place: "the Isle of Lost Souls", note: "the Isle of Lost Souls' landing by the Dungeon of Lost Souls (DD-12; sketch cell 72, 72)"}
+
+houses:
+  - {id: 4651, door: building:lk_guild, kind: water_guild, name: Lakeside Guild, owner: 5301, guild: {spells: 9}, open_before: true, note: "Open from day one; its door asks the coven's riddle (Q-D22, A3's hook)."}
+  - {id: 4652, door: building:lk_tavern, kind: tavern, name: "The Cozy Lil' Tavern", owner: 5302, price: 20, opens: q-d22.done, closed_text: "These stairs once led to a tavern, but it was destroyed long ago."}
+  - {id: 4653, door: building:lk_smithy, was: 12, kind: weapon_shop, name: Lakeside Smithy, owner: 5303, shop: {quality: 4}, opens: q-d22.done, closed_text: "These stairs once led to a blacksmith shop, but it was destroyed long ago."}
+  - {id: 4654, door: building:lk_temple, was: 315, kind: temple, name: Temple of Still Waters, owner: 5304, opens: q-d22.done, closed_text: "The temple doors are nailed shut. Someone has painted a broom on them."}
+  - id: 4655
+    door: building:lk_yachts
+    was: 488
+    kind: boats
+    name: Lakeside Yachts
+    owner: 5305
+    open_before: true
+    routes:
+      - {id: 420, to: isle_landing, days: [mon, tue, wed, thu, fri, sat, sun], travel_days: 1}
+      - {id: 426, to: olympus_dock, days: [wed, sat], travel_days: 1, qbit: m30.done}   # D-5.3: Lucio's slot, for the Chosen Ones
+  - {id: 4656, door: thing:lk_mirror, kind: mirror, name: The Mirror of Lakeside, opens: q-d22.done, closed_text: "The mirror shows a witch's face, which does not move when you do.", mirror: {face: darkside, town: Lakeside, arrival: lakeside_square, qbit: 119010}}
+  - {id: 4657, door: building:lk_houses#1, kind: residence, name: Old Gill's Shack, residents: [5306], open_before: true}
+  - {id: 4658, door: building:lk_houses#2, kind: residence, name: The Tannery, residents: [5307], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4659, door: building:lk_houses#3, kind: residence, name: Tidewater House, residents: [5308], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4660, door: building:lk_houses#4, kind: residence, name: The Gray Manor, residents: [5309], opens: q-d22.done, closed_text: "The shutters are closed tight. Something inside prefers it that way."}
+  - {id: 4661, door: building:lk_houses#5, kind: residence, name: Netmender's House, residents: [5310], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4662, door: building:lk_houses#6, kind: residence, name: The Hollow House, residents: [5311, 5312], opens: q-d22.done, closed_text: "Two small faces at the window. Not quite children's faces. They duck."}
+  - {id: 4663, door: building:lk_houses#7, kind: residence, name: Reedcutter's Cottage, residents: [5313], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4664, door: building:lk_houses#8, kind: residence, name: The Eel House, residents: [5314], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4665, door: building:lk_houses#9, kind: residence, name: Widow Marsh's, residents: [5315], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - {id: 4666, door: building:lk_houses#10, kind: residence, name: The Boathouse, residents: [5316], opens: q-d22.done, closed_text: "Nobody answers. The window has a cauldron painted on it."}
+  - id: 4667
+    door: thing:isle_ferry
+    was: 488
+    kind: boats
+    name: The Isle Ferry
+    owner: 5321
+    open_before: true
+    hours: [0, 0]     # always: the mate sleeps in the boat
+    routes:
+      - {id: 432, to: lakeside_dock, days: [mon, tue, wed, thu, fri, sat, sun], travel_days: 1}   # route 420's time
+    note: "D-36 (6): the ferry back from the Isle of Lost Souls, at the Isle's jetty (A6's L4 door thing:isle_ferry, the sign at (73.4, 73.6) by poi:isle_boat)."
+
+npcs:
+  - {id: 5301, name: Grizel, title: Guildmistress of Lakeside, profession: Spell Master, greet: ["I never joined the coven. They kept me on for the bookkeeping. Spells are on the shelves.", "Mind the cauldron, it's mine."]}
+  - {id: 5302, name: Bess Brewer, title: Innkeeper, profession: Cook, greet: ["We rebuilt the tavern in a week. Turns out the witches only painted it gone.", "Something warm?"]}
+  - {id: 5303, name: Harrow, title: Smith of Lakeside, profession: Smith, greet: ["The witches wanted cauldrons. I made them swords. We disagreed.", "What needs an edge?"]}
+  - {id: 5304, name: Father Wade, profession: Healer, greet: ["We had the doors nailed shut for two years. The prayers got out anyway.", "Be still."]}
+  - {id: 5305, name: Captain Ferris Gull, title: Ferryman, profession: Sailor, greet: ["The coven never sank my boat. Somebody had to row their rejects to the Isle. Isle of Lost Souls, every day, for anyone with business there. Mind the octopods.", "Isle?"]}
+  - {id: 5306, name: Old Gill, title: Fisherman, profession: Sailor, greet: ["I stayed. The witches didn't want an old man. Their loss.", "Fish?"]}
+  - {id: 5307, name: Tanner Bodkin, profession: Armorer, teaches: [{skill: Leather, mastery: grandmaster}], greet: ["Good leather turns a blade and keeps out the rain. Great leather does it while you sleep in it.", "Feel that grain."]}
+  - {id: 5308, name: Morna, title: Tidewife, profession: Water Master, teaches: [{skill: Water Magic, mastery: grandmaster}], greet: ["The lake listens to me. It ignored the coven. Lakes have taste.", "Hear the water?"]}
+  - {id: 5309, name: Sir Malvern, profession: Noble, teaches: [{skill: Vampire, mastery: master}], greet: ["I quit Castle Blackfang. The hours were terrible and the master worse.", "Come in. Not too close to the window."]}
+  - {id: 5310, name: Netty, title: Netmender, profession: Weaver, greet: ["Every net in Lakeside has a witch-sized hole in it. Now I mend them.", "Mind the hooks."]}
+  - {id: 5311, name: Tobbin, title: Former Goblin, profession: Child, greet: ["I was a goblin for a year! I still like beetles.", "Want a beetle?"]}
+  - {id: 5312, name: Wren Hollow, title: Tobbin's Mother, profession: Peasant, greet: ["They turned my boy into a goblin. Now he's a boy who eats beetles. I'll take it.", "Tobbin, put that down."]}
+  - {id: 5313, name: Reed, title: Reedcutter, profession: Laborer, greet: ["Reeds for roofs, reeds for baskets, reeds for brooms. Not anymore, for brooms.", "Reeds?"]}
+  - {id: 5314, name: Old Ottar, title: Eel Fisher, profession: Sailor, greet: ["Eels in the shallows, octopods in the deep. Stay in the shallows.", "Bite?"]}
+  - {id: 5315, name: Widow Marsh, profession: Peasant, greet: ["My husband went to the Isle of Lost Souls to look for our daughter. Nobody comes back from the Isle.", "Any news from the Isle?"]}
+  - {id: 5316, name: Skiff, title: Boatwright, profession: Carpenter, greet: ["I built the ferry. I also painted the sign. I'm good at signs.", "Boat?"]}
+  # ---- added in the fourth session (a talking actor; portrait in a later batch) ----
+  - {id: 5317, name: Slibo, title: Wizard of Magic Mountain, profession: Spell Master, house: none, place: "D4, Xanthus and Slibo's wizard camp on Magic Mountain (A6)", greet: ["A real treasure map? Nobody has brought me one of those in years. Let me see.", "Found anything I'd want?"], note: "Q-D2's real treasure map leads here (A3)"}
+  - {id: 5318, name: Naomi, title: Prisoner of the Coven, profession: Peasant, house: none, place: "D4, in the stocks on Lakeside's square (A6)", greet: ["The witches put me here to watch the square. I watch them instead.", "Any luck with the coven?"], note: "Q-D22 (A3): she says the guild's word"}
+  - {id: 5319, name: Leafpoint, title: Elder Tree, profession: Mystic, house: none, place: "D4, the Forest of Peril: Leafpoint's grove (a talking tree, A6)", greet: ["The leaves shiver. A tree hears axes before it sees them.", "The wind brought you back."], note: "T2-LEAFPOINT (A3): Great Druid to Arch Druid after q-c15.done; Thickbark's cousin (X5, 4528)", source: "dark E2 (Leafpoint the tree)"}
+  - {id: 5320, name: Ector, title: Woodsman, profession: Laborer, house: none, place: "D4, the Forest of Peril, by his cabin (A6); his woodpile is on Magic Mountain", greet: ["Mind the stumps. Half this forest is firewood that hasn't heard yet.", "Any luck on the mountain?"], note: "Q-D21 Ector's Ring (A3)", source: "dark E2 (Ector the Woodsman)"}
+  # ---- added in the ninth session (D-36 (6): the ferry back from the Isle) ----
+  - {id: 5321, name: Tern, title: Ferryman's Mate, profession: Sailor, greet: ["The Captain rows them out. I row back whoever's left.", "Back to Lakeside?"]}

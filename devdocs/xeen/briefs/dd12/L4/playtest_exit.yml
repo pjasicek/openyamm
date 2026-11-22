@@ -1,0 +1,52 @@
+# The way out of the Dungeon of Lost Souls (DD-12) onto D4's Isle of Lost Souls (lane A8, 2026-11-21). From the map's
+# start in the entrance hall (entrance:d4_isle, a step inside the double door, facing north), (1) the door's left wing
+# (hkm1dl seen from inside): the game's leave window ("Doors to the Isle"), OK: the party stands on D4 (Lakeside, A6)
+# at A6's entrance:dd12_door a step south of the ruined tower's door, and a step forward measures its facing (south,
+# 1536: down the path to the jetty). (2) From a save at the start, loaded: the right wing (hkm1dr), the same window
+# and the same point. Run with --world xeen --map xeen_dd12.blv (output/studio_cal/dd12/four.sh).
+id: xeen.dd12.l4.exit_d4
+title: Dungeon of Lost Souls (DD-12 L4), out by the tower's double door to D4's Isle of Lost Souls
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd12.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+  - assert: {map: xeen_dd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: -352, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "log('inside arrival ' .. status())"}
+  - save_game: {name: dd12_exit_start}
+  # (1) The left wing.
+  - walk_to: {x: 80, y: -440, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 35}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - play_lua: {source: "log('isle arrival ' .. status())"}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}
+  # Facing south (1536), away from the door: a step forward goes south.
+  - press_action: {action: forward, seconds: 0.4}
+  - play_lua: {source: "log('after a step ' .. status())"}
+  - assert: {party_position: {x: 4096, y: -3370, radius: 120, z_min: 1200, z_max: 1600}}
+  - assert: {map: xeen_d4.odm}
+  # (2) The right wing, from the start's save.
+  - load_game: {name: dd12_exit_start}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd12.blv}
+  - walk_to: {x: -80, y: -440, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 36}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}

@@ -1,0 +1,85 @@
+format: 0
+sectors:
+  room:boulder_store: 1
+  room:crack: 2
+  room:great_stair: 3
+  room:landing: 4
+  room:larder: 5
+  room:longhall: 6
+  room:porch: 7
+  room:sleeping: 8
+  room:threshold: 9
+  room:throne_hall: 10
+  room:treasury: 11
+  room:trophies: 12
+events:
+  evt:arrive: 1
+  evt:chest_hoard: 2
+  evt:chest_larder: 3
+  evt:door_great: 4
+  evt:door_hoard: 5
+  evt:door_larder: 6
+  evt:door_side: 7
+  evt:door_throne: 8
+  evt:hall_struck: 9
+  evt:law_stone: 10
+  evt:studio_peaceful_groups: 16
+  evt:throne: 11
+  evt:throne_back: 12
+  evt:throne_seen: 13
+  evt:war_arrival: 17
+  evt:war_arrival_say: 18
+  evt:war_line: 14
+  evt:way_out: 15
+doors:
+  door:great: 1
+  door:great.leaf2: 2
+  door:hoard: 3
+  door:larder: 4
+  door:side: 5
+  door:throne: 6
+  door:throne.leaf2: 7
+containers:
+  chest:hoard: 0
+  chest:larder: 1
+map_vars:
+  once.arrive: 0
+  once.throne_seen: 1
+  war_arrived: 2
+lights:
+  light:brazier_e: 1
+  light:brazier_w: 2
+  light:hearth: 3
+  light:trench: 4
+sounds:
+  sound:smoke_hole: 1
+  sound:trench: 2
+decorations:
+  deco:bones_1: 0
+  deco:bones_2: 1
+  deco:brazier_e: 2
+  deco:brazier_w: 3
+  deco:cask_1: 4
+  deco:cask_2: 5
+  deco:cask_3: 6
+  deco:hearth_fire: 7
+  deco:rock_1: 8
+  deco:rock_2: 9
+  deco:sack_1: 10
+  deco:sack_2: 11
+  deco:skulls_1: 12
+  deco:skulls_2: 13
+  deco:torch_01: 14
+  deco:torch_02: 15
+  deco:torch_03: 16
+  deco:torch_04: 17
+  deco:torch_05: 18
+  deco:torch_06: 19
+  deco:torch_07: 20
+  deco:torch_08: 21
+  deco:torch_09: 22
+  deco:torch_10: 23
+  deco:torch_11: 24
+  deco:torch_12: 25
+  deco:trench_fire_1: 26
+  deco:trench_fire_2: 27

@@ -1,0 +1,646 @@
+format: 0
+level: L2
+pitch: 'Ellinger, the Queen''s wizard, locked himself in his tower inside Castleview''s walls when Alamar took the throne.
+  The door asks a question of conscience; any honest answer passes, and ''I just don''t know'' puts the party back in the
+  street. Above, the gauntlet: a hall of wards with Ellinger''s constructs, bats, a library whose gargoyle bookends wake,
+  a floor of tapestries hiding buttons and back stairs, a loft of beholder bats and a trapped walk round the outer wall. At
+  the top a door asks whom you seek. Ellinger explains the Energy Disks; after that a lift runs from his study to the ground
+  floor, so the disks come to him without the climb.'
+purpose: 'M17 Ellinger''s Tower (D1): the question, the gauntlet, the password, Ellinger; M18''s list; the study is where
+  Ellinger takes the disks (M19, M26). Party 20-22; band 14-24; 50 monsters; treasure 2, the boot closet 3. About 25 minutes.'
+mood: A scholar's tower of rose and white marble, lamplit; dusty tapestries, wind at broken windows, bats under the roof.
+datum: arrival
+spaces:
+- id: room:entry
+  name: Entry hall
+  kind: room
+  size: M
+  extent: [1920, 1280]
+  floor: 0
+  clear_height: 640
+  purpose: 'Arrival and the exit to D1: inside the door from Castleview; the dead mirror (''The mirror does not respond.'');
+    the lift''s cage north.'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  safe: true
+  empty: true
+- id: room:question
+  name: Hall of the Question
+  kind: room
+  size: M
+  extent: [1152, 704]
+  floor: 0
+  clear_height: 544
+  purpose: 'The stair door asks: ''Intruders, answer the following question or be destroyed!'' (m17.question): 1 or 2 open
+    it, 3 puts the party out on D1.'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  empty: true
+- id: room:store
+  name: Storeroom
+  kind: room
+  size: S
+  extent: [1408, 640]
+  floor: 0
+  clear_height: 448
+  purpose: Barrels, sacks and a chest; bats.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Vampire Bat (11311)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [14, 14]
+    placed: true
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 2
+    items: [2, 2]
+    notes: The storeroom's chest.
+- id: room:lift_foot
+  name: Lift foot
+  kind: corridor
+  size: S
+  extent: [512, 512]
+  floor: 0
+  clear_height: 2400
+  purpose: 'The cage at the foot of a closed shaft: before Ellinger has spoken it does not move (m17.tower_lift); after, it
+    runs to the study and back.'
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:stair1f
+  name: Main stair (ground to gauntlet)
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [0, 480]
+  clear_height: 416
+  purpose: Past the question's door.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:stair1
+  name: Stair
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 480
+  clear_height: 416
+  purpose: The main stair's landing on the gauntlet floor.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:wards
+  name: Hall of Wards
+  kind: room
+  size: L
+  extent: [1280, 1536]
+  floor: 480
+  clear_height: 416
+  purpose: 'Ellinger''s defences: warded circles and the constructs that keep Alamar''s spies out.'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Flying Feet (11600)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [18, 18]
+    placed: true
+  - actor: Guardian (11601)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [24, 24]
+    placed: true
+- id: room:roost
+  name: Bat roost
+  kind: room
+  size: M
+  extent: [896, 896]
+  floor: 480
+  clear_height: 416
+  purpose: A cold room with a broken window.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  population:
+  - actor: Vampire Bat (11311)
+    groups: 1
+    per_marker: [6, 6]
+    levels: [14, 14]
+    placed: true
+- id: room:tapestry1
+  name: Tapestry gallery
+  kind: corridor
+  size: M
+  extent: [896, 1280]
+  floor: 480
+  clear_height: 416
+  purpose: Tapestries of boots through the ages; a button behind one opens the back stair ('Click'), the others 'Nothing happens'.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Flying Feet (11600)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [18, 18]
+    placed: true
+- id: room:back1
+  name: Back stair (foot)
+  kind: corridor
+  size: S
+  extent: [288, 384]
+  floor: 480
+  clear_height: 416
+  purpose: The servants' stair's foot, behind a tapestry.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:backf1
+  name: Back stair (first flight)
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [480, 960]
+  clear_height: 416
+  purpose: The servants' stair.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:stair2f
+  name: Main stair (gauntlet to library)
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [480, 960]
+  clear_height: 416
+  purpose: The main stair.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:stair2
+  name: Stair
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 960
+  clear_height: 416
+  purpose: The main stair's landing on the library floor.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:library
+  name: The library
+  kind: room
+  size: L
+  extent: [1280, 2048]
+  floor: 960
+  clear_height: 416
+  purpose: Shelves and stacks; the Book of Fire and the Book of Electricity (+5 Fire, +5 Air resistance, once per character),
+    the Book of Sorcerer's Knowledge (D-26); gargoyle bookends wake.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Gargoyle (11540)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [16, 16]
+    placed: true
+- id: room:reading
+  name: Reading room
+  kind: room
+  size: M
+  extent: [1280, 768]
+  floor: 960
+  clear_height: 416
+  purpose: A long table and a locked reading chest.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Gargoyle (11540)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [16, 16]
+    placed: true
+  - actor: Gargoyle Lord (11541)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [22, 22]
+    placed: true
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 2
+    items: [2, 2]
+    notes: The reading chest.
+- id: room:gallery2
+  name: Gargoyle gallery
+  kind: corridor
+  size: M
+  extent: [896, 1984]
+  floor: 960
+  clear_height: 416
+  purpose: A gallery along the outer wall, statues in every bay.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Gargoyle (11540)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [16, 16]
+    placed: true
+  - actor: Gargoyle Lord (11541)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [22, 22]
+    placed: true
+- id: room:back2
+  name: Back stair
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 960
+  clear_height: 416
+  purpose: The servants' stair's landing on the library floor.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:backf2
+  name: Back stair (second flight)
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [960, 1440]
+  clear_height: 416
+  purpose: The servants' stair.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:stair3f
+  name: Main stair (library to tapestry floor)
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [960, 1440]
+  clear_height: 416
+  purpose: The main stair.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:stair3
+  name: Stair
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 1440
+  clear_height: 416
+  purpose: The main stair's head on the tapestry floor.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:tapestries
+  name: Tapestry maze
+  kind: room
+  size: L
+  extent: [2304, 2816]
+  floor: 1440
+  clear_height: 512
+  purpose: 'A hall divided by hanging tapestries; behind three wall tapestries a button: one opens the back stair, two ''Nothing
+    happens''.'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  population:
+  - actor: Vampire Bat (11311)
+    groups: 1
+    per_marker: [5, 5]
+    levels: [14, 14]
+    placed: true
+- id: room:loft
+  name: Beholder loft
+  kind: room
+  size: M
+  extent: [896, 1152]
+  floor: 1440
+  clear_height: 672
+  purpose: 'Under the roof timbers: the red-eyed bats roost.'
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  population:
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [6, 6]
+    levels: [20, 20]
+    placed: true
+- id: room:trap_walk
+  name: Trapped walk
+  kind: corridor
+  size: M
+  extent: [3680, 2496]
+  floor: 1440
+  clear_height: 416
+  purpose: 'A walk round the outer wall whose floor plates fire bolts: the gauntlet''s last stretch, to the last stair.'
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  population:
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [20, 20]
+    placed: true
+- id: room:back3
+  name: Back stair (top)
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 1440
+  clear_height: 416
+  purpose: The servants' stair, behind a tapestry.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:crates
+  name: Crate room
+  kind: room
+  size: S
+  extent: [1312, 832]
+  floor: 1440
+  clear_height: 416
+  purpose: A storeroom (barrels and sacks in clumps) and a chest.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 2
+    items: [2, 2]
+    notes: A chest among the stores.
+  empty: true
+- id: room:stair4
+  name: Last stair (foot)
+  kind: corridor
+  size: S
+  extent: [288, 704]
+  floor: 1440
+  clear_height: 416
+  purpose: The trapped walk's end.
+  theme: 6d19's darker wall t1wl7ctb, floor t1f3
+  empty: true
+- id: room:stair4f
+  name: Last stair
+  kind: corridor
+  size: S
+  extent: [288, 1280]
+  floor: [1440, 1920]
+  clear_height: 416
+  purpose: Up to the top landing.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:landing4
+  name: Top landing
+  kind: corridor
+  size: S
+  extent: [640, 384]
+  floor: 1920
+  clear_height: 416
+  purpose: The last stair's head; one door, with a mouth carved over it.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:pass_door
+  name: The last door
+  kind: room
+  size: S
+  extent: [512, 384]
+  floor: 1920
+  clear_height: 416
+  purpose: 'The door asks: ''Who do you seek?'' Ellinger: ''You may pass!'' (m17.password); anything else: ''Begone!'' (m17.password_wrong).
+    Oorla gives the name (M15).'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  empty: true
+- id: room:study
+  name: Ellinger's study
+  kind: room
+  size: L
+  extent: [1664, 1408]
+  floor: 1920
+  clear_height: 704
+  purpose: 'Ellinger among star charts and boots (NPC 4954, M17-M19, M26): he takes the disks here, five at a time. The Book
+    o'' Boots (m17.book_of_boots), the list of disk sources (m18.sources_note).'
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  empty: true
+- id: room:lift_top
+  name: Lift head
+  kind: corridor
+  size: S
+  extent: [640, 320]
+  floor: 1920
+  clear_height: 416
+  purpose: The lift's upper stop, behind the study.
+  theme: 6d19's narrow column wall t1wl4cts, floor t1f3
+  empty: true
+- id: room:boots
+  name: Boot closet
+  kind: room
+  size: S
+  extent: [1024, 512]
+  floor: 1920
+  clear_height: 384
+  purpose: Racks of boots; the tower's best chest.
+  theme: 'MM6 Agar''s Laboratory (6d19): rose and white marble brick t1wl0lg, column walls, marble floors, t1c3'
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+    items: [2, 2]
+    notes: A pair Ellinger outgrew, and more (the hoard).
+  empty: true
+links:
+- id: link:entry_question
+  from: room:entry
+  to: room:question
+  kind: open
+- id: link:entry_store
+  from: room:entry
+  to: room:store
+  kind: door
+  motion: swing
+- id: link:entry_lift
+  from: room:entry
+  to: room:lift_foot
+  kind: door
+  motion: slide
+  notes: The cage's gate.
+- id: link:question_stair
+  from: room:question
+  to: room:stair1f
+  kind: door
+  motion: swing
+  notes: The question's door.
+- id: link:s1_wards
+  from: room:stair1
+  to: room:wards
+  kind: open
+- id: link:wards_roost
+  from: room:wards
+  to: room:roost
+  kind: door
+  motion: swing
+- id: link:roost_tap1
+  from: room:roost
+  to: room:tapestry1
+  kind: open
+- id: link:tap1_back1
+  from: room:tapestry1
+  to: room:back1
+  kind: secret_door
+  notes: 'Behind a tapestry: a button opens it.'
+- id: link:s1_s2
+  from: room:stair1f
+  to: room:stair2
+  kind: stairs
+  rise: 960
+  notes: 'Up the main stair: stair1f, stair1, stair2f.'
+- id: link:back1_back2
+  from: room:back1
+  to: room:back2
+  kind: stairs
+  rise: 480
+  notes: The back stair's first flight (backf1).
+- id: link:s2_library
+  from: room:stair2
+  to: room:library
+  kind: open
+- id: link:library_reading
+  from: room:library
+  to: room:reading
+  kind: door
+  motion: swing
+- id: link:library_gallery
+  from: room:library
+  to: room:gallery2
+  kind: open
+- id: link:gallery_back2
+  from: room:gallery2
+  to: room:back2
+  kind: open
+- id: link:s2_s3
+  from: room:stair2
+  to: room:stair3
+  kind: stairs
+  rise: 480
+  notes: The main stair's third flight (stair3f).
+- id: link:back2_back3
+  from: room:back2
+  to: room:back3
+  kind: stairs
+  rise: 480
+  notes: The back stair's second flight (backf2).
+- id: link:s3_tap
+  from: room:stair3
+  to: room:tapestries
+  kind: open
+- id: link:tap_back3
+  from: room:tapestries
+  to: room:back3
+  kind: secret_door
+  notes: 'Behind a tapestry: a button opens it.'
+- id: link:tap_loft
+  from: room:tapestries
+  to: room:loft
+  kind: door
+  motion: swing
+- id: link:loft_trap
+  from: room:loft
+  to: room:trap_walk
+  kind: open
+- id: link:back3_crates
+  from: room:back3
+  to: room:crates
+  kind: open
+- id: link:trap_s4
+  from: room:trap_walk
+  to: room:landing4
+  kind: stairs
+  rise: 480
+  notes: The last stair (stair4, stair4f).
+- id: link:l4_door
+  from: room:landing4
+  to: room:pass_door
+  kind: open
+- id: link:pass_study
+  from: room:pass_door
+  to: room:study
+  kind: door
+  motion: swing
+  notes: '''Who do you seek?'''
+- id: link:study_boots
+  from: room:study
+  to: room:boots
+  kind: door
+  motion: swing
+- id: link:study_lift
+  from: room:study
+  to: room:lift_top
+  kind: open
+- id: link:lift
+  from: room:lift_foot
+  to: room:lift_top
+  kind: lift
+  rise: 1920
+  notes: 'The cage: after m17.done (Ellinger has spoken), both ways, two stops (D-9.2).'
+loops:
+- id: loop:back_stair
+  spaces:
+  - room:tapestry1
+  - room:back1
+  - room:back2
+  - room:gallery2
+  - room:library
+  - room:stair2
+  - room:stair1
+  - room:wards
+  - room:roost
+  notes: 'The servants'' stair joins floors 1-2 behind the tapestries: a second way up.'
+- id: loop:top
+  spaces:
+  - room:tapestries
+  - room:back3
+  - room:crates
+  - room:back2
+  - room:gallery2
+  - room:library
+  - room:stair2
+  - room:stair3
+  notes: Round the tapestry floor by the back stair.
+- id: loop:lift
+  spaces:
+  - room:entry
+  - room:lift_foot
+  - room:lift_top
+  - room:study
+  notes: After M17 the lift closes the climb into a ring (D-9.2).
+entrances:
+- id: entrance:front_door
+  space: room:entry
+  kind: both
+  neighbour: exit:d1_tower
+  facing: e
+  how: Just inside the front door, facing in.
+critical_path:
+- room:entry
+- room:question
+- room:stair1f
+- room:stair1
+- room:stair2f
+- room:stair2
+- room:stair3f
+- room:stair3
+- room:tapestries
+- room:loft
+- room:trap_walk
+- room:stair4
+- room:stair4f
+- room:landing4
+- room:pass_door
+- room:study
+return_path:
+- room:study
+- room:lift_top
+- room:lift_foot
+- room:entry
+goals:
+- id: goal:ellinger
+  space: room:study
+  kind: set
+  what: Speak with Ellinger holding the Dragon Pharaoh's orb (m17.done); the lift then runs.
+atmosphere: 'Lamplit marble (ambient 18-24), the bat floors dim (12). Music 34. Sounds: wind at the roost''s broken window
+  and under the roof, the wards humming, something simmering in the study.'
+diagram:
+  file: diagram.txt
+totals:
+  chests: 4
+  doors: 11
+  fixed_actors: 51
+  loops: 3
+  monsters_about: 50
+  rooms: 32
+  sectors: 32
+  spawn_points: 0
+  floor_area_millions: 34
+notes: 'Class M (MAPS, Dungeons): 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors. The graph''s 25 review
+  spaces as 32 rooms (each flight of the two switchback stairs a room of its own, and the last stair''s foot). D-26: the Book
+  per Q1, the mirror flavour only, the crate room a real storeroom, the lift shaft closed on floors 1-3.'

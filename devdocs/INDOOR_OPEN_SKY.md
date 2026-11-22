@@ -343,6 +343,16 @@ least 0.7071 (45 degrees) and is stopped by steeper ones, slid down past 55.9 de
 so no per-map limit was added. MM9's step-up is 16.5 LT (42 native) against our 50. Code:
 `IndoorMapData` `partySteepSlopesBlock`, `IndoorPartyRuntime` (the slope rule). Tests: "indoor party movement".
 
+`party_movement: {touch_faces: run}` (opt-in, 2026-11-20; Map Studio's wiring `touch: true`, Xeen's mirages): a wall
+face with the touch bit (`TriggerByTouch`, 0x00080000) and an event, not a pressure plate, runs its event when the
+party walks into it, once per contact. A contact is a movement step whose wall collision names the face; it ends when
+the face has not stopped the party for 16 steps (1/8 s), so a slide along it does not run the event again, and walking
+away and back does. Off by default (`ignore`): the originals never ran the bit (MMExt: "doesn't work anymore"), and the
+shipped maps carry it on 250 MM8 faces with events, all clickable (241 chests, five key holes, two house doors), none
+in MM6, MM7 or MM9 off a plate (survey of 2026-11-20). A co-op guest sends the touch to the host as plates are sent
+(`ReplicaPositionTrigger::Kind::IndoorTouchFace`). Code: `IndoorTouchContacts`, `IndoorPartyRuntime::takeNewTouchFaces`,
+`IndoorSceneRuntime::updatePartyFaceTriggers`. Tests: "indoor touch faces".
+
 Three movement fixes for terrain converted to floors (MM9 open-air maps), shared by every BLV and covered by
 `tests/IndoorMovementRecoveryTests.cpp`; the MM6-MM8 regressions (unit tests, the indoor suite,
 `tests/scenarios/mm8_party_slopes.yml`) pass unchanged:

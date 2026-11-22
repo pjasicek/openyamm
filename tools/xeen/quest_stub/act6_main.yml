@@ -1,0 +1,113 @@
+# Act VI's main steps (tools/xeen/quest_stub.py): M36 the Pharaoh's checklist, M37 the four Reflectors (silent before
+# it), M38 the Skyroads' corners and the four Sleepers (not Chosen, then waiting for the Reflectors, then awake), M39
+# Roland in the Alamar Depths (the Cube), M40 (Picard 5704, the widget for the chime), M41 Darkstone Tower and the seal, M42 the shrine (refused without the Scepter, then the
+# ending: the cinematic's done event, the ceremony once, Roland's and Kalindra's lines on P5, the disc). The earlier acts' bits are `set:` steps. Owner: A3.
+name: Act VI, main
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - set: m33.done
+  - set: m35.done
+  - give: [cube_of_power, 1]
+  - give: [xeens_scepter, 1]
+  # M36: the Pharaoh
+  - hidden: [5453, The sleepers]
+  - expect: {no_journal: [m37.air, m38.fire, m36.started]}
+  - talk: [5453, The destiny of Xeen]
+  - expect: {qbit: m36.started, xp: 4000, journal: [m36.started, m37.air, m37.fire, m37.earth, m37.water, m38.fire,
+             m38.air, m38.earth, m38.water], no_journal: m33.done}
+  - talk: [5453, The sleepers]
+  # M38 before the Reflectors and before the Chosen award: the sleeper cannot wake
+  - hook: m38.corner_fire
+  - hook: m38.sleeper_fire
+  - expect: {not_qbit: m38.fire}
+  # M37: the four Reflectors
+  - hook: m37.reflector_air
+  - expect: {no_journal: m37.air, journal: [m37.fire, m37.earth, m37.water]}
+  - hook: m37.reflector_fire
+  - hook: m37.reflector_earth
+  - hook: m37.reflector_water
+  - expect: {qbit: [m37.air, m37.fire, m37.earth, m37.water], xp: 36000,
+             no_journal: [m37.air, m37.fire, m37.earth, m37.water], journal: m38.fire}
+  # M30's award (the Chosen Ones), then the four sleepers
+  - set: m29.done
+  - talk: [5453, Chosen Ones]
+  - hook: m38.sleeper_fire
+  - hook: m38.sleeper_air
+  - hook: m38.sleeper_earth
+  - hook: m38.sleeper_water
+  - expect: {qbit: [m38.fire, m38.air, m38.earth, m38.water], award: m38.water,
+             no_journal: [m38.fire, m38.air, m38.earth, m38.water], journal: m36.started}
+  # M39: the Alamar Depths
+  - hook: m39.depths_door
+  - hook: m39.skull_door
+  - hook: m39.darkstone_key
+  - hook: m39.roland
+  - expect: {qbit: m39.done, item: southern_sphinx_amulet, award: m39.roland}
+  - talk: [4401, My brother]
+  # M40: the Southern Sphinx, the runes, the stair's name, Picard trades the chime for Halon's widget
+  - hook: [m40.sphinx_door, true]
+  - hook: [m40.runes, false]
+  - hook: m40.rune_p
+  - hook: m40.rune_i
+  - hook: m40.rune_c
+  - hook: m40.rune_a
+  - hook: m40.rune_r
+  - hook: m40.rune_d
+  - hook: m40.runes
+  - expect: {qbit: [m40.rune_p, m40.rune_d], last: "P, I, C, A, R, D"}
+  # D-57 Q9/Q10: the masks (2,000 each, the clue 500, "Begone, then!"), the table's Might Boosts line once
+  - hook: [m40.mask_swinging, false]
+  - expect: {last: "maybe next time", not_qbit: m40.swinging_paid}
+  - gold: 4500
+  - hook: m40.mask_swinging
+  - hook: m40.mask_clue
+  - expect: {qbit: m40.swinging_paid, last: "one born every minute", gold: 2000}
+  - hook: m40.mask_chopping
+  - hook: [m40.mask_clue, false]
+  - hook: m40.mask_no
+  - expect: {qbit: m40.chopping_paid, gold: 0, last: "Begone, then!"}
+  - hook: [m40.mask_swinging, false]
+  - expect: {last: "blades hang still"}
+  - hook: m40.embalming_table
+  - hook: [m40.embalming_table, false]
+  - expect: {qbit: m40.embalming_boosts}
+  - hook: m40.illusion
+  - expect: {qbit: m40.illusion_gone, last: "No one steals from ME!"}
+  - hook: [m40.stair, false]
+  - hook: m40.name_right
+  - hook: m40.stair
+  - talk: [5704, Chime of Opening]
+  - expect: {not_qbit: m40.done, no_item: chime_of_opening}
+  - give: widget
+  - talk: [5704, Chime of Opening]
+  - expect: {qbit: m40.done, item: chime_of_opening, no_item: widget}
+  # M41: Darkstone Tower
+  - hook: m41.tower_door
+  - hook: m41.plaques_l1
+  - expect: {last: "NEW WORLD THANKS YOU"}
+  - hook: m41.plaques_l4
+  - expect: {last: "COMPUTER"}
+  - hook: m41.seal
+  - expect: {qbit: m41.seal_broken, no_item: chime_of_opening}
+  # M42: the note, a board, the shrine: its cinematic's done event (the stub runs it at once) shows the ceremony
+  # once; then the after-lines on P5 only, the disc, the shrine's else line.
+  - hook: m42.pharaoh_note
+  - hook: m42.board_planets_edge
+  - expect: {last: "Planets Edge"}
+  - hidden: [4405, The wedding]
+  - hook: m42.shrine
+  - expect: {qbit: m42.done, no_item: cube_of_power, award: m42.one_world, last: "reading the vows",
+             no_journal: [m36.started, m41.seal_broken, m39.done, m40.done]}
+  - expect: {qbit: m42.ceremony_shown}
+  - hook: [m42.ceremony, false]
+  - hidden: [4405, The wedding]
+  - map: Clouds of the Ancients
+  - talk: [4405, The wedding]
+  - talk: [5001, One world]
+  - expect: {last: "So do I."}
+  - hidden: [4405, The mirror]
+  - hidden: [5001, The crown]
+  - hook: m42.disc
+  - expect: {last: "stair house"}
+  - hook: [m42.shrine, false]
+  - expect: {last: "somebody has left cake"}

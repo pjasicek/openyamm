@@ -1,0 +1,233 @@
+# Xeen side quests Q-D2, Jasper in Jail, and Q-C24, Joe's Second Business (D1, D4), in one run from a new game on D1
+# (Castleview) with a level-20 party: Joe's fake map is the proof that frees Jasper, and Jethro trades it for his real
+# one. The jail's back window (D1 event 107) before the quest: old bars, someone snoring. Jethro's Maps (house 4469,
+# NPC 4919): Jasper (started, autonote 4420; again "still languishes"); no Joe's map topic yet. Castleview Jail
+# (house 4468): Warden Krupp (4917): Jasper ("Bring me proof"); Jasper (4918): Joe (the fake maps). Joe's stall on the
+# road outside the gate: his sign (event 167); Joe (actor 30, NPC 4956): Treasure map (1,000 gold: the fake map 12355,
+# map_bought, started; again "only one of its kind"). The jail: Krupp reads the map (jasper_freed; Jasper moves to
+# Jethro's; the party keeps the map; again "Jasper's gone"). Jethro's house (now two residents): Jethro: Jasper (done:
+# 4,000 XP each, 1,000 gold; again "Good to see you"), Joe's map (the fake taken, the real map 12356, Q-C24 done,
+# autonote 4380, 2,000 XP each); Jasper: Joe (thanks). Kramer's Caravans (house 4464): to Lakeside (route 414, 3 days)
+# on D4. The cairn on the east shore (D4 event 89): the cache (the real map taken, 1,500 gold, an item; cache_dug;
+# again "a hole"). Slibo at the wizards' camp (actor 20, NPC 5317): Treasure map ("You dug it up yourselves?"). The
+# other two routes (the jail window's bars, Slibo buying the map) are the quests' alternatives and are not played.
+# Outdoors and in towns the party is placed (PLAYBOOK §2). Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (the jail,
+# Jethro, Joe, Kramer), d4/L4/playtest.yml (the cairn, Slibo). Quest logic: source/quests/q-d2.yml, q-c24.yml.
+# Prep: prep/q-d2_q-c24.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d2_
+id: xeen.side_quests.q-d2_q-c24
+title: "Xeen Q-D2 and Q-C24: Joe's fake map frees Jasper; Jethro's real map leads to Slibo's cache"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 1200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Vesk, class: Thief, level: 20, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113040, 113041, 113042, 113043, 112480, 112481, 112482, 112483, 112484]}
+  # The jail's back window (event 107) before the quest: the hook's fail text.
+  - set_pose: {map: xeen_d1.odm, x: 1741, y: 10100, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(107); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Old bars in old mortar. Someone inside is snoring."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Jethro's Maps (house 4469, his residence opens his talk): Jasper (started, autonote 4420), Jasper again.
+  - set_pose: {map: xeen_d1.odm, x: -4480, y: 6772, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4919, action_label_absent: "Joe's map"}}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "Jasper is in Castleview jail, falsely accused of stealing a treasure map from Joe"}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "My brother still languishes in the town jail."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113040]}
+  - assert: {autonote: {id: 4420}}
+  # Castleview Jail (house 4468): Warden Krupp (Jasper: proof wanted), Jasper (Joe: the fake maps).
+  - set_pose: {map: xeen_d1.odm, x: 1920, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, house_dialog: true}}
+  - select_topic: {match_label: "Warden Krupp"}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "Bring me proof otherwise, or bring me a nap."}
+  - press_action: {action: cancel_dialog}
+  - select_topic: {match_label: "Jasper"}
+  - select_topic: {match_label: "Joe"}
+  - assert:
+      dialog: {text_contains: "Joe sold the fake maps. I drew the real ones."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113041]}
+  # Joe's stall on the road outside the gate: his sign (event 167), then Joe (actor 30): Treasure map, 1,000 gold.
+  - set_pose: {map: xeen_d1.odm, x: 1408, y: 11600, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(167); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "MAPS BY JOE! Genuine! Only one of its kind!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - set_pose: {map: xeen_d1.odm, x: 1024, y: 10957, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('gold', gold())"}
+  - interact_actor: {actor_index: 30}
+  - assert: {dialog: {active: true, source_id: 4956}}
+  - select_topic: {match_label: "Treasure map"}
+  - assert:
+      dialog: {text_contains: "Friend, have I got a deal for you! Only 1000 gold for this secret treasure map"}
+  - select_topic: {match_label: "Treasure map"}
+  - assert:
+      dialog: {text_contains: "You already have the only one of its kind."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if recall("gold") - gold() ~= 1000 then error("Joe took " .. (recall("gold") - gold()) .. " gold") end
+        if item_count(12355) ~= 1 then error("Joe's maps: " .. tostring(item_count(12355))) end
+  - assert: {qbit_set: [112480, 112481]}
+  # The jail: Warden Krupp reads Joe's map (jasper_freed); the party keeps it. Jasper moves to Jethro's.
+  - set_pose: {map: xeen_d1.odm, x: 1920, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, house_dialog: true}}
+  - select_topic: {match_label: "Warden Krupp"}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "A map of nowhere, in Joe's hand, signed 'genuine'."}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "Jasper's gone. Less paperwork."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12355) ~= 1 then error("the warden kept Joe's map") end
+  - assert: {qbit_set: [113041]}
+  - assert: {qbit_clear: [113042, 113043]}
+  # Jethro's house (now Jethro and Jasper): Jethro: Jasper (done), Joe's map (the real map), Jasper again.
+  - set_pose: {map: xeen_d1.odm, x: -4480, y: 6772, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; remember('gold', gold())"}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, house_dialog: true}}
+  - select_topic: {match_label: "Jethro"}
+  - assert: {dialog: {action_label_present: "Joe's map"}}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "Thank you for freeing my brother! Here's a little money for your trouble."}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 4000 then error("Jethro's Jasper paid member " .. i .. " " .. xp .. " experience, not 4000") end
+          remember('xp' .. i, experience(i))
+        end
+        if gold() - recall("gold") ~= 1000 then error("Jethro paid " .. (gold() - recall("gold")) .. " gold, not 1000") end
+        remember('gold', gold())
+  - select_topic: {match_label: "Joe's map"}
+  - assert:
+      dialog: {text_contains: "You bought one of Joe's treasure maps?!? Hahahahaha!"}
+  - assert:
+      dialog: {action_label_absent: "Joe's map"}
+  - select_topic: {match_label: "Jasper"}
+  - assert:
+      dialog: {text_contains: "Good to see you again, friends!"}
+  - press_action: {action: cancel_dialog}
+  - select_topic: {match_label: "Jasper"}
+  - select_topic: {match_label: "Joe"}
+  - assert:
+      dialog: {text_contains: "Thanks for freeing me! I knew Jethro would find help."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        for i = 0, 3 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 2000 then error("Jethro's map paid member " .. i .. " " .. xp .. " experience, not 2000") end
+        end
+        if gold() ~= recall("gold") then error("the map trade paid gold") end
+        if has_item(12355) then error("Jethro did not take Joe's map") end
+        if item_count(12356) ~= 1 then error("Jethro's real maps: " .. tostring(item_count(12356))) end
+  - assert: {qbit_set: [113042, 112482]}
+  - assert: {autonote: {id: 4380}}
+  # Kramer's Caravans (house 4464): the caravan to Lakeside on D4 (route 414, Mondays and Thursdays; the new game's
+  # first day is a Monday), 75 gold.
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {action_label_present: "3 days to Lakeside for 75 gold"}}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "3 days to Lakeside for 75 gold"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 4608, y: -9216, radius: 300}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if recall("gold") - gold() ~= 75 then error("the caravan cost " .. (recall("gold") - gold())) end
+        if item_count(12356) ~= 1 then error("the real map lost on the road") end
+  # The cairn on the east shore (D4 event 89): the cache with the real map (q-c24.cairn), then a hole.
+  - set_pose: {map: xeen_d4.odm, x: 13824, y: -10752, z: 1312, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        remember('gold', gold())
+        local n = 0
+        for _ in string.gmatch(pack_items(), "(%d+)x%d+") do n = n + 1 end
+        remember('items', n)
+        click(89); wait(0.5)
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Two paces north of the cairn, a strongbox. The map was honest."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12356) then error("the cairn did not take the real map") end
+        if gold() - recall("gold") ~= 1500 then error("the cache held " .. (gold() - recall("gold")) .. " gold, not 1500") end
+        local n = 0
+        for _ in string.gmatch(pack_items(), "(%d+)x%d+") do n = n + 1 end
+        -- the real map out, one item of treasure level 5 in
+        if n ~= recall("items") then error("pack entries " .. recall("items") .. " -> " .. n .. ": " .. pack_items()) end
+        log("the cache: " .. pack_items())
+        click(89); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "A hole two paces north of the cairn. Yours."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [112484]}
+  # Slibo at the wizards' camp (actor 20): Treasure map (the cache is dug: "We're even").
+  - set_pose: {map: xeen_d4.odm, x: -18739, y: 6349, z: 2296, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold())"}
+  - interact_actor: {actor_index: 20}
+  - assert: {dialog: {active: true, source_id: 5317}}
+  - select_topic: {match_label: "Treasure map"}
+  - assert:
+      dialog: {text_contains: "You dug it up yourselves? Then you have a hole and no map."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if gold() ~= recall('gold') then error('Slibo paid for nothing') end; log('Q-D2 and Q-C24 done, gold ' .. gold())"}
+  - assert: {qbit_set: [113040, 113041, 113042, 112480, 112481, 112482, 112484]}
+  - assert: {qbit_clear: [112483, 113043]}

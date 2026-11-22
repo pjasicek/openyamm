@@ -1,0 +1,482 @@
+format: 0
+level: L3
+pitch: "A cold cave under the Winterkill Tundra that breathes warm and wet: ice at its two mouths, grey wet rock below, and walls that are not there. A great bronze plug in a brick sluice holds back the reservoir that drowns the lower caves; pulled (by a strong arm, or one helped by the Potion of Might behind the phantom safe's mirage) the water sinks away in a few seconds, seen from the railed ledge and the sluice's window, and the stone sluice gates open on the drowned gallery and the steps to the reservoir bed. At the bottom a great talking skull sells the Enchanted Key to the Tower of High Magic for ten gems; smaller skulls sell stat rises; the echo cave keeps fifteen gems on the way down."
+purpose: "Story step M12 (QUESTS.md): the Enchanted Key from the great skull (A3's hook m12.skull: 10 gems, the key 12306, qbit 111240, 1,500 XP). Once-per-character stat rises for gems (D-4 item 4). Class M, party 17-19, monsters 18-28."
+mood: "Cold and wet: grey-blue rock, ice and snow at the mouths, dripping water, mirages that ripple like heat haze; the reservoir a black water far below the railing, later a bed of weed and silt."
+datum: arrival
+spaces:
+  - id: room:drowned
+    name: Drowned gallery
+    kind: room
+    size: L
+    extent: [1408, 1280]
+    at: [960, 4224]
+    floor: -640
+    clear_height: 448
+    purpose: "Behind its sluice gate until the plug is pulled; then a wet gallery, water golems left in its pools."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11591, groups: 3, levels: [28, 28], placed: true, strength: heavy, rank: b}
+  - id: room:echo_cave
+    name: Echo cave
+    kind: room
+    size: S
+    extent: [1152, 1152]
+    at: [-576, 4160]
+    floor: -640
+    clear_height: 416
+    purpose: "The cave answers in the party's own voices; a cache of 15 gems for the skulls (D-1.6: before the great skull)."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 3, notes: 15 fixed gems}
+  - id: room:false_passage
+    name: Phantom safe
+    kind: room
+    size: M
+    extent: [1152, 1664]
+    at: [-1472, 8128]
+    floor: 0
+    clear_height: 448
+    purpose: "A safe at the end that is not there: 'Your hand passes through the safe as though it were not there.' (aaze0042:72). The shimmering wall beside it is a mirage into the cache."
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: light, rank: a}
+  - id: room:frost_cavern
+    name: Frost cavern
+    kind: room
+    size: M
+    extent: [2048, 1792]
+    at: [256, 3200]
+    floor: 0
+    clear_height: 576
+    purpose: "Between the hall and the south mouth; the sluice door east, the skull alcoves west."
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: pack, rank: a}
+      - {actor: 11601, groups: 2, levels: [24, 24], placed: true, strength: pack, rank: b}
+  - id: room:grotto
+    name: Grotto of the great skull
+    kind: room
+    size: M
+    extent: [1280, 1536]
+    at: [6784, 3328]
+    floor: -1280
+    clear_height: 640
+    purpose: "The great skull: the Enchanted Key for 10 gems (hook m12.skull); after it, +5 Might, Endurance or Accuracy for 10 gems, once per character (bit 11240; hooks m12.skull_grotto, _sold, _poor). A mirage east into the phantom vault."
+    empty: true
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+  - id: room:guard_post
+    name: Guardian post
+    kind: room
+    size: M
+    extent: [1408, 1536]
+    at: [-576, 5632]
+    floor: -640
+    clear_height: 448
+    purpose: Guardians round a chest.
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11601, groups: 4, levels: [24, 24], placed: true, strength: heavy, rank: b}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:ice_stair
+    name: Ice stair
+    kind: corridor
+    size: M
+    extent: [1472, 1280]
+    at: [1888, 6848]
+    floor: [0, -640]
+    clear_height: 384
+    purpose: The winding ramp from the Hall of Mirages down to the ledge.
+    empty: true
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+  - id: room:icicle_hall
+    name: Icicle hall
+    kind: room
+    size: M
+    extent: [1792, 1920]
+    at: [128, 7872]
+    floor: 0
+    clear_height: 640
+    purpose: "Hanging ice; a side passage west ends in a safe."
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+    population:
+      - {actor: 11600, groups: 4, levels: [18, 18], placed: true, strength: pack, rank: a}
+  - id: room:ledge
+    name: Ledge over the water
+    kind: corridor
+    size: M
+    extent: [896, 2432]
+    at: [2240, 5056]
+    floor: -640
+    clear_height: 576
+    purpose: "Railed overlook: the flooded reservoir below; the sluice gates of the drowned gallery and of the steps down open with the plug. A notice points to the gems of the echo cave."
+    empty: true
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+  - id: room:mirage_cache
+    name: Behind the mirage
+    kind: room
+    size: S
+    extent: [1024, 768]
+    at: [-1280, 9472]
+    floor: 0
+    clear_height: 384
+    purpose: "The real treasure behind the phantom safe's wall: a chest with a Potion of Might (Might Boost 240) for the plug."
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+    treasure:
+      - {kind: chest, count: 1, tier: 3, item: might_boost}
+    secret: true
+  - id: room:mirage_hall
+    name: Hall of Mirages
+    kind: room
+    size: L
+    extent: [2560, 2560]
+    at: [256, 5504]
+    floor: 0
+    clear_height: 768
+    purpose: "Walls that shimmer like heat; the passage down to the ledge over the reservoir."
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+    population:
+      - {actor: 11600, groups: 3, levels: [18, 18], placed: true, strength: pack, rank: a}
+      - {actor: 11601, groups: 2, levels: [24, 24], placed: true, strength: pack, rank: b}
+  - id: room:mirror_maze
+    name: Mirror maze
+    kind: room
+    size: M
+    extent: [1408, 1280]
+    at: [960, 5632]
+    floor: -640
+    clear_height: 416
+    purpose: "Ice walls round rock islands; one wall is a mirage into the deep skull alcoves."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11600, groups: 4, levels: [18, 18], placed: true, strength: pack, rank: a}
+      - {actor: 11601, groups: 1, levels: [24, 24], placed: true, strength: pack, rank: b}
+  - id: room:north_mouth
+    name: North mouth
+    kind: room
+    size: S
+    extent: [1280, 1024]
+    at: [0, 9472]
+    floor: 0
+    clear_height: 576
+    purpose: "The arrival from X5: ice at the lip, snow blown in; the cave's breath is warm and wet. A shimmering wall on the west is a mirage into the cache."
+    theme: "The two mouths: d33's grey rock walls under a roof of Icewind Keep's ice (orair32), snow blown in over the floor (MM8 snow)."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: light, rank: a}
+  - id: room:phantom_vault
+    name: Phantom vault
+    kind: room
+    size: S
+    extent: [1024, 896]
+    at: [6784, 4672]
+    floor: -1280
+    clear_height: 512
+    purpose: "Behind a mirage in the grotto: the cave's hoard."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11591, groups: 1, levels: [28, 28], placed: true, strength: heavy, rank: b}
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: pack, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: [3, 5], notes: the hoard}
+    secret: true
+  - id: room:reservoir
+    name: Reservoir bed
+    kind: room
+    size: L
+    extent: [3200, 5376]
+    at: [4416, 3712]
+    floor: -1280
+    clear_height: 1728
+    purpose: "Under the water until the plug is pulled (one water mover sinking 640 in about 6 s); then the drained floor: weed, shells, stranded water golems (placed hidden, shown when the party first walks onto the bed)."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11591, groups: 2, levels: [28, 28], placed: true, strength: pack, rank: b, hidden_until: {qbit: plug_pulled}}
+      - {actor: 11600, groups: 4, levels: [18, 18], placed: true, strength: pack, rank: a, hidden_until: {qbit: plug_pulled}}
+  - id: room:skulls_1
+    name: Skull alcoves
+    kind: room
+    size: S
+    extent: [1024, 1024]
+    at: [-1408, 3200]
+    floor: 0
+    clear_height: 384
+    purpose: "Two talking skulls on rock shelves: +2 Luck or +2 Personality for 3 gems, once per character (player bits 11236, 11237; hooks m12.skull_upper, _sold, _poor)."
+    empty: true
+    theme: "The upper caves: MM8 Passage Under Regna (d33): wet grey rock t68a02b on walls and roofs, its granite floor t68a03b."
+  - id: room:skulls_2
+    name: Deep skull alcoves
+    kind: room
+    size: S
+    extent: [768, 768]
+    at: [640, 6784]
+    floor: -640
+    clear_height: 352
+    purpose: "Behind the maze's mirage: +3 Intellect or +3 Speed for 5 gems, once per character (player bits 11238, 11239; hooks m12.skull_deep, _sold, _poor)."
+    empty: true
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    secret: true
+  - id: room:sluice
+    name: Sluice
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    at: [2048, 3072]
+    floor: 0
+    clear_height: 512
+    purpose: "A brick chamber over the reservoir: a great bronze plug on a chain in its pool; pull it (Might 30, potions counting): the water drains. A railed window looks down on the reservoir."
+    theme: "The sluice: d33's bricks t09a01 over a trim t09b11b, its flags t09a02b, its door t09a03c, rock overhead."
+    population:
+      - {actor: 11601, groups: 3, levels: [24, 24], placed: true, strength: heavy, rank: b}
+  - id: room:south_mouth
+    name: South mouth
+    kind: room
+    size: S
+    extent: [1152, 1024]
+    at: [64, 1664]
+    floor: 0
+    clear_height: 512
+    purpose: Out into the Troll Forest side of X5.
+    theme: "The two mouths: d33's grey rock walls under a roof of Icewind Keep's ice (orair32), snow blown in over the floor (MM8 snow)."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: light, rank: a}
+  - id: room:steps
+    name: Reservoir steps
+    kind: corridor
+    size: M
+    extent: [832, 1600]
+    at: [2464, 3104]
+    floor: [-640, -1280]
+    clear_height: 384
+    purpose: "Steps from the ledge down to the reservoir bed, behind a sluice gate."
+    empty: true
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+  - id: room:sump
+    name: Sump
+    kind: room
+    size: M
+    extent: [1216, 1280]
+    at: [352, 1408]
+    floor: -1280
+    clear_height: 448
+    purpose: "Where the water went: a roaring hole and the last water golems."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11591, groups: 2, levels: [28, 28], placed: true, strength: pack, rank: b}
+      - {actor: 11600, groups: 1, levels: [18, 18], placed: true, strength: pack, rank: a}
+  - id: room:wreck
+    name: Sunken boat
+    kind: room
+    size: S
+    extent: [1600, 1152]
+    at: [1888, 1600]
+    floor: -1280
+    clear_height: 512
+    purpose: "A boat on the drained floor, its strongbox intact."
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+    population:
+      - {actor: 11600, groups: 2, levels: [18, 18], placed: true, strength: light, rank: a}
+    treasure:
+      - {kind: chest, count: 1, tier: 3}
+  - id: room:wreck_stair
+    name: Gallery stair
+    kind: corridor
+    size: M
+    extent: [384, 1536]
+    at: [1408, 2880]
+    floor: [-640, -1280]
+    clear_height: 384
+    purpose: "Steps from the drowned gallery down to the wreck, behind a sluice gate."
+    empty: true
+    theme: "The drowned galleries and the reservoir bed: d33's rock over its darker granite t68a03a; the stone sluice gates of d33's bricks t09a01."
+links:
+  - id: link:cache_n
+    from: room:mirage_cache
+    to: room:north_mouth
+    kind: secret_door
+    purpose: A mirage (as above).
+  - id: link:drowned_wstair
+    from: room:drowned
+    to: room:wreck_stair
+    kind: door
+    condition: {qbit: plug_pulled}
+    opened_by: poi:plug
+    purpose: "A stone sluice gate, opened by the plug."
+  - id: link:false_cache
+    from: room:false_passage
+    to: room:mirage_cache
+    kind: secret_door
+    purpose: "A mirage: a click or a step before it: 'The mirage dissipates with your touch.' (aaze0042:24)."
+  - id: link:frost_s
+    from: room:frost_cavern
+    to: room:south_mouth
+    kind: open
+  - id: link:frost_skulls
+    from: room:frost_cavern
+    to: room:skulls_1
+    kind: open
+  - id: link:frost_sluice
+    from: room:frost_cavern
+    to: room:sluice
+    kind: door
+  - id: link:grotto_vault
+    from: room:grotto
+    to: room:phantom_vault
+    kind: secret_door
+    purpose: A mirage (as above).
+  - id: link:icicle_false
+    from: room:icicle_hall
+    to: room:false_passage
+    kind: open
+  - id: link:icicle_mirage
+    from: room:icicle_hall
+    to: room:mirage_hall
+    kind: open
+  - id: link:ledge_drowned
+    from: room:ledge
+    to: room:drowned
+    kind: door
+    condition: {qbit: plug_pulled}
+    opened_by: poi:plug
+    purpose: "A stone sluice gate, opened by the plug."
+  - id: link:ledge_maze
+    from: room:ledge
+    to: room:mirror_maze
+    kind: open
+  - id: link:ledge_steps
+    from: room:ledge
+    to: room:steps
+    kind: door
+    condition: {qbit: plug_pulled}
+    opened_by: poi:plug
+    purpose: "A stone sluice gate, opened by the plug."
+  - id: link:maze_post
+    from: room:mirror_maze
+    to: room:guard_post
+    kind: open
+  - id: link:maze_skulls
+    from: room:mirror_maze
+    to: room:skulls_2
+    kind: secret_door
+    purpose: A mirage (as above).
+  - id: link:mirage_frost
+    from: room:mirage_hall
+    to: room:frost_cavern
+    kind: open
+  - id: link:mirage_ledge
+    from: room:mirage_hall
+    to: room:ice_stair
+    kind: open
+  - id: link:n_icicle
+    from: room:north_mouth
+    to: room:icicle_hall
+    kind: open
+  - id: link:post_echo
+    from: room:guard_post
+    to: room:echo_cave
+    kind: open
+  - id: link:reservoir_grotto
+    from: room:reservoir
+    to: room:grotto
+    kind: open
+    condition: {qbit: plug_pulled}
+  - id: link:stair_ledge
+    from: room:ice_stair
+    to: room:ledge
+    kind: open
+  - id: link:steps_reservoir
+    from: room:steps
+    to: room:reservoir
+    kind: open
+    condition: {qbit: plug_pulled}
+    purpose: Under the water until the plug is pulled.
+  - id: link:wreck_reservoir
+    from: room:wreck
+    to: room:reservoir
+    kind: open
+    condition: {qbit: plug_pulled}
+  - id: link:wreck_sump
+    from: room:wreck
+    to: room:sump
+    kind: open
+  - id: link:wstair_wreck
+    from: room:wreck_stair
+    to: room:wreck
+    kind: open
+loops:
+  - id: loop:drained
+    spaces: [room:ledge, room:steps, room:reservoir, room:wreck, room:wreck_stair, room:drowned]
+    notes: "Down the steps, up through the drowned gallery; closed until the plug is pulled."
+  - id: loop:mirages
+    spaces: [room:north_mouth, room:icicle_hall, room:false_passage, room:mirage_cache]
+    notes: Through the phantom safe's mirage and back to the mouth through the second.
+  - id: loop:through
+    spaces: [room:north_mouth, room:icicle_hall, room:mirage_hall, room:frost_cavern, room:south_mouth]
+    notes: "In at one mouth, out at the other, back over X5."
+entrances:
+  - id: entrance:x5_north
+    space: room:north_mouth
+    kind: both
+    neighbour: exit:x5_north
+    facing: s
+    notes: "The arrival (D-4 item 5). 'Leave the Cave of Illusion?' (aaze0042:49)."
+  - id: entrance:x5_south
+    space: room:south_mouth
+    kind: both
+    neighbour: exit:x5_south
+    notes: "To the Troll Forest side of X5. 'Leave the Cave of Illusion?' (aaze0042:49)."
+critical_path: [room:north_mouth, room:icicle_hall, room:mirage_hall, room:frost_cavern, room:sluice, room:frost_cavern, room:mirage_hall, room:ice_stair, room:ledge, room:mirror_maze, room:guard_post, room:echo_cave, room:guard_post, room:mirror_maze, room:ledge, room:steps, room:reservoir, room:grotto]
+return_path: [room:grotto, room:reservoir, room:wreck, room:wreck_stair, room:drowned, room:ledge, room:ice_stair, room:mirage_hall, room:frost_cavern, room:south_mouth]
+goals:
+  - id: goal:enchanted_key
+    space: room:grotto
+    kind: use
+    what: "Give the great skull ten gems: the Enchanted Key (A3's hook m12.skull)."
+keys:
+  - id: key:gems
+    grants: {item: enchanted_key}
+    found_in: room:echo_cave
+    how: chest
+    notes: Fifteen fixed gems in the echo cave pay the great skull's ten.
+  - id: key:plug
+    grants: {qbit: plug_pulled}
+    found_in: room:sluice
+    how: lever
+    notes: "Might 30 on the pulling member, potions counting; the Potion of Might behind the mirage helps."
+points_of_interest:
+  - id: poi:mirages
+    spaces: [room:false_passage, room:north_mouth, room:mirror_maze, room:grotto]
+    count: 4
+    kind: sign
+    behaviour: "Rippling rock walls: a click or a step before one: 'The mirage dissipates with your touch.' (aaze0042:24) and it opens at once."
+  - id: poi:notice
+    space: room:ledge
+    kind: sign
+    behaviour: "A scratched notice: the skulls take gems, and the echo cave past the Guardians' post keeps some."
+  - id: poi:plug
+    space: room:sluice
+    kind: lever
+    behaviour: "The bronze plug: 'You aren't strong enough to pull the plug.' (aaze0042:23) below Might 30; pulled once it sets plug_pulled, sinks the water and opens the three sluice gates."
+  - id: poi:safe
+    space: room:false_passage
+    kind: sign
+    behaviour: "'Your hand passes through the safe as though it were not there.' (aaze0042:72); hover name Safe."
+  - id: poi:skulls
+    spaces: [room:skulls_1, room:skulls_2, room:grotto]
+    count: 5
+    kind: fountain
+    behaviour: "Talking skulls selling stat rises for gems, once per character (Yes/No; the great skull a choice of three)."
+mechanisms:
+  - {kind: mirage wall (click or step), count: 4}
+  - {kind: plug (Might check), count: 1}
+  - {kind: water mover sinking 640, count: 1}
+  - {kind: sluice gate, count: 3}
+  - {kind: once-per-character skull, count: 5}
+totals:
+  chests: 5
+  doors: 8
+  rooms: 23
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act2_graphs/xd10.graph.yml; D-4 (mockups/act2_dungeon_decisions.md) wins where they differ: mirages as door faces opened by a click or a step, the drain as one water mover with stone sluice gates, Might 30 with potions, D-4's gem prices. Floors at 0, -640, -1280. Three connectors (the ice stair, the reservoir steps, the gallery stair) carry the stair links. All 50 monsters placed (exact counts); the reservoir's six start hidden under the water and show when the party first walks onto the drained bed."

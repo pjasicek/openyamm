@@ -22,6 +22,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -35,7 +36,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bake_geometry import (fnv, group_coplanar_faces, newell_normal, pack_lightmap_charts, plane_chart_basis,  # noqa
                            rgbm, rle_bgra)
-from bake_assets import bake_texture_paths, source_roots  # noqa: E402
+from bake_assets import bake_texture_paths, dependency_name, liquid_face_colours  # noqa: E402
 
 MAGIC = b'OYILIT1\0'
 VERSION = 1
@@ -101,6 +102,11 @@ def texture_albedo(path):
         return (0.0, 0.0, 0.0), 0.0
     linear = np.where(opaque <= 0.04045, opaque / 12.92, ((opaque + 0.055) / 1.055) ** 2.4)
     return tuple(float(value) for value in linear.mean(axis=0)), float(len(opaque) / len(pixels))
+
+
+# Face textures the game draws as a liquid with no picture of their own (engine/liquids/liquids.yml, e.g. Xeen's
+# xjuice*): texture name -> the liquid's linear colour, filled by main() for the scene's world.
+LIQUID_ALBEDO = {}
 
 
 def is_receiver(face):
@@ -380,7 +386,8 @@ def bake_passes(scene, charts, dimensions, profile, texture_paths, out, lights, 
         if no_shadow:
             key += '#noshadow'
         if key not in materials:
-            albedo, _ = texture_albedo(texture_paths[texture.lower()])
+            albedo = (LIQUID_ALBEDO[texture.lower()] if texture.lower() not in texture_paths
+                      else texture_albedo(texture_paths[texture.lower()])[0])
             mat = bpy.data.materials.new(key)
             mat.use_nodes = True
             bsdf = next(node for node in mat.node_tree.nodes if node.type == 'BSDF_PRINCIPLED')
@@ -642,8 +649,7 @@ def main():
     deps = {}
 
     def dependency(path):
-        base = next((root for root in source_roots(assets, extra_sources) if path.is_relative_to(root)), assets)
-        deps[str(path.relative_to(base))] = fnv(path.read_bytes())
+        deps[dependency_name(assets, path, extra_sources)] = fnv(path.read_bytes())
 
     geometry = assets / scene['geometry_path']
     geometry_bytes = geometry.read_bytes()
@@ -683,8 +689,14 @@ def main():
     start = time.monotonic()
     # Every drawn face's texture (its mean colour is what light bounces off).
     texture_paths, _ = bake_texture_paths(assets, scene['world'], extra_sources)
+    # A liquid without a picture bounces its liquids.yml colour.
+    liquid_colours, liquids_path = liquid_face_colours(assets, scene['world'])
     for texture in sorted({f['texture'].lower() for f in scene['faces']
                            if f['visible'] and not f['attributes'] & INDOOR_SKY}):
+        if texture not in texture_paths and texture in liquid_colours:
+            LIQUID_ALBEDO[texture] = liquid_colours[texture]
+            dependency(liquids_path)
+            continue
         if texture not in texture_paths:
             raise ValueError('Missing authoritative bake material: ' + texture)
         dependency(texture_paths[texture])

@@ -1,0 +1,159 @@
+# The obelisks (QUESTS 4.3): one per surface map; each face's obelisks spell one line, and the line points to a buried
+# hoard (MM6-MM8's obelisk treasure: the spot gives its hoard only to a party that has read every obelisk of its face).
+# Cloudside, X1-X7 in map order: "SEEK THE HOARD BURIED FOR THE SPHINX" (X1, X2 and X5 built with SEEK, THE, FOR; X3's
+# HOARD as A5 proposed); the hoard lies in the sand before the Sphinx's paws on X6. Darkside, D1-D6: "DIG BENEATH THE
+# BROKEN TRAVEL PYRAMID"; the hoard lies under D5's broken pyramid. Ours: the source has no obelisks.
+# Each map calls its obelisk's hook (the hook shows the word, sets the bit, writes the autonote). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: OBELISKS
+title: The Obelisks
+act: opt
+kind: ours
+status: full
+giver: null
+giver_name: (the obelisks themselves)
+maps: [X1, X2, X3, X4, X5, X6, X7, D1, D2, D3, D4, D5, D6]
+level: 40
+block: 142
+after: []
+source: "QUESTS 4.3 (obelisks); research/MAP_CRAFT_CALIBRATION.md (one obelisk per map, one word each)"
+
+qbits:
+  cloud_1: {id: 115040}
+  cloud_2: {id: 115041}
+  cloud_3: {id: 115042, note: "X3's obelisk (hook obelisks.x3)"}
+  cloud_4: {id: 115043, note: "X4's obelisk (hook obelisks.x4)"}
+  cloud_5: {id: 115044}
+  cloud_6: {id: 115045}
+  cloud_7: {id: 115046, note: "X7's obelisk (hook obelisks.x7)"}
+  cloud_hoard_found: {id: 115048, note: "the hoard before the Sphinx (X6)"}
+  dark_1: {id: 115050, note: "D1's obelisk (hook obelisks.d1)"}
+  dark_2: {id: 115051, note: "D2's obelisk (hook obelisks.d2)"}
+  dark_3: {id: 115052, note: "D3's obelisk (hook obelisks.d3)"}
+  dark_4: {id: 115053, note: "D4's obelisk (hook obelisks.d4)"}
+  dark_5: {id: 115054, note: "D5's obelisk (hook obelisks.d5)"}
+  dark_6: {id: 115055, note: "D6's obelisk (hook obelisks.d6)"}
+  dark_hoard_found: {id: 115057, note: "the hoard under the broken pyramid on D5 (hook dark_hoard)"}
+
+autonotes:
+  cloud_1: {id: 4700, text: "Obelisk in Vertigo Meadows: the first of seven Cloudside words, SEEK.", category: Obelisk}
+  cloud_2: {id: 4701, text: "Obelisk by Rivercity: the second Cloudside word, THE.", category: Obelisk}
+  cloud_3: {id: 4702, text: "Obelisk in Lifeforce Lagoon: the third Cloudside word, HOARD.", category: Obelisk}
+  cloud_4: {id: 4703, text: "Obelisk in Burlock Savannah: the fourth Cloudside word, BURIED.", category: Obelisk}
+  cloud_5: {id: 4704, text: "Obelisk in Winterkill Tundra: the fifth Cloudside word, FOR.", category: Obelisk}
+  cloud_6: {id: 4705, text: "Obelisk in the Desert of the Sphinx: the sixth Cloudside word, THE.", category: Obelisk}
+  cloud_7: {id: 4706, text: "Obelisk on Mount Firestone: the seventh Cloudside word, SPHINX.", category: Obelisk}
+  dark_1: {id: 4707, text: "Obelisk in Castleview Vale: the first of six Darkside words, DIG.", category: Obelisk}
+  dark_2: {id: 4708, text: "Obelisk in the Sprite Forest: the second Darkside word, BENEATH.", category: Obelisk}
+  dark_3: {id: 4709, text: "Obelisk by Sandcaster: the third Darkside word, THE.", category: Obelisk}
+  dark_4: {id: 4710, text: "Obelisk by Lakeside: the fourth Darkside word, BROKEN.", category: Obelisk}
+  dark_5: {id: 4711, text: "Obelisk in the Desert of Doom: the fifth Darkside word, TRAVEL.", category: Obelisk}
+  dark_6: {id: 4712, text: "Obelisk in the Forbidden Zone: the sixth Darkside word, PYRAMID.", category: Obelisk}
+
+hooks:
+  x1:
+    map: X1
+    where: "the obelisk (poi:obelisk): replaces the map's own message"
+    sets: [cloud_1]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_1}]
+    text: "Carved into the obelisk, the first of seven words: SEEK."
+  x2:
+    map: X2
+    where: "the obelisk: replaces the map's own message"
+    sets: [cloud_2]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_2}]
+    text: "Carved into the obelisk, the second of seven words: THE."
+  x3:
+    map: X3
+    where: "the obelisk"
+    sets: [cloud_3]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_3}]
+    text: "Carved into the obelisk, the third of seven words: HOARD."
+  x4:
+    map: X4
+    where: "the obelisk"
+    sets: [cloud_4]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_4}]
+    text: "Carved into the obelisk, the fourth of seven words: BURIED."
+  x5:
+    map: X5
+    where: "the obelisk: replaces the map's own message"
+    sets: [cloud_5]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_5}]
+    text: "Carved into the obelisk, the fifth of seven words: FOR."
+  x6:
+    map: X6
+    where: "the obelisk"
+    sets: [cloud_6]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_6}]
+    text: "Carved into the obelisk, the sixth of seven words: THE."
+  x7:
+    map: X7
+    where: "the obelisk"
+    sets: [cloud_7]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: cloud_7}]
+    text: "Carved into the obelisk, the last of seven words: SPHINX."
+  cloud_hoard:
+    map: X6
+    where: "a mound of sand between the Sphinx's paws, outside XD-15's door (clickable, no prompt)"
+    requires: {all: [{qbit: cloud_1}, {qbit: cloud_2}, {qbit: cloud_3}, {qbit: cloud_4}, {qbit: cloud_5},
+                     {qbit: cloud_6}, {qbit: cloud_7}]}
+    sets: [cloud_hoard_found]
+    once: true
+    do: [{gold: 10000}, {treasure: 6}, {treasure: 6}]
+    text: "You dig where the seven words said. An iron box lies under the sand, left for a Sphinx that never came for it."
+    fail_text: "A mound of sand between the paws. Without knowing where to dig, you could dig all week."
+    else_text: "Sand, and more sand."
+  d1:
+    map: D1
+    where: "the obelisk"
+    sets: [dark_1]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_1}]
+    text: "Carved into the obelisk, the first of six words: DIG."
+  d2:
+    map: D2
+    where: "the obelisk"
+    sets: [dark_2]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_2}]
+    text: "Carved into the obelisk, the second of six words: BENEATH."
+  d3:
+    map: D3
+    where: "the obelisk"
+    sets: [dark_3]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_3}]
+    text: "Carved into the obelisk, the third of six words: THE."
+  d4:
+    map: D4
+    where: "the obelisk"
+    sets: [dark_4]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_4}]
+    text: "Carved into the obelisk, the fourth of six words: BROKEN."
+  d5:
+    map: D5
+    where: "the obelisk"
+    sets: [dark_5]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_5}]
+    text: "Carved into the obelisk, the fifth of six words: TRAVEL."
+  d6:
+    map: D6
+    where: "the obelisk"
+    sets: [dark_6]
+    do: [{lua: "evt.PlaySoundName(\"xeen_obelisk\")"}, {autonote: dark_6}]
+    text: "Carved into the obelisk, the last of six words: PYRAMID."
+  dark_hoard:
+    map: D5
+    where: "the foot of the broken travel pyramid, its fallen capstone (clickable, no prompt; D-49 change 2: one spot with the pyramid, whose click is this hook too). Before the six words: the source's line on the pyramid (fail_text, dark/aaze0013:12)"
+    requires: {all: [{qbit: dark_1}, {qbit: dark_2}, {qbit: dark_3}, {qbit: dark_4}, {qbit: dark_5}, {qbit: dark_6}]}
+    sets: [dark_hoard_found]
+    once: true
+    do: [{gold: 20000}, {treasure: 6}, {treasure: 6}]
+    text: "You dig beneath the broken pyramid's capstone. A chest of old Darkside coin waits there, dry as the day it was buried."
+    fail_text: "The pyramid portal has been destroyed."
+    else_text: "The pyramid portal has been destroyed. Under its capstone: rubble."
+
+riddles:
+  - {answer: "the sand before the Sphinx's paws (X6)", where: "X6, outside XD-15", said_by: "the seven Cloudside obelisks (X1-X7)"}
+  - {answer: "under the broken travel pyramid (D5)", where: "D5", said_by: "the six Darkside obelisks (D1-D6)"}
+
+rewards: {xp: 0, gold: 30000}
+playthrough: "Read each obelisk where its map is built; X6's sand mound after all seven Cloudside words; D5's capstone after all six Darkside words."

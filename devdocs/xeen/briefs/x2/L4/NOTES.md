@@ -6,6 +6,21 @@ Built and played in MM7's world as a stand-in (`world: mm7`), as X1 and the Act 
 map_stats 9136 (its row and bolster row from Erathia's, `map_stats.reference: 7out03.odm`: LowerToEqual, MAPS A4),
 qbits 110201-110206 used (range 110200-110299), no items of the range used yet (12100 is the planned Skeleton Key).
 
+
+**2026-11-20 (A5 tenth session, texture fit):** rebuilt with merge point 16's oymap (the L4 unchanged) and installed
+with its bake 21:28:32 (A1's lava rows changed the tile table at 21:05:55 and made the 20:21 bake stale). Audit: 0
+errors; the texture check reports nothing now that D-41 is live (the half-timber `hhm3b`, `hhm3bw2`, `hhm3el2`,
+`hhm3er2a` are `module` panels); the three known coplanar pairs inside MM7's mast model. Walk 455 steps **2 of 2**,
+hostility **2 of 2** from assets_dev (`output/studio_cal/a5/fit/x2_*.log`). Texture fit exceptions: none. AU's sounds:
+none named for X2.
+
+**2026-11-20 (A5 tenth session, second pass):** Shop signs (A6's texture classes of 21:58: the MM7 `7sg*` signs are pictures meant once): the kit hung them on 96 x 96 boards, showing the 64 x 64 picture 1.5 times (`feature_repeated`); the board now takes the picture's own size from `texture_classes.yml` (`sign_size`). Reinstalled with its bake in the second pass (`output/studio_cal/a5/fit/pipeline2.log`), walk and hostility 2/2 there.
+
+**2026-11-20 (A5 ninth session):** A8's explicit inside points: XD-06 (0, 384, 0) facing 512, XD-21 (-2560, 320, 0)
+facing 512 (XD-12 (2752, 0, 0) facing 1024 as before); the walk asserts each arrival. Installed with its bake 20:21:07
+(merge point 15 oymap; audit 0 errors, door check included); walk 455 steps **2 of 2**, hostility **2 of 2**
+(`output/studio_cal/x2/run/s9_*.log`). For the next install: AU's sounds if any are named for X2 (none yet).
+
 ## How it is written
 
 Every project file of L1-L4 is written by `output/studio_cal/x2/tools/gen.py` (the same plan at three levels: L1 the
@@ -328,3 +343,269 @@ before (`xeen_x2.odm ... 7out03.odm left 5 xeen_x1.odm right 3`, `xeen_x1.odm ..
 byte-identical. With the S8g studio build both maps were installed into one mount by two plain installs (no merge;
 `output/s8g/xx/mount`, played with the four dungeons in `output/s8g/xx/play_mount`): this map's walk 2 of 2 (east edge:
 on X1 at (-22016, 9216), its west start; X1's west edge: back here at (21504, 9216), the east start), X1's walk 2 of 2.
+
+## Into the world (2026-11-20, A5)
+
+`IN_WORLD = True` in `output/studio_cal/x2/tools/gen.py` (False rebuilds the MM7 stand-in of 2026-11-16; backup of the
+tools and briefs before the change: `output/studio_cal/x2/world_backup/`). Run `output/studio_cal/x2/vw.sh [--install]`
+(generate L1-L4, fmt, validate, build into `build_w`, X1's `measure.py`, `dress_check.py`; with `--install` into
+`assets_dev` and the terrain material weights and liquid edges). Installed: `worlds/xeen/maps/xeen_x2.*`,
+`events/maps/xeen_x2.lua`, `terrain_materials/xeen_x2*`.
+
+What changed:
+- `world: xeen`; the map_stats `reference` (Erathia) dropped.
+- **Houses**: every door opens A4's house (`HOUSE_XEEN`, from the stand-in's row: 4051-4063 services and the dock,
+  4065-4094 residences, A4's names); Barok's, Medin's and Tito's huts are houses 4095, 4096, 4097 (their talk is A3's).
+  The mirror calls `Xeen.useMirror(4064)` (A3's continuation form waits for the studio word, as X1's).
+- **Monsters** (A2's rows): slots Xeen Sprite 2-3 a marker (2-4 before), Xeen Ranger 2-3, Xeen Ogre 2-3 at Dif 0
+  (Ogres only, at the crossings); placed: the two ranger camps Evil Archers 11130 and Evil Rangers 11131, the lair's
+  leader and his two an Ogre Brute 11061 each (the Chieftain 11063 is XD-27's boss), the temple's five Killer Sprites
+  11531, the lake's three Water Dragons 11640 (Q-C13's trap, 60), the wanderers Ogre 11060, Medusa Sprite 11530 and
+  Evil Archer 11130. 47 markers in 5 areas; **142 at load** (`measure.py`: markers x their means + 25 placed; MAPS 135).
+  The world's relations.yml holds the families' hostility; the map's own relations keep Ligono's figure peaceful.
+- **People**: Danulf (4154, MM7 peasant 371) by his altar (the ring's old message event is gone: his topics are A3's
+  Q-C17); Ligono (4155, MM7 Ghost 270, peaceful) on the cliff top in place of the statue.
+- **Hooks** (A3, `XeenQuests.hook`): m1.crodo_bottle_lake (the bottle), q-c17.nest (the sprite eggs), q-c19.skull,
+  q-c13.medin_boat (the boat's refusal; with qbit 110201 it still rows), q-c2.strongbox (new: the sorceresses'
+  strongbox against the east wall of their house on the south quay, `building:quay_houses#5`), x2.bank_chest (the empty
+  strongbox on the robbers' quay), x2.ad_deep_mine, x2.ad_customers, x2.ad_navigation (the boards). Darzog's door:
+  `evt.GetHeldItemId() == 12100 or XeenQuests.hook("m13.darzog_door")` (the Skeleton Key 12100; the hook has no refusal
+  text, so the map's own stays). The fountain reads qbit 110204 (q-c2.done) as before; the temple door 110101.
+  Not wired: x2.ad_mountains (a sign by Martin's door, 4076: next pass), q-c18.teacher and q-c23.upriver (A4's houses).
+- **Nystor**: the dock house is A4's 4063 (its routes are A4's); the pier's post only quotes him (the 100-gold teleport
+  to Vertigo is gone). **His ship waits on a studio word**: a `kind: model` is taken only from a map of the project's
+  own world, and worlds/xeen has no 7out03.odm (asked of A1: `from.world`); `SHIP_WORD` in gen.py turns it on (the
+  Lady Catherine turned 90 on the pier's east side).
+- **Edges**: east to X1 two-way (A2's driver wrote both travel rows: `xeen_x1.odm left 3`, `xeen_x2.odm right 3`);
+  west and north sealed: their neighbours and ways in dropped, a sign at each road's end ("flooded" to Lifeforce Lagoon,
+  "bridge out" to Castle Burlock).
+- **Dressing** (DRESSING.md): the tavern's four patron casks stand as two pairs against its front either side of the
+  door (they stood out on the square); every lone barrel got a partner; the town flowers in 5 clumps (6 put one before
+  the bank's door). `dress_check.py`: no door with anything before it; barrels 12 pairs, the rest hay, wood and the dock's
+  and the north quay's pairs half a cell apart.
+
+Checks with `build-xeen/game/openyamm --world xeen --asset-root assets_dev` (`output/studio_cal/x2/walk_world.sh`):
+- the walk (`playtest.yml`, 399 steps, regenerated by `tools/gen_walk.py` for the world: the build's houses, Danulf by
+  `interact_actor`, the west edge's sign instead of its prompt, the X1 round trip by the east edge, all four dungeons
+  entered; a dungeon not installed is passed by with a note): **2 of 2** (`run/walk_world_11.log`, `_12.log`);
+- `playtest_hostility.yml` (new, `tools/gen_hostility_x2.py` from the shared generator: the three families and the
+  dragons hostile, none fighting another, the townsfolk and Ligono peaceful): **2 of 2** (`run/host_world_3.log`, `_4.log`).
+
+Build: 15 warnings (none on doors or hostility; the world's continent the studio cannot say, as X1). Textures 52 (cap 120).
+POIs about 45 (the strongbox and the two road signs added, Ligono's statue gone). Pictures:
+`output/studio_cal/x2/world_tour/x2/` (sheet `sheet_x2.jpg`): Danulf and Ligono stand where they should, the road-end
+signs read at the roads' ends, the tavern's casks against its front. Not done: minimap and lighting bake (the bake
+waits on the same tile-table fix as X1's), the sorceresses' house and guards (A4, A2).
+
+Kill XP (`tools/xeen/balance.py`, against A2's map_rows slots, which still say sprites 2-4 and ogres tier 2): 13.2k
+against 8.2k (1.61). The three lake dragons are 3.15k of it; without them and with the slots above about 8.4k (1.03).
+Whether a trap's XP counts in the map's budget is the orchestrator's question.
+
+## Third session (2026-11-20, A5)
+
+- **The mirror** is `function(continueStep) Xeen.useMirror(4064, eventId, continueStep) end` (studio merge point 3
+  gives a `lua` effect naming `eventId` its handler's number, event 120). Checked headless with X1's
+  (`output/studio_cal/x1/mirror/mirror.yml`, passes, `run1.log`): Vertigo's mirror with nothing else touched shows the
+  square; with Rivercity's qbit 119002 it lists Rivercity and lands at (0, 9728); Rivercity's then lists Vertigo
+  (touched first) and lands on Vertigo square.
+- **`map_stats.continent: 6`** (Cloudside): the fallback-sky warning is gone.
+- **The sorceresses' house**: `building:quay_houses#5` (was plain) enters A4's 4098 (Velda 4156, Ysmay 4157: the house
+  screen with both). **Q-C2's guards**: two Apprentice Sorceresses (A2's 11184, level 12, placed only) in group 54,
+  hidden and hostile, at (72.3, 56.0) and (72.7, 55.5) east of the house; the strongbox's event shows the group before
+  the hook (`evt.SetMonGroupBit(54, Invisible, 0)`), so opening it brings them out. The walk proves it: the hidden pair
+  is not met on the way to the strongbox (clear_hostiles kills 0), the pendant (12523) is in the party after the
+  click, and the next walk kills the two that came out.
+- **x2.ad_mountains** on a board beside Martin's south door (house 4076, [75.15, 47.6]); **x2.ad_navigation** moved
+  from the square's board to beside the School of Navigation's north door (4069, [53.3, 42.85]); both off their doors'
+  sides by more than DRESSING's 288 (`dress_check.py`: no door with anything before it).
+- **Minimap**: `assets_dev/worlds/xeen/icons_x2/xeen_x2.png` (X1's recipe; `output/studio_cal/x2/present/redo.sh
+  minimap`, work in `present/minimap/`). X1's `prepare_minimap.py` now takes a texture's native size from the extracted
+  MM6-MM8 originals when only its x2/x4 art is mounted (MM7's `sgdock`).
+- **Checks** (`build-xeen`, `--world xeen`, from `assets_dev`): the walk (426 steps) 2 of 2
+  (`run/walk_world_13.log`, `_14.log`), the hostility check (11184 added as a foe and a placed kind) 2 of 2
+  (`run/host_world_5.log`, `_6.log`).
+- **Kill XP** (`balance.py`, the orchestrator's trap rule): 8.9k against 8.2k, 1.08; the three dragons count in Act VI.
+- **Still open**: Nystor's ship (the studio's `from.world`, A1: not in merge point 3), the lighting bake (the tile
+  table fix of `tools/lighting/bake_outdoor.py`, not applied; `present/redo.sh bake` refuses MM8's table),
+  q-c18.teacher and q-c23.upriver (A4's houses).
+- **X8's falls (D-6.4)**: the landing point for a fall from Cloudreach's middle is **(-10240, 8448), water surface
+  576** (cell [44, 47.5]), in Lake Darzog's north-east lobe about 1,000-1,300 off the north and east shores; 6,900
+  from the nearest lake dragon (placed at [31, 50.5]), 8,000 from Darzog's tower door (-16031, 3014) and more than 4,500
+  from the island's shore. Nothing on X2 changes for it (A6 writes the fall's move).
+- Pictures in game: `output/studio_cal/x2/world_tour/x2b/` (sheet `sheet_x2b.jpg`; `run_game.sh --isolated`): the
+  minimap on the HUD, the sorceresses' house with the strongbox at its east wall, the two boards beside their doors.
+- **Lighting bake** (merge point 4): installed `worlds/xeen/maps/xeen_x2.lighting` and `.bake.json` (MM7's tile table;
+  `present/redo.sh bake`). The dock's sign `sgdock` has no native BMP under `assets_source/worlds/mm7/textures` (only
+  its x2/x4 art; the original is in `assets_source/textures/native_mm6_mm8/mm7/textures/`), so the bake borrows it
+  through `--sources present/srcroot` and `stale_bakes.py` lists X2 as stale for that one dependency until the BMP is
+  in `assets_source/worlds/mm7/textures` (asked of A1). Checked in game (`world_tour/x2c/`).
+- **Ligono leaves** (A3, Q-C19): his surf figure (NPC 4155) is in a group of its own (55); `evt:ligono_freed` (load)
+  hides it when q-c19.done (112380) is set. Rebuilt, installed, re-baked; walk 2 of 2 (`run/walk_world_15.log`,
+  `_16.log`), hostility (`run/host_world_7.log`). `stale_bakes.py` lists X2 only for `sgdock.bmp` (above).
+
+## Flicker found by the audit (2026-11-20, A5, fourth session)
+
+`oymap audit` (merge point 5) found one pair of faces in one plane in the ruined watchtower (the studio's `ruin`
+z-fighting, noted above): two faces of part `t` at (18170, 14146, 1511), 759 square units. `tools/gen.py` now uses
+ruin seed 5 (was 3); a scratch build audits clean (0 pairs). Installed with Nystor's ship (below).
+
+## Nystor's ship (2026-11-20, A5, fourth session; A1's merge point 6)
+
+`kind: model` with `from: {world: mm7, map: 7out03.odm, models: [...]}` (`SHIP_WORD = True`): Erathia's ship east of
+Nystor's pier, along the river, its click the dock house (4063). Taken models keep their source heights, and Erathia's
+keel stands at its sea (0): `raise: 560` sets it 16 into X2's river (576). Moved east to `SHIP_AT` (83.6, 53.4) so that
+its stern clears the pier (x 8,102-8,486) and the mooring post (to 8,666): the ship spans x 8,725-11,345. The audit's
+three remaining pairs (TRIM2_32a, faces 292/293/295 against 297) are inside MM7's own mast model, the same three pairs
+Erathia has. Pictures `output/studio_cal/x2/world_tour/ship/` (tour `tour_ship.yml`): hull, deck, masts and sails draw
+MM7's textures. Also A2's D-9.4: the walk checks Barok's Pendant as quest item 12152 (was 12523; `tools/gen_walk.py`).
+Rebuilt, installed, terrain materials, minimap and bake redone (`stale_bakes.py`: 0), walk 2/2 (426 steps), hostility
+pass (45 steps).
+
+## Fifth session (2026-11-20, A5): the edges to X3 and X4, D-14's dressing
+
+- `X3_LIVE` and `X4_LIVE` in gen.py (both maps installed): the west edge leads to X3's east start (21504, 12288),
+  the north edge to X4's south start (16384, -22016) on X4's X2 road (D-11.6); X3's east edge and X4's south edge
+  arrive at X2's west start [21, 40] and north start [66, 21]. First fights from them 2,368 (west) and 2,029 (north).
+  The walk (`tools/gen_walk.py`) crosses both edges and comes back. A2 wrote the travel rows.
+- The obelisk on A3's `obelisks.x2` (the word, its bit and the autonote), not the map's own message.
+- D-14 (outdoor dressing): the three errors are gone. Props 13 (the barrel on the south street, decoration 1573) and
+  16, 17 (the kegs on the Kettle-Yang and Bank-Flask walking lines, 1580, 1582) are dropped with their partners
+  (`DROPPED_PROPS`); props 11 and 14 moved against the quay house's and the spirit guild's walls and, with 15, paired
+  along their walls (`PAIR`).
+
+## Dressing exceptions
+
+- Decorations 1554-1557 (two barrels and two casks before Bull's Tavern, y 42.45): the tavern's patrons sit on them
+  with their lines (set pieces); they stand 46-56 from the Bank-Tavern-Kettle walking line, which keeps its 128 free.
+- Three coplanar pairs inside MM7's own mast model of Nystor's ship (Erathia has them; not dressing).
+
+## Sixth session (2026-11-20, A5): decorations with models
+
+Every placed kind without an outdoor model (A1's list, merge point 8) swapped in `tools/gen.py` for a bound kind of
+the same use, same places: the tavern patrons' and the street props' barrels `7dec24` -> `7dec21` (cask, radius 29),
+the graves `rock66` -> `rock65`, the ogres' boulder `rock67` -> `rock68`, the fourth fairy ring `mushrm04` ->
+`mushrm05`, the coast and lip bushes `bush07`/`bush08` -> `bush03`. Left without a model (no bound kind fits): 2 hay
+bales (`haybale2`), 1 woodpile (`7dec12`), Crodo's bottle (`7dec41`). Decorations 1618 (were 1622: four coast bushes
+found no place). Audit: dressing clean, the ship's three coplanar pairs as before. Installed 16:28:56, baked 16:46:22 (the first bake call deadlocked: `present/redo.sh` takes the Blender lock itself, so never wrap it in another `flock` on `locks/blender.lock`). Walk 2/2 (`run/walk_s6a.log`, `_s6b.log`) and hostility 2/2 (`run/host_s6a.log`, `_s6b.log`), headless from
+assets_dev on the 16:06 binary.
+
+## Seventh session (2026-11-20, A5): Darzog's Tower's arrival point
+
+- A3/A8: X2's tower door (event 96) moved the party into XD-12 at (0, 0, 0); XD-12's NOTES ask for its start (2752,
+  0, 0) facing west. `gen.py` now writes `into: {map: xeen_xd12.blv, at: [2752, 0, 0], facing: 1024}`; the walk asserts
+  the arrival within 256 of (2752, 0). Installed with its bake through `install_baked.sh` at 17:44:16 (0 stale); walk
+  2/2 (453 steps), hostility 2/2 from assets_dev. XD-06's and XD-21's doors still move to (0, 0, 0): each dungeon's
+  start is its owner's to confirm.
+
+## Fourteenth session (2026-11-21, A5): X9's fall landing (D-50 change 4)
+
+- `entrance:x9_fall` named at **(-15360, 3072, 768), facing east (0)**, cell [34, 58], inside `zone:island`'s
+  keep-clear (`gen.py` `X9_FALL`). D-50's (-14592, 2816) failed its check: 3,874 from the lake dragon placed at
+  [36.5, 66] (the nearest, not [31, 50.5]), so the point moved along the island toward the tower door, never into the
+  lake: now 4,136 / 4,291 / 5,976 from the three placements (5,976, not 6,800 as first written: the scene's positions,
+  corrected under D-54). Points must be whole cells, so it shares XD-12's
+  `entrance:xd12_tower` cell. D-50's "placement plus home radius ≥ 4,000" cannot be met anywhere on the island: the
+  Water Dragons (11640) move `Long` (wander 5,120) and are placed round the island (DECIDE in the lane report).
+- The rebuild was byte-identical in `.odm`, `.scene.yml` and Lua, so only `xeen_x2.studio.yml` (the arrivals list) was
+  swapped in (00:52:31); the bake stays fresh (0 stale). Audit: the ship's three known coplanar pairs only.
+- X9's fall playtests (from assets_dev, 01:30) land at the point and nobody dies from the fall (about a third of each
+  member's HP). But the two nearest Water Dragons (11640, level 60, flying, aggressive) reach the party within
+  seconds: one run lost a cleric while waiting 8 s, and 3 of 9 falls showed a dragon hit within 0.5 s. The X9 tests
+  read HP right after landing. Moving the point nearer the tower door gains nothing (the island's best point is
+  4,210), so this is a design question in the lane report: leash the dragons, land elsewhere, or keep it as a hazard.
+
+## Fifteenth session (2026-11-21, A5): the lake dragons leashed (D-54)
+
+- The three Water Dragons (11640, group 80, hostile, notes unchanged) moved out on the lake and leashed (`gen.py`
+  `LAKE_DRAGONS`): [23, 48] (-20992, 8192) `leash: 1024` in the north-west lobe, [19.5, 58] (-22784, 3072) `leash: 768`
+  in the west channel, [28, 71] (-18432, -3584) `leash: 1024` in the south lobe; the build places each at the water
+  surface (z 576) with the scene's `leash_radius`. Their leash circles are 6,587 / 6,656 / 6,307 from
+  `entrance:x9_fall`, 6,147 / 5,985 / 5,997 from Darzog's door and more than 9,700 from X8's lake landing: D-54's
+  5,888 (Ice Blast's 5,120 + 768) is met everywhere. The old placements were 4,136 / 4,291 / 5,976 from the landing.
+- Sketch diff: only the three actors. `.odm` and Lua byte-identical; the scene changed, so the bake was stale:
+  installed with a fresh bake through `install_baked.sh` (01:57:57; 0 stale). Audit: the ship's three known coplanar
+  pairs only.
+- Playtests from assets_dev (`run/s15/`): walk 2/2, hostility 2/2 (the dragons still hostile), and the new
+  `playtest_lake_dragons.yml` 2/2 (`tools/gen_lake_dragons.py`): a level-46 party at `entrance:x9_fall` unhurt after
+  30 s and 60 s; after 60 s each dragon within its leash + 256 of home; group 80 killed, `lake_beasts_slain` (110201)
+  set by `evt:lake_beasts`, Medin's boat (event 141) rows the party to the island.
+- **The leash does not hold a flyer that sees the party** (engine bug, sent to A1): `playtest_lake_dragons_leash.yml`
+  puts an immortal party on the north shore 2,816 from the north-west dragon's home. The dragon targets the party and
+  circles it at about 2,800, leaving its 1,024 leash: 1,211 from home after 5 s, 4,347 after 30 s, climbing over the
+  land (z 768 -> 1,036). Fails 2/2 on merge point 22 (`run/s15/playtest_lake_dragons_leash_*.log`). The two dragons
+  that never saw the party stayed exactly at home. No workaround in the map: the falls are safe because the dragons do
+  not see the landing, not because the leash holds.
+- Darzog's Tower from Medin's jetty re-shot (the named view `landmark:darzog_tower`, (-8704, 3072, 840) looking west;
+  `world_tour/s15/sheet_s15.jpg`): the north-west and south dragons read as small shapes to either side of the island;
+  the tower reads as before.
+
+
+## Twenty-third session (A5, 2026-11-21): AU's night beds
+
+- AU's session 5 list (`level_generation/sounds/xeen_20261120/review/beds/x2.yml`) copied into
+  `output/studio_cal/a5/beds/x2.yml` (the previous list in `a5/beds/before_s23/`): the night beds `bed_night_*`
+  (`xeen_amb_night`, `night_only`, `pan: false`, volume 0.3) at the day beds' points; day lines unchanged. Sketch diff
+  only `sounds`; audit as before. Installed with its bake (`output/studio_cal/a5/s23/`, `pipeline.sh`); 0 stale.
+- Walk 455 and hostility 45, each 2/2 from assets_dev (`output/studio_cal/a5/s23/x2_*.log`).
+
+## Twenty-sixth session (A5, 2026-11-21): D-85, Danulf's ring
+
+- D-85: six sprite markers moved to small whole-cell circles (`gen.py` `camps`; the split pairs' second markers last,
+  so every other area keeps its seed and its marker): nest guards (46, 87) and (46, 88), (45, 80), (69, 81), (68, 78),
+  (60, 94). Nearest hostile to Danulf (-3686, -9523) now spawn 2 at 5,989 (was 3,078); three nest guards 1,670-1,688
+  from the nest; the fork-to-ring road passes one group (spawn 19, 3,392 off it). 47 markers, slots 23/17/7 as before;
+  odm and Lua byte-identical, only the scene's spawns changed. `tools/check_d85.py` (in `vw.sh`) fails a build with any
+  hostile within 5,888 of a placed talking NPC. Installed with its bake 19:19:59; audit 0 errors (3 kept); walk 455,
+  hostility 45, the new `playtest_danulf_ring.yml` (level-9 party posed at the ring, no clear, no condition in 5 s,
+  Danulf talks) each 2/2, lake dragons 1/1 from assets_dev (`output/studio_cal/a5/s26/`). On the old map the ring test
+  failed: Brokk Cursed and Petrified within 5 s.
+
+## Twenty-seventh session (A5, 2026-11-21): D-87, ranged disablers at arrivals
+
+- `output/studio_cal/x2/tools/check_d85.py` now also applies D-87 (3): no ranged disabler (monster_data's special
+  attack Stone, Curse, Paralyze, Asleep, Insane, Afraid, Uncon, Dead or Errad with a missile attack, or a Paralyze or
+  Finger of Death spell; a marker counts if its slot can roll one) within 5,888 of a talking NPC or of any arrival
+  point (named arrivals and edge starts, coaches and docks, mirror, Town Portal, edge spans, every Lua move into the
+  map, falls). On X2 the Xeen Sprite slot (Medusa Sprite: Stone, Killer Sprite: Curse, both by missile) and the placed
+  Killer and Medusa Sprites qualify.
+- Danulf, Ligono, the start (mirror, Town Portal), dock, coaches, the three edges, X9's and X8's fall landings, XD-12,
+  XD-21, XD-27: all clear (`output/studio_cal/a5/s27/x2_build.txt`).
+- **Breach, kept until a decider answers (DECIDE in the lane report):** the XD-06 exit (Temple of Yak; the named
+  arrival (-1024, -17408) and XD-06's own move (-1024, -17840)). The temple's five placed Killer Sprites
+  (`pop:temple_wisps`, group 63) stand 873-2,885 from it, and the dark-end markers 17, 22, 20 and 21 stand 2,304-4,766.
+  Clearing 5,888 would take every sprite out of the temple front and the dark south end: the guards would move about
+  5,600 and spawn 17 about 4,600 (the nearest whole cells outside both Danulf's and the exit's circles), so this is
+  not a small marker move. `vw.sh` passes `--kept xd06` so a rebuild is not blocked meanwhile; nothing moved.
+
+## Twenty-eighth session (A5, 2026-11-21): D-88, the XD-06 exit
+
+- D-88: temple guards kept (passed on entry), dark-end markers moved.
+- `gen.py` `camps`: the sprite marker (60, 94) -> (51, 93) and the dark-end markers (55, 98) -> (49, 99),
+  (71, 96) -> (74, 97), (65, 92) -> (69, 85), circles 0.25. Built: spawn 17 (-6752, -14912), 20 (-7744, -17952),
+  21 (5056, -16800), 22 (2624, -10816); from the exit points 6,110-7,915 (each at least 5,888 from (-1024, -17408) and
+  (-1024, -17840)), from Danulf 6,200-11,374. 22 stands between the (69, 81) marker (2,240) and the (72, 88) pair
+  (2,176 and 2,694), not on top of the pair as (69, 88) would (1,375). The nest keeps three guards at 1,568-1,775;
+  the fork-to-ring road sees the same markers as before (19 at 3,562, 5 at 4,912). 47 markers, slots 23/17/7, groups
+  and sizes unchanged; odm and Lua byte-identical, only the four spawn positions in the scene changed. `gen.py` now
+  stops a build with a sprite area within 5,888 of either exit point (`XD06_EXIT`).
+- The waiver is narrower: `vw.sh` passes `check_d85.py --kept-group 63` (only the five placed Killer Sprites of
+  `pop:temple_wisps` are reported KEPT at an arrival; every marker counts). On the pre-D-88 scene it reports 2 errors
+  (markers 17, 22, 20, 21 at the exit); on the new build 0 (`output/studio_cal/a5/s28/`).
+- Installed with its bake 20:05:09 (`a5/install_baked.sh`); audit 0 errors (the 3 kept warnings, Nystor's ship); walk 455,
+  hostility 45 and `playtest_danulf_ring.yml` 14 steps, each 2/2 from assets_dev (`output/studio_cal/a5/s28/q.log`);
+  0 stale bakes.
+
+## Twenty-ninth session (A5 s29, 2026-11-22, merge point 41 rebuild; run files output/studio_cal/a5/s29/)
+- Rebuilt and installed with its bake (01:07-01:10). D-89: the Temple of Yak's door (98) opens without the Yak Stone
+  (`XeenQuests.hook("q-c12.temple_door")`, then the window). D-90/F15: the sorceresses' strongbox (a crate) holds Barok's
+  pendant 12152 as its item (A3's q-c2.strongbox still gives it too until it says map_gives). F8: the Ogre Lair 640 wide.
+  F16: trans 5006/5012/5021/5027. F10: the west shore's pair moved (22, 76) -> (22, 88); the rim corner's zone 12,998 ->
+  gone (largest 11,983, 502 tiles; `vw.sh` now runs empty_zones and the audit). Walk 449, hostility, Danulf ring, lake
+  dragons and leash pass from assets_dev; D-85/D-87 0 errors; audit 0.
+- Not done: Ligono's skull 12311 as a ground item (no outdoor ground-item kind, A1 request).
+
+## Thirtieth session (A5 s30, 2026-11-22, merge point 42 oymap; run files output/studio_cal/a5/s30/)
+- D-90: Ligono's skull (12311) is a 3D ground item at (16691, -19866, 1024) (sketch `items`); the 7dec20 decoration
+  and its `q-c19.skull` click are gone (A3 makes the hook `map_gives`). `gen.py` backup `gen.py.pre_s30`. The walk
+  never visited the skull (A3's q-c19 scenario does).
+- Installed with its bake 02:01; audit 0; walk, hostility, Danulf ring and lake dragons pass from assets_dev.

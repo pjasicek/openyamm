@@ -1,0 +1,3 @@
+Saved the [rear view](level_generation/creatures/xeen_sandworm_claude/references_hd/02_back.png) and its [generation record](level_generation/creatures/xeen_sandworm_claude/references_hd/generation_runs_02_back.json). The unresized 1024×1536 PNG shows six stacked rings, the maw tilted away, and the low sand-and-rock mound.
+
+The visible silhouette clears every edge by at least 171 px. Trace opacity of 1/255 remains in parts of the transparent margin.

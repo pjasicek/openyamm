@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png in place, using its alpha as a locked stencil. Output a transparent PNG, portrait 3:4 canvas 1536x2048, three columns by four rows of square cells. Preserve every guide object's exact outline, position, size, gaps and orientation. Preserve the wide transparent margins between objects. Rows 1 and 2: paint unlit base colour on the five grey renders (front, back, left / right, top, empty). Rough grey stone broken by diagonal veins of faceted red ruby crystal as in design_reference.png, using icon_x8.png for colours only. Scale detail to each view. No directional lighting, cast shadows, AO, hot highlights, reflections, glow, sparkles, ground, outlines or text. Rows 3 and 4: pixel-aligned material classifications of the corresponding painted views directly above: all stone opaque flat pure #FFFF00; all ruby opaque flat pure #000000. Exactly two interior colours, no shading, texture, outlines or blended colours. Black ruby is opaque. Everything outside guide silhouettes fully transparent; row 2 column 3 and row 4 column 3 empty. Do not resize, move or redesign the grey objects.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "6f5c11006b1e1bdf485017c6729bece047db19f06ac5ab95b85c2f2d30769c78"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "95b5bff1937498526380002271e5ddab50fe8a3428f5871398d68cfe49b710d4"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "83a27346c9a5f1543f0a7e77d4dacb90a1872cfee9e646d6dede9489be16c681"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f920-7829-70c2-b3be-9b62ff1522e1/exec-75b1cbb6-00b0-4c65-b61e-1ec83f090076.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

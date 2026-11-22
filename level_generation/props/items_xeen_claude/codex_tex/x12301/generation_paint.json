@@ -1,0 +1,14 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a locked 1536x2048 transparent 3:4 template. Preserve every silhouette exactly, all ten original shapes at the same normalized pixel coordinates in 3 columns x 4 equal rows. Retain all margins. Each group of 5 has FRONT BACK LEFT / RIGHT TOP empty. The four very shallow domed side profiles only show the smooth palm-sized pebble edge. Only the large upright oval in the central cell of rows 2 and 4 shows the carved face. Rows 1-2 unlit game albedo paint: smooth grey-green stone with subtle mineral grain, stylised carved yak head lightly inlaid with dull gold following design_reference.png, icon_x8.png colour reference. No baked lighting, shadows, AO, highlights, outlines, glow or text. Rows 3-4 exactly duplicate positions and silhouettes of upper group shifted down half the canvas: pure flat yellow #FFFF00 for stone, pure flat red #FF0000 precisely on the gold inlay, crisp two-colour segmentation with no blended interior pixels. Every pixel outside the guide shapes including empty cells transparent. Never move, resize or redraw any outline.\nCorrect the material pass: absolutely clean isolated hard-edged stickers, transparent negative space without any yellow speckling or edge effects. The red is ONLY thin broken filaments along carved edges wherever gold appears in paint; the bulk of the carved yak is grey stone and maps to yellow. Trace the exact angular contours of the unpainted guide for each cell.",
+  "inputs": {
+    "paint_mask_guide.png": "788d36f475483fa1ea09c1755465d7c37769c68a4447df20a83596aa42837249",
+    "design_reference.png": "14f5cdc6621ad34c449eca02dcd280e2bc33d28ad52edf2bc77f44ffc6409a84",
+    "icon_x8.png": "17467946863deafc5302aedcf3f39c8b70ffac534e98d70e36b06de9cbd7cd87"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f919-8d58-73b1-bd91-933cc9f72c53/exec-25ead72b-c6e9-4961-b44c-f266d4305a11.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

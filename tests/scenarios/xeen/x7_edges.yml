@@ -1,0 +1,47 @@
+# X7 Mount Firestone's edges (D-40; outdoor_travels rows generated from source/maps.yml): X1's reopened north edge
+# leads to X7, X7's south edge back to X1, X4's east edge to X7 and X7's west edge back to X4. A1, merge point 18;
+# the arrivals at A5's edge_spans points (source/maps.yml), merge point 19.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/x7_edges.yml --scenario-no-color
+id: xeen.a1.x7_edges
+title: "A1: X7's edges to X1 and X4 and back (D-40)"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 200
+        food: 40
+        members:
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # X1's north edge: X7.
+  - set_pose: {map: xeen_x1.odm, x: 0, y: 22950, z: 4000, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: 0, y: 24000, z: 1000, z_tolerance: 4000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm, party_position: {x: 2560, y: -22016, radius: 96}}
+  # X7's south edge: X1.
+  - set_pose: {map: xeen_x7.odm, x: 0, y: -22950, z: 4000, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: 0, y: -24000, z: 1000, z_tolerance: 4000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x1.odm, party_position: {x: 2560, y: 22016, radius: 96}}
+  # X7's west edge: X4.
+  - set_pose: {map: xeen_x7.odm, x: -22950, y: 0, z: 4000, yaw: 3.14159, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: -24000, y: 0, z: 1000, z_tolerance: 4000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm, party_position: {x: 22016, y: -1280, radius: 96}}
+  # X4's east edge: X7.
+  - set_pose: {map: xeen_x4.odm, x: 22950, y: 0, z: 4000, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: 24000, y: 0, z: 1000, z_tolerance: 4000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm, party_position: {x: -22016, y: -1024, radius: 96}}

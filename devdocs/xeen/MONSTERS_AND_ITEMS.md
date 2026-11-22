@@ -59,8 +59,8 @@ parent's model with other colour tiers. The first stat rows (HP, AC, damage, XP,
 | Skeletons | 6 / 12 / 16 | X1 dead forest, Yak | Reuse `mm6_ske` |
 | Rotting dead | Zombie 8 / Ghoul 12 / Grave Ghoul 18 (Mummy 30 joins the Pyramid mummies' A tier as Tomb Mummy) | X1, X3, Tomb | Reuse MM7 zombie, MM9 mummy |
 | Spirits | Polter-Fool 18 / Tomb Guard 26 / Tomb Terror 40 (Ghost Rider) | Winterkill, Tomb | Reuse `mm6_gst`, MM9 ghost |
-| Pyramid mummies | Tomb Mummy 42 / Pyramid Guard 52 / Royal Mummy 65 | Great Pyramid, Southern Sphinx | Reuse MM9 mummy (new tiers) |
-| Liches | 35 / 50 / 65; Sandro 65; Power Lich 75 and Skeletal Lich 85 as finale named rows | Necropolis, Kalindra dungeon, finale | Reuse `mm6_lch`, MM9 lich king |
+| Pyramid mummies | Tomb Mummy 42 / Pyramid Guard 52 / Royal Mummy 65; Ghost Mummy 62 and Phase Mummy 72 (tiers D, E, D-57) | Great Pyramid, Southern Sphinx | `xeen_mummy` (Xeen copy, D-44) with new tiers |
+| Liches | 35 / 50 / 65; Sandro 65; Power Lich and Skeletal Lich as ordinary tiers D and E (D-57) | Necropolis, Kalindra dungeon, finale | Reuse `mm6_lch` with own skins (no MM9) |
 | Vampires | Gnome Vampire 32 / Vampire 40 / Vampire Lord 50; Count Draco 45, Count Blackfang 70 | Nightshadow, Blackfang | Reuse MM8/MM9 vampires |
 | Bats | Giant Bat 3 / Cave Bat 6 / Mine Bat 9 | Mines | Reuse `mm6_bat` |
 | Night bats | Bat Queen 10 / Vampire Bat 14 / Beholder Bat 20 | Nightshadow, Ellinger, Gem Mines | Reuse `mm6_bat` |
@@ -89,13 +89,13 @@ parent's model with other colour tiers. The first stat rows (HP, AC, damage, XP,
 | Gargoyles | 16 / 22 / 28 (Cloudside); Magic Mountain tiers 30 / 38 / 45 | X4, D4 | Reuse `mm6_gar` |
 | Great birds | Vulture Roc 30 / Roc 38 / Griffin 48 | X9, D4, D5, D6 | Reuse MM7 roc and griffin |
 | Eyes | Floating 40 / Terrible 50 / Gamma Gazer 65 | D6 | Reuse `mm6_bh`, MM9 eye |
-| Material golems | Wood 18 / Stone 26 / Iron 40; Diamond 50, Onyx 85 | Golem Dungeon, Newcastle, Darkstone | Reuse MM7 golem with material skins |
+| Material golems | Wood 18 / Stone 26 / Iron 40; Diamond 50; Onyx Sentry 62, Onyx Warden 72 (D-57); Onyx 85 | Golem Dungeon, Newcastle, Darkstone | Reuse MM7 golem with material skins |
 | Elemental golems | Sand 22 / Water 28 / Cloud 50; Lava 55, Sky 75 | X6, Cave of Illusion, sky maps | Reuse MM7 golem with an elemental shader |
 | Magic constructs | Flying Feet 18 / Guardian 24 / Carnage Hand 35; Xeen's Guard 60 | Tower of High Magic, Darzog, Castle Xeen | **New**: the most Xeen-specific monsters |
-| Robots | Patrol 50 / Annihilator 62 / Autobot 75 | Castle Alamar, D6 | Reuse `mm6_rob1` |
-| Elementals | Lesser 55 / Elemental 62 / Greater 70; sleepers' guardians 75 | Planes, D6 | Reuse MM6 elementals |
+| Robots | Patrol 50 / Annihilator 62 / Autobot 75 | Castle Alamar, Alamar Depths (FD-01), Dungeon of Death (FD-04) | Reuse `mm6_rob1` |
+| Elementals | Lesser X Elemental 55 / X Elemental 62 / the source's names on the 70s (Fire Blower, Whirlwind, Earth Blaster, Tidal Terror) / Sleeper's Guardian of X 75; one family of rows per element (D-58) | Planes, D6 | Reuse MM6 air, MM7 water and earth elementals with tier skins (D-47, D-58) |
 | Demons | Demon 42 / Devil 50 / Screamer 58; Barkman 60, Lord Xeen 85 | Volcano Cave, Castle Xeen, Temple of Bark | Reuse MM6 demons, MM9 greater demon |
-| Clouds dragons | Water 60 / Acid 66 / Fire 75; Frost 85, Xeen's Pet 75, Dragon King 110 | X2 lake, X7, Dragon Cave | Reuse `mm6_cdr1`, MM9 dragon king |
+| Clouds dragons | Water 60 / Acid 66 / Fire 75; Frost 85, Xeen's Pet 75, Dragon King 110 | X2 lake, X7, Dragon Cave | Reuse `mm6_cdr1`; the Dragon King on `xeen_cdr1` with his own skin (D-57) |
 | Darkside dragons | Cloud 70 / Green 80 / Phase 90; Energy Dragon and **Megadragon 125** as named rows | D7, Great Pyramid | Reuse MM8 dragon |
 | Hydras | 45 / 55 / 65 | X7 | Reuse `mm6_hyd` |
 | Undead dragons | Bone 45 / Undead 55 / Dragon Mummy 65; Scraps 70 | Kalindra dungeon | Reuse MM8 bone dragon |
@@ -153,40 +153,44 @@ cheapest way to keep a strong Xeen flavour; gem payment is required engine work 
 
 ### 4.2 Items
 
+**The user's decision of 2026-11-20 (DECISIONS U-1):** no new equipment items. Random loot and shops use the MM6–MM8
+engine items only (the world adds no random_items rows). Artifacts and relics, the tiara copy and the gemsmith gear
+reuse MM6–MM8 item skins: each row's `like` is an engine artifact, relic or special item of the same slot and skill
+where one fits, whose picture, paper-doll art and ground model it wears, with its Xeen name, id, effects and a
+description adapted from the borrowed item's. Only quest items get generated icons and ground models.
+
 The source's item system (one modifier per item: element, material from wooden to obsidian, or attribute) maps onto
 the existing enchant tables without engine work (research §3.2). Use it as:
 
 | Xeen idea | In this world |
 | --- | --- |
-| Material ladder (wooden … obsidian) | **Names** of the world's new tiered bases: wooden/bronze T1, iron/silver T2, steel/crystal T3, gold/amber T4, platinum/ebony/quartz T5, ruby, emerald, sapphire, diamond and obsidian T6. Numbers follow the MM tier ladder, not Xeen's (+50 damage obsidian is off any curve) |
+| Material ladder (wooden … obsidian) | not used: no new bases (U-1). The MM tiers of the engine items carry the progression |
 | Elemental prefixes | `of Fire / Flame / Infernos`, `of Sparks / Lightning / Thunderbolts`, `of Cold / Frost / Ice`, `of Poison / Venom / Acid` by tier; armour resistances |
 | Attribute prefixes | the standard `of Might`, `of Thought` … enchants |
 | Slayers (Dragon Slayer, Undead Eater) | `Dragon Slaying`, `Undead Slaying`. Golem Smasher, Bug Zapper and Beast Bopper need a new monster-type tag (optional engine work) |
-| Gemsmith gear (Q-D7) | Ruby/Emerald/Sapphire/Diamond named items at T4–T6, crafted from rocks and gems |
+| Gemsmith gear (Q-D7) | Ruby Broadsword, Emerald Leather, Sapphire Staff, Diamond Plate (12540–12543) at T4–T6, crafted from rocks and gems; skins of MM8 artifacts (below), common items here |
 
-**New bases** (MM6–MM8 lack them): katana and wakizashi (Sword), scimitar and sabre, flamberge (Sword 2H), naginata,
-glaive, pike and bardiche (Spear/Axe 2H), grand and great axe, nunchaku and flail (Mace), sling, robes (Leather, for
-casters), scale/ring/splint mail (Chain/Plate), and brooch/medal/cameo/scarab/pendant variants of the amulet slot. About
-60–90 item rows with their icons (generated through the existing icon pipeline).
+**Artifacts and relics** (MM6–MM8 artifact caps; `World: xeen` flag like MM9's). "Skin" is the engine item each row
+copies (`source/items.yml` `like`): its picture, paper-doll art and ground model. Effects are unchanged by the skins
+(all are the same slot and skill as before); the two season items that borrow an armour-bearing amulet and cloak set
+their armour bonus back to 0.
 
-**Artifacts and relics** (MM6–MM8 artifact caps; `World: xeen` flag like MM9's):
-
-| Item | Slot | Effect (MM terms) | Source |
-| --- | --- | --- | --- |
-| **Xeen Slayer Sword** | Sword 2H relic | artifact-cap damage; the only weapon that harms Lord Xeen; double damage vs demons | M23 |
-| **Elder weapons** (Long Sword, Dagger, Mace, Spear, Staff, Long Bow) | set | each at the artifact cap; set bonus +10 all resistances. Hidden one per late dungeon | WoX tables |
-| **Seasons set** (Flower, Leaf, Snowflake, Raindrop) | ring, amulet, belt, cloak | +10 one resistance each; set +10 all stats | Q-C1 |
-| Princess Roxanne's Tiara | helm | +15 Personality, +15 Intellect, Mind immunity | Q-C3 (copy given back as thanks) |
-| Queen Kalindra's Crown | helm | +20 Personality, +10 all resistances | M27 (gift after the wedding) |
-| Ector's Ring | ring | +10 Might and Endurance, regeneration | Q-D21 |
-| Barok's Pendant | amulet | +30 SP, SP regeneration | Q-C2 |
-| Holy Book of Elvenkind | relic | +5 Learning, +10 Spirit | Q-C18 |
-| Chalice of Protection | relic | Day of Protection once a day | Q-D17 |
-| Songbird of Serenity | relic | Mind resistance; cures Insane and Afraid | M24 (after Dimitri) |
-| Jewel of Ages | relic | immune to aging | Q-D18 |
-| Vespar's Staff (rehilted) | staff | artifact staff, `of Lightning` | Q-D8 |
-| A dead paladin's armour | plate | artifact plate | Q-D24 |
-| Megadragon's hoard piece | weapon | top artifact | Q-D26 |
+| Item | Slot | Effect (MM terms) | Skin (engine item, picture) | Source |
+| --- | --- | --- | --- | --- |
+| **Xeen Slayer Sword** 12500 | Sword 2H relic | artifact-cap damage; the only weapon that harms Lord Xeen; double damage vs demons | MM7 Iron Feather 1303, `7item218` | M23 |
+| **Elder weapons** 12501–12506 (Long Sword, Dagger, Mace, Spear, Staff, Long Bow) | set | each at the artifact cap; set bonus +10 all resistances. Hidden one per late dungeon | Puck 1302 `7item217`, Mordred 2020 `6ldagger4`, Mace of the Sun 538 `item340`, Gibbet 1310 `7item225`, Ethric's Staff 1317 `7item233`, Percival 2025 `6bow6` | WoX tables |
+| **Seasons set** 12510–12513 (Flower, Leaf, Snowflake, Raindrop) | ring, amulet, belt, cloak | +10 one resistance each; set +10 all stats | Faerie Ring 1348 `7item303`, Morgan 2034 `6amulet6`, Titan's Belt 1326 `7item324`, Moon Cloak 1350 `7item348` | Q-C1 |
+| Princess Roxanne's Tiara 12520 | helm (the copy) | the stolen tiara is a quest item, not worn; the copy given back as thanks is a unique helm: +10 Personality, +10 Intellect, +30 Mind resistance (DECISIONS D-2.6) | Noble Crown 900 `7item098`, the stolen tiara's own picture (it is its copy) | Q-C3 |
+| Queen Kalindra's Crown 12521 | helm | +20 Personality, +10 all resistances | Phynaxian Crown 1325 `7item241` | M27 (gift after the wedding) |
+| Ector's Ring 12522 | ring | +10 Might and Endurance, regeneration | Ruler's Ring 1315 `7item246` | Q-D21 |
+| Holy Book of Elvenkind 12524 | relic | +5 Learning, +10 Spirit | MM7 spell book picture `7item190` (row 1202; Misc, not a spell book) | Q-C18 |
+| Chalice of Protection 12525 | relic | +10 all resistances, party-wide while carried (DECISIONS D-2.5) | Sacred Chalice 2054 `chalice` | Q-D17 |
+| Songbird of Serenity 12526 | relic | Mind resistance; cures Insane and Afraid | Eagle Statuette 2073 `statuet4` | M24 (after Dimitri) |
+| Jewel of Ages 12527 | relic | immune to aging | Gem of Restoration 623 `item366` | Q-D18 |
+| Vespar's Staff (rehilted) 12528 | staff | artifact staff, `of Lightning` | Merlin 2024 `6staff4` | Q-D8 |
+| A dead paladin's armour 12529 | plate | artifact plate | Pellinore 2027 `6plate4` | Q-D24 |
+| Megadragon's hoard piece (Wyrmfang) 12530 | weapon | top artifact | Elfbane 1333 `7item242` | Q-D26 |
+| Gemsmith gear 12540–12543 | sword, leather, staff, plate | as Q-D7 | Terminus 502 `item236`, Serendine's Preservation 513 `item251`, Staff of Elements 530 `item335`, Supreme Plate 515 `item253` | Q-D7 |
 
 Artifacts come only from fixed sources and level-6 chest slots (set `chestArtifactsOnly` if the world adopts MM9's
 black-chest rule; the user decides).
@@ -200,3 +204,5 @@ guild flavour text. Secondary skills: WORLD_DESIGN §5.3.
 Training halls and caps (adopted 2026-11-14): Vertigo 10 (×10), Rivercity 25 (×20), Castle Burlock and Castleview 40
 (×25), Newcastle 60 (×30), Sandcaster 80 (×40), Castle Kalindra 200 (×50), Olympus unlimited (×80); Kai Wu's monastery
 40 (×25). Every Xeen map gets a `LowerToEqual` row in `bolster_maps.txt`.
+
+Sky Bandit (D-58): a thieves' tier of about 55 in its own faction, placed peaceful at D7's four tolls (two each), hostile on a refusal; not counted on the counted route.

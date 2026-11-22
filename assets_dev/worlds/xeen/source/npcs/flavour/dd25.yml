@@ -1,0 +1,15 @@
+# DD-25 Bosco's Hall: flavour topics of the dwarf hall (source/towns/dd25.yml). Owner: A4. Format: QUESTS_FORMAT.md
+# section 5 (talk only). Bosco and the Chalice of Protection are A3's (Q-D17).
+map: DD-25
+block: 184
+
+npcs:
+  5403:              # Brunna
+    topics:
+      - {n: 1, label: The King, text: "The King has me taste his ale first. I've never been healthier. Or happier."}
+  5404:              # Stonebeard
+    topics:
+      - {n: 2, label: The tower, text: "The Northern Tower's knights write without vowels. Hard to argue with someone who can't spell argue."}
+  5406:              # Gimble
+    topics:
+      - {n: 3, label: The pyramid, text: "There's a broken travel pyramid out in the desert. I took a look. It's not broken. It's switched off. Big difference."}

@@ -74,9 +74,9 @@ rooms:
     ceiling: 2944
     theme: theme:darzog
     walls:
-      - wall: 1
+      - wall: 0
         panels:
-          - {offset: 192, length: 128, bottom: 64, height: 256, surface: {texture: tap10, size: [128, 256]}, notes: Tapestry.}
+          - {offset: 512, length: 128, bottom: 64, height: 256, surface: {texture: tap10, size: [128, 256]}, notes: "Tapestry (on the south wall: the east wall is the window)."}
     platforms:
       - {at: [2176, 2880], size: [256, 256], rise: 56, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: Darzog's bed.}
     ambient: 22
@@ -133,10 +133,10 @@ rooms:
     ceiling: 2944
     theme: theme:darzog
     platforms:
-      - {at: [2240, -2240], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
-      - {at: [2752, -2240], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
-      - {at: [2240, -2752], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
-      - {at: [2752, -2752], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2496, -2496], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2816, -2496], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2496, -2816], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
+      - {at: [2816, -2816], size: [256, 256], rise: 128, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid, flow: left}, notes: A vat of green brew where a clone was grown.}
     ambient: 16
   - id: room:crodo_cell
     name: Crodo's cell
@@ -155,9 +155,8 @@ rooms:
     ceiling: 640
     theme: theme:gate
     platforms:
-      - {at: [-2752, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
-      - {at: [-2432, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
-      - {at: [-2112, 2176], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2880, 2304], size: [256, 128], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
+      - {at: [-2880, 2560], size: [256, 128], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
       - {at: [-2752, 2880], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
       - {at: [-2432, 2880], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "A coffin on its bier: one of Darzog's failed apprentices."}
     ambient: 20
@@ -229,9 +228,9 @@ rooms:
     ceiling: 1408
     theme: theme:works
     platforms:
-      - {at: [-1024, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
-      - {at: [-384, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
-      - {at: [384, 2304], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+      - {at: [-1024, 2656], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+      - {at: [-384, 2656], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
+      - {at: [384, 2656], size: [128, 96], rise: 72, surface: {texture: ckb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: An anvil block.}
     levels:
       - id: level:forge_lava
         outline: [[-1536, 2752], [1536, 2752], [1536, 2944], [-1536, 2944]]
@@ -261,12 +260,13 @@ rooms:
     ceiling: 2176
     theme: theme:library
     platforms:
-      - {at: [-1024, -2304], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
       - {at: [0, -2304], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
       - {at: [-1024, -2752], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
       - {at: [0, -2752], size: [640, 96], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
-      - {at: [1152, -2304], size: [384, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Chief Librarian's desk.}
-      - {id: platform:lectern_accuracy, at: [1600, -2752], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Accuracy."}
+      - {at: [-1408, -2048], size: [96, 256], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A bookcase against the north wall.}
+      - {at: [-896, -2048], size: [96, 256], rise: 320, surface: {texture: 7t1books, size: [128, 256]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A bookcase against the north wall.}
+      - {at: [768, -2752], size: [384, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Chief Librarian's desk.}
+      - {id: platform:lectern_accuracy, at: [1600, -2752], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Accuracy."}
     ambient: 18
   - id: room:guard_hall
     name: Guard hall
@@ -292,11 +292,9 @@ rooms:
     ceiling: 640
     theme: theme:gate
     platforms:
-      - {id: platform:plinth_00, at: [-1408, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
-      - {id: platform:plinth_01, at: [-704, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_00, at: [-1408, 2048], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
       - {id: platform:plinth_02, at: [0, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
-      - {id: platform:plinth_03, at: [704, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
-      - {id: platform:plinth_04, at: [1408, 2240], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
+      - {id: platform:plinth_04, at: [1408, 2048], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
       - {id: platform:plinth_10, at: [-1408, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
       - {id: platform:plinth_11, at: [-704, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
       - {id: platform:plinth_12, at: [0, 2752], size: [192, 192], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: A plinth where a finished carnage hand waits.}
@@ -467,12 +465,12 @@ rooms:
     walls:
       - wall: n
         panels:
-          - {offset: 256, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
-          - {offset: 768, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
-          - {offset: 1280, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-3, size: [128, 256]}, notes: A portrait.}
-          - {offset: 2176, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-4, size: [128, 256]}, notes: A portrait.}
-          - {offset: 2688, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
-          - {offset: 3200, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
+          - {offset: 288, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
+          - {offset: 736, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
+          - {offset: 1936, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-3, size: [128, 256]}, notes: A portrait.}
+          - {offset: 2352, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-4, size: [128, 256]}, notes: A portrait.}
+          - {offset: 2768, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-1, size: [128, 256]}, notes: A portrait.}
+          - {offset: 3184, length: 128, bottom: 96, height: 256, surface: {texture: cnbport-2, size: [128, 256]}, notes: A portrait.}
       - wall: s
         panels:
           - {offset: 512, length: 128, bottom: 96, height: 256, surface: {texture: tap10, size: [128, 256]}}
@@ -503,10 +501,10 @@ rooms:
           - {offset: 128, length: 512, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcase.}
           - {at: centre, length: 768, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases.}
     platforms:
-      - {at: [-768, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
-      - {at: [0, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
-      - {at: [768, 2304], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
-      - {id: platform:lectern_speed, at: [-1600, 2496], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Speed."}
+      - {at: [-768, 2688], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {at: [0, 2688], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {at: [768, 2688], size: [384, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A reading table.}
+      - {id: platform:lectern_speed, at: [-1536, 2816], size: [64, 128], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Speed."}
     ambient: 18
   - id: room:roof_e
     name: "Roof, east"
@@ -552,11 +550,11 @@ rooms:
       - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 1920], [3294, 1920], [3294, 2048], [3262, 2048]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
       - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 2304], [3294, 2304], [3294, 2432], [3262, 2432]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
       - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[3262, 2688], [3294, 2688], [3294, 2816], [3262, 2816]], top_surface: {texture: cnb, size: [128, 256]}, notes: A merlon.}
-      - {at: [0, 2240], size: [384, 128], rise: 32, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
-      - {at: [0, 2368], size: [384, 128], rise: 64, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
-      - {at: [0, 2496], size: [384, 128], rise: 96, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
-      - {at: [0, 2624], size: [384, 128], rise: 128, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
-      - {id: platform:cloud_top, at: [0, 2752], size: [384, 128], rise: 160, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: "The cloud stair: white steps of cloud climbing toward the sky."}
+      - {at: [0, 2240], size: [384, 128], rise: 32, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
+      - {at: [0, 2368], size: [384, 128], rise: 64, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
+      - {at: [0, 2496], size: [384, 128], rise: 96, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
+      - {at: [0, 2624], size: [384, 128], rise: 128, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
+      - {id: platform:cloud_top, at: [0, 2752], size: [384, 128], rise: 160, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: "The cloud stair: white steps of cloud climbing toward the sky."}
     ambient: 24
     notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
   - id: room:roof_s
@@ -692,7 +690,7 @@ rooms:
     ceiling: 2176
     theme: theme:library
     platforms:
-      - {id: platform:lectern_personality, at: [2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Personality."}
+      - {id: platform:lectern_personality, at: [2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Personality."}
       - {at: [2496, 2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
     ambient: 18
   - id: room:study_nw
@@ -702,7 +700,7 @@ rooms:
     ceiling: 2176
     theme: theme:library
     platforms:
-      - {id: platform:lectern_intellect, at: [-2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Intellect."}
+      - {id: platform:lectern_intellect, at: [-2880, 2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Intellect."}
       - {at: [-2496, 2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
     ambient: 18
   - id: room:study_se
@@ -712,8 +710,8 @@ rooms:
     ceiling: 2176
     theme: theme:library
     platforms:
-      - {id: platform:lectern_might, at: [2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Might."}
-      - {at: [2496, -2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
+      - {id: platform:lectern_might, at: [2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Might."}
+      - {at: [2944, -2112], size: [128, 256], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
     ambient: 18
   - id: room:study_sw
     name: Study of the Body
@@ -722,7 +720,7 @@ rooms:
     ceiling: 2176
     theme: theme:library
     platforms:
-      - {id: platform:lectern_endurance, at: [-2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: "Lectern: the Book of Endurance."}
+      - {id: platform:lectern_endurance, at: [-2880, -2880], size: [96, 96], rise: 104, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: "Lectern: the Book of Endurance."}
       - {at: [-2496, -2112], size: [256, 128], rise: 72, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A study desk.}
     ambient: 18
   - id: room:well

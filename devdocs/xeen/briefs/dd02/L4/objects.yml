@@ -1,0 +1,833 @@
+format: 0
+start:
+  room: room:entry
+  at: [-1216, 640]
+  facing: 0
+  notes: "Just inside the front door, facing in (east); D1's door:dd02 lands the party here."
+doors:
+  - id: door:back1
+    opening: open:tap1_back1
+    kind: slide_up
+    thickness: 16
+    speed: 80
+    surface: {texture: t1wl0lg, size: [256, 256]}
+    secret: true
+    back_surface: {texture: t1wl7ctb, size: [256, 256]}
+    tile: true
+    notes: "The gallery's secret panel to the back stair: opened by the button behind a tapestry, or found and clicked."
+  - id: door:back3
+    opening: open:tap_back3
+    kind: slide_up
+    thickness: 16
+    speed: 80
+    surface: {texture: t1wl0lg, size: [256, 256]}
+    secret: true
+    back_surface: {texture: t1wl7ctb, size: [256, 256]}
+    tile: true
+    notes: The tapestry floor's secret panel to the back stair.
+  - id: door:boots
+    opening: open:study_boots
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+  - id: door:gate_foot
+    opening: open:entry_lift
+    kind: slide_up
+    state: open
+    thickness: 16
+    speed: 160
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "The cage's gate at the ground floor: open while the cage is down."
+  - id: door:gate_top
+    opening: open:lift_top
+    kind: slide_up
+    thickness: 16
+    speed: 48
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    notes: "The cage's gate at the top: opened slowly with the cage's climb (it is up before the gate is), closed when it goes down."
+  - id: door:loft
+    opening: open:tap_loft
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+  - id: door:pass
+    opening: open:pass_study
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+    notes: "The last door: 'Who do you seek?' (m17.password)."
+  - id: door:question
+    opening: open:question_stair
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+    notes: The stair door that asks its question (m17.question).
+  - id: door:reading
+    opening: open:library_reading
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+  - id: door:roost
+    opening: open:wards_roost
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+  - id: door:store
+    opening: open:entry_store
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    back_surface: {texture: t1d3, size: [128, 256], scale: 1.25}
+    edge_surface: {texture: t1trima, size: [32, 32]}
+lifts:
+  - id: lift:cage
+    room: room:lift_foot
+    at: [-768, 1600]
+    size: [448, 448]
+    travel: 1920
+    thickness: 16
+    speed: 480
+    surface: {texture: t1f3, size: [128, 128]}
+    notes: "The cage: a floor 448 square riding the shaft between the ground floor (down) and the lift head (up, 1920)."
+plates:
+  - id: plate:trap_1
+    room: room:trap_walk
+    at: [2240, -224]
+    size: [256, 256]
+    surface: {texture: t1f2, size: [128, 128]}
+    notes: A floor plate that fires a bolt.
+  - id: plate:trap_2
+    room: room:trap_walk
+    at: [3584, -224]
+    size: [256, 256]
+    surface: {texture: t1f2, size: [128, 128]}
+    notes: A floor plate that fires a bolt.
+  - id: plate:trap_3
+    room: room:trap_walk
+    at: [5472, 1344]
+    size: [256, 256]
+    surface: {texture: t1f2, size: [128, 128]}
+    notes: A floor plate that fires a bolt.
+  - id: plate:trap_4
+    room: room:trap_walk
+    at: [5472, 2048]
+    size: [256, 256]
+    surface: {texture: t1f2, size: [128, 128]}
+    notes: A floor plate that fires a bolt.
+sounds:
+  - {id: sound:loft_wind, room: room:loft, at: [3392, 2560], sound: whistling wind, radius: 1400, inner_radius: 400, volume: 0.3, notes: Wind under the roof.}
+  - {id: sound:roost_wind, room: room:roost, at: [3776, 2368], sound: whistling wind, radius: 1600, inner_radius: 400, volume: 0.5, notes: Wind through the broken window.}
+  - {id: sound:study_cauldron, room: room:study, at: [-1280, 2432], sound: bubbling cauldron01, radius: 1200, inner_radius: 300, volume: 0.35, notes: Something simmering in Ellinger's study.}
+  - {id: sound:tower_bed, room: room:library, at: [2176, 1600], height: 64, sound: xeen_amb_tower, radius: 5200, inner_radius: 2600, volume: 0.35, notes: "The wizard's tower humming with chimes, heard on every floor (one source: no stacking).", pan: false}
+  - {id: sound:wards_hum, room: room:wards, at: [2176, 2048], sound: humming, radius: 1600, inner_radius: 500, volume: 0.4, notes: The wards humming in the floor.}
+lights:
+  - id: light:back
+    room: room:back2
+    at: [4288, 2432]
+    height: 300
+    radius: 1000
+    color: [255, 190, 140]
+  - id: light:boots
+    room: room:boots
+    at: [-160, 4096]
+    height: 300
+    radius: 800
+    color: [255, 200, 150]
+  - id: light:crates
+    room: room:crates
+    at: [3584, 1376]
+    height: 300
+    radius: 900
+    color: [255, 190, 140]
+  - id: light:entry
+    room: room:entry
+    at: [-448, 640]
+    height: 480
+    radius: 1600
+    color: [255, 220, 180]
+  - id: light:gallery
+    room: room:gallery2
+    at: [3392, 1632]
+    height: 300
+    radius: 1400
+    color: [255, 200, 150]
+  - id: light:landing4
+    room: room:landing4
+    at: [1088, 2432]
+    height: 300
+    radius: 1000
+    color: [255, 210, 170]
+  - id: light:library
+    room: room:library
+    at: [2176, 1152]
+    height: 320
+    radius: 1700
+    color: [255, 210, 160]
+  - id: light:loft
+    room: room:loft
+    at: [3392, 2368]
+    height: 400
+    radius: 900
+    color: [255, 120, 100]
+    notes: The beholder bats' red eyes.
+  - id: light:question
+    room: room:question
+    at: [1216, 480]
+    height: 400
+    radius: 1100
+    color: [255, 210, 170]
+  - id: light:reading
+    room: room:reading
+    at: [2176, 2688]
+    height: 300
+    radius: 1200
+    color: [255, 200, 150]
+  - id: light:roost
+    room: room:roost
+    at: [3392, 2368]
+    height: 300
+    radius: 900
+    color: [170, 190, 220]
+  - id: light:shaft
+    room: room:lift_foot
+    at: [-768, 1600]
+    height: 300
+    radius: 700
+    color: [220, 210, 255]
+  - id: light:shaft_top
+    room: room:lift_top
+    at: [-768, 2080]
+    height: 300
+    radius: 800
+    color: [220, 210, 255]
+  - id: light:stair1
+    room: room:stair1
+    at: [1088, 2432]
+    height: 300
+    radius: 1000
+    color: [255, 210, 170]
+  - id: light:stair3
+    room: room:stair3
+    at: [1088, 2432]
+    height: 300
+    radius: 1000
+    color: [255, 210, 170]
+  - id: light:stairs
+    room: room:stair2
+    at: [1088, 640]
+    height: 300
+    radius: 1000
+    color: [255, 210, 170]
+  - id: light:store
+    room: room:store
+    at: [-448, -384]
+    height: 300
+    radius: 900
+    color: [255, 190, 140]
+  - id: light:study
+    room: room:study
+    at: [-832, 3008]
+    height: 560
+    radius: 1800
+    color: [255, 220, 180]
+  - id: light:tapestries
+    room: room:tapestries
+    at: [2176, 1920]
+    height: 400
+    radius: 1600
+    color: [255, 200, 150]
+  - id: light:tapestry1
+    room: room:tapestry1
+    at: [3392, 1152]
+    height: 320
+    radius: 1200
+    color: [255, 200, 150]
+  - id: light:trap_e
+    room: room:trap_walk
+    at: [5472, 1280]
+    height: 300
+    radius: 1200
+    color: [255, 160, 110]
+  - id: light:trap_s
+    room: room:trap_walk
+    at: [3200, -224]
+    height: 300
+    radius: 1200
+    color: [255, 160, 110]
+  - id: light:wards
+    room: room:wards
+    at: [2176, 2048]
+    height: 320
+    radius: 1500
+    color: [190, 200, 255]
+    pulse: {intensity: [0.75, 1], frequency: 0.4}
+switches:
+  - id: switch:call_foot
+    room: room:entry
+    kind: button
+    at: [-384, 1280]
+    height: 112
+    notes: Call button beside the cage's gate in the entry hall.
+  - id: switch:call_top
+    room: room:lift_top
+    kind: button
+    at: [-448, 2048]
+    height: 112
+    notes: Call button beside the cage's gate at the lift head.
+  - id: switch:ride_down
+    room: room:lift_foot
+    kind: button
+    at: [-1024, 1600]
+    floor_height: 0
+    height: 2032
+    notes: "Inside the shaft at the top, in reach of a rider on the raised cage: sends it down."
+  - id: switch:ride_up
+    room: room:lift_foot
+    kind: button
+    at: [-1024, 1600]
+    floor_height: 0
+    height: 112
+    notes: "Inside the shaft at the foot: sends the cage up."
+chests:
+  - id: chest:boots
+    room: room:boots
+    at: [-96, 4256]
+    kind: ch1
+    facing: s
+    treasure_level: 3
+    random_items: 3
+    gold: 500
+    notes: "The tower's best chest (the map's hoard, one level up): a pair of boots Ellinger outgrew, and more."
+  - id: chest:crates
+    room: room:crates
+    at: [3008, 1440]
+    kind: ch1
+    facing: s
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    notes: A chest among the crate room's stores.
+  - id: chest:reading
+    room: room:reading
+    at: [2720, 2944]
+    kind: ch1
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 300
+    notes: The locked reading chest.
+  - id: chest:store
+    room: room:store
+    at: [-224, -672]
+    kind: ch1
+    facing: n
+    treasure_level: 2
+    random_items: 2
+    gold: 200
+    notes: The storeroom's chest.
+monsters:
+  - id: monster:ellinger
+    room: room:study
+    monster: 11901
+    at: [-704, 3424]
+    facing: 270
+    group: 20
+    immobile: true
+    notes: "Ellinger behind his desk (NPC 4954 talks through the desk: Words needed): A2's row 11901 Xeen Ellinger, friendly to the party (relations.yml xeen_character_ellinger)."
+  - id: monster:gallery2_1
+    room: room:gallery2
+    monster: 11540
+    at: [3712, 832]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_2
+    room: room:gallery2
+    monster: 11540
+    at: [3712, 1280]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_3
+    room: room:gallery2
+    monster: 11540
+    at: [3712, 1792]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_4
+    room: room:gallery2
+    monster: 11540
+    at: [3712, 2304]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_5
+    room: room:gallery2
+    monster: 11541
+    at: [3200, 1024]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_6
+    room: room:gallery2
+    monster: 11541
+    at: [3200, 1536]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_7
+    room: room:gallery2
+    monster: 11541
+    at: [3200, 2048]
+    facing: 270
+    group: 7
+  - id: monster:gallery2_8
+    room: room:gallery2
+    monster: 11541
+    at: [3200, 2432]
+    facing: 270
+    group: 7
+  - id: monster:library_1
+    room: room:library
+    monster: 11540
+    at: [1664, 384]
+    facing: 270
+    group: 5
+  - id: monster:library_2
+    room: room:library
+    monster: 11540
+    at: [2688, 896]
+    facing: 270
+    group: 5
+  - id: monster:library_3
+    room: room:library
+    monster: 11540
+    at: [1856, 1856]
+    facing: 270
+    group: 5
+  - id: monster:library_4
+    room: room:library
+    monster: 11540
+    at: [2688, 1792]
+    facing: 270
+    group: 5
+  - id: monster:loft_1
+    room: room:loft
+    monster: 11312
+    at: [3136, 2112]
+    facing: 270
+    group: 9
+  - id: monster:loft_2
+    room: room:loft
+    monster: 11312
+    at: [3392, 2112]
+    facing: 270
+    group: 9
+  - id: monster:loft_3
+    room: room:loft
+    monster: 11312
+    at: [3648, 2112]
+    facing: 270
+    group: 9
+  - id: monster:loft_4
+    room: room:loft
+    monster: 11312
+    at: [3136, 2624]
+    facing: 270
+    group: 9
+  - id: monster:loft_5
+    room: room:loft
+    monster: 11312
+    at: [3392, 2560]
+    facing: 270
+    group: 9
+  - id: monster:loft_6
+    room: room:loft
+    monster: 11312
+    at: [3648, 2624]
+    facing: 270
+    group: 9
+  - id: monster:reading_1
+    room: room:reading
+    monster: 11540
+    at: [1728, 2496]
+    facing: 270
+    group: 6
+  - id: monster:reading_2
+    room: room:reading
+    monster: 11540
+    at: [2624, 2496]
+    facing: 270
+    group: 6
+  - id: monster:reading_3
+    room: room:reading
+    monster: 11541
+    at: [1728, 2880]
+    facing: 270
+    group: 6
+  - id: monster:reading_4
+    room: room:reading
+    monster: 11541
+    at: [2496, 2880]
+    facing: 270
+    group: 6
+  - id: monster:roost_1
+    room: room:roost
+    monster: 11311
+    at: [3136, 2112]
+    facing: 270
+    group: 3
+  - id: monster:roost_2
+    room: room:roost
+    monster: 11311
+    at: [3392, 2176]
+    facing: 270
+    group: 3
+  - id: monster:roost_3
+    room: room:roost
+    monster: 11311
+    at: [3648, 2112]
+    facing: 270
+    group: 3
+  - id: monster:roost_4
+    room: room:roost
+    monster: 11311
+    at: [3136, 2624]
+    facing: 270
+    group: 3
+  - id: monster:roost_5
+    room: room:roost
+    monster: 11311
+    at: [3392, 2560]
+    facing: 270
+    group: 3
+  - id: monster:roost_6
+    room: room:roost
+    monster: 11311
+    at: [3648, 2624]
+    facing: 270
+    group: 3
+  - id: monster:store_1
+    room: room:store
+    monster: 11311
+    at: [-960, -384]
+    facing: 270
+    group: 1
+  - id: monster:store_2
+    room: room:store
+    monster: 11311
+    at: [-512, -512]
+    facing: 270
+    group: 1
+  - id: monster:store_3
+    room: room:store
+    monster: 11311
+    at: [-96, -384]
+    facing: 270
+    group: 1
+  - id: monster:tapestries_1
+    room: room:tapestries
+    monster: 11311
+    at: [1792, 2816]
+    facing: 270
+    group: 8
+  - id: monster:tapestries_2
+    room: room:tapestries
+    monster: 11311
+    at: [2560, 2560]
+    facing: 270
+    group: 8
+  - id: monster:tapestries_3
+    room: room:tapestries
+    monster: 11311
+    at: [1792, 1984]
+    facing: 270
+    group: 8
+  - id: monster:tapestries_4
+    room: room:tapestries
+    monster: 11311
+    at: [2560, 1088]
+    facing: 270
+    group: 8
+  - id: monster:tapestries_5
+    room: room:tapestries
+    monster: 11311
+    at: [3328, 704]
+    facing: 270
+    group: 8
+  - id: monster:tapestry1_1
+    room: room:tapestry1
+    monster: 11600
+    at: [3200, 768]
+    facing: 270
+    group: 4
+  - id: monster:tapestry1_2
+    room: room:tapestry1
+    monster: 11600
+    at: [3584, 1024]
+    facing: 270
+    group: 4
+  - id: monster:tapestry1_3
+    room: room:tapestry1
+    monster: 11600
+    at: [3200, 1408]
+    facing: 270
+    group: 4
+  - id: monster:tapestry1_4
+    room: room:tapestry1
+    monster: 11600
+    at: [3584, 1536]
+    facing: 270
+    group: 4
+  - id: monster:trap_walk_1
+    room: room:trap_walk
+    monster: 11312
+    at: [5472, 1536]
+    facing: 270
+    group: 10
+  - id: monster:trap_walk_2
+    room: room:trap_walk
+    monster: 11312
+    at: [4928, 256]
+    facing: 270
+    group: 10
+  - id: monster:trap_walk_3
+    room: room:trap_walk
+    monster: 11312
+    at: [4096, -224]
+    facing: 270
+    group: 10
+  - id: monster:trap_walk_4
+    room: room:trap_walk
+    monster: 11312
+    at: [2560, -224]
+    facing: 270
+    group: 10
+  - id: monster:wards_1
+    room: room:wards
+    monster: 11600
+    at: [1856, 1536]
+    facing: 270
+    group: 2
+  - id: monster:wards_2
+    room: room:wards
+    monster: 11600
+    at: [2496, 1536]
+    facing: 270
+    group: 2
+  - id: monster:wards_3
+    room: room:wards
+    monster: 11600
+    at: [1856, 2560]
+    facing: 270
+    group: 2
+  - id: monster:wards_4
+    room: room:wards
+    monster: 11600
+    at: [2496, 2560]
+    facing: 270
+    group: 2
+  - id: monster:wards_5
+    room: room:wards
+    monster: 11601
+    at: [2176, 2048]
+    facing: 270
+    group: 2
+  - id: monster:wards_6
+    room: room:wards
+    monster: 11601
+    at: [2560, 2048]
+    facing: 270
+    group: 2
+decorations:
+  - id: deco:boots_sconce
+    room: room:boots
+    decoration: scon100
+    at: [256, 4160]
+    wall: east
+  - id: deco:crates_barrel_1
+    room: room:crates
+    decoration: bigbarel
+    at: [3032, 1048]
+  - id: deco:crates_barrel_2
+    room: room:crates
+    decoration: bigbarel
+    at: [3032, 1160]
+  - id: deco:crates_barrel_3
+    room: room:crates
+    decoration: bigbarel
+    at: [3144, 1048]
+  - id: deco:crates_barrel_4
+    room: room:crates
+    decoration: bigbarel
+    at: [3032, 1704]
+  - id: deco:crates_barrel_5
+    room: room:crates
+    decoration: bigbarel
+    at: [3144, 1704]
+  - id: deco:crates_barrel_6
+    room: room:crates
+    decoration: 7dec32
+    at: [4160, 1704]
+  - id: deco:crates_barrel_7
+    room: room:crates
+    decoration: 7dec32
+    at: [4160, 1584]
+  - id: deco:crates_sack_1
+    room: room:crates
+    decoration: bag01
+    at: [3480, 1704]
+  - id: deco:crates_sack_2
+    room: room:crates
+    decoration: bag01
+    at: [3592, 1704]
+  - id: deco:crates_sack_3
+    room: room:crates
+    decoration: bag01
+    at: [3704, 1704]
+  - id: deco:entry_chandelier
+    room: room:entry
+    decoration: chndlir0
+    at: [-320, 640]
+    hangs: true
+  - id: deco:entry_sconce_s
+    room: room:entry
+    decoration: scon100
+    at: [-1024, 0]
+    wall: south
+  - id: deco:gallery_sconce_1
+    room: room:gallery2
+    decoration: scon100
+    at: [2944, 896]
+    wall: west
+  - id: deco:gallery_sconce_2
+    room: room:gallery2
+    decoration: scon100
+    at: [2944, 2240]
+    wall: west
+  - id: deco:landing4_sconce
+    room: room:landing4
+    decoration: scon100
+    at: [1088, 2624]
+    wall: north
+  - id: deco:library_candle_1
+    room: room:library
+    decoration: cndlab0
+    at: [1728, 640]
+    floor_height: 1040
+  - id: deco:library_candle_2
+    room: room:library
+    decoration: cndlab0
+    at: [2560, 1152]
+    floor_height: 1040
+  - id: deco:library_chandelier
+    room: room:library
+    decoration: chndlir0
+    at: [2176, 1152]
+    hangs: true
+  - id: deco:question_sconce_e
+    room: room:question
+    decoration: scon100
+    at: [1792, 480]
+    wall: east
+  - id: deco:question_sconce_w
+    room: room:question
+    decoration: scon100
+    at: [640, 320]
+    wall: west
+  - id: deco:reading_candle
+    room: room:reading
+    decoration: cndlab0
+    at: [2088, 2688]
+    floor_height: 1032
+  - id: deco:reading_sconce
+    room: room:reading
+    decoration: scon100
+    at: [1536, 2688]
+    wall: west
+  - id: deco:store_barrel_1
+    room: room:store
+    decoration: bigbarel
+    at: [-1064, -680]
+  - id: deco:store_barrel_2
+    room: room:store
+    decoration: bigbarel
+    at: [-1064, -568]
+  - id: deco:store_sack_1
+    room: room:store
+    decoration: bag01
+    at: [168, -680]
+  - id: deco:store_sack_2
+    room: room:store
+    decoration: bag01
+    at: [168, -568]
+  - id: deco:study_candle
+    room: room:study
+    decoration: cndlab0
+    at: [-616, 3264]
+    floor_height: 2000
+  - id: deco:study_chandelier
+    room: room:study
+    decoration: chndlir0
+    at: [-832, 3008]
+    hangs: true
+  - id: deco:study_sconce
+    room: room:study
+    decoration: scon100
+    at: [0, 2880]
+    wall: east
+  - id: deco:tap1_sconce
+    room: room:tapestry1
+    decoration: scon100
+    at: [3392, 512]
+    wall: south
+  - id: deco:tap_sconce_1
+    room: room:tapestries
+    decoration: scon100
+    at: [2816, 2560]
+    wall: 3
+  - id: deco:tap_sconce_2
+    room: room:tapestries
+    decoration: scon100
+    at: [1536, 1792]
+    wall: west
+  - id: deco:wards_sconce_n
+    room: room:wards
+    decoration: scon100
+    at: [2176, 2816]
+    wall: north
+  - id: deco:wards_sconce_s
+    room: room:wards
+    decoration: scon100
+    at: [2176, 1280]
+    wall: south
+exits:
+  - id: exit:d1
+    room: room:entry
+    wall: west
+    size: [192, 320]
+    surface: {texture: 7solid01, size: [128, 256], scale: 1.25}
+    to: exit:d1_tower
+    notes: The tower's front door out to Castleview (D1).
+notes: "DD-02's contents, written by output/studio_cal/dd02/tools/gen.py: 11 doors (two secret, two lift gates), the lift, 4 chests, 50 placed monsters and Ellinger, no spawn points."

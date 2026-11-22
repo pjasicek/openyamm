@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a locked pixel-registered stencil. Return a transparent 1536x2048 (3:4) PNG. Preserve every existing alpha contour, hole, object position, scale, and blank area. This is an orthographic projection texture atlas for an existing 3D mesh. 3 columns x 4 rows, square cells. Keep FRONT BACK LEFT / RIGHT TOP empty repeated twice. Do not reshape the model to resemble the perspective master. Rows 1 and 2: paint precisely inside the grey surfaces with unlit base color from design_reference.png and icon_x8.png, chestnut brown grained leather straps with fine edge stitching, dull brass buckles and silver-grey steel bit and bit rings. Follow the master's surface detail at the scale of each view. No light, shadows, AO, highlights, reflections, ground, outlines, text or glow. Rows 3 and 4: precisely duplicate the guide contours and label EVERY leather pixel pure flat green #00FF00, EVERY metal pixel (including buckles, bit and rings) pure flat red #FF0000. Exactly two mask colors, no shading or blended internal edges. Preserve transparent gaps throughout. Empty cells stay transparent. Match the guide even where its edge-on views look compressed or unusual. Correct the mask spill from the previous attempt. Preserve the supplied guide's transparent alpha as the stencil for ALL rows. All space surrounding the forms and every opening must be fully transparent; no stray green, haze or speckles. The mask should resemble clean hard-edged vector cutouts. Metal bit rings are metallic on both front and back.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "e5cd22f6c7bc9c58bace998a718616bd84ffed2dd219c9d551fe042aa3eca7e2"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "0f4bbe420db9dfe61a3d1a78d5befc072abe7922160ced6671c1fe5f7fac3f2d"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "23ba3692d05fe35b697a69835a185dd3bc26154e86c44f84e6534d320dce205f"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91e-83e6-7620-9733-883afb33eb40/exec-fe3e613b-fd1c-488a-88b1-88035f8859ab.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

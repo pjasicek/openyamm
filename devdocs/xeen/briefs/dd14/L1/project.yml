@@ -1,0 +1,38 @@
+format: 0
+id: xeen_dd14
+name: Castle Blackfang
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-14
+units: {plan_grid: 512}
+extent: {footprint_cells: [16, 16], climbs: n}
+map_stats:
+  id: 9167
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 4
+  refill_days: 672
+  music: 3
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Vampire, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Vampire, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:d4_griffin
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd14_griffin
+    arrival_hint: "On D4's north-shore track beside Castle Blackfang's sealed gatehouse, facing west (A6's entrance:dd14_griffin, (6144, 5120, 1216) facing 1024, D-42 Q1)."
+    notes: "Ambrose's griffin both ways (D-42 Q1): D4's gate (m25.gate_flight, A6) sets the party down at entrance:d4_griffin on the landing; Ambrose on the landing (m27.fly_out) flies it back to D4's entrance:dd14_griffin. D6's m25.flight (phase 5) arrives at entrance:d6_griffin, the same spot. No door: the castle is griffin-only (D-36)."
+qbits:
+  blackfang_slain: 111540
+  crown: 111541
+  dd14_arrived_once: 117480
+  done: 111542
+  m25_done: 111503
+  queen_found: 111543
+notes: "Xeen design brief for a new map: DD-14 Castle Blackfang (the source's dark maze0045-0048: the castle's three levels and its dungeon) as one BLV of four floors on D4's crag, entered only by Ambrose's griffin (D-36). Story M27 (A3's hooks m27.landing, m27.blackfang, m27.dungeon_stair, m27.queen_cell, m27.ambrose_return, m27.fly_out; M25's flight ends here). Size M (large: 70 monsters; MAPS.md section 0, D-42): 20-45 sectors, 30-90 M units squared, levels 38-58, Count Blackfang 70, party 39-42, treasure 4 (hoard 5), music 3. Graph devdocs/xeen/mockups/act4_graphs/dd14.graph.yml with decider D-42 (mockups/act4_a8_decisions.md, which wins): the griffin both ways (entrance:d4_griffin from D4's gate, entrance:d6_griffin from D6's m25.flight, one spot on the landing; Ambrose 5512 on the landing from m25.done, the question aaze0045:1 and m27.fly_out to D4's entrance:dd14_griffin); Royal Vampire 58 (11295) as the Count's three guards; the gargoyles on the walls; octopods stationary in the cistern; sleepers still rise after the Count's death; the source's refusal at the dungeon stair (aaze0047:0); the roof trapdoor drawn and bolted. Rows (A2): vampires 11290 (Vampire 11291 40 x39, Vampire Lord 11292 50 x10, Royal Vampire 11295 58 x3, Count Blackfang 11294 70), gargoyles_mm 11550 (Gargoyle Sentinel 11551 38 x10, Gargoyle Overlord 11552 45 x2), octopods 11470 (Octopod 50 x5). Kill XP 163,622 for the party, 40.91k per member. Rest encounters 10 %: vampires only (D-42). Map qbits 117480-117519 (dd14_arrived_once 117480, A3's); map_stats 9167."

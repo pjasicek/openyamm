@@ -1,0 +1,51 @@
+# Hostility check of Ellinger's Tower (DD-02) (the XD-27 form; lane A8, 2026-11-20). The kinds: Vampire Bat 11311 and
+# Beholder Bat 11312 (night bats), Gargoyle 11540 and Gargoyle Lord 11541, Flying Feet 11600 and Guardian 11601
+# (magic constructs): all hostile to the party at load; Ellinger (A2's row 11901 Xeen Ellinger, faction
+# xeen_character_ellinger, friendly: session 7) there and peaceful. Kinds of the map side by side do not take each
+# other on. Run with --world xeen --map xeen_dd02.blv.
+id: xeen.dd02.l4.hostility
+title: "Ellinger's Tower (DD-02): bats, gargoyles and constructs hostile, Ellinger peaceful, no fights among them"
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd02.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 21, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 21, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 21, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 21, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival window).
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11311, hostile: true, min: 14, max: 14}}
+- assert: {actor_count: {monster_id: 11312, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11540, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11541, hostile: true, min: 6, max: 6}}
+- assert: {actor_count: {monster_id: 11600, hostile: true, min: 8, max: 8}}
+- assert: {actor_count: {monster_id: 11601, hostile: true, min: 2, max: 2}}
+- note: Ellinger (11901) stands in his study, not hostile.
+- assert: {actor_count: {monster_id: 11901, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11901, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 364, max: 0}}
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11311, x: -640, y: 1000, z: 0}
+- spawn_actor: {monster_id: 11312, x: -480, y: 1000, z: 0}
+- spawn_actor: {monster_id: 11540, x: -320, y: 1000, z: 0}
+- spawn_actor: {monster_id: 11541, x: -160, y: 1000, z: 0}
+- spawn_actor: {monster_id: 11600, x: 0, y: 1000, z: 0}
+- spawn_actor: {monster_id: 11601, x: 160, y: 1000, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11311, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11312, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11540, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11541, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11600, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11601, hurt: true, max: 0}}

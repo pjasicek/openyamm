@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST image, the transparent grey orthographic atlas, in place, preserving its alpha stencil precisely. Second image is the detail reference, third is the color reference (ignore magenta). Output a transparent 1536x2048 portrait PNG, exactly 3 columns x 4 rows of invisible square cells. Only fill existing grey pixels. First two rows are unlit base colors. Row 1: tiny pommel end-on, tiny blade tip end-on, thin horizontal edge view pointing left. Row 2: thin horizontal edge view pointing right, upright broad blade view, empty. The long two-handed Xeen Slayer Sword has clear pale ice-blue crystal with elongated internal facets and a faint inner light, thin bright steel edges, a plain steel crossguard, brown leather wrapped grip and steel pommel. Match reference details at scale. No cast shadows, highlights, outlines, glow halo, lettering or ground. Rows 3 and 4 exactly duplicate the five projections directly above but as flat opaque material ID masks: all crystal solid PURE BLACK #000000, all steel pure RED #FF0000 (including both thin outer blade edges, guard, grip collars and pommel), all leather pure GREEN #00FF00. No blended colors, shading or texture in masks. No cloth or wood on this item. Keep all blank space, gaps and the last cells of rows 2 and 4 entirely transparent. Do not enlarge or move anything. Center each view exactly where it appears on first input.",
+  "inputs": [
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_xeen_claude/codex_tex/x12500/paint_mask_guide.png",
+      "sha256": "d6e37c0e9b9acd5eb4ddd493f1fcdd9a988b9e2e772acca71dd81eb4e9ceb5c5"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_xeen_claude/codex_tex/x12500/design_reference.png",
+      "sha256": "95be217eebf1e876a83d016cd1b26c7758b2e59870cdafdf1c6c15ed6ef16bf3"
+    },
+    {
+      "path": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_xeen_claude/codex_tex/x12500/icon_x8.png",
+      "sha256": "c78f97889ce1e46e7d7d3f71230a0c69f0af13aa034fb70fd04d0e00a70eee91"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f924-649f-73b1-bd3f-85184c6727c8/exec-716087c9-473d-4259-81ea-d1e26011bf45.png",
+  "output": "/home/pjasicek/github/OpenYAMM/level_generation/props/items_xeen_claude/codex_tex/x12500/paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

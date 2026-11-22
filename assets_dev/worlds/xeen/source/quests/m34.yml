@@ -1,0 +1,154 @@
+# M34 Slick's Carnival (QUESTS M34; Act V, the Cloudside half). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# On the Clouds of Xeen (X9, reached by XD-12's cloud stair after M21) Slick the Gamemaster runs four booths before
+# Castle Xeen's gate; the gate takes no one without a cupie doll. Each booth is a map event (A5) that calls its hook:
+# the clicking member pays and plays against his or her current statistic (the source's Might, Speed, Endurance and
+# Accuracy games; at least 60 wins, as MM6-MM8's carnival games test the active member); a loss costs the fee and may be
+# tried again. Slick's prize stand trades the four dolls for the Lord Xeen doll. The source's fees of 100 and 1,000 gold
+# stay; its 10 and 100 gems are scaled like M12's skull (300 -> 10) to 5 and 10 gems. Slick talks only through his
+# booths (no NPC row needed). His patter is the source's, verbatim where short.
+id: M34
+title: "Slick's Carnival"
+act: V
+kind: main
+status: full
+giver: null
+giver_name: (Slick the Gamemaster's booths on X9, before Castle Xeen)
+maps: [X9]
+level: 47
+block: 34
+after: [m21.crodo_freed]
+source: "QUESTS M34; xeen/aaze0027:2-5 (the statues), :7-26, :31, :34, :38-44 (Slick, the gate)"
+
+qbits:
+  started: {id: 111680, journal: "No one may enter Castle Xeen without a cupie doll. Slick the Gamemaster's four games each win one.",
+            until: [done]}
+  might_won: {id: 111681, note: "the Might game won"}
+  speed_won: {id: 111682, note: "the Speed game won"}
+  endurance_won: {id: 111683, note: "the Endurance game won"}
+  accuracy_won: {id: 111684, note: "the Accuracy game won"}
+  done: {id: 111685, journal: "You have a genuine Lord Xeen cupie doll. Castle Xeen's gate will let you in.",
+            until: [m35.started]}
+  tonic: {id: 111686, note: "Slick's free round of Sure-Eye Tonic taken (two Accuracy Boosts, once per game, D-70 Q1)"}
+
+autonotes:
+  carnival: {id: 4135, text: "Slick's carnival, before Castle Xeen: Might (100 gold), Speed (1,000 gold), Endurance (5 gems), Accuracy (10 gems). The member who plays needs about 60 in the game's statistic; Slick keeps a free round of tonic under the shooting line. Four dolls buy the Lord Xeen doll.", category: Misc}
+
+items:
+  might_doll: "the Might game; the prize stand takes it"
+  speed_doll: "the Speed game; the prize stand takes it"
+  endurance_doll: "the Endurance game; the prize stand takes it"
+  accuracy_doll: "the Accuracy game; the prize stand takes it"
+  lord_xeen_doll: "the prize stand, for the four dolls; Castle Xeen's gate needs it"
+
+hooks:
+  gate:
+    map: X9
+    entrance: XD-19
+    sealed: "the cupie doll from Slick's prize stand on the same causeway (the source's joke)"
+    where: "Castle Xeen's gate at the causeway's head (0, 11776): XD-19's door with the exit preset (D-50 change 3, D-24); its condition is this hook: without the doll the fail line, with it the game's own leave window, whose meaning is the source's \"Enter Castle Xeen?\" (xeen/aaze0027:40); no question of the map's own"
+    needs: [lord_xeen_doll]
+    fail_text: "No one may enter Castle Xeen without a cupie doll!"
+  might_game:
+    map: X9
+    where: "Slick's high-striker on the cloud plaza (-1280, 1536): the bell on a pole and a hammer, under a striped awning"
+    sets: [started]
+    states:
+      - when: {qbit: might_won}
+        text: "Slick: Get outta my face! You've already won the prize. Go play one of the other games."
+      - when: {all: [{gold: 100}, {lua: "IsAtLeast(ActualMight, 60)"}]}
+        text: "Slick: For only 100 gold you get a chance to win a doll. Step right up and ring the bell with the hammer! (DING.) You win a prize. Now get lost and don't come back."
+        do: [{pay: 100}, {give: might_doll}, {set: might_won}, {autonote: carnival}, {lua: "evt.PlaySoundName(\"xeen_striker_ding\", -1024, 1280, 960)"}]   # AU: the bell (62527) at the pole
+      - when: {gold: 100}
+        text: "Slick: For only 100 gold you get a chance to win a doll. Step right up and ring the bell with the hammer! (thunk.) Oh! Too bad. Why not try again?"
+        do: [{pay: 100}, {autonote: carnival}]
+      - text: "Slick: For only 100 gold you get a chance to win a doll. No gold, no hammer."
+  speed_game:
+    map: X9
+    where: "Slick's race track on the cloud plaza: a gremlin's track under a striped awning"
+    sets: [started]
+    states:
+      - when: {qbit: speed_won}
+        text: "Slick: Get outta my face! You've already won the prize. Go play one of the other games."
+      - when: {all: [{gold: 1000}, {lua: "IsAtLeast(ActualSpeed, 60)"}]}
+        text: "Slick: For only 1000 gold you get a chance to win a doll. Step right up. If you are faster than the gremlin you'll win. (You are.) You win a prize. Now get lost and don't come back."
+        do: [{pay: 1000}, {give: speed_doll}, {set: speed_won}, {autonote: carnival}]
+      - when: {gold: 1000}
+        text: "Slick: For only 1000 gold you get a chance to win a doll. If you are faster than the gremlin you'll win. (The gremlin waves from the finish.) Oh! Too bad. Why not try again?"
+        do: [{pay: 1000}, {autonote: carnival}]
+      - text: "Slick: For only 1000 gold you get a chance to win a doll. The gremlin doesn't race for free, and neither do you."
+  endurance_game:
+    map: X9
+    where: "Slick's treadmill on the cloud plaza (-5120, 3840), under a striped awning"
+    sets: [started]
+    states:
+      - when: {qbit: endurance_won}
+        text: "Slick: Get outta my face! You've already won the prize. Go play one of the other games."
+      - when: {all: [{lua: "Xeen.gemCount() >= 5"}, {lua: "IsAtLeast(ActualEndurance, 60)"}]}
+        text: "Slick: For only 5 gems you get a chance to win a doll. Step right up. If you can stay on the treadmill longer than 2 minutes, you win! (You can.) You win a prize. Now get lost and don't come back."
+        do: [{lua: "Xeen.payGems(5)"}, {give: endurance_doll}, {set: endurance_won}, {autonote: carnival}]
+      - when: {lua: "Xeen.gemCount() >= 5"}
+        text: "Slick: For only 5 gems you get a chance to win a doll. Stay on the treadmill longer than 2 minutes. (You can't.) Oh! Too bad. Why not try again?"
+        do: [{lua: "Xeen.payGems(5)"}, {autonote: carnival}]
+      - text: "Slick: For only 5 gems you get a chance to win a doll. Gems first, treadmill second."
+  accuracy_game:
+    map: X9
+    where: "Slick's shooting line on the cloud plaza (-4608, 1280): a straw bullseye 1,536 west, on the plaza's west rim"
+    sets: [started]
+    states:
+      - when: {qbit: accuracy_won}
+        text: "Slick: Get outta my face! You've already won the prize. Go play one of the other games."
+      - when: {all: [{lua: "Xeen.gemCount() >= 10"}, {lua: "IsAtLeast(ActualAccuracy, 60)"}]}
+        text: "Slick: For only 10 gems you get a chance to win a doll. Step right up. Shoot the bullseye ten times in a row, and you win! (Ten.) You win a prize. Now get lost and don't come back."
+        do: [{lua: "Xeen.payGems(10)"}, {give: accuracy_doll}, {set: accuracy_won}, {autonote: carnival}]
+      - when: {lua: "Xeen.gemCount() >= 10"}
+        text: "Slick: For only 10 gems you get a chance to win a doll. Shoot the bullseye ten times in a row. (Seven.) Oh! Too bad. Why not try again?"
+        do: [{lua: "Xeen.payGems(10)"}, {autonote: carnival}]
+      - text: "Slick: For only 10 gems you get a chance to win a doll. The arrows are free. The gems are not."
+  tonic:
+    map: X9
+    where: "the Sure-Eye Tonic cask at the south end of the Accuracy booth's counter (-3328, 960) (D-70 Q1; A5's X9 event 59 calls this): the first click in the game puts two Accuracy Boosts (item 245, power 10: +30 Accuracy for 300 minutes each) on the cursor, evt.SetHeldItem twice as FD-02's embalming table and XD-15's vault give their Might Boosts; after that the else line only"
+    sets: [tonic]
+    once: true
+    do: [{lua: "evt.SetHeldItem(245, {bonus = 10})"}, {lua: "evt.SetHeldItem(245, {bonus = 10})"}, {autonote: carnival}]
+    text: "Slick: Sure-Eye Tonic, two bottles. First round's on the house. Only the first."
+    else_text: "Slick: The free round was the first one."
+  prize_stand:
+    map: X9
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Slick's prize stand at the west side of the causeway to the gate (-1536, 9472), Slick behind it (a placed figure, D-50 Q6): four dolls for the Lord Xeen doll"
+    requires: {all: [{item: might_doll}, {item: speed_doll}, {item: endurance_doll}, {item: accuracy_doll}]}
+    takes: [might_doll, speed_doll, endurance_doll, accuracy_doll]
+    gives: [lord_xeen_doll]
+    sets: [done]
+    once: true
+    do: [{xp: 10000}]
+    text: "Slick: I see that you have four dolls. A genuine Lord Xeen cupie doll, then. Now get lost, and don't come back."
+    fail_text: "Slick: Get lost and don't come back until you've won all the games."
+    else_text: "Slick: Get outta my face! You've already won the prize."
+  statue_1:
+    map: X9
+    where: "the first rhyme statue, west wing (-6144, -16384) (xeen/aaze0027:2): only a Linguist reads it (xd07.linguist, the Book of Languages in Castle Burlock); otherwise the source's runes line"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange runes."
+    text: "A message at the base of the statue reads: Advisor will a dig permit / five coins more you must submit."
+  statue_2:
+    map: X9
+    where: "the second rhyme statue, west wing (-8064, -18048) (xeen/aaze0027:3): only a Linguist reads it (xd07.linguist, the Book of Languages in Castle Burlock); otherwise the source's runes line"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange runes."
+    text: "A message at the base of the statue reads: Taxman becomes a faithful vassal / Xeen's bane lies under castle."
+  statue_3:
+    map: X9
+    where: "the third rhyme statue, east wing (6144, -16384) (xeen/aaze0027:4): only a Linguist reads it (xd07.linguist, the Book of Languages in Castle Burlock); otherwise the source's runes line"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange runes."
+    text: "A message at the base of the statue reads: In clouds above island tower / waits Lord Xeen his final hour."
+  statue_4:
+    map: X9
+    where: "the fourth rhyme statue, east wing (8064, -18048) (xeen/aaze0027:5): only a Linguist reads it (xd07.linguist, the Book of Languages in Castle Burlock); otherwise the source's runes line"
+    requires: {qbit: xd07.linguist}
+    fail_text: "You are unable to understand the strange runes."
+    text: "A message at the base of the statue reads: Only the sword Xeen's life can take / All his plans of war unmake."
+
+rewards: {xp: 10000, gold: 0, items: "Lord Xeen doll (the games cost at least 1,100 gold and 15 gems)"}
+playthrough: "XD-12's cloud stair to X9. X9: the four booths (a member with 60 in each statistic; retry on a loss); the prize stand; the gate."

@@ -1,0 +1,512 @@
+format: 0
+start:
+  room: room:stair_foot
+  at: [0, 0]
+  facing: s
+  notes: "The crypt stair's foot, facing south into the Hall of Biers."
+arrivals:
+  - {entrance: entrance:d6_stair, room: room:stair_foot, at: [0, 0], facing: s, notes: "From D6's crypt door in the Necropolis (door:dd21, A6)."}
+doors:
+  - id: door:cellar
+    opening: open:east_cellar
+    kind: slide_left
+    surface: {texture: d8dora, size: [256, 256], fit: true}
+    notes: The dead-food cellar's iron door (sewer.blv's D8dorA).
+  - id: door:crypt
+    opening: open:hall_crypt
+    kind: hinged
+    leaves: 2
+    surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    notes: "The crypt's double doors under Sandro's seal: two hinged leaves of 6d14's iron-bound plank door (d2lgdor, a door surface: each leaf shows it once, the right mirrored)."
+  - id: door:grille
+    opening: open:crypt_reliquary
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    notes: "The reliquary's iron grille: it lifts with Sandro's release (released 113462) and stays up."
+  - id: door:sluice_gate
+    opening: open:outfall_heart
+    kind: slide_up
+    surface: {texture: xwcage, size: [128, 256], fit: true}
+    notes: "The culvert gate: iron bars over the steps down to the heart culvert; the sluice wheel upstream lifts it, one way (D-43)."
+  - id: door:sluice_room
+    opening: open:culvert_sluice
+    kind: slide_left
+    surface: {texture: d8dora, size: [256, 256], fit: true}
+    notes: The sluice room's iron door off the west culvert.
+  - id: door:vault
+    opening: open:west_vault
+    kind: slide_left
+    surface: {texture: crsmdr1, size: [128, 256], fit: true}
+    notes: "The old tomb wall's door: Mummy's Secret Treasure (aaze0036:10)."
+sounds:
+  - {id: sound:basin, room: room:outfall, at: [-1120, -2944], sound: water lapping loop, radius: 1200, inner_radius: 300, volume: 0.35, notes: The culverts pouring into the basin.}
+  - {id: sound:cistern, room: room:heart_culvert, at: [-1440, -4512], sound: water lapping loop, radius: 1600, inner_radius: 400, volume: 0.4, notes: The black cistern.}
+  - {id: sound:crypt_drip, room: room:crypt_hall, at: [0, -1152], sound: drip03, radius: 1600, inner_radius: 400, volume: 0.3, wait: [4, 10], notes: Drips in the Hall of Biers.}
+  - {id: sound:heart, room: room:heart_culvert, at: [-832, -4704], height: 144, sound: xeen_heartbeat_loop, radius: 900, inner_radius: 250, volume: 0.6, notes: "Sandro's heart beating in the jar (AU's xeen_heartbeat_loop): off once heart_found (113461) is set (evt:jar, evt:heart_quiet)."}
+  - {id: sound:sewer_landing, room: room:landing, at: [-1152, -1408], sound: xeen_amb_sewer, radius: 2600, inner_radius: 900, volume: 0.4, notes: "The sewer's bed over the landing and both arms (D-48: not panned).", pan: false}
+  - {id: sound:sewer_outfall, room: room:outfall, at: [-1120, -2944], sound: xeen_amb_sewer, radius: 2400, inner_radius: 800, volume: 0.35, notes: The bed over the outfall and the culverts (not panned)., pan: false}
+lights:
+  - id: light:crypt_hall_1
+    room: room:crypt_hall
+    at: [0, -1600]
+    radius: 860
+    color: [235, 175, 115]
+  - id: light:crypt_hall_2
+    room: room:crypt_hall
+    at: [0, -704]
+    radius: 860
+    color: [235, 175, 115]
+  - id: light:dead_food_1
+    room: room:dead_food
+    at: [1792, -1408]
+    radius: 700
+    color: [240, 160, 90]
+  - id: light:east_culvert_1
+    room: room:east_culvert
+    at: [288, -2304]
+    radius: 800
+    color: [150, 165, 120]
+  - id: light:east_culvert_2
+    room: room:east_culvert
+    at: [-128, -2848]
+    radius: 800
+    color: [150, 165, 120]
+  - id: light:heart_culvert_1
+    room: room:heart_culvert
+    at: [-1344, -4288]
+    height: 320
+    radius: 600
+    color: [150, 160, 180]
+  - id: light:heart_culvert_2
+    room: room:heart_culvert
+    at: [-832, -4704]
+    height: 144
+    radius: 700
+    color: [90, 235, 110]
+    notes: The jar's green glow over the cistern.
+  - id: light:landing_1
+    room: room:landing
+    at: [-1344, -1600]
+    height: 320
+    radius: 1000
+    color: [150, 165, 120]
+  - id: light:main_east_1
+    room: room:main_east
+    at: [-64, -1408]
+    radius: 860
+    color: [150, 165, 120]
+  - id: light:main_east_2
+    room: room:main_east
+    at: [832, -1408]
+    radius: 860
+    color: [150, 165, 120]
+  - id: light:main_west_1
+    room: room:main_west
+    at: [-3136, -1408]
+    radius: 860
+    color: [150, 165, 120]
+  - id: light:main_west_2
+    room: room:main_west
+    at: [-2240, -1408]
+    radius: 860
+    color: [150, 165, 120]
+  - id: light:mummy_vault_1
+    room: room:mummy_vault
+    at: [-4032, -1408]
+    radius: 700
+    color: [150, 160, 180]
+  - id: light:outfall_1
+    room: room:outfall
+    at: [-1120, -2944]
+    radius: 729
+    color: [150, 165, 120]
+  - id: light:reliquary_1
+    room: room:reliquary
+    at: [1152, -2816]
+    radius: 489
+    color: [235, 175, 115]
+  - id: light:sandro_crypt_1
+    room: room:sandro_crypt
+    at: [0, -2816]
+    radius: 921
+    color: [235, 175, 115]
+  - id: light:sandro_crypt_2
+    room: room:sandro_crypt
+    at: [0, -3104]
+    height: 192
+    radius: 700
+    color: [230, 140, 90]
+    notes: The candles by the dais.
+  - id: light:sluice_1
+    room: room:sluice
+    at: [-2240, -2240]
+    radius: 700
+    color: [240, 160, 90]
+  - id: light:stair_foot_1
+    room: room:stair_foot
+    at: [0, 64]
+    height: 320
+    radius: 1000
+    color: [235, 175, 115]
+  - id: light:west_culvert_1
+    room: room:west_culvert
+    at: [-2848, -2304]
+    radius: 800
+    color: [150, 165, 120]
+  - id: light:west_culvert_2
+    room: room:west_culvert
+    at: [-2304, -2848]
+    radius: 800
+    color: [150, 165, 120]
+switches:
+  - id: switch:wheel
+    room: room:sluice
+    kind: lever
+    reach: 48
+    at: [-2240, -1920]
+    notes: The sluice wheel's handle on the sluice room's north wall.
+chests:
+  - id: chest:box
+    room: room:east_culvert
+    at: [-64, -2432]
+    kind: 7gt002
+    facing: e
+    treasure_level: 5
+    random_items: 2
+    gold: 1200
+    trap_level: 5
+    notes: The source's trapped Box (aaze0036:2) in the east culvert's side niche.
+  - id: chest:mummy
+    room: room:mummy_vault
+    at: [-4224, -1408]
+    kind: 7gt002
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 2000
+    notes: Mummy's Secret Treasure (aaze0036:10).
+  - id: chest:reliquary
+    room: room:reliquary
+    at: [1152, -3040]
+    kind: 7gt002
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 3000
+    notes: "Sandro's treasure 'in this room' (A3's hook), behind the grille."
+monsters:
+  - id: monster:barrel_roach_1
+    room: room:dead_food
+    monster: 11363
+    at: [1792, -1280]
+    facing: 180
+    group: 20
+    hidden: true
+    notes: "One of the two Cinder Roaches in the Dead Food barrel (D-62 Q43): placed hidden (counted at load), shown once by the first pry (dead_food_pried 117723); never shown again by a load (D-18: the map state keeps them)."
+  - id: monster:barrel_roach_2
+    room: room:dead_food
+    monster: 11363
+    at: [1792, -1536]
+    facing: 180
+    group: 20
+    hidden: true
+    notes: "One of the two Cinder Roaches in the Dead Food barrel (D-62 Q43): placed hidden (counted at load), shown once by the first pry (dead_food_pried 117723); never shown again by a load (D-18: the map state keeps them)."
+  - id: monster:crypt_hall_lich_1
+    room: room:crypt_hall
+    monster: 11281
+    at: [-192, -1152]
+    facing: 90
+    group: 1
+  - id: monster:crypt_hall_lich_2
+    room: room:crypt_hall
+    monster: 11281
+    at: [192, -1664]
+    facing: 90
+    group: 1
+  - id: monster:east_culvert_roach_1
+    room: room:east_culvert
+    monster: 11363
+    at: [288, -2176]
+    facing: 90
+    group: 2
+  - id: monster:east_culvert_roach_2
+    room: room:east_culvert
+    monster: 11363
+    at: [0, -2848]
+    facing: 90
+    group: 2
+  - id: monster:heart_culvert_lich_1
+    room: room:heart_culvert
+    monster: 11281
+    at: [-1152, -4064]
+    facing: 90
+    group: 1
+  - id: monster:heart_culvert_roach_1
+    room: room:heart_culvert
+    monster: 11363
+    at: [-1536, -4032]
+    facing: 90
+    group: 2
+  - id: monster:main_east_roach_1
+    room: room:main_east
+    monster: 11363
+    at: [256, -1500]
+    facing: 90
+    group: 2
+  - id: monster:main_east_roach_2
+    room: room:main_east
+    monster: 11363
+    at: [960, -1450]
+    facing: 90
+    group: 2
+  - id: monster:main_west_roach_1
+    room: room:main_west
+    monster: 11363
+    at: [-2432, -1500]
+    facing: 90
+    group: 2
+  - id: monster:main_west_roach_2
+    room: room:main_west
+    monster: 11363
+    at: [-2944, -1560]
+    facing: 90
+    group: 2
+  - id: monster:main_west_roach_3
+    room: room:main_west
+    monster: 11363
+    at: [-3328, -1500]
+    facing: 90
+    group: 2
+  - id: monster:mummy_vault_mummy_1
+    room: room:mummy_vault
+    monster: 11273
+    at: [-4096, -1600]
+    facing: 90
+    group: 3
+  - id: monster:mummy_vault_mummy_2
+    room: room:mummy_vault
+    monster: 11273
+    at: [-3904, -1216]
+    facing: 90
+    group: 3
+  - id: monster:sandro
+    room: room:sandro_crypt
+    monster: 11283
+    at: [0, -2816]
+    facing: 90
+    group: 5
+    notes: "Sandro the Lich (11283, 65): fought once. His fall (evt:sandro_fell) sets sandro_fell 117727, calls q-d23.sandro, shows the risen Sandro and hides this body."
+  - id: monster:sandro_risen
+    room: room:sandro_crypt
+    monster: 11926
+    at: [288, -3200]
+    floor_height: 32
+    facing: 90
+    hostile: false
+    group: 30
+    immobile: true
+    hidden: true
+    notes: "The risen Sandro (A2's row 11926, D-62 Q41): peaceful, immobile, not counted, Sandro's look; placed hidden by the bier, shown by his fall and on every load while sandro_fell is set and released clear; takes no damage (evt:risen_figure)."
+decorations:
+  - id: deco:barrel_cellar_e1
+    room: room:dead_food
+    decoration: bigbarel
+    at: [2112, -1344]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_cellar_e1)."
+  - id: deco:barrel_cellar_n1
+    room: room:dead_food
+    decoration: bigbarel
+    at: [1856, -1088]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_cellar_n1)."
+  - id: deco:barrel_cellar_n2
+    room: room:dead_food
+    decoration: bigbarel
+    at: [1984, -1088]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_cellar_n2)."
+  - id: deco:barrel_cellar_s1
+    room: room:dead_food
+    decoration: bigbarel
+    at: [1856, -1728]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_cellar_s1)."
+  - id: deco:barrel_cellar_s2
+    room: room:dead_food
+    decoration: bigbarel
+    at: [1984, -1728]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_cellar_s2)."
+  - id: deco:barrel_dead_food
+    room: room:dead_food
+    decoration: bigbarel
+    at: [2112, -1472]
+    notes: The Dead Food barrel (evt:dead_food).
+  - id: deco:barrel_landing_1
+    room: room:landing
+    decoration: bigbarel
+    at: [-1600, -1856]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_landing_1)."
+  - id: deco:barrel_landing_2
+    room: room:landing
+    decoration: bigbarel
+    at: [-1504, -1856]
+    notes: "A signed barrel: 'Food for the dead, keep warm.' (evt:barrel_landing_2)."
+  - id: deco:cistern_bones
+    room: room:heart_culvert
+    decoration: 7dec18
+    at: [-1728, -3712]
+  - id: deco:crypt_candle_e
+    room: room:sandro_crypt
+    decoration: dec02
+    at: [544, -3104]
+  - id: deco:crypt_candle_w
+    room: room:sandro_crypt
+    decoration: dec02
+    at: [-544, -3104]
+  - id: deco:crypt_skulls_e
+    room: room:sandro_crypt
+    decoration: sklplrev
+    at: [704, -3392]
+  - id: deco:crypt_skulls_w
+    room: room:sandro_crypt
+    decoration: sklplrev
+    at: [-704, -3392]
+  - id: deco:culvert_bones
+    room: room:west_culvert
+    decoration: dec29
+    at: [-2016, -2752]
+  - id: deco:hall_candle_1
+    room: room:crypt_hall
+    decoration: cndlab0
+    at: [416, -832]
+    floor_height: 64
+  - id: deco:hall_candle_2
+    room: room:crypt_hall
+    decoration: cndlab0
+    at: [416, -1472]
+    floor_height: 64
+  - id: deco:hall_candle_3
+    room: room:crypt_hall
+    decoration: cndlab0
+    at: [-416, -896]
+    floor_height: 64
+  - id: deco:jar
+    room: room:heart_culvert
+    decoration: xeen_heartjar
+    at: [-832, -4704]
+    floor_height: -800
+    notes: "The jar of green glass with Sandro's heart (S's xeen_heartjar, MM7's vase in glowing green glass; the ledge's click: evt:jar)."
+  - id: deco:sconce_0
+    room: room:stair_foot
+    decoration: scon100
+    wall: w
+    along: 0.75
+    height: 192
+  - id: deco:sconce_1
+    room: room:stair_foot
+    decoration: scon100
+    wall: e
+    along: 0.25
+    height: 192
+  - id: deco:sconce_10
+    room: room:sluice
+    decoration: torch02
+    wall: e
+    along: 0.5
+    height: 192
+  - id: deco:sconce_11
+    room: room:dead_food
+    decoration: torch02
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:sconce_12
+    room: room:outfall
+    decoration: torch02
+    wall: s
+    along: 0.2
+    height: 192
+  - id: deco:sconce_13
+    room: room:mummy_vault
+    decoration: torch02
+    wall: n
+    along: 0.5
+    height: 192
+  - id: deco:sconce_2
+    room: room:crypt_hall
+    decoration: scon100
+    wall: n
+    along: 0.2
+    height: 192
+  - id: deco:sconce_3
+    room: room:crypt_hall
+    decoration: scon100
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:sconce_4
+    room: room:sandro_crypt
+    decoration: scon100
+    wall: n
+    along: 0.15
+    height: 192
+  - id: deco:sconce_5
+    room: room:sandro_crypt
+    decoration: scon100
+    wall: n
+    along: 0.85
+    height: 192
+  - id: deco:sconce_6
+    room: room:sandro_crypt
+    decoration: scon100
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:sconce_7
+    room: room:landing
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:sconce_8
+    room: room:main_west
+    decoration: torch02
+    wall: s
+    along: 0.55
+    height: 192
+  - id: deco:sconce_9
+    room: room:main_east
+    decoration: torch02
+    wall: s
+    along: 0.6
+    height: 192
+  - id: deco:statuette
+    room: room:reliquary
+    decoration: 7dec54
+    at: [1280, -2816]
+    floor_height: 64
+    facing: 180
+    notes: "Sandro's statuette on its plinth, turned to the grille (MM7's small statue 7dec54 standing in; dressing, D-62 Q45)."
+  - id: deco:vault_bones
+    room: room:mummy_vault
+    decoration: dec29
+    at: [-4224, -1728]
+  - id: deco:vault_skeleton
+    room: room:mummy_vault
+    decoration: dec05
+    at: [-3776, -1728]
+exits:
+  - id: exit:wing_left
+    room: room:stair_foot
+    at: [-80, 1216]
+    floor_height: 448
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d6_stair
+    notes: "The crypt door's left wing seen from inside (gkp103a, as D6's grille pair): up to the Necropolis."
+  - id: exit:wing_right
+    room: room:stair_foot
+    at: [80, 1216]
+    floor_height: 448
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d6_stair
+    notes: "The crypt door's right wing seen from inside (gkp103b): the same way out."
+notes: "DD-21's contents, written by output/studio_cal/dd21/tools/dress.py: 6 doors (the crypt's double door as a hinged pair, the reliquary grille, the vault's door, two iron doors, the sluice gate), the sluice wheel, 3 chests, 16 placed monsters (10 Cinder Roaches, two of them hidden in the Dead Food barrel; 3 Greater Liches; 2 Ghost Mummies; Sandro) and, not counted, the risen Sandro (11926, hidden until his fall); two exit faces for the grille pair's wings."

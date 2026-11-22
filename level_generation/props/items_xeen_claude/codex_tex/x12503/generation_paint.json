@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png in place as a locked alpha stencil on a transparent 1536x2048 canvas. Use the other images only for ornament and colors. Preserve every grey silhouette's exact pixels, bounds, position, scale and orientation, including tiny end views with a circular center and narrow horizontal bar. 3 columns x 4 rows, 512 square cells. Row 1: two tiny end views then horizontal thin edge view with head at left. Row 2: horizontal thin edge view head at right, vertical broad face head up, empty. Rows 3/4 exactly duplicate those silhouettes 1024px below their counterparts. Upper two rows only: paint unlit game base colour into the grey forms. Ornate flanged Elder Mace, aged steel flanges with distinct facets and small blue gemstone on broad head, steel upper shaft and warm engraved gold scroll bands, lower grip spiral brown leather, gold pommel. Follow design_reference and icon details scaled inside existing shapes. No directional lighting, highlights, cast shadows, AO, glow or outlines. Lower two rows only: hard flat material IDs, every steel or gold part solid #FF0000, leather grip solid #00FF00, gemstone opaque #000000. Cloth/hair if present #0000FF, matte nonmetal solids if present #FFFF00. No texture, shading, lines or blended colors on IDs. Preserve all guide transparency including empty cells and gaps. No text, grid or labels. Never rotate, resize or invent geometry.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "7f60dd368c46419087d1904be1b2141ca34ee7199105ac7c0866192220396665"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "e31fc0fb92e3ef560c81d10ed65ce97ed77a89c794df47fbd8896f479d596b84"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "40caf382f20e09713f937a5ad83f9aac82ecb0d6a061275718cc4be4fa8ccd4b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f927-3901-71a3-8cb8-95faf3a29fdb/exec-283528c5-c1c8-4a4a-a9a1-4948c9c87f1d.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

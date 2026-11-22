@@ -1,0 +1,847 @@
+format: 0
+start:
+  room: room:shaft_square
+  at: [0, -1088]
+  facing: n
+  notes: "At the hatch ladder's foot, facing the drain cross (D1's hatch arrives here)."
+arrivals:
+  - {entrance: entrance:d1_outfall, room: room:outfall, at: [4096, -4864], facing: w, notes: "Inside the outfall grate, facing up the tunnel (D1's gorge grate arrives here)."}
+doors:
+  - id: door:cross_east
+    opening: open:cross_east
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A wooden door from the cross into the east drain.
+  - id: door:cross_west
+    opening: open:cross_west
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A wooden door from the cross into the west drain.
+  - id: door:deep_outfall
+    opening: open:deep_outfall
+    kind: slide_up
+    surface: {texture: d8dore, size: [256, 256], fit: true}
+    notes: An iron door from the deep cistern into the outfall tunnel.
+  - id: door:east_market
+    opening: open:east_market
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A wooden door to the market shaft.
+  - id: door:north_cross
+    opening: open:north_cross
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A wooden door from the north drain into the cross.
+  - id: door:sluice_north
+    opening: open:sluice_north
+    kind: slide_up
+    surface: {texture: d8dore, size: [256, 256], fit: true}
+    notes: The sluice house's iron door into the north drain.
+  - id: door:valio_overflow
+    opening: open:valio_overflow
+    kind: slide_up
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: A wooden door from Valio's niche to the overflow.
+movers:
+  - id: mover:grate
+    room: room:east_drain
+    at: [4736, -128]
+    size: [256, 256]
+    bottom: 0
+    floor_height: 0
+    height: 8
+    travel: [240, 0, 0]
+    speed: 160
+    surface: {texture: d1lggrt, size: [256, 256]}
+    top_surface: {texture: d1lggrt, size: [256, 256]}
+    notes: "The cellar's floor grate over the hole in the south walk; the bolt below slides it aside."
+  - id: mover:sluice_gate
+    room: room:sluice
+    at: [-1728, 1664]
+    size: [248, 48]
+    bottom: 160
+    floor_height: -96
+    height: 400
+    travel: [0, 0, -160]
+    speed: 64
+    surface: {texture: d8dore, size: [256, 256]}
+    top_surface: {texture: d8dore, size: [256, 256]}
+    notes: "The sluice gate, wedged 160 up by gremlins with the mill's gears; closed it drops onto the channel's floor."
+  - id: mover:water
+    room: room:culvert
+    outline: [[1056, -3040], [1504, -3040], [1504, -1952], [1056, -1952]]
+    bottom: 0
+    height: 272
+    travel: [0, 0, -290]
+    speed: 58
+    surface: {texture: swprrf3, liquid: water}
+    top_surface: {texture: swprrf3, liquid: water}
+    notes: "The culvert's water: one block from its floor to 16 under its roof while the sluice runs; the lever sinks it 290 (its top 18 under the floor) in about 5 s, and raises it again (XD-10's route)."
+ladders:
+  - {id: ladder:cellar, room: room:cellar, at: [4664, -128], facing: w, height: 480, exit: [4496, -128], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: An iron ladder from the drowned cellar up through the floor grate to the east drain's south walk.}
+  - {id: ladder:cross_sump, room: room:cross, at: [0, 152], facing: n, height: 64, exit: [0, 256], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the sump's north edge."}
+  - {id: ladder:deep_pool, room: room:deep_cistern, at: [-1152, -4488], facing: n, height: 64, exit: [-1152, -4384], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the deep pool's north edge."}
+  - {id: ladder:overflow_pool, room: room:overflow, at: [-1152, -1416], facing: n, height: 96, exit: [-1152, -1312], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the overflow pool's north edge."}
+  - {id: ladder:sluice_channel, room: room:sluice, at: [-1608, 1024], facing: e, height: 96, exit: [-1504, 1024], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: iron rungs up the sluice channel's east edge."}
+sounds:
+  - {id: sound:bed_east, room: room:east_drain, at: [3584, 0], sound: xeen_amb_sewer, radius: 3200, inner_radius: 1000, volume: 0.4, notes: "The sewer's trickles and drips (bed, east).", pan: false}
+  - {id: sound:bed_south, room: room:rat_runs, at: [1280, -3840], sound: xeen_amb_sewer, radius: 3200, inner_radius: 1000, volume: 0.4, notes: "The sewer's trickles and drips (bed, south).", pan: false}
+  - {id: sound:bed_west, room: room:west_drain, at: [-1280, 0], sound: xeen_amb_sewer, radius: 3200, inner_radius: 1000, volume: 0.4, notes: "The sewer's trickles and drips (bed, west).", pan: false}
+  - {id: sound:cellar, room: room:cellar, at: [5504, -832], sound: drip02, radius: 1000, inner_radius: 300, volume: 0.5, wait: [3, 7], notes: The drowned cellar dripping.}
+  - {id: sound:cross, room: room:cross, at: [0, 0], sound: drip02, radius: 1200, inner_radius: 300, volume: 0.5, wait: [2, 6], notes: Drips into the cross's sump.}
+  - {id: sound:culvert, room: room:culvert, at: [1280, -2496], sound: water lapping loop, radius: 1200, inner_radius: 300, volume: 0.5, notes: The culvert's water (heard from the rat runs).}
+  - {id: sound:deep, room: room:deep_cistern, at: [-1152, -4832], sound: drip01, radius: 1600, inner_radius: 500, volume: 0.5, wait: [2, 6], notes: The deep cistern dripping.}
+  - {id: sound:east_drain, room: room:east_drain, at: [2944, 0], sound: water lapping loop, radius: 1800, inner_radius: 600, volume: 0.35, notes: The channel's slow water.}
+  - {id: sound:north_drain, room: room:north_drain, at: [896, 1152], sound: water lapping loop, radius: 1600, inner_radius: 500, volume: 0.35, notes: The channel's slow water.}
+  - {id: sound:outfall, room: room:outfall, at: [4096, -4864], sound: whistling wind, radius: 1400, inner_radius: 300, volume: 0.3, notes: The gorge's air through the outfall grate.}
+  - {id: sound:overflow, room: room:overflow, at: [-1152, -1664], sound: drip03, radius: 1300, inner_radius: 400, volume: 0.5, wait: [2, 5], notes: The overflow cistern dripping.}
+  - {id: sound:sluice, room: room:sluice, at: [-1728, 1856], sound: rushing water loop, radius: 1500, inner_radius: 400, volume: 0.6, notes: The town's water pouring through the jammed sluice.}
+  - {id: sound:west_drain, room: room:west_drain, at: [-1984, 0], sound: water lapping loop, radius: 1600, inner_radius: 500, volume: 0.35, notes: The channel's slow water.}
+lights:
+  - id: light:cellar_1
+    room: room:cellar
+    at: [5184, -624]
+    radius: 844
+    color: [120, 135, 115]
+  - id: light:cross_1
+    room: room:cross
+    at: [0, 0]
+    radius: 768
+    color: [150, 165, 130]
+  - id: light:culvert_1
+    room: room:culvert
+    at: [1280, -2496]
+    radius: 700
+    color: [120, 135, 115]
+  - id: light:deep_cistern_1
+    room: room:deep_cistern
+    at: [-1152, -4736]
+    radius: 1382
+    color: [120, 135, 115]
+  - id: light:east_drain_1
+    room: room:east_drain
+    at: [1856, 0]
+    radius: 1400
+    color: [150, 165, 130]
+  - id: light:east_drain_2
+    room: room:east_drain
+    at: [4032, 0]
+    radius: 1400
+    color: [150, 165, 130]
+  - id: light:felix_1
+    room: room:felix
+    at: [-2880, -2336]
+    radius: 1021
+    color: [150, 165, 130]
+  - id: light:felix_2
+    room: room:felix
+    at: [-2880, -1120]
+    radius: 1021
+    color: [150, 165, 130]
+  - id: light:felix_3
+    room: room:felix
+    at: [-2880, -2752]
+    height: 160
+    radius: 600
+    color: [215, 180, 120]
+    pulse: {intensity: [0.8, 1], radius: [560, 620], frequency: 0.5}
+    notes: Felix's lantern on his bench.
+  - id: light:midden_1
+    room: room:midden
+    at: [5888, -2176]
+    radius: 921
+    color: [175, 140, 105]
+  - id: light:north_drain_1
+    room: room:north_drain
+    at: [64, 1152]
+    radius: 1397
+    color: [150, 165, 130]
+  - id: light:north_drain_2
+    room: room:north_drain
+    at: [1728, 1152]
+    radius: 1397
+    color: [150, 165, 130]
+  - id: light:outfall_1
+    room: room:outfall
+    at: [1184, -4864]
+    radius: 1400
+    color: [120, 135, 115]
+  - id: light:outfall_2
+    room: room:outfall
+    at: [3296, -4864]
+    radius: 1400
+    color: [120, 135, 115]
+  - id: light:overflow_1
+    room: room:overflow
+    at: [-1152, -1664]
+    radius: 768
+    color: [150, 165, 130]
+  - id: light:rat_nest_1
+    room: room:rat_nest
+    at: [3200, -2112]
+    radius: 1152
+    color: [175, 140, 105]
+  - id: light:rat_runs_1
+    room: room:rat_runs
+    at: [736, -3840]
+    radius: 1021
+    color: [175, 140, 105]
+  - id: light:rat_runs_2
+    room: room:rat_runs
+    at: [1952, -3840]
+    radius: 1021
+    color: [175, 140, 105]
+  - id: light:shaft_market_1
+    room: room:shaft_market
+    at: [3200, 768]
+    height: 1100
+    radius: 900
+    color: [190, 200, 215]
+    notes: Daylight down through the street grate.
+  - id: light:shaft_north_1
+    room: room:shaft_north
+    at: [1920, 1920]
+    height: 1100
+    radius: 900
+    color: [190, 200, 215]
+    notes: Daylight down through the street grate.
+  - id: light:shaft_square_1
+    room: room:shaft_square
+    at: [0, -1024]
+    height: 1100
+    radius: 900
+    color: [190, 200, 215]
+    notes: Daylight down through the street grate.
+  - id: light:shaft_temple_1
+    room: room:shaft_temple
+    at: [5504, 0]
+    height: 1100
+    radius: 900
+    color: [190, 200, 215]
+    notes: Daylight down through the street grate.
+  - id: light:shaft_west_1
+    room: room:shaft_west
+    at: [-3584, 0]
+    height: 1100
+    radius: 900
+    color: [190, 200, 215]
+    notes: Daylight down through the street grate.
+  - id: light:sluice_1
+    room: room:sluice
+    at: [-1856, 1280]
+    radius: 1152
+    color: [150, 165, 130]
+  - id: light:valio_1
+    room: room:valio
+    at: [-2240, -1728]
+    radius: 700
+    color: [150, 165, 130]
+  - id: light:valio_2
+    room: room:valio
+    at: [-2240, -1792]
+    height: 128
+    radius: 500
+    color: [215, 180, 120]
+    pulse: {intensity: [0.7, 1], radius: [450, 520], frequency: 0.7}
+    notes: A candle stub by Valio's bed.
+  - id: light:west_drain_1
+    room: room:west_drain
+    at: [-2592, 0]
+    radius: 1021
+    color: [150, 165, 130]
+  - id: light:west_drain_2
+    room: room:west_drain
+    at: [-1376, 0]
+    radius: 1021
+    color: [150, 165, 130]
+switches:
+  - id: switch:grate_bolt
+    room: room:cellar
+    kind: lever
+    reach: 40
+    at: [4960, 32]
+    height: 256
+    notes: "The grate's bolt, high on the cellar's north wall beside the ladder."
+  - id: switch:outfall_bar
+    room: room:outfall
+    kind: lever
+    reach: 48
+    at: [4096, -4608]
+    notes: "The outfall grate's bar, on the tunnel's north wall by the grate."
+  - id: switch:sluice_lever
+    room: room:sluice
+    kind: lever
+    reach: 48
+    at: [-1280, 2048]
+    notes: The sluice lever on the north wall beside the gate.
+chests:
+  - id: chest:cellar
+    room: room:cellar
+    at: [4608, -1184]
+    facing: n
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    notes: The gremlins' box of stolen tools.
+  - id: chest:hoard
+    room: room:rat_nest
+    at: [3840, -1440]
+    facing: w
+    treasure_level: 3
+    random_items: 3
+    gold: 800
+    notes: Rooka's hoard.
+  - id: chest:market
+    room: room:shaft_market
+    at: [3024, 928]
+    facing: s
+    treasure_level: 2
+    random_items: 2
+    gold: 150
+    notes: Things dropped through the market grate over the years.
+  - id: chest:midden
+    room: room:midden
+    at: [6272, -1696]
+    facing: w
+    treasure_level: 2
+    random_items: 2
+    gold: 200
+    notes: A sodden pack among the bones.
+  - id: chest:valio
+    room: room:valio
+    at: [-2240, -1488]
+    facing: s
+    treasure_level: 2
+    random_items: 1
+    gold: 300
+    notes: "Valio's chest by his bed (the diploma is the hook's text): q-d5.valio_chest on its opening."
+monsters:
+  - id: monster:cellar_gremlin_1
+    room: room:cellar
+    monster: 11020
+    at: [4864, -768]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cellar_gremlin_2
+    room: room:cellar
+    monster: 11020
+    at: [5120, -448]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cellar_gremlin_3
+    room: room:cellar
+    monster: 11020
+    at: [5504, -384]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:cellar_saboteur_1
+    room: room:cellar
+    monster: 11021
+    at: [4928, -1024]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:deep_cistern_vampire_bat_1
+    room: room:deep_cistern
+    monster: 11311
+    at: [-1920, -4224]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:deep_cistern_vampire_bat_2
+    room: room:deep_cistern
+    monster: 11311
+    at: [-384, -4224]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:deep_cistern_vampire_bat_3
+    room: room:deep_cistern
+    monster: 11311
+    at: [-1920, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:deep_cistern_vampire_bat_4
+    room: room:deep_cistern
+    monster: 11311
+    at: [-384, -5248]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:east_drain_vampire_bat_1
+    room: room:east_drain
+    monster: 11311
+    at: [1536, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:east_drain_vampire_bat_2
+    room: room:east_drain
+    monster: 11311
+    at: [2560, -240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:east_drain_vampire_bat_3
+    room: room:east_drain
+    monster: 11311
+    at: [3456, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:east_drain_vampire_bat_4
+    room: room:east_drain
+    monster: 11311
+    at: [4224, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:midden_dire_rat_1
+    room: room:midden
+    monster: 11393
+    at: [5632, -2560]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:midden_dire_rat_2
+    room: room:midden
+    monster: 11393
+    at: [6144, -2560]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:midden_dire_rat_3
+    room: room:midden
+    monster: 11393
+    at: [5888, -1920]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:north_drain_gremlin_1
+    room: room:north_drain
+    monster: 11020
+    at: [256, 960]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:north_drain_gremlin_2
+    room: room:north_drain
+    monster: 11020
+    at: [1024, 1344]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:north_drain_gremlin_3
+    room: room:north_drain
+    monster: 11020
+    at: [1792, 960]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:overflow_dire_rat_1
+    room: room:overflow
+    monster: 11393
+    at: [-1472, -1344]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:overflow_dire_rat_2
+    room: room:overflow
+    monster: 11393
+    at: [-832, -1344]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:overflow_dire_rat_3
+    room: room:overflow
+    monster: 11393
+    at: [-1472, -1984]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:overflow_dire_rat_4
+    room: room:overflow
+    monster: 11393
+    at: [-832, -1984]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_nest_dire_rat_1
+    room: room:rat_nest
+    monster: 11393
+    at: [2560, -1600]
+    facing: 270
+    hostile: true
+    group: 1
+    notes: "One of the nest culvert's four (D-26): at the nest's mouth, above the culvert's high-water line."
+  - id: monster:rat_nest_dire_rat_2
+    room: room:rat_nest
+    monster: 11393
+    at: [2560, -1280]
+    facing: 270
+    hostile: true
+    group: 1
+    notes: "One of the nest culvert's four (D-26): at the nest's mouth, above the culvert's high-water line."
+  - id: monster:rat_nest_dire_rat_3
+    room: room:rat_nest
+    monster: 11393
+    at: [2816, -1440]
+    facing: 270
+    hostile: true
+    group: 1
+    notes: "One of the nest culvert's four (D-26): at the nest's mouth, above the culvert's high-water line."
+  - id: monster:rat_nest_dire_rat_4
+    room: room:rat_nest
+    monster: 11393
+    at: [2816, -1760]
+    facing: 270
+    hostile: true
+    group: 1
+    notes: "One of the nest culvert's four (D-26): at the nest's mouth, above the culvert's high-water line."
+  - id: monster:rat_nest_wererat_1
+    room: room:rat_nest
+    monster: 11400
+    at: [2944, -2112]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_nest_wererat_2
+    room: room:rat_nest
+    monster: 11400
+    at: [3712, -2112]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_nest_wererat_3
+    room: room:rat_nest
+    monster: 11400
+    at: [2944, -2752]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_nest_wererat_4
+    room: room:rat_nest
+    monster: 11400
+    at: [3712, -2752]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_dire_rat_1
+    room: room:rat_runs
+    monster: 11393
+    at: [512, -3584]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_dire_rat_2
+    room: room:rat_runs
+    monster: 11393
+    at: [1280, -3456]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_dire_rat_3
+    room: room:rat_runs
+    monster: 11393
+    at: [2176, -3648]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_wererat_1
+    room: room:rat_runs
+    monster: 11400
+    at: [896, -3968]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_wererat_2
+    room: room:rat_runs
+    monster: 11400
+    at: [1664, -3712]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rat_runs_wererat_3
+    room: room:rat_runs
+    monster: 11400
+    at: [1920, -4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:rooka
+    room: room:rat_nest
+    monster: 11403
+    at: [3328, -2432]
+    facing: 270
+    hostile: true
+    group: 5
+    notes: "Rooka the Rat Queen (boss row 11403, 24): q-d5.rooka at her death."
+  - id: monster:shaft_market_dire_rat_1
+    room: room:shaft_market
+    monster: 11393
+    at: [3072, 640]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaft_market_dire_rat_2
+    room: room:shaft_market
+    monster: 11393
+    at: [3328, 640]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:shaft_market_dire_rat_3
+    room: room:shaft_market
+    monster: 11393
+    at: [3328, 832]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_gremlin_1
+    room: room:sluice
+    monster: 11020
+    at: [-2432, 896]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_gremlin_2
+    room: room:sluice
+    monster: 11020
+    at: [-2432, 1664]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_gremlin_3
+    room: room:sluice
+    monster: 11020
+    at: [-1216, 896]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_gremlin_4
+    room: room:sluice
+    monster: 11020
+    at: [-1216, 1664]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_saboteur_1
+    room: room:sluice
+    monster: 11021
+    at: [-1408, 1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_saboteur_2
+    room: room:sluice
+    monster: 11021
+    at: [-2176, 1280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:valio
+    room: room:valio
+    monster: 11193
+    at: [-2240, -1680]
+    facing: 90
+    hostile: true
+    group: 20
+    hidden: true
+    notes: "Valio Magnus (11193, 45), placed hidden: shown, hostile, once valio_angered (113104) is set (q-d5.valio_angry). A trap (D-1.2): not counted."
+  - id: monster:west_drain_dire_rat_1
+    room: room:west_drain
+    monster: 11393
+    at: [-2560, -240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:west_drain_dire_rat_2
+    room: room:west_drain
+    monster: 11393
+    at: [-2240, 240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:west_drain_dire_rat_3
+    room: room:west_drain
+    monster: 11393
+    at: [-1600, -240]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:west_drain_dire_rat_4
+    room: room:west_drain
+    monster: 11393
+    at: [-1280, 240]
+    facing: 270
+    hostile: true
+    group: 1
+decorations:
+  - id: deco:barrel_1
+    room: room:cellar
+    decoration: bigbarel
+    at: [5792, -288]
+    notes: "Barrel (clicked: evt:barrel_1)."
+  - id: deco:barrel_2
+    room: room:cellar
+    decoration: bigbarel
+    at: [5792, -448]
+  - id: deco:felix_brazier
+    room: room:felix
+    decoration: brzier00
+    at: [-2768, -2720]
+    height: 236
+    hangs: true
+    notes: A brazier hung on its chains from the ceiling.
+  - id: deco:green_liquid
+    room: room:shaft_temple
+    decoration: dec35
+    at: [5632, 160]
+    floor_height: 128
+    notes: "Green Liquid (clicked: evt:green_liquid)."
+  - id: deco:guard_bones
+    room: room:shaft_north
+    decoration: dec05
+    at: [1920, 1984]
+    notes: "Bones (clicked: evt:guard_bones)."
+  - id: deco:midden_bones_1
+    room: room:midden
+    decoration: 7dec18
+    at: [5440, -2432]
+  - id: deco:midden_bones_2
+    room: room:midden
+    decoration: dec19
+    at: [6336, -2304]
+  - id: deco:midden_bones_3
+    room: room:midden
+    decoration: 7dec18
+    at: [5504, -2752]
+  - id: deco:nest_bones
+    room: room:rat_nest
+    decoration: dec19
+    at: [2688, -2880]
+  - id: deco:nest_straw_1
+    room: room:rat_nest
+    decoration: 7dec11
+    at: [2496, -2304]
+  - id: deco:nest_straw_2
+    room: room:rat_nest
+    decoration: 7dec11
+    at: [3456, -2880]
+  - id: deco:red_liquid
+    room: room:shaft_west
+    decoration: dec35
+    at: [-3456, 160]
+    floor_height: 128
+    notes: "Red Liquid (clicked: evt:red_liquid)."
+  - id: deco:rubble_1
+    room: room:rat_runs
+    decoration: 7dec10
+    at: [384, -3392]
+    notes: "Rubble (clicked: evt:rubble_1)."
+  - id: deco:rubble_2
+    room: room:rat_runs
+    decoration: 7dec01
+    at: [2304, -4256]
+    notes: "Rubble (clicked: evt:rubble_2)."
+  - id: deco:runs_bones
+    room: room:rat_runs
+    decoration: dec29
+    at: [256, -4352]
+  - id: deco:shiny_heap
+    room: room:rat_nest
+    decoration: trasheap
+    at: [3904, -2880]
+    notes: "Heap of shiny things (clicked: evt:shiny_heap)."
+  - id: deco:torch_0
+    room: room:cross
+    decoration: torch02
+    wall: n
+    along: 0.25
+    height: 192
+  - id: deco:torch_1
+    room: room:cross
+    decoration: torch02
+    wall: s
+    along: 0.75
+    height: 192
+  - id: deco:torch_10
+    room: room:valio
+    decoration: torch02
+    wall: n
+    along: 0.8
+    height: 192
+  - id: deco:torch_11
+    room: room:cellar
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:torch_2
+    room: room:cross
+    decoration: torch02
+    wall: e
+    along: 0.25
+    height: 192
+  - id: deco:torch_3
+    room: room:cross
+    decoration: torch02
+    wall: w
+    along: 0.75
+    height: 192
+  - id: deco:torch_4
+    room: room:sluice
+    decoration: torch02
+    wall: w
+    along: 0.5
+    height: 192
+  - id: deco:torch_5
+    room: room:sluice
+    decoration: torch02
+    wall: e
+    along: 0.3
+    height: 192
+  - id: deco:torch_6
+    room: room:west_drain
+    decoration: torch02
+    wall: s
+    along: 0.3
+    height: 192
+  - id: deco:torch_7
+    room: room:north_drain
+    decoration: torch02
+    wall: s
+    along: 0.7
+    height: 192
+  - id: deco:torch_8
+    room: room:east_drain
+    decoration: torch02
+    wall: n
+    along: 0.6
+    height: 192
+  - id: deco:torch_9
+    room: room:east_drain
+    decoration: torch02
+    wall: s
+    along: 0.2
+    height: 192
+exits:
+  - id: exit:hatch
+    room: room:shaft_square
+    wall: south
+    size: [128, 256]
+    surface: {texture: d1ladder, size: [128, 256]}
+    to: exit:d1_hatch
+    notes: The iron ladder up to the hatch by the square's south-east corner (D1).
+  - id: exit:outfall
+    room: room:outfall
+    wall: east
+    size: [320, 320]
+    surface: {texture: d1lggrt, size: [256, 256], scale: 1.25}
+    to: exit:d1_outfall
+    notes: "The outfall's iron grate onto the mill gorge (D1), barred until its bar is lifted."
+notes: "DD-01's contents, written by output/studio_cal/dd01/tools/dress.py: 7 doors, three movers (the culvert's water, the sluice gate, the floor grate), three levers (the sluice, the outfall bar, the grate's bolt), one ladder, five chests, 50 placed monsters (21 Dire Rats, 8 Vampire Bats, 10 Gremlins, 3 Saboteurs, 7 Wererats, Rooka) and Valio's hidden monster."

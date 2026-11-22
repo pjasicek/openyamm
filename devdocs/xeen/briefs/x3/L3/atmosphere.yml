@@ -1,0 +1,19 @@
+format: 0
+mist:
+  layer:
+    color_rgb: [150, 160, 150]
+    base_height: 900
+    falloff_height: 130
+    visibility: 5200
+    max_opacity: 0.7
+    noise: 0.45
+    noise_size: 2200
+    drift: [12, 5]
+  volumes:
+    - position: [18176, -4096, 1150]
+      radius: [6400, 7600, 700]
+      color_rgb: [138, 144, 150]
+      visibility: 1600
+      max_opacity: 0.8
+      noise: 0.35
+notes: "Cloudside's skies by the world's weather. A low swamp mist on the lagoon and the fens everywhere, and a thick fog volume over Nightshadow's hollow (the curse). After q-c7.done the sketch's load event evt:nightshadow_dawn lifts the whole mist (evt.SetMist(0); the script share is one for all layers, devdocs/MIST.md) and sets the overcast sky (evt.SetOutdoorSky(\"sky15\")), D-11.1."

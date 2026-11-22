@@ -1,0 +1,31 @@
+# Playtest of the Eastern Tower's way out (DD-07, L4; written by output/studio_cal/dd07/tools/gen_tests.py):
+# the west door (the exit preset) out to D3 by its named arrival entrance:dd07_door (A5's (15360, 9216, 1888),
+# facing west); the leave window's OK pressed; the landing measured with status().
+id: xeen.dd07.l4.exit
+title: Eastern Tower (DD-07 L4), the west door out to D3
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_dd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - walk_to: {x: -2660, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 28}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - advance_runtime: {seconds: 2.0}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 15360, y: 9216, radius: 160, z_min: 1860, z_max: 1920}}

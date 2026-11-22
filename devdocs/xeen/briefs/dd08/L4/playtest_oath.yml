@@ -1,0 +1,87 @@
+# Playtest of the Voweless oath (DD-08, L4; D-61 Q28): the four Voweless Knights (11925, actors 22-25, group 40) stand
+# hidden in the chapter hall's niches and the dark knights are hostile. Without the Chalice the plaque (evt:oath 43)
+# gives the hook's fail text. The voice answered "Chlc" (113342) opens the iron door; the Chalice taken; the plaque asks
+# "Swear the Voweless oath?": No does nothing, Yes calls q-d17.oath (113344): the Chalice is given back, the four
+# figures shown, every knight of the tower friendly (relations.yml xeen_voweless_knights after_qbit 113344). After a
+# save and a load: the figures still shown, the knights still friendly; the plaque then says the oath is sworn.
+# Numbers are ids.lock.yml's. Run with --world xeen (output/studio_cal/dd08/four.sh).
+id: xeen.dd08.l4.oath
+title: Northern Tower (DD-08 L4), the voice (Chlc), the Chalice and the oath, kept on a reload
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd08.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_dd08.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 22, monster_id: 11925, hidden: true}}
+  - assert: {actor_visible: {actor_index: 25, monster_id: 11925, hidden: true}}
+  - assert: {actor_count: {monster_id: 11150, hostile: true, min: 33, max: 33}}
+  - assert: {actor_count: {monster_id: 11151, hostile: true, min: 12, max: 12}}
+  - set_pose: {map: xeen_dd08.blv, x: -1500, y: 1000, z: 1344, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(1800); click(43); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "you have not got it"}}
+  - play_lua: {source: "close(); if qbit(113344) then error('oath set without the Chalice') end"}
+  # The voice: Chlc; the Chalice.
+  - set_pose: {map: xeen_dd08.blv, x: -256, y: 1700, z: 1344, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(54); wait(0.5)"}
+  - answer_input: {text: "Chlc"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Very Good!"}}
+  - play_lua: {source: "close(); wait(4); if door_state(8) ~= 'open' then error('the iron door did not open: ' .. door_state(8)) end"}
+  - walk_to: {x: 256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: 2300, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "close(); if not has_item(12525) then error('no Chalice') end"}
+  # The oath: No, then Yes.
+  - set_pose: {map: xeen_dd08.blv, x: -1792, y: 1000, z: 1344, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(43); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Swear the Voweless oath?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close(); if qbit(113344) then error('oath set on No') end; if not has_item(12525) then error('the Chalice went on No') end; click(43); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Swear the Voweless oath?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The knights come out of the walls."}}
+  - play_lua: {source: "close(); if not qbit(113344) then error('oath 113344 not set') end; if has_item(12525) then error('the Chalice was not given back') end; if not has_item(12334) then error('no Energy Disk') end; log('energy disks: item_count ' .. item_count(12334) .. ', pack ' .. tostring(pack_items()) .. ', held ' .. tostring(held()))"}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 22, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 23, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 24, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 25, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_count: {monster_id: 11925, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11150, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11151, hostile: true, max: 0}}
+  # A save and a load: the figures stay shown, the knights friendly.
+  - play_lua: {source: "close()"}
+  - reload: {}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if not qbit(113344) then error('oath lost on reload') end; log('reloaded')"}
+  - assert: {actor_visible: {actor_index: 22, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 23, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 24, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 25, monster_id: 11925, hidden: false, dead: false}}
+  - assert: {actor_count: {monster_id: 11150, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11151, hostile: true, max: 0}}
+  - play_lua: {source: "click(43); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Th nth s swrn."}}
+  - play_lua: {source: "close()"}

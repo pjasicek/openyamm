@@ -1,0 +1,468 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_xd08.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors: []
+  sprite_objects: []
+  chests: []
+  doors:
+    - door_index: 0
+      legacy_attributes: 0
+      door_id: 1
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1368, 1369, 1370, 1371, 1372, 1373, 1374, 1375]
+      face_ids: [1076, 1077]
+      sector_ids: [8]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [-116, -116, -116, -116, -140, -140, -140, -140]
+      y_offsets: [6528, 6784, 6784, 6528, 6528, 6784, 6784, 6528]
+      z_offsets: [-320, -320, 0, 0, 0, 0, -320, -320]
+    - door_index: 1
+      legacy_attributes: 0
+      door_id: 2
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1376, 1377, 1378, 1379, 1380, 1381, 1382, 1383]
+      face_ids: [1078, 1079]
+      sector_ids: [23]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [372, 372, 372, 372, 396, 396, 396, 396]
+      y_offsets: [3072, 2816, 2816, 3072, 3072, 2816, 2816, 3072]
+      z_offsets: [320, 320, 640, 640, 640, 640, 320, 320]
+    - door_index: 2
+      legacy_attributes: 0
+      door_id: 3
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1384, 1385, 1386, 1387, 1388, 1389, 1390, 1391]
+      face_ids: [1080, 1081]
+      sector_ids: [14]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [4468, 4468, 4468, 4468, 4492, 4492, 4492, 4492]
+      y_offsets: [1920, 1664, 1664, 1920, 1920, 1664, 1664, 1920]
+      z_offsets: [320, 320, 640, 640, 640, 640, 320, 320]
+    - door_index: 3
+      legacy_attributes: 0
+      door_id: 4
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1392, 1393, 1394, 1395, 1396, 1397, 1398, 1399]
+      face_ids: [1082, 1083]
+      sector_ids: [8]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [-116, -116, -116, -116, -140, -140, -140, -140]
+      y_offsets: [5248, 5504, 5504, 5248, 5248, 5504, 5504, 5248]
+      z_offsets: [-320, -320, 0, 0, 0, 0, -320, -320]
+    - door_index: 4
+      legacy_attributes: 0
+      door_id: 5
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 290
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407]
+      face_ids: [1084, 1085, 1086]
+      sector_ids: [19]
+      delta_us: [-4512, 4832, 0]
+      delta_vs: [-62, -62, 0]
+      x_offsets: [4512, 4832, 4832, 4512, 4512, 4832, 4832, 4512]
+      y_offsets: [4188, 4188, 4188, 4188, 4196, 4196, 4196, 4196]
+      z_offsets: [-350, -350, -62, -62, -62, -62, -350, -350]
+    - door_index: 5
+      legacy_attributes: 0
+      door_id: 6
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 290
+      open_speed: 128
+      close_speed: 128
+      state: 0
+      vertex_ids: [1408, 1409, 1410, 1411, 1412, 1413, 1414, 1415]
+      face_ids: [1087, 1088, 1089]
+      sector_ids: [4]
+      delta_us: [-4512, 4832, 0]
+      delta_vs: [578, 578, 0]
+      x_offsets: [4512, 4832, 4832, 4512, 4512, 4832, 4832, 4512]
+      y_offsets: [3612, 3612, 3612, 3612, 3620, 3620, 3620, 3620]
+      z_offsets: [290, 290, 578, 578, 578, 578, 290, 290]
+    - door_index: 6
+      legacy_attributes: 0
+      door_id: 7
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 316
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1416, 1417, 1422, 1423]
+      face_ids: [1090, 1091, 1092]
+      sector_ids: [15]
+      delta_us: [-2816, 3072, 0]
+      delta_vs: [636, 636, 0]
+      x_offsets: [2816, 3072, 3072, 2816]
+      y_offsets: [3444, 3444, 3468, 3468]
+      z_offsets: [316, 316, 316, 316]
+    - door_index: 7
+      legacy_attributes: 0
+      door_id: 8
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 386
+      open_speed: 48
+      close_speed: 48
+      state: 2
+      vertex_ids: [1424, 1425, 1426, 1427, 1428, 1429, 1430, 1431]
+      face_ids: [1093, 1094, 1095]
+      sector_ids: [18]
+      delta_us: [0, 0, 0]
+      delta_vs: [0, 0, 0]
+      x_offsets: [1472, 1856, 1856, 1472, 1472, 1856, 1856, 1472]
+      y_offsets: [7288, 7288, 7288, 7288, 7304, 7304, 7304, 7304]
+      z_offsets: [-254, -254, 130, 130, 130, 130, -254, -254]
+    - door_index: 8
+      legacy_attributes: 0
+      door_id: 9
+      time_since_triggered_ms: 0
+      direction: [65536, 0, 0]
+      move_length: 224
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443]
+      face_ids: [1096, 1097, 1098, 1099]
+      sector_ids: [2]
+      delta_us: [0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0]
+      x_offsets: [-576, -352, -352, -576, -576, -352, -352, -576, -354, -354, -354, -354]
+      y_offsets: [11636, 11636, 11636, 11636, 11660, 11660, 11660, 11660, 11636, 11660, 11660, 11636]
+      z_offsets: [-1280, -1280, -832, -832, -832, -832, -1280, -1280, -1280, -1280, -832, -832]
+    - door_index: 9
+      legacy_attributes: 0
+      door_id: 10
+      time_since_triggered_ms: 0
+      direction: [-65536, 0, 0]
+      move_length: 224
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1444, 1445, 1446, 1447, 1448, 1449, 1450, 1451, 1452, 1453, 1454, 1455]
+      face_ids: [1100, 1101, 1102, 1103]
+      sector_ids: [2]
+      delta_us: [0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0]
+      x_offsets: [96, 320, 320, 96, 96, 320, 320, 96, 98, 98, 98, 98]
+      y_offsets: [11636, 11636, 11636, 11636, 11660, 11660, 11660, 11660, 11636, 11660, 11660, 11636]
+      z_offsets: [-1280, -1280, -832, -832, -832, -832, -1280, -1280, -832, -832, -1280, -1280]
+    - door_index: 10
+      legacy_attributes: 0
+      door_id: 11
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 320
+      open_speed: 128
+      close_speed: 128
+      state: 2
+      vertex_ids: [1456, 1457, 1458, 1459, 1460, 1461, 1462, 1463]
+      face_ids: [1104, 1105]
+      sector_ids: [22]
+      delta_us: [0, 0]
+      delta_vs: [0, 0]
+      x_offsets: [-384, -128, -128, -384, -384, -128, -128, -384]
+      y_offsets: [2420, 2420, 2420, 2420, 2444, 2444, 2444, 2444]
+      z_offsets: [320, 320, 640, 640, 640, 640, 320, 320]
+    - door_index: 11
+      legacy_attributes: 0
+      door_id: 12
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 640
+      open_speed: 160
+      close_speed: 160
+      state: 0
+      vertex_ids: [1464, 1465, 1466, 1467, 1468, 1469, 1470, 1471, 1472, 1473, 1474, 1475, 1476, 1477, 1478, 1479, 1480, 1481, 1482, 1483, 1484, 1485, 1486, 1487, 1488, 1489, 1490, 1491, 1492, 1493, 1494, 1495, 1496, 1497, 1498, 1499, 1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550, 1551, 1552, 1553, 1554, 1555]
+      face_ids: [1106, 1107, 1108, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139, 1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150, 1151, 1152, 1153, 1154, 1155, 1156, 1157, 1158, 1159, 1160, 1161, 1162, 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1177]
+      sector_ids: [19]
+      delta_us: [-4420, -3652, 4924, 4156, -4352, -4352, -4424, -3660, 4432, 4148, -4352, -4912, -3660, 4920, 4148, -4864, -4420, -3652, 4436, 3668, -4352, -4420, -4140, 4436, 4156, -4352, -4908, -3652, 4924, 3668, -4864, -4908, -4140, 4924, 4156, -4864, -4436, -3652, 4908, 3668, -4352, -4352, -4436, -4140, 4908, 4156, -4352, -4352, -4420, -3676, 4436, 4132, -4352, -4352, -4908, -3676, 4924, 4132, -4864, -4864, -4436, -3900, 4908, 3908, -4352, -4352, -4668, -3900, 4676, 3908, -4608, -4608]
+      delta_vs: [-638, -638, -638, -638, 4224, 4224, -318, -318, -318, -318, 4224, -318, -318, -318, -318, 4224, -302, -302, -302, -302, 3712, -302, -302, -302, -302, 4224, -302, -302, -302, -302, 3712, -302, -302, -302, -302, 4224, -302, -302, -302, -302, 3712, 3712, -302, -302, -302, -302, 4224, 4224, -302, -302, -302, -302, 4224, 4224, -302, -302, -302, -302, 4224, 4224, -286, -286, -286, -286, 3968, 3968, 634, 634, 634, 634, 3968, 3968]
+      x_offsets: [4924, 4420, 4420, 4924, 4924, 4924, 4420, 4420, 4432, 4424, 4424, 4432, 4432, 4432, 4424, 4424, 4920, 4912, 4912, 4920, 4920, 4920, 4912, 4912, 4436, 4420, 4436, 4436, 4436, 4420, 4420, 4436, 4420, 4420, 4436, 4436, 4436, 4420, 4924, 4908, 4908, 4924, 4924, 4908, 4908, 4924, 4908, 4908, 4924, 4924, 4908, 4908, 4436, 4908, 4908, 4436, 4436, 4908, 4908, 4436, 4436, 4420, 4420, 4436, 4436, 4436, 4420, 4420, 4924, 4908, 4908, 4924, 4924, 4924, 4908, 4908, 4908, 4436, 4436, 4908, 4908, 4908, 4436, 4436, 4676, 4668, 4668, 4676, 4676, 4676, 4668, 4668]
+      y_offsets: [3652, 3652, 3652, 3652, 4156, 4156, 4156, 4156, 3660, 3660, 3660, 3660, 4148, 4148, 4148, 4148, 3660, 3660, 3660, 3660, 4148, 4148, 4148, 4148, 3652, 3652, 3652, 3668, 3668, 3668, 3668, 4140, 4140, 4140, 4140, 4156, 4156, 4156, 3652, 3652, 3652, 3668, 3668, 3668, 3668, 4140, 4140, 4140, 4140, 4156, 4156, 4156, 3652, 3652, 3668, 3668, 4140, 4140, 4156, 4156, 3676, 3676, 3676, 3676, 4132, 4132, 4132, 4132, 3676, 3676, 3676, 3676, 4132, 4132, 4132, 4132, 3900, 3900, 3900, 3900, 3908, 3908, 3908, 3908, 3900, 3900, 3900, 3900, 3908, 3908, 3908, 3908]
+      z_offsets: [-638, -638, -654, -654, -638, -654, -638, -654, -318, -318, -638, -638, -318, -638, -318, -638, -318, -318, -638, -638, -318, -638, -318, -638, -302, -302, -638, -302, -638, -302, -638, -302, -302, -638, -638, -302, -638, -302, -302, -302, -638, -302, -638, -302, -638, -302, -302, -638, -638, -302, -302, -638, -318, -318, -318, -318, -318, -318, -318, -318, -302, -302, -318, -318, -302, -318, -302, -318, -302, -302, -318, -318, -302, -318, -302, -318, -286, -286, -302, -302, -286, -302, -286, -302, 634, 634, -286, -286, 634, -286, 634, -286]
+    - door_index: 12
+      legacy_attributes: 0
+      door_id: 13
+      time_since_triggered_ms: 0
+      direction: [0, 65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563]
+      face_ids: [1178, 1179, 1180, 1181, 1182]
+      sector_ids: [3]
+      delta_us: [-4209, 4976, 4225, -4928, -4928]
+      delta_vs: [-528, -528, -528, 4241, 4241]
+      x_offsets: [4976, 4976, 4976, 4976, 4944, 4944, 4944, 4944]
+      y_offsets: [4225, 4209, 4209, 4225, 4225, 4225, 4209, 4209]
+      z_offsets: [-528, -528, -560, -560, -528, -560, -528, -560]
+      mover:
+        carry: true
+    - door_index: 13
+      legacy_attributes: 0
+      door_id: 14
+      time_since_triggered_ms: 0
+      direction: [0, -65536, 0]
+      move_length: 15
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [1564, 1565, 1566, 1567, 1568, 1569, 1570, 1571]
+      face_ids: [1183, 1184, 1185, 1186, 1187]
+      sector_ids: [4]
+      delta_us: [3599, -5200, -3583, -5184, -5184]
+      delta_vs: [112, 112, 112, 3599, 3599]
+      x_offsets: [5200, 5200, 5200, 5200, 5232, 5232, 5232, 5232]
+      y_offsets: [3583, 3599, 3599, 3583, 3583, 3583, 3599, 3599]
+      z_offsets: [112, 112, 80, 80, 112, 80, 112, 80]
+      mover:
+        carry: true
+    - door_index: 14
+      legacy_attributes: 0
+      door_id: 15
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 16
+      open_speed: 50
+      close_speed: 50
+      state: 2
+      vertex_ids: [1572, 1573, 1574, 1575, 1576, 1577, 1578, 1579]
+      face_ids: [1188, 1189, 1190, 1191, 1192, 1193]
+      sector_ids: [5]
+      delta_us: [1028, 3320, -1020, -3288, -896, -896]
+      delta_vs: [108, 108, 108, 108, 3328, 3328]
+      x_offsets: [1020, 1028, 1028, 1020, 1020, 1020, 1028, 1028]
+      y_offsets: [3320, 3320, 3320, 3320, 3288, 3288, 3288, 3288]
+      z_offsets: [108, 108, 104, 104, 108, 104, 108, 104]
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [0, 384, 0]
+    direction_degrees: 90
+loot_containers:
+  - source_id: xeen:xeen_xd08:barracks
+    source_object_index: 0
+    source_name: barracks
+    position:
+      x: -1392
+      y: 7056
+      z: -640
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 300
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd08:great_coffin
+    source_object_index: 1
+    source_name: great_coffin
+    position:
+      x: 2176
+      y: 9040
+      z: -640
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 500
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items:
+      - slot: 1
+        raw_mm9_item_id: 0
+        item_id: 12192
+      - slot: 2
+        raw_mm9_item_id: 0
+        item_id: 12192
+      - slot: 3
+        raw_mm9_item_id: 0
+        item_id: 12192
+      - slot: 4
+        raw_mm9_item_id: 0
+        item_id: 12192
+      - slot: 5
+        raw_mm9_item_id: 0
+        item_id: 12192
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd08:hoard
+    source_object_index: 2
+    source_name: hoard
+    position:
+      x: 704
+      y: 13632
+      z: -1280
+    container_id: 2
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 3
+    treasure_type: 0
+    gold: 2500
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 4
+  - source_id: xeen:xeen_xd08:stocks
+    source_object_index: 3
+    source_name: stocks
+    position:
+      x: -2880
+      y: 3600
+      z: 0
+    container_id: 3
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 200
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd08:west_mourning
+    source_object_index: 4
+    source_name: west_mourning
+    position:
+      x: -1440
+      y: 2700
+      z: 0
+    container_id: 4
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 250
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+ambient_sounds:
+  - key: 1
+    sound: torch loop
+    position: [-128, 12864, -1216]
+    inner_radius: 500
+    outer_radius: 1800
+    volume: 0.5
+    loop: true
+    start_on: true
+  - key: 2
+    sound: drip02
+    position: [-128, 9344, -1216]
+    inner_radius: 375
+    outer_radius: 1500
+    volume: 0.6
+    loop: true
+    wait: [3, 8]
+    start_on: true
+  - key: 3
+    sound: bubbling cauldron01
+    position: [-896, 5376, -496]
+    inner_radius: 400
+    outer_radius: 1300
+    volume: 0.5
+    loop: true
+    start_on: true
+  - key: 4
+    sound: drip03
+    position: [1664, 5504, -576]
+    inner_radius: 325
+    outer_radius: 1300
+    volume: 0.5
+    loop: true
+    wait: [4, 11]
+    start_on: true
+  - key: 5
+    sound: drip02
+    position: [2944, 6016, -576]
+    inner_radius: 350
+    outer_radius: 1400
+    volume: 0.6
+    loop: true
+    wait: [3, 9]
+    start_on: true

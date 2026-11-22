@@ -1,0 +1,59 @@
+# Dimitri's Songbird (A3, segment 57 -> 59): with full packs and the Songbird (12526) on the cursor, the topic's
+# evt.GiveItem(5, 0) put its reward on the cursor and the Songbird fell before the party (MM6-MM8's rule; A3's check
+# looked only in the packs). This checks that rule in a Xeen dungeon, and what an item that may not be dropped does
+# (the Xeen Slayer Sword 12500, NoDrop; merge point 32): it stays on the cursor and the given item goes to the ground;
+# a given item that may not be dropped either waits until there is room, then comes to the cursor as the sword goes to
+# the packs. Needs assets_dev's Xeen world (git-ignored). A1.
+id: xeen.given_item_held_kept
+title: "evt.GiveItem with full packs: a held item falls to the ground, a NoDrop one stays and the given item waits"
+world: xeen
+mode: faithful
+tags: [xeen, items, events, regression]
+steps:
+  - new_game_flow: {start_map: xeen_dd03.blv}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - lua_event: {source: "for i = 1, 200 do evt.GiveItem(220) end"}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        stow()
+        if held() ~= 220 then error("the packs are not full: held " .. held()) end
+        remember('packed', item_count(220)); remember('ground', ground_items(220))
+  # The Songbird on the cursor, then Dimitri's reward: the Songbird falls before the party.
+  - lua_event: {source: "evt.GiveItem(12526)"}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.GiveItem(5, 0)"}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        log('the reward ' .. held())
+        if held() == 0 or held() == 12526 then error("the reward is not on the cursor: held " .. held()) end
+        if ground_items(12526) ~= 1 then error("the Songbird is not on the ground: " .. ground_items(12526)) end
+        if ground_items(220) ~= recall('ground') + 1 then error("the held bottle did not fall") end
+  # The NoDrop sword on the cursor (the reward falls), then a bottle: the sword stays, the bottle falls.
+  - lua_event: {source: "evt.GiveItem(12500)"}
+  - advance_runtime: {seconds: 1}
+  - lua_event: {source: "evt.GiveItem(220)"}
+  - advance_runtime: {seconds: 2}
+  - play_lua:
+      source: |
+        if held() ~= 12500 then error("the sword left the cursor: held " .. held()) end
+        if ground_items(12500) ~= 0 then error("the NoDrop sword lies on the ground") end
+        if ground_items(220) ~= recall('ground') + 2 then error("the given bottle did not fall: " .. ground_items(220)) end
+        if item_count(220) ~= recall('packed') then error("the packs changed") end
+  # A second sword: it can neither be held nor dropped, so it waits; room in the packs lets both in.
+  - lua_event: {source: "evt.GiveItem(12500)"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if held() ~= 12500 or item_count(12500) ~= 0 or ground_items(12500) ~= 0 then
+          error("the waiting sword went somewhere: held " .. held() .. ", packs " .. item_count(12500))
+        end
+        for _ = 1, 24 do discard(220) end
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        if held() ~= 12500 or item_count(12500) ~= 1 then
+          error("the swords did not come in: held " .. held() .. ", packs " .. item_count(12500))
+        end

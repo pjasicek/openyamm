@@ -1,0 +1,76 @@
+# Xeen side quest Q-C20, the Bone Whistle (X1), from a new game. Orothin the Hermit (outdoors by the delta pond)
+# lost the whistle that wakes his statues; it lies in the mud of Pitchfork Creek. Asked, found, returned; the statues
+# then give the Cure Poison and Cure Disease books once each, and repel the party before. Outdoors the party is
+# placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2). Quest logic: source/quests/q-c20.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c20_bone_whistle.yml
+id: xeen.side_quests.q-c20
+title: "Xeen Q-C20: Orothin's bone whistle wakes his statues"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 5, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 5, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 5, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 5, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - press_action: {action: cancel_dialog}
+  # A statue before the whistle: it repels the party.
+  - set_pose: {map: xeen_x1.odm, x: 3072, y: -1224, z: 576, yaw: 1.5708, pitch: 0.0}
+  - play_lua: {source: "click(81); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The statue repels you]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if has_item(471) then error('the sleeping statue gave its book') end"}
+  # Orothin: Whistle (Q-C20 started).
+  - set_pose: {map: xeen_x1.odm, x: -205, y: -507, z: 576, yaw: 1.5708, pitch: 0.0}
+  - interact_actor: {actor_index: 76}   # Orothin (NPC 4047), the scene's actor 76 (fuller X1)
+  - select_topic: {match_label: Whistle}
+  - assert:
+      dialog: {text_contains: "I lost the bone whistle"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112400]}
+  # The mud of Pitchfork Creek: the whistle.
+  - set_pose: {map: xeen_x1.odm, x: -14336, y: 7173, z: 576, yaw: 1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        click(254); wait(1)
+        close()
+        if held() ~= 0 then stow() end
+        if not has_item(12308) then error("no bone whistle in the creek mud") end
+  # Orothin takes it (Q-C20 done).
+  - set_pose: {map: xeen_x1.odm, x: -205, y: -507, z: 576, yaw: 1.5708, pitch: 0.0}
+  - interact_actor: {actor_index: 76}   # Orothin (NPC 4047), the scene's actor 76 (fuller X1)
+  - select_topic: {match_label: Whistle}
+  - assert:
+      dialog: {text_contains: "I'll activate the statues now"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112402]}
+  - assert: {qbit_clear: [112400]}
+  - play_lua: {source: "if has_item(12308) then error('Orothin did not take the whistle') end"}
+  # The statues: one book each, once.
+  - set_pose: {map: xeen_x1.odm, x: 3072, y: -1224, z: 576, yaw: 1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        click(81); wait(1); close()
+        if held() ~= 0 then stow() end
+        if not has_item(471) then error("the north statue did not give Cure Poison") end
+        click(81); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(471) ~= 1 then error("the north statue gave twice") end
+  - set_pose: {map: xeen_x1.odm, x: 512, y: -1736, z: 576, yaw: 1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        click(80); wait(1); close()
+        if held() ~= 0 then stow() end
+        if not has_item(473) then error("the south statue did not give Cure Disease") end
+  - assert: {qbit_set: [112403, 112404]}

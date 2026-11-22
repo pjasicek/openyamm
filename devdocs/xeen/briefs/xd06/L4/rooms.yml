@@ -60,7 +60,7 @@ rooms:
     ceiling: 768
     theme: theme:temple
     platforms:
-      - {at: [2000, 4224], size: [128, 512], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A side altar against the east wall.}
+      - {at: [1760, 3664], size: [512, 128], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: "A side altar against the south wall (moved 2026-11-20 from before the vestry doorway: the dressing rule)."}
     ambient: 22
     notes: "The mirror of the west chapel off the nave's east wall; a doorway east into the vestry."
   - id: room:chapel_w
@@ -74,7 +74,7 @@ rooms:
         panels:
           - {id: panel:plaque_w, offset: 186, length: 128, bottom: 58, height: 128, surface: {texture: t6s1c, size: [128, 128]}, notes: "A carved square of the temple's coffer stone behind the lever, so that it shows against the brick."}
     platforms:
-      - {at: [-2000, 4224], size: [128, 512], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: A side altar against the west wall.}
+      - {at: [-1760, 3664], size: [512, 128], rise: 96, surface: {texture: t4s1fl, size: [128, 128]}, top_surface: {texture: t4s1fl, size: [128, 128]}, notes: "A side altar against the south wall (moved 2026-11-20 from before the refectory doorway: the dressing rule)."}
     ambient: 22
     notes: "A side chapel off the nave's west wall, 832 by 1,280; the lever for the west bar of the treasury gate on its north wall; a doorway west into the refectory."
   - id: room:crypt
@@ -98,12 +98,12 @@ rooms:
     ceiling: 576
     theme: theme:temple
     platforms:
-      - {id: platform:bed_00, at: [-3648, 2624], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
-      - {id: platform:bed_01, at: [-2432, 2624], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
-      - {id: platform:bed_10, at: [-3648, 2944], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
-      - {id: platform:bed_11, at: [-2432, 2944], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
-      - {id: platform:bed_20, at: [-3648, 3264], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
-      - {id: platform:bed_21, at: [-2432, 3264], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_00, at: [-3648, 2560], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_01, at: [-2432, 2752], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_10, at: [-3648, 2752], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_11, at: [-2432, 3008], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_20, at: [-2432, 3264], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
+      - {id: platform:bed_21, at: [-2432, 3520], size: [256, 128], rise: 40, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A cleric's cot against the wall.}
     ambient: 24
     notes: "The clerics' dormitory, 1,600 by 1,152: six cots along the side walls. A secret door in the west wall to a hidden cell."
   - id: room:far_bank
@@ -135,9 +135,9 @@ rooms:
         panels:
           - {id: panel:plaque_e, offset: 512, length: 128, bottom: 58, height: 128, surface: {texture: t6s1c, size: [128, 128]}, notes: A carved square of coffer stone behind the lever.}
     platforms:
-      - {at: [3040, 2592], size: [1280, 96], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Bookcases along the south wall (d04's 7t1books1).}
-      - {at: [2640, 3120], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: A free-standing bookcase.}
-      - {at: [3200, 3120], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [3360, 2592], size: [800, 96], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Bookcases along the south wall east of the passage's doorway.}
+      - {at: [2304, 3328], size: [96, 384], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Bookcases along the west wall's north half (the torch above the wall's middle stays clear).}
+      - {at: [3168, 3120], size: [96, 384], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: "A free-standing bookcase, off the ways from both doorways to the button."}
     ambient: 22
     notes: "The cult's library, 1,600 by 1,152: bookcases; the lever for the east bar of the treasury gate on its east wall; a chest of the clerics' scrolls."
   - id: room:lich_crypt
@@ -159,7 +159,7 @@ rooms:
     platforms:
       - {id: platform:master_bed, at: [2560, 12480], size: [256, 384], rise: 48, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: The Yak Master's bed against the east wall (d04's bed sheets and frames).}
       - {at: [2240, 12800], size: [512, 96], rise: 256, surface: {texture: 7t1cab, size: [128, 256]}, top_surface: {texture: t6s1c, size: [128, 128]}, notes: Robe cabinets along the north wall (d04's bedchamber has its 7t1cab cabinets so).}
-      - {id: platform:master_table, at: [2176, 12352], size: [256, 160], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A table with a candle.}
+      - {id: platform:master_table, at: [2176, 12240], size: [256, 160], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "A table with a candle by the south wall, off the doorway's axis."}
     ambient: 22
     notes: "The Yak Master's cell east of the sanctum: his bed and his hoard."
   - id: room:master_stair
@@ -257,12 +257,12 @@ rooms:
     ceiling: 640
     theme: theme:temple
     platforms:
-      - {at: [-3264, 4448], size: [256, 1024], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: The long table.}
-      - {at: [-3520, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, west"}
-      - {at: [-3008, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, east"}
-      - {id: platform:crate, at: [-2368, 4672], size: [128, 128], rise: 128, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7gt001a, size: [64, 64]}, notes: "A crate of d04's riveted boards among the casks (empty: the source's line)."}
+      - {at: [-3488, 4448], size: [256, 1024], rise: 72, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "The long table, in the west half (off the way from the dormitory door to the stair)."}
+      - {at: [-3744, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, west"}
+      - {at: [-3232, 4448], size: [96, 896], rise: 40, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: "Bench, east"}
+      - {id: platform:crate, at: [-2336, 5152], size: [128, 128], rise: 128, surface: {texture: 7gt001a, size: [64, 64]}, top_surface: {texture: 7gt001a, size: [64, 64]}, notes: "A crate of d04's riveted boards in the north-east corner beside a cask (empty: the source's line)."}
     ambient: 22
-    notes: "The clerics' refectory, 1,600 square: a long table with benches, casks along the east wall; the west stair to the undercroft leaves from its north wall."
+    notes: "The clerics' refectory, 1,600 square: a long table with benches in its west half, casks and a crate in its east corners; the west stair to the undercroft leaves from its north wall."
   - id: room:reliquary
     name: Reliquary
     outline: [[256, 13760], [768, 13760], [768, 14272], [256, 14272]]

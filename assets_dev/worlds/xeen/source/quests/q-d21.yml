@@ -1,0 +1,54 @@
+# Q-D21 Ector's Ring (QUESTS 2.2 Q-D21; the source's E2 and E1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Ector the Woodsman (D4, the Forest of Peril) lost his ring in a woodpile on Magic Mountain (D4's woodpile, A6). The
+# source pays an obsidian battleaxe and 500,000 experience; here 3,000 (D-16) and a treasure-level item, and Ector lets
+# the party keep the ring (A2's artifact 12522). Ector is A4's 5320 (towns/d4.yml).
+id: Q-D21
+title: Ector's Ring
+act: IV
+kind: side
+status: full
+giver: 5320          # Ector the Woodsman (D4, the Forest of Peril)
+maps: [D4]
+level: 30
+block: 101
+after: []
+source: "QUESTS Q-D21; research/MM5_DARKSIDE_CONTENT.md (Ector E2(3,12), the woodpile E1(11,12))"
+
+qbits:
+  started: {id: 113420, journal: "Ector the Woodsman lost his ring in a woodpile on Magic Mountain.", until: [done]}
+  found: {id: 113421, note: "D4's woodpile (A6)"}
+  done: {id: 113422, note: "Ector let the party keep the ring"}
+
+items:
+  ectors_ring: "the woodpile on Magic Mountain gives it; Ector looks at it and lets the party keep it"
+
+hooks:
+  woodpile:
+    map: D4
+    where: "Ector's woodpile on Magic Mountain (clickable)"
+    requires: {qbit: started}
+    sets: [found]
+    gives: [ectors_ring]
+    once: true
+    text: "Under the third log you find a heavy iron ring, warm to the touch."
+    fail_text: "Firewood, stacked by someone who cared about stacking."    # before Ector asks (the hook said nothing)
+    else_text: "Firewood, stacked by someone who cared about stacking."
+
+npcs:
+  5320:              # Ector
+    topics:
+      - n: 1
+        label: The ring
+        states:
+          - when: {qbit: done}
+            text: "Wear it in good health. It makes sure you have plenty."
+          - when: {item: ectors_ring}
+            text: "That's it. I took it off to split wood and the mountain kept it. You know, it never did fit me after I got it back the last time. Keep it. And take this for the climb."
+            do: [{set: done}, {xp: 3000}, {treasure: 5}]
+          - when: {qbit: started}
+            text: "The woodpile on Magic Mountain, by the wizards' camp. Third log, if I remember right. I never remember right."
+          - text: "I took my ring off to split wood up on Magic Mountain, and now it's somewhere in the woodpile. Fetch it and I'll make it worth the walk."
+            do: [{set: started}]
+
+rewards: {xp: 3000, gold: 0, items: "Ector's Ring (kept), item T5"}
+playthrough: "D4: Ector (The ring). Magic Mountain: the woodpile. Ector (The ring)."

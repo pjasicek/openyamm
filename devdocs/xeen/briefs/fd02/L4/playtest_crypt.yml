@@ -1,0 +1,34 @@
+# D-57 FD-02 APPROVAL and D-32: the Dragon Mummy (11672, 450 high, flies) is kept below by the crypt steps' 288-high arch.
+# The party (immortal) stands in the canopic chamber at the arch's mouth, in the dragons' sight, for 60 s: all six are
+# still in the crypt and the stalls, none in the canopic chamber or the Preservation Rooms.
+id: xeen.fd02.l4.crypt
+title: "Southern Sphinx (FD-02 L4), the Dragon Mummies stay in the crypt and the stalls (D-57, D-32)"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_fd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 59, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 59, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 59, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 59, skills: [], equipment: {}}
+  - assert: {map: xeen_fd02.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - set_pose: {map: xeen_fd02.blv, x: -6000, y: 0, z: -256, yaw: 3.1416, pitch: -0.3}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 1200}
+  - assert: {actor_count: {monster_id: 11672, near: [-7360, 0, 1300], min: 4}}
+  - assert: {actor_count: {monster_id: 11672, near: [-9280, 0, 900], min: 2}}
+  - advance_runtime: {seconds: 30}
+  - play_lua: {source: "log('after 30 s: ' .. tostring(status()))"}
+  - advance_runtime: {seconds: 30}
+  - assert: {actor_count: {monster_id: 11672, near: [-5824, 0, 700], max: 0}}
+  - assert: {actor_count: {monster_id: 11672, near: [-5056, 384, 600], max: 0}}
+  - assert: {actor_count: {monster_id: 11672, near: [-5056, -384, 600], max: 0}}
+  - assert: {actor_count: {monster_id: 11672, near: [-2112, 0, 1300], max: 0}}
+  - assert: {actor_count: {monster_id: 11672, near: [-8100, 0, 2000], min: 6}}

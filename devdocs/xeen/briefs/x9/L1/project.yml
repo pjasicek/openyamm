@@ -1,0 +1,59 @@
+format: 0
+id: xeen_x9
+name: Clouds of Xeen
+world: xeen
+kind: indoor
+profile: region
+map_code: X9
+units: {plan_grid: 512}
+extent: {footprint_cells: [96, 90]}
+map_stats:
+  id: 9107
+  encounter_chance: 0
+  treasure_level: 5
+  trap_dice: 5
+  perception_difficulty: 5
+  refill_days: 672
+  music: 21
+  environment: plains
+  lock_difficulty: 10
+  slots:
+    - {monster: Xeen Roc, tier: 1, per_marker: [2, 3], weight: 80}
+    - {monster: Xeen Elemental Golem, tier: 2, per_marker: [1, 3], weight: 20}
+neighbours:
+  - id: door:xd19
+    to: xeen_xd19.blv
+    kind: door
+    notes: "Castle Xeen's gate into XD-19's entrance:x9_gate (A7); XD-19's exit and the scepter's leave come back to entrance:xd19_gate."
+  - id: fall:x2
+    to: xeen_x2.odm
+    kind: fall
+    notes: "Every fall lands on X2 at (-15360, 3072) (cell [34.0, 58.0]), Darzog's island between the tower's east door and the jetty, ground 768, facing east, with falling damage (a level-46 party loses little; Feather Fall none)."
+  - id: roof:fd04
+    to: xeen_fd04.blv
+    kind: roof
+    listed_only: true
+    notes: "Q-F1 (Act VI, optional): the Dragon Tower roof to the Dragon Clouds. Sealed until FD-04 exists."
+  - id: roof:xd12
+    to: xeen_xd12.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-12's cloud stair (A8's exit:clouds_of_xeen, sealed until X9 exists) arrives at entrance:xd12_roof. No way back down but falling or Lloyd's Beacon."
+qbits:
+  m21_crodo_freed: 110501
+  m34_done: 111685
+  m35_done: 111707
+items:
+  accuracy_doll: 12370
+  endurance_doll: 12369
+  lord_xeen_doll: 12371
+  might_doll: 12367
+  speed_doll: 12368
+rules:
+  no_fly: true
+  weather: none
+  fall_through:
+    below: -1000
+    landing: [-15360, 3072]
+    to: fall:x2
+notes: "X9 Clouds of Xeen, MU-3 plan for the phase 5 review (A5, 2026-11-20): an open-air BLV region (devdocs/INDOOR_OPEN_SKY.md; X8 Cloudreach's route, briefs/x8/L4/NOTES.md) of walkable clouds above X2. Islands are plan spaces with `at` (map units, the middle) and `extent`. The drawing and review board: output/studio_cal/x9/mockups/."

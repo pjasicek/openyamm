@@ -1,0 +1,797 @@
+format: 0
+level: L1
+pitch: "Sheltem's fortress of teal Ancient steel on its mesa. Four conveyor belts carry the party one way to four Lava Heads, each powering an energy field on the floor above; behind the fields four element sundials, set to nine, raise four bridges over the ring chasms to the true-name gate; behind the gate a lift rises to the trapdoor deck and Command Central, where Corak comes out of the Soul Box to face Sheltem."
+purpose: "Story M33 (QUESTS.md): the arrival needs Corak's Soul Box (m33.arrival); the four Heads, the four sundials (Xeen.alamarSundial), the true-name gate (Sheltem), the lift, the dais (m33.sheltem), the self-destruct cinematic and the leave to D6. Q-D26's roof hatch to D7. Class L, party 52-55, monsters 50-75."
+mood: "Machine hum, green grids and teal steel lit from within; the dial hall's chasms glow in their elements' colours; every window looks at you."
+datum: arrival
+spaces:
+  - id: room:antechamber
+    name: Antechamber
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "Before Command Central's two leaves (hover 'Command Central', aaze0051:3); the strongroom's door."
+    empty: true
+  - id: room:barracks
+    name: Robot barracks
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Dead end with a chest: charging racks along the walls."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:bay_ne
+    name: North-east bay
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Corner; the air field closes its sundial."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:bay_nw
+    name: North-west bay
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Corner; the fire field closes its sundial."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:bay_se
+    name: South-east bay
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Corner; the earth field closes its sundial."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:bay_sw
+    name: South-west bay
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Corner of the outer walk; the water field closes the sundial alcove."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:belt_air
+    name: Air belt
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: Conveyor hall.
+    empty: true
+  - id: room:belt_air_end
+    name: Air belt's end
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The air belt's last stretch.
+    empty: true
+  - id: room:belt_earth
+    name: Earth belt
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: Conveyor hall.
+    empty: true
+  - id: room:belt_earth_end
+    name: Earth belt's end
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The earth belt's last stretch.
+    empty: true
+  - id: room:belt_fire
+    name: Fire belt
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Conveyor hall: the mouth plate carries the party to the far end (D-61 Q11); walking back carries it forward again."
+    empty: true
+  - id: room:belt_fire_end
+    name: Fire belt's end
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "The fire belt's last stretch before the Head, where the ride sets the party down."
+    empty: true
+  - id: room:belt_water
+    name: Water belt
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Conveyor hall, as the fire belt."
+    empty: true
+  - id: room:belt_water_end
+    name: Water belt's end
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The water belt's last stretch.
+    empty: true
+  - id: room:command
+    name: Command Central
+    kind: room
+    size: L
+    floor: 1280
+    purpose: "Sheltem's throne on a dais under the screens; the dais plate asks 'Before the throne. Open the Soul Box?' first; Yes: m33.sheltem, the cinematic (Sheltem and Corak shown), the leave to D6."
+    empty: true
+  - id: room:command_apse
+    name: "Command Central, the throne apse"
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "Sheltem's throne on its dais under the bank of machines; Sheltem and Corak placed hidden."
+    empty: true
+  - id: room:command_bay
+    name: "Command Central, the machine bay"
+    kind: room
+    size: S
+    floor: 1280
+    purpose: Consoles and screens at Command Central's east end.
+    empty: true
+  - id: room:deck
+    name: Command deck
+    kind: room
+    size: L
+    floor: 1280
+    purpose: "Over the dial hall: six hatched plates (xatrapplt) are trapdoors to the chasm floor (1,280); the first by the lift head has a hover."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+  - id: room:dial_air
+    name: Air Time
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Sundial behind the air field, starts 6."
+    empty: true
+  - id: room:dial_earth
+    name: Earth Time
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Sundial behind the earth field, starts 12."
+    empty: true
+  - id: room:dial_fire
+    name: Fire Time
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Sundial behind the fire field, starts 3."
+    empty: true
+  - id: room:dial_water
+    name: Water Time
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Sundial alcove behind the water field (dropped by the Water Head): Xeen.alamarSundial(\"water\", ...), starts 7."
+    empty: true
+  - id: room:east_walk
+    name: East walk
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: "The outer walk's east side; the watchers' post opens off it."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+  - id: room:east_ward
+    name: East ward
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The air and earth belts, the moat watch, the parts store, the east return."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+  - id: room:gatehall
+    name: Gatehall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The arrival (entrance:d6_gate) behind the gate; m33.arrival on every entry until m33.done: false moves the party back to D6. Quiet (D-11.3)."
+    empty: true
+  - id: room:gazer_post
+    name: Watchers' post
+    kind: room
+    size: S
+    floor: 640
+    purpose: Dead end with a chest.
+    population:
+      - {actor: 11572, groups: 2, levels: [65, 65], placed: true, strength: heavy}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:gazer_watch
+    name: Screen room
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "Wall screens showing the Forbidden Zone; a chest; a back door to the hatch room."
+    population:
+      - {actor: 11572, groups: 2, levels: [65, 65], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:hall_order
+    name: Hall of Order
+    kind: room
+    size: L
+    floor: 0
+    purpose: "Pillared hall: the first propaganda statue against the north wall (aaze0049:2, a step plate before it); the wards west and east, the stair hall's leaves north."
+    population:
+      - {actor: 11610, groups: 3, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+  - id: room:hatch_room
+    name: Hatch room
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "The ladder up the shaft to the roof hatch (q-d26.alamar_hatch); the arrival from D7 (entrance:d7_roof) at the ladder's foot; quiet."
+    empty: true
+  - id: room:head_air
+    name: Air Head
+    kind: room
+    size: M
+    floor: 0
+    purpose: The Air Lava Head (aaze0049:8).
+    population:
+      - {actor: 11624, groups: 2, levels: [55, 55], placed: true, strength: heavy}
+  - id: room:head_earth
+    name: Earth Head
+    kind: room
+    size: M
+    floor: 0
+    purpose: The Earth Lava Head (aaze0049:10).
+    population:
+      - {actor: 11626, groups: 2, levels: [55, 55], placed: true, strength: heavy}
+  - id: room:head_fire
+    name: Fire Head
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The belt's end: the Fire Lava Head ('Fire power field operational.', aaze0049:7; 'Shut the field down?'); the maintenance door to the west return opens from this side."
+    population:
+      - {actor: 11620, groups: 2, levels: [55, 55], placed: true, strength: heavy}
+  - id: room:head_water
+    name: Water Head
+    kind: room
+    size: M
+    floor: 0
+    purpose: The Water Lava Head (aaze0049:9).
+    population:
+      - {actor: 11625, groups: 2, levels: [55, 55], placed: true, strength: heavy}
+  - id: room:juice
+    name: Power juice
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "Dead end: the dispenser labelled 'XEEN Power Juice' (aaze0051:0); +2 Might once per character (D-61 Q19), A3's hook pending."
+    empty: true
+  - id: room:landing
+    name: South walk
+    kind: room
+    size: M
+    floor: 640
+    purpose: "The stair head from L1, on the outer walk's south side."
+    population:
+      - {actor: 11610, groups: 1, levels: [50, 50], placed: true, strength: pack}
+  - id: room:landing_w
+    name: "South walk, west"
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: The outer walk's south side toward the south-west bay.
+    population:
+      - {actor: 11610, groups: 1, levels: [50, 50], placed: true, strength: pack}
+  - id: room:lift_core
+    name: Lift core
+    kind: room
+    size: S
+    floor: 640
+    purpose: "Behind the gate: the lift up to the deck; it runs only once gate_open is set."
+    empty: true
+  - id: room:lift_top
+    name: Deck lift head
+    kind: room
+    size: S
+    floor: 1280
+    purpose: The lift's top on the deck's east edge.
+    empty: true
+  - id: room:north_walk
+    name: North walk
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: The second propaganda statue (aaze0049:3).
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11572, groups: 1, levels: [65, 65], placed: true, strength: heavy}
+  - id: room:return_e
+    name: East return
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The east maintenance gallery, as the west."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:return_w
+    name: West return
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Maintenance gallery behind the two west Heads, back to the west ward; its doors into the Head rooms are bolted on the Heads' side."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+  - id: room:rings
+    name: Dial hall
+    kind: room
+    size: L
+    floor: [0, 640]
+    purpose: "Four ring chasms round the gate island (the island merged in: the crackling statue and the true-name gate on it, two Autobots); one bridge slab per chasm on the west line, level only while its dial reads nine; the chasm floor runs out to the sump."
+    population:
+      - {actor: 11612, groups: 2, levels: [75, 75], placed: true, strength: heavy, notes: on the gate island}
+  - id: room:robot_bay
+    name: Robot bay
+    kind: room
+    size: M
+    floor: 1280
+    purpose: "Dead end with a chest and the vault release lever (one-way, 117605)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:stair_hall
+    name: Stair hall
+    kind: room
+    size: M
+    floor: [0, 640]
+    purpose: "Behind the Hall of Order's leaves: the stair up to the south walk; the sump's door opens into it from the sump's side."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+  - id: room:store_ne
+    name: Parts store
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Dead end with a chest: crates of plates and rollers (a storeroom)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:sump
+    name: The sump
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Beside the dial hall's chasm floor: bent plates, the bones of earlier callers and a find; its door to the stair hall opens from inside (a lever by it)."
+    empty: true
+  - id: room:vault
+    name: Strongroom
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "The hoard (T6), opened by the robot bay's lever."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 6}
+  - id: room:watch_se
+    name: Moat watch
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Dead end with a chest: a Gazer at the slit over the gate road."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11572, groups: 1, levels: [65, 65], placed: true, strength: heavy}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:west_hall
+    name: Hall of Vengeance
+    kind: room
+    size: M
+    floor: 1280
+    purpose: "The third propaganda statue (aaze0049:4); a step plate once: 'A voice bellows, \"Come to ME!\"' (aaze0051:2; 117606)."
+    population:
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+      - {actor: 11612, groups: 1, levels: [75, 75], placed: true, strength: heavy}
+  - id: room:west_walk
+    name: West walk
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: "The outer walk's west side: the dial hall's lip, the bridge line east across the four chasms to the island."
+    population:
+      - {actor: 11610, groups: 1, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 2, levels: [62, 62], placed: true, strength: heavy}
+  - id: room:west_ward
+    name: West ward
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Junction of the fire and water belts' mouths, the barracks and the west return."
+    population:
+      - {actor: 11610, groups: 2, levels: [50, 50], placed: true, strength: pack}
+      - {actor: 11611, groups: 1, levels: [62, 62], placed: true, strength: heavy}
+links:
+  - id: link:ante_command
+    from: room:antechamber
+    to: room:command
+    kind: door
+    purpose: Two leaves (hover 'Command Central').
+  - id: link:ante_vault
+    from: room:antechamber
+    to: room:vault
+    kind: door
+    opened_by: key:vault
+    purpose: The strongroom.
+  - id: link:bair_end
+    from: room:belt_air
+    to: room:belt_air_end
+    kind: open
+  - id: link:bair_head
+    from: room:belt_air_end
+    to: room:head_air
+    kind: open
+    purpose: The belt (plate rides).
+  - id: link:bearth_end
+    from: room:belt_earth
+    to: room:belt_earth_end
+    kind: open
+  - id: link:bearth_head
+    from: room:belt_earth_end
+    to: room:head_earth
+    kind: open
+    purpose: The belt (plate rides).
+  - id: link:bfire_end
+    from: room:belt_fire
+    to: room:belt_fire_end
+    kind: open
+  - id: link:bfire_head
+    from: room:belt_fire_end
+    to: room:head_fire
+    kind: open
+    purpose: The belt carries the party one way (plate rides).
+  - id: link:bwater_end
+    from: room:belt_water
+    to: room:belt_water_end
+    kind: open
+  - id: link:bwater_head
+    from: room:belt_water_end
+    to: room:head_water
+    kind: open
+    purpose: The belt (plate rides).
+  - id: link:command_apse
+    from: room:command
+    to: room:command_apse
+    kind: open
+  - id: link:command_bay
+    from: room:command
+    to: room:command_bay
+    kind: open
+  - id: link:deck_bay
+    from: room:deck
+    to: room:robot_bay
+    kind: door
+  - id: link:deck_drop
+    from: room:deck
+    to: room:rings
+    kind: drop
+    purpose: The trapdoors.
+  - id: link:deck_screen
+    from: room:deck
+    to: room:gazer_watch
+    kind: door
+  - id: link:deck_west
+    from: room:deck
+    to: room:west_hall
+    kind: open
+  - id: link:ew_bair
+    from: room:east_ward
+    to: room:belt_air
+    kind: open
+  - id: link:ew_bearth
+    from: room:east_ward
+    to: room:belt_earth
+    kind: open
+  - id: link:ew_store
+    from: room:east_ward
+    to: room:store_ne
+    kind: door
+  - id: link:ew_watch
+    from: room:east_ward
+    to: room:watch_se
+    kind: door
+  - id: link:ewalk_post
+    from: room:east_walk
+    to: room:gazer_post
+    kind: door
+  - id: link:ewalk_se
+    from: room:east_walk
+    to: room:bay_se
+    kind: open
+  - id: link:gate_hall
+    from: room:gatehall
+    to: room:hall_order
+    kind: door
+    purpose: The inner leaves (two).
+  - id: link:hair_ret
+    from: room:head_air
+    to: room:return_e
+    kind: door
+    purpose: Bolted on the Head's side.
+  - id: link:hall_ew
+    from: room:hall_order
+    to: room:east_ward
+    kind: open
+  - id: link:hall_stair
+    from: room:hall_order
+    to: room:stair_hall
+    kind: door
+    purpose: Two leaves.
+  - id: link:hall_ww
+    from: room:hall_order
+    to: room:west_ward
+    kind: open
+  - id: link:hearth_ret
+    from: room:head_earth
+    to: room:return_e
+    kind: door
+    purpose: Bolted on the Head's side.
+  - id: link:hfire_ret
+    from: room:head_fire
+    to: room:return_w
+    kind: door
+    purpose: Bolted on the Head's side.
+  - id: link:hwater_ret
+    from: room:head_water
+    to: room:return_w
+    kind: door
+    purpose: Bolted on the Head's side.
+  - id: link:island_lift
+    from: room:rings
+    to: room:lift_core
+    kind: door
+    opened_by: goal:gate
+    purpose: The true-name gate (two leaves).
+  - id: link:land_se
+    from: room:landing
+    to: room:bay_se
+    kind: open
+  - id: link:land_sw
+    from: room:landing_w
+    to: room:bay_sw
+    kind: open
+  - id: link:land_w
+    from: room:landing_w
+    to: room:landing
+    kind: open
+  - id: link:lift_deck
+    from: room:lift_top
+    to: room:deck
+    kind: open
+  - id: link:lift_up
+    from: room:lift_core
+    to: room:lift_top
+    kind: lift
+  - id: link:ne_dial
+    from: room:bay_ne
+    to: room:dial_air
+    kind: door
+    opened_by: key:head_air
+    purpose: The air field.
+  - id: link:ne_ewalk
+    from: room:bay_ne
+    to: room:east_walk
+    kind: open
+  - id: link:nw_dial
+    from: room:bay_nw
+    to: room:dial_fire
+    kind: door
+    opened_by: key:head_fire
+    purpose: The fire field.
+  - id: link:nw_nwalk
+    from: room:bay_nw
+    to: room:north_walk
+    kind: open
+  - id: link:nwalk_ne
+    from: room:north_walk
+    to: room:bay_ne
+    kind: open
+  - id: link:rete_ew
+    from: room:return_e
+    to: room:east_ward
+    kind: open
+  - id: link:retw_ww
+    from: room:return_w
+    to: room:west_ward
+    kind: open
+  - id: link:rings_sump
+    from: room:rings
+    to: room:sump
+    kind: open
+    purpose: The chasm floor runs out into the sump.
+  - id: link:screen_hatch
+    from: room:gazer_watch
+    to: room:hatch_room
+    kind: door
+  - id: link:se_dial
+    from: room:bay_se
+    to: room:dial_earth
+    kind: door
+    opened_by: key:head_earth
+    purpose: The earth field.
+  - id: link:stair_up
+    from: room:stair_hall
+    to: room:landing
+    kind: stairs
+  - id: link:sump_stair
+    from: room:sump
+    to: room:stair_hall
+    kind: door
+    purpose: Opens from the sump's side (a lever by it).
+  - id: link:sw_dial
+    from: room:bay_sw
+    to: room:dial_water
+    kind: door
+    opened_by: key:head_water
+    purpose: The water field.
+  - id: link:sw_ww
+    from: room:bay_sw
+    to: room:west_walk
+    kind: open
+  - id: link:west_ante
+    from: room:west_hall
+    to: room:antechamber
+    kind: door
+  - id: link:west_hatch
+    from: room:west_hall
+    to: room:hatch_room
+    kind: door
+  - id: link:west_juice
+    from: room:west_hall
+    to: room:juice
+    kind: door
+  - id: link:ww_barracks
+    from: room:west_ward
+    to: room:barracks
+    kind: door
+  - id: link:ww_bfire
+    from: room:west_ward
+    to: room:belt_fire
+    kind: open
+  - id: link:ww_bwater
+    from: room:west_ward
+    to: room:belt_water
+    kind: open
+  - id: link:ww_nw
+    from: room:west_walk
+    to: room:bay_nw
+    kind: open
+  - id: link:ww_rings
+    from: room:west_walk
+    to: room:rings
+    kind: open
+    purpose: "Onto the dial hall's lip; the bridges east (dials at nine) to the island."
+loops:
+  - id: loop:air_belt
+    spaces: [room:east_ward, room:belt_air, room:belt_air_end, room:head_air, room:return_e]
+  - id: loop:chasm
+    spaces: [room:west_walk, room:rings, room:sump, room:stair_hall, room:landing, room:landing_w, room:bay_sw]
+    notes: A fall from a bridge or a trapdoor comes back up by the sump and the stair hall.
+  - id: loop:deck
+    spaces: [room:deck, room:west_hall, room:hatch_room, room:gazer_watch]
+    notes: Round the deck's west end by the hatch room.
+  - id: loop:earth_belt
+    spaces: [room:east_ward, room:belt_earth, room:belt_earth_end, room:head_earth, room:return_e]
+  - id: loop:fire_belt
+    spaces: [room:west_ward, room:belt_fire, room:belt_fire_end, room:head_fire, room:return_w]
+    notes: "One way round: the belt in, the bolted door out (then both ways)."
+  - id: loop:outer_walk
+    spaces: [room:landing, room:landing_w, room:bay_sw, room:west_walk, room:bay_nw, room:north_walk, room:bay_ne, room:east_walk, room:bay_se]
+    notes: The dial floor's ring walk round the dial hall.
+  - id: loop:water_belt
+    spaces: [room:west_ward, room:belt_water, room:belt_water_end, room:head_water, room:return_w]
+entrances:
+  - id: entrance:d6_gate
+    space: room:gatehall
+    kind: both
+    neighbour: exit:d6_gate
+    facing: n
+    how: "D6's door:dd17 (A6): in the gatehall a step inside the gate, facing the Hall of Order; out by the exit preset to D6's entrance:dd17_gate."
+  - id: entrance:d7_roof
+    space: room:hatch_room
+    kind: both
+    neighbour: exit:d7_roof
+    facing: e
+    how: "D7's door:dd17 (A6, q-d26.hatch) sets the party down at the ladder's foot; up by q-d26.alamar_hatch and the exit preset to D7's entrance:dd17_roof."
+critical_path: [room:gatehall, room:hall_order, room:west_ward, room:belt_fire, room:belt_fire_end, room:head_fire, room:return_w, room:west_ward, room:belt_water, room:belt_water_end, room:head_water, room:return_w, room:west_ward, room:hall_order, room:east_ward, room:belt_air, room:belt_air_end, room:head_air, room:return_e, room:east_ward, room:belt_earth, room:belt_earth_end, room:head_earth, room:return_e, room:east_ward, room:hall_order, room:stair_hall, room:landing, room:landing_w, room:bay_sw, room:dial_water, room:bay_sw, room:west_walk, room:bay_nw, room:dial_fire, room:bay_nw, room:north_walk, room:bay_ne, room:dial_air, room:bay_ne, room:east_walk, room:bay_se, room:dial_earth, room:bay_se, room:landing, room:landing_w, room:bay_sw, room:west_walk, room:rings, room:lift_core, room:lift_top, room:deck, room:west_hall, room:antechamber, room:command]
+return_path: [room:command, room:antechamber, room:west_hall, room:deck, room:lift_top, room:lift_core, room:rings, room:west_walk, room:bay_sw, room:landing_w, room:landing, room:stair_hall, room:hall_order, room:gatehall]
+goals:
+  - id: goal:gate
+    space: room:rings
+    kind: use
+    what: "The true-name gate on the island: with the four dials at nine, 'Sheltem' (m33.true_name_gate, gate_open 111661)."
+  - id: goal:sheltem
+    space: room:command
+    kind: use
+    what: "The dais plate's Yes: m33.sheltem (done 111662), the cinematic, the leave to D6."
+keys:
+  - id: key:head_air
+    grants: {qbit: 117602}
+    found_in: room:head_air
+    how: lever
+    notes: "The air Lava Head shut down: its field on L2 drops."
+  - id: key:head_earth
+    grants: {qbit: 117604}
+    found_in: room:head_earth
+    how: lever
+    notes: "The earth Lava Head shut down: its field on L2 drops."
+  - id: key:head_fire
+    grants: {qbit: 117601}
+    found_in: room:head_fire
+    how: lever
+    notes: "The fire Lava Head shut down: its field on L2 drops."
+  - id: key:head_water
+    grants: {qbit: 117603}
+    found_in: room:head_water
+    how: lever
+    notes: "The water Lava Head shut down: its field on L2 drops."
+  - id: key:vault
+    grants: {qbit: 117605}
+    found_in: room:robot_bay
+    how: lever
+    notes: The vault release (one-way).
+points_of_interest:
+  - id: poi:dials
+    space: room:dial_fire
+    count: 4
+    kind: lever
+    behaviour: "Xeen.alamarSundial: '<Element> Time. The sundial reads N. Turn?'; at nine its bridge slab rises."
+  - id: poi:hatch
+    space: room:hatch_room
+    kind: exit
+    behaviour: q-d26.alamar_hatch.
+  - id: poi:heads
+    space: room:head_fire
+    count: 4
+    kind: lever
+    behaviour: "Each Lava Head: 'The Head speaks: \"<Element> power field operational.\"' then 'Shut the field down?'."
+  - id: poi:juice
+    space: room:juice
+    kind: sign
+    behaviour: XEEN Power Juice (aaze0051:0).
+  - id: poi:statues
+    space: room:hall_order
+    count: 3
+    kind: sign
+    behaviour: "The propaganda statues (aaze0049:2-4), one per floor."
+  - id: poi:traps
+    space: room:deck
+    count: 6
+    kind: trap
+    behaviour: "Hatched plates that drop the party 1,280 to the chasm floor."
+  - id: poi:true_name_statue
+    space: room:rings
+    kind: sign
+    behaviour: The crackling statue on the island (aaze0049:5).
+mechanisms:
+  - {kind: plate ride along a conveyor belt, count: 8}
+  - {kind: Lava Head drops an energy field, count: 4}
+  - {kind: sundial raises a bridge slab at nine, count: 4}
+  - {kind: true-name gate (typed answer), count: 1}
+  - {kind: lift after a qbit, count: 1}
+  - {kind: trapdoor, count: 6}
+  - {kind: one-way vault lever, count: 1}
+  - {kind: cinematic and leave, count: 1}
+totals:
+  chests: 7
+  doors: 24
+  rooms: 51
+  spawn_points: 0
+notes: "Graph: devdocs/xeen/mockups/act5_graphs/dd17.graph.yml; D-61 (mockups/act5_a8_decisions.md) wins. Changes from the graph (A8 L2): the gate island is a platform inside the dial hall (one room, the graph's room:island merged), the chasms are U-shaped round the island on the hall's east wall so the lift core lies beyond the gate in the east wall; the chasm floor (0) runs out to the sump (the graph's 'chasm, 640' to the sump); the trapdoors drop 1,280 to the chasm floor, which is the sump's."

@@ -1,0 +1,116 @@
+# A fall in zone ef12 (D-54).
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4.fall_ef12
+title: 'The Skyroads (D7): a fall off The East Rest Stop (zone EF12) lands on xeen_d4.odm''s entrance:d7_fall; a healthy level-55
+  party lives and loses nothing more in 20 s (D-54, Q10)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- movement_segment:
+    input: forward
+    seconds: 1.5
+    actor_collision: true
+    actor_ai: true
+    start:
+      map: xeen_d7.blv
+      x: 16384
+      y: 19784
+      z: 1280
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_d7.blv
+      x: 16384
+      y: 19784
+      z: 1280
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 3.0
+    follow_map_move: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 5632
+      y: -13312
+      radius: 256
+- note: '0.5 s after the landing: everyone alive, the fall''s damage only (D-6.2)'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 213
+      health_max: 214
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 96
+      health_max: 97
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 135
+      health_max: 136
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 89
+      health_max: 90
+- advance_runtime:
+    seconds: 20.0
+- note: 'After 20 s on xeen_d4.odm (D-54): nobody has lost a point more'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 213
+      health_max: 214
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 96
+      health_max: 97
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 135
+      health_max: 136
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 89
+      health_max: 90
+- assert:
+    map: xeen_d4.odm

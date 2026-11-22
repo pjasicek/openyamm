@@ -1,0 +1,37 @@
+# Hostility check of the Cave of Illusion (XD-10), as XD-27's and XD-11's: its foes hostile to the party, its kinds
+# not fighting each other. The kinds (all placed): Flying Feet 11600, Guardian 11601 (Magic constructs) and Water Golem
+# 11591 (Elemental golems); the world's relations.yml decides between them. Run with --world xeen --map xeen_xd10.blv.
+id: xeen.xd10.l4.hostility
+title: 'the Cave of Illusion (XD-10): foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd10.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 18, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 18, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 18, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 18, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11600, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11601, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11591, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11600, hostile: true, min: 30, max: 30}}
+- assert: {actor_count: {monster_id: 11601, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11591, hostile: true, min: 8, max: 8}}
+- assert: {actor_count: {max: 50, min: 50}}
+- note: 'Kinds of the map side by side in the frost cavern, nearer each other than the party: they must not take each other on.'
+- set_pose: {map: xeen_xd10.blv, x: 256, y: 2700, z: 0, yaw: 1.5708, pitch: 0.0}
+- clear_hostiles: {radius: 3000}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11600, x: 0, y: 3600, z: 0}
+- spawn_actor: {monster_id: 11601, x: 128, y: 3600, z: 0}
+- spawn_actor: {monster_id: 11591, x: 256, y: 3600, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}

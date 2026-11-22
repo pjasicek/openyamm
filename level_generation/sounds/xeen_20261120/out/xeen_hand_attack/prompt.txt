@@ -1,0 +1,14 @@
+A huge disembodied hand crushing its victim: a fast whoosh, a heavy grabbing slap and a loud crunch of armour plate bending and cracking
+
+kind: sfx
+duration: 1.0
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 4
+loudness_db: -8
+score_bias: power

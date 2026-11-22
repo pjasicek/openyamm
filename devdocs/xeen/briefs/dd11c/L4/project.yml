@@ -1,0 +1,35 @@
+format: 0
+id: xeen_dd11c
+name: "Troll Holes, third pocket"
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-11C
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 10], climbs: n}
+map_stats:
+  id: 9164
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 8
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Warren Troll, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d2_return
+    to: xeen_d2.odm
+    kind: door
+    arrival: [1536, -17408, 928]
+    arrival_hint: "A6's return point for the third hole (D2 event 34, thing:dd11c_hole, the widest, near the rim): on the forest floor about 300 from the pit's lip, facing west, clear of D2's troll spawns."
+    direction: 180
+    notes: "The trolls' stair's sod hatch out to D2 (D-25: one way in by the hole, one way out by the stair)."
+notes: "Xeen design brief, level L4: DD-11C Troll Holes, third pocket: Hobstadt's hall, under D2 Sprite Forest (Q-D13 Hobstadt's Trolls). Monsters, all placed: the court 8 Hobstadt's Guard 11075 (28, faction hobstadt, friendly at load; group 30) and Hobstadt 11073 (42, boss row; group 31), hostile on q-d13.hostile 113263; the wild trolls 8 Troll 11690 (18) and 4 Ice Troll 11692 (38) in groups 10-14, hostile by the world's relations until tribute or trial. Slot 1 Xeen Warren Troll for the map card, rest encounters 10 % (D-33: the warren trolls follow relations.yml, hostile before tribute, friendly after). Map qbits 110980-110989: none used; A3's Q-D13 bits read by number (113261-113266). Hooks: NPC 5110 (evt.SpeakNPC), q-d13.hobstadt, q-d13.throne, q-d13.hoard. Music 8. One way in (D2's third hole drops the party at the pit's bottom, the start) and one way out (the trolls' stair's sod hatch, exit:d2_return, A6's point)."
+identity:
+  shape: cave
+  family: d43
+  seen: [the widest troll hole's pit and the hall's carved log doors, "Hobstadt's hall in the ancient trolls' cut stone and carved slabs, his throne of stacked boulders with arms and a tall back", "the guild's gold behind the throne, the ice trolls' den and the frost seep in broken caves"]

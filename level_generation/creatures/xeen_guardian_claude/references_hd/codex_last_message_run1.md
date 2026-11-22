@@ -1,0 +1,3 @@
+Run 1 complete. I selected the first built-in image generation and saved the unresized [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_guardian_claude/references_hd/00_three_quarter.png). The exact prompt, ordered input hashes, output hash, and selection reason are in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_guardian_claude/references_hd/generation_runs.json).
+
+The PNG is 1024 × 1536 RGBA. The visible skull clears every edge by at least 111 px. Some background pixels retain trace alpha of 1–2 out of 255.

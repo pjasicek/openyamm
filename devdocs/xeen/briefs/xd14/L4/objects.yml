@@ -1,0 +1,1253 @@
+format: 0
+start:
+  room: room:gatehouse
+  at: [0, -1280]
+  facing: n
+  notes: "Inside the gate (X6's door, entrance:x6_gate): 256 inside the leaves, facing the great hall's doors."
+arrivals:
+  - {entrance: entrance:x6_gate, room: room:gatehouse, at: [0, -1280], facing: n, notes: "From X6's Castle Basenji door (thing:castle_basenji): in the gatehouse 256 inside the gate's leaves, facing north to the great hall's double doors."}
+doors:
+  - id: door:battle_e
+    opening: open:battle_east
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The east tower's door onto the battlement walk.
+  - id: door:battle_w
+    opening: open:west_battle
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The west tower's door onto the battlement walk.
+  - id: door:cell_bars
+    opening: open:cells_cell
+    kind: slide_up
+    thickness: 16
+    speed: 64
+    surface: {texture: xwcage, size: [128, 256]}
+    tile: true
+    notes: "The bars of the peasant's cell (Xeen's cage bars): raised by the jailers' lever."
+  - id: door:cells
+    opening: open:guard_cells
+    kind: slide_up
+    thickness: 24
+    speed: 160
+    surface: {texture: d2lgdor, size: [256, 256], fit: true}
+    notes: The cell row's iron door.
+  - id: door:dorm_bar
+    opening: open:dorm_east
+    kind: hinged
+    thickness: 24
+    surface: {texture: ctdor4, size: [128, 256], fit: true}
+    back_surface: {texture: ctdor4, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: "The dormitory's heavy door, barred on the dormitory's side (lifted from there: the loop back)."
+  - id: door:hall_doors
+    opening: open:gate_hall
+    kind: slide_left
+    leaves: 2
+    thickness: 24
+    speed: 160
+    edge_surface: {texture: bemv, size: [32, 256]}
+    pictures:
+      - [{texture: cddl, size: [128, 256]}, {texture: cddr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: cddl, size: [128, 256]}, {texture: cddr, size: [128, 256]}]
+    notes: "The great hall's double doors: dark iron-bound wings with carved wolves' heads (MM8's cddl/cddr)."
+  - id: door:kennels
+    opening: open:hall_kennels
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The kennels' plank door.
+  - id: door:password
+    opening: open:password
+    kind: hinged
+    thickness: 24
+    surface: {texture: d8dorb, size: [128, 256], fit: true}
+    back_surface: {texture: d8dorb, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: "The cult's stone door with a grille (d8dorb): 'STOP!  What is the password?'"
+  - id: door:scriptorium
+    opening: open:hall_script
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The scriptorium's plank door.
+  - id: door:stores
+    opening: open:script_stores
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The kitchen's plank door.
+  - id: door:study
+    opening: open:landing_study
+    kind: hinged
+    thickness: 24
+    surface: {texture: ctdor4, size: [128, 256], fit: true}
+    back_surface: {texture: ctdor4, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The Cult Leader's study door.
+  - id: door:study_roof
+    opening: open:study_roof
+    kind: hinged
+    thickness: 24
+    surface: {texture: beemdorc, size: [128, 256], fit: true}
+    back_surface: {texture: beemdorc, size: [128, 256], fit: true}
+    edge_surface: {texture: bemv, size: [32, 256]}
+    notes: The study's back door onto the roof walk.
+sounds:
+  - {id: sound:drip, room: room:cells, at: [4400, 384], floor_height: -512, sound: drip01, radius: 1400, inner_radius: 400, volume: 0.5, loop: false, wait: [3, 8], notes: Water through the crag into the cell row.}
+  - {id: sound:drip_den, room: room:den, at: [6272, 832], floor_height: -512, sound: drip01, radius: 1400, inner_radius: 400, volume: 0.5, loop: false, wait: [4, 10], notes: Water down the den's rock.}
+  - {id: sound:hearth, room: room:great_hall, at: [0, 1080], floor_height: 32, sound: campfire, radius: 1800, inner_radius: 500, volume: 0.6, notes: The hall's hearth.}
+  - {id: sound:study_fire, room: room:study, at: [512, 1620], floor_height: 1312, sound: campfire, radius: 1200, inner_radius: 400, volume: 0.5, notes: The study's fire.}
+  - {id: sound:wind_battle, room: room:battlements, at: [0, -2048], floor_height: 640, sound: whistling wind, radius: 1800, inner_radius: 600, volume: 0.45, notes: Wind over the walk.}
+  - {id: sound:wind_moon, room: room:moon_tower, at: [2752, 1152], floor_height: 1280, sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.45, notes: Wind on the tower top.}
+lights:
+  - id: light:chandelier_1
+    room: room:great_hall
+    at: [-640, 384]
+    floor_height: 0
+    height: 780
+    radius: 1400
+    color: [255, 200, 140]
+    notes: "A chandelier's candles, hung from the beams."
+  - id: light:chandelier_2
+    room: room:great_hall
+    at: [640, 384]
+    floor_height: 0
+    height: 780
+    radius: 1400
+    color: [255, 200, 140]
+    notes: "A chandelier's candles, hung from the beams."
+  - id: light:day_battle
+    room: room:battlements
+    at: [0, -2048]
+    floor_height: 640
+    height: 400
+    radius: 1800
+    color: [210, 205, 190]
+    notes: The sky over the battlement walk.
+  - id: light:day_moon
+    room: room:moon_tower
+    at: [2752, 1152]
+    floor_height: 1280
+    height: 460
+    radius: 1300
+    color: [210, 205, 190]
+    notes: The sky over the moon tower.
+  - id: light:day_roof
+    room: room:roof_walk
+    at: [1664, 1984]
+    floor_height: 1280
+    height: 400
+    radius: 1500
+    color: [210, 205, 190]
+    notes: The sky over the roof walk.
+  - id: light:den_brazier
+    room: room:den
+    at: [6240, 1480]
+    floor_height: -512
+    height: 150
+    radius: 1300
+    color: [255, 150, 70]
+    pulse: {intensity: [0.8, 1], frequency: 1.1}
+    notes: A brazier on its feet by the den's north wall.
+  - id: light:hearth
+    room: room:great_hall
+    at: [0, 1080]
+    floor_height: 32
+    height: 96
+    radius: 1500
+    color: [255, 150, 70]
+    pulse: {intensity: [0.8, 1], frequency: 0.8}
+    notes: The hearth's fire.
+  - id: light:moon_brazier
+    room: room:moon_tower
+    at: [2752, 768]
+    floor_height: 1280
+    height: 150
+    radius: 1000
+    color: [255, 160, 80]
+    pulse: {intensity: [0.8, 1], frequency: 1.1}
+    notes: The brazier's fire by the moon tower's south parapet.
+  - id: light:sconce_gate_e
+    room: room:gatehouse
+    at: [320, -536]
+    floor_height: 0
+    height: 230
+    radius: 800
+    color: [255, 180, 110]
+    notes: A wall sconce's candles.
+  - id: light:sconce_gate_w
+    room: room:gatehouse
+    at: [-320, -536]
+    floor_height: 0
+    height: 230
+    radius: 800
+    color: [255, 180, 110]
+    notes: A wall sconce's candles.
+  - id: light:study_fire
+    room: room:study
+    at: [512, 1620]
+    floor_height: 1312
+    height: 96
+    radius: 1100
+    color: [255, 150, 70]
+    pulse: {intensity: [0.8, 1], frequency: 0.8}
+    notes: The study's fire.
+  - id: light:torch_bones
+    room: room:bone_pit
+    at: [7424, 1256]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cell
+    room: room:cell
+    at: [4072, -320]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cells_n
+    room: room:cells
+    at: [4800, 616]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_cells_w
+    room: room:cells
+    at: [3352, 384]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_dorm_n
+    room: room:dormitory
+    at: [600, -536]
+    floor_height: 640
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_dorm_s
+    room: room:dormitory
+    at: [900, -1512]
+    floor_height: 640
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_eastfoot
+    room: room:east_foot
+    at: [2664, 0]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_eland
+    room: room:east_landing
+    at: [2664, -2048]
+    floor_height: 640
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_e
+    room: room:gatehouse
+    at: [616, -1024]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_gate_w
+    room: room:gatehouse
+    at: [-616, -700]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_guard_w
+    room: room:guard_room
+    at: [4760, 1550]
+    floor_height: -512
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_n1
+    room: room:great_hall
+    at: [-900, 1128]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_n2
+    room: room:great_hall
+    at: [900, 1128]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_s1
+    room: room:great_hall
+    at: [-900, -360]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_hall_s2
+    room: room:great_hall
+    at: [900, -360]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_kennels_e
+    room: room:kennels
+    at: [3432, 700]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_kennels_s
+    room: room:kennels
+    at: [3000, 536]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_kennels_w
+    room: room:kennels
+    at: [1560, 1400]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_kland
+    room: room:keep_landing
+    at: [1728, 1512]
+    floor_height: 1280
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_script_e
+    room: room:scriptorium
+    at: [-1560, 1300]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_script_s
+    room: room:scriptorium
+    at: [-2600, 536]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_scroll_s
+    room: room:scroll_hall
+    at: [-1100, -1512]
+    floor_height: 640
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_stores
+    room: room:stores
+    at: [-1560, 2200]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_study_e
+    room: room:study
+    at: [1128, 1600]
+    floor_height: 1280
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_study_s
+    room: room:study
+    at: [0, 792]
+    floor_height: 1280
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_westfoot
+    room: room:west_foot
+    at: [-2664, 0]
+    floor_height: 0
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+  - id: light:torch_wland
+    room: room:west_landing
+    at: [-2664, -2048]
+    floor_height: 640
+    height: 184
+    radius: 900
+    color: [255, 170, 90]
+    notes: The wall torch's flame.
+switches:
+  - id: switch:cell_lever
+    room: room:guard_room
+    kind: lever
+    at: [5376, 1664]
+    floor_height: -512
+    notes: "The jailers' lever: it raises the bars of the shut cell."
+chests:
+  - id: chest:bone_pit
+    room: room:bone_pit
+    at: [7200, 640]
+    floor_height: -512
+    kind: ch1
+    facing: e
+    treasure_level: 4
+    random_items: 3
+    gold: 600
+    notes: The box under the bones.
+  - id: chest:desk
+    room: room:study
+    at: [384, 1152]
+    floor_height: 1360
+    kind: gt002
+    facing: w
+    random_items: 0
+    gold: 0
+    items: [scroll_of_insight]
+    notes: "The Cult Leader's writing box on his desk, its front to the room (south): the Scroll of Insight is its item (D-90, 2026-11-22: a find in a container is a chest item; A3's q-c8.scroll sets scroll_found)."
+  - id: chest:dormitory
+    room: room:dormitory
+    at: [-120, -1000]
+    floor_height: 640
+    kind: ch1
+    facing: e
+    treasure_level: 4
+    random_items: 2
+    gold: 1500
+    notes: The chest of the wizards' pay.
+  - id: chest:stores
+    room: room:stores
+    at: [-1660, 2000]
+    floor_height: 0
+    kind: ch1
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 900
+    notes: The steward's strongbox in the kitchen.
+  - id: chest:study
+    room: room:study
+    at: [640, 1152]
+    floor_height: 1280
+    kind: ch1
+    facing: s
+    treasure_level: 4
+    random_items: 4
+    gold: 2500
+    notes: The Cult Leader's chest beside his desk.
+monsters:
+  - id: monster:battlements_1
+    room: room:battlements
+    monster: 11421
+    at: [-500, -2048]
+    floor_height: 640
+    facing: 0
+    group: 19
+  - id: monster:battlements_2
+    room: room:battlements
+    monster: 11421
+    at: [500, -2048]
+    floor_height: 640
+    facing: 180
+    group: 19
+  - id: monster:battlements_3
+    room: room:battlements
+    monster: 11422
+    at: [0, -2100]
+    floor_height: 640
+    facing: 270
+    group: 19
+  - id: monster:bone_pit_1
+    room: room:bone_pit
+    monster: 11421
+    at: [7424, 1000]
+    floor_height: -512
+    facing: 180
+    group: 17
+  - id: monster:cells_1
+    room: room:cells
+    monster: 11421
+    at: [3700, 384]
+    floor_height: -512
+    facing: 270
+    group: 16
+  - id: monster:cells_2
+    room: room:cells
+    monster: 11421
+    at: [4000, 384]
+    floor_height: -512
+    facing: 270
+    group: 16
+  - id: monster:den_1
+    room: room:den
+    monster: 11421
+    at: [6000, 1300]
+    floor_height: -512
+    facing: 180
+    group: 15
+  - id: monster:den_2
+    room: room:den
+    monster: 11421
+    at: [6400, 900]
+    floor_height: -512
+    facing: 180
+    group: 15
+  - id: monster:den_3
+    room: room:den
+    monster: 11421
+    at: [6100, 500]
+    floor_height: -512
+    facing: 180
+    group: 15
+  - id: monster:den_4
+    room: room:den
+    monster: 11421
+    at: [6700, 700]
+    floor_height: -512
+    facing: 180
+    group: 15
+  - id: monster:dormitory_1
+    room: room:dormitory
+    monster: 11190
+    at: [1200, -1000]
+    floor_height: 640
+    facing: 180
+    group: 22
+  - id: monster:dormitory_2
+    room: room:dormitory
+    monster: 11190
+    at: [1700, -800]
+    floor_height: 640
+    facing: 180
+    group: 22
+  - id: monster:dormitory_3
+    room: room:dormitory
+    monster: 11197
+    at: [300, -1000]
+    floor_height: 640
+    facing: 0
+    group: 22
+  - id: monster:dormitory_4
+    room: room:dormitory
+    monster: 11197
+    at: [900, -1250]
+    floor_height: 640
+    facing: 90
+    group: 22
+  - id: monster:dormitory_5
+    room: room:dormitory
+    monster: 11197
+    at: [1500, -1300]
+    floor_height: 640
+    facing: 90
+    group: 22
+  - id: monster:east_landing_1
+    room: room:east_landing
+    monster: 11197
+    at: [1900, -2150]
+    floor_height: 640
+    facing: 180
+    group: 20
+  - id: monster:east_landing_2
+    room: room:east_landing
+    monster: 11197
+    at: [2300, -2250]
+    floor_height: 640
+    facing: 90
+    group: 20
+  - id: monster:great_hall_1
+    room: room:great_hall
+    monster: 11421
+    at: [-420, 880]
+    floor_height: 0
+    facing: 270
+    group: 10
+  - id: monster:great_hall_2
+    room: room:great_hall
+    monster: 11421
+    at: [420, 900]
+    floor_height: 0
+    facing: 270
+    group: 10
+  - id: monster:great_hall_3
+    room: room:great_hall
+    monster: 11197
+    at: [-700, 300]
+    floor_height: 0
+    facing: 90
+    group: 10
+  - id: monster:great_hall_4
+    room: room:great_hall
+    monster: 11197
+    at: [760, 420]
+    floor_height: 0
+    facing: 180
+    group: 10
+  - id: monster:guard_room_1
+    room: room:guard_room
+    monster: 11197
+    at: [5000, 1250]
+    floor_height: -512
+    facing: 180
+    group: 14
+  - id: monster:guard_room_2
+    room: room:guard_room
+    monster: 11197
+    at: [5300, 1000]
+    floor_height: -512
+    facing: 180
+    group: 14
+  - id: monster:keep_landing_1
+    room: room:keep_landing
+    monster: 11190
+    at: [1728, 1300]
+    floor_height: 1280
+    facing: 270
+    group: 23
+  - id: monster:kennels_1
+    room: room:kennels
+    monster: 11421
+    at: [1824, 1760]
+    floor_height: 0
+    facing: 270
+    group: 11
+  - id: monster:kennels_2
+    room: room:kennels
+    monster: 11421
+    at: [2400, 1800]
+    floor_height: 0
+    facing: 270
+    group: 11
+  - id: monster:kennels_3
+    room: room:kennels
+    monster: 11421
+    at: [2976, 1760]
+    floor_height: 0
+    facing: 270
+    group: 11
+  - id: monster:kennels_4
+    room: room:kennels
+    monster: 11421
+    at: [2560, 1100]
+    floor_height: 0
+    facing: 180
+    group: 11
+  - id: monster:kennels_5
+    room: room:kennels
+    monster: 11421
+    at: [3200, 800]
+    floor_height: 0
+    facing: 180
+    group: 11
+  - id: monster:kennels_6
+    room: room:kennels
+    monster: 11422
+    at: [2000, 1350]
+    floor_height: 0
+    facing: 0
+    group: 11
+  - id: monster:moon_tower_1
+    room: room:moon_tower
+    monster: 11190
+    at: [2750, 1150]
+    floor_height: 1280
+    facing: 180
+    group: 25
+  - id: monster:peasant
+    room: room:cell
+    monster: 11233
+    at: [3776, -460]
+    floor_height: -512
+    facing: 90
+    group: 30
+    immobile: true
+    notes: "The Trapped Peasant (11233, peaceful by the world's relation basenji_prisoner): talks through the bars (q-c8.peasant); freed once the lever has raised them (q-c8.peasant_freed), hidden from then on."
+  - id: monster:scriptorium_1
+    room: room:scriptorium
+    monster: 11197
+    at: [-2368, 1250]
+    floor_height: 0
+    facing: 270
+    group: 12
+  - id: monster:scriptorium_2
+    room: room:scriptorium
+    monster: 11197
+    at: [-1984, 1250]
+    floor_height: 0
+    facing: 270
+    group: 12
+  - id: monster:scriptorium_3
+    room: room:scriptorium
+    monster: 11197
+    at: [-2200, 820]
+    floor_height: 0
+    facing: 90
+    group: 12
+  - id: monster:scroll_hall_1
+    room: room:scroll_hall
+    monster: 11190
+    at: [-1400, -1100]
+    floor_height: 640
+    facing: 270
+    group: 21
+  - id: monster:scroll_hall_2
+    room: room:scroll_hall
+    monster: 11190
+    at: [-900, -1250]
+    floor_height: 640
+    facing: 270
+    group: 21
+  - id: monster:scroll_hall_3
+    room: room:scroll_hall
+    monster: 11197
+    at: [-1700, -1350]
+    floor_height: 640
+    facing: 90
+    group: 21
+  - id: monster:scroll_hall_4
+    room: room:scroll_hall
+    monster: 11197
+    at: [-700, -900]
+    floor_height: 640
+    facing: 180
+    group: 21
+  - id: monster:stores_1
+    room: room:stores
+    monster: 11197
+    at: [-2240, 1840]
+    floor_height: 0
+    facing: 90
+    group: 13
+  - id: monster:stores_2
+    room: room:stores
+    monster: 11197
+    at: [-1900, 2250]
+    floor_height: 0
+    facing: 270
+    group: 13
+  - id: monster:study_1
+    room: room:study
+    monster: 11198
+    at: [384, 1400]
+    floor_height: 1280
+    facing: 270
+    group: 24
+  - id: monster:study_2
+    room: room:study
+    monster: 11191
+    at: [100, 1000]
+    floor_height: 1280
+    facing: 0
+    group: 24
+  - id: monster:study_3
+    room: room:study
+    monster: 11191
+    at: [900, 1450]
+    floor_height: 1280
+    facing: 180
+    group: 24
+  - id: monster:west_landing_1
+    room: room:west_landing
+    monster: 11421
+    at: [-2300, -2150]
+    floor_height: 640
+    facing: 0
+    group: 18
+  - id: monster:west_landing_2
+    room: room:west_landing
+    monster: 11421
+    at: [-1900, -2250]
+    floor_height: 640
+    facing: 90
+    group: 18
+decorations:
+  - id: deco:cell_bucket
+    room: room:cell
+    decoration: bucket
+    at: [3540, -560]
+    floor_height: -512
+  - id: deco:chandelier_1
+    room: room:great_hall
+    decoration: dec27
+    at: [-640, 384]
+    floor_height: 0
+    hangs: true
+  - id: deco:chandelier_2
+    room: room:great_hall
+    decoration: dec27
+    at: [640, 384]
+    floor_height: 0
+    hangs: true
+  - id: deco:den_bones_1
+    room: room:den
+    decoration: 7dec18
+    at: [5900, 1500]
+    floor_height: -512
+  - id: deco:den_bones_2
+    room: room:den
+    decoration: dec19
+    at: [5800, 200]
+    floor_height: -512
+  - id: deco:den_brazier
+    room: room:den
+    decoration: flamb00
+    at: [6240, 1480]
+    floor_height: -512
+  - id: deco:den_trash
+    room: room:den
+    decoration: trasheap
+    at: [6300, 130]
+    floor_height: -512
+  - id: deco:desk_candle_1
+    room: room:scriptorium
+    decoration: dec02
+    at: [-2752, 1424]
+    floor_height: 72
+  - id: deco:desk_candle_2
+    room: room:scriptorium
+    decoration: dec02
+    at: [-1984, 624]
+    floor_height: 72
+  - id: deco:dorm_barrel_1
+    room: room:dormitory
+    decoration: smlbarel
+    at: [1950, -1060]
+    floor_height: 640
+  - id: deco:dorm_barrel_2
+    room: room:dormitory
+    decoration: smlbarel
+    at: [1950, -1180]
+    floor_height: 640
+  - id: deco:gate_barrel_1
+    room: room:gatehouse
+    decoration: smlbarel
+    at: [520, -1400]
+    floor_height: 0
+  - id: deco:gate_barrel_2
+    room: room:gatehouse
+    decoration: smlbarel
+    at: [520, -1280]
+    floor_height: 0
+  - id: deco:guard_bucket
+    room: room:guard_room
+    decoration: bucket
+    at: [5420, 1580]
+    floor_height: -512
+  - id: deco:guard_goblet
+    room: room:guard_room
+    decoration: 7dec46
+    at: [4992, 1488]
+    floor_height: -440
+  - id: deco:hall_bones_1
+    room: room:great_hall
+    decoration: 7dec18
+    at: [-560, 1000]
+    floor_height: 0
+  - id: deco:hall_bones_2
+    room: room:great_hall
+    decoration: dec29
+    at: [520, 1010]
+    floor_height: 0
+  - id: deco:hall_goblet_e
+    room: room:great_hall
+    decoration: 7dec46
+    at: [1264, 640]
+    floor_height: 64
+  - id: deco:hall_plates_e1
+    room: room:great_hall
+    decoration: dec36
+    at: [1264, 240]
+    floor_height: 64
+  - id: deco:hall_plates_w1
+    room: room:great_hall
+    decoration: dec37
+    at: [-1264, 160]
+    floor_height: 64
+  - id: deco:hall_plates_w2
+    room: room:great_hall
+    decoration: dec39
+    at: [-1264, 560]
+    floor_height: 64
+  - id: deco:hearth_fire
+    room: room:great_hall
+    decoration: ckfyr00
+    at: [0, 1096]
+    floor_height: 32
+  - id: deco:kennel_bones_1
+    room: room:kennels
+    decoration: 7dec18
+    at: [2560, 1344]
+    floor_height: -64
+  - id: deco:kennel_bones_2
+    room: room:kennels
+    decoration: dec29
+    at: [2700, 1300]
+    floor_height: -64
+  - id: deco:kennel_bones_3
+    room: room:kennels
+    decoration: dec19
+    at: [1600, 1760]
+    floor_height: 0
+  - id: deco:kennel_bowl_1
+    room: room:kennels
+    decoration: foodbowl
+    at: [2200, 1980]
+    floor_height: 0
+  - id: deco:kennel_bowl_2
+    room: room:kennels
+    decoration: foodbowl
+    at: [3350, 1980]
+    floor_height: 0
+  - id: deco:kennel_skull
+    room: room:kennels
+    decoration: 7dec20
+    at: [3380, 1720]
+    floor_height: 0
+  - id: deco:moon_brazier
+    room: room:moon_tower
+    decoration: flamb00
+    at: [2752, 768]
+    floor_height: 1280
+  - id: deco:moon_skull
+    room: room:moon_tower
+    decoration: 7dec20
+    at: [3100, 760]
+    floor_height: 1280
+  - id: deco:pit_bones_1
+    room: room:bone_pit
+    decoration: sklplrev
+    at: [7600, 640]
+    floor_height: -512
+  - id: deco:pit_bones_2
+    room: room:bone_pit
+    decoration: 7dec18
+    at: [7250, 1150]
+    floor_height: -512
+  - id: deco:pit_bones_3
+    room: room:bone_pit
+    decoration: dec29
+    at: [7650, 1150]
+    floor_height: -512
+  - id: deco:sconce_gate_e
+    room: room:gatehouse
+    decoration: scon100
+    at: [320, -512]
+    floor_height: 0
+    wall: north
+    height: 200
+  - id: deco:sconce_gate_w
+    room: room:gatehouse
+    decoration: scon100
+    at: [-320, -512]
+    floor_height: 0
+    wall: north
+    height: 200
+  - id: deco:stores_barrel_1
+    room: room:stores
+    decoration: bigbarel
+    at: [-2840, 2330]
+    floor_height: 0
+  - id: deco:stores_barrel_2
+    room: room:stores
+    decoration: bigbarel
+    at: [-2740, 2330]
+    floor_height: 0
+  - id: deco:stores_barrel_3
+    room: room:stores
+    decoration: bigbarel
+    at: [-2840, 2230]
+    floor_height: 0
+  - id: deco:stores_barrel_4
+    room: room:stores
+    decoration: smlbarel
+    at: [-1640, 2330]
+    floor_height: 0
+  - id: deco:stores_barrel_5
+    room: room:stores
+    decoration: smlbarel
+    at: [-1740, 2330]
+    floor_height: 0
+  - id: deco:stores_bowl
+    room: room:stores
+    decoration: 7dec08
+    at: [-2240, 2048]
+    floor_height: 72
+  - id: deco:stores_meat
+    room: room:stores
+    decoration: trasheap
+    at: [-1660, 1780]
+    floor_height: 0
+  - id: deco:stores_sack_1
+    room: room:stores
+    decoration: floursac
+    at: [-2840, 1780]
+    floor_height: 0
+  - id: deco:stores_sack_2
+    room: room:stores
+    decoration: bag01
+    at: [-2840, 1900]
+    floor_height: 0
+  - id: deco:stores_sack_3
+    room: room:stores
+    decoration: bag_a
+    at: [-2730, 1770]
+    floor_height: 0
+  - id: deco:study_candle
+    room: room:study
+    decoration: dec02
+    at: [288, 1152]
+    floor_height: 1360
+  - id: deco:study_fire
+    room: room:study
+    decoration: ckfyr00
+    at: [512, 1632]
+    floor_height: 1312
+  - id: deco:torch_bones
+    room: room:bone_pit
+    decoration: torch01
+    at: [7424, 1280]
+    floor_height: -512
+    wall: north
+    height: 160
+  - id: deco:torch_cell
+    room: room:cell
+    decoration: torch01
+    at: [4096, -320]
+    floor_height: -512
+    wall: east
+    height: 160
+  - id: deco:torch_cells_n
+    room: room:cells
+    decoration: torch01
+    at: [4800, 640]
+    floor_height: -512
+    wall: north
+    height: 160
+  - id: deco:torch_cells_w
+    room: room:cells
+    decoration: torch01
+    at: [3328, 384]
+    floor_height: -512
+    wall: west
+    height: 160
+  - id: deco:torch_dorm_n
+    room: room:dormitory
+    decoration: torch01
+    at: [600, -512]
+    floor_height: 640
+    wall: north
+    height: 160
+  - id: deco:torch_dorm_s
+    room: room:dormitory
+    decoration: torch01
+    at: [900, -1536]
+    floor_height: 640
+    wall: south
+    height: 160
+  - id: deco:torch_eastfoot
+    room: room:east_foot
+    decoration: torch01
+    at: [2688, 0]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_eland
+    room: room:east_landing
+    decoration: torch01
+    at: [2688, -2048]
+    floor_height: 640
+    wall: east
+    height: 160
+  - id: deco:torch_gate_e
+    room: room:gatehouse
+    decoration: torch01
+    at: [640, -1024]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_gate_w
+    room: room:gatehouse
+    decoration: torch01
+    at: [-640, -700]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_guard_w
+    room: room:guard_room
+    decoration: torch01
+    at: [4736, 1550]
+    floor_height: -512
+    wall: west
+    height: 160
+  - id: deco:torch_hall_n1
+    room: room:great_hall
+    decoration: torch01
+    at: [-900, 1152]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_hall_n2
+    room: room:great_hall
+    decoration: torch01
+    at: [900, 1152]
+    floor_height: 0
+    wall: north
+    height: 160
+  - id: deco:torch_hall_s1
+    room: room:great_hall
+    decoration: torch01
+    at: [-900, -384]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_hall_s2
+    room: room:great_hall
+    decoration: torch01
+    at: [900, -384]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_kennels_e
+    room: room:kennels
+    decoration: torch01
+    at: [3456, 700]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_kennels_s
+    room: room:kennels
+    decoration: torch01
+    at: [3000, 512]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_kennels_w
+    room: room:kennels
+    decoration: torch01
+    at: [1536, 1400]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_kland
+    room: room:keep_landing
+    decoration: torch01
+    at: [1728, 1536]
+    floor_height: 1280
+    wall: north
+    height: 160
+  - id: deco:torch_script_e
+    room: room:scriptorium
+    decoration: torch01
+    at: [-1536, 1300]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_script_s
+    room: room:scriptorium
+    decoration: torch01
+    at: [-2600, 512]
+    floor_height: 0
+    wall: south
+    height: 160
+  - id: deco:torch_scroll_s
+    room: room:scroll_hall
+    decoration: torch01
+    at: [-1100, -1536]
+    floor_height: 640
+    wall: south
+    height: 160
+  - id: deco:torch_stores
+    room: room:stores
+    decoration: torch01
+    at: [-1536, 2200]
+    floor_height: 0
+    wall: east
+    height: 160
+  - id: deco:torch_study_e
+    room: room:study
+    decoration: torch01
+    at: [1152, 1600]
+    floor_height: 1280
+    wall: east
+    height: 160
+  - id: deco:torch_study_s
+    room: room:study
+    decoration: torch01
+    at: [0, 768]
+    floor_height: 1280
+    wall: south
+    height: 160
+  - id: deco:torch_westfoot
+    room: room:west_foot
+    decoration: torch01
+    at: [-2688, 0]
+    floor_height: 0
+    wall: west
+    height: 160
+  - id: deco:torch_wland
+    room: room:west_landing
+    decoration: torch01
+    at: [-2688, -2048]
+    floor_height: 640
+    wall: west
+    height: 160
+exits:
+  - id: exit:gate_left
+    room: room:gatehouse
+    at: [96, -1536]
+    size: [192, 352]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_gate
+    notes: "The gate's left wing (seen from inside): out to X6's terrace in front of the gatehouse."
+  - id: exit:gate_right
+    room: room:gatehouse
+    at: [-96, -1536]
+    size: [192, 352]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_gate
+    notes: "The gate's right wing (seen from inside): out to X6's terrace in front of the gatehouse."

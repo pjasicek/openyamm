@@ -1,0 +1,383 @@
+format: 0
+variables: []
+events:
+  - id: evt:board_empire
+    preset: script
+    source: platform:board_empire
+    title: Empire Deluxe
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_empire_deluxe\")"
+    notes: "A3's m42.board_empire_deluxe: hover and click give the board's name."
+  - id: evt:board_empire_back
+    preset: script
+    source: platform:board_empire_back
+    title: Empire Deluxe
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_empire_deluxe\")"
+    notes: "A3's m42.board_empire_deluxe: hover and click give the board's name."
+  - id: evt:board_inherit
+    preset: script
+    source: platform:board_inherit
+    title: Inherit the Earth
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_inherit_the_earth\")"
+    notes: "A3's m42.board_inherit_the_earth: hover and click give the board's name."
+  - id: evt:board_inherit_back
+    preset: script
+    source: platform:board_inherit_back
+    title: Inherit the Earth
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_inherit_the_earth\")"
+    notes: "A3's m42.board_inherit_the_earth: hover and click give the board's name."
+  - id: evt:board_kings_bounty
+    preset: script
+    source: platform:board_kings_bounty
+    title: King's Bounty
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_kings_bounty\")"
+    notes: "A3's m42.board_kings_bounty: hover and click give the board's name."
+  - id: evt:board_kings_bounty_back
+    preset: script
+    source: platform:board_kings_bounty_back
+    title: King's Bounty
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_kings_bounty\")"
+    notes: "A3's m42.board_kings_bounty: hover and click give the board's name."
+  - id: evt:board_mm
+    preset: script
+    source: platform:board_mm
+    title: Might and Magic
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_might_and_magic\")"
+    notes: "A3's m42.board_might_and_magic: hover and click give the board's name."
+  - id: evt:board_mm_back
+    preset: script
+    source: platform:board_mm_back
+    title: Might and Magic
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_might_and_magic\")"
+    notes: "A3's m42.board_might_and_magic: hover and click give the board's name."
+  - id: evt:board_nuclear
+    preset: script
+    source: platform:board_nuclear
+    title: Nuclear War
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_nuclear_war\")"
+    notes: "A3's m42.board_nuclear_war: hover and click give the board's name."
+  - id: evt:board_nuclear_back
+    preset: script
+    source: platform:board_nuclear_back
+    title: Nuclear War
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_nuclear_war\")"
+    notes: "A3's m42.board_nuclear_war: hover and click give the board's name."
+  - id: evt:board_nwc
+    preset: script
+    source: platform:board_nwc
+    title: New World Computing
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_new_world_computing\")"
+    notes: "A3's m42.board_new_world_computing: hover and click give the board's name."
+  - id: evt:board_nwc_back
+    preset: script
+    source: platform:board_nwc_back
+    title: New World Computing
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_new_world_computing\")"
+    notes: "A3's m42.board_new_world_computing: hover and click give the board's name."
+  - id: evt:board_planets
+    preset: script
+    source: platform:board_planets
+    title: Planets Edge
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_planets_edge\")"
+    notes: "A3's m42.board_planets_edge: hover and click give the board's name."
+  - id: evt:board_planets_back
+    preset: script
+    source: platform:board_planets_back
+    title: Planets Edge
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_planets_edge\")"
+    notes: "A3's m42.board_planets_edge: hover and click give the board's name."
+  - id: evt:board_spaceward
+    preset: script
+    source: platform:board_spaceward
+    title: "Spaceward Ho!"
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_spaceward_ho\")"
+    notes: "A3's m42.board_spaceward_ho: hover and click give the board's name."
+  - id: evt:board_spaceward_back
+    preset: script
+    source: platform:board_spaceward_back
+    title: "Spaceward Ho!"
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_spaceward_ho\")"
+    notes: "A3's m42.board_spaceward_ho: hover and click give the board's name."
+  - id: evt:board_tunnels
+    preset: script
+    source: platform:board_tunnels
+    title: Tunnels and Trolls
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_tunnels_and_trolls\")"
+    notes: "A3's m42.board_tunnels_and_trolls: hover and click give the board's name."
+  - id: evt:board_tunnels_back
+    preset: script
+    source: platform:board_tunnels_back
+    title: Tunnels and Trolls
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_tunnels_and_trolls\")"
+    notes: "A3's m42.board_tunnels_and_trolls: hover and click give the board's name."
+  - id: evt:board_vegas
+    preset: script
+    source: platform:board_vegas
+    title: Vegas Games
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_vegas_games\")"
+    notes: "A3's m42.board_vegas_games: hover and click give the board's name."
+  - id: evt:board_vegas_back
+    preset: script
+    source: platform:board_vegas_back
+    title: Vegas Games
+    effects:
+      - lua: "XeenQuests.hook(\"m42.board_vegas_games\")"
+    notes: "A3's m42.board_vegas_games: hover and click give the board's name."
+  - id: evt:chest_gift
+    preset: chest
+    source: chest:gift
+    notes: "The wedding gift: unseen in the cloud until state:wedding raises it."
+  - id: evt:disc
+    preset: script
+    source: platform:disc
+    title: A cloud-stone disc
+    condition: {lua: "XeenQuests.hook(\"m42.disc\")"}
+    effects:
+      - teleport:
+          to: [4608, -3968, 0]
+          direction: 90
+    notes: "D-56 7: A3's m42.disc line, then to entrance:fd03_roof inside the map, facing north."
+  - id: evt:fall_check
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if z > -1000 then return end
+      Xeen.skyFallTo("p5")
+    notes: "set:fall: a party under -1,000 has fallen off the clouds; A3's Xeen.skyFallTo('p5') sets it down on X5's entrance:p5_fall on Darkstone's rock, with falling damage (D-56 Q3)."
+  - id: evt:fall_floor
+    preset: script
+    source: room:air
+    trigger: step
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      Xeen.skyFallTo("p5")
+    notes: "The safety floor at -6,000: a fall the one-second check missed lands the same way."
+  - id: evt:figures_load
+    preset: script
+    trigger: load
+    lua: |-
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:pharaoh"), false)
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:roland"), false)
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:kalindra"), false)
+    notes: "The three figures are unkillable (D-56 3; as D-51 and D-52)."
+  - id: evt:hands_filled
+    preset: script
+    trigger: call
+    effects:
+      - show: deco:cube
+      - show: deco:scepter
+    notes: "The cinematic's first cue: the Cube and the Scepter in the hands."
+  - id: evt:observatory
+    preset: script
+    source: platform:observatory_door
+    title: Observatory
+    effects:
+      - lua: "XeenQuests.hook(\"m42.observatory\")"
+    notes: "A3's m42.observatory: 'The observatory is closed.' (aazex129:11); the door never opens."
+  - id: evt:pharaoh_note
+    preset: script
+    source: platform:note_board
+    title: A message
+    effects:
+      - lua: "XeenQuests.hook(\"m42.pharaoh_note\")"
+    notes: A3's m42.pharaoh_note (aazex129:15).
+  - id: evt:rest_1_back
+    preset: script
+    source: platform:rest_1_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_1_sign
+    preset: script
+    source: platform:rest_1_sign
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_1_sign_back
+    preset: script
+    source: platform:rest_1_sign_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_2_back
+    preset: script
+    source: platform:rest_2_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_2_sign
+    preset: script
+    source: platform:rest_2_sign
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_2_sign_back
+    preset: script
+    source: platform:rest_2_sign_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_3_back
+    preset: script
+    source: platform:rest_3_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_3_sign
+    preset: script
+    source: platform:rest_3_sign
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:rest_3_sign_back
+    preset: script
+    source: platform:rest_3_sign_back
+    title: Rest Stop
+    effects:
+      - lua: "XeenQuests.hook(\"m42.rest_stop\")"
+    notes: A3's m42.rest_stop (aazex129:0).
+  - id: evt:shrine
+    preset: script
+    source: platform:dais
+    title: The Pharaoh's shrine
+    effects:
+      - lua: "XeenQuests.hook(\"m42.shrine\")"
+    notes: "A3's m42.shrine: true takes the Cube and the Scepter, sets m42.done, gives the award and plays `unification` with A3's global done event 42149 (m42.ceremony, the text once); the map shows nothing else (D-56 5)."
+  - id: evt:stair_door
+    preset: script
+    source: platform:stair_door
+    title: Darkstone Tower
+    effects:
+      - exit: door:fd03
+    notes: "The stair house's door: down into FD-03's entrance:p5_stair, meaning 'Descend into Darkstone Tower?' (aazex129:14)."
+  - id: evt:wedding_hide
+    preset: script
+    trigger: load
+    condition: {not: {qbit: m42_done}}
+    effects:
+      - hide: platform:pavilion_post1
+      - passable: platform:pavilion_post1
+      - hide: platform:pavilion_post2
+      - passable: platform:pavilion_post2
+      - hide: platform:pavilion_post3
+      - passable: platform:pavilion_post3
+      - hide: platform:pavilion_post4
+      - passable: platform:pavilion_post4
+      - hide: platform:pavilion_roof
+      - passable: platform:pavilion_roof
+      - hide: platform:pavilion_back
+      - passable: platform:pavilion_back
+      - hide: platform:pavilion_west
+      - passable: platform:pavilion_west
+      - hide: platform:pavilion_east
+      - passable: platform:pavilion_east
+      - hide: platform:disc
+      - passable: platform:disc
+    notes: Before m42.done the pavilion and the disc are not there (hidden and passable).
+  - id: evt:wedding_load
+    preset: script
+    trigger: load
+    condition: {qbit: m42_done}
+    effects:
+      - show: platform:pavilion_post1
+      - solid: platform:pavilion_post1
+      - show: platform:pavilion_post2
+      - solid: platform:pavilion_post2
+      - show: platform:pavilion_post3
+      - solid: platform:pavilion_post3
+      - show: platform:pavilion_post4
+      - solid: platform:pavilion_post4
+      - show: platform:pavilion_roof
+      - show: platform:pavilion_back
+      - solid: platform:pavilion_back
+      - show: platform:pavilion_west
+      - solid: platform:pavilion_west
+      - show: platform:pavilion_east
+      - solid: platform:pavilion_east
+      - show: platform:disc
+      - solid: platform:disc
+      - show_actors: 51
+      - show: deco:cube
+      - show: deco:scepter
+      - show: deco:cake
+      - show: chest:gift
+    notes: "state:wedding on every visit after m42.done (D-56 5): the same as the cinematic's cue."
+  - id: evt:wedding_show
+    preset: script
+    trigger: call
+    effects:
+      - show: platform:pavilion_post1
+      - solid: platform:pavilion_post1
+      - show: platform:pavilion_post2
+      - solid: platform:pavilion_post2
+      - show: platform:pavilion_post3
+      - solid: platform:pavilion_post3
+      - show: platform:pavilion_post4
+      - solid: platform:pavilion_post4
+      - show: platform:pavilion_roof
+      - show: platform:pavilion_back
+      - solid: platform:pavilion_back
+      - show: platform:pavilion_west
+      - solid: platform:pavilion_west
+      - show: platform:pavilion_east
+      - solid: platform:pavilion_east
+      - show: platform:disc
+      - solid: platform:disc
+      - show_actors: 51
+      - show: deco:cube
+      - show: deco:scepter
+      - show: deco:cake
+      - show: chest:gift
+    notes: "The cinematic's cue at the fade (a gameplay step: it runs also on a skip)."
+cinematics:
+  - id: cinematic:unification
+    skippable: true
+    shots:
+      - {seconds: 8, at: [0, -1884, 872], look_at: [0, -184, 812], fov: 60, easing: smooth, keys: [{seconds: 8, at: [0, -1484, 812], look_at: [0, -184, 832]}]}
+      - {seconds: 10, at: [0, -2184, 1212], look_at: [0, 0, 712], fov: 70, easing: smooth, keys: [{seconds: 10, at: [600, -6400, 3200], look_at: [0, 0, 512]}]}
+      - {seconds: 6, at: [600, -6400, 3200], look_at: [0, 0, 512], fov: 70, easing: smooth, keys: [{seconds: 6, at: [300, -3000, 5600], look_at: [0, 2000, 6000]}]}
+      - {seconds: 8, at: [700, -540, 932], look_at: [0, 960, 712], fov: 60, easing: smooth, keys: [{seconds: 8, at: [300, -240, 812], look_at: [0, 960, 692]}]}
+      - {seconds: 3, party: true}
+    cues:
+      - {at: 0, fade: in, seconds: 1}
+      - {at: 0.5, event: evt:hands_filled}
+      - {at: 1.5, sound: xeen_vo_pharaoh_unification}
+      - {at: 1.5, subtitle: "The Dragon Pharaoh: \"Let the two faces of Xeen be one world again.\"", seconds: 5}
+      - {at: 9.5, sound: xeen_chime_1}
+      - {at: 11.5, sound: xeen_chime_2}
+      - {at: 13.5, sound: xeen_chime_3}
+      - {at: 15.5, sound: xeen_chime_4}
+      - {at: 19.5, fade: out, color: [255, 255, 255], seconds: 2.5}
+      - {at: 22.5, event: evt:wedding_show}
+      - {at: 24, fade: in, color: [255, 255, 255], seconds: 2}
+      - {at: 24.5, sound: xeen_wedding_fanfare}
+      - {at: 25, seconds: 1.5, monster: monster:pharaoh, action: face, look_at: [0, 960, 632]}
+    notes: "D-56 5: the ending, about 35 s, played by A3's m42.shrine (evt.PlayCinematic('unification', 42149)). The fade into the sky and back on the pavilion is white (FADE_COLOUR); the first fade in is from black. AU's chimes (9.5-15.5 s) and wedding fanfare (24.5 s)."

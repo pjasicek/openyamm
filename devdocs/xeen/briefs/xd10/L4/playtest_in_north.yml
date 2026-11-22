@@ -1,0 +1,50 @@
+# The way into the Cave of Illusion from X5's north mouth (XD-10, L4): a new game on X5 (xeen_x5.odm, A6), set down
+# 280 in front of the north mouth's face (x5 L4/NOTES.md: face 16640, 10387, 1408), facing it. X5's event 91 ("Enter
+# the Cave of Illusion") leads to this map's start (the north mouth, 0, 9664, 0). The arrival window shows once
+# (arrived_once 110641): the party leaves by the north mouth, comes in again and no window opens. Run with --world
+# xeen --map xeen_x5.odm (four.sh).
+id: xeen.xd10.l4.in_north
+title: Cave of Illusion (XD-10 L4), in from X5's north mouth
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 18, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 18, skills: [], equipment: {}}
+  - assert: {map: xeen_x5.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_x5.odm, x: 16640, y: 10107, z: 1420, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16 (MP40, X5 rebuilt 2026-11-22 00:02): the standard entrance window first.
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd10.blv}
+  - assert: {party_position: {x: 0, y: 9664, radius: 128, z_min: -40, z_max: 80}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE CAVE OF ILLUSION"}}
+  - play_lua: {source: "close(); wait(1); if not qbit(110641) then error('the arrival window did not set arrived_once') end"}
+  - execute_event: {id: 9}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - set_pose: {map: xeen_x5.odm, x: 16640, y: 10107, z: 1420, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16 (MP40, X5 rebuilt 2026-11-22 00:02): the standard entrance window first.
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd10.blv}
+  - assert: {party_position: {x: 0, y: 9664, radius: 128, z_min: -40, z_max: 80}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}

@@ -1,0 +1,402 @@
+{
+ "room_cells": [
+  128,
+  88
+ ],
+ "room_units": [
+  65536,
+  45056
+ ],
+ "walkable_area_millions": 480.5,
+ "road_area_millions": 147.1,
+ "olympus_area_millions": 63.7,
+ "placed_monsters": 50,
+ "groups": 19,
+ "kill_xp_party": 195208,
+ "kill_xp_per_member": 48802,
+ "kill_xp_per_member_with_megadragon": 53021,
+ "kill_xp_target": 48500,
+ "by_row": {
+  "11562": {
+   "name": "Griffin",
+   "level": 48,
+   "xp": 2784,
+   "count": 12,
+   "groups": 5
+  },
+  "11594": {
+   "name": "Sky Golem",
+   "level": 75,
+   "xp": 6375,
+   "count": 8,
+   "groups": 3
+  },
+  "11650": {
+   "name": "Cloud Dragon",
+   "level": 70,
+   "xp": 5600,
+   "count": 8,
+   "groups": 3
+  },
+  "11592": {
+   "name": "Cloud Golem",
+   "level": 50,
+   "xp": 3000,
+   "count": 22,
+   "groups": 8
+  }
+ },
+ "band": [
+  48,
+  75
+ ],
+ "bandits_uncounted": 8,
+ "quiet_share": 0.805,
+ "megadragon_clear": 6808,
+ "megadragon_clear_needed": 5888,
+ "stranded_west_from_leash": 11340,
+ "stranded_bridge_from_leash": 9497,
+ "first_fight": {
+  "entrance:olympus_dock": {
+   "distance": 5477,
+   "group": "pop:cap_dragons",
+   "ok": true
+  },
+  "entrance:olympus_square": {
+   "distance": 8719,
+   "group": "pop:launch_golems",
+   "ok": true
+  },
+  "entrance:d1_rope": {
+   "distance": 4399,
+   "group": "pop:east_dragons",
+   "ok": true
+  },
+  "entrance:p1_return": {
+   "distance": 5232,
+   "group": "pop:fire_road_golems",
+   "ok": true
+  },
+  "entrance:p2_return": {
+   "distance": 4978,
+   "group": "pop:air_road_golems",
+   "ok": true
+  },
+  "entrance:p3_return": {
+   "distance": 5724,
+   "group": "pop:earth_road_golems",
+   "ok": true
+  },
+  "entrance:p4_return": {
+   "distance": 4472,
+   "group": "pop:water_road_golems",
+   "ok": true
+  },
+  "entrance:dd08_roof": {
+   "distance": 5278,
+   "group": "pop:north_road_golems",
+   "ok": true
+  },
+  "entrance:dd06_roof": {
+   "distance": 5838,
+   "group": "pop:south_griffins",
+   "ok": true
+  },
+  "entrance:dd07_roof": {
+   "distance": 5724,
+   "group": "pop:earth_road_golems",
+   "ok": true
+  },
+  "entrance:dd14_roof": {
+   "distance": 3573,
+   "group": "pop:east_road_golems",
+   "ok": true
+  },
+  "entrance:dd05_roof": {
+   "distance": 3075,
+   "group": "pop:rope_griffins",
+   "ok": true
+  },
+  "entrance:dd02_roof": {
+   "distance": 4096,
+   "group": "pop:water_road_golems",
+   "ok": true
+  },
+  "entrance:dd03_roof": {
+   "distance": 4240,
+   "group": "pop:water_road_golems",
+   "ok": true
+  },
+  "entrance:dd15_sky": {
+   "distance": 3938,
+   "group": "pop:cap_dragons_b",
+   "ok": true
+  },
+  "entrance:dd17_roof": {
+   "distance": 1086,
+   "group": "pop:megadragon",
+   "ok": true
+  },
+  "entrance:dd26_stair": {
+   "distance": 7853,
+   "group": "pop:launch_golems",
+   "ok": true
+  }
+ },
+ "olympus_nearest_group": 4533,
+ "points": 59,
+ "points_of_interest": 56,
+ "poi_nn_median": 2119,
+ "poi_nn_range": [
+  724,
+  8149
+ ],
+ "merged_spots": [
+  [
+   "poi:scarab_rahib",
+   "poi:scarab_wardoz",
+   "poi:scarab_clara",
+   "poi:scarab_dorion"
+  ]
+ ],
+ "poi_outside_olympus": 35,
+ "chests": 5,
+ "point_kinds": {
+  "corner": 4,
+  "toll": 4,
+  "merchant": 4,
+  "lamp": 3,
+  "bottle": 4,
+  "scarab": 4,
+  "hatch": 8,
+  "door": 1,
+  "rope": 1,
+  "chest": 5,
+  "mirror": 1,
+  "statue": 4,
+  "vault": 1,
+  "plaque": 1,
+  "sewer": 1,
+  "house_door": 13
+ },
+ "links": {
+  "link:n1": 8431,
+  "link:n2": 11177,
+  "link:n3": 3797,
+  "link:n4": 7234,
+  "link:n5": 8099,
+  "link:e1": 9843,
+  "link:e2": 7962,
+  "link:e3": 9696,
+  "link:s1": 8096,
+  "link:s2": 7140,
+  "link:s3": 8017,
+  "link:s4": 7119,
+  "link:s5": 8326,
+  "link:w1": 3345,
+  "link:w2": 3172,
+  "link:w3": 6998,
+  "link:w4": 5387,
+  "link:w5": 3424,
+  "link:north_hatch": 1362,
+  "link:south_hatch": 1608,
+  "link:blackfang_spur": 2198,
+  "link:dragon_road": 6217,
+  "link:stranded_bridge": 1934,
+  "link:launch_road": 7134,
+  "link:olympus_west": 9023,
+  "link:genie_bridge": 3387,
+  "link:stranded_south_bridge": 3984,
+  "link:olympus_north": 6365,
+  "link:olympus_east": 8354,
+  "link:lake_road": 5181,
+  "link:lake_east": 5904
+ },
+ "rest_stop_legs": {
+  "fire_corner -> north_crossing": 27147,
+  "north_crossing -> north_toll": 7168,
+  "north_toll -> east_rest": 10752,
+  "east_rest -> air_corner": 12299,
+  "air_corner -> mud_wharf": 13322,
+  "mud_wharf -> east_junction": 11264,
+  "east_junction -> earth_corner": 13322,
+  "earth_corner -> south_rest": 12299,
+  "south_rest -> steam_post": 10752,
+  "steam_post -> south_toll": 11264,
+  "south_toll -> water_corner": 23051,
+  "water_corner -> west_toll": 6676,
+  "west_toll -> rope_head": 6333,
+  "rope_head -> smoke_post": 10355,
+  "smoke_post -> fire_corner": 14868
+ },
+ "ring_length": 190872,
+ "quiet_stop_leg_max": 27147,
+ "boards": 18,
+ "from_olympus": {
+  "rope_head": 26778,
+  "fire_corner": 38891,
+  "air_corner": 41963,
+  "earth_corner": 50161,
+  "water_corner": 39787,
+  "roost": 47231,
+  "sky_lake": 25564
+ },
+ "from_rope": {
+  "olympus": 26778,
+  "fire_corner": 25222,
+  "water_corner": 13009
+ },
+ "road_links": {
+  "min": 1362,
+  "max": 11177
+ },
+ "road_stretches": {
+  "ring": {
+   "length": 190869,
+   "markers": 36,
+   "longest_empty": 8128,
+   "between": [
+    "poi:toll_south",
+    "poi:chest_camp"
+   ]
+  },
+  "inner": {
+   "length": 63617,
+   "markers": 34,
+   "longest_empty": 6956,
+   "between": [
+    "poi:bottle_c3",
+    "poi:hatch_dd07"
+   ]
+  },
+  "north_causeway": {
+   "length": 11744,
+   "markers": 22,
+   "longest_empty": 7703,
+   "between": [
+    "poi:merchant_dust",
+    "poi:ol_guild_spirit"
+   ]
+  }
+ },
+ "road_longest_empty": 8128,
+ "poi_nn_max": 8149,
+ "poi_nn_max_spot": "poi:merchant_smoke",
+ "spacing_limit": 8192,
+ "heights": [
+  704,
+  1792
+ ],
+ "walkable_by_fall_zone_millions": {
+  "D6": 78.9,
+  "D5": 123.4,
+  "D4": 61.3,
+  "D1": 83.1,
+  "D2": 37.6,
+  "D3": 96.1
+ },
+ "cameras": {
+  "arrival": {
+   "at": [
+    -24576,
+    -6656
+   ],
+   "z": 1200,
+   "yaw_deg": 24,
+   "pitch_deg": -3,
+   "fov_deg": 72,
+   "note": "entrance:d1_rope, eye 176 over the cloud, facing east-north-east down the inner road"
+  },
+  "signature": {
+   "at": [
+    6144,
+    4608
+   ],
+   "z": 1616,
+   "yaw_deg": 164,
+   "pitch_deg": 0,
+   "fov_deg": 72,
+   "note": "on the east causeway at the Pyramid's Door, eye 176, facing west at Olympus 11,000 away"
+  }
+ },
+ "falls": [
+  {
+   "id": "fall:d6",
+   "map": "xeen_d6.odm",
+   "squares": "A1-B2",
+   "landing": [
+    13824,
+    -7680,
+    1664
+   ],
+   "facing": "s",
+   "owner": "A6",
+   "near": "before the Necropolis' gate (entrance:necropolis_gate (13824, -6656)), 1,024 south: the mirror inside (pass) leads back to Olympus"
+  },
+  {
+   "id": "fall:d5",
+   "map": "xeen_d5.odm",
+   "squares": "C1-D2",
+   "landing": [
+    0,
+    -8704,
+    1248
+   ],
+   "facing": "n",
+   "owner": "A6",
+   "near": "1,536 south of the Great Pyramid's door (entrance:dd15_door (0, -7168)): its sky door leads back up after m30.done"
+  },
+  {
+   "id": "fall:d4",
+   "map": "xeen_d4.odm",
+   "squares": "E1-F2",
+   "landing": [
+    5632,
+    -13312,
+    1120
+   ],
+   "facing": "w",
+   "owner": "A6",
+   "near": "Lakeside's square, 1,024 east of entrance:lakeside_square (4608, -13312): the ferry dock's Olympus slot (route 426) and the mirror"
+  },
+  {
+   "id": "fall:d1",
+   "map": "xeen_d1.odm",
+   "squares": "A3-B4",
+   "landing": [
+    -6656,
+    6144,
+    1152
+   ],
+   "facing": "s",
+   "owner": "A6",
+   "near": "1,024 north of Lucio's Jetty (entrance:lucio_jetty (-6656, 5120)), outside Castleview's Queen's Gate side: the boats go back up, and the Dark Grove rope is 8,300 north (the grove itself is full of electrapedes, 7 within 3,072 of the rope's foot)"
+  },
+  {
+   "id": "fall:d2",
+   "map": "xeen_d2.odm",
+   "squares": "C3-D4",
+   "landing": [
+    15872,
+    -6656,
+    1056
+   ],
+   "facing": "s",
+   "owner": "A6",
+   "near": "1,024 before the Southern Tower's door (entrance:dd06_door (15872, -7680)): its roof leads up"
+  },
+  {
+   "id": "fall:d3",
+   "map": "xeen_d3.odm",
+   "squares": "E3-F4",
+   "landing": [
+    -15360,
+    11776,
+    1440
+   ],
+   "facing": "e",
+   "owner": "A5",
+   "near": "outside Sandcaster's south gate (entrance:south_gate (-14336, 12800)), 1,400 south-west of it, by the Sky Stair and Lucio's Jetty (house 4649)"
+  }
+ ]
+}

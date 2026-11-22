@@ -1,0 +1,54 @@
+# M26 Castle Kalindra restored (QUESTS M26, 4.2; Act IV): 15 and 20 Energy Disks to Ellinger; the dungeon, then the
+# third floor with the services, the crown safe and the switch that wakes the Darkside mirrors (A4's DD-03 houses and
+# the Kalindra mirror open on stage4; Xeen.Stages.kalindra). Owner: A3. Format: QUESTS_FORMAT.md.
+id: M26
+title: Kalindra Restored
+act: IV
+kind: main
+status: full
+giver: 4954          # Ellinger
+maps: [DD-02, DD-03]
+level: 38
+block: 26
+after: [m19.stage2]
+source: "QUESTS M26, 4.2; dark/aaze0056 (Ellinger's disc lines)"
+
+qbits:
+  stage3: {id: 111521, journal: "Fifteen disks: Castle Kalindra's dungeon is back, with whoever was locked in it.", until: [stage4]}
+  stage4: {id: 111522, journal: "Twenty disks: Castle Kalindra is whole again, and the Darkside's mirrors wake.",
+            until: [m27.done]}
+
+npcs:
+  4954:              # Ellinger
+    topics:
+      - n: 1
+        label: Energy discs
+        show: {qbit: m19.stage2}
+        states:
+          - when: {qbit: stage4}
+            text: "It is good to see you again, my friends, but I cannot spend much time talking. I must see to my magical duties, and you must see to yours. The world is depending on us."
+          - when: {all: [{qbit: stage3}, {items: [energy_disk, 5]}]}
+            text: "Congratulations! We've done it! The castle is free! I can't thank you enough. You must now find the key to the pyramid in the castle and return the orb to the Pharaoh. I must attend to certain magical duties from now till the completion of the prophecy. Go with my blessing."
+            do: [{take: energy_disk, count: 5}, {set: stage4}, {xp: 6000}]
+          - when: {items: [energy_disk, 5]}
+            text: "This is fantastic! Your speedy delivery has kept us on track. The dungeon returns now. Just five more discs will bring back the last of the castle."
+            do: [{take: energy_disk, count: 5}, {set: stage3}, {xp: 4000}]
+          - when: {all: [{qbit: stage3}, {items: [energy_disk, 1]}]}
+            text: "So close! Just five discs will finish the castle. The key must be in that section!"
+          - when: {items: [energy_disk, 1]}
+            text: "Thanks for the discs, but I still need five to restore the dungeon. I would like to restore the third level first, but the mathematics forbid it. Carry on."
+          - when: {qbit: stage3}
+            text: "What's this? You have no discs? Do you seek to snatch defeat from the jaws of victory? There is still time to gather the rest."
+          - text: "Why have you come to me empty handed? Did you expect congratulations? The final hour approaches while you dawdle here!"
+
+hooks:
+  mirror_switch:
+    map: DD-03
+    gate: beat
+    where: "the mirror switch on the third floor (stage 4): wakes the Darkside mirrors (the map's switch; A4's mirrors open on stage4)"
+    reads: [stage4]
+    requires: {qbit: stage4}
+    text: "Somewhere far off, glass hums. Across the Darkside, the mirrors wake."
+
+rewards: {xp: 10000, gold: 0}
+playthrough: "Disks to Ellinger (Energy discs): 15 (stage 3), 20 (stage 4); DD-03: the mirror switch."

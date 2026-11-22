@@ -1,0 +1,211 @@
+chapters:
+  - id: 5
+    title: "Act V: Two Villains"
+    intro: "Two villains remain: Alamar, who is really Sheltem, on Darkside, and Lord Xeen, who wears Prince Roland's face, in his castle on the clouds above Darzog's tower. The two halves can be played in either order. The Darkside half (the Pharaoh, Corak, the Soul Box and Castle Alamar) opens once the Queen is restored (Act IV: her Key to the Great Pyramid, and Zelda's orb). The Cloudside half (Slick's carnival and Castle Xeen) needs Crodo freed from Darzog's Tower for the cloud stair and the Xeen Slayer Sword for Lord Xeen. Act VI starts when both villains are gone."
+    sections:
+      - title: "The Desert of Doom: the Dragon Pharaoh"
+        intro: "The Great Pyramid stands in the middle of the Desert of Doom (D5), west of Lakeside. Bring the Queen's Key to the Great Pyramid and Zelda's orb (from Act III). The Pharaoh waits on the fourth floor, above three floors of puzzles."
+        giver: {map: xeen_dd15, npc: "The Dragon Pharaoh"}
+        quests:
+          - quest: m28
+            requires: "Queen Kalindra restored (The Queen of the Darkside): her Key to the Great Pyramid. Zelda's orb in your packs (The Dragon Pharaoh's Orb)."
+            steps:
+              - "From Lakeside (D4), walk off the west edge along the desert road (7 days) into the Desert of Doom. Follow the road west: the Great Pyramid stands beside it a little south of the desert's centre. Click its green doors on the north face: the entrance window shows the Great Pyramid; choose OK to go in (journal and autonote). The doors open for anyone; the Queen's key is needed on the top floor."
+              - "Floor 1: the welcome statue in the entrance hall greets you, and the Visitor's Atrium's statue says 'light four torches before trying the stairs'. The torch levers stand in four chapels at the corners. North-east: through the Information door east of the entrance hall and the double doors beyond, then north to the lever (the plaque beside it explains the rule). North-west: the same way through Reception, west of the hall. South-west: from Reception go south down the west gallery to its end. South-east: along the south gallery to its east end. At each lever the status line says 'The torch flares up.' Tomb Mummies and Pyramid Guards fill the galleries."
+              - "The stair door stands on the south gallery's south side, and it says 'Access denied!' until all four torches burn. The fourth torch opens it ('The fourth torch catches, and the stair door rumbles open.'). Behind it, climb the grand stair to floor 2."
+              - "Floor 2: follow the processional north past four statues that recite verses (flavour from the original game; ignore the arithmetic). At its north end, read the brass plaque by the bronze registry door: 'REGISTRY NCC-1701 ... the lock wants the number'. Click the door and type 1701 (NCC-1701 also works). The lock chimes and the door slides open. Take the registry stair up to floor 3."
+              - "Floor 3 is the pad hall: four glyph pads (sun, eye, scarab and bird), each a teleporter. The answer is on the Overseer's lost map in the eye cell: 'Sun, eye, scarab: dead ends. The bird, then the second bird.' Step on the bird pad, then, in the cell it sends you to, on the second bird pad. It puts you in the far cell. Go through its door east to the apex stair and climb to floor 4. (Any dead-end cell has a pad back to the hall.)"
+              - "Floor 4: go north, then west to the green stone door into the antechamber. It opens only to the Queen's Key to the Great Pyramid; without it: 'A sealed door of green stone with the Pharaoh's sign on it ... Queen Kalindra, they say, keeps the key.' Read the book on its stand (the Prime Directive; optional). The great doors north open on the throne hall, where the Dragon Pharaoh sits by his dais. Choose 'The orb': he takes Zelda's orb, tells you Alamar is Sheltem, and cools the lava round the 'second meteor' in the Forbidden Zone."
+              - "To leave, go back to the antechamber and take the passage south to the gilded cage, the Pharaoh's lift. Press its call button. It runs for you now that you have had your audience. Ride it down to the foot of the grand stair, then go back through the stair door, the atrium and the entrance hall to the green doors."
+            tips:
+              - "The lift and the green doors make later visits short. The Chosen Ones and The Destiny of Xeen bring you back to the Pharaoh."
+              - "Do not click the Brew of Pure Power in the vat beside the dais twice in one visit. The second sip deals 50 Fire damage to the drinker and gives nothing."
+              - "Optional treasure, every answer given in the pyramid: the eight niches in floor 1's number hall take 3, 4, 5, 6, 7, 8, 9, 10 in order (the note on the Overseer's desk says so; the two rule statues hint at it). The eighth answer opens the Overseer's vault. The wall safe in the Pharaoh's bedchamber, on floor 4 east of the throne hall, opens to 20 left, 30 right, 1 left (woven into the tapestry beside it). The scarab cell's weapon rack gives one weapon once."
+              - "Without the orb the Pharaoh only says 'Bring it'. The pyramid can be climbed anyway."
+            reward: "15,000 experience to each character. Corak's pod in the Forbidden Zone opens."
+            figures:
+              - img: pyramid_niches.webp
+                caption: "The number hall on the Great Pyramid's first floor: the eight niches along its east wall and the number each one takes."
+            points:
+              - {map: xeen_dd15, name: "The plaque beside the registry lock"}
+              - {map: xeen_dd15, name: "The Overseer's map"}
+            maps:
+              - map: xeen_dd15
+                show: [exit, door, lever, sign]
+                focus: "The Dragon Pharaoh"
+                caption: "All four floors drawn on one plan, north up. The entrance and the torch chapels are in the north, the stair door and the lift in the south. The processional on floor 2 runs north to the registry door. The Pharaoh's throne hall is in the middle."
+              - map: xeen_d5
+                show: [exit]
+                focus: "Great Pyramid"
+                caption: "The Great Pyramid is a little south of the Desert of Doom's centre. Lakeside is off the east edge, the Forbidden Zone off the west edge."
+
+      - title: "The Forbidden Zone: Corak's pod"
+        intro: "The 'second meteor' is Escape Pod 1, half sunk in the lava field of the Forbidden Zone (D6). Its hatch stays too hot to touch until the Pharaoh has cooled it (The Dragon Pharaoh)."
+        giver: {map: xeen_dd16, npc: "Corak"}
+        quests:
+          - quest: m29
+            requires: "The Dragon Pharaoh done: the lava round the pod is cool."
+            steps:
+              - "Walk off the Desert of Doom's west edge along the road (7 days) into the Forbidden Zone. The pod is a curved metal hull in the lava a little east and south of the map's centre. Click its hatch: the entrance window opens ('A strange craft of curved metal standing in cooled lava. Its hatch is open, as if it had been waiting.'); choose OK."
+              - "From the airlock in the west, open the inner door onto the main deck (Floating Eyes and Terrible Eyes). Up the couch row to the north, the bridge's blast door says 'No power.'"
+              - "Go south down the stern slope to the engine room, where Lesser Fire Elementals guard the Main Power Console. Click the console and answer Yes to 'Activate?'. The lights come on and the bridge door unseals."
+              - "Go back north through the open blast door to the bridge. The two log computers on the west side and the five-page log on the east side tell Corak's story (optional reading)."
+              - "Read the stasis console beside the field. It spells out the phrase: 'TO BOLDLY GO WHERE NO MAN HAS GONE BEFORE'. Click the stasis field round the alcove at the bridge's north end and type where no man has gone before."
+              - "The field drops and Corak wakes. He must hide from Sheltem's senses and asks you for a Soul Box (journal and autonote). His 'Sheltem' topic explains that Xeen is drifting out of its orbit. Leave by the airlock: 'Do you wish to leave?', OK."
+            tips:
+              - "Any other answer at the field only makes it hum. Read the console again if you need the words."
+              - "The strange energy device in the device bay, the south-west room off the engine deck, raises every statistic of the character who clicks it by 1 and ages them 5 years. It works once per character."
+            reward: "8,000 experience to each character."
+            maps:
+              - map: xeen_dd16
+                show: [exit, door]
+                focus: "Stasis field"
+                caption: "The airlock is in the west, the engine room and its power console in the south, the bridge with Corak's field in the north."
+              - map: xeen_d6
+                show: [exit, transport]
+                focus: "Corak's Pod"
+                caption: "Escape Pod 1 lies just east of the centre. Castle Alamar is on the mesa to the north-west, Necropolis in the south-east."
+
+      - title: "The Chosen Ones and Olympus"
+        intro: "Back to the Pharaoh with the news that Corak is awake. His word opens Olympus, the city of the gods on the Skyroads (D7), where the last Soul Box lies."
+        giver: {map: xeen_dd15, npc: "The Dragon Pharaoh"}
+        quests:
+          - quest: m30
+            requires: "Corak's Pod done: Corak is awake."
+            steps:
+              - "Walk back east over the border pass into the Desert of Doom and enter the Great Pyramid by its green doors. From the entrance hall, go through the atrium and the stair door to the foot of the grand stair. Ride the gilded cage up to the antechamber and go north into the throne hall."
+              - "Choose the Pharaoh's 'Chosen Ones' topic. He names you the Chosen Ones and gives you his Pass to Olympus (journal and autonote)."
+              - "Lucio's celestial boats now sail to Olympus, one day each way up, from three places. From Lucio's Jetty on Castleview's wall (D1), Mondays and Thursdays. From Lucio's Jetty in Sandcaster (D3), Tuesdays and Fridays. From Lakeside Yachts (D4), Wednesdays and Saturdays: talk to Captain Ferris Gull and pick '1 day to The Skyroads' (250 gold from Lakeside). The yard is open from 6 AM to 6 PM."
+              - "The boat lands you on Lucio's cloud jetty in Olympus (The Soul Box starts there)."
+            tips:
+              - "Two more ways up open with the title, both onto the open Skyroads rather than Olympus. In the Great Pyramid, press the carved button in the Pharaoh's bedchamber, east of the throne hall: a panel opens the way to the sky door. On Castleview Vale (D1), the rope hanging into the Dark Grove's great tree now climbs all the way up."
+              - "The boats only sail up. To come down, step off a cloud's edge (you land on the map below, with falling damage) or use the Mirror of Olympus."
+            reward: "10,000 experience to each character, the Pass to Olympus and the award 'Chosen One'."
+            maps:
+              - map: xeen_d4
+                show: [transport]
+                focus: "Lakeside Yachts"
+                caption: "Lakeside Yachts is on Lakeside's jetty. Lucio's other jetties are in Castleview and Sandcaster."
+              - map: xeen_dd15
+                show: [exit]
+                focus: "The Dragon Pharaoh"
+                caption: "The lift's foot is beside the grand stair in the south; the Pharaoh is in the middle of floor 4."
+
+          - quest: m31
+            requires: "The Chosen Ones done (the Soul Storage door opens only for the Chosen Ones)."
+            steps:
+              - "Walk along Lucio's jetty into Olympus ('Welcome to Olympus.'; the journal starts). The gods' houses ring the square, with the Mirror of Olympus and four prophecy statues in the middle (their verses retell the whole Darkside story)."
+              - "Talk to Atlas, in the House of Atlas on the south side of the square, and ask him 'Nine': Alamar's birth number is nine. You need it in Castle Alamar. Zeus, in the House of Zeus on the west side, answers 'Prince Roland': Alamar holds the prince in the bottom level of his castle (Act VI)."
+              - "Soul Storage is behind the temple, at the north-west end of the town; its vault door stands open for you. Read the plaque on its wall: 'Alamar's true name, for instance, is Sheltem.' (autonote). This is the answer at Castle Alamar's gate."
+              - "Click the last shelf and take the Soul Box (journal and autonote)."
+              - "Go down to the Forbidden Zone. One way: walk north-west out of town along the north road to the Griffin Watch, the wide cloud with the 'DANGER! Mega Dragon' board, and step off its north lip. You land in Necropolis (D6) by its north gate, with falling damage. Three Griffins circle the Watch. If you have touched the Mirror of Necropolis, the Mirror of Olympus is a safe way down."
+            tips:
+              - "Other cloud edges drop you onto other Darkside maps. Only the Griffin Watch's edge lands in the Forbidden Zone."
+            reward: "8,000 experience to each character and the Soul Box."
+            points:
+              - {map: xeen_d7, name: "Atlas"}
+              - {map: xeen_d7, name: "Zeus"}
+            maps:
+              - map: xeen_d7
+                show: [exit, mirror, sign]
+                focus: "Shelves"
+                caption: "Olympus sits on the clouds west of the map's centre. Soul Storage is behind the temple, north of the square. Lucio's jetty is in the south-east of the town."
+
+      - title: "Corak and Castle Alamar"
+        intro: "Corak rides into Castle Alamar hidden in the Soul Box. Without him the gate does not move."
+        giver: {map: xeen_dd16, npc: "Corak"}
+        quests:
+          - quest: m32
+            requires: "The Soul Box."
+            steps:
+              - "From Necropolis walk north-west across the Forbidden Zone to Escape Pod 1 and enter by its hatch. The pod is powered from your first visit, so go straight up the couch row to the bridge."
+              - "Talk to Corak behind the dead field and choose 'Soul Box'. He takes the box, climbs into it, and gives it back with himself inside (journal and autonote): in Sheltem's presence, throw the box to the ground. If you lose the box or die, Xeen is doomed."
+              - "Corak has left the pod. Leave by the airlock."
+            tips:
+              - "Do not sell or drop the Soul Box. Castle Alamar's door and its throne both need it."
+            reward: "4,000 experience to each character and the Soul Box with Corak."
+            maps:
+              - map: xeen_dd16
+                show: [exit]
+                focus: "Corak"
+                caption: "Corak stands at the bridge's north end."
+
+          - quest: m33
+            requires: "The Soul Box with Corak (Corak in the Soul Box). You also need Alamar's true name (Soul Storage's plaque) and his birth number (Atlas's 'Nine')."
+            steps:
+              - "Castle Alamar is on the mesa north-west of the pod. Click its gate. Without Corak in his Soul Box, a voice answers on the status line ('Chosen Ones. You have nothing I need to fear.') and the gate does not move. With him, the entrance window opens ('Castle Alamar. Every window is lit, and every one of them is looking at you.'); choose OK. Inside, the Soul Box hums and the castle does not notice you."
+              - "Floor 1, the works. Go north through the gatehall's and the Hall of Order's blast doors. Annihilators, Autobots, Gamma Gazers and Patrols roam the halls. Four Heads, one per element, power the fields that bar the sundials upstairs. In the west ward, step onto the fire belt: the floor carries you north to the Fire Head. Click it ('Fire power field operational') and answer Yes to shut it down. Leave by its maintenance door into the west return corridor. Ride the water belt, the outer one, north to the Water Head and shut it down the same way."
+              - "Back in the Hall of Order, do the same in the east ward: the air belt to the Air Head, then the earth belt, the outer one, to the Earth Head. Each Head has a lesser elemental beside it. Each says 'Somewhere above, a field dies.'"
+              - "Go up through the Hall of Order's north blast doors and the stair hall to floor 2's south walk. The dial hall has a sundial in each corner bay. Each dial asks 'The sundial reads N. Turn?', and each Yes moves it on one hour. All four must read nine, Alamar's birth number. Earth Time (south-east) starts at 12: turn it 9 times. Air Time (north-east) starts at 6: 3 times. Fire Time (north-west) starts at 3: 6 times. Water Time (south-west) starts at 7: 2 times. At nine the status line says 'The dial clicks home at nine.' and a bridge slab rises."
+              - "From the dial hall's west lip, walk east over the four slabs to the island in the middle. Click the gate and type Sheltem ('Access approved!'). Any other name gets 'Wrong!' and you can try again. Ride the lift beyond it up to the deck."
+              - "The deck is laid with hatched plates that drop you to the chasm floor. Walk due west along the deck's middle line, which has no plates, to the Hall of Vengeance ('Come to ME!'). Go south through the antechamber to Command Central."
+              - "Step onto the dais plate before the throne and answer Yes to 'Open the Soul Box?'. Corak steps out to face Sheltem, the castle self-destructs, and you run with the Cube of Power. You come out at the castle gate (journal). Darkside's sun is whole again."
+            tips:
+              - "If you fall through a plate: follow the cut south from the chasm floor to the sump. Pull its lever to open the door to the stair hall (the bones beside it hold 1,500 gold). Climb to the south walk, cross the slabs again, and press the lift's button: once to call it down, once to ride up."
+              - "On entering, the journal notes the gate's rule."
+              - "Turning a dial past nine lowers its slab again ('stone drops away'). It wraps round after 12."
+              - "Optional: the XEEN Power Juice dispenser in a store off the Hall of Vengeance gives +2 Might once per character. The lever in the robot bay, on the deck's north side, opens the strongroom by Command Central. The roof hatch leads up to the Skyroads."
+              - "Once Sheltem is gone, the Pharaoh's 'Lord Xeen' topic points you at Castle Xeen if you have not been there yet."
+            reward: "35,000 experience to each character, the Cube of Power and the award 'Defeated Sheltem'."
+            points:
+              - {map: xeen_dd17, name: "Fire Time"}
+              - {map: xeen_dd17, name: "Air Time"}
+              - {map: xeen_dd17, name: "Earth Time"}
+              - {map: xeen_dd17, name: "Water Time"}
+            maps:
+              - map: xeen_dd17
+                show: [exit, door, lever, sign]
+                focus: "True-name gate"
+                caption: "Floors drawn on one plan. The gate is in the south. The Heads are at the north ends of the four belts, the sundials in the corner bays, the true-name gate on the central island, and Command Central in the south-west."
+              - map: xeen_d6
+                show: [exit]
+                focus: "Castle Alamar"
+                caption: "Castle Alamar's gate is on the mesa north-west of Corak's pod."
+
+      - title: "The Clouds of Xeen: Slick and Lord Xeen"
+        intro: "Lord Xeen's castle floats on the Clouds of Xeen (X9) above Darzog's Tower. The way up is the cloud stair on the tower's roof, which climbs only once Crodo is free. Lord Xeen dies only to the Xeen Slayer Sword."
+        quests:
+          - quest: m34
+            requires: "Crodo freed from Darzog's Tower."
+            steps:
+              - "Go back up Darzog's Tower to its roof, as in Darzog's Tower (Medin's boat to the island, the Skeleton Key, Darzog's disc up the Well, the sky stair). Walk up the cloud stair on the roof's north side. At the top step the entrance window opens; choose OK. (Before Crodo is free the status line only says 'The cloud gives under your foot like fog. Something holds it shut: Crodo would know what.')"
+              - "You arrive on the stair clouds at the south end of the Clouds of Xeen. Go north along the neck to the brink. Its sign reads 'Xeen--9N.': walk straight north from it, about 5,400 units over an invisible path, to the sign 'Now entering Xeendom'. If you stray off the path you fall to Darzog's island in Lake Darzog, with falling damage."
+              - "North of the landing is the cloud plaza with Slick the Gamemaster's four booths. The character you have selected plays and needs 60 in the game's statistic, as the character sheet shows it: bonuses from potions, wells and items count. Might, the high-striker: 100 gold. Speed, the gremlin's race track: 1,000 gold. Endurance, the treadmill: 5 gems. Accuracy, the shooting line: 10 gems (any gems in the packs). A lost game keeps the fee, so bring spares. Each win gives a cupie doll (the autonote lists the games)."
+              - "Before you shoot, click the Sure-Eye Tonic cask at the south end of the Accuracy booth's counter. The first round is free: two Accuracy Boosts, +30 Accuracy each. They do not add to each other."
+              - "Walk north up the road to the causeway. At Slick's prize stand on its west side, he swaps the four dolls for a genuine Lord Xeen cupie doll."
+              - "Castle Xeen's gate is at the causeway's north end. Without the doll it says 'No one may enter Castle Xeen without a cupie doll!'. With it, the entrance window opens; choose OK."
+            tips:
+              - "Raise the four statistics before you climb: stat potions, the permanent fountains and temporary wells all help. The games cost at least 1,100 gold and 15 gems."
+              - "The four rhyme statues in the wings by the stair clouds speak only to a party that has read the Book of Languages in Castle Burlock."
+              - "The six 'Offering' statues on the outer clouds give a Crusader party one treasure each, once."
+            reward: "10,000 experience to each character and the Lord Xeen cupie doll."
+            maps:
+              - map: xeen_x9
+                show: [exit, sign]
+                focus: "Accuracy booth"
+                caption: "The stair clouds are in the far south, the unseen way runs north from the brink sign, the booths ring the cloud plaza in the middle, and the prize stand and Castle Xeen's gate are on the causeway in the north."
+
+          - quest: m35
+            requires: "The Lord Xeen cupie doll (Slick's Carnival) and the Xeen Slayer Sword."
+            steps:
+              - "Castle Xeen, floor 1 ('the guard machines are already making more guards'). Four generators feed the field that bars the crown stair. Click a generator and type Yes to 'Destroy?' (blows and spells also break it). Demons, Devils, Screamers and Xeen's Guards fill the castle."
+              - "Go north through the great hall, then west through the west ward to the cold vault in the north-west: the Water Generator. Cross the stair hall east to the gravel vault in the north-east: the Earth Generator."
+              - "From the east ward take the east gallery south to the south-east tower. Climb it to the top: the Air Generator. Go along the upper gallery west to the barrier hall in the middle. With three generators down the field still stands ('Four pylons feed it'), and each pylon's sign names its generator's room."
+              - "Continue west along the upper gallery to the top of the south-west tower: the Fire Generator. The last pylon dies and the field across the crown stair collapses."
+              - "Climb the crown stair, which leads south out of the barrier hall. In the aviary to the west at its top, kill Xeen's Pet (level 75, about 2,400 HP)."
+              - "Before the throne doors, put the Xeen Slayer Sword in the main hand of your best melee fighter. Only melee blows with it hurt Lord Xeen. Other weapons, missiles and spells do nothing (the status line says 'Lord Xeen laughs. Only the Slayer Sword can touch him.'). Go north through the crown's hall to the throne doors. Lord Xeen sees you and comes down from his throne (level 85, 2,200 HP). Kill him with the sword. His treasury opens."
+              - "The Sixth Mirror behind the throne is sealed by his magic. Click the throne and answer Yes to 'Take it?': you take the Scepter of Temporal Distortion. The mirror shatters, and you stand on X9's causeway with the castle gone."
+              - "Walk off the castle cloud's west rim. You fall to Darzog's island in Lake Darzog (X2), and Medin's boat takes you ashore. Go to Castle Burlock and tell King Burlock in the throne room ('Lord Xeen'). He thanks you and sends you to find his brother on the other side."
+            tips:
+              - "The two Guard Making Machines in the guard foundry, in the castle's north part below the throne room, keep stamping out Xeen's Guards. Click one and type Yes to destroy it. Destroying both opens the guard bays. This is optional."
+              - "Lord Xeen's double has left the King's side. Reporting to the King gives no reward but closes the journal line."
+            reward: "35,000 experience to each character, Xeen's Scepter and the award 'Defeated Lord Xeen'."
+            maps:
+              - map: xeen_xd19
+                show: [exit, door, sign]
+                focus: "Lord Xeen"
+                caption: "Floors drawn on one plan. The gate is in the south, the Water and Earth Generators in the north-west and north-east vaults, the Air and Fire Generators atop the south-east and south-west towers, the barrier in the middle, and the throne and mirror in the north."
+              - map: xeen_xd07
+                show: [exit, door]
+                focus: "King Burlock"
+                caption: "King Burlock's throne room is at the north end of Castle Burlock's main hall."

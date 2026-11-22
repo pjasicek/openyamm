@@ -1,0 +1,138 @@
+# Xeen playthrough, segment 73: the Chosen Ones (D6, D5, DD-15, D4, D7), M30 The Chosen Ones done.
+# From Corak's crust on D6 east off D6's edge over the border pass (y 0) to the Desert of Doom (D5); the Great Pyramid's
+# green doors (open to the key's holder); DD-15: the entrance hall, the atrium, the stair door, the Pharaoh's lift up
+# (it answers his guests since the audience), the antechamber and the throne hall; the Dragon Pharaoh: Chosen Ones (the
+# Pass to Olympus 12339 ... the award Chosen One, the autonote 4130, m30.done 111600, 10,000 each); down by the lift and
+# out by the green doors. East off D5's edge along the desert road (y -8192) to Lakeside (D4); Lakeside Yachts (house
+# 4655): Lucio's boat, route 426, Wednesdays and Saturdays, for the Chosen Ones, up to Olympus (D7's entrance:olympus_dock).
+# Routes: segment 69 (DD-15's path and lift), devdocs/xeen/briefs/dd15/L4/playtest.yml. Quest logic: source/quests/m30.yml.
+#   python3 tests/playthrough/xeen/run.py 73
+id: xeen.playthrough.73_chosen_ones
+title: "Xeen playthrough 73: back to the Great Pyramid, the Pharaoh names the Chosen Ones, Lucio's boat to Olympus"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/71_corak.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d6.odm}
+  - assert: {qbit_set: [111582]}
+  - assert: {qbit_clear: [111600]}
+  - play_lua: {source: "log('73 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end"}
+  # East over the border pass (y 0) off D6's edge to the Desert of Doom.
+  - set_pose: {map: xeen_d6.odm, x: 20992, y: 0, z: 1700, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: 0, z: 1700, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Great Pyramid's green doors (D5 event 1).
+  - set_pose: {map: xeen_d5.odm, x: 0, y: -7168, z: 1248, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "status(); click(1)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd15.blv}
+  - assert: {party_position: {x: 0, y: 4736, radius: 48, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # The entrance hall, the atrium, the stair door, to the lift's foot.
+  - walk_to: {x: 576, y: 3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 2400, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -640, y: -1000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 20)"}
+  - walk_to: {x: -640, y: -1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -2900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -3550, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -500, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Up by the Pharaoh's lift (the cage waits at the foot since segment 69).
+  - play_lua: {source: "clear_hostiles(3000); status(); click(59); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: 2296, z_max: 2340}}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -1100, z: 2304, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 1300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The Dragon Pharaoh: Chosen Ones.
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5453}}
+  - select_topic: {match_label: "Chosen Ones"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You are the Chosen Ones"}}
+  - play_lua:
+      source: |
+        close(); close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(111600) then error("m30.done 111600 not set") end
+        if experience(0) - recall("xp") ~= 10000 then error("M30 paid " .. (experience(0) - recall("xp"))) end
+  # Down by the lift and out by the green doors.
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -1100, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000); status(); click(12); wait(8); if door_state(1) ~= 'open' then error('the cage was not called up: ' .. door_state(1)) end"}
+  - walk_to: {x: 256, y: -3584, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(58); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: -8, z_max: 40}}
+  - walk_to: {x: -500, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1024, y: -3550, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1024, y: -2900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -640, y: -1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 20)"}
+  - walk_to: {x: -640, y: -1000, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 576, y: 3300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 4900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(34); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # East along the desert road off D5's edge to Lakeside (D4).
+  - set_pose: {map: xeen_d5.odm, x: 20992, y: -8192, z: 1504, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 32512, y: -8192, z: 1500, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Lakeside Yachts (house 4655, D4 event 9): Lucio's boat to Olympus (route 426).
+  - set_pose: {map: xeen_d4.odm, x: 4608, y: -9216, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # Lucio sails Wednesdays and Saturdays (route 426) and the yard opens 6AM-6PM: the party waits on the dock for the
+  # next Wednesday or Saturday morning, 8:00 (day 0 is a Monday, as the routes' days).
+  - lua_event:
+      source: |
+        local now = CurrentGameMinutes()
+        local today = math.floor(now / 1440)
+        for add = 0, 7 do
+          local day = today + add
+          local at = day * 1440 + 8 * 60
+          if (day % 7 == 2 or day % 7 == 5) and at > now then
+            AdvanceGameMinutes(at - now)
+            break
+          end
+        end
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "1 day to The Skyroads for 250 gold"}}   # F1: the boatman's talk
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "1 day to The Skyroads for 250 gold"}   # Lucio's slot (route 426, after m30.done)
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -640, y: 3200, radius: 300}}
+  - play_lua:
+      source: |
+        wait(1); for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if recall("gold") - gold() ~= 250 then error("the boat cost " .. (recall("gold") - gold())) end
+  - assert: {qbit_set: [111582, 111600]}
+  - play_lua: {source: "log('73 done: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - save_game: {name: "73 The Chosen Ones", path: output/playthrough/xeen/checkpoints/73_chosen_ones.oysav}

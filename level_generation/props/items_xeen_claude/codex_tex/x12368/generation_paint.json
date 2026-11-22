@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png in-place as a strictly registered texture-projection atlas. Use this transparent 1536x2048 guide as your exact pixel position and silhouette template. Return a transparent 3:4 PNG. The guide has 3 columns x 4 rows of 512-square cells. Row 1 front, back, left profile facing right; row 2 right profile facing left, top-down, empty. Rows 3-4 duplicate those exact views and outlines. Preserve each pose, scale, shape, gap and border, no redesign. Rows 1-2 only: paint unlit base colors of the Speed Doll, a stuffed cloth carnival-prize toy. Use design_reference.png for details and icon_x8.png for palette; ignore magenta background. Shaggy ginger-orange thick yarn strands painted inside the entire lumpy hair cap, cream felt face and limbs, brown button eyes, stitched smile and cloth seams, green felt tunic with thin brown belt, brown felt boots with small white felt wings. Keep back and top anatomically correct. Details follow the design reference, scaled to each view. Rows 3-4 only: matching silhouettes filled with flat material ID colors, no shading, texture, outline or antialiased color blends inside. Pure blue #0000FF for every cloth part and yarn hair (including all felt boots, wings, face and tunic), pure green #00FF00 for any leather parts such as the leather belt and any fur, pure yellow #FFFF00 for matte nonmetal solids such as wooden button eyes, pure red #FF0000 only for actual metal. Cover every silhouette pixel with exactly one allowed color. All background, gaps and both empty cells fully transparent. No lighting, cast shadows, AO, hot highlights, reflections, glow, outlines, text or ground.\nCorrect the silhouette registration: trace the EXACT grey contour, including the asymmetrical leg positions, wing shapes and sloping hem, without enlarging or straightening. Lock guide alpha as a hard stencil across all views. Absolutely clean transparency around each mask with no scattered blue pixels. Retain clear margins between all four rows.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "38d578cc54690081d4ca2ff43873f9964cde60c183be96dc9e8dd66775dfc71c"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "33908a9f3b502079dbd37a1e639e3ca99564e636b8aa8c39770d145896bdc81e"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "7981683e67662bf90e0a066c2f594d380b345ddf472fe5b05baafc8eae1afc2e"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e7-629a-7ad2-8fb6-704a351290e5/exec-70c269b2-99fb-4307-be60-6b261f2ec226.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

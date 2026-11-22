@@ -1,0 +1,354 @@
+format: 1
+start:
+  room: room:sea
+  at: [3968, 3968]
+  floor_height: 0
+  facing: sw
+  notes: "entrance:d7_fall on the Spray Terrace, facing south-west (Xeen.PlaneArrivals.water)."
+arrivals:
+  - {entrance: entrance:d7_fall, room: room:sea, at: [3968, 3968], floor_height: 0, facing: sw, notes: The drop from D7's south-west corner (Xeen.toPlane('water')).}
+sounds:
+  - {id: sound:plane_bed, room: room:sea, at: [0, 0], height: 1100, sound: xeen_amb_plane_water, radius: 12000, inner_radius: 8000, volume: 0.45, pan: false}
+chests:
+  - id: chest:test
+    room: room:sea
+    at: [-3200, -4864]
+    floor_height: 192
+    kind: ch3
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 2500
+    notes: "The test's chest (aaze0028:4 'Chest'): the source's gold and three items, in the Grotto past the Veil."
+  - id: chest:wreck_cache
+    room: room:sea
+    at: [846, -4533]
+    floor_height: 0
+    kind: ch1
+    facing: ne
+    treasure_level: 6
+    random_items: 2
+    gold: 1200
+    trap_level: 8
+    notes: "The ship's strongbox in the half-flooded hold (trapped; waded to, D-58 P4 Q2)."
+monsters:
+  - id: monster:court_north_1
+    room: room:sea
+    monster: 11710
+    at: [-4256, 2560]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 9
+    notes: "pop:court_north: 2 Water Elemental (62)."
+  - id: monster:court_north_2
+    room: room:sea
+    monster: 11710
+    at: [-4787, 2512]
+    floor_height: 128
+    facing: 0
+    hostile: true
+    group: 9
+  - id: monster:guardian_1
+    room: room:sea
+    monster: 11712
+    at: [-4096, 1280]
+    floor_height: 130
+    facing: 90
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Sleeper's Guardian of Water (75): the test's hidden group 60 in the whirlpool, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_2
+    room: room:sea
+    monster: 11711
+    at: [-4336, 1120]
+    floor_height: 130
+    facing: 90
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Tidal Terror (70): the test's hidden group 60 in the whirlpool, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_3
+    room: room:sea
+    monster: 11711
+    at: [-3856, 1120]
+    floor_height: 130
+    facing: 90
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Tidal Terror (70): the test's hidden group 60 in the whirlpool, shown by evt:test (D-58 C3)."
+  - id: monster:reef_elementals_1
+    room: room:sea
+    monster: 11710
+    at: [4320, -1280]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 3
+    notes: "pop:reef_elementals: 3 Water Elemental (62)."
+  - id: monster:reef_elementals_2
+    room: room:sea
+    monster: 11710
+    at: [3984, -1086]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:reef_elementals_3
+    room: room:sea
+    monster: 11710
+    at: [3984, -1474]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:reef_north_1
+    room: room:sea
+    monster: 11625
+    at: [4816, 519]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 4
+    notes: "pop:reef_north: 3 Lesser Water Elemental (55)."
+  - id: monster:reef_north_2
+    room: room:sea
+    monster: 11625
+    at: [4432, 629]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:reef_north_3
+    room: room:sea
+    monster: 11625
+    at: [4528, 408]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:sea_octopods_e_1
+    room: room:sea
+    monster: 11474
+    at: [2724, -1152]
+    floor_height: -1024
+    above_floor: 512
+    facing: 0
+    hostile: true
+    group: 5
+    leash: 1280
+    notes: "pop:sea_octopods_e: 3 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it; they start mid-sea (512 over the bed, merge point 27's `above_floor`) and keep within 1280 of home (session 18)."
+  - id: monster:sea_octopods_e_2
+    room: room:sea
+    monster: 11474
+    at: [2094, -788]
+    floor_height: -1024
+    above_floor: 512
+    facing: 0
+    hostile: true
+    group: 5
+    leash: 1280
+  - id: monster:sea_octopods_e_3
+    room: room:sea
+    monster: 11474
+    at: [2094, -1516]
+    floor_height: -1024
+    above_floor: 512
+    facing: 0
+    hostile: true
+    group: 5
+    leash: 1280
+  - id: monster:sea_octopods_n_1
+    room: room:sea
+    monster: 11474
+    at: [-604, 4224]
+    floor_height: -1024
+    above_floor: 512
+    facing: 0
+    hostile: true
+    group: 6
+    leash: 1280
+    notes: "pop:sea_octopods_n: 2 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it; they start mid-sea (512 over the bed, merge point 27's `above_floor`) and keep within 1280 of home (session 18)."
+  - id: monster:sea_octopods_n_2
+    room: room:sea
+    monster: 11474
+    at: [-1444, 4224]
+    floor_height: -1024
+    above_floor: 512
+    facing: 0
+    hostile: true
+    group: 6
+    leash: 1280
+  - id: monster:statue_north_1
+    room: room:sea
+    monster: 11625
+    at: [1184, 1536]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 1
+    notes: "pop:statue_north: 3 Lesser Water Elemental (55)."
+  - id: monster:statue_north_2
+    room: room:sea
+    monster: 11625
+    at: [957, 1682]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 1
+  - id: monster:statue_north_3
+    room: room:sea
+    monster: 11625
+    at: [1040, 1342]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 1
+  - id: monster:statue_west_1
+    room: room:sea
+    monster: 11625
+    at: [-416, 384]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 2
+    notes: "pop:statue_west: 3 Lesser Water Elemental (55)."
+  - id: monster:statue_west_2
+    room: room:sea
+    monster: 11625
+    at: [-752, 578]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:statue_west_3
+    room: room:sea
+    monster: 11625
+    at: [-752, 190]
+    floor_height: 32
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:wreck_elementals_1
+    room: room:sea
+    monster: 11710
+    at: [1472, -3584]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 8
+    notes: "pop:wreck_elementals: 2 Water Elemental (62)."
+  - id: monster:wreck_elementals_2
+    room: room:sea
+    monster: 11710
+    at: [1229, -3536]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 8
+  - id: monster:wreck_greater_1
+    room: room:sea
+    monster: 11711
+    at: [1120, -4992]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "pop:wreck_greater: 3 Tidal Terror (70)."
+  - id: monster:wreck_greater_2
+    room: room:sea
+    monster: 11711
+    at: [736, -4881]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:wreck_greater_3
+    room: room:sea
+    monster: 11711
+    at: [784, -5186]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:wreck_lesser_1
+    room: room:sea
+    monster: 11625
+    at: [352, -3584]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 7
+    notes: "pop:wreck_lesser: 3 Lesser Water Elemental (55)."
+  - id: monster:wreck_lesser_2
+    room: room:sea
+    monster: 11625
+    at: [16, -3390]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 7
+  - id: monster:wreck_lesser_3
+    room: room:sea
+    monster: 11625
+    at: [-317, -3586]
+    floor_height: 0
+    facing: 0
+    hostile: true
+    group: 7
+items:
+  - id: item:log_potion1
+    room: room:sea
+    item: 258
+    at: [-121, -3973]
+    floor_height: 96
+    notes: "The log's find: Water Resistance (258), on the stern deck."
+  - id: item:log_potion2
+    room: room:sea
+    item: 258
+    at: [12, -3843]
+    floor_height: 96
+decorations:
+  - id: deco:bell
+    room: room:sea
+    decoration: xeen_drownedbell
+    at: [996, -57]
+    floor_height: 32
+    facing: 282
+    notes: "The Drowned Bell (S): on its side by the fallen frame, its back 8 clear of the beam; clicked, A3's planes.bell."
+  - id: deco:dais
+    room: room:sea
+    decoration: xeen_dais_water
+    at: [-4864, -3712]
+    hidden: true
+    facing: 0
+    notes: "The return dais (S's disc over platform:dais): hidden until the Water Sleeper wakes (evt:dais_load, evt:dais_show)."
+  - id: deco:pedestal
+    room: room:sea
+    decoration: xeen_pedestal_water
+    at: [-2880, 1872]
+    facing: 270
+    notes: "The test's pedestal (S): beside the plate, facing it, off the walking line."
+  - id: deco:sleeper
+    room: room:sea
+    decoration: xeen_sleeper_water
+    at: [-4480, -4608]
+    floor_height: 232
+    facing: 90
+    notes: "The Water Sleeper on his couch (S, row 4023-4026; D-58 C7): the head on the left seen from the front; clicked, A3's m38.sleeper_water."
+  - id: deco:statue
+    room: room:sea
+    decoration: xeen_statue_water
+    at: [256, 768]
+    facing: 45
+    notes: "The statue of Water (S, D-58 C7) on A6's plinth; clicked, A3's m38.plaque_water."
+water:
+  - {id: water:edge_east, outline: [[6656, -6656], [6656, 6656], [5632, 5632], [5632, -5632]], top: -64, bottom: -1024, tint: [0.35, 0.78, 0.74], current: [-256, 0, 0], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The outer sea's east band past the stacks: a constant inward current of 256 (D-58; no radial current)."}
+  - {id: water:edge_north, outline: [[-6656, 6656], [-5632, 5632], [5632, 5632], [6656, 6656]], top: -64, bottom: -1024, tint: [0.35, 0.78, 0.74], current: [0, -256, 0], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The outer sea's north band past the stacks: a constant inward current of 256 (D-58; no radial current)."}
+  - {id: water:edge_south, outline: [[-6656, -6656], [6656, -6656], [5632, -5632], [-5632, -5632]], top: -64, bottom: -1024, tint: [0.35, 0.78, 0.74], current: [0, 256, 0], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The outer sea's south band past the stacks: a constant inward current of 256 (D-58; no radial current)."}
+  - {id: water:edge_west, outline: [[-6656, -6656], [-5632, -5632], [-5632, 5632], [-6656, 6656]], top: -64, bottom: -1024, tint: [0.35, 0.78, 0.74], current: [256, 0, 0], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The outer sea's west band past the stacks: a constant inward current of 256 (D-58; no radial current)."}
+  - {id: water:hold, outline: [[-148, -4057], [-21, -4191], [120, -4301], [267, -4401], [418, -4495], [574, -4579], [739, -4651], [911, -4710], [1094, -4751], [1307, -4746], [1216, -4554], [1096, -4409], [966, -4281], [828, -4167], [682, -4065], [530, -3973], [375, -3886], [213, -3811], [37, -3758], [-207, -3814]], top: 40, bottom: 0, tint: [0.35, 0.78, 0.74], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The wreck's hold, half flooded: 40 deep over its floor, waded (D-58 P4 Q2: no diving)."}
+  - {id: water:sea, outline: [[-5632, -5632], [5632, -5632], [5632, 5632], [-5632, 5632]], top: -64, bottom: -1024, tint: [0.35, 0.78, 0.74], fog: {color_rgb: [20, 70, 80], near_distance: 64, far_distance: 1500, sky: 1}, notes: "The inner sea (D-58 P4 Q1): surface swimming free, 15 s of breath under, no falling damage into it; no current."}
+notes: "P4 L4 objects (generated by output/studio_cal/p4/tools/gen.py): 27 placed hostiles in 10 groups (5 Great Octopods swimming) and the test's three in the hidden group 60; two chests at treasure 6; the log's find; the sea's water volumes; S's pieces (session 20): sleeper and couch, statue, pedestal, return dais (hidden until he wakes), the Drowned Bell. No lights."

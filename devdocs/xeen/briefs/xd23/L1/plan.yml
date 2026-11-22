@@ -1,0 +1,222 @@
+format: 0
+level: L1
+pitch: "Tunnels dug under X5's barrow mound, three levels down to the Troll Matron's hearth. Gnawed bark and bones in the halls under the mound, straw beds and hung hides in the sleeping hollows, a cold spring, and at the bottom the Matron by her fire pit under a chimney stuffed with hides. Kill her, and her hearth asks the source's question: destroy the lair? Yes burns it from inside: the beds, the curtains and the bark go up, smoke fills the tunnels, and the burnt-out plug opens the chimney's root ladder to the mound's crown."
+purpose: "Q-C15 Troll Problem (Thickbark, X5): A3's hook q-c15.lair at the hearth sets q-c15.lair_burnt (112301). Party 25 to 29, Trolls 18 and Troll Guards 28 (Ice Troll left out), the Troll Matron 32, 28 monsters, treasure level 3 with the hearth's hoard at 4."
+mood: "A cave of beaten dirt that stinks of trolls; dim light from the trolls' fires, daylight and snow at the mouth; after the burn, grey smoke and charred hides."
+datum: arrival
+spaces:
+  - id: room:bone_hall
+    name: Gnawing hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Strips of gnawed bark everywhere (Thickbark's complaint), bones, a tunnel down."
+    population:
+      - {actor: 11070, groups: 4, levels: [18, 18], notes: 4 placed Trolls (rank a).}
+  - id: room:chimney
+    name: Smoke chimney
+    kind: room
+    size: S
+    floor: -1024
+    purpose: "The fire pit under a chimney stuffed with hides; roots for handholds up its east wall once the hides burn."
+    empty: true
+  - id: room:crawl
+    name: Crawlway
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The larder's crawlway down to the cold spring.
+    empty: true
+  - id: room:crown
+    name: Smoke hole
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The top of the chimney, a hole in the mound's crown: out on to X5."
+    empty: true
+  - id: room:guard_tunnel
+    name: Guard tunnel
+    kind: corridor
+    size: M
+    floor: -1024
+    purpose: "The Matron's guards; hide curtains across the tunnel to her hearth and the den."
+    population:
+      - {actor: 11071, groups: 3, levels: [28, 28], notes: 3 placed Troll Guards (rank b).}
+  - id: room:hearth
+    name: The Matron's hearth
+    kind: room
+    size: L
+    floor: -1024
+    purpose: "The Matron's bedding of straw and bark round her hearth; her hoard (tier 4). After her death: 'Destroy the lair?'"
+    population:
+      - {actor: 11071, groups: 2, levels: [28, 28], notes: 2 placed Troll Guards (rank b).}
+      - {actor: 11074, role: boss, groups: 1, levels: [32, 32], notes: "The Troll Matron 11074 (boss row, frenzy below half health), placed."}
+  - id: room:larder
+    name: Larder
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Frozen carcasses behind a hide flap; a crawlway down to the spring."
+    population:
+      - {actor: 11070, groups: 3, levels: [18, 18], notes: 3 placed Trolls (rank a).}
+  - id: room:mouth
+    name: Warren mouth
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Inside the barricade of bones and frozen hides the party pulled aside; the stench."
+    population:
+      - {actor: 11070, groups: 2, levels: [18, 18], notes: 2 placed Trolls (rank a).}
+  - id: room:nursery
+    name: Whelping den
+    kind: room
+    size: M
+    floor: -1024
+    purpose: "Young trolls in a nest of rags; a heap of shiny things they play with (a chest)."
+    population:
+      - {actor: 11070, groups: 4, levels: [18, 18], notes: 4 placed Trolls (rank a).}
+  - id: room:rock_pile
+    name: Rock store
+    kind: room
+    size: S
+    floor: -512
+    purpose: "What trolls find valuable: fist-sized rocks, hides, bones, and a dead hunter's pack among them."
+    population:
+      - {actor: 11071, groups: 1, levels: [28, 28], notes: 1 placed Troll Guards (rank b).}
+  - id: room:sleeping
+    name: Sleeping hollows
+    kind: room
+    size: L
+    floor: -512
+    purpose: "Straw beds in scooped hollows (destructibles that burn); hides hung for warmth."
+    population:
+      - {actor: 11070, groups: 5, levels: [18, 18], notes: 5 placed Trolls (rank a).}
+  - id: room:slope
+    name: Slope down
+    kind: corridor
+    size: S
+    floor: -512
+    purpose: The tunnel from the cold spring down to the guard tunnel.
+    empty: true
+  - id: room:spring
+    name: Cold spring
+    kind: room
+    size: M
+    floor: -512
+    purpose: "A meltwater pool where the trolls lick their wounds; the way down to the deep."
+    population:
+      - {actor: 11070, groups: 2, levels: [18, 18], notes: 2 placed Trolls (rank a).}
+      - {actor: 11071, groups: 1, levels: [28, 28], notes: 1 placed Troll Guards (rank b).}
+  - id: room:tunnel_down
+    name: Tunnel down
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The dug tunnel from the gnawing hall down to the sleeping hollows.
+    empty: true
+links:
+  - id: link:bone_sleeping
+    from: room:bone_hall
+    to: room:sleeping
+    kind: ramp
+    notes: By the tunnel down (its own room).
+  - id: link:guard_hearth
+    from: room:guard_tunnel
+    to: room:hearth
+    kind: door
+    motion: slide
+    notes: A hide curtain (a destructible door).
+  - id: link:guard_nursery
+    from: room:guard_tunnel
+    to: room:nursery
+    kind: door
+    motion: slide
+    notes: A hide curtain (a destructible door).
+  - id: link:hearth_chimney
+    from: room:chimney
+    to: room:crown
+    kind: ladder
+    condition: {qbit: lair_burnt}
+    notes: "chimney: lair burnt. The hide plug burns out with the lair (a destructible broken by the burn); the root ladder up the chimney's east wall to the smoke hole. Climb only: from above it is the way back down to the hearth."
+  - id: link:hearth_fire
+    from: room:hearth
+    to: room:chimney
+    kind: open
+    notes: The chimney's mouth over the fire pit.
+  - id: link:larder_spring
+    from: room:larder
+    to: room:spring
+    kind: ramp
+    notes: By the crawlway (its own room).
+  - id: link:mouth_bone
+    from: room:mouth
+    to: room:bone_hall
+    kind: open
+  - id: link:mouth_larder
+    from: room:mouth
+    to: room:larder
+    kind: door
+    motion: slide
+    notes: "The hide flap (a destructible door: the burn takes it)."
+  - id: link:sleeping_rocks
+    from: room:sleeping
+    to: room:rock_pile
+    kind: open
+  - id: link:sleeping_spring
+    from: room:sleeping
+    to: room:spring
+    kind: open
+  - id: link:spring_guard
+    from: room:spring
+    to: room:guard_tunnel
+    kind: ramp
+    notes: By the slope down (its own room).
+loops:
+  - id: loop:chimney
+    spaces: [room:mouth, room:bone_hall, room:tunnel_down, room:sleeping, room:spring, room:slope, room:guard_tunnel, room:hearth, room:chimney, room:crown]
+    notes: "Out up the chimney once the lair burns, back in at the mouth over X5."
+  - id: loop:upper
+    spaces: [room:mouth, room:bone_hall, room:tunnel_down, room:sleeping, room:spring, room:crawl, room:larder]
+    notes: Down the tunnel or down the larder's crawlway.
+entrances:
+  - id: entrance:x5_crown
+    space: room:crown
+    kind: exit
+    neighbour: exit:x5_crown
+    how: "One way out through the smoke hole, on to the mound's crown on X5 (no way back in)."
+  - id: entrance:x5_mouth
+    space: room:mouth
+    kind: both
+    neighbour: exit:x5_mouth
+    facing: s
+    how: "From and to X5's thing:warren, the barrow mound's mouth in the Troll Forest: just inside the mouth, facing in (south); snow behind."
+critical_path: [room:mouth, room:bone_hall, room:tunnel_down, room:sleeping, room:spring, room:slope, room:guard_tunnel, room:hearth, room:chimney]
+return_path: [room:chimney, room:crown]
+goals:
+  - id: goal:burn
+    space: room:hearth
+    kind: use
+    what: "After the Troll Matron's death her fire pit asks 'Destroy the lair?' (aaze0008:2); yes calls A3's hook q-c15.lair."
+    story: Q-C15
+    gives:
+      qbit: lair_burnt
+keys:
+  - id: key:burn
+    grants: {qbit: lair_burnt}
+    found_in: room:hearth
+    how: Burning the lair at the fire pit (after the Matron) burns the chimney's hide plug out.
+set_pieces:
+  - id: set:burn
+    kind: scripted
+    spaces: [room:hearth, room:chimney, room:sleeping]
+    rule: "Yes at the fire pit: the pit and the hearth's hides blaze up and char, every bed, curtain and bark pile of the warren breaks, grey smoke thickens over a minute, the chimney's plug burns out. Every later load: charred, no beds, curtains or bark, no smoke, no trolls."
+diagram: {file: diagram.txt}
+totals:
+  chests: 3
+  doors: 3
+  floor_area_munits2: 15
+  loops: 2
+  monsters_about: 28
+  rooms: 14
+  sectors: 14
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/xd23.graph.yml and D-25 (mockups/act3_a7_decisions.md: the burn's one message, the capped smoke mist, the chimney exit kept). The three slopes are rooms of their own; the graph's chimney is the shaft from the hearth (room:chimney) and its top (room:crown, the smoke hole). 14 rooms and sectors."

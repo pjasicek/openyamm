@@ -1,0 +1,149 @@
+<!doctype html><html><head><meta charset="utf-8"><title>D2 Sprite Forest: mock-ups</title>
+<style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #7a3b12; --card: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 1800px; padding: 28px 32px 36px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 18px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 1700px; }
+.grid { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept img { width: 100%; display: block; border-radius: 4px; }
+.concept p { margin: 6px 0 14px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+ul { margin: 4px 0; padding-left: 18px; } li { margin: 3px 0; }
+.inset img { width: 100%; display: block; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.q li { margin: 6px 0; } .q b { color: #5a2a08; }
+td.c { white-space: nowrap; }
+</style></head><body><main>
+<h1>D2 Sprite Forest and Ogre Pass: MU-3 plan and MU-4 concepts</h1>
+<div class="sub">Phase 3 review (A6, 2026-11-20), for a decider before any geometry. Darkside's south centre, Act III
+(party 21-25): the Gemstone Range walls the north; a spur of it crosses the middle, and the caravan road from Castleview
+to Sandcaster climbs over it at <b>Ogre Pass</b> between Graalg's two timber forts. South of the road the
+<b>Sprite Forest</b> runs to the world's rim: glowing caps, the <b>great tree of Bark</b> (DD-09) at its heart with
+Nibbler's hollow at its roots, Sharla's treehouse village beside it, troll country with three holes (DD-11A-C), and the
+Glimmerbrook falling off the edge into the stars. East of the spur, the <b>Southern Tower</b> (DD-06) stands in darker
+woods. Source: <code>devdocs/xeen/briefs/d2/L1/</code> (project, plan, sketch: Map Studio's schema,
+<code>oymap validate</code> and <code>oymap call check.validate</code> clean).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_d2.svg"></div>
+ <div class="card" style="margin-top:12px"><div class="legend">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival / entrance</span>
+<span><i class="sw" style="background:#111"></i>dungeon door</span>
+<span><i class="sw" style="background:#7a1f6a;border-radius:50%"></i>place (well, shrine, statue)</span>
+<span><i class="sw" style="background:#1d5fa8;border-radius:50%"></i>person / statue that talks</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#b1361e"></i>camp (burnable)</span>
+<span><i class="sw" style="background:#c06000"></i>landmark</span>
+<span><i class="sw" style="background:#5a4630;border-radius:50%"></i>fork, signpost</span>
+<span><i class="sw" style="background:rgba(208,48,42,.25);border-color:#d0302a"></i>encounter area</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px);border-color:#2e8b57"></i>quiet / kept clear</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.6"></i>MU-4 camera</span>
+<span><i class="sw" style="background:#6e3b2a"></i>service door house (yellow dot: door)</span>
+<span><i class="sw" style="background:#8a6a52"></i>residence</span>
+</div>
+ <div style="margin-top:6px;color:#5d5a55;font-size:13px">128 x 128 cells of 512 units, north up; the dashed white
+ square is the playable area (cells 19-109). South the land ends in a cliff above the stars at y 106; north the range
+ closes the map (D5's desert beyond, no edge). <b>Shared edges:</b> the Castleview road crosses x 0 at <b>y 60</b> (fixed
+ with D1); the caravan road crosses x 127 at <b>y 44</b> (proposed to A5 for D3). Violet: wild sprites; red: wolves,
+ trolls; dashed orange: the ogres' placed area.</div></div>
+ <div class="two" style="margin-top:12px">
+ <div class="card inset"><h2 style="margin-top:0">Sharla's village and the great tree (3x)</h2>
+  <img src="plan_d2.svg#svgView(viewBox(130,530,260,270))">
+  <p style="font-size:13px;color:#5d5a55">A4's d2.yml: Sharla's Treehouse 4553 (q-d10's chest on her platform),
+  the Light Guild of the Treetops 4552, Dewdrop Potions 4551, Mossbell's Bower 4554, Thistledown's Bower 4555, doors
+  at the trunks' feet round a mossy green, 3-5 cells apart; 8 peaceful sprites. Bark Glade: the temple door in the
+  trunk (q-d9.bark_door), Nibbler's Hollow 4556 under a root 4 cells away ("Nibbler sits nearby").</p></div>
+ <div class="card inset"><h2 style="margin-top:0">Ogre Pass (2x)</h2>
+  <img src="plan_d2.svg#svgView(viewBox(440,200,400,250))">
+  <p style="font-size:13px;color:#5d5a55">The road climbs from 1,100 to the saddle at 2,050 between spur crests of
+  3,100. West fort on its knoll north of the road at the west mouth, east fort south of it beyond the saddle (DD-13's
+  two entrances). Graalg (5108) at the parley fire with two Brutes, peaceful; 22 ogres placed in the yards and two road
+  groups. Kramer's burned wagon below the west fort.</p></div>
+ </div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 arrival view (from D1)</h2>
+  <img src="raw/d2_arrival_v1.png">
+  <p>Camera at cell (21, 60), 180 above the road, looking east-south-east. The Castleview road reaches Forest Fork:
+  the caravan road climbs left toward the foothills, the forest track bends right into the Sprite Forest under old
+  dark trees and glowing caps; the great tree of Bark rises far over the canopy. Codex, from the plan's blockout
+  (<code>blockout_arrival.png</code>).</p></div>
+ <div class="card concept"><h2>MU-4 signature view: Ogre Pass</h2>
+  <img src="raw/d2_pass_v1.png">
+  <p>Camera at cell (60, 44) on the caravan road below the pass, looking east up to the saddle: the west fort on its
+  knoll, Graalg's fire in the saddle, the east fort beyond, the crystal-veined Gemstone Range behind. <b>Why this
+  view:</b> the painting softens the spur's shoulders and brings the east fort level with the saddle; the plan's 3,100 crests and the fort beyond the saddle stand. The arrival already shows the forest and the great tree; the pass is the map's second biome, its
+  gauntlet (both routes of Q-D11 are on screen) and the only view that shows the range that closes the map. The
+  village's form waits on the treehouse question below, so painting it now would fix a form not yet chosen.</p></div>
+ <div class="card"><h2 style="margin-top:0">Against MAPS (D2 sheet) and ROADMAP 5.1</h2>
+ <table>
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th><th></th></tr>
+ <tr><td>Hostiles at load</td><td class="n">135</td><td>135</td><td class="ok">ok</td></tr>
+ <tr><td>Encounter areas</td><td class="n">5</td><td>3-8</td><td class="ok">ok</td></tr>
+ <tr><td>Spawn markers (+ placed hostiles)</td><td class="n">46 (+22)</td><td>45-70</td><td class="ok">ok</td></tr>
+ <tr><td>Quiet land (outside encounter areas)</td><td class="n">42 %</td><td>at least a third</td><td class="ok">ok</td></tr>
+ <tr><td>Points of interest (chained merge within 400, D-15)</td><td class="n">30</td><td>forest band 22-30</td><td class="warn">top</td></tr>
+ <tr><td>Named / generic</td><td class="n">20 / 10</td><td>16 named + 6-14</td><td class="ok">ok</td></tr>
+ <tr><td>Outdoor chests, each with a reason</td><td class="n">6</td><td>4-10</td><td class="ok">ok</td></tr>
+ <tr><td>Dungeon entrances</td><td class="n">8 (5 dungeons)</td><td>MAPS: 5 dungeons</td><td class="ok">ok</td></tr>
+ <tr><td>Relief</td><td class="n">900-3,400 in the square, range 4,400</td><td>at least 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>First fight from the D1 arrival</td><td class="n">3,458</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>First fight from the D3 arrival</td><td class="n">3,665</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>Houses drawn / d2.yml</td><td class="n">6 / 6</td><td>4551-4556</td><td class="ok">ok</td></tr>
+ <tr><td>Obelisk; permanent-effect devices</td><td class="n">1; Shrine of the Elements, Forbidden Fruit</td><td>1; at least 1</td><td class="ok">ok</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Encounter areas</h2>
+ <table>
+ <tr><th>Area</th><th>Monsters (A2's rows)</th><th class="n">At load</th></tr>
+ <tr><td>E1 Gemstone foothills</td><td>Dark Wolves 16, Sabertooths 22; Snow Beasts 28 only on the upper slopes</td><td class="n">30</td></tr>
+ <tr><td>E2 sprites (west glades, Whispering Glades)</td><td>Medusa Sprites 10, Killer Sprites 14, a Sprite Queen 18 (wild)</td><td class="n">24</td></tr>
+ <tr><td>E3 Troll country</td><td>Trolls 18, Troll Guards 28, Ice Trolls 38 only by the third hole</td><td class="n">30</td></tr>
+ <tr><td>E4 Ogre Pass (placed)</td><td>Ogres 18, Brutes 22, two Chiefs 30; peaceful once q-d11.friends</td><td class="n">22</td></tr>
+ <tr><td>E5 Southern Woods</td><td>Dark Wolves 16, Sabertooths 22</td><td class="n">29</td></tr>
+ <tr><td colspan="2">Peaceful at load: 8 village sprites (hostile on q-d10.robbery); Graalg 36 and two Brutes</td><td class="n">(11)</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">A3's hooks on D2</h2>
+ <table>
+ <tr><th>Hook</th><th>Where</th><th>State</th></tr>
+ <tr><td class="c">obelisks.d2</td><td>Obelisk on the foothill knoll (36, 51): BENEATH</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d9.bark_door</td><td>Door in the great tree's trunk (42, 76), needs bark_key 12342; Nibbler's Hollow 4 cells off</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d10.sprites_hostile</td><td>The village's 8 sprites, peaceful; hostile on robbery 113203</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d10.sprites_slain</td><td>The same group: the map sets 113208 when the last dies (an L4 event)</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d10.treehouse</td><td>The chest on Sharla's platform (26, 85)</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d11.pass_ogres</td><td>Graalg 5108 at the parley fire (79, 36), 22 placed ogres; reads hostile, west_burned, east_burned</td><td class="warn">placed; hostility at load: question 2</td></tr>
+ <tr><td class="c">q-d13.troll_holes</td><td>Three pits: DD-11A (60, 76), B (70, 84), C (67, 98)</td><td class="ok">placed</td></tr>
+ <tr><td class="c">q-d19.tower_door</td><td>The Southern Tower's door (95, 80), needs south_tower_key 12339</td><td class="ok">placed</td></tr>
+ <tr><td class="c">(DD-13, DD-10B)</td><td>Fort gates (72, 36) and (87, 43); the mines' east adit (34, 31)</td><td class="ok">placed</td></tr>
+ </table></div>
+ <div class="card q" style="margin-top:12px"><h2 style="margin-top:0">Open questions</h2>
+ <ol>
+ <li><b>How are the treehouses and the great tree built?</b> (a) giant hollow trunks as round BModel parts (bark
+ texture), doors at their feet, decks, stairs and rope walkways from the studio's structures, crowns of shipped tree
+ models on top; the great tree the same at 3 cells across with a new crown model; (b) new giant-tree GLBs (S lane)
+ with BModel door facades; (c) doors up on platforms reached by stairs. Proposed: (a), doors at the foot (nothing
+ to climb to a shop), Sharla's stair only to the chest.</li>
+ <li><b>Graalg's ogres at load.</b> (a) hostile, as MAPS ("peaceful if Q-D11"), counted in the 135, Graalg and his
+ guards peaceful at the parley ground; (b) neutral until attacked (then 22 short: 9 more markers elsewhere).
+ Proposed: (a).</li>
+ <li><b>Sprites below the band.</b> The sprite family is 10/14/18, D2's band A 16-22: (a) keep (24 of 135, the
+ forest's colour); (b) A2 adds a D2 tier (16/22); (c) swap the wild sprites for an in-band family. Proposed: (a).</li>
+ <li><b>Monga melons.</b> MAPS lists them on D2; q-d9 puts all four on D1 (the source's A4/B4). Plan: none on D2,
+ Nibbler's own patch as dressing after q-d9.done.</li>
+ <li><b>The river.</b> MU-1 paints a river through D1, D2 and D3; the D1 sketch has one on D1's south. D2's
+ Glimmerbrook rises inside and falls off the rim; if D1 runs its river to its east edge, D2 takes it in at y 96-100.</li>
+ <li><b>Burned forts outside.</b> Show the forts as charred ruins after q-d11's burned bits (a model swap by qbit),
+ or leave them unchanged outside?</li>
+ </ol></div>
+</div></div></main></body></html>

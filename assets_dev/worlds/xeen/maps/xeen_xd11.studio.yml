@@ -1,0 +1,13 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/xd11/L4"
+revision: "bbe7162423b76a4f8da50c4a2cfa6c0a"
+lock_hash: "c4abb92b78095fa9756c942e9f5eb4f6"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [-1408, -1792, 0], facing: 512}
+  - {name: "entrance:x3_door", at: [-1408, -1792, 0], facing: 512}
+  - {name: "entrance:x8_clouds", at: [228, 114, 2560], facing: 0}
+identity: {shape: "tower"}
+hanging_decorations: [0, 1, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+storerooms: [20]

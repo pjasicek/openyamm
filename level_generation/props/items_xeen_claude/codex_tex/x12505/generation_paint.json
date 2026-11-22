@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely recolor the first input transparent atlas using its alpha as a locked stencil. Preserve the entire 1536x2048 canvas and exact pixel registration of every shape and hole. Inputs 2 and 3 are design and color samples only. Invisible 3-column 4-row grid of square 512px cells. In row 1 the first two views are tiny end-on crossbars with central boss and the last is a very thin horizontal edge-on profile with finial at LEFT. Row 2 first cell is opposite edge-on with finial at RIGHT, second is tall upright crown staff, third empty. Maintain these exact foreshortenings; never substitute face-on designs into edge-on views. Rows 1-2 paint unlit local colors: dark polished wood with woodgrain, gold bands and gold filigree crown with a blue stone matching the reference scrollwork and facets. No shading, shadows, reflections, lighting, outlines, text or ground. Rows 3 and 4 duplicate the exact guide views in the same places but only flat categorical material IDs: metal including gold pure #FF0000, wood pure #FFFF00, gem pure opaque #000000. No blended colors inside mask. Empty cells and every non-object pixel fully transparent. No enlargement, packing, guides, grid, decorations or other changes. Return one transparent 3:4 PNG.\nCorrection: Match the original stencil contours especially in the lower half. Keep horizontal shafts narrow and straight, with clean edges. Duplicate the top half's silhouette coverage exactly in the lower half. Flat solid mask interiors, without speckling or colored fringe. Maintain the tiny sizes and abundant transparent margins.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "d227bb833ef42468bc37768e59d40a2b99d5b733aaea9a451b5e71ab65b80c57"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "1c4ddb75aee121078e1c9f8e97798d5463e446fb837265201119a9af3b963ce1"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "681e2cfeb80542e5293f6b4e2ab15b899bcdbf1bf57a65ee62fb358ff3bb7fb4"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f927-390c-7be0-9e71-e6e1c5047425/exec-3fc794a8-af8d-45a6-b8af-d1aeec976b87.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

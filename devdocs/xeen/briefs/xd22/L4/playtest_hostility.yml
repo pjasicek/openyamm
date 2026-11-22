@@ -1,0 +1,71 @@
+# Hostility check of the Ninja Pagoda (XD-22): the clan's ninjas hostile at load, Shinobu and the clan's survivors
+# friendly at the q-c4.done stage. After DD-06's (output/studio_cal/hostility/gen_hostility_tests.py's pattern). The
+# ninjas are A2's Ninjas (Ninja 11120, Shadow Ninja 11121, Ninja Master 11122) and the Clan Master (11123), faction
+# xeen_ninjas, hostile by the world's relations.yml; the Clan Survivors (11124, Shinobu among them) are faction
+# xeen_ninjas_clan, friendly to the party (D-25 Q14), placed hidden and shown only with q-c4.done. No window is open
+# before a reload.
+id: xeen.xd22.l4.hostility
+title: 'the Ninja Pagoda (XD-22): the clan hostile, the survivors friendly at the done stage, no fights among the clan'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd22.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11120, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11121, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11122, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11123, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11120, hostile: true, min: 19}}
+  - assert: {actor_count: {monster_id: 11121, hostile: true, min: 6}}
+  - assert: {actor_count: {monster_id: 11122, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11123, hostile: true, min: 1}}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - assert: {actor_visible: {actor_index: 24, hidden: true}}
+  - assert: {actor_visible: {actor_index: 28, hidden: true}}
+  # A save and load keeps them so (every window closed first, so the reload runs).
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11120, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11120, hostile: true, min: 19}}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - note: 'A Ninja, a Shadow Ninja and a Ninja Master side by side in the entry hall, nearer each other than the party (a
+      monster takes the nearest of its foes): they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11120, x: -200, y: -700, z: 16}
+  - spawn_actor: {monster_id: 11122, x: 200, y: -700, z: 16}
+  - spawn_actor: {monster_id: 11121, x: 0, y: -800, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11122, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11121, hurt: true, max: 0}}
+  # q-c4.done (Kai Wu sets it on X5) and a reload: the clan's hostile ninjas hidden, Shinobu and the survivors shown,
+  # friendly, and they stay so.
+  - setup_shortcut: {kind: set_qbit, id: 112082, value: true}
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_visible: {actor_index: 24, hidden: false}}
+  - assert: {actor_visible: {actor_index: 30, hidden: false}}
+  - assert: {actor_visible: {actor_index: 16, hidden: true}}
+  - assert: {actor_visible: {actor_index: 2, hidden: true}}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11124, hostile: false, min: 5}}
+  - set_pose: {map: xeen_xd22.blv, x: 0, y: -1900, z: -448, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 6}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11124, hurt: true, max: 0}}
+  - reload: {}
+  - play_lua: {source: "wait(1); close()"}
+  - assert: {actor_count: {monster_id: 11124, hostile: true, max: 0}}
+  - assert: {actor_visible: {actor_index: 28, hidden: false}}

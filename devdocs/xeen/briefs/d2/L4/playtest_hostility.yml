@@ -1,0 +1,291 @@
+# Hostility check of D2 (written by output/studio_cal/d2/tools/gen_hostility_d2.py): load, friends, a burned fort.
+id: xeen.d2.l4.hostility
+title: 'D2 Sprite Forest and Ogre Pass: the ogres by Q-D11, the village at peace'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d2.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: At load (D-23)
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      min: 14
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: true
+      min: 6
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: false
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: false
+      min: 5
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11538
+      hostile: false
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11538
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11410
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11411
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11412
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11070
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11071
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11072
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11534
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11535
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11536
+      hostile: false
+      max: 0
+- note: 'q-d11.friends (113221): the pass ogres peaceful, Graalg still peaceful'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113221
+    value: true
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: false
+      min: 14
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: false
+      min: 6
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: false
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: false
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: true
+      max: 0
+- note: The friends kept over a reload of the map
+- load_map:
+    map: xeen_d2.odm
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: true
+      max: 0
+- note: 'A burned fort (DD-13 sets west_burned 113224 and hostile 113222): every ogre hostile (D-12.3)'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113224
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 113222
+    value: true
+- load_map:
+    map: xeen_d2.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: true
+      min: 14
+- assert:
+    actor_count:
+      monster_id: 11066
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: true
+      min: 6
+- assert:
+    actor_count:
+      monster_id: 11067
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11068
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11064
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 11065
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: false
+      min: 5
+- note: 'q-d10.robbery (113203, Sharla''s ''stick up''): the village sprites hostile (A2''s relations)'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113203
+    value: true
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: true
+      min: 5
+- assert:
+    actor_count:
+      monster_id: 11538
+      hostile: true
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11537
+      hostile: false
+      max: 0

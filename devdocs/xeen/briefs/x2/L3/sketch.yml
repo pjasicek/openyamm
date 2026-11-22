@@ -189,9 +189,9 @@ districts:
     polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
     rest: true
     plots:
-      - {building: building:barok_hut, at: [43.5, 36.5], facing: s, turn: 6, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], title: Barok's Hut, kit: poor, door: {part: body}, effects: [{lua: "if IsQBitSet(QBit(110204)) then evt.SimpleMessage(\"Barok the Sorcerer: \\\"Thank you for returning my pendant. The fountain on Bridge Square runs again.\\\"\") else evt.SimpleMessage(\"Barok the Sorcerer: \\\"The sorceresses of Rivercity have stolen a magical pendant of mine. I want it back, and I will reward you if you return it.\\\" (The sorceresses are not built yet.)\") end"}]}
-      - {building: building:medin_hut, at: [48.5, 63], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], title: Medin's Hut, kit: poor, door: {part: body, wall: n}, effects: [{lua: "if IsQBitSet(QBit(110201)) then evt.SimpleMessage(\"Medin the Fisherman: \\\"You have slain the monsters of the lake! My friends, I am always glad to see you. My boat at the jetty will row you to the island.\\\"\") else evt.SimpleMessage(\"Medin the Fisherman: \\\"The fish supply is low. I am sure some sort of lake beasts are eating all the fish. If you kill the beasts, I will be indebted to you.\\\" (Three of them circle the island; do not row out while they live.)\") end"}]}
-      - {building: building:tito_chapel, at: [78.5, 74.5], facing: w, parts: [{id: nave, at: [64, 96], size: [896, 832], wall_height: 384, windows: all, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: bell, at: [992, 400], size: [224, 224], textures: {roof: 7hhr1rf}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60}], title: Tito's Chapel, kit: stone, door: {part: nave, wall: w}, effects: [{lua: "evt.SimpleMessage(\"Tito the Elf Priest: \\\"While travelling through Troll Forest recently, I was ambushed. In my haste to escape I dropped the Holy Book of Elvenkind. I will reward you well if you can return it to me.\\\"\")"}]}
+      - {building: building:barok_hut, at: [43.5, 36.5], facing: s, turn: 6, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4095, title: Barok's Hut, kit: poor, door: {part: body}}
+      - {building: building:medin_hut, at: [48.5, 63], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4096, title: Medin's Hut, kit: poor, door: {part: body, wall: n}}
+      - {building: building:tito_chapel, at: [78.5, 74.5], facing: w, parts: [{id: nave, at: [64, 96], size: [896, 832], wall_height: 384, windows: all, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: bell, at: [992, 400], size: [224, 224], textures: {roof: 7hhr1rf}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60}], house: 4097, title: Tito's Chapel, kit: stone, door: {part: nave, wall: w}}
       - {building: building:farmsteads, index: 1, at: [53, 25.5], facing: s, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], kit: timber, door: {part: body, wall: s}}
       - {building: building:farmsteads, index: 2, at: [57, 28], facing: s, turn: 4, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: poor, door: {part: body, wall: s}}
       - {building: building:farmsteads, index: 3, at: [76, 23.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: timber, door: {part: body, wall: s}}
@@ -202,53 +202,53 @@ districts:
   - space: district:north_bank
     polygon: [[52, 35], [80, 35], [80, 49], [52, 49]]
     plots:
-      - {building: building:training, at: [53.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 342], size: [928, 634], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 325], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 1572, title: Street Fightin', kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 1, at: [56, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 910, title: Barlow House, kit: timber, door: {part: body, wall: s}}
-      - {building: building:magic_shop, at: [58.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: hhm3rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgmagi, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 86, title: Witch's Cauldron, kit: grey, door: {part: body, wall: s}}
-      - {building: building:bank, at: [61, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: 7hhr1rf}, wall_height: 384, roof: hip, roof_pitch: 38}], house: 287, title: The Bank, kit: stone, door: {part: body, wall: s}}
-      - {building: building:tavern, at: [64.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 241, title: Bull's Tavern, kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 2, at: [67, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 911, title: Kettle Residence, kit: timber, door: {part: body, wall: s}}
-      - {building: building:armour_shop, at: [69, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 832], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 49, title: Rivercity Armoury, kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 3, at: [71, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 464], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 912, title: Rook House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:weapon_shop, at: [73.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 64], size: [716, 864], signs: [{wall: s, bay: 0, texture: sgweapon, size: [96, 96], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 768], posts: 24, wall_height: 256, windows: none, roof: lean_to}], house: 10, title: Rivercity Smithing, kit: grey, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 4, at: [76, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 913, title: Sallow Residence, kit: poor, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 1, at: [53.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 914, title: Weir House, kit: timber, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 2, at: [55.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 915, title: Tanner Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 5, at: [69.5, 44], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [896, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 916, title: Ferris House, kit: poor, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 6, at: [73.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 917, title: Quill Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 7, at: [75.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 919, title: Mudd House, kit: timber, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 3, at: [53.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 920, title: Lantern Residence, kit: timber, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 11, at: [55.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 921, title: Gaff House, kit: poor, door: {part: body, wall: s}}
+      - {building: building:training, at: [53.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 342], size: [928, 634], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 325], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4057, title: Street Fightin', kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 1, at: [56, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4065, title: Barlow House, kit: timber, door: {part: body, wall: s}}
+      - {building: building:magic_shop, at: [58.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: hhm3rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4053, title: Witch's Cauldron, kit: grey, door: {part: body, wall: s}}
+      - {building: building:bank, at: [61, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], signs: [{wall: s, bay: 0, texture: 7sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, wall_height: 384, roof: hip, roof_pitch: 38}], house: 4055, title: The Bank, kit: stone, door: {part: body, wall: s}}
+      - {building: building:tavern, at: [64.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4056, title: Bull's Tavern, kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 2, at: [67, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4066, title: Kettle Residence, kit: timber, door: {part: body, wall: s}}
+      - {building: building:armour_shop, at: [69, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 832], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4052, title: Rivercity Armoury, kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 3, at: [71, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 464], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4067, title: Rook House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:weapon_shop, at: [73.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 64], size: [716, 864], signs: [{wall: s, bay: 0, texture: sgweapon, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 768], posts: 24, wall_height: 256, windows: none, roof: lean_to}], house: 4051, title: Rivercity Smithing, kit: grey, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 4, at: [76, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4068, title: Sallow Residence, kit: poor, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 1, at: [53.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4069, title: School of Navigation, kit: timber, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 2, at: [55.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4070, title: Tanner Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 5, at: [69.5, 44], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [896, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4073, title: Ferris House, kit: poor, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 6, at: [73.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4074, title: Quill Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 7, at: [75.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4075, title: Mudd House, kit: timber, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 3, at: [53.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4071, title: Lantern Residence, kit: timber, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 11, at: [55.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4077, title: Gaff House, kit: poor, door: {part: body, wall: s}}
       - {building: building:river_houses, index: 10, at: [69.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], kit: grey, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 8, at: [73.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 922, title: Ostler Residence, kit: grey, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 8, at: [73.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4076, title: Ostler Residence, kit: grey, door: {part: body, wall: s}}
       - {building: building:river_houses, index: 9, at: [75.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: timber, door: {part: body, wall: s}}
-      - {building: building:alchemist, at: [58.5, 44], facing: e, door_to: link:main_street, parts: [{id: body, at: [80, 96], size: [832, 1344], signs: [{wall: e, bay: 0, texture: 7sgalch, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [912, 1440], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 118, title: The Bubbling Flask, kit: grey, door: {part: body, wall: e}}
-      - {building: building:river_houses, index: 4, at: [67.5, 44], facing: w, door_to: link:main_street, parts: [{id: body, at: [112, 96], size: [576, 1344], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [64, 48], size: [656, 1440], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 924, title: Pike House, kit: timber, door: {part: body, wall: w}}
-      - {building: building:stables, at: [64.5, 37.5], facing: w, door_to: link:north_road, parts: [{id: body, at: [48, 48], size: [634, 1184], signs: [{wall: w, bay: 0, texture: 7sgstabl, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [666, 96], size: [325, 1024], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 462, title: Royal Steeds of Rivercity, kit: timber, door: {part: body, wall: w}}
+      - {building: building:alchemist, at: [58.5, 44], facing: e, door_to: link:main_street, parts: [{id: body, at: [80, 96], size: [832, 1344], signs: [{wall: e, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [912, 1440], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4054, title: The Bubbling Flask, kit: grey, door: {part: body, wall: e}}
+      - {building: building:river_houses, index: 4, at: [67.5, 44], facing: w, door_to: link:main_street, parts: [{id: body, at: [112, 96], size: [576, 1344], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [64, 48], size: [656, 1440], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4072, title: Captain Yang's House, kit: timber, door: {part: body, wall: w}}
+      - {building: building:stables, at: [64.5, 37.5], facing: w, door_to: link:north_road, parts: [{id: body, at: [48, 48], size: [634, 1184], signs: [{wall: w, bay: 0, texture: 7sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [666, 96], size: [325, 1024], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4062, title: Royal Steeds of Rivercity, kit: timber, door: {part: body, wall: w}}
   - space: district:south_bank
     polygon: [[52, 57], [80, 57], [80, 68], [52, 68]]
     plots:
-      - {building: building:guild_body, at: [53.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgbody, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 165, title: Guild of Body, kit: stone, door: {part: body, wall: s}}
-      - {building: building:guild_mind, at: [56, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 464], size: [928, 512], signs: [{wall: s, bay: 0, texture: sgmind, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 64], size: [400, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 159, title: Guild of Mind, kit: grey, door: {part: body, wall: s}}
-      - {building: building:guild_spirit, at: [58.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspirit, size: [96, 96], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 153, title: Guild of Spirit, kit: stone, door: {part: body, wall: s}}
-      - {building: building:skill_gym, at: [68, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 945, title: Arnold's Gym, kit: timber, door: {part: body, wall: s}}
-      - {building: building:skill_martial, at: [70.5, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [96, 80], size: [832, 576], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [928, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 923, title: Martial Training, kit: grey, door: {part: body, wall: s}}
-      - {building: building:skill_temps, at: [73, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 929, title: Lindon's Temps, kit: timber, door: {part: body, wall: s}}
-      - {building: building:south_houses, index: 1, at: [53.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 926, title: Crane Residence, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 2, at: [55.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 927, title: Wharf House, kit: poor, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 3, at: [57.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 928, title: Ladle Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 9, at: [59.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 931, title: Bargeman House, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 4, at: [67.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 936, title: Scull Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 5, at: [69.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 939, title: Ferry House, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 7, at: [71.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 940, title: Hawser Residence, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 8, at: [75, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 941, title: Brine House, kit: grey, door: {part: body, wall: n}}
+      - {building: building:guild_body, at: [53.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4059, title: Guild of Body, kit: stone, door: {part: body, wall: s}}
+      - {building: building:guild_mind, at: [56, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 464], size: [928, 512], signs: [{wall: s, bay: 0, texture: sgmind, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 64], size: [400, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4060, title: Guild of Mind, kit: grey, door: {part: body, wall: s}}
+      - {building: building:guild_spirit, at: [58.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspirit, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4061, title: Guild of Spirit, kit: stone, door: {part: body, wall: s}}
+      - {building: building:skill_gym, at: [68, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4079, title: Arnold's Gym, kit: timber, door: {part: body, wall: s}}
+      - {building: building:skill_martial, at: [70.5, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [96, 80], size: [832, 576], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [928, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4080, title: Martial Training, kit: grey, door: {part: body, wall: s}}
+      - {building: building:skill_temps, at: [73, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4081, title: Lindon's Temps, kit: timber, door: {part: body, wall: s}}
+      - {building: building:south_houses, index: 1, at: [53.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4082, title: Crane Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 2, at: [55.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4083, title: Wharf House, kit: poor, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 3, at: [57.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4084, title: Ladle Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 9, at: [59.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4089, title: Bargeman House, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 4, at: [67.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4085, title: Scull Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 5, at: [69.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4086, title: Ferry House, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 7, at: [71.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4087, title: Hawser Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 8, at: [75, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4088, title: Brine House, kit: grey, door: {part: body, wall: n}}
       - {building: building:south_houses, index: 6, at: [77, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 476], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 508], size: [768, 227], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], kit: poor, door: {part: body, wall: n}}
-      - {building: building:temple, at: [64.5, 61.5], facing: w, door_to: link:south_street, parts: [{id: nave, at: [320, 64], size: [896, 1152], porches: [{wall: w, depth: 160, height: 288, posts: 32, floor: 16}], wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ew}, {id: spire, shape: round, at: [1040, 640], radius: 200, sides: 8, textures: {roof: 7hhr1rf}, wall_height: 1152, windows: none, roof: cone, roof_pitch: 74}], house: 312, title: Pray N Pay, kit: stone, door: {part: nave, wall: w}}
-      - {building: building:south_houses, index: 10, at: [53.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], house: 932, title: Vatawna the Guildmaster, kit: timber, door: {part: body, wall: n}}
+      - {building: building:temple, at: [64.5, 61.5], facing: w, door_to: link:south_street, parts: [{id: nave, at: [320, 64], size: [896, 1152], porches: [{wall: w, depth: 160, height: 288, posts: 32, floor: 16}], signs: [{wall: w, bay: 0, texture: sgtempl, size: [64, 64], bottom: 120, out: 48, hang: true}], wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ew}, {id: spire, shape: round, at: [1040, 640], radius: 200, sides: 8, textures: {roof: 7hhr1rf}, wall_height: 1152, windows: none, roof: cone, roof_pitch: 74}], house: 4058, title: Pray N Pay, kit: stone, door: {part: nave, wall: w}}
+      - {building: building:south_houses, index: 10, at: [53.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], house: 4090, title: Vatawna the Guildmaster, kit: timber, door: {part: body, wall: n}}
       - {building: building:south_houses, index: 11, at: [55.5, 65], facing: s, door_to: link:south_street, turn: 180, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], kit: poor, door: {part: body}}
-      - {building: building:south_houses, index: 12, at: [57.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 933, title: Mind Guild Steward, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 13, at: [59.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 937, title: Spirit Guild Steward, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 14, at: [64.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 384], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 352], size: [400, 352], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 942, title: Reed Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 12, at: [57.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4091, title: Mind Guild Steward, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 13, at: [59.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4092, title: Spirit Guild Steward, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 14, at: [64.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 384], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 352], size: [400, 352], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4093, title: Reed Residence, kit: grey, door: {part: body, wall: n}}
       - {building: building:south_houses, index: 15, at: [67, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: poor, door: {part: body, wall: n}}
   - space: zone:bridge_square
     polygon: [[61, 44], [67, 44], [67, 48], [61, 48]]
@@ -257,11 +257,11 @@ districts:
   - space: zone:quays
     polygon: [[53, 49], [82, 49], [82, 57], [53, 57]]
     plots:
-      - {building: building:quay_houses, index: 1, at: [65.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 943, title: Tackle House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:quay_houses, index: 2, at: [60.5, 55], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 944, title: Spratt Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 1, at: [65.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4078, title: Tackle House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:quay_houses, index: 2, at: [60.5, 55], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4094, title: Spratt Residence, kit: timber, door: {part: body, wall: n}}
       - {building: building:quay_houses, index: 3, at: [53.5, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {roof: hhm3rf}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, kit: grey, door: {part: body, wall: n}}
       - {building: building:quay_houses, index: 4, at: [56, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], floor: 640, kit: timber, door: {part: body, wall: n}}
-      - {building: building:quay_houses, index: 5, at: [69, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], floor: 640, kit: poor, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 5, at: [69, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4098, title: The Sorceresses' House, kit: poor, door: {part: body, wall: n}}
       - {building: building:quay_houses, index: 6, at: [74, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {roof: hhm3rf}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, kit: grey, door: {part: body, wall: n}}
   - space: zone:farmland
     polygon: [[38, 19], [109, 19], [109, 33], [38, 33]]
@@ -287,6 +287,7 @@ points:
   - {id: entrance:xd27_lair, at: [23, 30]}
   - {id: entrance:xd06_yak, at: [62, 98]}
   - {id: entrance:xd12_tower, at: [34, 58]}
+  - {id: entrance:x9_fall, at: [34, 58], facing: e}
   - {id: junction:east_entry, at: [85, 46]}
   - {id: junction:west_end, at: [53, 43]}
   - {id: junction:north_fork, at: [66, 30]}
@@ -343,8 +344,8 @@ areas:
   - id: pop:sprites
     index: 2
     kind: encounter
-    count: 2
-    circle: {at: [50, 86], r: 1.5}
+    count: 1
+    circle: {at: [46, 87], r: 0.12}
   - id: pop:sprites
     index: 3
     kind: encounter
@@ -354,12 +355,12 @@ areas:
     index: 4
     kind: encounter
     count: 1
-    circle: {at: [52, 79], r: 1}
+    circle: {at: [45, 80], r: 0.4}
   - id: pop:sprites
     index: 5
     kind: encounter
-    count: 2
-    circle: {at: [66, 80], r: 1.5}
+    count: 1
+    circle: {at: [69, 81], r: 0.3}
   - id: pop:sprites
     index: 6
     kind: encounter
@@ -404,22 +405,32 @@ areas:
     index: 14
     kind: encounter
     count: 1
-    circle: {at: [60, 89], r: 1}
+    circle: {at: [51, 93], r: 0.25}
+  - id: pop:sprites
+    index: 15
+    kind: encounter
+    count: 1
+    circle: {at: [46, 88], r: 0.15}
+  - id: pop:sprites
+    index: 16
+    kind: encounter
+    count: 1
+    circle: {at: [68, 78], r: 0.25}
   - id: pop:dark_sprites
     index: 1
     kind: encounter
     count: 1
-    circle: {at: [55, 98], r: 1}
+    circle: {at: [49, 99], r: 0.25}
   - id: pop:dark_sprites
     index: 2
     kind: encounter
     count: 1
-    circle: {at: [71, 96], r: 1}
+    circle: {at: [74, 97], r: 0.25}
   - id: pop:dark_sprites
     index: 3
     kind: encounter
     count: 1
-    circle: {at: [65, 92], r: 1}
+    circle: {at: [69, 85], r: 0.25}
   - id: pop:rangers
     index: 1
     kind: encounter
@@ -499,7 +510,7 @@ areas:
     index: 1
     kind: encounter
     count: 2
-    circle: {at: [22, 76], r: 1.5}
+    circle: {at: [22, 88], r: 1.5}
   - id: pop:west_shore
     index: 2
     kind: encounter
@@ -559,7 +570,7 @@ scatter:
     line: [[75.4, 84], [74.98994949366117, 84.98994949366117], [74, 85.4], [73.01005050633883, 84.98994949366117], [72.6, 84], [73.01005050633883, 83.01005050633883], [74, 82.6], [74.98994949366117, 83.01005050633883]]
     closed: true
   - id: scatter:fairy_rings
-    decoration: mushrm04
+    decoration: mushrm05
     count: 9
     line: [[67.4, 77], [66.98994949366117, 77.98994949366117], [66, 78.4], [65.01005050633883, 77.98994949366117], [64.6, 77], [65.01005050633883, 76.01005050633883], [66, 75.6], [66.98994949366117, 76.01005050633883]]
     closed: true
@@ -821,7 +832,7 @@ scatter:
   - id: scatter:town_flowers
     decoration: flower11
     count: 12
-    clusters: 6
+    clusters: 5
     polygon: [[52, 35], [80, 35], [80, 48], [52, 48]]
   - id: scatter:town_flowers
     decoration: flower08
@@ -1101,7 +1112,7 @@ scatter:
     steep: true
     polygon: [[98.5, 100], [109, 100], [109, 103.6], [98.5, 103.6]]
   - id: scatter:coast_bushes
-    decoration: bush07
+    decoration: bush03
     count: 23
     clusters: 5
     steep: true
@@ -1123,7 +1134,7 @@ scatter:
     steep: true
     polygon: [[19, 79], [38, 79], [38, 91], [46, 91], [46, 100], [19, 100]]
   - id: scatter:coast_bushes
-    decoration: bush07
+    decoration: bush03
     count: 28
     clusters: 6
     steep: true
@@ -1151,13 +1162,13 @@ scatter:
     steep: true
     polygon: [[19, 99.5], [25, 99.5], [25, 103.6], [19, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 6
     clusters: 2
     steep: true
     polygon: [[19, 99.5], [25, 99.5], [25, 103.6], [19, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 2
     clusters: 2
     steep: true
@@ -1169,13 +1180,13 @@ scatter:
     steep: true
     polygon: [[29, 99.5], [46, 99.5], [46, 103.6], [29, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 17
     clusters: 4
     steep: true
     polygon: [[29, 99.5], [46, 99.5], [46, 103.6], [29, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 8
     clusters: 2
     steep: true
@@ -1187,13 +1198,13 @@ scatter:
     steep: true
     polygon: [[46, 102], [57, 102], [57, 103.6], [46, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 4
     clusters: 2
     steep: true
     polygon: [[46, 102], [57, 102], [57, 103.6], [46, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 2
     clusters: 2
     steep: true
@@ -1205,13 +1216,13 @@ scatter:
     steep: true
     polygon: [[68, 102], [80, 102], [80, 103.6], [68, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 4
     clusters: 2
     steep: true
     polygon: [[68, 102], [80, 102], [80, 103.6], [68, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 2
     clusters: 2
     steep: true
@@ -1223,13 +1234,13 @@ scatter:
     steep: true
     polygon: [[80, 100], [95, 100], [95, 103.6], [80, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 13
     clusters: 3
     steep: true
     polygon: [[80, 100], [95, 100], [95, 103.6], [80, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 6
     clusters: 2
     steep: true
@@ -1241,13 +1252,13 @@ scatter:
     steep: true
     polygon: [[98.5, 100], [109, 100], [109, 103.6], [98.5, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush08
+    decoration: bush03
     count: 9
     clusters: 2
     steep: true
     polygon: [[98.5, 100], [109, 100], [109, 103.6], [98.5, 103.6]]
   - id: scatter:lip_bushes
-    decoration: bush07
+    decoration: bush03
     count: 4
     clusters: 2
     steep: true
@@ -1504,7 +1515,7 @@ structures:
     hood: 64
     textures: {door: 7solid01, wall: cnb}
     title: Enter the Robbers' Den
-    into: {map: xeen_xd21.blv}
+    into: {map: xeen_xd21.blv, at: [-2560, 320, 0], facing: 512, screen: {text: 5021}}
     notes: "XD-21 (DOORS.md): the door in the quay wall under the great bridge's south end, facing the river."
     arch: round
   - id: thing:boat_house
@@ -1519,7 +1530,7 @@ structures:
       part: house
       wall: w
     title: Captain Nystor's Dock
-    house: 486
+    house: 4063
   - id: thing:nystor_pier
     kind: bridge
     line: [[80.2, 55.2], [80.2, 52.7]]
@@ -1534,15 +1545,8 @@ structures:
     height: 256
     width: 128
     title: Captain Nystor
-    condition: {gold: {at_least: 100}}
-    locked_text: "Captain Nystor: \"A ride to Vertigo is 100 gold pieces, if ya be interested.\""
     effects:
-      - gold: -100
-      - text: "Captain Nystor: \"I can give ya a boat ride to the Eastern shore for 100 gold pieces.\""
-      - teleport:
-          to: [-7168, 4506, 640]
-          direction: 0
-          map: xeen_x1.odm
+      - text: "Captain Nystor: \"I can give ya a boat ride to the Eastern shore for 100 gold pieces. Ask at the dock house.\""
   - id: thing:nystor_ogres
     kind: sign
     at: [76.7, 56.6]
@@ -1556,7 +1560,15 @@ structures:
     at: [67.8, 56.6]
     title: Chest
     effects:
-      - text: "The chest is empty. What did you expect, money?"
+      - lua: "XeenQuests.hook(\"x2.bank_chest\")"
+  - id: thing:sorceress_strongbox
+    kind: crate
+    at: [71.35, 56.45]
+    title: Strongbox
+    chest: {items: [12152]}
+    effects:
+      - show_actors: 54
+      - lua: "XeenQuests.hook(\"q-c2.strongbox\")"
   - id: thing:square_court
     kind: platform
     at: [64, 45.85]
@@ -1586,10 +1598,10 @@ structures:
     turn: 90
     radius: 112
     sides: 12
-    textures: {membrane: {flow: down, liquid: water, texture: wtrtyl}}
+    textures: {membrane: {texture: xmirror}}
     title: Magic Mirror
     effects:
-      - lua: "evt.SimpleMessage(\"The mirror shows Bridge Square, and you in it. Scratched round its frame: \\\"If you say the name of a town to a mirror, it will take you there.\\\" Below, in another hand: \\\"If you like to fight, say 'Warzone' to a mirror.\\\" (The mirrors of Cloudside are not joined yet.)\")"
+      - lua: "Xeen.useMirror(4064, eventId, continueStep)"
     notes: "The town mirror (WORLD_DESIGN 3.3): a portal ring on its dais as the stand-in."
   - id: thing:ad_deep_mine
     kind: sign
@@ -1598,7 +1610,7 @@ structures:
     width: 160
     title: Notice board
     effects:
-      - lua: "evt.SimpleMessage(\"REAL adventurers try Deep Mine Alpha!\")"
+      - lua: "XeenQuests.hook(\"x2.ad_deep_mine\")"
   - id: thing:ad_board
     kind: sign
     at: [67.1, 44.5]
@@ -1606,15 +1618,23 @@ structures:
     width: 160
     title: Notice board
     effects:
-      - lua: "evt.SimpleMessage(\"If you can read this ad, so can your customers.\")"
+      - lua: "XeenQuests.hook(\"x2.ad_customers\")"
   - id: thing:ad_navigation
     kind: sign
-    at: [63.3, 44.35]
+    at: [53.3, 42.85]
+    height: 224
+    width: 160
+    title: School of Navigation
+    effects:
+      - lua: "XeenQuests.hook(\"x2.ad_navigation\")"
+  - id: thing:ad_mountains
+    kind: sign
+    at: [75.15, 47.6]
     height: 224
     width: 160
     title: Notice board
     effects:
-      - lua: "evt.SimpleMessage(\"School of Navigation 9N. Mountains in your way? Try due N.\")"
+      - lua: "XeenQuests.hook(\"x2.ad_mountains\")"
   - id: thing:temple_board
     kind: sign
     at: [63.3, 63.5]
@@ -1657,28 +1677,28 @@ structures:
       - lua: "evt.SimpleMessage(\"Lindon the Taskmaster: \\\"I'll give you 100 gold for a week of work.\\\"\")"
   - id: thing:patron_1
     kind: decoration
-    at: [64.35, 42.7]
+    at: [64.85, 42.45]
     decoration: bigbarel
     title: Tavern patron
     effects:
       - text: "A tavern patron, nose in his mug: \"Get lost. Can't you see I'm drinkin'?\""
   - id: thing:patron_2
     kind: decoration
-    at: [66.75, 42.75]
-    decoration: 7dec24
+    at: [66.15, 42.45]
+    decoration: 7dec21
     title: Tavern patron
     effects:
       - text: "A tavern patron: \"If Barok ever got his pendant back, this place might charge me for drinks.\""
   - id: thing:patron_3
     kind: decoration
-    at: [65, 44.4]
+    at: [64.55, 42.45]
     decoration: bigbarel
     title: Tavern patron
     effects:
       - text: "A tavern patron: \"The tavern hired the sorceresses to run Barok out of town.\""
   - id: thing:patron_4
     kind: decoration
-    at: [66.2, 44.4]
+    at: [66.45, 42.45]
     decoration: 7dec32
     title: Tavern patron
     effects:
@@ -1757,11 +1777,15 @@ structures:
   - id: thing:prop_2
     kind: decoration
     at: [77, 56.75]
-    decoration: 7dec24
+    decoration: 7dec21
   - id: thing:prop_3
     kind: decoration
     at: [80.6, 55.9]
     decoration: 7dec32
+  - id: thing:prop_3_pair
+    kind: decoration
+    at: [80.95, 55.9]
+    decoration: smlbarel
   - id: thing:prop_4
     kind: decoration
     at: [55, 50.3]
@@ -1781,54 +1805,66 @@ structures:
   - id: thing:prop_8
     kind: decoration
     at: [60.6, 50]
-    decoration: 7dec24
+    decoration: 7dec21
+  - id: thing:prop_8_pair
+    kind: decoration
+    at: [60.95, 50]
+    decoration: smlbarel
   - id: thing:prop_9
     kind: decoration
     at: [70, 50.2]
     decoration: 7dec32
+  - id: thing:prop_9_pair
+    kind: decoration
+    at: [70.35, 50.2]
+    decoration: smlbarel
   - id: thing:prop_10
     kind: decoration
     at: [72.2, 56.4]
     decoration: 7dec21
+  - id: thing:prop_10_pair
+    kind: decoration
+    at: [72.55, 56.4]
+    decoration: smlbarel
   - id: thing:prop_11
     kind: decoration
-    at: [58.4, 56.4]
+    at: [58.15, 56.4]
     decoration: bigbarel
+  - id: thing:prop_11_pair
+    kind: decoration
+    at: [58.15, 56.75]
+    decoration: smlbarel
   - id: thing:prop_12
     kind: decoration
     at: [53.2, 40]
     decoration: 7dec12
-  - id: thing:prop_13
-    kind: decoration
-    at: [63.4, 61.75]
-    decoration: 7dec24
   - id: thing:prop_14
     kind: decoration
-    at: [60.9, 60]
+    at: [60.68, 60]
     decoration: 7dec32
+  - id: thing:prop_14_pair
+    kind: decoration
+    at: [60.68, 60.35]
+    decoration: smlbarel
   - id: thing:prop_15
     kind: decoration
     at: [67.35, 47.45]
     decoration: bigbarel
-  - id: thing:prop_16
+  - id: thing:prop_15_pair
     kind: decoration
-    at: [67.3, 44.3]
-    decoration: 7dec24
-  - id: thing:prop_17
-    kind: decoration
-    at: [60.75, 44.45]
-    decoration: 7dec21
+    at: [67.35, 47.8]
+    decoration: smlbarel
   - id: thing:ogre_lair
     kind: cave_mouth
     at: [23, 29]
-    size: [1024, 1024]
+    size: [640, 1024]
     textures: {door: 7solid01, shell: t2bs}
     floor: 1216
     title: Enter the Ogre Lair
-    into: {map: xeen_xd27.blv}
+    into: {map: xeen_xd27.blv, screen: {text: 5027}}
     hint: Ogre Lair
     notes: XD-27 (DOORS.md).
-    mouth: {width: 512, height: 416, depth: 75}
+    mouth: {width: 512, height: 416, depth: 75, rim: 64}
     roughness: 0.7
     seed: 7
   - id: thing:lair_dress_1
@@ -1845,7 +1881,7 @@ structures:
     decoration: 7dec18
   - id: thing:lair_dress_4
     kind: decoration
-    at: [25.3, 31.6]
+    at: [24.3, 31.5]
     decoration: 7dec20
   - id: thing:lair_dress_5
     kind: decoration
@@ -1914,8 +1950,8 @@ structures:
       part: base
       wall: "3"
     title: Darzog's Tower
-    into: {map: xeen_xd12.blv}
-    condition: {any: [{item: skeleton_key}, {lua: "evt.GetHeldItemId() == 1461"}]}
+    into: {map: xeen_xd12.blv, at: [2752, 0, 0], facing: 1024, screen: {text: 5012}}
+    condition: {lua: "evt.GetHeldItemId() == 12100 or XeenQuests.hook(\"m13.darzog_door\")"}
     else_effects:
       - lua: "evt.SimpleMessage(\"Darzog's Tower. The door is black iron without a handle, and a keyhole shaped like a skull. Whoever holds the key to it is not on this island.\")"
     notes: "XD-12 (DOORS.md): the door on the east side, facing the jetty; key-gated."
@@ -1934,11 +1970,9 @@ structures:
       part: front
       wall: n
     title: Temple of Yak
-    into: {map: xeen_xd06.blv}
-    condition: {qbit: yak_stone}
-    else_effects:
-      - lua: "evt.SimpleMessage(\"The Temple of Yak. Its stone door has no handle, only a socket the shape of a horned stone. The clerics within open to no one who does not carry the Yak Stone.\")"
-    notes: "XD-06 (DOORS.md), moved from X1."
+    into: {map: xeen_xd06.blv, at: [0, 384, 0], facing: 512, screen: {text: 5006}}
+    condition: {lua: "XeenQuests.hook(\"q-c12.temple_door\")"}
+    notes: "XD-06 (DOORS.md), moved from X1. D-89 (A5 s29): open without the Yak Stone; A3's q-c12.temple_door (always true) before the entrance window (trans 5006)."
   - id: thing:yak_dress_1
     kind: decoration
     at: [61.2, 99]
@@ -1978,7 +2012,7 @@ structures:
     title: Medin's boat
     condition: {qbit: lake_beasts_slain}
     else_effects:
-      - lua: "evt.SimpleMessage(\"Medin's boat is tied up. \\\"Not while those beasts circle the island,\\\" says Medin.\")"
+      - lua: "XeenQuests.hook(\"q-c13.medin_boat\")"
     effects:
       - text: Medin rows you across to the island.
       - teleport:
@@ -2012,24 +2046,13 @@ structures:
     at: [40.6, 70.7]
     decoration: 7dec41
     title: Bottle
-    condition: {not: {qbit: crodo_bottle_lake}}
-    else_effects:
-      - text: An empty bottle.
     effects:
-      - qbit: crodo_bottle_lake
-      - lua: "evt.SimpleMessage(\"Inside the bottle, washed up on the shore, you find a message that reads: Help! I am in Darzog's Tower!--Crodo\")"
+      - lua: "XeenQuests.hook(\"m1.crodo_bottle_lake\")"
   - id: thing:danulf_ring
     kind: stone_ring
     at: [56, 82]
     radius: 448
     title: Danulf the Faery King
-    condition: {qbit: faery_wand}
-    else_effects:
-      - lua: "evt.SimpleMessage(\"Danulf the Faery King: \\\"A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. If you return my Wand I will reward you handsomely.\\\"\")"
-    effects:
-      - gold: 1500
-      - lua: "evt.SimpleMessage(\"Danulf the Faery King: \\\"You have returned my Wand of Faery Magic! Now peace can be restored to the forest. Please accept this gold as a reward.\\\"\")"
-    once: true
     count: 6
     altar: [192, 128, 96]
   - id: thing:sprite_eggs
@@ -2038,13 +2061,7 @@ structures:
     decoration: mushrm05
     title: Sprite eggs
     effects:
-      - qbit: sprite_eggs
-      - qbit: faery_wand
-      - add:
-          var: Experience
-          value: 2000
-      - lua: "evt.SimpleMessage(\"You have discovered a hollow full of blue speckled Sprite eggs. You ruin the nesting places and crush the eggs. Among them lies a slim wand of white wood: Danulf's Wand of Faery Magic. (+2,000 experience)\")"
-    once: true
+      - lua: "XeenQuests.hook(\"q-c17.nest\")"
   - id: thing:sage_fountain
     kind: fountain
     at: [70, 86]
@@ -2081,7 +2098,7 @@ structures:
   - id: thing:grave_2
     kind: decoration
     at: [83.4, 78.1]
-    decoration: rock66
+    decoration: rock65
     title: Grave
     effects:
       - text: "An elven grave, its name worn smooth."
@@ -2095,7 +2112,7 @@ structures:
   - id: thing:grave_4
     kind: decoration
     at: [84.2, 77.4]
-    decoration: rock66
+    decoration: rock65
     title: Grave
     effects:
       - text: "An elven grave, its name worn smooth."
@@ -2153,31 +2170,6 @@ structures:
     kind: decoration
     at: [51.5, 96.9]
     decoration: 7dec20
-  - id: thing:ligono
-    kind: decoration
-    at: [27, 102.6]
-    decoration: ped03
-    title: Ligono the Spirit
-    condition: {qbit: ligono_skull}
-    else_effects:
-      - lua: "evt.SimpleMessage(\"Ligono the Spirit, a pale shape in the spray below the rim: \\\"I hate the surf. I have been trapped here since I died, crashing forward and pulling back. If you bring my skull and cast it into the surf here, I will be set free. I think my skull was pulled by the currents and lies near the edge of the world, to the east.\\\"\")"
-    effects:
-      - add:
-          var: Experience
-          value: 4000
-      - lua: "evt.SimpleMessage(\"Ligono the Spirit: \\\"My skull! Thank you! Already I can feel my tie to this world fading. Listen to the sound of the surf for your spell.\\\" (+4,000 experience)\")"
-    once: true
-  - id: thing:ligono_skull
-    kind: decoration
-    at: [96.6, 102.8]
-    decoration: 7dec20
-    title: Skull
-    condition: {not: {qbit: ligono_skull}}
-    else_effects:
-      - text: Only rocks and spray.
-    effects:
-      - qbit: ligono_skull
-      - lua: "evt.SimpleMessage(\"Wedged among the rocks at the world's edge: a skull, still wet with spray. Ligono's, surely.\")"
   - id: thing:camp_ne_tent
     kind: tent
     at: [86.8, 23.4]
@@ -2249,7 +2241,7 @@ structures:
       height: [256, 768]
       gaps: 0.3
       thickness: 48
-      seed: 3
+      seed: 5
   - id: thing:watchtower_chest
     kind: chest
     at: [101.6, 36.4]
@@ -2280,11 +2272,11 @@ structures:
     height: 768
     title: Obelisk
     effects:
-      - lua: "evt.SimpleMessage(\"Carved into the obelisk: the second word of a riddle that runs across Cloudside: \\\"THE\\\". (The other obelisks are not built yet.)\")"
+      - lua: "XeenQuests.hook(\"obelisks.x2\")"
   - id: thing:ogre_boulder
     kind: decoration
     at: [38.2, 42.6]
-    decoration: rock67
+    decoration: rock68
     title: A great boulder
     condition: {stat: {name: BaseMight, at_least: 30}}
     else_effects:
@@ -2340,6 +2332,14 @@ structures:
     arms:
       - {title: Medin's jetty, toward: w}
       - {title: Rivercity, toward: e}
+  - id: thing:nystor_ship
+    kind: model
+    at: [83.6, 53.4]
+    turn: 90
+    raise: 560
+    from: {map: 7out03.odm, world: mm7, models: [Boat 201_S, Boat 201_S_1, Boat 201_S_2, Boat 201_S_3, Boat 201_S_4, Boat 2f01 Mastprt1_SBoat 2f01 M, Boat 2g01 Mastprt2_SBoat 2g01 M, Boat 2h01 FrntMast_SBoat 2h01 F]}
+    title: Captain Nystor's ship
+    house: 4063
   - id: thing:rim_boulder_1
     kind: decoration
     at: [30, 103.2]
@@ -2391,24 +2391,62 @@ actors:
   - {monster: "404", at: [52.9, 43.2], spread: 0, group: 51}
   - {monster: "404", at: [68.3, 60.9], spread: 0, group: 51}
   - {monster: "404", at: [62, 38.5], spread: 0, group: 51}
-  - {monster: "202", at: [88, 25.6], count: 3, spread: 1, group: 60, hostile: true}
-  - {monster: "203", at: [89.2, 25], count: 2, spread: 0.8, group: 60, hostile: true}
-  - {monster: "202", at: [46, 23.6], count: 3, spread: 1, group: 61, hostile: true}
-  - {monster: "203", at: [47.2, 23], count: 2, spread: 0.8, group: 61, hostile: true}
-  - {monster: "594", at: [23.2, 31.4], count: 1, spread: 0, group: 62, hostile: true}
-  - {monster: "593", at: [23.6, 32.2], count: 2, spread: 0.8, group: 62, hostile: true}
-  - {monster: "98", at: [61, 96.4], count: 3, spread: 1, group: 63, hostile: true}
-  - {monster: "98", at: [66.6, 100.6], count: 2, spread: 0.8, group: 63, hostile: true}
-  - {monster: "192", at: [31, 50.5], count: 1, spread: 0, group: 80, hostile: true, notes: One of Medin's three lake beasts.}
-  - {monster: "192", at: [22.5, 60], count: 1, spread: 0, group: 80, hostile: true, notes: One of Medin's three lake beasts.}
-  - {monster: "192", at: [36.5, 66], count: 1, spread: 0, group: 80, hostile: true, notes: One of Medin's three lake beasts.}
-  - {monster: "593", at: [30, 20], count: 1, spread: 0, group: 70, hostile: true}
-  - {monster: "97", at: [84, 69], count: 1, spread: 0, group: 71, hostile: true}
-  - {monster: "202", at: [100, 22], count: 1, spread: 0, group: 72, hostile: true}
-  - {monster: "97", at: [42, 90], count: 1, spread: 0, group: 73, hostile: true}
+  - {monster: "11130", at: [88, 25.6], count: 3, spread: 1, group: 60, hostile: true}
+  - {monster: "11131", at: [89.2, 25], count: 2, spread: 0.8, group: 60, hostile: true}
+  - {monster: "11130", at: [46, 23.6], count: 3, spread: 1, group: 61, hostile: true}
+  - {monster: "11131", at: [47.2, 23], count: 2, spread: 0.8, group: 61, hostile: true}
+  - {monster: "11061", at: [23.2, 31.4], count: 1, spread: 0, group: 62, hostile: true}
+  - {monster: "11061", at: [23.6, 32.2], count: 2, spread: 0.8, group: 62, hostile: true}
+  - {monster: "11531", at: [61, 96.4], count: 3, spread: 1, group: 63, hostile: true}
+  - {monster: "11531", at: [66.6, 100.6], count: 2, spread: 0.8, group: 63, hostile: true}
+  - {monster: "11640", at: [23, 48], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
+  - {monster: "11640", at: [19.5, 58], count: 1, spread: 0, group: 80, hostile: true, leash: 768, notes: One of Medin's three lake beasts.}
+  - {monster: "11640", at: [28, 71], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
+  - {monster: "11060", at: [30, 20], count: 1, spread: 0, group: 70, hostile: true}
+  - {monster: "11530", at: [84, 69], count: 1, spread: 0, group: 71, hostile: true}
+  - {monster: "11130", at: [100, 22], count: 1, spread: 0, group: 72, hostile: true}
+  - {monster: "11530", at: [42, 90], count: 1, spread: 0, group: 73, hostile: true}
+  - {monster: "371", at: [56.8, 82.6], spread: 0, group: 52, npc: 4154}
+  - {monster: "270", at: [27, 102], spread: 0, group: 55, npc: 4155}
+  - {monster: "11184", at: [72.3, 56], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
+  - {monster: "11184", at: [72.7, 55.5], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
+items:
+  - {id: item:ligono_skull, item: 12311, at: [96.6, 102.8]}
+sounds:
+  - {id: sound:bed_lake_1, at: [29, 45], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_2, at: [47, 45], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_3, at: [38, 60.5], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_4, at: [29, 76], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_5, at: [47, 76], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_meadow_1, at: [27, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_2, at: [55, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_3, at: [83, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_4, at: [69, 49], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_5, at: [97, 49], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_6, at: [55, 73.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_7, at: [83, 73.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_8, at: [41, 97.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_9, at: [97, 97.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_night_1, at: [27, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_2, at: [55, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_3, at: [83, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_4, at: [69, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_5, at: [97, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_6, at: [55, 73.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_7, at: [83, 73.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_8, at: [41, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_9, at: [97, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
 relations:
-  - {of: [202, 203, 204], toward: party, relation: hostile}
+  - {of: [268, 269, 270], toward: party, relation: friendly}
 events:
+  - id: evt:ligono_freed
+    trigger: load
+    condition: {qbit: 112380}
+    else_effects:
+      - show_actors: 55
+    effects:
+      - hide_actors: 55
+    notes: "Q-C19 (A3): freed, Ligono leaves the surf for Olympus (q-c19.done, 112380)."
   - id: evt:lake_beasts
     trigger: timer
     every: 5

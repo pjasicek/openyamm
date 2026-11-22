@@ -1,0 +1,730 @@
+note: 'Icons the Xeen item rows wait for (source/items.yml icon_needed). New art in the MM6-MM8 inventory icon style, drawn
+  at the size of slot_like (an engine icon of the same slot, assets_dev/engine/icons_x2), transparent background. Owner: A2.
+  Generation: Codex, one worker per sheet, raw returns kept (devdocs/xeen/lanes/README.md, Codex). Installed as assets_dev/worlds/xeen/icons_x2/<file>.png
+  once A1 adds "worlds/xeen x2" to engine/icon_packages.txt.'
+targets:
+- key: megacredit
+  id: 12192
+  name: King's Megacredit
+  kind: quest item
+  draw: a gold token with Burlock's crown
+  slot_like: 7item280
+  size_x2:
+  - 128
+  - 68
+  file: xeen_item_12192
+- key: yak_stone
+  id: 12301
+  name: Yak Stone of Opening
+  kind: quest item
+  draw: a carved stone with the Yak sign
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12301
+- key: pyramid_sigil
+  id: 12302
+  name: Pyramid Sigil
+  kind: quest item
+  draw: a gold sigil with a pyramid
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12302
+- key: stone_of_terrors
+  id: 12304
+  name: Stone of a Thousand Terrors
+  kind: quest item
+  draw: a dark rune stone
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12304
+- key: golem_stone
+  id: 12305
+  name: Golem Stone of Admittance
+  kind: quest item
+  draw: a grey stone tablet
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12305
+- key: bone_whistle
+  id: 12308
+  name: Orothin's Bone Whistle
+  kind: quest item
+  draw: a carved bone whistle
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12308
+- key: phirna_root
+  id: 12309
+  name: Phirna Root
+  kind: quest item
+  draw: a pale twisted root
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12309
+- key: wand_of_faery_magic
+  id: 12310
+  name: Wand of Faery Magic
+  kind: quest item
+  draw: a slender glowing wand
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12310
+- key: ligonos_skull
+  id: 12311
+  name: Ligono's Skull
+  kind: quest item
+  draw: a sea-worn skull
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12311
+- key: scarab_of_imaging
+  id: 12312
+  name: Scarab of Imaging
+  kind: quest item
+  draw: a jewelled scarab
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12312
+- key: piezo_crystals
+  id: 12313
+  name: Crystals of Piezoelectricity
+  kind: quest item
+  draw: a cluster of blue crystals
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12313
+- key: lava_rock
+  id: 12314
+  name: Ever-Hot Lava Rock
+  kind: quest item
+  draw: a glowing red rock
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12314
+- key: widget
+  id: 12315
+  name: Widget
+  kind: quest item
+  draw: a small brass gadget
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12315
+- key: pharaoh_orb
+  id: 12331
+  name: Dragon Pharaoh's Orb
+  kind: quest item
+  draw: a glowing amber orb
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12331
+- key: energy_disk
+  id: 12334
+  name: Energy Disk
+  kind: quest item
+  draw: a disk of humming light
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12334
+- key: monga_melon
+  id: 12343
+  name: Monga Melon
+  kind: quest item
+  draw: a striped green melon
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12343
+- key: vespars_handle
+  id: 12345
+  name: Vespar's Emerald Handle
+  kind: quest item
+  draw: an emerald staff handle
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12345
+- key: bridle
+  id: 12346
+  name: Bridle
+  kind: quest item
+  draw: a leather bridle
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12346
+- key: enchanted_bridle
+  id: 12347
+  name: Enchanted Bridle
+  kind: quest item
+  draw: a leather bridle glowing faintly
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12347
+- key: golden_pegasus
+  id: 12349
+  name: Golden Pegasus Statuette
+  kind: quest item
+  draw: a small gold pegasus
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12349
+- key: golden_dragon
+  id: 12350
+  name: Golden Dragon Statuette
+  kind: quest item
+  draw: a small gold dragon
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12350
+- key: golden_griffin
+  id: 12351
+  name: Golden Griffin Statuette
+  kind: quest item
+  draw: a small gold griffin
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12351
+- key: calebs_glass
+  id: 12352
+  name: Caleb's Magnifying Glass
+  kind: quest item
+  draw: a brass magnifying glass
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12352
+- key: sandros_heart
+  id: 12353
+  name: Sandro's Heart
+  kind: quest item
+  draw: a shrivelled heart in a jar
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12353
+- key: ruby_rock
+  id: 12357
+  name: Ruby Rock
+  kind: quest item
+  draw: a rough rock veined with red
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12357
+- key: emerald_rock
+  id: 12358
+  name: Emerald Rock
+  kind: quest item
+  draw: a rough rock veined with green
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12358
+- key: sapphire_rock
+  id: 12359
+  name: Sapphire Rock
+  kind: quest item
+  draw: a rough rock veined with blue
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12359
+- key: diamond_rock
+  id: 12360
+  name: Diamond Rock
+  kind: quest item
+  draw: a rough rock glittering white
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12360
+- key: tribble
+  id: 12362
+  name: Tribble
+  kind: quest item
+  draw: a small round ball of fur
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12362
+- key: soul_box
+  id: 12363
+  name: Soul Box
+  kind: quest item
+  draw: a small dark metal box
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12363
+- key: soul_box_corak
+  id: 12364
+  name: Soul Box (Corak)
+  kind: quest item
+  draw: a small dark metal box glowing inside
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12364
+- key: cube_of_power
+  id: 12365
+  name: Cube of Power
+  kind: quest item
+  draw: a cube of humming crystal
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12365
+- key: xeens_scepter
+  id: 12366
+  name: Xeen's Scepter
+  kind: quest item
+  draw: a dark sceptre with a clock face
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12366
+- key: might_doll
+  id: 12367
+  name: Might Doll
+  kind: quest item
+  draw: a cupie doll with tiny muscles
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12367
+- key: speed_doll
+  id: 12368
+  name: Speed Doll
+  kind: quest item
+  draw: a cupie doll with wings on its feet
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12368
+- key: endurance_doll
+  id: 12369
+  name: Endurance Doll
+  kind: quest item
+  draw: a cupie doll in armour
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12369
+- key: accuracy_doll
+  id: 12370
+  name: Accuracy Doll
+  kind: quest item
+  draw: a cupie doll with a bow
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12370
+- key: lord_xeen_doll
+  id: 12371
+  name: Lord Xeen Doll
+  kind: quest item
+  draw: a doll of a grim armoured lord
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12371
+- key: chime_of_opening
+  id: 12373
+  name: Chime of Opening
+  kind: quest item
+  draw: a small silver chime
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12373
+- key: xeen_slayer_sword
+  id: 12500
+  name: Xeen Slayer Sword
+  kind: artifact
+  draw: a long two-handed sword with a crystal core
+  slot_like: item006
+  size_x2:
+  - 64
+  - 372
+  file: xeen_item_12500
+- key: elder_long_sword
+  id: 12501
+  name: Elder Long Sword
+  kind: artifact
+  draw: an ornate long sword
+  slot_like: item001
+  size_x2:
+  - 56
+  - 300
+  file: xeen_item_12501
+- key: elder_dagger
+  id: 12502
+  name: Elder Dagger
+  kind: artifact
+  draw: an ornate dagger
+  slot_like: item026
+  size_x2:
+  - 56
+  - 240
+  file: xeen_item_12502
+- key: elder_mace
+  id: 12503
+  name: Elder Mace
+  kind: artifact
+  draw: an ornate mace
+  slot_like: item066
+  size_x2:
+  - 84
+  - 322
+  file: xeen_item_12503
+- key: elder_spear
+  id: 12504
+  name: Elder Spear
+  kind: artifact
+  draw: an ornate spear
+  slot_like: item042
+  size_x2:
+  - 78
+  - 556
+  file: xeen_item_12504
+- key: elder_staff
+  id: 12505
+  name: Elder Staff
+  kind: artifact
+  draw: an ornate staff
+  slot_like: item079
+  size_x2:
+  - 46
+  - 528
+  file: xeen_item_12505
+- key: elder_long_bow
+  id: 12506
+  name: Elder Long Bow
+  kind: artifact
+  draw: an ornate long bow
+  slot_like: item056
+  size_x2:
+  - 96
+  - 384
+  file: xeen_item_12506
+- key: last_flower_of_summer
+  id: 12510
+  name: Last Flower of Summer
+  kind: artifact
+  draw: a gold ring set with a red flower
+  slot_like: item137
+  size_x2:
+  - 62
+  - 60
+  file: xeen_item_12510
+- key: leaf_of_autumn
+  id: 12511
+  name: Leaf of Autumn
+  kind: artifact
+  draw: an amulet with a bronze leaf
+  slot_like: item147
+  size_x2:
+  - 72
+  - 102
+  file: xeen_item_12511
+- key: snowflake_of_winter
+  id: 12512
+  name: Snowflake of Winter
+  kind: artifact
+  draw: a white belt with a snowflake clasp
+  slot_like: item117
+  size_x2:
+  - 102
+  - 42
+  file: xeen_item_12512
+- key: raindrop_of_spring
+  id: 12513
+  name: Raindrop of Spring
+  kind: artifact
+  draw: a pale green cloak beaded with rain
+  slot_like: item122
+  size_x2:
+  - 136
+  - 56
+  file: xeen_item_12513
+- key: kalindras_crown
+  id: 12521
+  name: Queen Kalindra's Crown
+  kind: artifact
+  draw: a silver crown with dark jewels
+  slot_like: 7item098
+  size_x2:
+  - 120
+  - 110
+  file: xeen_item_12521
+- key: ectors_ring
+  id: 12522
+  name: Ector's Ring
+  kind: artifact
+  draw: a heavy iron ring
+  slot_like: item139
+  size_x2:
+  - 62
+  - 60
+  file: xeen_item_12522
+- key: baroks_pendant
+  id: 12523
+  name: Barok's Pendant
+  kind: artifact
+  draw: a pendant with a violet stone
+  slot_like: item148
+  size_x2:
+  - 68
+  - 96
+  file: xeen_item_12523
+- key: holy_book
+  id: 12524
+  name: Holy Book of Elvenkind
+  kind: artifact
+  draw: a white book with a gold leaf
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12524
+- key: chalice_of_protection
+  id: 12525
+  name: Chalice of Protection
+  kind: artifact
+  draw: a gold chalice
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12525
+- key: songbird_of_serenity
+  id: 12526
+  name: Songbird of Serenity
+  kind: artifact
+  draw: a small jewelled bird
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12526
+- key: jewel_of_ages
+  id: 12527
+  name: Jewel of Ages
+  kind: artifact
+  draw: a many-faceted clear jewel
+  slot_like: keys4
+  size_x2:
+  - 66
+  - 92
+  file: xeen_item_12527
+- key: vespars_staff
+  id: 12528
+  name: Vespar's Staff
+  kind: artifact
+  draw: a staff with an emerald handle
+  slot_like: item079
+  size_x2:
+  - 46
+  - 528
+  file: xeen_item_12528
+- key: paladins_armour
+  id: 12529
+  name: Dead Paladin's Armour
+  kind: artifact
+  draw: a white and gold plate armour
+  slot_like: item098
+  size_x2:
+  - 204
+  - 206
+  file: xeen_item_12529
+- key: megadragon_hoard_blade
+  id: 12530
+  name: Wyrmfang
+  kind: artifact
+  draw: a blade of dragon tooth
+  slot_like: item006
+  size_x2:
+  - 64
+  - 372
+  file: xeen_item_12530
+- key: katana
+  ids:
+  - 12600
+  - 12601
+  - 12602
+  - 12603
+  - 12604
+  name: Katana
+  kind: base (one icon for every tier)
+  draw: a curved single-edged sword
+  slot_like: item001
+  size_x2:
+  - 56
+  - 300
+  file: xeen_item_katana
+- key: scimitar
+  ids:
+  - 12610
+  - 12611
+  - 12612
+  - 12613
+  name: Scimitar
+  kind: base (one icon for every tier)
+  draw: a broad curved sword
+  slot_like: item017
+  size_x2:
+  - 62
+  - 316
+  file: xeen_item_scimitar
+- key: flamberge
+  ids:
+  - 12620
+  - 12621
+  - 12622
+  name: Flamberge
+  kind: base (one icon for every tier)
+  draw: a wavy two-handed sword
+  slot_like: item006
+  size_x2:
+  - 64
+  - 372
+  file: xeen_item_flamberge
+- key: naginata
+  ids:
+  - 12630
+  - 12631
+  - 12632
+  - 12633
+  - 12634
+  name: Naginata
+  kind: base (one icon for every tier)
+  draw: a curved polearm blade
+  slot_like: item042
+  size_x2:
+  - 78
+  - 556
+  file: xeen_item_naginata
+- key: glaive
+  ids:
+  - 12640
+  - 12641
+  - 12642
+  - 12643
+  name: Glaive
+  kind: base (one icon for every tier)
+  draw: a broad polearm blade
+  slot_like: item046
+  size_x2:
+  - 84
+  - 546
+  file: xeen_item_glaive
+- key: great_axe
+  ids:
+  - 12650
+  - 12651
+  - 12652
+  - 12653
+  name: Great Axe
+  kind: base (one icon for every tier)
+  draw: a huge double-bladed axe
+  slot_like: item036
+  size_x2:
+  - 114
+  - 442
+  file: xeen_item_great_axe
+- key: flail
+  ids:
+  - 12660
+  - 12661
+  - 12662
+  - 12663
+  name: Flail
+  kind: base (one icon for every tier)
+  draw: a spiked ball on a chain
+  slot_like: item067
+  size_x2:
+  - 140
+  - 324
+  file: xeen_item_flail
+- key: robes
+  ids:
+  - 12670
+  - 12671
+  - 12672
+  name: Robes
+  kind: base (one icon for every tier)
+  draw: a caster's robe
+  slot_like: item084
+  size_x2:
+  - 178
+  - 206
+  file: xeen_item_robes
+- key: scale_mail
+  ids:
+  - 12680
+  - 12681
+  - 12682
+  name: Scale Mail
+  kind: base (one icon for every tier)
+  draw: a scale armour
+  slot_like: item089
+  size_x2:
+  - 154
+  - 200
+  file: xeen_item_scale_mail

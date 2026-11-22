@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit image 1 paint_mask_guide.png using its alpha as a locked stencil. 1536x2048 transparent canvas, 3 columns x 4 rows. Preserve every grey pixel's position and silhouette, including angular gaps. Upper half: recolor only existing surfaces in unlit albedo matching design reference (image 2) and icon palette (image 3). Pale silver-white wood grain shaft, silver bindings and open crescent, violet faceted crystal with faint internal sparkle. No lighting, shadows, highlights, reflections, glow outside shape, outlines or text. Keep exact foreshortening: row 1 tiny end-on views, then horizontal wand with head on left; row 2 reversed horizontal wand, then upright angular crescent wand, then empty. Same placement repeated in rows 3-4 but only flat exact material ID colors: silver metal pure red #FF0000, wood pure yellow #FFFF00, crystal opaque black #000000, leather/fur pure green #00FF00 and cloth/hair pure blue #0000FF only if present. No shading, texture or blended colors in mask. All background, gaps and empty cells transparent. Do not enlarge, straighten, join gaps, redraw silhouettes or change scale. Keep sparse layout of guide.\nCorrection: trace the guide geometry literally. The upright crescent is a coarse polygon with a detached diagonal silver sliver at its top and a squared-off central crystal post. Preserve these forms in both copies; apply the illustrated materials inside those polygon boundaries. Leave transparent space around each slender shaft perfectly clean. Mask must be solid hard-edged class fills.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "8eb1fffeba9a867387cb91db4fd053a645b3cd9a988b2d928e908523c799809b"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "6f168f4a767a972bcee37b1fd3e3c30c7300991a69091681534adb6b51cb0367"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "9ec758921b3356438368a69cdc5a1543e4b85102962b8ab93f2e08235616850d"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91b-42af-7502-8b38-6983d10d2ce3/exec-96b4509a-1e03-432c-a4a1-bc396174a386.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

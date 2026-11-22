@@ -1,0 +1,10 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/xd20/L4"
+revision: "6c8d923a960dd6f91395009911ba395e"
+lock_hash: "d255cc58f1d37b666a772bbd29ba48a1"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [256, 0, 0], facing: 0}
+  - {name: "entrance:x6_yard", at: [256, 0, 0], facing: 0}
+hanging_decorations: [3, 4, 5, 6, 7, 8]

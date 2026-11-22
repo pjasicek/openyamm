@@ -1,0 +1,549 @@
+format: 0
+start:
+  room: room:threshold
+  at: [0, 384]
+  facing: n
+  notes: "entrance:d5_hold: 384 inside the great doors, facing north into the hall."
+arrivals:
+  - {entrance: entrance:d5_hold, room: room:threshold, at: [0, 384], facing: n, notes: "384 inside the great doors, facing north (D5's great doors, A6)."}
+doors:
+  - id: door:great
+    opening: open:great
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 45
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    pictures:
+      - [{texture: xdgiantd, size: [128, 256]}, {texture: xdgiantd, size: [128, 256], mirror: true}]
+    back_pictures:
+      - [{texture: xdgiantd, size: [128, 256]}, {texture: xdgiantd, size: [128, 256], mirror: true}]
+    notes: "The great doors: two leaves of giant planks (xdgiantd, the right leaf mirrored)."
+  - id: door:hoard
+    opening: open:throne_treasury
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The hoard's door.
+  - id: door:larder
+    opening: open:long_larder
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The larder's plank door.
+  - id: door:side
+    opening: open:trophies_throne
+    kind: hinged
+    thickness: 24
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    notes: The trophy gallery's side door into the throne hall.
+  - id: door:throne
+    opening: open:landing_throne
+    kind: hinged
+    leaves: 2
+    thickness: 32
+    speed: 45
+    edge_surface: {texture: trim9_32, size: [32, 64]}
+    pictures:
+      - [{texture: xdgiantd, size: [128, 256]}, {texture: xdgiantd, size: [128, 256], mirror: true}]
+    back_pictures:
+      - [{texture: xdgiantd, size: [128, 256]}, {texture: xdgiantd, size: [128, 256], mirror: true}]
+    notes: The throne hall's double doors.
+sounds:
+  - {id: sound:smoke_hole, room: room:throne_hall, at: [0, 5696], sound: whistling wind, radius: 1800, inner_radius: 500, volume: 0.4, notes: Wind down the smoke hole.}
+  - {id: sound:trench, room: room:longhall, at: [0, 1408], sound: campfire, radius: 1600, inner_radius: 400, volume: 0.6, notes: The fire trench.}
+lights:
+  - id: light:brazier_e
+    room: room:throne_hall
+    at: [512, 5952]
+    height: 200
+    radius: 900
+    color: [235, 160, 90]
+    brightness: 22
+    pulse: {intensity: [0.7, 1], frequency: 0.8}
+  - id: light:brazier_w
+    room: room:throne_hall
+    at: [-512, 5952]
+    height: 200
+    radius: 900
+    color: [235, 160, 90]
+    brightness: 22
+    pulse: {intensity: [0.7, 1], frequency: 0.7}
+  - id: light:hearth
+    room: room:sleeping
+    at: [2080, 1152]
+    height: 100
+    radius: 900
+    color: [235, 160, 90]
+    brightness: 22
+    pulse: {intensity: [0.7, 1], frequency: 0.5}
+  - id: light:porch
+    room: room:porch
+    at: [0, -300]
+    height: 300
+    radius: 900
+    color: [124, 118, 106]
+    notes: The Darkside's day from the hillside's mouth.
+  - id: light:smoke_hole
+    room: room:throne_hall
+    at: [0, 5696]
+    height: 1300
+    radius: 1600
+    color: [124, 118, 106]
+    notes: Daylight down the smoke hole.
+  - id: light:torch_01
+    room: room:threshold
+    at: [-500, 400]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_02
+    room: room:threshold
+    at: [500, 400]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_03
+    room: room:larder
+    at: [-1780, 1180]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_04
+    room: room:boulder_store
+    at: [1164, 2100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_05
+    room: room:great_stair
+    at: [-308, 2600]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_06
+    room: room:great_stair
+    at: [308, 3500]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_07
+    room: room:landing
+    at: [-500, 4544]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_08
+    room: room:trophies
+    at: [1036, 5600]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_09
+    room: room:treasury
+    at: [-268, 6656]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_10
+    room: room:sleeping
+    at: [1700, 908]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_11
+    room: room:longhall
+    at: [-1012, 1100]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:torch_12
+    room: room:longhall
+    at: [1012, 1700]
+    height: 256
+    radius: 800
+    color: [235, 160, 90]
+  - id: light:trench
+    room: room:longhall
+    at: [0, 1408]
+    height: 120
+    radius: 1500
+    color: [235, 160, 90]
+    brightness: 26
+    pulse: {intensity: [0.7, 1], frequency: 0.6}
+    notes: The fire trench's embers.
+chests:
+  - id: chest:hoard
+    room: room:treasury
+    at: [-512, 6820]
+    facing: s
+    treasure_level: 5
+    random_items: 4
+    gold: 5000
+    notes: "The People's hoard (q-d16.hoard: refuses at peace)."
+  - id: chest:larder
+    room: room:larder
+    at: [-1700, 1560]
+    facing: e
+    treasure_level: 5
+    random_items: 2
+    gold: 2000
+    notes: The larder's meat chest (opens at peace).
+monsters:
+  - id: monster:boulder_store_1
+    room: room:boulder_store
+    monster: 11083
+    at: [1350, 2100]
+    facing: 0
+    hostile: false
+    group: 13
+  - id: monster:boulder_store_2
+    room: room:boulder_store
+    monster: 11083
+    at: [1600, 2250]
+    facing: 180
+    hostile: false
+    group: 13
+  - id: monster:great_stair_1
+    room: room:great_stair
+    monster: 11084
+    at: [-150, 3300]
+    facing: 270
+    hostile: false
+    group: 14
+  - id: monster:great_stair_2
+    room: room:great_stair
+    monster: 11084
+    at: [150, 3600]
+    facing: 270
+    hostile: false
+    group: 14
+  - id: monster:great_stair_3
+    room: room:great_stair
+    monster: 11083
+    at: [0, 2800]
+    facing: 270
+    hostile: false
+    group: 14
+  - id: monster:landing_1
+    room: room:landing
+    monster: 11084
+    at: [-250, 4550]
+    facing: 270
+    hostile: false
+    group: 15
+  - id: monster:landing_2
+    room: room:landing
+    monster: 11084
+    at: [300, 4550]
+    facing: 270
+    hostile: false
+    group: 15
+  - id: monster:larder_1
+    room: room:larder
+    monster: 11083
+    at: [-1420, 1200]
+    facing: 90
+    hostile: false
+    group: 11
+  - id: monster:larder_2
+    room: room:larder
+    monster: 11083
+    at: [-1450, 1450]
+    facing: 0
+    hostile: false
+    group: 11
+  - id: monster:longhall_1
+    room: room:longhall
+    monster: 11083
+    at: [-200, 1050]
+    facing: 90
+    hostile: false
+    group: 10
+  - id: monster:longhall_2
+    room: room:longhall
+    monster: 11083
+    at: [500, 1800]
+    facing: 270
+    hostile: false
+    group: 10
+  - id: monster:longhall_3
+    room: room:longhall
+    monster: 11083
+    at: [-500, 1800]
+    facing: 270
+    hostile: false
+    group: 10
+  - id: monster:longhall_4
+    room: room:longhall
+    monster: 11084
+    at: [250, 1050]
+    facing: 90
+    hostile: false
+    group: 10
+  - id: monster:longhall_5
+    room: room:longhall
+    monster: 11084
+    at: [-500, 1150]
+    facing: 90
+    hostile: false
+    group: 10
+  - id: monster:longhall_6
+    room: room:longhall
+    monster: 11084
+    at: [200, 1620]
+    facing: 180
+    hostile: false
+    group: 10
+  - id: monster:longhall_7
+    room: room:longhall
+    monster: 11084
+    at: [-200, 1650]
+    facing: 0
+    hostile: false
+    group: 10
+  - id: monster:sleeping_1
+    room: room:sleeping
+    monster: 11083
+    at: [1700, 1050]
+    facing: 90
+    hostile: false
+    group: 12
+  - id: monster:sleeping_2
+    room: room:sleeping
+    monster: 11084
+    at: [1400, 1100]
+    facing: 90
+    hostile: false
+    group: 12
+  - id: monster:sleeping_3
+    room: room:sleeping
+    monster: 11084
+    at: [1900, 1350]
+    facing: 180
+    hostile: false
+    group: 12
+  - id: monster:sleeping_4
+    room: room:sleeping
+    monster: 11084
+    at: [1650, 1350]
+    facing: 270
+    hostile: false
+    group: 12
+  - id: monster:sleeping_5
+    room: room:sleeping
+    monster: 11084
+    at: [1300, 1350]
+    facing: 0
+    hostile: false
+    group: 12
+  - id: monster:throne_hall_1
+    room: room:throne_hall
+    monster: 11085
+    at: [-300, 5750]
+    facing: 270
+    hostile: false
+    group: 17
+  - id: monster:throne_hall_2
+    room: room:throne_hall
+    monster: 11085
+    at: [300, 5750]
+    facing: 270
+    hostile: false
+    group: 17
+  - id: monster:throne_hall_3
+    room: room:throne_hall
+    monster: 11084
+    at: [-500, 5300]
+    facing: 270
+    hostile: false
+    group: 17
+  - id: monster:throne_hall_4
+    room: room:throne_hall
+    monster: 11084
+    at: [500, 5300]
+    facing: 270
+    hostile: false
+    group: 17
+  - id: monster:throne_hall_5
+    room: room:throne_hall
+    monster: 11084
+    at: [0, 5200]
+    facing: 270
+    hostile: false
+    group: 17
+  - id: monster:treasury_1
+    room: room:treasury
+    monster: 11085
+    at: [-600, 6550]
+    facing: 270
+    hostile: false
+    group: 18
+  - id: monster:trophies_1
+    room: room:trophies
+    monster: 11085
+    at: [1344, 5400]
+    facing: 270
+    hostile: false
+    group: 16
+  - id: monster:trophies_2
+    room: room:trophies
+    monster: 11084
+    at: [1250, 4700]
+    facing: 180
+    hostile: false
+    group: 16
+  - id: monster:trophies_3
+    room: room:trophies
+    monster: 11084
+    at: [1450, 5000]
+    facing: 180
+    hostile: false
+    group: 16
+decorations:
+  - id: deco:bones_1
+    room: room:longhall
+    decoration: dec29
+    at: [-950, 960]
+  - id: deco:bones_2
+    room: room:trophies
+    decoration: 7dec18
+    at: [1600, 5800]
+    floor_height: 1024
+  - id: deco:brazier_e
+    room: room:throne_hall
+    decoration: ckfyr00
+    at: [512, 5952]
+    floor_height: 1120
+  - id: deco:brazier_w
+    room: room:throne_hall
+    decoration: ckfyr00
+    at: [-512, 5952]
+    floor_height: 1120
+  - id: deco:cask_1
+    room: room:larder
+    decoration: bigbarel
+    at: [-1700, 1100]
+  - id: deco:cask_2
+    room: room:larder
+    decoration: bigbarel
+    at: [-1600, 1100]
+  - id: deco:cask_3
+    room: room:larder
+    decoration: smlbarel
+    at: [-1700, 1200]
+  - id: deco:hearth_fire
+    room: room:sleeping
+    decoration: ckfyr00
+    at: [2080, 1152]
+    floor_height: 24
+  - id: deco:rock_1
+    room: room:boulder_store
+    decoration: 6rock02
+    at: [1250, 2350]
+  - id: deco:rock_2
+    room: room:boulder_store
+    decoration: 6rock02
+    at: [1250, 1900]
+  - id: deco:sack_1
+    room: room:larder
+    decoration: floursac
+    at: [-1740, 1300]
+  - id: deco:sack_2
+    room: room:larder
+    decoration: bag01
+    at: [-1740, 1400]
+  - id: deco:skulls_1
+    room: room:trophies
+    decoration: sklplrev
+    at: [1600, 5500]
+    floor_height: 1024
+  - id: deco:skulls_2
+    room: room:trophies
+    decoration: sklplrev
+    at: [1600, 4900]
+    floor_height: 1024
+  - id: deco:torch_01
+    room: room:threshold
+    decoration: torch01
+    at: [-500, 400]
+    height: 224
+  - id: deco:torch_02
+    room: room:threshold
+    decoration: torch01
+    at: [500, 400]
+    height: 224
+  - id: deco:torch_03
+    room: room:larder
+    decoration: torch01
+    at: [-1780, 1180]
+    height: 224
+  - id: deco:torch_04
+    room: room:boulder_store
+    decoration: torch01
+    at: [1164, 2100]
+    height: 224
+  - id: deco:torch_05
+    room: room:great_stair
+    decoration: torch01
+    at: [-308, 2600]
+    height: 224
+  - id: deco:torch_06
+    room: room:great_stair
+    decoration: torch01
+    at: [308, 3500]
+    height: 224
+  - id: deco:torch_07
+    room: room:landing
+    decoration: torch01
+    at: [-500, 4544]
+    height: 224
+  - id: deco:torch_08
+    room: room:trophies
+    decoration: torch01
+    at: [1036, 5600]
+    height: 224
+  - id: deco:torch_09
+    room: room:treasury
+    decoration: torch01
+    at: [-268, 6656]
+    height: 224
+  - id: deco:torch_10
+    room: room:sleeping
+    decoration: torch01
+    at: [1700, 908]
+    height: 224
+  - id: deco:torch_11
+    room: room:longhall
+    decoration: torch01
+    at: [-1012, 1100]
+    height: 224
+  - id: deco:torch_12
+    room: room:longhall
+    decoration: torch01
+    at: [1012, 1700]
+    height: 224
+  - id: deco:trench_fire_1
+    room: room:longhall
+    decoration: ckfyr00
+    at: [-160, 1408]
+    floor_height: 24
+  - id: deco:trench_fire_2
+    room: room:longhall
+    decoration: ckfyr00
+    at: [160, 1408]
+    floor_height: 24
+exits:
+  - id: exit:mouth
+    room: room:porch
+    wall: s
+    size: [512, 256]
+    surface: {texture: 7solid01, size: [256, 128], fit: true}
+    to: exit:d5_hold
+    notes: The hillside's mouth onto D5 behind Gurodel's hold.

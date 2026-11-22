@@ -90,6 +90,19 @@ cooked colour texture: from `<world>/surface_materials<tier>/` next to its `text
 read, kept or uploaded. A map of another size or mip count, or only one of the two, is an error naming the cook. `OutdoorBitmapTexture::materialNormal` and `materialDetail` hold them
 until upload.
 
+**Glow as content (D-55).** A world whose glow is content and not a quality option declares `surfaceGlowContent: true`
+in its `world.yml` (Xeen; MM6–MM9 do not). With the setting off, a map of such a world still reads the normal map
+(`_n`, never `_d`) of every face texture its glow lists name: `<world>/surface_materials<tier>/glow_<world>.txt`, the
+textures with any texel of a glowing class, written by `tools/surface_materials.py cook` (and checked by `verify`).
+The lists of every mounted world are read (`MapCompanionLoadOptions::surfaceGlowWorlds`, from
+`surfaceGlowListWorlds`), so a texture borrowed from another world (MM7's `hkm3elw` on a Xeen map) finds its own; the
+map is still taken only from the folder beside the texture's own. The renderers then load the glow variants of the
+ordinary programs (`fs_outdoor_bmodel_baked{,_array}{,_shadow}_glow`, `fs_indoor_textured_{lit,baked}_glow{,_fog}`,
+`SURFACE_GLOW_ONLY`) into the material program slots: the ordinary shading plus `surfaceGlowColor(albedo) × glow ×
+SURFACE_GLOW_SCALE` (outdoors with the night factor), added in linear light; a texel without glow draws exactly as
+without the variant. Relief, roughness, metal, parallax and reflections stay behind the setting. A world without the
+field reads no list and loads nothing with the setting off. Android ships no surface maps, so there the glow stays off.
+
 ### 3.2 Outdoor
 
 - Lightmapped single-frame textures live in colour arrays per size; each array gets two material arrays of the
@@ -188,7 +201,9 @@ frame's colour pyramid. The renderer is forward with no G-buffer, so the trace r
 
 `video.surface_materials`, `video.surface_parallax` and `video.surface_reflections` (Settings → Video → Experimental,
 the last group of the tab) are off by default and outside the graphics presets, which neither set nor read them. The materials setting takes effect on the next map load: off,
-the maps are not loaded at all (New Sorpigal: 649 MB of textures in video memory instead of 699 MB). The `render
+the maps are not loaded at all (New Sorpigal: 649 MB of textures in video memory instead of 699 MB), except the
+normal maps of glowing textures in a world declaring `surfaceGlowContent` (section 3.1, D-55), whose glow is drawn
+whatever the setting. The `render
 surface_materials` and `render surface_parallax` console switches change the shading of the current map for profiling.
 
 ## 5. Production

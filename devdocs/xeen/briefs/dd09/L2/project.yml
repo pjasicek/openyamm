@@ -1,0 +1,45 @@
+format: 0
+id: xeen_dd09
+name: Temple of Bark
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-09
+units: {plan_grid: 512}
+extent: {footprint_cells: [42, 20], climbs: n}
+map_stats:
+  id: 9158
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 12
+  environment: cave
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Orc Warband, tier: 0, per_marker: [2, 3], weight: 60}
+    - {monster: Xeen Arachnoid, tier: 0, per_marker: [2, 3], weight: 40}
+neighbours:
+  - id: exit:d2_trunk
+    to: xeen_d2.odm
+    kind: door
+    arrival: [-11264, -6656, 992]
+    arrival_hint: "On D2 (Sprite Forest), in the bark glade just outside the great tree's round door, facing north, away from it (A6's return point for D2 event 13)."
+    direction: 90
+    notes: "D2 installed by A6; its door:dd09 (entrance:dd09_door, the trunk's round door, q-d9.bark_door with Nibbler's key) leads here, to this map's start at the foot of the temple's first stair: (0, -1920, 0) facing north (90)."
+qbits:
+  arrived_once: 117120
+  cage_opened: 113205
+  disciples: 113216
+  fountain_air: 117123
+  fountain_body: 117125
+  fountain_fire: 117122
+  fountain_water: 117124
+  prisoners_freed: 117121
+  shaalth_slain: 113204
+  sheewana_freed: 113206
+items:
+  energy_disk: 12334
+notes: "Xeen design brief for a new map: DD-09 Temple of Bark (the source's dark/aaze0073-0077 temple in the great tree), side quest Q-D10 (Princess Sheewana, held by Shaalth's orcs; A3's hooks q-d10.voice, root_west, root_east, limb_alcoves, shaalth, cage, book_of_ascension, crystal_water, dark_water, kettle, kettle_drunk) and M18 (two Energy Disks in the root alcoves). Size M (MAPS.md section 0): 20-45 sectors, 30-90 M units squared, 50 monsters at levels 14-30, Shaalth 30, Barkman 60 optional (D-1.2: counted in Act IV), party 22-26, treasure 3 (hoard 4), music 12. Graph devdocs/xeen/mockups/act3_graphs/dd09.graph.yml with decider D-27 (mockups/act3_a8_decisions_b.md, which wins): no seven-potion room; red and blue flasks once per character (player bits 11315, 11316); the black barrel once per character (11317: +1 to all seven stats and one year of age); the Disciples' dials, lever and two waters; four prisoners freed by the pens' lever, hidden on the next entry; the orcs' tea; Barkman hidden until a limb alcove takes a gem. Rows (A2): orc warband 11040 (Orc Elite 11040 16; Orc Shaman 11041 10; Orc Captain 11042 5; Shaalth 11043), arachnoids 11330 (Arachnoid 11330 10; Arachnoid Hunter 11331 8), Barkman 11633 (hidden), Snog 11044 (peaceful); the other prisoners and Sheewana on engine peasant bodies until A2 gives them rows. Kill XP 25,928 for the party, 6.48k per member. Map qbits 117120-117159 (provisional); map_stats 9158."

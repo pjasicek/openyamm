@@ -1,0 +1,312 @@
+# Xeen side quest Q-F1, Alister and the Dragon Egg (X7, FD-04, X9), from a new game on X7 with a level-62 party after
+# M39 (Prince Roland free; the Key to the Dragon Tower from FD-01's key vault, given here). Mount Firestone's crag
+# (outdoors, placed): the Dragon Tower's gate (X7 event 66, q-f1.tower_door: the key line, kept) into FD-04's gate hall.
+# FD-04 walked up its three wall ramps: Alister in the west alcove (npc 5705): Dragon egg (started 114020); the ring
+# hall and the bone alcove's two notes (the fraud, forever); the nest's eggs (event 56, the Dragon Egg 12375, egg_taken
+# 118146; again "Two eggs are left"); the last climber (the note: the Eye holds the Elder Staff; the potion: +2 base
+# Endurance to the drinker only, once per character, then a second member); the hatchery's note (the crystal balls).
+# Down again to Alister: Dragon egg (the egg taken, 5,000 XP each, alister_gone 118147; hidden the second after the
+# talk). Up to floor 3: the high hall, the crown, the tome room's door and the Tome (4,000 to the reader only, once per
+# character), the roof stair's door and the hatch (event 67, the entrance window, OK) onto the Dragon Clouds
+# (X9, an open-air sky map: placed, as hooks_x9_dragon_clouds.yml and segment 83 do). The four Ancient Books (a Linguist
+# party: IN FI NI TY), the Mind of the Dragon's ball (Intellect under 60: the burn), the first Dragon Power Crystal
+# (3,000 to the clicking member once), the Eye of the Dragon: a wrong answer ("Die fools!"), then "Infinity": done
+# 114021, 8,000 XP each, the Elder Staff 12505.
+# Routes: devdocs/xeen/briefs/x7/L4/playtest.yml (the crag, the gate), devdocs/xeen/briefs/fd04/L4/rooms.yml (the
+# floors, ramps and openings; the walk is the monsters' path map's), objects.yml (the things), playtest_alister.yml;
+# tests/scenarios/xeen/hooks_x9_dragon_clouds.yml (X9's things). Quest logic: source/quests/q-f1.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-f1_alister_dragon_egg.yml --scenario-no-color
+id: xeen.side_quests.q-f1
+title: "Xeen Q-F1: Alister's dragon egg, the Dragon Tower walked, and the Eye of the Dragon's Elder Staff"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x7.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_x7.odm}
+  - assert: {qbit_clear: [114020, 114021, 118146, 118147]}
+  # M39: Prince Roland freed (segment 95); its walk through the Alamar Depths (FD-01) took the Key to the Dragon
+  # Tower from the key vault's box (m39.key_box).
+  - console: {line: "qbit set 111781"}
+  - grant_item: {item_id: 12376, member_index: 0}
+  # XD-07: the party read the Book of Languages in Castle Burlock (segment 13's court; xd07.linguist).
+  - console: {line: "qbit set 116240"}
+  # Mount Firestone's crag: the Dragon Tower's gate with the key, into FD-04's gate hall.
+  - set_pose: {map: xeen_x7.odm, x: -17920, y: 16179, z: 2592, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status(); click(66); wait(0.3)
+        local s = status() or ""
+        if not string.find(s, "The black key turns with a sound like a sigh.", 1, true) then error("the gate said: " .. s) end
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_fd04.blv}
+  - assert: {party_position: {x: 0, y: -1280, radius: 200, z_min: -80, z_max: 160}}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not has_item(12376) then error("the gate kept the Key to the Dragon Tower") end
+  # Alister in the west alcove: Dragon egg (started).
+  - walk_to: {x: -640, y: -768, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 0, name: "Alister, Druid", hidden: false}}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5705, action_label_present: "Dragon egg"}}
+  - select_topic: {match_label: "Dragon egg"}
+  - assert: {dialog: {active: true, text_contains: "I need a dragon egg to mix into one of my potions, but I'm not brave enough to go further into the tower to steal one."}}
+  - select_topic: {match_label: "Dragon egg"}
+  - assert: {dialog: {active: true, text_contains: "I can see you weren't brave enough to steal an egg, either."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(114020) then error('q-f1.started 114020 not set') end"}
+  # Up the first ramp (the west wall) to floor 1; the ring hall; the bone alcove's two notes.
+  - walk_to: {x: -700, y: -1312, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1184, y: -1312, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1400, y: 1280, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -736, y: 1250, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -736, y: 750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1100)"}
+  - walk_to: {x: 1152, y: 1250, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "I don't trust that druid guy. He seemed too eager to get his hands on a dragon egg"}}
+  - play_lua: {source: "close(); wait(0.3); click(11); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "I think the secret of the dragon has something to do with forever, or really, really big..."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Up the second ramp (the north wall) to floor 2: the nest's eggs.
+  - walk_to: {x: -1280, y: 1300, z: 1280, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1300, z: 2560, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 544, y: 700, z: 2560, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1100)"}
+  - walk_to: {x: -200, y: -100, z: 2560, z_tolerance: 400, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(56); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You lift one of the eggs out of the nest. It is heavy, leathery and warm]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12375) then error('no Dragon Egg 12375') end; if not qbit(118146) then error('egg_taken 118146 not set') end; click(56); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Two eggs are left in the nest. Taking another would be pushing your luck.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); if item_count(12375) ~= 1 then error('eggs: ' .. item_count(12375)) end"}
+  # The last climber: the note, the potion (member 0, again refused, then member 1).
+  - walk_to: {x: -1024, y: 700, z: 2560, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1200, y: 1250, z: 2560, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A note amongst the bones reads: The eye of the Dragon holds the Elder Staff."}}
+  - play_lua: {source: "close(); wait(0.3); status()"}
+  - console: &endb {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 400 and IsAtLeast(BaseEndurance, v + 1) do v = v + 1 end out = out .. v .. ' ' end evt.ForPlayer(Players.Current) evt.StatusText('endb ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local line = nil
+        for m in string.gmatch(status() or "", "endb ([%d ]+)") do line = m end
+        if line == nil then error("no endb line") end
+        local i = 0
+        for e in string.gmatch(line, "%d+") do remember("e" .. i, tonumber(e)); i = i + 1 end
+        log("base Endurance before the potion: " .. line)
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(74); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Potion. It is thick, bitter and faintly warm, and your bones seem to set harder as it goes down. (+2 Endurance, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(74); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The flask has been drained. By you, as it happens.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(74); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+2 Endurance, permanent)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); status()"}
+  - press_action: {action: select_member, member_index: 0}
+  - console: *endb
+  - play_lua:
+      source: |
+        local line = nil
+        for m in string.gmatch(status() or "", "endb ([%d ]+)") do line = m end
+        if line == nil then error("no endb line") end
+        local i = 0
+        for e in string.gmatch(line, "%d+") do
+          local gain = tonumber(e) - recall("e" .. i)
+          local want = (i <= 1) and 2 or 0
+          if gain ~= want then error("member " .. i .. ": the potion gave " .. gain .. " base Endurance, not " .. want) end
+          i = i + 1
+        end
+  # The hatchery's note (the floor's dragons come back while the party drinks: the --reload run met one on the way).
+  - walk_to: {x: -1024, y: 700, z: 2560, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1152, y: 500, z: 2560, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1350, y: 750, z: 2560, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You have to be pretty smart to survive a look in one of the crystal balls on the Dragon Cloud."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Down both ramps to Alister: Dragon egg, the egg taken, 5,000 each; Alister gone the second after the talk.
+  - walk_to: {x: 1280, y: 1300, z: 2560, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1280, y: 1300, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -1184, y: -1312, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -640, y: -768, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - select_topic: {match_label: "Dragon egg"}
+  - assert: {dialog: {active: true, text_contains: "You are truly courageous! Thank you soooo much. Now I'll just drink this egg potion and..."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        wait(2)
+        if not qbit(118147) then error("alister_gone 118147 not set") end
+        if has_item(12375) then error("the egg was not taken") end
+        for i = 0, 3 do
+          local d = experience(i) - recall("xp" .. i)
+          if d ~= 5000 then error("Alister paid member " .. i .. " " .. d) end
+        end
+  - assert: {actor_visible: {actor_index: 0, hidden: true}}
+  # Up all three ramps to floor 3: the high hall, the crown, the tome room (member 2 reads, then again, then member 3).
+  - walk_to: {x: -1184, y: -1312, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1400, y: 1280, z: 1280, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1300, z: 2560, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: 1400, y: -1280, z: 3840, z_tolerance: 120, radius: 64, timeout_seconds: 60, clear_hostiles: 1000, close_dialogs: true}
+  - walk_to: {x: -384, y: -900, z: 3840, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1100)"}
+  - walk_to: {x: -384, y: 400, z: 3840, radius: 64, timeout_seconds: 40, clear_hostiles: 1000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1100)"}
+  - walk_to: {x: -900, y: 1152, z: 3840, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(55, 10)"}
+  - walk_to: {x: -1312, y: 1300, z: 3840, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(101); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Tome of Great Experience. You read it cover to cover, and several of its chapters read you. (+4,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(101); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You learn nothing new from the Tome.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "click(101); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(+4,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local want = {0, 0, 4000, 4000}
+        for i = 0, 3 do
+          local d = experience(i) - recall("xp" .. i)
+          if d ~= want[i + 1] then error("the Tome paid member " .. i .. " " .. d .. ", not " .. want[i + 1]) end
+        end
+  - press_action: {action: select_member, member_index: 0}
+  # The roof stair's door, up the stair to the hatch: onto the Dragon Clouds.
+  - walk_to: {x: -900, y: 1152, z: 3840, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -900, y: 24, z: 3840, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(54, 7)"}
+  - walk_to: {x: -1312, y: 24, z: 3840, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1312, y: 560, z: 4224, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(67); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16: the standard entrance window replaced the map's own Yes/No prompt.
+  - assert: {dialog: {active: true, text_contains: "Do you wish to enter Clouds of Xeen?"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x9.blv}
+  - assert: {party_position: {x: 20352, y: 17280, radius: 200}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # X9: the Dragon Tower's foot on the Dragon Clouds (placed beside the things, an open-air sky map).
+  - set_pose: {map: xeen_x9.blv, x: 20776, y: 18350, z: 2048, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(6000)"}
+  # The four Ancient Books (the party a Linguist): IN, FI, NI, TY.
+  - play_lua: {source: "click(47); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: IN"}}
+  - play_lua: {source: "close(); wait(0.3); click(46); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: FI"}}
+  - play_lua: {source: "close(); wait(0.3); click(48); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: NI"}}
+  - play_lua: {source: "close(); wait(0.3); click(49); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "the simplicity of the inscription: TY"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Mind of the Dragon (event 44), member 0 under Intellect 60: the burn and Weakness.
+  - play_lua: {source: "click(44); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "Your feeble mind tries to absorb the new wisdom but is found lacking."}}
+  - play_lua: {source: "close(); wait(0.3); local c = string.lower(conditions(0)); if not string.find(c, 'weak', 1, true) then error('member 0 not weakened: ' .. c) end"}
+  # The first Dragon Power Crystal (event 50): 3,000 to member 0 only, once.
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(50); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Your body is able to absorb some of the mystic energy. (+3,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(50); wait(0.4)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Power Crystal. It has nothing more for you.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local want = {3000, 0, 0, 0}
+        for i = 0, 3 do
+          local d = experience(i) - recall("xp" .. i)
+          if d ~= want[i + 1] then error("the crystal paid member " .. i .. " " .. d) end
+        end
+  # The Eye of the Dragon (event 53): a wrong answer, then "Infinity".
+  - play_lua: {source: "click(53); wait(0.4)"}
+  - assert: {dialog: {active: true, text_contains: "Answer correctly or perish!"}}
+  - answer_input: {text: "Forever"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "\"Die fools!\""}}
+  - assert: {qbit_clear: [114021]}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(53); wait(0.4)"}
+  - answer_input: {text: "Infinity"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [["Very good, mortals!" The Eye of the Dragon closes, and opens again on a crystal set in a golden shaft: the Elder Staff.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        while held() ~= 0 do stow() end
+        for i = 0, 3 do
+          local d = experience(i) - recall("xp" .. i)
+          if d ~= 8000 then error("the Eye paid member " .. i .. " " .. d) end
+        end
+        if not has_item(12505) then error("no Elder Staff 12505") end
+        if not qbit(114021) then error("q-f1.done 114021 not set") end
+        click(53); wait(0.4)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Eye of the Dragon looks at you. It has nothing more to say, and it says so.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); log('Q-F1 done: started ' .. tostring(qbit(114020)))"}
+  - assert: {qbit_set: [114021, 118146, 118147]}

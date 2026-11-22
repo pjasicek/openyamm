@@ -1,0 +1,77 @@
+# X1 Vertigo Meadows: the topics of the people A4 placed (source/towns/x1.yml) that belong to no quest, and X1's
+# signs and small devices with original text (CHANGES_FOR_BUILT_MAPS X1-11). Quest topics are in source/quests/.
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md section 5. Original lines: devdocs/xeen/ORIGINAL_LINES.md.
+map: X1
+block: 150
+source: "xeen/aaze0028 (Vertigo), xeen/aaze0019, xeen/aaze0023, xeen/aaze0024 (the meadows)"
+
+qbits:
+  money_tree: {id: 116000, note: "the money tree on Vertigo's square has paid out"}
+
+npcs:
+  4001:              # Norman, Norman's Ironworks
+    topics:
+      - {n: 1, label: Slimes, text: "Slime eats iron. I sell a lot of swords in this town, and most of them come back as soup."}
+  4005:              # Lady Geraldine
+    topics:
+      - {n: 2, label: Dudley, text: "Dudley? He's been drinking since the plague started. Before that he drank because it hadn't."}
+  4006:              # Mortimer, the banker
+    topics:
+      - {n: 3, label: Joe's account, text: "Joe the Exterminator banks with us. Every month the town pays him, and every month he deposits it. I say nothing. I'm a banker."}
+  4009:              # Brother Silas, the Slime Temple
+    topics:
+      - {n: 4, label: The name, text: "The founders named it for the slime they cleared from the spring. Then the slime came back. We kept the name; it saves on signs."}
+  4015:              # Thylon
+    topics:
+      - {n: 5, label: Training, text: "Tenth level is as far as I go. After that you want Rivercity, and a thicker skin."}
+  4016:              # Hob, the stablemaster
+    topics:
+      - {n: 6, label: Rivercity, text: "Rivercity is west along the river road. Bigger town, bigger thieves. The coach goes Monday, Wednesday and Friday."}
+  4021:              # Greta, the mayor's wife
+    topics:
+      - {n: 7, label: Gunther, text: "Gunther paid Joe a fortune. He says it was a bargain. He also says the slimes are smaller this year."}
+  4024:              # Old Thorne, the sceptic
+    topics:
+      - {n: 8, label: Money tree, text: "Some fool said money's now growing on trees. Ha! I've watched that tree for a month. Leaves. Leaves and a pigeon."}
+  4026:              # Bramble
+    topics:
+      - {n: 9, label: Vertigo, text: "This place is deserted. You should go to Rivercity--Now there's a town full of action!"}
+  4027:              # Fenwick, the retired cutpurse
+    topics:
+      - {n: 10, label: Gunther, text: "That Gunther, what a dunce! He paid that con man Joe a fortune to clean up this town."}
+  4028:              # Vern the Guildman
+    topics:
+      - {n: 11, label: Dues, text: "I'll put anyone on the guild roll for free. Dues will cost 25 gold, though."}
+  4029:              # Mylo the Mapmaker
+    topics:
+      - {n: 12, label: Maps, text: "The world is flat and it ends. East of the orchard road the meadow stops and the stars begin. I put that on every map, and people still walk off it."}
+  4035:              # Dora Fletcher
+    topics:
+      - {n: 13, label: Orcs, text: "The orcs have three lookout posts on the hill road. They watch the sheep, then they take the sheep. Burn the posts and they'll have to watch something else."}
+  4043:              # Hedda Bogg, Toad Meadow
+    topics:
+      - {n: 14, label: Toads, text: "Some of the toads were people. You can tell by the way they look at you. Don't step on any."}
+  4049:              # Plague Cult member
+    topics:
+      - {n: 15, label: The plague, text: "The plague is a judgement. The slimes are its messengers. Joe is... also involved."}
+  4052:              # Plague Cult member
+    topics:
+      - {n: 16, label: Slime lords, text: "Slime lords shall rule. Probably. We are waiting for a sign."}
+
+hooks:
+  sign_rent:
+    map: X1
+    where: "an empty sign board on main street"
+    text: "This space for rent"
+  sign_joe:
+    map: X1
+    where: "a sign board by Joe's shop"
+    text: "Pest control by Joe"
+  money_tree:
+    map: X1
+    where: "the money tree on Vertigo's square"
+    sets: [money_tree]
+    once: true
+    do: [{gold: 100}]
+    text: "You found some money growing on this tree!"
+    else_text: "Leaves. Leaves and a pigeon."

@@ -1,4 +1,6 @@
 # Playtest of the Ogre Lair (XD-27, L4): the gorge (set:fall) and the gate from outside.
+# Played from assets_dev with --world xeen --map xeen_xd27.blv (lane A8, 2026-11-20: the world's start map X1 is not
+# installed yet, and a new game loads it first).
 # The party is put on the throwing ledge by the parapet facing the gorge and jumps: it goes over the 96 parapet,
 # falls into the river, and the gorge's step event (evt:fall, 9) washes it out at the mouth; a timer (evt:fall_told,
 # 19, map variable 7, counted in 8) then says what happened. Then the
@@ -6,7 +8,7 @@
 # outside (evt:gate_out, 13): door 1 opens from the mouth's side once unbarred.
 id: xeen.xd27.l4.fall
 title: Ogre Lair (XD-27 L4), over the parapet into the gorge, and the gate from outside
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:

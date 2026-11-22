@@ -1,0 +1,393 @@
+format: 0
+variables: [drop, book_heavens, book_sun, gems_gallery, gems_lappet, gems_lectern, gems_tablets]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Cool air, and the smell of old stone. Somewhere above, something very large breathes once and is still."
+    seconds: 6
+    notes: "Say where the party is (a one-shot timer: the party arrives standing in the breast gate)."
+  - id: evt:book_heavens
+    preset: script
+    source: platform:book_heavens
+    title: Book of the Heavens
+    condition: {not: {map_var: book_heavens}}
+    effects:
+      - set:
+          var:
+            map_var: book_heavens
+          value: 1
+      - give_item: 421
+      - text: "Book of the Heavens: a spellbook of Air magic, Starburst. You take it."
+    else_effects:
+      - text: The lectern is bare.
+    notes: "aaze0083:15, :6: the Starburst spellbook (Air, D-39), engine 421, once."
+  - id: evt:book_sun
+    preset: script
+    source: platform:book_sun
+    title: Book of the Sun
+    condition: {not: {map_var: book_sun}}
+    effects:
+      - set:
+          var:
+            map_var: book_sun
+          value: 1
+      - give_item: 487
+      - text: "Book of the Sun: a spellbook of Light magic, Divine Intervention. You take it."
+    else_effects:
+      - text: The lectern is bare.
+    notes: "aaze0083:16, :5: the Divine Intervention spellbook (Light), engine 487, once."
+  - id: evt:chest_lappet
+    preset: chest
+    source: chest:lappet
+    title: Chest
+  - id: evt:chest_library
+    preset: chest
+    source: chest:library
+    title: Chest
+  - id: evt:chest_sarcophagus
+    preset: chest
+    source: chest:sarcophagus
+    title: Sarcophagus
+    condition: {stat: {name: ActualMight, at_least: 40}}
+    else_effects:
+      - message: You aren't strong enough to open the sarcophagus.
+    notes: "D-39 Q4 (aaze0082:11): Might 40 on the clicking member, potions and spells counting (ActualMight)."
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+    effects:
+      - lua: "if not IsQBitSet(QBit(118010)) then SetQBit(QBit(118010)) evt.SetHeldItem(240, {bonus = 10}) evt.SetHeldItem(240, {bonus = 10}) evt.StatusText(\"Two flasks of red draught lie on top of the grave goods.\") end"
+    notes: "D-39 Q4, D-22's pattern: two Might Boosts of a fixed power 10 once per game on the first opening (map qbit vault_potions 118010); the chest holds no random Might Boost."
+  - id: evt:clue_1
+    preset: text
+    source: panel:clue_1
+    title: Hieroglyphs
+    text: "Hieroglyphs. The message reads: My first is in giant but not in defiant."
+    window: true
+    notes: "aaze0084:2: one clue per wall (D-39 Q2)."
+  - id: evt:clue_2
+    preset: text
+    source: panel:clue_2
+    title: Hieroglyphs
+    text: "Hieroglyphs. The message reads: My second is in mole but not in mule."
+    window: true
+    notes: "aaze0084:3: one clue per wall (D-39 Q2)."
+  - id: evt:clue_3
+    preset: text
+    source: panel:clue_3
+    title: Hieroglyphs
+    text: "Hieroglyphs. The message reads: My third is in lich but not in stitch."
+    window: true
+    notes: "aaze0084:4: one clue per wall (D-39 Q2)."
+  - id: evt:clue_4
+    preset: text
+    source: panel:clue_4
+    title: Hieroglyphs
+    text: "Hieroglyphs. The message reads: My fourth is in guard but not in Girard."
+    window: true
+    notes: "aaze0084:5: one clue per wall (D-39 Q2)."
+  - id: evt:clue_5
+    preset: text
+    source: panel:clue_5
+    title: Hieroglyphs
+    text: "Hieroglyphs. The message reads: My fifth is in XEEN but not in Queen."
+    window: true
+    notes: "aaze0084:6: one clue per wall (D-39 Q2)."
+  - id: evt:disc
+    preset: script
+    source: mover:disc
+    question: {ask: "What is my name?", answers: [golux], wrong_effects: [{lua: "evt.PlaySoundName(\"xeen_sphinx_stir\", 832, -4160, 1300)"}, {damage: {amount: 30, kind: physical, who: all}}, {set: {var: {map_var: drop}, value: 1}}]}
+    trigger: step
+    condition: {all: [{not: {qbit: named}}, {map_var: {name: drop, equals: 0}}]}
+    opens: [door:king, door:queen, door:legend]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_sphinx_stir\", 832, -4160, 1300)"
+      - shake:
+          strength: 1
+          seconds: 2
+      - lua: "XeenQuests.hook(\"q-c9.name_right\")"
+    else_effects:
+      - lua: "if IsQBitSet(QBit(112181)) then XeenQuests.hook(\"q-c9.name_right\") end"
+    notes: "state:riddle and state:named (aaze0082:4-6): the sun disc asks on every step until named. GOLUX (any case): xeen_sphinx_stir, the stone shakes, A3's q-c9.name_right (done 112181, award 419, 6,000), the crown, veil and legend doors open. Anything else: A3's q-c9.name_wrong, the Sphinx stirs, 30 damage to each member (D-39 Q5: about 10 % of a level-31 knight's HP, 15-20 % of a sorcerer's, never lethal to a healthy party), drop = 1: the disc sinks into its shaft with the party on it, then the party is moved to the drop cell's sand heap (evt:drop_sink, evt:drop_move). Once named: \"Golux. Yes. Still me.\" (the hook's else text). The question asks only while drop is 0 (the wrong name's ride on the disc must not ask again); the else branch calls the hook only once named (q-c9.done 112181)."
+  - id: evt:door_drop
+    preset: door
+    source: door:drop
+    side: room:drop_cell
+    title: Stone slab
+    action: open
+    text: "The slab grinds up. On this side there is a handle; on the other, none."
+    notes: "D-39: the drop cell's door opens from inside and stays open."
+  - id: evt:door_drop_shut
+    preset: text
+    source: door:drop
+    side: room:glyph_e
+    title: Stone slab
+    text: A carved slab with no handle on this side. It does not move.
+    notes: From the east hall the slab does not open (it is opened from the drop cell).
+  - id: evt:door_haunch
+    preset: door
+    source: door:haunch
+    title: Stone slab
+  - id: evt:door_king
+    preset: door
+    source: door:king
+    title: Crown door
+    condition: {qbit: named}
+    locked_text: A sealed door carved with a crown. It does not move for you.
+    action: open
+    notes: "Sealed until the Sphinx is named (q-c9.done); opened by the name, and on every later load."
+  - id: evt:door_legend
+    preset: door
+    source: door:legend
+    title: Door of legends
+    condition: {qbit: named}
+    locked_text: A sealed door carved with a sun over a throne. It does not move for you.
+    action: open
+    notes: "Sealed until the Sphinx is named (q-c9.done); opened by the name, and on every later load."
+  - id: evt:door_library
+    preset: door
+    source: door:library
+    title: Stone slab
+  - id: evt:door_queen
+    preset: door
+    source: door:queen
+    title: Veil door
+    condition: {qbit: named}
+    locked_text: A sealed door carved with a veil. It does not move for you.
+    action: open
+    notes: "Sealed until the Sphinx is named (q-c9.done); opened by the name, and on every later load."
+  - id: evt:drop_landing
+    preset: script
+    source: platform:sand_heap
+    trigger: step
+    condition: {map_var: {name: drop, equals: 4}}
+    effects:
+      - set:
+          var:
+            map_var: drop
+          value: 0
+      - lua: "XeenQuests.hook(\"q-c9.name_wrong\")"
+    notes: "The party lands on the drop cell's sand heap after a wrong name: A3's q-c9.name_wrong here."
+  - id: evt:drop_move
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: drop, equals: 3}}
+    effects:
+      - set:
+          var:
+            map_var: drop
+          value: 4
+      - teleport:
+          to: [2688, 8640, -600]
+          direction: 180
+    notes: "A second after the disc began to sink with the party on it, the party falls to the drop cell's sand heap (an in-map move from a timer applies since merge point 18)."
+  - id: evt:drop_ride
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: drop, equals: 2}}
+    effects:
+      - set:
+          var:
+            map_var: drop
+          value: 3
+    notes: "The step between the sink and the fall: it runs in the sink's own tick (timers run by event number), so the fall (evt:drop_move) comes one tick after the sink."
+  - id: evt:drop_sink
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: drop, equals: 1}}
+    opens: [mover:disc]
+    effects:
+      - set:
+          var:
+            map_var: drop
+          value: 2
+      - teleport:
+          to: [832, -4160, 1288]
+          direction: 270
+    notes: "The wrong name's floor: the party is set on the disc's middle (the question comes as soon as its edge is on the disc), and the disc sinks 176 into its shaft with the party on it; it rises again by itself 3 s later (its auto_return_seconds), after the party has fallen."
+  - id: evt:exit_e
+    preset: exit
+    source: exit:gate_e
+    title: Leave the Sphinx
+    notes: "Out to X6 between the paws (installed; A5's point (9216, 9728, 1408) facing south): the game's own leave window (D-24); 'Leave the Sphinx?' (aaze0082:12) is its meaning."
+  - id: evt:exit_w
+    preset: exit
+    source: exit:gate_w
+    title: Leave the Sphinx
+    notes: "Out to X6 between the paws (installed; A5's point (9216, 9728, 1408) facing south): the game's own leave window (D-24); 'Leave the Sphinx?' (aaze0082:12) is its meaning."
+  - id: evt:hieroglyphs
+    preset: script
+    source: panel:hieroglyphs
+    title: Hieroglyphs
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.hieroglyphs\")"
+    notes: "A3's q-c9.hieroglyphs: the whole riddle on the library's end wall, the scribes' summary (D-39 Q2)."
+  - id: evt:lectern
+    preset: script
+    source: platform:lectern
+    title: Gems
+    condition: {not: {map_var: gems_lectern}}
+    effects:
+      - set:
+          var:
+            map_var: gems_lectern
+          value: 1
+      - give_item: 2063
+      - text: "Gems: a sunstone on the scribes' lectern, where a book once lay."
+    else_effects:
+      - text: The scribes' lectern is bare.
+    notes: "D-39 Q3: one of the library's two fixed T4 gem finds (for the dropped Book of Teleport)."
+  - id: evt:named_load
+    preset: switch
+    trigger: load
+    condition: {qbit: named}
+    opens: [door:king, door:queen, door:legend]
+    notes: The throne doors stay open on every later load once the Sphinx is named (after a refill too).
+  - id: evt:offering
+    preset: script
+    source: platform:offering
+    title: Gems
+    condition: {not: {map_var: gems_lappet}}
+    effects:
+      - set:
+          var:
+            map_var: gems_lappet
+          value: 1
+      - give_item: 2061
+      - text: "Gems: an emerald among the offerings."
+    else_effects:
+      - text: An empty offering niche.
+    notes: "aaze0083:14 'Gems', once."
+  - id: evt:panel
+    preset: door
+    source: door:panel
+    title: Loose panel
+    action: open
+    text: "The panel with the carved mask gives under your hand and slides up. Behind it, a closet and a throne."
+    notes: "link:queen_thieves: the secret way to the Thieves' throne (D-39: the mask is carved on the panel)."
+  - id: evt:plaque_1
+    preset: text
+    source: panel:plaque_1
+    title: Plaque
+    text: "Hieroglyphics. The message reads: You're looking for my name, it's five letters long."
+    window: true
+    notes: aaze0082:1-2.
+  - id: evt:plaque_2
+    preset: text
+    source: panel:plaque_2
+    title: Plaque
+    text: "Hieroglyphics. The message reads: I think you'll like my name. Try not to get it wrong."
+    window: true
+    notes: "aaze0082:1, :3."
+  - id: evt:riddle_voice
+    preset: script
+    source: room:riddle
+    trigger: step
+    condition: {not: {qbit: named}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.riddle\")"
+    notes: "Entering the riddle chamber the first time: A3's q-c9.riddle (the plaques' words and the voice)."
+  - id: evt:sarc_e1
+    preset: text
+    source: platform:sarc_e1
+    title: Sarcophagus
+    text: There is nothing in the sarcophagus.
+    notes: "aaze0082:7, :15."
+  - id: evt:sarc_e2
+    preset: text
+    source: platform:sarc_e2
+    title: Sarcophagus
+    text: There is nothing in the sarcophagus.
+    notes: "aaze0082:7, :15."
+  - id: evt:sarc_e3
+    preset: script
+    source: platform:sarc_e3
+    title: Sarcophagus
+    condition: {not: {map_var: gems_gallery}}
+    effects:
+      - set:
+          var:
+            map_var: gems_gallery
+          value: 1
+      - give_item: 2060
+      - text: "Gems! Somebody hid an amethyst under the wrappings."
+    else_effects:
+      - text: There is nothing in the sarcophagus.
+    notes: "The east gallery's cache (aaze0084:12 'Gems'), once."
+  - id: evt:sarc_w1
+    preset: text
+    source: platform:sarc_w1
+    title: Sarcophagus
+    text: There is nothing in the sarcophagus.
+    notes: "aaze0082:7, :15."
+  - id: evt:sarc_w2
+    preset: text
+    source: platform:sarc_w2
+    title: Sarcophagus
+    text: There is nothing in the sarcophagus.
+    notes: "aaze0082:7, :15."
+  - id: evt:sign_down
+    preset: text
+    source: panel:sign_down
+    title: Sign
+    text: Stairs down.
+    window: false
+    notes: aaze0084:9.
+  - id: evt:sign_up
+    preset: text
+    source: panel:sign_up
+    title: Sign
+    text: Stairs up.
+    window: false
+    notes: "aaze0082:13 (the source's question dropped: the stairs are walked)."
+  - id: evt:tablets
+    preset: script
+    source: platform:tablets
+    title: Clay tablets
+    condition: {not: {map_var: gems_tablets}}
+    effects:
+      - set:
+          var:
+            map_var: gems_tablets
+          value: 1
+      - give_item: 2065
+      - text: "Gems: a sapphire tucked behind the tablets."
+    else_effects:
+      - text: "Clay tablets, row on row. None of them is about you."
+    notes: "D-39 Q3: the library's second fixed T4 gem find (for the dropped Book of Alchemy)."
+  - id: evt:throne_king
+    preset: script
+    source: platform:throne_king
+    title: King's throne
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.throne_king\")"
+    notes: "A3's q-c9.throne_king: +2 once per character by its player bit (D-39 Q1); aaze0082:8-10, aaze0083:0-4."
+  - id: evt:throne_legend
+    preset: script
+    source: platform:throne_legend
+    title: Throne of legends
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.throne_legend\")"
+    notes: "A3's q-c9.throne_legend: +2 once per character by its player bit (D-39 Q1); aaze0082:8-10, aaze0083:0-4."
+  - id: evt:throne_queen
+    preset: script
+    source: platform:throne_queen
+    title: Queen's throne
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.throne_queen\")"
+    notes: "A3's q-c9.throne_queen: +2 once per character by its player bit (D-39 Q1); aaze0082:8-10, aaze0083:0-4."
+  - id: evt:throne_thieves
+    preset: script
+    source: platform:throne_thieves
+    title: Thieves' throne
+    effects:
+      - lua: "XeenQuests.hook(\"q-c9.throne_thieves\")"
+    notes: "A3's q-c9.throne_thieves: +2 once per character by its player bit (D-39 Q1); aaze0082:8-10, aaze0083:0-4."

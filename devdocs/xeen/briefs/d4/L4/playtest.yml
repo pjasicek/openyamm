@@ -1,0 +1,1271 @@
+# Written by output/studio_cal/d4/tools/gen_walk.py from the built map (A6). South edge walked: yes.
+id: xeen.d4.walk
+title: 'D4 Lakeside and Blackfang: the Isle, Lakeside, the brow, the crag, the west'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d4.odm
+- assert:
+    map: xeen_d4.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 6144
+      y: 5120
+      radius: 200
+- advance_runtime:
+    seconds: 2
+- note: 'D-36 at load: the coven placed (A2: long), the five octopods in the water'
+- assert:
+    actor_count:
+      monster_id: 11170
+      min: 9
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 3
+- note: 'The Isle: up from the landing to DD-12''s door (two leaves)'
+- walk_to:
+    x: 4095
+    y: -2963
+    z: 1376
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'DD-12''s door without the Lost Souls key: locked'
+- set_pose:
+    map: xeen_d4.odm
+    x: 4095
+    y: -2843
+    z: 1376
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- grant_item:
+    item_id: 12344
+- note: 'With the key (lost_souls_key): into DD-12 at entrance:d4_isle (0, -352)'
+- note: DD-12's door with the key
+- set_pose:
+    map: xeen_d4.odm
+    x: 4095
+    y: -2843
+    z: 1376
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd12.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 0
+      y: -352
+      radius: 160
+- clear_hostiles:
+    radius: 3000
+- note: 'DD-12''s doors to the Isle (event 35): back at D4 (4096, -3072), entrance:dd12_door'
+- execute_event:
+    id: 35
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 4096
+      y: -3072
+      radius: 200
+- note: 'The Isle Ferry (A4''s house 4667, Tern): its house screen'
+- execute_event:
+    id: 57
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: Lakeside's square (the mirror's and Town Portal's arrival) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 4608
+    y: -13056
+    z: 1120
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The Cozy Lil'' Tavern (house 4652): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 3328
+    y: -14964
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: These stairs once led to a tav
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Lakeside Smithy (house 4653): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 7220
+    y: -12618
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: These stairs once led to a bla
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Temple of Still Waters (house 4654): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 5888
+    y: -14868
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: The temple doors are nailed sh
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Lakeside Yachts (house 4655): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 4096
+    y: -9732
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Old Gill''s Shack (house 4657): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: -1024
+    y: -9748
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The Tannery (house 4658): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: -788
+    y: -15104
+    z: 1120
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Tidewater House (house 4659): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 512
+    y: -9844
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The Gray Manor (house 4660): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 1024
+    y: -15380
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: The shutters are closed tight.
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Netmender''s House (house 4661): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 6144
+    y: -9748
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The Hollow House (house 4662): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 8192
+    y: -14868
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Two small faces at the window.
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Reedcutter''s Cottage (house 4663): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: -628
+    y: -12288
+    z: 1120
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The Eel House (house 4664): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 2048
+    y: -9748
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'Widow Marsh''s (house 4665): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 9236
+    y: -12544
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The Boathouse (house 4666): its door'
+- set_pose:
+    map: xeen_d4.odm
+    x: 7936
+    y: -9732
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      house_dialog: false
+      text_contains: Nobody answers. The window has
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The guild''s door (q-d22.guild_door): the riddle, a wrong answer: ''Begone fools!'' and the trapdoor (DD-20''s sewer
+    half sealed: a status line)'
+- set_pose:
+    map: xeen_d4.odm
+    x: 2028
+    y: -12800
+    z: 1120
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Wrong: "wolf": the trapdoor into DD-20 (entrance:d4_trapdoor), up the ladder to the shaft'
+- play_lua:
+    source: click(1); wait(0.5)
+- answer_input:
+    text: wolf
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd20.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 3456
+      y: -640
+      radius: 128
+      z_min: -544
+      z_max: -480
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 34
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 3072
+      y: -9728
+      radius: 160
+- set_pose:
+    map: xeen_d4.odm
+    x: 2028
+    y: -12800
+    z: 1120
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: if qbit(113442) then error("qbit 113442 set") end
+- note: 'Right: "witch" (q-d22.guild_right: membership, 113442)'
+- play_lua:
+    source: click(1); wait(0.5)
+- answer_input:
+    text: witch
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Correct
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(113442) then error("qbit 113442 not set") end
+- note: The guild open now (4651)
+- set_pose:
+    map: xeen_d4.odm
+    x: 2028
+    y: -12800
+    z: 1120
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The guild''s back stair for members: into DD-20''s coven hall (entrance:d4_guild) and out by the cellar door'
+- execute_event:
+    id: 49
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd20.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: -640
+      y: -384
+      radius: 128
+      z_min: -32
+      z_max: 32
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 33
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: -1024
+      y: -13312
+      radius: 160
+- note: The Mirror of Lakeside before q-d22.done
+- execute_event:
+    id: 48
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: The grated shaft by the jetty (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 2944
+    y: -9830
+    z: 1120
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: '"Climb down to the sewer?" Yes: into DD-20 (entrance:d4_shaft) and up its ladder again'
+- play_lua:
+    source: click(50); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: sewer
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd20.blv
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close()
+- assert:
+    party_position:
+      x: 14208
+      y: -1152
+      radius: 128
+      z_min: -544
+      z_max: -480
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 34
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 3072
+      y: -9728
+      radius: 160
+- note: 'Skiff''s beached boat: ''This boat under repair.'''
+- execute_event:
+    id: 33
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: under repair
+- play_lua:
+    source: close(); wait(0.3)
+- note: Naomi in the stocks (Q-D22) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 3686
+    y: -13363
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 19
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: East out of the square along the town road (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 7424
+    y: -13926
+    z: 1120
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 10240
+    y: -14080
+    z: 1120
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Well Fork
+- walk_to:
+    x: 11264
+    y: -15872
+    z: 1152
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: The Fountain of Magic Resistance (+5 Mind and Body, once per character)
+- execute_event:
+    id: 88
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: Up the Sandcaster road
+- walk_to:
+    x: 11520
+    y: -16640
+    z: 1264
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- walk_to:
+    x: 12032
+    y: -18432
+    z: 2048
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Lakeside Brow
+- walk_to:
+    x: 12288
+    y: -19456
+    z: 2240
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: The D3 arrival
+- walk_to:
+    x: 12288
+    y: -20992
+    z: 2112
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- note: Off the south edge to D3 (the travel prompt, OK)
+- walk_to:
+    x: 12288
+    y: -32563
+    z: 1632
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d3.odm
+- note: 'Back north off D3''s north edge at x 88 (D3''s road): the prompt, OK; D4''s south start'
+- set_pose:
+    map: xeen_d3.odm
+    x: 12288
+    y: 20480
+    z: 1760
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 12288
+    y: 32512
+    z: 1760
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: 12288
+      y: -20992
+      radius: 700
+- note: The north-shore track before Blackfang's gatehouse (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 5376
+    y: 5120
+    z: 1248
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The gate never opens (m25.blackfang_gate)
+- set_pose:
+    map: xeen_d4.odm
+    x: 6177
+    y: 5619
+    z: 1185
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Castle Blackfang does not take
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'D-42: after m25.done (111503) the gate asks; Yes: Ambrose''s griffin (DD-14 sealed: a status line)'
+- setup_shortcut:
+    kind: set_qbit
+    id: 111503
+    value: true
+- note: 'The gate after m25.done: "... fly you inside?" (a choice) Fly in'
+- play_lua:
+    source: click(41); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Would you like my griffin to fly you inside?
+- answer_input:
+    text: Fly in
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd14.blv
+- note: Ambrose's griffin set the party on DD-14's walls at entrance:d4_griffin (0, -1472)
+- assert:
+    party_position:
+      x: 0
+      y: -1472
+      radius: 200
+- load_map:
+    map: xeen_d4.odm
+- note: Back on D4 (by load_map)
+- setup_shortcut:
+    kind: set_qbit
+    id: 111503
+    value: false
+- note: 'The bat storm (m25.bat_storm): a party flying over the crag top is set down on the north shore'
+- set_pose:
+    map: xeen_d4.odm
+    x: 10854
+    y: 9114
+    z: 3110
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- cast_spell:
+    member_index: 0
+    spell_id: 21
+    skill: 10
+    mastery: 3
+- assert:
+    buff:
+      spell_id: 21
+      present: true
+- movement_segment:
+    input: none
+    fly_up: true
+    seconds: 1.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_d4.odm
+      x: 10854
+      y: 9114
+      z: 3110
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_d4.odm
+      x: 10854
+      y: 9114
+      z: 3600
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 20000
+    tolerance_z: 5000
+- advance_runtime:
+    seconds: 3
+- assert:
+    party_position:
+      x: 5939
+      y: 5120
+      radius: 300
+- note: Fly ended by the knock-down (evt.RemovePartyBuff, merge point 18)
+- assert:
+    buff:
+      spell_id: 21
+      present: false
+- note: 'Gull Knoll: the obelisk (by teleport)'
+- set_pose:
+    map: xeen_d4.odm
+    x: -3584
+    y: -9523
+    z: 1184
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The obelisk: A3''s obelisks.d4 (dark_4)'
+- execute_event:
+    id: 78
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: if not qbit(115053) then error("qbit 115053 not set") end
+- note: Leafpoint in his grove (an MM7 Treant, friendly) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: -11264
+    y: 819
+    z: 1504
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 22
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: Ector by his cabin (Q-D21) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: -14643
+    y: -4710
+    z: 1440
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 21
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: 'The woodcutters'' clearing: Ector''s woodpile (q-d21.woodpile) (by teleport)'
+- set_pose:
+    map: xeen_d4.odm
+    x: -8704
+    y: 5939
+    z: 1888
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The woodpile before Ector asks: firewood'
+- execute_event:
+    id: 44
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: Up the lair path
+- walk_to:
+    x: -8448
+    y: 6656
+    z: 1888
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8090
+    y: 8192
+    z: 1984
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -8397
+    y: 9728
+    z: 2253
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: DD-23's ledge
+- walk_to:
+    x: -9011
+    y: 10547
+    z: 2299
+    z_tolerance: 700
+    radius: 192
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'DD-23''s cave mouth: q-d15.lair_door''s line, Enter? Yes: DD-23 at entrance:d4_mouth (0, 256)'
+- play_lua:
+    source: click(74); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: very still
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_dd23.blv
+- assert:
+    party_position:
+      x: 0
+      y: 256
+      radius: 200
+- note: DD-23's way out (its event 11) to D4's entrance:dd23_lair (-9216, 10752, 2304)
+- clear_hostiles:
+    radius: 3000
+- execute_event:
+    id: 11
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: -9216
+      y: 10752
+      radius: 200
+- note: Slibo at the wizards' camp (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: -18739
+    y: 6349
+    z: 2296
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- interact_actor:
+    actor_index: 20
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- play_lua:
+    source: close(); wait(0.3)
+- note: The Fountain of Great Magic (+200 SP, daily)
+- execute_event:
+    id: 69
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The Fountain of Great Resilience (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 18432
+    y: 12493
+    z: 1862
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The Fountain of Great Resilience (+200 HP, daily)
+- execute_event:
+    id: 66
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The cairn on the east shore (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 13824
+    y: -10752
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: The cairn without the real map (q-c24.cairn)
+- execute_event:
+    id: 89
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: Mirabeth Point (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: 15360
+    y: -6963
+    z: 1056
+    yaw: 0.6
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Mirabeth's statue
+- execute_event:
+    id: 90
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The seat lamp, rub 1
+- play_lua:
+    source: remember('g', gold())
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local d = gold() - recall(''g'') if d ~= 5000 then error(''lamp seat rub 1: '' .. d) end'
+- note: The seat lamp, rub 2
+- play_lua:
+    source: remember('g', gold())
+- execute_event:
+    id: 73
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local d = gold() - recall(''g'') if d ~= 0 then error(''lamp seat rub 2: '' .. d) end local s = status() if not
+      string.find(s, ''Its genie has gone back in for good.'', 1, true) then error(''second rub: '' .. s) end'
+- note: The skerry lamp, rub 1
+- play_lua:
+    source: remember('g', gold())
+- execute_event:
+    id: 95
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local d = gold() - recall(''g'') if d ~= 8000 then error(''lamp skerry rub 1: '' .. d) end'
+- note: The skerry lamp, rub 2
+- play_lua:
+    source: remember('g', gold())
+- execute_event:
+    id: 95
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local d = gold() - recall(''g'') if d ~= 0 then error(''lamp skerry rub 2: '' .. d) end local s = status() if
+      not string.find(s, ''still wet. Its genie has gone.'', 1, true) then error(''second rub: '' .. s) end'
+- note: The Witches' Circle (a skull speaks) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: -6912
+    y: -15053
+    z: 1469
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: A skull on a stake
+- execute_event:
+    id: 82
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: close(); wait(0.3)
+- note: The desert road at the forest's west edge (D5 live) (by teleport)
+- set_pose:
+    map: xeen_d4.odm
+    x: -20992
+    y: -8192
+    z: 1504
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Off the west edge to D5 (the travel prompt, OK)
+- walk_to:
+    x: -32973
+    y: -8192
+    z: 1536
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d5.odm
+- note: 'Back east off D5''s east edge at y 80 (the desert road): the prompt, OK; D4''s west start'
+- set_pose:
+    map: xeen_d5.odm
+    x: 20992
+    y: -8192
+    z: 1600
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 32563
+    y: -8192
+    z: 1550
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 150
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_d4.odm
+- assert:
+    party_position:
+      x: -20992
+      y: -8192
+      radius: 700

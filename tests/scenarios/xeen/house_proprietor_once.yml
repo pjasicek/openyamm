@@ -1,0 +1,37 @@
+# Feedback F1 (2026-11-21): a house's proprietor who is also a resident NPC (same portrait: Xeen's talking proprietors,
+# gen_towns owner_talks) is one person on the house screen, not "Gunther, Mayor" and "Gunther". Fails on merge point
+# 38's binary (step: the twin's plain-name portrait is offered); passes from merge point 40 (A1).
+id: xeen.f1.house_proprietor_once
+title: "F1: a proprietor who talks is listed once; his services and topics are both reachable"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Vertigo Town Hall: Gunther alone; no second "Gunther" portrait.
+  - lua_event: {source: "evt.EnterHouse(4003)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, action_label_absent: Gunther}
+  - play_lua: {source: "close() close()"}
+  - advance_runtime: {seconds: 0.3}
+  # Norman's Ironworks: Norman once; his shop and his teaching both offered.
+  - lua_event: {source: "evt.EnterHouse(4001)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, action_label_absent: Norman, action_label_present: Buy Standard}
+  - play_lua: {source: "close() close()"}
+  - advance_runtime: {seconds: 0.3}
+  # Lady Geraldine's Tavern: her portrait once (no title: "Lady Geraldine"), Dudley and Sal, the other residents; no
+  # second Geraldine (four portraits before merge point 40).
+  - lua_event: {source: "evt.EnterHouse(4005)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: true, action_count: 3, action_label_present: Dudley}
+  # Her portrait opens her talk (as the NPC, in her house) with the tavern's services first.
+  - select_topic: {match_label: Lady Geraldine}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4005}

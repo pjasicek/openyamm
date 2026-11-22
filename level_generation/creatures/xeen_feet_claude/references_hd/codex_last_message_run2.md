@@ -1,0 +1,5 @@
+Generated [front](level_generation/creatures/xeen_feet_claude/references_hd/01_front.png), [back](level_generation/creatures/xeen_feet_claude/references_hd/02_back.png), [inner left](level_generation/creatures/xeen_feet_claude/references_hd/03_left.png), and [outer right](level_generation/creatures/xeen_feet_claude/references_hd/04_right.png) with the built-in image generator. All four retain their native 1536×1024 dimensions and have a fully transparent 80 px margin.
+
+The [contact sheet](level_generation/creatures/xeen_feet_claude/references_hd/selected_views_review.png) shows all five selected views. I appended all seven Run 2 attempts to [generation_runs.json](level_generation/creatures/xeen_feet_claude/references_hd/generation_runs.json), including prompts, input hashes, and selection reasons.
+
+The outer-right view remains slightly oblique at the toes after its one permitted correction.

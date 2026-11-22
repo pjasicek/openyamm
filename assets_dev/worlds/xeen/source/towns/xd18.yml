@@ -1,0 +1,19 @@
+# XD-18 Dragon Cave on Mount Firestone (X7): the Dragon Tax Office at the cave's mouth, before the first dragon
+# (D-5.2): Scaldrith teaches the Dragon Grandmaster (place dragon_cave); Q-C25 grants the Great Wyrm promotion here
+# (A3). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md. Built (A7's L4 of 2026-11-21, briefs/xd18/L4):
+# the office's double door, left leaf `door:tax_office` (evt:office) and right leaf `panel:tax_office_r`
+# (evt:office_r), both enter 4852; no arrival (the cave is entered from X7's mouth, the map lanes' points). Shares the
+# dungeons' id block with xd02.yml and fd04.yml.
+key: XD-18
+stem: xeen_xd18.blv
+town: The Dragon Cave
+face: cloudside
+blocks:
+  houses: [4851, 4900]
+  npcs: [5701, 5800]
+
+houses:
+  - {id: 4852, door: door:tax_office, also_doors: [panel:tax_office_r], kind: residence, name: The Dragon Tax Office, residents: [5702], note: "D-5.2: at the cave's mouth, before the first dragon (A7); D-57 confirms it as the tax hall, whose inner door ejects an unpaid party (Q2)"}
+
+npcs:
+  - {id: 5702, name: Scaldrith, title: Collector of the Dragon Tax, profession: Clerk, teaches: [{skill: Dragon, mastery: grandmaster}], greet: ["Everyone who enters pays the tax. Dragons pay in lessons. The last lesson costs the most.", "Receipt?"]}

@@ -1,0 +1,94 @@
+# D3 Sandcaster and the Aging Forest: flavour topics of Sandcaster's, the wizard quarter's and the Crossroads' people
+# with no quest role (source/towns/d3.yml). Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only). Quest topics
+# are A3's: Astra (Q-D14), Natasha (M25), Caleb (Q-D15), Thaddeus (Q-D18, Q-D19). Barticus points down to his
+# members' room in DD-18 (D-27; its pay box and brews are A3's and A8's). Rumours point at places and quests without
+# solving them.
+map: D3
+block: 178
+source: "dark/aaze0031 (Sandcaster), dark/aaze0020 (Cornelius)"
+
+npcs:
+  5203:              # Aladdin, the lamp cleaner
+    topics:
+      - {n: 1, label: Genies, text: "Never take all of a genie's money. It's greedy.", source: "dark/aaze0031:41"}
+  5204:              # Omar the Peddler
+    topics:
+      - {n: 2, label: Vulture Repellant, text: "Special today! Vulture Repellant, only 25,000 gold!", source: "dark/aaze0031:19"}
+  5205:              # High Priestess Samira
+    topics:
+      - {n: 3, label: The sun, text: "The sun is smaller than last year. The priests say pray harder. I say buy a lamp. I am also a priest."}
+  5206:              # Hakim, The Thirsty Camel
+    topics:
+      - {n: 4, label: Wizards, text: "The wizards drink here. They tip in threats."}
+  5207:              # Barticus, Barticus' Gym (training to 80 stays in town; the members' room is DD-18's, D-27)
+    topics:
+      - {n: 28, label: Members' room, text: "The members' room is under the street, with the brews. The stalkers got in."}
+  5208:              # Yusuf, Guild of Mind
+    topics:
+      - {n: 5, label: The quarter, text: "Two wizards from out of town took the quarter's guilds. Astra used to run them all. She lives in town now, plotting politely."}
+  5209:              # Layla, Spirit Guildmistress
+    topics:
+      - {n: 27, label: Mastery, text: "Master the Spirit? Not from me. An elf priest on Cloudside, Tito, teaches it, once he has his holy book back. He lost it to trolls. Priests do that."}
+  5211:              # Caravan Master Idris
+    topics:
+      - {n: 6, label: Lakeside, text: "The coven at Lakeside turns away caravans. Sometimes it turns them into other things."}
+  5219:              # Madame Gloriana, palm reader
+    topics:
+      - {n: 7, label: Your palm, text: "I predict you will go on a long journey. I also predict that you will become very rich and famous. I further predict that you will die young...and then be resurrected...and then die again...over and over.", source: "dark/aaze0031:49"}
+  5222:              # Silent Saleh
+    topics:
+      - {n: 8, label: Thieves, text: "The thieves in the Southern Tower keep a ledger. Thieves who write things down. Amateurs."}
+  5223:              # Navigator Ansel
+    topics:
+      - {n: 9, label: Treasure, text: "I hear there is a huge hoard of treasure buried somewhere in the land, but the map to it was lost years ago.", source: "dark/aaze0031:47"}
+  5224:              # Polyglot Pella
+    topics:
+      - {n: 10, label: Names, text: "I sense Alamar is an assumed name. I study names, I would know. What the real one is, I can't tell.", source: "dark/aaze0031:27 (close)"}
+  5225:              # Kirra, dark elf blademistress
+    topics:
+      - {n: 11, label: Wizards, text: "No matter how skilled a wizard is, he'll go down before a good sword and a steady hand. Face them down! If you run from them, they'll just shoot you in the back.", source: "dark/aaze0031:31"}
+  5226:              # Farida, spice seller
+    topics:
+      - {n: 12, label: Spices, text: "Pepper from Castleview, salt from the Desert of Doom. The salt is mostly sand. So is the pepper."}
+  5228:              # Old Basim
+    topics:
+      - {n: 13, label: Wizards, text: "The wizards in this town are sensitive to insults. Watch what you say!", source: "dark/aaze0031:29"}
+  5230:              # Glassblower Tariq
+    topics:
+      - {n: 14, label: Firewood, text: "Never try to burn green wood. It just doesn't catch fire as easily. Glass needs a hot fire; I learned the slow way.", source: "dark/aaze0031:23"}
+  5231:              # Water Seller Amir
+    topics:
+      - {n: 15, label: Vulture Repellant, text: "Vulture Repellant doesn't work.", source: "dark/aaze0031:25"}
+  5232:              # Camel Driver Rami
+    topics:
+      - {n: 16, label: Natasha, text: "Natasha will sometimes enchant ordinary things with spells of calm and friendship. The enchantment is useful for taming horses and wild beasts. Her prices are high, though.", source: "dark/aaze0031:35"}
+  5233:              # Scribe Hala
+    topics:
+      - {n: 17, label: Decrees, text: "Decree forty: no laughing at wizards. Decree forty-one: no laughing near wizards. I'm writing decree two hundred."}
+  5234:              # Potter Ziad
+    topics:
+      - {n: 18, label: Pots, text: "Bury gold in a pot and the wizards dig it up. Bury it in a pot of snakes and they don't."}
+  5235:              # Tax Collector Malik
+    topics:
+      - {n: 19, label: Taxes, text: "The wizards tax sand. We have a great deal of sand. You can see the problem."}
+  5236:              # Old Rasha
+    topics:
+      - {n: 20, label: The paladin, text: "A dying paladin gave all his magical armor to the enchanted boulders of the land for safekeeping.", source: "dark/aaze0031:21"}
+  5237:              # Sandal Maker Idris
+    topics:
+      - {n: 21, label: Barbarians, text: "The Barbarians are friends of the Giants. Insult the one and you anger the other.", source: "dark/aaze0031:45"}
+  5238:              # Date Farmer Yara
+    topics:
+      - {n: 22, label: The forest, text: "Don't sleep in the Aging Forest. My uncle went in for a nap and came out my grandfather."}
+  5239:              # Well Keeper Omid
+    topics:
+      - {n: 23, label: The sewer, text: "There is a passage in the sewer that leads a long ways under the desert.", source: "dark/aaze0031:33"}
+  5240:              # Fat Marwan, the food stall
+    topics:
+      - {n: 24, label: Roads, text: "Six roads meet here. One goes to Castleview, one to Sandcaster, and the other four go somewhere expensive."}
+  5244:              # Kadir, boots for the road
+    topics:
+      - {n: 25, label: Hornets, text: "Boots won't stop the hornets in the Aging Forest. Nothing stops those hornets. Run."}
+  5247:              # Cornelius the Leprechaun, the Aging Forest
+    topics:
+      - {n: 26, label: Secret doors, text: "Spotting secret doors is an art that has taken many years to master, but I could teach you in a matter of minutes.", source: "dark/aaze0020:1 (close: the price is the teacher's)"}

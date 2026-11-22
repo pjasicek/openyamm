@@ -1,0 +1,3 @@
+Saved [03_left.png](level_generation/creatures/xeen_scorpion_claude/references_hd/03_left.png) as an unresized 1536×1024 RGBA image. The left-facing profile shows all eight walking legs, both open claws, and the raised stinger. The [generation record](level_generation/creatures/xeen_scorpion_claude/references_hd/generation_runs_03_left.json) includes the prompt and both input hashes.
+
+The visible creature has at least 130 px of clearance on every side. Some padding pixels retain trace opacity of 1/255 in the original tool output.

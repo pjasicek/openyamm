@@ -1,0 +1,71 @@
+format: 0
+sectors:
+  room:adit: 1
+  room:collapse: 2
+  room:diamond: 3
+  room:grotto: 4
+  room:lava: 5
+  room:nest: 6
+events:
+  evt:adit_mouth: 1
+  evt:arrive: 2
+  evt:chest_grotto: 3
+  evt:diamond_1: 4
+  evt:diamond_2: 5
+  evt:diamond_3: 6
+  evt:diamond_4: 7
+  evt:diamond_5: 8
+  evt:door_adit: 9
+  evt:door_collapse: 10
+  evt:door_grotto: 11
+  evt:eggs: 17
+  evt:enter: 12
+  evt:exit: 18
+  evt:false_vein: 13
+  evt:refill: 14
+  evt:rubble: 15
+  evt:visit_end: 16
+doors:
+  door:adit: 1
+  door:collapse: 2
+  door:grotto: 3
+containers:
+  chest:grotto: 0
+map_vars:
+  diamond_1: 1
+  diamond_2: 2
+  diamond_3: 3
+  diamond_4: 4
+  diamond_5: 5
+  false_vein: 6
+  in_visit: 7
+  once.arrive: 0
+sounds:
+  sound:adit_wind: 1
+  sound:collapse_rumble: 2
+  sound:diam_drip: 3
+  sound:grotto_hum: 4
+  sound:lava: 5
+decorations:
+  deco:adit_torch_w: 0
+  deco:collapse_boulder: 1
+  deco:collapse_boulder_2: 2
+  deco:collapse_rocks: 3
+  deco:collapse_rocks_2: 4
+  deco:collapse_torch: 5
+  deco:diam_crystal_e: 6
+  deco:diam_crystal_s: 7
+  deco:diam_skull: 8
+  deco:diam_spoil: 9
+  deco:grotto_crystal: 10
+  deco:grotto_miner: 11
+  deco:lava_rock_e: 12
+  deco:lava_rock_w: 13
+  deco:lava_spoil: 14
+  deco:nest_ash_e: 15
+  deco:nest_ash_w: 16
+  deco:nest_bones: 17
+  deco:nest_coals: 18
+  deco:nest_ice_e: 19
+  deco:nest_ice_nw: 20
+  deco:nest_ice_sw: 21

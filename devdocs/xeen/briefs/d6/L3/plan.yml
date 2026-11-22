@@ -1,0 +1,613 @@
+format: 0
+level: L3
+pitch: "Darkside's north-west corner, where the world ends north and west. A volcanic waste of grey ash and black basalt, cracked by lava, with the metal of something Ancient surfacing through the rock. In its middle Castle Alamar stands on a mesa in a moat of lava, every window lit, energy fields humming between its pylons; its lava spills over the rims into the stars and down a burning channel into a lake where Corak's escape pod stands nose-up, glowing. Sheltem's pod lies cold in the Ancient field to the north. East under the ridge, the walled Necropolis keeps its dead and its gate; south, the long mountain road from Castleview tops Griffin Pass, where Ambrose waits with a griffin. Ash falls."
+purpose: "Act V's trap and endgame map (party 48-51): Ambrose's flight to Blackfang (M25), Corak's pod (M29, M32), Castle Alamar and Sheltem (M33, DD-17), Necropolis and Sandro (Q-D23, DD-21; the pass from Q-D22), the north diamonds (Q-D7, DD-10C), the sixth obelisk; in phase 6 Sheltem's pod (DD-22) and the Alamar Depths under the ruin (M39, FD-01)."
+mood: "Ash drifting through the amber light, the red underglow of lava on low cloud; the hiss and crack of crust; Alamar's hum and its lit windows watching; silence and bone-white lamps in Necropolis; wind on the pass."
+datum: water:rim_sea
+spaces:
+  - id: edge:east_end
+    name: East edge
+    kind: road
+    part_of: zone:pass_east
+    purpose: Where the pass leaves for D5.
+  - id: edge:south_end
+    name: South edge
+    kind: road
+    part_of: zone:mountain_road
+    purpose: Where the road leaves for D1.
+  - id: junction:ash_fork
+    name: Ash Fork
+    kind: junction
+    purpose: "North-west: Castle Alamar. East: Necropolis and the border pass. South: Griffin Pass and Castleview."
+    signpost: true
+  - id: junction:bone_fork
+    name: Bone Fork
+    kind: junction
+    purpose: "South: Necropolis's gate. East: the border pass (D5). West: Corak's lake and Ash Fork."
+  - id: town:necropolis
+    name: Necropolis
+    kind: town
+    where: "the east, on a terrace under the east ridge: 18 x 16 cells inside its walls, one gate in the north wall"
+    floor: 1650
+    purpose: "The city of the dead (WORLD_DESIGN 5.2; A4's d6.yml 4751-4762): a walled necropolis the living enter with a pass (item 12336 from the Head Witch's chest, Q-D22); the gate turns the passless away (A3's hook, A6's event). Inside every house is open: the Dark guild, the Temple of the Dead, the Grave Market, the Embalmer, the Warm Barrel, the mirror, six residences of tombs and mausoleums, DD-21's crypt stair. The map's lines: the Books of the Dead, the barrel \"Food for the dead, keep warm.\", the skull's story."
+    safe: true
+    keep_clear: [spawns]
+    theme: "darkside_town kit in its darkest grade: t09 grey ashlar under xlslate for the guild, the temple and the walls (about 700 high, square towers, battlements, a gatehouse); tombs and mausoleums of MM7 Zokarr's Tomb stone (twb1, twb2, 7tws2) with iron doors, the crypt doors in two leaves (gkp103a / gkp103b); MU-2 D6 ground: road_flagstone in the lanes, mud_cracked (grey) in the yards; black dead trees (MM8 dedltree), bone-white lamps lit all day."
+    density: medium
+    buildings:
+      - {id: building:np_guild, type: house, service: Necropolis Guild, count: 1, doors: 1, footprint_cells: [[3, 3]]}
+      - {id: building:np_market, type: house, service: The Grave Market, count: 1, doors: 1, footprint_cells: [[3, 2]]}
+      - {id: building:np_embalmer, type: house, service: The Embalmer, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:np_tavern, type: house, service: The Warm Barrel, count: 1, doors: 1, footprint_cells: [[3, 3]]}
+      - {id: building:np_temple, type: house, service: Temple of the Dead, count: 1, doors: 1, footprint_cells: [[4, 3]]}
+      - {id: building:np_houses, type: house, service: residence, count: 6, doors: 1, footprint_cells: [[3, 3], [3, 2], [2, 2], [2, 2], [2, 2], [2, 2]]}
+  - id: water:alamar_moat
+    name: Alamar's moat
+    kind: water
+    purpose: "A horseshoe of lava round Alamar's plateau (level 1,550), open to the south where the approach climbs on; it spills north over the rim (the Northern Lava Falls), west along the Slag Run to the west rim, and south-east down the Burning Channel into Corak's lake."
+  - id: water:burning_channel
+    name: The Burning Channel
+    kind: water
+    purpose: "Lava from Alamar's moat down to Corak's lake (1,550 to 1,450)."
+  - id: water:north_falls
+    name: The Northern Lava Falls
+    kind: water
+    purpose: Lava from the moat's north side over the north rim into the stars.
+  - id: water:pod_lake
+    name: Corak's lava lake
+    kind: water
+    purpose: "Lava (lavtyl, D-40: never water). Level 1,450; Escape Pod 1 nose-up in its middle."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the world's edge (water at 0).
+  - id: water:slag_run
+    name: The Slag Run
+    kind: water
+    purpose: "Lava from the moat's west side to the west rim, where it falls into the stars (a lava fall)."
+  - id: zone:alamar_approach
+    name: The approach
+    kind: zone
+    part_of: zone:alamar_plateau
+    floor: [1700, 2000]
+    purpose: "The ramp of black rock onto the plateau from the south, between the moat's two arms: four energy-field pylons in pairs, the castle's double gate at its head (m33.castle_door: \"Castle Alamar. Every window is lit, and every one of them is looking at you. Enter?\"; DD-17 refuses a party without the Soul Box and moves it back here)."
+    density: sparse
+  - id: zone:alamar_plateau
+    name: Castle Alamar's plateau
+    kind: wild
+    floor: [1800, 2300]
+    relief: uneven
+    purpose: "A basalt mesa in the lava moat, north-west of the map's middle (the source's A1(10,4)): Castle Alamar, a fortress of dark teal steel and black stone, square towers, every window lit, energy fields humming between its pylons (the Ancient kit: xahull on gn_mtl, xaenergy pylons, xafield curtains). No walkable roof (WORLD_DESIGN 3.4). Robot patrols on the plateau and the approach. After M33 the castle has destroyed itself: a smoking ruin of buckled plates (xahullbn) and fallen towers, the sealed stair down to FD-01 in the broken gatehouse."
+    population:
+      - {id: pop:alamar_robots, slot: 3, groups: 9, per_marker: [1, 3], levels: [50, 75], notes: "Encounter area E2: Patrols 50 (Annihilators 62, an Autobot 75 rarely; Dif 1)."}
+  - id: zone:ancient_field
+    name: The Ancient field
+    kind: wild
+    floor: [1700, 2600]
+    relief: uneven
+    purpose: "Rock heaved up by something buried: plates, spars and pylons of Ancient metal surfacing through the basalt over the whole north-east (WORLD_DESIGN 4: Ancient metal surfacing in the north-west of the Darkside). Escape Pod 2 (Sheltem's, DD-22) lies landed upright in a shallow crater of its own, its hatch sealed (phase 6). The Well of Warding by the north-east rim; an Ancient locker; gamma gazers."
+    population:
+      - {id: pop:field_gazers, slot: 1, groups: 17, per_marker: [1, 3], levels: [40, 65], notes: "Encounter area E1: Floating Eyes 40, Terrible Eyes 50, Gamma Gazers 65 (Dif 2)."}
+  - id: zone:archer_camp
+    name: The archers' camp
+    kind: zone
+    part_of: zone:west_waste
+    floor: 1950
+    purpose: "A barbarian war-camp of hide tents behind a stake fence on a shelf under the peaks (the source's A2 barbarian archer camp): placed archers, their strongbox; burnable as the source's camps (A3)."
+    population:
+      - {id: pop:archers, actor: Xeen Barbarian, groups: 1, placed: true, hostile: true, notes: "E6: 12 placed: Barbarian Archers 44 x9 and Archer Chiefs 50 x3 (new tiers asked of A2)."}
+  - id: zone:ash_fork_flats
+    name: Ash Fork
+    kind: zone
+    floor: [1650, 1900]
+    relief: slope
+    purpose: "Ash flats at the foot of the pass where the mountain road forks: north-west to Alamar, east past Corak's lake to Necropolis. Quiet."
+    safe: true
+    density: sparse
+  - id: zone:ash_waste
+    name: The volcanic waste
+    kind: wild
+    floor: [1550, 2100]
+    relief: uneven
+    purpose: "Grey ash and black basalt between Alamar's moat and the north and west rims, cracked by old flows: the Northern Lava Falls over the rim, the Slag Run to the west rim, a basalt pinnacle with a genie lamp, the hot spring in the north-west corner. Quiet: only the ash falls."
+    density: sparse
+  - id: zone:bone_road
+    name: The Bone Road
+    kind: zone
+    floor: [1650, 1800]
+    relief: slope
+    purpose: "Ash and bone-white flagstones from the border pass down to Necropolis's gate under the east ridge: Bone Fork, a pilgrim's cart that turned back at the gate, an empty climbers' camp."
+    safe: true
+    density: sparse
+  - id: zone:climbers_camp
+    name: The climbers' camp
+    kind: zone
+    part_of: zone:bone_road
+    floor: 1800
+    purpose: "An empty climbers' camp under the east ridge: a tent, ropes and pitons on a line, nobody there (dressing; no click, no NPC: D-49 change 1, Freeda is X5's 4527)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:east_peaks
+    name: The southern peaks east
+    kind: wild
+    floor: [1300, 3200]
+    relief: uneven
+    purpose: "The same peaks east of the pass to the D5 ridge: the broken travel pyramid in a high valley, a griffin's nest, a genie lamp on a crag, the Sardaj cliff over D1's spring."
+    population:
+      - {id: pop:east_griffins, slot: 2, groups: 8, per_marker: [1, 3], levels: [30, 48], notes: "Encounter area E4b: Griffins 48 and Rocs 38 (Dif 5); the first fight from D1."}
+  - id: zone:east_ridge
+    name: The east ridge
+    kind: wild
+    floor: [2000, 3000]
+    relief: uneven
+    purpose: "The ridge between D6 and D5 south of the pass (the shared border, edge_d5_d6.json): bare black crags behind Necropolis."
+    empty: true
+  - id: zone:griffin_pass
+    name: Griffin Pass
+    kind: zone
+    where: the saddle at the top of the mountain road
+    floor: 2450
+    purpose: "A saddle of black rock at 2,450 where the Forbidden Zone opens below: ash plains, the glow of the lava, Castle Alamar's lit walls far north on their plateau. Ambrose's camp under an overhang: a tent, a fire, a tethered griffin on a rock (A4's 5512; m25.flight from his topic). After m25.done Ambrose and the griffin are gone (m25.camp_gone); the tent and the cold fire stay (D-49 change 6)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:hot_spring
+    name: The hot spring
+    kind: zone
+    part_of: zone:ash_waste
+    floor: 1800
+    purpose: "A steaming pool in a basalt bowl by the rims' corner: the Fountain of Super Resilience (the source's A1(2,13) waters), a burned pilgrim's pack beside it."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:mountain_road
+    name: The long mountain road
+    kind: zone
+    where: "south, the road from D1 climbing the Forbidden Zone's southern border to Griffin Pass"
+    floor: [1550, 2400]
+    purpose: "Where the party comes in from D1: the long mountain road (D1's north road at x 64) climbs a bare valley between grey-black peaks to Griffin Pass. Nothing lives on the road itself."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:np_square
+    name: The Square of Mourning
+    kind: zone
+    part_of: town:necropolis
+    floor: 1650
+    purpose: "Flagstones inside the gate: the Mirror of Necropolis (4756, qbit 119011) on a black plinth with the talking skull beside it (the skull's story of the two necromancers); the Books of the Dead chained to lecterns at the square's west edge; the guild, the market, the temple and the tavern open onto it. Town Portal and mirror arrival."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:obelisk_knoll
+    name: Obelisk Knoll
+    kind: zone
+    part_of: zone:west_waste
+    floor: 2050
+    purpose: "A basalt knoll by the west rim, the Slag Run falling into the stars below it: the obelisk."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:pass_east
+    name: The Forbidden Zone's border pass
+    kind: zone
+    where: "east, the pass to D5 at y 64"
+    floor: 1700
+    purpose: "Where the party comes in from D5: a pass at 1,700 through the east ridge; the source's sign \"The Forbidden Zone\" at its western lip (B2(15,15)). Necropolis's walls in view to the south-west."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:pod_crust
+    name: The crust before the hatch
+    kind: zone
+    part_of: zone:pod_lake_shore
+    floor: 1460
+    purpose: "Before m28.lava_cooled: lava round the hatch, which only the hook's fail line touches (\"A curved metal wall stands in lava that bubbles like soup.\"). After it the map's state swaps the lava there for black cooled crust (lavtyl -> a basalt tile set) and the hatch opens (m29.pod_door). DD-16's way out lands here, 384 before the hatch, facing away."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:pod_lake_shore
+    name: Corak's lava lake
+    kind: wild
+    floor: [1450, 1800]
+    relief: uneven
+    purpose: "A lava lake in a basin of black crust south-east of Alamar, fed by the Burning Channel from Alamar's moat. Escape Pod 1 (Corak's, DD-16) stands in it nose-up, half sunk, its hull scorched and glowing; the hatch faces the south-east shore over a tongue of crust. Lava dwellers (placed elementals) along the shores. An islet with a genie lamp in the north-west of the lake."
+    density: sparse
+    population:
+      - {id: pop:lava_dwellers, actor: Xeen Elemental, groups: 4, placed: true, hostile: true, notes: "E3: 14 placed Lesser Elementals 55 and Elementals 62 (the lava dwellers' stand-in, as A7's DD-16) round the lake and along the Burning Channel, each with a home radius on the crust; no group within 2,500 of the hatch."}
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "North and west the land ends in a cliff; below, the stars (water at 0 stands for them). Lava falls pour over it in two places."
+    empty: true
+  - id: zone:south_peaks
+    name: The Forbidden Zone's southern border
+    kind: wild
+    floor: [1300, 3400]
+    relief: uneven
+    purpose: "Grey-black peaks west of Griffin Pass along the south (the source's A2 border): griffins' crags, the Forbidden Zone mines: DD-10C's north adit and two boarded mine mouths, a dead prospector."
+    population:
+      - {id: pop:west_griffins, slot: 2, groups: 8, per_marker: [1, 3], levels: [30, 48], notes: "Encounter area E4a: Griffins 48 and Rocs 38 (Dif 5)."}
+  - id: zone:west_waste
+    name: The cinder plains
+    kind: wild
+    floor: [1550, 2100]
+    relief: uneven
+    purpose: "Cinder flats and low basalt ridges west and south of Alamar (the source's A2, barren highlands): the obelisk on its knoll over the Slag Run's fall, the barbarian archers' camp under the southern peaks, the Alamar road from Ash Fork."
+    density: sparse
+links:
+  - id: link:adit_track
+    from: junction:ash_fork
+    to: entrance:dd10c_adit
+    kind: path
+    rise: 500
+    purpose: west under the peaks past the archers' camp to the mines
+  - id: link:alamar_road
+    from: junction:ash_fork
+    to: zone:alamar_approach
+    kind: road
+    rise: 150
+    purpose: north-west over the cinder plains to the approach
+  - id: link:field_track
+    from: link:necropolis_road
+    to: entrance:dd22_hatch
+    kind: path
+    rise: 400
+    purpose: north up the Burning Channel's east bank into the Ancient field
+  - id: link:gate_lane
+    from: junction:bone_fork
+    to: zone:np_square
+    kind: road
+    purpose: through Necropolis's gate (the pass)
+  - id: link:hatch_path
+    from: link:necropolis_road
+    to: zone:pod_crust
+    kind: path
+    purpose: down the black shore to the crust before the hatch
+  - id: link:mountain_road
+    from: edge:south_end
+    to: junction:ash_fork
+    kind: road
+    rise: 200
+    purpose: "travel: D1; the long mountain road up to Griffin Pass (2,450) and down to the ash"
+  - id: link:necropolis_road
+    from: junction:ash_fork
+    to: junction:bone_fork
+    kind: road
+    purpose: east past Corak's lake
+  - id: link:obelisk_path
+    from: link:alamar_road
+    to: zone:obelisk_knoll
+    kind: path
+    rise: 300
+  - id: link:pass_road
+    from: edge:east_end
+    to: junction:bone_fork
+    kind: road
+    rise: -50
+    purpose: "travel: D5; down from the border pass"
+  - id: link:rim_track
+    from: entrance:dd22_hatch
+    to: poi:warding_well
+    kind: path
+    purpose: east through the field to the well by the rim
+  - id: link:spring_track
+    from: link:alamar_road
+    to: zone:hot_spring
+    kind: path
+    rise: 200
+    purpose: west of the moat along the Slag Run and north to the hot spring
+entrances:
+  - id: entrance:d7_fall
+    space: zone:np_square
+    kind: both
+    facing: s
+    how: "D-58 Q10: a fall from D7 lands here, on the Necropolis square, 740 from the mirror (back to Olympus)."
+  - id: entrance:dd10c_adit
+    space: zone:south_peaks
+    kind: both
+    neighbour: door:dd10c
+    facing: n
+    how: "The Gemstone Mines' north adit in the peaks' north face: a timbered mouth; DD-10C lands at its start (0, 192, 0) facing north; its exit returns here, facing away (A6 measures it at L3)."
+  - id: entrance:dd16_hatch
+    space: zone:pod_crust
+    kind: both
+    neighbour: door:dd16
+    facing: se
+    how: "DD-16's way out: on the crust 384 before Corak's hatch, facing south-east toward the shore (D-47, D-49). The hatch itself (m29.pod_door) leads into DD-16's entrance:d6_hatch."
+  - id: entrance:dd17_gate
+    space: zone:alamar_approach
+    kind: both
+    neighbour: door:dd17
+    facing: s
+    how: "Castle Alamar's double gate (two leaves of teal steel): m33.castle_door's question; DD-17's arrival hook refuses a party without the Soul Box and moves it back here. After M33 the gate is rubble."
+  - id: entrance:dd21_stair
+    space: town:necropolis
+    kind: both
+    neighbour: door:dd21
+    facing: n
+    how: "A crypt stair behind iron grilles in Necropolis's south-east corner (two leaves): down to the Necropolis Sewer (DD-21, Sandro)."
+  - id: entrance:dd22_hatch
+    space: zone:ancient_field
+    kind: both
+    neighbour: door:dd22
+    facing: s
+    how: "Escape Pod 2's hatch (Sheltem's pod): sealed with a line until phase 6 (DD-22, Act VI)."
+  - id: entrance:east_pass
+    space: zone:pass_east
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: "The Forbidden Zone's border pass from D5 at y 64 (edge_d5_d6.json: 1,700 over y 62-66)."
+  - id: entrance:fd01_stair
+    space: zone:alamar_approach
+    kind: both
+    neighbour: door:fd01
+    facing: s
+    how: "After M33 only: the stair down in the broken gatehouse's floor, sealed with Sheltem's mark (m39.depths_door: the Cube of Power opens it). One spot with the gate."
+  - id: entrance:necropolis_gate
+    space: zone:np_square
+    kind: arrival
+    facing: s
+    how: "Inside the gate by the mirror (A4's necropolis_gate): Town Portal and the mirror (4756, qbit 119011)."
+  - id: entrance:np_gate
+    space: zone:bone_road
+    kind: both
+    facing: s
+    how: "Necropolis's gate in the north wall, two iron-bound leaves under a gatehouse of skulls: with the pass they open; without it a line turns the living away (A3's hook, A6's event; from inside always open)."
+  - id: entrance:south_road
+    space: zone:mountain_road
+    kind: both
+    neighbour: edge:south
+    facing: n
+    how: "The long mountain road from Castleview (D1) at x 64, climbing toward Griffin Pass."
+  - id: entrance:xd17_pyramid
+    space: zone:alamar_approach
+    kind: both
+    neighbour: scripted:pyramid
+    facing: n
+    how: "Beside the travel pyramid on the Alamar road outside the moat (D-50 Q9): XD-17's pyramid lands here; this pyramid's click (Xeen.travelPyramid(\"alamar_gate\")) goes to XD-17 once m30.done."
+critical_path: [edge:south_end, zone:griffin_pass, junction:ash_fork, zone:pod_crust, zone:alamar_approach]
+goals:
+  - id: goal:alamar
+    space: zone:alamar_approach
+    kind: reach
+    what: Enter Castle Alamar with Corak in the Soul Box and end Sheltem (M33).
+    story: M33
+  - id: goal:blackfang
+    space: zone:griffin_pass
+    kind: use
+    what: "Answer Ambrose (Dimitri), have his bridle enchanted in Sandcaster, fly to Blackfang's walls (M25)."
+    story: M25
+  - id: goal:corak
+    space: zone:pod_crust
+    kind: use
+    what: "Open Corak's pod once the Pharaoh has cooled the lava, wake him (M29), bring him the Soul Box (M32)."
+    story: M29
+  - id: goal:diamonds
+    space: zone:south_peaks
+    kind: reach
+    what: "Dig the north pocket's diamond veins (DD-10C, Q-D7)."
+    story: Q-D7
+  - id: goal:obelisk
+    space: zone:obelisk_knoll
+    kind: use
+    what: Read the sixth Darkside word (obelisks.d6).
+    story: obelisks
+  - id: goal:roland
+    space: zone:alamar_approach
+    kind: reach
+    what: "After M33: open the stair in Alamar's ruin with the Cube (M39, FD-01, phase 6)."
+    story: M39
+  - id: goal:sandro
+    space: town:necropolis
+    kind: reach
+    what: "Enter Necropolis with the pass; Master Morbius, Sandro's heart in DD-21 (Q-D23)."
+    story: Q-D23
+points_of_interest:
+  - id: poi:ambrose
+    space: zone:griffin_pass
+    kind: npc
+    behaviour: "Ambrose (5512), the Queen's Knight, by his tethered griffin: M24-M25 (\"Who sent you?\"), m25.flight from his topic. Not a point of interest (D-23 (1))."
+  - id: poi:ancient_locker
+    space: zone:ancient_field
+    kind: chest
+    behaviour: "An Ancient locker surfacing through the rock, its seal long dead (a chest; the Ancient kit's panel)."
+  - id: poi:archers_chest
+    space: zone:archer_camp
+    kind: chest
+    behaviour: "The archers' strongbox in the chief's tent: their raiding loot (a chest); the camp's burn hook on the same spot (d6.archers_camp: \"You have discovered a barbarian camp. Destroy?\", D-49 change 5)."
+  - id: poi:barrel
+    space: town:necropolis
+    kind: device
+    behaviour: "A barrel by the Warm Barrel's wall, beside (never before) its door: \"Food for the dead, keep warm.\" (the source's line). One spot with the tavern's door."
+  - id: poi:books
+    space: zone:np_square
+    kind: device
+    behaviour: "The Books of the Dead (the source's aging books): three black books chained to lecterns; each, once per character, +3,000 experience and +8 years of age (the source's +999,999 xp and +25-100 years rescaled). The map's permanent-effect device."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:climbers_camp
+    space: zone:climbers_camp
+    kind: dressing
+    behaviour: "An empty climbers' camp: a tent, ropes and pitons drying on a line (D-49 change 1: no Freeda, no click)."
+  - id: poi:fork_signpost
+    space: junction:ash_fork
+    kind: signpost
+    behaviour: "Ash Fork's signpost: \"North-west: Castle Alamar. East: Necropolis. South: Griffin Pass, Castleview.\""
+  - id: poi:fountain_resilience
+    space: zone:hot_spring
+    kind: fountain
+    behaviour: "The Fountain of Super Resilience (the source's +2,500 HP waters, A1(2,13)): +100 hit points until rest, once a day (rescaled as D4's Fountain of Great Resilience)."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:genie_crag
+    space: zone:east_peaks
+    kind: device
+    behaviour: "A third lamp on a crag above the broken pyramid, among the griffins' perches."
+    reached_by: off_road
+  - id: poi:genie_islet
+    space: water:pod_lake
+    kind: device
+    behaviour: "A second lamp glinting on a black islet in Corak's lake: only by flight or lava walking past the lava dwellers (the lake's lure)."
+    reached_by: water
+  - id: poi:genie_pinnacle
+    space: zone:ash_waste
+    kind: device
+    behaviour: "A genie's lamp on a basalt pinnacle between the moat and the north rim: a wish choice; greed is punished (the source's three B2 genies, moved)."
+    reached_by: off_road
+  - id: poi:griffin_nest
+    space: zone:east_peaks
+    kind: chest
+    behaviour: "A griffin's nest on a crag east of the pass, a dead courier's satchel among the bones (a chest)."
+  - id: poi:mine_mouths
+    space: zone:south_peaks
+    count: 2
+    kind: dressing
+    behaviour: "Two boarded mine mouths of the Forbidden Zone mines beside DD-10C's adit (the source's other mines; dressing, no click)."
+  - id: poi:mirror
+    space: zone:np_square
+    kind: story_device
+    behaviour: "The Mirror of Necropolis (4756): the Darkside mirror network (Kalindra's stage 4, A3's helper)."
+  - id: poi:obelisk
+    space: zone:obelisk_knoll
+    kind: obelisk
+    behaviour: "obelisks.d6: the sixth of six words, PYRAMID (autonote dark_6, 115055)."
+    rule: native:obelisk
+    notes: "On Obelisk Knoll by the west rim (A3's autonote: \"Obelisk in the Forbidden Zone\"), the Slag Run's lava fall below, Alamar's plateau in view."
+  - id: poi:pilgrim_cart
+    space: zone:bone_road
+    kind: chest
+    behaviour: "A pilgrim's coffin-cart abandoned on the Bone Road: turned back at the gate without a pass (a chest)."
+  - id: poi:prospector
+    space: zone:south_peaks
+    kind: chest
+    behaviour: "A prospector dead at the boarded mine mouths, his pack of tools and stones (a chest)."
+  - id: poi:skull
+    space: zone:np_square
+    kind: story_device
+    behaviour: "A skull on the mirror's plinth tells the story of the two necromancers (the source's long tale, A3's text) when clicked. One spot with the mirror."
+  - id: poi:spring_pilgrim
+    space: zone:hot_spring
+    kind: chest
+    behaviour: "A burned pilgrim's pack by the hot spring, who came for the waters across the waste (a chest)."
+  - id: poi:travel_pyramid
+    space: zone:alamar_approach
+    kind: device
+    behaviour: "A small Ancient travel pyramid beside the Alamar road outside the moat's mouth (D-50 Q9): Xeen.travelPyramid(\"alamar_gate\") on click (to XD-17 Shangri-La once m30.done, else \"The moons are not aligned.\"); its arrival is entrance:xd17_pyramid, no spawn marker within 2,000."
+  - id: poi:warding_well
+    space: zone:ancient_field
+    kind: well
+    behaviour: "The Well of Warding (the source's +100 all resistances, B1(14,13)): +20 Fire, Air, Water and Earth resistance until rest, once a day (rescaled, as D1's prayer shrine)."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:zone_sign
+    space: zone:pass_east
+    kind: signpost
+    behaviour: "The source's sign at the border pass: \"The Forbidden Zone.\" (B2(15,15)) verbatim, with A3's warning line under it (d6.zone_sign, D-49 change 9)."
+landmarks:
+  - id: landmark:alamar
+    space: zone:alamar_plateau
+    what: "Castle Alamar on its basalt mesa in the lava moat: dark teal steel and black stone, square towers, every window lit, cyan energy fields between its pylons; after M33 a smoking ruin"
+    seen_from: [zone:griffin_pass, zone:ash_fork_flats, zone:pod_lake_shore, zone:west_waste, zone:ancient_field, zone:ash_waste]
+  - id: landmark:broken_pyramid
+    space: zone:east_peaks
+    what: "A broken travel pyramid in a high valley, its capstone fallen (the source's B2 pyramid; the hoard is D5's); no click"
+    seen_from: [zone:east_peaks, zone:griffin_pass]
+  - id: landmark:cinder_cone
+    space: zone:west_waste
+    what: "A cinder cone with a smoking vent beside the Alamar road, the cinder plains' one height (no click)"
+    seen_from: [zone:ash_fork_flats, zone:west_waste, zone:alamar_approach]
+  - id: landmark:corak_pod
+    space: zone:pod_lake_shore
+    what: "Escape Pod 1 nose-up in the glowing lava lake, its scorched hull lit red from below"
+    seen_from: [zone:griffin_pass, zone:ash_fork_flats, zone:bone_road, zone:alamar_approach]
+  - id: landmark:necropolis
+    space: town:necropolis
+    what: "Necropolis's walls and mausoleum domes under the east ridge, bone-white lamps lit all day"
+    seen_from: [zone:pass_east, zone:bone_road, zone:pod_lake_shore, zone:east_peaks]
+  - id: landmark:north_falls
+    space: zone:ash_waste
+    what: "Alamar's moat spilling over the north rim: the Northern Lava Falls into the stars"
+    seen_from: [zone:ash_waste, zone:alamar_plateau, zone:ancient_field]
+  - id: landmark:ridge_tower
+    space: zone:east_ridge
+    what: "A roofless watchtower of the dead on the east ridge above Necropolis, looking into D5 (no click)"
+    seen_from: [town:necropolis, zone:bone_road, zone:pass_east]
+  - id: landmark:sheltem_pod
+    space: zone:ancient_field
+    what: "Escape Pod 2 upright in its crater among the Ancient plates, cold and sealed"
+    seen_from: [zone:ancient_field, zone:alamar_approach]
+  - id: landmark:west_falls
+    space: zone:west_waste
+    what: The Slag Run pouring over the west rim below Obelisk Knoll
+    seen_from: [zone:obelisk_knoll, zone:west_waste, zone:ash_waste]
+sightlines:
+  - id: view:arrival
+    from: zone:griffin_pass
+    to: [landmark:alamar, landmark:corak_pod, landmark:north_falls]
+    what: "Arrival from D1: the long mountain road tops Griffin Pass and the Forbidden Zone opens below: ash plains falling north, the red glow of Corak's lake right of centre with the pod standing in it, Castle Alamar far north on its mesa ringed by lava, the Ancient field's metal glinting to the right, the lava falls smoking at the rim, ash in the air; Ambrose's camp and griffin at the left."
+  - id: view:signature
+    from: zone:bone_road
+    to: [landmark:corak_pod, landmark:alamar]
+    what: "The signature view from the Necropolis road on the lake's south-east shore: Corak's pod nose-up in the glowing lava lake, its hatch on the crust nearest, and beyond it across the moat Castle Alamar's lit walls and cyan energy fields, under the amber day band with ash in the air (WORLD_DESIGN 4: the crashed pods' lava glow)."
+set_pieces:
+  - id: set:alamar
+    kind: scripted
+    spaces: [zone:alamar_plateau, zone:alamar_approach]
+    rule: "Castle Alamar's outside has two states: whole (every window lit, the energy fields up, the gate's m33.castle_door) until m33.done; then a ruin (model groups swapped: buckled plates, fallen towers, smoke, the fields dark), the gate rubble with the stair to FD-01 in its floor (m39.depths_door), the robots hidden on load after m33.done (m33.robots_gone, D-49 change 7; no refill rule)."
+    states: [whole, ruin]
+  - id: set:pod_lava
+    kind: scripted
+    spaces: [zone:pod_crust]
+    rule: "The lava round Corak's hatch: hot until m28.lava_cooled (111564), the hatch's fail line; then the lava there is black crust (a basalt face swapped in, the lava's damage off), the hatch opens (m29.pod_door)."
+    states: [hot, cooled]
+  - id: set:sheltem_pod
+    kind: scripted
+    spaces: [zone:ancient_field]
+    rule: "Sheltem's pod sealed with a line (\"The hatch is fused shut, and something inside is listening.\", A3) until DD-22 exists (phase 6)."
+    states: [sealed, open]
+height_bands:
+  - id: band:field
+    range: [1700, 2900]
+    spaces: [zone:ancient_field]
+  - id: band:lava
+    range: [1450, 1900]
+    spaces: [zone:pod_lake_shore, water:pod_lake, water:alamar_moat, zone:ash_fork_flats]
+    notes: "Corak's lake 1,450; the moat 1,550; the flats 1,650-1,900."
+  - id: band:peaks
+    range: [800, 3900]
+    spaces: [zone:south_peaks, zone:east_peaks, zone:griffin_pass, zone:mountain_road]
+    notes: "D1's border row (1,100-1,700) at y 109, the peaks to 3,800 at y 96-104, Griffin Pass 2,450; D1's Sardaj pool 832 at x 80-87."
+  - id: band:plateau
+    range: [1800, 2400]
+    spaces: [zone:alamar_plateau]
+  - id: band:ridge
+    range: [1700, 3300]
+    spaces: [zone:east_ridge, zone:pass_east]
+    notes: The shared D5 border (edge_d5_d6.json).
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+  - id: band:town
+    range: [1600, 1950]
+    spaces: [town:necropolis, zone:bone_road]
+  - id: band:waste
+    range: [1550, 2300]
+    spaces: [zone:ash_waste, zone:west_waste]
+    partly: [zone:bone_road]
+states:
+  - id: state:alamar_ruin
+    condition: {qbit: alamar_destroyed}
+    effects: ["Castle Alamar a smoking ruin; the energy fields dark; the stair to FD-01 in the gatehouse.", Darkside's sun whole again (Xeen.DarksideSkies reads m33.done).]
+  - id: state:gate_shut
+    condition: {not: {item: necropolis_pass}}
+    locks: [building:np_guild, building:np_temple, building:np_market, building:np_embalmer, building:np_tavern, building:np_houses]
+    atmosphere: "Necropolis's gate shut to the passless: the dead on the walls watch the road."
+    notes: "The houses are open from inside; only the gate checks the pass (A4's d6.yml). Town Portal and the mirror land inside the gate."
+  - id: state:lava_cooled
+    condition: {qbit: lava_cooled}
+    effects: ["The lava round Corak's hatch black and cool; the hatch opens."]
+landform:
+  relief: "The southern border's peaks (2,800-3,800) along y 94-104 with Griffin Pass (2,450) at x 64, falling south to D1's border row (1,100-1,700) and north to the ash flats (1,650-1,900); Corak's lava lake (1,450) south-east of the middle; Alamar's mesa (to 2,300) in its lava moat (1,550) north-west of it; the volcanic waste (1,550-2,100) to the north and west rims; the Ancient field (1,700-2,600) rising north-east to the D5 ridge (to 3,300); Necropolis on a terrace (1,650) under the east ridge; the border pass to D5 at 1,700. Inside the playable box the land spans about 1,100-3,800 (D1's spring pool 832 at the border)."
+  height_range: [1100, 3800]
+  water: "No water: lava only (lavtyl, D-40): Corak's lake (about 230 cells), Alamar's moat (about 190), the Burning Channel, the Slag Run and the Northern Lava Falls (about 40 cells)."
+  water_share: 0.07
+  caps:
+    - {kind: ash, share: 0.35, where: "the waste, the cinder plains and the flats"}
+    - {kind: bare rock, share: 0.25, where: "the peaks, the east ridge, the mesa, the rim cliffs"}
+    - {kind: lava crust, share: 0.08, where: round the lava}
+  rim: {notes: "The world rim along the whole north (y 24) and west (x 24): a cliff of 1,500-2,000 down to the stars; lava falls over the north rim at x 44 and the west rim at y 51. South (D1) and east (D5) the land runs to the map edge; the roads run out to it."}
+atmosphere: "Sky xeendark1 (xeen_darkside_day; A3's Lua sets xeendark3 for Act V until M33, then xeendark1); ash fall on 40 % of days (atmosphere.yml `ash`, A1's word, D-40 (9) 'also D6'); music 11 (A2). The hiss and crack of lava near the lake and the moat; Alamar's low hum; wind on the pass; silence in Necropolis."
+sketch: {file: sketch.yml, grid: 512}
+notes: "L3/L4 written by output/studio_cal/d6/tools/gen.py from the approved L1 with D-49 and D-50. The lava dwellers, the archers and the robots (D-49 change 7: hidden on load after m33.done) are placed actors; the gazers and the birds are slot markers."

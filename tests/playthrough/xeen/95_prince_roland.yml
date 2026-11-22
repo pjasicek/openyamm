@@ -1,0 +1,288 @@
+# Xeen playthrough, segment 95: Prince Roland (D7, D1, D6, FD-01), M39 done.
+# On the Skyroads (D7) by the Water Corner's Rest Stop (entrance:p4_return) after M38, with the Cube of Power (12365)
+# and the Scepter (12366). North up the west road: the west toll (Xeen.toll west: the Sky Bandits' whistle, 10,000 gold,
+# "Here you go"), to the Rope's Head; the Dark Grove rope down ("Descend to the Darkness Below?" Yes) to D1's great
+# tree; up D1's north road off the edge into the Forbidden Zone (D6); the ruin of Castle Alamar on the mesa (M33 done):
+# the stair under the broken gatehouse (D6 event 70, m39.depths_door: the Cube hums, the mark goes out; no question,
+# D-72) down to FD-01's entrance:d6_stair. FD-01 walked along A8's path (devdocs/xeen/briefs/fd01/L4/playtest.yml):
+# the statue's boast as the party comes near (m39.statue, once; then the status line), round the C to the lever hall:
+# the west lever, then the east (m39.lever_west/east, each slab down; then "The lever won't budge."), the sealed
+# passage, the workshop, the key vault: the box (the Key to the Dragon Tower 12376, q-f1.tower_key), the warden's chest
+# (m39.darkstone_key 111780, its gold, then the cushion), the skull door with the Cube ("Access granted.", open after a
+# reload), the lift down, the coffin: the field drops, the lid opens, Prince Roland (m39.roland: M39 done 111781, the
+# Amulet of the Southern Sphinx 12372, the award Rescued Prince Roland 416, autonote 4138, 40,000 each; he goes home to
+# court, house 4201), the empty coffin after a reload; the stasis, nook and assembly chests and the dark pyramid. Back
+# by the lift, the sealed passage, the lever hall, the C and the first hall to the stair's top: the exit (event 15, the
+# leave window, OK) to D6 at entrance:fd01_stair. Ends on D6.
+# Routes: segment 93 (D7's south road), 87 (the rope), 85 (D1's north road), devdocs/xeen/briefs/d7/L4/plan.yml (the
+# west road, room:west_toll, room:rope_head), devdocs/xeen/briefs/fd01/L4/playtest_in.yml, playtest.yml,
+# playtest_exit.yml. Quest logic: source/quests/m39.yml, q-f1.yml, npcs/d7.yml (the tolls).
+#   python3 tests/playthrough/xeen/run.py 95
+id: xeen.playthrough.95_prince_roland
+title: "Xeen playthrough 95: the rope down, the stair under Castle Alamar's ruin, the Alamar Depths, Prince Roland"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/93_water_sleeper.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d7.blv}
+  - assert: {party_position: {x: -27456, y: -17728, radius: 256}}
+  - assert: {qbit_set: [111662, 111760, 111761, 111762, 111763]}
+  - assert: {qbit_clear: [111780, 111781, 117840, 117844, 117845]}
+  - play_lua: {source: "log('95 start: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold()); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12365) then error('no Cube of Power (12365)') end"}
+  # North up the west road (x -28160) from the Water Corner to the west toll's line.
+  - walk_to: {x: -28160, y: -17408, z: 768, z_tolerance: 600, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -28160, y: -14848, z: 768, z_tolerance: 600, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The west toll (Xeen.toll west): the Sky Bandits whistle and ask 10,000 gold; paid ("Here you go").
+  - play_lua: {source: "remember('gold', gold())"}
+  - walk_to: {x: -27451, y: -9454, z: 900, z_tolerance: 600, radius: 192, timeout_seconds: 60, expect: dialog, plan: false}
+  - assert: {dialog: {active: true, text_contains: "Hold! The toll for passing this part of the road is 10,000 gold!"}}
+  - select_topic: {match_label: "Here you go"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Sky Bandits count the gold twice and wave you on."}}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if recall("gold") - gold() ~= 10000 then error("the west toll took " .. (recall("gold") - gold())) end
+        if mapvar("d7_toll_west") ~= 1 then error("d7_toll_west " .. tostring(mapvar("d7_toll_west"))) end
+  - assert: {actor_count: {monster_id: 11116, hostile: true, max: 0}}
+  # On north to the Rope's Head and the rope's frame (event 102, "Bucket o' Darkness").
+  - walk_to: {x: -27451, y: -9454, z: 900, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: -26990, y: -7605, z: 1000, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: -26624, y: -6144, z: 1024, z_tolerance: 400, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - walk_to: {x: -25500, y: -6144, z: 1024, z_tolerance: 400, radius: 96, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true, plan: false}
+  - play_lua: {source: "clear_hostiles(3000); click(102); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Descend"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: -8192, y: 14336, radius: 300}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Up D1's north road (x 64) off the edge into the Forbidden Zone (as segment 85).
+  - set_pose: {map: xeen_d1.odm, x: -1024, y: 13312, z: 1248, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 64, y: 32512, z: 1500, z_tolerance: 1500, radius: 128, timeout_seconds: 200, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The stair under Castle Alamar's ruin (D6 event 70, m39.depths_door: the Cube of Power): straight down, no question.
+  - set_pose: {map: xeen_d6.odm, x: -6656, y: 4506, z: 2202, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "status(); click(70); wait(0.5)"}
+  - advance_runtime: {seconds: 2.5, present_dialogs: true, follow_map_move: true}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1, follow_map_move: true}
+  - assert: {map: xeen_fd01.blv}
+  - play_lua:
+      source: |
+        local s = status() or ""
+        log("depths door: " .. s)
+        for _ = 1, 3 do if not close() then break end; wait(0.3) end
+  - setup_shortcut: {kind: immortal}
+  - assert: {party_position: {x: 0, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 1024, facing_within: 64}}
+  # FD-01 along A8's path. The first hall: the statue speaks as the party comes near (once).
+  - walk_to: {x: -560, y: 0, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -900, y: -64, z: 0, radius: 64, timeout_seconds: 40, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Not only is Alamar a wise and just ruler"}}
+  - play_lua: {source: "close(); if not qbit(117840) then error('statue_spoken 117840 not set') end"}
+  - walk_to: {x: -500, y: 0, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1000, y: -200, z: 0, radius: 64, timeout_seconds: 40}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - {play_lua: {source: if close() then error('the statue spoke twice') end}}
+  - {play_lua: {source: 'close(); status(); click(36); wait(0.8)
+
+      if not (string.find(status(), ''The statue says nothing more. Alamar has had his say.'', 1, true)) then error("event 36 did not say ''The statue says nothing more. Alamar has had his say.''" .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {play_lua: {source: if close() then error('the statue click opened a window') end}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1400, y: -512, z: 0}}
+  - {play_lua: {source: 'open_door(8, 2)'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2300, y: -512, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3600, y: -512, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5500, y: -512, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -6600, y: -512, z: 0}}
+  - {play_lua: {source: 'open_door(9, 4)'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -7168, y: -512, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -7168, y: 2000, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -7168, y: 5000, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -7168, y: 7168, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5000, y: 7168, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2816, y: 7168, z: 0}}
+  - play_lua: {source: "log('the corridor beyond door 10: ' .. clear_hostiles(3500) .. ' killed')"}
+  - {play_lua: {source: 'open_door(10, 5)'}}
+  - play_lua: {source: "for i = 0, 3 do if conditions(i):find('Eradicated') or conditions(i):find('Dead') then error('member ' .. i .. ' ' .. conditions(i) .. ' at door 10') end end"}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2816, y: 6500, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2816, y: 5000, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2816, y: 4300, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3456, y: 3200, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3456, y: 2496, z: 0}}
+  - {clear_hostiles: {radius: 5000}}
+  - {play_lua: {source: 'close(); status(); click(23); wait(0.8)
+
+      if not (string.find(status(), ''Far to the west, a wall grinds down into the floor.'', 1, true)) then error("event 23 did not say ''Far to the west, a wall grinds down into the floor.''" .. '' / '' .. status() .. '' / '' .. party()) end
+
+      if not (qbit(117841)) then error(''slab_west not set'' .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(9) == ''open'' then break end; wait(0.5) end; if door_state(9) ~= ''open'' then error(''door 9 is '' .. door_state(9) .. '', not open'') end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(22) == ''open'' then break end; wait(0.5) end; if door_state(22) ~= ''open'' then error(''door 22 is '' .. door_state(22) .. '', not open'') end'}}
+  - {play_lua: {source: 'close(); status(); click(22); wait(0.8)
+
+      if not (string.find(status(), ''Far to the east, a wall grinds down into the floor.'', 1, true)) then error("event 22 did not say ''Far to the east, a wall grinds down into the floor.''" .. '' / '' .. status() .. '' / '' .. party()) end
+
+      if not (qbit(117842)) then error(''slab_east not set'' .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(8) == ''open'' then break end; wait(0.5) end; if door_state(8) ~= ''open'' then error(''door 8 is '' .. door_state(8) .. '', not open'') end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(20) == ''open'' then break end; wait(0.5) end; if door_state(20) ~= ''open'' then error(''door 20 is '' .. door_state(20) .. '', not open'') end'}}
+  - {play_lua: {source: 'close(); status(); click(23); wait(0.8)
+
+      if not (string.find(status(), "The lever won''t budge.", 1, true)) then error(''event 23 did not say "The lever won\''t budge."'' .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {play_lua: {source: 'close(); status(); click(22); wait(0.8)
+
+      if not (string.find(status(), "The lever won''t budge.", 1, true)) then error(''event 22 did not say "The lever won\''t budge."'' .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3456, y: 3200, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3900, y: 3840, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4600, y: 3840, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4608, y: 2000, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4608, y: 1100, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -4608, y: 400, z: 0}}
+  - {clear_hostiles: {radius: 4000}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3200, y: 640, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2240, y: 700, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1700, y: 768, z: 0}}
+  - {clear_hostiles: {radius: 4000}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 720, z: 0}}
+  - {play_lua: {source: close(); click(20); wait(0.6)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: The Key to the Dragon Tower.}}}
+  - {play_lua: {source: close()}}
+  - {play_lua: {source: if not (has_item(12376) and qbit(117844)) then error('the key box gave no key' .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {play_lua: {source: 'remember(''n'', (#pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0)))'}}
+  - {play_lua: {source: 'close(); status(); click(20); wait(0.8)
+
+      if not (string.find(status(), ''Nothing here.'', 1, true)) then error("event 20 did not say ''Nothing here.''" .. '' / '' .. status() .. '' / '' .. party()) end
+
+      if not ((#pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0)) == recall(''n'')) then error(''the box gave something more'' .. '' / '' .. status() .. '' / '' .. party()) end'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 1900, z: 0}}
+  - {play_lua: {source: 'open_door(13, 12)'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 2400, z: 0}}
+  - {clear_hostiles: {radius: 4000}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1700, y: 2816, z: 0}}
+  - {play_lua: {source: close(); click(5); wait(0.8)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: a key of black stone}}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: if not (qbit(111780)) then error('darkstone_key 111780 not set' .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {play_lua: {source: 'local before = gold(); loot_chest(5); remember(''gw'', gold() - before)'}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: close(); click(5); wait(0.8)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: An empty velvet cushion.}}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: if not (recall('gw') > 0) then error("the warden's chest gave no gold" .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 3250, z: 0}}
+  - {play_lua: {source: close(); click(30); wait(0.6)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: Access granted.}}}
+  - {play_lua: {source: close()}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(7) == ''open'' then break end; wait(0.5) end; if door_state(7) ~= ''open'' then error(''door 7 is '' .. door_state(7) .. '', not open'') end'}}
+  - {play_lua: {source: if not (qbit(117845)) then error('skull_door_open 117845 not set' .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {reload: {}}
+  - {advance_runtime: {present_dialogs: true, seconds: 3}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: if not (door_state(7) == 'open') then error('the skull door shut after a reload' .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 3700, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -1216, y: 3904, z: 0}}
+  - {play_lua: {source: click(26); wait(4)}}
+  - {assert: {party_position: {radius: 160, x: -1216, y: 3904, z_max: -740, z_min: -790}}}
+  - {play_lua: {source: 'open_door(12, 10)'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -600, y: 3904, z: -768}}
+  - {clear_hostiles: {radius: 4000}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -260, y: 3904, z: -768}}
+  - {play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); close(); click(6); wait(0.8)"}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: The coffin's lid slides back}}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(14) == ''open'' then break end; wait(0.5) end; if door_state(14) ~= ''open'' then error(''door 14 is '' .. door_state(14) .. '', not open'') end'}}
+  - {play_lua: {source: 'for _ = 1, 30 do if door_state(15) == ''open'' then break end; wait(0.5) end; if door_state(15) ~= ''open'' then error(''door 15 is '' .. door_state(15) .. '', not open'') end'}}
+  - {play_lua: {source: if not (qbit(111781) and has_item(12372)) then error("m39.roland's state" .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - play_lua: {source: "local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 40000 or xp3 ~= 40000 then error('Roland paid ' .. xp .. ' / ' .. xp3) end"}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {reload: {}}
+  - {advance_runtime: {present_dialogs: true, seconds: 3}}
+  - {play_lua: {source: 'for i = 1, 4 do if not close() then break end wait(0.3) end'}}
+  - {play_lua: {source: if not (door_state(14) == 'open' and door_state(15) == 'open') then error('the field or the lid came back after a reload' .. ' / ' .. status() .. ' / ' .. party()) end}}
+  - {play_lua: {source: close(); click(6); wait(0.6)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: 'An empty stasis coffin, still faintly cold.'}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: 96, y: 4600, z: -768}}
+  - {play_lua: {source: local before = gold(); loot_chest(4); if gold() <= before then error('the stasis chest gave no gold') end}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -600, y: 3904, z: -768}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 48, timeout_seconds: 40, x: -1216, y: 3904, z: -768}}
+  - {play_lua: {source: click(25); wait(4)}}
+  - {assert: {party_position: {radius: 160, x: -1216, y: 3904, z_max: 30, z_min: -10}}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 3300, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 2400, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1216, y: 1900, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -1700, y: 768, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -2240, y: 700, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -3200, y: 400, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5000, y: 128, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -6000, y: 128, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -6400, y: 128, z: 0}}
+  - {play_lua: {source: local before = gold(); loot_chest(3); if gold() <= before then error('the nook chest gave no gold') end}}
+  - {play_lua: {source: close(); click(29); wait(0.6)}}
+  - {advance_runtime: {present_dialogs: true, seconds: 0.5}}
+  - {assert: {dialog: {active: true, text_contains: Its light is out.}}}
+  - {play_lua: {source: close()}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5632, y: 600, z: 0}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5632, y: 2700, z: 0}}
+  - {play_lua: {source: 'open_door(14, 13)'}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5632, y: 3500, z: 0}}
+  - {clear_hostiles: {radius: 4000}}
+  - {walk_to: {clear_hostiles: 2500, close_dialogs: true, radius: 64, timeout_seconds: 40, x: -5400, y: 4900, z: 0}}
+  - {play_lua: {source: local before = gold(); loot_chest(2); if gold() <= before then error('the assembly chest gave no gold') end}}
+  # Back: up by the lift, the sealed passage, the lever hall, round the C and the first hall to the stair's top.
+  - walk_to: {x: -5632, y: 3500, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -5632, y: 2700, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -5632, y: 600, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -4608, y: 400, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -4608, y: 2000, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -4600, y: 3840, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -3456, y: 3200, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2816, y: 4300, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 5)"}
+  - walk_to: {x: -2816, y: 7168, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -7168, y: 7168, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -7168, y: -512, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 4)"}
+  - walk_to: {x: -3600, y: -512, z: 0, radius: 96, timeout_seconds: 90, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2300, y: -512, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 2)"}
+  - walk_to: {x: -1400, y: -512, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -560, y: 0, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 600, y: 0, z: 0, radius: 64, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1340, y: 0, z: 640, radius: 64, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
+  # The stair's top (event 15, "Exit Alamar Depths"): the leave window, OK; D6 at entrance:fd01_stair.
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: OK}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: -6656, y: 4608, radius: 160}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  - assert: {qbit_set: [111662, 111780, 111781, 117840, 117841, 117842, 117844, 117845]}
+  - assert: {award_acquired: [{id: 416, member_index: 0}, {id: 416, member_index: 3}]}
+  - assert: {autonote: {id: 4138, present: true}}
+  - play_lua:
+      source: |
+        if not has_item(12372) then error("no Amulet of the Southern Sphinx (12372) at the end") end
+        if not has_item(12376) then error("no Key to the Dragon Tower (12376) at the end") end
+        if not has_item(12365) then error("no Cube of Power (12365) at the end") end
+        log("95 done (M39 done): " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - save_game: {name: "95 Prince Roland", path: output/playthrough/xeen/checkpoints/95_prince_roland.oysav}

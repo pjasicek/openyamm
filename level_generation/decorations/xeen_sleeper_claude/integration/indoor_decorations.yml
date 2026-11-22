@@ -1,0 +1,27 @@
+# Fragment for assets_dev/worlds/xeen/models/indoor_decorations.yml (lane S merges; do not mount this file).
+# D-58 C7 the Sleeper on his couch, one per elemental plane (level_generation/decorations/xeen_sleeper_claude):
+# MM6's Titan (skin ttn_b, eyes closed) asleep on his back, hands folded on his belly, on an Ancient-steel couch
+# 644 x 324 (deck 76, headrest platform 90, corner posts 92) with glow windows of the element's XD-19 core on all four
+# sides; 206.4 high overall. Origin at the couch's bottom centre (z 0 = the floor it stands on). The couch's open long
+# side is its front: with yaw_offset, `facing` is the direction that front looks. The head lies at facing - 90 deg,
+# on the LEFT as seen by someone standing in front of it (facing 90 = front north: head east, feet west).
+  - name: xeen_sleeper_fire
+    model: worlds/xeen/models/xeen_deco_sleeper_fire.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_air
+    model: worlds/xeen/models/xeen_deco_sleeper_air.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_earth
+    model: worlds/xeen/models/xeen_deco_sleeper_earth.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327
+  - name: xeen_sleeper_water
+    model: worlds/xeen/models/xeen_deco_sleeper_water.glb
+    height: 206.4
+    yaw: facing
+    yaw_offset: -1.570796327

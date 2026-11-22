@@ -456,10 +456,11 @@ entrances:
     neighbour: exit:x1_hills
     facing: n
     how: "Inside the skull-hung mouth, facing in; daylight behind."
-  - id: entrance:x7_back_gate
+  - id: entrance:x7_gate
     space: room:back_gate
     kind: both
-    neighbour: exit:x7_slopes
+    neighbour: exit:x7_gate
+    facing: s
     how: "The barred door in the guardroom's north wall; lifting the bar opens it to X7."
     condition: {qbit: orc_back_gate_open}
 critical_path: [room:cave_mouth, room:palisade_cave, room:palisade_yard, zone:firing_step, room:palisade_yard, room:twisting_run, room:cookfire_cave, room:shaman_den, room:cookfire_cave, room:drum_hall, zone:drum_scaffold]

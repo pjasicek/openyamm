@@ -1,0 +1,538 @@
+format: 0
+themes:
+  - id: theme:castle
+    wall: {texture: d1wcntr, size: [128, 256]}
+    floor: {texture: d2flor5, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1smbw, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: "The keep's halls and rooms (Castle Alamos): grey-green block stone, purple flags, beamed ceilings."
+  - id: theme:cave
+    wall: {texture: d2ceil3, size: [256, 256]}
+    floor: {texture: d2flor1, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2ceil3, size: [256, 256]}
+    door: {texture: d2lgdor, size: [256, 256], fit: true}
+    notes: "The werewolves' den and the bone pit, dug out of the crag's rock."
+  - id: theme:dungeon
+    wall: {texture: d2wlcctr, size: [256, 256]}
+    floor: {texture: d2flor1, size: [256, 256]}
+    ceiling: {texture: d2ceil3, size: [256, 256]}
+    reveal: {texture: d2wlcctr, size: [256, 256]}
+    door: {texture: d2lgdor, size: [256, 256], fit: true}
+    notes: "The dungeon cut into the crag: dark block stone under rough rock."
+  - id: theme:sky
+    wall: {texture: ctwl5, size: [256, 256]}
+    floor: {texture: d2flor5, size: [128, 128]}
+    ceiling: {texture: d1ceil1, size: [256, 256], sky: true}
+    reveal: {texture: ctwl5, size: [256, 256]}
+    door: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: "The walks and the moon tower under X6's sky: the sun-bleached outer block, the ceiling is sky."
+  - id: theme:tower
+    wall: {texture: d1smbw, size: [128, 128]}
+    floor: {texture: d2flor1, size: [256, 256]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1smbw, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256], fit: true}
+    notes: "The towers, their stairs and landings, the kennels: the small block, worn flags, plank ceilings."
+  - id: theme:wing
+    wall: {texture: d1wcntr, size: [128, 256]}
+    floor: {texture: d2flor1, size: [256, 256]}
+    ceiling: {texture: d1ceil1, size: [256, 256]}
+    reveal: {texture: d1smbw, size: [128, 128]}
+    door: {texture: ctdor4, size: [128, 256], fit: true}
+    notes: "The cult's wing and the keep's top: block stone, worn flags, plank ceilings."
+defaults: {theme: theme:castle, ambient: 16}
+rooms:
+  - id: room:battlements
+    name: Battlement walk
+    outline: [[-1408, -2304], [1408, -2304], [1408, -1792], [-1408, -1792]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:sky
+    ambient: 30
+    notes: "The walk over the gate between the two towers, open to X6's sky; werewolves on watch."
+  - id: room:bone_pit
+    name: Bone pit
+    outline: [[7040, 512], [7808, 512], [7808, 1280], [7040, 1280]]
+    floor: -512
+    ceiling: -128
+    theme: theme:cave
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:pit_ledge_1, offset: 240, length: 96, bottom: 96, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Death pinned to the rack (clicked: A3's q-c8.scroll_death)."}
+          - {id: panel:pit_ledge_2, offset: 432, length: 96, bottom: 96, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Insanity pinned to the rack (clicked: A3's q-c8.scroll_insanity)."}
+    ambient: 10
+    notes: "A dead end off the den where the cult throws what the kennels leave: a box under the bones (the chest), two scrolls on a ledge (Death, Insanity)."
+  - id: room:cell
+    name: The peasant's cell
+    outline: [[3456, -640], [4096, -640], [4096, 0], [3456, 0]]
+    floor: -512
+    ceiling: -128
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:chain_post, rise: 160, surface: {texture: bemv, size: [32, 256]}, outline: [[3744, -640], [3808, -640], [3808, -592], [3744, -592]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: "The post the Trapped Peasant's chain is fixed to (clicked once the bars are up: freed)."}
+    ambient: 10
+    notes: "A cell behind iron bars: the Trapped Peasant chained to a post (peaceful). The jailers' lever raises the bars."
+  - id: room:cells
+    name: Cell row
+    outline: [[3328, 128], [5504, 128], [5504, 640], [3328, 640]]
+    floor: -512
+    ceiling: -128
+    theme: theme:dungeon
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:shut_n1, offset: 1824, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+          - {id: panel:shut_n2, offset: 1440, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+          - {id: panel:shut_n3, offset: 1056, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+      - wall: south
+        panels:
+          - {id: panel:shut_s1, offset: 1056, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+          - {id: panel:shut_s2, offset: 1440, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+          - {id: panel:shut_s3, offset: 1824, length: 192, bottom: 0, height: 256, surface: {texture: d2lgdor, size: [256, 256], fit: true}, notes: "A shut, empty cell's iron door."}
+    ambient: 10
+    notes: "A passage of barred cells, 2,176 long: the empty ones behind their bars, the one that is shut (the peasant's) on the south side at the west end."
+  - id: room:den
+    name: Werewolf den
+    outline: [[5632, -384], [6912, -384], [6912, 1664], [5632, 1664]]
+    floor: -512
+    rough: {step: 224, depth: 48}
+    ceiling: -96
+    theme: theme:cave
+    platforms:
+      - {id: platform:bed_d1, rise: 24, surface: {texture: d2ceil3, size: [256, 256]}, outline: [[6528, 1408], [6784, 1408], [6784, 1600], [6528, 1600]], top_surface: {texture: straw, size: [256, 256]}, notes: "A straw bed against the den's north wall (clicked: 'Werewolf Bed', a find once)."}
+      - {id: platform:bed_d2, rise: 24, surface: {texture: d2ceil3, size: [256, 256]}, outline: [[6592, 128], [6848, 128], [6848, 320], [6592, 320]], top_surface: {texture: straw, size: [256, 256]}, notes: "A straw bed in the den's south-east corner (clicked: 'Straw Bed', a find once)."}
+    ambient: 10
+    notes: "A cellar dug out into the crag's rock, 1,280 by 1,664: straw beds and bones, the kennels' overflow; the bone pit east."
+  - id: room:dormitory
+    name: Wizards' dormitory
+    outline: [[-256, -1536], [2048, -1536], [2048, -512], [-256, -512]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:wing
+    platforms:
+      - {id: platform:bunk_1, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[0, -704], [160, -704], [160, -576], [0, -576]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+      - {id: platform:bunk_2, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[320, -704], [480, -704], [480, -576], [320, -576]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+      - {id: platform:bunk_3, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[640, -704], [800, -704], [800, -576], [640, -576]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+      - {id: platform:bunk_4, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[0, -1472], [160, -1472], [160, -1344], [0, -1344]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+      - {id: platform:bunk_5, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[320, -1472], [480, -1472], [480, -1344], [320, -1344]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+      - {id: platform:bunk_6, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[640, -1472], [800, -1472], [800, -1344], [640, -1344]], top_surface: {texture: straw, size: [256, 256]}, notes: A wizard's cot.}
+    ambient: 16
+    notes: "Cots and robes, the chest of the wizards' pay; the bar on the door to the east landing (lifted from here: the loop back) and the keep stair north."
+  - id: room:dungeon_stair
+    name: Dungeon stair
+    outline: [[3584, 1024], [4608, 1024], [4608, 1408], [3584, 1408]]
+    floor: 0
+    slope: {to: -512, toward: east, steps: 16, riser: {texture: d2wlcctr, size: [256, 256]}, tread: {texture: d2flor1, size: [256, 256]}}
+    ceiling: 448
+    ceiling_slope: {to: -64, toward: east}
+    theme: theme:dungeon
+    ambient: 12
+    notes: "Sixteen steps of 32 down east from the kennels' far end to the jailers' room; the smell comes up."
+  - id: room:east_foot
+    name: East tower foot
+    outline: [[1536, -384], [2688, -384], [2688, 384], [1536, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    ambient: 16
+    notes: "The foot of the east tower off the kennels: the stair up to the east landing goes south."
+  - id: room:east_landing
+    name: East landing
+    outline: [[1536, -2432], [2688, -2432], [2688, -1664], [1536, -1664]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:tower
+    ambient: 16
+    notes: "The east tower's landing at the stair's head: the battlement door west, the dormitory's heavy door north (barred from the dormitory's side)."
+  - id: room:east_stair
+    name: East tower stair
+    outline: [[2176, -1536], [2560, -1536], [2560, -512], [2176, -512]]
+    floor: 0
+    slope: {to: 640, toward: south, steps: 20, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d2flor1, size: [256, 256]}}
+    ceiling: 448
+    ceiling_slope: {to: 1088, toward: south}
+    theme: theme:tower
+    ambient: 14
+    notes: "Twenty steps of 32 up south to the east landing (L2): the second way up."
+  - id: room:gatehouse
+    name: Gatehouse
+    outline: [[-640, -1536], [640, -1536], [640, -512], [-640, -512]]
+    floor: 0
+    ceiling: 512
+    theme: theme:castle
+    platforms:
+      - {id: platform:bench, rise: 48, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-640, -1280], [-544, -1280], [-544, -896], [-640, -896]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: The guards' bench along the west wall.}
+    ambient: 18
+    notes: "Inside the gate, 1,280 by 1,024: the arrival (entrance:x6_gate), quiet; the great hall's double doors north with a sconce either side, a guard bench west."
+  - id: room:great_hall
+    name: Great hall
+    outline: [[-1408, -384], [1408, -384], [1408, 1152], [-1408, 1152]]
+    floor: 0
+    ceiling: 960
+    theme: theme:castle
+    bands:
+      - {height: 64, surface: {texture: d1smbw, size: [128, 128]}}
+    pillars:
+      - {at: [-640, 128], size: [128, 128], surface: {texture: d1smbw, size: [128, 128]}}
+      - {at: [-640, 640], size: [128, 128], surface: {texture: d1smbw, size: [128, 128]}}
+      - {at: [640, 128], size: [128, 128], surface: {texture: d1smbw, size: [128, 128]}}
+      - {at: [640, 640], size: [128, 128], surface: {texture: d1smbw, size: [128, 128]}}
+    platforms:
+      - {id: platform:hearth, rise: 32, surface: {texture: d1smbw, size: [128, 128]}, outline: [[-320, 1040], [320, 1040], [320, 1152], [-320, 1152]], top_surface: {texture: d2flor5, size: [128, 128]}, notes: "The hearth against the north wall; werewolves lie by its fire like dogs."}
+      - {id: platform:table_w, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1344, -128], [-1184, -128], [-1184, 896], [-1344, 896]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
+      - {id: platform:table_e, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[1184, -128], [1344, -128], [1344, 896], [1184, 896]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
+    ambient: 18
+    notes: "The cult's hall, 2,816 by 1,536 under a beamed ceiling 960 up: four timber posts, long tables against the walls, a hearth north, iron chandeliers; the west tower's arch and the scriptorium's door west, the kennels' door east."
+  - id: room:guard_room
+    name: Jailers' room
+    outline: [[4736, 768], [5504, 768], [5504, 1664], [4736, 1664]]
+    floor: -512
+    ceiling: -96
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:jail_table, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[4864, 1408], [5120, 1408], [5120, 1568], [4864, 1568]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: The jailers' table.}
+    ambient: 12
+    notes: "The foot of the dungeon stair: a table, the cell lever on the north wall; the den opens east, the cell row's iron door south."
+  - id: room:keep_landing
+    name: Keep landing
+    outline: [[1280, 768], [2176, 768], [2176, 1536], [1280, 1536]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:wing
+    ambient: 16
+    notes: "The top of the keep stair: the study's door west, the moon tower east."
+  - id: room:keep_stair
+    name: Keep stair
+    outline: [[1536, -384], [1920, -384], [1920, 640], [1536, 640]]
+    floor: 640
+    slope: {to: 1280, toward: north, steps: 20, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d2flor1, size: [256, 256]}}
+    ceiling: 1088
+    ceiling_slope: {to: 1728, toward: north}
+    theme: theme:tower
+    ambient: 14
+    notes: Twenty steps of 32 up north from the dormitory to the keep's top (L3).
+  - id: room:kennels
+    name: The kennels
+    outline: [[1536, 512], [3456, 512], [3456, 2048], [1536, 2048]]
+    floor: 0
+    ceiling: 544
+    theme: theme:tower
+    platforms:
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[2104, 1664], [2120, 1664], [2120, 2048], [2104, 2048]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's partition of iron bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[2680, 1664], [2696, 1664], [2696, 2048], [2680, 2048]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's partition of iron bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[3256, 1664], [3272, 1664], [3272, 2048], [3256, 2048]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's partition of iron bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[1536, 1648], [1728, 1648], [1728, 1664], [1536, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's front bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[1920, 1648], [2104, 1648], [2104, 1664], [1920, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: "A pen's front bars; its gate stands open."}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[2120, 1648], [2304, 1648], [2304, 1664], [2120, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's front bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[2496, 1648], [2680, 1648], [2680, 1664], [2496, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: "A pen's front bars; its gate stands open."}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[2696, 1648], [2880, 1648], [2880, 1664], [2696, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: A pen's front bars.}
+      - {rise: 256, surface: {texture: xwcage, size: [128, 256]}, outline: [[3072, 1648], [3256, 1648], [3256, 1664], [3072, 1664]], top_surface: {texture: d1smbw, size: [128, 128]}, notes: "A pen's front bars; its gate stands open."}
+      - {id: platform:bed_k1, rise: 24, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[1696, 1856], [1952, 1856], [1952, 2016], [1696, 2016]], top_surface: {texture: straw, size: [256, 256]}, notes: "A werewolf's straw bed in its pen (clicked: 'Werewolf Bed', a find once)."}
+      - {id: platform:bed_k2, rise: 24, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[2272, 1856], [2528, 1856], [2528, 2016], [2272, 2016]], top_surface: {texture: straw, size: [256, 256]}, notes: "A werewolf's straw bed in its pen (clicked: 'Werewolf Bed', a find once)."}
+      - {id: platform:bed_k3, rise: 24, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[2848, 1856], [3104, 1856], [3104, 2016], [2848, 2016]], top_surface: {texture: straw, size: [256, 256]}, notes: "A werewolf's straw bed in its pen (clicked: 'Werewolf Bed', a find once)."}
+    levels:
+      - id: level:pit
+        outline: [[2304, 1216], [2816, 1216], [2816, 1472], [2304, 1472]]
+        floor: -64
+        bank: 96
+        edge: {texture: d2flor1, size: [256, 256]}
+        surface: {texture: straw, size: [256, 256]}
+        notes: "The sunken feeding pit, its floor in soiled straw."
+    ambient: 14
+    notes: "The set piece, 1,920 by 1,536: three iron pens with open gates along the north wall, a straw bed in each, round a sunken feeding pit; bones and bowls. The hall's door west, the east tower's arch south, the dungeon stair east."
+  - id: room:moon_tower
+    name: Moon tower
+    outline: [[2304, 640], [3200, 640], [3200, 1664], [2304, 1664]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:sky
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:moon_rack_1, offset: 24, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Energy pinned to the rack (clicked: A3's q-c8.scroll_energy)."}
+          - {id: panel:moon_rack_2, offset: 200, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Magic pinned to the rack (clicked: A3's q-c8.scroll_faded)."}
+          - {id: panel:moon_rack_3, offset: 376, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Depression pinned to the rack (clicked: A3's q-c8.scroll_depression)."}
+          - {id: panel:moon_rack_4, offset: 552, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Confusion pinned to the rack (clicked: A3's q-c8.scroll_confusion)."}
+          - {id: panel:moon_rack_5, offset: 728, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Death pinned to the rack (clicked: A3's q-c8.scroll_death)."}
+          - {id: panel:moon_rack_6, offset: 904, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Insanity pinned to the rack (clicked: A3's q-c8.scroll_insanity)."}
+    ambient: 30
+    notes: "The tower top where the cult calls the moon, open to the sky: the rack of six scrolls on the east wall, a brazier on the floor by the south parapet."
+  - id: room:roof_walk
+    name: Roof walk
+    outline: [[512, 1792], [2816, 1792], [2816, 2176], [512, 2176]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:sky
+    ambient: 30
+    notes: A walk on the keep's leads under open sky from the study's back door to the moon tower.
+  - id: room:scriptorium
+    name: Lower scriptorium
+    outline: [[-2944, 512], [-1536, 512], [-1536, 1536], [-2944, 1536]]
+    floor: 0
+    ceiling: 512
+    theme: theme:castle
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:script_rack_1, offset: 904, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Fire pinned to the rack (clicked: A3's q-c8.scroll_fire)."}
+          - {id: panel:script_rack_2, offset: 728, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Electricity pinned to the rack (clicked: A3's q-c8.scroll_electricity)."}
+          - {id: panel:script_rack_3, offset: 552, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Depression pinned to the rack (clicked: A3's q-c8.scroll_depression)."}
+          - {id: panel:script_rack_4, offset: 376, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Confusion pinned to the rack (clicked: A3's q-c8.scroll_confusion)."}
+          - {id: panel:script_rack_5, offset: 200, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Insanity pinned to the rack (clicked: A3's q-c8.scroll_insanity)."}
+          - {id: panel:script_rack_6, offset: 24, length: 96, bottom: 112, height: 128, surface: {texture: scroll, size: [64, 64], fit: true}, notes: "Scroll of Weakness pinned to the rack (clicked: A3's q-c8.scroll_weakness)."}
+    platforms:
+      - {id: platform:desk_1, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-2880, 1376], [-2624, 1376], [-2624, 1472], [-2880, 1472]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A copying desk.}
+      - {id: platform:desk_2, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1888, 1376], [-1632, 1376], [-1632, 1472], [-1888, 1472]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A copying desk.}
+      - {id: platform:desk_3, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-2496, 576], [-2240, 576], [-2240, 672], [-2496, 672]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A copying desk.}
+      - {id: platform:desk_4, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-2112, 576], [-1856, 576], [-1856, 672], [-2112, 672]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A copying desk.}
+    ambient: 16
+    notes: "Copying desks along the walls and the rack of six scrolls on the west wall (names on hover): Fire, Electricity, Depression, Confusion, Insanity, Weakness."
+  - id: room:scroll_hall
+    name: Hall of scrolls
+    outline: [[-2048, -1536], [-384, -1536], [-384, -512], [-2048, -512]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:wing
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:books_w, offset: 128, length: 768, bottom: 0, height: 384, surface: {texture: bookcas1, size: [256, 256]}}
+    platforms:
+      - {id: platform:lectern_intellect, rise: 104, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1920, -768], [-1824, -768], [-1824, -672], [-1920, -672]], top_surface: {texture: scroll, size: [64, 64], scale: 1.5}, notes: "A lectern with the Scroll of Intellect (clicked: A3's q-c8.scroll_intellect)."}
+      - {id: platform:lectern_personality, rise: 104, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1632, -768], [-1536, -768], [-1536, -672], [-1632, -672]], top_surface: {texture: scroll, size: [64, 64], scale: 1.5}, notes: "A lectern with the Scroll of Personality (clicked: A3's q-c8.scroll_personality)."}
+      - {id: platform:lectern_speed, rise: 104, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1344, -768], [-1248, -768], [-1248, -672], [-1344, -672]], top_surface: {texture: scroll, size: [64, 64], scale: 1.5}, notes: "A lectern with the Scroll of Speed (clicked: A3's q-c8.scroll_speed)."}
+      - {id: platform:lectern_magic, rise: 104, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1056, -768], [-960, -768], [-960, -672], [-1056, -672]], top_surface: {texture: scroll, size: [64, 64], scale: 1.5}, notes: "A lectern with the Scroll of Magic (clicked: A3's q-c8.scroll_magic)."}
+      - {id: platform:lectern_aging, rise: 104, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-768, -768], [-672, -768], [-672, -672], [-768, -672]], top_surface: {texture: scroll, size: [64, 64], scale: 1.5}, notes: "A lectern with the Scroll of Aging (clicked: A3's q-c8.scroll_aging)."}
+    ambient: 16
+    notes: "Behind the password door: five lecterns along the north wall with their scrolls (names on hover): Intellect, Personality, Speed, Magic, Aging; shelves on the west wall. The dormitory opens east."
+  - id: room:stores
+    name: Kitchen and stores
+    outline: [[-2944, 1664], [-1536, 1664], [-1536, 2688], [-2944, 2688]]
+    floor: 0
+    store: true
+    ceiling: 448
+    theme: theme:tower
+    platforms:
+      - {id: platform:kitchen_table, rise: 72, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-2368, 1984], [-2112, 1984], [-2112, 2112], [-2368, 2112]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: The kitchen table.}
+    ambient: 14
+    notes: "A dead end: the cult's kitchen and stores, barrels and sacks in the corners (a storeroom), meat for the kennels; the steward's strongbox."
+  - id: room:study
+    name: Cult Leader's study
+    outline: [[-128, 768], [1152, 768], [1152, 1664], [-128, 1664]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:wing
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:books_s1, offset: 448, length: 384, bottom: 0, height: 384, surface: {texture: bookcas1, size: [256, 256]}}
+          - {id: panel:books_s2, offset: 64, length: 384, bottom: 0, height: 384, surface: {texture: bookcas2, size: [256, 256]}}
+    platforms:
+      - {id: platform:desk, rise: 80, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[256, 1088], [512, 1088], [512, 1216], [256, 1216]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: "The Cult Leader's desk; his writing box on it holds the Scroll of Insight (chest:desk, D-90)."}
+      - {id: platform:study_hearth, rise: 32, surface: {texture: d1smbw, size: [128, 128]}, outline: [[320, 1600], [704, 1600], [704, 1664], [320, 1664]], top_surface: {texture: d2flor5, size: [128, 128]}, notes: The study's hearth.}
+    ambient: 16
+    notes: "Books, a hearth, the Cult Leader and his two sorcerers; the Scroll of Insight on the desk, his chest beside it; a second door north to the roof walk."
+  - id: room:west_foot
+    name: West tower foot
+    outline: [[-2688, -384], [-1536, -384], [-1536, 384], [-2688, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    ambient: 16
+    notes: "The foot of the west tower behind its arch off the great hall: the stair up to the west landing goes south."
+  - id: room:west_landing
+    name: West landing
+    outline: [[-2688, -2432], [-1536, -2432], [-1536, -1664], [-2688, -1664]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:tower
+    ambient: 16
+    notes: "The west tower's landing at the stair's head: the battlement door east and, north, the cult's stone door with a grille that asks 'STOP!  What is the password?'"
+  - id: room:west_stair
+    name: West tower stair
+    outline: [[-2560, -1536], [-2176, -1536], [-2176, -512], [-2560, -512]]
+    floor: 0
+    slope: {to: 640, toward: south, steps: 20, riser: {texture: d1smbw, size: [128, 128]}, tread: {texture: d2flor1, size: [256, 256]}}
+    ceiling: 448
+    ceiling_slope: {to: 1088, toward: south}
+    theme: theme:tower
+    ambient: 14
+    notes: Twenty steps of 32 up south to the west landing (L2).
+openings:
+  - id: open:battle_east
+    from: room:battlements
+    to: room:east_landing
+    link: link:battle_east
+    width: 224
+    height: 320
+  - id: open:cells_cell
+    from: room:cells
+    to: room:cell
+    link: link:cells_cell
+    width: 256
+    height: 256
+    notes: The bars of the peasant's cell (the jailers' lever raises them).
+  - id: open:cells_den
+    from: room:cells
+    to: room:den
+    link: link:den_cells
+    width: 320
+    height: 352
+  - id: open:den_bones
+    from: room:den
+    to: room:bone_pit
+    link: link:den_bones
+    width: 320
+    height: 352
+  - id: open:dorm_east
+    from: room:dormitory
+    to: room:east_landing
+    link: link:dorm_east
+    width: 224
+    height: 320
+    notes: "The dormitory's heavy door, barred on the dormitory's side."
+  - id: open:dorm_keep
+    from: room:dormitory
+    to: room:keep_stair
+    link: link:dorm_keep
+    width: 320
+    height: 384
+  - id: open:dstair_guard
+    from: room:dungeon_stair
+    to: room:guard_room
+    link: link:dstair_down
+    width: 320
+    height: 384
+  - id: open:eastfoot_stair
+    from: room:east_foot
+    to: room:east_stair
+    width: 320
+    height: 384
+  - id: open:eaststair_landing
+    from: room:east_stair
+    to: room:east_landing
+    link: link:easttower_up
+    width: 320
+    height: 384
+  - id: open:gate_hall
+    from: room:gatehouse
+    to: room:great_hall
+    link: link:gate_hall
+    width: 320
+    height: 384
+    notes: "The great hall's double doors (cddl/cddr, the wolf-headed wings)."
+  - id: open:guard_cells
+    from: room:guard_room
+    to: room:cells
+    link: link:cells_guard
+    width: 256
+    height: 288
+    notes: The cell row's iron door.
+  - id: open:guard_den
+    from: room:guard_room
+    to: room:den
+    link: link:guard_den
+    width: 384
+    height: 352
+  - id: open:hall_kennels
+    from: room:great_hall
+    to: room:kennels
+    link: link:hall_kennels
+    width: 224
+    height: 320
+  - id: open:hall_script
+    from: room:great_hall
+    to: room:scriptorium
+    link: link:hall_script
+    width: 224
+    height: 320
+  - id: open:hall_westfoot
+    from: room:great_hall
+    to: room:west_foot
+    link: link:hall_westtower
+    width: 320
+    height: 384
+    notes: The west tower's arch.
+  - id: open:keep_up
+    from: room:keep_stair
+    to: room:keep_landing
+    link: link:keep_up
+    width: 320
+    height: 384
+  - id: open:kennels_dstair
+    from: room:kennels
+    to: room:dungeon_stair
+    link: link:kennels_dstair
+    width: 320
+    height: 384
+  - id: open:kennels_eastfoot
+    from: room:kennels
+    to: room:east_foot
+    link: link:kennels_easttower
+    width: 320
+    height: 384
+    notes: The east tower's arch.
+  - id: open:landing_study
+    from: room:keep_landing
+    to: room:study
+    link: link:landing_study
+    width: 224
+    height: 320
+  - id: open:moon_landing
+    from: room:moon_tower
+    to: room:keep_landing
+    link: link:moon_landing
+    width: 384
+    height: 416
+  - id: open:password
+    from: room:west_landing
+    to: room:scroll_hall
+    link: link:password_door
+    width: 192
+    height: 320
+    notes: "The cult's stone door with a grille (d8dorb): it asks for the password."
+  - id: open:roof_moon
+    from: room:roof_walk
+    to: room:moon_tower
+    link: link:roof_moon
+    width: 320
+    height: 384
+  - id: open:script_stores
+    from: room:scriptorium
+    to: room:stores
+    link: link:script_stores
+    width: 224
+    height: 320
+  - id: open:scroll_dorm
+    from: room:scroll_hall
+    to: room:dormitory
+    link: link:scroll_dorm
+    width: 512
+    height: 416
+  - id: open:study_roof
+    from: room:study
+    to: room:roof_walk
+    link: link:study_roof
+    width: 224
+    height: 320
+  - id: open:west_battle
+    from: room:west_landing
+    to: room:battlements
+    link: link:west_battle
+    width: 224
+    height: 320
+  - id: open:westfoot_stair
+    from: room:west_foot
+    to: room:west_stair
+    width: 320
+    height: 384
+  - id: open:weststair_landing
+    from: room:west_stair
+    to: room:west_landing
+    link: link:westtower_up
+    width: 320
+    height: 384
+notes: "XD-14 Castle Basenji: the dungeon at -512, L1 at 0, L2 at 640, L3 at 1280; x east, y north, the gate south. Written by output/studio_cal/xd14/tools/gen.py."

@@ -1,0 +1,199 @@
+# The gong hall (D-43, D-57 FD-04; written by output/studio_cal/fd04/tools/gen_tests.py): lamps light as the
+# gongs are rung; the chest before the shutter silences them (A3's 'The gongs fall silent.', lamps out); four
+# gongs and the lever raise the shutter (118144); the machine broken (118145); a reload keeps it all.
+id: xeen.fd04.l4.gongs
+title: 'Dragon Tower (FD-04 L4): the gongs, their lamps and the reset, the lever and shutter, the Lord Xeen Machine'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- console:
+    line: tp 0 9100 -2560
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- clear_hostiles:
+    radius: 6000
+- play_lua:
+    source: if door_state(9) ~= 'closed' then error('the shutter does not start shut') end
+- play_lua:
+    source: 'click(58); wait(0.5); log(''gong 1: '' .. tostring(status())); click(60); wait(0.5)'
+- assert:
+    light:
+      key: 6
+      'on': true
+- assert:
+    light:
+      key: 7
+      'on': true
+- play_lua:
+    source: click(68); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: The lever won't budge.
+- play_lua:
+    source: close(); wait(0.5); if door_state(9) ~= 'closed' then error('shutter moved') end
+- play_lua:
+    source: 'click(16); wait(0.5); close(); wait(2.5); local s = tostring(status()); log(''chest: '' .. s); if not string.find(s,
+      ''The gongs fall silent'', 1, true) then error(''no reset line: '' .. s) end'
+- assert:
+    light:
+      key: 6
+      'on': false
+- assert:
+    light:
+      key: 7
+      'on': false
+- play_lua:
+    source: click(58); wait(0.5)
+- play_lua:
+    source: click(60); wait(0.5)
+- play_lua:
+    source: click(62); wait(0.5)
+- play_lua:
+    source: click(64); wait(0.5)
+- assert:
+    light:
+      key: 6
+      'on': true
+- assert:
+    light:
+      key: 7
+      'on': true
+- assert:
+    light:
+      key: 8
+      'on': true
+- assert:
+    light:
+      key: 9
+      'on': true
+- play_lua:
+    source: 'click(68); wait(7); log(''lever: '' .. tostring(status())); if not qbit(118144) then error(''shutter_up 118144
+      not set'') end; if door_state(9) ~= ''open'' then error(''shutter not up: '' .. door_state(9)) end'
+- play_lua:
+    source: click(16); wait(0.5); close(); wait(2.5); local s = tostring(status()); if string.find(s, 'fall silent', 1, true)
+      then error('reset after the shutter') end
+- assert:
+    light:
+      key: 6
+      'on': true
+- walk_to:
+    x: 0
+    y: 9800
+    z: -2560
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 10432
+    z: -2560
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 11000
+    z: -2560
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -300
+    y: 11500
+    z: -2560
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- clear_hostiles:
+    radius: 6000
+- play_lua:
+    source: click(69); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 2.0
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Lord Xeen Machine
+- play_lua:
+    source: close(); wait(1); close(); if not qbit(118145) then error('machine_broken 118145 not set') end; if not qbit(114041)
+      then error('Q-F2 done 114041 not set') end
+- assert:
+    light:
+      key: 3
+      'on': false
+- assert:
+    light:
+      key: 1
+      'on': false
+- play_lua:
+    source: click(96); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Fire Core Offline
+- play_lua:
+    source: close(); wait(1); close()
+- reload: {}
+- play_lua:
+    source: wait(6); close(); if door_state(9) ~= 'open' then error('shutter after reload') end
+- assert:
+    light:
+      key: 6
+      'on': true
+- assert:
+    light:
+      key: 9
+      'on': true
+- assert:
+    light:
+      key: 4
+      'on': false

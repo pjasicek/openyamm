@@ -1,0 +1,41 @@
+# The Gargoyle Eyrie's two ways out to X4 (Burlock Savannah, installed 2026-11-20): the cave mouth (evt:mouth, 8) to
+# the Gargoyle Range in front of X4's door:xd26, and the one-way sky crack (evt:sky_crack, 12) to A5's ledge platform on
+# the peak above. Leaving a BLV for an ODM asks for confirmation (OK). Arrival heights measured 2026-11-20 by dropping the
+# party on X4: the ground in front of the mouth is 2,330 (arrival 2,340), the ledge platform's top 3,593 (arrival 3,600).
+id: xeen.xd26.l4.exit
+title: Gargoyle Eyrie (XD-26 L4), out by the cave mouth and by the sky crack to X4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd26.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd26.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  # The cave mouth, both ways: out to the Gargoyle Range.
+  - walk_to: {x: 1344, y: -1060, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -9216, y: 10752, radius: 150, z_min: 1770, z_max: 1880, facing: 1536, facing_within: 40}}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: -9216, y: 10752, radius: 200, z_min: 1770, z_max: 1880}}
+  # The sky crack, one way: out on to the ledge platform high on the peak.
+  - set_pose: {map: xeen_xd26.blv, x: 2550, y: 3200, z: 2048, yaw_degrees: 0, pitch: 0}
+  - assert: {map: xeen_xd26.blv}
+  - execute_event: {id: 12}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -7424, y: 14592, radius: 150, z_min: 3585, z_max: 3610}}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: -7424, y: 14592, radius: 200, z_min: 3585, z_max: 3610}}

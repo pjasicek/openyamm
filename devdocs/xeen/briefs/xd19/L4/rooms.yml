@@ -1,0 +1,1607 @@
+format: 0
+themes:
+  - id: theme:castle
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: gnecflr, size: [128, 128]}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256]}
+    notes: "Castle Xeen's halls: black stone (MM8 gnecwal1) under a gold frieze (gnecwalt, the top row of every wall), gold-veined flags (gnecflr), a pale vault (gnecclg2); the robed-figure doors (gnecdr2)."
+  - id: theme:sky
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: gtrlflr, size: [128, 128]}
+    ceiling: {texture: gnecclg2, size: [128, 256], sky: true}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256]}
+    notes: "Open to the sky (atmosphere.yml open_sky, X9's xeen_cloud_sea): the wall walks and the aviary."
+  - id: theme:ward
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: gtrlflr, size: [128, 128]}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256]}
+    notes: "Wards, galleries and stairs: the same black stone and frieze over black diamond flags (gtrlflr)."
+  - id: theme:works
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: xahullbn, size: [256, 256]}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256]}
+    notes: "The machine rooms (the foundry, the generator vaults, the barrier hall): the castle's stone over riveted Ancient plate (xahullbn) underfoot."
+defaults: {theme: theme:castle, ambient: 18}
+rooms:
+  - id: room:aisle_e
+    name: "Hall of Xeendom, east aisle"
+    outline: [[1280, -2720], [1920, -2720], [1920, -800], [1280, -800]]
+    floor: 0
+    ceiling: 512
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The east aisle behind the arcade; the east ward opens off it."
+  - id: room:aisle_w
+    name: "Hall of Xeendom, west aisle"
+    outline: [[-1920, -2720], [-1280, -2720], [-1280, -800], [-1920, -800]]
+    floor: 0
+    ceiling: 512
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The west aisle behind the arcade; the west ward opens off it."
+  - id: room:apse
+    name: Lord Xeen's dais
+    outline: [[-1280, 3360], [1280, 3360], [1280, 4160], [-1280, 4160]]
+    floor: 1920
+    ceiling: 2816
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+        panels:
+          - {id: panel:mirror, at: centre, length: 512, bottom: 64, height: 448, surface: {texture: xmirror6, size: [256, 256], fit: true}}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 640, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:throne, at: [0, 3872], size: [256, 192], rise: 192, surface: {texture: gnecstpv, size: [64, 128]}, top_surface: {texture: gnecstpf, size: [128, 32]}, notes: "Lord Xeen's throne of black stone; the Scepter of Temporal Distortion across its arms."}
+    levels:
+      - id: level:dais
+        outline: [[-1152, 3616], [1152, 3616], [1152, 4000], [-1152, 4000]]
+        floor: 1984
+        surface: {texture: gnecflr, size: [128, 128]}
+        notes: The black dais (two steps up).
+    flights:
+      - {from: [0, 3520], to: [0, 3616], width: 768, steps: 2, notes: Two broad steps up the dais.}
+    ambient: 14
+    notes: "Lord Xeen's dais: the throne, the Sixth Mirror behind it in its force field, the hoard door in the north wall."
+  - id: room:armoury
+    name: Armoury
+    outline: [[2080, -4160], [3200, -4160], [3200, -2240], [2080, -2240]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "A dead end: weapon racks, the guards' spare gem eyes in a case; the chest."
+  - id: room:aviary_n
+    name: "Xeen's Aviary, roost"
+    outline: [[-1920, -1680], [1920, -1680], [1920, -800], [-1920, -800]]
+    floor: 1920
+    ceiling: 3456
+    theme: theme:sky
+    ambient: 28
+    notes: "The aviary's roost: Xeen's Pet; the second low arch to the throne doors."
+  - id: room:aviary_s
+    name: Xeen's Aviary
+    outline: [[-1920, -2720], [1920, -2720], [1920, -1840], [-1920, -1840]]
+    floor: 1920
+    ceiling: 3456
+    theme: theme:sky
+    ambient: 28
+    notes: "Xeen's Aviary under the open sky: black stone ledges, gnawed bones; the loft's low door."
+  - id: room:barracks
+    name: Guard barracks
+    outline: [[-3200, -4160], [-2080, -4160], [-2080, -2240], [-3200, -2240]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "A dead end: racks where finished guards stand powered down; the chest."
+  - id: room:barrier
+    name: Barrier hall
+    outline: [[-1120, -2720], [1120, -2720], [1120, -800], [-1120, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:pylon_fire, at: [-896, -2320], size: [128, 128], rise: 448, surface: {texture: xaenergy, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The fire pylon: its conduit runs to the south-west tower (dark when its generator falls)."}
+      - {id: platform:pylon_air, at: [896, -2320], size: [128, 128], rise: 448, surface: {texture: xaenergy, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The air pylon: its conduit runs to the south-east tower (dark when its generator falls)."}
+      - {id: platform:pylon_water, at: [-896, -1200], size: [128, 128], rise: 448, surface: {texture: xaenergy, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The water pylon: its conduit runs to the cold vault (dark when its generator falls)."}
+      - {id: platform:pylon_earth, at: [896, -1200], size: [128, 128], rise: 448, surface: {texture: xaenergy, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The earth pylon: its conduit runs to the gravel vault (dark when its generator falls)."}
+    ambient: 18
+    notes: "The barrier hall: four pylons along its south wall feed the field across the crown stair; two Greater Elementals ward it."
+  - id: room:barrier_e
+    name: "Barrier hall, east bay"
+    outline: [[1280, -2720], [1920, -2720], [1920, -800], [1280, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: The barrier hall's east bay behind its arcade.
+  - id: room:barrier_w
+    name: "Barrier hall, west bay"
+    outline: [[-1920, -2720], [-1280, -2720], [-1280, -800], [-1920, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: The barrier hall's west bay behind its arcade.
+  - id: room:bays
+    name: Guard bays
+    outline: [[-1280, 4640], [1280, 4640], [1280, 5280], [-1280, 5280]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 192, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {at: [-640, 5216], size: [448, 96], rise: 256, surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An empty rack where finished guards stood.}
+      - {at: [640, 5216], size: [448, 96], rise: 256, surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An empty rack.}
+      - {id: platform:gems, at: [0, 5216], size: [256, 96], rise: 96, surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: The tray of spare gem eyes.}
+    ambient: 12
+    notes: "Behind the shutters: empty racks and the tray of spare gem eyes."
+  - id: room:crown_landing
+    name: Crown landing
+    outline: [[-1920, -4800], [-800, -4800], [-800, -2880], [-1920, -2880]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The quiet first room past the barrier: the low arch into the aviary, the door to the keeper's walk."
+  - id: room:crown_stair
+    name: Crown stair
+    outline: [[-640, -4800], [640, -4800], [640, -2880], [-640, -2880]]
+    floor: 1280
+    ceiling: 2432
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_crown_stair, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-640, -4800], [640, -4800], [640, -4160], [-640, -4160]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 1920: a gallery 640 deep across the s end."}
+    flights:
+      - {from: [0, -3360], to: [0, -4160], to_height: 1920, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising s."}
+    ambient: 18
+    notes: "Behind the field: twenty steps south up to the crown."
+  - id: room:foundry
+    name: Guard foundry
+    outline: [[-1920, 2880], [1920, 2880], [1920, 4480], [-1920, 4480]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {at: [0, 3360], size: [1600, 192], rise: 64, surface: {texture: xahullbn, size: [256, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The slow line: chrome plates waiting to be stamped."}
+    ambient: 18
+    notes: "The guard foundry's floor: the slow line of chrome plates, the shutters of the guard bays in the north wall; the machine bays west and east through wide arches."
+  - id: room:foundry_e
+    name: "Guard foundry, east machine"
+    outline: [[2080, 2080], [4160, 2080], [4160, 4480], [2080, 4480]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 512, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:machine_e, at: [3952, 3360], size: [320, 704], rise: 512, surface: {texture: swll5dk, size: [128, 256]}, end_surface: {texture: swtrpnl, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "A guard-making machine: Ancient panels round a press that stamps out Xeen's Guards (the destructible: 'Guard Making Machine.  Destroy?', aaze0075:0)."}
+      - {at: [3712, 3552], size: [160, 192], rise: 96, surface: {texture: xahullbn, size: [256, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The machine's output chute: a low plate where the finished guards step off."}
+    ambient: 18
+    notes: "The east machine bay: the second machine, the keep's east door, the keep stair's foot."
+  - id: room:foundry_w
+    name: "Guard foundry, west machine"
+    outline: [[-4160, 2080], [-2080, 2080], [-2080, 4480], [-4160, 4480]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 512, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:machine_w, at: [-3952, 3360], size: [320, 704], rise: 512, surface: {texture: swll5dk, size: [128, 256]}, end_surface: {texture: swtrpnl, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "A guard-making machine: Ancient panels round a press that stamps out Xeen's Guards (the destructible: 'Guard Making Machine.  Destroy?', aaze0075:0)."}
+      - {at: [-3712, 3552], size: [160, 192], rise: 96, surface: {texture: xahullbn, size: [256, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The machine's output chute: a low plate where the finished guards step off."}
+    ambient: 18
+    notes: "The west machine bay: a guard-making machine against the outer wall stamping, its chute, the keep's west door; the parts store's door."
+  - id: room:gallery_e
+    name: East gallery
+    outline: [[3360, -2720], [4160, -2720], [4160, -800], [3360, -800]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: Along the east wall from the south-east tower to the gravel vault.
+  - id: room:gallery_w
+    name: West gallery
+    outline: [[-4160, -2720], [-3360, -2720], [-3360, -800], [-4160, -800]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: Along the west wall from the south-west tower to the cold vault.
+  - id: room:gate
+    name: Gatehall
+    outline: [[-640, -4320], [640, -4320], [640, -2880], [-640, -2880]]
+    floor: 0
+    ceiling: 768
+    theme: theme:castle
+    walls:
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: north
+        surface: {texture: gnecwal1, size: [256, 256]}
+        panels:
+          - {id: panel:sigil, at: centre, length: 112, bottom: 528, height: 224, surface: {texture: xsigilban, size: [128, 256], fit: true}}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 512, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "Behind the gate's two leaves (the way out to X9): the arrival entrance:x9_gate, quiet; the inner arch north into the great hall."
+  - id: room:gen_air
+    name: Air generator
+    outline: [[3360, -4800], [4160, -4800], [4160, -2880], [3360, -2880]]
+    floor: 1280
+    ceiling: 1984
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 448, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:gen_air, at: [3760, -4576], size: [192, 192], rise: 448, surface: {texture: xcoreair, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The Air Generator's core: an Ancient column round the air core (xcoreair; the destructible: its click asks 'Air Generator.  Destroy?')."}
+      - {at: [3536, -4576], size: [128, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "An Ancient housing beside the core: dials, a red lamp."}
+      - {at: [3984, -4576], size: [128, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An Ancient housing beside the core.}
+    ambient: 18
+    notes: "The south-east tower top: the Air Generator, arcs between its coils, two air elementals."
+  - id: room:gen_fire
+    name: Fire generator
+    outline: [[-4160, -4800], [-3360, -4800], [-3360, -2880], [-4160, -2880]]
+    floor: 1280
+    ceiling: 1984
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 448, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:gen_fire, at: [-3760, -4576], size: [192, 192], rise: 448, surface: {texture: xcorefire, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The Fire Generator's core: an Ancient column round the fire core (xcorefire; the destructible: its click asks 'Fire Generator.  Destroy?')."}
+      - {at: [-3984, -4576], size: [128, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "An Ancient housing beside the core: dials, a red lamp."}
+      - {at: [-3536, -4576], size: [128, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An Ancient housing beside the core.}
+    ambient: 18
+    notes: "The south-west tower top: the Fire Generator roaring, two fire elementals."
+  - id: room:grand_landing
+    name: Grand landing
+    outline: [[-1280, 2080], [1280, 2080], [1280, 2720], [-1280, 2720]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The grand stair's top, opening on the foundry floor."
+  - id: room:keep_stair
+    name: Keep stair
+    outline: [[2080, -640], [3200, -640], [3200, 1920], [2080, 1920]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_keep_stair, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[2080, -640], [3200, -640], [3200, 0], [2080, 0]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 1280: a gallery 640 deep across the s end."}
+    flights:
+      - {from: [2640, 800], to: [2640, 0], to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising s."}
+    ambient: 18
+    notes: From the east machine bay the keep stair climbs south to the keep stair top.
+  - id: room:loft
+    name: Keeper's loft
+    outline: [[2080, -2720], [3200, -2720], [3200, -800], [2080, -800]]
+    floor: 1920
+    ceiling: 2496
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 320, surface: {texture: gnecwal1, size: [256, 256]}}
+    levels:
+      - id: level:loft_back
+        outline: [[2752, -2656], [3136, -2656], [3136, -864], [2752, -864]]
+        floor: 2112
+        surface: {texture: gtrlflr, size: [128, 128]}
+        notes: "The keeper's loft proper, up six steps off the aviary's level."
+    flights:
+      - {from: [2496, -1760], to: [2752, -1760], width: 256, steps: 6, notes: Six steps up to the loft.}
+    ambient: 18
+    notes: "Up six steps off the aviary: feed buckets, chains, the keeper's strongbox."
+  - id: room:nave
+    name: Hall of Xeendom
+    outline: [[-1120, -2720], [1120, -2720], [1120, -800], [-1120, -800]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+        panels:
+          - {id: panel:banner_n1, offset: 416, length: 192, bottom: 256, height: 384, surface: {texture: xsigilban, size: [128, 256], fit: true}}
+          - {id: panel:banner_n2, offset: 1632, length: 192, bottom: 256, height: 384, surface: {texture: xsigilban, size: [128, 256], fit: true}}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+        panels:
+          - {id: panel:banner_s1, offset: 416, length: 192, bottom: 256, height: 384, surface: {texture: xsigilban, size: [128, 256], fit: true}}
+          - {id: panel:banner_s2, offset: 1632, length: 192, bottom: 256, height: 384, surface: {texture: xsigilban, size: [128, 256], fit: true}}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    pillars:
+      - {at: [-736, -2080], size: [128, 128], surface: {texture: gnecwal2, size: [128, 256]}}
+      - {at: [-736, -1440], size: [128, 128], surface: {texture: gnecwal2, size: [128, 256]}}
+      - {at: [736, -2080], size: [128, 128], surface: {texture: gnecwal2, size: [128, 256]}}
+      - {at: [736, -1440], size: [128, 128], surface: {texture: gnecwal2, size: [128, 256]}}
+    ambient: 22
+    notes: "The Hall of Xeendom: black pillars under the gold frieze, the arcades to its two aisles, the two-leaf north doors to the stair hall."
+  - id: room:quarters
+    name: Demons' quarters
+    outline: [[3360, -2720], [4160, -2720], [4160, -800], [3360, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:bed_1, at: [4040, -2400], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An iron bed (for a demon).}
+      - {id: platform:bed_2, at: [4040, -1920], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An iron bed (for a demon).}
+      - {id: platform:bed_3, at: [4040, -1440], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: An iron bed (for a demon).}
+    ambient: 18
+    notes: "A dead end with a chest: iron beds, braziers."
+  - id: room:stair_hall
+    name: Stair hall
+    outline: [[-1920, -640], [1920, -640], [1920, 1920], [-1920, 1920]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_stair_hall, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-640, 1280], [640, 1280], [640, 1920], [-640, 1920]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 640: a gallery 640 deep across the n end."}
+    flights:
+      - {from: [0, 480], to: [0, 1280], to_height: 640, width: 512, steps: 20, notes: "Twenty steps of 32 over 800, rising n."}
+    ambient: 20
+    notes: "Behind the great hall's north doors: the grand stair up to the grand landing; doors west and east into the two generator vaults."
+  - id: room:store
+    name: Parts store
+    outline: [[-3200, 800], [-2080, 800], [-2080, 1920], [-3200, 1920]]
+    floor: 640
+    store: true
+    ceiling: 1152
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "A dead end with a chest: crates of plates and gems, a storeroom."
+  - id: room:threshold
+    name: Throne doors
+    outline: [[-1920, -640], [1920, -640], [1920, 160], [-1920, 160]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: The antechamber before the two-leaf throne doors. Quiet.
+  - id: room:throne
+    name: Throne room
+    outline: [[-1920, 320], [1920, 320], [1920, 3200], [-1920, 3200]]
+    floor: 1920
+    ceiling: 2816
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 640, surface: {texture: gnecwal1, size: [256, 256]}}
+    pillars:
+      - {at: [-1280, 1120], size: [128, 128], surface: {texture: gnecwal1, size: [256, 256]}}
+      - {at: [-1280, 2240], size: [128, 128], surface: {texture: gnecwal1, size: [256, 256]}}
+      - {at: [1280, 1120], size: [128, 128], surface: {texture: gnecwal1, size: [256, 256]}}
+      - {at: [1280, 2240], size: [128, 128], surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 14
+    notes: "The throne room: black columns, braziers, the dais at the far end lit; the step plate inside the doors."
+  - id: room:tower0_e
+    name: South-east tower
+    outline: [[3360, -4800], [4160, -4800], [4160, -2880], [3360, -2880]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_tower0_e, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[3360, -3520], [4160, -3520], [4160, -2880], [3360, -2880]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 640: a gallery 640 deep across the n end."}
+    flights:
+      - {from: [3760, -4320], to: [3760, -3520], to_height: 640, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising n."}
+    ambient: 18
+    notes: The south-east tower's first stair.
+  - id: room:tower0_w
+    name: South-west tower
+    outline: [[-4160, -4800], [-3360, -4800], [-3360, -2880], [-4160, -2880]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_tower0_w, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-4160, -3520], [-3360, -3520], [-3360, -2880], [-4160, -2880]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 640: a gallery 640 deep across the n end."}
+    flights:
+      - {from: [-3760, -4320], to: [-3760, -3520], to_height: 640, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising n."}
+    ambient: 18
+    notes: "The south-west tower's first stair: twenty steps north to its gallery, which opens west on the upper stair."
+  - id: room:tower1_e
+    name: "South-east tower, upper stair"
+    outline: [[4320, -4800], [5120, -4800], [5120, -2880], [4320, -2880]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_tower1_e, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[4320, -4800], [5120, -4800], [5120, -4160], [4320, -4160]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 1280: a gallery 640 deep across the s end."}
+    flights:
+      - {from: [4720, -3360], to: [4720, -4160], to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising s."}
+    ambient: 18
+    notes: The south-east tower's upper stair.
+  - id: room:tower1_w
+    name: "South-west tower, upper stair"
+    outline: [[-5120, -4800], [-4320, -4800], [-4320, -2880], [-5120, -2880]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 896, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:head_tower1_w, rise: 32, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-5120, -4800], [-4320, -4800], [-4320, -4160], [-5120, -4160]], top_surface: {texture: gtrlflr, size: [128, 128]}, bottom_surface: {texture: gnecclg2, size: [128, 256]}, base: 608, notes: "The head of the stair at 1280: a gallery 640 deep across the s end."}
+    flights:
+      - {from: [-4720, -3360], to: [-4720, -4160], to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 over 800, rising s."}
+    ambient: 18
+    notes: "The south-west tower's upper stair: from the west wall walk's door south up to the tower top."
+  - id: room:treasury
+    name: Treasury
+    outline: [[-960, 4320], [960, 4320], [960, 5120], [-960, 5120]]
+    floor: 1920
+    ceiling: 2368
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 192, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 12
+    notes: "The hoard, behind the dais (opened by Lord Xeen's death)."
+  - id: room:turret_e
+    name: East turret
+    outline: [[4320, 480], [5120, 480], [5120, 1440], [4320, 1440]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: A roofed turret on the east wall.
+  - id: room:turret_w
+    name: West turret
+    outline: [[-5120, 480], [-4320, 480], [-4320, 1440], [-5120, 1440]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: A roofed turret on the west wall.
+  - id: room:upper_e
+    name: Upper east gallery
+    outline: [[2080, -4160], [3200, -4160], [3200, -800], [2080, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: From the barrier hall to the air tower and the demons' quarters.
+  - id: room:upper_landing
+    name: Keep stair top
+    outline: [[-1920, -640], [1920, -640], [1920, 640], [-1920, 640]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The keep stair arrives here, before the barrier hall."
+  - id: room:upper_w
+    name: Upper west gallery
+    outline: [[-3200, -4160], [-2080, -4160], [-2080, -800], [-3200, -800]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: From the barrier hall to the fire tower and the war room.
+  - id: room:vault_e
+    name: Gravel vault
+    outline: [[2080, -640], [4160, -640], [4160, 1920], [2080, 1920]]
+    floor: 0
+    ceiling: 512
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:gen_earth, at: [3120, 1696], size: [192, 192], rise: 448, surface: {texture: xcoreearth, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The Earth Generator's core: an Ancient column round the earth core (xcoreearth; the destructible: its click asks 'Earth Generator.  Destroy?')."}
+      - {at: [2864, 1696], size: [160, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "An Ancient housing beside the core: dials, a red lamp."}
+      - {at: [3376, 1696], size: [160, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An Ancient housing beside the core.}
+    levels:
+      - id: level:gravel
+        outline: [[2640, 1248], [3600, 1248], [3600, 1488], [2640, 1488]]
+        floor: 16
+        surface: {texture: gtrlrf3, size: [128, 128]}
+        notes: The gravel bed the core grinds.
+    ambient: 18
+    notes: "The gravel vault: the Earth Generator (the source's Poison Generator) over its gravel bed, its two elementals."
+  - id: room:vault_w
+    name: Cold vault
+    outline: [[-4160, -640], [-2080, -640], [-2080, 1920], [-4160, 1920]]
+    floor: 0
+    ceiling: 512
+    theme: theme:works
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:gen_water, at: [-3120, 1696], size: [192, 192], rise: 448, surface: {texture: xcorewater, size: [128, 256], fit: true}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "The Water Generator's core: an Ancient column round the water core (xcorewater; the destructible: its click asks 'Water Generator.  Destroy?')."}
+      - {at: [-3376, 1696], size: [160, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: "An Ancient housing beside the core: dials, a red lamp."}
+      - {at: [-2864, 1696], size: [160, 192], rise: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: xahullbn, size: [256, 256]}, notes: An Ancient housing beside the core.}
+    ambient: 18
+    notes: "The cold vault: the Water Generator (the source's Cold Generator) against the north wall, its two elementals; doors to the west gallery and the stair hall."
+  - id: room:walk_n
+    name: "Keeper's walk, north"
+    outline: [[-3200, -1760], [-2080, -1760], [-2080, 160], [-3200, 160]]
+    floor: 1920
+    ceiling: 2304
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 128, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "The keeper's walk's north stretch, to the throne doors."
+  - id: room:walk_s
+    name: Keeper's walk
+    outline: [[-3200, -4800], [-2080, -4800], [-2080, -1920], [-3200, -1920]]
+    floor: 1920
+    ceiling: 2304
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 128, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: "A low gallery round the aviary's west side: the way round the Pet."
+  - id: room:wall_en
+    name: "East wall walk, north"
+    outline: [[4320, 1600], [5120, 1600], [5120, 4480], [4320, 4480]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:sky
+    ambient: 28
+    notes: "The east wall walk's north stretch, to the keep's east door."
+  - id: room:wall_es
+    name: East wall walk
+    outline: [[4320, -2720], [5120, -2720], [5120, 320], [4320, 320]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:sky
+    ambient: 28
+    notes: The east wall walk under open sky.
+  - id: room:wall_wn
+    name: "West wall walk, north"
+    outline: [[-5120, 1600], [-4320, 1600], [-4320, 4480], [-5120, 4480]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:sky
+    ambient: 28
+    notes: "The west wall walk's north stretch, to the keep's west door."
+  - id: room:wall_ws
+    name: West wall walk
+    outline: [[-5120, -2720], [-4320, -2720], [-4320, 320], [-5120, 320]]
+    floor: 640
+    ceiling: 1408
+    theme: theme:sky
+    ambient: 28
+    notes: "The west wall walk under open sky (X9's cloud sea), from the tower to the turret."
+  - id: room:war_room
+    name: War room
+    outline: [[-3200, -640], [-2080, -640], [-2080, 960], [-3200, 960]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:castle
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    platforms:
+      - {id: platform:war_table, at: [-2640, 320], size: [448, 320], rise: 80, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "The war table: a map of both faces of Xeen, armies marked in Lord Xeen's hand."}
+    ambient: 18
+    notes: "A dead end with a chest: the war table, Lord Xeen's orders."
+  - id: room:ward_e
+    name: East ward
+    outline: [[2080, -2080], [3200, -2080], [3200, -1440], [2080, -1440]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: A vaulted passage from the hall to the east gallery and the armoury.
+  - id: room:ward_w
+    name: West ward
+    outline: [[-3200, -2080], [-2080, -2080], [-2080, -1440], [-3200, -1440]]
+    floor: 0
+    ceiling: 512
+    theme: theme:ward
+    walls:
+      - wall: north
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: east
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: south
+        surface: {texture: gnecwalt, size: [256, 256]}
+      - wall: west
+        surface: {texture: gnecwalt, size: [256, 256]}
+    bands:
+      - {height: 256, surface: {texture: gnecwal1, size: [256, 256]}}
+    ambient: 18
+    notes: A vaulted passage from the hall to the west gallery and the barracks.
+openings:
+  - id: open:aisle_e_ward_e
+    from: room:aisle_e
+    to: room:ward_e
+    from_wall: 1
+    to_wall: 3
+    link: link:hall_ew
+    width: 320
+    height: 384
+    notes: The aisle opens on the ward.
+  - id: open:aisle_w_ward_w
+    from: room:aisle_w
+    to: room:ward_w
+    from_wall: 3
+    to_wall: 1
+    link: link:hall_ww
+    width: 320
+    height: 384
+    notes: The aisle opens on the ward.
+  - id: open:apse_treasury
+    from: room:apse
+    to: room:treasury
+    from_wall: 2
+    to_wall: 0
+    link: link:throne_treasury
+    along: 0.1
+    width: 256
+    height: 320
+    notes: "The hoard door behind the dais (Lord Xeen's sigil, gnecdr3)."
+  - id: open:arcade0_e1
+    from: room:nave
+    to: room:aisle_e
+    from_wall: 1
+    to_wall: 3
+    along: 0.1667
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade0_e2
+    from: room:nave
+    to: room:aisle_e
+    from_wall: 1
+    to_wall: 3
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade0_e3
+    from: room:nave
+    to: room:aisle_e
+    from_wall: 1
+    to_wall: 3
+    along: 0.8333
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade0_w1
+    from: room:nave
+    to: room:aisle_w
+    from_wall: 3
+    to_wall: 1
+    along: 0.8333
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade0_w2
+    from: room:nave
+    to: room:aisle_w
+    from_wall: 3
+    to_wall: 1
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade0_w3
+    from: room:nave
+    to: room:aisle_w
+    from_wall: 3
+    to_wall: 1
+    along: 0.1667
+    width: 320
+    height: 448
+    notes: An arch of the arcade between the nave and its aisle.
+  - id: open:arcade2_e1
+    from: room:barrier
+    to: room:barrier_e
+    from_wall: 1
+    to_wall: 3
+    along: 0.1667
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arcade2_e2
+    from: room:barrier
+    to: room:barrier_e
+    from_wall: 1
+    to_wall: 3
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arcade2_e3
+    from: room:barrier
+    to: room:barrier_e
+    from_wall: 1
+    to_wall: 3
+    along: 0.8333
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arcade2_w1
+    from: room:barrier
+    to: room:barrier_w
+    from_wall: 3
+    to_wall: 1
+    along: 0.8333
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arcade2_w2
+    from: room:barrier
+    to: room:barrier_w
+    from_wall: 3
+    to_wall: 1
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arcade2_w3
+    from: room:barrier
+    to: room:barrier_w
+    from_wall: 3
+    to_wall: 1
+    along: 0.1667
+    width: 320
+    height: 448
+    notes: An arch between the barrier hall and its bay.
+  - id: open:arch_n
+    from: room:aviary_n
+    to: room:threshold
+    from_wall: 2
+    to_wall: 0
+    link: link:aviary_threshold
+    width: 320
+    height: 256
+    notes: "The second low arch (256 high, D-32), onto the throne doors."
+  - id: open:arch_s
+    from: room:crown_landing
+    to: room:aviary_s
+    from_wall: 2
+    to_wall: 0
+    link: link:landing_aviary
+    width: 320
+    height: 256
+    notes: "The low arch (256 high, D-32) into the aviary: Xeen's Pet cannot pass it."
+  - id: open:aviary_loft
+    from: room:aviary_s
+    to: room:loft
+    from_wall: 1
+    to_wall: 3
+    link: link:aviary_loft
+    width: 256
+    height: 320
+    notes: "The keeper's way up to the loft: a low door (Xeen's Pet cannot pass it)."
+  - id: open:aviary_mid
+    from: room:aviary_s
+    to: room:aviary_n
+    from_wall: 2
+    to_wall: 0
+    width: 2560
+    height: 1280
+    notes: "The aviary's middle: the roost's ledge line, open to the sky above."
+  - id: open:bays_shutter
+    from: room:foundry
+    to: room:bays
+    from_wall: 2
+    to_wall: 0
+    link: link:foundry_bays
+    width: 512
+    height: 320
+    notes: The guard bays' shutters.
+  - id: open:crown_top
+    from: room:crown_stair
+    to: room:crown_landing
+    from_wall: 3
+    to_wall: 1
+    link: link:crown_up
+    along: 0.8333
+    width: 256
+    height: 384
+    notes: "The head of the crown stair: its gallery opens west onto the crown landing."
+  - id: open:field
+    from: room:barrier
+    to: room:crown_stair
+    from_wall: 0
+    to_wall: 2
+    link: link:barrier_crown
+    width: 384
+    height: 448
+    notes: "The field across the crown stair's foot (xafield), held by the four pylons."
+  - id: open:foundry_e_arcade
+    from: room:foundry_e
+    to: room:foundry
+    from_wall: 3
+    to_wall: 1
+    width: 640
+    height: 640
+    notes: The wide arch between the machine bay and the foundry's floor.
+  - id: open:foundry_w_arcade
+    from: room:foundry_w
+    to: room:foundry
+    from_wall: 1
+    to_wall: 3
+    width: 640
+    height: 640
+    notes: The wide arch between the machine bay and the foundry's floor.
+  - id: open:gallery_e_tower0
+    from: room:gallery_e
+    to: room:tower0_e
+    from_wall: 0
+    to_wall: 2
+    link: link:gallery_e_tower0
+    width: 384
+    height: 384
+    notes: "The gallery runs into the tower's foot, under its gallery."
+  - id: open:gallery_e_vault
+    from: room:gallery_e
+    to: room:vault_e
+    from_wall: 2
+    to_wall: 0
+    link: link:gallery_e_vault
+    width: 192
+    height: 320
+  - id: open:gallery_w_tower0
+    from: room:gallery_w
+    to: room:tower0_w
+    from_wall: 0
+    to_wall: 2
+    link: link:gallery_w_tower0
+    width: 384
+    height: 384
+    notes: "The gallery runs into the tower's foot, under its gallery."
+  - id: open:gallery_w_vault
+    from: room:gallery_w
+    to: room:vault_w
+    from_wall: 2
+    to_wall: 0
+    link: link:gallery_w_vault
+    width: 192
+    height: 320
+  - id: open:gate_nave
+    from: room:gate
+    to: room:nave
+    from_wall: 2
+    to_wall: 0
+    link: link:gate_hall
+    width: 640
+    height: 512
+    notes: "The inner arch from the gatehall into the Hall of Xeendom, Lord Xeen's sigil over it."
+  - id: open:keep_foot
+    from: room:keep_stair
+    to: room:foundry_e
+    from_wall: 2
+    to_wall: 0
+    link: link:keep_up
+    width: 320
+    height: 384
+    notes: The keep stair's foot off the east machine bay.
+  - id: open:keep_top
+    from: room:keep_stair
+    to: room:upper_landing
+    from_wall: 3
+    to_wall: 1
+    link: link:keep_up_top
+    along: 0.75
+    width: 320
+    height: 384
+    notes: "The head of the keep stair: its gallery opens west onto the keep stair top."
+  - id: open:landing_barrier
+    from: room:upper_landing
+    to: room:barrier
+    from_wall: 0
+    to_wall: 2
+    link: link:landing_barrier
+    width: 640
+    height: 448
+  - id: open:landing_foundry
+    from: room:grand_landing
+    to: room:foundry
+    from_wall: 2
+    to_wall: 0
+    link: link:foundry_landing
+    width: 640
+    height: 448
+  - id: open:landing_walk
+    from: room:crown_landing
+    to: room:walk_s
+    from_wall: 3
+    to_wall: 1
+    link: link:landing_kw
+    along: 0.5833
+    width: 192
+    height: 320
+  - id: open:nave_stair
+    from: room:nave
+    to: room:stair_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:hall_stair
+    width: 512
+    height: 448
+    notes: The great hall's north doors (two leaves) into the stair hall.
+  - id: open:stair_top
+    from: room:stair_hall
+    to: room:grand_landing
+    from_wall: 2
+    to_wall: 0
+    link: link:grand_up
+    width: 512
+    height: 384
+    notes: "The head of the grand stair: its gallery opens north onto the grand landing."
+  - id: open:store_door
+    from: room:store
+    to: room:foundry_w
+    from_wall: 2
+    to_wall: 0
+    link: link:foundry_store
+    width: 192
+    height: 320
+  - id: open:throne_apse
+    from: room:throne
+    to: room:apse
+    from_wall: 2
+    to_wall: 0
+    width: 1600
+    height: 704
+    notes: The arch over the dais at the throne room's end.
+  - id: open:throne_doors
+    from: room:threshold
+    to: room:throne
+    from_wall: 2
+    to_wall: 0
+    link: link:threshold_throne
+    width: 512
+    height: 448
+    notes: "The throne doors: two studded leaves (gnecdr4l/gnecdr4r)."
+  - id: open:tower0_e_top
+    from: room:tower0_e
+    to: room:tower1_e
+    from_wall: 1
+    to_wall: 3
+    link: link:e_tower_up
+    along: 0.875
+    width: 256
+    height: 384
+    notes: "The head of the tower's first stair: its gallery opens on the upper stair's foot."
+  - id: open:tower0_w_top
+    from: room:tower0_w
+    to: room:tower1_w
+    from_wall: 3
+    to_wall: 1
+    link: link:w_tower_up
+    along: 0.125
+    width: 256
+    height: 384
+    notes: "The head of the tower's first stair: its gallery opens on the upper stair's foot."
+  - id: open:tower1_e_top
+    from: room:tower1_e
+    to: room:gen_air
+    from_wall: 3
+    to_wall: 1
+    link: link:e_tower_top
+    along: 0.8333
+    width: 256
+    height: 384
+    notes: "The head of the upper stair: its gallery opens on the tower top."
+  - id: open:tower1_e_walk
+    from: room:tower1_e
+    to: room:wall_es
+    from_wall: 2
+    to_wall: 0
+    link: link:e_tower_walk
+    width: 320
+    height: 384
+  - id: open:tower1_w_top
+    from: room:tower1_w
+    to: room:gen_fire
+    from_wall: 1
+    to_wall: 3
+    link: link:w_tower_top
+    along: 0.1667
+    width: 256
+    height: 384
+    notes: "The head of the upper stair: its gallery opens on the tower top."
+  - id: open:tower1_w_walk
+    from: room:tower1_w
+    to: room:wall_ws
+    from_wall: 2
+    to_wall: 0
+    link: link:w_tower_walk
+    width: 320
+    height: 384
+  - id: open:turret_e_wall
+    from: room:turret_e
+    to: room:wall_en
+    from_wall: 2
+    to_wall: 0
+    width: 320
+    height: 384
+  - id: open:turret_w_wall
+    from: room:turret_w
+    to: room:wall_wn
+    from_wall: 2
+    to_wall: 0
+    width: 320
+    height: 384
+  - id: open:upper_e_barrier
+    from: room:upper_e
+    to: room:barrier_e
+    from_wall: 3
+    to_wall: 1
+    link: link:barrier_eu
+    width: 320
+    height: 384
+  - id: open:upper_e_gen_air
+    from: room:upper_e
+    to: room:gen_air
+    from_wall: 1
+    to_wall: 3
+    link: link:upper_e_gen
+    width: 192
+    height: 320
+  - id: open:upper_e_quarters
+    from: room:upper_e
+    to: room:quarters
+    from_wall: 1
+    to_wall: 3
+    link: link:upper_e_quarters
+    width: 192
+    height: 320
+  - id: open:upper_w_barrier
+    from: room:upper_w
+    to: room:barrier_w
+    from_wall: 1
+    to_wall: 3
+    link: link:barrier_wu
+    width: 320
+    height: 384
+  - id: open:upper_w_gen_fire
+    from: room:upper_w
+    to: room:gen_fire
+    from_wall: 3
+    to_wall: 1
+    link: link:upper_w_gen
+    width: 192
+    height: 320
+  - id: open:upper_w_war
+    from: room:upper_w
+    to: room:war_room
+    from_wall: 2
+    to_wall: 0
+    link: link:upper_w_war
+    width: 192
+    height: 320
+  - id: open:vault_e_stair
+    from: room:vault_e
+    to: room:stair_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:vault_e_stair
+    along: 0.75
+    width: 192
+    height: 320
+  - id: open:vault_w_stair
+    from: room:vault_w
+    to: room:stair_hall
+    from_wall: 1
+    to_wall: 3
+    link: link:vault_w_stair
+    along: 0.25
+    width: 192
+    height: 320
+  - id: open:walk_mid
+    from: room:walk_s
+    to: room:walk_n
+    from_wall: 2
+    to_wall: 0
+    width: 320
+    height: 320
+  - id: open:walk_threshold
+    from: room:walk_n
+    to: room:threshold
+    from_wall: 1
+    to_wall: 3
+    link: link:kw_threshold
+    width: 192
+    height: 320
+  - id: open:wall_en_foundry_e
+    from: room:wall_en
+    to: room:foundry_e
+    from_wall: 3
+    to_wall: 1
+    link: link:e_wall_foundry
+    along: 0.5333
+    width: 256
+    height: 384
+    notes: The keep's door from the wall walk.
+  - id: open:wall_es_turret
+    from: room:wall_es
+    to: room:turret_e
+    from_wall: 2
+    to_wall: 0
+    width: 320
+    height: 384
+  - id: open:wall_wn_foundry_w
+    from: room:wall_wn
+    to: room:foundry_w
+    from_wall: 1
+    to_wall: 3
+    link: link:w_wall_foundry
+    along: 0.4667
+    width: 256
+    height: 384
+    notes: The keep's door from the wall walk.
+  - id: open:wall_ws_turret
+    from: room:wall_ws
+    to: room:turret_w
+    from_wall: 2
+    to_wall: 0
+    width: 320
+    height: 384
+  - id: open:ward_e_armoury
+    from: room:ward_e
+    to: room:armoury
+    from_wall: 0
+    to_wall: 2
+    link: link:ward_e_armoury
+    width: 192
+    height: 320
+  - id: open:ward_e_gallery_e
+    from: room:ward_e
+    to: room:gallery_e
+    from_wall: 1
+    to_wall: 3
+    link: link:ward_e_gallery_e
+    width: 320
+    height: 384
+  - id: open:ward_w_barracks
+    from: room:ward_w
+    to: room:barracks
+    from_wall: 0
+    to_wall: 2
+    link: link:ward_w_barracks
+    width: 192
+    height: 320
+  - id: open:ward_w_gallery_w
+    from: room:ward_w
+    to: room:gallery_w
+    from_wall: 3
+    to_wall: 1
+    link: link:ward_w_gallery_w
+    width: 320
+    height: 384
+notes: "XD-19 Castle Xeen at L4: four floors 640 apart (x east, y north). F0 the lower castle (gatehall, great hall and aisles, wards, barracks, armoury, galleries, the cold and gravel vaults, the stair hall, the towers' first stairs); F1 the wall walks under open sky, the guard foundry, the parts store, the guard bays, the keep stair; F2 the tower tops (fire and air generators), the upper galleries, the war room, the demons' quarters, the barrier hall, the crown stair; F3 the crown: the crown landing, the aviary (open sky), the keeper's walk and loft, the throne doors, the throne room and dais, the treasury. Written by output/studio_cal/xd19/tools/gen.py."

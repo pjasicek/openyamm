@@ -1,0 +1,19 @@
+# Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
+# every pin made on the map; `oymap pins import` files the pin into that project.
+project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/x3/L4"
+revision: "92b68d084623239c513e14e957897d30"
+lock_hash: "8bb757bf151d6f3aa61c4675319be116"
+# Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
+arrivals:
+  - {name: "start", at: [11776, 9216, 1024], facing: 512}
+  - {name: "entrance:camp_fire", at: [11776, 9216, 1024], facing: 512}
+  - {name: "entrance:east_road", at: [21504, 12288, 1024], facing: 1024}
+  - {name: "entrance:newcastle_gate", at: [9216, 13312, 1504], facing: 512}
+  - {name: "entrance:nightshadow_square", at: [18432, -5120, 1008], facing: 512}
+  - {name: "entrance:north_road", at: [-7168, 22016, 1120], facing: 1536}
+  - {name: "entrance:west_road", at: [-22016, 2560, 864], facing: 0}
+  - {name: "entrance:x8_landing", at: [1536, 5120, 960], facing: 1536}
+  - {name: "entrance:xd08_tomb", at: [-15360, -9728, 1120], facing: 512}
+  - {name: "entrance:xd11_tower", at: [512, -2048, 992], facing: 512}
+  - {name: "entrance:xd13_keep", at: [10752, 15360, 1760], facing: 1536}
+  - {name: "entrance:xd24_crypt", at: [17920, -4608, 1008], facing: 512}

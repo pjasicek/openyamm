@@ -1,0 +1,155 @@
+# D3 Sandcaster and the Aging Forest: Sandcaster, its wizard quarter, the Crossroads market (Act III). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5's L4 project `devdocs/xeen/briefs/d3/L4`, installed 2026-11-20 18:21): every door as drawn (its DOORS.md);
+# the arrivals are A5's points, Z the installed terrain or the square's paving. A3 writes the topics in
+# source/npcs/d3.yml.
+#
+# Sandcaster (WORLD_DESIGN 5.2): a sandstone merchant city ruled by evil wizards; the skill-school town (Merchant,
+#   Learning, Stealing; Navigator and Linguist are flavour, no MM6-MM8 skill). Training to 80 (x40). The wizard
+#   quarter (houses 4613-4617) opens with Q-D14 (q-d14.done): the Dark guild, a second magic shop and its three
+#   Grandmasters. Astra, who gives Q-D14, lives outside the quarter. The quarter's dungeon is DD-19 (A8).
+# The Crossroads: six small house doors for the market stalls (WORLD_DESIGN 5.2 lets them be houses).
+# Lucio's Jetty (D-5.3): Lucio's celestial boat up to Olympus, two departures a week, after M30 (A3's m30.done).
+key: D3
+stem: xeen_d3.odm
+town: Sandcaster and the Aging Forest
+face: darkside
+blocks:
+  houses: [4601, 4650]
+  npcs: [5201, 5300]
+
+arrivals:
+  sandcaster_square: {at: [-14336, 17408, 1520], direction: 1536, note: "Sandcaster's square by the mirror, on the paving (terrain 1504; Town Portal)"}
+  sandcaster_stables: {at: [-12800, 10752, 1312], direction: 512, note: "inside the fenced caravan yard outside the south gate, the gate in sight (D-28)"}
+
+houses:
+  # ---- Sandcaster's services ----
+  - {id: 4601, door: building:sc_weapons, town: Sandcaster, was: 19, kind: weapon_shop, name: Sandsteel Blades, owner: 5201, shop: {quality: 4}}
+  - {id: 4602, door: building:sc_armour, town: Sandcaster, was: 59, kind: armor_shop, name: The Brass Scale, owner: 5202, shop: {quality: 4}}
+  - {id: 4603, door: building:sc_magic, town: Sandcaster, was: 92, kind: magic_shop, name: Aladdin's Lamps, owner: 5203, shop: {quality: 4}}
+  - {id: 4604, door: building:sc_alchemist, town: Sandcaster, was: 121, kind: alchemist, name: Vulture Repellant and Other Remedies, owner: 5204, shop: {quality: 4}}
+  - {id: 4605, door: building:sc_temple, town: Sandcaster, was: 315, kind: temple, name: Temple of the Desert Sun, owner: 5205}
+  - {id: 4606, door: building:sc_tavern, town: Sandcaster, was: 248, kind: tavern, name: The Thirsty Camel, owner: 5206}
+  - {id: 4607, door: building:sc_training, town: Sandcaster, was: 1576, kind: training, name: Barticus' Gym, owner: 5207, training: {cap: 80, price: 40}}
+  - {id: 4608, door: building:sc_guild_mind, town: Sandcaster, was: 160, kind: mind_guild, name: Sandcaster Guild of Mind, owner: 5208, guild: {spells: 9}}
+  - {id: 4609, door: building:sc_guild_spirit, town: Sandcaster, was: 153, kind: spirit_guild, name: Sandcaster Guild of Spirit, owner: 5209, guild: {spells: 9}}
+  - {id: 4610, door: building:sc_guild_light, town: Sandcaster, was: 176, kind: light_guild, name: Sandcaster Guild of Light, owner: 5210, guild: {spells: 9}}
+  - id: 4611
+    door: building:sc_stables
+    town: Sandcaster
+    was: 465
+    kind: stables
+    name: Sandcaster Caravans
+    owner: 5211
+    routes:
+      - {id: 416, to: castleview_stables, days: [wed, sat], travel_days: 3}
+      - {id: 417, to: lakeside_dock, days: [sun], travel_days: 3}
+  - id: 4649
+    door: building:sc_lucio_jetty
+    town: Sandcaster
+    was: 488
+    kind: boats
+    name: "Lucio's Jetty"
+    owner: 5607
+    opens: m30.done
+    closed_text: "A jetty that ends in thin air. A sign: \"Celestial boats. Chosen Ones only.\""
+    note: "D-5.3, D-28: a timber deck with mooring posts on the Sky Stair; it only departs (no arrival); Lucio (D7) is its boatman and lives on his Olympus dock"
+    routes:
+      - {id: 425, to: olympus_dock, days: [tue, fri], travel_days: 1}
+  - {id: 4612, door: thing:sc_mirror, town: Sandcaster, kind: mirror, name: The Mirror of Sandcaster, mirror: {face: darkside, town: Sandcaster, arrival: sandcaster_square, qbit: 119009}}
+  # ---- the wizard quarter: open once Xenoc and Morgana are beaten (q-d14.done) ----
+  - {id: 4613, door: building:wq_guild_dark, town: Sandcaster, was: 178, kind: dark_guild, name: The Guild of Night, owner: 5212, guild: {spells: 11}, opens: q-d14.done, closed_text: "Sealed with a wizard's lock. A voice from inside: The quarter is closed to the insensitive."}
+  - {id: 4614, door: building:wq_magic, town: Sandcaster, was: 90, kind: magic_shop, name: Esoterica, owner: 5213, shop: {quality: 4}, opens: q-d14.done, closed_text: "Sealed with a wizard's lock. A voice from inside: The quarter is closed to the insensitive."}
+  - {id: 4615, door: "building:wq_houses#1", town: Sandcaster, kind: residence, name: The Mindwright's Tower, residents: [5214], opens: q-d14.done, closed_text: "Sealed with a wizard's lock. The wizards are sensitive to insults; best not to knock twice."}
+  - {id: 4616, door: "building:wq_houses#2", town: Sandcaster, kind: residence, name: The Appraiser's Tower, residents: [5215], opens: q-d14.done, closed_text: "Sealed with a wizard's lock. The wizards are sensitive to insults; best not to knock twice."}
+  - {id: 4617, door: "building:wq_houses#3", town: Sandcaster, kind: residence, name: The Alembic Tower, residents: [5216], opens: q-d14.done, closed_text: "Sealed with a wizard's lock. The wizards are sensitive to insults; best not to knock twice."}
+  # ---- Sandcaster's houses ----
+  - {id: 4618, door: "building:sc_houses#1", town: Sandcaster, kind: residence, name: Astra's House, residents: [5217]}
+  - {id: 4619, door: "building:sc_houses#2", town: Sandcaster, kind: residence, name: Natasha the Enchantress, residents: [5218]}
+  - {id: 4620, door: "building:sc_houses#3", town: Sandcaster, kind: residence, name: Madame Gloriana's, residents: [5219], enter_sound: xeen_fortune}   # a fortune teller: AU's reading sound
+  - {id: 4621, door: "building:sc_houses#4", town: Sandcaster, kind: residence, name: School of Trade, residents: [5220]}
+  - {id: 4622, door: "building:sc_houses#5", town: Sandcaster, kind: residence, name: School of Letters, residents: [5221]}
+  - {id: 4623, door: "building:sc_houses#6", town: Sandcaster, kind: residence, name: The Quiet House, residents: [5222]}
+  - {id: 4624, door: "building:sc_houses#7", town: Sandcaster, kind: residence, name: School of Navigation, residents: [5223]}
+  - {id: 4625, door: "building:sc_houses#8", town: Sandcaster, kind: residence, name: School of Tongues, residents: [5224]}
+  - {id: 4626, door: "building:sc_houses#9", town: Sandcaster, kind: residence, name: The Knife House, residents: [5225]}
+  - {id: 4627, door: "building:sc_houses#10", town: Sandcaster, kind: residence, name: Saffron House, residents: [5226]}
+  - {id: 4628, door: "building:sc_houses#11", town: Sandcaster, kind: residence, name: The Archer's House, residents: [5227]}
+  - {id: 4629, door: "building:sc_houses#12", town: Sandcaster, kind: residence, name: Dune House, residents: [5228]}
+  - {id: 4630, door: "building:sc_houses#13", town: Sandcaster, kind: residence, name: The Dyer's, residents: [5229]}
+  - {id: 4631, door: "building:sc_houses#14", town: Sandcaster, kind: residence, name: Glassblower's House, residents: [5230]}
+  - {id: 4632, door: "building:sc_houses#15", town: Sandcaster, kind: residence, name: The Water Seller's, residents: [5231]}
+  - {id: 4633, door: "building:sc_houses#16", town: Sandcaster, kind: residence, name: Camel House, residents: [5232]}
+  - {id: 4634, door: "building:sc_houses#17", town: Sandcaster, kind: residence, name: Scribe's House, residents: [5233]}
+  - {id: 4635, door: "building:sc_houses#18", town: Sandcaster, kind: residence, name: Potter's Yard, residents: [5234]}
+  - {id: 4636, door: "building:sc_houses#19", town: Sandcaster, kind: residence, name: The Tax House, residents: [5235]}
+  - {id: 4637, door: "building:sc_houses#20", town: Sandcaster, kind: residence, name: Courtyard House, residents: [5236]}
+  - {id: 4638, door: "building:sc_houses#21", town: Sandcaster, kind: residence, name: Sandal Maker's, residents: [5237]}
+  - {id: 4639, door: "building:sc_houses#22", town: Sandcaster, kind: residence, name: Date Palm House, residents: [5238]}
+  - {id: 4640, door: "building:sc_houses#23", town: Sandcaster, kind: residence, name: Well House, residents: [5239]}
+  # ---- the Crossroads market (town: Crossroads) ----
+  - {id: 4641, door: "building:xr_stall#1", town: Crossroads, was: 239, kind: tavern, name: The Food Stall, owner: 5240, price: 14}
+  - {id: 4642, door: "building:xr_stall#2", town: Crossroads, was: 59, kind: armor_shop, name: Robes and Cloaks, owner: 5241, shop: {quality: 4}}
+  - {id: 4643, door: "building:xr_stall#3", town: Crossroads, was: 92, kind: magic_shop, name: Necklaces of Note, owner: 5242, shop: {quality: 4}}
+  - {id: 4644, door: "building:xr_stall#4", town: Crossroads, was: 59, kind: armor_shop, name: Belts and Buckles, owner: 5243, shop: {quality: 4}}
+  - {id: 4645, door: "building:xr_stall#5", town: Crossroads, was: 59, kind: armor_shop, name: Boots for the Road, owner: 5244, shop: {quality: 4}}
+  - {id: 4646, door: "building:xr_stall#6", town: Crossroads, kind: residence, name: Caleb's Workshop, residents: [5245]}
+  # ---- the Aging Forest and the desert edge ----
+  - {id: 4647, door: building:celia_derek_cottage, kind: residence, outside: true, name: Celia and Derek's Cottage, residents: [], note: "Empty at first: A3 moves Celia (4041) and Derek (4046) in after Q-C22 (the Clouds award link)."}
+  - {id: 4648, door: building:thaddeus_hut, kind: residence, outside: true, name: The Fountain Keeper's Hut, residents: [5246]}
+
+npcs:
+  # ---- Sandcaster's services ----
+  - {id: 5201, name: Rashid, title: Bladesmith, profession: Smith, teaches: [{skill: Dagger, mastery: master}], greet: ["A dagger is a sword that has learned to be discreet.", "Something sharp?"]}
+  - {id: 5202, name: Zubaida, title: Armourer, profession: Armorer, greet: ["Brass scale: it shines, it turns a blade, and it cooks you at noon.", "A fitting?"]}
+  - {id: 5203, name: Aladdin, title: Lamp Cleaner, profession: Merchant, greet: ["Lamps cleaned, lamps sold. If anything comes out, that's extra.", "Rub one?"], source: "MAPS D3: Aladdin the Lamp Cleaner"}
+  - {id: 5204, name: Omar the Peddler, title: Remedy Seller, profession: Alchemist, greet: ["Vulture Repellant! Guaranteed! Results may vary.", "It didn't work? Odd."], source: "MAPS D3: the Vulture Repellant stall"}
+  - {id: 5205, name: High Priestess Samira, profession: Healer, greet: ["The sun fails, and still we pray to it. Habit.", "Be healed."]}
+  - {id: 5206, name: Hakim, title: Innkeeper, profession: Cook, greet: ["Water is dearer than wine here. I charge accordingly.", "Thirsty?"]}
+  - {id: 5207, name: Barticus, title: Master of the Gym, profession: Instructor, greet: ["Lift, run, lift again. Eighty levels of it, if you can stand.", "Again!"]}
+  - {id: 5208, name: Yusuf, title: Mind Guildmaster, profession: Spell Master, greet: ["The wizards took the quarter. We kept the guild. Small mercies.", "Think on it."]}
+  - {id: 5209, name: Layla, title: Spirit Guildmistress, profession: Healer, talks: true, greet: ["Spirit is what's left when the wizards take everything else.", "Peace."]}
+  - {id: 5210, name: Nasir, title: Light Guildmaster, profession: Spell Master, teaches: [{skill: Light Magic, mastery: master}], greet: ["A small sun, but ours. Light is learned slowly here.", "Let there be light."]}
+  - {id: 5211, name: Caravan Master Idris, profession: Trader, greet: ["Castleview, and Lakeside when the coven lets us through.", "Where to?"]}
+  # ---- the wizard quarter ----
+  - {id: 5212, name: Magus Ferrante, title: Master of the Guild of Night, profession: Spell Master, greet: ["Xenoc kept us under lock. Now you hold the key. Do not insult it.", "Mind your tongue."]}
+  - {id: 5213, name: Esmeralda, title: Purveyor of Esoterica, profession: Enchanter, greet: ["Everything here is magic. Some of it even works.", "Look, don't touch."]}
+  - {id: 5214, name: Mindwright Orsolo, title: Wizard of the Mind, profession: Psychic, teaches: [{skill: Mind Magic, mastery: grandmaster}], greet: ["You are thinking that I am rude. I am thinking it too.", "Think louder."]}
+  - {id: 5215, name: Appraiser Quince, profession: Scholar, teaches: [{skill: Identify Item, mastery: grandmaster}], greet: ["I can tell you what it is, who made it, and how much you overpaid.", "Show me."]}
+  - {id: 5216, name: Alchemist Morvenna, title: Wizard of the Alembic, profession: Alchemist, teaches: [{skill: Alchemy, mastery: grandmaster}], greet: ["Black potions, white potions. The rest is details.", "Bring me something to boil."]}
+  # ---- Sandcaster's people ----
+  - {id: 5217, name: Astra, title: Good Sorceress, profession: Spell Master, talks: true, greet: ["Xenoc and Morgana have seized the guilds of the quarter. Help me throw them out.", "The quarter?"]}
+  - {id: 5218, name: Natasha, title: Enchantress, profession: Enchanter, talks: true, greet: ["I enchant anything for a fee. A griffin's bridle? Double fee.", "Something to enchant?"]}
+  - {id: 5219, name: Madame Gloriana, title: Palm Reader, profession: Gypsy, greet: ["Your palm says you will pay me. It is never wrong.", "Your other hand?"], source: "MAPS D3: Madame Gloriana the palm reader"}
+  - {id: 5220, name: Merchant Hassan, title: Master of Trade, profession: Merchant, teaches: [{skill: Merchant, mastery: master}], greet: ["Buy low, sell high, and never let a wizard set the price.", "A lesson in haggling?"]}
+  - {id: 5221, name: Master Faisal, profession: Teacher, teaches: [{skill: Learning, mastery: master}], greet: ["Read everything. Believe half. Remember all of it.", "Study."]}
+  - {id: 5222, name: Silent Saleh, title: Retired Thief, profession: Burglar, teaches: [{skill: Stealing, mastery: master}], greet: ["I never stole a thing in Sandcaster. Ask anyone who noticed.", "Say nothing."]}
+  - {id: 5223, name: Navigator Ansel, profession: Navigator, greet: ["North is that way. Usually.", "Lost?"]}
+  - {id: 5224, name: Polyglot Pella, title: Linguist, profession: Scholar, greet: ["I speak eleven tongues and the wizards understand none of them.", "Pardon?"]}
+  - {id: 5225, name: Kirra, title: Dark Elf Blademistress, profession: Scout, teaches: [{skill: Dark Elf, mastery: master}], greet: ["The dark elves remember the old ways. I'll teach you the sharper ones.", "In the shadows."]}
+  - {id: 5226, name: Farida, title: Spice Seller, profession: Trader, greet: ["Saffron, cumin, and a little sand. The sand is free.", "Smell this."]}
+  - {id: 5227, name: Archer Jalal, title: Bowman, profession: Hunter, greet: ["The secret of archery: accuracy, accuracy, and accuracy.", "Hit anything?"], source: "MAPS D3: the bow teacher's accuracy, accuracy, and accuracy"}
+  - {id: 5228, name: Old Basim, title: Townsman, profession: Peasant, greet: ["The wizards took the quarter and the taxes. They left us the sand.", "Sand?"]}
+  - {id: 5229, name: Dyer Nura, profession: Tailor, greet: ["Every colour but desert. Nobody wants desert.", "Some blue?"]}
+  - {id: 5230, name: Glassblower Tariq, profession: Potter, greet: ["Sand in, glass out. Sandcaster's one honest trade.", "Mind the glass."]}
+  - {id: 5231, name: Water Seller Amir, profession: Porter, greet: ["Water! Cold water! Well, water.", "Cup?"]}
+  - {id: 5232, name: Camel Driver Rami, profession: Horseman, greet: ["Camels spit. People complain. The camels don't care.", "Need a camel?"]}
+  - {id: 5233, name: Scribe Hala, profession: Scribe, greet: ["I write the wizards' decrees. I also misspell them.", "Write something?"]}
+  - {id: 5234, name: Potter Ziad, profession: Potter, greet: ["Pots for water, pots for oil, pots for hiding gold from the wizards.", "Buy a pot."]}
+  - {id: 5235, name: Tax Collector Malik, profession: Clerk, greet: ["The wizards' tax is due. It is always due.", "Pay up?"]}
+  - {id: 5236, name: Old Rasha, title: Grandmother, profession: Peasant, greet: ["I remember when the sun was bright. You don't.", "Sit with me."]}
+  - {id: 5237, name: Sandal Maker Idris, title: Cobbler, profession: Cobbler, greet: ["Sandals for sand. Boots for fools.", "New soles?"]}
+  - {id: 5238, name: Date Farmer Yara, profession: Farmer, greet: ["Dates from the river palms. Sweeter than the wizards.", "Date?"]}
+  - {id: 5239, name: Well Keeper Omid, profession: Laborer, greet: ["Deepest well in the city. Something at the bottom hums.", "Drink?"]}
+  # ---- the Crossroads ----
+  - {id: 5240, name: Fat Marwan, title: Food Seller, profession: Cook, greet: ["Six roads meet here, and all of them are hungry.", "Kebab?"]}
+  - {id: 5241, name: Selima, title: Robe Seller, profession: Tailor, greet: ["Robes for wizards, robes for pilgrims. Same robe, different price.", "Try one on."]}
+  - {id: 5242, name: Jamila, title: Necklace Seller, profession: Merchant, greet: ["Every necklace protects against something. Mostly poverty: mine.", "Pretty, no?"]}
+  - {id: 5243, name: Bashir, title: Belt Seller, profession: Merchant, greet: ["A good belt holds up more than your trousers.", "Belt?"]}
+  - {id: 5244, name: Kadir, title: Boot Seller, profession: Cobbler, greet: ["Six roads. You'll need boots for all of them.", "Boots?"]}
+  - {id: 5245, name: Caleb, title: Inventor, profession: Tinker, talks: true, greet: ["Gargoyles took my magnifying glass. Destroy their lair and I'll show you what it magnifies.", "The glass?"]}
+  # ---- the Aging Forest and the desert edge ----
+  - {id: 5246, name: Thaddeus, title: Fountain Keeper, profession: Mystic, talks: true, greet: ["The Fountain of Youth runs dry without the Jewel of Ages. Thieves took it, and sold it on to who knows whom.", "The Jewel?"]}
+  - {id: 5247, name: Cornelius, title: Leprechaun, profession: Scout, house: none, place: "D3, the Aging Forest (A5)", teaches: [{skill: Perception, mastery: master}], greet: ["See that? No? That's why you need me.", "Seen it yet?"]}
+  # ---- added in the eleventh session (D-42 Q5: DD-19's talking wizard) ----
+  - {id: 5248, name: Blastem, title: Wizard, profession: Spell Master, house: none, place: "DD-19 the wizard quarter, the Guild Common: a talking actor (A8); its click speaks to him (evt.SpeakNPC(5248))", greet: ["How dare you speak to me? You can learn to show respect to your betters on your own, or I can teach it to you."], source: "dark/aaze0031:50-51", note: "Q-D14 (A3's pending_npcs 'Blastem the Wizard': topics The lesson, Boots licked); 'The lesson' sets q-d14.blastem_angered and A8 swaps him for Sorcerer 11191, hostile (Valio's pattern, D-42 Q5)"}

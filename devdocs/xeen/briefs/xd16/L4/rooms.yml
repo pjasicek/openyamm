@@ -1,0 +1,637 @@
+format: 0
+themes:
+  - id: theme:ash
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: dirt, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2b, size: [256, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The ash floors of the burning halls: the same rock over 7d07's dirt."
+  - id: theme:cave
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2b, size: [256, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The caves: 7d07's dark brown-black rock (c2b) on walls and roofs, its rock floor (cfb1)."
+  - id: theme:pits
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: 7dirttyl, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2b, size: [256, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The ash pits and the slag pocket: rock over grey ash (7dirttyl)."
+  - id: theme:seams
+    wall: {texture: c2bb, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: c2bb, size: [256, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "Rock split by glowing seams (c2bb): the fissure, the glass caves, the lever hall."
+  - id: theme:shrine
+    wall: {texture: vlcwl1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: vlcwl1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The demon shrine: 7d07's worked stone (cwb) under the cave's roof."
+  - id: theme:vault
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: 7dirttyl, size: [128, 128]}
+    ceiling: {texture: c2b, size: [256, 256]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The smoking passage and the vault of chests: red rock (cwb1), ash flags (7dirttyl)."
+defaults: {theme: theme:cave, ambient: 12}
+rooms:
+  - id: room:ash_gallery
+    name: Ash gallery
+    outline: [[896, -320], [2944, -320], [2944, 320], [896, 320]]
+    floor: 0
+    floor_points: [[1120, -160, -32], [1120, 160, 16], [1440, -160, 48], [1440, 160, -32], [1760, -160, -32], [1760, 160, 48], [2080, -160, -32], [2080, 160, -32], [2400, 160, 16], [2720, -160, 32], [2720, 160, 32], [1101, -224, 0], [1306, -224, 0], [1510, -224, 0], [1715, -224, 0], [1920, -224, 0], [2125, -224, 0], [2330, -224, 0], [2534, -224, 0], [2739, -224, 0], [2848, -160, 0], [2848, 0, 0], [2848, 160, 0], [2739, 224, 0], [2534, 224, 0], [2330, 224, 0], [2125, 224, 0], [1920, 224, 0], [1715, 224, 0], [1510, 224, 0], [1306, 224, 0], [1101, 224, 0], [992, 160, 0], [992, 0, 0], [992, -160, 0]]
+    rough: {step: 256, depth: 96}
+    ceiling: 448
+    ceiling_points: [[1200, 0, 528], [1680, 0, 592], [2160, 0, 560], [2640, 0, 544]]
+    theme: theme:ash
+    ambient: 12
+    notes: "A wide passage floored with ash, red light ahead; the smoking passage south."
+  - id: room:ash_pits
+    name: Ash pits
+    outline: [[6272, -15104], [7424, -15104], [7424, -11776], [5760, -11776], [5760, -12544], [6272, -12544]]
+    floor: -1280
+    floor_points: [[6592, -12160, -1248], [6912, -14720, -1328], [6912, -14400, -1264], [6912, -13760, -1312], [6912, -13440, -1296], [6912, -13120, -1312], [6912, -12800, -1296], [6912, -12480, -1216], [6912, -12160, -1264], [6464, -15008, -1280], [6656, -15008, -1280], [6848, -15008, -1280], [7040, -15008, -1280], [7232, -15008, -1280], [7328, -14896, -1280], [7328, -14688, -1280], [7328, -14480, -1280], [7328, -14272, -1280], [7328, -14064, -1280], [7328, -13856, -1280], [7328, -13648, -1280], [7328, -13440, -1280], [7328, -13232, -1280], [7328, -13024, -1280], [7328, -12816, -1280], [7328, -12608, -1280], [7328, -12400, -1280], [7328, -12192, -1280], [7328, -11984, -1280], [7216, -11872, -1280], [7008, -11872, -1280], [6800, -11872, -1280], [6592, -11872, -1280], [6384, -11872, -1280], [6176, -11872, -1280], [5968, -11872, -1280], [5856, -11968, -1280], [5856, -12160, -1280], [5856, -12352, -1280], [5931, -12448, -1280], [6101, -12448, -1280], [6368, -12741, -1280], [6368, -12938, -1280], [6368, -13135, -1280], [6368, -13332, -1280], [6368, -13529, -1280], [6368, -13726, -1280], [6368, -13922, -1280], [6368, -14119, -1280], [6368, -14316, -1280], [6368, -14513, -1280], [6368, -14710, -1280], [6368, -14907, -1280]]
+    rough: {step: 256, depth: 96}
+    ceiling: -704
+    ceiling_points: [[6832, -14640, -528], [6832, -14160, -544], [6832, -13680, -544], [6832, -13200, -608], [6832, -12720, -560], [6832, -12240, -528]]
+    theme: theme:pits
+    ambient: 12
+    notes: "Pits of grey ash; to the heart's east ledge."
+  - id: room:chest_vault
+    name: Vault of chests
+    outline: [[1536, -2560], [2816, -2560], [2816, -1536], [1536, -1536]]
+    floor: 0
+    ceiling: 512
+    theme: theme:vault
+    platforms:
+      - {id: platform:dais, at: [2176, -2352], size: [1088, 288], rise: 32, surface: {texture: ch1b1, size: [128, 256]}, top_surface: {texture: 7dirttyl, size: [128, 128]}, notes: The dais of the six chests along the vault's south wall.}
+      - {at: [1760, -2376], size: [144, 112], rise: 8, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2bb, size: [256, 256], scale: 0.25}, base: 32, notes: "A trap chest's hearth stone: embers glowing in its cracks (the tell, D-47 Q2; the real chest stands on the bare ash of the dais)."}
+      - {at: [1928, -2376], size: [144, 112], rise: 8, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2bb, size: [256, 256], scale: 0.25}, base: 32, notes: "A trap chest's hearth stone: embers glowing in its cracks (the tell, D-47 Q2; the real chest stands on the bare ash of the dais)."}
+      - {at: [2264, -2376], size: [144, 112], rise: 8, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2bb, size: [256, 256], scale: 0.25}, base: 32, notes: "A trap chest's hearth stone: embers glowing in its cracks (the tell, D-47 Q2; the real chest stands on the bare ash of the dais)."}
+      - {at: [2432, -2376], size: [144, 112], rise: 8, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2bb, size: [256, 256], scale: 0.25}, base: 32, notes: "A trap chest's hearth stone: embers glowing in its cracks (the tell, D-47 Q2; the real chest stands on the bare ash of the dais)."}
+      - {at: [2600, -2376], size: [144, 112], rise: 8, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2bb, size: [256, 256], scale: 0.25}, base: 32, notes: "A trap chest's hearth stone: embers glowing in its cracks (the tell, D-47 Q2; the real chest stands on the bare ash of the dais)."}
+    ambient: 12
+    notes: "Six chests on a dais: five burst in flame (the ones with embers glowing under them), one is real."
+  - id: room:cinder_run
+    name: Cinder run
+    outline: [[6272, -2304], [6656, -2304], [6656, 3328], [6272, 3328]]
+    floor: 0
+    floor_points: [[6464, -2048, -16], [6464, -1728, 16], [6464, -1088, -16], [6464, -448, -16], [6464, 1152, -16], [6464, 1472, 16], [6464, 1792, -16], [6464, 3072, 32], [6464, -2208, 0], [6560, -2095, 0], [6560, -1887, 0], [6560, -1678, 0], [6560, -1470, 0], [6560, -1261, 0], [6560, -1052, 0], [6560, -844, 0], [6560, -635, 0], [6560, -427, 0], [6560, -218, 0], [6560, -9, 0], [6560, 199, 0], [6560, 408, 0], [6560, 616, 0], [6560, 825, 0], [6560, 1033, 0], [6560, 1242, 0], [6560, 1451, 0], [6560, 1659, 0], [6560, 1868, 0], [6560, 2076, 0], [6560, 2285, 0], [6560, 2494, 0], [6560, 2702, 0], [6560, 2911, 0], [6560, 3119, 0], [6464, 3232, 0], [6368, 3119, 0], [6368, 2911, 0], [6368, 2702, 0], [6368, 2494, 0], [6368, 2285, 0], [6368, 2076, 0], [6368, 1868, 0], [6368, 1659, 0], [6368, 1451, 0], [6368, 1242, 0], [6368, 1033, 0], [6368, 825, 0], [6368, 616, 0], [6368, 408, 0], [6368, 199, 0], [6368, -9, 0], [6368, -218, 0], [6368, -427, 0], [6368, -635, 0], [6368, -844, 0], [6368, -1052, 0], [6368, -1261, 0], [6368, -1470, 0], [6368, -1678, 0], [6368, -1887, 0], [6368, -2095, 0]]
+    rough: {step: 256, depth: 96}
+    ceiling: 384
+    ceiling_points: [[6464, -2128, 432], [6464, -1648, 464], [6464, -1168, 464], [6464, -688, 464], [6464, -208, 464], [6464, 272, 432], [6464, 752, 448], [6464, 1232, 448], [6464, 1712, 448], [6464, 2192, 432], [6464, 2672, 464], [6464, 3152, 480]]
+    theme: theme:ash
+    ambient: 12
+    notes: A low burnt passage from the shrine back south along the lake's east side to the stair head.
+  - id: room:cool_passage
+    name: Cool passage
+    outline: [[4672, -18432], [5056, -18432], [5056, -16896], [4672, -16896]]
+    floor: -1280
+    floor_points: [[4864, -17824, -1264], [4864, -17504, -1296], [4864, -17184, -1312], [4864, -18176, -1280], [4800, -18240, -1280], [4800, -18112, -1280], [4928, -18240, -1280], [4928, -18112, -1280], [4864, -18432, -1280], [4704, -18432, -1280], [4704, -18272, -1280], [4864, -18272, -1280], [5024, -18432, -1280], [5024, -18272, -1280], [4864, -18336, -1280], [4960, -18048, -1280], [4960, -17856, -1280], [4960, -17664, -1280], [4960, -17472, -1280], [4960, -17280, -1280], [4960, -17088, -1280], [4864, -16992, -1280], [4768, -17088, -1280], [4768, -17280, -1280], [4768, -17472, -1280], [4768, -17664, -1280], [4768, -17856, -1280], [4768, -18048, -1280]]
+    rough: {step: 192, depth: 48}
+    ceiling: -832
+    ceiling_points: [[4864, -18144, -752], [4864, -17664, -784], [4864, -17184, -784]]
+    theme: theme:cave
+    ambient: 10
+    notes: "Behind the rock: cool air and the smell of grass; its end leads to XD-17. XD-17's way back arrives here (entrance:xd17_way)."
+  - id: room:deep_stair
+    name: Deep stair
+    outline: [[4224, -11520], [4608, -11520], [4608, -9600], [4224, -9600]]
+    floor: -640
+    slope: {to: -1280, toward: south, steps: 20}
+    ceiling: -192
+    ceiling_slope: {to: -832, toward: south}
+    theme: theme:cave
+    ambient: 12
+    notes: Twenty steps down to the heart of the mountain (640).
+  - id: room:demon_shrine
+    name: Demon skull's shrine
+    outline: [[4736, 3456], [6656, 3456], [6656, 4736], [4736, 4736]]
+    floor: 0
+    ceiling: 704
+    theme: theme:shrine
+    platforms:
+      - {at: [5696, 4416], size: [768, 384], rise: 32, surface: {texture: ch1b1, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: The shrine's dais.}
+      - {id: platform:demon_altar, at: [5696, 4480], size: [320, 160], rise: 96, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2b, size: [256, 256]}, notes: "The black altar: the skull of a demon on it (clicked: 'Destroy?', aaze0046:0)."}
+    ambient: 12
+    notes: "A worked chamber behind its iron door: braziers, the black altar with the demon skull on its dais; the cinder run's mouth in the south-east corner."
+  - id: room:ember_pocket
+    name: Ember pocket
+    outline: [[5120, -11520], [5888, -11520], [5888, -10752], [5120, -10752]]
+    floor: -1280
+    floor_points: [[5344, -11296, -1296], [5344, -10976, -1328], [5664, -11296, -1264], [5664, -10976, -1264], [5312, -11424, -1280], [5504, -11424, -1280], [5696, -11424, -1280], [5792, -11328, -1280], [5792, -11136, -1280], [5792, -10944, -1280], [5696, -10848, -1280], [5504, -10848, -1280], [5312, -10848, -1280], [5216, -10944, -1280], [5216, -11136, -1280], [5216, -11328, -1280]]
+    rough: {step: 256, depth: 96}
+    ceiling: -832
+    ceiling_points: [[5504, -11136, -752]]
+    theme: theme:pits
+    ambient: 12
+    notes: "A dead end with a chest, embers drifting from a vent in the roof."
+  - id: room:fire_lake
+    name: The fire lake
+    outline: [[3072, -1536], [6144, -1536], [6144, 1536], [3072, 1536]]
+    floor: 0
+    rough: {step: 256, depth: 96}
+    ceiling: 1152
+    ceiling_points: [[3648, -960, 1408], [3648, -480, 1360], [3648, 0, 1344], [3648, 480, 1312], [3648, 960, 1360], [4128, -960, 1312], [4128, -480, 1312], [4128, 0, 1344], [4128, 480, 1376], [4128, 960, 1424], [4608, -960, 1440], [4608, -480, 1376], [4608, 0, 1392], [4608, 480, 1344], [4608, 960, 1424], [5088, -960, 1344], [5088, -480, 1328], [5088, 0, 1456], [5088, 480, 1424], [5088, 960, 1376], [5568, -960, 1472], [5568, -480, 1472], [5568, 0, 1408], [5568, 480, 1344], [5568, 960, 1392]]
+    theme: theme:ash
+    platforms:
+      - {id: platform:devil_altar, at: [4736, 0], size: [320, 160], rise: 96, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: c2b, size: [256, 256]}, notes: "The black altar on the island: the skull of a devil on it (clicked: 'Destroy?', aaze0046:1)."}
+    levels:
+      - id: level:lake
+        outline: [[3584, -1024], [5632, -1024], [5632, 1024], [3584, 1024], [3584, 128], [4352, 128], [4352, 384], [5120, 384], [5120, -384], [4352, -384], [4352, -128], [3584, -128]]
+        floor: -128
+        bank: [192, 192, 192, 192, 0, 0, 0, 0, 0, 0, 0, 192]
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: lava, size: [256, 256]}
+        notes: "The lake of lava round the island, 128 below the shore: banks on its four outer sides (a party that falls in walks out burning), crust edges along the causeway and the island."
+    stalactites:
+      - {at: [5875, 939], radius: 64, length: 256, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [3437, -1052], radius: 96, length: 256, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [5773, -574], radius: 80, length: 256, surface: {texture: c2b, size: [256, 256]}}
+    ambient: 16
+    notes: "Set piece: a tall cavern round a lake of lava, the island with the devil skull's black altar in the middle reached by a causeway of crust; the fissure north, the stair head south."
+  - id: room:fissure
+    name: North fissure
+    outline: [[5248, 1664], [5888, 1664], [5888, 3328], [5248, 3328]]
+    floor: 0
+    floor_points: [[5408, 2176, -16], [5408, 2496, 48], [5408, 3136, 16], [5728, 1856, -16], [5728, 2176, 16], [5728, 2496, 48], [5728, 2816, 32], [5408, 1760, 0], [5568, 1760, 0], [5728, 1760, 0], [5792, 1872, 0], [5792, 2080, 0], [5792, 2288, 0], [5792, 2496, 0], [5792, 2704, 0], [5792, 2912, 0], [5792, 3120, 0], [5728, 3232, 0], [5568, 3232, 0], [5408, 3232, 0], [5344, 3120, 0], [5344, 2912, 0], [5344, 2704, 0], [5344, 2496, 0], [5344, 2288, 0], [5344, 2080, 0], [5344, 1872, 0]]
+    rough: {step: 256, depth: 96}
+    ceiling: 768
+    ceiling_points: [[5568, 2016, 912], [5568, 2496, 944], [5568, 2976, 992]]
+    theme: theme:seams
+    ambient: 12
+    notes: "A crack running north from the lake's shore, glowing seams in its walls; the shrine's iron door."
+  - id: room:gate_run_1
+    name: Gate run 1
+    space: room:gate_run
+    outline: [[4224, -6912], [4608, -6912], [4608, -6400], [4224, -6400]]
+    floor: -640
+    ceiling: -192
+    theme: theme:cave
+    ambient: 12
+    notes: "The gate run's mouth off the lever hall: the first slab ahead."
+  - id: room:gate_run_2
+    name: Gate run 2
+    space: room:gate_run
+    outline: [[4224, -7552], [4608, -7552], [4608, -7040], [4224, -7040]]
+    floor: -640
+    ceiling: -192
+    theme: theme:cave
+    ambient: 12
+    notes: Between the first and the second slab.
+  - id: room:gate_run_3
+    name: Gate run 3
+    space: room:gate_run
+    outline: [[4224, -8192], [4608, -8192], [4608, -7680], [4224, -7680]]
+    floor: -640
+    ceiling: -192
+    theme: theme:cave
+    ambient: 12
+    notes: Between the second and the third slab.
+  - id: room:gate_run_4
+    name: Gate run 4
+    space: room:gate_run
+    outline: [[4224, -8832], [4608, -8832], [4608, -8320], [4224, -8320]]
+    floor: -640
+    ceiling: -192
+    theme: theme:cave
+    ambient: 12
+    notes: Between the third and the fourth slab.
+  - id: room:gate_run_5
+    name: Gate run 5
+    space: room:gate_run
+    outline: [[4224, -9472], [4608, -9472], [4608, -8960], [4224, -8960]]
+    floor: -640
+    ceiling: -192
+    theme: theme:cave
+    ambient: 12
+    notes: "Beyond the last slab: the deep stair down."
+  - id: room:glass_caves
+    name: Glass caves
+    outline: [[2304, -15104], [3456, -15104], [3456, -12544], [3968, -12544], [3968, -11776], [2304, -11776]]
+    floor: -1280
+    floor_points: [[2816, -14720, -1216], [2816, -14400, -1312], [2816, -14080, -1344], [2816, -13760, -1344], [2816, -13440, -1264], [2816, -13120, -1312], [2816, -12800, -1264], [2816, -12480, -1312], [2816, -12160, -1312], [3136, -12160, -1264], [3456, -12160, -1328], [2496, -15008, -1280], [2688, -15008, -1280], [2880, -15008, -1280], [3072, -15008, -1280], [3264, -15008, -1280], [3360, -14907, -1280], [3360, -14710, -1280], [3360, -14513, -1280], [3360, -14316, -1280], [3360, -14119, -1280], [3360, -13922, -1280], [3360, -13726, -1280], [3360, -13529, -1280], [3360, -13332, -1280], [3360, -13135, -1280], [3360, -12938, -1280], [3360, -12741, -1280], [3627, -12448, -1280], [3797, -12448, -1280], [3872, -12352, -1280], [3872, -12160, -1280], [3872, -11968, -1280], [3760, -11872, -1280], [3552, -11872, -1280], [3344, -11872, -1280], [3136, -11872, -1280], [2928, -11872, -1280], [2720, -11872, -1280], [2512, -11872, -1280], [2400, -11984, -1280], [2400, -12192, -1280], [2400, -12400, -1280], [2400, -12608, -1280], [2400, -12816, -1280], [2400, -13024, -1280], [2400, -13232, -1280], [2400, -13440, -1280], [2400, -13648, -1280], [2400, -13856, -1280], [2400, -14064, -1280], [2400, -14272, -1280], [2400, -14480, -1280], [2400, -14688, -1280], [2400, -14896, -1280]]
+    rough: {step: 256, depth: 96}
+    ceiling: -640
+    ceiling_points: [[2896, -14640, -512], [2896, -14160, -544], [2896, -13680, -448], [2896, -13200, -528], [2896, -12720, -512], [2896, -12240, -528]]
+    theme: theme:seams
+    ambient: 12
+    notes: "Caves of black volcanic glass, the lava's light in every face; to the heart's west ledge."
+  - id: room:landing
+    name: Obsidian landing
+    outline: [[4096, -12416], [5632, -12416], [5632, -11648], [4096, -11648]]
+    floor: -1280
+    floor_points: [[4384, -12192, -1312], [4704, -11872, -1296], [5024, -12192, -1328], [5344, -12192, -1248], [4288, -12320, -1280], [4480, -12320, -1280], [4672, -12320, -1280], [4864, -12320, -1280], [5056, -12320, -1280], [5248, -12320, -1280], [5440, -12320, -1280], [5536, -12224, -1280], [5536, -12032, -1280], [5536, -11840, -1280], [5440, -11744, -1280], [5248, -11744, -1280], [5056, -11744, -1280], [4864, -11744, -1280], [4672, -11744, -1280], [4480, -11744, -1280], [4288, -11744, -1280], [4192, -11840, -1280], [4192, -12032, -1280], [4192, -12224, -1280]]
+    rough: {step: 256, depth: 96}
+    ceiling: -768
+    ceiling_points: [[4384, -12032, -624], [4864, -12032, -656], [5344, -12032, -672]]
+    theme: theme:seams
+    ambient: 12
+    notes: "The deep stair's foot: black glass underfoot, heat rising; the glass caves west, the ash pits east, the ember pocket north."
+  - id: room:last_cave
+    name: The last cave
+    outline: [[4416, -16768], [5312, -16768], [5312, -15744], [4416, -15744]]
+    floor: -1280
+    floor_points: [[4704, -16416, -1264], [4704, -16096, -1312], [5024, -16096, -1296], [4595, -16672, -1280], [4774, -16672, -1280], [4954, -16672, -1280], [5133, -16672, -1280], [5216, -16563, -1280], [5216, -16358, -1280], [5216, -16154, -1280], [5216, -15949, -1280], [5133, -15840, -1280], [4954, -15840, -1280], [4774, -15840, -1280], [4595, -15840, -1280], [4512, -15949, -1280], [4512, -16154, -1280], [4512, -16358, -1280], [4512, -16563, -1280]]
+    rough: {step: 256, depth: 96}
+    ceiling: -768
+    ceiling_points: [[4864, -16496, -624], [4864, -16016, -656]]
+    theme: theme:cave
+    ambient: 12
+    notes: "A short cave ending in a slab of bare rock, hot to the touch: the way to Shangri-La."
+  - id: room:lever_hall
+    name: Lever hall
+    outline: [[3584, -6272], [5248, -6272], [5248, -4352], [3584, -4352]]
+    floor: -640
+    floor_points: [[4096, -5472, -624], [4096, -4832, -624], [4416, -5792, -688], [4416, -5472, -672], [4736, -5792, -688], [4736, -5472, -592], [4736, -5152, -608], [4736, -4832, -608], [4416, -5120, -640], [3792, -6176, -640], [4000, -6176, -640], [4208, -6176, -640], [4416, -6176, -640], [4624, -6176, -640], [4832, -6176, -640], [5040, -6176, -640], [5152, -6080, -640], [5152, -5888, -640], [5152, -5696, -640], [5152, -5504, -640], [5152, -5312, -640], [5152, -5120, -640], [5152, -4928, -640], [5152, -4736, -640], [5152, -4544, -640], [5040, -4448, -640], [4832, -4448, -640], [4624, -4448, -640], [4416, -4448, -640], [4208, -4448, -640], [4000, -4448, -640], [3792, -4448, -640], [3680, -4544, -640], [3680, -4736, -640], [3680, -4928, -640], [3680, -5120, -640], [3680, -5312, -640], [3680, -5504, -640], [3680, -5696, -640], [3680, -5888, -640], [3680, -6080, -640]]
+    rough: {step: 192, depth: 48}
+    ceiling: 256
+    ceiling_points: [[4176, -5792, 496], [4176, -5312, 368], [4176, -4832, 400], [4656, -5792, 448], [4656, -5312, 496], [4656, -4832, 400]]
+    theme: theme:seams
+    platforms:
+      - {id: platform:pillar, at: [4416, -5120], size: [320, 320], rise: 640, surface: {texture: c2bb, size: [256, 256]}, top_surface: {texture: 7solid01, size: [16, 16]}, notes: "The black pillar: four lever stones on its sides, one for each slab of the gate run."}
+    stalactites:
+      - {at: [4899, -5587], radius: 96, length: 224, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [4525, -5645], radius: 80, length: 224, surface: {texture: c2b, size: [256, 256]}}
+    ambient: 12
+    notes: "The black pillar with four lever stones on its sides; the gate run opens south, its slabs in sight."
+  - id: room:magma_caves
+    name: Magma caves
+    outline: [[1792, -6016], [3456, -6016], [3456, -4480], [1792, -4480]]
+    floor: -640
+    rough: {step: 256, depth: 96}
+    ceiling: 128
+    ceiling_points: [[2384, -5488, 304], [2384, -5008, 320], [2864, -5488, 304], [2864, -5008, 336]]
+    theme: theme:cave
+    levels:
+      - id: level:river_n
+        outline: [[2304, -5088], [2688, -5088], [2688, -4608], [2304, -4608]]
+        floor: -768
+        bank: [0, 160, 0, 160]
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: lava, size: [256, 256]}
+        notes: "The lava river north of the stepping crust: banks on both long sides."
+      - id: level:river_s
+        outline: [[2304, -5888], [2688, -5888], [2688, -5408], [2304, -5408]]
+        floor: -768
+        bank: [0, 160, 0, 160]
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: lava, size: [256, 256]}
+        notes: "The lava river south of the stepping crust: banks on both long sides."
+    ambient: 12
+    notes: "A river of lava across the cave, the stepping crust over it; the slag pocket west."
+  - id: room:magma_heart
+    name: The magma heart
+    outline: [[3584, -15616], [6144, -15616], [6144, -12672], [3584, -12672]]
+    floor: -1280
+    rough: {step: 256, depth: 96}
+    ceiling: 0
+    ceiling_points: [[4144, -15104, 336], [4144, -14624, 208], [4144, -14144, 336], [4144, -13664, 240], [4144, -13184, 384], [4624, -15104, 192], [4624, -14624, 384], [4624, -14144, 368], [4624, -13664, 176], [4624, -13184, 288], [5104, -15104, 224], [5104, -14624, 304], [5104, -14144, 208], [5104, -13664, 368], [5104, -13184, 368], [5584, -15104, 224], [5584, -14624, 192], [5584, -14144, 240], [5584, -13664, 336], [5584, -13184, 192]]
+    theme: theme:cave
+    levels:
+      - id: level:heart
+        outline: [[4573, -14848], [5155, -14848], [5568, -14435], [5568, -13853], [5155, -13440], [4573, -13440], [4160, -13853], [4160, -14435]]
+        floor: -1408
+        bank: 192
+        edge: {texture: c2b, size: [256, 256]}
+        surface: {texture: lava, size: [256, 256]}
+        notes: "The heart's pool of lava, 128 below the ring ledge, banked on every side."
+    stalactites:
+      - {at: [5631, -14973], radius: 80, length: 288, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [5690, -13289], radius: 80, length: 288, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [3845, -14985], radius: 64, length: 288, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [5090, -15296], radius: 64, length: 288, surface: {texture: c2b, size: [256, 256]}}
+    ambient: 16
+    notes: "Set piece: a pool of lava at the root of the mountain, a ring ledge round it, the roof lost in smoke; the last cave south."
+  - id: room:mouth
+    name: Cave mouth
+    outline: [[0, -384], [768, -384], [768, 384], [0, 384]]
+    floor: 0
+    floor_points: [[544, 160, -32], [256, 0, 0], [192, -64, 0], [192, 64, 0], [320, -64, 0], [320, 64, 0], [192, -288, 0], [384, -288, 0], [576, -288, 0], [672, -192, 0], [672, 0, 0], [672, 192, 0], [576, 288, 0], [384, 288, 0], [192, 288, 0], [96, 192, 0], [96, 0, 0], [96, -192, 0]]
+    rough: {step: 192, depth: 48}
+    ceiling: 512
+    ceiling_points: [[384, 0, 576]]
+    theme: theme:cave
+    ambient: 20
+    notes: "The arrival (entrance:x7_mouth): daylight behind between the idols, heat ahead; the way out west."
+  - id: room:rough_steps
+    name: Rough steps
+    outline: [[5568, -4608], [5952, -4608], [5952, -2560], [5568, -2560]]
+    floor: 0
+    slope: {to: -640, toward: south, steps: 20}
+    ceiling: 448
+    ceiling_slope: {to: -192, toward: south}
+    theme: theme:cave
+    ambient: 12
+    notes: Twenty rough steps down to the gate stones (640).
+  - id: room:slag_pocket
+    name: Slag pocket
+    outline: [[768, -5632], [1664, -5632], [1664, -4864], [768, -4864]]
+    floor: -640
+    floor_points: [[1056, -5408, -592], [1056, -5088, -656], [1376, -5408, -656], [1376, -5088, -688], [947, -5536, -640], [1126, -5536, -640], [1306, -5536, -640], [1485, -5536, -640], [1568, -5440, -640], [1568, -5248, -640], [1568, -5056, -640], [1485, -4960, -640], [1306, -4960, -640], [1126, -4960, -640], [947, -4960, -640], [864, -5056, -640], [864, -5248, -640], [864, -5440, -640]]
+    rough: {step: 256, depth: 96}
+    ceiling: -192
+    ceiling_points: [[976, -5248, -112], [1456, -5248, -96]]
+    theme: theme:pits
+    ambient: 12
+    notes: "A dead end: an old pick and pack by a cooled slag heap, a chest."
+  - id: room:stair_foot
+    name: Stair foot
+    outline: [[5376, -5504], [6144, -5504], [6144, -4736], [5376, -4736]]
+    floor: -640
+    floor_points: [[5600, -5280, -672], [5600, -4960, -672], [5920, -5280, -672], [5568, -5408, -640], [5760, -5408, -640], [5952, -5408, -640], [6048, -5312, -640], [6048, -5120, -640], [6048, -4928, -640], [5952, -4832, -640], [5760, -4832, -640], [5568, -4832, -640], [5472, -4928, -640], [5472, -5120, -640], [5472, -5312, -640]]
+    rough: {step: 256, depth: 96}
+    ceiling: -128
+    ceiling_points: [[5760, -5120, -16]]
+    theme: theme:cave
+    ambient: 12
+    notes: "The steps' foot: the lever hall west, the steam vents south."
+  - id: room:stair_head
+    name: Stair head
+    outline: [[5376, -2432], [6144, -2432], [6144, -1664], [5376, -1664]]
+    floor: 0
+    floor_points: [[5600, -2208, 32], [5920, -2208, 32], [5920, -1888, -16], [5568, -2336, 0], [5760, -2336, 0], [5952, -2336, 0], [6048, -2240, 0], [6048, -2048, 0], [6048, -1856, 0], [5952, -1760, 0], [5760, -1760, 0], [5568, -1760, 0], [5472, -1856, 0], [5472, -2048, 0], [5472, -2240, 0]]
+    rough: {step: 256, depth: 96}
+    ceiling: 512
+    ceiling_points: [[5760, -2048, 624]]
+    theme: theme:cave
+    ambient: 12
+    notes: "On the lake's south shore: the rough steps go down south into the dark."
+  - id: room:steam_vents
+    name: Steam vents
+    outline: [[5376, -7040], [6528, -7040], [6528, -5632], [5376, -5632]]
+    floor: -640
+    floor_points: [[5792, -6656, -624], [5792, -6336, -624], [5792, -6016, -656], [6112, -6656, -624], [6112, -6336, -608], [6112, -6016, -592], [5568, -6944, -640], [5760, -6944, -640], [5952, -6944, -640], [6144, -6944, -640], [6336, -6944, -640], [6432, -6839, -640], [6432, -6638, -640], [6432, -6437, -640], [6432, -6235, -640], [6432, -6034, -640], [6432, -5833, -640], [6336, -5728, -640], [6144, -5728, -640], [5952, -5728, -640], [5760, -5728, -640], [5568, -5728, -640], [5472, -5833, -640], [5472, -6034, -640], [5472, -6235, -640], [5472, -6437, -640], [5472, -6638, -640], [5472, -6839, -640]]
+    rough: {step: 256, depth: 96}
+    ceiling: -64
+    ceiling_points: [[5712, -6576, 112], [5712, -6096, 112], [6192, -6576, 32], [6192, -6096, 64]]
+    theme: theme:cave
+    stalactites:
+      - {at: [6050, -6198], radius: 80, length: 160, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [5641, -6576], radius: 80, length: 160, surface: {texture: c2b, size: [256, 256]}}
+    ambient: 12
+    notes: "Vents hissing out of the floor between heaps of rock; a chest in a dry corner."
+  - id: room:vault_ante
+    name: Smoking passage
+    outline: [[1792, -1408], [2560, -1408], [2560, -448], [1792, -448]]
+    floor: 0
+    ceiling: 448
+    theme: theme:vault
+    ambient: 12
+    notes: "Smoke curls from under the vault's iron door; a lone chest by the wall."
+openings:
+  - id: open:ante_vault
+    from: room:vault_ante
+    to: room:chest_vault
+    from_wall: 0
+    to_wall: 2
+    link: link:ante_vault
+    width: 192
+    height: 320
+    notes: "The vault door: an iron leaf, smoke curling from under it."
+  - id: open:ash_ante
+    from: room:ash_gallery
+    to: room:vault_ante
+    from_wall: 0
+    to_wall: 2
+    link: link:ash_ante
+    width: 320
+    height: 352
+  - id: open:ash_heart
+    from: room:ash_pits
+    to: room:magma_heart
+    from_wall: 5
+    to_wall: 1
+    link: link:ash_heart
+    along: 0.6053
+    width: 448
+    height: 512
+  - id: open:ash_lake
+    from: room:ash_gallery
+    to: room:fire_lake
+    from_wall: 1
+    to_wall: 3
+    link: link:ash_lake
+    width: 512
+    height: 416
+  - id: open:cinder_stair
+    from: room:cinder_run
+    to: room:stair_head
+    from_wall: 3
+    to_wall: 1
+    link: link:cinder_stair
+    width: 320
+    height: 352
+  - id: open:deep_landing
+    from: room:deep_stair
+    to: room:landing
+    from_wall: 0
+    to_wall: 2
+    link: link:stair_down2
+    width: 352
+    height: 416
+  - id: open:fissure_shrine
+    from: room:fissure
+    to: room:demon_shrine
+    from_wall: 2
+    to_wall: 0
+    link: link:fissure_shrine
+    width: 192
+    height: 320
+    notes: The shrine's iron door.
+  - id: open:foot_lever
+    from: room:stair_foot
+    to: room:lever_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:foot_lever
+    width: 384
+    height: 416
+  - id: open:foot_vents
+    from: room:stair_foot
+    to: room:steam_vents
+    from_wall: 0
+    to_wall: 2
+    link: link:foot_vents
+    width: 384
+    height: 416
+  - id: open:gate_1_2
+    from: room:gate_run_1
+    to: room:gate_run_2
+    from_wall: 0
+    to_wall: 2
+    width: 256
+    height: 352
+    notes: The first slab.
+  - id: open:gate_2_3
+    from: room:gate_run_2
+    to: room:gate_run_3
+    from_wall: 0
+    to_wall: 2
+    width: 256
+    height: 352
+    notes: The second slab.
+  - id: open:gate_3_4
+    from: room:gate_run_3
+    to: room:gate_run_4
+    from_wall: 0
+    to_wall: 2
+    width: 256
+    height: 352
+    notes: The third slab.
+  - id: open:gate_4_5
+    from: room:gate_run_4
+    to: room:gate_run_5
+    from_wall: 0
+    to_wall: 2
+    width: 256
+    height: 352
+    notes: The fourth slab.
+  - id: open:gate_deep
+    from: room:gate_run_5
+    to: room:deep_stair
+    from_wall: 0
+    to_wall: 2
+    link: link:gates_stair
+    width: 352
+    height: 416
+  - id: open:glass_heart
+    from: room:glass_caves
+    to: room:magma_heart
+    from_wall: 1
+    to_wall: 3
+    link: link:glass_heart
+    along: 0.3947
+    width: 448
+    height: 512
+  - id: open:head_steps
+    from: room:stair_head
+    to: room:rough_steps
+    from_wall: 0
+    to_wall: 2
+    link: link:head_steps
+    width: 352
+    height: 416
+  - id: open:heart_last
+    from: room:magma_heart
+    to: room:last_cave
+    from_wall: 0
+    to_wall: 2
+    link: link:heart_last
+    width: 512
+    height: 448
+  - id: open:lake_fissure
+    from: room:fire_lake
+    to: room:fissure
+    from_wall: 2
+    to_wall: 0
+    link: link:lake_fissure
+    width: 448
+    height: 576
+  - id: open:lake_stair
+    from: room:fire_lake
+    to: room:stair_head
+    from_wall: 0
+    to_wall: 2
+    link: link:lake_stair
+    width: 448
+    height: 448
+  - id: open:landing_ash
+    from: room:landing
+    to: room:ash_pits
+    from_wall: 1
+    to_wall: 3
+    link: link:landing_ash
+    width: 384
+    height: 416
+  - id: open:landing_ember
+    from: room:landing
+    to: room:ember_pocket
+    from_wall: 2
+    to_wall: 0
+    link: link:landing_ember
+    width: 320
+    height: 352
+  - id: open:landing_glass
+    from: room:landing
+    to: room:glass_caves
+    from_wall: 3
+    to_wall: 3
+    link: link:landing_glass
+    width: 384
+    height: 416
+  - id: open:last_way
+    from: room:last_cave
+    to: room:cool_passage
+    from_wall: 0
+    to_wall: 2
+    link: link:last_way
+    width: 256
+    height: 320
+    notes: "The way's rock: a slab of bare rock that grinds aside when both skulls are broken."
+  - id: open:lever_gate1
+    from: room:lever_hall
+    to: room:gate_run_1
+    from_wall: 0
+    to_wall: 2
+    link: link:lever_gates
+    width: 352
+    height: 416
+  - id: open:lever_magma
+    from: room:lever_hall
+    to: room:magma_caves
+    from_wall: 3
+    to_wall: 1
+    link: link:lever_magma
+    width: 384
+    height: 448
+  - id: open:magma_slag
+    from: room:magma_caves
+    to: room:slag_pocket
+    from_wall: 3
+    to_wall: 1
+    link: link:magma_slag
+    width: 320
+    height: 352
+  - id: open:mouth_ash
+    from: room:mouth
+    to: room:ash_gallery
+    from_wall: 1
+    to_wall: 3
+    link: link:mouth_ash
+    width: 448
+    height: 384
+  - id: open:shrine_cinder
+    from: room:demon_shrine
+    to: room:cinder_run
+    from_wall: 0
+    to_wall: 2
+    link: link:shrine_cinder
+    width: 320
+    height: 352
+  - id: open:steps_foot
+    from: room:rough_steps
+    to: room:stair_foot
+    from_wall: 0
+    to_wall: 2
+    link: link:steps_foot
+    width: 352
+    height: 416
+  - id: open:vents_lever
+    from: room:steam_vents
+    to: room:lever_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:vents_lever
+    width: 320
+    height: 384
+notes: "XD-16 Volcano Cave at L4: floor 0 (the mouth, the ash gallery, the smoking passage and the vault of chests, the fire lake with the devil skull's island, the fissure, the demon shrine, the cinder run, the stair head), the rough steps down to floor -640 (the stair foot, the lever hall, the steam vents, the magma caves and the slag pocket, the gate run's four slabs), the deep stair down to floor -1280 (the obsidian landing, the ember pocket, the glass caves, the ash pits, the magma heart, the last cave, the cool passage). x east, y north; the mouth opens west onto X7. Written by output/studio_cal/xd16/tools/gen.py."

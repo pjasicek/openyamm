@@ -1,0 +1,31 @@
+# Playtest of the third pocket's one way out (DD-11C, L4; lane A7, agent:xeen-a7-dd11): the burrow's sod hatch
+# (evt:hatch, event 12, the exit preset: the game's leave window, no question, D-25) out to D2 at A6's return point for
+# the third hole (1536, -17408, 928) facing west (D2 event 34). Leaving a BLV for an ODM asks for confirmation (OK).
+# status() logs the landing; the party must stand on D2's ground there 2 s later.
+id: xeen.dd11c.l4.exit
+title: Troll Holes, third pocket (DD-11C L4), out by the burrow's sod hatch to D2
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11c.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 23, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 23, skills: [], equipment: {}}
+  - assert: {map: xeen_dd11c.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - set_pose: {map: xeen_dd11c.blv, x: -1600, y: 0, z: 330, yaw_degrees: 180, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - execute_event: {id: 12}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 1536, y: -17408, radius: 160, z_min: 830, z_max: 1030}}

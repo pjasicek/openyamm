@@ -1,0 +1,330 @@
+format: 0
+variables: [mirage_safe, mirage_cache, mirage_maze, mirage_vault, bed_revealed]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE CAVE OF ILLUSION. Warm, wet breath blows out of the ice into your faces. Artemus was plain about it: somewhere deep in this cave a talking skull sells the key to the Tower of High Magic, and skulls take gems, not gold. Mind the walls here: not all of them are there."
+      - qbit: arrived_once
+    notes: "Say why the party is here (M12: the talking skull's key, for gems), on the first arrival only (arrived_once 110641)."
+  - id: evt:bed_walked
+    preset: script
+    source: room:reservoir
+    trigger: step
+    condition: {qbit: plug_pulled, not: {map_var: bed_revealed}}
+    effects:
+      - show_actors: 10
+      - set:
+          var:
+            map_var: bed_revealed
+          value: 1
+    text: Shapes stir in the silt of the drained bed.
+    notes: "D-18 (c): the reservoir's six (placed hidden under the water, group 10, about 1,200 from the steps' and the wreck's ways onto the bed) appear the first time the party steps onto the drained bed, from any side; guarded by the map variable bed_revealed (a refill resets it with the actors)."
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:cache
+    title: Chest
+    effects:
+      - lua: "if not IsQBitSet(QBit(110642)) then SetQBit(QBit(110642)) evt.SetHeldItem(240, {bonus = 10}) evt.StatusText(\"A flask of red draught lies on top.\") end"
+    notes: "D-22.2: the Potion of Might at a fixed power 10 (+30 Might: any member reaches the plug's 30), given once per game on the cache's first opening (map qbit cache_potion 110642); the chest holds no random Might Boost."
+  - id: evt:chest_gems
+    preset: chest
+    source: chest:gems
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_post
+    preset: chest
+    source: chest:post
+    title: Chest
+  - id: evt:chest_wreck
+    preset: chest
+    source: chest:wreck
+    title: Chest
+  - id: evt:drained_load
+    preset: switch
+    trigger: load
+    condition: {qbit: plug_pulled}
+    opens: [mover:plug, mover:water, door:gate_drowned, door:gate_steps, door:gate_wreck]
+    notes: "After a refill the doors and movers start as built: the pulled plug's water stays gone."
+  - id: evt:exit_north
+    preset: exit
+    source: exit:north
+    title: Leave the Cave of Illusion
+    notes: "'Leave the Cave of Illusion?' (aaze0042:49): to X5 before the north mouth."
+  - id: evt:exit_south
+    preset: exit
+    source: exit:south
+    title: Leave the Cave of Illusion
+    notes: "'Leave the Cave of Illusion?' (aaze0042:49): to X5's Troll Forest side."
+  - id: evt:gate_drowned
+    preset: door
+    source: door:gate_drowned
+    title: Sluice gate
+    condition: {qbit: plug_pulled}
+    locked_text: The stone sluice gate is shut fast. Water presses against it from the other side.
+    action: open
+    notes: "The stone sluice gate before the drowned gallery: the plug opens it."
+  - id: evt:gate_steps
+    preset: door
+    source: door:gate_steps
+    title: Sluice gate
+    condition: {qbit: plug_pulled}
+    locked_text: The stone sluice gate is shut fast. Water presses against it from the other side.
+    action: open
+    notes: "The stone sluice gate before the steps to the reservoir bed: the plug opens it."
+  - id: evt:gate_wreck
+    preset: door
+    source: door:gate_wreck
+    title: Sluice gate
+    condition: {qbit: plug_pulled}
+    locked_text: The stone sluice gate is shut fast. Water presses against it from the other side.
+    action: open
+    notes: "The stone sluice gate before the stair down to the wreck: the plug opens it."
+  - id: evt:mirage_cache
+    preset: door
+    source: door:mirage_cache
+    touch: true
+    title: Cave wall
+    action: open
+    effects:
+      - set:
+          var:
+            map_var: mirage_cache
+          value: 1
+    text: The mirage dissipates with your touch.
+    notes: "A mirage (D-4 item 1): a click or a touch opens it at once. Original line (aaze0042:24)."
+  - id: evt:mirage_maze
+    preset: door
+    source: door:mirage_maze
+    touch: true
+    title: Cave wall
+    action: open
+    effects:
+      - set:
+          var:
+            map_var: mirage_maze
+          value: 1
+    text: The mirage dissipates with your touch.
+    notes: "A mirage (D-4 item 1): a click or a touch opens it at once. Original line (aaze0042:24)."
+  - id: evt:mirage_safe
+    preset: door
+    source: door:mirage_safe
+    touch: true
+    title: Cave wall
+    action: open
+    effects:
+      - set:
+          var:
+            map_var: mirage_safe
+          value: 1
+    text: The mirage dissipates with your touch.
+    notes: "A mirage (D-4 item 1): a click or a touch opens it at once. Original line (aaze0042:24)."
+  - id: evt:mirage_vault
+    preset: door
+    source: door:mirage_vault
+    touch: true
+    title: Cave wall
+    action: open
+    effects:
+      - set:
+          var:
+            map_var: mirage_vault
+          value: 1
+    text: The mirage dissipates with your touch.
+    notes: "A mirage (D-4 item 1): a click or a touch opens it at once. Original line (aaze0042:24)."
+  - id: evt:notice
+    preset: text
+    source: panel:notice
+    title: Notice
+    text: "A board, the words scratched deep: 'THE SKULLS TAKE GEMS, NOT GOLD. THE GREAT ONE AT THE BOTTOM WANTS TEN FOR HIS KEY - KEEP TEN. THE ECHO CAVE PAST THE GUARDIANS' POST KEEPS SOME. THE PLUG IN THE SLUICE LETS THE WATER OUT, IF YOU ARE STRONG.'"
+    window: true
+    notes: "poi:notice: gems before the great skull (D-1.6), plainly."
+  - id: evt:plug
+    preset: switch
+    source: mover:plug
+    title: Bronze plug
+    condition: {stat: {name: ActualMight, at_least: 30}, not: {qbit: plug_pulled}}
+    opens: [mover:plug, mover:water, door:gate_drowned, door:gate_steps, door:gate_wreck]
+    sets: {qbit: plug_pulled}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_reservoir_drain\", 2048, 2944, 0)"
+      - message: "You set your feet and heave on the chain. The bronze plug comes up out of its pool with a sucking roar, and through the window the black water of the reservoir begins to sink. The water roars away down the sump; somewhere below, stone gates grind open."
+    else_effects:
+      - lua: "if IsQBitSet(QBit(110640)) then evt.StatusText(\"The plug hangs free on its chain. Below the window the reservoir lies empty.\") else evt.StatusText(\"You aren't strong enough to pull the plug. A stronger arm, or a potion of Might, might shift it.\", 6) end"
+    notes: "poi:plug (D-4 item 3): Might 30 on the pulling member, potions counting (ActualMight); 'You aren't strong enough to pull the plug.' (aaze0042:23) and A3's hint (a stronger arm or a Might potion, 2026-11-22). Pulled once: plug_pulled, the water sinks, the three gates open."
+  - id: evt:safe
+    preset: text
+    source: platform:safe
+    title: Safe
+    text: Your hand passes through the safe as though it were not there.
+    notes: "poi:safe: the phantom safe (aaze0042:72); not a chest."
+  - id: evt:skull_great
+    preset: script
+    source: deco:skull_great
+    title: Great skull
+    lua: |-
+      if not IsQBitSet(QBit(111240)) then
+          XeenQuests.hook("m12.skull")
+          return
+      end
+      if IsPlayerBitSet(PlayerBit(11240)) then
+          XeenQuests.hook("m12.skull_sold")
+          return
+      end
+      if continueStep ~= nil and continueStep >= 1 and continueStep <= 3 then
+          if Xeen.payGems(10) then
+              local stat = "Might"
+              if continueStep == 1 then
+                  AddValue(BaseMight, 5)
+              elseif continueStep == 2 then
+                  AddValue(BaseEndurance, 5)
+                  stat = "Endurance"
+              else
+                  AddValue(BaseAccuracy, 5)
+                  stat = "Accuracy"
+              end
+              SetPlayerBit(PlayerBit(11240))
+              evt.SimpleMessage("The great skull takes ten of your gems and grins wider. +5 " .. stat .. " (permanent).")
+          else
+              XeenQuests.hook("m12.skull_poor")
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if Xeen.gemCount() < 10 then
+          XeenQuests.hook("m12.skull_poor")
+          return
+      end
+      XeenQuests.hook("m12.skull_grotto")
+      AskChoiceWithAnswerSteps(eventId, 5, "Ten gems for +5 to Might, Endurance or Accuracy?", {{Answer = "Might", Step = 1}, {Answer = "Endurance", Step = 2}, {Answer = "Accuracy", Step = 3}})
+    notes: "goal:enchanted_key: A3's hook m12.skull (10 gems: the Enchanted Key, qbit 111240, 1,500 XP); after it one question with three answers (D-18's cheaper option): +5 Might, Endurance or Accuracy for 10 gems, once per character (bit 11240)."
+  - id: evt:skull_intellect
+    preset: script
+    source: deco:skull_intellect
+    title: Skull (Intellect)
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11238)) then
+          XeenQuests.hook("m12.skull_sold")
+          return
+      end
+      if continueStep == 1 then
+          if Xeen.payGems(5) then
+              AddValue(BaseIntellect, 3)
+              SetPlayerBit(PlayerBit(11238))
+              evt.SimpleMessage("The skull's jaw clacks shut on 5 of your gems. +3 Intellect (permanent).")
+          else
+              XeenQuests.hook("m12.skull_poor")
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if Xeen.gemCount() < 5 then
+          XeenQuests.hook("m12.skull_poor")
+          return
+      end
+      XeenQuests.hook("m12.skull_deep")
+      AskChoiceWithAnswerSteps(eventId, 3, "5 gems for +3 Intellect?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "poi:skulls: Skull (Intellect), once per character (player bit 11238); A3's hooks for the words."
+  - id: evt:skull_luck
+    preset: script
+    source: deco:skull_luck
+    title: Skull (Luck)
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11236)) then
+          XeenQuests.hook("m12.skull_sold")
+          return
+      end
+      if continueStep == 1 then
+          if Xeen.payGems(3) then
+              AddValue(BaseLuck, 2)
+              SetPlayerBit(PlayerBit(11236))
+              evt.SimpleMessage("The skull's jaw clacks shut on 3 of your gems. +2 Luck (permanent).")
+          else
+              XeenQuests.hook("m12.skull_poor")
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if Xeen.gemCount() < 3 then
+          XeenQuests.hook("m12.skull_poor")
+          return
+      end
+      XeenQuests.hook("m12.skull_upper")
+      AskChoiceWithAnswerSteps(eventId, 3, "3 gems for +2 Luck?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "poi:skulls: Skull (Luck), once per character (player bit 11236); A3's hooks for the words."
+  - id: evt:skull_personality
+    preset: script
+    source: deco:skull_personality
+    title: Skull (Personality)
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11237)) then
+          XeenQuests.hook("m12.skull_sold")
+          return
+      end
+      if continueStep == 1 then
+          if Xeen.payGems(3) then
+              AddValue(BasePersonality, 2)
+              SetPlayerBit(PlayerBit(11237))
+              evt.SimpleMessage("The skull's jaw clacks shut on 3 of your gems. +2 Personality (permanent).")
+          else
+              XeenQuests.hook("m12.skull_poor")
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if Xeen.gemCount() < 3 then
+          XeenQuests.hook("m12.skull_poor")
+          return
+      end
+      XeenQuests.hook("m12.skull_upper")
+      AskChoiceWithAnswerSteps(eventId, 3, "3 gems for +2 Personality?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "poi:skulls: Skull (Personality), once per character (player bit 11237); A3's hooks for the words."
+  - id: evt:skull_speed
+    preset: script
+    source: deco:skull_speed
+    title: Skull (Speed)
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11239)) then
+          XeenQuests.hook("m12.skull_sold")
+          return
+      end
+      if continueStep == 1 then
+          if Xeen.payGems(5) then
+              AddValue(BaseSpeed, 3)
+              SetPlayerBit(PlayerBit(11239))
+              evt.SimpleMessage("The skull's jaw clacks shut on 5 of your gems. +3 Speed (permanent).")
+          else
+              XeenQuests.hook("m12.skull_poor")
+          end
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if Xeen.gemCount() < 5 then
+          XeenQuests.hook("m12.skull_poor")
+          return
+      end
+      XeenQuests.hook("m12.skull_deep")
+      AskChoiceWithAnswerSteps(eventId, 3, "5 gems for +3 Speed?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "poi:skulls: Skull (Speed), once per character (player bit 11239); A3's hooks for the words."
+  - id: evt:sluice_door
+    preset: door
+    source: door:sluice
+    title: Door
+notes: "XD-10's events, written by output/studio_cal/xd10/tools/dress.py."

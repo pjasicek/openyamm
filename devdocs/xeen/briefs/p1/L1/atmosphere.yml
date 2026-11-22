@@ -1,0 +1,4 @@
+format: 0
+open_sky: {mode: open, preset: plane_fire, view: outdoor, view_distance_scale: 1}
+daylight: {ambient_rgb: [150, 84, 60], sun_rgb: [255, 150, 90], night_scale_rgb: [255, 255, 255], sun_gain: 2}
+notes: "Sky preset `plane_fire` by name (lanes README: a preset, never a texture alias): MM8's red-smoke plane sky from the engine library (no sun, ember glow, storm clouds); the crater rim hides the horizon, so no below_horizon is needed. Night scale 255: a plane keeps its light at every hour. D-58 Q3."

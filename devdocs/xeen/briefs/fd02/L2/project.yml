@@ -1,0 +1,53 @@
+format: 0
+id: xeen_fd02
+name: Southern Sphinx
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: FD-02
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 20
+  - 10
+  climbs: n
+map_stats:
+  id: 9180
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 46
+  environment: stoneroom
+  lock_difficulty: 20
+  bolster: LowerToEqual
+  slots: []
+neighbours:
+- id: exit:x6_door
+  to: xeen_x6.odm
+  kind: door
+  arrival:
+  - -12144
+  - -10240
+  - 1536
+  arrival_hint: On X6 about 400 before the Southern Sphinx's breast leaves, facing east (D-57's point for entrance:fd02_door).
+  direction: 0
+  notes: 'X6 installed (A5). D-57 moves entrance:fd02_door to about (-12144, -10240, 1536) facing east; X6''s scene still
+    lists it at (-12800, -10240), inside the sphinx, so the exit goes to D-57''s coordinates (as DD-16 did) until A5 moves
+    the anchor; then back to the name. X6''s door:fd02 names this map''s arrival entrance:x6_door: (-256, 0, 0) facing west.'
+qbits:
+  rune_p: 118110
+  rune_i: 118111
+  rune_c: 118112
+  rune_a: 118113
+  rune_r: 118114
+  rune_d: 118115
+  swing_paid: 118116
+  chop_paid: 118117
+  illusion_gone: 118118
+  boosts_taken: 118119
+  name_said: 111800
+  m40_done: 111801
+notes: 'Xeen design brief, level L2: FD-02 Southern Sphinx (see L4/NOTES.md).'

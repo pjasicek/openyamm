@@ -1,0 +1,89 @@
+# A corner's question.
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4.corner
+title: 'The Skyroads (D7): the Fire Corner''s tip asks ''What do you seek?''; a wrong answer runs m38.corner_wrong and the
+  party stays'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_d7.blv
+- setup_shortcut:
+    kind: set_qbit
+    id: 111600
+- load_map:
+    map: xeen_d7.blv
+    pos: -29388, 19558, 1288
+- play_lua:
+    source: wait(1.5); close()
+- note: 'The Fire Corner''s tip: stepping on it, the sky asks ''What do you seek?'''
+- movement_segment:
+    input: forward
+    seconds: 0.8
+    actor_collision: true
+    actor_ai: true
+    start:
+      map: xeen_d7.blv
+      x: -29978
+      y: 20063
+      z: 1288
+      yaw_degrees: 139
+      pitch: 0
+    expect_stop:
+      map: xeen_d7.blv
+      x: -29978
+      y: 20063
+      z: 1288
+      yaw_degrees: 139
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 2000
+    tolerance_z: 400
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: log('CORNER ' .. (status() or ''))
+- answer_input:
+    text: Gold
+- advance_runtime:
+    seconds: 1.0
+- note: 'A wrong answer runs A3''s m38.corner_wrong: its line, and the party stays on D7.'
+- assert:
+    dialog:
+      active: true
+      text_contains: The sky says nothing
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_d7.blv

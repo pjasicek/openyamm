@@ -1,0 +1,55 @@
+format: 0
+id: xeen_xd16
+name: Volcano Cave
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-16
+units: {plan_grid: 512}
+extent: {footprint_cells: [14, 37], climbs: s}
+map_stats:
+  id: 9142
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 15
+  refill_days: 672
+  music: 7
+  environment: cave
+  lock_difficulty: 15
+  slots:
+    - {monster: Xeen Demon, tier: 5, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:x7_mouth
+    to: xeen_x7.odm
+    kind: door
+    arrival: entrance:xd16_mouth
+    arrival_hint: "On X7 in front of the Volcano Cave's mouth at Mount Firestone's west foot, between the demon and devil idols (A5's entrance:xd16_mouth, (512, 9728, 2240) facing west)."
+    notes: "X7 installed (A5). The way out names X7's named arrival entrance:xd16_mouth; the facing comes with it. X7's door:xd16 (thing:xd16_mouth, 'Enter the Volcano Cave?', aaze0017:1) names this map's arrival entrance:x7_mouth: in the cave mouth (256, 0, 0) facing east."
+  - id: exit:xd17_way
+    to: xeen_xd17.blv
+    kind: door
+    arrival: entrance:xd16_way
+    arrival_hint: "In XD-17 (Shangri-La's way) at A5's entrance:xd16_way (-1280, -4736, 4) facing north."
+    screen: {text: 5017}
+    notes: "XD-17 installed (A5, 01:45). XD-17's way back names this map's arrival entrance:xd17_way: in the cool passage (4864, -18176, -1280) facing north."
+qbits:
+  demon_skull: 112520
+  devil_skull: 112521
+  rock_drawn: 118054
+  slab_1: 118050
+  slab_2: 118051
+  slab_3: 118052
+  slab_4: 118053
+  trap_1: 118055
+  trap_2: 118056
+  trap_3: 118057
+  trap_4: 118058
+  trap_5: 118059
+  way_open: 112522
+notes: "Xeen design brief, level L4: XD-16 Volcano Cave, on X7 (Mount Firestone), Act V, class M (MU-6 graph devdocs/xeen/mockups/act5_graphs/xd16.graph.yml, decider D-47 in mockups/act5_a7_decisions.md). Q-C26: the demon and devil skulls (A3's q-c26.demon_skull, devil_skull; the second sets done 112522), the four lever stones and slabs (q-c26.lever, lever_down), the way's rock and the cool passage (q-c26.way). Monsters, all placed and hostile in groups 10-33 by room: 20 Demon 11630 (42), 14 Devil 11631 (50), 6 Screamer 11632 (58): 40 (under M's 45, D-47 Q1). Rest encounters 10 % from the demons at Dif 5 (D-47 Q6). Map card 9142, music 7, treasure 5. Map qbits 118050-118059: slab_1-4 118050-118053, rock_drawn 118054, trap_1-5 118055-118059. The way out to X7 (installed) is live; the cool passage's end to XD-17 is live (XD-17 not built)."
+identity:
+  shape: cave
+  family: 7d07
+  seen: [a scorched cave mouth and the ash gallery's broken rock, "the fire lake and the magma heart: rough caves of Thunderfist rock, floors that rise and fall, high vaults", the demon skull's shrine in the Fire Lord's black volcanic stone]

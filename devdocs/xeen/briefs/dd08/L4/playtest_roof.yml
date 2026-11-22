@@ -1,0 +1,51 @@
+# Playtest of the Northern Tower's roof trapdoor (DD-08, L4; D-58): in the ladder loft on L4, before m30.done (111600)
+# the trapdoor (evt:roof 45) gives A3's d7.roof_dd08 fail text "The trapdoor is shut fast." and the party stays; with
+# 111600 set it shows the standard entrance window (F16, 2026-11-22): Close keeps the party here, OK goes up
+# to D7's entrance:dd08_roof (5632, 15104, 1158) facing 512, measured there. Numbers are
+# ids.lock.yml's. Run with --world xeen (output/studio_cal/dd08/four.sh).
+id: xeen.dd08.l4.roof
+title: Northern Tower (DD-08 L4), the roof trapdoor shut before M30 and up to D7 after it
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd08.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_dd08.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd08.blv, x: 2688, y: 900, z: 1344, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(4000)"}
+  - walk_to: {x: 2688, y: 1400, z: 1344, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2688, y: 1536, z: 1344, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 2688, y: 1536, radius: 80, z_min: 1336, z_max: 1352}}
+  - play_lua: {source: "if qbit(111600) then error('m30.done (111600) is set at the start') end; click(45); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The trapdoor is shut fast."}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd08.blv}
+  - setup_shortcut: {kind: set_qbit, id: 111600, value: true}
+  - play_lua: {source: "click(45); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "Close"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd08.blv}
+  - play_lua: {source: "click(45); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: xeen_d7.blv}
+  - play_lua: {source: "clear_hostiles(6000); close()"}
+  - advance_runtime: {seconds: 3}
+  - assert: {party_position: {x: 5632, y: 15104, radius: 160, facing: 512, facing_within: 64}}
+  - play_lua: {source: "log('D7 arrival: ' .. party())"}

@@ -1,0 +1,117 @@
+# Hostility check of the Gremlin Court (DD-04) (the XD-27 form; lane A8, 2026-11-20; D-37 in session 7). The kinds:
+# the court side Gremlin 11024, Gremlin Saboteur 11025 and Gremlin Guard 11026 (xeen_gremlins_court: friendly until
+# court_hostile 113024, friendly again on court_peace 113026); Gettlewaithe 11023 in his own faction
+# (xeen_gremlins_king: friendly at load and after court_peace, no rule on court_hostile: he turns only when struck
+# himself); the army Gremlin 11027 (xeen_gremlins_army: hostile until court_peace). The world's relations.yml says it
+# all (no map relations); the map's timer (evt:court_roused) sets court_hostile when a court actor (0-16) has turned on
+# the party. At load: no court monster hostile, no army monster peaceful; a court gremlin and an army gremlin side by
+# side do not take each other on. From a save at load, two blows: (1) a blow at a burrow gremlin (actor 4) sets
+# court_hostile and turns the court's guards, while Gettlewaithe stays friendly; the guards fall (guards_beaten) and
+# "Submit or die" at his throne (event 22) still makes the peace; (2) a blow at Gettlewaithe (actor 0) turns him,
+# and the timer then turns the court, and he stays hostile (A1's merge point 18 resets only factions whose relation
+# really changed). Run with --world xeen
+# --map xeen_dd04.blv. Actors: 0 Gettlewaithe, 1-3 the guards, 4 the first burrow gremlin.
+id: xeen.dd04.l4.hostility
+title: 'the Gremlin Court (DD-04): court peaceful, army hostile; a blow rouses the court, not its king'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run.
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11025, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11026, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11027, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11023, hostile: false, min: 1}}
+- assert: {actor_count: {monster_id: 11024, hostile: false, min: 11}}
+- assert: {actor_count: {monster_id: 11027, hostile: true, min: 11}}
+- save_game: {name: dd04_calm}
+- note: Nobody of the court is roused while the party only walks about (court_hostile stays clear).
+- advance_runtime: {seconds: 6}
+- play_lua: {source: "if qbit(113024) then error('court_hostile set with no blow struck') end"}
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on (spawn_actor summons hostile monsters, so the court gremlins spawned here are hostile
+    too: the check is only that the kinds leave each other alone).'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11024, x: -96, y: 600, z: 0}
+- spawn_actor: {monster_id: 11026, x: 0, y: 600, z: 0}
+- spawn_actor: {monster_id: 11027, x: 96, y: 600, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11027, hostile: true, min: 12}}
+- assert: {actor_count: {monster_id: 11024, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11026, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11027, hurt: true, max: 0}}
+- console: {line: arena trace off}
+- note: '(1) A blow at a court gremlin in the burrow: court_hostile, the guards turn, Gettlewaithe does not (D-37).'
+- load_game: {name: dd04_calm}
+- advance_runtime: {seconds: 1}
+- assert: {actor_count: {monster_id: 11026, hostile: true, max: 0}}
+- walk_to: {x: 0, y: 760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+- damage_actor: {actor_index: 4, amount: 1}
+- play_lua:
+    source: |
+      status(); wait(2)
+      if not qbit(113024) then error("court_hostile not set by the blow at a burrow gremlin") end
+- assert: {actor_count: {monster_id: 11026, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11025, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11024, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11023, hostile: false, min: 1}}
+- note: Some seconds of the court's fury later the king still sits it out.
+- advance_runtime: {seconds: 6}
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- note: The guards fall (guards_beaten); "Submit or die" at the throne makes the peace.
+- damage_actor: {actor_index: 1, amount: 100000}
+- damage_actor: {actor_index: 2, amount: 100000}
+- damage_actor: {actor_index: 3, amount: 100000}
+- advance_runtime: {seconds: 3, present_dialogs: true}
+- play_lua: {source: "close(); if not qbit(113025) then error('guards_beaten not set') end"}
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- execute_event: {id: 22}
+- assert: {dialog: {active: true, text_contains: "Imperator Primus of the Gremlins"}}
+- select_topic: {match_label: "Submit or die"}
+- assert: {dialog: {active: true, text_contains: "Yes, sir. I will do as you ask without delay."}}
+- play_lua:
+    source: |
+      close(); close(); wait(2)
+      if not qbit(113026) or not qbit(113021) then error("court_peace or court_won not set") end
+      if qbit(113027) then error("gettlewaithe_slain set on the peace route") end
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11025, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11027, hostile: true, max: 0}}
+- note: '(2) From the save again: a blow at Gettlewaithe himself turns him (the timer sees it: nobody else is struck)
+    and the timer turns the court. He stays hostile when court_hostile switches the court''s rule (merge point 18:
+    a QBit switch resets only the factions whose relation to the party changed).'
+- load_game: {name: dd04_calm}
+- advance_runtime: {seconds: 1}
+- play_lua: {source: "if qbit(113024) then error('court_hostile set after the load') end"}
+- assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+- damage_actor: {actor_index: 0, amount: 1}
+- play_lua:
+    source: |
+      status(); wait(2)
+      if not qbit(113024) then error("court_hostile not set by the blow at Gettlewaithe") end
+- assert: {actor_count: {monster_id: 11026, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11024, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11025, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11023, hostile: true, min: 1}}
+- assert: {actor_count: {monster_id: 11023, hostile: false, max: 0}}
+- note: Some seconds later, after the court's rule has switched, the struck king is still hostile.
+- advance_runtime: {seconds: 8}
+- assert: {actor_count: {monster_id: 11023, hostile: true, min: 1}}
+- assert: {actor_count: {monster_id: 11023, hostile: false, max: 0}}

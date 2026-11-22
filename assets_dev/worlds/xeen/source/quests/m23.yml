@@ -1,0 +1,74 @@
+# M23 The Xeen Slayer Sword (QUESTS M23; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Newcastle Keep's dungeon (XD-13, stage 3, A7): the experimental sword's vault. Its door asks for a password whose
+# syllables are scratched on the dungeon's walls (la, bo, ra, to, ry); Crodo said the word plainly (m21, autonote
+# 4121), and so does Elona in Shangri-La (npcs/xd17.yml). The sword: A2's xeen_slayer_sword (12500), the only weapon
+# that harms Lord Xeen (M35, PRODUCTION E11).
+id: M23
+title: The Xeen Slayer Sword
+act: IV
+kind: main
+status: full
+giver: 4403          # Emerson's dig sets started (m22)
+maps: [XD-13]
+level: 37
+block: 23
+after: [m22.dungeon]
+source: "QUESTS M23; xeen/aaze0061:0 (Crodo), xeen Shangri-La (the password line); MAPS XD-13"
+
+qbits:
+  started: {id: 111460, journal: "The sword that can kill Lord Xeen lies in a vault under Newcastle. Its door wants a word.",
+            until: [done]}
+  vault_opened: {id: 111461, note: "XD-13's vault door (A7), after its password prompt"}
+  done: {id: 111462, journal: "You have the Xeen Slayer Sword. Lord Xeen's hideout is in the clouds above Darzog's tower.",
+            until: [m35.started]}
+
+autonotes:
+  sword: {id: 4123, text: "The Xeen Slayer Sword: the only blade that can harm Lord Xeen. His castle is in the Clouds of Xeen, above Darzog's tower.", category: Misc}
+
+items:
+  xeen_slayer_sword: "the vault under Newcastle (sword hook)"
+
+hooks:
+  syllable_la:
+    map: XD-13
+    where: "the great hall's north wall (readable at stage 0): one of five scratched syllables"
+    text: "Scratched into the stone, in a hurried hand: 1: la"
+  syllable_bo:
+    map: XD-13
+    where: "under the pantry sack (readable at stage 0)"
+    text: "Scratched into the stone: 2: bo"
+  syllable_ra:
+    map: XD-13
+    where: "the court by the stair (readable at stage 0)"
+    text: "Scratched into the stone: 3: ra"
+  syllable_to:
+    map: XD-13
+    where: "the cellar shelf"
+    text: "Scratched into the stone: 4: to"
+  syllable_ry:
+    map: XD-13
+    where: "the laboratory's last wall before the vault"
+    text: "Scratched into the stone: 5: ry. Someone did not trust his own memory."
+  vault_door:
+    map: XD-13
+    where: "the sword vault's door at the bottom of the dungeon: the map's password prompt \"Password?\", answer laboratory; the right answer calls this and opens the door"
+    sets: [vault_opened]
+    once: true
+    text: "The humming stops. The vault door slides into the wall."
+    else_text: "The vault door stands open."
+  sword:
+    map: XD-13
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    gate: puzzle
+    where: "the vault's sword chest on the rack (D-90, A7 2026-11-22): the sword is the chest's item; the map calls this after the chest opens (the vault door is the gate)"
+    sets: [done]
+    map_gives: {xeen_slayer_sword: 1}
+    once: true
+    do: [{autonote: sword}, {xp: 10000}]
+    text: "On a rack of tools nobody remembers how to use: a long blade with no shine at all. The tag on its hilt reads XEEN SLAYER. EXPERIMENTAL. DO NOT DROP."
+
+riddles:
+  - {answer: laboratory, where: "XD-13's vault door (m23.vault_door)", said_by: "Crodo (m21.crodo, autonote 4121); Elona in Shangri-La (npcs/xd17.yml); the five numbered syllables scratched round the keep (D-22.5)"}
+
+rewards: {xp: 10000, gold: 0, items: "Xeen Slayer Sword"}
+playthrough: "XD-13 (stage 3): the five syllables; the vault door (laboratory); the sword."

@@ -1,0 +1,136 @@
+# Xeen playthrough, segment 13: to Castle Burlock (X4, XD-07), M5-M7, M12's lead and Q-C3's start. Vertigo's stable
+# takes the party to Burlock (route 404, Tuesdays and Saturdays, 4 days); the castle lane walked to the gate; inside,
+# the portcullis lifts for Crusaders (m5.crusaders_gate), the throne room: King Burlock (Sixth Mirror: m5.audience),
+# Prince Roland (The mirror, Travels); the gallery: Artemus (Crodo: m6, Pyramids: the sigil, Darzog's tower: m12);
+# the east tower: Princess Roxanne (Tiara: Q-C3 started). Out by the castle door onto X4's castle rise.
+# Routes: devdocs/xeen/briefs/xd07/L4/playtest.yml, playtest_exit.yml; X4: briefs/x4/L4/playtest.yml.
+# Quest logic: source/quests/m5.yml, m6.yml, m7.yml, m12.yml, q-c3.yml.
+#   python3 tests/playthrough/xeen/run.py 13
+id: xeen.playthrough.13_castle_burlock
+title: "Xeen playthrough 13: by coach to Castle Burlock; the King's audience, Artemus's sigil and Roxanne's tiara"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/11_orc_caves.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - assert: {qbit_set: [110047]}
+  - assert: {qbit_clear: [111100, 111120, 110100, 111241, 112060]}
+  # Vertigo Stables (house 4016). The checkpoint is a Monday: Hob lists Rivercity only. The party waits a day for the
+  # Tuesday coach to Burlock (route 404, Tuesdays and Saturdays).
+  - set_pose: {map: xeen_x1.odm, x: 768, y: 9212, z: 640, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {action_label_present: "2 days to Rivercity and Lake Darzog for 50 gold"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
+  - advance_game_time: {days: 1}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {action_label_present: "4 days to Burlock Savannah for 50 gold"}}
+  - play_lua: {source: "remember('gold', gold())"}
+  - select_topic: {match_label: "4 days to Burlock Savannah for 50 gold"}
+  - advance_runtime: {seconds: 2.0, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: 614, y: 4096, radius: 200, z_min: 1200, z_max: 1400}}
+  - play_lua: {source: "close(); if recall('gold') - gold() ~= 50 then error('the coach cost ' .. (recall('gold') - gold())) end"}
+  # Up the castle lane to the gate.
+  - walk_to: {x: -1024, y: 5120, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1024, y: 6707, z: 1750, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  # The castle gate (X4 event 180) leads into XD-07's gatehouse.
+  - set_pose: {map: xeen_x4.odm, x: -1024, y: 6707, z: 1760, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd07.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 96, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The portcullis lifts for Crusaders (m5.crusaders_gate).
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(8); if door_state(11) ~= 'open' then error('the portcullis did not open for Crusaders: ' .. door_state(11)) end"}
+  - walk_to: {x: 0, y: 2304, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - assert:
+      actor_count: {monster_id: 11143, hostile: true, max: 0}
+  # The throne room (house 4201): King Burlock and Prince Roland.
+  - walk_to: {x: 0, y: 3150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 13); if door_state(14) ~= 'open' then error('the second leaf did not open') end"}
+  - walk_to: {x: 0, y: 5300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(43); wait(1)"}
+  - assert:
+      dialog: {house_dialog: true, source_id: 4201}
+  - select_topic: {match_label: "King Burlock"}
+  - select_topic: {match_label: "Sixth Mirror"}
+  - assert:
+      dialog: {text_contains: "I charge you with the quest of finding the Sixth Mirror"}
+  - select_topic: {match_label: "Earldom"}
+  - assert:
+      dialog: {text_contains: "Newcastle's ruins are for sale"}
+  - press_action: {action: cancel_dialog}
+  - select_topic: {match_label: "Prince Roland"}
+  - select_topic: {match_label: "The mirror"}
+  - assert:
+      dialog: {text_contains: "My brother has wanted the Sixth Mirror"}
+  - select_topic: {match_label: "Travels"}
+  - assert:
+      dialog: {text_contains: "I was away a long time"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}   # F1: a sole proprietor's talk closes at once (no lobby behind it)
+  - assert: {qbit_set: [111100]}
+  - play_lua: {source: "close(); local xp = experience(0) - recall('xp'); if xp ~= 1000 then error('the audience gave ' .. xp .. ' experience') end"}
+  # The gallery of arms: Artemus (house 4202).
+  - walk_to: {x: 0, y: 4000, z: 0, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3872, y: 4150, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(1)"}
+  - assert:
+      dialog: {source_id: 4402}
+  - select_topic: {match_label: "Crodo"}
+  - assert:
+      dialog: {text_contains: "Years ago King Burlock met Crodo"}
+  - select_topic: {match_label: "Pyramids"}
+  - assert:
+      dialog: {text_contains: "the Pyramid Sigil"}
+  - select_topic: {match_label: "Darzog's tower"}
+  - assert:
+      dialog: {text_contains: "The study's key is sold by a talking skull"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - assert: {qbit_set: [111120, 110100, 111241]}
+  # The east tower: Princess Roxanne (house 4204) on the landing.
+  - walk_to: {x: 1100, y: 3968, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 5)"}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4900, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(1)"}
+  - assert:
+      dialog: {source_id: 4404}
+  - select_topic: {match_label: "Tiara"}
+  - assert:
+      dialog: {text_contains: "my diamond tiara has been stolen"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - assert: {qbit_set: [112060]}
+  # Back down and out by the castle door onto X4's castle rise.
+  - walk_to: {x: 4300, y: 5376, z: 640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: 5376, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3300, z: 0, radius: 96, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 700, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -1024, y: 6912, radius: 160, z_min: 1700, z_max: 1900}}
+  - assert: {qbit_set: [111100, 111120, 110100, 111241, 112060, 110047]}
+  - play_lua:
+      source: |
+        if not has_item(12302) then error('no Pyramid Sigil') end
+        log('13 done: experience ' .. experience(0) .. ', gold ' .. gold() .. ', ' .. classes())
+  - save_game: {name: "13 Castle Burlock", path: output/playthrough/xeen/checkpoints/13_castle_burlock.oysav}

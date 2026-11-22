@@ -1,0 +1,1064 @@
+format: 0
+level: L2
+pitch: 'Lord Xeen''s castle on the clouds: black stone and gold with the Ancients'' machines set into it. Four elemental generators,
+  two in the lower vaults and two at the tower tops, feed one field before the crown stair; in the keep the guard-making machines
+  keep stamping out Xeen''s Guards. Above the field, the aviary under open sky where Xeen''s Pet roosts, then the throne room:
+  Lord Xeen on his dais and the Sixth Mirror behind him.'
+purpose: 'M35 Castle Xeen: m35.gen_* (four generators), m35.barrier, m35.pet, m35.lord_xeen_sight, m35.lord_xeen, m35.scepter_ask/m35.scepter
+  and the mirror''s cinematic. 70 monsters at 42-70 plus Xeen''s Pet 75 and Lord Xeen 85; treasure 5 and the hoard 6.'
+mood: Black stone under gold friezes, cold green-blue machine light, the crackle of the field, open sky over the battlements
+  and the aviary.
+datum: arrival
+spaces:
+- id: room:gate
+  name: Gatehall
+  kind: room
+  size: S
+  extent: [1280, 1440]
+  floor: 0
+  purpose: 'The arrival (entrance:x9_gate): behind the two gate leaves, the sigil over the inner arch; m35.arrival. Quiet
+    (D-11.3).'
+  empty: true
+- id: room:nave
+  name: Hall of Xeendom
+  kind: room
+  size: L
+  extent: [2240, 1920]
+  floor: 0
+  purpose: Black pillared hall under gold friezes; two-leaf doors north to the stair hall.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 3 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:aisle_w
+  name: Hall of Xeendom, west aisle
+  kind: corridor
+  size: M
+  extent: [640, 1920]
+  floor: 0
+  purpose: The great hall's west aisle.
+  empty: true
+- id: room:aisle_e
+  name: Hall of Xeendom, east aisle
+  kind: corridor
+  size: M
+  extent: [640, 1920]
+  floor: 0
+  purpose: The great hall's east aisle.
+  empty: true
+- id: room:ward_w
+  name: West ward
+  kind: corridor
+  size: M
+  extent: [1120, 640]
+  floor: 0
+  purpose: Vaulted passage to the west gallery and the barracks.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+- id: room:ward_e
+  name: East ward
+  kind: corridor
+  size: M
+  extent: [1120, 640]
+  floor: 0
+  purpose: 'The same on the east: to the east gallery and the armoury.'
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+- id: room:barracks
+  name: Guard barracks
+  kind: room
+  size: M
+  extent: [1120, 1920]
+  floor: 0
+  purpose: 'Dead end with a chest: racks of powered-down guards.'
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 3 placed Xeen's Guard.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:armoury
+  name: Armoury
+  kind: room
+  size: M
+  extent: [1120, 1920]
+  floor: 0
+  purpose: 'Dead end with a chest: weapon racks, spare gem eyes.'
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 2 placed Xeen's Guard.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:gallery_w
+  name: West gallery
+  kind: corridor
+  size: M
+  extent: [800, 1920]
+  floor: 0
+  purpose: From the south-west tower to the cold vault.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:gallery_e
+  name: East gallery
+  kind: corridor
+  size: M
+  extent: [800, 1920]
+  floor: 0
+  purpose: From the south-east tower to the gravel vault.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:tower0_w
+  name: South-west tower
+  kind: room
+  size: S
+  extent: [800, 1920]
+  floor: 0
+  purpose: The south-west tower's first stair.
+  empty: true
+- id: room:tower0_e
+  name: South-east tower
+  kind: room
+  size: S
+  extent: [800, 1920]
+  floor: 0
+  purpose: The south-east tower's first stair.
+  empty: true
+- id: room:vault_w
+  name: Cold vault
+  kind: room
+  size: M
+  extent: [2080, 2560]
+  floor: 0
+  purpose: The Water Generator (m35.gen_water).
+  population:
+  - actor: 11625
+    groups: 1
+    levels: [55, 55]
+    notes: 2 placed Lesser Water Elemental.
+- id: room:vault_e
+  name: Gravel vault
+  kind: room
+  size: M
+  extent: [2080, 2560]
+  floor: 0
+  purpose: The Earth Generator (m35.gen_earth).
+  population:
+  - actor: 11626
+    groups: 1
+    levels: [55, 55]
+    notes: 2 placed Lesser Earth Elemental.
+- id: room:stair_hall
+  name: Stair hall
+  kind: room
+  size: M
+  extent: [3840, 2560]
+  floor: 0
+  purpose: The grand stair up to the foundry; doors into the two vaults.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11632
+    groups: 1
+    levels: [58, 58]
+    notes: 1 placed Screamer.
+- id: room:tower1_w
+  name: South-west tower, upper stair
+  kind: room
+  size: S
+  extent: [800, 1920]
+  floor: 640
+  purpose: The south-west tower's upper stair to the tower top.
+  empty: true
+- id: room:tower1_e
+  name: South-east tower, upper stair
+  kind: room
+  size: S
+  extent: [800, 1920]
+  floor: 640
+  purpose: The south-east tower's upper stair.
+  empty: true
+- id: room:wall_ws
+  name: West wall walk
+  kind: corridor
+  size: M
+  extent: [800, 3040]
+  floor: 640
+  purpose: Battlements under open sky.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:turret_w
+  name: West turret
+  kind: room
+  size: S
+  extent: [800, 960]
+  floor: 640
+  purpose: A roofed turret on the west wall.
+  empty: true
+- id: room:wall_wn
+  name: West wall walk, north
+  kind: corridor
+  size: M
+  extent: [800, 2880]
+  floor: 640
+  purpose: The wall walk's north stretch; the keep's west door.
+  empty: true
+- id: room:wall_es
+  name: East wall walk
+  kind: corridor
+  size: M
+  extent: [800, 3040]
+  floor: 640
+  purpose: The east battlements under open sky.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:turret_e
+  name: East turret
+  kind: room
+  size: S
+  extent: [800, 960]
+  floor: 640
+  purpose: A roofed turret on the east wall.
+  empty: true
+- id: room:wall_en
+  name: East wall walk, north
+  kind: corridor
+  size: M
+  extent: [800, 2880]
+  floor: 640
+  purpose: The keep's east door.
+  empty: true
+- id: room:grand_landing
+  name: Grand landing
+  kind: room
+  size: S
+  extent: [2560, 640]
+  floor: 640
+  purpose: The grand stair's top, opening on the foundry.
+  empty: true
+- id: room:foundry
+  name: Guard foundry
+  kind: room
+  size: L
+  extent: [3840, 1600]
+  floor: 640
+  purpose: 'The guard foundry: the slow line, the bays'' shutters.'
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 3 placed Xeen's Guard.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:foundry_w
+  name: Guard foundry, west machine
+  kind: room
+  size: M
+  extent: [2080, 2400]
+  floor: 640
+  purpose: The west guard-making machine (destructible), its chute, two hidden guards.
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 2 placed Xeen's Guard.
+- id: room:foundry_e
+  name: Guard foundry, east machine
+  kind: room
+  size: M
+  extent: [2080, 2400]
+  floor: 640
+  purpose: The east machine, its chute, two hidden guards; the keep stair's foot.
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 2 placed Xeen's Guard.
+- id: room:store
+  name: Parts store
+  kind: room
+  size: S
+  extent: [1120, 1120]
+  floor: 640
+  purpose: 'Dead end with a chest: crates of plates and gems.'
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:keep_stair
+  name: Keep stair
+  kind: room
+  size: M
+  extent: [1120, 2560]
+  floor: 640
+  purpose: The keep stair from the foundry to the keep stair top.
+  empty: true
+- id: room:bays
+  name: Guard bays
+  kind: room
+  size: M
+  extent: [2560, 640]
+  floor: 640
+  purpose: 'Behind the shutters: empty racks and the gem find.'
+  empty: true
+- id: room:gen_fire
+  name: Fire generator
+  kind: room
+  size: M
+  extent: [800, 1920]
+  floor: 1280
+  purpose: 'The south-west tower top: the Fire Generator (m35.gen_fire).'
+  population:
+  - actor: 11620
+    groups: 1
+    levels: [55, 55]
+    notes: 2 placed Lesser Elemental.
+- id: room:gen_air
+  name: Air generator
+  kind: room
+  size: M
+  extent: [800, 1920]
+  floor: 1280
+  purpose: 'The south-east tower top: the Air Generator (m35.gen_air).'
+  population:
+  - actor: 11624
+    groups: 1
+    levels: [55, 55]
+    notes: 2 placed Lesser Air Elemental.
+- id: room:upper_w
+  name: Upper west gallery
+  kind: corridor
+  size: M
+  extent: [1120, 3360]
+  floor: 1280
+  purpose: From the barrier hall to the fire tower and the war room.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:upper_e
+  name: Upper east gallery
+  kind: corridor
+  size: M
+  extent: [1120, 3360]
+  floor: 1280
+  purpose: From the barrier hall to the air tower and the demons' quarters.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+- id: room:war_room
+  name: War room
+  kind: room
+  size: M
+  extent: [1120, 1600]
+  floor: 1280
+  purpose: 'Dead end with a chest: the war table.'
+  population:
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 2 placed Devil.
+  - actor: 11632
+    groups: 1
+    levels: [58, 58]
+    notes: 1 placed Screamer.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:quarters
+  name: Demons' quarters
+  kind: room
+  size: M
+  extent: [800, 1920]
+  floor: 1280
+  purpose: 'Dead end with a chest: beds, braziers.'
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 3 placed Demon.
+  - actor: 11632
+    groups: 1
+    levels: [58, 58]
+    notes: 1 placed Screamer.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:barrier
+  name: Barrier hall
+  kind: room
+  size: L
+  extent: [2240, 1920]
+  floor: 1280
+  purpose: Four pylons hold the field across the crown stair (m35.barrier).
+  population:
+  - actor: 11622
+    groups: 1
+    levels: [70, 70]
+    notes: 2 placed Greater Elemental.
+- id: room:barrier_w
+  name: Barrier hall, west bay
+  kind: room
+  size: M
+  extent: [640, 1920]
+  floor: 1280
+  purpose: The barrier hall's west bay.
+  empty: true
+- id: room:barrier_e
+  name: Barrier hall, east bay
+  kind: room
+  size: M
+  extent: [640, 1920]
+  floor: 1280
+  purpose: The barrier hall's east bay.
+  empty: true
+- id: room:upper_landing
+  name: Keep stair top
+  kind: room
+  size: M
+  extent: [3840, 1280]
+  floor: 1280
+  purpose: The keep stair arrives here.
+  empty: true
+- id: room:crown_stair
+  name: Crown stair
+  kind: room
+  size: S
+  extent: [1280, 1920]
+  floor: 1280
+  purpose: 'Behind the field: the stair to the crown.'
+  empty: true
+- id: room:crown_landing
+  name: Crown landing
+  kind: room
+  size: S
+  extent: [1120, 1920]
+  floor: 1920
+  purpose: Quiet; the low arch into the aviary, the keeper's walk.
+  empty: true
+- id: room:aviary_s
+  name: Xeen's Aviary
+  kind: room
+  size: L
+  extent: [3840, 880]
+  floor: 1920
+  purpose: 'Open sky: ledges and bones.'
+  empty: true
+- id: room:aviary_n
+  name: Xeen's Aviary, roost
+  kind: room
+  size: L
+  extent: [3840, 880]
+  floor: 1920
+  purpose: 'The roost: Xeen''s Pet (m35.pet), held by the two low arches (D-32).'
+  population:
+  - actor: 11644
+    groups: 1
+    levels: [75, 75]
+    notes: 1 placed Xeen's Pet.
+- id: room:walk_s
+  name: Keeper's walk
+  kind: corridor
+  size: M
+  extent: [1120, 2880]
+  floor: 1920
+  purpose: The way round the Pet.
+  population:
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 2 placed Devil.
+- id: room:walk_n
+  name: Keeper's walk, north
+  kind: corridor
+  size: M
+  extent: [1120, 1920]
+  floor: 1920
+  purpose: The way round the Pet, to the throne doors.
+  population:
+  - actor: 11632
+    groups: 1
+    levels: [58, 58]
+    notes: 1 placed Screamer.
+- id: room:loft
+  name: Keeper's loft
+  kind: room
+  size: S
+  extent: [1120, 1920]
+  floor: 1920
+  purpose: Dead end with the keeper's strongbox.
+  population:
+  - actor: 11630
+    groups: 1
+    levels: [42, 42]
+    notes: 2 placed Demon.
+  - actor: 11631
+    groups: 1
+    levels: [50, 50]
+    notes: 1 placed Devil.
+  treasure:
+  - {kind: chest, count: 1, tier: 5}
+- id: room:threshold
+  name: Throne doors
+  kind: room
+  size: S
+  extent: [3840, 800]
+  floor: 1920
+  purpose: Before the throne doors. Quiet.
+  empty: true
+- id: room:throne
+  name: Throne room
+  kind: room
+  size: L
+  extent: [3840, 2880]
+  floor: 1920
+  purpose: The throne room; the sight plate inside the doors (m35.lord_xeen_sight).
+  population:
+  - actor: 11603
+    groups: 1
+    levels: [60, 60]
+    notes: 2 placed Xeen's Guard.
+- id: room:apse
+  name: Lord Xeen's dais
+  kind: room
+  size: M
+  extent: [2560, 800]
+  floor: 1920
+  purpose: Lord Xeen on his dais (m35.lord_xeen), the Sixth Mirror, the scepter (m35.scepter).
+  population:
+  - actor: 11634
+    groups: 1
+    levels: [85, 85]
+    notes: 1 placed Lord Xeen.
+- id: room:treasury
+  name: Treasury
+  kind: room
+  size: S
+  extent: [1920, 800]
+  floor: 1920
+  purpose: The hoard (T6), opened by Lord Xeen's death.
+  empty: true
+  treasure:
+  - {kind: chest, count: 1, tier: 6}
+links:
+- id: link:gate_hall
+  from: room:gate
+  to: room:nave
+  kind: open
+- id: link:hall_stair
+  from: room:nave
+  to: room:stair_hall
+  kind: door
+- id: link:nave_aisle_w
+  from: room:nave
+  to: room:aisle_w
+  kind: open
+- id: link:hall_ww
+  from: room:aisle_w
+  to: room:ward_w
+  kind: open
+- id: link:ward_w_barracks
+  from: room:ward_w
+  to: room:barracks
+  kind: door
+- id: link:ward_w_gallery_w
+  from: room:ward_w
+  to: room:gallery_w
+  kind: open
+- id: link:gallery_w_tower0
+  from: room:gallery_w
+  to: room:tower0_w
+  kind: open
+- id: link:gallery_w_vault
+  from: room:gallery_w
+  to: room:vault_w
+  kind: door
+- id: link:vault_w_stair
+  from: room:vault_w
+  to: room:stair_hall
+  kind: door
+- id: link:w_tower_up
+  from: room:tower0_w
+  to: room:tower1_w
+  kind: stairs
+  rise: 640
+- id: link:w_tower_top
+  from: room:tower1_w
+  to: room:gen_fire
+  kind: stairs
+  rise: 640
+- id: link:w_tower_walk
+  from: room:tower1_w
+  to: room:wall_ws
+  kind: open
+- id: link:wall_w_turret
+  from: room:wall_ws
+  to: room:turret_w
+  kind: open
+- id: link:turret_w_wall
+  from: room:turret_w
+  to: room:wall_wn
+  kind: open
+- id: link:w_wall_foundry
+  from: room:wall_wn
+  to: room:foundry_w
+  kind: door
+- id: link:foundry_w_arcade
+  from: room:foundry_w
+  to: room:foundry
+  kind: open
+- id: link:upper_w_gen
+  from: room:upper_w
+  to: room:gen_fire
+  kind: door
+- id: link:barrier_wu
+  from: room:upper_w
+  to: room:barrier_w
+  kind: open
+- id: link:barrier_bay_w
+  from: room:barrier
+  to: room:barrier_w
+  kind: open
+- id: link:nave_aisle_e
+  from: room:nave
+  to: room:aisle_e
+  kind: open
+- id: link:hall_ew
+  from: room:aisle_e
+  to: room:ward_e
+  kind: open
+- id: link:ward_e_armoury
+  from: room:ward_e
+  to: room:armoury
+  kind: door
+- id: link:ward_e_gallery_e
+  from: room:ward_e
+  to: room:gallery_e
+  kind: open
+- id: link:gallery_e_tower0
+  from: room:gallery_e
+  to: room:tower0_e
+  kind: open
+- id: link:gallery_e_vault
+  from: room:gallery_e
+  to: room:vault_e
+  kind: door
+- id: link:vault_e_stair
+  from: room:vault_e
+  to: room:stair_hall
+  kind: door
+- id: link:e_tower_up
+  from: room:tower0_e
+  to: room:tower1_e
+  kind: stairs
+  rise: 640
+- id: link:e_tower_top
+  from: room:tower1_e
+  to: room:gen_air
+  kind: stairs
+  rise: 640
+- id: link:e_tower_walk
+  from: room:tower1_e
+  to: room:wall_es
+  kind: open
+- id: link:wall_e_turret
+  from: room:wall_es
+  to: room:turret_e
+  kind: open
+- id: link:turret_e_wall
+  from: room:turret_e
+  to: room:wall_en
+  kind: open
+- id: link:e_wall_foundry
+  from: room:wall_en
+  to: room:foundry_e
+  kind: door
+- id: link:foundry_e_arcade
+  from: room:foundry_e
+  to: room:foundry
+  kind: open
+- id: link:upper_e_gen
+  from: room:upper_e
+  to: room:gen_air
+  kind: door
+- id: link:barrier_eu
+  from: room:upper_e
+  to: room:barrier_e
+  kind: open
+- id: link:barrier_bay_e
+  from: room:barrier
+  to: room:barrier_e
+  kind: open
+- id: link:grand_up
+  from: room:stair_hall
+  to: room:grand_landing
+  kind: stairs
+  rise: 640
+- id: link:foundry_landing
+  from: room:grand_landing
+  to: room:foundry
+  kind: open
+- id: link:foundry_store
+  from: room:foundry_w
+  to: room:store
+  kind: door
+- id: link:foundry_bays
+  from: room:foundry
+  to: room:bays
+  kind: door
+  condition:
+    qbit: 118063
+  notes: The shutters roll up when both machines are destroyed (state:machines).
+- id: link:keep_up
+  from: room:foundry_e
+  to: room:keep_stair
+  kind: open
+- id: link:keep_up_top
+  from: room:keep_stair
+  to: room:upper_landing
+  kind: stairs
+  rise: 640
+- id: link:landing_barrier
+  from: room:upper_landing
+  to: room:barrier
+  kind: open
+- id: link:upper_w_war
+  from: room:upper_w
+  to: room:war_room
+  kind: door
+- id: link:upper_e_quarters
+  from: room:upper_e
+  to: room:quarters
+  kind: door
+- id: link:barrier_crown
+  from: room:barrier
+  to: room:crown_stair
+  kind: door
+  condition:
+    qbit: 118062
+  notes: The field falls when the four pylons are dark (m35.barrier).
+- id: link:crown_up
+  from: room:crown_stair
+  to: room:crown_landing
+  kind: stairs
+  rise: 640
+- id: link:landing_aviary
+  from: room:crown_landing
+  to: room:aviary_s
+  kind: open
+  notes: Low arch, 256 high (D-32).
+- id: link:aviary_mid
+  from: room:aviary_s
+  to: room:aviary_n
+  kind: open
+- id: link:aviary_threshold
+  from: room:aviary_n
+  to: room:threshold
+  kind: open
+  notes: Low arch, 256 high (D-32).
+- id: link:landing_kw
+  from: room:crown_landing
+  to: room:walk_s
+  kind: door
+- id: link:walk_mid
+  from: room:walk_s
+  to: room:walk_n
+  kind: open
+- id: link:kw_threshold
+  from: room:walk_n
+  to: room:threshold
+  kind: door
+- id: link:aviary_loft
+  from: room:aviary_s
+  to: room:loft
+  kind: door
+- id: link:threshold_throne
+  from: room:threshold
+  to: room:throne
+  kind: door
+- id: link:throne_apse
+  from: room:throne
+  to: room:apse
+  kind: open
+- id: link:throne_treasury
+  from: room:apse
+  to: room:treasury
+  kind: door
+  condition:
+    qbit: 111706
+  notes: Opened by Lord Xeen's death.
+loops:
+- id: loop:west_ring
+  spaces:
+  - room:nave
+  - room:aisle_w
+  - room:ward_w
+  - room:gallery_w
+  - room:vault_w
+  - room:stair_hall
+- id: loop:east_ring
+  spaces:
+  - room:nave
+  - room:aisle_e
+  - room:ward_e
+  - room:gallery_e
+  - room:vault_e
+  - room:stair_hall
+- id: loop:west_climb
+  spaces:
+  - room:stair_hall
+  - room:grand_landing
+  - room:foundry
+  - room:foundry_w
+  - room:wall_wn
+  - room:turret_w
+  - room:wall_ws
+  - room:tower1_w
+  - room:tower0_w
+  - room:gallery_w
+  - room:vault_w
+- id: loop:east_climb
+  spaces:
+  - room:stair_hall
+  - room:grand_landing
+  - room:foundry
+  - room:foundry_e
+  - room:wall_en
+  - room:turret_e
+  - room:wall_es
+  - room:tower1_e
+  - room:tower0_e
+  - room:gallery_e
+  - room:vault_e
+- id: loop:towers
+  spaces:
+  - room:barrier
+  - room:barrier_w
+  - room:upper_w
+  - room:gen_fire
+  - room:tower1_w
+  - room:wall_ws
+  - room:turret_w
+  - room:wall_wn
+  - room:foundry_w
+  - room:foundry
+  - room:foundry_e
+  - room:keep_stair
+  - room:upper_landing
+- id: loop:crown
+  spaces:
+  - room:crown_landing
+  - room:aviary_s
+  - room:aviary_n
+  - room:threshold
+  - room:walk_n
+  - room:walk_s
+  notes: Round the Pet by the keeper's walk.
+entrances:
+- id: entrance:x9_gate
+  space: room:gate
+  kind: both
+  facing: n
+  how: 'From X9''s castle gate (m34.gate, the Lord Xeen doll): in the gatehall about 256 inside the leaves facing north. The
+    way out: the gate''s two leaves (exit preset) to X9''s entrance:xd19_gate.'
+critical_path:
+- room:gate
+- room:nave
+- room:aisle_w
+- room:ward_w
+- room:gallery_w
+- room:vault_w
+- room:stair_hall
+- room:vault_e
+- room:gallery_e
+- room:tower0_e
+- room:tower1_e
+- room:gen_air
+- room:upper_e
+- room:barrier_e
+- room:barrier
+- room:barrier_w
+- room:upper_w
+- room:gen_fire
+- room:tower1_w
+- room:wall_ws
+- room:turret_w
+- room:wall_wn
+- room:foundry_w
+- room:foundry
+- room:foundry_e
+- room:keep_stair
+- room:upper_landing
+- room:barrier
+- room:crown_stair
+- room:crown_landing
+- room:aviary_s
+- room:aviary_n
+- room:threshold
+- room:throne
+- room:apse
+return_path:
+- room:apse
+- room:treasury
+- room:apse
+- room:throne
+- room:threshold
+- room:walk_n
+- room:walk_s
+- room:crown_landing
+- room:crown_stair
+- room:barrier
+- room:upper_landing
+- room:keep_stair
+- room:foundry_e
+- room:foundry
+- room:grand_landing
+- room:stair_hall
+- room:nave
+- room:gate
+goals:
+- id: goal:gen_fire
+  space: room:gen_fire
+  kind: use
+  story: M35
+  what: The Fire Generator destroyed (m35.gen_fire).
+  gives:
+    qbit: 111701
+- id: goal:gen_air
+  space: room:gen_air
+  kind: use
+  story: M35
+  what: The Air Generator destroyed (m35.gen_air).
+  gives:
+    qbit: 111702
+- id: goal:gen_water
+  space: room:vault_w
+  kind: use
+  story: M35
+  what: The Water Generator destroyed (m35.gen_water).
+  gives:
+    qbit: 111704
+- id: goal:gen_earth
+  space: room:vault_e
+  kind: use
+  story: M35
+  what: The Earth Generator destroyed (m35.gen_earth).
+  gives:
+    qbit: 111703
+- id: goal:lord_xeen
+  space: room:apse
+  kind: kill
+  story: M35
+  what: Lord Xeen slain (m35.lord_xeen).
+  gives:
+    qbit: 111706
+- id: goal:scepter
+  space: room:apse
+  kind: take
+  story: M35
+  what: 'The Scepter of Temporal Distortion (m35.scepter): the Sixth Mirror shatters.'
+  gives:
+    qbit: 111707
+set_pieces:
+- id: set:foundry
+  kind: scripted
+  spaces:
+  - room:foundry
+  - room:foundry_w
+  - room:foundry_e
+  rule: 'Two guard-making machines: while either stands a 45 s clock shows one of four hidden guards at a chute; both destroyed
+    show the rest and open the bays (D-47 Q7).'
+- id: set:barrier
+  kind: scripted
+  spaces:
+  - room:barrier
+  rule: Four pylons, each named for its generator, go dark one by one; all dark, the field falls.
+- id: set:aviary
+  kind: scripted
+  spaces:
+  - room:aviary_s
+  - room:aviary_n
+  rule: Xeen's Pet under open sky, held in by two 256-high arches (D-32); the keeper's walk goes round.
+- id: set:throne
+  kind: scripted
+  spaces:
+  - room:throne
+  - room:apse
+  rule: First sight at the doors' plate; Lord Xeen harmed only by the Slayer Sword (E11); the scepter's question and the mirror's
+    cinematic.
+diagram: {file: diagram.txt}
+totals:
+  rooms: 51
+  sectors: 51
+  monsters_about: 72
+  chests: 7
+  loops: 6
+  doors: 25
+  fixed_actors: 0
+  floor_area_munits2: 140.8
+notes: 'Class L (ROADMAP §5.1: 50-75 sectors, 120-200 M units², four set pieces, doors up to 25). From the MU-6 graph devdocs/xeen/mockups/act5_graphs/xd19.graph.yml
+  with D-47 (the guard pool at the chutes, the generators'' questions, one field and four pylons, the new elemental tiers,
+  Lord Xeen and E11, the scepter''s question and its fallback). The graph''s great hall, foundry, barrier hall, aviary and
+  throne room are split into rooms of their own (nave and aisles, machine bays, bays of the barrier hall, the roost, the dais);
+  its gatehall''s ''two leaves'' are the castle gate''s.'

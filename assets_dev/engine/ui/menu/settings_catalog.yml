@@ -942,6 +942,12 @@ bindings:
 - id: party_formation
   name: Party formation (MM9)
   group: Party & books
+- id: coop_chat
+  name: Chat (co-op)
+  group: System
+- id: coop_ping
+  name: Point at a place (co-op)
+  group: System
 - id: double_speed
   name: Toggle fast mode
   group: System

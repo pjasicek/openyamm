@@ -1,0 +1,1886 @@
+format: 0
+grid: 512
+notes: "X5 Winterkill Tundra, written by output/studio_cal/x5/tools/gen.py. Cells [x, y], x east, y south. Heights are map units above the stars below the rim (0): the ice at 800, Winterkill at 1,000, the steppe 1,100-1,500, the Frostspine to 4,000 and its spur about 2,800, the giants' crags to 3,600, the pocket 900-2,200."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: east, span: [55, 62], neighbour: edge:east}
+    - {side: north, span: [45, 56], neighbour: edge:north}
+  rim:
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 24; below, water at 0 stands for the stars."}
+    - {side: south, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at y 104; the glacier breaks off over it at x 28-40."}
+    - {side: north, span: [0, 24], form: level, height: 0, meet: 1}
+    - {side: north, span: [24, 45], form: ridge, height: [1900, 2700], floor: 1500, crest: 10, roughness: 100, notes: Stony rises toward the desert.}
+    - {side: north, span: [45, 56], form: level, height: 1460, meet: 6, notes: "The steppe road's valley runs out to the edge (X6's south edge [45, 56], level, the same x)."}
+    - {side: north, span: [56, 128], form: ridge, height: [2000, 3200], floor: 1600, crest: 10, roughness: 100, notes: The Frostspine's north end and the Ogre Hills' backs.}
+    - {side: east, span: [0, 52], form: ridge, height: [1800, 2600], floor: 1400, crest: 10, roughness: 100, notes: The Ogre Hills go on.}
+    - {side: east, span: [52, 104], form: level, height: 900, meet: 6, notes: The river valley and the fen run on to X3's lagoon (sealed).}
+    - {side: east, span: [104, 128], form: level, height: 0, meet: 1}
+  edge: {height: 1500, east: 900, south: 0, west: 0}
+heights:
+  points:
+    - {at: [82, 46], h: 1700, notes: "The pass crest, Freeda's camp (D-6.1: the notch at 1,700)."}
+    - {at: [83, 24], h: 4000, notes: The Frostspine high peak.}
+    - {at: [82, 12], h: 3700}
+    - {at: [82, 36], h: 3800}
+    - {at: [82, 53], h: 3400}
+    - {at: [28, 89], h: 3400, notes: The west crag.}
+    - {at: [50, 94], h: 3600, notes: The east crag.}
+    - {at: [35, 87], h: 2900, notes: The glacier's head (D-6.5).}
+  cliffs:
+    - line: [[24, 0], [24, 33]]
+      drop: 1450
+      down: right
+      notes: "The rim, west: the plateau."
+    - line: [[24, 33], [24, 50]]
+      drop: 1150
+      down: right
+      notes: "The rim, west: by Winterkill and the Edge Watch."
+    - line: [[24, 50], [24, 84]]
+      drop: 1000
+      down: right
+      notes: "The rim, west: the snowfields."
+    - line: [[24, 84], [24, 104]]
+      drop: 2000
+      down: right
+      notes: "The rim, west: the giants' crag."
+    - line: [[24, 104], [28, 104]]
+      drop: 2000
+      down: right
+    - line: [[28, 104], [41, 104]]
+      drop: 1900
+      down: right
+      notes: "The glacier's lip: the ice breaks off over the stars (the signature view)."
+    - line: [[41, 104], [54, 104]]
+      drop: 2000
+      down: right
+    - line: [[54, 104], [80, 104]]
+      drop: 1250
+      down: right
+      notes: The forest's lip.
+    - line: [[80, 104], [87, 104]]
+      drop: 2200
+      down: right
+      notes: The spur's end.
+    - line: [[87, 104], [128, 104]]
+      drop: 950
+      down: right
+      notes: The fen's lip.
+    - line: [[64, 37], [75, 37]]
+      drop: 700
+      down: right
+      notes: "Kai Wu's crag, its south face over the road (the stair climbs it)."
+    - line: [[98, 72], [103, 72]]
+      drop: 450
+      down: left
+      notes: The Golem Rocks' north face with the slab door.
+  ridges:
+    - {line: [[82, 0], [82, 6], [82, 12], [82.5, 18], [83, 24], [82.5, 30], [82, 36], [82, 40], [82, 43]], height: [3000, 3300, 3700, 3200, 4000, 3300, 3800, 3000, 2300], width: 2, slope: 4, notes: "The Frostspine crest north of the pass, broken into peaks (D-6.1)."}
+    - {line: [[82, 49], [82, 51], [82, 53], [81.5, 56], [81, 59]], height: [2200, 2800, 3400, 3100, 2900], width: 2, slope: 4, notes: "The Frostspine south of the pass, down to the gorge."}
+    - {line: [[81, 65.5], [81.5, 70], [82, 76], [82.5, 82], [83, 88], [83.5, 94], [84, 99], [84, 103.5]], height: [2400, 2800, 3000, 2700, 2900, 2600, 2800, 2500], width: 3, slope: 2, notes: "D-6.1: the spur from the gorge's south shoulder to the rim, crest about 2,800, its sides sheer (no crossing; the pocket's ways west are the pass road and XD-10)."}
+    - {line: [[32.5, 87], [32.5, 86], [32.5, 85], [32.5, 84], [32.5, 83], [32, 82], [32, 80.5], [32, 79], [32, 78]], height: [2900, 2700, 2450, 2100, 1750, 1550, 1400, 1270, 1190], width: 7, slope: 2, notes: "The icefall (D-6.5): the glacier's north lobe off the plateau to its snout on the snowfield, seen from the south track, Glom's fork and the Shrine of Cold."}
+    - {line: [[69, 61], [72.5, 61], [76, 61]], height: 800, width: 3, slope: 2, notes: "The frozen river below the gorge: land at 800 painted ice (D-6.3)."}
+    - {line: [[94, 41], [99, 41]], height: 2000, width: 3, slope: 3, notes: The hill the cave's north mouth is cut into.}
+    - {line: [[79.5, 60], [85, 60.2]], height: 2400, width: 1, slope: 2, notes: The gorge's north wall.}
+    - {line: [[79.5, 63.4], [85, 63.6]], height: 2000, width: 1, slope: 2, notes: "The gorge's south wall, running into the spur."}
+  terraces:
+    - polygon: [[29, 34.5], [46, 34.5], [46, 48], [29, 48]]
+      height: 1000
+      slope: 3
+      notes: Winterkill.
+    - polygon: [[64, 27], [75, 27], [75, 37], [64, 37]]
+      height: 1900
+      slope: 3
+      notes: Kai Wu's crag top.
+    - polygon: [[92, 47], [100, 47], [100, 52.5], [92, 52.5]]
+      height: 1350
+      slope: 3
+      notes: Halon's yard on its shoulder.
+    - polygon: [[61, 44], [67.5, 44], [67.5, 49], [61, 49]]
+      height: 1000
+      slope: 2
+      notes: The pagoda shore.
+    - polygon: [[94, 44], [99, 44], [99, 47], [94, 47]]
+      height: 1400
+      slope: 2
+      notes: "The cave's north mouth: its floor."
+    - polygon: [[98, 68], [103, 68], [103, 71], [98, 71]]
+      height: 960
+      slope: 2
+      notes: The ground before the Golem Rocks' north face.
+    - polygon: [[40.5, 98.5], [50, 98.5], [50, 103.2], [40.5, 103.2]]
+      height: 2050
+      slope: 2
+      notes: "The Reflector's ledge by the Waters of Great Magic: the signature view's floor."
+    - polygon: [[42.5, 98.8], [44.5, 98.8], [44.5, 100.6], [42.5, 100.6]]
+      height: 2350
+      slope: 2
+      notes: "The lookout on the ledge (D-6.5, session 6): a knoll 300 over the Waters' ledge, so the signature view looks down the glacier rather than along its edge."
+    - polygon: [[103, 55], [110, 55], [110, 60], [103, 60]]
+      height: 900
+      slope: 2
+      notes: "The lagoon road's end: the X3 arrival meadow."
+    - polygon: [[98, 72], [103, 72], [103, 74], [98, 74]]
+      height: 1420
+      slope: 0
+      notes: The Golem Rocks' north face over the slab door.
+    - polygon: [[71, 39], [75, 39], [75, 42], [71, 42]]
+      height: 1200
+      slope: 2
+      notes: The monastery's foot.
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 47, 44, 47, 51, 51, 41, 35, 42, 52, 53, 46, 41, 41, 58, 81, 65, 57, 57, 60, 60, 53, 48, 54, 65, 67, 56], [0, 0, 0, 0, 0, 0, 47, 50, 49, 41, 43, 45, 45, 45, 49, 51, 45, 38, 40, 61, 86, 66, 56, 60, 62, 54, 53, 58, 62, 63, 61, 57], [0, 0, 0, 0, 0, 0, 47, 47, 49, 43, 40, 44, 53, 53, 44, 37, 42, 49, 48, 59, 84, 70, 61, 65, 66, 62, 61, 62, 62, 64, 64, 62], [0, 0, 0, 0, 0, 0, 47, 49, 49, 42, 44, 50, 51, 46, 40, 38, 43, 50, 53, 61, 81, 64, 61, 71, 69, 60, 63, 66, 60, 58, 66, 73], [0, 0, 0, 0, 0, 0, 47, 45, 53, 49, 46, 45, 46, 43, 40, 44, 47, 50, 46, 54, 81, 67, 55, 61, 67, 67, 62, 55, 57, 64, 67, 67], [0, 0, 0, 0, 0, 0, 47, 45, 47, 48, 45, 44, 35, 41, 51, 48, 45, 44, 43, 56, 91, 76, 62, 64, 66, 74, 69, 55, 53, 64, 70, 61], [0, 0, 0, 0, 0, 0, 47, 47, 48, 44, 44, 44, 41, 42, 48, 50, 45, 45, 43, 58, 97, 78, 70, 73, 71, 72, 65, 58, 62, 67, 60, 53], [0, 0, 0, 0, 0, 0, 46, 46, 45, 41, 41, 41, 44, 48, 42, 42, 53, 59, 45, 56, 88, 76, 75, 69, 57, 62, 66, 61, 67, 70, 61, 52], [0, 0, 0, 0, 0, 0, 39, 40, 41, 39, 39, 41, 39, 40, 36, 37, 50, 56, 42, 61, 90, 67, 63, 62, 56, 54, 61, 68, 70, 62, 55, 60], [0, 0, 0, 0, 0, 0, 33, 33, 37, 36, 36, 36, 36, 37, 34, 30, 37, 38, 36, 52, 79, 64, 58, 57, 54, 46, 58, 58, 59, 58, 55, 59], [0, 0, 0, 0, 0, 0, 32, 32, 34, 34, 34, 34, 27, 32, 34, 35, 35, 34, 34, 44, 58, 50, 54, 51, 51, 51, 52, 58, 50, 51, 57, 56], [0, 0, 0, 0, 0, 0, 32, 32, 32, 32, 32, 32, 28, 30, 33, 32, 32, 25, 24, 37, 50, 42, 36, 40, 40, 41, 33, 38, 43, 49, 45, 36], [0, 0, 0, 0, 0, 0, 32, 31, 32, 32, 29, 25, 25, 25, 26, 28, 32, 26, 30, 49, 72, 49, 30, 30, 30, 31, 31, 29, 31, 36, 34, 25], [0, 0, 0, 0, 0, 0, 32, 33, 30, 26, 25, 25, 25, 25, 25, 25, 25, 31, 34, 58, 84, 47, 27, 29, 29, 29, 29, 29, 32, 23, 22, 28], [0, 0, 0, 0, 0, 0, 32, 32, 34, 28, 25, 25, 25, 25, 25, 25, 25, 29, 29, 31, 35, 33, 31, 28, 27, 29, 29, 29, 27, 25, 26, 30], [0, 0, 0, 0, 0, 0, 32, 32, 33, 28, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28], [0, 0, 0, 0, 0, 0, 32, 32, 35, 34, 25, 25, 25, 25, 25, 25, 25, 28, 25, 29, 34, 30, 28, 28, 29, 28, 27, 27, 29, 33, 31, 27], [0, 0, 0, 0, 0, 0, 32, 29, 25, 31, 33, 26, 25, 25, 25, 28, 27, 23, 28, 36, 38, 32, 27, 26, 29, 29, 28, 26, 29, 36, 35, 24], [0, 0, 0, 0, 0, 0, 32, 31, 29, 28, 32, 37, 32, 32, 32, 32, 31, 28, 31, 38, 39, 29, 23, 25, 29, 35, 29, 31, 32, 29, 24, 25], [0, 0, 0, 0, 0, 0, 36, 33, 36, 37, 36, 36, 37, 36, 31, 27, 34, 44, 42, 30, 27, 29, 30, 27, 26, 32, 35, 32, 26, 23, 25, 30], [0, 0, 0, 0, 0, 0, 38, 43, 43, 37, 38, 38, 39, 35, 33, 35, 41, 44, 41, 30, 24, 25, 33, 35, 29, 27, 29, 33, 27, 20, 26, 37], [0, 0, 0, 0, 0, 0, 68, 77, 99, 95, 51, 54, 52, 39, 38, 39, 42, 40, 33, 27, 30, 33, 31, 30, 30, 30, 30, 25, 29, 33, 32, 29], [0, 0, 0, 0, 0, 0, 99, 90, 85, 85, 72, 71, 68, 37, 46, 45, 34, 29, 33, 36, 36, 31, 29, 29, 28, 28, 28, 27, 30, 35, 35, 26], [0, 0, 0, 0, 0, 0, 70, 74, 77, 77, 70, 76, 117, 42, 39, 40, 36, 30, 32, 39, 42, 31, 23, 25, 31, 32, 27, 27, 33, 34, 27, 22], [0, 0, 0, 0, 0, 0, 69, 68, 73, 75, 72, 69, 74, 39, 36, 32, 34, 40, 42, 35, 30, 28, 27, 25, 27, 32, 35, 30, 25, 25, 27, 28], [0, 0, 0, 0, 0, 0, 69, 67, 70, 68, 69, 69, 69, 38, 38, 38, 38, 38, 37, 33, 32, 30, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    notes: Written by gen.py from its land function.
+  nodes:
+    - at: [52, 57]
+      unit: 32
+      rows:
+        - [28, 34, 36, 36, 36, 34, 28]
+        - [34, 47, 47, 47, 47, 47, 34]
+        - [36, 47, 47, 47, 47, 47, 36]
+        - [36, 47, 47, 47, 47, 47, 36]
+        - [36, 47, 47, 47, 47, 47, 36]
+        - [36, 47, 47, 47, 47, 47, 36]
+        - [34, 47, 47, 47, 47, 47, 34]
+        - [28, 34, 36, 36, 36, 34, 28]
+      notes: "Darkstone's black rock in the ice: its top at 1,500 (x 53-57, y 58-63), sheer to the ice (800)."
+  peaks:
+    - {polygon: [[97, 73], [105, 73], [105, 79], [97, 79]], count: 5, height: [1450, 1800], radius: [1.5, 2.5], profile: cone, spacing: 2, seed: 3, notes: "The Golem Rocks: a knot of grey stone behind the face."}
+    - {polygon: [[80, 67], [85, 67], [86, 102], [82, 102]], count: 9, height: [2900, 3400], radius: [1.5, 2.5], profile: cone, spacing: 3, seed: 5, notes: The spur's crest broken into tops (D-6.1).}
+    - {polygon: [[79, 2], [85, 2], [85, 41], [79, 41]], count: 10, height: [3300, 4000], radius: [2, 3.5], profile: cone, spacing: 3, seed: 7, notes: The Frostspine crest broken into peaks (D-6.1).}
+    - {polygon: [[79, 50], [85, 50], [85, 57], [79, 57]], count: 3, height: [3100, 3500], radius: [2, 3], profile: cone, spacing: 3, seed: 9}
+    - {polygon: [[25, 85], [33, 85], [32, 96], [25, 96]], count: 4, height: [2900, 3500], radius: [2, 3], profile: cone, spacing: 3, seed: 11, notes: The giants' west crags.}
+    - {polygon: [[45, 86], [53, 86], [53, 97], [46, 97]], count: 4, height: [2900, 3600], radius: [2, 3], profile: cone, spacing: 3, seed: 13, notes: The giants' east crags.}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars (the game draws no void)."
+  rivers:
+    - id: water:river
+      line: [[128, 62], [118, 62], [110, 63], [103, 63], [97, 63], [91, 63], [86, 62], [82, 61], [78, 61], [76, 61]]
+      width_cells: 2.5
+      level: 840
+      notes: "The Lagoon Water from X3: open and fast in the pocket, through the Frostspine gorge and 1,000 past it (D-6.1); then frozen (a ridge of land at 800 painted ice) to the mere."
+roads:
+  - link: link:lagoon_road
+    line: [[128, 59], [118, 59], [110, 59], [104, 59.5], [98, 60]]
+    width: road
+    surface: road_pebbles
+  - link: link:pass_road
+    line: [[98, 60], [93, 58], [89, 55], [86, 51], [83.5, 47.5], [82, 46]]
+    width: road
+    surface: soil_stony
+  - link: link:pass_descent
+    line: [[82, 46], [80, 44], [77, 41.5], [73, 40]]
+    width: road
+    surface: soil_stony
+  - link: link:shore_road
+    line: [[73, 40], [66, 41.5], [60, 39.5], [54, 37], [50, 35]]
+    width: road
+    surface: soil_stony
+  - link: link:steppe_road
+    line: [[50, 0], [50, 10], [50, 21], [50, 35]]
+    width: road
+    surface: soil_stony
+  - link: link:winterkill_road
+    line: [[50, 35], [48.5, 37.5], [48.5, 41.5], [40, 41.5]]
+    width: road
+    surface: road_pebbles
+  - link: link:hill_track
+    line: [[98, 60], [99, 56], [100.5, 52.5], [100.5, 48], [98.5, 46], [96, 45]]
+    width: lane
+  - link: link:golem_lane
+    line: [[98, 60], [97.5, 61], [97.5, 65], [98.5, 67], [100.5, 70.5]]
+    width: lane
+    notes: "Over the river by the plank footbridge (thing:golem_bridge); no tiles in the water."
+  - link: link:pagoda_path
+    line: [[73, 40], [70, 43], [67, 45.5], [64.5, 46.5]]
+    width: lane
+  - link: link:south_track
+    line: [[37, 45], [37, 50], [36, 55], [35.5, 60], [37, 66], [40, 72], [42, 77]]
+    width: lane
+  - link: link:druid_path
+    line: [[35.5, 60], [32, 61]]
+    width: lane
+  - link: link:glom_lane
+    line: [[42, 77], [43.5, 79], [45.5, 79.5]]
+    width: lane
+  - link: link:giants_path
+    line: [[42, 77], [40, 82], [39.5, 86], [41.5, 90.5], [43.5, 92]]
+    width: lane
+  - link: link:forest_track
+    line: [[42, 77], [48, 77], [53, 75.5], [58, 81], [63, 88], [65.5, 94]]
+    width: lane
+  - link: link:rim_walk
+    line: [[34, 41.5], [30, 41.5], [27.5, 41.5]]
+    width: lane
+  - link: link:thickbark_path
+    line: [[53, 75.5], [60, 73.5], [67, 71.5], [72.5, 70]]
+    width: lane
+  - link: link:cave_south_path
+    line: [[63, 88], [70, 85.5], [75, 83], [77, 82]]
+    width: lane
+districts:
+  - space: town:winterkill
+    polygon: [[28, 33], [48, 33], [48, 40], [46, 48], [37, 50], [30, 48], [28, 41]]
+    plots:
+      - {building: building:winterkill_houses, index: 12, at: [32, 36.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4268, title: Snow House, kit: poor, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_tavern, at: [33.5, 36], facing: s, parts: [{id: body, at: [64, 64], size: [896, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {base: cnb, roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4252, title: The Frozen Flagon, kit: timber, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Frost on the inside of the windows. Something inside is laughing at nothing.\")"}]}
+      - {building: building:winterkill_temple, at: [35.5, 35], facing: s, parts: [{id: nave, at: [64, 320], size: [1152, 896], textures: {roof: xtslate}, wall_height: 416, roof: gable, roof_pitch: 50, ridge_along: ns}, {id: tower, at: [496, 64], size: [288, 288], textures: {roof: xtslate}, wall_height: 832, windows: none, roof: hip, roof_pitch: 62}], house: 4253, title: Temple of the Thaw, kit: stone, door: {part: nave, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The doors are frozen shut. A cold voice behind them recites a funeral.\")"}]}
+      - {building: building:winterkill_houses, index: 1, at: [38.5, 36], facing: s, parts: [{id: body, at: [64, 64], size: [384, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4257, title: Ottilie's House, kit: plaster, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_armour, at: [40, 36], facing: s, parts: [{id: body, at: [96, 80], size: [576, 576], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {base: cnb, roof: hhm2rf}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {base: cnb, roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4255, title: Furs and Fittings, kit: plaster, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. Empty coats hang in the window and turn to watch you.\")"}]}
+      - {building: building:winterkill_houses, index: 9, at: [41.5, 39], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4265, title: The Chandlery, kit: grey, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:mindmeld_guild, at: [31.5, 38.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {base: cnb, roof: xtslate}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4251, title: The Mindmeld Guild, kit: stone, door: {part: body, wall: e}}
+      - {building: building:winterkill_houses, index: 2, at: [32.5, 42.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], textures: {base: cnb, roof: hhm2rf}, roof: hip, roof_pitch: 38}], house: 4258, title: Grimwald's Lodge, kit: plaster, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 3, at: [32, 44], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4259, title: Sven's House, kit: timber, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 5, at: [34, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4261, title: Frost House, kit: grey, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 6, at: [35, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4262, title: Agna's Kitchen, kit: poor, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 7, at: [38, 45.5], facing: n, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {base: cnb, roof: hhm2rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4263, title: Knut's Shack, kit: plaster, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 8, at: [39.5, 45.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4264, title: Ragnhild's Farm, kit: poor, door: {part: body, wall: n}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_guild_dark, at: [40.5, 42.5], facing: w, parts: [{id: body, at: [48, 48], size: [512, 928], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [480, 512], size: [480, 400], textures: {base: cnb, roof: xtslate}, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 4254, title: The Guild of Shadows, kit: stone, door: {part: body, wall: w}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. The shadows under the door move when you do.\")"}]}
+      - {building: building:winterkill_houses, index: 4, at: [29.5, 44], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {base: cnb, roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4260, title: Hulda's House, kit: poor, door: {part: body, wall: e}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 10, at: [43, 45], facing: s, parts: [{id: body, at: [64, 64], size: [384, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {base: cnb, roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4266, title: Sigrun's House, kit: poor, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+      - {building: building:winterkill_houses, index: 11, at: [45.5, 36], facing: s, parts: [{id: body, at: [48, 244], size: [672, 476], textures: {base: cnb, roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [512, 227], textures: {base: cnb, roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4267, title: Woodcutter's Cottage, kit: timber, door: {part: body, wall: s}, condition: {qbit: winterkill_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back.\")"}]}
+  - space: zone:winterkill_square
+    polygon: [[34, 38], [40, 38], [40, 45], [34, 45]]
+  - space: town:monastery
+    polygon: [[64, 27], [75, 27], [75, 37], [64, 37]]
+    plots:
+      - {building: building:monastery_training, at: [65, 28.5], facing: s, parts: [{id: body, at: [64, 512], size: [1408, 704], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: xtslate}, wall_height: 448, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: wing, at: [96, 64], size: [691, 480], textures: {roof: xtslate}, wall_height: 320, windows: none, roof: lean_to}], house: 4270, title: Kai Wu's Monastery, kit: stone, door: {part: body, wall: s}}
+      - {building: building:monastery_temple, at: [70.5, 28.5], facing: w, parts: [{id: nave, at: [64, 64], size: [896, 1152], textures: {roof: xtslate}, wall_height: 416, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: tower, at: [928, 496], size: [288, 288], textures: {roof: xtslate}, wall_height: 832, windows: none, roof: hip, roof_pitch: 62}], house: 4271, title: Hall of Stillness, kit: stone, door: {part: nave, wall: w}}
+  - space: town:glom
+    polygon: [[42, 78], [48, 78], [48, 83], [42, 83]]
+    plots:
+      - {building: building:glom_burrow, index: 1, at: [43, 80], facing: s, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 192, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4272, title: Glom's Burrow, kit: poor, door: {part: body}}
+      - {building: building:glom_burrow, index: 2, at: [45.5, 80.5], facing: s, turn: 180, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 192, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4273, title: The Steward's Burrow, kit: poor, door: {part: body}}
+  - space: zone:halon_yard
+    polygon: [[92, 47], [100, 47], [100, 52], [92, 52]]
+    plots:
+      - {building: building:halon_workshop, at: [93, 48.5], facing: s, parts: [{id: body, at: [48, 64], size: [716, 608], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 512], posts: 24, wall_height: 256, windows: none, roof: lean_to}], house: 4274, title: Halon's Workshop, kit: timber, door: {part: body, wall: s}}
+  - space: zone:pocket
+    polygon: [[86, 19], [109, 19], [109, 104], [85, 104], [85, 66], [86, 60]]
+  - space: zone:ogre_hills
+    polygon: [[87, 19], [109, 19], [109, 53], [100, 54], [92, 55], [87, 52]]
+  - space: zone:lagoon_marches
+    polygon: [[86, 66], [109, 66], [109, 104], [86, 104]]
+  - space: zone:arrival_meadow
+    polygon: [[100, 54], [109, 54], [109, 61], [100, 61]]
+  - space: zone:golem_rocks
+    polygon: [[96, 70], [105, 70], [105, 79], [96, 79]]
+  - space: zone:cave_north
+    polygon: [[93, 41], [99, 41], [99, 46], [93, 46]]
+  - space: zone:frostspine
+    polygon: [[77, 0], [87, 0], [87, 104], [79, 104], [78, 64], [77, 58]]
+  - space: zone:pass
+    polygon: [[79, 43], [85, 43], [85, 49], [79, 49]]
+  - space: zone:steppe
+    polygon: [[36, 19], [77, 19], [77, 58], [70, 60], [68, 56], [63, 52], [56, 50], [47, 50], [48, 40], [48, 33], [36, 32]]
+  - space: zone:west_plateau
+    polygon: [[24, 19], [36, 19], [36, 32], [28, 33], [28, 48], [24, 50]]
+  - space: zone:snowfields
+    polygon: [[24, 50], [30, 48], [37, 50], [40, 53], [39, 61], [43, 68], [50, 71], [60, 70], [67, 66], [70, 61], [77, 60], [78, 64], [54, 76], [52, 84], [24, 84]]
+  - space: zone:druid_grove
+    polygon: [[27, 58], [33, 58], [33, 64], [27, 64]]
+  - space: zone:darkstone_isle
+    polygon: [[52, 57], [58, 57], [58, 64], [52, 64]]
+  - space: zone:pagoda_shore
+    polygon: [[61, 44], [68, 44], [68, 49], [61, 49]]
+  - space: zone:troll_forest
+    polygon: [[54, 76], [78, 65], [79, 66], [80, 104], [52, 104], [52, 86]]
+  - space: zone:giants
+    polygon: [[24, 84], [52, 84], [52, 104], [24, 104]]
+  - space: zone:glacier
+    polygon: [[31, 85], [40, 85], [41, 92], [40, 104], [28, 104], [29, 94]]
+  - space: zone:rim
+    polygon: [[0, 0], [24, 0], [24, 104], [128, 104], [128, 128], [0, 128]]
+points:
+  - {id: entrance:winterkill_square, at: [37, 42], facing: s}
+  - {id: entrance:p5_fall, at: [55, 59], facing: s}
+  - {id: entrance:fd03_door, at: [55, 59], facing: n}
+  - {id: entrance:east_road, at: [107, 58], facing: w}
+  - {id: entrance:north_road, at: [50, 20], facing: s}
+  - {id: entrance:xd09_door, at: [100, 71], facing: s}
+  - {id: entrance:xd10_north, at: [96, 45], facing: n}
+  - {id: entrance:xd10_south, at: [77, 82], facing: e}
+  - {id: junction:lagoon_fork, at: [98, 60]}
+  - {id: junction:pass_crest, at: [82, 46]}
+  - {id: junction:monastery_foot, at: [73, 40]}
+  - {id: junction:steppe_cross, at: [50, 35]}
+  - {id: junction:glom_fork, at: [42, 77]}
+  - {id: landmark:frostspine, at: [83, 24]}
+  - {id: landmark:darkstone, at: [55, 61]}
+  - {id: landmark:monastery, at: [69, 31]}
+  - {id: landmark:pagoda, at: [64, 46]}
+  - {id: landmark:halon_clock, at: [96, 48]}
+  - {id: landmark:glacier, at: [34, 100]}
+  - {id: poi:obelisk, at: [58, 42]}
+  - {id: poi:fountain_great_protection, at: [30, 29]}
+  - {id: poi:waters_great_magic, at: [46, 100]}
+  - {id: poi:shrine_cold, at: [53, 74]}
+  - {id: poi:well_intellect, at: [106, 56]}
+  - {id: poi:well_accuracy, at: [60, 30]}
+  - {id: poi:hot_spring, at: [104, 67]}
+  - {id: poi:winterkill_well, at: [39, 44]}
+  - {id: poi:randon, at: [37, 43]}
+  - {id: poi:thickbark, at: [74, 70]}
+  - {id: poi:winter_druid, at: [30, 62]}
+  - {id: poi:freeda, at: [83, 45]}
+  - {id: poi:holy_book, at: [69, 92]}
+  - {id: poi:earth_reflector, at: [40, 103]}
+  - {id: poi:cyclops_outpost, at: [44, 93]}
+  - {id: poi:barbarian_camp, at: [42, 25]}
+  - {id: poi:hunting_camp, at: [66, 22]}
+  - {id: poi:ogre_camp, at: [101, 37]}
+  - {id: poi:archer_camp, at: [104, 86]}
+  - {id: poi:frozen_sledge, at: [90, 53]}
+  - {id: poi:trapper, at: [92, 90]}
+  - {id: poi:frozen_pack, at: [61, 66]}
+  - {id: poi:giants_cairn, at: [50, 87]}
+  - {id: poi:giant_stones, at: [37, 85]}
+  - {id: poi:ice_fishing, at: [47, 58]}
+  - {id: poi:edge_watch, at: [26, 41]}
+  - {id: poi:gongs, index: 1, at: [36, 40]}
+  - {id: poi:gongs, index: 2, at: [38, 40]}
+  - {id: poi:gongs, index: 3, at: [35, 44]}
+  - {id: poi:signposts, index: 1, at: [98, 60]}
+  - {id: poi:signposts, index: 2, at: [82, 46]}
+  - {id: poi:signposts, index: 3, at: [73, 40]}
+  - {id: poi:signposts, index: 4, at: [50, 35]}
+  - {id: poi:signposts, index: 5, at: [42, 77]}
+areas:
+  - id: pop:snow_beasts
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [28, 78], r: 1.5}
+  - id: pop:snow_beasts
+    index: 2
+    kind: encounter
+    count: 2
+    circle: {at: [56, 73], r: 1.5}
+  - id: pop:snow_beasts
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [80, 57], r: 1}
+  - id: pop:snow_beasts
+    index: 4
+    kind: encounter
+    count: 2
+    circle: {at: [45, 74], r: 1.5}
+  - id: pop:snow_beasts
+    index: 5
+    kind: encounter
+    count: 2
+    circle: {at: [36, 80], r: 1.5}
+  - id: pop:snow_beasts
+    index: 6
+    kind: encounter
+    count: 2
+    circle: {at: [68, 52], r: 1.5}
+  - id: pop:barbarians
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [39, 21], r: 1.5}
+  - id: pop:barbarians
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [39, 27], r: 1}
+  - id: pop:barbarians
+    index: 3
+    kind: encounter
+    count: 2
+    circle: {at: [45, 22], r: 1.5}
+  - id: pop:barbarians
+    index: 4
+    kind: encounter
+    count: 2
+    circle: {at: [57, 24], r: 1.5}
+  - id: pop:barbarians
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [63, 20], r: 1}
+  - id: pop:barbarians
+    index: 6
+    kind: encounter
+    count: 2
+    circle: {at: [69, 26], r: 1.5}
+  - id: pop:trolls
+    index: 1
+    kind: encounter
+    count: 2
+    circle: {at: [58, 79], r: 1.5}
+  - id: pop:trolls
+    index: 2
+    kind: encounter
+    count: 2
+    circle: {at: [67, 80], r: 1.5}
+  - id: pop:trolls
+    index: 3
+    kind: encounter
+    count: 2
+    circle: {at: [61, 88], r: 1.5}
+  - id: pop:trolls
+    index: 4
+    kind: encounter
+    count: 2
+    circle: {at: [56, 96], r: 1.5}
+  - id: pop:trolls
+    index: 5
+    kind: encounter
+    count: 2
+    circle: {at: [64, 100], r: 1.5}
+  - id: pop:trolls
+    index: 6
+    kind: encounter
+    count: 3
+    circle: {at: [71, 93], r: 1.5}
+  - id: pop:trolls
+    index: 7
+    kind: encounter
+    count: 1
+    circle: {at: [73, 99], r: 1}
+  - id: town:winterkill
+    kind: keep_clear
+    polygon: [[25, 30], [52, 30], [52, 50], [37, 54], [25, 52]]
+  - id: town:monastery
+    kind: keep_clear
+    polygon: [[62, 25], [78, 25], [78, 44], [62, 44]]
+  - id: zone:druid_grove
+    kind: keep_clear
+    polygon: [[27, 58], [33, 58], [33, 64], [27, 64]]
+  - id: town:glom
+    kind: keep_clear
+    polygon: [[40, 78], [50, 78], [50, 85], [40, 85]]
+  - id: zone:pass
+    kind: keep_clear
+    polygon: [[78, 40], [88, 40], [88, 52], [78, 52]]
+  - id: zone:arrival_meadow
+    kind: keep_clear
+    polygon: [[100, 54], [112, 54], [112, 62], [100, 62]]
+  - id: zone:darkstone_isle
+    kind: keep_clear
+    polygon: [[51, 56], [59, 56], [59, 65], [51, 65]]
+  - id: zone:west_plateau
+    kind: open
+    polygon: [[24, 19], [36, 19], [36, 30], [24, 30]]
+  - id: water:mere
+    kind: open
+    polygon: [[40, 53], [47, 50], [56, 50], [63, 52], [68, 56], [70, 61], [67, 66], [60, 70], [50, 71], [43, 68], [39, 61]]
+views:
+  - {id: view:arrival, at: [106, 59], height: 180, look: [84, 54], purpose: "From the X3 arrival: the river west into the gorge, the pass notch, Halon's clock on the right."}
+  - {id: view:glacier, at: [44, 100], height: 200, look: [31, 102], purpose: "The signature view (D-6.5): the glacier breaking off the rim, the Reflector on its spur."}
+  - {id: view:mere, at: [58, 43], height: 180, look: [55, 61], purpose: Darkstone across the ice.}
+scatter:
+  - id: scatter:troll_forest
+    kinds:
+      snotre03: 1
+      tree33: 3
+      tree36: 3
+    count: 107
+    spacing: 1.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[54, 77], [78, 66], [79, 70], [79.5, 103], [53, 103], [52.5, 87]]
+  - id: scatter:forest_rocks
+    decoration: 6rock03
+    count: 30
+    clusters: 10
+    polygon: [[54, 77], [78, 66], [79, 70], [79.5, 103], [53, 103], [52.5, 87]]
+  - id: scatter:forest_bones
+    decoration: 7dec18
+    count: 14
+    clusters: 6
+    polygon: [[54, 77], [78, 66], [79, 70], [79.5, 103], [53, 103], [52.5, 87]]
+  - id: scatter:fen_firs
+    kinds:
+      snotre03: 1
+      tree33: 3
+      tree36: 3
+    count: 42
+    spacing: 1.8
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[87, 64], [109, 64], [109, 103], [87, 103]]
+  - id: scatter:fen_sedge
+    decoration: plant02
+    count: 60
+    clusters: 18
+    polygon: [[87, 64], [109, 64], [109, 103], [87, 103]]
+  - id: scatter:fen_weeds
+    decoration: snoweed1
+    count: 40
+    clusters: 14
+    polygon: [[87, 64], [109, 64], [109, 103], [87, 103]]
+  - id: scatter:hill_firs
+    kinds:
+      snotre01: 2
+      snotre03: 2
+      tree36: 1
+    count: 32
+    spacing: 1.8
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[88, 19], [109, 19], [109, 53], [100, 54], [92, 55], [88, 52]]
+  - id: scatter:hill_rocks
+    decoration: 6rock07
+    count: 30
+    clusters: 10
+    steep: true
+    polygon: [[88, 19], [109, 19], [109, 53], [100, 54], [92, 55], [88, 52]]
+  - id: scatter:steppe_trees
+    kinds:
+      snotre01: 2
+      snotre03: 2
+      tree36: 1
+    count: 11
+    spacing: 2.6
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[36, 19], [77, 19], [77, 40], [72, 38], [62, 38], [52, 36], [48, 33], [36, 32]]
+  - id: scatter:steppe_rocks
+    decoration: 6rock03
+    count: 40
+    clusters: 14
+    polygon: [[36, 19], [77, 19], [77, 40], [72, 38], [62, 38], [52, 36], [48, 33], [36, 32]]
+  - id: scatter:steppe_rocks
+    decoration: 6rock07
+    count: 25
+    clusters: 9
+    polygon: [[36, 19], [77, 19], [77, 40], [72, 38], [62, 38], [52, 36], [48, 33], [36, 32]]
+  - id: scatter:steppe_weeds
+    decoration: snoweed1
+    count: 40
+    clusters: 12
+    polygon: [[36, 19], [77, 19], [77, 40], [72, 38], [62, 38], [52, 36], [48, 33], [36, 32]]
+  - id: scatter:snowfield_firs
+    kinds:
+      snotre01: 1
+      tree33: 2
+      tree36: 2
+    count: 22
+    spacing: 2.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[24.5, 50], [37, 51], [39, 61], [43, 68], [50, 71], [56, 72], [52, 84], [24.5, 84]]
+  - id: scatter:snowfield_rocks
+    decoration: 6rock03
+    count: 22
+    clusters: 8
+    polygon: [[24.5, 50], [37, 51], [39, 61], [43, 68], [50, 71], [56, 72], [52, 84], [24.5, 84]]
+  - id: scatter:snowfield_weeds
+    decoration: snoweed1
+    count: 30
+    clusters: 10
+    polygon: [[24.5, 50], [37, 51], [39, 61], [43, 68], [50, 71], [56, 72], [52, 84], [24.5, 84]]
+  - id: scatter:grove_firs
+    kinds:
+      tree33: 1
+      tree36: 2
+    count: 12
+    spacing: 1.2
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    polygon: [[27, 57.5], [33, 57.5], [33, 64.5], [27, 64.5]]
+  - id: scatter:plateau_firs
+    kinds:
+      snotre01: 2
+      snotre03: 2
+      tree36: 1
+    count: 4
+    spacing: 2.4
+    spacing_group: trees
+    close_share: 0.1
+    close_spacing: 1
+    edge_thin: {width: 3, keep: 0.35}
+    polygon: [[24.5, 19], [36, 19], [36, 32], [28.5, 33], [28.5, 34], [24.5, 34]]
+  - id: scatter:plateau_rocks
+    decoration: 6rock07
+    count: 16
+    clusters: 6
+    polygon: [[24.5, 19], [36, 19], [36, 32], [28.5, 33], [28.5, 34], [24.5, 34]]
+  - id: scatter:giants_rocks
+    decoration: 6rock07
+    count: 40
+    clusters: 12
+    steep: true
+    polygon: [[24.5, 85], [52, 85], [52, 103.5], [24.5, 103.5]]
+  - id: scatter:giants_rocks
+    decoration: rock26
+    count: 18
+    clusters: 8
+    polygon: [[24.5, 85], [52, 85], [52, 103.5], [24.5, 103.5]]
+  - id: scatter:giants_bones
+    decoration: 7dec18
+    count: 10
+    clusters: 4
+    polygon: [[24.5, 85], [52, 85], [52, 103.5], [24.5, 103.5]]
+  - id: scatter:spine_rocks
+    decoration: 6rock07
+    count: 40
+    clusters: 12
+    steep: true
+    polygon: [[77, 0], [87, 0], [87, 58], [77, 58]]
+  - id: scatter:spur_rocks
+    decoration: 6rock07
+    count: 20
+    clusters: 8
+    steep: true
+    polygon: [[79, 66], [86, 66], [86, 103], [80, 103]]
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [30, 36], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [44.6, 35.2], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [46.6, 44.5], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [30.6, 47.8], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [40.6, 48.6], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [29.4, 38.4], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [27, 35], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [26.4, 46], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [33, 50.6], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [45, 50], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [49.6, 44], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [50.6, 39], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [42, 32], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [35, 31.6], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree36
+    count: 1
+    circle: {at: [28.6, 31], r: 0.2}
+  - id: scatter:town_firs
+    decoration: tree33
+    count: 1
+    circle: {at: [47.6, 47.6], r: 0.2}
+  - id: scatter:edge_n
+    kinds:
+      snotre01: 2
+      snotre03: 2
+      tree36: 1
+    count: 57
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[24.5, 0], [128, 0], [128, 18.5], [24.5, 18.5]]
+  - id: scatter:edge_rocks_n
+    decoration: 6rock07
+    count: 15
+    clusters: 10
+    steep: true
+    polygon: [[24.5, 0], [128, 0], [128, 18.5], [24.5, 18.5]]
+  - id: scatter:edge_e
+    kinds:
+      snotre01: 2
+      snotre03: 2
+      tree36: 1
+    count: 55
+    spacing: 1.6
+    spacing_group: trees
+    polygon: [[109.5, 18.5], [128, 18.5], [128, 103.5], [109.5, 103.5]]
+  - id: scatter:edge_rocks_e
+    decoration: 6rock07
+    count: 12
+    clusters: 10
+    steep: true
+    polygon: [[109.5, 18.5], [128, 18.5], [128, 103.5], [109.5, 103.5]]
+  - id: scatter:lip_rocks
+    decoration: 6rock03
+    count: 30
+    line: [[24.6, 20], [24.6, 103.4]]
+  - id: scatter:lip_rocks
+    decoration: 6rock03
+    count: 30
+    line: [[25, 103.4], [108, 103.4]]
+  - id: scatter:sea_stacks
+    decoration: rock26
+    count: 14
+    on: water
+    polygon: [[4, 20], [21, 20], [21, 110], [4, 110]]
+  - id: scatter:sea_stacks
+    decoration: rock12
+    count: 10
+    on: water
+    polygon: [[24, 106], [120, 106], [120, 112], [24, 112]]
+ground:
+  - material: snow
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "Snow everywhere but the scoured patches, the tracks and the ice."
+  - material: sand
+    polygon: [[40, 53], [47, 50], [56, 50], [63, 52], [68, 56], [70, 61], [67, 66], [60, 70], [50, 71], [43, 68], [39, 61]]
+    notes: "The Winterkill Mere: ice (D-6.3)."
+  - material: sand
+    line: [[76, 61], [72.5, 61], [69, 61]]
+    width: 3
+    notes: "The frozen river below the gorge: ice."
+  - material: dirt
+    polygon: [[40, 19], [47, 19], [47, 24], [40, 24]]
+    notes: Scoured stony ground.
+  - material: dirt
+    polygon: [[57, 23], [63, 23], [63, 27], [57, 27]]
+    notes: Scoured stony ground.
+  - material: dirt
+    polygon: [[68, 44], [74, 44], [74, 47], [68, 47]]
+    notes: Scoured stony ground.
+  - material: dirt
+    polygon: [[34, 38], [40, 38], [40, 45], [34, 45]]
+    notes: Winterkill square.
+  - material: dirt
+    polygon: [[52, 57], [58, 57], [58, 64], [52, 64]]
+    notes: Darkstone's black rock.
+  - material: dirt
+    polygon: [[97, 72], [105, 72], [105, 79], [97, 79]]
+    notes: "The Golem Rocks: bare stone."
+  - material: dirt
+    steeper_than: 640
+    polygon: [[0, 0], [128, 0], [128, 104], [0, 104]]
+    notes: "Bare rock on the sheer crags, the ridge and the spur (the gentler snow slopes stay white)."
+  - material: sand
+    polygon: [[32, 86], [39, 86], [40, 93], [39, 104], [30, 104], [30, 94]]
+    notes: "The glacier's tongue: ice."
+  - material: sand
+    polygon: [[31, 85], [39, 85], [39, 86], [31, 86]]
+    notes: "The glacier's head: its north front over the Giants' Stones, ice."
+  - material: sand
+    polygon: [[29, 87], [38, 87], [38, 83], [38, 80], [36, 77], [28, 77], [27, 79], [27, 83]]
+    notes: "The icefall north off the plateau and its snout on the snowfield, its steep margins too: ice."
+  - material: dirt
+    polygon: [[95, 85], [102, 85], [102, 92], [95, 92]]
+    notes: "The fen: black mud."
+  - material: dirt
+    polygon: [[89, 70], [94, 70], [94, 76], [89, 76]]
+    notes: "The fen: black mud."
+  - material: dirt
+    polygon: [[103, 68], [108, 68], [108, 72], [103, 72]]
+    notes: "The fen: black mud."
+  - material: dirt
+    line: [[98, 60], [99, 56], [100.5, 52.5], [100.5, 48], [98.5, 46], [96, 45]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[98, 60], [97.5, 61], [97.5, 65], [98.5, 67], [100.5, 70.5]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[73, 40], [70, 43], [67, 45.5], [64.5, 46.5]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[37, 45], [37, 50], [36, 55], [35.5, 60], [37, 66], [40, 72], [42, 77]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[35.5, 60], [32, 61]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[42, 77], [43.5, 79], [45.5, 79.5]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[42, 77], [40, 82], [39.5, 86], [41.5, 90.5], [43.5, 92]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[42, 77], [48, 77], [53, 75.5], [58, 81], [63, 88], [65.5, 94]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[34, 41.5], [30, 41.5], [27.5, 41.5]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[53, 75.5], [60, 73.5], [67, 71.5], [72.5, 70]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[63, 88], [70, 85.5], [75, 83], [77, 82]]
+    width: 2
+    notes: a track in the snow
+  - material: dirt
+    line: [[37, 45], [37, 47.5], [33, 47.5], [30.5, 46.5], [30.5, 45]]
+    width: 2
+    notes: a lane in Winterkill
+  - material: dirt
+    line: [[40, 45], [42.5, 45], [42.5, 47], [43.5, 47]]
+    width: 2
+    notes: a lane in Winterkill
+  - material: dirt
+    line: [[33.5, 41.5], [33.5, 43], [34, 43]]
+    width: 2
+    notes: a lane in Winterkill
+  - material: dirt
+    line: [[40, 41.5], [40.5, 39.5], [42, 40]]
+    width: 2
+    notes: a lane in Winterkill
+structures:
+  - id: thing:square_court
+    kind: platform
+    at: [37, 41.5]
+    size: [3072, 3584]
+    height: 16
+    textures: {top: cnb, wall: cnb}
+    title: Winterkill square
+    notes: The square's paving under the snow.
+  - id: thing:north_gong_1
+    kind: sign
+    at: [35.8, 39.5]
+    height: 352
+    width: 192
+    textures: {board: xngong, wall: trim11_32}
+    title: Northern gong
+    condition: {map_var: north_gong_1}
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -14438, 12544, 1168)"
+      - set:
+          var:
+            map_var: north_gong_1
+          value: 1
+      - text: "BONG!"
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -14438, 12544, 1168)"
+      - set:
+          var:
+            map_var: north_gong_1_twice
+          value: 1
+      - text: "BONG!"
+    board_height: 192
+  - id: thing:north_gong_2
+    kind: sign
+    at: [38.2, 39.5]
+    height: 352
+    width: 192
+    textures: {board: xngong, wall: trim11_32}
+    title: Northern gong
+    condition: {map_var: north_gong_2}
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", -13209, 12544, 1168)"
+      - set:
+          var:
+            map_var: north_gong_2
+          value: 1
+      - text: "BONG!"
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong_low\", -13209, 12544, 1168)"
+      - set:
+          var:
+            map_var: north_gong_2_twice
+          value: 1
+      - text: "BONG!"
+    board_height: 192
+  - id: thing:south_gong
+    kind: sign
+    at: [35.4, 44.2]
+    height: 352
+    width: 192
+    textures: {board: xngong, wall: trim11_32}
+    title: Southern gong
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_gong\", -14643, 10137, 1168)"
+      - lua: "XeenQuests.hook(\"q-c6.gong\")"
+    board_height: 192
+  - id: thing:gong_plaque
+    kind: sign
+    at: [37, 39.3]
+    height: 160
+    width: 128
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"q-c6.north_gongs_verse\")"
+  - id: thing:randon_board
+    kind: sign
+    at: [34.6, 44.3]
+    height: 224
+    width: 160
+    title: Signboard
+    effects:
+      - lua: "XeenQuests.hook(\"q-c6.signboard\")"
+  - id: thing:strength_well
+    kind: well
+    at: [39, 43.6]
+    frame: {height: 224, roof: gable, roof_height: 64}
+    title: The old well
+    condition: {all: [{qbit: winterkill_liberated}, {map_var: north_gong_1_twice}, {map_var: north_gong_2_twice}]}
+    else_effects:
+      - text: The well is frozen solid.
+    effects:
+      - set:
+          var: MightBonus
+          value: 25
+      - text: "+25 Might (temporary)"
+  - id: thing:mirror
+    kind: portal
+    at: [34.8, 42.6]
+    turn: 90
+    radius: 112
+    sides: 12
+    textures: {membrane: {texture: xmirror}}
+    title: Magic Mirror
+    effects:
+      - lua: "Xeen.useMirror(4256, eventId, continueStep)"
+    notes: "Winterkill's mirror (A4's 4256, opens with q-c6.done)."
+  - id: thing:acme_machine
+    kind: building
+    at: [39.2, 38.3]
+    size: [0.75, 0.5]
+    kit: grey
+    parts:
+      - {id: stand, at: [96, 64], size: [192, 128], textures: {roof: trim11_32, wall: trim11_32}, wall_height: 160, windows: none, roof: flat}
+      - {id: lens, shape: round, at: [192, 128], radius: 56, sides: 8, bottom: 160, textures: {roof: xngong, wall: xngong}, wall_height: 112, windows: none, roof: flat, title: Acme Ghost Visualization System, effects: [{lua: "XeenQuests.hook(\"q-c6.acme_sign\")"}]}
+    floor: 1016
+    door: none
+    title: A strange machine
+  - id: thing:ghost_chest
+    kind: chest
+    at: [35.95, 37.95]
+    title: Cursed chest
+    chest: {level: 4, random_items: 3}
+    condition: {qbit: winterkill_liberated}
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c6.ghost_verse\")"
+  - id: thing:palisade_1
+    kind: fence
+    line: [[28.5, 34], [33, 33.6]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_2
+    kind: fence
+    line: [[34.5, 33.6], [40, 33.8]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_3
+    kind: fence
+    line: [[42, 34], [44.5, 34.2]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_4
+    kind: fence
+    line: [[48.2, 36.5], [48.4, 37.6]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_5
+    kind: fence
+    line: [[47.6, 43], [47, 46.5]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_6
+    kind: fence
+    line: [[45, 48.5], [39.8, 49.6]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_7
+    kind: fence
+    line: [[34.2, 49.6], [30.5, 48.7]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_8
+    kind: fence
+    line: [[28.4, 47], [28.3, 43.2]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:palisade_9
+    kind: fence
+    line: [[28.4, 39.8], [28.6, 35.5]]
+    notes: "A fence round a garden or pen (pass three: the fence word, posts and rails following the ground)."
+  - id: thing:prop_1
+    kind: decoration
+    at: [33.3, 36.15]
+    decoration: bigbarel
+  - id: thing:prop_2
+    kind: decoration
+    at: [33.3, 36.5]
+    decoration: bigbarel
+  - id: thing:prop_3
+    kind: decoration
+    at: [41.7, 36.6]
+    decoration: 7dec32
+  - id: thing:prop_4
+    kind: decoration
+    at: [41.7, 36.95]
+    decoration: 7dec32
+  - id: thing:prop_5
+    kind: decoration
+    at: [47.2, 36.2]
+    decoration: haybale2
+  - id: thing:prop_6
+    kind: decoration
+    at: [47.2, 36.55]
+    decoration: haybale2
+  - id: thing:prop_7
+    kind: decoration
+    at: [31.3, 39]
+    decoration: 7dec32
+  - id: thing:prop_8
+    kind: decoration
+    at: [31.3, 39.35]
+    decoration: 7dec32
+  - id: thing:edge_watch
+    kind: building
+    at: [25.2, 40.2]
+    size: [1.6, 1.6]
+    kit: castle
+    parts:
+      - {id: t, shape: round, at: [410, 410], radius: 288, sides: 10, textures: {wall: cnb}, wall_height: 640, windows: none, roof: none}
+    door: none
+    title: The Edge Watch
+    ruin:
+      height: [192, 640]
+      gaps: 0.35
+      thickness: 48
+      seed: 4
+  - id: thing:edge_note
+    kind: sign
+    at: [26.9, 42.3]
+    height: 224
+    width: 160
+    title: An old note
+    effects:
+      - lua: "evt.SimpleMessage(\"Nailed to the post, in a soldier's hand: \\\"Day nine hundred. Still no sign of the edge getting any closer. Or any further. Watch relieved by nobody.\\\"\")"
+  - id: thing:fountain_protection
+    kind: fountain
+    at: [30, 29]
+    textures: {wall: cnb}
+    tiers: [[96, 48]]
+    title: Fountain of Great Protection
+    effects:
+      - set:
+          var: ArmorClassBonus
+          value: 20
+      - text: "+20 Armor class (temporary)"
+  - id: thing:obelisk
+    kind: obelisk
+    at: [58.5, 42.5]
+    height: 768
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.x5\")"
+  - id: thing:well_accuracy
+    kind: well
+    at: [60, 30]
+    frame: {height: 200}
+    title: Well of Accuracy
+    effects:
+      - set:
+          var: AccuracyBonus
+          value: 20
+      - text: "+20 Accuracy (temporary)"
+  - id: thing:camp_tent
+    kind: tent
+    at: [40.4, 24]
+    size: [896, 704]
+    height: 384
+    title: Barbarian tent
+    open: true
+  - id: thing:camp_tent2
+    kind: tent
+    at: [42.9, 23.7]
+    size: [768, 640]
+    height: 352
+    title: The chief's tent
+    condition: {not: {map_var: barbarian_camp_burnt}}
+    else_effects:
+      - text: Charred poles and wet ash.
+    effects:
+      - set:
+          var:
+            map_var: barbarian_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 3000
+      - text: "You set the barbarians' tents alight. The furs go up like tinder. (+3,000 experience)"
+    open: true
+  - id: thing:camp_fire
+    kind: decoration
+    at: [42.2, 25.8]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:camp_bones
+    kind: decoration
+    at: [41, 26.5]
+    decoration: 7dec18
+  - id: thing:hunt_tent
+    kind: tent
+    at: [64.4, 21]
+    size: [896, 704]
+    height: 384
+    title: Barbarian tent
+    open: true
+  - id: thing:hunt_fire
+    kind: decoration
+    at: [66.2, 22.8]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:hunt_bones
+    kind: decoration
+    at: [65, 23.5]
+    decoration: 7dec18
+  - id: thing:camp_chest
+    kind: chest
+    at: [44.6, 23.9]
+    title: The chief's chest
+    chest: {level: 3, random_items: 3}
+  - id: thing:north_road_end
+    kind: sign
+    at: [52.2, 21.6]
+    height: 224
+    width: 160
+    title: Waymark
+    effects:
+      - lua: "evt.SimpleMessage(\"North: the Desert of the Sphinx.\")"
+  - id: thing:monastery_stair
+    kind: stairs
+    line: [[70.6, 39.6], [70.6, 36.5]]
+    width: 448
+    rise: 700
+    textures: {wall: cnb}
+    notes: The stair up Kai Wu's crag.
+  - id: thing:cloister_wall
+    kind: wall
+    line: [[69.9, 36.3], [64.3, 36.3], [64.3, 27.3], [74.2, 27.3], [74.2, 36.3], [71.3, 36.3]]
+    height: 192
+    thickness: 96
+    textures: {wall: cnb}
+    title: Cloister wall
+    notes: "One wall round the court, open at the stair head."
+  - id: thing:bell_frame
+    kind: building
+    at: [67.6, 33.4]
+    size: [1, 1]
+    kit: timber
+    parts:
+      - {id: frame, at: [128, 128], size: [256, 256], posts: 32, textures: {roof: xtslate}, wall_height: 416, windows: none, roof: hip, roof_pitch: 45, title: The monastery bell, effects: [{text: "A deep, slow note rolls out over the tundra."}]}
+    floor: 1900
+    door: none
+    title: The monastery bell
+  - id: thing:freeda_tent
+    kind: tent
+    at: [83.4, 43.6]
+    size: [640, 576]
+    height: 320
+    title: Freeda's tent
+    open: true
+  - id: thing:freeda_fire
+    kind: decoration
+    at: [81.4, 44.6]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:frozen_sledge
+    kind: chest
+    at: [89.6, 53.4]
+    title: A trader's sledge
+    chest: {level: 2, random_items: 2}
+    effects:
+      - lua: "if not IsAtLeast(MapVar(16), 1) then AddValue(Food, 6) evt.StatusText(\"Frozen provisions are still lashed to the runners. (+6 food)\", 4) end"
+      - set:
+          var:
+            map_var: sledge_food
+          value: 1
+  - id: thing:sledge_bones
+    kind: decoration
+    at: [90.2, 53.9]
+    decoration: 7dec18
+  - id: thing:halon_clock
+    kind: building
+    at: [95.6, 47.6]
+    size: [1, 1]
+    kit: timber
+    parts:
+      - {id: belfry, shape: round, at: [256, 256], radius: 208, sides: 10, bottom: 704, textures: {post_left: hwm2b, post_right: hwm2b, roof: xtslate, wall: hwm2b, window: hwm2bw}, wall_height: 256, windows: alternate, roof: cone, roof_pitch: 64}
+      - {id: tower, shape: round, at: [256, 256], radius: 208, sides: 10, textures: {post_left: hwm2wall, post_right: hwm2wall, wall: hwm2wall}, wall_height: 704, windows: none, roof: none, title: Halon's water clock, effects: [{text: The water clock is stopped. Ice hangs from its wheel.}]}
+    floor: 1350
+    door: none
+    title: Halon's water clock
+  - id: thing:halon_pond
+    kind: platform
+    at: [98.6, 50.5]
+    size: [1024, 768]
+    height: 8
+    textures: {top: 7snow, wall: cnb}
+    title: Halon's millpond
+    effects:
+      - text: The millpond is frozen to the bottom. No wonder the clock has stopped.
+    notes: "The frozen millpond (a slab of ice; the ice material is ground only)."
+  - id: thing:xd10_north
+    kind: cave_mouth
+    at: [96.5, 42.5]
+    size: [576, 1536]
+    textures: {door: 7solid01, shell: 7snow}
+    floor: 1400
+    title: Enter the Cave of Illusion
+    into: {map: xeen_xd10.blv, arrival: entrance:x5_north, screen: {text: 5010}}
+    hint: Cave of Illusion
+    notes: "XD-10's north mouth (D-4): warm, wet breath from it, ice at its lip."
+    crest: 480
+    mouth: {width: 448, height: 384, depth: 75, rim: 64}
+    roughness: 0.7
+    seed: 11
+  - id: thing:xd09_door
+    kind: doorway
+    at: [100.5, 71.6]
+    turn: 180
+    height: 352
+    width: 256
+    depth: 384
+    hood: 64
+    textures: {door: 7solid01, wall: cwb1}
+    floor: 960
+    title: Enter the Golem Dungeon
+    into: {map: xeen_xd09.blv, arrival: entrance:x5, screen: {text: 5009}}
+    condition: {lua: "XeenQuests.hook(\"m10.golem_door\")"}
+    notes: "XD-09 (D-4): the slab door in the Golem Rocks' north face; opens with the Golem Stone."
+    arch: segment
+  - id: thing:golem_bridge
+    kind: bridge
+    line: [[97.5, 61], [97.5, 65]]
+    width: 384
+    rise: 64
+    kerb: 48
+    textures: {deck: trim11_32}
+    title: Footbridge
+  - id: thing:well_intellect
+    kind: well
+    at: [105.5, 56.5]
+    frame: {height: 200}
+    title: Well of Intellect
+    effects:
+      - set:
+          var: IntellectBonus
+          value: 20
+      - text: "+20 Intellect (temporary)"
+  - id: thing:hot_spring
+    kind: fountain
+    at: [104, 66.6]
+    textures: {wall: cnb}
+    tiers: [[64, 24]]
+    title: Hot spring
+    effects:
+      - add:
+          var: HP
+          value: 100
+      - text: "Steam and warmth: +100 Hit points"
+  - id: thing:ogre_tent
+    kind: tent
+    at: [99.6, 35.8]
+    size: [832, 640]
+    height: 352
+    title: The ogres' camp
+    condition: {not: {map_var: ogre_camp_burnt}}
+    else_effects:
+      - text: Ash and a few charred bones.
+    effects:
+      - set:
+          var:
+            map_var: ogre_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 1500
+      - text: "You burn the camp. (+1,500 experience)"
+    open: true
+  - id: thing:ogre_fire
+    kind: decoration
+    at: [101.4, 37.9]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:ogre_chest
+    kind: chest
+    at: [102.6, 36.4]
+    title: Chest
+    chest: {level: 2, random_items: 2}
+  - id: thing:archer_tent
+    kind: tent
+    at: [102.6, 84.8]
+    size: [832, 640]
+    height: 352
+    title: The archers' camp
+    condition: {not: {map_var: archer_camp_burnt}}
+    else_effects:
+      - text: Ash and a few charred bones.
+    effects:
+      - set:
+          var:
+            map_var: archer_camp_burnt
+          value: 1
+      - add:
+          var: Experience
+          value: 1500
+      - text: "You burn the camp. (+1,500 experience)"
+    open: true
+  - id: thing:archer_fire
+    kind: decoration
+    at: [104.4, 86.9]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:archer_chest
+    kind: chest
+    at: [105.6, 85.4]
+    title: Chest
+    chest: {level: 2, random_items: 2}
+  - id: thing:trapper_shed
+    kind: building
+    at: [91, 89]
+    size: [1.5, 1]
+    kit: poor
+    parts:
+      - {id: shed, at: [48, 48], size: [672, 416], posts: 24, wall_height: 224, windows: none, roof: lean_to}
+    door: none
+    title: A trapper's lean-to
+  - id: thing:trapper_chest
+    kind: chest
+    at: [92.3, 90.6]
+    title: Chest
+    chest: {level: 2, random_items: 1}
+  - id: thing:trapper_fire
+    kind: decoration
+    at: [91.4, 90.8]
+    decoration: dec24x
+    title: A dead fire
+  - id: thing:darkstone
+    kind: building
+    at: [53.75, 59.75]
+    size: [2.5, 2.5]
+    kit: castle
+    facing: n
+    parts:
+      - {id: base, shape: round, at: [640, 640], radius: 544, sides: 10, textures: {door: 7solid01, post_left: gtrlwal1, post_right: gtrlwal1, trim: gtrlwal1, wall: gtrlwal1, window: gtrlwal1}, wall_height: 896, windows: none, roof: none}
+      - {id: base_band, shape: round, at: [640, 640], radius: 544, sides: 10, bottom: 896, textures: {post_left: hkm3b, post_right: hkm3b, roof: gtrlwal1, trim: gtrlwal1, wall: hkm3b, window: hkm3b}, wall_height: 256, windows: none, roof: none}
+      - {id: top, shape: round, at: [640, 640], radius: 448, sides: 10, bottom: 1152, textures: {post_left: gtrlwal1, post_right: gtrlwal1, wall: gtrlwal1}, wall_height: 512, windows: none, roof: none}
+      - {id: top_band, shape: round, at: [640, 640], radius: 448, sides: 10, bottom: 1664, textures: {post_left: hkm3b, post_right: hkm3b, roof: xtslate, wall: hkm3b, window: hkm3elw}, wall_height: 256, windows: alternate, roof: cone, roof_pitch: 74}
+    floor: 1500
+    door:
+      part: base
+      wall: "5"
+    title: Darkstone Tower
+    into: {map: xeen_fd03.blv, arrival: entrance:x5_door, screen: {text: 5064}}
+    condition: {lua: "XeenQuests.hook(\"m41.tower_door\")"}
+    notes: "FD-03 Darkstone Tower (A7): A3 m41.tower_door, then into FD-03 at entrance:x5_door."
+  - id: thing:frozen_pack
+    kind: chest
+    at: [60.6, 65.6]
+    title: A pack frozen into the ice
+    chest: {level: 3, random_items: 2}
+  - id: thing:fishing_stool
+    kind: decoration
+    at: [47.3, 58.4]
+    decoration: stump5a
+    title: Old Knut's fishing hole
+    effects:
+      - add:
+          var: Food
+          value: 3
+      - text: "A line through a hole in the ice, and a fish on it. Old Knut won't mind. (+3 food)"
+    once: true
+  - id: thing:pagoda
+    kind: building
+    at: [62.5, 45]
+    size: [4, 3]
+    kit: timber
+    facing: n
+    parts:
+      - {id: storey_1, at: [256, 256], size: [1536, 1024], textures: {door: hkm2d, post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
+      - {id: storey_2, at: [352, 352], size: [1344, 832], bottom: 256, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
+      - {id: storey_3, at: [448, 448], size: [1152, 640], bottom: 512, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
+      - {id: storey_4, at: [544, 544], size: [960, 448], bottom: 768, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
+      - {id: storey_5, at: [608, 608], size: [832, 320], bottom: 1024, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 50}
+    floor: 1000
+    door:
+      part: storey_1
+      wall: n
+    title: The Ninja Pagoda
+    into: {map: xeen_xd22.blv, arrival: entrance:x5_door, screen: {text: 5022}}
+    notes: "XD-22 Ninja Pagoda (A7, D-25): into XD-22's start (0, -256, 0) facing south; its exit lands at (320, 9872, 1000) N by an explicit point (A7)."
+  - id: thing:druid_ring
+    kind: stone_ring
+    at: [30, 61]
+    radius: 448
+    title: The Winter Druid's stones
+    count: 7
+    lintel: false
+  - id: thing:shrine_cold
+    kind: building
+    at: [52.2, 73.6]
+    size: [1.6, 1.6]
+    kit: stone
+    parts:
+      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {roof: xtslate}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: Shrine of Cold, condition: {not: {map_var: shrine_cold_used}}, else_effects: [{text: "Frost on the altar, and silence."}], effects: [{set: {var: {map_var: shrine_cold_used}, value: 1}}, {add: {var: WaterResistance, value: 5}}, {text: "+5 Water resistance (permanent)"}]}
+    door: none
+    title: Shrine of Cold
+  - id: thing:holy_book
+    kind: decoration
+    at: [68.6, 92.4]
+    decoration: 7dec41
+    title: A torn pack
+  - id: thing:warren
+    kind: cave_mouth
+    at: [65.5, 94.5]
+    size: [1536, 1536]
+    turn: 180
+    textures: {door: 7solid01, shell: 7dirttyl}
+    title: Troll Warren
+    into: {map: xeen_xd23.blv, arrival: entrance:x5_mouth, screen: {text: 5023}}
+    effects:
+      - lua: "evt.StatusText(\"You drag the frozen hides aside.\", 5)"
+    hint: Troll Warren
+    notes: "XD-23 Troll Warren (A7, D-25): the hides dragged aside, into XD-23's start (0, -256, 0) facing south. Its mouth exit lands at (768, -14595, 1210) N, its chimney on the mound's crown at (768, -15616, 1631) S, both by explicit points (A7)."
+    mouth: {width: 384, height: 320, depth: 75}
+    roughness: 0.8
+    seed: 23
+    free: true
+  - id: thing:warren_bones_1
+    kind: decoration
+    at: [64.4, 93.8]
+    decoration: 7dec18
+  - id: thing:warren_bones_2
+    kind: decoration
+    at: [66.7, 93.6]
+    decoration: dec05
+  - id: thing:warren_bones_3
+    kind: decoration
+    at: [63.9, 95.2]
+    decoration: 7dec20
+  - id: thing:warren_bones_4
+    kind: decoration
+    at: [67.4, 95.6]
+    decoration: 7dec18
+  - id: thing:xd10_south
+    kind: cave_mouth
+    at: [79.5, 82.5]
+    size: [576, 1536]
+    turn: 90
+    textures: {door: 7solid01, shell: 7snow}
+    floor: 1200
+    title: Enter the Cave of Illusion
+    into: {map: xeen_xd10.blv, arrival: entrance:x5_south, screen: {text: 5010}}
+    hint: Cave of Illusion
+    notes: XD-10's south mouth in the spur's west face (D-6.1).
+    crest: 520
+    mouth: {width: 448, height: 384, depth: 75, rim: 64}
+    roughness: 0.7
+    seed: 13
+  - id: thing:glom_knoll_sign
+    kind: sign
+    at: [42.7, 78.2]
+    height: 224
+    width: 160
+    title: Glom's burrows
+    effects:
+      - text: "By order of His Majesty Glom: wipe your feet."
+  - id: thing:outpost_fence
+    kind: fence
+    line: [[41.4, 90.8], [46.6, 90.8], [46.8, 95.4], [41.2, 95.2]]
+    notes: "The cyclopes' stockade, open on the north-west."
+  - id: thing:outpost_tent
+    kind: tent
+    at: [42.4, 92]
+    size: [1280, 960]
+    height: 576
+    title: The Cyclops' outpost
+    effects:
+      - lua: "if Xeen.isSet(\"q-c16.outpost_burnt\") then return end"
+      - lua: "if continueStep == 1 then HideThing(\"thing:outpost_tent\") HideThing(\"thing:outpost_tent2\") HideThing(\"thing:outpost_fire\") ShowThing(\"thing:outpost_char_1\") ShowThing(\"thing:outpost_char_2\") ShowThing(\"thing:outpost_char_3\") ShowThing(\"thing:outpost_char_4\") ShowThing(\"thing:outpost_char_5\") XeenQuests.hook(\"q-c16.outpost\") return end"
+      - lua: "if continueStep ~= nil then return end"
+      - lua: "AskChoiceWithAnswerSteps(eventId, 3, \"You have found the Cyclops' outpost! Burn?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    open: true
+  - id: thing:outpost_tent2
+    kind: tent
+    at: [45, 93.4]
+    size: [896, 768]
+    height: 512
+    title: The Cyclops' outpost
+    open: true
+  - id: thing:outpost_fire
+    kind: decoration
+    at: [44.2, 91.6]
+    decoration: cmpfyr00
+    title: Campfire
+  - id: thing:outpost_char_1
+    kind: decoration
+    at: [42.2, 91.8]
+    decoration: dec24x
+    hidden: true
+  - id: thing:outpost_char_2
+    kind: decoration
+    at: [42.9, 92.5]
+    decoration: stump5a
+    hidden: true
+  - id: thing:outpost_char_3
+    kind: decoration
+    at: [45.1, 93.3]
+    decoration: dec24x
+    hidden: true
+  - id: thing:outpost_char_4
+    kind: decoration
+    at: [44.6, 93.9]
+    decoration: stump5a
+    hidden: true
+  - id: thing:outpost_char_5
+    kind: decoration
+    at: [44.2, 91.6]
+    decoration: dec24x
+    hidden: true
+  - id: thing:outpost_chest
+    kind: chest
+    at: [46, 92.1]
+    title: The cyclopes' hoard
+    chest: {level: 4, random_items: 3}
+  - id: thing:outpost_bones_1
+    kind: decoration
+    at: [41.6, 91.4]
+    decoration: 7dec18
+  - id: thing:outpost_bones_2
+    kind: decoration
+    at: [43.4, 94.8]
+    decoration: 7dec18
+  - id: thing:outpost_bones_3
+    kind: decoration
+    at: [46.2, 94.6]
+    decoration: 7dec18
+  - id: thing:giants_cairn
+    kind: chest
+    at: [51.2, 88.05]
+    title: A giant's grave goods
+    chest: {level: 3, random_items: 3}
+  - id: thing:cairn_1
+    kind: decoration
+    at: [49.4, 86.6]
+    decoration: rock26
+  - id: thing:cairn_2
+    kind: decoration
+    at: [51.3, 86.7]
+    decoration: rock12
+  - id: thing:cairn_3
+    kind: decoration
+    at: [50.2, 88.4]
+    decoration: rock26
+  - id: thing:giant_stone
+    kind: decoration
+    at: [37, 85]
+    decoration: rock67
+    title: The Giants' Stones
+    condition: {all: [{stat: {name: BaseMight, at_least: 40}}, {not: {map_var: giant_stone_lifted}}]}
+    else_effects:
+      - text: The smallest of the giants' stones will not budge. (Might 40)
+    effects:
+      - set:
+          var:
+            map_var: giant_stone_lifted
+          value: 1
+      - add:
+          var: BaseMight
+          value: 2
+      - text: You heave the smallest of the giants' stones off the ground. +2 Might (permanent)
+  - id: thing:giant_stones_1
+    kind: decoration
+    at: [36.1, 84.4]
+    decoration: rock26
+  - id: thing:giant_stones_2
+    kind: decoration
+    at: [38, 84.2]
+    decoration: rock26
+  - id: thing:waters_great_magic
+    kind: fountain
+    at: [46.5, 100.5]
+    textures: {wall: cnb}
+    tiers: [[96, 48]]
+    title: Waters of Great Magic
+    effects:
+      - add:
+          var: SP
+          value: 200
+      - text: "+200 Spell points"
+  - id: thing:earth_reflector
+    kind: portal
+    at: [40, 102.6]
+    turn: 0
+    radius: 256
+    sides: 16
+    textures: {membrane: {texture: xngong5}}
+    title: The Earth Reflector
+    effects:
+      - lua: "if continueStep == 1 then XeenQuests.hook(\"m37.reflector_earth\") return end"
+      - lua: "if continueStep ~= nil then return end"
+      - lua: "AskChoiceWithAnswerSteps(eventId, 3, \"A great bronze disc in a ring of stone, turned toward the glacier's edge. Reflector. Activate?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}})"
+    notes: "M37: A3 m37.reflector_earth (requires m36.started, sets m37.earth once)."
+  - id: thing:sign_lagoon
+    kind: sign
+    at: [98.8, 59]
+    height: 256
+    arms:
+      - {title: Lifeforce Lagoon, toward: e}
+      - {title: The pass, toward: w}
+      - {title: Golem Rocks, toward: s}
+      - {title: Halon's, toward: n}
+  - id: thing:sign_pass
+    kind: sign
+    at: [81, 46.8]
+    height: 256
+    arms:
+      - {title: Winterkill, toward: w}
+      - {title: Lifeforce Lagoon, toward: e}
+  - id: thing:sign_monastery
+    kind: sign
+    at: [74, 39]
+    height: 256
+    arms:
+      - {title: Kai Wu's, toward: n}
+      - {title: Winterkill, toward: w}
+      - {title: The pass, toward: e}
+      - {title: The pagoda, toward: s}
+  - id: thing:sign_steppe
+    kind: sign
+    at: [51, 34]
+    height: 256
+    arms:
+      - {title: Desert of the Sphinx, toward: n}
+      - {title: Winterkill, toward: w}
+      - {title: Kai Wu's monastery, toward: e}
+  - id: thing:sign_glom
+    kind: sign
+    at: [43, 76]
+    height: 256
+    arms:
+      - {title: Glom's, toward: s}
+      - {title: Winterkill, toward: n}
+      - {title: Troll Forest, toward: e}
+  - id: thing:giants_bones
+    kind: sign
+    at: [40.3, 83.4]
+    height: 224
+    width: 160
+    title: Bones
+    effects:
+      - lua: "evt.SimpleMessage(\"The bones of something big, cracked open for the marrow. The path goes on up.\")"
+actors:
+  - {monster: "11410", at: [93, 26], count: 2, spread: 0.8, group: 1, hostile: true}
+  - {monster: "11410", at: [103, 29], count: 3, spread: 0.8, group: 2, hostile: true}
+  - {monster: "11410", at: [108, 46], count: 2, spread: 0.8, group: 3, hostile: true}
+  - {monster: "11410", at: [105, 21], count: 2, spread: 0.8, group: 4, hostile: true}
+  - {monster: "11410", at: [95, 71], count: 2, spread: 0.8, group: 5, hostile: true}
+  - {monster: "11410", at: [90, 80], count: 2, spread: 0.8, group: 6, hostile: true}
+  - {monster: "11410", at: [99, 96], count: 3, spread: 0.8, group: 7, hostile: true}
+  - {monster: "11410", at: [108, 67], count: 2, spread: 0.8, group: 8, hostile: true}
+  - {monster: "11410", at: [96, 85], count: 2, spread: 0.8, group: 9, hostile: true}
+  - {monster: "11060", at: [101.2, 38.4], count: 4, spread: 1.2, group: 20, hostile: true}
+  - {monster: "11061", at: [100.4, 36.4], count: 2, spread: 0.8, group: 20, hostile: true}
+  - {monster: "11130", at: [104.2, 87.4], count: 5, spread: 1.2, group: 21, hostile: true}
+  - {monster: "11100", at: [42.6, 26.4], count: 3, spread: 1, group: 22, hostile: true}
+  - {monster: "11101", at: [41, 26], count: 2, spread: 0.8, group: 22, hostile: true}
+  - {monster: "11102", at: [43.6, 24], count: 1, spread: 0, group: 22, hostile: true}
+  - {monster: "11100", at: [66.4, 23.3], count: 3, spread: 0.9, group: 23, hostile: true}
+  - {monster: "11411", at: [26.5, 71], count: 2, spread: 0.9, group: 24, hostile: true}
+  - {monster: "11411", at: [48, 82], count: 3, spread: 0.9, group: 25, hostile: true}
+  - {monster: "11412", at: [30, 80.5], count: 1, spread: 0.9, group: 26, hostile: true}
+  - {monster: "11412", at: [62, 73.5], count: 1, spread: 0.9, group: 27, hostile: true}
+  - {monster: "11080", at: [44.2, 93.4], count: 8, spread: 1.6, group: 30, hostile: true}
+  - {monster: "11080", at: [33, 92], count: 2, spread: 0.8, group: 31, hostile: true}
+  - {monster: "11080", at: [40, 87.6], count: 2, spread: 0.8, group: 32, hostile: true}
+  - {monster: "11080", at: [29.5, 97], count: 2, spread: 0.8, group: 33, hostile: true}
+  - {monster: "11081", at: [50.5, 92], count: 1, spread: 0, group: 34, hostile: true}
+  - {monster: "11241", at: [35, 39.2], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [36.6, 40.6], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [38.6, 40.2], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [35.4, 42.2], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [38.2, 42.4], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [37, 43.8], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [34.8, 37.8], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [39.6, 44.6], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [42.8, 40.6], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [31.2, 41.6], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [37, 47.8], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [44.5, 43.5], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [36, 41.4], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [39.2, 38.8], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [46.4, 41.6], spread: 0, group: 40, hostile: true}
+  - {monster: "11241", at: [34.6, 44.2], spread: 0, group: 40, hostile: true}
+  - {monster: "11260", at: [35.55, 42.1], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [38.35, 42.3], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [37.15, 43.699999999999996], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [34.949999999999996, 37.699999999999996], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [39.75, 44.5], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [42.949999999999996, 40.5], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [31.349999999999998, 41.5], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [37.15, 47.699999999999996], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [44.65, 43.4], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [36.15, 41.3], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [39.35, 38.699999999999996], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [46.55, 41.5], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [34.75, 44.1], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [35.15, 39.1], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [36.75, 40.5], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11260", at: [38.75, 40.1], spread: 0, group: 41, hostile: true, hidden: true}
+  - {monster: "11263", at: [35.099999999999994, 37.599999999999994], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [39.9, 44.4], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [43.099999999999994, 40.4], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [31.5, 41.4], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [37.3, 47.599999999999994], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [44.8, 43.3], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [36.3, 41.199999999999996], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [39.5, 38.599999999999994], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [46.699999999999996, 41.4], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [34.9, 44], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [35.3, 39], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [36.9, 40.4], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [38.9, 40], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [35.699999999999996, 42], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [38.5, 42.199999999999996], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "11263", at: [37.3, 43.599999999999994], spread: 0, group: 42, hostile: true, hidden: true}
+  - {monster: "361", at: [35.2, 40.8], spread: 0, group: 50, hidden: true}
+  - {monster: "377", at: [38.8, 41], spread: 0, group: 50, hidden: true}
+  - {monster: "350", at: [36.2, 44.6], spread: 0, group: 50, hidden: true}
+  - {monster: "368", at: [33, 41.6], spread: 0, group: 50, hidden: true}
+  - {monster: "361", at: [41.5, 41.9], spread: 0, group: 50, hidden: true}
+  - {monster: "377", at: [37.2, 46.8], spread: 0, group: 50, hidden: true}
+  - {monster: "350", at: [43, 38.2], spread: 0, group: 50, hidden: true}
+  - {monster: "368", at: [30.8, 43], spread: 0, group: 50, hidden: true}
+  - {monster: "361", at: [39.6, 38.6], spread: 0, group: 50, hidden: true}
+  - {monster: "377", at: [45.2, 40.6], spread: 0, group: 50, hidden: true}
+  - {monster: "361", at: [36.6, 43], spread: 0, group: 52, npc: 4502}
+  - {monster: "377", at: [82.8, 45], spread: 0, group: 52, npc: 4527}
+  - {monster: "451", at: [73.6, 69.6], spread: 0, group: 52, npc: 4528}
+  - {monster: "11928", at: [30.4, 61.6], spread: 0, group: 52, npc: 4529}
+  - {monster: "583", at: [67, 32], spread: 0, group: 51, hostile: false}
+  - {monster: "583", at: [71.6, 33.4], spread: 0, group: 51, hostile: false}
+items:
+  - {id: item:holy_book, item: 12524, at: [68.85, 92.4]}
+sounds:
+  - {id: sound:bed_pocket_1, at: [96, 27], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_2, at: [107, 46], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_3, at: [96, 65], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_4, at: [107, 84], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_5, at: [96, 103], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_night_1, at: [96, 27], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_2, at: [107, 46], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_3, at: [96, 65], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_4, at: [107, 84], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_5, at: [96, 103], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_tundra_1, at: [25, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_10, at: [67, 95.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_2, at: [53, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_3, at: [81, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_4, at: [39, 47], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_5, at: [67, 47], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_6, at: [25, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_7, at: [53, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_8, at: [81, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_9, at: [39, 95.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+relations:
+  - {of: [451, 452, 453], toward: party, relation: friendly}
+  - {of: [517, 518, 519], toward: party, relation: friendly}
+  - {of: [583, 584, 585], toward: party, relation: friendly}
+events:
+  - id: evt:wave1_laid
+    trigger: timer
+    every: 5
+    condition: {kills: {group: 40}}
+    effects:
+      - qbit: wave1_laid
+      - text: The last of the Spirit Bones falls apart in the snow.
+    once: true
+    notes: "Q-C6: the first wave laid (112122)."
+  - id: evt:wave2_show
+    trigger: timer
+    every: 3
+    condition: {qbit: reported1}
+    effects:
+      - show_actors: 41
+    once: true
+    notes: "Q-C6: Randon heard of the first wave: the Polter-Fools come."
+  - id: evt:wave2_laid
+    trigger: timer
+    every: 5
+    condition: {all: [{qbit: reported1}, {kills: {group: 41}}]}
+    effects:
+      - qbit: wave2_laid
+      - text: The Polter-Fools are gone. The town is very quiet.
+    once: true
+  - id: evt:wave3_show
+    trigger: timer
+    every: 3
+    condition: {qbit: reported2}
+    effects:
+      - show_actors: 42
+    once: true
+    notes: "Q-C6: the Ghost Riders come."
+  - id: evt:wave3_laid
+    trigger: timer
+    every: 5
+    condition: {all: [{qbit: reported2}, {kills: {group: 42}}]}
+    effects:
+      - qbit: wave3_laid
+      - text: The last ghost rides off into the snow and does not come back.
+    once: true
+  - id: evt:townsfolk
+    trigger: timer
+    every: 3
+    condition: {qbit: winterkill_liberated}
+    effects:
+      - show_actors: 50
+    once: true
+    notes: "Winterkill liberated: the townsfolk come back."
+  - id: evt:randon_load
+    trigger: load
+    effects:
+      - lua: "evt.SetMm9ActorCanReceiveDamage(120, false)"
+    notes: "D-87.1: Mayor Randon (actor 120, npc 4502) stands in the haunted square and takes no damage, as Corak (D-51): no stray hit or Fireball kills him or turns him hostile."
+  - id: evt:outpost_burnt
+    trigger: load
+    condition: {lua: "Xeen.isSet(\"q-c16.outpost_burnt\")"}
+    effects:
+      - hide: thing:outpost_tent
+      - hide: thing:outpost_tent2
+      - hide: thing:outpost_fire
+      - show: thing:outpost_char_1
+      - show: thing:outpost_char_2
+      - show: thing:outpost_char_3
+      - show: thing:outpost_char_4
+      - show: thing:outpost_char_5
+    notes: "Q-C16: the outpost stays burnt (A6 s27)."

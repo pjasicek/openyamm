@@ -1,0 +1,88 @@
+{
+  "min_iou": 0.95,
+  "max_displacement_p95": 0.04,
+  "passed": true,
+  "failures": [],
+  "views": {
+    "paint_front": {
+      "bbox_ratio": [
+        1.0,
+        1.0034
+      ],
+      "iou_affine": 0.9773,
+      "iou_warped": 0.9971,
+      "displacement_p95": 0.0036,
+      "displacement_max": 0.0054,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "6f93a4b0388a822a2f66b4915aa7b50c038e02894441cad094d639d86ad1253f",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9971"
+      ]
+    },
+    "paint_back": {
+      "bbox_ratio": [
+        1.0,
+        1.0034
+      ],
+      "iou_affine": 0.9763,
+      "iou_warped": 0.9973,
+      "displacement_p95": 0.0041,
+      "displacement_max": 0.0066,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "6f93a4b0388a822a2f66b4915aa7b50c038e02894441cad094d639d86ad1253f",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9973"
+      ]
+    },
+    "paint_left": {
+      "bbox_ratio": [
+        1.0,
+        1.0034
+      ],
+      "iou_affine": 0.9759,
+      "iou_warped": 0.9974,
+      "displacement_p95": 0.0041,
+      "displacement_max": 0.0068,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "6f93a4b0388a822a2f66b4915aa7b50c038e02894441cad094d639d86ad1253f",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9974"
+      ]
+    },
+    "paint_right": {
+      "bbox_ratio": [
+        0.9965,
+        1.0056
+      ],
+      "iou_affine": 0.9754,
+      "iou_warped": 0.9971,
+      "displacement_p95": 0.0037,
+      "displacement_max": 0.0056,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "6f93a4b0388a822a2f66b4915aa7b50c038e02894441cad094d639d86ad1253f",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9971"
+      ]
+    },
+    "paint_top": {
+      "bbox_ratio": [
+        1.0105,
+        1.0105
+      ],
+      "iou_affine": 0.9952,
+      "iou_warped": 0.9981,
+      "displacement_p95": 0.0022,
+      "displacement_max": 0.0026,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "6f93a4b0388a822a2f66b4915aa7b50c038e02894441cad094d639d86ad1253f",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9981"
+      ]
+    }
+  }
+}

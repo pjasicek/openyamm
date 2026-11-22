@@ -1,0 +1,49 @@
+format: 0
+id: xeen_p5
+name: Clouds of the Ancients
+world: xeen
+kind: indoor
+profile: region
+map_code: P5
+new: false
+units: {plan_grid: 512}
+extent: {footprint_cells: [26, 26]}
+map_stats:
+  id: 9119
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 0
+  perception_difficulty: 0
+  refill_days: 672
+  music: 15
+  environment: plains
+  lock_difficulty: 0
+neighbours:
+  - id: door:fd03
+    to: xeen_fd03.blv
+    kind: door
+    arrival: entrance:p5_stair
+    arrival_hint: "At the top of FD-03's roof stair, inside the seal, facing down the stair."
+    screen: {text: 5064}
+    notes: "FD-03 Darkstone Tower (A7): the stair house's door, the `exit` word through the game's leave window into FD-03's entrance:p5_stair. FD-03's roof stair comes up at entrance:fd03_roof (4608, -3968, 0), facing 512."
+  - id: fall:x5
+    to: xeen_x5.odm
+    kind: fall
+    arrival: [-4608, 2560, 1504]
+    direction: 1536
+    notes: "Every fall lands on X5's entrance:p5_fall (-4608, 2560), Darkstone's rock top (A6), facing the tower door (south), with falling damage (A3's Xeen.skyFallTo('p5'))."
+qbits:
+  m41_seal_broken: 111820
+  m42_done: 111840
+items:
+  cube_of_power: 12365
+  xeens_scepter: 12366
+rules:
+  no_fly: true
+  weather: none
+  fall_through:
+    below: -1000
+    how: wiring evt:fall_check (a one-second timer) and evt:fall_floor (the safety floor at -6000)
+    landing: [-4608, 2560]
+    to: fall:x5
+notes: "Xeen design brief, level L3: P5 Clouds of the Ancients, an open-air BLV (devdocs/INDOOR_OPEN_SKY.md) built with the studio (profile region) as X9: one room open to the sky with the ring of cloud road, its pads, boards, Rest Stop huts, the observatory, the stair house and the Pharaoh's shrine hanging in it. Act VI's finale (M42); map_stats 9119 (A2's row; the block here is the studio's copy), music 15, treasure 6, sky xeencloud. Figures 11919-11921 (peaceful, placed, uncounted); hooks: A3's m42.*; the ending cinematic `unification` (wiring cinematics)."

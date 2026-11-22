@@ -1,0 +1,82 @@
+# Xeen side quest Q-D12, Yog's Barbarians (D1), the war route, from a new game on D1 with a level-20 party. The Sardaj
+# camp on the vale's north edge: Yog (actor 29, NPC 4953): Battle! (started, hostile, done; no experience); the Sardaj
+# turn on the party within a second and fall. The tents (event 176): "You have found a Barbarian camp. Destroy?" Yes
+# (camp_burned, the hoard's 800 gold), again ("Ash and blackened tent poles"). The giants' side (D5's People turn on
+# 113242 and 113244, relations.yml) is Q-D16's map and is not visited. The peace route is
+# q-d12_peace_yogs_barbarians.yml.
+# Outdoors the party is placed (PLAYBOOK §2). Routes: devdocs/xeen/briefs/d1/L4/playtest.yml (Yog, the tents).
+# Quest logic: source/quests/q-d12.yml. Prep: prep/q-d12.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-d12_war
+id: xeen.side_quests.q-d12.war
+title: "Xeen Q-D12 (war): Yog's challenge taken, the Sardaj beaten and their camp burned"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113240, 113241, 113242, 113243, 113244, 113245]}
+  # The Sardaj camp: Yog (actor 29): Battle!
+  - set_pose: {map: xeen_d1.odm, x: 12800, y: 19866, z: 1536, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_count: {monster_id: 11100, hostile: true, max: 0}}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - interact_actor: {actor_index: 29}
+  - assert: {dialog: {active: true, source_id: 4953, action_label_present: "We come in peace"}}
+  - select_topic: {match_label: "Battle!"}
+  - assert:
+      dialog: {text_contains: "Then you shall not leave these lands alive!", action_label_absent: "We come in peace"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        wait(1)
+        for i = 0, 3 do
+          local gain = experience(i) - recall("xp" .. i)
+          if gain ~= 0 then error("member " .. i .. ": Battle! paid " .. gain .. " XP") end
+        end
+  - assert: {qbit_set: [113240, 113242, 113243]}
+  # The Sardaj turn at Yog's word (D1's evt:sardaj, event 215, within a second since A6's fix of 14:31) and fall.
+  - advance_runtime: {seconds: 1.5}
+  - assert: {actor_count: {monster_id: 11100, hostile: true, min: 1}}
+  - play_lua:
+      source: |
+        local killed = clear_hostiles(5000)
+        if killed < 1 then error("no Sardaj turned on the party after Battle!") end
+        log("Sardaj killed: " .. killed)
+  - assert: {actor_count: {monster_id: 11100, hostile: true, max: 0}}
+  # The tents (event 176): Destroy? Yes: the hoard's 800 gold; again the else_text.
+  - play_lua: {source: "remember('gold', gold()); click(176); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "You have found a Barbarian camp. Destroy?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Smoke rises into the sky as you put the camp to the torch."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if not qbit(113244) then error("camp_burned 113244 not set") end
+        if gold() - recall("gold") ~= 800 then error("the camp's hoard: " .. (gold() - recall("gold"))) end
+        click(176); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Ash and blackened tent poles."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if gold() - recall("gold") ~= 800 then error("the burned camp paid again: " .. (gold() - recall("gold"))) end
+        log("Q-D12 war done: gold " .. gold())
+  # started stays set; its journal line ends with done (the quest file's until).
+  - assert: {qbit_set: [113240, 113242, 113243, 113244]}
+  - assert: {qbit_clear: [113241, 113245]}

@@ -1,0 +1,23 @@
+format: 0
+id: xeen_xd20
+name: The Warzone
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-20
+units: {plan_grid: 512}
+map_stats:
+  id: 9121
+  encounter_chance: 0
+  treasure_level: 1
+  music: 45
+  environment: stoneroom
+neighbours:
+  - id: exit:x6_yard
+    to: xeen_x6.odm
+    kind: door
+    arrival: entrance:xd20_gate
+    arrival_hint: "X6's named arrival in the coach yard before the arena gate, (12288, -15872, 1504) facing west (1024)."
+    direction: 180
+    notes: "X6 Desert of the Sphinx (A5, installed): its door:xd20 (thing:arena_gate, two leaves 192 x 256 in the Barbaric cliff) leads in to entrance:x6_yard. Both the gate passage's leaves and the war floor's victors' gate lead out here."
+notes: "Xeen design brief, level L4: XD-20 The Warzone, the arena in the Barbaric cliff behind X6's coach yard (D-8.1, D-39). MM7's arena by A1's studio `arena` word (merge point 19): Varro the Arena Master (NPC 4609, topic 704, A4) at the lodge's and the war floor's booth windows offers Page, Squire, Knight and Lord; the fight draws from the Xeen rows 11010-11699 less NoArena (A2) and stands on the floor's 20 ring marks; the party on the floor's middle facing north. No saving or Lloyd's Beacon here (the arena's restrictions). No placed monsters, no chests, no map qbits (118020-118029 unused); rest encounters 0 (D-39). Music 45. Open sky over the war floor (X6's clear preset, D-39 (5))."

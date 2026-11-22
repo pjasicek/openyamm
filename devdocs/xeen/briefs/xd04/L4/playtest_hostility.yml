@@ -2,7 +2,7 @@
 # its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
 id: xeen.xd04.l4.hostility
 title: 'the Witches'' Tower (XD-04): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -39,57 +39,57 @@ steps:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11010
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 272
+      monster_id: 11011
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 273
+      monster_id: 11012
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 214
+      monster_id: 11160
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 215
+      monster_id: 11161
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 216
+      monster_id: 11162
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11450
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 206
+      monster_id: 11451
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 207
+      monster_id: 11452
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 272
+      monster_id: 11011
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 214
+      monster_id: 11160
       hostile: true
       min: 1
 - assert:
@@ -122,17 +122,17 @@ steps:
     y: -1800
     z: 0
 - spawn_actor:
-    monster_id: 205
+    monster_id: 11450
     x: -104
     y: -1800
     z: 0
 - spawn_actor:
-    monster_id: 214
+    monster_id: 11160
     x: -8
     y: -1800
     z: 0
 - spawn_actor:
-    monster_id: 271
+    monster_id: 11010
     x: 88
     y: -1800
     z: 0
@@ -157,17 +157,17 @@ steps:
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11450
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 214
+      monster_id: 11160
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11010
       hurt: true
       max: 0
 - assert:

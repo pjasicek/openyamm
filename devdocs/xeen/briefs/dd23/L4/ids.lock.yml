@@ -1,0 +1,71 @@
+format: 0
+sectors:
+  room:bone_ledge: 1
+  room:guano_slope: 2
+  room:mouth: 3
+  room:nest: 4
+  room:perch_hall: 5
+  room:rock_ramp: 6
+  room:rock_steps: 7
+  room:roost: 8
+  room:still_gallery: 9
+  room:upper_perches: 10
+events:
+  evt:arrive: 1
+  evt:bones_seen: 2
+  evt:chest_climber: 3
+  evt:chest_nest: 4
+  evt:gallery_seen: 5
+  evt:heap_east: 6
+  evt:heap_high: 7
+  evt:heap_north: 8
+  evt:heap_south: 9
+  evt:heap_west: 10
+  evt:mouth: 11
+  evt:nest: 12
+  evt:nest_seen: 13
+  evt:perch_seen: 14
+  evt:rock_east: 15
+  evt:rock_high: 16
+  evt:rock_north: 17
+  evt:rock_south: 18
+  evt:rock_west: 19
+  evt:roost_seen: 20
+containers:
+  chest:climber: 0
+  chest:nest: 1
+cogs:
+  platform:rock_east: 1
+  platform:rock_high: 2
+  platform:rock_north: 3
+  platform:rock_south: 4
+  platform:rock_west: 5
+map_vars:
+  once.arrive: 0
+  once.bones_seen: 1
+  once.gallery_seen: 2
+  once.nest_seen: 3
+  once.perch_seen: 4
+  once.roost_seen: 5
+sounds:
+  sound:wind_crack: 1
+  sound:wind_mouth: 2
+decorations:
+  deco:climber: 0
+  deco:gallery_mite: 1
+  deco:mouth_bones: 2
+  deco:mouth_rock: 3
+  deco:nest_skull: 4
+  deco:perch_mite_1: 5
+  deco:perch_mite_2: 6
+  deco:perch_skulls: 7
+  deco:roost_bones: 8
+  deco:roost_skulls: 9
+  deco:slope_bones: 10
+  deco:upper_bones: 11
+destructibles:
+  destructible:rock_east: 4
+  destructible:rock_high: 1
+  destructible:rock_north: 2
+  destructible:rock_south: 5
+  destructible:rock_west: 3

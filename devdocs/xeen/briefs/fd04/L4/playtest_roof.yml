@@ -1,0 +1,108 @@
+# The roof (D-57 Q36; written by output/studio_cal/fd04/tools/gen_tests.py): from the roof stair's head
+# (entrance:x9_clouds) the hatch's own Yes/No (D-66): No stays, Yes moves at once to X9's entrance:fd04_roof
+# [20352, 17280, 2048]; measured.
+id: xeen.fd04.l4.roof
+title: Dragon Tower (FD-04 L4), the roof hatch up to X9
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- play_lua:
+    source: wait(2); close()
+- setup_shortcut:
+    kind: immortal
+    value: true
+- console:
+    line: tp -1312 608 4224
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- assert:
+    party_position:
+      x: -1312
+      y: 608
+      radius: 96
+      z_min: 4216
+      z_max: 4232
+- play_lua:
+    source: click(67); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.5); close()
+- assert:
+    map: xeen_fd04.blv
+- assert:
+    party_position:
+      x: -1312
+      y: 608
+      radius: 96
+      z_min: 4216
+      z_max: 4232
+- play_lua:
+    source: click(67); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x9.blv
+- play_lua:
+    source: 'log(''landing: '' .. party())'
+- advance_runtime:
+    seconds: 4.0
+- play_lua:
+    source: 'log(''landing after 4 s: '' .. party())'
+- assert:
+    party_position:
+      x: 20352
+      y: 17280
+      radius: 160
+      z_min: 1990
+      z_max: 2110

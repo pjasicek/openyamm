@@ -1,0 +1,140 @@
+# Q-D27 Genie Lamps (QUESTS 2.2 Q-D27; D-49). Owner: A3. Format: QUESTS_FORMAT.md.
+# Lamps on the Darkside's wild maps, each a genie freed once. The wish lamps (the source's dark/aaze0010:11-14,
+# aaze0014:15-18) offer three wishes, experience, gold or gems: the party takes one. The greedy lamp (dark/aaze0006:6-9,
+# D6's crag) offers all its gold: taking it all is punished, refusing is rewarded (Aladdin's "Never take all of a
+# genie's money. It's greedy.", D3). The map's lamp event calls the helper, which asks and then runs the hooks below:
+#   function(continueStep) Xeen.genieLamp("<lamp>", <this event id>, continueStep) end
+# (xeen_common.lua; the lamp's hook sets its qbit, the wish's hook pays). D2's and D4's lamps are their map lanes'
+# own (one small wish each, no choice). Act V's five: D5's two, D6's three.
+# Experience: up to 2,000 per member per wish lamp when the party wishes for experience (four lamps, 8,000 at most, D-53;
+# the wishes are `alternative`, so the act's count leaves them out). D7's three (D-58, Act VI): the tired genie's last wish
+# (dark/aaze0093:11-14) and the kind genie's (aazex105:11-14) are wish lamps with their own greetings; the angry genie
+# (aaze0099:0-7) asks whom he may strike and strikes someone whatever the answer, never lethally (the bottle at the
+# Broken Launch warns: "Evil Genies NEVER let their victims off the hook").
+id: Q-D27
+title: Genie Lamps
+act: V
+kind: side
+status: full
+giver: null
+giver_name: (the genies of the lamps, D5 and D6)
+maps: [D5, D6, D7]
+level: 42
+block: 107
+after: []
+source: "QUESTS Q-D27; D-49 (devdocs/xeen/briefs/d5/L1/D49_DECISION.md); D-58; dark/aaze0006:2-9, aaze0010:11-14, aaze0014:15-18, aaze0031:41, aaze0093:11-14, aazex105:11-14, aaze0099:0-7"
+
+qbits:
+  d5_hills: {id: 113540, map: D5, note: "D5's lamp in the ruined hill shrine (western hills, poi:lamp_doom): its genie is freed"}
+  d5_dune: {id: 113541, map: D5, note: "D5's lamp on the dune crest in the sand sea (poi:lamp_sands)"}
+  d6_pinnacle: {id: 113542, map: D6, note: "D6's lamp on the basalt pinnacle between the moat and the north rim"}
+  d6_islet: {id: 113543, map: D6, note: "D6's lamp on the black islet in Corak's lake (the lure)"}
+  d6_crag: {id: 113544, map: D6, note: "D6's greedy lamp on the crag above the broken pyramid"}
+  d7_tired: {id: 113545, map: D7, note: "D7's lamp in a crack of the cloud at the Griffin Watch (the tired genie, one wish left)"}
+  d7_kind: {id: 113546, map: D7, note: "D7's lamp on the East Rest Stop's bench (the kind genie)"}
+  d7_angry: {id: 113547, map: D7, note: "D7's lamp on the Genie's Rock (the angry genie, two thousand years late)"}
+
+hooks:
+  d5_hills:
+    map: D5
+    where: "the genie's lamp in the ruined hill shrine in the western hills (poi:lamp_doom): the map's event calls Xeen.genieLamp(\"d5_hills\", eventId, continueStep), which asks the three wishes and calls this, then the wish's hook; after it, this hook's line"
+    sets: [d5_hills]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone."
+  d5_dune:
+    map: D5
+    where: "the genie's lamp half buried on a high dune crest in the sand sea (poi:lamp_sands): Xeen.genieLamp(\"d5_dune\", ...), as d5_hills"
+    sets: [d5_dune]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone."
+  d6_pinnacle:
+    map: D6
+    where: "the genie's lamp on the basalt pinnacle between the moat and the north rim: Xeen.genieLamp(\"d6_pinnacle\", ...), as d5_hills"
+    sets: [d6_pinnacle]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone."
+  d6_islet:
+    map: D6
+    where: "the genie's lamp on the black islet in Corak's lake: Xeen.genieLamp(\"d6_islet\", ...), as d5_hills"
+    sets: [d6_islet]
+    once: true
+    else_text: "The lamp is cold, and warm on one side from the lava. Its genie has gone."
+  d6_crag:
+    map: D6
+    where: "the greedy genie's lamp on the crag above the broken pyramid: Xeen.genieLamp(\"d6_crag\", ...) asks \"My powers are low. I can give you 10,000 gold, but it is all that I have. Do you want it?\" (Yes: greed; No: share) and calls this, then the answer's hook"
+    sets: [d6_crag]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone, with interest."
+  d7_tired:
+    map: D7
+    where: "the lamp in a crack of the cloud at the Griffin Watch (poi:lamps, lamp_tired): Xeen.genieLamp(\"d7_tired\", ...), a wish lamp with the tired genie's greeting"
+    sets: [d7_tired]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone back to sleep somewhere else."
+  d7_kind:
+    map: D7
+    where: "the lamp on the East Rest Stop's bench (lamp_kind): Xeen.genieLamp(\"d7_kind\", ...), a wish lamp with the kind genie's greeting"
+    sets: [d7_kind]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone."
+  d7_angry:
+    map: D7
+    where: "the lamp on the Genie's Rock (lamp_angry): Xeen.genieLamp(\"d7_angry\", ...) asks whom he may strike (Take me, Take my friends, Make me king) and calls this, then the answer's hook"
+    sets: [d7_angry]
+    once: true
+    else_text: "The lamp is cold. Its genie has gone, still angry."
+
+  wish_experience:
+    map: D5
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "a wish lamp's first wish (Xeen.genieLamp, after the lamp's hook; D5's and D6's wish lamps)"
+    alternative: true    # one wish per lamp: experience, gold or gems
+    do: [{xp: 2000}]
+    text: "The genie snaps its fingers. Things you never studied are suddenly familiar. (+2,000 experience)"
+  wish_gold:
+    map: D5
+    where: "a wish lamp's second wish (Xeen.genieLamp)"
+    alternative: true
+    do: [{gold: 10000}]
+    text: "The genie snaps its fingers, and gold pours out of the lamp's spout until it doesn't. (10,000 gold)"
+  wish_gems:
+    map: D5
+    where: "a wish lamp's third wish (Xeen.genieLamp): ten gems, Xeen's second currency"
+    alternative: true
+    do: [{give: engine:180, count: 10}]
+    text: "The genie snaps its fingers, and ten gems roll out of the lamp, still warm."
+  greed:
+    map: D6
+    where: "the greedy lamp's Yes (Xeen.genieLamp): the genie takes up to 5,000 of the party's gold"
+    do: [{pay: 5000}]
+    text: "The gold is in your hands for one moment. \"Now that I have my powers back I've decided to teach you not to be so greedy. I'm taking my gold back, plus interest!\""
+  share:
+    map: D6
+    where: "the greedy lamp's No (Xeen.genieLamp): half the gold"
+    do: [{gold: 5000}]
+    text: "\"Well here, why don't we share it, since neither of us seem to be greedy.\" (5,000 gold)"
+
+  angry_self:
+    window: "a choice's answer (Xeen.genieLamp asks the wish)"
+    map: D7
+    where: "the angry lamp's first answer (Xeen.genieLamp): the clicking member is struck down (unconscious), the party gains a little; the source's +500,000 at the lamps' scale"
+    alternative: true    # one answer per lamp
+    do: [{xp: 500}, {lua: "evt.ForPlayer(Players.Current)"}, {lua: "SetValue(Unconscious, 1)"}]
+    text: "\"How noble. I hate noble.\" The genie strikes you down, and your friends feel wiser for watching. (+500 experience)"
+  angry_friends:
+    window: "a choice's answer (Xeen.genieLamp asks the wish)"
+    map: D7
+    where: "the angry lamp's second answer: the selfish clicking member is cursed and weakened"
+    alternative: true
+    do: [{lua: "evt.ForPlayer(Players.Current)"}, {lua: "SetValue(Cursed, 1)"}, {lua: "SetValue(Weak, 1)"}]
+    text: "\"Die selfish scum!\" The genie's bolt finds the one who spoke, and leaves just enough of you to regret it."
+  angry_king:
+    window: "a choice's answer (Xeen.genieLamp asks the wish)"
+    map: D7
+    where: "the angry lamp's third answer: the clicking member is turned to stone"
+    alternative: true
+    do: [{lua: "evt.ForPlayer(Players.Current)"}, {lua: "SetValue(Stoned, 1)"}]
+    text: "\"Your throne awaits!\" You sit down on it. You will be sitting on it for some time: you are made of stone."
+
+rewards: {xp: 0, gold: 0, items: "per wish lamp: 2,000 experience, 10,000 gold or ten gems; the greedy lamp: 5,000 gold, or a loss of 5,000"}
+playthrough: "D5: the hill shrine's lamp, the dune lamp. D6: the pinnacle, the islet, the crag (No). D7: the tired and the kind lamps (a wish each); the angry lamp is a trap."

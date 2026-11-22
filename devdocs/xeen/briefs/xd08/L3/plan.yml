@@ -1,0 +1,445 @@
+format: 0
+level: L3
+pitch: 'A tomb that its builders meant as a joke on the living: a Hall of Welcome whose statue boasts ''Insanity is our fame,
+  undead is our game'', a gallery of torture devices that work - manacles whose chains raise a portcullis far below, an iron
+  maiden that opens on a hidden stair, a hanging cage that rides its chain down to the crypts - mourning halls of coffins
+  and biers, a ring of crypts round an ossuary, an embalming room of seven coloured juices, and a coffin vault whose great
+  coffin only the strong can open. Below, raw rock, a bone pit and the Hall of a Thousand Terrors with its throne of skulls.'
+purpose: Story M10 (five King's Megacredits in the great coffin, Might 30); the seven tomb juices (+2 each, once per character);
+  an optional deep with the hoard. Party 15-17, monsters 15-30 (Grave Ghouls, Polter-Fools, Tomb Guards, Skeleton Lords; no
+  Tomb Terror, D-4.1).
+mood: Dark brick and skull friezes lit by skull torches; iron and green-black slabs in the torture rooms; grey barrow rock
+  in the crypts; cold raw rock in the deep and a red glow in the Hall.
+datum: arrival
+spaces:
+- id: room:door
+  name: Tomb door
+  kind: room
+  size: S
+  extent: [768, 768]
+  floor: 0
+  clear_height: 512
+  purpose: 'Inside the tomb door (the Stone of a Thousand Terrors opened it on X3): the arrival.'
+  empty: true
+- id: room:welcome
+  name: Hall of Welcome
+  kind: room
+  size: M
+  extent: [1536, 1280]
+  floor: 0
+  clear_height: 768
+  purpose: 'The statue and its plaque: ''Insanity is our fame, undead is our game.'''
+  population:
+  - {slot: 2, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+- id: room:gallery
+  name: Gallery of Terrors
+  kind: room
+  size: L
+  extent: [3328, 1024]
+  floor: 0
+  clear_height: 640
+  purpose: A long hall of devices on plinths; the plaques of the manacles and the iron maiden.
+  population:
+  - {slot: 2, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+- id: room:west_mourning
+  name: West mourning hall
+  kind: room
+  size: M
+  extent: [1792, 1280]
+  floor: 0
+  clear_height: 640
+  purpose: Coffins ('The coffin is empty.'); ghouls; a chest.
+  population:
+  - {slot: 1, groups: 2, per_marker: [2, 3], strength: pack, rank: c}
+  treasure: &id001
+  - {kind: chest, count: 1, tier: 2}
+- id: room:stocks
+  name: Stocks yard
+  kind: room
+  size: M
+  extent: [1280, 1280]
+  floor: 0
+  clear_height: 576
+  purpose: Rows of stocks with skeletons still in them; a chest under the last.
+  population:
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+  treasure: *id001
+- id: room:chain_room
+  name: Chain room
+  kind: room
+  size: S
+  extent: [1024, 768]
+  floor: 0
+  clear_height: 576
+  purpose: 'Manacles on long chains: pull them and the portcullis below rises.'
+  empty: true
+- id: room:maiden_niche
+  name: Iron maiden
+  kind: room
+  size: S
+  extent: [768, 768]
+  floor: 0
+  clear_height: 576
+  purpose: 'The iron maiden: open it, and a stair goes down behind its spikes.'
+  empty: true
+- id: room:east_mourning
+  name: East mourning hall
+  kind: room
+  size: M
+  extent: [1280, 1536]
+  floor: 0
+  clear_height: 640
+  purpose: Biers and tomb guards.
+  population:
+  - {slot: 2, groups: 2, per_marker: [1, 2], strength: pack, rank: b}
+- id: room:cage_room
+  name: Hanging cage
+  kind: room
+  size: S
+  extent: [1024, 768]
+  floor: 0
+  clear_height: 640
+  purpose: 'The hanging cage over its shaft: ride it down to the crypts.'
+  population:
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+- id: room:shaft
+  name: Cage shaft
+  kind: room
+  size: S
+  extent: [512, 512]
+  floor: -640
+  clear_height: 1280
+  purpose: The cage's shaft, from 0 down to the cage pit at -640.
+  empty: true
+- id: room:maiden_stair
+  name: Maiden's stair
+  kind: room
+  size: S
+  extent: [512, 1024]
+  floor: [-640, 0]
+  clear_height: 448
+  purpose: The stair from behind the iron maiden.
+  empty: true
+- id: room:cage_pit
+  name: Cage pit
+  kind: room
+  size: S
+  extent: [1536, 1280]
+  floor: -640
+  clear_height: 512
+  purpose: Where the cage lands; ghouls waiting for it.
+  population:
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: pack, rank: c}
+- id: room:crypt_ring_e
+  name: East crypt ring
+  kind: corridor
+  size: M
+  extent: [768, 2304]
+  floor: -640
+  clear_height: 448
+  purpose: The crypt ring's east side.
+  population:
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+- id: room:crypt_ring_w
+  name: West crypt ring
+  kind: corridor
+  size: M
+  extent: [768, 2304]
+  floor: -640
+  clear_height: 448
+  purpose: The ring's west side; the deep stair.
+  population:
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+- id: room:portcullis
+  name: Portcullis way
+  kind: corridor
+  size: S
+  extent: [1280, 512]
+  floor: -640
+  clear_height: 448
+  purpose: The portcullis before the coffin vault, raised by the chains above.
+  empty: true
+- id: room:ossuary
+  name: Ossuary
+  kind: room
+  size: M
+  extent: [1280, 1280]
+  floor: -640
+  clear_height: 512
+  purpose: Skull walls; bone piles that rise.
+  population:
+  - {slot: 3, groups: 1, per_marker: [2, 3], strength: pack, rank: c}
+  - {slot: 1, groups: 1, per_marker: [2, 3], strength: pack, rank: c}
+- id: room:coffin_vault
+  name: Coffin vault
+  kind: room
+  size: L
+  extent: [2304, 1792]
+  floor: -640
+  clear_height: 576
+  purpose: Heavy coffins; in the largest, the King's Megacredits ('You are not strong enough to open the coffin.').
+  population:
+  - {slot: 2, groups: 2, per_marker: [1, 2], strength: heavy, rank: b}
+  treasure:
+  - {kind: chest, count: 1, tier: 2, notes: 'The great coffin: five Megacredits (Might 30).'}
+- id: room:barracks
+  name: Tomb guards' barracks
+  kind: room
+  size: M
+  extent: [1280, 1024]
+  floor: -640
+  clear_height: 512
+  purpose: Racks of rusted halberds; the guards' pay chest (two Might Boosts).
+  population:
+  - {slot: 2, groups: 2, per_marker: [1, 2], strength: pack, rank: b}
+  treasure: *id001
+- id: room:embalming
+  name: Embalming room
+  kind: room
+  size: M
+  extent: [1280, 1024]
+  floor: -640
+  clear_height: 512
+  purpose: 'Seven basins of tomb juice: one drink each per character.'
+  population:
+  - {slot: 2, groups: 1, per_marker: [1, 2], strength: light, rank: a}
+- id: room:deep_stair
+  name: Deep stair
+  kind: room
+  size: S
+  extent: [512, 1024]
+  floor: [-1280, -640]
+  clear_height: 448
+  purpose: Down to the deep; cold air.
+  empty: true
+- id: room:deep_crypt
+  name: Deep crypt
+  kind: room
+  size: M
+  extent: [1792, 1280]
+  floor: -1280
+  clear_height: 512
+  purpose: Raw rock and old graves; grave ghouls.
+  population:
+  - {slot: 1, groups: 2, per_marker: [2, 3], strength: pack, rank: c}
+- id: room:bone_pit
+  name: Bone pit
+  kind: room
+  size: M
+  extent: [1792, 1280]
+  floor: -1280
+  clear_height: 576
+  purpose: A pit of bones crossed on a ledge.
+  population:
+  - {slot: 3, groups: 1, per_marker: [2, 3], strength: pack, rank: c}
+- id: room:terror_hall
+  name: Hall of a Thousand Terrors
+  kind: room
+  size: L
+  extent: [2816, 2048]
+  floor: -1280
+  clear_height: 896
+  purpose: 'The tomb''s heart: a throne of skulls, tomb guards, the hoard (tier 3).'
+  population:
+  - {slot: 2, groups: 3, per_marker: [1, 2], strength: heavy, rank: b}
+  treasure:
+  - {kind: chest, count: 1, tier: 3}
+links:
+- id: link:door_welcome
+  from: room:door
+  to: room:welcome
+  kind: open
+- id: link:welcome_gallery
+  from: room:welcome
+  to: room:gallery
+  kind: open
+- id: link:welcome_westm
+  from: room:welcome
+  to: room:west_mourning
+  kind: door
+- id: link:westm_stocks
+  from: room:west_mourning
+  to: room:stocks
+  kind: open
+- id: link:westm_chain
+  from: room:west_mourning
+  to: room:chain_room
+  kind: door
+- id: link:gallery_chain
+  from: room:gallery
+  to: room:chain_room
+  kind: open
+- id: link:gallery_maiden
+  from: room:gallery
+  to: room:maiden_niche
+  kind: open
+- id: link:gallery_eastm
+  from: room:gallery
+  to: room:east_mourning
+  kind: door
+- id: link:eastm_cage
+  from: room:east_mourning
+  to: room:cage_room
+  kind: open
+- id: link:cage_lift
+  from: room:cage_room
+  to: room:cage_pit
+  kind: lift
+  rise: -640
+  notes: The hanging cage in its shaft (room:shaft).
+- id: link:maiden_stair
+  from: room:maiden_niche
+  to: room:maiden_stair
+  kind: secret_door
+  notes: Open the iron maiden.
+- id: link:mstair_ringe
+  from: room:maiden_stair
+  to: room:crypt_ring_e
+  kind: stairs
+  rise: -640
+- id: link:pit_ringe
+  from: room:cage_pit
+  to: room:crypt_ring_e
+  kind: open
+- id: link:ringe_portcullis
+  from: room:crypt_ring_e
+  to: room:portcullis
+  kind: open
+- id: link:ringe_ossuary
+  from: room:crypt_ring_e
+  to: room:ossuary
+  kind: open
+- id: link:ossuary_ringw
+  from: room:ossuary
+  to: room:crypt_ring_w
+  kind: open
+- id: link:ringw_barracks
+  from: room:crypt_ring_w
+  to: room:barracks
+  kind: door
+- id: link:ringw_portcullis
+  from: room:crypt_ring_w
+  to: room:portcullis
+  kind: open
+- id: link:portcullis_vault
+  from: room:portcullis
+  to: room:coffin_vault
+  kind: portcullis
+  condition:
+    qbit: manacles_pulled
+  notes: Raised by the manacles in the chain room above.
+- id: link:ringw_embalming
+  from: room:crypt_ring_w
+  to: room:embalming
+  kind: door
+- id: link:ringw_deep
+  from: room:crypt_ring_w
+  to: room:deep_stair
+  kind: open
+- id: link:deep_crypt
+  from: room:deep_stair
+  to: room:deep_crypt
+  kind: stairs
+  rise: -640
+- id: link:crypt_bonepit
+  from: room:deep_crypt
+  to: room:bone_pit
+  kind: open
+- id: link:bonepit_terror
+  from: room:bone_pit
+  to: room:terror_hall
+  kind: door
+loops:
+- id: loop:upper
+  spaces:
+  - room:welcome
+  - room:gallery
+  - room:chain_room
+  - room:west_mourning
+  notes: Round the chain room.
+- id: loop:cage_maiden
+  spaces:
+  - room:gallery
+  - room:east_mourning
+  - room:cage_room
+  - room:cage_pit
+  - room:crypt_ring_e
+  - room:maiden_stair
+  - room:maiden_niche
+  notes: Down in the cage, up behind the maiden.
+- id: loop:crypts
+  spaces:
+  - room:crypt_ring_e
+  - room:ossuary
+  - room:crypt_ring_w
+  - room:portcullis
+  notes: Round the crypts.
+entrances:
+- id: entrance:tomb_door
+  space: room:door
+  kind: both
+  facing: n
+  how: Inside the tomb door from X3 (opened with the Stone of a Thousand Terrors, m10.tomb_door); the tomb door leads back
+    out to X3.
+critical_path:
+- room:door
+- room:welcome
+- room:gallery
+- room:chain_room
+- room:gallery
+- room:east_mourning
+- room:cage_room
+- room:cage_pit
+- room:crypt_ring_e
+- room:portcullis
+- room:coffin_vault
+goals:
+- id: goal:megacredits
+  space: room:coffin_vault
+  kind: take
+  what: Five King's Megacredits in the great coffin (m10.tomb_vault), for a member of Might 30.
+set_pieces:
+- id: set:manacles
+  kind: scripted
+  spaces:
+  - room:chain_room
+  - room:portcullis
+  rule: 'Pulling the manacles raises the portcullis before the coffin vault: ''Far below, iron grinds upward.'''
+- id: set:maiden
+  kind: scripted
+  spaces:
+  - room:maiden_niche
+  - room:maiden_stair
+  rule: The iron maiden opens on a stair down to the crypts (a secret door).
+- id: set:cage
+  kind: scripted
+  spaces:
+  - room:cage_room
+  - room:shaft
+  - room:cage_pit
+  rule: The hanging cage rides its chain down to the cage pit and back; call buttons at both gates.
+- id: set:juices
+  kind: scripted
+  spaces:
+  - room:embalming
+  rule: 'Seven basins: +2 to one stat each, once per character; then ''The liquid is powerless.'''
+- id: set:coffin
+  kind: scripted
+  spaces:
+  - room:coffin_vault
+  - room:barracks
+  rule: The great coffin opens for Might 30 ('You are not strong enough to open the coffin.'); two Might Boosts in the barracks
+    chest.
+diagram: {file: diagram.txt}
+totals:
+  rooms: 23
+  sectors: 23
+  monsters_about: 50
+  chests: 5
+  loops: 3
+  doors: 10
+  fixed_actors: 0
+notes: 'Class M (MAPS: 20-45 sectors, 45-75 monsters). 22 rooms of the graph plus the cage shaft. Every room is a rectangle;
+  stairs are stepped rooms of 20 risers of 32.'
+sketch: {file: rooms.yml, grid: 512}

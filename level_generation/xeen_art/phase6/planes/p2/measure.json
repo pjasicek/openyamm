@@ -1,0 +1,355 @@
+{
+ "plane": "P2",
+ "name": "Plane of Air of Xeen",
+ "form": "islands in open sky",
+ "room_cells": [
+  26,
+  26
+ ],
+ "room_units": [
+  13312,
+  13312
+ ],
+ "walkable_area_m": 45.0,
+ "walkable_share": 0.254,
+ "floor_bbox_cells": [
+  21.8,
+  20.2
+ ],
+ "sky_share": 0.746,
+ "island_gaps": {
+  "min_unbridged_gap": 1801,
+  "between": [
+   "room:stones",
+   "room:chamber"
+  ],
+  "bridge_spans": [
+   1487,
+   3717
+  ]
+ },
+ "walk_length": 17687,
+ "walk_seconds": {
+  "walking": 46,
+  "running": 23
+ },
+ "stations": {
+  "poi:statue": {
+   "along": 4303,
+   "off_line": 128
+  },
+  "poi:test": {
+   "along": 7355,
+   "off_line": 0
+  },
+  "gate:sleeper": {
+   "along": 10555,
+   "off_line": 0
+  },
+  "poi:sleeper": {
+   "along": 16018,
+   "off_line": 0
+  },
+  "exit:dais": {
+   "along": 17687,
+   "off_line": 0
+  }
+ },
+ "walk_legs": {
+  "arrival_to_test": 7355,
+  "test_to_sleeper": 8663,
+  "sleeper_to_way_out": 1669
+ },
+ "groups": [
+  {
+   "id": "pop:statue_west",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    -1664,
+    -2432
+   ],
+   "space": "link"
+  },
+  {
+   "id": "pop:statue_east",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    640,
+    -2176
+   ],
+   "space": "room:statue"
+  },
+  {
+   "id": "pop:stones_elementals",
+   "actor": "Air Elemental (11700)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    -512,
+    2560
+   ],
+   "space": "room:stones"
+  },
+  {
+   "id": "pop:stones_north",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    640,
+    3072
+   ],
+   "space": "room:stones"
+  },
+  {
+   "id": "pop:stones_lip",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    1024,
+    1024
+   ],
+   "space": "link"
+  },
+  {
+   "id": "pop:kite_elementals",
+   "actor": "Air Elemental (11700)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    -3584,
+    3200
+   ],
+   "space": "room:kite_isle"
+  },
+  {
+   "id": "pop:kite_south",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 2,
+   "level": 55,
+   "at": [
+    -4480,
+    2560
+   ],
+   "space": "room:kite_isle"
+  },
+  {
+   "id": "pop:kite_greater",
+   "actor": "Whirlwind (11701)",
+   "count": 3,
+   "level": 70,
+   "at": [
+    -4608,
+    4224
+   ],
+   "space": "room:kite_isle"
+  },
+  {
+   "id": "pop:arena_approach",
+   "actor": "Lesser Air Elemental (11624)",
+   "count": 3,
+   "level": 55,
+   "at": [
+    4992,
+    -4224
+   ],
+   "space": "room:arena"
+  },
+  {
+   "id": "pop:arena_rim",
+   "actor": "Air Elemental (11700)",
+   "count": 3,
+   "level": 62,
+   "at": [
+    5248,
+    -2176
+   ],
+   "space": "room:arena"
+  }
+ ],
+ "field_hostiles": 27,
+ "test_hostiles": 3,
+ "placed_hostiles": 30,
+ "group_count": 11,
+ "group_sizes": [
+  2,
+  3
+ ],
+ "levels": [
+  55,
+  75
+ ],
+ "level_mean": 60.3,
+ "kill_xp_party": 128176,
+ "kill_xp_per_member": 32044,
+ "kill_xp_target_per_member": 31025,
+ "kill_xp_vs_target": 0.033,
+ "by_row": {
+  "Lesser Air Elemental (11624)": 15,
+  "Air Elemental (11700)": 9,
+  "Whirlwind (11701)": 5,
+  "Sleeper's Guardian of Air (11702)": 1
+ },
+ "first_fight": {
+  "straight": 2947,
+  "group": "pop:statue_west",
+  "along_walk": 2940
+ },
+ "landing_hostiles": 0,
+ "nearest_group_to_way_up": 4331,
+ "poi_census": 10,
+ "poi_spacing": {
+  "median": 1498,
+  "min": 1286,
+  "max": 5753
+ },
+ "chests": 2,
+ "hazard_cells": 9,
+ "hazard_on_critical": 0,
+ "hazard_on_links": 0,
+ "hazard_in_arena": 0,
+ "hazard_in_chamber": 0,
+ "p2": {
+  "approaches": {
+   "sky": {
+    "lip_min": null,
+    "samples": 453,
+    "what": "open sky (nothing to climb from)"
+   },
+   "gate_flank": {
+    "lip_min": 384,
+    "samples": 24,
+    "what": "two standing stones of the Eye's ring either side of the stair's foot, the stilled wind between them"
+   }
+  },
+  "lip_min": 384,
+  "drops_within_reach": [],
+  "higher_floors": [
+   {
+    "space": "room:stones",
+    "onto": "gate link",
+    "floor": 256,
+    "gap": 2438
+   },
+   {
+    "space": "room:statue",
+    "onto": "gate link",
+    "floor": 128,
+    "gap": 2792
+   },
+   {
+    "space": "room:kite_isle",
+    "onto": "gate link",
+    "floor": 320,
+    "gap": 6825
+   }
+  ],
+  "holds": true
+ },
+ "off_floor": [],
+ "swimmers_on_floor": [],
+ "links": {
+  "link:bridge_s": {
+   "length": 1884,
+   "width": 768,
+   "rise": 128
+  },
+  "link:bridge_e": {
+   "length": 1511,
+   "width": 640,
+   "rise": 128
+  },
+  "link:bridge_n": {
+   "length": 1487,
+   "width": 640,
+   "rise": 128
+  },
+  "link:bridge_w": {
+   "length": 1914,
+   "width": 640,
+   "rise": 64
+  },
+  "link:bridge_se": {
+   "length": 3368,
+   "width": 640,
+   "rise": 0
+  },
+  "link:stair_of_wind": {
+   "length": 3717,
+   "width": 768,
+   "rise": 512
+  }
+ },
+ "floors": [
+  0,
+  768
+ ],
+ "places": {
+  "entrance:d7_fall": [
+   -4096,
+   -4096
+  ],
+  "exit:way_up": [
+   -5248,
+   -4864
+  ],
+  "poi:statue": [
+   -384,
+   -1792
+  ],
+  "poi:singing_stones": [
+   0,
+   2176
+  ],
+  "poi:test": [
+   2432,
+   -3072
+  ],
+  "landmark:eye": [
+   3968,
+   -3072
+  ],
+  "gate:sleeper": [
+   3968,
+   -1408
+  ],
+  "poi:sleeper": [
+   4864,
+   3840
+  ],
+  "poi:test_chest": [
+   3584,
+   4224
+  ],
+  "exit:dais": [
+   3456,
+   2944
+  ],
+  "poi:basket_cache": [
+   -5056,
+   3840
+  ],
+  "poi:basket": [
+   -3712,
+   4224
+  ],
+  "poi:storm_cairn": [
+   1024,
+   -2560
+  ]
+ },
+ "camera": {
+  "at": [
+   -3584,
+   -3712
+  ],
+  "z": 176,
+  "yaw_deg": 45.0,
+  "fov": 74.0
+ }
+}

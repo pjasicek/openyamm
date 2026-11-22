@@ -1,0 +1,95 @@
+format: 0
+id: xeen_d2
+name: Sprite Forest and Ogre Pass
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D2
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  # The map's id in the registry (source/maps.yml map_id 9109). A2 writes its map_stats row at install
+  # (source/map_rows.yml `D2: {lock: 6, trap: 3}` so far); the slots below are this plan's proposal to A2.
+  id: 9109
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 33
+  environment: forest
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Wolf, tier: 2, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Troll, tier: 2, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Sprite, tier: 2, per_marker: [2, 3], weight: 25}
+neighbours:
+  - id: edge:west
+    to: xeen_d1.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: "The Castleview road from D1's east edge, east into the Sprite Forest's edge, at y 60 (fixed with D1)."
+    notes: "D1 Castleview Vale (the Darkside hub). Shared edge: the road crosses x 0 at y 60."
+  - id: edge:east
+    to: xeen_d3.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The caravan road down from Ogre Pass's east mouth, west of the D3 border, at y 44."
+    notes: "D3 Sandcaster and the Aging Forest (A5, not yet planned). Proposed shared edge: the road crosses x 127 at y 44; relay to A5."
+  - id: door:dd09
+    to: xeen_dd09.blv
+    kind: door
+    arrival_hint: "Inside the great tree's trunk, at the foot of the temple's first stair."
+    condition: {item: bark_key}
+    notes: "DD-09 Temple of Bark (A8): the door in the great tree's trunk (q-d9.bark_door)."
+  - id: door:dd11a
+    to: xeen_dd11a.blv
+    kind: door
+    arrival_hint: "At the bottom of the first pit (a fall)."
+    notes: "DD-11A Troll Holes, first pocket (A7): a pit in the forest floor (q-d13.troll_holes)."
+  - id: door:dd11b
+    to: xeen_dd11b.blv
+    kind: door
+    arrival_hint: "At the bottom of the second pit."
+    notes: "DD-11B, second pocket (A7)."
+  - id: door:dd11c
+    to: xeen_dd11c.blv
+    kind: door
+    arrival_hint: "At the bottom of the third pit, outside Hobstadt's hall."
+    notes: "DD-11C, third pocket with Hobstadt's throne (A7)."
+  - id: door:dd13_west
+    to: xeen_dd13.blv
+    kind: door
+    arrival_hint: "Inside the west fort's gate."
+    notes: "DD-13 Ogre Forts (A7), the west fort: one BLV, two entrances (q-d11.fort_west inside)."
+  - id: door:dd13_east
+    to: xeen_dd13.blv
+    kind: door
+    arrival_hint: "Inside the east fort's gate."
+    notes: "DD-13, the east fort (q-d11.fort_east, fort_search inside)."
+  - id: door:dd06
+    to: xeen_dd06.blv
+    kind: door
+    arrival_hint: "Inside the Southern Tower's door."
+    condition: {item: south_tower_key}
+    notes: "DD-06 Southern Tower (A7): the thieves' den (q-d19.tower_door; key from Thaddeus, D3)."
+  - id: door:dd10b
+    to: xeen_dd10b.blv
+    kind: door
+    arrival_hint: "In the adit's mouth, facing in."
+    notes: "DD-10B Gemstone Mines, east pocket (A7/A8): an adit in the Gemstone foothills."
+qbits:
+  sprites_robbery: 113203     # q-d10.robbery: the village's sprites turn hostile
+  sprites_slain: 113208       # q-d10.sprites_slain: set by the map when the village's sprites are dead
+  ogres_friends: 113221       # q-d11.friends
+  ogres_hostile: 113222       # q-d11.hostile
+  west_fort_burned: 113224    # q-d11.west_burned (DD-13)
+  east_fort_burned: 113225    # q-d11.east_burned (DD-13)
+items:
+  bark_key: 12342
+  south_tower_key: 12339
+notes: "D2 Sprite Forest and Ogre Pass, MU-3 plan for the phase 3 review (A6, 2026-11-20). No geometry until a decider approves it. Plan: plan.yml; to-scale layout: sketch.yml; drawing and review board: level_generation/xeen_art/phase3/d2/."

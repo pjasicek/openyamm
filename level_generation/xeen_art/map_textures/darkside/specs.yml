@@ -1,0 +1,165 @@
+# Darkside map and dungeon textures made by A6 (2026-11-20, deciders D-26/D-27 on A8's Act III graphs,
+# devdocs/xeen/mockups/act3_a8_decisions_a.md and _b.md): Castle Kalindra's shimmer (D1's ghost castle outside and
+# DD-03's phase walls), the Mayor's portrait behind the Gremlin Court's throne (DD-04), and the Gemstone Mines' four
+# gem veins (DD-10: A ruby and emerald, B sapphire, C diamond), one batch in one style on MM7 Nighon Tunnels' rock.
+# Made with level_generation/textures_xeen/xtex.py --project level_generation/xeen_art/map_textures/darkside;
+# registered in assets_dev/worlds/xeen/source/textures.yml. Same format as level_generation/textures_xeen/specs.yml.
+dungeons:
+  kalindra:
+    family_words: >-
+      the pale cream and white dressed ashlar of Might and Magic VI's Castle Ironfist (hcwall): large smooth
+      cream-white blocks with thin grey mortar joints and soft worn edges
+  dd04:
+    family_words: >-
+      the grey Darkside town stone of Might and Magic VIII (t09 grey ashlar, t06 timber): cool grey dressed blocks
+      and dark weathered oak
+  mirror:
+    family_words: >-
+      the royal castle interiors of Might and Magic VI-VII (Castle Ironfist's cream ashlar hcwall, the white marble
+      of Castle Harmondale's halls): pale, clean, softly lit surfaces in cream, white and cool grey
+  mirror_dark:
+    family_words: >-
+      the royal castle interiors of Might and Magic VI-VII (Castle Ironfist's cream ashlar hcwall, the white marble
+      of Castle Harmondale's halls), seen in a dim indoor room lit by torches: muted, softly shaded surfaces in
+      grey, pewter and smoky warm grey, nowhere bright
+  dd10:
+    family_words: >-
+      the brown-grey cave rock of Might and Magic VII's Nighon Tunnels (cwb1 and its gold-vein variant cwb1gold):
+      rough fractured rock in warm grey-brown, deep dark cracks, hand-painted
+textures:
+  xkshimmer:
+    dungeon: kalindra
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/hcwall, mm6/hcwindo]
+    tone: {like: [mm6/hcwall], factor: 0.95}
+    family: royal_castle; MM6 Castle Ironfist hcwall (Castle Kalindra out of phase)
+    where: Castle Kalindra's outside on D1 while it is out of phase, and DD-03's phase walls (the door leaves that close each stage's parts)
+    standin: xufield
+    what: >-
+      The castle's cream-white ashlar of the references, block for block the same size and joint pattern, seen as if
+      the castle were not quite in the world: the whole surface washed in pale lavender and soft violet light, silver
+      white where the light is strongest, and crossed from top to bottom by faint vertical bands of shimmering light
+      like an aurora curtain or a heat haze, some bands brighter, some fainter, slightly wavering. The mortar joints
+      are still readable but faded and softly doubled, as if seen through rippling glass. Luminous, cool, misty and
+      calm; pale violet and silver only, never neon, never pink, never dark. No pattern centred, no sparkles or stars.
+  xdmayor:
+    dungeon: dd04
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/t09a01, mm8/t06a07]
+    family: map DD-04; MM8 t09 grey ashlar (the Gremlin Court)
+    where: the picture on the wall behind the Gremlin Court's throne (q-d1.throne's else_text)
+    standin: xnjoesign
+    what: >-
+      A painted head-and-shoulders portrait of Mayor Snarfblad of Castleview in a heavy carved dark-oak frame that runs
+      round all four edges of the canvas: a plump, pompous, balding middle-aged man with ruddy cheeks and a self-satisfied
+      little smile, in a dark velvet coat with a gold chain of office, painted in sober browns against a dark green
+      background in the manner of an old oil portrait. Across his upper lip someone has scrawled a huge curling
+      moustache in thick black charcoal, crude and childish, its ends twirled into loops, plainly drawn on top of the
+      paint afterwards. Funny, but the portrait itself is painted seriously.
+  xdvruby:
+    dungeon: dd10
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/cwb1, mm7/cwb1gold]
+    tone: {like: [mm7/cwb1], factor: 1.0}
+    family: map DD-10; MM7 Nighon Tunnels cwb1 (ruby vein, DD-10A)
+    where: DD-10A's five ruby veins (hover "Ruby vein")
+    standin: cwb1gold
+    what: >-
+      The cave rock of the first reference, its colours, cracks and grain unchanged, with a vein of raw rubies running
+      through it the way the gold runs in the second reference: a band of clustered deep-red crystals and rough red
+      gem nodules following the rock's cracks across the middle third of the picture, branching and thinning out
+      towards the edges, the crystals' faces catching the light in clear crimson with darker wine-red shadows. The same
+      painted style and scale as the gold vein; the rock elsewhere exactly as the first reference.
+  xdvemrld:
+    dungeon: dd10
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/cwb1, mm7/cwb1gold]
+    tone: {like: [mm7/cwb1], factor: 1.0}
+    family: map DD-10; MM7 Nighon Tunnels cwb1 (emerald vein, DD-10A)
+    where: DD-10A's five emerald veins (hover "Emerald vein")
+    standin: cwb1gold
+    what: >-
+      The cave rock of the first reference, its colours, cracks and grain unchanged, with a vein of raw emeralds running
+      through it the way the gold runs in the second reference: a band of clustered hexagonal deep-green crystals and
+      rough green gem nodules following the rock's cracks across the middle third of the picture, branching and
+      thinning out towards the edges, the crystals' faces catching the light in clear emerald green with dark bottle-green
+      shadows. The same painted style and scale as the gold vein; the rock elsewhere exactly as the first reference.
+  xdvsaph:
+    dungeon: dd10
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/cwb1, mm7/cwb1gold]
+    tone: {like: [mm7/cwb1], factor: 1.0}
+    family: map DD-10; MM7 Nighon Tunnels cwb1 (sapphire vein, DD-10B)
+    where: DD-10B's five sapphire veins (hover "Sapphire vein")
+    standin: cwb1gold
+    what: >-
+      The cave rock of the first reference, its colours, cracks and grain unchanged, with a vein of raw sapphires
+      running through it the way the gold runs in the second reference: a band of clustered deep-blue crystals and
+      rough blue gem nodules following the rock's cracks across the middle third of the picture, branching and thinning
+      out towards the edges, the crystals' faces catching the light in clear royal blue with dark navy shadows. The same
+      painted style and scale as the gold vein; the rock elsewhere exactly as the first reference.
+  xdvdiam:
+    dungeon: dd10
+    size: [128, 256]
+    kind: tile
+    wrap: uv
+    refs: [mm7/cwb1, mm7/cwb1gold]
+    tone: {like: [mm7/cwb1], factor: 1.0}
+    family: map DD-10; MM7 Nighon Tunnels cwb1 (diamond vein, DD-10C)
+    where: DD-10C's five diamond veins (hover "Diamond vein"), by the lava seam
+    standin: cwb1gold
+    what: >-
+      The cave rock of the first reference, its colours, cracks and grain unchanged, with a vein of raw diamonds running
+      through it the way the gold runs in the second reference: a band of clustered colourless octahedral crystals and
+      rough white-grey gem nodules following the rock's cracks across the middle third of the picture, branching and
+      thinning out towards the edges, the crystals clear and icy white with pale blue-grey facets and small bright
+      glints. The same painted style and scale as the gold vein; the rock elsewhere exactly as the first reference.
+  xkmirror:
+    # v1 (session 9): dungeon mirror, refs [mm6/hcwall, mm7/t3s2b], no tone; a pale silver sheen, mean luma 204,
+    # which clipped white under DD-02/DD-03's 1.5 lighting bakes. v2 (session 11): darker, with reflected shading,
+    # graded to a mean luma of about 130 (prompt prompts/xkmirror_v1.txt kept for v1).
+    dungeon: mirror_dark
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [xeen/xkmirror, mm7/t3s2b]
+    tone: {luma: 134}
+    family: royal_castle; silvered glass (D-37, Castle Kalindra's mirrors and Ellinger's dead mirror)
+    where: DD-03's Queen's mirror and the stable yard's mirror (house 4512), DD-02's dead mirror (A8)
+    standin: xkshimmer
+    what: >-
+      The face of an old silvered-glass mirror in a dim room, seen straight on: the dark, slightly smoky silvered
+      glass of the first reference's kind, but much deeper in tone, a mid to dark pewter grey, as an old mirror
+      looks indoors. Across it lie soft reflected shadings: broad, blurred, gently darker and lighter areas, like the
+      faint dim reflection of a shadowy room behind the viewer, a vague pale glow here and a deep soft shadow there,
+      all out of focus and drifting, with no edges, so nothing in it can be recognised: no figure, no face, no window,
+      no furniture, no object, no lines. Here and there faint soft cloudy patches of aged silvering and a few tiny dark
+      specks. Neutral grey with the slightest warm smoky cast only: never blue, never cyan, never tinted, no frame, no
+      edge, no highlight star or glare spot. Quiet, dim and deep, the whole picture one continuous surface.
+  xdgodface:
+    dungeon: dd10
+    size: [256, 256]
+    kind: picture
+    refs: [mm7/cwb1gold, mm7/cwb1]
+    tone: {like: [mm7/cwb1gold], factor: 1.0}
+    family: map DD-10; MM7 Nighon Tunnels cwb1gold (the God of Minerals, DD-10B)
+    where: DD-10B's east wall behind the crystal (hover "God of Minerals", q-d7.god_of_minerals)
+    standin: cwb1gold
+    what: >-
+      A great stern face carved in low relief out of the gold-veined cave rock of the first reference, as if the rock
+      itself had grown a face: a broad brow, a heavy straight nose, a wide closed mouth and a long beard of rock that
+      flows down into the stone, the features shaped from the same warm grey-brown fractured rock with its veins of
+      raw gold running across the cheeks, brow and beard. Its two eyes are large faceted sapphire crystals set into the
+      rock, deep clear royal blue with paler blue facets and a soft inner glow. The face fills the middle of the
+      picture; all round it, out to every edge, the plain gold-veined rock of the first reference continues unchanged,
+      the same colours, cracks, grain and scale, so the face sits in the wall without any frame, border or edge line.
+      The relief is shaded by soft even light only, ancient and dignified, not a monster, not a mask, not a poster.

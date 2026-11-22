@@ -1,0 +1,58 @@
+format: 0
+sectors:
+  room:bone_slope: 1
+  room:burrow: 2
+  room:crawl: 3
+  room:guard_den: 4
+  room:hollow: 5
+  room:larder: 6
+  room:midden: 7
+  room:pit: 8
+  room:root_stair: 9
+  room:root_tunnel: 10
+  room:seep: 11
+events:
+  evt:arrive: 1
+  evt:boulder: 2
+  evt:chest_den: 3
+  evt:chest_thief: 4
+  evt:den_door: 5
+  evt:expired: 6
+  evt:hatch: 7
+  evt:larder_seen: 8
+  evt:midden_seen: 9
+  evt:thief: 10
+  evt:wicker: 11
+doors:
+  door:boulder: 1
+  door:den: 2
+  door:wicker: 3
+containers:
+  chest:den_hoard: 0
+  chest:thief_pack: 1
+map_vars:
+  once.arrive: 0
+  once.larder_seen: 1
+  once.midden_seen: 2
+sounds:
+  sound:drip: 1
+  sound:wind: 2
+decorations:
+  deco:crawl_bones: 0
+  deco:den_bones: 1
+  deco:den_skulls: 2
+  deco:expired: 3
+  deco:hollow_bones: 4
+  deco:hollow_skull: 5
+  deco:larder_bones: 6
+  deco:larder_carcass_1: 7
+  deco:larder_carcass_2: 8
+  deco:midden_bones: 9
+  deco:midden_skull: 10
+  deco:midden_skulls: 11
+  deco:pit_bones: 12
+  deco:pit_skull: 13
+  deco:seep_bones: 14
+  deco:seep_mite: 15
+  deco:seep_mite_2: 16
+  deco:thief: 17

@@ -1,0 +1,98 @@
+format: 0
+id: xeen_x3
+name: Lifeforce Lagoon
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X3
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9101
+  continent: 6
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 2
+  refill_days: 672
+  music: 48
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Swamp Thing, tier: 1, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Toad, tier: 1, per_marker: [2, 4], weight: 20}
+    - {monster: Xeen Zombie, tier: 1, per_marker: [2, 3], weight: 40}
+neighbours:
+  - id: door:xd08
+    to: xeen_xd08.blv
+    kind: door
+    arrival_hint: "Inside the tomb door, by the statue with the plaque."
+    condition: {item: stone_of_terrors}
+    notes: "XD-08 Tomb of a Thousand Terrors (M10): the tomb door in the Gloomwood's mound; Ebenezer's Stone of a Thousand Terrors after the walls (M9)."
+  - id: door:xd11
+    to: xeen_xd11.blv
+    kind: door
+    arrival_hint: Inside the tower's door.
+    condition: {item: enchanted_key}
+    notes: "XD-11 Tower of High Magic (M13): the door on the islet at the causeway's end; the Enchanted Key from the Cave of Illusion (M12). Its roof's Stairway to Heaven leads up to X8."
+  - id: door:xd13
+    to: xeen_xd13.blv
+    kind: door
+    arrival_hint: At the foot of the foundation stair inside the ruin.
+    notes: "XD-13 Newcastle Keep (staged). The stair down into the ruin's foundation (wood golems at stage 0, M8); the keep's houses come with its stages (xd13.yml)."
+  - id: door:xd24
+    to: xeen_xd24.blv
+    kind: door
+    arrival_hint: "At the foot of the coffin's stair, inside the crypt."
+    condition: {qbit: nightshadow_dials_set}
+    notes: "XD-24 Nightshadow Crypt (Q-C7): Count Draco's coffin on Nightshadow's square opens on a stair down to the crypt once all three sundials read 9 (q-c7.dials_set) and it is night (21-6, Xeen.isNight); q-c7.coffin sets q-c7.coffin_opened."
+  - id: edge:east
+    to: xeen_x2.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The lagoon road west from Rivercity's west road, at y 40 on both maps."
+    notes: "X2 Rivercity and Lake Darzog, the main way in (party 13). X2 seals its west edge today with the flooded sign at [20.6, 39.1]; the sign goes when X3 is installed."
+  - id: edge:north
+    to: xeen_x4.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: "The north road up the vale between the Bogwood and the Crow Hills, at x 50."
+    notes: "X4 Burlock Savannah (D-11.6): X3's north road leaves at x 50 and arrives at X4's own south arrival on its road at x 36; X4's south edge west of x 64 arrives here at x 50 (entrance:north_road). Neither road moves; each arrival faces inward."
+  - id: edge:west
+    to: xeen_x5.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: "The fen road along the Lagoon Water's north bank, at y 59; the river at y 62."
+    notes: "X5 Winterkill Tundra: lands in X5's east pocket (its lagoon road at y 59)."
+  - id: fall:x8
+    to: xeen_x8.blv
+    kind: fall
+    listed_only: true
+    notes: "Inbound only: a fall from the High Magic Clouds (X8, west of x 0) lands at entrance:x8_landing on the reed shore by the causeway head."
+qbits:
+  mirabeth_gone: 112240
+  mirror_newcastle: 119006
+  mirror_nightshadow: 119005
+  newcastle_deed: 111160
+  newcastle_keep: 111221
+  newcastle_walls: 111181
+  nightshadow_coffin_opened: 112143
+  nightshadow_dials_set: 112142
+  nightshadow_liberated: 112141
+  nightshadow_started: 112140
+items:
+  deed_to_newcastle: 12303
+  enchanted_key: 12306
+  golem_stone: 12305
+  stone_of_terrors: 12304
+rules:
+  weather: "world default; Nightshadow keeps a local mist (always overcast) until q-c7.done"
+  respawn: entrance:camp_fire
+  town_portal_anchor: entrance:nightshadow_square
+notes: "X3 Lifeforce Lagoon, MU-3 plan for gate G1 (lane A5, 2026-11-20). No geometry until the user has seen it. Plan: plan.yml; to-scale layout: sketch.yml; drawings and review board: output/studio_cal/x3/mockups/ (board_x3.png). Written by output/studio_cal/x3/tools/gen_l1.py."

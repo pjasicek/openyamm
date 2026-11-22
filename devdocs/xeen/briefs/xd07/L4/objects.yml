@@ -1,0 +1,854 @@
+format: 0
+start:
+  room: room:gatehouse
+  at: [0, 384]
+  facing: 90
+  notes: "Inside the castle door, facing the Crusaders' portcullis."
+doors:
+  - id: door:bedroom
+    opening: open:eaststair_bedroom
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:cell_door
+    opening: open:cells_pitgallery
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:den_bar
+    opening: open:den_cellar
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "Barred on the den side: lifting the bar closes the dungeon ring."
+  - id: door:dungeon
+    opening: open:cellar_cells
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The iron dungeon door (Artemus's key, a qbit)."
+  - id: door:east_tower
+    opening: open:throne_easttower
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:kitchens
+    opening: open:gate_kitchens
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:library_n
+    opening: open:library_gallery
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:library_s
+    opening: open:well_library
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:old_throne
+    opening: open:loft_throne
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:pit_portcullis
+    opening: open:stair_pit
+    kind: slide_up
+    thickness: 16
+    speed: 48
+    surface: {texture: xkportc, size: [256, 256]}
+    tile: true
+    notes: "The cage portcullis at the stair's foot, raised only by the warden's lever (D-4)."
+  - id: door:portcullis
+    opening: open:gate_hall
+    kind: slide_up
+    thickness: 16
+    speed: 80
+    surface: {texture: xkportc, size: [256, 256], scale: 1.75}
+    tile: true
+    notes: "The Crusaders' portcullis (the kit's xkportc, a cut-out): it lifts only for Crusaders."
+  - id: door:postern_inner
+    opening: open:den_postern
+    kind: slide_up
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:throne_doors
+    opening: open:hall_throne
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The throne room's double doors: the left and the right wing."
+  - id: door:west_tower
+    opening: open:hall_westtower
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: "The closed door at the foot of the west tower (D-4): the fools and gargoyles behind it."
+lights:
+  - id: light:armour_gallery
+    room: room:armour_gallery
+    at: [2944, 3968]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:cell_block
+    room: room:cell_block
+    at: [512, -2432]
+    height: 512
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:cellar
+    room: room:cellar
+    at: [-1664, -2432]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:dragon_pit
+    room: room:dragon_pit
+    at: [2944, -5120]
+    height: 640
+    radius: 1400
+    color: [255, 120, 60]
+  - id: light:east_landing
+    room: room:east_landing
+    at: [4608, 5376]
+    height: 448
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:east_tower_base
+    room: room:east_tower_base
+    at: [2048, 5376]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:fools_hall
+    room: room:fools_hall
+    at: [-4992, 2304]
+    height: 448
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:gargoyle_loft
+    room: room:gargoyle_loft
+    at: [-4992, 7552]
+    height: 640
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:gatehouse
+    room: room:gatehouse
+    at: [0, 512]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:great_hall
+    room: room:great_hall
+    at: [0, 2304]
+    height: 640
+    radius: 1400
+    color: [255, 200, 140]
+  - id: light:kitchens
+    room: room:kitchens
+    at: [-1600, 384]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:library
+    room: room:library
+    at: [2560, 2816]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:old_cistern
+    room: room:old_cistern
+    at: [512, -4480]
+    height: 512
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:old_throne
+    room: room:old_throne
+    at: [-4992, 9088]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:pit_gallery
+    room: room:pit_gallery
+    at: [2816, -2432]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:postern
+    room: room:postern
+    at: [-3584, -4352]
+    height: 320
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:royal_bedroom
+    room: room:royal_bedroom
+    at: [4608, 7936]
+    height: 448
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:throne_room
+    room: room:throne_room
+    at: [0, 4864]
+    height: 640
+    radius: 1400
+    color: [255, 200, 140]
+  - id: light:troll_den
+    room: room:troll_den
+    at: [-1792, -4352]
+    height: 448
+    radius: 1000
+    color: [200, 170, 140]
+  - id: light:well_court
+    room: room:well_court
+    at: [2304, 1664]
+    height: 640
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:west_gallery
+    room: room:west_gallery
+    at: [-4992, 4352]
+    height: 384
+    radius: 1000
+    color: [255, 200, 140]
+  - id: light:west_tower_base
+    room: room:west_tower_base
+    at: [-2304, 2304]
+    height: 576
+    radius: 1000
+    color: [255, 200, 140]
+switches:
+  - id: switch:cage_lever
+    room: room:pit_gallery
+    kind: lever
+    at: [3168, -2816]
+    off: {texture: t5d1, size: [128, 256]}
+    notes: "The warden's lever, beside his 'Do not pull' sign."
+  - id: switch:den_bar
+    room: room:troll_den
+    kind: lever
+    at: [-1408, -3328]
+    off: {texture: t5d1, size: [128, 256]}
+    notes: The bar's handle on the den side of the cellar door.
+chests:
+  - id: chest:den
+    room: room:troll_den
+    at: [-2592, -5152]
+    kind: ch1
+    facing: e
+    treasure_level: 2
+    random_items: 3
+    gold: 200
+    notes: The trolls' pile of loot.
+  - id: chest:hoard
+    room: room:dragon_pit
+    at: [3712, -6096]
+    floor_height: -1120
+    kind: ch1
+    facing: e
+    treasure_level: 3
+    random_items: 5
+    gold: 3000
+    notes: "The dragon's hoard (tier 3) on its mound, its back to the south wall and its front north (F6, 2026-11-21: it stood at (3712, -5856) half over the mound's edge)."
+  - id: chest:loft
+    room: room:gargoyle_loft
+    at: [-5664, 8000]
+    kind: ch1
+    facing: e
+    treasure_level: 2
+    random_items: 3
+    gold: 300
+    notes: The gargoyles' chest of shiny things.
+  - id: chest:roxanne
+    room: room:royal_bedroom
+    at: [5152, 8224]
+    kind: ch1
+    facing: w
+    treasure_level: 3
+    random_items: 4
+    gold: 1000
+    notes: "Roxanne's chest (q-c3.bedroom_chest): opens once Q-C3 is done; the map's T3 loot."
+  - id: chest:warden
+    room: room:cell_block
+    at: [1344, -3136]
+    kind: ch1
+    facing: n
+    treasure_level: 2
+    random_items: 2
+    gold: 250
+    notes: The warden's strongbox.
+spawns:
+  - id: spawn:cellar_1
+    room: room:cellar
+    at: [-2048, -2176]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:cellar_2
+    room: room:cellar
+    at: [-1152, -2688]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:cells_1
+    room: room:cell_block
+    at: [0, -2432]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:cells_2
+    room: room:cell_block
+    at: [1024, -2432]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:cells_3
+    room: room:cell_block
+    at: [512, -3008]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:cistern_1
+    room: room:old_cistern
+    at: [-128, -4480]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:cistern_2
+    room: room:old_cistern
+    at: [1152, -4480]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:cistern_3
+    room: room:old_cistern
+    at: [512, -5120]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:den_1
+    room: room:troll_den
+    at: [-1792, -4352]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:den_2
+    room: room:troll_den
+    at: [-2304, -4864]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:den_3
+    room: room:troll_den
+    at: [-1280, -4864]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:fools_1
+    room: room:fools_hall
+    at: [-5248, 2432]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:fools_2
+    room: room:fools_hall
+    at: [-4736, 2176]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:fools_3
+    room: room:fools_hall
+    at: [-4864, 2816]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:kitchens
+    room: room:kitchens
+    at: [-1408, 128]
+    slot: 1
+    tier: b
+    group: 51
+    notes: Two fools raiding the larder.
+  - id: spawn:loft_1
+    room: room:gargoyle_loft
+    at: [-5504, 7296]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:loft_2
+    room: room:gargoyle_loft
+    at: [-4480, 7296]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:loft_3
+    room: room:gargoyle_loft
+    at: [-4992, 7680]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:loft_4
+    room: room:gargoyle_loft
+    at: [-5504, 7936]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:loft_5
+    room: room:gargoyle_loft
+    at: [-4480, 7936]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:pitgallery
+    room: room:pit_gallery
+    at: [2304, -2432]
+    slot: 3
+    tier: a
+    group: 51
+  - id: spawn:throne_1
+    room: room:old_throne
+    at: [-5248, 8960]
+    slot: 2
+    tier: a
+    group: 51
+  - id: spawn:throne_2
+    room: room:old_throne
+    at: [-4736, 8960]
+    slot: 2
+    tier: b
+    group: 51
+  - id: spawn:wgallery_1
+    room: room:west_gallery
+    at: [-4992, 3840]
+    slot: 1
+    tier: c
+    group: 51
+  - id: spawn:wgallery_2
+    room: room:west_gallery
+    at: [-4992, 4864]
+    slot: 1
+    tier: b
+    group: 51
+  - id: spawn:wgallery_garg
+    room: room:west_gallery
+    at: [-4864, 5120]
+    slot: 2
+    tier: a
+    group: 51
+    notes: Gargoyles at the slits.
+monsters:
+  - id: monster:fire_dragon
+    room: room:dragon_pit
+    monster: 11642
+    at: [3456, -5120]
+    facing: 90
+    hostile: true
+    group: 40
+    notes: "The caged Fire Dragon (11642, level 75, Dragons C): optional, behind the warden's portcullis at the foot of a stair 160 wide (its body 476 across, 487 high)."
+  - id: monster:guard_easttower
+    room: room:east_tower_base
+    monster: 11143
+    at: [2304, 5632]
+    facing: 270
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_gate_e
+    room: room:gatehouse
+    monster: 11143
+    at: [384, 832]
+    facing: 180
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_gate_w
+    room: room:gatehouse
+    monster: 11143
+    at: [-384, 832]
+    facing: 0
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_hall_e
+    room: room:great_hall
+    monster: 11143
+    at: [1280, 3072]
+    facing: 180
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_hall_w
+    room: room:great_hall
+    monster: 11143
+    at: [-1280, 3072]
+    facing: 0
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_throne_e
+    room: room:throne_room
+    monster: 11143
+    at: [448, 5504]
+    facing: 180
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+  - id: monster:guard_throne_w
+    room: room:throne_room
+    monster: 11143
+    at: [-448, 5504]
+    facing: 0
+    group: 30
+    immobile: true
+    notes: "King's Guard (11143, level 40): peaceful to the party by the world's relation (xeen_burlock_knights_d, D-4)."
+decorations:
+  - id: deco:armour_king
+    room: room:armour_gallery
+    decoration: 7dec54
+    at: [2240, 4224]
+    floor_height: 48
+  - id: deco:armour_roland
+    room: room:armour_gallery
+    decoration: 7dec55
+    at: [2944, 4224]
+    floor_height: 48
+  - id: deco:black_liquid
+    room: room:old_cistern
+    decoration: Bucket
+    at: [512, -4096]
+  - id: deco:brazier_dais_e
+    room: room:throne_room
+    decoration: flamb00
+    at: [1088, 5888]
+  - id: deco:brazier_dais_w
+    room: room:throne_room
+    decoration: flamb00
+    at: [-1088, 5888]
+  - id: deco:candle_astrology
+    room: room:library
+    decoration: dec02
+    at: [3200, 2816]
+    floor_height: 96
+  - id: deco:candle_languages
+    room: room:library
+    decoration: dec02
+    at: [1920, 2816]
+    floor_height: 96
+  - id: deco:cell_bones
+    room: room:cell_block
+    decoration: 7dec18
+    at: [256, -1792]
+  - id: deco:cell_bucket
+    room: room:cell_block
+    decoration: Bucket
+    at: [1408, -1664]
+  - id: deco:cellar_barrel_1
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2048]
+  - id: deco:cellar_barrel_2
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2176]
+  - id: deco:cellar_barrel_3
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2304]
+  - id: deco:cellar_barrel_4
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2560]
+  - id: deco:cellar_barrel_5
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2688]
+  - id: deco:cellar_barrel_6
+    room: room:cellar
+    decoration: 7dec32
+    at: [-2432, -2944]
+  - id: deco:cellar_cask_1
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2176, -2944]
+  - id: deco:cellar_cask_2
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2048, -2944]
+  - id: deco:cellar_cask_3
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2304, -1920]
+  - id: deco:cellar_cask_4
+    room: room:cellar
+    decoration: 7dec21
+    at: [-2176, -1920]
+  - id: deco:cellar_keg_1
+    room: room:cellar
+    decoration: smlbarel
+    at: [-896, -2048]
+  - id: deco:cellar_keg_2
+    room: room:cellar
+    decoration: smlbarel
+    at: [-896, -1920]
+  - id: deco:chandelier_hall_e
+    room: room:great_hall
+    decoration: dec27
+    at: [640, 2304]
+    hangs: true
+  - id: deco:chandelier_hall_w
+    room: room:great_hall
+    decoration: dec27
+    at: [-640, 2304]
+    hangs: true
+  - id: deco:chandelier_throne
+    room: room:throne_room
+    decoration: dec27
+    at: [0, 4672]
+    hangs: true
+  - id: deco:den_bones
+    room: room:troll_den
+    decoration: dec19
+    at: [-1024, -5120]
+  - id: deco:den_skull
+    room: room:troll_den
+    decoration: 7dec20
+    at: [-2560, -4608]
+  - id: deco:den_trash
+    room: room:troll_den
+    decoration: 7dec01
+    at: [-2560, -3712]
+  - id: deco:fools_goblet
+    room: room:fools_hall
+    decoration: 7dec48
+    at: [-5248, 1792]
+    floor_height: 688
+  - id: deco:fools_trash
+    room: room:fools_hall
+    decoration: 7dec01
+    at: [-5440, 2944]
+  - id: deco:fruit_bowl
+    room: room:kitchens
+    decoration: 7dec08
+    at: [-1600, 512]
+    floor_height: 80
+  - id: deco:hearth_fire
+    room: room:kitchens
+    decoration: ckfyr00
+    at: [-2176, 384]
+    floor_height: 64
+  - id: deco:loft_bones
+    room: room:gargoyle_loft
+    decoration: 7dec18
+    at: [-4352, 8000]
+  - id: deco:pit_bones_1
+    room: room:dragon_pit
+    decoration: 7dec18
+    at: [2176, -5888]
+  - id: deco:pit_bones_2
+    room: room:dragon_pit
+    decoration: sklplrev
+    at: [3904, -4480]
+  - id: deco:sack_1
+    room: room:kitchens
+    decoration: floursac
+    at: [-2176, 832]
+  - id: deco:sack_2
+    room: room:kitchens
+    decoration: bag01
+    at: [-2048, 896]
+  - id: deco:torch_01
+    room: room:gatehouse
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_02
+    room: room:gatehouse
+    decoration: torch01
+    wall: west
+    along: 0.2
+    height: 176
+  - id: deco:torch_03
+    room: room:great_hall
+    decoration: torch01
+    wall: east
+    along: 0.8
+    height: 176
+  - id: deco:torch_04
+    room: room:great_hall
+    decoration: torch01
+    wall: west
+    along: 0.8
+    height: 176
+  - id: deco:torch_05
+    room: room:great_hall
+    decoration: torch01
+    wall: west
+    along: 0.2
+    height: 176
+  - id: deco:torch_06
+    room: room:throne_room
+    decoration: torch01
+    wall: east
+    along: 0.85
+    height: 176
+  - id: deco:torch_07
+    room: room:throne_room
+    decoration: torch01
+    wall: west
+    along: 0.85
+    height: 176
+  - id: deco:torch_08
+    room: room:throne_room
+    decoration: torch01
+    wall: west
+    along: 0.15
+    height: 176
+  - id: deco:torch_09
+    room: room:armour_gallery
+    decoration: torch01
+    wall: north
+    along: 0.62
+    height: 176
+  - id: deco:torch_10
+    room: room:library
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_11
+    room: room:well_court
+    decoration: torch01
+    wall: north
+    along: 0.2
+    height: 176
+  - id: deco:torch_12
+    room: room:east_tower_base
+    decoration: torch01
+    wall: north
+    height: 176
+  - id: deco:torch_13
+    room: room:east_landing
+    decoration: torch01
+    wall: south
+    height: 176
+  - id: deco:torch_14
+    room: room:royal_bedroom
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_15
+    room: room:west_tower_base
+    decoration: torch01
+    wall: north
+    height: 176
+  - id: deco:torch_16
+    room: room:fools_hall
+    decoration: torch01
+    wall: north
+    along: 0.15
+    height: 176
+  - id: deco:torch_17
+    room: room:west_gallery
+    decoration: torch01
+    wall: west
+    along: 0.39
+    height: 176
+  - id: deco:torch_18
+    room: room:gargoyle_loft
+    decoration: torch01
+    wall: south
+    along: 0.25
+    height: 176
+  - id: deco:torch_19
+    room: room:old_throne
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_20
+    room: room:kitchens
+    decoration: torch01
+    wall: north
+    height: 176
+  - id: deco:torch_21
+    room: room:cellar
+    decoration: torch01
+    wall: west
+    height: 176
+  - id: deco:torch_22
+    room: room:cell_block
+    decoration: torch01
+    wall: west
+    along: 0.2
+    height: 176
+  - id: deco:torch_23
+    room: room:cell_block
+    decoration: torch01
+    wall: south
+    along: 0.25
+    height: 176
+  - id: deco:torch_24
+    room: room:pit_gallery
+    decoration: torch01
+    wall: north
+    height: 176
+  - id: deco:torch_25
+    room: room:old_cistern
+    decoration: torch01
+    wall: west
+    along: 0.15
+    height: 176
+  - id: deco:torch_26
+    room: room:old_cistern
+    decoration: torch01
+    wall: east
+    height: 176
+  - id: deco:torch_27
+    room: room:troll_den
+    decoration: torch01
+    wall: east
+    along: 0.7
+    height: 176
+  - id: deco:torch_28
+    room: room:dragon_pit
+    decoration: torch01
+    wall: north
+    along: 0.75
+    height: 176
+  - id: deco:torch_29
+    room: room:postern
+    decoration: torch01
+    wall: north
+    height: 176
+exits:
+  - id: exit:castle_door
+    room: room:gatehouse
+    wall: south
+    size: [384, 384]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:x4_gate
+    notes: "The castle's great door, out onto the castle rise on X4 (Burlock Savannah)."
+  - id: exit:postern
+    room: room:postern
+    wall: west
+    along: 0.5
+    size: [256, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x4_moat
+    notes: "The sally port, out to the flat ground at the castle rise's west foot on X4 (A5's point; X4 has no moat)."
+relations: []

@@ -1,0 +1,112 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header.
+format: mu6-0
+map: DD-04
+key: dd04
+name: The Gremlin Court
+stands_on: D1 Castleview Vale
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors (at most 15 sectors and 20 M units²)"
+party: [19, 20]
+monsters:
+  levels: [12, 20]
+  boss: Gettlewaithe 24
+  count: 28
+  groups: [2, 4]
+  families:
+    - "Gremlins (11020): Gremlin 14 (22), Gremlin Saboteur 18 (2), Gremlin Guard 22 (3, the court guards' group)"
+    - "Gettlewaithe 11023 (24): talking NPC 4955 on the throne until he fights"
+  mix:
+    - {row: Gremlin, id: 11020, level: 14, count: 22}
+    - {row: Gremlin Saboteur, id: 11021, level: 18, count: 2}
+    - {row: Gremlin Guard, id: 11022, level: 22, count: 3}
+    - {row: Gettlewaithe, id: 11023, level: 24, count: 1, boss: true}
+  kill_xp_target: 2.5k
+treasure: {level: 2, hoard: 3}
+role: "Q-D1 (the court: three rounds of talk, or a fight); M14's other way through Castleview's gate (court_won); M18's 3 Energy Disks on the violent route"
+role_short: "Q-D1"
+set_piece: "A court under the town wall built from stolen things: a throne of chairs, a carpet of the mill's sails, the bridge's ropes; the three-round dialogue with Gettlewaithe, his three guards, the disks under the throne"
+textures:
+  family: "Proposed (no family in dungeon_families for it; open question 4): Castleview's wall footings in the royal kit's grey castle stone (mm6/cswl128, csbr128, csde128) for the court and the wall cellar; the burrows in MM7 Tularean Caves 7d08 earth and roots"
+  cap: 30
+  planned: 16
+  new: 1
+  new_names: ["a scrawled picture of Mayor Snarfblad with a moustache added (q-d1.throne's else text), behind the throne"]
+floors:
+  - {floor: 0, name: "Under the wall", height: 0}
+  - {floor: -1, name: "The burrows", height: -384}
+spaces:
+  - {id: room:door, name: "The tiny door", kind: corridor, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "Just inside the burrow's door, the party stooping (a 160-high passage that opens up after 256)."}
+  - {id: room:burrow, name: The burrow, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{row: Gremlin, level: 14, count: 4}],
+     purpose: "A crooked passage dug through the wall's rubble core; stolen lanterns."}
+  - {id: room:plunder, name: Hall of pranks, kind: hall, size: M, floor: 0, at: [2, 0], chest: 2, monsters: 6,
+     population: [{row: Gremlin, level: 14, count: 4}, {row: Gremlin Saboteur, level: 18, count: 2}],
+     purpose: "Castleview's missing things: mill gears, bell clappers, Ingrid's chain rings by the bucket, a wheel off Cole's cart. A chest of the pranksters' plunder."}
+  - {id: room:waiting, name: The waiting room, kind: room, size: S, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Gremlin, level: 14, count: 3}],
+     purpose: "Petitioners' benches, much too small. A sign: 'Wait here. Forever.' Gremlin heralds."}
+  - {id: room:court, name: The Gremlin Court, kind: hall, size: L, floor: 0, at: [4, 0], set_piece: true, boss: true,
+     boss_label: "Gettlewaithe 24", goal: true, chest: 3, monsters: 4,
+     population: [{actor: Gettlewaithe, level: 24, role: boss, placed: true}, {row: Gremlin Guard, level: 22, count: 3}],
+     purpose: "Gettlewaithe on a throne of stacked chairs (NPC 4955; monster 11023 when he fights), three court guards beside it (peaceful until court_hostile); under the throne the chest with 3 Energy Disks (q-d1.throne)."}
+  - {id: room:cellar, name: "The wall's old cellar", kind: hall, size: M, floor: 0, at: [2, 1], monsters: 4,
+     population: [{row: Gremlin, level: 14, count: 4}],
+     purpose: "A vaulted store in the wall's footings, forgotten by the town and found by the gremlins; Castleview's grey stone."}
+  - {id: room:larder, name: The larder, kind: room, size: S, floor: 0, at: [3, 1], monsters: 2,
+     population: [{row: Gremlin, level: 14, count: 2}],
+     purpose: "Pip's melons, a ham, the Mayor's cheese. A trapdoor down to the burrows."}
+  - {id: room:bolt_hole, name: Bolt-hole, kind: stair, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "A ladder down from the burrow."}
+  - {id: room:barracks, name: "The mighty army", kind: cave, size: M, floor: -1, at: [1, 0], chest: 2, monsters: 5,
+     population: [{row: Gremlin, level: 14, count: 5}],
+     purpose: "Gettlewaithe's 'mighty army': hammocks, toy catapults, a pay chest."}
+  - {id: room:sap, name: "Sappers' tunnel", kind: corridor, size: M, floor: -1, at: [2, 0], monsters: 0,
+     purpose: "A tunnel under the town towards the sewers, given up where it met water; up a ladder into the larder."}
+links:
+  - {id: link:door_burrow, from: room:door, to: room:burrow, kind: open}
+  - {id: link:burrow_plunder, from: room:burrow, to: room:plunder, kind: open}
+  - {id: link:plunder_waiting, from: room:plunder, to: room:waiting, kind: door}
+  - {id: link:waiting_court, from: room:waiting, to: room:court, kind: door}
+  - {id: link:plunder_cellar, from: room:plunder, to: room:cellar, kind: open}
+  - {id: link:cellar_larder, from: room:cellar, to: room:larder, kind: door}
+  - {id: link:larder_court, from: room:larder, to: room:court, kind: secret, label: "Servants' hatch", notes: "A low hatch behind the throne curtain, opened from either side."}
+  - {id: link:burrow_bolt, from: room:burrow, to: room:bolt_hole, kind: open}
+  - {id: link:bolt_barracks, from: room:bolt_hole, to: room:barracks, kind: stair}
+  - {id: link:barracks_sap, from: room:barracks, to: room:sap, kind: open}
+  - {id: link:sap_larder, from: room:sap, to: room:larder, kind: stair}
+states:
+  - {id: state:court_hostile, kind: qbit, where: room:court,
+     what: "Gettlewaithe's topics (A3): 'The Mayor's demand' or a rude answer sets court_hostile; the guards' group turns hostile (q-d1.court_guards).",
+     opens: [], draw: false}
+  - {id: state:guards_beaten, kind: kill, where: room:court,
+     what: "The three guards dead: q-d1.guards_beaten; 'Submit or die' then wins the court peacefully (court_peace, court_won).", opens: [], draw: false}
+  - {id: state:gettlewaithe, kind: kill, where: room:court,
+     what: "Gettlewaithe's death (q-d1.gettlewaithe: court_won); then the throne chest gives 3 Energy Disks (q-d1.throne), never after a peace.",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d1_burrow, space: room:door, at: [0, 1], kind: both, label: "D1: the burrow",
+     neighbour: "D1 entrance:dd04_burrow (68, 43), under the town wall east of the north gate, outside the walls (q-d1.court_entrance); arrival just inside, stooping"}
+hooks:
+  - {hook: q-d1.court_guards, space: room:court, how: "the guards' group: peaceful, hostile once court_hostile (read on entry and after each talk)"}
+  - {hook: q-d1.guards_beaten, space: room:court, how: "the guards' group dead (once)"}
+  - {hook: q-d1.gettlewaithe, space: room:court, how: "Gettlewaithe's death; he fights only when attacked or after a refused 'Submit or die'"}
+  - {hook: q-d1.throne, space: room:court, how: "the throne's chest, searched after his death (3 disks; refuses after a peace)"}
+  - {hook: npc 4955 Gettlewaithe, space: room:court, how: "talking actor on the throne; swapped for monster 11023 when he fights"}
+critical_path: [room:door, room:burrow, room:plunder, room:waiting, room:court]
+return_path: [room:court, room:waiting, room:plunder, room:burrow, room:door]
+loops:
+  - {id: loop:court, spaces: [room:plunder, room:waiting, room:court, room:larder, room:cellar], notes: "Round the court through the cellar and the servants' hatch."}
+  - {id: loop:army, spaces: [room:burrow, room:bolt_hole, room:barracks, room:sap, room:larder, room:cellar, room:plunder], notes: "Down through the army, up into the larder."}
+lines:
+  - {text: "I am Gettlewaithe, Imperator Primus of the Gremlins! Give me one good reason why I should not command my mighty army to cut your grotesque human heads from your shoulders and hang your eviscerated corpses above my throne for the entertainment of my subjects!", ref: "dark/aaze0029:83", where: "room:court, the first step before the throne (open question 3)"}
+  - {text: "Excellent. Your display of respect has earned you your lives. What have you come to petition me for?", ref: "dark/aaze0029:87", where: "Gettlewaithe, 'We come in peace' (A3)"}
+  - {text: "The answer is no! You will now suffer the consequences of your audacity. Guards!", ref: "dark/aaze0029:93", where: "Gettlewaithe, 'The Mayor's demand' (A3)"}
+  - {text: "Well, um, perhaps I can do something about those naughty, naughty pranksters. We can still talk about this like rational beings, can't we?", ref: "dark/aaze0029:95", where: "Gettlewaithe after the guards (A3)"}
+  - {text: "I am always at your service, sir.", ref: "dark/aaze0029:98", where: "Gettlewaithe after the court is won (A3)"}
+open_questions:
+  - "The court guards are Gremlin Guards 22, the family's C tier, over the band's 20; they are the quest's one set fight beside a boss of 24. Keep (proposed), or make them Saboteurs 18?"
+  - "Must a party that comes to talk fight its way in? A3: 'the gremlins elsewhere are hostile anyway'. (a) All hostile (as A3 wrote; the party reaches the throne through 13 gremlins); (b) the burrow, hall of pranks and waiting room peaceful until court_hostile, the cellar, larder and the army below always hostile (proposed: the court is a dialogue first, as in the source where it sat in town; kill XP on the peaceful route drops by about half); (c) all peaceful until court_hostile. The relation after court_peace stays A2's (q-d1 notes)."
+  - "Gettlewaithe's challenge (aaze0029:83), the line MAPS names for DD-04, is in neither A3's topics nor A4's greeting. Proposed: a one-time step message at the foot of the throne (once per visit until court_won), before the topics; A3 to own the text."
+  - "Textures: no Darkside family covers a burrow court. Proposed: Castleview's grey castle stone for the court and the cellar (the court is in the wall's footings), MM7 Tularean Caves 7d08 earth for the burrows, one new picture (the Mayor with a moustache). Or A6 names a family."
+  - "The sappers' tunnel stops at water short of the sewer (no link to DD-01). Proposed as drawn; a real link into DD-01 would add an exit and arrival pair for little play."

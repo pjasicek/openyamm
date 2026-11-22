@@ -1,0 +1,349 @@
+format: 0
+themes:
+  - id: theme:dungeon
+    wall: {texture: cwb, size: [128, 256]}
+    floor: {texture: tfb09, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The old dungeon: Harmondale's grey castle brick (cwb) on the keep's flags, rough vaults (cwb1)."
+  - id: theme:foundation
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: 7gt003a, size: [64, 64]}
+    reveal: {texture: cwb1, size: [128, 256]}
+    door: {texture: 7gt003a, size: [64, 64]}
+    notes: "Under the great hall: rough rust-stained footings (cwb1), earth (cfb1), the hall's boards overhead (7gt003a)."
+  - id: theme:keep
+    wall: {texture: chb1, size: [128, 256]}
+    floor: {texture: tfb09, size: [128, 128]}
+    ceiling: {texture: 7tws1h, size: [128, 128]}
+    reveal: {texture: chb1, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The keep: Castle Harmondale's fieldstone (chb1), green flags (tfb09) and warm marble ceilings (7tws1h)."
+  - id: theme:keep_hall
+    wall: {texture: ch1b1, size: [128, 256]}
+    floor: {texture: tfb09, size: [128, 128]}
+    ceiling: {texture: 7tws1h, size: [128, 128]}
+    reveal: {texture: chb1, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The great hall: Castle Harmondale's ruin stone (ch1b1) above its string course (D-89)."
+  - id: theme:open_sky
+    wall: {texture: 7gt003a, size: [64, 64], sky: true}
+    floor: {texture: ch1b1, size: [128, 256]}
+    ceiling: {texture: 7gt003a, size: [64, 64], sky: true}
+    reveal: {texture: ch1b1, size: [128, 256]}
+    door: {texture: ch1b1, size: [128, 256]}
+    notes: "Outside the breach (seen, never walked): the open sky over the fallen rubble."
+defaults: {theme: theme:keep, ambient: 18}
+rooms:
+  - id: room:breach
+    name: The breach
+    space: room:great_hall
+    outline: [[608, 3200], [1120, 3200], [1120, 3456], [608, 3456]]
+    floor: 0
+    steep_floor: true
+    ceiling: 768
+    theme: theme:open_sky
+    platforms:
+      - {id: platform:breach_ledge, at: [864, 3248], size: [512, 96], rise: 224, surface: {texture: ch1b1, size: [128, 256]}, top_surface: {texture: ch1b1, size: [128, 256]}, notes: The fallen stone level with the breach's sill.}
+      - {id: platform:breach_heap, at: [864, 3376], size: [512, 160], rise: 224, surface: {texture: ch1b1, size: [128, 256], uneven: true}, top_surface: {texture: ch1b1, size: [128, 256], uneven: true}, top_slope: {to: 480, toward: north}, notes: The heap of fallen stone rising away under the sky.}
+      - {id: platform:breach_plug, at: [864, 3248], size: [512, 96], rise: 528, surface: {texture: chb1, size: [128, 256]}, top_surface: {texture: chb1, size: [128, 256]}, base: 224, notes: "Stage 2: Emerson's masonry closing the breach (hidden while the keep is unbuilt)."}
+    ambient: 18
+    notes: "Outside the breach in the hall's north wall (seen, never walked): the fallen corner's rubble heaped under the open sky. Stage 2 bricks it up."
+  - id: room:cellar
+    name: Flooded cellar
+    outline: [[1792, -2560], [3328, -2560], [3328, -1152], [1792, -1152]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:shelf, at: [3248, -1856], size: [128, 384], rise: 96, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: "A shelf against the east wall: the fourth syllable lies on it."}
+    levels:
+      - id: level:flood
+        outline: [[2048, -2432], [3200, -2432], [3200, -1536], [2048, -1536]]
+        floor: -680
+        edge: {texture: cwb, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "Lagoon water seeped in: a sunken floor under 40 of standing water."
+    ambient: 14
+    notes: "The flooded cellar at the stair's foot, 1,536 by 1,408: lagoon water standing in its middle; swamp things. The old laboratory west."
+  - id: room:dungeon_stair
+    name: Dungeon stair
+    outline: [[2304, -1024], [2752, -1024], [2752, 128], [2304, 128]]
+    floor: -128
+    slope: {to: -640, toward: south, steps: 16, riser: {texture: cwb, size: [128, 256]}, tread: {texture: tfb09, size: [128, 128]}}
+    ceiling: 256
+    ceiling_slope: {to: -256, toward: south}
+    theme: theme:dungeon
+    ambient: 22
+    notes: "Sixteen steps of 32 down south into the old dungeon, dug out by Emerson's men at stage 3."
+  - id: room:foundation_pit
+    name: Foundation pit
+    outline: [[-1664, 1152], [-256, 1152], [-256, 2048], [-1664, 2048]]
+    floor: -640
+    ceiling: -128
+    theme: theme:foundation
+    beams:
+      - path: [[-1664, 1792], [-256, 1792]]
+        width: 32
+        depth: 48
+        bottom: -224
+        surface: {texture: 7gt003a, size: [64, 64]}
+        notes: "One of the hall's old floor joists, still in place."
+    ambient: 20
+    notes: "Under the great hall's west half, 1,408 by 896: where the hall's floor fell in. Wood golems grown out of the old beams; the scientists' strongbox. The rubble ramp climbs west and north to the pantry."
+  - id: room:gate
+    name: Keep gate
+    outline: [[-448, 0], [448, 0], [448, 768], [-448, 768]]
+    floor: 0
+    ceiling: 512
+    theme: theme:keep
+    walls:
+      - wall: west
+        panels:
+          - {id: door:smithy, offset: 304, length: 160, bottom: 0, height: 320, surface: {texture: ch1b1dl, size: [128, 256], fit: true}, notes: "The smithy's door (A4's house 4141, opens with the keep, m11.keep): Harmondale's ruined arched door until then, its oak door after."}
+          - {id: panel:sign_smithy, offset: 336, length: 96, bottom: 352, height: 96, surface: {texture: xnchalk, size: [64, 64], fit: true}, notes: "Above the smithy's door: Emerson's chalk mark (xnchalk), Harmondale's weapon sign from stage 2."}
+      - wall: east
+        panels:
+          - {id: panel:crest, offset: 320, length: 128, bottom: 160, height: 256, surface: {texture: ch1b1, size: [128, 256], fit: true}, notes: "Newcastle's arms (xkncscrst) from stage 2; a patch of fallen stone before."}
+    bands:
+      - {height: 64, surface: {texture: chb1s, size: [128, 256]}}
+    ambient: 18
+    notes: "Inside the gate from X3's Newcastle site (896 by 768): the smithy's door in the west wall, the arms in the east wall, the arch north into the great hall."
+  - id: room:great_hall
+    name: Great hall
+    outline: [[-1152, 896], [1152, 896], [1152, 3072], [-1152, 3072]]
+    floor: 0
+    ceiling: 768
+    theme: theme:keep_hall
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:banner_w, offset: 1664, length: 128, bottom: 256, height: 256, surface: {texture: ch1b1, size: [128, 256], fit: true}, notes: "Newcastle's banner (xkncsban) from stage 2; cracked ruined stone before."}
+          - {id: panel:banner_e, offset: 512, length: 128, bottom: 256, height: 256, surface: {texture: ch1b1, size: [128, 256], fit: true}, notes: The second banner.}
+          - {id: panel:la, offset: 1088, length: 128, bottom: 96, height: 128, surface: {texture: chb1, size: [128, 256]}, notes: The first syllable scratched into the stone (A3's m23.syllable_la).}
+    bands:
+      - {height: 64, surface: {texture: chb1s, size: [128, 256]}}
+      - {height: 384, surface: {texture: chb1, size: [128, 256]}}
+      - {height: 448, surface: {texture: chb1s, size: [128, 256]}}
+    platforms:
+      - {id: platform:roof_patch, rise: 16, surface: {texture: 7tws1h, size: [128, 128]}, outline: [[-416, 1856], [-224, 1760], [-64, 1840], [160, 1760], [416, 1824], [512, 2000], [448, 2176], [544, 2336], [480, 2496], [224, 2464], [64, 2592], [-160, 2496], [-416, 2528], [-544, 2400], [-480, 2240], [-576, 2048]], top_surface: {texture: 7tws1h, size: [128, 128]}, bottom_surface: {texture: 7tws1h, size: [128, 128]}, base: 752, notes: "Stage 2: the new roof under the old rafters (hidden by the load event while the keep stands unbuilt)."}
+      - {id: platform:woodpile, at: [-896, 2880], size: [384, 256], rise: 72, surface: {texture: 7gt003a, size: [64, 64]}, top_surface: {texture: 7gt003a, size: [64, 64]}, notes: "The woodpile: the old roof's beams, sawn and stacked against the west wall (gone at stage 2)."}
+      - {id: platform:rubble_ne, rise: 0, surface: {texture: ch1b1, size: [128, 256]}, outline: [[1152, 3072], [512, 3072], [512, 2816], [800, 2560], [1152, 2624]], top_surface: {texture: ch1b1, size: [128, 256]}, top_heights: [144, 48, 0, 0, 0], notes: "Rubble: the fallen corner's stone heaped up to the breach (gone at stage 2)."}
+      - {id: platform:rubble_se, rise: 0, surface: {texture: ch1b1, size: [128, 256]}, outline: [[1152, 896], [1152, 1344], [832, 1280], [704, 896]], top_surface: {texture: ch1b1, size: [128, 256]}, top_heights: [112, 0, 0, 0], notes: Rubble heaped into the south-east corner (gone at stage 2).}
+      - {id: platform:fallen_rafter, rise: 32, surface: {texture: 7gt003a, size: [64, 64]}, outline: [[-96, 2048], [256, 2304], [232, 2336], [-120, 2080]], top_surface: {texture: 7gt003a, size: [64, 64]}, notes: "A rafter fallen with the roof, lying where it landed (gone at stage 2)."}
+    ceiling_levels:
+      - outline: [[-416, 1856], [-224, 1760], [-64, 1840], [160, 1760], [416, 1824], [512, 2000], [448, 2176], [544, 2336], [480, 2496], [224, 2464], [64, 2592], [-160, 2496], [-416, 2528], [-544, 2400], [-480, 2240], [-576, 2048]]
+        ceiling: 896
+        edge: {texture: ch1b1, size: [128, 256]}
+        surface: {texture: 7gt003a, size: [64, 64], sky: true}
+        notes: "Where the roof fell in: a broken hole open to the sky over the bare tie beams (D-22.6, D-89); the stage-2 roof patch closes it."
+    beams:
+      - path: [[-1152, 1984], [1152, 1984]]
+        width: 32
+        depth: 32
+        bottom: 704
+        surface: {texture: 7gt003a, size: [64, 64]}
+        notes: "A tie beam across the hall, wall to wall, blackened."
+      - path: [[-1152, 2368], [1152, 2368]]
+        width: 32
+        depth: 32
+        bottom: 704
+        surface: {texture: 7gt003a, size: [64, 64]}
+        notes: "A tie beam across the hall, wall to wall, blackened."
+    ambient: 16
+    notes: "The great hall, 2,304 by 2,176, 768 high: at stage 0 the roof has fallen in over its middle (bare rafters), rubble lies in the east corners, the woodpile against the west wall, and the floor has broken through into the foundation pit west of the middle. From stage 2 the roof is mended, the hole floored over, the rubble gone, Newcastle's banners hang on the north wall. Doors: the gate (south), the pantry (west), the statue court (east, an open arch)."
+  - id: room:old_lab
+    name: Old laboratory
+    outline: [[256, -2560], [1664, -2560], [1664, -1280], [256, -1280]]
+    floor: -640
+    ceiling: -224
+    theme: theme:dungeon
+    walls:
+      - wall: north
+        panels:
+          - {offset: 1024, length: 128, bottom: 0, height: 256, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+          - {offset: 896, length: 128, bottom: 0, height: 256, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+          - {offset: 384, length: 128, bottom: 0, height: 256, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+          - {offset: 256, length: 128, bottom: 0, height: 256, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+      - wall: west
+        panels:
+          - {id: panel:ry, offset: 128, length: 128, bottom: 96, height: 128, surface: {texture: cwb, size: [128, 256]}, notes: "The fifth syllable, the last wall before the vault (A3's m23.syllable_ry)."}
+    platforms:
+      - {id: platform:workbench, at: [960, -2432], size: [640, 160], rise: 72, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: "The scientists' workbench against the south wall, their notebooks on it."}
+      - {id: platform:bench_w, at: [448, -2496], size: [256, 96], rise: 88, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7gt003a, size: [64, 64]}, notes: A bench of glassware against the south wall.}
+      - {id: platform:bench_e, at: [1472, -2496], size: [256, 96], rise: 88, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7gt003a, size: [64, 64]}, notes: A bench of glassware against the south wall.}
+    ambient: 16
+    notes: "The scientists' wrecked workshop, 1,408 by 1,280: bookshelves on the north wall, the workbench on the south, a cauldron in a corner; the way west to the vault door."
+  - id: room:pantry
+    name: Pantry
+    outline: [[-2816, 2560], [-1280, 2560], [-1280, 3328], [-2816, 3328]]
+    floor: 0
+    store: true
+    ceiling: 384
+    theme: theme:keep
+    platforms:
+      - {id: platform:larder, at: [-2048, 3232], size: [512, 128], rise: 64, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7gt003a, size: [64, 64]}, notes: "The larder bin against the north wall: 'Food. Fill pack?'"}
+    ambient: 20
+    notes: "The keep's pantry, 1,536 by 768 (a storeroom: sacks and barrels along the walls): the larder bin, the second syllable under a sack; the rubble ramp up from the foundation pit comes in through the south wall (walled up from stage 2)."
+  - id: room:rubble_ramp
+    name: Rubble ramp
+    path: [[-1792, 1408, -640], [-2560, 1408, -384], [-2560, 2432, 0]]
+    width: 320
+    floor: -640
+    ceiling: -256
+    theme: theme:foundation
+    ambient: 22
+    notes: "A ramp of fallen masonry from the pit up into the pantry: 768 west rising 256, then 1,024 north rising 384."
+  - id: room:stair_head
+    name: Head of the dungeon stair
+    outline: [[2304, 256], [2752, 256], [2752, 768], [2304, 768]]
+    floor: 0
+    slope: {to: -128, toward: south, steps: 4, riser: {texture: chb1s, size: [128, 256]}, tread: {texture: tfb09, size: [128, 128]}}
+    ceiling: 384
+    ceiling_slope: {to: 256, toward: south}
+    theme: theme:keep
+    ambient: 22
+    notes: Four steps down south from the statue court to where the old dungeon stair is choked with rubble.
+  - id: room:statue_court
+    name: Statue court
+    outline: [[1280, 896], [3072, 896], [3072, 2560], [1280, 2560]]
+    floor: 0
+    ceiling: 640
+    theme: theme:keep
+    walls:
+      - wall: east
+        panels:
+          - {id: door:training, offset: 880, length: 160, bottom: 0, height: 320, surface: {texture: ch1b1dl, size: [128, 256], fit: true}, notes: "The training hall's door (house 4142, m11.keep)."}
+          - {id: panel:sign_training, offset: 912, length: 96, bottom: 352, height: 96, surface: {texture: xnchalk, size: [64, 64], fit: true}}
+      - wall: north
+        panels:
+          - {id: door:chapel, offset: 1200, length: 160, bottom: 0, height: 320, surface: {texture: ch1b1dl, size: [128, 256], fit: true}, notes: "The chapel's door (house 4143, m22.dungeon)."}
+          - {id: panel:sign_chapel, offset: 1232, length: 96, bottom: 352, height: 96, surface: {texture: xnchalk, size: [64, 64], fit: true}}
+          - {id: door:counting, offset: 432, length: 160, bottom: 0, height: 320, surface: {texture: ch1b1dl, size: [128, 256], fit: true}, notes: "The counting room's door (house 4144, m22.dungeon)."}
+          - {id: panel:sign_counting, offset: 464, length: 96, bottom: 352, height: 96, surface: {texture: xnchalk, size: [64, 64], fit: true}}
+      - wall: south
+        panels:
+          - {id: panel:ra, offset: 832, length: 128, bottom: 96, height: 128, surface: {texture: chb1, size: [128, 256]}, notes: "The third syllable, on the wall beside the dungeon stair (A3's m23.syllable_ra)."}
+    bands:
+      - {height: 64, surface: {texture: chb1s, size: [128, 256]}}
+    platforms:
+      - {id: platform:statue_plinth, at: [2176, 1728], size: [256, 256], rise: 48, surface: {texture: chb1s, size: [128, 256]}, top_surface: {texture: tfb09, size: [128, 128]}, notes: The statue's plinth with its plaque.}
+      - {id: platform:well, at: [2752, 1216], size: [224, 224], rise: 56, surface: {texture: chb1s, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: "YOUR well: a stone curb round the water (the water only from stage 3, under the rubble cap)."}
+      - {id: platform:well_cap, at: [2752, 1216], size: [192, 192], rise: 24, surface: {texture: ch1b1, size: [128, 256]}, top_surface: {texture: ch1b1, size: [128, 256]}, base: 56, notes: The rubble that chokes the well until Emerson's diggers clear it (hidden at stage 3).}
+    ambient: 16
+    notes: "The statue court, 1,792 by 1,664: the statue of the Great Adventurers on its plinth in the middle, YOUR well in the south-east corner; the training hall's door (east), the chapel's and the counting room's (north), the dungeon stair (south)."
+  - id: room:sword_vault
+    name: Sword vault
+    outline: [[-1664, -2432], [-768, -2432], [-768, -1408], [-1664, -1408]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:pedestal, at: [-1216, -1920], size: [192, 192], rise: 72, surface: {texture: chb1s, size: [128, 256]}, top_surface: {texture: tfb09, size: [128, 128]}, notes: The pedestal in the middle of the vault.}
+      - {id: platform:sword_rack, at: [-1216, -1488], size: [512, 96], rise: 160, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: "A rack of tools nobody remembers how to use, against the north wall: the sword's box on it (chest:sword, D-90)."}
+    ambient: 12
+    notes: "The deepest room, 896 by 1,024: the pedestal, the scientists' rack and the vault's own hoard."
+  - id: room:vault_door
+    name: Vault door
+    outline: [[-640, -2112], [128, -2112], [128, -1728], [-640, -1728]]
+    floor: -640
+    ceiling: -224
+    theme: theme:dungeon
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:grille, offset: 512, length: 128, bottom: 64, height: 224, surface: {texture: xngrille, size: [128, 256], fit: true}, notes: The speaking grille beside the vault door.}
+    ambient: 18
+    notes: "A short passage, 768 by 384, to the vault's steel door with its speaking grille: 'What is the password?'"
+openings:
+  - id: open:cellar_lab
+    from: room:cellar
+    to: room:old_lab
+    link: link:cellar_lab
+    width: 384
+    height: 320
+  - id: open:court_stair
+    from: room:statue_court
+    to: room:stair_head
+    link: link:court_stair
+    width: 320
+    height: 320
+  - id: open:gate_hall
+    from: room:gate
+    to: room:great_hall
+    link: link:gate_hall
+    width: 384
+    height: 352
+    shape: arch
+    apex: 416
+  - id: open:hall_breach
+    from: room:great_hall
+    to: room:breach
+    width: 384
+    height: 320
+    shape: gable
+    apex: 448
+    sill: 224
+    reveal: {texture: ch1b1, size: [128, 256]}
+    notes: "The breach: a jagged gap where the hall's north-east corner fell, 224 over the floor."
+  - id: open:hall_court
+    from: room:great_hall
+    to: room:statue_court
+    link: link:hall_court
+    width: 512
+    height: 416
+    shape: arch
+    apex: 512
+  - id: open:hall_pantry
+    from: room:great_hall
+    to: room:pantry
+    link: link:hall_pantry
+    width: 160
+    height: 320
+  - id: open:hall_pit
+    from: room:great_hall
+    to: room:foundation_pit
+    in: floor
+    at: [-704, 1600]
+    size: [512, 384]
+    link: link:hall_pit
+  - id: open:lab_vaultdoor
+    from: room:old_lab
+    to: room:vault_door
+    link: link:lab_vaultdoor
+    width: 320
+    height: 320
+  - id: open:pit_ramp
+    from: room:foundation_pit
+    to: room:rubble_ramp
+    link: link:pit_pantry
+    width: 256
+    height: 320
+  - id: open:ramp_pantry
+    from: room:rubble_ramp
+    to: room:pantry
+    link: link:pit_pantry
+    width: 256
+    height: 320
+  - id: open:stair_cellar
+    from: room:dungeon_stair
+    to: room:cellar
+    link: link:stair_cellar
+    width: 320
+    height: 256
+  - id: open:stair_rubble
+    from: room:stair_head
+    to: room:dungeon_stair
+    link: link:stair_cellar
+    width: 320
+    height: 224
+  - id: open:vault
+    from: room:vault_door
+    to: room:sword_vault
+    link: link:vault
+    width: 320
+    height: 320
+    reveal: {texture: t5d1, size: [128, 256]}
+notes: "XD-13 Newcastle Keep: the keep at z 0, the foundations and the old dungeon at -640; x east, y north. Built as stage 0 (the ruin); the load events make stages 2 and 3. Written by output/studio_cal/xd13/tools/gen.py."

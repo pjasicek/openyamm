@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the first image, paint_mask_guide.png, as a locked alpha stencil. Preserve the 1536x2048 3:4 sheet, all ten existing projections, all margins, shapes, holes, positions and scales exactly. Three equal columns, four equal rows. Front back left / right top empty repeated twice. Recolor only the existing gray geometry. Upper half: paint unlit base colors of coiled brown leather straps with brass buckles and steel bit, fine hide grain and stitching, pale blue glowing runes along every strap and soft pale blue light on the bit. Match engravings and scrollwork to design_reference.png and palette to icon_x8.png. These two images are appearance references only. Lower half: identical five views as stencil material ID fills. Every leather pixel pure green #00FF00 including runic leather, every metal fitting and bit pure red #FF0000; gemstones/glass/enamel only pure black #000000. No gradients, texture, outlines or blended colors in masks. Transparent background and openings, fully empty third column of rows 2 and 4. No labels, borders, ground, cast shadows, AO, hot highlights, reflections or halo outside silhouette. Keep the exact low and foreshortened shapes in the stencil.\nCorrection: strictly trace the original guide\u2019s alpha for the material masks. Eliminate all green spill, haze and speckling from the gaps and margins. Render flat opaque solid index colors with crisp edges and transparent negative space. Keep all views precisely registered to the guide.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "e5cd22f6c7bc9c58bace998a718616bd84ffed2dd219c9d551fe042aa3eca7e2"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "b58baa969b505318a61a8eba0e6c4d7da68c15d8c63b4df9cde4fb21c8a8626f"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "09cf99e085c208f4a81ec0e2ea87acada1c03cdbea07cd3ba21d1fb314feecd3"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91f-348f-74a2-9eb0-38a57507953e/exec-cd2c8c99-0c27-4947-a89b-b2000a1be39d.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

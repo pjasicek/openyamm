@@ -1,0 +1,162 @@
+<!doctype html><html><head><meta charset="utf-8"><title>D1 Castleview Vale mock-ups</title>
+<style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #7a3b12; --card: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 1800px; padding: 28px 32px 36px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 18px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 1720px; }
+.grid { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept img { width: 100%; display: block; border-radius: 4px; }
+.concept p { margin: 6px 0 4px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 3px 7px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+ul { margin: 4px 0; padding-left: 18px; } li { margin: 3px 0; font-size: 13.5px; }
+.inset img { width: 100%; display: block; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.small { font-size: 12.5px; color: var(--muted); }
+code { font-size: 12.5px; }
+</style></head><body><main>
+<h1>D1 Castleview Vale: MU-3 plan and MU-4 concepts</h1>
+<div class="sub">Phase 3 review (A6, 2026-11-20). The Darkside's hub and its south-west corner (MU-1): the world rim on the
+west and south, D6 north by a long mountain road (x 64), D2 east by the road at y 60. <b>Castleview</b>, A4's 44 doors
+inside low grey walls with one gate, sits in a bend of the Vale Water; outside the gate the travel pyramid, Joe, Justine
+and the gremlins' burrow; north the Dark Grove and its rope into the sky, the Western Tower by the rim, the gemsmiths
+under the mine hills; south-west <b>Castle Kalindra</b> as a ghost on its rise, the river falling off the world below it.
+No geometry until a decider approves this. Source: <code>devdocs/xeen/briefs/d1/L1/</code> (Map Studio's schema,
+<code>oymap validate</code>: no issues).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_d1.svg"></div>
+ <div class="card" style="margin-top:12px"><div class="legend">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival / entrance</span>
+<span><i class="sw" style="background:#111"></i>dungeon door, rope, exit</span>
+<span><i class="sw" style="background:#7a1f6a;border-radius:50%"></i>place (well, shrine, sign)</span>
+<span><i class="sw" style="background:#1d5fa8;border-radius:50%"></i>person</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#b1361e"></i>camp</span>
+<span><i class="sw" style="background:#c06000"></i>landmark</span>
+<span><i class="sw" style="background:#5a4630;border-radius:50%"></i>fork, signpost</span>
+<span><i class="sw" style="background:rgba(208,48,42,.25);border-color:#d0302a"></i>encounter area</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px);border-color:#2e8b57"></i>quiet / kept clear</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.6"></i>MU-4 camera</span>
+<span><i class="sw" style="background:#6e3b2a"></i>service (yellow dot: door)</span>
+<span><i class="sw" style="background:#8a6a52"></i>residence</span>
+<span><i class="sw" style="background:#e8e8ff;border-color:#7a5aa8"></i>ghost castle</span>
+</div>
+ <div class="small" style="margin-top:6px">128 x 128 cells of 512 units, north up; dashed white: the playable square (19-109).
+ The world rim at x 24 and y 104 (a cliff above the stars). Encounter areas: red gremlins, purple arachnoids, orange crawlers.</div></div>
+ <div class="two" style="margin-top:12px">
+ <div class="card inset"><h2 style="margin-top:0">Castleview (3x)</h2>
+  <img src="plan_d1.svg#svgView(viewBox(380,336,284,236))">
+  <p class="small">A4's d1.yml: 16 services (4451-4466), Lucio's Jetty 4901 on the west wall's top (D-5.3, opens with
+  m30.done), the mirror 4467 in the square, 27 residences (jail, library, Public Storage, four Drawkcab cells, 20 houses):
+  44 doors in about 400 cells. Tavern and Adventurer's Inn first inside the gate, smith and armourer across Gate Street,
+  magic and alchemist side by side on the square, five guilds in a row, the temple raised in the south-east corner,
+  Kramer's coach yard inside the east wall; Ellinger's round tower in the north-east quarter; the sewer hatch by the
+  square. Grey t06 boulder-stone houses, t09 ashlar for civic buildings and walls (MU-5 Darkside kit).</p></div>
+ <div class="card inset"><h2 style="margin-top:0">Outside the gate (3x)</h2>
+  <img src="plan_d1.svg#svgView(viewBox(436,240,272,148))">
+  <p class="small">The pyramid's knoll west of the road; the first fight about 2,600 from it (gremlins in the old
+  trenches, E1), MAPS asks for 3,000 or less. Joe's stall and sign on the road, Justine's camp to the west, the notice by
+  the gate, the court burrow under the wall east of it: all reachable without a pass. The gorge east of the walls with
+  the cut rope bridge and the burned mill; the East Bridge (intact) is the way round until the court is won.</p></div>
+ </div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 (a) arrival: from the travel pyramid</h2>
+  <img src="raw/d1_arrival_v1.png">
+  <p>Camera beside the pyramid at (61, 38), 180 above the knoll, looking south-east at the north wall: Castleview's low
+  slate-stone walls and gatehouse with the besiegers' empty trenches and stakes before them, Ellinger's tower above the
+  roofs, the mill gorge with its cut rope bridge and the burned mill on the left; amber sky, small pale sun
+  (A3's m14.arrival text). Codex, from <code>blockout_arrival.png</code>.</p></div>
+ <div class="card concept" style="margin-top:12px"><h2 style="margin-top:0">MU-4 (b) signature: the vale from the south bank</h2>
+  <img src="raw/d1_signature_v1.png">
+  <p>Camera on the prayer shrine's knoll at (52, 90), looking north over the Vale Water: Castle Kalindra as a translucent
+  ghost on its rise (left), the Dark Grove's great tree with its rope into the sky (middle distance), Castleview's walls
+  (right). <b>Why this view:</b> it puts the map's three promises in one look (the castle to restore, the way up, the
+  hub), from a quiet bank an Act III party reaches early by the East Bridge and the south lane, and the ghost castle
+  reads best against the river and the amber sky.</p></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Against MAPS (D1 sheet, ROADMAP 5.1)</h2>
+ <table>
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th><th></th></tr>
+ <tr><td>Hostiles at load (A2's slots, means)</td><td class="n">135</td><td>135, none in the town buffer</td><td class="ok">ok</td></tr>
+ <tr><td>Encounter areas (big cells of 4,096)</td><td class="n">5 (6.4, 6.5, 9.9, 12.9, 6.8)</td><td>3-8 of 6-30</td><td class="ok">ok</td></tr>
+ <tr><td>Spawn markers + placed</td><td class="n">47 + 10</td><td>45-70</td><td class="ok">ok</td></tr>
+ <tr><td>Quiet land (outside encounter areas)</td><td class="n">62 %</td><td>at least a third</td><td class="ok">ok</td></tr>
+ <tr><td>POIs, named + generic (chained 400 merge)</td><td class="n">44 (32 + 12)</td><td>40-50</td><td class="ok">ok</td></tr>
+ <tr><td>POIs with the 17 service doors (D-11.4)</td><td class="n">61</td><td>40-50?</td><td class="warn">ask</td></tr>
+ <tr><td>Outdoor chests with a reason</td><td class="n">7 (+18 puzzle)</td><td>4-10</td><td class="ok">ok</td></tr>
+ <tr><td>Dungeon entrances</td><td class="n">6 (7 doors) + rope to D7</td><td>3-6</td><td class="ok">ok</td></tr>
+ <tr><td>Relief</td><td class="n">800-3,600</td><td>at least 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>Roads and lanes on land</td><td class="n">3.9 %</td><td>1-4 %</td><td class="warn">top</td></tr>
+ <tr><td>First fight: pyramid / D6 edge / D2 edge</td><td class="n">2,560 / 4,375 / 4,222</td><td>pyramid &le; 3,000; edges 2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>Nearest area edge: pyramid / D6 / D2</td><td class="n">2,459 / 2,048 / 2,560</td><td>&ge; 2,000</td><td class="ok">ok</td></tr>
+ <tr><td>Town arrivals (square, temple, stables, Kalindra) to an area</td><td class="n">7,680+</td><td>town buffer 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>Houses drawn vs d1.yml</td><td class="n">50 / 50 + mirror</td><td>44 in town, 6 outside</td><td class="ok">ok</td></tr>
+ <tr><td>Obelisk; permanent device</td><td class="n">1; Well of Might</td><td>1; at least 1</td><td class="ok">ok</td></tr>
+ </table>
+ <table style="margin-top:8px">
+ <tr><th>Area</th><th>Monsters (A2's rows)</th><th class="n">At load</th></tr>
+ <tr><td>E1 Siege lines</td><td>Gremlins 14, Saboteurs 18, Guards 22; 4 Saboteurs placed at the cut bridge</td><td class="n">27</td></tr>
+ <tr><td>E2 Besiegers' camp</td><td>Gremlins; 7 placed round the wrecked trebuchet</td><td class="n">24</td></tr>
+ <tr><td>E3 Dark Grove + west heath</td><td>Arachnoids 14/18/24; Electrapedes 20 by the great tree</td><td class="n">46</td></tr>
+ <tr><td>E4 Centipede meadows</td><td>Scorpions 16, Electrapedes 20, Lava Roaches 26</td><td class="n">25</td></tr>
+ <tr><td>E5 Gemstone foothills</td><td>Crawlers</td><td class="n">13</td></tr>
+ <tr><td colspan="2">Yog's Sardaj (12, Yog 34): peaceful until q-d12.hostile or camp_burned</td><td class="n">(12)</td></tr>
+ </table></div>
+</div></div>
+<div class="two" style="margin-top:16px">
+ <div class="card"><h2 style="margin-top:0">A3's hooks on D1, and where they stand</h2>
+ <table><tr><th>Hook</th><th>What</th><th>Where (cells)</th></tr>
+ <tr><td><code>m14.arrival</code></td><td>first arrival at the pyramid</td><td>entrance castleview_pyramid (61, 38): a one-shot timer</td></tr>
+<tr><td><code>m14.gate / gate_open</code></td><td>Castleview's gate (the pass, or court_won)</td><td>the north gatehouse (63, 44); opens from inside always</td></tr>
+<tr><td><code>m7.pyramid_d1</code></td><td>the travel pyramid</td><td>its knoll west of the gate road (60, 36)</td></tr>
+<tr><td><code>m17.tower_door</code></td><td>Ellinger's Tower's door</td><td>north-east quarter inside the walls (70, 47)</td></tr>
+<tr><td><code>m17.runaway_chest</code></td><td>the chest that runs away</td><td>the town's south-west corner yard (54, 62)</td></tr>
+<tr><td><code>m19.ghost_castle</code></td><td>Kalindra's gate while out of phase</td><td>the gate on its rise SW of town (44, 70), ghost model to stage 1</td></tr>
+<tr><td><code>obelisks.d1</code></td><td>the obelisk (DIG)</td><td>the rim headland west of Kalindra (27, 76)</td></tr>
+<tr><td><code>q-c24.joes_sign</code></td><td>Joe's sign</td><td>over his stall on the road outside the gate (66, 41)</td></tr>
+<tr><td><code>q-d1.gate_notice</code></td><td>the Mayor's notice</td><td>beside the gate, outside (62, 43)</td></tr>
+<tr><td><code>q-d1.court_entrance</code></td><td>DD-04 burrow</td><td>under the wall east of the gate, outside (68, 43)</td></tr>
+<tr><td><code>q-d1.sabotage</code></td><td>broken bridge, burned mill</td><td>the rope bridge over the mill gorge (81, 43), the mill on its west bank (79, 46); BModel groups mended on court_won</td></tr>
+<tr><td><code>q-d12.sardaj / camp</code></td><td>Yog and the Sardaj tents</td><td>the camp on the vale's north edge east of the gorge (88, 25); peaceful at load</td></tr>
+<tr><td><code>q-d2.jail_window</code></td><td>the jail's barred back window</td><td>the alley between the jail and the north wall (68, 45)</td></tr>
+<tr><td><code>q-d3.reger_door / word / wrong</code></td><td>Brother Reger's door</td><td>his cell on the quiet south bank near the rim (58, 96)</td></tr>
+<tr><td><code>q-d3.drawkcab_sign</code></td><td>sign over the monks' four cells</td><td>the back lane behind the guilds (59, 61)</td></tr>
+<tr><td><code>q-d4.number_chests</code></td><td>nine numbered chests</td><td>yard west of Public Storage 4470 (62, 62)</td></tr>
+<tr><td><code>q-d4.letter_chests</code></td><td>nine lettered chests</td><td>yard east of 4470 (66, 62)</td></tr>
+<tr><td><code>q-d6.tower_rope</code></td><td>the heretics' rope</td><td>the Western Tower's north wall (31, 32), event text of D-9.3</td></tr>
+<tr><td><code>q-d9.melons_south</code></td><td>three wild melons among the nests</td><td>the centipede meadows (82, 91), inside E4</td></tr>
+<tr><td><code>q-d9.melon_field</code></td><td>one melon at Pip's field</td><td>the field between the south wall and the river (64, 67)</td></tr>
+ </table></div>
+ <div class="card"><h2 style="margin-top:0">Choices, and questions for the decider</h2>
+ <ul>
+ <li><b>POI count with the hub's doors.</b> 44 without service doors (MAPS' "named 20 + 20-30 generic"); 61 if D-11.4's
+ census counts Castleview's 17 service doors. Options: count devices only for a hub (as X5 did), or cut about 11 generic
+ devices (signposts, the west well, the bottle, the wayside shrine, the Edge Stone, the falls).</li>
+ <li><b>One gate.</b> MAPS' sketch has a south gate; the plan has only the north gate so that A3's single m14 gate hook
+ is the only way in. A south postern would need the same hook. The gate must open from inside unconditionally
+ (temple, stables, Town Portal and mirror set parties down inside).</li>
+ <li><b>The Vale Water rises inside D1</b> (the Sardaj Falls) and falls off the south rim. MU-1 paints one river through
+ D1 and D2; only the road's crossing (y 60) is agreed with D2. If D2 wants the river to come in from the east, the
+ crossing y must be fixed for both maps.</li>
+ <li><b>Hector's Diamond Works</b> stands in the gemsmiths' row with the other three (the source has him in B3, the
+ north-east): d1.yml groups the four as gemsmith#1-4, which the studio places in one district.</li>
+ <li><b>The broken bridge</b> is the rope bridge over the mill gorge east of the walls (visible from the pyramid, as
+ m14.arrival says); the stone East Bridge stays whole so D2 and the Sardaj lands are reachable before the court is won.</li>
+ <li><b>Falista's hut</b> (MAPS, source A4) is in the plan as a device (no house in d1.yml): spell points with the
+ Clouds award "Restored Falista". MAPS' "Well of Luck" (sketch) is the sheet's "+2 permanent Might" well.</li>
+ <li><b>The Dark Grove rope to D7:</b> its condition and D7's arrival are D7's owner's; until then a message.</li>
+ <li>The Sardaj (12) are peaceful at load and not in the 135; hostile they add 12 near the north edge.</li>
+ </ul></div>
+</div>
+</main></body></html>

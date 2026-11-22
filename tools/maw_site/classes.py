@@ -6,8 +6,9 @@
 Generated from the tables a MAW game loads (maw_tables.py applies the ruleset's patches): the classes and their
 lines (class_extra.txt kind and step), HP and SP (class_multipliers.txt, with MawClassRules' fixed pools), mastery
 caps (class_skills.txt), starting skills (class_starting_skills.txt), the race rules (rulesets/maw/content/
-race_skills.yml and MawClassRules.cpp's race tables). Elder and Ultimate follow MawClassRules::promotionFactor: a final
-class whose kind's promotion is done on two worlds takes floor(per level × 1.25), on three floor(× 1.5).
+race_skills.yml and MawClassRules.cpp's race tables). Elder, Ultimate and Supreme follow MawClassRules::promotionFactor:
+a final class whose kind's promotion is done on two worlds takes floor(per level × 1.25), on three floor(× 1.5), on
+any four of the five floor(× 1.75); the fifth adds nothing.
 
 Promotions: promotions.yml says what each Enroth, Antagarich and Jadame quest is; MAW's rulesets/maw/data/
 promotions.yml says which quest bits count as each kind's promotion on each world (MawPromotions: any of a world's
@@ -15,6 +16,9 @@ bits, MM8's award or second bit), and for MAW's own kinds which first-tier bits 
 for a line when its bits (or award) are among the line's. Chedian's promotions come from the MM9 guide: MM9's quests
 promote the classes MM9.Promotions names (worlds/mm9/events/common/mm9_common.lua), and MAW counts a quest for a line
 when 90000 + its done key (worlds/mm9/dialogue/promotions.yml) is in the line's `mm9` bits (final) or `mid` bits.
+Xeen's come from the Xeen guide (Xeen.Promotions, worlds/xeen/events/common/xeen_common.lua): MAW counts a Xeen quest
+for a line when one of its quest bits (worlds/xeen/events/common/xeen_quests.lua XeenQuests' "<quest>.<step>" bits) is
+in the line's `xeen` bits (final) or `mid` bits.
 The hand-kept notes are in class_notes.yml.
 """
 
@@ -33,7 +37,7 @@ import teachers  # noqa: E402
 
 MASTERY_LETTERS = {'B': 'N', 'E': 'E', 'M': 'M', 'G': 'G', '-': '', '': ''}
 WORLD_OF = {'Enroth': 'mm6', 'Antagarich': 'mm7', 'Jadame': 'mm8'}
-CONTINENT_ORDER = ['Enroth', 'Antagarich', 'Jadame', 'Chedian']
+CONTINENT_ORDER = ['Enroth', 'Antagarich', 'Jadame', 'Chedian', 'Xeen']
 GROUP_ORDER = {'classic': 0, 'new': 1, 'racial': 2, 'other': 3}
 RACES = {0: 'Human', 1: 'Vampire', 2: 'Dark Elf', 3: 'Minotaur', 4: 'Troll', 5: 'Dragon', 6: 'Undead', 7: 'Elf',
          8: 'Goblin', 9: 'Dwarf', 10: 'Zombie'}
@@ -237,6 +241,39 @@ def mm9_done_bits() -> dict[str, int]:
     return bits
 
 
+# The Xeen guide's class names that class_extra.txt spells otherwise.
+XEEN_CLASS_NAMES = {'priestlight': 'priestofthelight', 'priestdark': 'priestofthedark'}
+XEEN_QUEST_BITS = T.WORLDS / 'xeen' / 'events' / 'common' / 'xeen_quests.lua'
+
+
+def xeen_quest_bits() -> dict[str, list[int]]:
+    """Xeen quest id -> the quest bits of its steps (XeenQuests' ["<quest>.<step>"] = bit table)."""
+    bits = defaultdict(list)
+    for quest, bit in re.findall(r'^\s*\["([^".]+)\.[^"]*"\] = (\d+),$', XEEN_QUEST_BITS.read_text(), re.M):
+        bits[quest].append(int(bit))
+    return bits
+
+
+def xeen_promotions(class_by_name: dict[str, dict], guide: dict, counted: set[int]) -> list[dict]:
+    """The Xeen guide's promotions, each with the quest bits MAW counts (those of its quests in `counted`)."""
+    quest_bits = xeen_quest_bits()
+    result = []
+    for promotion in guide.get('promotions') or []:
+        at = (promotion.get('at') or [{}])[0]
+        promotes = {}
+        for source, target in promotion.get('classes') or []:
+            source_key, target_key = (XEEN_CLASS_NAMES.get(key(n), key(n)) for n in (source, target))
+            if source_key in class_by_name and target_key in class_by_name:
+                promotes[class_by_name[source_key]['name']] = class_by_name[target_key]['name']
+        bits = sorted({bit for quest in promotion.get('quests') or [] for bit in quest_bits.get(quest, [])} & counted)
+        task = (promotion.get('note') or '').split(': ', 1)[-1]
+        result.append({'id': f"xeen_{promotion['key']}", 'continent': 'Xeen', 'column': 'xeen',
+                       'giver': at.get('name') or '', 'map': at.get('map', ''), 'poi': at.get('poi', ''),
+                       'task': f"{promotion.get('path', '')} promotion: {task}" if task else '',
+                       'promotes': promotes, 'bits': bits})
+    return result
+
+
 def chedian_promotions(class_by_name: dict[str, dict]) -> list[dict]:
     guide = teachers.mm9_guide()
     done_bits = mm9_done_bits()
@@ -251,14 +288,15 @@ def chedian_promotions(class_by_name: dict[str, dict]) -> list[dict]:
         for source, target in promotion.get('classes') or []:
             if key(source) in class_by_name and key(target) in class_by_name:
                 promotes[class_by_name[key(source)]['name']] = class_by_name[key(target)]['name']
-        result.append({'id': f"chedian_{key(promotion['to'])}", 'continent': 'Chedian',
+        result.append({'id': f"chedian_{key(promotion['to'])}", 'continent': 'Chedian', 'column': 'mm9',
                        'giver': (at.get('name') or '').replace('|', ' / '), 'map': at.get('map', ''),
                        'poi': at.get('poi', ''), 'task': task, 'promotes': promotes,
-                       'mm9_promotion': promotion['to'], 'bit': done_bits.get(promotion['to'], 0)})
+                       'mm9_promotion': promotion['to'], 'bits': [done_bits.get(promotion['to'], 0)]})
     return result
 
 
-def build() -> dict:
+def build(xeen: dict | None = None) -> dict:
+    """xeen: the Xeen guide's data (tools/maw_site/build_site.py loads it); its promotions are added when given."""
     rows = class_rows()
     by_name = {key(r['name']): r for r in rows}
     mults = multipliers()
@@ -267,7 +305,10 @@ def build() -> dict:
     notes = yaml.safe_load((HERE / 'class_notes.yml').read_text())
     maw_kinds = yaml.safe_load((T.MAW / 'data' / 'promotions.yml').read_text())['kinds']
     quests = promotion_quests(by_name)
-    chedian = chedian_promotions(by_name)
+    world_promotions = chedian_promotions(by_name)
+    if xeen:
+        counted = {bit for rule in maw_kinds.values() for bit in (rule.get('xeen') or []) + (rule.get('mid') or [])}
+        world_promotions += xeen_promotions(by_name, xeen, counted)
 
     classes = []
     for kind, info in notes['kinds'].items():
@@ -286,6 +327,7 @@ def build() -> dict:
             if member['step'] == 2 and rule:
                 tier['elder'] = {'hp': int(m['hp'] * 1.25), 'sp': int(m['sp'] * 1.25)}
                 tier['ultimate'] = {'hp': int(m['hp'] * 1.5), 'sp': int(m['sp'] * 1.5)}
+                tier['supreme'] = {'hp': int(m['hp'] * 1.75), 'sp': int(m['sp'] * 1.75)}
             tiers.append(tier)
         first = mults[members[0]['id']]
         if kind == 11:
@@ -335,10 +377,10 @@ def build() -> dict:
             entry['by_quest'] = {s: t for s, t in quest['promotes'].items() if s in names}
             entry['counts'] = counts_final or counts_mid
             promotions.append(entry)
-        for promotion in chedian:
+        for promotion in world_promotions:
             mine = {s: t for s, t in promotion['promotes'].items() if s in names}
-            counts_final = bool(rule) and promotion['bit'] in set(rule.get('mm9') or [])
-            counts_mid = bool(rule) and promotion['bit'] in set(rule.get('mid') or [])
+            counts_final = bool(rule) and bool(set(promotion['bits']) & set(rule.get(promotion['column']) or []))
+            counts_mid = bool(rule) and bool(set(promotion['bits']) & set(rule.get('mid') or []))
             if not (mine or counts_final or counts_mid):
                 continue
             if counts_final:
@@ -346,7 +388,8 @@ def build() -> dict:
                 tier = ' / '.join(r['name'] for r in members if r['step'] == 2)
                 outside = sorted({t for t in mine.values() if t not in names})
                 if outside:
-                    # MM9's Wizard-to-Lich quest makes a Lich (another line) but counts as this line's promotion.
+                    # MM9's Wizard-to-Lich quest (and Xeen's Sandro) makes a Lich (another line) but counts as this
+                    # line's promotion.
                     tier = f'{" / ".join(outside)} (counts for {tier})'
             elif counts_mid:
                 step = 'middle'
@@ -358,7 +401,10 @@ def build() -> dict:
                 tier = ' / '.join(sorted(set(mine.values())))
             promotions.append({**{k: promotion[k] for k in ('id', 'continent', 'giver', 'map', 'poi', 'task')},
                                'step': step, 'tier': tier, 'by_quest': mine,
-                               'counts': counts_final or counts_mid})
+                               'counts': counts_final or counts_mid,
+                               # The giver's marker, for the guide's Map buttons and links.
+                               **({'at': {'map': promotion['map'], 'poi': promotion['poi']}}
+                                  if promotion['map'] and promotion['poi'] else {})})
         promotions.sort(key=lambda p: (CONTINENT_ORDER.index(p['continent']), p['step'] != 'middle', p['id']))
 
         start = starting.get(key(members[0]['name']), {'free': [], 'choice': []})
@@ -385,6 +431,7 @@ def build() -> dict:
         'races': race_rules(),
         'elder': {'factor': 1.25, 'worlds': 2, 'rounding': 'down'},
         'ultimate': {'factor': 1.5, 'worlds': 3, 'rounding': 'down'},
+        'supreme': {'factor': 1.75, 'worlds': 4, 'of_worlds': 5, 'rounding': 'down'},
         'mastery_letters': {'N': 'Novice', 'E': 'Expert', 'M': 'Master', 'G': 'Grandmaster', '': 'cannot learn'},
     }
 

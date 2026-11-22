@@ -1,0 +1,175 @@
+# Xeen side quest Q-C6, Ghosts of Winterkill (X5), from a new game in Winterkill's square. The signboard spells the
+# loop ("1) Destroy all ghosts. 2) Bang southern gong. 3) Re-visit Randon."); Mayor Randon by the gongs starts it; the
+# southern gong rung over a live wave only mocks; then three times: the wave destroyed round the town's streets (the
+# map's kill timer sets its `laid` bit), the southern gong (q-c6.gong: rung), Randon (Spirit Bones, then Polter-Fools,
+# then Ghost Riders; the next wave appears on his word). At the end: Ghostslayers Extraordinaire (award 405), 2,000 gold;
+# the northern gongs twice each and the old well (+25 Might), and the cursed chest opens. Outdoors the party is placed
+# at Randon (PLAYBOOK.md section 2); the waves are fought on foot.
+# Route: devdocs/xeen/briefs/x5/L4/playtest.yml (Winterkill). Quest logic: source/quests/q-c6.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c6_ghosts_of_winterkill.yml --scenario-no-color
+id: xeen.side_quests.q-c6
+title: "Xeen Q-C6: three waves of ghosts, the southern gong and Mayor Randon"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 26, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 26, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 26, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 26, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112120, 112121, 112122, 112123, 112124, 112125]}
+  - assert: {actor_count: {monster_id: 11241, hostile: true, min: 6}}
+  # The signboard by the gongs.
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(67); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "2) Bang southern gong."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Mayor Randon (actor 120, NPC 4502): Ghosts (Q-C6 started).
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 120}
+  - assert:
+      dialog: {active: true, source_id: 4502}
+  - select_topic: {match_label: "Ghosts"}
+  - assert:
+      dialog: {text_contains: "driven out by a curse that brought the spirits of the dead back to life"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112120]}
+  # The southern gong over a live wave: only a ghost's laugh.
+  - play_lua: {source: "click(149); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "You'll never win this game of war."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_clear: [112125]}
+  # Round Winterkill's streets and square: wave 1's ghosts destroyed.
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12288, y: 11520, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -10854, y: 11981, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9011, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9984, y: 10496, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12493, y: 9933, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 8294, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -15053, y: 10138, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -16794, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -14950, y: 13414, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12698, y: 12902, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "local n = clear_hostiles(6000); log('cleared ' .. n); wait(7)"}
+  - assert: {qbit_set: [112122]}
+  - play_lua: {source: "click(149); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Mayor Randon will want to hear of it."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [112125]}
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 120}
+  - assert:
+      dialog: {active: true, source_id: 4502}
+  - select_topic: {match_label: "Ghosts"}
+  - assert:
+      dialog: {text_contains: "now the spirits of Polter Fools have moved in"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "wait(5); if experience(0) - recall('xp') < 2000 then error('Randon paid ' .. (experience(0) - recall('xp'))) end"}
+  - assert: {qbit_set: [112126]}
+  - assert: {qbit_clear: [112125]}
+  - assert: {actor_count: {monster_id: 11260, hostile: true, min: 6}}
+  # Round Winterkill's streets and square: wave 2's ghosts destroyed.
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12288, y: 11520, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -10854, y: 11981, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9011, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9984, y: 10496, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12493, y: 9933, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 8294, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -15053, y: 10138, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -16794, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -14950, y: 13414, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12698, y: 12902, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "local n = clear_hostiles(6000); log('cleared ' .. n); wait(7)"}
+  - assert: {qbit_set: [112123]}
+  - play_lua: {source: "click(149); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Mayor Randon will want to hear of it."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 120}
+  - assert:
+      dialog: {active: true, source_id: 4502}
+  - select_topic: {match_label: "Ghosts"}
+  - assert:
+      dialog: {text_contains: "now the spirits of Ghost Riders have moved in"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "wait(5)"}
+  - assert: {qbit_set: [112127]}
+  - assert: {actor_count: {monster_id: 11263, hostile: true, min: 6}}
+  # Round Winterkill's streets and square: wave 3's ghosts destroyed.
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12288, y: 11520, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -10854, y: 11981, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9011, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -9984, y: 10496, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12493, y: 9933, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 8294, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -15053, y: 10138, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -16794, y: 11469, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -14950, y: 13414, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -12698, y: 12902, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -13824, y: 11264, z: 992, z_tolerance: 700, radius: 192, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "local n = clear_hostiles(6000); log('cleared ' .. n); wait(7)"}
+  - assert: {qbit_set: [112124]}
+  - play_lua: {source: "click(149); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Mayor Randon will want to hear of it."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "remember('gold', gold())"}
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 120}
+  - assert:
+      dialog: {active: true, source_id: 4502}
+  - select_topic: {match_label: "Ghosts"}
+  - assert:
+      dialog: {text_contains: "I dub thee Ghostslayers Extraordinaire."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "if gold() - recall('gold') ~= 2000 then error('Randon paid ' .. (gold() - recall('gold')) .. ' gold') end"}
+  - assert: {qbit_set: [112121]}
+  - assert: {qbit_clear: [112125]}
+  - assert: {award_acquired: [{id: 405, member_index: 0}]}
+  - set_pose: {map: xeen_x5.odm, x: -14029, y: 10445, z: 992, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 120}
+  - assert:
+      dialog: {active: true, source_id: 4502}
+  - select_topic: {match_label: "Ghosts"}
+  - assert:
+      dialog: {text_contains: "Always a pleasure to see you, Ghostslayers."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The free town: the gong only booms; the northern gongs twice each, then the old well; the cursed chest opens.
+  - play_lua: {source: "click(149); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The gong booms over an empty, honest town."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua:
+      source: |
+        click(147); wait(0.3); click(147); wait(0.3); click(148); wait(0.3); click(148); wait(0.3)
+        status()
+        click(68); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "+25 Might", 1, true) then error("the old well said: " .. seen) end
+        click(70); wait(1)
+        take_chest(); close()

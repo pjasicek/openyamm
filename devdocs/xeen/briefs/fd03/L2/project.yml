@@ -1,0 +1,43 @@
+format: 0
+id: xeen_fd03
+name: Darkstone Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: FD-03
+units: {plan_grid: 512}
+extent: {footprint_cells: [8, 8], climbs: n}
+map_stats:
+  id: 9181
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 43
+  environment: stoneroom
+  lock_difficulty: 20
+  slots: []
+neighbours:
+  - id: exit:p5_roof
+    to: xeen_p5.blv
+    kind: door
+    arrival: entrance:fd03_roof
+    arrival_hint: "P5's entrance:fd03_roof (4608, -3968, 0) facing north, out of the stair house's door."
+    notes: "P5 (A5) is not installed: the hatch is sealed with a message (wiring evt:hatch). P5's door:fd03 names this map's arrival entrance:p5_stair: (224, 1904, 3072) facing west."
+  - id: exit:x5_door
+    to: xeen_x5.odm
+    kind: door
+    arrival: [-4608, 2560, 1504]
+    arrival_hint: "On X5's Darkstone rock before the tower door: entrance:fd03_door (-4608, 2560, 1504) facing north (512), A6's corrected point (the cell it shares with entrance:p5_fall)."
+    direction: 90
+    notes: "X5 installed (A6). The arrival is X5's entrance:fd03_door's coordinates until the name is in X5's scene (DD-16's pattern; the lead switches to the name). X5's door:fd03 (thing:darkstone, m41.tower_door) names this map's arrival entrance:x5_door: (0, 1792, 0) facing south."
+qbits:
+  ground_l1: 118120
+  ground_l2: 118121
+  ground_l3e: 118123
+  ground_l3w: 118122
+  seal_broken: 111820
+  vault_open: 118124
+notes: "Xeen design brief, level L2: FD-03 Darkstone Tower (see L4/NOTES.md)."

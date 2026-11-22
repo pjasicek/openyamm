@@ -1,0 +1,1538 @@
+# Written by output/studio_cal/x7/tools/gen_walk.py from the built map (A5, 2026-11-20).
+id: xeen.x7.walk
+title: 'X7 Mount Firestone: every device, the hooks, the sealed doors and the north'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x7.odm
+- assert:
+    map: xeen_x7.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: -17920
+      y: 16384
+      radius: 128
+- note: Up the north road to the dwarves' watch
+- walk_to:
+    x: 2355
+    y: -18432
+    z: 1920
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1229
+    y: -15565
+    z: 1960
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 307
+    y: -12595
+    z: 2040
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -205
+    y: -10240
+    z: 2080
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Through the watch's gate
+- walk_to:
+    x: 819
+    y: -9472
+    z: 2112
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: To the pay chest by the south wall
+- walk_to:
+    x: 2253
+    y: -10445
+    z: 2112
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The pay chest: A3''s x7.watch_note ("The dragons came south ...") and the chest'
+- execute_event:
+    id: 15
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: Out by the watch's gate and down to the slope fork, along Sablewing's lane
+- walk_to:
+    x: 922
+    y: -9472
+    z: 2112
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -307
+    y: -10035
+    z: 2093
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 307
+    y: -12595
+    z: 2040
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1229
+    y: -15360
+    z: 1965
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 3072
+    y: -14592
+    z: 2016
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 4813
+    y: -13824
+    z: 1984
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The slope fork's signpost names its four roads
+- execute_event:
+    id: 68
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Sablewing at his cave mouth (D-5.2: Dragon Master)'
+- walk_to:
+    x: 5427
+    y: -13517
+    z: 2022
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- interact_actor:
+    actor_index: 10
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The hot spring in the red rock
+- set_pose:
+    map: xeen_x7.odm
+    x: 14848
+    y: -10854
+    z: 2138
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The hot spring: +150 hit points to every member'
+- execute_event:
+    id: 26
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The same day: "You have soaked enough today."'
+- execute_event:
+    id: 26
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: Before XD-05's back gate
+- set_pose:
+    map: xeen_x7.odm
+    x: 11571
+    y: -18432
+    z: 2003
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The back gate before the bar is lifted: barred from within'
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The bar lifted from inside (x1-tam.back_gate, 110051): the gate leads into XD-05''s entrance:x7_gate'
+- lua_event:
+    source: SetQBit(QBit(110051))
+- execute_event:
+    id: 41
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to enter
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd05.blv
+- assert:
+    party_position:
+      x: 2176
+      y: 13184
+      radius: 300
+      z_min: 240
+      z_max: 480
+- note: XD-05's back gate (evt:exit_x7) out to X7 before the log door
+- execute_event:
+    id: 19
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: 11776
+      y: -18432
+      radius: 300
+      z_min: 1900
+      z_max: 2200
+- note: Before the orcs' stash under their den's overhang (D-91)
+- set_pose:
+    map: xeen_x7.odm
+    x: 9805
+    y: -19610
+    z: 1834
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The orcs'' stash (level 1): the chest opens at once, no "Pillage?" (A5 s31); the look on the status bar'
+- execute_event:
+    id: 43
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: 'local s = status(); local w = close(); wait(0.3); if not w then error(''no chest screen'') end; if not string.find(s,
+      ''orcs have been living under this overhang'', 1, true) then error(''status: '' .. s) end'
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: The Shrine of Fire on its knoll
+- set_pose:
+    map: xeen_x7.odm
+    x: -5939
+    y: -18125
+    z: 2062
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The Shrine of Fire: +10 Fire resistance and A3''s x7.shrine_fire (player bit 11339)'
+- execute_event:
+    id: 24
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The same day: A3''s x7.shrine_fire_again ("You don''t think anyone is listening.")'
+- execute_event:
+    id: 24
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The Well of Speed
+- set_pose:
+    map: xeen_x7.odm
+    x: -18381
+    y: -20173
+    z: 1864
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The Well of Speed: +2 Speed once, A3''s x7.well_speed (player bit 11338)'
+- execute_event:
+    id: 25
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'Again: A3''s x7.well_speed_again'
+- execute_event:
+    id: 25
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The orc outpost
+- set_pose:
+    map: xeen_x7.odm
+    x: -15872
+    y: -12493
+    z: 2016
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3) after the look, Yes/No buttons (D-72): No
+    leaves it standing'
+- play_lua:
+    source: click(22); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: You have found an Orc Outpost. Put it to the torch?
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- play_lua:
+    source: if qbit(116160) then error("No burned the outpost") end
+- note: '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3): Yes'
+- play_lua:
+    source: click(22); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: You have found an Orc Outpost. Put it to the torch?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(116160) then error("x7.outpost_burned not set") end
+- note: 'Burnt: A3''s else text'
+- execute_event:
+    id: 22
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The orcs' loot (level 1)
+- execute_event:
+    id: 23
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: The cairn of the unreturned by the Firestone road
+- set_pose:
+    map: xeen_x7.odm
+    x: -12237
+    y: -1126
+    z: 1795
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: 'The cairn: +10 Luck to every member until tomorrow'
+- execute_event:
+    id: 27
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: 'The same day: "You have added your stone today."'
+- execute_event:
+    id: 27
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: The miner's cache before the adit
+- set_pose:
+    map: xeen_x7.odm
+    x: -9882
+    y: -2355
+    z: 1993
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: The miner's cache (level 3)
+- execute_event:
+    id: 45
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: Up the Firestone road to the Gap
+- walk_to:
+    x: -7168
+    y: -1843
+    z: 2016
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: -1638
+    z: 2144
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1229
+    y: -1126
+    z: 2304
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The Gap''s signpost: "North: Mount Firestone. Dragons. Turn back." (D-40 change 4)'
+- execute_event:
+    id: 12
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The obelisk on the Gap's north lip
+- walk_to:
+    x: -205
+    y: 102
+    z: 2304
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The obelisk (obelisks.x7: SPHINX)'
+- execute_event:
+    id: 13
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if not qbit(115046) then error("cloud_7 not set") end
+- note: Down the north track to the lava fork and the black bridge
+- walk_to:
+    x: -1280
+    y: 2048
+    z: 2208
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 6144
+    z: 2048
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 8704
+    z: 1984
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 9523
+    z: 1939
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The lava fork's signpost names its four roads
+- execute_event:
+    id: 67
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: Over the black bridge (the deck holds)
+- walk_to:
+    x: -1536
+    y: 11981
+    z: 1926
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -1536
+      y: 11981
+      radius: 400
+- note: The tax road to the Dragon Cave
+- walk_to:
+    x: -2304
+    y: 12800
+    z: 2048
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -3072
+    y: 14848
+    z: 2112
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -3891
+    y: 16589
+    z: 2144
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: '"The Dragon Cave smells pretty bad. Are you sure you wish to enter?" (xeen/aaze0017:0) after the look, Yes/No buttons
+    (D-72); Yes into XD-18 at entrance:x7_mouth: Close stays'
+- play_lua:
+    source: click(40); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: smells pretty bad
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x7.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: click(40); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: smells pretty bad
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd18.blv
+- assert:
+    party_position:
+      x: 384
+      y: -3072
+      radius: 200
+      z_min: -80
+      z_max: 160
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: XD-18's way out (evt:exit) back to X7 before the Dragon Cave (entrance:xd18_mouth)
+- execute_event:
+    id: 11
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: -4096
+      y: 16896
+      radius: 96
+      z_min: 2024
+      z_max: 2384
+- note: A knight's strongbox (level 5)
+- execute_event:
+    id: 46
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: Back over the bridge to the Volcano Cave
+- walk_to:
+    x: -3072
+    y: 14848
+    z: 2112
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -2304
+    y: 12800
+    z: 2048
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 11981
+    z: 1926
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 9523
+    z: 1939
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 8704
+    z: 1984
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -307
+    y: 9216
+    z: 2240
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Before the Volcano Cave's mouth
+- walk_to:
+    x: 512
+    y: 9728
+    z: 2240
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: '"Enter the Volcano Cave?" (xeen/aaze0017:1) after the look, Yes/No buttons (D-72); Yes into XD-16 at entrance:x7_mouth:
+    Close stays'
+- play_lua:
+    source: click(38); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: breathing heat
+      action_label_present: OK
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_x7.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: click(38); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: breathing heat
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd16.blv
+- assert:
+    party_position:
+      x: 256
+      y: 0
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-16's way out (evt:exit_x7) back to X7 before the mouth, between the idols
+- execute_event:
+    id: 20
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: 512
+      y: 9728
+      radius: 200
+      z_min: 2160
+      z_max: 2440
+- note: 'The demon idol (lane S''s model): A3''s x7.idols (Q-C26''s hint)'
+- execute_event:
+    id: 69
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'The devil idol (lane S''s model): A3''s x7.idols'
+- execute_event:
+    id: 70
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: Along the cleft path to the cleft
+- walk_to:
+    x: 102
+    y: 9062
+    z: 2240
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1536
+    y: 8294
+    z: 2330
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 3072
+    y: 7885
+    z: 2451
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 4096
+    y: 8192
+    z: 2496
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: 'The cleft: A3''s xd17.cleft before cleft_open ("Fallen rock chokes the cleft ...")'
+- execute_event:
+    id: 39
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: cleft_open (116140), as after the first exit through XD-17's back passage
+- setup_shortcut:
+    kind: set_qbit
+    id: 116140
+    value: true
+- note: 'The cleft open: into XD-17 at entrance:x7_cleft'
+- execute_event:
+    id: 39
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: smell of grass
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd17.blv
+- assert:
+    party_position:
+      x: -7296
+      y: 4224
+      radius: 300
+      z_min: -80
+      z_max: 160
+- note: XD-17's rockfall (evt:cleft) back to X7's entrance:xd17_cleft
+- execute_event:
+    id: 7
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: 4096
+      y: 8192
+      radius: 200
+      z_min: 2400
+      z_max: 2700
+- note: Back to the lava fork
+- walk_to:
+    x: 3072
+    y: 7885
+    z: 2451
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 1536
+    y: 8294
+    z: 2330
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 102
+    y: 9062
+    z: 2240
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -307
+    y: 9216
+    z: 2240
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 8704
+    z: 1984
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -1536
+    y: 6144
+    z: 2048
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The lake track and over the causeway to the island
+- walk_to:
+    x: -5120
+    y: 5120
+    z: 1888
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -9216
+    y: 4096
+    z: 1728
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -12288
+    y: 3840
+    z: 1680
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14592
+    y: 4608
+    z: 1536
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14592
+    y: 6656
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14592
+    y: 8704
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -14592
+      y: 8704
+      radius: 500
+- note: To the Ever-Hot Lava Rock
+- walk_to:
+    x: -14541
+    y: 9933
+    z: 1568
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: Beside the rock, north-west
+- walk_to:
+    x: -14991
+    y: 10383
+    z: 1568
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    close_dialogs: true
+- play_lua:
+    source: if ground_items(12314) ~= 1 then error("the lava rock is not on the ground") end
+- pick_up:
+    item_id: 12314
+    reach: 700
+- play_lua:
+    source: close(); if held() ~= 0 then stow() end; if not has_item(12314) then error("no Ever-Hot Lava Rock") end
+- note: Back over the causeway
+- walk_to:
+    x: -14592
+    y: 6656
+    z: 1504
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -14592
+    y: 4608
+    z: 1536
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -12288
+    y: 3840
+    z: 1680
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The hydras' wallow (level 5)
+- execute_event:
+    id: 47
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: The tower path round the lake and up the crag
+- walk_to:
+    x: -17408
+    y: 3584
+    z: 1696
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -21504
+    y: 6144
+    z: 1760
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -22784
+    y: 9728
+    z: 1792
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -22016
+    y: 13312
+    z: 1856
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -20992
+    y: 14541
+    z: 2080
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -19866
+    y: 15258
+    z: 2333
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -18739
+    y: 15667
+    z: 2584
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -17920
+    y: 16179
+    z: 2592
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -17920
+      y: 16179
+      radius: 400
+      z_min: 2400
+- note: 'The Dragon Tower''s gate without the key: A3''s q-f1.tower_door fail text'
+- execute_event:
+    id: 66
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- assert:
+    map: xeen_x7.odm
+- grant_item:
+    item_id: 12376
+    member_index: 0
+- advance_runtime:
+    seconds: 0.3
+- note: 'With the Key to the Dragon Tower: the hook passes (its key line), into FD-04 at entrance:x7_gate'
+- execute_event:
+    id: 66
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Two black leaves
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd04.blv
+- assert:
+    party_position:
+      x: 0
+      y: -1280
+      radius: 200
+      z_min: -80
+      z_max: 160
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: FD-04's way out (evt:way_out) back to X7 before the tower's gate (entrance:fd04_door)
+- execute_event:
+    id: 103
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: -17920
+      y: 16384
+      radius: 96
+      z_min: 2472
+      z_max: 2832
+- note: 'The return clears the leaves: a step south and back to the point, free of the gate'
+- walk_to:
+    x: -17920
+    y: 16000
+    z: 2592
+    z_tolerance: 600
+    radius: 96
+    timeout_seconds: 30
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: -17920
+    y: 16384
+    z: 2592
+    z_tolerance: 600
+    radius: 96
+    timeout_seconds: 30
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: The firestone path from the cleft round the mountain
+- set_pose:
+    map: xeen_x7.odm
+    x: 4608
+    y: 6656
+    z: 2528
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: Round the south shoulder to the hoard
+- walk_to:
+    x: 7168
+    y: 5632
+    z: 2656
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 10240
+    y: 4813
+    z: 2739
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 13312
+    y: 5120
+    z: 2848
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 15872
+    y: 6912
+    z: 2944
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 17203
+    y: 9626
+    z: 3012
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: A dragon's hoard (level 6)
+- execute_event:
+    id: 48
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- note: On to the Fire corner
+- walk_to:
+    x: 17664
+    y: 10240
+    z: 3008
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18432
+    y: 13824
+    z: 2944
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18944
+    y: 16896
+    z: 2912
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- walk_to:
+    x: 18944
+    y: 18330
+    z: 2912
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    close_dialogs: true
+- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
+- play_lua:
+    source: click(37); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Reflector. Activate?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- play_lua:
+    source: if qbit(111741) then error("the Reflector set its bit before M36") end
+- load_map:
+    map: xeen_x7.odm
+- advance_runtime:
+    seconds: 1.0
+- note: After a reload the outpost stays burnt (evt:outpost_state)
+- set_pose:
+    map: xeen_x7.odm
+    x: -15872
+    y: -12493
+    z: 2016
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- note: A3's else text again (the burn does not repeat)
+- execute_event:
+    id: 22
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: 'South edge: to X1 and back'
+- set_pose:
+    map: xeen_x7.odm
+    x: 2560
+    y: -20992
+    z: 1888
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: 2560
+    y: -24320
+    z: 1856
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x1.odm
+- assert:
+    party_position:
+      x: 2560
+      y: 22016
+      radius: 200
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- walk_to:
+    x: 2560
+    y: 24320
+    z: 1824
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: 2560
+      y: -22016
+      radius: 200
+- note: 'West edge: to X4 and back'
+- set_pose:
+    map: xeen_x7.odm
+    x: -22016
+    y: -1024
+    z: 1408
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -24320
+    y: -1024
+    z: 1408
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: 22016
+      y: -1280
+      radius: 200
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: wait(0.3); close(); wait(0.3)
+- walk_to:
+    x: 24320
+    y: -1280
+    z: 1056
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 90
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: -22016
+      y: -1024
+      radius: 200

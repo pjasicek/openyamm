@@ -1,0 +1,222 @@
+format: 0
+level: L3
+pitch: 'The west pocket of the Gemstone Mines, under the hill above Castleview''s gemsmiths: a timbered adit and gallery,
+  a high ruby stope round a rock pillar, a drift the arachnoid queens have webbed shut, a sump of standing water, a winding
+  emerald gallery and a dead end of miners'' bones. Five ruby and five emerald veins give one rock each until the God of Minerals
+  (DD-10B) is paid to refill them.'
+purpose: 'Q-D7 The Gemsmiths (repeatable): rocks for Linus (ruby) and Simon (emerald) on D1. Party 23-27; band 16-28; 20 monsters;
+  treasure 3. About 10 minutes.'
+mood: 'A worked-out mine: dark red-brown rock, old timber, torchlight; cold web in the far drift.'
+datum: arrival
+spaces:
+- id: room:adit
+  name: West adit
+  kind: corridor
+  size: S
+  extent: [384, 896]
+  floor: 0
+  clear_height: 352
+  purpose: 'The timbered adit above the gemsmiths'' row: the arrival and the exit to D1.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  empty: true
+  safe: true
+- id: room:gallery
+  name: Timbered gallery
+  kind: corridor
+  size: M
+  extent: [1792, 1920]
+  floor: 0
+  clear_height: 416
+  purpose: Props and lagging; cart rails; an old cart.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; trim9_32 timber sets and trim9_32a lagging
+    overhead'
+  population:
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+- id: room:ruby
+  name: Ruby stope
+  kind: room
+  size: L
+  extent: [1792, 1536]
+  floor: 0
+  clear_height: [576, 832]
+  purpose: Five ruby veins (q-d7.ruby_veins), one rock each; 'You've got all this vein has to offer.' once picked.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; A6''s ruby vein xdvruby'
+  population:
+  - actor: Arachnoid Hunter (11331)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [18, 18]
+    placed: true
+  - actor: Electrapede (11361)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [20, 20]
+    placed: true
+- id: room:cobweb
+  name: Cobweb drift
+  kind: room
+  size: M
+  extent: [1408, 1216]
+  floor: 0
+  clear_height: [448, 576]
+  purpose: '''Cobwebs'' across the drift; the queens'' den.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; the world''s web xnweb'
+  population:
+  - actor: Arachnoid Queen (11332)
+    groups: 1
+    per_marker: [4, 4]
+    levels: [24, 24]
+    placed: true
+  - actor: Arachnoid Hunter (11331)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [18, 18]
+    placed: true
+- id: room:sump
+  name: Sump
+  kind: room
+  size: S
+  extent: [1152, 960]
+  floor: 0
+  clear_height: [384, 448]
+  purpose: Standing water and a strongbox.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; 7wtrtyl water'
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+    items: [2, 2]
+    notes: The miners' strongbox.
+  empty: true
+- id: room:emerald
+  name: Emerald gallery
+  kind: room
+  size: M
+  extent: [1536, 1024]
+  floor: 0
+  clear_height: [512, 640]
+  purpose: Five emerald veins (q-d7.emerald_veins), one rock each.
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot; A6''s emerald vein xdvemrld'
+  population:
+  - actor: Beholder Bat (11312)
+    groups: 1
+    per_marker: [3, 3]
+    levels: [20, 20]
+    placed: true
+  - actor: Electrapede (11361)
+    groups: 1
+    per_marker: [2, 2]
+    levels: [20, 20]
+    placed: true
+- id: room:bones
+  name: Bone pocket
+  kind: room
+  size: S
+  extent: [1280, 1312]
+  floor: 0
+  clear_height: [384, 448]
+  purpose: 'Miners'' bones: ''The bones crumble to dust in your hands'', one heap ''The bones explode!''; their chest.'
+  theme: 'MM7 Nighon Tunnels (7d35): cwb1 rock walls and roofs, cfb1 underfoot'
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+    items: [2, 2]
+    notes: The dead miners' chest.
+  empty: true
+links:
+- id: link:a1
+  from: room:adit
+  to: room:gallery
+  kind: door
+  motion: swing
+- id: link:a2
+  from: room:gallery
+  to: room:ruby
+  kind: open
+- id: link:a3
+  from: room:ruby
+  to: room:cobweb
+  kind: open
+- id: link:a4
+  from: room:cobweb
+  to: room:sump
+  kind: door
+  motion: swing
+- id: link:a5
+  from: room:sump
+  to: room:emerald
+  kind: door
+  motion: swing
+- id: link:a6
+  from: room:emerald
+  to: room:bones
+  kind: open
+- id: link:a7
+  from: room:bones
+  to: room:gallery
+  kind: open
+loops:
+- id: loop:a
+  spaces:
+  - room:gallery
+  - room:ruby
+  - room:cobweb
+  - room:sump
+  - room:emerald
+  - room:bones
+  notes: 'West: round the two veins.'
+entrances:
+- id: entrance:adit
+  space: room:adit
+  kind: both
+  neighbour: exit:d1_adit
+  facing: n
+  how: Just inside the adit's mouth, facing in.
+critical_path:
+- room:adit
+- room:gallery
+- room:ruby
+- room:cobweb
+- room:sump
+- room:emerald
+return_path:
+- room:emerald
+- room:bones
+- room:gallery
+- room:adit
+goals:
+- id: goal:ruby
+  space: room:ruby
+  kind: take
+  what: Five ruby rocks from the five ruby veins (q-d7.ruby_veins).
+  handed_in_at: D1
+- id: goal:emerald
+  space: room:emerald
+  kind: take
+  what: Five emerald rocks from the five emerald veins (q-d7.emerald_veins).
+  handed_in_at: D1
+atmosphere: 'Torchlit timber in the adit and gallery (ambient about 15-18), the caves darker (12-16), the web drift coldest.
+  Music 18. Sounds: air at the adit''s mouth, drips in the stope and the sump.'
+diagram:
+  file: diagram.txt
+totals:
+  chests: 2
+  doors: 3
+  fixed_actors: 20
+  loops: 1
+  monsters_about: 20
+  rooms: 7
+  sectors: 7
+  spawn_points: 0
+  floor_area_millions: 10
+notes: 'Class S (MAPS, Dungeons): at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors. D-27: five veins
+  per gem, one rock each, a map variable each; refill_a on entry; one exploding bone heap; 7d35 with A6''s two vein pictures.'
+sketch:
+  file: rooms.yml
+  grid: 512

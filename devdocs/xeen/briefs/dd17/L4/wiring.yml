@@ -1,0 +1,861 @@
+format: 0
+variables: [visit, sump_open, sump_find, bolt_fire, bolt_air, bolt_water, bolt_earth, statue1_heard, statue2_heard, statue3_heard, in_visit]
+events:
+  - id: evt:after_sheltem
+    preset: script
+    trigger: call
+    effects:
+      - leave: exit:d6_gate
+    notes: "D-61 Q17: the cinematic's done event: out to D6's entrance:dd17_gate at once ({direct = true}, XD-19's pattern)."
+  - id: evt:arrival
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: visit, not: {qbit: m33_done}}
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      local hook = z > 1000 and "m33.roof_arrival" or "m33.arrival"
+      if XeenQuests.can(hook) then
+          XeenQuests.hook(hook)
+      end
+    effects:
+      - set:
+          var:
+            map_var: visit
+          value: 0
+      - qbit: dd17_arrived_once
+    notes: "m33.arrival on every entry until m33.done with the Soul Box (A3): its line (inside 111660); by the roof hatch (the party above 1000) m33.roof_arrival. D-89 (2026-11-22): no refusal moves the party; the box is checked before the move, at D6's gate and D7's hatch."
+  - id: evt:belt_air_back
+    preset: teleport
+    source: plate:belt_air_back
+    trigger: step
+    to: [2496, 1504, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the air belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_air_mouth
+    preset: teleport
+    source: plate:belt_air_mouth
+    trigger: step
+    to: [2496, 1504, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the air belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_earth_back
+    preset: teleport
+    source: plate:belt_earth_back
+    trigger: step
+    to: [4416, -496, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the earth belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_earth_mouth
+    preset: teleport
+    source: plate:belt_earth_mouth
+    trigger: step
+    to: [4416, -496, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the earth belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_fire_back
+    preset: teleport
+    source: plate:belt_fire_back
+    trigger: step
+    to: [-2496, 1504, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the fire belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_fire_mouth
+    preset: teleport
+    source: plate:belt_fire_mouth
+    trigger: step
+    to: [-2496, 1504, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the fire belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_water_back
+    preset: teleport
+    source: plate:belt_water_back
+    trigger: step
+    to: [-4416, -496, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the water belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:belt_water_mouth
+    preset: teleport
+    source: plate:belt_water_mouth
+    trigger: step
+    to: [-4416, -496, 0]
+    direction: 90
+    effects:
+      - text: The floor lurches and carries you along.
+      - lua: "evt.PlaySoundName(\"xeen_phase_shift\")"
+    notes: "D-61 Q11: the water belt carries the party to its far end, facing north toward the Head (90 degrees); the rumble is an engine stand-in (AU)."
+  - id: evt:chest_barracks
+    preset: chest
+    source: chest:barracks
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_post
+    preset: chest
+    source: chest:post
+    title: Chest
+  - id: evt:chest_robot_bay
+    preset: chest
+    source: chest:robot_bay
+    title: Chest
+  - id: evt:chest_screen
+    preset: chest
+    source: chest:screen
+    title: Chest
+  - id: evt:chest_store
+    preset: chest
+    source: chest:store
+    title: Chest
+  - id: evt:chest_watch
+    preset: chest
+    source: chest:watch
+    title: Chest
+  - id: evt:come_to_me
+    preset: script
+    source: plate:come_to_me
+    trigger: step
+    condition: {not: {qbit: come_to_me}}
+    effects:
+      - qbit: come_to_me
+      - message: "A voice bellows, \"Come to ME!\""
+    notes: "aaze0051:2, once (117606)."
+  - id: evt:command_screens
+    preset: text
+    source: panel:screens
+    title: Command Central
+    text: "Banks of machines over the throne, every light lit."
+    notes: The machines over the throne.
+  - id: evt:dais
+    preset: script
+    source: plate:dais
+    trigger: step
+    condition: {lua: "continueStep == 1"}
+    effects:
+      - lua: "XeenQuests.hook(\"m33.sheltem\")"
+      - cinematic:
+          id: cinematic:self_destruct
+          then: evt:after_sheltem
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if not XeenQuests.can("m33.sheltem") then
+              XeenQuests.hook("m33.sheltem")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "Before the throne. Open the Soul Box?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "D-61 Q16: the dais plate asks first (Yes/No, D-66); Yes calls m33.sheltem (takes the Soul Box, gives the Cube of Power, done 111662, the voiced lines), then the self-destruct cinematic (Sheltem and Corak shown), then the leave to D6. Without the gate or the box: the hook's fail line."
+  - id: evt:dial_air
+    preset: script
+    source: platform:dial_air
+    title: Air Time
+    lua: |-
+      if Xeen.alamarSundial("air", eventId, continueStep) then
+          if IsQBitSet(QBit(117612)) then evt.SetDoorState(2, DoorAction.Open) else evt.SetDoorState(2, DoorAction.Close) end
+          local reading = Xeen.alamarSundialReading(Xeen.AlamarSundials[2])
+          if reading == 9 or reading == 10 then
+              evt.PlaySoundName("6stone door0101")
+          end
+      end
+    notes: "m33.sundials: A3's Xeen.alamarSundial(\"air\", ...) asks 'Air Time. The sundial reads N. Turn?', turns it on, says the line at nine and off nine and sets dial_air_nine 117612; when it turned the dial the event sets the air slab from that bit (the grind with it)."
+  - id: evt:dial_earth
+    preset: script
+    source: platform:dial_earth
+    title: Earth Time
+    lua: |-
+      if Xeen.alamarSundial("earth", eventId, continueStep) then
+          if IsQBitSet(QBit(117614)) then evt.SetDoorState(3, DoorAction.Open) else evt.SetDoorState(3, DoorAction.Close) end
+          local reading = Xeen.alamarSundialReading(Xeen.AlamarSundials[3])
+          if reading == 9 or reading == 10 then
+              evt.PlaySoundName("6stone door0101")
+          end
+      end
+    notes: "m33.sundials: A3's Xeen.alamarSundial(\"earth\", ...) asks 'Earth Time. The sundial reads N. Turn?', turns it on, says the line at nine and off nine and sets dial_earth_nine 117614; when it turned the dial the event sets the earth slab from that bit (the grind with it)."
+  - id: evt:dial_fire
+    preset: script
+    source: platform:dial_fire
+    title: Fire Time
+    lua: |-
+      if Xeen.alamarSundial("fire", eventId, continueStep) then
+          if IsQBitSet(QBit(117611)) then evt.SetDoorState(4, DoorAction.Open) else evt.SetDoorState(4, DoorAction.Close) end
+          local reading = Xeen.alamarSundialReading(Xeen.AlamarSundials[1])
+          if reading == 9 or reading == 10 then
+              evt.PlaySoundName("6stone door0101")
+          end
+      end
+    notes: "m33.sundials: A3's Xeen.alamarSundial(\"fire\", ...) asks 'Fire Time. The sundial reads N. Turn?', turns it on, says the line at nine and off nine and sets dial_fire_nine 117611; when it turned the dial the event sets the fire slab from that bit (the grind with it)."
+  - id: evt:dial_water
+    preset: script
+    source: platform:dial_water
+    title: Water Time
+    lua: |-
+      if Xeen.alamarSundial("water", eventId, continueStep) then
+          if IsQBitSet(QBit(117613)) then evt.SetDoorState(5, DoorAction.Open) else evt.SetDoorState(5, DoorAction.Close) end
+          local reading = Xeen.alamarSundialReading(Xeen.AlamarSundials[4])
+          if reading == 9 or reading == 10 then
+              evt.PlaySoundName("6stone door0101")
+          end
+      end
+    notes: "m33.sundials: A3's Xeen.alamarSundial(\"water\", ...) asks 'Water Time. The sundial reads N. Turn?', turns it on, says the line at nine and off nine and sets dial_water_nine 117613; when it turned the dial the event sets the water slab from that bit (the grind with it)."
+  - id: evt:dials_load
+    preset: script
+    trigger: load
+    lua: |-
+      Xeen.alamarSundialsSync()
+      if IsQBitSet(QBit(117611)) then evt.SetDoorState(4, DoorAction.Open) else evt.SetDoorState(4, DoorAction.Close) end
+      if IsQBitSet(QBit(117612)) then evt.SetDoorState(2, DoorAction.Open) else evt.SetDoorState(2, DoorAction.Close) end
+      if IsQBitSet(QBit(117613)) then evt.SetDoorState(5, DoorAction.Open) else evt.SetDoorState(5, DoorAction.Close) end
+      if IsQBitSet(QBit(117614)) then evt.SetDoorState(3, DoorAction.Open) else evt.SetDoorState(3, DoorAction.Close) end
+    notes: "D-61 map reset: A3's helper rewrites the dial bits 117611-117614 and m33.sundial_nine from the dial variables, then each bridge slab is set from its bit (level while set)."
+  - id: evt:door_ante_command
+    preset: door
+    source: door:ante_command
+    title: Command Central
+  - id: evt:door_deck_bay
+    preset: door
+    source: door:deck_bay
+    title: Door
+  - id: evt:door_deck_screen
+    preset: door
+    source: door:deck_screen
+    title: Door
+  - id: evt:door_ew_store
+    preset: door
+    source: door:ew_store
+    title: Door
+  - id: evt:door_ew_watch
+    preset: door
+    source: door:ew_watch
+    title: Door
+  - id: evt:door_ewalk_post
+    preset: door
+    source: door:ewalk_post
+    title: Door
+  - id: evt:door_gate_hall
+    preset: door
+    source: door:gate_hall
+    title: Blast doors
+  - id: evt:door_hall_stair
+    preset: door
+    source: door:hall_stair
+    title: Blast doors
+  - id: evt:door_sump
+    preset: switch
+    source: door:sump
+    title: Door
+    condition: {map_var: sump_open}
+    locked_text: A heavy door. It is worked from the other side.
+    toggles: [door:sump]
+    notes: From the stair hall the sump's door does not open until its lever (on the sump's side) is pulled.
+  - id: evt:door_west_ante
+    preset: door
+    source: door:west_ante
+    title: Door
+  - id: evt:door_west_hatch
+    preset: door
+    source: door:west_hatch
+    title: Door
+  - id: evt:door_west_juice
+    preset: door
+    source: door:west_juice
+    title: Door
+  - id: evt:door_ww_barracks
+    preset: door
+    source: door:ww_barracks
+    title: Door
+  - id: evt:exit_gate
+    preset: exit
+    source: exit:gate
+    title: Exit Castle Alamar
+    notes: "aaze0049:0's meaning (D-24): out to D6 at entrance:dd17_gate."
+  - id: evt:field_air
+    preset: text
+    source: door:field_air
+    title: Energy field
+    text: A crackling air field bars the alcove.
+    notes: "The field before its Head is shut down (it is down after, nothing to click)."
+  - id: evt:field_earth
+    preset: text
+    source: door:field_earth
+    title: Energy field
+    text: A crackling earth field bars the alcove.
+    notes: "The field before its Head is shut down (it is down after, nothing to click)."
+  - id: evt:field_fire
+    preset: text
+    source: door:field_fire
+    title: Energy field
+    text: A crackling fire field bars the alcove.
+    notes: "The field before its Head is shut down (it is down after, nothing to click)."
+  - id: evt:field_water
+    preset: text
+    source: door:field_water
+    title: Energy field
+    text: A crackling water field bars the alcove.
+    notes: "The field before its Head is shut down (it is down after, nothing to click)."
+  - id: evt:figures_load
+    preset: script
+    trigger: load
+    lua: |-
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:sheltem"), false)
+      evt.SetMm9ActorCanReceiveDamage(ActorIndex("monster:corak"), false)
+    notes: "D-61 Q15, P5's way: Sheltem and Corak cannot be hurt, on every load."
+  - id: evt:gate
+    preset: script
+    source: door:gate
+    question: {ask: "The time is right. What is Alamar's true name?", answers: [Sheltem], wrong_effects: [{lua: "XeenQuests.hook(\"m33.true_name_wrong\")"}]}
+    title: True-name gate
+    condition: {all: [{not: {qbit: m33_gate_open}}, {lua: Xeen.alamarSundialsSync()}]}
+    opens: [door:gate]
+    effects:
+      - lua: "XeenQuests.hook(\"m33.true_name_gate\")"
+      - lua: "evt.PlaySoundName(\"xeen_power_up\")"
+    else_effects:
+      - lua: "if IsQBitSet(QBit(111661)) then evt.StatusText(\"The gate stands open.\") else XeenQuests.hook(\"m33.true_name_gate\") end"
+    notes: "The true-name gate (aaze0050:17-21): with all four dials at nine it asks the source line whole, 'The time is right. What is Alamar's true name?' (aaze0050:19, D-66, no message before it); 'Sheltem' calls m33.true_name_gate (gate_open 111661, autonote 4134) and opens the leaves; any other answer m33.true_name_wrong. Before nine the hook's fail text 'The time is not right. Access denied!'."
+  - id: evt:gate_load
+    preset: switch
+    trigger: load
+    condition: {qbit: m33_gate_open}
+    opens: [door:gate]
+    notes: The gate stays open on every later load.
+  - id: evt:hatch
+    preset: script
+    source: platform:hatch
+    title: The roof hatch
+    condition: {lua: "XeenQuests.hook(\"q-d26.alamar_hatch\")"}
+    effects:
+      - exit: exit:d7_roof
+    notes: "Q-D26 (D-58, D-61 Q14): q-d26.alamar_hatch ('Bolted from above.' until roof_unlocked 113521); then the standard entrance window (F16, 2026-11-22: OK/Close, no Yes/No): OK moves to D7's entrance:dd17_roof (-18688, 8448, 1536) facing 1024."
+  - id: evt:head_air
+    preset: script
+    source: panel:head_air
+    title: Lava Head
+    condition: {lua: "continueStep == 1"}
+    opens: [door:field_air]
+    effects:
+      - lua: "XeenQuests.hook(\"m33.head_air\")"
+      - set_texture:
+          of: panel:head_air
+          to: xalavahdx
+      - lights_off: light:head_air
+      - lua: "evt.PlaySoundName(\"xeen_power_up\")"
+      - lua: "evt.SetMapVar(\"AmbientSound8\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound4\", 2)"
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if IsQBitSet(QBit(117602)) then
+              XeenQuests.hook("m33.head_air")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "The Head speaks: \"Air power field operational.\" Shut the field down?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "D-61 Q12, D-66: one Yes/No prompt 'The Head speaks: \"Air power field operational.\" Shut the field down?' (aaze0049:8 joined with the question); Yes calls A3's m33.head_air (head_air_off 117602, 'The Head goes dark. Somewhere above, a field dies.'); the Head goes dark (xalavahdx), its glow and hum stop, the air field on L2 drops (one-way, D-43). Afterwards the hook's else line."
+  - id: evt:head_air_load
+    preset: switch
+    trigger: load
+    condition: {qbit: head_air_off}
+    opens: [door:field_air]
+    effects:
+      - set_texture:
+          of: panel:head_air
+          to: xalavahdx
+      - lights_off: light:head_air
+      - lua: "evt.SetMapVar(\"AmbientSound8\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound4\", 2)"
+    notes: "On every load after the air Head is shut down: its field stays down, the Head dark and quiet."
+  - id: evt:head_earth
+    preset: script
+    source: panel:head_earth
+    title: Lava Head
+    condition: {lua: "continueStep == 1"}
+    opens: [door:field_earth]
+    effects:
+      - lua: "XeenQuests.hook(\"m33.head_earth\")"
+      - set_texture:
+          of: panel:head_earth
+          to: xalavahdx
+      - lights_off: light:head_earth
+      - lua: "evt.PlaySoundName(\"xeen_power_up\")"
+      - lua: "evt.SetMapVar(\"AmbientSound9\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound5\", 2)"
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if IsQBitSet(QBit(117604)) then
+              XeenQuests.hook("m33.head_earth")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "The Head speaks: \"Earth power field operational.\" Shut the field down?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "D-61 Q12, D-66: one Yes/No prompt 'The Head speaks: \"Earth power field operational.\" Shut the field down?' (aaze0049:10 joined with the question); Yes calls A3's m33.head_earth (head_earth_off 117604, 'The Head goes dark. Somewhere above, a field dies.'); the Head goes dark (xalavahdx), its glow and hum stop, the earth field on L2 drops (one-way, D-43). Afterwards the hook's else line."
+  - id: evt:head_earth_load
+    preset: switch
+    trigger: load
+    condition: {qbit: head_earth_off}
+    opens: [door:field_earth]
+    effects:
+      - set_texture:
+          of: panel:head_earth
+          to: xalavahdx
+      - lights_off: light:head_earth
+      - lua: "evt.SetMapVar(\"AmbientSound9\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound5\", 2)"
+    notes: "On every load after the earth Head is shut down: its field stays down, the Head dark and quiet."
+  - id: evt:head_fire
+    preset: script
+    source: panel:head_fire
+    title: Lava Head
+    condition: {lua: "continueStep == 1"}
+    opens: [door:field_fire]
+    effects:
+      - lua: "XeenQuests.hook(\"m33.head_fire\")"
+      - set_texture:
+          of: panel:head_fire
+          to: xalavahdx
+      - lights_off: light:head_fire
+      - lua: "evt.PlaySoundName(\"xeen_power_up\")"
+      - lua: "evt.SetMapVar(\"AmbientSound10\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound6\", 2)"
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if IsQBitSet(QBit(117601)) then
+              XeenQuests.hook("m33.head_fire")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "The Head speaks: \"Fire power field operational.\" Shut the field down?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "D-61 Q12, D-66: one Yes/No prompt 'The Head speaks: \"Fire power field operational.\" Shut the field down?' (aaze0049:7 joined with the question); Yes calls A3's m33.head_fire (head_fire_off 117601, 'The Head goes dark. Somewhere above, a field dies.'); the Head goes dark (xalavahdx), its glow and hum stop, the fire field on L2 drops (one-way, D-43). Afterwards the hook's else line."
+  - id: evt:head_fire_load
+    preset: switch
+    trigger: load
+    condition: {qbit: head_fire_off}
+    opens: [door:field_fire]
+    effects:
+      - set_texture:
+          of: panel:head_fire
+          to: xalavahdx
+      - lights_off: light:head_fire
+      - lua: "evt.SetMapVar(\"AmbientSound10\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound6\", 2)"
+    notes: "On every load after the fire Head is shut down: its field stays down, the Head dark and quiet."
+  - id: evt:head_water
+    preset: script
+    source: panel:head_water
+    title: Lava Head
+    condition: {lua: "continueStep == 1"}
+    opens: [door:field_water]
+    effects:
+      - lua: "XeenQuests.hook(\"m33.head_water\")"
+      - set_texture:
+          of: panel:head_water
+          to: xalavahdx
+      - lights_off: light:head_water
+      - lua: "evt.PlaySoundName(\"xeen_power_up\")"
+      - lua: "evt.SetMapVar(\"AmbientSound11\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound7\", 2)"
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if IsQBitSet(QBit(117603)) then
+              XeenQuests.hook("m33.head_water")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "The Head speaks: \"Water power field operational.\" Shut the field down?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "D-61 Q12, D-66: one Yes/No prompt 'The Head speaks: \"Water power field operational.\" Shut the field down?' (aaze0049:9 joined with the question); Yes calls A3's m33.head_water (head_water_off 117603, 'The Head goes dark. Somewhere above, a field dies.'); the Head goes dark (xalavahdx), its glow and hum stop, the water field on L2 drops (one-way, D-43). Afterwards the hook's else line."
+  - id: evt:head_water_load
+    preset: switch
+    trigger: load
+    condition: {qbit: head_water_off}
+    opens: [door:field_water]
+    effects:
+      - set_texture:
+          of: panel:head_water
+          to: xalavahdx
+      - lights_off: light:head_water
+      - lua: "evt.SetMapVar(\"AmbientSound11\", 2)"
+      - lua: "evt.SetMapVar(\"AmbientSound7\", 2)"
+    notes: "On every load after the water Head is shut down: its field stays down, the Head dark and quiet."
+  - id: evt:in_head_air
+    preset: script
+    source: room:head_air
+    trigger: step
+    condition: {not: {map_var: bolt_air}}
+    effects:
+      - set:
+          var:
+            map_var: bolt_air
+          value: 1
+    notes: "The party in the air Head's room: its maintenance door can now be worked (from the Head's side first)."
+  - id: evt:in_head_earth
+    preset: script
+    source: room:head_earth
+    trigger: step
+    condition: {not: {map_var: bolt_earth}}
+    effects:
+      - set:
+          var:
+            map_var: bolt_earth
+          value: 1
+    notes: "The party in the earth Head's room: its maintenance door can now be worked (from the Head's side first)."
+  - id: evt:in_head_fire
+    preset: script
+    source: room:head_fire
+    trigger: step
+    condition: {not: {map_var: bolt_fire}}
+    effects:
+      - set:
+          var:
+            map_var: bolt_fire
+          value: 1
+    notes: "The party in the fire Head's room: its maintenance door can now be worked (from the Head's side first)."
+  - id: evt:in_head_water
+    preset: script
+    source: room:head_water
+    trigger: step
+    condition: {not: {map_var: bolt_water}}
+    effects:
+      - set:
+          var:
+            map_var: bolt_water
+          value: 1
+    notes: "The party in the water Head's room: its maintenance door can now be worked (from the Head's side first)."
+  - id: evt:juice
+    preset: script
+    source: platform:juice
+    title: XEEN Power Juice
+    lua: "XeenQuests.hook(\"m33.power_juice\")"
+    notes: "D-61 Q19: A3's m33.power_juice: +2 Might once per character (player bit 11369), decided for the clicking member."
+  - id: evt:lift_high
+    preset: switch
+    source: switch:lift_high
+    title: Lift
+    condition: {qbit: m33_gate_open}
+    toggles: [lift:core]
+    effects:
+      - text: The lift sinks to the dial floor.
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 1600, 0, 900)"
+    else_effects:
+      - text: "Access to the upper floor is denied!"
+    notes: "The lift runs only once gate_open 111661 is set; before, from either end: 'Access to the upper floor is denied!' (aaze0050:0)."
+  - id: evt:lift_low
+    preset: switch
+    source: switch:lift_low
+    title: Lift
+    condition: {qbit: m33_gate_open}
+    toggles: [lift:core]
+    effects:
+      - text: The lift rises toward the deck.
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 1600, 0, 900)"
+    else_effects:
+      - text: "Access to the upper floor is denied!"
+    notes: "The lift runs only once gate_open 111661 is set; before, from either end: 'Access to the upper floor is denied!' (aaze0050:0)."
+  - id: evt:maint_air
+    preset: switch
+    source: door:maint_air
+    title: Maintenance door
+    condition: {map_var: bolt_air}
+    locked_text: A maintenance door. It is bolted on the other side.
+    toggles: [door:maint_air]
+    notes: "D-61 Q11: one-way until opened from the Head's side, then both ways."
+  - id: evt:maint_earth
+    preset: switch
+    source: door:maint_earth
+    title: Maintenance door
+    condition: {map_var: bolt_earth}
+    locked_text: A maintenance door. It is bolted on the other side.
+    toggles: [door:maint_earth]
+    notes: "D-61 Q11: one-way until opened from the Head's side, then both ways."
+  - id: evt:maint_fire
+    preset: switch
+    source: door:maint_fire
+    title: Maintenance door
+    condition: {map_var: bolt_fire}
+    locked_text: A maintenance door. It is bolted on the other side.
+    toggles: [door:maint_fire]
+    notes: "D-61 Q11: one-way until opened from the Head's side, then both ways."
+  - id: evt:maint_water
+    preset: switch
+    source: door:maint_water
+    title: Maintenance door
+    condition: {map_var: bolt_water}
+    locked_text: A maintenance door. It is bolted on the other side.
+    toggles: [door:maint_water]
+    notes: "D-61 Q11: one-way until opened from the Head's side, then both ways."
+  - id: evt:screens
+    preset: text
+    source: platform:console_screen
+    title: Screens
+    text: "The screens show the Forbidden Zone from a dozen windows: the lava moat, the road, the gate."
+    notes: The screen room's screens.
+  - id: evt:show_figures
+    preset: script
+    trigger: call
+    effects:
+      - show_actors: 40
+      - show_actors: 41
+    notes: "The cinematic's cue: Sheltem appears on the throne and Corak on the dais (hidden placed actors shown, D-61 RELAYS)."
+  - id: evt:statue1
+    preset: text
+    source: deco:statue1
+    title: Statue
+    text: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's efforts to protect Terra from interference from the Ancients. In spite of the Ancients' attempts to separate Alamar from his rightful guardianship of Terra, Alamar has persevered in his heroic struggle to return to Terra to protect the planet from harm, both internal and external. Though many years have passed, Alamar's resolve to return to his sacred duty persists."
+    window: true
+    notes: "A propaganda statue (aaze0049:2-4), clicked."
+  - id: evt:statue1_near
+    preset: script
+    source: plate:statue1
+    trigger: step
+    condition: {not: {map_var: statue1_heard}}
+    effects:
+      - set:
+          var:
+            map_var: statue1_heard
+          value: 1
+      - message: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's efforts to protect Terra from interference from the Ancients. In spite of the Ancients' attempts to separate Alamar from his rightful guardianship of Terra, Alamar has persevered in his heroic struggle to return to Terra to protect the planet from harm, both internal and external. Though many years have passed, Alamar's resolve to return to his sacred duty persists."
+    notes: It speaks as the party first approaches (once until the map refills).
+  - id: evt:statue2
+    preset: text
+    source: deco:statue2
+    title: Statue
+    text: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's skillful rulership of the realms he has controlled. In all kingdoms lucky enough to benefit from Alamar's wise counsel and firm guidance, crime has decreased and production increased. Further, social deviance has virtually disappeared while complete obedience, a behavior desirable in lower life forms, has risen dramatically."
+    window: true
+    notes: "A propaganda statue (aaze0049:2-4), clicked."
+  - id: evt:statue2_near
+    preset: script
+    source: plate:statue2
+    trigger: step
+    condition: {not: {map_var: statue2_heard}}
+    effects:
+      - set:
+          var:
+            map_var: statue2_heard
+          value: 1
+      - message: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's skillful rulership of the realms he has controlled. In all kingdoms lucky enough to benefit from Alamar's wise counsel and firm guidance, crime has decreased and production increased. Further, social deviance has virtually disappeared while complete obedience, a behavior desirable in lower life forms, has risen dramatically."
+    notes: It speaks as the party first approaches (once until the map refills).
+  - id: evt:statue3
+    preset: text
+    source: deco:statue3
+    title: Statue
+    text: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's glorious vengeance against the Ancients. From his destruction of Ancient science projects to the subversion and theft of the Xeen structure, Alamar has caused more damage to the Ancients' works and projects than any other rogue AI the Ancients have ever had the misfortune to create."
+    window: true
+    notes: "A propaganda statue (aaze0049:2-4), clicked."
+  - id: evt:statue3_near
+    preset: script
+    source: plate:statue3
+    trigger: step
+    condition: {not: {map_var: statue3_heard}}
+    effects:
+      - set:
+          var:
+            map_var: statue3_heard
+          value: 1
+      - message: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's glorious vengeance against the Ancients. From his destruction of Ancient science projects to the subversion and theft of the Xeen structure, Alamar has caused more damage to the Ancients' works and projects than any other rogue AI the Ancients have ever had the misfortune to create."
+    notes: It speaks as the party first approaches (once until the map refills).
+  - id: evt:sump_bones
+    preset: script
+    source: deco:sump_bones
+    title: Bones
+    condition: {not: {map_var: sump_find}}
+    effects:
+      - set:
+          var:
+            map_var: sump_find
+          value: 1
+      - gold: 1500
+      - give_item:
+          level: 5
+          kind: 40
+      - text: "The bones of an earlier caller, and what he carried. (+1500 gold)"
+    else_effects:
+      - text: "Bones, and bent plates."
+    notes: "The sump's find (D-61 treasure): once."
+  - id: evt:sump_lever
+    preset: switch
+    source: switch:sump_lever
+    title: Lever
+    condition: {not: {map_var: sump_open}}
+    locked_text: "The lever is down; the door stands open."
+    opens: [door:sump]
+    sets: {map_var: sump_open}
+    effects:
+      - text: The lever drops. The door to the stair hall grinds up.
+    notes: "The sump's way out (D-61 Q18: a fall costs a climb, not progress)."
+  - id: evt:throne
+    preset: text
+    source: deco:throne
+    title: Sheltem's throne
+    text: "The throne is empty, and the air says it will not be for long."
+    notes: The throne.
+  - id: evt:trap_t1
+    preset: text
+    source: lift:trap_t1
+    trigger: step
+    title: A plate seamed like a hatch.
+    closes: [lift:trap_t1]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:trap_t2
+    preset: text
+    source: lift:trap_t2
+    trigger: step
+    title: Hatched plate
+    closes: [lift:trap_t2]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:trap_t3
+    preset: text
+    source: lift:trap_t3
+    trigger: step
+    title: Hatched plate
+    closes: [lift:trap_t3]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:trap_t4
+    preset: text
+    source: lift:trap_t4
+    trigger: step
+    title: Hatched plate
+    closes: [lift:trap_t4]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:trap_t5
+    preset: text
+    source: lift:trap_t5
+    trigger: step
+    title: Hatched plate
+    closes: [lift:trap_t5]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:trap_t6
+    preset: text
+    source: lift:trap_t6
+    trigger: step
+    title: Hatched plate
+    closes: [lift:trap_t6]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_trapdoor\")"
+    text: "The hatched plate drops away under you!"
+    notes: "D-61 Q18: a trapdoor (lifts trap): the party falls 1,280 to the chasm floor and walks out by the sump. The first one, inside the lift head, has the hover."
+  - id: evt:true_name_statue
+    preset: text
+    source: deco:true_name_statue
+    title: Statue
+    text: "The statue speaks as you approach: I am the statue dedicated to honoring Alamar's true name. It is: kdkiendlshj**:and dugli (crackle)I am the statue dedicated to honoring Alamar's true name. It is: kdkiendlshj**:and dugli (crackle)..."
+    window: true
+    notes: "The crackling true-name statue (aaze0049:5, verbatim)."
+  - id: evt:vault_door
+    preset: text
+    source: door:vault
+    title: Strongroom
+    text: The strongroom's door is sealed. Its release is somewhere else.
+    notes: Before the release (after it the door is up).
+  - id: evt:vault_load
+    preset: switch
+    trigger: load
+    condition: {qbit: vault_open}
+    opens: [door:vault]
+    notes: The strongroom stays open on every later load.
+  - id: evt:vault_release
+    preset: switch
+    source: switch:vault_release
+    title: "Vault release: the strongroom by Command Central"
+    condition: {lua: "continueStep == 1"}
+    opens: [door:vault]
+    sets: {qbit: vault_open}
+    effects:
+      - text: "Far off, a heavy door grinds up."
+    else_effects:
+      - lua: |-
+          if continueStep ~= nil then
+              return
+          end
+          if IsQBitSet(QBit(117605)) then
+              evt.StatusText("The release is down. The strongroom stands open.")
+              return
+          end
+          AskChoiceWithAnswerSteps(eventId, 3, "Vault release. Pull?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "One-way (D-43): Yes/No (D-66); vault_open 117605 raises the strongroom's door by the antechamber; after it 'The release is down. The strongroom stands open.'"
+  - id: evt:visit_end
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 0
+    notes: "Leaving by any way ends the visit, so the next entry greets again."
+  - id: evt:visit_load
+    preset: script
+    trigger: load
+    condition: {not: {map_var: in_visit}}
+    effects:
+      - set:
+          var:
+            map_var: in_visit
+          value: 1
+      - set:
+          var:
+            map_var: visit
+          value: 1
+    notes: "A real entry (in_visit clear, as leaving left it) arms evt:arrival once; a load of a game saved inside the castle finds in_visit set (saved with the map) and arms nothing (A3's segment 77, DD-09's in_visit pattern)."
+cinematics:
+  - id: cinematic:self_destruct
+    shots:
+      - {seconds: 5, at: [-2080, -4000, 1560], look_at: [-3824, -4000, 1440]}
+      - {seconds: 5, at: [-2992, -3488, 1500], look_at: [-3648, -4160, 1400]}
+      - {seconds: 6, at: [-1296, -4544, 1700], look_at: [-3504, -4000, 1400]}
+    cues:
+      - {at: 0, fade: in, seconds: 1}
+      - {at: 0.5, event: evt:show_figures}
+      - {at: 0.5, subtitle: "Corak steps out of the Soul Box, taller than the room. Before the throne, Sheltem is there as if he had always been.", seconds: 4.5}
+      - {at: 5, subtitle: "They close on each other, and the castle begins to shake itself apart.", seconds: 4.5}
+      - {at: 5, shake: 0.8, seconds: 3}
+      - {at: 5, sound: xeen_klaxon}
+      - {at: 9.5, sound: xeen_castle_groan}
+      - {at: 9.5, shake: 1, seconds: 4}
+      - {at: 10, subtitle: "\"The Cube! Take it and run!\"", seconds: 4}
+      - {at: 11.5, sound: xeen_klaxon}
+      - {at: 15, fade: out, seconds: 1}
+    notes: "D-61 Q15/Q17: the self-destruct after m33.sheltem: Sheltem and Corak shown (evt:show_figures), the castle's groan (XD-19's xeen_castle_groan) between AU's two klaxon blasts (5 s, 11.5 s), then the leave to D6 in the done event. Subtitles are map-local lines after A3's m33.sheltem text (Lines for A3)."
+notes: "DD-17's events, written by output/studio_cal/dd17/tools/dress.py."

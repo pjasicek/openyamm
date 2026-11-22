@@ -1,0 +1,248 @@
+format: 0
+level: L3
+pitch: "The crypt under Nightshadow's square, entered down the stair in Count Draco's own coffin. The town's crypt on top (the ossuary, niches of gnome-sized coffins, the burial chapel turned to the moon), the Count's catacombs below with the gallery of his portraits and his feast hall, and his resting vault at the bottom behind an iron door that opens only by night. Back up the Count's own stair once he is dust."
+purpose: "Q-C7 The Count of Nightshadow (A3's q-c7.draco sets q-c7.done 112141: Nightshadow liberated; Du Monay's Nosferatu promotion). Party 25-29, monsters 32-40 (Gnome Vampire 32, Vampire 40), Count Draco 45."
+mood: "Cold grey stone, candle stubs, bones stacked to the vault; below, brown loculi and the Count's portraits, the same pale face in every frame; at the bottom a ribbed vault and a black sarcophagus."
+datum: arrival
+spaces:
+  - id: room:cata_e
+    name: East catacomb
+    kind: corridor
+    size: M
+    floor: -640
+    purpose: "Older loculi, collapsed in places; a draught from the feast hall."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [32, 32], notes: 2 Gnome Vampires placed.}
+  - id: room:cata_w
+    name: West catacomb
+    kind: corridor
+    size: M
+    floor: -640
+    purpose: "Loculi three high; the chapel stair arrives here."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [32, 32], notes: 2 Gnome Vampires placed.}
+  - id: room:chapel
+    name: Night chapel
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The town's burial chapel turned to the moon: a black altar, a moon window painted on the wall; the stair down."
+    population:
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [32, 32], notes: 3 Gnome Vampires placed.}
+  - id: room:chapel_stair
+    name: Chapel stair
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: Down from the chapel to the Count's catacombs.
+    empty: true
+  - id: room:coffin_stair
+    name: Coffin stair
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "Up to the underside of Draco's coffin: the way out to X3."
+    empty: true
+  - id: room:count_stair
+    name: The Count's stair
+    kind: corridor
+    size: S
+    floor: -1280
+    purpose: "A secret ramp behind the dais up to the stair foot, opened by the Count's death."
+    empty: true
+  - id: room:draco_vault
+    name: Draco's resting vault
+    kind: room
+    size: L
+    floor: -1280
+    purpose: "A ribbed vault, the great sarcophagus on a dais; Count Draco and two of his household. His hoard (tier 4)."
+    population:
+      - {slot: 2, groups: 1, per_marker: [1, 1], levels: [45, 45], notes: "Count Draco (A2's boss row 11293), placed."}
+      - {slot: 2, groups: 1, per_marker: [2, 2], levels: [40, 40], notes: 2 Vampires placed.}
+  - id: room:feast_hall
+    name: The Count's feast hall
+    kind: room
+    size: M
+    floor: -640
+    purpose: "A long table laid for guests who never left; silver plate in a chest at the head of the table."
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 2], levels: [40, 40], notes: 2 Vampires placed.}
+  - id: room:gallery
+    name: Draco's gallery
+    kind: room
+    size: M
+    floor: -640
+    purpose: "Portraits of the Count down the centuries, the same face in every one; the vault stair at its end."
+    population:
+      - {slot: 2, groups: 1, per_marker: [1, 1], levels: [40, 40], notes: 1 Vampire placed.}
+  - id: room:niches
+    name: Gnome niches
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "Rows of small coffins in wall niches, lids ajar: 'The coffin is empty.' Their owners are up."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [32, 32], notes: 2 Gnome Vampires placed.}
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [32, 32], notes: 3 Gnome Vampires placed.}
+  - id: room:ossuary
+    name: Town ossuary
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Nightshadow's dead, skulls stacked to the vault; gnome vampires sleeping among the bones."
+    population:
+      - {slot: 1, groups: 2, per_marker: [2, 2], levels: [32, 32], notes: 2 Gnome Vampires placed.}
+  - id: room:sexton
+    name: Sexton's room
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The old sexton's bed and his lockbox of burial fees, untouched since he was bitten."
+    empty: true
+  - id: room:stair_foot
+    name: Coffin stair foot
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The foot of the stair from Draco's coffin on the square; old earth, candle stubs. No monsters (D-11.3)."
+    empty: true
+  - id: room:vault_stair
+    name: Vault stair
+    kind: corridor
+    size: S
+    floor: -640
+    purpose: "Down from the gallery to an iron door with the Count's symbol, open only by night. Empty: the party may rest here until 21:00."
+    empty: true
+links:
+  - id: link:catae_feast
+    from: room:cata_e
+    to: room:feast_hall
+    kind: door
+    motion: swing
+  - id: link:cataw_gallery
+    from: room:cata_w
+    to: room:gallery
+    kind: open
+  - id: link:chapel_cataw
+    from: room:chapel
+    to: room:cata_w
+    kind: stairs
+  - id: link:chapel_sexton
+    from: room:chapel
+    to: room:sexton
+    kind: door
+    motion: swing
+  - id: link:coffin_stair
+    from: room:stair_foot
+    to: room:coffin_stair
+    kind: stairs
+  - id: link:feast_cataw
+    from: room:feast_hall
+    to: room:cata_w
+    kind: door
+    motion: swing
+  - id: link:foot_niches
+    from: room:stair_foot
+    to: room:niches
+    kind: open
+  - id: link:foot_ossuary
+    from: room:stair_foot
+    to: room:ossuary
+    kind: open
+  - id: link:gallery_catae
+    from: room:gallery
+    to: room:cata_e
+    kind: open
+  - id: link:gallery_vstair
+    from: room:gallery
+    to: room:vault_stair
+    kind: stairs
+  - id: link:niches_chapel
+    from: room:niches
+    to: room:chapel
+    kind: open
+  - id: link:ossuary_chapel
+    from: room:ossuary
+    to: room:chapel
+    kind: door
+    motion: swing
+  - id: link:private_stair
+    from: room:draco_vault
+    to: room:stair_foot
+    kind: secret_door
+    motion: sink
+    condition: {qbit: draco_done}
+    one_way: true
+    notes: "The Count's stair behind the dais, opened by his death (a kill timer, A3's q-c7.draco)."
+  - id: link:vault_door
+    from: room:vault_stair
+    to: room:draco_vault
+    kind: door
+    motion: swing
+    condition: {any: [{qbit: vault_open}, {lua: Xeen.isNight()}]}
+    notes: "The iron door: its click reads the time (Xeen.isNight, 21:00-6:00); by day it refuses (D-25 Q1). Once opened (vault_open) it stays open and Draco fights at any hour."
+loops:
+  - id: loop:catacombs
+    spaces: [room:cata_w, room:gallery, room:cata_e, room:feast_hall]
+    notes: Round the catacombs through the feast hall.
+  - id: loop:count_stair
+    spaces: [room:stair_foot, room:chapel, room:cata_w, room:gallery, room:vault_stair, room:draco_vault, room:count_stair]
+    closed_until: {qbit: draco_done}
+    notes: "Down through the crypt, back up the Count's own stair once he is dead."
+  - id: loop:square
+    spaces: [room:stair_foot, room:ossuary, room:chapel, room:niches]
+    notes: "Round the town's crypt: ossuary or niches to the chapel."
+entrances:
+  - id: entrance:x3_coffin
+    space: room:stair_foot
+    kind: both
+    neighbour: exit:x3_coffin
+    facing: s
+    how: "From X3's open coffin on Nightshadow's square (thing:coffin_open) to the stair foot; the coffin stair leads back up (the exit preset, D-24)."
+critical_path: [room:stair_foot, room:ossuary, room:chapel, room:chapel_stair, room:cata_w, room:gallery, room:vault_stair, room:draco_vault]
+goals:
+  - id: goal:draco
+    space: room:draco_vault
+    kind: kill
+    what: "Count Draco (A2's boss row 11293, level 45): his death runs A3's q-c7.draco."
+    story: Q-C7
+    gives:
+      qbit: draco_done
+keys:
+  - id: key:night
+    grants: {qbit: vault_open}
+    found_in: room:vault_stair
+    how: "The night: the iron door opens between 21:00 and 6:00 (the sign over it, X3's sign on the coffin's plinth, Du Monay). Rest on the vault stair until nine."
+points_of_interest:
+  - id: poi:niches
+    space: room:niches
+    kind: coffins
+    behaviour: "'The coffin is empty.' (aaze0029:3)"
+  - id: poi:portraits
+    space: room:gallery
+    kind: set_piece
+    behaviour: "The same face in every portrait: the Count before he is met."
+  - id: poi:sarcophagus
+    space: room:draco_vault
+    kind: inscription
+    behaviour: The rhyme's second half on the sarcophagus's foot (aaze0029:8).
+states:
+  - id: state:draco
+    condition: {qbit: draco_done}
+    opens: [link:private_stair]
+    notes: "Count Draco dead: A3's q-c7.draco (q-c7.done 112141, 10,000 experience); the Count's stair opens."
+  - id: state:night
+    condition: {any: [{qbit: vault_open}, {lua: Xeen.isNight()}]}
+    opens: [link:vault_door]
+    notes: Night (21:00-6:00) or the door already opened once.
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 3
+  doors: 7
+  floor_area_munits2: 19
+  loops: 3
+  monsters_about: 22
+  rooms: 14
+  sectors: 14
+notes: "Size S (MAPS: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/xd24.graph.yml and D-25 (mockups/act3_a7_decisions.md): the iron door night-only and open once opened, ossuary 2+2, niches 2+3, the first room and the vault stair empty, the Count's stair one way back up. Rooms 11 of the graph plus the coffin stair, the chapel stair and the Count's stair as their own sectors."

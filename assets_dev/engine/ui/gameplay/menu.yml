@@ -73,9 +73,9 @@ elements:
   - id: MenuButtonReturn
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 147.2544
+    offset_y: 147.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -95,9 +95,9 @@ elements:
   - id: MenuButtonSaveGame
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 181.3877
+    offset_y: 177.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -117,9 +117,9 @@ elements:
   - id: MenuButtonLoadGame
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 215.5211
+    offset_y: 207.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -136,12 +136,34 @@ elements:
       scale: 0.43333
       pad_x: 12.8
     notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
+  - id: MenuButtonMultiplayer
+    anchor: top_left
+    offset_x: 304.5333
+    offset_y: 237.25
+    width: 244.2667
+    height: 25.6
+    z_index: 10
+    visible: true
+    interactive: true
+    asset:
+      default: hud_x2/menus/omenu_button_default.png
+      highlighted: hud_x2/menus/omenu_button_hover.png
+      pressed: hud_x2/menus/omenu_button_pressed.png
+    text:
+      value: Multiplayer
+      font: fondamento
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+      scale: 0.43333
+      pad_x: 12.8
+    notes: 'Live label; image padding, disabled and focus states: level_generation/ui/menu_study_20260928/runtime_stage/contracts/theme.yml.'
   - id: MenuButtonSettings
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 249.6544
+    offset_y: 267.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -161,9 +183,9 @@ elements:
   - id: MenuButtonNewGame
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 283.7877
+    offset_y: 297.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -183,9 +205,9 @@ elements:
   - id: MenuButtonMainMenu
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 331.2544
+    offset_y: 337.25
     width: 244.2667
-    height: 27.2
+    height: 25.6
     z_index: 10
     visible: true
     interactive: true
@@ -205,7 +227,7 @@ elements:
   - id: MenuButtonQuit
     anchor: top_left
     offset_x: 304.5333
-    offset_y: 365.3877
+    offset_y: 367.25
     width: 244.2667
     height: 23.5669
     z_index: 10

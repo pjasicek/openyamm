@@ -1,7 +1,10 @@
 # Liquids drawn by the liquid shader (game/render/WaterRenderer.cpp, game/shaders/fs_water.sc and fs_indoor_water.sc).
 # A terrain tile or face texture matching a liquid loads no art: the shader draws it from its kind and colour.
-#   kind: water (waves, reflections, shore), tar (dark, slow, glossy, bubbling) or lava (self-lit crust and cracks)
-#   color: [red, green, blue] - water and tar: the lit body tint; lava: the glow of its cracks
+#   kind: water (waves, reflections, shore), tar (dark, slow, glossy, bubbling), lava (self-lit crust and cracks) or
+#     mirror (silvered glass: a planar reflection about the face's own plane, any orientation, seen from its front
+#     side only and within 4096; fs_mirror.sc; faces only, opaque, never shallow)
+#   color: [red, green, blue] - water and tar: the lit body tint; lava: the glow of its cracks; mirror: the glass's
+#     tint of what it reflects (and its colour, dimmed, where it has no reflection)
 #   terrain_transition_overlay: terrain edge tiles over the liquid keep their overlay art, and its alpha is the
 #     liquid's coverage
 # Optional (MM9's liquids below use worlds, depth and opacity):
@@ -380,3 +383,86 @@ liquids:
     depth: shallow
     match:
       texture_names: [lqoc4o95]
+
+  # Xeen's stat barrels (decision D-22): the MM6 barrels' colours, faces only, matte.
+  - id: xjuicered_xeen
+    # red, Might
+    kind: water
+    color: [150, 28, 28]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuicered]
+
+  - id: xjuiceblu_xeen
+    # blue, Personality
+    kind: water
+    color: [38, 62, 160]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuiceblu]
+
+  - id: xjuiceorg_xeen
+    # orange, Intellect
+    kind: water
+    color: [196, 104, 30]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuiceorg]
+
+  - id: xjuicegrn_xeen
+    # green, Endurance
+    kind: water
+    color: [46, 138, 52]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuicegrn]
+
+  - id: xjuiceyel_xeen
+    # yellow, Accuracy
+    kind: water
+    color: [198, 176, 42]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuiceyel]
+
+  - id: xjuicepur_xeen
+    # purple, Speed
+    kind: water
+    color: [108, 40, 140]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuicepur]
+
+  - id: xjuicewht_xeen
+    # white, Luck
+    kind: water
+    color: [206, 206, 198]
+    applies_to: [face]
+    worlds: [xeen]
+    reflections: false
+    match:
+      texture_names: [xjuicewht]
+
+
+  # Xeen's working mirrors (the travel mirrors: Map Studio portals whose membrane is this texture, and indoor mirror
+  # faces): silvered glass reflecting the square, pale silver-grey, not blue (D-37). The textured xkmirror stays for
+  # the dead mirrors.
+  - id: xmirror_xeen
+    kind: mirror
+    color: [212, 214, 220]
+    applies_to: [face]
+    worlds: [xeen]
+    match:
+      texture_names: [xmirror]

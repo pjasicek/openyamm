@@ -1,0 +1,74 @@
+# The way in to Darzog's Tower (XD-12) from X2 (lane A8, 2026-11-20).
+# A new party on X2 stands on Lake Darzog's island at the tower door's outside arrival (DOORS.md, door:xd12: the door's
+# click face at -16031, 3014, 768 on the tower's east side; arrival -15631, 3014, 768) and walks up to the door. Without
+# the Skeleton Key (12100, M13's, from XD-11) the black iron door refuses (X2's text); with it, X2's event "Darzog's
+# Tower" loads xeen_xd12.blv at the map's own start in the gate hall (2752, 0, 0), where the arrival window says magic
+# fails here. Played from assets_dev in the Xeen world with X2 (A5) installed: build-xeen/game/openyamm --asset-root
+# assets_dev --world xeen, no --map (output/studio_cal/xd12/xfour.sh; the scenario starts on X2).
+id: xeen.xd12.l4.way_in
+title: Darzog's Tower (XD-12 L4), in from the island's tower door with the Skeleton Key
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 33, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 33, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 33, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
+  - assert: {map: xeen_x2.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  # On the island at the exit's arrival, then up to the door, facing it (west).
+  - set_pose: {map: xeen_x2.odm, x: -15631, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: -15631, y: 3014, radius: 64, z_min: 700, z_max: 900}}
+  - set_pose: {map: xeen_x2.odm, x: -15831, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  # No key: the door refuses and the party stays on the island.
+  - press_interact:
+      expect:
+        kind: event_target
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Whoever holds the key to it is not on this island."}}
+  - press_action: {action: cancel_dialog}
+  - assert: {map: xeen_x2.odm}
+  # The Skeleton Key: the door opens into the tower.
+  - grant_item: {item_id: 12100}
+  - play_lua: {source: "if not has_item(12100) then error('no Skeleton Key') end"}
+  - set_pose: {map: xeen_x2.odm, x: -15831, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact:
+      expect:
+        kind: event_target
+  # X2's tower door shows the standard entrance window since X2's MP40 rebuild (F16)
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd12.blv}
+  - assert: {party_position: {x: 2752, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  # First arrival only (lane A8, 2026-11-20): the window shows once (arrived_once 110503); leave by the tower door, come in
+  # again from X2's door, and no window opens.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Every spell you reach for dies before it is shaped"}}
+  - play_lua: {source: "close(); wait(1); if not qbit(110503) then error('the arrival window did not set arrived_once') end"}
+  - execute_event: {id: 41}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - set_pose: {map: xeen_x2.odm, x: -15831, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd12.blv}
+  - assert: {party_position: {x: 2752, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}

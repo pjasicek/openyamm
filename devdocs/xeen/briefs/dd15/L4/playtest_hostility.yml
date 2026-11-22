@@ -1,0 +1,59 @@
+# Hostility check of the Great Pyramid (DD-15) (the XD-27 form): the Pyramid mummies (Tomb Mummy 11270 x34 with the
+# eight niche mummies hidden, Pyramid Guard 11271 x24, Ghost Mummy 11273 x6, Royal Mummy 11272 x6) are hostile at
+# load, none peaceful (D-61 Q5: the wardens stay hostile); the four kinds side by side do not fight each other. The
+# Dragon Pharaoh (11919, npc 5453, actor 49) is peaceful; struck 40 times he takes no damage (evt:figures_load) and
+# stays peaceful, and the mummies beside him leave him alone. Run with --world xeen (output/studio_cal/dd15/four.sh).
+id: xeen.dd15.l4.hostility
+title: 'Great Pyramid (DD-15): mummies hostile, no infighting, the Pharaoh peaceful and unhurt'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd15.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 45, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 45, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 45, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11270, hostile: true, min: 34, max: 34}}
+- assert: {actor_count: {monster_id: 11271, hostile: true, min: 24, max: 24}}
+- assert: {actor_count: {monster_id: 11273, hostile: true, min: 6, max: 6}}
+- assert: {actor_count: {monster_id: 11272, hostile: true, min: 6, max: 6}}
+- assert: {actor_count: {monster_id: 11270, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11271, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11273, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11272, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11919, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11919, hostile: true, max: 0}}
+- assert: {actor_visible: {actor_index: 49, monster_id: 11919, hidden: false, hp: 880}}
+- note: 'The four kinds side by side in the throne hall by the Pharaoh, nearer each other than the party: they must not
+    take each other on, nor him.'
+- set_pose: {map: xeen_dd15.blv, x: 0, y: -400, z: 2304, yaw_degrees: 90, pitch: 0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11270, x: -1024, y: 1024, z: 2304}
+- spawn_actor: {monster_id: 11271, x: -640, y: 1024, z: 2304}
+- spawn_actor: {monster_id: 11273, x: -256, y: 1024, z: 2304}
+- spawn_actor: {monster_id: 11272, x: 128, y: 1024, z: 2304}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11270, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11271, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11273, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11272, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11919, hurt: true, max: 0}}
+- console: {line: arena trace off}
+- note: The Pharaoh struck forty times takes no damage and stays peaceful.
+- play_lua: {source: "clear_hostiles(3000)"}
+- advance_runtime: {seconds: 1}
+- walk_to: {x: -384, y: 1350, z: 2304, radius: 48, timeout_seconds: 20, close_dialogs: true}
+- lua_event: {source: "evt.ForPlayer(Players.All) SubtractValue(Insane, 0) SubtractValue(Paralyzed, 0) SubtractValue(Asleep, 0) SubtractValue(Afraid, 0)"}
+- advance_runtime: {seconds: 2}
+- party_attack: {actor_index: 49, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+- assert: {actor_visible: {actor_index: 49, monster_id: 11919, dead: false, hp: 880, report_state: true}}
+- assert: {actor_count: {monster_id: 11919, hostile: false, min: 1, max: 1}}

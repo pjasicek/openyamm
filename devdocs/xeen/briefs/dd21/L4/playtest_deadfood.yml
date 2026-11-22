@@ -1,0 +1,93 @@
+# The Necropolis Sewer (DD-21, L4): the Dead Food barrel (D-62 Q43, A3's q-d23.dead_food). A level-50 party is set
+# down in the dead-food cellar; every member's base Endurance is set to 20, the first member's Might to 10, the second's
+# to 40. A signed barrel reads "Food for the dead, keep warm." (q-d23.barrel_sign). The weak member pries: "You are not
+# strong enough to pry the lid off the barrel." (aaze0036:7), nothing changes. The strong member pries: the Dead Food's
+# line, dead_food_pried 117723, every member +2 Endurance (player bit 11378), and the barrel's two hidden Cinder Roaches
+# (actors 0 and 1) are shown. A save and a load: they are still shown. A second pry: "You have all had some.", nobody
+# gains again. The roaches killed, a save and a load: they stay dead (no load event shows them again, D-18). Numbers are
+# ids.lock.yml's and the actor indices of playtest.yml. Run with --world xeen --map xeen_dd21.blv
+# (output/studio_cal/dd21/four.sh).
+id: xeen.dd21.l4.dead_food
+title: Necropolis Sewer (DD-21 L4), the Dead Food barrel
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd21.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_dd21.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd21.blv, x: 1600, y: -1408, z: -512, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, hidden: true}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11363, hidden: true}}
+  - lua_event: {source: "local m = PartyMembers(); for i, p in ipairs(m) do evt.ForPlayer(p); SetValue(BaseEndurance, 20); if i == 1 then SetValue(BaseMight, 10) elseif i == 2 then SetValue(BaseMight, 40) end end; evt.ForPlayer(Players.Current)"}
+  # A signed barrel.
+  - walk_to: {x: 1920, y: -1180, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Food for the dead, keep warm."}}
+  - play_lua: {source: "close()"}
+  # The weak member is refused.
+  - walk_to: {x: 1990, y: -1472, z: -512, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You are not strong enough to pry the lid off the barrel.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(1.5); if qbit(117723) then error('dead_food_pried set by the weak member') end"}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, hidden: true}}
+  - lua_event: {source: "for _, p in ipairs(PartyMembers()) do evt.ForPlayer(p); if IsAtLeast(BaseEndurance, 21) then error('Endurance raised by a refusal') end end; evt.ForPlayer(Players.Current)"}
+  # The strong member pries: the food, +2 Endurance each, the two roaches.
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dead Food. It is warm, as the sign asked]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(1.5); if not qbit(117723) then error('dead_food_pried not set') end"}
+  - lua_event: {source: "for _, p in ipairs(PartyMembers()) do evt.ForPlayer(p); if not IsAtLeast(BaseEndurance, 22) or IsAtLeast(BaseEndurance, 23) then error('Endurance is not 22') end end; evt.ForPlayer(Players.Current)"}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11363, hidden: false, dead: false}}
+  - assert: {actor_count: {monster_id: 11363, hostile: true, min: 2}}
+  # A save and a load: the roaches are still there.
+  - save_game: {name: dd21_food}
+  - load_game: {name: dd21_food}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, hidden: false}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11363, hidden: false}}
+  # A second pry: nobody eats twice.
+  - press_action: {action: select_member, member_index: 1}
+  - walk_to: {x: 1990, y: -1472, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have all had some.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - lua_event: {source: "for _, p in ipairs(PartyMembers()) do evt.ForPlayer(p); if IsAtLeast(BaseEndurance, 23) then error('the Dead Food worked twice') end end; evt.ForPlayer(Players.Current)"}
+  # The roaches killed: a save and a load, they stay dead.
+  - play_lua: {source: "clear_hostiles(800)"}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, dead: true}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11363, dead: true}}
+  - save_game: {name: dd21_food_dead}
+  - load_game: {name: dd21_food_dead}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11363, dead: true}}
+  - assert: {actor_visible: {actor_index: 1, monster_id: 11363, dead: true}}

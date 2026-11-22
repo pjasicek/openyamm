@@ -1,0 +1,4 @@
+format: 0
+open_sky: {mode: open, sky_texture: xeencloud, view: outdoor, view_distance_scale: 1.5}
+daylight: {ambient_rgb: [110, 112, 125], sun_rgb: [255, 248, 232], night_scale_rgb: [134, 143, 168], sun_gain: 3}
+notes: "Sky xeencloud (xeen_cloud_sea: below_horizon sky) as every sky map (lanes README), question 9; an outdoor view at 1.5 times the view distance so that the far side of the ring (about 10,000 across) and the cloud sea read; no weather; X9's daylight block."

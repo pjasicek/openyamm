@@ -1,0 +1,41 @@
+format: 0
+id: xeen_xd26
+name: Gargoyle Eyrie
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-26
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 10], climbs: n}
+map_stats:
+  id: 9149
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Gargoyle, tier: 2, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x4_peak
+    to: xeen_x4.odm
+    kind: door
+    arrival: [-7424, 14592, 3600]
+    arrival_hint: "X4, A5's ledge platform high on the peak above the mouth, its top 3,593 (measured 2026-11-20), facing south; a path leads down."
+    direction: 270
+    notes: One way out (the sky crack).
+  - id: exit:x4_range
+    to: xeen_x4.odm
+    kind: door
+    arrival: [-9216, 11376, 2340]
+    arrival_hint: "X4's Gargoyle Range, 400 south of door:xd26's cave-mouth face (-9216, 11776), facing away from it (south); the ground there is 2,330 (measured 2026-11-20)."
+    direction: 270
+    notes: "X4 (Burlock Savannah), A5's door:xd26."
+qbits:
+  hoist_winched: 110880
+  scarab_found: 112202
+notes: "Xeen design brief, level L2: XD-26 Gargoyle Eyrie (see L4/NOTES.md)."

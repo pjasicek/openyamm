@@ -1,0 +1,33 @@
+format: 0
+id: xeen_dd23
+name: Gargoyle Lair
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-23
+units: {plan_grid: 512}
+extent: {footprint_cells: [7, 13], climbs: n}
+map_stats:
+  id: 9176
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Mountain Gargoyle, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:d4_mouth
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd23_lair
+    arrival_hint: "D4's named arrival before the lair's mouth in Magic Mountain's eastern crags, (-9216, 10752, 2304) facing south (1536), at the goat path's end."
+    notes: "D4 Lakeside and Blackfang (A6, installed): its door:dd23 (thing:dd23_lair) leads in to entrance:d4_mouth."
+qbits:
+  glass_found: 113302
+  lair_destroyed: 113301
+notes: "Xeen design brief, level L1: DD-23 Gargoyle Lair (see L4/NOTES.md)."

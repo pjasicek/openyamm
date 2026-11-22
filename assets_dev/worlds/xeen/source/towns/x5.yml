@@ -1,0 +1,163 @@
+# X5 Winterkill Tundra: Winterkill, Kai Wu's monastery, Glom's burrow and the tundra (Act II). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (2026-11-20): X5 installed by A6 with every door as listed (houses 4251-4255, 4257-4268, 4270-4274; the
+# mirror 4256 on thing:mirror). NPC topics are A3's (source/npcs/x5.yml).
+#
+# Winterkill (ghost town, QUESTS Q-C6): before q-c6.done only the Mindmeld Guild, kept by Casper (the town's open
+#   house with its guildmaster's joke, WORLD_DESIGN 5.1); Mayor Randon stands by the gongs. The rest opens with the
+#   town: tavern, temple, the Guild of Shadows, an outfitter, the mirror and twelve houses.
+# Kai Wu's monastery (WORLD_DESIGN 5.1): temple and training to 40 (x25) from day one, outside the curse.
+key: X5
+stem: xeen_x5.odm
+town: Winterkill Tundra
+face: cloudside
+blocks:
+  houses: [4251, 4300]
+  npcs: [4501, 4600]
+
+arrivals:
+  winterkill_square: {at: [-13824, 11264, 992], direction: 1536, note: "Winterkill's square by the gongs and the mirror, facing south (Town Portal, the mirror, respawn)"}
+
+houses:
+  # ---- Winterkill (town: Winterkill): open from day one ----
+  - id: 4251
+    door: building:mindmeld_guild
+    town: Winterkill
+    was: 160
+    kind: mind_guild
+    name: The Mindmeld Guild
+    owner: 4501
+    guild: {spells: 9}
+    note: "Casper keeps the guild and lives in it: the cursed town's open house."
+    open_before: true
+  # ---- Winterkill: open once the ghosts are laid (q-c6.done) ----
+  - id: 4252
+    door: building:winterkill_tavern
+    town: Winterkill
+    was: 250
+    kind: tavern
+    name: The Frozen Flagon
+    owner: 4503
+    opens: q-c6.done
+    closed_text: "Frost on the inside of the windows. Something inside is laughing at nothing."
+  - id: 4253
+    door: building:winterkill_temple
+    town: Winterkill
+    was: 312
+    kind: temple
+    name: Temple of the Thaw
+    owner: 4504
+    opens: q-c6.done
+    closed_text: "The doors are frozen shut. A cold voice behind them recites a funeral."
+  - id: 4254
+    door: building:winterkill_guild_dark
+    town: Winterkill
+    was: 176
+    kind: dark_guild
+    name: The Guild of Shadows
+    owner: 4505
+    guild: {spells: 9}
+    opens: q-c6.done
+    closed_text: "Locked. The shadows under the door move when you do."
+  - id: 4255
+    door: building:winterkill_armour
+    town: Winterkill
+    was: 55
+    kind: armor_shop
+    name: Furs and Fittings
+    owner: 4506
+    shop: {quality: 4}
+    opens: q-c6.done
+    closed_text: "Closed. Empty coats hang in the window and turn to watch you."
+  - id: 4256
+    door: thing:mirror
+    town: Winterkill
+    kind: mirror
+    name: The Mirror of Winterkill
+    opens: q-c6.done
+    closed_text: "A pale face looks back from the mirror. It is not yours."
+    mirror: {face: cloudside, town: Winterkill, arrival: winterkill_square, qbit: 119004}
+  - {id: 4257, door: "building:winterkill_houses#1", town: Winterkill, kind: residence, name: Ottilie's House, residents: [4507], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4258, door: "building:winterkill_houses#2", town: Winterkill, kind: residence, name: Grimwald's Lodge, residents: [4508], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4259, door: "building:winterkill_houses#3", town: Winterkill, kind: residence, name: Sven's House, residents: [4509], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4260, door: "building:winterkill_houses#4", town: Winterkill, kind: residence, name: Hulda's House, residents: [4510], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4261, door: "building:winterkill_houses#5", town: Winterkill, kind: residence, name: Frost House, residents: [4511], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4262, door: "building:winterkill_houses#6", town: Winterkill, kind: residence, name: Agna's Kitchen, residents: [4512], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4263, door: "building:winterkill_houses#7", town: Winterkill, kind: residence, name: Knut's Shack, residents: [4513], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4264, door: "building:winterkill_houses#8", town: Winterkill, kind: residence, name: Ragnhild's Farm, residents: [4514], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4265, door: "building:winterkill_houses#9", town: Winterkill, kind: residence, name: The Chandlery, residents: [4515], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4266, door: "building:winterkill_houses#10", town: Winterkill, kind: residence, name: Sigrun's House, residents: [4516], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4267, door: "building:winterkill_houses#11", town: Winterkill, kind: residence, name: Woodcutter's Cottage, residents: [4517, 4518], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+  - {id: 4268, door: "building:winterkill_houses#12", town: Winterkill, kind: residence, name: Snow House, residents: [4519], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
+
+  # ---- Kai Wu's monastery (town: Kai Wu's monastery): open from day one ----
+  - id: 4270
+    door: building:monastery_training
+    town: Kai Wu's monastery
+    was: 1577
+    kind: training
+    name: Kai Wu's Monastery
+    owner: 4521
+    training: {cap: 40, price: 25}
+  - id: 4271
+    door: building:monastery_temple
+    town: Kai Wu's monastery
+    was: 320
+    kind: temple
+    name: Hall of Stillness
+    owner: 4522
+    residents: [4523]
+
+  # ---- the tundra (outside any town) ----
+  - id: 4272
+    door: building:glom_burrow#1
+    kind: residence
+    name: Glom's Burrow
+    outside: true
+    residents: [4524]
+  - id: 4273
+    door: building:glom_burrow#2
+    kind: residence
+    name: The Steward's Burrow
+    outside: true
+    residents: [4525]
+  - id: 4274
+    door: building:halon_workshop
+    kind: residence
+    name: Halon's Workshop
+    outside: true
+    residents: [4526]
+
+npcs:
+  # ---- Winterkill ----
+  - {id: 4501, name: Casper, title: Mindmeld Guildmaster, profession: Spell Master, talks: true, greet: ["Membership is strictly by invitation. Then again, I may fall asleep with the roll book open. (wink, wink)", "Still awake? I'm not."], source: "MAPS X5: Casper's bribe"}
+  - {id: 4502, name: Mayor Randon, profession: Clerk, talks: true, house: none, place: "X5, Winterkill's square by the gongs (A6)", greet: ["My town is full of ghosts and empty of people. Ring the gongs, and come back after each wave.", "How many waves now?"]}
+  - {id: 4503, name: Ulla, title: Innkeeper, profession: Cook, greet: ["The last ghost drank here every night. Never paid.", "Something hot?"]}
+  - {id: 4504, name: Father Ingram, profession: Healer, greet: ["We buried the town twice. Once was enough.", "Warm yourself."]}
+  - {id: 4505, name: Morwenna the Shade, title: Mistress of Shadows, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: master}], greet: ["The ghosts were amateurs. We teach the real thing.", "Step out of the light."]}
+  - {id: 4506, name: Bjorn Fellmonger, title: Furrier, profession: Armorer, greet: ["Fur outside, iron inside. The tundra respects both.", "Cold?"]}
+  - {id: 4507, name: Old Ottilie, title: Mentalist, profession: Psychic, teaches: [{skill: Mind Magic, mastery: master}], greet: ["I heard the ghosts' thoughts for nine years. Yours are much louder.", "I know why you came."]}
+  - {id: 4508, name: Grimwald, title: Ghost Hunter, profession: Hunter, teaches: [{skill: Identify Monster, mastery: master}], greet: ["The Acme Ghost Visualization System. Sold by the gross, works by the dozen.", "Seen anything pale?"], source: "MAPS X5: Acme Ghost Visualization System"}
+  - {id: 4509, name: Sven, title: Labourer, profession: Laborer, greet: ["Shovelled snow off the ghosts' graves. They complained.", "Mind the ice."]}
+  - {id: 4510, name: Hulda, title: Weaver, profession: Weaver, greet: ["Wool, wool and more wool. There's no such thing as too warm.", "Scarf?"]}
+  - {id: 4511, name: Pieter Frost, title: Trapper, profession: Trapper, greet: ["Snow beasts by the score. They taste like boots.", "Need furs?"]}
+  - {id: 4512, name: Agna, title: Cook, profession: Cook, greet: ["Soup. It's always soup. It's always cold out.", "Bowl?"]}
+  - {id: 4513, name: Old Knut, title: Ice Fisher, profession: Sailor, greet: ["The fish under the ice don't care about ghosts.", "Bite yet?"]}
+  - {id: 4514, name: Ragnhild, title: Herder, profession: Farmer, greet: ["The goats knew about the ghosts before we did.", "Mind the goats."]}
+  - {id: 4515, name: Elof, title: Chandler, profession: Potter, greet: ["Candles sell well in a ghost town. Nobody wants the dark.", "Candles?"]}
+  - {id: 4516, name: Sigrun, title: Tailor, profession: Tailor, greet: ["I sewed shrouds for a year. Now it's coats again.", "A fitting?"]}
+  - {id: 4517, name: Bram, title: Woodcutter, profession: Laborer, greet: ["Wood for the fires, wood for the coffins. Mostly fires now.", "Need wood?"]}
+  - {id: 4518, name: Liesl, title: Bram's Daughter, profession: Child, greet: ["I talked to the ghosts. They were nice. Papa says don't say that.", "Hello again!"]}
+  - {id: 4519, name: Tobin Snow, title: Town Clerk, profession: Scribe, greet: ["Population: forty. Was: four hundred. I keep the old ledger too.", "Sign the book?"]}
+  # ---- Kai Wu's monastery ----
+  - {id: 4521, name: Kai Wu, title: Master of the Monastery, profession: Instructor, teaches: [{skill: Staff, mastery: master}], greet: ["The ninja in the pagoda were once my students. They learned the wrong lesson.", "Sit. Breathe."]}
+  - {id: 4522, name: Brother Lin, profession: Healer, greet: ["The arrow that misses heals faster than the one that hits.", "Peace."]}
+  - {id: 4523, name: Sister Mei, profession: Instructor, greet: ["Your hands are weapons. Mind where you leave them.", "Again."]}
+  # ---- the tundra ----
+  - {id: 4524, name: Glom, title: Gnome King, profession: Noble, talks: true, greet: ["Cyclopes on my border, snow on my roof. Burn their outpost and I'll make it worth your while.", "Is it burnt?"]}
+  - {id: 4525, name: Fizzwick, title: Steward of the Gnome King, profession: Counselor, greet: ["His Majesty is busy. His Majesty is always busy.", "Back again?"]}
+  - {id: 4526, name: Halon the Efficient, title: Clockmaker, profession: Tinker, talks: true, greet: ["My water clock freezes. Bring me the Ever-Hot Lava Rock from Mount Firestone.", "The rock? Efficiently, please."]}
+  - {id: 4527, name: Freeda, title: Mountaineer, profession: Guide, house: none, place: "X5, the high pass (A6)", teaches: [{skill: Body Building, mastery: master}], greet: ["Climb with me and you'll come down stronger. Or not at all.", "Up again?"]}
+  - {id: 4528, name: Thickbark, title: Learned Tree, profession: Scholar, house: none, place: "X5, the Troll Forest's edge (A6)", greet: ["The trolls are uncouth. Burn their warren and we shall discuss the weather.", "The warren?"]}
+  - {id: 4529, name: The Winter Druid, profession: Mystic, house: none, place: "X5, the Winter Druid's grove (A6)", greet: ["Snow falls here, and nowhere else on Xeen.", "The snowflake?"]}
+  - {id: 4530, name: Shinobu, title: Heir of the Clan, profession: Burglar, house: none, place: "XD-22, the Ninja Pagoda's cellar, among the clan's survivors (a talking actor, A7)", greet: ["You walk loudly for people who killed a ninja master.", "Back in the dark?"], note: "T2-CLAN (A3): Initiate to Ninja after q-c4.done, gated on m20.started (D-12.2); XD-22 stands on X5, so her id is X5's"}

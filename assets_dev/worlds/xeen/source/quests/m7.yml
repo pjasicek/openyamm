@@ -1,0 +1,45 @@
+# M7 The Pyramid Sigil: Darkside opens (QUESTS M7). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Artemus gives the sigil without a word against Roland (no early twist). Darkside is set for level 15-18.
+id: M7
+title: The Land Below the Land
+act: II
+kind: main
+status: full
+giver: 4402          # Artemus
+maps: [XD-07, X1, D1]
+level: 14
+block: 7
+after: [m6.crodo_quest]
+source: "QUESTS M7; xeen/aaze0049:18, :25 (\"The moons are not aligned. You are unable to pass.\")"
+
+qbits:
+  sigil: {id: 110100, map: X1, journal: "Artemus gave you the Pyramid Sigil, quietly. The old pyramids are said to lead to the land below the land.",
+          note: "was m7_sigil; X1's travel pyramid reads it", until: [m14.started]}
+
+items:
+  pyramid_sigil: "the Pyramid Sigil; Artemus gives it; opens the travel pyramids (Xeen.travelPyramid)."
+
+npcs:
+  4402:              # Artemus
+    topics:
+      - n: 1
+        label: Pyramids
+        show: {qbit: m6.crodo_quest}
+        states:
+          - when: {qbit: sigil}
+            text: "The pyramid on the knoll east of Vertigo. Show it the sigil. Where it takes you, the King prefers not to know, so I don't tell him."
+          - text: "The old pyramids are said to lead to the land below the land. The Prince went there, they say, before he came home. The King will not hear of it. So, quietly: the Pyramid Sigil. Try the pyramid on the knoll east of Vertigo."
+            do: [{give: pyramid_sigil}, {set: sigil}, {xp: 1000}]
+
+hooks:
+  pyramid_x1:
+    map: X1
+    where: "the travel pyramid on the knoll east of Vertigo: Xeen.travelPyramid(\"vertigo\"); before the sigil \"The moons are not aligned.\""
+    reads: [sigil]
+  pyramid_d1:
+    map: D1
+    where: "the travel pyramid outside Castleview: Xeen.travelPyramid(\"castleview\")"
+    reads: [sigil]
+
+rewards: {xp: 1000, gold: 0}
+playthrough: "XD-07: Artemus (Pyramids): the Pyramid Sigil. X1: the pyramid on the knoll (Darkside, once D1 exists)."

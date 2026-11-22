@@ -1,0 +1,79 @@
+# Hostility check of the Wizard Quarter (DD-19) (the XD-27 form; lane A8, 2026-11-21). The four families (D-42 (2)):
+# the wizards (Wizard 11190, Sorcerer 11191, Xenoc 11196), the sorceresses (Enchantress 11181, Grand Sorceress 11182,
+# Morgana 11183), the magic constructs (Carnage Hand 11602) and the material golems (Iron Golem 11582), all hostile at
+# load (the quarters' four hidden wizards and Blastem's hidden hostile swap, a Sorcerer, are counted: 16 Wizards, 5
+# Sorcerers), none peaceful but Blastem's body (a Sorcerer stand-in, scene actor 8, peaceful until "The lesson").
+# Members of the four families side by side in the court (nearer each other than the party) do not take each other
+# on, nor Blastem. After blastem_angered and a save and a load, Blastem's body is hidden and his hostile swap (actor 9)
+# shown. Run with --world xeen --map xeen_dd19.blv (output/studio_cal/dd19/four.sh).
+id: xeen.dd19.l4.hostility
+title: 'Wizard Quarter (DD-19): four families hostile, no fights among them, Blastem friendly until the lesson'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd19.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 40, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 40, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 40, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 40, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival text).
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11190, hostile: true, min: 16, max: 16}}
+- assert: {actor_count: {monster_id: 11191, hostile: true, min: 5, max: 5}}
+- assert: {actor_count: {monster_id: 11196, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11181, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11182, hostile: true, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 11183, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11602, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11582, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11190, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11191, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11196, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11181, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11182, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11183, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11602, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11582, hostile: false, max: 0}}
+- assert: {actor_visible: {actor_index: 8, monster_id: 11191, hidden: false}}
+- assert: {actor_visible: {actor_index: 9, monster_id: 11191, hidden: true}}
+- assert: {actor_visible: {actor_index: 4, monster_id: 11190, hidden: true}}
+- note: 'The four families side by side in the court, nearer each other than the party (a monster takes the nearest
+    of its foes): they must not take each other on.'
+- set_pose: {map: xeen_dd19.blv, x: 0, y: 200, z: 0, yaw: 1.5708, pitch: 0.0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11190, x: -640, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11181, x: -384, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11602, x: -128, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11582, x: 128, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11191, x: 384, y: 1100, z: 0}
+- spawn_actor: {monster_id: 11182, x: 640, y: 1100, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11190, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11181, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11602, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11582, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11191, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11182, hurt: true, max: 0}}
+- console: {line: arena trace off}
+- note: Blastem beside the Common's own wizards' kin is left alone; then the lesson turns him (the swap).
+- set_pose: {map: xeen_dd19.blv, x: 0, y: 2400, z: 0, yaw: 1.5708, pitch: 0.0}
+- assert: {actor_count: {monster_id: 11191, hostile: false, min: 1, max: 1}}
+- lua_event: {source: "SetQBit(QBit(113286))"}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 8, hidden: true}}
+- assert: {actor_visible: {actor_index: 9, hidden: false}}
+- save_game: {name: dd19_hostility}
+- load_game: {name: dd19_hostility}
+- advance_runtime: {seconds: 1}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 8, hidden: true}}
+- assert: {actor_visible: {actor_index: 9, hidden: false}}
+- assert: {actor_count: {monster_id: 11191, hostile: true, min: 5}}

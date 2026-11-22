@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint guide_atlas.png in place using its alpha as a locked stencil. Deliver the identical 1536x1024 landscape transparent sheet. Copy all five silhouettes literally. Pixel coordinates (origin upper left): narrow edge strips x38..473 y223..288, x550..985 y223..288, x1057..1502 y223..288, x33..478 y735..800. The only broad face is at x551..984 y545..990 in lower middle; preserve its clipped corners. No content elsewhere, lower right empty. Change the grey RGB to natural unlit grey granite albedo using design_reference.png for markings/material and icon_x8.png for colour (ignore magenta). Paint the broad face with the centered full carved square-headed blocky golem rune exactly as in the master. Paint edge strips with plain fine granite only. No lighting, AO, cast shadows, hot highlights, reflections, glow, outlines, ground or text. Keep all placements, sizes, gaps and transparency precisely as in guide.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "3095bd0aa115d82fe9b8775bf91265f3cdee8591f9b3f2fd081602a6e2f5cf41"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "857967eafa72c36e1aba4e51f613549ab39cdb7702f1a8fbc3f8cdc9b078e326"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "4d1ee3b6ab44114be16e4f13a3ea56df9ee6a137ce4314d605c8dc9e0b098ff6"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f919-8d61-7ea2-9aae-23b3ca2a546e/exec-dcb4762e-8105-4a15-ad6d-bc60e9fea62f.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

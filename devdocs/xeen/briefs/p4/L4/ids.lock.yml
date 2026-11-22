@@ -1,0 +1,43 @@
+format: 0
+sectors:
+  room:sea: 1
+events:
+  evt:bell: 1
+  evt:bell_deco: 16
+  evt:chest_cache: 2
+  evt:chest_test: 3
+  evt:dais: 4
+  evt:dais_disc: 17
+  evt:dais_hide: 5
+  evt:dais_load: 18
+  evt:dais_show: 19
+  evt:gate: 6
+  evt:gate_open: 7
+  evt:log: 8
+  evt:passed_load: 9
+  evt:plaque: 10
+  evt:plaque_statue: 20
+  evt:sleeper: 21
+  evt:test: 11
+  evt:test_check: 12
+  evt:tide_pool: 13
+  evt:wave: 14
+  evt:way_up: 15
+containers:
+  chest:test: 0
+  chest:wreck_cache: 1
+cogs:
+  platform:dais: 1
+  platform:veil_water: 2
+map_vars:
+  dais_shown: 2
+  gate_open: 0
+  test_accepted: 1
+sounds:
+  sound:plane_bed: 1
+decorations:
+  deco:bell: 0
+  deco:dais: 1
+  deco:pedestal: 2
+  deco:sleeper: 3
+  deco:statue: 4

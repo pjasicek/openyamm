@@ -1,0 +1,110 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: You land on a heap of torn packs and a snapped rope. Others fell in here before you.
+    seconds: 6
+    notes: "The landing (a one-shot timer: the party arrives standing at the pit's bottom)."
+  - id: evt:brewers_door
+    preset: door
+    source: door:brewers
+    title: Log door
+  - id: evt:chest_brewers
+    preset: chest
+    source: chest:brewers
+    title: Chest
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:flap
+    preset: door
+    source: door:flap
+    title: Hide flap
+  - id: evt:gallery_end
+    preset: text
+    source: room:gallery
+    trigger: step
+    once: true
+    text: Tooth marks score the roots. Far ahead the floor turns to wet clay and falls away into the dark.
+    seconds: 5
+  - id: evt:hatch
+    preset: exit
+    source: exit:hatch
+    title: Sod hatch
+    notes: "D-24/D-25: the burrow's top, the exit preset (the game's leave window, no 'Exit the Troll Hole?' question: aaze0040:12 stays in the ledger) to D2 beside the second hole (exit:d2_return, A6's return point)."
+  - id: evt:juice
+    preset: script
+    source: platform:vat
+    title: Troll Juice
+    condition: {not: {player_bit: 11294}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-d13.troll_juice\")"
+      - add:
+          var: BaseEndurance
+          value: 2
+      - set:
+          var: PoisonedGreen
+          value: 1
+      - player_bit: 11294
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d13.troll_juice_again\")"
+    text: "+2 Endurance (permanent). You are poisoned."
+    seconds: 4
+    notes: "goal:juice, D-25 Q8 (aaze0040:1-2, the source's +1 to all rescaled): A3's text hook; the map gives the drinking member +2 Endurance (base) and the weakest poison (PoisonedGreen) once, player bit 11294 (A3's q-d13.troll_juice); a member who has drunk gets troll_juice_again."
+  - id: evt:landed
+    preset: text
+    source: room:vat_rim
+    trigger: step
+    sources: [platform:clay_heap]
+    once: true
+    text: You slide down the wet clay onto a ledge. There is no climbing back up that way.
+    seconds: 5
+  - id: evt:root
+    preset: door
+    source: door:root
+    title: Fallen root
+    action: open
+    text: You heave the fallen root up out of the way.
+    seconds: 4
+  - id: evt:satchel
+    preset: text
+    source: platform:satchel
+    title: Thief's satchel
+    text: "A message on thieves' guild letterhead reads: To all members: Troll holes located by the Forbidden Fruit hut, by the dead adventurer's pack, and the wide one near the rim. The wide one is the King's."
+    window: true
+    notes: "The guild's second letter (D-25: ours, a paraphrase of aaze0040:6-7, the source's grid squares become D2's three holes; A3's ORIGINAL_LINES row marks it). It names the King's hole (DD-11C)."
+  - id: evt:skeleton_1
+    preset: text
+    source: deco:skeleton_1
+    title: Expired Adventurer
+    text: Nothing here.
+    notes: "aaze0040:3-4 (\"Expired Adventurer\" / \"Nothing here.\")."
+  - id: evt:skeleton_2
+    preset: text
+    source: deco:skeleton_2
+    title: Expired Adventurer
+    text: Nothing here.
+    notes: "aaze0040:3-4 (\"Expired Adventurer\" / \"Nothing here.\")."
+  - id: evt:skeleton_3
+    preset: text
+    source: deco:skeleton_3
+    title: Expired Adventurer
+    text: Nothing here.
+    notes: "aaze0040:3-4 (\"Expired Adventurer\" / \"Nothing here.\")."
+  - id: evt:skeleton_4
+    preset: text
+    source: deco:skeleton_4
+    title: Expired Adventurer
+    text: Nothing here.
+    notes: "aaze0040:3-4 (\"Expired Adventurer\" / \"Nothing here.\")."
+  - id: evt:vat_seen
+    preset: text
+    source: room:vat_cave
+    trigger: step
+    once: true
+    text: "A sunken vat of fungus, grubs and water bubbles in the cave. Skulls lie about for cups."
+    seconds: 5

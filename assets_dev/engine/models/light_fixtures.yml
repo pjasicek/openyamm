@@ -1,0 +1,54 @@
+# How each light fixture is held, for `oymap audit`'s light checks (lights.*; devdocs/xeen/formats/LIGHTS.md). The
+# game does not read this file. A decoration not listed takes its mount from its model binding (indoor_decorations.yml:
+# `swing` hangs from the ceiling, `mount: wall` is on a wall), else from its row's hint in decoration_data.txt
+# (chandeliers hang; sconces and torches are on walls; braziers, candles, fires and beacons stand; glows float). List
+# here what those rules get wrong or cannot tell, by the decoration's internal name (lower case):
+#   ceiling  hangs from the ceiling: its top within reach of a ceiling, its foot clear of the floor and of openings
+#   wall     on a wall: a wall within 64 of its middle, not on a face that moves, not inside an opening
+#   floor    stands: on the floor or on a decoration, not floating, not sunk, not in an opening
+#   free     floats where it is put (magic lights, glows): only kept out of the rock
+#   none     no light fixture (a decoration with a light that is no fixture)
+# A world adds its own decorations in worlds/<world>/models/light_fixtures.yml.
+fixtures:
+  # MM6's brazier hangs on three chains (its sprite and model): a ceiling fixture, lit or not.
+  brazir2f: ceiling
+  brzier00: ceiling
+  # Lights that are no visible fixture: the outdoor maps' invisible lights and MM8's drifting origin matter.
+  outlight1: free
+  outlight2: free
+  outlight3: free
+  ormatt1: free
+  ormatt2: free
+  # Things that stand and give light without a fire word in their hint.
+  dec26: floor       # cauldron
+  dec57: floor       # path marker (the air orb on its foot)
+  dec64: floor       # magic pedestals
+  dec65: floor
+  dec66: floor
+  dec67: floor
+  dec68: floor
+  dec69: floor
+  dec70: floor
+  dec71: floor
+  dec72: floor
+  dec73: floor
+  dec74: floor
+  dec75: floor
+  dec44: floor
+  dec45: floor
+  dec46: floor
+  dec47: floor
+  dec48: floor
+  dec49: floor
+  dec50: floor
+  dec51: floor
+  dec52: floor
+  dec53: floor
+  dec54: floor
+  dec55: floor
+  # Bowls of food or metal: no fire.
+  foodbowl: none
+  7dec08: none
+  dec28: none
+  # Test row.
+  6pending: none

@@ -1,0 +1,1014 @@
+format: 0
+themes:
+  - id: theme:bay
+    wall: {texture: swall2, size: [128, 256]}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The corner bays: diamond-brace panels (swall2)."
+  - id: theme:belt
+    wall: {texture: swll3dk, size: [128, 256]}
+    floor: {texture: swr2dk, size: [64, 64], scale: 2}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The conveyor halls: green glowing tubes along the walls (swll3dk), a striped belt bed (swr2dk)."
+  - id: theme:command
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoora, size: [256, 256]}
+    notes: "Command Central and its antechamber: dark panels with red pilot lights, machine panels and screens."
+  - id: theme:deck
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The deck and L3's halls: teal walls, teal plates underfoot."
+  - id: theme:dial
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swflora, size: [256, 256]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The sundial alcoves: teal walls, the glowing green lattice underfoot (swflora), an energy panel behind the dial."
+  - id: theme:head
+    wall: {texture: swll5dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swtrpnl, size: [128, 256]}
+    notes: "The Lava Heads' rooms: dark panels with red pilot lights (swll5dk)."
+  - id: theme:hull
+    wall: {texture: xahull, size: [256, 256], scale: 2.25}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The hatch room: the castle's hull plating (xahull) where the shaft rises to the roof."
+  - id: theme:main
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The main wall of the castle: dark teal panels with conduits (swll4dk)."
+  - id: theme:rings
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swflora, size: [256, 256]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The dial hall: teal walls from the chasm floor (the green lattice, swflora) to under the deck."
+  - id: theme:store
+    wall: {texture: swall3, size: [128, 256], scale: 1.75}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "Barracks, stores and bays: grille panels (swall3)."
+  - id: theme:sump
+    wall: {texture: swall4, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The sump: crossed-brace panels with red grime (swall4)."
+  - id: theme:walk
+    wall: {texture: swall5, size: [128, 256]}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The dial floor's outer walk: blue-teal tiled panels (swall5), teal plate floor (swankdk)."
+  - id: theme:works
+    wall: {texture: swall1, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "L1's halls and wards: framed teal panels (swall1), dark metal floor (swfloor2b), rust ceiling panels (swceilf)."
+defaults: {theme: theme:main, ambient: 14}
+rooms:
+  - id: room:antechamber
+    name: Antechamber
+    outline: [[-3248, -2992], [-1744, -2992], [-1744, -1664], [-3248, -1664]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:command
+    walls:
+      - wall: e
+        panels:
+          - {at: centre, length: 128, bottom: 64, height: 256, surface: {texture: swpnl, size: [128, 256], fit: true}, notes: A cabinet.}
+  - id: room:barracks
+    name: Robot barracks
+    outline: [[-4832, -5072], [-3328, -5072], [-3328, -4416], [-4832, -4416]]
+    floor: 0
+    ceiling: 448
+    theme: theme:store
+  - id: room:bay_ne
+    name: North-east bay
+    outline: [[2656, 1824], [3824, 1824], [3824, 3488], [2656, 3488]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:bay
+  - id: room:bay_nw
+    name: North-west bay
+    outline: [[-2912, 1824], [-1744, 1824], [-1744, 3488], [-2912, 3488]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:bay
+  - id: room:bay_se
+    name: South-east bay
+    outline: [[2656, -4240], [3824, -4240], [3824, -1824], [2656, -1824]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:bay
+  - id: room:bay_sw
+    name: South-west bay
+    outline: [[-2912, -4240], [-1744, -4240], [-1744, -1824], [-2912, -1824]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:bay
+  - id: room:belt_air
+    name: Air belt
+    outline: [[2160, -3248], [2832, -3248], [2832, 992], [2160, 992]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_air_end
+    name: Air belt's end
+    outline: [[2160, 1168], [2832, 1168], [2832, 2160], [2160, 2160]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_earth
+    name: Earth belt
+    outline: [[4000, -3248], [4832, -3248], [4832, -1168], [4000, -1168]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_earth_end
+    name: Earth belt's end
+    outline: [[4000, -992], [4832, -992], [4832, 0], [4000, 0]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_fire
+    name: Fire belt
+    outline: [[-2832, -3248], [-2160, -3248], [-2160, 992], [-2832, 992]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_fire_end
+    name: Fire belt's end
+    outline: [[-2832, 1168], [-2160, 1168], [-2160, 2160], [-2832, 2160]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_water
+    name: Water belt
+    outline: [[-4832, -3248], [-4000, -3248], [-4000, -1168], [-4832, -1168]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:belt_water_end
+    name: Water belt's end
+    outline: [[-4832, -992], [-4000, -992], [-4000, 0], [-4832, 0]]
+    floor: 0
+    ceiling: 448
+    theme: theme:belt
+  - id: room:command
+    name: Command Central
+    outline: [[-3168, -4832], [-1824, -4832], [-1824, -3168], [-3168, -3168]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:command
+    platforms:
+      - {at: [-2496, -4736], size: [512, 64], rise: 128, surface: {texture: trekscrn, size: [128, 64], scale: 2}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A console of screens.}
+  - id: room:command_apse
+    name: "Command Central, the throne apse"
+    outline: [[-4000, -4496], [-3328, -4496], [-3328, -3488], [-4000, -3488]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:command
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:screens, at: centre, length: 256, bottom: 448, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: The bank of machines over the throne.}
+    platforms:
+      - {id: platform:dais, at: [-3712, -4000], size: [512, 640], rise: 32, surface: {texture: swgirder, size: [64, 64]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The dais at Command Central's west end.}
+  - id: room:command_bay
+    name: "Command Central, the machine bay"
+    outline: [[-1664, -4832], [-912, -4832], [-912, -3168], [-1664, -3168]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:command
+    platforms:
+      - {at: [-992, -4000], size: [64, 512], rise: 128, surface: {texture: trekscrn, size: [128, 64], scale: 2}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A console of screens.}
+  - id: room:deck
+    name: Command deck
+    outline: [[-1584, -2416], [1504, -2416], [1504, 2416], [-1584, 2416]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:deck
+  - id: room:dial_air
+    name: Air Time
+    outline: [[4000, 2160], [4992, 2160], [4992, 3168], [4000, 3168]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:dial
+    walls:
+      - wall: e
+        panels:
+          - {at: centre, length: 256, bottom: 64, height: 512, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: The energy panel behind the dial.}
+    platforms:
+      - {id: platform:dial_air, at: [4288, 2624], size: [128, 128], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: xasundial, size: [128, 128]}, notes: "The air sundial on its plinth (xasundial, once on the top)."}
+  - id: room:dial_earth
+    name: Earth Time
+    outline: [[4000, -3328], [4992, -3328], [4992, -2336], [4000, -2336]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:dial
+    walls:
+      - wall: e
+        panels:
+          - {at: centre, length: 256, bottom: 64, height: 512, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: The energy panel behind the dial.}
+    platforms:
+      - {id: platform:dial_earth, at: [4288, -2880], size: [128, 128], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: xasundial, size: [128, 128]}, notes: "The earth sundial on its plinth (xasundial, once on the top)."}
+  - id: room:dial_fire
+    name: Fire Time
+    outline: [[-4080, 2160], [-3072, 2160], [-3072, 3168], [-4080, 3168]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:dial
+    walls:
+      - wall: w
+        panels:
+          - {at: centre, length: 256, bottom: 64, height: 512, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: The energy panel behind the dial.}
+    platforms:
+      - {id: platform:dial_fire, at: [-3776, 2624], size: [128, 128], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: xasundial, size: [128, 128]}, notes: "The fire sundial on its plinth (xasundial, once on the top)."}
+  - id: room:dial_water
+    name: Water Time
+    outline: [[-4080, -3328], [-3072, -3328], [-3072, -2336], [-4080, -2336]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:dial
+    walls:
+      - wall: w
+        panels:
+          - {at: centre, length: 256, bottom: 64, height: 512, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: The energy panel behind the dial.}
+    platforms:
+      - {id: platform:dial_water, at: [-3776, -2880], size: [128, 128], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: xasundial, size: [128, 128]}, notes: "The water sundial on its plinth (xasundial, once on the top)."}
+  - id: room:east_walk
+    name: East walk
+    outline: [[2656, -1664], [3824, -1664], [3824, 1664], [2656, 1664]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:walk
+  - id: room:east_ward
+    name: East ward
+    outline: [[2160, -4240], [4832, -4240], [4832, -3408], [2160, -3408]]
+    floor: 0
+    ceiling: 448
+    theme: theme:works
+  - id: room:gatehall
+    name: Gatehall
+    outline: [[-992, -5072], [992, -5072], [992, -4416], [-992, -4416]]
+    floor: 0
+    ceiling: 448
+    theme: theme:main
+  - id: room:gazer_post
+    name: Watchers' post
+    outline: [[4000, -672], [4992, -672], [4992, 672], [4000, 672]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:store
+  - id: room:gazer_watch
+    name: Screen room
+    outline: [[-1584, 2576], [-160, 2576], [-160, 3664], [-1584, 3664]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:command
+    platforms:
+      - {id: platform:console_screen, at: [-880, 3584], size: [512, 64], rise: 128, surface: {texture: trekscrn, size: [128, 64], scale: 2}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "A console of screens against the north wall, showing the Forbidden Zone."}
+      - {at: [-1504, 3120], size: [64, 512], rise: 128, surface: {texture: trekscrn, size: [128, 64], scale: 2}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A console of screens.}
+  - id: room:hall_order
+    name: Hall of Order
+    outline: [[-2000, -4240], [2000, -4240], [2000, -3408], [-2000, -3408]]
+    floor: 0
+    ceiling: 512
+    theme: theme:works
+    pillars:
+      - {at: [-992, -4080], size: [128, 128], surface: {texture: swaled, size: [128, 256]}}
+      - {at: [-992, -3584], size: [128, 128], surface: {texture: swaled, size: [128, 256]}}
+      - {at: [992, -4080], size: [128, 128], surface: {texture: swaled, size: [128, 256]}}
+      - {at: [992, -3584], size: [128, 128], surface: {texture: swaled, size: [128, 256]}}
+    notes: "The pillared Hall of Order: four machine columns either side of the way from the gate to the stair hall's leaves; the wards west and east."
+  - id: room:hatch_room
+    name: Hatch room
+    outline: [[-3248, 1664], [-1744, 1664], [-1744, 2992], [-3248, 2992]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:hull
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:ladder, at: centre, length: 64, bottom: 0, height: 576, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: The ladder up the shaft to the roof hatch.}
+    platforms:
+      - {id: platform:hatch, at: [-2912, 2336], size: [256, 256], rise: 16, surface: {texture: xahull, size: [256, 256], scale: 2.25}, top_surface: {texture: xahull, size: [256, 256], scale: 2.25}, bottom_surface: {texture: xahull, size: [256, 256], scale: 2.25}, base: 560, notes: "The roof hatch in the shaft's ceiling, over the ladder's top."}
+  - id: room:head_air
+    name: Air Head
+    outline: [[2160, 2336], [3824, 2336], [3824, 3328], [2160, 3328]]
+    floor: 0
+    ceiling: 448
+    theme: theme:head
+    walls:
+      - wall: n
+        panels:
+          - {offset: 416, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+          - {id: panel:head_air, offset: 672, length: 256, bottom: 64, height: 256, surface: {texture: xalavahd, size: [128, 128], fit: true}, notes: The air Lava Head.}
+          - {offset: 1088, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+  - id: room:head_earth
+    name: Earth Head
+    outline: [[4000, 160], [4832, 160], [4832, 1168], [4000, 1168]]
+    floor: 0
+    ceiling: 448
+    theme: theme:head
+    walls:
+      - wall: n
+        panels:
+          - {offset: 0, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+          - {id: panel:head_earth, offset: 256, length: 256, bottom: 64, height: 256, surface: {texture: xalavahd, size: [128, 128], fit: true}, notes: The earth Lava Head.}
+          - {offset: 672, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+  - id: room:head_fire
+    name: Fire Head
+    outline: [[-3824, 2336], [-2160, 2336], [-2160, 3328], [-3824, 3328]]
+    floor: 0
+    ceiling: 448
+    theme: theme:head
+    walls:
+      - wall: n
+        panels:
+          - {offset: 416, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+          - {id: panel:head_fire, offset: 672, length: 256, bottom: 64, height: 256, surface: {texture: xalavahd, size: [128, 128], fit: true}, notes: The fire Lava Head.}
+          - {offset: 1088, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+  - id: room:head_water
+    name: Water Head
+    outline: [[-4832, 160], [-4000, 160], [-4000, 1168], [-4832, 1168]]
+    floor: 0
+    ceiling: 448
+    theme: theme:head
+    walls:
+      - wall: n
+        panels:
+          - {offset: 0, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+          - {id: panel:head_water, offset: 256, length: 256, bottom: 64, height: 256, surface: {texture: xalavahd, size: [128, 128], fit: true}, notes: The water Lava Head.}
+          - {offset: 672, length: 128, bottom: 32, height: 256, surface: {texture: xaenergy, size: [128, 256], fit: true}, notes: An energy panel.}
+  - id: room:juice
+    name: Power juice
+    outline: [[-4496, -672], [-3408, -672], [-3408, 672], [-4496, 672]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:store
+    platforms:
+      - {id: platform:juice, at: [-4320, 0], size: [128, 256], rise: 160, surface: {texture: swpnl, size: [128, 256], fit: false}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: The dispenser labelled XEEN Power Juice.}
+  - id: room:landing
+    name: South walk
+    outline: [[496, -4240], [2496, -4240], [2496, -3408], [496, -3408]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:walk
+  - id: room:landing_w
+    name: "South walk, west"
+    outline: [[-1584, -4240], [336, -4240], [336, -3408], [-1584, -3408]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:walk
+  - id: room:lift_core
+    name: Lift core
+    outline: [[1664, -336], [2336, -336], [2336, 336], [1664, 336]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:main
+    notes: "Behind the true-name gate: the lift up to the deck (it runs once the gate is open)."
+  - id: room:lift_top
+    name: Deck lift head
+    outline: [[1664, -336], [2336, -336], [2336, 336], [1664, 336]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:deck
+    notes: The lift's head on the deck's east side.
+  - id: room:north_walk
+    name: North walk
+    outline: [[-1584, 2576], [2496, 2576], [2496, 3488], [-1584, 3488]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:walk
+  - id: room:return_e
+    name: East return
+    outline: [[2992, -3248], [3824, -3248], [3824, 2160], [2992, 2160]]
+    floor: 0
+    ceiling: 448
+    theme: theme:main
+  - id: room:return_w
+    name: West return
+    outline: [[-3824, -3248], [-2992, -3248], [-2992, 2160], [-3824, 2160]]
+    floor: 0
+    ceiling: 448
+    theme: theme:main
+  - id: room:rings
+    name: Dial hall
+    outline: [[-1584, -2416], [1504, -2416], [1504, 2416], [-1584, 2416]]
+    floor: 0
+    ceiling: 1216
+    theme: theme:rings
+    platforms:
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[480, -912], [480, -672], [496, -672], [496, 672], [1504, 672], [1504, 912], [256, 912], [256, -912]], top_surface: {texture: swankdk, size: [128, 128]}, notes: "A ring wall between two chasms (offset 256-448 from the island), its top at 640."}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[688, -912], [1504, -912], [1504, -672], [688, -672]], top_surface: {texture: swankdk, size: [128, 128]}, notes: The ring wall's south stub beyond the radial cut.}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[480, -1504], [480, -1248], [-80, -1248], [-80, 1248], [1504, 1248], [1504, 1504], [-336, 1504], [-336, -1504]], top_surface: {texture: swankdk, size: [128, 128]}, notes: "A ring wall between two chasms (offset 704-896 from the island), its top at 640."}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[688, -1504], [1504, -1504], [1504, -1248], [688, -1248]], top_surface: {texture: swankdk, size: [128, 128]}, notes: The ring wall's south stub beyond the radial cut.}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[480, -2080], [480, -1824], [-672, -1824], [-672, 1824], [1504, 1824], [1504, 2080], [-912, 2080], [-912, -2080]], top_surface: {texture: swankdk, size: [128, 128]}, notes: "A ring wall between two chasms (offset 1152-1344 from the island), its top at 640."}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[688, -2080], [1504, -2080], [1504, -1824], [688, -1824]], top_surface: {texture: swankdk, size: [128, 128]}, notes: The ring wall's south stub beyond the radial cut.}
+      - {id: platform:island, rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[832, -336], [1504, -336], [1504, 336], [832, 336]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: "The gate island against the hall's east wall: the true-name gate and the crackling statue."}
+      - {rise: 640, surface: {texture: swll4dk, size: [128, 256]}, outline: [[-1584, -2416], [-1248, -2416], [-1248, 2416], [-1584, 2416]], top_surface: {texture: swankdk, size: [128, 128]}, notes: "The outer lip along the west wall: the west walk comes in onto it."}
+    notes: "Four ring chasms round the gate island, open to the floor (0, the lattice) and up to under the deck (1216); the ring walls, the island and the lip stand 640 high; the bridge slabs (lifts) lie on the chasm floor on the west line until their dials read nine."
+  - id: room:robot_bay
+    name: Robot bay
+    outline: [[0, 2576], [1504, 2576], [1504, 3664], [0, 3664]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:store
+  - id: room:stair_hall
+    name: Stair hall
+    outline: [[-160, -3248], [1504, -3248], [1504, -2576], [-160, -2576]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:main
+    platforms:
+      - {id: platform:stair_head, rise: 32, surface: {texture: swll4dk, size: [128, 256]}, outline: [[992, -3248], [1504, -3248], [1504, -2576], [992, -2576]], top_surface: {texture: swankdk, size: [128, 128]}, bottom_surface: {texture: swfloor2b, size: [128, 128]}, base: 608, notes: "The stair's head (640) along the east wall: the south walk through its south wall."}
+    flights:
+      - {from: [80, -2864], to: [992, -2864], open_below: 32, to_height: 640, width: 320, steps: 20, sides: {height: 48, thickness: 16, surface: {texture: swgirder, size: [64, 64]}}, notes: "Twenty steps of 32 up the north wall, rising east to the head."}
+    notes: "Two storeys behind the Hall of Order's leaves: the stair up the north wall to the head (640) and the south walk; the sump's door in the west wall."
+  - id: room:store_ne
+    name: Parts store
+    outline: [[2160, -5072], [3328, -5072], [3328, -4416], [2160, -4416]]
+    floor: 0
+    ceiling: 448
+    theme: theme:store
+  - id: room:sump
+    name: The sump
+    outline: [[-1584, -3248], [-336, -3248], [-336, -2576], [-1584, -2576]]
+    floor: 0
+    ceiling: 448
+    theme: theme:sump
+  - id: room:vault
+    name: Strongroom
+    outline: [[-4496, -2832], [-3408, -2832], [-3408, -1824], [-4496, -1824]]
+    floor: 1280
+    ceiling: 1664
+    theme: theme:command
+  - id: room:watch_se
+    name: Moat watch
+    outline: [[3488, -5072], [4832, -5072], [4832, -4416], [3488, -4416]]
+    floor: 0
+    ceiling: 448
+    theme: theme:store
+  - id: room:west_hall
+    name: Hall of Vengeance
+    outline: [[-3248, -1504], [-1744, -1504], [-1744, 1504], [-3248, 1504]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:deck
+  - id: room:west_walk
+    name: West walk
+    outline: [[-2912, -1664], [-1744, -1664], [-1744, 1664], [-2912, 1664]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:walk
+  - id: room:west_ward
+    name: West ward
+    outline: [[-4832, -4240], [-2160, -4240], [-2160, -3408], [-4832, -3408]]
+    floor: 0
+    ceiling: 448
+    theme: theme:works
+openings:
+  - id: open:ante_command
+    from: room:antechamber
+    to: room:command
+    from_wall: s
+    to_wall: n
+    link: link:ante_command
+    width: 448
+    height: 448
+  - id: open:ante_vault
+    from: room:antechamber
+    to: room:vault
+    from_wall: w
+    to_wall: e
+    link: link:ante_vault
+    width: 320
+    height: 320
+  - id: open:bair_end
+    from: room:belt_air
+    to: room:belt_air_end
+    from_wall: n
+    to_wall: s
+    link: link:bair_end
+    width: full
+    height: full
+  - id: open:bair_head
+    from: room:belt_air_end
+    to: room:head_air
+    from_wall: n
+    to_wall: s
+    link: link:bair_head
+    width: 384
+    height: 384
+  - id: open:bearth_end
+    from: room:belt_earth
+    to: room:belt_earth_end
+    from_wall: n
+    to_wall: s
+    link: link:bearth_end
+    width: full
+    height: full
+  - id: open:bearth_head
+    from: room:belt_earth_end
+    to: room:head_earth
+    from_wall: n
+    to_wall: s
+    link: link:bearth_head
+    width: 384
+    height: 384
+  - id: open:bfire_end
+    from: room:belt_fire
+    to: room:belt_fire_end
+    from_wall: n
+    to_wall: s
+    link: link:bfire_end
+    width: full
+    height: full
+  - id: open:bfire_head
+    from: room:belt_fire_end
+    to: room:head_fire
+    from_wall: n
+    to_wall: s
+    link: link:bfire_head
+    width: 384
+    height: 384
+  - id: open:bwater_end
+    from: room:belt_water
+    to: room:belt_water_end
+    from_wall: n
+    to_wall: s
+    link: link:bwater_end
+    width: full
+    height: full
+  - id: open:bwater_head
+    from: room:belt_water_end
+    to: room:head_water
+    from_wall: n
+    to_wall: s
+    link: link:bwater_head
+    width: 384
+    height: 384
+  - id: open:command_apse
+    from: room:command
+    to: room:command_apse
+    from_wall: w
+    to_wall: e
+    link: link:command_apse
+    width: full
+    height: full
+  - id: open:command_bay
+    from: room:command
+    to: room:command_bay
+    from_wall: e
+    to_wall: w
+    link: link:command_bay
+    width: full
+    height: full
+  - id: open:deck_bay
+    from: room:deck
+    to: room:robot_bay
+    from_wall: n
+    to_wall: s
+    link: link:deck_bay
+    width: 320
+    height: 320
+  - id: open:deck_screen
+    from: room:deck
+    to: room:gazer_watch
+    from_wall: n
+    to_wall: s
+    link: link:deck_screen
+    width: 320
+    height: 320
+  - id: open:deck_west
+    from: room:deck
+    to: room:west_hall
+    from_wall: w
+    to_wall: e
+    link: link:deck_west
+    width: 768
+    height: 448
+  - id: open:ew_bair
+    from: room:east_ward
+    to: room:belt_air
+    from_wall: n
+    to_wall: s
+    link: link:ew_bair
+    width: 384
+    height: 384
+  - id: open:ew_bearth
+    from: room:east_ward
+    to: room:belt_earth
+    from_wall: n
+    to_wall: s
+    link: link:ew_bearth
+    width: 384
+    height: 384
+  - id: open:ew_rete
+    from: room:east_ward
+    to: room:return_e
+    from_wall: n
+    to_wall: s
+    link: link:rete_ew
+    width: 384
+    height: 384
+  - id: open:ew_store
+    from: room:east_ward
+    to: room:store_ne
+    from_wall: s
+    to_wall: n
+    link: link:ew_store
+    width: 320
+    height: 320
+  - id: open:ew_watch
+    from: room:east_ward
+    to: room:watch_se
+    from_wall: s
+    to_wall: n
+    link: link:ew_watch
+    width: 320
+    height: 320
+  - id: open:ewalk_post
+    from: room:east_walk
+    to: room:gazer_post
+    from_wall: e
+    to_wall: w
+    link: link:ewalk_post
+    width: 320
+    height: 320
+  - id: open:ewalk_se
+    from: room:east_walk
+    to: room:bay_se
+    from_wall: s
+    to_wall: n
+    link: link:ewalk_se
+    width: 384
+    height: 384
+  - id: open:gate
+    from: room:rings
+    to: room:lift_core
+    from_wall: e
+    to_wall: w
+    link: link:island_lift
+    width: 384
+    height: 384
+    notes: The true-name gate from the island's top (640) into the lift core.
+  - id: open:gate_hall
+    from: room:gatehall
+    to: room:hall_order
+    from_wall: n
+    to_wall: s
+    link: link:gate_hall
+    width: 448
+    height: 448
+  - id: open:hair_ret
+    from: room:head_air
+    to: room:return_e
+    from_wall: s
+    to_wall: n
+    link: link:hair_ret
+    width: 192
+    height: 384
+  - id: open:hall_ew
+    from: room:hall_order
+    to: room:east_ward
+    from_wall: e
+    to_wall: w
+    link: link:hall_ew
+    width: 384
+    height: 384
+  - id: open:hall_stair
+    from: room:hall_order
+    to: room:stair_hall
+    from_wall: n
+    to_wall: s
+    link: link:hall_stair
+    along: 0.8
+    width: 448
+    height: 448
+  - id: open:hall_ww
+    from: room:hall_order
+    to: room:west_ward
+    from_wall: w
+    to_wall: e
+    link: link:hall_ww
+    width: 384
+    height: 384
+  - id: open:hearth_ret
+    from: room:head_earth
+    to: room:return_e
+    from_wall: w
+    to_wall: e
+    link: link:hearth_ret
+    width: 192
+    height: 384
+  - id: open:hfire_ret
+    from: room:head_fire
+    to: room:return_w
+    from_wall: s
+    to_wall: n
+    link: link:hfire_ret
+    width: 192
+    height: 384
+  - id: open:hwater_ret
+    from: room:head_water
+    to: room:return_w
+    from_wall: e
+    to_wall: w
+    link: link:hwater_ret
+    width: 192
+    height: 384
+  - id: open:land_se
+    from: room:landing
+    to: room:bay_se
+    from_wall: e
+    to_wall: w
+    link: link:land_se
+    width: 384
+    height: 384
+  - id: open:land_sw
+    from: room:landing_w
+    to: room:bay_sw
+    from_wall: w
+    to_wall: e
+    link: link:land_sw
+    width: 384
+    height: 384
+  - id: open:land_w
+    from: room:landing_w
+    to: room:landing
+    from_wall: e
+    to_wall: w
+    link: link:land_w
+    width: full
+    height: full
+  - id: open:lift_deck
+    from: room:lift_top
+    to: room:deck
+    from_wall: w
+    to_wall: e
+    link: link:lift_deck
+    width: 384
+    height: 384
+  - id: open:lift_shaft
+    from: room:lift_top
+    to: room:lift_core
+    in: floor
+    at: [2080, 0]
+    size: [320, 320]
+    link: link:lift_up
+    notes: The hole the lift rises through into the deck's lift head.
+  - id: open:ne_dial
+    from: room:bay_ne
+    to: room:dial_air
+    from_wall: e
+    to_wall: w
+    link: link:ne_dial
+    width: 256
+    height: 448
+  - id: open:ne_ewalk
+    from: room:bay_ne
+    to: room:east_walk
+    from_wall: s
+    to_wall: n
+    link: link:ne_ewalk
+    width: 384
+    height: 384
+  - id: open:nw_dial
+    from: room:bay_nw
+    to: room:dial_fire
+    from_wall: w
+    to_wall: e
+    link: link:nw_dial
+    width: 256
+    height: 448
+  - id: open:nw_nwalk
+    from: room:bay_nw
+    to: room:north_walk
+    from_wall: e
+    to_wall: w
+    link: link:nw_nwalk
+    width: 384
+    height: 384
+  - id: open:nwalk_ne
+    from: room:north_walk
+    to: room:bay_ne
+    from_wall: e
+    to_wall: w
+    link: link:nwalk_ne
+    width: 384
+    height: 384
+  - id: open:rings_sump
+    from: room:rings
+    to: room:sump
+    from_wall: s
+    to_wall: n
+    link: link:rings_sump
+    along: 0.6
+    width: 256
+    height: 384
+    notes: "The chasm's floor runs on into the sump: a fallen party walks out here."
+  - id: open:screen_hatch
+    from: room:gazer_watch
+    to: room:hatch_room
+    from_wall: w
+    to_wall: e
+    link: link:screen_hatch
+    width: 224
+    height: 320
+  - id: open:se_dial
+    from: room:bay_se
+    to: room:dial_earth
+    from_wall: e
+    to_wall: w
+    link: link:se_dial
+    width: 256
+    height: 448
+  - id: open:stair_up
+    from: room:stair_hall
+    to: room:landing
+    from_wall: s
+    to_wall: n
+    link: link:stair_up
+    along: 0.75
+    width: 256
+    height: 384
+  - id: open:sump_stair
+    from: room:sump
+    to: room:stair_hall
+    from_wall: e
+    to_wall: w
+    link: link:sump_stair
+    width: 320
+    height: 320
+  - id: open:sw_dial
+    from: room:bay_sw
+    to: room:dial_water
+    from_wall: w
+    to_wall: e
+    link: link:sw_dial
+    width: 256
+    height: 448
+  - id: open:sw_ww
+    from: room:bay_sw
+    to: room:west_walk
+    from_wall: n
+    to_wall: s
+    link: link:sw_ww
+    width: 384
+    height: 384
+  - id: open:trap_t1
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [672, 464]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:trap_t2
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [80, -464]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:trap_t3
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [80, 704]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:trap_t4
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [-496, 464]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:trap_t5
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [-1088, -464]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:trap_t6
+    from: room:deck
+    to: room:rings
+    in: floor
+    at: [576, 1664]
+    size: [192, 192]
+    link: link:deck_drop
+    reveal: {texture: swgirder, size: [64, 64]}
+    notes: "A trapdoor's hole in the deck over a chasm of the dial hall (1,280 to its floor)."
+  - id: open:west_ante
+    from: room:west_hall
+    to: room:antechamber
+    from_wall: s
+    to_wall: n
+    link: link:west_ante
+    width: 320
+    height: 320
+  - id: open:west_hatch
+    from: room:west_hall
+    to: room:hatch_room
+    from_wall: n
+    to_wall: s
+    link: link:west_hatch
+    width: 320
+    height: 320
+  - id: open:west_juice
+    from: room:west_hall
+    to: room:juice
+    from_wall: w
+    to_wall: e
+    link: link:west_juice
+    width: 320
+    height: 320
+  - id: open:ww_barracks
+    from: room:west_ward
+    to: room:barracks
+    from_wall: s
+    to_wall: n
+    link: link:ww_barracks
+    width: 320
+    height: 320
+  - id: open:ww_bfire
+    from: room:west_ward
+    to: room:belt_fire
+    from_wall: n
+    to_wall: s
+    link: link:ww_bfire
+    width: 384
+    height: 384
+  - id: open:ww_bwater
+    from: room:west_ward
+    to: room:belt_water
+    from_wall: n
+    to_wall: s
+    link: link:ww_bwater
+    width: 384
+    height: 384
+  - id: open:ww_nw
+    from: room:west_walk
+    to: room:bay_nw
+    from_wall: n
+    to_wall: s
+    link: link:ww_nw
+    width: 384
+    height: 384
+  - id: open:ww_retw
+    from: room:west_ward
+    to: room:return_w
+    from_wall: n
+    to_wall: s
+    link: link:retw_ww
+    width: 384
+    height: 384
+  - id: open:ww_rings
+    from: room:west_walk
+    to: room:rings
+    from_wall: e
+    to_wall: w
+    link: link:ww_rings
+    width: 384
+    height: 384
+notes: "DD-17 Castle Alamar: L1 at 0, L2 at 640, L3 at 1280, the dial hall from 0 to 1216, in one frame (x east, y north, z up). Written by output/studio_cal/dd17/tools/gen.py (geo.py)."

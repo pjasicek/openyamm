@@ -40,7 +40,7 @@ OUTDOOR_HALF = 32768
 
 HORIZONTAL_MULTIPLIER = 2.5
 # mawArenaMap: arenas pick their fighters by the party's level, not by a band.
-ARENA_MAPS = {'d42.blv', '7d05.blv', 'zarena.blv', 'thearena.blv'}
+ARENA_MAPS = {'d42.blv', '7d05.blv', 'zarena.blv', 'thearena.blv', 'xeen_xd20.blv'}
 
 # MawMonsterRules::mapRespawnDays: map ids that never refill.
 NEVER_REFILL = ((1, 8), (13, 13), (62, 70), (72, 74), (99, 100), (140, 141), (143, 151))

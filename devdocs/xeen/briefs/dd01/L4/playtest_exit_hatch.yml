@@ -1,0 +1,32 @@
+# The hatch out of the Castleview Sewer (DD-01) onto D1's square (lane A8, 2026-11-20). From the map's start at the
+# ladder's foot, the exit (event 17, the ladder's foot: the game's leave window, 'Exit the Sewer?' dark/aaze0030), OK:
+# the party stands on D1 (Castleview Vale, A6) 192 west of the iron hatch (thing:dd01_hatch at (1280, 3328)), on the
+# ground measured at 1,228, facing west, away from it. Run with --world xeen --map xeen_dd01.blv
+# (output/studio_cal/dd01/four.sh).
+id: xeen.dd01.l4.exit_hatch
+title: Castleview Sewer (DD-01 L4), up the hatch to D1's square
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd01.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 19, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 19, skills: [], equipment: {}}
+  - assert: {map: xeen_dd01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: -1088, radius: 96, z_min: -8, z_max: 8}}
+  - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: 1024, y: 3072, radius: 128, z_min: 1120, z_max: 1300}}
+  # Facing west, away from the hatch: walking on takes the party into the square, not back down.
+  - walk_to: {x: 800, y: 3072, z: 1160, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {map: xeen_d1.odm}

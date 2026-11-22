@@ -9,6 +9,9 @@ texture pipeline does (level_generation/textures_x4/PLAYBOOK.md); everything els
   xtex.py check NAME...                                                   sheets/check_<name>.png + stats
   xtex.py install --root ROOT [NAME...]                                   cook x4 to BC7 .oytex, x2 PNG, into ROOT
 
+`--project DIR` (before the command) works on another folder with its own specs.yml and state.json, so lanes and
+kits keep separate projects (the kits: level_generation/xeen_art/kit_textures).
+
 Folders: refs/ (reference images sent), prompts/ (exact prompts), raw/ (unchanged returns and worker logs; the
 seam pass's inputs are refs/<name>_v<N>_rolled.png), finished/ (x4 masters, x2 and x1 reductions), sheets/ (checks).
 """
@@ -102,6 +105,12 @@ def master(ref):
     if world == 'sky':
         # Sky references (XD-04's roof): the HD masters of the outdoor skies, which have no face-texture master.
         return Image.open(ROOT / 'level_generation/lighting/sky_art/hd_masters' / f'{name}.png')
+    if world == 'xeen':
+        # The world's own new textures (x4 masters kept for the bake), as references for a later one.
+        return Image.open(ROOT / 'assets_source/worlds/xeen/textures_x4' / f'{name}.png')
+    if world == 'pic':
+        # A picture of a map (a game screenshot kept in the project's pics/), for its colours and its scene.
+        return Image.open(HERE / 'pics' / f'{name}.png')
     return Image.open(MASTERS / world / f'{name}.png')
 
 
@@ -326,7 +335,7 @@ def sign_box(rgb):
 
 
 def tone(rgb, spec, mask=None):
-    """One grey linear gain so the mean linear luma meets the spec's tone; hue and saturation are kept."""
+    """One grey linear gain so the mean linear luma meets the spec's tone; hue kept, saturation unless tone.saturation."""
     target = spec.get('tone')
     if not target:
         return rgb, 1.0
@@ -337,7 +346,12 @@ def tone(rgb, spec, mask=None):
         goal *= target.get('factor', 1.0)
     current = linear_luma(rgb, mask)
     gain = goal / max(current, 1e-6)
-    out = linear_to_srgb(srgb_to_linear(rgb[..., :3]) * gain)
+    lin = srgb_to_linear(rgb[..., :3]) * gain
+    if 'saturation' in target:
+        # tone.saturation: each texel's colour pulled toward its own grey (linear luma kept); 1 leaves it as it is.
+        grey = (lin @ LUMA)[..., None]
+        lin = grey + (lin - grey) * float(target['saturation'])
+    out = linear_to_srgb(np.clip(lin, 0, None))
     return out, gain
 
 
@@ -648,6 +662,7 @@ def cmd_install(args):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--project', help='project folder with its own specs.yml and state.json')
     sub = parser.add_subparsers(dest='command', required=True)
     gen = sub.add_parser('gen')
     gen.add_argument('names', nargs='+')
@@ -665,6 +680,13 @@ def main():
     install.add_argument('--root', required=True)
     install.add_argument('--world', default='mm7')
     args = parser.parse_args()
+    if args.project:
+        global HERE, SPECS, STATE
+        HERE = Path(args.project).resolve()
+        SPECS = HERE / 'specs.yml'
+        STATE = HERE / 'state.json'
+        for folder in ('refs', 'raw', 'prompts', 'finished', 'sheets', 'work'):
+            (HERE / folder).mkdir(exist_ok=True)
     {'gen': cmd_gen, 'finish': cmd_finish, 'check': cmd_check, 'install': cmd_install}[args.command](args)
 
 

@@ -56,6 +56,7 @@ tableContributions:
 | engine | 1-673 | 0-23312 (common), 23990-23999 (engine items) |
 | MM9 world | 2001-2999 | 24801-24999, then 26001-26999 (MM9's world item sprites are 24197-24600) |
 | Hesper world (its stage) | 3001-3999 | 25001-25999 |
+| Xeen world | 4001-4999 | 27001-27999 |
 
 MM9's rows are written by `level_generation/props/mm9_isleofashes_claude/scripts/tables.py` (`--apply`). The range
 starts at 2001 so that the engine table can grow.

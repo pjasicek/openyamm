@@ -1,0 +1,121 @@
+# sheet -> NPC ids in reading order (3 columns x 4 rows unless grid says otherwise)
+sheet01:
+  ids: [4001, 4002, 4003, 4004, 4005, 4006, 4007, 4008, 4009, 4011, 4012, 4013]
+sheet02:
+  ids: [4014, 4015, 4016, 4018, 4019, 4020, 4021, 4022, 4023, 4024, 4025, 4026]
+sheet03:
+  ids: [4027, 4028, 4029, 4030, 4031, 4032, 4033, 4034, 4035, 4036, 4037, 4038]
+sheet04:
+  ids: [4039, 4040, 4041, 4042, 4043, 4044, 4045, 4046, 4047, 4048, 4049, 4050]
+sheet05:
+  ids: [4051, 4052, 4101, 4102, 4103, 4104, 4105, 4106, 4107, 4108, 4109, 4110]
+sheet06:
+  ids: [4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122]
+sheet07:
+  ids: [4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 4131, 4132, 4133, 4134]
+sheet08:
+  ids: [4135, 4136, 4137, 4138, 4139, 4140, 4141, 4142, 4143, 4144, 4145, 4146]
+sheet09:
+  # the last nine, then second takes of the three special characters (Tito, Danulf, Ligono)
+  ids: [4147, 4148, 4149, 4150, 4151, 4152, 4153, 4154, 4155, 4153, 4154, 4155]
+sheet10:
+  # batch 2: the two fixes (Barok with human ears, the Spring Druid older) and ten Act II people
+  ids: [4151, 4048, 4401, 4402, 4403, 4404, 4405, 4201, 4202, 4301, 4302, 4303]
+sheet11:
+  ids: [4201, 4304, 5701, 4203, 4204, 4205, 4206, 4207, 4208, 4209, 4210, 4211]
+sheet12:
+  ids: [4212, 4213, 4214, 4215, 4216, 4217, 4218, 4219, 4220, 4221, 4305, 4306]
+sheet13:
+  ids: [4307, 4308, 4309, 4310, 4311, 4312, 4313, 4314, 4315, 4316, 4317, 4318]
+sheet14:
+  ids: [4320, 4321, 4330, 4331, 4332, 4333, 4334, 4335, 4336, 4337, 4338, 4339]
+sheet15:
+  ids: [4340, 4341, 4342, 4343, 4344, 4345, 4501, 4502, 4503, 4504, 4505, 4506]
+sheet16:
+  ids: [4507, 4508, 4509, 4510, 4511, 4512, 4513, 4514, 4515, 4516, 4517, 4518]
+sheet17:
+  ids: [4519, 4521, 4522, 4523, 4524, 4525, 4526, 4527, 4528, 4529, 4281, 4282]
+sheet18:
+  # the last two, then second takes of the riskier ones (ears, gnomes, the tree, the scaled guildmistress)
+  ids: [4283, 4284, 4201, 4205, 4332, 4528, 4524, 4525, 4210, 4211, 4212, 4304]
+sheet19:
+  # X6 for A3 (Q-C1, the Seasons Relay; Saul the Meditation teacher). v1 was a 2 x 3 grid: the worker copied faces
+  # from the reference sheets (rejected); v2 is the usual 3 x 4 grid, six takes each
+  ids: [4601, 4602, 4601, 4602, 4601, 4602, 4601, 4602, 4601, 4602, 4601, 4602]
+sheet20:
+  ids: [4901, 4902, 4903, 4904, 4905, 4906, 4907, 4908, 4909, 4910, 4911, 4912]
+sheet21:
+  ids: [4913, 4914, 4915, 4916, 4917, 4918, 4919, 4920, 4921, 4922, 4923, 4924]
+sheet22:
+  ids: [4925, 4926, 4927, 4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936]
+sheet23:
+  ids: [4937, 4938, 4939, 4940, 4941, 4942, 4943, 4944, 4945, 4946, 4947, 4948]
+sheet24:
+  ids: [4949, 4950, 4951, 4952, 4953, 4954, 5001, 5002, 5003, 5004, 5005, 5006]
+sheet25:
+  ids: [5007, 5008, 5009, 5010, 5011, 5012, 5013, 5101, 5102, 5103, 5104, 5105]
+sheet26:
+  ids: [5106, 5107, 5108, 5201, 5202, 5203, 5204, 5205, 5206, 5207, 5208, 5209]
+sheet27:
+  ids: [5210, 5211, 5212, 5213, 5214, 5215, 5216, 5217, 5218, 5219, 5220, 5221]
+sheet28:
+  ids: [5222, 5223, 5224, 5225, 5226, 5227, 5228, 5229, 5230, 5231, 5232, 5233]
+sheet29:
+  ids: [5234, 5235, 5236, 5237, 5238, 5239, 5240, 5241, 5242, 5243, 5244, 5245]
+sheet30:
+  # the last two, then second takes of the unusual ones (sprites, the monkeydog, the ogre, the dark elves)
+  ids: [5246, 5247, 5101, 5102, 5103, 5104, 5105, 5106, 5107, 5108, 4929, 5225]
+# batch 4: Rivercity's sorceresses and the phase 4-6 towns; the last cell of sheet36 a second take of 5309
+sheet31:
+  ids: [4156, 4157, 5301, 5302, 5303, 5304, 5305, 5306, 5307, 5308, 5309, 5310]
+sheet32:
+  ids: [5311, 5312, 5313, 5314, 5315, 5316, 5501, 5502, 5503, 5504, 5505, 5506]
+sheet33:
+  ids: [5507, 5508, 5509, 5510, 5511, 5601, 5602, 5603, 5604, 5605, 5606, 5607]
+sheet34:
+  ids: [5608, 5609, 5610, 5611, 5612, 5613, 5401, 5402, 5403, 5404, 5405, 5406]
+sheet35:
+  ids: [4720, 5452, 5702, 5703, 4701, 4702, 4703, 4704, 4705, 4706, 4707, 4708]
+sheet36:
+  ids: [4709, 4710, 4711, 4712, 4713, 4714, 4715, 4716, 4717, 4718, 4719, 5309]
+sheet37:
+  # batch 5 (fourth session): X6's Sphinx Wells and the Warzone coachman, and Sablewing again on his volcanic slope
+  # (D-5.2 moved him from the desert to X7); cells 7-12 are second takes of the same six
+  ids: [4603, 4604, 4605, 4606, 4607, 4720, 4603, 4604, 4605, 4606, 4607, 4720]
+sheet38:
+  # batch 6 (fourth session): A3's quest and story people; cell 12 is a second take of the Dragon Pharaoh
+  ids: [4955, 4956, 4957, 5109, 5110, 5317, 5512, 5453, 4608, 5318, 5513, 5453]
+sheet39:
+  # batch 7 (fifth session): A3's T2-CLAN heir, T2-LEAFPOINT tree and Q-D21 woodsman; four takes of each (rows)
+  ids: [4530, 5319, 5320, 4530, 5319, 5320, 4530, 5319, 5320, 4530, 5319, 5320]
+sheet40:
+  # batch 8 (sixth session): D-26's Felix and Carl, D-27's four DD-09 prisoners; two takes of each (rows 3-4 second)
+  ids: [4958, 5014, 5111, 5112, 5113, 5114, 4958, 5014, 5111, 5112, 5113, 5114]
+sheet41:
+  # batch 9 (seventh session): Picard the Aged (FD-02, M40). v1 had twelve identical lines (the worker drew twelve
+  # unrelated people, not used); v2 four wordings of him (5704 and the variants 95701-95703), three rows of takes
+  ids: [5704, 95701, 95702, 95703, 5704, 95701, 95702, 95703, 5704, 95701, 95702, 95703]
+sheet42:
+  # batch 10 (ninth session): Tern 5321 (D-36 (6), the Isle ferry back), four wordings (variant ids 95321-95323,
+  # not NPCs), three rows of takes
+  ids: [5321, 95321, 95322, 95323, 5321, 95321, 95322, 95323, 5321, 95321, 95322, 95323]
+sheet43:
+  # batch 11 (tenth session): Varro 4609, XD-20's Arena Master (D-39), four wordings (variant ids 94691-94693, not
+  # NPCs), three rows of takes
+  ids: [4609, 94691, 94692, 94693, 4609, 94691, 94692, 94693, 4609, 94691, 94692, 94693]
+sheet44:
+  # batch 12 (eleventh session): Blastem 5248, DD-19's talking wizard (D-42 Q5), four wordings (variant ids
+  # 95248-95250, not NPCs), three rows of takes
+  ids: [5248, 95248, 95249, 95250, 5248, 95248, 95249, 95250, 5248, 95248, 95249, 95250]
+sheet45:
+  # batch 13 (thirteenth session): Alister 5705, FD-04's fraud druid in the gate hall (D-57 Q27), four wordings
+  # (variant ids 95705-95707, not NPCs), three rows of takes
+  ids: [5705, 95705, 95706, 95707, 5705, 95705, 95706, 95707, 5705, 95705, 95706, 95707]
+sheet46:
+  # batch 14 (fourteenth session): Cyrano Jones 5614, the Salesman of Pets Unlimited in DD-26 (D-65 Q57), four
+  # wordings (variant ids 95614-95616, not NPCs), three rows of takes
+  ids: [5614, 95614, 95615, 95616, 5614, 95614, 95615, 95616, 5614, 95614, 95615, 95616]
+sheet47:
+  # batch 15 (sixteenth session): Sparrow 4158, the Pit Fighter of Rivercity's Martial Training (D-73), four
+  # wordings (variant ids 94158-94160, not NPCs), three rows of takes
+  ids: [4158, 94158, 94159, 94160, 4158, 94158, 94159, 94160, 4158, 94158, 94159, 94160]

@@ -1,0 +1,226 @@
+# MU-6 dungeon graph, a review file for phase 4 (not a brief), lane A8 session 6. Format as act3_graphs/dd01.graph.yml.
+# The wizard quarter behind Sandcaster's guild gate: an open-sky guild court between Xenoc's Mirage Guild (west) and
+# Morgana's Sorceress HQ (east), each two storeys, a covered bridge between their upper floors, and the guilds'
+# quarters, commons and vault in the undercroft below the court.
+format: mu6-0
+map: DD-19
+key: dd19
+name: Wizard Quarter
+stands_on: D3 Sandcaster and the Aging Forest
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+stem: xeen_dd19.blv
+map_id: 9172
+music: 34
+party: [38, 41]
+monsters:
+  levels: [32, 55]
+  boss: "Xenoc 60, Morgana 65"
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Wizards (11190): Wizard 36 (16), Sorcerer 45 (4); Xenoc 11196 (60): the Mirage Guild, the wizards' quarters"
+    - "Sorceresses (11180, S's xeen_sorc model, D-32): Enchantress 40 (10), Grand Sorceress 55 (2, Morgana's guards); Morgana 11183 (65, own skin sorc_m, D-32)"
+    - "Magic constructs (11600): Carnage Hand 35 (12): the guilds' conjured servants (xeen_hand), in both halls and below"
+    - "Material golems (11580): Iron Golem 40 (4): the wardens of the guild vault"
+    - "Talking, not counted: Blastem the Wizard in the Guild Common (an A4 NPC; the source's insult; a fight only if the party takes the lesson, then on the Sorcerer row 11191 as Valio's swap)"
+  mix:
+    - {row: Wizard, id: 11190, level: 36, count: 16}
+    - {row: Sorcerer, id: 11191, level: 45, count: 4}
+    - {row: Enchantress, id: 11181, level: 40, count: 10}
+    - {row: Grand Sorceress, id: 11182, level: 55, count: 2}
+    - {row: Carnage Hand, id: 11602, level: 35, count: 12}
+    - {row: Iron Golem, id: 11582, level: 40, count: 4}
+    - {row: Xenoc, id: 11196, level: 60, count: 1, boss: true}
+    - {row: Morgana, id: 11183, level: 65, count: 1, boss: true}
+  optional:
+    - {row: "Blastem (talking actor; Sorcerer 11191 if he fights)", id: 11191, level: 45, count: 1}
+  kill_xp_target: 23.8k
+  kill_xp_planned: "99,521 / 4 = 24.9k per member (+4.5 %); with Blastem fought 25.5k (+7.1 %); Morgana at 60 instead of 65: 24.7k (+3.8 %)"
+treasure: {level: 4, hoard: 5}
+role: "Q-D14 (Astra's quest, Act IV, level 39, D-16): kill Xenoc (q-d14.xenoc) and Morgana (q-d14.morgana); Astra's hand-in opens the quarter's five houses on D3 and names the party's Rogues Spies (Promo Spy, Light)"
+role_short: "Q-D14, Promo Spy"
+set_piece: "Xenoc's and Morgana's guild halls facing each other across an open-sky court of pink ashlar: the Mirage Guild, whose master's door is a wall that is not there (a mirror shows it), and the Sorceress HQ, whose mistress sits behind a ward fed by two lamps; a covered bridge between their upper floors, bolted on Xenoc's side"
+textures:
+  family: "Sandcaster's wizard-quarter stone inside the gate (the town kit's MM6 Castle Ironfist hc set, as D3 builds the quarter outside: hcwall, hcw1ctr, hcwindo, hctriw, hcuniq2, hcuniq3, hcw1le, hcw1re, hcsmdr, hclgdr, t1f1, t1f2, cstyl, t1trimb) for the court, the commons and both foyers; the Mirage Guild's rooms in MM6 Icewind Keep 6d15 (a wizard's keep: t3wbltl, t3wbltd, t3wbltr, t3wspp, d2ceil1, d2flor3, bemsv16b, bemh32a, bemtila, orair32, d8dord); the Sorceress HQ and the undercroft in MM6 Corlagon's Estate 6d11 (d2wctra, d2wlbmed, d2wlbctr, d2wlcle, d2wlcre, d2ceil3, d2flor4, cvdor3, d2skulas, d2niche1, cedsqrdk); the halls' double doors MM8 t07c03c + t07c03d (one wing picture per leaf) in hcw1le/hcw1re pilaster frames; the mirror mm6/glass2 (DD-02's); the ward leaf XD-25's xufield (reused)"
+  cap: 45
+  planned: 40
+  new: 0
+floors:
+  - {floor: 1, name: "Upper floors of the halls", height: 640}
+  - {floor: 0, name: "Court level", height: 0}
+  - {floor: -1, name: "Undercroft", height: -512}
+spaces:
+  # floor 1: the halls' upper floors and the bridge
+  - {id: room:mirage_landing, name: Mirage stair head, kind: stair, size: S, floor: 1, at: [0, 0], monsters: 0,
+     purpose: "The Mirage Guild's stair head; a ceiling lamp over the well."}
+  - {id: room:mirror_gallery, name: Mirror gallery, kind: corridor, size: M, floor: 1, at: [1, 0], monsters: 5,
+     population: [{row: Wizard, level: 36, count: 3}, {row: Carnage Hand, level: 35, count: 2}],
+     purpose: "A long gallery of blank pink ashlar on one side and a tall mirror (glass2) on the other. Click the mirror: 'In the mirror, the blank wall behind you has a door in it.' The wall opposite is the mirage (XD-10's illusory wall: translucent face, no collision)."}
+  - {id: room:mirage_hall, name: "Hall of Mirages", kind: hall, size: L, floor: 1, at: [2, 0], set_piece: true, goal: true,
+     boss: true, boss_label: "Xenoc 60 + 2", monsters: 3,
+     population: [{actor: Xenoc, row: 11196, level: 60, role: boss, placed: true}, {row: Sorcerer, level: 45, count: 2}],
+     purpose: "Xenoc's guild hall: a raised chair under the triple window (hctriw), the floor's orair32 inlay shimmering like water, hanging lamps from the beams. Xenoc's death: q-d14.xenoc ('Xenoc falls, still in the middle of a sentence about his betters.'). The bridge door's bolt is here."}
+  - {id: room:xenoc_study, name: "Xenoc's study", kind: room, size: S, floor: 1, at: [2, 1], chest: 4, monsters: 0,
+     purpose: "Behind the chair: a desk, a chest (T4), and a lever under the guild's seal that opens the vault below ('Far below, iron grinds.')."}
+  - {id: room:bridge, name: Guild bridge, kind: corridor, size: M, floor: 1, at: [3, 0], monsters: 2,
+     population: [{row: Carnage Hand, level: 35, count: 2}],
+     purpose: "A covered bridge over the court from the Sorceress HQ to the Mirage Guild; windows down into the court. Its west door is bolted on Xenoc's side: before his death 'Begone, children, lest I blast you to ash and scatter you to the winds.'; after it 'The door is bolted from the far side.'"}
+  - {id: room:scrying, name: Scrying room, kind: room, size: M, floor: 1, at: [4, 0], monsters: 3,
+     population: [{row: Enchantress, level: 40, count: 3}],
+     purpose: "Crystal on a stand, skull niches (d2skulas); the first ward lamp, a floor brazier with a cold violet flame: 'A ward lamp. Snuff it?'"}
+  - {id: room:hq_landing, name: HQ stair head, kind: stair, size: S, floor: 1, at: [5, 0], monsters: 0,
+     purpose: "The Sorceress HQ's stair head before Morgana's door. The door: 'A ward of light seals the door. Two lamps feed it.' (the xufield leaf) until both lamps are out."}
+  - {id: room:morgana_sanctum, name: "Morgana's sanctum", kind: hall, size: L, floor: 1, at: [6, 0], set_piece: true, goal: true,
+     boss: true, boss_label: "Morgana 65 + 2", monsters: 3,
+     population: [{actor: Morgana, row: 11183, level: 65, role: boss, placed: true}, {row: Grand Sorceress, level: 55, count: 2}],
+     purpose: "The Sorceresses' hall: Morgana in crimson (skin sorc_m) between her two Grand Sorceresses, under wall sconces. Her death: q-d14.morgana ('Morgana is dead. Her robes keep glowing for a while, out of habit.')."}
+  - {id: room:wardrobe, name: "Morgana's wardrobe", kind: room, size: S, floor: 1, at: [6, 1], chest: 4, monsters: 0,
+     purpose: "Robes on racks against the walls and a chest (T4)."}
+  # floor 0: the court and the two halls' ground floors
+  - {id: room:mirage_stair, name: Mirage stair, kind: stair, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "The Mirage Guild's stair, from the potion alcoves below to the gallery above."}
+  - {id: room:illusions, name: Hall of illusions, kind: hall, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{row: Wizard, level: 36, count: 3}, {row: Sorcerer, level: 45, count: 1}],
+     purpose: "The guild's lecture hall: benches against the walls, a lectern, a painted false door that is only a picture (hover 'A painted door')."}
+  - {id: room:mirage_foyer, name: Mirage Guild, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Wizard, level: 36, count: 4}],
+     purpose: "Behind the guild's double door (hover 'Mirage Guild'): a foyer in hc ashlar turning to Icewind's grey brick."}
+  - {id: room:court, name: Guild court, kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, monsters: 0,
+     purpose: "Open sky (D-22.6's words, Darkside xeendark1): pink ashlar facades with statue niches, balconies and the covered bridge overhead; the guild gate behind the party (the arrival, entrance:d3_guild_gate); the two halls' double doors west and east, the commons' door north. No monster (D-11.3)."}
+  - {id: room:hq_foyer, name: Sorceress HQ, kind: hall, size: M, floor: 0, at: [4, 0], monsters: 5,
+     population: [{row: Enchantress, level: 40, count: 3}, {row: Carnage Hand, level: 35, count: 2}],
+     purpose: "Behind the double door (hover 'Sorceress HQ'): Corlagon's dark brick under hanging lamps."}
+  - {id: room:hq_stair, name: HQ stair, kind: stair, size: S, floor: 0, at: [5, 0], monsters: 0,
+     purpose: "The HQ's stair up to Morgana's door; a door to the robing room."}
+  - {id: room:robing, name: Robing room, kind: room, size: M, floor: 0, at: [6, 0], monsters: 2,
+     population: [{row: Enchantress, level: 40, count: 2}],
+     purpose: "Mirrors and robe chests along the walls; the second ward lamp on a wall bracket: 'A ward lamp. Snuff it?'; the back stair down to the alembic cellar."}
+  - {id: room:common, name: Guild Common, kind: hall, size: M, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "The guilds' shared refectory: long tables, a hearth, the font of spell points ('+2000 spell points.': every member's spell points refilled). Blastem the Wizard sits apart (a talking actor) and takes offence."}
+  - {id: room:weights, name: Weights and Measures, kind: room, size: S, floor: 0, at: [5, 1], chest: 4, monsters: 2,
+     population: [{row: Carnage Hand, level: 35, count: 2}],
+     purpose: "The quarter's tax office: scales, ledgers, the wizards' tax chest (T4); hover 'Weights and Measures'."}
+  - {id: room:quarters_stair, name: Quarters stair, kind: stair, size: S, floor: 0, at: [3, 2], monsters: 0,
+     purpose: "Down from the commons to the guild quarters."}
+  # floor -1: the undercroft
+  - {id: room:alcoves, name: Potion alcoves, kind: room, size: S, floor: -1, at: [0, 0], monsters: 2,
+     population: [{row: Wizard, level: 36, count: 2}],
+     purpose: "At the foot of the Mirage stair: two alcoves ('Alcove'), an Orange Potion (+2 Intellect) and a Purple Potion (+2 Speed), once per character (D-4; the source's +10)."}
+  - {id: room:quarters_w, name: "Guild Quarters (wizards)", kind: hall, size: M, floor: -1, at: [1, 0], chest: 4, monsters: 4,
+     population: [{row: Wizard, level: 36, count: 4, hidden: true}],
+     purpose: "Cells of beds ('Bed', 'Nothing here.') and a chest (T4). Opening it: 'Ambush!' and four wizards are shown from the cells (D-18's hidden group; once, a map variable)."}
+  - {id: room:undercroft, name: Undercroft, kind: corridor, size: M, floor: -1, at: [2, 0], monsters: 3,
+     population: [{row: Carnage Hand, level: 35, count: 2}, {row: Sorcerer, level: 45, count: 1}],
+     purpose: "A vaulted passage under the court joining both guilds' quarters; the vault's iron door on its south side."}
+  - {id: room:stair_foot, name: Quarters stair foot, kind: stair, size: S, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "The commons' stair foot."}
+  - {id: room:quarters_e, name: "Guild Quarters (sorceresses)", kind: hall, size: M, floor: -1, at: [4, 0], chest: 4, monsters: 2,
+     population: [{row: Carnage Hand, level: 35, count: 2}],
+     purpose: "The sorceresses' cells; a chest (T4)."}
+  - {id: room:alembic, name: Alembic cellar, kind: room, size: M, floor: -1, at: [5, 0], monsters: 2,
+     population: [{row: Enchantress, level: 40, count: 2}],
+     purpose: "Retorts and a still against the walls (a set piece, no effect); shelves of empty bottles."}
+  - {id: room:back_stair, name: HQ back stair, kind: stair, size: S, floor: -1, at: [6, 0], monsters: 0,
+     purpose: "Up to the robing room."}
+  - {id: room:vault, name: Guild vault, kind: room, size: M, floor: -1, at: [2, 1], chest: 5, monsters: 4,
+     population: [{row: Iron Golem, level: 40, count: 4}],
+     purpose: "The guilds' treasury behind an iron door (the lever in Xenoc's study): four iron wardens and the hoard (T5)."}
+links:
+  # floor 0
+  - {id: link:court_mirage, from: room:court, to: room:mirage_foyer, kind: door, label: "Double door", notes: "Great hall doors: two leaves (t07c03c, t07c03d) opening apart."}
+  - {id: link:court_hq, from: room:court, to: room:hq_foyer, kind: door, label: "Double door", notes: "Two leaves, as the Mirage Guild's."}
+  - {id: link:court_common, from: room:court, to: room:common, kind: door}
+  - {id: link:mirage_illusions, from: room:mirage_foyer, to: room:illusions, kind: open}
+  - {id: link:illusions_stair, from: room:illusions, to: room:mirage_stair, kind: open}
+  - {id: link:hq_stair, from: room:hq_foyer, to: room:hq_stair, kind: open}
+  - {id: link:stair_robing, from: room:hq_stair, to: room:robing, kind: door}
+  - {id: link:common_weights, from: room:common, to: room:weights, kind: door}
+  - {id: link:common_qstair, from: room:common, to: room:quarters_stair, kind: open}
+  # stairs between floors
+  - {id: link:mirage_up, from: room:mirage_stair, to: room:mirage_landing, kind: stair}
+  - {id: link:mirage_down, from: room:mirage_stair, to: room:alcoves, kind: stair}
+  - {id: link:hq_up, from: room:hq_stair, to: room:hq_landing, kind: stair}
+  - {id: link:qstair_down, from: room:quarters_stair, to: room:stair_foot, kind: stair}
+  - {id: link:back_up, from: room:back_stair, to: room:robing, kind: stair}
+  # floor 1
+  - {id: link:landing_gallery, from: room:mirage_landing, to: room:mirror_gallery, kind: open}
+  - {id: link:mirage_wall, from: room:mirror_gallery, to: room:mirage_hall, kind: secret, label: "The mirage wall"}
+  - {id: link:hall_study, from: room:mirage_hall, to: room:xenoc_study, kind: door}
+  - {id: link:hall_bridge, from: room:mirage_hall, to: room:bridge, kind: door, label: "Bolt: Xenoc's side", opened_by: state:bolt}
+  - {id: link:bridge_scry, from: room:bridge, to: room:scrying, kind: open}
+  - {id: link:scry_landing, from: room:scrying, to: room:hq_landing, kind: open}
+  - {id: link:ward, from: room:hq_landing, to: room:morgana_sanctum, kind: door, label: "The ward: two lamps", opened_by: state:lamp_scry}
+  - {id: link:sanctum_wardrobe, from: room:morgana_sanctum, to: room:wardrobe, kind: door}
+  # floor -1
+  - {id: link:alcoves_qw, from: room:alcoves, to: room:quarters_w, kind: open}
+  - {id: link:qw_undercroft, from: room:quarters_w, to: room:undercroft, kind: door}
+  - {id: link:undercroft_foot, from: room:undercroft, to: room:stair_foot, kind: open}
+  - {id: link:foot_qe, from: room:stair_foot, to: room:quarters_e, kind: door}
+  - {id: link:qe_alembic, from: room:quarters_e, to: room:alembic, kind: open}
+  - {id: link:alembic_back, from: room:alembic, to: room:back_stair, kind: door}
+  - {id: link:vault_door, from: room:undercroft, to: room:vault, kind: locked, label: "Iron door: the study's lever", opened_by: state:vault_lever}
+states:
+  - {id: state:mirror, kind: puzzle, where: room:mirror_gallery,
+     what: "The mirror shows a door in the blank wall opposite; that wall is an illusion (no collision) into Xenoc's hall. Answer-givers: the mirror itself and Blastem's humble answer.",
+     opens: [], draw: false}
+  - {id: state:bolt, kind: lever, where: room:mirage_hall,
+     what: "The bridge door's bolt, drawn from Xenoc's side (two-state): the bridge joins the two halls' upper floors.",
+     opens: [link:hall_bridge]}
+  - {id: state:lamp_scry, kind: lever, where: room:scrying,
+     what: "Ward lamp 1, a floor brazier (two-state map variable, its flame and light out when snuffed). With lamp 2 also out the ward on Morgana's door fades ('The ward flickers and goes out.'); one lamp out: 'The ward thins, but holds.'",
+     opens: [link:ward]}
+  - {id: state:lamp_robe, kind: lever, where: room:robing,
+     what: "Ward lamp 2, a wall bracket lamp in the robing room (two-state map variable); the door's event reads both.",
+     opens: [link:ward]}
+  - {id: state:vault_lever, kind: lever, where: room:xenoc_study,
+     what: "The lever under the guild's seal (two-state): the vault's iron door in the undercroft.",
+     opens: [link:vault_door], draw: false}
+  - {id: state:ambush, kind: map_var, where: room:quarters_w,
+     what: "The quarters' chest: first opening shows the hidden four wizards ('Ambush!', D-18's pattern; stays shown after a reload).",
+     opens: [], draw: false}
+  - {id: state:blastem, kind: password, where: room:common,
+     what: "Blastem's insult, two answers (aaze0031:110): 1 'the lesson': he fights (swap to Sorcerer 11191); 2 'boots licked': aaze0031:112 and the hint 'Xenoc keeps his door where no door is. Ask the mirror upstairs.'",
+     opens: [], draw: false}
+  - {id: state:xenoc, kind: kill, where: room:mirage_hall, what: "Xenoc dead: q-d14.xenoc (xenoc_slain 113283).", opens: [], draw: false}
+  - {id: state:morgana, kind: kill, where: room:morgana_sanctum, what: "Morgana dead: q-d14.morgana (morgana_slain 113284).", opens: [], draw: false}
+exits:
+  - {id: exit:d3_gate, space: room:court, at: [3, 1], kind: both, label: "D3: the guild gate",
+     neighbour: "D3 thing:dd19_gate at (-10496, 22451, 1728) in the quarter's north wall, gate face to the south (A5's DOORS.md); q-d14.quarter_gate's 'Enter?' then the move. Inside arrival entrance:d3_guild_gate: the court's south side about 384 inside the gate, facing north (MoveToMap 512), the gate at the party's back. The way out is the gate's inside face on the exit preset (D-24), landing about 300 south of the gate on D3 facing south (1536)."}
+hooks:
+  - {hook: q-d14.quarter_gate, space: exit:d3_gate, how: "on D3 (A5's thing:dd19_gate): the question 'Enter?', then the move to entrance:d3_guild_gate; open from the start"}
+  - {hook: q-d14.xenoc, space: room:mirage_hall, how: "Xenoc's death (monster 11196, the map's on-death event, once)"}
+  - {hook: q-d14.morgana, space: room:morgana_sanctum, how: "Morgana's death (monster 11183, the map's on-death event, once)"}
+  - {hook: "npc Blastem the Wizard (A4, new)", space: room:common, how: "talking actor: the insult as his greeting topic with the two answers (A3 or a map-local event)"}
+critical_path: [room:court, room:mirage_foyer, room:illusions, room:mirage_stair, room:mirage_landing, room:mirror_gallery, room:mirage_hall,
+  room:bridge, room:scrying, room:hq_landing, room:hq_stair, room:robing, room:hq_stair, room:hq_landing, room:morgana_sanctum]
+return_path: [room:morgana_sanctum, room:hq_landing, room:hq_stair, room:hq_foyer, room:court]
+loops:
+  - {id: loop:bridge, spaces: [room:court, room:mirage_foyer, room:illusions, room:mirage_stair, room:mirage_landing, room:mirror_gallery,
+       room:mirage_hall, room:bridge, room:scrying, room:hq_landing, room:hq_stair, room:hq_foyer],
+     notes: "Over the court by the bridge, once Xenoc's bolt is drawn. Before that the HQ side reaches the bridge and hears Xenoc through the door."}
+  - {id: loop:undercroft, spaces: [room:court, room:common, room:quarters_stair, room:stair_foot, room:quarters_e, room:alembic, room:back_stair,
+       room:robing, room:hq_stair, room:hq_foyer],
+     notes: "Under the court into the Sorceress HQ by its back stair."}
+  - {id: loop:mirage_cellar, spaces: [room:court, room:common, room:quarters_stair, room:stair_foot, room:undercroft, room:quarters_w,
+       room:alcoves, room:mirage_stair, room:illusions, room:mirage_foyer],
+     notes: "Under the court into the Mirage Guild by its stair's foot."}
+lines:
+  - {text: "How dare you speak to me? You can learn to show respect to your betters on your own, or I can teach it to you.", ref: "dark/aaze0031:51", where: "room:common (Blastem the Wizard, aaze0031:50)"}
+  - {text: "1) I think we're ready for that lesson right now. 2) Sorry, sir. Won't happen again. Do you need your boots licked?", ref: "dark/aaze0031:110", where: "room:common, Blastem's two answers"}
+  - {text: "It's always a pleasure to be able to converse with other beings as intelligent as I.", ref: "dark/aaze0031:112", where: "room:common, after the humble answer"}
+  - {text: "Begone, children, lest I blast you to ash and scatter you to the winds.", ref: "dark/aaze0031:37 (Wrathmont the Chaotic's line, given to Xenoc)", where: "room:bridge, the bolted door while Xenoc lives"}
+  - {text: "Ambush!", ref: "dark/aaze0031:56", where: "room:quarters_w, the chest"}
+  - {text: "Orange Potion: +10 Intellect (permanent). / Purple Potion: +10 Speed (permanent). (+2 each, D-4)", ref: "dark/aaze0031:57-60", where: room:alcoves}
+  - {text: "Alcove / Bed / Nothing here.", ref: "dark/aaze0031:55, :52, :53", where: "room:alcoves, room:quarters_w, room:quarters_e"}
+  - {text: "+2000 spell points.", ref: "dark/aaze0031:61", where: "room:common, the font"}
+  - {text: "Sorceress HQ / Mirage Guild / Guild Quarters / Guild Common / Weights and Measures", ref: "dark/aaze0031:82, :95, :89, :100, :98", where: "the halls' and rooms' hover names"}
+open_questions:
+  - "Morgana's level: A2's row 11183 is 65, over MAPS's '32-55, Xenoc 60'. Proposed: keep 65 (she is the harder of the two, a required kill at quest level 39 for a party of 38-41) and MAPS writes '32-55, Xenoc 60, Morgana 65' (24.9k, +4.5 %). Or lower her to 60 (24.7k, +3.8 %). Depends: A2 (row or MAPS), A3 (nothing)."
+  - "Monsters: the source's quarter held only casters (about 47). Proposed: wizards and sorceresses (36-55) with the guilds' conjured Carnage Hands (35) as servants and four Iron Golems (40) in the vault, so not every fight is a caster duel. Or casters only, which needs the Sorceress 30 (under the band) or more Grand Sorceresses 55 (over the XP target); or Gargoyle Sentinels 38 in the court's statue niches instead of the golems. Depends: A2's recount."
+  - "The guild court under open sky (D-22.6's `sky`/`open_sky` with the Darkside preset), its facades in the town's hc stone so the gate opens onto what the quarter promised (proposed); or a roofed court hall (no sky, cheaper). Depends: A8's L1, A1 only if open sky indoors is not yet available in BLVs on Darkside."
+  - "D3 has the guild gate in the city's outer north wall (the quarter's north edge is the city's), so on D3 nothing stands behind it. Proposed: A5 adds, north of the wall between x 40 and 47 (if the dunes there are clear), a walled guild precinct: two pink hc hall roofs (two storeys, gabled) and the bridge's roof showing over a court wall, so the inside's court and twin halls read from the valley. Or no change (MM interiors may be larger than the outside; the gate then reads as leading into the hill). Depends: A5 (D3 L4 edit), nothing in DD-19."
+  - "Blastem the Wizard: a talking actor in the Guild Common with the source's insult and its two answers: 'the lesson' makes him a fight (swap to Sorcerer 11191, Valio's pattern; +0.6k per member), 'boots licked' gives aaze0031:112 and a hint at the mirror (proposed). Or leave him out; the mirror alone gives the mirage wall. Depends: A4 (NPC row, portrait), A3 (topic and the swap), A8 (place)."
+  - "Morgana's door: a ward fed by two lamps (one per floor of the HQ, two-state, both out opens it), the leaf XD-25's xufield reused (proposed); or one new violet ward texture (new 1 of 8); or a locked door with a key carried by a Grand Sorceress (an item row). Depends: A8, A6 (only for a new texture)."
+  - "The Guild Common's font, 'the +2000 spell points': every member's spell points refilled, repeatable (proposed: an MM well next to the hardest fights); once per day; or left out. Depends: A8."
+  - "After q-d14.done nothing changes inside (proposed: the quarter's living guilds are the five houses on D3). Or the guild's survivors as a peaceful row in the Common. Depends: A2, A3."

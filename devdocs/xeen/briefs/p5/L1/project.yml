@@ -1,0 +1,44 @@
+format: 0
+id: xeen_p5
+name: Clouds of the Ancients
+world: xeen
+kind: indoor
+profile: region
+map_code: P5
+units: {plan_grid: 512}
+extent: {footprint_cells: [26, 26]}
+map_stats:
+  id: 9119
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 0
+  perception_difficulty: 0
+  refill_days: 672
+  music: 15
+  environment: plains
+  lock_difficulty: 0
+neighbours:
+  - id: door:fd03
+    to: xeen_fd03.blv
+    kind: door
+    arrival: entrance:p5_stair
+    arrival_hint: "At the top of FD-03's roof stair, inside the seal, facing down the stair."
+    notes: "FD-03 Darkstone Tower (A7, phase 6): its roof stair, open once M41's seal is broken (m41.seal_broken 111820), comes up into P5's stair house at entrance:fd03_roof (4608, -3968), z 0, facing north (512). The stair house's door goes back down: an exit preset, meaning 'Descend into Darkstone Tower?' (aazex129:14)."
+  - id: fall:x5
+    to: xeen_x5.odm
+    kind: fall
+    notes: "Every fall lands on X5 at (-4608, 2304), Darkstone's rock top (ground 1500) 224 before the tower's north door, facing south (1536), with falling damage; X5's entrance:p5_fall (A6), question 3."
+qbits:
+  m41_seal_broken: 111820
+  m42_done: 111840
+items:
+  cube_of_power: 12365
+  xeens_scepter: 12366
+rules:
+  no_fly: true
+  weather: none
+  fall_through:
+    below: -1000
+    landing: [-4608, 2304]
+    to: fall:x5
+notes: "P5 Clouds of the Ancients, MU-3 plan for the phase 6 review (A5 sub-agent, 2026-11-21): an open-air BLV region (devdocs/INDOOR_OPEN_SKY.md; X9's route) of walkable cloud above Darkstone Tower. Clouds are plan spaces with `at` (map units, the middle) and `extent`. Drawings and board: output/studio_cal/p5/mockups/."

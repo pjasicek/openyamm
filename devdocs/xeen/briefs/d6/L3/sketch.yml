@@ -1,0 +1,1790 @@
+format: 0
+grid: 512
+notes: "D6 The Forbidden Zone, written by output/studio_cal/d6/tools/gen.py. Cells [x, y], x east, y south. Heights above the stars below the rims (0): Corak's lava lake 1,450, Alamar's moat 1,550 and its mesa 2,304, the waste 1,600-2,100, the Ancient field to 2,700, Necropolis 1,664, the border pass 1,700, the southern peaks to 3,800 with Griffin Pass 2,464. Lava is lavtyl (D-40)."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: south, span: [59, 70], neighbour: edge:south, notes: "The mountain road runs out to y 127 at x 64 (D1's north edge, its rim [59, 70] level)."}
+    - {side: east, span: [60, 68], neighbour: edge:east, notes: "The pass road runs out to x 127 at y 64 (edge_d5_d6.json: 1,700 over y 62-66)."}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 24; below, water at 0 stands for the stars. The Northern Lava Falls pour over it at x 44."}
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at x 24 (D1's west rim continues); the Slag Run falls over it at y 51."}
+    - {side: south, span: [0, 24], form: level, height: 0, meet: 1, notes: D1's west rim.}
+    - {side: south, span: [24, 59], form: ridge, height: [1200, 1600], floor: 1100, crest: 10, roughness: 80, notes: "D6's picture of D1: the vale's north end, 1,100-1,600 (D1's own north strip pictures D6's peaks)."}
+    - {side: south, span: [59, 70], form: level, height: 1550, meet: 6, notes: "D1's mountain road valley (D1's rim [59, 70]; the road 1,550 at (64, 19))."}
+    - {side: south, span: [70, 80], form: ridge, height: [1300, 1550], floor: 1200, crest: 8, roughness: 80, notes: D1's north vale.}
+    - {side: south, span: [80, 88], form: level, height: 832, meet: 3, notes: "D1's Sardaj spring pool (832) under the cliff: D6's border row drops to it."}
+    - {side: south, span: [88, 100], form: ridge, height: [1100, 1500], floor: 1050, crest: 8, roughness: 80, notes: D1's north-east vale.}
+    - {side: south, span: [100, 128], form: ridge, height: [1800, 2200], floor: 1600, crest: 8, roughness: 100, notes: D1's Gemstone foothills (and D2's corner).}
+    - {side: east, span: [0, 24], form: level, height: 0, meet: 1, notes: The north rim's east end (D5's north rim also y 24).}
+    - {side: east, span: [24, 58], form: ridge, height: [2600, 3300], floor: 2200, crest: 10, roughness: 120, notes: "D5's north-west highlands (the shared ridge, edge_d5_d6.json)."}
+    - {side: east, span: [58, 70], form: level, height: 1700, meet: 6, notes: "The Forbidden Zone's border pass, open to D5 (edge_d5_d6.json)."}
+    - {side: east, span: [70, 128], form: ridge, height: [2500, 3000], floor: 2100, crest: 10, roughness: 120, notes: D5's western ridge south of the pass.}
+  edge: {height: 1700, north: 0, west: 0}
+heights:
+  points:
+    - {at: [25, 109], h: 1216}
+    - {at: [28, 109], h: 1120}
+    - {at: [31, 109], h: 1152}
+    - {at: [34, 109], h: 1376}
+    - {at: [37, 109], h: 1504}
+    - {at: [40, 109], h: 1536}
+    - {at: [43, 109], h: 1472}
+    - {at: [46, 109], h: 1376}
+    - {at: [49, 109], h: 1280}
+    - {at: [52, 109], h: 1152}
+    - {at: [55, 109], h: 1152}
+    - {at: [58, 109], h: 1248}
+    - {at: [60, 109], h: 1408}
+    - {at: [61, 109], h: 1472}
+    - {at: [62, 109], h: 1536}
+    - {at: [63, 109], h: 1568}
+    - {at: [64, 109], h: 1536}
+    - {at: [65, 109], h: 1568}
+    - {at: [66, 109], h: 1696}
+    - {at: [67, 109], h: 1696}
+    - {at: [68, 109], h: 1632}
+    - {at: [70, 109], h: 1536}
+    - {at: [73, 109], h: 1504}
+    - {at: [76, 109], h: 1504}
+    - {at: [79, 109], h: 1376}
+    - {at: [80, 109], h: 1216}
+    - {at: [81, 109], h: 832}
+    - {at: [82, 109], h: 832}
+    - {at: [83, 109], h: 832}
+    - {at: [84, 109], h: 832}
+    - {at: [85, 109], h: 832}
+    - {at: [86, 109], h: 832}
+    - {at: [87, 109], h: 832}
+    - {at: [88, 109], h: 1152}
+    - {at: [91, 109], h: 1216}
+    - {at: [94, 109], h: 1088}
+    - {at: [97, 109], h: 1120}
+    - {at: [100, 109], h: 1440}
+    - {at: [103, 109], h: 1856}
+    - {at: [106, 109], h: 2144}
+    - {at: [109, 25], h: 3136}
+    - {at: [109, 28], h: 3200}
+    - {at: [109, 31], h: 3264}
+    - {at: [109, 34], h: 3232}
+    - {at: [109, 37], h: 3136}
+    - {at: [109, 40], h: 3040}
+    - {at: [109, 43], h: 2944}
+    - {at: [109, 46], h: 2816}
+    - {at: [109, 49], h: 2656}
+    - {at: [109, 52], h: 2496}
+    - {at: [109, 55], h: 2304}
+    - {at: [109, 58], h: 1984}
+    - {at: [109, 60], h: 1792}
+    - {at: [109, 61], h: 1760}
+    - {at: [109, 62], h: 1696}
+    - {at: [109, 63], h: 1696}
+    - {at: [109, 64], h: 1696}
+    - {at: [109, 65], h: 1696}
+    - {at: [109, 66], h: 1696}
+    - {at: [109, 67], h: 1760}
+    - {at: [109, 68], h: 1792}
+    - {at: [109, 70], h: 1984}
+    - {at: [109, 73], h: 2208}
+    - {at: [109, 76], h: 2368}
+    - {at: [109, 79], h: 2528}
+    - {at: [109, 82], h: 2656}
+    - {at: [109, 85], h: 2720}
+    - {at: [109, 88], h: 2816}
+    - {at: [109, 91], h: 2880}
+    - {at: [109, 94], h: 2912}
+    - {at: [109, 97], h: 2944}
+    - {at: [109, 100], h: 2976}
+    - {at: [109, 103], h: 2976}
+    - {at: [109, 106], h: 2636}
+    - {at: [109, 107], h: 2440}
+    - {at: [109, 108], h: 2260}
+    - {at: [109, 109], h: 2176}
+    - {at: [64, 106], h: 1800, notes: "the D1 arrival, climbing"}
+    - {at: [51, 57], h: 2150, notes: the approach ramp below Alamar's gate}
+    - {at: [51, 60], h: 1980}
+    - {at: [52, 62], h: 1880}
+    - {at: [50, 100], h: 3650, notes: the western peaks}
+    - {at: [78, 101], h: 3800}
+    - {at: [88, 101], h: 3500, notes: the genie crag}
+    - {at: [36, 40], h: 2240, notes: the genie pinnacle}
+    - {at: [49, 80], h: 2300, notes: the cinder cone}
+    - {at: [46, 100], h: 3700, notes: the crag over DD-10C's adit}
+    - {at: [43, 100], h: 3600}
+    - {at: [49, 100], h: 3200}
+  cliffs:
+    - line: [[128, 24], [24, 24], [24, 128]]
+      drop: 1600
+      down: right
+      notes: "The world rim, north then west; the lava falls over it at (44, 24) and (24, 51)."
+    - line: [[79, 107], [84, 106], [89, 107]]
+      drop: 1300
+      down: right
+      notes: "The Sardaj cliff: the peaks' south face down to D1's spring pool at the border."
+    - line: [[43, 56], [39, 50], [40, 43], [45, 38], [51, 36], [56, 38], [60, 43], [61, 50], [59, 56]]
+      drop: 600
+      down: left
+      notes: "Alamar's mesa: its cliffs into the moat."
+  ridges:
+    - {line: [[27, 101], [36, 100], [44, 99], [52, 100], [58, 98]], height: 3300, width: 2, slope: 4, notes: The southern border's crest west of the pass.}
+    - {line: [[70, 98], [78, 100], [88, 101], [98, 100], [106, 98]], height: 3400, width: 2, slope: 4, notes: "The crest east of the pass, on to the D5 ridge."}
+  terraces:
+    - polygon: [[47.5, 39.5], [54.5, 39.5], [57.5, 42], [57.5, 52.5], [44.5, 52.5], [44.5, 42]]
+      height: 2304
+      slope: 2
+      notes: Castle Alamar's floor on the mesa.
+    - polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
+      height: 1664
+      slope: 3
+      notes: Necropolis inside its walls.
+    - polygon: [[61, 93], [67, 93], [67, 98], [61, 98]]
+      height: 2464
+      slope: 3
+      notes: "Griffin Pass: Ambrose's camp."
+    - polygon: [[28, 28], [33, 28], [33, 33], [28, 33]]
+      height: 1792
+      slope: 2
+      notes: The hot spring.
+    - polygon: [[28, 60], [32, 60], [32, 64], [28, 64]]
+      height: 2048
+      slope: 2
+      notes: Obelisk Knoll.
+    - polygon: [[31, 84], [38, 84], [38, 88.5], [31, 88.5]]
+      height: 1952
+      slope: 3
+      notes: The archers' camp.
+    - polygon: [[42, 94], [50, 94], [50, 97], [42, 97]]
+      height: 2688
+      slope: 2
+      notes: The ledge before DD-10C's adit and the mines.
+    - polygon: [[42, 98], [50, 98], [50, 102], [42, 102]]
+      height: 3584
+      slope: 2
+      notes: "The crag over the adit: the mines are cut into its face (session 14: from y 98 and 3,584, so no sky shows behind the mouth from the north)."
+    - polygon: [[76, 36], [80, 36], [80, 40], [76, 40]]
+      height: 1920
+      slope: 2
+      notes: Sheltem's crater.
+    - polygon: [[99, 29], [103, 29], [103, 33], [99, 33]]
+      height: 2688
+      slope: 2
+      notes: The Well of Warding.
+    - polygon: [[98, 67], [102, 67], [102, 71], [98, 71]]
+      height: 1792
+      slope: 2
+      notes: The climbers' camp.
+    - polygon: [[54.5, 60.5], [58.5, 60.5], [58.5, 63.5], [54.5, 63.5]]
+      height: 1856
+      slope: 2
+      notes: The travel pyramid outside the moat.
+    - polygon: [[73, 69], [75, 69], [76, 71], [74, 72]]
+      height: 1488
+      slope: 1
+      notes: The tongue of black rock before Corak's hatch.
+    - polygon: [[65, 62], [67, 62], [67, 64], [65, 64]]
+      height: 1520
+      slope: 0
+      notes: The genie islet in the lava.
+    - polygon: [[64, 84], [68, 84], [68, 87], [64, 87]]
+      height: 1792
+      slope: 2
+      notes: Ash Fork.
+    - polygon: [[103, 62], [109, 62], [109, 66], [103, 66]]
+      height: 1696
+      slope: 2
+      notes: "The border pass (edge_d5_d6.json's 1,700)."
+  grid:
+    step: 4
+    unit: 32
+    rows: [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 59, 57, 56, 54, 53, 53, 55, 55, 58, 60, 61, 58, 60, 68, 74, 73, 73, 80, 84, 87, 96, 98, 98, 98, 98, 98], [0, 0, 0, 0, 0, 0, 58, 56, 56, 53, 52, 53, 59, 60, 57, 54, 59, 62, 64, 66, 71, 74, 74, 77, 82, 85, 101, 102, 102, 102, 102, 102], [0, 0, 0, 0, 0, 0, 55, 57, 59, 55, 54, 43, 43, 43, 51, 57, 60, 64, 66, 65, 66, 69, 72, 77, 81, 86, 100, 101, 101, 101, 101, 101], [0, 0, 0, 0, 0, 0, 50, 54, 64, 53, 43, 71, 71, 71, 43, 43, 62, 66, 64, 62, 63, 69, 71, 74, 80, 86, 95, 97, 97, 97, 97, 97], [0, 0, 0, 0, 0, 0, 56, 57, 57, 43, 71, 71, 71, 71, 71, 43, 54, 61, 61, 62, 62, 65, 70, 77, 78, 83, 91, 93, 93, 93, 93, 93], [0, 0, 0, 0, 0, 0, 56, 55, 55, 43, 71, 71, 71, 71, 71, 43, 54, 54, 54, 61, 66, 67, 65, 71, 77, 79, 86, 88, 88, 88, 88, 88], [0, 0, 0, 0, 0, 0, 53, 50, 52, 43, 71, 71, 71, 71, 71, 43, 54, 53, 58, 61, 62, 65, 65, 65, 72, 75, 80, 81, 81, 81, 81, 81], [0, 0, 0, 0, 0, 0, 53, 56, 56, 43, 71, 71, 72, 72, 71, 43, 55, 55, 59, 62, 61, 60, 63, 65, 67, 69, 74, 75, 75, 75, 75, 75], [0, 0, 0, 0, 0, 0, 53, 57, 60, 57, 54, 61, 65, 65, 55, 50, 48, 40, 47, 51, 56, 59, 62, 60, 63, 72, 64, 62, 62, 62, 62, 62], [0, 0, 0, 0, 0, 0, 60, 64, 62, 58, 59, 59, 58, 58, 55, 49, 40, 40, 40, 40, 54, 55, 60, 62, 59, 60, 55, 53, 53, 53, 53, 53], [0, 0, 0, 0, 0, 0, 61, 62, 61, 57, 55, 56, 56, 57, 56, 40, 40, 40, 40, 40, 53, 57, 55, 56, 55, 58, 54, 53, 53, 53, 53, 53], [0, 0, 0, 0, 0, 0, 64, 58, 54, 57, 60, 56, 53, 57, 59, 48, 40, 40, 50, 40, 53, 55, 54, 56, 58, 60, 64, 62, 62, 62, 62, 62], [0, 0, 0, 0, 0, 0, 59, 58, 56, 55, 58, 60, 60, 58, 55, 54, 48, 40, 49, 53, 52, 55, 55, 58, 62, 66, 70, 71, 71, 71, 71, 71], [0, 0, 0, 0, 0, 0, 57, 57, 60, 60, 56, 63, 69, 62, 54, 51, 57, 57, 59, 54, 55, 57, 57, 60, 66, 70, 78, 78, 78, 78, 78, 78], [0, 0, 0, 0, 0, 0, 60, 64, 64, 61, 60, 64, 65, 59, 55, 56, 59, 59, 58, 55, 56, 57, 52, 57, 64, 73, 81, 83, 83, 83, 83, 83], [0, 0, 0, 0, 0, 0, 64, 64, 61, 64, 59, 58, 61, 62, 60, 61, 57, 60, 54, 53, 56, 52, 59, 59, 53, 74, 84, 86, 86, 86, 86, 86], [0, 0, 0, 0, 0, 0, 73, 69, 66, 70, 72, 70, 68, 69, 72, 70, 62, 57, 62, 66, 62, 62, 66, 67, 68, 75, 87, 89, 89, 89, 89, 89], [0, 0, 0, 0, 0, 0, 78, 76, 75, 80, 76, 77, 83, 83, 76, 76, 71, 68, 76, 80, 76, 72, 68, 70, 78, 86, 89, 91, 91, 91, 91, 91], [0, 0, 0, 0, 0, 0, 84, 83, 86, 88, 89, 84, 98, 90, 85, 73, 71, 89, 92, 87, 79, 81, 82, 102, 82, 87, 92, 92, 92, 92, 92, 92], [0, 0, 0, 0, 0, 0, 73, 83, 100, 84, 83, 75, 92, 74, 62, 63, 66, 70, 75, 109, 63, 77, 85, 81, 82, 82, 90, 93, 93, 93, 93, 93], [0, 0, 0, 0, 0, 0, 44, 41, 48, 54, 52, 46, 44, 43, 42, 49, 54, 53, 52, 45, 31, 33, 42, 43, 45, 58, 78, 82, 82, 82, 82, 82], [0, 0, 0, 0, 0, 0, 36, 35, 43, 48, 47, 43, 37, 36, 39, 48, 53, 48, 47, 46, 26, 26, 38, 34, 37, 56, 68, 68, 68, 68, 68, 68], [0, 0, 0, 0, 0, 0, 36, 35, 43, 48, 47, 43, 37, 36, 39, 48, 53, 48, 47, 46, 26, 26, 38, 34, 37, 56, 68, 68, 68, 68, 68, 68], [0, 0, 0, 0, 0, 0, 36, 35, 43, 48, 47, 43, 37, 36, 39, 48, 53, 48, 47, 46, 26, 26, 38, 34, 37, 56, 68, 68, 68, 68, 68, 68], [0, 0, 0, 0, 0, 0, 36, 35, 43, 48, 47, 43, 37, 36, 39, 48, 53, 48, 47, 46, 26, 26, 38, 34, 37, 56, 68, 68, 68, 68, 68, 68], [0, 0, 0, 0, 0, 0, 36, 35, 43, 48, 47, 43, 37, 36, 39, 48, 53, 48, 47, 46, 26, 26, 38, 34, 37, 56, 68, 68, 68, 68, 68, 68]]
+    notes: Written by gen.py from its land function.
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:pod_lake
+      index: 1
+      kind: lake
+      level: 1450
+      polygon: [[62, 64], [64, 59], [70, 57], [77, 59], [80, 64], [67, 64], [67, 62], [65, 62], [65, 64]]
+      notes: "Corak's lava lake north of y 64 (D-40: lavtyl, never water)."
+      tile_set: lavtyl
+    - id: water:pod_lake
+      index: 2
+      kind: lake
+      level: 1450
+      polygon: [[63, 62], [65, 62], [65, 64], [67, 64], [67, 62], [79, 62], [80, 64], [80, 70], [77, 71], [75, 69], [73, 69], [73, 71], [74, 73], [72, 75], [69, 75], [63, 72], [61, 66]]
+      notes: "Corak's lava lake south of y 62, round the islet and the tongue."
+      tile_set: lavtyl
+    - id: water:alamar_moat
+      kind: lake
+      level: 1550
+      polygon: [[40, 58], [35, 50], [36, 41], [42, 35], [51, 32], [60, 35], [65, 42], [65, 51], [62, 58], [59, 56], [61, 50], [60, 43], [56, 38], [51, 36], [45, 38], [40, 43], [39, 50], [43, 56]]
+      notes: "Alamar's moat: a horseshoe of lava round the mesa, open to the south (the approach)."
+      tile_set: lavtyl
+  rivers:
+    - id: water:burning_channel
+      line: [[63, 54], [64, 56], [66, 59]]
+      width_cells: 2
+      notes: Lava from the moat's east arm down into Corak's lake.
+      tile_set: lavtyl
+    - id: water:slag_run
+      line: [[36, 49], [31, 50], [27, 51], [23, 51]]
+      width_cells: 2
+      notes: Lava from the moat's west arm over the west rim.
+      tile_set: lavtyl
+    - id: water:north_falls
+      line: [[46, 35], [45, 30], [44, 26], [44, 23]]
+      width_cells: 2
+      notes: Lava from the moat's north arm over the north rim.
+      tile_set: lavtyl
+roads:
+  - link: link:mountain_road
+    line: [[64, 128], [64, 109], [64, 104], [63.5, 100], [64, 96.5], [65, 92.5], [66, 88.5], [66, 85]]
+    width: road
+    surface: road_pebbles
+  - link: link:alamar_road
+    line: [[66, 85], [62, 81], [58.5, 76.5], [56, 71], [54, 66.5], [52, 63], [51, 60], [51, 54.5]]
+    width: road
+    surface: road_flagstone
+  - link: link:necropolis_road
+    line: [[66, 85], [71, 82.5], [76, 80], [80.5, 78], [84, 74.5], [87.5, 71.5], [91, 71]]
+    width: road
+    surface: road_pebbles
+  - link: link:pass_road
+    line: [[128, 64], [109, 64], [104, 64], [99, 65.5], [95, 68], [91, 71]]
+    width: road
+    surface: road_pebbles
+  - link: link:gate_lane
+    line: [[91, 71], [91, 74], [91, 78]]
+    width: road
+    surface: road_flagstone
+  - link: link:hatch_path
+    line: [[79, 78.5], [77.5, 75], [75.5, 72], [74.5, 70]]
+    width: lane
+    surface: dirt
+  - link: link:adit_track
+    line: [[66, 85], [60, 87], [54, 89], [48, 91], [44, 92], [42, 90], [38.5, 89], [45, 94], [46, 95.5]]
+    width: lane
+    surface: dirt
+  - link: link:obelisk_path
+    line: [[54, 66.5], [47, 65.5], [40, 64.5], [34, 63], [31, 62.5]]
+    width: lane
+    surface: dirt
+  - link: link:spring_track
+    line: [[40, 64.5], [35, 60], [32, 54.5], [31, 48], [30, 41], [30, 35], [30.5, 32]]
+    width: lane
+    surface: dirt
+  - link: link:field_track
+    line: [[80.5, 78], [83, 70], [84.5, 63], [82, 56], [79, 49], [78, 43], [78, 40.5]]
+    width: lane
+    surface: dirt
+  - link: link:rim_track
+    line: [[78, 40.5], [82, 36], [88, 33], [94, 31.5], [99.5, 31]]
+    width: lane
+    surface: dirt
+districts:
+  - space: town:necropolis
+    polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
+    plots:
+      - {building: building:np_guild, at: [84, 76], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], textures: {band: t09b11b}, wall_height: 544, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, band: 32, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 40, eaves: 48, door_height: 288}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4751, title: Necropolis Guild, kit: grey, door: {arch: round, leaves: 2, part: body, wall: e}}
+      - {building: building:np_market, at: [96, 76], facing: w, parts: [{id: body, at: [64, 64], size: [896, 1408], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4753, title: The Grave Market, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:np_embalmer, at: [96, 80], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4754, title: The Embalmer, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:np_tavern, at: [84, 80], facing: e, parts: [{id: body, at: [64, 64], size: [1408, 1408], walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4755, title: The Warm Barrel, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:np_temple, at: [89, 82], facing: n, parts: [{id: body, at: [64, 64], size: [1920, 1408], textures: {band: t09b11b}, wall_height: 544, walls: {n: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, band: 32, upper_walls: {n: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 128], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 40, eaves: 48, door_height: 288}], floor: 1664, textures: {door: t09a03a, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4752, title: Temple of the Dead, kit: grey, door: {arch: round, leaves: 2, part: body, wall: n}}
+      - {building: building:np_houses, index: 1, at: [94, 83], facing: w, parts: [{id: body, at: [96, 96], size: [1344, 1344], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [1216, 1216], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4757, title: The Necromancers' House, kit: grey, door: {part: body, wall: w}}
+      - {building: building:np_houses, index: 2, at: [90, 87], facing: n, parts: [{id: body, at: [96, 96], size: [1344, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [1216, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4758, title: Count Velkor's Crypt, kit: grey, door: {part: body, wall: n}}
+      - {building: building:np_houses, index: 3, at: [84, 87], facing: n, parts: [{id: body, at: [96, 96], size: [832, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [704, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4759, title: The Quiet Tomb, kit: grey, door: {part: body, wall: n}}
+      - {building: building:np_houses, index: 4, at: [87, 87], facing: n, parts: [{id: body, at: [96, 96], size: [832, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [704, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4760, title: The Trapsmith's Vault, kit: grey, door: {part: body, wall: n}}
+      - {building: building:np_houses, index: 5, at: [94, 87], facing: n, parts: [{id: body, at: [96, 96], size: [832, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [704, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4761, title: The Gravedigger's, kit: grey, door: {part: body, wall: n}}
+      - {building: building:np_houses, index: 6, at: [84, 84], facing: e, parts: [{id: body, at: [96, 96], size: [832, 832], wall_height: 384, windows: none, roof: flat}, {id: cap, at: [160, 160], size: [704, 704], bottom: 384, wall_height: 96, windows: none, roof: flat}], floor: 1664, textures: {door: t09a03c, gable: twb2, post_left: twb2, post_right: twb2, ridge: twb1, roof: twb1, trim: twb1, wall: twb2, window: twb2}, house: 4762, title: The Weeping Mausoleum, kit: grey, door: {part: body, wall: e}}
+    notes: "A4's d6.yml: the guild 4751 and the tavern 4755 west of the square, the Grave Market 4753 and the Embalmer 4754 east, the Temple of the Dead 4752 south, six tombs and mausoleums 4757-4762 along the south lanes; the mirror 4756 on the square with the skull; the Books of the Dead at the square's west edge; DD-21's crypt stair in the south-east corner; one gate in the north wall."
+  - space: zone:ash_waste
+    polygon: [[24, 24], [64, 24], [64, 32], [60, 35], [51, 32], [42, 35], [36, 41], [35, 50], [40, 58], [36, 62], [24, 62]]
+  - space: zone:hot_spring
+    polygon: [[27, 27], [34, 27], [34, 34], [27, 34]]
+  - space: zone:alamar_plateau
+    polygon: [[43, 56], [39, 50], [40, 43], [45, 38], [51, 36], [56, 38], [60, 43], [61, 50], [59, 56], [57, 62], [46, 62]]
+  - space: zone:alamar_approach
+    polygon: [[46, 57], [57, 57], [57, 63], [46, 63]]
+  - space: zone:ancient_field
+    polygon: [[64, 24], [109, 24], [109, 56], [100, 58], [90, 58], [80, 56], [70, 53], [65, 51], [65, 42], [60, 35], [64, 32]]
+  - space: zone:pod_lake_shore
+    polygon: [[61, 52], [70, 53], [80, 56], [86, 62], [86, 70], [82, 76], [74, 80], [64, 80], [57, 74], [57, 62]]
+  - space: zone:pod_crust
+    polygon: [[73, 68], [78, 70], [78, 74], [74, 74]]
+  - space: zone:west_waste
+    polygon: [[24, 62], [36, 62], [40, 58], [46, 62], [46, 63], [57, 63], [57, 74], [60, 80], [56, 88], [44, 90], [24, 90]]
+  - space: zone:archer_camp
+    polygon: [[30, 83], [39, 83], [39, 89], [30, 89]]
+  - space: zone:obelisk_knoll
+    polygon: [[27, 59], [33, 59], [33, 65], [27, 65]]
+  - space: zone:south_peaks
+    polygon: [[24, 90], [44, 90], [56, 88], [60, 92], [60, 109], [24, 109]]
+  - space: zone:griffin_pass
+    polygon: [[59, 91], [70, 91], [70, 100], [59, 100]]
+  - space: zone:mountain_road
+    polygon: [[59, 100], [70, 100], [70, 109], [59, 109]]
+  - space: zone:east_peaks
+    polygon: [[70, 91], [76, 88], [82, 92], [100, 92], [109, 90], [109, 109], [70, 109]]
+  - space: zone:ash_fork_flats
+    polygon: [[57, 74], [64, 80], [74, 80], [82, 76], [82, 90], [76, 88], [70, 91], [59, 91], [60, 80]]
+  - space: zone:np_square
+    polygon: [[88, 75], [95, 75], [95, 81], [88, 81]]
+  - space: zone:bone_road
+    polygon: [[86, 62], [100, 58], [109, 56], [109, 70], [100, 74], [82, 74], [86, 70]]
+  - space: zone:climbers_camp
+    polygon: [[97, 67], [103, 67], [103, 72], [97, 72]]
+  - space: zone:pass_east
+    polygon: [[101, 60], [109, 60], [109, 68], [101, 68]]
+  - space: zone:east_ridge
+    polygon: [[100, 74], [109, 70], [109, 90], [100, 92]]
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+points:
+  - {id: entrance:south_road, at: [64, 105], facing: n}
+  - {id: entrance:east_pass, at: [105, 64], facing: w}
+  - {id: entrance:necropolis_gate, at: [91, 77], facing: s}
+  - {id: entrance:np_gate, at: [91, 72], facing: n}
+  - {id: entrance:dd17_gate, at: [51, 55], facing: s}
+  - {id: entrance:fd01_stair, at: [51, 55], facing: s}
+  - {id: entrance:dd16_hatch, at: [74, 69], facing: se}
+  - {id: entrance:dd22_hatch, at: [78, 40], facing: s}
+  - {id: entrance:dd21_stair, at: [98, 87], facing: n}
+  - {id: entrance:dd10c_adit, at: [46, 96], facing: n}
+  - {id: entrance:xd17_pyramid, at: [54, 62], facing: n}
+  - {id: junction:ash_fork, at: [66, 85]}
+  - {id: junction:bone_fork, at: [91, 71]}
+  - {id: entrance:d7_fall, at: [91, 79], facing: s}
+  - {id: poi:obelisk, at: [30, 62]}
+  - {id: poi:fountain_resilience, at: [30, 30]}
+  - {id: poi:warding_well, at: [101, 31]}
+  - {id: poi:books, at: [89, 79]}
+  - {id: poi:skull, at: [93, 78]}
+  - {id: poi:mirror, at: [93, 78]}
+  - {id: poi:barrel, at: [87, 83]}
+  - {id: poi:genie_pinnacle, at: [36, 40]}
+  - {id: poi:genie_islet, at: [66, 63]}
+  - {id: poi:genie_crag, at: [88, 101]}
+  - {id: poi:archers_chest, at: [36, 87]}
+  - {id: poi:griffin_nest, at: [76, 94]}
+  - {id: poi:prospector, at: [40, 96]}
+  - {id: poi:ancient_locker, at: [88, 44]}
+  - {id: poi:pilgrim_cart, at: [86, 69]}
+  - {id: poi:spring_pilgrim, at: [32, 32]}
+  - {id: poi:fork_signpost, at: [66, 86]}
+  - {id: poi:zone_sign, at: [102, 65]}
+  - {id: poi:ambrose, at: [61, 95]}
+  - {id: poi:climbers_camp, at: [100, 69]}
+  - {id: poi:travel_pyramid, at: [56, 62]}
+  - {id: poi:mine_mouths, index: 1, at: [44, 98]}
+  - {id: poi:mine_mouths, index: 2, at: [48, 98]}
+  - {id: landmark:alamar, at: [51, 46]}
+  - {id: landmark:corak_pod, at: [72, 68]}
+  - {id: landmark:sheltem_pod, at: [78, 38]}
+  - {id: landmark:necropolis, at: [91, 82]}
+  - {id: landmark:north_falls, at: [44, 24]}
+  - {id: landmark:west_falls, at: [24, 51]}
+  - {id: landmark:broken_pyramid, at: [84, 98]}
+  - {id: landmark:cinder_cone, at: [49, 80]}
+  - {id: landmark:ridge_tower, at: [104, 81]}
+areas:
+  - id: pop:field_gazers
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [68, 28], r: 1}
+  - id: pop:field_gazers
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [28, 28], r: 1}
+  - id: pop:field_gazers
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [81, 27], r: 1}
+  - id: pop:field_gazers
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [88, 27], r: 1}
+  - id: pop:field_gazers
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [95, 27], r: 1}
+  - id: pop:field_gazers
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [103, 27], r: 1}
+  - id: pop:field_gazers
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [66, 31], r: 1}
+  - id: pop:field_gazers
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [92, 31], r: 1}
+  - id: pop:field_gazers
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [92, 36], r: 1}
+  - id: pop:field_gazers
+    index: 10
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [100, 37], r: 1}
+  - id: pop:field_gazers
+    index: 11
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [70, 53], r: 1}
+  - id: pop:field_gazers
+    index: 12
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [91, 46], r: 1}
+  - id: pop:field_gazers
+    index: 13
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [95, 44], r: 1}
+  - id: pop:field_gazers
+    index: 14
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [103, 46], r: 1}
+  - id: pop:field_gazers
+    index: 15
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [80, 54], r: 1}
+  - id: pop:field_gazers
+    index: 16
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [88, 50], r: 1}
+  - id: pop:field_gazers
+    index: 17
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [99, 52], r: 1}
+  - id: pop:west_griffins
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [28, 94], r: 1}
+  - id: pop:west_griffins
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [34, 94], r: 1}
+  - id: pop:west_griffins
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [40, 92], r: 1}
+  - id: pop:west_griffins
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [30, 100], r: 1}
+  - id: pop:west_griffins
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [37, 101], r: 1}
+  - id: pop:west_griffins
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [52, 92], r: 1}
+  - id: pop:west_griffins
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [47, 102], r: 1}
+  - id: pop:west_griffins
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [28, 106], r: 1}
+  - id: pop:east_griffins
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [73, 92], r: 1}
+  - id: pop:east_griffins
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [79, 92], r: 1}
+  - id: pop:east_griffins
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [85, 94], r: 1}
+  - id: pop:east_griffins
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [92, 95], r: 1}
+  - id: pop:east_griffins
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [99, 96], r: 1}
+  - id: pop:east_griffins
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [75, 101], r: 1}
+  - id: pop:east_griffins
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [95, 103], r: 1}
+  - id: pop:east_griffins
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [104, 100], r: 1}
+  - id: zone:mountain_road
+    kind: keep_clear
+    polygon: [[59, 92], [69, 92], [69, 109], [59, 109]]
+    notes: The D1 arrival and Ambrose's camp at Griffin Pass.
+  - id: zone:pass_east
+    kind: keep_clear
+    polygon: [[96, 59], [109, 59], [109, 73], [96, 73]]
+    notes: The D5 arrival and the climbers' camp.
+  - id: town:necropolis
+    kind: keep_clear
+    polygon: [[77, 69], [105, 69], [105, 95], [77, 95]]
+    notes: "Necropolis and its buffer (2,500 round the doors)."
+  - id: zone:south_peaks
+    kind: keep_clear
+    polygon: [[42, 92], [50, 92], [50, 100], [42, 100]]
+    notes: "D-49 change 3: no marker within 2,000 of DD-10C's return point outside the adit."
+  - id: zone:alamar_approach
+    kind: keep_clear
+    polygon: [[50, 58], [59, 58], [59, 66], [50, 66]]
+    notes: "D-50 Q9: no marker within 2,000 of the travel pyramid's arrival."
+  - id: zone:pod_crust
+    kind: keep_clear
+    polygon: [[70, 66], [79, 66], [79, 75], [70, 75]]
+    notes: The hatch's crust and DD-16's way out.
+views:
+  - {id: view:arrival, at: [64, 96], height: 180, look: [56, 50], purpose: "From Griffin Pass looking north: the road down to Ash Fork, Corak's lake and pod right of centre, Castle Alamar far north on its mesa ringed by lava (about 26,500)."}
+  - {id: view:signature, at: [82, 72], height: 400, look: [51, 47], purpose: "From the lake's east shore by the Necropolis road, looking west: Corak's pod nose-up in the lava, its hatch toward the shore, and beyond the moat Castle Alamar's lit walls (about 20,700); the camera raised so the moat's glow reads as a line under the walls (D-49 change 10)."}
+scatter:
+  - id: scatter:rocks_waste
+    decoration: 6rock07
+    count: 40
+    clusters: 10
+    steep: true
+    polygon: [[25, 25], [64, 25], [64, 31], [60, 34], [51, 31], [42, 34], [35, 40], [34, 50], [39, 58], [35, 62], [25, 62]]
+  - id: scatter:stones_waste
+    decoration: rock16
+    count: 20
+    clusters: 6
+    polygon: [[25, 25], [64, 25], [64, 31], [60, 34], [51, 31], [42, 34], [35, 40], [34, 50], [39, 58], [35, 62], [25, 62]]
+  - id: scatter:rocks_cinder
+    decoration: 6rock07
+    count: 40
+    clusters: 10
+    steep: true
+    polygon: [[25, 63], [36, 63], [40, 59], [46, 63], [52, 66], [56, 74], [59, 80], [55, 88], [44, 89], [25, 89]]
+  - id: scatter:stones_cinder
+    decoration: rock16
+    count: 20
+    clusters: 6
+    polygon: [[25, 63], [36, 63], [40, 59], [46, 63], [52, 66], [56, 74], [59, 80], [55, 88], [44, 89], [25, 89]]
+  - id: scatter:rocks_field
+    decoration: 6rock07
+    count: 50
+    clusters: 12
+    steep: true
+    polygon: [[65, 25], [108, 25], [108, 55], [100, 57], [88, 57], [80, 55], [70, 52], [66, 50], [66, 42], [61, 34], [65, 31]]
+  - id: scatter:stones_field
+    decoration: rock16
+    count: 25
+    clusters: 8
+    polygon: [[65, 25], [108, 25], [108, 55], [100, 57], [88, 57], [80, 55], [70, 52], [66, 50], [66, 42], [61, 34], [65, 31]]
+  - id: scatter:rocks_peaks_w
+    decoration: 6rock07
+    count: 40
+    clusters: 10
+    steep: true
+    polygon: [[25, 90], [58, 90], [60, 92], [60, 108], [25, 108]]
+  - id: scatter:stones_peaks_w
+    decoration: rock16
+    count: 20
+    clusters: 6
+    polygon: [[25, 90], [58, 90], [60, 92], [60, 108], [25, 108]]
+  - id: scatter:rocks_peaks_e
+    decoration: 6rock07
+    count: 40
+    clusters: 10
+    steep: true
+    polygon: [[70, 92], [100, 92], [108, 90], [108, 108], [70, 108]]
+  - id: scatter:stones_peaks_e
+    decoration: rock16
+    count: 20
+    clusters: 6
+    polygon: [[70, 92], [100, 92], [108, 90], [108, 108], [70, 108]]
+  - id: scatter:rocks_flats
+    decoration: 6rock07
+    count: 14
+    clusters: 4
+    steep: true
+    polygon: [[57, 75], [64, 80], [74, 79], [81, 76], [81, 90], [70, 91], [59, 91], [60, 81]]
+  - id: scatter:stones_flats
+    decoration: rock16
+    count: 7
+    clusters: 3
+    polygon: [[57, 75], [64, 80], [74, 79], [81, 76], [81, 90], [70, 91], [59, 91], [60, 81]]
+  - id: scatter:dead_trees_waste
+    decoration: swptree4
+    count: 10
+    clusters: 3
+    polygon: [[25, 25], [64, 25], [64, 31], [60, 34], [51, 31], [42, 34], [35, 40], [34, 50], [39, 58], [35, 62], [25, 62]]
+  - id: scatter:dead_trees_cinder
+    decoration: swptree4
+    count: 10
+    clusters: 3
+    polygon: [[25, 63], [36, 63], [40, 59], [46, 63], [52, 66], [56, 74], [59, 80], [55, 88], [44, 89], [25, 89]]
+  - id: scatter:dead_trees_flats
+    decoration: swptree4
+    count: 6
+    clusters: 2
+    polygon: [[57, 75], [64, 80], [74, 79], [81, 76], [81, 90], [70, 91], [59, 91], [60, 81]]
+ground:
+  - material: wasteland
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "Grey ash and cooled flows: the waste, the cinder plains, the flats, the field."
+  - material: dirt
+    steeper_than: 560
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
+    notes: "Bare black rock on the steep slopes (the peaks, the mesa, the rims)."
+  - material: dirt
+    polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
+    notes: Necropolis's trodden yards.
+  - material: dirt
+    line: [[79, 78.5], [77.5, 75], [75.5, 72], [74.5, 70]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[66, 85], [60, 87], [54, 89], [48, 91], [44, 92], [42, 90], [38.5, 89]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[44, 92], [45, 94], [46, 95.5]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[54, 66.5], [47, 65.5], [40, 64.5], [34, 63], [31, 62.5]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[40, 64.5], [35, 60], [32, 54.5], [31, 48], [30, 41], [30, 35], [30.5, 32]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[80.5, 78], [83, 70], [84.5, 63], [82, 56], [79, 49], [78, 43], [78, 40.5]]
+    width: 1
+    notes: a track
+  - material: dirt
+    line: [[78, 40.5], [82, 36], [88, 33], [94, 31.5], [99.5, 31]]
+    width: 1
+    notes: a track
+structures:
+  - id: thing:alamar_wall_ring
+    kind: wall
+    line: [[49.5, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.5, 51.5]]
+    height: 768
+    thickness: 128
+    textures: {top: gn_mtl03, wall: swll4dk}
+    title: Castle Alamar
+  - id: thing:alamar_ruin_wall_ring
+    kind: wall
+    line: [[49.5, 51.5], [45.5, 51.5], [45.5, 40.5], [56.5, 40.5], [56.5, 51.5], [52.5, 51.5]]
+    height: 384
+    thickness: 128
+    textures: {top: xahullbn, wall: xahullbn}
+    title: The ruin of Castle Alamar
+    hidden: true
+  - id: thing:alamar_tower_nw
+    kind: building
+    at: [44.625, 39.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    parts:
+      - {id: storey_1, at: [64, 64], size: [768, 768], wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_2, at: [64, 64], size: [768, 768], bottom: 256, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_3, at: [64, 64], size: [768, 768], bottom: 512, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_4, at: [64, 64], size: [768, 768], bottom: 768, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_5, at: [64, 64], size: [768, 768], bottom: 1024, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_6, at: [64, 64], size: [768, 768], bottom: 1280, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_7, at: [64, 64], size: [768, 768], bottom: 1536, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: crown, at: [64, 64], size: [768, 768], bottom: 1792, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+  - id: thing:alamar_ruin_tower_nw
+    kind: building
+    at: [44.625, 39.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: stub, at: [64, 64], size: [768, 768], wall_height: 768, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+    hidden: true
+    ruin:
+      height: [128, 768]
+      gaps: 0.3
+      thickness: 64
+      seed: 26
+  - id: thing:alamar_tower_ne
+    kind: building
+    at: [55.625, 39.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    parts:
+      - {id: storey_1, at: [64, 64], size: [768, 768], wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_2, at: [64, 64], size: [768, 768], bottom: 256, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_3, at: [64, 64], size: [768, 768], bottom: 512, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_4, at: [64, 64], size: [768, 768], bottom: 768, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_5, at: [64, 64], size: [768, 768], bottom: 1024, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_6, at: [64, 64], size: [768, 768], bottom: 1280, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_7, at: [64, 64], size: [768, 768], bottom: 1536, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: crown, at: [64, 64], size: [768, 768], bottom: 1792, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+  - id: thing:alamar_ruin_tower_ne
+    kind: building
+    at: [55.625, 39.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: stub, at: [64, 64], size: [768, 768], wall_height: 768, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+    hidden: true
+    ruin:
+      height: [128, 768]
+      gaps: 0.3
+      thickness: 64
+      seed: 26
+  - id: thing:alamar_tower_sw
+    kind: building
+    at: [44.625, 50.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    parts:
+      - {id: storey_1, at: [64, 64], size: [768, 768], wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_2, at: [64, 64], size: [768, 768], bottom: 256, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_3, at: [64, 64], size: [768, 768], bottom: 512, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_4, at: [64, 64], size: [768, 768], bottom: 768, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_5, at: [64, 64], size: [768, 768], bottom: 1024, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_6, at: [64, 64], size: [768, 768], bottom: 1280, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_7, at: [64, 64], size: [768, 768], bottom: 1536, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: crown, at: [64, 64], size: [768, 768], bottom: 1792, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+  - id: thing:alamar_ruin_tower_sw
+    kind: building
+    at: [44.625, 50.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: stub, at: [64, 64], size: [768, 768], wall_height: 768, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+    hidden: true
+    ruin:
+      height: [128, 768]
+      gaps: 0.3
+      thickness: 64
+      seed: 26
+  - id: thing:alamar_tower_se
+    kind: building
+    at: [55.625, 50.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    parts:
+      - {id: storey_1, at: [64, 64], size: [768, 768], wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_2, at: [64, 64], size: [768, 768], bottom: 256, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_3, at: [64, 64], size: [768, 768], bottom: 512, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_4, at: [64, 64], size: [768, 768], bottom: 768, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_5, at: [64, 64], size: [768, 768], bottom: 1024, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: storey_6, at: [64, 64], size: [768, 768], bottom: 1280, wall_height: 256, walls: {e: [wall, wall, wall, window, wall, wall], n: [wall, wall, wall, window, wall, wall], s: [wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall]}, roof: none}
+      - {id: storey_7, at: [64, 64], size: [768, 768], bottom: 1536, wall_height: 256, walls: {e: [wall, wall, window, wall, wall, wall], n: [wall, wall, window, wall, wall, wall], s: [wall, wall, window, wall, wall, wall], w: [wall, wall, window, wall, wall, wall]}, roof: none}
+      - {id: crown, at: [64, 64], size: [768, 768], bottom: 1792, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+  - id: thing:alamar_ruin_tower_se
+    kind: building
+    at: [55.625, 50.625]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: stub, at: [64, 64], size: [768, 768], wall_height: 768, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+    hidden: true
+    ruin:
+      height: [128, 768]
+      gaps: 0.3
+      thickness: 64
+      seed: 26
+  - id: thing:alamar_keep
+    kind: building
+    at: [49.375, 43.875]
+    size: [3.25, 3.25]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    parts:
+      - {id: storey_1, at: [64, 64], size: [1536, 1536], wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_2, at: [64, 64], size: [1536, 1536], bottom: 256, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_3, at: [64, 64], size: [1536, 1536], bottom: 512, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_4, at: [64, 64], size: [1536, 1536], bottom: 768, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_5, at: [64, 64], size: [1536, 1536], bottom: 1024, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_6, at: [64, 64], size: [1536, 1536], bottom: 1280, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_7, at: [64, 64], size: [1536, 1536], bottom: 1536, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_8, at: [64, 64], size: [1536, 1536], bottom: 1792, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: storey_9, at: [64, 64], size: [1536, 1536], bottom: 2048, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, wall]}, roof: none}
+      - {id: crown, at: [64, 64], size: [1536, 1536], bottom: 2304, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+  - id: thing:alamar_ruin_keep
+    kind: building
+    at: [49.375, 43.875]
+    size: [3.25, 3.25]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: stub, at: [64, 64], size: [1536, 1536], wall_height: 1024, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar
+    hidden: true
+    ruin:
+      height: [128, 1024]
+      gaps: 0.3
+      thickness: 64
+      seed: 22
+  - id: thing:alamar_gatehouse
+    kind: building
+    at: [49.5, 50.5]
+    size: [3, 3]
+    kit: grey
+    textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
+    facing: s
+    parts:
+      - {id: gate, at: [64, 64], size: [1408, 1408], wall_height: 768, walls: {s: [[wall, 448], [door, 512], [wall, 448]]}, windows: none, roof: none, door_height: 256}
+      - {id: crown, at: [64, 64], size: [1408, 1408], bottom: 768, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
+    floor: 2304
+    door:
+      leaves: 2
+      part: gate
+      wall: s
+    title: Castle Alamar's gate
+    into: {map: xeen_dd17.blv, arrival: entrance:d6_gate, screen: {text: 5049}}
+    lua_before: "if not XeenQuests.hook(\"m33.arrival_gate\") then return end"
+    notes: "DD-17 Castle Alamar (A8): m33.castle_door's question; DD-17's arrival hook refuses a party without the Soul Box and moves it back to entrance:dd17_gate."
+  - id: thing:alamar_ruin_gatehouse
+    kind: building
+    at: [49.5, 50.5]
+    size: [3, 3]
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, trim: xahullbn, wall: xahullbn, window: xahullbn}
+    parts:
+      - {id: gate, at: [64, 64], size: [1408, 1408], wall_height: 640, windows: none, roof: none}
+    floor: 2304
+    door: none
+    title: Castle Alamar's broken gatehouse
+    hidden: true
+    ruin:
+      height: [96, 640]
+      gaps: 0.45
+      thickness: 96
+      seed: 9
+  - id: thing:fd01_stair
+    kind: hatch
+    at: [51, 52]
+    size: [512, 512]
+    height: 48
+    textures: {door: gn_mtl03, wall: xahullbn}
+    title: A stair under the ruin
+    into: {map: xeen_fd01.blv, arrival: entrance:d6_stair, screen: {text: 5062}}
+    condition: {lua: "XeenQuests.hook(\"m39.depths_door\")"}
+    hint: A stair under the ruin
+    hidden: true
+    form: pit
+  - id: thing:alamar_pylon_1
+    kind: building
+    at: [49.025, 56.025]
+    size: [0.75, 0.75]
+    kit: grey
+    textures: {post_left: xaenergy, post_right: xaenergy, roof: gn_mtl03, trim: gn_mtl03, wall: xaenergy, window: xaenergy}
+    parts:
+      - {id: pylon, at: [128, 128], size: [128, 128], wall_height: 256, windows: none, roof: flat}
+      - {id: cap, at: [96, 96], size: [192, 192], bottom: 256, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 64, windows: none, roof: flat}
+    door: none
+    title: An energy pylon
+  - id: thing:alamar_pylon_2
+    kind: building
+    at: [52.225, 56.025]
+    size: [0.75, 0.75]
+    kit: grey
+    textures: {post_left: xaenergy, post_right: xaenergy, roof: gn_mtl03, trim: gn_mtl03, wall: xaenergy, window: xaenergy}
+    parts:
+      - {id: pylon, at: [128, 128], size: [128, 128], wall_height: 256, windows: none, roof: flat}
+      - {id: cap, at: [96, 96], size: [192, 192], bottom: 256, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 64, windows: none, roof: flat}
+    door: none
+    title: An energy pylon
+  - id: thing:alamar_pylon_3
+    kind: building
+    at: [49.025, 59.225]
+    size: [0.75, 0.75]
+    kit: grey
+    textures: {post_left: xaenergy, post_right: xaenergy, roof: gn_mtl03, trim: gn_mtl03, wall: xaenergy, window: xaenergy}
+    parts:
+      - {id: pylon, at: [128, 128], size: [128, 128], wall_height: 256, windows: none, roof: flat}
+      - {id: cap, at: [96, 96], size: [192, 192], bottom: 256, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 64, windows: none, roof: flat}
+    door: none
+    title: An energy pylon
+  - id: thing:alamar_pylon_4
+    kind: building
+    at: [52.225, 59.225]
+    size: [0.75, 0.75]
+    kit: grey
+    textures: {post_left: xaenergy, post_right: xaenergy, roof: gn_mtl03, trim: gn_mtl03, wall: xaenergy, window: xaenergy}
+    parts:
+      - {id: pylon, at: [128, 128], size: [128, 128], wall_height: 256, windows: none, roof: flat}
+      - {id: cap, at: [96, 96], size: [192, 192], bottom: 256, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 64, windows: none, roof: flat}
+    door: none
+    title: An energy pylon
+  - id: thing:alamar_field_w
+    kind: wall
+    line: [[49.4, 56.6], [49.4, 59.4]]
+    height: 256
+    thickness: 32
+    textures: {top: xafield, wall: xafield}
+    title: An energy field
+  - id: thing:alamar_field_e
+    kind: wall
+    line: [[52.6, 56.6], [52.6, 59.4]]
+    height: 256
+    thickness: 32
+    textures: {top: xafield, wall: xafield}
+    title: An energy field
+  - id: thing:travel_pyramid
+    kind: building
+    at: [55.25, 60.75]
+    size: [2.5, 2.5]
+    kit: stone
+    textures: {post_left: gn_mtl03, post_right: gn_mtl03, roof: gn_mtl02, trim: gn_mtl03, wall: gn_mtl03}
+    parts:
+      - {id: p, at: [256, 256], size: [768, 768], wall_height: 64, windows: none, roof: hip, roof_pitch: 50, title: Travel Pyramid, effects: [{lua: "Xeen.travelPyramid(\"alamar_gate\")"}]}
+      - {id: cap, at: [576, 576], size: [128, 128], bottom: 400, textures: {roof: xaenergy, wall: xaenergy}, wall_height: 128, windows: none, roof: hip, roof_pitch: 60, title: Travel Pyramid, effects: [{lua: "Xeen.travelPyramid(\"alamar_gate\")"}]}
+    floor: 1856
+    door: none
+    title: Travel Pyramid
+    notes: "D-50 Q9: Xeen.travelPyramid('alamar_gate') reads m30.done and sets the party down in XD-17 (PyramidArrivals.shangrila, A3); XD-17's pyramid lands at entrance:xd17_pyramid."
+  - id: thing:corak_pod
+    kind: building
+    at: [70.625, 65.625]
+    size: [3.75, 3.75]
+    turn: -45
+    kit: grey
+    textures: {door: a2c, post_left: xahullbn, post_right: xahullbn, roof: gn_mtl03, trim: gn_mtl03, wall: xahullbn, window: xahullbn}
+    facing: s
+    parts:
+      - {id: skirt, shape: round, at: [960, 960], radius: 640, sides: 12, wall_height: 96, windows: none, roof: none}
+      - {id: hull, shape: round, at: [960, 960], radius: 640, sides: 12, bottom: 96, wall_height: 1024, walls: {"0": [[wall, 37], [door, 256], [wall, 38]]}, windows: none, roof: none, door_height: 256}
+      - {id: band, shape: round, at: [960, 960], radius: 640, sides: 12, bottom: 1120, textures: {wall: xahullbn}, wall_height: 256, windows: none, roof: none}
+      - {id: nose_1, shape: round, at: [960, 960], radius: 576, sides: 12, bottom: 1376, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 192, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_2, shape: round, at: [960, 960], radius: 480, sides: 12, bottom: 1568, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 160, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_3, shape: round, at: [960, 960], radius: 352, sides: 12, bottom: 1728, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 128, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_4, shape: round, at: [960, 960], radius: 208, sides: 12, bottom: 1856, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 96, windows: none, roof: cone, roof_pitch: 60, eaves: 0}
+      - {id: fin_1, at: [912, 64], size: [96, 288], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+      - {id: fin_3, at: [64, 912], size: [288, 96], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+      - {id: fin_4, at: [1568, 912], size: [288, 96], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+    floor: 1386
+    door:
+      part: hull
+      wall: "0"
+    title: Escape Pod 1
+    into: {map: xeen_dd16.blv, arrival: entrance:d6_hatch, screen: {text: 5048}}
+    condition: {lua: "XeenQuests.hook(\"m29.pod_door\")"}
+    notes: "DD-16 Corak's Pod (A7): m29.pod_door (lava_cooled) into entrance:d6_hatch; DD-16's way out lands at entrance:dd16_hatch on the crust 384 before the hatch, facing south-east."
+  - id: thing:pod_crust
+    kind: bridge
+    line: [[73.278, 68.278], [74.6, 69.9]]
+    height: 1466
+    width: 768
+    kerb: 0
+    piers: 0
+    textures: {deck: voltyl, side: vlcwl1lg}
+    title: Black crust
+    hidden: true
+    notes: "set:pod_lava: shown on lava_cooled (evt:crust)."
+  - id: thing:sheltem_pod
+    kind: building
+    at: [76.125, 36.125]
+    size: [3.75, 3.75]
+    turn: 0
+    kit: grey
+    textures: {door: a2c, post_left: gn_mtl02, post_right: gn_mtl02, roof: gn_mtl03, trim: gn_mtl03, wall: gn_mtl02, window: gn_mtl02}
+    facing: s
+    parts:
+      - {id: skirt, shape: round, at: [960, 960], radius: 640, sides: 12, wall_height: 96, windows: none, roof: none}
+      - {id: hull, shape: round, at: [960, 960], radius: 640, sides: 12, bottom: 96, wall_height: 1024, walls: {"0": [[wall, 37], [door, 256], [wall, 38]]}, windows: none, roof: none, door_height: 256}
+      - {id: band, shape: round, at: [960, 960], radius: 640, sides: 12, bottom: 1120, textures: {wall: xahull}, wall_height: 256, windows: none, roof: none}
+      - {id: nose_1, shape: round, at: [960, 960], radius: 576, sides: 12, bottom: 1376, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 192, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_2, shape: round, at: [960, 960], radius: 480, sides: 12, bottom: 1568, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 160, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_3, shape: round, at: [960, 960], radius: 352, sides: 12, bottom: 1728, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 128, windows: none, roof: flat, roof_pitch: 60, eaves: 0}
+      - {id: nose_4, shape: round, at: [960, 960], radius: 208, sides: 12, bottom: 1856, textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 96, windows: none, roof: cone, roof_pitch: 60, eaves: 0}
+      - {id: fin_1, at: [912, 64], size: [96, 288], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+      - {id: fin_3, at: [64, 912], size: [288, 96], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+      - {id: fin_4, at: [1568, 912], size: [288, 96], textures: {roof: gn_mtl03, wall: gn_mtl03}, wall_height: 640, windows: none, roof: flat}
+    floor: 1920
+    door:
+      part: hull
+      wall: "0"
+    title: Escape Pod 2
+    into: {map: xeen_dd22.blv, arrival: entrance:d6_hatch, screen: {text: 5057}}
+    condition: {lua: "XeenQuests.hook(\"d6.sheltem_hatch\")"}
+    notes: "DD-22 Sheltem's Pod (A8): d6.sheltem_hatch (m33.done) into entrance:d6_hatch; DD-22's way out lands at entrance:dd22_hatch before the hatch, facing south."
+  - id: thing:lavafall_1
+    kind: decoration
+    at: [44, 24.3]
+    turn: 0
+    decoration: xeen_lavafall
+    notes: Lane S's lava fall (as X7's) where the lava pours over the rim into the stars.
+  - id: thing:lavafall_2
+    kind: decoration
+    at: [24.3, 51]
+    turn: -90
+    decoration: xeen_lavafall
+    notes: Lane S's lava fall (as X7's) where the lava pours over the rim into the stars.
+  - id: thing:np_wall_w
+    kind: wall
+    line: [[89.8, 74], [82, 74], [82, 90], [91, 90]]
+    height: 704
+    thickness: 192
+    textures: {top: t09a02a, wall: t09a01}
+    battlements: true
+    title: Necropolis's walls
+  - id: thing:np_wall_e
+    kind: wall
+    line: [[92.2, 74], [100, 74], [100, 90], [91, 90]]
+    height: 704
+    thickness: 192
+    textures: {top: t09a02a, wall: t09a01}
+    battlements: true
+    title: Necropolis's walls
+  - id: thing:np_tower_nw
+    kind: building
+    at: [81.125, 73.125]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, roof: t09a02a, trim: t09b11b, wall: t09a01}
+    parts:
+      - {id: tower, at: [64, 64], size: [768, 768], wall_height: 960, windows: none, roof: flat, battlements: true}
+    floor: 1664
+    door: none
+    title: Necropolis's walls
+  - id: thing:np_tower_ne
+    kind: building
+    at: [99.125, 73.125]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, roof: t09a02a, trim: t09b11b, wall: t09a01}
+    parts:
+      - {id: tower, at: [64, 64], size: [768, 768], wall_height: 960, windows: none, roof: flat, battlements: true}
+    floor: 1664
+    door: none
+    title: Necropolis's walls
+  - id: thing:np_tower_sw
+    kind: building
+    at: [81.125, 89.125]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, roof: t09a02a, trim: t09b11b, wall: t09a01}
+    parts:
+      - {id: tower, at: [64, 64], size: [768, 768], wall_height: 960, windows: none, roof: flat, battlements: true}
+    floor: 1664
+    door: none
+    title: Necropolis's walls
+  - id: thing:np_tower_se
+    kind: building
+    at: [99.125, 89.125]
+    size: [1.75, 1.75]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, roof: t09a02a, trim: t09b11b, wall: t09a01}
+    parts:
+      - {id: tower, at: [64, 64], size: [768, 768], wall_height: 960, windows: none, roof: flat, battlements: true}
+    floor: 1664
+    door: none
+    title: Necropolis's walls
+  - id: thing:np_gatehouse
+    kind: building
+    at: [88.8, 73.2]
+    size: [4.4, 1.6]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, roof: t09a02a, trim: t09b11b, wall: t09a01, window: xnpgate}
+    parts:
+      - {id: tower_w, at: [0, 0], size: [768, 768], wall_height: 1024, windows: none, roof: flat, battlements: true}
+      - {id: tower_e, at: [1484, 0], size: [768, 768], wall_height: 1024, windows: none, roof: flat, battlements: true}
+      - {id: arch, at: [768, 128], size: [716, 512], bottom: 448, wall_height: 384, windows: none, roof: flat, battlements: true}
+      - {id: crest, at: [1062, 112], size: [128, 32], bottom: 544, wall_height: 128, walls: {n: [window], s: [wall]}, roof: flat}
+    floor: 1664
+    door: none
+    title: Necropolis's gate
+  - id: thing:np_gate_wall
+    kind: wall
+    line: [[90.3, 74], [91.7, 74]]
+    height: 448
+    thickness: 64
+    gates:
+      - {at: [91, 74], width: 384, height: 384}
+    textures: {top: t09a02a, wall: t09a01}
+    title: Necropolis's gate
+  - id: thing:np_gate_outer
+    kind: building
+    at: [90.625, 73.8088]
+    size: [0.75, 0.0625]
+    kit: grey
+    textures: {door: chb1dl, post_left: t09b11b, post_right: t09b11b, roof: t09b11b, trim: t09b11b, wall: t09b11b}
+    parts:
+      - {id: leaves, at: [0, 0], size: [384, 32], wall_height: 384, walls: {n: [[door, 384]]}, windows: none, roof: flat, door_height: 384}
+    floor: 1664
+    door:
+      leaves: 2
+      part: leaves
+      wall: n
+    title: Necropolis's gate
+    condition: {lua: "XeenQuests.hook(\"d6.necropolis_gate\")"}
+    effects:
+      - hide: thing:np_gate_outer
+      - hide: thing:np_gate_inner
+  - id: thing:np_gate_inner
+    kind: building
+    at: [90.625, 74.1287]
+    size: [0.75, 0.0625]
+    kit: grey
+    textures: {door: chb1dl, post_left: t09b11b, post_right: t09b11b, roof: t09b11b, trim: t09b11b, wall: t09b11b}
+    parts:
+      - {id: leaves, at: [0, 0], size: [384, 32], wall_height: 384, walls: {s: [[door, 384]]}, windows: none, roof: flat, door_height: 384}
+    floor: 1664
+    door:
+      leaves: 2
+      part: leaves
+      wall: s
+    title: Necropolis's gate
+    effects:
+      - hide: thing:np_gate_outer
+      - hide: thing:np_gate_inner
+  - id: thing:np_square_paving
+    kind: platform
+    at: [91.5, 78.5]
+    size: [3584, 3072]
+    height: 8
+    textures: {top: t09a02a, wall: t09a02a}
+    title: The Square of Mourning
+  - id: thing:np_mirror
+    kind: portal
+    at: [92.6, 78]
+    turn: 0
+    radius: 112
+    sides: 12
+    textures: {membrane: {texture: xmirror}}
+    title: The Mirror of Necropolis
+    effects:
+      - lua: "Xeen.useMirror(4756, eventId, continueStep)"
+    notes: "A4's 4756 (qbit 119011, arrival necropolis_gate)."
+  - id: thing:np_skull
+    kind: decoration
+    at: [93.1, 78.3]
+    decoration: 7dec20
+    title: A skull on the plinth
+    effects:
+      - lua: "XeenQuests.hook(\"d6.skull\")"
+  - id: thing:np_book_1
+    kind: building
+    at: [88.55, 77.85]
+    size: [0.3, 0.3]
+    kit: grey
+    textures: {post_left: t09b11b, post_right: t09b11b}
+    parts:
+      - {id: lectern, at: [12, 12], size: [128, 128], textures: {roof: xnpbook, wall: t09b11b}, wall_height: 128, windows: none, roof: flat, title: A Book of the Dead, effects: [{lua: "XeenQuests.hook(\"d6.book_dead_1\")"}]}
+    floor: 1672
+    door: none
+    title: A Book of the Dead
+  - id: thing:np_book_2
+    kind: building
+    at: [88.55, 78.85]
+    size: [0.3, 0.3]
+    kit: grey
+    textures: {post_left: t09b11b, post_right: t09b11b}
+    parts:
+      - {id: lectern, at: [12, 12], size: [128, 128], textures: {roof: xnpbook, wall: t09b11b}, wall_height: 128, windows: none, roof: flat, title: A Book of the Dead, effects: [{lua: "XeenQuests.hook(\"d6.book_dead_2\")"}]}
+    floor: 1672
+    door: none
+    title: A Book of the Dead
+  - id: thing:np_book_3
+    kind: building
+    at: [88.55, 79.85]
+    size: [0.3, 0.3]
+    kit: grey
+    textures: {post_left: t09b11b, post_right: t09b11b}
+    parts:
+      - {id: lectern, at: [12, 12], size: [128, 128], textures: {roof: xnpbook, wall: t09b11b}, wall_height: 128, windows: none, roof: flat, title: A Book of the Dead, effects: [{lua: "XeenQuests.hook(\"d6.book_dead_3\")"}]}
+    floor: 1672
+    door: none
+    title: A Book of the Dead
+  - id: thing:np_barrel
+    kind: decoration
+    at: [87.25, 82.6]
+    decoration: bigbarel
+    title: A barrel
+    effects:
+      - lua: "evt.SimpleMessage(\"Food for the dead, keep warm.\")"
+  - id: thing:dd21_crypt
+    kind: building
+    at: [97.25, 88.1]
+    size: [1.5, 1.25]
+    kit: grey
+    textures: {door: gkp103a, post_left: twb2, post_right: twb2, roof: twb1, trim: twb1, wall: twb2, window: twb2}
+    facing: n
+    parts:
+      - {id: crypt, at: [64, 64], size: [640, 512], wall_height: 384, walls: {n: [[wall, 192], [door, 256], [wall, 192]]}, windows: none, roof: flat, door_height: 256}
+    floor: 1664
+    door:
+      leaves: 2
+      part: crypt
+      wall: n
+    title: A crypt stair
+    into: {map: xeen_dd21.blv, arrival: entrance:d6_stair, screen: {text: 5056}}
+  - id: thing:np_prop_1
+    kind: decoration
+    at: [84.25, 82.6]
+    decoration: bigbarel
+  - id: thing:np_prop_2
+    kind: decoration
+    at: [84.25, 82.95]
+    decoration: bigbarel
+  - id: thing:np_prop_3
+    kind: decoration
+    at: [98.05, 77]
+    decoration: bigbarel
+  - id: thing:np_prop_4
+    kind: decoration
+    at: [98.05, 77.35]
+    decoration: bigbarel
+  - id: thing:ambrose_tent
+    kind: building
+    at: [58.9, 93.6]
+    size: [1.4, 1.4]
+    kit: grey
+    textures: {door: tentwal1, gable: tentwal1, post_left: tentwal1, post_right: tentwal1, ridge: tentwal1, roof: tentrf1, trim: tentwal1, wall: tentwal1, window: tentwal1}
+    facing: e
+    parts:
+      - {id: tent, at: [80, 80], size: [556, 556], wall_height: 128, windows: none, roof: gable, roof_pitch: 58}
+    floor: 2464
+    door: none
+    title: Ambrose's tent
+  - id: thing:ambrose_fire
+    kind: decoration
+    at: [60.6, 96.2]
+    decoration: cmpfyr00
+    title: A camp fire
+  - id: thing:obelisk
+    kind: obelisk
+    at: [30, 62]
+    height: 768
+    textures: {wall: vlcwl1lg}
+    title: Obelisk
+    effects:
+      - lua: "XeenQuests.hook(\"obelisks.d6\")"
+  - id: thing:resilience_fountain
+    kind: fountain
+    at: [30.4, 30.4]
+    textures: {wall: vlcwl1lg}
+    tiers: [[64, 24]]
+    title: Fountain of Super Resilience
+    condition: {not: {lua: "Xeen.usedToday(\"d6_resilience_fountain\")"}}
+    else_effects:
+      - text: The spring has gone still. Come back tomorrow.
+    effects:
+      - lua: "Xeen.markToday(\"d6_resilience_fountain\")"
+      - lua: evt.ForPlayer(Players.All)
+      - add:
+          var: HP
+          value: 100
+      - text: The water is hot and tastes of iron. +100 Hit points
+  - id: thing:spring_pilgrim
+    kind: chest
+    at: [32, 32]
+    title: A burned pilgrim's pack
+    chest: {level: 5, random_items: 2}
+  - id: thing:spring_bones
+    kind: decoration
+    at: [32.5, 32.4]
+    decoration: dec05
+  - id: thing:pinnacle
+    kind: platform
+    at: [36, 40]
+    size: [384, 384]
+    height: 96
+    textures: {top: vlcwl1lg, wall: vlcwl1lg}
+    title: A basalt pinnacle
+  - id: thing:lamp_pinnacle
+    kind: decoration
+    at: [36, 40]
+    raise: 96
+    decoration: xeen_genielamp
+    title: A genie's lamp
+    effects:
+      - lua: "Xeen.genieLamp(\"d6_pinnacle\", eventId, continueStep)"
+  - id: thing:lamp_islet
+    kind: decoration
+    at: [66, 63]
+    decoration: xeen_genielamp
+    title: A genie's lamp
+    effects:
+      - lua: "Xeen.genieLamp(\"d6_islet\", eventId, continueStep)"
+  - id: thing:lamp_crag
+    kind: decoration
+    at: [88, 101]
+    decoration: xeen_genielamp
+    title: A genie's lamp
+    effects:
+      - lua: "Xeen.genieLamp(\"d6_crag\", eventId, continueStep)"
+  - id: thing:archer_tent_1
+    kind: building
+    at: [32, 84.6]
+    size: [1.4, 1.4]
+    kit: grey
+    textures: {door: tentwal1, gable: tentwal1, post_left: tentwal1, post_right: tentwal1, ridge: tentwal1, roof: tentrf1, trim: tentwal1, wall: tentwal1, window: tentwal1}
+    facing: s
+    parts:
+      - {id: tent, at: [80, 80], size: [556, 556], wall_height: 128, windows: none, roof: gable, roof_pitch: 58}
+    floor: 1952
+    door: none
+    title: A barbarian's tent
+  - id: thing:archer_tent_2
+    kind: building
+    at: [36.6, 84.4]
+    size: [1.4, 1.4]
+    kit: grey
+    textures: {door: tentwal1, gable: tentwal1, post_left: tentwal1, post_right: tentwal1, ridge: tentwal1, roof: tentrf1, trim: tentwal1, wall: tentwal1, window: tentwal1}
+    facing: s
+    parts:
+      - {id: tent, at: [80, 80], size: [556, 556], wall_height: 128, windows: none, roof: gable, roof_pitch: 58}
+    floor: 1952
+    door: none
+    title: A barbarian's tent
+  - id: thing:archer_tent_3
+    kind: building
+    at: [32.4, 87]
+    size: [1.4, 1.4]
+    kit: grey
+    textures: {door: tentwal1, gable: tentwal1, post_left: tentwal1, post_right: tentwal1, ridge: tentwal1, roof: tentrf1, trim: tentwal1, wall: tentwal1, window: tentwal1}
+    facing: e
+    parts:
+      - {id: tent, at: [80, 80], size: [556, 556], wall_height: 128, windows: none, roof: gable, roof_pitch: 58}
+    floor: 1952
+    door: none
+    title: A barbarian's tent
+  - id: thing:archer_fire
+    kind: decoration
+    at: [34.6, 86.2]
+    decoration: cmpfyr00
+    title: A camp fire
+  - id: thing:archers_chest
+    kind: chest
+    at: [35.6, 86.6]
+    title: The archers' strongbox
+    chest: {level: 5, random_items: 3}
+  - id: thing:archers_standard
+    kind: decoration
+    at: [36.1, 86.4]
+    decoration: 7dec20
+    title: The archers' standard
+    effects:
+      - lua: "if continueStep == 2 then XeenQuests.hook(\"d6.archers_camp\") return end if continueStep ~= nil then return end if Xeen.isSet(\"d6.archers_burned\") then XeenQuests.hook(\"d6.archers_camp\") return end evt.AskQuestion(eventId, 1, 0, 2, \"You have discovered a barbarian camp. Destroy? (Yes/No)\", {\"Yes\", \"Y\"})"
+  - id: thing:dd10c_adit
+    kind: cave_mouth
+    at: [46, 97]
+    size: [640, 1024]
+    turn: 180
+    textures: {shell: vlcwl1lg}
+    title: A mine adit
+    into: {map: xeen_dd10c.blv, arrival: entrance:d6_adit, screen: {text: 5040}}
+    hint: A mine adit
+    mouth: {rim: 64}
+  - id: thing:adit_frame
+    kind: building
+    at: [45.25, 95.9]
+    size: [1.5, 0.5]
+    kit: grey
+    textures: {post_left: t06a10, post_right: t06a10, roof: t06a10, trim: t06a10, wall: t06a10}
+    parts:
+      - {id: post_w, at: [96, 96], size: [64, 64], wall_height: 384, windows: none, roof: flat}
+      - {id: post_e, at: [608, 96], size: [64, 64], wall_height: 384, windows: none, roof: flat}
+      - {id: lintel, at: [64, 96], size: [640, 64], bottom: 384, wall_height: 64, windows: none, roof: flat}
+    floor: 2688
+    door: none
+    title: A mine adit
+  - id: thing:mine_mouth_1
+    kind: doorway
+    at: [43.5, 97]
+    turn: 180
+    height: 256
+    width: 192
+    depth: 128
+    textures: {door: 7trimda, wall: vlcwl1lg}
+    title: A boarded mine
+    effects:
+      - text: "Boarded up, and nailed twice."
+  - id: thing:mine_mouth_2
+    kind: doorway
+    at: [48.5, 97]
+    turn: 180
+    height: 256
+    width: 192
+    depth: 128
+    textures: {door: 7trimda, wall: vlcwl1lg}
+    title: A boarded mine
+    effects:
+      - text: "Boarded up, and nailed twice."
+  - id: thing:prospector
+    kind: chest
+    at: [40, 95.6]
+    title: A dead prospector's pack
+    chest: {level: 5, random_items: 2}
+  - id: thing:prospector_bones
+    kind: decoration
+    at: [40.5, 95.3]
+    decoration: dec05
+  - id: thing:griffin_nest
+    kind: chest
+    at: [76, 94]
+    title: A griffin's nest
+    chest: {level: 5, random_items: 2}
+  - id: thing:nest_bones
+    kind: decoration
+    at: [76.6, 94.4]
+    decoration: 7dec18
+  - id: thing:broken_pyramid
+    kind: building
+    at: [82.75, 96.75]
+    size: [2.5, 2.5]
+    kit: stone
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: xahullbn, wall: xahullbn}
+    parts:
+      - {id: p, at: [128, 128], size: [1024, 1024], wall_height: 640, windows: none, roof: none}
+    door: none
+    title: A broken pyramid
+    ruin:
+      height: [128, 640]
+      gaps: 0.3
+      thickness: 96
+      seed: 3
+  - id: thing:warding_well
+    kind: well
+    at: [101, 31]
+    frame: {height: 224}
+    title: The Well of Warding
+    condition: {not: {lua: "Xeen.usedToday(\"d6_warding_well\")"}}
+    else_effects:
+      - text: The well is dry today.
+    effects:
+      - lua: "Xeen.markToday(\"d6_warding_well\")"
+      - lua: evt.ForPlayer(Players.All)
+      - add:
+          var: FireResistanceBonus
+          value: 20
+      - add:
+          var: AirResistanceBonus
+          value: 20
+      - add:
+          var: WaterResistanceBonus
+          value: 20
+      - add:
+          var: EarthResistanceBonus
+          value: 20
+      - text: "+20 Fire, Air, Water and Earth resistance until you rest."
+  - id: thing:ancient_locker
+    kind: chest
+    at: [88, 44]
+    title: An Ancient locker
+    chest: {level: 5, random_items: 3}
+  - id: thing:pilgrim_cart
+    kind: chest
+    at: [86, 69]
+    title: A pilgrim's coffin-cart
+    chest: {level: 5, random_items: 2}
+  - id: thing:cart_wreck
+    kind: decoration
+    at: [86.7, 69.4]
+    decoration: dec24x
+  - id: thing:zone_sign
+    kind: sign
+    at: [102, 65.2]
+    height: 224
+    width: 160
+    title: The Forbidden Zone
+    effects:
+      - lua: "XeenQuests.hook(\"d6.zone_sign\")"
+  - id: thing:climbers_tent
+    kind: building
+    at: [99.3, 68.3]
+    size: [1.4, 1.4]
+    kit: grey
+    textures: {door: tentwal1, gable: tentwal1, post_left: tentwal1, post_right: tentwal1, ridge: tentwal1, roof: tentrf1, trim: tentwal1, wall: tentwal1, window: tentwal1}
+    facing: s
+    parts:
+      - {id: tent, at: [80, 80], size: [556, 556], wall_height: 128, windows: none, roof: gable, roof_pitch: 58}
+    floor: 1792
+    door: none
+    title: An empty tent
+  - id: thing:ridge_tower
+    kind: building
+    at: [103, 80]
+    size: [2, 2]
+    kit: grey
+    textures: {post_left: t09a01, post_right: t09a01, trim: t09a01, wall: t09a01}
+    parts:
+      - {id: tower, at: [128, 128], size: [768, 768], wall_height: 896, windows: none, roof: none}
+    door: none
+    title: A watchtower of the dead
+    ruin:
+      height: [256, 896]
+      gaps: 0.25
+      thickness: 96
+      seed: 7
+  - id: thing:cinder_vent
+    kind: platform
+    at: [49, 80]
+    size: [512, 512]
+    height: 64
+    textures: {top: voltyl, wall: vlcwl1lg}
+    title: A smoking vent
+  - id: thing:cinder_smoke
+    kind: decoration
+    at: [49, 80]
+    raise: 64
+    decoration: cmpfyr00
+    title: A smoking vent
+  - id: thing:ancient_spar
+    kind: building
+    at: [37.5, 70.5]
+    size: [1.5, 1]
+    turn: 25
+    kit: grey
+    textures: {post_left: xahullbn, post_right: xahullbn, roof: gn_mtl03, wall: xahullbn}
+    parts:
+      - {id: spar, at: [64, 128], size: [640, 256], wall_height: 512, windows: none, roof: lean_to}
+    door: none
+    title: A spar of Ancient metal
+  - id: thing:wyrm_bones_1
+    kind: decoration
+    at: [27, 75]
+    decoration: 7dec18
+    title: A wyrm's bones
+  - id: thing:wyrm_bones_2
+    kind: decoration
+    at: [27.6, 75.4]
+    decoration: dec05
+    title: A wyrm's bones
+  - id: thing:wyrm_bones_3
+    kind: decoration
+    at: [44, 74]
+    decoration: 7dec18
+    title: A wyrm's bones
+  - id: thing:wyrm_bones_4
+    kind: decoration
+    at: [44.5, 73.6]
+    decoration: dec05
+    title: A wyrm's bones
+  - id: thing:rim_cairn
+    kind: decoration
+    at: [55, 27]
+    decoration: searka01
+    title: A cairn at the rim
+  - id: thing:fork_signpost
+    kind: sign
+    at: [66.5, 85.5]
+    height: 256
+    arms:
+      - {title: Castle Alamar, toward: nw}
+      - {title: Necropolis, toward: e}
+      - {title: "Griffin Pass, Castleview", toward: s}
+actors:
+  - {monster: "11620", at: [64, 56.5], count: 3, spread: 1.2, group: 1, hostile: true, leash: 1024}
+  - {monster: "11620", at: [63, 67.5], count: 3, spread: 1.2, group: 2, hostile: true, leash: 1024}
+  - {monster: "11621", at: [63.5, 70], count: 1, spread: 0, group: 2, hostile: true, leash: 1024}
+  - {monster: "11620", at: [74, 59.5], count: 3, spread: 1.2, group: 3, hostile: true, leash: 1024}
+  - {monster: "11621", at: [77.5, 61], count: 1, spread: 0, group: 3, hostile: true, leash: 1024}
+  - {monster: "11620", at: [67.5, 60], count: 2, spread: 0.8, group: 4, hostile: true, leash: 1024}
+  - {monster: "11621", at: [66, 72.5], count: 1, spread: 0, group: 4, hostile: true, leash: 1024}
+  - {monster: "11104", at: [33.9, 85.6], count: 9, spread: 1.6, group: 5, hostile: true}
+  - {monster: "11105", at: [35.1, 85.8], count: 3, spread: 0.8, group: 5, hostile: true}
+  - {monster: "11610", at: [44, 40], count: 2, spread: 0.6, group: 11, hostile: true}
+  - {monster: "11610", at: [51, 38.5], count: 2, spread: 0.6, group: 12, hostile: true}
+  - {monster: "11610", at: [58, 40], count: 2, spread: 0.6, group: 13, hostile: true}
+  - {monster: "11610", at: [59, 47], count: 2, spread: 0.6, group: 14, hostile: true}
+  - {monster: "11611", at: [58.5, 53.5], count: 2, spread: 0.6, group: 15, hostile: true}
+  - {monster: "11610", at: [43, 47], count: 2, spread: 0.6, group: 16, hostile: true}
+  - {monster: "11610", at: [43.5, 53.5], count: 2, spread: 0.6, group: 17, hostile: true}
+  - {monster: "11610", at: [47, 55], count: 2, spread: 0.6, group: 18, hostile: true}
+  - {monster: "11610", at: [55, 55.5], count: 2, spread: 0.6, group: 19, hostile: true}
+  - {monster: "11917", at: [61, 95], spread: 0, group: 6, hostile: false, npc: 5512}
+  - {monster: "11913", at: [62.2, 95.9], count: 1, spread: 0, group: 6, hostile: false}
+sounds:
+  - {id: sound:alamar_hum, at: [50.8, 58], sound: humming, radius: 2500, inner_radius: 600, volume: 0.35}
+  - {id: sound:bed_ash_1, at: [31, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_10, at: [79, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_11, at: [103, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_12, at: [43, 89.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_13, at: [67, 89.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_2, at: [55, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_3, at: [79, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_4, at: [103, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_5, at: [43, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_6, at: [67, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_7, at: [91, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_8, at: [31, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_9, at: [55, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_necropolis, at: [91, 82], sound: xeen_amb_necropolis, radius: 6500, inner_radius: 3500, volume: 0.4, pan: false}
+  - {id: sound:bed_pass_1, at: [104, 80], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_2, at: [27, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_3, at: [49, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_4, at: [71, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_5, at: [93, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:lava_lake_e, at: [77, 64], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_lake_n, at: [70, 60], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_lake_s, at: [68, 70], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_e, at: [63, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_ne, at: [58, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_nw, at: [44, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_se, at: [61, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_sw, at: [41, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_w, at: [37, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_slag_run, at: [31, 50], sound: lava loop, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:lavafall_north, at: [44, 25], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+  - {id: sound:lavafall_west, at: [25, 51], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+events:
+  - id: evt:sky
+    trigger: load
+    effects:
+      - lua: Xeen.applyDarksideSky()
+    notes: Darkside's sky by the sun's stage (A3's helper).
+  - id: evt:camp_gone
+    trigger: load
+    condition: {lua: "XeenQuests.can(\"m25.camp_gone\")"}
+    lua: "evt.SetMonGroupBit(6, MonsterBits.Invisible, 1)"
+    notes: "m25.camp_gone (D-49 change 6): Ambrose and the griffin gone after m25.done; the tent and the cold fire stay."
+  - id: evt:robots_gone
+    trigger: load
+    condition: {lua: "XeenQuests.can(\"m33.robots_gone\")"}
+    lua: "evt.SetMonGroupBit(11, MonsterBits.Invisible, 1) evt.SetMonGroupBit(12, MonsterBits.Invisible, 1) evt.SetMonGroupBit(13, MonsterBits.Invisible, 1) evt.SetMonGroupBit(14, MonsterBits.Invisible, 1) evt.SetMonGroupBit(15, MonsterBits.Invisible, 1) evt.SetMonGroupBit(16, MonsterBits.Invisible, 1) evt.SetMonGroupBit(17, MonsterBits.Invisible, 1) evt.SetMonGroupBit(18, MonsterBits.Invisible, 1) evt.SetMonGroupBit(19, MonsterBits.Invisible, 1)"
+    notes: "m33.robots_gone (D-49 change 7): the robots' nine groups hidden after m33.done (no refill)."
+  - id: evt:alamar_ruin
+    trigger: load
+    condition: {qbit: alamar_destroyed}
+    effects:
+      - hide: thing:alamar_wall_ring
+      - hide: thing:alamar_tower_nw
+      - hide: thing:alamar_tower_ne
+      - hide: thing:alamar_tower_sw
+      - hide: thing:alamar_tower_se
+      - hide: thing:alamar_keep
+      - hide: thing:alamar_gatehouse
+      - hide: thing:alamar_field_w
+      - hide: thing:alamar_field_e
+      - show: thing:alamar_ruin_wall_ring
+      - show: thing:alamar_ruin_tower_nw
+      - show: thing:alamar_ruin_tower_ne
+      - show: thing:alamar_ruin_tower_sw
+      - show: thing:alamar_ruin_tower_se
+      - show: thing:alamar_ruin_keep
+      - show: thing:alamar_ruin_gatehouse
+      - show: thing:fd01_stair
+    notes: "set:alamar: the whole castle until m33.done, then the ruin (xahullbn, fallen towers, dark fields) with FD-01's stair in the broken gatehouse's floor."
+  - id: evt:alamar_hum
+    trigger: load
+    condition: {qbit: alamar_destroyed}
+    else_effects:
+      - lua: "evt.SetMapVar(\"AmbientSound1\", 1)"
+    effects:
+      - lua: "evt.SetMapVar(\"AmbientSound1\", 2)"
+    notes: "AU: sound:alamar_hum off after m33.done (its map variable AmbientSound<key>, D1's pattern)."
+  - id: evt:crust
+    trigger: load
+    condition: {qbit: lava_cooled}
+    effects:
+      - show: thing:pod_crust
+    notes: "set:pod_lava (D-49 Q4): the crust over the lava round the hatch on lava_cooled (111564)."

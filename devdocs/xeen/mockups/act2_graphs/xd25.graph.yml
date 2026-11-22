@@ -1,0 +1,100 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-25
+key: xd25
+name: Asp Undercroft
+stands_on: X4 Burlock Savannah
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [14, 16]
+monsters:
+  levels: [14, 26]
+  boss: null
+  count: 28
+  groups: [2, 3]
+  families:
+    - "Snake men 16 / 20 / 26 (all three tiers)"
+treasure: {level: 2, hoard: 3}
+role: "Q-C5 The Snakes of Asp (destroy the transformer: Asp liberated); Q-C11 the Crystals of Piezoelectricity for Falagar"
+role_short: "Q-C5, Q-C11"
+set_piece: "The transformer machine that turns Asp's people into snakes, behind a field of light that drops when the pedestals round Asp's well are set"
+floors:
+  - {floor: 0, name: "Cellars under Asp", height: -384}
+  - {floor: -1, name: "The machine level", height: -1024}
+spaces:
+  - {id: room:stair, name: Cellar stair, kind: stair, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Down from Asp's square by the well; sloughed skins on the steps."}
+  - {id: room:cistern, name: Old cistern, kind: room, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{family: Snake men, count: 4, strength: light, rank: a}],
+     purpose: "The town's dry cistern, now the snake men's hall; hissing in the dark."}
+  - {id: room:moulting, name: Moulting room, kind: room, size: M, floor: 0, at: [3, 0], chest: 2, monsters: 4,
+     population: [{family: Snake men, count: 4, strength: light, rank: b}],
+     purpose: "Shed skins hung like washing; a chest of townsfolk's belongings."}
+  - {id: room:hidden_cache, name: Hidden cache, kind: room, size: S, floor: 0, at: [1, 1], chest: 2, monsters: 0,
+     purpose: "Behind a loose cistern slab: a townsman's hidden savings."}
+  - {id: room:pens, name: Holding pens, kind: room, size: M, floor: 0, at: [2, 1], monsters: 3,
+     population: [{family: Snake men, count: 3, strength: light, rank: a}],
+     purpose: "Three cages of half-turned townsfolk (freed when the machine dies); the drain grate in the floor."}
+  - {id: room:brood, name: Brood hall, kind: room, size: L, floor: 0, at: [3, 1], monsters: 7,
+     population: [{family: Snake men, count: 7, strength: pack, rank: b}],
+     purpose: "The new snake men, fresh from the machine; the stair down."}
+  - {id: room:drain, name: Drain tunnel, kind: corridor, size: S, floor: -1, at: [1, 0], monsters: 0,
+     purpose: "The machine's run-off channel; a ladder up to the grate in the pens (the way back)."}
+  - {id: room:machine_hall, name: Transformer hall, kind: hall, size: L, floor: -1, at: [2, 0], set_piece: true,
+     goal: true, monsters: 4, population: [{family: Snake men, count: 4, strength: heavy, rank: c}],
+     purpose: "The transformer: brass coils, a glass chamber, an empty socket shaped like a scarab, the crystals glowing in its crown. Destroy it."}
+  - {id: room:field_gate, name: Field gate, kind: corridor, size: S, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "A wall of humming light across the way: 'The machine repels you.' The pedestals' rhyme is cut over it."}
+  - {id: room:coil, name: Coil passage, kind: corridor, size: M, floor: -1, at: [4, 0], monsters: 4,
+     population: [{family: Snake men, count: 4, strength: light, rank: b}],
+     purpose: "A ring passage round the machine hall, warm and humming."}
+  - {id: room:crystal_niche, name: Crystal housing, kind: room, size: S, floor: -1, at: [2, 1], goal: true, monsters: 0,
+     purpose: "The Crystals of Piezoelectricity, loose once the machine is broken (Q-C11)."}
+  - {id: room:keeper, name: "Keeper's cell", kind: room, size: S, floor: -1, at: [4, 1], chest: 3, monsters: 2,
+     population: [{family: Snake men, count: 2, strength: heavy, rank: c, notes: "The machine's keeper and his guard."}],
+     purpose: "The keeper's straw bed and his hoard (one step up)."}
+links:
+  - {id: link:stair_cistern, from: room:stair, to: room:cistern, kind: door}
+  - {id: link:cistern_cache, from: room:cistern, to: room:hidden_cache, kind: secret, notes: "A slab that sinks."}
+  - {id: link:cistern_moulting, from: room:cistern, to: room:moulting, kind: open}
+  - {id: link:cistern_pens, from: room:cistern, to: room:pens, kind: door}
+  - {id: link:pens_brood, from: room:pens, to: room:brood, kind: open}
+  - {id: link:moulting_brood, from: room:moulting, to: room:brood, kind: open}
+  - {id: link:brood_coil, from: room:brood, to: room:coil, kind: stair}
+  - {id: link:coil_keeper, from: room:coil, to: room:keeper, kind: door}
+  - {id: link:coil_field, from: room:coil, to: room:field_gate, kind: open}
+  - {id: link:field_machine, from: room:field_gate, to: room:machine_hall, kind: door, label: "field: Asp pedestals (X4)",
+     opened_by: state:pedestals, notes: "A door of light (translucent faces) that sinks when the qbit is set."}
+  - {id: link:machine_crystal, from: room:machine_hall, to: room:crystal_niche, kind: door, label: "machine destroyed",
+     opened_by: state:transformer}
+  - {id: link:machine_drain, from: room:machine_hall, to: room:drain, kind: open}
+  - {id: link:drain_pens, from: room:drain, to: room:pens, kind: one_way, label: "grate, from below",
+     opened_by: state:grate, notes: "Ladder up; the grate lifts from below, then both ways."}
+states:
+  - {id: state:pedestals, kind: qbit, where: "X4, Asp, the colour pedestals round the well",
+     what: "Set the pedestals: start at the south-west corner with red, alternate colours round the well (the stone's two rhymes say so). Sets qbit asp_pedestals.",
+     opens: [link:field_machine]}
+  - {id: state:transformer, kind: puzzle, where: room:machine_hall,
+     what: "'You have found the transformer! Do you wish to destroy it?' Yes: the coils burst, the cages open, Asp is liberated (Q-C5).",
+     opens: [link:machine_crystal]}
+  - {id: state:grate, kind: lever, where: room:drain, what: "The grate's bolt, under it.", opens: [link:drain_pens], draw: false}
+exits:
+  - {id: exit:x4_asp, space: room:stair, at: [0, 0], kind: both, label: "X4: Asp, stair by the well",
+     neighbour: "Door on X4's Asp square, a cellar stair beside the well (open from day one)"}
+critical_path: [room:stair, room:cistern, room:moulting, room:brood, room:coil, room:field_gate, room:machine_hall, room:crystal_niche]
+return_path: [room:crystal_niche, room:machine_hall, room:drain, room:pens, room:cistern, room:stair]
+loops:
+  - {id: loop:upper, spaces: [room:cistern, room:moulting, room:brood, room:pens], notes: "Round the cellars."}
+  - {id: loop:return, spaces: [room:pens, room:brood, room:coil, room:field_gate, room:machine_hall, room:drain], notes: "Down the brood stair, back up the drain; closed until the grate is lifted."}
+lines:
+  - {text: "You have found the transformer!  Do you wish to destroy it?", ref: "aaze0031:4", where: room:machine_hall}
+  - {text: "A message appears in the stone: Alternate the colors around the well Then the machine can no longer repel", ref: "aaze0031:7", where: room:field_gate}
+  - {text: "There is nothing on, in, or under the bed. / Straw Bed", ref: "aaze0031:12,15", where: room:keeper}
+  - {text: "Thank you for saving us!", ref: "aaze0031:22", where: room:pens, notes: "Adam's line, said by the freed townsfolk."}
+open_questions:
+  - "The pedestals stand on X4 (Asp's well, A5's map) and drop the field inside: one cross-map qbit. Or put the pedestals inside, round the cistern, so the dungeon is whole in itself?"
+  - "The pedestal rhymes are instructions, not a riddle (start south-west, red first, alternate). Enough under the no-riddles rule, or should Adam or Eve say it plainly?"
+  - "Guardian Asps (Cobras 30) guard the source's town; they are above the band (26). Leave them out of the undercroft?"
+  - "Half-turned townsfolk in cages (freed when the machine dies) are ours, after XD-04's caged children. Keep?"
+  - "A door of light needs translucent door faces; check the studio can mark a mover's faces translucent."

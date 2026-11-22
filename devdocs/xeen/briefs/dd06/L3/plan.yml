@@ -1,0 +1,395 @@
+format: 0
+level: L3
+pitch: "A lone Mok tower in the Southern Woods, taken over by the Thieves' Guild: four storeys stacked in one map. Each floor's stair up is behind a door that a bronze gong opens (three rings: the guild's memo by the first gong says so, and the Ali Baba chest's word); the stairs alternate sides so every floor is crossed. The front: lookouts, hounds, a tapestry with a false wall. The den: mess, bunks, the fence and the treasury with the Ali Baba chest. The practice floor: dummies, a trap walk, the strongroom. The inner circle under the cone: the library, the counting room where the Master Thief sits behind his ledger, his bedchamber, and the getaway chute down to the front."
+purpose: "Q-D19 The Southern Tower: the ledger (q-d19.ledger), the Ali Baba chest (q-d19.ali_baba: the Eastern Tower key), 2 Energy Disks in the strongroom (q-d19.l3_disks, M18), the Master Thief (NPC 5109: the Dark promotion, q-d19.master_thief). Party 22 to 26, Outlaws 12/18/30 and the guild's hounds 16/22, The Master Thief 32, 45 monsters and the boss, treasure level 3 with the bedchamber's hoard at 4."
+mood: "Green-grey Mok stone the thieves have made comfortable: boards, beams, bunks, loot sorted on tables, lamps; a hushed, watchful house of crooks."
+datum: arrival
+spaces:
+  - id: room:alibaba
+    name: Treasury
+    kind: room
+    size: S
+    floor: 640
+    purpose: "One great iron-bound chest on a dais: 'Ali Baba Chest. What's the password?' (q-d19.ali_baba)."
+    empty: true
+  - id: room:bedchamber
+    name: Master's bedchamber
+    kind: room
+    size: M
+    floor: 1920
+    purpose: "A bed with velvet hangings ('Bed', 'Nothing here.'); beside it the Master Thief's own strongbox, the tower's hoard (tier 4)."
+    empty: true
+  - id: room:bunks
+    name: Bunkroom
+    kind: room
+    size: M
+    floor: 640
+    purpose: "Two tiers of bunks, every pillow with a purse under it ('Bed', 'Nothing here.')."
+    population:
+      - {actor: 11111, groups: 4, levels: [18, 18], notes: 4 placed Thiefs.}
+  - id: room:counting
+    name: Counting room
+    kind: room
+    size: L
+    floor: 1920
+    purpose: "Desks, scales, sacks of coin; the ledger on the big desk (q-d19.ledger); the Master Thief (NPC 5109) in a high chair, his four bodyguards."
+    population:
+      - {actor: 11115, groups: 4, levels: [30, 30], notes: "The Master Thief's bodyguards, Inner Circle Guard 11115 (faction inner_circle, peaceful until he or they are attacked)."}
+      - {actor: 11114, role: boss, groups: 1, levels: [32, 32], notes: "The Master Thief 11114 (A2's boss row, faction inner_circle, friendly), NPC 5109 talks for him from his high chair."}
+  - id: room:door_hall
+    name: Entrance hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: Inside the iron-bound door (NO THIEVES on its brass plate outside). A straw heap in the corner where the getaway chute ends.
+    empty: true
+  - id: room:fence
+    name: Fence's room
+    kind: room
+    size: M
+    floor: 640
+    purpose: "Where the loot is sorted and tagged; the fence's lockbox (the chest) holds the Strongroom key."
+    population:
+      - {actor: 11111, groups: 2, levels: [18, 18], notes: 2 placed Thiefs.}
+      - {actor: 11112, groups: 1, levels: [30, 30], notes: 1 placed Master Thief.}
+  - id: room:getaway
+    name: Getaway hatch
+    kind: room
+    size: S
+    floor: 1920
+    purpose: "A trapdoor in the floor over a polished chute down the tower's inside wall: the thieves' way out."
+    empty: true
+  - id: room:gong1
+    name: First gong
+    kind: room
+    size: M
+    floor: 0
+    purpose: "A bronze gong by the stair door, and the guild memo pinned beside it (q-d19.guild_memo)."
+    population:
+      - {actor: 11110, groups: 2, levels: [12, 12], notes: 2 placed Rogues.}
+  - id: room:gong2
+    name: Second gong
+    kind: room
+    size: M
+    floor: 640
+    purpose: The second gong at the stair door up.
+    population:
+      - {actor: 11111, groups: 3, levels: [18, 18], notes: 3 placed Thiefs.}
+  - id: room:gong3
+    name: Third gong
+    kind: room
+    size: M
+    floor: 1280
+    purpose: The last gong before the stair to the top.
+    population:
+      - {actor: 11111, groups: 2, levels: [18, 18], notes: 2 placed Thiefs.}
+      - {actor: 11112, groups: 1, levels: [30, 30], notes: 1 placed Master Thief.}
+  - id: room:guardroom
+    name: Lookouts' room
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Arrow slits on the clearing, a bell rope, a card game left in the middle."
+    population:
+      - {actor: 11110, groups: 2, levels: [12, 12], notes: 2 placed Rogues.}
+      - {actor: 11111, groups: 2, levels: [18, 18], notes: 2 placed Thiefs.}
+  - id: room:kennel
+    name: Kennel
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The guild's hounds and two sabertooths among iron pens; gnawed boots."
+    population:
+      - {actor: 11410, groups: 2, levels: [16, 16], notes: 2 placed Dark Wolfs.}
+      - {actor: 11411, groups: 2, levels: [22, 22], notes: 2 placed Sabertooths.}
+  - id: room:landing2
+    name: Den landing
+    kind: room
+    size: S
+    floor: 640
+    purpose: "The first stair arrives here, on the west side."
+    empty: true
+  - id: room:landing3
+    name: Practice landing
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "The second stair arrives here, on the east side."
+    empty: true
+  - id: room:landing4
+    name: Top landing
+    kind: room
+    size: S
+    floor: 1920
+    purpose: The third stair arrives here under the slate cone's beams.
+    empty: true
+  - id: room:library
+    name: Thieves' library
+    kind: room
+    size: M
+    floor: 1920
+    purpose: "The Manual of Master Thievery and the Prince Book on two lecterns, and shelves of other people's diaries."
+    population:
+      - {actor: 11111, groups: 1, levels: [18, 18], notes: 1 placed Thief.}
+      - {actor: 11112, groups: 1, levels: [30, 30], notes: 1 placed Master Thief.}
+  - id: room:mess
+    name: Mess hall
+    kind: room
+    size: M
+    floor: 640
+    purpose: "Long tables, dice, a stew pot; thieves at dinner."
+    population:
+      - {actor: 11111, groups: 5, levels: [18, 18], notes: 5 placed Thiefs.}
+  - id: room:practice
+    name: Practice hall
+    kind: room
+    size: L
+    floor: 1280
+    purpose: "Where thieves train: dummies hung with bells, practice locks, straw targets."
+    population:
+      - {actor: 11111, groups: 3, levels: [18, 18], notes: 3 placed Thiefs.}
+      - {actor: 11112, groups: 2, levels: [30, 30], notes: 2 placed Master Thiefs.}
+  - id: room:stair1
+    name: First stair
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The first stair hall, behind the first gong's door: up the west wall from the front to the den."
+    empty: true
+  - id: room:stair2
+    name: Second stair
+    kind: corridor
+    size: M
+    floor: 640
+    purpose: "The second stair hall, behind the second gong's door: up the east wall from the den to the practice floor."
+    empty: true
+  - id: room:stair3
+    name: Third stair
+    kind: corridor
+    size: M
+    floor: 1280
+    purpose: "The third stair hall, behind the third gong's door: up the west wall from the practice floor to the top."
+    empty: true
+  - id: room:stash
+    name: Behind the tapestry
+    kind: room
+    size: S
+    floor: 0
+    purpose: "The wall behind the tapestry is not there: 'An illusion!' A thief's private stash (the chest)."
+    empty: true
+  - id: room:strongroom
+    name: Strongroom
+    kind: room
+    size: S
+    floor: 1280
+    purpose: "Behind a locked iron door: the guild's best takings (the chest) and 2 Energy Disks (q-d19.l3_disks)."
+    empty: true
+  - id: room:tapestry
+    name: Tapestry hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "A long tapestry of a Mok procession, left from the tower's priests; a button at its end ('Button')."
+    population:
+      - {actor: 11110, groups: 2, levels: [12, 12], notes: 2 placed Rogues.}
+      - {actor: 11111, groups: 1, levels: [18, 18], notes: 1 placed Thief.}
+  - id: room:trap_walk
+    name: Trap walk
+    kind: corridor
+    size: M
+    floor: 1280
+    purpose: "A corridor of practice traps, disarmed for the thieves who live here."
+    population:
+      - {actor: 11111, groups: 3, levels: [18, 18], notes: 3 placed Thiefs.}
+links:
+  - id: link:bunks_l2
+    from: room:bunks
+    to: room:landing2
+    kind: open
+  - id: link:counting_bed
+    from: room:counting
+    to: room:bedchamber
+    kind: door
+  - id: link:counting_getaway
+    from: room:counting
+    to: room:getaway
+    kind: open
+  - id: link:door_guard
+    from: room:door_hall
+    to: room:guardroom
+    kind: door
+  - id: link:fence_gong2
+    from: room:fence
+    to: room:gong2
+    kind: open
+  - id: link:fence_treasury
+    from: room:fence
+    to: room:alibaba
+    kind: door
+  - id: link:gong1_kennel
+    from: room:gong1
+    to: room:kennel
+    kind: door
+    notes: The kennel's barred gate.
+  - id: link:gong1_up
+    from: room:gong1
+    to: room:landing2
+    kind: door
+    condition: {map_var: gong1}
+    notes: "gong 1: three rings open the stair door; the stair hall (its own room) climbs to the den."
+  - id: link:gong2_bunks
+    from: room:gong2
+    to: room:bunks
+    kind: door
+  - id: link:gong2_up
+    from: room:gong2
+    to: room:landing3
+    kind: door
+    condition: {map_var: gong2}
+    notes: "gong 2: the stair door; the stair hall climbs to the practice floor."
+  - id: link:gong3_up
+    from: room:gong3
+    to: room:landing4
+    kind: door
+    condition: {map_var: gong3}
+    notes: "gong 3: the stair door; the stair hall climbs to the top."
+  - id: link:guard_gong1
+    from: room:guardroom
+    to: room:gong1
+    kind: open
+  - id: link:kennel_tapestry
+    from: room:kennel
+    to: room:tapestry
+    kind: open
+  - id: link:l2_mess
+    from: room:landing2
+    to: room:mess
+    kind: open
+  - id: link:l3_practice
+    from: room:landing3
+    to: room:practice
+    kind: open
+  - id: link:l3_trap
+    from: room:landing3
+    to: room:trap_walk
+    kind: open
+  - id: link:l4_counting
+    from: room:landing4
+    to: room:counting
+    kind: door
+  - id: link:l4_library
+    from: room:landing4
+    to: room:library
+    kind: open
+  - id: link:mess_fence
+    from: room:mess
+    to: room:fence
+    kind: door
+  - id: link:practice_gong3
+    from: room:practice
+    to: room:gong3
+    kind: open
+  - id: link:tapestry_door
+    from: room:tapestry
+    to: room:door_hall
+    kind: open
+  - id: link:tapestry_stash
+    from: room:tapestry
+    to: room:stash
+    kind: door
+    condition: {map_var: illusion}
+    notes: "button: the false wall vanishes ('An illusion!')."
+  - id: link:trap_practice
+    from: room:trap_walk
+    to: room:practice
+    kind: door
+  - id: link:trap_strong
+    from: room:trap_walk
+    to: room:strongroom
+    kind: door
+    notes: "The strongroom's iron door: the Strongroom key from the fence's lockbox. BLOCKED until A2's item row exists: the door stays locked."
+loops:
+  - id: loop:den
+    spaces: [room:landing2, room:mess, room:fence, room:gong2, room:bunks]
+    notes: Round the den floor.
+  - id: loop:front
+    spaces: [room:door_hall, room:guardroom, room:gong1, room:kennel, room:tapestry]
+    notes: Round the ground floor.
+  - id: loop:getaway
+    spaces: [room:door_hall, room:gong1, room:stair1, room:landing2, room:gong2, room:stair2, room:landing3, room:practice, room:gong3, room:stair3, room:landing4, room:counting, room:getaway]
+    notes: "Up by the gong stairs, down by the getaway chute."
+  - id: loop:practice
+    spaces: [room:landing3, room:practice, room:trap_walk]
+    notes: Through the practice hall or the trap walk.
+entrances:
+  - id: entrance:d2_door
+    space: room:door_hall
+    kind: arrival
+    facing: s
+    how: "From D2's door:dd06 (the tower's iron-bound door, facing north in its clearing; the Southern Tower key): just inside the door in the hall's north wall, facing in (south). The way back out is sealed until D2 is in the world (NOTES.md, Sealed exit)."
+critical_path: [room:door_hall, room:guardroom, room:gong1, room:stair1, room:landing2, room:mess, room:fence, room:alibaba, room:fence, room:gong2, room:stair2, room:landing3, room:trap_walk, room:strongroom, room:trap_walk, room:practice, room:gong3, room:stair3, room:landing4, room:counting]
+return_path: [room:counting, room:getaway, room:door_hall]
+goals:
+  - id: goal:alibaba
+    space: room:alibaba
+    kind: use
+    what: "'What's the password?' open sesame (A3's hook q-d19.ali_baba: the Eastern Tower key 12340, chest_opened 113383)."
+    story: Q-D19
+    gives:
+      qbit: 113383
+  - id: goal:disks
+    space: room:strongroom
+    kind: use
+    what: "The strongroom's chest: 2 Energy Disks (q-d19.l3_disks, tower_disks 113382)."
+    story: M18
+    gives:
+      qbit: 113382
+  - id: goal:ledger
+    space: room:counting
+    kind: use
+    what: "The ledger on the big desk (A3's hook q-d19.ledger: ledger_read 113381, the autonote)."
+    story: Q-D19
+    gives:
+      qbit: 113381
+  - id: goal:master
+    space: room:counting
+    kind: use
+    what: "The Master Thief (NPC 5109): his Inner circle topic promotes Rogues and Warrior Mages (Dark)."
+    story: Q-D19
+keys:
+  - id: key:button
+    grants: {map_var: illusion}
+    found_in: room:tapestry
+    how: The button at the tapestry's end.
+  - id: key:gong1
+    grants: {map_var: gong1}
+    found_in: room:gong1
+    how: "'Ring gong how many times?' 3 or three (the memo beside it)."
+  - id: key:gong2
+    grants: {map_var: gong2}
+    found_in: room:gong2
+    how: The same answer.
+  - id: key:gong3
+    grants: {map_var: gong3}
+    found_in: room:gong3
+    how: The same answer.
+set_pieces:
+  - id: set:alibaba
+    kind: scripted
+    spaces: [room:alibaba]
+    rule: "'Ali Baba Chest. What's the password?': open sesame or opensesame opens it, once; then it opens like any chest."
+  - id: set:gongs
+    kind: scripted
+    spaces: [room:gong1, room:gong2, room:gong3]
+    rule: "Each gong asks 'Ring gong how many times?': 3 or three opens its stair door (A3's q-d19.gongs line); any other answer: 'The gong booms, and the echo dies away.', the door stays shut and the next click asks again."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 5
+  doors: 13
+  floor_area_munits2: 40
+  loops: 4
+  monsters_about: 46
+  rooms: 25
+  sectors: 25
+notes: "Size M (MAPS: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/dd06.graph.yml and D-25 (mockups/act3_a7_decisions.md: the bodyguards Inner Circle Guards 11115, the Master Thief's boss row 11114 at 32, no mirror, the wrong gong answer's line). The three stair halls are rooms of their own (the graph's gong-to-landing stair links). 25 rooms."

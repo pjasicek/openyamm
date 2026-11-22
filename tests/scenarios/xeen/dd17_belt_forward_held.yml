@@ -1,0 +1,44 @@
+# Xeen's DD-17: the fire belt's mouth plate (event 8, evt.MoveToMap(-2496, 1504, 0, 512) within the map) rides the
+# party to the belt's far end with the forward key held, faces it north (512) and leaves it at rest. Before merge point
+# 28 a held key (press_action) never took the frame's in-map move and walked on, and a movement_segment replay turned
+# the party to its recorded end facing after the ride (D-66 DD-17 item 7; output/studio_cal/dd17/exp/). The game's
+# loop takes the move in the frame. Needs assets_dev's Xeen world (git-ignored). A1, merge point 28.
+id: xeen.dd17.belt_forward_held
+title: DD-17's belt plate rides with forward held and keeps the facing it gives
+world: xeen
+mode: faithful
+tags: [xeen, events, movement, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd17.blv
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - clear_hostiles: {radius: 30000}
+  # (1) Forward held from 800 south of the mouth plate (-2912) for 1.2 s: the ride comes at about 1.05 s, and the held
+  # key walks on north from the far end.
+  - set_pose: {map: xeen_dd17.blv, x: -2496, y: -3824, z: 0, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.2}
+  - press_action: {action: forward, seconds: 1.2}
+  - play_lua: {source: "log('held: ' .. status())"}
+  - assert: {party_position: {x: -2496, y: 1504, radius: 260, facing: 512, facing_within: 8}}
+  # (2) A tap that steps onto the plate: the party lands on the given spot facing 512 (the rest of the tap walks it
+  # on a step), and a second later it is still there.
+  - set_pose: {map: xeen_dd17.blv, x: -2496, y: -3040, z: 0, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.2}
+  - press_action: {action: forward, seconds: 0.15}
+  - assert: {party_position: {x: -2496, y: 1504, radius: 96, facing: 512, facing_within: 8}}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: -2496, y: 1504, radius: 96, facing: 512, facing_within: 8}}
+  # (3) A recorded walk back down the belt (south, 1536) over the back plate (672): the replay no longer steers the
+  # party to its recorded end facing after the ride.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      loose_tolerance: true
+      tolerance_xy: 4000
+      tolerance_z: 40
+      start: {map: xeen_dd17.blv, x: -2496, y: 860, z: 0, yaw_degrees: 270}
+      expect_stop: {map: xeen_dd17.blv, x: -2496, y: 1504, z: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {party_position: {x: -2496, y: 1504, radius: 160, facing: 512, facing_within: 8}}

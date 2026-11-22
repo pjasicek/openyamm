@@ -1,0 +1,3 @@
+Saved [04_right.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/04_right.png). Verified 1536×1024, true transparency, eight visible tentacle tips, and at least 85 px of clear margin on every side.
+
+A sliver of the far eye remains visible. The one corrective regeneration gave a stricter profile but missed the 80 px margin, so I kept the first version and removed its faint alpha fringe. Both attempts are documented in the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/generation_runs_04_right.json).

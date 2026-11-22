@@ -1,0 +1,31 @@
+# Playtest of the Sphinx's way out (XD-15, L4; written by output/studio_cal/xd15/tools/gen_tests.py): the breast
+# gate's west leaf (the exit preset) out to X6 between the paws (A5's point (9216, 9728, 1408), facing south); the leave
+# window's OK pressed; the landing measured with status().
+id: xeen.xd15.l4.exit
+title: The Sphinx (XD-15 L4), the breast gate out to X6
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd15.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 31, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 31, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 31, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 31, skills: [], equipment: {}}
+  - assert: {map: xeen_xd15.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - walk_to: {x: -128, y: 120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 24}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - advance_runtime: {seconds: 2.0}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 9216, y: 9728, radius: 160, z_min: 1380, z_max: 1440}}

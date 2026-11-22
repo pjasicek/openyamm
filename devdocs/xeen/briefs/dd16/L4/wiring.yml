@@ -1,0 +1,262 @@
+format: 0
+variables: [log_page]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "Escape Pod 1. The deck slopes under your feet, and lava ticks against the hull. Only red emergency lamps are lit."
+    seconds: 7
+  - id: evt:blast
+    preset: door
+    source: door:blast
+    title: Blast door
+    condition: {qbit: power_on}
+    action: open
+    else_effects:
+      - lua: "XeenQuests.hook(\"m29.blast_door\")"
+    notes: "Sealed until the main power is on: A3's m29.blast_door names the missing power (D-47)."
+  - id: evt:boxed_now
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: corak_boxed}
+    once: true
+    effects:
+      - hide_actors: 30
+    notes: "The visit in which Corak goes into the box: he vanishes from the alcove."
+  - id: evt:bridge_seen
+    preset: text
+    source: room:bridge
+    trigger: step
+    once: true
+    text: "The bridge. Behind a curtain of pale light, a tall figure hangs in the air, quite still."
+    seconds: 6
+  - id: evt:chest_locker
+    preset: chest
+    source: chest:locker
+    title: Chest
+  - id: evt:chest_stores
+    preset: chest
+    source: chest:stores
+    title: Chest
+  - id: evt:console
+    preset: script
+    source: panel:console
+    title: Console
+    lua: |-
+      if IsQBitSet(QBit(111640)) then
+          evt.SimpleMessage("Stasis field deactivated.")
+      elseif IsQBitSet(QBit(111582)) then
+          evt.SimpleMessage("Stasis field deactivated.")
+      else
+          XeenQuests.hook("m29.console")
+      end
+    notes: "Before m29.done A3's m29.console (the phrase in plain words); from m29.done 'Stasis field deactivated.' (dark/aaze0087:24, map-local): Corak talks from his own body now (monster npc 5513, merge point 22)."
+  - id: evt:corak_load
+    preset: script
+    trigger: load
+    lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:corak\"), false)"
+    notes: "D-51 (1): Corak cannot be killed: every hit on him is zeroed, on every load (ActorIndex, merge point 22)."
+  - id: evt:device_1
+    preset: script
+    source: platform:device_1
+    title: Strange energy device
+    effects:
+      - lua: "XeenQuests.hook(\"m29.alien_device\")"
+    notes: "D-47 Q18: A3's hook decides for the clicking member (player bit 11352)."
+  - id: evt:device_2
+    preset: script
+    source: platform:device_2
+    title: Strange energy device
+    effects:
+      - lua: "XeenQuests.hook(\"m29.alien_device\")"
+  - id: evt:door_device
+    preset: door
+    source: door:device
+    title: Door
+  - id: evt:door_engine
+    preset: door
+    source: door:engine
+    title: Door
+  - id: evt:door_gun
+    preset: door
+    source: door:gun
+    title: Door
+  - id: evt:door_inner
+    preset: door
+    source: door:inner
+    title: Door
+  - id: evt:engine_seen
+    preset: text
+    source: room:engine_room
+    trigger: step
+    once: true
+    text: "The stern is torn open. Lava glows through the gap, a hand's breadth below the deck."
+    seconds: 6
+  - id: evt:field
+    preset: script
+    source: door:field
+    question: {ask: To boldly go..., answers: [where no man has gone before, where no man has gone before., "where no man has gone before!"], message: A strange energy field surrounds a figure suspended within it., wrong_effects: [{lua: "XeenQuests.hook(\"m29.stasis_wrong\")"}]}
+    title: Stasis field
+    condition: {not: {qbit: stasis_done}}
+    locked_text: The stasis field is down.
+    opens: [door:field]
+    effects:
+      - lua: "XeenQuests.hook(\"m29.stasis\")"
+      - lights_off: light:field
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+    notes: "goal:stasis: the field's prompt (dark/aaze0087:0); the right answer calls A3's m29.stasis (stasis_off 111581, done 111582) and drops the field; any other A3's m29.stasis_wrong."
+  - id: evt:hatch
+    preset: exit
+    source: exit:hatch
+    title: Exit Escape Pod 1
+    notes: "Out to D6 (installed, A6) at its named arrival entrance:dd16_hatch on the crust 384 before the hatch, facing south-east (1792): the game's own leave window (D-24); 'Exit Escape Pod 1?' (aaze0087:6) is its meaning."
+  - id: evt:log1
+    preset: script
+    source: panel:log1
+    title: Log Computer
+    effects:
+      - lua: "XeenQuests.hook(\"m29.log1\")"
+  - id: evt:log2
+    preset: script
+    source: panel:log2
+    title: Log Computer
+    effects:
+      - lua: "XeenQuests.hook(\"m29.log2\")"
+  - id: evt:log3
+    preset: script
+    source: panel:log3
+    title: Log Computer
+    lua: |-
+      local page = 1
+      for n = 1, 4 do
+          if IsAtLeast(MapVar(log_page), n) then page = n + 1 end
+      end
+      if page == 1 then
+          XeenQuests.hook("m29.log_page_1")
+      elseif page == 2 then
+          XeenQuests.hook("m29.log_page_2")
+      elseif page == 3 then
+          XeenQuests.hook("m29.log_page_3")
+      elseif page == 4 then
+          XeenQuests.hook("m29.log_page_4")
+      elseif page == 5 then
+          XeenQuests.hook("m29.log_page_5")
+      end
+      SetValue(MapVar(log_page), page % 5)
+    notes: "D-47 Q19: each click shows A3's next page (m29.log_page_1..5), wrapping round; the map variable log_page holds the page shown last."
+  - id: evt:phaser
+    preset: script
+    source: panel:phaser
+    question: {ask: "Fire (Yes/No)?", answers: [Yes, Y], message: "Phaser Control. A status indicator on the weapon shows it to be disarmed. Fire anyway?"}
+    title: Phaser Control
+    effects:
+      - text: Nothing happens.
+    notes: "dark/aaze0087:11, :9 (map-local)."
+  - id: evt:photon
+    preset: script
+    source: panel:photon
+    question: {ask: "Fire (Yes/No)?", answers: [Yes, Y], message: "Photon Control. A status indicator on the weapon shows it to be disarmed. Fire anyway?"}
+    title: Photon Control
+    effects:
+      - text: Nothing happens.
+    notes: "dark/aaze0087:12, :9 (map-local)."
+  - id: evt:power
+    preset: script
+    source: panel:power
+    question: {ask: "Activate (Yes/No)?", answers: [Yes, Y], message: "Main Power Console. Activate?"}
+    title: Main Power Console
+    condition: {not: {qbit: power_on}}
+    opens: [door:blast]
+    effects:
+      - qbit: power_on
+      - lua: "XeenQuests.hook(\"m29.power_console\")"
+      - lua: "evt.PlaySoundName(\"xeen_power_up\", -416, -1800, -288)"
+      - lights_on: [light:airlock, light:deck, light:gun, light:couches_s, light:couches_n, light:slope, light:engine, light:device, light:crawl_s, light:crawl_n, light:bridge, light:blast_green]
+      - lights_off: light:blast_red
+      - set_texture:
+          of: panel:console
+          to: sfpnlon
+      - set_texture:
+          of: panel:log1
+          to: sfpnlon
+      - set_texture:
+          of: panel:log2
+          to: sfpnlon
+      - set_texture:
+          of: panel:log3
+          to: sfpnlon
+      - set_texture:
+          of: panel:phaser
+          to: sfpnlon
+      - set_texture:
+          of: panel:photon
+          to: sfpnlon
+      - set_texture:
+          of: panel:power
+          to: sfpnlon
+      - set_texture:
+          of: platform:scanner
+          to: sfpnlon
+          face: top
+    else_effects:
+      - text: The main power is on.
+    notes: "goal:power (dark/aaze0087:7, the typo mended): power_on 118080; the pod's lights come up, the consoles light (sfpnloff -> sfpnlon), the blast door's lamp turns green and the door unseals (D-47); AU's xeen_power_up at the panel."
+  - id: evt:power_load
+    preset: script
+    trigger: load
+    condition: {qbit: power_on}
+    opens: [door:blast]
+    effects:
+      - lights_on: [light:airlock, light:deck, light:gun, light:couches_s, light:couches_n, light:slope, light:engine, light:device, light:crawl_s, light:crawl_n, light:bridge, light:blast_green]
+      - lights_off: light:blast_red
+      - set_texture:
+          of: panel:console
+          to: sfpnlon
+      - set_texture:
+          of: panel:log1
+          to: sfpnlon
+      - set_texture:
+          of: panel:log2
+          to: sfpnlon
+      - set_texture:
+          of: panel:log3
+          to: sfpnlon
+      - set_texture:
+          of: panel:phaser
+          to: sfpnlon
+      - set_texture:
+          of: panel:photon
+          to: sfpnlon
+      - set_texture:
+          of: panel:power
+          to: sfpnlon
+      - set_texture:
+          of: platform:scanner
+          to: sfpnlon
+          face: top
+    notes: "Every later load with the power on: lit, consoles on, the blast door open."
+  - id: evt:scanner
+    preset: text
+    source: platform:scanner
+    title: Scanning Console
+    text: "Scanning Console. A message on the screen reads: X.E.E.N. (Xylonite Experimental Expansion Nacelle) Starseed Project. Mean orbit: 1.1 AU. Surface gravity: .88. Mean surface temperature: 72."
+    notes: dark/aaze0087:22 (map-local).
+  - id: evt:stage_awake
+    preset: script
+    trigger: load
+    condition: {qbit: stasis_done}
+    opens: [door:field]
+    effects:
+      - lights_off: light:field
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+    notes: "From m29.done on every load: the field down, its light and hum off; Corak by his console."
+  - id: evt:stage_boxed
+    preset: script
+    trigger: load
+    condition: {qbit: corak_boxed}
+    effects:
+      - hide_actors: 30
+    notes: "From m32.done on every load: Corak gone (he is in the Soul Box)."

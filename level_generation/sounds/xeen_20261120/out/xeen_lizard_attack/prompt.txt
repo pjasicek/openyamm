@@ -1,0 +1,13 @@
+A huge reptile snapping its jaws: a sharp rasping hiss and a heavy crunching jaw clamp, close
+
+kind: sfx
+duration: 1.0
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 3
+loudness_db: -8.5

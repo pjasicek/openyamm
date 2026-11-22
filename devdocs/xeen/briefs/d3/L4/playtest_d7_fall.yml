@@ -1,0 +1,162 @@
+# D7's E3-F4 fall onto D3 (D-58), written by output/studio_cal/d3/tools/gen_fall.py; do not edit.
+# A new game on X9 (a sky BLV, as D7) runs Xeen.skyFallTo("d7_ef34"); the party lands at entrance:d7_fall (-15360, 11776),
+# takes the fall's damage (not immortal), and keeps its HP for 20 s (D-54: no ranged hostile within 5,888).
+# D7 is not built yet: once it is, the start moves to D7's E3-F4 sky (Xeen.skyFallD7).
+id: xeen.d3.l4.d7_fall
+title: 'D3 Sandcaster: D7''s E3-F4 fall lands outside the south gate, costs only the fall''s hit points, and nothing hurts
+  the party for 20 s (D-58, D-54)'
+world: xeen
+mode: faithful
+steps:
+- note: 'D7 is not built yet: the start is a new game on X9 (a sky BLV, as D7) and the fall is A3''s skyFallTo run as a map
+    event there. Once D7 is built, start on D7 in its E3-F4 sky and walk off its edge (Xeen.skyFallD7).'
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(3); close()
+- clear_hostiles:
+    radius: 40000
+- console:
+    line: hp show
+- note: 'Xeen.skyFallTo("d7_ef34"): A3''s code, copied in by the generator (lua_event has no world scripts).'
+- lua_event:
+    source: |
+      -- A3's Xeen.skyFallTo and its table, from assets_dev/worlds/xeen/events/common/xeen_common.lua
+      local Xeen = {}
+      Xeen.SkyFallHeight = 850
+
+      function Xeen.skyFall(x, y, groundZ, yaw, map, onWater)
+          local z = groundZ
+          if not onWater then
+              z = groundZ + Xeen.SkyFallHeight
+          end
+          -- direct: no leave-the-dungeon dialogue when the fall starts in a BLV; keepHeight: arrive at z in the air and fall.
+          evt.MoveToMap(x, y, z, yaw, 0, 0, 0, 0, map, {direct = true, keepHeight = not onWater})
+      end
+
+      -- Named falls: a sky map's edges and gaps drop the party at one point below (D-6.4, D-37). The map's fall event
+      -- calls Xeen.skyFallTo("x9"). X9's land on X2's Darzog island, entrance:x9_fall, facing east (D-50 change 4, kept by
+      -- D-54: the lake dragons' leash circles stay at least 5,888 from every fall landing and Darzog's door). P5's ring,
+      -- causeway and shrine land on X5's Darkstone rock top, entrance:p5_fall, facing the tower door 480 ahead (south;
+      -- D-56 Q3; A6 put the point on the whole cell (55, 59), 256 north of D-56's (-4608, 2304)).
+      -- D7's six fall zones (D-58 Q10): the sky over the Darkside is cut in a 3 x 2 grid of the source's squares (A-B, C-D, E-F
+      -- from west to east; rows 1-2 north of y 0, rows 3-4 south), one landing per map beneath, entrance:d7_fall (D7's L1
+      -- NOTES "Falls"; each map's owner confirms its point at install). P2's islands fall back onto its own Gale Landing
+      -- (D-58 P2 Q1: the same map, from Xeen.SkyFallHeight above it, with falling damage).
+      Xeen.SkyFalls = {
+          x9 = {-15360, 3072, 768, 0, "xeen_x2.odm"},
+          p5 = {-4608, 2560, 1504, 1536, "xeen_x5.odm"},
+          d7_ab12 = {13824, -7680, 1664, 1536, "xeen_d6.odm"},   -- A1-B2: before the Necropolis' gate
+          d7_cd12 = {0, -8704, 1248, 512, "xeen_d5.odm"},        -- C1-D2: before the Great Pyramid's door
+          d7_ef12 = {5632, -13312, 1120, 1024, "xeen_d4.odm"},   -- E1-F2: Lakeside's square
+          d7_ab34 = {-6656, 6144, 1152, 1536, "xeen_d1.odm"},    -- A3-B4: north of Lucio's Jetty
+          d7_cd34 = {15872, -6656, 1056, 1536, "xeen_d2.odm"},   -- C3-D4: before the Southern Tower's door
+          d7_ef34 = {-15360, 11776, 1440, 0, "xeen_d3.odm"},     -- E3-F4: outside Sandcaster's south gate
+          p2 = {-4096, -4096, 0, 256, "xeen_p2.blv"},            -- P2: the Gale Landing
+      }
+
+      -- D7's fall event (below z -1,000, and the room's floor) calls Xeen.skyFallD7(): the zone under the party picks the map.
+      -- The room is 128 x 88 cells (x -32768..32768, y -22528..22528); the columns split x in thirds.
+      function Xeen.skyFallD7()
+          local x, y = evt.GetPartyPosition()
+          local column = "ab"
+          if x >= 10923 then
+              column = "ef"
+          elseif x >= -10923 then
+              column = "cd"
+          end
+          local row = y >= 0 and "12" or "34"
+          Xeen.skyFallTo("d7_" .. column .. row)
+      end
+
+      function Xeen.skyFallTo(key)
+          local fall = Xeen.SkyFalls[key]
+          if fall == nil then
+              evt.StatusText("Unknown fall: " .. tostring(key))
+              return
+          end
+          Xeen.skyFall(fall[1], fall[2], fall[3], fall[4], fall[5], false)
+      end
+      Xeen.skyFallTo("d7_ef34")
+- advance_runtime:
+    seconds: 3.0
+    follow_map_move: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    map: xeen_d3.odm
+- assert:
+    party_position:
+      x: -15360
+      y: 11776
+      radius: 256
+- note: 'Just after the fall: everyone alive, the fall''s damage only'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 197
+      health_max: 197
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 89
+      health_max: 89
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 126
+      health_max: 126
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 83
+      health_max: 83
+- advance_runtime:
+    seconds: 20.0
+- assert:
+    map: xeen_d3.odm
+- note: 'After 20 s on D3 (D-54): nobody has lost a point more'
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 197
+      health_max: 197
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 89
+      health_max: 89
+- assert:
+    member_points:
+      member_index: 2
+      health_min: 126
+      health_max: 126
+- assert:
+    member_points:
+      member_index: 3
+      health_min: 83
+      health_max: 83

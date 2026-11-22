@@ -1,0 +1,268 @@
+# Xeen side quest Q-C12, Mirabeth's Elixir (X2, X3, XD-06), from a new game on X2 with a level-18 party. The Temple
+# of Yak's door in the fairy woods' dark south end (X2 event 98) shows its entrance window (D-89: open). Over X2's west edge to
+# X3: Mirabeth on her lagoon rock (actor 15, NPC 4202): Elixir (the Yak Stone, yak_stone set; then "waiting"). Over
+# X3's east edge back to X2; the temple's door opens; XD-06 walked as the main run's segment 23 by the shortest way to
+# the Elixir: the arrival, the Yak door, the narthex and nave, the west stair to the crypt, the ossuary, the
+# causeway's three blocks raised, the sanctum's doors, the Yak Master (the reliquary's slab rises), the reliquary
+# chest (q-c12.reliquary: the Elixir, elixir_found; again: nothing in the coffin), back by the Master's stair and door
+# and out by the porch. Over X2's west edge to X3: Mirabeth (Elixir: done, the Elixir taken, 2,000 XP each, +5 base
+# Personality each; then "never been happier"). Over the east edge and back: her rock is empty (X3's onLoad event 122
+# hides her group). Outdoors the party is placed (PLAYBOOK §2); the temple is walked.
+# Routes: tests/playthrough/xeen/19_the_deed.yml, 23_temple_of_yak.yml, 25_the_walls.yml;
+# devdocs/xeen/briefs/x2/L4/playtest.yml (the west edge), x3/L4/playtest.yml (the east edge), xd06/L4/playtest.yml.
+# Quest logic: source/quests/q-c12.yml (and m10.yml for the temple's hooks). Prep: prep/q-c12.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-c12_
+id: xeen.side_quests.q-c12
+title: "Xeen Q-C12: the Yak Stone from Mirabeth, the Elixir of Restoration from the Temple of Yak"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 18, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 18, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 18, skills: [], equipment: {}}
+          - {name: Osric, class: Cleric, level: 18, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [110101, 110400, 110401, 112240]}
+  # The Temple of Yak's door (X2 event 98; D-89: open from the start): the entrance window, declined (closed).
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "The Temple of Yak."}}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {map: xeen_x2.odm}
+  # West along the road over X2's edge (its travel prompt) to X3, Lifeforce Lagoon.
+  - set_pose: {map: xeen_x2.odm, x: -20480, y: 12288, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24064, y: 12288, z: 1664, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Mirabeth on her rock in the lagoon (actor 15, NPC 4202): Elixir (the Yak Stone), Elixir again (waiting).
+  - set_pose: {map: xeen_x3.odm, x: 11059, y: -8404, z: 900, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 3000}
+  - assert: {actor_visible: {actor_index: 15, hidden: false}}
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "I was once a beautiful mermaid."}
+  - assert:
+      dialog: {text_contains: "The temple's door is never locked."}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "I'm waiting for you to bring me the elixir of restoration from the evil clerics."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+  - assert: {qbit_set: [110101]}
+  # Back east over X3's edge (the prompt names Rivercity) to X2.
+  - set_pose: {map: xeen_x3.odm, x: 21504, y: 12288, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 12288, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The temple's door: the entrance window, OK.
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd06.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 128, z_min: -40, z_max: 80}}
+  # The arrival (m10.yak_arrival, once).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The Temple of Yak."}}
+  - play_lua: {source: "close()"}
+  # The Yak door, the narthex and the nave.
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(39, 13)"}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # The clerics' wing and down the west stair to the crypt.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3040, y: 3900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -3040, y: 5100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 7150, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The ossuary and the near bank.
+  - walk_to: {x: -2500, y: 8200, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2976, y: 8700, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2500, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1950, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1500, y: 9312, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The causeway: the three buttons, then button 2 again until all three blocks are up.
+  - walk_to: {x: -1480, y: 10080, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        click(10); wait(3); click(11); wait(3); click(12); wait(3)
+        for _ = 1, 3 do
+          if door_state(1) == "open" and door_state(2) == "open" and door_state(3) == "open" then break end
+          click(11); wait(3)
+        end
+        for i = 1, 3 do if door_state(i) ~= "open" then error("block " .. i .. " is not up") end end
+  - walk_to: {x: -1450, y: 9696, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -768, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 100, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The sanctum: the Yak Master; his death raises the reliquary's slab (m10.yak_master).
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 512, y: 11050, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(34, 10)"}
+  - walk_to: {x: 512, y: 11700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - clear_hostiles: {radius: 4000}
+  - play_lua:
+      source: |
+        clear_hostiles(6000)
+        wait(5)
+        if not qbit(110401) then error("yak_master_slain was not set") end
+        if door_state(9) ~= "open" then error("the reliquary did not open on the Master's death") end
+  # The reliquary (event 18): the Elixir of Restoration (its item, F15; q-c12.reliquary sets the bit), then empty.
+  - walk_to: {x: 512, y: 12700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 150, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13620, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13950, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(110400) or has_item(12191) then error('the Elixir before the reliquary') end; click(18); wait(1)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  # F15 (2026-11-21): the Elixir is an ordinary item in the casket; the hook sets elixir_found when it opens.
+  - play_lua:
+      source: |
+        if not take_chest() then error("the reliquary did not open") end
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12191) ~= 1 then error("Elixirs of Restoration in the packs: " .. tostring(item_count(12191))) end
+        if not qbit(110400) then error("elixir_found was not set") end
+  - play_lua: {source: "click(18); wait(1)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        take_chest()
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12191) ~= 1 then error("a second Elixir: " .. tostring(item_count(12191))) end
+  # Back by the Master's stair; his door opens from below; out through the nave to the porch.
+  - walk_to: {x: 512, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 11500, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1200, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2272, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2784, y: 9250, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2784, y: 5450, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(4); if door_state(6) ~= 'open' then error('the Master\\'s door did not open from the stair') end"}
+  - walk_to: {x: 2784, y: 4900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 3000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 20}
+  - assert:
+      dialog: {text_contains: "leave Temple of Yak"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -1024, y: -17840, radius: 160, z_min: 970, z_max: 1130}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12191) ~= 1 then error('the Elixir lost on the way out') end"}
+  # West over X2's edge to X3 again; Mirabeth.
+  - set_pose: {map: xeen_x2.odm, x: -20480, y: 12288, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24064, y: 12288, z: 1664, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x3.odm, x: 11059, y: -8404, z: 900, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 1.0}
+  - clear_hostiles: {radius: 3000}
+  # Each member's base Personality before the kiss.
+  - console: &pers {line: "lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 400 and IsAtLeast(BasePersonality, v + 1) do v = v + 1 end out = out .. v .. ' ' end evt.ForPlayer(Players.Current) evt.StatusText('pers ' .. out)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local line = nil
+        for m in string.gmatch(status() or "", "pers ([%d ]+)") do line = m end
+        if line == nil then error("no pers line") end
+        local i = 0
+        for v in string.gmatch(line, "(%d+)") do remember("p" .. i, tonumber(v)); remember("xp" .. i, experience(i)); i = i + 1 end
+        if i ~= 4 then error("pers parsed " .. i) end
+        remember("gold", gold())
+        log("Personality before Mirabeth: " .. line)
+  # Mirabeth: Elixir (done: the Elixir taken, 2,000 XP and +5 Personality each), Elixir again (never been happier).
+  - interact_actor: {actor_index: 15}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "Thank you so much for getting me the elixir!"}
+  - select_topic: {match_label: "Elixir"}
+  - assert:
+      dialog: {text_contains: "The sea's cold and the fish are rude. I've never been happier."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if held() ~= 0 then stow() end"}
+  - console: *pers
+  - play_lua:
+      source: |
+        local line = nil
+        for m in string.gmatch(status() or "", "pers ([%d ]+)") do line = m end
+        if line == nil then error("no pers line") end
+        log("Personality after Mirabeth: " .. line)
+        local i = 0
+        for v in string.gmatch(line, "(%d+)") do
+          local gain = tonumber(v) - recall("p" .. i)
+          if gain ~= 5 then error("member " .. i .. " Personality +" .. gain .. ", not +5") end
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 2000 then error("member " .. i .. " got " .. xp .. " experience, not 2000") end
+          i = i + 1
+        end
+        if i ~= 4 then error("pers parsed " .. i) end
+        if has_item(12191) then error("Mirabeth did not take the Elixir") end
+        if gold() ~= recall("gold") then error("Mirabeth paid gold: " .. (gold() - recall("gold"))) end
+  - assert: {qbit_set: [112240, 110400]}
+  # She returns to the sea: over the east edge and back, her rock is empty (X3's onLoad event 122).
+  - set_pose: {map: xeen_x3.odm, x: 21504, y: 12288, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: 12288, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x2.odm, x: -20480, y: 12288, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -24064, y: 12288, z: 1664, z_tolerance: 600, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {actor_visible: {actor_index: 15, hidden: true}}
+  - play_lua: {source: "log('Q-C12 done: Mirabeth returned to the sea')"}

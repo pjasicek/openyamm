@@ -1,0 +1,887 @@
+format: 0
+themes:
+  - id: theme:ballroom
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: tws1f, size: [128, 128], scale: 2}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "The ballroom: white marble under grey stone."
+  - id: theme:crossword
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: gn_mtl03, size: [128, 128]}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "The crossword hall: d19's grey stone over a dark slate floor (the crossword's black squares)."
+  - id: theme:game
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: tws1f, size: [128, 128], scale: 2}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "The game rooms: tan marble."
+  - id: theme:machine
+    wall: {texture: swll4dk, size: [128, 256]}
+    floor: {texture: swfloor2b, size: [128, 128], scale: 2}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swll4dk, size: [128, 256]}
+    door: {texture: swdoora, size: [256, 256], fit: true}
+    notes: "The machine floor: the Control Center's dark steel panels, grated floors, riveted ceilings."
+  - id: theme:necro
+    wall: {texture: gnecwal1, size: [256, 256]}
+    floor: {texture: gnecflr, size: [128, 128], scale: 2}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "Sandro's halls and the crossword: d19's grey stone, paved floors with bronze lines."
+  - id: theme:necro_dark
+    wall: {texture: gnecwal3, size: [128, 256]}
+    floor: {texture: gn_mtl03, size: [128, 128]}
+    ceiling: {texture: gnecclg2, size: [128, 256]}
+    reveal: {texture: gnecwal1, size: [256, 256]}
+    door: {texture: gnecdr2, size: [128, 256], fit: true}
+    notes: "The crypt and the bone stair: d19's dark lumpy stone, slate floors."
+  - id: theme:tower
+    wall: {texture: vlcwl2, size: [128, 256]}
+    floor: {texture: vlcflore, size: [128, 128], scale: 2}
+    ceiling: {texture: vlcgnrc1, size: [256, 256]}
+    reveal: {texture: vlcwl2, size: [128, 256]}
+    door: {texture: vlcdora, size: [256, 256]}
+    notes: "The Dragon Tower: 6d04's black basalt columns, grey gravel floors, dark granite ceilings, statue doors."
+  - id: theme:tower_hall
+    wall: {texture: vlcwl4, size: [128, 256]}
+    floor: {texture: vlcflore, size: [128, 128], scale: 2}
+    ceiling: {texture: vlcgnrc1, size: [256, 256]}
+    reveal: {texture: vlcwl2, size: [128, 256]}
+    door: {texture: vlcdora, size: [256, 256]}
+    notes: "The dragons' halls: 6d04's black rock with glowing veins."
+defaults: {theme: theme:tower, ambient: 14}
+rooms:
+  - id: room:alcove
+    name: Alister's alcove
+    outline: [[-1152, -960], [-832, -960], [-832, -576], [-1152, -576]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower
+    ambient: 16
+    notes: "A shallow alcove off the gate hall's west wall where Alister the druid stands (a placed talking monster, peaceful, unkillable); hidden when his paying talk closes (118147)."
+  - id: room:ballroom
+    name: Ballroom
+    outline: [[-1024, 5248], [1024, 5248], [1024, 6272], [-1024, 6272]]
+    floor: -1792
+    ceiling: -1024
+    theme: theme:ballroom
+    ambient: 14
+    notes: "'Ballroom' (aazex122:1): a long hall of white marble under dead chandeliers; four Skeletal Liches; open west and east into the two game rooms (the ring)."
+  - id: room:bone_alcove
+    name: Bone alcove
+    outline: [[768, 1024], [1536, 1024], [1536, 1536], [768, 1536]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    ambient: 12
+    notes: "A dead end off the ring hall: two dead adventurers' bones and their diaries (q-f1.note_fraud, q-f1.note_forever)."
+  - id: room:bone_stair
+    name: Bone stair
+    outline: [[-224, 7680], [224, 7680], [224, 8768], [-224, 8768]]
+    floor: -2560
+    ceiling: -1344
+    theme: theme:necro_dark
+    platforms:
+      - {id: platform:bone_head, rise: 768, surface: {texture: gnecwal3, size: [128, 256]}, outline: [[-224, 7680], [224, 7680], [224, 8000], [-224, 8000]], top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: The bone stair's head.}
+    flights:
+      - {from: [0, 8704], to: [0, 8000], width: 256, steps: 24, notes: 24 steps of 32 down to the gong hall.}
+    ambient: 12
+    notes: A stair of fused bone down 768 to the gongs.
+  - id: room:cellar_stair
+    name: The cellar well
+    outline: [[-224, -448], [224, -448], [224, 1088], [-224, 1088]]
+    floor: -1024
+    ceiling: 512
+    theme: theme:necro_dark
+    platforms:
+      - {id: platform:cellar_head, rise: 1024, surface: {texture: gnecwal3, size: [128, 256]}, outline: [[-224, -448], [224, -448], [224, -128], [-224, -128]], top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: The well's head (z 0) behind Sandro's door.}
+    flights:
+      - {from: [0, 960], to: [0, -128], width: 256, steps: 32, notes: "32 steps of 32 down to the crossword's floor (z -1,024)."}
+    ambient: 12
+    notes: "Behind Sandro's black iron door: a stair well down 1,024 into the Dungeon of Death, its head a landing at the gate hall's floor."
+  - id: room:control
+    name: Control room
+    outline: [[-1856, 10048], [-832, 10048], [-832, 10816], [-1856, 10816]]
+    floor: -2560
+    ceiling: -1856
+    theme: theme:machine
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:terminal, offset: 256, length: 256, bottom: 128, height: 128, surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: The main terminal's screen (trekscrn).}
+      - wall: 2
+        panels:
+          - {id: panel:computer, offset: 416, length: 192, bottom: 0, height: 384, surface: {texture: swpnl, size: [128, 256], fit: true}, notes: A computer cabinet (swpnl).}
+    ambient: 16
+    notes: "'Control Room' (aazex124:13): the main terminal on the west wall, a computer; two Doom Knights."
+  - id: room:crossword
+    name: The crossword
+    outline: [[-1536, 1152], [1536, 1152], [1536, 3200], [-1536, 3200]]
+    floor: -1024
+    ceiling: -256
+    theme: theme:crossword
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:clue_1a, offset: 1160, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 1 Across (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_5a, offset: 392, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 5 Across (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_6a, offset: 1544, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 6 Across (xdplaque, FD-03's bronze plaque reused)."}
+      - wall: 3
+        panels:
+          - {id: panel:clue_13a, offset: 264, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 13 Across (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_21a, offset: 1672, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 21 Across (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_24a, offset: 1032, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 24 Across (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_40a, offset: 520, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 40 Across (xdplaque, FD-03's bronze plaque reused)."}
+      - wall: 2
+        panels:
+          - {id: panel:clue_44d, offset: 1800, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 44 Down (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_45d, offset: 648, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 45 Down (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_47d, offset: 1032, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 47 Down (xdplaque, FD-03's bronze plaque reused)."}
+      - wall: 0
+        panels:
+          - {id: panel:clue_76d, offset: 520, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 76 Down (xdplaque, FD-03's bronze plaque reused)."}
+          - {id: panel:clue_77d, offset: 2568, length: 112, bottom: 144, height: 144, surface: {texture: xdplaque, size: [128, 128], fit: true}, notes: "The clue plaque 77 Down (xdplaque, FD-03's bronze plaque reused)."}
+    ambient: 14
+    notes: "Set piece: a hall 3,072 by 2,048 floored with dark slate, and on it twelve word strips of pale cells (xfgrid) that cross where their letters match; twelve clue plaques round the walls. A solved word lights (xfword and a light under it). Two Lich Lords keep it."
+  - id: room:crown
+    name: The crown
+    outline: [[-1024, -128], [960, -128], [960, 1536], [-1024, 1536]]
+    floor: 3840
+    ceiling: 5888
+    theme: theme:tower_hall
+    bands:
+      - {height: 1152, surface: {texture: vlcwl4, size: [128, 256]}}
+      - {height: 896, surface: {texture: vlcwl2, size: [128, 256]}}
+    ambient: 12
+    notes: "Set piece and the tower's boss: the top hall, 2,048 high, the Energy Dragon and two Phase Dragons before the roof stair's door. Every way out is low (256 x 288)."
+  - id: room:crypt
+    name: Do Not Disturb
+    outline: [[-1792, 4416], [-832, 4416], [-832, 5184], [-1792, 5184]]
+    floor: -1792
+    ceiling: -1280
+    theme: theme:necro_dark
+    platforms:
+      - {id: platform:coffin_1, at: [-1696, 4640], size: [96, 224], rise: 96, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: "A coffin, its lid shut (aazex122:5)."}
+      - {id: platform:coffin_2, at: [-1696, 4960], size: [96, 224], rise: 96, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: "A coffin, its lid shut (aazex122:5)."}
+      - {id: platform:coffin_3, at: [-1248, 5088], size: [192, 96], rise: 96, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: "A coffin, its lid shut (aazex122:5)."}
+      - {id: platform:coffin_4, at: [-1472, 5088], size: [192, 96], rise: 96, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: "A coffin, its lid shut (aazex122:5)."}
+    ambient: 10
+    notes: "Behind the door signed 'Do Not Disturb' (aazex122:4): four coffins that stay shut and a chest (D-57 Q34)."
+  - id: room:descent
+    name: The descent
+    outline: [[-224, 3264], [224, 3264], [224, 4352], [-224, 4352]]
+    floor: -1792
+    ceiling: -576
+    theme: theme:necro_dark
+    platforms:
+      - {id: platform:descent_head, rise: 768, surface: {texture: gnecwal3, size: [128, 256]}, outline: [[-224, 3264], [224, 3264], [224, 3584], [-224, 3584]], top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: "The descent's head (z -1,024)."}
+    flights:
+      - {from: [0, 4288], to: [0, 3584], width: 256, steps: 24, notes: 24 steps of 32 down to Sandro's halls.}
+    ambient: 12
+    notes: The stair down beyond the crossword's gate (768 down to Sandro's halls).
+  - id: room:dormitory
+    name: Old dormitory
+    outline: [[-1536, -512], [-1024, -512], [-1024, 960], [-1536, 960]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:bed_1, at: [-1460, -288], size: [128, 224], rise: 64, surface: {texture: t1beds2, size: [128, 256]}, top_surface: {texture: t1beds2, size: [128, 256]}, notes: An old bed by the wall.}
+      - {id: platform:bed_2, at: [-1460, 32], size: [128, 224], rise: 64, surface: {texture: t1beds2, size: [128, 256]}, top_surface: {texture: t1beds2, size: [128, 256]}, notes: An old bed by the wall.}
+      - {id: platform:bed_3, at: [-1460, 352], size: [128, 224], rise: 64, surface: {texture: t1beds2, size: [128, 256]}, top_surface: {texture: t1beds2, size: [128, 256]}, notes: An old bed by the wall.}
+      - {id: platform:bed_4, at: [-1460, 672], size: [128, 224], rise: 64, surface: {texture: t1beds2, size: [128, 256]}, top_surface: {texture: t1beds2, size: [128, 256]}, notes: An old bed by the wall.}
+    ambient: 14
+    notes: "The tower keepers' old beds by the walls, a chest: a door to the landing and a low opening to the ring hall (the floor-1 loop)."
+  - id: room:fountain
+    name: Fountain
+    outline: [[1088, 8960], [1792, 8960], [1792, 9600], [1088, 9600]]
+    floor: -2560
+    ceiling: -2048
+    theme: theme:necro
+    ambient: 14
+    notes: "A dead end with a fountain: 'Ahh, refreshing!' (aazex123:5), any time."
+  - id: room:game_east
+    name: Game room
+    outline: [[1088, 5248], [2048, 5248], [2048, 6272], [1088, 6272]]
+    floor: -1792
+    ceiling: -1152
+    theme: theme:game
+    platforms:
+      - {id: platform:table_east_1, at: [1952, 5600], size: [128, 256], rise: 96, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: A card table by the wall.}
+      - {id: platform:table_east_2, at: [1952, 5952], size: [128, 256], rise: 96, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: A card table by the wall.}
+    ambient: 14
+    notes: "'Game Room' (aazex122:2-3): card tables by the walls."
+  - id: room:game_west
+    name: Game room
+    outline: [[-2048, 5248], [-1088, 5248], [-1088, 6272], [-2048, 6272]]
+    floor: -1792
+    ceiling: -1152
+    theme: theme:game
+    platforms:
+      - {id: platform:table_west_1, at: [-1952, 5600], size: [128, 256], rise: 96, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: A card table by the wall.}
+      - {id: platform:table_west_2, at: [-1952, 5952], size: [128, 256], rise: 96, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: A card table by the wall.}
+    ambient: 14
+    notes: "'Game Room' (aazex122:2-3): card tables by the walls."
+  - id: room:gate_hall
+    name: Gate hall
+    outline: [[-768, -1536], [768, -1536], [768, -512], [-768, -512]]
+    floor: 0
+    ceiling: 640
+    theme: theme:tower
+    bands:
+      - {height: 160, surface: {texture: vlcwl4, size: [128, 256]}}
+      - {height: 480, surface: {texture: vlcwl2, size: [128, 256]}}
+    ambient: 18
+    notes: "Inside the tower's gate (south wall): black basalt columns glowing at their feet. The arrival from X7 (entrance:x7_gate), quiet; Alister's alcove west, the stair's foot south-west, Sandro's black iron door north at the head of the cellar stair, the short passage east to the scorched hall."
+  - id: room:gong_hall
+    name: Gong hall
+    outline: [[-1024, 8832], [1024, 8832], [1024, 9984], [-1024, 9984]]
+    floor: -2560
+    ceiling: -1856
+    theme: theme:necro
+    walls:
+      - wall: 3
+        panels:
+          - {id: panel:gong_1, offset: 864, length: 256, bottom: 192, height: 256, surface: {texture: xngong, size: [128, 128], fit: true}, notes: Gong 1 (XD-03's xngong).}
+          - {id: panel:gong_2, offset: 288, length: 256, bottom: 192, height: 256, surface: {texture: xngong, size: [128, 128], fit: true}, notes: Gong 2 (XD-03's xngong).}
+      - wall: 1
+        panels:
+          - {id: panel:gong_3, offset: 608, length: 256, bottom: 192, height: 256, surface: {texture: xngong, size: [128, 128], fit: true}, notes: Gong 3 (XD-03's xngong).}
+          - {id: panel:gong_4, offset: 32, length: 256, bottom: 192, height: 256, surface: {texture: xngong, size: [128, 128], fit: true}, notes: Gong 4 (XD-03's xngong).}
+    ambient: 14
+    notes: "Four gongs on the walls (aazex123:0), a lamp under each that lights when it is rung; the lever by the iron shutter north; a chest. 'Touch any treasure and you'll have to start over!'"
+  - id: room:hatchery
+    name: Hatchery
+    outline: [[768, -768], [1536, -768], [1536, 960], [768, 960]]
+    floor: 2560
+    ceiling: 3584
+    theme: theme:tower_hall
+    ambient: 12
+    notes: "Shell shards and scorched straw in a vault 1,024 high, two pairs; joins the landing and the nest (the floor-2 loop). A third dead climber's bones (q-f1.note_balls)."
+  - id: room:high_hall
+    name: High hall
+    outline: [[-1536, -1536], [256, -1536], [256, -192], [-1536, -192]]
+    floor: 3840
+    ceiling: 4992
+    theme: theme:tower_hall
+    ambient: 12
+    notes: "The dragons of the Clouds come down to roost here (Phase Dragons) beside a Frost pair; a low arch (256 x 288) north into the crown keeps the halls' flyers apart."
+  - id: room:landing0
+    name: Stair's foot
+    outline: [[-1536, -1536], [-832, -1536], [-832, -1088], [-1536, -1088]]
+    floor: 0
+    ceiling: 448
+    theme: theme:tower
+    ambient: 14
+    notes: "The foot of the stair that winds up inside the tower's wall; the first ramp leaves it west."
+  - id: room:landing1
+    name: First landing
+    outline: [[-1536, 1024], [-512, 1024], [-512, 1536], [-1536, 1536]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:tower
+    ambient: 14
+    notes: "The stair's first landing: the ramp in from the west, the next ramp out north, a low opening south into the ring hall and the dormitory's door."
+  - id: room:landing2
+    name: Second landing
+    outline: [[384, 1024], [1536, 1024], [1536, 1536], [384, 1536]]
+    floor: 2560
+    ceiling: 3008
+    theme: theme:tower
+    ambient: 14
+    notes: "The stair's second landing: low openings to the nest and the hatchery; the last ramp out east."
+  - id: room:landing3
+    name: Third landing
+    outline: [[320, -1536], [1536, -1536], [1536, -1024], [320, -1024]]
+    floor: 3840
+    ceiling: 4288
+    theme: theme:tower
+    ambient: 14
+    notes: "The stair's top: low openings west into the high hall and north into the Wyrm's gallery."
+  - id: room:last_climber
+    name: The last climber
+    outline: [[-1536, 1024], [-512, 1024], [-512, 1536], [-1536, 1536]]
+    floor: 2560
+    ceiling: 3072
+    theme: theme:tower
+    platforms:
+      - {id: platform:potion_shelf, at: [-1472, 1280], size: [96, 256], rise: 192, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: A shelf against the wall with one flask on it.}
+    ambient: 12
+    notes: "A dead end off the nest: the last climber's bones and note (q-f1.note_eye), the potion on a shelf (q-f1.endurance), a chest."
+  - id: room:machine
+    name: The Lord Xeen Machine
+    outline: [[-1280, 10880], [1280, 10880], [1280, 13440], [-1280, 13440]]
+    floor: -2560
+    ceiling: -1536
+    theme: theme:machine
+    platforms:
+      - {id: platform:machine_base, rise: 32, surface: {texture: swll4dk, size: [128, 256]}, outline: [[-352, 11808], [352, 11808], [352, 12512], [-352, 12512]], top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The engine's plinth.}
+      - {id: platform:machine, at: [0, 12160], size: [384, 384], rise: 640, surface: {texture: swpnl, size: [128, 256], fit: true}, top_surface: {texture: swfloor2b, size: [128, 128]}, base: 32, notes: The Lord Xeen Machine's engine (the destructible).}
+      - {id: platform:core_fire, at: [0, 11520], size: [192, 192], rise: 448, surface: {texture: xcorefire, size: [128, 256], fit: true}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The fire core (XD-19's xcorefire).}
+      - {id: platform:term_fire, at: [256, 11520], size: [192, 64], rise: 96, surface: {texture: trekscrn, size: [128, 64], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The fire core's terminal.}
+      - {id: platform:core_water, at: [640, 12160], size: [192, 192], rise: 448, surface: {texture: xcorewater, size: [128, 256], fit: true}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The water core (XD-19's xcorewater).}
+      - {id: platform:term_water, at: [640, 12416], size: [192, 64], rise: 96, surface: {texture: trekscrn, size: [128, 64], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The water core's terminal.}
+      - {id: platform:core_air, at: [0, 12800], size: [192, 192], rise: 448, surface: {texture: xcoreair, size: [128, 256], fit: true}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The air core (XD-19's xcoreair).}
+      - {id: platform:term_air, at: [-256, 12800], size: [192, 64], rise: 96, surface: {texture: trekscrn, size: [128, 64], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The air core's terminal.}
+      - {id: platform:core_earth, at: [-640, 12160], size: [192, 192], rise: 448, surface: {texture: xcoreearth, size: [128, 256], fit: true}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The earth core (XD-19's xcoreearth).}
+      - {id: platform:term_earth, at: [-640, 11904], size: [192, 64], rise: 96, surface: {texture: trekscrn, size: [128, 64], fit: true}, end_surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: The earth core's terminal.}
+    ambient: 12
+    notes: "Set piece: a hall 2,560 square and 1,024 high round a black and brass engine, an elemental core at each quarter with a terminal. 'Lord Xeen Machine. Destroy?' (aazex124:0)."
+  - id: room:maintenance
+    name: Maintenance
+    outline: [[-768, 10048], [768, 10048], [768, 10816], [-768, 10816]]
+    floor: -2560
+    ceiling: -1856
+    theme: theme:machine
+    platforms:
+      - {id: platform:papers, at: [672, 10432], size: [128, 320], rise: 96, surface: {texture: swll4dk, size: [128, 256]}, top_surface: {texture: swfloor2b, size: [128, 128]}, notes: A steel table with papers.}
+    ambient: 16
+    notes: "'Maintenance' (aazex124:12): racks and a table with papers; two Autobots; ways north to the machine and west to the control room."
+  - id: room:nest
+    name: The nest
+    outline: [[-1536, -1536], [704, -1536], [704, 960], [-1536, 960]]
+    floor: 2560
+    ceiling: 3712
+    theme: theme:tower_hall
+    platforms:
+      - {id: platform:eggs, at: [-416, -288], size: [192, 192], rise: 48, surface: {texture: vlcceila, size: [128, 128]}, top_surface: {texture: vlcceila, size: [128, 128]}, notes: The warm rock in the bowl's middle where the eggs lie.}
+    levels:
+      - id: level:bowl
+        outline: [[-800, -672], [-32, -672], [-32, 96], [-800, 96]]
+        floor: 2464
+        bank: 128
+        edge: {texture: vlcwl2, size: [128, 256]}
+        surface: {texture: vlcceila, size: [128, 128]}
+        notes: "The bowl of black rock, 96 down, its sides sloping."
+    ambient: 12
+    notes: "Set piece: a hall 2,240 by 2,496 and 1,152 high round a bowl of black rock where the eggs lie warm (q-f1.egg). Fire and Frost Dragons over it."
+  - id: room:ramp01
+    name: The stair (first turn)
+    path: [[-1568, -1312, 0], [-1744, -1312, 0], [-1744, 1280, 1280], [-1568, 1280, 1280]]
+    width: 288
+    floor: 0
+    ceiling: 288
+    theme: theme:tower
+    ambient: 12
+    notes: "The stair in the tower's wall, a ramp 288 wide and 288 high up the west side from the foot (z 0) to the first landing (z 1,280): no dragon passes it."
+  - id: room:ramp12
+    name: The stair (second turn)
+    path: [[-1280, 1568, 1280], [-1280, 1744, 1280], [1280, 1744, 2560], [1280, 1568, 2560]]
+    width: 288
+    floor: 1280
+    ceiling: 1568
+    theme: theme:tower
+    ambient: 12
+    notes: "The stair along the north side, from the first landing (z 1,280) to the second (z 2,560)."
+  - id: room:ramp23
+    name: The stair (third turn)
+    path: [[1568, 1280, 2560], [1744, 1280, 2560], [1744, -1280, 3840], [1568, -1280, 3840]]
+    width: 288
+    floor: 2560
+    ceiling: 2848
+    theme: theme:tower
+    ambient: 12
+    notes: "The stair down the east side, from the second landing (z 2,560) to the top floor (z 3,840)."
+  - id: room:ring_hall
+    name: Ring hall
+    outline: [[-960, -1536], [1536, -1536], [1536, 960], [-960, 960]]
+    floor: 1280
+    ceiling: 2432
+    theme: theme:tower_hall
+    pillars:
+      - {at: [288, -288], size: [768, 768], surface: {texture: vlcwl4, size: [128, 256]}}
+    ambient: 12
+    notes: "A hall 2,496 across and 1,152 high round a thick central pier; three pairs of dragons. Low openings (256 x 288) to the landing, the dormitory and the bone alcove."
+  - id: room:roof_stair
+    name: Roof stair
+    outline: [[-1536, -128], [-1088, -128], [-1088, 704], [-1536, 704]]
+    floor: 3840
+    ceiling: 4608
+    theme: theme:tower
+    platforms:
+      - {id: platform:roof_head, rise: 384, surface: {texture: vlcwl2, size: [128, 256]}, outline: [[-1536, 448], [-1088, 448], [-1088, 704], [-1536, 704]], top_surface: {texture: vlcflore, size: [128, 128], scale: 2}, notes: "The roof stair's head (z 4,224) under the hatch: entrance:x9_clouds."}
+    ceiling_levels:
+      - outline: [[-1440, 512], [-1184, 512], [-1184, 672], [-1440, 672]]
+        ceiling: 5120
+        edge: {texture: vlcwl2, size: [128, 256]}
+        surface: {texture: vlcgnrc1, size: [256, 256], sky: true}
+        notes: "The open hatch over the head: the Dragon Clouds' sky (atmosphere.yml)."
+    flights:
+      - {from: [-1312, 96], to: [-1312, 448], width: 256, steps: 12, notes: 12 steps of 32 up to the head.}
+    ambient: 14
+    notes: "Behind the crown's low door: steps up to a head under the open hatch onto the Dragon Clouds (X9). Its head is entrance:x9_clouds. Quiet."
+  - id: room:scorch_pass
+    name: Scorched passage
+    outline: [[800, -848], [1360, -848], [1360, -288], [1072, -288], [1072, -560], [800, -560]]
+    floor: 0
+    ceiling: 288
+    theme: theme:tower
+    ambient: 12
+    notes: "A low passage (288) from the gate hall east, then north round a turn: the scorched hall's opening is out of sight of the gate (D-57 'quiet gate hall')."
+  - id: room:scorched_hall
+    name: Scorched hall
+    outline: [[320, -224], [1536, -224], [1536, 1536], [320, 1536]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:tower_hall
+    platforms:
+      - {id: platform:stall_1, at: [384, 500], size: [128, 640], rise: 160, surface: {texture: vlcwl2, size: [128, 256]}, top_surface: {texture: vlcflore, size: [128, 128], scale: 2}, notes: A stall's low wall of black stone.}
+      - {id: platform:stall_2, at: [1436, 400], size: [128, 640], rise: 160, surface: {texture: vlcwl2, size: [128, 256]}, top_surface: {texture: vlcflore, size: [128, 128], scale: 2}, notes: A stall's low wall of black stone.}
+    ambient: 12
+    notes: "The tower's old stable, scorched to the stone; an Acid pair at its north end, more than 1,024 from its low opening. Bones and a broken lance-rack by the walls."
+  - id: room:shrines_great
+    name: Shrines of Great Evil
+    outline: [[1088, 6336], [2048, 6336], [2048, 7616], [1088, 7616]]
+    floor: -1792
+    ceiling: -1152
+    theme: theme:necro
+    platforms:
+      - {id: platform:shrine_great, at: [1952, 6650], size: [160, 160], rise: 320, surface: {texture: gnecdr2, size: [128, 256], fit: true}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: "The Shrine of Great Evil: a black altar stone with a robed figure."}
+      - {id: platform:shrine_ultimate, at: [1952, 7300], size: [160, 160], rise: 320, surface: {texture: gnecdr2, size: [128, 256], fit: true}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: "The Shrine of Ultimate Evil: a black altar stone with a robed figure."}
+    ambient: 12
+    notes: "The Shrine of Great Evil and the Shrine of Ultimate Evil (q-f2.shrine_great, shrine_ultimate): destructibles against the east wall."
+  - id: room:shrines_lesser
+    name: Shrines of Lesser Evil
+    outline: [[-2048, 6336], [-1088, 6336], [-1088, 7616], [-2048, 7616]]
+    floor: -1792
+    ceiling: -1152
+    theme: theme:necro
+    platforms:
+      - {id: platform:shrine_minor, at: [-1952, 7300], size: [160, 160], rise: 320, surface: {texture: gnecdr2, size: [128, 256], fit: true}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: "The Shrine of Minor Evil: a black altar stone with a robed figure."}
+      - {id: platform:shrine_lesser, at: [-1952, 6650], size: [160, 160], rise: 320, surface: {texture: gnecdr2, size: [128, 256], fit: true}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: "The Shrine of Lesser Evil: a black altar stone with a robed figure."}
+    ambient: 12
+    notes: "The Shrines of Minor and Lesser Evil (q-f2.shrine_minor, shrine_lesser): destructibles against the west wall."
+  - id: room:throne
+    name: Throne of the Dead
+    outline: [[-1024, 6336], [1024, 6336], [1024, 7616], [-1024, 7616]]
+    floor: -1792
+    ceiling: -1024
+    theme: theme:necro
+    platforms:
+      - {id: platform:dais, at: [0, 6496], size: [1024, 256], rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, top_surface: {texture: tws1f, size: [128, 128], scale: 2}, notes: The thrones' dais against the south wall.}
+      - {id: platform:throne_dead, at: [-256, 6432], size: [192, 128], rise: 224, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, base: 64, notes: The Throne of the Dead.}
+      - {id: platform:throne_master, at: [256, 6432], size: [192, 128], rise: 224, surface: {texture: gnecwal3, size: [128, 256]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, base: 64, notes: The Master's Throne.}
+      - {id: platform:note_table, at: [-928, 7400], size: [128, 256], rise: 96, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: gnecstpt, size: [128, 64]}, notes: A table by the west wall with Sandro's note.}
+    ambient: 14
+    notes: "Two thrones on a dais (the Throne of the Dead and the Master's Throne, aazex122:8-10), two Doom Knights; Sandro's note on the table (q-f2.note). Both shrine galleries meet here."
+  - id: room:tome_room
+    name: Tome room
+    outline: [[-1536, 768], [-1088, 768], [-1088, 1536], [-1536, 1536]]
+    floor: 3840
+    ceiling: 4352
+    theme: theme:tower
+    platforms:
+      - {id: platform:tome_stand, at: [-1312, 1440], size: [160, 96], rise: 128, surface: {texture: t1books1, size: [128, 128]}, top_surface: {texture: t1books1, size: [128, 128]}, notes: The Tome of Great Experience on a stand of black stone.}
+      - {id: platform:tome_bed, at: [-1460, 976], size: [128, 256], rise: 64, surface: {texture: t1beds2, size: [128, 256]}, top_surface: {texture: t1beds2, size: [128, 256]}, notes: A bed.}
+    ambient: 14
+    notes: "A dead end behind a door off the crown: a bed, the Tome of Great Experience on its stand (q-f1.tome), a chest."
+  - id: room:welcome
+    name: Welcome hall
+    outline: [[-768, 4416], [768, 4416], [768, 5184], [-768, 5184]]
+    floor: -1792
+    ceiling: -1152
+    theme: theme:necro
+    ambient: 14
+    notes: "A necromancer's front hall ('Welcome', aazex122:0): the double doors north to the ballroom, Do Not Disturb west; two Lich Lords."
+  - id: room:wyrm_gallery
+    name: Wyrm's gallery
+    outline: [[1024, -960], [1536, -960], [1536, 1536], [1024, 1536]]
+    floor: 3840
+    ceiling: 4224
+    theme: theme:tower
+    walls:
+      - wall: 1
+        panels:
+          - {id: panel:wyrm_door, offset: 1344, length: 256, bottom: 0, height: 320, surface: {texture: vlcdora, size: [256, 256], fit: true}, notes: "The Wyrm's Hall's great door (house 4853, Ashkaroth)."}
+    ambient: 14
+    notes: "A gallery 384 high along the outer wall with the Wyrm's Hall's great door (door:wyrm_hall, house 4853: Ashkaroth). Quiet; joins the landing and the crown (the floor-3 loop)."
+openings:
+  - id: open:ball_east
+    from: room:ballroom
+    to: room:game_east
+    from_wall: 1
+    to_wall: 3
+    link: link:ball_east
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:ball_west
+    from: room:ballroom
+    to: room:game_west
+    from_wall: 3
+    to_wall: 1
+    link: link:ball_west
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:cellar_crossword
+    from: room:cellar_stair
+    to: room:crossword
+    from_wall: 2
+    to_wall: 0
+    link: link:cellar_down
+    along: 0.5
+    width: 384
+    height: 512
+  - id: open:control_machine
+    from: room:control
+    to: room:machine
+    from_wall: 2
+    to_wall: 0
+    link: link:control_machine
+    along: 0.5
+    width: 256
+    height: 448
+  - id: open:crossword_descent
+    from: room:crossword
+    to: room:descent
+    from_wall: 2
+    to_wall: 0
+    link: link:crossword_descent
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:crown_roof
+    from: room:crown
+    to: room:roof_stair
+    from_wall: 3
+    to_wall: 1
+    link: link:crown_roof
+    along: 0.8173
+    width: 256
+    height: 256
+  - id: open:crown_tome
+    from: room:crown
+    to: room:tome_room
+    from_wall: 3
+    to_wall: 1
+    link: link:crown_tome
+    along: 0.5
+    width: 256
+    height: 256
+  - id: open:descent_welcome
+    from: room:descent
+    to: room:welcome
+    from_wall: 2
+    to_wall: 0
+    link: link:descent_welcome
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:dorm_ring
+    from: room:dormitory
+    to: room:ring_hall
+    from_wall: 1
+    to_wall: 3
+    link: link:ring_dorm
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:east_great
+    from: room:game_east
+    to: room:shrines_great
+    from_wall: 2
+    to_wall: 0
+    link: link:east_great
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:foot_ramp
+    from: room:landing0
+    to: room:ramp01
+    from_wall: 3
+    to_wall: 7
+    link: link:foot_ramp
+    width: 256
+    height: 288
+  - id: open:gallery_crown
+    from: room:wyrm_gallery
+    to: room:crown
+    from_wall: 3
+    to_wall: 1
+    link: link:gallery_crown
+    along: 0.4615
+    width: 256
+    height: 288
+  - id: open:gate_alcove
+    from: room:gate_hall
+    to: room:alcove
+    from_wall: 3
+    to_wall: 1
+    link: link:gate_alcove
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:gate_cellar
+    from: room:gate_hall
+    to: room:cellar_stair
+    from_wall: 2
+    to_wall: 0
+    link: link:gate_crossword
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:gate_foot
+    from: room:gate_hall
+    to: room:landing0
+    from_wall: 3
+    to_wall: 1
+    link: link:gate_up
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:gate_pass
+    from: room:gate_hall
+    to: room:scorch_pass
+    from_wall: 1
+    to_wall: 5
+    link: link:gate_scorched
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:gongs_fountain
+    from: room:gong_hall
+    to: room:fountain
+    from_wall: 1
+    to_wall: 3
+    link: link:gongs_fountain
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:gongs_maint
+    from: room:gong_hall
+    to: room:maintenance
+    from_wall: 2
+    to_wall: 0
+    link: link:gongs_maint
+    along: 0.5
+    width: 384
+    height: 448
+  - id: open:great_throne
+    from: room:shrines_great
+    to: room:throne
+    from_wall: 3
+    to_wall: 1
+    link: link:great_throne
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:hatch_nest
+    from: room:hatchery
+    to: room:nest
+    from_wall: 3
+    to_wall: 1
+    link: link:nest_hatch
+    along: 0.4259
+    width: 256
+    height: 288
+  - id: open:high_crown
+    from: room:high_hall
+    to: room:crown
+    from_wall: 2
+    to_wall: 0
+    link: link:high_crown
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:l1_dorm
+    from: room:landing1
+    to: room:dormitory
+    from_wall: 0
+    to_wall: 2
+    link: link:dorm_l1
+    along: 0.5
+    width: 256
+    height: 256
+  - id: open:l1_ramp
+    from: room:landing1
+    to: room:ramp12
+    from_wall: 2
+    to_wall: 7
+    link: link:l1_ramp
+    width: 256
+    height: 288
+  - id: open:l1_ring
+    from: room:landing1
+    to: room:ring_hall
+    from_wall: 0
+    to_wall: 2
+    link: link:l1_ring
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:l2_hatch
+    from: room:landing2
+    to: room:hatchery
+    from_wall: 0
+    to_wall: 2
+    link: link:hatch_l2
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:l2_nest
+    from: room:landing2
+    to: room:nest
+    from_wall: 0
+    to_wall: 2
+    link: link:l2_nest
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:l2_ramp
+    from: room:landing2
+    to: room:ramp23
+    from_wall: 1
+    to_wall: 7
+    link: link:l2_ramp
+    width: 256
+    height: 288
+  - id: open:l3_gallery
+    from: room:landing3
+    to: room:wyrm_gallery
+    from_wall: 2
+    to_wall: 0
+    link: link:l3_gallery
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:l3_high
+    from: room:landing3
+    to: room:high_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:l3_high
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:lesser_throne
+    from: room:shrines_lesser
+    to: room:throne
+    from_wall: 1
+    to_wall: 3
+    link: link:lesser_throne
+    along: 0.5
+    width: 320
+    height: 448
+  - id: open:maint_control
+    from: room:maintenance
+    to: room:control
+    from_wall: 3
+    to_wall: 1
+    link: link:maint_control
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:maint_machine
+    from: room:maintenance
+    to: room:machine
+    from_wall: 2
+    to_wall: 0
+    link: link:maint_machine
+    along: 0.5
+    width: 384
+    height: 448
+  - id: open:nest_dead
+    from: room:nest
+    to: room:last_climber
+    from_wall: 2
+    to_wall: 0
+    link: link:nest_dead
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:pass_scorched
+    from: room:scorch_pass
+    to: room:scorched_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:scorch_hall
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:ramp_l1
+    from: room:ramp01
+    to: room:landing1
+    from_wall: 3
+    to_wall: 3
+    link: link:ramp_l1
+    width: 256
+    height: 288
+  - id: open:ramp_l2
+    from: room:ramp12
+    to: room:landing2
+    from_wall: 3
+    to_wall: 2
+    link: link:ramp_l2
+    width: 256
+    height: 288
+  - id: open:ramp_l3
+    from: room:ramp23
+    to: room:landing3
+    from_wall: 3
+    to_wall: 1
+    link: link:ramp_l3
+    width: 256
+    height: 288
+  - id: open:ring_bones
+    from: room:ring_hall
+    to: room:bone_alcove
+    from_wall: 2
+    to_wall: 0
+    link: link:ring_bones
+    along: 0.5
+    width: 256
+    height: 288
+  - id: open:stair_gongs
+    from: room:bone_stair
+    to: room:gong_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:stair_gongs
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:throne_stair
+    from: room:throne
+    to: room:bone_stair
+    from_wall: 2
+    to_wall: 0
+    link: link:throne_stair
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:welcome_ball
+    from: room:welcome
+    to: room:ballroom
+    from_wall: 2
+    to_wall: 0
+    link: link:welcome_ball
+    along: 0.5
+    width: 384
+    height: 448
+  - id: open:welcome_crypt
+    from: room:welcome
+    to: room:crypt
+    from_wall: 3
+    to_wall: 1
+    link: link:welcome_crypt
+    along: 0.5
+    width: 256
+    height: 384
+  - id: open:west_lesser
+    from: room:game_west
+    to: room:shrines_lesser
+    from_wall: 2
+    to_wall: 0
+    link: link:west_lesser
+    along: 0.5
+    width: 320
+    height: 448
+notes: "FD-04 Dragon Tower and the Dungeon of Death: x east, y north; the tower's four floors 1,280 apart (z 0 to 3,840) in a square of 3,072 with the stair winding up in its wall; the Dungeon of Death north of it and under it (z -1,024, -1,792, -2,560). Written by output/studio_cal/fd04/tools/gen.py."

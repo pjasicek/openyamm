@@ -1,0 +1,163 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-09
+key: xd09
+name: Golem Dungeon
+stands_on: X5 Winterkill Tundra
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [16, 18]
+monsters:
+  levels: [18, 40]
+  boss: Diamond Golem 50
+  count: 45
+  groups: [1, 2]
+  families:
+    - "Material golems: Wood 18 (23), Stone 26 (14), Iron 40 (7), Diamond Golem 50 (boss row)"
+treasure: {level: 3, hoard: 4}
+role: "Story M10: five King's Megacredits (proposed; the source holds 14); the title Master of Golems"
+role_short: "Story M10"
+set_piece: "A plaque hall with four doors and the source's rhyme; three material puzzles in order: cut the wood's branches, expose six glowing rocks among stone blocks, set the iron tumblers; the Diamond Golem"
+floors:
+  - {floor: 1, name: "Home of the Stone", height: 512}
+  - {floor: 0, name: "Plaque hall, Wood, Iron", height: 0}
+  - {floor: -1, name: "Home of the Diamond", height: -640}
+spaces:
+  # floor 1: stone
+  - {id: room:quarry_w, name: West quarry gallery, kind: corridor, size: M, floor: 1, at: [2, 0], monsters: 2,
+     population: [{family: Material golems, count: 2, strength: heavy, rank: b}],
+     purpose: "A gallery above the block field; you see which blocks are pushed."}
+  - {id: room:quarry, name: The block field, kind: hall, size: L, floor: 1, at: [3, 0], set_piece: true, monsters: 5,
+     population: [{family: Material golems, count: 5, strength: heavy, rank: b}],
+     purpose: "Nine stone blocks on a grid of slots; pushing one slides it into the empty slot beside it; six cover glowing rocks."}
+  - {id: room:quarry_e, name: East quarry gallery, kind: corridor, size: M, floor: 1, at: [4, 0], monsters: 2,
+     population: [{family: Material golems, count: 2, strength: heavy, rank: b}],
+     purpose: "The other side of the field."}
+  - {id: room:mason, name: "Masons' store", kind: room, size: S, floor: 1, at: [5, 0], chest: 3, monsters: 3,
+     population: [{family: Material golems, count: 3, strength: heavy, rank: b}],
+     purpose: "Chisels and a chest."}
+  - {id: room:stone_stair, name: Stone stair, kind: stair, size: S, floor: 1, at: [3, 1], monsters: 2,
+     population: [{family: Material golems, count: 2, strength: heavy, rank: b}],
+     purpose: "Up from the plaque hall's Stone door."}
+  # floor 0: wood (west), hub, iron (east)
+  - {id: room:branch_hn, name: "High branch, north", kind: room, size: M, floor: 0, at: [1, 0], monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "A branch-end: a living bough across the wall. 'Cut?'"}
+  - {id: room:branch_ln, name: "Low branch, north", kind: room, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "A branch-end bough to cut; a canopy walk to the high branch."}
+  - {id: room:tumbler_n, name: North tumbler, kind: room, size: S, floor: 0, at: [4, 0], monsters: 1,
+     population: [{family: Material golems, count: 1, strength: heavy, rank: c}],
+     purpose: "Tumbler lever 1; through a slot you see its bolt in the great lock."}
+  - {id: room:furnace, name: Furnace passage, kind: corridor, size: M, floor: 0, at: [5, 0], monsters: 1,
+     population: [{family: Material golems, count: 1, strength: heavy, rank: c}],
+     purpose: "Hot iron pipes behind the lock hall."}
+  - {id: room:heartwood, name: Heartwood, kind: room, size: S, floor: 0, at: [0, 1], chest: 3, monsters: 2,
+     population: [{family: Material golems, count: 2, strength: pack, rank: a}],
+     purpose: "The tree's heart: a seed chest."}
+  - {id: room:crown, name: The crown, kind: room, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "Where the trunk splits into the high branches."}
+  - {id: room:trunk, name: The trunk, kind: hall, size: L, floor: 0, at: [2, 1], set_piece: true, monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "Home of the Wood: a long hall carved like a tree's trunk; branches off both sides."}
+  - {id: room:hub, name: Hall of the Plaque, kind: hall, size: L, floor: 0, at: [3, 1], set_piece: true, monsters: 3,
+     population: [{family: Material golems, count: 3, strength: light, rank: a}],
+     purpose: "The statue and its rhyme; four plaque doors: Wood (open), Stone, Iron, and Diamond, which opens from the vault's stair by the entry."}
+  - {id: room:forge, name: Iron forge, kind: room, size: L, floor: 0, at: [4, 1], chest: 3, monsters: 2,
+     population: [{family: Material golems, count: 2, strength: heavy, rank: c}],
+     purpose: "Home of the Iron: anvils and a cooling trough; the Iron Key in the forge chest."}
+  - {id: room:lock_hall, name: Hall of the Great Lock, kind: hall, size: L, floor: 0, at: [5, 1], set_piece: true, monsters: 1,
+     population: [{family: Material golems, count: 1, strength: heavy, rank: c}],
+     purpose: "A lock as big as a door in the floor, three bolts in view; tumbler lever 2 here."}
+  - {id: room:tumbler_e, name: East tumbler, kind: room, size: S, floor: 0, at: [6, 1], monsters: 1,
+     population: [{family: Material golems, count: 1, strength: heavy, rank: c}],
+     purpose: "Tumbler lever 3."}
+  - {id: room:branch_hs, name: "High branch, south", kind: room, size: M, floor: 0, at: [1, 2], monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "A branch-end bough to cut."}
+  - {id: room:branch_ls, name: "Low branch, south", kind: room, size: M, floor: 0, at: [2, 2], monsters: 3,
+     population: [{family: Material golems, count: 3, strength: pack, rank: a}],
+     purpose: "A branch-end bough to cut; a canopy walk to the high branch."}
+  - {id: room:entry, name: Entry stair, kind: stair, size: S, floor: 0, at: [4, 2], monsters: 0,
+     purpose: "Down from the door the Golem Stone opened; the Diamond door's stair arrives here."}
+  # floor -1: diamond
+  - {id: room:diamond_vault, name: Diamond vault, kind: room, size: S, floor: -1, at: [3, 0], chest: 4, goal: true, monsters: 0,
+     purpose: "The hoard (tier 4) with the Megacredits; the plaque 'Master of Golems I now dub thee.'"}
+  - {id: room:diamond_hall, name: Diamond hall, kind: hall, size: L, floor: -1, at: [4, 0], boss: true, boss_label: "Diamond Golem 50",
+     monsters: 2, population: [{actor: Diamond Golem, level: 50, role: boss, placed: true, strength: boss}, {family: Material golems, count: 1, strength: heavy, rank: c}],
+     purpose: "Crystal pillars; the Diamond Golem; its death opens the vault."}
+  - {id: room:diamond_stair, name: Diamond stair, kind: stair, size: S, floor: -1, at: [5, 0], monsters: 0,
+     purpose: "Below the great lock."}
+links:
+  - {id: link:entry_hub, from: room:entry, to: room:hub, kind: open}
+  - {id: link:hub_trunk, from: room:hub, to: room:trunk, kind: door, label: "Home of the Wood"}
+  - {id: link:trunk_crown, from: room:trunk, to: room:crown, kind: open}
+  - {id: link:crown_heart, from: room:crown, to: room:heartwood, kind: open}
+  - {id: link:trunk_ln, from: room:trunk, to: room:branch_ln, kind: open}
+  - {id: link:trunk_ls, from: room:trunk, to: room:branch_ls, kind: open}
+  - {id: link:crown_hn, from: room:crown, to: room:branch_hn, kind: open}
+  - {id: link:crown_hs, from: room:crown, to: room:branch_hs, kind: open}
+  - {id: link:canopy_n, from: room:branch_ln, to: room:branch_hn, kind: open, notes: "Canopy walk, opened when both boughs are cut."}
+  - {id: link:canopy_s, from: room:branch_ls, to: room:branch_hs, kind: open}
+  - {id: link:hub_stone, from: room:hub, to: room:stone_stair, kind: stair, label: "Stone door: 4 branches cut",
+     opened_by: state:branches}
+  - {id: link:sstair_qw, from: room:stone_stair, to: room:quarry_w, kind: open}
+  - {id: link:sstair_qe, from: room:stone_stair, to: room:quarry_e, kind: open}
+  - {id: link:qw_quarry, from: room:quarry_w, to: room:quarry, kind: open}
+  - {id: link:quarry_qe, from: room:quarry, to: room:quarry_e, kind: open}
+  - {id: link:qe_mason, from: room:quarry_e, to: room:mason, kind: door}
+  - {id: link:hub_forge, from: room:hub, to: room:forge, kind: door, label: "Iron door: 6 rocks bare",
+     opened_by: state:rocks}
+  - {id: link:forge_tn, from: room:forge, to: room:tumbler_n, kind: open}
+  - {id: link:tn_furnace, from: room:tumbler_n, to: room:furnace, kind: open}
+  - {id: link:furnace_lock, from: room:furnace, to: room:lock_hall, kind: open}
+  - {id: link:forge_lock, from: room:forge, to: room:lock_hall, kind: door}
+  - {id: link:lock_te, from: room:lock_hall, to: room:tumbler_e, kind: open}
+  - {id: link:great_lock, from: room:lock_hall, to: room:diamond_stair, kind: locked, label: "Iron Key + 3 tumblers",
+     condition: {all: [{item: iron_key}, {map_var: tumblers_set}]}, opened_by: state:iron_key}
+  - {id: link:dstair_dhall, from: room:diamond_stair, to: room:diamond_hall, kind: open}
+  - {id: link:dhall_vault, from: room:diamond_hall, to: room:diamond_vault, kind: door, label: "Diamond Golem slain",
+     opened_by: state:diamond}
+  - {id: link:vault_entry, from: room:diamond_vault, to: room:entry, kind: one_way, label: "Diamond door, from below",
+     opened_by: state:return}
+states:
+  - {id: state:golem_stone, kind: item, where: "Newcastle, Ebenezer (M11)", what: "The Golem Stone of Admittance opens the door on X5.", opens: []}
+  - {id: state:branches, kind: puzzle, where: room:hub,
+     what: "'Cut the branches and return to me': cut the four boughs (indoor destructibles; the plaque counts them: 'Three branches remain.'), then touch the statue: the Stone door opens.",
+     opens: [link:hub_stone]}
+  - {id: state:rocks, kind: puzzle, where: room:quarry,
+     what: "'Push them around, expose six rocks': a block slides into an empty slot next to it when pushed; six of nine slots hide a glowing rock; each bare rock lights a lamp over the Iron door (seen from the galleries).",
+     opens: [link:hub_forge], draw: false}
+  - {id: state:iron_key, kind: item, where: room:forge, what: "The Iron Key in the forge chest.", opens: [link:great_lock]}
+  - {id: state:tumblers, kind: puzzle, where: room:lock_hall,
+     what: "'Set the tumblers and you'll be free': three two-way levers (north tumbler, lock hall, east tumbler); a right lever draws its bolt back, seen from the lever. All three back and the key turned: the lock opens.",
+     opens: [link:great_lock]}
+  - {id: state:diamond, kind: kill, where: room:diamond_hall, what: "The Diamond Golem's death raises the vault door.", opens: [link:dhall_vault]}
+  - {id: state:return, kind: lever, where: room:diamond_vault, what: "The vault's stair to the Diamond door, opened from below.", opens: [link:vault_entry], draw: false}
+exits:
+  - {id: exit:x5_door, space: room:entry, at: [3, 2], kind: both, label: "X5: Troll Forest door",
+     neighbour: "Door on X5 in the Troll Forest (source B4 11,9); needs the Golem Stone"}
+critical_path: [room:entry, room:hub, room:trunk, room:branch_ln, room:branch_ls, room:crown, room:branch_hn, room:branch_hs, room:crown,
+  room:trunk, room:hub, room:stone_stair, room:quarry_w, room:quarry, room:quarry_e, room:stone_stair, room:hub, room:forge,
+  room:tumbler_n, room:furnace, room:lock_hall, room:tumbler_e, room:lock_hall, room:diamond_stair, room:diamond_hall, room:diamond_vault]
+return_path: [room:diamond_vault, room:entry]
+loops:
+  - {id: loop:canopy_n, spaces: [room:trunk, room:branch_ln, room:branch_hn, room:crown], notes: "The north canopy."}
+  - {id: loop:canopy_s, spaces: [room:trunk, room:branch_ls, room:branch_hs, room:crown], notes: "The south canopy."}
+  - {id: loop:quarry, spaces: [room:stone_stair, room:quarry_w, room:quarry, room:quarry_e], notes: "Round the block field."}
+  - {id: loop:iron, spaces: [room:forge, room:tumbler_n, room:furnace, room:lock_hall], notes: "Round the forge."}
+lines:
+  - {text: "A plaque at the base of the statue reads:  Solve the wood, it's like a tree Cut the branches and return to me Next is stone, it's full of blocks Push them around, expose six rocks Last is iron, there is a key Set the tumblers and you'll be free.", ref: "aaze0081:0", where: room:hub}
+  - {text: "A plaque at the base of the statue reads: Home of the Wood / Stone / Iron / Diamond", ref: "aaze0081:2-5", where: "room:hub, its four doors"}
+  - {text: "Stone Block - Glowing Rock", ref: "aaze0081:12", where: room:quarry}
+  - {text: "Written on a plaque: All is set, it is plain to see Master of Golems I now dub thee.", ref: "aaze0081:1", where: room:diamond_vault}
+  - {text: "King's Megacredit!", ref: "aaze0081:11", where: room:diamond_vault}
+  - {text: "Exit Golem Dungeon?", ref: "aaze0081:10", where: room:entry}
+open_questions:
+  - "The source gives +1 level for Master of Golems; the rules forbid +levels. Proposed: the title as a party award plus quest experience (A3)."
+  - "Kill XP with 23 wood, 14 stone, 7 iron and the Diamond Golem is about 10.8k per member, 12 % over MAPS's 9.6k (inside the 15 % rule). Trim iron golems to 5 if A2 wants the number."
+  - "The block field as a sliding puzzle (blocks move only into an empty neighbour slot) needs one mover per block and slot pair. Simpler fallback: every block slides aside when pushed and six of nine hide rocks (a search, not a puzzle). Which?"
+  - "The branches as indoor destructibles (`destructibles`, exists) and the tumblers as two-way levers whose bolts are seen: both with existing words. Confirm."
+  - "XD-09 stands on X5, set for party 24-28, while the dungeon is 16-18: the party walks through a harder map to reach it. Keep the door near X5's east edge (by X3) and out of the cyclops corner."

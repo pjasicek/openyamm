@@ -1,0 +1,46 @@
+# One map edge, two destinations (decision D-11.6; the world table edge_spans.yml, game/tables/MapStats.h MapEdgeSpan):
+# X4's south edge west of x 0 leads to X3's north arrival, east of it to X2's north start; X3's north edge to X4's
+# x 36 arrival. The party is placed between X4's (X3's) barrier and the edge and walks off it. A1, merge point 9.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/edge_spans.yml --scenario-no-color
+id: xeen.a1.edge_spans
+title: "A1: X4's south edge leads to X3 west of x 0 and to X2 east of it (edge_spans, D-11.6)"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x4.odm
+      party:
+        gold: 200
+        food: 40
+        members:
+          - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # West of x 0, between the barrier (y 107.5) and the edge: X3, at its north arrival.
+  - set_pose: {map: xeen_x4.odm, x: -8000, y: -22750, z: 3000, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: -8000, y: -24000, z: 1000, z_tolerance: 3000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - assert: {party_position: {x: -7168, y: 22016, radius: 300}}
+  # X3's north edge: X4 at x 36.
+  - set_pose: {map: xeen_x3.odm, x: -14000, y: 22950, z: 3000, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: -14000, y: 24000, z: 1000, z_tolerance: 3000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -14336, y: -22016, radius: 300}}
+  # East of x 0: X2, at its north start.
+  - set_pose: {map: xeen_x4.odm, x: 16000, y: -22750, z: 3000, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 2}
+  - walk_to: {x: 16000, y: -24000, z: 1000, z_tolerance: 3000, radius: 128, timeout_seconds: 30, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "log('X2 arrival: ' .. party())"}

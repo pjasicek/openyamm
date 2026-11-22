@@ -1,0 +1,170 @@
+# The test (D-58 C3, C4, P-1).
+# Written by output/studio_cal/p1/tools/gen_playtests.py; run with --world xeen --map xeen_p1.blv.
+id: xeen.p1.l4.test
+title: 'Plane of Fire (P1): the test raises the guardians, their deaths set 111764 and open the gate, kept over a reload'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p1.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p1.blv
+- set_pose:
+    map: xeen_p1.blv
+    x: 256
+    y: 1728
+    z: 260
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 2600
+- advance_runtime:
+    seconds: 1
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- play_lua:
+    source: 'if door_state(1) == ''open'' then error(''the gate is open: '' .. door_state(1)) end'
+- note: 'Onto the test''s plate: ''Accept the test of Fire?'' Yes.'
+- walk_to:
+    x: 256
+    y: 2048
+    z: 262
+    z_tolerance: 60
+    radius: 48
+    timeout_seconds: 20
+    expect: dialog
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+- play_lua:
+    source: close(); wait(0.5); close()
+- assert:
+    actor_visible:
+      actor_index: 3
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 4
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: false
+- play_lua:
+    source: if qbit(111764) then error('the test qbit is set before the guardians die') end
+- play_lua:
+    source: 'if door_state(1) == ''open'' then error(''the gate is open: '' .. door_state(1)) end'
+- note: 'The three guardians die (the scenario strikes them): Xeen.planeTestCheck sets 111764.'
+- damage_actor:
+    actor_index: 3
+    amount: 1000000
+- damage_actor:
+    actor_index: 4
+    amount: 1000000
+- damage_actor:
+    actor_index: 5
+    amount: 1000000
+- advance_runtime:
+    seconds: 3
+- play_lua:
+    source: close(); wait(0.5); close()
+- play_lua:
+    source: if not qbit(111764) then error('qbit 111764 not set after the kill') end
+- advance_runtime:
+    seconds: 6
+- play_lua:
+    source: 'if door_state(1) ~= ''open'' then error(''the gate: '' .. door_state(1)) end'
+- note: Through the gate into the Sleeper's Hall.
+- walk_to:
+    x: -1200
+    y: 3950
+    z: 256
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -2600
+    y: 4090
+    z: 380
+    z_tolerance: 160
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- walk_to:
+    x: -3300
+    y: 4096
+    z: 384
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 0
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -3300
+      y: 4096
+      radius: 200
+      z_min: 360
+      z_max: 420
+- note: 'A save and a reload: the gate open, the guardians dead and hidden.'
+- reload: {}
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: 'if not qbit(111764) then error(''qbit lost'') end; if door_state(1) ~= ''open'' then error(''gate after the reload:
+      '' .. door_state(1)) end'
+- assert:
+    actor_visible:
+      actor_index: 3
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 4
+      dead: true
+- assert:
+    actor_visible:
+      actor_index: 5
+      dead: true

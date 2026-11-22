@@ -1,0 +1,53 @@
+# Q-C11 Crystals of Piezoelectricity (QUESTS 2.1; the crystals lie behind Asp's transformer, Q-C5). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. The source pays the Megavolts spell; an item of treasure level 3.
+id: Q-C11
+title: Crystals of Piezoelectricity
+act: II
+kind: side
+status: full
+giver: 4304          # Falagar the Wizard (A4: towns/x4.yml)
+maps: [X4, XD-25]
+level: 18
+block: 61
+after: []
+source: "QUESTS Q-C11; xeen/aaze0010:15-17"
+
+qbits:
+  started: {id: 112220, journal: "Falagar the Wizard's Crystals of Piezoelectricity were taken. He thinks they power a machine under Asp.", until: [done]}
+  done: {id: 112221}
+  crystals_found: {id: 112222}
+
+items:
+  piezo_crystals: "the Crystals of Piezoelectricity; the transformer's housing in XD-25; Falagar takes them."
+
+npcs:
+  4304:              # Falagar
+    topics:
+      - n: 1
+        label: Crystals
+        states:
+          - when: {qbit: done}
+            text: "Carlawna is my sister, by the way. She never tells anyone. I tell everyone."
+          - when: {item: piezo_crystals}
+            text: "Thank the Gods! You've recovered the crystals. You are truly great adventurers. As a reward, take this. A wizard's house is full of things a wizard has stopped using."
+            do: [{take: piezo_crystals}, {set: done}, {clear: started}, {xp: 3000}, {treasure: 3}]
+          - when: {qbit: started}
+            text: "You haven't brought me my Crystals of Piezoelectricity. Perhaps they are in Asp."
+          - text: "This region is in a lot of danger. First, my sister Carlawna's Scarab of Imaging was stolen, and now my Crystals of Piezoelectricity have been taken. Last night I remembered a story told to me as a boy about a strange machine that produced reptile creatures. This machine could be powered by using Crystals of Piezoelectricity and a Scarab of Imaging. I never gave much validity to the story because a mad wizard told it to me, but now I can't help but think it's true. Get my Crystals back and there will be a reward."
+            do: [{set: started}]
+
+hooks:
+  crystals:
+    map: XD-25
+    gate: order
+    where: "the crystal housing behind the transformer: loose once the machine is broken"
+    requires: {qbit: q-c5.done}
+    fail_text: "The crystal housing is shut tight while the machine hums."
+    sets: [crystals_found]
+    gives: [piezo_crystals]
+    once: true
+    text: "In the housing, still warm: a cluster of blue crystals that crackle when you touch them. Falagar's, no doubt."
+    else_text: "The housing is empty."
+
+rewards: {xp: 3000, gold: 0}
+playthrough: "X4: Falagar (Crystals). XD-25 after the transformer: the crystal housing. X4: Falagar (Crystals)."

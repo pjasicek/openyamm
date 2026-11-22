@@ -1,0 +1,28 @@
+# D-25 Q7's scope check (lane A7, agent:xeen-a7-dd11): Hobstadt's tribute and trial befriend the Troll Holes' trolls
+# only. On X5 Winterkill Tundra (installed) the Troll Forest's trolls (A2's Trolls rows 11070-11072, faction
+# xeen_trolls) stay hostile with both 113261 and 113262 set, and after a save and load. The pockets' side is
+# playtest_hostility.yml's (DD-11A/B/C).
+id: xeen.dd11c.l4.x5_trolls
+title: "Hobstadt's tribute and trial leave X5's trolls hostile (D-25 Q7)"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 113261, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 113262, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11070, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11071, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11070, hostile: true, min: 1}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11070, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11070, hostile: true, min: 1}}

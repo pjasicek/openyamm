@@ -1,0 +1,29 @@
+# The Warzone's way out by the gate passage (XD-20): the arena gate's leaves (evt:yard_l, 8) to X6's named arrival
+# entrance:xd20_gate in the coach yard, (12288, -15872, 1504) facing west. Leaving a BLV for an ODM asks for
+# confirmation (OK).
+id: xeen.xd20.l4.exit
+title: The Warzone (XD-20 L4), out by the gate passage to X6's coach yard
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd20.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_xd20.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 256, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 110, y: -96, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 8}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - assert: {party_position: {x: 12288, y: -15872, radius: 150, z_min: 1490, z_max: 1530}}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: 12288, y: -15872, radius: 200, z_min: 1490, z_max: 1530}}

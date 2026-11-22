@@ -1,0 +1,42 @@
+# D-32 check of Castle Kalindra (DD-03, L4; lane A8, 2026-11-20): with Xeen's levelRadiusLimit 60 a wide monster
+# routes at radius 60 indoors, so the dragons are kept in by low openings. Scraps (11673) waits in his kennel at -1152
+# under a stair 288 high (its ceiling 288 over the steps, its mouth 256, the portcullis 288); the old well's two Bone
+# Dragons (11670) have openings 256 high (into the guardroom and the dungeon vault). Stage 3 set and a save and load;
+# the party in Maximum Security pulls the lever (event 33: the kennel's portcullis, door 11, up) and waits 40 s:
+# Scraps is still in the kennel and the dragons in the well.
+id: xeen.dd03.l4.dragon
+title: Castle Kalindra (DD-03 L4), Scraps and the well's dragons stay in with the portcullis raised (D-32)
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+  - assert: {map: xeen_dd03.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - console: {line: "qbit set 111381"}
+  - console: {line: "qbit set 111521"}
+  - reload: {}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd03.blv, x: 1900, y: -3700, z: -640, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 1200}
+  - assert: {actor_count: {monster_id: 11673, near: [1856, -6528, 1400], min: 1}}
+  - assert: {actor_count: {monster_id: 11670, near: [4480, -4672, 900], min: 2}}
+  - execute_event: {id: 33}
+  - advance_runtime: {seconds: 6}
+  - play_lua: {source: "close(); if door_state(11) ~= 'open' then error('the portcullis did not rise: ' .. door_state(11)) end"}
+  - advance_runtime: {seconds: 40}
+  - play_lua: {source: "close(); if door_state(11) ~= 'open' then error('the portcullis is not up: ' .. door_state(11)) end"}
+  - assert: {actor_count: {monster_id: 11673, near: [1856, -6528, 1400], min: 1}}
+  - assert: {actor_count: {monster_id: 11673, near: [1728, -3648, 800], max: 0}}
+  - assert: {actor_count: {monster_id: 11673, near: [1600, -4700, 250], max: 0}}
+  - assert: {actor_count: {monster_id: 11670, near: [4480, -4672, 900], min: 2}}
+  - assert: {actor_count: {monster_id: 11670, near: [5312, -3264, 700], max: 0}}
+  - assert: {actor_count: {monster_id: 11670, near: [3072, -4480, 640], max: 0}}

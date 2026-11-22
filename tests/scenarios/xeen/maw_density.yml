@@ -1,0 +1,49 @@
+# MAW in the World of Xeen (devdocs/maw/XEEN_SUPPORT.md section 4): an indoor map's pack reserve joins it by
+# difficulty. Ellinger's Tower (DD-02) places 51 monsters: MAW (factor 1.0) keeps them, Nightmare (1.4) adds the first
+# 20 copies of its reserve (rulesets/maw/maps/xeen_dd02_zz_maw.scene.yml), Beyond Madness (2.0) all 51; a save keeps
+# them; Standard never reads the reserve. Castle Xeen (XD-19, 72) and the Alamar Depths (FD-01, 34) the same at
+# Beyond Madness. Regenerating the reserves (tools/maw/xeen_pack_reserve.py) may change these counts.
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/maw_density.yml --scenario-no-color
+id: xeen.maw_density
+title: "MAW in Xeen: a dungeon's pack reserve joins it by difficulty (MAW, Nightmare, Beyond Madness, Standard)"
+world: xeen
+mode: faithful
+tags: [xeen, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - assert:
+      actor_count: {min: 51, max: 51}
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+      ruleset: {id: maw, difficulty: nightmare, progression: free}
+  - assert:
+      actor_count: {min: 71, max: 71}
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+      ruleset: {id: maw, difficulty: nightmare, challenge_mode: beyond_madness}
+  - assert:
+      actor_count: {min: 102, max: 102}
+  - save_game: maw_xeen_density_madness
+  - load_game: maw_xeen_density_madness
+  - assert:
+      actor_count: {min: 102, max: 102}
+  - new_game_flow:
+      start_map: xeen_xd19.blv
+      ruleset: {id: maw, difficulty: nightmare, challenge_mode: beyond_madness}
+  - assert:
+      actor_count: {min: 144, max: 144}
+  - new_game_flow:
+      start_map: xeen_fd01.blv
+      ruleset: {id: maw, difficulty: nightmare, challenge_mode: beyond_madness}
+  - assert:
+      actor_count: {min: 68, max: 68}
+  - new_game_flow:
+      start_map: xeen_dd02.blv
+  - assert:
+      actor_count: {min: 51, max: 51}
+  - new_game_flow:
+      start_map: xeen_xd19.blv
+  - assert:
+      actor_count: {min: 72, max: 72}

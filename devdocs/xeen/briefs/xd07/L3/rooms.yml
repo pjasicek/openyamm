@@ -1,0 +1,665 @@
+format: 0
+themes:
+- id: theme:cave
+  wall: {texture: gcav1flr, size: [256, 256]}
+  floor: {texture: gcav2flr, size: [128, 128], scale: 2}
+  ceiling: {texture: gcav1flr, size: [256, 256]}
+  notes: 'The troll den and the dragon pit: the castle''s foundations break into the hill''s rock (MM8 Ogre Fortress d12''s
+    rock, as XD-05).'
+- id: theme:cellar
+  wall: {texture: cswl128, size: [128, 256]}
+  floor: {texture: tfb08, size: [128, 128]}
+  ceiling: {texture: csbr128, size: [128, 128]}
+  door: {texture: t5d1, size: [128, 256], fit: true}
+  notes: 'The wine cellar: MM6 grey castle ashlar (cswl128), MM7 Titans'' Stronghold flags (tfb08), grey blocks overhead.'
+- id: theme:cistern
+  wall: {texture: cswl128, size: [128, 256]}
+  floor: {texture: gcav2flr, size: [128, 128], scale: 2}
+  ceiling: {texture: csbr128, size: [128, 128]}
+  notes: 'The old cistern: the castle''s grey ashlar round a floor of wet dark rock where the water stood.'
+- id: theme:court
+  wall: {texture: t3s2b1, size: [128, 256]}
+  floor: {texture: t3s2fl1, size: [128, 128]}
+  ceiling: {texture: t3s2c, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The court''s rooms: MM7 Titans'' Stronghold cream marble (t3s2b1, t3s2fl1, t3s2c; the royal kit''s interior set),
+    Castle Harmondale''s arched oak doors.'
+- id: theme:dungeon
+  wall: {texture: cswl128, size: [128, 256]}
+  floor: {texture: tfb08, size: [128, 128]}
+  ceiling: {texture: csbr128, size: [128, 128]}
+  door: {texture: t5d1, size: [128, 256], fit: true}
+  notes: 'The cell block and the warden''s ways: grey ashlar, dark flags, riveted iron doors (t5d1).'
+- id: theme:gate
+  wall: {texture: hcwall, size: [128, 256]}
+  floor: {texture: cstyl, size: [128, 128]}
+  ceiling: {texture: csbr128, size: [128, 128]}
+  door: {texture: xkportc, size: [256, 256], fit: true}
+  notes: 'The gatehouse: Castle Ironfist''s white ashlar (hcwall) and grey flags (cstyl), the kit''s portcullis.'
+- id: theme:hall
+  wall: {texture: t3s2b1, size: [128, 256]}
+  floor: {texture: t3s2fl1, size: [128, 128]}
+  ceiling: {texture: t3s2c, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The great hall and the throne room: the marble set with the carved knotwork dado (t3s2b) as a band.'
+- id: theme:library
+  wall: {texture: 7t1books, size: [128, 256]}
+  floor: {texture: t3s2fl1, size: [128, 128]}
+  ceiling: {texture: t3s2c, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The library: shelves of books (7t1books, Castle Harmondale''s) on every wall.'
+- id: theme:loft
+  wall: {texture: hcwall, size: [128, 256]}
+  floor: {texture: cstyl, size: [128, 128]}
+  ceiling: {texture: roof, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The top of the west tower: white ashlar under the underside of the old shingle roof (Ironfist''s roof).'
+- id: theme:royal
+  wall: {texture: t3s2b1, size: [128, 256]}
+  floor: {texture: t3s2fl1, size: [128, 128]}
+  ceiling: {texture: 7tws1h, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The east tower, the royal family''s: the marble walls under Castle Harmondale''s warm ceilings.'
+- id: theme:service
+  wall: {texture: cswl128, size: [128, 256]}
+  floor: {texture: tfb09, size: [128, 128]}
+  ceiling: {texture: 7tws1h, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The kitchens: grey ashlar and Castle Harmondale''s service-room flags (tfb09).'
+- id: theme:tower
+  wall: {texture: hcwall, size: [128, 256]}
+  floor: {texture: cstyl, size: [128, 128]}
+  ceiling: {texture: 7tws1h, size: [128, 128]}
+  door: {texture: chb1dl, size: [128, 256], fit: true}
+  notes: 'The west tower: the white ashlar of the outside walls inside too (a fortified tower), grey flags.'
+defaults: {theme: 'theme:court', ambient: 16}
+rooms:
+- id: room:gatehouse
+  name: Gatehouse
+  outline: [[-640, 0], [640, 0], [640, 1024], [-640, 1024]]
+  floor: 0
+  ceiling: 640
+  theme: theme:gate
+  walls:
+  - wall: north
+    panels: [{id: 'panel:crest_w', offset: 128, length: 256, bottom: 128, height: 512, surface: {texture: xkburcrst, size: [
+            128, 256], fit: true}, notes: Burlock's arms east of the portcullis (the north wall runs east to west).}, {id: 'panel:crest_e',
+        offset: 896, length: 256, bottom: 128, height: 512, surface: {texture: xkburcrst, size: [128, 256], fit: true}, notes: Burlock's
+          arms west of the portcullis.}]
+  - wall: south
+    panels: [{id: 'panel:castle_door', offset: 448, length: 384, bottom: 0, height: 384, surface: {texture: hclgdr, size: [
+            256, 256], fit: true}, notes: 'The castle''s great door to X4 (Burlock Savannah): sealed until X4 is built (NOTES
+          ''Sealed exits'').'}]
+  - wall: east
+    panels: [{id: 'panel:win_gatehouse_east_1', offset: 128, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_gatehouse_east_2', offset: 512, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  ambient: 18
+  notes: 'Inside the castle door: the portcullis in the north wall lifts only for Crusaders (m5.crusaders_gate); two King''s
+    Guards; the kitchens'' door in the west wall. The arrival.'
+- id: room:great_hall
+  name: Great hall
+  outline: [[-1536, 1280], [1536, 1280], [1536, 3328], [-1536, 3328]]
+  floor: 0
+  ceiling: 960
+  theme: theme:hall
+  bands: [&id001 {height: 256, surface: {texture: t3s2b, size: [128, 256]}}]
+  walls:
+  - wall: north
+    panels: [{id: 'panel:banner_hall_1', offset: 640, length: 256, bottom: 192, height: 512, surface: {texture: xkburban,
+          size: [128, 256], fit: true}}, {id: 'panel:banner_hall_2', offset: 2176, length: 256, bottom: 192, height: 512,
+        surface: {texture: xkburban, size: [128, 256], fit: true}}, {id: 'panel:plaque_happy', offset: 1024, length: 192,
+        bottom: 256, height: 96, surface: &id003 {texture: sign128, size: [256, 128], fit: true}, notes: 'The plaque ''Don''t
+          worry, be happy.'' beside the throne room doors.'}]
+  - wall: south
+    panels: [{id: 'panel:tap_hall_1', offset: 512, length: 256, bottom: 192, height: 512, surface: {texture: tap1, size: [
+            128, 256], fit: true}}, {id: 'panel:tap_hall_2', offset: 2304, length: 256, bottom: 192, height: 512, surface: {
+          texture: tap4, size: [128, 256], fit: true}}]
+  pillars: [{at: [-640, 1920], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}, {at: [-640, 2688], size: [
+        128, 128], surface: {texture: t3elr, size: [128, 256]}}, {at: [640, 1920], size: [128, 128], surface: {texture: t3elr,
+        size: [128, 256]}}, {at: [640, 2688], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}]
+  ambient: 20
+  notes: 'The court: four marble pilasters, Burlock''s banners and Harmondale''s tapestries, King''s Guards; the throne room
+    doors north, the well court''s arch east, the closed door of the west tower west.'
+- id: room:throne_room
+  name: Throne room
+  outline: [[-1280, 3584], [1280, 3584], [1280, 6144], [-1280, 6144]]
+  floor: 0
+  ceiling: 1152
+  theme: theme:hall
+  bands: [*id001]
+  walls:
+  - wall: north
+    panels: [{id: 'panel:throne_crest', offset: 1088, length: 384, bottom: 256, height: 768, surface: {texture: xkburcrst,
+          size: [128, 256], fit: true}, notes: 'Burlock''s arms, tall, over the throne.'}, {id: 'panel:banner_throne_e', offset: 448,
+        length: 256, bottom: 256, height: 640, surface: {texture: xkburban, size: [128, 256], fit: true}}, {id: 'panel:banner_throne_w',
+        offset: 1856, length: 256, bottom: 256, height: 640, surface: {texture: xkburban, size: [128, 256], fit: true}}]
+  - wall: west
+    panels: [{id: 'panel:tap_throne_1', offset: 512, length: 256, bottom: 192, height: 512, surface: {texture: tap7, size: [
+            128, 256], fit: true}}, {id: 'panel:tap_throne_2', offset: 1536, length: 256, bottom: 192, height: 512, surface: {
+          texture: tap1, size: [128, 256], fit: true}}]
+  pillars: [{at: [-768, 4224], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}, {at: [-768, 5120], size: [
+        128, 128], surface: {texture: t3elr, size: [128, 256]}}, {at: [768, 4224], size: [128, 128], surface: {texture: t3elr,
+        size: [128, 256]}}, {at: [768, 5120], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}]
+  platforms: [{at: [0, 5824], size: [1536, 448], rise: 48, surface: &id002 {texture: 7tws1f, size: [128, 128]}, top_surface: *id002,
+      notes: The dais under the arms.}, {id: 'platform:throne', at: [0, 5952], size: [192, 160], rise: 112, surface: {texture: t3elr,
+        size: [128, 256]}, top_surface: {texture: tfb09r1i, size: [64, 64]}, notes: 'The throne of Burlock: its seat (clicked:
+        the audience, house 4201).'}, {at: [0, 6080], size: [224, 64], rise: 352, surface: {texture: t3elr, size: [128, 256]},
+      top_surface: *id002, notes: The throne's tall back.}]
+  ambient: 22
+  notes: The throne on its dais under the arms, between two rows of pilasters; the gallery of arms opens east, the royal family's
+    door to the east tower behind it.
+- id: room:armour_gallery
+  name: Gallery of arms
+  outline: [[1536, 3584], [4352, 3584], [4352, 4352], [1536, 4352]]
+  floor: 0
+  ceiling: 640
+  theme: theme:court
+  walls:
+  - wall: north
+    panels: [{id: 'door:advisor', offset: 384, length: 192, bottom: 0, height: 320, surface: {texture: chb1dl, size: [128,
+            256], fit: true}, notes: 'The Royal Advisor''s study (house 4202, A4''s towns/xd07.yml): Artemus.'}, {id: 'panel:plaque_roland',
+        offset: 1312, length: 192, bottom: 160, height: 96, surface: *id003, notes: Under Prince Roland's armour stand.},
+      {id: 'panel:plaque_king', offset: 2016, length: 192, bottom: 160, height: 96, surface: *id003, notes: Under King Burlock's
+          armour stand.}]
+  - wall: south
+    panels: [{id: 'door:builder', offset: 2304, length: 192, bottom: 0, height: 320, surface: {texture: chb1dr, size: [128,
+            256], fit: true}, notes: 'The Master Builder''s office (house 4203): Emerson.'}, {id: 'panel:banner_gallery',
+        offset: 1920, length: 256, bottom: 128, height: 448, surface: {texture: xkburban, size: [128, 256], fit: true}}]
+  - wall: east
+    panels: [{id: 'panel:win_armour_gallery_east_1', offset: 320, length: 128, bottom: 128, height: 256, surface: {texture: hcwindo,
+          size: [128, 256], fit: true}}]
+  platforms: [{at: [2944, 4224], size: [192, 160], rise: 48, surface: *id002, top_surface: *id002, notes: 'Prince Roland''s
+        armour stand: a plinth with its statue.'}, {at: [2240, 4224], size: [192, 160], rise: 48, surface: *id002, top_surface: *id002,
+      notes: King Burlock's armour stand.}]
+  ambient: 16
+  notes: 'The gallery of arms: the two ceremonial armour stands with their plaques, the doors of Artemus (north) and Emerson
+    (south), the library''s door.'
+- id: room:library
+  name: Library
+  outline: [[1792, 2304], [3328, 2304], [3328, 3328], [1792, 3328]]
+  floor: 0
+  ceiling: 640
+  theme: theme:library
+  walls:
+  - wall: south
+    surface: {texture: t3s2b1, size: [128, 256]}
+  platforms: [{id: 'platform:book_languages', at: [1984, 2816], size: [256, 128], rise: 96, surface: &id004 {texture: 7t1beds,
+        size: [256, 64]}, top_surface: *id004, notes: Reading desk with the Book of Languages.}, {id: 'platform:book_astrology',
+      at: [3136, 2816], size: [256, 128], rise: 96, surface: *id004, top_surface: *id004, notes: Reading desk with the Book
+        of Astrology.}]
+  ambient: 16
+  notes: Shelves on every wall, two reading desks (the Book of Languages, the Book of Astrology).
+- id: room:well_court
+  name: Well court
+  outline: [[1792, 1280], [2816, 1280], [2816, 2048], [1792, 2048]]
+  floor: 0
+  ceiling: 768
+  theme: theme:court
+  walls:
+  - wall: east
+    panels: [{id: 'panel:win_well_court_east_1', offset: 128, length: 128, bottom: 128, height: 256, surface: {texture: hcwindo,
+          size: [128, 256], fit: true}}, {id: 'panel:win_well_court_east_2', offset: 512, length: 128, bottom: 128, height: 256,
+        surface: {texture: hcwindo, size: [128, 256], fit: true}}]
+  platforms: [{id: 'platform:well', at: [2304, 1664], size: [320, 320], rise: 64, surface: &id005 {texture: csbr128, size: [
+          128, 128]}, top_surface: {texture: 7wtrtyl, size: [128, 128], liquid: water}, notes: 'The well: a stone kerb round
+        dark water (clicked: ''The water refreshes you.'').'}]
+  ambient: 16
+  notes: A small court round the castle well.
+- id: room:east_tower_base
+  name: East tower foot
+  outline: [[1536, 4864], [2560, 4864], [2560, 5888], [1536, 5888]]
+  floor: 0
+  ceiling: 640
+  theme: theme:royal
+  walls:
+  - wall: east
+    panels: [{id: 'panel:tap_easttower', offset: 64, length: 256, bottom: 128, height: 448, surface: {texture: tap1, size: [
+            128, 256], fit: true}}]
+  ambient: 16
+  notes: The foot of the royal family's tower, behind the throne room.
+- id: room:east_stair_1
+  name: East tower stair
+  outline: [[2816, 5120], [3840, 5120], [3840, 5632], [2816, 5632]]
+  floor: 0
+  slope: {to: 640, toward: east, steps: 20}
+  ceiling: 448
+  ceiling_slope: {to: 1088, toward: east}
+  theme: theme:royal
+  ambient: 16
+  notes: Twenty marble steps up the east tower.
+- id: room:east_landing
+  name: Princess's landing
+  outline: [[4096, 4864], [5120, 4864], [5120, 5888], [4096, 5888]]
+  floor: 640
+  ceiling: 1152
+  theme: theme:royal
+  walls:
+  - wall: east
+    panels: [{id: 'door:roxanne_parlour', offset: 384, length: 192, bottom: 0, height: 320, surface: {texture: chb1dl, size: [
+            128, 256], fit: true}, notes: 'The Princess''s Parlour (house 4204): Roxanne.'}, {id: 'panel:plaque_first_day',
+        offset: 640, length: 192, bottom: 160, height: 96, surface: *id003, notes: Beside the princess's door.}]
+  - wall: north
+    panels: [{id: 'panel:tap_landing', offset: 32, length: 256, bottom: 64, height: 448, surface: {texture: tap4, size: [
+            128, 256], fit: true}}]
+  ambient: 16
+  notes: 'The princess''s landing: her parlour''s door (house 4204) and her plaque.'
+- id: room:east_stair_2
+  name: East tower upper stair
+  outline: [[4352, 6144], [4864, 6144], [4864, 7168], [4352, 7168]]
+  floor: 640
+  slope: {to: 1280, toward: north, steps: 20}
+  ceiling: 1088
+  ceiling_slope: {to: 1728, toward: north}
+  theme: theme:royal
+  ambient: 16
+  notes: The stair to the royal bedroom.
+- id: room:royal_bedroom
+  name: Royal bedroom
+  outline: [[3840, 7424], [5376, 7424], [5376, 8448], [3840, 8448]]
+  floor: 1280
+  ceiling: 1792
+  theme: theme:royal
+  walls:
+  - wall: south
+    panels: [{id: 'panel:plaque_think_thin', offset: 1184, length: 192, bottom: 160, height: 96, surface: *id003, notes: Over
+          the dressing table.}]
+  - wall: north
+    panels: [{id: 'panel:tap_bed', offset: 512, length: 256, bottom: 160, height: 448, surface: {texture: tap7, size: [128,
+            256], fit: true}}]
+  - wall: west
+    panels: [{id: 'panel:win_royal_bedroom_west_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: hcwindo,
+          size: [128, 256], fit: true}}, {id: 'panel:win_royal_bedroom_west_2', offset: 704, length: 128, bottom: 128, height: 256,
+        surface: {texture: hcwindo, size: [128, 256], fit: true}}]
+  platforms: [{at: [4224, 8192], size: [384, 384], rise: 64, surface: *id004, top_surface: {texture: tfb09r1i, size: [64,
+          64]}, notes: The royal bed.}, {at: [5120, 7552], size: [384, 128], rise: 80, surface: {texture: 7t1cab, size: [
+          128, 256]}, top_surface: *id004, notes: The princess's dressing table.}]
+  ambient: 16
+  notes: 'The royal bedroom at the top of the east tower: the bed, the dressing table, Roxanne''s chest.'
+- id: room:west_tower_base
+  name: West tower foot
+  outline: [[-2816, 1792], [-1792, 1792], [-1792, 2816], [-2816, 2816]]
+  floor: 0
+  ceiling: 640
+  theme: theme:tower
+  walls:
+  - wall: south
+    panels: [{id: 'panel:win_west_tower_base_south_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_west_tower_base_south_2', offset: 704, length: 128, bottom: 128,
+        height: 256, surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  ambient: 16
+  notes: 'The foot of the west tower behind its closed door (D-4): the fools'' noise above.'
+- id: room:west_stair_1
+  name: West tower stair
+  outline: [[-4096, 2048], [-3072, 2048], [-3072, 2560], [-4096, 2560]]
+  floor: 0
+  slope: {to: 640, toward: west, steps: 20}
+  ceiling: 448
+  ceiling_slope: {to: 1088, toward: west}
+  theme: theme:tower
+  ambient: 16
+  notes: Twenty worn steps up the west tower.
+- id: room:fools_hall
+  name: Fools' hall
+  outline: [[-5632, 1536], [-4352, 1536], [-4352, 3072], [-5632, 3072]]
+  floor: 640
+  ceiling: 1152
+  theme: theme:tower
+  walls:
+  - wall: south
+    panels: [{id: 'panel:win_fools_hall_south_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_fools_hall_south_2', offset: 704, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  - wall: west
+    panels: [{id: 'panel:plaque_sharp', offset: 640, length: 192, bottom: 160, height: 96, surface: *id003, notes: The fools'
+          plaque.}]
+  platforms: [{at: [-5248, 1792], size: [384, 192], rise: 48, surface: *id004, top_surface: *id004, notes: 'The fools'' straw
+        pallets: a low board.'}]
+  ambient: 12
+  notes: 'The jesters'' quarters: pallets, rubbish, the mad fools.'
+- id: room:west_gallery
+  name: West tower gallery
+  outline: [[-5376, 3328], [-4608, 3328], [-4608, 5376], [-5376, 5376]]
+  floor: 640
+  ceiling: 1088
+  theme: theme:tower
+  walls:
+  - wall: west
+    panels: [{id: 'panel:plaque_ruler', offset: 384, length: 192, bottom: 160, height: 96, surface: *id003}, {id: 'panel:plaque_sword',
+        offset: 1024, length: 192, bottom: 160, height: 96, surface: *id003}, {id: 'panel:plaque_nice_day', offset: 1664,
+        length: 192, bottom: 160, height: 96, surface: *id003}]
+  - wall: east
+    panels: [{id: 'panel:win_west_gallery_east_1', offset: 256, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_west_gallery_east_2', offset: 896, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}, {id: 'panel:win_west_gallery_east_3', offset: 1536, length: 128,
+        bottom: 128, height: 256, surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  ambient: 12
+  notes: The west tower's gallery of arrow slits and joke plaques; gargoyles at the slits.
+- id: room:west_stair_2
+  name: West tower upper stair
+  outline: [[-5248, 5632], [-4736, 5632], [-4736, 6656], [-5248, 6656]]
+  floor: 640
+  slope: {to: 1280, toward: north, steps: 20}
+  ceiling: 1088
+  ceiling_slope: {to: 1728, toward: north}
+  theme: theme:tower
+  ambient: 16
+  notes: The stair to the top of the west tower.
+- id: room:gargoyle_loft
+  name: Gargoyle loft
+  outline: [[-5888, 6912], [-4096, 6912], [-4096, 8192], [-5888, 8192]]
+  floor: 1280
+  ceiling: 2048
+  theme: theme:loft
+  walls:
+  - wall: west
+    panels: [{id: 'panel:win_gargoyle_loft_west_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_gargoyle_loft_west_2', offset: 704, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  - wall: east
+    panels: [{id: 'panel:win_gargoyle_loft_east_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_gargoyle_loft_east_2', offset: 704, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  ambient: 12
+  notes: The roosts under the west tower's roof; the gargoyles' chest of shiny things.
+- id: room:old_throne
+  name: Old King's throne
+  outline: [[-5632, 8448], [-4352, 8448], [-4352, 9728], [-5632, 9728]]
+  floor: 1280
+  ceiling: 1920
+  theme: theme:loft
+  walls:
+  - wall: north
+    panels: [{id: 'panel:win_old_throne_north_1', offset: 256, length: 128, bottom: 192, height: 256, surface: {texture: hcwindo,
+          size: [128, 256], fit: true}}, {id: 'panel:win_old_throne_north_2', offset: 896, length: 128, bottom: 192, height: 256,
+        surface: {texture: hcwindo, size: [128, 256], fit: true}}]
+  - wall: west
+    panels: [{id: 'panel:win_old_throne_west_1', offset: 192, length: 128, bottom: 128, height: 256, surface: {texture: xkarrow,
+          size: [128, 256], fit: true}}, {id: 'panel:win_old_throne_west_2', offset: 704, length: 128, bottom: 128, height: 256,
+        surface: {texture: xkarrow, size: [128, 256], fit: true}}]
+  platforms: [{id: 'platform:old_throne', at: [-4992, 9472], size: [256, 192], rise: 112, surface: *id005, top_surface: {
+        texture: tfb09r1i, size: [64, 64]}, notes: 'The old King''s throne: its seat (clicked: the throw).'}, {at: [-4992,
+        9600], size: [288, 64], rise: 384, surface: *id005, top_surface: *id005, notes: The old throne's back.}]
+  ambient: 14
+  notes: 'Burlock''s grandfather''s throne under the tower''s roof: sit on it and it throws you out.'
+- id: room:kitchens
+  name: Kitchens
+  outline: [[-2304, -256], [-896, -256], [-896, 1024], [-2304, 1024]]
+  floor: 0
+  ceiling: 640
+  theme: theme:service
+  platforms: [{at: [-2176, 384], size: [192, 384], rise: 64, surface: *id005, top_surface: *id005, notes: The kitchen hearth's
+        stone floor (the fire on it).}, {at: [-1600, 512], size: [512, 192], rise: 80, surface: *id004, top_surface: *id004,
+      notes: The kitchen table.}]
+  ambient: 16
+  notes: 'The servants'' way from the gate: hearth, table, larder sacks, the cellar stair.'
+- id: room:kitchen_stair
+  name: Cellar stair
+  outline: [[-1920, -1536], [-1408, -1536], [-1408, -512], [-1920, -512]]
+  floor: 0
+  slope: {to: -640, toward: south, steps: 20}
+  ceiling: 448
+  ceiling_slope: {to: -192, toward: south}
+  theme: theme:service
+  ambient: 16
+  notes: Twenty steps down from the kitchens to the wine cellar.
+- id: room:cellar
+  name: Wine cellar
+  outline: [[-2560, -3072], [-768, -3072], [-768, -1792], [-2560, -1792]]
+  floor: -640
+  ceiling: -128
+  theme: theme:cellar
+  ambient: 12
+  notes: The wine cellar, a storeroom (barrels and casks in rows along its walls); the iron dungeon door east, the troll den's
+    barred door south.
+- id: room:cell_block
+  name: Cell block
+  outline: [[-512, -3328], [1536, -3328], [1536, -1536], [-512, -1536]]
+  floor: -640
+  ceiling: -64
+  theme: theme:dungeon
+  platforms: [{at: [0, -1760], size: [16, 448], rise: 512, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: cswl128,
+        size: [128, 256]}, notes: 'Cell bars, broken open.'}, {at: [512, -1760], size: [16, 448], rise: 512, surface: {texture: xwcage,
+        size: [128, 256]}, top_surface: {texture: cswl128, size: [128, 256]}, notes: 'Cell bars, broken open.'}, {at: [1024,
+        -1760], size: [16, 448], rise: 512, surface: {texture: xwcage, size: [128, 256]}, top_surface: {texture: cswl128,
+        size: [128, 256]}, notes: 'Cell bars, broken open.'}, {at: [256, -1600], size: [128, 64], rise: 48, surface: *id004,
+      top_surface: *id004, notes: A cell bench.}, {at: [768, -1600], size: [128, 64], rise: 48, surface: *id004, top_surface: *id004,
+      notes: A cell bench.}]
+  ambient: 10
+  notes: Broken cells along the north wall, the warden's strongbox; the pit gallery's door east, the old cistern south.
+- id: room:pit_gallery
+  name: Pit gallery
+  outline: [[1792, -2816], [3840, -2816], [3840, -2048], [1792, -2048]]
+  floor: -640
+  ceiling: -128
+  theme: theme:dungeon
+  walls:
+  - wall: south
+    panels: [{id: 'panel:warning', offset: 1472, length: 192, bottom: 96, height: 96, surface: {texture: warnsign, size: [
+            256, 128], fit: true}, notes: 'The warden''s sign beside the cage lever: ''Do not pull.'''}]
+  ambient: 10
+  notes: 'The warden''s walk above the dragon pit: the cage lever and his sign; the narrow stair down.'
+- id: room:pit_stair
+  name: Pit stair
+  outline: [[2864, -3840], [3024, -3840], [3024, -3072], [2864, -3072]]
+  floor: -640
+  slope: {to: -1152, toward: south, steps: 16}
+  ceiling: -352
+  ceiling_slope: {to: -864, toward: south}
+  theme: theme:dungeon
+  ambient: 8
+  notes: 'A narrow, low stair down to the pit''s portcullis: 160 wide, too narrow for the dragon.'
+- id: room:dragon_pit
+  name: Dragon pit
+  outline: [[1792, -6144], [4096, -6144], [4096, -4096], [1792, -4096]]
+  floor: -1152
+  ceiling: -128
+  theme: theme:cave
+  platforms: [{at: [3456, -5760], size: [768, 768], rise: 32, surface: {texture: gcav1flr, size: [256, 256]}, top_surface: {
+        texture: gcav2flr, size: [128, 128], scale: 2}, notes: 'The dragon''s hoard mound, against the pit''s south wall (F6,
+        2026-11-21: it stopped 256 short of it).'}]
+  ambient: 10
+  notes: The caged Fire Dragon on its hoard (optional).
+- id: room:old_cistern
+  name: Old cistern
+  outline: [[-512, -5376], [1536, -5376], [1536, -3584], [-512, -3584]]
+  floor: -640
+  ceiling: -64
+  theme: theme:cistern
+  pillars: [{at: [-192, -4992], size: [160, 160], surface: {texture: cswl128, size: [128, 256]}}, {at: [1216, -4992], size: [
+        160, 160], surface: {texture: cswl128, size: [128, 256]}}, {at: [1216, -4096], size: [160, 160], surface: {texture: cswl128,
+        size: [128, 256]}}]
+  platforms: [{at: [512, -4480], size: [512, 512], rise: 24, surface: *id005, top_surface: {texture: 7wtrtyl, size: [128,
+          128], liquid: water}, notes: The last of the cistern's water in a stone basin.}]
+  ambient: 10
+  notes: The castle's old cistern, dry but for a basin; the Black Liquid in a bucket.
+- id: room:troll_den
+  name: Troll den
+  outline: [[-2816, -5376], [-768, -5376], [-768, -3328], [-2816, -3328]]
+  floor: -640
+  ceiling: -128
+  theme: theme:cave
+  ambient: 8
+  notes: Where the trolls sleep on rotten straw; their pile of loot; the barred door to the cellar.
+- id: room:postern
+  name: Postern tunnel
+  outline: [[-4096, -4608], [-3072, -4608], [-3072, -4096], [-4096, -4096]]
+  floor: -640
+  ceiling: -256
+  theme: theme:dungeon
+  ambient: 8
+  notes: The sally port, out to the castle rise's west foot on X4 (exit:postern).
+openings:
+- id: open:gate_hall
+  from: room:gatehouse
+  to: room:great_hall
+  link: link:gate_hall
+  width: 384
+  height: 448
+  notes: The Crusaders' portcullis.
+- id: open:gate_kitchens
+  from: room:gatehouse
+  to: room:kitchens
+  link: link:gate_kitchens
+  width: 288
+  height: 320
+- id: open:hall_throne
+  from: room:great_hall
+  to: room:throne_room
+  link: link:hall_throne
+  width: 384
+  height: 512
+- id: open:hall_westtower
+  from: room:great_hall
+  to: room:west_tower_base
+  link: link:hall_westtower
+  width: 288
+  height: 384
+- id: open:hall_well
+  from: room:great_hall
+  to: room:well_court
+  link: link:hall_well
+  width: 640
+  height: 512
+- id: open:well_library
+  from: room:well_court
+  to: room:library
+  link: link:well_library
+  width: 288
+  height: 384
+- id: open:library_gallery
+  from: room:library
+  to: room:armour_gallery
+  link: link:library_gallery
+  width: 288
+  height: 384
+- id: open:throne_gallery
+  from: room:throne_room
+  to: room:armour_gallery
+  link: link:throne_gallery
+  width: 512
+  height: 512
+- id: open:throne_easttower
+  from: room:throne_room
+  to: room:east_tower_base
+  link: link:throne_easttower
+  width: 288
+  height: 384
+- id: open:easttower_stair
+  from: room:east_tower_base
+  to: room:east_stair_1
+  width: 384
+  height: 384
+- id: open:eaststair_landing
+  from: room:east_stair_1
+  to: room:east_landing
+  link: link:easttower_parlour
+  width: 384
+  height: 384
+- id: open:landing_stair
+  from: room:east_landing
+  to: room:east_stair_2
+  width: 384
+  height: 384
+- id: open:eaststair_bedroom
+  from: room:east_stair_2
+  to: room:royal_bedroom
+  link: link:parlour_bedroom
+  width: 288
+  height: 384
+- id: open:westtower_stair
+  from: room:west_tower_base
+  to: room:west_stair_1
+  width: 384
+  height: 384
+- id: open:weststair_fools
+  from: room:west_stair_1
+  to: room:fools_hall
+  link: link:westtower_fools
+  width: 384
+  height: 384
+- id: open:fools_gallery
+  from: room:fools_hall
+  to: room:west_gallery
+  link: link:fools_gallery
+  width: 512
+  height: 384
+- id: open:gallery_stair
+  from: room:west_gallery
+  to: room:west_stair_2
+  width: 384
+  height: 384
+- id: open:weststair_loft
+  from: room:west_stair_2
+  to: room:gargoyle_loft
+  link: link:gallery_loft
+  width: 384
+  height: 384
+- id: open:loft_throne
+  from: room:gargoyle_loft
+  to: room:old_throne
+  link: link:loft_throne
+  width: 288
+  height: 384
+- id: open:kitchens_stair
+  from: room:kitchens
+  to: room:kitchen_stair
+  width: 384
+  height: 384
+- id: open:stair_cellar
+  from: room:kitchen_stair
+  to: room:cellar
+  link: link:kitchens_cellar
+  width: 384
+  height: 384
+- id: open:cellar_cells
+  from: room:cellar
+  to: room:cell_block
+  link: link:cellar_cells
+  width: 256
+  height: 384
+- id: open:cells_cistern
+  from: room:cell_block
+  to: room:old_cistern
+  link: link:cells_cistern
+  width: 512
+  height: 448
+- id: open:cistern_den
+  from: room:old_cistern
+  to: room:troll_den
+  link: link:cistern_den
+  width: 512
+  height: 448
+- id: open:den_cellar
+  from: room:troll_den
+  to: room:cellar
+  link: link:den_cellar
+  width: 256
+  height: 384
+- id: open:den_postern
+  from: room:troll_den
+  to: room:postern
+  link: link:den_postern
+  width: 256
+  height: 320
+- id: open:cells_pitgallery
+  from: room:cell_block
+  to: room:pit_gallery
+  link: link:cells_pitgallery
+  width: 256
+  height: 384
+- id: open:pitgallery_stair
+  from: room:pit_gallery
+  to: room:pit_stair
+  width: 128
+  height: 288
+- id: open:stair_pit
+  from: room:pit_stair
+  to: room:dragon_pit
+  link: link:pitgallery_pit
+  width: 128
+  height: 256
+notes: 'XD-07 Castle Burlock at L4: the court floor at 0 (gatehouse, great hall, throne room, gallery of arms, library, well
+  court, kitchens), the two towers'' floors at 640 and 1280 (west: fools, gallery, gargoyle loft, the old throne; east: the
+  princess''s landing and the royal bedroom), the cellars and the dungeon at -640 and the dragon pit at -1152. No room stands
+  over another. Written by output/studio_cal/xd07/tools/gen.py.'

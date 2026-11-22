@@ -1,0 +1,120 @@
+format: 0
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: dd26_arrived_once}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.arrival\")"
+    notes: "The first arrival: A3's q-d28.arrival (once: arrived_once 117800 and its line). The stair holds no monsters (D-11.3)."
+  - id: evt:bed
+    preset: script
+    source: platform:bed
+    title: Bed
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.bed\")"
+    notes: "The bed (aaze0038:16): A3's q-d28.bed (once: one random T6 item, bed 117806; then 'Nothing here.', :17)."
+  - id: evt:chest_spill
+    preset: chest
+    source: chest:spill
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:den_door
+    preset: door
+    source: door:den
+    title: Cyrano sells the password.
+    notes: "The den's door: its hover is the source's line on it (aaze0038:12; map-local, A3 has no hook for it)."
+  - id: evt:drain_bl
+    preset: script
+    source: panel:drain_3
+    title: Drain
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.drain_bl\")"
+    notes: "A drain (aaze0038:0): A3's q-d28.drain_bl (its piece once, map qbit 117803; the fourth also writes the autonote; then 'Drain' on the status line)."
+  - id: evt:drain_es
+    preset: script
+    source: panel:drain_4
+    title: Drain
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.drain_es\")"
+    notes: "A drain (aaze0038:0): A3's q-d28.drain_es (its piece once, map qbit 117804; the fourth also writes the autonote; then 'Drain' on the status line)."
+  - id: evt:drain_ib
+    preset: script
+    source: panel:drain_2
+    title: Drain
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.drain_ib\")"
+    notes: "A drain (aaze0038:0): A3's q-d28.drain_ib (its piece once, map qbit 117802; the fourth also writes the autonote; then 'Drain' on the status line)."
+  - id: evt:drain_tr
+    preset: script
+    source: panel:drain_1
+    title: Drain
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.drain_tr\")"
+    notes: "A drain (aaze0038:0): A3's q-d28.drain_tr (its piece once, map qbit 117801; the fourth also writes the autonote; then 'Drain' on the status line)."
+  - id: evt:exit
+    preset: script
+    source: exit:grate
+    title: Climb up to Olympus
+    effects:
+      - exit: exit:d7_stair
+    notes: "The grate at the stair's top (D-67 item 8; F16 2026-11-22: the standard MM6-MM8 entrance window, OK/Close, no Yes/No): OK moves to D7's entrance:dd26_stair (-8704, 8192, 1808) facing 0, Close stays."
+  - id: evt:outfall_grate
+    preset: door
+    source: door:outfall_grate
+    title: Grate
+  - id: evt:pets_unlimited
+    preset: script
+    source: door:pets_unlimited
+    title: Pets Unlimited
+    effects:
+      - lua: evt.EnterHouse(4815)
+    notes: "A4's house 4815 'Pets Unlimited' (aaze0038:19; source/towns/dd26.yml door:pets_unlimited): Cyrano Jones (5614), a residence; his topics are A3's (q-d28: Tribbles, Companions)."
+  - id: evt:scroll
+    preset: script
+    source: panel:scroll
+    title: Scroll
+    effects:
+      - lua: "XeenQuests.hook(\"q-d28.scroll\")"
+    notes: "D-65 change 1: hover 'Scroll' (aaze0038:10); A3's q-d28.scroll: 'Search the drains.' (:11)."
+  - id: evt:spill_grate
+    preset: door
+    source: door:spill_grate
+    title: Grate
+  - id: evt:tribble_back
+    preset: switch
+    source: door:tribble
+    side: room:vault
+    title: Bronze doors
+    opens: [door:tribble]
+    notes: From the vault the bronze pair opens (never shuts the party in).
+  - id: evt:tribble_door
+    preset: script
+    source: door:tribble
+    side: room:tdoor
+    title: Bronze doors
+    lua: |-
+      if Xeen.tribbleDoor(eventId, continueStep) then
+          evt.SetDoorState(5, DoorAction.Open)
+          evt.SetDoorState(6, DoorAction.Open)
+      end
+    notes: "D-65 change 2 (B1): A3's Xeen.tribbleDoor asks the voice (aaze0038:5) as the typed prompt's own text, no message before it; 'tribbles' or 'tribble' in any case runs q-d28.tribble_door (door_open 117805, 'Correct! You may pass.') and the leaves open for good; any other answer q-d28.tribble_wrong ('Wrong! You may not pass!'). Once open it asks nothing (the leaves stay open). Doors 5 and 6 are the pair's leaves (ids.lock.yml)."
+  - id: evt:tribble_load
+    preset: switch
+    trigger: load
+    condition: {qbit: tribble_door}
+    opens: [door:tribble]
+    notes: "Every load: the bronze pair stands open once the password was given (117805), also after a refill."
+  - id: evt:voice
+    preset: text
+    source: panel:voice
+    title: Grille
+    text: A voice waits behind the grille.
+    window: false
+    notes: "The grille mouth over the bronze pair (map-local line, for A3)."
+notes: "DD-26's events, written by output/studio_cal/dd26/tools/dress.py."

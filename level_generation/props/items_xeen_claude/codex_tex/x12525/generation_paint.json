@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely recolor the first input (paint_mask_guide.png), preserving its alpha pixel for pixel. Other inputs are design_reference.png for detail and icon_x8.png for color. Output transparent 1536x2048 PNG, 3 columns by 4 rows of square cells. Lock orthographic views and flat horizontal lip of each elevation, every outline, stud position, opening, and margin to the guide. Rows 1 and 2: front back left / right top empty. Paint only the grey regions as unlit antique hammered gold, broad bowl with a band of small sapphire blue stones exactly on existing stud geometry, braided knot design on the solid stem, gold foot. Match engraved details and gold tone of reference without lighting, AO, glints or reflections. Top view shows gold interior. Rows 3 and 4: same five guide silhouettes in same locations and at same scale, but use ONLY perfectly flat pure digital red #FF0000 for metal and perfectly flat opaque black #000000 for gemstones, no texture, gradients, outlines or antialiased color blends inside. Top view mask solid red. No labels or grid. Final cell of each half fully transparent. Preserve true transparency everywhere outside guide shapes. Correct silhouette drift: trace the input guide as a fixed stencil, especially the narrow zigzag stem with its two diamond-shaped bulges, which must retain solid coverage, with braid detail painted inside only. Copy individual grey stud locations independently from each orthographic view. Absolutely clean alpha, no stray red around objects.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "665a3114b475e285055796352e7b346f2c79841625d2111af3a78f2dbc5dc069"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "cc3d9692ac4a76d147f55c2a348f65d48c51ab529a51aaece623745ab82db4cd"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "548b00402bc3c7614051bd01206b37e86725332beddd618724978aa640a7a1ac"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f929-bc14-7710-98a4-526c1c1d0b3a/exec-1e4a6440-e654-4d4b-9370-27fd2dbe4205.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

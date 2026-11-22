@@ -1,0 +1,50 @@
+# Q-C15 Troll Problem (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Thickbark the Civilized is a tree at the Troll Forest's edge (X5, A4's 4528, no house). The troll lair is the Troll
+# Warren (XD-23, Act III). The source teaches Super Shelter; no event teaches a spell and MM6-MM8 have none like it, so a
+# treasure-level item. `done` is the "Civilized One" that Leafpoint (D4, Arch Druid, Act IV) asks about.
+id: Q-C15
+title: Troll Problem
+act: III
+kind: side
+status: full
+giver: 4528          # Thickbark the Civilized (X5)
+maps: [X5, XD-23]
+level: 25
+block: 65
+after: []
+source: "QUESTS Q-C15; xeen/aaze0007 (Thickbark)"
+
+qbits:
+  started: {id: 112300, journal: "The trolls gnaw Thickbark's bark and uproot saplings. The trees of the Troll Forest want them dead.",
+            until: [done]}
+  matron_dead: {id: 110930, map: XD-23, note: "the map's own: the Troll Matron's death (a kill timer); the fire pit asks its question after it (A7)"}
+  lair_burnt: {id: 112301, note: "the warren's hearth burnt after the Troll Matron's death (XD-23, hook q-c15.lair)"}
+  done: {id: 112302, note: "the trees call the party Civilized Ones; Leafpoint (D4) reads it"}
+
+npcs:
+  4528:              # Thickbark
+    topics:
+      - n: 1
+        label: Trolls
+        states:
+          - when: {qbit: done}
+            text: "You are welcome to converse with us anytime, civilized ones."
+          - when: {qbit: lair_burnt}
+            text: "Thank you for killing the trolls, civilized ones. Your speedy job has saved us many lives and much discomfort. A cousin of mine on the dark side of the world, Leafpoint, will want to meet you. Take this. It grew in my roots for a century; we have no use for it."
+            do: [{set: done}, {clear: started}, {xp: 5000}, {treasure: 4}]
+          - when: {qbit: started}
+            text: "The Trolls are not dead yet. It is most urgent that you kill them. If you could please have them all dead by the end of the decade, we may give you a greater reward for rushing."
+          - text: "It is good to see some civilized people around here. Maybe you will kill the Trolls for us. They gnaw on our bark to sharpen their teeth in a most uncivilized fashion. Friends don't gnaw on friend's bark. We have talked about this for a couple of centuries, give or take a few decades, and have decided to hire some civilized people. Their warren is in the forest behind me."
+            do: [{set: started}]
+
+hooks:
+  lair:
+    map: XD-23
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Troll Warren's last hall: the Troll Matron's death, then her hearth burnt (the map's question \"Destroy the lair?\", Yes)"
+    sets: [lair_burnt]
+    once: true
+    text: "You burn everything you can, and what you cannot burn you throw outside. The warren fills with smoke, and the trolls that are left will not come back to it."
+
+rewards: {xp: 5000, gold: 0}
+playthrough: "X5: Thickbark (Trolls). XD-23: the last hall burnt. X5: Thickbark (Trolls)."

@@ -512,11 +512,15 @@ local RepeatMapTopic = 10041
 local RepeatMapYesStep = 1
 local RepeatMapDeclinedStep = 2
 -- The slot Dimensional Maps takes on each of them (content/npc_respec_patch.txt); their six slots are all in use.
-local DimensionMapsSlots = {[314] = 4, [413] = 5, [794] = 5}
+-- Xeen's Seers, Zephyra (4312) and Madame Oorla (4921), take it in slot 4 (worlds/xeen/npc_seers_patch.txt).
+local DimensionMapsSlots = {[314] = 4, [413] = 5, [794] = 5, [4312] = 4, [4921] = 4}
 
 local function setDimensionMapsSlots(topic)
     for npc, slot in pairs(DimensionMapsSlots) do
-        evt.SetNPCTopic(npc, slot, topic)
+        -- Only where the topic is (a world that is not installed has no such NPC).
+        if evt.GetNPCTopic(npc, slot) ~= 0 then
+            evt.SetNPCTopic(npc, slot, topic)
+        end
     end
 end
 

@@ -1,0 +1,57 @@
+# M22 The Excavation Permit (QUESTS M22, 4.1; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# After Crodo (M21), Artemus believes the party and grants the Excavation Permit quietly: the King would not believe it,
+# and the thing at his side would hear. Emerson digs out Newcastle's caved-in dungeon for the permit and the last five
+# King's Megacredits (16 exist, 15 needed: M9, M11, M22). Stage 3: A4's temple and bank (towns/xd13.yml) open on
+# `dungeon`, and the sword vault below waits for its word (M23).
+id: M22
+title: The Excavation Permit
+act: IV
+kind: main
+status: full
+giver: 4402          # Artemus (Castle Burlock); Emerson (4403) digs
+maps: [XD-07, X3, XD-13]
+level: 36
+block: 22
+after: [m21.crodo_freed, m11.keep]
+source: "QUESTS M22, 4.1; xeen/aaze0079 (Emerson), CHANGES_FOR_BUILT_MAPS (the permit)"
+
+qbits:
+  started: {id: 111440, journal: "Artemus granted an Excavation Permit for Newcastle's dungeon. Emerson digs for five more Megacredits.",
+            until: [dungeon]}
+  dungeon: {id: 111441}
+
+autonotes:
+  permit: {id: 4122, text: "Artemus's Excavation Permit: Emerson, at Castle Burlock, digs out Newcastle's dungeon for the permit and 5 King's Megacredits.", category: Misc}
+
+items:
+  excavation_permit: "Artemus gives it; Emerson takes it with the Megacredits"
+  megacredit: "the last 5 of 16 (M10's places)"
+
+npcs:
+  4402:              # Artemus
+    topics:
+      - n: 1
+        label: Lord Xeen
+        show: {qbit: m21.crodo_freed}
+        states:
+          - when: {qbit: started}
+            text: "Dig, and say nothing at table. He smiles at me now. He never used to smile."
+          - text: "Crodo is home, and he says the Prince is... no. I believe him. I have watched that man not eat for a year. The King would not hear it, and the thing at his side would. So, quietly again: an Excavation Permit for Newcastle's dungeon. Emerson will dig where you tell him."
+            do: [{give: excavation_permit}, {set: started}, {autonote: permit}, {xp: 1000}]
+  4403:              # Emerson
+    topics:
+      - n: 2
+        label: Dungeon
+        show: {any: [{qbit: started}, {qbit: dungeon}]}
+        states:
+          - when: {qbit: dungeon}
+            text: "Dug, shored and swept. There's a door at the bottom my men won't touch. It hums. I put a chalk mark on it: NOT MY DEPARTMENT."
+          - when: {all: [{item: excavation_permit}, {items: [megacredit, 5]}]}
+            text: "A permit, signed and sealed, and five Megacredits. Lovely. The old dungeon was caved in by the bolt that took the castle. My men will have it open by the time you get there."
+            do: [{take: excavation_permit}, {take: megacredit, count: 5}, {set: dungeon}, {set: m23.started}, {xp: 2000}]
+          - when: {item: excavation_permit}
+            text: "The permit's fine. The Megacredits aren't here. Five, please. Digging is the expensive kind of building."
+          - text: "No digging without a permit. I don't make the rules. Artemus does, and he's very fond of them."
+
+rewards: {xp: 3000, gold: 0}
+playthrough: "XD-07: Artemus (Lord Xeen): the Excavation Permit. Emerson (Dungeon) with the permit and 5 Megacredits: Newcastle stage 3."

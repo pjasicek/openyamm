@@ -1,0 +1,54 @@
+# Q-C4 The Ninja Pagoda (QUESTS 2.1); promotion T1-D, Monk -> Initiate (QUESTS 3.1), paid in Kai Wu's hand-in.
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md. The Pagoda is XD-22 (Act III, party 25-29) on X5, due south
+# of Kai Wu's monastery (A4, house 4270). The source pays "full food"; kept, with the promotion. The Dark route (side
+# with the clan: Initiate -> Ninja, Xeen.Promotions.clan) is tier 2 and comes with Act IV's promotions.
+id: Q-C4
+title: The Ninja Pagoda
+act: III
+kind: side
+status: full
+giver: 4521          # Kai Wu the Monk (X5)
+maps: [X5, XD-22]
+level: 25
+block: 54
+after: []
+source: "QUESTS Q-C4, 3.1; xeen/aaze0003 (Kai Wu, the Pagoda's line)"
+
+qbits:
+  started: {id: 112080, journal: "The Ninja clan drove Kai Wu the monk from his pagoda, due south of his monastery in the tundra. Rid it of them.",
+            until: [done]}
+  clan_master_slain: {id: 112081, note: "the clan master's death sets it"}
+  done: {id: 112082}
+
+npcs:
+  4521:              # Kai Wu
+    topics:
+      - n: 1
+        label: The Pagoda
+        states:
+          - when: {qbit: done}
+            text: "The pagoda is quiet again. I sweep it every morning. The ninjas never swept. Someone lives in the cellar, though. I leave rice by the shrine."
+          - when: {qbit: clan_master_slain}
+            text: "You have destroyed the Ninja Clan that drove me from my sacred home. I am eternally grateful. As payment for your services, please let me fill your packs with food. And those of you who walk the monk's road: you have walked it far enough to be called Initiates."
+            do: [{set: done}, {clear: started}, {lua: "AddValue(Food, 20)"}, {xp: 8000}, {promote: pagoda}, {xp: 8000}]
+          - when: {qbit: started}
+            text: "There are still Ninja in my Pagoda. I cannot go home until they are gone."
+          - text: "I am a peace loving old monk driven from my sacred home. I used to live in the Pagoda due south from here until the Evil Ninja clan drove me out. I am too old to fight, but perhaps you, being so strong and well-armed, could rid my home of these evil clansmen. I could reward you."
+            do: [{set: started}]
+      - n: 2
+        label: Initiation
+        show: {all: [{qbit: done}, {promotable: pagoda}]}
+        text: "A monk who has not been initiated? Sit. Breathe. Stand up. That's all it is, really. The rest you already did."
+        do: [{promote: pagoda}]
+
+hooks:
+  clan_master:
+    map: XD-22
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the clan master's death in the pagoda's top hall (A2's boss row 11123 Clan Master, level 42; a kill timer, as XD-05's drums)"
+    sets: [clan_master_slain]
+    once: true
+    text: "The clan master falls. You have dishonored the Ninjas by entering the Pagoda. They surely will not return to reclaim it."
+
+rewards: {xp: 16000, gold: 0}
+playthrough: "X5: Kai Wu (The Pagoda). XD-22: the clan master. X5: Kai Wu (The Pagoda): food, Monks promoted."

@@ -1,0 +1,557 @@
+format: 0
+level: L1
+pitch: "Cloudside's north-west corner: a hot desert of dunes and red mesas between two edges of the world. Castle Basenji stands on a cliff at the north rim with nothing but stars behind it; the Northern Sphinx lies in the dunes; in the west the sand pours over the rim and streams off into space, past a second sphinx buried to its shoulders. Between them the caravan road crosses the pan to Sphinx Wells, and in the south-east the Barbaric Mountains hide the yard of the Warzone."
+purpose: "Act IV's wilderness (party 30-33): Arie and Castle Basenji (Q-C8, XD-14), the Northern Sphinx (Q-C9, XD-15), the Warzone arena and its coach (XD-20, D-8.1), the Summer Druid (Q-C1), Saul (Meditation), the Air Reflector (M37, Act V), the obelisks' hoard before the Sphinx, and the Southern Sphinx sealed until Act VI (M40, FD-02)."
+mood: "Glare and heat under a pale clear sky; wind hissing over the dunes, sand blowing off their crests; palms and camels at the wells; the dark castle silent on its cliff; the hush at the rim where the sand falls into the stars."
+datum: water:rim_sea
+spaces:
+  - id: edge:east_end
+    name: East edge (X4)
+    kind: road
+    part_of: zone:central_pan
+    purpose: Where the desert road leaves for X4.
+  - id: edge:south_end
+    name: South edge (X5)
+    kind: road
+    part_of: zone:south_steppe
+    purpose: Where the steppe road leaves for X5.
+  - id: junction:south_fork
+    name: South fork
+    kind: junction
+    purpose: "The rim track west to the Southern Sphinx, the coach track east to the Warzone."
+    signpost: true
+  - id: junction:sphinx_fork
+    name: Sphinx fork
+    kind: junction
+    purpose: The track north to the Sphinx and the obelisk.
+    signpost: true
+  - id: junction:wells_fork
+    name: Wells fork
+    kind: junction
+    purpose: "West of Sphinx Wells: the road east to Burlock, south to Winterkill, north to Castle Basenji; the oasis track west."
+    signpost: true
+  - id: town:sphinx_wells
+    name: Sphinx Wells
+    kind: town
+    where: "the middle of the pan, on the caravan road"
+    floor: 1250
+    purpose: "The caravan stop (WORLD_DESIGN 5.1 hamlet): the tavern, the caravans to Asp and Rivercity, two homes and the well \"deeper than the Sphinx is tall\"."
+    safe: true
+    keep_clear: [spawns]
+    theme: "cloudside_town kit, its plain grade: ochre plaster and fieldstone, flat roofs with awnings; MM7 Bracada's palms."
+    density: medium
+    buildings:
+      - {id: building:x6_tavern, type: house, service: The Last Waterskin, count: 1, doors: 1, footprint_cells: [[2.5, 2]], notes: A4 house 4301.}
+      - {id: building:x6_stables, type: house, service: Sphinx Wells Caravans, count: 1, doors: 1, footprint_cells: [[2.5, 2]], notes: A4 house 4302.}
+      - {id: building:x6_houses, type: house, service: residence, count: 2, doors: 1, footprint_cells: [[1.5, 1], [1, 1]], notes: "A4 houses 4303 The Well Keeper's House (Old Ibb, 4606) and 4304 The Saddle Loft (Tansy, 4607)."}
+  - id: water:oasis_pond
+    name: The oasis pond
+    kind: water
+    part_of: zone:oasis
+    purpose: Clear water under palms.
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the edge.
+  - id: zone:air_corner
+    name: The Air corner
+    kind: zone
+    part_of: zone:basenji_heights
+    floor: 2350
+    purpose: "A rock spit where the west and north rims meet: the Air Reflector (M37)."
+  - id: zone:arie_camp
+    name: Arie's camp
+    kind: district
+    part_of: zone:cliff_foot
+    floor: 1450
+    purpose: "Arie the Apprentice (4608, Q-C8): a small tent, a fire and her master's books, where the cliff path starts up to the castle."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:barbaric_mountains
+    name: The Barbaric Mountains
+    kind: wild
+    floor: [2200, 3700]
+    relief: uneven
+    purpose: "Bare red-brown peaks in the south-east (the source's B2): the coach yard's cliffs, a prospector's camp in a high notch; sand golems."
+    density: sparse
+    population:
+      - {id: pop:barbaric, slot: 3, groups: 5, per_marker: [2, 3], levels: [22, 50], notes: "Encounter area: Sand golems."}
+  - id: zone:basenji_crag
+    name: Castle Basenji's crag
+    kind: zone
+    part_of: zone:basenji_heights
+    floor: 2700
+    purpose: "The wizard cult's castle (XD-14) on a cliff top over the desert, the stars behind it; its gate at the top of the cliff path."
+  - id: zone:basenji_heights
+    name: The Basenji heights
+    kind: wild
+    floor: [2300, 2750]
+    relief: uneven
+    purpose: "Red-brown rock along the north rim (the source's \"mountain edge\"): Castle Basenji on its crag, the Waters of Great Power, the werewolves' den, and at the corner where the rims meet the Air Reflector."
+    density: sparse
+    population:
+      - {id: pop:basenji_heights, slot: 2, groups: 16, per_marker: [2, 3], levels: [20, 40], notes: "Encounter area: Werewolves."}
+  - id: zone:central_pan
+    name: The pan
+    kind: wild
+    floor: [1150, 1350]
+    relief: flat
+    purpose: "Hard sand and cracked pans along the caravan road between the edges: Sphinx Wells, the oasis, the obelisk knoll; quiet."
+    density: sparse
+  - id: zone:cliff_foot
+    name: Under Basenji's cliff
+    kind: wild
+    floor: [1350, 1600]
+    relief: slope
+    purpose: "Scree and sand under the cliff: Arie's camp at the foot of the cliff path, the Shrine of Energy by the west rim."
+    density: sparse
+  - id: zone:coach_yard
+    name: The Warzone coach yard
+    kind: district
+    part_of: zone:south_steppe
+    floor: 1500
+    purpose: "D-8.1: a walled pocket holding only the arena gate (XD-20) and Gorm's coach house (4305; routes 429 to Rivercity, 430 to Castleview on m7.sigil); its desert gate barred from inside until a party opens it from the desert side (x6.warzone_gate)."
+    safe: true
+    keep_clear: [spawns]
+    theme: "Fieldstone walls of the cloudside_town kit; the arena gate cut in the Barbaric cliff (MM6 castle-stone portal)."
+    buildings:
+      - {id: building:warzone_coach, type: house, service: The Warzone Coach, count: 1, doors: 1, footprint_cells: [[2.5, 1.5]], notes: A4 house 4305.}
+  - id: zone:druid_grove
+    name: The Summer Druid's grove
+    kind: district
+    part_of: zone:south_steppe
+    floor: 1450
+    purpose: "The Summer Druid (4601, Q-C1): olive trees round a spring, the one green place in the south."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:east_downs
+    name: The dry downs
+    kind: wild
+    floor: [1500, 2100]
+    relief: uneven
+    purpose: "Dry downs toward X4 with a lone mesa; sand golems."
+    density: sparse
+    population:
+      - {id: pop:east_downs, slot: 3, groups: 6, per_marker: [2, 3], levels: [22, 50], notes: "Encounter area: Sand golems."}
+  - id: zone:gargoyle_foothills
+    name: The Gargoyle foothills
+    kind: wild
+    floor: [2000, 3000]
+    relief: uneven
+    purpose: "The Gargoyle Range's western foothills in the north-east corner, mostly beyond the playable square (X4's range goes on east)."
+    density: sparse
+  - id: zone:oasis
+    name: The oasis
+    kind: district
+    part_of: zone:central_pan
+    floor: 1080
+    purpose: "Palms round a clear pond in a hollow of the pan; the oasis fountain (+2 Endurance, permanent)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "West and north the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:ruin_fields
+    name: The bone fields
+    kind: wild
+    floor: [1300, 1550]
+    relief: uneven
+    purpose: "Cracked ground strewn with the bones of something enormous, a dead caravan's strongbox among them; the ruined caravanserai with its sand golems."
+    density: sparse
+    population:
+      - {id: pop:ruin_fields, slot: 3, groups: 7, per_marker: [2, 3], levels: [22, 50], notes: "Encounter area: Sand golems."}
+  - id: zone:saul_hermitage
+    name: Saul's hermitage
+    kind: district
+    part_of: zone:west_dunes
+    floor: 1400
+    purpose: "Saul the Hermit (4602): a stone hut with an awning and his urn; Meditation Master."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:south_steppe
+    name: The south steppe
+    kind: wild
+    floor: [1350, 1500]
+    relief: slope
+    purpose: "Dry grass and stones down to X5: the steppe road, the Well of Accuracy, the Summer Druid's grove, the coach track to the Warzone yard."
+    density: sparse
+  - id: zone:southern_sphinx
+    name: The Southern Sphinx
+    kind: zone
+    part_of: zone:west_dunes
+    floor: 1550
+    purpose: "FD-02: a second sphinx facing east, buried to its shoulders; its jaw shut until Roland's amulet (M40, Act VI)."
+  - id: zone:sphinx_desert
+    name: The Desert of the Sphinx
+    kind: wild
+    floor: [1300, 1700]
+    relief: uneven
+    purpose: "Open dunes and red mesas north of the road: the Northern Sphinx lying in the sand, a wagon the dunes swallowed, a nest on a mesa top; sand worms."
+    density: sparse
+    population:
+      - {id: pop:sphinx_dunes, slot: 1, groups: 11, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area: Sand burrowers."}
+  - id: zone:sphinx_forecourt
+    name: The Sphinx's forecourt
+    kind: zone
+    part_of: zone:sphinx_desert
+    floor: 1400
+    purpose: "The Northern Sphinx (XD-15): a great sandstone sphinx facing south, its door between its paws and a mound of sand before it (the obelisks' hoard)."
+  - id: zone:stony_rises
+    name: The stony rises
+    kind: wild
+    floor: [1800, 2400]
+    relief: uneven
+    purpose: The south-west corner's stony rises toward X5 (outside the playable square).
+    density: sparse
+  - id: zone:west_dunes
+    name: The rim dunes
+    kind: wild
+    floor: [1350, 1750]
+    relief: uneven
+    purpose: "Dunes running west to the rim and pouring over it into the stars, sand streaming off the lip; the Southern Sphinx half buried; Saul's hermitage; an explorer's pack at the edge; sand worms."
+    density: sparse
+    population:
+      - {id: pop:west_dunes, slot: 1, groups: 9, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area: Sand burrowers."}
+links:
+  - id: link:basenji_road
+    from: junction:wells_fork
+    to: zone:arie_camp
+    kind: road
+  - id: link:cliff_path
+    from: zone:arie_camp
+    to: zone:basenji_crag
+    kind: path
+    rise: 1150
+    features: ["a zigzag path up the cliff face, 1,150 in four turns"]
+  - id: link:coach_track
+    from: junction:south_fork
+    to: zone:coach_yard
+    kind: path
+    notes: by the Summer Druid's grove to the yard's desert gate
+  - id: link:desert_road
+    from: edge:east_end
+    to: junction:wells_fork
+    kind: road
+    purpose: "travel: X4"
+    notes: by the Sphinx fork and through Sphinx Wells
+  - id: link:oasis_track
+    from: junction:wells_fork
+    to: zone:saul_hermitage
+    kind: path
+    notes: by the oasis
+  - id: link:obelisk_path
+    from: link:sphinx_track
+    to: zone:central_pan
+    kind: path
+    notes: up the obelisk's knoll
+  - id: link:reflector_path
+    from: zone:basenji_crag
+    to: zone:air_corner
+    kind: path
+    notes: along the cliff top past the Waters of Great Power
+  - id: link:rim_track
+    from: junction:south_fork
+    to: zone:southern_sphinx
+    kind: path
+  - id: link:shrine_path
+    from: zone:oasis
+    to: zone:cliff_foot
+    kind: path
+    notes: to the Shrine of Energy
+  - id: link:sphinx_track
+    from: junction:sphinx_fork
+    to: zone:sphinx_forecourt
+    kind: path
+  - id: link:steppe_road
+    from: junction:wells_fork
+    to: edge:south_end
+    kind: road
+    purpose: "travel: X5"
+    notes: by the South fork and the Well of Accuracy
+entrances:
+  - id: entrance:east_road
+    space: edge:east_end
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: The desert road from X4's Asp road.
+  - id: entrance:fd02_door
+    space: zone:southern_sphinx
+    kind: both
+    neighbour: door:fd02
+    facing: e
+    how: "A3's m40.sphinx_door: \"The Sphinx's stone eyes find Roland's amulet. Its jaw opens on a stair.\"; without it \"A sphinx of sand-coloured stone, its jaw shut. There is a hollow in its breast the size of an amulet.\""
+    condition: {item: southern_sphinx_amulet}
+  - id: entrance:south_road
+    space: edge:south_end
+    kind: both
+    neighbour: edge:south
+    facing: n
+    how: The steppe road from X5's Winterkill.
+  - id: entrance:sphinx_wells
+    space: town:sphinx_wells
+    kind: arrival
+    neighbours: [stable:sphinx_wells_asp, stable:sphinx_wells_rivercity]
+    how: "A4's sphinx_wells: in front of the caravans' stables; Town Portal (Sphinx Wells)."
+  - id: entrance:warzone_coach
+    space: zone:coach_yard
+    kind: arrival
+    neighbours: [stable:warzone_rivercity, stable:warzone_castleview]
+    how: "A4's warzone_coach: inside the walled coach yard (Rivercity's 406, Castleview's 415)."
+  - id: entrance:xd14_gate
+    space: zone:basenji_crag
+    kind: both
+    neighbour: door:xd14
+    facing: s
+    how: "Castle Basenji's gate at the top of the cliff path (\"Castle Basenji. Enter?\")."
+  - id: entrance:xd15_door
+    space: zone:sphinx_forecourt
+    kind: both
+    neighbour: door:xd15
+    facing: s
+    how: "The door between the Sphinx's paws: A3's q-c9.door wants the Jewelled Amulet and keeps it."
+    condition: {item: northern_sphinx_amulet}
+  - id: entrance:xd20_gate
+    space: zone:coach_yard
+    kind: both
+    neighbour: door:xd20
+    facing: w
+    how: "The arena gate in the cliff (\"Enter the War Zone?\")."
+  - id: entrance:yard_gate
+    space: zone:coach_yard
+    kind: both
+    facing: w
+    how: "D-8.1: the yard's desert gate. From the desert side it always opens and calls A3's x6.warzone_gate (sets 116100); from the yard side it asks x6.warzone_gate_open, and before the bit Gorm says \"The sand's no place for you yet. Arena or home.\""
+    condition: {qbit: warzone_gate}
+critical_path: [edge:east_end, junction:sphinx_fork, town:sphinx_wells, junction:wells_fork, zone:arie_camp, zone:basenji_crag]
+goals:
+  - id: goal:arie
+    space: zone:arie_camp
+    kind: reach
+    what: "Meet Arie below Castle Basenji; take her master's note (Q-C8)."
+    story: Q-C8
+  - id: goal:basenji
+    space: zone:basenji_crag
+    kind: reach
+    what: Climb the cliff path into Castle Basenji (XD-14) for the Scroll of Insight.
+    story: Q-C8
+  - id: goal:hoard
+    space: zone:sphinx_forecourt
+    kind: use
+    what: Dig where the seven Cloudside obelisks said (OBELISKS).
+    story: OBELISKS
+  - id: goal:reflector
+    space: zone:air_corner
+    kind: use
+    what: "Wake the Air Reflector (M37, after M36 starts)."
+    story: M37
+  - id: goal:sphinx
+    space: zone:sphinx_forecourt
+    kind: use
+    what: Open the Northern Sphinx with Arie's amulet (Q-C9).
+    story: Q-C9
+  - id: goal:summer
+    space: zone:druid_grove
+    kind: reach
+    what: Take the Last Flower of Summer from the Summer Druid (Q-C1).
+    story: Q-C1
+points_of_interest:
+  - id: poi:air_reflector
+    space: zone:air_corner
+    kind: device
+    behaviour: "A3's m37.reflector_air: \"Reflector. Activate?\"; after m36.started it hums and answers the south (8,000 XP once); before, \"A machine of the Ancients, cold and silent.\""
+  - id: poi:arie
+    space: zone:arie_camp
+    kind: npc
+    behaviour: "Arie the Apprentice (4608): A3's Q-C8 topics (\"The wizards of Castle Basenji killed my master. His scroll is still in there.\"); after Q-C8, the Sphinx's name."
+  - id: poi:bone_field
+    space: zone:ruin_fields
+    kind: chest
+    behaviour: "A dead caravan among the giant bones: its pay chest."
+  - id: poi:caravan_cairn
+    space: zone:central_pan
+    kind: device
+    behaviour: "A cairn the caravans add to for luck on the crossing: add a stone, +Luck, temporary, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:caravanserai
+    space: zone:ruin_fields
+    kind: chest
+    behaviour: "The ruined caravanserai, its sand golems round it: the old keeper's strongbox (a chest)."
+  - id: poi:cloud_hoard
+    space: zone:sphinx_forecourt
+    kind: device
+    behaviour: "A3's obelisks.cloud_hoard: a mound of sand between the paws; with all seven Cloudside words, an iron box (10,000 gold, two treasure-6 items); else \"Sand, and more sand.\""
+  - id: poi:mesa_nest
+    space: zone:sphinx_desert
+    kind: chest
+    behaviour: "A great bird's nest on a mesa top, reached by a crack: glittering things (a chest)."
+  - id: poi:oasis_fountain
+    space: zone:oasis
+    kind: fountain
+    behaviour: "The oasis fountain (MAPS X6): +2 Endurance, permanent, once per character."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:obelisk
+    space: zone:central_pan
+    kind: obelisk
+    behaviour: "Cloudside's sixth obelisk (A3's obelisks.x6: THE)."
+    rule: native:obelisk
+    notes: "On the red rock knoll by the Sphinx track; the Sphinx in view."
+  - id: poi:prospector_camp
+    space: zone:barbaric_mountains
+    kind: chest
+    behaviour: "A prospector's camp in a high notch, the fire long cold: his strongbox (a chest)."
+  - id: poi:rim_pack
+    space: zone:west_dunes
+    kind: chest
+    behaviour: "An explorer's pack at the rim's lip, a rope going over: \"Gone to see where the sand goes.\" (a chest)"
+  - id: poi:saul
+    space: zone:saul_hermitage
+    kind: teacher
+    behaviour: "Saul the Hermit (4602): Meditation Master (A4's teachers); \"Sit by the urn. Breathe. The sand will wait.\""
+  - id: poi:saul_urn
+    space: zone:saul_hermitage
+    kind: device
+    behaviour: "Saul's urn: \"The urn is full of sand and old coins. Saul says the coins are for the sand.\" (the source's urn took 10,000 gold for Prayermaster; Saul now teaches Meditation by talk)."
+  - id: poi:shrine_energy
+    space: zone:cliff_foot
+    kind: shrine
+    behaviour: "The Shrine of Energy (source A1: \"Shrine of Energy. Pray?\"): +5 Air resistance, permanent, once per character (D-4's +5)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:signposts
+    spaces: [junction:wells_fork, junction:sphinx_fork, junction:south_fork]
+    count: 3
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:summer_druid
+    space: zone:druid_grove
+    kind: npc
+    behaviour: "The Summer Druid (4601): A3's Q-C1 (the Last Flower of Summer)."
+  - id: poi:sun_stones
+    space: zone:south_steppe
+    kind: shrine
+    behaviour: "A ring of red standing stones the Summer Druid keeps for the solstice: +Fire resistance, temporary, daily (\"The stones are warm long after dark.\")."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:swallowed_wagon
+    space: zone:sphinx_desert
+    kind: chest
+    behaviour: "A wagon half under a dune, a worm's hole beside it: its strongbox (a chest)."
+  - id: poi:waters_power
+    space: zone:basenji_heights
+    kind: fountain
+    behaviour: "The Waters of Great Power (source A1): +Hit Points, temporary, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:well_accuracy
+    space: zone:south_steppe
+    kind: well
+    behaviour: "The Well of Accuracy by the steppe road: +Accuracy, temporary, daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:wells_well
+    space: town:sphinx_wells
+    kind: well
+    behaviour: "Old Ibb's well: \"The water is cool and refreshing.\" (the source's line; a plain well)."
+  - id: poi:werewolf_den
+    space: zone:basenji_heights
+    kind: chest
+    behaviour: "The werewolves' den under the castle's east wall: gnawed bones and a chest of what their victims carried."
+landmarks:
+  - id: landmark:barbaric_mountains
+    space: zone:barbaric_mountains
+    what: "Bare red-brown peaks to 3,700 in the south-east"
+    seen_from: [zone:south_steppe, zone:ruin_fields, edge:south_end]
+  - id: landmark:basenji
+    space: zone:basenji_crag
+    what: "A dark castle of grey rubble and black timber on a cliff top, nothing but stars behind it"
+    seen_from: [zone:central_pan, zone:cliff_foot, zone:sphinx_desert, edge:east_end]
+  - id: landmark:northern_sphinx
+    space: zone:sphinx_forecourt
+    what: "A great sandstone sphinx lying in the dunes, its head 1,600 above the sand"
+    seen_from: [zone:central_pan, zone:sphinx_desert, edge:east_end, zone:east_downs]
+  - id: landmark:red_mesas
+    space: zone:sphinx_desert
+    what: Flat-topped red mesas north of the road
+    seen_from: [zone:central_pan, edge:east_end]
+  - id: landmark:sand_falls
+    space: zone:west_dunes
+    what: "Dunes pouring over the west rim, sand streaming off into the stars"
+    seen_from: [zone:west_dunes, zone:saul_hermitage]
+  - id: landmark:southern_sphinx
+    space: zone:southern_sphinx
+    what: "A second sphinx buried to its shoulders, facing the morning"
+    seen_from: [zone:west_dunes, zone:south_steppe]
+sightlines:
+  - id: view:arrival
+    from: entrance:east_road
+    to: [town:sphinx_wells, landmark:northern_sphinx, landmark:red_mesas, landmark:basenji]
+    what: "Arrival from X4: the road over the pan to Sphinx Wells' palms, the Sphinx in the dunes on the right, the mesas, Castle Basenji far ahead on its cliff."
+  - id: view:signature
+    from: zone:west_dunes
+    to: [landmark:sand_falls, landmark:southern_sphinx]
+    what: "The signature view: the dunes pouring over the world's west rim into the stars, the Southern Sphinx half buried beside them."
+height_bands:
+  - id: band:desert
+    range: [1300, 1600]
+    spaces: [zone:cliff_foot, zone:ruin_fields, zone:south_steppe]
+  - id: band:downs
+    range: [1500, 2400]
+    spaces: [zone:east_downs, zone:stony_rises]
+  - id: band:dunes
+    range: [1300, 2300]
+    spaces: [zone:sphinx_desert, zone:west_dunes]
+    notes: "Dunes 1,300-1,750; the red mesas stand up to 2,250 out of them."
+  - id: band:heights
+    range: [2200, 3000]
+    spaces: [zone:basenji_heights, zone:gargoyle_foothills]
+  - id: band:oasis
+    range: [1000, 1150]
+    spaces: [zone:oasis, water:oasis_pond]
+  - id: band:pan
+    range: [1150, 1350]
+    spaces: [zone:central_pan, town:sphinx_wells]
+  - id: band:peaks
+    range: [2200, 3700]
+    spaces: [zone:barbaric_mountains]
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+states:
+  - id: state:coach_castleview
+    condition: {not: {qbit: m7_sigil}}
+    notes: "Route 430 (to Castleview) waits for the Pyramid Sigil (D-8.1); route 429 runs from the start."
+  - id: state:reflector_cold
+    condition: {not: {qbit: m36_started}}
+    atmosphere: The Reflector cold and silent until M36 starts.
+  - id: state:southern_sphinx_shut
+    condition: {not: {item: southern_sphinx_amulet}}
+    locks: [entrance:fd02_door]
+    atmosphere: "Its jaw shut; a hollow in its breast."
+  - id: state:sphinx_shut
+    condition: {not: {qbit: sphinx_entered}}
+    locks: [entrance:xd15_door]
+    notes: "Opens once to the Jewelled Amulet (q-c9.door), then stays open."
+  - id: state:yard_barred
+    condition: {not: {qbit: warzone_gate}}
+    locks: [entrance:yard_gate]
+    atmosphere: "A beam across the gate on the yard side; Gorm by his coach."
+    notes: "Only from the yard side: from the desert side the gate opens and sets the bit (A3's x6.warzone_gate)."
+landform:
+  relief: "The pan (1,250) along the caravan road, the oasis hollow (1,080, the pond 1,000); dunes 1,300-1,750 north and west; red mesas to 2,250; Basenji's heights (2,350-2,750) on the north rim with a 1,100 cliff to the desert; the Barbaric Mountains to 3,700 in the south-east, inside the playable square. Inside the square: 1,000 to 3,700."
+  height_range: [1000, 3700]
+  water: "The oasis pond (about 15 cells); no river."
+  water_share: 0.003
+  caps:
+    - {kind: bare rock, share: 0.14, where: "Basenji's heights and cliff, the mesas, the Barbaric Mountains, the rim cliffs"}
+    - {kind: sand, share: 0.55, where: "the dunes, the pan, the rim dunes"}
+  rim: {notes: "The world rim along the whole west (x 24) and north (y 24): a cliff of 1,400-2,700 down to the stars; the dunes pour over the west rim (sand streaming off, particles); Castle Basenji over the north rim. East and south the land runs to the map edge; the roads run out to it."}
+atmosphere: "Sky: the shipped clear preset with the arid theme (Bracada, Dragonsand); no weather; music 17. Wind over the dunes and sand blowing off their crests (a particle gap at the rim, MU-2); camels and a creaking well at Sphinx Wells; crowd noise faint from the arena gate; silence at the rim."
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  dungeon_entrances: 4
+  encounter_areas: 6
+  hostiles_at_load: 135
+  outdoor_chests: 7
+  points_of_interest: 28
+  spawn_markers: 54
+notes: "MU-3 for the phase 4 review (A5, 2026-11-20). Source geography: Clouds A1, A2, B1, B2 (MAPS X6). Drawing and review board: output/studio_cal/x6/mockups/. Generated by output/studio_cal/x6/tools/gen_l1.py."

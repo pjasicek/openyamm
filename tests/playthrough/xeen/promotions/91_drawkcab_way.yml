@@ -1,0 +1,94 @@
+# Xeen promotion playthrough 91, block H (tier 2, Light): Q-D3 The Drawkcab Way, nobody promoted (README check 3: the
+# party has no Initiate). From a copy of the main chain's 59 (D1 outside Ellinger's Tower; M20 started, so Reger's
+# promotion gate, D-12.2, is open). Brother Reger's door outside the walls (D1 event 99) before the lessons: his fail
+# line. The four palindrome monks in Castleview in order (houses 4473-4476, each a residence of one: the door opens his
+# talk; outdoors the party is placed at each door): Otto, Hannah, Bob, Ada (Lesson: the Drawkcab award, 2,000 each).
+# Reger's door again: "What's the word?", palindrome (q-d3.reger_word: word_said); the door again opens his cell: The
+# word (done, 9,000 each; nobody walks the inner way, so nobody rises, classes kept); asked again, his done line; his
+# later topic Masters (T2-LATER) is not offered with nobody eligible.
+# Quest logic: source/quests/q-d3.yml. Poses: devdocs/xeen/briefs/d1/L4/playtest.yml (the cells' doors).
+#   python3 tests/playthrough/xeen/promotions/run.py 91
+id: xeen.promotions.91_drawkcab_way
+title: "Xeen promotions 91: the Drawkcab Way (Q-D3), nobody promoted"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_59.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d1.odm, qbit_set: [111400]}
+  - assert: {qbit_clear: [113060, 113064, 113065, 113066]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; remember('classes', classes()); for i = 0, 3 do remember('xp' .. i, experience(i)) end; log('91 start: ' .. classes())"}
+  # Reger's door before the lessons: the fail line, no question.
+  - set_pose: {map: xeen_d1.odm, x: -3328, y: -15892, z: 1023, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(99); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Go visit the monks of Castleview for enlightenment"}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The four lessons, in order.
+  - set_pose: {map: xeen_d1.odm, x: -3584, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4923}}
+  - select_topic: {match_label: "Lesson"}
+  - assert: {dialog: {active: true, text_contains: "No word, no bond, row on."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: -3072, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4924}}
+  - select_topic: {match_label: "Lesson"}
+  - assert: {dialog: {active: true, text_contains: "He lived as a devil, eh?"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: -2560, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4925}}
+  - select_topic: {match_label: "Lesson"}
+  - assert: {dialog: {active: true, text_contains: "Was it a rat I saw?"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: -2048, y: 1516, z: 1152, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4926}}
+  - select_topic: {match_label: "Lesson"}
+  - assert: {dialog: {active: true, text_contains: "I dub thee a member of the Drawkcab!"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for i = 0, 3 do if experience(i) - tonumber(recall('xp' .. i)) ~= 2000 then error('Ada paid ' .. (experience(i) - tonumber(recall('xp' .. i)))) end end"}
+  - assert: {qbit_set: [113060, 113061, 113062, 113063, 113064]}
+  # Reger's door: the word.
+  - set_pose: {map: xeen_d1.odm, x: -3328, y: -15892, z: 1023, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(99); wait(0.5)"}
+  - answer_input: {text: "palindrome"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Come in. Ni emoc."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(113065) then error('word_said 113065 not set') end"}
+  # D-82 point 5: no member down before Reger's hand-in (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 91 before Reger\\'s hand-in: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Reger\\'s hand-in (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  # His cell: The word (done, 9,000 each; nobody of the inner way).
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4950, action_label_absent: "Masters"}}
+  - select_topic: {match_label: "The word"}
+  - assert: {dialog: {active: true, text_contains: "Those of you who walk the inner way walk it now as Masters."}}
+  - play_lua:
+      source: |
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 11000 then error("member " .. i .. ": Q-D3 paid " .. xp .. " experience, not 11000") end
+        end
+        if classes() ~= recall("classes") then error("Reger promoted the party: " .. classes()) end
+  - assert: {qbit_set: [113066]}
+  - select_topic: {match_label: "The word"}
+  - assert: {dialog: {active: true, text_contains: "Pleased to see you, fellow Drawkcabs."}}
+  - assert: {dialog: {active: true, action_label_absent: "Masters"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('Q-D3 done: ' .. classes())"}
+  - save_game: {name: "P91 the Drawkcab Way", path: output/playthrough/xeen/promotions/checkpoints/91_drawkcab_way.oysav}

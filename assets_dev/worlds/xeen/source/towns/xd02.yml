@@ -1,0 +1,20 @@
+# XD-02 Red Dwarf Mines: the dwarves' smithy that reopens after M3 (QUESTS M3; hook m3.dwarf_shop). Owner: A4.
+key: XD-02
+stem: xeen_xd02.blv
+town: Red Dwarf Mines
+face: cloudside
+blocks:
+  houses: [4851, 4900]
+  npcs: [5701, 5800]
+houses:
+  - id: 4851
+    door: door:dwarf_smithy
+    kind: weapon_shop
+    name: Red Dwarf Smithy
+    owner: 5701
+    shop: {quality: 2, kinds: [axe]}
+    opens: m3.done
+    hook: m3.dwarf_shop
+    closed_text: "The smithy is barred. Behind the door, someone is sharpening something and swearing at the Mad Clan."
+npcs:
+  - {id: 5701, name: Grimbold, title: Dwarf Smith, profession: Smith, teaches: [{skill: Repair Item, mastery: master}], greet: ["The Clan King's dead and the mine is ours again. What needs mending?", "Back for an edge?"]}

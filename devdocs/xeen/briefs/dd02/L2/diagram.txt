@@ -1,0 +1,20 @@
+ Floor 4 (1920)   [Boot closet $$]
+                        |door
+                 [ELLINGER'S STUDY: Ellinger, Book o' Boots, list]=door 'Who do you seek?'=[last door]--[top landing]
+                        |                                                                       |  last stair
+                 [Lift head]                                                                    |
+ Floor 3 (1440)    ||   [stair]--[Tapestry maze: 3 buttons]==door==[Beholder loft]              |
+                   ||       |          \## (tapestry)                  |                        |
+                   ||       |           [back stair top]--[Crate room $, storeroom]              |
+                   ||       |                                    [Trapped walk: plates]---------+
+ Floor 2 (960)     ||   [stair]--[The library: 3 books]==door==[Reading room $]
+                   ||       |          \----[Gargoyle gallery]--[back stair]
+ Floor 1 (480)     ||   [stair]--[Hall of Wards]==door==[Bat roost]--[Tapestry gallery]##[back stair foot]
+                   ||       |
+ Floor 0 (0)   [LIFT SHAFT, closed on floors 1-3]
+                   |gate
+  D1 door --[Entry hall: dead mirror]--[Hall of the Question]==the question's door==[stair]
+                   |door
+               [Storeroom $]
+
+ $ chest   == door   ## secret panel behind a tapestry   || the closed lift shaft (cage: two stops, after m17.done)

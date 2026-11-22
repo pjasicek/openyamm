@@ -1,0 +1,546 @@
+format: 0
+level: L2
+pitch: "The south-centre of Darkside, between Castleview's vale and Sandcaster's desert edge. North the Gemstone Range walls the map, its crags veined with glowing crystal; its foothills hold the Gemstone Mines' east adit. A spur of the range runs south across the middle, and the caravan road crosses it at Ogre Pass, between Graalg's two timber forts. South of the road the Sprite Forest fills the land to the world's rim: dark old trees, glowing mushrooms, and at its heart the great tree of the Temple of Bark rising high over the canopy. Sharla's sprites keep a treehouse village beside it; trolls dig their holes in the forest floor to the south-east; the Glimmerbrook runs down through the forest and falls off the edge of the world into the stars. East of the spur, the Southern Tower stands alone in darker woods."
+purpose: "Act III's second Darkside region (party 21-25), a town map without a human town. Its quests: Nibbler's key (Q-D9) to the Temple of Bark (DD-09) and Sharla's princess inside (Q-D10); Graalg's ogres in the pass, peace or fire (Q-D11, DD-13); Hobstadt's troll holes (Q-D13, DD-11A-C); the Southern Tower (Q-D19, DD-06, opened later with Thaddeus's key from D3); the Gemstone Mines' east pocket (DD-10B, Q-D7); the second Darkside obelisk."
+mood: "Amber light through dark leaves; a small pale sun low over the range. The forest is old and still, lit from below by glowing caps; the pass is wind, smoke and ogre noise; the rim at the forest's foot opens on the stars."
+datum: water:rim_sea
+spaces:
+  - id: edge:east_end
+    name: East edge
+    kind: road
+    part_of: zone:east_descent
+    purpose: Where the caravan road leaves for D3.
+  - id: edge:west_end
+    name: West edge
+    kind: road
+    part_of: zone:west_edge
+    purpose: Where the Castleview road leaves for D1.
+  - id: junction:bark_glade
+    name: Bark Glade
+    kind: junction
+    purpose: "South-west: the treehouse village. South: the great tree. East: the forest track to the Southern Woods."
+    signpost: true
+  - id: junction:forest_fork
+    name: Forest Fork
+    kind: junction
+    purpose: "East: the caravan road over Ogre Pass to Sandcaster. South-east: the track into the Sprite Forest."
+    signpost: true
+  - id: junction:pass_saddle
+    name: Pass saddle
+    kind: junction
+    part_of: zone:pass_saddle
+    purpose: "Top of Ogre Pass: west to Castleview, east to Sandcaster."
+    signpost: true
+  - id: junction:south_fork
+    name: South Fork
+    kind: junction
+    purpose: "North: up to the caravan road east of the pass. South: the Southern Tower. West: the forest track under the spur."
+    signpost: true
+  - id: town:sprite_village
+    name: Sharla's treehouse village
+    kind: town
+    where: "a glade south-west of the great tree, 5 doors round a mossy green"
+    floor: 980
+    purpose: "The sprites' village (A4's d2.yml, 4551-4555): Dewdrop Potions, the Light Guild of the Treetops, Sharla's Treehouse and two bowers, each a giant tapered trunk with a round door at its foot and a lantern each side, a deck round it and a crown on top; rope walks between the decks; only Sharla's stair goes up (to her chest). Peaceful sprites until q-d10.robbery."
+    safe: true
+    keep_clear: [spawns]
+    theme: "Giant tapered trunks of bark with root buttresses, round doors with lanterns, plank decks."
+    density: medium
+    buildings:
+      - {id: building:sharla_tree, type: house, service: Sharla's Treehouse, count: 1, doors: 1, footprint_cells: [[3, 3]]}
+      - {id: building:sprite_guild_light, type: house, service: Light Guild of the Treetops, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:sprite_potions, type: house, service: Dewdrop Potions, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:sprite_houses, type: house, service: Mossbell's Bower, count: 2, doors: 1, footprint_cells: [[2, 2], [2, 2]]}
+    population:
+      - {id: pop:village_sprites, actor: "11537", groups: 1, placed: true, hostile: false, notes: "8 village sprites on A2's village rows 11537/11538 (Medusa 10, Killer 14, faction xeen_sprites_village): peaceful; hostile on q-d10.robbery (A2's relations); all dead sets q-d10.sprites_slain."}
+  - id: water:brook
+    name: The Glimmerbrook
+    kind: water
+    purpose: "Rises under the range, crosses the caravan road (a log bridge) and the forest track (a footbridge), runs past the great tree and falls off the rim into the stars (Sprite Falls)."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: "The stars below the world's edge (water at 0, as X1 and X5)."
+  - id: zone:bark_glade
+    name: The glade of the great tree
+    kind: zone
+    part_of: zone:sprite_forest
+    floor: 1000
+    purpose: "The open ground round the great tree's roots: the temple door in the trunk (DD-09), Nibbler's hollow under a root, the signpost where the village lane leaves."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:nibbler_hollow, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+  - id: zone:brink
+    name: The Brink
+    kind: zone
+    part_of: zone:sprite_forest
+    floor: 920
+    purpose: "Where the forest ends at the rim (y 104, D-23): the sprites' lookout bench by the Glimmerbrook's fall over the edge; the stars below."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:east_descent
+    name: The east descent
+    kind: wild
+    floor: [1250, 1900]
+    relief: slope
+    purpose: "The caravan road down from the pass to the D3 border; a goat track up to the genie's ledge."
+    density: sparse
+  - id: zone:east_meadow
+    name: The Sandcaster road's end
+    kind: zone
+    part_of: zone:east_descent
+    floor: 1300
+    purpose: "Where the party comes in from D3: open hillside, the pass and its east fort ahead and above, the Southern Woods below to the south."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:foothills
+    name: The Gemstone foothills
+    kind: wild
+    floor: [1200, 2000]
+    relief: uneven
+    purpose: "Stony slopes under the range with scattered firs and crystal outcrops: wolves and sabertooths, the Gemstone Mines' east adit, a crystal seam to chip."
+    density: sparse
+    population:
+      - {id: pop:foothill_wolves, slot: 1, groups: 12, per_marker: [2, 3], levels: [16, 28], notes: "Encounter area E1: Dark Wolves 16 and Sabertooths 22, Snow Beasts 28 only on the upper slopes."}
+  - id: zone:fruit_clearing
+    name: The Forbidden Fruit clearing
+    kind: zone
+    part_of: zone:troll_country
+    floor: 950
+    purpose: A clearing with a tumbledown hut and a basket labelled Forbidden Fruit.
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:mine_mouth
+    name: The east adit
+    kind: zone
+    part_of: zone:foothills
+    floor: 1700
+    purpose: "The Gemstone Mines' east entrance (DD-10B): a timbered adit in a rock face, spoil heaps and a broken ore cart."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:ogre_pass
+    name: Ogre Pass
+    kind: wild
+    floor: [1500, 2100]
+    relief: slope
+    purpose: "The caravan road's climb over the Gemstone Spur: the west fort on its knoll north of the road at the west mouth, Graalg's parley fire in the saddle, the east fort on its knoll south of the road beyond. Kramer's caravans are robbed here (Q-D11)."
+    population:
+      - {id: pop:pass_ogres, actor: "11066", groups: 4, placed: true, hostile: true, notes: "22 placed (Ogres 18, Brutes 22, two Chiefs 30) in the two fort yards and two road groups: hostile at load, peaceful on q-d11.friends, hostile again on q-d11.hostile or a fort burned (D-12.3, D-23)."}
+      - {id: pop:graalg, actor: "11064", groups: 1, placed: true, hostile: false, notes: "Graalg (A2's 11064, talking actor 5108) and two Graalg's Brutes (11065), their own faction, peaceful at the parley fire until q-d11.hostile or a fort burned."}
+  - id: zone:pass_saddle
+    name: Graalg's saddle
+    kind: zone
+    part_of: zone:ogre_pass
+    floor: 2050
+    purpose: "The top of the pass: a ring of stones round a fire, Graalg's log seat, bones, the signpost."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:range
+    name: The Gemstone Range
+    kind: wild
+    floor: [2400, 4400]
+    relief: uneven
+    purpose: "The wall along the north edge (beyond it D5's desert): grey slate crags with veins and clusters of glowing violet and teal crystal. Not walkable above its foot."
+    empty: true
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "South, the land ends in a cliff; below, the stars (water at 0 stands for them)."
+    empty: true
+  - id: zone:shrine_glade
+    name: The Shrine of the Elements
+    kind: zone
+    part_of: zone:southern_woods
+    floor: 1000
+    purpose: "Four standing stones round an altar, one per element, near the rim."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:southern_woods
+    name: The Southern Woods
+    kind: wild
+    floor: [950, 1400]
+    relief: uneven
+    purpose: "Darker, older woods east of the spur, south of the pass: wolves and sabertooths, the Southern Tower in its clearing, the Shrine of the Elements, the Leprechaun's hidden pot by the rim."
+    density: dense
+    population:
+      - {id: pop:woods_wolves, slot: 1, groups: 12, per_marker: [2, 3], levels: [16, 22], notes: "Encounter area E5: Dark Wolves 16 and Sabertooths 22 (no Snow Beasts); the first fight from D3."}
+  - id: zone:sprite_forest
+    name: The Sprite Forest
+    kind: wild
+    floor: [880, 1150]
+    relief: uneven
+    purpose: "Old dark broadleaf forest from the road to the rim, glowing mushrooms in rings and along the brook: the great tree, the sprites' village, the troll holes, the Forbidden Fruit hut, the obelisk at its north edge."
+    density: dense
+  - id: zone:spur_crags
+    name: The Gemstone Spur
+    kind: wild
+    floor: [1600, 2800]
+    relief: uneven
+    purpose: "The spur's broken south end between the pass and the forest: cliffs and crags the forest track skirts at their foot. It splits the map into the forest west and the Southern Woods east."
+    empty: true
+  - id: zone:tower_clearing
+    name: The Southern Tower's clearing
+    kind: zone
+    part_of: zone:southern_woods
+    floor: 1050
+    purpose: "The Southern Tower (DD-06): a lone Mok tower of slate-blue stone with a slate cone, NO THIEVES on its brass plate; a thieves' drop under a stump nearby."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:troll_country
+    name: Troll country
+    kind: wild
+    part_of: zone:sprite_forest
+    floor: [880, 1100]
+    relief: uneven
+    purpose: "The forest's south-east, darker and torn up: three troll holes (DD-11A-C), dug earth, gnawed bones, the Forbidden Fruit hut's clearing."
+    density: dense
+    population:
+      - {id: pop:trolls, slot: 2, groups: 12, per_marker: [2, 3], levels: [18, 38], notes: "Encounter area E3: Trolls 18 by the holes and lanes, Troll Guards 28 deeper, Ice Trolls 38 only by the third hole."}
+  - id: zone:village_green
+    name: The village green
+    kind: zone
+    part_of: town:sprite_village
+    floor: 980
+    purpose: "Moss and a ring of glowing caps between the five trunks; the lane from the great tree ends here."
+    empty: true
+    safe: true
+  - id: zone:west_edge
+    name: The forest's edge
+    kind: zone
+    where: "west, the Castleview road's last stretch from the D1 border to the Forest Fork"
+    floor: 1000
+    purpose: "Where the party comes in from D1: open woodland of tall dark trees thinning to the road, the first glowing caps under them, the great tree's crown in view south-east, the foothills and the range north."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:west_glades
+    name: The western glades
+    kind: zone
+    part_of: zone:sprite_forest
+    floor: 1000
+    purpose: "Mushroom glades south of the arrival: wild sprites, the first fight from D1."
+    population:
+      - {id: pop:west_sprites, slot: 3, groups: 4, per_marker: [2, 3], levels: [10, 14], notes: "Encounter area E2 (west): Medusa and Killer Sprites, wild (not Sharla's)."}
+  - id: zone:whispering_glades
+    name: The Whispering Glades
+    kind: zone
+    floor: [1100, 1500]
+    relief: uneven
+    purpose: "Glades and mushroom rings between the caravan road and the forest track, under the spur: wild sprites."
+    density: medium
+    population:
+      - {id: pop:glade_sprites, slot: 3, groups: 6, per_marker: [2, 3], levels: [10, 18], notes: "Encounter area E2 (east): Medusa and Killer Sprites, a Sprite Queen 18."}
+links:
+  - id: link:brink_path
+    from: zone:fruit_clearing
+    to: zone:brink
+    kind: path
+  - id: link:caravan_east
+    from: junction:pass_saddle
+    to: edge:east_end
+    kind: road
+    purpose: "travel: D3, past the east fort"
+  - id: link:caravan_west
+    from: junction:forest_fork
+    to: junction:pass_saddle
+    kind: road
+    rise: 1100
+    crosses: [water:brook]
+    features: [a log bridge over the Glimmerbrook at (51, 48)]
+    purpose: "the caravan road up to Ogre Pass, past the west fort"
+  - id: link:castleview_road
+    from: edge:west_end
+    to: junction:forest_fork
+    kind: road
+    purpose: "travel: D1 to D2"
+  - id: link:forest_track
+    from: junction:forest_fork
+    to: junction:bark_glade
+    kind: path
+  - id: link:fruit_lane
+    from: link:glade_track
+    to: zone:fruit_clearing
+    kind: path
+  - id: link:glade_track
+    from: junction:bark_glade
+    to: junction:south_fork
+    kind: path
+    crosses: [water:brook]
+    features: [a footbridge at (48, 70)]
+    notes: "under the spur's crags; the forest's way round the pass"
+  - id: link:mine_lane
+    from: link:caravan_west
+    to: zone:mine_mouth
+    kind: path
+    rise: 500
+  - id: link:shrine_path
+    from: link:tower_lane
+    to: zone:shrine_glade
+    kind: path
+  - id: link:south_climb
+    from: junction:south_fork
+    to: link:caravan_east
+    kind: path
+    rise: 300
+    notes: "joins the caravan road below the east fort: the loop"
+  - id: link:tower_lane
+    from: junction:south_fork
+    to: zone:tower_clearing
+    kind: path
+  - id: link:village_lane
+    from: junction:bark_glade
+    to: zone:village_green
+    kind: path
+entrances:
+  - id: entrance:d7_fall
+    space: zone:tower_clearing
+    kind: both
+    facing: s
+    how: "D-58 Q10: a fall from D7 lands here, 1,024 north of the Southern Tower's door (its roof leads up to D7 after m30.done)."
+  - id: entrance:dd06_door
+    space: zone:tower_clearing
+    kind: both
+    neighbour: door:dd06
+    facing: n
+    how: "The Southern Tower's iron-bound door (q-d19.tower_door); locked: 'Locked. A brass plate reads NO THIEVES. Under it, scratched: ha.'"
+    condition: {item: south_tower_key}
+  - id: entrance:dd09_door
+    space: zone:bark_glade
+    kind: both
+    neighbour: door:dd09
+    facing: n
+    how: "A round door of bark-grown planks in the great tree's trunk (q-d9.bark_door): 'Enter the Ancient Temple of Bark?'; locked: 'A door in the trunk of the great tree, locked. Nibbler sits nearby, looking innocent and hungry.'"
+    condition: {item: bark_key}
+  - id: entrance:dd10b_adit
+    space: zone:mine_mouth
+    kind: both
+    neighbour: door:dd10b
+    facing: s
+    how: "A timbered adit in the foothill rock; ore cart, spoil."
+  - id: entrance:dd11a_hole
+    space: zone:troll_country
+    kind: both
+    neighbour: door:dd11a
+    how: "A pit in the forest floor, earth and roots round its lip (q-d13.troll_holes: 'Troll Hole. Descend?')."
+  - id: entrance:dd11b_hole
+    space: zone:troll_country
+    kind: both
+    neighbour: door:dd11b
+    how: "The second pit, by a dead adventurer's pack."
+  - id: entrance:dd11c_hole
+    space: zone:troll_country
+    kind: both
+    neighbour: door:dd11c
+    how: "The third and widest pit, near the rim; Hobstadt's hall below."
+  - id: entrance:dd13_east
+    space: zone:ogre_pass
+    kind: both
+    neighbour: door:dd13_east
+    facing: n
+    how: "The east fort's gate, facing the road."
+  - id: entrance:dd13_west
+    space: zone:ogre_pass
+    kind: both
+    neighbour: door:dd13_west
+    facing: s
+    how: "The west fort's gate in its log palisade, facing the road."
+  - id: entrance:east_road
+    space: zone:east_meadow
+    kind: both
+    neighbour: edge:east
+    facing: w
+    how: "The caravan road from Sandcaster, the pass above to the west."
+  - id: entrance:forest_edge
+    space: zone:west_edge
+    kind: arrival
+    facing: e
+    how: "The Castleview road at the forest's edge: the respawn and the tests' start."
+  - id: entrance:west_road
+    space: zone:west_edge
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: "The Castleview road at the forest's edge; the great tree's crown south-east over the canopy."
+critical_path: [edge:west_end, junction:forest_fork, junction:bark_glade, zone:village_green]
+goals:
+  - id: goal:graalg
+    space: zone:pass_saddle
+    kind: use
+    what: "Make peace with Graalg, or burn both forts (Q-D11)."
+    story: Q-D11
+  - id: goal:nibbler
+    space: zone:bark_glade
+    kind: use
+    what: Bring Nibbler three Monga melons (from D1) for the key to the Temple of Bark (Q-D9).
+    story: Q-D9
+  - id: goal:obelisk
+    space: zone:sprite_forest
+    kind: use
+    what: Read the second Darkside word (obelisks.d2).
+    story: obelisks
+  - id: goal:temple
+    space: zone:bark_glade
+    kind: reach
+    what: Enter the Temple of Bark and free Sheewana (Q-D10).
+    story: Q-D10
+  - id: goal:troll_holes
+    space: zone:troll_country
+    kind: reach
+    what: Descend the troll holes to Hobstadt (Q-D13).
+    story: Q-D13
+points_of_interest:
+  - id: poi:brink_bench
+    space: zone:brink
+    kind: ruin
+    behaviour: "The sprites' lookout bench on the rim beside the falls: a view down into the stars."
+  - id: poi:crystal_seam
+    space: zone:foothills
+    kind: device
+    behaviour: "A seam of glowing crystal in the rock: chip out a few gems once (Might check)."
+  - id: poi:dead_adventurer
+    space: zone:troll_country
+    kind: chest
+    behaviour: "A dead adventurer's pack at the second troll hole's lip: what the trolls left."
+  - id: poi:fairy_ring
+    space: zone:sprite_forest
+    kind: pool
+    behaviour: "A ring of tall glowing mushrooms in the west woods: step inside to be healed and cured of poison, once a day."
+    uses: {times: 1, per: party, reset: daily}
+  - id: poi:forbidden_fruit
+    space: zone:fruit_clearing
+    kind: device
+    behaviour: "The Forbidden Fruit hut: a basket of fruit; each member may eat one: +2 to one permanent stat and a condition (the coconut of confusion, the plum of unconsciousness ...), once per character."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:genie_lamp
+    space: zone:east_descent
+    kind: device
+    behaviour: "A genie's lamp on a crag ledge above the east descent (Q-D27): rub it for a wish choice; greed is punished."
+    reached_by: off_road
+  - id: poi:graalg
+    space: zone:pass_saddle
+    kind: npc
+    behaviour: Graalg (5108) at his parley fire with two Brutes (Q-D11).
+  - id: poi:kramer_wagon
+    space: zone:ogre_pass
+    kind: chest
+    behaviour: "One of Kramer's caravan wagons, overturned and half burned below the west fort: a strongbox the ogres missed."
+  - id: poi:obelisk
+    space: zone:foothills
+    kind: obelisk
+    behaviour: "obelisks.d2: 'Carved into the obelisk, the second of six words: BENEATH.' (autonote dark_2)"
+    rule: native:obelisk
+    notes: "On the first foothill knoll north of the caravan road, the great tree in view south."
+  - id: poi:pot_of_gold
+    space: zone:southern_woods
+    kind: chest
+    behaviour: "The Leprechaun's pot of gold, hidden in a ring of rocks on the brink at the woods' south-east corner: found only by searching (Perception)."
+    reached_by: secret
+  - id: poi:shrine_elements
+    space: zone:shrine_glade
+    kind: shrine
+    behaviour: "Shrine of the Elements: +5 Fire, Air, Water and Earth resistance, permanent, once per character (D-4's +5 rule; the source's +50 rescaled)."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:signposts
+    spaces: [junction:forest_fork, junction:bark_glade, junction:south_fork, junction:pass_saddle]
+    count: 4
+    kind: signpost
+    behaviour: Signposts at the forks.
+  - id: poi:thieves_drop
+    space: zone:tower_clearing
+    kind: chest
+    behaviour: "Under a hollow stump by the tower: a thieves' drop, a few coins and a scrap of a note."
+  - id: poi:treehouse_chest
+    space: town:sprite_village
+    kind: chest
+    behaviour: "q-d10.treehouse: the chest on Sharla's platform. 'A sprite's chest, with a sprite sitting on it.'; after the robbery 'In this treehouse there once lived many sprites, but someone murdered the lot of them. You find two energy disks.'"
+landmarks:
+  - id: landmark:east_fort
+    space: zone:ogre_pass
+    what: The east fort on its knoll beyond the saddle
+    seen_from: [zone:east_meadow, zone:ogre_pass]
+  - id: landmark:great_tree
+    space: zone:bark_glade
+    what: "The great tree of Bark: a trunk 1,500 across, its crown about 3,500 above the forest floor, glowing fungus shelves up its bark"
+    seen_from: [zone:west_edge, zone:ogre_pass, town:sprite_village, zone:foothills, zone:whispering_glades]
+  - id: landmark:range
+    space: zone:range
+    what: "The Gemstone Range: slate crags to 4,400 with glowing crystal veins"
+    seen_from: [zone:west_edge, zone:sprite_forest, zone:ogre_pass, zone:southern_woods]
+  - id: landmark:southern_tower
+    space: zone:tower_clearing
+    what: "The Southern Tower: slate-blue stone, a slate cone, above the woods"
+    seen_from: [zone:east_meadow, zone:ogre_pass, zone:southern_woods]
+  - id: landmark:sprite_falls
+    space: zone:brink
+    what: The Glimmerbrook falling off the rim into the stars
+    seen_from: [zone:troll_country, zone:brink]
+  - id: landmark:west_fort
+    space: zone:ogre_pass
+    what: "The west fort: a log palisade and a blockhouse on a knoll, smoke and banners of hide"
+    seen_from: [zone:west_edge, zone:whispering_glades, zone:foothills]
+sightlines:
+  - id: view:arrival
+    from: entrance:west_road
+    to: [landmark:great_tree, landmark:range]
+    what: "Arrival from D1: the road into the forest's edge, glowing caps under the first trees, the great tree's crown over the canopy south-east, the range north."
+  - id: view:pass
+    from: link:caravan_west
+    to: [landmark:west_fort, landmark:east_fort, landmark:range]
+    what: "The signature view: the caravan road climbing into Ogre Pass, the west fort on its knoll left, Graalg's smoke in the saddle, the east fort beyond, the crystal-veined range behind."
+  - id: view:village
+    from: junction:bark_glade
+    to: [landmark:great_tree]
+    what: "Review view: the great tree's trunk and the village lane."
+set_pieces:
+  - id: set:ogre_pass
+    kind: scripted
+    spaces: [zone:ogre_pass]
+    rule: "The pass ogres are hostile until q-d11.friends; q-d11.hostile, west_burned or east_burned turn them and Graalg hostile (D-12.3). A burned fort shows as a charred ruin outside."
+    states: [hostile, friends, war]
+  - id: set:sprite_village
+    kind: scripted
+    spaces: [town:sprite_village]
+    rule: "The village's sprites are peaceful; on q-d10.robbery they turn hostile; when all are dead the map sets q-d10.sprites_slain, which opens the treehouse chest's robbery branch."
+    states: [peaceful, hostile, slain]
+height_bands:
+  - id: band:high
+    range: [1500, 3200]
+    spaces: [zone:ogre_pass, zone:spur_crags]
+    notes: "The pass road 1,600-2,050, the forts' knolls 2,000-2,150, the spur's crest 2,800-3,100 on both sides of the saddle."
+  - id: band:low
+    range: [880, 1150]
+    spaces: [zone:sprite_forest, zone:west_edge, town:sprite_village, zone:troll_country, zone:brink]
+    partly: [zone:southern_woods]
+  - id: band:mid
+    range: [1100, 2300]
+    spaces: [zone:whispering_glades, zone:east_descent, zone:foothills]
+    partly: [zone:southern_woods]
+    notes: "The foothills rise to about 2,000 at the range's foot; the genie's ledge 2,300."
+  - id: band:peaks
+    range: [2400, 4400]
+    spaces: [zone:range]
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+states:
+  - id: state:east_fort_burned
+    condition: {qbit: east_fort_burned}
+    notes: The east fort's outside as a charred ruin.
+  - id: state:ogres_friends
+    condition: {all: [{qbit: ogres_friends}, {not: {qbit: ogres_hostile}}]}
+    notes: "q-d11.pass_ogres: the pass ogres are peaceful (A2's relations.yml)."
+  - id: state:sprites_hostile
+    condition: {qbit: sprites_robbery}
+    notes: "q-d10.sprites_hostile: the village's sprites attack; their doors stay open (A4's houses); the map sets sprites_slain when the last one dies (q-d10.sprites_slain)."
+  - id: state:west_fort_burned
+    condition: {qbit: west_fort_burned}
+    notes: "The west fort's outside as a charred ruin (a model swap, if the build can; else unchanged)."
+landform:
+  relief: "A forest floor at 900-1,100 falling gently south to the rim cliff; foothills rising north to 2,000; the Gemstone Range to 4,400 along the north edge; the Gemstone Spur crossing the middle north to south, with Ogre Pass's saddle at 2,050."
+  height_range: [880, 4400]
+  water: The Glimmerbrook from the range to the rim (a fall into the stars). No lake.
+  water_share: 0.01
+  rim: {notes: "The world rim along the whole south edge at y 104 (D-23): a cliff of about 900 to the stars. West and east the land runs on to D1 and D3; north the range closes the map."}
+atmosphere: "Sky xeendark1 (Darkside day: amber band, pale small sun); occasional mist in the forest; music 33. Birds and a wind in the canopy, the brook, the falls' faint roar at the rim; the ogres' drums and smoke in the pass; glowing caps (new decorations, MU-2's gap) along the brook, in rings and on the great tree's bark."
+notes: "L3/L4 written by output/studio_cal/d2/tools/gen.py from the approved L1 and D-23. The plan keeps the L1 spaces; the pass ogres, Graalg's three and the village sprites are placed actors, the wolves, trolls and wild sprites slot markers."

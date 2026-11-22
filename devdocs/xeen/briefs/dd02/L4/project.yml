@@ -1,0 +1,44 @@
+format: 0
+id: xeen_dd02
+name: Ellinger's Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-02
+units: {plan_grid: 512}
+extent: {footprint_cells: [13, 9], climbs: n}
+map_stats:
+  id: 9151
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 34
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Night Bat, tier: 1, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Gargoyle, tier: 0, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Construct, tier: 0, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:d1_tower
+    to: xeen_d1.odm
+    kind: door
+    arrival: [2560, 9216, 1152]
+    arrival_hint: "On D1 inside Castleview's walls, in front of Ellinger's Tower's door (thing:ellinger_tower): A6's return point, facing east toward the tower."
+    direction: 0
+    notes: "D1 installed (A6). The tower door's face stands at (3285, 9321); the party lands at A6's return point 725 west of it, facing east. D1's door into this map (A6's door:dd02) lands at this map's start: (-1216, 640, 0), facing east (0)."
+qbits:
+  arrived_once: 117080
+  m17_done: 111342
+  m18_started: 111360
+  m26_stage4: 111522
+  password: 111341
+  question_passed: 111340
+notes: "Xeen design brief, DD-02 Ellinger's Tower (D1; M17-M19, M26), class M, built from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd02.graph.yml) with decider D-26 (mockups/act3_a8_decisions_a.md). Party 20-22, band 14-24, 50 placed monsters on the world's rows (night bats 11311-11312, gargoyles 11540-11541, constructs 11600-11601; no spawn points, encounter chance 0), treasure 2 (the boot closet's chest 3), music 34. Quest bits M17's (111340-111342), M18's started (111360), M26's stage4 (111522) read; the map's arrived_once 117080 (provisional block 117080-117119). Player bits 11312 (Book of Sorcerer's Knowledge), 11313 (Book of Fire), 11314 (Book of Electricity)."
+identity:
+  shape: tower
+  family: 6d19
+  seen: ["rose and white marble halls with columns under a Greek-key frieze, the dead mirror by the door", "the trapped walk bending round the tower's octagonal outer wall, windows to the Darkside sky along it", "Ellinger's study inside the same octagon: bookcase walls, windows to the sky, star charts and boots"]

@@ -1,0 +1,220 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Volcano Cave (xeen maze0046-0048, three 16 x 16 levels; text aaze0046-0048): level 1 holds the demon
+# skull (0,15) and the devil skull (9,9), three demons or three devils by each, the six chests of the south-east
+# corner of which five explode (13-15, 14-15) and one more chest (15,11), the way in (6,1) and the stair down (12,0);
+# level 2 four wall switches round one cell (11-13, 11-13) that each move a wall on the way south, the stair down
+# (3,0); level 3 the central lava chamber with the way to Shangri-La at (9,10), which reads the two skull flags.
+# 25 demons and devils in all. Ours is one BLV of three floors going down into Mount Firestone from the mouth at its
+# west foot (X7 thing:xd16_mouth).
+format: mu6-0
+map: XD-16
+key: xd16
+name: Volcano Cave
+stands_on: X7 Mount Firestone (the cave mouth at the mountain's west foot, between the demon and devil idols)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors (MAPS §0: 40 monsters for XD-16; open question 1)"
+size: "24 review rooms, about 30 sectors (the fire lake and the magma heart three each, the lever hall and the glass caves two); floor 0 about 4,200 x 3,600, floor -1 about 3,600 x 2,800, floor -2 about 4,000 x 3,200: about 38 M units² with the lava; 7 doors (the vault door, the demon shrine's iron door, the four gate slabs, the way's rock)"
+party: [48, 52]
+monsters:
+  levels: [42, 58]
+  boss: null
+  count: 40
+  groups: [2, 3]
+  families:
+    - "Demons (11630): Demon 42 (20), Devil 50 (14), Screamer 58 (6): the source's demons and devils ('where: Volcano Cave'), the Screamers kept for the lower floors. No boss (MAPS §0); the two skulls' guards are three demons and three devils, as in the source"
+  mix:
+    - {row: Demon, id: 11630, level: 42, count: 20}
+    - {row: Devil, id: 11631, level: 50, count: 14}
+    - {row: Screamer, id: 11632, level: 58, count: 6}
+  kill_xp: "27.34k per member (109,344 / 4)"
+  kill_xp_target: "26.6k (MAPS §0, 40 monsters): +2.8 % (open question 1)"
+  by_floor: "floor 0: 18 (Demon 12, Devil 6); floor -1: 12 (Demon 6, Devil 5, Screamer 1); floor -2: 10 (Demon 2, Devil 3, Screamer 5)"
+treasure: {level: 5}
+role: "Q-C26 Shangri-La: smash the demon skull and the devil skull (q-c26.demon_skull, q-c26.devil_skull; 5,000 each, the source's 250,000 MM6-MM8 sized by A3); the second sets q-c26.done and the way at the bottom of the cave opens into Shangri-La (q-c26.way, XD-17)"
+role_short: "Q-C26, the two skulls, the way to Shangri-La"
+set_piece: "The fire lake: a tall cavern round a lake of lava lit from below, the devil skull on its black altar on an island in the middle, reached by a causeway of cooled crust; the demon skull in its shrine beyond. Below, the magma heart: the lava pool at the root of the mountain, a ring ledge round it, and in the last cave beyond it a wall of bare rock, hot to the touch, that grinds open when both skulls are broken"
+sounds: "the shipped lava bubbling and fire roar placed at the lake and the heart; a rock grinding for the way (shipped stone door); the skulls' breaking from A3's texts (shipped crack and scream, AU optional); music 7 (maps.yml)"
+textures:
+  family: "Caves (dungeon_families, D-45): MM7 Thunderfist 7d07's dark brown-black rock c2b on walls and roofs, cfb1 floors, DIRT and 7dirttyl for the ash floors, 7d07's Lava on the lake, the heart and the river (`floors: lava`: it burns), Ch1b1 and cwb1 for the shrines' worked stone, 7solid01 and t5d1 for the slabs and doors, trim9_32 on the altars"
+  cap: 45
+  planned: 16
+  new: 1
+  new_list: "xvskull: the black altar's carved face (demon on one, devil mirrored on the other: one picture, fitted once per altar face); optional, the altars can be bare Ch1b1"
+  distinct_from: "DD-23 Gargoyle Lair (Darkside, the same 7d07 rock and snow, no lava: D-45 says XD-16 is 'lava, and the same dark rock on the other face'); XD-03 Deep Mine (7d34 dwarf rock and 6d18 forge lava, soot brick); XD-18 Dragon Cave (X7, MM8 d17)"
+floors:
+  - {floor: 0, name: "The burning halls (X7's sill 2,250)", height: 0}
+  - {floor: -1, name: "The gate stones", height: -640}
+  - {floor: -2, name: "The heart of the mountain", height: -1280}
+spaces:
+  # floor 0 (z 0 = X7's sill at 2,250): the source's level 1
+  - {id: room:mouth, name: Cave mouth, kind: cave, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The arrival (entrance:x7_mouth): heat on the face, daylight behind, the demon and devil idols outside framing it. Quiet (D-11.3)."}
+  - {id: room:ash_gallery, name: Ash gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 3}],
+     purpose: "A wide passage floored with grey ash, red light ahead; the first demons. A side way south to the vault."}
+  - {id: room:fire_lake, name: The fire lake, kind: hall, size: L, floor: 0, at: [3, 0], set_piece: true, monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Set piece: a tall cavern round a lake of lava 128 below the shore (`floors: lava`), lit from below; the island in the middle with the devil skull's altar, a causeway of cooled crust to it; shores north (to the fissure) and south (to the stair head)."}
+  - {id: room:devil_isle, name: Devil skull's island, kind: cave, size: S, floor: 0, at: [3, 1], goal: true, monsters: 3,
+     population: [{row: Devil, level: 50, count: 3}],
+     purpose: "The source's (9,9): a black altar, the skull of a devil on it. Clicked: 'The skull of a devil stares at you as though daring you to damage it. Destroy?' (aaze0046:1); Yes calls q-c26.devil_skull and the skull breaks (destructible, stays broken). Three devils stand guard (the source's three)."}
+  - {id: room:fissure, name: North fissure, kind: corridor, size: M, floor: 0, at: [4, 0], monsters: 2,
+     population: [{row: Demon, level: 42, count: 2}],
+     purpose: "A crack running north from the lake's shore, glowing seams in the walls; to the demon shrine's iron door."}
+  - {id: room:demon_shrine, name: Demon skull's shrine, kind: room, size: M, floor: 0, at: [5, 0], goal: true, monsters: 3,
+     population: [{row: Demon, level: 42, count: 3}],
+     purpose: "The source's (0,15): a worked chamber behind an iron door, braziers on the floor, the skull of a demon on a black altar. 'The skull of a demon grins wickedly at you, and you have a sudden desire to smash it. Destroy?' (aaze0046:0); Yes calls q-c26.demon_skull, the skull breaks. Three demons guard it (the source's three). A second way out south into the cinder run."}
+  - {id: room:cinder_run, name: Cinder run, kind: corridor, size: M, floor: 0, at: [5, 1], monsters: 2,
+     population: [{row: Demon, level: 42, count: 2}],
+     purpose: "A low burnt passage from the shrine back down to the stair head (the floor-0 loop)."}
+  - {id: room:stair_head, name: Stair head, kind: stair, size: S, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "On the lake's south shore: rough steps down into the dark ('Down Level?' as the stair's sign, aaze0047:0)."}
+  - {id: room:vault_ante, name: Smoking passage, kind: corridor, size: S, floor: 0, at: [2, 1], chest: 5, monsters: 2,
+     population: [{row: Devil, level: 50, count: 2}],
+     purpose: "South of the ash gallery: smoke curling from under a door; a lone chest by the wall (the source's (15,11), a real one)."}
+  - {id: room:chest_vault, name: Vault of chests, kind: room, size: S, floor: 0, at: [1, 1], chest: 5, monsters: 0,
+     purpose: "The source's six chests (13-15, 14-15): six chests on a dais; five are traps that burst in flame ('The chest explodes!', aaze0046:6; fire damage on each member, once each; then 'The chest is empty.', aaze0046:2), one is a real chest (open question 2)."}
+  # floor -1 (z -640): the source's level 2
+  - {id: room:stair_foot, name: Stair foot, kind: stair, size: S, floor: -1, at: [4, 0], monsters: 0,
+     purpose: "The steps' foot; 'Up Level?' (aaze0047:1) as the sign. Ways west to the lever hall and south to the steam vents."}
+  - {id: room:lever_hall, name: Lever hall, kind: hall, size: M, floor: -1, at: [3, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "The source's four wall switches (11-13, 11-13): four lever stones round a black pillar, each with hover text naming its slab ('The first gate stone' ... 'The fourth'); down the gate run beyond, four slabs of black rock in a row (open question 3)."}
+  - {id: room:steam_vents, name: Steam vents, kind: cave, size: M, floor: -1, at: [4, 1], chest: 5, monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Vents hissing out of the floor, a chest wedged in a dry corner; joins the stair foot and the lever hall (the floor -1 loop)."}
+  - {id: room:magma_caves, name: Magma caves, kind: cave, size: M, floor: -1, at: [2, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "A river of lava along the floor, stepping crust across it; off the lever hall to the slag pocket."}
+  - {id: room:slag_pocket, name: Slag pocket, kind: cave, size: S, floor: -1, at: [1, 0], chest: 5, monsters: 0,
+     purpose: "A dead end with a chest: an old dwarf's pick and pack by a cooled slag heap."}
+  - {id: room:gate_run, name: Gate run, kind: corridor, size: M, floor: -1, at: [3, 1], monsters: 3,
+     population: [{row: Devil, level: 50, count: 2}, {row: Screamer, level: 58, count: 1}],
+     purpose: "A straight passage south from the lever hall closed by the four slabs in a row (four doors, opened by the four levers); beyond the last slab the way down."}
+  - {id: room:stair_down2, name: Deep stair, kind: stair, size: S, floor: -1, at: [2, 1], monsters: 0,
+     purpose: "Steps down to the heart ('Down Level?')."}
+  # floor -2 (z -1280): the source's level 3
+  - {id: room:landing, name: Obsidian landing, kind: stair, size: S, floor: -2, at: [2, 0], monsters: 0,
+     purpose: "The deep stair's foot ('Up Level?'): black glass underfoot, heat rising from ahead."}
+  - {id: room:ember_pocket, name: Ember pocket, kind: cave, size: S, floor: -2, at: [1, 0], chest: 5, monsters: 2,
+     population: [{row: Devil, level: 50, count: 1}, {row: Screamer, level: 58, count: 1}],
+     purpose: "A dead end with a chest (the source's level 3 north-west pocket): embers drifting from a vent in the roof."}
+  - {id: room:glass_caves, name: Glass caves, kind: cave, size: M, floor: -2, at: [3, 0], monsters: 3,
+     population: [{row: Demon, level: 42, count: 2}, {row: Devil, level: 50, count: 1}],
+     purpose: "Caves of black volcanic glass, the lava's light in every face; to the heart's west ledge."}
+  - {id: room:ash_pits, name: Ash pits, kind: cave, size: M, floor: -2, at: [3, 1], monsters: 2,
+     population: [{row: Devil, level: 50, count: 1}, {row: Screamer, level: 58, count: 1}],
+     purpose: "Pits of grey ash (the source's level 3 south-east pocket); to the heart's east ledge (the floor -2 loop)."}
+  - {id: room:magma_heart, name: The magma heart, kind: hall, size: L, floor: -2, at: [4, 0], set_piece: true, monsters: 3,
+     population: [{row: Screamer, level: 58, count: 3}],
+     purpose: "The source's central chamber: a round pool of lava at the root of the mountain (`floors: lava`), a ring ledge round it, the roof lost in smoke; the Screamers on the ledge. The last cave opens off its far side."}
+  - {id: room:last_cave, name: The last cave, kind: cave, size: S, floor: -2, at: [5, 0], goal: true, monsters: 0,
+     purpose: "The source's (9,10): a short cave ending in a wall of bare rock. Before q-c26.done its click is q-c26.way's fail text ('Bare rock, hot to the touch. Two skulls in the cave behind you seem to be grinning about it.'); with done the rock stands open (open question 4)."}
+  - {id: room:cool_passage, name: Cool passage, kind: corridor, size: S, floor: -2, at: [6, 0], goal: true, monsters: 0,
+     purpose: "Behind the rock: a rising passage, cool air and the smell of grass (q-c26.way's text); the way out to Shangri-La at its end, and XD-17's way back in arrives here (entrance:xd17_way). Quiet."}
+links:
+  - {id: link:mouth_ash, from: room:mouth, to: room:ash_gallery, kind: open}
+  - {id: link:ash_lake, from: room:ash_gallery, to: room:fire_lake, kind: open}
+  - {id: link:lake_isle, from: room:fire_lake, to: room:devil_isle, kind: open, label: "Crust causeway"}
+  - {id: link:lake_fissure, from: room:fire_lake, to: room:fissure, kind: open, label: "North shore"}
+  - {id: link:fissure_shrine, from: room:fissure, to: room:demon_shrine, kind: door, label: "Iron door"}
+  - {id: link:shrine_cinder, from: room:demon_shrine, to: room:cinder_run, kind: open}
+  - {id: link:cinder_stair, from: room:cinder_run, to: room:stair_head, kind: open}
+  - {id: link:lake_stair, from: room:fire_lake, to: room:stair_head, kind: open, label: "South shore"}
+  - {id: link:ash_ante, from: room:ash_gallery, to: room:vault_ante, kind: open}
+  - {id: link:ante_vault, from: room:vault_ante, to: room:chest_vault, kind: door, label: "Vault door"}
+  - {id: link:stair_down1, from: room:stair_head, to: room:stair_foot, kind: stair, label: "Down Level?"}
+  - {id: link:foot_lever, from: room:stair_foot, to: room:lever_hall, kind: open}
+  - {id: link:foot_vents, from: room:stair_foot, to: room:steam_vents, kind: open}
+  - {id: link:vents_lever, from: room:steam_vents, to: room:lever_hall, kind: open}
+  - {id: link:lever_magma, from: room:lever_hall, to: room:magma_caves, kind: open}
+  - {id: link:magma_slag, from: room:magma_caves, to: room:slag_pocket, kind: open, label: "Stepping crust"}
+  - {id: link:lever_gates, from: room:lever_hall, to: room:gate_run, kind: door, label: "Four slabs", opened_by: state:gate_stones}
+  - {id: link:gates_stair, from: room:gate_run, to: room:stair_down2, kind: open}
+  - {id: link:stair_down2, from: room:stair_down2, to: room:landing, kind: stair, label: "Down Level?"}
+  - {id: link:landing_ember, from: room:landing, to: room:ember_pocket, kind: open}
+  - {id: link:landing_glass, from: room:landing, to: room:glass_caves, kind: open}
+  - {id: link:landing_ash, from: room:landing, to: room:ash_pits, kind: open}
+  - {id: link:glass_heart, from: room:glass_caves, to: room:magma_heart, kind: open, label: "West ledge"}
+  - {id: link:ash_heart, from: room:ash_pits, to: room:magma_heart, kind: open, label: "East ledge"}
+  - {id: link:heart_last, from: room:magma_heart, to: room:last_cave, kind: open}
+  - {id: link:last_way, from: room:last_cave, to: room:cool_passage, kind: door, label: "The way", opened_by: state:way}
+states:
+  - {id: state:demon_skull, kind: qbit, where: room:demon_shrine,
+     what: "q-c26.demon_skull (112520): the source's question at the altar (aaze0046:0), Yes calls the hook (5,000, A3's text); the skull's destructible breaks and stays broken (shown broken on every later load by the bit). Sets done if the devil skull is already broken.", opens: [], draw: false}
+  - {id: state:devil_skull, kind: qbit, where: room:devil_isle,
+     what: "q-c26.devil_skull (112521): the same at the island's altar (aaze0046:1).", opens: [], draw: false}
+  - {id: state:gate_stones, kind: lever, where: room:lever_hall,
+     what: "The four lever stones (map qbits 118050-118053), each lowering its own slab on the gate run, one-way (D-43: going back does nothing); the run is open when all four are down (open question 3).",
+     opens: [link:lever_gates]}
+  - {id: state:way, kind: qbit, where: room:last_cave,
+     what: "q-c26.done (112522), set by whichever skull is broken second: the last cave's rock slab stands open whenever done is set (the map's load event and the hook's own call; the skulls are two floors up, so the slab is open by the time the party comes down). Before that, the slab's click is q-c26.way's fail text. Map qbit 118054 marks the slab drawn open.",
+     opens: [link:last_way], draw: true}
+  - {id: state:decoys, kind: map_var, where: room:chest_vault,
+     what: "The five trap chests (map qbits 118055-118059, one each): the first click bursts the chest (fire damage on each member, 'The chest explodes!'), every later click 'The chest is empty.'", opens: [], draw: false}
+exits:
+  - {id: exit:x7_mouth, space: room:mouth, at: [0, 0], kind: both, label: "X7: the Volcano Cave's mouth",
+     arrival: "entrance:x7_mouth: in the cave mouth about 256 inside, facing east (0) into the cave",
+     neighbour: "X7 thing:xd16_mouth (door:xd16, 'Enter the Volcano Cave?', xeen/aaze0017:1) at [66.5, 45], mouth front (1024, 9728, 2250), 384 x 384, facing west between the demon and devil idols; out by the exit preset ('Leave the Volcano Cave?', aaze0046:5, as the window's meaning, D-24) to X7's entrance:xd16_mouth (512, 9728, 2250) facing west (1024)"}
+  - {id: exit:xd17_way, space: room:cool_passage, at: [7, 0], kind: both, floor: -2, label: "XD-17: the way to Shangri-La",
+     arrival: "entrance:xd17_way: in the cool passage about 256 inside its far end, facing back down toward the last cave (the way back from Shangri-La)",
+     neighbour: "XD-17 Shangri-La (A5, not drawn yet): the passage's end calls q-c26.way (true with done) and moves the party to XD-17's proposed entrance:xd16_way, at the valley's cave mouth, facing into the valley; XD-17's way back leads to this map's entrance:xd17_way"}
+hooks:
+  - {hook: q-c26.demon_skull, space: room:demon_shrine, how: "the altar's skull (clicked; the source's question, Yes)"}
+  - {hook: q-c26.devil_skull, space: room:devil_isle, how: "the island altar's skull (clicked; the source's question, Yes)"}
+  - {hook: q-c26.way, space: room:last_cave, how: "the rock slab's click before done (fail text) and the cool passage's end with done (true: the move to XD-17)"}
+  - {hook: x7.idols, space: "X7 (A5)", how: "the idols flanking the mouth (Q-C26's hint); listed for the pair, not placed here"}
+critical_path: [room:mouth, room:ash_gallery, room:fire_lake, room:devil_isle, room:fire_lake, room:fissure, room:demon_shrine, room:cinder_run, room:stair_head, room:stair_foot, room:lever_hall, room:gate_run, room:stair_down2, room:landing, room:glass_caves, room:magma_heart, room:last_cave, room:cool_passage]
+return_path: [room:cool_passage, room:last_cave, room:magma_heart, room:ash_pits, room:landing, room:stair_down2, room:gate_run, room:lever_hall, room:steam_vents, room:stair_foot, room:stair_head, room:fire_lake, room:ash_gallery, room:mouth]
+loops:
+  - {id: loop:lake_ring, spaces: [room:fire_lake, room:fissure, room:demon_shrine, room:cinder_run, room:stair_head],
+     notes: "Round the fire lake: north shore, the fissure and the shrine, back by the cinder run to the south shore."}
+  - {id: loop:vents, spaces: [room:stair_foot, room:lever_hall, room:steam_vents],
+     notes: "The lever hall reached from the stair foot directly or through the steam vents."}
+  - {id: loop:heart_ledges, spaces: [room:landing, room:glass_caves, room:magma_heart, room:ash_pits],
+     notes: "Round the heart: in by the glass caves and the west ledge, out by the east ledge and the ash pits (or the other way)."}
+lines:
+  - {text: "Enter the Volcano Cave?", ref: "xeen/aaze0017:1", where: "X7's door (A5)"}
+  - {text: "The skull of a demon grins wickedly at you, and you have a sudden desire to smash it.  Destroy?", ref: "xeen/aaze0046:0", where: "room:demon_shrine (the altar's question)"}
+  - {text: "The skull of a devil stares at you as though daring you to damage it.  Destroy?", ref: "xeen/aaze0046:1", where: "room:devil_isle (the altar's question)"}
+  - {text: "You smash the skull.", ref: "xeen/aaze0046:4 (the 250,000 experience dropped; A3's hook texts follow it)", where: "both altars"}
+  - {text: "The chest explodes!", ref: "xeen/aaze0046:6", where: "room:chest_vault (the five trap chests)"}
+  - {text: "The chest is empty.", ref: "xeen/aaze0046:2", where: "room:chest_vault (a burst chest clicked again)"}
+  - {text: "Leave the Volcano Cave?", ref: "xeen/aaze0046:5", where: "exit:x7_mouth (the exit preset's meaning, D-24)"}
+  - {text: "Down Level? / Up Level?", ref: "xeen/aaze0047:0-1, aaze0048:0-1", where: "the stairs' signs on floors 0, -1, -2"}
+open_questions:
+  - q: "Count and mix. MAPS §0 gives XD-16 40 monsters at 42-58 and 26.6k; the M band's floor is 45. The source has demons and devils only (25)."
+    options: ["(a) 40 of the demons family: Demon 42 x 20, Devil 50 x 14, Screamer 58 x 6: 27.34k, +2.8 %; one NOTES exception for the M floor (as DD-07's 30, D-39)",
+              "(b) 45 (five more Demons on floor 0): 30.07k, +13 %",
+              "(c) 36 demons and 4 Lava Golems 55 (11593, X7's) in the lava rooms: 28.73k, +8 %"]
+    recommend: "(a): the source's families, inside 10 %, MAPS's count"
+    depends: "A2's Act V recount"
+  - q: "The exploding chests (the source's five of six in the south-east corner, 250 damage each, nothing inside)."
+    options: ["(a) five trap chests and one real T5 chest on the dais; the traps show a faint ember glow and smoke (a pulsing light under each) so a careful party can tell; a burst does fire damage 50 on each member once ('The chest explodes!'), then 'The chest is empty.'",
+              "(b) the same with no tell: the source's gamble",
+              "(c) six ordinary chests with the engine's chest traps (high trap level) and loot"]
+    recommend: "(a): the source's joke kept, readable, and never a guess the game does not answer"
+    depends: "nothing (event damage and map qbits exist)"
+  - q: "The gate stones (the source's four wall switches round one cell on level 2, each moving a wall on the way south)."
+    options: ["(a) four lever stones round a pillar in the lever hall, each with hover text naming its slab, each lowering one of four slabs in a row across the gate run; one-way (D-43)",
+              "(b) one lever, one slab",
+              "(c) no gates: the gate run open"]
+    recommend: "(a): the source's puzzle at its plainest; four of the map's seven doors"
+    depends: "nothing"
+  - q: "The way into Shangri-La (A3: 'a door or a lava bridge, A7's choice')."
+    options: ["(a) a rock slab at the last cave's end that stands open whenever q-c26.done is set (the map's load event; the skulls are two floors up, so it is open when the party comes down); a short cool passage beyond, its end calling q-c26.way and moving the party to XD-17's entrance:xd16_way; XD-17's way back arrives at entrance:xd17_way",
+              "(b) a bridge of cooled crust that rises out of the heart's pool on done (a lift), to a ledge exit",
+              "(c) no door: the exit at the bare wall, the hook's fail text until done"]
+    recommend: "(a): A3's 'rock grinds on rock'; doors and exits that exist"
+    depends: "A5's XD-17 (entrance:xd16_way and its way back)"
+  - q: "Lava. The source's lava is scenery; X7's lava burns (D-40: 'lava is lava')."
+    options: ["(a) the lake, the river and the heart are `floors: lava` (they burn, as Gharik's Forge and XD-03), sunk 128 below the walking floor with crust edges; the causeway and stepping crust are plain floor",
+              "(b) lava as light and decoration only (no damage)"]
+    recommend: "(a)"
+    depends: "nothing"
+  - q: "Rest encounters."
+    options: ["(a) 10 % from the demons family (D-39's rule)", "(b) 0"]
+    recommend: "(a)"
+    depends: "A2's row 9142"

@@ -1,0 +1,56 @@
+format: 0
+id: xeen_xd19
+name: Castle Xeen
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-19
+units: {plan_grid: 512}
+extent: {footprint_cells: [21, 20], climbs: n}
+map_stats:
+  id: 9144
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 15
+  refill_days: 672
+  music: 22
+  environment: stoneroom
+  lock_difficulty: 15
+  slots:
+  - {monster: Xeen Demon, tier: 5, per_marker: [1, 2], weight: 100}
+neighbours:
+- id: exit:x9_gate
+  to: xeen_x9.blv
+  kind: door
+  arrival: entrance:xd19_gate
+  arrival_hint: On X9's causeway before Castle Xeen's gate, facing south away from it (A5's entrance:xd19_gate, (0, 11264,
+    768) facing 1536).
+  notes: 'X9 installed (A5, 01:29). X9''s gate (leaves at x -256..256, y 11768) names this map''s arrival entrance:x9_gate:
+    in the gatehall about 256 inside the leaves, facing north.'
+qbits:
+  barrier_down: 118062
+  bays_open: 118063
+  done: 111707
+  gen_air: 111702
+  gen_earth: 111703
+  gen_fire: 111701
+  gen_water: 111704
+  lord_xeen_seen: 111709
+  lord_xeen_slain: 111706
+  machine_e_down: 118061
+  machine_w_down: 118060
+  pet_slain: 111705
+  started: 111700
+items:
+  xeen_slayer_sword: 12500
+  emerald: 183
+notes: 'Xeen design brief, level L2: XD-19 Castle Xeen, on X9 (the Clouds of Xeen), Act V, class L (MU-6 graph devdocs/xeen/mockups/act5_graphs/xd19.graph.yml,
+  decider D-47 in mockups/act5_a7_decisions.md). M35: the four generators (m35.gen_*), the barrier (m35.barrier), Xeen''s
+  Pet (m35.pet), Lord Xeen''s first sight and death (m35.lord_xeen_sight, m35.lord_xeen), the scepter (m35.scepter_ask, m35.scepter)
+  and the Sixth Mirror''s cinematic. 70 monsters (Demon 11630 x 28, Devil 11631 x 14, Screamer 11632 x 4, Xeen''s Guard 11603
+  x 14 of which 4 the foundry''s hidden pool, Lesser Elementals 11620/11624/11625/11626 x 2 each, Greater Elemental 11622
+  x 2) + Xeen''s Pet 11644 + Lord Xeen 11634. Rest encounters 10 % from the demons at Dif 5 (D-47). Map card 9144, music 22,
+  treasure 5 (six T5 chests and the T6 hoard). Map qbits 118060-118063. The gate leads to X9''s entrance:xd19_gate, and so
+  does the scepter''s cinematic; X9''s gate arrives at entrance:x9_gate.'

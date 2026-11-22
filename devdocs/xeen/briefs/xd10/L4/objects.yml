@@ -1,0 +1,794 @@
+format: 0
+start:
+  room: room:north_mouth
+  at: [0, 9664]
+  facing: s
+  notes: "Just inside the north mouth, facing into the cave (X5's doors arrive here)."
+arrivals:
+  - {entrance: entrance:x5_south, room: room:south_mouth, at: [64, 1408], facing: n, notes: "Just inside the south mouth, facing into the cave (X5's south door arrives here)."}
+doors:
+  - id: door:gate_drowned
+    opening: open:ledge_drowned
+    kind: slide_up
+    speed: 128
+    surface: {texture: t09a01, size: [128, 256]}
+    tile: true
+    notes: "A stone sluice gate before the drowned gallery: shut until the plug is pulled."
+  - id: door:gate_steps
+    opening: open:ledge_steps
+    kind: slide_up
+    speed: 128
+    surface: {texture: t09a01, size: [128, 256]}
+    tile: true
+    notes: "A stone sluice gate before the steps to the reservoir bed: shut until the plug is pulled."
+  - id: door:gate_wreck
+    opening: open:drowned_wstair
+    kind: slide_up
+    leaves: 2
+    speed: 128
+    surface: {texture: t09a01, size: [128, 256]}
+    tile: true
+    notes: "A stone sluice gate before the stair down to the wreck: shut until the plug is pulled."
+  - id: door:mirage_cache
+    opening: open:cache_n
+    kind: slide_down
+    speed: 4000
+    surface: {texture: t68a02b, size: [256, 256], liquid: liquid}
+    tile: true
+    notes: "The north mouth's west wall: a mirage into the cache. Rock with the fluid bit (it ripples); a click or walking into it opens it at once."
+  - id: door:mirage_maze
+    opening: open:maze_skulls
+    kind: slide_down
+    speed: 4000
+    surface: {texture: t68a03a, size: [128, 128], liquid: liquid}
+    tile: true
+    notes: "The mirror maze's north wall: a mirage into the deep skull alcoves. Rock with the fluid bit (it ripples); a click or walking into it opens it at once."
+  - id: door:mirage_safe
+    opening: open:false_cache
+    kind: slide_down
+    speed: 4000
+    surface: {texture: t68a02b, size: [256, 256], liquid: liquid}
+    tile: true
+    notes: "The phantom safe's cave's north wall: a mirage into the cache. Rock with the fluid bit (it ripples); a click or walking into it opens it at once."
+  - id: door:mirage_vault
+    opening: open:grotto_vault
+    kind: slide_down
+    speed: 4000
+    surface: {texture: t68a03a, size: [128, 128], liquid: liquid}
+    tile: true
+    notes: "The grotto's north wall: a mirage into the phantom vault. Rock with the fluid bit (it ripples); a click or walking into it opens it at once."
+  - id: door:sluice
+    opening: open:frost_sluice
+    kind: slide_left
+    surface: {texture: t09a03c, size: [128, 256], fit: true}
+    notes: The sluice's door (d33's t09a03c).
+movers:
+  - id: mover:plug
+    room: room:sluice
+    at: [2048, 2944]
+    size: [224, 224]
+    bottom: 0
+    floor_height: -64
+    height: 144
+    travel: [0, 0, 448]
+    speed: 160
+    surface: {texture: xngong6, size: [128, 32], scale: 2}
+    top_surface: {texture: xngong, size: [128, 128], scale: 1.75, offset: [46, -46]}
+    parts:
+      - {at: [2048, 2944], size: [32, 32], height: 424, surface: {texture: xnrustirn, size: [64, 64]}, notes: "The plug's chain, up into the roof."}
+    notes: "The great bronze plug in its pool, its iron chain rising into the roof; pulled, it rises out of the pool."
+  - id: mover:water
+    room: room:reservoir
+    outline: [[3200, 1056], [5984, 1056], [5984, 6016], [5632, 6368], [3200, 6368], [2848, 6016], [2848, 1408]]
+    bottom: 0
+    height: 620
+    travel: [0, 0, -638]
+    speed: 107
+    surface: {texture: wtrtyl, liquid: water, flow: down}
+    top_surface: {texture: wtrtyl, liquid: water, flow: down}
+    notes: "The reservoir's water: one block from the bed to -660 that sinks 638 (its top 2 under the bed, so the hidden monsters on it stand on the bed) in about 6 s when the plug is pulled (D-4 item 2)."
+sounds:
+  - {id: sound:drowned, room: room:drowned, at: [960, 4224], sound: drip01, radius: 1400, inner_radius: 400, volume: 0.5, wait: [2, 5], notes: The drowned gallery dripping.}
+  - {id: sound:echo, room: room:echo_cave, at: [-576, 4160], sound: drip02, radius: 1200, inner_radius: 300, volume: 0.6, wait: [4, 9], notes: Drips that echo.}
+  - {id: sound:icicles, room: room:icicle_hall, at: [128, 7872], sound: drip02, radius: 1600, inner_radius: 400, volume: 0.5, wait: [2, 6], notes: Melt dripping from the icicles.}
+  - {id: sound:mirages, room: room:mirage_hall, at: [256, 5504], sound: drip03, radius: 1800, inner_radius: 500, volume: 0.4, wait: [3, 8], notes: "Drips in the warm, wet hall."}
+  - {id: sound:north_wind, room: room:north_mouth, at: [0, 9856], height: 256, sound: whistling wind, radius: 1600, inner_radius: 500, volume: 0.4, notes: Tundra wind at the north mouth.}
+  - {id: sound:reservoir, room: room:reservoir, at: [4416, 3712], height: 128, sound: water lapping loop, radius: 3600, inner_radius: 1200, volume: 0.5, notes: The reservoir's water (heard from the ledge).}
+  - {id: sound:sluice, room: room:sluice, at: [2048, 2944], sound: water lapping loop, radius: 1200, inner_radius: 300, volume: 0.5, notes: Water lapping round the plug.}
+  - {id: sound:south_wind, room: room:south_mouth, at: [64, 1280], height: 256, sound: whistling wind, radius: 1400, inner_radius: 400, volume: 0.35, notes: Wind at the south mouth.}
+  - {id: sound:sump, room: room:sump, at: [288, 1312], sound: rushing water loop, radius: 1600, inner_radius: 400, volume: 0.7, notes: The roaring sump.}
+lights:
+  - id: light:drowned_1
+    room: room:drowned
+    at: [960, 4224]
+    radius: 844
+    color: [110, 140, 190]
+  - id: light:echo_cave_1
+    room: room:echo_cave
+    at: [-576, 4160]
+    radius: 800
+    color: [110, 140, 190]
+  - id: light:false_passage_1
+    room: room:false_passage
+    at: [-1472, 8128]
+    radius: 998
+    color: [150, 175, 215]
+  - id: light:false_passage_2
+    room: room:false_passage
+    at: [-1344, 8800]
+    height: 160
+    radius: 512
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 0.7], radius: [380, 560], frequency: 0.3}
+    notes: The mirage's shimmer.
+  - id: light:frost_cavern_1
+    room: room:frost_cavern
+    at: [256, 3200]
+    radius: 1228
+    color: [150, 175, 215]
+  - id: light:grotto_1
+    room: room:grotto
+    at: [6784, 3328]
+    radius: 921
+    color: [110, 140, 190]
+  - id: light:grotto_2
+    room: room:grotto
+    at: [6784, 3936]
+    height: 160
+    radius: 512
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 0.7], radius: [380, 560], frequency: 0.3}
+    notes: The mirage's shimmer.
+  - id: light:grotto_3
+    room: room:grotto
+    at: [7104, 3328]
+    height: 256
+    radius: 900
+    color: [140, 220, 160]
+    pulse: {intensity: [0.5, 0.9], radius: [700, 1000], frequency: 0.2}
+    notes: The great skull's pale glow.
+  - id: light:guard_post_1
+    room: room:guard_post
+    at: [-576, 5632]
+    radius: 921
+    color: [110, 140, 190]
+  - id: light:icicle_hall_1
+    room: room:icicle_hall
+    at: [128, 7872]
+    radius: 1152
+    color: [150, 175, 215]
+  - id: light:ledge_1
+    room: room:ledge
+    at: [2240, 5056]
+    radius: 1459
+    color: [110, 140, 190]
+  - id: light:mirage_cache_1
+    room: room:mirage_cache
+    at: [-1280, 9472]
+    radius: 800
+    color: [150, 175, 215]
+  - id: light:mirage_hall_1
+    room: room:mirage_hall
+    at: [256, 5504]
+    radius: 1536
+    color: [150, 175, 215]
+  - id: light:mirror_maze_1
+    room: room:mirror_maze
+    at: [960, 5632]
+    radius: 844
+    color: [110, 140, 190]
+  - id: light:mirror_maze_2
+    room: room:mirror_maze
+    at: [704, 6112]
+    height: 160
+    radius: 512
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 0.7], radius: [380, 560], frequency: 0.3}
+    notes: The mirage's shimmer.
+  - id: light:north_mouth_1
+    room: room:north_mouth
+    at: [0, 9472]
+    radius: 800
+    color: [150, 175, 215]
+  - id: light:north_mouth_2
+    room: room:north_mouth
+    at: [-480, 9472]
+    height: 160
+    radius: 512
+    color: [170, 200, 255]
+    pulse: {intensity: [0.3, 0.7], radius: [380, 560], frequency: 0.3}
+    notes: The mirage's shimmer.
+  - id: light:phantom_vault_1
+    room: room:phantom_vault
+    at: [6784, 4672]
+    radius: 800
+    color: [110, 140, 190]
+  - id: light:reservoir_1
+    room: room:reservoir
+    at: [4416, 2304]
+    height: 1200
+    radius: 2400
+    color: [110, 140, 190]
+  - id: light:reservoir_2
+    room: room:reservoir
+    at: [4416, 5120]
+    height: 1200
+    radius: 2400
+    color: [110, 140, 190]
+  - id: light:skulls_1_1
+    room: room:skulls_1
+    at: [-1408, 3200]
+    radius: 800
+    color: [150, 175, 215]
+  - id: light:skulls_2_1
+    room: room:skulls_2
+    at: [640, 6784]
+    radius: 800
+    color: [110, 140, 190]
+  - id: light:sluice_1
+    room: room:sluice
+    at: [2048, 3072]
+    radius: 800
+    color: [220, 170, 120]
+  - id: light:south_mouth_1
+    room: room:south_mouth
+    at: [64, 1664]
+    radius: 800
+    color: [150, 175, 215]
+  - id: light:sump_1
+    room: room:sump
+    at: [352, 1408]
+    radius: 800
+    color: [110, 140, 190]
+  - id: light:wreck_1
+    room: room:wreck
+    at: [1888, 1600]
+    radius: 960
+    color: [110, 140, 190]
+chests:
+  - id: chest:cache
+    room: room:mirage_cache
+    at: [-1280, 9744]
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 400
+    notes: "The real treasure behind the phantom safe; its first opening gives the fixed Potion of Might (evt:chest_cache, D-22.2)."
+  - id: chest:gems
+    room: room:echo_cave
+    at: [-576, 3696]
+    facing: n
+    treasure_level: 3
+    random_items: 0
+    items: [177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 177, 178, 179, 180, 181]
+    notes: "The echo cave's cache: 15 fixed gems (D-1.6, before the great skull)."
+  - id: chest:hoard
+    room: room:phantom_vault
+    at: [6784, 5008]
+    facing: s
+    treasure_level: 5
+    random_items: 4
+    gold: 2000
+    trap_level: 3
+    notes: The cave's hoard behind the grotto's mirage.
+  - id: chest:post
+    room: room:guard_post
+    at: [-576, 6288]
+    facing: s
+    treasure_level: 3
+    random_items: 3
+    gold: 600
+    notes: The Guardians' chest.
+  - id: chest:wreck
+    room: room:wreck
+    at: [2048, 1136]
+    facing: n
+    treasure_level: 3
+    random_items: 3
+    gold: 500
+    notes: The sunken boat's strongbox.
+monsters:
+  - id: monster:drowned_water_golem_1
+    room: room:drowned
+    monster: 11591
+    at: [704, 4672]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:drowned_water_golem_2
+    room: room:drowned
+    monster: 11591
+    at: [1408, 3840]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:drowned_water_golem_3
+    room: room:drowned
+    monster: 11591
+    at: [416, 3776]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:echo_cave_ff_1
+    room: room:echo_cave
+    monster: 11600
+    at: [-768, 4160]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:echo_cave_ff_2
+    room: room:echo_cave
+    monster: 11600
+    at: [-384, 4096]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:false_passage_ff_1
+    room: room:false_passage
+    monster: 11600
+    at: [-1472, 8064]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:false_passage_ff_2
+    room: room:false_passage
+    monster: 11600
+    at: [-1280, 7680]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:frost_cavern_ff_1
+    room: room:frost_cavern
+    monster: 11600
+    at: [0, 3584]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:frost_cavern_ff_2
+    room: room:frost_cavern
+    monster: 11600
+    at: [640, 3584]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:frost_cavern_guardian_1
+    room: room:frost_cavern
+    monster: 11601
+    at: [256, 2816]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:frost_cavern_guardian_2
+    room: room:frost_cavern
+    monster: 11601
+    at: [768, 2944]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guard_post_guardian_1
+    room: room:guard_post
+    monster: 11601
+    at: [-896, 5376]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guard_post_guardian_2
+    room: room:guard_post
+    monster: 11601
+    at: [-256, 5376]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guard_post_guardian_3
+    room: room:guard_post
+    monster: 11601
+    at: [-896, 5952]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:guard_post_guardian_4
+    room: room:guard_post
+    monster: 11601
+    at: [-256, 5952]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:icicle_hall_ff_1
+    room: room:icicle_hall
+    monster: 11600
+    at: [0, 7360]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:icicle_hall_ff_2
+    room: room:icicle_hall
+    monster: 11600
+    at: [384, 7232]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:icicle_hall_ff_3
+    room: room:icicle_hall
+    monster: 11600
+    at: [0, 8256]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:icicle_hall_ff_4
+    room: room:icicle_hall
+    monster: 11600
+    at: [320, 8064]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirage_hall_ff_1
+    room: room:mirage_hall
+    monster: 11600
+    at: [0, 5888]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirage_hall_ff_2
+    room: room:mirage_hall
+    monster: 11600
+    at: [640, 6080]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirage_hall_ff_3
+    room: room:mirage_hall
+    monster: 11600
+    at: [-256, 4864]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirage_hall_guardian_1
+    room: room:mirage_hall
+    monster: 11601
+    at: [768, 5120]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirage_hall_guardian_2
+    room: room:mirage_hall
+    monster: 11601
+    at: [256, 4736]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirror_maze_ff_1
+    room: room:mirror_maze
+    monster: 11600
+    at: [960, 5120]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirror_maze_ff_2
+    room: room:mirror_maze
+    monster: 11600
+    at: [1472, 5632]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirror_maze_ff_3
+    room: room:mirror_maze
+    monster: 11600
+    at: [768, 5696]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirror_maze_ff_4
+    room: room:mirror_maze
+    monster: 11600
+    at: [1440, 6080]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:mirror_maze_guardian_1
+    room: room:mirror_maze
+    monster: 11601
+    at: [1024, 5440]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:north_mouth_ff_1
+    room: room:north_mouth
+    monster: 11600
+    at: [-256, 9280]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:north_mouth_ff_2
+    room: room:north_mouth
+    monster: 11600
+    at: [256, 9216]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:phantom_vault_ff_1
+    room: room:phantom_vault
+    monster: 11600
+    at: [6528, 4800]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:phantom_vault_ff_2
+    room: room:phantom_vault
+    monster: 11600
+    at: [7040, 4800]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:phantom_vault_water_golem_1
+    room: room:phantom_vault
+    monster: 11591
+    at: [6784, 4608]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:reservoir_ff_1
+    room: room:reservoir
+    monster: 11600
+    at: [4032, 1600]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:reservoir_ff_2
+    room: room:reservoir
+    monster: 11600
+    at: [4096, 2944]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:reservoir_ff_3
+    room: room:reservoir
+    monster: 11600
+    at: [3840, 3392]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:reservoir_ff_4
+    room: room:reservoir
+    monster: 11600
+    at: [4160, 2112]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:reservoir_water_golem_1
+    room: room:reservoir
+    monster: 11591
+    at: [4032, 2496]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:reservoir_water_golem_2
+    room: room:reservoir
+    monster: 11591
+    at: [3904, 1152]
+    facing: 270
+    hostile: true
+    group: 10
+    hidden: true
+    notes: "Under the water until the plug is pulled: shown on the party's first step onto the drained bed."
+  - id: monster:sluice_guardian_1
+    room: room:sluice
+    monster: 11601
+    at: [1664, 3456]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_guardian_2
+    room: room:sluice
+    monster: 11601
+    at: [2432, 3456]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sluice_guardian_3
+    room: room:sluice
+    monster: 11601
+    at: [1664, 2624]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:south_mouth_ff_1
+    room: room:south_mouth
+    monster: 11600
+    at: [-128, 1600]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:south_mouth_ff_2
+    room: room:south_mouth
+    monster: 11600
+    at: [320, 1536]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sump_ff_1
+    room: room:sump
+    monster: 11600
+    at: [0, 1856]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sump_water_golem_1
+    room: room:sump
+    monster: 11591
+    at: [704, 1664]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:sump_water_golem_2
+    room: room:sump
+    monster: 11591
+    at: [704, 1088]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:wreck_ff_1
+    room: room:wreck
+    monster: 11600
+    at: [1408, 1856]
+    facing: 270
+    hostile: true
+    group: 1
+  - id: monster:wreck_ff_2
+    room: room:wreck
+    monster: 11600
+    at: [2432, 1920]
+    facing: 270
+    hostile: true
+    group: 1
+decorations:
+  - id: deco:drowned_1
+    room: room:drowned
+    decoration: 6rock02
+    at: [1472, 4640]
+  - id: deco:drowned_2
+    room: room:drowned
+    decoration: 6rock03
+    at: [384, 4544]
+  - id: deco:echo_cave_1
+    room: room:echo_cave
+    decoration: stlmite3
+    at: [-960, 4416]
+  - id: deco:frost_cavern_1
+    room: room:frost_cavern
+    decoration: stlmite3
+    at: [-576, 2560]
+  - id: deco:frost_cavern_2
+    room: room:frost_cavern
+    decoration: stlmite3
+    at: [1088, 2560]
+  - id: deco:grotto_1
+    room: room:grotto
+    decoration: sklplrev
+    at: [7232, 2976]
+  - id: deco:grotto_2
+    room: room:grotto
+    decoration: sklplrev
+    at: [7232, 3680]
+  - id: deco:guard_post_1
+    room: room:guard_post
+    decoration: stlmite1
+    at: [-1120, 4992]
+  - id: deco:icicle_hall_1
+    room: room:icicle_hall
+    decoration: stlmite3
+    at: [-576, 8576]
+  - id: deco:icicle_hall_2
+    room: room:icicle_hall
+    decoration: stlmite1
+    at: [832, 7104]
+  - id: deco:mirage_hall_1
+    room: room:mirage_hall
+    decoration: stlmite1
+    at: [-832, 4672]
+  - id: deco:mirage_hall_2
+    room: room:mirage_hall
+    decoration: stlmite3
+    at: [-832, 6400]
+  - id: deco:skull_great
+    room: room:grotto
+    decoration: 7dec20
+    at: [7200, 3328]
+    floor_height: -1152
+    facing: w
+    notes: "Great skull: a talking skull on its rock shelf (clicked: evt:skull_great)."
+  - id: deco:skull_intellect
+    room: room:skulls_2
+    decoration: 7dec20
+    at: [448, 6976]
+    floor_height: -544
+    facing: e
+    notes: "Skull (Intellect): a talking skull on its rock shelf (clicked: evt:skull_intellect)."
+  - id: deco:skull_luck
+    room: room:skulls_1
+    decoration: 7dec20
+    at: [-1728, 3456]
+    floor_height: 96
+    facing: e
+    notes: "Skull (Luck): a talking skull on its rock shelf (clicked: evt:skull_luck)."
+  - id: deco:skull_personality
+    room: room:skulls_1
+    decoration: 7dec20
+    at: [-1728, 2944]
+    floor_height: 96
+    facing: e
+    notes: "Skull (Personality): a talking skull on its rock shelf (clicked: evt:skull_personality)."
+  - id: deco:skull_speed
+    room: room:skulls_2
+    decoration: 7dec20
+    at: [832, 6976]
+    floor_height: -544
+    facing: e
+    notes: "Skull (Speed): a talking skull on its rock shelf (clicked: evt:skull_speed)."
+  - id: deco:skulls_1_1
+    room: room:skulls_1
+    decoration: sklplrev
+    at: [-1760, 3200]
+  - id: deco:skulls_2_1
+    room: room:skulls_2
+    decoration: sklplrev
+    at: [640, 7040]
+  - id: deco:sluice_torch_0
+    room: room:sluice
+    decoration: torch02
+    wall: w
+    along: 0.3
+    height: 192
+  - id: deco:sluice_torch_1
+    room: room:sluice
+    decoration: torch02
+    wall: w
+    along: 0.7
+    height: 192
+  - id: deco:sluice_torch_2
+    room: room:sluice
+    decoration: torch02
+    wall: s
+    along: 0.5
+    height: 192
+  - id: deco:sump_1
+    room: room:sump
+    decoration: stlmite3
+    at: [-64, 960]
+  - id: deco:sump_2
+    room: room:sump
+    decoration: 6rock05
+    at: [704, 896]
+  - id: deco:wreck_1
+    room: room:wreck
+    decoration: 7dec21
+    at: [1312, 1216]
+  - id: deco:wreck_2
+    room: room:wreck
+    decoration: 7dec21
+    at: [1440, 1136]
+exits:
+  - id: exit:north
+    room: room:north_mouth
+    wall: north
+    size: [640, 416]
+    surface: {texture: 7solid01, size: [128, 128], scale: 2}
+    to: exit:x5_north
+    notes: "The north mouth's daylight: the snow of the Winterkill Tundra (X5)."
+  - id: exit:south
+    room: room:south_mouth
+    wall: south
+    size: [512, 384]
+    surface: {texture: 7solid01, size: [128, 128], scale: 2}
+    to: exit:x5_south
+    notes: "The south mouth's daylight: out to the Troll Forest side of X5."
+notes: "XD-10's contents, written by output/studio_cal/xd10/tools/dress.py: 8 doors (four mirages, three stone sluice gates, the sluice's door), two movers (the water, the plug), four plates before the mirages, five chests, 50 placed monsters (30 Flying Feet, 12 Guardians, 8 Water Golems; the reservoir's six hidden under the water until the bed is walked), five skulls."

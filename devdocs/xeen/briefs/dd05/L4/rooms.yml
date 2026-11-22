@@ -1,0 +1,621 @@
+format: 0
+themes:
+  - id: theme:stair
+    wall: {texture: gston1wl, size: [128, 256]}
+    floor: {texture: gcstflor, size: [128, 256]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The stairs, landings and the priests' sleeping rooms: the same ashlar, grey cobbles gcstflor."
+  - id: theme:temple
+    wall: {texture: gtempw1, size: [128, 256]}
+    floor: {texture: gtempflr, size: [128, 128]}
+    ceiling: {texture: gtemprf, size: [128, 128]}
+    reveal: {texture: gtempw1, size: [128, 256]}
+    door: {texture: gtempdor1, size: [128, 256]}
+    notes: "The heretics' chapel and vestry: MM8 Temple of the Sun (d22) pale marble gtempw1, blue flags gtempflr, the gold-blue mosaic gtemprf, the blue temple door gtempdor1."
+  - id: theme:tower
+    wall: {texture: gston1wl, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    floor: {texture: gston1fl, size: [128, 128]}
+    ceiling: {texture: gstn1cl, size: [128, 128]}
+    reveal: {texture: gston1wl, size: [128, 256]}
+    door: {texture: gcstdoor, size: [128, 256]}
+    notes: "The Mok tower's own rooms: MM8 Castle of Air (d27) green-grey ashlar gston1wl over a green marble skirting gstntilev, scale-pattern flags gston1fl, panelled stone ceilings gstn1cl, the stone doors."
+defaults: {theme: theme:tower, ambient: 16}
+rooms:
+  - id: room:alcoves
+    name: Hall of alcoves
+    outline: [[-960, -640], [960, -640], [960, 1216], [-960, 1216]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:alcove_w, offset: 288, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The west alcove.}
+      - wall: east
+        panels:
+          - {id: panel:alcove_e, offset: 1376, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The east alcove.}
+      - wall: north
+        panels:
+          - {id: panel:alcove_n, offset: 864, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The north alcove.}
+    pillars:
+      - {at: [0, 576], size: [512, 512], surface: {texture: gston1wl, size: [128, 256]}}
+    platforms:
+      - {id: platform:plinth_w, at: [-896, 832], size: [128, 192], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: gtempflr, size: [128, 128]}, notes: The west alcove's ledge.}
+      - {id: platform:plinth_e, at: [896, 832], size: [128, 192], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: gtempflr, size: [128, 128]}, notes: The east alcove's ledge.}
+      - {id: platform:plinth_n, at: [0, 1152], size: [192, 128], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: gtempflr, size: [128, 128]}, notes: The north alcove's ledge.}
+    ambient: 18
+    notes: "Round the old stair core three alcoves in carved marble niches: west and east each a disc, north the Pegasus statuette."
+  - id: room:altar_stair
+    name: Altar stair
+    outline: [[-1728, -640], [-1408, -640], [-1408, 640], [-1728, 640]]
+    floor: 1280
+    slope: {to: 1920, toward: north, steps: 20}
+    ceiling: 2368
+    theme: theme:stair
+    ambient: 14
+    notes: "The priests' stair: twenty steps from L3's cloister up north to the chapel, beside the altar."
+  - id: room:bone_gallery
+    name: Bone gallery
+    outline: [[384, -128], [960, -128], [960, 1728], [384, 1728]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:tower
+    ambient: 14
+    notes: "A long gallery inside the outer wall from the hoist room to the chapel's double doors and the cells; heaps of bones in its corners, what is left of the priests who stayed loyal."
+  - id: room:cells
+    name: Heretics' cells
+    outline: [[384, -1728], [1728, -1728], [1728, -704], [1344, -704], [1344, -192], [384, -192]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_l4_w, at: [480, -1504], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l4_e, at: [1632, -1504], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 14
+    notes: "The heretics' sleeping room off the gallery's south end; two beds with something under the blanket; the tower stair's head in the north-east corner."
+  - id: room:chapel
+    name: The heretics' altar
+    outline: [[-1728, 704], [320, 704], [320, 1728], [-1728, 1728]]
+    floor: 1920
+    ceiling: 2880
+    ceiling_points: [[-704, 1216, 3264]]
+    theme: theme:temple
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:sun, offset: 384, length: 256, bottom: 96, height: 512, surface: {texture: xmoktap, size: [128, 256], fit: true}, notes: "Behind the altar: Mok's sun with the open eye, the heretics' sign daubed over it."}
+    platforms:
+      - {id: platform:altar, at: [-1472, 1216], size: [192, 384], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: gtempflr, size: [128, 128]}, notes: "The altar of pale marble; the key lies under a heretical candle."}
+    beams:
+      - path: [[-1728, 928], [320, 928]]
+        width: 48
+        depth: 48
+        bottom: 2624
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[-1728, 1504], [320, 1504]]
+        width: 48
+        depth: 48
+        bottom: 2624
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[-992, 704], [-992, 1728]]
+        width: 48
+        depth: 48
+        bottom: 2576
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[-416, 704], [-416, 1728]]
+        width: 48
+        depth: 48
+        bottom: 2576
+        surface: {texture: 7trimd, size: [128, 256]}
+    ambient: 22
+    notes: "Behind double doors: pale marble and blue flags under the cone's gold-blue mosaic, a ring beam of dark timber round the cone, the altar at the west end under Mok's daubed sun. The Cult Leader preaches there."
+  - id: room:cloister3
+    name: Cloister
+    outline: [[-1728, -1216], [1728, -1216], [1728, -704], [-1728, -704]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {offset: 176, length: 160, bottom: 96, height: 320, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: A pointed window in the tower's wall.}
+      - wall: east
+        panels:
+          - {offset: 176, length: 160, bottom: 96, height: 320, surface: {texture: t19b04c, size: [128, 256], fit: true}, notes: A pointed window in the tower's wall.}
+    ambient: 16
+    notes: "A long walk round the floor's south side, windows at its ends; the altar stair's foot at its west end, the fountains north, Pious's door south."
+  - id: room:door_hall
+    name: Hall of the warded door
+    outline: [[-960, -1728], [960, -1728], [960, -1152], [-960, -1152]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    ambient: 16
+    notes: "Inside the front door: a Heretic Lord keeps it with three of Mok's iron guardians."
+  - id: room:dorm1
+    name: Novices' dormitory
+    outline: [[-1728, -1728], [-1024, -1728], [-1024, 640], [-1344, 640], [-1344, -704], [-1728, -704]]
+    floor: 0
+    ceiling: 512
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_l1_a, at: [-1632, -1500], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l1_b, at: [-1632, -1050], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 14
+    notes: "The foot of the south stair; beds along the west wall, clear of the lines to the alcoves and the door hall; a passage north beside the stair into the hall of alcoves."
+  - id: room:dorm2
+    name: Lower dormitory
+    outline: [[0, 704], [1728, 704], [1728, 1280], [0, 1280]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_l2_purse, at: [256, 1088], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l2_b, at: [640, 1088], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l2_c, at: [1632, 1088], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 16
+    notes: "Beds along the north wall; under one mattress a purse. The east stair's head; Humble's door north."
+  - id: room:dorm3
+    name: Upper dormitory
+    outline: [[-1344, 704], [960, 704], [960, 1664], [-1344, 1664]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_l3_1, at: [-1088, 1472], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l3_2, at: [-640, 1472], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l3_3, at: [-192, 1472], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+      - {id: platform:bed_l3_4, at: [256, 1472], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 16
+    notes: "Beds along the north wall, the senior priest's chest beside his; the west stair's head."
+  - id: room:east_stair2
+    name: East stair
+    outline: [[1408, -640], [1728, -640], [1728, 640], [1408, 640]]
+    floor: 0
+    slope: {to: 640, toward: north, steps: 20}
+    ceiling: 1088
+    theme: theme:stair
+    ambient: 14
+    notes: Twenty steps from L1's stair hall up north to the lower dormitory.
+  - id: room:fountains2
+    name: Fountains of fire and lightning
+    outline: [[-1728, 704], [-64, 704], [-64, 1344], [-1728, 1344]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:tower
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:niche_fire, offset: 1056, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The fire fountain's niche.}
+          - {id: panel:niche_air, offset: 416, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The lightning fountain's niche.}
+    platforms:
+      - {id: platform:fountain_fire, at: [-1216, 1280], size: [192, 128], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: The fire fountain's basin.}
+      - {id: platform:fountain_air, at: [-576, 1280], size: [192, 128], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: The lightning fountain's basin.}
+    ambient: 18
+    notes: "Two wall fountains in carved marble niches on the north wall: +5 Fire and +5 Air resistance, once per character (the hooks decide); two of Mok's stone guardians."
+  - id: room:fountains3
+    name: Fountains of cold and venom
+    outline: [[-640, -640], [640, -640], [640, 640], [-640, 640]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:tower
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:niche_water, offset: 544, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The cold fountain's niche.}
+      - wall: east
+        panels:
+          - {id: panel:niche_body, offset: 544, length: 192, bottom: 0, height: 384, surface: {texture: gtempw2, size: [128, 256], fit: true}, notes: The venom fountain's niche.}
+    platforms:
+      - {id: platform:fountain_water, at: [-576, 0], size: [128, 192], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: The cold fountain's basin.}
+      - {id: platform:fountain_body, at: [576, 0], size: [128, 192], rise: 96, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: The venom fountain's basin.}
+    ambient: 18
+    notes: "Two wall fountains in carved marble niches, west and east: +5 Water and +5 Body resistance, once per character (the hooks decide)."
+  - id: room:guardians
+    name: Guardians' gallery
+    outline: [[1024, -1728], [1728, -1728], [1728, -1152], [1024, -1152]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    ambient: 14
+    notes: "Mok's stone guardians, three of them awake; the old temple's offering chest at the east end."
+  - id: room:hoist
+    name: Hoist room
+    outline: [[1024, 1024], [1728, 1024], [1728, 1728], [1024, 1728]]
+    floor: 1920
+    store: true
+    ceiling: 2432
+    theme: theme:tower
+    platforms:
+      - {id: platform:windlass, at: [1632, 1568], size: [96, 224], rise: 128, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "The windlass's frame: a beam on two posts by the window."}
+    ambient: 16
+    notes: "The arrival from D1's rope: the open window on the north wall where the heretics' rope ends, a windlass beam beside it, the heretics' bread and candles in sacks along the walls (a storeroom)."
+  - id: room:humble
+    name: Humble's cell
+    outline: [[704, 1344], [1344, 1344], [1344, 1728], [704, 1728]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_humble, at: [800, 1536], size: [192, 320], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 16
+    notes: "A cell behind a door off the dormitory: Humble the Cleric by his bed, begging."
+  - id: room:kitchen2
+    name: Kitchen
+    outline: [[832, -1600], [1728, -1600], [1728, -704], [832, -704]]
+    floor: 640
+    store: true
+    ceiling: 1152
+    theme: theme:stair
+    platforms:
+      - {id: platform:hearth, at: [1280, -1536], size: [384, 128], rise: 32, surface: {texture: gstyl, size: [128, 128]}, top_surface: {texture: gstyl, size: [128, 128]}, notes: The hearth's stone bed against the south wall.}
+      - {id: platform:kitchen_table, at: [1568, -800], size: [256, 96], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A work table along the north wall.}
+    ambient: 18
+    notes: "The foot of the outer stair: a hearth on the south wall, a table along the north wall, barrels in pairs and sacks in the corners (the bread hauled up the rope), a chest in the larder corner."
+  - id: room:landing2
+    name: Landing
+    outline: [[-1728, -1600], [-832, -1600], [-832, -704], [-1728, -704]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:stair
+    ambient: 14
+    notes: "The foot of the west stair; the refectory east."
+  - id: room:landing3
+    name: Stair landing
+    outline: [[1024, 704], [1728, 704], [1728, 1280], [1024, 1280]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:stair
+    ambient: 16
+    notes: "The head of the outer stair from L2 and the foot of the tower stair to L4, side by side; open to the dormitory."
+  - id: room:mirror_hall
+    name: Mirror hall
+    outline: [[-640, -1088], [640, -1088], [640, -704], [-640, -704]]
+    floor: 0
+    ceiling: 512
+    theme: theme:tower
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:mirror, offset: 992, length: 192, bottom: 96, height: 288, surface: {texture: xkmirror, size: [128, 128]}, notes: "The dead mirror, silvered glass in a green marble frame."}
+          - {offset: 1184, length: 32, bottom: 64, height: 352, surface: {texture: gstntilev, size: [64, 128]}, notes: The mirror's frame.}
+          - {offset: 960, length: 32, bottom: 64, height: 352, surface: {texture: gstntilev, size: [64, 128]}}
+          - {offset: 992, length: 192, bottom: 64, height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+          - {offset: 992, length: 192, bottom: 384, height: 32, surface: {texture: gstntilev, size: [64, 128]}}
+    ambient: 16
+    notes: "A short hall between the alcoves and the door hall; a dead mirror on its north wall."
+  - id: room:outer_stair3
+    name: Outer stair
+    outline: [[1024, -640], [1344, -640], [1344, 640], [1024, 640]]
+    floor: 640
+    slope: {to: 1280, toward: north, steps: 20}
+    ceiling: 1728
+    theme: theme:stair
+    ambient: 14
+    notes: Twenty steps from L2's kitchen up north to L3's stair landing.
+  - id: room:pious
+    name: Pious's cell
+    outline: [[-384, -1728], [384, -1728], [384, -1280], [-384, -1280]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:stair
+    platforms:
+      - {id: platform:bed_pious, at: [-288, -1504], size: [192, 384], rise: 48, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A bed: a straw tick under a grey blanket."}
+    ambient: 16
+    notes: "A cell behind a door off the cloister: Pious the Cleric by his bed, begging."
+  - id: room:refectory
+    name: Refectory
+    outline: [[-768, -1088], [768, -1088], [768, 640], [-768, 640]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:tower
+    platforms:
+      - {id: platform:table, at: [512, 320], size: [192, 512], rise: 72, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The refectory's long table.}
+      - {at: [352, 320], size: [64, 512], rise: 40, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A bench.}
+      - {at: [672, 320], size: [64, 512], rise: 40, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A bench.}
+    ambient: 16
+    notes: "One long table and its benches along the hall's axis in its north-east part, off the walking lines between the three doors."
+  - id: room:south_stair2
+    name: South stair
+    outline: [[-1728, -640], [-1408, -640], [-1408, 640], [-1728, 640]]
+    floor: 0
+    slope: {to: 640, toward: north, steps: 20}
+    ceiling: 1088
+    theme: theme:stair
+    ambient: 14
+    notes: Twenty steps from L1's novices' dormitory up north to the fountains of fire and lightning.
+  - id: room:stair_hall1
+    name: Stair hall
+    outline: [[1024, -1088], [1728, -1088], [1728, -704], [1344, -704], [1344, 640], [1024, 640]]
+    floor: 0
+    ceiling: 512
+    theme: theme:stair
+    ambient: 16
+    notes: "The foot of the east stair; a passage north along the stair's side into the hall of alcoves."
+  - id: room:tapestry_walk
+    name: Tapestry walk
+    outline: [[-768, -640], [320, -640], [320, -128], [-768, -128]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:tower
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:tap_a, offset: 768, length: 128, bottom: 64, height: 256, surface: {texture: xmoktap, size: [128, 256], fit: true}, notes: "A tapestry of Mok's sun, daubed over."}
+          - {id: panel:tap_b, offset: 480, length: 128, bottom: 64, height: 256, surface: {texture: xmoktap, size: [128, 256], fit: true}, notes: "A tapestry of Mok's sun, daubed over."}
+          - {id: panel:tap_c, offset: 192, length: 128, bottom: 64, height: 256, surface: {texture: xmoktap, size: [128, 256], fit: true}, notes: "A tapestry of Mok's sun, daubed over."}
+    ambient: 16
+    notes: "Three hangings of Mok's sun with the heretics' sign daubed over them; behind the middle one a button."
+  - id: room:tower_stair
+    name: Tower stair
+    outline: [[1408, -640], [1728, -640], [1728, 640], [1408, 640]]
+    floor: 1280
+    slope: {to: 1920, toward: south, steps: 20}
+    ceiling: 2368
+    theme: theme:stair
+    ambient: 14
+    notes: "The stair in the wall: twenty steps from L3's stair landing up south to the cells."
+  - id: room:vestry
+    name: Vestry
+    outline: [[-1344, -640], [-832, -640], [-832, 640], [-1344, 640]]
+    floor: 1920
+    ceiling: 2432
+    theme: theme:temple
+    platforms:
+      - {id: platform:press, at: [-1280, 192], size: [64, 448], rise: 256, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A press of vestments against the west wall.}
+    ambient: 18
+    notes: "Behind the altar: vestments in a press along the west wall, the Cult Leader's chest. A door to the chapel; a panel to the tapestry walk that the button behind the middle tapestry slides."
+  - id: room:west_stair3
+    name: West stair
+    outline: [[-1344, -640], [-1024, -640], [-1024, 640], [-1344, 640]]
+    floor: 640
+    slope: {to: 1280, toward: north, steps: 20}
+    ceiling: 1728
+    theme: theme:stair
+    ambient: 14
+    notes: Twenty steps from L2's landing up north to the upper dormitory.
+openings:
+  - id: open:alcoves_dorm1
+    from: room:alcoves
+    to: room:dorm1
+    from_wall: west
+    to_wall: 1
+    link: link:alcoves_dorm1
+    width: 384
+    height: 384
+  - id: open:alcoves_mirror
+    from: room:alcoves
+    to: room:mirror_hall
+    link: link:alcoves_mirror
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:altar_foot
+    from: room:cloister3
+    to: room:altar_stair
+    from_wall: north
+    to_wall: south
+    link: link:altar_stair
+    width: full
+    height: full
+  - id: open:altar_head
+    from: room:chapel
+    to: room:altar_stair
+    from_wall: south
+    to_wall: north
+    link: link:altar_stair
+    width: full
+    height: full
+  - id: open:cells_tap
+    from: room:cells
+    to: room:tapestry_walk
+    from_wall: 5
+    link: link:cells_tap
+    width: 320
+    height: 384
+  - id: open:chapel_vestry
+    from: room:chapel
+    to: room:vestry
+    link: link:chapel_vestry
+    width: 192
+    height: 320
+  - id: open:cloister_fountains
+    from: room:cloister3
+    to: room:fountains3
+    link: link:cloister_fountains
+    width: 640
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:cloister_pious
+    from: room:cloister3
+    to: room:pious
+    link: link:cloister_pious
+    width: 192
+    height: 320
+  - id: open:door_hall_guardians
+    from: room:door_hall
+    to: room:guardians
+    link: link:door_hall_guardians
+    width: 192
+    height: 320
+  - id: open:dorm1_door_hall
+    from: room:dorm1
+    to: room:door_hall
+    from_wall: 1
+    to_wall: west
+    link: link:dorm1_door_hall
+    width: 192
+    height: 320
+  - id: open:dorm2_humble
+    from: room:dorm2
+    to: room:humble
+    link: link:dorm2_humble
+    width: 192
+    height: 320
+  - id: open:dorm3_landing
+    from: room:dorm3
+    to: room:landing3
+    link: link:dorm3_landing
+    width: 384
+    height: 384
+  - id: open:east_foot
+    from: room:stair_hall1
+    to: room:east_stair2
+    from_wall: 2
+    to_wall: south
+    link: link:east_stair
+    width: full
+    height: full
+  - id: open:east_head
+    from: room:dorm2
+    to: room:east_stair2
+    from_wall: south
+    to_wall: north
+    link: link:east_stair
+    width: full
+    height: full
+  - id: open:fountains_dorm2
+    from: room:fountains2
+    to: room:dorm2
+    link: link:fountains_dorm2
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:fountains_dorm3
+    from: room:fountains3
+    to: room:dorm3
+    link: link:fountains_dorm3
+    width: 192
+    height: 320
+  - id: open:gallery_cells
+    from: room:bone_gallery
+    to: room:cells
+    link: link:gallery_cells
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:gallery_chapel
+    from: room:bone_gallery
+    to: room:chapel
+    link: link:gallery_chapel
+    width: 256
+    height: 352
+    notes: The chapel's double doors.
+  - id: open:hoist_gallery
+    from: room:hoist
+    to: room:bone_gallery
+    link: link:hoist_gallery
+    width: 192
+    height: 320
+  - id: open:kitchen_refectory
+    from: room:kitchen2
+    to: room:refectory
+    link: link:kitchen_refectory
+    width: 192
+    height: 320
+  - id: open:landing_refectory
+    from: room:landing2
+    to: room:refectory
+    link: link:landing_refectory
+    width: 320
+    height: 384
+  - id: open:mirror_door_hall
+    from: room:mirror_hall
+    to: room:door_hall
+    link: link:mirror_door_hall
+    width: 192
+    height: 320
+  - id: open:outer_foot
+    from: room:kitchen2
+    to: room:outer_stair3
+    from_wall: north
+    to_wall: south
+    link: link:outer_stair
+    width: full
+    height: full
+  - id: open:outer_head
+    from: room:landing3
+    to: room:outer_stair3
+    from_wall: south
+    to_wall: north
+    link: link:outer_stair
+    width: full
+    height: full
+  - id: open:refectory_fountains
+    from: room:refectory
+    to: room:fountains2
+    link: link:refectory_fountains
+    width: 192
+    height: 320
+  - id: open:south_foot
+    from: room:dorm1
+    to: room:south_stair2
+    from_wall: 4
+    to_wall: south
+    link: link:south_stair
+    width: full
+    height: full
+  - id: open:south_head
+    from: room:fountains2
+    to: room:south_stair2
+    from_wall: south
+    to_wall: north
+    link: link:south_stair
+    width: full
+    height: full
+  - id: open:stair_alcoves
+    from: room:stair_hall1
+    to: room:alcoves
+    from_wall: 5
+    to_wall: east
+    link: link:stair_alcoves
+    width: 384
+    height: 384
+  - id: open:tap_vestry
+    from: room:tapestry_walk
+    to: room:vestry
+    link: link:tap_vestry
+    width: 192
+    height: 288
+    notes: The panel behind the tapestries.
+  - id: open:tower_foot
+    from: room:landing3
+    to: room:tower_stair
+    from_wall: south
+    to_wall: north
+    link: link:tower_stair
+    width: full
+    height: full
+  - id: open:tower_head
+    from: room:cells
+    to: room:tower_stair
+    from_wall: 2
+    to_wall: south
+    link: link:tower_stair
+    width: full
+    height: full
+  - id: open:west_foot
+    from: room:landing2
+    to: room:west_stair3
+    from_wall: north
+    to_wall: south
+    link: link:west_stair
+    width: full
+    height: full
+  - id: open:west_head
+    from: room:dorm3
+    to: room:west_stair3
+    from_wall: south
+    to_wall: north
+    link: link:west_stair
+    width: full
+    height: full
+notes: "DD-05 at L3/L4: 29 rooms on four floors in the plan's frame (x east, y north). Written by output/studio_cal/dd05/tools/gen.py."

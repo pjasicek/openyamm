@@ -1,0 +1,297 @@
+format: 0
+variables: [pylons, disc_sent]
+events:
+  - id: evt:arrive
+    preset: text
+    trigger: timer
+    every: 1
+    once: true
+    text: "The Great Eastern Tower. Far above, light falls down an open well; something hums up there."
+    seconds: 6
+    notes: "Say where the party is (a one-shot timer: the party arrives standing in the door hall)."
+  - id: evt:ball_1
+    preset: text
+    source: platform:ball_1
+    title: Crystal ball
+    text: "Clouds, and under them a desert going on for ever."
+  - id: evt:ball_2
+    preset: text
+    source: platform:ball_2
+    title: Crystal ball
+    text: A dark sun over a dark land.
+  - id: evt:ball_3
+    preset: text
+    source: platform:ball_3
+    title: Crystal ball
+    text: "Your own faces, looking back, a little older."
+  - id: evt:bed_1
+    preset: text
+    source: platform:bed_1
+    title: Bed
+    text: Nothing here.
+    notes: dark/aaze0067:2.
+  - id: evt:bed_2
+    preset: text
+    source: platform:bed_2
+    title: Bed
+    text: Nothing here.
+    notes: dark/aaze0067:2.
+  - id: evt:bed_3
+    preset: text
+    source: platform:bed_3
+    title: Bed
+    text: Nothing here.
+    notes: dark/aaze0067:2.
+  - id: evt:bed_4
+    preset: text
+    source: platform:bed_4
+    title: Bed
+    text: Nothing here.
+    notes: dark/aaze0067:2.
+  - id: evt:book_fantastic
+    preset: script
+    source: platform:book_fantastic
+    title: Book of Fantastic Knowledge
+    effects:
+      - lua: "XeenQuests.hook(\"q-d18.fantastic_book\")"
+    notes: "A3's q-d18.fantastic_book decides for the reading member (+2 Intellect once, player bit 11337; after: 'Your intellect is already fantastic!', dark/aaze0068:6)."
+  - id: evt:book_power
+    preset: script
+    source: platform:book_power
+    title: Book of Great Power
+    effects:
+      - lua: "XeenQuests.hook(\"q-d18.great_power_book\")"
+    notes: "A3's q-d18.great_power_book: the final refusal, every member, every time (D-39 Q3; dark/aaze0068:7)."
+  - id: evt:case_1
+    preset: text
+    source: platform:case_1
+    title: Case
+    text: "Labels in a neat hand: 'Toad, two-headed. Thaumic value: considerable.' The toad is long gone."
+  - id: evt:case_2
+    preset: text
+    source: platform:case_2
+    title: Case
+    text: "Labels: 'Feather, phoenix (doubtful).' 'Tooth, unknown.' 'Rock.' Nothing worth taking."
+  - id: evt:chest_dormitory
+    preset: chest
+    source: chest:dormitory
+    title: Chest
+  - id: evt:chest_store
+    preset: chest
+    source: chest:store
+    title: Chest
+  - id: evt:chest_study
+    preset: chest
+    source: chest:study
+    title: Chest
+  - id: evt:disc_foot
+    preset: switch
+    source: switch:disc_foot
+    title: Lever
+    condition: {map_var: disc_sent}
+    locked_text: The disc does not answer from below.
+    toggles: [lift:disc]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, 0, 960)"
+    text: The disc hums and drifts along the well.
+    notes: "The call lever at the well's foot: it works once the disc has been sent from the top (a map variable)."
+  - id: evt:disc_top
+    preset: switch
+    source: switch:disc_top
+    title: Lever
+    toggles: [lift:disc]
+    effects:
+      - set:
+          var:
+            map_var: disc_sent
+          value: 1
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, 0, 960)"
+    text: The disc hums and drifts along the well.
+    notes: "state:disc_lever: the lever on the rail post at the top sends the disc down (with whoever stands on it) or calls it back up; once used, the foot's lever answers too."
+  - id: evt:disks
+    preset: script
+    source: platform:experiment
+    title: Disc
+    condition: {not: {qbit: tower_disks}}
+    effects:
+      - give_item: 12334
+      - give_item: 12334
+      - lua: "XeenQuests.hook(\"q-d18.l3_disks\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d18.l3_disks\")"
+    notes: "A3's q-d18.l3_disks: the hook's map_gives says the map hands over the 2 Energy Disks 12334 (here, once, until tower_disks 113362 is set); the hook sets the bit and says 'Disc. Two Energy Disks ...', after that 'Loose wires where the disks were.'; 'Disc' is dark/aaze0067:1."
+  - id: evt:door_cabinet
+    preset: door
+    source: door:cabinet
+    title: Door
+  - id: evt:door_commons
+    preset: door
+    source: door:commons
+    title: Door
+  - id: evt:door_conjury
+    preset: door
+    source: door:conjury
+    title: Door
+  - id: evt:door_dormitory
+    preset: door
+    source: door:dormitory
+    title: Door
+  - id: evt:door_lab
+    preset: door
+    source: door:lab
+    title: Door
+  - id: evt:door_scrying
+    preset: door
+    source: door:scrying
+    title: Door
+  - id: evt:door_store
+    preset: door
+    source: door:store
+    title: Door
+  - id: evt:door_study
+    preset: door
+    source: door:study
+    title: Door
+  - id: evt:door_study_landing
+    preset: door
+    source: door:study_landing
+    title: Door
+  - id: evt:exit
+    preset: exit
+    source: exit:d3_door
+    title: Tower door
+    notes: "Out to D3 (A5's entrance:dd07_door (15360, 9216, 1888) facing west, before the tower's door): the game's own leave window (D-24); 'Exit the Great Eastern Tower?' (dark/aaze0065:0) is its meaning."
+  - id: evt:fountain_life
+    preset: script
+    source: platform:fountain_life
+    title: Fountain of Life
+    lua: |-
+      AddValue(CurrentHealth, 1000)
+      evt.StatusText("Fountain of Life. The water closes your wounds.", 3)
+    notes: "dark/aaze0068:4: the Fountain of Life heals the drinking member (any time)."
+  - id: evt:fountain_min
+    preset: script
+    source: platform:fountain_min
+    title: Fountain of Minimal Abilities
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_spring_drink\", -576, 1536, 1984)"
+      - lua: "XeenQuests.hook(\"q-d18.minimal_fountain\")"
+    notes: "A3's q-d18.minimal_fountain decides for the drinking member (+1 to every statistic once, player bit 11336; after: 'The water is cool and refreshing.'; dark/aaze0068:1-3). AU's xeen_spring_drink."
+  - id: evt:griffin
+    preset: chest
+    source: chest:case_griffin
+    title: Cabinet
+    effects:
+      - lua: "XeenQuests.hook(\"q-d20.griffin\")"
+    notes: "D-90: the Golden Griffin 12351 is the curio box's item; A3's q-d20.griffin (once) sets griffin_found 113403 on the status line."
+  - id: evt:letter
+    preset: chest
+    source: chest:desk
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"q-d18.letter\")"
+    notes: "D-90: Ellinger's letter 12361 is the writing box's item; A3's q-d18.letter (once) sets letter_found 113363 and autonote 4581 on the status line."
+  - id: evt:lore
+    preset: text
+    source: platform:lore
+    title: Books
+    text: "Lore books: 'On the Floating of Persons', 'Wells and their Uses', 'Against Stairs'."
+  - id: evt:mirror
+    preset: text
+    source: platform:mirror
+    title: Mirror
+    text: The mirror does not respond.
+    notes: "dark/aaze0066:1 (D-39 Q5: flavour only; the source's 'Where to?' / 'Destination Unknown' dropped)."
+  - id: evt:pylon_e
+    preset: script
+    source: platform:pylon_e
+    title: Ward pylon
+    condition: {not: {destroyed: destructible:pylon_e}}
+    effects:
+      - text: You strike the crystal with all your strength.
+      - destroy: destructible:pylon_e
+    else_effects:
+      - text: The east pylon's crystal lies in shards.
+    notes: "The east ward pylon: a crystal on a black pillar, its beam running to the vault. A click (or a blow, or a missile) breaks it; a timer counts it."
+  - id: evt:pylon_e_out
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {destroyed: destructible:pylon_e}
+    once: true
+    effects:
+      - add:
+          var:
+            map_var: pylons
+          value: 1
+      - lights_off: light:beam_e
+      - text: The east pylon shatters. Its beam goes out.
+    notes: "The east pylon broken (a timer sees its destructible broken, by a click, a blow or a missile): one beam fewer."
+  - id: evt:pylon_w
+    preset: script
+    source: platform:pylon_w
+    title: Ward pylon
+    condition: {not: {destroyed: destructible:pylon_w}}
+    effects:
+      - text: You strike the crystal with all your strength.
+      - destroy: destructible:pylon_w
+    else_effects:
+      - text: The west pylon's crystal lies in shards.
+    notes: "The west ward pylon: a crystal on a black pillar, its beam running to the vault. A click (or a blow, or a missile) breaks it; a timer counts it."
+  - id: evt:pylon_w_out
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {destroyed: destructible:pylon_w}
+    once: true
+    effects:
+      - add:
+          var:
+            map_var: pylons
+          value: 1
+      - lights_off: light:beam_w
+      - text: The west pylon shatters. Its beam goes out.
+    notes: "The west pylon broken (a timer sees its destructible broken, by a click, a blow or a missile): one beam fewer."
+  - id: evt:roof_trapdoor
+    preset: script
+    source: platform:roof_hatch
+    title: Roof trapdoor
+    lua: |-
+      if not XeenQuests.hook("d7.roof_dd07") then
+          return
+      end
+      evt.MoveToMap(27136, -6144, 1024, 1024, 0, 0, 0, 1, "xeen_d7.blv")
+    notes: "D-58: A3's d7.roof_dd07 checked first (needs m30.done; else its 'The trapdoor is shut fast.'), then the game's standard entrance window (F16, 2026-11-22; was D-66's Yes/No) in place of the old question; OK goes one way up to D7's entrance:dd07_roof (27136, -6144, 1024) facing 1024 at once (D7 is indoor: no leave window; the coordinates are D7's named arrival, written out because the move waits on the answer)."
+  - id: evt:vat
+    preset: text
+    source: platform:vat
+    title: Bubbling Vat
+    text: The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.
+    notes: "dark/aaze0068:0: the vat is dressing (D-39 Q3); the source's ageing water is not given."
+  - id: evt:ward
+    preset: door
+    source: door:ward
+    title: Door of light
+    condition: {map_var: {name: pylons, equals: 2}}
+    locked_text: "A wall of light hums in the doorway. Two beams feed it, from the west and from the east."
+    action: open
+    notes: "state:pylon_w, state:pylon_e: the door's click explains both beams; once both pylons are broken it has faded (evt:ward_fade) and stays open."
+  - id: evt:ward_fade
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {map_var: {name: pylons, equals: 2}}
+    opens: [door:ward]
+    once: true
+    effects:
+      - lights_off: light:ward
+      - text: In the vault's doorway the wall of light flickers and fades.
+    notes: "Both beams out: the door of light sinks away and stays open."
+  - id: evt:ward_load
+    preset: script
+    trigger: load
+    condition: {map_var: {name: pylons, equals: 2}}
+    opens: [door:ward]
+    effects:
+      - lights_off: light:ward
+    notes: On every later load the door of light stays gone.

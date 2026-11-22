@@ -1,0 +1,14 @@
+A colossal stone statue stirring: a deep grinding rumble of massive stone blocks shifting, sand pouring from cracks and a heavy settling thud
+
+kind: sfx
+duration: 4
+loop: false
+variants: 4
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 100
+  db: 4
+loudness_db: -8
+score_bias: power

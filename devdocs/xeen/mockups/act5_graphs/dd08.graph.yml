@@ -1,0 +1,312 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Northern Tower (dark maze0069-0072, four 16 x 16 levels round a central cell; text aaze0069-0072): the
+# Voweless Knights' tower. Seven books show a proverb with its vowels taken out and ask for the answer (+500,000
+# experience each); armour, helms and shields hang on the walls; on L1 a founder's statue with the order's plaque, a
+# dead mirror and a pillow note ("to appreciate the highs one must experience the lows"); on L4 a voice asks "What do
+# you seek?", the chalice behind it, four Emotion Thrones round the Euphoria Throne, the Throne of the Dunce, seven
+# beds with the "Cliff Notes" (the books' vowel answers) and the trapdoor to the Skyroads. The stairs alternate
+# (L1-L2 at the south, L2-L3 at the north, L3-L4 at the south), so every floor is crossed. Monsters: Slayer Knights
+# and Death Knights (23 and 11) and one Doom Knight among the thrones.
+# Ours: ONE BLV, four floors stacked round a central stair core (WORLD_DESIGN §6), 448 apart (0, 448, 896, 1344).
+# The core's great stair joins L1-L2 and its upper flight (the Stair of Silence) L3-L4; between L2 and L3 the climb
+# goes round through two stairs in the thickness of the west and east walls (the source's alternation, a loop).
+format: mu6-0
+map: DD-08
+key: dd08
+name: Northern Tower
+stands_on: D5 Desert of Doom (the knoll inside the Parabolic Barrier's curve, landmark:northern_tower)
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+size: "33 review rooms, about 38 sectors (the Hall of Arms, the south drill yard, the chapter hall and the Hall of Thrones two each); each floor about 2,816 x 2,816 inside a 1,024 x 1,024 tower (larger inside than outside, as DD-02, DD-05, DD-06), 4 floors of about 7.9: about 32 M units²; 15 doors (the gate and the chapter hall's doors as two-leaf pairs, two secret walls, the roof trapdoor)"
+party: [49, 52]
+monsters:
+  levels: [45, 55]
+  boss: null
+  count: 45
+  groups: [2, 3]
+  families:
+    - "Dark knights (11150): Slayer Knight 45 (33), Death Knight 55 (12): the Voweless Knights themselves, the source's only monsters (its 23 + 11, more Death Knights going up); in their own faction (open question 7)"
+    - "Doom Knight 75 (11152): the source's one among the thrones is over the band 40-62: not placed (open question 2)"
+  mix:
+    - {row: Slayer Knight, id: 11150, level: 45, count: 33}
+    - {row: Death Knight, id: 11151, level: 55, count: 12}
+  kill_xp: "31.14k per member (124,575 / 4)"
+  kill_xp_target: "MAPS §0 row DD-08 + DD-21: 60 monsters at 40-62, Sandro 65, 39.6k. DD-08 31.14k is 78.6 % of it; with DD-21 at about 15 + Sandro and about 10k (assumed) the group is about 60 + Sandro and 41.1k, +3.9 %"
+treasure: {level: 5}
+role: "Q-D17 The Chalice of Protection: the voice ('Wht d y sk?', answer 'Chlc', q-d17.voice) opens the chalice room (q-d17.chalice). Dark route: swear the Voweless oath at the order's plaque (q-d17.oath, oath_again): the Chalice goes back to the knights, two Energy Disks, Cavaliers to Black Knights and Crusaders to Villains. Light route: the Chalice to Bosco (DD-25). After M30 the roof trapdoor leads one way up to D7 (d7.roof_dd08, D-58)"
+role_short: "Q-D17, Black Knight / Villain"
+set_piece: "The sanctum on L4: the Voweless chapter hall with the order's plaque and black-and-red banners, the voice's stone mask in the antechamber wall beside the chalice door, and the Hall of Thrones (four low thrones round the Euphoria Throne, the Throne of the Dunce in its alcove); the seven proverb lecterns through the floors below"
+sounds: "shipped bed (stone tower hum, wind at the slits on L3-L4); the books' slam on a wrong answer (shipped book sound); the voice a low rumble under its text (AU, optional; no voiced line, D-38); a shipped stone grind for the two secret walls"
+textures:
+  family: "Towers of Mok: MM8 Castle of Air d27 (gston1wl walls over gstntilev skirting, gston1fl, gstn1cl, gstn1bot, gcstflor in the core and the stair halls, gcstdoor) as DD-05, DD-06 and DD-07 (dungeon_families towers: 'one family; accents per tower'). DD-08's accent (A6 decides): the knights' rooms in MM7 Castle Gryphonheart 7d33's dark cobble (dchb1 walls, 7tfb1 floors, 7trimd trim) for the chapter hall, the Hall of Thrones and the dormitories; the gate's inner face hkm1dl/hkm1dr mirrored (D-49: the Northern Tower's pair); D-37's xkmirror on the dead mirror; A6's xdvowel once over the chapter hall's doors inside"
+  cap: 45
+  planned: 25
+  new: 2
+  new_names: ["xvkban: the Voweless banner (black field, a red sword through a silver chalice, no letters), once per face in the chapter hall and the Hall of Arms",
+              "xvkmask: the voice's stone mask (a closed-mouthed knight's face in the wall), once, in the antechamber"]
+  distinct_from: "DD-05 (d22 chapel accent, clerics, rope entry), DD-06 (gongs, thieves' stores), DD-07 (7d14 laboratory, floating mages) and DD-02 (6d19): only DD-08 has the dark cobble knights' rooms, the banners and the lecterns; D5's DD-15 (VARN stone), DD-24 (d14) and DD-25 (dwarf 7d24) share nothing with it"
+floors:
+  - {floor: 3, name: "L4 The sanctum", height: 1344}
+  - {floor: 2, name: "L3 The drill floor", height: 896}
+  - {floor: 1, name: "L2 The armouries", height: 448}
+  - {floor: 0, name: "L1 The gate floor", height: 0}
+spaces:
+  # floor 0, L1 (z 0 = D5's door sill, 3008 on D5)
+  - {id: room:gatehouse, name: Gatehouse, kind: room, size: S, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "The arrival (entrance:d5_tower): the gate's two leaves behind (hkm1dl/hkm1dr mirrored, the exit preset 'Exit the Knight's Tower?', aaze0069:0), an arch ahead into the Hall of Arms. Quiet (D-11.3); map qbit 117640 dd08_arrived_once."}
+  - {id: room:hall_of_arms, name: Hall of Arms, kind: hall, size: L, floor: 0, at: [2, 1], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 3}],
+     purpose: "The founder's statue facing the gate, its plaque 'In honor of the Grand Order of Voweless Knights' (aaze0069:2, hover); banners (xvkban) and two shields hung on the south wall: one is a find (a T5 shield, map qbit 117654; then 'Nothing here.'), the other dressing. The core's south arch and the galleries open off it."}
+  - {id: room:west_gallery, name: West gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 0,
+     purpose: "Round the core's west side; the dead mirror on its outer wall (xkmirror): 'Where to?' then 'The mirror does not respond.' (aaze0069:3, :5); the lectern room's door."}
+  - {id: room:lectern_w0, name: West lectern room, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Dead end with a find: the first book on its lectern, 'Lt slpng dgs l' (aaze0069:8; book 1, open question 4)."}
+  - {id: room:core0, name: Great stair foot, kind: stair, size: M, floor: 0, at: [3, 0], monsters: 0,
+     purpose: "The central core: a square stone well with the great stair turning up round it to L2. Arches south (Hall of Arms), west and east (the galleries): the floor's ring passes through it."}
+  - {id: room:east_gallery, name: East gallery, kind: corridor, size: M, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "Round the core's east side to the refectory and the dormitory."}
+  - {id: room:dormitory0, name: Dormitory, kind: room, size: M, floor: 0, at: [5, 0], monsters: 2,
+     population: [{row: Slayer Knight, level: 45, count: 2}],
+     purpose: "Dead end with a find: four beds by the walls ('Nothing here.'), one with the note under its pillow 'In life, to appreciate the highs one must experience the lows.' (aaze0069:15, the thrones' answer-giver); the second book at the far end, 'H wh lghs lst, lghs bst' (aaze0069:11; book 2)."}
+  - {id: room:refectory, name: Refectory, kind: room, size: M, floor: 0, at: [4, 1], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 3}],
+     purpose: "Long tables, benches pushed in, a silent reader's pulpit with no book; the ring's south-east side between the Hall of Arms and the east gallery."}
+  # floor 1, L2 (z 448)
+  - {id: room:core1, name: Great stair head, kind: stair, size: M, floor: 1, at: [3, 1], monsters: 0,
+     purpose: "The top of the great stair; the core ends under a vault. Doors west and east into the two armouries."}
+  - {id: room:helms, name: West armoury, kind: room, size: M, floor: 1, at: [2, 1], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 3}],
+     purpose: "Helms on pegs along the west wall (the source's two): one is a find (a T5 helm, 117655), the rest dressing; racks by the walls."}
+  - {id: room:north_gallery1, name: North gallery, kind: corridor, size: M, floor: 1, at: [3, 0], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "Behind the core between the two armouries: arrow slits in the outer wall."}
+  - {id: room:mail, name: East armoury, kind: room, size: M, floor: 1, at: [4, 1], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "Suits of black plate on stands along the east wall (the source's two): one is a find (a T5 cuirass, 117656)."}
+  - {id: room:wstair1, name: West wall stair, kind: stair, size: S, floor: 1, at: [1, 0], monsters: 0,
+     purpose: "The stair in the west wall's thickness up to L3; on its landing the third book, 'Th nds f th mny twgh th nds f th fw' (aaze0070:2; book 3)."}
+  - {id: room:estair1, name: East wall stair, kind: stair, size: S, floor: 1, at: [5, 0], monsters: 0,
+     purpose: "The east twin up to L3; the fourth book on its landing, 'Lv f mny s th rt f ll vl' (aaze0070:5; book 4)."}
+  - {id: room:quartermaster, name: Quartermaster's store, kind: room, size: S, floor: 1, at: [5, 1], chest: 5, monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "Dead end with a chest (the source's cabinet): crates and paired barrels by the walls, the strongbox in the corner."}
+  # floor 2, L3 (z 896)
+  - {id: room:wstair2, name: West stair head, kind: stair, size: S, floor: 2, at: [1, 0], monsters: 0,
+     purpose: "The west wall stair's top; an arch to the drill hall, a door to the west study."}
+  - {id: room:west_study, name: West study, kind: room, size: S, floor: 2, at: [0, 0], monsters: 0,
+     purpose: "Dead end with a find: the fifth book, 'Dn't lk gft hrs n th mth' (aaze0071:2; book 5). A step plate before the west wall: the wall slides open with a grind (the source's (3,8)) onto the niche (117652)."}
+  - {id: room:niche_w, name: West niche, kind: room, size: S, floor: 2, at: [0, 1], chest: 5, monsters: 0,
+     purpose: "Dead end with a chest behind the sliding wall; a helm on a peg (dressing)."}
+  - {id: room:drill_w, name: Drill hall (west), kind: hall, size: M, floor: 2, at: [2, 0], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 3}],
+     purpose: "The drill hall wraps the core on three sides (the source's crowded centre): pells and sanded floor; this its west arm."}
+  - {id: room:drill_s, name: Drill yard (south), kind: hall, size: L, floor: 2, at: [3, 1], monsters: 6,
+     population: [{row: Slayer Knight, level: 45, count: 3}, {row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "The widest arm: two groups at drill, weapon racks by the outer wall, slits."}
+  - {id: room:core2, name: Stair of Silence (foot), kind: stair, size: M, floor: 2, at: [3, 0], monsters: 0,
+     purpose: "The core again, above the great stair's vault: the upper flight starts here, up to L4. Arcades west and east onto the drill hall."}
+  - {id: room:drill_e, name: Drill hall (east), kind: hall, size: M, floor: 2, at: [4, 0], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "The east arm; an arch to the east stair head."}
+  - {id: room:estair2, name: East stair head, kind: stair, size: S, floor: 2, at: [5, 0], monsters: 3,
+     population: [{row: Slayer Knight, level: 45, count: 1}, {row: Death Knight, level: 55, count: 2}],
+     purpose: "The east wall stair's top; the seventh book on a lectern by the slit, 'F wshs wr hrss, bggrs wld rd' (aaze0071:7; book 7); the east study's door."}
+  - {id: room:east_study, name: East study, kind: room, size: S, floor: 2, at: [6, 0], monsters: 0,
+     purpose: "Dead end with a find: the sixth book, 'Fl nd hs mny r sn prtd' (aaze0071:5; book 6). A step plate before the east wall opens the east niche (117653)."}
+  - {id: room:niche_e, name: East niche, kind: room, size: S, floor: 2, at: [6, 1], chest: 5, monsters: 0,
+     purpose: "Dead end with a chest behind the sliding wall; a shield and a breastplate hung (dressing)."}
+  # floor 3, L4 (z 1344): the sanctum
+  - {id: room:core3, name: Stair of Silence (head), kind: stair, size: M, floor: 3, at: [3, 1], monsters: 0,
+     purpose: "The core's top landing under the tower's highest vault: the chapter hall's two-leaf doors west (xdvowel over them, once), an arch east to the Hall of Thrones."}
+  - {id: room:chapter_hall, name: Chapter hall, kind: hall, size: L, floor: 3, at: [2, 1], monsters: 3, goal: true,
+     population: [{row: Slayer Knight, level: 45, count: 2}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "The order's hall in dark cobble under banners (xvkban): the plaque of the Grand Order on the north wall (q-d17.oath: the map's prompt 'Swear the Voweless oath?'; q-d17.oath_again after). Four empty wall niches where hidden peaceful knights are shown by the oath (open question 7)."}
+  - {id: room:antechamber, name: Antechamber of the voice, kind: room, size: S, floor: 3, at: [3, 0], monsters: 0,
+     purpose: "A bare stone room; the voice's mask (xvkmask) in the north wall, the chalice room's iron door beside it. Clicking the mask (or the first step in): 'A disembodied voice thunders through your brain...' (aaze0072:2), the prompt 'Wht d y sk?' (q-d17.voice / voice_wrong, open question 6). Quiet: the voice is the test."}
+  - {id: room:chalice_room, name: Chalice room, kind: room, size: S, floor: 3, at: [2, 0], monsters: 0, goal: true,
+     purpose: "Dead end with the goal: the Chalice of Protection (12525) on a stand under one lamp (q-d17.chalice); 'An empty stand.' after. The source's two Energy Disc brackets on its walls are empty (open question 9)."}
+  - {id: room:thrones, name: Hall of Thrones, kind: hall, size: L, floor: 3, at: [4, 1], set_piece: true, monsters: 3,
+     population: [{row: Death Knight, level: 55, count: 2}, {row: Slayer Knight, level: 45, count: 1}],
+     purpose: "Four stone thrones of the lows round the raised Euphoria Throne (aaze0072:8-9, :21-25), the Throne of the Dunce alone in an alcove (:10, :12). The order: sit on all four, then the high one (open question 5). The source's Doom Knight stood here (open question 2)."}
+  - {id: room:west_dorm, name: Knights' cells (west), kind: room, size: M, floor: 3, at: [1, 1], chest: 5, monsters: 2,
+     population: [{row: Slayer Knight, level: 45, count: 1}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "Dead end with a chest (the order's strongbox): three beds with the Cliff Notes under their pillows, lessons 5-7 (aaze0072:18-20: the vowels of books 5-7)."}
+  - {id: room:east_dorm, name: Knights' cells (east), kind: room, size: M, floor: 3, at: [5, 1], monsters: 2,
+     population: [{row: Slayer Knight, level: 45, count: 1}, {row: Death Knight, level: 55, count: 1}],
+     purpose: "Four beds, Cliff Notes lessons 1-4 (aaze0072:14-17); the ladder room's door."}
+  - {id: room:roof_loft, name: Ladder loft, kind: shaft, size: S, floor: 3, at: [5, 0], monsters: 0,
+     purpose: "A small room with an iron ladder to the roof trapdoor (one leaf in the ceiling): d7.roof_dd08, 'Climb up through the trapdoor?' after m30.done, 'The trapdoor is shut fast.' before (D-58). Quiet."}
+links:
+  # floor 0
+  - {id: link:gate_hall, from: room:gatehouse, to: room:hall_of_arms, kind: open}
+  - {id: link:hall_core0, from: room:hall_of_arms, to: room:core0, kind: open}
+  - {id: link:hall_wgal, from: room:hall_of_arms, to: room:west_gallery, kind: open}
+  - {id: link:wgal_lect, from: room:west_gallery, to: room:lectern_w0, kind: door}
+  - {id: link:wgal_core0, from: room:west_gallery, to: room:core0, kind: open}
+  - {id: link:core0_egal, from: room:core0, to: room:east_gallery, kind: open}
+  - {id: link:egal_dorm, from: room:east_gallery, to: room:dormitory0, kind: open}
+  - {id: link:egal_refec, from: room:east_gallery, to: room:refectory, kind: open}
+  - {id: link:refec_hall, from: room:refectory, to: room:hall_of_arms, kind: door}
+  # great stair L1-L2
+  - {id: link:great_stair, from: room:core0, to: room:core1, kind: stair, label: "Great stair"}
+  # floor 1
+  - {id: link:core1_helms, from: room:core1, to: room:helms, kind: door}
+  - {id: link:core1_mail, from: room:core1, to: room:mail, kind: door}
+  - {id: link:helms_north, from: room:helms, to: room:north_gallery1, kind: open}
+  - {id: link:north_mail, from: room:north_gallery1, to: room:mail, kind: open}
+  - {id: link:helms_wstair, from: room:helms, to: room:wstair1, kind: open}
+  - {id: link:mail_estair, from: room:mail, to: room:estair1, kind: open}
+  - {id: link:mail_qm, from: room:mail, to: room:quartermaster, kind: door}
+  # wall stairs L2-L3
+  - {id: link:west_wall_stair, from: room:wstair1, to: room:wstair2, kind: stair, label: "West wall stair"}
+  - {id: link:east_wall_stair, from: room:estair1, to: room:estair2, kind: stair, label: "East wall stair"}
+  # floor 2
+  - {id: link:wstair_study, from: room:wstair2, to: room:west_study, kind: door}
+  - {id: link:wstudy_niche, from: room:west_study, to: room:niche_w, kind: secret, label: "Sliding wall", opened_by: state:wall_w}
+  - {id: link:wstair_drill, from: room:wstair2, to: room:drill_w, kind: open}
+  - {id: link:drillw_core2, from: room:drill_w, to: room:core2, kind: open}
+  - {id: link:drillw_s, from: room:drill_w, to: room:drill_s, kind: open}
+  - {id: link:drills_e, from: room:drill_s, to: room:drill_e, kind: open}
+  - {id: link:core2_drille, from: room:core2, to: room:drill_e, kind: open}
+  - {id: link:drille_estair, from: room:drill_e, to: room:estair2, kind: open}
+  - {id: link:estair_study, from: room:estair2, to: room:east_study, kind: door}
+  - {id: link:estudy_niche, from: room:east_study, to: room:niche_e, kind: secret, label: "Sliding wall", opened_by: state:wall_e}
+  # Stair of Silence L3-L4
+  - {id: link:silence_stair, from: room:core2, to: room:core3, kind: stair, label: "Stair of Silence"}
+  # floor 3
+  - {id: link:core3_chapter, from: room:core3, to: room:chapter_hall, kind: door, label: "Two leaves"}
+  - {id: link:chapter_ante, from: room:chapter_hall, to: room:antechamber, kind: open}
+  - {id: link:ante_chalice, from: room:antechamber, to: room:chalice_room, kind: locked, label: "Iron door", opened_by: state:voice}
+  - {id: link:ante_thrones, from: room:antechamber, to: room:thrones, kind: open}
+  - {id: link:core3_thrones, from: room:core3, to: room:thrones, kind: open}
+  - {id: link:chapter_wdorm, from: room:chapter_hall, to: room:west_dorm, kind: door}
+  - {id: link:thrones_edorm, from: room:thrones, to: room:east_dorm, kind: door}
+  - {id: link:edorm_loft, from: room:east_dorm, to: room:roof_loft, kind: open}
+states:
+  - {id: state:tower_door, kind: qbit, where: "D5, the tower's south door",
+     what: "q-d17.tower_door (D5's door:dd08, Bosco's key 113341): this map holds only the arrival.", opens: [], draw: false}
+  - {id: state:wall_w, kind: lever, where: room:west_study,
+     what: "A step plate before the study's west wall (the source's (3,8)): a stone grind, the wall slides aside and stays open (map qbit 117652). Its own answer: the grind and the opening as the party walks up.",
+     opens: [link:wstudy_niche]}
+  - {id: state:wall_e, kind: lever, where: room:east_study,
+     what: "The same before the east study's east wall (the source's (11,8)), map qbit 117653.",
+     opens: [link:estudy_niche]}
+  - {id: state:voice, kind: password, where: room:antechamber,
+     what: "The voice's prompt 'Wht d y sk?': 'Chlc' (any case, spaces ignored) calls q-d17.voice (voice_answered 113342: the iron door opens and stays open on every later load); 'Chalice' calls q-d17.voice_wrong ('Have you learned nothing of the Voweless Knights? Begone!', aaze0072:6, as the source answers the word spelt with vowels); anything else gets aaze0072:7 'That's not why you are here! Study your lessons.' (map-local). Answer-givers: Bosco (5401, Chalice topic: 'C, H, L, C'), autonote 4570, and the knights' own books on every floor.",
+     opens: [link:ante_chalice]}
+  - {id: state:chalice, kind: qbit, where: room:chalice_room,
+     what: "q-d17.chalice (once, needs voice_answered): the Chalice of Protection (12525), chalice_taken 113345; 'An empty stand.' after.", opens: [], draw: false}
+  - {id: state:oath, kind: qbit, where: room:chapter_hall,
+     what: "The plaque: hover 'A plaque reads: In honor of the Grand Order of Voweless Knights'; click: the prompt 'Swear the Voweless oath?' Yes calls q-d17.oath (needs the Chalice, not done: takes it, two Energy Disks 12334, oath 113344, the promotion); if it returns false the map calls q-d17.oath_again (a newly eligible member). On load from oath: the four hidden knights in the wall niches shown, and DD-08's knights friendly (open question 7).",
+     opens: [], draw: false}
+  - {id: state:books, kind: password, where: "room:lectern_w0, room:dormitory0, room:wstair1, room:estair1, room:west_study, room:east_study, room:estair2",
+     what: "Seven lecterns: 'The book is blank but for one page with the letters: ... So say the Voweless Knights.' then 'A blank line underneath awaits your answer.' Right: the whole proverb or its vowels in order (eeeioie, eoauaaue, eeeoeaoueieeeoee, oeooeieoooaei, oooaioeieou, aooaioeaeooae, iieeeoeeeouie; case, spaces and punctuation ignored), the reward (open question 4), map qbit 117641-117647; wrong: 'The book slams shut in disgust...your answer must have been wrong.' and it may be tried again. Answer-givers: the Cliff Notes under L4's pillows (the vowels), Librarian Ormond's bound compilation in Castleview's library (D1, 4928; the source's Olympus scroll aaze0037:5, A3/A4 request), and the proverbs themselves.",
+     opens: [], draw: false}
+  - {id: state:thrones, kind: award, where: room:thrones,
+     what: "Each throne of the lows (hover 'Emotion Throne'): its line (aaze0072:21-24) and its condition on the party (Weak, Drunk, Afraid, Insane), map variables 1-4. The Euphoria Throne with all four set: aaze0072:25 rescaled (open question 5), once per character by a player bit (A3), the four variables cleared; otherwise 'You're not worthy!' (:12). The Throne of the Dunce: 50 damage to the party and :12. Answer-giver: the L1 pillow note (aaze0069:15).",
+     opens: [], draw: false}
+  - {id: state:roof, kind: qbit, where: room:roof_loft,
+     what: "d7.roof_dd08 (reads m30.done 111600): 'Climb up through the trapdoor?' then a direct move to D7 entrance:dd08_roof; before M30 'The trapdoor is shut fast.' (D-58). One way: D7's hatch (d7.hatch_dd08) refuses with 'Bolted from below.'",
+     opens: [], draw: false}
+  - {id: state:finds, kind: award, where: "room:hall_of_arms, room:helms, room:mail",
+     what: "Three hung pieces taken once (map qbits 117654-117656): a T5 shield, helm and cuirass; 'Nothing here.' after (aaze0069:14).", opens: [], draw: false}
+exits:
+  - {id: exit:d5_door, space: room:gatehouse, at: [0, 1], kind: both, label: "D5: the tower door",
+     arrival: "entrance:d5_tower: in the gatehouse about 256 inside the leaves, at about (0, -1152, 0) in the map's frame (tower centre at 0,0; the gate in the south wall at y -1408), facing north (512)",
+     neighbour: "D5 door:dd08 (thing:northern_tower's south door, two hkm1dl leaves, q-d17.tower_door with Bosco's key; its placeholder effect goes when DD-08 is built); out by the exit preset ('Exit the Knight's Tower?', aaze0069:0) to D5's installed entrance:dd08_door (2560, 11776, 3008) facing 1536: 384 south of the door's centre (the tower spans x 1920-3200, its south face at y 12160), facing away from it. Matches; D5 changes only the door's arrival name and effect"}
+  - {id: exit:d7_roof, space: room:roof_loft, at: [6, 0], kind: one_way, label: "D7: roof trapdoor (after M30)",
+     arrival: "none in this map: one way up (D-58); D7's hatch d7.hatch_dd08 refuses",
+     neighbour: "D7 entrance:dd08_roof beside poi:hatch_dd08 (D7 lane, phase 6)"}
+hooks:
+  - {hook: q-d17.tower_door, space: "D5 (A6)", how: "the tower's door; listed for the pair, not placed here"}
+  - {hook: q-d17.voice, space: room:antechamber, how: "the mask's text prompt 'Wht d y sk?', the answer Chlc"}
+  - {hook: q-d17.voice_wrong, space: room:antechamber, how: "the same prompt, the answer 'Chalice' (other answers: aaze0072:7, map-local)"}
+  - {hook: q-d17.chalice, space: room:chalice_room, how: "the cup on its stand (clicked), behind the iron door"}
+  - {hook: q-d17.oath, space: room:chapter_hall, how: "the plaque's prompt 'Swear the Voweless oath?', Yes"}
+  - {hook: q-d17.oath_again, space: room:chapter_hall, how: "the same Yes when q-d17.oath returns false"}
+  - {hook: d7.roof_dd08, space: room:roof_loft, how: "the trapdoor at the ladder's top (clicked); the hook asks and moves"}
+  - {hook: d7.hatch_dd08, space: "D7 (phase 6)", how: "D7's side; listed for the pair, not placed here"}
+critical_path: [room:gatehouse, room:hall_of_arms, room:core0, room:core1, room:helms, room:wstair1, room:wstair2, room:drill_w, room:core2, room:core3, room:chapter_hall, room:antechamber, room:chalice_room]
+return_path: [room:chalice_room, room:antechamber, room:chapter_hall, room:core3, room:core2, room:drill_e, room:estair2, room:estair1, room:mail, room:core1, room:core0, room:hall_of_arms, room:gatehouse]
+loops:
+  - {id: loop:ring_l1, spaces: [room:hall_of_arms, room:west_gallery, room:core0, room:east_gallery, room:refectory],
+     notes: "L1's ring round the core: the galleries pass through the core's west and east arches."}
+  - {id: loop:ring_l2, spaces: [room:core1, room:helms, room:north_gallery1, room:mail],
+     notes: "L2: the two armouries joined by the core's head and the north gallery."}
+  - {id: loop:wall_stairs, spaces: [room:helms, room:wstair1, room:wstair2, room:drill_w, room:core2, room:drill_e, room:estair2, room:estair1, room:mail, room:core1],
+     notes: "Up one wall stair and down the other: the way back from L4 takes the east stair (return_path)."}
+  - {id: loop:drill, spaces: [room:drill_w, room:drill_s, room:drill_e, room:core2],
+     notes: "The drill hall's three arms round the core."}
+  - {id: loop:sanctum, spaces: [room:core3, room:chapter_hall, room:antechamber, room:thrones],
+     notes: "L4's ring: chapter hall, antechamber and Hall of Thrones round the core's head."}
+lines:
+  - {text: "Exit the Knight's Tower?", ref: "dark/aaze0069:0", where: "room:gatehouse (the exit preset's meaning, D-24)"}
+  - {text: "A plaque reads: \"In honor of the Grand Order of Voweless Knights\"", ref: "dark/aaze0069:2", where: "room:hall_of_arms (the founder's statue, hover) and room:chapter_hall (the oath plaque, via q-d17.oath's fail_text)"}
+  - {text: "Where to? / The mirror does not respond.", ref: "dark/aaze0069:3, :5", where: "room:west_gallery (the dead mirror)"}
+  - {text: "The book is blank but for one page with the letters: \"Lt slpng dgs l\" So say the Voweless Knights. / A blank line underneath awaits your answer. / The book slams shut in disgust...your answer must have been wrong.", ref: "dark/aaze0069:8, :18, :10 (and :11; aaze0070:2, :5; aaze0071:2, :5, :7)", where: "the seven lecterns"}
+  - {text: "A note under the pillow reads: In life, to appreciate the highs one must experience the lows.", ref: "dark/aaze0069:15", where: room:dormitory0}
+  - {text: "A disembodied voice thunders through your brain, \"What do you seek?\"", ref: "dark/aaze0072:2", where: "room:antechamber (before the prompt)"}
+  - {text: "That's not why you are here! Study your lessons.", ref: "dark/aaze0072:7", where: "room:antechamber (any answer but Chlc or Chalice)"}
+  - {text: "Very Good! Lv Lng nd prspr!", ref: "dark/aaze0072:5", where: "room:antechamber (proposed to A3 for q-d17.voice's text)"}
+  - {text: "Emotion Throne / Euphoria Throne / Throne of the Dunce / You feel depressed. ... You feel euphoric! (rescaled) / You're not worthy!", ref: "dark/aaze0072:8-12, :21-25", where: room:thrones}
+  - {text: "You find a note under the pillow that reads: Cliff Notes Lesson 1: EEEIOIE ... Lesson 7: IIEEEOEEEOUIE", ref: "dark/aaze0072:14-20", where: "room:east_dorm (1-4), room:west_dorm (5-7)"}
+  - {text: "The Voweless knights leave vowels out of their writings. Their questions never change from year to year, so here is a compilation of the answers ...", ref: "dark/aaze0037:5", where: "not in this map: Librarian Ormond's bound compilation, Castleview (D1; A3/A4)"}
+open_questions:
+  - q: "Count and split of the group. MAPS: DD-08 + DD-21 60 monsters at 40-62, Sandro 65, 39.6k; DD-08 is M (45-75)."
+    options: ["(a) 45 at M's floor: 33 Slayer Knights, 12 Death Knights, 31.14k; DD-21 about 15 + Sandro and about 10k: the group about 60 + Sandro and 41.1k (+3.9 %)",
+              "(b) 50 (five more Slayers on L1-L2): 34.24k, the group 44.2k (+11.7 %)",
+              "(c) 40 (under M's floor, a NOTES exception): 28.05k, the group 38.05k (-3.9 %)"]
+    recommend: "(a)"
+    depends: "A2 (Act V recount); DD-21's graph (its share)"
+  - q: "The source's Doom Knight 75 among the thrones (the dark knights' C tier, over the band 40-62)."
+    options: ["(a) not placed: a Death Knight 55 in his place (D-4: no monster over the band); Doom Knights stay FD-04's",
+              "(b) one Doom Knight 75 in the Hall of Thrones: +0.70k (31.84k, group +5.7 %), over the band",
+              "(c) a named knight-commander boss row at 62 (A2, hp_x 3, a skin by S)"]
+    recommend: "(a)"
+    depends: "A2"
+  - q: "One family only. The source has nothing but knights; 45 knights in two tiers may read alike."
+    options: ["(a) knights only, as the source and MAPS's 'Slayer, Death and Doom Knights'; the floors differ by their rooms and the Death Knights' share rising (0, 3, 4, 5)",
+              "(b) four Onyx Sentries 62 (11585) as 'animated armour' on the armoury stands in place of four Slayers (+1.99k)"]
+    recommend: "(a)"
+    depends: "A2 (where), S"
+  - q: "The seven proverb books (source: +500,000 experience each, per character)."
+    options: ["(a) once per book for the party (map qbits 117641-117647): 1,000 experience per member, 7k for all seven; the answer is the whole proverb or its vowels in order",
+              "(b) the same, once per character (seven player bits, A3)",
+              "(c) +1 to a different statistic per book, once per character (+7 in all)",
+              "(d) lore only, no reward"]
+    recommend: "(a)"
+    depends: "A3 (texts, ORIGINAL_LINES rows), A2 (Act V ledger)"
+  - q: "The thrones (source: four Emotion Thrones give a condition each, then the Euphoria Throne gives +2 levels and +5 to all seven statistics)."
+    options: ["(a) the four lows give Weak, Drunk, Afraid and Insane to the party (cured as usual) and set map variables; the Euphoria Throne with all four set gives +1 to all seven statistics once per character (player bit) and clears them; the Throne of the Dunce 50 damage",
+              "(b) as (a) with +2 to all seven (XD-08's juices give +14)",
+              "(c) dressing only: the lines and the conditions, no reward"]
+    recommend: "(a)"
+    depends: "A3 (player bit, texts), A2 (Act V ledger)"
+  - q: "The voice's answers. A3's hooks take 'Chlc' (Bosco says it); the source took the vowels 'aie', answered the plain word 'Chalice' with 'Have you learned nothing...' and anything else with 'Study your lessons.'"
+    options: ["(a) 'Chlc' calls voice; 'Chalice' calls voice_wrong; anything else gets aaze0072:7 (map-local)",
+              "(b) as (a) and 'aie' also calls voice (the source's answer, the books' vowel form)",
+              "(c) 'Chlc' calls voice, everything else voice_wrong"]
+    recommend: "(a)"
+    depends: "A3 (the map-local line; q-d17.voice text could use aaze0072:5)"
+  - q: "The knights and the oath. q-d17.oath's text says 'The knights come out of the walls ... hand you two humming disks'; by then most knights are dead, and the dark knights row is also FD-04's."
+    options: ["(a) DD-08's placed knights and its rest encounters in their own faction xeen_voweless_knights: hostile, friendly from oath (113344) on (the D-37 pattern of a faction changed by a qbit); four hidden peaceful 'Voweless Knight' figures (a placed-only row, uncounted) in the chapter hall's niches shown by the oath and on every later load",
+              "(b) the four figures only; the faction stays hostile",
+              "(c) neither: the text alone"]
+    recommend: "(a)"
+    depends: "A2 (the faction and the peaceful row: the characters block is full at 11923, an id from A2), S (the figures' skin: the mm6_kni dark tiers with a white tabard)"
+  - q: "The stair core. The source's stairs alternate so each floor is crossed."
+    options: ["(a) a split core: the great stair L1-L2 and the Stair of Silence L3-L4, with the west and east wall stairs between L2 and L3 (a loop; the critical path crosses L2 and L3)",
+              "(b) one continuous core stair through all four floors (the wall stairs as a second way): faster, most fights skippable"]
+    recommend: "(a)"
+    depends: "A8 at L1"
+  - q: "The source's two Energy Discs on L4's walls."
+    options: ["(a) not placed: the tower's two disks are the quest's (Bosco's or the knights', M18's 'the four towers, 2 each'); the brackets in the chalice room stay empty",
+              "(b) two loose disks as finds (the count before Act VI rises by two)"]
+    recommend: "(a)"
+    depends: "A3 (disk ledger)"
+  - q: "Rest encounters."
+    options: ["(a) 10 % from the Slayer and Death Knights (D-39), friendly after the oath under 7 (a)", "(b) 0"]
+    recommend: "(a)"
+    depends: "A2"

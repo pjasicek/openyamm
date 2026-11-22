@@ -1,0 +1,101 @@
+# P-2: no way into the hall but the gate.
+# Written by output/studio_cal/p1/tools/gen_playtests.py; run with --world xeen --map xeen_p1.blv.
+id: xeen.p1.l4.bypass
+title: 'Plane of Fire (P1): a party in the lava cannot step up into the Sleeper''s Hall (P-2)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p1.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p1.blv
+- clear_hostiles:
+    radius: 30000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p1.blv
+      x: -2650
+      y: 5150
+      z: -40
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p1.blv
+      x: -2800
+      y: 5150
+      z: -40
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 48
+- assert:
+    party_position:
+      x: -2790
+      y: 5150
+      radius: 120
+      z_min: -48
+      z_max: -24
+- note: 'South of the hall: north into the notch''s south wall, the lava under the party.'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p1.blv
+      x: -3600
+      y: 3150
+      z: -40
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_p1.blv
+      x: -3600
+      y: 3400
+      z: -40
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 120
+    tolerance_z: 48
+- assert:
+    party_position:
+      x: -3600
+      y: 3400
+      radius: 120
+      z_min: -48
+      z_max: -24

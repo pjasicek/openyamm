@@ -1,0 +1,59 @@
+# Q-C12 Mirabeth's Elixir (QUESTS 2.1; gives the Yak Stone that M10 needs). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. XD-06's and X2's bits are the built maps'. Reward as the source:
+# +5 Personality (permanent), with MM6-MM8-sized experience.
+id: Q-C12
+title: Mirabeth's Elixir
+act: II
+kind: side
+status: full
+giver: 4202          # Mirabeth the Mermaid (A4: towns/x3.yml), on her lagoon rock
+maps: [X3, X2, XD-06]
+level: 18
+block: 62
+after: []
+source: "QUESTS Q-C12; xeen/aaze0016:8-10; xeen/aaze0079:0"
+
+qbits:
+  yak_stone: {id: 110101, map: X2, journal: "Mirabeth wants the Elixir of Restoration from the Temple of Yak, in Rivercity's southern woods.",
+              until: [done], note: "Mirabeth named the temple (the Yak Stone is retired, D-89); X2's temple door still reads it until A5's rebuild drops the test"}
+  elixir_found: {id: 110400, map: XD-06}
+  done: {id: 112240, note: "Mirabeth returns to the sea (her actor on the lagoon rock goes, q-c12.lagoon_rock); +5 Personality"}
+
+items:
+  elixir: "the Elixir of Restoration; XD-06's reliquary; Mirabeth takes it. Was MM7 1431."
+
+npcs:
+  4202:              # Mirabeth
+    topics:
+      - n: 1
+        label: Elixir
+        states:
+          - when: {qbit: done}
+            text: "The sea's cold and the fish are rude. I've never been happier."
+          - when: {item: elixir}
+            text: "Thank you so much for getting me the elixir! Now I can be restored to my former self and return to my ocean home. As a reward, I blow my kiss to all of you."
+            do: [{take: elixir}, {set: done}, {xp: 2000}, {stat: personality, value: 5}]
+          - when: {qbit: yak_stone}
+            text: "I'm waiting for you to bring me the elixir of restoration from the evil clerics."
+          - text: "I was once a beautiful mermaid. But one day a sorceress saw me swimming and became jealous of my beauty. She cast a spell that took away my beauty, but worst of all she took away my mermaid tail and gave me legs instead. I search to find an elixir of restoration so I can return to the way I once was. I've heard the clerics of the evil Temple of Yak, in the dark south end of the fairy woods below Rivercity, have one. If you could retrieve this elixir for me I would be eternally grateful. The temple's door is never locked. Its clerics want visitors; they do not let them leave."
+            do: [{set: yak_stone}]
+
+hooks:
+  temple_door:
+    map: X2
+    where: "XD-06's door in the fairy woods' dark south end (built: door:xd06; D-89: open, the map's own qbit test goes at A5's rebuild)"
+    entrance: XD-06
+  reliquary:
+    map: XD-06
+    where: "the reliquary chest after the Yak Master (built: evt:chest_reliquary): the Elixir is an ordinary item in it (F15, 2026-11-21); the map calls this after the chest opens, once, to set the bit"
+    sets: [elixir_found]
+    map_gives: {elixir: 1}
+    once: true
+    reads: [m10.yak_master_slain]
+  lagoon_rock:
+    map: X3
+    where: "Mirabeth's rock in the lagoon: her actor stands there until the elixir is hers, then is gone (the map hides it)"
+    reads: [done]
+
+rewards: {xp: 2000, gold: 0}
+playthrough: "X3: Mirabeth (Elixir). X2: the temple door. XD-06: the Yak Master, the reliquary. X3: Mirabeth (Elixir)."

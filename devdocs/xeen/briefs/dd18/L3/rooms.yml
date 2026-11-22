@@ -1,0 +1,477 @@
+format: 0
+themes:
+  - id: theme:cistern
+    wall: {texture: d5walba, size: [256, 256]}
+    floor: {texture: d5florb, size: [128, 128]}
+    ceiling: {texture: d5ceild, size: [128, 128]}
+    reveal: {texture: d5walbre, size: [128, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The great cistern: the city's old waterworks, carved sandstone d5walba under stepped-fret vaults d5ceild."
+  - id: theme:drain
+    wall: {texture: d5walc, size: [256, 256]}
+    floor: {texture: d5florc, size: [128, 128]}
+    ceiling: {texture: d5ceila, size: [128, 128]}
+    reveal: {texture: d5walble, size: [128, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The drains: rubble brick d5walc, flags d5florc, the stepped-fret ceiling d5ceila, a channel of slow water."
+  - id: theme:gym
+    wall: {texture: d5walba, size: [256, 256]}
+    floor: {texture: d5florb, size: [128, 128]}
+    ceiling: {texture: d5ceild, size: [128, 128]}
+    reveal: {texture: d5walbre, size: [128, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "Barticus' members' room: carved sandstone d5walba, framed flags d5florb, the stepped-fret vault d5ceild."
+  - id: theme:nest
+    wall: {texture: t68a02b, size: [256, 256]}
+    floor: {texture: t68a03a, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The mantis diggings: d33's rock chewed into galleries, its darker floor t68a03a."
+  - id: theme:shaft
+    wall: {texture: d5walc, size: [256, 256]}
+    floor: {texture: d5florc, size: [128, 128]}
+    ceiling: {texture: d1lggrt, size: [256, 256]}
+    reveal: {texture: d5walbre, size: [128, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The street shaft: 6d08's tan rubble brick d5walc up to a round street grate (MM6 d1lggrt); flags d5florc."
+  - id: theme:tunnel
+    wall: {texture: t68a02b, size: [256, 256]}
+    floor: {texture: t68a03b, size: [128, 128]}
+    ceiling: {texture: t68a02b, size: [256, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The long tunnel: MM8 d33's rock t68a02b over its floor t68a03b."
+  - id: theme:vault
+    wall: {texture: d5walba, size: [256, 256]}
+    floor: {texture: d5florb, size: [128, 128]}
+    ceiling: {texture: d5ceila, size: [128, 128]}
+    reveal: {texture: d5walble, size: [128, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The drowned vault: an older sandstone vault the tunnel broke into, d5walba over framed flags."
+  - id: theme:warren
+    wall: {texture: d5walc, size: [256, 256]}
+    floor: {texture: d5florc, size: [128, 128]}
+    ceiling: {texture: d5walc, size: [256, 256]}
+    door: {texture: d5dorsma, size: [128, 256]}
+    notes: "The stalker warren and its vault: collapsed rubble brick d5walc in broken walls over the old flags."
+defaults: {theme: theme:drain, ambient: 12}
+rooms:
+  - id: room:alcoves
+    name: The alcoves
+    outline: [[1024, -1408], [3456, -1408], [3456, -512], [1024, -512]]
+    floor: 0
+    ceiling: 448
+    theme: theme:drain
+    notes: "A corridor of niches ('Alcove'); one holds a chest."
+  - id: room:breeding_vault
+    name: Breeding vault
+    outline: [[4032, 1024], [4672, 1024], [4864, 1216], [4864, 1728], [4672, 1920], [4032, 1920], [3840, 1728], [3840, 1216]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 384
+    theme: theme:warren
+    notes: "The warren's back vault: nests of rags."
+  - id: room:cistern
+    name: The great cistern
+    outline: [[5248, -1536], [7808, -1536], [7808, 1408], [5248, 1408]]
+    floor: 0
+    ceiling: 896
+    theme: theme:cistern
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:outlet_cistern, offset: 1344, length: 256, bottom: 64, height: 256, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: The overflow's grated mouth high in the east wall ('Sewer Drain').}
+    pillars:
+      - {surface: {texture: d5walbre, size: [128, 256]}, outline: [[5920, -896], [6048, -896], [6080, -864], [6080, -736], [6048, -704], [5920, -704], [5888, -736], [5888, -864]]}
+      - {surface: {texture: d5walbre, size: [128, 256]}, outline: [[5920, 128], [6048, 128], [6080, 160], [6080, 288], [6048, 320], [5920, 320], [5888, 288], [5888, 160]]}
+      - {surface: {texture: d5walbre, size: [128, 256]}, outline: [[6944, -896], [7072, -896], [7104, -864], [7104, -736], [7072, -704], [6944, -704], [6912, -736], [6912, -864]]}
+      - {surface: {texture: d5walbre, size: [128, 256]}, outline: [[6944, 128], [7072, 128], [7104, 160], [7104, 288], [7072, 320], [6944, 320], [6912, 288], [6912, 160]]}
+    levels:
+      - id: level:cistern_pool
+        outline: [[6304, -576], [6752, -576], [6848, -480], [6848, -96], [6752, 0], [6304, 0], [6208, -96], [6208, -480]]
+        floor: -96
+        edge: {texture: d5florb, size: [128, 128]}
+        surface: {texture: orwtrtyl, liquid: water}
+        notes: The cistern's pool between the four pillars.
+    notes: "A pillared cistern under stepped-fret vaults, the city's old waterworks; its pool between four pillars."
+  - id: room:cobra_drain
+    name: Cobra drain
+    outline: [[3584, -2048], [5120, -2048], [5120, -1024], [3584, -1024]]
+    floor: 0
+    ceiling: 448
+    theme: theme:drain
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:outlet_cobra, offset: 640, length: 256, bottom: 64, height: 256, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: The warm drain from Venom Pond's side ('Sewer Drain').}
+    levels:
+      - id: level:cobra_drain_channel
+        outline: [[3712, -1696], [4992, -1696], [4992, -1376], [3712, -1376]]
+        floor: -48
+        edge: {texture: d5florc, size: [128, 128]}
+        surface: {texture: orwtrtyl, liquid: water}
+        notes: A channel of slow water down the drain.
+    notes: "The drain from Venom Pond's side; snakes in the warm water."
+  - id: room:collapse
+    name: Broken drain
+    outline: [[5248, -3200], [7424, -3200], [7808, -2816], [7808, -1664], [5248, -1664]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 576
+    theme: theme:warren
+    notes: "Where the drain's floor fell into older works: rubble, and a slope down to the long tunnel."
+  - id: room:desert_gate
+    name: Desert gate
+    outline: [[-8064, -6272], [-6784, -6272], [-6784, -5120], [-8064, -5120]]
+    floor: -640
+    ceiling: 0
+    theme: theme:tunnel
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:desert_grate, at: centre, length: 192, bottom: 0, height: 384, surface: {texture: d5dorsma, size: [128, 256], fit: true}, notes: "The iron grate onto the Desert of Doom, bolted on the desert side."}
+    notes: "The tunnel's end: an iron grate with daylight and sand blowing through, bolted on the desert side (D5)."
+  - id: room:drowned
+    name: Drowned vault
+    outline: [[1408, -7552], [3328, -7552], [3328, -6144], [1408, -6144]]
+    floor: -640
+    ceiling: -128
+    theme: theme:vault
+    levels:
+      - id: level:drowned_water
+        outline: [[1664, -7296], [2560, -7296], [2560, -6528], [1664, -6528]]
+        floor: -688
+        edge: {texture: d5florb, size: [128, 128]}
+        surface: {texture: orwtrtyl, liquid: water}
+        notes: Standing water in the vault's sunken floor.
+    notes: "A side vault with standing water and an old strongbox; off the nest."
+  - id: room:egg_cells
+    name: Egg cells
+    outline: [[6144, -8704], [6656, -8704], [6912, -8448], [6912, -7680], [6656, -7424], [6144, -7424], [5888, -7680], [5888, -8448]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: -256
+    theme: theme:nest
+    notes: Egg cells chewed into the rock off the nest.
+  - id: room:gym
+    name: Barticus' members' room
+    outline: [[-896, -1792], [896, -1792], [896, -448], [-896, -448]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gym
+    bands:
+      - {height: 32, surface: {texture: d5smtrb, size: [32, 32]}}
+    platforms:
+      - {id: platform:bench, at: [-576, -1088], size: [128, 448], rise: 64, surface: {texture: d5florb, size: [128, 128]}, top_surface: {texture: d5smtrb, size: [32, 32]}, notes: "A stone bench along the west wall; The Art of Bodybuilding lies open on it."}
+      - {id: platform:shelf, at: [0, -1712], size: [512, 96], rise: 128, surface: {texture: d5walba, size: [256, 256]}, top_surface: {texture: d5smtrb, size: [32, 32]}, notes: "The brews' shelf against the south wall: the Vitamin Brew and the Protein Brew."}
+      - {id: platform:block, at: [512, -960], size: [256, 256], rise: 96, surface: {texture: d5walba, size: [256, 256]}, top_surface: {texture: d5florc, size: [128, 128]}, notes: "A lifting block, worn smooth by members."}
+    notes: "Barticus' members' room: lamplit carved sandstone, a stone bench with the book, the brews' shelf, a lifting block and the weights."
+  - id: room:main_drain
+    name: Main drain
+    outline: [[512, -384], [3456, -384], [3456, 384], [512, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:drain
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:outlet_main, offset: 1344, length: 256, bottom: 64, height: 256, surface: {texture: d1lggrt, size: [256, 256], fit: true}, notes: A grated outlet from the street above ('Sewer Drain').}
+    levels:
+      - id: level:main_drain_channel
+        outline: [[640, -96], [3328, -96], [3328, 96], [640, 96]]
+        floor: -48
+        edge: {texture: d5florc, size: [128, 128]}
+        surface: {texture: orwtrtyl, liquid: water}
+        notes: A channel of slow water down the drain.
+    notes: "Tan sandstone walls, a channel of slow water, grated outlets from the streets ('Sewer Drain')."
+  - id: room:mantis_gallery
+    name: Mantis gallery
+    outline: [[4032, -6528], [5184, -6528], [5504, -6208], [5504, -5184], [5184, -4864], [4032, -4864], [3712, -5184], [3712, -6208]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: -96
+    theme: theme:nest
+    notes: "Ant diggings cutting across the tunnel, chewed rock."
+  - id: room:mantis_nest
+    name: Mantis nest
+    outline: [[3904, -9216], [5312, -9216], [5760, -8768], [5760, -7104], [5312, -6656], [3904, -6656], [3456, -7104], [3456, -8768]]
+    floor: -640
+    rough: {step: 192, depth: 40}
+    ceiling: 0
+    ceiling_points: [[4608, -7936, 192]]
+    theme: theme:nest
+    notes: "The queens' chamber; what the ants dragged in (a chest)."
+  - id: room:niche_1
+    name: Alcove (west)
+    outline: [[1280, -1920], [1664, -1920], [1664, -1536], [1280, -1536]]
+    floor: 0
+    ceiling: 320
+    theme: theme:drain
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:alcove_1, at: centre, length: 128, bottom: 32, height: 256, surface: {texture: d5walble, size: [128, 256], fit: true}}
+    notes: An empty alcove.
+  - id: room:niche_2
+    name: Alcove (middle)
+    outline: [[2048, -2176], [2432, -2176], [2432, -1536], [2048, -1536]]
+    floor: 0
+    ceiling: 320
+    theme: theme:drain
+    notes: The alcove with the chest.
+  - id: room:niche_3
+    name: Alcove (east)
+    outline: [[2816, -1920], [3200, -1920], [3200, -1536], [2816, -1536]]
+    floor: 0
+    ceiling: 320
+    theme: theme:drain
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:alcove_3, at: centre, length: 128, bottom: 32, height: 256, surface: {texture: d5walbre, size: [128, 256], fit: true}}
+    notes: An empty alcove.
+  - id: room:rubble_slope
+    name: Rubble slope
+    path: [[6528, -3328], [6528, -4992]]
+    width: 448
+    smooth: 1
+    floor: 0
+    slope: {to: -640}
+    ceiling: 448
+    theme: theme:warren
+    notes: "The rubble slope: the broken drain's floor fallen into older works, down to the long tunnel (0 to -640)."
+  - id: room:sand_drift
+    name: The long tunnel (the sand drift)
+    outline: [[-2944, -6144], [-384, -6144], [-384, -5248], [-2944, -5248]]
+    floor: -640
+    ceiling: -192
+    theme: theme:tunnel
+    notes: Sand drifting in down the long tunnel from the desert end.
+  - id: room:shaft
+    name: Street shaft
+    outline: [[-384, -320], [384, -320], [384, 320], [-384, 320]]
+    floor: 0
+    ceiling: 1280
+    theme: theme:shaft
+    walls:
+      - wall: n
+        panels:
+          - {at: centre, length: 128, bottom: 256, height: 896, surface: {texture: d1ladder, size: [128, 256]}, notes: "The iron ladder above the exit's face, up to the street's iron lid."}
+      - wall: s
+        panels:
+          - {id: panel:gym_sign, at: centre, length: 128, bottom: 352, height: 64, surface: {texture: xstraining, size: [128, 64], fit: true}, notes: Barticus' sign over the members' room's door (A6's xstraining).}
+          - {id: panel:paybox, offset: 576, length: 64, bottom: 96, height: 96, surface: {texture: d5smtrb, size: [64, 96], fit: true}, notes: "The pay box beside the members' room's door: a carved slot in the wall."}
+    notes: "Sandcaster's street shaft under Barticus' sign: an iron ladder on the north wall up to the street's lid (the way in and out), the members' room's door south under the sign with the pay box beside it, the main drain's door east."
+  - id: room:tunnel_east
+    name: The long tunnel (east)
+    outline: [[-256, -6016], [3584, -6016], [3584, -5376], [-256, -5376]]
+    floor: -640
+    ceiling: -256
+    theme: theme:tunnel
+    notes: "Long, straight and dry, lamps every so often."
+  - id: room:tunnel_head
+    name: Tunnel head
+    outline: [[5632, -6400], [7424, -6400], [7424, -5120], [5632, -5120]]
+    floor: -640
+    ceiling: -128
+    theme: theme:tunnel
+    notes: "The foot of the slope: the long tunnel's start, a milestone 'To the desert'."
+  - id: room:tunnel_west
+    name: The long tunnel (west)
+    outline: [[-6656, -6016], [-3072, -6016], [-3072, -5376], [-6656, -5376]]
+    floor: -640
+    ceiling: -256
+    theme: theme:tunnel
+    notes: "The long tunnel's west length, the air warmer, sand underfoot."
+  - id: room:warren
+    name: Stalker warren
+    outline: [[3840, -896], [4864, -896], [5120, -640], [5120, 640], [4864, 896], [3840, 896], [3584, 640], [3584, -640]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 448
+    theme: theme:warren
+    notes: "Where the stalkers breed: a collapsed side vault of the drains."
+openings:
+  - id: open:alcove_1
+    from: room:alcoves
+    to: room:niche_1
+    from_wall: 0
+    to_wall: 2
+    link: link:alcove_1
+    width: 256
+    height: 256
+  - id: open:alcove_2
+    from: room:alcoves
+    to: room:niche_2
+    from_wall: 0
+    to_wall: 2
+    link: link:alcove_2
+    width: 256
+    height: 256
+  - id: open:alcove_3
+    from: room:alcoves
+    to: room:niche_3
+    from_wall: 0
+    to_wall: 2
+    link: link:alcove_3
+    width: 256
+    height: 256
+  - id: open:alcoves_cobra
+    from: room:alcoves
+    to: room:cobra_drain
+    from_wall: 1
+    to_wall: 3
+    link: link:alcoves_cobra
+    width: 256
+    height: 320
+  - id: open:cistern_collapse
+    from: room:cistern
+    to: room:collapse
+    from_wall: 0
+    to_wall: 3
+    link: link:cistern_collapse
+    width: 512
+    height: 448
+  - id: open:cobra_cistern
+    from: room:cobra_drain
+    to: room:cistern
+    from_wall: 1
+    to_wall: 3
+    link: link:cobra_cistern
+    width: 256
+    height: 320
+  - id: open:collapse_slope
+    from: room:collapse
+    to: room:rubble_slope
+    link: link:collapse_slope
+    width: 384
+    height: 448
+  - id: open:drain_alcoves
+    from: room:main_drain
+    to: room:alcoves
+    from_wall: 0
+    to_wall: 2
+    link: link:drain_alcoves
+    along: 0.2105
+    width: 256
+    height: 320
+  - id: open:drain_warren
+    from: room:main_drain
+    to: room:warren
+    from_wall: 1
+    to_wall: 6
+    link: link:drain_warren
+    width: 384
+    height: 384
+  - id: open:drift_west
+    from: room:sand_drift
+    to: room:tunnel_west
+    from_wall: 3
+    to_wall: 1
+    link: link:drift_west
+    width: 448
+    height: 384
+  - id: open:drowned_tunnel
+    from: room:drowned
+    to: room:tunnel_east
+    from_wall: 2
+    to_wall: 0
+    link: link:drowned_tunnel
+    width: 384
+    height: 352
+  - id: open:gallery_nest
+    from: room:mantis_gallery
+    to: room:mantis_nest
+    from_wall: 0
+    to_wall: 4
+    link: link:gallery_nest
+    width: 384
+    height: 384
+  - id: open:gallery_tunnel
+    from: room:mantis_gallery
+    to: room:tunnel_east
+    from_wall: 6
+    to_wall: 1
+    link: link:gallery_tunnel
+    width: 384
+    height: 384
+  - id: open:head_gallery
+    from: room:tunnel_head
+    to: room:mantis_gallery
+    from_wall: 3
+    to_wall: 2
+    link: link:head_gallery
+    along: 0.5625
+    width: 384
+    height: 384
+  - id: open:nest_drowned
+    from: room:mantis_nest
+    to: room:drowned
+    from_wall: 6
+    to_wall: 1
+    link: link:nest_drowned
+    along: 0.5714
+    width: 256
+    height: 320
+  - id: open:nest_eggs
+    from: room:mantis_nest
+    to: room:egg_cells
+    from_wall: 2
+    to_wall: 6
+    link: link:nest_eggs
+    width: 320
+    height: 320
+  - id: open:shaft_drain
+    from: room:shaft
+    to: room:main_drain
+    from_wall: 1
+    to_wall: 3
+    link: link:shaft_drain
+    width: 256
+    height: 320
+  - id: open:shaft_gym
+    from: room:shaft
+    to: room:gym
+    from_wall: 0
+    to_wall: 2
+    link: link:shaft_gym
+    width: 256
+    height: 320
+  - id: open:slope_head
+    from: room:rubble_slope
+    to: room:tunnel_head
+    link: link:slope_head
+    width: 384
+    height: 448
+  - id: open:tunnel_drift
+    from: room:tunnel_east
+    to: room:sand_drift
+    from_wall: 3
+    to_wall: 1
+    link: link:tunnel_drift
+    width: 448
+    height: 384
+  - id: open:tunnel_gate
+    from: room:tunnel_west
+    to: room:desert_gate
+    from_wall: 3
+    to_wall: 1
+    link: link:tunnel_gate
+    width: 256
+    height: 320
+  - id: open:warren_cistern
+    from: room:warren
+    to: room:cistern
+    from_wall: 2
+    to_wall: 3
+    link: link:warren_cistern
+    width: 256
+    height: 320
+  - id: open:warren_vault
+    from: room:warren
+    to: room:breeding_vault
+    from_wall: 4
+    to_wall: 0
+    link: link:warren_vault
+    width: 384
+    height: 320
+notes: "DD-18 Sandcaster Sewer: under Sandcaster at 0 and the long tunnel at -640 in one frame (x east, y north, heights from the arrival floor). Written by output/studio_cal/dd18/tools/gen.py (geo.py)."

@@ -1,0 +1,287 @@
+# Xeen side quest Q-D23, Sandro's Heart (D6, DD-21), the dark route: from a new game on D6 with a Priest, a Wizard and
+# a Necromancer in a level-45 party. Necropolis's gate (D6 event 127) with Q-D22's pass; Master Morbius in the
+# Necromancers' House (5506): Sandro, before (naming Necromancers, D-74 6). D6's crypt stair (event 57) into DD-21,
+# walked as A8's playtest (devdocs/xeen/briefs/dd21/L4/playtest.yml): the Hall of Biers, the crypt's double doors, the
+# first step (q-d23.first_entry), Sandro's one fight and fall (q-d23.sandro: beaten, autonote 4630), the grille's
+# refusal, the dais without the heart (the beaten text); down the railed stair, the west culvert, the culvert gate's
+# refusal, the sluice room's wheel (sluice_open), the heart culvert's jar (the heart 12353, then the empty jar); back by
+# the east arm and up; on the dais with the heart: "Give Sandro his heart?" Yes, "Ask Sandro for his ritual first?"
+# Yes: q-d23.ritual (taught; Priest -> PriestDark, Wizard and Necromancer -> Lich, the Knight stays), then
+# q-d23.release (released, 12,000 XP each, the Key to the Dungeon of Death 12354, the heart taken, the risen Sandro
+# hidden, the grille lifts); the reliquary's chest; out by the stair (event 26) to D6. Morbius again: Sandro is at rest
+# (nobody left to promote: no promotion, no pay). Outdoors and in Necropolis the party is placed (PLAYBOOK.md section 2).
+# Routes: tests/playthrough/xeen/promotions/89_sandros_heart.yml (D6: the gate, Morbius, the crypt stair),
+# devdocs/xeen/briefs/dd21/L4/playtest.yml (the walk). Quest logic: source/quests/q-d23.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d23_sandros_heart_ritual.yml --scenario-no-color
+id: xeen.side_quests.q-d23.ritual
+title: "Xeen Q-D23: Sandro's heart returned after his ritual: Priest of Dark and two Liches"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d6.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 45, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 45, skills: [], equipment: {}}
+          - {name: Morw, class: Necromancer, level: 45, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d6.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes()); if classes() ~= 'Knight Priest Wizard Necromancer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113460, 113461, 113462, 113463, 117720, 117721, 117722, 117727]}
+  # Q-D22's Head Witch's chest (DD-20, q-d22's pass_found) holds the Necropolis pass 12336.
+  - grant_item: {item_id: 12336, member_index: 0}
+  # Necropolis's gate with the pass; through it to the mirror.
+  - set_pose: {map: xeen_d6.odm, x: 13824, y: -4301, z: 1715, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status(); click(127); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "reads your pass through the grille", 1, true) then error("the gate said: " .. seen) end
+        close()
+  - walk_to: {x: 13824, y: -6451, z: 1664, z_tolerance: 700, radius: 192, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  # Master Morbius (the Necromancers' House, always open): Sandro, before.
+  - set_pose: {map: xeen_d6.odm, x: 15156, y: -10496, z: 1664, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 5506, action_label_present: "Sandro"}}
+  - select_topic: {match_label: "Sandro"}
+  - assert: {dialog: {active: true, text_contains: "A Priest, a Wizard or a Necromancer who asked him nicely, before the end, might learn how it was done."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Knight Priest Wizard Necromancer' then error('Morbius promoted before the release: ' .. classes()) end"}
+  # The Necropolis temple (house 4752) before the crypt: a member down is raised first (D-82); nothing happens
+  # otherwise. After Sandro's fight every crypt walk clears 3,000: its undead kill with a touch (Immortal does not stop it).
+  - set_pose: {map: xeen_d6.odm, x: 13824, y: -8980, z: 1664, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4752, min: 0}
+  # The crypt stair (D6 event 57) into the Necropolis Sewer: entrance:d6_stair, the stair's foot.
+  - set_pose: {map: xeen_d6.odm, x: 17408, y: -12103, z: 1664, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd21.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if not qbit(117720) then error('dd21_arrived_once 117720 not set') end"}
+  - assert: {party_position: {x: 0, y: 0, radius: 64, z_min: -8, z_max: 8, facing: 1536, facing_within: 64}}
+  # The Hall of Biers (two Greater Liches); the crypt's double doors; the first step in: q-d23.first_entry.
+  - walk_to: {x: 0, y: -800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700)"}
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(600)"}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(3); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('the crypt doors: ' .. door_state(2) .. ' ' .. door_state(3)) end"}
+  - walk_to: {x: 0, y: -2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "And now my hunger for the living compels me to attack you."}}
+  - play_lua: {source: "close(); if not qbit(117722) then error('sandro_met 117722 not set') end; if qbit(113460) then error('beaten set before the fight') end"}
+  # Sandro's one fight, killed deliberately (clear_hostiles 900 by his bier: the party beats him once); his fall,
+  # q-d23.sandro's first text. After it the risen Sandro cannot be hurt, so the sewer's wider clears below are safe.
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: false}}
+  - play_lua: {source: "clear_hostiles(900); for _ = 1, 10 do wait(0.5); if qbit(117727) then break end end; if not qbit(117727) then error('Sandro did not fall') end"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "I am Sandro, the most accomplished sorcerer to ever live in Xeen."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(117727) then error('sandro_fell 117727 not set') end; if not qbit(113460) then error('beaten 113460 not set') end"}
+  - assert: {autonote: {id: 4630}}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: true}}
+  - assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+  # The grille before the release (q-d23.grille's fail line); the dais's step without the heart.
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Don't even THINK about taking my statuette!"}}
+  - play_lua: {source: "close(); if door_state(4) ~= 'closed' then error('the grille is not shut') end"}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You have beaten me once, and it changed nothing. Bring the heart."}}
+  - play_lua: {source: "close()"}
+  # Down the railed stair, the west arm, the west culvert: the culvert gate refuses.
+  - walk_to: {x: -160, y: -2700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -400, y: -1408, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -830, y: -1408, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -830, y: -1088, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1560, y: -1088, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1500, y: -1500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2300, y: -1500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1300)"}
+  - walk_to: {x: -2848, y: -1560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2000, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -704, y: -3360, z: -512, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'closed' then error('the culvert gate does not start shut') end; click(29); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "A culvert gate, shut. Somewhere upstream, a wheel would raise it."}}
+  - play_lua: {source: "close(); if qbit(117721) then error('sluice_open set too early') end"}
+  # Back to the sluice room: its door; the wheel lifts the gate (q-d23.sluice_wheel).
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2800, y: -2240, z: -512, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 6)"}
+  - walk_to: {x: -2240, y: -2240, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2240, y: -2020, z: -512, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The wheel turns with a groan."}}
+  - play_lua: {source: "close(); if not qbit(117721) then error('sluice_open 117721 not set') end; for _ = 1, 20 do if door_state(5) == 'open' then break end; wait(0.5) end; if door_state(5) ~= 'open' then error('the culvert gate did not lift: ' .. door_state(5)) end"}
+  # Through the culvert gate, down the steps: the heart culvert, the jar (q-d23.heart), then the empty jar.
+  - walk_to: {x: -2240, y: -2240, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900); if door_state(6) ~= 'open' then open_door(18, 6) end"}
+  - walk_to: {x: -2800, y: -2240, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2848, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -2000, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1600, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -640, y: -2560, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -704, y: -3360, z: -512, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -704, y: -3800, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -704, y: -4480, z: -896, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1400)"}
+  - walk_to: {x: -832, y: -4500, z: -896, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[In a jar of green glass, in a fluid that should not still be warm: a heart, beating slowly.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; if not has_item(12353) then error('no heart') end; if not qbit(113461) then error('heart_found 113461 not set') end; click(33); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[An empty jar.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12353) ~= 1 then error('hearts: ' .. item_count(12353)) end"}
+  # Back by the east culvert and the east arm (the ring), up the railed stair to the dais.
+  - walk_to: {x: -704, y: -3800, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -704, y: -3300, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -600, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900)"}
+  - walk_to: {x: 288, y: -2848, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 288, y: -2000, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(900)"}
+  - walk_to: {x: 288, y: -1500, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -800, y: -1450, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1500, y: -1300, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1620, y: -1088, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -830, y: -1088, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -830, y: -1408, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -300, y: -1408, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -160, y: -2700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  # Sandro strikes through the crypt doors as they open (his death touch, which Immortal does not stop): before the
+  # ritual reads the Priest, the Wizard and the Necromancer, the party walks out by the stair (event 26) to the
+  # Necropolis temple (house 4752) and back (D-82); the temple does nothing when nobody is down.
+  - walk_to: {x: 0, y: -2300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -80, y: 1100, z: 448, z_tolerance: 120, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 26}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d6.odm, x: 13824, y: -8980, z: 1664, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4752, min: 0}
+  - set_pose: {map: xeen_d6.odm, x: 17408, y: -12103, z: 1664, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd21.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: -800, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -160, y: -2700, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  # The dais with the heart: "Give Sandro his heart?" Yes; "Ask Sandro for his ritual first?" Yes: the ritual, then
+  # the release.
+  - play_lua: {source: "for _, i in ipairs({1, 2, 3}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the ritual: ' .. c) end end end"}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Yes", text_contains: "My heart. You have it. Give it to me, and I will be free of this life."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Yes", text_contains: "Ask Sandro for his ritual first?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  # One message box: the ritual's text, then the release's.
+  - assert: {dialog: {active: true, text_contains: "The Priests among you rise as Priests of Dark, the Wizards and Necromancers as Liches."}}
+  - assert: {dialog: {active: true, text_contains: "Sandro: Thank you for returning my heart. I am free of this life."}}
+  - assert: {dialog: {active: true, text_contains: "Remember: Alamar CAN be defeated."}}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113463) then error("taught 113463 not set") end
+        if not qbit(113462) then error("released 113462 not set") end
+        if not has_item(12354) then error("no Key to the Dungeon of Death 12354") end
+        if has_item(12353) then error("the heart was not taken") end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 12000 then error("member " .. i .. ": the ritual and release paid " .. xp .. " experience, not 12000") end
+        end
+        if gold() ~= recall("gold") then error("gold changed: " .. (gold() - recall("gold"))) end
+        if classes() ~= "Knight PriestDark Lich Lich" then error("the ritual: " .. classes()) end
+        log("Q-D23 ritual and release: " .. classes())
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  - play_lua: {source: "for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' then error('the grille did not lift: ' .. door_state(4)) end"}
+  - play_lua: {source: "status(); click(10); wait(0.5); local seen = status(); if not string.find(seen, \"Sandro's bier, empty.\", 1, true) then error('the bier after the release said: ' .. seen) end"}
+  # The reliquary's chest (Sandro's treasure room).
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1100, y: -2880, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "local before = gold(); loot_chest(13); close(); if gold() <= before then error('the reliquary chest gave no gold') end; log('the reliquary chest: ' .. (gold() - before) .. ' gold')"}
+  # Out by the stair (the grille pair's left wing, event 26) to D6's entrance:dd21_stair.
+  - walk_to: {x: 560, y: -2816, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -2300, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -80, y: 1100, z: 448, z_tolerance: 120, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - execute_event: {id: 26}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - assert: {party_position: {x: 17408, y: -11776, radius: 128, facing: 512, facing_within: 64}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Morbius: Sandro is at rest (released; nobody left eligible: no promotion, no pay).
+  - set_pose: {map: xeen_d6.odm, x: 15156, y: -10496, z: 1664, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 5506}}
+  - select_topic: {match_label: "Sandro"}
+  - assert: {dialog: {active: true, text_contains: "Sandro is at rest. The House has his notes, if one of yours ever wants them."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if classes() ~= "Knight PriestDark Lich Lich" then error("Morbius changed classes: " .. classes()) end
+        if gold() ~= recall("gold") then error("Morbius paid gold") end
+        for i = 0, 3 do if experience(i) ~= recall("xp" .. i) then error("Morbius paid member " .. i .. " experience") end end
+        log("Q-D23 done (ritual): " .. classes())

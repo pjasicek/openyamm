@@ -1,0 +1,557 @@
+format: 1
+start:
+  room: room:air
+  at: [0, -17920]
+  facing: n
+  notes: "The top step of XD-12's cloud stair (entrance:xd12_roof, the map's start)."
+arrivals:
+  - {entrance: entrance:xd12_roof, room: room:air, at: [0, -17920], facing: n, notes: "XD-12's cloud stair (A8's exit:clouds_of_xeen): the top step, facing north."}
+  - {entrance: entrance:xd19_gate, room: room:air, at: [0, 11264], facing: s, notes: "XD-19's way out and the scepter cinematic's leave: before the gate, facing south (1536)."}
+  - {entrance: entrance:fd04_roof, room: room:air, at: [20352, 17280], facing: n, notes: "FD-04's roof stair onto the Dragon Clouds (Q-F1, D-57 Q36): on the cloud about 900 south of the snout, facing north toward the dragon-head rock."}
+sounds:
+  - {id: sound:fair, room: room:air, at: [-2560, 2560], height: 160, sound: xeen_amb_fair, radius: 5000, inner_radius: 2800, volume: 0.45, pan: false}
+  - {id: sound:gust_east, room: room:air, at: [15232, -1792], height: 512, sound: xeen_sky_gust, radius: 9000, inner_radius: 3000, volume: 0.5, wait: [6, 14]}
+  - {id: sound:gust_west, room: room:air, at: [-16896, -2816], height: 512, sound: xeen_sky_gust, radius: 9000, inner_radius: 3000, volume: 0.5, wait: [6, 14]}
+  - {id: sound:roc_cries_aviary, room: room:air, at: [13440, 13440], height: 768, sound: roc_aware, radius: 7000, inner_radius: 2000, volume: 0.5, wait: [8, 20]}
+  - {id: sound:roc_cries_se, room: room:air, at: [13312, -15616], height: 768, sound: roc_aware, radius: 6000, inner_radius: 1500, volume: 0.45, wait: [10, 24]}
+  - {id: sound:roc_cries_sw, room: room:air, at: [-13312, -15616], height: 768, sound: roc_aware, radius: 6000, inner_radius: 1500, volume: 0.45, wait: [10, 24]}
+  - {id: sound:sky_bed, room: room:air, at: [0, -2816], height: 512, sound: xeen_amb_sky, radius: 28000, inner_radius: 22000, volume: 0.4, pan: false}
+chests:
+  - id: chest:cache
+    room: room:air
+    at: [-14592, 10368]
+    kind: ch1
+    facing: e
+    treasure_level: 5
+    random_items: 3
+    gold: 900
+    notes: An old traveller's cache on the north-west isle.
+  - id: chest:hoard
+    room: room:air
+    at: [14464, 14800]
+    kind: ch3
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 1500
+    notes: "The rocs' hoard: shiny things carried up from the land."
+  - id: chest:hollow
+    room: room:air
+    at: [-12416, -16384]
+    kind: ch2
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 1200
+    notes: "The hollow under the south-west nest: the rocs' stolen goods."
+  - id: chest:pack
+    room: room:air
+    at: [13952, 4992]
+    kind: ch1
+    facing: w
+    treasure_level: 5
+    random_items: 3
+    gold: 800
+    notes: A lost traveller's pack on the east horn.
+monsters:
+  - id: monster:aviary_griffins_1
+    room: room:air
+    monster: 11562
+    at: [14550, 12634]
+    facing: 0
+    hostile: true
+    group: 27
+  - id: monster:aviary_griffins_2
+    room: room:air
+    monster: 11562
+    at: [14743, 12314]
+    facing: 0
+    hostile: true
+    group: 27
+  - id: monster:aviary_griffins_3
+    room: room:air
+    monster: 11562
+    at: [14923, 12654]
+    facing: 180
+    hostile: true
+    group: 27
+  - id: monster:aviary_griffins_b_1
+    room: room:air
+    monster: 11562
+    at: [13249, 14795]
+    facing: 90
+    hostile: true
+    group: 28
+  - id: monster:aviary_griffins_b_2
+    room: room:air
+    monster: 11562
+    at: [13321, 15162]
+    facing: 180
+    hostile: true
+    group: 28
+  - id: monster:aviary_griffins_b_3
+    room: room:air
+    monster: 11562
+    at: [12960, 15031]
+    facing: 0
+    hostile: true
+    group: 28
+  - id: monster:aviary_rocs_1
+    room: room:air
+    monster: 11561
+    at: [11905, 12736]
+    facing: 315
+    hostile: true
+    group: 25
+  - id: monster:aviary_rocs_2
+    room: room:air
+    monster: 11561
+    at: [12095, 13057]
+    facing: 135
+    hostile: true
+    group: 25
+  - id: monster:aviary_rocs_3
+    room: room:air
+    monster: 11561
+    at: [11711, 13055]
+    facing: 270
+    hostile: true
+    group: 25
+  - id: monster:aviary_rocs_b_1
+    room: room:air
+    monster: 11561
+    at: [14384, 14254]
+    facing: 135
+    hostile: true
+    group: 26
+  - id: monster:aviary_rocs_b_2
+    room: room:air
+    monster: 11561
+    at: [14343, 13883]
+    facing: 45
+    hostile: true
+    group: 26
+  - id: monster:aviary_rocs_b_3
+    room: room:air
+    monster: 11561
+    at: [14692, 14044]
+    facing: 90
+    hostile: true
+    group: 26
+  - id: monster:back_lot_golems_1
+    room: room:air
+    monster: 11592
+    at: [-9798, 7759]
+    facing: 0
+    hostile: true
+    group: 20
+    immobile: true
+  - id: monster:back_lot_golems_2
+    room: room:air
+    monster: 11592
+    at: [-10059, 8026]
+    facing: 270
+    hostile: true
+    group: 20
+    immobile: true
+  - id: monster:back_lot_golems_3
+    room: room:air
+    monster: 11592
+    at: [-10157, 7655]
+    facing: 0
+    hostile: true
+    group: 20
+    immobile: true
+  - id: monster:east_pillar_rocs_1
+    room: room:air
+    monster: 11561
+    at: [14802, -8487]
+    facing: 45
+    hostile: true
+    group: 22
+  - id: monster:east_pillar_rocs_2
+    room: room:air
+    monster: 11561
+    at: [14638, -8153]
+    facing: 0
+    hostile: true
+    group: 22
+  - id: monster:east_statue_rocs_1
+    room: room:air
+    monster: 11561
+    at: [5827, -17328]
+    facing: 45
+    hostile: true
+    group: 15
+  - id: monster:east_statue_rocs_2
+    room: room:air
+    monster: 11561
+    at: [5949, -16976]
+    facing: 270
+    hostile: true
+    group: 15
+  - id: monster:gate_golems_1
+    room: room:air
+    monster: 11592
+    at: [5909, 13160]
+    facing: 315
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:gate_golems_2
+    room: room:air
+    monster: 11592
+    at: [5562, 13023]
+    facing: 90
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:gate_golems_3
+    room: room:air
+    monster: 11592
+    at: [5866, 12790]
+    facing: 0
+    hostile: true
+    group: 21
+    immobile: true
+  - id: monster:horn_rocs_1
+    room: room:air
+    monster: 11561
+    at: [14424, 6051]
+    facing: 45
+    hostile: true
+    group: 24
+  - id: monster:horn_rocs_2
+    room: room:air
+    monster: 11561
+    at: [14797, 6038]
+    facing: 90
+    hostile: true
+    group: 24
+  - id: monster:horn_rocs_3
+    room: room:air
+    monster: 11561
+    at: [14611, 6374]
+    facing: 0
+    hostile: true
+    group: 24
+  - id: monster:isle_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-14979, 11638]
+    facing: 0
+    hostile: true
+    group: 19
+  - id: monster:isle_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-15229, 11914]
+    facing: 135
+    hostile: true
+    group: 19
+  - id: monster:ledge_rocs_1
+    room: room:air
+    monster: 11561
+    at: [14670, -2740]
+    facing: 135
+    hostile: true
+    group: 23
+  - id: monster:ledge_rocs_2
+    room: room:air
+    monster: 11561
+    at: [14770, -2380]
+    facing: 135
+    hostile: true
+    group: 23
+  - id: monster:pillar_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-15364, -8957]
+    facing: 45
+    hostile: true
+    group: 16
+  - id: monster:pillar_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-15100, -9219]
+    facing: 180
+    hostile: true
+    group: 16
+  - id: monster:se_rocs_1
+    room: room:air
+    monster: 11561
+    at: [12659, -15974]
+    facing: 45
+    hostile: true
+    group: 12
+  - id: monster:se_rocs_2
+    room: room:air
+    monster: 11561
+    at: [12314, -16116]
+    facing: 225
+    hostile: true
+    group: 12
+  - id: monster:se_rocs_3
+    room: room:air
+    monster: 11561
+    at: [12622, -16345]
+    facing: 0
+    hostile: true
+    group: 12
+  - id: monster:se_rocs_b_1
+    room: room:air
+    monster: 11561
+    at: [14654, -14618]
+    facing: 90
+    hostile: true
+    group: 13
+  - id: monster:se_rocs_b_2
+    room: room:air
+    monster: 11561
+    at: [14363, -14384]
+    facing: 315
+    hostile: true
+    group: 13
+  - id: monster:se_rocs_b_3
+    room: room:air
+    monster: 11561
+    at: [14311, -14765]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:shelf_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-16502, 4113]
+    facing: 135
+    hostile: true
+    group: 18
+  - id: monster:shelf_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-16266, 3823]
+    facing: 270
+    hostile: true
+    group: 18
+  - id: monster:slick
+    room: room:air
+    monster: 11914
+    at: [-1368, 9472]
+    facing: 0
+    hostile: false
+    group: 40
+    immobile: true
+    notes: "Slick the Gamemaster (11914: peaceful, NoArena, uncounted) behind his prize stand, facing the causeway (D-50 Q6). The stand and the booths are the clicks."
+  - id: monster:spine_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-17080, -1610]
+    facing: 135
+    hostile: true
+    group: 17
+  - id: monster:spine_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-16827, -1884]
+    facing: 270
+    hostile: true
+    group: 17
+  - id: monster:spine_rocs_3
+    room: room:air
+    monster: 11561
+    at: [-16719, -1515]
+    facing: 45
+    hostile: true
+    group: 17
+  - id: monster:sw_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-12588, -16315]
+    facing: 225
+    hostile: true
+    group: 10
+  - id: monster:sw_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-12328, -16048]
+    facing: 180
+    hostile: true
+    group: 10
+  - id: monster:sw_rocs_3
+    room: room:air
+    monster: 11561
+    at: [-12701, -15959]
+    facing: 90
+    hostile: true
+    group: 10
+  - id: monster:sw_rocs_b_1
+    room: room:air
+    monster: 11561
+    at: [-14385, -14773]
+    facing: 0
+    hostile: true
+    group: 11
+  - id: monster:sw_rocs_b_2
+    room: room:air
+    monster: 11561
+    at: [-14165, -15075]
+    facing: 225
+    hostile: true
+    group: 11
+  - id: monster:sw_rocs_b_3
+    room: room:air
+    monster: 11561
+    at: [-14015, -14721]
+    facing: 315
+    hostile: true
+    group: 11
+  - id: monster:west_statue_rocs_1
+    room: room:air
+    monster: 11561
+    at: [-5896, -17338]
+    facing: 135
+    hostile: true
+    group: 14
+  - id: monster:west_statue_rocs_2
+    room: room:air
+    monster: 11561
+    at: [-5880, -16966]
+    facing: 0
+    hostile: true
+    group: 14
+decorations:
+  - id: deco:aviary_bones_1
+    room: room:air
+    decoration: dec19
+    at: [12928, 13184]
+  - id: deco:aviary_bones_2
+    room: room:air
+    decoration: dec19
+    at: [13824, 14336]
+  - id: deco:aviary_bones_3
+    room: room:air
+    decoration: dec19
+    at: [12032, 13696]
+  - id: deco:ball_future
+    room: room:air
+    decoration: dec57
+    at: [19400, 18800]
+    floor_height: 2160
+    inside: platform:ball_future_plinth
+  - id: deco:ball_mind
+    room: room:air
+    decoration: dec57
+    at: [19350, 17900]
+    floor_height: 2160
+    inside: platform:ball_mind_plinth
+  - id: deco:ball_past
+    room: room:air
+    decoration: dec57
+    at: [19300, 18350]
+    floor_height: 2160
+    inside: platform:ball_past_plinth
+  - id: deco:crystal_1
+    room: room:air
+    decoration: crys5
+    at: [20600, 19600]
+  - id: deco:crystal_2
+    room: room:air
+    decoration: crys6
+    at: [21950, 19400]
+  - id: deco:crystal_3
+    room: room:air
+    decoration: crclstr
+    at: [22350, 18950]
+  - id: deco:dragon_eye
+    room: room:air
+    decoration: crystl0
+    at: [21056, 17984]
+  - id: deco:nest_a1_bones
+    room: room:air
+    decoration: 7dec18
+    at: [12448, 14272]
+  - id: deco:nest_a1_skull
+    room: room:air
+    decoration: 7dec20
+    at: [12656, 14128]
+  - id: deco:nest_a2_bones
+    room: room:air
+    decoration: 7dec18
+    at: [15136, 14016]
+  - id: deco:nest_a2_skull
+    room: room:air
+    decoration: 7dec20
+    at: [15344, 13872]
+  - id: deco:nest_a3_bones
+    room: room:air
+    decoration: 7dec18
+    at: [14112, 12096]
+  - id: deco:nest_a3_skull
+    room: room:air
+    decoration: 7dec20
+    at: [14320, 11952]
+  - id: deco:nest_se_bones
+    room: room:air
+    decoration: 7dec18
+    at: [13600, -15168]
+  - id: deco:nest_se_skull
+    room: room:air
+    decoration: 7dec20
+    at: [13808, -15312]
+  - id: deco:nest_sw_bones
+    room: room:air
+    decoration: 7dec18
+    at: [-13792, -15168]
+  - id: deco:nest_sw_skull
+    room: room:air
+    decoration: 7dec20
+    at: [-13584, -15312]
+  - id: deco:offering_1
+    room: room:air
+    decoration: sta1a
+    at: [-15616, -9472]
+  - id: deco:offering_2
+    room: room:air
+    decoration: sta1a
+    at: [-16896, -2816]
+  - id: deco:offering_3
+    room: room:air
+    decoration: sta1a
+    at: [-17280, 4608]
+  - id: deco:offering_4
+    room: room:air
+    decoration: sta1a
+    at: [-16384, 11776]
+  - id: deco:offering_5
+    room: room:air
+    decoration: sta1a
+    at: [15488, -1792]
+  - id: deco:offering_6
+    room: room:air
+    decoration: sta1a
+    at: [15616, 6016]
+  - id: deco:statue_1
+    room: room:air
+    decoration: 7dec54
+    at: [-6144, -16384]
+    facing: 270
+  - id: deco:statue_2
+    room: room:air
+    decoration: 7dec54
+    at: [-8064, -18048]
+    facing: 0
+  - id: deco:statue_3
+    room: room:air
+    decoration: 7dec54
+    at: [6144, -16384]
+    facing: 270
+  - id: deco:statue_4
+    room: room:air
+    decoration: 7dec54
+    at: [8064, -18048]
+    facing: 180
+  - id: deco:tonic_crate
+    room: room:air
+    decoration: 7dec21
+    at: [-3328, 960]
+notes: "X9 L4 objects (generated by output/studio_cal/x9/tools/gen_objects.py): 50 monsters placed (no spawn markers) and Slick (peaceful, uncounted); four chests; statues, offering statues and the nests' bones; the wind. No lights."

@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST image, paint_mask_guide.png, directly, retaining its exact alpha stencil. Output one 1536x2048 transparent PNG. The second image is the design reference; third is colour reference only, ignore magenta. Preserve the 3 column, 4 row grid of 512x512 cells and ten original orthographic silhouettes exactly, with all gaps transparent. In each cell use these local bounding boxes (x0,y0,x1,y1): row1 (72,211,440,301), (72,211,440,301), (32,211,480,301); row2 (32,211,480,301), (71,32,441,479), empty. Repeat EXACTLY at y+1024 for rows 3 and 4. Preserve all blank padding. No captions, text or visible grid. Rows 1 and 2 are unlit base-color paintings of Eerie's Guide to Cloudside. Row1 first two views show parchment page ends with thin green cloth cover lips and rounded green spine ends at opposite sides. Row1 right shows the green cloth spine with three pairs of gilt bands running across its short axis. Row2 left shows the long page edges between green board lips. Row2 center is a straight-on front cover with spine at left: dark forest green woven cloth, the reference's fine gold border, corner scrolls, midpoint diamonds, gold engraved flat world plateau with mountains, meandering river, trees and cliff. Keep intrinsic colors, no lighting, cast shadows, AO, specular highlights, glow, or new outlines. Bottom half is the precisely registered material ID map for the paint above. Each pixel inside all five silhouettes must be flat pure blue #0000FF for cloth (including green cloth), red #FF0000 for gold (including every foil detail of the map and scrollwork), yellow #FFFF00 for paper, green #00FF00 only if actual leather or fur. Hard-edged binary color separations; no intermediate colors, lighting, texture, highlights or shading anywhere in bottom half. Empty cells and transparent margins must stay transparent. Do not scale, shift, enlarge, redraw or rotate the objects.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "1e88be65f8a29430d0581adf3f772a1979b319414149bb1de455afcdbee107c6"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "7bc7324d62e9f55330a196b9591a3b46e4c475b8d3e8ab4552db654f49d17031"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "516ec9cdfbf9ca18bebee587356e3ce07ec30a2f90c180cfc95426f43be7486c"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92d-3492-7590-8adc-cf18755b48b8/exec-274c4fc1-2894-4b74-ada6-86bcf179eebe.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

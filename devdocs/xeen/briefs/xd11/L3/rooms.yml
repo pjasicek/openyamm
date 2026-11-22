@@ -1,0 +1,569 @@
+format: 0
+themes:
+  - id: theme:core
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: 7tws1f, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwp1b, size: [128, 256]}
+    door: {texture: xngrille, size: [128, 256]}
+    notes: "The lift core: rubble walls, the cages' gates of brass grille (A6's xngrille)."
+  - id: theme:ground
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: 7tws1f, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwp1b, size: [128, 256]}
+    door: {texture: hwm2d, size: [128, 256]}
+    notes: "The ground floor and the stair halls: Celeste's grey rubble walls (hwm2wall), its veined marble floor (7tws1f) and dark beams overhead (hwm2rf), pale plaster in the doorways (hwp1b), its carved blue doors (hwm2d)."
+  - id: theme:lab
+    wall: {texture: hwp1bwall, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: 7tws1fa, size: [128, 32]}}
+    floor: {texture: 7tws1f, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: t3s2b, size: [128, 256]}
+    door: {texture: hwp1d, size: [128, 256]}
+    notes: "The laboratories and landings: Celeste's pale plaster (hwp1bwall) over a marble skirting (7tws1fa), marble floors, beams, the carved frieze in the doorways (t3s2b), the alchemist's door with its sigil (hwp1d)."
+  - id: theme:observatory
+    wall: {texture: hwp1bwall, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: 7tws1fa, size: [128, 32]}}
+    floor: {texture: t2s1fl, size: [128, 128]}
+    ceiling: {texture: 7plansky1, size: [256, 256]}
+    reveal: {texture: hwp1b, size: [128, 256]}
+    door: {texture: hwm2d, size: [128, 256]}
+    notes: "The observatory: plaster under Celeste's painted sky ceiling (7plansky1)."
+  - id: theme:roof
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    bands:
+      - {height: 128, surface: {texture: hwm2wall, size: [128, 256]}}
+    floor: {texture: 7tws1f, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    notes: "The roof: marble under the open sky; a parapet of rubble (the band), sky above it."
+  - id: theme:skystair
+    wall: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    bands:
+      - {height: 768, surface: {texture: hwm2wall, size: [128, 256]}}
+    floor: {texture: 7tws1f, size: [128, 128]}
+    ceiling: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    notes: "The Stairway to Heaven: rubble walls up to the roof's parapet, open to the sky above."
+  - id: theme:study
+    wall: {texture: hwr1wall, size: [128, 256]}
+    floor: {texture: t2s1fl, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwp1b, size: [128, 256]}
+    door: {texture: hwp1d, size: [128, 256]}
+    notes: "The quarters, the library and the Archmage's study: Celeste's pale planking (hwr1wall), its pale marble (t2s1fl), beams; Clanker's Laboratory's bookcases (7t1books)."
+defaults: {theme: theme:lab, ambient: 16}
+rooms:
+  - id: room:athanor
+    name: Athanor
+    outline: [[-2048, 1088], [2048, 1088], [2048, 2048], [-2048, 2048]]
+    floor: 0
+    ceiling: 544
+    theme: theme:lab
+    platforms:
+      - {at: [0, 1920], size: [1024, 192], rise: 480, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: The athanor's iron stack against the north wall.}
+      - {at: [-1600, 1888], size: [384, 256], rise: 96, surface: {texture: xwiron, size: [128, 128]}, notes: A bench of iron crucibles.}
+      - {at: [1600, 1888], size: [384, 256], rise: 96, surface: {texture: xwiron, size: [128, 128]}, notes: A bench of iron crucibles.}
+    levels:
+      - id: level:hearth
+        outline: [[-448, 1472], [448, 1472], [448, 1792], [-448, 1792]]
+        floor: -64
+        edge: {texture: xwiron, size: [128, 128]}
+        surface: {texture: lava, size: [256, 256], liquid: lava, flow: left}
+        notes: "The athanor's hearth: a bed of glowing coals a step down before the stack."
+    notes: "The athanor: the great furnace of the tower, an iron stack against the north wall over a hearth of live coals; Fire Brew bubbles beside it."
+  - id: room:coils
+    name: Lightning coils
+    outline: [[0, -128], [1280, -128], [1280, 960], [0, 960]]
+    floor: 0
+    ceiling: 544
+    theme: theme:lab
+    pillars:
+      - {at: [320, 192], size: [128, 128], surface: {texture: xwiron, size: [128, 128]}}
+      - {at: [960, 192], size: [128, 128], surface: {texture: xwiron, size: [128, 128]}}
+      - {at: [320, 640], size: [128, 128], surface: {texture: xwiron, size: [128, 128]}}
+      - {at: [960, 640], size: [128, 128], surface: {texture: xwiron, size: [128, 128]}}
+    notes: "The lightning coils: four iron columns, each crowned with a crackling blue light."
+  - id: room:core0
+    name: "Lift core, ground floor"
+    outline: [[256, -896], [1024, -896], [1024, -256], [256, -256]]
+    floor: 0
+    ceiling: 544
+    theme: theme:core
+    notes: "The lift core: the brass cages' shaft through all four floors."
+  - id: room:core1
+    name: "Lift core, first floor"
+    outline: [[256, -896], [1024, -896], [1024, -256], [256, -256]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:core
+    notes: "The lift core: the brass cages' shaft through all four floors."
+  - id: room:core2
+    name: "Lift core, second floor"
+    outline: [[256, -896], [1024, -896], [1024, -256], [256, -256]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:core
+    notes: "The lift core: the brass cages' shaft through all four floors."
+  - id: room:core3
+    name: "Lift core, top floor"
+    outline: [[256, -896], [1024, -896], [1024, -256], [256, -256]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:core
+    notes: "The lift core: the brass cages' shaft through all four floors."
+  - id: room:door
+    name: Enchanted door
+    outline: [[-1792, -2048], [-1024, -2048], [-1024, -1280], [-1792, -1280]]
+    floor: 0
+    ceiling: 544
+    theme: theme:ground
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:enchanted_door, at: centre, length: 192, height: 384, surface: {texture: hwm2d, size: [128, 256], scale: 1.5}, notes: "The enchanted door (the way out to X3, sealed)."}
+    notes: "Inside the enchanted door: the arrival. The door (a panel of Celeste's carved blue door) asks to leave and stays shut until X3 exists."
+  - id: room:east_stair
+    name: East stair
+    outline: [[1408, -2048], [2048, -2048], [2048, 960], [1408, 960]]
+    floor: 0
+    ceiling: 1184
+    theme: theme:ground
+    platforms:
+      - {id: platform:east_gallery, rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, outline: [[1408, -2048], [2048, -2048], [2048, -1472], [1408, -1472]], top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 608, notes: "The gallery at the first floor (640), across the south end."}
+    flights:
+      - {from: [1792, 576], to: [1792, -1472], open_below: 32, to_height: 640, width: 384, steps: 20, notes: "One long flight up the east wall, 20 steps of 32, open underneath."}
+    notes: "Ground floor to the first (0 to 640), two storeys high: the flight up the east wall rises south to a gallery at the east landing."
+  - id: room:energy
+    name: Energy lab
+    outline: [[-1280, -128], [384, -128], [384, 1280], [-1280, 1280]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:lab
+    notes: "The energy lab: crystals and the Energy Brew under a yellow glow."
+  - id: room:foyer
+    name: Foyer
+    outline: [[-2048, -1152], [-128, -1152], [-128, 960], [-2048, 960]]
+    floor: 0
+    ceiling: 544
+    theme: theme:ground
+    pillars:
+      - {at: [-1536, -512], size: [96, 96], surface: {texture: hwm2el, size: [128, 256]}}
+      - {at: [-1536, 384], size: [96, 96], surface: {texture: hwm2el, size: [128, 256]}}
+      - {at: [-640, -512], size: [96, 96], surface: {texture: hwm2el, size: [128, 256]}}
+      - {at: [-640, 384], size: [96, 96], surface: {texture: hwm2el, size: [128, 256]}}
+    notes: "The foyer: four carved pillars (hwm2el) down a hall of grey rubble; the arch to the door south, the door to the athanor north."
+  - id: room:high_stair
+    name: Library stair
+    outline: [[1408, -2048], [2048, -2048], [2048, -256], [1408, -256]]
+    floor: 1280
+    ceiling: 2464
+    theme: theme:ground
+    platforms:
+      - {id: platform:high_gallery, rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, outline: [[1408, -2048], [2048, -2048], [2048, -1664], [1408, -1664]], top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 608, notes: "The gallery at the top floor (1920), across the south end."}
+    flights:
+      - {from: [1792, -448], to: [1792, -1664], open_below: 32, to_height: 1920, width: 384, steps: 20, notes: "One flight up the east wall, 20 steps of 32."}
+    notes: "The second floor to the top (1280 to 1920), behind the Librarian's door: the flight rises south to a gallery at the top landing."
+  - id: room:landing1
+    name: East landing
+    outline: [[256, -2048], [1280, -2048], [1280, -1024], [256, -1024]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:lab
+  - id: room:landing2
+    name: West landing
+    outline: [[-1280, 1408], [-256, 1408], [-256, 2048], [-1280, 2048]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:lab
+  - id: room:landing3
+    name: Top landing
+    outline: [[256, -2048], [1280, -2048], [1280, -1024], [256, -1024]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:lab
+  - id: room:library
+    name: Library of High Magic
+    outline: [[-1152, -2048], [128, -2048], [128, 1280], [-1152, 1280]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:study
+    walls:
+      - wall: w
+        panels:
+          - {at: centre, length: 1536, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: Bookcases along the west wall.}
+    platforms:
+      - {at: [-768, 448], size: [96, 512], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [-256, 448], size: [96, 512], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [-768, -640], size: [96, 512], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {at: [-256, -640], size: [96, 512], rise: 288, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: A free-standing bookcase.}
+      - {id: platform:art_of_magic, at: [-512, -1408], size: [96, 64], rise: 96, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books, size: [128, 256]}, notes: A lectern with The Art of Magic open on it.}
+    notes: "The Library of High Magic: bookcases along the west wall and in two rows; a lectern with The Art of Magic; the cabinet of Mysteries of Light."
+  - id: room:magic
+    name: Magic lab
+    outline: [[512, 640], [2048, 640], [2048, 2048], [512, 2048]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:lab
+    levels:
+      - id: level:magic_dais
+        outline: [[1024, 1280], [1664, 1280], [1664, 1792], [1024, 1792]]
+        floor: 1312
+        edge: {texture: t3s2b, size: [128, 256]}
+        notes: A low dais for the Magic Brew's cauldron.
+    notes: "The magic lab: the Magic Brew's cauldron on a low dais; the Head Sorceress keeps it."
+  - id: room:observatory
+    name: Observatory
+    outline: [[-2048, -512], [-1280, -512], [-1280, 1280], [-2048, 1280]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:observatory
+    platforms:
+      - {at: [-1440, 384], size: [192, 192], rise: 64, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, notes: The orrery's iron plinth.}
+    notes: "The observatory: an orrery on its plinth under the painted sky; a Pandorian box."
+  - id: room:poison
+    name: Poison garden
+    outline: [[-1280, -512], [128, -512], [128, 1408], [-1280, 1408]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:lab
+    platforms:
+      - {at: [-768, 0], size: [384, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: hhp2b2, size: [128, 128]}, notes: A planting bed of nightshade.}
+      - {at: [-768, 768], size: [384, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: hhp2b2, size: [128, 128]}, notes: A planting bed of nightshade.}
+      - {at: [-128, 384], size: [384, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: hhp2b2, size: [128, 128]}, notes: A planting bed of nightshade.}
+      - {at: [-128, 1152], size: [384, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: hhp2b2, size: [128, 128]}, notes: A planting bed of nightshade.}
+      - {at: [-1264, -464], size: [32, 96], rise: 32, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, base: 288, notes: "A steam pipe of riveted iron along the wall, from the valve to the frozen door."}
+    notes: "The poison garden: raised beds of nightshade and hemlock; the steam pipe comes along the west wall to the frozen door."
+  - id: room:quarters
+    name: Sorceresses' quarters
+    outline: [[512, -128], [2048, -128], [2048, 512], [512, 512]]
+    floor: 1280
+    ceiling: 1824
+    theme: theme:study
+    platforms:
+      - {id: platform:bed_0, at: [704, 384], size: [192, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+      - {id: platform:bed_1, at: [1088, 384], size: [192, 256], rise: 48, surface: {texture: hwr1wall, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A narrow bed.}
+    notes: "The Sorceresses' quarters: narrow beds along the north wall, a chest; the lever of the cage's gate on the south wall, the Librarian's door to the stair east."
+  - id: room:reagents
+    name: Reagent store
+    outline: [[-2048, -2048], [-1408, -2048], [-1408, -1152], [-2048, -1152]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:lab
+    platforms:
+      - {at: [-1424, -1664], size: [32, 768], rise: 32, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, base: 320, notes: "A steam pipe of riveted iron along the wall, from the valve to the frozen door."}
+    notes: "The reagent store: shelves of jars and sacks; the steam valve on its north wall with its pipe."
+  - id: room:roof
+    name: Roof
+    outline: [[-2048, -2048], [2048, -2048], [2048, 2048], [256, 2048], [256, 1280], [-2048, 1280]]
+    floor: 2560
+    ceiling: 3584
+    theme: theme:roof
+    platforms:
+      - {at: [1536, 1088], size: [384, 128], rise: 32, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [1536, 1216], size: [384, 128], rise: 64, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [1536, 1344], size: [384, 128], rise: 96, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {at: [1536, 1472], size: [384, 128], rise: 128, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: A step of cloud.}
+      - {id: platform:cloud_top, at: [1536, 1600], size: [384, 128], rise: 160, surface: {texture: xwcloudst, size: [512, 512]}, top_surface: {texture: xwcloudst, size: [512, 512], scale: 0.5}, notes: "The Stairway to Heaven: steps of cloud climbing toward the sky."}
+    notes: "The roof terrace under the open sky; a rubble parapet; the stair of cloud toward the High Magic clouds (X8)."
+  - id: room:stairway
+    name: Stairway to Heaven
+    outline: [[-2048, 1408], [128, 1408], [128, 2048], [-2048, 2048]]
+    floor: 1920
+    ceiling: 3328
+    theme: theme:skystair
+    platforms:
+      - {id: platform:roof_gallery, rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, outline: [[-192, 1408], [128, 1408], [128, 2048], [-192, 2048]], top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 608, notes: "The head of the stair, level with the roof (2560)."}
+    flights:
+      - {from: [-1536, 1792], to: [-192, 1792], open_below: 32, to_height: 2560, width: 384, steps: 20, notes: "The Stairway to Heaven: one flight up the north wall into the open sky."}
+    notes: "The top floor to the roof (1920 to 2560), open to the sky."
+  - id: room:still
+    name: Cold still
+    outline: [[-1280, -2048], [128, -2048], [128, -640], [-1280, -640]]
+    floor: 640
+    ceiling: 1184
+    theme: theme:lab
+    platforms:
+      - {at: [-1024, -1856], size: [384, 256], rise: 128, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: orair32, size: [128, 128]}, notes: "The cold still's tank, furred with frost."}
+      - {at: [-960, -2032], size: [512, 32], rise: 32, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, base: 288, notes: "A steam pipe of riveted iron along the wall, from the valve to the frozen door."}
+      - {at: [-1264, -1376], size: [32, 1344], rise: 32, surface: {texture: xwiron, size: [128, 128]}, top_surface: {texture: xwiron, size: [128, 128]}, base: 288, notes: "A steam pipe of riveted iron along the wall, from the valve to the frozen door."}
+    notes: "The cold still: a frosted tank in the south-west corner; the steam pipe from the reagent store runs along the south and west walls toward the garden."
+  - id: room:study
+    name: Archmage's study
+    outline: [[-2048, -2048], [-1280, -2048], [-1280, -640], [-2048, -640]]
+    floor: 1920
+    ceiling: 2464
+    theme: theme:study
+    walls:
+      - wall: s
+        panels:
+          - {at: centre, length: 512, height: 512, surface: {texture: 7t1books, size: [128, 256]}, notes: The Archmage's own books.}
+    platforms:
+      - {at: [-1664, -1600], size: [384, 192], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The Archmage's desk.}
+    notes: "The Archmage's study: his desk and books, and his chest."
+  - id: room:west_stair
+    name: Frost-sealed stair
+    outline: [[-2048, -1024], [-1408, -1024], [-1408, 2048], [-2048, 2048]]
+    floor: 640
+    ceiling: 1824
+    theme: theme:ground
+    platforms:
+      - {id: platform:west_gallery, rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, outline: [[-2048, 1408], [-1408, 1408], [-1408, 2048], [-2048, 2048]], top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 608, notes: "The gallery at the second floor (1280), across the north end."}
+    flights:
+      - {from: [-1728, -128], to: [-1728, 1408], open_below: 32, to_height: 1280, width: 384, steps: 20, notes: "One long flight up the west wall, 20 steps of 32, open underneath."}
+    notes: "The first floor to the second (640 to 1280), behind the frozen door: the flight up the west wall rises north to a gallery at the west landing."
+openings:
+  - id: open:athanor_coils
+    from: room:coils
+    to: room:athanor
+    from_wall: 2
+    to_wall: 0
+    link: link:athanor_coils
+    width: 512
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:coils_core0
+    from: room:coils
+    to: room:core0
+    from_wall: 0
+    to_wall: 2
+    link: link:coils_core0
+    width: 224
+    height: 320
+  - id: open:coils_estair
+    from: room:coils
+    to: room:east_stair
+    from_wall: 1
+    to_wall: 3
+    link: link:coils_l1
+    along: 0.7647
+    width: 320
+    height: 320
+    shape: arch
+    apex: 416
+  - id: open:door_foyer
+    from: room:door
+    to: room:foyer
+    from_wall: 2
+    to_wall: 0
+    link: link:door_foyer
+    width: 384
+    height: 320
+    shape: arch
+    apex: 416
+  - id: open:energy_magic
+    from: room:energy
+    to: room:magic
+    from_wall: 1
+    to_wall: 3
+    link: link:energy_magic
+    width: 224
+    height: 320
+  - id: open:estair_landing1
+    from: room:landing1
+    to: room:east_stair
+    from_wall: 1
+    to_wall: 3
+    link: link:coils_l1
+    along: 0.2812
+    width: 320
+    height: 320
+    shape: arch
+    apex: 416
+  - id: open:foyer_athanor
+    from: room:foyer
+    to: room:athanor
+    from_wall: 2
+    to_wall: 0
+    link: link:foyer_athanor
+    width: 256
+    height: 320
+  - id: open:hstair_landing3
+    from: room:landing3
+    to: room:high_stair
+    from_wall: 1
+    to_wall: 3
+    link: link:quarters_l3
+    along: 0.1875
+    width: 320
+    height: 320
+    shape: arch
+    apex: 416
+  - id: open:landing1_core1
+    from: room:landing1
+    to: room:core1
+    from_wall: 2
+    to_wall: 0
+    link: link:l1_core1
+    width: 224
+    height: 320
+  - id: open:landing1_still
+    from: room:landing1
+    to: room:still
+    from_wall: 3
+    to_wall: 1
+    link: link:l1_still
+    width: 384
+    height: 320
+    shape: arch
+    apex: 416
+  - id: open:landing2_energy
+    from: room:landing2
+    to: room:energy
+    from_wall: 0
+    to_wall: 2
+    link: link:l2_energy
+    width: 512
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:landing3_core3
+    from: room:landing3
+    to: room:core3
+    from_wall: 2
+    to_wall: 0
+    link: link:l3_core3
+    width: 224
+    height: 320
+  - id: open:landing3_library
+    from: room:landing3
+    to: room:library
+    from_wall: 3
+    to_wall: 1
+    link: link:l3_library
+    width: 512
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:library_study
+    from: room:library
+    to: room:study
+    from_wall: 3
+    to_wall: 1
+    link: link:library_study
+    width: 224
+    height: 320
+  - id: open:magic_quarters
+    from: room:magic
+    to: room:quarters
+    from_wall: 0
+    to_wall: 2
+    link: link:magic_quarters
+    along: 0.25
+    width: 512
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:obs_stairway
+    from: room:observatory
+    to: room:stairway
+    from_wall: 2
+    to_wall: 0
+    link: link:obs_stairway
+    along: 0.75
+    width: 384
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:poison_wstair
+    from: room:poison
+    to: room:west_stair
+    from_wall: 3
+    to_wall: 1
+    link: link:poison_l1w
+    along: 0.9
+    width: 224
+    height: 320
+  - id: open:quarters_core2
+    from: room:quarters
+    to: room:core2
+    from_wall: 0
+    to_wall: 2
+    link: link:quarters_core2
+    along: 0.25
+    width: 224
+    height: 320
+  - id: open:quarters_hstair
+    from: room:quarters
+    to: room:high_stair
+    from_wall: 0
+    to_wall: 2
+    link: link:quarters_l3
+    width: 256
+    height: 320
+  - id: open:shaft_a
+    from: room:core1
+    to: room:core0
+    in: floor
+    at: [448, -576]
+    size: [256, 256]
+    link: link:core_01
+    reveal: {texture: hwm2wall, size: [128, 256]}
+  - id: open:shaft_b
+    from: room:core2
+    to: room:core1
+    in: floor
+    at: [832, -576]
+    size: [256, 256]
+    link: link:core_12
+    reveal: {texture: hwm2wall, size: [128, 256]}
+  - id: open:shaft_c
+    from: room:core3
+    to: room:core2
+    in: floor
+    at: [448, -576]
+    size: [256, 256]
+    link: link:core_23
+    reveal: {texture: hwm2wall, size: [128, 256]}
+  - id: open:stairway_roof
+    from: room:stairway
+    to: room:roof
+    from_wall: 1
+    to_wall: 3
+    link: link:stairway_roof
+    width: 448
+    height: 448
+  - id: open:still_poison
+    from: room:still
+    to: room:poison
+    from_wall: 2
+    to_wall: 0
+    link: link:still_poison
+    along: 0.2727
+    width: 512
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:still_reagents
+    from: room:still
+    to: room:reagents
+    from_wall: 3
+    to_wall: 1
+    link: link:still_reagents
+    width: 224
+    height: 320
+  - id: open:study_obs
+    from: room:study
+    to: room:observatory
+    from_wall: 2
+    to_wall: 0
+    link: link:study_obs
+    width: 448
+    height: 352
+    shape: arch
+    apex: 448
+  - id: open:wstair_landing2
+    from: room:landing2
+    to: room:west_stair
+    from_wall: 3
+    to_wall: 1
+    link: link:l1w_l2
+    width: 320
+    height: 320
+    shape: arch
+    apex: 416
+notes: "XD-11 Tower of High Magic: a square tower 4,096 across inside, four floors 640 apart (0, 640, 1280, 1920) round a lift core, and a roof terrace at 2560 under the open sky. Stairs alternate east (0-640), west (640-1280), east (1280-1920); the Stairway to Heaven climbs to the roof. Written by output/studio_cal/xd11/tools/gen.py (geo.py)."

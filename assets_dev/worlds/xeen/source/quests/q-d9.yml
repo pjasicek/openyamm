@@ -1,0 +1,67 @@
+# Q-D9 Nibbler's Melons (QUESTS 2.2 Q-D9). Owner: A3. Format: QUESTS_FORMAT.md.
+# Nibbler the monkeydog wants Monga melons: three of them for the key to the Temple of Bark (DD-09, Q-D10). The
+# best melons grow in D1's southern meadows among the centipedes (three, map_gives) and one by Pip Melonby's field.
+# The temple door's key check is this quest's hook.
+id: Q-D9
+title: "Nibbler's Melons"
+act: III
+kind: side
+status: full
+giver: 5106          # Nibbler the Monkeydog (Nibbler's Hollow, 4556, D2)
+maps: [D1, D2]
+level: 22
+block: 89
+after: [m7.sigil]
+source: "QUESTS Q-D9; dark/aaze0008:10-17, dark/aaze0004:13"
+
+qbits:
+  started: {id: 113180, journal: "Nibbler the monkeydog will trade the key to the Temple of Bark for Monga melons. The sweetest grow in Castleview Vale's southern meadows.",
+            until: [done]}
+  done: {id: 113181, note: "Nibbler gave the key to the Temple of Bark"}
+  melons_south: {id: 113182, note: "D1's southern melon patch (A6)"}
+
+autonotes:
+  melons: {id: 4490, text: "Monga melons: the southern meadows of Castleview Vale, among the centipedes. Nibbler wants three.", category: Misc}
+
+items:
+  monga_melon: "3 in D1's southern meadows, 1 by Pip Melonby's field (map_gives); Nibbler takes 3"
+
+npcs:
+  5106:              # Nibbler
+    topics:
+      - n: 1
+        label: Monga melons
+        states:
+          - when: {all: [{qbit: done}, {item: monga_melon}]}
+            text: "Hi! Glad to see you again. I saved the seeds from the Monga Melons you gave me, and now I'm growing my own! (He eats yours anyway.) (sigh) I love Monga Melons."
+            do: [{take: monga_melon}]
+          - when: {qbit: done}
+            text: "Hi! Glad to see you again. I'm growing my own melons now. (sigh) I love Monga Melons."
+          - when: {items: [monga_melon, 3]}
+            text: "Well, it's about time! I practically starved to death waiting for you to return with my Monga Melons. Yum. Here's what I promised you: something shiny I found in the Temple of Bark, in the heart of the forest. Nobody locks it. Nobody comes back out, either."
+            do: [{take: monga_melon, count: 3}, {treasure: 3}, {set: done}, {xp: 1000}]
+          - when: {qbit: started}
+            text: "You didn't bring me enough Monga Melons. I'm practically starving to death. Of all the rotten things to do to a poor monkeydog. Three!"
+          - text: "There is nothing in this world that I love more than Monga Melons. The sweetest grow in the southern meadowlands, home of the most vicious centipedes. Bring me three, and I'll give you something shiny."
+            do: [{set: started}, {autonote: melons}]
+
+hooks:
+  melons_south:
+    map: D1
+    where: "the wild melon patch in the vale's southern meadows, among the centipedes' nests: the map places 3 Monga melons"
+    sets: [melons_south]
+    once: true
+    map_gives: {monga_melon: 3}
+    text: "Monga Melons, three of them, ripe. Something with a great many legs objects."
+    else_text: "Melon vines, picked clean."
+  melon_field:
+    map: D1
+    where: "the edge of Pip Melonby's field by Castleview's south wall: the map places 1 Monga melon"
+    map_gives: {monga_melon: 1}
+  bark_door:
+    map: D2
+    where: "the door in the great tree's trunk: the Temple of Bark (DD-09). True moves the party into DD-09 at once (D-72: an outdoor entrance asks nothing), false has shown the locked line. Until 2026-11-21 this hook's text was the question \"Enter the Ancient Temple of Bark?\", shown and dropped by the move in the same event"
+    entrance: DD-09
+
+rewards: {xp: 1000, gold: 0, items: "a treasure-3 item"}
+playthrough: "D2: Nibbler (Monga melons). D1: the southern melon patch. D2: Nibbler (Monga melons); the temple door."

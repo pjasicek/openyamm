@@ -1,0 +1,161 @@
+# Q-D23 Sandro's Heart (QUESTS 2.2 Q-D23; Act V; Dark promotion Priest of Dark / Lich, the MMerge Necromancer line).
+# Owner: A3. Sandro the Lich (DD-21, the Necropolis Sewer under D6's Necropolis) separated his heart from his body to
+# cheat death; it lies in the sewer. He is fought once (D-62 Q41): when he falls the map sets sandro_fell, calls
+# `sandro`, hides the fallen body and shows the risen Sandro (row 11926, peaceful, unkillable), who talks through the
+# dais plate and the bier (`sandro` again). Two endings, both with his treasure and the Key to the Dungeon of Death
+# (Q-F2): return the heart and he is released (the source's ending; the release promotes nobody, D-74 section 5); or
+# let him teach you the ritual first and then release him (the dark route: Priests become Priests of Dark, Wizards and
+# Necromancers Liches). After the release Master Morbius of the Necromancers' House (5506, D6) promotes a later
+# Priest, Wizard or Necromancer, unpaid (D-74). Sandro talks through hook texts (he is a monster, not a resident).
+id: Q-D23
+title: Sandro's Heart
+act: V
+kind: side
+status: full
+giver: null
+giver_name: (Sandro the Lich, DD-21; Master Morbius 5506 points to him)
+maps: [D6, DD-21]
+level: 45
+block: 103
+after: [q-d22.done]
+source: "QUESTS Q-D23, 3.2; dark/aaze0035:25-29; aaze0036:4-9; dark/aazex122:24; D-62 Q41-Q45 (devdocs/xeen/mockups/act5_a8_decisions_b.md)"
+
+qbits:
+  beaten: {id: 113460, note: "DD-21's fall timer (Sandro's one fight, A8) calls the sandro hook, which sets it when the party has no heart yet",
+           journal: "Sandro the Lich cannot die while his heart lies somewhere in the Necropolis Sewer.",
+           until: [released]}
+  heart_found: {id: 113461, note: "the heart taken from its jar"}
+  released: {id: 113462, journal: "You returned Sandro's heart. He is released, and his key opens the Dungeon of Death on the other side of the world.",
+             until: [q-f2.started]}
+  taught: {id: 113463, note: "Sandro taught his ritual before his release (the dark route)"}
+  # DD-21's map qbits (block 117720-117759, D-62; the rest of the block is A8's map)
+  dd21_arrived_once: {id: 117720, map: DD-21, note: "DD-21 (A8): the first arrival"}
+  sluice_open: {id: 117721, map: DD-21, note: "the sluice wheel turned: the culvert gate opens (one way, D-43; sluice_wheel)"}
+  sandro_met: {id: 117722, map: DD-21, note: "Sandro's first-entry line shown (first_entry, once)"}
+  dead_food_pried: {id: 117723, map: DD-21, note: "the Dead Food barrel pried (dead_food): the map shows its two hidden roaches once (no re-show on load)"}
+  drain_1: {id: 117724, map: DD-21, note: "DD-21 (A8): the first sewer drain"}
+  drain_2: {id: 117725, map: DD-21, note: "DD-21 (A8): the second sewer drain"}
+  drain_3: {id: 117726, map: DD-21, note: "DD-21 (A8): the third sewer drain"}
+  sandro_fell: {id: 117727, map: DD-21,
+                note: "Sandro's one fight is over: the risen Sandro 11926 is shown while released is clear, the fallen body hidden (D-62 Q41)"}
+
+player_bits:
+  dead_food: {id: 11378, map: DD-21, note: "the Dead Food: +2 Endurance (base), once per character, every member present (D-62 Q43; the source's +1 level)"}
+
+autonotes:
+  heart: {id: 4630, text: "Sandro's heart is in a jar in the Necropolis Sewer. Bring it to him, and he can die.", category: Misc}
+
+items:
+  sandros_heart: "the sewer's jar (heart hook); Sandro takes it"
+  death_dungeon_key: "Sandro's (release hooks); opens FD-04's lower half (Q-F2)"
+
+npcs:
+  5506:              # Master Morbius, the Necromancers' House (D6)
+    topics:
+      - n: 1
+        label: Sandro
+        states:          # the later path after the release, unpaid (D-74 items 5, 6)
+          - when: {all: [{qbit: released}, {promotable: sandro}]}
+            text: "Sandro is at rest, and he left the House his notes: everything but the heart. A Priest, a Wizard or a Necromancer who wants to walk where he walked: sit. This takes an evening."
+            do: [{promote: sandro}]
+          - when: {qbit: released}
+            text: "Sandro is at rest. The House has his notes, if one of yours ever wants them."
+          - text: "Sandro was the finest of us. He cut out his own heart to cheat death, and now he cannot stop killing to stay as he is. He lives in the sewer under us. A Priest, a Wizard or a Necromancer who asked him nicely, before the end, might learn how it was done. I have never been that nice."
+
+hooks:
+  sandro:
+    map: DD-21
+    window: "Sandro speaks: a long story text (415 characters) that turns the quest"
+    where: "Sandro's crypt: the map's fall timer (a kills condition on his group) calls it once, with sandro_fell; after that the risen Sandro (11926, shown and hidden by the map: shown while sandro_fell is set and released clear) calls it from the dais plate and the bier's click"
+    states:
+      - when: {item: sandros_heart}
+        text: "Sandro the Lich stands up out of what is left of him. \"My heart. You have it. Give it to me, and I will be free of this life.\""
+      - when: {qbit: beaten}
+        text: "Sandro: Do not come to me without my heart. You have beaten me once, and it changed nothing. Bring the heart."
+      - text: "Sandro rises from the floor as if nothing happened. \"I am Sandro, the most accomplished sorcerer to ever live in Xeen. Many years ago I separated my heart from my body to cheat death. It worked, but I am not wholly alive: I am a wretched and evil monster who must kill mortals to remain alive. Retrieve my heart from the sewers below here and I will finally be released, and you may have the treasure in this room.\""
+        do: [{set: beaten}, {autonote: heart}]
+  heart:
+    map: DD-21
+    where: "the jar of green glass in the sewer's lowest culvert (clicked; it may be taken before or after the fight)"
+    sets: [heart_found]
+    gives: [sandros_heart]
+    once: true
+    text: "In a jar of green glass, in a fluid that should not still be warm: a heart, beating slowly."
+    else_text: "An empty jar."
+  release:
+    map: DD-21
+    window: "a choice's answer, long (Sandro freed, 310 characters; DECIDE: shorten for the status line)"
+    gate: beat
+    where: "Sandro's crypt, with the heart: the risen Sandro's prompt 'Give Sandro his heart?' (Yes calls this hook; the map then plays the dust effect, hides him and opens the reliquary grille)"
+    requires: {item: sandros_heart}
+    takes: [sandros_heart]
+    gives: [death_dungeon_key]
+    sets: [released]
+    once: true
+    do: [{xp: 12000}]
+    text: "Sandro: Thank you for returning my heart. I am free of this life. You are welcome to the treasures in this room as well as this key. It opens the way to my old home on the other side of the world, a place now called the Dungeon of Death. Goodbye, brave mortals, and good luck. Remember: Alamar CAN be defeated."
+    fail_text: "Sandro waits. Without his heart there is nothing to give him but another fight."
+  ritual:
+    map: DD-21
+    gate: beat
+    where: "Sandro's crypt, with the heart: the map's second prompt 'Ask Sandro for his ritual first?' (Yes calls this hook, then `release`)"
+    requires: {all: [{item: sandros_heart}, {promotable: sandro}]}
+    sets: [taught]
+    once: true
+    do: [{promote: sandro}]
+    text: "Sandro laughs, a dry sound. \"Asked nicely. Very well.\" He shows your casters how the heart is parted from the body, and what it costs. The Priests among you rise as Priests of Dark, the Wizards and Necromancers as Liches."
+    fail_text: "Sandro: There is nobody here I could teach. Give me my heart."
+    else_text: "Sandro: I have taught you all of it. Now the heart."
+
+  first_entry:
+    map: DD-21
+    where: "the Hall of Biers, Sandro's crypt, on the first step in (dark/aaze0035:25, the last sentence of :26): the map's step event calls it; the fight follows"
+    sets: [sandro_met]
+    once: true
+    text: "Sandro the Lich rises from his bier. \"And now my hunger for the living compels me to attack you.\""
+  sluice_wheel:
+    map: DD-21
+    where: "the sluice wheel (D-62 Q44): its click calls this; true opens the culvert gate for good (one way, D-43)"
+    sets: [sluice_open]
+    once: true
+    text: "The wheel turns with a groan. Down the culvert, a gate grinds up out of the water."
+    else_text: "The wheel is turned as far as it goes. The culvert gate stands open."
+  culvert_gate:
+    map: DD-21
+    gate: puzzle
+    where: "the culvert gate, from either side, while it is shut (it answers the wheel)"
+    requires: {qbit: sluice_open}
+    reads: [sluice_open]
+    fail_text: "A culvert gate, shut. Somewhere upstream, a wheel would raise it."
+  grille:
+    map: DD-21
+    gate: beat
+    where: "the reliquary grille in Sandro's crypt (D-62 Q45): before the release its click shows the fail line; the release opens it (the T5 chest behind it); the statuette is dressing"
+    requires: {qbit: released}
+    reads: [released]
+    fail_text: "Sandro's voice, close behind you: \"Don't even THINK about taking my statuette!\" The grille is locked."
+  stair_exit:
+    map: DD-21
+    where: "the stair's top under the crypt grille: the exit preset's meaning (D-24) to D6's entrance:dd21_stair"
+    question: "Climb up to the Necropolis?"
+  barrel_sign:
+    map: DD-21
+    where: "the sewer's signed barrels (\"Barrel\", dark/aaze0036:4-5)"
+    text: "A sign on the barrel says: Food for the dead, keep warm."
+  dead_food:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: DD-21
+    gate: beat
+    where: "the Dead Food barrel (\"Dead Food\", dark/aaze0036:7-9 rescaled, D-62 Q43): its click calls this. It needs the clicking member's Might 30 (D-4), else the fail line. The first pry sets dead_food_pried: the map, testing the bit before the call, shows the barrel's two hidden roaches once. Each pry feeds every member present who has not eaten (player bit 11378)"
+    requires: {lua: "IsAtLeast(ActualMight, 30)"}
+    sets: [dead_food_pried]
+    fail_text: "You are not strong enough to pry the lid off the barrel."
+    states:
+      - when: {lua: "not Xeen.anyMemberLacks(11378)"}
+        text: "Dead Food. You have all had some. Nobody wants seconds."
+      - text: "Dead Food. It is warm, as the sign asked, and it tastes of the grave. It stays down, and leaves you harder to kill. (+2 Endurance, permanent, for each of you new to it)"
+        do: [{lua: "Xeen.giveEachOnce(11378, BaseEndurance, 2)"}]
+
+rewards: {xp: 12000, gold: 0, items: "Key to the Dungeon of Death; Sandro's treasure room (the map's)", promotion: "Priest -> Priest of Dark, Wizard -> Lich (ritual)"}
+playthrough: "D6: Master Morbius (Sandro). DD-21: the sluice wheel; the heart; Sandro (first entry, the one fight, his fall); the risen Sandro: ritual, release; the grille's chest."

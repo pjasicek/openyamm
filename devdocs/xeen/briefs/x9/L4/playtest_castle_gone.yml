@@ -1,0 +1,95 @@
+# The castle-gone stage (state:castle_gone, D-47 Q14): m35.done set, the map reloaded at the gate; the gate's
+# spot gives A3's x9.castle_gone line and the party walks where the shell stood.
+id: xeen.x9.l4.castle_gone
+title: 'Clouds of Xeen (X9): after m35.done the castle is gone, its spot speaks, its cloud stays'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); close()
+- setup_shortcut:
+    kind: set_qbit
+    id: 111707
+- load_map:
+    map: xeen_x9.blv
+    pos: 0, 11008, 768
+- play_lua:
+    source: wait(2); close()
+- clear_hostiles:
+    radius: 40000
+- assert:
+    map: xeen_x9.blv
+- note: 'The gate''s spot: A3''s x9.castle_gone (aaze0027:44).'
+- walk_to:
+    x: 0
+    y: 11616
+    z: 768
+    z_tolerance: 200
+    radius: 96
+    timeout_seconds: 30
+    close_dialogs: false
+    expect: dialog
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+      text_contains: recently stood here
+- play_lua:
+    source: if not close() then error('the castle-gone line showed no window') end
+- note: 'Through where the walls, the keep and a tower stood: the shell is gone.'
+- walk_to:
+    x: 0
+    y: 16336
+    z: 768
+    z_tolerance: 200
+    radius: 160
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 4512
+    y: 20768
+    z: 768
+    z_tolerance: 200
+    radius: 160
+    timeout_seconds: 60
+    close_dialogs: true
+- walk_to:
+    x: 0
+    y: 21280
+    z: 768
+    z_tolerance: 200
+    radius: 160
+    timeout_seconds: 60
+    close_dialogs: true
+- assert:
+    map: xeen_x9.blv

@@ -1,0 +1,300 @@
+# Xeen side quests Q-C5, The Snakes of Asp, and Q-C11, Crystals of Piezoelectricity (X4, XD-25), in one run from a
+# new game in Asp (X4) with a level-18 party: the crystals lie behind Asp's transformer, so one trip under the town
+# plays both. Asp's square: Adam by the well (actor 32, NPC 4301): Curse (started; again "Still snakes"); Eve
+# (actor 33, NPC 4302): Transformer (the pedestals' rule); the rule stone by the undercroft stair (event 98, the
+# rhyme); Snake Oil (house 4173) shut while the curse holds. Falagar's hut on the lava shoulder (house 4167, NPC 4304):
+# Crystals (Q-C11 started; again "Perhaps they are in Asp"). Back at the well: the pedestals as the rhyme says, the
+# south-west one red first and every other one red round the well (events 90, 92, 94, 96; all start blue): the
+# pedestals' hum (q-c5.pedestals). Down the undercroft stair (event 99) into XD-25, walked as its L4 playtest: the
+# cistern door, the brood hall, the brood stair, the coil passage, the field of light (event 13: it sinks now), the
+# transformer hall: the crystal housing shut while the machine hums (event 10); the transformer (event 25): No keeps
+# it, Yes destroys it (q-c5.transformer: done); the housing open: the Crystals of Piezoelectricity (event 11,
+# q-c11.crystals, once; again empty); back by the drain, its bolt from below (event 15), the freed townsfolk's thanks
+# (townsfolk_thanked); up through the cistern and out by the cellar door (event 2) to Asp's square. Adam: Curse
+# (rewarded: 5,000 XP each, 1,500 gold), Eve: Transformer (the curse is over), Snake Oil open. Falagar: Crystals (done,
+# the crystals taken, 3,000 XP each, an item). Outdoors the party is placed (PLAYBOOK §2); the undercroft is walked.
+# Routes: devdocs/xeen/briefs/x4/L4/playtest.yml (Asp, the pedestals, Falagar), xd25/L4/playtest.yml,
+# xd25/L4/playtest_exit.yml. Quest logic: source/quests/q-c5.yml, q-c11.yml. Prep: prep/q-c5_q-c11.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-c5_
+id: xeen.side_quests.q-c5_q-c11
+title: "Xeen Q-C5 and Q-C11: Asp's pedestals and transformer, and Falagar's Crystals of Piezoelectricity"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x4.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 18, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 18, skills: [], equipment: {}}
+          - {name: Brann, class: Archer, level: 18, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 18, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [112100, 112101, 112102, 112103, 110840, 112220, 112221, 112222]}
+  # Adam by the well (actor 32): Curse (started), Curse again (still snakes).
+  - set_pose: {map: xeen_x4.odm, x: -10752, y: -10750, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 32}
+  - assert: {dialog: {active: true, source_id: 4301}}
+  - select_topic: {match_label: "Curse"}
+  - assert:
+      dialog: {text_contains: "A foul curse has been placed on the town that turns people into snakes"}
+  - select_topic: {match_label: "Curse"}
+  - assert:
+      dialog: {text_contains: "Eve says the stones round the well have something to say"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112100]}
+  # Eve (actor 33): Transformer (the pedestals' rule).
+  - set_pose: {map: xeen_x4.odm, x: -10752, y: -11250, z: 1056, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 33}
+  - assert: {dialog: {active: true, source_id: 4302}}
+  - select_topic: {match_label: "Transformer"}
+  - assert:
+      dialog: {text_contains: "start with the south-west stone, make it red, then every other one red all the way round"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The rule stone by the undercroft stair (event 98): the rhyme.
+  - set_pose: {map: xeen_x4.odm, x: -11213, y: -9300, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(98); wait(0.5)"}
+  - assert:
+      dialog: {active: true, text_contains: "The southwest corner is where to start / Begin with red to tell them apart."}
+  - play_lua: {source: "close()"}
+  # Snake Oil (house 4173) is shut while the curse holds.
+  - set_pose: {map: xeen_x4.odm, x: -13380, y: -9856, z: 1056, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, house_dialog: false}}
+  - play_lua: {source: "wait(0.3); close(); wait(0.3)"}
+  # Falagar's hut on the lava shoulder (house 4167, his residence opens his talk): Crystals (Q-C11 started), again.
+  - set_pose: {map: xeen_x4.odm, x: 18304, y: 1044, z: 1408, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4304}}
+  - select_topic: {match_label: "Crystals"}
+  - assert:
+      dialog: {text_contains: "Get my Crystals back and there will be a reward."}
+  - select_topic: {match_label: "Crystals"}
+  - assert:
+      dialog: {text_contains: "You haven't brought me my Crystals of Piezoelectricity. Perhaps they are in Asp."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112220]}
+  # Back at Asp's well: the pedestals (all blue). The rhyme: the south-west one (event 90) red first, then every other
+  # one round the well (92, 94, 96); the square's timer hums them together (q-c5.pedestals).
+  - set_pose: {map: xeen_x4.odm, x: -12400, y: -11900, z: 1056, yaw: 0.7854, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        status()
+        for _, id in ipairs({90, 92, 94, 96}) do click(id); wait(0.4) end
+        local seen = status()
+        if not string.find(seen, "The pedestal is cool to the touch.", 1, true) then error("the pedestals' touch: " .. seen) end
+  - advance_runtime: {seconds: 2.0, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The pedestals hum together"}}
+  - play_lua: {source: "close(); if not qbit(112101) then error('q-c5.pedestals (112101) not set') end"}
+  # Down the undercroft stair (event 99) into XD-25.
+  - set_pose: {map: xeen_x4.odm, x: -11520, y: -9400, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(99); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd25.blv}
+  - assert: {party_position: {x: -2208, y: 1760, radius: 96, z_min: 176, z_max: 376}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Down the stair; the door into the cistern.
+  - walk_to: {x: -1500, y: 1760, z: 32, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(21, 7)"}
+  - walk_to: {x: -900, y: 1760, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # East past the moulting room, south into the brood hall.
+  - walk_to: {x: 300, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1000, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1613, y: 1450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1613, y: 900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1000, y: 320, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # Down the brood stair to the machine level, round the coil passage to the field of light.
+  - walk_to: {x: 2304, y: -300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2304, y: -1850, z: -608, z_tolerance: 60, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2304, y: -2600, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 2304, y: -2944, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2304, y: -3584, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 700, y: -3584, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -128, y: -3584, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The field of light (event 13): the pedestals are set, it sinks (q-c5.field_gate).
+  - play_lua: {source: "if door_state(3) ~= 'closed' then error('the field does not start up') end; open_door(13, 3); close()"}
+  - walk_to: {x: -128, y: -3150, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The crystal housing (event 10) is shut while the machine hums.
+  - walk_to: {x: 384, y: -2080, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(10); wait(1)
+        local s = tostring(status())
+        if not string.find(s, [[The crystal housing is shut tight while the machine hums.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if door_state(2) ~= 'closed' then error('the housing opened before the machine died') end"}
+  # The transformer (event 25): the source's question. No keeps it; Yes destroys it (q-c5.transformer: done).
+  - walk_to: {x: 384, y: -2980, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to destroy it?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(112102) then error('No destroyed the machine') end"}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "The transformer sparks, shudders and dies. Far above, in a cellar in Asp, someone stops hissing in mid-word."}}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 6}
+  - play_lua:
+      source: |
+        if not qbit(112102) then error("q-c5.done not set") end
+        if door_state(2) ~= "open" then error("the crystal housing did not open: " .. door_state(2)) end
+        if door_state(8) ~= "open" then error("the cages did not open: " .. door_state(8)) end
+        click(25); wait(1)
+  - assert: {dialog: {active: true, text_contains: "The transformer is scrap."}}
+  - play_lua: {source: "close()"}
+  # The crystal housing (event 11): the Crystals of Piezoelectricity, once (q-c11.crystals); again empty.
+  - walk_to: {x: 384, y: -2080, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: -1680, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if qbit(112222) or has_item(12313) then error('the crystals before the housing') end; click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[a cluster of blue crystals that crackle when you touch them]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12313) ~= 1 then error("no Crystals of Piezoelectricity: " .. pack_items()) end
+        if not qbit(112222) then error("crystals_found not set") end
+        click(11); wait(1)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The housing is empty.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12313) ~= 1 then error("the crystals were given twice") end
+  # Back by the drain: its bolt from below, the grate, the freed townsfolk's thanks.
+  - walk_to: {x: 384, y: -2080, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: -2080, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: -1650, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: -500, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 4); close()"}
+  - walk_to: {x: -384, y: 0, z: 0, radius: 64, timeout_seconds: 30, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Thank you for saving us!"}}
+  - play_lua: {source: "close(); if not qbit(110840) then error('townsfolk_thanked not set') end"}
+  # Up through the cistern to the stair and out by the cellar door (event 2) to Asp's square.
+  - walk_to: {x: 400, y: 600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 6)"}
+  - walk_to: {x: 400, y: 1250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -900, y: 1760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2100, y: 1760, z: 256, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 2}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -11520, y: -9448, radius: 160, z_min: 990, z_max: 1130}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12313) ~= 1 then error('the crystals lost on the way out') end"}
+  # Adam: Curse (rewarded: 5,000 XP each and 1,500 gold), then thanks.
+  - set_pose: {map: xeen_x4.odm, x: -10752, y: -10750, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; remember('gold', gold())"}
+  - interact_actor: {actor_index: 32}
+  - assert: {dialog: {active: true, source_id: 4301}}
+  - select_topic: {match_label: "Curse"}
+  - assert:
+      dialog: {text_contains: "The curse is over. People are walking out of the cellars on two legs."}
+  - select_topic: {match_label: "Curse"}
+  - assert:
+      dialog: {text_contains: "Thank you for saving us! Eve hasn't hissed in a week."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 5000 then error("Adam paid member " .. i .. " " .. xp .. " experience, not 5000") end
+        end
+        local g = gold() - recall("gold")
+        if g ~= 1500 then error("Adam paid " .. g .. " gold, not 1500") end
+  - assert: {qbit_set: [112102, 112103]}
+  # Eve: Transformer (the curse is over).
+  - set_pose: {map: xeen_x4.odm, x: -10752, y: -11250, z: 1056, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 33}
+  - select_topic: {match_label: "Transformer"}
+  - assert:
+      dialog: {text_contains: "The curse is over! Thank you so much!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Asp liberated: Snake Oil (house 4173) opens.
+  - set_pose: {map: xeen_x4.odm, x: -13380, y: -9856, z: 1056, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, house_dialog: false, source_id: 4333}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Falagar: Crystals (done: the crystals taken, 3,000 XP each, an item from his house), then his sister.
+  - set_pose: {map: xeen_x4.odm, x: 18304, y: 1044, z: 1408, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        for i = 0, 3 do remember('xp' .. i, experience(i)) end
+        remember('gold', gold())
+        local n = 0
+        for _ in string.gmatch(pack_items(), "(%d+)x%d+") do n = n + 1 end
+        remember('items', n)
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, source_id: 4304}}
+  - select_topic: {match_label: "Crystals"}
+  - assert:
+      dialog: {text_contains: "Thank the Gods! You've recovered the crystals."}
+  - select_topic: {match_label: "Crystals"}
+  - assert:
+      dialog: {text_contains: "Carlawna is my sister, by the way."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if has_item(12313) then error("Falagar did not take the crystals") end
+        for i = 0, 3 do
+          local xp = experience(i) - recall("xp" .. i)
+          if xp ~= 3000 then error("Falagar paid member " .. i .. " " .. xp .. " experience, not 3000") end
+        end
+        if gold() ~= recall("gold") then error("Falagar paid gold: " .. (gold() - recall("gold"))) end
+        local n = 0
+        for _ in string.gmatch(pack_items(), "(%d+)x%d+") do n = n + 1 end
+        -- the crystals out, one item of treasure level 3 in
+        if n ~= recall("items") then error("pack entries " .. recall("items") .. " -> " .. n .. ": " .. pack_items()) end
+        log("Falagar's packs: " .. pack_items())
+  - assert: {qbit_set: [112221, 112222]}
+  - assert: {qbit_clear: [112220]}

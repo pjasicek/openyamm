@@ -1,0 +1,34 @@
+# The street shaft out of the Sandcaster Sewer (DD-18) onto D3 (lane A8, 2026-11-20). From the map's start at the
+# shaft ladder's foot, the exit (event 18, the ladder's foot: the game's leave window), OK: the party stands on D3
+# (Sandcaster, A5) 512 south of the centre of the street shaft's iron lid (thing:dd18_shaft at (-17408, 16384)), on the paving
+# measured at 1,504, facing south, away from the lid and Barticus' Gym; walking on takes it south over open ground. Run with
+# --world xeen --map xeen_dd18.blv (output/studio_cal/dd18/four.sh).
+id: xeen.dd18.l4.exit_shaft
+title: Sandcaster Sewer (DD-18 L4), up the street shaft to Sandcaster
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd18.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 28, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 28, skills: [], equipment: {}}
+  - assert: {map: xeen_dd18.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: 128, radius: 96, z_min: -8, z_max: 8}}
+  - execute_event: {id: 18}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d3.odm}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -17408, y: 15872, radius: 128, z_min: 1480, z_max: 1540}}
+  # Facing south, away from the lid: walking on takes the party over the open ground, not back down.
+  - walk_to: {x: -17408, y: 15488, z: 1504, z_tolerance: 100, radius: 128, timeout_seconds: 30, clear_hostiles: 2000}
+  - assert: {map: xeen_d3.odm}
+  - assert: {party_position: {x: -17408, y: 15488, radius: 160, z_min: 1480, z_max: 1540}}

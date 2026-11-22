@@ -1,0 +1,115 @@
+{
+ "xdpyrdor": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 6.396,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdpyrdor_v1.txt",
+    "raw": "raw/xdpyrdor_v1.png",
+    "refs": [
+     "refs/xdpyrdor_v1_1.png",
+     "refs/xdpyrdor_v1_2.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 2.775,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdpyrdor_v2.txt",
+    "raw": "raw/xdpyrdor_v2.png",
+    "refs": [
+     "refs/xdpyrdor_v2_1.png",
+     "refs/xdpyrdor_v2_2.png"
+    ],
+    "version": 2
+   }
+  ]
+ },
+ "xdvowel": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "box": [
+      71,
+      337,
+      1464,
+      684
+     ],
+     "box_aspect": 4.014,
+     "gain": 1.038,
+     "raw_size": [
+      1536,
+      1024
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdvowel_v1.txt",
+    "raw": "raw/xdvowel_v1.png",
+    "refs": [
+     "refs/xdvowel_v1_guide.png",
+     "refs/xdvowel_v1_1.png",
+     "refs/xdvowel_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xnpbook": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.687,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xnpbook_v1.txt",
+    "raw": "raw/xnpbook_v1.png",
+    "refs": [
+     "refs/xnpbook_v1_1.png",
+     "refs/xnpbook_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xnpgate": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.149,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xnpgate_v1.txt",
+    "raw": "raw/xnpgate_v1.png",
+    "refs": [
+     "refs/xnpgate_v1_1.png",
+     "refs/xnpgate_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

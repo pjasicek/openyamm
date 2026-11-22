@@ -1,0 +1,188 @@
+# The walk (D-58): arrival, the statue, the court, the Veil shut before the test.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.walk
+title: 'Plane of Water (P4): arrival, the colonnades, the statue''s forecourt, the Whirlpool Court; the Veil holds before
+  the test'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- assert:
+    party_position:
+      x: 3968
+      y: 3968
+      radius: 96
+      z_min: -8
+      z_max: 40
+- note: 'Along the north-east colonnade to the Sea Statue (S: the statue, blocked; its plinth stands).'
+- walk_to:
+    x: 3240
+    y: 3367
+    z: 6
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 2542
+    y: 2759
+    z: 16
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 1844
+    y: 2151
+    z: 26
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: 1246
+    y: 1630
+    z: 34
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- note: Round the fountain on its north side, then the west colonnade to the Whirlpool Court.
+- walk_to:
+    x: 756
+    y: 1528
+    z: 32
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -244
+    y: 1528
+    z: 32
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -1037
+    y: 1003
+    z: 46
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -1646
+    y: 1113
+    z: 76
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -2255
+    y: 1224
+    z: 107
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -2560
+    y: 1280
+    z: 122
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -3300
+    y: 1000
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- walk_to:
+    x: -4096
+    y: 185
+    z: 128
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 1500
+    close_dialogs: true
+- note: The Veil holds before the test.
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: -4096
+      y: -124
+      radius: 120
+      z_min: 120
+      z_max: 144

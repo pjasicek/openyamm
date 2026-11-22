@@ -1,0 +1,362 @@
+format: 0
+events:
+  - id: evt:arrive_dungeon
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: dungeon}
+    once: true
+    effects:
+      - message: "Emerson's diggers have been and gone: the old dungeon stair beyond the statue court is open, the chapel and the counting room have their doors, and water stands in YOUR well."
+  - id: evt:arrive_keep
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: keep}, {not: {qbit: dungeon}}]}
+    once: true
+    effects:
+      - message: "Newcastle Keep. Fresh mortar, a new roof, and Newcastle's banners over the hall. The smith and the master at arms have moved in."
+  - id: evt:arrive_ruin
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {any: [{qbit: keep}, {qbit: dungeon}]}}
+    once: true
+    effects:
+      - message: "The ruins of Newcastle. Beyond the gate the great hall's roof has fallen in, and among the old timbers something heavy creaks and moves."
+    notes: "Stage 0-1 arrival (a one-shot timer, XD-07's method)."
+  - id: evt:bo
+    preset: script
+    source: deco:sack_bo
+    title: Sack
+    effects:
+      - lua: "XeenQuests.hook(\"m23.syllable_bo\")"
+    notes: Syllable 2 under a sack (aaze0073:4).
+  - id: evt:bones
+    preset: text
+    source: deco:bones
+    title: Bones
+    text: "Bones: whoever stood in the hall when the bolt struck."
+    notes: Original label (aaze0072:5).
+  - id: evt:cellar_seen
+    preset: text
+    source: room:cellar
+    trigger: step
+    once: true
+    text: Lagoon water has seeped into the old cellar and stands black between the walls. Something in it breathes.
+    seconds: 6
+  - id: evt:chapel
+    preset: script
+    source: door:chapel
+    title: Chapel of Newcastle
+    condition: {qbit: dungeon}
+    effects:
+      - lua: evt.EnterHouse(4143)
+    else_effects:
+      - message: "An empty chapel with no altar. Emerson's chalk mark reads: CHAPEL (DUNGEON STAGE, DON'T ASK)."
+    notes: "A4's house 4143 (Chapel of Newcastle), opens on m22.dungeon; its closed text before."
+  - id: evt:chest_lab
+    preset: chest
+    source: chest:lab
+    title: Chest
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:counting
+    preset: script
+    source: door:counting
+    title: Newcastle Counting Room
+    condition: {qbit: dungeon}
+    effects:
+      - lua: evt.EnterHouse(4144)
+    else_effects:
+      - message: "A bare room with an iron ring in the floor. Emerson's chalk mark reads: BANK (DUNGEON STAGE)."
+    notes: "A4's house 4144 (Newcastle Counting Room), opens on m22.dungeon; its closed text before."
+  - id: evt:crest
+    preset: script
+    source: panel:crest
+    title: Arms of Newcastle
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    effects:
+      - text: "A white tower on blue: the arms of Newcastle. Yours."
+    else_effects:
+      - text: A patch of fallen facing stone where a coat of arms once hung.
+  - id: evt:gate_door
+    preset: exit
+    source: exit:gate_door
+    title: To the Newcastle site
+    notes: "Out to X3's Newcastle site, in front of the hatch (A5's arrival, facing south)."
+  - id: evt:grille
+    preset: text
+    source: panel:grille
+    title: Speaking grille
+    text: "A brass grille in the wall beside the steel door. When you lean close, a dry voice asks: \"What is the password?\""
+  - id: evt:la
+    preset: script
+    source: panel:la
+    title: Scratches
+    effects:
+      - lua: "XeenQuests.hook(\"m23.syllable_la\")"
+    notes: Syllable 1 (aaze0073:1).
+  - id: evt:larder
+    preset: script
+    source: platform:larder
+    question: {ask: "Fill pack (Yes/No)?", answers: [Yes, Y], message: "Food.  Fill pack?"}
+    title: Larder
+    effects:
+      - lua: "if not IsAtLeast(Food, 20) then SetValue(Food, 20) end"
+      - text: You fill your packs from the larder.
+    notes: "The source's line (aaze0073:0): the party's food raised to 20, any number of times."
+  - id: evt:notebooks
+    preset: text
+    source: platform:workbench
+    title: Notebooks
+    text: "The scientists' notebooks, swollen with damp. One page survives: 'Blade tempered. Edge holds against the undead sample. Do NOT tell the castle. Password changed to something we will all remember.'"
+    window: true
+  - id: evt:pantry_door
+    preset: door
+    source: door:pantry
+    title: Door
+    action: open
+  - id: evt:park_golems
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    effects:
+      - lua: "local spots = {{-1536, 1250}, {-1312, 1250}, {-1100, 1250}, {-1536, 1450}, {-1312, 1450}, {-1100, 1450}, {-1536, 1650}, {-1312, 1650}, {-1100, 1650}, {-1536, 1850}, {-1312, 1850}, {-1100, 1850}, {-1536, 1950}, {-1312, 1950}, {-1100, 1950}}; local ids = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22}; for n, i in ipairs(ids) do evt.SetMapActorPosition(i, spots[n][1], spots[n][2], -640) end"
+    notes: "Stage 2: the hidden wood golems (dead or alive) are moved into the sealed foundation pit, since hidden actors still block the party (a load event runs before the actors can be moved, so a timer does it)."
+  - id: evt:pedestal
+    preset: text
+    source: platform:pedestal
+    title: Pedestal
+    text: The pedestal is cool to the touch.
+    notes: Original line (aaze0073:12).
+  - id: evt:ra
+    preset: script
+    source: panel:ra
+    title: Scratches
+    effects:
+      - lua: "XeenQuests.hook(\"m23.syllable_ra\")"
+    notes: Syllable 3 by the stair (aaze0073:2).
+  - id: evt:ramp_wall
+    preset: text
+    source: door:ramp_wall
+    title: New masonry
+    text: "Fresh masonry closes the old rubble slope. Emerson's men left a chalk mark: FILLED IN (KEEP)."
+  - id: evt:rubble_ne
+    preset: text
+    source: platform:rubble_ne
+    title: Rubble
+    text: "Rubble: fallen roof stone."
+    notes: Original label (aaze0072:3).
+  - id: evt:rubble_se
+    preset: text
+    source: platform:rubble_se
+    title: Rubble
+    text: "Rubble: fallen roof stone."
+  - id: evt:ry
+    preset: script
+    source: panel:ry
+    title: Scratches
+    effects:
+      - lua: "XeenQuests.hook(\"m23.syllable_ry\")"
+    notes: Syllable 5 before the vault (aaze0074:1).
+  - id: evt:sign_chapel
+    preset: script
+    source: panel:sign_chapel
+    title: Chapel of Newcastle
+    effects:
+      - text: Chapel of Newcastle
+  - id: evt:sign_counting
+    preset: script
+    source: panel:sign_counting
+    title: Newcastle Counting Room
+    effects:
+      - text: Newcastle Counting Room
+  - id: evt:sign_smithy
+    preset: script
+    source: panel:sign_smithy
+    title: Newcastle Smithy
+    effects:
+      - text: Newcastle Smithy
+  - id: evt:sign_training
+    preset: script
+    source: panel:sign_training
+    title: Newcastle Training Hall
+    effects:
+      - text: Newcastle Training Hall
+  - id: evt:smithy
+    preset: script
+    source: door:smithy
+    title: Newcastle Smithy
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    effects:
+      - lua: evt.EnterHouse(4141)
+    else_effects:
+      - message: "A cold hearth under a missing roof. Emerson's chalk mark on the wall reads: SMITHY (KEEP)."
+    notes: "A4's house 4141 (Newcastle Smithy), opens on m11.keep; its closed text before."
+  - id: evt:stage_dungeon
+    preset: script
+    trigger: load
+    condition: {qbit: dungeon}
+    opens: [door:stair_rubble]
+    effects:
+      - show_actors: 30
+      - hide: platform:well_cap
+      - passable: platform:well_cap
+      - set_texture:
+          of: door:chapel
+          to: chb1dl
+      - set_texture:
+          of: panel:sign_chapel
+          to: sgtempl
+      - set_texture:
+          of: door:counting
+          to: chb1dl
+      - set_texture:
+          of: panel:sign_counting
+          to: 7sgbank
+    notes: "Stage 3 (m22.dungeon): the stair's rubble gone, the swamp things and iron golems below, the well flows, the chapel's and counting room's doors and signs."
+  - id: evt:stage_keep
+    preset: script
+    trigger: load
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    opens: [lift:pit_floor]
+    closes: [door:ramp_wall]
+    effects:
+      - hide_actors: 10
+      - show: platform:roof_patch
+      - solid: platform:roof_patch
+      - hide: platform:rubble_ne
+      - hide: platform:rubble_se
+      - hide: platform:woodpile
+      - passable: platform:rubble_ne
+      - passable: platform:rubble_se
+      - passable: platform:woodpile
+      - set_texture:
+          of: panel:banner_w
+          to: xkncsban
+      - set_texture:
+          of: panel:banner_e
+          to: xkncsban
+      - set_texture:
+          of: panel:crest
+          to: xkncscrst
+      - set_texture:
+          of: door:smithy
+          to: chb1dl
+      - set_texture:
+          of: panel:sign_smithy
+          to: sgweapon
+      - set_texture:
+          of: door:training
+          to: chb1dl
+      - set_texture:
+          of: panel:sign_training
+          to: 7sgtrain
+      - lights_off: light:hall_day
+      - lights_on: [light:hall_lord_w, light:hall_lord_e]
+      - hide: platform:fallen_rafter
+      - passable: platform:fallen_rafter
+      - show: platform:breach_plug
+      - solid: platform:breach_plug
+    notes: "Stage 2 (m11.keep): the wood golems gone, the hole floored over (the pit's lift up), the ramp walled up, the rubble and woodpile cleared, the roof mended (the patch stays), banners and arms, the smithy's and training hall's doors and signs. The fallen rafter cleared; the breach bricked up (the plug stays)."
+  - id: evt:stage_ruin
+    preset: script
+    trigger: load
+    condition: {not: {any: [{qbit: keep}, {qbit: dungeon}]}}
+    effects:
+      - hide: platform:roof_patch
+      - passable: platform:roof_patch
+      - hide: platform:breach_plug
+      - passable: platform:breach_plug
+    notes: "Stage 0-1: the roof is still open to the rafters (the built map holds the stage-2 patch). The breach stays open (its plug hidden)."
+  - id: evt:stair_rubble
+    preset: script
+    source: door:stair_rubble
+    title: Rubble
+    condition: {not: {qbit: dungeon}}
+    locked_text: The way down is clear now.
+    effects:
+      - message: "A short distance down the stairs you find the way blocked with rubble. You are unable to continue down, so you come back up."
+    notes: "Original line (aaze0073:7); the load event clears the rubble at stage 3."
+  - id: evt:statue
+    preset: text
+    source: platform:statue_plinth
+    title: Plaque
+    text: "A plaque at the base of the statue reads: Built in honor of Great Adventurers."
+    window: true
+    notes: Original line (aaze0073:3).
+  - id: evt:sword
+    preset: chest
+    source: chest:sword
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"m23.sword\")"
+    notes: "goal:sword (D-90): the Xeen Slayer Sword 12500 is the box's item; A3's m23.sword (once) sets done 111462, autonote 4123 and 10,000 experience on the status line. The vault door is the gate."
+  - id: evt:to
+    preset: script
+    source: platform:shelf
+    title: Shelf
+    effects:
+      - lua: "XeenQuests.hook(\"m23.syllable_to\")"
+    notes: Syllable 4 on a shelf (aaze0074:0).
+  - id: evt:training
+    preset: script
+    source: door:training
+    title: Newcastle Training Hall
+    condition: {any: [{qbit: keep}, {qbit: dungeon}]}
+    effects:
+      - lua: evt.EnterHouse(4142)
+    else_effects:
+      - message: "Rubble and an old practice dummy. Emerson's chalk mark reads: TRAINING (KEEP)."
+    notes: "A4's house 4142 (Newcastle Training Hall), opens on m11.keep; its closed text before."
+  - id: evt:vault_door
+    preset: script
+    source: door:vault
+    question: {ask: "What is the password?", answers: [laboratory], wrong_text: "Incorrect! The door hums a little louder. Nothing else happens."}
+    title: Vault door
+    condition: {not: {qbit: vault_opened}}
+    opens: [door:vault]
+    effects:
+      - lua: "XeenQuests.hook(\"m23.vault_door\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m23.vault_door\")"
+    notes: "A3's m23.vault_door on the right answer (sets vault_opened 111461, its text) and the door slides open. The source's 'What is the password?' / 'Incorrect!' (aaze0073:15, 16); the wrong answer's line is A3's m23.vault_wrong text (a question's wrong answer runs no effects)."
+  - id: evt:vault_state
+    preset: script
+    trigger: load
+    condition: {qbit: vault_opened}
+    opens: [door:vault]
+    effects:
+      - lua: "-- the vault stays open once its word was said"
+    notes: "Once opened, the vault stays open."
+  - id: evt:well
+    preset: script
+    source: platform:well
+    title: YOUR well
+    condition: {qbit: dungeon}
+    effects:
+      - lua: "for _, i in ipairs(PartyMembers()) do evt.ForPlayer(i); if not IsAtLeast(ArmorClassBonus, 20) then SetValue(ArmorClassBonus, 20) end end"
+      - text: Even your well's water is cool and refreshing. (Armour class +20 until you rest.)
+    else_effects:
+      - text: "YOUR well. Dry, and choked with rubble: the diggers have not reached it yet."
+    notes: "D-4: +20 AC temporary, raised to 20 if lower, until rest; free and repeatable. Original lines aaze0073:8, 9."
+  - id: evt:well_cap
+    preset: script
+    source: platform:well_cap
+    title: YOUR well
+    effects:
+      - text: "YOUR well. Dry, and choked with rubble: the diggers have not reached it yet."
+  - id: evt:woodpile
+    preset: text
+    source: platform:woodpile
+    title: Woodpile
+    text: "Woodpile: the old roof's beams, sawn and stacked. Some of the stack has arms."
+    notes: Original label (aaze0072:1).

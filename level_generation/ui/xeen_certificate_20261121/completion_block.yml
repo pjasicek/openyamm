@@ -1,0 +1,14 @@
+# World of Xeen's completion certificate (A4, 2026-11-21; D-56): the block for assets_dev/worlds/xeen/world.yml
+# (the orchestrator's file). Layout in the art's 640 x 480 units, as MM6's (the painting follows 6winbg's layout).
+completion:
+  qbit: 111840                # m42.done: the Pharaoh's shrine, then the unification cinematic and its text (D-56)
+  continent: Xeen
+  art: xeenwinbg              # worlds/xeen/icons_x2/xeenwinbg.png, 1280 x 960
+  headline: Congratulations!
+  text: >-
+    Sheltem is gone, and Corak with him. At the Pharaoh's shrine the Scepter and the Cube woke the Ancients' last
+    design: the Cloudside and the Darkside are one land under one sky. Prince Roland and Queen Kalindra are wed above
+    the clouds, and the people of Xeen will long tell of the adventurers who made their world whole.
+  layout:
+    text: [100, 80, 540, 410]
+    mark: [320, 422, 20]

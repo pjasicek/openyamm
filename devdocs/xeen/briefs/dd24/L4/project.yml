@@ -1,0 +1,37 @@
+format: 0
+id: xeen_dd24
+name: Giants' Hall
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-24
+units: {plan_grid: 512}
+extent: {footprint_cells: [9, 16], climbs: n}
+map_stats:
+  id: 9177
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 5
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 8
+  slots: []
+neighbours:
+  - id: exit:d5_hold
+    to: xeen_d5.odm
+    kind: door
+    arrival: entrance:dd24_hold
+    arrival_hint: "On D5 before the Giants' Hall's great doors behind Gurodel's hold, facing south (A6's entrance:dd24_hold, (11264, 10752, 2688) facing 1536)."
+    notes: "D5 installed (A6). D5's door:dd24 (thing:giants_hall_doors) names this map's arrival entrance:d5_hold: (0, 384, 0) facing north."
+qbits:
+  d12_camp_burned: 113244
+  d12_hostile: 113242
+  friends: 113320
+  hall_attacked: 113323
+  throne_searched: 113322
+  war: 113321
+  war_announced: 113324
+notes: "Xeen design brief, level L4: DD-24 Giants' Hall behind Gurodel's hold on D5 (Q-D16). D-47: the People 11083 Cyclops 38 x 9, 11084 Giant 50 x 17, 11085 Elder Giant 58 x 4 (A2's rows, faction xeen_giants_people, friendly at load, hostile on 113321/113242/113244/113323); 20.80k per member. Rest encounters 0 (D-47 Q25). Hooks q-d16.throne, hall_attacked, war_threshold, hoard, law_stone (A3). No map qbits (118090-118099 unused). Music 31. The way out leads to D5's entrance:dd24_hold (A6); D5's great doors arrive at entrance:d5_hold."

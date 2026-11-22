@@ -1,0 +1,42 @@
+# Hostility check of the Dungeon of Lost Souls (DD-12) (the XD-27 form; lane A8, 2026-11-21). One family, the
+# minotaurs (D-42 (1)): Minotaur 11090, Gorgon 11091, Minotaur Lord 11092, all hostile at load (30, 12, 3), none of
+# them peaceful; no peaceful figures in this map. The three kinds side by side in the entrance hall (nearer each other
+# than the party) do not take each other on. Run with --world xeen --map xeen_dd12.blv (output/studio_cal/dd12/four.sh).
+id: xeen.dd12.l4.hostility
+title: 'the Dungeon of Lost Souls (DD-12): minotaurs, gorgons and Lords hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd12.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 37, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 37, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival text, the load event).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11090, hostile: true, min: 30, max: 30}}
+- assert: {actor_count: {monster_id: 11091, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11092, hostile: true, min: 3, max: 3}}
+- assert: {actor_count: {monster_id: 11090, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11091, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11092, hostile: false, max: 0}}
+- note: 'The three kinds side by side in the entrance hall, nearer each other than the party (a monster takes the nearest
+    of its foes): they must not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11090, x: -256, y: 256, z: 0}
+- spawn_actor: {monster_id: 11091, x: 0, y: 320, z: 0}
+- spawn_actor: {monster_id: 11092, x: 256, y: 256, z: 0}
+- spawn_actor: {monster_id: 11090, x: 0, y: 128, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11090, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11091, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11092, hurt: true, max: 0}}
+- console: {line: arena trace off}

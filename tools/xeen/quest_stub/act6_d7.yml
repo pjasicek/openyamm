@@ -1,0 +1,85 @@
+# D-58's Skyroads (tools/xeen/quest_stub.py): the trapdoors up shut before M30; the tolls (pay keeps one open, refusing
+# or paying short turns its pair, neither asks again until the refill); the merchants' riddles (wrong, right once, the
+# after-line); a bottle; the scarabs (no gems, bought, already held); the hatches bolted from below; D7's three lamps;
+# Q-D26 (the hatch locked, then the key opens it for good, and DD-17's side with it). Owner: A3.
+name: Act VI, the Skyroads
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - hook: [d7.roof_dd02, false]
+  - expect: {last: "The trapdoor is shut fast."}
+  - hook: [d7.sky_door_dd15, false]
+  - set: m30.done
+  - hook: d7.roof_dd02
+  - hook: d7.roof_dd14
+  - hook: d7.sky_door_dd15
+  # Tolls: north paid short (hostile), east paid, south refused; none asks again.
+  - lua: 'Xeen.toll("north", 31, 1)'
+  - expect: {last: "Pay us 10,000 gold or else!"}
+  - lua: 'Xeen.toll("north", 31, 1, 1)'
+  - expect: {last: "monster group 31 bit 2 = 1"}
+  - lua: 'assert(evt.GetMapVar("d7_toll_north") == 2)'
+  - lua: 'Xeen.toll("north", 31, 1)'
+  - expect: {last: "monster group 31 bit 2 = 1"}
+  - gold: 10000
+  - lua: 'Xeen.toll("east", 32, 1, 1)'
+  - expect: {gold: 0, last: "wave you on"}
+  - lua: 'Xeen.toll("east", 32, 1)'
+  - expect: {last: "wave you on"}
+  - lua: 'Xeen.toll("south", 33, 1, 2)'
+  - expect: {last: "draw steel"}
+  - lua: 'assert(evt.GetMapVar("d7_toll_south") == 2 and evt.GetMapVar("d7_toll_east") == 1)'
+  # Merchants.
+  - lua: 'Xeen.merchantRiddle("smoke", 1)'
+  - expect: {last: "Between Fire and Air"}
+  - lua: 'Xeen.merchantRiddle("smoke", 1, 2)'
+  - expect: {not_qbit: d7.riddle_smoke, last: "Wrong."}
+  - lua: 'Xeen.merchantRiddle("smoke", 1, 1)'
+  - expect: {qbit: d7.riddle_smoke, xp: 1000}
+  - lua: 'Xeen.merchantRiddle("smoke", 1)'
+  - expect: {xp: 1000, last: "You know my cargo is Smoke."}
+  - lua: 'Xeen.merchantRiddle("mud", 1, 1)'
+  - expect: {qbit: d7.riddle_mud, xp: 2000}
+  - hook: d7.bottle_test
+  - expect: {last: "merely difficult, not impossible"}
+  # Scarabs.
+  - hook: d7.scarab_fire
+  - expect: {no_player_bit: 11365, last: "You do not have 8 gems."}
+  - give: [engine:180, 8]
+  - hook: d7.scarab_fire
+  - expect: {player_bit: 11365, stat: [FireResistance, 10], count: [engine:180, 0], last: "crumbles to dust"}
+  - give: [engine:180, 8]
+  - hook: d7.scarab_fire
+  - expect: {stat: [FireResistance, 10], count: [engine:180, 8], last: "already carry"}
+  - hook: d7.scarab_earth
+  - expect: {no_player_bit: 11368, last: "You do not have 16 gems."}
+  - give: [engine:2065, 8]
+  - hook: d7.scarab_earth
+  - expect: {player_bit: 11368, stat: [EarthResistance, 10], count: [engine:180, 0]}
+  - hook: d7.hatch_dd07
+  - expect: {last: "Bolted from below."}
+  # Lamps: the tired genie's wish; the angry genie strikes the one who asks to be king.
+  - lua: 'Xeen.genieLamp("d7_tired", 1)'
+  - expect: {not_qbit: q-d27.d7_tired, last: "(yawn)"}
+  - lua: 'Xeen.genieLamp("d7_tired", 1, 1)'
+  - expect: {qbit: q-d27.d7_tired, xp: 4000}
+  - lua: 'Xeen.genieLamp("d7_angry", 1)'
+  - expect: {last: "What took you so long?"}
+  - lua: 'Xeen.genieLamp("d7_angry", 1, 3)'
+  - expect: {qbit: q-d27.d7_angry, stat: [Stoned, 1], last: "Your throne awaits!"}
+  - lua: 'Xeen.genieLamp("d7_angry", 1)'
+  - expect: {last: "still angry"}
+  - lua: 'Xeen.genieLamp("d7_kind", 1, 4)'
+  - expect: {not_qbit: q-d27.d7_kind}
+  # Q-D26.
+  - hook: [q-d26.hatch, false]
+  - expect: {last: "The Megadragon has the key!"}
+  - hook: [q-d26.alamar_hatch, false]
+  - expect: {last: "Bolted from above."}
+  - hook: q-d26.slain
+  - expect: {qbit: q-d26.slain}
+  - hook: [q-d26.slain, false]
+  - give: alamar_roof_key
+  - hook: q-d26.hatch
+  - expect: {qbit: q-d26.roof_unlocked, no_item: alamar_roof_key, last: "The hatch swings down."}
+  - hook: q-d26.hatch
+  - hook: q-d26.alamar_hatch

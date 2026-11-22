@@ -25,7 +25,9 @@ houses round a stable below Celeste) and is left out of the ranges.
 
 **How the town is found:** the house doors (`oymap things`, every `EnterHouse`) are clustered (single link, 4000
 units); the cluster with the most services is the town, and the town is the land within 1536 of one of its doors.
-House types come from `engine/data_tables/house_data.txt`. Monsters are the scene's placed actors plus its spawn
+House types come from `engine/data_tables/house_data.txt`, monsters from `monster_data.txt` and the spawn slots from
+`map_stats.txt`, each with the map's world's own rows (`worlds/<w>/data_tables/`: Xeen's houses and monsters; until
+2026-11-20 only the engine's were read, so a Xeen map's monster figures were wrong). Monsters are the scene's placed actors plus its spawn
 points (type 3; as the game reads them: index 1-3 a group of slot M1-M3 sized by the mean of `map_stats.txt`'s dice,
 4-12 one monster of a slot at a fixed tier; until 2026-11-14 the checker read 1-9 as dice groups); peasants, guards, defenders,
 sergeants, apprentices and adventurers by name are civilians, everything else counts as a threat.
@@ -167,6 +169,28 @@ radius is the footprint-weighted median distance.
 So: the services and most houses in one block; houses outside it (beyond the walls, by the stables) a quarter of the
 built footprint or less, the last of them within about twice the core radius. Plain fringe homes strung out along the
 roads beyond the suburbs read as sprawl.
+
+
+## 5c. Small towns (`--small`)
+
+A town of nine services or fewer (Xeen's Nightshadow; decision D-20, 2026-11-20) is judged with `--small`: its size
+figures by the thirteen towns and four small shipped towns the main ranges leave out, Deyja (`7out05`), Mount Nighon
+(`out10`), Paradise Valley (`outa2`) and Kriegspire (`outb1`) (`--shipped` prints them too); the spread and the magic
+shop to the alchemist keep only their upper bound. Every other figure keeps its range; one still outside is kept with
+a line under "Town feel exceptions" in the map's NOTES.md.
+
+| figure | `--small` | the four small towns (Deyja, Nighon, Paradise Valley, Kriegspire) |
+|---|---|---|
+| services in town | 5..25 | 5, 7, 5, 6 |
+| enterable residences | 6..56 | 10, 6, 16, 11 |
+| service to nearest service, median | 854..2424 | 1724, 1891, 854, 1650 |
+| tavern rank from centre | 0.0..0.94 | none, 0.0, 0.8, 0.94 |
+| town built share | 0.15..0.37 | 0.22, 0.19, 0.32, 0.15 |
+| farthest service | 3203..16598 | 3203, 5320, 3554, 5585 |
+| service pair median | 1526..8789 | 2254, 5169, 1526, 2978 |
+| town core radius | 2360..6552 | 2883, 4141, 2360, 3076 |
+| 90th percentile distance, farthest building | up to 13228, 17027 | 4365/4867, 6285/6285, 5549/6259, 5660/6164 |
+| magic shop to alchemist | up to 5677 | 5239 (Deyja; the others have no pair) |
 
 
 ## 6. Props: trees and flowers in town, thematic models, wells

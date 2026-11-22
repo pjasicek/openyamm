@@ -1,0 +1,263 @@
+# Playtest of the Tomb of a Thousand Terrors (XD-08, L4): start to goal through every mechanism the critical path
+# needs, and the optional rooms. A level-15 party starts inside the tomb door (the way out to X3 is playtest_exit.yml's); it reads the
+# statue's plaque (m10.tomb_welcome), the gallery's plaques, pulls the manacles (the portcullis 640 below rises), passes
+# the west mourning hall (an empty coffin, a chest) and the stocks yard (plaque, chest), rides the hanging cage down
+# (and calls it back), walks the crypt ring to the coffin vault, where a member of Might 15 is refused by the great
+# coffin; the barracks' pay chest gives two Might Boosts of power 10 on its first opening only (D-22.2, map qbit
+# 110761); her Might set to 7 by the console, one potion makes it 37 and she opens the coffin (five Megacredits, the
+# hook's bit 111201), while a member of 15 is still refused (the clicking member counts); a second member at Might 7
+# drinks the other potion (37 again); then it drinks tomb juices (once per character); then the deep (deep crypt, bone pit, the Hall of a Thousand Terrors and its hoard) and the way back up behind
+# the iron maiden. Numbers are ids.lock.yml's: events, doors (door ids), chests by their event.
+id: xeen.xd08.l4.walk
+title: Tomb of a Thousand Terrors (XD-08 L4), the tomb door to the great coffin, the deep and back by the iron maiden
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd08.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd08.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival line (a one-shot timer; the headless runner opens no window from a timer, so the step asserts it ran).
+  - play_lua: {source: "wait(3); log('party at the start: ' .. party())"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # (The tomb door out to X3 is playtest_exit.yml's.)
+  # The Hall of Welcome: the statue's plaque (m10.tomb_welcome).
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -300, y: 1664, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(35); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Insanity is our fame, undead is our game."}
+  - play_lua: {source: "if not close() then error('the plaque opened no window') end"}
+  # The Gallery of Terrors: the manacles' plaque; the portcullis below starts shut.
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 1792, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1632, y: 2160, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Manacles"}
+  - play_lua: {source: "close(); if door_state(8) ~= 'closed' then error('the portcullis does not start shut') end"}
+  # The chain room: pull the manacles; the portcullis rises.
+  - walk_to: {x: 1280, y: 2200, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: 2800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: 3150, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(12); if not qbit(110760) then error('manacles_pulled not set') end; if door_state(8) ~= 'open' then error('the manacles did not raise the portcullis: ' .. door_state(8)) end; log('manacles: ' .. status())"}
+  - play_lua: {source: "click(28); wait(1); log('manacles again: ' .. status())"}
+  # The west mourning hall through the chain room's door: an empty coffin, the offering box.
+  - walk_to: {x: 640, y: 2944, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 2)"}
+  - walk_to: {x: -200, y: 2944, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -512, y: 3400, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert:
+      dialog: {text_contains: "The coffin is empty."}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1300, y: 2720, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(8); if held() ~= 0 then stow() end"}
+  # The stocks yard: its plaque and the chest under the last stocks.
+  - walk_to: {x: -1400, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2100, y: 3200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -2150, y: 3740, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2432, y: 3760, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(32); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Stocks"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -2880, y: 3760, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(7); if held() ~= 0 then stow() end"}
+  # Back through the west mourning hall's door to the Hall of Welcome, and along the gallery to its east door.
+  - walk_to: {x: -2150, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -256, y: 2700, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 11)"}
+  - walk_to: {x: -256, y: 2000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3000, y: 1792, z: 0, radius: 96, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4200, y: 1792, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 3)"}
+  - walk_to: {x: 5000, y: 1792, z: 0, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The hanging cage: its plaque; the cage starts at the top, its upper gate open and its lower gate shut.
+  - walk_to: {x: 4992, y: 2700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4992, y: 3440, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(29); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Cage"}
+  - play_lua: {source: "close(); if door_state(12) ~= 'open' or door_state(6) ~= 'open' or door_state(5) ~= 'closed' then error('cage ' .. door_state(12) .. ', top gate ' .. door_state(6) .. ', bottom gate ' .. door_state(5)) end"}
+  - walk_to: {x: 4672, y: 3500, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4672, y: 3904, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # Ride it down.
+  - play_lua: {source: "click(2); wait(8); if door_state(12) ~= 'closed' or door_state(5) ~= 'open' or door_state(6) ~= 'closed' then error('the cage did not come down: ' .. door_state(12) .. ' ' .. door_state(5) .. ' ' .. door_state(6)) end"}
+  - assert: {party_position: {x: 4672, y: 3904, radius: 96, z_min: -660, z_max: -600}}
+  - walk_to: {x: 4672, y: 4500, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # Send the cage up from the pit (a click on it through the gate) and call it back down with the button.
+  - walk_to: {x: 4672, y: 4320, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(8); if door_state(12) ~= 'open' or door_state(5) ~= 'closed' then error('the cage did not go up: ' .. door_state(12)) end"}
+  - walk_to: {x: 4930, y: 4320, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(8); if door_state(12) ~= 'closed' or door_state(5) ~= 'open' or door_state(6) ~= 'closed' then error('the call did not bring the cage down: ' .. door_state(12)) end"}
+  # The east crypt ring and the portcullis way (open) to the coffin vault.
+  - walk_to: {x: 4000, y: 5184, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 5184, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2944, y: 6912, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1664, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The great coffin refuses a member of Might 15.
+  - walk_to: {x: 2176, y: 8820, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "log('before the potion: ' .. party()); click(19); wait(1)"}
+  - assert:
+      dialog: {text_contains: "You are not strong enough to open the coffin."}
+  - play_lua: {source: "close(); if has_item(12192) then error('the coffin opened for Might 15') end"}
+  # D-22.2: the barracks' pay chest gives two Might Boosts of power 10 on its first opening (map qbit 110761), and
+  # nothing on the second.
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 100, y: 6656, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 1)"}
+  - walk_to: {x: -700, y: 6656, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1300, y: 6900, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # Sefa opens it: the first flask goes into her pack, the second stays on the cursor and goes into Ivar's.
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua:
+      source: |
+        status()
+        if qbit(110761) then error('pay_potions set before the chest was opened') end
+        loot_chest(5)
+        remember('pay_status', status())
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        local seen = recall('pay_status')
+        log('pay chest, first opening: ' .. seen .. ' / pack ' .. pack_items())
+        if item_count(240) ~= 2 then error('the pay chest gave ' .. item_count(240) .. ' Might Boosts') end
+        if not qbit(110761) then error('pay_potions not set') end
+        if not string.find(seen, "Two flasks of red draught lie on top of the pay.", 1, true) then error('the pay chest said: ' .. seen) end
+        close(); wait(1)
+        loot_chest(5); if held() ~= 0 then stow() end
+        if item_count(240) ~= 2 then error('the second opening gave ' .. item_count(240) .. ' Might Boosts') end
+        close()
+  # Sefa's Might set to 7 by the console; one potion gives exactly +30 (power 10): Might 37.
+  - press_action: {action: select_member, member_index: 3}
+  - console: {line: "lua SetValue(BaseMight, 7)", expect_contains: "Lua ran."}
+  - play_lua:
+      source: |
+        local p = party(); log('Sefa at Might 7: ' .. p)
+        if not string.find(p, "Sefa (might 7,", 1, true) then error('the console did not set Might 7: ' .. p) end
+  - use_item: {item_id: 240, member_index: 3}
+  - play_lua:
+      source: |
+        local p = party(); log('after a pay-chest Might Boost: ' .. p)
+        if not string.find(p, "Sefa (might 37,", 1, true) then error('the Might Boost was not power 10: ' .. p) end
+        if item_count(240) ~= 1 then error('Might Boosts left: ' .. item_count(240)) end
+  # Back to the great coffin: Brokk (15) is still refused (the clicking member counts), Sefa (37) opens it.
+  - walk_to: {x: -700, y: 6656, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 1)"}
+  - walk_to: {x: 100, y: 6656, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2176, y: 8820, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "click(19); wait(1)"}
+  - assert:
+      dialog: {text_contains: "You are not strong enough to open the coffin."}
+  - play_lua: {source: "close(); wait(2)"}
+  - press_action: {action: select_member, member_index: 3}
+  - play_lua: {source: "loot_chest(19); close(); if held() ~= 0 then stow() end; if item_count(12192) ~= 5 then error('the great coffin gave ' .. item_count(12192) .. ' Megacredits') end; if not qbit(111201) then error('tomb_credits not set') end; log('coffin: gold ' .. gold())"}
+  # The second potion is power 10 too: Ivar at Might 7 drinks it, Might 37.
+  - press_action: {action: select_member, member_index: 2}
+  - console: {line: "lua SetValue(BaseMight, 7)", expect_contains: "Lua ran."}
+  - use_item: {item_id: 240, member_index: 2}
+  - play_lua:
+      source: |
+        local p = party(); log('after the second Might Boost: ' .. p)
+        if not string.find(p, "Ivar (might 37,", 1, true) then error('the second Might Boost was not power 10: ' .. p) end
+        if item_count(240) ~= 0 then error('Might Boosts left: ' .. item_count(240)) end
+  - walk_to: {x: 1664, y: 7800, z: -640, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1664, y: 7000, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The embalming room: the red juice once for each of two members, then powerless; the white juice.
+  - walk_to: {x: 100, y: 6656, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 5376, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 100, y: 5376, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 4)"}
+  - walk_to: {x: -700, y: 5376, z: -640, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1376, y: 5560, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua: {source: "log('before the red juice: ' .. party()); click(24); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Red Tomb Juice. +2 Might (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); log('after the red juice: ' .. party()); click(24); wait(1); local s = status(); log('second drink: ' .. s); close()"}
+  - press_action: {action: select_member, member_index: 1}
+  - play_lua: {source: "click(24); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Red Tomb Juice. +2 Might (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -864, y: 5190, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[White Tomb Juice. +2 Luck (permanent).]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The deep, from the embalming room by the west ring: the deep stair, the deep crypt, the bone pit's ledge, the Hall of a Thousand Terrors and its hoard.
+  - walk_to: {x: -700, y: 5376, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 100, y: 5376, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 7300, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 8550, z: -1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 300, y: 9100, z: -1280, radius: 96, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -128, y: 10100, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -128, y: 10900, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -128, y: 11420, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 9); if door_state(10) ~= 'open' then error('the second leaf did not open') end"}
+  - walk_to: {x: -128, y: 12200, z: -1280, radius: 96, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  - walk_to: {x: 620, y: 13450, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(6); if held() ~= 0 then stow() end; log('hoard: gold ' .. gold())"}
+  # Back up behind the iron maiden: the crypt ring, the maiden's stair, the secret door from behind.
+  - walk_to: {x: -128, y: 12200, z: -1280, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -128, y: 11000, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 300, y: 9300, z: -1280, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 8600, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 7300, z: -640, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 384, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 6912, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 4950, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: 3720, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(7) ~= 'closed' then error('the iron maiden does not start shut') end; open_door(27, 7)"}
+  - walk_to: {x: 2944, y: 2944, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3296, y: 2160, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Iron Maiden"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 3296, y: 1792, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 1792, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_position: {x: 0, y: 400, radius: 160, z_min: -8, z_max: 8}}

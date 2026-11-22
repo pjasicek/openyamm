@@ -1,0 +1,50 @@
+# Hostility check of Corak's Pod (DD-16): the eyes and the fire elementals hostile to the party and no fights among
+# them; Corak (11912, A2's peaceful placed-only row, his own friendly faction) peaceful at load and left alone by them.
+# Placed: Floating Eye 11570 (3), Terrible Eye 11571 (2), Lesser Elemental 11620 (2), Corak (1, in the stasis alcove).
+id: xeen.dd16.l4.hostility
+title: "Corak's Pod (DD-16): eyes and elementals hostile, Corak peaceful, no fights among them"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11570, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11571, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11620, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11570, hostile: true, min: 3}}
+  - assert: {actor_count: {monster_id: 11571, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11620, hostile: true, min: 2}}
+  - assert: {actor_count: {monster_id: 11912, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11912, hostile: false, min: 1}}
+  - note: 'The three kinds side by side in the main deck, nearer each other than the party (a monster takes the nearest
+      of its foes): they must not take each other on, and they go for the party.'
+  - play_lua: {source: "click(13); wait(2)"}
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11570, x: -300, y: 120, z: 64}
+  - spawn_actor: {monster_id: 11620, x: -300, y: -120, z: 0}
+  - spawn_actor: {monster_id: 11571, x: -200, y: 0, z: 64}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11570, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11571, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11620, hurt: true, max: 0}}
+  - note: "Corak's field down (m29.done) and a hostile eye beside him on the bridge: it leaves him alone."
+  - setup_shortcut: {kind: set_qbit, id: 111582, value: true}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - spawn_actor: {monster_id: 11570, x: 0, y: 2900, z: 320}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_count: {monster_id: 11912, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11912, hostile: true, max: 0}}

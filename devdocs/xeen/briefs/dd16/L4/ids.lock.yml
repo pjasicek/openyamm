@@ -1,0 +1,85 @@
+format: 0
+sectors:
+  room:airlock: 1
+  room:bridge: 2
+  room:couches: 3
+  room:crawlway: 4
+  room:device_bay: 5
+  room:engine_room: 6
+  room:gun_deck: 7
+  room:main_deck: 8
+  room:stasis: 9
+  room:stern_slope: 10
+events:
+  evt:arrive: 1
+  evt:blast: 2
+  evt:boxed_now: 3
+  evt:bridge_seen: 4
+  evt:chest_locker: 5
+  evt:chest_stores: 6
+  evt:console: 7
+  evt:corak_load: 28
+  evt:device_1: 8
+  evt:device_2: 9
+  evt:door_device: 10
+  evt:door_engine: 11
+  evt:door_gun: 12
+  evt:door_inner: 13
+  evt:engine_seen: 14
+  evt:field: 15
+  evt:hatch: 16
+  evt:log1: 17
+  evt:log2: 18
+  evt:log3: 19
+  evt:phaser: 20
+  evt:photon: 21
+  evt:power: 22
+  evt:power_load: 23
+  evt:scanner: 24
+  evt:stage_awake: 25
+  evt:stage_boxed: 26
+  evt:studio_peaceful_groups: 27
+doors:
+  door:blast: 1
+  door:device: 2
+  door:engine: 3
+  door:field: 4
+  door:gun: 5
+  door:inner: 6
+containers:
+  chest:locker: 0
+  chest:stores: 1
+cogs:
+  panel:console: 1
+  panel:log1: 2
+  panel:log2: 3
+  panel:log3: 4
+  panel:phaser: 5
+  panel:photon: 6
+  panel:power: 7
+  platform:scanner.top: 8
+map_vars:
+  log_page: 4
+  once.arrive: 0
+  once.boxed_now: 1
+  once.bridge_seen: 2
+  once.engine_seen: 3
+lights:
+  light:airlock: 1
+  light:blast_green: 2
+  light:blast_red: 15
+  light:breach: 3
+  light:bridge: 4
+  light:couches_n: 5
+  light:couches_s: 6
+  light:crawl_n: 7
+  light:crawl_s: 8
+  light:deck: 9
+  light:device: 10
+  light:engine: 11
+  light:field: 12
+  light:gun: 13
+  light:slope: 14
+sounds:
+  sound:lava: 1
+  sound:stasis: 2

@@ -1,0 +1,520 @@
+format: 0
+level: L2
+pitch: "Heretics in Mok's priesthood threw Dreyfus out of his Western Tower and warded its door. They still haul their bread up a rope to a window near the top, so the party climbs in at the top and fights down four floors: the heretics' chapel and its Cult Leader with the key, the floors of the two penitent clerics Pious and Humble, fountains that toughen the skin, and on the ground floor the alcoves with two Energy Disks and Luna's Pegasus, Mok's iron guardians at the warded door, and the door itself opened from inside."
+purpose: "Q-D6 The Heretics of Mok (D1, Dreyfus): the Cult Leader, the key, the front door; Humble and Pious spared or not; M18's two Energy Disks; Q-D20's Pegasus statuette. Party 35-39; band 25-45; 45 monsters; treasure 4, the vestry 5. About 30 minutes."
+mood: "A cold green-grey tower of the Mok order, lamplit; the heretics' pale chapel under the cone; wind at the rope window."
+datum: arrival
+spaces:
+  - id: room:alcoves
+    name: Hall of alcoves
+    kind: room
+    size: M
+    extent: [1920, 1856]
+    floor: 0
+    clear_height: 512
+    purpose: "Round the old stair core three alcoves: the first disc clicked gives both Energy Disks (q-d6.l1_alcoves), the north one the Pegasus (q-d20.pegasus)."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:altar_stair
+    name: Altar stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [1280, 1920]
+    clear_height: 448
+    purpose: From beside the altar down to L3's cloister.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:bone_gallery
+    name: Bone gallery
+    kind: corridor
+    size: M
+    extent: [576, 1856]
+    floor: 1920
+    clear_height: 512
+    purpose: "The gallery to the chapel's double doors and the cells; three heaps of bones ('Bones', a find each)."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [1, 1], levels: [35, 35], placed: true}
+  - id: room:cells
+    name: Heretics' cells
+    kind: room
+    size: M
+    extent: [1344, 1536]
+    floor: 1920
+    clear_height: 512
+    purpose: "Beds with something under the blanket; the tower stair's head."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [2, 2], levels: [35, 35], placed: true}
+  - id: room:chapel
+    name: The heretics' altar
+    kind: room
+    size: L
+    extent: [2048, 1024]
+    floor: 1920
+    clear_height: 960
+    purpose: "The set piece: pale marble under the cone's mosaic, Mok's daubed sun behind the altar. The Cult Leader preaches (q-d6.cult_leader on his death); on the altar the key (q-d6.tower_key)."
+    theme: "MM8 Temple of the Sun (d22): pale marble gtempw1, gtempflr, the gold-blue mosaic gtemprf"
+    population:
+      - {actor: Cult Leader (11223), groups: 1, per_marker: [1, 1], levels: [45, 45], placed: true, notes: the boss}
+      - {actor: Heretic Lord (11222), groups: 1, per_marker: [2, 2], levels: [45, 45], placed: true}
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [2, 2], levels: [35, 35], placed: true}
+  - id: room:cloister3
+    name: Cloister
+    kind: corridor
+    size: M
+    extent: [3456, 512]
+    floor: 1280
+    clear_height: 512
+    purpose: "A long walk on the south side, windows at its ends."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [2, 2], levels: [35, 35], placed: true}
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:door_hall
+    name: Hall of the warded door
+    kind: room
+    size: M
+    extent: [1920, 576]
+    floor: 0
+    clear_height: 512
+    purpose: "The front door (q-d6.front_door with the key; then the exit to D1); a Heretic Lord and three iron guardians."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Heretic Lord (11222), groups: 1, per_marker: [1, 1], levels: [45, 45], placed: true}
+      - {actor: Iron Golem (11582), groups: 1, per_marker: [3, 3], levels: [40, 40], placed: true}
+  - id: room:dorm1
+    name: Novices' dormitory
+    kind: room
+    size: M
+    extent: [704, 2368]
+    floor: 0
+    clear_height: 512
+    purpose: "The foot of the south stair; beds ('Bed', two finds)."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:dorm2
+    name: Lower dormitory
+    kind: room
+    size: M
+    extent: [1728, 576]
+    floor: 640
+    clear_height: 512
+    purpose: "Beds; under one mattress a purse."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:dorm3
+    name: Upper dormitory
+    kind: room
+    size: M
+    extent: [2304, 960]
+    floor: 1280
+    clear_height: 512
+    purpose: "Beds ('Bed', one find), the senior priest's chest."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [2, 2], levels: [35, 35], placed: true}
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [1, 1], levels: [25, 25], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The senior priest's chest.}
+  - id: room:east_stair2
+    name: East stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [0, 640]
+    clear_height: 448
+    purpose: From the dormitory down to L1's stair hall.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:fountains2
+    name: Fountains of fire and lightning
+    kind: room
+    size: M
+    extent: [1664, 640]
+    floor: 640
+    clear_height: 512
+    purpose: "Two wall fountains: +5 Fire, +5 Air resistance once per character (q-d6.fountain_fire, fountain_air); two stone guardians."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Stone Golem (11581), groups: 1, per_marker: [2, 2], levels: [26, 26], placed: true}
+  - id: room:fountains3
+    name: Fountains of cold and venom
+    kind: room
+    size: M
+    extent: [1280, 1280]
+    floor: 1280
+    clear_height: 512
+    purpose: "Two wall fountains: +5 Water, +5 Body resistance once per character (q-d6.fountain_water, fountain_body)."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Heretic Priest (11221), groups: 1, per_marker: [2, 2], levels: [35, 35], placed: true}
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [1, 1], levels: [25, 25], placed: true}
+  - id: room:guardians
+    name: Guardians' gallery
+    kind: room
+    size: S
+    extent: [704, 576]
+    floor: 0
+    clear_height: 512
+    purpose: "Three stone guardians; the old temple's offering chest."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Stone Golem (11581), groups: 1, per_marker: [3, 3], levels: [26, 26], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The offering chest.}
+  - id: room:hoist
+    name: Hoist room
+    kind: room
+    size: S
+    extent: [704, 704]
+    floor: 1920
+    clear_height: 512
+    purpose: "Arrival from D1's rope and the way back down it: the open window, the windlass, the heretics' bread and candles (a storeroom). Quiet."
+    empty: true
+    safe: true
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+  - id: room:humble
+    name: Humble's cell
+    kind: room
+    size: S
+    extent: [640, 384]
+    floor: 640
+    clear_height: 512
+    purpose: "Behind a door: Humble the Cleric's plea and question as Pious's (q-d6.humble)."
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:kitchen2
+    name: Kitchen
+    kind: room
+    size: S
+    extent: [896, 896]
+    floor: 640
+    clear_height: 512
+    purpose: "A hearth, a table, barrels and sacks (a store), a chest."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+    treasure:
+      - {kind: chest, count: 1, tier: 4, items: [2, 3], notes: The larder corner's chest.}
+  - id: room:landing2
+    name: Landing
+    kind: room
+    size: S
+    extent: [896, 896]
+    floor: 640
+    clear_height: 512
+    purpose: The foot of the west stair.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:landing3
+    name: Stair landing
+    kind: room
+    size: S
+    extent: [704, 576]
+    floor: 1280
+    clear_height: 512
+    purpose: "The tower stair's foot and the outer stair's head; open to the dormitory."
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:mirror_hall
+    name: Mirror hall
+    kind: room
+    size: S
+    extent: [1280, 384]
+    floor: 0
+    clear_height: 512
+    purpose: The dead mirror ('The mirror does not respond.').
+    empty: true
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+  - id: room:outer_stair3
+    name: Outer stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [640, 1280]
+    clear_height: 448
+    purpose: From the stair landing down to L2's kitchen.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:pious
+    name: Pious's cell
+    kind: room
+    size: S
+    extent: [768, 448]
+    floor: 1280
+    clear_height: 512
+    purpose: "Behind a door: Pious the Cleric begs; 'Slay him anyway?' No: q-d6.pious, he is gone; Yes: the source's kill line; the bed's line after."
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:refectory
+    name: Refectory
+    kind: room
+    size: M
+    extent: [1536, 1728]
+    floor: 640
+    clear_height: 512
+    purpose: "One long table and its benches, beside the walking lines."
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [4, 4], levels: [25, 25], placed: true}
+  - id: room:south_stair2
+    name: South stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [0, 640]
+    clear_height: 448
+    purpose: From the fountain room down to L1's novices' dormitory.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:stair_hall1
+    name: Stair hall
+    kind: room
+    size: M
+    extent: [704, 1728]
+    floor: 0
+    clear_height: 512
+    purpose: The foot of the east stair.
+    theme: "d27's ashlar, grey cobbles gcstflor"
+    population:
+      - {actor: Mok Heretic (11220), groups: 1, per_marker: [2, 2], levels: [25, 25], placed: true}
+  - id: room:tapestry_walk
+    name: Tapestry walk
+    kind: corridor
+    size: S
+    extent: [1088, 512]
+    floor: 1920
+    clear_height: 512
+    purpose: "Three hangings of Mok's sun (xmoktap); behind the middle one a button slides the panel into the vestry."
+    empty: true
+    theme: "MM8 Castle of Air (d27): green-grey ashlar gston1wl over gstntilev, gston1fl flags, gstn1cl ceilings"
+  - id: room:tower_stair
+    name: Tower stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [1280, 1920]
+    clear_height: 448
+    purpose: From the cells down to L3's stair landing.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+  - id: room:vestry
+    name: Vestry
+    kind: room
+    size: S
+    extent: [512, 1280]
+    floor: 1920
+    clear_height: 512
+    purpose: "Behind the altar: the Cult Leader's chest (the hoard)."
+    empty: true
+    theme: "MM8 Temple of the Sun (d22): pale marble gtempw1, gtempflr, the gold-blue mosaic gtemprf"
+    treasure:
+      - {kind: chest, count: 1, tier: 5, items: [2, 3], notes: The Cult Leader's chest.}
+  - id: room:west_stair3
+    name: West stair
+    kind: corridor
+    size: S
+    extent: [320, 1280]
+    floor: [640, 1280]
+    clear_height: 448
+    purpose: From the dormitory down to L2's landing.
+    empty: true
+    theme: "d27's ashlar, grey cobbles gcstflor"
+links:
+  - id: link:alcoves_dorm1
+    from: room:alcoves
+    to: room:dorm1
+    kind: open
+  - id: link:alcoves_mirror
+    from: room:alcoves
+    to: room:mirror_hall
+    kind: open
+  - id: link:altar_stair
+    from: room:cloister3
+    to: room:chapel
+    kind: stairs
+    rise: 640
+    notes: The altar stair (altar_stair).
+  - id: link:cells_tap
+    from: room:cells
+    to: room:tapestry_walk
+    kind: open
+  - id: link:chapel_vestry
+    from: room:chapel
+    to: room:vestry
+    kind: door
+    motion: swing
+  - id: link:cloister_fountains
+    from: room:cloister3
+    to: room:fountains3
+    kind: open
+  - id: link:cloister_pious
+    from: room:cloister3
+    to: room:pious
+    kind: door
+    motion: swing
+  - id: link:door_hall_guardians
+    from: room:door_hall
+    to: room:guardians
+    kind: door
+    motion: swing
+  - id: link:dorm1_door_hall
+    from: room:dorm1
+    to: room:door_hall
+    kind: door
+    motion: swing
+  - id: link:dorm2_humble
+    from: room:dorm2
+    to: room:humble
+    kind: door
+    motion: swing
+  - id: link:dorm3_landing
+    from: room:dorm3
+    to: room:landing3
+    kind: open
+  - id: link:east_stair
+    from: room:stair_hall1
+    to: room:dorm2
+    kind: stairs
+    rise: 640
+    notes: The east stair (east_stair2).
+  - id: link:fountains_dorm2
+    from: room:fountains2
+    to: room:dorm2
+    kind: open
+  - id: link:fountains_dorm3
+    from: room:fountains3
+    to: room:dorm3
+    kind: door
+    motion: swing
+  - id: link:gallery_cells
+    from: room:bone_gallery
+    to: room:cells
+    kind: open
+  - id: link:gallery_chapel
+    from: room:bone_gallery
+    to: room:chapel
+    kind: door
+    motion: swing
+    notes: Double doors.
+  - id: link:hoist_gallery
+    from: room:hoist
+    to: room:bone_gallery
+    kind: door
+    motion: swing
+  - id: link:kitchen_refectory
+    from: room:kitchen2
+    to: room:refectory
+    kind: door
+    motion: swing
+  - id: link:landing_refectory
+    from: room:landing2
+    to: room:refectory
+    kind: open
+  - id: link:mirror_door_hall
+    from: room:mirror_hall
+    to: room:door_hall
+    kind: door
+    motion: swing
+  - id: link:outer_stair
+    from: room:kitchen2
+    to: room:landing3
+    kind: stairs
+    rise: 640
+    notes: The outer stair (outer_stair3).
+  - id: link:refectory_fountains
+    from: room:refectory
+    to: room:fountains2
+    kind: door
+    motion: swing
+  - id: link:south_stair
+    from: room:dorm1
+    to: room:fountains2
+    kind: stairs
+    rise: 640
+    notes: The south stair (south_stair2).
+  - id: link:stair_alcoves
+    from: room:stair_hall1
+    to: room:alcoves
+    kind: open
+  - id: link:tap_vestry
+    from: room:tapestry_walk
+    to: room:vestry
+    kind: secret_door
+    notes: The button behind the middle tapestry.
+  - id: link:tower_stair
+    from: room:landing3
+    to: room:cells
+    kind: stairs
+    rise: 640
+    notes: The tower stair (tower_stair).
+  - id: link:west_stair
+    from: room:landing2
+    to: room:dorm3
+    kind: stairs
+    rise: 640
+    notes: The west stair (west_stair3).
+loops:
+  - id: loop:ground
+    spaces: [room:alcoves, room:dorm1, room:door_hall, room:mirror_hall]
+    notes: Two ways from the alcoves to the warded door.
+  - id: loop:l2_l1
+    spaces: [room:fountains2, room:dorm2, room:east_stair2, room:stair_hall1, room:alcoves, room:dorm1, room:south_stair2]
+    notes: The two stairs between L2 and L1.
+  - id: loop:l3_l2
+    spaces: [room:dorm3, room:west_stair3, room:landing2, room:refectory, room:kitchen2, room:outer_stair3, room:landing3]
+    notes: The two stairs between L3 and L2.
+  - id: loop:l4_l3
+    spaces: [room:chapel, room:altar_stair, room:cloister3, room:fountains3, room:dorm3, room:landing3, room:tower_stair, room:cells, room:bone_gallery]
+    notes: The two stairs between L4 and L3.
+  - id: loop:top
+    spaces: [room:bone_gallery, room:chapel, room:vestry, room:tapestry_walk, room:cells]
+    notes: Round the top floor once the tapestry's panel is open.
+entrances:
+  - id: entrance:d1_door
+    space: room:door_hall
+    kind: both
+    neighbour: exit:d1_door
+    facing: n
+    how: "D1's front door once tower_opened; out by it after q-d6.front_door."
+  - id: entrance:d1_rope
+    space: room:hoist
+    kind: both
+    neighbour: exit:d1_rope
+    facing: s
+    how: "D1's rope (q-d6.tower_rope): a step inside the hoist room's window; out by the window (the exit preset)."
+critical_path: [room:hoist, room:bone_gallery, room:chapel, room:altar_stair, room:cloister3, room:fountains3, room:dorm3, room:west_stair3, room:landing2, room:refectory, room:fountains2, room:dorm2, room:east_stair2, room:stair_hall1, room:alcoves, room:dorm1, room:door_hall]
+return_path: [room:door_hall]
+goals:
+  - id: goal:disks
+    space: room:alcoves
+    kind: take
+    what: Two Energy Disks (q-d6.l1_alcoves) and the Golden Pegasus (q-d20.pegasus).
+  - id: goal:door
+    space: room:door_hall
+    kind: set
+    what: "The front door opened from inside with the key (q-d6.front_door, tower_opened)."
+  - id: goal:leader
+    space: room:chapel
+    kind: kill
+    what: The Cult Leader (q-d6.cult_leader) and the key on the altar (q-d6.tower_key).
+atmosphere: "Lamplit green-grey stone (ambient 14-18), the chapel bright (22). Music 34. Sounds: the tower's chimes bed, wind at the rope window, water in the fountain rooms, the hearth."
+diagram: {file: diagram.txt}
+totals:
+  chests: 4
+  doors: 12
+  fixed_actors: 47
+  floor_area_millions: 30
+  loops: 5
+  monsters_about: 45
+  rooms: 29
+  sectors: 29
+  spawn_points: 0
+notes: "Class M (MAPS, Dungeons): 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors. The graph's 29 review spaces as 29 rooms; the six stairs are rooms of their own (flights of 20 steps). D-42: 45 monsters with Mok's golems, the Cult Leader's own row, Humble and Pious named peaceful rows in cells, the discs (a), the inside larger than the outside."

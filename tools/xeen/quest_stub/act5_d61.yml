@@ -1,0 +1,89 @@
+# D-61's map-local lines and devices (tools/xeen/quest_stub.py): DD-15's niches, safe, lift, Brew and Prime Directive
+# (M28), DD-08's books, voice and thrones and Ormond's answers (Q-D17), Q-D26's hatch before and after M33. Owner: A3.
+name: Act V, D-61
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - set: m27.done
+  # DD-15 L1: the stair door, the torches from the last one lit, the niches (a wrong answer, then all eight)
+  - hook: [m28.stair_door, false]
+  - expect: {last: "Access denied!"}
+  - hook: m28.torches
+  - expect: {qbit: m28.torches}
+  - hook: m28.stair_door
+  - hook: m28.rule_statue_1
+  - hook: m28.overseer_note
+  - lua: 'assert(Xeen.pyramidNiche(1, 1, nil) == false)'
+  - lua: 'assert(Xeen.pyramidNiche(1, 1, 2) == false)'
+  - expect: {not_qbit: m28.niche_1, last: "Wrong!"}
+  - lua: 'for i = 1, 7 do assert(Xeen.pyramidNiche(i, 1, 1) == false) end'
+  - expect: {qbit: [m28.niche_1, m28.niche_7], not_qbit: m28.vault_open, last: "Correct!"}
+  - lua: 'assert(Xeen.pyramidNiche(8, 1, 1) == true)'
+  - expect: {qbit: [m28.niche_8, m28.vault_open], last: "heavy bolt"}
+  - lua: 'assert(Xeen.pyramidNiche(3, 1, nil) == true)'
+  - expect: {last: "The niche shows its number: 5."}
+  # L3 and L4: the maze once, the lift before and after the audience, the Brew, the safe, the book twice
+  - hook: m28.maze
+  - hook: [m28.maze, false]
+  - hook: m28.pad_map
+  - hook: [m28.lift, false]
+  - expect: {last: "A gilded cage. It answers only to the Pharaoh's guests."}
+  - hook: m28.audience
+  - hook: m28.lift
+  - expect: {qbit: m28.throne_reached}
+  - hook: m28.brew
+  - hook: m28.brew_drink
+  - expect: {last: "He did warn you."}
+  - hook: m28.tapestry
+  - lua: 'assert(Xeen.pharaohSafe(1, nil) == false) assert(Xeen.pharaohSafe(1, 1) == false) assert(Xeen.pharaohSafe(1, 4) == false)'
+  - expect: {not_qbit: m28.safe_open, last: "No Luck."}
+  - lua: 'Xeen.pharaohSafe(1, nil) Xeen.pharaohSafe(1, 1) assert(Xeen.pharaohSafe(1, 2) == false) assert(Xeen.pharaohSafe(1, 3) == true)'
+  - expect: {qbit: m28.safe_open, last: "The wall safe swings open."}
+  - lua: 'assert(Xeen.pharaohSafe(1, nil) == true)'
+  - hook: m28.prime_directive
+  - expect: {qbit: m28.directive_read, last: "Tertiary Directive: Complete the Destiny of Xeen."}
+  - hook: [m28.prime_directive, false]
+  - expect: {last: "You learn nothing new from reading the book again."}
+  # Q-D17: Ormond's answers (refused without the gold, then bought, then already bought)
+  - talk: [4928, "The Voweless Knights' answers"]
+  - expect: {not_qbit: q-d17.answers_bought}
+  - gold: 600
+  - talk: [4928, "The Voweless Knights' answers"]
+  - expect: {qbit: q-d17.answers_bought, gold: 100}
+  - talk: [4928, "The Voweless Knights' answers"]
+  - expect: {gold: 100, last: "You have the copy already."}
+  # DD-08: a book wrong, then right (its vowels), then known; the six others by the proverb
+  - lua: 'Xeen.vowelessBook("sleeping_dogs", 1, nil) Xeen.vowelessBook("sleeping_dogs", 1, 2)'
+  - expect: {no_player_bit: 11370, last: "The book slams shut in disgust"}
+  - lua: 'Xeen.vowelessBook("sleeping_dogs", 1, 1)'
+  - expect: {player_bit: 11370, stat: [Endurance, 1]}
+  - lua: 'Xeen.vowelessBook("sleeping_dogs", 1, nil)'
+  - expect: {stat: [Endurance, 1], last: "You have all taken it to heart."}
+  - lua: 'for _, key in ipairs({"laughs_last", "needs_of_many", "love_of_money", "gift_horse", "fool_and_money", "wishes_horses"}) do Xeen.vowelessBook(key, 1, 1) end'
+  - expect: {player_bit: 11376, stat: [Speed, 1]}
+  - expect: {stat: [Might, 1]}
+  - expect: {stat: [Luck, 1]}
+  - lua: 'local forms = Xeen.vowelessBookAnswers(Xeen.VowelessBooks.gift_horse) local seen = {} for _, a in ipairs(forms) do seen[a.Answer] = true end assert(seen["Dont look a gift horse in the mouth"] and seen["oooaioeieou"])'
+  # The voice and the chalice, the oath's text
+  - hook: q-d17.voice_other
+  - hook: q-d17.voice
+  - expect: {qbit: q-d17.voice_answered, last: "Lv Lng nd prspr!"}
+  # The thrones: Euphoria before the lows refuses; after the four it gives +1 all, once per character
+  - lua: 'Xeen.vowelessThrone("euphoria")'
+  - expect: {no_player_bit: 11377, last: "You're not worthy!"}
+  - lua: 'Xeen.vowelessThrone("depressed") Xeen.vowelessThrone("confused") Xeen.vowelessThrone("heartbroken")'
+  - expect: {stat: [Afraid, 1], last: "You feel heart broken."}
+  - lua: 'Xeen.vowelessThrone("euphoria")'
+  - expect: {no_player_bit: 11377, last: "You're not worthy!"}
+  - lua: 'Xeen.vowelessThrone("insane") Xeen.vowelessThrone("euphoria")'
+  - expect: {player_bit: 11377, stat: [Personality, 2], last: "You feel euphoric!"}
+  - lua: 'Xeen.vowelessThrone("depressed") Xeen.vowelessThrone("confused") Xeen.vowelessThrone("heartbroken") Xeen.vowelessThrone("insane") Xeen.vowelessThrone("euphoria")'
+  - expect: {stat: [Personality, 2], last: "It feels so good!"}
+  - lua: 'Xeen.vowelessThrone("dunce")'
+  # Q-D26: the hatch before M33 (into DD-17) and after it (true again: the map moves the party into FD-01, D-69 change 6)
+  - set: m30.done
+  - hook: [q-d26.hatch, false]
+  - give: alamar_roof_key
+  - hook: q-d26.hatch
+  - expect: {qbit: q-d26.roof_unlocked, no_item: alamar_roof_key}
+  - set: m33.done
+  - hook: [q-d26.hatch, true]

@@ -1,0 +1,47 @@
+# X3 Lifeforce Lagoon: flavour topics of the people of Ebenezer's camp and Nightshadow who have no quest role
+# (source/towns/x3.yml). Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only). Quest and story topics are A3's:
+# Ebenezer (m8, m9), Mirabeth (q-c12), Count Du Monay and the town's rhymes (q-c7), A3's npcs/x3.yml.
+# Nightshadow's people live behind doors that open with q-c7.done, so they speak after the Count is gone.
+map: X3
+block: 170
+
+npcs:
+  4203:              # Brother Tobit, the camp shrine
+    topics:
+      - {n: 1, label: The ruins, text: "The ruins on the rise were a castle once. Ebenezer sells them now. He sells anything that holds still."}
+  4206:              # Mother Aurelia, Temple of the Dawn
+    topics:
+      - {n: 2, label: The crypt, text: "The crypt under Nightshadow was full when the Count came. It is fuller now. We pray over it from a distance."}
+  4207:              # Grimsby, The Coffin and Candle
+    topics:
+      - {n: 3, label: The tomb, text: "The Tomb of a Thousand Terrors is out in the marsh. Somebody counted. There are a thousand."}
+  4210:              # Nib, Gnome Home
+    topics:
+      - {n: 4, label: Under the floor, text: "Nine years under the floorboards. We counted the Count's footsteps. He paced a lot, for a dead man."}
+  4211:              # Tuck
+    topics:
+      - {n: 5, label: The tower, text: "The wizards in the Tower of High Magic never came down to help us. Too high, they said. Too magic."}
+  4212:              # Pim
+    topics:
+      - {n: 6, label: The sun, text: "Mother says the sun is a big lamp. Merrin the lamplighter says it's bigger than that. Is it bigger than that?"}
+  4213:              # Pale Agatha
+    topics:
+      - {n: 7, label: Collars, text: "High collars are out of fashion now. I have four hundred left. Want one? Want ten?"}
+  4214:              # Ostrick the sexton
+    topics:
+      - {n: 8, label: Graves, text: "The Count's guests didn't stay buried. I'm paid by the burial, so I'm not complaining."}
+  4215:              # Lenore the minstrel
+    topics:
+      - {n: 9, label: The ballad, text: "The Ballad of the Count. Verse one: he bit. Verse two: he bit again. It goes on like that for a while."}
+  4217:              # Constance Vey, town scribe
+    topics:
+      - {n: 10, label: The lagoon, text: "There's a woman on a rock in the lagoon, complaining about her legs. I wrote it down. Somebody should go and ask her why."}
+  4218:              # Old Ambrose
+    topics:
+      - {n: 11, label: The taxman, text: "Ebenezer taxed my lean-to. I told him the roof was a gift from the rain. He taxed the rain."}
+  4219:              # Tomas, keeper of the dials
+    topics:
+      - {n: 12, label: The dials, text: "The dials are set to the right hour now. Which one? All of them. That's the trick of a sundial."}
+  4221:              # Jasper Wick, locksmith
+    topics:
+      - {n: 13, label: Locks, text: "The Count's coffin had no lock. He didn't need one. Nobody wanted in."}

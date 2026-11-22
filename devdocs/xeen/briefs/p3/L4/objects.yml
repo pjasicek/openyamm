@@ -1,0 +1,349 @@
+format: 1
+start:
+  room: room:bowl
+  at: [-3840, 3968]
+  floor_height: 0
+  facing: se
+  notes: "entrance:d7_fall on the Dust Ledge, facing south-east (Xeen.PlaneArrivals.earth)."
+arrivals:
+  - {entrance: entrance:d7_fall, room: room:bowl, at: [-3840, 3968], floor_height: 0, facing: se, notes: The drop from D7's south-east corner (Xeen.toPlane('earth')).}
+movers:
+  - id: mover:slab
+    room: room:bowl
+    outline: [[-3492, -3141], [-3470, -3183], [-2891, -2874], [-2914, -2832]]
+    floor_height: -382
+    height: 384
+    travel: [0, 0, -388]
+    speed: 128
+    surface: {texture: gn_mtl03, size: [128, 128], scale: 2}
+    top_surface: {texture: gn_mtl03, size: [128, 128], scale: 2}
+    notes: "The Root Stair's slab (gate:sleeper): a block of stone across the stair's head, 384 high; it sinks into the rock on qbit 111766 (evt:gate_open, evt:passed_load)."
+sounds:
+  - {id: sound:plane_bed, room: room:bowl, at: [-128, 0], height: 512, sound: xeen_amb_plane_earth, radius: 12000, inner_radius: 8000, volume: 0.9, pan: false}
+chests:
+  - id: chest:quarry_cache
+    room: room:bowl
+    at: [4736, 4480]
+    floor_height: -64
+    kind: ch1
+    facing: sw
+    treasure_level: 6
+    random_items: 2
+    gold: 1200
+    trap_level: 8
+    notes: "The quarrymen's strongbox by their hut's ruin (trapped: a falling block)."
+  - id: chest:test
+    room: room:bowl
+    at: [-896, -5376]
+    floor_height: -768
+    kind: ch3
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 2500
+    notes: "The test's chest (aaze0027:4 'Chest'): the source's gold and three items, in the Hollow past the slab."
+monsters:
+  - id: monster:anvil_north_1
+    room: room:bowl
+    monster: 11720
+    at: [-3760, -512]
+    floor_height: -384
+    facing: 0
+    hostile: true
+    group: 9
+    notes: "pop:anvil_north: 3 Earth Elemental (62)."
+  - id: monster:anvil_north_2
+    room: room:bowl
+    monster: 11720
+    at: [-4411, -646]
+    floor_height: -384
+    facing: 0
+    hostile: true
+    group: 9
+  - id: monster:anvil_north_3
+    room: room:bowl
+    monster: 11720
+    at: [-4325, -850]
+    floor_height: -384
+    facing: 0
+    hostile: true
+    group: 9
+  - id: monster:fault_greater_1
+    room: room:bowl
+    monster: 11721
+    at: [-5152, 1024]
+    floor_height: -192
+    facing: 0
+    hostile: true
+    group: 10
+    notes: "pop:fault_greater: 3 Earth Blaster (70)."
+  - id: monster:fault_greater_2
+    room: room:bowl
+    monster: 11721
+    at: [-5488, 1218]
+    floor_height: -192
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:fault_greater_3
+    room: room:bowl
+    monster: 11721
+    at: [-5488, 830]
+    floor_height: -192
+    facing: 0
+    hostile: true
+    group: 10
+  - id: monster:geodes_north_1
+    room: room:bowl
+    monster: 11720
+    at: [4832, 896]
+    floor_height: -256
+    facing: 0
+    hostile: true
+    group: 6
+    notes: "pop:geodes_north: 3 Earth Elemental (62)."
+  - id: monster:geodes_north_2
+    room: room:bowl
+    monster: 11720
+    at: [4496, 1090]
+    floor_height: -256
+    facing: 0
+    hostile: true
+    group: 6
+  - id: monster:geodes_north_3
+    room: room:bowl
+    monster: 11720
+    at: [4575, 756]
+    floor_height: -256
+    facing: 0
+    hostile: true
+    group: 6
+  - id: monster:geodes_south_1
+    room: room:bowl
+    monster: 11626
+    at: [4320, -768]
+    floor_height: -256
+    facing: 0
+    hostile: true
+    group: 5
+    notes: "pop:geodes_south: 2 Lesser Earth Elemental (55)."
+  - id: monster:geodes_south_2
+    room: room:bowl
+    monster: 11626
+    at: [3872, -768]
+    floor_height: -256
+    facing: 0
+    hostile: true
+    group: 5
+  - id: monster:guardian_1
+    room: room:bowl
+    monster: 11722
+    at: [-3840, -1792]
+    floor_height: -382
+    facing: 0
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Sleeper's Guardian of Earth (75): the test's hidden group 60 at the Anvil's crack, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_2
+    room: room:bowl
+    monster: 11721
+    at: [-4140, -1532]
+    floor_height: -384
+    facing: 0
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Earth Blaster (70): the test's hidden group 60 at the Anvil's crack, shown by evt:test (D-58 C3)."
+  - id: monster:guardian_3
+    room: room:bowl
+    monster: 11721
+    at: [-3540, -1532]
+    floor_height: -384
+    facing: 0
+    hostile: true
+    group: 60
+    hidden: true
+    notes: "Earth Blaster (70): the test's hidden group 60 at the Anvil's crack, shown by evt:test (D-58 C3)."
+  - id: monster:pillars_south_1
+    room: room:bowl
+    monster: 11626
+    at: [1120, -2048]
+    floor_height: -320
+    facing: 0
+    hostile: true
+    group: 7
+    notes: "pop:pillars_south: 3 Lesser Earth Elemental (55)."
+  - id: monster:pillars_south_2
+    room: room:bowl
+    monster: 11626
+    at: [784, -1854]
+    floor_height: -320
+    facing: 0
+    hostile: true
+    group: 7
+  - id: monster:pillars_south_3
+    room: room:bowl
+    monster: 11626
+    at: [784, -2242]
+    floor_height: -320
+    facing: 0
+    hostile: true
+    group: 7
+  - id: monster:pillars_west_1
+    room: room:bowl
+    monster: 11626
+    at: [-160, -1152]
+    floor_height: -320
+    facing: 0
+    hostile: true
+    group: 8
+    notes: "pop:pillars_west: 2 Lesser Earth Elemental (55)."
+  - id: monster:pillars_west_2
+    room: room:bowl
+    monster: 11626
+    at: [-516, -1124]
+    floor_height: -320
+    facing: 0
+    hostile: true
+    group: 8
+  - id: monster:quarry_elementals_1
+    room: room:bowl
+    monster: 11720
+    at: [4064, 3584]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 3
+    notes: "pop:quarry_elementals: 3 Earth Elemental (62)."
+  - id: monster:quarry_elementals_2
+    room: room:bowl
+    monster: 11720
+    at: [3728, 3778]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:quarry_elementals_3
+    room: room:bowl
+    monster: 11720
+    at: [3811, 3563]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 3
+  - id: monster:quarry_north_1
+    room: room:bowl
+    monster: 11626
+    at: [4608, 4186]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 4
+    notes: "pop:quarry_north: 3 Lesser Earth Elemental (55)."
+  - id: monster:quarry_north_2
+    room: room:bowl
+    monster: 11626
+    at: [4224, 4553]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:quarry_north_3
+    room: room:bowl
+    monster: 11626
+    at: [4368, 4158]
+    floor_height: -64
+    facing: 0
+    hostile: true
+    group: 4
+  - id: monster:statue_east_1
+    room: room:bowl
+    monster: 11626
+    at: [560, 1363]
+    floor_height: -128
+    facing: 0
+    hostile: true
+    group: 2
+    notes: "pop:statue_east: 3 Lesser Earth Elemental (55)."
+  - id: monster:statue_east_2
+    room: room:bowl
+    monster: 11626
+    at: [272, 1474]
+    floor_height: -128
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:statue_east_3
+    room: room:bowl
+    monster: 11626
+    at: [272, 1086]
+    floor_height: -128
+    facing: 0
+    hostile: true
+    group: 2
+  - id: monster:statue_west_1
+    room: room:bowl
+    monster: 11626
+    at: [-1184, 2304]
+    floor_height: -128
+    facing: 0
+    hostile: true
+    group: 1
+    notes: "pop:statue_west: 2 Lesser Earth Elemental (55)."
+  - id: monster:statue_west_2
+    room: room:bowl
+    monster: 11626
+    at: [-1562, 2239]
+    floor_height: -128
+    facing: 0
+    hostile: true
+    group: 1
+items:
+  - id: item:last_block_potion1
+    room: room:bowl
+    item: 259
+    at: [3904, 3104]
+    floor_height: -64
+    notes: "The last block's find: Earth Resistance (259)."
+  - id: item:last_block_potion2
+    room: room:bowl
+    item: 259
+    at: [3968, 3200]
+    floor_height: -64
+decorations:
+  - id: deco:dais
+    room: room:bowl
+    decoration: xeen_dais_earth
+    at: [-2816, -4736]
+    floor_height: -760
+    hidden: true
+    facing: 0
+    notes: "The return dais (S's disc over platform:dais): hidden until the Earth Sleeper wakes (evt:dais_load, evt:dais_show)."
+  - id: deco:pedestal
+    room: room:bowl
+    decoration: xeen_pedestal_earth
+    at: [-2496, -1584]
+    facing: 270
+    notes: "The test's pedestal (S): beside the plate, facing it, off the walking line."
+  - id: deco:sleeper
+    room: room:bowl
+    decoration: xeen_sleeper_earth
+    at: [-2048, -5504]
+    floor_height: -768
+    facing: 90
+    notes: "The Earth Sleeper on his couch (S, row 4023-4026; D-58 C7): the head on the left seen from the front; clicked, A3's m38.sleeper_earth."
+  - id: deco:statue
+    room: room:bowl
+    decoration: xeen_statue_earth
+    at: [-512, 1920]
+    facing: 135
+    notes: "The statue of Earth (S, D-58 C7) on A6's plinth; clicked, A3's m38.plaque_earth."
+  - id: deco:way_up
+    room: room:bowl
+    decoration: xeen_wayup_earth
+    at: [-4710, 4736]
+    floor_height: 4
+    facing: 0
+    notes: "The way up's effect (S, no collision): clicked like the way up."
+notes: "P3 L4 objects (generated by output/studio_cal/p3/tools/gen.py): 27 placed hostiles in 10 groups and the test's three in the hidden group 60; two chests at treasure 6; the last block's find; the slab; S's pieces (session 20): sleeper and couch, statue, pedestal, return dais (hidden until he wakes), dust shaft. No lights."

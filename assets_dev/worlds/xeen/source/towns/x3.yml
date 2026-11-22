@@ -1,0 +1,173 @@
+# X3 Lifeforce Lagoon: Nightshadow, Ebenezer's camp, the Newcastle site and the lagoon (Act II). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5, installed 2026-11-20): the doors are the ones the L4 sketch draws (briefs/x3/L4/sketch.yml); NPC topics in
+# source/npcs/x3.yml (A3).
+#
+# Ebenezer's camp (WORLD_DESIGN 5.1): a tavern and a shrine at the Newcastle site, outside Nightshadow's curse, open
+#   from day one. Ebenezer sells the deed from his tent (M8).
+# Nightshadow (cursed, QUESTS Q-C7): before q-c7.done only the Moon Guild (Dark, open at night) and Count Du Monay's
+#   manor; the rest opens with the town. After liberation the Moon Guild keeps day hours (a second row, 4104).
+# Newcastle: its houses are in the keep (XD-13, xd13.yml); its mirror stands at the gate on X3 (here).
+# This file holds X3's block 4101-4140 / 4201-4280; xd13.yml has 4141-4150 / 4281-4300 (TOWNS_FORMAT 2).
+key: X3
+stem: xeen_x3.odm
+town: Lifeforce Lagoon
+face: cloudside
+blocks:
+  houses: [4101, 4140]
+  npcs: [4201, 4280]
+
+arrivals:
+  # A5's L4 points (briefs/x3/DOORS.md), Z checked against the installed map: the square is the court's floor (1008)
+  nightshadow_square: {at: [18432, -5120, 1008], direction: 512, note: "Nightshadow's square among the sundials, by the mirror (Town Portal)"}
+  newcastle_gate: {at: [9216, 13312, 1504], direction: 512, note: "outside the Newcastle keep's gate, by the mirror (Town Portal)"}
+
+houses:
+  # ---- Ebenezer's camp (town: Ebenezer's camp): open from day one ----
+  - id: 4101
+    door: thing:ebenezer_tent
+    town: Ebenezer's camp
+    was: 239
+    kind: tavern
+    name: Ebenezer's Tent
+    price: 14                # D-29: packs to 14 days
+    owner: 4201
+  - id: 4102
+    door: building:camp_shrine
+    town: Ebenezer's camp
+    was: 310
+    kind: temple
+    name: The Camp Shrine
+    owner: 4203
+
+  # ---- Nightshadow (town: Nightshadow): open from day one ----
+  - id: 4103
+    door: building:moon_guild
+    town: Nightshadow
+    was: 176
+    kind: dark_guild
+    name: The Moon Guild
+    owner: 4204
+    guild: {spells: 7}
+    hours: [21, 6]
+    open_before: true
+    note: "Open at night only while the Count rules. After q-c7.done the door enters 4104 (day hours)."
+  - id: 4104
+    door: building:moon_guild
+    town: Nightshadow
+    alternate_of: 4103
+    after: q-c7.done
+    was: 176
+    kind: dark_guild
+    name: The Moon Guild
+    owner: 4204
+    guild: {spells: 7}
+  - id: 4105
+    door: building:du_monay_manor
+    town: Nightshadow
+    kind: residence
+    name: Du Monay Manor
+    residents: [4205]
+    note: "The cursed town's one open house (WORLD_DESIGN 5.1): the Count's fee for the living."
+    open_before: true
+  # ---- Nightshadow: open once the town is liberated (q-c7.done) ----
+  - id: 4106
+    door: building:nightshadow_temple
+    town: Nightshadow
+    was: 312
+    kind: temple
+    name: Temple of the Dawn
+    owner: 4206
+    opens: q-c7.done
+    closed_text: "Boarded up. Someone has written DAWN on the boards, and someone else has crossed it out."
+  - id: 4107
+    door: building:nightshadow_tavern
+    town: Nightshadow
+    was: 246
+    kind: tavern
+    name: The Coffin and Candle
+    owner: 4207
+    opens: q-c7.done
+    closed_text: "Locked. Through the window: chairs on the tables and a lot of red wine."
+  - id: 4108
+    door: building:treasure_trove
+    town: Nightshadow
+    was: 88
+    kind: magic_shop
+    name: Treasure Trove
+    owner: 4208
+    shop: {quality: 3}
+    opens: q-c7.done
+    closed_text: "Closed. A sign: Open after dark. Well, after the dark."
+  - id: 4109
+    door: building:nightshadow_alchemist
+    town: Nightshadow
+    was: 120
+    kind: alchemist
+    name: Garlic and Grave Goods
+    owner: 4209
+    shop: {quality: 3}
+    opens: q-c7.done
+    closed_text: "The door is bolted and hung with garlic. A great deal of garlic."
+  - id: 4110
+    door: thing:nightshadow_mirror
+    town: Nightshadow
+    kind: mirror
+    name: The Mirror of Nightshadow
+    opens: q-c7.done
+    closed_text: "The mirror shows the square, but not you."
+    mirror: {face: cloudside, town: Nightshadow, arrival: nightshadow_square, qbit: 119005}
+  - id: 4111
+    door: building:gnome_home
+    town: Nightshadow
+    kind: residence
+    name: Gnome Home
+    residents: [4210, 4211, 4212]
+    opens: q-c7.done
+    closed_text: "A very small voice: Go away, we have no blood."
+  - {id: 4112, door: "building:nightshadow_houses#1", town: Nightshadow, kind: residence, name: Agatha's House, residents: [4213], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4113, door: "building:nightshadow_houses#2", town: Nightshadow, kind: residence, name: The Sexton's House, residents: [4214], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4114, door: "building:nightshadow_houses#3", town: Nightshadow, kind: residence, name: Lenore's House, residents: [4215], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4115, door: "building:nightshadow_houses#4", town: Nightshadow, kind: residence, name: Crow House, residents: [4216], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4116, door: "building:nightshadow_houses#5", town: Nightshadow, kind: residence, name: Vey Residence, residents: [4217], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4117, door: "building:nightshadow_houses#6", town: Nightshadow, kind: residence, name: Ambrose's Lean-to, residents: [4218], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4118, door: "building:nightshadow_houses#7", town: Nightshadow, kind: residence, name: The Dial Keeper's House, residents: [4219], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4119, door: "building:nightshadow_houses#8", town: Nightshadow, kind: residence, name: The Lamplighter's, residents: [4220], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+  - {id: 4120, door: "building:nightshadow_houses#9", town: Nightshadow, kind: residence, name: Wick House, residents: [4221], opens: q-c7.done, closed_text: "Nobody opens. The curtains are drawn, the doorstep is dusty."}
+
+  # ---- Newcastle's mirror (town: Newcastle; the keep's houses are in xd13.yml) ----
+  - id: 4121
+    door: thing:newcastle_mirror
+    town: Newcastle
+    kind: mirror
+    name: The Mirror of Newcastle
+    opens: m11.keep
+    closed_text: "An empty frame leans against the rubble. Emerson will hang the glass when there is a keep to hang it in."
+    mirror: {face: cloudside, town: Newcastle, arrival: newcastle_gate, qbit: 119006}
+    note: "Stage 2 (QUESTS 4.1: stage 1 walls opens nothing)."
+
+npcs:
+  # ---- fixed in the first session (A3 has their topics) ----
+  - {id: 4201, name: Ebenezer, title: Taxman, profession: Clerk, talks: true, greet: ["The ruins of Newcastle are for sale. Twelve thousand gold, deed included.", "Changed your mind about the deed?"]}
+  - {id: 4202, name: Mirabeth, title: Mermaid, profession: Peasant, talks: true, house: none, place: "X3, her rock in the lagoon (A5)", greet: ["These legs itch. Have you ever had legs that itch?", "Still on legs, sadly."]}
+  # ---- Ebenezer's camp ----
+  - {id: 4203, name: Brother Tobit, profession: Healer, greet: ["I followed the taxman for the souls. Mostly I bandage the people he taxes.", "Hurt?"]}
+  # ---- Nightshadow ----
+  - {id: 4204, name: Mordecai, title: Moon Guildmaster, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: expert}], greet: ["We open when the moon is up. The Count prefers it. So do our customers.", "Good evening. It is always evening."]}
+  - {id: 4205, name: Count Du Monay, profession: Noble, teaches: [{skill: Vampire, mastery: expert}], greet: ["The living pay a small fee to visit. A very small fee. Mostly in blood.", "Back so soon? How warm of you."], source: "MAPS X3: Count Du Monay's fee for the living"}
+  - {id: 4206, name: Mother Aurelia, profession: Healer, greet: ["We hung the first lamp the morning the Count died. We have not taken it down.", "Blessed light."]}
+  - {id: 4207, name: Grimsby, title: Innkeeper, profession: Cook, greet: ["The red wine is wine now. I checked.", "A table by the window?"]}
+  - {id: 4208, name: Lucan Gloom, title: Dealer in Curiosities, profession: Merchant, greet: ["Everything here belonged to someone who no longer needs it.", "Browsing the dead?"]}
+  - {id: 4209, name: Widow Mabry, title: Apothecary, profession: Alchemist, greet: ["Garlic for the neck, holy water for the rest. Cash only.", "More garlic?"]}
+  - {id: 4210, name: Nib, title: Gnome, profession: Tinker, greet: ["We hid under the floor for nine years. It was roomy.", "Mind your head. No, lower."]}
+  - {id: 4211, name: Tuck, title: Gnome, profession: Tinker, greet: ["Vampires can't bite what they can't find.", "Shh."]}
+  - {id: 4212, name: Pim, title: Gnome, profession: Child, greet: ["Is it day? Is it really day?", "Still day?"]}
+  - {id: 4213, name: Pale Agatha, title: Seamstress, profession: Weaver, greet: ["I made high collars for the whole town. They sold well.", "A collar?"]}
+  - {id: 4214, name: Ostrick, title: Sexton, profession: Ditch Digger, greet: ["Graves dug, graves filled, graves refilled. Nightshadow kept me busy.", "Need a hole?"]}
+  - {id: 4215, name: Lenore, title: Minstrel, profession: Bard, greet: ["I have songs about the Count. None you would sing at dinner.", "A song?"]}
+  - {id: 4216, name: Bertram Crow, title: Chimney Sweep, profession: Chimney Sweep, greet: ["Bats in every chimney. They tip badly.", "Soot?"]}
+  - {id: 4217, name: Constance Vey, title: Town Scribe, profession: Scribe, greet: ["I wrote down every disappearance. It was a long book.", "Anything to record?"]}
+  - {id: 4218, name: Old Ambrose, title: Beggar, profession: Beggar, greet: ["Spare a coin? The Count never did.", "Spare another?"]}
+  - {id: 4219, name: Tomas, title: Keeper of the Dials, profession: Clerk, greet: ["The Count wakes at nine and sleeps at nine. Set the dials, and he does neither.", "The dials are fine now."]}
+  - {id: 4220, name: Merrin, title: Lamplighter, profession: Porter, greet: ["Nine years I lit lamps that nobody wanted.", "Lamps are lit."]}
+  - {id: 4221, name: Jasper Wick, title: Locksmith, profession: Locksmith, greet: ["Every lock in town is mine. They never kept anything out.", "Locked out?"]}

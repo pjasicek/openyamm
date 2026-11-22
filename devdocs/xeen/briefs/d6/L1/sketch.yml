@@ -1,0 +1,528 @@
+format: 0
+grid: 512
+map_cells: 128
+notes: "D6 The Forbidden Zone, MU-3 to-scale plan (A6, 2026-11-20), for the phase 5 review: composition, scale and density only. Cells [x, y], x east, y south. Heights above the stars below the rims (0): Corak's lava lake 1,450, Alamar's moat 1,550 and its mesa to 2,300, the waste 1,550-2,100, the Ancient field to 2,700, Necropolis 1,650, the border pass 1,700, the southern peaks to 3,400 with Griffin Pass 2,450; D1's border row at y 109 and the D5 file's column at x 109. Lava is lavtyl (D-40), never water. Written by level_generation/xeen_art/phase5/d6_brief.py. The later L3 adds plots' detail, ground, scatter and structures (Alamar and its ruin, the pods, the walls)."
+frame:
+  playable: [19, 19, 90, 90]
+  edges:
+    - {side: south, span: [59, 70], neighbour: edge:south, notes: "The mountain road runs out to y 127 at x 64 (D1's north edge, its rim [59, 70] level)."}
+    - {side: east, span: [60, 68], neighbour: edge:east, notes: "The pass road runs out to x 127 at y 64 (edge_d5_d6.json: 1,700 over y 62-66)."}
+  rim:
+    - {side: north, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at y 24; below, water at 0 stands for the stars. The Northern Lava Falls pour over it at x 44."}
+    - {side: west, form: level, height: 0, meet: 1, notes: "The world rim: the cliff at x 24 (D1's west rim continues); the Slag Run falls over it at y 51."}
+    - {side: south, span: [0, 24], form: level, height: 0, meet: 1, notes: D1's west rim.}
+    - {side: south, span: [24, 59], form: ridge, height: [1200, 1600], floor: 1100, crest: 10, roughness: 80, notes: "D6's picture of D1: the vale's north end, 1,100-1,600 (D1's own north strip pictures D6's peaks)."}
+    - {side: south, span: [59, 70], form: level, height: 1550, meet: 6, notes: "D1's mountain road valley (D1's rim [59, 70]; the road 1,550 at (64, 19))."}
+    - {side: south, span: [70, 80], form: ridge, height: [1300, 1550], floor: 1200, crest: 8, roughness: 80, notes: D1's north vale.}
+    - {side: south, span: [80, 88], form: level, height: 832, meet: 3, notes: "D1's Sardaj spring pool (832) under the cliff: D6's border row drops to it."}
+    - {side: south, span: [88, 100], form: ridge, height: [1100, 1500], floor: 1050, crest: 8, roughness: 80, notes: D1's north-east vale.}
+    - {side: south, span: [100, 128], form: ridge, height: [1800, 2200], floor: 1600, crest: 8, roughness: 100, notes: D1's Gemstone foothills (and D2's corner).}
+    - {side: east, span: [0, 24], form: level, height: 0, meet: 1, notes: The north rim's east end (D5's north rim also y 24).}
+    - {side: east, span: [24, 58], form: ridge, height: [2600, 3300], floor: 2200, crest: 10, roughness: 120, notes: "D5's north-west highlands (the shared ridge, edge_d5_d6.json)."}
+    - {side: east, span: [58, 70], form: level, height: 1700, meet: 6, notes: "The Forbidden Zone's border pass, open to D5 (edge_d5_d6.json)."}
+    - {side: east, span: [70, 128], form: ridge, height: [2500, 3000], floor: 2100, crest: 10, roughness: 120, notes: D5's western ridge south of the pass.}
+  edge: {height: 1700, north: 0, west: 0}
+heights:
+  points:
+    - {at: [64, 106], h: 1800, notes: "the D1 arrival, climbing"}
+    - {at: [64, 102], h: 2150}
+    - {at: [63, 99], h: 2350}
+    - {at: [64, 96], h: 2450, notes: "Griffin Pass: the Forbidden Zone opens below"}
+    - {at: [61, 95], h: 2500, notes: Ambrose's camp}
+    - {at: [65, 92], h: 2250}
+    - {at: [66, 88], h: 1900}
+    - {at: [66, 85], h: 1780, notes: Ash Fork}
+    - {at: [56, 98], h: 3100}
+    - {at: [50, 100], h: 3650, notes: the western peaks}
+    - {at: [46, 97], h: 2700, notes: DD-10C's north adit}
+    - {at: [40, 100], h: 3500}
+    - {at: [33, 101], h: 3400}
+    - {at: [28, 98], h: 2800}
+    - {at: [38, 96], h: 2650, notes: the boarded mines}
+    - {at: [52, 95], h: 2800}
+    - {at: [44, 93], h: 2400}
+    - {at: [27, 104], h: 2600}
+    - {at: [52, 104], h: 2700}
+    - {at: [40, 105], h: 2500}
+    - {at: [72, 98], h: 3200}
+    - {at: [78, 101], h: 3800, notes: the eastern peaks}
+    - {at: [84, 98], h: 2700, notes: the broken pyramid's valley}
+    - {at: [88, 101], h: 3500, notes: the genie crag}
+    - {at: [94, 99], h: 3400}
+    - {at: [100, 101], h: 3000}
+    - {at: [76, 94], h: 2600, notes: the griffin nest}
+    - {at: [84, 105], h: 2300, notes: the Sardaj cliff over D1's spring}
+    - {at: [72, 105], h: 2500}
+    - {at: [96, 105], h: 2600}
+    - {at: [104, 96], h: 2900}
+    - {at: [92, 94], h: 2300}
+    - {at: [60, 82], h: 1800}
+    - {at: [72, 82], h: 1750}
+    - {at: [80, 79], h: 1750}
+    - {at: [83, 72], h: 1600, notes: the signature camera}
+    - {at: [78, 86], h: 1800}
+    - {at: [77, 72], h: 1480, notes: the crust before the hatch}
+    - {at: [72, 67], h: 1450, notes: Escape Pod 1 (nose-up)}
+    - {at: [66, 63], h: 1520, notes: the genie islet}
+    - {at: [84, 66], h: 1800}
+    - {at: [83, 58], h: 1900}
+    - {at: [60, 76], h: 1700}
+    - {at: [58, 70], h: 1750}
+    - {at: [62, 55], h: 1700}
+    - {at: [51, 46], h: 2300, notes: Castle Alamar}
+    - {at: [46, 43], h: 2200}
+    - {at: [56, 43], h: 2200}
+    - {at: [47, 51], h: 2150}
+    - {at: [55, 51], h: 2150}
+    - {at: [51, 55], h: 2050, notes: the gate}
+    - {at: [51, 59], h: 1900, notes: the approach}
+    - {at: [51, 63], h: 1800}
+    - {at: [44, 54], h: 1950}
+    - {at: [58, 54], h: 1950}
+    - {at: [30, 30], h: 1800, notes: the hot spring}
+    - {at: [36, 40], h: 2200, notes: the genie pinnacle}
+    - {at: [44, 28], h: 1650, notes: the north falls' lip}
+    - {at: [30, 46], h: 1750}
+    - {at: [33, 55], h: 1800}
+    - {at: [56, 28], h: 1800}
+    - {at: [28, 38], h: 1700}
+    - {at: [40, 30], h: 1700}
+    - {at: [30, 62], h: 2050, notes: Obelisk Knoll}
+    - {at: [26, 51], h: 1600, notes: the Slag Run's fall}
+    - {at: [40, 66], h: 1750}
+    - {at: [34, 86], h: 1950, notes: the archers' camp}
+    - {at: [28, 76], h: 1850}
+    - {at: [42, 78], h: 1800}
+    - {at: [48, 72], h: 1750}
+    - {at: [50, 84], h: 1900}
+    - {at: [36, 72], h: 1800}
+    - {at: [49, 80], h: 2250, notes: the cinder cone}
+    - {at: [78, 38], h: 2000, notes: Sheltem's pod's crater}
+    - {at: [70, 30], h: 2000}
+    - {at: [86, 30], h: 2300}
+    - {at: [96, 28], h: 2600}
+    - {at: [101, 31], h: 2700, notes: the Well of Warding}
+    - {at: [88, 44], h: 2100, notes: the Ancient locker}
+    - {at: [96, 42], h: 2400}
+    - {at: [72, 46], h: 1850}
+    - {at: [80, 50], h: 1900}
+    - {at: [92, 52], h: 2100}
+    - {at: [100, 50], h: 2400}
+    - {at: [104, 40], h: 2800}
+    - {at: [91, 82], h: 1650, notes: Necropolis's square}
+    - {at: [85, 86], h: 1650}
+    - {at: [97, 86], h: 1660}
+    - {at: [91, 72], h: 1700, notes: Bone Fork}
+    - {at: [86, 69], h: 1720, notes: the pilgrim's cart}
+    - {at: [100, 69], h: 1800, notes: the climbers' camp}
+    - {at: [105, 64], h: 1700, notes: the D5 arrival}
+    - {at: [98, 65], h: 1720}
+    - {at: [102, 78], h: 2200}
+    - {at: [102, 88], h: 2400}
+    - {at: [104, 81], h: 2500, notes: the ridge watchtower}
+    - {at: [94, 60], h: 1900}
+    - {at: [25, 109], h: 1216}
+    - {at: [28, 109], h: 1120}
+    - {at: [31, 109], h: 1152}
+    - {at: [34, 109], h: 1376}
+    - {at: [37, 109], h: 1504}
+    - {at: [40, 109], h: 1536}
+    - {at: [43, 109], h: 1472}
+    - {at: [46, 109], h: 1376}
+    - {at: [49, 109], h: 1280}
+    - {at: [52, 109], h: 1152}
+    - {at: [55, 109], h: 1152}
+    - {at: [58, 109], h: 1248}
+    - {at: [60, 109], h: 1408}
+    - {at: [61, 109], h: 1472}
+    - {at: [62, 109], h: 1536}
+    - {at: [63, 109], h: 1568}
+    - {at: [64, 109], h: 1536, notes: D1's installed y 19 row}
+    - {at: [65, 109], h: 1568}
+    - {at: [66, 109], h: 1696}
+    - {at: [67, 109], h: 1696}
+    - {at: [68, 109], h: 1632}
+    - {at: [70, 109], h: 1536}
+    - {at: [73, 109], h: 1504}
+    - {at: [76, 109], h: 1504}
+    - {at: [79, 109], h: 1376}
+    - {at: [80, 109], h: 1216}
+    - {at: [81, 109], h: 832}
+    - {at: [82, 109], h: 832}
+    - {at: [83, 109], h: 832}
+    - {at: [84, 109], h: 832}
+    - {at: [85, 109], h: 832}
+    - {at: [86, 109], h: 832}
+    - {at: [87, 109], h: 832}
+    - {at: [88, 109], h: 1152}
+    - {at: [91, 109], h: 1216}
+    - {at: [94, 109], h: 1088}
+    - {at: [97, 109], h: 1120}
+    - {at: [100, 109], h: 1440}
+    - {at: [103, 109], h: 1856}
+    - {at: [106, 109], h: 2144}
+    - {at: [109, 25], h: 3136}
+    - {at: [109, 28], h: 3200}
+    - {at: [109, 31], h: 3264}
+    - {at: [109, 34], h: 3232}
+    - {at: [109, 37], h: 3136}
+    - {at: [109, 40], h: 3040}
+    - {at: [109, 43], h: 2944}
+    - {at: [109, 46], h: 2816}
+    - {at: [109, 49], h: 2656}
+    - {at: [109, 52], h: 2496}
+    - {at: [109, 55], h: 2304}
+    - {at: [109, 58], h: 1984}
+    - {at: [109, 60], h: 1792}
+    - {at: [109, 61], h: 1760}
+    - {at: [109, 62], h: 1696}
+    - {at: [109, 63], h: 1696}
+    - {at: [109, 64], h: 1696, notes: edge_d5_d6.json (the pass)}
+    - {at: [109, 65], h: 1696}
+    - {at: [109, 66], h: 1696}
+    - {at: [109, 67], h: 1760}
+    - {at: [109, 68], h: 1792}
+    - {at: [109, 70], h: 1984}
+    - {at: [109, 73], h: 2208}
+    - {at: [109, 76], h: 2368}
+    - {at: [109, 79], h: 2528}
+    - {at: [109, 82], h: 2656}
+    - {at: [109, 85], h: 2720}
+    - {at: [109, 88], h: 2816}
+    - {at: [109, 91], h: 2880}
+    - {at: [109, 94], h: 2912}
+    - {at: [109, 97], h: 2944}
+    - {at: [109, 100], h: 2976}
+    - {at: [109, 103], h: 2976}
+    - {at: [109, 106], h: 2636}
+    - {at: [109, 107], h: 2440}
+    - {at: [109, 108], h: 2260}
+    - {at: [109, 109], h: 2176, notes: "the corner: edge_d5_d6.json = D1's installed (109, 19) (D-49 Q6)"}
+  bands:
+    - band: band:rim_sea
+      space: zone:rim
+      polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+    - band: band:waste
+      space: zone:ash_waste
+      polygon: [[24, 24], [64, 24], [64, 32], [60, 35], [51, 32], [42, 35], [36, 41], [35, 50], [40, 58], [36, 62], [24, 62]]
+    - band: band:plateau
+      space: zone:alamar_plateau
+      polygon: [[43, 56], [39, 50], [40, 43], [45, 38], [51, 36], [56, 38], [60, 43], [61, 50], [59, 56], [57, 62], [46, 62]]
+    - band: band:field
+      space: zone:ancient_field
+      polygon: [[64, 24], [109, 24], [109, 56], [100, 58], [90, 58], [80, 56], [70, 53], [65, 51], [65, 42], [60, 35], [64, 32]]
+    - band: band:lava
+      space: zone:pod_lake_shore
+      polygon: [[61, 52], [70, 53], [80, 56], [86, 62], [86, 70], [82, 76], [74, 80], [64, 80], [57, 74], [57, 62]]
+    - band: band:waste
+      space: zone:west_waste
+      polygon: [[24, 62], [36, 62], [40, 58], [46, 62], [46, 63], [57, 63], [57, 74], [60, 80], [56, 88], [44, 90], [24, 90]]
+    - band: band:peaks
+      space: zone:south_peaks
+      polygon: [[24, 90], [44, 90], [56, 88], [60, 92], [60, 109], [24, 109]]
+    - band: band:peaks
+      space: zone:east_peaks
+      polygon: [[70, 91], [76, 88], [82, 92], [100, 92], [109, 90], [109, 109], [70, 109]]
+    - band: band:peaks
+      space: zone:griffin_pass
+      polygon: [[59, 91], [70, 91], [70, 100], [59, 100]]
+    - band: band:peaks
+      space: zone:mountain_road
+      polygon: [[59, 100], [70, 100], [70, 109], [59, 109]]
+    - band: band:lava
+      space: zone:ash_fork_flats
+      polygon: [[57, 74], [64, 80], [74, 80], [82, 76], [82, 90], [76, 88], [70, 91], [59, 91], [60, 80]]
+    - band: band:town
+      space: town:necropolis
+      polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
+    - band: band:town
+      space: zone:bone_road
+      polygon: [[86, 62], [100, 58], [109, 56], [109, 70], [100, 74], [82, 74], [86, 70]]
+    - band: band:ridge
+      space: zone:east_ridge
+      polygon: [[100, 74], [109, 70], [109, 90], [100, 92]]
+    - band: band:ridge
+      space: zone:pass_east
+      polygon: [[101, 60], [109, 60], [109, 68], [101, 68]]
+  cliffs:
+    - line: [[128, 24], [24, 24], [24, 128]]
+      drop: 1600
+      down: right
+      notes: "The world rim, north then west (drawn east to west and north to south, the low side outward); the lava falls over it at (44, 24) and (24, 51)."
+    - line: [[79, 107], [84, 106], [89, 107]]
+      drop: 1300
+      down: right
+      notes: "The Sardaj cliff: the peaks' south face down to D1's spring pool at the border."
+    - line: [[42, 58], [39, 50], [40, 42], [46, 37], [52, 35], [58, 37], [62, 44], [62, 52], [60, 56]]
+      drop: 500
+      down: left
+      notes: "Alamar's mesa: its cliffs into the moat (drawn round the mesa clockwise, the moat outside)."
+  ridges:
+    - {line: [[27, 101], [36, 100], [44, 99], [52, 100], [58, 98]], height: 3300, width: 2, slope: 4, notes: The southern border's crest west of the pass.}
+    - {line: [[70, 98], [78, 100], [88, 101], [98, 100], [106, 98]], height: 3400, width: 2, slope: 4, notes: "The crest east of the pass, on to the D5 ridge."}
+water:
+  bodies:
+    - id: water:rim_sea
+      kind: sea
+      level: 0
+      polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+      notes: "Below the rim: stands for the stars."
+    - id: water:pod_lake
+      kind: lake
+      level: 1450
+      polygon: [[64, 59], [70, 57], [77, 59], [80, 64], [80, 70], [76, 74], [69, 75], [63, 72], [61, 66]]
+      notes: "Corak's lava lake (D-40: the lava tile set, never water). The pod and the genie islet are height points inside it (an islet in lava is a height point)."
+      tile_set: lavtyl
+    - id: water:alamar_moat
+      kind: lake
+      level: 1550
+      polygon: [[40, 58], [35, 50], [36, 41], [42, 35], [51, 32], [60, 35], [65, 42], [65, 51], [62, 58], [59, 56], [61, 50], [60, 43], [56, 38], [51, 36], [45, 38], [40, 43], [39, 50], [43, 56]]
+      notes: "Alamar's moat: a horseshoe of lava round the mesa, open to the south (the approach)."
+      tile_set: lavtyl
+  rivers:
+    - id: water:burning_channel
+      line: [[63, 53], [65, 56], [66, 58]]
+      width_cells: 2
+      notes: "Lava from the moat's east arm down into Corak's lake (1,550 to 1,450)."
+      tile_set: lavtyl
+    - id: water:slag_run
+      line: [[36, 48], [31, 50], [27, 51], [24, 51]]
+      width_cells: 1.5
+      notes: "Lava from the moat's west arm to the west rim, where it falls."
+      tile_set: lavtyl
+    - id: water:north_falls
+      line: [[46, 34], [45, 30], [44, 26], [44, 24]]
+      width_cells: 1.5
+      notes: Lava from the moat's north arm over the north rim (the Northern Lava Falls).
+      tile_set: lavtyl
+roads:
+  - link: link:mountain_road
+    line: [[64, 109], [64, 104], [63.5, 100], [64, 96.5], [65, 92.5], [66, 88.5], [66, 85]]
+    width: road
+    surface: road_pebbles
+  - link: link:alamar_road
+    line: [[66, 85], [62, 81], [58.5, 76.5], [56, 71], [54, 66.5], [52, 62], [51.5, 57]]
+    width: road
+    surface: road_flagstone
+  - link: link:necropolis_road
+    line: [[66, 85], [71, 82.5], [76, 80], [80.5, 78], [84, 74.5], [87.5, 71.5], [91, 71]]
+    width: road
+    surface: road_pebbles
+  - link: link:pass_road
+    line: [[109, 64], [104, 64], [99, 65.5], [95, 68], [91, 71]]
+    width: road
+    surface: road_pebbles
+  - link: link:gate_lane
+    line: [[91, 71], [91, 74], [91, 78]]
+    width: road
+    surface: road_flagstone
+  - link: link:hatch_path
+    line: [[79, 78.5], [78, 75], [76.5, 72]]
+    width: lane
+    surface: gravel
+  - link: link:adit_track
+    line: [[66, 85], [60, 87], [54, 89], [48, 91], [44, 92], [42, 90], [37, 89], [40, 92.5], [44, 94.5], [46.5, 96.5]]
+    width: lane
+    surface: gravel
+  - link: link:obelisk_path
+    line: [[54, 66.5], [47, 65.5], [40, 64.5], [34, 63], [30.5, 62.5]]
+    width: lane
+    surface: gravel
+  - link: link:spring_track
+    line: [[40, 64.5], [35, 60], [32, 54.5], [31, 48], [30, 41], [30, 35], [30.5, 31]]
+    width: lane
+    surface: gravel
+  - link: link:field_track
+    line: [[80.5, 78], [83, 70], [84.5, 63], [82, 56], [79, 49], [78, 42], [78, 39.5]]
+    width: lane
+    surface: gravel
+  - link: link:rim_track
+    line: [[78, 39.5], [82, 36], [88, 33], [94, 31.5], [100, 31]]
+    width: lane
+    surface: gravel
+districts:
+  - space: town:necropolis
+    polygon: [[82, 74], [100, 74], [100, 90], [82, 90]]
+    plots:
+      - {building: building:np_guild, at: [84, 76], facing: e, door_to: zone:np_square}
+      - {building: building:np_market, at: [96, 76], facing: w, door_to: zone:np_square}
+      - {building: building:np_embalmer, at: [96, 80], facing: w, door_to: zone:np_square}
+      - {building: building:np_tavern, at: [84, 80], facing: e, door_to: zone:np_square}
+      - {building: building:np_temple, at: [89, 82], facing: n, door_to: zone:np_square}
+      - {building: building:np_houses, index: 1, at: [94, 83], facing: w, door_to: town:necropolis}
+      - {building: building:np_houses, index: 2, at: [90, 87], facing: n, door_to: town:necropolis}
+      - {building: building:np_houses, index: 3, at: [84, 87], facing: n, door_to: town:necropolis}
+      - {building: building:np_houses, index: 4, at: [87, 87], facing: n, door_to: town:necropolis}
+      - {building: building:np_houses, index: 5, at: [94, 87], facing: n, door_to: town:necropolis}
+      - {building: building:np_houses, index: 6, at: [84, 84], facing: e, door_to: town:necropolis}
+    notes: "A4's d6.yml: the guild 4751 and the tavern 4755 west of the square, the Grave Market 4753 and the Embalmer 4754 east, the Temple of the Dead 4752 south, six tombs and mausoleums 4757-4762 along the south lanes; the mirror 4756 on the square with the skull; the Books of the Dead at the square's west edge; DD-21's crypt stair in the south-east corner; one gate in the north wall."
+  - space: zone:ash_waste
+    polygon: [[24, 24], [64, 24], [64, 32], [60, 35], [51, 32], [42, 35], [36, 41], [35, 50], [40, 58], [36, 62], [24, 62]]
+  - space: zone:hot_spring
+    polygon: [[27, 27], [34, 27], [34, 34], [27, 34]]
+  - space: zone:alamar_plateau
+    polygon: [[43, 56], [39, 50], [40, 43], [45, 38], [51, 36], [56, 38], [60, 43], [61, 50], [59, 56], [57, 62], [46, 62]]
+  - space: zone:alamar_approach
+    polygon: [[46, 57], [57, 57], [57, 63], [46, 63]]
+  - space: zone:ancient_field
+    polygon: [[64, 24], [109, 24], [109, 56], [100, 58], [90, 58], [80, 56], [70, 53], [65, 51], [65, 42], [60, 35], [64, 32]]
+  - space: zone:pod_lake_shore
+    polygon: [[61, 52], [70, 53], [80, 56], [86, 62], [86, 70], [82, 76], [74, 80], [64, 80], [57, 74], [57, 62]]
+  - space: zone:pod_crust
+    polygon: [[73, 68], [78, 70], [78, 74], [74, 74]]
+  - space: zone:west_waste
+    polygon: [[24, 62], [36, 62], [40, 58], [46, 62], [46, 63], [57, 63], [57, 74], [60, 80], [56, 88], [44, 90], [24, 90]]
+  - space: zone:archer_camp
+    polygon: [[30, 83], [39, 83], [39, 89], [30, 89]]
+  - space: zone:obelisk_knoll
+    polygon: [[27, 59], [33, 59], [33, 65], [27, 65]]
+  - space: zone:south_peaks
+    polygon: [[24, 90], [44, 90], [56, 88], [60, 92], [60, 109], [24, 109]]
+  - space: zone:griffin_pass
+    polygon: [[59, 91], [70, 91], [70, 100], [59, 100]]
+  - space: zone:mountain_road
+    polygon: [[59, 100], [70, 100], [70, 109], [59, 109]]
+  - space: zone:east_peaks
+    polygon: [[70, 91], [76, 88], [82, 92], [100, 92], [109, 90], [109, 109], [70, 109]]
+  - space: zone:ash_fork_flats
+    polygon: [[57, 74], [64, 80], [74, 80], [82, 76], [82, 90], [76, 88], [70, 91], [59, 91], [60, 80]]
+  - space: zone:np_square
+    polygon: [[88, 75], [95, 75], [95, 81], [88, 81]]
+  - space: zone:bone_road
+    polygon: [[86, 62], [100, 58], [109, 56], [109, 70], [100, 74], [82, 74], [86, 70]]
+  - space: zone:climbers_camp
+    polygon: [[97, 67], [103, 67], [103, 72], [97, 72]]
+  - space: zone:pass_east
+    polygon: [[101, 60], [109, 60], [109, 68], [101, 68]]
+  - space: zone:east_ridge
+    polygon: [[100, 74], [109, 70], [109, 90], [100, 92]]
+  - space: zone:rim
+    polygon: [[0, 0], [128, 0], [128, 24], [24, 24], [24, 128], [0, 128]]
+points:
+  - {id: entrance:south_road, at: [64, 105], facing: n}
+  - {id: entrance:east_pass, at: [105, 64], facing: w}
+  - {id: entrance:necropolis_gate, at: [91, 77], facing: s}
+  - {id: entrance:np_gate, at: [91, 74], facing: n}
+  - {id: entrance:dd17_gate, at: [51, 55], facing: s}
+  - {id: entrance:fd01_stair, at: [51, 55], facing: s}
+  - {id: entrance:dd16_hatch, at: [74, 70], facing: n}
+  - {id: entrance:dd22_hatch, at: [78, 40], facing: s}
+  - {id: entrance:dd21_stair, at: [98, 88], facing: n}
+  - {id: entrance:dd10c_adit, at: [46, 97], facing: n}
+  - {id: junction:ash_fork, at: [66, 85]}
+  - {id: junction:bone_fork, at: [91, 71]}
+  - {id: poi:obelisk, at: [30, 62]}
+  - {id: poi:fountain_resilience, at: [30, 30]}
+  - {id: poi:warding_well, at: [101, 31]}
+  - {id: poi:books, at: [89, 79]}
+  - {id: poi:skull, at: [92, 78]}
+  - {id: poi:mirror, at: [92, 78]}
+  - {id: poi:barrel, at: [87, 81]}
+  - {id: poi:genie_pinnacle, at: [36, 40]}
+  - {id: poi:genie_islet, at: [66, 63]}
+  - {id: poi:genie_crag, at: [88, 101]}
+  - {id: poi:archers_chest, at: [35, 86]}
+  - {id: poi:griffin_nest, at: [76, 94]}
+  - {id: poi:prospector, at: [40, 96]}
+  - {id: poi:ancient_locker, at: [88, 44]}
+  - {id: poi:pilgrim_cart, at: [86, 69]}
+  - {id: poi:spring_pilgrim, at: [32, 32]}
+  - {id: poi:fork_signpost, at: [67, 86]}
+  - {id: poi:zone_sign, at: [102, 65]}
+  - {id: poi:ambrose, at: [61, 95]}
+  - {id: poi:climbers_camp, at: [100, 69]}
+  - {id: poi:travel_pyramid, at: [56, 62]}
+  - {id: entrance:xd17_pyramid, at: [54, 62], facing: n}
+  - {id: poi:mine_mouths, at: [38, 96]}
+  - {id: poi:mine_mouths, at: [54, 97]}
+  - {id: landmark:alamar, at: [51, 46]}
+  - {id: landmark:corak_pod, at: [72, 67]}
+  - {id: landmark:sheltem_pod, at: [78, 38]}
+  - {id: landmark:necropolis, at: [91, 82]}
+  - {id: landmark:north_falls, at: [44, 24]}
+  - {id: landmark:west_falls, at: [24, 51]}
+  - {id: landmark:broken_pyramid, at: [84, 98]}
+  - {id: landmark:cinder_cone, at: [49, 80]}
+  - {id: landmark:ridge_tower, at: [104, 81]}
+areas:
+  - id: pop:field_gazers
+    count: 17
+    slot: 1
+    polygon: [[64, 26], [104, 26], [106, 40], [104, 55], [94, 57], [84, 55], [72, 52], [66, 47], [66, 36]]
+    notes: "E1: Floating Eyes 40, Terrible Eyes 50, Gamma Gazers 65 (Dif 2) over the Ancient field and Sheltem's crater; the first fight from D5 at the field's south-east corner."
+  - id: pop:alamar_robots
+    count: 9
+    slot: 3
+    polygon: [[42, 37], [60, 37], [62, 46], [60, 56], [58, 64], [46, 64], [42, 56], [39, 47]]
+    notes: "E2: Patrols 50 (Annihilators 62, Autobots 75 rare; Dif 1) on the plateau and the approach; off after M33 (set:alamar)."
+  - id: pop:west_griffins
+    count: 8
+    slot: 2
+    polygon: [[26, 92], [44, 92], [55, 91], [56, 99], [57, 107], [26, 107]]
+    notes: "E4a: Griffins 48, Rocs 38, a Vulture Roc 30 now and then (Dif 5) on the western peaks round the mines."
+  - id: pop:east_griffins
+    count: 8
+    slot: 2
+    polygon: [[70, 93], [80, 93], [100, 95], [106, 96], [106, 107], [70, 107]]
+    notes: "E4b: the same on the eastern peaks; the first fight from D1 (the pass is clear)."
+  - id: pop:lava_dwellers
+    kind: encounter
+    count: 14
+    slot: 3
+    polygon: [[60, 55], [70, 53], [79, 57], [82, 63], [79, 66], [71, 68], [70, 76], [64, 75], [60, 68]]
+    notes: "E3: 14 placed elementals (the lava dwellers' stand-in) on the lake's crust and the Burning Channel; see actors."
+  - id: pop:archers
+    kind: encounter
+    count: 12
+    slot: 3
+    polygon: [[30, 83], [39, 83], [39, 89], [30, 89]]
+    notes: "E6: the archers' camp, 12 placed (new tiers asked of A2)."
+  - id: zone:mountain_road
+    kind: keep_clear
+    polygon: [[59, 92], [69, 92], [69, 109], [59, 109]]
+    notes: The D1 arrival and Ambrose's camp at Griffin Pass.
+  - id: zone:pass_east
+    kind: keep_clear
+    polygon: [[96, 59], [109, 59], [109, 73], [96, 73]]
+    notes: The D5 arrival and the climbers' camp.
+  - id: town:necropolis
+    kind: keep_clear
+    polygon: [[77, 69], [105, 69], [105, 95], [77, 95]]
+    notes: "Necropolis and its buffer (2,500 round the doors)."
+  - id: zone:hot_spring
+    kind: keep_clear
+    polygon: [[27, 27], [34, 27], [34, 34], [27, 34]]
+  - id: zone:obelisk_knoll
+    kind: keep_clear
+    polygon: [[27, 59], [33, 59], [33, 65], [27, 65]]
+  - id: zone:pod_crust
+    kind: keep_clear
+    polygon: [[73, 68], [80, 70], [81, 77], [74, 76]]
+    notes: The hatch's crust and DD-16's way out.
+  - id: zone:ash_fork_flats
+    kind: keep_clear
+    polygon: [[60, 80], [72, 80], [72, 90], [60, 90]]
+    notes: "Ash Fork: quiet."
+  - id: zone:south_peaks
+    kind: keep_clear
+    polygon: [[42, 93], [50, 93], [50, 101], [42, 101]]
+    notes: "D-49 change 3: no spawn marker within 2,000 of DD-10C's return point outside the adit."
+  - id: zone:alamar_approach
+    kind: keep_clear
+    polygon: [[50, 58], [58, 58], [58, 66], [50, 66]]
+    notes: "D-50 Q9: no spawn marker within 2,000 of the travel pyramid's arrival."
+views:
+  - {id: view:arrival, at: [64, 96], height: 180, look: [62, 52], purpose: "MU-4 arrival view: from Griffin Pass at the top of the mountain road, looking north over the Forbidden Zone: the road falling to Ash Fork, the ash flats, Corak's lava lake glowing right of centre with the pod in it, Castle Alamar far north on its mesa ringed by lava, the Ancient field's metal at the right, the Northern Lava Falls smoking at the rim, ash in the air (Ambrose's camp is beside the camera, out of frame)."}
+  - {id: view:signature, at: [82, 72], height: 180, look: [61, 58], purpose: "MU-4 signature view (about 60 degrees): from the lake's east shore by the Necropolis road, looking north-west: Corak's escape pod nose-up in the glowing lava lake left of centre, its hatch on the crust nearest, and beyond the lake and the moat Castle Alamar's lit walls and energy fields on their mesa right of centre, under the amber day band with ash falling."}
+actors:
+  - {monster: "11620", at: [63, 58], count: 3, spread: 2, group: 1, hostile: true, notes: "Lesser Elementals 55 at the Burning Channel's mouth (the lava dwellers' stand-in, A7's DD-16 choice): home radius on the crust, never on the roads."}
+  - {monster: "11620", at: [63, 70], count: 3, spread: 2, group: 2, hostile: true, notes: "Lesser Elementals 55 on the lake's west shore, by the Alamar road's view."}
+  - {monster: "11621", at: [64, 72], count: 1, spread: 0, group: 2, hostile: true, notes: An Elemental 62 with them.}
+  - {monster: "11620", at: [76, 58], count: 3, spread: 2, group: 3, hostile: true, notes: Lesser Elementals 55 on the lake's north shore.}
+  - {monster: "11621", at: [80, 64], count: 1, spread: 0, group: 3, hostile: true}
+  - {monster: "11620", at: [67, 61], count: 2, spread: 1, group: 4, hostile: true, notes: Two round the genie islet (the lure).}
+  - {monster: "11621", at: [65, 72], count: 1, spread: 0, group: 4, hostile: true, notes: "An Elemental 62 on the south-west shore: its home and radius stay 2,500 clear of DD-16's way out (D-49 change 4)."}
+  - {monster: "11104", at: [34, 86], count: 9, spread: 2, group: 5, hostile: true, notes: "Barbarian Archers 44 (A2's 11104, faction xeen_barbarians_archers; D-49 Q3)."}
+  - {monster: "11105", at: [35, 85], count: 3, spread: 1, group: 5, hostile: true, notes: Archer Chiefs 50 (A2's 11105).}
+  - {monster: Peasant, at: [61, 95], count: 1, spread: 0, group: 6, hostile: false, npc: 5512, notes: "Ambrose (talking actor 5512) at his camp by the griffin (M25); hidden on load after m25.done (m25.camp_gone, D-49 change 6)."}
+  - {monster: "11913", at: [62, 96], count: 1, spread: 0, group: 6, hostile: false, notes: "The Tethered Griffin (A2's 11913: peaceful, placed-only, immobile, not counted); hidden with Ambrose."}

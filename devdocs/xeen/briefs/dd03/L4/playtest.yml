@@ -1,0 +1,384 @@
+# Playtest of Castle Kalindra (DD-03, L4; lane A8, agent:xeen-a8-dd03, 2026-11-20): the castle stage by stage, as the
+# Energy Disks bring it back. Stage 0 (nothing set; D1's gate refuses then, the map is loaded straight): the
+# portcullis shut and its line, the houses' closed texts (A4's), the mirror's closed text. Stage 1 (m19.stage1 111381
+# set by console as Ellinger's topic would, then a save and load): the portcullis up, the arrival (m19.first_entry,
+# arrived_once 117320), the stage-2 to stage-4 monsters hidden; the throne room's safes (m19.safes: the hook, two
+# Energy Disks, then a trapped chest); Carl the Mason at his bench; the Cloud Stairs' mist line and shut leaf; the coat
+# closet's illusory wall into the armory; the tougher safe (a wrong combination, then 10-11-12); the dungeon stair's
+# mist line; the yard's phase wall. Stage 2 (111382, reload): the Cloud Stairs open, the second floor's spirits shown;
+# up to the vaults; the disk safes before Dimitri (fail text), after m24.done (111481) a wrong combination, 64-52-31
+# (four disks), then empty; the upper stair's mist line. Stage 3 (111521, reload): the dungeon stair; the ledger
+# (t2-a.cells), the liches killed (t2-a.liches, 114521), Scraps' notes and lever (the portcullis up and down), the
+# vault's secret door and tougher safe. Stage 4 (111522, reload): up the upper stair; the bedchamber's brews (once per
+# character), the crown safe (fail text, then queen_found 111543 and 3-31-62), 'Activate Mirror Portals?'; the yard's
+# mirror. Last every window closed and a save and load: the stages' doors still open, the monsters still shown.
+# Numbers are ids.lock.yml's: events (click), doors (door_state, open_door), chests (loot_chest by event). Actor
+# indices follow objects.yml's monsters sorted by id (16-20 the liches, 31 phase gallery, 37 the Queen's gallery, 43
+# Scraps, 44 sleeping, 54-55 the well's dragons).
+# Each stage (session 7): its phase shimmer once (map vars phase_seen1-4, numbers 4-7) and the phase loops of the
+# leaves it opens switched off (AmbientSound7 Cloud Stairs, 8 dungeon stair, 3 and 11 the yard's wall and the upper
+# stair at stage 4).
+id: xeen.dd03.l4.walk
+title: Castle Kalindra (DD-03 L4), the four stages, the safes, the liches, Scraps' lever, the Queen's floor
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd03.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 35, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 35, skills: [], equipment: {}}
+  - assert: {map: xeen_dd03.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: -1600, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  # ---- Stage 0: the portcullis shut, closed texts, the stages' monsters hidden.
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if qbit(117320) then error("arrived_once set before stage 1") end
+        if door_state(12) ~= 'closed' then error("the portcullis is " .. door_state(12) .. " at stage 0") end
+        status(); click(50); wait(0.5)
+        local s = status()
+        if not string.find(s, "will not move", 1, true) then error("the portcullis said: " .. s) end
+  - assert: {actor_visible: {actor_index: 44, hidden: true}}
+  - assert: {actor_visible: {actor_index: 16, hidden: true}}
+  - assert: {actor_visible: {actor_index: 37, hidden: true}}
+  - assert: {actor_visible: {actor_index: 27, hidden: false}}
+  - play_lua: {source: "click(26); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Your hand passes through the throne"}}
+  - play_lua: {source: "close(); click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "A shimmering wall seals the second floor"}}
+  - play_lua: {source: "close(); click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The dungeon stair ends in shimmering nothing"}}
+  - play_lua: {source: "close(); click(22); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The third floor shimmers"}}
+  - play_lua: {source: "close(); click(78); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Ghostly horses"}}
+  - play_lua: {source: "close(); click(42); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The mirror shows the castle as it was"}}
+  - play_lua: {source: "close()"}
+  # ---- Stage 1: Ellinger has five disks (m19.stage1); the next entry is a save and load.
+  - console: {line: "qbit set 111381"}
+  - reload: {}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Half of it is solid stone"}}
+  - play_lua:
+      source: |
+        close(); wait(4)
+        if not qbit(117320) then error("arrived_once not set") end
+        if door_state(12) ~= 'open' then error("the portcullis did not rise: " .. door_state(12)) end
+        if mapvar(4) ~= 1 then error("stage 1's phase shimmer (phase_seen1) did not run") end
+  - assert: {actor_visible: {actor_index: 44, hidden: true}}
+  - assert: {actor_visible: {actor_index: 43, hidden: true}}
+  # Into the entrance hall and the throne room.
+  - walk_to: {x: -700, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 14)"}
+  - walk_to: {x: 1350, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1728, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The thievery safes (m19.safes): the first opened runs the hook and gives the two disks; then it is a chest.
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[two energy discs]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3); stow()
+        if not qbit(111383) then error("safes_opened not set") end
+        if item_count(12334) ~= 2 then error("energy disks after the safe: " .. item_count(12334)) end
+        local g = gold(); loot_chest(53); close(); loot_chest(52); close()
+        if gold() <= g then error("the safes held no gold") end
+        if item_count(12334) ~= 2 then error("energy disks after the chests: " .. item_count(12334)) end
+  # The servants' passage to the kitchen: Carl the Mason.
+  - walk_to: {x: 2304, y: 700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2304, y: 1250, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2600, y: 1500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "just keep walking"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Through the banquet hall to the north wing and the Cloud Stairs: the mist line, the leaf shut.
+  - walk_to: {x: 1800, y: 1920, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1350, y: 1920, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 768, y: 1650, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 2)"}
+  - walk_to: {x: 768, y: 1216, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -800, y: 1216, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1250, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status()"}
+  - walk_to: {x: -1536, y: 1560, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        wait(0.5)
+        local s = status()
+        if not string.find(s, "as though they were mist", 1, true) then error("no mist line at the Cloud Stairs: " .. s) end
+        if door_state(8) ~= 'closed' then error("the Cloud Stairs' leaf is " .. door_state(8) .. " at stage 1") end
+        status(); click(36); wait(0.5)
+        s = status()
+        if not string.find(s, "out of phase", 1, true) then error("the leaf said: " .. s) end
+  # Back through the throne room to the coat closet; its back wall is an illusion: walk on into the armory.
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2700, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 7)"}
+  - walk_to: {x: 3328, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3900, y: 640, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 3900, y: 640, radius: 96, z_min: -8, z_max: 8}}
+  # The armory's tougher safe: a wrong combination, then Guido's 10-11-12.
+  - walk_to: {x: 3900, y: -600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(1); wait(0.5)"}
+  - answer_input: {text: "1-2-3"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "A tougher safe than the others", 1, true) then error("the wrong combination said: " .. s) end
+        click(1); wait(0.5)
+  - answer_input: {text: "10-11-12"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local g = gold(); loot_chest(1); close()
+        if gold() <= g then error("the tougher safe held no gold") end
+  # The south wing to the dungeon stair: the mist line, the leaf shut.
+  - play_lua: {source: "open_door(9, 1)"}
+  - walk_to: {x: 4352, y: -1216, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 5376, y: -1150, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "status()"}
+  - walk_to: {x: 5376, y: -1300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        wait(0.5)
+        local s = status()
+        if not string.find(s, "as though they were mist", 1, true) then error("no mist line at the dungeon stair: " .. s) end
+        if door_state(9) ~= 'closed' then error("the dungeon stair's leaf is " .. door_state(9) .. " at stage 1") end
+  # The yard's phase wall refuses (stage 4).
+  - walk_to: {x: 4352, y: -1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2048, y: -1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2048, y: -500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: -750, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(39); wait(0.5)
+        local s = status()
+        if not string.find(s, "horses stamp", 1, true) then error("the phase wall said: " .. s) end
+        if door_state(20) ~= 'closed' then error("the yard's wall is " .. door_state(20) .. " at stage 1") end
+  # ---- Stage 2 (m19.stage2): a save and load.
+  - console: {line: "qbit set 111382"}
+  - reload: {}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if door_state(8) ~= 'open' then error("the Cloud Stairs' leaf did not open: " .. door_state(8)) end
+        if mapvar(5) ~= 1 then error("stage 2's phase shimmer (phase_seen2) did not run") end
+        if mapvar("AmbientSound7") ~= 2 then error("the Cloud Stairs' phase loop is not off") end
+        if mapvar("AmbientSound3") == 2 then error("the yard wall's phase loop is off at stage 2") end
+        if door_state(16) ~= 'closed' then error("the upper stair opened at stage 2") end
+  - assert: {actor_visible: {actor_index: 44, hidden: false}}
+  - assert: {actor_visible: {actor_index: 31, hidden: false}}
+  - assert: {actor_visible: {actor_index: 16, hidden: true}}
+  - walk_to: {x: 64, y: 700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 64, y: 1216, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1536, y: 1600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1536, y: 3200, z: 640, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: 3200, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status()"}
+  - walk_to: {x: -384, y: 3360, z: 640, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        wait(0.5)
+        local s = status()
+        if not string.find(s, "as though they were mist", 1, true) then error("no mist line at the upper stair: " .. s) end
+  # Captain's corridor, the Sleeping Chambers, the phase gallery, the vaults.
+  - walk_to: {x: 600, y: 3136, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1152, y: 3136, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 13)"}
+  - walk_to: {x: 1152, y: 2500, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1700, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2304, y: 2240, z: 640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2304, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(17, 18)"}
+  - walk_to: {x: 3400, y: 1856, z: 640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The disk safes: before Dimitri (m24.done) the fail text; then a wrong combination, 64-52-31, empty.
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'Six dials, and no idea', 1, true) then error('no line: ' .. s) end"}
+  - console: {line: "qbit set 111481"}
+  - play_lua: {source: "status(); click(8); wait(0.5)"}
+  - answer_input: {text: "1-2-3"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "safe stays shut", 1, true) then error("the wrong combination said: " .. s) end
+        if item_count(12334) ~= 2 then error("disks after a wrong combination: " .. item_count(12334)) end
+        click(8); wait(0.5)
+  - answer_input: {text: "64-52-31"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[four Energy Disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3); stow()
+        if not qbit(111483) then error("m24 safes_opened not set") end
+        if item_count(12334) ~= 6 then error("disks after the disk safes: " .. item_count(12334)) end
+        click(8); wait(0.5)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The safe is empty]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # ---- Stage 3 (m26.stage3): a save and load; down the dungeon stair.
+  - console: {line: "qbit set 111521"}
+  - reload: {}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if door_state(9) ~= 'open' then error("the dungeon stair did not open: " .. door_state(9)) end
+        if mapvar(6) ~= 1 then error("stage 3's phase shimmer (phase_seen3) did not run") end
+        if mapvar("AmbientSound8") ~= 2 then error("the dungeon stair's phase loop is not off") end
+  - assert: {actor_visible: {actor_index: 16, hidden: false}}
+  - assert: {actor_visible: {actor_index: 43, hidden: false}}
+  - assert: {actor_visible: {actor_index: 54, hidden: false}}
+  - assert: {actor_visible: {actor_index: 37, hidden: true}}
+  - set_pose: {map: xeen_dd03.blv, x: 5376, y: -1216, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 5376, y: -2000, z: -320, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5376, y: -2900, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 5600, y: -3328, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Vexor the Black"}}
+  - play_lua: {source: "close()"}
+  # The cell block: the five liches killed run t2-a.liches.
+  - walk_to: {x: 4900, y: -3264, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 6)"}
+  - walk_to: {x: 4300, y: -3264, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(114521) then error("liches_slain not set") end
+  # Maximum Security: the notes, the lever (the kennel's portcullis up and down).
+  - walk_to: {x: 2600, y: -3392, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1900, y: -3700, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Don't let Scraps out!"}}
+  - play_lua:
+      source: |
+        close()
+        if door_state(11) ~= 'closed' then error("the kennel portcullis is " .. door_state(11)) end
+        click(33); wait(6)
+        if door_state(11) ~= 'open' then error("the lever did not raise the portcullis: " .. door_state(11)) end
+        click(33); wait(6)
+        if door_state(11) ~= 'closed' then error("the lever did not lower the portcullis: " .. door_state(11)) end
+  # The vault's secret door, its tougher safe.
+  - walk_to: {x: 2150, y: -4160, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 17)"}
+  - walk_to: {x: 3008, y: -4700, z: -640, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(70); wait(0.5)"}
+  - answer_input: {text: "10-11-12"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        local g = gold(); loot_chest(70); close()
+        if gold() <= g then error("the vault's safe held no gold") end
+  # ---- Stage 4 (m26.stage4): a save and load; the upper stair, the Queen's floor.
+  - console: {line: "qbit set 111522"}
+  - reload: {}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if door_state(16) ~= 'open' then error("the upper stair did not open: " .. door_state(16)) end
+        if door_state(20) ~= 'open' then error("the yard's wall did not open: " .. door_state(20)) end
+        if mapvar(7) ~= 1 then error("stage 4's phase shimmer (phase_seen4) did not run") end
+        if mapvar("AmbientSound3") ~= 2 or mapvar("AmbientSound11") ~= 2 then error("stage 4's phase loops are not off") end
+  - assert: {actor_visible: {actor_index: 37, hidden: false}}
+  - set_pose: {map: xeen_dd03.blv, x: -384, y: 3200, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -384, y: 4100, z: 960, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -384, y: 4992, z: 1280, z_tolerance: 60, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 700, y: 4992, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2300, y: 5120, z: 1280, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 4)"}
+  - walk_to: {x: 3200, y: 4900, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The brews: +2 once per character.
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+2 Personality', 1, true) then error('no line: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'You have had your fill', 1, true) then error('no line: ' .. s) end"}
+  - play_lua: {source: "click(35); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+2 Might', 1, true) then error('no line: ' .. s) end"}
+  # The crown safe: the fail text before queen_found, then 3-31-62.
+  - walk_to: {x: 2880, y: 5400, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'Six dials, and no idea', 1, true) then error('no line: ' .. s) end"}
+  - console: {line: "qbit set 111543"}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - answer_input: {text: "3-31-62"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[the Queen's crown]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(111541) then error("m27.crown not set") end
+        stow(); if not has_item(12374) then error("no crown") end
+  # Activate Mirror Portals? (m26.mirror_switch)
+  - walk_to: {x: 3450, y: 5376, z: 1280, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(43); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the mirrors wake"}}
+  - play_lua: {source: "close()"}
+  # The stable yard: open sky, the mirror touched (no other Darkside mirror touched yet).
+  - set_pose: {map: xeen_dd03.blv, x: 64, y: -600, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 64, y: -1300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -128, y: -2900, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "you in it"}}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(119008) then error("the Kalindra mirror was not touched") end
+  # Every window closed, a save and load: the stages' doors still open, the monsters still shown.
+  - reload: {}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        for _, d in ipairs({12, 8, 9, 16, 20}) do
+            if door_state(d) ~= 'open' then error("door " .. d .. " after the reload: " .. door_state(d)) end
+        end
+        if not qbit(114521) or not qbit(111483) or not qbit(111541) then error("quest bits lost in the reload") end
+        if item_count(12334) ~= 6 then error("disks after the reload: " .. item_count(12334)) end
+  - assert: {actor_visible: {actor_index: 43, hidden: false}}
+  - assert: {actor_visible: {actor_index: 7, hidden: false}}
+  - assert: {map: xeen_dd03.blv}

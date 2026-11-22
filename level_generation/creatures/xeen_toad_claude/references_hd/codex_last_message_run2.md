@@ -1,0 +1,5 @@
+Run 2 is complete. The [five-view contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_toad_claude/references_hd/selected_views_review.png) shows the selected primary alongside the new front, back, left, and right views.
+
+All four new masters are unresized 1536×1024 RGBA PNGs. Each visible silhouette clears every edge by at least 60 px. The [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_toad_claude/references_hd/generation_runs.json) includes all six built-in image generation attempts, their prompts, input hashes, and selection reasons.
+
+Two details remain ambiguous for modelling. The front view shows four clear pads per hind foot, with the fifth partly hidden. In the left profile, the front hands overlap enough to obscure the near hand’s finger count.

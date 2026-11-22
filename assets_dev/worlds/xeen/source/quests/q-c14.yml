@@ -1,0 +1,50 @@
+# Q-C14 Lava for the Water Clock (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Halon's workshop is on X5 (A4, house 4274); the Ever-Hot Lava Rock lies near Mount Firestone's crater (X7, the trap
+# map, Act V), so the quest is Act V. D-40: the rock is on the cooled-flow island in X7's lava lake. The Widget it
+# pays is what Picard trades for the Chime of Opening (M40).
+id: Q-C14
+title: Lava for the Water Clock
+act: V
+kind: side
+status: full
+giver: 4526          # Halon the Efficient (X5)
+maps: [X5, X7]
+level: 45
+block: 64
+after: []
+source: "QUESTS Q-C14; xeen/aaze0007 (Halon)"
+
+qbits:
+  started: {id: 112280, journal: "Halon the Efficient's water clock freezes every winter. He wants magical lava from Mount Firestone.",
+            until: [done]}
+  rock_found: {id: 112281, pending: true, note: "nothing sets it since D-90 (c) (the rock is a ground item, map_gives); X7's project.yml still lists it (plan state rock_taken, atmosphere only): drop both at X7's next rebuild"}
+  done: {id: 112282}
+
+items:
+  lava_rock: "the Ever-Hot Lava Rock; on the cooled-flow island in X7's lava lake; Halon takes it."
+  widget: "Halon's Widget; Picard takes it in M40 (Act VI)."
+
+npcs:
+  4526:              # Halon the Efficient
+    topics:
+      - n: 1
+        label: Water clock
+        states:
+          - when: {qbit: done}
+            text: "It is wonderful to see my clock work year round. But still, one can never have enough time."
+          - when: {item: lava_rock}
+            text: "Lava! Great! You can't imagine how much time you have saved me. Take this widget as payment."
+            do: [{take: lava_rock}, {give: widget}, {set: done}, {clear: started}, {xp: 12000}]
+          - when: {qbit: started}
+            text: "You don't have the lava! Why are you standing around wasting time when you could be out looking for lava?!?"
+          - text: "I am Halon the Efficient. I have moved here from Rivercity to avoid the timewasters that place is full of. To help me keep track of time I have constructed a massive water clock, but the water freezes every winter. If I had some magical lava from Mount Firestone, I could melt the ice in the clock. Bring me some lava and I will reward you."
+            do: [{set: started}]
+
+hooks:
+  lava_rock:
+    map: X7
+    where: "on the cooled-flow island in the lava lake under the north rim (D-40; its causeway, the 8 placed Lava Golems): a ground item since D-90 (c) (A5, X7 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the rock)"
+    map_gives: {lava_rock: 1}
+
+rewards: {xp: 12000, gold: 0}
+playthrough: "X5: Halon (Water clock). X7: the lava rock on the cooled-flow island. X5: Halon (Water clock): the Widget."

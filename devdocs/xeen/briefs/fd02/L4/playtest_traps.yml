@@ -1,0 +1,104 @@
+# D-57 APPROVAL and Q9: one unprotected crossing of each run (a level-59 party, not immortal, every member at full HP:
+# Knight 335, Cleric 150, Archer 210, Sorcerer 140) costs each member at most 25 % of its HP and kills nobody (4 x 8 on
+# the Swinging Death, 3 x 11 on the Chopping Death: the sorcerer 23 %). The Chopping Death's mask: No ("Begone, then!",
+# no gold taken). The Swinging Death's mask: Yes (A3's m40.mask_swinging: 2,000 gold, swinging_paid 118116, its line);
+# the blades go into their slots and a second crossing costs nothing; clicked again, the clue bought (500, "There's
+# one born every minute."), and again, refused ("Begone, then!"); every window closed, a save and load: the blades still in their slots, a third crossing free.
+id: xeen.fd02.l4.traps
+title: "Southern Sphinx (FD-02 L4), the death runs within the cap and the masks"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_fd02.blv
+      party:
+        gold: 6000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 59, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 59, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 59, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 59, skills: [], equipment: {}}
+  - assert: {map: xeen_fd02.blv}
+  - play_lua: {source: "wait(2); close()"}
+  - walk_to: {x: -840, y: 0, z: -256, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(53, 13)"}
+  - walk_to: {x: -1200, y: 0, z: -256, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2400, y: 0, z: -256, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 6000}
+  - walk_to: {x: -3250, y: 256, z: -256, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 335}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 150}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 210}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 140}
+  - walk_to: {x: -4540, y: 256, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "log('after the Swinging Death: ' .. party())"}
+  - assert: {member_points: {member_index: 0, health_min: 252, health_max: 334}}
+  - assert: {member_points: {member_index: 1, health_min: 113, health_max: 149}}
+  - assert: {member_points: {member_index: 2, health_min: 158, health_max: 209}}
+  - assert: {member_points: {member_index: 3, health_min: 105, health_max: 139}}
+  - walk_to: {x: -3250, y: 256, z: -256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -3250, y: -256, z: -256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 335}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 150}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 210}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 140}
+  - walk_to: {x: -4540, y: -256, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {member_points: {member_index: 0, health_min: 252, health_max: 334}}
+  - assert: {member_points: {member_index: 1, health_min: 113, health_max: 149}}
+  - assert: {member_points: {member_index: 2, health_min: 158, health_max: 209}}
+  - assert: {member_points: {member_index: 3, health_min: 105, health_max: 139}}
+  - walk_to: {x: -3500, y: -256, z: -256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -3520, y: -340, z: -256, radius: 40, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Chopping Death"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Begone, then!"}}
+  - play_lua: {source: "close(); if gold() ~= 6000 then error('gold taken on No: ' .. gold()) end; if qbit(118117) then error('chopping_paid on No') end"}
+  - walk_to: {x: -3500, y: 256, z: -256, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -3520, y: 340, z: -256, radius: 40, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Swinging Death"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "blades swing slower"}}
+  - play_lua: {source: "close(); close(); if not qbit(118116) then error('swinging_paid 118116 not set') end; if gold() ~= 4000 then error('gold after paying: ' .. gold()) end; wait(3); for _, d in ipairs({9, 10, 11, 12}) do if door_state(d) ~= 'open' then error('blade ' .. d .. ' not in its slot: ' .. door_state(d)) end end"}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 335}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 150}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 210}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 140}
+  - walk_to: {x: -4540, y: 256, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {member_points: {member_index: 0, health_min: 335, health_max: 335}}
+  - assert: {member_points: {member_index: 1, health_min: 150, health_max: 150}}
+  - assert: {member_points: {member_index: 2, health_min: 210, health_max: 210}}
+  - assert: {member_points: {member_index: 3, health_min: 140, health_max: 140}}
+  - walk_to: {x: -3520, y: 340, z: -256, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "another 500"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "born every minute"}}
+  - play_lua: {source: "close(); close(); if gold() ~= 3500 then error('gold after the clue: ' .. gold()) end"}
+  - play_lua: {source: "click(25); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "another 500"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Begone, then!"}}
+  - play_lua: {source: "close(); close(); if gold() ~= 3500 then error('gold after No to the clue: ' .. gold()) end"}
+  - reload: {}
+  - play_lua: {source: "wait(3); close(); if not qbit(118116) then error('swinging_paid lost') end; for _, d in ipairs({9, 10, 11, 12}) do if door_state(d) ~= 'open' then error('blade ' .. d .. ' after reload: ' .. door_state(d)) end end; for _, d in ipairs({6, 7, 8}) do log('chop ' .. d .. ' ' .. door_state(d)) end"}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 335}
+  - setup_shortcut: {kind: set_member_points, member_index: 1, health: 150}
+  - setup_shortcut: {kind: set_member_points, member_index: 2, health: 210}
+  - setup_shortcut: {kind: set_member_points, member_index: 3, health: 140}
+  - walk_to: {x: -3250, y: 256, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -4540, y: 256, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {member_points: {member_index: 0, health_min: 335, health_max: 335}}
+  - assert: {member_points: {member_index: 1, health_min: 150, health_max: 150}}
+  - assert: {member_points: {member_index: 2, health_min: 210, health_max: 210}}
+  - assert: {member_points: {member_index: 3, health_min: 140, health_max: 140}}

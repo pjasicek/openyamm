@@ -1,0 +1,151 @@
+# M24 The Songbird freed (QUESTS M24; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The Dungeon of Lost Souls (DD-12, the isle off Lakeside, A8): five floors of "think positive" gates, each a yes/no
+# question whose cheerful answer opens it (the entrance carving says so plainly); the Songbird of Serenity caged on
+# the fifth floor. Dimitri hears it sing and recovers: the Queen was given to Count Blackfang and made a vampire; only
+# her own crown can undo it. He gives the second floor's disk-safe combination (64-52-31; 4 Energy Disks, M18) and
+# sends the party to Ambrose, the Queen's Knight (M25). The Songbird is A2's relic: the party keeps it.
+id: M24
+title: The Songbird of Serenity
+act: IV
+kind: main
+status: full
+giver: 5004          # Dimitri (DD-03, stage 2)
+maps: [D4, DD-12, DD-03]
+level: 38
+block: 24
+after: [m20.started]
+source: "QUESTS M24; dark research 1 (steps 9-10); MAPS DD-12 (\"Never underestimate the power of positive thinking.\")"
+
+qbits:
+  dd12_arrived_once: {id: 117440, map: DD-12, note: "the map's own: first arrival in DD-12 (A8; block 117440-117479, provisional)"}
+  bird_freed: {id: 111480, pending: "phase 4: DD-12 L5's cage (A8)"}
+  done: {id: 111481, journal: "Dimitri is himself again. The Queen is Count Blackfang's prisoner and a vampire; only her crown can cure her. Ambrose, the Queen's Knight, has a way into Castle Blackfang.",
+         until: [m25.started]}
+  thanked: {id: 111482, note: "Megan thanked the party"}
+  safes_opened: {id: 111483, pending: "phase 3-4: DD-03 L2's disk safes (A8), after Dimitri's combination"}
+  dd12_gate1: {id: 117441, map: DD-12, note: "the map's own: L1's gate answered Yes (A8; m24.gate1, gate_open)"}
+  dd12_gate2: {id: 117442, map: DD-12, note: "the map's own: L2's gate answered Yes (A8)"}
+  dd12_gate3: {id: 117443, map: DD-12, note: "the map's own: L3's gate answered Yes (A8)"}
+  dd12_gate4: {id: 117444, map: DD-12, note: "the map's own: L4's gate answered Yes (A8)"}
+  dd12_gate5: {id: 117445, map: DD-12, note: "the map's own: L5's gate answered Yes (A8)"}
+
+player_bits:         # DD-12's Soul Waters, once per drinking member (D-42 Q5); the hooks decide
+  soul_waters_l3: {id: 11348, map: DD-12, note: "the Soul Waters on L3: 1,000 experience to the drinking member"}
+  soul_waters_l4: {id: 11349, map: DD-12, note: "the Minotaur's Private Reserve's Soul Waters on L4: 2,000 experience to the drinking member"}
+
+autonotes:
+  combination: {id: 4124, text: "Dimitri: the disk safes on Castle Kalindra's second floor open to 64-52-31. Ambrose, the Queen's Knight, waits at Griffin Pass.", category: Misc}
+
+awards:
+  cheered: {id: 407, text: "Cheered Dimitri", sort: 2}
+
+items:
+  lost_souls_key: "Megan's (M20); the Songbird's cage on L5 needs it (songbird; D-89)"
+  songbird_of_serenity: "DD-12 L5's cage; the party keeps it (A2's relic)"
+  energy_disk: "4 in DD-03 L2's disk safes (M18)"
+
+npcs:
+  5004:              # Dimitri
+    topics:
+      - n: 1
+        label: The Songbird
+        show: {any: [{item: songbird_of_serenity}, {qbit: done}]}
+        states:
+          - when: {qbit: done}
+            text: "Ambrose is at Griffin Pass, on the south edge of the Forbidden Zone. He asks everyone who sent them. Tell him Dimitri did, and he'll listen."
+          - text: "That song... I have been sitting in the dark like a fool. Listen. When Alamar took the castle, he gave the Queen to Count Blackfang, and the Count made her a vampire. Only her own crown can undo it, and it is in her bedroom safe, upstairs, in the part of the castle that isn't back yet. The disk safes on this floor open to 64, 52, 31. And go to Ambrose, the Queen's Knight, at Griffin Pass. He has been trying to reach Blackfang for a year. Keep the bird. I'll hear it when you pass."
+            do: [{set: done}, {set: m25.started}, {autonote: combination}, {award: cheered}, {xp: 7000}, {treasure: 5}]
+  5005:              # Megan
+    topics:
+      - n: 2
+        label: Thanks
+        show: {all: [{qbit: done}, {not: {qbit: thanked}}]}
+        text: "Father laughed this morning. At breakfast. At nothing! Here, it's all I have that's worth anything. I took it from the guard room when nobody was guarding it."
+        do: [{set: thanked}, {xp: 4000}, {treasure: 5}]
+
+hooks:
+  arrival:
+    map: DD-12
+    where: "the entrance hall, carved over the first gate (the first arrival's text and the carving's click)"
+    text: "Carved over the gate: NEVER UNDERESTIMATE THE POWER OF POSITIVE THINKING. Under it, smaller: Answer gladly and the way opens."
+  gate1:
+    map: DD-12
+    where: "L1's gate: the map asks this yes/no question; yes calls gate_open, no calls gate_shut"
+    text: "\"Will you find what you came for?\" (Yes / No)"
+  gate2:
+    map: DD-12
+    where: "L2's gate (same yes/no mechanism)"
+    text: "\"Is the glass half full?\" (Yes / No)"
+  gate3:
+    map: DD-12
+    where: "L3's gate (same yes/no mechanism)"
+    text: "\"Will tomorrow be better than today?\" (Yes / No)"
+  gate4:
+    map: DD-12
+    where: "L4's gate (same yes/no mechanism)"
+    text: "\"Are your friends glad you came?\" (Yes / No)"
+  gate5:
+    map: DD-12
+    where: "L5's gate (same yes/no mechanism)"
+    text: "\"Is the Songbird waiting for you?\" (Yes / No)"
+  gate_open:
+    map: DD-12
+    where: "any gate, yes: the map opens it"
+    text: "The gate swings open, cheerfully."
+  gate_shut:
+    map: DD-12
+    where: "any gate, no: the gate stays shut (the map may also send a gloomy wave of the floor's monsters, A8's choice)"
+    text: "The gate sighs, and stays shut. So does your mood."
+  songbird:
+    map: DD-12
+    where: "the cage on L5 (behind the fifth gate); D-89 INWARD: Megan's key opens it"
+    gate: beat
+    needs: [lost_souls_key]
+    fail_text: "The Songbird sits in a locked cage and looks at you as if you were the ones locked in. Megan's father kept the key."
+    sets: [bird_freed]
+    gives: [songbird_of_serenity]
+    once: true
+    text: "A small grey bird hops out of the cage onto your hand and sings. For a moment nobody in the party can remember what they were worried about."
+    else_text: "An empty cage, door open."
+  disk_safes:
+    map: DD-03
+    gate: puzzle
+    where: "the disk safes on Castle Kalindra's second floor (stage 2): the map's combination prompt, answer 64-52-31 (or 645231); the right answer calls this"
+    requires: {qbit: done}
+    sets: [safes_opened]
+    once: true
+    map_gives: {energy_disk: 4}
+    text: "Sixty-four, fifty-two, thirty-one. The safe opens on four Energy Disks in a velvet tray."
+    fail_text: "A combination safe. Six dials, and no idea."
+    else_text: "The safe is empty."
+
+  soul_waters_l3:
+    map: DD-12
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Soul Waters in L3's gallery of dials (dark/aaze0080:1-2): the map only calls this; the hook decides for the clicking member (player bit 11348)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11348))"}
+        text: "Refreshing."
+      - text: "Soul Waters. Refreshing. The souls of adventurers past go down easily; one of them knew a trick or two. (+1,000 experience)"
+        do: [{lua: "AddValue(Experience, 1000)"}, {lua: "SetPlayerBit(PlayerBit(11348))"}]
+  soul_waters_l4:
+    map: DD-12
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the Soul Waters of the Minotaur's Private Reserve on L4 (dark/aaze0081:3-5): the map only calls this; the hook decides for the clicking member (player bit 11349)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11349))"}
+        text: "Refreshing."
+      - text: "Minotaur's Private Reserve. Soul Waters. Refreshing. These souls were the minotaurs' own favourites, and they share. (+2,000 experience)"
+        do: [{lua: "AddValue(Experience, 2000)"}, {lua: "SetPlayerBit(PlayerBit(11349))"}]
+  isle_door:
+    map: D4
+    where: "the Dungeon of Lost Souls' gate on the Isle (D4's door:dd12, arrival entrance:d4_isle): the door calls this and enters DD-12 when it returns true (D-42)"
+    entrance: DD-12
+    status: true
+    text: "The two iron-bound leaves groan apart. Nobody has oiled them in years; nobody has wanted to."
+riddles:
+  - {answer: "yes, at each gate", where: "DD-12's five gates", said_by: "the entrance carving (m24.arrival)"}
+  - {answer: "64-52-31", where: "DD-03 L2's disk safes (m24.disk_safes)", said_by: "Dimitri (m24, The Songbird) and autonote 4124"}
+
+rewards: {xp: 11000, gold: 0, items: "two items T5; the Songbird of Serenity (relic, kept); 4 Energy Disks"}
+playthrough: "D4: the ferry to the isle. DD-12: the carving; five gates (yes); L5: the Songbird. DD-03: Dimitri (The Songbird); Megan (Thanks); the L2 disk safes (64-52-31)."

@@ -1,0 +1,33 @@
+id: xeen.d4_same_map_ferry
+title: "Xeen D4 Lakeside: the boats to the Isle and back close the house dialogue on arrival"
+world: xeen
+mode: faithful
+tags: [xeen, houses, transport, regression]
+steps:
+  - note:
+      text: >-
+        A4's repro (output/xeen_a4/s12/d4_doors_b.yml). Lakeside Yachts (event 9) sails to the Isle and the Isle Ferry
+        (event 57) back, both on D4 (route names from A4's Name column). A ride inside the map once left the house dialogue open on arrival; a move the
+        dialogue's choice asked for closes it, as a ride to another map does. MM6's twin:
+        mm6/same_map_boat_closes_dialog.yml.
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 5000
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 1, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - execute_event: {id: 9}
+  # Since merge point 40 (F1) a house whose only resident is its proprietor opens on his talk, the services first.
+  - assert: {dialog: {active: true, house_dialog: false}}
+  - select_topic: {match_label: "1 day to the Isle of Lost Souls"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {party_position: {x: 4096, y: -4096, radius: 128}}
+  - assert: {dialog: {active: false}}
+  - execute_event: {id: 57}
+  - assert: {dialog: {house_dialog: true, house_title: "The Isle Ferry"}}
+  - select_topic: {match_label: "1 day to Lakeside"}
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {party_position: {x: 4608, y: -9216, radius: 128}}
+  - assert: {dialog: {active: false}}

@@ -1,0 +1,34 @@
+format: 0
+id: xeen_xd22
+name: Ninja Pagoda
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-22
+units: {plan_grid: 512}
+extent: {footprint_cells: [6, 5], climbs: n}
+map_stats:
+  id: 9145
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 12
+  environment: wood hall
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Ninja, tier: 1, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x5_pagoda
+    to: xeen_x5.odm
+    kind: door
+    arrival: [320, 9872, 1000]
+    arrival_hint: "X5's mere shore, 400 north of thing:pagoda's door face (320, 9472), facing away from it (north); the ground there 993 (measured 2026-11-20, playtest_exit.yml)."
+    direction: 90
+    notes: "X5 (Winterkill Tundra, A6's): the Ninja Pagoda's north door, thing:pagoda at cells [62.5, 45] (event 61 'The Ninja Pagoda', its door panel on storey_1's north wall)."
+qbits:
+  clan_master_slain: 112081
+  done: 112082
+notes: "Xeen design brief, level L4: XD-22 Ninja Pagoda on X5's mere shore (Q-C4 The Ninja Pagoda; T2-CLAN). Monsters: A2's Ninjas, all placed (19 Ninja 11120 22, 6 Shadow Ninja 11121 30, 1 Ninja Master 11122 40) in groups 10-20 by room, and the Clan Master 11123 (42, boss row, group 21); Shinobu (NPC 4530) and four Clan Survivors 11124 (faction clan, friendly; groups 31 and 30) placed hidden in the cellar and shown with q-c4.done. Slot 1 Xeen Ninja for the map card (no rest encounters). Map qbits 110920-110929: none used; A3's q-c4 bits named (112081, 112082). Hook q-c4.clan_master from the kill timer. Music 12. Exit: the north door to X5 (installed), exit:x5_pagoda."

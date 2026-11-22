@@ -1,0 +1,139 @@
+# Hostility check of the Golem Dungeon (XD-09), as XD-27's (devdocs/xeen/ACT2_BUILD.md, "Hostility pass"): its kinds
+# hostile to the party, not fighting each other. Kinds: Wood Golem 11580, Stone Golem 11581, Iron Golem 11582 (slot 1
+# Xeen Golem, tiers a-c; one Iron Golem also placed), the Diamond Golem 11583 (boss row, placed). The world's
+# relations.yml makes xeen_material_golems long toward the party with no feud. Run with --world xeen --map
+# xeen_xd09.blv from assets_dev (output/studio_cal/xd09/play.sh; A2's row 9125 is in the world since session 3).
+id: xeen.xd09.l4.hostility
+title: 'the Golem Dungeon (XD-09): golems hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd09.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 17
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 17
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 17
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 17
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run; the world relations.yml makes xeen_material_golems (11580-11584) the party's foes.
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11580
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11581
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11582
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11583
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11580
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11581
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11582
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11583
+      hostile: true
+      min: 1
+- note: 'The four golem kinds side by side in the entry, nearer each other than the party: they must not take each other on.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11580
+    x: 120
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 11581
+    x: 340
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 11582
+    x: 560
+    y: -1500
+    z: 0
+- spawn_actor:
+    monster_id: 11583
+    x: 340
+    y: -1720
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11580
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11581
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11582
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11583
+      hurt: true
+      max: 0

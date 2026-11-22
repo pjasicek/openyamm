@@ -1,0 +1,45 @@
+# Q-C18 The Holy Book of Elvenkind (QUESTS 2.1). Owner: A3. The book lies in X5's Troll Forest (phase 2).
+id: Q-C18
+title: The Holy Book of Elvenkind
+act: II
+kind: side
+status: full
+giver: 4153          # Tito the Elf Priest (X2, his chapel 4097)
+maps: [X2, X5]
+level: 25
+block: 68
+after: []
+source: "QUESTS Q-C18; xeen/aaze0011:5-7"
+
+qbits:
+  started: {id: 112360, journal: "Tito the Elf Priest dropped the Holy Book of Elvenkind in the Troll Forest when he was ambushed.",
+            until: [done]}
+  done: {id: 112361, note: "Tito teaches Spirit Master (D-21; A4: towns/x2.yml opens: q-c18.done)"}
+
+items:
+  holy_book: "the Holy Book of Elvenkind; the Troll Forest (X5, by the troll warren); Tito takes it."
+
+npcs:
+  4153:              # Tito
+    topics:
+      - n: 1
+        label: Holy Book
+        states:
+          - when: {qbit: done}
+            text: "The Book is home. Whenever you are ready, I will teach you the Spirit as a Master knows it. I owe you that much."
+          - when: {item: holy_book}
+            text: "You have recovered the Holy Book of Elvenkind! The entire Elf kingdom thanks you. Please accept this gold as a reward. And ask me about the Spirit: I can teach it to the rank of Master."
+            do: [{take: holy_book}, {set: done}, {clear: started}, {xp: 5000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "I see you haven't found the Holy Book of Elvenkind. Please keep looking."
+          - text: "While travelling through Troll forest recently, I was ambushed. In my haste to escape I dropped the Holy Book of Elvenkind. I can only hope that it has not been found, for if it happens to fall into the wrong hands it could lead to the extinction of my entire race. I will reward you well if you can return it to me. The Troll Forest is far to the south-west, in the snows."
+            do: [{set: started}]
+
+hooks:
+  book:
+    map: X5
+    where: "the Troll Forest by the troll warren: the book in the snow beside a fallen pack, a ground item since D-90 (c) (A6, X5 2026-11-22; event 108 unused), picked up like any item; no event calls this hook (it records that the map gives the book)"
+    map_gives: {holy_book: 1}
+
+rewards: {xp: 5000, gold: 1500}   # and Tito teaches Spirit Master (D-21)
+playthrough: "Tito (Holy Book); X5's Troll Forest; Tito (Holy Book)."

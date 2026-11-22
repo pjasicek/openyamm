@@ -1,0 +1,644 @@
+# Playtest of Darkstone Tower (FD-03, L4; lane A7, written by output/studio_cal/fd03/tools/gen_tests.py from
+# ids.lock.yml): the critical path of D-57 (every gong with its guards and slab, the plaques with one storey's
+# fourth read, the Onyx Golem, the vault opening, the seal with the Chime, the roof stair to the hatch (No),
+# and a reload that keeps the slabs and the seal). A level-61 party, immortal.
+id: xeen.fd03.l4.walk
+title: Darkstone Tower (FD-03 L4), the gongs, the plaques, the Onyx Golem, the seal and the roof stair
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd03.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd03.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 0
+      y: 1792
+      radius: 96
+      z_min: -8
+      z_max: 8
+- play_lua:
+    source: 'wait(2); local s = tostring(status()); log(''arrive: '' .. s); if not string.find(s, ''Darkstone Tower'', 1,
+      true) then error(''arrival line: '' .. s) end; close()'
+- play_lua:
+    source: click(43); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Do you wish to leave
+- play_lua:
+    source: close()
+- assert:
+    map: xeen_fd03.blv
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 14
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 25
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 26
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 27
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 28
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 40
+      hidden: false
+- play_lua:
+    source: 'click(7); wait(0.5); local s = tostring(status()); log(''force: '' .. s); if not string.find(s, ''A force repels
+      you'', 1, true) then error(''force line: '' .. s) end; if door_state(3) ~= ''closed'' then error(''the force is down
+      before the Onyx Golem'') end; if qbit(118124) then error(''118124 set at the start'') end'
+- walk_to:
+    x: -272
+    y: 1620
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- play_lua:
+    source: open_door(4, 5)
+- walk_to:
+    x: -272
+    y: 1320
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -1264
+    y: 0
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: click(21); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'A plaque reads:'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(22); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'A plaque reads:'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(23); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'A plaque reads:'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: 'click(24); wait(0.5); local s = tostring(status()); log(''fourth plaque: '' .. s); if not string.find(s, ''A
+      plaque reads: -LHSURAGGAMC'', 1, true) then error(''fourth row: '' .. s) end'
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: NEW WORLD THANKS YOU FOR PLAYING MIGHT AND MAGIC
+- play_lua:
+    source: close(); wait(0.3)
+- walk_to:
+    x: -700
+    y: 0
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: 'click(8); wait(0.5); local s = tostring(status()); log(''evt:gong1: '' .. s); if not string.find(s, ''No Sound
+      No Ground'', 1, true) then error(''no voice: '' .. s) end'
+- play_lua:
+    source: 'wait(6); if not qbit(118120) then error(''118120 not set'') end; if door_state(12) ~= ''open'' then error(''mover:slab1
+      not up: '' .. door_state(12)) end'
+- assert:
+    actor_visible:
+      actor_index: 5
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 6
+      hidden: false
+- clear_hostiles:
+    radius: 3000
+- play_lua:
+    source: 'click(8); wait(0.5); log(''second ring: '' .. tostring(status()))'
+- walk_to:
+    x: 0
+    y: -700
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: -1250
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -336
+    y: -1640
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -920
+    y: -1888
+    z: 0
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: -50
+    y: -1888
+    z: 768
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: 272
+    y: -1700
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: 272
+    y: -1300
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: -760
+    y: -1100
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -560
+    y: -560
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: 'click(10); wait(0.5); local s = tostring(status()); log(''evt:gong2: '' .. s); if not string.find(s, ''No Sound
+      No Ground'', 1, true) then error(''no voice: '' .. s) end'
+- play_lua:
+    source: 'wait(6); if not qbit(118121) then error(''118121 not set'') end; if door_state(13) ~= ''open'' then error(''mover:slab2
+      not up: '' .. door_state(13)) end'
+- assert:
+    actor_visible:
+      actor_index: 13
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 14
+      hidden: false
+- clear_hostiles:
+    radius: 3000
+- walk_to:
+    x: 0
+    y: 700
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 1250
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 336
+    y: 1640
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 920
+    y: 1888
+    z: 768
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: 50
+    y: 1888
+    z: 1536
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: -272
+    y: 1700
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: -272
+    y: 1300
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: -760
+    y: 1100
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -560
+    y: 560
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: 'click(14); wait(0.5); local s = tostring(status()); log(''evt:gong3w: '' .. s); if not string.find(s, ''No Sound
+      No Ground'', 1, true) then error(''no voice: '' .. s) end'
+- play_lua:
+    source: 'wait(4); if not qbit(118122) then error(''118122 not set'') end; if door_state(11) ~= ''open'' then error(''mover:riser3
+      not up: '' .. door_state(11)) end'
+- assert:
+    actor_visible:
+      actor_index: 25
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 26
+      hidden: false
+- play_lua:
+    source: if door_state(14) ~= 'closed' then error('slab3 moved after one gong') end
+- play_lua:
+    source: 'click(12); wait(0.5); local s = tostring(status()); log(''evt:gong3e: '' .. s); if not string.find(s, ''No Sound
+      No Ground'', 1, true) then error(''no voice: '' .. s) end'
+- play_lua:
+    source: 'wait(8); if not qbit(118123) then error(''118123 not set'') end; if door_state(14) ~= ''open'' then error(''mover:slab3
+      not up: '' .. door_state(14)) end'
+- assert:
+    actor_visible:
+      actor_index: 27
+      hidden: false
+- assert:
+    actor_visible:
+      actor_index: 28
+      hidden: false
+- clear_hostiles:
+    radius: 3000
+- walk_to:
+    x: 0
+    y: -700
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: -1250
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -336
+    y: -1640
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -920
+    y: -1888
+    z: 1536
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: -50
+    y: -1888
+    z: 2304
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: 272
+    y: -1700
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: 272
+    y: -1300
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- walk_to:
+    x: -760
+    y: -1100
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 900
+- walk_to:
+    x: -1250
+    y: 0
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 900
+- play_lua:
+    source: open_door(6, 9)
+- walk_to:
+    x: -700
+    y: 0
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+- play_lua:
+    source: 'click(35); wait(0.5); local s = tostring(status()); log(''skull: '' .. s); if not string.find(s, ''The skull
+      is silent'', 1, true) then error(''skull line: '' .. s) end'
+- clear_hostiles:
+    radius: 4000
+- play_lua:
+    source: 'wait(4); if not qbit(118124) then error(''vault_open 118124 not set by the Onyx Golem'') end; if door_state(3)
+      ~= ''open'' then error(''force not down: '' .. door_state(3)) end'
+- walk_to:
+    x: -560
+    y: 560
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -950
+    y: 900
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: loot_chest(48)
+- play_lua:
+    source: click(17); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'Head 13 speaks: T-MEOE-FENN-TEAO'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(18); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'Head 14 speaks: Y"PRNV4--G-DHE-N'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: click(19); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: 'Head 15 speaks: PCU"-E-TDEOE--S!'
+- play_lua:
+    source: close(); wait(0.3)
+- play_lua:
+    source: 'click(20); wait(0.5); local s = tostring(status()); log(''fourth head: '' .. s); if not string.find(s, ''Head
+      16 speaks: EOT-LLOHUOFASYO-'', 1, true) then error(''fourth head: '' .. s) end'
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: TYPE "COMPUTER"
+- play_lua:
+    source: close(); wait(0.3)
+- walk_to:
+    x: -560
+    y: 560
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 700
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: 0
+    y: 1250
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- play_lua:
+    source: click(33); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: An invisible seal prevents passage
+- play_lua:
+    source: close(); wait(0.3); if door_state(8) ~= 'closed' then error('seal opened without the Chime') end
+- grant_item:
+    item_id: 12373
+- play_lua:
+    source: click(33); wait(0.5)
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, ''The seal has been broken'', 1, true) then error(''status
+      line: '' .. s) end'
+- play_lua:
+    source: 'close(); wait(5); if not qbit(111820) then error(''seal_broken not set'') end; if has_item(12373) then error(''the
+      Chime was not taken'') end; if door_state(8) ~= ''open'' then error(''seal not open: '' .. door_state(8)) end'
+- walk_to:
+    x: 0
+    y: 1620
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -640
+    y: 1640
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    clear_hostiles: 1500
+- walk_to:
+    x: -650
+    y: 1904
+    z: 2304
+    radius: 64
+    timeout_seconds: 60
+    close_dialogs: true
+    z_tolerance: 24
+- walk_to:
+    x: 200
+    y: 1904
+    z: 3072
+    radius: 64
+    timeout_seconds: 90
+    close_dialogs: true
+    clear_hostiles: 1500
+    z_tolerance: 24
+- play_lua:
+    source: click(16); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- assert:
+    map: xeen_fd03.blv
+- play_lua:
+    source: close(); wait(1); close()
+- reload: {}
+- play_lua:
+    source: 'wait(8); close()
+
+      if door_state(12) ~= ''open'' then error(''mover:slab1 after reload: '' .. door_state(12)) end
+
+      if door_state(13) ~= ''open'' then error(''mover:slab2 after reload: '' .. door_state(13)) end
+
+      if door_state(11) ~= ''open'' then error(''mover:riser3 after reload: '' .. door_state(11)) end
+
+      if door_state(14) ~= ''open'' then error(''mover:slab3 after reload: '' .. door_state(14)) end
+
+      if door_state(3) ~= ''open'' then error(''door:force after reload: '' .. door_state(3)) end
+
+      if door_state(8) ~= ''open'' then error(''door:seal after reload: '' .. door_state(8)) end
+
+      '

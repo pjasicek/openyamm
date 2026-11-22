@@ -1,0 +1,139 @@
+# M39 Prince Roland (QUESTS M39; Act VI). Owner: A3. The Alamar Depths (FD-01, A8 or A7, phase 6) lie under the ruin of
+# Castle Alamar on D6, opened by the Cube of Power. In the source (dark/aaze0052) Sheltem's dungeon keeps the Key to
+# Darkstone Tower, two I.D. skull doors and, at the bottom, Roland's stasis coffin. Here: the Darkstone Tower key is a
+# chest the map gives (qbit, as Artemus's key, D-4), one skull door (the source's "Access denied" without the Cube),
+# the statue's boast and the "Nine is the time." plaque as flavour, and Roland's coffin, whose monologue is the source's
+# (shortened). He gives the Amulet of the Southern Sphinx (M40) and goes home to his brother: King Burlock's topic.
+id: M39
+title: Prince Roland
+act: VI
+kind: main
+status: full
+giver: 5453          # The Dragon Pharaoh (M36: "have you rescued Prince Roland?")
+maps: [D6, FD-01, XD-07]
+level: 58
+block: 39
+after: [m33.done]
+source: "QUESTS M39; dark/aaze0052:3-14; research MM5 4 steps 5-6"
+
+qbits:
+  darkstone_key: {id: 111780, pending: "phase 6: FD-01's key chest (the map) calls the darkstone_key hook"}
+  done: {id: 111781, journal: "Prince Roland is free and home with his brother. He gave you the Amulet of the Southern Sphinx: the key to the cloud above Darkstone Tower lies in the Southern Sphinx.",
+            until: [m40.done]}
+  # FD-01's map qbits (D-69: block 117840-117879; 117847-117879 spare), registered so nothing else takes the numbers
+  statue_spoken: {id: 117840, map: FD-01, note: "the first hall's statue has spoken (once)"}
+  slab_west: {id: 117841, map: FD-01, note: "the west lever pulled: the west slab is down (on every load after)"}
+  slab_east: {id: 117842, map: FD-01, note: "the east lever pulled: the east slab is down (on every load after)"}
+  grate_bolt: {id: 117843, map: FD-01, note: "the bolted grate's bolt drawn from the workshop side: it opens both ways after"}
+  key_box: {id: 117844, map: FD-01, note: "the key vault's box taken: the Key to the Dragon Tower 12376, once (q-f1.tower_key)",
+            pending: "FD-01 (A8): the key vault's find sets it"}
+  skull_door_open: {id: 117845, map: FD-01, note: "the skull door opened with the Cube (on every load after)"}
+  arrived_from_d7: {id: 117846, map: FD-01, note: "the first arrival down the shaft from D7 (entrance:d7_roof): its line once per game (D-69 change 5)"}
+
+autonotes:
+  sphinx: {id: 4138, text: "The Southern Sphinx, in the Desert of the Sphinx: Prince Roland's amulet opens it. The key to the cloud above Darkstone Tower is inside.", category: Misc}
+
+awards:
+  roland: {id: 416, text: "Rescued Prince Roland", sort: 2}
+
+items:
+  southern_sphinx_amulet: "Roland's coffin (roland hook); opens FD-02 (m40.sphinx_door)"
+
+npcs:
+  4401:              # King Burlock (XD-07)
+    topics:
+      - n: 1
+        label: My brother
+        show: {qbit: done}
+        text: "My brother is home. The real one, this time; he eats. He tells me there is to be a wedding on a cloud, to a queen I have never met. Go and make sure it happens, Crusaders. I am too old to be surprised twice."
+
+hooks:
+  depths_door:
+    map: D6
+    entrance: FD-01
+    sealed: "a finale seal (the Cube of Power)"
+    where: "the stair down in Castle Alamar's ruin (the map's door event; true lets the party down)"
+    requires: {item: cube_of_power}
+    text: "The stair under the ruin is sealed with Sheltem's mark. The Cube of Power hums, and the mark goes out."
+    fail_text: "A stair leads down under the ruin, sealed with Sheltem's mark. Nothing you carry means anything to it."
+  statue:
+    map: FD-01
+    where: "the statue in the first hall (it speaks as the party approaches, once: statue_spoken)"
+    sets: [statue_spoken]
+    once: true
+    else_text: "The statue says nothing more. Alamar has had his say."
+    else_status: true
+    text: "The statue speaks as you approach: Not only is Alamar a wise and just ruler, Alamar is sporting, as well. Alamar graciously grants clever opponents a chance to defeat him by leaving hints and clues. But know this: Alamar takes pleasure in the failure of his opponents, especially when they come close to success. And you WILL fail."
+  plaque_nine:
+    map: FD-01
+    where: "the plaque in the Hall of Nine, by the lever hall"
+    text: "The message on the plaque reads: Nine is the time."
+  skull_door:
+    map: FD-01
+    gate: beat
+    where: "the skull door between the warden's room and the stasis lift (true opens it; the door stays open on every load by skull_door_open)"
+    requires: {item: cube_of_power}
+    sets: [skull_door_open]
+    text: "The skull sees the Cube of Power and says, \"Access granted.\""
+    fail_text: "The skull says, \"Access denied! You do not have the proper I.D.\""
+  lever_west:
+    map: FD-01
+    where: "the west lever in the lever hall (D-69 change 1): its first pull grinds (FX 35), sets slab_west and shows this on the status line; the slab is out of sight. Hover 'Lever' (dark/aaze0052:15); after: the source's 'The lever won't budge.' (:17)"
+    sets: [slab_west]
+    once: true
+    status: true
+    text: "Far to the west, a wall grinds down into the floor."
+    else_text: "The lever won't budge."
+    else_status: true
+  lever_east:
+    map: FD-01
+    where: "the east lever in the lever hall (D-69 change 1): its first pull grinds (FX 35), sets slab_east and shows this on the status line. Hover 'Lever'; after: 'The lever won't budge.'"
+    sets: [slab_east]
+    once: true
+    status: true
+    text: "Far to the east, a wall grinds down into the floor."
+    else_text: "The lever won't budge."
+    else_status: true
+  grate_bolt:
+    map: FD-01
+    where: "the bolted grate between the workshop and the south gallery, from the workshop's face (D-69 change 4): the bolt drawn once (grate_bolt), the leaf opens both ways after"
+    sets: [grate_bolt]
+    once: true
+    status: true
+    text: "You draw the bolt."
+  grate_bolted:
+    map: FD-01
+    where: "the bolted grate from the south gallery's face, while grate_bolt is clear (D-69 change 4)"
+    status: true
+    text: "Bolted from the other side."
+  pyramid:
+    map: FD-01
+    where: "the dark Ancient pyramid in the nook (D-69 Q70; hover \"Pyramid\")"
+    text: "Its light is out. Its twin stands outside the gate."
+  shaft_arrival:
+    map: FD-01
+    where: "the first arrival at the shaft's foot from D7 (entrance:d7_roof), once per game (D-69 change 5); the D6 arrival has the statue"
+    sets: [arrived_from_d7]
+    once: true
+    status: true
+    text: "You climb down through smoke and rubble to the floor of what was Castle Alamar."
+  darkstone_key:
+    map: FD-01
+    where: "the key chest in the warden's room"
+    sets: [darkstone_key]
+    once: true
+    text: "In the chest, on a velvet cushion: a key of black stone, cold as the bottom of a well. Darkstone Tower's."
+    else_text: "An empty velvet cushion."
+  roland:
+    map: FD-01
+    window: "a long story text to read (Prince Roland's monologue, the source's, 584 characters)"
+    where: "Roland's stasis coffin at the bottom of the depths (clicked)"
+    sets: [done]
+    gives: [southern_sphinx_amulet]
+    once: true
+    do: [{award: roland}, {autonote: sphinx}, {xp: 40000}, {move_npc: [4405, 4201]}]   # A4: Roland back at court (house 4201)
+    text: "The coffin's lid slides back and a man sits up, blinking. \"Allow me to introduce myself. I am Prince Roland, brother to King Burlock. I must thank you for freeing me from that stasis chamber Alamar put me in. Queen Kalindra and I are destined to marry on the cloud world above Darkstone Tower. You hold the key to the Tower, but you will need a key to open the way to the cloud world above it. That key can be found in the Southern Sphinx on the other side of the world. I have here the Amulet of the Southern Sphinx. Take it. I must return to my brother and prepare for the wedding.\""
+    else_text: "An empty stasis coffin, still faintly cold."
+
+rewards: {xp: 40000, gold: 0, items: "Amulet of the Southern Sphinx", award: "Rescued Prince Roland"}
+playthrough: "D6: the stair under Castle Alamar (the Cube). FD-01: the key chest, the skull door, Roland's coffin. XD-07: King Burlock (My brother)."

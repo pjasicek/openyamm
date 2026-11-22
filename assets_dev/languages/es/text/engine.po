@@ -97311,7 +97311,8 @@ msgstr "Flecha del mapa en interiores"
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1050 assets_dev/engine/ui/menu/settings_catalog.yml:224
 msgid ""
 "The colour of the party's arrow on the minimap indoors, where the walls are drawn in white."
-msgstr "El color de la flecha del grupo en el minimapa en interiores, donde las paredes se dibujan en blanco."
+msgstr ""
+"El color de la flecha del grupo en el minimapa en interiores, donde las paredes se dibujan en blanco."
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1086 assets_dev/engine/ui/menu/settings_catalog.yml:228
@@ -118684,3 +118685,632 @@ msgstr "Completado el {date}"
 # machine translation (Claude), review
 #~ msgid "Own artifacts, shared items"
 #~ msgstr "Artefactos propios, objetos compartidos"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/gameplay/menu.yml:153 assets_dev/engine/ui/menu/coop.yml:49 assets_dev/engine/ui/menu/main_menu.yml:164
+msgid "Multiplayer"
+msgstr "Multijugador"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/menu/settings_catalog.yml:946
+msgid "Chat (co-op)"
+msgstr "Chat (cooperativo)"
+
+# machine translation (Claude), review
+#: assets_dev/engine/ui/menu/settings_catalog.yml:949
+msgid "Point at a place (co-op)"
+msgstr "Señalar un lugar (cooperativo)"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:10299
+msgid "Say: {text}"
+msgstr "Decir: {text}"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13594
+msgid "Fast mode is not available in a co-op game."
+msgstr "El modo rápido no está disponible en una partida cooperativa."
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13785
+msgid "{name}: here"
+msgstr "{name}: aquí"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13873
+msgid "Another player wants to travel"
+msgstr "Otro jugador quiere viajar"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13874
+msgid "{name} wants to travel"
+msgstr "{name} quiere viajar"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13896
+msgid "Another player wants to rest. Press the Rest key to agree."
+msgstr ""
+"Otro jugador quiere descansar. Pulsad la tecla Descansar para aceptar."
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13897
+msgid "Another player wants to wait. Press the Rest key to agree."
+msgstr "Otro jugador quiere esperar. Pulsad la tecla Descansar para aceptar."
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:13918
+msgid "Press the Use key to return to where you arrived"
+msgstr "Pulsad la tecla Usar para volver al lugar al que llegasteis"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:14432
+msgid "Asked the host to save the game"
+msgstr "Se ha pedido al anfitrión que guarde la partida"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:14433
+msgid "Only the host can save a co-op game"
+msgstr "Solo el anfitrión puede guardar una partida cooperativa"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:15103
+msgid "you"
+msgstr "tú"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:15110
+msgid "the host"
+msgstr "anfitrión"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:15111
+msgid "loading the map"
+msgstr "cargando el mapa"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:15182
+msgid "That is no name for a file"
+msgstr "Ese no es un nombre de archivo válido"
+
+# machine translation (Claude), review
+#: game/app/KeyboardBindings.cpp:212 game/ui/GameplayCombatLogPanel.cpp:754 game/ui/GameplayCombatLogPanel.cpp:766
+msgid "Chat"
+msgstr "Chat"
+
+# machine translation (Claude), review
+#: game/app/KeyboardBindings.cpp:214
+msgid "Point at a place"
+msgstr "Señalar un lugar"
+
+# machine translation (Claude), review
+#: game/coop/CoopCharacter.cpp:253
+msgid "the host has \"{line}\" and this game does not"
+msgstr "el anfitrión tiene \"{line}\" y este juego no"
+
+# machine translation (Claude), review
+#: game/coop/CoopCharacter.cpp:261
+msgid "this game has \"{line}\" and the host does not"
+msgstr "este juego tiene \"{line}\" y el anfitrión no"
+
+# machine translation (Claude), review
+#: game/coop/CoopCharacter.cpp:267
+msgid "the two games mount their mods in a different order"
+msgstr "los dos juegos cargan sus mods en distinto orden"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1186
+msgid "No word from {name} for {seconds} seconds"
+msgstr "Sin noticias de {name} desde hace {seconds} segundos"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1241
+msgid "the map took too long to load"
+msgstr "el mapa tardó demasiado en cargarse"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1344 game/coop/CoopSession.cpp:1346
+msgid "{name} left the game"
+msgstr "{name} ha abandonado la partida"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1396
+msgid "{name} asks you to save the game"
+msgstr "{name} os pide que guardéis la partida"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1530
+msgid "the two games are different versions of OpenYAMM"
+msgstr "los dos juegos son versiones distintas de OpenYAMM"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1548
+msgid "the join request could not be read"
+msgstr "no se pudo leer la solicitud para unirse"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1564
+msgid "the host is not in a game"
+msgstr "el anfitrión no está en una partida"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1570
+msgid "this game asks for a password"
+msgstr "esta partida pide contraseña"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1571
+msgid "the password is wrong"
+msgstr "la contraseña es incorrecta"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1577
+msgid "the session is full"
+msgstr "la sesión está llena"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1585
+msgid "the character could not be read"
+msgstr "no se pudo leer el personaje"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1608
+msgid "the host could not gather the map's state"
+msgstr "el anfitrión no pudo reunir el estado del mapa"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:1612 game/coop/CoopSession.cpp:1614
+msgid "{name} joined the game"
+msgstr "{name} se ha unido a la partida"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2936
+msgid "No word from the host for {seconds} seconds. Waiting ..."
+msgstr ""
+"Sin noticias del anfitrión desde hace {seconds} segundos. Esperando..."
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2958
+msgid "Connected to the host through the lobby server"
+msgstr "Conectado al anfitrión a través del servidor de lobby"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2959
+msgid "Connected to the host directly"
+msgstr "Conectado directamente al anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2965
+msgid "The lobby knows no session by that code"
+msgstr "El lobby no conoce ninguna sesión con ese código"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2966
+msgid "The lobby did not answer"
+msgstr "El lobby no respondió"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2967
+msgid "No path to the host could be opened"
+msgstr "No se pudo abrir ninguna ruta hasta el anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:2979
+msgid "The host did not answer"
+msgstr "El anfitrión no respondió"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3013
+msgid "The connection to the host was lost"
+msgstr "Se perdió la conexión con el anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3037
+msgid "There is no character to join with"
+msgstr "No hay ningún personaje con el que unirse"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3099
+msgid "The host refused: {reason}"
+msgstr "El anfitrión se negó: {reason}"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3161
+msgid "The host saved the game"
+msgstr "El anfitrión ha guardado la partida"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3290
+msgid "The host's map state could not be read"
+msgstr "No se pudo leer el estado del mapa del anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3321
+msgid "The host's map could not be loaded"
+msgstr "No se pudo cargar el mapa del anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:3332
+msgid "This game's copy of the host's map is not the host's"
+msgstr ""
+"La copia del mapa del anfitrión que tiene este juego no coincide con la del anfitrión"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:346 game/ui/screens/CoopMenuScreen.cpp:420
+msgid "{name}'s world"
+msgstr "Mundo de {name}"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:680
+msgid "The copy of this world could not be saved"
+msgstr "No se pudo guardar la copia de este mundo"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:685
+msgid "A copy of the host's world was saved as {name}"
+msgstr "Se ha guardado una copia del mundo del anfitrión como {name}"
+
+# machine translation (Claude), review
+#: game/coop/CoopSession.cpp:687
+msgid "A copy of this world was saved as {name}"
+msgstr "Se ha guardado una copia de este mundo como {name}"
+
+# machine translation (Claude), review
+#: game/events/EventDialogContent.cpp:1229
+msgid ""
+"Another player wants to travel to {place}: {days} day, and {gold} gold from each player."
+msgid_plural ""
+"Another player wants to travel to {place}: {days} days, and {gold} gold from each player."
+msgstr[0] ""
+"Otro jugador quiere viajar a {place}: {days} día y {gold} monedas de cada jugador."
+msgstr[1] ""
+"Otro jugador quiere viajar a {place}: {days} días y {gold} monedas de cada jugador."
+
+# machine translation (Claude), review
+#: game/events/EventDialogContent.cpp:1237
+msgid ""
+"Another player wants to travel to {place}: {days} day, and {food} food from each player."
+msgid_plural ""
+"Another player wants to travel to {place}: {days} days, and {food} food from each player."
+msgstr[0] ""
+"Otro jugador quiere viajar a {place}: {days} día y {food} de comida de cada jugador."
+msgstr[1] ""
+"Otro jugador quiere viajar a {place}: {days} días y {food} de comida de cada jugador."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1558
+msgid "You agreed to rest."
+msgstr "Habéis aceptado descansar."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1717
+msgid "You asked the others to rest."
+msgstr "Habéis pedido a los demás que descansen."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1741
+msgid "The rest is off: {reason}"
+msgstr "No hay descanso: {reason}"
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1767
+msgid "The party rests."
+msgstr "El grupo descansa."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1767
+msgid "The party waits."
+msgstr "El grupo espera."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:1799
+msgid "You are rested."
+msgstr "Habéis descansado."
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayScreenRuntime.cpp:3055
+msgid "Turn-based mode is not available in a co-op game."
+msgstr "El modo por turnos no está disponible en una partida cooperativa."
+
+# machine translation (Claude), review
+#: game/indoor/IndoorWorldRuntime.cpp:23043 game/indoor/IndoorWorldRuntime.cpp:23796 game/outdoor/OutdoorWorldRuntime.cpp:17057
+#: game/outdoor/OutdoorWorldRuntime.cpp:21786
+msgid "Another player is using this"
+msgstr "Otro jugador está usando esto"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:132
+msgid ""
+"Join my OpenYAMM game \"{name}\": copy this message, then in the game's menu choose Multiplayer, Join, Paste Invitation."
+msgstr ""
+"Uníos a mi partida de OpenYAMM \"{name}\": copiad este mensaje y, en el menú del juego, elegid Multijugador, Unirse, Pegar Invitación."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:147
+msgid "The clipboard holds no invitation. Copy the host's message first."
+msgstr ""
+"El portapapeles no contiene ninguna invitación. Copiad primero el mensaje del anfitrión."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:165
+msgid "That is a lobby's code: type the lobby server's address first."
+msgstr ""
+"Ese es un código de lobby: escribid primero la dirección del servidor de lobby."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:176
+msgid "That game asks for a password: type it on the left first."
+msgstr "Esa partida pide contraseña: escribidla primero a la izquierda."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:254
+msgid "Host"
+msgstr "Alojar"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:314
+msgid "You are hosting \"{name}\""
+msgstr "Estáis alojando \"{name}\""
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:320
+msgid "Waiting for the lobby server to answer ..."
+msgstr "Esperando la respuesta del servidor de lobby..."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:324
+msgid "Code for the others to join:"
+msgstr "Código para que los demás se unan:"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:329
+msgid "Address on your network:"
+msgstr "Dirección en vuestra red:"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:335
+msgid "Copy Invitation"
+msgstr "Copiar Invitación"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:339
+msgid ""
+"The invitation is copied. Paste it into a message to the other players."
+msgstr ""
+"La invitación se ha copiado. Pegadla en un mensaje para los demás jugadores."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:340
+msgid "The clipboard could not be written"
+msgstr "No se pudo escribir en el portapapeles"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:344
+msgid ""
+"Players on your network also find this game by themselves, under Join."
+msgstr ""
+"Los jugadores de vuestra red también encuentran esta partida por sí mismos, en Unirse."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:350
+msgid "Joining ..."
+msgstr "Uniéndose..."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:350
+msgid "You are in another player's world"
+msgstr "Estáis en el mundo de otro jugador"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:354
+msgid "Players"
+msgstr "Jugadores"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:364
+msgid "A copy of this world to play on by yourself (asked of the host):"
+msgstr ""
+"Una copia de este mundo para seguir jugando por vuestra cuenta (se pide al anfitrión):"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:365 game/ui/screens/CoopMenuScreen.cpp:458
+msgid "A copy of your character, to join other games with:"
+msgstr "Una copia de vuestro personaje, para uniros a otras partidas:"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:368 game/ui/screens/CoopMenuScreen.cpp:460
+msgid "a name for it"
+msgstr "un nombre para la copia"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:372 game/ui/screens/CoopMenuScreen.cpp:463
+msgid "Save Character"
+msgstr "Guardar Personaje"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:376 game/ui/screens/CoopMenuScreen.cpp:468
+msgid "The character was saved as {name}"
+msgstr "El personaje se ha guardado como {name}"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:382
+msgid "Keep a Copy of This World"
+msgstr "Conservar una Copia de este Mundo"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:386
+msgid "Asked the host for a copy of its world"
+msgstr "Se ha pedido al anfitrión una copia de su mundo"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:397 game/ui/screens/CoopMenuScreen.cpp:402
+msgid "Leave"
+msgstr "Abandonar"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:397 game/ui/screens/CoopMenuScreen.cpp:402
+msgid "Stop Hosting"
+msgstr "Dejar de Alojar"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:399
+msgid "Leave this world?"
+msgstr "¿Abandonar este mundo?"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:399
+msgid "Stop hosting?"
+msgstr "¿Dejar de alojar?"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:400
+msgid "Every other player goes back to their own game."
+msgstr "Todos los demás jugadores vuelven a su propia partida."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:401
+msgid "You go back to your own game with what your character gained."
+msgstr ""
+"Volvéis a vuestra propia partida con lo que haya ganado vuestro personaje."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:417
+msgid "Name of your game"
+msgstr "Nombre de vuestra partida"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:421
+msgid "Password (optional)"
+msgstr "Contraseña (opcional)"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:424
+msgid "none: anyone may join"
+msgstr "ninguna: cualquiera puede unirse"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:431
+msgid "Lobby server (optional)"
+msgstr "Servidor de lobby (opcional)"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:434 game/ui/screens/CoopMenuScreen.cpp:626
+msgid "its address"
+msgstr "su dirección"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:438
+msgid ""
+"Players on your network will find this game by themselves. With a lobby server, players anywhere can join by a code."
+msgstr ""
+"Los jugadores de vuestra red encontrarán esta partida por sí mismos. Con un servidor de lobby, jugadores de cualquier lugar pueden unirse mediante un código."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:440
+msgid ""
+"Your game will get a code from the lobby server; anyone with the code can join. Players on your network find it by themselves."
+msgstr ""
+"Vuestra partida recibirá un código del servidor de lobby; cualquiera que tenga el código puede unirse. Los jugadores de vuestra red la encuentran por sí mismos."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:445
+msgid "Host This Game"
+msgstr "Alojar esta Partida"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:514
+msgid "Games found - click one to join it"
+msgstr "Partidas encontradas: haced clic en una para uniros"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:518
+msgid "Paste Invitation"
+msgstr "Pegar Invitación"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:558
+msgid "on your network"
+msgstr "en vuestra red"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:559
+msgid "lobby, code {code}"
+msgstr "lobby, código {code}"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:560
+msgid "another version of OpenYAMM"
+msgstr "otra versión de OpenYAMM"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:561
+msgid "{world}, {ruleset}, {players} of {most} players"
+msgstr "{world}, {ruleset}, {players} de {most} jugadores"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:565
+msgid "full"
+msgstr "llena"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:566
+msgid "asks for a password"
+msgstr "pide contraseña"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:576
+msgid ""
+"No games found yet. A game on your network shows here by itself; with a lobby server's address, so do the games listed there."
+msgstr ""
+"Aún no se han encontrado partidas. Una partida de vuestra red aparece aquí por sí sola; con la dirección de un servidor de lobby, también las partidas que figuran en él."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:578
+msgid ""
+"No games found yet. Games on your network and on the lobby server show here by themselves."
+msgstr ""
+"Aún no se han encontrado partidas. Las partidas de vuestra red y del servidor de lobby aparecen aquí por sí solas."
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:585
+msgid "Join as"
+msgstr "Unirse como"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:611
+msgid "This game's character: {name}"
+msgstr "Personaje de esta partida: {name}"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:618
+msgid "Password, if the game has one"
+msgstr "Contraseña, si la partida tiene una"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:622
+msgid "the password"
+msgstr "la contraseña"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:624
+msgid "Lobby server"
+msgstr "Servidor de lobby"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:628
+msgid "Join by a code"
+msgstr "Unirse mediante un código"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:631
+msgid "the code"
+msgstr "el código"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:643
+msgid "Join by the host's address"
+msgstr "Unirse mediante la dirección del anfitrión"
+
+# machine translation (Claude), review
+#: game/ui/screens/CoopMenuScreen.cpp:647
+msgid "the address"
+msgstr "la dirección"

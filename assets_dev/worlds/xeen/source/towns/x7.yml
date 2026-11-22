@@ -1,0 +1,20 @@
+# X7 Mount Firestone: the people placed outdoors (MAPS X7; a wilderness map, no town). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5's install of 2026-11-21 00:37): no house; Sablewing stands as A5 placed him (actor npc 4720 at
+# (5939, -13363), cell 75.6, 90.1). Shares the id block of XD-17 Shangri-La (xd17.yml);
+# the ids are kept apart by hand. Sablewing, the dragon hermit, teaches the Dragon Master at a cave mouth on the safe
+# south slope (D-5.2, place x7_south; the slope's band is levels 20-30, the north stays deadly); D-40 confirms the
+# L1 cell [76, 90] and no lookout NPC (the dwarves' watch is abandoned). He came from the
+# Desert of Doom's planned file (old id 5451, retired; same portrait).
+key: X7
+stem: xeen_x7.odm
+town: Mount Firestone
+face: cloudside
+blocks:
+  houses: [4351, 4400]
+  npcs: [4701, 4800]
+
+houses: []
+
+npcs:
+  - {id: 4720, name: Sablewing, title: Dragon Hermit, profession: Mystic, house: none, place: "X7 [76, 90] (poi:sablewing): his cave mouth under a red crag on the safe south slope, off the road from X1, 4,400 from any fight (D-40; A5)", teaches: [{skill: Dragon, mastery: master}], greet: ["I came up the mountain to be alone. Then everyone came up the mountain to fight me.", "Sit. Don't touch the hoard."]}

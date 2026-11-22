@@ -1,0 +1,341 @@
+# Xeen town building kit (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new ones made for the kit
+# (level_generation/xeen_art/kit_textures/towns: specs.yml, finished/<name>.png at 4x). Sizes are logical texels
+# (the x4 masters in level_generation/textures_x4/masters/<world>/<name>.png are 4x). `maps`: the shipped outdoor maps
+# that use the texture. Contact sheet: kits/darkside_town_sheet.png (kit_sheet.py). Roles follow Map Studio's house kits
+# (openyamm-studio/core/OutdoorBuildings.cpp: wall, window, door, post_left, post_right, roof, trim, gable, ridge).
+kit: darkside_town
+title: Darkside stone and slate towns (Castleview, Lakeside, Darkside hamlets)
+look:
+- Low houses of grey rounded boulder-stone between dark weathered timber posts, under dark slate;
+- the better streets and civic buildings in grey dressed ashlar with carved friezes. Desaturated, dry, cool.
+family_sources:
+- source: MM8 Ravenshore out02, the dock/ogre quarter's t06 set
+  why: 'the only shipped stone-and-slate house set: boulder walls, timber posts, plank doors and shutters, slate roof t06a05
+    and its eave course t06b05, with plain and carved-frieze (b, c, d, e) variants of each piece; grey and low by construction'
+- source: MM8 Regna out13 (and Shadowspire out06) t09 set
+  why: 'grey dressed ashlar of the same grey, with friezes, pilasters, slit and pointed windows and a carved double door:
+    the rich/civic quarter, the jail, the bank and Castleview''s walls. Its red tile roof (t09a05) is replaced by slate
+    (t06a05 or the new xlslate)'
+- source: MM7 grey plank decks (7trimd*), MM8 dock beams (btrima2) and the MM8 shop signs (sg*)
+  why: Lakeside quays and jetties; the pictorial signs every MM8 town uses
+- source: Rejected
+  why: 'MM8 Shadowspire t19 (gothic, teal and green-scale roofs: too ornate, a candidate for Necropolis); MM8 Ravenshore
+    t14 (warm brown fieldstone and thatch); MM6 cs (purple brick castle); MM7 Deyja cn (castle only)'
+grades:
+  poor: t06 plain pieces (a) under xlslatemos
+  middle: t06 with the carved frieze (b, c, d, e) under t06a05
+  rich: t09 ashlar under xlslate
+  service: t09 ashlar with the carved double door, pilasters and panels
+shipped:
+  wall plain:
+  - tex: mm8/t06a01
+    size: [128, 256]
+    maps: [out02.odm]
+    note: boulder stone (Map Studio "boulder" wall)
+  - tex: mm8/t06a06
+    size: [128, 256]
+    maps: [out02.odm]
+    note: boulder stone variant
+  - tex: mm8/t06b01
+    size: [128, 256]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: boulder stone under a carved timber frieze (eave course)
+  - tex: mm8/t06a12
+    size: [128, 256]
+    maps: [out02.odm]
+    note: boulder stone with a skull (one per town)
+  - tex: mm8/t09a01
+    size: [128, 256]
+    maps: [elema.odm, elemf.odm, out06.odm, out13.odm]
+    note: 'rich/civic: grey ashlar'
+  - tex: mm8/t09b01
+    size: [128, 256]
+    maps: [elemw.odm, out13.odm]
+    note: 'rich/civic: ashlar with a moulding along the top'
+  - tex: mm8/t09c01
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm, out13.odm]
+    note: 'rich/civic: ashlar under a carved frieze'
+  wall with window:
+  - tex: mm8/t06a04
+    size: [128, 256]
+    maps: [eleme.blv]
+    note: square plank shutter
+  - tex: mm8/t06c04
+    size: [128, 256]
+    maps: [out02.odm]
+    note: shutter under frieze
+  - tex: mm8/t06a08
+    size: [128, 256]
+    maps: [out02.odm]
+    note: carved shutter beside a post (right)
+  - tex: mm8/t06a09
+    size: [128, 256]
+    maps: [out02.odm]
+    note: carved shutter beside a post (left)
+  - tex: mm8/t06b08
+    size: [128, 256]
+    maps: [out02.odm]
+    note: carved shutter, frieze, post left
+  - tex: mm8/t06b09
+    size: [128, 256]
+    maps: [out02.odm]
+    note: carved shutter, frieze, post right
+  - tex: mm8/t06d04
+    size: [128, 256]
+    maps: [out02.odm]
+    note: tall ringed shutter (Map Studio boulder window)
+  - tex: mm8/t06e04
+    size: [128, 256]
+    maps: [out02.odm]
+    note: tall ringed shutter, frieze
+  - tex: mm8/t09a04a
+    size: [128, 256]
+    maps: [elema.odm]
+    note: 'ashlar: square slit'
+  - tex: mm8/t09a04b
+    size: [128, 256]
+    maps: [elema.odm, out06.odm]
+    note: 'ashlar: pointed slit'
+  - tex: mm8/t09c04a
+    size: [128, 256]
+    maps: [elema.odm]
+    note: 'ashlar: square slit under frieze'
+  - tex: mm8/t09c04b
+    size: [128, 256]
+    maps: [elema.odm]
+    note: 'ashlar: pointed slit under frieze'
+  door:
+  - tex: mm8/t06a03
+    size: [128, 256]
+    maps: [out02.odm]
+    note: strapped plank door with post
+  - tex: mm8/t06b03
+    size: [128, 256]
+    maps: [out02.odm]
+    note: plank door, frieze
+  - tex: mm8/t06c03
+    size: [128, 256]
+    maps: [out02.odm]
+    note: plank door, frieze, centred
+  - tex: mm8/t06d03
+    size: [128, 256]
+    maps: [out02.odm]
+    note: plank door, frieze, post left
+  - tex: mm8/t09a03a
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm, out06.odm, out13.odm]
+    note: 'ashlar: carved double door, left half'
+  - tex: mm8/t09a03b
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm, out06.odm, out13.odm]
+    note: 'ashlar: carved double door, right half'
+  - tex: mm8/t09a03c
+    size: [128, 256]
+    maps: [out13.odm]
+    note: 'ashlar: single barred door'
+  beam/post (end pieces):
+  - tex: mm8/t06a07
+    size: [128, 256]
+    maps: [out02.odm]
+    note: boulder with corner post right
+  - tex: mm8/t06b06
+    size: [128, 256]
+    maps: [out02.odm]
+    note: post right, frieze
+  - tex: mm8/t06b07
+    size: [128, 256]
+    maps: [out02.odm]
+    note: post left, frieze
+  - tex: mm8/t09a06
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm, out13.odm]
+    note: ashlar pilaster left
+  - tex: mm8/t09a07
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm, out13.odm]
+    note: ashlar pilaster right
+  - tex: mm8/t09c06
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm]
+    note: ashlar pilaster left, frieze
+  - tex: mm8/t09c07
+    size: [128, 256]
+    maps: [elema.odm, elemw.odm]
+    note: ashlar pilaster right, frieze
+  roof:
+  - tex: mm8/t06a05
+    size: [128, 128]
+    maps: [out02.odm]
+    note: 'middle: dark rough slate'
+  - tex: mm8/t06b05
+    size: [128, 128]
+    maps: [out02.odm]
+    note: slate with carved eave course along the top edge
+  - tex: mm8/t09a05
+    size: [128, 128]
+    maps: [elemf.odm, out13.odm]
+    note: red tile (shipped with t09; one exception at most, e.g. an inn)
+  gable/eave trim:
+  - tex: mm8/t06a10
+    size: [32, 32]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: dark timber 32x32 (beams, ridge)
+  - tex: mm8/t06c11
+    size: [32, 32]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: dark timber 32x32
+  - tex: mm8/t06a11
+    size: [32, 32]
+    maps: [out02.odm]
+    note: timber end 32x32
+  - tex: mm8/t06b11
+    size: [32, 32]
+    maps: [out02.odm]
+    note: carved frieze 32x32
+  - tex: mm8/t09b11b
+    size: [128, 32]
+    maps: [out13.odm]
+    note: ashlar coping 128x32
+  - tex: mm8/t09a10b
+    size: [64, 64]
+    maps: [out13.odm]
+    note: carved meander 64x64
+  foundation/plinth:
+  - tex: mm8/t06a02
+    size: [128, 128]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: boulder stone 128x128
+  - tex: mm8/t06b02
+    size: [128, 128]
+    maps: [out02.odm]
+    note: boulder stone 128x128 variant
+  - tex: mm8/t09a02a
+    size: [128, 128]
+    maps: [elemf.odm, elemw.odm, out13.odm]
+    note: dressed stone 128x128
+  - tex: mm8/t09a02b
+    size: [128, 128]
+    maps: [out13.odm]
+    note: dressed stone 128x128
+  - tex: mm8/t09b11a
+    size: [128, 64]
+    maps: [out13.odm]
+    note: ashlar base course 128x64
+  chimney:
+  - tex: mm8/t06a02
+    size: [128, 128]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: boulder stack
+  - tex: mm8/t09a02a
+    size: [128, 128]
+    maps: [elemf.odm, elemw.odm, out13.odm]
+    note: dressed stone stack
+  shop sign blanks (shipped pictorial signs):
+  - tex: mm8/sgweap
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: weapons
+  - tex: mm8/sgarm
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: armour
+  - tex: mm8/sgmagic
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: magic
+  - tex: mm8/sgalch
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out06.odm, out13.odm]
+    note: alchemist
+  - tex: mm8/sgspell
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out06.odm, out07.odm, out13.odm]
+    note: guild
+  - tex: mm8/sgtvrn
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out04.odm, out05.odm, out06.odm, out07.odm, out08.odm]
+    note: tavern
+  - tex: mm8/sginn
+    size: [64, 64]
+    maps: [out01.odm, out02.odm]
+    note: inn
+  - tex: mm8/sgbank
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out06.odm]
+    note: bank
+  - tex: mm8/sgtrain
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm]
+    note: training
+  - tex: mm8/sgstabl
+    size: [64, 64]
+    maps: [out02.odm, out03.odm, out04.odm, out05.odm, out06.odm]
+    note: stables
+  - tex: mm7/sgtempl
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out04.odm, 7out05.odm, out14.odm]
+    note: temple (MM7)
+  fence/wall:
+  - tex: mm8/t06a01
+    size: [128, 256]
+    maps: [out02.odm]
+    note: boulder garden walls and yard walls
+  - tex: mm8/t09a01
+    size: [128, 256]
+    maps: [elema.odm, elemf.odm, out06.odm, out13.odm]
+    note: town wall (Castleview), ashlar
+  - tex: mm8/t09c12b
+    size: [128, 256]
+    maps: [elemw.odm]
+    note: carved wall panel
+  - tex: mm8/t09c12c
+    size: [128, 256]
+    maps: [elemw.odm]
+    note: carved wall panel
+  - tex: mm8/t09c12d
+    size: [128, 256]
+    maps: [elemw.odm]
+    note: carved wall panel
+  bridge or quay:
+  - tex: mm7/7trimda
+    size: [256, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: grey plank deck 256x128 (Lakeside jetties; MM8 bwood* docks have no x4 master yet)
+  - tex: mm7/7trimd
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    note: grey planks 128x256 (jetty sides)
+  - tex: mm8/btrima2
+    size: [256, 64]
+    maps: [elemw.odm, out01.odm, out02.odm, out06.odm, out08.odm, out13.odm]
+    note: dock beam 256x64
+  - tex: mm8/t06a02
+    size: [128, 128]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out07.odm, out13.odm]
+    note: quay wall boulder stone
+new:
+- name: xlslate
+  size: [128, 128]
+  kind: tile
+  note: neat cut slate for the ashlar (t09) houses and civic roofs; tile
+- name: xlslatemos
+  size: [128, 128]
+  kind: tile
+  note: rough mossy slate for the poor houses and sheds; tile
+- name: xlinn
+  size: [128, 64]
+  kind: sign
+  note: Adventurer's Inn (Castleview roster)
+- name: xlstorage
+  size: [128, 64]
+  kind: sign
+  note: Public Storage (Castleview chest puzzles)
+- name: xljail
+  size: [128, 64]
+  kind: sign
+  note: Castleview Jail
+- name: xlferry
+  size: [128, 64]
+  kind: sign
+  note: Ferry to the Isle of Lost Souls (Lakeside)

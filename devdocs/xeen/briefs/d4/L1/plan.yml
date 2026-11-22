@@ -1,0 +1,624 @@
+format: 0
+level: L1
+pitch: "Darkside's north-east corner, where the world ends on two sides. A great lake fills the middle: Octopod Lake, dark and deep, with the Isle of Lost Souls and its ruined tower a short row off the shore. On its south shore lies Lakeside, a low town of grey stone and slate under the coven's rule; north across the water Castle Blackfang crowns a black crag in a storm of bats, and the Snow River comes down its rapids from a snowfield at the rim. West, Magic Mountain lifts its crags and snow over the Forest of Peril, with two wizards camped on its shoulder and gargoyles on its perches. The lake drains east over the rim into the stars; above the north-east rim stands the glow of the bright face."
+purpose: "Act IV's wilderness map (party 35-38): the Isle and DD-12 (M20, M24), the coven and Lakeside's liberation (Q-D22, DD-20; Warlock if joined), Castle Blackfang's sealed gate (M25: the griffin is the only way in), the gargoyle lair (Q-D15, DD-23), Ector's ring (Q-D21), Slibo and the real map (Q-C24), Leafpoint (T2-LEAFPOINT), the fourth Darkside obelisk, Lucio's boat after M30."
+mood: "Cold amber light on still dark water; slate roofs and closed shutters; reeds hissing; the far shriek of bats over Blackfang; snow and wind on the uplands; the falls' roar at the rim."
+datum: water:rim_sea
+spaces:
+  - id: edge:south_end
+    name: South edge
+    kind: road
+    part_of: zone:lakeside_brow
+    purpose: Where the road leaves for D3.
+  - id: edge:west_end
+    name: West edge
+    kind: road
+    part_of: zone:west_edge
+    purpose: Where the road leaves for D5.
+  - id: junction:ector_fork
+    name: Ector's Fork
+    kind: junction
+    purpose: "East: Lakeside. West: the desert road (D5). North: the forest lane to Ector, Leafpoint and Magic Mountain."
+    signpost: true
+  - id: junction:snow_bridge
+    name: Snow River bridge
+    kind: junction
+    purpose: "A timber bridge over the Snow River's last rapids: south to Lakeside, east to Castle Blackfang, north up the river to the springs and the uplands."
+    signpost: true
+  - id: junction:well_fork
+    name: Well Fork
+    kind: junction
+    purpose: "North-west: Lakeside. East: the shore path to Mirabeth Point. South: the road to Sandcaster (D3)."
+    signpost: true
+  - id: town:lakeside
+    name: Lakeside
+    kind: town
+    where: "the lake's south shore, a low town of 15 doors round a square and a waterfront"
+    floor: 1120
+    purpose: "The coven town (WORLD_DESIGN 5.2; A4's d4.yml 4651-4666): before Q-D22 only the guild (the coven's riddle door into DD-20), the ferry to the Isle (D-12.1, from day one) and Old Gill's shack work; after it the tavern, smithy, temple, mirror and the houses open. Naomi in the stocks on the square."
+    safe: true
+    keep_clear: [spawns]
+    theme: "darkside_town kit (MU-5 board): grey boulder-stone t06 houses under mossy slate for the waterfront and the poor, t09 ashlar under xlslate for the guild and the temple; the guild's carved double door as two leaves (t09a03a / t09a03b); grey plank jetty (7trimda, 7trimd, btrima2); MU-2 D4 ground: road pebbles in town, sand ripples on the beach."
+    density: medium
+    buildings:
+      - {id: building:lk_guild, type: house, service: Lakeside Guild, count: 1, doors: 1, footprint_cells: [[4, 4]], notes: "4651: the coven's front (water guild). Two storeys of t09 ashlar, a window once per storey (texture fit), the carved double door as two leaves with mirrored wing pictures (double doors). Its door asks the riddle (q-d22.guild_door); right: the guild and its back stair to DD-20; wrong: the trapdoor into DD-20's sewer half."}
+      - {id: building:lk_tavern, type: house, service: The Cozy Lil' Tavern, count: 1, doors: 1, footprint_cells: [[3, 3]], notes: "4652: before q-d22.done its door is a stair to a dust-sheeted shell: \"These stairs once led to a tavern, but it was destroyed long ago.\" (dark/aaze0033:1)."}
+      - {id: building:lk_smithy, type: house, service: Lakeside Smithy, count: 1, doors: 1, footprint_cells: [[3, 3]], notes: "4653: the same before liberation (aaze0033:2)."}
+      - {id: building:lk_temple, type: house, service: Temple of Still Waters, count: 1, doors: 1, footprint_cells: [[4, 3]], notes: "4654: doors nailed shut, a broom painted on them, until q-d22.done."}
+      - {id: building:lk_yachts, type: house, service: Lakeside Yachts, count: 1, doors: 1, footprint_cells: [[3, 2]], notes: "4655: Captain Ferris Gull's ferry to the Isle (route 420, daily, from day one: D-12.1) and Lucio's celestial boat to Olympus (route 426, wed and sat, m30.done: D-5.3) from its jetty."}
+      - {id: building:lk_houses, type: house, service: residence, count: 10, doors: 1, footprint_cells: [[2, 2], [3, 2], [2, 2], [3, 2], [2, 2], [2, 2], [2, 2], [2, 2], [2, 2], [3, 2]], notes: "4657-4666 in index order: Old Gill's Shack (open), The Tannery, Tidewater House, The Gray Manor (Sir Malvern), Netmender's House, The Hollow House, Reedcutter's Cottage, The Eel House, Widow Marsh's, The Boathouse (Skiff's: the beached boat by it is his)."}
+  - id: water:octopod_lake
+    name: Octopod Lake
+    kind: water
+    purpose: "The great lake: shallows and reeds by the shores, dark deep water in the two basins west and east of the Isle. Octopods live in the deep water only (the lake is the trap); two skerries with a lure each. It drains east over the rim at the Octopod Falls."
+    population:
+      - {id: pop:octopods, actor: Xeen Octopod, groups: 2, placed: true, hostile: true, notes: "E6 west basin: two Octopods 50, alone, in the deep water only."}
+      - {id: pop:octopods_east, actor: Xeen Octopod, groups: 3, placed: true, hostile: true, notes: "E6 east basin: an Octopod 50 and two Great Octopods 60, round the East Skerry's lamp."}
+  - id: water:outflow
+    name: The Octopod Falls
+    kind: water
+    purpose: "The lake's outflow: a short race east from the lake to the rim, where it falls into the stars."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: The stars below the world's edge (water at 0).
+  - id: water:snow_river
+    name: The Snow River
+    kind: water
+    purpose: "Rises at the Snow Springs under the snowfield at the north rim, runs down its rapids through a rocky cut and enters the lake's north-west bay (D-23: it rises and falls inside the map)."
+  - id: water:snow_springs
+    name: The Snow Springs
+    kind: water
+    part_of: zone:snow_uplands
+    purpose: "A small black tarn under the snowfield, the river's source."
+  - id: zone:blackfang_crag
+    name: Castle Blackfang's crag
+    kind: wild
+    floor: [1100, 3100]
+    relief: uneven
+    purpose: "A crag of black rock rising from the lake's north shore, its south face a cliff into the water; on its top Castle Blackfang (DD-14) in a storm of bats. The towers kit's Darkside stone (hkm3 slate-blue under a skull frieze, hkm2 black rubble), xtslate cones; one window per storey on each tower. The gate at the crag's west foot on the north shore never opens (m25.blackfang_gate): the griffin is the only way in."
+    empty: true
+  - id: zone:desert_heath
+    name: The desert edge
+    kind: wild
+    floor: [1400, 2000]
+    relief: uneven
+    purpose: "Heather, sand and wind-bent pines along the south, where D3's dunes run on: vulture rocs over the rocks, the Witches' Circle at the forest's edge, a lost wagon."
+    density: sparse
+    population:
+      - {id: pop:heath_rocs, slot: 2, groups: 14, per_marker: [1, 3], levels: [30, 48], notes: "Encounter area E5: Vulture Rocs 30 (Rocs 38, Griffins 48 rare)."}
+      - {id: pop:circle_witches, actor: Xeen Coven, groups: 1, placed: true, hostile: true, notes: "E4a: 8 placed (Witch 32 x5, Coven Witch 40 x2, Coven Mother 50) at the Witches' Circle; gone with q-d22.done."}
+  - id: zone:east_shore
+    name: The east shore
+    kind: zone
+    floor: [1080, 1400]
+    relief: slope
+    purpose: "Shingle and turf from Lakeside to the falls: the shore path to Mirabeth Point, the cairn of five stones (Q-C24) on the way."
+    safe: true
+    density: sparse
+  - id: zone:ector_clearing
+    name: Ector's clearing
+    kind: zone
+    part_of: zone:forest_of_peril
+    floor: 1450
+    purpose: "A log cabin, a chopping block and a sawpit: Ector the Woodsman (5320), who lost his ring (Q-D21)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:falls_lip
+    name: The falls' lip
+    kind: zone
+    part_of: zone:rim_corner
+    floor: [1056, 1300]
+    purpose: "Rocks either side of the race where the lake water goes over the rim, a fisherman's chest caught in them; the bright face's glow above the rim to the north-east (sky)."
+    density: sparse
+  - id: zone:forest_of_peril
+    name: The Forest of Peril
+    kind: wild
+    floor: [1150, 1700]
+    relief: uneven
+    purpose: "Old dark firs and gnarled oaks from the mountain's foot to the desert edge, quiet but for the animal traps (the source's \"Animal trap!\"): Leafpoint's grove, Ector's cabin, the forest road from D5 to Lakeside."
+    density: dense
+  - id: zone:isle
+    name: The Isle of Lost Souls
+    kind: zone
+    floor: [1100, 1400]
+    relief: uneven
+    purpose: "A rocky isle of dead trees and old graves 5 cells off Lakeside's jetty: a jetty and a sign \"Isle of Lost Souls\" (aaze0022:5) at its south shore, the ferry's landing; up a short path, a ruined round tower over DD-12's door (two leaves; lost_souls_key, M20)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:lakeside_brow
+    name: Lakeside Brow
+    kind: zone
+    where: "south, where the road from D3 tops the last rise"
+    floor: [1750, 2300]
+    purpose: "Where the party comes in from D3: the road climbs to a brow of heath (2,300) and the lake country opens below: Lakeside's slate roofs on the shore, the lake beyond with the Isle of Lost Souls, Castle Blackfang on its crag across the water, Magic Mountain far to the west."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:lakeside_square
+    name: Lakeside's square
+    kind: zone
+    part_of: town:lakeside
+    floor: 1120
+    purpose: "Flagstones between the guild (west), the smithy (east), the tavern and the temple (south): the Mirror of Lakeside (4656) and Naomi in the stocks beside it, watching the guild's door."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:lakeside_waterfront
+    name: The waterfront
+    kind: zone
+    part_of: town:lakeside
+    floor: 1090
+    purpose: "A shingle beach and a lane along the houses' fronts; the ferry jetty of grey planks into the lake; Skiff's beached boat with its sign \"This boat under repair.\" east of the Boathouse; the sewer shaft's grate (DD-20) by the jetty's foot."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:leafpoint_grove
+    name: Leafpoint's grove
+    kind: zone
+    part_of: zone:forest_of_peril
+    floor: 1500
+    purpose: "A ring of young trees round the oldest tree in Xeen: Leafpoint (5319), who talks (T2-LEAFPOINT, Arch Druid after q-c15.done)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:magic_mountain
+    name: Magic Mountain
+    kind: wild
+    floor: [1500, 4100]
+    relief: uneven
+    purpose: "A massif of grey crags and snow in the north-west, its north face falling over the rim: the wizards' camp on a shelf of its south side, the Wizard's Seat (a genie lamp), the gargoyles' perches and their lair (DD-23) in the eastern crags, Ector's woodpile on its wooded south-east slope."
+    population:
+      - {id: pop:mountain_gargoyles, slot: 1, groups: 13, per_marker: [2, 3], levels: [30, 45], notes: "Encounter area E1: Mountain Gargoyles 30, Sentinels 38, an Overlord 45 (Dif 2)."}
+  - id: zone:mirabeth_point
+    name: Mirabeth Point
+    kind: zone
+    part_of: zone:east_shore
+    floor: 1150
+    purpose: "A low headland with a weathered statue of a mermaid looking west over the water (the Clouds mermaid Mirabeth, X3); a sign \"Mirabeth Point\" (aaze0022:1)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:north_shore
+    name: The north shore
+    kind: zone
+    floor: [1080, 1300]
+    relief: slope
+    purpose: "A shingle strip and reedy meadow under the uplands from the Snow River's mouth east to Blackfang's gate: the track, the gatehouse at the crag's foot."
+    density: sparse
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "North and east the land ends in a cliff; below, the stars (water at 0 stands for them). The bright face's glow above the north-east rim is the sky's (concept art only; no plan depends on it)."
+    empty: true
+  - id: zone:rim_corner
+    name: The rim corner
+    kind: wild
+    floor: [1300, 2200]
+    relief: uneven
+    purpose: "The north-east corner behind Blackfang's crag where the two rims meet: the Fountain of Great Resilience on a ledge (the source's F1 fountain), the glow of the bright face above the rim (sky)."
+    density: sparse
+  - id: zone:rimward_crags
+    name: The Rimward crags
+    kind: wild
+    floor: [1600, 2400]
+    relief: uneven
+    purpose: "Broken crags between the road and the east rim (D3's Wrath shoulder running on north): rocs' perches, the fallen roc-hunter; the first fight from D3."
+    density: sparse
+    population:
+      - {id: pop:rimward_rocs, slot: 2, groups: 8, per_marker: [1, 3], levels: [30, 48], notes: "Encounter area E3: Vulture Rocs 30."}
+  - id: zone:snow_uplands
+    name: The Snow River uplands
+    kind: wild
+    floor: [1300, 2400]
+    relief: uneven
+    purpose: "Snowy heath and stony slopes between Magic Mountain and Blackfang's crag up to the north rim: the Snow Springs under a snowfield at the rim, the Snow River's rapids down a rocky cut to the lake, the vulture rocs' pinnacles."
+    population:
+      - {id: pop:snow_rocs, slot: 2, groups: 12, per_marker: [1, 3], levels: [30, 48], notes: "Encounter area E2: Vulture Rocs 30, a Roc 38 or Griffin 48 now and then."}
+  - id: zone:west_edge
+    name: The forest road's end
+    kind: zone
+    where: "west, the forest road's last stretch from the D5 border"
+    floor: 1500
+    purpose: "Where the party comes in from D5: the road leaves the desert edge and enters the Forest of Peril; Magic Mountain's snowy head north over the trees."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:west_shore
+    name: The west shore
+    kind: wild
+    floor: [1080, 1500]
+    relief: slope
+    purpose: "Reed beds and alder carr along the lake's west side, the track north to the Snow River bridge: the obelisk on Gull Knoll, the coven's cauldron in the reeds."
+    density: medium
+    population:
+      - {id: pop:reed_witches, actor: Xeen Coven, groups: 1, placed: true, hostile: true, notes: "E4b: 6 placed (Witch 32 x4, Coven Witch 40 x2) at the cauldron in the reeds; gone with q-d22.done."}
+  - id: zone:wizard_camp
+    name: Xanthus and Slibo's camp
+    kind: zone
+    part_of: zone:magic_mountain
+    floor: 2300
+    purpose: "Two wizards' tents, a fire and a stone basin fed by a spring: the Fountain of Great Magic (Xanthus' fountain, +SP). Slibo (5317) by the tents (Q-C24's real map, Q-D2)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:woodcutters_clearing
+    name: The woodcutters' clearing
+    kind: zone
+    part_of: zone:magic_mountain
+    floor: 1900
+    purpose: "Stumps and stacked logs on the mountain's south-east slope: Ector's woodpile (q-d21.woodpile); the goat path on up to the gargoyles' lair."
+    safe: true
+    keep_clear: [spawns]
+links:
+  - id: link:camp_lane
+    from: link:forest_lane
+    to: zone:wizard_camp
+    kind: path
+    rise: 800
+    purpose: switchbacks up to the wizards' shelf
+  - id: link:desert_road
+    from: edge:west_end
+    to: junction:ector_fork
+    kind: road
+    purpose: "travel: D5, the forest road"
+  - id: link:forest_lane
+    from: junction:ector_fork
+    to: zone:leafpoint_grove
+    kind: path
+    purpose: north past Ector's cabin to Leafpoint
+  - id: link:forest_road
+    from: junction:ector_fork
+    to: zone:lakeside_square
+    kind: road
+    purpose: "through the Forest of Peril, past the Witches' Circle, into Lakeside by the guild"
+  - id: link:lair_path
+    from: zone:woodcutters_clearing
+    to: entrance:dd23_lair
+    kind: path
+    rise: 800
+    notes: a goat path into the gargoyles' crags
+  - id: link:north_shore_track
+    from: junction:snow_bridge
+    to: zone:north_shore
+    kind: path
+    purpose: east under the uplands to Blackfang's gate
+  - id: link:sandcaster_road
+    from: edge:south_end
+    to: junction:well_fork
+    kind: road
+    rise: -650
+    purpose: "travel: D3; over the brow and down to the shore"
+  - id: link:seat_path
+    from: zone:wizard_camp
+    to: poi:genie_seat
+    kind: path
+    rise: 700
+  - id: link:shore_path
+    from: junction:well_fork
+    to: zone:mirabeth_point
+    kind: path
+    purpose: past the cairn to the statue
+  - id: link:snow_track
+    from: junction:snow_bridge
+    to: zone:rim_corner
+    kind: path
+    rise: 1100
+    purpose: "up the river's west bank past the rapids to the springs, then east along the rim to the fountain"
+  - id: link:town_road_east
+    from: junction:well_fork
+    to: zone:lakeside_square
+    kind: road
+    purpose: into Lakeside past the smithy
+  - id: link:west_shore_track
+    from: zone:lakeside_waterfront
+    to: junction:snow_bridge
+    kind: path
+    purpose: up the west shore past the cauldron reeds and Gull Knoll
+  - id: link:woodpile_lane
+    from: zone:leafpoint_grove
+    to: zone:woodcutters_clearing
+    kind: path
+    rise: 400
+entrances:
+  - id: entrance:blackfang_gate
+    space: zone:north_shore
+    kind: exit
+    how: "The great double gate in the gatehouse at the crag's foot, two leaves of black oak and iron: m25.blackfang_gate, \"There seems to be no way in.\" (aaze0021:3). Never opens."
+  - id: entrance:dd12_door
+    space: zone:isle
+    kind: both
+    neighbour: door:dd12
+    facing: s
+    how: "The ruined tower's door: two iron-bound leaves (double doors), \"Enter the Isle of Lost Souls Dungeon?\" (aaze0022:0) with the key; without it, locked (A8's DD-12, M20's key)."
+    condition: {item: lost_souls_key}
+  - id: entrance:dd20_guild
+    space: zone:lakeside_square
+    kind: both
+    neighbour: door:dd20_guild
+    facing: e
+    how: "The guild's double door (house 4651): q-d22.guild_door asks the riddle; right: the guild, its back stair down to the coven's hall; wrong: the trapdoor into the sewer half (the map's move)."
+  - id: entrance:dd20_shaft
+    space: zone:lakeside_waterfront
+    kind: both
+    neighbour: door:dd20_sewer
+    facing: n
+    how: "A grated shaft by the jetty's foot: \"Climb down to the sewer?\" (aaze0033:3), the entrance preset (D-24); sealed with a line until A8's DD-20 is installed."
+  - id: entrance:dd23_lair
+    space: zone:magic_mountain
+    kind: both
+    neighbour: door:dd23
+    facing: s
+    how: "A cave mouth under the gargoyles' perches: q-d15.lair_door's line on approach, then the map's own \"Enter?\". An open cave mouth, no door leaves."
+  - id: entrance:isle_landing
+    space: zone:isle
+    kind: arrival
+    neighbour: boat:isle
+    how: "The Isle's jetty (A4's isle_landing): Ferris Gull's ferry, route 420."
+  - id: entrance:lakeside_dock
+    space: zone:lakeside_waterfront
+    kind: arrival
+    neighbours: [boat:isle_return, stable:castleview, stable:sandcaster]
+    how: "The jetty's foot (A4's lakeside_dock): the caravans from Castleview and Sandcaster (routes 414, 417), the ferry back from the Isle."
+  - id: entrance:lakeside_square
+    space: zone:lakeside_square
+    kind: arrival
+    neighbour: mirror:darkside
+    how: "Town Portal and the mirror (4656, qbit 119010; open after q-d22.done)."
+  - id: entrance:south_road
+    space: zone:lakeside_brow
+    kind: both
+    neighbour: edge:south
+    facing: n
+    how: "The road from Sandcaster (D3) at x 88, on the brow above the lake."
+  - id: entrance:west_road
+    space: zone:west_edge
+    kind: both
+    neighbour: edge:west
+    facing: e
+    how: "The desert road from D5 at y 80, where the forest begins."
+critical_path: [edge:south_end, junction:well_fork, zone:lakeside_square, zone:lakeside_waterfront, zone:isle]
+goals:
+  - id: goal:cairn
+    space: zone:east_shore
+    kind: use
+    what: "Dig two paces north of the five-stone cairn with Jethro's real map (Q-C24), or sell the map to Slibo."
+    story: Q-C24
+  - id: goal:coven
+    space: zone:lakeside_square
+    kind: use
+    what: "Answer the guild's riddle (or have Naomi say the word), free the five prisoners and break the coven in DD-20, or join it (Q-D22)."
+    story: Q-D22
+  - id: goal:lair
+    space: zone:magic_mountain
+    kind: reach
+    what: Destroy the gargoyle lair (DD-23) for Caleb (Q-D15).
+    story: Q-D15
+  - id: goal:lost_souls
+    space: zone:isle
+    kind: reach
+    what: "Take the ferry to the Isle and open DD-12 with Megan's key (M20, M24)."
+    story: M20
+  - id: goal:obelisk
+    space: zone:west_shore
+    kind: use
+    what: Read the fourth Darkside word (obelisks.d4).
+    story: obelisks
+  - id: goal:woodpile
+    space: zone:woodcutters_clearing
+    kind: take
+    what: Find Ector's ring in the woodpile on Magic Mountain (Q-D21).
+    story: Q-D21
+points_of_interest:
+  - id: poi:animal_trap
+    space: zone:forest_of_peril
+    count: 2
+    kind: trap
+    behaviour: "\"Animal trap!\" (aaze0017:10, aaze0018:17): a sprung trap on the forest lanes, damage once. Hazards, not counted as points of interest."
+  - id: poi:beached_boat
+    space: zone:lakeside_waterfront
+    kind: chest
+    behaviour: "Skiff's beached boat: \"There is a sign here that reads 'This boat under repair.'\" (aaze0033:18); \"Search the boat?\" (:21); yes: its locker (a chest) and \"The boat sinks into the water, but not before you recover its treasures.\" (:22): the boat model hides (D-12.1)."
+  - id: poi:cairn
+    space: zone:east_shore
+    kind: device
+    behaviour: "q-c24.cairn: a cairn of five stones; with Jethro's real map the party digs up Slibo's cache two paces north."
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:circle_chest
+    space: zone:desert_heath
+    kind: chest
+    behaviour: The coven's offering chest at the foot of the circle's altar stone.
+  - id: poi:ector
+    space: zone:ector_clearing
+    kind: npc
+    behaviour: "Ector the Woodsman (5320) by his cabin: Q-D21 (aaze0018:12-16)."
+  - id: poi:falls_chest
+    space: zone:falls_lip
+    kind: chest
+    behaviour: "A fisherman's sea chest caught in the rocks above the falls, where the lake would have taken it over the rim."
+  - id: poi:fountain_magic
+    space: zone:wizard_camp
+    kind: fountain
+    behaviour: "Xanthus' Fountain of Great Magic (aaze0017:4-6): +SP, temporary (the source's +1,000 rescaled), daily."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:fountain_resilience
+    space: zone:rim_corner
+    kind: fountain
+    behaviour: "The Fountain of Great Resilience (aaze0021:0-2): +HP, temporary, daily; on a ledge where the rims meet."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:frozen_pilgrim
+    space: zone:snow_uplands
+    kind: chest
+    behaviour: "A pilgrim frozen kneeling by the Snow Springs: his pack (a chest)."
+  - id: poi:genie_seat
+    space: zone:magic_mountain
+    kind: device
+    behaviour: "A genie's lamp on the Wizard's Seat, a ledge above the camp (genie lamps, Q-D27): a wish choice; greed is punished."
+    reached_by: off_road
+  - id: poi:genie_skerry
+    space: water:octopod_lake
+    kind: device
+    behaviour: "A second lamp glinting on the East Skerry in the deep east basin: only by water walking or flight, past the octopods (the lake's lure)."
+    reached_by: water
+  - id: poi:gibbet
+    space: zone:desert_heath
+    kind: chest
+    behaviour: "Gallows Knoll above Lakeside's south road: the coven's gibbet, and in its cage a dead thief's purse (a chest)."
+  - id: poi:heath_wagon
+    space: zone:desert_heath
+    kind: chest
+    behaviour: "A Sandcaster wagon that tried the heath track: its strongbox under the sand (a chest)."
+  - id: poi:hunters_hide
+    space: zone:forest_of_peril
+    kind: chest
+    behaviour: "An old hunters' hide in the western firs, its owner's trap-line long sprung: a locked trunk (a chest)."
+  - id: poi:isle_boat
+    space: zone:isle
+    kind: device
+    behaviour: "Ferris Gull's mate waits at the Isle's jetty: \"Back to Lakeside?\" (A4's line): the move to lakeside_dock."
+  - id: poi:leafpoint
+    space: zone:leafpoint_grove
+    kind: npc
+    behaviour: "Leafpoint (5319), the oldest tree in Xeen, talks (T2-LEAFPOINT; aaze0018:5-11). See the open question on how a tree talks."
+  - id: poi:mirabeth
+    space: zone:mirabeth_point
+    kind: statue
+    behaviour: "Mirabeth Point: the mermaid's statue and its sign (aaze0022:1). Clicking reads the sign."
+  - id: poi:mirror
+    space: zone:lakeside_square
+    kind: story_device
+    behaviour: "The Mirror of Lakeside (4656): before q-d22.done \"The mirror shows a witch's face, which does not move when you do.\" (A4); after it the Darkside mirror network (and Kalindra's stage 4)."
+  - id: poi:naomi
+    space: zone:lakeside_square
+    kind: npc
+    behaviour: "Naomi (5318) in the stocks, facing the guild's door: Q-D22's giver; she says the guild's word. Not a point of interest (D-23 (1))."
+  - id: poi:obelisk
+    space: zone:west_shore
+    kind: obelisk
+    behaviour: "obelisks.d4: the fourth of six words (autonote dark_4, 115053)."
+    rule: native:obelisk
+    notes: "On Gull Knoll at the town's west end above the reeds (A3's autonote: \"Obelisk by Lakeside\"), the lake and the Isle in view."
+  - id: poi:reed_cauldron
+    space: zone:west_shore
+    kind: device
+    behaviour: "The coven's cauldron in the reeds: drink? A random effect (spell points or poison), once a day."
+    uses: {times: 1, per: character, reset: daily}
+  - id: poi:roc_hunter
+    space: zone:rimward_crags
+    kind: chest
+    behaviour: "A roc-hunter who fell among the crags: his pack and broken crossbow (a chest)."
+  - id: poi:roc_nest
+    space: zone:snow_uplands
+    kind: chest
+    behaviour: "A vulture roc's nest on a pinnacle, with a lost courier's satchel in the bones (a chest)."
+  - id: poi:signposts
+    spaces: [junction:well_fork, junction:ector_fork, junction:snow_bridge]
+    count: 3
+    kind: signpost
+    behaviour: "Signposts at the forks (the source's \"North / <- Tower\" style, aaze0018:4)."
+  - id: poi:skerry_strongbox
+    space: water:octopod_lake
+    kind: chest
+    behaviour: "A drowned smuggler's strongbox wedged on the West Skerry: only by water walking or flight (a lure)."
+    reached_by: water
+  - id: poi:slibo
+    space: zone:wizard_camp
+    kind: npc
+    behaviour: "Slibo (5317), Wizard of Magic Mountain: Q-C24, Q-D2."
+  - id: poi:warding_well
+    space: zone:east_shore
+    kind: well
+    behaviour: "The Fountain of Magic Resistance (aaze0022:2-4): +5 Mind and Body resistance, permanent, once per character (D-4's +5 rule; the source's +50 rescaled). The map's permanent device."
+    uses: {times: 1, per: character, reset: never}
+  - id: poi:witches_circle
+    space: zone:desert_heath
+    kind: device
+    behaviour: "The Witches' Circle: standing stones round a cauldron; three skulls on stakes speak the potion recipes (aaze0033:12-14) when clicked."
+  - id: poi:woodpile
+    space: zone:woodcutters_clearing
+    kind: device
+    behaviour: "q-d21.woodpile: \"Woodpile\" (aaze0017:9); searching it gives Ector's ring once."
+    uses: {times: 1, per: party, reset: never}
+landmarks:
+  - id: landmark:blackfang
+    space: zone:blackfang_crag
+    what: "Castle Blackfang on its black crag over the lake: dark slate towers with cones, one lit window per storey, a storm of bats wheeling round the keep"
+    seen_from: [zone:lakeside_brow, town:lakeside, zone:isle, zone:west_shore, zone:snow_uplands, zone:east_shore]
+  - id: landmark:isle
+    space: zone:isle
+    what: "The Isle of Lost Souls: dead trees, graves and a ruined round tower on a rock in the lake"
+    seen_from: [town:lakeside, zone:lakeside_brow, zone:west_shore, zone:east_shore]
+  - id: landmark:magic_mountain
+    space: zone:magic_mountain
+    what: "Magic Mountain: grey crags and snow to 4,100, gargoyles on its perches"
+    seen_from: [zone:west_edge, zone:forest_of_peril, zone:lakeside_brow, zone:west_shore]
+  - id: landmark:octopod_falls
+    space: zone:falls_lip
+    what: The lake pouring over the east rim into the stars
+    seen_from: [zone:east_shore, zone:mirabeth_point]
+  - id: landmark:rapids
+    space: zone:snow_uplands
+    what: "The Snow River Rapids: white water down a rocky cut from the snowfield"
+    seen_from: [zone:north_shore, zone:west_shore]
+sightlines:
+  - id: view:arrival
+    from: entrance:south_road
+    to: [town:lakeside, landmark:isle, landmark:blackfang, landmark:magic_mountain]
+    what: "Arrival from D3: the road tops the brow and the lake country opens: Lakeside's roofs below on the shore, the lake with the Isle, Castle Blackfang on its crag across the water, Magic Mountain west."
+  - id: view:signature
+    from: zone:lakeside_waterfront
+    to: [landmark:isle, landmark:blackfang]
+    what: "The signature view from the ferry jetty's end: the Isle of Lost Souls ahead with its ruined tower, and beyond the water Castle Blackfang on its black crag in the storm of bats; the rapids and the snowfield far left; the north-east rim's glow (sky)."
+height_bands:
+  - id: band:crag
+    range: [1100, 3100]
+    spaces: [zone:blackfang_crag]
+  - id: band:forest
+    range: [1150, 1750]
+    spaces: [zone:forest_of_peril, zone:west_edge]
+    partly: [zone:west_shore]
+  - id: band:heath
+    range: [1250, 2600]
+    spaces: [zone:desert_heath, zone:lakeside_brow]
+    notes: "D3's desert-edge dunes and the Lakeside road (1,750 at the edge) run on into D4."
+  - id: band:peaks
+    range: [1500, 4100]
+    spaces: [zone:magic_mountain]
+  - id: band:rim_sea
+    range: [0, 0]
+    spaces: [zone:rim, water:rim_sea]
+  - id: band:shore
+    range: [1056, 1500]
+    spaces: [town:lakeside, zone:north_shore, zone:east_shore, zone:isle, water:octopod_lake]
+    partly: [zone:west_shore]
+    notes: "The lake at 1,056; Lakeside 1,090-1,150; the Isle to 1,400."
+  - id: band:uplands
+    range: [1300, 2600]
+    spaces: [zone:snow_uplands, zone:rim_corner, zone:rimward_crags]
+states:
+  - id: state:coven_broken
+    condition: {qbit: coven_broken}
+    opens: [building:lk_tavern, building:lk_smithy, building:lk_temple, building:lk_houses]
+    effects: [The witches' two camps are gone (their placed groups hidden at load)., Naomi leaves the stocks.]
+  - id: state:coven_rules
+    condition: {not: {qbit: coven_broken}}
+    locks: [building:lk_tavern, building:lk_smithy, building:lk_temple, building:lk_houses]
+    atmosphere: "Shutters closed, cauldrons painted on windows, Naomi in the stocks; the witches' two camps (14 placed) by the forest road and in the reeds."
+    notes: "A4's closed texts; Old Gill's Shack (lk_houses#1) and the ferry stay open (D-12.1)."
+  - id: state:lucio
+    condition: {qbit: lucio_open}
+    effects: ["Lucio's celestial boat at the ferry jetty twice a week (route 426, D-5.3)."]
+landform:
+  relief: "A desert-edge heath along the south at 1,500-1,900 (D3's dunes and the Lakeside road run on), falling north to the lake at 1,056; Lakeside on its south shore at 1,100-1,150; the Forest of Peril in the west at 1,200-1,700 under Magic Mountain (to 4,100); the Snow River uplands (1,300-2,400) and the snowfield along the north rim; Blackfang's crag (3,100) on the north shore; the Rimward crags (to 2,400) between the road and the east rim. Inside the playable box the land spans about 1,060-4,100."
+  height_range: [1056, 4100]
+  water: "Octopod Lake (about 1,100 cells, level 1,056) with the Isle; the Snow River (about 30 cells, rapids); the outflow race and falls (4 cells); the Snow Springs tarn."
+  water_share: 0.16
+  caps:
+    - {kind: snow, share: 0.08, where: the uplands north of y 36 and Magic Mountain's head}
+    - {kind: bare rock, share: 0.07, where: "Magic Mountain's crags, Blackfang's crag, the rim cliffs"}
+    - {kind: sand, share: 0.06, where: the desert edge and the beaches}
+  rim: {notes: "The world rim along the whole north (y 24) and east (x 104): a cliff of 1,100-4,000 down to the stars; the lake falls over the east rim at y 67. South and west the land runs to the map edge; the roads run out to it."}
+atmosphere: "Sky xeendark1 (xeen_darkside_day; A3's Lua switches to xeendark2/3 at M17/M27); occasional mist on the lake; light snow possible on the uplands only (no map weather by default); music 41. Lapping water, reeds and gulls at the shore; bats' shrieks near Blackfang; wind on the mountain; the falls at the rim."
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  dungeon_entrances: 4
+  encounter_areas: 6
+  hostiles_at_load: 120
+  outdoor_chests: 10
+  points_of_interest: 35
+  spawn_markers: 47
+notes: "MU-3 for the phase 4 review (A6, 2026-11-20). Source geography: Darkside E1 (Magic Mountain, the wizards' camp, the woodpile), E2 (the Forest of Peril, Leafpoint, Ector), F1 (Snow River Rapids, Castle Blackfang, the gargoyles, the resilience fountain), F2 (Lakeside's gate, the Isle, Octopod Lake, Mirabeth Point, the magic resistance fountain) (MM5_DARKSIDE_CONTENT 4; dark/aaze0017, 0018, 0021, 0022, 0033). Written by level_generation/xeen_art/phase4/d4_brief.py; board level_generation/xeen_art/phase4/d4/board_d4.png. totals.points_of_interest is the render's census (measure.json)."

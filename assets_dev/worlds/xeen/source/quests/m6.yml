@@ -1,0 +1,37 @@
+# M6 Find Crodo: Artemus, privately (QUESTS M6). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M6
+title: Find Crodo
+act: II
+kind: main
+status: full
+giver: 4402          # Artemus, the Royal Advisor (A4: towns/xd07.yml)
+maps: [XD-07, X2]
+level: 13
+block: 6
+after: [m5.audience]
+source: "QUESTS M6; xeen/aaze0064:2-3"
+
+qbits:
+  crodo_quest: {id: 111120, journal: "Artemus says Crodo, the King's old friend, vanished with Baron Darzog. Darzog's island tower has been sealed since.",
+                until: [m21.crodo_freed]}
+
+autonotes:
+  darzog: {id: 4010, text: "Artemus: Baron Darzog, the King's master sorcerer, was jealous of Crodo. Both vanished. Darzog's tower stands on the island in Lake Darzog.", category: Misc}
+
+npcs:
+  4402:              # Artemus
+    topics:
+      - n: 1
+        label: Crodo
+        states:
+          - when: {qbit: m21.crodo_freed}
+            text: "Crodo is free. Good. The King was pleased for almost a minute, and then asked about the mirror."
+          - when: {qbit: crodo_quest}
+            text: "You haven't found Crodo yet. Keep searching."
+          - when: {qbit: m5.audience}
+            text: "Years ago King Burlock met Crodo, a kindly old sorcerer who became the King's friend. Baron Darzog, who was the King's master sorcerer, became very jealous of this friendship. I tried to warn the King that Darzog's jealousy would lead to no good, but he wouldn't listen to me. Now Crodo and Darzog have both disappeared and I fear that Crodo has been abducted. Perhaps Darzog has imprisoned him in his tower. If King Burlock were not so obsessed with the search for the Sixth Mirror, I'm sure he would have you search for him there."
+            do: [{set: crodo_quest}, {autonote: darzog}]
+          - text: "See the King first. Everyone sees the King first. Then they come to me."
+
+rewards: {xp: 0, gold: 0}
+playthrough: "XD-07: Artemus (Crodo)."

@@ -1,0 +1,3 @@
+Saved the [Run 1 three-quarter view](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sandworm_claude/references_hd/00_three_quarter.png) and recorded both attempts in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sandworm_claude/references_hd/generation_runs.json). The selected 1024×1536 PNG has six visible rings, an open maw, and no sand mound.
+
+The visible silhouette clears every edge by at least 110 px. Trace alpha remains in the outer margin of the unmodified PNG.

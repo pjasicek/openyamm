@@ -1,0 +1,252 @@
+# Xeen side quest Q-D17, The Chalice of Protection, the Bosco (Light) route (D5, DD-25, DD-08), from a new game on D5
+# with a Cavalier and a Crusader in a level-50 party. Bosco's Hall (D5 event 85) walked to the King's Hall: Bosco
+# (Chalice: started 113340, the tower's key 113341, autonote 4570), and again. The Northern Tower's door (D5 event 28,
+# q-d17.tower_door); DD-08 walked up to L4 (A3-promo's segment 35 route); the plaque before the Chalice (the oath's fail
+# text); the voice's mask ("Wht d y sk?"): "Chalice" (voice_wrong), "Chlc" (voice_answered 113342, the iron door);
+# the Chalice (chalice_taken 113345, item 12525). Down and out by the gate; Bosco: Chalice (done 113343, started
+# cleared, award 457 for every member, 2 Energy Disks, 5,000 gold, 14,000 XP per member, nobody promoted), and again.
+# Routes: tests/playthrough/xeen/promotions/35_voweless_oath.yml and its prep D_voweless_oath.md (read only);
+# devdocs/xeen/briefs/dd25/L4/playtest.yml, dd08/L4/playtest.yml. Quest logic: source/quests/q-d17.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d17_chalice_of_protection.yml --scenario-no-color
+id: xeen.side_quests.q-d17
+title: "Xeen Q-D17: the Chalice of Protection brought to Bosco"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Cavalier, level: 50, skills: [], equipment: {}}
+          - {name: Brand, class: Crusader, level: 50, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 50, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d5.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if classes() ~= 'Cavalier Crusader Cleric Sorcerer' then error('party: ' .. classes()) end"}
+  - assert: {qbit_clear: [113340, 113341, 113342, 113343, 113344, 113345]}
+  # Bosco's terrace (the party placed at his door, facing it); D5 event 85 into DD-25's gate passage.
+  - set_pose: {map: xeen_d5.odm, x: -410, y: 9062, z: 2688, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(85)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd25.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end"}
+  # DD-25: the gate hall, the smiths' gallery, the great hall, the King's steps, the throne hall, the King's Hall.
+  - walk_to: {x: 1600, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: 64, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1820, y: 0, z: 128, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 1)"}
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3250, y: 0, z: 224, z_tolerance: 64, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3380, y: -288, z: 224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The King's Hall (event 8): Bosco, Chalice (started, the tower's key, the autonote), and again.
+  - play_lua: {source: "click(8); wait(1)"}
+  - assert: {dialog: {active: true, source_id: 5401, action_label_present: "Chalice"}}
+  - select_topic: {match_label: Chalice}
+  - assert: {dialog: {active: true, text_contains: "Their door stands open"}}
+  - select_topic: {match_label: Chalice}
+  - assert: {dialog: {active: true, text_contains: "No vowels. C, H, L, C."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(0.5) end"}
+  - assert: {qbit_set: [113340, 113341]}
+  - assert: {autonote: {id: 4570}}
+  # Back round the loop to the gate and out (event 4: the leave window).
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: 64, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Northern Tower's door (D5 event 28): Bosco's key opens it (q-d17.tower_door), into DD-08's gatehouse.
+  - set_pose: {map: xeen_d5.odm, x: 2560, y: 11776, z: 3008, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - set_pose: {map: xeen_d5.odm, x: 2560, y: 11988, z: 3008, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd08.blv}
+  - advance_runtime: {seconds: 1.5, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end"}
+  - assert: {party_position: {x: 0, y: -1152, radius: 160}}
+  # L1 the Hall of Arms, up the great stair to L2, through the west armoury's door.
+  - walk_to: {x: 0, y: -620, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: -200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 448, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 448, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(29, 7)"}
+  - walk_to: {x: -1100, y: 960, z: 448, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The west wall stair to L3, the drill floor, the Stair of Silence to L4, the chapter hall's double door.
+  - walk_to: {x: -1300, y: 32, z: 448, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1984, y: 32, z: 448, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1984, y: 900, z: 896, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1400, y: 960, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1100, y: 128, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -300, y: 60, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 896, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 1344, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 1)"}
+  - walk_to: {x: -1200, y: 960, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1216, y: 1600, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  # The chapter hall's plaque before the Chalice: the oath's fail text.
+  - walk_to: {x: -1500, y: 1000, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500); click(43); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The knights swear on the Chalice, and you have not got it."}}
+  - play_lua: {source: "close(); if qbit(113344) then error('oath set without the Chalice') end"}
+  - walk_to: {x: -1216, y: 1600, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  # The antechamber's mask (event 54): "Wht d y sk?" Chalice (the vowels: begone), then Chlc (the iron door opens).
+  - walk_to: {x: -256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(54); wait(0.5)"}
+  - answer_input: {text: "Chalice"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Have you learned nothing of the Voweless Knights? Begone!"}}
+  - play_lua: {source: "close(); wait(0.5); if qbit(113342) then error('voice_answered set by Chalice') end"}
+  - play_lua: {source: "click(54); wait(0.5)"}
+  - answer_input: {text: "Chlc"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Very Good! Lv Lng nd prspr!"}}
+  - play_lua: {source: "close(); wait(4); if not qbit(113342) then error('voice_answered 113342 not set') end; if door_state(8) ~= 'open' then error('the iron door did not open: ' .. door_state(8)) end"}
+  # The chalice room: the Chalice of Protection (event 20, q-d17.chalice).
+  - walk_to: {x: 256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 256, y: 2300, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Nobody stops you taking it. Nobody says anything at all.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); for _ = 1, 3 do if held() ~= 0 then stow() end wait(0.2) end; if not has_item(12525) then error('no Chalice of Protection') end; if not qbit(113345) then error('chalice_taken 113345 not set') end"}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[An empty stand.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(12525) ~= 1 then error('a second Chalice') end"}
+  - walk_to: {x: 256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -256, y: 1700, z: 1344, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1216, y: 1600, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Down: the chapter hall's door, the Stair of Silence, the drill floor, the west wall stair, the west armoury,
+  # the great stair, the gatehouse; out (event 37).
+  - walk_to: {x: -1200, y: 960, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 1344, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 896, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -300, y: 60, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1100, y: 128, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1400, y: 960, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1984, y: 900, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1984, y: 32, z: 448, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1300, y: 32, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1100, y: 960, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -400, y: 960, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 60, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -620, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1300, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "log('the tower gate: ' .. status())"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Back to Bosco's Hall (D5 event 85) and the King's Hall.
+  - set_pose: {map: xeen_d5.odm, x: -410, y: 9062, z: 2688, yaw: 3.1416, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(85)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd25.blv}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end"}
+  # DD-25: the gate hall, the smiths' gallery, the great hall, the King's steps, the throne hall, the King's Hall.
+  - walk_to: {x: 1600, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: 64, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1820, y: 0, z: 128, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(1) ~= 'open' then open_door(12, 1) end"}
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3250, y: 0, z: 224, z_tolerance: 64, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3380, y: -288, z: 224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Bosco: Chalice (done: the Chalice taken, award, 2 Energy Disks, 5,000 gold, 14,000 XP per member), and again.
+  - play_lua:
+      source: |
+        remember("gold", gold()); remember("disks", item_count(12334))
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+        click(8); wait(1)
+  - assert: {dialog: {active: true, source_id: 5401}}
+  - select_topic: {match_label: Chalice}
+  - assert: {dialog: {active: true, text_contains: "For saving my life, I dub thee royal taste testers and give you this treasure."}}
+  - select_topic: {match_label: Chalice}
+  - assert: {dialog: {active: true, text_contains: "I drink from it every morning."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if not close() then break end wait(0.5) end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(113343) then error("done 113343 not set") end
+        if qbit(113340) then error("started 113340 not cleared") end
+        if has_item(12525) then error("Bosco did not take the Chalice") end
+        if item_count(12334) - recall("disks") ~= 2 then error("Bosco gave " .. (item_count(12334) - recall("disks")) .. " Energy Disks") end
+        if gold() - recall("gold") ~= 5000 then error("Bosco paid " .. (gold() - recall("gold")) .. " gold") end
+        for i = 0, 3 do
+          if experience(i) - recall("xp" .. i) ~= 14000 then error("member " .. i .. " got " .. (experience(i) - recall("xp" .. i)) .. " XP") end
+        end
+        if classes() ~= "Cavalier Crusader Cleric Sorcerer" then error("the Light route promoted: " .. classes()) end
+  - assert: {qbit_clear: [113344]}
+  - assert: {award_acquired: [{id: 457, member_index: 0}, {id: 457, member_index: 1}, {id: 457, member_index: 2}, {id: 457, member_index: 3}]}
+  # Out again by the gate.
+  - walk_to: {x: -2400, y: 0, z: 128, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1600, y: 0, z: 64, z_tolerance: 120, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 128, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1100, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: 500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(4); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('Q-D17 Bosco done: ' .. classes() .. '; Energy Disks ' .. item_count(12334))"}

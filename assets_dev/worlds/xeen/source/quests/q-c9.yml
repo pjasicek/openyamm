@@ -1,0 +1,127 @@
+# Q-C9 The Sphinx (QUESTS 2.1 Q-C9; Act IV). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The Northern Sphinx (XD-15 on X6, A7): its door opens to the Jewelled Amulet (Q-C8). At the head it asks its name
+# (the source's riddle, answer GOLUX; Arie, the Basenji peasant and Alexander of Shangri-La say it plainly). A wrong
+# answer drops the party into the hieroglyph dungeon, which climbs back to the body. Beyond the name: the four thrones,
+# each +2 to one statistic once per character (D-39: the source's titles at MM6-MM8 size; the throne hooks decide by
+# player bit and raise the sitting member), the Starburst and Divine Intervention books on the legend throne's
+# lecterns and two gem finds in the library (A2, A7). The five clue walls carry the source's clues as map-local signs
+# (A7; ORIGINAL_LINES), and the library's end wall the whole riddle (hieroglyphs). The amulet is Arie's (Q-C8).
+id: Q-C9
+title: The Sphinx
+act: IV
+kind: side
+status: full
+giver: null
+giver_name: (the Sphinx itself, XD-15)
+maps: [X6, XD-15]
+level: 34
+block: 59
+after: [q-c8.done]
+source: "QUESTS Q-C9; xeen/aaze0082:2-12 (the head, the thrones), xeen/aaze0084:2-6 (the clues)"
+
+qbits:
+  entered: {id: 112180, journal: "The Northern Sphinx's door opened. The Sphinx asks its own name.",
+            until: [done]}
+  vault_potions: {id: 118010, map: XD-15, note: "the map's own: the haunch vault chest's two Might Boosts given, once (A7, D-39 Q4; block 118010-118019)"}
+  done: {id: 112181}
+
+player_bits:         # once per character; A7 uses these when XD-15 is built (moved from 11250-11253: XD-11's brews, then from 11290-11293: D1's Well of Might)
+  throne_king: {id: 11300, map: XD-15}
+  throne_queen: {id: 11301, map: XD-15}
+  throne_thieves: {id: 11302, map: XD-15}
+  throne_legend: {id: 11303, map: XD-15}
+
+awards:
+  sphinx: {id: 419, text: "Named the Sphinx", sort: 2}
+
+items:
+
+hooks:
+  door:
+    map: X6
+    where: "the Sphinx's door between its paws on X6: the first click runs this hook (a status line with `xeen_sphinx_stir`) and stays on X6; once `entered` is set, every click goes straight into XD-15's `entrance:x6_paws`. else_text is unused. D-89: open (Arie's amulet is retired)"
+    entrance: XD-15
+    status: true
+    sets: [entered]
+    once: true
+    text: "The stone between the paws slides aside, as if it had been waiting for someone to knock."
+    else_text: "The door between the paws stands open."
+  riddle:
+    map: XD-15
+    where: "the head: the Sphinx's question, the map's text prompt; GOLUX calls name_right, anything else name_wrong"
+    text: "The message reads: You're looking for my name, it's five letters long. I think you'll like my name. Try not to get it wrong. A voice booms, \"What is my name?\""
+  name_right:
+    map: XD-15
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the head, answer GOLUX"
+    sets: [done]
+    once: true
+    do: [{award: sphinx}, {xp: 6000}]
+    text: "\"Golux,\" the Sphinx repeats, pleased. \"Nobody ever asks how I am. Sit where you like.\" The doors to the thrones open."
+    else_text: "\"Golux. Yes. Still me.\""
+  name_wrong:
+    map: XD-15
+    where: "the head, a wrong name: the map drops the party into the hieroglyph dungeon (its stair climbs back to the body)"
+    text: "\"No,\" says the Sphinx, and the floor agrees with it."
+  hieroglyphs:
+    map: XD-15
+    where: "the scribes' library's end wall: the whole riddle as their summary (D-39); the five clue walls (the drop cell, the west hall, the east hall twice, the library) carry one source clue each as map-local signs (A7, ORIGINAL_LINES)"
+    text: "Hieroglyphs, and under them the message reads: My first is in giant but not in defiant. My second is in mole but not in mule. My third is in lich but not in stitch. My fourth is in guard but not in Girard. My fifth is in XEEN but not in Queen."
+  throne_king:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: XD-15
+    gate: beat
+    where: "the King's throne (the belly hall, behind the crown door): the map only calls this; the hook decides for the sitting member (player bit 11300), after the name (done)"
+    requires: {qbit: done}
+    fail_text: "The throne is behind a sealed door. The Sphinx has not been named."
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11300))"}
+        text: "You have sat here before. The throne remembers, and is not impressed twice."
+      - text: "You sit on the King's throne. It fits better than it should. (+2 Might, permanent)"
+        do: [{lua: "AddValue(BaseMight, 2)"}, {lua: "SetPlayerBit(PlayerBit(11300))"}]
+  throne_queen:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: XD-15
+    gate: beat
+    where: "the Queen's throne (the belly hall, behind the veil door): the map only calls this; the hook decides for the sitting member (player bit 11301), after the name (done)"
+    requires: {qbit: done}
+    fail_text: "The throne is behind a sealed door. The Sphinx has not been named."
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11301))"}
+        text: "You have sat here before. The throne remembers, and is not impressed twice."
+      - text: "You sit on the Queen's throne, and for a moment everyone in the hall looks at you. (+2 Personality, permanent)"
+        do: [{lua: "AddValue(BasePersonality, 2)"}, {lua: "SetPlayerBit(PlayerBit(11301))"}]
+  throne_thieves:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: XD-15
+    gate: beat
+    where: "the Prince of Thieves' throne (behind the loose panel in the Queen's throne room, carved with the mask): the map only calls this; the hook decides for the sitting member (player bit 11302), after the name (done)"
+    requires: {qbit: done}
+    fail_text: "The throne is behind a sealed door. The Sphinx has not been named."
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11302))"}
+        text: "You have sat here before. The throne remembers, and is not impressed twice."
+      - text: "The Prince of Thieves' throne. Your hands feel lighter, and somebody's purse feels closer. (+2 Accuracy, permanent)"
+        do: [{lua: "AddValue(BaseAccuracy, 2)"}, {lua: "SetPlayerBit(PlayerBit(11302))"}]
+  throne_legend:
+    status: true   # F13: a touch effect answers on the status line
+    fail_status: true
+    map: XD-15
+    gate: beat
+    where: "the throne of legends in the head (Human, Elf, Gnome, Orc and Dwarf carved in it): the map only calls this; the hook decides for the sitting member (player bit 11303), after the name (done)"
+    requires: {qbit: done}
+    fail_text: "The throne is behind a sealed door. The Sphinx has not been named."
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11303))"}
+        text: "You have sat here before. The throne remembers, and is not impressed twice."
+      - text: "The throne of legends. Old names are carved in it, and there is room for yours. (+2 Endurance, permanent)"
+        do: [{lua: "AddValue(BaseEndurance, 2)"}, {lua: "SetPlayerBit(PlayerBit(11303))"}]
+
+riddles:
+  - {answer: GOLUX, where: "XD-15's head (q-c9.riddle)", said_by: "Arie after Q-C8 (her topic), the Basenji peasant (q-c8.peasant), the hieroglyph wall (q-c9.hieroglyphs), Alexander in Shangri-La (npcs/xd17.yml)"}
+
+rewards: {xp: 6000, gold: 0, award: "Named the Sphinx", items: "four thrones, +2 Might, Personality, Accuracy, Endurance once per character; the Starburst and Divine Intervention books; two gem finds in the library"}
+playthrough: "X6: the Sphinx's door. XD-15: the head (GOLUX); the four thrones (the Thieves' behind the Queen's loose panel)."

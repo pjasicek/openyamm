@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint-only precise object edit of guide_atlas.png (first input), locked alpha and coordinates. Return the same transparent 1536x1024 PNG canvas, three columns by two rows of 512x512 cells. Recolour only the existing grey render pixels, retaining exactly each object's silhouette, size, pose, perspective, every gap and edge. Original top row front, back, left; bottom row right, top, completely transparent empty. Transfer the approved design_reference.png material details inside those exact outlines: small solid golden Pegasus statuette on a little square base, rearing winged horse, carved feather facets, engraved details and inner mane and tail swirls scaled and oriented in each view. icon_x8.png supplies the warm gold colour only. Produce a flat unlit base-colour texture pass. No lighting, cast shadows, AO, hot highlights, reflections, shadows on base, outline, text, glow, sparkles, ground or aura. Do not redraw, enlarge or recenter any object. Preserve guide margins exactly. CORRECTION: use the guide itself as a locked stencil. Copy its alpha channel pixel for pixel, even the blunt stepped feather tips, jagged mane, tail chunks and shape of the base. Never smooth or extend contour edges. All original zero-alpha pixels must remain exactly alpha=0 including the whole bottom-right quadrant cell. Paint matte ochre-gold with restrained tonal variation only. No background pigment.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "4bcba7ef5d8936c4f7e762e3878d8557f056ec62e9600f393d0e22b519064a32"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "d2d4c9d7066afc5e9aef41b360c226ed189e29ebc59f3e92632bc89e7cedf505"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "fad215f7b7d0e68dbf5d1b380189a1c750931f60d589b19231797b46c5b04168"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e7-629b-73d2-ac7b-536a35f314ef/exec-6fd6aaba-0159-455a-970b-723ffbfc9d5a.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

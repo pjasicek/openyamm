@@ -1,0 +1,19 @@
+{
+  "p1": {"map": "xeen_p1.blv", "pieces": [
+    {"model": "statue_fire", "at": [512, -2432], "z": 64, "facing": 315, "view": 1100, "pitch": 6, "eye_z": 64},
+    {"model": "pedestal_fire", "at": [464, 2048], "z": 256, "facing": 180, "view": 380, "pitch": -12, "eye_z": 256},
+    {"model": "dais_fire", "at": [-4864, 3904], "z": 384, "facing": 0, "view": 650, "pitch": -18, "eye_z": 384}]},
+  "p2": {"map": "xeen_p2.blv", "pieces": [
+    {"model": "statue_air", "at": [-384, -1792], "z": 224, "facing": 225, "view": 1200, "pitch": 8, "eye_z": 128},
+    {"model": "pedestal_air", "at": [2528, -2864], "z": 256, "facing": 270, "view": 380, "pitch": -12, "eye_z": 256},
+    {"model": "dais_air", "at": [3456, 2944], "z": 768, "facing": 0, "view": 650, "pitch": -18, "eye_z": 768}]},
+  "p3": {"map": "xeen_p3.blv", "pieces": [
+    {"model": "statue_earth", "at": [-512, 1920], "z": -16, "facing": 135, "view": 1100, "pitch": 6, "eye_z": -128},
+    {"model": "pedestal_earth", "at": [-2496, -1584], "z": -384, "facing": 270, "view": 380, "pitch": -12, "eye_z": -384},
+    {"model": "dais_earth", "at": [-2816, -4736], "z": -768, "facing": 0, "view": 650, "pitch": -18, "eye_z": -768}]},
+  "p4": {"map": "xeen_p4.blv", "pieces": [
+    {"model": "statue_water", "at": [256, 768], "z": 128, "facing": 45, "view": 1200, "pitch": 8, "eye_z": 32},
+    {"model": "drownedbell", "at": [996, -57], "z": 32, "facing": 282, "view": 520, "pitch": -8, "eye_z": 32},
+    {"model": "pedestal_water", "at": [-2880, 1872], "z": 128, "facing": 270, "view": 380, "pitch": -12, "eye_z": 128},
+    {"model": "dais_water", "at": [-4864, -3712], "z": 192, "facing": 0, "view": 650, "pitch": -18, "eye_z": 192}]}
+}

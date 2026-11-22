@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST image (paint_mask_guide.png) in place, strictly alpha-locked, 1536x2048 portrait transparent PNG. Other inputs are design reference and colour reference only. Preserve the precise existing ten tiny orthographic silhouettes, orientation, scale, gaps, positions and every transparent pixel. Invisible grid 3 columns x 4 rows, 512px cells. Each image centered in its cell. Row 1: two tiny end-on views then a horizontal spear pointing left. Row 2: horizontal pointing right, vertical pointing up, empty. Rows 3 and 4 repeat those positions exactly. Rows 1-2 only: paint unlit Elder Spear albedo inside guide, leaf-shaped steel blade with subtle etched facets, turned gold collar with small blue gemstone, dark wooden shaft with grain and gold pommel. Follow reference closely. No highlights, shadows, outlines, glow, text, ground or grid. Rows 3-4 ONLY: pure flat material ID colors: all steel and gold opaque #FF0000, wooden shaft #FFFF00, gemstone opaque #000000. Leather/fur #00FF00, cloth/hair #0000FF only if present. No shading, texture or antialiased colour blends inside mask. Empty cells and surrounding space fully transparent. Do not resize or redraw any silhouette.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "6495bc9b16abcd3e0b53d8c78c5a0a5ef76e0ca4e15e25b88c196b406507ffef"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "10d2071781b0d400c92d54aaed8db24449b822a016571d2e63ccb60cb3d91b5f"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "77cffcacbe8c848a329479ad535d3011cbb215621300a50f4d209015ada5d0c8"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f927-3902-7722-a0e1-eb7e97d4791d/exec-20b2068d-6e78-4db6-a2ab-175a11e78e28.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

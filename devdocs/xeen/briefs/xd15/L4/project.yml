@@ -1,0 +1,44 @@
+format: 0
+id: xeen_xd15
+name: The Sphinx
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-15
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 31], climbs: n}
+map_stats:
+  id: 9141
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 46
+  environment: stone
+  lock_difficulty: 8
+  slots:
+    - {monster: Xeen Elemental Golem, tier: 0, per_marker: [2, 3], weight: 70}
+    - {monster: Xeen Mummy, tier: 0, per_marker: [1, 2], weight: 30}
+neighbours:
+  - id: exit:x6_paws
+    to: xeen_x6.odm
+    kind: door
+    arrival: [9216, 9728, 1408]
+    arrival_hint: "On X6 between the paws' tips of the Northern Sphinx, in front of its door (thing:northern_sphinx at (9216, 10240, 1408)), facing away from it (south)."
+    direction: 270
+    notes: "X6 installed (A5). The way out lands at (9216, 9728, 1408) facing south, clear of the obelisks' hoard mound by the east foreleg. X6's door (q-c9.door, Arie's amulet 12317) names this map's arrival entrance:x6_paws: in the breast gate (0, 256, 0) facing north."
+qbits:
+  entered: 112180
+  named: 112181
+  vault_potions: 118010
+items:
+  amethyst: 2060
+  divine_intervention_book: 487
+  emerald: 2061
+  might_boost: 240
+  sapphire: 2065
+  starburst_book: 421
+  sunstone: 2063
+notes: "Xeen design brief, level L4: XD-15 The Sphinx, on X6 (Desert of the Sphinx), Act IV, class M (MU-6 graph devdocs/xeen/mockups/act4_graphs/xd15.graph.yml, decider D-39 in mockups/act4_a7_decisions.md). Q-C9: the riddle in the head (GOLUX: q-c9.name_right; anything else the drop to the hieroglyph dungeon), the four thrones (+2 once per character, A3's hooks). Monsters, all placed and hostile in groups 10-22 by room: 16 Sand Golem 11590 (22), 18 Stone Golem 11581 (26), 4 Iron Golem 11582 (40), 7 Tomb Mummy 11270 (42): 45. Rest encounters 10 % from the map's own hostile rows: slot 1 Xeen Elemental Golem tier 0 (Sand Golem only), slot 2 Xeen Mummy tier 0 (Tomb Mummy only). Map card 9141, music 46, treasure 4. Map qbits 118010-118019: vault_potions 118010. A3's bits named: entered 112180, named (q-c9.done) 112181. Items: Might Boost 240, the Starburst (421) and Divine Intervention (487) spellbooks, fixed gems 2060, 2061, 2063, 2065. The way out to X6 (installed) is live."

@@ -1,0 +1,22 @@
+derived: xeen_vo_lord_xeen_sight_take
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+undertone:
+  semitones: -12
+  gain_db: -16
+  delay_ms: 10
+shift:
+  pitch: 0
+  formant: -2
+room:
+  seconds: 0.5
+  mix: 0.1
+  lowpass_hz: 2000
+highpass_hz: 50
+loudness_db: -9
+line: 'Lord Xeen: The King''s little crusaders, all this way up. Kneel, and I may
+  let you fall gently.'

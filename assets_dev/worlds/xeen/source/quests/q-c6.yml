@@ -1,0 +1,87 @@
+# Q-C6 Ghosts of Winterkill (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source's loop, as its signboard spells it: "1) Destroy all ghosts. 2) Bang southern gong. 3) Re-visit Randon.
+# 4) Repeat as necessary." Three waves: Spirit Bones (there from the start), Polter-Fools, Ghost Riders. The map (X5,
+# A6) shows each wave's group by these bits and sets wave N `laid` when its group is dead; the southern gong and Randon
+# do the rest. Winterkill's houses (A4, towns/x5.yml) open on `done` (Xeen.Stages.winterkill). X5 is Act III by MAPS 0
+# (party 24-28), so the quest is too.
+id: Q-C6
+title: Ghosts of Winterkill
+act: III
+kind: side
+status: full
+giver: 4502          # Mayor Randon (X5, by the gongs)
+maps: [X5]
+level: 26
+block: 56
+after: []
+source: "QUESTS Q-C6; xeen/aaze0032 (Randon, the signs, the gong verses)"
+
+qbits:
+  started: {id: 112120, journal: "A curse brought the dead of Winterkill back to haunt it. Mayor Randon wants them driven out.",
+            until: [done]}
+  done: {id: 112121, note: "Winterkill liberated; A4's Winterkill houses open on it (Xeen.Stages.winterkill)"}
+  wave1_laid: {id: 112122, map: X5, note: "X5 sets it when the Spirit Bones' group (40) is dead"}
+  wave2_laid: {id: 112123, map: X5, note: "X5 sets it when the Polter-Fools' group (41) is dead"}
+  wave3_laid: {id: 112124, map: X5, note: "X5 sets it when the Ghost Riders' group (42) is dead"}
+  rung: {id: 112125, note: "the southern gong rung over a laid wave; Randon clears it when he hears of it"}
+  reported1: {id: 112126, note: "Randon heard of the Spirit Bones; the map shows the Polter-Fools"}
+  reported2: {id: 112127, note: "Randon heard of the Polter-Fools; the map shows the Ghost Riders"}
+
+awards:
+  ghostslayers: {id: 405, text: "Dubbed Ghostslayers Extraordinaire by Mayor Randon of Winterkill", sort: 2}
+
+autonotes:
+  loop: {id: 4106, text: "Winterkill: destroy all ghosts, bang the southern gong, re-visit Mayor Randon. Repeat as necessary.", category: Misc}
+
+npcs:
+  4502:              # Mayor Randon
+    topics:
+      - n: 1
+        label: Ghosts
+        states:
+          - when: {qbit: done}
+            text: "Always a pleasure to see you, Ghostslayers."
+          - when: {all: [{qbit: wave3_laid}, {qbit: rung}]}
+            text: "Congratulations! You have finally rid Winterkill of all the spirits. As a reward, I dub thee Ghostslayers Extraordinaire."
+            do: [{set: done}, {clear: rung}, {clear: started}, {award: ghostslayers}, {xp: 4000}, {gold: 2000}]
+          - when: {all: [{qbit: wave2_laid}, {qbit: rung}, {not: {qbit: reported2}}]}
+            text: "Congratulations! You've successfully driven out the Polter Fool spirits, but now the spirits of Ghost Riders have moved in. Perhaps you could drive them out as well."
+            do: [{set: reported2}, {clear: rung}, {xp: 2000}]
+          - when: {all: [{qbit: wave1_laid}, {qbit: rung}, {not: {qbit: reported1}}]}
+            text: "Congratulations! You've successfully driven out the Spirit Bones, but now the spirits of Polter Fools have moved in. Perhaps you could drive them out as well."
+            do: [{set: reported1}, {clear: rung}, {xp: 2000}]
+          - when: {qbit: started}
+            text: "You haven't driven the spirits from Winterkill yet. Keep trying. And bang the southern gong when you have: it's the only way I hear anything out here."
+          - text: "The people of this fair city were driven out by a curse that brought the spirits of the dead back to life. The town is currently haunted by Spirit Bones. Perhaps you could drive them out."
+            do: [{set: started}, {autonote: loop}]
+
+hooks:
+  gong:
+    map: X5
+    where: "the southern gong on Winterkill's square: the map calls this when it is used, with no question (D-72)"
+    states:
+      - when: {qbit: done}
+        text: "The gong booms over an empty, honest town. Nothing answers."
+      - when: {any: [{all: [{qbit: wave1_laid}, {not: {qbit: reported1}}]}, {all: [{qbit: wave2_laid}, {not: {qbit: reported2}}]}, {qbit: wave3_laid}]}
+        text: "The note rolls over the empty roofs, and the cold goes out of the air. Mayor Randon will want to hear of it."
+        do: [{set: rung}]
+      - text: "The note dies in the fog. Somewhere a ghost laughs: \"You'll never win this game of war. The dead shall rule forevermore.\""
+  signboard:
+    map: X5
+    where: "the signboard by the gongs"
+    text: "1) Destroy all ghosts. 2) Bang southern gong. 3) Re-visit Randon. 4) Repeat as necessary."
+  north_gongs_verse:
+    map: X5
+    where: "the plaque between the two northern gongs (the well's own puzzle is the map's)"
+    text: "Bang twice on each northern gong is all you have to do. The well can make you strong, but the order is up to you."
+  acme_sign:
+    map: X5
+    where: "a brass plate on a strange lens-and-crank machine in the town hall's porch"
+    text: "Acme Ghost Visualization System."
+  ghost_verse:
+    map: X5
+    where: "the inscription over the cursed treasure chest by the church (the map's chest)"
+    text: "We have great treasure you can see. Bang the gong and set us free."
+
+rewards: {xp: 8000, gold: 2000}
+playthrough: "X5: Randon (Ghosts). Kill the Spirit Bones; the southern gong; Randon. Polter-Fools; gong; Randon. Ghost Riders; gong; Randon: Ghostslayers, Winterkill opens."

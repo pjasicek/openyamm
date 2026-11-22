@@ -1,0 +1,203 @@
+# Playtest of Corak's Pod (DD-16, L4; lane A7, thirteenth session): the critical path and D-47's checks. A level-46
+# party arrives in the hatch airlock (entrance:d6_hatch, the map's start): the inner
+# door, the main deck and its eyes, the scanning console; up the couch row to the blast door, which refuses without
+# power (A3's m29.blast_door); down the stern slope to the engine room's elementals, the Main Power Console answered
+# No, then Yes (power_on 118080, A3's m29.power_console: the blast door opens, the consoles light); the stores locker;
+# the device bay's device (A3's m29.alien_device: once per member, then dormant); the service crawlway and its ladder up
+# to the gun deck (the loop), the phaser, the weapons locker; back to the bridge: the two logs and the third paging
+# round its five pages; the console's phrase (m29.console); a wrong answer to the field (m29.stasis_wrong), then the
+# right one (m29.stasis: done 111582, the field down); Corak struck (D-51: no damage, still peaceful); Corak talks when clicked (npc 5513); a save and load (power and field
+# kept, Corak there); m32.done set as the Soul Box topic sets it: Corak gone, the console "Stasis field deactivated.";
+# back to the airlock. Numbers are ids.lock.yml's: events (click), doors (door_state), chests (loot_chest).
+id: xeen.dd16.l4.walk
+title: Corak's Pod (DD-16 L4), power, devices, the loop, the logs and the stasis field
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - assert: {map: xeen_dd16.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: -832, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - advance_runtime: {seconds: 3}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua: {source: "close()"}
+  # The inner door and the main deck's two Floating Eyes.
+  - walk_to: {x: -720, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(2); if door_state(6) ~= 'open' then error('inner door: ' .. door_state(6)) end"}
+  - walk_to: {x: -300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 160, y: -160, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(1)"}
+  - play_lua: {source: "local s = status(); log('scanner: ' .. s); close()"}
+  # Up the couch row: its two eyes, and the blast door sealed without power.
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: 1760, z: 230, z_tolerance: 60, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "No power"}}
+  - play_lua: {source: "close(); if door_state(1) == 'open' then error('blast door open without power') end"}
+  # Down the stern slope to the engine room (its Terrible Eye, then the two fire elementals).
+  - walk_to: {x: 0, y: 700, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: -400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: -1100, z: -200, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 0, y: -1600, z: -370, z_tolerance: 40, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(2); if door_state(3) ~= 'open' then error('engine door: ' .. door_state(3)) end"}
+  - walk_to: {x: 0, y: -2000, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - play_lua: {source: "close()"}
+  # The Main Power Console: No, then Yes.
+  - walk_to: {x: -416, y: -1880, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(118080) then error('power on after No') end"}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "machines wake"}}
+  - play_lua: {source: "close(); if not qbit(118080) then error('power_on 118080 not set') end; wait(3); if door_state(1) ~= 'open' then error('blast door: ' .. door_state(1)) end"}
+  - play_lua: {source: "click(22); wait(1); local s = status(); log('power again: ' .. s); close()"}
+  # The stores locker.
+  - walk_to: {x: -600, y: -2500, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        for _ = 1, 3 do
+          loot_chest(6)
+          if held() ~= 0 then stow() end
+          if gold() >= g + 3000 then return end
+        end
+        error("the stores locker held no gold")
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  # The device bay: the device once for the member, then dormant.
+  - walk_to: {x: -680, y: -2240, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(2); if door_state(2) ~= 'open' then error('device door: ' .. door_state(2)) end"}
+  - walk_to: {x: -1280, y: -2240, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[raised by one]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(8); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[dormant]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The service crawlway and its ladder up through the gun deck's hatch (the loop).
+  - walk_to: {x: -400, y: -2240, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: -2100, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: -2100, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1024, y: -300, z: -384, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - climb: {ladder: hatch, timeout_seconds: 40}
+  - assert: {party_position: {x: 1024, y: 16, radius: 120, z_min: -8, z_max: 8}}
+  # The phaser (disarmed) and the weapons locker.
+  - walk_to: {x: 1060, y: -100, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local s = status(); log('phaser: ' .. s); if not string.find(s, 'Nothing happens', 1, true) then error('phaser: ' .. s) end; close()"}
+  - walk_to: {x: 1000, y: 120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        for _ = 1, 3 do
+          loot_chest(5)
+          if held() ~= 0 then stow() end
+          if gold() >= g + 2500 then return end
+        end
+        error("the weapons locker held no gold")
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - walk_to: {x: 760, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "log('gun door before: ' .. door_state(5)); if door_state(5) ~= 'open' then click(12) end"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "if door_state(5) ~= 'open' then error('gun door: ' .. door_state(5)) end"}
+  # Up to the bridge through the open blast door.
+  - walk_to: {x: 0, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - play_lua: {source: "close()"}
+  # The logs: the two short ones and the third paging round its five pages.
+  - walk_to: {x: -540, y: 2368, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Pursuit of renegade guardian"}}
+  - play_lua: {source: "close(); click(18); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Second pod landed"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 540, y: 2368, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 1 of 5"}}
+  - play_lua: {source: "close(); click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 2 of 5"}}
+  - play_lua: {source: "close(); click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 3 of 5"}}
+  - play_lua: {source: "close(); click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 4 of 5"}}
+  - play_lua: {source: "close(); click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 5 of 5"}}
+  - play_lua: {source: "close(); click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 1 of 5"}}
+  - play_lua: {source: "close()"}
+  # The console's phrase; the field: a wrong answer, then the right one.
+  - walk_to: {x: 300, y: 2700, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "TO BOLDLY GO WHERE NO MAN HAS GONE BEFORE"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 2760, z: 256, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - answer_input: {text: "to infinity and beyond"}
+  - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: true, text_contains: "The field hums"}}
+  - play_lua: {source: "close(); if qbit(111582) then error('m29.done on a wrong answer') end; if door_state(4) == 'open' then error('field down on a wrong answer') end"}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - answer_input: {text: "Where no man has gone before"}
+  - advance_runtime: {seconds: 2}
+  - assert: {dialog: {active: true, text_contains: "The field flickers out"}}
+  - play_lua: {source: "close(); if not qbit(111582) then error('m29.done 111582 not set') end; wait(4); if door_state(4) ~= 'open' then error('field: ' .. door_state(4)) end"}
+  - assert: {actor_visible: {actor_index: 0, name: "Corak, Guardian", hidden: false}}
+  # D-51 (1): Corak cannot be killed. Struck once the field is down (40 swings that would add up, at least one hit),
+  # he takes no damage and stays peaceful.
+  - party_attack: {actor_index: 0, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+  - assert: {actor_visible: {actor_index: 0, name: "Corak, Guardian", dead: false, hp: 400, report_state: true}}
+  - assert: {actor_count: {monster_id: 11912, hostile: false, min: 1}}
+  # Corak talks when clicked (his npc 5513, merge point 22); the console only reads the field's state now.
+  - walk_to: {x: 0, y: 2900, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - interact_actor: {actor_index: 0}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Sheltem"}
+  - assert: {dialog: {active: true, text_contains: "drifting out of its orbit"}}
+  - play_lua: {source: "close(); close(); wait(0.5); close()"}
+  - walk_to: {x: 300, y: 2700, z: 256, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Stasis field deactivated."}}
+  - play_lua: {source: "close()"}
+  # A save and load: power, the open blast door and field, and Corak kept.
+  - reload: {}
+  - play_lua: {source: "wait(2); close(); if door_state(1) ~= 'open' then error('blast door after reload: ' .. door_state(1)) end; if door_state(4) ~= 'open' then error('field after reload: ' .. door_state(4)) end"}
+  - assert: {actor_count: {monster_id: 11912, min: 1}}
+  # m32.done as the Soul Box topic sets it: Corak goes, the console reads the source's last line.
+  - setup_shortcut: {kind: set_qbit, id: 111640, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_visible: {actor_index: 0, name: "Corak, Guardian", hidden: true}}
+  - play_lua: {source: "click(7); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Stasis field deactivated."}}
+  - play_lua: {source: "close()"}
+  # Back to the airlock.
+  - walk_to: {x: 0, y: 2200, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1400, z: 190, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -832, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_position: {x: -832, y: 0, radius: 100, z_min: -8, z_max: 8}}

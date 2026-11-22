@@ -1,0 +1,312 @@
+format: 0
+variables: [thrown]
+events:
+  - id: evt:advisor
+    preset: script
+    source: door:advisor
+    title: Royal Advisor's Study
+    effects:
+      - lua: evt.EnterHouse(4202)
+    notes: "A4's house 4202: Artemus (M6, M7, the dungeon key)."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "Castle Burlock, seat of King Burlock of Cloudside. Beyond the portcullis lies the court; the guards let only Crusaders through."
+    notes: "Say where the party is (a one-shot timer: a load event's window is not shown). A3 has no arrival hook for XD-07."
+  - id: evt:black_liquid
+    preset: script
+    source: deco:black_liquid
+    title: Bucket
+    condition: {not: {player_bit: 11070}}
+    effects:
+      - player_bit: 11070
+      - add:
+          var: BaseMight
+          value: 2
+      - text: Black Liquid. +2 Might (permanent).
+    else_effects:
+      - text: The black liquid does nothing more for you.
+    notes: "The source's Black Liquid (aaze0063:3), rescaled to +2 Might once per character (D-4 values)."
+  - id: evt:book_astrology
+    preset: text
+    source: platform:book_astrology
+    title: Book of Astrology
+    text: "The Book of Astrology: charts of the four moons of Xeen. A note in the margin says the moons line up over the pyramids only once in a long while, and that no one has seen it in years."
+    window: true
+  - id: evt:book_languages
+    preset: script
+    source: platform:book_languages
+    title: Book of Languages
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.book_languages\")"
+    notes: "A3's hook xd07.book_languages (its window): the first read sets the shared Linguist gate (116240, award 420) that the Cloudside rhyme statues (X8, X9) ask; later reads the plain text."
+  - id: evt:builder
+    preset: script
+    source: door:builder
+    title: Master Builder's Office
+    effects:
+      - lua: evt.EnterHouse(4203)
+    notes: "A4's house 4203: Emerson (M9, M11, M22)."
+  - id: evt:cage_lever
+    preset: switch
+    source: switch:cage_lever
+    title: Lever
+    condition: {not: {qbit: cage_lever_pulled}}
+    opens: [door:pit_portcullis]
+    sets: {qbit: cage_lever_pulled}
+    effects:
+      - shake:
+          strength: 0.6
+          seconds: 2
+    else_effects:
+      - text: "The lever is down. Below, the portcullis stands open."
+    text: "Chains rattle deep below: the portcullis at the foot of the stair grinds up. Something very large stirs."
+    notes: "state:cage_lever: the optional fight (D-4)."
+  - id: evt:castle_door
+    preset: exit
+    source: exit:castle_door
+    title: Castle door
+    text: You step out onto the castle rise.
+    notes: "Out to X4's castle rise in front of the gate (A5's arrival, facing south)."
+  - id: evt:chest_den
+    preset: chest
+    source: chest:den
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_loft
+    preset: chest
+    source: chest:loft
+    title: Chest
+  - id: evt:chest_roxanne
+    preset: chest
+    source: chest:roxanne
+    title: Chest
+    condition: {qbit: tiara_done}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c3.bedroom_chest\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c3.bedroom_chest\")"
+    notes: "q-c3.bedroom_chest: Roxanne's chest opens once Q-C3 is done (112061); before, the hook's locked text."
+  - id: evt:chest_warden
+    preset: chest
+    source: chest:warden
+    title: Chest
+  - id: evt:den_bar
+    preset: switch
+    source: switch:den_bar
+    title: Bar
+    condition: {not: {qbit: den_bar_lifted}}
+    opens: [door:den_bar]
+    sets: {qbit: den_bar_lifted}
+    else_effects:
+      - text: "The bar is off; the door to the cellar is open."
+    text: "You lift the heavy bar out of its brackets: the door to the wine cellar swings free."
+    notes: "state:den_bar: the bar on the den side closes the dungeon ring."
+  - id: evt:den_door_cellar
+    preset: door
+    source: door:den_bar
+    side: room:cellar
+    title: Door
+    condition: {qbit: den_bar_lifted}
+    locked_text: "The door won't budge: it is barred on the other side."
+    notes: From the cellar the barred door does not move until the bar is lifted in the den.
+  - id: evt:den_door_den
+    preset: door
+    source: door:den_bar
+    side: room:troll_den
+    title: Door
+    condition: {qbit: den_bar_lifted}
+    locked_text: A heavy bar holds the door shut. Lift it by its handle.
+  - id: evt:door_bedroom
+    preset: door
+    source: door:bedroom
+    title: Royal bedroom
+  - id: evt:door_cells
+    preset: door
+    source: door:cell_door
+    title: Door
+  - id: evt:door_east_tower
+    preset: door
+    source: door:east_tower
+    title: East tower
+  - id: evt:door_kitchens
+    preset: door
+    source: door:kitchens
+    title: Kitchens
+  - id: evt:door_library_n
+    preset: door
+    source: door:library_n
+    title: Library
+  - id: evt:door_library_s
+    preset: door
+    source: door:library_s
+    title: Library
+  - id: evt:door_old_throne
+    preset: door
+    source: door:old_throne
+    title: Door
+  - id: evt:door_postern
+    preset: door
+    source: door:postern_inner
+    title: Postern
+  - id: evt:door_throne
+    preset: door
+    source: door:throne_doors
+    title: Throne room
+  - id: evt:door_west_tower
+    preset: door
+    source: door:west_tower
+    title: West tower
+  - id: evt:dragon_dead
+    preset: text
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:fire_dragon}}
+    once: true
+    text: The Fire Dragon crashes down on its hoard and lies still.
+  - id: evt:dungeon_door
+    preset: script
+    source: door:dungeon
+    title: Dungeon door
+    opens: [door:dungeon]
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.dungeon_door\")"
+    notes: "xd07.dungeon_door: the cellar's iron door opens (D-89, 2026-11-22: the dungeon is unlocked; Artemus's key 116080 is no longer tested)."
+  - id: evt:old_throne
+    preset: script
+    source: platform:old_throne
+    title: Old throne
+    effects:
+      - shake:
+          strength: 1
+          seconds: 1
+      - lua: "XeenQuests.hook(\"xd07.old_throne\")"
+      - leave: exit:x4_air
+    notes: "The throw (D-4): onto X4 about 1,000 above the rise beside the west tower outside the walls; the game's fall damage hurts the party. A3's hook xd07.old_throne gives the source's line (aaze0065:7)."
+  - id: evt:pit_portcullis
+    preset: door
+    source: door:pit_portcullis
+    title: Portcullis
+    condition: {qbit: cage_lever_pulled}
+    locked_text: The portcullis does not move. Its chains run up into the rock toward the gallery above.
+    action: open
+  - id: evt:plaque_first_day
+    preset: script
+    source: panel:plaque_first_day
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_first_day\")"
+    notes: A3's hook xd07.plaque_first_day (its message window).
+  - id: evt:plaque_happy
+    preset: script
+    source: panel:plaque_happy
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_happy\")"
+    notes: A3's hook xd07.plaque_happy (its message window).
+  - id: evt:plaque_king_armour
+    preset: script
+    source: panel:plaque_king
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_king_armour\")"
+    notes: A3's hook xd07.plaque_king_armour (its message window).
+  - id: evt:plaque_nice_day
+    preset: script
+    source: panel:plaque_nice_day
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_nice_day\")"
+    notes: A3's hook xd07.plaque_nice_day (its message window).
+  - id: evt:plaque_roland_armour
+    preset: script
+    source: panel:plaque_roland
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_roland_armour\")"
+    notes: A3's hook xd07.plaque_roland_armour (its message window).
+  - id: evt:plaque_ruler
+    preset: script
+    source: panel:plaque_ruler
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_ruler\")"
+    notes: A3's hook xd07.plaque_ruler (its message window).
+  - id: evt:plaque_sharp
+    preset: script
+    source: panel:plaque_sharp
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_sharp\")"
+    notes: A3's hook xd07.plaque_sharp (its message window).
+  - id: evt:plaque_sword
+    preset: script
+    source: panel:plaque_sword
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_sword\")"
+    notes: A3's hook xd07.plaque_sword (its message window).
+  - id: evt:plaque_think_thin
+    preset: script
+    source: panel:plaque_think_thin
+    title: Plaque
+    effects:
+      - lua: "XeenQuests.hook(\"xd07.plaque_think_thin\")"
+    notes: A3's hook xd07.plaque_think_thin (its message window).
+  - id: evt:portcullis
+    preset: script
+    source: door:portcullis
+    title: Portcullis
+    condition: {qbit: crusader}
+    opens: [door:portcullis]
+    effects:
+      - lua: "XeenQuests.hook(\"m5.crusaders_gate\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m5.crusaders_gate\")"
+    notes: "m5.crusaders_gate: opens for Crusaders (m4.done 110047); otherwise the hook's fail text, the source's 'Only Crusaders are allowed to enter Castle Burlock.' (aaze0014:8)."
+  - id: evt:postern
+    preset: exit
+    source: exit:postern
+    title: Postern
+    text: You lift the bar and slip out at the foot of the castle rise.
+    notes: "Out to X4 at the castle rise's west foot (A5's point, facing west)."
+  - id: evt:roxanne
+    preset: script
+    source: door:roxanne_parlour
+    title: The Princess's Parlour
+    effects:
+      - lua: evt.EnterHouse(4204)
+    notes: "A4's house 4204: Princess Roxanne (Q-C3, T1-E)."
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    title: King Burlock
+    condition: {qbit: crusader}
+    effects:
+      - lua: evt.EnterHouse(4201)
+    else_effects:
+      - message: Only Crusaders are allowed to enter Castle Burlock.
+    notes: "The audience: A4's house 4201 Throne Room (the King, Prince Roland), opens on m4.done with its closed text; the throne is the house's door (A4's door:throne_room)."
+  - id: evt:warning
+    preset: text
+    source: panel:warning
+    title: Sign
+    text: "The sign reads: DO NOT PULL. --The Warden"
+    window: true
+    notes: "The warden's warning beside the lever (ours, after the graph)."
+  - id: evt:well
+    preset: script
+    source: platform:well
+    title: Well
+    effects:
+      - add:
+          var: HP
+          value: 20
+      - text: The water refreshes you.
+    notes: "The source's well (aaze0064:29): a drink heals a little, as often as the party likes."

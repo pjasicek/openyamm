@@ -1,0 +1,681 @@
+format: 0
+start:
+  room: room:stair
+  at: [0, 0]
+  facing: w
+  notes: "The ruin stair's foot, facing west into the undercroft hall."
+arrivals:
+  - {entrance: entrance:d6_stair, room: room:stair, at: [0, 0], facing: w, notes: "From D6's thing:fd01_stair (A6; m39.depths_door, the Cube)."}
+  - {entrance: entrance:d7_roof, room: room:shaft, at: [-7744, 7168], facing: e, notes: "From D7's roof hatch (A6; q-d26.hatch after m33.done): the shaft's foot, facing east to the shaft door."}
+doors:
+  - id: door:gallery
+    opening: open:gallery_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The gallery door, west out of the undercroft hall. One cross-braced sw leaf (swdoorb once, whole)."
+  - id: door:grate
+    opening: open:grate
+    kind: slide_up
+    surface: {texture: swdoorc, size: [128, 256], fit: true}
+    notes: "The bolted grate (D-69 change 4): a solid leaf with the lattice picture (swdoorc once per face, whole); it blocks sight and shots; opened for good from the workshop's face."
+  - id: door:guard
+    opening: open:guard_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The guard door at the south gallery's west end. One cross-braced sw leaf (swdoorb once, whole)."
+  - id: door:north
+    opening: open:north_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The north door at the head of the long gallery. One cross-braced sw leaf (swdoorb once, whole)."
+  - id: door:shaft
+    opening: open:shaft_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The shaft door between the rubble shaft and the north gallery. One cross-braced sw leaf (swdoorb once, whole)."
+  - id: door:skull
+    opening: open:skull_door
+    kind: slide_up
+    pictures:
+      - [{texture: swtrpnl, size: [128, 256]}, {texture: swtrdk, size: [128, 256]}]
+    back_pictures:
+      - [{texture: swtrdk, size: [128, 256]}, {texture: swtrpnl, size: [128, 256]}]
+    notes: "The skull door: two skull-mask panels (swtrpnl | swtrdk, each once at its 1:2) on one leaf; m39.skull_door (the Cube) raises it for good (117845)."
+  - id: door:slab_east
+    opening: open:east_slab
+    kind: slide_down
+    speed: 128
+    surface: {texture: swdoora, size: [256, 256], fit: true}
+    notes: "The east slab (D-69 change 1): a shut bulkhead (swdoora once per face, whole) that drops into the floor for good when the east lever is pulled (out of sight of the lever hall)."
+  - id: door:slab_west
+    opening: open:west_slab
+    kind: slide_down
+    speed: 128
+    surface: {texture: swdoora, size: [256, 256], fit: true}
+    notes: "The west slab (D-69 change 1): a shut bulkhead (swdoora once per face, whole) that drops into the floor for good when the west lever is pulled (out of sight of the lever hall)."
+  - id: door:vault
+    opening: open:vault_pair
+    kind: slide_left
+    leaves: 2
+    pictures:
+      - [{texture: swdoorb, size: [256, 256]}]
+    back_pictures:
+      - [{texture: swdoorb, size: [256, 256]}]
+    notes: "The stasis vault's pair (D-69 change 3, D-67 item 3): one swdoorb picture split over two leaves that part in the middle."
+  - id: door:warden
+    opening: open:warden_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The warden's door between the key vault and the warden's room. One cross-braced sw leaf (swdoorb once, whole)."
+  - id: door:works
+    opening: open:works_door
+    kind: slide_up
+    surface: {texture: swdoorb, size: [256, 256], fit: true}
+    notes: "The assembly hall's works door. One cross-braced sw leaf (swdoorb once, whole)."
+lifts:
+  - id: lift:cage
+    room: room:liftfoot
+    at: [-1216, 3904]
+    size: [320, 320]
+    travel: 768
+    thickness: 16
+    speed: 256
+    state: up
+    surface: {texture: swgirder, size: [64, 64]}
+    notes: "The cage: up in the lift head's floor (0) at the start, down to the lift foot (-768) and back; 3 s."
+movers:
+  - id: mover:field
+    room: room:stasis
+    at: [96, 4060]
+    size: [352, 8]
+    bottom: 0
+    floor_height: -720
+    height: 224
+    travel: [0, 0, -232]
+    speed: 160
+    surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    top_surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    end_surface: {texture: xafield, size: [128, 256], translucent: 0.5}
+    parts:
+      - {at: [96, 3748], size: [352, 8], bottom: 0, height: 224}
+      - {at: [-76, 3904], size: [8, 304], bottom: 0, height: 224}
+      - {at: [268, 3904], size: [8, 304], bottom: 0, height: 224}
+    notes: "The stasis field (xafield, translucent, D-51): four sheets round the coffin on the dais; it sinks into the dais when m39.roland runs and stays down with m39.done (111781)."
+  - id: mover:lever_east_arm
+    room: room:levers
+    at: [-2874, 2496]
+    size: [32, 32]
+    bottom: 248
+    height: 176
+    turn:
+      pivot: [-2874, 2496, 248]
+      axis: y
+      degrees: -180
+    speed: 180
+    surface: {texture: swpipes, size: [256, 256], scale: 0.6875, offset: [52, 0], uneven: true}
+    top_surface: {texture: swhz2dk, size: [128, 128], scale: 0.375}
+    parts:
+      - {at: [-2882, 2496], size: [48, 48], height: 48, surface: {texture: swpipes, size: [256, 256], offset: [186, 64], uneven: true}, top_surface: {texture: swhz2dk, size: [128, 128], scale: 0.375}}
+    notes: "The east lever (D-71 P2): the arm up from the pivot, the grip on its top (a part); thrown, it swings out from the wall and hangs down from the pivot."
+  - id: mover:lever_west_arm
+    room: room:levers
+    at: [-4038, 2496]
+    size: [32, 32]
+    bottom: 248
+    height: 176
+    turn:
+      pivot: [-4038, 2496, 248]
+      axis: y
+      degrees: 180
+    speed: 180
+    surface: {texture: swpipes, size: [256, 256], scale: 0.6875, offset: [52, 0], uneven: true}
+    top_surface: {texture: swhz2dk, size: [128, 128], scale: 0.375}
+    parts:
+      - {at: [-4030, 2496], size: [48, 48], height: 48, surface: {texture: swpipes, size: [256, 256], offset: [186, 64], uneven: true}, top_surface: {texture: swhz2dk, size: [128, 128], scale: 0.375}}
+    notes: "The west lever (D-71 P2): the arm up from the pivot, the grip on its top (a part); thrown, it swings out from the wall and hangs down from the pivot."
+  - id: mover:lid
+    room: room:stasis
+    at: [96, 3904]
+    size: [256, 96]
+    bottom: 0
+    floor_height: -640
+    height: 8
+    travel: [0, 104, 0]
+    speed: 64
+    surface: {texture: swgirder, size: [64, 64]}
+    top_surface: {texture: swgirder, size: [64, 64]}
+    notes: "The coffin's steel lid: it slides back off the coffin's top when the field drops (m39.roland)."
+plates:
+  - id: plate:statue
+    room: room:stairhall
+    at: [-1024, -256]
+    size: [768, 896]
+    notes: "The floor before Alamar's statue: it speaks as the party first comes near (m39.statue)."
+sounds:
+  - {id: sound:bed_hub, room: room:hub, at: [-3072, 3840], sound: xeen_machine_stamp_loop, radius: 4200, inner_radius: 1600, volume: 0.14, notes: "DD-17's machine bed, fainter (D-48: not panned): the Hall of Nine, the galleries' east half, the lever hall.", pan: false}
+  - {id: sound:bed_workshop, room: room:workshop, at: [-4288, 384], sound: xeen_machine_stamp_loop, radius: 4200, inner_radius: 1600, volume: 0.14, notes: "The bed over the workshop, the south gallery and the west maze.", pan: false}
+  - {id: sound:coffin_hum, room: room:stasis, at: [96, 3904], sound: xeen_stasis_hum, radius: 1100, inner_radius: 300, volume: 0.4, notes: "The stasis coffin's cold glassy hum (AU's xeen_stasis_hum): it stops when the field drops (AmbientSound map variable)."}
+  - {id: sound:hum_east, room: room:warden, at: [-1216, 2304], sound: humming, radius: 2600, inner_radius: 900, volume: 0.16, notes: The east wing's hum (the warden's consoles)., pan: false}
+  - {id: sound:metal_groan, room: room:hub, at: [-3072, 3840], sound: xeen_metal_groan, radius: 4200, inner_radius: 1600, volume: 0.35, wait: [25, 60], notes: The buried ship's metal settling now and then over the Hall of Nine (AU).}
+  - {id: sound:shaft_grit, room: room:shaft, at: [-8392, 7168], sound: xeen_shaft_grit, radius: 1200, inner_radius: 300, volume: 0.45, notes: Sand and pebbles trickling down the shaft (AU).}
+  - {id: sound:shaft_wind, room: room:shaft, at: [-8392, 7168], sound: whistling wind, radius: 1400, inner_radius: 500, volume: 0.3, notes: Wind down the rubble shaft (the shipped loop).}
+lights:
+  - id: light:assembly_1
+    room: room:assembly
+    at: [-5952, 4160]
+    height: 320
+    radius: 960
+    color: [110, 200, 190]
+  - id: light:column_1
+    room: room:column
+    at: [-2816, 5760]
+    height: 320
+    radius: 1024
+    color: [110, 200, 190]
+  - id: light:espur_1
+    room: room:espur
+    at: [-2240, 704]
+    height: 320
+    radius: 600
+    color: [110, 200, 190]
+  - id: light:field
+    room: room:stasis
+    at: [96, 3904]
+    height: 420
+    radius: 900
+    color: [90, 150, 255]
+    notes: "The stasis field's blue glow over the dais: it goes out when the field drops."
+  - id: light:hub_1
+    room: room:hub
+    at: [-3072, 3456]
+    height: 320
+    radius: 1000
+    color: [110, 200, 190]
+  - id: light:hub_2
+    room: room:hub
+    at: [-3072, 4224]
+    height: 320
+    radius: 1000
+    color: [110, 200, 190]
+  - id: light:keyvault_1
+    room: room:keyvault
+    at: [-1216, 1280]
+    height: 320
+    radius: 768
+    color: [110, 200, 190]
+  - id: light:levers_1
+    room: room:levers
+    at: [-3456, 2496]
+    height: 320
+    radius: 640
+    color: [110, 200, 190]
+  - id: light:liftfoot_1
+    room: room:liftfoot
+    at: [-1216, 3904]
+    height: 320
+    radius: 600
+    color: [110, 200, 190]
+  - id: light:north2_1
+    room: room:north2
+    at: [-3744, 7168]
+    height: 320
+    radius: 1184
+    color: [110, 200, 190]
+  - id: light:north_1
+    room: room:north
+    at: [-6240, 7168]
+    height: 320
+    radius: 1184
+    color: [110, 200, 190]
+  - id: light:pyramid_1
+    room: room:pyramid
+    at: [-6464, 128]
+    height: 320
+    radius: 560
+    color: [110, 200, 190]
+    notes: "The nook's light by its mouth, not over the dead pyramid (D-71's tone: its light is out)."
+  - id: light:shaft_1
+    room: room:shaft
+    at: [-8392, 7168]
+    height: 1400
+    radius: 1300
+    color: [190, 195, 205]
+    notes: Grey daylight down the shaft from the open roof.
+  - id: light:shaft_2
+    room: room:shaft
+    at: [-8392, 7168]
+    height: 240
+    radius: 700
+    color: [110, 200, 190]
+  - id: light:skull_1
+    room: room:skull
+    at: [-1216, 3904]
+    height: 320
+    radius: 600
+    color: [110, 200, 190]
+  - id: light:south2_1
+    room: room:south2
+    at: [-6176, -512]
+    height: 320
+    radius: 1033
+    color: [110, 200, 190]
+  - id: light:south2_2
+    room: room:south2
+    at: [-4960, -512]
+    height: 320
+    radius: 1033
+    color: [110, 200, 190]
+  - id: light:south_1
+    room: room:south
+    at: [-3616, -512]
+    height: 320
+    radius: 1033
+    color: [110, 200, 190]
+  - id: light:south_2
+    room: room:south
+    at: [-2400, -512]
+    height: 320
+    radius: 1033
+    color: [110, 200, 190]
+  - id: light:spur_1
+    room: room:spur
+    at: [-4544, 1792]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:spur_2
+    room: room:spur
+    at: [-4544, 3328]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:stair_1
+    room: room:stair
+    at: [608, 0]
+    height: 320
+    radius: 864
+    color: [110, 200, 190]
+  - id: light:stairhall_1
+    room: room:stairhall
+    at: [-1024, -320]
+    height: 320
+    radius: 704
+    color: [110, 200, 190]
+  - id: light:stasis_2
+    room: room:stasis
+    at: [-464, 3904]
+    height: 400
+    radius: 700
+    color: [110, 200, 190]
+    notes: The machine ring's glow.
+  - id: light:stasis_3
+    room: room:stasis
+    at: [656, 3904]
+    height: 400
+    radius: 700
+    color: [110, 200, 190]
+    notes: The machine ring's glow.
+  - id: light:stasis_4
+    room: room:stasis
+    at: [96, 3344]
+    height: 400
+    radius: 700
+    color: [110, 200, 190]
+    notes: The machine ring's glow.
+  - id: light:stasis_5
+    room: room:stasis
+    at: [96, 4464]
+    height: 400
+    radius: 700
+    color: [110, 200, 190]
+    notes: The machine ring's glow.
+  - id: light:warden_1
+    room: room:warden
+    at: [-1216, 2816]
+    height: 320
+    radius: 704
+    color: [110, 200, 190]
+  - id: light:west2_1
+    room: room:west2
+    at: [-7168, 3690]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:west2_2
+    room: room:west2
+    at: [-7168, 4928]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:west2_3
+    room: room:west2
+    at: [-7168, 6165]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:west_1
+    room: room:west
+    at: [-7168, -149]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:west_2
+    room: room:west
+    at: [-7168, 1088]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:west_3
+    room: room:west
+    at: [-7168, 2325]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:workshop_1
+    room: room:workshop
+    at: [-5440, 384]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:workshop_2
+    room: room:workshop
+    at: [-4288, 384]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:workshop_3
+    room: room:workshop
+    at: [-3136, 384]
+    height: 320
+    radius: 1190
+    color: [110, 200, 190]
+  - id: light:wpass_1
+    room: room:wpass
+    at: [-5632, 2048]
+    height: 320
+    radius: 1024
+    color: [110, 200, 190]
+switches:
+  - id: switch:lift_foot
+    room: room:liftfoot
+    kind: button
+    wall: n
+    along: 0.5
+    height: 112
+    notes: "The cage's button on the lift foot's north wall, beside the cage."
+  - id: switch:lift_head
+    room: room:skull
+    kind: button
+    wall: e
+    along: 0.5
+    height: 112
+    notes: "The cage's button on the lift head's east wall, beside the hole."
+chests:
+  - id: chest:assembly
+    room: room:assembly
+    at: [-5216, 5072]
+    kind: gt002
+    facing: w
+    treasure_level: 6
+    random_items: 3
+    gold: 5000
+    notes: The foreman's locker in the north-east corner (T6).
+  - id: chest:pyramid
+    room: room:pyramid
+    at: [-6736, 320]
+    kind: gt002
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 5000
+    notes: "Beside the dead pyramid, against the nook's west wall (T6)."
+  - id: chest:stasis
+    room: room:stasis
+    at: [96, 4720]
+    kind: gt002
+    facing: w
+    treasure_level: 6
+    random_items: 4
+    gold: 6000
+    notes: By the stasis vault's north wall (T6).
+  - id: chest:warden
+    room: room:warden
+    at: [-1872, 2816]
+    kind: gt002
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 5000
+    notes: "The warden's chest on the west wall (T6): m39.darkstone_key (the Darkstone key on its cushion)."
+monsters:
+  - id: monster:assembly_annihilator_1
+    room: room:assembly
+    monster: 11611
+    at: [-5952, 4160]
+    facing: 180
+    group: 9
+  - id: monster:assembly_annihilator_2
+    room: room:assembly
+    monster: 11611
+    at: [-5632, 4352]
+    facing: 180
+    group: 9
+  - id: monster:assembly_annihilator_3
+    room: room:assembly
+    monster: 11611
+    at: [-5952, 4544]
+    facing: 180
+    group: 9
+  - id: monster:assembly_autobot_1
+    room: room:assembly
+    monster: 11612
+    at: [-5504, 3840]
+    facing: 180
+    group: 10
+  - id: monster:assembly_autobot_2
+    room: room:assembly
+    monster: 11612
+    at: [-6272, 3840]
+    facing: 180
+    group: 10
+  - id: monster:column_annihilator_1
+    room: room:column
+    monster: 11611
+    at: [-2816, 5888]
+    facing: 180
+    group: 4
+  - id: monster:column_annihilator_2
+    room: room:column
+    monster: 11611
+    at: [-2816, 5504]
+    facing: 180
+    group: 4
+  - id: monster:hub_annihilator_1
+    room: room:hub
+    monster: 11611
+    at: [-3072, 3840]
+    facing: 180
+    group: 5
+  - id: monster:hub_annihilator_2
+    room: room:hub
+    monster: 11611
+    at: [-3200, 4224]
+    facing: 180
+    group: 5
+  - id: monster:hub_autobot_1
+    room: room:hub
+    monster: 11612
+    at: [-2688, 3840]
+    facing: 180
+    group: 6
+  - id: monster:hub_autobot_2
+    room: room:hub
+    monster: 11612
+    at: [-3328, 3584]
+    facing: 180
+    group: 6
+  - id: monster:keyvault_annihilator_1
+    room: room:keyvault
+    monster: 11611
+    at: [-1216, 1280]
+    facing: 180
+    group: 11
+  - id: monster:keyvault_annihilator_2
+    room: room:keyvault
+    monster: 11611
+    at: [-1536, 1536]
+    facing: 180
+    group: 11
+  - id: monster:keyvault_annihilator_3
+    room: room:keyvault
+    monster: 11611
+    at: [-896, 1536]
+    facing: 180
+    group: 11
+  - id: monster:north2_annihilator_1
+    room: room:north2
+    monster: 11611
+    at: [-4224, 7168]
+    facing: 180
+    group: 3
+  - id: monster:north2_annihilator_2
+    room: room:north2
+    monster: 11611
+    at: [-3712, 7168]
+    facing: 180
+    group: 3
+  - id: monster:south_annihilator_1
+    room: room:south
+    monster: 11611
+    at: [-3008, -512]
+    facing: 180
+    group: 1
+  - id: monster:south_annihilator_2
+    room: room:south
+    monster: 11611
+    at: [-3392, -640]
+    facing: 180
+    group: 1
+  - id: monster:south_annihilator_3
+    room: room:south
+    monster: 11611
+    at: [-3392, -384]
+    facing: 180
+    group: 1
+  - id: monster:stasis_annihilator_1
+    room: room:stasis
+    monster: 11611
+    at: [-320, 4352]
+    facing: 180
+    group: 13
+  - id: monster:stasis_annihilator_2
+    room: room:stasis
+    monster: 11611
+    at: [-320, 3456]
+    facing: 180
+    group: 13
+  - id: monster:stasis_annihilator_3
+    room: room:stasis
+    monster: 11611
+    at: [512, 4352]
+    facing: 180
+    group: 14
+  - id: monster:stasis_autobot_1
+    room: room:stasis
+    monster: 11612
+    at: [512, 3456]
+    facing: 180
+    group: 14
+  - id: monster:warden_annihilator_1
+    room: room:warden
+    monster: 11611
+    at: [-1216, 2816]
+    facing: 180
+    group: 12
+  - id: monster:warden_annihilator_2
+    room: room:warden
+    monster: 11611
+    at: [-1536, 3072]
+    facing: 180
+    group: 12
+  - id: monster:warden_autobot_1
+    room: room:warden
+    monster: 11612
+    at: [-1024, 3072]
+    facing: 180
+    group: 12
+  - id: monster:west_annihilator_1
+    room: room:west
+    monster: 11611
+    at: [-7168, 384]
+    facing: 180
+    group: 2
+  - id: monster:west_annihilator_2
+    room: room:west
+    monster: 11611
+    at: [-7168, 768]
+    facing: 180
+    group: 2
+  - id: monster:west_annihilator_3
+    room: room:west
+    monster: 11611
+    at: [-7168, 1152]
+    facing: 180
+    group: 2
+  - id: monster:workshop_annihilator_1
+    room: room:workshop
+    monster: 11611
+    at: [-4608, 384]
+    facing: 180
+    group: 7
+  - id: monster:workshop_annihilator_2
+    room: room:workshop
+    monster: 11611
+    at: [-4224, 256]
+    facing: 180
+    group: 7
+  - id: monster:workshop_annihilator_3
+    room: room:workshop
+    monster: 11611
+    at: [-4992, 256]
+    facing: 180
+    group: 7
+  - id: monster:wpass_annihilator_1
+    room: room:wpass
+    monster: 11611
+    at: [-5632, 2048]
+    facing: 180
+    group: 8
+  - id: monster:wpass_annihilator_2
+    room: room:wpass
+    monster: 11611
+    at: [-5632, 2432]
+    facing: 180
+    group: 8
+decorations:
+  - id: deco:shaft_rock_1
+    room: room:shaft
+    decoration: 6rock01
+    at: [-8960, 6720]
+    notes: "Rubble at the shaft's foot, by the wall."
+  - id: deco:shaft_rock_2
+    room: room:shaft
+    decoration: 6rock03
+    at: [-8064, 7808]
+    notes: "Rubble at the shaft's foot, by the wall."
+  - id: deco:statue
+    room: room:stairhall
+    decoration: xeen_statue_teal
+    at: [-1216, 272]
+    facing: 270
+    notes: "Alamar's teal statue (S's xeen_statue_teal, row 4046, DD-17's) by the north wall, facing into the hall: hover 'Statue'."
+exits:
+  - id: exit:hatch
+    room: room:stair
+    at: [1472, 0]
+    floor_height: 640
+    size: [256, 256]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d6_stair
+    notes: "The gatehouse hatch's underside at the stair's head: up to D6 (entrance:fd01_stair)."
+notes: "FD-01's contents, written by output/studio_cal/fd01/tools/dress.py: 11 doors (six plain swdoorb leaves, the two lever slabs, the bolted grate, the skull door, the vault pair), the lift, the coffin's lid and the stasis field (movers), 4 chests (T6 lockers), 34 placed robots (Annihilator 11611 x28, Autobot 11612 x6, one faction), Alamar's statue."

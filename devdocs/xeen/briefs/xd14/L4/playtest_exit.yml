@@ -1,0 +1,31 @@
+# Castle Basenji's way out to X6 (Desert of the Sphinx, installed): the gate's two wings in the gatehouse's south wall
+# (evt:exit_left 56, evt:exit_right 57; the left wing here) to A5's point on the terrace in front of the gatehouse (-13312, 15104, 2592) facing south. Leaving a
+# BLV for an ODM asks for confirmation (OK). The measured landing is logged (status) 2 s after arriving.
+id: xeen.xd14.l4.exit
+title: Castle Basenji (XD-14 L4), out by the gate to X6
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd14.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 32, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 32, skills: [], equipment: {}}
+  - assert: {map: xeen_xd14.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 0, y: -1280, radius: 64, z_min: -8, z_max: 8}}
+  # The gate's wings in the gatehouse's south wall.
+  - walk_to: {x: 64, y: -1420, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 56}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x6.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: -13312, y: 15104, radius: 160, z_min: 2560, z_max: 2660}}

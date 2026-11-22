@@ -1,0 +1,62 @@
+# Act V's side quests (tools/xeen/quest_stub.py): Q-C26 the two Volcano skulls (the way shut until both), Q-D16
+# Gurodel's Friendship (the throne refuses a friend), Q-D17 Bosco and the Northern Tower (the voice, the chalice, the
+# hand-in; the oath refused once the chalice is Bosco's), Q-D23 Sandro (first fall, the heart, the ritual, the
+# release), Q-D24 the boulders (the sign, the answer). Owner: A3.
+name: Act V, side quests
+party: [Champion, Priest, Ninja, Wizard]
+steps:
+  # Q-C26
+  - hook: [q-c26.way, false]
+  - hook: q-c26.devil_skull
+  - hook: [q-c26.way, false]
+  - hook: q-c26.demon_skull
+  - hook: q-c26.way
+  - expect: {qbit: q-c26.done, xp: 10000}
+  # Q-D16: the peaceful route
+  - talk: [5452, The People]
+  - talk: [5452, Friendship]
+  - expect: {qbit: q-d16.friends, count: [energy_disk, 2], xp: 22000}
+  - hidden: [5452, Friendship]
+  - hidden: [5452, Your hall]
+  - hook: q-d16.throne
+  - expect: {not_qbit: q-d16.throne_searched, last: "Gurodel would notice."}
+  - hook: [q-d16.hoard, false]
+  - hook: q-d16.law_stone
+  # D-47 Q22: a blow at peace turns the hall; a friend finds no second pair of disks on the throne
+  - hook: q-d16.hall_attacked
+  - hidden: [5452, Friendship]
+  - talk: [5452, The People]
+  - expect: {qbit: q-d16.hall_attacked, last: "We recognize you as enemies."}
+  - hook: q-d16.war_threshold
+  - hook: [q-d16.war_threshold, false]
+  - hook: q-d16.hoard
+  - hook: q-d16.throne
+  - expect: {qbit: q-d16.throne_searched, count: [energy_disk, 2], xp: 22000, last: "they gave you in friendship"}
+  # Q-D17: the light route
+  - hook: q-d17.tower_door   # D-89: the tower is open
+  - talk: [5401, Chalice]
+  - expect: {qbit: [q-d17.started, q-d17.key]}
+  - hook: q-d17.tower_door
+  - hook: [q-d17.chalice, false]
+  - hook: q-d17.voice
+  - hook: q-d17.chalice
+  - expect: {item: chalice_of_protection}
+  - talk: [5401, Chalice]
+  - expect: {qbit: q-d17.done, no_item: chalice_of_protection, count: [energy_disk, 4], award: q-d17.taster, xp: 36000}
+  - hook: [q-d17.oath, false]
+  # Q-D23: the dark route
+  - talk: [5506, Sandro]
+  - hook: q-d23.sandro
+  - expect: {qbit: q-d23.beaten}
+  - hook: [q-d23.release, false]
+  - hook: q-d23.heart
+  - hook: q-d23.ritual
+  - expect: {qbit: q-d23.taught, class: [1, PriestDark], xp: 36000}
+  - hook: q-d23.release
+  - expect: {qbit: q-d23.released, no_item: sandros_heart, item: death_dungeon_key, xp: 48000}
+  # Q-D24
+  - hook: q-d24.sign
+  - hook: q-d24.boulder_1
+  - hook: q-d24.boulder_7
+  - hook: q-d24.answer
+  - expect: {qbit: q-d24.solved, item: paladins_armour, xp: 58000}

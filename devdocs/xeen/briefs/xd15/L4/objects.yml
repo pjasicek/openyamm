@@ -1,0 +1,1049 @@
+format: 0
+start:
+  room: room:breast_gate
+  at: [0, 256]
+  facing: n
+  notes: "In the breast gate about 256 inside the leaves, facing north into the paw hall."
+arrivals:
+  - {entrance: entrance:x6_paws, room: room:breast_gate, at: [0, 256], facing: n, notes: "In the breast gate about 256 inside the leaves, facing north (X6's door between the paws arrives here)."}
+doors:
+  - id: door:drop
+    opening: open:drop_ge
+    kind: slide_up
+    fold: true
+    thickness: 24
+    surface: {texture: egywle, size: [128, 128]}
+    tile: true
+    notes: "The drop cell's slab: it opens from inside and stays open (D-39)."
+  - id: door:haunch
+    opening: open:belly_haunch
+    kind: slide_up
+    fold: true
+    thickness: 24
+    surface: {texture: egywle, size: [128, 128]}
+    tile: true
+    notes: A carved stone slab into the haunch vault.
+  - id: door:king
+    opening: open:belly_king
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: egywle, size: [128, 128]}
+    pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: egydrsml, size: [128, 256]}, {texture: egydrsmr, size: [128, 256]}]
+    notes: "The crown door: two carved leaves, Horus in the double crown (egydrsml/egydrsmr, a pair of wings), sealed until the Sphinx is named."
+  - id: door:legend
+    opening: open:riddle_legend
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: egywle, size: [128, 128]}
+    pictures:
+      - [{texture: egydrlgl, size: [256, 256]}, {texture: egydrlgr, size: [256, 256]}]
+    back_pictures:
+      - [{texture: egydrlgl, size: [256, 256]}, {texture: egydrlgr, size: [256, 256]}]
+    notes: "The legend door into the nemes' crown: the pharaoh enthroned under the sun on two leaves (egydrlgl/egydrlgr), sealed until the Sphinx is named."
+  - id: door:library
+    opening: open:gw_library
+    kind: slide_up
+    fold: true
+    thickness: 24
+    surface: {texture: egywle, size: [128, 128]}
+    tile: true
+    notes: The library's carved slab.
+  - id: door:panel
+    opening: open:queen_thieves
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: egywlspa, size: [256, 256], fit: true}
+    secret: true
+    back_surface: {texture: egymeda, size: [256, 256], fit: true, uneven: true}
+    notes: "The loose panel with the carved jackal mask (egywlspa): a secret door that slides up on a click."
+  - id: door:queen
+    opening: open:belly_queen
+    kind: slide_up
+    thickness: 24
+    speed: 192
+    surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    back_surface: {texture: egydrsmc, size: [128, 256], fit: true}
+    notes: "The veil door: one carved leaf of veiled women in relief (egydrsmc), sealed until the Sphinx is named; it rises into the wall."
+movers:
+  - id: mover:disc
+    room: room:riddle
+    at: [832, -4160]
+    size: [376, 376]
+    bottom: 0
+    floor_height: 1088
+    height: 200
+    travel: [0, 0, -176]
+    speed: 256
+    auto_return_seconds: 3
+    surface: {texture: egywle, size: [128, 128]}
+    top_surface: {texture: egyswaon, size: [32, 32], scale: 12}
+    notes: "The sun disc (a scarab on its face) over its shaft, 8 over the floor: stepping on it asks the name; a wrong name sinks it 176 into the shaft with the party on it, the party is moved to the drop cell, and the disc rises again by itself (D-39 Q5)."
+plates: []
+sounds:
+  - {id: sound:braziers, room: room:belly_hall, at: [0, 3712], sound: torch loop, radius: 1800, inner_radius: 600, volume: 0.4, notes: The belly hall's braziers.}
+  - {id: sound:dungeon_hum_lib, room: room:library, at: [-64, 9920], sound: humming, radius: 2400, inner_radius: 700, volume: 0.4, notes: "The library's hum: the dungeon bed, heard centred (D-48).", pan: false}
+  - {id: sound:dungeon_hum_w, room: room:glyph_w, at: [-1216, 8704], sound: humming, radius: 2400, inner_radius: 700, volume: 0.45, notes: "The hieroglyph dungeon's hum (AUDIO.md: the shipped humming as the dungeon bed; a room-filling bed heard centred, D-48).", pan: false}
+  - {id: sound:eyes_wind, room: room:riddle, at: [832, -4800], sound: whistling wind, radius: 1800, inner_radius: 500, volume: 0.3, notes: Desert wind through the eye slits.}
+lights:
+  - id: light:belly_hall_1
+    room: room:belly_hall
+    at: [0, 2912]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:belly_hall_2
+    room: room:belly_hall
+    at: [0, 4384]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:breast_gate
+    room: room:breast_gate
+    at: [0, 352]
+    height: 416
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:drop_cell
+    room: room:drop_cell
+    at: [2688, 8704]
+    height: 416
+    radius: 1000
+    color: [170, 150, 120]
+  - id: light:dstair
+    room: room:dungeon_stair
+    at: [0, 6784]
+    height: 280
+    radius: 900
+    color: [210, 170, 120]
+  - id: light:east_lappet
+    room: room:east_lappet
+    at: [1728, -2752]
+    height: 416
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:eye_e
+    room: room:riddle
+    at: [1088, -4800]
+    height: 512
+    radius: 900
+    color: [255, 236, 190]
+    brightness: 31
+  - id: light:eye_w
+    room: room:riddle
+    at: [576, -4800]
+    height: 512
+    radius: 900
+    color: [255, 236, 190]
+    brightness: 31
+  - id: light:gallery_e_1
+    room: room:gallery_e
+    at: [1792, 1456]
+    height: 480
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:gallery_e_2
+    room: room:gallery_e
+    at: [1792, 2704]
+    height: 480
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:gallery_w_1
+    room: room:gallery_w
+    at: [-1792, 1456]
+    height: 480
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:gallery_w_2
+    room: room:gallery_w
+    at: [-1792, 2704]
+    height: 480
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:glyph_e_1
+    room: room:glyph_e
+    at: [544, 8704]
+    height: 352
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:glyph_e_2
+    room: room:glyph_e
+    at: [1632, 8704]
+    height: 352
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:glyph_w_1
+    room: room:glyph_w
+    at: [-1760, 8704]
+    height: 352
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:glyph_w_2
+    room: room:glyph_w
+    at: [-672, 8704]
+    height: 352
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:haunch_vault
+    room: room:haunch_vault
+    at: [0, 5696]
+    height: 480
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:king_throne
+    room: room:king_throne
+    at: [-1920, 4288]
+    height: 544
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:legend_glow
+    room: room:legend_throne
+    at: [-1024, -3968]
+    height: 400
+    radius: 700
+    color: [255, 210, 110]
+  - id: light:legend_throne
+    room: room:legend_throne
+    at: [-1024, -4160]
+    height: 544
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:library_1
+    room: room:library
+    at: [-672, 9920]
+    height: 480
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:library_2
+    room: room:library
+    at: [544, 9920]
+    height: 480
+    radius: 1500
+    color: [210, 170, 120]
+  - id: light:neck_landing
+    room: room:neck_landing
+    at: [832, -2432]
+    height: 480
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:paw_hall_1
+    room: room:paw_hall
+    at: [-640, 1440]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:paw_hall_2
+    room: room:paw_hall
+    at: [640, 1440]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:queen_throne
+    room: room:queen_throne
+    at: [1920, 4288]
+    height: 544
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:riddle_1
+    room: room:riddle
+    at: [192, -3840]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:riddle_2
+    room: room:riddle
+    at: [1472, -3840]
+    height: 560
+    radius: 1500
+    color: [255, 196, 128]
+  - id: light:stair_foot
+    room: room:stair_foot
+    at: [0, 7808]
+    height: 352
+    radius: 1000
+    color: [210, 170, 120]
+  - id: light:thieves_throne
+    room: room:thieves_throne
+    at: [2880, 4288]
+    height: 352
+    radius: 1000
+    color: [255, 196, 128]
+  - id: light:throat_high
+    room: room:throat_stair
+    at: [832, -1472]
+    height: 320
+    radius: 900
+    color: [255, 196, 128]
+  - id: light:throat_low
+    room: room:throat_stair
+    at: [832, 256]
+    height: 320
+    radius: 900
+    color: [255, 196, 128]
+  - id: light:throat_mid
+    room: room:throat_stair
+    at: [832, -608]
+    height: 320
+    radius: 900
+    color: [255, 196, 128]
+  - id: light:west_lappet
+    room: room:west_lappet
+    at: [-64, -2752]
+    height: 416
+    radius: 1000
+    color: [255, 196, 128]
+chests:
+  - id: chest:lappet
+    room: room:west_lappet
+    at: [-384, -2752]
+    kind: ch1
+    facing: e
+    treasure_level: 4
+    random_items: 2
+    gold: 900
+    notes: A priest's chest in the west lappet.
+  - id: chest:library
+    room: room:library
+    at: [960, 10560]
+    kind: ch1
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 1000
+    notes: The scribe's chest.
+  - id: chest:sarcophagus
+    room: room:gallery_w
+    at: [-2048, 2112]
+    size: [160, 384, 128]
+    surface: {texture: egywle, size: [128, 128]}
+    top_surface: {texture: egywlc, size: [128, 256]}
+    treasure_level: 4
+    random_items: 3
+    gold: 1500
+    notes: "The great sarcophagus in the middle of the west gallery: it opens only for a member of Might 40 (D-39 Q4)."
+  - id: chest:vault
+    room: room:haunch_vault
+    at: [0, 6040]
+    kind: 7gt002
+    facing: s
+    treasure_level: 4
+    random_items: 3
+    gold: 1200
+    notes: "The vault's chest: its first opening hands over two Might Boosts of power 10 (D-39 Q4, D-22's pattern, map qbit vault_potions 118010); no random Might Boost in it."
+monsters:
+  - id: monster:belly_hall_1
+    room: room:belly_hall
+    monster: 11581
+    at: [-384, 2944]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:belly_hall_2
+    room: room:belly_hall
+    monster: 11581
+    at: [384, 2944]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:belly_hall_3
+    room: room:belly_hall
+    monster: 11581
+    at: [-384, 4096]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:belly_hall_4
+    room: room:belly_hall
+    monster: 11581
+    at: [384, 4096]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:belly_hall_5
+    room: room:belly_hall
+    monster: 11581
+    at: [0, 3520]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:belly_hall_6
+    room: room:belly_hall
+    monster: 11582
+    at: [0, 4736]
+    facing: 270
+    hostile: true
+    group: 13
+  - id: monster:east_lappet_1
+    room: room:east_lappet
+    monster: 11581
+    at: [1728, -2560]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:east_lappet_2
+    room: room:east_lappet
+    monster: 11581
+    at: [1728, -3008]
+    facing: 180
+    hostile: true
+    group: 17
+  - id: monster:gallery_e_1
+    room: room:gallery_e
+    monster: 11270
+    at: [1792, 1856]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:gallery_e_2
+    room: room:gallery_e
+    monster: 11270
+    at: [1792, 2560]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:gallery_e_3
+    room: room:gallery_e
+    monster: 11590
+    at: [1664, 1216]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:gallery_e_4
+    room: room:gallery_e
+    monster: 11590
+    at: [1664, 3072]
+    facing: 270
+    hostile: true
+    group: 12
+  - id: monster:gallery_w_1
+    room: room:gallery_w
+    monster: 11270
+    at: [-1792, 1856]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:gallery_w_2
+    room: room:gallery_w
+    monster: 11270
+    at: [-1792, 2560]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:gallery_w_3
+    room: room:gallery_w
+    monster: 11590
+    at: [-1664, 1216]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:gallery_w_4
+    room: room:gallery_w
+    monster: 11590
+    at: [-1664, 3072]
+    facing: 270
+    hostile: true
+    group: 11
+  - id: monster:glyph_e_1
+    room: room:glyph_e
+    monster: 11590
+    at: [896, 8704]
+    facing: 180
+    hostile: true
+    group: 21
+  - id: monster:glyph_e_2
+    room: room:glyph_e
+    monster: 11590
+    at: [1408, 8512]
+    facing: 180
+    hostile: true
+    group: 21
+  - id: monster:glyph_e_3
+    room: room:glyph_e
+    monster: 11581
+    at: [1856, 8704]
+    facing: 180
+    hostile: true
+    group: 21
+  - id: monster:glyph_w_1
+    room: room:glyph_w
+    monster: 11590
+    at: [-1856, 8704]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:glyph_w_2
+    room: room:glyph_w
+    monster: 11590
+    at: [-1216, 8512]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:glyph_w_3
+    room: room:glyph_w
+    monster: 11590
+    at: [-1216, 8896]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:glyph_w_4
+    room: room:glyph_w
+    monster: 11270
+    at: [-704, 8704]
+    facing: 0
+    hostile: true
+    group: 20
+  - id: monster:haunch_vault_1
+    room: room:haunch_vault
+    monster: 11581
+    at: [-512, 5504]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:haunch_vault_2
+    room: room:haunch_vault
+    monster: 11581
+    at: [512, 5504]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:haunch_vault_3
+    room: room:haunch_vault
+    monster: 11581
+    at: [0, 5824]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:haunch_vault_4
+    room: room:haunch_vault
+    monster: 11582
+    at: [-512, 5888]
+    facing: 270
+    hostile: true
+    group: 14
+  - id: monster:library_1
+    room: room:library
+    monster: 11590
+    at: [-640, 9600]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:library_2
+    room: room:library
+    monster: 11590
+    at: [512, 9600]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:library_3
+    room: room:library
+    monster: 11581
+    at: [-640, 10240]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:library_4
+    room: room:library
+    monster: 11581
+    at: [512, 10240]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:library_5
+    room: room:library
+    monster: 11270
+    at: [0, 9984]
+    facing: 270
+    hostile: true
+    group: 22
+  - id: monster:neck_landing_1
+    room: room:neck_landing
+    monster: 11581
+    at: [640, -2304]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:neck_landing_2
+    room: room:neck_landing
+    monster: 11581
+    at: [1024, -2304]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:neck_landing_3
+    room: room:neck_landing
+    monster: 11581
+    at: [832, -2496]
+    facing: 90
+    hostile: true
+    group: 15
+  - id: monster:paw_hall_1
+    room: room:paw_hall
+    monster: 11590
+    at: [-256, 1440]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:paw_hall_2
+    room: room:paw_hall
+    monster: 11590
+    at: [256, 1440]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:paw_hall_3
+    room: room:paw_hall
+    monster: 11590
+    at: [0, 1824]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:paw_hall_4
+    room: room:paw_hall
+    monster: 11581
+    at: [960, 1824]
+    facing: 270
+    hostile: true
+    group: 10
+  - id: monster:riddle_1
+    room: room:riddle
+    monster: 11582
+    at: [384, -4160]
+    facing: 90
+    hostile: true
+    group: 18
+  - id: monster:riddle_2
+    room: room:riddle
+    monster: 11582
+    at: [1280, -4160]
+    facing: 90
+    hostile: true
+    group: 18
+  - id: monster:stair_foot_1
+    room: room:stair_foot
+    monster: 11590
+    at: [-256, 7808]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:stair_foot_2
+    room: room:stair_foot
+    monster: 11590
+    at: [256, 7808]
+    facing: 270
+    hostile: true
+    group: 19
+  - id: monster:west_lappet_1
+    room: room:west_lappet
+    monster: 11270
+    at: [-64, -2560]
+    facing: 0
+    hostile: true
+    group: 16
+  - id: monster:west_lappet_2
+    room: room:west_lappet
+    monster: 11581
+    at: [-64, -3008]
+    facing: 0
+    hostile: true
+    group: 16
+decorations:
+  - id: deco:bones_e
+    room: room:gallery_e
+    decoration: dec19
+    at: [2096, 2528]
+  - id: deco:bones_w
+    room: room:gallery_w
+    decoration: 7dec18
+    at: [-2096, 1632]
+  - id: deco:brazier_belly_1
+    room: room:belly_hall
+    decoration: flamb00
+    at: [-768, 3328]
+  - id: deco:brazier_belly_2
+    room: room:belly_hall
+    decoration: flamb00
+    at: [768, 3328]
+  - id: deco:brazier_belly_3
+    room: room:belly_hall
+    decoration: flamb00
+    at: [-768, 4096]
+  - id: deco:brazier_belly_4
+    room: room:belly_hall
+    decoration: flamb00
+    at: [768, 4096]
+  - id: deco:brazier_paw_1
+    room: room:paw_hall
+    decoration: flamb00
+    at: [-640, 1440]
+  - id: deco:brazier_paw_2
+    room: room:paw_hall
+    decoration: flamb00
+    at: [640, 1440]
+  - id: deco:cell_bones
+    room: room:drop_cell
+    decoration: 7dec18
+    at: [3008, 8384]
+  - id: deco:dungeon_bones_1
+    room: room:glyph_w
+    decoration: dec29
+    at: [-2240, 8384]
+  - id: deco:dungeon_bones_2
+    room: room:glyph_e
+    decoration: dec29
+    at: [2112, 9024]
+  - id: deco:dungeon_dirt_1
+    room: room:glyph_w
+    decoration: 7dec11
+    at: [-1600, 9024]
+  - id: deco:dungeon_dirt_2
+    room: room:glyph_e
+    decoration: 7dec11
+    at: [448, 8384]
+  - id: deco:goods_1
+    room: room:haunch_vault
+    decoration: bag01
+    at: [-832, 6080]
+  - id: deco:goods_2
+    room: room:haunch_vault
+    decoration: bag_A
+    at: [-736, 6080]
+  - id: deco:goods_3
+    room: room:haunch_vault
+    decoration: 7dec46
+    at: [832, 6080]
+  - id: deco:goods_4
+    room: room:haunch_vault
+    decoration: 7dec48
+    at: [736, 6080]
+  - id: deco:library_bowls
+    room: room:library
+    decoration: dec32
+    at: [-256, 10368]
+    floor_height: -544
+  - id: deco:library_candle_1
+    room: room:library
+    decoration: cndlab0
+    at: [-1216, 10560]
+  - id: deco:library_candle_2
+    room: room:library
+    decoration: cndlab0
+    at: [1088, 10560]
+  - id: deco:skull_w
+    room: room:gallery_w
+    decoration: 7dec20
+    at: [-2096, 2560]
+  - id: deco:statue_neck
+    room: room:neck_landing
+    decoration: 7dec55
+    at: [832, -2752]
+  - id: deco:torch_01
+    room: room:breast_gate
+    decoration: 6torch01
+    at: [-436, 384]
+    height: 176
+  - id: deco:torch_02
+    room: room:breast_gate
+    decoration: 6torch01
+    at: [436, 384]
+    height: 176
+  - id: deco:torch_03
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [-1268, 1024]
+    height: 176
+  - id: deco:torch_04
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [1268, 1024]
+    height: 176
+  - id: deco:torch_05
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [-1268, 1856]
+    height: 176
+  - id: deco:torch_06
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [1268, 1856]
+    height: 176
+  - id: deco:torch_07
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [-640, 2036]
+    height: 176
+  - id: deco:torch_08
+    room: room:paw_hall
+    decoration: 6torch01
+    at: [640, 2036]
+    height: 176
+  - id: deco:torch_09
+    room: room:gallery_w
+    decoration: 6torch01
+    at: [-1420, 1024]
+    height: 176
+  - id: deco:torch_10
+    room: room:gallery_w
+    decoration: 6torch01
+    at: [-1420, 2240]
+    height: 176
+  - id: deco:torch_11
+    room: room:gallery_w
+    decoration: 6torch01
+    at: [-1792, 3316]
+    height: 176
+  - id: deco:torch_12
+    room: room:gallery_e
+    decoration: 6torch01
+    at: [1420, 1024]
+    height: 176
+  - id: deco:torch_13
+    room: room:gallery_e
+    decoration: 6torch01
+    at: [1420, 2240]
+    height: 176
+  - id: deco:torch_14
+    room: room:gallery_e
+    decoration: 6torch01
+    at: [1792, 3316]
+    height: 176
+  - id: deco:torch_15
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [-1268, 3520]
+    height: 176
+  - id: deco:torch_16
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [1268, 3520]
+    height: 176
+  - id: deco:torch_17
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [-1268, 4864]
+    height: 176
+  - id: deco:torch_18
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [1268, 4864]
+    height: 176
+  - id: deco:torch_19
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [-768, 5108]
+    height: 176
+  - id: deco:torch_20
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [768, 5108]
+    height: 176
+  - id: deco:torch_21
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [-768, 2188]
+    height: 176
+  - id: deco:torch_22
+    room: room:belly_hall
+    decoration: 6torch01
+    at: [768, 2188]
+    height: 176
+  - id: deco:torch_23
+    room: room:king_throne
+    decoration: 6torch01
+    at: [-1920, 3724]
+    height: 176
+  - id: deco:torch_24
+    room: room:king_throne
+    decoration: 6torch01
+    at: [-1920, 4852]
+    height: 176
+  - id: deco:torch_25
+    room: room:queen_throne
+    decoration: 6torch01
+    at: [1920, 3724]
+    height: 176
+  - id: deco:torch_26
+    room: room:queen_throne
+    decoration: 6torch01
+    at: [1920, 4852]
+    height: 176
+  - id: deco:torch_27
+    room: room:thieves_throne
+    decoration: 6torch01
+    at: [2880, 4532]
+    height: 176
+  - id: deco:torch_28
+    room: room:haunch_vault
+    decoration: 6torch01
+    at: [-512, 6132]
+    height: 176
+  - id: deco:torch_29
+    room: room:haunch_vault
+    decoration: 6torch01
+    at: [512, 5260]
+    height: 176
+  - id: deco:torch_30
+    room: room:haunch_vault
+    decoration: 6torch01
+    at: [-512, 5260]
+    height: 176
+  - id: deco:torch_31
+    room: room:neck_landing
+    decoration: 6torch01
+    at: [640, -2804]
+    height: 176
+  - id: deco:torch_32
+    room: room:neck_landing
+    decoration: 6torch01
+    at: [1024, -2804]
+    height: 176
+  - id: deco:torch_33
+    room: room:west_lappet
+    decoration: 6torch01
+    at: [-436, -2560]
+    height: 176
+  - id: deco:torch_34
+    room: room:east_lappet
+    decoration: 6torch01
+    at: [2100, -3008]
+    height: 176
+  - id: deco:torch_35
+    room: room:riddle
+    decoration: 6torch01
+    at: [-436, -3712]
+    height: 176
+  - id: deco:torch_36
+    room: room:riddle
+    decoration: 6torch01
+    at: [2100, -3712]
+    height: 176
+  - id: deco:torch_37
+    room: room:riddle
+    decoration: 6torch01
+    at: [-436, -4608]
+    height: 176
+  - id: deco:torch_38
+    room: room:riddle
+    decoration: 6torch01
+    at: [2100, -4608]
+    height: 176
+  - id: deco:torch_39
+    room: room:legend_throne
+    decoration: 6torch01
+    at: [-1460, -4160]
+    height: 176
+  - id: deco:torch_40
+    room: room:legend_throne
+    decoration: 6torch01
+    at: [-1024, -4596]
+    height: 176
+  - id: deco:torch_41
+    room: room:stair_foot
+    decoration: 6torch01
+    at: [-500, 7808]
+    height: 176
+  - id: deco:torch_42
+    room: room:stair_foot
+    decoration: 6torch01
+    at: [500, 7808]
+    height: 176
+  - id: deco:torch_43
+    room: room:glyph_w
+    decoration: 6torch01
+    at: [-2292, 8704]
+    height: 176
+  - id: deco:torch_44
+    room: room:glyph_w
+    decoration: 6torch01
+    at: [-1216, 8332]
+    height: 176
+  - id: deco:torch_45
+    room: room:glyph_e
+    decoration: 6torch01
+    at: [192, 9076]
+    height: 176
+  - id: deco:torch_46
+    room: room:glyph_e
+    decoration: 6torch01
+    at: [2164, 8448]
+    height: 176
+  - id: deco:torch_47
+    room: room:library
+    decoration: 6torch01
+    at: [1140, 10368]
+    height: 176
+  - id: deco:torch_48
+    room: room:library
+    decoration: 6torch01
+    at: [-768, 10612]
+    height: 176
+  - id: deco:torch_49
+    room: room:library
+    decoration: 6torch01
+    at: [640, 10612]
+    height: 176
+  - id: deco:torch_50
+    room: room:drop_cell
+    decoration: 6torch01
+    at: [3060, 8704]
+    height: 176
+  - id: deco:vase_01
+    room: room:breast_gate
+    decoration: dec97
+    at: [-384, 640]
+  - id: deco:vase_02
+    room: room:breast_gate
+    decoration: dec97
+    at: [384, 640]
+  - id: deco:vase_03
+    room: room:king_throne
+    decoration: dec97
+    at: [-1488, 3792]
+  - id: deco:vase_04
+    room: room:king_throne
+    decoration: dec97
+    at: [-1488, 4784]
+  - id: deco:vase_05
+    room: room:queen_throne
+    decoration: dec97
+    at: [1488, 3792]
+  - id: deco:vase_06
+    room: room:queen_throne
+    decoration: dec97
+    at: [1488, 4784]
+  - id: deco:vase_07
+    room: room:legend_throne
+    decoration: dec97
+    at: [-1408, -3776]
+  - id: deco:vase_08
+    room: room:legend_throne
+    decoration: dec97
+    at: [-640, -3776]
+  - id: deco:vase_09
+    room: room:haunch_vault
+    decoration: dec97
+    at: [-832, 5312]
+  - id: deco:vase_10
+    room: room:haunch_vault
+    decoration: dec97
+    at: [832, 5312]
+exits:
+  - id: exit:gate_e
+    room: room:breast_gate
+    at: [128, 0]
+    size: [256, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true, uneven: true}
+    to: exit:x6_paws
+    notes: "The east leaf, from inside: the same way out."
+  - id: exit:gate_w
+    room: room:breast_gate
+    at: [-128, 0]
+    size: [256, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true, uneven: true}
+    to: exit:x6_paws
+    notes: "The west leaf of the door between the paws (X6's two leaves), from inside."
+relations: []

@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+"""The G1 review board of each phase 2 map (A6): one HTML page with the MU-3 plan, the MU-4 concepts, the counts
+against MAPS and the questions; rendered to one PNG with headless Chrome.
+
+    board.py x5|x8|all
+"""
+import subprocess
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+CHROME_PROFILE = Path('/tmp/claude-1000/-home-pjasicek-github-OpenYAMM/f070ad2b-085f-4ea8-986a-1b63e2657a52/'
+                      'scratchpad/a6/chrome')
+
+CSS = """
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #7a3b12; --card: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 1800px; padding: 28px 32px 36px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 18px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 1700px; }
+.grid { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept img { width: 100%; display: block; border-radius: 4px; }
+.concept p { margin: 6px 0 14px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+ul { margin: 4px 0; padding-left: 18px; } li { margin: 3px 0; }
+.inset img { width: 100%; display: block; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+"""
+
+LEGEND = """<div class="legend">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival / entrance</span>
+<span><i class="sw" style="background:#111"></i>dungeon door</span>
+<span><i class="sw" style="background:#7a1f6a;border-radius:50%"></i>place (well, shrine, statue)</span>
+<span><i class="sw" style="background:#1d5fa8;border-radius:50%"></i>person / statue that talks</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#b1361e"></i>camp (burnable)</span>
+<span><i class="sw" style="background:#c06000"></i>landmark</span>
+<span><i class="sw" style="background:#5a4630;border-radius:50%"></i>fork, signpost</span>
+<span><i class="sw" style="background:rgba(208,48,42,.25);border-color:#d0302a"></i>encounter area</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px);border-color:#2e8b57"></i>quiet / kept clear</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.6"></i>MU-4 camera</span>
+<span><i class="sw" style="background:#6e3b2a"></i>service door house (yellow dot: door)</span>
+<span><i class="sw" style="background:#8a6a52"></i>residence</span>
+</div>"""
+
+
+def x5():
+    return f"""<!doctype html><html><head><meta charset="utf-8"><title>X5 Winterkill Tundra: G1 mock-ups</title>
+<style>{CSS}</style></head><body><main>
+<h1>X5 Winterkill Tundra: MU-3 plan and MU-4 concepts</h1>
+<div class="sub">Gate G1 review (A6, 2026-11-20). Cloudside's white south-west: a frozen mere with the sealed Darkstone
+Tower on its rock, the ghost town Winterkill on the world's edge, Kai Wu's monastery on its crag, the Troll Forest,
+the Land of the Giants and a glacier sliding off the rim into the stars. In the east, behind the Frostspine, the
+<b>Act II pocket</b> (party 16-19) where XD-09 and XD-10 open (D-4); the rest is Act III (party 24-28).
+No geometry is built until you have seen this. Source: <code>devdocs/xeen/briefs/x5/L1/</code> (plan.yml, sketch.yml:
+Map Studio's schema, <code>oymap validate</code> clean).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_x5.svg"></div>
+ <div class="card" style="margin-top:12px">{LEGEND}
+ <div style="margin-top:6px;color:#5d5a55;font-size:13px">128 x 128 cells of 512 units, north up; the dashed white
+ square is the playable area (cells 19-109). West and south the land ends in a cliff above the stars at x 24 and y 104;
+ north and east the land, the roads and the river run on to the map's edge.</div></div>
+ <div class="two" style="margin-top:12px">
+ <div class="card inset"><h2 style="margin-top:0">Winterkill (4x)</h2>
+  <img src="plan_x5.svg#svgView(viewBox(212,258,172,156))">
+  <p style="font-size:13px;color:#5d5a55">A4's 17 doors (x5.yml): Mindmeld Guild 4251 (open from day one, Casper),
+  tavern 4252, temple 4253, Guild of Shadows 4254, Furs and Fittings 4255, twelve homes 4257-4268; the mirror 4256,
+  Mayor Randon and the three gongs in the square; the old strength well. All but the guild open with Q-C6.
+  About 200 cells; 4-5 cells from the rim cliff; the Edge Watch on the brink to the west.</p></div>
+ <div class="card inset"><h2 style="margin-top:0">The Act II pocket (2x)</h2>
+  <img src="plan_x5.svg#svgView(viewBox(680,300,260,400))">
+  <p style="font-size:13px;color:#5d5a55">From the X3 arrival: the Golem Dungeon's door 7,300 units, XD-10's north
+  mouth (its arrival) 9,200, its south mouth to the Troll Forest side 13,900. Only tier-A monsters near them:
+  Dark Wolves 16, Ogres 18, Evil Archers 8 (D-4). Halon, a well, a hot spring, the lost sledge; Kai Wu's training
+  (to 40) one road over the pass.</p></div>
+ </div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 arrival view (from X3)</h2>
+  <img src="raw/x5_arrival_v1.png">
+  <p>Camera at cell (106, 59), 180 above the road, looking west-north-west. The Lagoon Water runs into the
+  Frostspine's gorge; the track climbs from the fork to the pass notch; Halon's workshop and water clock on the
+  Ogre Hills' shoulder, its millpond and wheel frozen; the hot spring steams on the bank. Codex, from the plan's
+  blockout (<code>blockout_arrival.png</code>).</p></div>
+ <div class="card concept"><h2>MU-4 signature view: the glacier at the rim</h2>
+  <img src="raw/x5_glacier_v1.png">
+  <p>Camera at cell (49, 100) on the Reflector's ledge by the Waters of Great Magic, looking west along the south
+  rim: the glacier's tongue breaking off the world into the stars, the Earth Reflector (an Ancient machine, M37) on its
+  spur, the giants' crags and cyclopes beyond. Earned at the trap corner's edge.</p></div>
+ <div class="card"><h2 style="margin-top:0">Against MAPS (X5 sheet, the not-bland checklist)</h2>
+ <table>
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th><th></th></tr>
+ <tr><td>Hostiles at load</td><td class="n">136</td><td>135</td><td class="ok">ok</td></tr>
+ <tr><td>Encounter areas</td><td class="n">6</td><td>3-8, 6-30 cells of 4,096 each</td><td class="ok">ok</td></tr>
+ <tr><td>Spawn markers</td><td class="n">53</td><td>45-70</td><td class="ok">ok</td></tr>
+ <tr><td>Quiet land (outside encounter areas)</td><td class="n">47 %</td><td>at least a third</td><td class="ok">ok</td></tr>
+ <tr><td>Points of interest</td><td class="n">32</td><td>snow band 28-35</td><td class="ok">ok</td></tr>
+ <tr><td>Outdoor chests, each with a reason</td><td class="n">8</td><td>4-10</td><td class="ok">ok</td></tr>
+ <tr><td>Dungeon entrances</td><td class="n">6 (5 sites)</td><td>3-6</td><td class="ok">ok</td></tr>
+ <tr><td>Relief</td><td class="n">800-4,000</td><td>at least 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>Roads and lanes on land</td><td class="n">about 4 %</td><td>1-4 %</td><td class="warn">top</td></tr>
+ <tr><td>First fight from the X3 / X6 arrivals</td><td class="n">3,000-5,000</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>Obelisk; permanent-effect device</td><td class="n">1; Shrine of Cold, Giants' Stones</td><td>1; at least 1</td><td class="ok">ok</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Encounter areas</h2>
+ <table>
+ <tr><th>Area</th><th>Monsters (A2's rows)</th><th class="n">At load</th></tr>
+ <tr><td>E1 Ogre Hills (Act II)</td><td>Dark Wolves 16; the ogres' camp, Ogres 18</td><td class="n">20</td></tr>
+ <tr><td>E2 Lagoon Marches (Act II)</td><td>Dark Wolves 16; the archers' camp, Evil Archers 8</td><td class="n">19</td></tr>
+ <tr><td>E3 Troll Forest</td><td>Trolls 18 at the edges, Troll Guards 28, Ice Trolls 38 deeper</td><td class="n">28</td></tr>
+ <tr><td>E4 Barbarian steppe</td><td>Barbarians 14, Sardaj 20, the chief 28; two camps</td><td class="n">26</td></tr>
+ <tr><td>E5 Snowfields</td><td>Dark Wolves 16, Sabertooths 22, Snow Beasts 28</td><td class="n">24</td></tr>
+ <tr><td>E6 Land of the Giants (trap)</td><td>Cyclopes 36, a Giant 50; the cyclops outpost</td><td class="n">19</td></tr>
+ <tr><td colspan="2">Winterkill's ghosts (Q-C6): three waves of 20 summoned by the gongs, not at load</td><td class="n">(60)</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Look at, and decide</h2>
+ <ul>
+ <li>The Act II pocket behind the Frostspine: big enough, and does the ridge read as "harder land beyond"?</li>
+ <li>Winterkill on the rim's brink (the Edge Watch beside it), Darkstone Tower on a rock in the frozen mere.</li>
+ <li>The mere as walkable ice (a new ice ground material) with open water only where the river runs in.</li>
+ <li>Kai Wu's training (to 40) one pass west of the pocket, so Act II parties use it from day one.</li>
+ <li>The signature view inside the trap corner (earned), not from a safe overlook.</li>
+ </ul></div>
+</div></div></main></body></html>"""
+
+
+def x8():
+    return f"""<!doctype html><html><head><meta charset="utf-8"><title>X8 Cloudreach: G1 mock-ups</title>
+<style>{CSS}</style></head><body><main>
+<h1>X8 Cloudreach: MU-3 plan and MU-4 concept</h1>
+<div class="sub">Gate G1 review (A6, 2026-11-20). Act II's sky map (party 18-20), an open-air BLV of walkable cloud
+islands: the Witch Clouds (east, above Vertigo) and the High Magic Clouds (west, above the lagoon) joined by a long
+rope bridge. One way up from the Witch Tower's roof (XD-04) and the Tower of High Magic's Stairway to Heaven (XD-11);
+the only way down is to fall. Fly is not cast here. Source: <code>devdocs/xeen/briefs/x8/L1/</code> (plan.yml: islands
+as spaces with position and extent; <code>oymap validate</code> clean).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_x8.svg"></div>
+ <div class="card" style="margin-top:12px">{LEGEND}
+ <div style="margin-top:6px;color:#5d5a55;font-size:13px">Same grid as the outdoor maps (cells of 512 units, north
+ up). The footprint is about 76 x 64 cells (39,000 x 33,000 units, about 60 % of an outdoor map's playable square);
+ the islands cover about a fifth of it. Heights in brackets are against the Witch landing; the cloud sea is 2,000
+ below. Rope bridges are striped, cloud-stone ramps and causeways grey.</div></div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 signature view: the long bridge</h2>
+  <img src="raw/x8_bridge_v1.png">
+  <p>Camera at cell (50, 59) on the observatory isle, 260 above the cloud-stone, looking east along the long rope
+  bridge to the half-way cloud and the Witch Clouds: the Harpy Queen's eyrie left, the nest spires right, the
+  offering terrace at the far end; the land through a gap below. Codex, from the plan's blockout.</p></div>
+ <div class="card"><h2 style="margin-top:0">Against MAPS (section 3)</h2>
+ <table>
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th></tr>
+ <tr><td>Monsters placed</td><td class="n">56</td><td>60</td></tr>
+ <tr><td>Witch Clouds</td><td class="n">30</td><td>Harpies 14, Hags 18, the Harpy Queen 24</td></tr>
+ <tr><td>High Magic Clouds</td><td class="n">26</td><td>Flying Feet 18, Guardians 24, two Cloud Golems 50 (rare)</td></tr>
+ <tr><td>Size</td><td class="n">about 60 %</td><td>about 60 % of an ODM</td></tr>
+ <tr><td>Rhyming statues; offering statues; explorer's statue</td><td class="n">3; 2; 1</td><td>3 (MAPS)</td></tr>
+ <tr><td>Harpy nests to burn; chests</td><td class="n">4; 4</td><td></td></tr>
+ <tr><td>Arrivals; exits</td><td class="n">2 roof stairs; falls</td><td>XD-04 and XD-11 roofs; falls to X1/X3</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Look at, and decide</h2>
+ <ul>
+ <li>Two archipelagos on one map joined by one long bridge (about 10,000 in two spans with a rest cloud).</li>
+ <li>Falls: east of the middle line land on X1 near the Witch Tower, west on X3 near the Tower of High Magic. The
+ bridge's half-way cloud lies over X2's Lake Darzog in the world: a fall there could land in the lake instead.</li>
+ <li>The explorer's statue (the source's +1 level): an award and experience here.</li>
+ <li>The two Cloud Golems (50) on the high cloud as a visible danger a party of 18-20 should walk round.</li>
+ </ul></div>
+</div></div></main></body></html>"""
+
+
+def render(key, html, height):
+    folder = HERE / key
+    page = folder / f'board_{key}.html'
+    page.write_text(html)
+    out = folder / f'board_{key}.png'
+    subprocess.run(['google-chrome', '--headless=new', '--disable-gpu', '--no-sandbox', f'--user-data-dir={CHROME_PROFILE}',
+                    '--hide-scrollbars', f'--window-size=1800,{height}', '--virtual-time-budget=4000',
+                    f'--screenshot={out}', page.as_uri()], check=True, capture_output=True, timeout=120)
+    print(out)
+
+
+if __name__ == '__main__':
+    which = sys.argv[1] if len(sys.argv) > 1 else 'all'
+    if which in ('x5', 'all'):
+        render('x5', x5(), 2600)
+    if which in ('x8', 'all'):
+        render('x8', x8(), 1360)

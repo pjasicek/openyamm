@@ -1,0 +1,236 @@
+{
+ "land_cells": 7225,
+ "barrier_lee_cells": 410,
+ "quiet_share": 0.598,
+ "areas": [
+  {
+   "id": "pop:sands_lizards",
+   "land_cells": 424,
+   "big_cells": 6.6,
+   "count": 8
+  },
+  {
+   "id": "pop:pyramid_lizards",
+   "land_cells": 428,
+   "big_cells": 6.7,
+   "count": 7
+  },
+  {
+   "id": "pop:cliff_birds",
+   "land_cells": 630,
+   "big_cells": 9.8,
+   "count": 11
+  },
+  {
+   "id": "pop:forest_cyclopes",
+   "land_cells": 756,
+   "big_cells": 11.8,
+   "count": 11
+  },
+  {
+   "id": "pop:doom_birds",
+   "land_cells": 677,
+   "big_cells": 10.6,
+   "count": 10
+  }
+ ],
+ "markers": 47,
+ "hostiles_by_area": {
+  "pop:sands_lizards": 20.0,
+  "pop:pyramid_lizards": 17.5,
+  "pop:cliff_birds": 22.0,
+  "pop:forest_cyclopes": 27.5,
+  "pop:doom_birds": 20.0
+ },
+ "placed_hostile": 3,
+ "hostiles_at_load": 110.0,
+ "kill_xp_per_member": 55550,
+ "kill_xp_by_slot_per_member": {
+  "Xeen Iguanasaurus": 25378,
+  "Xeen Roc": 15574,
+  "Xeen Giant": 12510
+ },
+ "people_peaceful": 6,
+ "people_war_xp_per_member": 3854,
+ "height_min_land_box": 987,
+ "height_max_land_box": 3566,
+ "relief_box": 2579,
+ "road_share": 0.0119,
+ "lane_share": 0.0137,
+ "first_fight": {
+  "entrance:d4_road": [
+   [
+    3999,
+    "pop:sands_lizards"
+   ],
+   [
+    8192,
+    "pop:cliff_birds"
+   ]
+  ],
+  "entrance:d6_pass": [
+   [
+    3072,
+    "pop:doom_birds"
+   ],
+   [
+    5192,
+    "pop:forest_cyclopes"
+   ]
+  ],
+  "entrance:dd18_grate": [
+   [
+    2611,
+    "pop:sands_lizards"
+   ],
+   [
+    14927,
+    "pop:pyramid_lizards"
+   ]
+  ],
+  "entrance:dd15_door": [
+   [
+    3982,
+    "pop:pyramid_lizards"
+   ],
+   [
+    8689,
+    "pop:sands_lizards"
+   ]
+  ],
+  "entrance:dd24_doors": [
+   [
+    7398,
+    "pop:cliff_birds"
+   ],
+   [
+    16392,
+    "pop:forest_cyclopes"
+   ]
+  ],
+  "entrance:dd25_door": [
+   [
+    2698,
+    "pop:cliff_birds"
+   ],
+   [
+    3956,
+    "pop:forest_cyclopes"
+   ]
+  ],
+  "entrance:dd08_door": [
+   [
+    7327,
+    "pop:cliff_birds"
+   ],
+   [
+    7697,
+    "pop:forest_cyclopes"
+   ]
+  ]
+ },
+ "poi_spots": 23,
+ "poi_spots_if_boulders_counted_singly": 30,
+ "poi_groups": [
+  [
+   "entrance:dd15_door"
+  ],
+  [
+   "entrance:dd08_door"
+  ],
+  [
+   "entrance:dd24_doors"
+  ],
+  [
+   "entrance:dd25_door"
+  ],
+  [
+   "entrance:dd18_grate"
+  ],
+  [
+   "poi:obelisk"
+  ],
+  [
+   "poi:shrine_great_power"
+  ],
+  [
+   "poi:fountain_endurance"
+  ],
+  [
+   "poi:fountain_energy"
+  ],
+  [
+   "poi:fountain_might"
+  ],
+  [
+   "poi:capstone"
+  ],
+  [
+   "poi:lamp_doom"
+  ],
+  [
+   "poi:lamp_sands"
+  ],
+  [
+   "poi:boulder_sign",
+   "poi:boulders",
+   "poi:boulders",
+   "poi:boulders",
+   "poi:boulders",
+   "poi:boulders",
+   "poi:boulders",
+   "poi:boulders"
+  ],
+  [
+   "poi:giants_lair",
+   "poi:lair_hoard"
+  ],
+  [
+   "poi:eyrie_nest"
+  ],
+  [
+   "poi:caravan_wreck"
+  ],
+  [
+   "poi:prospector"
+  ],
+  [
+   "poi:dwarf_camp"
+  ],
+  [
+   "poi:robbers_camp"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ]
+ ],
+ "poi_spacing_median": 6250,
+ "poi_spacing_min": 3584,
+ "poi_spacing_max": 9728,
+ "outdoor_chests": 6,
+ "dungeon_entrances": 5,
+ "farthest_land_from_anything": [
+  5538,
+  [
+   108,
+   40
+  ]
+ ],
+ "wild_land_share_over_3000": 0.107,
+ "edge_d2_south": {
+  "x": [
+   19,
+   100
+  ],
+  "mean_abs_diff": 11,
+  "max_abs_diff": 320,
+  "d2_mean": 2714,
+  "d5_mean": 2726
+ }
+}

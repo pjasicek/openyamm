@@ -1,0 +1,487 @@
+format: 0
+themes:
+  - id: theme:gallery
+    wall: {texture: swall4, size: [128, 256], scale: 1.75}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The galleries and passages: crossed-brace panels with rust (swall4) once up the 448 wall, teal plate floors (swankdk), rust ceiling panels (swceilf)."
+  - id: theme:hall
+    wall: {texture: swall2, size: [128, 256], scale: 2}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The halls and rooms: diamond-brace panels (swall2) once up the 512 wall (DD-17's bays: the castle's substructure)."
+  - id: theme:hull
+    wall: {texture: xahullbn, size: [256, 256]}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "Where the castle came down: scorched, buckled plating (xahullbn) over the ruin stair."
+  - id: theme:shaft
+    wall: {texture: xahullbn, size: [256, 256]}
+    floor: {texture: gn_mtl03, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256], sky: true}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The rubble shaft: scorched plating (xahullbn) up to the open sky (D7's roof hatch far above), fallen slabs underfoot (gn_mtl03)."
+  - id: theme:tall
+    wall: {texture: swall2, size: [128, 256], scale: 2.5}
+    floor: {texture: swankdk, size: [128, 128]}
+    ceiling: {texture: swceilf, size: [256, 256]}
+    reveal: {texture: swgirder, size: [64, 64]}
+    door: {texture: swdoorb, size: [256, 256]}
+    notes: "The lift head, the lift foot and the stasis vault: swall2 once up the 640 wall."
+defaults: {theme: theme:gallery, ambient: 16}
+rooms:
+  - id: room:assembly
+    name: Assembly hall
+    outline: [[-6784, 3200], [-5120, 3200], [-5120, 5120], [-6784, 5120]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:plaque_fewaee, offset: 704, length: 256, bottom: 256, height: 128, surface: {texture: sign128, size: [256, 128], fit: true}, notes: The plaque FEWAEEFFWAEF... (aaze0052:14).}
+    platforms:
+      - {at: [-6400, 5040], size: [256, 96], rise: 224, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A stall of a half-built frame against the north wall.}
+      - {at: [-5504, 5040], size: [256, 96], rise: 224, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A stall of a half-built frame against the north wall.}
+      - {at: [-6704, 3840], size: [96, 256], rise: 224, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A stall against the west wall.}
+      - {at: [-6704, 4480], size: [96, 256], rise: 224, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A stall against the west wall.}
+    notes: "Alamar's robot works: stalls of half-built frames along the walls, the plaque on the north wall, a T6 chest in the foreman's corner."
+  - id: room:column
+    name: Long gallery
+    outline: [[-3072, 4736], [-2560, 4736], [-2560, 6784], [-3072, 6784]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The long gallery, south from the north door to the Hall of Nine (its niches left out, D-69 change 9)."
+  - id: room:espur
+    name: East spur
+    outline: [[-2432, 384], [-2048, 384], [-2048, 1024], [-2432, 1024]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The east spur: a short spur off the workshop's east end, ending in lever B's slab."
+  - id: room:hub
+    name: Hall of Nine
+    outline: [[-4096, 3072], [-2048, 3072], [-2048, 4608], [-4096, 4608]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: e
+        panels:
+          - {id: panel:plaque_nine, at: centre, length: 256, bottom: 192, height: 64, surface: {texture: sign22, size: [256, 64], fit: true}, notes: "The plaque: 'Nine is the time.' (m39.plaque_nine)."}
+    pillars:
+      - {at: [-3712, 3456], size: [256, 256], surface: {texture: swaled, size: [128, 256], scale: 2}}
+      - {at: [-3712, 4224], size: [256, 256], surface: {texture: swaled, size: [128, 256], scale: 2}}
+      - {at: [-2432, 3456], size: [256, 256], surface: {texture: swaled, size: [128, 256], scale: 2}}
+      - {at: [-2432, 4224], size: [256, 256], surface: {texture: swaled, size: [128, 256], scale: 2}}
+    notes: "The Hall of Nine: four machine columns, the plaque on its east wall; the lever hall south, the sealed passage west."
+  - id: room:keyvault
+    name: Key vault
+    outline: [[-1920, 512], [-512, 512], [-512, 2048], [-1920, 2048]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    platforms:
+      - {at: [-560, 1088], size: [96, 256], rise: 192, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A rack of sealed boxes against the east wall.}
+      - {at: [-560, 1600], size: [96, 256], rise: 192, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A rack of sealed boxes against the east wall.}
+      - {id: platform:keybox, at: [-1216, 560], size: [128, 96], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "The box on the south wall: hover 'Box' (aaze0052:2), the Key to the Dragon Tower once."}
+    notes: "Alamar's strongroom: racks of sealed boxes; the box with the Dragon Tower key on the south wall; the warden's door north."
+  - id: room:levers
+    name: Lever hall
+    outline: [[-4096, 2048], [-2816, 2048], [-2816, 2944], [-4096, 2944]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    notes: "The lever hall: the west and the east lever on their walls; neither slab can be seen from here."
+  - id: room:liftfoot
+    name: Lift foot
+    outline: [[-1536, 3584], [-896, 3584], [-896, 4224], [-1536, 4224]]
+    floor: -768
+    ceiling: -128
+    theme: theme:tall
+    notes: "The lift's foot: a short cold passage; the stasis vault's pair east."
+  - id: room:north
+    name: North gallery
+    outline: [[-7424, 6912], [-5056, 6912], [-5056, 7424], [-7424, 7424]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The north gallery, east from the shaft door and the west gallery's end."
+  - id: room:north2
+    name: "North gallery, east end"
+    space: room:north
+    outline: [[-4928, 6912], [-2560, 6912], [-2560, 7424], [-4928, 7424]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    walls:
+      - wall: e
+        surface: {texture: xahullbn, size: [256, 256]}
+        notes: "The gallery's broken east end: a rubble fall of scorched plating."
+    notes: "The north gallery's east end: the north door; its broken end wall."
+  - id: room:pyramid
+    name: Pyramid nook
+    outline: [[-6784, -128], [-6144, -128], [-6144, 1152], [-6784, 1152]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    platforms:
+      - {id: platform:plinth, at: [-6464, 768], size: [448, 448], rise: 32, surface: {texture: gn_mtl03, size: [128, 128]}, top_surface: {texture: gn_mtl03, size: [128, 128]}, notes: The dead pyramid's plinth.}
+      - {id: platform:pyramid, at: [-6464, 768], size: [384, 384], rise: 352, surface: {texture: gn_mtl02, size: [128, 128]}, top_surface: {texture: gn_mtl02, size: [128, 128]}, base: 32, top_size: [16, 16], notes: "A small dark Ancient pyramid (four sloped faces in the D6 travel pyramid's cladding): hover 'Pyramid' (m39.pyramid)."}
+    notes: "Dead end: the dark Ancient pyramid on its plinth and a T6 chest beside it."
+  - id: room:shaft
+    name: Rubble shaft
+    outline: [[-7552, 6943], [-7552, 7393], [-7777, 7783], [-8167, 8008], [-8617, 8008], [-9007, 7783], [-9232, 7393], [-9232, 6943], [-9007, 6553], [-8617, 6328], [-8167, 6328], [-7777, 6553]]
+    floor: 0
+    ceiling: 2048
+    theme: theme:shaft
+    walls:
+      - wall: 6
+        panels:
+          - {id: panel:ladder, at: centre, length: 64, bottom: 0, height: 1792, surface: {texture: bemv, size: [32, 256], scale: 2}, notes: The ladder up the shaft wall to D7's roof hatch (its foot is the click).}
+    notes: "Where the castle above came down: a round shaft of scorched plating and rubble rising out of sight to D7's roof hatch, grey light far above (open sky). The arrival from D7 at its foot facing east to the shaft door. Quiet."
+  - id: room:skull
+    name: Lift head
+    outline: [[-1536, 3584], [-896, 3584], [-896, 4224], [-1536, 4224]]
+    floor: 0
+    ceiling: 640
+    theme: theme:tall
+    notes: "The lift head behind the skull door: the cage goes down 768."
+  - id: room:south
+    name: South gallery
+    space: room:south
+    outline: [[-4224, -768], [-1792, -768], [-1792, -256], [-4224, -256]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The south gallery, west from the gallery door; the bolted grate in its north wall."
+  - id: room:south2
+    name: "South gallery, west end"
+    space: room:south
+    outline: [[-6784, -768], [-4352, -768], [-4352, -256], [-6784, -256]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The south gallery's west end: the guard door."
+  - id: room:spur
+    name: Sealed passage
+    outline: [[-4864, 1024], [-4352, 1024], [-4352, 3584], [-4224, 3584], [-4224, 4096], [-4864, 4096]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: "The sealed passage: west and south from the Hall of Nine to lever A's slab."
+  - id: room:stair
+    name: Ruin stair
+    outline: [[-256, -320], [1472, -320], [1472, 320], [-256, 320]]
+    floor: 0
+    ceiling: 1088
+    theme: theme:hull
+    platforms:
+      - {id: platform:stair_head, rise: 32, surface: {texture: swgirder, size: [64, 64]}, outline: [[1280, -320], [1472, -320], [1472, 320], [1280, 320]], top_surface: {texture: swankdk, size: [128, 128]}, bottom_surface: {texture: swgirder, size: [64, 64]}, base: 608, notes: "The stair's head (640) under the gatehouse hatch: the way up to D6."}
+    flights:
+      - {from: [256, 0], to: [1280, 0], open_below: 32, to_height: 640, width: 384, steps: 20, sides: {height: 48, thickness: 16, surface: {texture: swgirder, size: [64, 64]}}, notes: Twenty steps of 32 up east from the foot to the head under the hatch.}
+    notes: "The ruin stair under the gatehouse's floor: the arrival from D6 at its foot (0, 0, 0) facing west into the undercroft hall; the stair climbs east 640 to the hatch's underside (the exit to D6). Quiet."
+  - id: room:stairhall
+    name: Undercroft hall
+    outline: [[-1664, -1024], [-384, -1024], [-384, 384], [-1664, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    notes: "The first hall: cracked teal plates; Alamar's statue by the north wall speaks when the party first comes near (m39.statue). The gallery door west. Quiet."
+  - id: room:stasis
+    name: Stasis vault
+    outline: [[960, 3672], [960, 4136], [728, 4536], [328, 4768], [-136, 4768], [-536, 4536], [-768, 4136], [-768, 3672], [-536, 3272], [-136, 3040], [328, 3040], [728, 3272]]
+    floor: -768
+    ceiling: -128
+    theme: theme:tall
+    walls:
+      - wall: 1
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 2
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 3
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 4
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 5
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 7
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 8
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 9
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 10
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+      - wall: 11
+        panels:
+          - {at: centre, length: 256, bottom: 128, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: Alamar's machine ring.}
+    platforms:
+      - {id: platform:dais, at: [96, 3904], size: [576, 384], rise: 48, surface: {texture: swgirder, size: [64, 64]}, top_surface: {texture: swflora, size: [256, 256]}, notes: "The dais: the glowing lattice (swflora) under the coffin."}
+      - {id: platform:coffin, at: [96, 3904], size: [256, 96], rise: 80, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, base: 48, notes: "Roland's stasis coffin, a long steel box (hover 'Coffin', aaze0052:7)."}
+    notes: "The set piece: a round chamber, Alamar's machine ring round the dais; on the dais the stasis coffin under the field; a T6 chest by the wall."
+  - id: room:warden
+    name: Warden's room
+    outline: [[-1920, 2176], [-512, 2176], [-512, 3456], [-1920, 3456]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: e
+        panels:
+          - {offset: 512, length: 256, bottom: 192, height: 256, surface: {texture: swor2, size: [256, 256], fit: true}, notes: A machine panel.}
+    platforms:
+      - {at: [-576, 2560], size: [128, 384], rise: 128, surface: {texture: swor2, size: [256, 256], fit: false}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: A console against the east wall.}
+      - {at: [-576, 3072], size: [128, 384], rise: 128, surface: {texture: swor2, size: [256, 256], fit: false}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: A console against the east wall.}
+    notes: "The warden's room: consoles and a machine panel on the east wall, the warden's chest on the west wall, the skull door north."
+  - id: room:west
+    name: West gallery
+    outline: [[-7424, -768], [-6912, -768], [-6912, 2944], [-7424, 2944]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    walls:
+      - wall: s
+        surface: {texture: xahullbn, size: [256, 256]}
+        notes: "The gallery's broken south end: the castle came down here."
+    notes: "The west gallery, north from the guard door to the north gallery."
+  - id: room:west2
+    name: "West gallery, north end"
+    space: room:west
+    outline: [[-7424, 3072], [-6912, 3072], [-6912, 6784], [-7424, 6784]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: The west gallery's north end.
+  - id: room:workshop
+    name: Long workshop
+    outline: [[-6016, -128], [-2560, -128], [-2560, 896], [-6016, 896]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    platforms:
+      - {at: [-5120, 832], size: [384, 96], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: A machine bench against the north wall.}
+      - {at: [-3840, 832], size: [384, 96], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: trekscrn, size: [128, 64], fit: true}, notes: A machine bench against the north wall.}
+      - {at: [-2688, 0], size: [96, 256], rise: 96, surface: {texture: swgirder, size: [64, 64]}, end_surface: {texture: swgirder, size: [64, 64], fit: false}, top_surface: {texture: swgirder, size: [64, 64]}, notes: A bench against the east wall.}
+    notes: "The long workshop: machine benches by the walls; the sealed passage's slab and the west passage north, the pyramid nook west, the east spur east, the bolted grate south."
+  - id: room:wpass
+    name: West passage
+    outline: [[-5888, 1024], [-5376, 1024], [-5376, 3072], [-5888, 3072]]
+    floor: 0
+    ceiling: 448
+    theme: theme:gallery
+    notes: The west passage north from the workshop to the assembly hall's works door.
+openings:
+  - id: open:column_hub
+    from: room:column
+    to: room:hub
+    from_wall: s
+    to_wall: n
+    link: link:7
+    width: 384
+    height: 384
+  - id: open:east_slab
+    from: room:espur
+    to: room:keyvault
+    from_wall: e
+    to_wall: w
+    link: link:15
+    width: 384
+    height: 384
+    notes: "Lever B's slab: a shut bulkhead at the east spur's end."
+  - id: open:gallery_door
+    from: room:stairhall
+    to: room:south
+    from_wall: w
+    to_wall: e
+    link: link:2
+    width: 384
+    height: 384
+    notes: The gallery door.
+  - id: open:grate
+    from: room:workshop
+    to: room:south
+    from_wall: s
+    to_wall: n
+    link: link:20
+    along: 0.5385
+    width: 192
+    height: 384
+    notes: The bolted grate in the workshop's south wall.
+  - id: open:guard_door
+    from: room:south2
+    to: room:west
+    from_wall: w
+    to_wall: e
+    link: link:3
+    width: 384
+    height: 384
+    notes: The guard door.
+  - id: open:hub_levers
+    from: room:hub
+    to: room:levers
+    from_wall: s
+    to_wall: n
+    link: link:8
+    width: 384
+    height: 384
+  - id: open:hub_spur
+    from: room:hub
+    to: room:spur
+    from_wall: w
+    to_wall: 3
+    link: link:9
+    width: 384
+    height: 384
+  - id: open:lift_shaft
+    from: room:skull
+    to: room:liftfoot
+    in: floor
+    at: [-1216, 3904]
+    size: [320, 320]
+    link: link:18
+    notes: The lift's hole in the lift head's floor (768 down).
+  - id: open:north_door
+    from: room:north2
+    to: room:column
+    from_wall: s
+    to_wall: n
+    link: link:6
+    width: 384
+    height: 384
+    notes: The north door.
+  - id: open:north_mouth
+    from: room:north
+    to: room:north2
+    from_wall: e
+    to_wall: w
+    width: full
+    height: full
+  - id: open:shaft_door
+    from: room:shaft
+    to: room:north
+    from_wall: 0
+    to_wall: w
+    link: link:5
+    width: 384
+    height: 384
+    notes: The shaft door in the shaft's east flat.
+  - id: open:skull_door
+    from: room:warden
+    to: room:skull
+    from_wall: n
+    to_wall: s
+    link: link:17
+    width: 384
+    height: 384
+    notes: The skull door.
+  - id: open:south_mouth
+    from: room:south
+    to: room:south2
+    from_wall: w
+    to_wall: e
+    width: full
+    height: full
+  - id: open:stair_hall
+    from: room:stair
+    to: room:stairhall
+    from_wall: w
+    to_wall: e
+    link: link:1
+    width: 384
+    height: 448
+    notes: The stair's foot opens west into the undercroft hall.
+  - id: open:vault_pair
+    from: room:liftfoot
+    to: room:stasis
+    from_wall: e
+    to_wall: 6
+    link: link:19
+    width: 384
+    height: 384
+    notes: The stasis vault's pair.
+  - id: open:warden_door
+    from: room:keyvault
+    to: room:warden
+    from_wall: n
+    to_wall: s
+    link: link:16
+    width: 384
+    height: 384
+    notes: The warden's door.
+  - id: open:west_mouth
+    from: room:west
+    to: room:west2
+    from_wall: n
+    to_wall: s
+    width: full
+    height: full
+  - id: open:west_north
+    from: room:west2
+    to: room:north
+    from_wall: n
+    to_wall: s
+    link: link:4
+    width: 384
+    height: 384
+  - id: open:west_slab
+    from: room:spur
+    to: room:workshop
+    from_wall: 0
+    to_wall: n
+    link: link:10
+    width: 384
+    height: 384
+    notes: "Lever A's slab: a shut bulkhead at the sealed passage's end."
+  - id: open:works_door
+    from: room:wpass
+    to: room:assembly
+    from_wall: n
+    to_wall: s
+    link: link:13
+    width: 384
+    height: 384
+    notes: The assembly hall's works door.
+  - id: open:workshop_espur
+    from: room:workshop
+    to: room:espur
+    from_wall: e
+    to_wall: w
+    link: link:14
+    width: 384
+    height: 384
+  - id: open:workshop_nook
+    from: room:workshop
+    to: room:pyramid
+    from_wall: w
+    to_wall: e
+    link: link:11
+    along: 0.75
+    width: 384
+    height: 384
+  - id: open:workshop_wpass
+    from: room:workshop
+    to: room:wpass
+    from_wall: n
+    to_wall: s
+    link: link:12
+    width: 384
+    height: 384
+notes: "FD-01 Alamar Depths: the main level at z 0, the lift foot and the stasis vault at -768; x east, y north, z up. Written by output/studio_cal/fd01/tools/gen.py (geo.py)."

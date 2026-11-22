@@ -1,0 +1,350 @@
+format: 0
+themes:
+  - id: theme:cellar
+    wall: {texture: hwm2wall, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2wall, size: [128, 256]}
+    door: {texture: hkm2d, size: [128, 256]}
+    notes: "The clan's cellar: plain fieldstone (MM7 hwm2wall, Clanker's Laboratory) and dark flags (7tfb11) under the shrine's floor beams."
+  - id: theme:gallery
+    wall: {texture: hwm2rf, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: hkm2b, size: [128, 256]}}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: hwm2rf, size: [128, 128], sky: true}
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    door: {texture: hkm2d, size: [128, 256]}
+    notes: "The moon gallery: the storey's timber on its inner walls, open to the sky over its outer walls and overhead."
+  - id: theme:pagoda
+    wall: {texture: hwm2rf, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: hkm2b, size: [128, 256]}}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    door: {texture: hkm2d, size: [128, 256]}
+    notes: "The pagoda's storeys: X5's shell inside out, fieldstone between blackened beams (MM7 hkm2b, the Deyja houses) to 256, black boards above and overhead (hwm2rf), plank floors (7trimd), the shell's plank doors (hkm2d)."
+  - id: theme:stair
+    wall: {texture: hwm2rf, size: [128, 128]}
+    floor: {texture: 7trimd, size: [128, 256]}
+    ceiling: {texture: hwm2rf, size: [128, 128]}
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    door: {texture: hkm2d, size: [128, 256]}
+    notes: "The stairs: black boards, plank treads."
+defaults: {theme: theme:pagoda, ambient: 22}
+rooms:
+  - id: room:armoury
+    name: Armoury
+    outline: [[256, -1344], [960, -1344], [960, -576], [-768, -576], [-768, -928], [256, -928]]
+    floor: 1536
+    ceiling: 1952
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:rack_1, at: [-600, -608], size: [256, 32], rise: 192, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "A rack of blades, bows and shuriken."}
+      - {id: platform:rack_2, at: [-200, -608], size: [256, 32], rise: 192, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "A rack of blades, bows and shuriken."}
+      - {id: platform:rack_3, at: [300, -608], size: [64, 32], rise: 192, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "A rack of blades, bows and shuriken."}
+    notes: "Racks of blades, bows and shuriken in the west wing; the crane stair comes up in the east part; the door west to the moon gallery."
+  - id: room:cellar
+    name: Clan cellar
+    outline: [[-768, -2560], [768, -2560], [768, -1600], [-768, -1600]]
+    floor: -448
+    store: true
+    ceiling: -64
+    theme: theme:cellar
+    platforms:
+      - {id: platform:cushion, at: [-380, -2360], size: [128, 128], rise: 16, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: "A cushion on the cellar floor: where Shinobu sits once the pagoda is Kai Wu's again."}
+      - {id: platform:rope_coils, at: [640, -1720], size: [128, 128], rise: 48, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: Coils of rope against the north wall.}
+      - {id: platform:cloth_bolts, at: [640, -2440], size: [128, 192], rise: 64, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: Bolts of black cloth (the clan's) stacked in the south-east corner.}
+    notes: "The clan's storeroom under the shrine, 1,536 by 960: rope, black cloth, rice, a chest; the ladder up to the hatch on the north wall."
+  - id: room:dojo
+    name: Dojo
+    outline: [[-576, -1856], [384, -1856], [384, -192], [-1344, -192], [-1344, -576], [-576, -576]]
+    floor: 512
+    ceiling: 928
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:target_1, at: [-240, -1700], size: [48, 48], rise: 224, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A straw target on a post, bristling with shuriken."}
+      - {id: platform:target_2, at: [-40, -1700], size: [48, 48], rise: 224, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A straw target on a post, bristling with shuriken."}
+      - {id: platform:target_3, at: [160, -1700], size: [48, 48], rise: 224, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: "A straw target on a post, bristling with shuriken."}
+      - {id: platform:weapon_wall, at: [360, -1100], size: [32, 384], rise: 256, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: "The weapon wall: a rack of wooden practice blades along the east wall."}
+    notes: "The training floor, an L 1,728 by 1,664: straw targets along the south wall, the weapon wall; the sliding door and the paper wall east to the sleeping loft, the west stair up in the north-west, the kitchen's hatch in the floor of the north wing."
+  - id: room:dorm
+    name: Sleeping loft
+    outline: [[512, -1856], [1344, -1856], [1344, -192], [512, -192]]
+    floor: 512
+    ceiling: 928
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:mat_1, at: [700, -1720], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+      - {id: platform:mat_2, at: [880, -1720], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+      - {id: platform:mat_3, at: [1060, -1720], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+      - {id: platform:mat_4, at: [1240, -1720], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+      - {id: platform:mat_5, at: [700, -1300], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+      - {id: platform:mat_6, at: [880, -1300], size: [128, 256], rise: 8, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, notes: A sleeping mat.}
+    notes: "The sleeping loft, 832 by 1,664: rolled mats in rows at its south end; the east stair comes up in its east side; the sliding door and the paper wall west to the dojo."
+  - id: room:gallery
+    name: Moon gallery
+    outline: [[-1152, -1664], [1152, -1664], [1152, -1472], [-896, -1472], [-896, -576], [-1152, -576]]
+    floor: 1536
+    ceiling: 2016
+    theme: theme:gallery
+    walls:
+      - wall: 0
+        surface: {texture: hwm2rf, size: [128, 128], sky: true}
+        bands: false
+      - wall: 1
+        surface: {texture: hwm2rf, size: [128, 128], sky: true}
+        bands: false
+      - wall: 5
+        surface: {texture: hwm2rf, size: [128, 128], sky: true}
+        bands: false
+    parapets:
+      - path: [[944, -1632], [-1120, -1632], [-1120, -608]]
+        height: 112
+        thickness: 16
+        surface: {texture: hwm2rf, size: [128, 128]}
+        notes: "The railing along the outer edge, the mere below."
+    notes: "A railed walk round the fourth storey's west and south sides under the eaves, open to the sky over the frozen mere: the armoury's door and the top stair off its west walk, the slot for the clan's rope at the south walk's east end."
+  - id: room:kitchen
+    name: Monks' kitchen
+    outline: [[-1536, -1024], [-640, -1024], [-640, 0], [-1536, 0]]
+    floor: 0
+    ceiling: 416
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:hearth, at: [-1440, -880], size: [160, 192], rise: 64, surface: {texture: hkm2b, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: The kitchen's cooking hearth against the west wall.}
+      - {id: platform:kitchen_table, at: [-1120, -160], size: [320, 128], rise: 72, surface: {texture: 7t1cabs, size: [64, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: "A low table along the north wall, rice jars smashed on it."}
+    notes: "Kai Wu's old kitchen: the hearth, the low table, smashed rice jars; a ladder up the east wall to a hatch into the dojo."
+  - id: room:master
+    name: Clan master's hall
+    outline: [[-832, -1344], [832, -1344], [832, -704], [-832, -704]]
+    floor: 2048
+    ceiling: 2432
+    theme: theme:pagoda
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:gong, offset: 592, length: 224, bottom: 160, height: 224, surface: {texture: xngong, size: [128, 128], fit: true}, notes: The clan's gong on the north wall behind the dais.}
+          - {offset: 352, length: 160, bottom: 96, height: 320, surface: {texture: tap11, size: [128, 256], fit: true}, notes: The clan's banner.}
+          - {offset: 912, length: 160, bottom: 96, height: 320, surface: {texture: tap11, size: [128, 256], fit: true}, notes: The clan's banner.}
+    levels:
+      - id: level:dais
+        outline: [[-256, -960], [512, -960], [512, -720], [-256, -720]]
+        floor: 2096
+        edge: {texture: hwm2rf, size: [128, 128]}
+        surface: {texture: 7trimd, size: [128, 256]}
+        notes: The dais along the north wall.
+    ceiling_levels:
+      - ceiling: 2816
+        top_scale: [0.6, 0.2]
+        notes: The steep top roof's hipped ceiling.
+    notes: "Under the steep top roof, 1,664 by 640: a dais along the north wall under the clan's gong and banner; the clan master and his Ninja Master; the strongbox behind the dais. The top stair comes up in its south-west."
+  - id: room:porch
+    name: Entry hall
+    outline: [[-512, -1024], [512, -1024], [512, 0], [-512, 0]]
+    floor: 0
+    ceiling: 448
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:bell, at: [400, -48], size: [96, 96], rise: 112, surface: {texture: xngong, size: [128, 128], fit: true}, top_surface: {texture: xngong, size: [128, 128], fit: true}, base: 208, notes: "The monks' bronze bell, hung from a beam in the north-east corner."}
+      - {at: [400, -48], size: [16, 16], rise: 128, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, base: 320, notes: "The bell's hanger, up to the beam."}
+      - {id: platform:broom, at: [-300, -560], size: [176, 12], rise: 10, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Kai Wu's broom, dropped on the floor: the handle."}
+      - {at: [-180, -560], size: [48, 40], rise: 14, surface: {texture: straw, size: [256, 256]}, top_surface: {texture: straw, size: [256, 256]}, notes: The broom's straw head.}
+    notes: "Inside the barred north door, 1,024 square: the monks' bell in the north-east corner, Kai Wu's broom where he dropped it. Doors to the kitchen (west) and the shrine hall (south)."
+  - id: room:screens
+    name: Hall of Screens
+    outline: [[-1152, -1664], [1152, -1664], [1152, -1408], [384, -1408], [384, -384], [-1152, -384]]
+    floor: 1024
+    ceiling: 1440
+    theme: theme:pagoda
+    platforms:
+      - {id: platform:screen_a, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-464, -1368], [208, -1368], [208, -1352], [-464, -1352]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Row A: a long paper screen across the hall's south side."}
+      - {id: platform:screen_x, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-8, -1648], [8, -1648], [8, -1368], [-8, -1368]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "The cross screen: closes the hall's south walk at its middle."}
+      - {id: platform:screen_b, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-672, -1112], [112, -1112], [112, -1096], [-672, -1096]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Row B: a paper screen across the hall's middle."}
+      - {id: platform:cell1_s, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-672, -792], [-224, -792], [-224, -776], [-672, -776]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Cell 1, its south side: shadows move behind it."}
+      - {id: platform:cell1_e, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-240, -776], [-224, -776], [-224, -400], [-240, -400]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Cell 1, its east side."}
+      - {id: platform:cell1_w, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-672, -776], [-656, -776], [-656, -400], [-672, -400]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Cell 1, its west side over the stair well."}
+      - {id: platform:cell2_s, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-64, -792], [368, -792], [368, -776], [-64, -776]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Cell 2, its south side: shadows move behind it."}
+      - {id: platform:cell2_w, rise: 384, surface: {texture: xjshoji, size: [192, 384], translucent: 0.6}, outline: [[-64, -776], [-48, -776], [-48, -400], [-64, -400]], top_surface: {texture: trim11_32, size: [32, 64]}, notes: "Cell 2, its west side."}
+    notes: "The middle storey, 2,304 by 1,280: a maze of paper screens lit from behind, so shapes move on the paper; the west stair comes up in its west side; the crane screen closes the stair up in the south-east alcove, where the clan's rope comes down."
+  - id: room:shrine
+    name: Shrine hall
+    outline: [[-1152, -2048], [1408, -2048], [1408, -1152], [-1152, -1152]]
+    floor: 0
+    ceiling: 480
+    theme: theme:pagoda
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:clan_mark, offset: 1072, length: 160, bottom: 128, height: 320, surface: {texture: tap11, size: [128, 256], fit: true}, notes: "The clan's mark hung over the altar: a black banner with a carrion bird."}
+    platforms:
+      - {id: platform:altar, at: [0, -1968], size: [448, 128], rise: 112, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: 7t1cabs, size: [64, 128]}, notes: Kai Wu's altar against the south wall.}
+    notes: "Kai Wu's shrine, 2,560 by 896: the altar on the south wall under the clan's black banner, the mat in front of it over the cellar hatch; the east stair up leaves the north wall's east end."
+  - id: room:stair_c
+    name: Crane stair
+    outline: [[480, -1280], [864, -1280], [864, -608], [480, -608]]
+    floor: 1024
+    slope: {to: 1536, toward: north, steps: 16, riser: {texture: hwm2rf, size: [128, 128]}, tread: {texture: 7trimd, size: [128, 256]}}
+    ceiling: 1536
+    theme: theme:stair
+    notes: "Sixteen steps up north from behind the crane screen to the armoury, open above."
+  - id: room:stair_e
+    name: East stair
+    outline: [[928, -1024], [1312, -1024], [1312, -224], [928, -224]]
+    floor: 0
+    slope: {to: 512, toward: north, steps: 16, riser: {texture: hwm2rf, size: [128, 128]}, tread: {texture: 7trimd, size: [128, 256]}}
+    ceiling: 512
+    theme: theme:stair
+    notes: "Sixteen steps up north from the shrine hall to the sleeping loft, open above."
+  - id: room:stair_t
+    name: Top stair
+    outline: [[-768, -1312], [128, -1312], [128, -1056], [-768, -1056]]
+    floor: 1536
+    slope: {to: 2048, toward: east, steps: 16, riser: {texture: hwm2rf, size: [128, 128]}, tread: {texture: 7trimd, size: [128, 256]}}
+    ceiling: 2048
+    theme: theme:stair
+    notes: "Sixteen steps up east from the gallery to the clan master's hall, open above."
+  - id: room:stair_w
+    name: West stair
+    outline: [[-1088, -1600], [-704, -1600], [-704, -704], [-1088, -704]]
+    floor: 512
+    slope: {to: 1024, toward: south, steps: 16, riser: {texture: hwm2rf, size: [128, 128]}, tread: {texture: 7trimd, size: [128, 256]}}
+    ceiling: 1024
+    theme: theme:stair
+    notes: "Sixteen steps up south from the dojo to the Hall of Screens, open above."
+openings:
+  - id: open:armoury_gallery
+    from: room:armoury
+    to: room:gallery
+    from_wall: 3
+    to_wall: 3
+    link: link:armoury_gallery
+    width: 160
+    height: 320
+    notes: The armoury's door out to the moon gallery.
+  - id: open:cellar_hatch
+    from: room:shrine
+    to: room:cellar
+    in: floor
+    at: [0, -1736]
+    size: [256, 240]
+    link: link:shrine_cellar
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    notes: "The trapdoor in front of the altar, under the mat (mover:hatch)."
+  - id: open:dojo_dorm_door
+    from: room:dojo
+    to: room:dorm
+    from_wall: 1
+    to_wall: 3
+    link: link:dorm_dojo
+    along: 0.274
+    width: 256
+    height: 256
+    notes: The sliding door between the dojo and the sleeping loft.
+  - id: open:dojo_dorm_paper
+    from: room:dojo
+    to: room:dorm
+    from_wall: 1
+    to_wall: 3
+    link: link:dorm_dojo_paper
+    along: 0.8462
+    width: 384
+    height: 384
+    notes: "The paper wall between the dojo and the sleeping loft: a breakable screen (door:paper_dorm)."
+  - id: open:dojo_stair
+    from: room:dojo
+    to: room:stair_w
+    from_wall: 4
+    to_wall: 2
+    link: link:dojo_screens
+    width: 320
+    height: 384
+    notes: The foot of the west stair.
+  - id: open:gallery_stair
+    from: room:gallery
+    to: room:stair_t
+    from_wall: 3
+    to_wall: 3
+    link: link:gallery_master
+    width: 224
+    height: 320
+    notes: "The foot of the top stair, off the gallery's west walk."
+  - id: open:kitchen_hatch
+    from: room:dojo
+    to: room:kitchen
+    in: floor
+    at: [-776, -384]
+    size: [240, 256]
+    link: link:dojo_kitchen
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    notes: "The kitchen's hatch: a hole in the dojo's floor over the kitchen ladder."
+  - id: open:porch_kitchen
+    from: room:porch
+    to: room:kitchen
+    from_wall: 3
+    to_wall: 1
+    link: link:porch_kitchen
+    along: 0.625
+    width: 256
+    height: 256
+  - id: open:porch_shrine
+    from: room:porch
+    to: room:shrine
+    from_wall: 0
+    to_wall: 2
+    link: link:porch_shrine
+    width: 256
+    height: 256
+  - id: open:rope_slot
+    from: room:gallery
+    to: room:screens
+    in: floor
+    at: [1056, -1568]
+    size: [160, 160]
+    link: link:gallery_rope
+    reveal: {texture: hwm2rf, size: [128, 128]}
+    notes: The slot in the gallery's floor at its east end where the clan's rope hangs down into the Hall of Screens.
+  - id: open:screens_crane
+    from: room:screens
+    to: room:stair_c
+    from_wall: 2
+    to_wall: 0
+    link: link:screens_armoury
+    width: 352
+    height: 352
+    notes: "Behind the crane screen (door:crane): the stair up to the armoury."
+  - id: open:shrine_stair
+    from: room:shrine
+    to: room:stair_e
+    from_wall: 2
+    to_wall: 0
+    link: link:shrine_dorm
+    width: 320
+    height: 384
+    notes: "The foot of the east stair, in the shrine hall's north wall."
+  - id: open:stair_c_well
+    from: room:armoury
+    to: room:stair_c
+    in: floor
+    link: link:screens_armoury
+    notes: "The crane stair's well, open to the armoury."
+  - id: open:stair_e_well
+    from: room:dorm
+    to: room:stair_e
+    in: floor
+    link: link:shrine_dorm
+    notes: "The east stair's well: open to the sleeping loft over its whole length."
+  - id: open:stair_t_well
+    from: room:master
+    to: room:stair_t
+    in: floor
+    link: link:gallery_master
+    notes: "The top stair's well, open to the clan master's hall."
+  - id: open:stair_w_well
+    from: room:screens
+    to: room:stair_w
+    in: floor
+    link: link:dojo_screens
+    notes: "The west stair's well, open to the Hall of Screens."
+notes: "XD-22 Ninja Pagoda: five storeys 512 apart (0, 512, 1,024, 1,536, 2,048) and the cellar (-448), each storey smaller than the one below, centred on (0, -1024); x east, y north. Written by output/studio_cal/xd22/tools/gen.py."

@@ -1,0 +1,3 @@
+Saved [02_back.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/02_back.png) as an unresized 1536×1024 transparent PNG. The straight rear view shows all eight walking legs and both open claws. Both built-in image generation runs and their prompts are in the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/generation_runs_02_back.json).
+
+The selected render leaves 58 px below the lowest foot at 50% alpha, 2 px short of the brief. The one permitted retry improved the framing but dropped one leg per side.

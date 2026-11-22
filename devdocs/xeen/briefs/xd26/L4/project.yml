@@ -1,0 +1,44 @@
+format: 0
+id: xeen_xd26
+name: Gargoyle Eyrie
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-26
+units: {plan_grid: 512}
+extent: {footprint_cells: [12, 10], climbs: n}
+map_stats:
+  id: 9149
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 6
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Gargoyle, tier: 2, per_marker: [2, 3], weight: 100}
+neighbours:
+  - id: exit:x4_peak
+    to: xeen_x4.odm
+    kind: door
+    arrival: [-7424, 14592, 3600]
+    arrival_hint: "X4, A5's ledge platform high on the peak above the mouth, its top 3,593 (measured 2026-11-20), facing south; a path leads down."
+    direction: 270
+    notes: One way out (the sky crack).
+  - id: exit:x4_range
+    to: xeen_x4.odm
+    kind: door
+    arrival: entrance:xd26_eyrie
+    arrival_hint: "X4's Gargoyle Range in front of door:xd26's cave mouth, facing away from it (south): A5's entrance:xd26_eyrie (-9216, 10752, 1792) facing 1536, moved in front of the mouth (2026-11-21); the ground there is about 1,824."
+    notes: "X4 (Burlock Savannah), A5's door:xd26. The way out names X4's arrival entrance:xd26_eyrie; the facing comes with it."
+qbits:
+  hoist_winched: 110880
+  scarab_found: 112202
+notes: "Xeen design brief, level L4: the Gargoyle Eyrie on X4's Gargoyle Range (Q-C10 The Scarab of Imaging). Monsters: A2's Gargoyles (Cloudside) (slot 1 Xeen Gargoyle: A Gargoyle 11540 16, B Gargoyle Lord 11541 22, C Obsidian Gargoyle 11542 28; markers fix the tier; two placed Obsidian Gargoyles). Map qbits 110880-110919 (used: hoist_winched 110880); A3's q-c10.scarab_found 112202 named. Hook q-c10.scarab called from a lua effect. Music 31. Neighbours on X4 (installed 2026-11-20): the cave mouth (exit:mouth → exit:x4_range, in front of X4's door:xd26) and the one-way sky crack (exit:sky_crack → exit:x4_peak, A5's ledge platform); the map's start is the arrival from X4's door:xd26."
+identity:
+  shape: cave
+  family: 7d21
+  seen: ["a cave mouth opening on a shaft 2,560 high in the peak", "rough rock walls round the shaft, ledges climbing it by ladders and a hoist, nests on the ledges", "the roost under the split in the peak, daylight through the crack"]

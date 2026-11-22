@@ -1,0 +1,85 @@
+# Playtest of the Troll Holes' first pocket (DD-11A, L4; lane A7, agent:xeen-a7-dd11): the pit to the dead thief's
+# letter and the whole warren, out to the burrow's top. A level-23 party lands at the pit's bottom (the map's start, where
+# D2's first troll hole drops it): the landing line; the root tunnel's trolls; the bone midden and its expired adventurer
+# (aaze0040:3-4); up the bone slope, the boulder rolls aside; the dead thief: A3's q-d13.thieves_letter (aaze0040:5,
+# started 113260), again its else text; his pack. Down the bone slope to the larder, the guard den's log door and chest,
+# the wicker gate to the seep, up the root stair to the sleeping hollow (the loop), and up the burrow to the sod hatch.
+# Every window closed, a save and load: the letter's bit and the doors stay. Numbers are ids.lock.yml's: events (click,
+# execute_event), doors (open_door), chests (loot_chest). The exit itself is playtest_exit.yml's.
+id: xeen.dd11a.l4.walk
+title: Troll Holes, first pocket (DD-11A L4), the pit to the dead thief's letter, the warren and the burrow up
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11a.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 23, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 23, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 23, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 23, skills: [], equipment: {}}
+  - assert: {map: xeen_dd11a.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 96, y: -32, radius: 64, z_min: -8, z_max: 32}}
+  - play_lua: {source: "wait(3); local s = status(); log('arrive: ' .. s); if not string.find(s, 'too sheer to climb', 1, true) then error('no landing line: ' .. s) end; close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, min: 6}}
+  # The root tunnel and the bone midden.
+  - walk_to: {x: 1100, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2150, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 2950, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "close(); click(6); wait(0.5); local s = status(); log('expired: ' .. s); if not string.find(s, 'Nothing here.', 1, true) then error('expired adventurer: ' .. s) end"}
+  # Up the bone slope; the boulder rolls aside.
+  - walk_to: {x: 2656, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2656, y: 580, z: 160, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(2, 1)"}
+  - walk_to: {x: 2656, y: 920, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The dead thief and the guild's letter (A3's hook), then his pack.
+  - walk_to: {x: 2560, y: 1020, z: 192, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The Trolls have stolen our gold"}}
+  - play_lua: {source: "close(); if not qbit(113260) then error('started 113260 not set') end"}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "nothing else to say"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2790, y: 1080, z: 192, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); if gold() < g + 300 then error('the pack held no gold') end"}
+  # Down the bone slope to the larder.
+  - walk_to: {x: 2656, y: 880, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2656, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2560, y: -500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2560, y: -2200, z: -384, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 2560, y: -2700, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The guard den behind its log door, and its chest.
+  - walk_to: {x: 2980, y: -3008, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(5, 2)"}
+  - walk_to: {x: 3400, y: -3008, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 3860, y: -3290, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(3); close(); if gold() < g + 450 then error('the den chest held no gold') end"}
+  # Through the wicker gate to the seep, up the root stair to the sleeping hollow (the loop).
+  - walk_to: {x: 2560, y: -3008, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2140, y: -3072, z: -384, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 3)"}
+  - walk_to: {x: 1650, y: -3072, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 1344, y: -2700, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1344, y: -1750, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1150, y: -1000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, max: 0}}
+  # The burrow up to the sod hatch.
+  - walk_to: {x: 720, y: -1088, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -620, y: -1088, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # Every window closed, then a save and load: the letter's bit and the doors stay.
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(1); close(); if not qbit(113260) then error('started lost on reload') end; if door_state(1) ~= 'open' then error('boulder: ' .. door_state(1)) end"}
+  - assert: {map: xeen_dd11a.blv}

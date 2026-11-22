@@ -1,0 +1,663 @@
+format: 0
+themes:
+  - id: theme:barracks
+    wall: {texture: xdbark, size: [128, 256]}
+    bands:
+      - {height: 64, surface: {texture: c2b, size: [256, 256]}}
+    floor: {texture: 7dirt1, size: [128, 128]}
+    ceiling: {texture: 7t1books1, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The priests' cells made orc barracks, hollowed in the trunk: bark walls over a foot of root earth (c2b), trodden dirt (7dirt1), the heartwood floor above for a roof (7t1books1)."
+  - id: theme:branch
+    wall: {texture: eswamp, size: [128, 128]}
+    bands:
+      - {height: 256, surface: {texture: xdbark, size: [128, 256]}}
+    floor: {texture: 7t1books1, size: [128, 128]}
+    ceiling: {texture: eswamp, size: [128, 128], sky: true}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "Along the top of a great limb: the branch's bark to 256 (xdbark), leaves above (eswamp), the sky overhead."
+  - id: theme:chapel
+    wall: {texture: ceb1sa, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: 7tfb11, size: [128, 128]}}
+    ends: {length: 64, surface: {texture: ceb1el, size: [128, 256]}}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: 7tfb10, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The old temple's chapels: 7d22's green stone (ceb1sa) with pilaster corners (ceb1el), pale flags (7tfb1)."
+  - id: theme:crown
+    wall: {texture: xdbark, size: [128, 256]}
+    floor: {texture: 7grastyl, size: [128, 128]}
+    ceiling: {texture: eswamp, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The crown: bark walls, grass underfoot and a canopy of leaves overhead (eswamp), open to the sky in the middle."
+  - id: theme:limb
+    wall: {texture: xdbark, size: [128, 256]}
+    bands:
+      - {height: 64, surface: {texture: c2b, size: [256, 256]}}
+    floor: {texture: 7t1books1, size: [128, 128]}
+    ceiling: {texture: xdbark, size: [128, 256]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "Hollowed along the great limbs: bark (xdbark) and heartwood planks."
+  - id: theme:orc
+    wall: {texture: t2bs, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The tea room and the cell row: rough grey stone (t2bs) over dark flags (7tfb11)."
+  - id: theme:pens
+    wall: {texture: c2b1, size: [256, 256]}
+    floor: {texture: 7dirt1, size: [128, 128]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The orcs' pens: darker earth (c2b1) over trodden dirt."
+  - id: theme:roots
+    wall: {texture: c2b, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "Under the trunk: 7d22's root earth (c2b), dark soil (cfb1), an earthen roof."
+  - id: theme:sanctuary
+    wall: {texture: ceb2sa, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: 7tfb11, size: [128, 128]}}
+    ends: {length: 64, surface: {texture: ceb1el, size: [128, 256]}}
+    floor: {texture: 7tfb10, size: [128, 128]}
+    ceiling: {texture: xdbark, size: [128, 256]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The sanctuary made Shaalth's hall, and the Chapel of Ascension: green stone under ivy (ceb2sa), mossy flags (7tfb10), the bark overhead."
+  - id: theme:sap
+    wall: {texture: c2bb, size: [256, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "The sap store: earth veined with amber sap (c2bb)."
+  - id: theme:trunk
+    wall: {texture: xdbark, size: [128, 256]}
+    bands:
+      - {height: 64, surface: {texture: c2b, size: [256, 256]}}
+    floor: {texture: 7t1books1, size: [128, 128]}
+    ceiling: {texture: xdbark, size: [128, 256]}
+    door: {texture: beemdorc, size: [128, 256]}
+    notes: "Inside the great tree: D2's bark (xdbark, D-23) on walls and vault, a heartwood floor of planks (7t1books1)."
+defaults: {theme: theme:trunk, ambient: 12}
+rooms:
+  - id: room:ascension
+    name: Chapel of Ascension
+    outline: [[10496, -1152], [12288, -1152], [12288, 1152], [10496, 1152]]
+    floor: 640
+    ceiling: 1280
+    ceiling_points: [[11392, 0, 1536]]
+    theme: theme:sanctuary
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:dial_west, offset: 384, length: 128, bottom: 128, height: 128, surface: {texture: 7gt002c, size: [64, 64], fit: true}}
+      - wall: n
+        panels:
+          - {id: panel:dial_north, at: centre, length: 128, bottom: 128, height: 128, surface: {texture: 7gt002c, size: [64, 64], fit: true}}
+      - wall: e
+        panels:
+          - {id: panel:dial_east, offset: 384, length: 128, bottom: 128, height: 128, surface: {texture: 7gt002c, size: [64, 64], fit: true}}
+    platforms:
+      - {id: platform:dark_water, at: [10944, -704], size: [320, 320], rise: 64, surface: {texture: ceb1sa, size: [128, 256]}, top_surface: {texture: tartyl, liquid: water}, notes: The basin of Dark Water.}
+      - {id: platform:crystal_water, at: [11840, -704], size: [320, 320], rise: 64, surface: {texture: ceb1sa, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, notes: The basin of Crystal Water.}
+      - {id: platform:lectern, at: [11392, 704], size: [128, 96], rise: 112, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: The lectern of the Book of Ascension.}
+    notes: "The Disciples' chapel: three dials (west, north, east), a lever in the south wall, two basins (Dark Water, Crystal Water), the Book of Ascension on its lectern; the vault's arched door east."
+  - id: room:back_stair
+    name: The orcs' back stair
+    path: [[3456, 2304], [5504, 2304]]
+    width: 320
+    smooth: 1
+    floor: 0
+    slope: {to: 640}
+    ceiling: 1024
+    ceiling_slope: {to: 1024}
+    theme: theme:barracks
+    notes: The orcs' back stair from the guardroom up to the cell row (0 to 640).
+  - id: room:barkman
+    name: Barkman's hollow
+    outline: [[7168, -5760], [7406, -5906], [7552, -6144], [9152, -6144], [9268, -5940], [9472, -5824], [9472, -4992], [9204, -4812], [9024, -4544], [7552, -4544], [7402, -4778], [7168, -4928]]
+    floor: 1280
+    rough: {step: 192, depth: 40}
+    ceiling: 1920
+    theme: theme:limb
+    platforms:
+      - {id: platform:diary, at: [9216, -5888], size: [160, 128], rise: 96, surface: {texture: xdbark, size: [128, 256]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: A stump with Barkman's diary on it.}
+    notes: "Barkman's hollow: his diary on a stump, his bound chest; Barkman stands here hidden until a limb is fed."
+  - id: room:barracks
+    name: Orc barracks
+    outline: [[1408, -1024], [1485, -1075], [1536, -1152], [3072, -1152], [3180, -1004], [3328, -896], [3328, 512], [3247, 559], [3200, 640], [1536, 640], [1485, 563], [1408, 512]]
+    floor: 0
+    ceiling: 512
+    theme: theme:barracks
+    notes: "The priests' cells knocked into one: orc bedrolls along the walls, a cookfire scorch."
+  - id: room:cells
+    name: Cell row
+    outline: [[5632, 1664], [7424, 1664], [7424, 3072], [5632, 3072]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:orc
+    platforms:
+      - {at: [5764, 2880], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Snog's cell: its west side of bars."}
+      - {at: [6916, 2880], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Alicia's cell: its west side of bars."}
+      - {at: [6140, 2880], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Snog's cell: its east side of bars."}
+      - {at: [7292, 2880], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Alicia's cell: its east side of bars."}
+    notes: "Root cages along the north wall: Snog the Orc and Alicia the Just."
+  - id: room:chapel
+    name: Chapel of Sap
+    outline: [[-896, 1280], [1280, 1280], [1280, 2944], [-896, 2944]]
+    floor: 0
+    ceiling: 640
+    theme: theme:chapel
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:book_history, offset: 256, length: 256, bottom: 0, height: 384, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+          - {id: panel:book_sap, offset: 704, length: 256, bottom: 0, height: 384, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+          - {id: panel:book_ceremonies, offset: 1152, length: 256, bottom: 0, height: 384, surface: {texture: 7t1books, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:ledge_red, at: [-384, 2864], size: [192, 96], rise: 96, surface: {texture: ceb1sa, size: [128, 256]}, top_surface: {texture: 7tfb10, size: [128, 128]}, notes: The red flask's alcove ledge.}
+      - {id: platform:ledge_blue, at: [768, 2864], size: [192, 96], rise: 96, surface: {texture: ceb1sa, size: [128, 256]}, top_surface: {texture: 7tfb10, size: [128, 128]}, notes: The blue flask's alcove ledge.}
+    notes: "The priests' chapel: three bookcases (History of Bark, Book of Sap, Morning Ceremonies), two flasks on alcove ledges in the north wall."
+  - id: room:crown
+    name: The crown
+    outline: [[11264, -5376], [12928, -5376], [13182, -4990], [13568, -4736], [13568, -3456], [13189, -3195], [12928, -2816], [11904, -2816], [11662, -3214], [11264, -3456]]
+    floor: 1280
+    ceiling: 2304
+    theme: theme:crown
+    bands:
+      - {height: 384, surface: {texture: xdbark, size: [128, 256]}}
+    platforms:
+      - {id: platform:fountain_fire, at: [11904, -3456], size: [128, 128], rise: 112, surface: {texture: xdbark, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, base: 0, notes: "The fire fountain: a bark spout over its pool."}
+      - {id: platform:fountain_air, at: [12928, -3456], size: [128, 128], rise: 112, surface: {texture: xdbark, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, base: 0, notes: "The air fountain: a bark spout over its pool."}
+      - {id: platform:fountain_water, at: [12928, -4736], size: [128, 128], rise: 112, surface: {texture: xdbark, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, base: 0, notes: "The water fountain: a bark spout over its pool."}
+      - {id: platform:fountain_body, at: [11904, -4736], size: [128, 128], rise: 112, surface: {texture: xdbark, size: [128, 256]}, top_surface: {texture: 7wtrtyl, liquid: water}, base: 0, notes: "The body fountain: a bark spout over its pool."}
+    levels:
+      - id: level:pool_fire
+        outline: [[11808, -3616], [12000, -3616], [12064, -3552], [12064, -3360], [12000, -3296], [11808, -3296], [11744, -3360], [11744, -3552]]
+        floor: 1232
+        edge: {texture: xdbark, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: The fire fountain's pool.
+      - id: level:pool_air
+        outline: [[12832, -3616], [13024, -3616], [13088, -3552], [13088, -3360], [13024, -3296], [12832, -3296], [12768, -3360], [12768, -3552]]
+        floor: 1232
+        edge: {texture: xdbark, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: The air fountain's pool.
+      - id: level:pool_water
+        outline: [[12832, -4896], [13024, -4896], [13088, -4832], [13088, -4640], [13024, -4576], [12832, -4576], [12768, -4640], [12768, -4832]]
+        floor: 1232
+        edge: {texture: xdbark, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: The water fountain's pool.
+      - id: level:pool_body
+        outline: [[11808, -4896], [12000, -4896], [12064, -4832], [12064, -4640], [12000, -4576], [11808, -4576], [11744, -4640], [11744, -4832]]
+        floor: 1232
+        edge: {texture: xdbark, size: [128, 256]}
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: The body fountain's pool.
+    ceiling_levels:
+      - outline: [[11840, -4352], [12033, -4479], [12160, -4672], [12672, -4672], [12787, -4467], [12992, -4352], [12992, -3840], [12795, -3717], [12672, -3520], [12160, -3520], [12025, -3705], [11840, -3840]]
+        ceiling: 2816
+        edge: {texture: eswamp, size: [128, 128]}
+        surface: {texture: eswamp, size: [128, 128], sky: true}
+        notes: "The crown's middle, open to the sky through the leaves."
+    notes: "The crown: grass underfoot, bark walls rising into leaves, the sky open over the four fountains."
+  - id: room:first_hall
+    name: Hall of the Trunk
+    outline: [[-320, -1408], [864, -1408], [1069, -1287], [1223, -990], [1280, -576], [1280, -192], [1147, 480], [783, 970], [288, 1152], [-288, 1152], [-778, 1000], [-1123, 609], [-1280, 96], [-1280, -352], [-1132, -868], [-787, -1241]]
+    floor: 0
+    ceiling: 896
+    ceiling_points: [[0, -128, 1344], [560, -128, 1216], [396, 268, 1216], [0, 432, 1216], [-396, 268, 1216], [-560, -128, 1216], [-396, -524, 1216], [0, -688, 1216], [396, -524, 1216], [924, 255, 1056], [383, 796, 1056], [-383, 796, 1056], [-924, 255, 1056], [-924, -511, 1056], [-383, -1052, 1056], [383, -1052, 1056], [924, -511, 1056]]
+    theme: theme:trunk
+    pillars:
+      - {at: [-640, -768], size: [160, 160], surface: {texture: xdbark, size: [128, 256]}}
+      - {at: [640, -768], size: [160, 160], surface: {texture: xdbark, size: [128, 256]}}
+      - {at: [640, 512], size: [160, 160], surface: {texture: xdbark, size: [128, 256]}}
+      - {at: [-640, 512], size: [160, 160], surface: {texture: xdbark, size: [128, 256]}}
+    notes: "The hollow trunk's first hall: round (16 sides), under a dome of bark 1,344 high, four root columns; a voice from the wood. The root stair west, the ring stair south-east, the barracks east, the Chapel of Sap north."
+  - id: room:fruit
+    name: Fruit rooms
+    outline: [[9600, -4416], [9797, -4539], [9920, -4736], [10752, -4736], [10894, -4494], [11136, -4352], [11136, -3712], [10935, -3593], [10816, -3392], [9920, -3392], [9804, -3596], [9600, -3712]]
+    floor: 1280
+    rough: {step: 192, depth: 40}
+    ceiling: 1792
+    theme: theme:limb
+    notes: Hollows where the tree hangs its fruit.
+  - id: room:guardroom
+    name: Guardroom
+    outline: [[1408, 1088], [1602, 962], [1728, 768], [3008, 768], [3142, 954], [3328, 1088], [3328, 2816], [3255, 2871], [3200, 2944], [1728, 2944], [1599, 2753], [1408, 2624]]
+    floor: 0
+    ceiling: 512
+    theme: theme:barracks
+    notes: "The orcs' guard post: the back stair up to the cell row leaves its east wall."
+  - id: room:limb_climb
+    name: Limb climb
+    path: [[4992, -1536], [4992, -3584]]
+    width: 320
+    smooth: 1
+    floor: 640
+    slope: {to: 1280}
+    ceiling: 1728
+    ceiling_slope: {to: 1728}
+    theme: theme:limb
+    notes: From the ring landing up into the limbs (640 to 1280).
+  - id: room:limb_stair
+    name: Limb stair
+    outline: [[4544, -4224], [4699, -4325], [4800, -4480], [5312, -4480], [5362, -4402], [5440, -4352], [5440, -3840], [5359, -3793], [5312, -3712], [4736, -3712], [4654, -3822], [4544, -3904]]
+    floor: 1280
+    rough: {step: 192, depth: 40}
+    ceiling: 1792
+    theme: theme:limb
+    notes: "The limb climb's head, where the trunk forks."
+  - id: room:limb_walk
+    name: The limb walk
+    outline: [[5568, -4416], [8064, -4352], [8576, -4352], [9472, -4320], [9472, -3872], [5568, -3776]]
+    floor: 1280
+    ceiling: 2048
+    theme: theme:branch
+    walls:
+      - wall: 4
+        panels:
+          - {id: panel:limb_1, offset: 512, length: 192, bottom: 64, height: 224, surface: {texture: c2bb, size: [256, 256], fit: true}}
+          - {id: panel:limb_3, offset: 2816, length: 192, bottom: 64, height: 224, surface: {texture: c2bb, size: [256, 256], fit: true}}
+      - wall: 0
+        panels:
+          - {id: panel:limb_2, offset: 640, length: 192, bottom: 64, height: 224, surface: {texture: c2bb, size: [256, 256], fit: true}}
+    notes: "A walk along the top of a great limb, tapering toward the fruit rooms: the branch's bark to 256, leaves above, the sky overhead; three limb alcoves: 'Feed me! Give gem?'"
+  - id: room:pens
+    name: The pens
+    outline: [[-7296, -2432], [-7222, -2486], [-7168, -2560], [-5824, -2560], [-5740, -2452], [-5632, -2368], [-5632, -832], [-5744, -752], [-5824, -640], [-6912, -640], [-7073, -863], [-7296, -1024]]
+    floor: -512
+    floor_points: [[-6464, -2176, -528], [-6464, -1728, -464], [-6016, -2176, -480], [-6016, -1728, -528], [-6016, -1280, -464]]
+    rough: {step: 192, depth: 40}
+    ceiling: -64
+    ceiling_points: [[-6912, -2176, 0], [-6912, -1600, 0], [-6912, -1024, 48], [-6336, -2176, 32], [-6336, -1600, 16], [-6336, -1024, 48]]
+    theme: theme:pens
+    platforms:
+      - {at: [-7104, -1532], size: [384, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Nathan's pen: its south side of bars."}
+      - {at: [-7104, -2364], size: [384, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Sky's pen: its south side of bars."}
+      - {at: [-7104, -1156], size: [384, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Nathan's pen: its north side of bars."}
+      - {at: [-7104, -1988], size: [384, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Sky's pen: its north side of bars."}
+    stalactites:
+      - {at: [-6016, -1408], radius: 56, length: 224, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [-6400, -2240], radius: 56, length: 224, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+    notes: "Cages for prisoners against the west wall (Nathan, Sky); the pen lever on the south wall."
+  - id: room:ring1
+    name: Ring landing
+    outline: [[4480, -1408], [5504, -1408], [5504, -384], [4480, -384]]
+    floor: 640
+    ceiling: 1344
+    theme: theme:trunk
+    notes: "The ring stair's landing inside the trunk's wall: the door to Shaalth's hall east, the limb climb south."
+  - id: room:ring_stair
+    name: Ring stair
+    path: [[640, -1536], [640, -2048], [3968, -2048], [3968, -896], [4352, -896]]
+    width: 320
+    smooth: 1
+    bend_radius: 512
+    floor: 0
+    slope: {to: 640}
+    ceiling: 1088
+    ceiling_slope: {to: 1088}
+    theme: theme:trunk
+    notes: "The ring stair, winding inside the trunk's wall from the hall up to the ring landing (0 to 640)."
+  - id: room:root_east
+    name: East root alcove
+    outline: [[-4864, 1280], [-4791, 1225], [-4736, 1152], [-4224, 1152], [-4173, 1229], [-4096, 1280], [-4096, 1728], [-4208, 1808], [-4288, 1920], [-4672, 1920], [-4746, 1802], [-4864, 1728]]
+    floor: -512
+    ceiling: -128
+    ceiling_points: [[-4480, 1536, 0]]
+    theme: theme:roots
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:root_east, at: centre, length: 256, bottom: 32, height: 256, surface: {texture: c2bb, size: [256, 256], fit: true}}
+    notes: "As the west: a knot in the root wall round a hollow."
+  - id: room:root_hall
+    name: The root cellar
+    outline: [[-5504, -896], [-5358, -1006], [-5248, -1152], [-4032, -1152], [-3858, -878], [-3584, -704], [-3584, 768], [-3746, 862], [-3840, 1024], [-5056, 1024], [-5229, 749], [-5504, 576]]
+    floor: -512
+    floor_points: [[-5120, -320, -448], [-5120, 128, -560], [-5120, 576, -480], [-4672, -768, -560], [-4672, -320, -560], [-4672, 576, -464], [-4224, -768, -448], [-4224, -320, -480], [-4224, 128, -448]]
+    rough: {step: 192, depth: 40}
+    ceiling: 128
+    ceiling_points: [[-5120, -768, 256], [-5120, -192, 256], [-5120, 384, 224], [-4544, -768, 224], [-4544, -192, 272], [-4544, 384, 256], [-3968, -768, 208], [-3968, -192, 224], [-3968, 384, 272]]
+    theme: theme:roots
+    pillars:
+      - {at: [-4992, -512], size: [192, 192], surface: {texture: xdbark, size: [128, 256]}}
+      - {at: [-4096, 448], size: [192, 192], surface: {texture: xdbark, size: [128, 256]}}
+      - {at: [-4160, -640], size: [128, 128], surface: {texture: xdbark, size: [128, 256]}}
+    stalactites:
+      - {at: [-4800, 256], radius: 56, length: 256, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [-4352, -512], radius: 56, length: 256, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [-5184, -320], radius: 56, length: 256, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+      - {at: [-3904, 512], radius: 56, length: 256, sides: 6, surface: {texture: c2b, size: [256, 256]}}
+    notes: "Under the trunk: roots as pillars, damp earth, webs. The alcoves west and north, the sap store's door south."
+  - id: room:root_stair
+    name: Root stair
+    path: [[-1408, -128], [-3456, -128]]
+    width: 320
+    smooth: 1
+    floor: 0
+    slope: {to: -512}
+    ceiling: 448
+    ceiling_slope: {to: -64}
+    theme: theme:roots
+    notes: Down from the hall into the roots (0 to -512).
+  - id: room:root_west
+    name: West root alcove
+    outline: [[-6912, -320], [-6792, -392], [-6720, -512], [-5824, -512], [-5740, -404], [-5632, -320], [-5632, 256], [-5792, 352], [-5888, 512], [-6720, 512], [-6793, 393], [-6912, 320]]
+    floor: -512
+    floor_points: [[-6592, -192, -560], [-6592, 192, -464], [-6208, -192, -480], [-6208, 192, -560]]
+    ceiling: -128
+    ceiling_points: [[-6592, -192, -16], [-6080, -192, -48]]
+    theme: theme:roots
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:root_west, at: centre, length: 256, bottom: 32, height: 256, surface: {texture: c2bb, size: [256, 256], fit: true}}
+    notes: "'Feed me! Give gem?' A knot in the root wall round a hollow."
+  - id: room:sap_vats
+    name: Sap store
+    outline: [[-5504, -2816], [-3584, -2816], [-3584, -1280], [-5120, -1280], [-5285, -1499], [-5504, -1664]]
+    floor: -512
+    ceiling: 0
+    ceiling_points: [[-5120, -2432, 96], [-5120, -1856, 96], [-4544, -2432, 96], [-4544, -1856, 128], [-3968, -2432, 64], [-3968, -1856, 80]]
+    theme: theme:sap
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:danger, offset: 928, length: 128, bottom: 160, height: 128, surface: {texture: 7gt002a, size: [64, 64], fit: true}}
+    platforms:
+      - {id: platform:vat_1, at: [-4096, -2432], size: [384, 384], rise: 128, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xjuiceorg, liquid: water}, notes: A vat of the tree's sap.}
+      - {id: platform:vat_2, at: [-4096, -1792], size: [384, 384], rise: 128, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xjuiceorg, liquid: water}, notes: A vat of the tree's sap.}
+      - {id: platform:ledger, at: [-5248, -2560], size: [128, 96], rise: 64, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: The orcs' ledger on a crate.}
+    notes: "Vats of sap, the orcs' ledger, the black barrel and its sign, a chest."
+  - id: room:shaalth
+    name: Shaalth's hall
+    outline: [[5632, -1408], [8704, -1408], [8704, 1536], [5632, 1536]]
+    floor: 640
+    ceiling: 1536
+    ceiling_points: [[7168, 64, 1792]]
+    theme: theme:sanctuary
+    pillars:
+      - {at: [6400, -512], size: [192, 192], surface: {texture: ceb2sa, size: [128, 256]}}
+      - {at: [6400, 640], size: [192, 192], surface: {texture: ceb2sa, size: [128, 256]}}
+      - {at: [7936, 1088], size: [192, 192], surface: {texture: ceb2sa, size: [128, 256]}}
+    platforms:
+      - {at: [8324, 1344], size: [8, 384], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "Sheewana's cage: its west side of bars."}
+    levels:
+      - id: level:dais
+        outline: [[7552, -1280], [8576, -1280], [8576, -576], [7552, -576]]
+        floor: 672
+        edge: {texture: ceb1el, size: [128, 256]}
+        surface: {texture: 7tfb10, size: [128, 128]}
+        notes: "Shaalth's dais, where the altar stood."
+    notes: "The temple's sanctuary made an orc king's hall: ivy on the green stone, the dais in the south-east, Sheewana's cage in the north-east corner; his hoard by the dais."
+  - id: room:shaman
+    name: The shaman's tea room
+    outline: [[8832, -768], [10368, -768], [10368, 768], [8832, 768]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:orc
+    walls:
+      - wall: n
+        panels:
+          - {id: panel:cabinet, offset: 640, length: 256, bottom: 0, height: 384, surface: {texture: 7t1cab, size: [128, 256], fit: true}}
+    levels:
+      - id: level:rug
+        outline: [[9152, -448], [10048, -448], [10048, 448], [9152, 448]]
+        floor: 644
+        edge: {texture: 7t1books1, size: [128, 128]}
+        surface: {texture: 7t1beds, size: [256, 64], fit: false}
+        notes: The shamans' rugs.
+    notes: "Rugs, a cabinet and a kettle: the shaman's tea room."
+  - id: room:treasure
+    name: Treasure room
+    outline: [[9600, -5888], [9672, -5944], [9728, -6016], [11008, -6016], [11057, -5937], [11136, -5888], [11136, -4864], [9856, -4864], [9753, -5017], [9600, -5120]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:limb
+    notes: "The temple's offerings, which the shamans are sorting."
+  - id: room:trunk_door
+    name: Trunk door
+    outline: [[-320, -2304], [320, -2304], [320, -1536], [-320, -1536]]
+    floor: 0
+    ceiling: 448
+    theme: theme:trunk
+    notes: "Inside the great tree's round door, at the foot of the temple's first stair: the arrival; the door out (D2) in the south wall."
+  - id: room:vault
+    name: Disciples' vault
+    outline: [[12416, -384], [13184, -384], [13184, 384], [12416, 384]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:chapel
+    notes: "'Disciples of Bark ONLY!': the old priests' vault."
+openings:
+  - id: open:asc_vault
+    from: room:ascension
+    to: room:vault
+    from_wall: 1
+    to_wall: 3
+    link: link:asc_vault
+    width: 256
+    height: 352
+  - id: open:back_cells
+    from: room:back_stair
+    to: room:cells
+    link: link:guard_cells
+    width: full
+    height: 352
+  - id: open:barkman_treasure
+    from: room:barkman
+    to: room:treasure
+    from_wall: 5
+    to_wall: 9
+    link: link:barkman_treasure
+    along: 0.5455
+    width: 320
+    height: 352
+  - id: open:barracks_guard
+    from: room:barracks
+    to: room:guardroom
+    from_wall: 8
+    to_wall: 2
+    link: link:barracks_guard
+    width: 384
+    height: 352
+  - id: open:climb_limbs
+    from: room:limb_climb
+    to: room:limb_stair
+    link: link:ring_limbs
+    width: full
+    height: 384
+  - id: open:door_hall
+    from: room:trunk_door
+    to: room:first_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:door_hall
+    width: 384
+    height: 384
+  - id: open:fruit_crown
+    from: room:fruit
+    to: room:crown
+    from_wall: 5
+    to_wall: 9
+    link: link:fruit_crown
+    along: 0.45
+    width: 448
+    height: 448
+  - id: open:guard_back
+    from: room:guardroom
+    to: room:back_stair
+    link: link:guard_cells
+    width: full
+    height: 352
+  - id: open:guard_chapel
+    from: room:guardroom
+    to: room:chapel
+    from_wall: 11
+    to_wall: 1
+    link: link:guard_chapel
+    along: 0.381
+    width: 256
+    height: 320
+  - id: open:hall_barracks
+    from: room:first_hall
+    to: room:barracks
+    from_wall: 4
+    to_wall: 11
+    link: link:hall_barracks
+    width: 256
+    height: 320
+  - id: open:hall_chapel
+    from: room:first_hall
+    to: room:chapel
+    from_wall: 8
+    to_wall: 0
+    link: link:hall_chapel
+    width: 384
+    height: 384
+  - id: open:hall_ring
+    from: room:first_hall
+    to: room:ring_stair
+    link: link:hall_ring
+    width: full
+    height: 384
+  - id: open:hall_roots
+    from: room:first_hall
+    to: room:root_stair
+    link: link:hall_roots
+    width: full
+    height: 384
+  - id: open:limbs_walk
+    from: room:limb_stair
+    to: room:limb_walk
+    from_wall: 5
+    to_wall: 5
+    link: link:limbs_walk
+    width: 384
+    height: 384
+  - id: open:pens_west
+    from: room:pens
+    to: room:root_west
+    from_wall: 8
+    to_wall: 2
+    link: link:pens_west
+    width: 320
+    height: 320
+  - id: open:ring_climb
+    from: room:ring1
+    to: room:limb_climb
+    link: link:ring_limbs
+    width: full
+    height: 384
+  - id: open:ring_landing
+    from: room:ring_stair
+    to: room:ring1
+    from_wall: 20
+    to_wall: w
+    link: link:hall_ring
+    width: full
+    height: 384
+  - id: open:ring_shaalth
+    from: room:ring1
+    to: room:shaalth
+    from_wall: 1
+    to_wall: 3
+    link: link:ring_shaalth
+    width: 256
+    height: 352
+  - id: open:roots_east
+    from: room:root_hall
+    to: room:root_east
+    from_wall: 8
+    to_wall: 2
+    link: link:roots_east
+    width: 320
+    height: 320
+  - id: open:roots_vats
+    from: room:root_hall
+    to: room:sap_vats
+    from_wall: 2
+    to_wall: 2
+    link: link:roots_vats
+    along: 0.5294
+    width: 256
+    height: 320
+  - id: open:roots_west
+    from: room:root_hall
+    to: room:root_west
+    from_wall: 11
+    to_wall: 5
+    link: link:roots_west
+    along: 0.4444
+    width: 320
+    height: 320
+  - id: open:shaalth_cells
+    from: room:shaalth
+    to: room:cells
+    from_wall: 2
+    to_wall: 0
+    link: link:shaalth_cells
+    width: 384
+    height: 384
+  - id: open:shaalth_shaman
+    from: room:shaalth
+    to: room:shaman
+    from_wall: 1
+    to_wall: 3
+    link: link:shaalth_shaman
+    width: 256
+    height: 352
+  - id: open:shaman_asc
+    from: room:shaman
+    to: room:ascension
+    from_wall: 1
+    to_wall: 3
+    link: link:shaman_asc
+    width: 256
+    height: 352
+  - id: open:stair_roots
+    from: room:root_stair
+    to: room:root_hall
+    link: link:hall_roots
+    width: full
+    height: 384
+  - id: open:treasure_crown
+    from: room:treasure
+    to: room:crown
+    from_wall: 5
+    to_wall: 9
+    link: link:treasure_crown
+    width: 256
+    height: 352
+  - id: open:vats_pens
+    from: room:sap_vats
+    to: room:pens
+    from_wall: 5
+    to_wall: 5
+    link: link:vats_pens
+    along: 0.3636
+    width: 320
+    height: 352
+  - id: open:walk_barkman
+    from: room:limb_walk
+    to: room:barkman
+    from_wall: 1
+    to_wall: 8
+    link: link:walk_barkman
+    width: 384
+    height: 384
+  - id: open:walk_fruit
+    from: room:limb_walk
+    to: room:fruit
+    from_wall: 3
+    to_wall: 11
+    link: link:walk_fruit
+    width: 384
+    height: 384
+notes: "DD-09 Temple of Bark: the trunk base at 0, the roots at -512 (west), the upper trunk at 640 (east), the limbs at 1280 (south-east), in one frame (x east, y north, heights from the arrival floor). Written by output/studio_cal/dd09/tools/gen.py (geo.py)."

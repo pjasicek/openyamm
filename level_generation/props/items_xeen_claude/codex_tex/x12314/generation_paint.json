@@ -1,0 +1,14 @@
+{
+  "prompt": "Edit guide_atlas.png as an alpha-locked texture layer. Return exactly the same 1536x1024 transparent atlas with every silhouette and its pixel coordinates preserved. Paint only the existing gray pixels with the unlit albedo of the Ever-Hot Lava Rock. Use design_reference.png for coarse charcoal volcanic facets split by branching incandescent orange-red fissures, and icon_x8.png for palette, ignoring magenta. Keep all five shapes including their flat side-view bases exactly as masked: front, back, left in row one, right and top in row two, bottom right transparent. Preserve empty margins, openings, scale, positions and camera. No shadows, AO, reflections, specular highlights, halos, aura, outlines, ground or text.",
+  "inputs": {
+    "guide_atlas.png": "eaac063100f2529ca5b95d7ac13e8048d0fb6a87aa0305e14df8043d15d21bc6",
+    "design_reference.png": "55d143ad0fd1403f4888e0aeb46552714fdb89ddfc3cdf1bbf4b458d1cc02a07",
+    "icon_x8.png": "3f132ad272f7b176b7f573756e74429e04f78497dac85f3ff725698f361bc952"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91c-b585-79a1-9e9c-c9eeb008983b/exec-dce16759-ef1f-4af3-a508-01c8d9961f48.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

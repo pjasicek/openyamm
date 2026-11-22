@@ -1,0 +1,747 @@
+# FD-01 Alamar Depths (L4), the critical path of M39 and Q-F1's key. A level-58 party with the Cube comes down D6's
+# stair (D6's thing:fd01_stair makes this move once A6 lifts DUNGEON['fd01']): entrance:d6_stair (0, 0, 0) facing 1024,
+# no line. The statue's boast as the party comes near (m39.statue, 117840), never again from the plate; the click then answers "The statue says nothing more." on the status bar (D-71 item 5). Round the
+# C to the lever hall: the west lever, then the east (each its status line, 117841/117842, its slab down), then "The
+# lever won't budge." from both. The sealed passage, the workshop, the east spur, the key vault: the box once (12376,
+# 117844), then "Nothing here.". The warden's chest: the key line (111780), the gold, then the cushion line. The skull
+# door with the Cube ("Access granted.", 117845; open after a reload). The lift down, the pair, the coffin: the field
+# down, the lid open, 111781, the amulet 12372; a reload (both stay); the empty line. The four chests (stasis, nook,
+# assembly; the warden's above). The pyramid's line.
+# Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
+id: xeen.fd01.l4.walk
+title: 'Alamar Depths (FD-01 L4): the D6 arrival, the statue, the levers west then east, the key box, the warden, the skull
+  door, Roland and the four chests'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Paladin
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12365
+- lua_event:
+    source: evt.MoveToMap(0, 0, 0, 1024, 0, 0, 0, 0, "xeen_fd01.blv")
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- assert:
+    party_position:
+      x: 0
+      y: 0
+      radius: 64
+      z_min: -8
+      z_max: 8
+      facing: 1024
+      facing_within: 64
+- play_lua:
+    source: 'if close() then error(''a line on the D6 arrival: '' .. status()) end'
+- walk_to:
+    x: -560
+    y: 0
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+- set_pose:
+    map: xeen_fd01.blv
+    x: -900
+    y: -64
+    z: 0
+    yaw_degrees: 180
+    pitch: 0
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Not only is Alamar a wise and just ruler
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (qbit(117840)) then error('statue_spoken 117840 not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- walk_to:
+    x: -500
+    y: 0
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+- set_pose:
+    map: xeen_fd01.blv
+    x: -1000
+    y: -200
+    z: 0
+    yaw_degrees: 180
+    pitch: 0
+- advance_runtime:
+    seconds: 1
+    present_dialogs: true
+- play_lua:
+    source: if close() then error('the statue spoke twice') end
+- play_lua:
+    source: close(); status(); click(36); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'The statue says nothing more. Alamar has had his say.', 1, true)) then error("event
+      36 did not say 'The statue says nothing more. Alamar has had his say.'" .. ' / ' .. status() .. ' / ' .. party()) end
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- play_lua:
+    source: if close() then error('the statue click opened a window') end
+- walk_to:
+    x: -1400
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: open_door(8, 2)
+- walk_to:
+    x: -2300
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -3600
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -5500
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -6600
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: open_door(9, 4)
+- walk_to:
+    x: -7168
+    y: -512
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -7168
+    y: 2000
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -7168
+    y: 5000
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -7168
+    y: 7168
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -5000
+    y: 7168
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -2816
+    y: 7168
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: open_door(10, 5)
+- walk_to:
+    x: -2816
+    y: 6500
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -2816
+    y: 5000
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -2816
+    y: 4300
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -3456
+    y: 3200
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -3456
+    y: 2496
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 5000
+- play_lua:
+    source: close(); status(); click(23); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Far to the west, a wall grinds down into the floor.', 1, true)) then error("event
+      23 did not say 'Far to the west, a wall grinds down into the floor.'" .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (qbit(117841)) then error('slab_west not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(9) == 'open' then break end; wait(0.5) end; if door_state(9) ~= 'open' then error('door
+      9 is ' .. door_state(9) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(22) == 'open' then break end; wait(0.5) end; if door_state(22) ~= 'open' then error('door
+      22 is ' .. door_state(22) .. ', not open') end
+- play_lua:
+    source: close(); status(); click(22); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Far to the east, a wall grinds down into the floor.', 1, true)) then error("event
+      22 did not say 'Far to the east, a wall grinds down into the floor.'" .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (qbit(117842)) then error('slab_east not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(8) == 'open' then break end; wait(0.5) end; if door_state(8) ~= 'open' then error('door
+      8 is ' .. door_state(8) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(20) == 'open' then break end; wait(0.5) end; if door_state(20) ~= 'open' then error('door
+      20 is ' .. door_state(20) .. ', not open') end
+- play_lua:
+    source: close(); status(); click(23); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 23 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: close(); status(); click(22); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 22 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- walk_to:
+    x: -3456
+    y: 3200
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -3900
+    y: 3840
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -4600
+    y: 3840
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -4608
+    y: 2000
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -4608
+    y: 1100
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -4608
+    y: 400
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -3200
+    y: 640
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -2240
+    y: 700
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1700
+    y: 768
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -1216
+    y: 720
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: close(); click(20); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: The Key to the Dragon Tower.
+- play_lua:
+    source: close()
+- play_lua:
+    source: if not (has_item(12376) and qbit(117844)) then error('the key box gave no key' .. ' / ' .. status() .. ' / ' ..
+      party()) end
+- play_lua:
+    source: remember('n', (#pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0)))
+- play_lua:
+    source: close(); status(); click(20); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Nothing here.', 1, true)) then error("event 20 did not say 'Nothing here.'" ..
+      ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not ((#pack_items() + ((held() ~= nil and held() ~= 0) and 1 or 0)) == recall('n')) then error('the box gave
+      something more' .. ' / ' .. status() .. ' / ' .. party()) end
+- walk_to:
+    x: -1216
+    y: 1900
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: open_door(13, 12)
+- walk_to:
+    x: -1216
+    y: 2400
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -1700
+    y: 2816
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: close(); click(5); wait(0.8)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: a key of black stone
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (qbit(111780)) then error('darkstone_key 111780 not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: local before = gold(); loot_chest(5); remember('gw', gold() - before)
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: close(); click(5); wait(0.8)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: An empty velvet cushion.
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (recall('gw') > 0) then error("the warden's chest gave no gold" .. ' / ' .. status() .. ' / ' .. party())
+      end
+- walk_to:
+    x: -1216
+    y: 3250
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: close(); click(30); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Access granted.
+- play_lua:
+    source: close()
+- play_lua:
+    source: for _ = 1, 30 do if door_state(7) == 'open' then break end; wait(0.5) end; if door_state(7) ~= 'open' then error('door
+      7 is ' .. door_state(7) .. ', not open') end
+- play_lua:
+    source: if not (qbit(117845)) then error('skull_door_open 117845 not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (door_state(7) == 'open') then error('the skull door shut after a reload' .. ' / ' .. status() .. ' / '
+      .. party()) end
+- walk_to:
+    x: -1216
+    y: 3700
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1216
+    y: 3904
+    z: 0
+    radius: 48
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: click(26); wait(4)
+- assert:
+    party_position:
+      x: -1216
+      y: 3904
+      radius: 160
+      z_min: -790
+      z_max: -740
+- play_lua:
+    source: open_door(12, 10)
+- walk_to:
+    x: -600
+    y: 3904
+    z: -768
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -260
+    y: 3904
+    z: -768
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: close(); click(6); wait(0.8)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: The coffin's lid slides back
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(14) == 'open' then break end; wait(0.5) end; if door_state(14) ~= 'open' then error('door
+      14 is ' .. door_state(14) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(15) == 'open' then break end; wait(0.5) end; if door_state(15) ~= 'open' then error('door
+      15 is ' .. door_state(15) .. ', not open') end
+- play_lua:
+    source: if not (qbit(111781) and has_item(12372)) then error("m39.roland's state" .. ' / ' .. status() .. ' / ' .. party())
+      end
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (door_state(14) == 'open' and door_state(15) == 'open') then error('the field or the lid came back after
+      a reload' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: close(); click(6); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: An empty stasis coffin, still faintly cold.
+- play_lua:
+    source: close()
+- walk_to:
+    x: 96
+    y: 4600
+    z: -768
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: local before = gold(); loot_chest(4); if gold() <= before then error('the stasis chest gave no gold') end
+- walk_to:
+    x: -600
+    y: 3904
+    z: -768
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1216
+    y: 3904
+    z: -768
+    radius: 48
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: click(25); wait(4)
+- assert:
+    party_position:
+      x: -1216
+      y: 3904
+      radius: 160
+      z_min: -10
+      z_max: 30
+- walk_to:
+    x: -1216
+    y: 3300
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1216
+    y: 2400
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1216
+    y: 1900
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -1700
+    y: 768
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -2240
+    y: 700
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -3200
+    y: 400
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -5000
+    y: 128
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -6000
+    y: 128
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -6400
+    y: 128
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: local before = gold(); loot_chest(3); if gold() <= before then error('the nook chest gave no gold') end
+- play_lua:
+    source: close(); click(29); wait(0.6)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: Its light is out.
+- play_lua:
+    source: close()
+- walk_to:
+    x: -5632
+    y: 600
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- walk_to:
+    x: -5632
+    y: 2700
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: open_door(14, 13)
+- walk_to:
+    x: -5632
+    y: 3500
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -5400
+    y: 4900
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+    clear_hostiles: 2500
+- play_lua:
+    source: local before = gold(); loot_chest(2); if gold() <= before then error('the assembly chest gave no gold') end
+- play_lua:
+    source: 'log(''done: '' .. party())'

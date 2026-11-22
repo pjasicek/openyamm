@@ -1,0 +1,157 @@
+# Playtest of the Sphinx (XD-15, L4; lane A7, agent:xeen-a7-xd15; written by output/studio_cal/xd15/tools/gen_tests.py
+# from ids.lock.yml): the critical path. A level-31 party (immortal) starts in the breast gate (entrance:x6_paws): the
+# arrival line, the way out's window (cancelled), the paw hall and its 'Stairs up.' sign; up the throat stair to the
+# head; the west lappet's chest; the riddle chamber: A3's q-c9.riddle on entering, a plaque, the legend door still sealed;
+# the sun disc: GOLUX (A3's q-c9.name_right: done 112181, the three throne doors open), stepping on it again ("Still
+# me"); the throne of legends (+2 Endurance once, then "sat here before") and its two books (Starburst 421, Divine
+# Intervention 487, once); back down to the belly hall: the King's throne behind the crown door, the Queen's behind the
+# veil door, the loose panel and the Thieves' throne. Then every window closed and a save and load: the doors stay open.
+id: xeen.xd15.l4.walk
+title: The Sphinx (XD-15 L4), up the throat to the riddle, GOLUX and the four thrones
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd15.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 31, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 31, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 31, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 31, skills: [], equipment: {}}
+  - assert: {map: xeen_xd15.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 256, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); log('arrive: ' .. status()); close()"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # The way out asks (playtest_exit.yml leaves by it); here Cancel stays.
+  - walk_to: {x: -128, y: 120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_xd15.blv}
+  # The paw hall and its sign.
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1152, y: 960, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(39); wait(0.7); local s = status(); if not string.find(s, 'Stairs up.', 1, true) then error('sign: ' .. s) end; close()"}
+  # Up the throat stair (40 steps, 1,280) to the neck landing.
+  - walk_to: {x: 832, y: 1000, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 560, z: 0, z_tolerance: 40, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # The west lappet: the priest's chest.
+  - walk_to: {x: -64, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -256, y: -2752, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); if held() ~= 0 then stow() end; if gold() < g + 900 then error('the lappet chest held no gold') end"}
+  # The riddle chamber: A3's q-c9.riddle as the party comes in.
+  - walk_to: {x: -64, y: -3200, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -64, y: -3650, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "What is my name?"}}
+  - play_lua: {source: "close()"}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 448, y: -3600, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "five letters long"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -250, y: -4160, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.7); local s = status(); if not string.find(s, 'sealed door', 1, true) then error('legend door before the name: ' .. s) end; close()"}
+  - play_lua: {source: "if door_state(5) ~= 'closed' then error('legend door: ' .. door_state(5)) end"}
+  # The sun disc: GOLUX.
+  - walk_to: {x: 832, y: -3800, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - answer_input: {text: "Golux"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Sit where you like]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(5)
+        if not qbit(112181) then error('q-c9.done 112181 not set') end
+        for _, d in ipairs({3, 9, 5}) do
+          if door_state(d) ~= 'open' then error('throne door ' .. d .. ': ' .. door_state(d)) end
+        end
+  # Off the disc and on again: "Still me."
+  - walk_to: {x: 832, y: -3700, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -4160, z: 1288, z_tolerance: 24, radius: 48, timeout_seconds: 40, close_dialogs: false, expect: dialog}
+  - assert: {dialog: {active: true, text_contains: "Still me"}}
+  - play_lua: {source: "close()"}
+  # The throne of legends and its books.
+  - walk_to: {x: -250, y: -4160, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1024, y: -4200, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Endurance]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); click(42); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[sat here before]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -1344, y: -4250, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(0.5); if held() ~= 0 then stow() end; if not has_item(421) then error('no Starburst book') end"}
+  - walk_to: {x: -704, y: -4250, z: 1280, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(0.5); if held() ~= 0 then stow() end; if not has_item(487) then error('no Divine Intervention book') end"}
+  - play_lua: {source: "click(3); wait(0.7); local s = status(); if not string.find(s, 'bare', 1, true) then error('the second book click: ' .. s) end; close()"}
+  # Back down: the riddle chamber, the east lappet, the landing, the throat stair, the east gallery, the belly hall.
+  - walk_to: {x: -250, y: -4160, z: 1280, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -3650, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1728, y: -2496, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 832, y: -2300, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: -1700, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 832, y: 900, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 832, y: 1100, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1792, y: 1440, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1792, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 2752, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  # The King's throne behind the crown door.
+  - walk_to: {x: -1100, y: 4288, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(3) ~= 'open' then click(17); wait(3) end"}
+  - walk_to: {x: -1900, y: 4288, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(41); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Might]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The Queen's throne behind the veil door; the loose panel and the Thieves' throne.
+  - walk_to: {x: -1100, y: 4288, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1100, y: 4288, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(9) ~= 'open' then click(20); wait(3) end"}
+  - walk_to: {x: 1920, y: 4300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(43); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Personality]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2300, y: 4288, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(29); wait(3); if door_state(8) ~= 'open' then error('loose panel: ' .. door_state(8)) end"}
+  - walk_to: {x: 2880, y: 4288, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(44); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Accuracy]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(1); close()"}
+  # A save and load: the throne doors and the panel stay open, the name stays given.
+  - reload: {}
+  - play_lua: {source: "wait(1); close()"}
+  - play_lua:
+      source: |
+        if not qbit(112181) then error('q-c9.done lost on reload') end
+        for _, d in ipairs({3, 9, 5, 8}) do
+          if door_state(d) ~= 'open' then error('door ' .. d .. ' after the reload: ' .. door_state(d)) end
+        end

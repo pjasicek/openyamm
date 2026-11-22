@@ -1,0 +1,99 @@
+# The lava (D-58 Q1): standing on lavtyl hurts, the crust does not; a floor-0 shelf is a bank.
+# Written by output/studio_cal/p1/tools/gen_playtests.py; run with --world xeen --map xeen_p1.blv.
+id: xeen.p1.l4.lava
+title: 'Plane of Fire (P1): the lava burns, the crust does not, the party steps out'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p1.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p1.blv
+- clear_hostiles:
+    radius: 30000
+- set_pose:
+    map: xeen_p1.blv
+    x: 0
+    y: -4800
+    z: -32
+    yaw_degrees: 90
+    pitch: 0
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 400
+- advance_runtime:
+    seconds: 4
+- assert:
+    party_position:
+      x: 0
+      y: -4800
+      radius: 200
+      z_min: -48
+      z_max: -24
+- assert:
+    member_points:
+      member_index: 0
+      health_max: 399
+- note: 'On the crust of the Cinder Shelf: no burn.'
+- set_pose:
+    map: xeen_p1.blv
+    x: 3776
+    y: -3904
+    z: 8
+    yaw_degrees: 135
+    pitch: 0
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 400
+- advance_runtime:
+    seconds: 4
+- assert:
+    member_points:
+      member_index: 0
+      health_min: 400
+      health_max: 400
+- note: 'Out of the lava: from the lake onto the floor-0 shelf (a 40 step).'
+- set_pose:
+    map: xeen_p1.blv
+    x: 2560
+    y: -4480
+    z: -32
+    yaw_degrees: 0
+    pitch: 0
+- walk_to:
+    x: 3400
+    y: -4300
+    z: 0
+    z_tolerance: 160
+    radius: 128
+    timeout_seconds: 30
+    clear_hostiles: 0
+    close_dialogs: true

@@ -1,0 +1,83 @@
+# M31 The Soul Box (QUESTS M31; Act V). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Olympus, the city of the gods (D7), reached on Lucio's celestial boats after M30. The gods' servants let the Chosen
+# Ones into Soul Storage, where one Soul Box is left; a plaque there names Alamar's true name (the answer of Castle
+# Alamar's gate, M33; M28's journal says it too). The four prophecy statues of the square carry the source's verses.
+# Zeus knows where Alamar keeps the real Prince Roland (M39's hint; Olympus is reached only after M21).
+id: M31
+title: The Soul Box
+act: V
+kind: main
+status: full
+giver: null
+giver_name: (the Pharaoh sends the party, m30; Soul Storage in Olympus, D7)
+maps: [D7]
+level: 48
+block: 31
+after: [m30.done]
+source: "QUESTS M31; dark/aaze0037:4 (the true name), :12-15 (the statues), :27 (Zeus); dark/aaze0086:13 (the Pharaoh's errand)"
+
+qbits:
+  started: {id: 111620, journal: "The only Soul Box left on Xeen is in Soul Storage, in Olympus. Corak needs it to hide from Sheltem.",
+            until: [done]}
+  done: {id: 111621, journal: "You have the Soul Box. Take it to Corak in his pod in the Forbidden Zone.",
+            until: [m32.done]}
+  true_name: {id: 111622, note: "the plaque in Soul Storage read: Alamar's true name is Sheltem"}
+
+autonotes:
+  soul_box: {id: 4131, text: "Soul Storage, Olympus: the last Soul Box is yours. Corak waits in Escape Pod 1, in the Forbidden Zone.", category: Misc}
+  true_name: {id: 4132, text: "A plaque in Soul Storage: all beings have a true name. Alamar's is Sheltem.", category: Misc}
+
+items:
+  soul_box: "Soul Storage (the soul_storage hook); Corak takes it (M32)"
+
+npcs:
+  5612:              # Zeus
+    topics:
+      - n: 1
+        label: Prince Roland
+        text: "Prince Roland is held by Alamar in the bottom level of the Castle. Alive, after a fashion. Alamar keeps things."
+
+hooks:
+  arrival:
+    map: D7
+    where: "Lucio's cloud jetty (olympus_dock), first arrival"
+    sets: [started]
+    once: true
+    text: "Welcome to Olympus. The clouds hold you up, which takes some getting used to. Somewhere up here is Soul Storage."
+  soul_storage:
+    map: D7
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "Soul Storage, a vault of empty shelves behind the temple: the door opens for the Chosen Ones (the map reads m30.done) and this hook gives the box"
+    requires: {qbit: m30.done}
+    sets: [done, started]
+    gives: [soul_box]
+    once: true
+    do: [{autonote: soul_box}, {xp: 8000}]
+    text: "Soul Storage. Shelf after shelf, all empty but one. On it, a small box of dull metal that is somehow heavier to look at than to lift. The Soul Box."
+    fail_text: "A vault door with no handle. A servant of the gods says, politely, that it opens only for the Chosen Ones."
+    else_text: "Empty shelves. The gods have stopped storing souls; nobody asked them to."
+  true_name_plaque:
+    map: D7
+    where: "a plaque on the wall of Soul Storage, beside the last shelf"
+    sets: [true_name]
+    do: [{autonote: true_name}]
+    text: "All beings have a true name. Alamar's true name, for instance, is Sheltem."
+  statue_1:
+    map: D7
+    where: "the first prophecy statue on the square"
+    text: "A plaque at the base of the statue reads: If Pharaoh's realm should take a fall / The Dragon must put forth a call / Mystic orb to the wind is cast / Seeks the hand of heroes last / Four parts castle at five per stage / A score of disks to help the Mage"
+  statue_2:
+    map: D7
+    where: "the second prophecy statue"
+    text: "A plaque at the base of the statue reads: A Golden bird will sorrow ease / Sweet song will Knight's lost soul appease / Help the rider to soothe the beast / Gain a flight when expected least / The symbol of royal power / Frees the Queen from evil tower"
+  statue_3:
+    map: D7
+    where: "the third prophecy statue"
+    text: "A plaque at the base of the statue reads: Dragon's orb the world shall roam / Yet must again return to home / Pharaoh's magic back in its place / Helps to free the visitor from space / Code's the key to thinking machines / Starman knows the truth about Xeen"
+  statue_4:
+    map: D7
+    where: "the fourth prophecy statue"
+    text: "A plaque at the base of the statue reads: Dragon once more will get you by / Owns key to city of the sky / Starman needs to hide in a box / Alamar's defenses outfox / Face to face in Alamar's lair / Out the box springs the land's last prayer"
+
+rewards: {xp: 8000, gold: 0, items: "Soul Box"}
+playthrough: "D1: Lucio's jetty (M30's pass), the boat to Olympus. D7: arrival; Soul Storage: the box, the plaque; Zeus (Prince Roland)."

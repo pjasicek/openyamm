@@ -1,0 +1,69 @@
+# Hostility check of Hobstadt's hall (DD-11C, L4; lane A7, agent:xeen-a7-dd11), D-25 Q7. Hobstadt's court (Hobstadt's
+# Guard 11075 x8) and Hobstadt (11073), faction xeen_trolls_hobstadt, are peaceful at load; the wild trolls (Troll 11690,
+# Ice Troll 11692, xeen_warren_trolls) hostile; all placed without the hostile flag, so the world's relations.yml
+# decides. A save and load keeps it. Tribute (113261) befriends the wild trolls and leaves the court peaceful. A fight
+# turns all: a court troll killed without Hobstadt's "Fight to the death" runs the map's evt:court_fight, which sets
+# q-d13.hostile (113263); then the court, Hobstadt and the wild trolls are hostile, tribute or not. Kinds side by side
+# leave each other alone. No window is open before a reload.
+id: xeen.dd11c.l4.hostility
+title: "Hobstadt's hall (DD-11C): the court peaceful, the warren hostile, tribute befriends, a fight turns all"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11c.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11075, hostile: false, min: 8}}
+  - assert: {actor_count: {monster_id: 11073, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: false, min: 1}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 8}}
+  - assert: {actor_count: {monster_id: 11692, hostile: true, min: 4}}
+  - note: Nobody of the court is roused while the party only waits (hostile stays clear).
+  - advance_runtime: {seconds: 6}
+  - play_lua: {source: "if qbit(113263) then error('hostile set with no blow struck') end"}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 8}}
+  - note: 'Tribute (113261): the wild trolls turn friendly, the court stays so.'
+  - setup_shortcut: {kind: set_qbit, id: 113261, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11075, hostile: true, max: 0}}
+  - note: 'A fight: a court troll at the gate killed (actor 10) without the topic; evt:court_fight sets 113263 and every
+      troll turns, tribute or not.'
+  - damage_actor: {actor_index: 10, amount: 100000}
+  - advance_runtime: {seconds: 4}
+  - play_lua: {source: "close(); if not qbit(113263) then error('hostile 113263 not set by the fight') end"}
+  - assert: {actor_count: {monster_id: 11075, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: false, max: 0}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11075, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - note: 'A Troll, an Ice Troll and a court guard side by side in the gnawed tunnel, nearer each other than the party:
+      they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11690, x: 300, y: -1480, z: 0}
+  - spawn_actor: {monster_id: 11692, x: 500, y: -1590, z: 0}
+  - spawn_actor: {monster_id: 11075, x: 700, y: -1480, z: 0}
+  - advance_runtime: {seconds: 10}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}

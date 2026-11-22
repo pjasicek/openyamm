@@ -37,14 +37,14 @@ themes:
     floor: {texture: d7flor4, size: [128, 128]}
     ceiling: {texture: d7ceil2, size: [128, 128]}
     reveal: {texture: d7trim8, size: [64, 64]}
-    door: {texture: d7dor3, size: [128, 256], fit: true}
-    notes: "The Red Dwarves' worked rooms (6d09): rough-dressed stone under a dressed course, rune tiles, carved ceiling, 6d09's single plank door with its carved skull (the tally door is one hinged leaf: 6d09's double-door pictures would swing as one)."
+    door: {texture: t3dr1, size: [256, 256], fit: true}
+    notes: "The Red Dwarves' worked rooms (6d09): rough-dressed stone under a dressed course, rune tiles, carved ceiling; the tally door is the camp's plank door t3dr1 as the bunk door beside it (rebase 2026-11-20: was 6d09's single plank door with its carved skull d7dor3, trimmed for the texture budget; 6d09's double-door pictures would swing as one)."
   - id: theme:dwarf_vault
     wall: {texture: d7trim8, size: [64, 64]}
     floor: {texture: d7flor4, size: [128, 128]}
-    ceiling: {texture: mnwl2, size: [256, 256]}
+    ceiling: {texture: d7ceil2, size: [128, 128]}
     reveal: {texture: d7trim8, size: [64, 64]}
-    notes: "The Red Dwarves' vault (6d09): dressed blocks, rune tiles, smooth rock roof; no timber (its secret wall shows no frame)."
+    notes: "The Red Dwarves' vault (6d09): dressed blocks, rune tiles, the worked rooms' carved ceiling (rebase 2026-11-20: was 6d09's smooth rock roof mnwl2, one face, trimmed for the texture budget); no timber (its secret wall shows no frame)."
   - id: theme:pit
     wall: {texture: t3ll6, size: [256, 256]}
     floor: {texture: d2ceil4, size: [256, 256]}
@@ -89,6 +89,9 @@ rooms:
       - wall: west
         panels:
           - {id: panel:clan_sign, offset: 176, length: 256, bottom: 160, height: 128, surface: {texture: xnclansgn, size: [256, 128], fit: true}, notes: "The clan's warning: skulls daubed on a board."}
+      - wall: south
+        panels:
+          - {id: door:dwarf_smithy, offset: 764, length: 192, bottom: 0, height: 288, surface: {texture: t3dr1, size: [256, 256], fit: true}, notes: "The Red Dwarf Smithy's plank door (house 4851, A4's towns/xd02.yml) between two timber sets of the south wall: barred until M3 is done (wiring evt:dwarf_smithy)."}
     platforms:
       - {at: [13512, 2768], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [13512, 4016], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
@@ -101,7 +104,7 @@ rooms:
       - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[13330, 3331], [14556, 3331], [14556, 3341], [13330, 3341]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[13330, 3443], [14556, 3443], [14556, 3453], [13330, 3453]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {at: [13600, 3900], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
-      - {at: [13600, 3900], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: An ore cart the clan pushed off the rails against the north wall.}
+      - {at: [13600, 3900], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: An ore cart the clan pushed off the rails against the north wall.}
       - {at: [13540, 3834], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [13660, 3834], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [13540, 3966], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
@@ -234,13 +237,13 @@ rooms:
         depth: 24
         bottom: -968
         bottom_end: -528
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[9902, 5284], [9902, 5084]]
         width: 16
         depth: 24
         bottom: -968
         bottom_end: -528
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[10272, 5092], [10272, 5276]]
         width: 24
         depth: 40
@@ -256,13 +259,13 @@ rooms:
         depth: 24
         bottom: -914
         bottom_end: -474
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[10286, 5284], [10286, 5084]]
         width: 16
         depth: 24
         bottom: -914
         bottom_end: -474
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[10656, 5092], [10656, 5276]]
         width: 24
         depth: 40
@@ -278,13 +281,13 @@ rooms:
         depth: 24
         bottom: -859
         bottom_end: -419
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[10670, 5284], [10670, 5084]]
         width: 16
         depth: 24
         bottom: -859
         bottom_end: -419
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[11040, 5092], [11040, 5276]]
         width: 24
         depth: 40
@@ -300,13 +303,13 @@ rooms:
         depth: 24
         bottom: -805
         bottom_end: -365
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[11054, 5284], [11054, 5084]]
         width: 16
         depth: 24
         bottom: -805
         bottom_end: -365
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[11424, 5092], [11424, 5276]]
         width: 24
         depth: 40
@@ -322,13 +325,13 @@ rooms:
         depth: 24
         bottom: -751
         bottom_end: -311
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[11438, 5284], [11438, 5084]]
         width: 16
         depth: 24
         bottom: -751
         bottom_end: -311
-        surface: {texture: t3d2abe, size: [256, 32]}
+        surface: {texture: t3d2abe, size: [256, 32], uneven: true}
       - path: [[9664, 5060], [11584, 5060]]
         width: 8
         depth: 20
@@ -453,7 +456,7 @@ rooms:
       - {rise: 6, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[3860, 4499], [4560, 4499], [4560, 4509], [3860, 4509]], top_surface: {texture: xnrustirn, size: [64, 64]}}
       - {at: [3928, 4448], size: [48, 288], rise: 56, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: The buffer stop before the Deep Line}
       - {at: [4060, 4448], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
-      - {id: platform:deep_cart, at: [4060, 4448], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The Deep Line cart, chained to its brake; clicked, it rides down the Deep Line once the brake is off (wiring evt:deep_cart)."}
+      - {id: platform:deep_cart, at: [4060, 4448], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The Deep Line cart, chained to its brake; clicked, it rides down the Deep Line once the brake is off (wiring evt:deep_cart)."}
       - {at: [4000, 4382], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [4120, 4382], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [4000, 4514], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
@@ -771,7 +774,7 @@ rooms:
       - {at: [5504, 5720], size: [384, 96], rise: 56, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: The wheelwright bench}
       - {at: [5368, 5560], size: [64, 96], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: A block under the cart}
       - {at: [5472, 5560], size: [64, 96], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: A block under the cart}
-      - {at: [5420, 5560], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "A cart up on blocks, one wheel off."}
+      - {at: [5420, 5560], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "A cart up on blocks, one wheel off."}
       - {at: [5360, 5494], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5480, 5494], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5360, 5626], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
@@ -786,7 +789,7 @@ rooms:
     walls:
       - wall: 1
         panels:
-          - {id: panel:chalk_mark, offset: 397, length: 112, bottom: 256, height: 112, surface: {texture: xnchalk, size: [64, 64], fit: true}, notes: An old Red Dwarf chalk mark over the dry-stone wall.}
+          - {id: panel:chalk_mark, offset: 430, length: 112, bottom: 296, height: 112, surface: {texture: xnchalk, size: [64, 64], fit: true}, notes: An old Red Dwarf chalk mark over the dry-stone wall.}
     platforms:
       - {at: [12864, 6016], size: [512, 96], rise: 48, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Sorting table}
       - {at: [13056, 6400], size: [512, 96], rise: 48, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: Sorting table}
@@ -863,13 +866,13 @@ rooms:
       - {rise: 0, surface: {texture: crdrf1, size: [128, 128]}, outline: [[5900, 2700], [6160, 2620], [6300, 2760], [6220, 2930], [5960, 2950], [5860, 2830]], top_surface: {texture: crdrf1, size: [128, 128]}, top_heights: [40, 24, 56, 72, 96, 64], notes: Spoil heap}
       - {rise: 0, surface: {texture: crdrf1, size: [128, 128]}, outline: [[6500, 3150], [6720, 3100], [6820, 3260], [6700, 3400], [6520, 3360]], top_surface: {texture: crdrf1, size: [128, 128]}, top_heights: [32, 56, 80, 48, 64], notes: Spoil heap}
       - {at: [6050, 3400], size: [160, 80], rise: 24, facing: 36.8699, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
-      - {at: [6050, 3400], size: [180, 100], rise: 88, facing: 36.8699, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, full of ore."}
+      - {at: [6050, 3400], size: [180, 100], rise: 88, facing: 36.8699, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, full of ore."}
       - {at: [6041.6, 3311.2], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [6137.6, 3383.2], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5962.4, 3416.8], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [6058.4, 3488.8], size: [48, 10], rise: 48, facing: 36.8699, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5720, 3000], size: [160, 80], rise: 24, facing: -53.1301, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
-      - {at: [5720, 3000], size: [180, 100], rise: 88, facing: -53.1301, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, half full."}
+      - {at: [5720, 3000], size: [180, 100], rise: 88, facing: -53.1301, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "An abandoned ore cart, half full."}
       - {at: [5631.2, 3008.4], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5703.2, 2912.4], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [5736.8, 3087.6], size: [48, 10], rise: 48, facing: -53.1301, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
@@ -1005,18 +1008,18 @@ rooms:
     walls:
       - wall: 1
         panels:
-          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
+          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 2
         panels:
-          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
+          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 4
         panels:
-          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
+          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
       - wall: 5
         panels:
-          - {at: centre, length: 512, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
+          - {at: centre, length: 256, bottom: 128, height: 128, surface: {texture: xntally, size: [256, 128]}}
     platforms:
-      - {at: [5600, 7200], size: [256, 128], rise: 40, surface: {texture: cbedsqr, size: [128, 128]}, top_surface: {texture: cbedsqr, size: [128, 128]}, notes: The tallymaster's table}
+      - {at: [5600, 7200], size: [256, 128], rise: 40, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: d2ceil2, size: [256, 256]}, notes: "The tally table: plank top on a dark timber frame, as the camp's long tables (rebase 2026-11-20: was 6d09's furniture wood cbedsqr, a bright orange slab, trimmed for the texture budget)"}
     ambient: 14
     notes: "Hexagon 1434 across the flats, 576 high; the clan's tallies of stolen ore chalked on slabs on four walls; the tallymaster's table facing the door, the tallymaster behind it, the strongbox behind him against the west wall."
   - id: room:tally_steps
@@ -1103,7 +1106,7 @@ rooms:
       - {at: [6600, 5040], size: [32, 32], rise: 352, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [6600, 5328], size: [32, 32], rise: 352, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [6200, 5104], size: [160, 80], rise: 24, facing: 0, surface: {texture: t3d2abe, size: [256, 32]}, top_surface: {texture: t3d2abe, size: [256, 32]}, notes: The cart's chassis}
-      - {at: [6200, 5104], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], fit: true}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The derailed cart, shoved off the line against the south wall."}
+      - {at: [6200, 5104], size: [180, 100], rise: 88, facing: 0, surface: {texture: xncartsd, size: [128, 64], scale: 1.5}, end_surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: crdrf1, size: [128, 128]}, base: 24, top_size: [200, 120], notes: "The derailed cart, shoved off the line against the south wall."}
       - {at: [6140, 5038], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [6260, 5038], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}
       - {at: [6140, 5170], size: [48, 10], rise: 48, facing: 0, surface: {texture: xnrustirn, size: [64, 64]}, top_surface: {texture: xnrustirn, size: [64, 64]}, notes: Cart wheel}

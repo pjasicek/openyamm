@@ -1,0 +1,56 @@
+# Xeen playthrough, segment 01: a new game in Vertigo (X1). The opening message (m1.opening: M1 started, Vertigo's inn
+# roster open), Mayor Gunther's Pests (M1), the creek bottle (Crodo's lead), the drunk's clue in Lady Geraldine's
+# Tavern (M2 started), Fenwick's hint and the warehouse key at the foot of Joe's rain barrel. Outdoors the party is placed
+# by events (PLAYBOOK §2). Quest logic: tools/xeen/quest_stub/act1.yml; ids: source/quests/m1.yml, m2.yml.
+#   python3 tests/playthrough/xeen/run.py 01
+id: xeen.playthrough.01_vertigo
+title: "Xeen playthrough 01: a new party wakes in Vertigo, hears of Joe and finds his warehouse key"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  # The party the act's promotions are written for (tools/xeen/quest_stub/act1.yml): T1-A promotes the Knight, the
+  # Paladin and the Ranger; the Sorcerer waits for T1-B.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 1, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 1, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 1, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 1, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - play_lua: {source: "if classes() ~= 'Knight Paladin Sorcerer Ranger' then error('party: ' .. classes()) end"}
+  # X1's one-shot timer (event 102) runs m1.opening.
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - assert: {qbit_set: [110103, 111020, 119020]}
+  - press_action: {action: cancel_dialog}
+  # The town hall (event 9, house 4003): Gunther's Pests.
+  - execute_event: {id: 9}
+  - select_topic: {match_label: Pests}
+  - press_action: {action: cancel_dialog}
+  # Crodo's bottle in Pitchfork Creek (event 237).
+  - execute_event: {id: 237}
+  - assert: {qbit_set: [110104, 111022]}
+  - press_action: {action: cancel_dialog}
+  # Lady Geraldine's Tavern (event 17, house 4005): Dudley the drunk gives M2's clue.
+  - execute_event: {id: 17}
+  - select_topic: {match_label: Dudley}
+  - select_topic: {match_label: Joe}
+  - assert: {qbit_set: [111040]}
+  - press_action: {action: cancel_dialog}
+  # Joe's yard: the warehouse key (12001) on the ground at the rain barrel's foot (D-90 (c), A5's X1 2026-11-22).
+  - set_pose: {map: xeen_x1.odm, x: -1946, y: 1843, z: 700, yaw: 0.09, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1382, y: 1894, z: 634, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "if ground_items(12001) ~= 1 then error('the warehouse key is not on the ground') end"}
+  - pick_up: {item_id: 12001, reach: 700}
+  - play_lua:
+      source: |
+        close(); if held() ~= 0 then stow() end
+        if not has_item(12001) then error("no warehouse key from the ground by the rain barrel") end
+        log("the warehouse key from the foot of Joe's rain barrel")
+  - save_game: {name: "01 Vertigo", path: output/playthrough/xeen/checkpoints/01_vertigo.oysav}

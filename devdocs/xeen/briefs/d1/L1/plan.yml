@@ -1,0 +1,444 @@
+format: 0
+level: L1
+pitch: "The Darkside's hub, under an amber sky and a small pale sun. Castleview, a walled town of grey boulder-stone and slate built low, sits in a bend of the Vale Water with the besiegers' empty trenches round it and one gate in its north wall; outside the gate the travel pyramid from Vertigo, Joe's stall, Justine's camp and the gremlins' burrow under the wall. North of the town the Dark Grove, whose tallest tree carries a rope up into the sky; beyond it the Western Tower on its knoll by the world's edge and the gemsmiths' row under the mine hills. South-west, Castle Kalindra stands on its rise over the river as a translucent ghost of a castle. The river runs west under it and falls off the end of the world into the stars."
+purpose: "Act III's hub (party 18-21): the party's first steps on the Darkside (M14: a pass for the gate, or the gremlins' court), the town's services and Darkside quests (Q-D1 to Q-D4, M15-M17, Q-D7, Q-D8, Q-D12, Q-D20), Castle Kalindra's staged return (M19-M27), and three later ways on: the Western Tower's rope (Act IV, Q-D6), Lucio's Jetty (M30) and the Dark Grove's rope to the Skyroads."
+mood: "Dry, amber and a little worn: desaturated greens, slate and grey stone, smoke from a few chimneys, lamps lit by noon. The vale is open and pleasant away from the trenches; the grove dark and webbed; the ghost castle silent and shimmering."
+datum: water:rim_sea
+spaces:
+  # ---- Castleview ----
+  - id: town:castleview
+    name: Castleview
+    kind: town
+    floor: 1150
+    where: "the vale's middle, in a bend of the Vale Water; about 25 x 21 cells inside its walls"
+    purpose: "The Darkside's hub: every service, the second Adventurer's Inn, the jail, the Drawkcab monks, Public Storage, Ellinger's Tower and the sewer (A4's d1.yml). A pass at the gate (M14)."
+    safe: true
+    keep_clear: [spawns]
+    density: dense
+    theme: "Darkside low slate-stone town kit (MU-5 board_mu5_darkside_town): poor houses of t06 boulder stone under xlslatemos, middle ones with the carved frieze under t06a05, the civic buildings (town hall, bank, guilds, temple, jail, library) and the walls in t09 grey ashlar under xlslate. Walls about 600 high with square towers, a gatehouse with Castleview's banner, the wall walk reachable by one stair by the west lane; a dry ditch outside (Ditchwater Dan's); lamps lit by day."
+    buildings:
+      - {id: building:cv_weapons, type: house, service: The Siege Smithy, count: 1, doors: 1, footprint_cells: [[2, 1.5]]}
+      - {id: building:cv_armour, type: house, service: Castleview Mail, count: 1, doors: 1, footprint_cells: [[2, 1.5]]}
+      - {id: building:cv_magic, type: house, service: The Amber Lamp, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_alchemist, type: house, service: "Zelda's Herbs and Remedies", count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:cv_temple, type: house, service: Temple of Mok, count: 1, doors: 1, footprint_cells: [[3, 3]]}
+      - {id: building:cv_tavern, type: house, service: The Catapult and Crust, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_bank, type: house, service: Castleview Strongroom, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_training, type: house, service: The Barracks Yard, count: 1, doors: 1, footprint_cells: [[2.5, 2.5]]}
+      - {id: building:cv_guild_fire, type: house, service: Castleview Guild of Fire, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_guild_air, type: house, service: Castleview Guild of Air, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_guild_water, type: house, service: Castleview Guild of Water, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_guild_earth, type: house, service: Castleview Guild of Earth, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_guild_body, type: house, service: Castleview Guild of Body, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_stables, type: house, service: "Kramer's Caravans", count: 1, doors: 1, footprint_cells: [[3, 2.5]]}
+      - {id: building:cv_inn, type: house, service: "The Adventurer's Inn", count: 1, doors: 1, footprint_cells: [[2, 2]]}
+      - {id: building:cv_town_hall, type: house, service: Castleview Town Hall, count: 1, doors: 1, footprint_cells: [[3, 2.5]]}
+      - {id: building:cv_lucio_jetty, type: house, service: "Lucio's Jetty", count: 1, doors: 1, footprint_cells: [[1, 1]]}
+      - {id: building:cv_jail, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[2.5, 1.5]]}
+      - {id: building:cv_public_storage, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1.5, 1]]}
+      - {id: building:cv_library, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[2.5, 2]]}
+      - {id: building:cv_drawkcab, type: house, service: residence, count: 4, doors: 1, footprint_cells: [[1, 1], [1, 1], [1, 1], [1, 1]]}
+      - {id: building:cv_houses, type: house, service: residence, count: 20, doors: 1, footprint_cells: [[1.5, 1], [1.5, 1], [1.5, 1], [1, 1], [1, 1], [1.5, 1], [3, 1], [1.5, 1], [1, 1], [1.5, 1], [2, 1], [1, 1], [1.5, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1.5, 1], [1.5, 1]]}
+  - id: zone:cv_square
+    name: Castleview square
+    kind: zone
+    part_of: town:castleview
+    floor: 1150
+    purpose: "The mirror, Lyle's reserved bench (\"This bench reserved for Lyle the Pigeon Feeder\"), pigeons; the magic shop, the alchemist, the town hall and the bank open onto it. Town Portal arrival."
+    empty: true
+    safe: true
+  - id: zone:cv_coach_yard
+    name: "Kramer's coach yard"
+    kind: zone
+    part_of: town:castleview
+    floor: 1150
+    purpose: "Inside the east wall: the stables, the Barracks Yard and the saddler; the caravans' arrival."
+    safe: true
+  - id: zone:cv_wall_top
+    name: "Lucio's Jetty"
+    kind: zone
+    part_of: town:castleview
+    floor: 1750
+    purpose: "D-5.3: on the west wall's top, a short timber jetty that ends in thin air, a booth with Lucio's sign; reached by the stair from the west lane. Closed until m30.done."
+  # ---- outside the gate ----
+  - id: zone:gate_yard
+    name: Outside the north gate
+    kind: zone
+    floor: 1150
+    purpose: "Joe's stall with his painted sign on the road, Justine's camp to the west, the Mayor's notice by the gatewarden's hatch, the gremlins' burrow under the wall to the east. No pass needed for any of it."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:pyramid_knoll
+    name: The travel pyramid
+    kind: zone
+    floor: 1250
+    purpose: "The travel pyramid from Vertigo on a low knoll west of the road, Castleview's gate in view: the Darkside's arrival (M14)."
+    safe: true
+  - id: wild:siege_lines
+    name: The siege lines
+    kind: wild
+    floor: [1050, 1500]
+    relief: uneven
+    density: sparse
+    purpose: "The besiegers' old trenches, stakes and mantlets north of the walls, rising to the hills; the acid pond. Gremlins hold them now."
+    population:
+      - {id: pop:siege_north, slot: 1, groups: 9, per_marker: [2, 3], levels: [14, 22], notes: "Encounter area E1: Gremlins, Saboteurs, Guards; the first fight from the pyramid and from the D6 road."}
+      - {id: pop:saboteurs, actor: Xeen Gremlin, groups: 1, placed: true, hostile: true, notes: "Four Saboteurs at the broken rope bridge."}
+  - id: water:acid_pond
+    name: The Acid Pond
+    kind: water
+    part_of: wild:siege_lines
+    purpose: "Green water in a cracked mud rim; nothing grows within a pace of it."
+  - id: zone:mill_gorge
+    name: The mill gorge
+    kind: zone
+    floor: [850, 1150]
+    purpose: "The Vale Water runs 250 below the vale east of the walls; the rope bridge over it hangs cut, the mill on its west bank is a burnt shell (q-d1.sabotage: both mended once court_won)."
+  # ---- east of the river ----
+  - id: wild:sardaj_lands
+    name: The Sardaj lands
+    kind: wild
+    floor: [1150, 1600]
+    relief: uneven
+    density: sparse
+    purpose: "Rough grass east of the gorge rising to the north edge: Yog's camp and Vespar's house. The barbarians keep it clear of monsters while they are at peace."
+    empty: true
+  - id: zone:sardaj_camp
+    name: The Sardaj camp
+    kind: zone
+    part_of: wild:sardaj_lands
+    floor: 1550
+    purpose: "Yog's camp on the vale's north edge (A3's q-d12.sardaj, q-d12.camp): hide tents, a fire, a totem; twelve barbarians, peaceful until q-d12.hostile or camp_burned."
+    population:
+      - {id: pop:sardaj, actor: Xeen Barbarian, groups: 1, placed: true, hostile: false, notes: "Twelve: seven Barbarians 14, three Sardaj Warriors 20, a Chief 28, Yog 34 (talking actor 4953). Not counted in the 135."}
+  - id: zone:vespar_knoll
+    name: "Vespar's knoll"
+    kind: zone
+    part_of: wild:sardaj_lands
+    floor: 1350
+    purpose: "Vespar the Wizard's narrow stone house with a slate cone roof (Q-D8)."
+    safe: true
+    buildings:
+      - {id: building:vespar_house, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[2, 2]]}
+  - id: wild:gemstone_foothills
+    name: The Gemstone foothills
+    kind: wild
+    floor: [1300, 2400]
+    relief: uneven
+    density: sparse
+    purpose: "Stony slopes of the Gemstone Range's western end, running on into D2."
+    population:
+      - {id: pop:foothills, slot: 3, groups: 5, per_marker: [2, 3], levels: [16, 26], notes: "Encounter area E5: Scorpions, Electrapedes, Lava Roaches."}
+  - id: wild:east_road_camp
+    name: "The besiegers' camp"
+    kind: wild
+    floor: [1050, 1200]
+    density: sparse
+    purpose: "Where the besiegers camped astride the east road: trampled ground, a wrecked trebuchet, burnt tent poles; gremlins pick it over."
+    population:
+      - {id: pop:east_road_camp, slot: 1, groups: 7, per_marker: [2, 3], levels: [14, 22], notes: "Encounter area E2."}
+      - {id: pop:camp_guard, actor: Xeen Gremlin, groups: 1, placed: true, hostile: true, notes: "Seven round the trebuchet and its loot chest."}
+  - id: zone:east_arrival
+    name: The east road's end
+    kind: zone
+    floor: 1100
+    purpose: "Where the party comes in from D2: open grass, the wayside shrine of Mok, Castleview's towers to the west."
+    safe: true
+    keep_clear: [spawns]
+  # ---- north and west ----
+  - id: wild:dark_grove
+    name: The Dark Grove
+    kind: wild
+    floor: [1100, 1300]
+    relief: uneven
+    density: dense
+    purpose: "Old dark trees close together, webs between them; the tallest tree in the middle with a rope hanging into it from the sky."
+    population:
+      - {id: pop:grove_arachnoids, slot: 2, groups: 7, per_marker: [2, 4], levels: [14, 24], notes: "Encounter area E3: Arachnoids, Hunters, a Queen."}
+      - {id: pop:grove_electrapedes, slot: 3, groups: 3, per_marker: [2, 3], levels: [20, 20], notes: "Electrapedes round the great tree (fixed tier B)."}
+  - id: zone:great_tree
+    name: "The great tree"
+    kind: zone
+    part_of: wild:dark_grove
+    floor: 1250
+    purpose: "A tree three times the height of the others; a rope hangs from the sky into its crown and down its trunk (the way to D7)."
+  - id: wild:west_heath
+    name: The west heath
+    kind: wild
+    floor: [1050, 1400]
+    relief: uneven
+    density: sparse
+    purpose: "Heather and stones to the world's edge, round the Western Tower's knoll."
+    population:
+      - {id: pop:west_heath, slot: 2, groups: 6, per_marker: [2, 4], levels: [14, 24], notes: "Encounter area E3 (with the grove: the two touch at the mine lane): Arachnoids."}
+  - id: zone:western_tower
+    name: The Western Tower of Mok
+    kind: zone
+    part_of: wild:west_heath
+    floor: 1600
+    purpose: "DD-05 (Act IV): a dark slate tower (towers kit, Darkside) on its knoll near the rim; the heretics' rope hangs from a window near the top of its north wall (D-9.3); the front door south, locked and warded."
+  - id: zone:gemsmiths_row
+    name: "The gemsmiths' row"
+    kind: zone
+    floor: 1600
+    purpose: "The four gemsmiths' workshops in a row on a shelf under the mine hills (ruby, emerald, sapphire, diamond), the Gemstone Mines' west adit above them (DD-10, Q-D7)."
+    safe: true
+    keep_clear: [spawns]
+    buildings:
+      - {id: building:gemsmith, type: house, service: residence, count: 4, doors: 1, footprint_cells: [[2, 1.5], [2, 1.5], [2, 1.5], [2, 1.5]], notes: "Linus's Ruby Works, Simon's Emerald Works, Toby's Sapphire Works, Hector's Diamond Works (A4's 4495-4498)."}
+  - id: wild:north_hills
+    name: The north hills
+    kind: wild
+    floor: [1900, 3600]
+    relief: uneven
+    purpose: "Bare hills to the Forbidden Zone: the mine hills west of the mountain road, the Sardaj Horn east of it."
+    empty: true
+  # ---- west and south-west ----
+  - id: zone:kalindra_rise
+    name: "Castle Kalindra's rise"
+    kind: zone
+    floor: 1750
+    purpose: "The Queen's castle (DD-03) on its rise south-west of the town, its south face a cliff over the Vale Water. Out of phase: a translucent ghost of white stone and purple banners until m19.stage1; then the gate and first floor solid, the rest still shimmering, more solid each stage."
+  - id: zone:kalindra_gate
+    name: "Kalindra's forecourt"
+    kind: zone
+    part_of: zone:kalindra_rise
+    floor: 1650
+    purpose: "The ramp's top before the gate: Town Portal arrival (kalindra_gate); the griffin sets the party down here after M27."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:luna_grove
+    name: "Luna's grove"
+    kind: zone
+    floor: 1100
+    purpose: "A ring of pale birches and standing stones by the rim: Luna the Druid (Q-D20)."
+    safe: true
+    keep_clear: [spawns]
+  - id: zone:rim_headland
+    name: The obelisk headland
+    kind: zone
+    floor: 1350
+    purpose: "A grassy headland over the stars with the Darkside's first obelisk; Kalindra's ghost in view."
+    safe: true
+  # ---- south ----
+  - id: zone:melon_field
+    name: "Pip Melonby's field"
+    kind: zone
+    floor: 1100
+    purpose: "Melon rows between the south wall and the river (q-d9.melon_field: one Monga melon at its edge)."
+    safe: true
+    keep_clear: [spawns]
+  - id: wild:south_meadows
+    name: The southern meadows
+    kind: wild
+    floor: [1000, 1200]
+    relief: flat
+    density: medium
+    purpose: "Long grass across the river from the town, running to the rim: the centipedes' nests, the wild melons, the Well of Might."
+    population:
+      - {id: pop:centipede_meadows, slot: 3, groups: 10, per_marker: [2, 3], levels: [16, 26], notes: "Encounter area E4."}
+  - id: zone:melon_patch
+    name: The wild melon patch
+    kind: zone
+    part_of: wild:south_meadows
+    floor: 1000
+    purpose: "Three Monga melons among the centipedes' nests (q-d9.melons_south)."
+  - id: zone:might_well
+    name: The Well of Might
+    kind: zone
+    part_of: wild:south_meadows
+    floor: 1150
+    purpose: "An old well on a mound in the meadows' east end: +2 Might, permanent, once per character."
+  - id: wild:south_bank
+    name: The south bank
+    kind: wild
+    floor: [950, 1250]
+    density: sparse
+    purpose: "The quiet bank under Kalindra's rise: the prayer shrine on its knoll, Brother Reger's cell near the rim, Falista's hut, the castaway's wreck."
+    safe: true
+    buildings:
+      - {id: building:reger_cell, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1, 1]]}
+  - id: zone:shrine_knoll
+    name: The prayer shrine
+    kind: zone
+    part_of: wild:south_bank
+    floor: 1250
+    purpose: "A small open shrine on a knoll: the signature view's camera."
+  # ---- water and the rim ----
+  - id: water:vale_water
+    name: The Vale Water
+    kind: water
+    purpose: "From the Sardaj Falls south through the mill gorge, west under Kalindra's rise, over the south rim into the stars."
+  - id: water:rim_sea
+    name: Below the rim
+    kind: water
+    purpose: "The stars below the world's edge (water at 0, as X1 and X5)."
+  - id: zone:rim
+    name: The world rim
+    kind: wild
+    floor: 0
+    purpose: "West and south the land ends in a cliff; below, the stars."
+    empty: true
+  # ---- junctions and edges ----
+  - {id: junction:gate_fork, name: Gate fork, kind: junction, signpost: true, purpose: "North: the mountain road (D6). East: the wall road to the East Bridge. West: the Dark Grove, Kalindra, the Western Tower."}
+  - {id: junction:mill_fork, name: Mill fork, kind: junction, purpose: "The cut rope bridge east; the wall road south."}
+  - {id: junction:east_bridge, name: East Bridge, kind: junction, signpost: true, purpose: "The stone bridge over the Vale Water, intact: the way east to D2 and round to the Sardaj lands while the rope bridge is cut."}
+  - {id: junction:east_fork, name: East fork, kind: junction, purpose: "The east road and the lane south to the meadows."}
+  - {id: junction:pond_fork, name: Pond fork, kind: junction, purpose: "Yog's camp north, Vespar east."}
+  - {id: junction:west_fork, name: West fork, kind: junction, signpost: true, purpose: "Kalindra south, Luna's grove, the heath west."}
+  - {id: junction:heath_fork, name: Heath fork, kind: junction, purpose: "The Western Tower, the gemsmiths and the mine, the Edge Stone."}
+  - {id: junction:south_fork, name: South fork, kind: junction, signpost: true, purpose: "West along the river to the shrine and Reger; east to the Well of Might."}
+  - {id: junction:shrine_fork, name: Shrine fork, kind: junction, purpose: "Reger's cell and Falista's hut."}
+  - {id: edge:east_end, name: East edge, kind: road, part_of: zone:east_arrival, purpose: "Where the east road leaves for D2 (y 60)."}
+  - {id: edge:north_end, name: North edge, kind: road, part_of: wild:north_hills, purpose: "Where the mountain road leaves for D6 (x 64)."}
+links:
+  - {id: link:north_road, from: edge:north_end, to: junction:gate_fork, kind: road, rise: -400, purpose: "travel: D6, the long mountain road"}
+  - {id: link:gate_lane, from: junction:gate_fork, to: zone:cv_square, kind: road, purpose: "through the north gate (a pass: M14) to the square"}
+  - {id: link:east_road, from: edge:east_end, to: junction:east_bridge, kind: road, crosses: [water:vale_water], features: [the East Bridge, stone, at (81, 60)], purpose: "travel: D2"}
+  - {id: link:wall_road, from: junction:east_bridge, to: junction:gate_fork, kind: road, purpose: "between the east wall and the gorge, past the mill fork"}
+  - {id: link:rope_bridge, from: junction:mill_fork, to: junction:pond_fork, kind: bridge, crosses: [water:vale_water], features: [the rope bridge over the mill gorge at (81, 43), cut until q-d1.court_won], notes: "Broken: the gremlins' sabotage. The way round is the east bank lane."}
+  - {id: link:east_bank_lane, from: link:east_road, to: junction:pond_fork, kind: path}
+  - {id: link:sardaj_lane, from: junction:pond_fork, to: zone:sardaj_camp, kind: path}
+  - {id: link:vespar_lane, from: junction:pond_fork, to: zone:vespar_knoll, kind: path}
+  - {id: link:pond_lane, from: link:wall_road, to: water:acid_pond, kind: path}
+  - {id: link:west_road, from: junction:gate_fork, to: junction:west_fork, kind: road}
+  - {id: link:heath_lane, from: junction:west_fork, to: junction:heath_fork, kind: path}
+  - {id: link:tower_lane, from: junction:heath_fork, to: zone:western_tower, kind: path}
+  - {id: link:mine_lane, from: junction:heath_fork, to: zone:gemsmiths_row, kind: path, notes: "along the grove's west edge to the gemsmiths and the adit"}
+  - {id: link:grove_path, from: link:mine_lane, to: zone:great_tree, kind: path}
+  - {id: link:edge_path, from: junction:heath_fork, to: zone:rim, kind: path, notes: "to the Edge Stone on the brink"}
+  - {id: link:kalindra_road, from: junction:west_fork, to: zone:kalindra_gate, kind: road, rise: 500, notes: "a ramp up the rise's north-east side"}
+  - {id: link:luna_lane, from: link:kalindra_road, to: zone:luna_grove, kind: path}
+  - {id: link:obelisk_path, from: zone:luna_grove, to: zone:rim_headland, kind: path}
+  - {id: link:south_lane, from: junction:east_fork, to: junction:shrine_fork, kind: path, notes: "south from the east road, then west along the river's south bank"}
+  - {id: link:reger_path, from: junction:shrine_fork, to: wild:south_bank, kind: path, notes: "to Brother Reger's cell"}
+  - {id: link:falista_path, from: junction:shrine_fork, to: wild:south_bank, kind: path, notes: "to Falista's hut"}
+  - {id: link:wreck_path, from: link:south_lane, to: water:vale_water, kind: path, notes: "down to the wreck on the shallows"}
+  - {id: link:well_path, from: junction:south_fork, to: zone:might_well, kind: path}
+  - {id: link:melon_path, from: link:south_lane, to: zone:melon_patch, kind: path}
+  - {id: link:guild_row, from: zone:cv_square, to: zone:cv_square, kind: road, notes: "Castleview's south street: the five guilds, the temple at its east end"}
+  - {id: link:west_lane, from: zone:cv_square, to: zone:cv_wall_top, kind: road, notes: "to the stair up the west wall and Lucio's Jetty"}
+  - {id: link:back_lane, from: link:guild_row, to: link:guild_row, kind: path, notes: "behind the guilds: the Drawkcab cells, Public Storage and its two chest yards"}
+entrances:
+  - {id: entrance:east_road, space: zone:east_arrival, kind: both, neighbour: edge:east, facing: w, how: "The east road from D2's woods; Castleview's towers ahead."}
+  - {id: entrance:north_road, space: wild:north_hills, kind: both, neighbour: edge:north, facing: s, how: "The mountain road down from the Forbidden Zone; the vale opens below."}
+  - {id: entrance:castleview_pyramid, space: zone:pyramid_knoll, kind: both, neighbour: pyramid:vertigo, facing: se, how: "Beside the travel pyramid (A3's m7.pyramid_d1); the first arrival runs m14.arrival."}
+  - {id: entrance:castleview_square, space: zone:cv_square, kind: arrival, neighbour: mirror:darkside, how: "Town Portal and the mirror (4467): Darkside's start once D1 exists."}
+  - {id: entrance:castleview_temple, space: town:castleview, kind: arrival, how: "In front of the Temple of Mok: the Darkside's death place."}
+  - {id: entrance:castleview_stables, space: zone:cv_coach_yard, kind: arrival, neighbour: stable:kramer, how: "Kramer's coach yard."}
+  - {id: entrance:kalindra_gate, space: zone:kalindra_gate, kind: arrival, neighbour: scripted:kalindra_griffin, how: "Town Portal; the griffin after M27."}
+  - {id: entrance:north_gate, space: town:castleview, kind: both, facing: s, condition: {any: [{item: castleview_pass}, {qbit: court_won}, {qbit: pass_entered}]}, how: "The gatehouse in the north wall: A3's m14.gate (the pass or court_won), then m14.gate_open. From inside it always opens (the temple, stables and Town Portal set parties down inside)."}
+  - {id: entrance:dd01_hatch, space: zone:cv_square, kind: both, neighbour: door:dd01, facing: n, how: "An iron hatch by the square's south-east corner, a ladder down."}
+  - {id: entrance:dd02_tower, space: town:castleview, kind: both, neighbour: door:dd02, facing: w, condition: {item: ellinger_key}, how: "Ellinger's round tower in the north-east quarter (A3's m17.tower_door)."}
+  - {id: entrance:dd03_gate, space: zone:kalindra_gate, kind: both, neighbour: door:dd03, facing: e, condition: {qbit: kalindra_stage1}, how: "Kalindra's gate (A3's m19.ghost_castle until stage 1)."}
+  - {id: entrance:dd04_burrow, space: zone:gate_yard, kind: both, neighbour: door:dd04, facing: n, how: "A burrow under the wall with a tiny door and a tiny sign (A3's q-d1.court_entrance)."}
+  - {id: entrance:dd05_rope, space: zone:western_tower, kind: exit, neighbour: door:dd05_rope, how: "The heretics' rope on the north wall (D-9.3; A3's q-d6.tower_rope)."}
+  - {id: entrance:dd05_door, space: zone:western_tower, kind: both, neighbour: door:dd05_front, facing: s, condition: {qbit: west_tower_opened}, how: "The front door: 'Locked, and warded' until q-d6.tower_opened."}
+  - {id: entrance:dd10a_adit, space: zone:gemsmiths_row, kind: both, neighbour: door:dd10a, facing: s, how: "A timbered adit above the gemsmiths' row."}
+  - {id: entrance:grove_rope, space: zone:great_tree, kind: exit, neighbour: rope:dark_grove, how: "The rope from the sky, at the great tree's foot."}
+  - {id: entrance:lucio_jetty, space: zone:cv_wall_top, kind: both, neighbour: boat:lucio, facing: w, condition: {qbit: lucio_open}, how: "Lucio's Jetty (house 4901), the celestial boat's mooring on the wall top."}
+critical_path: [entrance:castleview_pyramid, zone:gate_yard, entrance:north_gate, zone:cv_square, entrance:dd02_tower, zone:kalindra_gate]
+goals:
+  - {id: goal:pass, space: zone:gate_yard, kind: use, what: "Get into Castleview: Justine's pass, or win the gremlins' court (M14, Q-D1).", story: M14}
+  - {id: goal:ellinger, space: town:castleview, kind: reach, what: "Climb Ellinger's Tower with Nadia's key (M17).", story: M17}
+  - {id: goal:kalindra, space: zone:kalindra_gate, kind: reach, what: "Bring Castle Kalindra back into phase with Energy Disks and enter it (M19).", story: M19}
+points_of_interest:
+  # ---- story and named ----
+  - {id: poi:pyramid, space: zone:pyramid_knoll, kind: story_device, behaviour: "The travel pyramid to Vertigo (A3's m7.pyramid_d1, the Pyramid Sigil)."}
+  - {id: poi:gate_notice, space: zone:gate_yard, kind: sign, behaviour: "The Mayor's notice beside the gate (A3's q-d1.gate_notice: starts Q-D1, the court autonote)."}
+  - {id: poi:joe_stall, space: zone:gate_yard, kind: npc, behaviour: "Joe the Mapmaker (4956) at his stall on the road, his painted sign 'MAPS BY JOE! Genuine! Only one of its kind!' (A3's q-c24.joes_sign)."}
+  - {id: poi:justine_camp, space: zone:gate_yard, kind: npc, behaviour: "Justine the Thief (4951) at a small camp with a lean-to west of the gate road: passes for 1,000 gold (M14)."}
+  - {id: poi:broken_bridge, space: zone:mill_gorge, kind: set_piece, behaviour: "The rope bridge over the mill gorge, its ropes sawn: a message; mended once q-d1.court_won (A3's q-d1.sabotage)."}
+  - {id: poi:burned_mill, space: zone:mill_gorge, kind: chest, behaviour: "Miller Dunn's mill, burnt: its waterwheel charred, a strongbox under the floor (a chest); rebuilt once q-d1.court_won."}
+  - {id: poi:acid_pond, space: wild:siege_lines, kind: device, behaviour: "The Acid Pond: drinking or wading hurts (Body damage, a message: 'The acid pond is not water.'); a skeleton at its edge with a ring (a small find, once)."}
+  - {id: poi:sardaj_camp, space: zone:sardaj_camp, kind: camp, behaviour: "Yog's Sardaj camp: 'You have found a Barbarian camp. Destroy?' (A3's q-d12.camp); burnt, its gold."}
+  - {id: poi:yog, space: zone:sardaj_camp, kind: npc, behaviour: "Yog (4953), talking actor: Q-D12 (A3's q-d12.sardaj)."}
+  - {id: poi:great_tree, space: zone:great_tree, kind: story_device, behaviour: "The great tree and the rope from the sky: 'A rope hangs down out of the sky. Climb?' (the way to D7, its condition D7's owner's)."}
+  - {id: poi:luna, space: zone:luna_grove, kind: npc, behaviour: "Luna the Druid (4952) in her grove: Q-D20's statuettes."}
+  - {id: poi:obelisk, space: zone:rim_headland, kind: obelisk, rule: "native:obelisk", behaviour: "The Darkside's first obelisk: 'DIG' (A3's obelisks.d1)."}
+  - {id: poi:falista_hut, space: wild:south_bank, kind: device, behaviour: "Falista's hut (the source's A4 7,1): restores spell points to a party with the Clouds award 'Restored Falista'; otherwise an empty hut and a message."}
+  - {id: poi:prayer_shrine, space: zone:shrine_knoll, kind: shrine, behaviour: "The prayer shrine: +10 to every stat until the party rests (the source's +3 levels, rescaled; A2).", uses: {times: 1, per: party, reset: daily}}
+  - {id: poi:might_well, space: zone:might_well, kind: well, behaviour: "The Well of Might: +2 Might, permanent, once per character.", uses: {times: 1, per: character, reset: never}}
+  - {id: poi:melon_patch, space: zone:melon_patch, kind: item, behaviour: "Three Monga melons among the nests (A3's q-d9.melons_south)."}
+  - {id: poi:melon_field, space: zone:melon_field, kind: item, behaviour: "One Monga melon at the field's edge (A3's q-d9.melon_field)."}
+  - {id: poi:shipwreck, space: wild:south_bank, kind: chest, behaviour: "A castaway's wrecked boat on the shallows, its hull open: a sea chest (the source's castaway shipwreck) and a scrawled note."}
+  # ---- generic devices and chests ----
+  - {id: poi:besiegers_camp, space: wild:east_road_camp, kind: chest, behaviour: "The wrecked trebuchet with a sign 'Property of Castleview. Do not touch.' and the gremlins' loot chest beside it."}
+  - {id: poi:heretic_pack, space: zone:western_tower, kind: chest, behaviour: "Under the tower's north wall, a heretic's pack where he fell from the rope (a chest)."}
+  - {id: poi:webbed_pack, space: wild:dark_grove, kind: chest, behaviour: "A pack wrapped in web against a trunk (a chest)."}
+  - {id: poi:wayside_shrine, space: zone:east_arrival, kind: shrine, behaviour: "A wayside shrine of Mok on the east road: Bless, daily.", uses: {times: 1, per: party, reset: daily}}
+  - {id: poi:edge_stone, space: wild:west_heath, kind: ruin, behaviour: "A standing stone at the brink: 'DON'T.' A view down into the stars."}
+  - {id: poi:west_well, space: wild:west_heath, kind: well, behaviour: "The old west well at the fork: +Personality, temporary.", uses: {times: 1, per: character, reset: daily}}
+  - {id: poi:bottle, space: water:vale_water, kind: item, behaviour: "A bottle in the reeds with a message (the source's bottle messages)."}
+  - {id: poi:falls, space: wild:south_bank, kind: vista, behaviour: "Where the Vale Water goes over the edge: a message, the falls and the stars below."}
+  - {id: poi:signposts, spaces: [junction:gate_fork, junction:east_bridge, junction:west_fork, junction:south_fork], kind: signpost, count: 4, behaviour: "Signposts at the forks."}
+  # ---- in town ----
+  - {id: poi:mirror, space: zone:cv_square, kind: story_device, behaviour: "The Mirror of Castleview (4467): asleep until Kalindra's stage 4."}
+  - {id: poi:lyle_bench, space: zone:cv_square, kind: sign, behaviour: "A bench with a brass plate: 'This bench reserved for Lyle the Pigeon Feeder.'"}
+  - {id: poi:drawkcab_sign, space: town:castleview, kind: sign, behaviour: "Over the four monks' cells: 'The Drawkcab Monks study the Palindrome.' (A3's q-d3.drawkcab_sign)."}
+  - {id: poi:jail_window, space: town:castleview, kind: device, behaviour: "The jail's barred back window in the alley (A3's q-d2.jail_window)."}
+  - {id: poi:storage_numbers, space: town:castleview, kind: puzzle, behaviour: "Public Storage's first yard, beside house 4470: nine numbered chests (A3's q-d4.number_chests)."}
+  - {id: poi:storage_letters, space: town:castleview, kind: puzzle, behaviour: "The second yard: nine lettered chests, PITCHFORK (A3's q-d4.letter_chests)."}
+  - {id: poi:runaway_chest, space: town:castleview, kind: chest, behaviour: "The chest on little brass feet in the south-west corner (A3's m17.runaway_chest): it scuttles off until m17.chest_still."}
+landmarks:
+  - {id: landmark:castleview_walls, space: town:castleview, what: "Low grey walls with square towers and a gatehouse, slate roofs and Ellinger's tower above them", seen_from: [zone:pyramid_knoll, wild:south_bank, zone:kalindra_gate, zone:east_arrival]}
+  - {id: landmark:ellinger_tower, space: town:castleview, what: "A round tower of dark stone with a conical slate roof, the tallest thing in town", seen_from: [zone:pyramid_knoll, wild:siege_lines, zone:melon_field]}
+  - {id: landmark:pyramid, space: zone:pyramid_knoll, what: "A stepped stone travel pyramid on its knoll", seen_from: [zone:gate_yard, wild:siege_lines]}
+  - {id: landmark:grove_tree, space: zone:great_tree, what: "The Dark Grove's great tree and its rope rising into the amber sky", seen_from: [zone:pyramid_knoll, zone:gate_yard, wild:south_bank, zone:kalindra_gate, wild:west_heath]}
+  - {id: landmark:western_tower, space: zone:western_tower, what: "A dark slate tower on a knoll at the world's edge, a rope down its north wall", seen_from: [wild:west_heath, zone:gemsmiths_row, zone:kalindra_gate]}
+  - {id: landmark:kalindra, space: zone:kalindra_rise, what: "Castle Kalindra, a translucent ghost of white stone and purple banners on its rise", seen_from: [wild:south_bank, zone:rim_headland, zone:luna_grove, town:castleview]}
+  - {id: landmark:broken_bridge, space: zone:mill_gorge, what: "The cut rope bridge hanging into the gorge, the burnt mill beside it", seen_from: [zone:pyramid_knoll, zone:gate_yard]}
+  - {id: landmark:falls, space: wild:south_bank, what: "The Vale Water falling off the world's edge into the stars", seen_from: [wild:south_bank, zone:kalindra_rise]}
+  - {id: landmark:sardaj_horn, space: wild:north_hills, what: "A tall bare peak over the mountain road", seen_from: [zone:pyramid_knoll, town:castleview]}
+sightlines:
+  - {id: view:arrival, from: entrance:castleview_pyramid, to: [landmark:castleview_walls, landmark:broken_bridge, landmark:ellinger_tower], what: "The Darkside's first view (m14.arrival): walls ringed with siege works, the gate, the cut rope bridge, under an amber sky."}
+  - {id: view:signature, from: poi:prayer_shrine, to: [landmark:kalindra, landmark:grove_tree, landmark:castleview_walls], what: "The vale's three promises in one look: the ghost castle to restore, the rope into the sky, the hub."}
+set_pieces:
+  - id: set:ghost_castle
+    kind: scripted
+    spaces: [zone:kalindra_rise]
+    rule: "Castle Kalindra's exterior shows its stage: stage 0 the whole castle translucent and shimmering (a ghost model), the gate refuses (A3's m19.ghost_castle); stages 1-4 more of it solid (gate and first floor at stage 1). The map swaps model groups by qbit."
+    states: [ghost, stage1, stage2, stage3, stage4]
+  - id: set:sabotage
+    kind: scripted
+    spaces: [zone:mill_gorge]
+    rule: "The rope bridge cut and the mill burnt until q-d1.court_won; then both mended (BModel groups swapped, A3's q-d1.sabotage)."
+    states: [sabotaged, mended]
+  - id: set:sardaj
+    kind: scripted
+    spaces: [zone:sardaj_camp]
+    rule: "The Sardaj peaceful until q-d12.hostile or camp_burned; then hostile. Burning the camp leaves ash and poles."
+    states: [peaceful, hostile, burned]
+states:
+  - id: state:jetty_closed
+    condition: {not: {qbit: lucio_open}}
+    locks: [building:cv_lucio_jetty]
+    atmosphere: "A jetty that ends in thin air. A sign: \"Celestial boats. Chosen Ones only.\" (A4's closed text)"
+  - id: state:jetty_open
+    condition: {qbit: lucio_open}
+    opens: [building:cv_lucio_jetty]
+    effects: ["Lucio's boat at the jetty's end twice a week (mon, thu)."]
+height_bands:
+  - {id: band:rim_sea, range: [0, 0], spaces: [zone:rim, water:rim_sea]}
+  - {id: band:river, range: [780, 880], spaces: [water:vale_water]}
+  - {id: band:vale, range: [950, 1300], spaces: [town:castleview, wild:dark_grove, wild:siege_lines, wild:west_heath, wild:south_meadows, wild:south_bank, wild:east_road_camp, zone:luna_grove, zone:melon_field]}
+  - {id: band:rise, range: [1300, 1900], spaces: [zone:kalindra_rise, zone:western_tower, zone:sardaj_camp, zone:gemsmiths_row, wild:gemstone_foothills], notes: "Kalindra's rise 1,750 with a 500 cliff to the river."}
+  - {id: band:hills, range: [1900, 3600], spaces: [wild:north_hills], partly: [wild:gemstone_foothills], notes: "The Sardaj Horn 3,600."}
+landform:
+  relief: "An open vale at 1,000-1,250 round the town and the river, a low rise for the ghost castle (1,750) and knolls for the pyramid, the Western Tower and the shrine; the mine hills and the Sardaj Horn along the north edge (to 3,600), the Gemstone foothills in the north-east; the river 250 down in its gorge east of the walls."
+  height_range: [800, 3600]
+  water: "The Vale Water (about 250 cells) from the Sardaj Falls to the south rim; the acid pond."
+  water_share: 0.03
+  caps: [{kind: bare rock, share: 0.08, where: "the north hills' crests, the gorge's walls, Kalindra's south cliff"}]
+  rim:
+    notes: "The world rim along the whole west and south (MU-1: D1 is the south-west corner of the Darkside): a cliff of about 1,000 down to the stars; the Vale Water falls over it at x 31. North and east the land runs to the map's edge, the roads out to it."
+atmosphere: "Sky xeendark1 (xeen_darkside_day: amber band, small pale sun; A3's Lua switches to xeendark2/3 at M17/M27); no weather (rare rain, mist in the grove); music 37. Wind in the grass, pigeons and a bell in town, the river's falls faint to the south-west, insects in the grove."
+sketch: {file: sketch.yml, grid: 512}
+totals:
+  hostiles_at_load: 135
+  encounter_areas: 5
+  spawn_markers: 47
+  outdoor_chests: 7
+  points_of_interest: 44
+  dungeon_entrances: 6
+notes: "MU-3 for the phase 3 gate (A6, 2026-11-20). Source geography: Darkside A3, A4, B3, B4 (research/MM5_DARKSIDE_CONTENT section 4), moved where the town file and the decisions need. Nibbler's hollow, its melons and the troll holes are D2's. Board: level_generation/xeen_art/phase3/d1/board_d1.png."

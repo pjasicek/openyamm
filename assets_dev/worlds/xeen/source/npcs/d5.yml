@@ -1,0 +1,81 @@
+# D5 Desert of Doom (Darkside): the desert's own bits and lines that belong to no quest (D-49). Quest places: q-d24
+# (the Enchanted Boulders), q-d16 (Gurodel's hold, hold_attacked), q-d17 (the Northern Tower), q-d27 (the two lamps),
+# m28 (the Great Pyramid), obelisks (d5 and the hoard under the broken pyramid's capstone), dd18 (the sewer grate).
+# The devices decide for themselves: the map only asks its question (where one is given) and calls the hook. Owner:
+# A3. Format: QUESTS_FORMAT.md section 5.
+map: D5
+block: 162
+source: "D-49 (devdocs/xeen/briefs/d5/L1/D49_DECISION.md Q2, Q5, Q8); dark/aaze0009:1-5, aaze0010:15-18, aaze0013:7-12, aaze0014:20"
+
+qbits:
+  lair_destroyed: {id: 116180, note: "the cyclopes' lair in the Quivering Forest torn apart (lair); the map shows it wrecked on every load once set"}
+
+player_bits:         # per character; the hooks decide for the clicking member
+  last_water: {id: 11353, map: D5, note: "the Last Water: +2 Luck (base), once (D-49 Q5; A2 swapped Accuracy for Luck, the least-served permanent stat)"}
+  fountain_energy: {id: 11354, map: D5, note: "the Fountain of Energy Resistance: +5 Air resistance, permanent, once (D-49 Q8)"}
+
+hooks:
+  shrine:
+    status: true   # F13: a touch effect answers on the status line
+    map: D5
+    where: "the Shrine of Great Power on its mesa: the map asks the source's \"Shrine of Great Power. Will the party pray?\" (dark/aaze0010:15); Yes calls this. Once a day for the party (map variable d5_shrine): +15 to every statistic until rest, every member (D-49 Q8)"
+    states:
+      - when: {lua: "Xeen.usedToday(\"d5_shrine\")"}
+        text: "Only silence greets your supplications."
+      - text: "Recognizing the urgency of your quest, the Gods answer your prayers. (+15 to every statistic until you rest)"
+        do:
+          - {lua: "Xeen.markToday(\"d5_shrine\")"}
+          - {lua: "evt.ForPlayer(Players.All)"}
+          - {lua: "AddValue(MightBonus, 15)"}
+          - {lua: "AddValue(IntellectBonus, 15)"}
+          - {lua: "AddValue(PersonalityBonus, 15)"}
+          - {lua: "AddValue(EnduranceBonus, 15)"}
+          - {lua: "AddValue(AccuracyBonus, 15)"}
+          - {lua: "AddValue(SpeedBonus, 15)"}
+          - {lua: "AddValue(LuckBonus, 15)"}
+  fountain_might:
+    status: true   # F13: a touch effect answers on the status line
+    map: D5
+    where: "the Fountain of Might, a spring under the rim the giants drink from (dark/aaze0013:9-11): the map only calls this. Once a day for the party (map variable d5_might): +20 Might until rest, every member (D-49 Q8)"
+    states:
+      - when: {lua: "Xeen.usedToday(\"d5_might\")"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain of Might. Fantastic might surges through your body as the water passes your lips. (+20 Might until you rest)"
+        do:
+          - {lua: "Xeen.markToday(\"d5_might\")"}
+          - {lua: "evt.ForPlayer(Players.All)"}
+          - {lua: "AddValue(MightBonus, 20)"}
+  fountain_energy:
+    status: true   # F13: a touch effect answers on the status line
+    map: D5
+    where: "the Fountain of Energy Resistance by the Barrier's west end (dark/aaze0009:3-5): the map only calls this; the hook decides for the clicking member (player bit 11354)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11354))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain of Energy Resistance. Your spine tingles and the hair on the back of your neck stands on end. (+5 Air resistance, permanent)"
+        do: [{lua: "AddValue(AirResistance, 5)"}, {lua: "SetPlayerBit(PlayerBit(11354))"}]
+  last_water:
+    status: true   # F13: a touch effect answers on the status line
+    map: D5
+    where: "the Last Water, the desert's last spring (D-49 Q5): the map only calls this; the hook decides for the clicking member (player bit 11353)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11353))"}
+        text: "The water is cold and very clear."
+      - text: "The Last Water. The water is cold and very clear. You feel fortune turn your way. (+2 Luck, permanent)"
+        do: [{lua: "AddValue(BaseLuck, 2)"}, {lua: "SetPlayerBit(PlayerBit(11353))"}]
+  lair:
+    map: D5
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the cyclopes' lair in the Quivering Forest, its lean-to of whole trunks (D-49 Q2): the map asks the source's \"You have found a Giant's lair. Destroy?\" (dark/aaze0009:1); Yes calls this once; the hoard under the trunks is the map's chest. The wild cyclopes are not the People: this never touches Q-D16"
+    sets: [lair_destroyed]
+    once: true
+    do: [{xp: 1000}]
+    text: "You put your backs into it and tear the place apart. Nobody will be sleeping here tonight."
+    else_text: "Broken trunks and bones. Nobody has rebuilt it."
+  munchies:
+    status: true   # F13: a touch effect answers on the status line
+    map: D5
+    where: "a spot in the open desert (poi:munchies; the source's two, dark/aaze0010:18 and aaze0014:20, one per cluster if A6 wants both): the map's step event calls this; once a day it empties the party's food (map variable d5_munchies), otherwise nothing"
+    requires: {lua: "not Xeen.usedToday(\"d5_munchies\")"}
+    do: [{lua: "Xeen.markToday(\"d5_munchies\")"}, {lua: "SetValue(Food, 0)"}]
+    text: "SOMEONE in the party got the munchies and ate all the food!"

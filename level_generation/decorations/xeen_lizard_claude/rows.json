@@ -1,0 +1,10 @@
+{
+ "_note": "FD-04's lizard (D-57 Q27; lane S session 10). Row 4049, sprite 27049, binding in worlds/xeen/models/indoor_decorations.yml.",
+ "rows": [
+  {"row": 4049, "sprite": 27049, "name": "xeen_lizard", "hint": "lizard", "radius": 24, "height": 50,
+   "model": "worlds/xeen/models/xeen_deco_lizard.glb", "binding_height": 50, "yaw_offset": -1.570796327,
+   "comment": ["FD-04's lizard, Alister changed (D-57 Q27; lane S, level_generation/decorations/xeen_lizard_claude): MM8's",
+               "Thunder Lizard (mm8_m516, skin A baked, its own four LODs) in a still Standing pose, 50 tall, 87 long, 27",
+               "wide; origin at its feet (the tail reaches 59 behind, the snout 28 ahead). Facing = the way it looks."]}
+ ]
+}

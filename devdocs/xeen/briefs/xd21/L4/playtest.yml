@@ -4,14 +4,22 @@
 # goes round by the bunks (the loose brick's purse) and the sluice chamber's catwalk to the east bank, runs the plank
 # bridge out with its winch and walks across it and back, climbs the boss's stair, kills the Robber Boss (his ring of
 # keys from his corpse), reads his ledger, throws the strongroom catch, walks the dart slabs, opens the iron door with
-# the keys, empties the packs and opens the strongbox (Princess Roxanne's tiara: tiara_recovered), opens the fence's
+# the keys, empties the packs and opens the strongbox (Princess Roxanne's tiara among its loot, F15; A3's hook
+# q-c3.vault sets tiara_recovered), opens the fence's
 # door with the keys and loots his chest, goes back west over the plank bridge and through the crawl, and asks to leave
-# by the quay door onto X2's south quay (X2's own build mounted beside this map: see the last steps).
+# by the quay door, out onto X2's south quay in front of the den's door. Played from assets_dev on the map installed in the Xeen world
+# (assets_dev/worlds/xeen/maps) with the world's rows: the Robber Boss 11113, his bodyguards Thieves 11111, the ring of
+# keys 12151, the tiara 12150; the monsters' hostility is the world's relations.yml (read for every mounted world).
+# In the Xeen world (output/studio_cal/xd21/world_play.sh: --world xeen --map xeen_xd21.blv, since the world's start map
+# X1 is not installed yet and a new game loads it first; the --map start makes the den the initial map), so the world's
+# own scripts run (xeen_common.lua, xeen_quests.lua) and A3's hooks with them: q-c3.arrival, q-c3.boss and q-c3.vault
+# (their windows asserted by text); q-c3.secret_door and q-c3.vault_door have no call, the map sets their bits. X2
+# (A5) is installed in the world: the run ends on X2's south quay at DOORS.md's arrival for door:xd21.
 # Numbers are ids.lock.yml's: events (click), doors (door_state), map variables (state_dump_map_var index); actor 2
 # is the Robber Boss (actors 0 and 1 his bodyguards: the scene lists placed monsters by id).
 id: xeen.xd21.l4.walk
 title: Robbers' Den (XD-21 L4), quay door to the vault and back
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -27,9 +35,11 @@ steps:
   - assert: {map: xeen_xd21.blv}
   - setup_shortcut: {kind: immortal, value: true}
   - assert: {party_position: {x: -2560, y: 320, radius: 64, z_min: -8, z_max: 8}}
-  # Why the party is here: Roxanne's errand, a one-shot timer a moment after arriving.
-  - play_lua: {source: "wait(3); close()"}
+  # Why the party is here: A3's hook q-c3.arrival from a one-shot timer a moment after arriving.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
   - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - assert: {dialog: {active: true, text_contains: "The robbers' den, under the great bridge."}}
+  - play_lua: {source: "if not close() then error('the arrival showed no window') end"}
   # The hidden way in: the footprints' clue, then the worn block.
   - walk_to: {x: -2560, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - assert: {state_dump_map_var: {index: 4, value: 1}}
@@ -49,7 +59,8 @@ steps:
   - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - clear_hostiles: {radius: 2000}
   - assert: {state_dump_map_var: {index: 3, value: 1}}
-  - walk_to: {x: -3000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -2560, y: 4480, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -3000, y: 4480, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(16); wait(1); close()"}
   # The undercroft's west bank: the race, the bridge drawn back out of reach.
   - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
@@ -101,17 +112,22 @@ steps:
   - walk_to: {x: 2850, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - assert: {state_dump_map_var: {index: 7, value: 1}}
   - play_lua: {source: "open_door(3, 1)"}
-  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  # The boss and his guards fall from the doorway (open_door already clears hostiles within 1500 while the door moves),
+  # A3's hook q-c3.boss (from the map's death timer): its status line (F15, 2026-11-21: no window; the keys are his
+  # corpse's loot) and robber_boss_slain.
   - clear_hostiles: {radius: 3000}
   - assert: {actor_visible: {actor_index: 2, dead: true}}
-  - advance_runtime: {seconds: 3.0}
-  - play_lua: {source: "close(); if not qbit(110301) then error('robber_boss_slain not set') end"}
-  - combat_loot: {actor_index: 2, expected_item_id: 629}
-  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(629) then error('no ring of keys from the Robber Boss') end"}
+  - advance_runtime: {seconds: 3.0, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'The Robber Boss falls.', 1, true) then error('boss line: ' .. s) end; if not qbit(110301) then error('robber_boss_slain not set') end"}
+  - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - combat_loot: {actor_index: 2, expected_item_id: 12151}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(12151) then error('no ring of keys from the Robber Boss') end"}
   # The ledger, the catch, the dart slabs.
   - walk_to: {x: 4150, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "click(20); wait(1); if not close() then error('the ledger opened no window') end"}
-  - walk_to: {x: 4224, y: 4480, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3680, y: 4480, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "click(9); wait(2); close()"}
   - assert: {state_dump_map_var: {index: 2, value: 1}}
   - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -129,15 +145,24 @@ steps:
         local packs = pack_items()
         for entry in string.gmatch(packs, "(%d+)x%d+") do
           local id = tonumber(entry)
-          if id ~= 629 then while discard(id) do end end
+          if id ~= 12151 then while discard(id) do end end
         end
+        if has_item(12150) or qbit(110300) then error("the tiara before the strongbox") end
+        -- F15 (2026-11-21): the tiara is an ordinary item in the strongbox with the gang's takings, 800 gold and more
+        -- (the loot filter turns some items into gold); its trap goes off on the first opening and leaves it shut
+        -- (loot_chest's rule); A3's hook q-c3.vault sets tiara_recovered when it opens
+        local g = gold()
         loot_chest(12)
         if held() ~= 0 then stow() end
-        if not has_item(900) then error("the strongbox held no tiara: " .. pack_items()) end
-        if not qbit(110300) then error("tiara_recovered not set") end
-  - advance_runtime: {seconds: 3.0}
-  - assert: {state_dump_map_var: {index: 8, value: 1}}
-  - play_lua: {source: "close()"}
+        log("the strongbox: +" .. (gold() - g) .. " gold")
+        if gold() < g + 800 then error("the strongbox paid " .. (gold() - g) .. " gold, not its 800") end
+        if not qbit(110300) then error("tiara_recovered not set by the strongbox: " .. status()) end
+        if item_count(12150) ~= 1 then error("tiaras after the strongbox: " .. tostring(item_count(12150)) .. " " .. pack_items()) end
+        if item_count(12150) ~= 1 then error("a second tiara: " .. tostring(item_count(12150))) end
+        click(12); wait(1)
+        if take_chest() then close() end
+        if item_count(12150) ~= 1 then error("a second tiara: " .. tostring(item_count(12150))) end
+        close()
   # Back down, and the fence's door with the keys; his chest.
   - walk_to: {x: 3904, y: 4500, z: 256, radius: 64, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 3350, y: 3968, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -164,13 +189,14 @@ steps:
   - walk_to: {x: -2560, y: 3800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: -2560, y: 1300, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: -2560, y: 250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
-  - play_lua: {source: "if not has_item(900) or not qbit(110300) or not qbit(110301) then error('a quest bit or the tiara was lost') end"}
-  # The way out to X2. Played with the X2 agent's current build mounted beside this one
-  # (output/studio_cal/xd21/tools/exitmount.py composes output/studio_cal/xd21/mount_exit): the quay door puts the
-  # party on Rivercity's south quay at DOORS.md's final arrival (1280, 4172, 640), facing the river.
+  - play_lua: {source: "if item_count(12150) ~= 1 or not has_item(12151) or not qbit(110300) or not qbit(110301) or not qbit(110302) or not qbit(110303) then error('a quest bit, the tiara or the keys was lost') end"}
+  # The way out to X2: the quay door offers to leave (OK) and sets the party down on Rivercity's south quay, 400 in
+  # front of the den's door in the quay wall (DOORS.md, door:xd21: 1280, 4172, 640, facing north), the tiara and the
+  # keys still carried.
   - execute_event: {id: 17}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
   - assert: {map: xeen_x2.odm}
-  - assert: {party_position: {x: 1280, y: 4172, radius: 160, z_min: 400, z_max: 900}}
-  - play_lua: {source: "if not has_item(900) or not qbit(110300) then error('the tiara did not leave the den with the party') end"}
+  - assert: {party_position: {x: 1280, y: 4172, radius: 160, z_min: 600, z_max: 700}}
+  - play_lua: {source: "if item_count(12150) ~= 1 or not has_item(12151) then error('the tiara or the keys lost on the way out') end"}

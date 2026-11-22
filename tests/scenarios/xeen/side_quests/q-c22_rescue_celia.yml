@@ -1,0 +1,87 @@
+# Xeen side quest Q-C22, Rescue Celia (X1), from a new game. Derek the Ranger (at his camp) asks for his bride; she is
+# tied up in her hut in the Forest of the Walking Dead. Asked, freed (Untie), reported; on the next load of X1 she
+# sits at Derek's fire (X1's on-load event shows the group celia_at_fire). Later, on Darkside (D3, by `travel`): the
+# first knock on their cottage (event 93) runs q-c22.cottage (its status line, moved) and enters house 4647; the
+# second knock enters it without the hook; Celia's "The sword" (treasure 4, sword_given). Outdoors the party is
+# placed beside each person and door (tests/playthrough/PLAYBOOK.md §2). Quest logic: source/quests/q-c22.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c22_rescue_celia.yml
+id: xeen.side_quests.q-c22
+title: "Xeen Q-C22: Celia untied in the dead forest and back at Derek's fire"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 6, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 6, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 6, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 6, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x1.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - press_action: {action: cancel_dialog}
+  - assert: {actor_visible: {actor_index: 82, hidden: true}}
+  # Derek at his camp: Celia (Q-C22 started).
+  - set_pose: {map: xeen_x1.odm, x: -11674, y: -6763, z: 640, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 75}   # Derek (NPC 4046), the scene's actor 75 (fuller X1)
+  - select_topic: {match_label: Celia}
+  - assert:
+      dialog: {text_contains: "Help me, please"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112440]}
+  # Celia's hut in the dead forest (event 3): Untie.
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 3}
+  - select_topic: {match_label: Untie}
+  - assert:
+      dialog: {text_contains: "Derek sent you?"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112441]}
+  # Derek: Celia (Q-C22 done).
+  - set_pose: {map: xeen_x1.odm, x: -11674, y: -6763, z: 640, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 2000}
+  - interact_actor: {actor_index: 75}   # Derek (NPC 4046), the scene's actor 75 (fuller X1)
+  - select_topic: {match_label: Celia}
+  - assert:
+      dialog: {text_contains: "You have rescued my Celia"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112442]}
+  - assert: {qbit_clear: [112440]}
+  # The next load of X1: Celia sits at Derek's fire.
+  - save_game: {name: "Q-C22", path: output/scenarios/xeen/q-c22.oysav}
+  - load_game: {path: output/scenarios/xeen/q-c22.oysav}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 82, hidden: false}}
+  # Darkside, later in the story: Celia and Derek's cottage by D3's Crossroads (event 93, A4's house 4647). The party
+  # goes there by `travel` (the story's crossing is the main chain's). The first knock runs q-c22.cottage (moved: they
+  # live here now, X1's camp is gone); every later knock enters house 4647 (A5, 16:32).
+  - travel: {map: xeen_d3.odm, days: 2}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(112443) then error('q-c22.moved set before the knock') end"}
+  - set_pose: {map: xeen_d3.odm, x: 384, y: 8212, z: 1248, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(93); wait(0.5); local s = status(); log('first knock: ' .. s); if not string.find(s, 'Celia opens the door with flour on her hands.', 1, true) then error('no cottage line: ' .. s) end; if not qbit(112443) then error('q-c22.moved 112443 not set by the first knock') end"}
+  - assert:
+      dialog: {active: true, source_id: 4647, action_label_present: Celia}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; wait(0.3)"}
+  # The second knock: straight into the cottage (house 4647), no hook line.
+  - set_pose: {map: xeen_d3.odm, x: 384, y: 8212, z: 1248, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(93); wait(0.5); local s = status(); if string.find(s, 'Celia opens', 1, true) then error('the hook ran again: ' .. s) end"}
+  - assert:
+      dialog: {active: true, source_id: 4647, action_label_present: Derek}
+  # Celia in the cottage: the sword Derek found (treasure level 4, once).
+  - play_lua: {source: "remember('pack', pack_items())"}
+  - select_topic: {match_label: Celia}
+  - select_topic: {match_label: "The sword"}
+  - assert:
+      dialog: {text_contains: "too good a sword for a man who mostly carries firewood"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if not qbit(112444) then error('q-c22.sword_given 112444 not set') end; log('the sword: ' .. recall('pack') .. ' -> ' .. pack_items())"}

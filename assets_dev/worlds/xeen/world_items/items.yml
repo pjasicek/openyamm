@@ -1,0 +1,48 @@
+# The Xeen world's own items lying on the ground in 3D, by inventory icon (items.txt "Pic File"), added to the
+# engine's engine/world_items/items.yml (GameDataLoader; an icon bound in both fails). Only the xeen_item_* icons;
+# two of them reuse an engine model. Written by level_generation/props/items_xeen_claude/scripts/install_xeen.py;
+# bounds by tools/item_model_shapes.py. length: world units of the model's longest horizontal side; see
+# devdocs/GROUND_ITEMS_3D_PLAN.md.
+schema: openyamm.itemModels.v1
+items:
+  - {icon: xeen_item_12192, model: worlds/xeen/world_items/models/item_xeen_12192.glb, length: 39.6, bounds: [-19.8, -19.8, 0, 19.8, 19.8, 4.8]}   # King's Megacredit
+  - {icon: xeen_item_12301, model: worlds/xeen/world_items/models/item_xeen_12301.glb, length: 34.2, bounds: [-15.6, -17.1, 0, 15.6, 17.1, 10.3]}   # Yak Stone of Opening
+  - {icon: xeen_item_12302, model: worlds/xeen/world_items/models/item_xeen_12302.glb, length: 39.6, bounds: [-19.8, -18.7, 0, 19.8, 18.7, 3.2]}   # Pyramid Sigil
+  - {icon: xeen_item_12304, model: worlds/xeen/world_items/models/item_xeen_12304.glb, length: 34.2, bounds: [-15.7, -17.1, 0, 15.7, 17.1, 13.1]}   # Stone of a Thousand Terrors
+  - {icon: xeen_item_12305, model: worlds/xeen/world_items/models/item_xeen_12305.glb, length: 34.2, bounds: [-16.6, -17.1, 0, 16.6, 17.1, 5]}   # Golem Stone of Admittance
+  - {icon: xeen_item_12308, model: worlds/xeen/world_items/models/item_xeen_12308.glb, length: 55.8, bounds: [-3.6, -27.9, 0, 3.6, 27.9, 6.9]}   # Orothin's Bone Whistle
+  - {icon: xeen_item_12309, model: worlds/xeen/world_items/models/item_xeen_12309.glb, length: 55.8, bounds: [-11, -27.9, 0, 11, 27.9, 2.3]}   # Phirna Root
+  - {icon: xeen_item_12310, model: worlds/xeen/world_items/models/item_xeen_12310.glb, length: 55.8, bounds: [-6.1, -27.9, 0, 6.1, 27.9, 4.3]}   # Wand of Faery Magic
+  - {icon: xeen_item_12311, model: engine/world_items/models/item_skull.glb, length: 43.2, bounds: [-15.5, -21.6, 0, 15.5, 21.6, 35.7]}   # Ligono's Skull
+  - {icon: xeen_item_12312, model: worlds/xeen/world_items/models/item_xeen_12312.glb, length: 34.2, bounds: [-11.3, -17.1, 0, 11.3, 17.1, 7.4]}   # Scarab of Imaging
+  - {icon: xeen_item_12313, model: worlds/xeen/world_items/models/item_xeen_12313.glb, length: 34.2, bounds: [-17.1, -9.2, 0, 17.1, 9.2, 34]}   # Crystals of Piezoelectricity
+  - {icon: xeen_item_12314, model: worlds/xeen/world_items/models/item_xeen_12314.glb, length: 34.2, bounds: [-17.1, -16.3, 0, 17.1, 16.3, 11.9]}   # Ever-Hot Lava Rock
+  - {icon: xeen_item_12315, model: worlds/xeen/world_items/models/item_xeen_12315.glb, length: 39.6, bounds: [-19.8, -12.1, 0, 19.8, 12.1, 20]}   # Widget
+  - {icon: xeen_item_12331, model: worlds/xeen/world_items/models/item_xeen_12331.glb, length: 34.2, bounds: [-17.1, -17.1, 0, 17.1, 17.1, 34.2]}   # Dragon Pharaoh's Orb
+  - {icon: xeen_item_12334, model: worlds/xeen/world_items/models/item_xeen_12334.glb, length: 34.2, bounds: [-17.1, -17.1, 0, 17.1, 17.1, 5.1]}   # Energy Disk
+  - {icon: xeen_item_12343, model: worlds/xeen/world_items/models/item_xeen_12343.glb, length: 39.6, bounds: [-18.2, -19.8, 0, 18.2, 19.8, 26.4]}   # Monga Melon
+  - {icon: xeen_item_12345, model: worlds/xeen/world_items/models/item_xeen_12345.glb, length: 55.8, bounds: [-5.7, -27.9, 0, 5.7, 27.9, 10.8]}   # Vespar's Emerald Handle
+  - {icon: xeen_item_12346, model: worlds/xeen/world_items/models/item_xeen_12346.glb, length: 39.6, bounds: [-19.8, -17.2, 0, 19.8, 17.2, 22.3]}   # Bridle
+  - {icon: xeen_item_12347, model: worlds/xeen/world_items/models/item_xeen_12347.glb, length: 39.6, bounds: [-19.8, -17.2, 0, 19.8, 17.2, 22.3]}   # Enchanted Bridle
+  - {icon: xeen_item_12349, model: worlds/xeen/world_items/models/item_xeen_12349.glb, length: 34.2, bounds: [-17.1, -14.5, 0, 17.1, 14.5, 43.4]}   # Golden Pegasus Statuette
+  - {icon: xeen_item_12350, model: engine/world_items/models/item_statuet5.glb, length: 63.9, bounds: [-32, -13.2, 0, 32, 13.2, 63.9]}   # Golden Dragon Statuette
+  - {icon: xeen_item_12351, model: worlds/xeen/world_items/models/item_xeen_12351.glb, length: 34.2, bounds: [-17.1, -13.6, 0, 17.1, 13.6, 44.7]}   # Golden Griffin Statuette
+  - {icon: xeen_item_12352, model: worlds/xeen/world_items/models/item_xeen_12352.glb, length: 55.8, bounds: [-13.9, -27.9, 0, 13.9, 27.9, 5]}   # Caleb's Magnifying Glass
+  - {icon: xeen_item_12353, model: worlds/xeen/world_items/models/item_xeen_12353.glb, length: 23.4, bounds: [-11.7, -11.7, 0, 11.7, 11.7, 39.1]}   # Sandro's Heart
+  - {icon: xeen_item_12357, model: worlds/xeen/world_items/models/item_xeen_12357.glb, length: 34.2, bounds: [-17.1, -15.7, 0, 17.1, 15.7, 14]}   # Ruby Rock
+  - {icon: xeen_item_12358, model: worlds/xeen/world_items/models/item_xeen_12358.glb, length: 34.2, bounds: [-17.1, -14.3, 0, 17.1, 14.3, 13.6]}   # Emerald Rock
+  - {icon: xeen_item_12359, model: worlds/xeen/world_items/models/item_xeen_12359.glb, length: 34.2, bounds: [-17.1, -16.2, 0, 17.1, 16.2, 14]}   # Sapphire Rock
+  - {icon: xeen_item_12360, model: worlds/xeen/world_items/models/item_xeen_12360.glb, length: 34.2, bounds: [-17.1, -14.3, 0, 17.1, 14.3, 11.6]}   # Diamond Rock
+  - {icon: xeen_item_12362, model: worlds/xeen/world_items/models/item_xeen_12362.glb, length: 39.6, bounds: [-19.8, -19.3, 0, 19.8, 19.3, 25.3]}   # Tribble
+  - {icon: xeen_item_12363, model: worlds/xeen/world_items/models/item_xeen_12363.glb, length: 39.6, bounds: [-19.8, -13.8, 0, 19.8, 13.8, 23]}   # Soul Box
+  - {icon: xeen_item_12364, model: worlds/xeen/world_items/models/item_xeen_12364.glb, length: 39.6, bounds: [-19.8, -13.8, 0, 19.8, 13.8, 23]}   # Soul Box (Corak)
+  - {icon: xeen_item_12365, model: worlds/xeen/world_items/models/item_xeen_12365.glb, length: 39.6, bounds: [-19.8, -19.8, 0, 19.8, 19.8, 39.6]}   # Cube of Power
+  - {icon: xeen_item_12366, model: worlds/xeen/world_items/models/item_xeen_12366.glb, length: 48.6, bounds: [-12.2, -24.3, 0, 12.2, 24.3, 6]}   # Xeen's Scepter
+  - {icon: xeen_item_12367, model: worlds/xeen/world_items/models/item_xeen_12367.glb, length: 34.2, bounds: [-17.1, -9.9, 0, 17.1, 9.9, 46.9]}   # Might Doll
+  - {icon: xeen_item_12368, model: worlds/xeen/world_items/models/item_xeen_12368.glb, length: 31.5, bounds: [-15.8, -10.2, 0, 15.8, 10.2, 52.4]}   # Speed Doll
+  - {icon: xeen_item_12369, model: worlds/xeen/world_items/models/item_xeen_12369.glb, length: 30.6, bounds: [-15.3, -10.8, 0, 15.3, 10.8, 46.9]}   # Endurance Doll
+  - {icon: xeen_item_12370, model: worlds/xeen/world_items/models/item_xeen_12370.glb, length: 34.2, bounds: [-17.1, -12.4, 0, 17.1, 12.4, 48.6]}   # Accuracy Doll
+  - {icon: xeen_item_12371, model: worlds/xeen/world_items/models/item_xeen_12371.glb, length: 34.2, bounds: [-17.1, -11.3, 0, 17.1, 11.3, 49.2]}   # Lord Xeen Doll
+  - {icon: xeen_item_12373, model: worlds/xeen/world_items/models/item_xeen_12373.glb, length: 28.8, bounds: [-14.4, -14.4, 0, 14.4, 14.4, 45]}   # Chime of Opening
+  - {icon: xeen_item_12400, model: worlds/xeen/world_items/models/item_xeen_12400.glb, length: 52.2, bounds: [-21.5, -26.1, 0, 21.5, 26.1, 10.2]}   # Eerie's Guide to Cloudside
+  - {icon: xeen_item_12523, model: worlds/xeen/world_items/models/item_xeen_12523.glb, length: 43.2, bounds: [-7, -21.6, 0, 7, 21.6, 2.1]}   # Barok's Pendant

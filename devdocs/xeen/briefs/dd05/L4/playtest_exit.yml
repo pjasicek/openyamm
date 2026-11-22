@@ -1,0 +1,75 @@
+# Both ways out of the Western Tower of Mok (DD-05) onto D1 (lane A8, 2026-11-20). (1) From the map's start in the
+# hoist room (entrance:d1_rope, a step inside the rope window), the rope window's exit window ("Exit the Great Western
+# Tower"), OK: the party stands on D1 (Castleview Vale, A6) at A6's entrance:dd05_rope at the foot of the tower's north
+# wall and walks on (a short step forward measures its facing). (2) From a save at the start, loaded: in the hall of
+# the warded door (entrance:d1_door), the front door without the key gives q-d6.front_door's fail text and stays shut
+# (tower_opened clear); with the key 12338 the wards die (tower_opened); a save and a load; the front door again: the
+# exit window, OK: D1's entrance:dd05_door before the tower's ground door, and a step forward. Run with --world xeen
+# --map xeen_dd05.blv (output/studio_cal/dd05/four.sh).
+id: xeen.dd05.l4.exit_d1
+title: Western Tower of Mok (DD-05 L4), out by the rope window and by the front door to D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd05.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 37, skills: [], equipment: {}}
+  - assert: {map: xeen_dd05.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 1376, y: 1472, radius: 64, z_min: 1912, z_max: 1928}}
+  - save_game: {name: dd05_exit_start}
+  # (1) The rope window.
+  - walk_to: {x: 1376, y: 1620, z: 1920, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 36}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "log('rope arrival ' .. status())"}
+  - assert: {party_position: {x: -16896, y: 16896, radius: 128, z_min: 1400, z_max: 1800}}
+  # Facing north (512), away from the tower: a step forward goes north (measured 306 units in 0.4 s).
+  - press_action: {action: forward, seconds: 0.4}
+  - assert: {party_position: {x: -16896, y: 17200, radius: 120, z_min: 1400, z_max: 1800}}
+  - assert: {map: xeen_d1.odm}
+  # (2) The front door: from the start's save, down in the hall of the warded door.
+  - load_game: {name: dd05_exit_start}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd05.blv}
+  - set_pose: {map: xeen_dd05.blv, x: 0, y: -1536, z: 0, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(113125) then error('tower_opened set at the start') end; if has_item(12338) then error('the key at the start') end"}
+  - execute_event: {id: 35}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Locked, and warded from both sides."}}
+  - play_lua: {source: "close(); if qbit(113125) then error('tower_opened set without the key') end"}
+  - assert: {map: xeen_dd05.blv}
+  - grant_item: {item_id: 12338}
+  - execute_event: {id: 35}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "the heretics' wards on the door die"}}
+  - play_lua: {source: "close(); if not qbit(113125) then error('tower_opened not set with the key') end"}
+  - assert: {map: xeen_dd05.blv}
+  - save_game: {name: dd05_exit_opened}
+  - load_game: {name: dd05_exit_opened}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if not qbit(113125) then error('the load lost tower_opened') end"}
+  - execute_event: {id: 35}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "log('door arrival ' .. status())"}
+  - assert: {party_position: {x: -16896, y: 14848, radius: 128, z_min: 1400, z_max: 1800}}
+  # Facing south (1536), away from the door: a step forward goes south.
+  - press_action: {action: forward, seconds: 0.4}
+  - assert: {party_position: {x: -16896, y: 14544, radius: 120, z_min: 1400, z_max: 1800}}
+  - assert: {map: xeen_d1.odm}

@@ -1,0 +1,553 @@
+# Xeen town building kit (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new ones made for the kit
+# (level_generation/xeen_art/kit_textures/towns: specs.yml, finished/<name>.png at 4x). Sizes are logical texels
+# (the x4 masters in level_generation/textures_x4/masters/<world>/<name>.png are 4x). `maps`: the shipped outdoor maps
+# that use the texture. Contact sheet: kits/cloudside_town_sheet.png (kit_sheet.py). Roles follow Map Studio's house kits
+# (openyamm-studio/core/OutdoorBuildings.cpp: wall, window, door, post_left, post_right, roof, trim, gable, ridge).
+kit: cloudside_town
+title: Cloudside half-timbered towns (Vertigo, Rivercity, Asp, Winterkill, Nightshadow, hamlets)
+look:
+- 'Harmondale''s half-timbered houses: cream and ochre plaster, grey daub and grey planks between dark oak beams,'
+- thatch, shingle and red-brown slate roofs, fieldstone for service buildings and walls; warm, MM6/MM7 brightness.
+family_sources:
+- source: 'MM7 Harmondale 7out02 (also Erathia 7out03, Tatalia 7out13, Emerald Isle 7out01): the hh set'
+  why: one human half-timber family in three grades (poor hhp, middle hhm1-3, rich 7hhr1), 61 pieces cut as composed facades
+    that abut cleanly (end, window and door pieces on each base wall); already the built X1 Vertigo stand-in, so Vertigo
+    needs no change. MM6 pxstr has the same idea but only 10 pieces and no grades.
+- source: 'MM7 Harmondale/Erathia ch: chb1 fieldstone and ch1b1 castle stone'
+  why: Harmondale's own stone kit for service buildings (guilds, bank, temple base), town walls, bridges' piers
+- source: MM7 shared trims (trim*_32, 7trimd/7trimda planks) and the MM7 hanging signs (sg*)
+  why: the beams, posts, plank decks and pictorial shop signs every MM7 town uses with hh
+- source: 'Optional second family for one quarter: MM6 pxstr (New Sorpigal oute3, Free Haven outc2, Blackshire outb2)'
+  why: MM6-lineage white plaster and orange timber, for one old quarter of Rivercity (the riverside or skill row); keep
+    it to that quarter (TOWN_FEEL 1)
+grades:
+  poor: hhp1 (grey plaster) and hhp2 (rubble, poles); thatch hhp2rf
+  middle: hhm1 (grey planks, hhm1rf), hhm2 (ochre plaster, hhm2rf), hhm3 (grey daub, hhm3rf)
+  rich: 7hhr1 (cream plaster, oak bands, carved doors, oriels); 7hhr1rf
+  service: chb1 fieldstone with the hh doors; guild towers and temples may break the style
+shipped:
+  wall plain:
+  - tex: mm7/hhp1b
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out05.odm, 7out13.odm, out09.odm, out11.odm, out12.odm]
+    note: 'poor: rough grey plaster, dark frame'
+  - tex: mm7/hhp2b1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'poor: rubble and rough poles'
+  - tex: mm7/hhm1b1
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out06.odm, 7out13.odm, out09.odm, out14.odm]
+    note: 'middle: grey planks, braced'
+  - tex: mm7/hhm1b3
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm, out12.odm]
+    note: 'middle: grey planks, braced (other brace)'
+  - tex: mm7/hhm2b1
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm]
+    note: 'middle: ochre plaster over braced daub'
+  - tex: mm7/hhm2b2
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out06.odm, 7out13.odm]
+    note: 'middle: ochre plaster over braced daub (Map Studio "plaster" wall)'
+  - tex: mm7/hhm3b
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'middle: grey daub in an oak frame'
+  - tex: mm7/7hhr1b
+    size: [128, 256]
+    maps: [7out02.odm, 7out13.odm]
+    note: 'rich: cream plaster, oak bands, carved frieze'
+  - tex: mm7/7hhr1bs2
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'rich: plain cream plaster bay (the repeat piece)'
+  - tex: mm7/7hhr1bs1
+    size: [128, 256]
+    maps: [7out02.odm, 7out13.odm]
+    note: 'rich: plaster bay with vent'
+  - tex: mm7/hhm2bs
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out06.odm, 7out13.odm]
+    note: 'middle: plaster bay with small vent'
+  - tex: mm7/hhm3bs
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out13.odm, out09.odm]
+    note: 'middle: grey daub bay, narrow'
+  - tex: mm7/hhp1bs
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm]
+    note: 'poor: plaster bay'
+  - tex: mm7/hhp2bs
+    size: [128, 256]
+    maps: [7out13.odm, out09.odm]
+    note: 'poor: rubble bay'
+  wall with window:
+  - tex: mm7/hhp1bw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'poor: shuttered plank window'
+  - tex: mm7/hhm1bw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out06.odm, 7out13.odm, out09.odm, out12.odm]
+    note: 'middle: leaded window in plank wall'
+  - tex: mm7/hhm2bw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out06.odm, 7out13.odm]
+    note: 'middle: arched leaded window'
+  - tex: mm7/hhm3bw2
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'middle: arched leaded window in daub'
+  - tex: mm7/hhm3bw
+    size: [128, 256]
+    maps: [7out02.odm, out09.odm]
+    note: 'middle: daub window'
+  - tex: mm7/7hhr1bw
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'rich: gabled oriel window'
+  - tex: mm7/7hhr1bw2
+    size: [128, 256]
+    maps: [7out03.odm, 7out13.odm]
+    note: 'rich: tall leaded window'
+  - tex: mm7/7hhr1bw1
+    size: [128, 256]
+    maps: [7out13.odm]
+    note: 'rich: window variant'
+  door:
+  - tex: mm7/hhp1d
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'poor: plank door'
+  - tex: mm7/hhp2dr
+    size: [128, 256]
+    maps: [7out03.odm, 7out13.odm]
+    note: 'poor: rough pole door'
+  - tex: mm7/hhm1d
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: 'middle: braced barn-plank door'
+  - tex: mm7/hhm1d2
+    size: [128, 256]
+    maps: [7out02.odm]
+    note: 'middle: door variant'
+  - tex: mm7/hhm2d
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out06.odm, 7out13.odm]
+    note: 'middle: strapped oak door in plaster'
+  - tex: mm7/hhm3d
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out13.odm, out09.odm, out14.odm]
+    note: 'middle: ring-handled oak door'
+  - tex: mm7/7hhr1d
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm]
+    note: 'rich: carved door, marble jambs'
+  - tex: mm7/7hhr1d1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'rich: carved double door, left half'
+  - tex: mm7/7hhr1d2
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'rich: carved double door, right half'
+  beam/post (end pieces):
+  - tex: mm7/hhp1el
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: poor left end
+  - tex: mm7/hhp1er
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: poor right end
+  - tex: mm7/hhp1elw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm]
+    note: poor left end with window
+  - tex: mm7/hhp1erw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm]
+    note: poor right end with window
+  - tex: mm7/hhp2el
+    size: [128, 256]
+    maps: [7out03.odm, 7out13.odm, out09.odm]
+    note: poor rubble left end
+  - tex: mm7/hhp2er
+    size: [128, 256]
+    maps: [7out13.odm, out09.odm]
+    note: poor rubble right end
+  - tex: mm7/hhm1b2le
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm, out12.odm]
+    note: planks left end
+  - tex: mm7/hhm1b2re
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm, out12.odm]
+    note: planks right end
+  - tex: mm7/hhm2el
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out06.odm, 7out13.odm]
+    note: plaster left end
+  - tex: mm7/hhm2er
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm]
+    note: plaster right end
+  - tex: mm7/hhm2elw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out06.odm, 7out13.odm]
+    note: plaster left end with window
+  - tex: mm7/hhm2erw
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out06.odm, 7out13.odm]
+    note: plaster right end with window
+  - tex: mm7/hhm3el2
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: daub left end
+  - tex: mm7/hhm3er2a
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm]
+    note: daub right end
+  - tex: mm7/hhm3bwl2
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out09.odm]
+    note: daub left end with window
+  - tex: mm7/hhm3bwr2
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out09.odm]
+    note: daub right end with window
+  - tex: mm7/7hhr1el3
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: rich left end
+  - tex: mm7/7hhr1erb
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: rich right end
+  - tex: mm7/7hhr1elw
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: rich left end with oriel
+  - tex: mm7/7hhr1erw
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: rich right end with oriel
+  roof:
+  - tex: mm7/hhp2rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out05.odm, 7out06.odm, 7out13.odm, out10.odm, out11.odm]
+    note: 'poor: thatch'
+  - tex: mm7/hhm1rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: 'middle: split shakes'
+  - tex: mm7/hhm2rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out05.odm, 7out13.odm, out10.odm, out11.odm]
+    note: 'middle: straw shingles'
+  - tex: mm7/hhm3rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out13.odm, out09.odm]
+    note: 'middle: wooden shingles'
+  - tex: mm7/7hhr1rf
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm, out12.odm]
+    note: 'rich and towers: red-brown slate'
+  gable/eave trim:
+  - tex: mm7/trim2_32a
+    size: [64, 32]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: eave beam 64x32 (Map Studio trim)
+  - tex: mm7/trim2_32
+    size: [32, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: ridge and corner post 32x64 (Map Studio ridge)
+  - tex: mm7/trim11_32
+    size: [32, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    note: dark oak post
+  - tex: mm7/trim3_32a
+    size: [64, 32]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out09.odm]
+    note: beam variant
+  - tex: mm7/trim7_32a
+    size: [64, 32]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out09.odm]
+    note: beam variant
+  - tex: mm7/trim2_16a
+    size: [64, 16]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: thin batten 64x16
+  - tex: mm7/trim3_16a
+    size: [64, 16]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out11.odm]
+    note: thin batten 64x16
+  foundation/plinth:
+  - tex: mm7/hhp2b2
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out09.odm, out10.odm, out12.odm]
+    note: rubble stone 128x128, plinths and poor chimneys
+  - tex: mm7/7hhr1p
+    size: [128, 128]
+    maps: [7out02.odm, 7out03.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm, out11.odm]
+    note: grey stucco base and paving
+  - tex: mm7/chb1s
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: fieldstone plinth course
+  chimney:
+  - tex: mm7/hhm3ch
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: cobble chimney stack (Map Studio gable)
+  - tex: mm7/hhp2b2
+    size: [128, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out09.odm, out10.odm, out12.odm]
+    note: rubble chimney (poor)
+  shop sign blanks (shipped pictorial signs):
+  - tex: mm7/7sgtvrn
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, out09.odm, out10.odm, out11.odm]
+    note: tavern
+  - tex: mm7/sgweapon
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out10.odm, out14.odm]
+    note: weapons
+  - tex: mm7/7sgarm
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out10.odm, out14.odm]
+    note: armour
+  - tex: mm7/sgmagi
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, out10.odm]
+    note: magic
+  - tex: mm7/7sgalch
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm]
+    note: alchemist
+  - tex: mm7/sgtempl
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out04.odm, 7out05.odm, out14.odm]
+    note: temple
+  - tex: mm7/7sgbank
+    size: [64, 64]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, out09.odm, out14.odm]
+    note: bank
+  - tex: mm7/7sgtrain
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm, out10.odm, out14.odm]
+    note: training
+  - tex: mm7/7sgstabl
+    size: [64, 64]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out14.odm]
+    note: stables
+  - tex: mm7/sgfire
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out04.odm, out10.odm]
+    note: Fire guild
+  - tex: mm7/sgair
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out04.odm]
+    note: Air guild
+  - tex: mm7/sgwater
+    size: [64, 64]
+    maps: [7out02.odm, 7out04.odm, out09.odm]
+    note: Water guild
+  - tex: mm7/sgearth
+    size: [64, 64]
+    maps: [7out02.odm, 7out04.odm]
+    note: Earth guild
+  - tex: mm7/sgbody
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, out14.odm]
+    note: Body guild
+  - tex: mm7/sgmind
+    size: [64, 64]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm, out14.odm]
+    note: Mind guild
+  - tex: mm7/sgspirit
+    size: [64, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out05.odm]
+    note: Spirit guild
+  - tex: mm7/sglight
+    size: [64, 64]
+    maps: [7d25.blv]
+    note: Light guild
+  - tex: mm7/sgdark
+    size: [64, 64]
+    maps: [7d26.blv]
+    note: Dark guild
+  - tex: mm7/s_east
+    size: [128, 32]
+    maps: [7out02.odm, 7out03.odm, out14.odm]
+    note: signpost board (runic text)
+  fence/wall:
+  - tex: mm7/chb1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm]
+    note: fieldstone wall (Map Studio stone kit) and garden walls
+  - tex: mm7/chb1el
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm]
+    note: fieldstone wall left end
+  - tex: mm7/chb1er
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm]
+    note: fieldstone wall right end
+  - tex: mm7/chbw
+    size: [128, 256]
+    maps: [7out02.odm]
+    note: fieldstone with slit window (guard house)
+  - tex: mm7/chb1dl
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm]
+    note: arched gate, left half
+  - tex: mm7/chb1dr
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out13.odm]
+    note: arched gate, right half
+  - tex: mm7/ch1b1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm]
+    note: town wall, castle stone
+  - tex: mm7/ch1b1s
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: town wall plain bay
+  - tex: mm7/ch1b1dl
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: town gate, left half
+  - tex: mm7/ch1b1dr
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm]
+    note: town gate, right half
+  bridge or quay:
+  - tex: mm7/7trimda
+    size: [256, 128]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, out09.odm]
+    note: plank deck 256x128 (bridges, jetties, balconies)
+  - tex: mm7/7trimd
+    size: [128, 256]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    note: planks 128x256 (sides, fences)
+  - tex: mm7/ch1b1
+    size: [128, 256]
+    maps: [7out02.odm, 7out03.odm, 7out04.odm, 7out13.odm]
+    note: bridge piers and quay walls
+  - tex: mm7/trim11_32
+    size: [32, 64]
+    maps: [7out01.odm, 7out02.odm, 7out03.odm, 7out04.odm, 7out05.odm, 7out06.odm, 7out13.odm, 7out15.odm]
+    note: rails and posts
+  'second family: MM6 pxstr (one quarter only)':
+  - tex: mm6/pxstrst
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm, oute3.odm]
+    note: white plaster, orange timber
+  - tex: mm6/pxstrwb
+    size: [128, 256]
+    maps: [outb2.odm, oute3.odm]
+    note: lit window
+  - tex: mm6/pxstrdr
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm, outd3.odm, oute1.odm, oute3.odm]
+    note: carved door
+  - tex: mm6/pxdorb
+    size: [256, 256]
+    maps: [outb2.odm]
+    note: double door 256x256
+  - tex: mm6/pxstrle
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm, oute3.odm]
+    note: left end
+  - tex: mm6/pxstrre
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm, oute3.odm]
+    note: right end
+  - tex: mm6/pxstrlew
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm, oute3.odm]
+    note: left end with window
+  - tex: mm6/pxstrrew
+    size: [128, 256]
+    maps: [outb2.odm, outc2.odm]
+    note: right end with window
+  - tex: mm6/pxstrwde
+    size: [128, 256]
+    maps: [outb2.odm, oute1.odm]
+    note: window variant
+  - tex: mm6/pxshings
+    size: [128, 128]
+    maps: [outa1.odm, outb2.odm, outc1.odm, outc2.odm, outd1.odm, outd2.odm, outd3.odm, oute1.odm]
+    note: shingle roof
+new:
+- name: xcnorman
+  size: [128, 64]
+  kind: sign
+  note: Norman's Ironworks (Vertigo weaponsmith)
+- name: xcgilbert
+  size: [128, 64]
+  kind: sign
+  note: Gilbert's Hexes (Vertigo magic shop)
+- name: xcgeraldn
+  size: [128, 64]
+  kind: sign
+  note: Lady Geraldine's Tavern (Vertigo)
+- name: xcthylon
+  size: [128, 64]
+  kind: sign
+  note: Thylon's Training (Vertigo)
+- name: xcmylo
+  size: [128, 64]
+  kind: sign
+  note: Mylo's Maps (Vertigo)
+- name: xcadvinn
+  size: [128, 64]
+  kind: sign
+  note: Adventurer's Inn (Vertigo roster)
+- name: xcrcsmith
+  size: [128, 64]
+  kind: sign
+  note: Rivercity Smithing (weaponsmith)
+- name: xcwitch
+  size: [128, 64]
+  kind: sign
+  note: Witch's Cauldron (Rivercity magic shop)
+- name: xcpraypay
+  size: [128, 64]
+  kind: sign
+  note: Pray N Pay (Rivercity temple)
+- name: xcbull
+  size: [128, 64]
+  kind: sign
+  note: Bull's Tavern (Rivercity)
+- name: xcstreet
+  size: [128, 64]
+  kind: sign
+  note: Street Fightin' (Rivercity training)
+- name: xcarnold
+  size: [128, 64]
+  kind: sign
+  note: Arnold's Gym (Rivercity skill row)
+- name: xclindon
+  size: [128, 64]
+  kind: sign
+  note: Lindon's Temps (Rivercity paid work)
+- name: xcsnakeoil
+  size: [128, 64]
+  kind: sign
+  note: Snake Oil (Asp alchemist)
+- name: xcscale
+  size: [128, 64]
+  kind: sign
+  note: Scale House (Asp armourer)
+- name: xctravpit
+  size: [128, 64]
+  kind: sign
+  note: Travel Pit (Asp stables)
+- name: xctrove
+  size: [128, 64]
+  kind: sign
+  note: Treasure Trove (Nightshadow magic shop)

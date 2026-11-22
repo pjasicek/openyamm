@@ -61,7 +61,7 @@ spaces:
     purpose: "The tower's water; eyes over the cistern."
     theme: "Castle Gloaming (MM7 d03): keep stone cnb, flags tfb03, ceiling blocks t4s1fl"
     population:
-      - {slot: 3, groups: 1, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a}
+      - {slot: 3, groups: 2, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a}
   - id: room:cloister_e
     name: East cloister
     kind: room
@@ -719,8 +719,7 @@ spaces:
     light: "a column of pulsing blue-white light up the axis (5 lights from 64 to 3200), torches at each floor"
     palette: ["brzier00: braziers round the rune circle"]
     furniture: ["the rune circle on a low dais (td1, the School of Sorcery's summoning circle)", Darzog's disc (a lift 384 square)]
-    population:
-      - {slot: 3, groups: 2, per_marker: [2, 3], levels: [30, 30], strength: light, rank: a, notes: Floating eyes that drift up and down the Well.}
+    population: []
   - id: room:west_stair
     name: West stair hall
     kind: room
@@ -858,7 +857,7 @@ links:
     to: room:crodo_cell
     kind: secret_door
     motion: slide
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     notes: "Darzog's portrait: the cell's door; Darzog's spell holds it until he dies (set:crodo)."
   - id: link:cistern_cells
     from: room:cistern
@@ -890,7 +889,7 @@ links:
     from: room:state_n
     to: room:well
     kind: lift
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     rise: -2304
     notes: "Darzog's disc: a stone disc 384 across on the Well's north face, from the gate floor to Darzog's floor; bound by his rune until he dies (set:disc)."
   - id: link:disc_landing
@@ -898,7 +897,7 @@ links:
     to: room:well
     kind: door
     motion: slide
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     notes: "A black grille over the Well where the disc lands; open while the disc is up and Darzog is dead."
   - id: link:estair_library_e
     from: room:east_stair
@@ -1079,7 +1078,7 @@ links:
     kind: door
     motion: slide
     condition: {item: library_key}
-    notes: "The library stair door: carved, locked; the High Sorcerer's key in the Chief Librarian's cabinet (great library) opens it."
+    notes: "The library stair door: carved, locked; the library key in the Chief Librarian's cabinet (great library) opens it."
   - id: link:library_reading
     from: room:library_n
     to: room:reading_room
@@ -1341,7 +1340,7 @@ links:
 loops:
   - id: loop:disc
     spaces: [room:well, room:cloister_n, room:cloister_w, room:west_stair, room:works_w, room:works_e, room:east_stair, room:library_e, room:library_w, room:library_stair, room:state_w, room:state_n]
-    closed_until: {qbit: m21_darzog_slain}
+    closed_until: {qbit: darzog_slain}
     notes: "Up the stairs, down the disc: the whole tower becomes a ring after Darzog."
   - id: loop:ring_darzog
     spaces: [room:state_n, room:state_e, room:state_s, room:state_w]
@@ -1361,7 +1360,7 @@ entrances:
     kind: exit
     neighbour: exit:clouds_of_xeen
     how: "The cloud stair on the roof: white steps of cloud climbing from the north terrace into the sky."
-    condition: {qbit: m21_crodo_freed}
+    condition: {qbit: crodo_freed}
   - id: entrance:fall
     space: room:out_e
     kind: exit
@@ -1384,17 +1383,17 @@ goals:
     story: M21
     handed_in_at: exit:lake_island
     gives:
-      qbit: m21_crodo_freed
+      qbit: crodo_freed
   - id: goal:darzog
     space: room:darzog_hall
     kind: kill
     what: Kill Baron Darzog (among his six clones).
     story: M21
     gives:
-      qbit: m21_darzog_slain
+      qbit: darzog_slain
 keys:
   - id: key:darzog_dead
-    grants: {qbit: m21_darzog_slain}
+    grants: {qbit: darzog_slain}
     found_in: room:darzog_hall
     how: "kill: Darzog's death breaks his bindings (the portrait, the disc)"
   - id: key:library_key
@@ -1444,7 +1443,7 @@ points_of_interest:
     kind: npc
     behaviour: "Crodo, thin and grey. Clicking him: his story in a message window (M21's reveal: Roland is Lord Xeen, the hideout in the clouds above this tower, the sword under Newcastle); he goes home to Castle Burlock and the cloud stair will bear the party."
     gives:
-      qbit: m21_crodo_freed
+      qbit: crodo_freed
   - id: poi:darzog_journal
     space: room:darzog_study
     kind: book
@@ -1493,25 +1492,25 @@ set_pieces:
   - id: set:cloud_stair
     kind: scripted
     spaces: [room:roof_n]
-    rule: "White steps of cloud climb from the north roof. Before Crodo is freed they will not bear the party ('the cloud gives under your foot like fog'); after, the top step leads to X9."
+    rule: "White steps of cloud climb from the north roof. Before Crodo is freed the cloud gives like fog; after it the top step asks 'Climb the cloud stair into the sky?', and Yes leaves for X9 (the Clouds of Xeen) at once."
   - id: set:crodo
     kind: scripted
     spaces: [room:bedchamber, room:crodo_cell]
     rule: "Darzog's journal names the portrait; the portrait shows an old man's face behind the Baron's eyes and will not move while Darzog lives; after his death it slides aside on Crodo's cell. Crodo tells the party the truth about Roland and goes home; the cloud stair on the roof will bear the party from then on."
-    enabled_by: {qbit: m21_darzog_slain}
+    enabled_by: {qbit: darzog_slain}
     gives:
-      qbit: m21_crodo_freed
+      qbit: crodo_freed
   - id: set:darzog
     kind: boss
     spaces: [room:darzog_hall]
-    rule: "Baron Darzog among six clones that wear his face (one family of casters, his lightning). The real Baron is the one with his name and three times the hit points; when he dies his bindings break (qbit m21_darzog_slain): the portrait yields, the disc unbinds, and a line says so."
+    rule: "Baron Darzog among six clones that wear his face (one family of casters, his lightning). The real Baron is the one with his name and three times the hit points; when he dies his bindings break (qbit darzog_slain): the portrait yields, the disc unbinds, and a line says so."
     gives:
-      qbit: m21_darzog_slain
+      qbit: darzog_slain
   - id: set:disc
     kind: scripted
     spaces: [room:well, room:state_n, room:cloister_n]
     rule: "Darzog's disc rides the Well's north face between the gate floor and Darzog's floor. It rests at the top behind a black grille, bound by Darzog's rune; after his death the grille opens while the disc is up, clicking the disc rides it, and a call button at each end brings it."
-    enabled_by: {qbit: m21_darzog_slain}
+    enabled_by: {qbit: darzog_slain}
   - id: set:no_magic
     kind: scripted
     spaces: [room:gate_hall]
@@ -1530,7 +1529,7 @@ mechanisms:
   - {kind: plank door, count: 8, notes: "Gloaming's plank leaves 7trimd, folding sideways."}
   - {kind: carved door, count: 2, notes: The School of Sorcery's hhm1d2 in the library.}
   - {kind: double door, count: 1, notes: Darzog's hall.}
-  - {kind: locked door, count: 1, notes: The library stair door (High Sorcerer's key).}
+  - {kind: locked door, count: 1, notes: The library stair door (the library key).}
   - {kind: portcullis, count: 1, notes: "The works gate, raised by a winch lever in the assembly hall."}
   - {kind: secret door, count: 1, notes: Darzog's portrait (cnbport) over Crodo's cell.}
   - {kind: grille, count: 1, notes: Over the disc's landing on Darzog's floor.}

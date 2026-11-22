@@ -1,0 +1,229 @@
+format: 0
+variables: [test_accepted, gate_open, dais_shown]
+events:
+  - id: evt:basket
+    preset: script
+    source: deco:basket
+    title: The basket with no balloon
+    lua: "XeenQuests.hook(\"planes.basket\")"
+    notes: "A3's planes.basket: the balloonist's logbook."
+  - id: evt:cairn
+    preset: script
+    source: platform:cairn1
+    title: A cairn of fused stones
+    lua: "XeenQuests.hook(\"planes.cairn\")"
+    notes: "A3's planes.cairn: the first time a blue gem in the glass (map variable p2_cairn)."
+  - id: evt:chest_cache
+    preset: chest
+    source: chest:basket_cache
+    title: Chest
+    notes: The balloonist's cache (trapped).
+  - id: evt:chest_test
+    preset: chest
+    source: chest:test
+    title: Chest
+    notes: The test's chest (aaze0026:4).
+  - id: evt:dais
+    preset: script
+    source: platform:dais
+    title: The return dais
+    condition: {qbit: m38_air}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(27456, 17728, 1286, 1280, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the dais after the sleeper, to D7's entrance:p2_return (A3's m38.dais_air)."
+  - id: evt:dais_disc
+    preset: script
+    source: deco:dais
+    title: The return dais
+    condition: {qbit: m38_air}
+    locked_text: The dais is dark and still.
+    effects:
+      - lua: "evt.MoveToMap(27456, 17728, 1286, 1280, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:dais clicked on S's decoration over it.
+  - id: evt:dais_hide
+    preset: script
+    trigger: load
+    condition: {not: {qbit: m38_air}}
+    effects:
+      - hide: platform:dais
+      - passable: platform:dais
+    notes: "C5: the return dais shows once the Air Sleeper is awake (qbit 111761, m38.sleeper_air)."
+  - id: evt:dais_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_air}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: "P-1: the dais shown on every load once m38_air is set (S's disc starts hidden)."
+  - id: evt:dais_show
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_air}, {not: {map_var: dais_shown}}]}
+    effects:
+      - show: platform:dais
+      - solid: platform:dais
+      - show: deco:dais
+      - set:
+          var:
+            map_var: dais_shown
+          value: 1
+    notes: The dais rises the second the Air Sleeper wakes (m38_air).
+  - id: evt:fall_check
+    preset: script
+    trigger: timer
+    every: 1
+    lua: |-
+      local x, y, z = evt.GetPartyPosition()
+      if z > -1500 then return end
+      Xeen.skyFallTo("p2")
+    notes: "set:fall (D-58 P2 Q1): a party under -1,500 has fallen off the islands; A3's Xeen.skyFallTo('p2') sets it down on the Gale Landing (entrance:d7_fall) from 850 above, with falling damage."
+  - id: evt:fall_floor
+    preset: script
+    source: room:air
+    trigger: step
+    lua: "Xeen.skyFallTo(\"p2\")"
+    notes: "The safety floor at -6,000: a fall the one-second check missed lands the same way."
+  - id: evt:gate
+    preset: script
+    source: platform:wind_curtain
+    title: A wall of wind
+    effects:
+      - text: The wind between the stones roars and throws you back.
+    notes: "Clicked: the curtain of wind does not let anyone through before the test."
+  - id: evt:gate_open
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: m38_air_test}, {not: {map_var: gate_open}}]}
+    effects:
+      - passable: platform:wind_curtain
+      - hide: platform:wind_curtain
+      - text: The wind between the stones falls still.
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: The curtain of wind stills the second the qbit is set (C4).
+  - id: evt:passed_load
+    preset: script
+    trigger: load
+    condition: {qbit: m38_air_test}
+    effects:
+      - passable: platform:wind_curtain
+      - hide: platform:wind_curtain
+      - hide_actors: 60
+      - set:
+          var:
+            map_var: gate_open
+          value: 1
+    notes: "P-1: the load event reads qbit 111765: the curtain stilled, the guardians hidden, the eye quiet (through refills and the reset after a map rebuild)."
+  - id: evt:plaque
+    preset: script
+    source: platform:plinth
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_air\")"
+    notes: "A3's m38.plaque_air: 'Step Two' at the base of the statue (the statue on it is S's)."
+  - id: evt:plaque_statue
+    preset: script
+    source: deco:statue
+    title: Plaque
+    lua: "XeenQuests.hook(\"m38.plaque_air\")"
+    notes: evt:plaque clicked on S's decoration over it.
+  - id: evt:singing1
+    preset: script
+    source: platform:singing1
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "A3's planes.singing_stones (once a day, +20 Air resistance and +10 Speed)."
+  - id: evt:singing2
+    preset: script
+    source: platform:singing2
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:singing3
+    preset: script
+    source: platform:singing3
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:singing4
+    preset: script
+    source: platform:singing4
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:singing5
+    preset: script
+    source: platform:singing5
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:singing6
+    preset: script
+    source: platform:singing6
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:singing7
+    preset: script
+    source: platform:singing7
+    title: The Singing Stones
+    lua: "XeenQuests.hook(\"planes.singing_stones\")"
+    notes: "The same, another stone."
+  - id: evt:sleeper
+    preset: script
+    source: deco:sleeper
+    title: The Air Sleeper
+    lua: "XeenQuests.hook(\"m38.sleeper_air\")"
+    notes: "A3's m38.sleeper_air (clicked, every time): not Chosen; 'Awaiting Grunfeld field activation.'; awake (the qbit, the award, 10,500 experience)."
+  - id: evt:storm
+    preset: script
+    source: platform:storm1
+    trigger: step
+    sources: [platform:storm2, platform:storm3, platform:storm4, platform:storm5, platform:storm6, platform:storm7, platform:storm8, platform:storm9]
+    lua: "XeenQuests.hook(\"planes.storm\")"
+    notes: "D-58 P2 Q2: A3's planes.storm (one time in three, 50 electrical to each member, 'Lightning strikes from a clear sky!')."
+  - id: evt:test
+    preset: script
+    source: platform:test_plate
+    question: {ask: "Accept the test of Air?", answers: [Yes, Y]}
+    trigger: step
+    condition: {all: [{not: {qbit: m38_air_test}}, {not: {map_var: test_accepted}}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m38.test_air\")"
+      - show_actors: 60
+      - set:
+          var:
+            map_var: test_accepted
+          value: 1
+    notes: "D-58 C3: the test (aaze0026:5). Yes: A3's m38.test_air line, the guardians form in the eye (group 60 shown); any other answer does nothing. Not asked again while they live."
+  - id: evt:test_check
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: test_accepted}, {not: {qbit: m38_air_test}}]}
+    lua: "Xeen.planeTestCheck(\"air\", 60)"
+    notes: "A3's killed-group check (xeen_common.lua): once the three guardians are dead it runs m38.test_air_passed, which sets qbit 111765 (P-1) with its line."
+  - id: evt:way_up
+    preset: script
+    source: platform:way_up
+    title: The updraft
+    effects:
+      - lua: "evt.MoveToMap(27456, 17728, 1286, 1280, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: "D-58 C5: the way up, always open, to D7's entrance:p2_return; A3's m38.way_up_air is its question."
+  - id: evt:way_up_column
+    preset: script
+    source: deco:way_up
+    title: The updraft
+    effects:
+      - lua: "evt.MoveToMap(27456, 17728, 1286, 1280, 0, 0, 0, 1, \"xeen_d7.blv\")"
+    notes: evt:way_up clicked on S's decoration over it.

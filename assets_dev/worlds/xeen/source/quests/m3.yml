@@ -1,0 +1,80 @@
+# M3 The Mad Dwarf Clan (QUESTS M3). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M3
+title: The Mad Dwarf Clan
+act: I
+kind: main
+status: full
+giver: 4003          # Mayor Gunther, on the dwarves' behalf
+maps: [X1, XD-02, XD-03]
+level: 4
+block: 3
+after: [m2.done]
+source: "QUESTS M3; xeen/aaze0028:2-4"
+
+qbits:
+  started: {id: 111060, journal: "The dwarf mines are still being over-run. Please help them.", until: [done]}
+  x4_adit_open: {id: 110020, map: XD-02, note: "XD-02's winch: the adit to X4 opens"}
+  deep_line_unchained: {id: 110021, map: XD-02, note: "the brake key frees the Deep Line cart to XD-03"}
+  clan_king_slain: {id: 110030, map: XD-03}
+  escape_shaft_open: {id: 110031, map: XD-03, note: "the shaft lever; X1's shaft head opens"}
+  done: {id: 111061}
+
+awards:
+  badge: {id: 402, text: "Received the Red Dwarf Badge of Courage", sort: 2}
+
+player_bits:         # once per character: XD-02's four pools, +2 to a stat each (A7, built; Lua bits)
+  pool_red: {id: 11021, map: XD-02}           # +2 Might
+  pool_green: {id: 11022, map: XD-02}         # +2 Endurance
+  pool_gold: {id: 11023, map: XD-02}          # +2 Accuracy
+  pool_blue: {id: 11024, map: XD-02}          # +2 Intellect
+
+items:
+  brake_key: "map-local key of XD-02's Deep Line brake (A7). Was MM7 2111."
+  clan_king_key: "map-local key of the Clan King's hoard in XD-03 (A7). Was MM7 2108."
+
+npcs:
+  4003:              # Mayor Gunther
+    topics:
+      - n: 1
+        label: Dwarves
+        show: {any: [{qbit: started}, {qbit: done}]}
+        states:
+          - when: {qbit: done}
+            text: "The dwarves are digging again. You can hear their picks from the town wall, which is more than I asked for."
+          - when: {qbit: clan_king_slain}
+            text: "The local dwarves have informed me of your great deed and have authorized me to present to you a rare honor: The Red Dwarf Badge of Courage. Congratulations."
+            do: [{set: done}, {clear: started}, {xp: 2500}, {gold: 1500}, {award: badge}]
+          - text: "The dwarf mines are still being over-run. Please help them. The mine portal is in the hills north-west of town."
+
+hooks:
+  winch:
+    map: XD-02
+    where: "the winch at the X4 adit (built: evt:winch)"
+    sets: [x4_adit_open]
+  x4_adit:
+    map: XD-02
+    where: "the adit exit to X4 (built: evt:exit_x4)"
+    reads: [x4_adit_open]
+  deep_line:
+    map: XD-02
+    where: "the Deep Line brake, with the brake key (built: evt:brake, evt:deep_cart, evt:exit_deep)"
+    sets: [deep_line_unchained]
+  clan_king:
+    map: XD-03
+    where: "the Clan King's death (built: evt:king_dead)"
+    sets: [clan_king_slain]
+  shaft_lever:
+    map: XD-03
+    where: "the escape shaft lever (built: evt:shaft_lever)"
+    sets: [escape_shaft_open]
+  shaft_head:
+    map: X1
+    where: "the escape shaft's head in the X1 hills: one way out until the lever is thrown"
+    reads: [escape_shaft_open]
+  dwarf_shop:
+    map: XD-02
+    where: "the dwarves reopen their mine as a shop and a teacher after M3 (A4: house by qbit)"
+    reads: [done]
+
+rewards: {xp: 2500, gold: 1500}
+playthrough: "Gunther (Dwarves). XD-02 to the Deep Line, the brake; XD-03 to the Clan King; the shaft lever; out by the shaft head. Gunther (Dwarves)."

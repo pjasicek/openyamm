@@ -1,0 +1,122 @@
+# D-70 Q2 on X4's quintain (written by output/studio_cal/x4/tools/gen_daily.py): two tilts give every
+# member +5 Accuracy, not +10; a rest clears it and the quintain refuses the rest of the day; the next
+# day it gives +5 again.
+id: xeen.x4.daily
+title: 'Burlock (X4): the quintain once a day for the party (D-70): +5 every member, not +10; gone after a rest; +5 again
+  the next day'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x4.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 10
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 10
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); for _ = 1, 3 do if not close() then break end end
+- assert:
+    map: xeen_x4.odm
+- note: Beside the quintain on its field south of Burlock (60.5, 93.5).
+- set_pose:
+    map: xeen_x4.odm
+    x: -1792
+    y: -15462
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: log('cleared ' .. clear_hostiles(9000))
+- &id001
+  console:
+    line: lua local out = '' for p = 0, 3 do evt.ForPlayer(p) local v = 0 while v < 255 and IsAtLeast(AccuracyBonus, v + 1)
+      do v = v + 1 end out = out .. v .. '/' end evt.ForPlayer(Players.Current) evt.StatusText('ab ' .. out)
+    expect_contains: Lua ran.
+- play_lua:
+    source: 'local s = string.match(status(), ''ab ([%d/]+)''); remember(''ab'', s); log(''Accuracy bonus before: '' .. s)'
+- note: 'Two tilts the same day: +5 for every member, not +10.'
+- play_lua:
+    source: click(112); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''(+5 Accuracy until you rest)'', 1, true) then error(''no status line:
+      '' .. s) end'
+- play_lua:
+    source: click(112); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''Enough tilting for one day.'', 1, true) then error(''no status line:
+      '' .. s) end'
+- *id001
+- play_lua:
+    source: 'local now = {} for v in string.gmatch(string.match(status(), ''ab ([%d/]+)''), ''%d+'') do table.insert(now,
+      tonumber(v)) end local was = {} for v in string.gmatch(recall(''ab''), ''%d+'') do table.insert(was, tonumber(v)) end
+      log(''after two tilts: Accuracy bonus '' .. table.concat(now, ''/'')) for i = 1, 4 do if now[i] - was[i] ~= 5 then error(''after
+      two tilts: member '' .. (i - 1) .. '' has '' .. (now[i] - was[i]) .. '', wanted 5'') end end'
+- note: A rest clears the bonus; the quintain still refuses the same day.
+- play_lua:
+    source: log('cleared ' .. clear_hostiles(40000)); wait(2); log('cleared ' .. clear_hostiles(40000))
+- console:
+    line: rest heal 480
+    expect_contains: Resting
+- advance_runtime:
+    seconds: 20
+- console:
+    line: rest close
+- *id001
+- play_lua:
+    source: 'local now = {} for v in string.gmatch(string.match(status(), ''ab ([%d/]+)''), ''%d+'') do table.insert(now,
+      tonumber(v)) end local was = {} for v in string.gmatch(recall(''ab''), ''%d+'') do table.insert(was, tonumber(v)) end
+      log(''after the rest: Accuracy bonus '' .. table.concat(now, ''/'')) for i = 1, 4 do if now[i] - was[i] ~= 0 then error(''after
+      the rest: member '' .. (i - 1) .. '' has '' .. (now[i] - was[i]) .. '', wanted 0'') end end'
+- play_lua:
+    source: click(112); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''Enough tilting for one day.'', 1, true) then error(''no status line:
+      '' .. s) end'
+- *id001
+- play_lua:
+    source: 'local now = {} for v in string.gmatch(string.match(status(), ''ab ([%d/]+)''), ''%d+'') do table.insert(now,
+      tonumber(v)) end local was = {} for v in string.gmatch(recall(''ab''), ''%d+'') do table.insert(was, tonumber(v)) end
+      log(''after a tilt the same day: Accuracy bonus '' .. table.concat(now, ''/'')) for i = 1, 4 do if now[i] - was[i] ~=
+      0 then error(''after a tilt the same day: member '' .. (i - 1) .. '' has '' .. (now[i] - was[i]) .. '', wanted 0'')
+      end end'
+- note: 'The next day: +5 again.'
+- advance_game_time:
+    hours: 24
+- play_lua:
+    source: log('cleared ' .. clear_hostiles(9000))
+- play_lua:
+    source: click(112); wait(0.5)
+- play_lua:
+    source: 'local s = status(); if not string.find(s, ''(+5 Accuracy until you rest)'', 1, true) then error(''no status line:
+      '' .. s) end'
+- *id001
+- play_lua:
+    source: 'local now = {} for v in string.gmatch(string.match(status(), ''ab ([%d/]+)''), ''%d+'') do table.insert(now,
+      tonumber(v)) end local was = {} for v in string.gmatch(recall(''ab''), ''%d+'') do table.insert(was, tonumber(v)) end
+      log(''the next day: Accuracy bonus '' .. table.concat(now, ''/'')) for i = 1, 4 do if now[i] - was[i] ~= 5 then error(''the
+      next day: member '' .. (i - 1) .. '' has '' .. (now[i] - was[i]) .. '', wanted 5'') end end'

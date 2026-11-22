@@ -1,0 +1,204 @@
+# Hostility check of Castle Burlock (XD-07), after XD-05's (devdocs/xeen/ACT2_BUILD.md, "Hostility pass"): the Madmen,
+# Gargoyles, Trolls and the caged Fire Dragon hostile to the party, the King's Guards peaceful (the world's relation, D-4),
+# and the map's kinds, the guard among them, not fighting each other. Written by hand (output/studio_cal/xd07).
+id: xeen.xd07.l4.hostility
+title: 'Castle Burlock (XD-07): foes hostile to the party, the King''s Guard peaceful, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd07.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 13
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 13
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 13
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 13
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the world's relations.yml sets each family's relation to the party).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11231
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11232
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11540
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11541
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11070
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11642
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11232
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11540
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11070
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11642
+      hostile: true
+      min: 1
+- note: The King's Guards (11143, the world's xeen_burlock_knights_d) are peaceful to the party (D-4).
+- assert:
+    actor_count:
+      monster_id: 11143
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11143
+      hostile: false
+      min: 7
+- note: 'To the kitchens'' door: the kitchens'' own fools cleared, then the map''s kinds side by side in the kitchens, nearer
+    each other than the party (a monster takes the nearest of its foes): none may take another on.'
+- walk_to:
+    x: -448
+    y: 512
+    z: 0
+    radius: 64
+    timeout_seconds: 30
+    close_dialogs: true
+- play_lua:
+    source: open_door(20, 6)
+- clear_hostiles:
+    radius: 2500
+- walk_to:
+    x: -500
+    y: 512
+    z: 0
+    radius: 64
+    timeout_seconds: 30
+    close_dialogs: true
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11143
+    x: -2000
+    y: 768
+    z: 0
+- spawn_actor:
+    monster_id: 11231
+    x: -1888
+    y: 768
+    z: 0
+- spawn_actor:
+    monster_id: 11232
+    x: -1776
+    y: 768
+    z: 0
+- spawn_actor:
+    monster_id: 11540
+    x: -1664
+    y: 768
+    z: 0
+- spawn_actor:
+    monster_id: 11541
+    x: -1552
+    y: 768
+    z: 0
+- spawn_actor:
+    monster_id: 11070
+    x: -1440
+    y: 768
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11143
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11231
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11232
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11540
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11541
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11070
+      hurt: true
+      max: 0
+- note: The placed King's Guards stay peaceful through the fight next to them (spawn_actor summons its guard as a hostile
+    summons, so one hostile guard is the spawned one).
+- assert:
+    actor_count:
+      monster_id: 11143
+      hostile: true
+      max: 1

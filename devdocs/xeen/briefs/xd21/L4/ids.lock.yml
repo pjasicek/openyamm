@@ -45,11 +45,16 @@ events:
   evt:winch: 30
 doors:
   door:boss: 1
+  door:boss.leaf2: 11
   door:bunks: 2
+  door:bunks.leaf2: 12
   door:den: 3
+  door:den.leaf2: 13
   door:fence: 4
+  door:fence.leaf2: 14
   door:secret: 5
   door:sluice: 6
+  door:sluice.leaf2: 15
   door:vault: 7
   mover:drawbridge: 8
   switch:catch: 9

@@ -1,0 +1,851 @@
+# The Dragon Clouds (Q-F1, D-57 Q36, D-59): from FD-04's arrival round the court; the way down (sealed until
+# FD-04 is installed), the well, the Eye, the balls, the books and the crystals with A3's hooks; no monsters
+# (Q37); the party is not immortal and nobody dies.
+id: xeen.x9.l4.dragon_clouds
+title: 'Clouds of Xeen (X9): the Dragon Clouds from FD-04''s arrival: the way down, the Eye, the books, balls, well and crystals;
+  no monsters, nobody dies (D-57, D-59)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x9.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 62
+        might: 30
+        intellect: 20
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 62
+        intellect: 25
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 62
+        intellect: 25
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 62
+        intellect: 45
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(3); close()
+- load_map:
+    map: xeen_x9.blv
+    pos: 20352, 17280, 2048
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_x9.blv
+- note: 'No monster on the Dragon Clouds (D-57 Q37): none within 3,000 of the arrival (the cloud is 4,096 x 3,584).'
+- assert:
+    actor_count:
+      near:
+      - 20352
+      - 17280
+      - 3000
+      max: 0
+- console:
+    line: hp full
+- console:
+    line: hp show
+- console:
+    line: player sheet
+    expect_contains: Brokk (Knight) level 62, might 30
+- note: 'The Well of Fantastic Skill (D-59 2): +20 to every statistic until rest, once a day.'
+- walk_to:
+    x: 21800
+    y: 16850
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- press_action:
+    action: select_member
+    member_index: 0
+- play_lua:
+    source: status(); click(54); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''until you rest'', 1, true) then error(''evt:qf1_well
+      showed neither a window nor its line: '' .. s) end'
+- console:
+    line: player sheet
+    expect_contains: Brokk (Knight) level 62, might 50
+- play_lua:
+    source: status(); click(57); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''cool and refreshing'', 1, true) then
+      error(''evt:qf1_well_curb_s showed neither a window nor its line: '' .. s) end'
+- console:
+    line: player sheet
+    expect_contains: Brokk (Knight) level 62, might 50
+- walk_to:
+    x: 21632
+    y: 17848
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2064
+    z_tolerance: 200
+- play_lua:
+    source: click(42); wait(1)
+- assert:
+    dialog:
+      active: true
+      text_contains: The Dragon Tower
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd04.blv
+- note: FD-04's entrance:x9_clouds (-1312, 608, 4224), facing south
+- assert:
+    party_position:
+      x: -1312
+      y: 608
+      radius: 200
+      z_min: 4144
+      z_max: 4384
+- load_map:
+    map: xeen_x9.blv
+    pos: 21632, 17848, 2048
+- play_lua:
+    source: wait(2); close()
+- note: 'The Eye (D-57 Q36): a wrong answer is A3''s q-f1.eye_wrong ("Die fools!", never lethal); then INFINITY pays the Elder
+    Staff.'
+- walk_to:
+    x: 21056
+    y: 17684
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- play_lua:
+    source: click(53); wait(0.5)
+- answer_input:
+    text: Dragons
+- advance_runtime:
+    seconds: 1
+- assert:
+    dialog:
+      active: true
+      text_contains: Die fools
+- play_lua:
+    source: close(); close()
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- play_lua:
+    source: click(53); wait(0.5)
+- answer_input:
+    text: infinity
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Very good, mortals'', 1, true) then
+      error(''the Eye: neither a window nor its line: '' .. s) end'
+- play_lua:
+    source: close(); if held() ~= 0 then stow() end; close(); if not has_item(12505) then error('no Elder Staff') end; if
+      not qbit(114021) then error('the Eye bit') end
+- play_lua:
+    source: status(); click(53); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''nothing more to say'', 1, true) then
+      error(''evt:qf1_eye showed neither a window nor its line: '' .. s) end'
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 380
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 168
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 237
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 158
+- note: 'The crystal balls (D-59 1): intellect 60 or more (buffs count) hears the phrase; less: 70 Mind damage and Weak, alive.'
+- walk_to:
+    x: 19650
+    y: 17900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- press_action:
+    action: select_member
+    member_index: 0
+- play_lua:
+    source: click(44); wait(0.5); close(); wait(2)
+- assert:
+    condition:
+      name: weak
+      present: true
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- press_action:
+    action: select_member
+    member_index: 3
+- play_lua:
+    source: status(); click(44); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''knowledge is limitless'', 1, true) then
+      error(''evt:qf1_ball_mind showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 19600
+    y: 18350
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- press_action:
+    action: select_member
+    member_index: 0
+- play_lua:
+    source: click(45); wait(0.5); close(); wait(2)
+- assert:
+    condition:
+      name: weak
+      present: true
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- press_action:
+    action: select_member
+    member_index: 3
+- play_lua:
+    source: status(); click(45); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''history is endless'', 1, true) then
+      error(''evt:qf1_ball_past showed neither a window nor its line: '' .. s) end'
+- walk_to:
+    x: 19700
+    y: 18800
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- press_action:
+    action: select_member
+    member_index: 0
+- play_lua:
+    source: click(43); wait(0.5); close(); wait(2)
+- assert:
+    condition:
+      name: weak
+      present: true
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- press_action:
+    action: select_member
+    member_index: 3
+- play_lua:
+    source: status(); click(43); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''possibilities are unlimited'', 1, true)
+      then error(''evt:qf1_ball_future showed neither a window nor its line: '' .. s) end'
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 380
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 168
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 237
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 158
+- note: 'The four Ancient Books: the runes line, then each syllable for a Linguist (A3: bit 116240).'
+- walk_to:
+    x: 19600
+    y: 17050
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(47); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''unable to understand'', 1, true) then
+      error(''evt:qf1_book_in showed neither a window nor its line: '' .. s) end'
+- setup_shortcut:
+    kind: set_qbit
+    id: 116240
+- play_lua:
+    source: status(); click(47); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''inscription: IN'', 1, true) then error(''evt:qf1_book_in
+      showed neither a window nor its line: '' .. s) end'
+- console:
+    line: hp show
+- walk_to:
+    x: 19712
+    y: 18950
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(46); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''inscription: FI'', 1, true) then error(''evt:qf1_book_fi
+      showed neither a window nor its line: '' .. s) end'
+- note: 'Dragon Power Crystal 1 (D-59 3): 3,000 once per character, a 70 Energy surge.'
+- walk_to:
+    x: 20600
+    y: 19350
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 380
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 168
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 237
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 158
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); click(50); wait(0.5); close(); wait(2); if experience(1) ~= e + 3000 then error(''crystal
+      1: not paid'') end'
+- assert:
+    member_points:
+      member_index: 1
+      health_max: 167
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); status(); click(50); wait(0.5); if experience(1) ~= e then error(''crystal 1: paid twice'')
+      end'
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''nothing more for you'', 1, true) then
+      error(''crystal 1: no else line: '' .. s) end'
+- play_lua:
+    source: close(); wait(2)
+- press_action:
+    action: select_member
+    member_index: 2
+- play_lua:
+    source: 'local e = experience(2); click(50); wait(0.5); close(); if experience(2) ~= e + 3000 then error(''crystal 1:
+      Ivar not paid'') end'
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- walk_to:
+    x: 21300
+    y: 19450
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(48); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''inscription: NI'', 1, true) then error(''evt:qf1_book_ni
+      showed neither a window nor its line: '' .. s) end'
+- note: 'Dragon Power Crystal 2 (D-59 3): 4,000 once per character, a 70 Energy surge.'
+- walk_to:
+    x: 21950
+    y: 19180
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 380
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 168
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 237
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 158
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); click(51); wait(0.5); close(); wait(2); if experience(1) ~= e + 4000 then error(''crystal
+      2: not paid'') end'
+- assert:
+    member_points:
+      member_index: 1
+      health_max: 167
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); status(); click(51); wait(0.5); if experience(1) ~= e then error(''crystal 2: paid twice'')
+      end'
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''nothing more for you'', 1, true) then
+      error(''crystal 2: no else line: '' .. s) end'
+- play_lua:
+    source: close(); wait(2)
+- press_action:
+    action: select_member
+    member_index: 2
+- play_lua:
+    source: 'local e = experience(2); click(51); wait(0.5); close(); if experience(2) ~= e + 4000 then error(''crystal 2:
+      Ivar not paid'') end'
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- note: 'Dragon Power Crystal 3 (D-59 3): 5,000 once per character, a 70 Energy surge.'
+- walk_to:
+    x: 22500
+    y: 19200
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 0
+    health: 380
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 1
+    health: 168
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 2
+    health: 237
+- setup_shortcut:
+    kind: set_member_points
+    member_index: 3
+    health: 158
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); click(52); wait(0.5); close(); wait(2); if experience(1) ~= e + 5000 then error(''crystal
+      3: not paid'') end'
+- assert:
+    member_points:
+      member_index: 1
+      health_max: 167
+- press_action:
+    action: select_member
+    member_index: 1
+- play_lua:
+    source: 'local e = experience(1); status(); click(52); wait(0.5); if experience(1) ~= e then error(''crystal 3: paid twice'')
+      end'
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''nothing more for you'', 1, true) then
+      error(''crystal 3: no else line: '' .. s) end'
+- play_lua:
+    source: close(); wait(2)
+- press_action:
+    action: select_member
+    member_index: 2
+- play_lua:
+    source: 'local e = experience(2); click(52); wait(0.5); close(); if experience(2) ~= e + 5000 then error(''crystal 3:
+      Ivar not paid'') end'
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3
+- walk_to:
+    x: 22450
+    y: 18050
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- play_lua:
+    source: status(); click(49); wait(0.5)
+- play_lua:
+    source: 'local s = status(); local w = close(); if not w and not string.find(s, ''inscription: TY'', 1, true) then error(''evt:qf1_book_ty
+      showed neither a window nor its line: '' .. s) end'
+- note: After a rest the well's +20 is gone (D-59 2).
+- walk_to:
+    x: 20352
+    y: 17280
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 2048
+    z_tolerance: 200
+- console:
+    line: rest heal 480
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close(); close()
+- console:
+    line: hp show
+- console:
+    line: player sheet
+    expect_contains: Brokk (Knight) level 62, might 30
+- assert:
+    map: xeen_x9.blv
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: dead
+      present: false
+      member_index: 3
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 0
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 1
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 2
+- assert:
+    condition:
+      name: unconscious
+      present: false
+      member_index: 3

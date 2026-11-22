@@ -1,0 +1,118 @@
+# M10 The King's Megacredits (QUESTS M10): three sources, 15 needed over M9, M11 and M22. Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md. Counts (A8's Act II graphs): Temple of Yak 6 (built: the strongbox 5,
+# the Yak Master 1), Tomb 5, Golem Dungeon 5 = 16 for 15. Order: Yak -> walls (Stone of a Thousand Terrors) -> Tomb ->
+# keep (Golem Stone) -> Golem Dungeon. The map lanes place the coins (`map_gives`); the hooks set the bits.
+id: M10
+title: King's Megacredits
+act: II
+kind: main
+status: full
+giver: 4403          # Emerson
+maps: [XD-06, XD-08, XD-09, X2, X3, X5]
+level: 16
+block: 10
+after: [m9.started]
+source: "QUESTS M10; xeen/aaze0079:26, aaze0080:0, :26, aaze0081:0-1, :11"
+
+qbits:
+  arrived_once: {id: 110403, map: XD-06, note: "the map's own: first arrival, shows yak_arrival once (A8)"}
+  started: {id: 111200, journal: "Megacredits lie in three evil places: the Temple of Yak, the Tomb of a Thousand Terrors and the Golem Dungeon.",
+            until: [m22.dungeon]}
+  yak_master_slain: {id: 110401, map: XD-06}
+  treasury_opened: {id: 110402, map: XD-06}
+  tomb_credits: {id: 111201}
+  golem_credits: {id: 111202}
+  diamond_slain: {id: 110600, map: XD-09}   # the Diamond Golem's death opens the vault (XD-09's evt:diamond_dead)
+  xd09_arrived_once: {id: 110601, map: XD-09, note: "the map's own: first arrival in XD-09 (A8)"}
+  manacles_pulled: {id: 110760, map: XD-08, note: "the map's own: the manacles lever in the Tomb (A7)"}
+  pay_potions: {id: 110761, map: XD-08, note: "the map's own: the pay chest's two Might Boosts at power 10 on its first opening (D-22.2, A7)"}
+
+player_bits:         # once per character: +2 to a stat each; the maps raise it
+  yak_pool: {id: 10400, map: XD-06}           # the Yak Pool, +2 Endurance (A8, built)
+  juice_red: {id: 11270, map: XD-08}          # the seven Tomb Juices (A7, XD-08 not built): red, blue, orange,
+  juice_blue: {id: 11271, map: XD-08}         # green, yellow, purple, white, in that order (aaze0080:2-8)
+  juice_orange: {id: 11272, map: XD-08}
+  juice_green: {id: 11273, map: XD-08}
+  juice_yellow: {id: 11274, map: XD-08}
+  juice_purple: {id: 11275, map: XD-08}
+  juice_white: {id: 11276, map: XD-08}
+
+autonotes:
+  credits: {id: 4012, text: "Megacredits: the Temple of Yak (Rivercity's south woods), the Tomb of a Thousand Terrors (Lifeforce Lagoon), the Golem Dungeon (Winterkill Tundra, by the lagoon).", category: Misc}
+
+awards:
+  golems: {id: 404, text: "Master of Golems", sort: 2}
+
+items:
+  megacredit: "see M9"
+
+npcs:
+  4403:              # Emerson
+    topics:
+      - n: 1
+        label: Megacredits
+        states:
+          - when: {qbit: started}
+            text: "Three places. The Temple of Yak in Rivercity's south woods. The Tomb of a Thousand Terrors in the lagoon. The Golem Dungeon in the tundra, by the lagoon. Evil people hoard Megacredits. Don't ask me why."
+          - text: "King's Megacredits. The King mints them for his engineers, and somehow they all end up in evil places: the Temple of Yak, the Tomb of a Thousand Terrors and the Golem Dungeon. Fetch them; I build. Walls, keep and dungeon, five each."
+            do: [{set: started}, {autonote: credits}]
+
+hooks:
+  yak_arrival:
+    map: XD-06
+    where: "the first arrival (built: evt:arrive, a one-shot timer)"
+    text: "The Temple of Yak. Mirabeth's Elixir of Restoration is kept somewhere inside, and the King's Megacredits too, they say. Incense, old stone, and something underneath that the incense is there to hide."
+  yak_master:
+    map: XD-06
+    where: "the Yak Master's death (built: evt:master_dead); he carries the sixth Megacredit"
+    sets: [yak_master_slain]
+    map_gives: {megacredit: 1}
+  yak_treasury:
+    map: XD-06
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the treasury chest (built: evt:chest_treasury): five Megacredits"
+    sets: [treasury_opened]
+    once: true
+    map_gives: {megacredit: 5}
+    do: [{xp: 1500}]
+    text: "King's Megacredits!"
+    else_text: "The strongbox is empty."
+  tomb_door:
+    map: X3
+    where: "the Tomb of a Thousand Terrors' door in the lagoon's dead woods (D-89: open)"
+    entrance: XD-08
+  tomb_welcome:
+    map: XD-08
+    where: "the statue's plaque at the entrance"
+    text: "A plaque at the base of the statue reads: Welcome to the Tomb of a Thousand Terrors. Insanity is our fame, undead is our game."
+  tomb_vault:
+    map: XD-08
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the largest coffin in the coffin vault: five Megacredits"
+    sets: [tomb_credits]
+    once: true
+    map_gives: {megacredit: 5}
+    do: [{xp: 2500}]
+    text: "King's Megacredit! Five of them, in a coffin that was never meant for anyone dead."
+    else_text: "The coffin is empty."
+  golem_door:
+    map: X5
+    where: "the Golem Dungeon's door near X5's east edge, by X3 (D-89: open)"
+    entrance: XD-09
+  golem_plaque:
+    map: XD-09
+    where: "the statue's plaque in the Hall of the Plaque (the hub)"
+    text: "A plaque at the base of the statue reads: Solve the wood, it's like a tree / Cut the branches and return to me / Next is stone, it's full of blocks / Push them around, expose six rocks / Last is iron, there is a key / Set the tumblers and you'll be free."
+  golem_vault:
+    map: XD-09
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the diamond vault after the Diamond Golem: five Megacredits and the hoard"
+    sets: [golem_credits]
+    once: true
+    map_gives: {megacredit: 5}
+    do: [{award: golems}, {xp: 3000}]
+    text: "Written on a plaque: All is set, it is plain to see / Master of Golems I now dub thee. King's Megacredit!"
+    else_text: "The chest is empty."
+
+rewards: {xp: 7000, gold: 0}
+playthrough: "XD-07: Emerson (Megacredits). XD-06: the Yak Master, the treasury (6). X3: the tomb door; XD-08's coffin vault (5). X5: the golem door; XD-09's vault (5)."

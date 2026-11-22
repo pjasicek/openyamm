@@ -1,8 +1,23 @@
-/* MM9 Chedian Guide: hash-routed sections over window.GUIDE (data/guide.js, built by tools/mm9_site/build_site.py). */
+/* MM9 and Xeen guides: hash-routed sections over window.GUIDE (data/guide.js, built by tools/mm9_site/build_site.py or
+   tools/xeen_site/build_site.py; a world's own texts come in GUIDE.site). */
 (function () {
   "use strict";
   const G = window.GUIDE;
   const main = document.getElementById("main");
+  // World-specific texts: the MM9 guide's by default; another world's guide data overrides them (`site`).
+  const SITE = Object.assign({
+    title: "MM9 Chedian Guide", storeKey: "mm9guide.", homeTitle: "Chedian", worldName: "Chedian",
+    homeLead: "Might and Magic IX as rebuilt in OpenYAMM: every map with its teachers, shops, quest givers, chests and mechanisms; {npcs} named NPCs placed. Data comes straight from the game's world package.",
+    travelFrom: "sturmfordcity", travelTo: "thronheimcity", tocSections: [1], hideShopColumns: [], itemNotes: {},
+  }, G.site || {});
+  const LEADS = Object.assign({
+    promotions: "Each MM9 promotion quest promotes the OpenYAMM class lines listed; every eligible party member is promoted at once.",
+    maps: "Original MM9 map art with every point of interest from the rebuilt maps. Pick a map; toggle marker types in its legend.",
+    travel: "How the regions of Chedian connect: walking borders with their travel days, and the ships and coaches by weekday. The world map is a schematic; each tile is the region's own map.",
+    teachers: "MM9 trains its skills one by one: a lesson in an MM9 skill teaches the OpenYAMM skills listed under it. \"Learn\" is the first lesson, sold by shops, taverns, temples and training halls.",
+    shops: "Weapon, armour, general and apothecary shops stock by their town's treasure level, as MM6–MM8 shops do: the standard shelf at the town's level, the special shelf one level higher, which decides the item tiers (1–6) and how many items carry enchantments. Spellbook shops and libraries sell set lists. A shop shows one of its stock lists each time it restocks, in turn. Prices are the item's value times the shop's multiplier, before the Merchant skill.",
+    bestiary: "Monsters placed on the MM9 maps, by family, weakest to strongest; A, B and C are a family's three tiers. Click a row for its picture, attacks, spells, resistances, loot and where it lives.",
+  }, SITE.leads || {});
 
   // ---------------------------------------------------------------------------------------------------------------
   // Helpers
@@ -12,10 +27,10 @@
   }[c]));
   const store = {
     get(key, fallback) {
-      try { const v = localStorage.getItem("mm9guide." + key); return v == null ? fallback : JSON.parse(v); }
+      try { const v = localStorage.getItem(SITE.storeKey + key); return v == null ? fallback : JSON.parse(v); }
       catch (e) { return fallback; }
     },
-    set(key, value) { try { localStorage.setItem("mm9guide." + key, JSON.stringify(value)); } catch (e) { /* ignore */ } },
+    set(key, value) { try { localStorage.setItem(SITE.storeKey + key, JSON.stringify(value)); } catch (e) { /* ignore */ } },
   };
   const byId = (list, key = "id") => Object.fromEntries(list.map((x) => [x[key], x]));
   const maps = byId(G.maps);
@@ -164,7 +179,7 @@
       if (this.only && opts.focus) this.keep = opts.focus;
       const firstId = this.ids ? [...this.ids].find((id) => poiIndex[map.id][id]) : null;
       const startPoi = poiIndex[map.id][opts.focus] || poiIndex[map.id][firstId];
-      this.setFloor(startPoi ? startPoi.f : 0, true);
+      this.setFloor(startPoi ? startPoi.f : (map.defaultFloor || 0), true);
       if (opts.compact) {
         // Inline maps open showing the whole map; the focused point is only highlighted.
         if (opts.focus && poiIndex[map.id][opts.focus]) { this.keep = this.keep || opts.focus; this.renderPins(); this.select(opts.focus, true); }
@@ -498,7 +513,7 @@
       ["items-weapons", "Items", `${G.items.length} items, ${G.items.filter((i) => i.cat === "artifacts").length} artifacts and relics, ${G.sets.length} sets`],
       ["faq", "FAQ", G.faq.map((f) => f.short).join(", ")],
     ];
-    main.innerHTML = pageHead("Chedian", "", `Might and Magic IX as rebuilt in OpenYAMM: every map with its teachers, shops, quest givers, chests and mechanisms; ${npcCount} named NPCs placed. Data comes straight from the game's world package.`) +
+    main.innerHTML = pageHead(SITE.homeTitle, "", esc(SITE.homeLead).replace("{npcs}", npcCount)) +
       `<div class="grid-cards">${cards.map(([r, n, d]) => `<a class="card home-card" href="#${r}"><strong>${esc(n)}</strong><span class="muted">${esc(d)}</span></a>`).join("")}</div>` +
       `<div class="section"><h2>Regions</h2><div class="thumbs">${G.regions.filter((r) => !r.passage).map((r) => {
         const hub = maps[r.hub];
@@ -548,11 +563,14 @@
     const from = entry && entry.from ? [entry.from] : q.givers;
     const to = entry && entry.to ? [entry.to] : (entry ? [] : q.handoffs.filter((x) => !from.some((g) => g.name === x.name)));
     const facts = [];
-    facts.push(from.length ? `<dt>Take it from</dt><dd>${people(from)}</dd>` : `<dt>Starts</dt><dd class="muted">from events, not a person</dd>`);
+    facts.push(from.length ? `<dt>Take it from</dt><dd>${people(from)}</dd>` : q.giverText ? `<dt>Starts</dt><dd>${esc(q.giverText)}</dd>` : `<dt>Starts</dt><dd class="muted">from events, not a person</dd>`);
     if (to.length) facts.push(`<dt>Report to</dt><dd>${people(to)}</dd>`);
     if (q.level) facts.push(`<dt>Level</dt><dd><span class="level-badge">~${q.level.rec}</span> <span class="muted">monsters ${q.level.lo}–${q.level.hi} in ${q.level.maps.map((m) => mapLink(m)).join(", ")}</span></dd>`);
     if (entry && entry.requires) facts.push(`<dt>Needs</dt><dd>${esc(entry.requires)}</dd>`);
     if (entry && entry.reward) facts.push(`<dt>Reward</dt><dd class="reward">${esc(entry.reward)}</dd>`);
+    else if (q.reward) facts.push(`<dt>Reward</dt><dd class="reward">${esc(q.reward)}</dd>`);
+    // A way past the quest's work, shown outside the walkthrough so a closed walkthrough does not hide it.
+    const shortcut = entry && entry.shortcut ? `<p class="shortcut"><b>Shortcut</b>${faqText(entry.shortcut)}</p>` : "";
     let how = "";
     if (entry && entry.steps && entry.steps.length) {
       how = `<ol class="steps">${entry.steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>` +
@@ -567,6 +585,7 @@
       <div class="sq-text"><${h}><a href="#quest-${q.id}">${esc(q.title)}</a>${q.level ? ` <span class="level-badge" title="Recommended party level">L${q.level.rec}</span>` : ""}${promo}</${h}>
         ${summary ? `<p class="summary">${esc(summary)}</p>` : ""}
         <dl class="facts">${facts.join("")}</dl>
+        ${shortcut}
         <details class="walkthrough" ${openWalkthroughs ? "open" : ""}><summary>Walkthrough</summary>${how}${journal}</details></div>
       <div class="sq-maps">${questViews(q, entry).map(inlineMap).join("")}</div></article>`;
   }
@@ -603,7 +622,7 @@
   }
   function storyToc() {
     const written = Object.fromEntries((G.story || []).map((c) => [c.id, c]));
-    return `<nav class="toc" aria-label="Chapters">${G.chapters.map((cfg) => written[cfg.id] || { id: cfg.id, title: cfg.name, sections: [] }).map((c) => `<a href="#quests-main" data-jump="ch-${c.id}">${esc(c.title)}</a>${c.id === 1 ? `<span class="toc-sub">${c.sections.map((sec, i) => `<a href="#quests-main" data-jump="ch-${c.id}-${i}">${esc(sec.title.split(":")[0])}</a>`).join("")}</span>` : ""}`).join("")}</nav>`;
+    return `<nav class="toc" aria-label="Chapters">${G.chapters.map((cfg) => written[cfg.id] || { id: cfg.id, title: cfg.name, sections: [] }).map((c) => `<a href="#quests-main" data-jump="ch-${c.id}">${esc(c.title)}</a>${SITE.tocSections.includes(c.id) && c.sections.length > 1 ? `<span class="toc-sub">${c.sections.map((sec, i) => `<a href="#quests-main" data-jump="ch-${c.id}-${i}">${esc(sec.title.split(":")[0])}</a>`).join("")}</span>` : ""}`).join("")}</nav>`;
   }
   function pageQuests(kind) {
     const route = "quests-" + kind;
@@ -632,11 +651,11 @@
       main.innerHTML = pageHead("Side quests", "Quests", "Grouped by where the quest giver stands.") + questTabs(route) + walkToggle() +
         `<div class="story">${order.filter((r) => groups[r]).map((r) => `<section class="story-chapter"><h2>${esc(r)}</h2>${groups[r].map((q) => questBlock(q, walk[q.id], "h3")).join("")}</section>`).join("")}</div>`;
     } else {
-      main.innerHTML = pageHead("Promotions", "Quests", "Each MM9 promotion quest promotes the OpenYAMM class lines listed; every eligible party member is promoted at once.") + questTabs(route) + walkToggle() +
+      main.innerHTML = pageHead("Promotions", "Quests", LEADS.promotions) + questTabs(route) + walkToggle() +
         `<div class="story">${G.promotions.map((p) => {
           const qs = p.quests.map((k) => quests[k]).filter(Boolean);
           const at = p.at[0];
-          return `<section class="story-chapter"><h2>${esc(p.to)} <span class="muted">from ${esc(p.from)}</span></h2>
+          return `<section class="story-chapter"><h2>${p.path ? `<span class="chip path-${esc(p.path.split(" ")[0].toLowerCase())}">${esc(p.path)}</span> ` : ""}${esc(p.to)} <span class="muted">from ${esc(p.from)}</span></h2>
             <p class="who">Promoter: ${p.at.length ? p.at.map((a) => `${esc(a.name)} (${mapLink(a.map, a.poi)})`).join("; ") : "a map event"} · Classes: ${p.classes.map(([a, b]) => `${esc(a)} → <b>${esc(b)}</b>`).join(", ") || "–"}</p>
             ${p.note ? `<p>${esc(p.note)}</p>` : ""}
             ${qs.length ? qs.map((q) => questBlock(q, walk[q.id], "h3")).join("") : (at ? `<article class="story-quest"><div class="sq-text"><p>No separate quest note.</p></div><div class="sq-maps">${inlineMap({ map: at.map, ids: [at.poi] })}</div></article>` : "")}
@@ -665,7 +684,7 @@
   // Maps ---------------------------------------------------------------------------------------------------------
 
   function pageMaps() {
-    main.innerHTML = pageHead("Maps", "", "Original MM9 map art with every point of interest from the rebuilt maps. Pick a map; toggle marker types in its legend.") +
+    main.innerHTML = pageHead("Maps", "", LEADS.maps) +
       `<div class="map-index">${G.regions.map((r) => `<section class="region-row"><h2>${esc(r.name)}</h2><div class="thumbs">${r.maps.filter((m) => maps[m]).map((id) => {
         const m = maps[id];
         return `<a class="thumb" href="#map-${id}"><img src="${m.thumb}" alt="" loading="lazy"><span>${esc(m.name)}</span><small>${esc(m.kind)}${m.floors.length > 1 ? ", " + m.floors.length + " levels" : ""}</small></a>`;
@@ -758,18 +777,18 @@
     const vessels = [...new Set(G.travel.schedules.map((s) => s.vessel))];
     const vColor = Object.fromEntries(vessels.map((v, i) => [v, VESSEL_COLORS[i % VESSEL_COLORS.length]]));
     const options = G.regions.map((r) => `<optgroup label="${esc(r.name)}">${r.maps.filter((m) => maps[m]).map((m) => `<option value="${m}">${esc(mapName(m))}</option>`).join("")}</optgroup>`).join("");
-    main.innerHTML = pageHead("Travel", "", "How the regions of Chedian connect: walking borders with their travel days, and the ships and coaches by weekday. The world map is a schematic; each tile is the region's own map.") +
+    main.innerHTML = pageHead("Travel", "", LEADS.travel) +
       `<div class="section"><div class="world-wrap world" id="world"></div><div class="vessels" id="vessels"></div></div>
        <div class="card planner"><h2>Route planner</h2>
          <div class="toolbar"><label class="muted" for="from">From</label><select class="field" id="from">${options}</select>
          <label class="muted" for="to">To</label><select class="field" id="to">${options}</select></div>
          <div id="route"></div></div>
        <div class="section"><h2>Ships and coaches</h2><div id="sched"></div></div>
-       <div class="section"><h2>Walking borders</h2><div id="borders"></div></div>`;
+       <div class="section"><h2>Walking borders</h2><div id="borders"></div></div>${(G.travel.extras || []).map((x, i) => `<div class="section"><h2>${esc(x.title)}</h2>${x.intro ? `<p class="muted">${esc(x.intro)}</p>` : ""}<div id="extra-${i}"></div></div>`).join("")}`;
     const from = document.getElementById("from"), to = document.getElementById("to");
-    from.value = store.get("from", "sturmfordcity"); to.value = store.get("to", "thronheimcity");
-    if (!from.value) from.value = "sturmfordcity";
-    if (!to.value) to.value = "thronheimcity";
+    from.value = store.get("from", SITE.travelFrom); to.value = store.get("to", SITE.travelTo);
+    if (!from.value) from.value = SITE.travelFrom;
+    if (!to.value) to.value = SITE.travelTo;
     let activeVessel = null;
     let routeRegions = [];
 
@@ -798,6 +817,12 @@
         }
         addPair(a, b, l.days);
       });
+      // A world's own region links (the Xeen guide's): drawn as given instead of the pairs above.
+      if (G.travel.worldLinks) {
+        Object.keys(pairs).forEach((k) => delete pairs[k]);
+        Object.keys(passageEnds).forEach((k) => delete passageEnds[k]);
+        G.travel.worldLinks.forEach((l) => { if (regions[l.a] && regions[l.b]) pairs[l.a + "|" + l.b] = { a: regions[l.a], b: regions[l.b], days: l.days, label: l.label, passage: l.passage }; });
+      }
       Object.values(passageEnds).forEach(({ p, regions: ends }) => {
         const list = Object.values(ends);
         for (let i = 0; i < list.length; i++) for (let j = i + 1; j < list.length; j++) {
@@ -812,7 +837,7 @@
         const k = s.vessel + "|" + [a.id, b.id].sort().join("|");
         boats[k] = { a, b, v: s.vessel };
       });
-      let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Schematic world map of Chedian"><rect class="sea" width="${W}" height="${H}" rx="10"></rect>`;
+      let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Schematic world map of ${esc(SITE.worldName)}"><rect class="sea" width="${W}" height="${H}" rx="10"></rect>`;
       Object.values(boats).forEach((b, i) => {
         if (activeVessel && b.v !== activeVessel) return;
         const [x1, y1] = centre(b.a), [x2, y2] = centre(b.b);
@@ -822,7 +847,7 @@
       });
       Object.values(pairs).forEach((p) => {
         const [x1, y1] = centre(p.a), [x2, y2] = centre(p.b);
-        svg += `<line class="land-link" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"></line>`;
+        svg += `<line class="land-link${p.passage ? " passage" : ""}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"></line>`;
       });
       for (let i = 0; i + 1 < routeRegions.length; i++) {
         const [x1, y1] = centre(routeRegions[i]), [x2, y2] = centre(routeRegions[i + 1]);
@@ -837,9 +862,9 @@
           `<text x="${x + 2}" y="${y + TH + 18}">${esc(r.name)}</text></a>`;
       });
       Object.values(pairs).forEach((p) => {
-        if (!p.days && !p.via) return;
+        if (!p.days && !p.via && !p.label) return;
         const [x1, y1] = centre(p.a), [x2, y2] = centre(p.b);
-        const label = (p.via ? `via ${p.via.name}` : "") + (p.via && p.days ? ", " : "") + (p.days ? `${p.days} d` : "");
+        const label = p.label != null ? p.label : (p.via ? `via ${p.via.name}` : "") + (p.via && p.days ? ", " : "") + (p.days ? `${p.days} d` : "");
         const inner = p.via ? `<a href="#map-${p.via.hub}">${esc(label)}</a>` : esc(label);
         svg += `<text class="days" x="${(x1 + x2) / 2}" y="${(y1 + y2) / 2}" text-anchor="middle">${inner}</text>`;
       });
@@ -902,6 +927,16 @@
         { key: "days", label: "Days", num: true, render: (l) => l.days || "–" },
       ],
     });
+    (G.travel.extras || []).forEach((x, i) => table(document.getElementById("extra-" + i), {
+      rows: () => x.rows, sort: "label",
+      columns: [
+        { key: "label", label: "Place", render: (r) => `<b>${esc(r.label)}</b>` },
+        { key: "from", label: "Map", render: (r) => (r.from && maps[r.from] ? mapLink(r.from, r.at && r.at[0] && r.at[0].poi) : "–"), sort: (r) => mapName(r.from) },
+        { key: "to", label: "Leads to", render: (r) => (r.to && maps[r.to] ? mapLink(r.to) : "–"), sort: (r) => mapName(r.to) },
+        { key: "note", label: "When", sortable: false, render: (r) => esc(r.note || "") },
+        { key: "at", label: "", sortable: false, cls: "nowrap", render: (r) => (r.at && r.at[0] ? showBtn(r.at[0].map, r.at[0].poi, "Show") : "") },
+      ],
+    }));
     drawSchedule();
     drawRoute();
   }
@@ -912,7 +947,7 @@
     const skills = [...new Set(G.teachers.map((t) => t.skill))].sort();
     const racialMasters = [...new Set(G.teachers.filter((t) => t.racial && t.mastery === "Grandmaster").map((t) => `${t.name} in ${t.region}`))];
     const racialLead = racialMasters.length ? ` The racial abilities (Dark Elf, Vampire and Dragon) are taught by every training hall's keeper up to Master, and up to Grandmaster by ${esc(racialMasters.join(" and "))}: each member learns the ability they have, as far as their race and class allow.` : "";
-    main.innerHTML = pageHead("Teachers", "", "MM9 trains its skills one by one: a lesson in an MM9 skill teaches the OpenYAMM skills listed under it. \"Learn\" is the first lesson, sold by shops, taverns, temples and training halls." + racialLead) +
+    main.innerHTML = pageHead("Teachers", "", LEADS.teachers + racialLead) +
       `<div class="toolbar"><input class="field" id="tf" type="search" placeholder="Filter by teacher, skill or region" aria-label="Filter teachers">
        <select class="field" id="ts" aria-label="Skill"><option value="">All skills</option>${skills.map((s) => `<option>${esc(s)}</option>`).join("")}</select>
        <select class="field" id="tm" aria-label="Mastery"><option value="">All masteries</option>${Object.keys(MASTERY_ORDER).map((m) => `<option>${m}</option>`).join("")}</select></div><div id="tt"></div>`;
@@ -930,7 +965,7 @@
         { key: "mastery", label: "Mastery", render: (x) => `<span class="mastery-${esc(x.mastery)}">${esc(x.mastery)}</span>`, sort: (x) => MASTERY_ORDER[x.mastery] || 0 },
         { key: "name", label: "Teacher" },
         { key: "region", label: "Region" },
-        { key: "rank", label: "Needs", render: (x) => (x.rank ? `skill ${x.rank}` : "–") + (x.gold ? `, ${fmt(x.gold)} g` : "") + (x.gated ? ` <span class="chip gated">quest</span>` : "") + (x.racial ? ` <span class="chip">own ability</span>` : ""), sort: (x) => x.rank },
+        { key: "rank", label: "Needs", render: (x) => (x.rank ? `skill ${x.rank}` : "–") + (x.gold ? `, ${fmt(x.gold)} g` : "") + (x.gated ? ` <span class="chip gated">quest</span>` : "") + (x.racial ? ` <span class="chip">own ability</span>` : "") + (x.when ? `<br><span class="muted">${esc(x.when)}</span>` : ""), sort: (x) => x.rank },
         { key: "at", label: "Where", sortable: false, cls: "nowrap", render: (x) => atLinks(x.at) },
       ],
     });
@@ -946,7 +981,8 @@
     const tiersText = (t) => (t.length ? (t[0] === t[1] ? `${t[0]}` : `${t[0]}–${t[1]}`) : "–");
     const types = [...new Set(G.vendors.map((v) => v.type))].sort();
     const schools = [...new Set(G.spellbooks.map((b) => b.school))];
-    main.innerHTML = pageHead("Shops", "", "Weapon, armour, general and apothecary shops stock by their town's treasure level, as MM6–MM8 shops do: the standard shelf at the town's level, the special shelf one level higher, which decides the item tiers (1–6) and how many items carry enchantments. Spellbook shops and libraries sell set lists. A shop shows one of its stock lists each time it restocks, in turn. Prices are the item's value times the shop's multiplier, before the Merchant skill.") +
+    const shown = (cols) => cols.filter((c) => !SITE.hideShopColumns.includes(c.key));
+    main.innerHTML = pageHead("Shops", "", LEADS.shops) +
       `<h2 class="shop-section">Weapons and armour by town</h2><p class="muted">The weapon and armour shops of each town, from the earliest chapter's to the last.</p><div id="sw"></div>
        <h2 class="shop-section" id="spell-tiers">Spells by school and mastery</h2><p class="muted">Where each school's spells of each mastery are sold, shop by shop. Type a mastery and a school, such as <i>master water</i>, or a spell, a shop or a town; open a shop for its map.</p>
        <div class="toolbar"><input class="field" id="tf" type="search" placeholder="Master water, Body, Thjorgard…" aria-label="Filter spell masteries"></div><div id="tiers" class="spell-tiers"></div>
@@ -973,14 +1009,14 @@
     });
     table(document.getElementById("sw"), {
       rows: () => townRows, sort: "treasure",
-      columns: [
+      columns: shown([
         { key: "region", label: "Town", render: (t) => `<b>${esc(t.region)}</b>` },
         { key: "treasure", label: "Treasure level", render: treasureText, sort: (t) => (t.treasure[0] || 0) * 10 + t.price[0] / 100 },
         { key: "tiers", label: "Item tiers", num: true, render: (t) => tiersText(t.tiers), sort: (t) => t.tiers[1] || 0 },
         { key: "enchanted", label: "Enchanted", num: true, render: (t) => `${t.enchanted}%` },
         { key: "price", label: "Prices", num: true, render: (t) => (t.price[0] === t.price[1] ? `×${t.price[0]}` : `×${t.price[0]}–${t.price[1]}`), sort: (t) => t.price[0] },
         { key: "shops", label: "Shops", sortable: false, render: (t) => t.shops.map((v) => `${esc(v.name)} <span class="muted">${v.type === "Armor" ? "armour" : "weapons"}</span> ${v.at[0] ? showBtn(v.at[0].map, v.at[0].poi, "Show") : ""}`).join("<br>") },
-      ],
+      ]),
     });
 
     // Spells by school and mastery: one block per tier ("Master Water Magic"), its shops below it, each opening its map.
@@ -1064,7 +1100,7 @@
     const match = (x) => { const q = f.value.trim().toLowerCase(); return !q || JSON.stringify(x).toLowerCase().includes(q); };
     const st = table(document.getElementById("st"), {
       rows: () => G.vendors.filter((v) => (!sy.value || v.type === sy.value) && match(v)), sort: "region",
-      columns: [
+      columns: shown([
         { key: "name", label: "Shop", render: (v) => `<b>${esc(v.name)}</b><br><span class="muted">${esc(v.sells)}</span>` },
         { key: "type", label: "Type" },
         { key: "region", label: "Region" },
@@ -1074,7 +1110,7 @@
         { key: "price", label: "Prices", num: true, render: (v) => `×${v.price}` },
         { key: "restock", label: "Restock", num: true, render: (v) => `${v.restock} d <span class="muted">${v.pages} lists of ${v.perPage}</span>`, sort: (v) => v.restock },
         { key: "at", label: "Where", sortable: false, cls: "nowrap", render: (v) => atLinks(v.at, true) },
-      ],
+      ]),
     });
     const sv = table(document.getElementById("sv"), {
       rows: () => G.services.filter(match), sort: "region",
@@ -1115,7 +1151,7 @@
       <div class="resist">${Object.entries(m.resist).map(([k, v]) => `<span>${k} <b>${esc(v || "0")}</b></span>`).join("")}</div></div></div>`;
   }
   function pageBestiary(focusId) {
-    main.innerHTML = pageHead("Bestiary", "", "Monsters placed on the MM9 maps, by family, weakest to strongest; A, B and C are a family's three tiers. Click a row for its picture, attacks, spells, resistances, loot and where it lives.") +
+    main.innerHTML = pageHead("Bestiary", "", LEADS.bestiary) +
       `<div class="toolbar"><input class="field" id="bf" type="search" placeholder="Filter by name or map" aria-label="Filter monsters"></div><div id="bt"></div>`;
     const f = document.getElementById("bf");
     const t = table(document.getElementById("bt"), {
@@ -1165,11 +1201,11 @@
     if (cat === "enchants") return pageEnchants();
     const c = G.itemCategories.find((x) => x.id === cat);
     if (!c) return pageMissing();
-    const notes = {
+    const notes = Object.assign({
       artifacts: "Artifacts and relics come only from black chests (treasure level 7); a black chest with none left to find gives gold and a level 6 item.",
       sets: "Wearing the whole set gives the set bonus; see Set bonuses.",
       readables: "Letters, notes and books; most are quest material.",
-    };
+    }, SITE.itemNotes);
     main.innerHTML = pageHead(c.name, "Items", notes[cat] || "Tier is the treasure level the item drops at (0: never random).") + itemTabs(cat) +
       `<div class="toolbar"><input class="field" id="if" type="search" placeholder="Filter ${esc(c.name.toLowerCase())}" aria-label="Filter items"></div><div id="it"></div>`;
     const f = document.getElementById("if");
@@ -1344,7 +1380,7 @@
     else if (head === "items") pageItems(arg || "weapons");
     else if (head === "item") { const i = items[Number(arg)]; if (i) { renderNav("items-" + i.cat); pageItems(i.cat, i.id); } else pageMissing(); }
     else pageMissing();
-    document.title = (main.querySelector("h1") ? main.querySelector("h1").textContent + " · " : "") + "MM9 Chedian Guide";
+    document.title = (main.querySelector("h1") ? main.querySelector("h1").textContent + " · " : "") + SITE.title;
   }
   window.addEventListener("hashchange", route);
   route();

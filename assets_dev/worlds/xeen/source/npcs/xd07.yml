@@ -1,0 +1,101 @@
+# XD-07 Castle Burlock: the court's topics that belong to no quest, and the castle's plaques (MAPS "Original lines by
+# dungeon", XD-07; A8's Act II graph). Quest topics are in source/quests/ (M5-M7, M9-M12, Q-C3, T1-E).
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md section 5. Original lines: devdocs/xeen/ORIGINAL_LINES.md.
+# No early twist: nothing here says the court's Roland is false (QUESTS rules).
+map: XD-07
+block: 152
+source: "xeen/aaze0064 (the throne room, the towers), aaze0065 (the west tower), aaze0066 (the east tower)"
+
+qbits:
+  den_bar_lifted: {id: 110720, map: XD-07, note: "the map's own: the trolls' den bar in the cellar (A7)"}
+  cage_lever_pulled: {id: 110721, map: XD-07, note: "the map's own: the caged Fire Dragon's lever (A7, optional fight)"}
+  linguist: {id: 116240, note: "D-50: the party has read the Book of Languages on the court's reading desk (book_languages); the rhyme statues of X8 and X9 read it (the source's Linguist skill, here the party's)"}
+  dungeon_key: {id: 116080, note: "Artemus gave the party the castle's dungeon key (A8's Act II graph: the cellar's door to the cell block, D-4: the trolls). A key as a bit, not an item: it never leaves the castle"}
+
+awards:
+  linguist: {id: 420, text: "Linguist: read the Book of Languages in Castle Burlock", sort: 3}
+
+player_bits:
+  black_liquid: {id: 11070, map: XD-07, note: "the Black Liquid bucket, +2 Might once per character (A7)"}
+
+npcs:
+  4401:              # King Burlock
+    topics:
+      - {n: 1, label: The Prince, text: "My brother is home after years abroad. He hardly eats and never sleeps. Travel does that, I'm told. Now: the mirror."}
+  4402:              # Artemus
+    topics:
+      - {n: 2, label: The King, text: "The King hears little these days but the word 'mirror'. I say 'mirror' first, then what I came to say. It works about half the time."}
+      - n: 5
+        label: The dungeon
+        show: {qbit: m5.audience}
+        states:
+          - when: {qbit: dungeon_key}
+            text: "The cellar door, behind the kitchens. Lock it behind you if you come back up. Or don't come back up. Either way, lock it."
+          - text: "A word the King doesn't want to hear: the trolls broke out of their cells below the castle, and nobody has gone down since. The King will not hear of it, so I'm telling you. The cellar door behind the kitchens is not locked; nobody wanted to go down badly enough to lock it. Bring the castle its cellar back."
+            do: [{set: dungeon_key}]
+  4403:              # Emerson
+    topics:
+      - {n: 3, label: Castles, text: "A wall, then a keep, then a dungeon. Then the people in the dungeon want out. That's not my department."}
+  4404:              # Princess Roxanne
+    topics:
+      - {n: 4, label: The court, text: "Father hunts the mirror, my uncle hunts nothing at all, and I read. Somebody in this family has to know things."}
+
+hooks:
+  book_languages:
+    map: XD-07
+    where: "the Book of Languages on its reading desk (XD-07's evt:book_languages, today a text window): the click calls this instead; the first reading makes the party Linguists (the award for every member), every reading after shows the book again (D-50, the shared Linguist gate of X8's and X9's rhyme statues)"
+    states:
+      - when: {qbit: linguist}
+        text: "The Book of Languages: a grammar of every tongue of Cloudside, from the dwarves' runes to the gremlins' squeaks. Someone has underlined 'Please' and 'Thank you' in all of them."
+      - text: "The Book of Languages: a grammar of every tongue of Cloudside, from the dwarves' runes to the gremlins' squeaks. Someone has underlined 'Please' and 'Thank you' in all of them. An afternoon with it, and the old runes on the cloud statues will make sense to you. (Linguist)"
+        do: [{set: linguist}, {award: linguist}]
+  runes:
+    map: X8
+    where: "X8's three rhyme statues (A6's evt:rhyme_1-3, today readable by anyone): each calls XeenQuests.hook(\"xd07.runes\") first and shows its rhyme only when it returns true (X9's are m34.statue_1-4, gated the same way)"
+    requires: {qbit: linguist}
+    reads: [linguist]
+    fail_text: "You are unable to understand the strange runes."
+  dungeon_door:
+    map: XD-07
+    where: "the cellar's door to the cell block (A8's graph: Dungeon door, cellar -> cell block)"
+    reads: [dungeon_key]
+  plaque_king_armour:
+    map: XD-07
+    where: "the gallery of arms: the plaque under King Burlock's armour stand"
+    text: "The plaque reads: King Burlock's ceremonial armor."
+  plaque_roland_armour:
+    map: XD-07
+    where: "the gallery of arms: the plaque under Prince Roland's armour stand"
+    text: "The plaque reads: Prince Roland's ceremonial armor."
+  plaque_happy:
+    map: XD-07
+    where: "the great hall"
+    text: "The plaque reads: Don't worry, be happy."
+  plaque_ruler:
+    map: XD-07
+    where: "the west tower gallery"
+    text: "The plaque reads: Peasant's choice award--Best Ruler of the Year (597)"
+  plaque_nice_day:
+    map: XD-07
+    where: "the west tower gallery"
+    text: "The plaque reads: Have a nice day."
+  plaque_sharp:
+    map: XD-07
+    where: "the fools' hall"
+    text: "The plaque reads: Remember, he who is too sharp sometimes cuts himself."
+  plaque_sword:
+    map: XD-07
+    where: "the west tower gallery"
+    text: "The plaque reads: Speak softly, but carry a large magic sword."
+  plaque_first_day:
+    map: XD-07
+    where: "the princess's parlour (east tower)"
+    text: "The plaque reads: Remember, today is the first day of the rest of your life."
+  plaque_think_thin:
+    map: XD-07
+    where: "the royal bedroom (east tower)"
+    text: "The plaque reads: Remember, eat less and think thin."
+  old_throne:
+    map: XD-07
+    where: "the old King's throne at the top of the west tower: the map moves the party into the air outside the tower (over X4), then calls this for the message"
+    text: "You teleported into the air outside the tower!"

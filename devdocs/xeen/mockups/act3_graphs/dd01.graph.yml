@@ -1,0 +1,167 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+format: mu6-0
+map: DD-01
+key: dd01
+name: Castleview Sewer
+stands_on: D1 Castleview Vale
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [18, 20]
+monsters:
+  levels: [10, 20]
+  boss: Rooka the Rat Queen 24
+  count: 50
+  groups: [3, 4]
+  families:
+    - "Night bats: Bat Queen 10 (21), Vampire Bat 14 (8) (11310; see open question 2 for a sewer rat at 10-12)"
+    - "Gremlins: Gremlin 14 (10), Gremlin Saboteur 18 (3) (11020), wrecking the town's sluices"
+    - "Sewer stalkers: Rooka 18 (7) and the boss row Rooka the Rat Queen 24 (11403)"
+    - "Valio the Simple, talking actor (NPC 4957); monster 11193 Valio level 45 if angered (a trap, D-1.2: not counted)"
+  mix:
+    - {row: Bat Queen, id: 11310, level: 10, count: 21}
+    - {row: Vampire Bat, id: 11311, level: 14, count: 8}
+    - {row: Gremlin, id: 11020, level: 14, count: 10}
+    - {row: Gremlin Saboteur, id: 11021, level: 18, count: 3}
+    - {row: Rooka, id: 11400, level: 18, count: 7}
+    - {row: Rooka the Rat Queen, id: 11403, level: 24, count: 1, boss: true}
+  kill_xp_target: 3.7k
+treasure: {level: 2, hoard: 3}
+role: "Story M16 (Nadia's onyx necklace in the rats' nest: Ellinger's key) and Q-D5 (Valio and Rooka the Queen Rat)"
+role_short: "Story M16, Q-D5"
+set_piece: "Five town shafts over a drain cross; a wrecked sluice the gremlins jammed, whose lever drains the deep culvert to the rat queen's nest; Valio in his bed"
+textures:
+  family: "MM6 Shadow Guild Hideout 6d03 (dungeon_families sewers: d1wlbct1, d1wlbre1, d1wlble1, bemvwal, d2flor2, beemdorc, d8dore, bemh, bemv, bd1ftbrsd, swprrf3)"
+  shaft_feet: "Castleview's own t09 grey ashlar where a shaft comes down under a civic building (D1's kit), 2-3 textures"
+  cap: 45
+  planned: 24
+  new: 0
+floors:
+  - {floor: 0, name: "Town drains", height: 0}
+  - {floor: -1, name: "Deep culverts", height: -512}
+spaces:
+  # floor 0: the drains under the town; five shafts come down from the streets
+  - {id: room:shaft_west, name: "West shaft (guild row)", kind: stair, size: S, floor: 0, at: [0, 0], monsters: 0,
+     purpose: "A ladder up to a grate bolted from above (the guild row). On a ledge: a flask of Red Liquid (+2 Might, once per character)."}
+  - {id: room:west_drain, name: West drain, kind: corridor, size: M, floor: 0, at: [1, 0], monsters: 4,
+     population: [{row: Bat Queen, level: 10, count: 4}],
+     purpose: "A walk beside a slow channel; bats under the vault."}
+  - {id: room:sluice, name: "The jammed sluice", kind: hall, size: L, floor: 0, at: [2, 0], set_piece: true, monsters: 6,
+     population: [{row: Gremlin, level: 14, count: 4}, {row: Gremlin Saboteur, level: 18, count: 2}],
+     purpose: "The town's sluice house, its gate wedged half-open by gremlins with stolen mill gears. The lever: 'Close the sluice?' The deep culvert drains (state:sluice)."}
+  - {id: room:north_drain, name: North drain, kind: corridor, size: M, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Gremlin, level: 14, count: 3}],
+     purpose: "Under the north street; gremlin tools and a cut rope."}
+  - {id: room:shaft_north, name: "North shaft (the gate)", kind: stair, size: S, floor: 0, at: [4, 0], monsters: 0,
+     purpose: "A ladder up to a grate under the gatehouse, bolted from above; bones of a gate guard who fell in: 'Bones'."}
+  - {id: room:felix, name: "Felix's tunnel", kind: corridor, size: S, floor: 0, at: [0, 1], monsters: 0,
+     purpose: "A neat tunnel dug by Felix the Tinker, who lives at its end with a compass he will explain to anyone (A4, flavour)."}
+  - {id: room:valio, name: "Valio's bed", kind: room, size: S, floor: 0, at: [1, 1], chest: 2, goal: true, monsters: 0,
+     purpose: "A bed in a dry niche, Valio in it (Q-D5). His chest beside it: the diploma, some gold, a T2 item (q-d5.valio_chest)."}
+  - {id: room:cross, name: "The drain cross", kind: hall, size: L, floor: 0, at: [2, 1], monsters: 0,
+     purpose: "Four drains meet under the square in a vaulted cross; lamplight through the hatch above."}
+  - {id: room:shaft_square, name: "Square shaft (the hatch)", kind: stair, size: S, floor: 0, at: [3, 1], monsters: 0,
+     purpose: "The iron hatch by the square's south-east corner: the ladder down and the way in and out (D1 door:dd01)."}
+  - {id: room:east_drain, name: East drain, kind: corridor, size: M, floor: 0, at: [4, 1], monsters: 4,
+     population: [{row: Vampire Bat, level: 14, count: 4}],
+     purpose: "Under the temple and the stables; the oldest brick."}
+  - {id: room:shaft_temple, name: "Temple shaft", kind: stair, size: S, floor: 0, at: [5, 1], monsters: 0,
+     purpose: "A ladder up to the temple's grate, bolted from above. A flask of Green Liquid (+2 Endurance, once per character)."}
+  - {id: room:overflow, name: Overflow cistern, kind: hall, size: M, floor: 0, at: [1, 2], monsters: 4,
+     population: [{row: Bat Queen, level: 10, count: 4}],
+     purpose: "A round cistern; a stair spirals down round its wall to the culverts."}
+  - {id: room:shaft_market, name: "Market shaft", kind: stair, size: S, floor: 0, at: [5, 0], chest: 2, monsters: 3,
+     population: [{row: Bat Queen, level: 10, count: 3}],
+     purpose: "Under the market: a grate bolted from above, a heap of things dropped through it over the years (a chest)."}
+  # floor -1: the deep culverts and the nest
+  - {id: room:nest_way, name: "Nest culvert", kind: corridor, size: M, floor: -1, at: [0, 0], monsters: 4,
+     population: [{row: Bat Queen, level: 10, count: 4}],
+     purpose: "A low culvert to the nest, under water until the sluice is shut."}
+  - {id: room:rat_runs, name: Rat runs, kind: cave, size: M, floor: -1, at: [1, 0], monsters: 6,
+     population: [{row: Rooka, level: 18, count: 3}, {row: Bat Queen, level: 10, count: 3}],
+     purpose: "Where the brick has fallen in: burrows, gnawed bones, rat runs."}
+  - {id: room:deep_cistern, name: Deep cistern, kind: hall, size: M, floor: -1, at: [2, 0], monsters: 4,
+     population: [{row: Vampire Bat, level: 14, count: 4}],
+     purpose: "The overflow stair's foot; the flooded culvert mouth to the nest in its west wall."}
+  - {id: room:outfall, name: Outfall tunnel, kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "The drain's way out under the wall to the mill gorge: an iron grate barred on this side."}
+  - {id: room:rat_nest, name: "The rat queen's nest", kind: cave, size: L, floor: -1, at: [0, 1], set_piece: true, boss: true,
+     boss_label: "Rooka 24", goal: true, chest: 3, monsters: 5,
+     population: [{actor: Rooka the Rat Queen, level: 24, role: boss, placed: true}, {row: Rooka, level: 18, count: 4}],
+     purpose: "A heap of rags, bottle caps and buttons in a collapsed vault; Rooka (q-d5.rooka at her death); the shiny things (m16.necklace); her hoard."}
+  - {id: room:midden, name: Bone midden, kind: cave, size: M, floor: -1, at: [1, 1], chest: 2, monsters: 3,
+     population: [{row: Bat Queen, level: 10, count: 3}],
+     purpose: "Where the rats drag what they kill: bones and a sodden pack (chest)."}
+  - {id: room:cellar, name: Drowned cellar, kind: room, size: M, floor: -1, at: [5, 1], chest: 2, monsters: 4,
+     population: [{row: Gremlin, level: 14, count: 3}, {row: Gremlin Saboteur, level: 18, count: 1}],
+     purpose: "An old house cellar the drain broke into; gremlins store stolen tools here; a broken floor up into the east drain."}
+links:
+  - {id: link:square_cross, from: room:shaft_square, to: room:cross, kind: open}
+  - {id: link:cross_west, from: room:cross, to: room:west_drain, kind: door}
+  - {id: link:west_shaft, from: room:west_drain, to: room:shaft_west, kind: open}
+  - {id: link:west_sluice, from: room:west_drain, to: room:sluice, kind: open}
+  - {id: link:sluice_north, from: room:sluice, to: room:north_drain, kind: door}
+  - {id: link:north_cross, from: room:north_drain, to: room:cross, kind: door}
+  - {id: link:north_shaft, from: room:north_drain, to: room:shaft_north, kind: open}
+  - {id: link:cross_east, from: room:cross, to: room:east_drain, kind: door}
+  - {id: link:east_temple, from: room:east_drain, to: room:shaft_temple, kind: open}
+  - {id: link:east_market, from: room:east_drain, to: room:shaft_market, kind: door}
+  - {id: link:west_felix, from: room:west_drain, to: room:felix, kind: open}
+  - {id: link:felix_valio, from: room:felix, to: room:valio, kind: open}
+  - {id: link:valio_overflow, from: room:valio, to: room:overflow, kind: door}
+  - {id: link:overflow_deep, from: room:overflow, to: room:deep_cistern, kind: stair}
+  - {id: link:deep_runs, from: room:deep_cistern, to: room:rat_runs, kind: open}
+  - {id: link:deep_outfall, from: room:deep_cistern, to: room:outfall, kind: door}
+  - {id: link:culvert, from: room:rat_runs, to: room:nest_way, kind: door, label: "Flooded culvert: sluice shut",
+     opened_by: state:sluice, notes: "The culvert's water as a sinking door mover (XD-10's word)."}
+  - {id: link:nest, from: room:nest_way, to: room:rat_nest, kind: open}
+  - {id: link:nest_midden, from: room:rat_nest, to: room:midden, kind: open}
+  - {id: link:midden_cellar, from: room:midden, to: room:cellar, kind: open}
+  - {id: link:cellar_east, from: room:cellar, to: room:east_drain, kind: stair, notes: "A broken floor and a ladder up into the east drain."}
+states:
+  - {id: state:sluice, kind: lever, where: room:sluice,
+     what: "Two-state lever 'Close the sluice?': the gate drops, the channel stops, the flooded culvert drains (the water face sinks); 'Open' floods it again.",
+     opens: [link:culvert], draw: false}
+  - {id: state:rooka, kind: kill, where: room:rat_nest, what: "Rooka the Rat Queen's death: q-d5.rooka (3,000 XP, rooka_slain).", opens: [], draw: false}
+  - {id: state:necklace, kind: item, where: room:rat_nest, what: "m16.necklace: the onyx necklace among the shiny things (once).", opens: [], draw: false}
+  - {id: state:valio, kind: qbit, where: room:valio,
+     what: "Valio's topic (Q-D5) pays with his chest after rooka_slain; opening the chest earlier sets valio_angered and the map swaps the talking Valio for monster 11193, hostile (q-d5.valio_angry).",
+     opens: [], draw: false}
+  - {id: state:outfall_bar, kind: lever, where: room:outfall, what: "The outfall grate's bar, lifted from inside: a way out to the mill gorge, and back in once lifted.", opens: [], draw: false}
+  - {id: state:grates, kind: lever, where: room:cross,
+     what: "The four other shafts' grates are bolted from the street side: 'The grate is bolted from above. You hear the town over your head.'",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d1_hatch, space: room:shaft_square, at: [3, 2], kind: both, label: "D1: the square's hatch",
+     neighbour: "D1 entrance:dd01_hatch (66, 57), iron hatch by the square's south-east corner; arrival at the ladder's foot"}
+  - {id: exit:d1_outfall, space: room:outfall, at: [4, 0], kind: both, label: "D1: outfall (opened inside)",
+     neighbour: "Not on D1's plan yet (request A6): an outfall grate in the mill gorge below the east wall; locked from outside until the bar is lifted"}
+hooks:
+  - {hook: m16.necklace, space: room:rat_nest, how: "click on the shiny heap (once)"}
+  - {hook: q-d5.rooka, space: room:rat_nest, how: "Rooka the Rat Queen's death (her group)"}
+  - {hook: q-d5.valio_chest, space: room:valio, how: "the chest by the bed (once)"}
+  - {hook: q-d5.valio_angry, space: room:valio, how: "on entry and after the chest: valio_angered hides the talking Valio (NPC 4957) and shows monster 11193"}
+  - {hook: npc 4957 Valio, space: room:valio, how: "talking actor in the bed (A4's place 'in the bed by Felix's tunnel')"}
+critical_path: [room:shaft_square, room:cross, room:west_drain, room:sluice, room:west_drain, room:felix, room:valio, room:overflow,
+  room:deep_cistern, room:rat_runs, room:nest_way, room:rat_nest]
+return_path: [room:rat_nest, room:midden, room:cellar, room:east_drain, room:cross, room:shaft_square]
+loops:
+  - {id: loop:upper, spaces: [room:cross, room:west_drain, room:sluice, room:north_drain], notes: "Round the sluice house."}
+  - {id: loop:deep, spaces: [room:cross, room:west_drain, room:felix, room:valio, room:overflow, room:deep_cistern, room:rat_runs,
+     room:nest_way, room:rat_nest, room:midden, room:cellar, room:east_drain], notes: "Down past Valio, through the nest, up through the drowned cellar."}
+lines:
+  - {text: "Descend into the sewers?", ref: "dark/aaze0029:0", where: "D1's hatch (A6)"}
+  - {text: "Exit the Sewer?", ref: "dark/aaze0030:18", where: room:shaft_square}
+  - {text: "Sewer Drain", ref: "dark/aaze0030:6", where: "the drains' grates (hover)"}
+  - {text: "You hear Valio (the peasant hiding in the bed) yell, 'Hey, that's MY chest. Leave it alone!'", ref: "dark/aaze0030:12", where: "room:valio (A3's q-d5.valio_chest)"}
+  - {text: "You find a diploma that reads: Valio Magnus, graduated 787 cum laude, School of Evil Wizardry.", ref: "dark/aaze0030:22", where: "room:valio (A3)"}
+  - {text: "The Queen Rat is still alive. I can hear her awful chittering through the walls.", ref: "dark/aaze0030:24", where: "Valio (A3)"}
+  - {text: "Red Liquid / Green Liquid (+2 Might / +2 Endurance, once per character; the source's +5 rescaled)", ref: "dark/aaze0030:13-16", where: "room:shaft_west, room:shaft_temple"}
+  - {text: "I helped invent the compass! For a mere 1000 gold, I can teach you to read it so you will always know your direction heading.", ref: "dark/aaze0030:1", where: "room:felix (Felix the Tinker, A4; see open question 4)"}
+open_questions:
+  - "Five shafts against D1's one hatch. D1's plan has one door (the square's hatch, 66, 57). (a) One working shaft, the other four ladders up to grates bolted from above, each foot with its own find (proposed); (b) A6 adds four more working grates on D1 (four more arrivals, D1 and DD-01, and more town-buffer work); (c) a single shaft and no others. Separately, the outfall: a one-way grate to the mill gorge, opened from inside, needs one point on D1 (A6). Recommendation: (a) plus the outfall."
+  - "Rat rows. A2's names collide: rats B is 'Rooka 6', sewer_stalkers A 'Rooka 18', the boss 'Rooka the Rat Queen'; rats C and sewer_stalkers B are both 'Sewer Stalker'. A sewer whose commonest monster is a Bat Queen reads wrong. Proposed: A2 renames rats B/C (Sewer Rat 3, Plague Rat 6, Giant Rat 9) and adds a Darkside tier, 'Sewer Rat' 10-12, to replace most of the 21 Bat Queens (kill XP unchanged within 5 %)."
+  - "Rooka the Rat Queen is level 24 against a band of 10-20 (the boss after the comma, as MAPS allows for Gettlewaithe 24). Keep at 24 (proposed), or 20?"
+  - "Felix the Tinker taught 'Direction Sense' (no MM6-8 skill). (a) A flavour NPC at his tunnel's end, his line kept as a joke, no skill (proposed; A4 adds one NPC); (b) drop him and rename the tunnel."
+  - "The sluice as a two-state lever with the culvert's water as a sinking door mover (XD-10's built word), or a plain grate opened by the lever (cheaper, no water)? Proposed: the water, so the 'drain it' reads."

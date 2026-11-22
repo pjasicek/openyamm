@@ -36,6 +36,10 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: Landing to the dormitory.
   - id: door:gate_bottom
@@ -68,6 +72,10 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: Gallery to the toad larder.
   - id: door:mistress
@@ -76,6 +84,10 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: "The mistress's door, dormitory to schoolroom."
   - id: door:pens
@@ -84,6 +96,10 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: Gallery to the goblin pens.
   - id: door:rosebud
@@ -102,13 +118,17 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: The double door from the balcony into the schoolroom.
   - id: door:ward
     opening: open:sanctum_roof_stair
     kind: slide_down
     fold: true
-    surface: {texture: xwward, size: [256, 512]}
+    surface: {texture: xwward, size: [256, 512], translucent: 1}
     tile: true
     notes: "The coven's ward across the roof stair: a web of glowing witch-light with the coven's moon-eye sigil (generated cut-out xwward, its top-left 192 x 320 is the leaf), sinking into the floor once the party are Crusaders."
   - id: door:warden
@@ -117,6 +137,10 @@ doors:
     leaves: 2
     fold: true
     surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: hwr1dl, size: [128, 256]}, {texture: hwr1dr, size: [128, 256]}]
     tile: true
     notes: "Gallery to the warden's lodge: two plank leaves that fold into the jambs, as Clanker's Laboratory's doors do."
 movers:
@@ -224,6 +248,7 @@ lights:
     height: 2060
     radius: 1600
     color: [235, 245, 255]
+    pulse: {intensity: [1, 1], frequency: 0.1}
     notes: "The Alacorn's own white light, seen from the cauldron floor."
   - id: light:balcony_n
     room: room:balcony_f2
@@ -511,7 +536,7 @@ switches:
     base: {texture: trim11_32, size: [32, 64]}
     wall: north
     along: 0.12
-    off: {texture: trim9_32, size: [32, 64]}
+    off: {texture: trim11_32, size: [32, 64]}
     notes: The hoist's brake lever on the hoist room's north wall.
   - id: switch:call_bottom
     room: room:cauldron_chamber
@@ -535,11 +560,11 @@ chests:
     surface: {texture: 7t1cab, size: [128, 256]}
     end_surface: {texture: 7trimd, size: [128, 256]}
     top_surface: {texture: 7t1books1, size: [128, 128]}
-    treasure_level: 3
+    treasure_level: 2
     random_items: 3
     gold: 300
     items: [181, 179]
-    notes: "Pass two: a deep cabinet (128 square), so its sides show 7d12's planks at their shape (the build's squashed-picture check). The coven's chest: a carved cabinet against the wall (the Temple of the Moon's cabinets): 300 gold, an amethyst, a citrine and three rolls."
+    notes: "Pass two: a deep cabinet (128 square), so its sides show 7d12's planks at their shape (the build's squashed-picture check). The coven's chest: a carved cabinet against the wall (the Temple of the Moon's cabinets): 300 gold, an amethyst, a citrine and three rolls. Phase 0 (2026-11-20): the map's one hoard, treasure level 2 (was 3); every other chest and item spawn at 1 (MAPS §0: Tres 1, hoard 2)."
   - id: chest:hoard
     room: room:cupboard
     at: [4672, 416]
@@ -558,7 +583,7 @@ chests:
     at: [900, 2100]
     kind: 7gt002
     facing: s
-    treasure_level: 2
+    treasure_level: 1
     random_items: 2
     items: [226, 224, 178, coven_key]
     notes: "The witches' stores: cure poison, cure weakness, an iolite, the coven's key to the Rosebud door (pass two) and two rolls."
@@ -567,10 +592,10 @@ chests:
     at: [-1760, -1760]
     kind: 7gt002
     facing: w
-    treasure_level: 2
+    treasure_level: 1
     random_items: 2
     gold: 120
-    items: [629, 177, 222]
+    items: [warden_ring, 177, 222]
     notes: "The warden's strongbox: the ring of keys to the children's cages (the user could not find it as a small item on the table, 2026-11-13: a key the way depends on is kept where MM players look, in a chest), a zircon, a healing potion, 120 gold and two rolls."
 spawns:
   - id: spawn:balcony
@@ -583,7 +608,7 @@ spawns:
     room: room:witch_bedchamber
     at: [-3300, -500]
     slot: 3
-    tier: c
+    tier: b
     notes: A familiar on the bed.
   - id: spawn:broken_balcony
     room: room:broken_balcony
@@ -617,29 +642,29 @@ spawns:
     room: room:toad_larder
     at: [-1450, -1700]
     kind: item
-    treasure_level: 2
+    treasure_level: 1
   - id: spawn:item_pens
     room: room:goblin_pens
     at: [2300, -2700]
     kind: item
-    treasure_level: 2
+    treasure_level: 1
     notes: Something in the straw.
   - id: spawn:item_vat
     room: room:vat_hall
     at: [-2400, 2000]
     kind: item
-    treasure_level: 3
+    treasure_level: 1
   - id: spawn:larder_1
     room: room:toad_larder
     at: [-1400, -2600]
     slot: 3
-    tier: c
+    tier: b
     notes: Familiars in the larder.
   - id: spawn:larder_2
     room: room:toad_larder
     at: [-850, -1750]
     slot: 3
-    tier: c
+    tier: b
   - id: spawn:lodge
     room: room:warden_lodge
     at: [-1900, -1250]
@@ -673,17 +698,11 @@ spawns:
     room: room:cauldron_chamber
     at: [550, 550]
     slot: 3
-    tier: c
+    tier: b
     notes: Familiars in the steam.
   - id: spawn:stokers_1
     room: room:cauldron_chamber
     at: [650, -350]
-    slot: 1
-    tier: a
-    notes: Stokers at the cauldron.
-  - id: spawn:stokers_2
-    room: room:cauldron_chamber
-    at: [-300, 700]
     slot: 1
     tier: a
     notes: Stokers at the cauldron.
@@ -751,41 +770,39 @@ monsters:
     notes: "Child 4, in the witches' bedchamber."
   - id: monster:familiar_1
     room: room:coven_sanctum
-    monster: 207
+    monster: 11452
     at: [-2720, 448]
     hostile: true
     group: 5
     hidden: true
-    notes: A familiar called up from the witch-marks (set:head_witch).
+    notes: "A familiar called up from the witch-marks (set:head_witch): a Swamp Toad (11452, level 11), the plan's summoned toad."
   - id: monster:familiar_2
     room: room:coven_sanctum
-    monster: 207
+    monster: 11452
     at: [-2400, 128]
     hostile: true
     group: 5
     hidden: true
   - id: monster:head_witch
     room: room:coven_sanctum
-    monster: 215
+    monster: 11163
     at: [-1500, 300]
     facing: 180
     hostile: true
     group: 4
-    hp: 300
-    name: Head Witch
-    notes: "The Head Witch (a Cleric of the Moon, level 20, with 300 hit points of her own) at the window over the shaft, between the Rosebud door and the bridge (set:head_witch)."
+    notes: "The Head Witch (her boss row 11163, level 20) at the window over the shaft, between the Rosebud door and the bridge (set:head_witch)."
   - id: monster:schoolmistress
     room: room:schoolroom
-    monster: 214
+    monster: 11160
     at: [3250, 1728]
     facing: 180
     hostile: true
     group: 3
     name: Schoolmistress
-    notes: "The schoolmistress at her desk (an Acolyte of the Moon, level 10)."
+    notes: "The schoolmistress at her desk (a Wicked Witch, 11160, level 10)."
   - id: monster:sister_1
     room: room:coven_sanctum
-    monster: 214
+    monster: 11161
     at: [-3420, -150]
     facing: 0
     hostile: true
@@ -793,21 +810,21 @@ monsters:
     notes: One of the Head Witch's two sisters (Acolytes of the Moon).
   - id: monster:sister_2
     room: room:coven_sanctum
-    monster: 214
+    monster: 11161
     at: [-3500, 750]
     facing: 0
     hostile: true
     group: 6
   - id: monster:warden
     room: room:warden_lodge
-    monster: 273
+    monster: 11012
     at: [-2250, -1500]
     facing: 0
     hostile: true
     group: 2
     name: Goblin Warden
     immobile: true
-    notes: "The Goblin Warden (a Goblin Lord, level 10) at his table; the ring of keys that opens every cage is in his strongbox beside the table (the lead, after the user's walk: neither on his corpse nor as a small item on the table)."
+    notes: "The Goblin Warden (a Gremlin Guard, 11012, level 10) at his table; the ring of keys that opens every cage is in his strongbox beside the table (the lead, after the user's walk: neither on his corpse nor as a small item on the table)."
 items:
   - id: item:alacorn
     room: room:cauldron_chamber
@@ -824,7 +841,7 @@ decorations:
   - id: deco:altar_pot
     room: room:coven_sanctum
     decoration: cauld00
-    at: [-3330, 288]
+    at: [-3330, 560]
   - id: deco:altar_skull
     room: room:coven_sanctum
     decoration: 7dec20
@@ -891,15 +908,7 @@ decorations:
   - id: deco:broken_balcony_bones
     room: room:broken_balcony
     decoration: dec29
-    at: [-1200, 1450]
-  - id: deco:bucket
-    room: room:cauldron_chamber
-    decoration: Bucket
-    at: [400, -820]
-  - id: deco:cask_1
-    room: room:cauldron_chamber
-    decoration: 7dec21
-    at: [-250, -900]
+    at: [-1277, 1471]
   - id: deco:circle_candle_1
     room: room:coven_sanctum
     decoration: dec02
@@ -939,7 +948,7 @@ decorations:
   - id: deco:dorm_bucket
     room: room:dormitory
     decoration: Bucket
-    at: [3000, 900]
+    at: [2912, 880]
   - id: deco:dorm_plates
     room: room:dormitory
     decoration: dec36
@@ -958,14 +967,6 @@ decorations:
     room: room:cauldron_chamber
     decoration: foodbowl
     at: [-820, 350]
-  - id: deco:gallery_cask
-    room: room:ring_f1
-    decoration: 7dec21
-    at: [1400, -1450]
-  - id: deco:gallery_cask_2
-    room: room:ring_f1
-    decoration: 7dec21
-    at: [-1450, -1180]
   - id: deco:gallery_torch_1
     room: room:ring_f1
     decoration: torch01
@@ -1043,7 +1044,7 @@ decorations:
   - id: deco:hidden_candle
     room: room:hidden_cage
     decoration: cndlab0
-    at: [-2780, 2250]
+    at: [-2776, 2232]
   - id: deco:hoist_cask
     room: room:hoist_room
     decoration: 7dec21
@@ -1057,7 +1058,7 @@ decorations:
   - id: deco:hoist_sacks
     room: room:hoist_room
     decoration: bag01
-    at: [-2380, -480]
+    at: [-2355, -689]
   - id: deco:landing_f3_lantern
     room: room:landing_f3
     decoration: torch02
@@ -1115,16 +1116,8 @@ decorations:
     height: 230
   - id: deco:loft_mushrooms
     room: room:herb_loft
-    decoration: mushrm04
+    decoration: mushrm03
     at: [950, 1680]
-  - id: deco:loft_sacks
-    room: room:herb_loft
-    decoration: bag01
-    at: [150, 2100]
-  - id: deco:loft_sacks_2
-    room: room:herb_loft
-    decoration: floursac
-    at: [300, 1680]
   - id: deco:pens_bones
     room: room:goblin_pens
     decoration: 7dec18
@@ -1230,6 +1223,11 @@ decorations:
     at: [2272, 692]
     floor_height: 752
     notes: The skull of the Air.
+  - id: deco:skull_levitate
+    room: room:roof_stair
+    decoration: 7dec20
+    at: [-4417, 600]
+    notes: "Phase 0 (2026-11-20): the source's skull on the roof stair (aaze0051:20), on its shelf a few steps up from the ward: the levitate hint before the cloud world."
   - id: deco:skull_niche_candles_n
     room: room:skull_niche
     decoration: dec02
@@ -1239,10 +1237,25 @@ decorations:
     room: room:skull_niche
     decoration: dec02
     at: [2150, 420]
+  - id: deco:skull_pens
+    room: room:goblin_pens
+    decoration: 7dec20
+    at: [1604, -2851]
+    notes: "Phase 0 (2026-11-20): the source's skull over the goblin pens (aaze0051:21), on a shelf on the south wall over the straw: 'Goblins back to work!'"
   - id: deco:skull_pile
     room: room:coven_sanctum
     decoration: sklplrev
     at: [-3950, 800]
+  - id: deco:skull_vanity_1
+    room: room:witch_bedchamber
+    decoration: 7dec20
+    at: [-4028, -896]
+    notes: "Phase 0 (2026-11-20): one of the source's two vanity skulls (aaze0051:18) on the witches' dressing table under the mirror."
+  - id: deco:skull_vanity_2
+    room: room:witch_bedchamber
+    decoration: 7dec20
+    at: [-4031, -754]
+    notes: "Phase 0 (2026-11-20): the other vanity skull (aaze0051:19). Each new skull stands at a point whose model yaw faces it into the room (the skull model's binding turns it by a hash of its position, yaw: random, and ignores `facing`)."
   - id: deco:stair_lantern_1
     room: room:stair_1_2_mid
     decoration: torch02
@@ -1284,7 +1297,7 @@ decorations:
   - id: deco:vat_hall_cask
     room: room:vat_hall
     decoration: 7dec21
-    at: [-600, 3000]
+    at: [-612, 3046]
   - id: deco:vat_hall_lantern
     room: room:vat_hall
     decoration: torch02
@@ -1298,11 +1311,11 @@ decorations:
   - id: deco:vat_hall_pot
     room: room:vat_hall
     decoration: cauld00
-    at: [-650, 1950]
+    at: [-800, 2072]
   - id: deco:vat_hall_sacks
     room: room:vat_hall
     decoration: bag01
-    at: [-700, 1750]
+    at: [-1615, 1709]
   - id: deco:vat_hall_sacks_2
     room: room:vat_hall
     decoration: floursac
@@ -1330,8 +1343,8 @@ placeholders:
     size: [640, 64, 256]
   - id: placeholder:mirror
     room: room:witch_bedchamber
-    stands_for: A tall black-framed mirror on the bedchamber's west wall
-    at: [-4050, -700]
+    stands_for: "A tall black-framed mirror on the bedchamber's west wall, over the dressing table with the two vanity skulls (phase 0: moved from y -700 to stand over the table)"
+    at: [-4088, -830]
     size: [16, 128, 256]
   - id: placeholder:straw_pens
     room: room:goblin_pens
@@ -1355,18 +1368,17 @@ exits:
     size: [512, 512]
     surface: {texture: xwcloudst, size: [512, 512]}
     to: exit:cloudreach
-    notes: "The cloud stair at the roof's west edge, up into the clouds (the generated cloud stair xwcloudst, pass two)."
+    notes: "The cloud stair at the roof's west edge, up into the clouds of X8 (the generated cloud stair xwcloudst, pass two)."
   - id: exit:tower_door
     room: room:gate_hall
     wall: south
     size: [128, 256]
-    surface: {texture: hwm2d, size: [128, 256]}
+    surface: {texture: 7solid01, size: [128, 256]}
     to: exit:toad_meadow
     notes: "The tower door (Clanker's Laboratory's carved double door), out to Toad Meadow."
 relations:
-  - {of: [214, 215, 216], toward: party, relation: hostile}
-  - {of: [205, 206, 207], toward: 430, relation: friendly}
-  - {of: [205, 206, 207], toward: 433, relation: friendly}
-  - {of: [205, 206, 207], toward: 439, relation: friendly}
-  - {of: [205, 206, 207], toward: 442, relation: friendly}
-notes: "Objects of the L4 brief (first written by output/studio_cal/xd04/tools/gen_objects.py). Stand-ins: goblins MM7's Goblin family, the witches Moon clerics, the familiars bats; the Head Witch a Cleric of the Moon with 300 hit points and a name, the warden a Goblin Lord, the children Goblin peasants."
+  - {of: [11010, 11011, 11012, 11160, 11161, 11162, 11163, 11450, 11451, 11452], toward: 430, relation: friendly, both_ways: true}
+  - {of: [11010, 11011, 11012, 11160, 11161, 11162, 11163, 11450, 11451, 11452], toward: 433, relation: friendly, both_ways: true}
+  - {of: [11010, 11011, 11012, 11160, 11161, 11162, 11163, 11450, 11451, 11452], toward: 439, relation: friendly, both_ways: true}
+  - {of: [11010, 11011, 11012, 11160, 11161, 11162, 11163, 11450, 11451, 11452], toward: 442, relation: friendly, both_ways: true}
+notes: "Objects of the L4 brief (first written by output/studio_cal/xd04/tools/gen_objects.py; Xeen rows since 2026-11-20, lane A7). Slots: 1 Xeen Goblin, 2 Xeen Witch, 3 Xeen Toad (the toads of the larder, the steam, the vats and the bed, MM7 bats before). Placed: the Head Witch her boss row 11163 (20), the schoolmistress a Wicked Witch 11160 (10), the two sisters Witches 11161 (14), the Goblin Warden a Gremlin Guard 11012 (10), the two familiars Swamp Toads 11452 (11); the caged children stay MM7 peasants (430, 433, 439, 442), kept apart from the three families both ways (`relations`): the families' hostility to the party is the world's relations.yml."

@@ -1,0 +1,347 @@
+format: 0
+level: L3
+pitch: "The Plane of Fire of Xeen: a lake of lava in a crater of black glass under a sky of red smoke. Causeways of cooled crust run between basalt shelves; vents flare underfoot. On its rise the Crucible, a ring of obsidian where the test of Fire waits; beyond it, in a hall cut into the tallest spire, the Fire Sleeper on his couch."
+purpose: "M38 (Act VI, party 56-60): the plaque (Step One), the test of Fire, the Fire Sleeper (m38.sleeper_fire, award 412) and the test's chest. Reached by stepping off D7's north-west corner after answering 'Fire'; left by the heat column at the arrival or the return dais by the sleeper, both to D7."
+mood: "Hot, red and loud: the lava's slow churn, the crack of cooling crust, the roar of the vents. Danger played straight; the plaque and the sleeper's 'confidence is at 100%' are the world's wink."
+datum: room:landing
+spaces:
+  - id: room:arena
+    name: The Crucible
+    kind: room
+    extent: [3328, 3072]
+    shape: "a round ring of black glass on a basalt rise, lava welling in a pit at its middle"
+    at: [256, 3456]
+    floor: 256
+    relief: flat
+    purpose: "The test of Fire: the pedestal at the south gate asks 'Accept the test of Fire?'; the guardians rise from the pit. The Sleeper's Gate on the west side."
+    population:
+      - {id: pop:arena_east, actor: Fire Elemental (11621), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Fire Elemental (62) as one group, at (1408, 2816)"}
+  - id: room:chamber
+    name: The Sleeper's Hall
+    kind: room
+    extent: [2560, 2048]
+    shape: "a hall open to the sky, cut into the tallest spire of the crater wall, floored in black glass, the spire's rock walling its back and sides (P-2)"
+    at: [-4096, 4480]
+    floor: 384
+    relief: flat
+    purpose: "The Fire Sleeper on his couch (m38.sleeper_fire); the test's chest; the return dais (after the sleeper wakes)."
+    safe: true
+    keep_clear: [spawns]
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The test's chest (treasure 6): the source's chest, now behind the gate the test opens. at (-3328, 5248)"}
+  - id: room:islet
+    name: The Ember Islet
+    kind: room
+    extent: [1792, 1536]
+    shape: "a small crust islet in the lava, on the straight way north"
+    at: [-896, -256]
+    floor: 96
+    relief: flat
+    purpose: "The straight way to the Crucible; the Ember Font (a font of liquid fire)."
+    population:
+      - {id: pop:islet_lesser, actor: Lesser Fire Elemental (11620), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Fire Elemental (55) as one group, at (-640, 128)"}
+  - id: room:landing
+    name: The Cinder Shelf
+    kind: room
+    extent: [2560, 2304]
+    shape: "a low shelf of cooled black crust in the crater's south-east, the heat column at its corner"
+    at: [4096, -4224]
+    floor: 0
+    relief: flat
+    purpose: Arrival from D7's north-west corner (entrance:d7_fall) and the way up (the heat column). Quiet.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:spires
+    name: The Basalt Spires
+    kind: room
+    extent: [2560, 2816]
+    shape: "a shelf of basalt columns and spires, the long way round to the east"
+    at: [3968, 896]
+    floor: 128
+    relief: flat
+    purpose: "The east loop: lava golems and elementals among the columns."
+    population:
+      - {id: pop:spires_golems, actor: Lava Golem (11593), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lava Golem (55) as one group, at (3712, -384)"}
+      - {id: pop:spires_lesser, actor: Lesser Fire Elemental (11620), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Fire Elemental (55) as one group, at (4352, 1408)"}
+      - {id: pop:spires_elementals, actor: Fire Elemental (11621), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Fire Elemental (62) as one group, at (3584, 1792)"}
+  - id: room:statue
+    name: The Flame Statue
+    kind: room
+    extent: [2304, 2048]
+    shape: "a round crust shelf, the statue of Fire on its plinth in the middle"
+    at: [512, -2560]
+    floor: 64
+    relief: flat
+    purpose: "The statue and its plaque (m38.plaque_fire, Step One); the causeways part here."
+    population:
+      - {id: pop:statue_lesser, actor: Lesser Fire Elemental (11620), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lesser Fire Elemental (55) as one group, at (1408, -2944), the first fight"}
+  - id: room:vents
+    name: The Vent Field
+    kind: room
+    extent: [2816, 2304]
+    shape: a crust field pocked with glowing vents (the source's nine)
+    at: [-3712, -3840]
+    floor: 0
+    relief: flat
+    purpose: "The vents (the plane's hazard); the burnt camp of a fire-walker and his ember cache."
+    population:
+      - {id: pop:vents_lesser, actor: Lesser Fire Elemental (11620), groups: 1, per_marker: [3, 3], levels: [55, 55], placed: true, notes: "3 Lesser Fire Elemental (55) as one group, at (-3200, -3328)"}
+      - {id: pop:vents_golems, actor: Lava Golem (11593), groups: 1, per_marker: [2, 2], levels: [55, 55], placed: true, notes: "2 Lava Golem (55) as one group, at (-4480, -4224)"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "The ember cache (treasure 6, a fire trap): a fire-walker's iron box by his burnt camp. at (-4736, -4352)"}
+      - {kind: floor_item, count: 1, tier: 6, notes: "camp: the find, at (-3968, -4736)"}
+  - id: room:west_shelf
+    name: The Glass Shelf
+    kind: room
+    extent: [2304, 2816]
+    shape: "a shelf of black glass under the west wall, a lava fall beside it"
+    at: [-4480, 768]
+    floor: 128
+    relief: flat
+    purpose: "The west loop: Fire Elementals and the Fire Blowers that roam it."
+    population:
+      - {id: pop:shelf_elementals, actor: Fire Elemental (11621), groups: 1, per_marker: [3, 3], levels: [62, 62], placed: true, notes: "3 Fire Elemental (62) as one group, at (-4608, 1408)"}
+      - {id: pop:shelf_greater, actor: Fire Blower (11622), groups: 1, per_marker: [2, 2], levels: [70, 70], placed: true, notes: "2 Fire Blower (70) as one group, at (-4224, -128)"}
+  - id: zone:lava
+    name: The lava lake
+    kind: zone
+    shape: "the crater's floor round every shelf and causeway: 90.0 M units, 64 % of the basin, ringed by a ring of black glassy cliffs 2,000-2,800 high round the lava, lava falls in two places"
+    floor: -64
+    relief: flat
+    purpose: "Walkable and burning (`lavtyl`: the engine's lava floor, fire damage while standing in it, Levitate lifts the party); banks of crust along every causeway and shelf, so the party walks out anywhere (question 1)."
+    keep_clear: [spawns]
+links:
+  - id: link:causeway_c
+    from: room:islet
+    to: room:arena
+    kind: path
+    width: 640
+    rise: 160
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 1,577 rim to rim"
+  - id: link:causeway_e
+    from: room:statue
+    to: room:spires
+    kind: path
+    width: 640
+    rise: 64
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 2,319 rim to rim"
+  - id: link:causeway_n
+    from: room:statue
+    to: room:islet
+    kind: path
+    width: 640
+    rise: 32
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 721 rim to rim"
+  - id: link:causeway_ne
+    from: room:spires
+    to: room:arena
+    kind: path
+    width: 640
+    rise: 128
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 1,546 rim to rim"
+  - id: link:causeway_nw
+    from: room:vents
+    to: room:west_shelf
+    kind: path
+    width: 640
+    rise: 128
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 2,123 rim to rim"
+  - id: link:causeway_s
+    from: room:landing
+    to: room:statue
+    kind: path
+    width: 768
+    rise: 64
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 1,640 rim to rim"
+  - id: link:causeway_w
+    from: room:statue
+    to: room:vents
+    kind: path
+    width: 640
+    rise: -64
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 1,868 rim to rim"
+  - id: link:causeway_wn
+    from: room:west_shelf
+    to: room:arena
+    kind: path
+    width: 640
+    rise: 128
+    notes: "a causeway of cooled black crust over the lava, low banks both sides; 2,594 rim to rim"
+  - id: link:sleepers_gate
+    from: room:arena
+    to: room:chamber
+    kind: door
+    condition: {qbit: m38_fire_test}
+    opened_by: set:test
+    width: 640
+    rise: 128
+    notes: "an obsidian bridge over the lava from the Crucible's west rim to the Sleeper's Gate, a hinged pair of black-glass leaves in the Sleeper's Hall's wall; the gate opens on qbit 111764"
+entrances:
+  - id: entrance:d7_fall
+    space: room:landing
+    kind: arrival
+    neighbour: corner:d7
+    facing: nw
+    how: "The drop from D7's north-west corner (Sky A1 in the source) after the sky's 'What do you seek?' is answered 'Fire' (m38.corner_fire): the party lands standing on The Cinder Shelf (D-58 C2: no falling damage; Xeen.toPlane(\"fire\"), Xeen.PlaneArrivals.fire)."
+    notes: "at (3776, -3904), z 0, quiet ground (keep_clear spawns)"
+  - id: entrance:dais
+    space: room:chamber
+    kind: exit
+    neighbour: exit:d7_dais
+    how: "The return dais: a disc of black glass, shown once the Fire Sleeper is awake (m38.fire); an exit preset to D7's entrance:p1_return. No walk back."
+    condition: {qbit: m38_fire}
+    notes: "at (-4864, 3904)"
+  - id: entrance:way_up
+    space: room:landing
+    kind: exit
+    neighbour: exit:d7_way_up
+    how: "The heat column: a pillar of shimmering air rising from a ring of fire-stones in the shelf's corner. An exit preset ('Ride the heat back to the Skyroads?'), always open, to D7's entrance:p1_return (the source's (13,2), a fall back to Skyroad A1)."
+    notes: "at (4864, -4864)"
+critical_path: [room:landing, room:statue, room:islet, room:arena, room:chamber]
+return_path: [room:chamber]
+goals:
+  - id: goal:sleeper
+    space: room:chamber
+    kind: use
+    what: "Wake the Fire Sleeper (m38.sleeper_fire: Chosen One and M37's four reflectors)"
+    story: M38
+    gives:
+      qbit: m38_fire
+  - id: goal:test
+    space: room:arena
+    kind: kill
+    what: "The test of Fire: the Sleeper's Guardian of Fire and two Fire Blowers"
+    story: M38
+    gives:
+      qbit: m38_fire_test
+points_of_interest:
+  - id: poi:camp
+    space: room:vents
+    kind: device
+    behaviour: "The fire-walker's camp: a burnt bedroll, a kettle and a note: 'Day 3. The boots work. The feet do not.' (ours) A find: Fire Resistance potions."
+    notes: "at (-3968, -4736)"
+  - id: poi:dais
+    space: room:chamber
+    kind: exit
+    behaviour: "The return dais: a disc of black glass, shown once the Fire Sleeper is awake (m38.fire); an exit preset to D7's entrance:p1_return. No walk back. A3's line m38.dais_fire is the window's meaning."
+    also: [entrance:dais]
+    condition: {qbit: m38_fire}
+    notes: "at (-4864, 3904), 15,827 along the walk"
+  - id: poi:ember_cache
+    space: room:vents
+    kind: chest
+    behaviour: "The ember cache (treasure 6, a fire trap): a fire-walker's iron box by his burnt camp."
+    notes: "at (-4736, -4352)"
+  - id: poi:font
+    space: room:islet
+    kind: device
+    behaviour: "The Ember Font: a basin of liquid fire on the islet. Drunk from: +20 Fire resistance for a day (once a day; 'The fire is cool and refreshing.'), the world's wink on the stock well line."
+    notes: "at (-1152, -448)"
+  - id: poi:sleeper
+    space: room:chamber
+    kind: sleeper
+    behaviour: "The Fire Sleeper on his couch: A3's m38.sleeper_fire, three states (not Chosen; 'Awaiting Grunfeld field activation.'; awake, award 412, 10,500 XP)."
+    gives:
+      qbit: m38_fire
+    condition: {lua: "XeenQuests.hook(\"m38.sleeper_fire\")"}
+    notes: "at (-4352, 4864), 14,904 along the walk"
+  - id: poi:spire_glass
+    space: room:spires
+    kind: device
+    behaviour: "A seam of red crystal in a spire: hit with a weapon, it rings ('The spire hums. Nothing else happens.'); the first time, a shard: a red gem (a find)."
+    notes: "at (4480, 1920)"
+  - id: poi:statue
+    space: room:statue
+    kind: statue
+    behaviour: "The statue of Fire: a tall figure of flame in red stone on a black plinth. A3's m38.plaque_fire: 'A message at the base of the statue reads: Step One: When the time is right, activate the machines in the four corners of the other side of the world.' (aaze0025:3-4)"
+    condition: {lua: "XeenQuests.hook(\"m38.plaque_fire\")"}
+    notes: "at (512, -2432), 3,639 along the walk"
+  - id: poi:test
+    space: room:arena
+    kind: pedestal
+    behaviour: "The test pedestal at the Crucible's south gate: 'Accept the test of Fire?' (aaze0025:6). Yes calls A3's m38.test_fire; the map raises the guardians from the pit (set:test). Offered while the guardians are hidden and m38_fire_test (111764) is clear; declining does nothing (D-58 C3)."
+    uses: {times: 1, per: party, reset: never}
+    gives:
+      map_var: test_accepted
+    condition: {lua: "XeenQuests.hook(\"m38.test_fire\")"}
+    notes: "at (256, 2048), 8,836 along the walk"
+  - id: poi:test_chest
+    space: room:chamber
+    kind: chest
+    behaviour: "The test's chest (treasure 6): the source's chest, now behind the gate the test opens."
+    notes: "at (-3328, 5248)"
+  - id: poi:way_up
+    space: room:landing
+    kind: exit
+    behaviour: "The heat column: a pillar of shimmering air rising from a ring of fire-stones in the shelf's corner. An exit preset ('Ride the heat back to the Skyroads?'), always open, to D7's entrance:p1_return (the source's (13,2), a fall back to Skyroad A1). A3's line m38.way_up_fire is the window's meaning."
+    also: [entrance:way_up]
+    notes: "at (4864, -4864)"
+landmarks:
+  - id: landmark:arena
+    space: room:arena
+    what: "a round ring of black glass on a basalt rise, lava welling in a pit at its middle"
+    seen_from: [room:landing, room:statue, room:islet, room:spires, room:chamber, room:west_shelf, room:vents]
+  - id: landmark:chamber
+    space: room:chamber
+    what: "a hall open to the sky, cut into the tallest spire of the crater wall, floored in black glass, the spire's rock walling its back and sides (P-2)"
+    seen_from: [room:landing, room:statue, room:arena]
+  - id: landmark:statue
+    space: room:statue
+    what: The statue of Fire
+    seen_from: [room:landing, room:islet, room:spires, room:arena]
+  - id: landmark:way_up
+    space: room:landing
+    what: "The heat column: a pillar of shimmering air rising from a ring of fire-stones in the shelf's corner"
+    seen_from: [room:landing, room:statue]
+sightlines:
+  - id: view:arrival
+    from: room:landing
+    to: [landmark:statue, landmark:arena, landmark:chamber]
+    what: "The arrival: from the Cinder Shelf north-west over the lava, the causeway to the Flame Statue, the Crucible's black ring on its rise beyond, the spires to the right, the Sleeper's spire in the crater wall far left, the heat column behind."
+    notes: "camera at (3712, -3840), z 176 (eye), yaw 130 degrees, pitch -6; the MU-4 concept"
+set_pieces:
+  - id: set:lava
+    kind: trap
+    spaces: [zone:lava]
+    rule: "The lava burns as MM's lava floors (`lavtyl`, D-40): crust banks within 64 of every lava edge (a lip of at most 64 over the lava) and ramps up every shelf, so a party in the lava always walks out; none to the Sleeper's Hall or its bridge, which stand 320-448 over the lava (P-2). No falls: the crater wall closes the room. Measured: the farthest lava is 3,396 from a way out (90 % within 1,703)."
+  - id: set:test
+    kind: boss
+    spaces: [room:arena]
+    rule: "D-58 C3 (a): the pedestal's 'Accept the test of Fire?' (A3's m38.test_fire) shows the three guardians, a hidden group until then, rising from the pit at (256, 3584): 1 Sleeper's Guardian of Fire (75), 2 Fire Blower (70). Each guardian's death event calls Xeen.planeTestCheck(\"fire\", <the group>); when the three are dead it runs m38.test_fire_passed, which sets m38_fire_test (111764, P-1) and opens the gate. A party that leaves mid-fight finds the guardians still shown on return; the test is not offered again while they live."
+    enabled_by: {map_var: test_accepted}
+    gives:
+      qbit: m38_fire_test
+    population:
+      - {id: pop:guardians, actors: [{actor: Sleeper's Guardian of Fire (11623), count: 1}, {actor: Fire Blower (11622), count: 2}], placed: true, notes: "hidden until the test is accepted, at (256, 3584)"}
+  - id: set:vents
+    kind: trap
+    spaces: [room:spires, room:vents, room:west_shelf]
+    rule: "The source's nine vent squares: glowing cracks in the crust (a small floor face each). Stepping on one: one time in three 50 fire damage to each member, 'A vent flares!' (resistance applies). PressurePlate faces textured `xpfvent`, each calling A3's planes.vent. Cells: at (-4480, -3200); at (-2816, -3328); at (-3712, -4352); at (-2432, -4224); at (-4864, -3712); at (4480, 256); at (3200, 1792); at (-4864, 2048); at (-3712, 128). None on the critical path (measured 0 within 384 of the walk; 0 on a link, 0 in the arena)."
+height_bands:
+  - id: band:floors
+    range: [0, 384]
+    spaces: [room:landing, room:statue, room:islet, room:spires, room:arena, room:chamber, room:west_shelf, room:vents]
+    notes: "the arrival 0, rising to the sleeper"
+  - id: band:lava
+    level: -64
+    spaces: [zone:lava]
+    notes: "the lava lake; a ring of black glassy cliffs 2,000-2,800 high round the lava, lava falls in two places"
+states:
+  - id: state:sleeper_awake
+    condition: {qbit: m38_fire}
+    shows: [poi:dais]
+    effects: ["The return dais shows (common question C5 (a)); m38.sleeper_fire answers its first line."]
+  - id: state:test_passed
+    condition: {qbit: m38_fire_test}
+    opens: [link:sleepers_gate]
+    effects: ["P-1: the map's load event reads m38_fire_test (111764): the gate stays open, the guardians stay hidden and the pit stays quiet, through refills and the reset after a map rebuild (D-58 C4 (a))."]
+atmosphere: "Sky `plane_fire` (shipped; question 3); daylight [150, 84, 60] ambient; view distance x1.0; no weather; music 10. No Fly (WORLD_DESIGN 3.4). No lighting bake (open air)."
+totals:
+  chests: 2
+  first_fight: 2555
+  kill_xp_per_member: 31538
+  placed_monsters: 30
+  points_of_interest: 10
+  walk_length: 15827
+  walkable_area_millions: 50.9
+notes: "MU-3 for the phase 6 review (A6's planes sub-agent, 2026-11-21). Room 26 x 26 cells (13,312 a side). Written by level_generation/xeen_art/phase6/planes_brief.py from planes_design.py; drawings, measure.json and the board in level_generation/xeen_art/phase6/planes/. Source: the Elemental Plane of Fire, MM5 maze 25 (dark/aaze0025). Corner contract: level_generation/xeen_art/phase6/corners.yml. L2-L4 (A6's planes sub-agent, sixteenth session, 2026-11-21): built by output/studio_cal/p1/tools/gen.py; the Sleeper's Hall is its own open-air room behind the crater's wall, the gate a hinged pair in that wall (P-2 by construction); the lava at -40 (L1 -64: the floor-0 shelves step out of it); S's pieces blocked by name."

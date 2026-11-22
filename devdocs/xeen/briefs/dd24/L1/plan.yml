@@ -1,0 +1,337 @@
+format: 0
+level: L1
+pitch: 'The People''s hall in the hillside behind Gurodel''s hold: a feast hall of whole-trunk tables and a fire trench, a
+  stair built for giants, and at its top the bloody throne under a smoke hole. At peace the giants let the little ones walk
+  through; at war ''the People will be waiting on the stair''.'
+purpose: 'Q-D16 Gurodel''s Giants, the war route: the bloody throne''s two Energy Disks (q-d16.throne). Party 45 to 47, the
+  People 38/50/58 (30 placed, D-47 Q23), treasure 5.'
+mood: 'Big: doors twice a man''s height, steps a giant''s stride, a roof lost in smoke; the smell of meat and fur.'
+datum: arrival
+spaces:
+- id: room:porch
+  name: Porch
+  kind: room
+  size: S
+  floor: 0
+  purpose: 'The mouth in the hillside behind Gurodel''s hold: the way out to D5, the great doors.'
+  empty: true
+- id: room:threshold
+  name: Threshold
+  kind: room
+  size: M
+  floor: 0
+  purpose: 'The arrival (entrance:d5_hold), inside the great doors (a hinged pair, 384 x 512). Quiet. At war, once: the People''s
+    challenge (q-d16.war_threshold).'
+  empty: true
+- id: room:longhall
+  name: Longhall
+  kind: room
+  size: L
+  floor: 0
+  purpose: 'The feast hall: tables of whole trunks, the fire trench, the law stone (q-d16.law_stone). The hub.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 38
+    - 38
+    notes: 3 Cyclops 38 (placed, the People).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 50
+    - 50
+    notes: 4 Giant 50 (placed, the People).
+- id: room:larder
+  name: Larder
+  kind: room
+  size: M
+  floor: 0
+  purpose: A dead end with the larder chest (opens at peace).
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 38
+    - 38
+    notes: 2 Cyclops 38 (placed, the People).
+- id: room:sleeping
+  name: Sleeping hall
+  kind: room
+  size: M
+  floor: 0
+  purpose: Heaps of furs, a hearth; the off-watch.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 38
+    - 38
+    notes: 1 Cyclops 38 (placed, the People).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 4
+    - 4
+    levels:
+    - 50
+    - 50
+    notes: 4 Giant 50 (placed, the People).
+- id: room:boulder_store
+  name: Boulder store
+  kind: room
+  size: S
+  floor: 0
+  purpose: The throwing rocks; the low crack in its east wall.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 38
+    - 38
+    notes: 2 Cyclops 38 (placed, the People).
+- id: room:crack
+  name: The little ones' crack
+  kind: corridor
+  size: S
+  floor: 0
+  purpose: '128 x 256, climbing 1,024 to the trophy gallery: too low for giants (D-47 Q26).'
+  empty: true
+- id: room:great_stair
+  name: The Great Stair
+  kind: corridor
+  size: L
+  floor: 0
+  purpose: '640 wide, 26 steps up 1,024: ''The People will be waiting on the stair.'''
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 50
+    - 50
+    notes: 2 Giant 50 (placed, the People).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 38
+    - 38
+    notes: 1 Cyclops 38 (placed, the People).
+- id: room:landing
+  name: Upper landing
+  kind: room
+  size: M
+  floor: 1024
+  purpose: The stair head before the throne hall's double doors.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 50
+    - 50
+    notes: 2 Giant 50 (placed, the People).
+- id: room:trophies
+  name: Trophy gallery
+  kind: corridor
+  size: M
+  floor: 1024
+  purpose: Beasts' skulls and bones; the crack comes out here; a side door into the throne hall.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 58
+    - 58
+    notes: 1 Elder Giant 58 (placed, the People).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 50
+    - 50
+    notes: 2 Giant 50 (placed, the People).
+- id: room:throne_hall
+  name: The bloody throne
+  kind: room
+  size: L
+  floor: 1024
+  purpose: 'The bloody throne under a smoke hole (q-d16.throne): at war two Energy Disks and 14,000; at peace it refuses.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 2
+    - 2
+    levels:
+    - 58
+    - 58
+    notes: 2 Elder Giant 58 (placed, the People).
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 3
+    - 3
+    levels:
+    - 50
+    - 50
+    notes: 3 Giant 50 (placed, the People).
+- id: room:treasury
+  name: Gurodel's hoard
+  kind: room
+  size: S
+  floor: 1024
+  purpose: 'The hoard chest: refuses at peace (q-d16.hoard).'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 1
+    levels:
+    - 58
+    - 58
+    notes: 1 Elder Giant 58 (placed, the People).
+links:
+- id: link:porch_threshold
+  from: room:porch
+  to: room:threshold
+  kind: double_door
+- id: link:thr_long
+  from: room:threshold
+  to: room:longhall
+  kind: open
+- id: link:long_larder
+  from: room:longhall
+  to: room:larder
+  kind: door
+- id: link:long_sleep
+  from: room:longhall
+  to: room:sleeping
+  kind: open
+- id: link:sleep_boulder
+  from: room:sleeping
+  to: room:boulder_store
+  kind: open
+- id: link:boulder_crack
+  from: room:boulder_store
+  to: room:crack
+  kind: open
+- id: link:crack_trophies
+  from: room:crack
+  to: room:trophies
+  kind: ramp
+- id: link:long_stair
+  from: room:longhall
+  to: room:great_stair
+  kind: open
+- id: link:stair_landing
+  from: room:great_stair
+  to: room:landing
+  kind: stairs
+- id: link:landing_throne
+  from: room:landing
+  to: room:throne_hall
+  kind: double_door
+- id: link:landing_trophies
+  from: room:landing
+  to: room:trophies
+  kind: open
+- id: link:throne_trophies
+  from: room:trophies
+  to: room:throne_hall
+  kind: door
+- id: link:throne_treasury
+  from: room:throne_hall
+  to: room:treasury
+  kind: door
+loops:
+- id: loop:crack
+  spaces:
+  - room:longhall
+  - room:sleeping
+  - room:boulder_store
+  - room:crack
+  - room:trophies
+  - room:landing
+  - room:great_stair
+  notes: Up the Great Stair or up the little ones' crack.
+- id: loop:throne
+  spaces:
+  - room:landing
+  - room:throne_hall
+  - room:trophies
+  notes: Into the throne hall by its double doors or the gallery's side door.
+entrances:
+- id: entrance:d5_hold
+  space: room:threshold
+  kind: both
+  facing: n
+  how: 'From D5''s great doors behind Gurodel''s hold (A6): 384 inside the leaves, facing north into the hall. Sealed until
+    D5 exists.'
+critical_path:
+- room:threshold
+- room:longhall
+- room:great_stair
+- room:landing
+- room:throne_hall
+return_path:
+- room:throne_hall
+- room:trophies
+- room:crack
+- room:boulder_store
+- room:sleeping
+- room:longhall
+- room:threshold
+goals:
+- id: goal:throne
+  space: room:throne_hall
+  kind: use
+  story: Q-D16
+  what: 'The bloody throne (q-d16.throne): at war two Energy Disks and 14,000, once, only without friends.'
+set_pieces:
+- id: set:throne
+  kind: scripted
+  spaces:
+  - room:throne_hall
+  rule: 'The bloody throne under the smoke hole (open sky, D-42''s sun stage): refuses at peace; the People''s war turns the
+    hall.'
+diagram:
+  file: diagram.txt
+totals:
+  rooms: 12
+  sectors: 12
+  monsters_about: 30
+  chests: 2
+  doors: 5
+  loops: 2
+  floor_area_munits2: 14
+notes: Size S (at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From act5_graphs/dd24.graph.yml
+  and D-47 (DD-24, Q22-Q26); the porch outside the great doors is its own room (the way out).

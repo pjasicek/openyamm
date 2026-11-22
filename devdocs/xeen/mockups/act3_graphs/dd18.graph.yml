@@ -1,0 +1,122 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header.
+format: mu6-0
+map: DD-18
+key: dd18
+name: Sandcaster Sewer
+stands_on: D3 Sandcaster
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [28, 30]
+monsters:
+  levels: [25, 40]
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Sewer stalkers (11400): Sewer Stalker 25 (16), Stalker Matriarch 35 (4)"
+    - "Cobras (11490): Guardian Asp 30 (10), Killer Cobra 38 (4): Venom Pond's snakes in the drains"
+    - "Mantis ants (11370): Mantis Warrior 30 (12), Mantis Queen 38 (4): their diggings broke into the long tunnel"
+  mix:
+    - {row: Sewer Stalker, id: 11401, level: 25, count: 16}
+    - {row: Stalker Matriarch, id: 11402, level: 35, count: 4}
+    - {row: Guardian Asp, id: 11490, level: 30, count: 10}
+    - {row: Killer Cobra, id: 11491, level: 38, count: 4}
+    - {row: Mantis Warrior, id: 11371, level: 30, count: 12}
+    - {row: Mantis Queen, id: 11372, level: 38, count: 4}
+  kill_xp_target: 14.6k
+treasure: {level: 3}
+role: "Optional (no quest hook names DD-18; MAPS says Q-D14, which is DD-19's): Barticus' gym and the long tunnel under the desert to D5"
+role_short: "Optional"
+set_piece: "Sandstone drains under the city with stepped-fret vaults; Barticus' gym of paid brews; a long tunnel under the desert, broken into by a mantis nest, ending at a grate onto D5"
+textures:
+  family: "MM6 Shadow Guild 6d08 (dungeon_families sewers: d5walba, d5walc, d5walbre, d5walble, d5florc, d5florb, d5ceila, d5ceild, d5dorsma, d5smtrb, orwtrtyl); the tunnel in MM8 Passage Under Regna d33's sand rock (XD-10's, on another face)"
+  cap: 45
+  planned: 24
+  new: 0
+  note: "The gym's sign is A6's registered xstraining (textures.yml: 'and Barticus' gym in the sewer')"
+floors:
+  - {floor: 0, name: "Under Sandcaster", height: 0}
+  - {floor: -1, name: "The long tunnel", height: -640}
+spaces:
+  # floor 0
+  - {id: room:shaft, name: Shaft foot, kind: stair, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "The ladder from Sandcaster's street ('Descend to the sewer?' on D3): the arrival."}
+  - {id: room:main_drain, name: Main drain, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{row: Sewer Stalker, level: 25, count: 4}],
+     purpose: "Tan sandstone walls, a channel of slow water; 'Sewer Drain' grates overhead."}
+  - {id: room:warren, name: Stalker warren, kind: cave, size: M, floor: 0, at: [3, 0], monsters: 8,
+     population: [{row: Sewer Stalker, level: 25, count: 6}, {row: Stalker Matriarch, level: 35, count: 2}],
+     purpose: "Where the stalkers breed, in a collapsed side vault."}
+  - {id: room:cistern, name: The great cistern, kind: hall, size: L, floor: 0, at: [4, 0], set_piece: true, chest: 3, monsters: 6,
+     population: [{row: Sewer Stalker, level: 25, count: 4}, {row: Guardian Asp, level: 30, count: 2}],
+     purpose: "A pillared cistern under the stepped-fret vaults of the city's old waterworks; a chest on the overflow ledge."}
+  - {id: room:gym, name: "Barticus' gym", kind: room, size: M, floor: 0, at: [1, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "A lamplit room of weights and benches behind a door off the shaft: 'It costs ... gold to use the gym. Pay?' The Vitamin Brew and the Protein Brew (open question 2); the Art of Bodybuilding on a stand."}
+  - {id: room:alcoves, name: The alcoves, kind: corridor, size: M, floor: 0, at: [2, 1], chest: 3, monsters: 2,
+     population: [{row: Sewer Stalker, level: 25, count: 2}],
+     purpose: "A corridor of niches ('Alcove'); one holds a chest, the rest 'Nothing here'."}
+  - {id: room:cobra_drain, name: Cobra drain, kind: corridor, size: M, floor: 0, at: [3, 1], monsters: 8,
+     population: [{row: Guardian Asp, level: 30, count: 6}, {row: Killer Cobra, level: 38, count: 2}],
+     purpose: "The drain from Venom Pond's side; snakes in the warm water."}
+  - {id: room:collapse, name: Broken drain, kind: stair, size: M, floor: 0, at: [4, 1], monsters: 6,
+     population: [{row: Guardian Asp, level: 30, count: 2}, {row: Killer Cobra, level: 38, count: 2}, {row: Stalker Matriarch, level: 35, count: 2}],
+     purpose: "Where the drain's floor fell into older works: a rubble slope down to the tunnel."}
+  # floor -1
+  - {id: room:tunnel_head, name: Tunnel head, kind: hall, size: M, floor: -1, at: [4, 0], monsters: 0,
+     purpose: "The foot of the slope: the long tunnel's start, a milestone 'To the desert'."}
+  - {id: room:mantis_gallery, name: Mantis gallery, kind: cave, size: M, floor: -1, at: [3, 0], monsters: 6,
+     population: [{row: Mantis Warrior, level: 30, count: 6}],
+     purpose: "Ant diggings cutting across the tunnel; their gallery walls are chewed sand."}
+  - {id: room:mantis_nest, name: Mantis nest, kind: cave, size: L, floor: -1, at: [3, 1], chest: 3, monsters: 8,
+     population: [{row: Mantis Warrior, level: 30, count: 4}, {row: Mantis Queen, level: 38, count: 4}],
+     purpose: "The queens' chamber, egg cells in the walls; what the ants dragged in (a chest)."}
+  - {id: room:long_tunnel, name: The long tunnel, kind: corridor, size: L, floor: -1, at: [2, 0], monsters: 2,
+     population: [{row: Mantis Warrior, level: 30, count: 2}],
+     purpose: "Long, straight and dry, lamps every so often, sand drifting in: 'There is a passage in the sewer that leads a long ways under the desert.'"}
+  - {id: room:drowned, name: Drowned vault, kind: room, size: S, floor: -1, at: [2, 1], chest: 3, monsters: 0,
+     purpose: "A side vault with standing water and an old strongbox; off the nest."}
+  - {id: room:desert_gate, name: Desert gate, kind: stair, size: S, floor: -1, at: [1, 0], monsters: 0,
+     purpose: "Steps up to an iron grate with daylight and sand blowing through: the way to D5 (open question 3)."}
+links:
+  - {id: link:shaft_drain, from: room:shaft, to: room:main_drain, kind: door}
+  - {id: link:shaft_gym, from: room:shaft, to: room:gym, kind: door}
+  - {id: link:drain_warren, from: room:main_drain, to: room:warren, kind: open}
+  - {id: link:warren_cistern, from: room:warren, to: room:cistern, kind: door}
+  - {id: link:drain_alcoves, from: room:main_drain, to: room:alcoves, kind: door}
+  - {id: link:alcoves_cobra, from: room:alcoves, to: room:cobra_drain, kind: open}
+  - {id: link:cobra_cistern, from: room:cobra_drain, to: room:cistern, kind: door}
+  - {id: link:cistern_collapse, from: room:cistern, to: room:collapse, kind: open}
+  - {id: link:collapse_head, from: room:collapse, to: room:tunnel_head, kind: stair}
+  - {id: link:head_gallery, from: room:tunnel_head, to: room:mantis_gallery, kind: open}
+  - {id: link:gallery_nest, from: room:mantis_gallery, to: room:mantis_nest, kind: open}
+  - {id: link:nest_drowned, from: room:mantis_nest, to: room:drowned, kind: door}
+  - {id: link:drowned_tunnel, from: room:drowned, to: room:long_tunnel, kind: open}
+  - {id: link:gallery_tunnel, from: room:mantis_gallery, to: room:long_tunnel, kind: open}
+  - {id: link:tunnel_gate, from: room:long_tunnel, to: room:desert_gate, kind: door}
+states:
+  - {id: state:gym, kind: puzzle, where: room:gym, what: "Pay Barticus' price once: the two brews (+2 Might, +2 Endurance, once per character).", opens: [], draw: false}
+  - {id: state:grate, kind: lever, where: room:desert_gate, what: "The desert grate (open question 3).", opens: [], draw: false}
+exits:
+  - {id: exit:d3_shaft, space: room:shaft, at: [0, 0], kind: both, label: "D3: the street shaft",
+     neighbour: "D3 not planned yet (A5): a shaft in Sandcaster ('Descend to the sewer?'); arrival at the ladder's foot"}
+  - {id: exit:d5_grate, space: room:desert_gate, at: [0, 0], kind: both, label: "D5: the desert grate",
+     neighbour: "D5 not planned yet (A6, phase 5): 'the Sandcaster Sewer's far exit' (MAPS D5)"}
+hooks: []
+critical_path: [room:shaft, room:main_drain, room:warren, room:cistern, room:collapse, room:tunnel_head, room:mantis_gallery, room:long_tunnel, room:desert_gate]
+return_path: [room:desert_gate, room:long_tunnel, room:drowned, room:mantis_nest, room:mantis_gallery, room:tunnel_head, room:collapse, room:cistern, room:cobra_drain, room:alcoves, room:main_drain, room:shaft]
+loops:
+  - {id: loop:drains, spaces: [room:main_drain, room:warren, room:cistern, room:cobra_drain, room:alcoves], notes: "Round the cistern."}
+  - {id: loop:nest, spaces: [room:mantis_gallery, room:mantis_nest, room:drowned, room:long_tunnel], notes: "Round the nest."}
+lines:
+  - {text: "Descend to the sewer?", ref: "dark/aaze0031:1", where: "D3's shaft (A5)"}
+  - {text: "Sewer Drain", ref: "dark/aaze0032:0", where: "the grates (hover)"}
+  - {text: "Exit to the desert?", ref: "dark/aaze0032:2", where: "room:desert_gate (the exit preset's meaning, D-24)"}
+  - {text: "It costs 50,000 gold to use the gym. Pay? / Get lost! / Enjoy the facilities.", ref: "dark/aaze0032:3-5", where: "room:gym (price rescaled)"}
+  - {text: "What do ya think this is, a charity gym? Come back when you have enough gold.", ref: "dark/aaze0032:14", where: "room:gym, too little gold"}
+  - {text: "Art of Bodybuilding / Vitamin Brew / Protein Brew", ref: "dark/aaze0032:6-9", where: room:gym}
+  - {text: "Alcove", ref: "dark/aaze0032:11", where: room:alcoves}
+  - {text: "There is a passage in the sewer that leads a long ways under the desert.", ref: "dark/aaze0031:33", where: "a Sandcaster rumour (A4's flavour, d3.yml); its sign in room:long_tunnel"}
+open_questions:
+  - "DD-18 has no quest: no A3 hook names it, and MAPS's role 'Q-D14' belongs to DD-19. It still carries 50 monsters and 14.6k of Act III's kill XP. (a) An optional dungeon (gym, tunnel, treasure 3), MAPS's role corrected (proposed); (b) A3 gives it a reason (a side quest, a disk, a lost item) so Act III's numbers are reached on the played path; (c) shrink it to S."
+  - "Barticus' gym. A4 made house 4607 'Barticus' Gym' Sandcaster's training house in town (cap 80); the source's gym is in the sewer, a paid room with two brews (+10 Endurance, +10 Might). Proposed: training stays in town; the sewer room is the gym's 'members' room' under A6's sign: pay once (5,000, the source's 50,000 rescaled), then each character may drink the Vitamin Brew (+2 Endurance) and the Protein Brew (+2 Might) once. A3 owns the texts and price."
+  - "The long tunnel reaches D5 (Act V, party 42-45) from an Act III dungeon. (a) Both ways open: an early way into Act V's desert, a trap like X7 (D-1.2); (b) the grate is bolted on the desert side: from the sewer 'Sand blows through the bars. The bolt is on the other side.'; from D5 it opens later and becomes a shortcut back to Sandcaster (proposed); (c) sealed by a rockfall until Act V."
+  - "Monsters: sewer stalkers, the cobras of Venom Pond and D3's mantis ants. Or hell hornets in the tunnel (D3's Aging Forest family, 35-50)? Proposed as listed."

@@ -1,0 +1,57 @@
+# Playtest of Castle Burlock's two ways out onto X4 (XD-07, L4; lane A7, 2026-11-20). Prepared before X4 was installed:
+# copy into devdocs/xeen/briefs/xd07/L4/ once gen.py has been run with X4 present (NOTES "Sealed exits").
+# 1. The castle door (event 8, evt:castle_door): out onto X4's castle rise at (-1024, 6768) in front of the gate.
+# 2. The old throne (event 29, evt:old_throne): thrown onto X4 beside the west tower, about 1,000 above the rise
+#    (-4608, 9728, 2504; the ground 1505); D-24: it moves at once with no leave window; the fall hurts the party.
+# Run with output/studio_cal/a7/xfour.sh, TESTS=playtest_exit.
+id: xeen.xd07.l4.exit
+title: Castle Burlock (XD-07 L4), the castle door, the old throne's throw and the postern onto X4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 13, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 13, skills: [], equipment: {}}
+  - assert: {map: xeen_xd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  # The castle door.
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -1024, y: 6912, radius: 160, z_min: 1750, z_max: 1870}}
+  # Back in and up to the old throne (set_pose: the climb is playtest.yml's).
+  - set_pose: {map: xeen_xd07.blv, x: -4992, y: 9250, z: 1280, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  # D-24: the throw moves at once (no leave window, no OK pressed). The neighbour's `keep_height` (merge point 17):
+  # the party arrives in the air at 2504, about 1,000 over the ground, falls and takes fall damage.
+  - setup_shortcut: {kind: immortal, value: false}
+  - assert: {party_health: {full: true}}
+  - execute_event: {id: 29}
+  - advance_runtime: {seconds: 0.1, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - assert: {party_position: {x: -4608, y: 9728, radius: 300, z_min: 1900, z_max: 2600}}
+  - assert: {dialog: {active: false}}
+  - advance_runtime: {seconds: 5.0}
+  - play_lua: {source: "status()"}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: -4608, y: 9728, radius: 300, z_min: 1450, z_max: 1600}}
+  - assert: {party_health: {full: false}}
+  # 3. The postern (event 41, evt:postern): out to the castle rise's west foot (A5's point, facing west).
+  - set_pose: {map: xeen_xd07.blv, x: -3900, y: -4352, z: -640, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - execute_event: {id: 41}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "status()"}
+  - assert: {party_position: {x: -5120, y: 8448, radius: 160, z_min: 1250, z_max: 1400}}

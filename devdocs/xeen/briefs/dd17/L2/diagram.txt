@@ -1,0 +1,22 @@
+L3 THE DECK (1280)
+  [HATCH ROOM: ladder, D7] =door= [SCREEN ROOM $] =door= [DECK: 6 trapdoors] =door= [ROBOT BAY $, vault lever]
+       |door                                         |            |
+  [HALL OF VENGEANCE: statue, Come to ME] ---------+     [LIFT HEAD]
+  |door [POWER JUICE]   |door
+  [ANTECHAMBER] =door= [STRONGROOM $$]
+       ||two leaves
+  [COMMAND CENTRAL: dais, throne, Sheltem and Corak hidden]
+L2 THE DIAL FLOOR (640)
+  [FIRE TIME]~field~[NW BAY] -- [NORTH WALK: statue] -- [NE BAY]~field~[AIR TIME]
+                       |                                     |
+                  [WEST WALK] -> lip  (DIAL HALL: 4 chasms, 4 slabs, island, gate) =gate= [LIFT CORE]  [EAST WALK] =door= [WATCHERS' POST $]
+                       |                                     |
+  [WATER TIME]~field~[SW BAY] -- [SOUTH WALK: stair head] -- [SE BAY]~field~[EARTH TIME]
+L1 THE WORKS (0)
+  [FIRE HEAD] =bolt= [WEST RETURN]     (dial hall's chasm floor)      [EAST RETURN] =bolt= [AIR HEAD]
+  [FIRE BELT ^]  [WATER HEAD]=bolt=      |                              =bolt=[EARTH HEAD]  [AIR BELT ^]
+  [WATER BELT ^]                     [SUMP] =door= [STAIR HALL]          [EARTH BELT ^]
+  [WEST WARD] ------------------ [HALL OF ORDER: statue] ---------------- [EAST WARD]
+  [BARRACKS $]                   ||two leaves                [PARTS STORE $] [MOAT WATCH $]
+                                 [GATEHALL: arrival, exit to D6]
+ $ chest   =door= door   ~field~ xafield leaf   ^ belt (one way north)

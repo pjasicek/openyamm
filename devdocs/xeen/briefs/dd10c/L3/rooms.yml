@@ -1,0 +1,774 @@
+format: 0
+themes:
+- id: theme:rock
+  wall: &id001
+    texture: cwb1
+    size: [128, 256]
+  floor: &id002
+    texture: cfb1
+    size: [128, 128]
+  ceiling: *id001
+  reveal: *id001
+  door: &id003
+    texture: trim9_32
+    size: [32, 64]
+    scale: 2
+  notes: 'The mine''s raw rock: MM7 Nighon Tunnels (7d35) cwb1 on walls and roofs, cfb1 underfoot.'
+- id: theme:timbered
+  wall: *id001
+  floor: *id002
+  ceiling:
+    texture: trim9_32a
+    size: [64, 32]
+    scale: 2
+  reveal: &id005
+    texture: trim9_32
+    size: [32, 64]
+  door: *id003
+  notes: 'Timbered drifts: 7d35''s cwb1 rock under plank lagging (trim9_32a), timber jambs (trim9_32).'
+- id: theme:lava
+  wall: &id004
+    texture: vlcwl3a
+    size: [128, 256]
+  floor: *id002
+  ceiling: *id004
+  reveal: *id004
+  door: *id003
+  notes: 'The lava gallery: 6d18''s black cooled-lava rock (vlcwl3a) on walls and roof, 7d35''s cfb1 underfoot.'
+- id: theme:cold
+  wall:
+    texture: vlcflord
+    size: [128, 128]
+    scale: 2
+  floor:
+    texture: 7snow
+    size: [128, 128]
+  ceiling:
+    texture: vlcflord
+    size: [128, 128]
+    scale: 2
+  reveal:
+    texture: vlcflord
+    size: [128, 128]
+    scale: 2
+  door: *id003
+  notes: 'The cold nest: 6d18''s blue-grey broken stone (vlcflord) on walls and roof, frost (7snow) underfoot.'
+- id: theme:black
+  wall: *id001
+  floor: *id002
+  ceiling: *id004
+  reveal: *id001
+  door: *id003
+  notes: 'The diamond cavern: 7d35''s cwb1 walls (the veins'' own ground: xdvdiam is painted on cwb1) under a roof of 6d18''s
+    black vlcwl3a.'
+defaults:
+  theme: theme:rock
+  ambient: 14
+rooms:
+- id: room:adit
+  name: North adit
+  outline:
+  - [-192, 0]
+  - [192, 0]
+  - [192, 896]
+  - [-192, 896]
+  floor: 0
+  ceiling: 352
+  theme: theme:timbered
+  ambient: 16
+  platforms:
+  - at: [-180, 288]
+    size: [24, 24]
+    rise: 320
+    surface: *id005
+    top_surface: &id006
+      texture: trim9_32a
+      size: [64, 32]
+    notes: Timber set post
+  - at: [180, 288]
+    size: [24, 24]
+    rise: 320
+    surface: *id005
+    top_surface: *id006
+    notes: Timber set post
+  - at: [-180, 608]
+    size: [24, 24]
+    rise: 320
+    surface: *id005
+    top_surface: *id006
+    notes: Timber set post
+  - at: [180, 608]
+    size: [24, 24]
+    rise: 320
+    surface: *id005
+    top_surface: *id006
+    notes: Timber set post
+  - rise: 6
+    surface: &id007
+      texture: xnrustirn
+      size: [64, 64]
+    top_surface: *id007
+    outline:
+    - [61, 48]
+    - [61, 840]
+    - [51, 840]
+    - [51, 48]
+    notes: Rail
+  - rise: 6
+    surface: *id007
+    top_surface: *id007
+    outline:
+    - [-51, 48]
+    - [-51, 840]
+    - [-61, 840]
+    - [-61, 48]
+    notes: Rail
+  beams:
+  - path:
+    - [-192, 288]
+    - [192, 288]
+    width: 24
+    bottom: 320
+    depth: 24
+    surface: *id006
+    notes: Timber set cap
+  - path:
+    - [-192, 608]
+    - [192, 608]
+    width: 24
+    bottom: 320
+    depth: 24
+    surface: *id006
+    notes: Timber set cap
+  notes: 'The timbered adit under the Forbidden Zone''s mountains: the arrival. Two timber sets, the cart rails running in
+    from the boarded mouth (south) to the plank door into the lava gallery (north).'
+- id: room:lava
+  name: Lava gallery
+  outline:
+  - [-512, 960]
+  - [512, 960]
+  - [640, 768]
+  - [1856, 704]
+  - [2176, 1024]
+  - [2176, 1664]
+  - [1152, 1728]
+  - [-512, 1728]
+  floor: 0
+  rough:
+    step: 192
+    depth: 32
+  ceiling: 448
+  ceiling_points:
+  - [704, 1344, 576]
+  - [1728, 1344, 544]
+  theme: theme:lava
+  ambient: 13
+  levels:
+  - id: level:seam
+    outline:
+    - [736, 832]
+    - [1792, 784]
+    - [1984, 976]
+    - [1920, 1056]
+    - [1536, 1024]
+    - [1088, 1008]
+    - [704, 976]
+    floor: -48
+    edge: *id004
+    surface:
+      texture: lavatyl
+      liquid: lava
+    notes: The seam of cooling lava along the gallery's south side (6d18's lava).
+  notes: A drift of black cooled-lava rock along a seam of lava still cooling in its floor; the diamond cavern at its east
+    end, the collapse behind a door in its north side.
+- id: room:diamond
+  name: Diamond cavern
+  outline:
+  - [2304, 896]
+  - [2560, 448]
+  - [3328, 256]
+  - [4096, 448]
+  - [4416, 960]
+  - [4416, 1728]
+  - [4032, 2176]
+  - [3392, 2304]
+  - [2752, 2304]
+  - [2304, 1856]
+  floor: 0
+  rough:
+    step: 192
+    depth: 32
+  ceiling: 640
+  ceiling_points:
+  - [3328, 1344, 960]
+  - [2816, 1024, 768]
+  - [3840, 1792, 768]
+  theme: theme:black
+  ambient: 13
+  pillars:
+  - outline:
+    - [3584, 1024]
+    - [3776, 992]
+    - [3840, 1152]
+    - [3712, 1280]
+    - [3584, 1216]
+    surface: *id004
+    notes: A pillar of black rock left standing.
+  - outline:
+    - [2880, 1664]
+    - [3040, 1632]
+    - [3104, 1792]
+    - [2976, 1888]
+    - [2880, 1824]
+    surface: *id004
+    notes: A pillar of black rock left standing.
+  stalactites:
+  - at: [2816, 1216]
+    radius: 64
+    length: 224
+  - at: [3904, 1792]
+    radius: 72
+    length: 256
+  walls:
+  - wall: 0
+    panels:
+    - id: panel:diamond_1
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'Diamond vein 1: one rock (q-d7.diamond_veins).'
+      at: centre
+  - wall: 1
+    panels:
+    - id: panel:diamond_2
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'Diamond vein 2: one rock (q-d7.diamond_veins).'
+      at: centre
+  - wall: 2
+    panels:
+    - id: panel:diamond_3
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'Diamond vein 3: one rock (q-d7.diamond_veins).'
+      at: centre
+  - wall: 3
+    panels:
+    - id: panel:diamond_4
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'Diamond vein 4: one rock (q-d7.diamond_veins).'
+      at: centre
+  - wall: 5
+    panels:
+    - id: panel:diamond_5
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'Diamond vein 5: one rock (q-d7.diamond_veins).'
+      at: centre
+  - wall: 8
+    panels:
+    - id: panel:false_vein
+      length: 256
+      bottom: 16
+      height: 384
+      surface:
+        texture: xdvdiam
+        size: [128, 256]
+        fit: true
+      notes: 'The false vein (D-27): it explodes once (''A gem exploded!'').'
+      at: centre
+  notes: 'A high cavern under a roof of black rock, two black pillars holding it: five diamond veins in its walls (q-d7.diamond_veins),
+    one rock each, and a sixth by the lava that is not a vein at all.'
+- id: room:grotto
+  name: Crystal grotto
+  outline:
+  - [4544, 1088]
+  - [4736, 960]
+  - [5120, 960]
+  - [5312, 1152]
+  - [5312, 1536]
+  - [5120, 1728]
+  - [4736, 1728]
+  - [4544, 1600]
+  floor: 0
+  steep_floor: true
+  ceiling: 384
+  ceiling_points:
+  - [4928, 1344, 576]
+  theme: theme:rock
+  ambient: 14
+  platforms:
+  - rise: 0
+    surface: &id008
+      texture: gcrysc3
+      size: [256, 512]
+    top_surface: *id008
+    outline:
+    - [4856, 1040]
+    - [4828, 1088]
+    - [4772, 1088]
+    - [4744, 1040]
+    - [4772, 992]
+    - [4828, 992]
+    top_heights:
+    - 210
+    - 240
+    - 200
+    - 160
+    - 150
+    - 170
+    notes: Crystal
+  - rise: 0
+    surface: *id008
+    top_surface: *id008
+    outline:
+    - [5104, 1030]
+    - [5072, 1085]
+    - [5008, 1085]
+    - [4976, 1030]
+    - [5008, 975]
+    - [5072, 975]
+    top_heights:
+    - 300
+    - 250
+    - 210
+    - 230
+    - 280
+    - 320
+    notes: Crystal
+  - rise: 0
+    surface: *id008
+    top_surface: *id008
+    outline:
+    - [5288, 1180]
+    - [5264, 1222]
+    - [5216, 1222]
+    - [5192, 1180]
+    - [5216, 1138]
+    - [5264, 1138]
+    top_heights:
+    - 180
+    - 160
+    - 120
+    - 110
+    - 140
+    - 170
+    notes: Crystal
+  - rise: 0
+    surface: *id008
+    top_surface: *id008
+    outline:
+    - [5216, 1600]
+    - [5188, 1648]
+    - [5132, 1648]
+    - [5104, 1600]
+    - [5132, 1552]
+    - [5188, 1552]
+    top_heights:
+    - 240
+    - 280
+    - 230
+    - 180
+    - 170
+    - 200
+    notes: Crystal
+  - rise: 0
+    surface: *id008
+    top_surface: *id008
+    outline:
+    - [5044, 1660]
+    - [5012, 1715]
+    - [4948, 1715]
+    - [4916, 1660]
+    - [4948, 1605]
+    - [5012, 1605]
+    top_heights:
+    - 320
+    - 300
+    - 260
+    - 250
+    - 270
+    - 310
+    notes: Crystal
+  - rise: 0
+    surface: *id008
+    top_surface: *id008
+    outline:
+    - [4824, 1660]
+    - [4802, 1698]
+    - [4758, 1698]
+    - [4736, 1660]
+    - [4758, 1622]
+    - [4802, 1622]
+    top_heights:
+    - 150
+    - 170
+    - 130
+    - 110
+    - 120
+    - 140
+    notes: Crystal
+  notes: 'A geode behind a plank door: crystal grown out of every wall, and a miner who did not get out.'
+- id: room:collapse
+  name: The collapse
+  outline:
+  - [-384, 1856]
+  - [1024, 1856]
+  - [1280, 2112]
+  - [1280, 2816]
+  - [896, 3072]
+  - [-128, 3072]
+  - [-512, 2688]
+  - [-512, 2112]
+  floor: 0
+  rough:
+    step: 192
+    depth: 32
+  ceiling: 480
+  ceiling_points:
+  - [64, 2688, 704]
+  - [960, 2240, 416]
+  theme: theme:rock
+  ambient: 12
+  platforms:
+  - id: platform:rubble
+    at: [16, 2688]
+    size: [224, 160]
+    rise: 136
+    facing: 20
+    surface: *id001
+    top_surface: *id001
+    notes: 'The fallen roof: the biggest slab of a heap of broken rock (''Rubble'').'
+  - at: [-208, 2600]
+    size: [176, 112]
+    rise: 72
+    facing: -35
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [224, 2800]
+    size: [160, 128]
+    rise: 104
+    facing: 55
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [-144, 2848]
+    size: [144, 96]
+    rise: 48
+    facing: 10
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [-16, 2464]
+    size: [128, 80]
+    rise: 40
+    facing: -15
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [288, 2560]
+    size: [112, 80]
+    rise: 56
+    facing: 30
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [-400, 2240]
+    size: [176, 112]
+    rise: 56
+    facing: 25
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  - at: [672, 2912]
+    size: [176, 96]
+    rise: 40
+    facing: -20
+    surface: *id001
+    top_surface: *id001
+    notes: A slab off the roof
+  notes: 'Where the roof came down: a heap of rubble under the hole it left, slabs round it; the nest opens east.'
+- id: room:nest
+  name: Cold nest
+  outline:
+  - [1408, 2240]
+  - [2048, 2240]
+  - [2624, 2432]
+  - [3456, 2432]
+  - [3584, 2816]
+  - [3200, 3264]
+  - [2176, 3264]
+  - [1408, 3008]
+  floor: 0
+  rough:
+    step: 192
+    depth: 32
+  ceiling: 448
+  ceiling_points:
+  - [2496, 2816, 576]
+  theme: theme:cold
+  ambient: 14
+  platforms:
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [1844, 3042]
+    - [1829, 3068]
+    - [1799, 3068]
+    - [1784, 3042]
+    - [1799, 3016]
+    - [1829, 3016]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [1724, 3027]
+    - [1709, 3053]
+    - [1679, 3053]
+    - [1664, 3027]
+    - [1679, 3001]
+    - [1709, 3001]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [1802, 2961]
+    - [1787, 2987]
+    - [1757, 2987]
+    - [1742, 2961]
+    - [1757, 2935]
+    - [1787, 2935]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - id: platform:eggs
+    rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [2644, 3182]
+    - [2629, 3208]
+    - [2599, 3208]
+    - [2584, 3182]
+    - [2599, 3156]
+    - [2629, 3156]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [2545, 3188]
+    - [2530, 3214]
+    - [2500, 3214]
+    - [2485, 3188]
+    - [2500, 3162]
+    - [2530, 3162]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [2536, 3118]
+    - [2521, 3144]
+    - [2491, 3144]
+    - [2476, 3118]
+    - [2491, 3092]
+    - [2521, 3092]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [2635, 3112]
+    - [2620, 3138]
+    - [2590, 3138]
+    - [2575, 3112]
+    - [2590, 3086]
+    - [2620, 3086]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [3334, 3082]
+    - [3319, 3108]
+    - [3289, 3108]
+    - [3274, 3082]
+    - [3289, 3056]
+    - [3319, 3056]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [3214, 3067]
+    - [3199, 3093]
+    - [3169, 3093]
+    - [3154, 3067]
+    - [3169, 3041]
+    - [3199, 3041]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  - rise: 0
+    surface: *id004
+    top_surface: *id004
+    outline:
+    - [3292, 3001]
+    - [3277, 3027]
+    - [3247, 3027]
+    - [3232, 3001]
+    - [3247, 2975]
+    - [3277, 2975]
+    top_heights:
+    - 64
+    - 80
+    - 96
+    - 80
+    - 64
+    - 56
+    notes: An empty egg case
+  notes: 'A frost-cold cave of dead ash and split egg cases between the collapse and the diamond cavern (D-62 Q49): blue-grey
+    stone, hoarfrost underfoot, ice in its corners, a pale blue light (session 23).'
+openings:
+- id: open:adit_lava
+  from: room:adit
+  to: room:lava
+  link: link:c1
+  from_wall: 2
+  to_wall: 0
+  width: 224
+  height: 320
+  notes: The adit's plank door.
+- id: open:lava_diamond
+  from: room:lava
+  to: room:diamond
+  link: link:c2
+  from_wall: 4
+  to_wall: 9
+  width: 448
+  height: 400
+- id: open:diamond_grotto
+  from: room:diamond
+  to: room:grotto
+  link: link:c3
+  from_wall: 4
+  to_wall: 7
+  width: 224
+  height: 320
+  notes: The grotto's plank door.
+- id: open:lava_collapse
+  from: room:lava
+  to: room:collapse
+  link: link:c4
+  from_wall: 6
+  to_wall: 0
+  width: 224
+  height: 320
+  notes: The collapse's plank door.
+- id: open:collapse_nest
+  from: room:collapse
+  to: room:nest
+  link: link:c5
+  from_wall: 2
+  to_wall: 7
+  width: 384
+  height: 352
+- id: open:nest_diamond
+  from: room:nest
+  to: room:diamond
+  link: link:c6
+  from_wall: 2
+  to_wall: 7
+  width: 448
+  height: 384
+notes: 'DD-10C at L3/L4: six rooms in the plan''s frame (x east, y north, the adit''s mouth at y 0). Written by output/studio_cal/dd10c/tools/gen.py
+  with output/studio_cal/dd10a/tools/mine.py.'

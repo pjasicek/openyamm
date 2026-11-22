@@ -1,0 +1,40 @@
+# Hand corrections per design, applied over the family defaults by scripts/designs.py.
+# rock: build_xeen.py rock() (roughness of the noise, flat = height / short side); slab_*: outline_slab();
+# surface_material: one material class for the whole item (a paint-only brief, no mask).
+x12301: {rock: {roughness: 0.05, flat: 0.5}, material_classes: [horn, metal]}     # Yak Stone: smooth, gold inlay
+x12304: {rock: {roughness: 0.22, flat: 0.6}, surface_material: horn}              # Stone of a Thousand Terrors
+x12314: {rock: {roughness: 0.25, flat: 0.62}, surface_material: horn}             # Ever-Hot Lava Rock
+x12357: {rock: {roughness: 0.22, flat: 0.72}, material_classes: [horn, gem]}       # Ruby Rock
+x12358: {rock: {roughness: 0.22, flat: 0.72}, material_classes: [horn, gem]}       # Emerald Rock
+x12359: {rock: {roughness: 0.22, flat: 0.72}, material_classes: [horn, gem]}       # Sapphire Rock
+x12360: {rock: {roughness: 0.25, flat: 0.72}, material_classes: [horn, gem]}      # Diamond Rock
+x12343: {rock: {roughness: 0.0, flat: 0.85, bottom: 0.3}, surface_material: horn}              # Monga Melon
+x12362: {rock: {roughness: 0.03, flat: 0.75, bottom: 0.28}, surface_material: cloth}            # Tribble: a fur ball
+x12312: {rock: {roughness: 0.0, flat: 0.5}, material_classes: [gem, metal]}       # Scarab: lapis body edged in gold
+x12192: {surface_material: metal}                                                       # King's Megacredit: a thick coin
+x12302: {slab_depth: 0.08, slab_class: gold, surface_material: metal}             # Pyramid Sigil: a gold plate
+x12305: {slab_depth: 0.15, slab_class: stone, surface_material: horn}             # Golem Stone: a stone tablet
+x12309: {slab_depth: 0.1, slab_class: wood, slab_bevel: 0.45, surface_material: horn}   # Phirna Root
+x12331: {surface_material: gem}                                                   # Dragon Pharaoh's Orb
+x12334: {material_classes: [metal, gem]}                                          # Energy Disk
+x12365: {material_classes: [gem, metal]}                                          # Cube of Power
+x12527: {surface_material: gem, smooth_angle: 0}                                   # Jewel of Ages
+x12313: {material_classes: [gem, horn]}                                           # Crystals on a rock base
+x12315: {material_classes: [metal, horn]}                                         # Widget: brass, steel, a wooden knob
+x12352: {material_classes: [metal, gem, horn]}                                    # Magnifying glass
+x12363: {material_classes: [metal, horn, gem]}                                    # Soul Box
+x12364: {material_classes: [metal, horn, gem]}                                    # Soul Box (Corak)
+x12346: {material_classes: [leather, metal]}                                      # Bridle
+x12347: {material_classes: [leather, metal, gem]}                                 # Enchanted Bridle (glowing runes)
+x12522: {surface_material: metal}                                                  # Ector's Ring: an iron signet
+x12373: {surface_material: metal}                                                 # Chime of Opening: a silver bell
+x12525: {material_classes: [metal, gem]}                                          # Chalice of Protection
+x12353: {material_classes: [gem, horn, cloth]}                                    # Sandro's Heart: jar, cork, heart
+x12349: {material_classes: [metal], surface_material: metal, unseen_material: metal}   # Golden Pegasus Statuette
+x12351: {material_classes: [metal], surface_material: metal, unseen_material: metal}   # Golden Griffin Statuette
+x12368:   # Speed Doll: Meshy's shard hair becomes a cap (stand_meshy.py), painted as yarn
+  hair_cap: {max_faces: 40, above: 0.62, brow: 0.83, reach: 5.0, thickness: 2.2, frequency: 0.4}
+  materials: >-
+    Speed Doll: a stuffed cloth carnival-prize toy: shaggy ginger-orange yarn hair (the whole lumpy cap on the head,
+    painted as thick yarn strands), a cream felt face, a green felt tunic with a thin brown belt, cream felt arms and
+    legs, brown felt boots with little white felt wings

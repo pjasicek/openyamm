@@ -1,0 +1,14 @@
+A huge armoured armadillo hurt: a short squealing snort and a rattle of hard plates, close
+
+kind: sfx
+duration: 0.5
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 4
+loudness_db: -8
+score_bias: power

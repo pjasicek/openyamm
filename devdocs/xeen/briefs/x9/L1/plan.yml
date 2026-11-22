@@ -1,0 +1,570 @@
+format: 0
+level: L1
+pitch: "Lord Xeen's own clouds over Lake Darzog. A long southern cloud where Darzog's Tower's cloud stair comes up, four rhyming statues and two roc nests on it; an open gap that a sign crosses in two words ('Xeen--9N.'); and the rising cloud of Xeendom beyond: Slick's carnival on a paved plaza, Castle Xeen black and gold at the top of the road, the rocs' aviary on its high cloud to the east. Down both sides, lone clouds and rope bridges with offering statues. High above the aviary, out of reach, the Dragon Clouds."
+purpose: "Act V's sky map (party 46-48): M34 (Slick's four stat games and the cupie doll that opens Castle Xeen's gate) and the way into XD-19 (M35). Reached one way up from XD-12's roof after M21; left by falling (to X2) or through the castle. Later Q-F1's Dragon Clouds, a sealed island."
+mood: "Bright, airy and vertiginous; a cheerful carnival at an evil lord's gate. The world winks; the rocs do not."
+datum: room:stair_head
+spaces:
+  - id: room:aviary
+    name: Xeen's Aviary
+    kind: room
+    extent: [6144, 4608]
+    shape: "a high cloud ringed with broken rock spurs, five great nests among them"
+    at: [13440, 13440]
+    floor: 1024
+    purpose: "The roc rookery (the source's (26,26) sign and the nests at (27-30, 27-30)): rocs and griffins, three nests to burn, the rocs' hoard."
+    population:
+      - {id: pop:aviary_rocs, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (11904, 12928), flying"}
+      - {id: pop:aviary_rocs_b, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (15488, 14720), flying"}
+      - {id: pop:aviary_griffins, actor: "11562", groups: 3, placed: true, hostile: true, notes: "3 Griffins (48) as one group, at (14720, 12544), flying"}
+      - {id: pop:aviary_griffins_b, actor: "11562", groups: 3, placed: true, hostile: true, notes: "3 Griffins (48) as one group, at (13184, 14976), flying"}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, notes: "the rocs' hoard: shiny things carried up from the land"}
+      - {kind: decoration, count: 3, notes: three great nests}
+  - id: room:back_lot
+    name: The carnival's back lot
+    kind: room
+    extent: [3328, 3072]
+    at: [-9472, 7424]
+    floor: 512
+    purpose: "Behind the booths: the bridge from the north-west isle lands here; three cloud golems (the source's (7,25-27))."
+    population:
+      - {id: pop:back_lot_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (-9984, 7808), walking: 300 or more inside the rim"}
+  - id: room:brink
+    name: The brink
+    kind: room
+    extent: [3584, 2304]
+    shape: "the southern cloud's north lip, thinning to wisps over the gap"
+    at: [0, -11776]
+    floor: 448
+    purpose: "The 'Xeen--9N.' sign at the foot of the unseen way; the signature view over the gap to Castle Xeen."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:carnival
+    name: Slick's carnival
+    kind: room
+    extent: [6144, 4608]
+    shape: "the cloud plaza: a paved square of cloud-stone west of the Xeen road, four booths under striped awnings"
+    at: [-2560, 2560]
+    floor: 448
+    relief: flat
+    purpose: "Slick the Gamemaster's four stat games (M34; the source's (15,24), (14,26), (11,25), (12,22)). Quiet."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:dragon_clouds
+    name: The Dragon Clouds
+    kind: room
+    extent: [4096, 3584]
+    shape: a high cloud above the aviary with a rock shaped like a dragon's head
+    at: [20864, 18304]
+    floor: 2048
+    purpose: "Q-F1 (optional, Act VI): reached only from the Dragon Tower's roof (FD-04 on X7); no link to the rest. Empty and sealed until Q-F1 is written."
+    empty: true
+    secret: true
+    notes: "Sealed: no link from any other cloud; FD-04 (A7, phase 6) is its only way in. Q-F1 fills it."
+  - id: room:east_horn
+    name: The east horn
+    kind: room
+    extent: [4096, 3584]
+    at: [14848, 5504]
+    floor: 704
+    purpose: "An offering statue (the source's (29,20)) and a lost traveller's pack."
+    population:
+      - {id: pop:horn_rocs, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (14592, 6144), flying"}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, notes: a lost traveller's pack}
+  - id: room:east_ledge
+    name: The offering ledge
+    kind: room
+    extent: [3584, 3584]
+    at: [15232, -1792]
+    floor: 512
+    purpose: "An offering statue (the source's (23,12))."
+    population:
+      - {id: pop:ledge_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (14720, -2560), flying"}
+  - id: room:east_pillar
+    name: The lone pillar
+    kind: room
+    extent: [2816, 3072]
+    at: [14720, -8704]
+    floor: 384
+    purpose: "A small cloud on the way north (the source's (23,10))."
+    population:
+      - {id: pop:east_pillar_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (14720, -8320), flying"}
+  - id: room:east_wing
+    name: The east statues
+    kind: room
+    extent: [3584, 3072]
+    at: [7168, -17152]
+    floor: 384
+    purpose: "Two rhyming statues (the source's (26,1) and (27,9))."
+    population:
+      - {id: pop:east_statue_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (5888, -17152), flying"}
+  - id: room:gate_court
+    name: The gate causeway
+    kind: room
+    extent: [4096, 2816]
+    shape: "a broad cloud-stone causeway up to the gate, the prize stand at its west side"
+    at: [0, 9472]
+    floor: 704
+    relief: flat
+    purpose: "The causeway up to Castle Xeen's gate (XD-19's door, m34.gate) and Slick's prize stand (the source's (12,29)). Quiet: the gate's three cloud golems (the source's (18,28-29), (15,30)) stand on the castle's east apron by the aviary stair."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:landing
+    name: Xeendom's landing
+    kind: room
+    extent: [3584, 3328]
+    shape: "the northern cloud's southern nose (the source's (16,18)), cloud-stone flags at its tip"
+    at: [0, -4424]
+    floor: 256
+    purpose: The unseen way's head and the 'Now entering Xeendom' sign. Quiet.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:nw_isle
+    name: The north-west isle
+    kind: room
+    extent: [4096, 3584]
+    at: [-15616, 11008]
+    floor: 576
+    purpose: "An offering statue (the source's (2,27)) and an old traveller's cache."
+    population:
+      - {id: pop:isle_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (-15104, 11776), flying"}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, notes: an old traveller's cache}
+  - id: room:se_nest
+    name: The south-east nest
+    kind: room
+    extent: [3840, 3328]
+    at: [13312, -15616]
+    floor: 512
+    purpose: "A roc nest to burn (the source's (25,5))."
+    population:
+      - {id: pop:se_rocs, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (12544, -16128), flying"}
+      - {id: pop:se_rocs_b, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (14208, -14848), flying"}
+    treasure:
+      - {kind: decoration, count: 1, notes: the nest}
+  - id: room:stair_head
+    name: The cloud stair's head
+    kind: room
+    extent: [4608, 3584]
+    shape: "a broad flat cloud ringed with old cloud-stone flags round the stair's head (the source's different floor at (13-17, 1-5))"
+    at: [0, -16896]
+    floor: 320
+    purpose: "Arrival from Darzog's Tower roof (XD-12's cloud stair), the head of the stair rising out of the cloud sea. Quiet."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:sw_nest
+    name: The south-west nest
+    kind: room
+    extent: [3840, 3328]
+    shape: a heaped cloud with a roc nest of whole trees on its crown
+    at: [-13312, -15616]
+    floor: 512
+    purpose: "A roc nest to burn (the source's (5,5)) and the hollow under it with stolen goods."
+    population:
+      - {id: pop:sw_rocs, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (-12544, -16128), flying"}
+      - {id: pop:sw_rocs_b, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (-14208, -14848), flying"}
+    treasure:
+      - {kind: chest, count: 1, tier: 5, notes: "the hollow under the nest: stolen goods"}
+      - {kind: decoration, count: 1, notes: "the nest of whole branches, bones and trinkets"}
+  - id: room:west_pillar
+    name: The first offering cloud
+    kind: room
+    extent: [2560, 2304]
+    at: [-15616, -9472]
+    floor: 384
+    purpose: "An offering statue on a lone cloud (the source's (3,11))."
+    population:
+      - {id: pop:pillar_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (-15232, -9088), flying"}
+  - id: room:west_shelf
+    name: The west shelf
+    kind: room
+    extent: [3072, 2816]
+    at: [-16896, 4352]
+    floor: 512
+    purpose: "An offering statue (the source's (1,21))."
+    population:
+      - {id: pop:shelf_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (-16384, 3968), flying"}
+  - id: room:west_spine
+    name: The cloud spine
+    kind: room
+    extent: [2304, 4608]
+    shape: a long narrow cloud lying north-south
+    at: [-16896, -2816]
+    floor: 448
+    purpose: "An offering statue (the source's (4,15))."
+    population:
+      - {id: pop:spine_rocs, actor: "11561", groups: 3, placed: true, hostile: true, notes: "3 Rocs (38) as one group, at (-16896, -1664), flying"}
+  - id: room:west_wing
+    name: The west statues
+    kind: room
+    extent: [3584, 3072]
+    at: [-7168, -17152]
+    floor: 384
+    purpose: "Two rhyming statues (the source's (7,1) and (10,9))."
+    population:
+      - {id: pop:west_statue_rocs, actor: "11561", groups: 2, placed: true, hostile: true, notes: "2 Rocs (38) as one group, at (-5888, -17152), flying"}
+  - id: void:cloud_sea
+    name: The cloud sea
+    kind: void
+    purpose: "Open sky under the islands (below_horizon: sky); any fall lands on X2."
+  - id: zone:castle
+    name: Castle Xeen
+    kind: zone
+    extent: [10560, 10400]
+    at: [0, 16336]
+    floor: 768
+    purpose: "Lord Xeen's castle as seen from outside: a closed shell of black stone and gold on its own cloud, the gate in its south wall. Inside is XD-19 (A7). Gone on m35.done."
+    population:
+      - {id: pop:gate_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (5792, 13008), walking: 300 or more inside the rim"}
+    notes: "Not walkable, closed on every side, roof included (D-50 change 5): XD-19's measured footprint x -5280..5280, y 11136..21536 (XD-19's frame + (0, 16096)). The walls stand 3584, the four corner towers 4096 (radius 768), the keep 4608, over the base 768, so that XD-19's rooms (up to 3,456 over the gate sill) fit inside. The gate is set 640 back from the south-corner towers' fronts, two leaves of 256 x 512 (gnecdr1l/gnecdr1r). Its own cloud runs 1,024 beyond the walls on every side (the apron the aviary stair leaves from)."
+regions:
+  - id: region:east
+    name: The east chain
+    spaces: [room:east_pillar, room:east_ledge, room:east_horn]
+    where: "the source's (23,10-12) and (28-30,19-21)"
+  - id: region:south
+    name: The stair clouds
+    spaces: [room:stair_head, room:brink, room:west_wing, room:sw_nest, room:east_wing, room:se_nest]
+    where: the source's long southern cloud (y 1-9)
+  - id: region:west
+    name: The west chain
+    spaces: [room:west_pillar, room:west_spine, room:west_shelf, room:nw_isle]
+    where: the source's lone clouds down the west side
+  - id: region:xeendom
+    name: Xeendom
+    spaces: [room:landing, room:carnival, room:back_lot, room:gate_court, zone:castle, room:aviary]
+    where: the source's northern cloud (y 18-31)
+links:
+  - id: link:aviary_stair
+    from: zone:castle
+    to: room:aviary
+    kind: ramp
+    width: 512
+    rise: 256
+    notes: "cloud-stone stair on a cloud tongue; 4,138 rim to rim; from the castle cloud's east apron a cloud-stone stair climbs to the rookery"
+  - id: link:back_lot_bridge
+    from: room:nw_isle
+    to: room:back_lot
+    kind: bridge
+    width: 384
+    rise: -64
+    notes: "rope bridge; 3,399 rim to rim"
+  - id: link:back_lot_neck
+    from: room:back_lot
+    to: room:carnival
+    kind: open
+    width: 1536
+    rise: -64
+    notes: "one cloud: a waist; 3,890 rim to rim"
+  - id: link:brink_neck
+    from: room:stair_head
+    to: room:brink
+    kind: open
+    width: 1536
+    rise: 128
+    notes: "one cloud: a waist; 2,280 rim to rim; one cloud; the 'Danger! Go back!' post stands on it"
+  - id: link:east_bridge_1
+    from: room:se_nest
+    to: room:east_pillar
+    kind: bridge
+    width: 256
+    rise: -128
+    notes: "rope bridge; 3,880 rim to rim"
+  - id: link:east_bridge_2
+    from: room:east_pillar
+    to: room:east_ledge
+    kind: bridge
+    width: 256
+    rise: 128
+    notes: "rope bridge; 3,765 rim to rim"
+  - id: link:east_bridge_3
+    from: room:east_ledge
+    to: room:east_horn
+    kind: bridge
+    width: 256
+    rise: 192
+    notes: "rope bridge; 3,750 rim to rim"
+  - id: link:east_bridge_4
+    from: room:east_horn
+    to: room:aviary
+    kind: bridge
+    width: 256
+    rise: 320
+    notes: "rope bridge; 3,895 rim to rim"
+  - id: link:east_neck
+    from: room:stair_head
+    to: room:east_wing
+    kind: open
+    width: 1280
+    rise: 64
+    notes: "one cloud: a waist; 3,252 rim to rim"
+  - id: link:gate
+    from: room:gate_court
+    to: zone:castle
+    kind: double_door
+    condition: {lua: "XeenQuests.hook(\"m34.gate\")"}
+    width: 512
+    rise: 64
+    notes: "Castle Xeen's gate: two leaves (the double-door rule), XD-19's door with the exit preset's leave (D-50 change 3, D-24): condition A3's m34.gate (the fail text without a doll; with it the game's own leave window, meaning 'Enter Castle Xeen?', aaze0027:40). No map question. Into XD-19's entrance:x9_gate (A7)."
+  - id: link:landing_road
+    from: room:landing
+    to: room:carnival
+    kind: road
+    width: 768
+    rise: 192
+    notes: "the Xeen road, cloud-stone flags on a cloud tongue; 3,751 rim to rim; the Xeen road begins: cloud-stone flags laid on the cloud"
+  - id: link:se_neck
+    from: room:east_wing
+    to: room:se_nest
+    kind: open
+    width: 1280
+    rise: 128
+    notes: "one cloud: a waist; 2,698 rim to rim"
+  - id: link:sw_neck
+    from: room:west_wing
+    to: room:sw_nest
+    kind: open
+    width: 1280
+    rise: 128
+    notes: "one cloud: a waist; 2,675 rim to rim"
+  - id: link:unseen_way
+    from: room:brink
+    to: room:landing
+    kind: path
+    width: 768
+    rise: -192
+    notes: "the unseen way; 4,606 rim to rim; 'Xeen--9N.': nine cells (4,608) due north from the sign over the open gap, falling 192; 768 wide, its wisp top faint from the brink and readable underfoot within about 1,000, a cloud-stone lip at each end (D-50 change 1)"
+  - id: link:west_bridge_1
+    from: room:sw_nest
+    to: room:west_pillar
+    kind: bridge
+    width: 256
+    rise: -128
+    notes: "rope bridge; 3,648 rim to rim"
+  - id: link:west_bridge_2
+    from: room:west_pillar
+    to: room:west_spine
+    kind: bridge
+    width: 256
+    rise: 64
+    notes: "rope bridge; 3,551 rim to rim"
+  - id: link:west_bridge_3
+    from: room:west_spine
+    to: room:west_shelf
+    kind: bridge
+    width: 256
+    rise: 64
+    notes: "rope bridge; 3,664 rim to rim"
+  - id: link:west_bridge_4
+    from: room:west_shelf
+    to: room:nw_isle
+    kind: bridge
+    width: 256
+    rise: 64
+    notes: "rope bridge; 3,620 rim to rim"
+  - id: link:west_neck
+    from: room:stair_head
+    to: room:west_wing
+    kind: open
+    width: 1280
+    rise: 64
+    notes: "one cloud: a waist; 3,172 rim to rim"
+  - id: link:xeen_road
+    from: room:carnival
+    to: room:gate_court
+    kind: road
+    width: 768
+    rise: 256
+    notes: "the Xeen road, cloud-stone flags on a cloud tongue; 4,105 rim to rim; the Xeen road up the plaza's east side to the gate"
+loops:
+  - id: loop:east_ring
+    spaces: [room:stair_head, room:east_wing, room:se_nest, room:east_pillar, room:east_ledge, room:east_horn, room:aviary, zone:castle, room:gate_court, room:carnival, room:landing, room:brink]
+    notes: "Up the east chain to the aviary, round the castle's apron."
+  - id: loop:west_ring
+    spaces: [room:stair_head, room:west_wing, room:sw_nest, room:west_pillar, room:west_spine, room:west_shelf, room:nw_isle, room:back_lot, room:carnival, room:landing, room:brink]
+    notes: "Up the west chain to the carnival, back over the unseen way."
+entrances:
+  - id: entrance:fall
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:x2
+    how: "Any fall off a cloud: to X2, on Darzog's island by the tower door."
+  - id: entrance:fd04_roof
+    space: room:dragon_clouds
+    kind: arrival
+    neighbour: roof:fd04
+    facing: s
+    how: "The Dragon Tower's roof stair (FD-04, phase 6). Sealed until FD-04 and Q-F1 exist."
+    notes: "at (20864, 18304), z 2048."
+  - id: entrance:xd12_roof
+    space: room:stair_head
+    kind: arrival
+    neighbour: roof:xd12
+    facing: n
+    how: The top step of XD-12's cloud stair rising out of the cloud sea (as X8's stair heads).
+    notes: "at (0, -17920), z 320, facing north (MoveToMap direction 512)."
+  - id: entrance:xd19_gate
+    space: room:gate_court
+    kind: both
+    neighbour: door:xd19
+    facing: s
+    how: "Castle Xeen's gate leads into XD-19; XD-19's way out and the scepter cinematic's leave (D-47 Q14) arrive here, 512 south of the leaves."
+    notes: "at (0, 11264), z 768 (the castle cloud's apron), facing south (1536)."
+critical_path: [room:stair_head, room:brink, room:landing, room:carnival, room:gate_court]
+return_path: [room:gate_court, room:carnival, room:landing, room:brink]
+goals:
+  - id: goal:castle
+    space: room:gate_court
+    kind: reach
+    what: Castle Xeen's gate
+    story: M35
+  - id: goal:cupie
+    space: room:gate_court
+    kind: take
+    what: The Lord Xeen doll (12371)
+    story: M34
+    gives:
+      qbit: m34_done
+  - id: goal:dolls
+    space: room:carnival
+    kind: use
+    what: Win Slick's four games
+    story: M34
+points_of_interest:
+  - id: poi:accuracy_game
+    space: room:carnival
+    kind: game
+    behaviour: "A3's m34.accuracy_game: the shooting line, a straw bullseye 1,536 west at the plaza's end (Accuracy 60, 10 gems)."
+    notes: "at (-3712, 1536)"
+  - id: poi:castle_gate
+    space: room:gate_court
+    kind: door
+    behaviour: "Castle Xeen's gate (XD-19's door): m34.gate. After m35.done the castle is gone and a click or step on the spot reads 'The great Castle Xeen recently stood here.' (aaze0027:44)."
+    neighbour: door:xd19
+    condition: {lua: "XeenQuests.hook(\"m34.gate\")"}
+    notes: "at (0, 11776)"
+  - id: poi:endurance_game
+    space: room:carnival
+    kind: game
+    behaviour: "A3's m34.endurance_game: a treadmill (Endurance 60, 5 gems)."
+    notes: "at (-4352, 3840)"
+  - id: poi:might_game
+    space: room:carnival
+    kind: game
+    behaviour: "A3's m34.might_game: a high-striker, the bell on a pole and a hammer (Might 60, 100 gold)."
+    notes: "at (-1024, 1280)"
+  - id: poi:offering_statues
+    spaces: [room:west_pillar, room:west_spine, room:west_shelf, room:nw_isle, room:east_ledge, room:east_horn]
+    count: 6
+    kind: statue
+    behaviour: "'Offering' (aaze0027:33), as X8's: a Crusader (M4 done) is given one item of treasure 5 once; anyone else is struck. One on each lone cloud of the two chains (the source has nine)."
+    uses: {times: 1, per: party, reset: never}
+    reached_by: off_road
+    notes: "offering_1 at (-15616, -9472); offering_2 at (-16896, -2816); offering_3 at (-17280, 4608); offering_4 at (-16384, 11776); offering_5 at (15488, -1792); offering_6 at (15616, 6016)"
+  - id: poi:prize_stand
+    space: room:gate_court
+    kind: game
+    behaviour: "A3's m34.prize_stand: four dolls for the Lord Xeen doll (12371), 10,000 experience."
+    notes: "at (-1024, 9472)"
+  - id: poi:rhyme_statues
+    spaces: [room:west_wing, room:east_wing]
+    count: 4
+    kind: statue
+    behaviour: "A3's m34.statue_1-4, the source's four rhymes (aaze0027:2-5): the dig permit, Xeen's bane under the castle, Lord Xeen above the island tower, only the sword. Readable by anyone until the Linguist gate exists (as X8)."
+    notes: "statue_1 at (-6144, -16384); statue_2 at (-8064, -18048); statue_3 at (6144, -16384); statue_4 at (8064, -18048)"
+  - id: poi:roc_nests
+    spaces: [room:sw_nest, room:se_nest, room:aviary]
+    count: 5
+    kind: camp
+    behaviour: "'Roc Nest. Destroy?' (aaze0027:0), Yes/No; the nest goes and a hook pays experience (the source's 50,000 each, rescaled by A3; X8's harpy nests pay 500)."
+    uses: {times: 1, per: party, reset: never}
+    notes: "nest_sw at (-13696, -15232); nest_se at (13696, -15232); nest_a1 at (12160, 14592); nest_a2 at (15232, 13952); nest_a3 at (14208, 12032)"
+  - id: poi:signs
+    spaces: [room:stair_head, room:brink, room:landing, room:aviary]
+    count: 4
+    kind: sign
+    behaviour: "The source's four signs, clicked: 'Danger! Go back!' (aaze0027:7) on the neck to the brink; 'Xeen--9N.' (:6) at the unseen way's foot; 'Now entering Xeendom' (:8) at its head; 'Xeen's Aviary' (:9) at the top of the aviary stair (D-47)."
+    notes: "danger_sign at (640, -15232); nine_north at (-448, -10976); xeendom_sign at (-448, -5665); aviary_sign at (11136, 12288)"
+  - id: poi:speed_game
+    space: room:carnival
+    kind: game
+    behaviour: "A3's m34.speed_game: a gremlin's race track (Speed 60, 1,000 gold)."
+    notes: "at (-1536, 3968)"
+landmarks:
+  - id: landmark:aviary
+    space: room:aviary
+    what: "Rock spurs, great nests and circling rocs"
+    seen_from: [room:brink, room:gate_court, room:east_horn, room:se_nest]
+  - id: landmark:carnival
+    space: room:carnival
+    what: Slick's striped awnings and the bell pole
+    seen_from: [room:brink, room:landing, room:back_lot]
+  - id: landmark:castle_xeen
+    space: zone:castle
+    what: "Castle Xeen: black walls, gold friezes and caps, four round towers and a keep"
+    seen_from: [room:stair_head, room:brink, room:landing, room:carnival, room:nw_isle, room:east_horn]
+  - id: landmark:dragon_clouds
+    space: room:dragon_clouds
+    what: "A high lone cloud with a dragon-head rock, out of reach"
+    seen_from: [room:aviary, room:east_horn, room:brink]
+sightlines:
+  - id: view:xeendom
+    from: room:brink
+    to: [landmark:castle_xeen, landmark:carnival, landmark:aviary, landmark:dragon_clouds]
+    what: "The signature: from the 'Xeen--9N.' sign over the gap and the faint way, Xeendom rising in terraces to Castle Xeen, the carnival on the left, the aviary's rocs on the right."
+    notes: "camera at (256, -11232), z 624 (eye), facing north; the gate 23,009 away"
+set_pieces:
+  - id: set:carnival
+    kind: puzzle
+    spaces: [room:carnival, room:gate_court]
+    rule: "Slick's four booths (A3's hooks; the clicking member's statistic, retry on a loss), the prize stand, then the gate."
+  - id: set:castle_gone
+    kind: scripted
+    spaces: [zone:castle, room:gate_court]
+    rule: "On m35.done (111707) the castle's shell is hidden and its gate sealed; its cloud stays (state:castle_gone)."
+  - id: set:fall
+    kind: scripted
+    spaces: [void:cloud_sea]
+    rule: "As X8: a one-second check moves a party below z -1,000 (and the room's safety floor at -6,000) through A3's Xeen.skyFall to X2, Darzog's island by the tower door (-15360, 3072) (cell [34.0, 58.0]), ground 768, with falling damage."
+  - id: set:unseen_way
+    kind: puzzle
+    spaces: [room:brink, room:landing]
+    rule: "'Xeen--9N.': a 768-wide way (D-50) nine cells (4,608) due north from the sign over the open gap, falling 192. How visible it is is decision 1."
+    solution: Walk straight north from the sign.
+height_bands:
+  - id: band:chains
+    range: [384, 704]
+    spaces: [room:west_pillar, room:west_spine, room:west_shelf, room:nw_isle, room:east_pillar, room:east_ledge, room:east_horn]
+  - id: band:dragon
+    level: 2048
+    spaces: [room:dragon_clouds]
+  - id: band:sea
+    level: -2000
+    spaces: [void:cloud_sea]
+    notes: "the cloud sea, far below"
+  - id: band:south
+    range: [320, 512]
+    spaces: [room:stair_head, room:brink, room:west_wing, room:east_wing, room:sw_nest, room:se_nest]
+  - id: band:xeendom
+    range: [256, 1024]
+    spaces: [room:landing, room:carnival, room:back_lot, room:gate_court, zone:castle, room:aviary]
+    notes: "rising in terraces from the landing (256) to the castle (768) and the aviary (1,024)"
+states:
+  - id: state:castle_gone
+    condition: {qbit: m35_done}
+    hides: ["Castle Xeen's shell (walls, towers, keep, gate leaves)"]
+    seals: [link:gate]
+    effects: [The gate spot reads 'The great Castle Xeen recently stood here.' (aaze0027:44)., "XD-19's return point stays: the scepter cinematic's leave and a Lloyd's Beacon set inside still land there."]
+    notes: "D-47 Q14 (a). Burlock's after-line: 'Castle Xeen is a cloud again.'"
+atmosphere: "Sky xeencloud (xeen_cloud_sea, below_horizon: sky, high sun, daylight block); no weather; wind; music 21. No Fly (no BLV casts it). No lighting bake (open air, X8's rule)."
+totals:
+  chests: 4
+  kill_xp_per_member: 26004
+  longest_bridge: 3895
+  placed_monsters: 50
+  points_of_interest: 29
+  quiet_share: 0.528
+  walkable_area_millions: 272.6
+notes: "MU-3 for the phase 5 review (A5, 2026-11-20). Room 88 x 84 cells (45,056 x 43,008), about 70 % of an outdoor map's side as X8's 76 x 64 is 60 %. Board: output/studio_cal/x9/mockups/board_x9.png; tools output/studio_cal/x9/tools/ (run.sh). Source: the Clouds of Xeen, MM4 maze 27 with x106-x108 (xeen/aaze0027)."

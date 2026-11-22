@@ -1,0 +1,63 @@
+# M1 Vermin: the opening, Gunther's welcome and Crodo's bottles (QUESTS M1; CHANGES_FOR_BUILT_MAPS X1-9, X1-10).
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M1
+title: Vermin
+act: I
+kind: main
+status: full
+giver: 4003          # Mayor Gunther (A4: towns/x1.yml, the town hall 4003)
+maps: [X1, X2]
+level: 1
+block: 1
+after: []
+source: "QUESTS M1; reviews/STORY_AND_ATMOSPHERE F3; xeen/aaze0028:1, :5; xeen/aaze0019:2"
+
+qbits:
+  opening: {id: 110103, map: X1, note: "X1's one-shot arrival window (was gunther_errand)"}
+  started: {id: 111020, journal: "Mayor Gunther wants Vertigo rid of its slimes and doom bugs.", until: [m2.done]}
+  bottle_creek: {id: 110104, map: X1, note: "X1's crodo_bottle_creek"}
+  bottle_lake: {id: 110202, map: X2, note: "was crodo_bottle_lake"}
+  crodo_lead: {id: 111022, journal: "A message in a bottle: \"Help! I'm in Darzog's tower!--Crodo\"",
+               until: [m21.crodo_freed]}
+
+autonotes:
+  crodo_bottle: {id: 4001, text: "Crodo's bottle: \"Help! I'm in Darzog's tower!\" Darzog's tower stands on the island in Lake Darzog, west of Rivercity."}
+
+npcs:
+  4003:              # Mayor Gunther
+    topics:
+      - n: 1
+        label: Pests
+        show: {not: {qbit: m2.done}}
+        states:
+          - when: {qbit: m2.started}
+            text: "Joe swears he has the situation under control. He has sworn it for two years."
+          - text: "Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests. A couple years ago I hired Joe the exterminator to rid the town of this menace, but the problem seems to be getting worse. Perhaps you could help."
+            do: [{set: started}]
+
+hooks:
+  opening:
+    map: X1
+    where: "first arrival in Vertigo's square (X1's one-shot timer, today evt:gunther_errand, which must call this hook): the new game's script; also opens Vertigo's inn roster"
+    sets: [opening, started, world.inn_vertigo]
+    once: true
+    text: "Vertigo. For weeks you dreamt of an old man in a dark tower who begged you to finish \"the sword\". Then a bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs plague the town. The town hall is on the main street."
+  crodo_bottle_creek:
+    map: X1
+    where: "a bottle in the reeds of Pitchfork Creek, below the bridge"
+    sets: [bottle_creek, crodo_lead]
+    once: true
+    do: [{autonote: crodo_bottle}]
+    text: "Inside the bottle you find a message that reads: Help! I'm in Darzog's tower!--Crodo"
+    else_text: "An empty bottle."
+  crodo_bottle_lake:
+    map: X2
+    where: "a bottle on Lake Darzog's north shore (built: thing:crodo_bottle)"
+    sets: [bottle_lake, crodo_lead]
+    once: true
+    do: [{autonote: crodo_bottle}]
+    text: "Inside the bottle you find a message that reads: Help! I'm in Darzog's tower!--Crodo"
+    else_text: "An empty bottle."
+
+rewards: {xp: 0, gold: 0}
+playthrough: "New game in Vertigo: the opening message; Gunther (Pests); the creek bottle."

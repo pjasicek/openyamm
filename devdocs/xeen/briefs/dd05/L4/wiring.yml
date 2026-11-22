@@ -1,0 +1,515 @@
+format: 0
+variables: [bones_1, bones_2, bones_3, bed_l4_w, bed_l4_e, bed_l3, bed_l2_purse, bed_l1_a, bed_l1_b]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE WESTERN TOWER OF MOK. You climb in over the sill. Sacks of bread, a windlass, the heretics' candles: they trust their wards, not their windows. Somewhere below them, Dreyfus says, the Cult Leader preaches by the altar where the key to the front door lies."
+      - qbit: arrived_once
+    notes: "Why the party is here (Q-D6), on the first arrival only (arrived_once 117360)."
+  - id: evt:bed_l1_a
+    preset: script
+    source: platform:bed_l1_a
+    title: Bed
+    condition: {not: {map_var: bed_l1_a}}
+    effects:
+      - gold: 400
+      - set:
+          var:
+            map_var: bed_l1_a
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's (3,8) bed: a find (aaze0057:6-7), then 'Nothing here.'"
+  - id: evt:bed_l1_b
+    preset: script
+    source: platform:bed_l1_b
+    title: Bed
+    condition: {not: {map_var: bed_l1_b}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: bed_l1_b
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "The source's (7,4) bed: a find, then 'Nothing here.'"
+  - id: evt:bed_l2_b
+    preset: text
+    source: platform:bed_l2_b
+    title: Bed
+    text: Nothing here.
+  - id: evt:bed_l2_c
+    preset: text
+    source: platform:bed_l2_c
+    title: Bed
+    text: Nothing here.
+  - id: evt:bed_l2_purse
+    preset: script
+    source: platform:bed_l2_purse
+    title: Bed
+    condition: {not: {map_var: bed_l2_purse}}
+    effects:
+      - gold: 750
+      - set:
+          var:
+            map_var: bed_l2_purse
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "Under the mattress a purse (the source's L2 gold), then 'Nothing here.'"
+  - id: evt:bed_l3
+    preset: script
+    source: platform:bed_l3_3
+    title: Bed
+    condition: {not: {map_var: bed_l3}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: bed_l3
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "One bed's find, then 'Nothing here.'"
+  - id: evt:bed_l3_1
+    preset: text
+    source: platform:bed_l3_1
+    title: Bed
+    text: Nothing here.
+  - id: evt:bed_l3_2
+    preset: text
+    source: platform:bed_l3_2
+    title: Bed
+    text: Nothing here.
+  - id: evt:bed_l3_4
+    preset: text
+    source: platform:bed_l3_4
+    title: Bed
+    text: Nothing here.
+  - id: evt:bed_l4_e
+    preset: script
+    source: platform:bed_l4_e
+    title: Bed
+    condition: {not: {map_var: bed_l4_e}}
+    effects:
+      - gold: 600
+      - set:
+          var:
+            map_var: bed_l4_e
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "Something under the blanket, then 'Nothing here.'"
+  - id: evt:bed_l4_w
+    preset: script
+    source: platform:bed_l4_w
+    title: Bed
+    condition: {not: {map_var: bed_l4_w}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: bed_l4_w
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "Something under the blanket (aaze0060:3-4), then 'Nothing here.'"
+  - id: evt:bones_1
+    preset: script
+    source: deco:gallery_bones_1
+    title: Bones
+    condition: {not: {map_var: bones_1}}
+    effects:
+      - gold: 300
+      - set:
+          var:
+            map_var: bones_1
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "A heap of bones: a find (aaze0060:5-6), then 'Nothing here.'"
+  - id: evt:bones_2
+    preset: script
+    source: deco:gallery_bones_2
+    title: Bones
+    condition: {not: {map_var: bones_2}}
+    effects:
+      - give_item:
+          level: 4
+      - set:
+          var:
+            map_var: bones_2
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "A heap of bones: a find, then 'Nothing here.'"
+  - id: evt:bones_3
+    preset: script
+    source: deco:gallery_bones_3
+    title: Bones
+    condition: {not: {map_var: bones_3}}
+    effects:
+      - gold: 450
+      - set:
+          var:
+            map_var: bones_3
+          value: 1
+    else_effects:
+      - text: Nothing here.
+    notes: "A heap of bones: a find, then 'Nothing here.'"
+  - id: evt:chest_dorm3
+    preset: chest
+    source: chest:dorm3
+    title: Chest
+  - id: evt:chest_guardians
+    preset: chest
+    source: chest:guardians
+    title: Chest
+  - id: evt:chest_kitchen
+    preset: chest
+    source: chest:kitchen
+    title: Chest
+  - id: evt:chest_vestry
+    preset: chest
+    source: chest:vestry
+    title: Chest
+  - id: evt:disc_e
+    preset: script
+    source: deco:disc_e
+    title: Disc
+    condition: {not: {qbit: alcove_disks}}
+    effects:
+      - give_item: 12334
+      - give_item: 12334
+      - lua: |-
+          XeenQuests.hook("q-d6.l1_alcoves")
+          evt.SetSprite(14, 0)
+          evt.SetSprite(13, 0)
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.l1_alcoves\")"
+    notes: "The east disc: as the west (one hook for both)."
+  - id: evt:disc_w
+    preset: script
+    source: deco:disc_w
+    title: Disc
+    condition: {not: {qbit: alcove_disks}}
+    effects:
+      - give_item: 12334
+      - give_item: 12334
+      - lua: |-
+          XeenQuests.hook("q-d6.l1_alcoves")
+          evt.SetSprite(14, 0)
+          evt.SetSprite(13, 0)
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.l1_alcoves\")"
+    notes: "D-42 (5): the first disc alcove clicked runs q-d6.l1_alcoves, whose map_gives the map hands over (2 Energy Disks 12334); both discs go; then 'The alcove is empty.' ('Disc', aaze0057:4-5)."
+  - id: evt:door_chapel
+    preset: door
+    source: door:chapel
+    title: Double doors
+  - id: evt:door_dorm1
+    preset: door
+    source: door:dorm1
+    title: Door
+  - id: evt:door_dorm3
+    preset: door
+    source: door:dorm3
+    title: Door
+  - id: evt:door_guardians
+    preset: door
+    source: door:guardians
+    title: Door
+  - id: evt:door_hoist
+    preset: door
+    source: door:hoist
+    title: Door
+  - id: evt:door_humble
+    preset: door
+    source: door:humble
+    title: Door
+  - id: evt:door_kitchen
+    preset: door
+    source: door:kitchen
+    title: Door
+  - id: evt:door_mirror
+    preset: door
+    source: door:mirror
+    title: Door
+  - id: evt:door_pious
+    preset: door
+    source: door:pious
+    title: Door
+  - id: evt:door_refectory
+    preset: door
+    source: door:refectory
+    title: Door
+  - id: evt:door_vestry
+    preset: door
+    source: door:vestry
+    title: Door
+  - id: evt:enter
+    preset: text
+    trigger: load
+    text: The Western Tower of Mok.
+    notes: "Every entry: a status line."
+  - id: evt:exit_door
+    preset: exit
+    source: exit:d1_door
+    title: Exit the Great Western Tower
+    condition: {qbit: tower_opened}
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.front_door\")"
+    notes: "The front door: before tower_opened A3's q-d6.front_door (with the key: the wards die, tower_opened and the door autonote; without: 'Locked, and warded from both sides.'); after it the game's leave window to D1's step (entrance:dd05_door)."
+  - id: evt:exit_rope
+    preset: exit
+    source: exit:d1_rope
+    title: Exit the Great Western Tower
+    notes: "Out by the rope to D1's foot of the north wall (entrance:dd05_rope): the game's window (D-24); the source's 'Exit the Great Western Tower?' (aaze0057:8) is the title."
+  - id: evt:fountain_air
+    preset: script
+    source: platform:fountain_air
+    title: Fountain
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      XeenQuests.hook("q-d6.fountain_air")
+      evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    notes: "A3's q-d6.fountain_air: +5 Air resistance once per character (player bit 11342)."
+  - id: evt:fountain_body
+    preset: script
+    source: platform:fountain_body
+    title: Fountain
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      XeenQuests.hook("q-d6.fountain_body")
+      evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    notes: "A3's q-d6.fountain_body: +5 Body resistance once per character (player bit 11344)."
+  - id: evt:fountain_fire
+    preset: script
+    source: platform:fountain_fire
+    title: Fountain
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      XeenQuests.hook("q-d6.fountain_fire")
+      evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    notes: "A3's q-d6.fountain_fire: +5 Fire resistance once per character (player bit 11341)."
+  - id: evt:fountain_water
+    preset: script
+    source: platform:fountain_water
+    title: Fountain
+    lua: |-
+      evt.ForPlayer(Players.Current)
+      XeenQuests.hook("q-d6.fountain_water")
+      evt.PlaySoundName("xeen_spring_drink", 0, 0, 0)
+    notes: "A3's q-d6.fountain_water: +5 Water resistance for the drinking member once (player bit 11343)."
+  - id: evt:humble_ask
+    preset: script
+    source: room:humble
+    trigger: step
+    title: Humble the Cleric
+    lua: |-
+      if continueStep == 1 then
+          SetQBit(QBit(117361))
+          evt.SetMonGroupBit(40, MonsterBits.Invisible, 1)
+          evt.SimpleMessage("The screams of the unarmed cleric fill the tower as you quickly and efficiently dispatch him.")
+          return
+      end
+      if continueStep == 2 then
+          XeenQuests.hook("q-d6.humble")
+          evt.SetMonGroupBit(40, MonsterBits.Invisible, 1)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113124)) or IsQBitSet(QBit(117361)) then
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "Coming into Humble's cell: his plea and 'Slay him anyway?' (aaze0058:6-7). No: A3's q-d6.humble (humble_spared, 'Thank you for sparing my life...'); Yes: the source's kill line (aaze0058:9), the map's humble_slain 117361. Either way he is hidden for good, with no XP."
+  - id: evt:humble_bed
+    preset: script
+    source: platform:bed_humble
+    title: Bed
+    lua: |-
+      if IsQBitSet(QBit(117361)) then
+          evt.StatusText("The only thing in the bed is the lifeless body of a cleric who you mercilessly slew in cold blood.")
+          return
+      end
+      if IsQBitSet(QBit(113124)) then
+          XeenQuests.hook("q-d6.humble")
+          return
+      end
+      if continueStep == 1 then
+          SetQBit(QBit(117361))
+          evt.SetMonGroupBit(40, MonsterBits.Invisible, 1)
+          evt.SimpleMessage("The screams of the unarmed cleric fill the tower as you quickly and efficiently dispatch him.")
+          return
+      end
+      if continueStep == 2 then
+          XeenQuests.hook("q-d6.humble")
+          evt.SetMonGroupBit(40, MonsterBits.Invisible, 1)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113124)) or IsQBitSet(QBit(117361)) then
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "Humble's bed: the plea again while he waits; after Yes the source's 'lifeless body' line (aaze0058:10), after No the hook's 'Nothing here.'"
+  - id: evt:leader_slain
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:cult_leader}}
+    lua: "XeenQuests.hook(\"q-d6.cult_leader\")"
+    once: true
+    notes: The Cult Leader's death runs A3's q-d6.cult_leader (leader_slain 113123).
+  - id: evt:ledge_e
+    preset: script
+    source: platform:plinth_e
+    title: Alcove
+    condition: {not: {qbit: alcove_disks}}
+    effects:
+      - give_item: 12334
+      - give_item: 12334
+      - lua: |-
+          XeenQuests.hook("q-d6.l1_alcoves")
+          evt.SetSprite(14, 0)
+          evt.SetSprite(13, 0)
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.l1_alcoves\")"
+    notes: "The east alcove's ledge: as its disc."
+  - id: evt:ledge_w
+    preset: script
+    source: platform:plinth_w
+    title: Alcove
+    condition: {not: {qbit: alcove_disks}}
+    effects:
+      - give_item: 12334
+      - give_item: 12334
+      - lua: |-
+          XeenQuests.hook("q-d6.l1_alcoves")
+          evt.SetSprite(14, 0)
+          evt.SetSprite(13, 0)
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-d6.l1_alcoves\")"
+    notes: "The west alcove's ledge: as its disc."
+  - id: evt:mirror
+    preset: text
+    source: panel:mirror
+    title: Mirror
+    text: The mirror does not respond.
+    notes: "The dead mirror (aaze0057:2): flavour only (D-26's rule, as DD-02's)."
+  - id: evt:pious_ask
+    preset: script
+    source: room:pious
+    trigger: step
+    title: Pious the Cleric
+    lua: |-
+      if continueStep == 1 then
+          SetQBit(QBit(117362))
+          evt.SetMonGroupBit(41, MonsterBits.Invisible, 1)
+          evt.SimpleMessage("The screams of the unarmed cleric fill the tower as you quickly and efficiently dispatch him.")
+          return
+      end
+      if continueStep == 2 then
+          XeenQuests.hook("q-d6.pious")
+          evt.SetMonGroupBit(41, MonsterBits.Invisible, 1)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113128)) or IsQBitSet(QBit(117362)) then
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "Coming into Pious's cell: as Humble's (aaze0059:6-10; pious_spared by A3's q-d6.pious, the map's pious_slain 117362)."
+  - id: evt:pious_bed
+    preset: script
+    source: platform:bed_pious
+    title: Bed
+    lua: |-
+      if IsQBitSet(QBit(117362)) then
+          evt.StatusText("The only thing in the bed is the lifeless body of a cleric who you mercilessly slew in cold blood.")
+          return
+      end
+      if IsQBitSet(QBit(113128)) then
+          XeenQuests.hook("q-d6.pious")
+          return
+      end
+      if continueStep == 1 then
+          SetQBit(QBit(117362))
+          evt.SetMonGroupBit(41, MonsterBits.Invisible, 1)
+          evt.SimpleMessage("The screams of the unarmed cleric fill the tower as you quickly and efficiently dispatch him.")
+          return
+      end
+      if continueStep == 2 then
+          XeenQuests.hook("q-d6.pious")
+          evt.SetMonGroupBit(41, MonsterBits.Invisible, 1)
+          return
+      end
+      if continueStep ~= nil then
+          return
+      end
+      if IsQBitSet(QBit(113128)) or IsQBitSet(QBit(117362)) then
+          return
+      end
+      AskChoiceWithAnswerSteps(eventId, 3, "Oh, please don't kill me! I'm not like the others! I didn't want to mutiny against the High Priest! Slay him anyway?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    notes: "Pious's bed, as Humble's (aaze0059:10)."
+  - id: evt:restore
+    preset: script
+    trigger: load
+    lua: |-
+      if IsQBitSet(QBit(113126)) then
+          evt.SetSprite(14, 0)
+          evt.SetSprite(13, 0)
+      end
+      if IsQBitSet(QBit(113124)) or IsQBitSet(QBit(117361)) then
+          evt.SetMonGroupBit(40, MonsterBits.Invisible, 1)
+      end
+      if IsQBitSet(QBit(113128)) or IsQBitSet(QBit(117362)) then
+          evt.SetMonGroupBit(41, MonsterBits.Invisible, 1)
+      end
+    notes: "On every load: the discs gone once alcove_disks, Humble and Pious hidden once either answer was given."
+  - id: evt:sun
+    preset: text
+    source: panel:sun
+    title: Tapestry
+    text: "Mok's sun with the open eye, a red daub of the heretics' sign over it."
+    window: false
+  - id: evt:tap_a
+    preset: text
+    source: panel:tap_a
+    title: Tapestry
+    text: Nothing here.
+  - id: evt:tap_button
+    preset: switch
+    source: panel:tap_b
+    title: Tapestry
+    opens: [door:tap_panel]
+    text: Button. Click.
+    notes: "The button behind the middle tapestry: the panel into the vestry slides up (aaze0060:0-2)."
+  - id: evt:tap_c
+    preset: text
+    source: panel:tap_c
+    title: Tapestry
+    text: Nothing here.
+  - id: evt:tap_panel_back
+    preset: door
+    source: door:tap_panel
+    side: room:vestry
+    title: Panel
+    notes: "From the vestry the panel slides by hand; from the walk only the button moves it."
+notes: "DD-05's events (gen.py): Q-D6's hooks (the key, the Cult Leader, Humble and Pious, the alcoves, the front door, the four fountains), Q-D20's Pegasus, the tapestry button, the finds in the beds and the bones, the dead mirror, the two exits to D1, the doors and chests."

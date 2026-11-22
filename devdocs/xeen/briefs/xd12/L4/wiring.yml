@@ -1,14 +1,16 @@
 format: 0
-variables: [works_gate_up, darzog_dead_seen]
+variables: [works_gate_up, darzog_dead_seen, disc_down]
 events:
   - id: evt:arrive
     preset: script
     trigger: timer
     every: 1
+    condition: {not: {qbit: arrived_once}}
     once: true
     effects:
-      - message: "DARZOG'S TOWER. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right to suspect the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped: Darzog's ward stills all magic in this tower but his own. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
-    notes: "The arrival message (the build asks every new dungeon for one); set:no_magic."
+      - lua: "XeenQuests.hook(\"m21.arrival\")"
+      - qbit: arrived_once
+    notes: "Say why the party is here, and that magic fails: A3's hook m21.arrival (its window text; a one-shot timer: a load event's window is not shown), on the first arrival only (arrived_once); set:no_magic."
   - id: evt:book_accuracy
     preset: script
     source: platform:lectern_accuracy
@@ -19,7 +21,7 @@ events:
           var: BaseAccuracy
           value: 5
       - player_bit: 11235
-      - message: "BOOK OF ACCURACY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Accuracy (permanent)."
+      - text: "BOOK OF ACCURACY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Accuracy (permanent)."
     else_effects:
       - text: You have already learned what the book of accuracy can teach.
     notes: "poi:book_accuracy: +5 Accuracy, once per character (player bit 11235)."
@@ -33,7 +35,7 @@ events:
           var: BaseEndurance
           value: 5
       - player_bit: 11231
-      - message: "BOOK OF ENDURANCE. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Endurance (permanent)."
+      - text: "BOOK OF ENDURANCE. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Endurance (permanent)."
     else_effects:
       - text: You have already learned what the book of endurance can teach.
     notes: "poi:book_endurance: +5 Endurance, once per character (player bit 11231)."
@@ -47,7 +49,7 @@ events:
           var: BaseIntellect
           value: 5
       - player_bit: 11232
-      - message: "BOOK OF INTELLECT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Intellect (permanent)."
+      - text: "BOOK OF INTELLECT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Intellect (permanent)."
     else_effects:
       - text: You have already learned what the book of intellect can teach.
     notes: "poi:book_intellect: +5 Intellect, once per character (player bit 11232)."
@@ -61,7 +63,7 @@ events:
           var: BaseMight
           value: 5
       - player_bit: 11230
-      - message: "BOOK OF MIGHT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Might (permanent)."
+      - text: "BOOK OF MIGHT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Might (permanent)."
     else_effects:
       - text: You have already learned what the book of might can teach.
     notes: "poi:book_might: +5 Might, once per character (player bit 11230)."
@@ -75,7 +77,7 @@ events:
           var: BasePersonality
           value: 5
       - player_bit: 11233
-      - message: "BOOK OF PERSONALITY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Personality (permanent)."
+      - text: "BOOK OF PERSONALITY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Personality (permanent)."
     else_effects:
       - text: You have already learned what the book of personality can teach.
     notes: "poi:book_personality: +5 Personality, once per character (player bit 11233)."
@@ -89,7 +91,7 @@ events:
           var: BaseSpeed
           value: 5
       - player_bit: 11234
-      - message: "BOOK OF SPEED. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Speed (permanent)."
+      - text: "BOOK OF SPEED. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Speed (permanent)."
     else_effects:
       - text: You have already learned what the book of speed can teach.
     notes: "poi:book_speed: +5 Speed, once per character (player bit 11234)."
@@ -97,27 +99,20 @@ events:
     preset: script
     source: platform:cloud_top
     trigger: step
-    condition: {qbit: m21_crodo_freed}
+    condition: {lua: IsQBitSet(QBit(110501))}
     effects:
-      - leave: exit:clouds_of_xeen
+      - exit: exit:clouds_of_xeen
     else_effects:
       - text: "The cloud gives under your foot like fog. Something holds it shut: Crodo would know what."
-    text: You climb the stair of cloud into the sky.
-    notes: "set:cloud_stair: the exit to X9 (a placeholder: X9 is not built; MM7's Celeste stands in)."
+    notes: "set:cloud_stair (m21.cloud_stair reads crodo_freed 110501; the hook has no call): before it the cloud gives like fog; after it the standard entrance window (F16), OK to X9's entrance:xd12_roof (0, -17920, 320) facing 512, Close stays."
   - id: evt:crodo
     preset: script
     source: room:crodo_cell
     trigger: step
-    once: true
     effects:
-      - message: "CRODO THE OVERSEER, thin and grey, gets up from his stool. 'Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen: the man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen; ask Artemus for leave to dig it out. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.' Darzog's ward is fading from him, slowly: he has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone. The clouds above the roof will bear you now."
-      - qbit: m21_crodo_freed
+      - lua: "XeenQuests.hook(\"m21.crodo\")"
       - hide_actors: 40
-      - lua: |-
-          evt.ForPlayer(Players.All)
-          AddValue(Experience, 35000)
-          evt.ForPlayer(Players.Current)
-    notes: "goal:crodo and M21's reveal; 35,000 experience each (Act IV's quest rule)."
+    notes: "goal:crodo and M21's reveal: A3's once-hook m21.crodo (crodo_freed, 35,000 experience each, the vault word); Crodo (group 40) gone home after it."
   - id: evt:crypt
     preset: chest
     source: chest:crypt
@@ -126,16 +121,15 @@ events:
     preset: script
     trigger: timer
     every: 2
-    condition: {kills: {monster: monster:darzog}}
+    condition: {all: [{kills: {monster: monster:darzog}}, {not: {map_var: disc_down}}]}
     opens: [door:disc_grille]
     once: true
     effects:
-      - qbit: m21_darzog_slain
       - shake:
           strength: 0.5
           seconds: 2
-      - message: "Baron Darzog falls, and the tower shudders. Somewhere close a binding cracks like ice; in the Well a black grille rises from the landing where his disc waits. His ward on your spells does not lift: it has soaked into the stones."
-    notes: "goal:darzog: his death sets m21_darzog_slain; the disc's grille opens (the disc is up)."
+      - lua: "XeenQuests.hook(\"m21.darzog\")"
+    notes: "goal:darzog: his death opens the disc's grille (the disc is up); A3's hook m21.darzog sets darzog_slain and says so."
   - id: evt:darzog_hall_cue
     preset: text
     source: room:darzog_hall
@@ -151,47 +145,92 @@ events:
     preset: switch
     source: mover:disc
     title: Darzog's disc
-    condition: {qbit: m21_darzog_slain}
-    toggles: [mover:disc, door:disc_grille]
+    condition: {qbit: darzog_slain}
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(disc_down), 1) then
+              evt.SetDoorState(32, DoorAction.Close)
+              evt.SetDoorState(13, DoorAction.Open)
+              SetValue(MapVar(disc_down), 0)
+          else
+              evt.SetDoorState(13, DoorAction.Close)
+              evt.SetDoorState(32, DoorAction.Open)
+              SetValue(MapVar(disc_down), 1)
+          end
     else_effects:
       - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
     text: The disc hums and glides along the Well.
+    notes: "set:disc: two-way: up (grille open) when it is down, down (grille shut) when it is up; disc_down follows."
   - id: evt:disc_call_bottom
     preset: switch
     source: switch:disc_call_bottom
     title: Darzog's disc
-    condition: {qbit: m21_darzog_slain}
-    toggles: [mover:disc, door:disc_grille]
+    condition: {qbit: darzog_slain}
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(disc_down), 1) then
+              evt.SetDoorState(32, DoorAction.Close)
+              evt.SetDoorState(13, DoorAction.Open)
+              SetValue(MapVar(disc_down), 0)
+          else
+              evt.SetDoorState(13, DoorAction.Close)
+              evt.SetDoorState(32, DoorAction.Open)
+              SetValue(MapVar(disc_down), 1)
+          end
     else_effects:
       - message: "You press the stone. Far above, at the top of the Well, a rune flares and dies: whatever it calls is bound by its master, up on his own floor."
     text: The disc hums and glides along the Well.
+    notes: "set:disc: two-way, as the disc itself: calls it down, or rides it up from the disc."
   - id: evt:disc_call_top
     preset: switch
     source: switch:disc_call_top
     title: Call the disc
-    condition: {qbit: m21_darzog_slain}
-    toggles: [mover:disc, door:disc_grille]
+    condition: {qbit: darzog_slain}
+    opens: [door:disc_grille]
+    closes: [mover:disc]
+    effects:
+      - lua: "SetValue(MapVar(disc_down), 0)"
     else_effects:
       - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
     text: The disc rises up the Well to the landing.
+    notes: "set:disc: up only (the disc up, its grille open)."
   - id: evt:disc_grille
     preset: script
     source: door:disc_grille
     title: Black grille
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     effects:
       - text: The grille opens when the disc is here. Step onto the disc and touch it to ride down.
     else_effects:
       - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
+  - id: evt:disc_restore
+    preset: script
+    trigger: load
+    effects:
+      - lua: |-
+          if IsAtLeast(MapVar(disc_down), 1) then
+              evt.SetDoorState(13, DoorAction.Close)
+              evt.SetDoorState(32, DoorAction.Open)
+          else
+              evt.SetDoorState(32, DoorAction.Close)
+              if IsQBitSet(QBit(110500)) then
+                  evt.SetDoorState(13, DoorAction.Open)
+              end
+          end
+    notes: "set:disc: on every load the disc and its grille take the places disc_down says (no-ops in a kept state): a reset map (disc up, grille shut, darzog_slain kept) opens the grille; a save from before disc_down (the disc down, the variable 0) brings the disc up to its rest."
   - id: evt:disc_ride_top
     preset: switch
     source: switch:disc_ride_top
     title: Darzog's disc
-    condition: {qbit: m21_darzog_slain}
-    toggles: [mover:disc, door:disc_grille]
+    condition: {qbit: darzog_slain}
+    opens: [mover:disc]
+    closes: [door:disc_grille]
+    effects:
+      - lua: "SetValue(MapVar(disc_down), 1)"
     else_effects:
       - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
     text: The disc hums and glides down the Well.
+    notes: "set:disc: down only (the disc down, its grille shut)."
   - id: evt:door_bedchamber
     preset: door
     source: door:bedchamber
@@ -241,32 +280,32 @@ events:
     source: room:out_e
     trigger: step
     effects:
+      - text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
       - leave: exit:lake_island
-    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
     notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
   - id: evt:fall_n
     preset: script
     source: room:out_n
     trigger: step
     effects:
+      - text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
       - leave: exit:lake_island
-    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
     notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
   - id: evt:fall_s
     preset: script
     source: room:out_s
     trigger: step
     effects:
+      - text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
       - leave: exit:lake_island
-    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
     notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
   - id: evt:fall_w
     preset: script
     source: room:out_w
     trigger: step
     effects:
+      - text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
       - leave: exit:lake_island
-    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
     notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
   - id: evt:great_library
     preset: chest
@@ -301,13 +340,13 @@ events:
     sets: {qbit: library_door_opened}
     else_effects:
       - message: "Locked. The keyhole is cut as a sorcerer's sigil. The Chief Librarian keeps the key to the upper stair in his cabinet in the great library, south of the Well."
-    text: The High Sorcerer's key turns in the carved lock.
+    text: The library key turns in the carved lock.
   - id: evt:portrait
     preset: door
     source: door:portrait
     side: room:bedchamber
     title: Darzog's portrait
-    condition: {qbit: m21_darzog_slain}
+    condition: {qbit: darzog_slain}
     action: open
     else_effects:
       - message: "The Baron in oils, haughty and gaunt. Behind the painted eyes something moves: an old man's face, pressed to the other side, then gone. The frame will not shift while Darzog's spell holds it."
@@ -424,5 +463,8 @@ events:
     title: Works gate winch
     opens: [door:works_gate]
     sets: {map_var: works_gate_up}
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_winch\", 1856, 640, 960)"
     text: "Chains rattle: across the works, the gate to the east stair grinds up."
+    notes: "AU's winch (ratchet and rope) heard at the works gate (1856, 640, 960), which it raises."
 notes: Wiring of XD-12 (written by output/studio_cal/xd12/tools/dress.py).

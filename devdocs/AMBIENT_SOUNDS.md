@@ -4,7 +4,7 @@ Sounds placed in a map (2026-11-04, world rules and fires 2026-11-06; MM9's 1378
 waves along a shore, wind in a canyon, a torch's crackle, a room's hum. Each is heard within its outer radius, at full
 volume inside its inner radius.
 
-## Scene data (BLV scenes)
+## Scene data (BLV and ODM scenes)
 
 ```yaml
 ambient_sounds:
@@ -22,8 +22,11 @@ ambient_sounds:
 ```
 
 `game/audio/WorldAmbientSounds.h` (`WorldAmbientSound`), parsed by `game/maps/IndoorSceneYml.cpp` into
-`IndoorMapData::ambientSounds` (an overlay's list replaces the base scene's) and offered by
-`IGameplayWorldRuntime::ambientSounds()`.
+`IndoorMapData::ambientSounds` and, outdoors (E9, 2026-11-20: the same block in an ODM's scene, through
+`parseSceneAmbientSoundsNode`), by `game/maps/OutdoorSceneYml.cpp` into `OutdoorMapData::ambientSounds` (an overlay's
+list replaces the base scene's), and offered by `IGameplayWorldRuntime::ambientSounds()` (`IndoorWorldRuntime`,
+`OutdoorWorldRuntime`). No shipped MM6-MM9 outdoor scene has one. Map Studio writes them from objects.yml `sounds`
+indoors and sketch.yml `sounds` outdoors.
 
 ## World rules
 
@@ -48,8 +51,14 @@ evt.SetSprite state if it has one and a script set that, else by `start_on` (`wo
 comes in at its outer radius and stays until 1.1 x that (`AmbientSoundStopMargin`), then stops. Looping sounds without a wait play as one loop; with a
 wait, each play is a one-shot followed by a random wait (a new arrival starts somewhere in the wait, so a shore's
 waves do not start together). Positional playback uses the engine's own inner/outer radius falloff
-(`GameAudioSystem::playAssetInstance`). A new map's list stops every sound of the old one; without a running map
-nothing plays.
+(`GameAudioSystem::playAssetInstance`). A sound's own `pan: false` keeps it centred with its falloff (a bed under the
+whole map, a sound overhead); it pans only when the world's rules and its own field both say so
+(`worldAmbientSoundPans`, D-48). A looping sound without a wait starts at a random point of its clip
+(`worldAmbientSoundStartFraction`, the runtime's generator), so the emitters of one bed that come into reach together
+do not play in step; one-shots and sounds with a wait start at the clip's beginning. A new map's list stops every sound of the old one; without a running map
+nothing plays. Headless scenarios draw no frames and play none of them; to check one, run the game
+(`tools/run_game.sh --isolated ...`) with `OPENYAMM_AUDIO_TRACE=1`: each start logs `play source=assetInstance` with
+its path and position.
 
 ## MM9 maps (the converter)
 

@@ -1,0 +1,62 @@
+# Xeen playthrough, segment 37: Darzog's door (X3, X2, XD-12), the end of Act II. East along X3's road and over its
+# edge into Rivercity; Medin's boat (free since Q-C13, segment 17) rows the party to the island; Darzog's door opens to
+# the Skeleton Key (m13.darzog_door); a look inside the gate hall and out again by the tower door.
+# Routes: devdocs/xeen/briefs/x3/L4/playtest.yml (the east edge), x2/L4/playtest.yml (Medin's boat, Darzog's door).
+# Quest logic: source/quests/m13.yml.
+#   python3 tests/playthrough/xeen/run.py 37
+id: xeen.playthrough.37_darzogs_door
+title: "Xeen playthrough 37: Medin rows the party to the island; Darzog's door opens to the Skeleton Key"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/35_tower_of_high_magic.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [111260, 111240, 112261, 110201]}
+  # East along X3's road to its edge: the travel prompt names Rivercity.
+  - set_pose: {map: xeen_x3.odm, x: 20480, y: 12032, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 21504, y: 12288, z: 1024, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 24064, y: 12288, z: 1056, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - play_lua: {source: "close()"}
+  # Medin's boat rows the party to the island.
+  - set_pose: {map: xeen_x2.odm, x: -9779, y: 1272, z: 640, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(141); wait(1); close()"}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -14848, y: 1792, radius: 200}}
+  # Darzog's Tower: the door on the island's east side opens to the Skeleton Key (m13.darzog_door).
+  - walk_to: {x: -15731, y: 3014, z: 768, z_tolerance: 600, radius: 160, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x2.odm, x: -15731, y: 3014, z: 768, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd12.blv}
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end; log('in Darzog\\'s Tower: ' .. party())"}
+  # Out again by the tower door onto the island (Act III begins here).
+  - execute_event: {id: 41}
+  - play_lua: {source: "wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {qbit_set: [111260, 112261, 111100, 111120, 110100, 111160, 111181, 111221, 111202, 111240]}
+  # Pray N Pay on Rivercity's south street (house 4058): the gate hall's Floating Eyes (11570, a paralysing missile)
+  # shoot as the party comes in, and their shots already in flight land even when every monster in the tower is dead
+  # (A3 session 32: one to three members Paralyzed in 12 of 19 probes). The temple heals them (D-82).
+  - set_pose: {map: xeen_x2.odm, x: 276, y: 640, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4058, min: 0}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        if not has_item(12100) then error("no Skeleton Key") end
+        log("37 done: classes " .. classes() .. "; experience " .. experience(0) .. " " .. experience(1) .. " " .. experience(2) .. " " .. experience(3) .. "; gold " .. gold() .. "; Megacredits " .. item_count(12192))
+  - save_game: {name: "37 Darzog's door", path: output/playthrough/xeen/checkpoints/37_darzogs_door.oysav}

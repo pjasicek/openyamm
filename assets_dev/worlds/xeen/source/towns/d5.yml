@@ -1,0 +1,19 @@
+# D5 Desert of Doom and the Great Pyramid: the people placed outdoors (MAPS D5). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md. Built (A6's install of 2026-11-21 01:24): no house, no arrival; no town
+# (Bosco's Hall is its own BLV, dd25.yml, sharing this map's id block; D5's `thing:bosco_door` at `entrance:dd25_door`,
+# cell (63, 46), is sealed with a message until A8 builds DD-25). Gurodel the giant king (Q-D16) is A3's. The dragon hermit
+# moved to X7's south slope (D-5.2, x7.yml); his id 5451 is retired.
+key: D5
+stem: xeen_d5.odm
+town: Desert of Doom
+face: darkside
+blocks:
+  houses: [4701, 4750]
+  npcs: [5401, 5500]
+
+houses: []
+
+npcs:
+  - {id: 5452, name: Gurodel, title: King of the People, profession: Noble, house: none, place: "D5, Gurodel's hold on the highlands' shelf (poi:gurodel, cell 86, 46): A6's actor at (11520, 8499, 2688) on the People's row 11085", greet: ["Greetings, little ones.", "Greetings again, little ones."], source: "dark/aaze0013:19"}
+  # ---- A3's story people, added in the fourth session (a talking actor; portrait batch 6) ----
+  - {id: 5453, name: The Dragon Pharaoh, profession: Noble, house: none, place: "DD-15, the throne hall on the Great Pyramid's fourth floor (A8)", greet: ["You bring my orb. Few climb so far, and fewer climb back down.", "Rest where you can, Chosen Ones."], note: "M28, M30, M36 (A3)"}

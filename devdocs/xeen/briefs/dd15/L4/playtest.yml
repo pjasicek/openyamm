@@ -1,0 +1,304 @@
+# Playtest of the Great Pyramid (DD-15, L4): the critical path from D5's green door (the party starts on D5 and moves
+# in to entrance:d5_door as A6's door does) to the Dragon Pharaoh and the way
+# back down by his lift and out. A level-45 party starts at entrance:d5_door (0, 4736) facing south; the welcome statue
+# speaks (first arrival 117560). The stair door refuses ("Access denied!") before the torches. The four torches (the
+# north-east chapel through Information, with its plaque; north-west, south-west, south-east): each shows its chapel's
+# two niche mummies (actors 33-40, D-61 Q2), a second pull "The lever is stuck."; the fourth calls m28.torches (111561)
+# and the stair door opens. Up the grand stair (the lift refuses at its foot), along the processional to the registry:
+# a wrong answer "Incorrect!", then 1701: m28.registry_lock (111562), the door opens; the plaque. Up the registry stair
+# to the pad hall (m28.maze, 117576); each pad to its cell (the party is set on the pad: a step onto it) and the pad back (sun: its chest; eye: the Overseer's map;
+# scarab: the rack's find once, 117578, then "Nothing here."), the bird to its cell and its second bird to the far
+# cell, the far cell's pad back; up the apex stair. L4: the Prime Directive; the lift refused before the throne hall;
+# the throne hall (117577); the Pharaoh (actor 49, npc 5453): The orb without the orb ("Bring it."); the Brew's two
+# clicks (the warning, then 50 fire on the clicking member: "He did warn you."); the bedchamber: the tapestry, the bed,
+# the safe (a wrong number "No Luck.", then 20-30-1: the chest, 117574), the button (the secret way, 117575); the lift
+# called up, down to the grand stair and up again; last, out by the green doors to D5's entrance:dd15_door
+# (0, -7168) facing 512. Numbers are ids.lock.yml's (events, doors). Run with --world xeen (four.sh).
+id: xeen.dd15.l4.walk
+title: Great Pyramid (DD-15 L4), the torches, the registry, the pads, the Pharaoh, the lift and out
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 45, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 45, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 45, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 45, skills: [], equipment: {}}
+  - assert: {map: xeen_d5.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # In by D5's green door (A6's door:dd15 names entrance:d5_door: (0, 4736, 0) facing 1536).
+  - lua_event: {source: "evt.MoveToMap(0, 4736, 0, 1536, 0, 0, 0, 0, \"xeen_dd15.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd15.blv}
+  - assert: {party_position: {x: 0, y: 4736, radius: 48, z_min: -8, z_max: 8, facing: 1536, facing_within: 64}}
+  - advance_runtime: {seconds: 2.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Welcome to the Royal Pyramid!"}}
+  - play_lua: {source: "close(); if not qbit(117560) then error('arrived_once 117560 not set') end"}
+  # The stair door before the torches.
+  - set_pose: {map: xeen_dd15.blv, x: -1024, y: -2950, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(1500); click(29); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Access denied!"}}
+  - play_lua: {source: "close(); if door_state(22) ~= 'closed' then error('the stair door is not shut') end"}
+  # The north-east torch: through Information and the chapel's double doors; the plaque, the lever.
+  - set_pose: {map: xeen_dd15.blv, x: 900, y: 3200, z: 0, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "open_door(24, 13)"}
+  - walk_to: {x: 1800, y: 3200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500)"}
+  - walk_to: {x: 3840, y: 3250, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(20, 5)"}
+  - walk_to: {x: 3840, y: 4000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 3840, y: 4850, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {actor_visible: {actor_index: 33, monster_id: 11270, hidden: true}}
+  - assert: {actor_visible: {actor_index: 34, monster_id: 11270, hidden: true}}
+  - execute_event: {id: 76}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Light all four"}}
+  - play_lua: {source: "close(); status(); click(72); wait(0.5); if not qbit(117561) then error('torch_ne not set') end"}
+  - assert: {actor_visible: {actor_index: 33, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 34, monster_id: 11270, hidden: false, dead: false}}
+  - play_lua: {source: "status(); click(72); wait(0.5); local s = status(); if not string.find(s, 'The lever is stuck.', 1, true) then error('the second pull said: ' .. s) end; clear_hostiles(2000)"}
+  # The north-west, south-west and south-east torches.
+  - set_pose: {map: xeen_dd15.blv, x: -3840, y: 4850, z: 0, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11270, hidden: true}}
+  - play_lua: {source: "status(); click(74); wait(0.5); if not qbit(117562) then error('torch_nw not set') end"}
+  - assert: {actor_visible: {actor_index: 35, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 36, monster_id: 11270, hidden: false, dead: false}}
+  - play_lua: {source: "clear_hostiles(2000); close()"}
+  - set_pose: {map: xeen_dd15.blv, x: -2816, y: -3450, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 39, monster_id: 11270, hidden: true}}
+  - play_lua: {source: "clear_hostiles(1200); status(); click(81); wait(0.5); if not qbit(117563) then error('torch_sw not set') end"}
+  - assert: {actor_visible: {actor_index: 39, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 40, monster_id: 11270, hidden: false, dead: false}}
+  - play_lua: {source: "clear_hostiles(2000); close(); if qbit(111561) then error('m28.torches set after three') end; if door_state(22) ~= 'closed' then error('the stair door opened after three torches') end"}
+  - set_pose: {map: xeen_dd15.blv, x: 2816, y: -3450, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 37, monster_id: 11270, hidden: true}}
+  - play_lua: {source: "clear_hostiles(1200); status(); click(77); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The fourth torch catches"}}
+  - assert: {actor_visible: {actor_index: 37, monster_id: 11270, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 38, monster_id: 11270, hidden: false, dead: false}}
+  - play_lua: {source: "close(); clear_hostiles(2000); wait(3); if not qbit(117564) or not qbit(111561) then error('torch_se or m28.torches not set') end; if door_state(22) ~= 'open' then error('the stair door did not open: ' .. door_state(22)) end"}
+  # Through the stair door; the lift refuses at its foot; up the grand stair.
+  - set_pose: {map: xeen_dd15.blv, x: -1024, y: -2900, z: 0, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -1024, y: -3550, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -350, y: -4032, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "It answers only to the Pharaoh's guests."}}
+  - play_lua: {source: "close(); if door_state(1) ~= 'closed' then error('the cage moved') end"}
+  - walk_to: {x: -1696, y: -4790, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1696, y: -3560, z: 768, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -640, y: -3500, z: 768, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: -2900, z: 768, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The processional to the registry: "Incorrect!", then 1701.
+  - walk_to: {x: -896, y: -2300, z: 768, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -896, y: 0, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -896, y: 2400, z: 768, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1350, y: 3200, z: 768, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2500); close(); status(); click(55); wait(0.5)"}
+  - answer_input: {text: "1234"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = status()
+        if not string.find(s, "Incorrect!", 1, true) then error("the wrong registry said: " .. s) end
+        if qbit(111562) then error("registry set on a wrong answer") end
+        close(); click(55); wait(0.5)
+  - answer_input: {text: "1701"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "smug tune"}}
+  - play_lua: {source: "close(); wait(8); if not qbit(111562) then error('m28 registry 111562 not set') end; if door_state(18) ~= 'open' then error('the registry door did not open: ' .. door_state(18)) end"}
+  - execute_event: {id: 57}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "NCC-1701"}}
+  - play_lua: {source: "close()"}
+  # Up the registry stair to the pad hall: m28.maze.
+  - walk_to: {x: -1900, y: 3200, z: 768, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2720, y: 3580, z: 768, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2720, y: 1560, z: 1536, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2000, y: 1472, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 1472, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -960, y: 1500, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - set_pose: {map: xeen_dd15.blv, x: -960, y: 950, z: 1536, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Every pad in this hall"}}
+  - play_lua: {source: "close(); if not qbit(117576) then error('maze_seen 117576 not set') end; clear_hostiles(3000)"}
+  # The sun pad, its chest, the pad back.
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -960, y: -464, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -2688, y: -512, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -2688, y: -512, radius: 250, z_min: 1528, z_max: 1550}}
+  - walk_to: {x: -2432, y: -500, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(14); close(); if gold() <= g then error('the sun chest held no gold') end"}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -2176, y: -848, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -960, y: 640, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -960, y: 640, radius: 250, z_min: 1528, z_max: 1550}}
+  # The eye pad: the Overseer's map; back.
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 128, y: -464, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: 2432, y: -512, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 2432, y: -512, radius: 250, z_min: 1528, z_max: 1550}}
+  - play_lua: {source: "clear_hostiles(1500); close()"}
+  - execute_event: {id: 51}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The bird, then the second bird."}}
+  - play_lua: {source: "close()"}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 2944, y: -848, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -960, y: 640, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -960, y: 640, radius: 250, z_min: 1528, z_max: 1550}}
+  # The scarab pad: the rack's find once; back.
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 1344, y: -464, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: 2432, y: 896, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 2432, y: 896, radius: 250, z_min: 1528, z_max: 1550}}
+  - play_lua: {source: "clear_hostiles(1500); close()"}
+  - walk_to: {x: 2950, y: 640, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(54); wait(0.5); local s = status(); if not string.find(s, 'worth taking', 1, true) then error('the rack said: ' .. s) end; if not qbit(117578) then error('scarab_find 117578 not set') end; stow()"}
+  - play_lua: {source: "status(); click(54); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('the rack again said: ' .. s) end"}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 2944, y: 560, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -960, y: 640, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -960, y: 640, radius: 250, z_min: 1528, z_max: 1550}}
+  # The bird pad and its pad back; the bird again, the second bird to the far cell, the far cell's pad back.
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -48, y: 640, z: 1536, yaw_degrees: 0}, expect_stop: {map: xeen_dd15.blv, x: -128, y: -1920, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -128, y: -1920, radius: 250, z_min: 1528, z_max: 1550}}
+  - play_lua: {source: "clear_hostiles(1500); close()"}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 384, y: -2256, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -960, y: 640, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -960, y: 640, radius: 250, z_min: 1528, z_max: 1550}}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -48, y: 640, z: 1536, yaw_degrees: 0}, expect_stop: {map: xeen_dd15.blv, x: -128, y: -1920, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -128, y: -1920, radius: 250, z_min: 1528, z_max: 1550}}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -128, y: -2256, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: 1280, y: -1920, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 1280, y: -1920, radius: 250, z_min: 1528, z_max: 1550}}
+  - play_lua: {source: "clear_hostiles(1500); close()"}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: 1280, y: -2256, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: -960, y: 640, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: -960, y: 640, radius: 250, z_min: 1528, z_max: 1550}}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -48, y: 640, z: 1536, yaw_degrees: 0}, expect_stop: {map: xeen_dd15.blv, x: -128, y: -1920, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - movement_segment: {input: forward, seconds: 0.4, loose_tolerance: true, tolerance_xy: 400, tolerance_z: 40, start: {map: xeen_dd15.blv, x: -128, y: -2256, z: 1536, yaw_degrees: 270}, expect_stop: {map: xeen_dd15.blv, x: 1280, y: -1920, z: 1536}}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 1280, y: -1920, radius: 250, z_min: 1528, z_max: 1550}}
+  # The far cell's door and the apex stair to L4.
+  - walk_to: {x: 1880, y: -2432, z: 1536, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(18, 3)"}
+  - walk_to: {x: 2400, y: -2432, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2880, y: -2630, z: 1536, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2880, y: -1680, z: 2304, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2624, y: -1250, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2624, y: -700, z: 2304, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 2350, y: -1024, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # D-89 (2026-11-22): the antechamber's door wants the Queen's pyramid key (m28.antechamber_door).
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Queen Kalindra, they say, keeps the key."}}
+  - play_lua: {source: "close(); if door_state(2) == 'open' then error('the antechamber door opened without the key') end"}
+  - grant_item: {item_id: 12348}
+  - play_lua: {source: "open_door(17, 2)"}
+  - walk_to: {x: 1700, y: -1024, z: 2304, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000)"}
+  # The Prime Directive; the lift refused before the throne hall.
+  - execute_event: {id: 7}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Prime Directive: Obey the Ancients."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 640, y: -3020, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "It answers only to the Pharaoh's guests."}}
+  - play_lua: {source: "close(); if door_state(1) ~= 'closed' then error('the cage moved') end"}
+  # The great doors and the throne hall (117577); the Pharaoh talks (npc 5453).
+  - walk_to: {x: 448, y: -950, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if qbit(117577) then error('throne_reached set too early') end; open_door(30, 24)"}
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "if not qbit(117577) then error('throne_reached 117577 not set') end"}
+  - walk_to: {x: -384, y: 1300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - interact_actor: {actor_index: 49}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "The orb"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Bring it."}}
+  - play_lua: {source: "close(); close()"}
+  # The Brew of Pure Power: the warning, then a drink burns the clicking member.
+  - walk_to: {x: 512, y: 1420, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - setup_shortcut: {kind: immortal, value: false}
+  - console: {line: "hp full"}
+  - assert: {party_health: {full: true}}
+  - execute_event: {id: 8}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Get away from that!"}}
+  - play_lua: {source: "close()"}
+  - assert: {party_health: {full: true}}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "He did warn you."}}
+  - play_lua: {source: "close()"}
+  - assert: {party_health: {full: false}}
+  - setup_shortcut: {kind: immortal, value: true}
+  # The bedchamber: the tapestry, the bed, the safe (wrong, then 20-30-1), the button.
+  - walk_to: {x: 1300, y: 1600, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(19, 4)"}
+  - walk_to: {x: 2000, y: 1600, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 69}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "twenty, left; thirty, right; one, left"}}
+  - play_lua: {source: "close(); status(); click(6); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('the bed said: ' .. s) end"}
+  - walk_to: {x: 2650, y: 1536, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(64); wait(0.5)"}
+  - answer_input: {text: "5"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "local s = status(); if not string.find(s, 'No Luck.', 1, true) then error('the wrong combination said: ' .. s) end; if qbit(117574) then error('the safe opened on a wrong number') end; close(); click(64); wait(0.5)"}
+  - answer_input: {text: "20"}
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "30"}
+  - advance_runtime: {seconds: 0.5}
+  - answer_input: {text: "1"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "if not qbit(117574) then error('safe_open 117574 not set') end; local g = gold(); take_chest(); close(); if gold() <= g then error('the safe held no gold') end"}
+  - walk_to: {x: 1850, y: 2048, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(10); wait(3); if not qbit(117575) then error('button 117575 not set') end; if door_state(19) ~= 'open' then error('the secret way did not open: ' .. door_state(19)) end"}
+  - walk_to: {x: 1850, y: 2432, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1200, y: 2432, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The lift after the audience: called up, down to the grand stair and up again.
+  - walk_to: {x: 1024, y: 1900, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -300, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 448, y: -1100, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 256, y: -3000, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000); status(); click(12); wait(8); if door_state(1) ~= 'open' then error('the cage was not called up: ' .. door_state(1)) end; if door_state(14) ~= 'open' then error('the top gate did not open') end"}
+  - walk_to: {x: 256, y: -3584, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(58); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: -8, z_max: 40}}
+  - play_lua: {source: "if door_state(14) ~= 'closed' then error('the top gate stayed open over the empty shaft') end"}
+  # A guard of the ground floor meets the cage at the bottom (merge point 33's storey-bound clears no longer reach it
+  # from the top): fight it.
+  - walk_to: {x: -500, y: -3584, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 256, y: -3584, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(59); wait(8)"}
+  - assert: {party_position: {x: 256, y: -3584, radius: 160, z_min: 2296, z_max: 2340}}
+  - walk_to: {x: 256, y: -2900, z: 2304, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Out by the green doors to D5.
+  - set_pose: {map: xeen_dd15.blv, x: 0, y: 4700, z: 0, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 0, y: 4900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 34}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d5.odm}
+  - assert: {party_position: {x: 0, y: -7168, radius: 128, facing: 512, facing_within: 64}}
+  - play_lua: {source: "log('D5 arrival: ' .. party())"}

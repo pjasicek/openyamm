@@ -1,0 +1,145 @@
+# Q-D28 Cyrano's Tribble (QUESTS 2.2 Q-D28; D-65). Owner: A3. Format: QUESTS_FORMAT.md.
+# The Olympus Sewer (DD-26) under D7's Olympus: a marble ring of channels round Cyrano Jones's den, "Pets Unlimited"
+# (house 4815, npc 5614, A4's towns/dd26.yml on D7's block). Cyrano sells a tribble, a useless and expensive pet (A2's
+# 12362), for 25,000 gold (D-65 Q58: the source's 100,000 is ten D7 tolls; 25,000 is two and a half), as often as the
+# party likes; to an owner he says the source's TRIBBLES line. Four drains round the ring each hold a piece of a note
+# (TR, IB, BL, ES), and a scroll by the stair says "Search the drains.". A voice at the bronze door in the cistern asks
+# the password: "tribbles" or "tribble" opens the offering vault for good (map qbit 117805, Xeen.tribbleDoor). Cyrano's
+# bed holds one random treasure-6 item. No experience (D-65 Q60): the pet, the vault's chest and the bed are the pay.
+# The sale asks first (`ask:`, the request with Yes and No buttons since merge point 28; D-66 item 6's rule); Yes pays
+# if the party has the gold; No, or too little gold, is "Maybe some other time." (dark/aaze0038:18).
+id: Q-D28
+title: Cyrano's Tribble
+act: VI
+kind: side
+status: full
+giver: 5614          # Cyrano Jones, the Salesman (Pets Unlimited, DD-26)
+maps: [D7, DD-26]
+level: 45
+block: 108
+after: []
+source: "QUESTS Q-D28; D-65 (devdocs/xeen/mockups/act6_a8_decisions.md Q57-Q60, changes 1-2); dark/aaze0038:0-19, aaze0037:1"
+
+qbits:
+  bought: {id: 113560, note: "the party has bought a tribble from Cyrano at least once (the TRIBBLES line shows after it)"}
+  # DD-26's map qbits (block 117800-117839, D-65; 117807-117839 spare)
+  arrived_once: {id: 117800, map: DD-26, note: "the stair's arrival line once"}
+  drain_tr: {id: 117801, map: DD-26, note: "drain 1 (the ring's west side): the piece TR"}
+  drain_ib: {id: 117802, map: DD-26, note: "drain 2 (the spillway's weir): the piece IB"}
+  drain_bl: {id: 117803, map: DD-26, note: "drain 3 (the cistern): the piece BL"}
+  drain_es: {id: 117804, map: DD-26, note: "drain 4 (the outfall): the piece ES"}
+  door_open: {id: 117805, map: DD-26, note: "the tribble door answered: the bronze pair opens for good (Xeen.tribbleDoor; DD-26's load event keeps it open)"}
+  bed: {id: 117806, map: DD-26, note: "Cyrano's bed searched once (one random treasure-6 item)"}
+
+autonotes:
+  tribble_note: {id: 4680, text: "The tribble note, in four pieces from the drains of the Olympus sewer: TR, IB, BL, ES.", category: Misc}
+
+items:
+  tribble: "Cyrano's sale (25,000 gold, repeatable); a gold sink: it does nothing else (D-65 Q58)"
+
+npcs:
+  5614:              # Cyrano Jones, the Salesman
+    topics:
+      - n: 1
+        label: Tribbles
+        repeatable: true
+        ask:
+          text: "How would you like one of these little furry creatures? They make great companions and they are only 25,000 gold. What do you say?"
+          declined: "Maybe some other time."
+        states:
+          - when: {gold: 25000}
+            text: "Cyrano counts the gold twice and hands you a small furry creature. It purrs. \"A wonderful choice. They practically look after themselves.\""
+            do: [{pay: 25000}, {give: tribble}, {set: bought}]
+          - text: "Maybe some other time."
+      - n: 2
+        label: Companions
+        show: {qbit: bought}
+        text: "You know TRIBBLES are great companions but you'll be surprised what doors they can open for you!"
+
+hooks:
+  arrival:
+    map: DD-26
+    where: "the arrival at the marble stair's foot (entrance:d7_stair), once"
+    sets: [arrived_once]
+    once: true
+    text: "Marble steps down into running water. Even the gods' drains are marble."
+  scroll:
+    map: DD-26
+    where: "the pinned scroll by the stair (D-65 change 1): its hover is \"Scroll\" (dark/aaze0038:10); its click calls this (:11)"
+    text: "Search the drains."
+  drain_tr:
+    map: DD-26
+    where: "drain 1 in the floor of the ring's west side; hover \"Drain\" (dark/aaze0038:0). Once, then the source's \"Drain\" on the status line"
+    sets: [drain_tr]
+    once: true
+    else_text: "Drain"
+    else_status: true
+    states:
+      - when: {all: [{qbit: drain_ib}, {qbit: drain_bl}, {qbit: drain_es}]}
+        text: "You find a piece of a note that reads: TR"
+        do: [{autonote: tribble_note}]
+      - text: "You find a piece of a note that reads: TR"
+  drain_ib:
+    map: DD-26
+    where: "drain 2 at the spillway's overflow weir; hover \"Drain\". Once, then \"Drain\" on the status line"
+    sets: [drain_ib]
+    once: true
+    else_text: "Drain"
+    else_status: true
+    states:
+      - when: {all: [{qbit: drain_tr}, {qbit: drain_bl}, {qbit: drain_es}]}
+        text: "You find a piece of a note that reads: IB"
+        do: [{autonote: tribble_note}]
+      - text: "You find a piece of a note that reads: IB"
+  drain_bl:
+    map: DD-26
+    where: "drain 3 on the cistern's walkway; hover \"Drain\". Once, then \"Drain\" on the status line"
+    sets: [drain_bl]
+    once: true
+    else_text: "Drain"
+    else_status: true
+    states:
+      - when: {all: [{qbit: drain_tr}, {qbit: drain_ib}, {qbit: drain_es}]}
+        text: "You find a piece of a note that reads: BL"
+        do: [{autonote: tribble_note}]
+      - text: "You find a piece of a note that reads: BL"
+  drain_es:
+    map: DD-26
+    where: "drain 4 at the outfall's barred mouth; hover \"Drain\". Once, then \"Drain\" on the status line"
+    sets: [drain_es]
+    once: true
+    else_text: "Drain"
+    else_status: true
+    states:
+      - when: {all: [{qbit: drain_tr}, {qbit: drain_ib}, {qbit: drain_bl}]}
+        text: "You find a piece of a note that reads: ES"
+        do: [{autonote: tribble_note}]
+      - text: "You find a piece of a note that reads: ES"
+  tribble_door:
+    map: DD-26
+    where: "the bronze pair in the cistern's east wall: the door's event calls Xeen.tribbleDoor(<event id>, continueStep), which asks dark/aaze0038:5 as the typed prompt's own text (no message before it, D-65 change 2) and runs this hook on \"tribbles\" or \"tribble\" (any case, :6, :7); true opens the leaves, for good (DD-26's load event opens them while 117805 is set)"
+    sets: [door_open]
+    reads: [door_open]   # Xeen.tribbleDoor asks nothing once it is set; DD-26's load event opens the leaves on it
+    text: "Correct! You may pass."
+  tribble_wrong:
+    map: DD-26
+    where: "the same door, any other answer (dark/aaze0038:8); ask again on the next click"
+    text: "Wrong! You may not pass!"
+  bed:
+    map: DD-26
+    where: "Cyrano's bed in the den; hover \"Bed\" (dark/aaze0038:16). Once one random treasure-6 item, then the source's line (:17)"
+    sets: [bed]
+    once: true
+    do: [{treasure: 6}]
+    text: "Under the straw tick, something Cyrano has not got round to selling yet."
+    else_text: "Nothing here."
+  stair_exit:
+    map: DD-26
+    where: "the marble stair's top under D7's grate: the exit preset's meaning (D-24) to D7's entrance:dd26_stair"
+    question: "Climb up to Olympus?"
+
+riddles:
+  - {answer: tribbles, where: "DD-26's tribble door (Xeen.tribbleDoor)", said_by: "the four drains' note pieces (TR, IB, BL, ES; the autonote tribble_note) and Cyrano Jones to a tribble's owner (dark/aaze0038:15)"}
+
+rewards: {xp: 0, gold: -25000}
+playthrough: "DD-26: the scroll; the four drains; Cyrano (Tribbles: no, then yes with 25,000 gold; Companions); the tribble door wrong, then 'tribbles'; the bed; up the stair to D7."

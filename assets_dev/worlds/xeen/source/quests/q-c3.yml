@@ -1,0 +1,79 @@
+# Q-C3 The Tiara; pays promotion T1-E (QUESTS 2.1, 3.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# XD-21's bits are the built map's. Reward: A2's Roxanne's Tiara (a copy, an artifact) and T1-E (Thief -> Rogue).
+id: Q-C3
+title: The Tiara
+act: II
+kind: side
+status: full
+giver: 4404          # Princess Roxanne (A4: towns/xd07.yml)
+maps: [XD-07, X2, XD-21]
+level: 14
+block: 53
+after: [m5.audience]
+source: "QUESTS Q-C3; xeen/aaze0066:0-3, :5-6"
+
+qbits:
+  arrived_once: {id: 110304, map: XD-21, note: "the map's own: first arrival, shows the arrival hook once (A8)"}
+  started: {id: 112060, journal: "Princess Roxanne's tiara was stolen by the Rivercity robbers, who hide under the bridge.", until: [done]}
+  tiara_recovered: {id: 110300, map: XD-21}
+  robber_boss_slain: {id: 110301, map: XD-21}
+  robbers_den_found: {id: 110302, map: XD-21}
+  robbers_vault_opened: {id: 110303, map: XD-21}
+  done: {id: 112061}
+
+items:
+  roxannes_tiara: "Princess Roxanne's tiara; XD-21's vault; Roxanne takes it. Was MM7 900."
+  roxannes_tiara_gift: "Roxanne's Tiara, the copy she gives as thanks (A2's artifact row)."
+  ring_of_keys: "map-local ring of keys of XD-21 (A8). Was MM7 629."
+
+npcs:
+  4404:              # Princess Roxanne
+    topics:
+      - n: 1
+        label: Tiara
+        states:
+          - when: {qbit: done}
+            text: "It is always exhilarating to see adventurers such as yourselves."
+          - when: {item: roxannes_tiara}
+            text: "You have recovered my tiara and gotten rid of that bothersome robber gang. I am pleased. As a reward I give you this treasure: its twin, which I never liked as much. And the thieves among you will be called Rogues from today. I'll have it written down."
+            do: [{take: roxannes_tiara}, {set: done}, {clear: started}, {give: roxannes_tiara_gift}, {xp: 3000},
+                 {promote: tiara}, {xp: 5000}]
+          - when: {qbit: started}
+            text: "I see that you have not recovered my tiara. Please keep trying."
+          - text: "My servants have informed me that my diamond tiara has been stolen from my room. I believe it to be the work of robbers that dwell in Rivercity, under the great bridge. They are led by a devious and cunning boss. They must be stopped and my tiara recovered. Do this and you will be greatly rewarded."
+            do: [{set: started}]
+
+hooks:
+  arrival:
+    map: XD-21
+    where: "the first arrival (built: evt:arrive, a one-shot timer)"
+    text: "The robbers' den, under the great bridge. Somewhere in here the boss keeps Princess Roxanne's tiara. Dice on the tables, wet boots by the bunks, and the river loud overhead."
+  secret_door:
+    map: XD-21
+    where: "the secret way into the den (built: evt:secret_door)"
+    sets: [robbers_den_found]
+  boss:
+    map: XD-21
+    where: "the robber boss's death (built: evt:boss_dead)"
+    sets: [robber_boss_slain]
+    status: true   # F15: he carries the ring of keys (the map's `carries`): looted from his corpse, never a window
+    text: "The Robber Boss falls. A ring of heavy keys hangs at his belt."
+  vault_door:
+    map: XD-21
+    where: "the vault door with the ring of keys (built: evt:vault_door)"
+    sets: [robbers_vault_opened]
+  vault:
+    map: XD-21
+    where: "the vault chest (built: evt:chest_vault): the tiara is an ordinary item in it (F15, 2026-11-21); the map calls this after the chest opens, once, to set the bit"
+    sets: [tiara_recovered]
+    map_gives: {roxannes_tiara: 1}
+    once: true
+  bedroom_chest:
+    map: XD-07
+    gate: beat
+    where: "Roxanne's chest in the royal bedroom (east tower): opens once she has her tiara back; the map's own T3 loot"
+    requires: {qbit: done}
+    fail_text: "The chest is locked with a little silver lock. The Princess's, and she hasn't said you may."
+
+rewards: {xp: 8000, gold: 0}
+playthrough: "XD-07: Roxanne (Tiara). X2: the den under the bridge; XD-21: the boss, the vault door, the vault. XD-07: Roxanne (Tiara): Thieves promoted."

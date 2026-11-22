@@ -1,0 +1,320 @@
+# Xeen playthrough, segment 31: the Golem Dungeon (X3, X5, XD-09), M10's last five Megacredits. West along X3's fen
+# road and over its edge into Winterkill Tundra; the slab door by the lagoon opens to the Golem Stone
+# (m10.golem_door); the dungeon walked: the statue's plaque (m10.golem_plaque), the Wood (the four boughs cut, the seed
+# chest; the statue opens the Stone door), the Stone (the nine blocks, six glowing rocks: the Iron door; the masons'
+# chest), the Iron (the forge chest's Iron Key, the three bolts, the great lock), the Diamond Golem, the vault
+# (m10.golem_vault: five Megacredits, Master of Golems), out by the vault stair, the Diamond door and the tundra door.
+# Routes: devdocs/xeen/briefs/x3/L4/playtest.yml (the west edge), xd09/L4/playtest.yml, playtest_in.yml,
+# playtest_exit.yml. Quest logic: source/quests/m10.yml.
+#   python3 tests/playthrough/xeen/run.py 31
+id: xeen.playthrough.31_golem_dungeon
+title: "Xeen playthrough 31: the Golem Dungeon: the last five Megacredits"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/29_the_keep.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - assert: {qbit_set: [111222]}
+  - assert: {qbit_clear: [111202]}
+  # The packs fill with loot: the party drops what it will not use (keeps quest items, gems and potions).
+  - play_lua:
+      source: |
+        local dropped = 0
+        for entry in string.gmatch(pack_items(), "(%d+)x%d+") do
+          local id = tonumber(entry)
+          if id < 12000 and not (id >= 177 and id <= 186) and id ~= 240 then
+            while discard(id) do dropped = dropped + 1 end
+          end
+        end
+        log("dropped " .. dropped .. " loot items to make room")
+  # West along the fen road to X3's edge: the travel prompt names Winterkill Tundra.
+  - set_pose: {map: xeen_x3.odm, x: -14336, y: 1792, z: 864, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -14848, y: 2816, z: 880, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -18432, y: 2560, z: 992, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -21504, y: 2560, z: 864, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -24064, y: 2560, z: 864, z_tolerance: 600, radius: 128, timeout_seconds: 60, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 22016, y: 3072, radius: 700}}
+  - play_lua: {source: "close()"}
+  # The trader's sledge in a drift below the pass (D-29): +6 food once, and its chest.
+  - set_pose: {map: xeen_x5.odm, x: 12800, y: 4608, z: 992, yaw: 1.21, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        click(89); wait(1)
+        local line = status()
+        for _ = 1, 3 do if not close() then break end end
+        if not string.find(tostring(line), "+6 food", 1, true) then error("the sledge's provisions not taken: " .. tostring(line)) end
+        log("the sledge: " .. tostring(line))
+  # The Golem Dungeon's slab door on X5's east edge by the lagoon: the Golem Stone opens it (m10.golem_door).
+  - set_pose: {map: xeen_x5.odm, x: 18688, y: -3577, z: 960, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd09.blv}
+  - assert: {party_position: {x: 384, y: -2176, radius: 128, z_min: 150, z_max: 240}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The slab door grinds open at a push"}}
+  - play_lua: {source: "close()"}
+  # Down the steps; the Diamond door has nothing on this side.
+  - walk_to: {x: 384, y: -1700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 640, y: -1632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(26); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "no ring or keyhole") then error("the Diamond door said: " .. s) end
+        if door_state(1) ~= "closed" then error("the Diamond door opened from the entry") end
+  # The Hall of the Plaque: the statue's rhyme and the count of boughs.
+  - walk_to: {x: 384, y: -1100, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: -450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(41); wait(1)
+        local s = tostring(status())
+        if not string.find(s, "Four branches remain") then error("the plaque did not count the boughs: " .. s) end
+  - assert:
+      dialog: {text_contains: "Solve the wood"}
+  - play_lua:
+      source: |
+        close()
+        if door_state(5) ~= "closed" then error("the Stone door is not shut") end
+  # The Iron door says what opens it.
+  - walk_to: {x: 1000, y: 384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(1)"}
+  - assert:
+      dialog: {text_contains: "0 of them burn"}
+  - play_lua: {source: "close(); if door_state(3) ~= 'closed' then error('the Iron door is not shut') end"}
+  # The Wood: the trunk, the four boughs.
+  - walk_to: {x: -1000, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(44, 7)"}
+  - walk_to: {x: -1800, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2944, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2944, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(16); wait(1.5)
+        local s = tostring(status())
+        if not string.find(s, "Three branches remain") then error("the low north bough said: " .. s) end
+  - play_lua:
+      source: |
+        status(); click(16); wait(0.5)
+        if not string.find(tostring(status()), "lies cut") then error("a cut bough did not say so") end
+  - walk_to: {x: -2944, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2944, y: -1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(18); wait(1.5)
+        local s = tostring(status())
+        if not string.find(s, "Two branches remain") then error("the low south bough said: " .. s) end
+  # The crown, the high north branch: this bough is broken as blows break it (its on_destroyed counts it).
+  - walk_to: {x: -2944, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -4300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -5300, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -5632, y: 250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -5632, y: 1350, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(12); wait(1.5)
+        local s = tostring(status())
+        if not string.find(s, "One branch remains") then error("the high north bough said: " .. s) end
+  - walk_to: {x: -5632, y: 250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -5632, y: -250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -5632, y: -1350, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        status(); click(14); wait(1.5)
+        local s = tostring(status())
+        if not string.find(s, "Return to the statue") then error("the last bough said: " .. s) end
+  # The heartwood's seed chest.
+  - walk_to: {x: -5632, y: -250, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -6200, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -7050, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(21); if held() ~= 0 then stow() end; close(); log('the seed chest: +' .. (gold() - g) .. ' gold')"}
+  # Back to the statue: the Stone door opens.
+  - walk_to: {x: -5300, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2000, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -900, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: 500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(41); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Stone door grinds open"}
+  - play_lua:
+      source: |
+        close(); wait(4)
+        if door_state(5) ~= "open" then error("the statue did not open the Stone door") end
+  # The Stone: up the stair; the lamp gallery's window; the block field.
+  - walk_to: {x: 384, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 2700, z: 480, z_tolerance: 48, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 384, y: 3200, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -448, y: 3200, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -448, y: 1500, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -448, y: 3200, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1600, y: 3200, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1600, y: 5376, z: 512, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1150, y: 5376, z: 512, z_tolerance: 48, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -200, y: 5376, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The nine blocks, row by row from the north, standing west of each (a pushed block slides east).
+  - walk_to: {x: -200, y: 5180, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(11); wait(3)
+        local s = tostring(status())
+        if not string.find(s, "Stone Block %- Glowing Rock") then error("block 33 said: " .. s) end
+        if door_state(16) ~= "open" then error("block 33 did not slide") end
+        status(); click(10); wait(3)
+        status(); click(9); wait(3)
+        s = tostring(status())
+        if not string.find(s, "Bare stone") then error("block 31 said: " .. s) end
+        status(); click(9); wait(0.5)
+        if not string.find(tostring(status()), "sits in its recess") then error("a pushed block did not say so") end
+  - walk_to: {x: -200, y: 4672, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(6); wait(3); click(7); wait(3); click(8); wait(3)"}
+  - walk_to: {x: -200, y: 4160, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(5); wait(3); click(4); wait(3)"}
+  - walk_to: {x: -200, y: 3650, z: 256, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(3); wait(4)
+        for d = 8, 16 do if door_state(d) ~= "open" then error("block door " .. d .. " is not pushed") end end
+        wait(4)
+        if door_state(3) ~= "open" then error("six rocks did not open the Iron door") end
+  # The east gallery and the masons' store.
+  - walk_to: {x: 200, y: 5376, z: 256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1150, y: 5376, z: 512, z_tolerance: 48, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 5300, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 1600, y: 4864, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "open_door(40, 4)"}
+  - walk_to: {x: 2300, y: 4700, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2700, y: 4560, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(22); if held() ~= 0 then stow() end; close(); log('the masons chest: +' .. (gold() - g) .. ' gold')"}
+  - walk_to: {x: 1600, y: 4864, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 3200, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 3200, z: 512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: 1450, z: 0, z_tolerance: 48, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 384, y: 800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The Iron: the forge chest's Iron Key.
+  - walk_to: {x: 1000, y: 384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1800, y: 384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: 1640, y: 950, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(20)
+        if held() ~= 0 then stow() end
+        close()
+        if item_count(12261) ~= 1 then error("the forge chest did not hold the Iron Key") end
+        log("the forge chest: +" .. (gold() - g) .. " gold, the Iron Key")
+  # The lock hall: the lock refuses with the bolts shot.
+  - walk_to: {x: 2900, y: -256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 2)"}
+  # (clearing stays within 1,000 here: the Diamond hall below lies within 2,400 and must keep its golems)
+  - walk_to: {x: 3500, y: -256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 900, close_dialogs: true}
+  - walk_to: {x: 3500, y: 500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000, close_dialogs: true}
+  - clear_hostiles: {radius: 1000}
+  - play_lua: {source: "click(31); wait(1)"}
+  - assert:
+      dialog: {text_contains: "3 of the three bolts"}
+  - play_lua: {source: "close(); if door_state(20) ~= 'closed' then error('the lid moved with the bolts shot') end"}
+  # Lever 2 (south wall): the south bolt.
+  - walk_to: {x: 4224, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(3); if door_state(19) ~= 'open' then error('the south bolt did not draw') end"}
+  # Lever 3 (east tumbler), thrown back and forth: the bolt follows.
+  - walk_to: {x: 5050, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5550, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5450, y: 120, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(36); wait(3)
+        if door_state(17) ~= "open" then error("the east bolt did not draw") end
+        click(36); wait(3)
+        if door_state(17) ~= "closed" then error("the east bolt did not shoot home again") end
+        if not string.find(tostring(status()), "shoots home") then error("the lever did not say the bolt shot home") end
+        click(36); wait(3)
+        if door_state(17) ~= "open" then error("the east bolt is not drawn after three throws") end
+  # Lever 1 (north tumbler).
+  - walk_to: {x: 5550, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4900, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3776, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3776, y: 1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 4000, y: 1500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(3); if door_state(18) ~= 'open' then error('the north bolt did not draw') end"}
+  # The key turns; the lid slides aside.
+  - walk_to: {x: 3776, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4800, y: 1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(31); wait(1)"}
+  - assert:
+      dialog: {text_contains: "The Iron Key turns"}
+  - play_lua:
+      source: |
+        close(); wait(7)
+        if door_state(20) ~= "open" then error("the great lock did not slide aside") end
+  # The Diamond: down the stair; the Diamond Golem; the vault opens.
+  - play_lua: {source: "if door_state(6) ~= 'closed' then error('the vault door is not shut while the Diamond Golem stands') end"}
+  - walk_to: {x: 4224, y: 1180, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4224, y: 850, z: -32, z_tolerance: 48, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The Diamond Golem and its Iron Golem come up the stair to meet the party: the fight (clear_hostiles) is on the stair.
+  - walk_to: {x: 4224, y: -850, z: -620, z_tolerance: 48, radius: 64, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4224, y: -1350, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        clear_hostiles(6000); wait(5)
+        if not qbit(110600) then error("diamond_slain was not set") end
+        if door_state(6) ~= "open" then error("the vault did not open on the Diamond Golem's death") end
+  # The vault chest: m10.golem_vault.
+  - walk_to: {x: 3600, y: -1632, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2880, y: -1500, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before, g = item_count(12192), gold()
+        click(23); wait(1)
+        local opened = take_chest()
+        close(); close()
+        if not opened then loot_chest(23) end
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if item_count(12192) ~= before + 5 then error("King's Megacredits from the vault: " .. tostring(item_count(12192) - before)) end
+        if not qbit(111202) then error("golem_credits was not set") end
+        log("the vault: +" .. (gold() - g) .. " gold, 5 Megacredits")
+  # The way out: the vault stair, the Diamond door from below, the entry.
+  - walk_to: {x: 2300, y: -1632, z: -600, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 950, y: -1632, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(4); if door_state(1) ~= 'open' then error('the Diamond door did not open from the stair') end"}
+  - walk_to: {x: 500, y: -1632, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: -1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Out by the tundra door onto X5.
+  - walk_to: {x: 384, y: -1700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 384, y: -2176, z: 192, z_tolerance: 48, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(1)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 18688, y: -3457, radius: 160, z_min: 880, z_max: 1100}}
+  - assert: {qbit_set: [111202, 110600]}
+  - play_lua: {source: "if item_count(12192) ~= 6 then error('Megacredits after the Golem Dungeon: ' .. item_count(12192)) end; log('31 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "31 Golem Dungeon", path: output/playthrough/xeen/checkpoints/31_golem_dungeon.oysav}

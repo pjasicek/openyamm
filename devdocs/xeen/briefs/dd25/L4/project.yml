@@ -1,0 +1,37 @@
+format: 0
+id: xeen_dd25
+name: Bosco's Hall
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-25
+units: {plan_grid: 512}
+extent: {footprint_cells: [13, 7], climbs: n}
+map_stats:
+  id: 9122
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 0
+  trap_dice: 0
+  perception_difficulty: 0
+  refill_days: 672
+  music: 31
+  environment: stone hall
+  lock_difficulty: 0
+  slots: []
+neighbours:
+  - id: exit:d5_gate
+    to: xeen_d5.odm
+    kind: door
+    arrival: [-512, 9216, 2688]
+    arrival_hint: "On D5 (the Desert of Doom), on Bosco's terrace at the end of the lane, about 1,050 east of the crag's gate, facing east, away from it (entrance:dd25_door)."
+    direction: 0
+    notes: "D5 installed by A6; its door:dd25 (thing:bosco_door, two t09a03a leaves in the crag) gets into: {map: xeen_dd25.blv, arrival: entrance:d5_bosco} (D-62 relay to A6): this map's start in the gate passage, (2048, 0, 0) facing west (1024)."
+qbits:
+  arrived_once: 117680
+  chalice_done: 113343
+notes: "Xeen design brief for a new town BLV: DD-25 Bosco's Hall, the dwarf king's hall dug into the Desert of Doom's highlands (D5; WORLD_DESIGN 5.2; the source's Bosco stands on dark maze0013, his lines aaze0013:13-17). Graph devdocs/xeen/mockups/act5_graphs/dd25.graph.yml with decider D-62 (mockups/act5_a8_decisions_b.md, which wins): a small town BLV (S figures: 6-15 sectors, 7-20 M units squared, 3-8 doors), about 12 sectors and 9.9 M units squared, one loop (gate hall, great hall, smiths' gallery), a walk-in throne hall at z 128 and the Deep Guild one stair down at z -384. A4's houses (source/towns/dd25.yml): Bosco's Forge 4701, the Alehall 4702, the Deep Guild of Earth 4703, the King's Hall 4704 (Bosco, Q-D17), the Mailwright's Burrow 4705, the Tinker's Burrow 4706. No counted monsters, no chests, no finds: eight peaceful dwarves (four of A2's Bosco's Guard 11054, faction xeen_bosco_hall; four MM7 Peasant Dwarves), uncounted. Map qbit 117680 arrived_once (block 117680-117719); the goblet on the tasting table shown from q-d17.done 113343. Map card 9122: encounter 0, no slots, music 31."
+identity:
+  shape: hall
+  family: 7d24
+  seen: ["the great hall cut in the crag's raw rock, high under a rock vault on rock-cut pillars, its round hearth burning", the house fronts of dressed stone and timber along the halls and the burrow lane, "the smiths' gallery: the forge bay's glow on the anvils, Bosco's Forge and the Mailwright's Burrow"]

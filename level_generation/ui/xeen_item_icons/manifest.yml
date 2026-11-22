@@ -1,0 +1,826 @@
+note: 'Icons the Xeen item rows wait for (source/items.yml icon_needed). New art in the MM6-MM8 inventory icon style (method
+  as level_generation/ui/mm9_item_icons_20261104: one Codex image per design on flat magenta, keyed and fitted by scripts/finish.py).
+  box_x2 is the fit box at the x2 icon scale: weapons take the MM9 icon pass''s family boxes (MM6-MM8 sizes; grips recomputed
+  by scripts/install.py --grips), jewellery its engine row''s icon size, carried items a 1x1 or 1x2 inventory footprint.
+  Owner: A2. Installed by scripts/install.py into assets_dev/worlds/xeen/icons_x2/<file>.png.'
+retired:
+  date: '2026-11-20'
+  why: 'The user (DECISIONS U-1): no new equipment bases, and artifacts and relics wear MM6-MM8 item skins. Their installed
+    icons were moved from assets_dev/worlds/xeen/icons_x2/ to retired_20261120/; their targets below are kept as a record
+    only (do not install them). xeen_item_12523 stays installed: it is the quest item Barok''s Pendant 12152.'
+  files: [xeen_item_katana, xeen_item_scimitar, xeen_item_flamberge, xeen_item_naginata, xeen_item_glaive,
+    xeen_item_great_axe, xeen_item_flail, xeen_item_12500, xeen_item_12501, xeen_item_12502, xeen_item_12503,
+    xeen_item_12504, xeen_item_12505, xeen_item_12506, xeen_item_12510, xeen_item_12511, xeen_item_12522, xeen_item_12524,
+    xeen_item_12525, xeen_item_12526, xeen_item_12527, xeen_item_12528, xeen_item_12530]
+families:
+  sword:
+    style_refs:
+    - item001
+    - item011
+    - item014
+    - item018
+    view: Perfectly vertical, point at the top, grip at the bottom, seen flat from the side.
+  sword2h:
+    style_refs:
+    - item006
+    - item007
+    - item008
+    - item010
+    view: Perfectly vertical, point at the top, grip at the bottom, seen flat from the side.
+  dagger:
+    style_refs:
+    - item021
+    - item023
+    - item026
+    - item028
+    view: Perfectly vertical, point at the top, grip at the bottom, seen flat from the side.
+  axe2h:
+    style_refs:
+    - item036
+    - item037
+    - item039
+    - item040
+    view: Perfectly vertical, head at the top, haft running straight down, seen flat from the side.
+  spear:
+    style_refs:
+    - item042
+    - item043
+    - item044
+    - item045
+    view: 'Perfectly vertical, head at the top. Long shaft: the whole weapon about six times taller than its widest point;
+      the head only the top fifth.'
+  halberd:
+    style_refs:
+    - item046
+    - item047
+    - item048
+    - item049
+    view: 'Perfectly vertical, head at the top. Long shaft: the whole weapon about six times taller than its widest point;
+      the head only the top fifth.'
+  mace:
+    style_refs:
+    - item066
+    - item068
+    - item076
+    - item077
+    view: Perfectly vertical, head at the top, grip at the bottom, seen flat from the side.
+  flail:
+    style_refs:
+    - item067
+    - 7item054
+    - item066
+    - item068
+    view: The handle stands vertical with its grip at the bottom; the chain hangs DOWN from the top of the handle beside
+      it, the head near the lower half. Never point the chain up.
+  staff:
+    style_refs:
+    - item079
+    - item080
+    - item081
+    - item082
+    view: Perfectly vertical, head at the top, seen flat from the side; a long thin staff.
+  sceptre:
+    style_refs:
+    - item079
+    - ankh
+    - item066
+    - crysball
+    view: Perfectly vertical, head at the top, short handle at the bottom, seen flat from the front.
+  bow:
+    style_refs:
+    - item056
+    - item057
+    - item058
+    - item060
+    view: Perfectly vertical bow seen flat from the side, string straight down one side, grip at mid-height.
+  ring:
+    style_refs:
+    - item139
+    - item140
+    - item145
+    - item144
+    view: Straight from the front with only a slight downward tilt, the setting at top centre, the band symmetric below
+      it.
+  amulet:
+    style_refs:
+    - item147
+    - item148
+    - item149
+    - item150
+    view: The pendant hanging vertically, seen straight from the front, with only a short loop of chain at the top.
+  book:
+    style_refs:
+    - item207
+    - 7item191
+    - book3
+    - item275
+    view: A closed book lying in a three-quarter view from slightly above, front cover facing the viewer.
+  gem:
+    style_refs:
+    - gem4
+    - 7item264
+    - item281
+    - shard
+    view: The object in its natural resting orientation, seen from the front or a gentle three-quarter view slightly from
+      above.
+  curio:
+    style_refs:
+    - skull
+    - cube
+    - jewelegg
+    - heart
+    view: The object in its natural resting orientation, seen from the front or a gentle three-quarter view slightly from
+      above.
+  figurine:
+    style_refs:
+    - 7item272
+    - ankh
+    - bell
+    - jewelegg
+    view: Standing upright, seen from the front or a gentle three-quarter view, slightly taller than wide.
+  tall:
+    style_refs:
+    - herb02
+    - tooth
+    - bell
+    - item327
+    view: Standing upright (vertical), seen flat from the front or side, taller than wide.
+  chalice:
+    style_refs:
+    - chalice
+    - bell
+    - jewelegg
+    - item162
+    view: Upright, seen from the front at eye level.
+not_generated:
+  snowflake_of_winter: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll
+    files (items.yml)'
+  raindrop_of_spring: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll
+    files (items.yml)'
+  kalindras_crown: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll files
+    (items.yml)'
+  paladins_armour: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll files
+    (items.yml)'
+  robes: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll files (items.yml)'
+  scale_mail: 'worn item: an icon alone would not match its paper-doll art; it uses an engine picture with doll files (items.yml)'
+targets:
+- key: megacredit
+  id: 12192
+  name: King's Megacredit
+  kind: quest item
+  draw: a thick round gold token, stamped on its face with King Burlock's crown, a little worn at the rim
+  slot_like: 7item280
+  file: xeen_item_12192
+  family: curio
+  box_x2: &id001
+  - 88
+  - 88
+- key: yak_stone
+  id: 12301
+  name: Yak Stone of Opening
+  kind: quest item
+  draw: a smooth palm-sized grey-green stone carved with a stylised yak's head; the carving lightly inlaid with dull gold
+  slot_like: keys4
+  file: xeen_item_12301
+  family: gem
+  box_x2: &id002
+  - 76
+  - 76
+- key: pyramid_sigil
+  id: 12302
+  name: Pyramid Sigil
+  kind: quest item
+  draw: a flat gold sigil plate shaped like a step pyramid, an eye engraved in its centre, a small loop at the top
+  slot_like: keys4
+  file: xeen_item_12302
+  family: curio
+  box_x2: *id001
+- key: stone_of_terrors
+  id: 12304
+  name: Stone of a Thousand Terrors
+  kind: quest item
+  draw: a rough dark purple-black stone with a pale carved rune of a screaming face
+  slot_like: keys4
+  file: xeen_item_12304
+  family: gem
+  box_x2: *id002
+- key: golem_stone
+  id: 12305
+  name: Golem Stone of Admittance
+  kind: quest item
+  draw: a squared grey granite tablet with a carved rune of a blocky golem figure
+  slot_like: keys4
+  file: xeen_item_12305
+  family: gem
+  box_x2: *id002
+- key: bone_whistle
+  id: 12308
+  name: Orothin's Bone Whistle
+  kind: quest item
+  draw: a carved bone whistle, yellowed, with three finger holes and a leather loop at the top
+  slot_like: keys4
+  file: xeen_item_12308
+  family: tall
+  box_x2: &id003
+  - 64
+  - 124
+- key: phirna_root
+  id: 12309
+  name: Phirna Root
+  kind: quest item
+  draw: a pale twisted forked root with fine root hairs and a few earth crumbs
+  slot_like: keys4
+  file: xeen_item_12309
+  family: tall
+  box_x2: *id003
+- key: wand_of_faery_magic
+  id: 12310
+  name: Wand of Faery Magic
+  kind: quest item
+  draw: a short faery wand of pale silver-white wood, as thick as a finger, its head an open silver crescent moon holding
+    a violet crystal, a faint sparkle around the crystal
+  slot_like: keys4
+  file: xeen_item_12310
+  family: tall
+  box_x2: *id003
+- key: ligonos_skull
+  id: 12311
+  name: Ligono's Skull
+  kind: quest item
+  draw: an old human skull, sea-worn and bleached, a few barnacles and a strand of seaweed on it
+  slot_like: keys4
+  file: xeen_item_12311
+  family: curio
+  box_x2: *id001
+- key: scarab_of_imaging
+  id: 12312
+  name: Scarab of Imaging
+  kind: quest item
+  draw: 'a jewelled scarab: a lapis-blue beetle body edged in gold, wings closed, seen from above'
+  slot_like: keys4
+  file: xeen_item_12312
+  family: gem
+  box_x2: *id002
+- key: piezo_crystals
+  id: 12313
+  name: Crystals of Piezoelectricity
+  kind: quest item
+  draw: a cluster of three pale blue quartz crystals growing from a small grey rock base
+  slot_like: keys4
+  file: xeen_item_12313
+  family: gem
+  box_x2: *id002
+- key: lava_rock
+  id: 12314
+  name: Ever-Hot Lava Rock
+  kind: quest item
+  draw: a black volcanic rock with glowing orange-red cracks
+  slot_like: keys4
+  file: xeen_item_12314
+  family: gem
+  box_x2: *id002
+- key: widget
+  id: 12315
+  name: Widget
+  kind: quest item
+  draw: a small brass gadget of gears, a spring and a tiny crank handle
+  slot_like: keys4
+  file: xeen_item_12315
+  family: curio
+  box_x2: *id001
+- key: pharaoh_orb
+  id: 12331
+  name: Dragon Pharaoh's Orb
+  kind: quest item
+  draw: a polished glowing amber orb with a darker swirl inside
+  slot_like: keys4
+  file: xeen_item_12331
+  family: gem
+  box_x2: *id002
+- key: energy_disk
+  id: 12334
+  name: Energy Disk
+  kind: quest item
+  draw: a thin round metal disk with a glowing blue-white core and engraved circuit-like lines
+  slot_like: keys4
+  file: xeen_item_12334
+  family: gem
+  box_x2: *id002
+- key: monga_melon
+  id: 12343
+  name: Monga Melon
+  kind: quest item
+  draw: a striped green melon, round, with a short stem
+  slot_like: keys4
+  file: xeen_item_12343
+  family: curio
+  box_x2: *id001
+- key: vespars_handle
+  id: 12345
+  name: Vespar's Emerald Handle
+  kind: quest item
+  draw: a short staff handle of carved emerald-green stone, banded with gold at both ends
+  slot_like: keys4
+  file: xeen_item_12345
+  family: tall
+  box_x2: *id003
+- key: bridle
+  id: 12346
+  name: Bridle
+  kind: quest item
+  draw: a coiled brown leather bridle with brass buckles and a steel bit
+  slot_like: keys4
+  file: xeen_item_12346
+  family: curio
+  box_x2: *id001
+- key: enchanted_bridle
+  id: 12347
+  name: Enchanted Bridle
+  kind: quest item
+  draw: 'a coiled brown leather bridle with brass buckles and a steel bit, enchanted: pale blue glowing runes along every
+    strap and a soft pale blue light around the bit'
+  slot_like: keys4
+  file: xeen_item_12347
+  family: curio
+  box_x2: *id001
+- key: golden_pegasus
+  id: 12349
+  name: Golden Pegasus Statuette
+  kind: quest item
+  draw: a small solid gold statuette of a winged horse rearing on a little square base
+  slot_like: keys4
+  file: xeen_item_12349
+  family: figurine
+  box_x2: &id004
+  - 76
+  - 120
+- key: golden_dragon
+  id: 12350
+  name: Golden Dragon Statuette
+  kind: quest item
+  draw: a small solid gold statuette of a coiled dragon with spread wings on a little square base
+  slot_like: keys4
+  file: xeen_item_12350
+  family: figurine
+  box_x2: *id004
+- key: golden_griffin
+  id: 12351
+  name: Golden Griffin Statuette
+  kind: quest item
+  draw: a small solid gold statuette of a sitting griffin on a little square base
+  slot_like: keys4
+  file: xeen_item_12351
+  family: figurine
+  box_x2: *id004
+- key: calebs_glass
+  id: 12352
+  name: Caleb's Magnifying Glass
+  kind: quest item
+  draw: a brass magnifying glass with a round lens and a turned wooden handle
+  slot_like: keys4
+  file: xeen_item_12352
+  family: tall
+  box_x2: *id003
+- key: sandros_heart
+  id: 12353
+  name: Sandro's Heart
+  kind: quest item
+  draw: a shrivelled dark red heart in a small stoppered glass jar
+  slot_like: keys4
+  file: xeen_item_12353
+  family: curio
+  box_x2: *id001
+- key: ruby_rock
+  id: 12357
+  name: Ruby Rock
+  kind: quest item
+  draw: a rough grey rock veined with red ruby crystals
+  slot_like: keys4
+  file: xeen_item_12357
+  family: gem
+  box_x2: *id002
+- key: emerald_rock
+  id: 12358
+  name: Emerald Rock
+  kind: quest item
+  draw: a rough grey rock veined with green emerald crystals
+  slot_like: keys4
+  file: xeen_item_12358
+  family: gem
+  box_x2: *id002
+- key: sapphire_rock
+  id: 12359
+  name: Sapphire Rock
+  kind: quest item
+  draw: a rough grey rock veined with blue sapphire crystals
+  slot_like: keys4
+  file: xeen_item_12359
+  family: gem
+  box_x2: *id002
+- key: diamond_rock
+  id: 12360
+  name: Diamond Rock
+  kind: quest item
+  draw: a rough grey rock studded with glittering clear white diamond crystals
+  slot_like: keys4
+  file: xeen_item_12360
+  family: gem
+  box_x2: *id002
+- key: tribble
+  id: 12362
+  name: Tribble
+  kind: quest item
+  draw: a small round ball of soft tan and white fur, no face visible
+  slot_like: keys4
+  file: xeen_item_12362
+  family: curio
+  box_x2: *id001
+- key: soul_box
+  id: 12363
+  name: Soul Box
+  kind: quest item
+  draw: a small dark iron box with a domed lid and tarnished silver corner fittings, a keyhole in front
+  slot_like: keys4
+  file: xeen_item_12363
+  family: curio
+  box_x2: *id001
+- key: soul_box_corak
+  id: 12364
+  name: Soul Box (Corak)
+  kind: quest item
+  draw: a small dark iron box with a domed lid and tarnished silver corner fittings, a pale blue-white light shining from
+    the seam under the lid
+  slot_like: keys4
+  file: xeen_item_12364
+  family: curio
+  box_x2: *id001
+- key: cube_of_power
+  id: 12365
+  name: Cube of Power
+  kind: quest item
+  draw: a cube of clear humming crystal with a faint violet light inside, edges bound in silver
+  slot_like: keys4
+  file: xeen_item_12365
+  family: curio
+  box_x2: *id001
+- key: xeens_scepter
+  id: 12366
+  name: Xeen's Scepter
+  kind: quest item
+  draw: a dark iron sceptre, its head a round clock face with gold hands inside a ring of black spikes
+  slot_like: keys4
+  file: xeen_item_12366
+  family: sceptre
+  box_x2:
+  - 64
+  - 200
+- key: might_doll
+  id: 12367
+  name: Might Doll
+  kind: quest item
+  draw: 'a small stuffed cloth carnival-prize toy: a round-faced strongman doll in a red and white striped strongman suit,
+    holding a tiny painted wooden barbell'
+  slot_like: keys4
+  file: xeen_item_12367
+  family: figurine
+  box_x2: *id004
+- key: speed_doll
+  id: 12368
+  name: Speed Doll
+  kind: quest item
+  draw: 'a small stuffed cloth carnival-prize toy: a round-faced runner doll in a green tunic with little white felt wings
+    on its boots'
+  slot_like: keys4
+  file: xeen_item_12368
+  family: figurine
+  box_x2: *id004
+- key: endurance_doll
+  id: 12369
+  name: Endurance Doll
+  kind: quest item
+  draw: 'a small stuffed cloth carnival-prize toy: a round-faced knight doll in a grey felt helmet and a padded grey felt
+    breastplate'
+  slot_like: keys4
+  file: xeen_item_12369
+  family: figurine
+  box_x2: *id004
+- key: accuracy_doll
+  id: 12370
+  name: Accuracy Doll
+  kind: quest item
+  draw: 'a small stuffed cloth carnival-prize toy: a round-faced archer doll in a brown hood and green tunic holding a tiny
+    wooden bow'
+  slot_like: keys4
+  file: xeen_item_12370
+  family: figurine
+  box_x2: *id004
+- key: lord_xeen_doll
+  id: 12371
+  name: Lord Xeen Doll
+  kind: quest item
+  draw: 'a small stuffed cloth carnival-prize toy of a grim lord: black felt spiked armour, a dark red felt cape, a stern
+    stitched face'
+  slot_like: keys4
+  file: xeen_item_12371
+  family: figurine
+  box_x2: *id004
+- key: chime_of_opening
+  id: 12373
+  name: Chime of Opening
+  kind: quest item
+  draw: 'a small silver hand chime: a bell-shaped chime on a short silver handle'
+  slot_like: keys4
+  file: xeen_item_12373
+  family: tall
+  box_x2: *id003
+- key: xeen_slayer_sword
+  id: 12500
+  name: Xeen Slayer Sword
+  kind: artifact
+  draw: a long two-handed sword whose blade is clear pale blue crystal edged with thin bright steel along both sides, the
+    crystal visibly see-through and faintly lit from within; a plain steel cross guard and a long leather-wrapped grip
+  slot_like: item006
+  file: xeen_item_12500
+  family: sword2h
+  box_x2: &id006
+  - 96
+  - 390
+- key: elder_long_sword
+  id: 12501
+  name: Elder Long Sword
+  kind: artifact
+  draw: 'an ornate long sword: bright steel blade, gold cross guard with curled ends, gold pommel set with a small blue
+    stone'
+  slot_like: item001
+  file: xeen_item_12501
+  family: sword
+  box_x2: &id007
+  - 84
+  - 316
+- key: elder_dagger
+  id: 12502
+  name: Elder Dagger
+  kind: artifact
+  draw: 'an ornate dagger: bright steel blade, gold guard with curled ends, gold pommel with a small blue stone'
+  slot_like: item026
+  file: xeen_item_12502
+  family: dagger
+  box_x2:
+  - 84
+  - 246
+- key: elder_mace
+  id: 12503
+  name: Elder Mace
+  kind: artifact
+  draw: 'an ornate flanged mace: steel flanges, gold bands on the haft, a small blue stone set in the head'
+  slot_like: item066
+  file: xeen_item_12503
+  family: mace
+  box_x2:
+  - 130
+  - 336
+- key: elder_spear
+  id: 12504
+  name: Elder Spear
+  kind: artifact
+  draw: 'an ornate spear: leaf-shaped steel head, gold collar with a small blue stone, dark wood shaft'
+  slot_like: item042
+  file: xeen_item_12504
+  family: spear
+  box_x2: &id008
+  - 100
+  - 572
+- key: elder_staff
+  id: 12505
+  name: Elder Staff
+  kind: artifact
+  draw: 'an ornate staff: dark polished wood, gold bands, a gold crown-shaped head holding a blue stone'
+  slot_like: item079
+  file: xeen_item_12505
+  family: staff
+  box_x2: &id005
+  - 120
+  - 576
+- key: elder_long_bow
+  id: 12506
+  name: Elder Long Bow
+  kind: artifact
+  draw: an ornate long bow of dark wood, gold-capped tips and a gold grip set with a small blue stone
+  slot_like: item056
+  file: xeen_item_12506
+  family: bow
+  box_x2:
+  - 128
+  - 398
+- key: last_flower_of_summer
+  id: 12510
+  name: Last Flower of Summer
+  kind: artifact
+  draw: a gold ring set with a small red flower of enamel petals
+  slot_like: item137
+  file: xeen_item_12510
+  family: ring
+  box_x2:
+  - 62
+  - 60
+- key: leaf_of_autumn
+  id: 12511
+  name: Leaf of Autumn
+  kind: artifact
+  draw: 'an amulet: a bronze autumn leaf pendant with fine veins, on a short chain loop'
+  slot_like: item147
+  file: xeen_item_12511
+  family: amulet
+  box_x2:
+  - 72
+  - 102
+- key: ectors_ring
+  id: 12522
+  name: Ector's Ring
+  kind: artifact
+  draw: a heavy plain iron signet ring with a square bezel
+  slot_like: item139
+  file: xeen_item_12522
+  family: ring
+  box_x2:
+  - 62
+  - 60
+- key: baroks_pendant
+  id: 12523
+  name: Barok's Pendant
+  kind: artifact
+  draw: a silver pendant holding an oval violet stone, on a short chain loop
+  slot_like: item148
+  file: xeen_item_12523
+  family: amulet
+  box_x2:
+  - 68
+  - 96
+- key: holy_book
+  id: 12524
+  name: Holy Book of Elvenkind
+  kind: artifact
+  draw: a closed white leather book with a gold leaf embossed on the cover and gold corner pieces
+  slot_like: keys4
+  file: xeen_item_12524
+  family: book
+  box_x2: &id009
+  - 122
+  - 116
+- key: chalice_of_protection
+  id: 12525
+  name: Chalice of Protection
+  kind: artifact
+  draw: a gold chalice with a broad cup, a knotted stem and a ring of small blue stones around the cup
+  slot_like: keys4
+  file: xeen_item_12525
+  family: chalice
+  box_x2:
+  - 80
+  - 88
+- key: songbird_of_serenity
+  id: 12526
+  name: Songbird of Serenity
+  kind: artifact
+  draw: a small jewelled songbird of gold and green enamel, perched on a little silver twig, beak open in song
+  slot_like: keys4
+  file: xeen_item_12526
+  family: figurine
+  box_x2: *id004
+- key: jewel_of_ages
+  id: 12527
+  name: Jewel of Ages
+  kind: artifact
+  draw: a large many-faceted clear jewel, cut like a brilliant diamond, with faint rainbow glints
+  slot_like: keys4
+  file: xeen_item_12527
+  family: gem
+  box_x2: *id002
+- key: vespars_staff
+  id: 12528
+  name: Vespar's Staff
+  kind: artifact
+  draw: a long dark wooden staff with an emerald-green stone handle banded in gold, topped by a small gold cap
+  slot_like: item079
+  file: xeen_item_12528
+  family: staff
+  box_x2: *id005
+- key: megadragon_hoard_blade
+  id: 12530
+  name: Wyrmfang
+  kind: artifact
+  draw: a two-handed sword whose blade is a single long curved dragon's tooth, ivory with a darker root, set in a gold and
+    black hilt
+  slot_like: item006
+  file: xeen_item_12530
+  family: sword2h
+  box_x2: *id006
+- key: katana
+  ids:
+  - 12600
+  - 12601
+  - 12602
+  - 12603
+  - 12604
+  name: Katana
+  kind: base (one icon for every tier)
+  draw: 'a katana: a slightly curved single-edged steel blade, a small round guard, a long cord-wrapped grip'
+  slot_like: item001
+  file: xeen_item_katana
+  family: sword
+  box_x2: *id007
+- key: scimitar
+  ids:
+  - 12610
+  - 12611
+  - 12612
+  - 12613
+  name: Scimitar
+  kind: base (one icon for every tier)
+  draw: 'a scimitar: a broad curved single-edged steel blade widening near the tip, a simple brass guard and a wooden grip'
+  slot_like: item017
+  file: xeen_item_scimitar
+  family: sword
+  box_x2: *id007
+- key: flamberge
+  ids:
+  - 12620
+  - 12621
+  - 12622
+  name: Flamberge
+  kind: base (one icon for every tier)
+  draw: 'a flamberge: a long two-handed sword with a wavy flame-shaped steel blade, straight cross guard, long leather grip'
+  slot_like: item006
+  file: xeen_item_flamberge
+  family: sword2h
+  box_x2: *id006
+- key: naginata
+  ids:
+  - 12630
+  - 12631
+  - 12632
+  - 12633
+  - 12634
+  name: Naginata
+  kind: base (one icon for every tier)
+  draw: 'a naginata: a long curved single-edged blade on a long dark wooden shaft'
+  slot_like: item042
+  file: xeen_item_naginata
+  family: spear
+  box_x2: *id008
+- key: glaive
+  ids:
+  - 12640
+  - 12641
+  - 12642
+  - 12643
+  name: Glaive
+  kind: base (one icon for every tier)
+  draw: 'a glaive: a broad single-edged blade with a small back hook, on a long wooden shaft'
+  slot_like: item046
+  file: xeen_item_glaive
+  family: halberd
+  box_x2:
+  - 144
+  - 564
+- key: great_axe
+  ids:
+  - 12650
+  - 12651
+  - 12652
+  - 12653
+  name: Great Axe
+  kind: base (one icon for every tier)
+  draw: 'a great axe: a double-bladed steel axe head on a LONG wooden haft bound with leather near the bottom; the haft
+    about three times as long as the head is tall, like the reference two-handed axes'
+  slot_like: item036
+  file: xeen_item_great_axe
+  family: axe2h
+  box_x2:
+  - 142
+  - 520
+- key: flail
+  ids:
+  - 12660
+  - 12661
+  - 12662
+  - 12663
+  name: Flail
+  kind: base (one icon for every tier)
+  draw: 'a flail: a wooden handle with an iron chain hanging from its top ending in a spiked iron ball'
+  slot_like: item067
+  file: xeen_item_flail
+  family: flail
+  box_x2:
+  - 140
+  - 324
+- key: eeried_guide_cloudside
+  id: 12400
+  name: Eerie's Guide to Cloudside
+  kind: book
+  family: book
+  slot_like: item207
+  box_x2: *id009
+  draw: a small closed travel guidebook bound in green cloth, a gold-tooled map of a flat world with a cliff edge on its
+    cover
+  file: xeen_item_12400

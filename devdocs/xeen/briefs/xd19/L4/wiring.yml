@@ -1,0 +1,601 @@
+format: 0
+variables: [pool_on, pool, pool_clock, gems, sight, freed, untouched]
+events:
+  - id: evt:after_mirror
+    preset: script
+    trigger: call
+    effects:
+      - leave: exit:x9_gate
+    notes: "D-47 Q14: the cinematic's done event: 'proceed to the nearest exit' - the party is out on X9 before the gate at once (the studio's leave: evt.MoveToMap(..., {direct = true}), merge point 21's confirmation)."
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m35.arrival\")"
+    notes: "A3's m35.arrival (started 111700, once): its line at the first arrival."
+  - id: evt:barrier_falls
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{lua: "XeenQuests.can(\"m35.barrier\")"}, {not: {qbit: 118062}}]}
+    opens: [door:field]
+    once: true
+    effects:
+      - qbit: 118062
+      - lua: "XeenQuests.hook(\"m35.barrier\")"
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+      - lights_off: light:field
+      - shake:
+          strength: 1
+          seconds: 1.5
+    notes: "All four pylons dark (A3's m35.barrier reads the four generator bits): the field sinks, the crackle stops, the hook's line once (barrier_down 118062)."
+  - id: evt:barrier_load
+    preset: script
+    trigger: load
+    condition: {qbit: 118062}
+    opens: [door:field]
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound1', 2)"
+      - lights_off: light:field
+    notes: On every later load the field stays down.
+  - id: evt:bays_load
+    preset: switch
+    trigger: load
+    condition: {qbit: 118063}
+    opens: [door:bays]
+    notes: On every later load the shutters stay up.
+  - id: evt:bed_1
+    preset: text
+    source: platform:bed_1
+    title: Bed
+    text: An iron bed. It smells of sulphur.
+    notes: Map-local line.
+  - id: evt:bed_2
+    preset: text
+    source: platform:bed_2
+    title: Bed
+    text: An iron bed. It smells of sulphur.
+    notes: Map-local line.
+  - id: evt:bed_3
+    preset: text
+    source: platform:bed_3
+    title: Bed
+    text: An iron bed. It smells of sulphur.
+    notes: Map-local line.
+  - id: evt:chest_armoury
+    preset: chest
+    source: chest:armoury
+    title: Chest
+  - id: evt:chest_barracks
+    preset: chest
+    source: chest:barracks
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_loft
+    preset: chest
+    source: chest:loft
+    title: Chest
+  - id: evt:chest_quarters
+    preset: chest
+    source: chest:quarters
+    title: Chest
+  - id: evt:chest_store
+    preset: chest
+    source: chest:store
+    title: Chest
+  - id: evt:chest_war_room
+    preset: chest
+    source: chest:war_room
+    title: Chest
+  - id: evt:door_armoury
+    preset: door
+    source: door:armoury
+    title: Door
+  - id: evt:door_barracks
+    preset: door
+    source: door:barracks
+    title: Door
+  - id: evt:door_gen_air
+    preset: door
+    source: door:gen_air
+    title: Door
+  - id: evt:door_gen_fire
+    preset: door
+    source: door:gen_fire
+    title: Door
+  - id: evt:door_hall_north
+    preset: door
+    source: door:hall_north
+    title: Great doors
+  - id: evt:door_keep_e
+    preset: door
+    source: door:keep_e
+    title: Door
+  - id: evt:door_keep_w
+    preset: door
+    source: door:keep_w
+    title: Door
+  - id: evt:door_quarters
+    preset: door
+    source: door:quarters
+    title: Door
+  - id: evt:door_store
+    preset: door
+    source: door:store
+    title: Door
+  - id: evt:door_throne
+    preset: door
+    source: door:throne
+    title: Throne doors
+  - id: evt:door_vault_e
+    preset: door
+    source: door:vault_e
+    title: Door
+  - id: evt:door_vault_e_stair
+    preset: door
+    source: door:vault_e_stair
+    title: Door
+  - id: evt:door_vault_w
+    preset: door
+    source: door:vault_w
+    title: Door
+  - id: evt:door_vault_w_stair
+    preset: door
+    source: door:vault_w_stair
+    title: Door
+  - id: evt:door_walk
+    preset: door
+    source: door:walk
+    title: Door
+  - id: evt:door_walk_threshold
+    preset: door
+    source: door:walk_threshold
+    title: Door
+  - id: evt:door_war_room
+    preset: door
+    source: door:war_room
+    title: Door
+  - id: evt:field
+    preset: door
+    source: door:field
+    title: Barrier
+    condition: {qbit: 118062}
+    action: open
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.barrier\")"
+    notes: "The field's click while it stands: A3's m35.barrier fail line (four pylons, while one burns)."
+  - id: evt:foundry_step
+    preset: script
+    source: room:foundry_w
+    trigger: step
+    sources: [room:foundry, room:foundry_e, room:grand_landing]
+    once: true
+    effects:
+      - set:
+          var:
+            map_var: pool_on
+          value: 1
+    notes: "The party's first step into the foundry (by the grand landing, either keep door or the keep stair) starts the pool's clock."
+  - id: evt:gate_l
+    preset: exit
+    source: exit:gate_l
+    title: Exit Castle Xeen
+    notes: "Out to X9 (installed, A5) at its named arrival entrance:xd19_gate (0, 11264, 768) facing south, before the castle's gate."
+  - id: evt:gate_r
+    preset: exit
+    source: exit:gate_r
+    title: Exit Castle Xeen
+    notes: "Out to X9 (installed, A5) at its named arrival entrance:xd19_gate (0, 11264, 768) facing south, before the castle's gate."
+  - id: evt:gems
+    preset: script
+    source: platform:gems
+    title: Tray
+    condition: {not: {map_var: gems}}
+    effects:
+      - set:
+          var:
+            map_var: gems
+          value: 1
+      - give_item: 183
+      - give_item: 183
+      - give_item: 183
+      - text: "Green gem eyes, a whole tray of spares. You take three emeralds."
+    else_effects:
+      - text: An empty tray.
+    notes: "The guard bays' gem find (graph: 'Green gem eyes'): three Emeralds (183), once."
+  - id: evt:gen_air
+    preset: script
+    source: platform:gen_air
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Air Generator.  Destroy?"}
+    title: Air Generator
+    condition: {not: {destroyed: destructible:gen_air}}
+    effects:
+      - destroy: destructible:gen_air
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.gen_air\")"
+    notes: "The Air Generator (aaze0075:2 (Electricity)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_air_down, does the rest); blows and spells break it too. Broken: A3's else line."
+  - id: evt:gen_air_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"m35.gen_air\")"
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+      - lights_off: [light:core_air, light:pylon_air]
+      - set_texture:
+          of: platform:pylon_air
+          to: gnecwal1
+    notes: "The air generator's core broken (by the question, a blow or a spell): A3's m35.gen_air (111702), its hum stops, its glow and its pylon's light go out, the pylon goes dark."
+  - id: evt:gen_air_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:gen_air}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound2', 2)"
+      - lights_off: [light:core_air, light:pylon_air]
+      - set_texture:
+          of: platform:pylon_air
+          to: gnecwal1
+    notes: On every later load the air generator stays dead and its pylon dark.
+  - id: evt:gen_earth
+    preset: script
+    source: platform:gen_earth
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Earth Generator.  Destroy?"}
+    title: Earth Generator
+    condition: {not: {destroyed: destructible:gen_earth}}
+    effects:
+      - destroy: destructible:gen_earth
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.gen_earth\")"
+    notes: "The Earth Generator (aaze0075:4 (Poison)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_earth_down, does the rest); blows and spells break it too. Broken: A3's else line."
+  - id: evt:gen_earth_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"m35.gen_earth\")"
+      - lua: "evt.SetMapVar('AmbientSound3', 2)"
+      - lights_off: [light:core_earth, light:pylon_earth]
+      - set_texture:
+          of: platform:pylon_earth
+          to: gnecwal1
+    notes: "The earth generator's core broken (by the question, a blow or a spell): A3's m35.gen_earth (111703), its hum stops, its glow and its pylon's light go out, the pylon goes dark."
+  - id: evt:gen_earth_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:gen_earth}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound3', 2)"
+      - lights_off: [light:core_earth, light:pylon_earth]
+      - set_texture:
+          of: platform:pylon_earth
+          to: gnecwal1
+    notes: On every later load the earth generator stays dead and its pylon dark.
+  - id: evt:gen_fire
+    preset: script
+    source: platform:gen_fire
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Fire Generator.  Destroy?"}
+    title: Fire Generator
+    condition: {not: {destroyed: destructible:gen_fire}}
+    effects:
+      - destroy: destructible:gen_fire
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.gen_fire\")"
+    notes: "The Fire Generator (aaze0075:1): a real choice. Yes breaks the core (its on_destroyed, evt:gen_fire_down, does the rest); blows and spells break it too. Broken: A3's else line."
+  - id: evt:gen_fire_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"m35.gen_fire\")"
+      - lua: "evt.SetMapVar('AmbientSound4', 2)"
+      - lights_off: [light:core_fire, light:pylon_fire]
+      - set_texture:
+          of: platform:pylon_fire
+          to: gnecwal1
+    notes: "The fire generator's core broken (by the question, a blow or a spell): A3's m35.gen_fire (111701), its hum stops, its glow and its pylon's light go out, the pylon goes dark."
+  - id: evt:gen_fire_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:gen_fire}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound4', 2)"
+      - lights_off: [light:core_fire, light:pylon_fire]
+      - set_texture:
+          of: platform:pylon_fire
+          to: gnecwal1
+    notes: On every later load the fire generator stays dead and its pylon dark.
+  - id: evt:gen_water
+    preset: script
+    source: platform:gen_water
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Water Generator.  Destroy?"}
+    title: Water Generator
+    condition: {not: {destroyed: destructible:gen_water}}
+    effects:
+      - destroy: destructible:gen_water
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.gen_water\")"
+    notes: "The Water Generator (aaze0075:3 (Cold)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_water_down, does the rest); blows and spells break it too. Broken: A3's else line."
+  - id: evt:gen_water_down
+    preset: script
+    trigger: call
+    effects:
+      - lua: "XeenQuests.hook(\"m35.gen_water\")"
+      - lua: "evt.SetMapVar('AmbientSound5', 2)"
+      - lights_off: [light:core_water, light:pylon_water]
+      - set_texture:
+          of: platform:pylon_water
+          to: gnecwal1
+    notes: "The water generator's core broken (by the question, a blow or a spell): A3's m35.gen_water (111704), its hum stops, its glow and its pylon's light go out, the pylon goes dark."
+  - id: evt:gen_water_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:gen_water}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound5', 2)"
+      - lights_off: [light:core_water, light:pylon_water]
+      - set_texture:
+          of: platform:pylon_water
+          to: gnecwal1
+    notes: On every later load the water generator stays dead and its pylon dark.
+  - id: evt:lord_damage
+    preset: script
+    trigger: monster_damage
+    actors: [monster:lord_xeen]
+    lua: |-
+      if not (hook.attack == 'melee' and hook.weaponItemId == 12500) then
+          evt.SetHookDamage(0)
+          if not IsAtLeast(MapVar(untouched), 1) then
+              SetValue(MapVar(untouched), 1)
+              XeenQuests.hook("m35.untouchable")
+          end
+      end
+      if not IsQBitSet(QBit(111709)) then
+          XeenQuests.hook("m35.lord_xeen_sight")
+          SetValue(MapVar(sight), 1)
+      end
+    notes: "D-47 Q12: every hit on Lord Xeen but melee with the Xeen Slayer Sword (12500) is zeroed; the first zeroed hit of a visit shows A3's m35.untouchable. Q13: a hit before the throne doors' plate runs m35.lord_xeen_sight (its own once bit) and starts the 4 s clock that frees him."
+  - id: evt:lord_dead
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {kills: {monster: monster:lord_xeen}}
+    opens: [door:treasury]
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m35.lord_xeen\")"
+    notes: "Lord Xeen's death: A3's m35.lord_xeen (lord_xeen_slain 111706, D-38's voiced line); the treasury opens."
+  - id: evt:lord_untouched_leave
+    preset: script
+    trigger: leave
+    effects:
+      - set:
+          var:
+            map_var: untouched
+          value: 0
+    notes: "m35.untouchable's line once per visit: cleared when the party leaves."
+  - id: evt:machine_e
+    preset: script
+    source: platform:machine_e
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Guard Making Machine.  Destroy?"}
+    title: Guard Making Machine
+    condition: {not: {destroyed: destructible:machine_e}}
+    effects:
+      - destroy: destructible:machine_e
+    else_effects:
+      - text: A broken press. Nothing comes out of it any more.
+    notes: "aaze0075:0: a real choice; Yes breaks it (blows and spells too); no experience (D-47 Q15)."
+  - id: evt:machine_e_down
+    preset: script
+    trigger: call
+    effects:
+      - qbit: 118061
+      - lua: "evt.SetMapVar('AmbientSound6', 2)"
+      - text: "The machine shudders, jams, and stops stamping."
+    notes: "The machine broken: machine_e_down 118061, its stamping stops."
+  - id: evt:machine_e_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:machine_e}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound6', 2)"
+    notes: On every later load the broken machine stays silent.
+  - id: evt:machine_w
+    preset: script
+    source: platform:machine_w
+    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Guard Making Machine.  Destroy?"}
+    title: Guard Making Machine
+    condition: {not: {destroyed: destructible:machine_w}}
+    effects:
+      - destroy: destructible:machine_w
+    else_effects:
+      - text: A broken press. Nothing comes out of it any more.
+    notes: "aaze0075:0: a real choice; Yes breaks it (blows and spells too); no experience (D-47 Q15)."
+  - id: evt:machine_w_down
+    preset: script
+    trigger: call
+    effects:
+      - qbit: 118060
+      - lua: "evt.SetMapVar('AmbientSound7', 2)"
+      - text: "The machine shudders, jams, and stops stamping."
+    notes: "The machine broken: machine_w_down 118060, its stamping stops."
+  - id: evt:machine_w_load
+    preset: script
+    trigger: load
+    condition: {destroyed: destructible:machine_w}
+    effects:
+      - lua: "evt.SetMapVar('AmbientSound7', 2)"
+    notes: On every later load the broken machine stays silent.
+  - id: evt:machines_down
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{destroyed: destructible:machine_w}, {destroyed: destructible:machine_e}]}
+    opens: [door:bays]
+    once: true
+    effects:
+      - show_actors: 41
+      - show_actors: 42
+      - show_actors: 43
+      - show_actors: 44
+      - qbit: 118063
+      - set:
+          var:
+            map_var: pool
+          value: 4
+      - text: "Both machines are still. The bays' shutters roll up, and the last guards step off the line."
+    notes: "Both machines destroyed: every guard still hidden is shown, the bays open on the gem find (bays_open 118063); the count stays 70 (D-47 Q7)."
+  - id: evt:mirror
+    preset: script
+    source: panel:mirror
+    title: Mirror
+    condition: {not: {qbit: 111707}}
+    effects:
+      - lua: "XeenQuests.hook(\"m35.mirror\")"
+    else_effects:
+      - text: An empty frame. Silver dust and shards of glass.
+    notes: "aaze0078:5 by A3's m35.mirror while the mirror stands; after it shatters, a map-local line."
+  - id: evt:mirror_load
+    preset: script
+    trigger: load
+    condition: {qbit: 111707}
+    effects:
+      - lights_off: light:mirror
+      - set_texture:
+          of: panel:mirror
+          to: xmirror6x
+    notes: After the scepter the mirror stays dark and shattered.
+  - id: evt:mirror_shatters
+    preset: script
+    trigger: call
+    effects:
+      - lights_off: light:mirror
+      - set_texture:
+          of: panel:mirror
+          to: xmirror6x
+      - shake:
+          strength: 2
+          seconds: 3
+    notes: "The cinematic's cue: the mirror's light goes out and the mirror becomes its shattered frame (xmirror6x)."
+  - id: evt:pet_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:pet}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m35.pet\")"
+    notes: "Xeen's Pet's death: A3's m35.pet (pet_slain 111705). Opens nothing (D-47)."
+  - id: evt:pool_clock
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: pool_on}, {not: {all: [{destroyed: destructible:machine_w}, {destroyed: destructible:machine_e}]}}, {map_var: {name: pool, below: 4}}]}
+    lua: "if IsAtLeast(MapVar(pool_clock), 45) then SetValue(MapVar(pool_clock), 0) if not IsAtLeast(MapVar(pool), 1) then evt.SetMonGroupBit(41, MonsterBits.Invisible, 0) SetValue(MapVar(pool), 1) elseif not IsAtLeast(MapVar(pool), 2) then evt.SetMonGroupBit(42, MonsterBits.Invisible, 0) SetValue(MapVar(pool), 2) elseif not IsAtLeast(MapVar(pool), 3) then evt.SetMonGroupBit(43, MonsterBits.Invisible, 0) SetValue(MapVar(pool), 3) elseif not IsAtLeast(MapVar(pool), 4) then evt.SetMonGroupBit(44, MonsterBits.Invisible, 0) SetValue(MapVar(pool), 4) end evt.StatusText(\"A press thumps. A new guard steps off the line.\", 3) end"
+    effects:
+      - add:
+          var:
+            map_var: pool_clock
+          value: 1
+    notes: "While either machine stands, every 45 s from the first step into the foundry one of the four hidden guards at the chutes is shown (D-18's word for showing a hidden actor: its group's Invisible bit cleared) and, hostile, takes the party on; pool counts them (at most 4)."
+  - id: evt:pylon_air
+    preset: text
+    source: platform:pylon_air
+    title: "Air pylon: to the south-east tower"
+    text: The air pylon. Its conduit runs to the south-east tower.
+    seconds: 4
+    notes: "D-47 Q9: each pylon's hover names its generator's tower."
+  - id: evt:pylon_earth
+    preset: text
+    source: platform:pylon_earth
+    title: "Earth pylon: to the gravel vault"
+    text: The earth pylon. Its conduit runs to the gravel vault.
+    seconds: 4
+    notes: "D-47 Q9: each pylon's hover names its generator's vault."
+  - id: evt:pylon_fire
+    preset: text
+    source: platform:pylon_fire
+    title: "Fire pylon: to the south-west tower"
+    text: The fire pylon. Its conduit runs to the south-west tower.
+    seconds: 4
+    notes: "D-47 Q9: each pylon's hover names its generator's tower."
+  - id: evt:pylon_water
+    preset: text
+    source: platform:pylon_water
+    title: "Water pylon: to the cold vault"
+    text: The water pylon. Its conduit runs to the cold vault.
+    seconds: 4
+    notes: "D-47 Q9: each pylon's hover names its generator's vault."
+  - id: evt:sight
+    preset: script
+    source: plate:sight
+    trigger: step
+    condition: {not: {qbit: 111709}}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"m35.lord_xeen_sight\")"
+      - set:
+          var:
+            map_var: sight
+          value: 1
+    notes: "The plate inside the throne doors (D-47 Q13): A3's m35.lord_xeen_sight (lord_xeen_seen 111709, D-38's voiced line, once per save); the clock frees Lord Xeen and his guards 4 s after."
+  - id: evt:sight_clock
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{map_var: sight}, {not: {map_var: freed}}]}
+    lua: "if IsAtLeast(MapVar(sight), 5) then SetValue(MapVar(freed), 1) evt.SetActorImmobile(ActorIndex(\"monster:lord_xeen\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_1\"), false) evt.SetActorImmobile(ActorIndex(\"monster:throne_2\"), false) evt.SetActorTarget(ActorIndex(\"monster:lord_xeen\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_1\"), \"party\") evt.SetActorTarget(ActorIndex(\"monster:throne_2\"), \"party\") end"
+    effects:
+      - add:
+          var:
+            map_var: sight
+          value: 1
+    notes: "4 s after the line, Lord Xeen and his two guards (monster:throne_1, monster:throne_2; ActorIndex, merge point 22) leave their places and go for the party (evt.SetActorImmobile, evt.SetActorTarget)."
+  - id: evt:throne
+    preset: script
+    source: platform:throne
+    question: {ask: "Take (Yes/No)?", answers: [Yes, Y, yes, y]}
+    title: Throne
+    condition: {all: [{not: {qbit: 111707}}, {lua: "XeenQuests.hook(\"m35.scepter_ask\")"}]}
+    effects:
+      - lua: "XeenQuests.hook(\"m35.scepter\")"
+      - cinematic:
+          id: cinematic:mirror
+          then: evt:after_mirror
+    else_effects:
+      - lua: "XeenQuests.hook(\"m35.scepter\")"
+    notes: "D-47 Q14: after Lord Xeen's death the throne asks first (A3's m35.scepter_ask shows its text, then the question). Yes: A3's m35.scepter (done 111707, award 411, 35,000, the Scepter), then the cinematic. No: nothing. Before his death and after the scepter: m35.scepter's fail and else lines."
+  - id: evt:treasury_load
+    preset: switch
+    trigger: load
+    condition: {qbit: 111706}
+    opens: [door:treasury]
+    notes: On every later load the hoard stays open.
+  - id: evt:war_table
+    preset: text
+    source: platform:war_table
+    title: War table
+    text: "A map of both faces of Xeen. Darkside armies are pinned along the edge, ready to cross."
+    seconds: 5
+    notes: "Map-local line (Crodo's warning, M21)."
+cinematics:
+  - id: cinematic:mirror
+    shots:
+      - {seconds: 5, at: [0, 2648, 2180], look_at: [0, 4048, 2180]}
+      - {seconds: 5, at: [-700, 3148, 2280], look_at: [0, 4048, 2120]}
+      - {seconds: 6, at: [0, 1448, 2400], look_at: [0, 4048, 2080]}
+    cues:
+      - {at: 0, fade: in, seconds: 1}
+      - {at: 0.5, subtitle: "Xeen's scepter gives a high whine, like a blade drawn across a whetstone. The mirror takes up the sound and throws it back, louder and louder.", seconds: 4.5}
+      - {at: 5, sound: xeen_mirror_shatter}
+      - {at: 5.2, event: evt:mirror_shatters}
+      - {at: 5.2, subtitle: "Just as you realize that the mirror and the scepter are not compatible, the mirror shatters in a spectacular display of light, noise and violence.", seconds: 4.5}
+      - {at: 5.2, shake: 0.8, seconds: 2}
+      - {at: 10, sound: xeen_castle_groan}
+      - {at: 10, shake: 1, seconds: 3}
+      - {at: 10, subtitle: The castle gives an awful shudder and groans like a beast mortally wounded., seconds: 3}
+      - {at: 13, subtitle: "With masonry falling and dust filling the air, you all decide to remain calm and proceed to the nearest exit in an orderly fashion.", seconds: 3}
+      - {at: 15, fade: out, seconds: 1}
+    notes: "D-47 Q14: the Sixth Mirror shatters after the scepter is taken. Subtitles are A3's m35.scepter cinematic_subtitles (aaze0078:4, shortened), in order; sounds AU's xeen_mirror_shatter then xeen_castle_groan."

@@ -1,0 +1,28 @@
+{
+  "asset_helper_sha256": "e5e48504665e579a5dca66dd46533a78098046661c033222a5fd2b8f32dcf80e",
+  "backend": "5.3.0",
+  "geometry_helper_sha256": "aa0823810bcf2fbed4da16c0d50b7ddc57e1e54e684f1a31381fc0eee3e49332",
+  "producer_sha256": "96c8a7ea49867e12dca977f3b703ceff927cfedb35048b992c2b7d47785e813b",
+  "profile": {
+    "azimuth": 300,
+    "building_page_size": 1024,
+    "elevation": 38,
+    "map": "xeen_d2.odm",
+    "preview_position": [
+      -11264,
+      -3072,
+      1300
+    ],
+    "preview_target": [
+      -17408,
+      -12800,
+      1200
+    ],
+    "samples": 64,
+    "sky_energy": 0.4,
+    "sun_energy": 2.2,
+    "terrain_size": 1024,
+    "units_per_texel": 32,
+    "world": "xeen"
+  }
+}

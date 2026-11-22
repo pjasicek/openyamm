@@ -1,0 +1,13 @@
+  # DD-12's cage birds (lane S, xeen-s10; level_generation/decorations/xeen_cagebird_claude): a canary-yellow bird
+  # (MM9's crow copied into Xeen, D-44, its eagle skin baked and recoloured) on a perch bar in a dark-iron tray cut
+  # from xwcage, 120 wide, 46 deep, 50 tall (bird 38 over the bar). Origin = the tray's back edge middle on its
+  # underside: place it at a cage panel's centre on the wall line, floor z = the panel bottom (room floor + 64),
+  # facing out of the wall (yaw_offset makes facing that direction). Idle `perch` (5.1 s: Perch x3, PerchFidget)
+  # loops out of step per cage. No collision (radius 0), no light; the static model is for picking only.
+  - name: xeen_cagebird
+    model: worlds/xeen/models/xeen_deco_cagebird.glb
+    animated: worlds/xeen/models/xeen_deco_cagebird_anim.glb
+    idle: perch
+    height: 50
+    yaw: facing
+    yaw_offset: -1.570796327

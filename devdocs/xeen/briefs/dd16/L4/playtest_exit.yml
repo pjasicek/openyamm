@@ -1,0 +1,44 @@
+# Playtest of Corak's Pod's way out and back (DD-16, L4; lane A7, fifteenth session): with lava_cooled (111564, the
+# crust D6 shows on load), the hatch (the exit preset) out to D6's named arrival entrance:dd16_hatch (5120, -2560, 1466) standing on the
+# crust 384 before the hatch, facing south-east (merge point 25; by name since the eighteenth session); the leave window's OK pressed; the landing measured (on the crust); then back in through D6's hatch (D6's event 42, A3's m29.pod_door) to entrance:d6_hatch (-832, 0, 0).
+id: xeen.dd16.l4.exit
+title: Corak's Pod (DD-16 L4), out to D6's crust and back in
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd16.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - assert: {map: xeen_dd16.blv}
+  - setup_shortcut: {kind: set_qbit, id: 111564, value: true}
+  - assert: {party_position: {x: -832, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3); close()"}
+  - walk_to: {x: -940, y: 0, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - setup_shortcut: {kind: immortal, value: true}
+  - execute_event: {id: 16}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d6.odm}
+  - play_lua: {source: "log('landing: ' .. status())"}
+  # Standing on the crust: still there 6 s later (D6's own playtest measures the crust's lava damage).
+  - clear_hostiles: {radius: 6000}
+  - advance_runtime: {seconds: 6.0}
+  - play_lua: {source: "log('landing after 6 s: ' .. status())"}
+  - assert: {party_position: {x: 5120, y: -2560, radius: 120, z_min: 1458, z_max: 1490}}
+  # Back in through the hatch.
+  - execute_event: {id: 42}
+  - advance_runtime: {seconds: 0.5}
+  # D6's door into the pod asks first (the entrance screen, picture 1, D6's rebuild 2026-11-22 01:11): answer it.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd16.blv}
+  - assert: {party_position: {x: -832, y: 0, radius: 160}}

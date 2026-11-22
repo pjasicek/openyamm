@@ -1,0 +1,47 @@
+# M8 The deed to Newcastle (QUESTS M8, 4.1 stage 0). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source's price is 50,000 gold; QUESTS sets 12,000 (MM6-MM8 never ask more of a level 10-15 party).
+id: M8
+title: The Deed to Newcastle
+act: II
+kind: main
+status: full
+giver: 4201          # Ebenezer the Taxman (A4: towns/x3.yml), his tent at the Newcastle site
+maps: [X3]
+level: 14
+block: 8
+after: [m5.audience]
+source: "QUESTS M8, 4.1; xeen/aaze0012:1-2, :5, :7"
+
+qbits:
+  deed: {id: 111160, journal: "You own the ruins of Newcastle. Emerson, the King's engineer at Castle Burlock, builds castles for King's Megacredits.",
+         until: [m9.walls]}
+
+items:
+  deed_to_newcastle: "the deed to Newcastle; Ebenezer sells it for 12,000 gold (readable, A2's row)."
+
+npcs:
+  4201:              # Ebenezer
+    topics:
+      - n: 1
+        label: Newcastle
+        states:
+          - when: {qbit: deed}
+            text: "If you want to make some improvements here you should see the King's engineers. Emerson, at Castle Burlock. I am sure he will be able to help you."
+          - text: "Wanna buy the land this lovely castle rests upon? Only twelve thousand gold! The rubble is included. So are the wood golems in the foundations."
+      - n: 2
+        label: Buy the deed
+        show: {not: {qbit: deed}}
+        states:
+          - when: {gold: 12000}
+            text: "Thanks a lot! You won't regret your decision. Sign here. And here. The golems are yours too, of course."
+            do: [{pay: 12000}, {give: deed_to_newcastle}, {set: deed}]
+          - text: "Twelve thousand gold, not a copper less. The King's tax is the King's tax."
+
+hooks:
+  site:
+    map: X3
+    where: "the Newcastle site: rubble, Ebenezer's tent, wood golems in the foundation (stage 0, Xeen.stageOf(\"newcastle\") == 0)"
+    reads: [deed]
+
+rewards: {xp: 0, gold: -12000}
+playthrough: "X3: Ebenezer (Newcastle, Buy the deed) with 12,000 gold."

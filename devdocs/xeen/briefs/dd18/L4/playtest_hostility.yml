@@ -1,0 +1,45 @@
+# Hostility check of the Sandcaster Sewer (DD-18), as XD-10's, XD-27's and DD-01's: its foes hostile to the party, its
+# kinds not fighting each other. The kinds (all placed): Sewer Stalker 11401 and Stalker Matriarch 11402 (sewer
+# stalkers), Guardian Asp 11490 and Killer Cobra 11491 (cobras), Mantis Warrior 11371 and Mantis Queen 11372 (mantis
+# ants); the world's relations.yml decides between them. Run with --world xeen --map xeen_dd18.blv.
+id: xeen.dd18.l4.hostility
+title: 'the Sandcaster Sewer (DD-18): foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd18.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 28, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 28, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 28, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 28, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11401, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11402, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11490, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11491, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11371, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11372, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11401, hostile: true, min: 16, max: 16}}
+- assert: {actor_count: {monster_id: 11402, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11490, hostile: true, min: 10, max: 10}}
+- assert: {actor_count: {monster_id: 11491, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11371, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11372, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {max: 50, min: 50}}
+- note: 'Kinds of the map side by side in the great cistern, nearer each other than the party: they must not take each other on.'
+- set_pose: {map: xeen_dd18.blv, x: 5600, y: 200, z: 0, yaw: 0.0, pitch: 0.0}
+- clear_hostiles: {radius: 4000}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11401, x: 6400, y: 900, z: 0}
+- spawn_actor: {monster_id: 11490, x: 6600, y: 900, z: 0}
+- spawn_actor: {monster_id: 11371, x: 6800, y: 900, z: 0}
+- spawn_actor: {monster_id: 11372, x: 6600, y: 1100, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}

@@ -1,0 +1,27 @@
+# D6 Necropolis: flavour topics of the city of the dead (source/towns/d6.yml). Owner: A4. Format: QUESTS_FORMAT.md
+# section 5 (talk only). Sandro (Q-D23) and the Necromancers' House promotion are A3's.
+map: D6
+block: 182
+
+npcs:
+  5502:              # Mother Mortis
+    topics:
+      - {n: 1, label: The well, text: "Don't drink from the black well in the square. It brings death quickly. We use it for the tea."}
+  5503:              # Knell
+    topics:
+      - {n: 2, label: Books, text: "The Books of the Dead are in the city. Read one and gain a lifetime. Read the wrong one and spend it all at once."}
+  5505:              # Barrelman Crane
+    topics:
+      - {n: 3, label: The barrel, text: "\"Food for the dead, keep warm.\" I wrote it on the barrel. Nobody eats it. It's tradition."}
+  5507:              # Count Velkor
+    topics:
+      - {n: 4, label: Vampires, text: "Young vampires think it's all capes and castles. It's mostly avoiding windows."}
+  5509:              # Old Bones
+    topics:
+      - {n: 5, label: Traps, text: "The best trap is the one you built yourself and forgot about. I should know."}
+  5510:              # Digby
+    topics:
+      - {n: 6, label: The sewer, text: "Something under the city keeps its heart in a box. I don't dig near the sewer. Even I have limits."}
+  5511:              # The Weeping Lady
+    topics:
+      - {n: 7, label: Two necromancers, text: "Two necromancers once argued over who was more dead. The cemetery still hasn't recovered. Ask the skull; it tells it better."}

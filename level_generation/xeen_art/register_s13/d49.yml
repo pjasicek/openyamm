@@ -1,0 +1,38 @@
+  - name: xdpyrdor
+    family: "map D5; MM6 Tomb of VARN door (egydrlgl) in deep green stone, its blocks (egybigb)"
+    area: "one leaf of the Great Pyramid's green-stone door: a framed slab with half the Pharaoh's sign (an eye over a sun disc), hieroglyph rows and a bronze ring pull at the meeting edge; D5's pyramid door at the north face's foot (m28.door into DD-15), the left leaf, the right leaf mirrored (D-49 8)"
+    maps: [D5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21; v2 (v1 lime and cropped)
+    source: assets_source/worlds/xeen/textures_x4/xdpyrdor.png
+    installed: world (2026-11-21)
+    reuse: "any green-stone tomb or temple double door (mirror it for the pair)"
+  - name: xdvowel
+    family: "map D5; MM7 Mount Nighon hkm1 dressed stone"
+    area: "a dark grey stone lintel cut with GRND RDR F VWLSS KNGHTS (q-d17): over the Northern Tower's door on D5, placed once (D-49 8)"
+    maps: [D5]
+    size: [256, 64]
+    kind: sign
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdvowel.png
+    installed: world (2026-11-21)
+  - name: xnpgate
+    family: "map D6; MM8 t09 grey ashlar (t09a01) with a carved crest"
+    area: "Necropolis's crest, a skull under a closed eye in a carved circle, set in grey ashlar: over D6's Necropolis gate, placed once (D-49 11)"
+    maps: [D6]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xnpgate.png
+    installed: world (2026-11-21)
+  - name: xnpbook
+    family: "map D6; a black book open on a lectern of MM8 t09 grey stone"
+    area: "an old book open on a stone lectern's top, yellowed pages of faded script, a small skull at the head: the Books of the Dead on D6's Necropolis square, the lectern tops, once per lectern (D-49 11)"
+    maps: [D6]
+    size: [128, 128]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/map_textures/phase5 (xtex.py --project, A6, D-49), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xnpbook.png
+    installed: world (2026-11-21)
+    reuse: "any open book on a lectern or table top"

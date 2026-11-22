@@ -1,0 +1,42 @@
+# D-11.3: the party (level 62, not immortal) stands 10 s at the arrival in the mouth and nobody is hurt (party() the
+# same before and after). A2's rows: Acid Dragon 11641 (9), Fire Dragon 11642 (17), Frost Dragon 11643 (14) and the
+# Dragon King 11645 (1) all hostile at load and after a save and load. No window is open before the reload.
+id: xeen.xd18.l4.hostility
+title: "Dragon Cave (XD-18 L4): a quiet arrival; the dragons and the King hostile"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd18.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 62, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - assert: {map: xeen_xd18.blv}
+  - play_lua: {source: "wait(0.5); close(); remember('hp', party()); log('start: ' .. party())"}
+  - advance_runtime: {seconds: 10}
+  - play_lua: {source: "close(); local a = recall('hp'); local b = party(); log('after 10 s: ' .. b); if a ~= b then error('hurt at the arrival: ' .. a .. ' -> ' .. b) end"}
+  - assert: {party_position: {x: 384, y: -3072, radius: 96, z_min: -8, z_max: 8}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {actor_count: {monster_id: 11641, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11642, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11643, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11645, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11641, hostile: true, min: 9}}
+  - assert: {actor_count: {monster_id: 11642, hostile: true, min: 17}}
+  - assert: {actor_count: {monster_id: 11643, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11645, hostile: true, min: 1}}
+  - reload: {}
+  - play_lua: {source: "wait(1); close()"}
+  - assert: {actor_count: {monster_id: 11641, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11642, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11643, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11645, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11641, hostile: true, min: 9}}
+  - assert: {actor_count: {monster_id: 11642, hostile: true, min: 17}}
+  - assert: {actor_count: {monster_id: 11643, hostile: true, min: 14}}
+  - assert: {actor_count: {monster_id: 11645, hostile: true, min: 1}}

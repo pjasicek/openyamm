@@ -1,0 +1,90 @@
+# Hostility.
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4.hostility
+title: 'The Skyroads (D7): the 50 placed and the Megadragon hostile, the eight Sky Bandits peaceful, nobody hurt'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_d7.blv
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11562
+      hostile: true
+      min: 12
+      max: 12
+- assert:
+    actor_count:
+      monster_id: 11594
+      hostile: true
+      min: 8
+      max: 8
+- assert:
+    actor_count:
+      monster_id: 11650
+      hostile: true
+      min: 8
+      max: 8
+- assert:
+    actor_count:
+      monster_id: 11592
+      hostile: true
+      min: 22
+      max: 22
+- assert:
+    actor_count:
+      monster_id: 11654
+      hostile: true
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11116
+      hostile: false
+      min: 8
+      max: 8
+- assert:
+    actor_count:
+      monster_id: 11116
+      hostile: true
+      max: 0
+- note: 'Nobody fights anybody else: after 20 s nothing is hurt (the party far off at the rope).'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      hurt: true
+      max: 0

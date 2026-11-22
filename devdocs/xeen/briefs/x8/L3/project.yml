@@ -1,0 +1,70 @@
+format: 0
+id: xeen_x8
+name: Cloudreach
+world: xeen
+kind: indoor
+profile: region
+map_code: X8
+units: {plan_grid: 512}
+extent: {footprint_cells: [76, 64]}
+map_stats:
+  id: 9106
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 2
+  perception_difficulty: 3
+  refill_days: 672
+  music: 25
+  environment: plains
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Harpy, tier: 0, per_marker: [1, 3], weight: 50}
+    - {monster: Xeen Construct, tier: 0, per_marker: [1, 2], weight: 50}
+neighbours:
+  - id: fall:x1
+    to: xeen_x1.odm
+    kind: fall
+    arrival: [11264, -7936, 1618]
+    direction: 308
+    notes: "A fall east of x 3,072 lands on X1 1,100 north-west of the Witch Tower's door, 850 over the ground (768): about a third of each member's hit points, none with Feather Fall."
+  - id: fall:x2
+    to: xeen_x2.odm
+    kind: fall
+    arrival: [-10240, 8448, 576]
+    direction: 45
+    notes: "A fall between x -3,072 and 3,072 (the half-way cloud and the inner 2,000 of each span; D-6.4) lands in Lake Darzog's north-east lobe on X2 (A5's point), near the shore, without damage."
+  - id: fall:x3
+    to: xeen_x3.odm
+    kind: fall
+    notes: "A fall west of x -3,072 lands on X3 by the Tower of High Magic. X3 is not built: until it is, these falls land in X2's Lake Darzog (fall:x2)."
+  - id: roof:high_magic
+    to: xeen_xd11.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-11's Stairway to Heaven arrives at the head of the High Magic Clouds' stair, by explicit coordinates in XD-11's exit (NOTES.md, Arrivals)."
+  - id: roof:witch_tower
+    to: xeen_xd04.blv
+    kind: roof
+    listed_only: true
+    notes: "One way up: XD-04's cloud stair arrives at the head of the Witch Clouds' stair (objects.yml start). There is no way back down but falling."
+qbits:
+  explorer: 115020
+  m4_done: 110047
+  nest_1: 115021
+  nest_2: 115022
+  nest_3: 115023
+rules:
+  no_fly: true
+  weather: none
+  fall_through:
+    below: -1000
+    between: fall:x2
+    east_of_x:
+      x: 3072
+      to: fall:x1
+    how: wiring evt:fall_check (a one-second timer) and evt:fall_floor (the safety floor at -6000)
+    west_of_x:
+      x: -3072
+      to: fall:x3
+notes: "Xeen design brief, level L3: X8 Cloudreach, the open-air BLV of walkable cloud islands over Cloudside (devdocs/INDOOR_OPEN_SKY.md), built with the studio (profile region): one room open to the sky with the islands, bridges and causeways hanging in it. Act II, party 18-20; map_stats 9106 (A2's row from source/map_rows.yml; the block here is the studio's copy), music 25, treasure 3, sky xeencloud. Monsters placed: Harpies 11520-11522, Flying Feet 11600, Guardians 11601, two Cloud Golems 11592 (a trap, D-1.2). Quest bits 115020-115023 (A3's X8-SKY), 110047 (M4 done: the Crusaders, the offering statues)."

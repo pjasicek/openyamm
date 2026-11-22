@@ -1,0 +1,46 @@
+format: 0
+id: xeen_xd17
+name: Shangri-La
+world: xeen
+kind: indoor
+profile: region
+map_code: XD-17
+units: {plan_grid: 512}
+extent: {footprint_cells: [46, 38], climbs: ne}
+map_stats:
+  id: 9120
+  continent: 6
+  encounter_chance: 0
+  treasure_level: 1
+  trap_dice: 0
+  perception_difficulty: 0
+  refill_days: 672
+  music: 51
+  environment: plains
+  lock_difficulty: 0
+neighbours:
+  - id: exit:x7_cleft
+    to: xeen_x7.odm
+    kind: door
+    arrival: entrance:xd17_cleft
+    arrival_hint: "On X7 before the cleft at [72, 48], (4096, 8192, 2496) facing west (1024), away from the rock."
+    notes: "X7 Mount Firestone (A5, installed; D-40 question 3): the back passage's far end, the inside of the rockfall, an exit preset (D-24). Its first use calls A3's xd17.cleft_opened (sets cleft_open 116140, once, a status line) before it moves the party to X7's entrance:xd17_cleft; after that X7's door:xd17 leads back in to entrance:x7_cleft. Always open from this side (D-50)."
+  - id: exit:xd16_way
+    to: xeen_xd16.blv
+    kind: door
+    arrival: entrance:xd17_way
+    arrival_hint: "In XD-16's cool passage about 256 inside its far end, facing back down toward the last cave."
+    notes: "XD-16 Volcano Cave (A7, D-47 Q4): the cool passage's end calls A3's q-c26.way (true with q-c26.done) and moves the party here, to entrance:xd16_way in the cave mouth; this map's way back is the back of the mouth's throat, an exit preset (D-24: the game's leave window; its meaning in the ledger is the source's \"Leave Shangri-La?\", aaze0049:32), to XD-16's entrance:xd17_way (4864, -18176, -1280) facing north (D-50)."
+  - id: pyramid:alamar
+    to: xeen_d6.odm
+    kind: pyramid
+    listed_only: true
+    condition: {qbit: m30_done}
+    notes: "The second pair of travel pyramids (WORLD_DESIGN 3.3; ROADMAP 5.6): Xeen.travelPyramid(\"shangrila\") (xeen_common.lua: opens on m30.done, to alamar_gate); before it the source's \"The moons are not aligned. You are unable to pass.\" (aaze0049:25). The far end: D6 outside Castle Alamar's gate (D-50 Q9: A6 adds a working pyramid there with entrance:xd17_pyramid; D6 is not built). This map's arrival from it is entrance:d6_pyramid, (0, 3200, 256) facing south (1536)."
+qbits:
+  cleft_open: 116140
+  m30_done: 111600
+  qc26_done: 112522
+rules:
+  weather: none
+notes: "XD-17 Shangri-La, MU-3 plan for the phase 5 review (A5, 2026-11-20): an open-air BLV (devdocs/INDOOR_OPEN_SKY.md; X8's studio route, profile region): a green valley ringed by black cliffs in Mount Firestone's flank, reached through the Volcano Cave (Q-C26). A hidden town of five services and ten residences (D-5.1; A4's towns/xd17.yml), no monsters, music 51. Drawings and board: output/studio_cal/xd17/mockups/board_xd17.png."

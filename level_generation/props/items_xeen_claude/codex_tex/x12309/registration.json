@@ -1,0 +1,36 @@
+{
+  "min_iou": 0.95,
+  "max_displacement_p95": 0.04,
+  "passed": true,
+  "failures": [],
+  "views": {
+    "front": {
+      "skipped": "sliver"
+    },
+    "back": {
+      "skipped": "sliver"
+    },
+    "left": {
+      "skipped": "sliver"
+    },
+    "right": {
+      "skipped": "sliver"
+    },
+    "paint_top": {
+      "bbox_ratio": [
+        0.9972,
+        0.9989
+      ],
+      "iou_affine": 0.9057,
+      "iou_warped": 0.9873,
+      "displacement_p95": 0.0061,
+      "displacement_max": 0.0075,
+      "raw": "paint_raw_v1.png",
+      "passed": true,
+      "raw_sha256": "1e078bfeb8e0c887cca9bc810605ec38721e09c65c218205eb9d15f7239bba29",
+      "candidates": [
+        "paint_raw_v1.png: iou 0.9873"
+      ]
+    }
+  }
+}

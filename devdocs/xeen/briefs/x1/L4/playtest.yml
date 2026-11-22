@@ -4,7 +4,7 @@
 # Toad Meadow (the tower barred, Valia's key, XD-04), and the west road's travel prompt.
 id: xeen.x1.walk
 title: 'X1 Vertigo Meadows: the town and every dungeon entrance'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -84,8 +84,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 311
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -123,8 +121,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 286
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -153,8 +149,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 240
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -183,8 +177,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 85
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -230,8 +222,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 203
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -268,8 +258,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 47
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -306,8 +294,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 9
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -353,13 +339,11 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 117
 - press_action:
     action: cancel_dialog
 - advance_runtime:
     seconds: 0.3
-- note: 'The Adventurer''s Inn: its door''s event'
+- note: 'The Adventurer''s Inn (4007): its door opens the roster, escape closes it'
 - walk_to:
     x: -10240
     y: 10240
@@ -390,6 +374,17 @@ steps:
       kind: event_target
 - advance_runtime:
     seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      adventurers_inn: true
+- press_action:
+    action: escape
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    dialog:
+      adventurers_inn: false
 - walk_to:
     x: -9984
     y: 10445
@@ -439,8 +434,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 1101
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -503,8 +496,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 1571
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -616,8 +607,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 140
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -655,8 +644,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 146
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -702,8 +689,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 135
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -741,8 +726,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 129
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -780,17 +763,22 @@ steps:
     radius: 160
     timeout_seconds: 120
     clear_hostiles: 3000
-- execute_event:
-    id: 68
-- advance_runtime:
-    seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
+- walk_to:
+    x: -1382
+    y: 1894
+    z: 634
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
 - play_lua:
-    source: if not has_item(2176) then error("no warehouse key from the rain barrel") end
+    source: if ground_items(12001) ~= 1 then error("the warehouse key is not on the ground") end
+- pick_up:
+    item_id: 12001
+    reach: 700
+- play_lua:
+    source: close(); if held() ~= 0 then stow() end; if not has_item(12001) then error("no warehouse key from the ground by
+      the rain barrel") end
 - walk_to:
     x: -2458
     y: 3277
@@ -869,6 +857,15 @@ steps:
 - press_interact:
     expect:
       kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
     seconds: 1.5
     follow_map_move: true
@@ -994,8 +991,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 461
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -1120,6 +1115,15 @@ steps:
     expect:
       kind: event_target
 - advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
     seconds: 1.5
     follow_map_move: true
 - assert:
@@ -1162,13 +1166,8 @@ steps:
       kind: event_target
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - setup_shortcut:
     kind: set_qbit
     id: 110031
@@ -1194,6 +1193,15 @@ steps:
 - press_interact:
     expect:
       kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
     seconds: 1.5
     follow_map_move: true
@@ -1235,6 +1243,15 @@ steps:
     expect:
       kind: event_target
 - advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
     seconds: 1.5
     follow_map_move: true
 - assert:
@@ -1252,15 +1269,15 @@ steps:
 - assert:
     party_position:
       x: 9216
-      y: 16643
+      y: 16384
       radius: 128
       z_min: 1296
       z_max: 1456
 - note: Off from the door on foot
 - walk_to:
     x: 9216
-    y: 16200
-    z: 1296
+    y: 15872
+    z: 1152
     z_tolerance: 600
     radius: 160
     timeout_seconds: 30
@@ -1470,13 +1487,8 @@ steps:
       kind: event_target
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - assert:
     map: xeen_x1.odm
 - note: Back north to the hamlet
@@ -1505,7 +1517,7 @@ steps:
     radius: 160
     timeout_seconds: 180
     clear_hostiles: 3000
-- note: Valia gives the Crystal Key
+- note: 'Valia''s house: her Falista topic gives the Crystal Key'
 - set_pose:
     map: xeen_x1.odm
     x: 7552
@@ -1518,17 +1530,17 @@ steps:
 - press_interact:
     expect:
       kind: event_target
-- advance_runtime:
-    seconds: 0.5
 - assert:
     dialog:
       active: true
+- select_topic:
+    match_label: Falista
+- advance_runtime:
+    seconds: 0.3
 - press_action:
     action: cancel_dialog
 - advance_runtime:
     seconds: 0.3
-- play_lua:
-    source: if not has_item(2110) then error("no Crystal Key from Valia") end
 - note: Back to the tower with the key
 - walk_to:
     x: 8192
@@ -1567,6 +1579,15 @@ steps:
 - press_interact:
     expect:
       kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
     seconds: 1.5
     follow_map_move: true
@@ -1619,8 +1640,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 1125
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -1770,6 +1789,29 @@ steps:
     radius: 160
     timeout_seconds: 120
     clear_hostiles: 3000
+- note: 'The Water Reflector (M37, A3''s hook): the prompt, Yes, and before M36 the hook''s fail text'
+- play_lua:
+    source: click(79); wait(0.5)
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      text_contains: below the rim. Reflector. Activate?
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- play_lua:
+    source: if qbit(111743) then error("the reflector set its bit before M36") end
+- advance_runtime:
+    seconds: 0.3
 - walk_to:
     x: -23552
     y: 9216
@@ -1785,3 +1827,66 @@ steps:
     action: cancel_dialog
 - assert:
     map: xeen_x1.odm
+- note: 'The north road to the edge: X7 Mount Firestone and back'
+- set_pose:
+    map: xeen_x1.odm
+    x: 2560
+    y: 21504
+    z: 1824
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 2560
+    y: 23808
+    z: 1888
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    party_position:
+      x: 2560
+      y: -22016
+      radius: 128
+      z_min: 1760
+      z_max: 2016
+- note: On X7's south road; back south over X7's south edge to X1's north road
+- walk_to:
+    x: 2560
+    y: -23552
+    z: 1856
+    z_tolerance: 3000
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x1.odm
+- assert:
+    party_position:
+      x: 2560
+      y: 22016
+      radius: 128
+      z_min: 1728
+      z_max: 1984

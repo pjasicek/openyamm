@@ -1,0 +1,19 @@
+  - name: xdgiantd
+    family: "map DD-24; MM8 d14 Cyclops Larder planks and door (gcstdoor, gkp1ceil), its rock gcav1wal"
+    area: "one leaf of a giant's double door: huge dark timber planks under three black iron straps, a ring handle; DD-24's great doors and throne-hall doors (hinged pairs, each leaf 192 x 512, the right leaf mirrored); D5's great doors into the Giants' Hall (D-47, D-49 8)"
+    maps: [DD-24, D5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/textures_xeen/a7_dd24_giant (A7, D-47 Q24), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdgiantd.png
+    installed: world (2026-11-21)
+    reuse: "any giant-scale timber door leaf (mirror it for the pair)"
+  - name: xdthrone
+    family: "map DD-24; MM8 d14 dark planks (gkp1ceil), blackened"
+    area: "near-black hewn wood with old dried blood in the joints: DD-24's bloody throne block, fitted at its size (seamless tile)"
+    maps: [DD-24]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation, level_generation/textures_xeen/a7_dd24_giant (A7, D-47 Q24), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xdthrone.png
+    installed: world (2026-11-21)

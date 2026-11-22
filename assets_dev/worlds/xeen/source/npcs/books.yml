@@ -1,0 +1,74 @@
+# Readable books and notes whose text is A3's (QUESTS_FORMAT.md section 5, books). The items are A2's rows
+# (source/items.yml); gen_quests writes each book's readable_items row. Eeried's guidebook is sold in Vertigo and
+# Castleview, one volume per face (WORLD_DESIGN 1); the Darkside volume follows the source's own chapter
+# (dark/aaze2121:5) in phase 3. Owner: A3.
+map: books
+block: 199
+source: "dark/aaze2121:5 (the title, the author, the thirty gold, the travelogue's manner); xeen/aaze0028:16 (Joe's invoice); xeen/aaze0019:2 (Crodo's bottle)"
+
+books:
+  eeried_guide_cloudside:
+    title: "The World of Xeen on 30 gold a day: Cloudside"
+    paragraphs:
+      - "The World of Xeen on 30 gold a day. Volume the First: Cloudside. By Eerie the Cartographer."
+      - "There is much to see in the World of Xeen. A traveller wishing to follow in my footsteps should expect to spend around thirty gold pieces per day on living expenses, and should arm himself well. Xeen, while beautiful, can be deadly."
+      - "Vertigo. A quiet river town in the green south-east, quieter since most of it left. The slimes are the town's own and are not, the mayor insists, dangerous. Lodging is cheap; boots are not, after a week of slime. Note the money tree in the square. I did not find any money on it either."
+      - "Rivercity, west along the river road, is built on and under a great bridge. Everything in Rivercity has a price, including the water. The robbers live under the bridge, the sorceresses by the quay, and the honest folk wherever is left. Keep one hand on your purse and the other on your other purse."
+      - "North across the savannah stands Castle Burlock, seat of good King Burlock. Only Crusaders pass the inner gate, which spared me the trouble. The plaques in its corridors are worth the walk: I am told one says \"Don't worry, be happy.\" I was not let in to check."
+      - "Asp, in the savannah's swamps, has a snake problem, in that its people are becoming snakes. Winterkill, in the snows of the south-west, is a ghost town in the plain sense. Nightshadow, by the Lifeforce Lagoon, is pleasant by night and shut by day; I did not stay to learn why."
+      - "The ruins of Newcastle lie by the lagoon. A taxman sits in a tent by the rubble and will sell them to anyone. He has not yet found anyone."
+      - "Last, a word of advice that applies to all of Cloudside: the world is flat, and it ends. The meadows east of Vertigo stop at a cliff, and below the cliff are the stars. Mind the edge."
+  joes_invoice:
+    title: "Joe's Invoice"
+    paragraphs:
+      - "Breeder Slimes, 1 mated pair 287"
+      - "5 Doom Bugs at 145 each 725"
+      - "Total: 1012 gold"
+      - "Deliver to: Joe, Pest Control, Vertigo. Back door, after dark."
+  crodos_bottle:
+    title: "Crodo's Bottle"
+    paragraphs:
+      - "Help! I'm in Darzog's tower!--Crodo"
+  deed_to_newcastle:
+    title: Deed to Newcastle
+    paragraphs:
+      - "Be it known that the bearer owns the ruins of Newcastle and all the land within its old walls, the rubble included."
+      - "Sold by Ebenezer, Taxman to the King, for twelve thousand gold. No refunds. The golems in the foundations convey with the land."
+  excavation_permit:
+    title: Excavation Permit
+    paragraphs:
+      - "By the King's leave, the bearer may clear and dig the caved-in dungeon below Newcastle."
+      - "Artemus, for King Burlock."
+  scroll_of_insight:
+    title: Scroll of Insight
+    paragraphs:
+      - "To see what is hidden, look twice: once with the eyes and once without."
+  castleview_pass:
+    title: Castleview Pass
+    paragraphs:
+      - "Let the bearer pass the gates of Castleview. By order of the Mayor."
+  sandcaster_pass:
+    title: Sandcaster Pass
+    paragraphs:
+      - "Let the bearer enter Sandcaster. Vespar vouches for them."
+  necropolis_pass:
+    title: Necropolis Pass
+    paragraphs:
+      - "The dead admit the bearer. Mind your manners."
+  olympus_pass:
+    title: Pass to Olympus
+    paragraphs:
+      - "The Chosen Ones may walk in Olympus. By the word of the Dragon Pharaoh."
+  fake_treasure_map:
+    title: "Joe's Treasure Map"
+    paragraphs:
+      - "X marks the spot! Dig where the three trees meet the rock."
+      - "(The three trees are drawn in three different inks.)"
+  real_treasure_map:
+    title: "Jethro's Treasure Map"
+    paragraphs:
+      - "Slibo's cache: on Lakeside's eastern shore, under the cairn of five stones, two paces north."
+  ellingers_letter:
+    title: "Ellinger's Sealed Letter"
+    paragraphs:
+      - "To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage. Ellinger."

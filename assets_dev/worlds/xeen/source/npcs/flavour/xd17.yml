@@ -1,0 +1,29 @@
+# XD-17 Shangri-La: flavour topics of the valley's people with no quest role (source/towns/xd17.yml; source
+# xeen/aaze0049). Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only). The hint lines that solve quests
+# (Maurice, Alexander, Princess Pilar, Elona, Psychic Sally) are A3's.
+map: XD-17
+block: 185
+source: "xeen/aaze0049 (Shangri-La)"
+
+npcs:
+  4701:              # Wilbur, Tavern Xanadu
+    topics:
+      - {n: 1, label: Toast, text: "Try peanut butter and honey on your morning toast.", source: "xeen/aaze0049:22"}
+  4706:              # Jack Alltrades
+    topics:
+      - {n: 2, label: Everything, text: "I will teach you everything for 100,000 gold. Or learning for less, and you can work out the rest yourselves.", source: "xeen/aaze0049:3 (close)"}
+  4713:              # Benedict
+    topics:
+      - {n: 3, label: The crystal, text: "Smile. The intent expression you are wearing is being broadcast to millions from the hidden crystal in the wall. Wave.", source: "xeen/aaze0049:14 (close)"}
+  4715:              # Murray
+    topics:
+      - {n: 4, label: Megacredits, text: "Once you have purchased a dungeon you have no need for Megacredits. Not that I would know. I inherited mine.", source: "xeen/aaze0049:24 (close)"}
+  4717:              # Martok
+    topics:
+      - {n: 5, label: Tips, text: "The tavern in Shangri-La has the best tips. Wilbur's tip: honey. Kublai's tip: leave quietly.", source: "xeen/aaze0049:31 (close)"}
+  4718:              # Stumpy
+    topics:
+      - {n: 6, label: Aging, text: "If you have suffered magical aging, the druids can help you. Visit the Druid of Summer first.", source: "xeen/aaze0049:6"}
+  4719:              # Lacey
+    topics:
+      - {n: 7, label: The moons, text: "The moons will align when you are able to visit the Darkside. Then again, you probably already have.", source: "xeen/aaze0049:18 (close)"}

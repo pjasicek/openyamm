@@ -1,0 +1,119 @@
+# Xeen side quest Q-C17, the Wand of Faery Magic (X2), from a new game on Rivercity's Bridge Square. Danulf the Faery
+# King (his ring of stones in the south woods, the scene's actor 51) lost his wand to the crazed sprites; their nest
+# (the sprite eggs, event 147) gives it once; Danulf takes it, pays 4,000 experience each and 1,500 gold and promotes
+# the Dark Elf to Patriarch (racial promotion). A Dark Elf who joins later is promoted by his Patriarch topic. Outdoors
+# the party is placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2).
+# Quest logic: source/quests/q-c17.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c17_faery_wand.yml
+id: xeen.side_quests.q-c17
+title: "Xeen Q-C17: Danulf's Wand of Faery Magic from the sprites' nest, and the Patriarch"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 2000
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 8, skills: [], equipment: {}}
+          - {name: Dask, class: DarkElf, level: 8, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 8, skills: [], equipment: {}}
+          - {name: Osric, class: Cleric, level: 8, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if classes() ~= "Knight DarkElf Sorcerer Cleric" then error("party classes: " .. classes()) end
+  # Danulf at his ring of stones: Wand (Q-C17 started); no Patriarch topic yet.
+  - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 51}   # Danulf (NPC 4154), the scene's actor 51
+  - assert:
+      dialog: {action_label_absent: Patriarch}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "My Wand of Faery Magic has been stolen by the Sprites"}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "The Sprites still possess my Wand"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112340]}
+  # The sprites' nest in the south woods (event 147): the wand, once.
+  - set_pose: {map: xeen_x2.odm, x: -7578, y: -11700, z: 1092, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(147); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Danulf's Wand of Faery Magic]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if held() ~= 0 then stow() end
+        if item_count(12310) ~= 1 then error("no wand from the nest") end
+  - assert: {qbit_set: [110205, 110206]}
+  - play_lua: {source: "click(147); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Broken eggshells and angry chirping]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if held() ~= 0 then stow() end
+        if item_count(12310) ~= 1 then error("the nest gave a second wand") end
+  # Pray N Pay on the south street (house 4058, D-82): the south woods' Medusa Sprites can leave a member Petrified
+  # (the --reload run met it); a player has him cured before going back to Danulf.
+  - set_pose: {map: xeen_x2.odm, x: 276, y: 640, z: 1024, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4058, min: 0}
+  # Danulf: the wand back (Q-C17 done): 4,000 experience each, 1,500 gold, the Dark Elf a Patriarch.
+  - set_pose: {map: xeen_x2.odm, x: -3277, y: -8909, z: 1044, yaw: -2.16, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for _, i in ipairs({1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the wand hand-in: ' .. c) end end end"}
+  - play_lua:
+      source: |
+        remember("gold", gold())
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "You have returned my Wand of Faery Magic"}
+  - assert:
+      dialog: {action_label_absent: Patriarch}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112341]}
+  - assert: {qbit_clear: [112340]}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        if has_item(12310) then error("Danulf did not take the wand") end
+        if classes() ~= "Knight Patriarch Sorcerer Cleric" then error("classes after Danulf: " .. classes()) end
+        if gold() - recall("gold") ~= 1500 then error("Danulf paid " .. (gold() - recall("gold")) .. " gold, not 1500") end
+        for i = 0, 3 do
+          local gained = experience(i) - recall("xp" .. i)
+          if gained ~= 4000 then error("member " .. i .. " gained " .. gained .. " experience, not 4000") end
+        end
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: Wand}
+  - assert:
+      dialog: {text_contains: "The forest is quiet again"}
+  - press_action: {action: cancel_dialog}
+  # A Dark Elf who joins after the quest. The console adds him as the game's hiring would (test setup, not a
+  # workaround); Danulf's Patriarch topic promotes him and is gone afterwards.
+  - console: {line: "player add DarkElf Vael", expect_contains: "Added Vael"}
+  - play_lua: {source: "for _, i in ipairs({4}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Patriarch topic: ' .. c) end end end"}
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: Patriarch}
+  - assert:
+      dialog: {text_contains: "Rise, Patriarch"}
+  - assert:
+      dialog: {action_label_absent: Patriarch}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        if classes() ~= "Knight Patriarch Sorcerer Cleric Patriarch" then error("classes after Patriarch: " .. classes()) end

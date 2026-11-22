@@ -1,0 +1,41 @@
+format: 0
+id: xeen_xd18
+name: Dragon Cave
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-18
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 32
+  - 16
+  climbs: n
+map_stats:
+  id: 9143
+  encounter_chance: 0
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 13
+  environment: cave
+  lock_difficulty: 20
+  bolster: LowerToEqual
+  slots: []
+neighbours:
+- id: exit:x7_mouth
+  to: xeen_x7.odm
+  kind: door
+  arrival: entrance:xd18_mouth
+  arrival_hint: On X7 before the Dragon Cave's mouth in the rim crag (A5's entrance:xd18_mouth, (-4096, 16896, 2144) facing
+    south).
+  notes: 'X7 installed (A5). The way out (and the inner door''s throw, D-57 Q2) names X7''s named arrival entrance:xd18_mouth.
+    X7''s door:xd18 (thing:xd18_mouth, ''The Dragon Cave smells pretty bad. Are you sure you wish to enter?'', aaze0017:0)
+    names this map''s arrival entrance:x7_mouth: (384, -3072, 0) facing east.'
+qbits:
+  inner_door_open: 118100
+  king_slain: 118101
+  tax_paid: 112500
+notes: 'Xeen design brief, level L3: XD-18 Dragon Cave, the plan and the to-scale shell (rooms.yml).'

@@ -1,0 +1,201 @@
+# Playtest of the Eastern Tower (DD-07, L4; lane A7, agent:xeen-a7-dd07; written by
+# output/studio_cal/dd07/tools/gen_tests.py from ids.lock.yml): the critical path. A level-36 party (immortal)
+# starts in the door hall (entrance:d3_door): the arrival line, the way out's window (cancelled); up the first
+# and second stair halls to the third landing; the door of light (shut, its words), the conjury's and the
+# scrying room's ward pylons broken by a click each (the door fades); the vault's jewel (q-d18.jewel) and the
+# disk alcoves (q-d18.l3_disks); up the third stair to the top landing; the study: Ellinger's letter
+# (q-d18.letter), the Book of Fantastic Knowledge (+2 Intellect, then 'already fantastic'), the Book of Great
+# Power's final refusal, the chest; the laboratory: the Fountain of Minimal Abilities (then 'cool and
+# refreshing'), the Fountain of Life, the vat; out to the gallery under the cone and onto the floating disc, its
+# lever: the party rides it down the well to the foot; the foot's lever calls it back up; every window closed
+# and a save and load (the door of light stays gone). Then D-39's check: at the third landing's window a
+# Floating Adept spawned across the well, in the third gallery's east arm, takes the party on.
+id: xeen.dd07.l4.walk
+title: Eastern Tower (DD-07 L4), the stair, the pylons, the vault, the study, the disc down the well
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_dd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: -2496, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(2); log('arrive: ' .. tostring(status())); close()"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # The way out asks (playtest_exit.yml leaves by it); here Cancel stays.
+  - walk_to: {x: -2660, y: 0, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - play_lua: {source: "close()"}
+  - assert: {map: xeen_dd07.blv}
+  # The first stair hall: its foot beside the door, twenty steps east to the second landing.
+  - walk_to: {x: -2624, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 640, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 640, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # The second stair hall: its foot at the east end, twenty steps west to the third landing.
+  - walk_to: {x: -1472, y: 480, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 560, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1300, y: 704, z: 640, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2360, y: 704, z: 1280, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2496, y: 480, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2496, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # Into the third gallery and round to the door of light: shut, its words explain both beams.
+  - walk_to: {x: -736, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 560, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 700, y: 700, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 800, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "click(41); wait(0.8); local s = tostring(status()); if not string.find(s, 'Two beams feed it', 1, true) then error('the door of light before the pylons: ' .. s) end; close()"}
+  - play_lua: {source: "if door_state(11) ~= 'closed' then error('ward: ' .. door_state(11)) end"}
+  # The conjury: the west pylon.
+  - walk_to: {x: 700, y: 700, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -384, y: 820, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(21, 4)"}
+  - walk_to: {x: -384, y: 1220, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - console: {line: destructible 2 state, expect_contains: standing}
+  - walk_to: {x: -576, y: 1440, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(2.5); local s = tostring(status()); if not string.find(s, 'west pylon shatters', 1, true) then error('west pylon: ' .. s) end"}
+  - console: {line: destructible 2 state, expect_contains: broken}
+  - assert: {state_dump_map_var: {index: 3, value: 1}}
+  - play_lua: {source: "if door_state(11) ~= 'closed' then error('ward after one pylon: ' .. door_state(11)) end"}
+  # Through the passage in the wall to the scrying room: the east pylon; the door of light fades.
+  - walk_to: {x: 0, y: 1600, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 500, y: 1600, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1472, y: 1440, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(36); wait(2.5); local s = tostring(status()); if not string.find(s, 'east pylon shatters', 1, true) then error('east pylon: ' .. s) end"}
+  - assert: {state_dump_map_var: {index: 3, value: 2}}
+  - play_lua: {source: "wait(4); if door_state(11) ~= 'open' then error('ward after both pylons: ' .. door_state(11)) end"}
+  - play_lua: {source: "click(4); wait(0.5); close()"}
+  # Back to the gallery and through the faded door: the jewel, the disks.
+  - walk_to: {x: 640, y: 1220, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 7)"}
+  - walk_to: {x: 640, y: 800, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 800, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 1520, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  # The Jewel of Ages lies on its stand as a ground item (D-90): picked up.
+  - play_lua: {source: "if ground_items(12527) ~= 1 then error('the Jewel of Ages is not on its stand') end"}
+  - pick_up: {item_id: 12527}
+  - play_lua: {source: "if held() ~= 0 then stow() end; if not has_item(12527) then error('no Jewel of Ages') end"}
+  - walk_to: {x: 2250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Two Energy Disks]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "if not qbit(113362) then error('tower_disks 113362') end; if held() ~= 0 then stow() end; if item_count(12334) < 2 then error('disks: ' .. item_count(12334)) end"}
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Loose wires]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # Back to the third landing and up the third stair to the top landing.
+  - walk_to: {x: 1250, y: 0, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 736, y: -620, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: -620, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -736, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2624, y: 0, z: 1280, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2624, y: -520, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2690, y: -768, z: 1280, radius: 48, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1640, y: -768, z: 1920, z_tolerance: 48, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -1472, y: -520, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1472, y: 0, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 20, close_dialogs: true}
+  # The study: the letter, the two books, the chest.
+  - walk_to: {x: -1920, y: 140, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 10)"}
+  - walk_to: {x: -1920, y: 600, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1920, y: 1180, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(33); wait(0.5); local s = tostring(status()); if not string.find(s, 'sealed with Ellinger', 1, true) then error('letter: ' .. s) end; close()"}
+  - play_lua: {source: "if not qbit(113363) then error('letter_found 113363') end; if held() ~= 0 then stow() end; if not has_item(12361) then error('no letter') end"}
+  - walk_to: {x: -2420, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[+2 Intellect]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "click(9); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[already fantastic]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -2420, y: 896, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.8)"}
+  - assert: {dialog: {active: true, text_contains: "answers to no one living"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -2560, y: 640, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(15); close(); if held() ~= 0 then stow() end; if gold() < g + 2400 then error('the study chest held no gold') end"}
+  # The laboratory: the fountains, the vat.
+  - walk_to: {x: -1250, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(26, 9)"}
+  - walk_to: {x: -760, y: 1344, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -576, y: 1340, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[statistics have increased]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "click(30); wait(0.8)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[cool and refreshing]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 576, y: 1340, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(29); wait(0.8); local s = tostring(status()); if not string.find(s, 'closes your wounds', 1, true) then error('the Fountain of Life: ' .. s) end; close()"}
+  - walk_to: {x: 0, y: 1700, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(0.8); local s = tostring(status()); if not string.find(s, 'Bubbling Vat', 1, true) then error('the vat: ' .. s) end; close()"}
+  # Out to the gallery under the cone and onto the floating disc; its lever sends it down the well.
+  - walk_to: {x: 0, y: 1220, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 6)"}
+  - walk_to: {x: 0, y: 780, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 700, y: 700, z: 1920, radius: 64, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 700, y: 0, z: 1920, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 270, y: 0, z: 1920, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_position: {x: 256, y: 0, radius: 120, z_min: 1900, z_max: 1940}}
+  - play_lua: {source: "if door_state(1) ~= 'open' then error('disc at load: ' .. door_state(1)) end"}
+  - play_lua: {source: "click(17); wait(12); log('after the ride: ' .. tostring(status()))"}
+  - assert: {party_position: {x: 256, y: 0, radius: 160, z_min: -8, z_max: 40}}
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  # At the foot: step off, the call lever brings the disc back up.
+  - walk_to: {x: -200, y: 0, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 380, y: 260, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(10); if door_state(1) ~= 'open' then error('disc after the call: ' .. door_state(1)) end"}
+  # Back to the door hall; every window closed, then a save and load: the door of light stays gone.
+  - walk_to: {x: -1200, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "close()"}
+  - reload: {}
+  - play_lua: {source: "wait(1); if door_state(11) ~= 'open' then error('ward after the reload: ' .. door_state(11)) end; if held() ~= 0 then stow() end; if not has_item(12527) then error('the Jewel of Ages was lost') end"}
+  # D-39: a floating mage across the well takes on the party at the third landing's window.
+  - console: {line: arena trace on}
+  - console: {line: actor kill 200000}
+  - set_pose: {map: xeen_dd07.blv, x: -640, y: 0, z: 1280, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 1}
+  - spawn_actor: {monster_id: 11203, x: 736, y: 0, z: 1280}
+  - advance_runtime: {seconds: 20}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {ai_trace: {actor_index: last, decision: attack_ranged, target: party, min_count: 1, report: true}}
+  - assert: {combat_log: {taken_min: 1}}

@@ -240,9 +240,9 @@ spaces:
     purpose: "The open land round the town: farmland north, the lake west, the fairy woods south, the rim beyond."
     density: sparse
     buildings:
-      - {id: building:barok_hut, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
-      - {id: building:medin_hut, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[1.5, 1]]}
-      - {id: building:tito_chapel, type: house, service: residence, count: 1, doors: 1, footprint_cells: [[2, 2.5]]}
+      - {id: building:barok_hut, type: house, service: Barok's Hut, count: 1, doors: 1, footprint_cells: [[1.5, 1.5]]}
+      - {id: building:medin_hut, type: house, service: Medin's Hut, count: 1, doors: 1, footprint_cells: [[1.5, 1]]}
+      - {id: building:tito_chapel, type: house, service: Tito's Chapel, count: 1, doors: 1, footprint_cells: [[2, 2.5]]}
       - {id: building:farmsteads, type: house, service: residence, count: 5, doors: 1, footprint_cells: [[2, 1.5], [1.5, 1.5], [1.5, 1.5], [2, 1.5], [1.5, 1.5]]}
   - id: zone:yak_front
     name: The Temple of Yak
@@ -369,6 +369,10 @@ entrances:
     space: edge:west_end
     kind: both
     neighbour: edge:west
+  - id: entrance:x9_fall
+    space: zone:island
+    kind: arrival
+    how: "A fall from X9, the Clouds of Xeen (D-50 change 4; Xeen.skyFall, with falling damage): on Darzog's island by the tower door; the lake dragons are leashed at least 5,888 from it (D-54)."
   - id: entrance:xd06_yak
     space: zone:yak_front
     kind: both

@@ -1,0 +1,238 @@
+format: 0
+themes:
+  - id: theme:bones
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: xobones, size: [128, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The bone slope down to the larder: gnawed bones underfoot (xobones)."
+  - id: theme:dirt
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: 7dirttyl, size: [128, 128], scale: 2}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The pocket: XD-23's MM7 red-brown dirt cave (7dirttyl) on walls, roofs and floors; hide flaps (xohide) for doors."
+  - id: theme:roots
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: xdbark, size: [128, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Root steps (xdbark, D2's bark) in the dirt: the root stair and the burrow up."
+  - id: theme:straw
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Nests and sleeping hollows: the same dirt, the floor deep in old straw (MM6 straw)."
+defaults: {theme: theme:dirt, ambient: 18}
+rooms:
+  - id: room:bone_slope
+    name: Bone slope
+    path: [[2560, -768], [2560, -2304]]
+    width: 256
+    floor: 0
+    slope: {to: -384}
+    ceiling: 320
+    theme: theme:bones
+    ambient: 16
+    notes: "The midden's bones spill down a tunnel to the larder, 384 below."
+  - id: room:burrow
+    name: The burrow up
+    path: [[512, -1088], [-768, -1088]]
+    width: 224
+    floor: 0
+    slope: {to: 384}
+    ceiling: 288
+    theme: theme:roots
+    ambient: 22
+    notes: "The trolls' own way out: a steep burrow of packed earth and root steps up to a sod hatch in the forest floor."
+  - id: room:crawl
+    name: Dead thief's crawl
+    outline: [[2368, 768], [2944, 768], [2944, 1216], [2368, 1216]]
+    floor: 192
+    rough: {step: 224, depth: 72}
+    ceiling: 448
+    theme: theme:dirt
+    ambient: 14
+    notes: "A low crawl behind the boulder: a thief who crawled in to hide and never came out."
+  - id: room:guard_den
+    name: Guard den
+    outline: [[3200, -3456], [4032, -3456], [4032, -2560], [3200, -2560]]
+    floor: -384
+    rough: {step: 224, depth: 72}
+    ceiling: -32
+    theme: theme:straw
+    platforms:
+      - {id: platform:den_nest, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[3440, -2816], [3560, -2890], [3710, -2890], [3800, -2807], [3710, -2670], [3530, -2670]], top_surface: {texture: straw, size: [256, 256]}, notes: The guards' bedding.}
+    ambient: 14
+    notes: "The guards' den behind a log door; their pile of shiny things."
+  - id: room:hollow
+    name: Sleeping hollow
+    outline: [[640, -1536], [1664, -1536], [1664, -288], [640, -288]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 384
+    ceiling_points: [[1152, -912, 480]]
+    theme: theme:straw
+    platforms:
+      - {id: platform:nest_1, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[740, -513], [834, -580], [950, -580], [1020, -505], [950, -380], [810, -380]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest of straw and pulled-up bracken.}
+      - {id: platform:nest_2, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[1300, -503], [1394, -570], [1510, -570], [1580, -495], [1510, -370], [1370, -370]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest of straw and bracken.}
+      - {id: platform:nest_3, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[1310, -1363], [1404, -1430], [1520, -1430], [1590, -1355], [1520, -1230], [1380, -1230]], top_surface: {texture: straw, size: [256, 256]}, notes: A nest of straw and bracken.}
+    ambient: 16
+    notes: "Nests of straw and pulled-up bracken; snoring. The burrow up leaves its west wall, the root stair comes up its south wall."
+  - id: room:larder
+    name: Troll larder
+    outline: [[2048, -3584], [3072, -3584], [3072, -2432], [2048, -2432]]
+    floor: -384
+    rough: {step: 224, depth: 72}
+    ceiling: 0
+    theme: theme:dirt
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:hides_s, offset: 256, length: 512, bottom: 64, height: 256, surface: {texture: xohide, size: [128, 256]}, notes: Hides and carcasses hung on root hooks.}
+    ambient: 16
+    notes: "Carcasses on root hooks behind a wicker gate: deer, a wolf, something with too many legs."
+  - id: room:midden
+    name: Bone midden
+    outline: [[1920, -640], [3200, -640], [3200, 640], [1920, 640]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 480
+    ceiling_points: [[2560, 0, 640]]
+    theme: theme:dirt
+    platforms:
+      - {id: platform:bone_slope, at: [2656, 448], size: [320, 384], rise: 0, surface: {texture: xobones, size: [128, 256]}, top_surface: {texture: xobones, size: [128, 256]}, top_slope: {to: 192, toward: north}, notes: "Everything the trolls have eaten, heaped up the north wall: a slope of bones to the crawl's boulder."}
+      - {rise: 40, surface: {texture: xobones, size: [128, 256]}, outline: [[2000, 384], [2100, 310], [2225, 310], [2300, 393], [2225, 530], [2075, 530]], top_surface: {texture: xobones, size: [128, 256]}, notes: "Gnawed bones, dented helms, a boot."}
+      - {rise: 32, surface: {texture: xobones, size: [128, 256]}, outline: [[2880, 340], [2974, 260], [3090, 260], [3160, 350], [3090, 500], [2950, 500]], top_surface: {texture: xobones, size: [128, 256]}, notes: Gnawed bones.}
+      - {rise: 24, surface: {texture: xobones, size: [128, 256]}, outline: [[2930, -510], [3010, -570], [3110, -570], [3170, -502], [3110, -390], [2990, -390]], top_surface: {texture: xobones, size: [128, 256]}, notes: Gnawed bones.}
+    ambient: 18
+    notes: "Everything the trolls have eaten, heaped up a slope against the north wall to the crawl; the bone slope down to the larder leaves the south wall."
+  - id: room:pit
+    name: Pit bottom
+    outline: [[-157, -384], [157, -384], [384, -157], [384, 157], [157, 384], [-157, 384], [-384, 157], [-384, -157]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 448
+    theme: theme:dirt
+    platforms:
+      - {id: platform:mound, rise: 24, surface: {texture: xobones, size: [128, 256]}, outline: [[-300, 97], [-213, 30], [-105, 30], [-40, 105], [-105, 230], [-235, 230]], top_surface: {texture: xobones, size: [128, 256]}, notes: "A mound of earth and old bones under the hole, where everything that falls in lands."}
+    ceiling_levels:
+      - outline: [[-91, -224], [91, -224], [224, -91], [224, 91], [91, 224], [-91, 224], [-224, 91], [-224, -91]]
+        ceiling: 768
+        edge: {texture: 7dirttyl, size: [128, 128]}
+        surface: {texture: 7dirttyl, size: [128, 128], sky: true}
+        notes: "The troll hole's shaft, 768 up to D2's sky."
+    ambient: 30
+    notes: "Where the party lands, under a shaft of daylight 768 up; its roots are too thin to climb. The root tunnel runs east."
+  - id: room:root_stair
+    name: Root stair
+    outline: [[1152, -2432], [1536, -2432], [1536, -1664], [1152, -1664]]
+    floor: -384
+    slope: {to: 0, toward: north, steps: 12}
+    ceiling: 320
+    theme: theme:roots
+    ambient: 16
+    notes: "A stair of roots from the seep up to the sleeping hollow, 384."
+  - id: room:root_tunnel
+    name: Root tunnel
+    path: [[512, 0], [1792, 0]]
+    width: 320
+    floor: 0
+    ceiling: 320
+    theme: theme:dirt
+    ambient: 20
+    notes: "A tunnel dug under the forest, roots hanging from its roof; the sleeping hollow opens off its south side."
+  - id: room:seep
+    name: Dripping seep
+    outline: [[1024, -3584], [1920, -3584], [1920, -2560], [1024, -2560]]
+    floor: -384
+    rough: {step: 224, depth: 72}
+    ceiling: 0
+    ceiling_points: [[1472, -3072, 96]]
+    theme: theme:dirt
+    levels:
+      - id: level:seep_pool
+        outline: [[1318, -3370], [1482, -3370], [1600, -3269], [1600, -3131], [1482, -3030], [1318, -3030], [1200, -3131], [1200, -3269]]
+        floor: -432
+        edge: {texture: 7dirttyl, size: [128, 128]}
+        surface: {texture: wtrtyl}
+        notes: The pool the trolls drink from.
+    ambient: 16
+    notes: "Water seeps through the roof into a pool; the root stair climbs from its north wall to the sleeping hollow."
+openings:
+  - id: open:hollow_burrow
+    from: room:hollow
+    to: room:burrow
+    link: link:hollow_burrow
+    width: 192
+    height: 256
+  - id: open:larder_den
+    from: room:larder
+    to: room:guard_den
+    link: link:larder_den
+    width: 192
+    height: 256
+    notes: The guard den's log door.
+  - id: open:larder_seep
+    from: room:larder
+    to: room:seep
+    link: link:larder_seep
+    width: 224
+    height: 256
+    notes: The larder's wicker gate.
+  - id: open:midden_crawl
+    from: room:midden
+    to: room:crawl
+    link: link:midden_crawl
+    width: 192
+    height: 224
+    notes: "The crawl's mouth at the top of the bone slope, 192 up; the boulder rolls across it."
+  - id: open:midden_slope
+    from: room:midden
+    to: room:bone_slope
+    link: link:midden_larder
+    width: 224
+    height: 288
+  - id: open:pit_tunnel
+    from: room:pit
+    to: room:root_tunnel
+    link: link:pit_tunnel
+    width: 256
+    height: 288
+  - id: open:seep_stair
+    from: room:seep
+    to: room:root_stair
+    link: link:seep_hollow
+    width: 256
+    height: 288
+  - id: open:slope_larder
+    from: room:bone_slope
+    to: room:larder
+    link: link:midden_larder
+    width: 224
+    height: 288
+  - id: open:stair_hollow
+    from: room:root_stair
+    to: room:hollow
+    link: link:seep_hollow
+    width: 256
+    height: 288
+  - id: open:tunnel_hollow
+    from: room:root_tunnel
+    to: room:hollow
+    link: link:hollow_tunnel
+    along: 0.35
+    width: 256
+    height: 288
+  - id: open:tunnel_midden
+    from: room:root_tunnel
+    to: room:midden
+    link: link:tunnel_midden
+    width: 288
+    height: 288
+notes: "DD-11A Troll Holes, first pocket: floor 0 (the pocket) and -384 (the lower warren); x east, y north. Written by output/studio_cal/dd11a/tools/gen.py."

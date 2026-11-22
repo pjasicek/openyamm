@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_mantis_claude/references_hd/00_three_quarter.png) as an unresized 1536 × 1024 transparent PNG. The Mantis Ant faces image right, with four distinct legs and both raised hooks clear of its head.
+
+The visible silhouette has at least 149 px of clearance on every side. Trace alpha below 5/255 extends into the margin. Both built-in generation prompts and the selection reason are in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_mantis_claude/references_hd/generation_runs.json). Run 1 is complete.

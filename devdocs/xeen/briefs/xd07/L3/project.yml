@@ -1,0 +1,38 @@
+format: 0
+id: xeen_xd07
+name: Castle Burlock
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-07
+units: {plan_grid: 512}
+extent: {footprint_cells: [20, 31], climbs: n}
+map_stats:
+  id: 9123
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 1
+  perception_difficulty: 2
+  refill_days: 672
+  music: 29
+  environment: castle
+  lock_difficulty: 2
+  slots:
+  - {monster: Xeen Madman, tier: 5, per_marker: [2, 3], weight: 40}
+  - {monster: Xeen Gargoyle, tier: 1, per_marker: [1, 2], weight: 30}
+  - {monster: Xeen Troll, tier: 0, per_marker: [1, 2], weight: 30}
+neighbours: []
+qbits:
+  audience: 111100
+  cage_lever_pulled: 110721
+  crusader: 110047
+  den_bar_lifted: 110720
+  dungeon_key: 116080
+  tiara_done: 112061
+notes: 'Xeen design brief, level L3: XD-07 Castle Burlock, the royal court on X4 (Act II; MU-6 graph devdocs/xeen/mockups/act2_graphs/xd07.graph.yml,
+  decisions D-4). Story M5-M7 (the audience, Artemus), Emerson (M9, M11, M22), Roxanne (Q-C3, T1-E). Map card 9123, music
+  29, treasure 2 (hoard 3); slots 1 Xeen Madman (Mad Fool 8 b, Raving Lunatic 12 c), 2 Xeen Gargoyle (16 a, Lord 22 b), 3
+  Xeen Troll (Troll 18 a); placed: seven King''s Guards 11143 (peaceful by the world''s relation) and the caged Fire Dragon
+  11642 (optional). Quest bits: A3''s m4.done 110047, m5.audience 111100, xd07.dungeon_key 116080, Q-C3 done 112061; the map''s
+  own 110720-110759 (two used). The court''s people are A4''s houses 4201-4204. Every exit leads to X4 (Burlock Savannah),
+  not built: sealed (NOTES.md).'

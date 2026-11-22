@@ -1,0 +1,3 @@
+Saved all four Run 2 views at their native 1024×1536 resolution. Each has a verified 60-pixel transparent margin after clearing stray pixels at 1/255 opacity. The [five-view contact sheet](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sorc_claude/references_hd/selected_views_review.png) includes the accepted three-quarter reference.
+
+The left profile is framed slightly larger than the other views. I selected it because it preserves the strict side angle. All eight attempts and selection reasons are in the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sorc_claude/references_hd/generation_runs.json).

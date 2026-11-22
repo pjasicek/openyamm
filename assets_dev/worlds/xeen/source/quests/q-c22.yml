@@ -1,0 +1,77 @@
+# Q-C22 Rescue Celia (QUESTS 2.1). Owner: A3. Celia and Derek reappear on Darkside, in their cottage by the
+# Crossroads (D3, A4's house 4647, empty until then): the cottage's door moves them in the first time the party knocks
+# after the rescue, and from then on X1's camp scene (Derek and Celia at the fire) is gone.
+id: Q-C22
+title: Rescue Celia
+act: I
+kind: side
+status: full
+giver: 4046          # Derek the Ranger, at his camp
+maps: [X1]
+level: 6
+block: 72
+after: []
+source: "QUESTS Q-C22; xeen/aaze0023:5-8"
+
+qbits:
+  started: {id: 112440, journal: "Derek the Ranger's bride Celia was carried off by zombies into the Forest of the Walking Dead.",
+            until: [done]}
+  celia_freed: {id: 112441}
+  done: {id: 112442}
+  moved: {id: 112443, note: "Celia and Derek live in their Darkside cottage (D3, 4647); X1's camp scene hides"}
+  sword_given: {id: 112444}
+
+npcs:
+  4046:              # Derek
+    topics:
+      - n: 1
+        label: Celia
+        states:
+          - when: {qbit: moved}
+            text: "No zombies down here. Gremlins, cobras, the odd hornet. Celia says it's an improvement."
+          - when: {qbit: done}
+            text: "We are to be married. Somewhere with fewer zombies."
+          - when: {qbit: celia_freed}
+            text: "You have rescued my Celia! I am so grateful to you for reuniting us. As payment for your services, please accept this treasure."
+            do: [{set: done}, {clear: started}, {xp: 1250}, {gold: 300}, {treasure: 1}]
+          - when: {qbit: started}
+            text: "You have not rescued Celia from the zombies yet. Please hurry."
+          - text: "I am searching for my intended bride, Celia. She was tending her family's sheep when zombies snatched her and disappeared into the Forest of the Walking Dead. The forest is so large and the zombies so many I'll need help to rescue her before they turn her into one of them. Help me, please."
+            do: [{set: started}]
+  4041:              # Celia, tied up in her hut in the dead forest
+    topics:
+      - n: 2
+        label: Untie
+        show: {not: {qbit: celia_freed}}
+        text: "You cut the ropes. \"Derek sent you? Bless him. I'll find my own way to his camp, zombies or no zombies.\""
+        do: [{set: celia_freed}, {move_npc: [4041, 0]}]
+
+      - n: 3
+        label: The sword
+        show: {all: [{qbit: moved}, {not: {qbit: sword_given}}]}
+        text: "Derek found this on the road down. It's too good a sword for a man who mostly carries firewood, I told him, and the people who carried me out of a zombie wood should have it. Take it."
+        do: [{set: sword_given}, {treasure: 4}]
+
+hooks:
+  cottage:
+    map: D3
+    where: "Celia and Derek's cottage door by the Crossroads (A4's house 4647): the first knock after Q-C22 runs this hook and enters the house at once (a status line, shown over the house screen: a message would be closed by it); once q-c22.moved is set the door enters the house without the hook; before Q-C22 is done the hook refuses and the door stays shut"
+    sets: [moved]
+    requires: {qbit: done}
+    status: true
+    once: true
+    do: [{move_npc: [4041, 4647]}, {move_npc: [4046, 4647]}]
+    text: "Celia opens the door with flour on her hands. \"It's you! Derek, look who it is!\""
+    fail_text: "A cottage, newly thatched, the door locked. Nobody lives here yet."
+  on_darkside:
+    map: X1
+    where: "Derek's camp: X1's on-load event hides Derek's actor (and the fire scene) when this bit is set: they live on Darkside now"
+    reads: [moved]
+  derek_camp:
+    map: X1
+    where: "Derek's camp. The event: X1's on-load event (studio trigger: load) asks XeenQuests.can(\"q-c22.derek_camp\") (qbit done, 112442) and shows the actor group celia_at_fire, Celia sitting at Derek's fire, when it is true, hides it otherwise. She walks there off-screen (\"I'll find my own way to his camp\"), so she appears from the next load of X1 on. Celia's hut actor (NPC 4041) is moved out by her Untie topic."
+    requires: {all: [{qbit: done}, {not: {qbit: moved}}]}
+    reads: [done, moved]
+
+rewards: {xp: 1250, gold: 300}
+playthrough: "Derek (Celia); walk into the dead forest to Celia's hut; Celia (Untie); Derek (Celia). Later, D3: the cottage door; Derek (The sword)."

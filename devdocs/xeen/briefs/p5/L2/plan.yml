@@ -1,0 +1,307 @@
+format: 0
+level: L2
+pitch: "The cloud above Darkstone Tower, the last place in the world. One road of cloud leaves the tower's black crown and goes the long way round: a ring past Rest Stop huts, an observatory that is closed and billboards naming New World Computing's games, with the Pharaoh's shrine in sight across the sky the whole way, until a causeway turns in to it. There the Dragon Pharaoh waits with his two stone hands held up for the Cube and the Scepter; after the ceremony, a wedding pavilion."
+purpose: "Act VI's finale (M42, party 61-65): the walk, the Pharaoh's note, the shrine and the ending cinematic (evt.PlayCinematic), Roland and Kalindra's wedding, the completion certificate. Reached by FD-03's roof stair after M41's seal; left down the stair house, by falling (to X5) or by spell."
+mood: "Bright, quiet and a little solemn; a highway in the sky with rest stops and billboards. The world winks one last time; nothing attacks."
+datum: room:crown
+spaces:
+  - id: room:crown
+    name: Darkstone's crown
+    kind: room
+    extent: [2816, 2816]
+    shape: "a flat cloud round the stair house, a small black copy of Darkstone Tower's crown standing up through it"
+    at: [3968, -4352]
+    floor: 0
+    relief: flat
+    purpose: "Arrival from FD-03's roof stair and the way back down (the stair house's door). The Pharaoh's note by the door; the 'New World Computing' board on the west rim. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "The stair house at (4608, -4864): a round black tower top of radius 448, walls 512, a skull frieze 256, a slate cone of about 1562, as X5's Darkstone Tower's crown (A6's thing:darkstone: gtrlwal1, hkm3b, xtslate). Its door faces north. The road leaves the pad's north-west at (3584, -2944)."
+  - id: room:ne_turn
+    name: The north-east turn
+    kind: room
+    extent: [2048, 2048]
+    at: [3776, 3776]
+    floor: 128
+    relief: flat
+    purpose: "The road turns west. 'Empire Deluxe' and 'Spaceward Ho!' on the outer corner (the source's north-east pair, (30-31, 31))."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:nw_turn
+    name: The north-west turn
+    kind: room
+    extent: [2048, 2048]
+    at: [-3776, 3776]
+    floor: 256
+    relief: flat
+    purpose: "The road turns south. 'Planets Edge' and 'Vegas Games' (the source's north-west pair, (0-1, 31))."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:observatory
+    name: The observatory
+    kind: room
+    extent: [2560, 2560]
+    shape: "the north road's widening, the observatory's round tower on its north side"
+    at: [0, 4096]
+    floor: 192
+    relief: flat
+    purpose: "A domed observatory beside the road, its door shut: 'The observatory is closed.' (m42.observatory)."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:rest_east
+    name: The first Rest Stop
+    kind: room
+    extent: [2048, 1792]
+    at: [3904, 0]
+    floor: 64
+    relief: flat
+    purpose: "A Rest Stop hut on the road's outer (east) side, a bench under it."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:rest_south
+    name: The last Rest Stop
+    kind: room
+    extent: [2304, 2048]
+    at: [0, -3904]
+    floor: 448
+    relief: flat
+    purpose: "The last Rest Stop hut, on the outer (south) side; the causeway leaves north from it to the shrine."
+    safe: true
+    keep_clear: [spawns]
+  - id: room:rest_west
+    name: The second Rest Stop
+    kind: room
+    extent: [2048, 1792]
+    at: [-3904, 0]
+    floor: 320
+    relief: flat
+    purpose: A Rest Stop hut on the road's outer (west) side.
+    safe: true
+    keep_clear: [spawns]
+  - id: room:shrine
+    name: The Pharaoh's shrine
+    kind: room
+    extent: [3328, 3328]
+    shape: "a round high cloud paved in pale gold stone, the shrine's dais at its middle, the pavilion's place behind"
+    at: [0, 0]
+    floor: 512
+    relief: flat
+    purpose: "The end of the road: the Dragon Pharaoh at his shrine (m42.shrine, the ending cinematic); 'Might and Magic', the last sign; after the ceremony the wedding pavilion with Roland and Kalindra."
+    safe: true
+    keep_clear: [spawns]
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: "the wedding gift in the pavilion, shown with it on m42.done (question 7)"}
+    notes: "The middle of the ring: its rim is at least 1,155 of open sky from every road and pad but the last Rest Stop, which the causeway joins."
+  - id: room:sw_turn
+    name: The south-west turn
+    kind: room
+    extent: [2048, 2048]
+    at: [-3776, -3776]
+    floor: 384
+    relief: flat
+    purpose: "The road turns east. 'Tunnels and Trolls' and 'Nuclear War' (the source's south-west pair, (0, 0-1))."
+    safe: true
+    keep_clear: [spawns]
+  - id: void:sky
+    name: The sky
+    kind: void
+    purpose: "Open sky round and under the clouds (below_horizon: sky); any fall lands on X5."
+regions:
+  - id: region:middle
+    name: The Pharaoh's shrine
+    spaces: [room:shrine]
+    where: "the source's middle, (13,15)"
+  - id: region:ring
+    name: The long road
+    spaces: [room:crown, room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south]
+    where: "the source's spiral road (maze 129 with x181-x183), one ring of 7,168 a side"
+links:
+  - id: link:causeway
+    from: room:rest_south
+    to: room:shrine
+    kind: path
+    width: 768
+    rise: 64
+    notes: "a cloud-stone causeway over the sky; 1,374 rim to rim; the last stretch, straight north over the sky to the shrine's south rim"
+  - id: link:road_1
+    from: room:crown
+    to: room:rest_east
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 2,201 rim to rim"
+  - id: link:road_2
+    from: room:rest_east
+    to: room:ne_turn
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,890 rim to rim"
+  - id: link:road_3
+    from: room:ne_turn
+    to: room:observatory
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,513 rim to rim"
+  - id: link:road_4
+    from: room:observatory
+    to: room:nw_turn
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,601 rim to rim"
+  - id: link:road_5
+    from: room:nw_turn
+    to: room:rest_west
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,916 rim to rim"
+  - id: link:road_6
+    from: room:rest_west
+    to: room:sw_turn
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,920 rim to rim"
+  - id: link:road_7
+    from: room:sw_turn
+    to: room:rest_south
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the cloud road, 768 wide, a dashed line of cloud-stone flags down its middle; 1,623 rim to rim"
+entrances:
+  - id: entrance:fall
+    space: void:sky
+    kind: exit
+    neighbour: fall:x5
+    how: "Any fall off a cloud: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallTo('p5') to X5's entrance:p5_fall (-4608, 2560, 1504) on Darkstone's rock, facing the tower door, with falling damage."
+  - id: entrance:fd03_roof
+    space: room:crown
+    kind: both
+    neighbour: door:fd03
+    facing: n
+    how: "Out of the stair house's door at the top of FD-03's roof stair, after M41's seal. The same door is the way down: the `exit` word (the game's leave window), meaning 'Descend into Darkstone Tower?' (aazex129:14), to FD-03's entrance:p5_stair."
+    notes: "at (4608, -3968), z 0, facing north (MoveToMap direction 512); the door at (4608, -4416)."
+critical_path: [room:crown, room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south, room:shrine]
+return_path: [room:shrine, room:crown]
+goals:
+  - id: goal:unification
+    space: room:shrine
+    kind: use
+    what: "The Pharaoh's shrine with the Cube of Power, Xeen's Scepter and the four sleepers awake"
+    story: M42
+    gives:
+      qbit: m42_done
+points_of_interest:
+  - id: poi:boards
+    spaces: [room:crown, room:ne_turn, room:nw_turn, room:rest_east, room:shrine, room:sw_turn]
+    count: 10
+    kind: sign
+    behaviour: "Billboards on the road's outer shoulder, each naming one New World Computing game, the source's sign texts (aazex129:1-10), clicked or hovered: 'New World Computing', 'King's Bounty', 'Inherit the Earth', 'Empire Deluxe', 'Spaceward Ho!', 'Planets Edge', 'Vegas Games', 'Tunnels and Trolls', 'Nuclear War', 'Might and Magic'. In walking order; 'Might and Magic' last, beside the causeway's head (the source's (12,17)). Question 8 decides lettered faces."
+    notes: "New World Computing at (2944, -3712) facing e, 1,361 along; King's Bounty at (4224, -2176) facing w, 2,257 along; Inherit the Earth at (4224, 1792) facing w, 6,225 along; Empire Deluxe at (4288, 4288) facing sw, 8,017 along; Spaceward Ho! at (2304, 4224) facing s, 9,297 along; Planets Edge at (-2304, 4224) facing s, 13,905 along; Vegas Games at (-4288, 4288) facing se, 15,185 along; Tunnels and Trolls at (-4288, -4288) facing ne, 22,353 along; Nuclear War at (-2304, -4224) facing n, 23,633 along; Might and Magic at (-640, -1408) facing e, 28,113 along"
+  - id: poi:disc
+    space: room:shrine
+    kind: teleport
+    behaviour: "A cloud-stone disc beside the pavilion's open south side, shown with state:wedding: a click moves the party inside the map to entrance:fd03_roof with A3's line (D-56 change 7, Q10). No new travel link."
+    condition: {qbit: m42_done}
+    notes: "at (1216, 320), off the walking line"
+  - id: poi:gift_chest
+    space: room:shrine
+    kind: chest
+    behaviour: "The wedding gift: one chest of treasure 6 against the pavilion's back, clear of the couple and the walking line, shown with it on m42.done (D-56 Q7)."
+    condition: {qbit: m42_done}
+    notes: "at (-576, 1088)"
+  - id: poi:observatory
+    space: room:observatory
+    kind: door
+    behaviour: "A3's m42.observatory (status): 'The observatory is closed.' (aazex129:11). The door never opens."
+    notes: "at (0, 4096), the door in the round tower's south face, 11,601 along"
+  - id: poi:pharaoh_note
+    space: room:crown
+    kind: sign
+    behaviour: "A3's m42.pharaoh_note: 'A message reads: It's a long road ahead so rest where you can. But don't forget to recast your spells. Signed, The Dragon Pharaoh' (aazex129:15)."
+    notes: "at (4096, -4224), on a post by the stair house's door (the source's (29,7), two steps from the arrival); question 4"
+  - id: poi:rest_stops
+    spaces: [room:rest_east, room:rest_west, room:rest_south]
+    count: 3
+    kind: sign
+    behaviour: "Rest Stop huts beside the road: an open-fronted hut with a bench, the sign 'Rest Stop' (aazex129:0) over its front. Clicked: the line. The map has no monsters; resting is safe anywhere."
+    notes: "rest_1 at (4352, 0) facing w, 4,433 along; rest_2 at (-4352, 0) facing e, 18,769 along; rest_3 at (0, -4352) facing n, 25,937 along"
+  - id: poi:shrine
+    space: room:shrine
+    kind: shrine
+    behaviour: "A3's m42.shrine: with the Cube of Power, Xeen's Scepter and the four sleepers it takes the two, sets m42.done, gives 'Made Xeen One World' and 40,000 experience, and starts the ending cinematic (set:unification); without, the Pharaoh's refusal (aazex129:12-13); after, 'The shrine is quiet. The pavilion is still there; somebody has left cake.'"
+    uses: {times: 1, per: party, reset: never}
+    condition: {lua: "XeenQuests.hook(\"m42.shrine\")"}
+    notes: "at (0, -384): the dais (1,024 x 704, 64 high) faces south, its two stone hands 768 apart; 29,137 along"
+landmarks:
+  - id: landmark:crown
+    space: room:crown
+    what: "Darkstone's crown: the black stair house with its skull frieze and slate cone, where the road starts"
+    seen_from: [room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south, room:shrine]
+  - id: landmark:hands
+    space: room:shrine
+    what: "The shrine's two great stone hands held up open, gold-paved cloud under them"
+    seen_from: [room:crown, room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south]
+  - id: landmark:observatory
+    space: room:observatory
+    what: A round pale-stone tower with a copper dome and a shut slit
+    seen_from: [room:crown, room:rest_east, room:ne_turn, room:nw_turn, room:shrine]
+  - id: landmark:pavilion
+    space: room:shrine
+    what: "The wedding pavilion: white canvas and gold, after m42.done"
+    seen_from: [room:rest_south, room:observatory, room:rest_east, room:rest_west]
+sightlines:
+  - id: view:long_road
+    from: room:crown
+    to: [landmark:hands, landmark:observatory]
+    what: "The long road: from the crown's north edge where the road starts, up the east road to the first Rest Stop and the north-east turn, the boards on its right shoulder, the shrine's hands on their cloud across the sky on the left, the observatory's dome far off."
+    notes: "camera at (3328, -3328), z 176 (eye), yaw 105 degrees (north-north-west); the shrine 4,443 away"
+  - id: view:shrine
+    from: room:rest_south
+    to: [landmark:hands, landmark:pavilion, landmark:observatory]
+    what: "The end of the road: from the causeway, north to the dais and its two raised hands (the Cube and the Scepter set in them), the Dragon Pharaoh behind it, the pavilion with Roland and Kalindra after the ceremony; the observatory's dome far beyond across the sky."
+    notes: "camera at (0, -1920) on the causeway's head, z 672 (eye), facing north; the dais 1,536 away"
+set_pieces:
+  - id: set:fall
+    kind: scripted
+    spaces: [void:sky]
+    rule: "As X8 and X9: a one-second check moves a party below z -1,000 (and the room's safety floor at -6,000) through A3's Xeen.skyFall to X5, on Darkstone's rock (-4608, 2304), ground 1500, facing the tower door (question 3)."
+  - id: set:long_road
+    kind: vista
+    spaces: [room:crown, room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south, room:shrine]
+    rule: "The long way round: 29,137 along the road from the arrival to the dais (about 76 s walking, 38 s running), the shrine in sight across the sky the whole way. The road climbs 448 round the ring. The crown and the last Rest Stop are 1,445 apart and 448 apart in height: no short cut."
+  - id: set:unification
+    kind: scripted
+    spaces: [room:shrine]
+    rule: "D-56 change 5, in this order: the shrine's click (A3's m42.shrine) takes the Cube and the Scepter, sets m42.done, gives the award and the 40,000 experience and starts the cinematic `unification` (xeen_p5.cinematics.yml, A5 at L4) through evt.PlayCinematic; skippable, about 35 s; every gameplay step is an `event` cue, so a skip runs them too: (1) close on the dais, an event cue shows the Cube and the Scepter in the hands, the Pharaoh's voiced line from the cue only (D-38 xeen_vo_pharaoh_unification: 'Let the two faces of Xeen be one world again.'); (2) a rising pull-back over the ring, four far chimes (the sleepers answer); (3) up into the sky and a fade to white (A1's fade colour; black if A1 declines, final), during which an event cue shows state:wedding; (4) fade in on the pavilion, Roland and Kalindra under it, the Pharaoh turning to them with his book; a subtitle; (5) the party's view. When the cinematic ends (played or skipped) the done event shows the hook's narrative text once; when that window closes, the completion certificate (A4's world.yml `completion`) follows, never during the cinematic (A1)."
+height_bands:
+  - id: band:ring
+    range: [0, 448]
+    spaces: [room:crown, room:rest_east, room:ne_turn, room:observatory, room:nw_turn, room:rest_west, room:sw_turn, room:rest_south]
+    notes: the road climbs 64 at each pad round the ring
+  - id: band:sea
+    level: -2000
+    spaces: [void:sky]
+    notes: "the cloud sea, far below"
+  - id: band:shrine
+    level: 512
+    spaces: [room:shrine]
+states:
+  - id: state:wedding
+    condition: {qbit: m42_done}
+    shows: [thing:pavilion, npc:roland, npc:kalindra, landmark:cake, poi:gift_chest, decor:cube, decor:scepter, poi:disc]
+    effects: ["Shown live by the cinematic's event cue at the fade, and on every load after (the wedding load event on m42.done).", The shrine's click gives m42's else_text ('somebody has left cake').]
+    notes: "The pavilion is a structure hidden until then; the couple are placed peaceful figures, the Cube and the Scepter the installed item models as scaled decorations (D-56 changes 3, 4, 7)."
+atmosphere: "Sky xeencloud (xeen_cloud_sea, below_horizon: sky, high sun, X9's daylight block), question 9; no weather; wind; music 15 (MM8 Plane Between Planes). No Fly (no BLV casts it). No lighting bake (open air)."
+totals:
+  chests: 1
+  placed_monsters: 0
+  points_of_interest: 19
+  shrine_sky_gap: 1155
+  walk_length: 29137
+  walkable_area_millions: 53.8
+notes: "MU-3 for the phase 6 review (A5 sub-agent, 2026-11-21), D-56 applied (A5, sixteenth session). Room 26 x 26 cells (13,312 a side). Board: output/studio_cal/p5/mockups/board_p5.png; tools output/studio_cal/p5/tools/ (run.sh). Source: the Clouds of the Ancients, MM5 maze 129 with x181-x183 (dark/aazex129). D-56: the Pharaoh, Roland and the wedding Kalindra (a new row keeping npc 5001) are peaceful, placed-only, uncounted, NoArena figures, made unkillable by the map's load event (SetMm9ActorCanReceiveDamage(false), as D-51 and D-52); Dungeon M with at most 13 new textures; falls tested in D-54's shape (change 10). L2-L4 (A5 sub-agent agent:a5-p5, 2026-11-21): built by output/studio_cal/p5/tools/gen*.py; falls to A6's entrance:p5_fall (-4608, 2560); A3's m42.* hooks by name; the figures 11919-11921; the gift on a sunk stand raised with state:wedding."

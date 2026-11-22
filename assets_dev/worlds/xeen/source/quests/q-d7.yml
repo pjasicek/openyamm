@@ -1,0 +1,142 @@
+# Q-D7 The Gemsmiths (QUESTS 2.2 Q-D7, repeatable). Owner: A3. Format: QUESTS_FORMAT.md.
+# Four gemsmiths in the vale outside Castleview make gear from five rocks of their gem plus gems (Xeen.payGems, the
+# world's second currency; the source's 100/200/400/1000 gems scaled like M12's skull, 300 -> 10, to 2/4/6/10). The
+# rocks come from the Gemstone Mines' veins (DD-10A ruby and emerald, DD-10B sapphire, DD-10C diamond); the God of
+# Minerals refills the veins for gold (the source's 250,000, scaled to 10,000), but only once something has been dug
+# (D-27: five veins per gem, each a map variable; each pocket's entry refills its veins when its refill bit is set and
+# clears it). DD-10C (diamonds) is Act V, on D6 (D-27). No experience: repeatable.
+# Output: A2's named gem gear (items.yml `crafted`, 12540-12543: MM6-MM8 bases with Xeen names, U-1), one per payment.
+id: Q-D7
+title: The Gemsmiths
+act: III
+kind: side
+status: full
+repeatable: true
+giver: 4945          # Linus the ruby smith; Simon 4946, Toby 4947, Hector 4948
+maps: [D1, DD-10A, DD-10B, DD-10C]
+level: 20
+block: 87
+after: []
+source: "QUESTS Q-D7; dark/aaze0003:2-11, dark/aaze0007:6-9"
+
+qbits:
+  started: {id: 113140, journal: "The gemsmiths outside Castleview make gear from five rocks of their gem and a few gems. The rocks come from the Gemstone Mines.",
+            journal_stays: "a standing trade with no end: the smiths work for as long as the mines give rock"}
+  refill_a: {id: 113141, note: "the God of Minerals was paid: DD-10A's entry refills its veins and clears the bit (A8)"}
+  refill_b: {id: 113142, note: "the same for DD-10B"}
+  refill_c: {id: 113143, note: "the same for DD-10C (Act V)"}
+  dug: {id: 113144, note: "a vein was dug in any pocket since the last payment; the God takes gold only while it is set"}
+  dd10a_arrived_once: {id: 117160, map: DD-10A, note: "the map's own: first arrival in DD-10A (A8; block 117160-117199)"}
+  dd10b_arrived_once: {id: 117200, map: DD-10B, note: "the map's own: first arrival in DD-10B (A8; block 117200-117239)"}
+  dd10c_arrived_once: {id: 117240, map: DD-10C, note: "the map's own: first arrival in DD-10C (A8; block 117240-117279)"}
+
+autonotes:
+  smiths: {id: 4470, text: "Gemsmiths: Linus (ruby, 2 gems), Simon (emerald, 4), Toby (sapphire, 6), Hector (diamond, 10), each for five rocks. Rocks: the Gemstone Mines; diamonds only from the north adit, in the Forbidden Zone.", category: Misc}
+
+items:
+  ruby_rock: "DD-10A's ruby veins (map_gives); Linus takes 5"
+  emerald_rock: "DD-10A's emerald veins; Simon takes 5"
+  sapphire_rock: "DD-10B's sapphire veins; Toby takes 5"
+  diamond_rock: "DD-10C's diamond veins; Hector takes 5"
+  ruby_gear: "A2's crafted ruby broadsword (12540-12543); the smith gives one per five rocks and 2 gems"
+  emerald_gear: "A2's crafted emerald leather (12540-12543); the smith gives one per five rocks and 4 gems"
+  sapphire_gear: "A2's crafted sapphire staff (12540-12543); the smith gives one per five rocks and 6 gems"
+  diamond_gear: "A2's crafted diamond plate (12540-12543); the smith gives one per five rocks and 10 gems"
+
+npcs:
+  4945:              # Linus
+    topics:
+      - n: 1
+        label: Ruby work
+        repeatable: true
+        states:
+          - when: {all: [{items: [ruby_rock, 5]}, {lua: "Xeen.gemCount() >= 2"}]}
+            text: "Five ruby rocks and two gems. Give me an hour. There. Ruby. Mind the edge."
+            do: [{take: ruby_rock, count: 5}, {lua: "Xeen.payGems(2)"}, {give: ruby_gear}]
+          - when: {items: [ruby_rock, 5]}
+            text: "The rocks are fine. The fee is two gems, and you have the rocks."
+          - text: "With 5 Ruby rocks I will make a weapon or piece of armor for you. The cost is 2 gems. The rocks are in the Gemstone Mines; I'm sorry, but you don't have enough Ruby rocks."
+            do: [{set: started}, {autonote: smiths}]
+  4946:              # Simon
+    topics:
+      - n: 2
+        label: Emerald work
+        repeatable: true
+        states:
+          - when: {all: [{items: [emerald_rock, 5]}, {lua: "Xeen.gemCount() >= 4"}]}
+            text: "Five emerald rocks and four gems. Emerald steel never dulls. Neither does my invoice."
+            do: [{take: emerald_rock, count: 5}, {lua: "Xeen.payGems(4)"}, {give: emerald_gear}]
+          - when: {items: [emerald_rock, 5]}
+            text: "Rocks, yes. Gems, no. Four gems."
+          - text: "With 5 Emerald rocks I will make a weapon or piece of armor for you. The cost is 4 gems. I'm sorry, but you don't have enough Emerald rocks. Come back when you do!"
+            do: [{set: started}, {autonote: smiths}]
+  4947:              # Toby
+    topics:
+      - n: 3
+        label: Sapphire work
+        repeatable: true
+        states:
+          - when: {all: [{items: [sapphire_rock, 5]}, {lua: "Xeen.gemCount() >= 6"}]}
+            text: "Five sapphire rocks, six gems. Sapphire keeps you cool under fire. Literally. Don't test it on me."
+            do: [{take: sapphire_rock, count: 5}, {lua: "Xeen.payGems(6)"}, {give: sapphire_gear}]
+          - when: {items: [sapphire_rock, 5]}
+            text: "Six gems. Then we talk sapphire."
+          - text: "With 5 Sapphire rocks I will make a weapon or piece of armor for you. The cost is 6 gems. I'm sorry, but you don't have enough Sapphire rocks. Come back when you do!"
+            do: [{set: started}, {autonote: smiths}]
+  4948:              # Hector
+    topics:
+      - n: 4
+        label: Diamond work
+        repeatable: true
+        states:
+          - when: {all: [{items: [diamond_rock, 5]}, {lua: "Xeen.gemCount() >= 10"}]}
+            text: "Five diamonds, ten gems. Diamonds are forever. So was the wait. Here."
+            do: [{take: diamond_rock, count: 5}, {lua: "Xeen.payGems(10)"}, {give: diamond_gear}]
+          - when: {items: [diamond_rock, 5]}
+            text: "Ten gems. Diamonds don't cut themselves."
+          - text: "With 5 diamonds I can make a weapon or piece of armor for you. The cost is 10 gems. I'm sorry, but you don't have enough diamonds. Come back when you do!"
+            do: [{set: started}, {autonote: smiths}]
+
+hooks:
+  cold_nest:
+    map: DD-10C
+    where: "the north pocket's cold nest (hover \"Empty egg cases\", D-62 Q49): the built egg cases, cracked and empty, the ash glow cold"
+    text: "Split and cold. Whatever hatched here was eaten by whatever lives here now."
+  ruby_veins:
+    map: DD-10A
+    where: "the ruby veins of the west pocket: five veins, one rock each, each a map variable (spent: \"You've got all this vein has to offer.\"); each pick calls this (sets dug); DD-10A's entry reads refill_a"
+    sets: [dug]
+    reads: [refill_a]
+    map_gives: {ruby_rock: 5}
+  emerald_veins:
+    map: DD-10A
+    where: "the emerald veins of the west pocket, as the ruby veins"
+    sets: [dug]
+    reads: [refill_a]
+    map_gives: {emerald_rock: 5}
+  sapphire_veins:
+    map: DD-10B
+    where: "the sapphire veins of the east pocket, as the ruby veins; DD-10B's entry reads refill_b"
+    sets: [dug]
+    reads: [refill_b]
+    map_gives: {sapphire_rock: 5}
+  diamond_veins:
+    map: DD-10C
+    where: "the diamond veins of the north pocket (D-27: Act V, D6's adit, phase 5), as the ruby veins; DD-10C's entry reads refill_c"
+    sets: [dug]
+    reads: [refill_c]
+    map_gives: {diamond_rock: 5}
+  god_of_minerals:
+    map: DD-10B
+    where: "the God of Minerals' shrine at the bottom of the east pocket (D-27): refuses while nothing has been dug; else takes 10,000 gold, sets the three refill bits and clears dug (each pocket's entry then refills its veins)"
+    reads: [dug]
+    states:
+      - when: {not: {qbit: dug}}
+        text: "The mountains are full. Empty them first."
+      - when: {not: {gold: 10000}}
+        text: "The God of Minerals refills the mines for 10,000 gold. Minerals are not cheap. Gods are worse."
+      - text: "The God of Minerals takes your gold, which is, after all, a mineral. Somewhere in the rock, veins knit shut and fill again."
+        do: [{pay: 10000}, {set: refill_a}, {set: refill_b}, {set: refill_c}, {clear: dug}]
+
+rewards: {xp: 0, gold: 0, items: "gem gear T4-T6 per five rocks (repeatable)"}
+playthrough: "DD-10A/B/C: the veins (five rocks of a kind). D1: the matching smith (Ruby/Emerald/Sapphire/Diamond work)."

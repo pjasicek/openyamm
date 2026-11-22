@@ -1,0 +1,10 @@
+# X6 Desert of the Sphinx: flavour topics of the people with no quest role (source/towns/x6.yml). Owner: A4.
+# Format: QUESTS_FORMAT.md section 5 (talk only). The Summer Druid is A3's (q-c1).
+map: X6
+block: 173
+source: "xeen/aaze0002 (Saul)"
+
+npcs:
+  4602:              # Saul, the hermit by the urn
+    topics:
+      - {n: 1, label: Prayer, text: "Everyone should learn how to pray properly. I can teach anyone for free! The first thing you will have to do is put 10,000 gold in that urn over there...", source: "xeen/aaze0002:1 (close: the skill's name dropped)"}

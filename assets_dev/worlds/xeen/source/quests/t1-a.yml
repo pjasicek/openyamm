@@ -1,0 +1,29 @@
+# T1-A The Crusade: tier-1 promotion of Knight, Paladin and Ranger (QUESTS 3.1). Owner: A3.
+# Route: MM9's composite model (xeen_common.lua Xeen.Promotions.crusade): Valia's M4 hand-in promotes every eligible
+# member and pays the promotion's experience (m4.yml, Falista: 8,000 per member); this file keeps
+# the topic that promotes members who join later or reach the class later, without a second reward.
+# Experience: a promotion pays about 1-1.5 levels at the level of its quest, inside the act's budget (QUESTS 3; D-1,
+# 2026-11-20): T1-A pays 8,000 per member.
+id: T1-A
+title: The Crusade
+act: I
+kind: promotion
+status: full
+giver: 4044          # Old Valia
+maps: [X1]
+level: 6
+block: 115
+after: [m4.done]
+source: "QUESTS 3.1; xeen/aaze0024:11"
+
+npcs:
+  4044:              # Old Valia
+    topics:
+      - n: 1
+        label: Crusaders
+        show: {all: [{qbit: m4.done}, {promotable: crusade}]}
+        text: "Falista says to tell you: \"I, Falista, grant all great adventurers the title of Crusader.\" Kneel, then. Knights rise as Cavaliers, Paladins as Crusaders, Rangers as Hunters."
+        do: [{promote: crusade}]
+
+rewards: {xp: 0, gold: 0}
+playthrough: "After M4 with a party of Knight, Paladin, Ranger and another: their classes are Cavalier, Crusader, Hunter."

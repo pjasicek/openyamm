@@ -1,0 +1,63 @@
+  - name: xcorefire
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Fire Generator's core: a glowing Ancient energy column with fire in its light; XD-19's south-west tower top, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcorefire.png
+    installed: world (2026-11-21)
+  - name: xcoreair
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Air Generator's core: a glowing Ancient energy column with wind in its light; XD-19's south-east tower top, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcoreair.png
+    installed: world (2026-11-21)
+  - name: xcorewater
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Water Generator's core: a glowing Ancient energy column with water in its light; XD-19's cold vault, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcorewater.png
+    installed: world (2026-11-21)
+  - name: xcoreearth
+    family: "map XD-19; the Ancient kit's energy panel (xaenergy), the core's element in its glow"
+    area: "the Earth Generator's core: a glowing Ancient energy column with stone in its light; XD-19's gravel vault, the core column's four faces"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xcoreearth.png
+    installed: world (2026-11-21)
+  - name: xsigilban
+    family: "map XD-19; MM8 Escaton's Palace gnecwal1 black stone (the castle banners xkburban, xkkalban as the pattern)"
+    area: "Lord Xeen's sigil banner on black stone: XD-19's Hall of Xeendom (four banners on the nave's end walls) and over the gatehall's inner arch, once per face"
+    maps: [XD-19]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xsigilban.png
+    installed: world (2026-11-21)
+  - name: xmirror6
+    family: "map XD-19; MM8 Escaton's Palace black stone and gold frieze (gnecwal1, gnecwalt)"
+    area: "the Sixth Mirror in a black-and-gold frame: XD-19's north wall behind Lord Xeen's throne, until the scepter (m35.done), once"
+    maps: [XD-19]
+    size: [256, 256]
+    kind: picture
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xmirror6.png
+    installed: world (2026-11-21)
+  - name: xmirror6x
+    family: "map XD-19; MM8 Escaton's Palace black stone and gold frieze (gnecwal1, gnecwalt)"
+    area: "the Sixth Mirror's empty frame after the cinematic (m35.done): XD-19's north wall, once"
+    maps: [XD-19]
+    size: [256, 256]
+    kind: edit
+    maker: codex image generation, output/studio_cal/xd19/tex (xtex.py --project, A7, D-47/D-51), 2026-11-21
+    source: assets_source/worlds/xeen/textures_x4/xmirror6x.png
+    installed: world (2026-11-21)

@@ -1,0 +1,1064 @@
+format: 0
+start:
+  room: room:gate
+  at: [-1600, 0]
+  facing: 0
+  notes: "Inside the gate, facing in (east); D1's gate (entrance:dd03_gate, event 123) lands here."
+doors:
+  - id: door:armory
+    opening: open:armory_south
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:banquet
+    opening: open:north_banquet
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: The banquet hall's double doors.
+  - id: door:bedchamber
+    opening: open:gallery_bed
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: The Royal Bed Chamber's double doors.
+  - id: door:cells
+    opening: open:guard_cells
+    kind: slide_up
+    thickness: 16
+    speed: 120
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    back_surface: {texture: t5d1, size: [128, 256], fit: true}
+  - id: door:closet
+    opening: open:throne_closet
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:cloud
+    opening: open:cloud_gate
+    kind: slide_up
+    thickness: 16
+    speed: 160
+    surface: {texture: xkshimmer, size: [128, 128]}
+    back_surface: {texture: xkshimmer, size: [128, 128]}
+    tile: true
+    notes: "The Cloud Stairs' phase leaf: open from stage 2."
+  - id: door:dstair
+    opening: open:dstair_gate
+    kind: slide_up
+    thickness: 16
+    speed: 160
+    surface: {texture: xkshimmer, size: [128, 128]}
+    back_surface: {texture: xkshimmer, size: [128, 128]}
+    tile: true
+    notes: "The dungeon stair's phase leaf: open from stage 3."
+  - id: door:illusion
+    opening: open:closet_armory
+    kind: slide_up
+    thickness: 16
+    speed: 120
+    surface: {texture: chb1, size: [128, 256]}
+    back_surface: {texture: chb1, size: [128, 256]}
+    tile: true
+    notes: "The coat closet's back wall: an illusion the party walks through (made passable at load)."
+  - id: door:kennel
+    opening: open:maxsec_kennel
+    kind: slide_up
+    thickness: 16
+    speed: 64
+    surface: {texture: xkportc, size: [256, 256], fit: true}
+    back_surface: {texture: xkportc, size: [256, 256], fit: true}
+    notes: "The kennel's portcullis, worked by the lever under 'Don't let Scraps out!'."
+  - id: door:portcullis
+    opening: open:gate_entrance
+    kind: slide_up
+    thickness: 16
+    speed: 160
+    surface: {texture: xkportc, size: [256, 256], fit: true}
+    back_surface: {texture: xkportc, size: [256, 256], fit: true}
+    notes: "The gate's portcullis: up from stage 1 (the load event)."
+  - id: door:sleeping
+    opening: open:res_sleeping
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+  - id: door:throne
+    opening: open:entrance_throne
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    back_pictures:
+      - [{texture: chb1dl, size: [128, 256]}, {texture: chb1dr, size: [128, 256]}]
+    notes: The throne room's double doors.
+  - id: door:upper
+    opening: open:upper_gate
+    kind: slide_up
+    thickness: 16
+    speed: 160
+    surface: {texture: xkshimmer, size: [128, 128]}
+    back_surface: {texture: xkshimmer, size: [128, 128]}
+    tile: true
+    notes: "The upper stair's phase leaf: open from stage 4."
+  - id: door:vault_secret
+    opening: open:maxsec_vault
+    kind: slide_up
+    thickness: 16
+    speed: 120
+    surface: {texture: dchb1, size: [128, 256]}
+    secret: true
+    back_surface: {texture: dchb1, size: [128, 256]}
+    tile: true
+    notes: A secret door from Maximum Security into the dungeon vault.
+  - id: door:vaults
+    opening: open:phase_vaults
+    kind: slide_left
+    leaves: 2
+    thickness: 16
+    speed: 120
+    edge_surface: {texture: 7trimd, size: [128, 256]}
+    pictures:
+      - [{texture: t5d1, size: [128, 256]}, {texture: t5d1, size: [128, 256]}]
+    back_pictures:
+      - [{texture: t5d1, size: [128, 256]}, {texture: t5d1, size: [128, 256]}]
+    notes: The vault's iron double doors.
+  - id: door:yard
+    opening: open:entrance_yard
+    kind: slide_up
+    thickness: 16
+    speed: 160
+    surface: {texture: xkshimmer, size: [128, 128]}
+    back_surface: {texture: xkshimmer, size: [128, 128]}
+    tile: true
+    notes: "The stable yard's phase wall: open from stage 4."
+plates:
+  - id: plate:mist_cloud
+    room: room:cloud_foot
+    at: [-1536, 1536]
+    size: [384, 192]
+    surface: {texture: tfb09, size: [128, 128]}
+    notes: "Before the Cloud Stairs' leaf: the mist line until stage 2."
+  - id: plate:mist_dstair
+    room: room:dstair_head
+    at: [5376, -1280]
+    size: [384, 192]
+    surface: {texture: 7tfb11, size: [128, 128]}
+    notes: "Before the dungeon stair's leaf: the mist line until stage 3."
+  - id: plate:mist_upper
+    room: room:upper_foot
+    at: [-384, 3328]
+    size: [384, 192]
+    surface: {texture: tfb09, size: [128, 128]}
+    notes: "Before the upper stair's leaf: the mist line until stage 4."
+sounds:
+  - {id: sound:bell_wind, room: room:bell_tower, at: [-1536, 4864], sound: whistling wind, radius: 1600, inner_radius: 400, volume: 0.45, notes: Wind round the bell.}
+  - {id: sound:kitchen, room: room:kitchen, at: [1792, 1152], sound: bubbling cauldron01, radius: 1000, inner_radius: 200, volume: 0.3, notes: A pot on the kitchen fire.}
+  - {id: sound:phase_cloud, room: room:cloud_foot, at: [-1536, 1600], sound: xeen_phase_loop, radius: 900, inner_radius: 250, volume: 0.35, notes: "The Cloud Stairs' phase leaf (stage 2: off)."}
+  - {id: sound:phase_dstair, room: room:dstair_head, at: [5376, -1344], sound: xeen_phase_loop, radius: 800, inner_radius: 200, volume: 0.35, notes: "The dungeon stair's phase leaf (stage 3: off)."}
+  - {id: sound:phase_nw, room: room:north_wing, at: [1280, 1344], sound: xeen_phase_loop, radius: 900, inner_radius: 200, volume: 0.3, notes: The North Wing's shimmering patch (it stays).}
+  - {id: sound:phase_sw, room: room:south_wing, at: [2560, -1216], sound: xeen_phase_loop, radius: 1100, inner_radius: 250, volume: 0.3, notes: The South Wing's shimmering patches (they stay).}
+  - {id: sound:phase_upper, room: room:upper_foot, at: [-320, 3392], sound: xeen_phase_loop, radius: 1000, inner_radius: 250, volume: 0.35, notes: "The upper stair's phase leaf (stage 4: off)."}
+  - {id: sound:shimmer_entrance, room: room:entrance, at: [64, -768], sound: xeen_phase_loop, radius: 1300, inner_radius: 300, volume: 0.35, notes: "The yard's phase wall (stage 4: off)."}
+  - {id: sound:shimmer_pg, room: room:phase_gallery, at: [2304, 2112], sound: xeen_phase_loop, radius: 1100, inner_radius: 300, volume: 0.35, notes: The gallery's shimmering walls (they stay).}
+  - {id: sound:well_wind, room: room:well, at: [4480, -4672], sound: whistling wind, radius: 1400, inner_radius: 300, volume: 0.3, notes: Air down the old well's shaft.}
+  - {id: sound:yard_wind, room: room:yard, at: [-320, -2112], sound: whistling wind, radius: 2000, inner_radius: 600, volume: 0.3, notes: The open yard.}
+lights:
+  - id: light:armory
+    room: room:armory
+    at: [4352, -192]
+    height: 320
+    radius: 1300
+    color: [255, 180, 120]
+  - id: light:attic
+    room: room:attic
+    at: [-512, 3264]
+    height: 256
+    radius: 1100
+    color: [200, 190, 255]
+  - id: light:banquet
+    room: room:banquet
+    at: [768, 2176]
+    height: 400
+    radius: 1400
+    color: [200, 190, 255]
+  - id: light:bed
+    room: room:bedchamber
+    at: [3072, 5120]
+    height: 320
+    radius: 1200
+    color: [255, 215, 170]
+  - id: light:bell
+    room: room:bell_tower
+    at: [-1536, 4864]
+    height: 420
+    radius: 1300
+    color: [190, 170, 220]
+  - id: light:cells
+    room: room:cells
+    at: [3520, -3264]
+    height: 320
+    radius: 1500
+    color: [180, 200, 255]
+  - id: light:closet
+    room: room:closet
+    at: [3328, 640]
+    height: 288
+    radius: 600
+    color: [255, 180, 120]
+  - id: light:cloud
+    room: room:cloud_foot
+    at: [-1536, 1344]
+    height: 384
+    radius: 1100
+    color: [235, 235, 255]
+  - id: light:court
+    room: room:court3
+    at: [1408, 3776]
+    height: 420
+    radius: 1800
+    color: [255, 215, 170]
+  - id: light:dhead
+    room: room:dstair_head
+    at: [5376, -1216]
+    height: 288
+    radius: 700
+    color: [255, 180, 120]
+  - id: light:entrance
+    room: room:entrance
+    at: [64, 0]
+    height: 448
+    radius: 1800
+    color: [255, 215, 170]
+  - id: light:gallery
+    room: room:queens_gallery
+    at: [1408, 5120]
+    height: 420
+    radius: 1700
+    color: [230, 190, 210]
+  - id: light:gate
+    room: room:gate
+    at: [-1536, 0]
+    height: 320
+    radius: 1100
+    color: [255, 180, 120]
+  - id: light:guard
+    room: room:guardroom
+    at: [5312, -3264]
+    height: 320
+    radius: 1100
+    color: [255, 180, 120]
+  - id: light:kennel
+    room: room:kennel
+    at: [1856, -6528]
+    height: 640
+    radius: 1600
+    color: [170, 200, 150]
+  - id: light:kitchen
+    room: room:kitchen
+    at: [2304, 1664]
+    height: 320
+    radius: 1200
+    color: [255, 180, 120]
+  - id: light:l2
+    room: room:l2_landing
+    at: [-1536, 3200]
+    height: 320
+    radius: 900
+    color: [255, 215, 170]
+  - id: light:l3
+    room: room:l3_landing
+    at: [-320, 4992]
+    height: 320
+    radius: 900
+    color: [255, 215, 170]
+  - id: light:maxsec
+    room: room:maxsec
+    at: [1728, -3648]
+    height: 320
+    radius: 1200
+    color: [255, 180, 120]
+  - id: light:nw_e
+    room: room:north_wing
+    at: [1024, 1216]
+    height: 320
+    radius: 1100
+    color: [200, 190, 255]
+  - id: light:nw_w
+    room: room:north_wing
+    at: [-256, 1216]
+    height: 320
+    radius: 1100
+    color: [200, 190, 255]
+  - id: light:phase
+    room: room:phase_gallery
+    at: [2304, 2112]
+    height: 320
+    radius: 1100
+    color: [200, 190, 255]
+    pulse: {intensity: [0.75, 1], frequency: 0.3}
+  - id: light:res
+    room: room:residences
+    at: [1664, 3136]
+    height: 320
+    radius: 1300
+    color: [255, 215, 170]
+  - id: light:sleeping
+    room: room:sleeping
+    at: [1152, 2240]
+    height: 320
+    radius: 1300
+    color: [200, 190, 255]
+  - id: light:sw_e
+    room: room:south_wing
+    at: [3968, -1216]
+    height: 320
+    radius: 1200
+    color: [200, 190, 255]
+  - id: light:sw_w
+    room: room:south_wing
+    at: [1792, -1216]
+    height: 320
+    radius: 1200
+    color: [200, 190, 255]
+  - id: light:throne
+    room: room:throne
+    at: [1984, 0]
+    height: 480
+    radius: 1900
+    color: [255, 215, 170]
+  - id: light:upper
+    room: room:upper_foot
+    at: [-320, 3200]
+    height: 320
+    radius: 900
+    color: [255, 215, 170]
+  - id: light:vault_d
+    room: room:vault_d
+    at: [3072, -4480]
+    height: 288
+    radius: 900
+    color: [255, 180, 120]
+  - id: light:vaults
+    room: room:vaults
+    at: [3200, 1856]
+    height: 320
+    radius: 1000
+    color: [255, 215, 170]
+  - id: light:well
+    room: room:well
+    at: [4480, -4672]
+    height: 384
+    radius: 1200
+    color: [170, 190, 210]
+  - id: light:yard
+    room: room:yard
+    at: [-320, -2112]
+    height: 640
+    radius: 2600
+    color: [255, 235, 210]
+switches:
+  - id: switch:kennel_lever
+    room: room:maxsec
+    kind: lever
+    at: [2112, -4352]
+    height: 128
+    notes: "The kennel portcullis' lever, under 'Don't let Scraps out!'."
+  - id: switch:mirror_switch
+    room: room:bedchamber
+    kind: button
+    at: [3584, 5376]
+    height: 128
+    notes: "The button 'Activate Mirror Portals?' (m26.mirror_switch)."
+chests:
+  - id: chest:armory_safe
+    room: room:armory
+    at: [3808, -768]
+    kind: ch4
+    facing: e
+    treasure_level: 4
+    random_items: 3
+    gold: 1200
+    trap_level: 0
+    notes: "A tougher safe: three dials, 10-11-12 (Guido's tip)."
+  - id: chest:hoard
+    room: room:kennel
+    at: [2752, -7168]
+    kind: ch4
+    facing: n
+    treasure_level: 5
+    random_items: 4
+    gold: 3000
+    trap_level: 5
+    notes: "The castle's hoard (5), on Scraps' bones."
+  - id: chest:safe_e
+    room: room:throne
+    at: [1920, 832]
+    kind: ch4
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 600
+    trap_level: 4
+    notes: The second thievery safe (m19.safes).
+  - id: chest:safe_w
+    room: room:throne
+    at: [1536, 832]
+    kind: ch4
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 600
+    trap_level: 4
+    notes: "A thievery safe behind its tapestry (m19.safes: the first opened gives the two disks)."
+  - id: chest:vault_safe
+    room: room:vault_d
+    at: [3008, -4928]
+    kind: ch4
+    facing: n
+    treasure_level: 4
+    random_items: 3
+    gold: 1200
+    trap_level: 0
+    notes: "The dungeon vault's tougher safe: 10-11-12."
+monsters:
+  - id: monster:attic_1
+    room: room:attic
+    monster: 11262
+    at: [-1728, 3968]
+    facing: 270
+    group: 43
+    hidden: true
+  - id: monster:attic_2
+    room: room:attic
+    monster: 11262
+    at: [-1024, 3264]
+    facing: 270
+    group: 43
+    hidden: true
+  - id: monster:attic_3
+    room: room:attic
+    monster: 11262
+    at: [-128, 3264]
+    facing: 270
+    group: 43
+    hidden: true
+  - id: monster:banquet_1
+    room: room:banquet
+    monster: 11261
+    at: [256, 1792]
+    facing: 270
+    group: 2
+  - id: monster:banquet_2
+    room: room:banquet
+    monster: 11261
+    at: [1280, 1792]
+    facing: 270
+    group: 2
+  - id: monster:banquet_3
+    room: room:banquet
+    monster: 11261
+    at: [256, 2496]
+    facing: 270
+    group: 2
+  - id: monster:banquet_4
+    room: room:banquet
+    monster: 11261
+    at: [1280, 2496]
+    facing: 270
+    group: 2
+  - id: monster:bell_tower_1
+    room: room:bell_tower
+    monster: 11291
+    at: [-1792, 4608]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_2
+    room: room:bell_tower
+    monster: 11291
+    at: [-1280, 4608]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_3
+    room: room:bell_tower
+    monster: 11291
+    at: [-1792, 5120]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_4
+    room: room:bell_tower
+    monster: 11291
+    at: [-1280, 5120]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_5
+    room: room:bell_tower
+    monster: 11290
+    at: [-1536, 4608]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_6
+    room: room:bell_tower
+    monster: 11290
+    at: [-1536, 5120]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_7
+    room: room:bell_tower
+    monster: 11290
+    at: [-1792, 4864]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:bell_tower_8
+    room: room:bell_tower
+    monster: 11290
+    at: [-1280, 4864]
+    facing: 270
+    group: 42
+    hidden: true
+  - id: monster:carl
+    room: room:kitchen
+    monster: 364
+    at: [2688, 1408]
+    facing: 180
+    hostile: false
+    group: 50
+    immobile: true
+    notes: "Carl the Mason (NPC 5014) at his bench: he talks through the bench (Words needed). The body is the engine's peaceful Peasant 364, as DD-02's Ellinger."
+  - id: monster:cells_1
+    room: room:cells
+    monster: 11280
+    at: [2640, -2880]
+    facing: 270
+    group: 31
+    name: Vexor the Black
+    hidden: true
+  - id: monster:cells_2
+    room: room:cells
+    monster: 11280
+    at: [3056, -2880]
+    facing: 270
+    group: 31
+    name: Clemon the Dead
+    hidden: true
+  - id: monster:cells_3
+    room: room:cells
+    monster: 11280
+    at: [3472, -2880]
+    facing: 270
+    group: 31
+    name: Saxar the Permanent
+    hidden: true
+  - id: monster:cells_4
+    room: room:cells
+    monster: 11280
+    at: [3888, -2880]
+    facing: 270
+    group: 31
+    name: Morgrath the Grey
+    hidden: true
+  - id: monster:cells_5
+    room: room:cells
+    monster: 11280
+    at: [4352, -2880]
+    facing: 270
+    group: 31
+    name: Ulvane the Unrepentant
+    hidden: true
+  - id: monster:guardroom_1
+    room: room:guardroom
+    monster: 11262
+    at: [5056, -3072]
+    facing: 270
+    group: 33
+    hidden: true
+  - id: monster:guardroom_2
+    room: room:guardroom
+    monster: 11262
+    at: [5248, -3584]
+    facing: 270
+    group: 33
+    hidden: true
+  - id: monster:maxsec_1
+    room: room:maxsec
+    monster: 11262
+    at: [1408, -3328]
+    facing: 270
+    group: 32
+    hidden: true
+  - id: monster:maxsec_2
+    room: room:maxsec
+    monster: 11262
+    at: [2048, -3328]
+    facing: 270
+    group: 32
+    hidden: true
+  - id: monster:maxsec_3
+    room: room:maxsec
+    monster: 11262
+    at: [1408, -3968]
+    facing: 270
+    group: 32
+    hidden: true
+  - id: monster:maxsec_4
+    room: room:maxsec
+    monster: 11262
+    at: [2048, -3968]
+    facing: 270
+    group: 32
+    hidden: true
+  - id: monster:north_wing_1
+    room: room:north_wing
+    monster: 11261
+    at: [-384, 1216]
+    facing: 270
+    group: 1
+  - id: monster:north_wing_2
+    room: room:north_wing
+    monster: 11261
+    at: [256, 1216]
+    facing: 270
+    group: 1
+  - id: monster:north_wing_3
+    room: room:north_wing
+    monster: 11261
+    at: [768, 1216]
+    facing: 270
+    group: 1
+  - id: monster:north_wing_4
+    room: room:north_wing
+    monster: 11261
+    at: [1280, 1216]
+    facing: 270
+    group: 1
+  - id: monster:phase_gallery_1
+    room: room:phase_gallery
+    monster: 11261
+    at: [2304, 1664]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:phase_gallery_2
+    room: room:phase_gallery
+    monster: 11261
+    at: [2304, 2048]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:phase_gallery_3
+    room: room:phase_gallery
+    monster: 11261
+    at: [2304, 2432]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:phase_gallery_4
+    room: room:phase_gallery
+    monster: 11261
+    at: [2304, 2688]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:phase_gallery_5
+    room: room:phase_gallery
+    monster: 11262
+    at: [2176, 1856]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:phase_gallery_6
+    room: room:phase_gallery
+    monster: 11262
+    at: [2432, 2240]
+    facing: 270
+    group: 22
+    hidden: true
+  - id: monster:queens_gallery_1
+    room: room:queens_gallery
+    monster: 11291
+    at: [768, 5248]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:queens_gallery_2
+    room: room:queens_gallery
+    monster: 11291
+    at: [1408, 5248]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:queens_gallery_3
+    room: room:queens_gallery
+    monster: 11291
+    at: [2048, 5248]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:queens_gallery_4
+    room: room:queens_gallery
+    monster: 11291
+    at: [1408, 4864]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:queens_gallery_5
+    room: room:queens_gallery
+    monster: 11262
+    at: [896, 4864]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:queens_gallery_6
+    room: room:queens_gallery
+    monster: 11262
+    at: [1920, 4864]
+    facing: 270
+    group: 41
+    hidden: true
+  - id: monster:scraps
+    room: room:kennel
+    monster: 11673
+    at: [1856, -6720]
+    facing: 270
+    group: 35
+    hidden: true
+    notes: "Scraps (Drothnavod the Weighty), optional: behind the kennel portcullis, at the foot of a stair 288 high (D-32)."
+  - id: monster:sleeping_1
+    room: room:sleeping
+    monster: 11263
+    at: [704, 2240]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:sleeping_2
+    room: room:sleeping
+    monster: 11263
+    at: [1088, 2240]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:sleeping_3
+    room: room:sleeping
+    monster: 11263
+    at: [1472, 2240]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:sleeping_4
+    room: room:sleeping
+    monster: 11263
+    at: [1088, 2560]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:sleeping_5
+    room: room:sleeping
+    monster: 11262
+    at: [896, 2560]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:sleeping_6
+    room: room:sleeping
+    monster: 11262
+    at: [1600, 2560]
+    facing: 270
+    group: 21
+    hidden: true
+  - id: monster:south_wing_1
+    room: room:south_wing
+    monster: 11263
+    at: [1664, -1216]
+    facing: 270
+    group: 3
+  - id: monster:south_wing_2
+    room: room:south_wing
+    monster: 11263
+    at: [2560, -1216]
+    facing: 270
+    group: 3
+  - id: monster:south_wing_3
+    room: room:south_wing
+    monster: 11263
+    at: [3456, -1216]
+    facing: 270
+    group: 3
+  - id: monster:south_wing_4
+    room: room:south_wing
+    monster: 11263
+    at: [4352, -1216]
+    facing: 270
+    group: 3
+  - id: monster:well_1
+    room: room:well
+    monster: 11670
+    at: [4224, -4864]
+    facing: 270
+    group: 34
+    name: Iron Vithnipravad
+    hidden: true
+  - id: monster:well_2
+    room: room:well
+    monster: 11670
+    at: [4800, -4608]
+    facing: 270
+    group: 34
+    name: Argonax
+    hidden: true
+decorations:
+  - id: deco:armory_sconce
+    room: room:armory
+    decoration: scon100
+    at: [3712, -448]
+    wall: west
+  - id: deco:banquet_candle_1
+    room: room:banquet
+    decoration: cndlab0
+    at: [512, 2176]
+    floor_height: 80
+  - id: deco:banquet_candle_2
+    room: room:banquet
+    decoration: cndlab0
+    at: [1024, 2176]
+    floor_height: 80
+  - id: deco:banquet_chandelier
+    room: room:banquet
+    decoration: chndlir0
+    at: [768, 2176]
+    hangs: true
+  - id: deco:bed_candle
+    room: room:bedchamber
+    decoration: cndlab0
+    at: [2752, 5504]
+  - id: deco:bell_torch
+    room: room:bell_tower
+    decoration: torch02
+    at: [-1024, 4608]
+    wall: east
+  - id: deco:cells_torch_1
+    room: room:cells
+    decoration: torch02
+    at: [3072, -3840]
+    wall: south
+  - id: deco:cells_torch_2
+    room: room:cells
+    decoration: torch02
+    at: [4096, -3840]
+    wall: south
+  - id: deco:cloud_sconce
+    room: room:cloud_foot
+    decoration: scon100
+    at: [-2048, 1344]
+    wall: west
+  - id: deco:court_chandelier
+    room: room:court3
+    decoration: chndlir0
+    at: [1408, 3776]
+    hangs: true
+  - id: deco:dhead_torch
+    room: room:dstair_head
+    decoration: torch02
+    at: [5632, -1216]
+    wall: east
+  - id: deco:entrance_chandelier
+    room: room:entrance
+    decoration: chndlir0
+    at: [64, 0]
+    hangs: true
+  - id: deco:entrance_sconce_n
+    room: room:entrance
+    decoration: scon100
+    at: [-512, 896]
+    wall: north
+  - id: deco:entrance_sconce_s
+    room: room:entrance
+    decoration: scon100
+    at: [640, -896]
+    wall: south
+  - id: deco:gallery_chandelier
+    room: room:queens_gallery
+    decoration: chndlir0
+    at: [1408, 5120]
+    hangs: true
+  - id: deco:gate_torch_n
+    room: room:gate
+    decoration: torch02
+    at: [-1280, 384]
+    wall: north
+  - id: deco:gate_torch_s
+    room: room:gate
+    decoration: torch02
+    at: [-1280, -384]
+    wall: south
+  - id: deco:guard_torch
+    room: room:guardroom
+    decoration: torch02
+    at: [5888, -3072]
+    wall: east
+  - id: deco:kennel_bones_1
+    room: room:kennel
+    decoration: 7dec18
+    at: [1088, -6976]
+  - id: deco:kennel_bones_2
+    room: room:kennel
+    decoration: 7dec18
+    at: [2560, -7040]
+  - id: deco:kennel_bones_3
+    room: room:kennel
+    decoration: 7dec18
+    at: [1216, -6080]
+  - id: deco:kitchen_barrel_1
+    room: room:kitchen
+    decoration: bigbarel
+    at: [2744, 2216]
+  - id: deco:kitchen_barrel_2
+    room: room:kitchen
+    decoration: bigbarel
+    at: [2856, 2216]
+  - id: deco:kitchen_sack_1
+    room: room:kitchen
+    decoration: bag01
+    at: [2232, 2216]
+  - id: deco:kitchen_sack_2
+    room: room:kitchen
+    decoration: bag01
+    at: [2344, 2216]
+  - id: deco:kitchen_sconce
+    room: room:kitchen
+    decoration: scon100
+    at: [1664, 1600]
+    wall: west
+  - id: deco:knights_brew
+    room: room:bedchamber
+    decoration: bigbarel
+    at: [3496, 4920]
+  - id: deco:l2_sconce
+    room: room:l2_landing
+    decoration: scon100
+    at: [-1536, 3456]
+    wall: north
+  - id: deco:l3_sconce
+    room: room:l3_landing
+    decoration: scon100
+    at: [-320, 5248]
+    wall: north
+  - id: deco:maxsec_torch
+    room: room:maxsec
+    decoration: torch02
+    at: [1152, -3648]
+    wall: west
+  - id: deco:nw_sconce
+    room: room:north_wing
+    decoration: scon100
+    at: [512, 1024]
+    wall: south
+  - id: deco:queens_brew
+    room: room:bedchamber
+    decoration: bigbarel
+    at: [3496, 4808]
+  - id: deco:res_sconce_1
+    room: room:residences
+    decoration: scon100
+    at: [1280, 2944]
+    wall: south
+  - id: deco:res_sconce_2
+    room: room:residences
+    decoration: scon100
+    at: [2048, 2944]
+    wall: south
+  - id: deco:sleeping_sconce
+    room: room:sleeping
+    decoration: scon100
+    at: [384, 2240]
+    wall: west
+  - id: deco:sw_sconce
+    room: room:south_wing
+    decoration: scon100
+    at: [2560, -1024]
+    wall: north
+  - id: deco:throne_chandelier
+    room: room:throne
+    decoration: chndlir0
+    at: [1984, 0]
+    hangs: true
+  - id: deco:throne_sconce_n
+    room: room:throne
+    decoration: scon100
+    at: [2560, 896]
+    wall: north
+  - id: deco:throne_sconce_s
+    room: room:throne
+    decoration: scon100
+    at: [2560, -896]
+    wall: south
+  - id: deco:upper_sconce
+    room: room:upper_foot
+    decoration: scon100
+    at: [-320, 2944]
+    wall: south
+  - id: deco:vault_torch
+    room: room:vault_d
+    decoration: torch02
+    at: [2432, -4736]
+    wall: west
+  - id: deco:vaults_sconce
+    room: room:vaults
+    decoration: scon100
+    at: [3200, 2304]
+    wall: north
+  - id: deco:well_bones_1
+    room: room:well
+    decoration: 7dec18
+    at: [4032, -5184]
+  - id: deco:well_bones_2
+    room: room:well
+    decoration: 7dec18
+    at: [4928, -5120]
+exits:
+  - id: exit:d1_gate
+    room: room:gate
+    wall: west
+    size: [384, 384]
+    surface: {texture: 7solid01, size: [256, 256], fit: true}
+    to: exit:d1_gate
+    notes: Kalindra's gate out to D1's forecourt.
+notes: "DD-03's contents, written by output/studio_cal/dd03/tools/gen.py: 16 doors (four phase leaves, the portcullis, four double doors, the illusory wall, a secret door, the kennel portcullis), 5 chests, 54 placed monsters and Scraps (stage 1 shown, stages 2-4 hidden in their groups), Carl the Mason."

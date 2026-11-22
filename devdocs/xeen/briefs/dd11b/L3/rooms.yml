@@ -1,0 +1,204 @@
+format: 0
+themes:
+  - id: theme:dirt
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: 7dirttyl, size: [128, 128], scale: 2}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The pocket: XD-23's MM7 red-brown dirt cave (7dirttyl) on walls, roofs and floors; hide flaps (xohide) for doors."
+  - id: theme:roots
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: xdbark, size: [128, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Root steps (xdbark, D2's bark) in the dirt: the root stair and the burrow up."
+  - id: theme:straw
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Nests and sleeping hollows: the same dirt, the floor deep in old straw (MM6 straw)."
+defaults: {theme: theme:dirt, ambient: 18}
+rooms:
+  - id: room:adventurers
+    name: Expired adventurers
+    outline: [[1024, 288], [1792, 288], [1792, 1024], [1024, 1024]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 320
+    theme: theme:dirt
+    platforms:
+      - {id: platform:satchel, rise: 20, surface: {texture: xohide, size: [128, 256]}, outline: [[1110, 884], [1157, 850], [1215, 850], [1250, 888], [1215, 950], [1145, 950]], top_surface: {texture: xohide, size: [128, 256]}, notes: A thief's satchel among the bones.}
+    ambient: 14
+    notes: "Under a fallen root: the party that fell in before. Four skeletons in rusted mail, their strongbox, a thief's satchel."
+  - id: room:brewers
+    name: Brewers' den
+    outline: [[5248, -512], [5888, -512], [5888, 256], [5248, 256]]
+    floor: -448
+    rough: {step: 224, depth: 72}
+    ceiling: -96
+    theme: theme:straw
+    platforms:
+      - {id: platform:brewer_bed, rise: 24, surface: {texture: straw, size: [256, 256]}, outline: [[5390, 90], [5504, 30], [5645, 30], [5730, 98], [5645, 210], [5475, 210]], top_surface: {texture: straw, size: [256, 256]}, notes: The brewers' straw.}
+    ambient: 14
+    notes: "Behind the log door: the brewers' beds and their stash."
+  - id: room:burrow
+    name: The burrow up
+    path: [[384, -1152], [-768, -1152]]
+    width: 224
+    floor: 0
+    slope: {to: 384}
+    ceiling: 288
+    theme: theme:roots
+    ambient: 22
+    notes: Root steps up a steep burrow to a sod hatch in the forest floor.
+  - id: room:fungus
+    name: Fungus cave
+    outline: [[512, -1792], [1408, -1792], [1408, -288], [512, -288]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 448
+    ceiling_points: [[960, -1040, 560]]
+    theme: theme:dirt
+    ambient: 18
+    notes: "Pale caps as tall as a man, the trolls' crop for the vats; the root stair comes up its east wall, the burrow leaves its west wall behind a hide flap."
+  - id: room:gallery
+    name: Gnawed gallery
+    path: [[512, 0], [2944, 0]]
+    width: 320
+    floor: 0
+    ceiling: 320
+    theme: theme:dirt
+    ambient: 18
+    notes: "A long tunnel with tooth marks in the roots; at its far end the floor turns to wet clay and falls away to the vats below (the clay drop)."
+  - id: room:pens
+    name: Grub pens
+    outline: [[2432, -1792], [3456, -1792], [3456, -768], [2432, -768]]
+    floor: -448
+    rough: {step: 224, depth: 72}
+    ceiling: -64
+    theme: theme:dirt
+    platforms:
+      - {id: platform:pen_1, at: [2800, -1640], size: [512, 192], rise: 48, surface: {texture: xopoles, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: A wicker pen of fat white grubs.}
+      - {id: platform:pen_2, at: [3330, -1200], size: [192, 448], rise: 48, surface: {texture: xopoles, size: [128, 128]}, top_surface: {texture: straw, size: [256, 256]}, notes: A wicker pen of grubs.}
+    ambient: 16
+    notes: "Wicker pens of fat white grubs for the vats; the root stair leaves its west wall."
+  - id: room:pit
+    name: Pit bottom
+    outline: [[-157, -384], [157, -384], [384, -157], [384, 157], [157, 384], [-157, 384], [-384, 157], [-384, -157]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 448
+    theme: theme:dirt
+    platforms:
+      - {id: platform:packs, rise: 24, surface: {texture: xohide, size: [128, 256]}, outline: [[-300, 97], [-213, 30], [-105, 30], [-40, 105], [-105, 230], [-235, 230]], top_surface: {texture: xohide, size: [128, 256]}, notes: "A heap of torn packs and a snapped rope: other people fell in here first."}
+    ceiling_levels:
+      - outline: [[-91, -224], [91, -224], [224, -91], [224, 91], [91, 224], [-91, 224], [-224, 91], [-224, -91]]
+        ceiling: 768
+        edge: {texture: 7dirttyl, size: [128, 128]}
+        surface: {texture: 7dirttyl, size: [128, 128], sky: true}
+        notes: "The troll hole's shaft, 768 up to D2's sky."
+    ambient: 30
+    notes: "Where the party lands, on a heap of torn packs and a snapped rope; daylight 768 up. The gnawed gallery runs east."
+  - id: room:stair
+    name: Root stair
+    outline: [[1536, -1536], [2304, -1536], [2304, -1152], [1536, -1152]]
+    floor: -448
+    slope: {to: 0, toward: west, steps: 14}
+    ceiling: 320
+    theme: theme:roots
+    ambient: 16
+    notes: "A stair of roots from the grub pens up to the fungus cave, 448."
+  - id: room:vat_cave
+    name: Juice pit
+    outline: [[3584, -1152], [5120, -1152], [5120, 768], [3584, 768]]
+    floor: -448
+    rough: {step: 224, depth: 72}
+    ceiling: 128
+    ceiling_points: [[4352, -192, 320]]
+    theme: theme:dirt
+    platforms:
+      - {id: platform:vat, rise: 56, surface: {texture: 7dirttyl, size: [128, 128]}, outline: [[4230, -492], [4474, -492], [4652, -314], [4652, -70], [4474, 108], [4230, 108], [4052, -70], [4052, -314]], top_surface: {texture: wtrtyl, liquid: water}, notes: "The sunken vat of fungus, grubs and water, brewing: Troll Juice (one drink a character)."}
+    ambient: 16
+    notes: "A sunken vat of fungus, grubs and water in the middle; ladles and skulls for cups; the brewers' log door in the east wall."
+  - id: room:vat_rim
+    name: Vat rim
+    outline: [[2432, -640], [3456, -640], [3456, 384], [2432, 384]]
+    floor: -448
+    rough: {step: 224, depth: 72}
+    ceiling: -64
+    theme: theme:dirt
+    platforms:
+      - {id: platform:clay_heap, rise: 16, surface: {texture: 7dirttyl, size: [128, 128]}, outline: [[2602, -40], [2702, -120], [2827, -120], [2902, -30], [2827, 120], [2677, 120]], top_surface: {texture: 7dirttyl, size: [128, 128]}, notes: "Wet clay from the slide, heaped where it lands."}
+    ambient: 16
+    notes: "Where the clay drop lands: a ledge of wet clay round the juice pit, the smell rising from it."
+openings:
+  - id: open:clay_drop
+    from: room:gallery
+    to: room:vat_rim
+    in: floor
+    at: [2752, 0]
+    size: [256, 224]
+    link: link:gallery_slide
+    notes: "The clay drop: the gallery's end falls away 448 to the vat rim; down only."
+  - id: open:fungus_burrow
+    from: room:fungus
+    to: room:burrow
+    link: link:fungus_burrow
+    width: 192
+    height: 256
+    notes: The hide flap over the burrow's foot.
+  - id: open:gallery_adv
+    from: room:gallery
+    to: room:adventurers
+    link: link:gallery_adv
+    width: 192
+    height: 256
+    notes: The crawl under the fallen root.
+  - id: open:gallery_fungus
+    from: room:gallery
+    to: room:fungus
+    link: link:fungus_gallery
+    width: 288
+    height: 288
+  - id: open:pens_stair
+    from: room:pens
+    to: room:stair
+    link: link:pens_fungus
+    width: 256
+    height: 320
+  - id: open:pit_gallery
+    from: room:pit
+    to: room:gallery
+    link: link:pit_gallery
+    width: 256
+    height: 288
+  - id: open:rim_pens
+    from: room:vat_rim
+    to: room:pens
+    link: link:rim_pens
+    width: 384
+    height: 320
+  - id: open:rim_vat
+    from: room:vat_rim
+    to: room:vat_cave
+    link: link:rim_vat
+    width: 512
+    height: 320
+  - id: open:stair_fungus
+    from: room:stair
+    to: room:fungus
+    link: link:pens_fungus
+    width: 256
+    height: 288
+  - id: open:vat_brewers
+    from: room:vat_cave
+    to: room:brewers
+    link: link:vat_brewers
+    width: 192
+    height: 256
+    notes: The brewers' log door.
+notes: "DD-11B Troll Holes, second pocket: floor 0 (the pocket) and -448 (the vats, partly under the gallery); x east, y north. Written by output/studio_cal/dd11b/tools/gen.py."

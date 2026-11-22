@@ -1,0 +1,52 @@
+# Playtest of the way into the Temple of Yak from X2 (XD-06, L4): a new game on X2 (xeen_x2.odm, A5), set down 300 in
+# front of the temple front's door (DOORS.md: the door's face at -1024, -18240, 1088, facing north). Without the Yak
+# Stone (qbit 110101, Mirabeth's Q-C12 on X3, not built) the door refuses with its message; with the bit set the door
+# leads into the temple at its own start (the porch, party start 0, 384, 0). Played from assets_dev in the Xeen world
+# with `--map xeen_x2.odm` (world_play.sh's fourth argument).
+id: xeen.xd06.l4.in
+title: Temple of Yak (XD-06 L4), in from X2
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, experience: 105000, skills: [], equipment: {}}
+  - assert: {map: xeen_x2.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "Yak Stone"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {map: xeen_x2.odm}
+  - setup_shortcut: {kind: set_qbit, id: 110101, value: true}
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd06.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 128, z_min: -40, z_max: 80}}
+  # First arrival only (lane A8, 2026-11-20): the window shows once (arrived_once 110403); leave by the porch door, come in
+  # again from X2's door, and no window opens.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The Temple of Yak."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(110403) then error('the arrival window did not set arrived_once') end"}
+  - execute_event: {id: 20}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - set_pose: {map: xeen_x2.odm, x: -1024, y: -17940, z: 1088, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd06.blv}
+  - assert: {party_position: {x: 0, y: 384, radius: 128, z_min: -40, z_max: 80}}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: false}}

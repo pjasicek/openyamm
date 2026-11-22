@@ -1,0 +1,393 @@
+format: 0
+level: L2
+pitch: "A black tower of four storeys round an open well. 'No Sound No Ground!': on every storey a gong must be rung before the next flight has its top; on the top storey the Onyx Golem guards the roof stair, closed by an invisible seal that only the Chime of Opening breaks."
+purpose: "M41 Darkstone Tower: the gongs (m41.gong_voice) raise the ground to each next storey; the Onyx Golem; the seal (m41.seal) and the roof stair to the Clouds of the Ancients (P5). Party 60 to 63; onyx golems 62/72, Sky Golem 75, Onyx Golem 85 (45 placed, D-57 Q14); treasure 6."
+mood: "Cold black stone, a hum in the walls, a gong's note that hangs too long; the dark well running up through every floor."
+datum: arrival
+spaces:
+  - id: room:door_hall
+    name: Door hall
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The arrival (entrance:x5_door): inside the tower door, X5's skull frieze; the inner gate (two leaves) and a single door. Quiet (D-11.3, D-57)."
+    empty: true
+  - id: room:l1_east
+    name: East arc (L1)
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The east half, two plaques; the forge door."
+    population:
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [62, 62], notes: 3 Onyx Sentry 62 (placed)}
+  - id: room:l1_forge
+    name: Onyx forge
+    kind: room
+    size: M
+    floor: 0
+    purpose: "A dead end: a cold forge, a T6 chest."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+  - id: room:l1_gong
+    name: Gong rotunda (L1)
+    kind: room
+    size: L
+    floor: 0
+    purpose: "Set piece: the rotunda round the well's foot; the gong (m41.gong_voice) shows its two hidden Sentries and raises the south slab (118120)."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: "2 Onyx Sentry 62 (placed, hidden until the gong)"}
+  - id: room:l1_pass
+    name: South passage (L1)
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: From the rotunda to the south stairwell.
+    empty: true
+  - id: room:l1_stair
+    name: South stair (L1-L2)
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The stairwell L1-L2: 24 steps of 32 up the outer wall, the top step's plate (the voice before the gong), the slab sunk as a dais until the gong."
+    empty: true
+  - id: room:l1_west
+    name: West arc (L1)
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "The ring gallery's west half; two plaques."
+    population:
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [62, 62], notes: 3 Onyx Sentry 62 (placed)}
+  - id: room:l2_east
+    name: East arc (L2)
+    kind: corridor
+    size: M
+    floor: 768
+    purpose: "Ring gallery, two plaques."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [72, 72], notes: 1 Onyx Warden 72 (placed)}
+  - id: room:l2_gong
+    name: Gong rotunda (L2)
+    kind: room
+    size: L
+    floor: 768
+    purpose: "The well's second ring; the gong (118121) shows two hidden Wardens and raises the north slab."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [72, 72], notes: "2 Onyx Warden 72 (placed, hidden until the gong)"}
+  - id: room:l2_landing
+    name: Landing (L2)
+    kind: corridor
+    size: S
+    floor: 768
+    purpose: "The slab's head; ways round both arcs."
+    empty: true
+  - id: room:l2_library
+    name: Mason's library
+    kind: room
+    size: M
+    floor: 768
+    purpose: "A dead end: the builders' plans, a T6 chest."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+  - id: room:l2_pass
+    name: North passage (L2)
+    kind: corridor
+    size: S
+    floor: 768
+    purpose: From the rotunda to the north stairwell.
+    empty: true
+  - id: room:l2_stair
+    name: North stair (L2-L3)
+    kind: corridor
+    size: M
+    floor: 768
+    purpose: "The stairwell L2-L3 (north), the same flight and slab."
+    empty: true
+  - id: room:l2_west
+    name: West arc (L2)
+    kind: corridor
+    size: M
+    floor: 768
+    purpose: "Ring gallery, two plaques; the library door."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [72, 72], notes: 1 Onyx Warden 72 (placed)}
+  - id: room:l3_cistern
+    name: Rain cistern
+    kind: room
+    size: M
+    floor: 1536
+    purpose: "A dead end: the rain cistern sunk 128, two Sky Golems, a T6 chest on its rim."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [75, 75], notes: 2 Sky Golem 75 (placed)}
+  - id: room:l3_east
+    name: East arc (L3)
+    kind: corridor
+    size: M
+    floor: 1536
+    purpose: "Ring gallery, two plaques; the cistern door."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [72, 72], notes: 1 Onyx Warden 72 (placed)}
+  - id: room:l3_gong
+    name: Twin gongs (L3)
+    kind: room
+    size: L
+    floor: 1536
+    purpose: "The twin gongs (118122 west, 118123 east): each shows its two Wardens and lifts the south ground 320."
+    population:
+      - {slot: 1, groups: 1, per_marker: [4, 4], levels: [72, 72], notes: "4 Onyx Warden 72 (placed, hidden until the gong)"}
+  - id: room:l3_landing
+    name: Landing (L3)
+    kind: corridor
+    size: S
+    floor: 1536
+    purpose: The north slab's head.
+    empty: true
+  - id: room:l3_pass
+    name: South passage (L3)
+    kind: corridor
+    size: S
+    floor: 1536
+    purpose: From the rotunda to the last stairwell.
+    empty: true
+  - id: room:l3_stair
+    name: South stair (L3-L4)
+    kind: corridor
+    size: M
+    floor: 1536
+    purpose: "The stairwell L3-L4: the ground in two stages (riser and slab)."
+    empty: true
+  - id: room:l3_west
+    name: West arc (L3)
+    kind: corridor
+    size: M
+    floor: 1536
+    purpose: "Ring gallery, two plaques."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [62, 62], notes: 2 Onyx Sentry 62 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [72, 72], notes: 1 Onyx Warden 72 (placed)}
+  - id: room:l4_east
+    name: East arc (L4)
+    kind: corridor
+    size: M
+    floor: 2304
+    purpose: "Ring gallery, two speaking heads; open into the hall of the skull."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [72, 72], notes: 2 Onyx Warden 72 (placed)}
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [75, 75], notes: 2 Sky Golem 75 (placed)}
+  - id: room:l4_landing
+    name: Landing (L4)
+    kind: corridor
+    size: S
+    floor: 2304
+    purpose: The last slab's head.
+    empty: true
+  - id: room:l4_west
+    name: West arc (L4)
+    kind: corridor
+    size: M
+    floor: 2304
+    purpose: "Ring gallery, two speaking heads; the hall of the skull's double doors."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [72, 72], notes: 2 Onyx Warden 72 (placed)}
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [75, 75], notes: 2 Sky Golem 75 (placed)}
+  - id: room:roof_stair
+    name: The roof stair
+    kind: corridor
+    size: M
+    floor: 2304
+    purpose: "The roof stair: 24 steps up to the head under the open hatch; entrance:p5_stair on the top step facing down; the hatch's exit up to P5 (sealed until P5 is installed)."
+    empty: true
+  - id: room:seal
+    name: Foot of the roof stair
+    kind: room
+    size: M
+    floor: 2304
+    purpose: "Set piece: the seal (xdseal) across the roof stair's mouth; m41.seal with the Chime."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [75, 75], notes: 2 Sky Golem 75 (placed)}
+  - id: room:skull_hall
+    name: Hall of the skull
+    kind: room
+    size: L
+    floor: 2304
+    purpose: "The boss room: the Onyx Golem (85) between the well and the seal; the skull is silent."
+    population:
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [85, 85], notes: 1 Onyx Golem 85 (placed)}
+      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [72, 72], notes: 2 Onyx Warden 72 (placed)}
+  - id: room:vault
+    name: The skull's vault
+    kind: room
+    size: S
+    floor: 2304
+    purpose: "Behind the force (xafield 0.5): a T6 chest; the force drops with the Onyx Golem (118124)."
+    empty: true
+links:
+  - id: link:door_east
+    from: room:door_hall
+    to: room:l1_east
+    kind: door
+  - id: link:door_west
+    from: room:door_hall
+    to: room:l1_west
+    kind: double_door
+  - id: link:l1_gong_stair
+    from: room:l1_gong
+    to: room:l1_stair
+    kind: open
+  - id: link:l1_up
+    from: room:l1_stair
+    to: room:l2_landing
+    kind: stairs
+    notes: "Up the flight and over the slab, once its gong has raised it."
+  - id: link:l1e_forge
+    from: room:l1_east
+    to: room:l1_forge
+    kind: door
+  - id: link:l1e_gong
+    from: room:l1_east
+    to: room:l1_gong
+    kind: open
+  - id: link:l1w_gong
+    from: room:l1_west
+    to: room:l1_gong
+    kind: open
+  - id: link:l2_gong_stair
+    from: room:l2_gong
+    to: room:l2_stair
+    kind: open
+  - id: link:l2_land_e
+    from: room:l2_landing
+    to: room:l2_east
+    kind: open
+  - id: link:l2_land_w
+    from: room:l2_landing
+    to: room:l2_west
+    kind: open
+  - id: link:l2_up
+    from: room:l2_stair
+    to: room:l3_landing
+    kind: stairs
+    notes: "Up the flight and over the slab, once its gong has raised it."
+  - id: link:l2e_gong
+    from: room:l2_east
+    to: room:l2_gong
+    kind: open
+  - id: link:l2w_gong
+    from: room:l2_west
+    to: room:l2_gong
+    kind: open
+  - id: link:l2w_lib
+    from: room:l2_west
+    to: room:l2_library
+    kind: door
+  - id: link:l3_gong_stair
+    from: room:l3_gong
+    to: room:l3_stair
+    kind: open
+  - id: link:l3_land_e
+    from: room:l3_landing
+    to: room:l3_east
+    kind: open
+  - id: link:l3_land_w
+    from: room:l3_landing
+    to: room:l3_west
+    kind: open
+  - id: link:l3_up
+    from: room:l3_stair
+    to: room:l4_landing
+    kind: stairs
+    notes: "Up the flight and over the slab, once its gong has raised it."
+  - id: link:l3e_cistern
+    from: room:l3_east
+    to: room:l3_cistern
+    kind: door
+  - id: link:l3e_gong
+    from: room:l3_east
+    to: room:l3_gong
+    kind: open
+  - id: link:l3w_gong
+    from: room:l3_west
+    to: room:l3_gong
+    kind: open
+  - id: link:l4_land_e
+    from: room:l4_landing
+    to: room:l4_east
+    kind: open
+  - id: link:l4_land_w
+    from: room:l4_landing
+    to: room:l4_west
+    kind: open
+  - id: link:l4e_skull
+    from: room:l4_east
+    to: room:skull_hall
+    kind: open
+  - id: link:l4w_skull
+    from: room:l4_west
+    to: room:skull_hall
+    kind: double_door
+  - id: link:seal_stair
+    from: room:seal
+    to: room:roof_stair
+    kind: door
+  - id: link:skull_seal
+    from: room:skull_hall
+    to: room:seal
+    kind: open
+  - id: link:skull_vault
+    from: room:skull_hall
+    to: room:vault
+    kind: door
+loops:
+  - id: loop:l1_ring
+    spaces: [room:door_hall, room:l1_west, room:l1_gong, room:l1_east]
+    notes: Round the L1 rotunda by either arc.
+  - id: loop:l2_ring
+    spaces: [room:l2_landing, room:l2_west, room:l2_gong, room:l2_east]
+    notes: Round L2.
+  - id: loop:l3_ring
+    spaces: [room:l3_landing, room:l3_west, room:l3_gong, room:l3_east]
+    notes: Round L3.
+  - id: loop:l4_ring
+    spaces: [room:l4_landing, room:l4_west, room:skull_hall, room:l4_east]
+    notes: "Round L4: into the hall of the skull by its double doors or the open east way."
+entrances:
+  - id: entrance:p5_stair
+    space: room:roof_stair
+    kind: both
+    facing: w
+    how: "From P5's stair house (A5): on the roof stair's top step, facing down the stair (west)."
+  - id: entrance:x5_door
+    space: room:door_hall
+    kind: both
+    facing: s
+    how: "From X5's Darkstone Tower door (A6): 256 inside the door, facing south into the tower."
+critical_path: [room:door_hall, room:l1_west, room:l1_gong, room:l1_pass, room:l1_stair, room:l2_landing, room:l2_west, room:l2_gong, room:l2_pass, room:l2_stair, room:l3_landing, room:l3_west, room:l3_gong, room:l3_pass, room:l3_stair, room:l4_landing, room:l4_west, room:skull_hall, room:seal, room:roof_stair]
+return_path: [room:roof_stair, room:seal, room:skull_hall, room:l4_east, room:l4_landing, room:l3_stair, room:l3_pass, room:l3_gong, room:l3_east, room:l3_landing, room:l2_stair, room:l2_pass, room:l2_gong, room:l2_east, room:l2_landing, room:l1_stair, room:l1_pass, room:l1_gong, room:l1_east, room:door_hall]
+goals:
+  - id: goal:seal
+    space: room:seal
+    kind: use
+    what: "The seal (m41.seal): with the Chime of Opening it breaks (seal_broken 111820, 27,000)."
+    story: M41
+set_pieces:
+  - id: set:gong_well
+    kind: scripted
+    spaces: [room:l1_gong, room:l2_gong, room:l3_gong, room:l1_stair, room:l2_stair, room:l3_stair]
+    rule: "A gong rung: the voice, its two hidden guards shown, and the slab of the next flight grinds up out of the dark (map qbits 118120-118123, kept on load)."
+  - id: set:seal
+    kind: scripted
+    spaces: [room:seal]
+    rule: "The seal: a faint ripple across the roof stair's mouth; the Chime cracks it (m41.seal)."
+diagram: {file: diagram.txt}
+totals:
+  chests: 4
+  doors: 13
+  floor_area_munits2: 38
+  loops: 4
+  monsters_about: 45
+  rooms: 28
+  sectors: 28
+notes: "Size M (20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From act6_graphs/fd03.graph.yml and D-57 (FD-03, Q14-Q21, Q35): the review graph's rooms with geometric names (the L2 and L4 arcs are west and east); the roof stair's head is the top landing of room:roof_stair."

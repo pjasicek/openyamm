@@ -1,0 +1,43 @@
+format: 0
+id: xeen_dd21
+name: Necropolis Sewer
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-21
+units: {plan_grid: 512}
+extent: {footprint_cells: [14, 14], climbs: n}
+map_stats:
+  id: 9174
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 15
+  refill_days: 672
+  music: 11
+  environment: stoneroom
+  lock_difficulty: 15
+  slots:
+    - {monster: Xeen Mummy, tier: 0, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:d6_stair
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:dd21_stair
+    arrival_hint: "On D6 (the Forbidden Zone) in the Necropolis, about 280 north of the crypt's door, facing away from it (A6's entrance:dd21_stair, (17408, -11776, 1664) facing 512)."
+    notes: "D6 installed by A6: its door:dd21 (thing:dd21_crypt, the grille pair gkp103a in the Necropolis's south-east corner) is to arrive at this map's entrance:d6_stair, the stair's foot (0, 0, 0) facing south (1536); it stays sealed with a line until A6 unseals it. The way out is the exit preset on the grille pair's inner face at the stair's top. 'Climb up to the Necropolis?' is the exit's meaning (A3, a map-local line)."
+qbits:
+  beaten: 113460
+  dd21_arrived_once: 117720
+  dead_food_pried: 117723
+  drain_1: 117724
+  drain_2: 117725
+  drain_3: 117726
+  heart_found: 113461
+  released: 113462
+  sandro_fell: 117727
+  sandro_met: 117722
+  sluice_open: 117721
+  taught: 113463
+notes: "Xeen design brief for a new map: DD-21 Necropolis Sewer (the source's dark maze0036 under the Necropolis, aaze0035:25-29 and aaze0036) as one BLV of three floors under D6's Necropolis: Sandro's crypt at 0, the sewer at -512, the lowest culvert at -896. Side quest Q-D23 Sandro's Heart (A3's hooks q-d23.sandro, q-d23.heart, q-d23.release, q-d23.ritual; Promo Lich / Priest of Dark). Size S (MAPS.md section 0, D-62): at most 15 sectors and 20 M units squared, doors 3-8, levels 40-62, Sandro 65, party 49-52, treasure 5, music 11. Graph devdocs/xeen/mockups/act5_graphs/dd21.graph.yml with decider D-62 (mockups/act5_a8_decisions_b.md, which wins): 15 + Sandro (Cinder Roach 11363 40 x10, two hidden in the Dead Food barrel; Greater Lich 11281 50 x3; Ghost Mummy 11273 62 x2; Sandro 11283 65 once), kill XP 42,803 for the party, 10.70k per member; Sandro falls once and rises as the peaceful, unkillable row 11926 by his bier (map qbit 117727 sandro_fell), released with his heart; the Dead Food barrel (Might 30, +2 Endurance once per character); the sluice wheel opens the culvert gate (one way, D-43); the reliquary grille opens with the release. Rest encounters 10 %: the pyramid mummies at Dif 0 (Tomb Mummy 42) only (D-62 Q47, A2's row 9174). Map qbits 117720-117727; map_stats 9174."

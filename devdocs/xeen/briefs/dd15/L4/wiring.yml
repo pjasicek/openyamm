@@ -1,0 +1,747 @@
+format: 0
+variables: [stair_open, vault_door, registry_door, secret_door, salts_found, brew_warned]
+events:
+  - id: evt:back_cell_a
+    preset: teleport
+    source: plate:back_cell_a
+    trigger: step
+    to: [-960, 640, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The pad sets you down in the pad hall.
+    notes: Every cell's pad back to the pad hall (D-61).
+  - id: evt:back_cell_b
+    preset: teleport
+    source: plate:back_cell_b
+    trigger: step
+    to: [-960, 640, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The pad sets you down in the pad hall.
+    notes: Every cell's pad back to the pad hall (D-61).
+  - id: evt:back_cell_c
+    preset: teleport
+    source: plate:back_cell_c
+    trigger: step
+    to: [-960, 640, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The pad sets you down in the pad hall.
+    notes: Every cell's pad back to the pad hall (D-61).
+  - id: evt:back_cell_d
+    preset: teleport
+    source: plate:back_cell_d
+    trigger: step
+    to: [-960, 640, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The pad sets you down in the pad hall.
+    notes: Every cell's pad back to the pad hall (D-61).
+  - id: evt:back_cell_e
+    preset: teleport
+    source: plate:back_cell_e
+    trigger: step
+    to: [-960, 640, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The pad sets you down in the pad hall.
+    notes: Every cell's pad back to the pad hall (D-61).
+  - id: evt:bed
+    preset: text
+    source: platform:bed
+    title: Ornate Bed
+    text: Nothing here.
+    window: false
+    notes: The ornate bed (aaze0086:2-3).
+  - id: evt:book
+    preset: script
+    source: platform:book_stand
+    title: Book
+    lua: "XeenQuests.hook(\"m28.prime_directive\")"
+    notes: "The Prime Directive (A3's m28.prime_directive; D-61 Q8: the source's three directives, a second read aaze0086:31)."
+  - id: evt:brew
+    preset: script
+    source: platform:vat
+    title: Bubbling Vat
+    condition: {not: {map_var: brew_warned}}
+    effects:
+      - set:
+          var:
+            map_var: brew_warned
+          value: 1
+      - lua: "XeenQuests.hook(\"m28.brew\")"
+    else_effects:
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\")"
+      - lua: "XeenQuests.hook(\"m28.brew_drink\")"
+    notes: "The Brew of Pure Power (D-61 Q6 (b)): the first click in a visit the Pharaoh's warning (aaze0086:0); a second drinks: 50 fire damage to the clicking member, 'He did warn you.'. No reward."
+  - id: evt:brew_reset
+    preset: script
+    trigger: load
+    effects:
+      - set:
+          var:
+            map_var: brew_warned
+          value: 0
+    notes: Each visit starts with the Pharaoh's warning (D-61 Q6 (b)).
+  - id: evt:button
+    preset: switch
+    source: switch:button
+    title: Button
+    condition: {not: {qbit: button}}
+    locked_text: The button is pressed in.
+    opens: [door:secret_sky]
+    sets: {qbit: button}
+    text: "Click. Beside the button, a panel of the wall slides aside."
+    notes: "The carved button (aaze0086:4): the secret way to the sky corridor, for good (117575)."
+  - id: evt:call_foot
+    preset: switch
+    source: switch:call_foot
+    title: Call the lift
+    condition: {lua: "XeenQuests.can(\"m28.lift\")"}
+    closes: [lift:cage, door:lift_gate]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, -3584, 1152)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m28.lift\")"
+    text: The gilded cage sinks down the shaft to you.
+    notes: "The Pharaoh's lift (D-61 Q4): both ways after the first entry into the throne hall (117577); before it the cage's line."
+  - id: evt:call_top
+    preset: switch
+    source: switch:call_top
+    title: Call the lift
+    condition: {lua: "XeenQuests.can(\"m28.lift\")"}
+    opens: [lift:cage, door:lift_gate]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, -3584, 1152)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m28.lift\")"
+    text: The gilded cage climbs the shaft to you.
+    notes: "The Pharaoh's lift (D-61 Q4): both ways after the first entry into the throne hall (117577); before it the cage's line."
+  - id: evt:chest_strongbox
+    preset: chest
+    source: chest:strongbox
+    title: Chest
+  - id: evt:chest_sun
+    preset: chest
+    source: chest:sun
+    title: Chest
+  - id: evt:chest_tomb_w
+    preset: chest
+    source: chest:tomb_w
+    title: Chest
+  - id: evt:chest_vault
+    preset: chest
+    source: chest:vault
+    title: Chest
+  - id: evt:door_ante
+    preset: door
+    source: door:ante
+    title: Door
+    condition: {lua: "XeenQuests.hook(\"m28.antechamber_door\")"}
+    notes: "D-89: A3's m28.antechamber_door (the Queen's pyramid_key 12348; else its line naming Queen Kalindra)."
+  - id: evt:door_apex
+    preset: door
+    source: door:apex
+    title: Door
+  - id: evt:door_bedchamber
+    preset: door
+    source: door:bedchamber
+    title: Bedchamber
+  - id: evt:door_chapel_ne
+    preset: door
+    source: door:chapel_ne
+    title: Double doors
+  - id: evt:door_chapel_nw
+    preset: door
+    source: door:chapel_nw
+    title: Double doors
+  - id: evt:door_cloister_registry
+    preset: door
+    source: door:cloister_registry
+    title: Door
+  - id: evt:door_embalmers
+    preset: door
+    source: door:embalmers
+    title: Door
+  - id: evt:door_information
+    preset: door
+    source: door:information
+    title: Information
+  - id: evt:door_numbers_information
+    preset: door
+    source: door:numbers_information
+    title: Door
+  - id: evt:door_overseer
+    preset: door
+    source: door:overseer
+    title: Overseer's Office
+  - id: evt:door_reception
+    preset: door
+    source: door:reception
+    title: Reception
+  - id: evt:door_south_atrium
+    preset: door
+    source: door:south_atrium
+    title: Visitor's Atrium
+  - id: evt:door_stair
+    preset: door
+    source: door:stair
+    title: Door
+    condition: {lua: "XeenQuests.can(\"m28.stair_door\")"}
+    else_effects:
+      - lua: "XeenQuests.hook(\"m28.stair_door\")"
+    notes: "The stair door: A3's m28.stair_door ('Access denied!', aaze0083:12) until m28.torches (111561)."
+  - id: evt:door_throne
+    preset: door
+    source: door:throne
+    title: Great doors
+  - id: evt:door_tomb_e
+    preset: door
+    source: door:tomb_e
+    title: Double doors
+  - id: evt:door_tomb_w
+    preset: door
+    source: door:tomb_w
+    title: Double doors
+  - id: evt:door_vault
+    preset: door
+    source: door:vault
+    title: Vault
+    condition: {qbit: vault_open}
+    locked_text: The vault door is locked. Eight numbers bolt it.
+    notes: "The Overseer's vault: opens once the eight niches are answered."
+  - id: evt:exit_green
+    preset: script
+    source: door:green
+    title: Exit the Great Pyramid
+    effects:
+      - exit: exit:d5_door
+    notes: "The green doors: the game's own leave window (D-24; 'Exit the Great Pyramid?', aaze0083:0) to D5's entrance:dd15_door (0, -7168, 1248) facing 512."
+  - id: evt:figures_load
+    preset: script
+    trigger: load
+    lua: "evt.SetMm9ActorCanReceiveDamage(ActorIndex(\"monster:pharaoh\"), false)"
+    notes: "The Dragon Pharaoh cannot be hurt (D-56, D-61; as P5)."
+  - id: evt:history
+    preset: script
+    source: panel:statue_history
+    title: Statue
+    lua: "XeenQuests.hook(\"m28.history_statue\")"
+    notes: "A statue: A3's m28.history_statue (clicked)."
+  - id: evt:history_step
+    preset: script
+    source: plate:history
+    trigger: step
+    lua: "XeenQuests.hook(\"m28.history_statue\")"
+    notes: "The statue speaks as the party approaches it: A3's m28.history_statue."
+  - id: evt:maze
+    preset: script
+    source: room:pad_w
+    trigger: step
+    sources: [room:pad_c, room:pad_e]
+    condition: {not: {qbit: maze_seen}}
+    effects:
+      - lua: "XeenQuests.hook(\"m28.maze\")"
+    notes: m28.maze on the first arrival in the pad hall (117576).
+  - id: evt:niche_10
+    preset: script
+    source: panel:niche_10
+    title: Niche
+    lua: "Xeen.pyramidNiche(8, eventId, continueStep)"
+    notes: "Niche 10 (A3's Xeen.pyramidNiche(8): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_3
+    preset: script
+    source: panel:niche_3
+    title: Niche
+    lua: "Xeen.pyramidNiche(1, eventId, continueStep)"
+    notes: "Niche 3 (A3's Xeen.pyramidNiche(1): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_4
+    preset: script
+    source: panel:niche_4
+    title: Niche
+    lua: "Xeen.pyramidNiche(2, eventId, continueStep)"
+    notes: "Niche 4 (A3's Xeen.pyramidNiche(2): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_5
+    preset: script
+    source: panel:niche_5
+    title: Niche
+    lua: "Xeen.pyramidNiche(3, eventId, continueStep)"
+    notes: "Niche 5 (A3's Xeen.pyramidNiche(3): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_6
+    preset: script
+    source: panel:niche_6
+    title: Niche
+    lua: "Xeen.pyramidNiche(4, eventId, continueStep)"
+    notes: "Niche 6 (A3's Xeen.pyramidNiche(4): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_7
+    preset: script
+    source: panel:niche_7
+    title: Niche
+    lua: "Xeen.pyramidNiche(5, eventId, continueStep)"
+    notes: "Niche 7 (A3's Xeen.pyramidNiche(5): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_8
+    preset: script
+    source: panel:niche_8
+    title: Niche
+    lua: "Xeen.pyramidNiche(6, eventId, continueStep)"
+    notes: "Niche 8 (A3's Xeen.pyramidNiche(6): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:niche_9
+    preset: script
+    source: panel:niche_9
+    title: Niche
+    lua: "Xeen.pyramidNiche(7, eventId, continueStep)"
+    notes: "Niche 9 (A3's Xeen.pyramidNiche(7): dark/aaze0083:13-38, 'Correct!' / 'Wrong!'; the eighth calls m28.niches, vault_open 117573)."
+  - id: evt:note
+    preset: script
+    source: platform:desk
+    title: Note
+    lua: "XeenQuests.hook(\"m28.overseer_note\")"
+    notes: "The Overseer's note: A3's m28.overseer_note (the niches' answer-giver)."
+  - id: evt:pad_bird
+    preset: teleport
+    source: plate:pad_bird
+    trigger: step
+    to: [-128, -1920, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: "The glyph of the bird flares beneath you, and the hall is gone."
+    notes: "The bird pad: to the bird cell."
+  - id: evt:pad_bird2
+    preset: teleport
+    source: plate:pad_bird2
+    trigger: step
+    to: [1280, -1920, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: The second bird flares beneath you.
+    notes: "The bird cell's second pad: to the far cell."
+  - id: evt:pad_eye
+    preset: teleport
+    source: plate:pad_eye
+    trigger: step
+    to: [2432, -512, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: "The glyph of the eye flares beneath you, and the hall is gone."
+    notes: "The eye pad: to the eye cell."
+  - id: evt:pad_map
+    preset: script
+    source: panel:pad_map
+    title: The Overseer's map
+    lua: "XeenQuests.hook(\"m28.pad_map\")"
+    notes: "The eye cell's find: A3's m28.pad_map (the maze's answer-giver)."
+  - id: evt:pad_scarab
+    preset: teleport
+    source: plate:pad_scarab
+    trigger: step
+    to: [2432, 896, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: "The glyph of the scarab flares beneath you, and the hall is gone."
+    notes: "The scarab pad: to the scarab cell."
+  - id: evt:pad_sun
+    preset: teleport
+    source: plate:pad_sun
+    trigger: step
+    to: [-2688, -512, 1536]
+    direction: 270
+    lua: "evt.PlaySoundName(\"Teleport\")"
+    text: "The glyph of the sun flares beneath you, and the hall is gone."
+    notes: "The sun pad: to the sun cell."
+  - id: evt:rack
+    preset: script
+    source: platform:weapon_rack
+    title: Weapon rack
+    condition: {not: {qbit: scarab_find}}
+    effects:
+      - qbit: scarab_find
+      - give_item:
+          level: 5
+          kind: 20
+      - text: "Among the guards' rusted spears, one weapon is worth taking."
+    else_effects:
+      - text: Nothing here.
+    notes: "The scarab cell's find (D-61 APPROVAL): one random T5 weapon once (117578), then 'Nothing here.'."
+  - id: evt:registry
+    preset: script
+    source: door:registry
+    question: {ask: "Registry?", answers: ["1701", NCC-1701, NCC1701, NCC 1701], message: "A bronze door with a lock of numbered keys. Above it, in raised letters: STARFLEET REGISTRY NUMBER NCC.", wrong_text: "Incorrect!"}
+    title: Registry door
+    condition: {not: {qbit: registry}}
+    opens: [door:registry]
+    effects:
+      - lua: "XeenQuests.hook(\"m28.registry_lock\")"
+    else_effects:
+      - text: The registry door stands open.
+    notes: "m28.registry_lock (111562): 1701 or NCC-1701 (the source's prompt, aaze0084:5-6); else 'Incorrect!' (aaze0084:7)."
+  - id: evt:registry_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: registry, not: {map_var: registry_door}}
+    opens: [door:registry]
+    effects:
+      - set:
+          var:
+            map_var: registry_door
+          value: 1
+    notes: The registry door stays open once 111562 is set.
+  - id: evt:registry_plaque
+    preset: script
+    source: panel:registry_plaque
+    title: Plaque
+    lua: "XeenQuests.hook(\"m28.registry_plaque\")"
+    notes: A3's m28.registry_plaque (xdregplq).
+  - id: evt:ride_down
+    preset: switch
+    source: switch:ride_down
+    title: "Lift: down"
+    condition: {lua: "XeenQuests.can(\"m28.lift\")"}
+    closes: [lift:cage, door:lift_gate]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, -3584, 1152)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m28.lift\")"
+    text: The gilded cage sinks to the grand stair.
+    notes: "The Pharaoh's lift (D-61 Q4): both ways after the first entry into the throne hall (117577); before it the cage's line."
+  - id: evt:ride_up
+    preset: switch
+    source: switch:ride_up
+    title: "Lift: up"
+    condition: {lua: "XeenQuests.can(\"m28.lift\")"}
+    opens: [lift:cage, door:lift_gate]
+    effects:
+      - lua: "evt.PlaySoundName(\"xeen_lift\", 256, -3584, 1152)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"m28.lift\")"
+    text: The gilded cage climbs to the Pharaoh's apartments.
+    notes: "The Pharaoh's lift (D-61 Q4): both ways after the first entry into the throne hall (117577); before it the cage's line."
+  - id: evt:rule_n
+    preset: script
+    source: panel:statue_rule_n
+    title: Statue
+    lua: "XeenQuests.hook(\"m28.rule_statue_2\")"
+    notes: "A statue: A3's m28.rule_statue_2 (clicked)."
+  - id: evt:rule_n_step
+    preset: script
+    source: plate:rule_n
+    trigger: step
+    lua: "XeenQuests.hook(\"m28.rule_statue_2\")"
+    notes: "The statue speaks as the party approaches it: A3's m28.rule_statue_2."
+  - id: evt:rule_s
+    preset: script
+    source: panel:statue_rule_s
+    title: Statue
+    lua: "XeenQuests.hook(\"m28.rule_statue_1\")"
+    notes: "A statue: A3's m28.rule_statue_1 (clicked)."
+  - id: evt:rule_s_step
+    preset: script
+    source: plate:rule_s
+    trigger: step
+    lua: "XeenQuests.hook(\"m28.rule_statue_1\")"
+    notes: "The statue speaks as the party approaches it: A3's m28.rule_statue_1."
+  - id: evt:safe
+    preset: script
+    source: chest:safe
+    title: Wall Safe
+    lua: |-
+      if Xeen.pharaohSafe(eventId, continueStep) then
+          evt.OpenChest(0)
+      end
+    notes: "The wall safe (D-61 Q7): 'Enter Combination.  Left?' 20, 'Right?' 30, 'Left?' 1 (aaze0086:20-29); right: the chest (117574); wrong: 'No Luck.' (aaze0086:19)."
+  - id: evt:salts
+    preset: script
+    source: deco:salts
+    title: Jar
+    condition: {not: {map_var: salts_found}}
+    effects:
+      - set:
+          var:
+            map_var: salts_found
+          value: 1
+      - gold: 400
+      - text: "A jar of embalming salts, and a purse the embalmers hid under it. (+400 gold)"
+    else_effects:
+      - text: Nothing here.
+    notes: "The embalmers' room's find, once."
+  - id: evt:secret_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: button, not: {map_var: secret_door}}
+    opens: [door:secret_sky]
+    effects:
+      - set:
+          var:
+            map_var: secret_door
+          value: 1
+    notes: The secret way stays open once 117575 is set.
+  - id: evt:sky_door
+    preset: script
+    source: panel:sky_door
+    title: Sky door
+    condition: {lua: "XeenQuests.hook(\"d7.sky_door_dd15\")"}
+    effects:
+      - exit: exit:d7_sky
+    notes: "The sky door (D-58, D-61 Q9): before m30.done the hook's 'Access Denied!' (aaze0086:5); after it the standard entrance window (F16, 2026-11-22: OK/Close, no Yes/No): OK out to D7's entrance:dd15_sky (11424, 2560, 1408) facing 1024."
+  - id: evt:stair_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: torches, not: {map_var: stair_open}}
+    opens: [door:stair]
+    effects:
+      - set:
+          var:
+            map_var: stair_open
+          value: 1
+    notes: The stair door opens once the four torches burn (also after a refill).
+  - id: evt:tapestry
+    preset: script
+    source: panel:tapestry
+    title: Tapestry
+    lua: "XeenQuests.hook(\"m28.tapestry\")"
+    notes: "The tapestry (aaze0086:6): A3's m28.tapestry, the safe's numbers (D-61 Q7)."
+  - id: evt:throne
+    preset: text
+    source: platform:throne
+    title: Throne
+    text: The Pharaoh's throne. He is using it.
+    window: false
+    notes: The throne.
+  - id: evt:throne_reached
+    preset: script
+    source: room:throne_s
+    trigger: step
+    sources: [room:throne_c, room:throne_n]
+    condition: {not: {qbit: throne_reached}}
+    effects:
+      - lua: "XeenQuests.hook(\"m28.audience\")"
+    notes: "The first entry into the throne hall (117577): the Pharaoh's lift wakes."
+  - id: evt:torch_ne
+    preset: switch
+    source: switch:torch_ne
+    title: Lever
+    condition: {not: {qbit: torch_ne}}
+    locked_text: The lever is stuck.
+    lua: |-
+      evt.PlaySoundName("xeen_torch_light")
+      if IsQBitSet(QBit(117561)) and IsQBitSet(QBit(117562)) and IsQBitSet(QBit(117563)) and IsQBitSet(QBit(117564)) and not IsQBitSet(QBit(111561)) then
+          XeenQuests.hook("m28.torches")
+      end
+    effects:
+      - qbit: torch_ne
+      - show_actors: 21
+      - show: deco:torch_ne
+      - show: deco:brazier_ne
+      - lights_on: light:brazier_ne
+      - text: "The torch flares up. In the niches, something stirs!"
+    notes: "The ne torch (D-61 Q2): one way; lights its torch and the atrium's ne brazier, shows the chapel's two niche mummies (group 21); a second pull 'The lever is stuck.' (aaze0083:39). The last of the four calls m28.torches."
+  - id: evt:torch_ne_load
+    preset: script
+    trigger: load
+    condition: {qbit: torch_ne}
+    effects:
+      - show_actors: 21
+      - show: deco:torch_ne
+      - show: deco:brazier_ne
+      - lights_on: light:brazier_ne
+    notes: "A lit ne torch stays lit, and its niche pair shown, on every load (D-18)."
+  - id: evt:torch_nw
+    preset: switch
+    source: switch:torch_nw
+    title: Lever
+    condition: {not: {qbit: torch_nw}}
+    locked_text: The lever is stuck.
+    lua: |-
+      evt.PlaySoundName("xeen_torch_light")
+      if IsQBitSet(QBit(117561)) and IsQBitSet(QBit(117562)) and IsQBitSet(QBit(117563)) and IsQBitSet(QBit(117564)) and not IsQBitSet(QBit(111561)) then
+          XeenQuests.hook("m28.torches")
+      end
+    effects:
+      - qbit: torch_nw
+      - show_actors: 22
+      - show: deco:torch_nw
+      - show: deco:brazier_nw
+      - lights_on: light:brazier_nw
+      - text: "The torch flares up. In the niches, something stirs!"
+    notes: "The nw torch (D-61 Q2): one way; lights its torch and the atrium's nw brazier, shows the chapel's two niche mummies (group 22); a second pull 'The lever is stuck.' (aaze0083:39). The last of the four calls m28.torches."
+  - id: evt:torch_nw_load
+    preset: script
+    trigger: load
+    condition: {qbit: torch_nw}
+    effects:
+      - show_actors: 22
+      - show: deco:torch_nw
+      - show: deco:brazier_nw
+      - lights_on: light:brazier_nw
+    notes: "A lit nw torch stays lit, and its niche pair shown, on every load (D-18)."
+  - id: evt:torch_plaque
+    preset: script
+    source: panel:torch_plaque
+    title: Plaque
+    lua: "XeenQuests.hook(\"m28.torch_plaque\")"
+    notes: A3's m28.torch_plaque.
+  - id: evt:torch_se
+    preset: switch
+    source: switch:torch_se
+    title: Lever
+    condition: {not: {qbit: torch_se}}
+    locked_text: The lever is stuck.
+    lua: |-
+      evt.PlaySoundName("xeen_torch_light")
+      if IsQBitSet(QBit(117561)) and IsQBitSet(QBit(117562)) and IsQBitSet(QBit(117563)) and IsQBitSet(QBit(117564)) and not IsQBitSet(QBit(111561)) then
+          XeenQuests.hook("m28.torches")
+      end
+    effects:
+      - qbit: torch_se
+      - show_actors: 24
+      - show: deco:torch_se
+      - show: deco:brazier_se
+      - lights_on: light:brazier_se
+      - text: "The torch flares up. In the niches, something stirs!"
+    notes: "The se torch (D-61 Q2): one way; lights its torch and the atrium's se brazier, shows the chapel's two niche mummies (group 24); a second pull 'The lever is stuck.' (aaze0083:39). The last of the four calls m28.torches."
+  - id: evt:torch_se_load
+    preset: script
+    trigger: load
+    condition: {qbit: torch_se}
+    effects:
+      - show_actors: 24
+      - show: deco:torch_se
+      - show: deco:brazier_se
+      - lights_on: light:brazier_se
+    notes: "A lit se torch stays lit, and its niche pair shown, on every load (D-18)."
+  - id: evt:torch_statue
+    preset: script
+    source: panel:statue_torch_statue
+    title: Statue
+    lua: "XeenQuests.hook(\"m28.torch_statue\")"
+    notes: "A statue: A3's m28.torch_statue (clicked)."
+  - id: evt:torch_statue_step
+    preset: script
+    source: plate:torch_statue
+    trigger: step
+    lua: "XeenQuests.hook(\"m28.torch_statue\")"
+    notes: "The statue speaks as the party approaches it: A3's m28.torch_statue."
+  - id: evt:torch_sw
+    preset: switch
+    source: switch:torch_sw
+    title: Lever
+    condition: {not: {qbit: torch_sw}}
+    locked_text: The lever is stuck.
+    lua: |-
+      evt.PlaySoundName("xeen_torch_light")
+      if IsQBitSet(QBit(117561)) and IsQBitSet(QBit(117562)) and IsQBitSet(QBit(117563)) and IsQBitSet(QBit(117564)) and not IsQBitSet(QBit(111561)) then
+          XeenQuests.hook("m28.torches")
+      end
+    effects:
+      - qbit: torch_sw
+      - show_actors: 23
+      - show: deco:torch_sw
+      - show: deco:brazier_sw
+      - lights_on: light:brazier_sw
+      - text: "The torch flares up. In the niches, something stirs!"
+    notes: "The sw torch (D-61 Q2): one way; lights its torch and the atrium's sw brazier, shows the chapel's two niche mummies (group 23); a second pull 'The lever is stuck.' (aaze0083:39). The last of the four calls m28.torches."
+  - id: evt:torch_sw_load
+    preset: script
+    trigger: load
+    condition: {qbit: torch_sw}
+    effects:
+      - show_actors: 23
+      - show: deco:torch_sw
+      - show: deco:brazier_sw
+      - lights_on: light:brazier_sw
+    notes: "A lit sw torch stays lit, and its niche pair shown, on every load (D-18)."
+  - id: evt:vault_open
+    preset: switch
+    trigger: timer
+    every: 1
+    condition: {qbit: vault_open, not: {map_var: vault_door}}
+    opens: [door:vault]
+    effects:
+      - set:
+          var:
+            map_var: vault_door
+          value: 1
+    notes: The vault door opens once 117573 is set.
+  - id: evt:verse_1
+    preset: text
+    source: panel:statue_verse_1
+    title: Statue
+    text: |-
+      1 - Total the dates is all you do
+      Then minus the number thirty-two
+    window: true
+    notes: "A verse statue's line (dark/aaze0084:1-4, map-local)."
+  - id: evt:verse_1_step
+    preset: text
+    source: plate:verse_1
+    trigger: step
+    text: 1 - Total the dates is all you do Then minus the number thirty-two
+    seconds: 6
+    notes: "The verse statue speaks as the party passes (a status line; clicked, the window)."
+  - id: evt:verse_2
+    preset: text
+    source: panel:statue_verse_2
+    title: Statue
+    text: |-
+      2 - Now take the answer, divide by three
+      Your mission is the pharoah to free
+    window: true
+    notes: "A verse statue's line (dark/aaze0084:1-4, map-local)."
+  - id: evt:verse_2_step
+    preset: text
+    source: plate:verse_2
+    trigger: step
+    text: "2 - Now take the answer, divide by three Your mission is the pharoah to free"
+    seconds: 6
+    notes: "The verse statue speaks as the party passes (a status line; clicked, the window)."
+  - id: evt:verse_3
+    preset: text
+    source: panel:statue_verse_3
+    title: Statue
+    text: |-
+      3 - Then subtract another forty-two
+      This final number can get you through
+    window: true
+    notes: "A verse statue's line (dark/aaze0084:1-4, map-local)."
+  - id: evt:verse_3_step
+    preset: text
+    source: plate:verse_3
+    trigger: step
+    text: 3 - Then subtract another forty-two This final number can get you through
+    seconds: 6
+    notes: "The verse statue speaks as the party passes (a status line; clicked, the window)."
+  - id: evt:verse_4
+    preset: text
+    source: panel:statue_verse_4
+    title: Statue
+    text: |-
+      4 - Type in the passcode you now should know
+      To quickly get from this level below
+    window: true
+    notes: "A verse statue's line (dark/aaze0084:1-4, map-local)."
+  - id: evt:verse_4_step
+    preset: text
+    source: plate:verse_4
+    trigger: step
+    text: 4 - Type in the passcode you now should know To quickly get from this level below
+    seconds: 6
+    notes: "The verse statue speaks as the party passes (a status line; clicked, the window)."
+  - id: evt:welcome
+    preset: script
+    source: panel:statue_welcome
+    title: Statue
+    lua: "XeenQuests.hook(\"m28.welcome_statue\")"
+    notes: "A statue: A3's m28.welcome_statue (clicked)."
+  - id: evt:welcome_first
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - qbit: arrived_once
+      - lua: "XeenQuests.hook(\"m28.welcome_statue\")"
+    notes: "The welcome statue greets the party on its first arrival (A3's m28.welcome_statue, dark/aaze0083:6; first arrival 117560); clicked, again."
+notes: "DD-15's events, written by output/studio_cal/dd15/tools/dress.py."

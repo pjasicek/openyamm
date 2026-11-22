@@ -1,0 +1,26 @@
+# Land kept quiet by a decision, left out of tools/xeen/empty_zones.py's empty zones (not of its distances).
+# One entry per place: the map's stem, a centre (x, y in game units), a radius and the decision that keeps it quiet.
+# Add a place only with its decision; a town (three house doors within 3,000) is found by the tool itself.
+maps:
+  xeen_x7:
+    - {at: [5939, -13363], radius: 5888, why: "Sablewing's cave: no hostile within 5,888 of a talking giver (D-85; D-5.2)"}
+    - {at: [1280, -9728], radius: 4096, why: "the dwarves' watch: safe, spawns kept clear (L1, D-40)"}
+  xeen_d1:
+    - {at: [-17101, 717], radius: 5888, why: "Luna's grove: no hostile within 5,888 of a talking giver (D-85; L1 zone:luna_grove, safe)"}
+    - {at: [-9216, -3072], radius: 2500, why: "Kalindra's forecourt: Town Portal and griffin arrival, the town buffer (D-15; L1 zone:kalindra_gate, spawns kept clear)"}
+  xeen_d5:
+    - {at: [-6144, 19328], radius: 1152, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [-4608, 18944], radius: 1536, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [-3072, 18560], radius: 1920, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [-1536, 18304], radius: 2176, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [0, 18048], radius: 2432, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [1536, 17920], radius: 2560, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [3072, 17792], radius: 2688, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [4608, 17792], radius: 2688, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [6144, 17792], radius: 2688, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [7680, 17920], radius: 2560, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [9216, 18048], radius: 2432, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [10752, 18304], radius: 2176, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [12288, 18560], radius: 1920, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [13824, 18944], radius: 1536, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}
+    - {at: [15360, 19328], radius: 1152, why: "behind the Parabolic Barrier (D-49 Q4 change 4: its blocking face stops walking and flying; L1 zone:barrier_lee)"}

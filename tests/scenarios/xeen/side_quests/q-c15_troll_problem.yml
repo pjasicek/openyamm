@@ -1,0 +1,173 @@
+# Xeen side quest Q-C15, Troll Problem (X5, XD-23), from a new game on X5. Thickbark the Civilized at the Troll
+# Forest's edge asks for the trolls dead (Q-C15 started); the Troll Warren's mouth on X5's barrow mound (the frozen
+# hides dragged aside) leads into XD-23, walked as in its L4 playtest: the mouth's trolls, the gnawing hall's bark, the
+# sleeping hollows, the rock store, the upper loop, the guard tunnel, the whelping den, the hearth and the Troll Matron
+# (matron_dead), the hoard, the fire pit's "Burn the lair?" (No, then Yes: q-c15.lair, lair_burnt); up the chimney and
+# out on the mound's crown. Thickbark pays (done: the trees' Civilized Ones, 5,000 XP, an item). Outdoors the party is
+# placed (PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/x5/L4/playtest.yml (Thickbark), xd23/L4/playtest.yml. Quest logic: source/quests/q-c15.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c15_troll_problem.yml --scenario-no-color
+id: xeen.side_quests.q-c15
+title: "Xeen Q-C15: Thickbark's trolls; the Troll Warren burnt"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 26, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 26, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 26, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 26, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112300, 112301, 112302, 110930]}
+  # Thickbark by the frozen river (actor 122, NPC 4528): Trolls (Q-C15 started), and again.
+  - set_pose: {map: xeen_x5.odm, x: 4301, y: -3174, z: 768, yaw: 0.5, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 122}
+  - assert:
+      dialog: {active: true, source_id: 4528}
+  - select_topic: {match_label: "Trolls"}
+  - assert:
+      dialog: {text_contains: "Friends don't gnaw on friend's bark."}
+  - select_topic: {match_label: "Trolls"}
+  - assert:
+      dialog: {text_contains: "The Trolls are not dead yet."}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112300]}
+  # The Troll Warren's mouth on the barrow mound (X5 event 109): the frozen hides dragged aside, into XD-23.
+  - set_pose: {map: xeen_x5.odm, x: 768, y: -14595, z: 1210, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(109); wait(0.5); log('warren: ' .. status())"}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd23.blv}
+  - assert: {party_position: {x: 0, y: -256, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3); log('arrive: ' .. status()); close()"}
+  # The mouth's trolls; the gnawing hall and its gnawed bark.
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 0, y: -1400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -260, y: -1300, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "They gnaw on our bark to sharpen their teeth"}}
+  - play_lua: {source: "close()"}
+  # Down the tunnel to the sleeping hollows.
+  - walk_to: {x: 0, y: -2100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: -3300, z: -500, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 0, y: -3700, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The rock store: its line and the hunter's pack.
+  - walk_to: {x: 900, y: -4288, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1500, y: -4300, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 1600, y: -4420, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(5); close()"}
+  # The cold spring, up the crawlway to the larder, out through the hide flap into the mouth (the upper loop).
+  - walk_to: {x: 0, y: -4000, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1024, y: -3600, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1100, y: -2900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1200, y: -2150, z: -512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1200, y: -850, z: 0, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1100, y: -450, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -560, y: -384, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 2)"}
+  - walk_to: {x: -150, y: -384, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1100, y: -450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1200, y: -850, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1200, y: -2150, z: -512, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The slope down to the guard tunnel and its guards.
+  - walk_to: {x: -1700, y: -2688, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2304, y: -2688, z: -650, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2304, y: -3700, z: -1024, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2304, y: -4300, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -2200, y: -5632, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1280, y: -5632, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1600}
+  # The whelping den: its curtain, its young trolls, the shiny things.
+  - walk_to: {x: -1280, y: -5720, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 3)"}
+  - walk_to: {x: -1280, y: -6100, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -950, y: -6820, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(6); close()"}
+  - walk_to: {x: -1280, y: -5632, z: -1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The hearth's curtain, the Matron and her guards. Before her death the fire pit only smoulders.
+  - walk_to: {x: -150, y: -5632, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 1)"}
+  - walk_to: {x: 400, y: -5632, z: -1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "wait(4); log('matron: ' .. status()); close()"}
+  - assert: {actor_visible: {actor_index: 12, dead: true}}
+  - play_lua: {source: "if not qbit(110930) then error('matron_dead 110930 not set') end"}
+  # The hoard.
+  - walk_to: {x: 1760, y: -6480, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(4); close()"}
+  # "Destroy the lair?" No leaves it; Yes burns it (A3's q-c15.lair).
+  - walk_to: {x: 1960, y: -5824, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close(); if qbit(112301) then error('lair burnt on No') end"}
+  - console: {line: destructible 17 state, expect_contains: standing}
+  - play_lua: {source: "click(7); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You burn everything you can]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if not qbit(112301) then error('lair_burnt 112301 not set') end
+  - console: {line: destructible 17 state, expect_contains: broken}
+  - play_lua: {source: "wait(6); close(); wait(1); close()"}
+  # Up the chimney's root ladder to the smoke hole, and out on to the mound's crown.
+  - walk_to: {x: 2700, y: -5824, z: -1024, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: chimney, timeout_seconds: 40}
+  - walk_to: {x: 3480, y: -5824, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.5)"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 768, y: -15616, radius: 150, z_min: 1625, z_max: 1650}}
+  - play_lua: {source: "wait(1); close()"}
+  # Back to Thickbark: the Civilized Ones, 5,000 XP and what grew in his roots.
+  - set_pose: {map: xeen_x5.odm, x: 4301, y: -3174, z: 768, yaw: 0.5, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "remember('xp', experience(0)); remember('items', #pack_items())"}
+  - interact_actor: {actor_index: 122}
+  - select_topic: {match_label: "Trolls"}
+  - assert:
+      dialog: {text_contains: "Thank you for killing the trolls, civilized ones."}
+  - select_topic: {match_label: "Trolls"}
+  - assert:
+      dialog: {text_contains: "You are welcome to converse with us anytime"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        if experience(0) - recall("xp") < 5000 then error("Thickbark's 5,000 XP missing: " .. (experience(0) - recall("xp"))) end
+        log("Thickbark's gift: packs " .. recall("items") .. " -> " .. #pack_items())
+  - assert: {qbit_set: [112301, 112302, 110930]}

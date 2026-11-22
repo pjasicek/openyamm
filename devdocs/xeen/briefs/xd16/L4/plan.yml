@@ -1,0 +1,418 @@
+format: 0
+level: L3
+pitch: "A burning cave behind the demon and devil idols at Mount Firestone's west foot. A tall cavern round a lake of lava with the devil skull on its island, the demon skull in a shrine beyond the fissure; below, four lever stones round a black pillar lower four slabs across the gate run; at the root of the mountain the magma heart, and beyond it a wall of bare rock that grinds open when both skulls are broken: cool air, and the smell of grass."
+purpose: "Q-C26 Shangri-La (Act V, party 48-52): the two skulls (q-c26.demon_skull, devil_skull; the second sets done), the gate stones (q-c26.lever), the way (q-c26.way, to XD-17). 40 demons at 42-58 (Demon, Devil, Screamer), treasure 5, five trap chests."
+mood: "Dark brown-black rock lit red from below by lava; ash underfoot; worked stone and braziers in the demon shrine; cool blue air at the very end."
+datum: arrival
+spaces:
+  - id: room:ash_gallery
+    name: Ash gallery
+    kind: corridor
+    size: M
+    extent: [2048, 640]
+    floor: 0
+    purpose: "A wide passage floored with grey ash, red light ahead; the first demons. A side way south to the vault."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 3 placed Demons.}
+  - id: room:ash_pits
+    name: Ash pits
+    kind: room
+    size: M
+    extent: [1664, 3328]
+    floor: -1280
+    purpose: "Pits of grey ash; to the heart's east ledge (the floor -2 loop)."
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+      - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+  - id: room:chest_vault
+    name: Vault of chests
+    kind: room
+    size: S
+    extent: [1280, 1024]
+    floor: 0
+    purpose: "The source's six chests on a dais: five are traps that burst in flame (embers glow under them; Fire 50 on each member once, 'The chest explodes!', then 'The chest is empty.'), one is a real T5 chest (D-47 Q2). Quiet."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:cinder_run
+    name: Cinder run
+    kind: corridor
+    size: M
+    extent: [384, 5632]
+    floor: 0
+    purpose: A low burnt passage from the shrine back down to the stair head (the floor-0 loop).
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+  - id: room:cool_passage
+    name: Cool passage
+    kind: corridor
+    size: S
+    extent: [384, 1536]
+    floor: -1280
+    purpose: "Behind the rock: cool air and the smell of grass (q-c26.way's text at the first step); its end leads to XD-17; XD-17's way back arrives here (entrance:xd17_way). Quiet."
+    empty: true
+  - id: room:deep_stair
+    name: Deep stair
+    kind: corridor
+    size: S
+    extent: [384, 1920]
+    floor: [-1280, -640]
+    purpose: "Twenty steps down to the heart (walked; no sign)."
+    empty: true
+  - id: room:demon_shrine
+    name: Demon skull's shrine
+    kind: room
+    size: M
+    extent: [1920, 1280]
+    floor: 0
+    purpose: "The source's (0,15): a worked chamber, braziers, the demon skull on a black altar ('Destroy?', aaze0046:0; q-c26.demon_skull); three demons. The cinder run south."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 3 placed Demons.}
+  - id: room:ember_pocket
+    name: Ember pocket
+    kind: room
+    size: S
+    extent: [768, 768]
+    floor: -1280
+    purpose: "A dead end with a chest, embers drifting from a vent in the roof."
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+      - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:fire_lake
+    name: The fire lake
+    kind: room
+    size: L
+    extent: [3072, 3072]
+    floor: 0
+    purpose: "Set piece: a tall cavern round a lake of lava 128 below the shore (banked, it burns), lit from below; the island in the middle (the source's (9,9)) with the devil skull's black altar ('Destroy?', aaze0046:1; q-c26.devil_skull) and three devils, reached by a causeway of crust; shores north (the fissure) and south (the stair head)."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 4 placed Devils.}
+  - id: room:fissure
+    name: North fissure
+    kind: corridor
+    size: M
+    extent: [640, 1664]
+    floor: 0
+    purpose: "A crack running north from the lake's shore, glowing seams in the walls; the demon shrine's iron door."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+  - id: room:gate_run
+    name: Gate run
+    kind: corridor
+    size: M
+    extent: [384, 3072]
+    floor: -640
+    purpose: "A straight passage south from the lever hall closed by the four slabs in a row (four doors, opened by the four levers); beyond the last slab the deep stair."
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 2 placed Devils.}
+      - {actor: 11632, groups: 1, levels: [58, 58], notes: 1 placed Screamer.}
+  - id: room:glass_caves
+    name: Glass caves
+    kind: room
+    size: M
+    extent: [1664, 3328]
+    floor: -1280
+    purpose: "Caves of black volcanic glass, the lava's light in every face; to the heart's west ledge."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+  - id: room:landing
+    name: Obsidian landing
+    kind: corridor
+    size: S
+    extent: [1536, 768]
+    floor: -1280
+    purpose: "The deep stair's foot: black glass underfoot, heat rising from ahead."
+    empty: true
+  - id: room:last_cave
+    name: The last cave
+    kind: room
+    size: S
+    extent: [896, 1024]
+    floor: -1280
+    purpose: "The source's (9,10): a short cave ending in a slab of bare rock. Before q-c26.done its click is q-c26.way's fail text; the second skull grinds it open in the same visit, and it stands open on every later load (D-47 Q4)."
+    empty: true
+  - id: room:lever_hall
+    name: Lever hall
+    kind: room
+    size: M
+    extent: [1664, 1920]
+    floor: -640
+    purpose: "The source's four wall switches: four lever stones round a black pillar, each hovering its slab's name, each lowering one of the four slabs across the gate run (in sight of the pillar); one-way (D-43, D-47 Q3)."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+  - id: room:magma_caves
+    name: Magma caves
+    kind: room
+    size: M
+    extent: [1664, 1536]
+    floor: -640
+    purpose: "A river of lava across the floor (banked, it burns), stepping crust across it; to the slag pocket."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+  - id: room:magma_heart
+    name: The magma heart
+    kind: room
+    size: L
+    extent: [2560, 2944]
+    floor: -1280
+    purpose: "Set piece: a pool of lava at the mountain's root (banked, it burns), a ring ledge round it, the roof lost in smoke; the Screamers on the ledge. The last cave south."
+    population:
+      - {actor: 11632, groups: 1, levels: [58, 58], notes: 3 placed Screamers.}
+  - id: room:mouth
+    name: Cave mouth
+    kind: room
+    size: S
+    extent: [768, 768]
+    floor: 0
+    purpose: "The arrival (entrance:x7_mouth): heat on the face, daylight behind, the demon and devil idols outside framing it. Quiet (D-11.3)."
+    empty: true
+  - id: room:rough_steps
+    name: Rough steps
+    kind: corridor
+    size: S
+    extent: [384, 2048]
+    floor: [-640, 0]
+    purpose: Twenty rough steps down to the gate stones.
+    empty: true
+  - id: room:slag_pocket
+    name: Slag pocket
+    kind: room
+    size: S
+    extent: [896, 768]
+    floor: -640
+    purpose: "A dead end with a chest: an old dwarf's pick and pack by a cooled slag heap."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:stair_foot
+    name: Stair foot
+    kind: corridor
+    size: S
+    extent: [768, 768]
+    floor: -640
+    purpose: "The steps' foot; ways west to the lever hall and south to the steam vents."
+    empty: true
+  - id: room:stair_head
+    name: Stair head
+    kind: corridor
+    size: S
+    extent: [768, 768]
+    floor: 0
+    purpose: "On the lake's south shore: rough steps down into the dark (walked; no sign)."
+    empty: true
+  - id: room:steam_vents
+    name: Steam vents
+    kind: room
+    size: M
+    extent: [1152, 1408]
+    floor: -640
+    purpose: "Vents hissing out of the floor, a chest wedged in a dry corner."
+    population:
+      - {actor: 11630, groups: 1, levels: [42, 42], notes: 2 placed Demons.}
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 1 placed Devil.}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+  - id: room:vault_ante
+    name: Smoking passage
+    kind: corridor
+    size: S
+    extent: [768, 960]
+    floor: 0
+    purpose: "Smoke curling from under the vault's iron door; a lone chest by the wall (the source's (15,11), a real one)."
+    population:
+      - {actor: 11631, groups: 1, levels: [50, 50], notes: 2 placed Devils.}
+    treasure:
+      - {kind: chest, count: 1, tier: 5}
+links:
+  - id: link:ante_vault
+    from: room:vault_ante
+    to: room:chest_vault
+    kind: door
+    notes: Vault door.
+  - id: link:ash_ante
+    from: room:ash_gallery
+    to: room:vault_ante
+    kind: open
+  - id: link:ash_heart
+    from: room:ash_pits
+    to: room:magma_heart
+    kind: open
+    notes: East ledge.
+  - id: link:ash_lake
+    from: room:ash_gallery
+    to: room:fire_lake
+    kind: open
+  - id: link:cinder_stair
+    from: room:cinder_run
+    to: room:stair_head
+    kind: open
+  - id: link:fissure_shrine
+    from: room:fissure
+    to: room:demon_shrine
+    kind: door
+    notes: Iron door.
+  - id: link:foot_lever
+    from: room:stair_foot
+    to: room:lever_hall
+    kind: open
+  - id: link:foot_vents
+    from: room:stair_foot
+    to: room:steam_vents
+    kind: open
+  - id: link:gates_stair
+    from: room:gate_run
+    to: room:deep_stair
+    kind: open
+  - id: link:glass_heart
+    from: room:glass_caves
+    to: room:magma_heart
+    kind: open
+    notes: West ledge.
+  - id: link:head_steps
+    from: room:stair_head
+    to: room:rough_steps
+    kind: open
+  - id: link:heart_last
+    from: room:magma_heart
+    to: room:last_cave
+    kind: open
+  - id: link:lake_fissure
+    from: room:fire_lake
+    to: room:fissure
+    kind: open
+    notes: North shore.
+  - id: link:lake_stair
+    from: room:fire_lake
+    to: room:stair_head
+    kind: open
+    notes: South shore.
+  - id: link:landing_ash
+    from: room:landing
+    to: room:ash_pits
+    kind: open
+  - id: link:landing_ember
+    from: room:landing
+    to: room:ember_pocket
+    kind: open
+  - id: link:landing_glass
+    from: room:landing
+    to: room:glass_caves
+    kind: open
+  - id: link:last_way
+    from: room:last_cave
+    to: room:cool_passage
+    kind: door
+    condition: {qbit: 112522}
+    notes: "The way's rock: open with q-c26.done."
+  - id: link:lever_gates
+    from: room:lever_hall
+    to: room:gate_run
+    kind: door
+    condition: {all: [{qbit: 118050}, {qbit: 118051}, {qbit: 118052}, {qbit: 118053}]}
+    notes: "Four slabs in a row across the gate run, each lowered by its lever stone on the pillar."
+  - id: link:lever_magma
+    from: room:lever_hall
+    to: room:magma_caves
+    kind: open
+  - id: link:magma_slag
+    from: room:magma_caves
+    to: room:slag_pocket
+    kind: open
+    notes: Over the stepping crust.
+  - id: link:mouth_ash
+    from: room:mouth
+    to: room:ash_gallery
+    kind: open
+  - id: link:shrine_cinder
+    from: room:demon_shrine
+    to: room:cinder_run
+    kind: open
+  - id: link:stair_down2
+    from: room:deep_stair
+    to: room:landing
+    kind: stairs
+    rise: -640
+  - id: link:steps_foot
+    from: room:rough_steps
+    to: room:stair_foot
+    kind: stairs
+    rise: -640
+  - id: link:vents_lever
+    from: room:steam_vents
+    to: room:lever_hall
+    kind: open
+loops:
+  - id: loop:heart_ledges
+    spaces: [room:landing, room:glass_caves, room:magma_heart, room:ash_pits]
+    notes: "Round the heart: in by the glass caves and the west ledge, out by the east ledge and the ash pits."
+  - id: loop:lake_ring
+    spaces: [room:fire_lake, room:fissure, room:demon_shrine, room:cinder_run, room:stair_head]
+    notes: "Round the fire lake: the north shore, the fissure and the shrine, back by the cinder run to the south shore."
+  - id: loop:vents
+    spaces: [room:stair_foot, room:lever_hall, room:steam_vents]
+    notes: The lever hall from the stair foot directly or through the steam vents.
+entrances:
+  - id: entrance:x7_mouth
+    space: room:mouth
+    kind: both
+    neighbour: exit:x7_mouth
+    facing: e
+    how: "From X7's door between the idols ('Enter the Volcano Cave?', aaze0017:1): in the cave mouth about 256 inside, facing east; the mouth leads back out (the exit preset)."
+  - id: entrance:xd17_way
+    space: room:cool_passage
+    kind: arrival
+    facing: n
+    how: "XD-17's way back from Shangri-La: in the cool passage about 256 inside its far end, facing back down toward the last cave. The passage's end leads to XD-17's entrance:xd16_way."
+critical_path: [room:mouth, room:ash_gallery, room:fire_lake, room:fissure, room:demon_shrine, room:cinder_run, room:stair_head, room:rough_steps, room:stair_foot, room:lever_hall, room:gate_run, room:deep_stair, room:landing, room:glass_caves, room:magma_heart, room:last_cave, room:cool_passage]
+return_path: [room:cool_passage, room:last_cave, room:magma_heart, room:ash_pits, room:landing, room:deep_stair, room:gate_run, room:lever_hall, room:steam_vents, room:stair_foot, room:rough_steps, room:stair_head, room:fire_lake, room:ash_gallery, room:mouth]
+goals:
+  - id: goal:demon_skull
+    space: room:demon_shrine
+    kind: use
+    what: Smash the demon skull on the shrine's altar (q-c26.demon_skull 112520).
+    story: Q-C26
+    gives:
+      qbit: 112520
+  - id: goal:devil_skull
+    space: room:fire_lake
+    kind: use
+    what: Smash the devil skull on the island's altar (q-c26.devil_skull 112521).
+    story: Q-C26
+    gives:
+      qbit: 112521
+  - id: goal:way
+    space: room:cool_passage
+    kind: reach
+    what: "Through the way's rock into the cool passage (q-c26.done 112522), the way to Shangri-La."
+    story: Q-C26
+set_pieces:
+  - id: set:fire_lake
+    kind: scripted
+    spaces: [room:fire_lake]
+    rule: "A lake of lava round the island of the devil skull, a causeway of crust to it; the lava burns, its outer banks let a party walk out."
+  - id: set:gate_stones
+    kind: scripted
+    spaces: [room:lever_hall, room:gate_run]
+    rule: "Four lever stones on the black pillar, each lowering its own slab across the gate run."
+  - id: set:heart
+    kind: scripted
+    spaces: [room:magma_heart, room:last_cave]
+    rule: "The magma heart's pool and the last cave's rock, which grinds open when both skulls break."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 5
+  doors: 7
+  fixed_actors: 0
+  floor_area_munits2: 50
+  loops: 3
+  monsters_about: 40
+  rooms: 24
+  sectors: 28
+notes: "Class M (MAPS: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors); 40 monsters under M's 45 by MAPS §0's own count (D-47 Q1). From the MU-6 graph devdocs/xeen/mockups/act5_graphs/xd16.graph.yml and D-47 (five trap chests with a tell and one real; four one-way lever slabs; the way's rock opening in the same visit; lava banked so a party walks out; stairs walked, no signs). The devil skull's island is part of the fire lake's room (the lake a sunken level round it); the gate run is five short rooms between its four slabs."

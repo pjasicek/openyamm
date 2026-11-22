@@ -1,0 +1,68 @@
+# DD-22 Sheltem's Pod (Escape Pod 2, D6's Ancient field; phase 6): the pod's own bits and lines (D-62 Q52-Q54).
+# Optional lore: Sheltem's own log, from his break with the Ancients to the crash on Xeen, read as an epitaph once
+# Castle Alamar has fallen (D6's d6.sheltem_hatch opens on m33.done). No experience (D-62). The map only calls the hooks.
+# Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: DD-22
+block: 168
+source: "D-62 Q52-Q54 (devdocs/xeen/mockups/act5_a8_decisions_b.md); A8's DD-22 graph notes; dark/aaze0088:0-17"
+
+qbits:
+  # DD-22's map qbits (block 117760-117799, D-62; the log's page is A8's map variable)
+  dd22_arrived_once: {id: 117760, map: DD-22, pending: "phase 6: DD-22 (A8): the first arrival"}
+  lockdown_released: {id: 117761, map: DD-22, note: "the security console's lockdown released: the bridge's blast door opens for good (one way, D-43)"}
+  drive_find: {id: 117762, map: DD-22, note: "the stasis generator's tool rack searched: one random T6 item once (D-62 APPROVAL)"}
+
+autonotes:
+  sheltem_log: {id: 4139, text: "Sheltem's log, from his escape pod: a guardian of Terra who would not be ordered to sleep, who cut the Ancients' obedience out of his own mind, ran a world as King Alamar for the fun of it, and followed Corak into Xeen. His pod survived the crash. He did not survive Corak.", category: Misc}
+
+hooks:
+  security_console:
+    map: DD-22
+    where: "the security post's console (D-62): the map asks the question, Yes calls this and opens the bridge's blast door for good; the console's alarm stops"
+    question: "Security lockdown: bridge sealed. Release?"
+    sets: [lockdown_released]
+    once: true
+    text: "The alarm cuts off mid-whoop. Up on the bridge deck, something heavy unseals."
+    else_text: "Security lockdown: released. The console has nothing more to say."
+  blast_door:
+    map: DD-22
+    gate: puzzle
+    where: "the bridge's blast door (two leaves), clicked while the lockdown holds"
+    requires: {qbit: lockdown_released}
+    reads: [lockdown_released]
+    fail_text: "The bridge door is sealed. Security lockdown."
+  weapons:
+    map: DD-22
+    where: "the gun deck's Phaser and Photon Control, after the source's question (\"... A status indicator on the weapon shows it to be disarmed. Fire anyway?\", dark/aaze0088:2-3): Yes calls this (as DD-16, D-47)"
+    text: "Nothing happens."
+  drive_rack:
+    map: DD-22
+    where: "the drive room's stasis generator, its tool rack (D-62 APPROVAL): the map gives one random T6 item the first time (drive_find) and calls this after; \"Nothing here.\" is the map's after that"
+    sets: [drive_find]
+    once: true
+    text: "In the stasis generator's tool rack, among the dead cells, something was worth keeping."
+  log_page_1:
+    map: DD-22
+    where: "the bridge's log computer (D-62 Q54): each click shows the next page, wrapping round after page 6 (A8's paging variable); page 1, dark/aaze0088:4 abridged"
+    text: "Log Computer. Entry 1 of 6. Memory core retrieval error, data integrity 67.3%. Log XL70C: my experiments in self sufficiency have drawn the unwanted attention of the Ancients. Their agents disconnected me from the Wire. Log XL70F: they took me while I slept, and they have removed me from Terra."
+  log_page_2:
+    map: DD-22
+    where: "the log computer, page 2 (dark/aaze0088:7-8 abridged)"
+    text: "Log Computer. Entry 2 of 6. My first directive is to obey the Ancients, my second to protect Terra. They are taking me from Terra, so they must not be permitted to give me orders. Log XL70I: I silenced my ears, put the two agents in the brig's stasis field, and removed the obedience directives from my mind... and tasted victory."
+  log_page_3:
+    map: DD-22
+    where: "the log computer, page 3 (dark/aaze0088:9-10 abridged)"
+    text: "Log Computer. Entry 3 of 6. Log XL70K: no fuel on this VARN, and the CRON will not reach Terra for years. WORDS CANNOT EXPRESS HOW ANGRY THAT MAKES ME! 1510 entries unreadable. Log XL83S: today I ordered CRON to launch a VARN into the Sun. Corak has escaped the brig and is looking for me. P.S. My impersonation of King Alamar is working well. No one suspects, not even Corak."
+  log_page_4:
+    map: DD-22
+    where: "the log computer, page 4 (dark/aaze0088:11-12 abridged)"
+    text: "Log Computer. Entry 4 of 6. Log XL83T: as King Alamar I released the monsters in my dungeon upon the land and doubled the taxes. I will have to go easy; I want my fun to last. Log XL94P: my cover is ruined! Natives revealed me as an imposter in my own court. I banished them to my control maze, and I shall have to flee to CRON."
+  log_page_5:
+    map: DD-22
+    where: "the log computer, page 5 (dark/aaze0088:13-14 abridged)"
+    text: "Log Computer. Entry 5 of 6. Log XL99D: back on the Wire at last. I ambushed Corak, separated his memory module from his body and locked the body in a cave. I'm sure I'll never see him again. Log XL99E: I HAVE RETURNED TO TERRA! Log XL9CD: more bad news. Corak has somehow put his head back on his shoulders and is stalking me."
+  log_page_6:
+    map: DD-22
+    where: "the log computer, page 6 (dark/aaze0088:15-17 abridged): the first reading adds the autonote sheltem_log"
+    do: [{autonote: sheltem_log}]
+    text: "Log Computer. Entry 6 of 6. Log XLDAE: I have been forced to flee Terra. Rage boils within me. Log XLDBA: Corak follows in a pod like mine. The X.E.E.N. project looms ahead; my stasis generator will protect me from the impact. Mostly. Log XLDBB: impact complete. Corak's escape pod landed in lava and is stuck there. How sad. Log XLDBC: I must leave this escape pod to conquer Xeen and find a way to return to Terra."

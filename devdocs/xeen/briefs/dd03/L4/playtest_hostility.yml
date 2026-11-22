@@ -1,0 +1,67 @@
+# Hostility check of Castle Kalindra (DD-03) (the XD-27 form; lane A8, 2026-11-20). Every stage set and a save and
+# load, so every group is shown. The kinds: Tomb Guard 11261, Tomb Terror 11262, Ghost Rider 11263 (spirits), Lich
+# 11280, Gnome Vampire 11290 and Vampire 11291, Bone Dragon 11670 and Scraps 11673: all hostile to the party; Carl the
+# Mason's body (the engine's Peasant 364) peaceful. Kinds of the map side by side do not take each other on. Run with
+# --world xeen --map xeen_dd03.blv.
+id: xeen.dd03.l4.hostility
+title: "Castle Kalindra (DD-03): spirits, liches, vampires and dragons hostile, Carl peaceful, no fights among them"
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd03.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 35, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 35, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- console: {line: "qbit set 111381"}
+- console: {line: "qbit set 111382"}
+- console: {line: "qbit set 111521"}
+- console: {line: "qbit set 111522"}
+- reload: {}
+- note: The map entry events run (the stages shown, the arrival window).
+- advance_runtime: {seconds: 3, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 37, hidden: false}}
+- assert: {actor_count: {monster_id: 11261, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11262, hostile: true, min: 15, max: 15}}
+- assert: {actor_count: {monster_id: 11263, hostile: true, min: 8, max: 8}}
+- assert: {actor_count: {monster_id: 11280, hostile: true, min: 5, max: 5}}
+- assert: {actor_count: {monster_id: 11290, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11291, hostile: true, min: 8, max: 8}}
+- assert: {actor_count: {monster_id: 11670, hostile: true, min: 2, max: 2}}
+- assert: {actor_count: {monster_id: 11673, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 364, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 364, hostile: true, max: 0}}
+- note: 'Kinds of the map side by side in the entrance hall, nearer each other than the party: they must not take each
+    other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11261, x: -640, y: 600, z: 0}
+- spawn_actor: {monster_id: 11262, x: -400, y: 600, z: 0}
+- spawn_actor: {monster_id: 11263, x: -160, y: 600, z: 0}
+- spawn_actor: {monster_id: 11280, x: 80, y: 600, z: 0}
+- spawn_actor: {monster_id: 11290, x: 320, y: 600, z: 0}
+- spawn_actor: {monster_id: 11291, x: 560, y: 600, z: 0}
+- spawn_actor: {monster_id: 11670, x: 0, y: -400, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11261, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11262, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11263, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11280, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11290, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11291, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11670, hurt: true, max: 0}}
+- note: A save and load keeps every stage's monsters shown and hostile.
+- play_lua: {source: "close()"}
+- reload: {}
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_visible: {actor_index: 43, hidden: false}}
+- assert: {actor_count: {monster_id: 11673, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 11291, hostile: true, min: 9}}

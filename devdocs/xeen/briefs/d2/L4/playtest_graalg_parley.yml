@@ -1,0 +1,36 @@
+# Graalg's parley fire after D-87.2 (A6, 2026-11-21, hand-written): a fresh load, a level-24 party set down at the
+# fire between the hostile ogre forts with nothing cleared (D-23 keeps the fire there; the fort ogres' only ranged
+# attack is a rock with no condition): nobody gains a condition in the first 5 s, and Graalg (actor 22, NPC 5108)
+# talks.
+id: xeen.d2.l4.graalg_parley
+title: 'D2 Graalg''s parley fire: no condition in the first 5 s, and Graalg talks (D-87.2)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d2.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 24, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 24, skills: [], equipment: {}}
+- play_lua:
+    source: wait(1); close()
+- note: The party at the fire, before Graalg, no clear_hostiles
+- set_pose: {map: xeen_d2.odm, x: 7373, y: 13824, z: 2048, yaw: 0.78, pitch: 0.0}
+- play_lua:
+    source: "for i = 0, 3 do local c = conditions(i); if c ~= '' then error('member ' .. i .. ' already has ' .. c) end end"
+- advance_runtime: {seconds: 5.0}
+- play_lua:
+    source: "for i = 0, 3 do local c = conditions(i); log('member ' .. i .. ' after 5 s: [' .. c .. ']'); if c ~= '' then error('member ' .. i .. ' gained ' .. c .. ' within 5 s at the parley fire') end end"
+- assert: {actor_count: {monster_id: 11064, hostile: false, min: 1}}
+- note: Graalg (actor 22) talks
+- interact_actor: {actor_index: 22}
+- advance_runtime: {seconds: 0.5}
+- assert:
+    dialog: {active: true, source_id: 5108}
+- press_action: {action: cancel_dialog}
+- advance_runtime: {seconds: 0.3}

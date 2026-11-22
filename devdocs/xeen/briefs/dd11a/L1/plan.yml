@@ -1,0 +1,177 @@
+format: 0
+level: L1
+pitch: "The first of three pockets under D2's troll holes: the party falls in, lands on a mound of bones under the shaft, and finds a warren of trolls dug under the forest. Up a slope of everything the trolls have eaten lies a crawl behind a boulder, and in it a dead thief with the Thieves' Guild's letter: the trolls have stolen the guild's gold. The only way out is the trolls' own burrow, two rooms from the landing."
+purpose: "Q-D13 starts here: A3's hook q-d13.thieves_letter on the dead thief (started 113260, the autonote). Party 23 to 27; Trolls 18 and Troll Guards 28 (A2's Xeen Warren Troll rows 11690, 11691: friendly once Hobstadt has his tribute or trial), 20 placed; treasure level 3."
+mood: "Dirt and roots under the forest, a shaft of daylight at the landing, the smell of the larder; snoring from the hollow."
+datum: arrival
+spaces:
+  - id: room:bone_slope
+    name: Bone slope
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: The midden's bones spill down to the larder.
+    empty: true
+  - id: room:burrow
+    name: The burrow up
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "The trolls' own way out: root steps up a steep burrow to a sod hatch on D2."
+    empty: true
+  - id: room:crawl
+    name: Dead thief's crawl
+    kind: room
+    size: S
+    floor: 192
+    purpose: "Behind a boulder: a thief who crawled in to hide and never came out. His pack and the guild's letter (Q-D13 starts)."
+    empty: true
+  - id: room:guard_den
+    name: Guard den
+    kind: room
+    size: M
+    floor: -384
+    purpose: "The guards' den behind a log door; their pile of shiny things."
+    population:
+      - {actor: 11691, groups: 3, levels: [28, 28], notes: 3 placed Troll Guards (Xeen Warren Troll B).}
+  - id: room:hollow
+    name: Sleeping hollow
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Nests of straw and bracken; snoring. The burrow up starts at its west wall."
+    population:
+      - {actor: 11690, groups: 4, levels: [18, 18], notes: 4 placed Trolls (Xeen Warren Troll A).}
+  - id: room:larder
+    name: Troll larder
+    kind: room
+    size: M
+    floor: -384
+    purpose: "Carcasses on root hooks behind a wicker gate; two guards keep the cooks off the meat."
+    population:
+      - {actor: 11690, groups: 2, levels: [18, 18], notes: 2 placed Trolls (Xeen Warren Troll A).}
+      - {actor: 11691, groups: 2, levels: [28, 28], notes: 2 placed Troll Guards (Xeen Warren Troll B).}
+  - id: room:midden
+    name: Bone midden
+    kind: room
+    size: M
+    floor: 0
+    purpose: "Everything the trolls have eaten, heaped up a slope to a crawl high in the wall; the bone slope down to the larder."
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+  - id: room:pit
+    name: Pit bottom
+    kind: room
+    size: S
+    floor: 0
+    purpose: "Where the party lands: a mound of earth and old bones under a shaft of daylight 768 up; too sheer to climb."
+    empty: true
+  - id: room:root_stair
+    name: Root stair
+    kind: corridor
+    size: S
+    floor: -384
+    purpose: A stair of roots from the seep up to the sleeping hollow.
+    empty: true
+  - id: room:root_tunnel
+    name: Root tunnel
+    kind: corridor
+    size: M
+    floor: 0
+    purpose: "A tunnel dug under the forest, roots hanging from its roof; the first trolls come to see what fell in."
+    population:
+      - {actor: 11690, groups: 3, levels: [18, 18], notes: 3 placed Trolls (Xeen Warren Troll A).}
+  - id: room:seep
+    name: Dripping seep
+    kind: room
+    size: M
+    floor: -384
+    purpose: Water seeps through the roof into a pool the trolls drink from.
+    population:
+      - {actor: 11690, groups: 2, levels: [18, 18], notes: 2 placed Trolls (Xeen Warren Troll A).}
+      - {actor: 11691, groups: 1, levels: [28, 28], notes: 1 placed Troll Guards (Xeen Warren Troll B).}
+links:
+  - id: link:hollow_burrow
+    from: room:hollow
+    to: room:burrow
+    kind: open
+  - id: link:hollow_tunnel
+    from: room:hollow
+    to: room:root_tunnel
+    kind: open
+  - id: link:larder_den
+    from: room:larder
+    to: room:guard_den
+    kind: door
+    motion: slide
+    notes: The guard den's log door.
+  - id: link:larder_seep
+    from: room:larder
+    to: room:seep
+    kind: door
+    motion: slide
+    notes: The larder's wicker gate.
+  - id: link:midden_crawl
+    from: room:midden
+    to: room:crawl
+    kind: door
+    motion: slide
+    notes: "The boulder across the crawl's mouth at the top of the bone slope: it rolls aside when pushed (a door)."
+  - id: link:midden_larder
+    from: room:midden
+    to: room:larder
+    kind: ramp
+    notes: By the bone slope (its own room).
+  - id: link:pit_tunnel
+    from: room:pit
+    to: room:root_tunnel
+    kind: open
+  - id: link:seep_hollow
+    from: room:seep
+    to: room:hollow
+    kind: stairs
+    notes: By the root stair (its own room).
+  - id: link:tunnel_midden
+    from: room:root_tunnel
+    to: room:midden
+    kind: open
+loops:
+  - id: loop:warren
+    spaces: [room:root_tunnel, room:midden, room:bone_slope, room:larder, room:seep, room:root_stair, room:hollow]
+    notes: "Down the bone slope, through the larder and the seep, up the root stair to the hollow."
+entrances:
+  - id: entrance:d2_burrow
+    space: room:burrow
+    kind: exit
+    neighbour: exit:d2_return
+    how: "The burrow's sod hatch: out to D2 beside the first hole (A6's return point), the game's leave window."
+  - id: entrance:d2_hole
+    space: room:pit
+    kind: arrival
+    facing: e
+    how: "D2's first troll hole (thing:dd11a_hole, event 32, 'Troll Hole. Descend?'): the party falls in and lands at the pit's bottom, facing the root tunnel (east). No way back up the shaft."
+critical_path: [room:pit, room:root_tunnel, room:midden, room:crawl]
+return_path: [room:crawl, room:midden, room:root_tunnel, room:hollow, room:burrow]
+goals:
+  - id: goal:letter
+    space: room:crawl
+    kind: use
+    what: "The dead thief's letter (A3's q-d13.thieves_letter: started, the autonote)."
+    story: Q-D13
+    gives:
+      qbit: 113260
+set_pieces:
+  - id: set:midden
+    kind: vista
+    spaces: [room:midden]
+    rule: "The bone midden: a slope of gnawed bones and adventurers' gear climbing to the dead thief's crawl high in the north wall."
+diagram: {file: diagram.txt}
+totals:
+  chests: 2
+  doors: 3
+  floor_area_munits2: 8
+  loops: 1
+  monsters_about: 20
+  rooms: 11
+  sectors: 11
+notes: "Size S (at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors). From the MU-6 graph devdocs/xeen/mockups/act3_graphs/dd11a.graph.yml and D-25 (mockups/act3_a7_decisions.md: the burrow's top is the exit preset, no question). The bone slope and the root stair are rooms of their own."

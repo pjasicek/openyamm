@@ -1,0 +1,249 @@
+# Xeen side quest Q-C7, The Count of Nightshadow (X3, XD-24), from a new game on X3 with a Vampire in the party.
+# Nightshadow's square: the rhyme board (Q-C7 started), the sign at the dial walk ("wakes at nine and sleeps at
+# nine"), the two plinths' clues, the coffin's plinth ("Only at night"); the coffin refuses while the dials are wrong;
+# the three sundials (3, 6 and 12 at the start) turned to 9; the lid slides (by day since D-89); at night the lid slides
+# aside and its stair goes down into the Nightshadow Crypt (XD-24), walked as in its L4 playtest: the niches, the
+# ossuary, the chapel, the west catacomb, the gallery, the vault stair, the iron door at night, Count Draco and his
+# household (q-c7.draco: done, 10,000 XP), the sarcophagus's rhyme, the hoard, up the Count's stair and out by the
+# coffin. Back on the square: the well cures and lends Personality, Du Monay's "The Count" thanks the party, and his
+# "Nosferatu" promotes the Vampire. Outdoors the party is placed (PLAYBOOK.md section 2).
+# Routes: devdocs/xeen/briefs/x3/L4/playtest.yml (Nightshadow's square, Du Monay Manor), xd24/L4/playtest.yml.
+# Quest logic: source/quests/q-c7.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c7_count_of_nightshadow.yml --scenario-no-color
+id: xeen.side_quests.q-c7
+title: "Xeen Q-C7: the dials, the coffin at night, Count Draco and the Nosferatu"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x3.odm
+      party:
+        gold: 500
+        food: 20
+        members:
+          - {name: Hilda, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Vlad, class: Vampire, level: 25, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x3.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {qbit_clear: [112140, 112141, 112142, 112143]}
+  # Nightshadow's square (the town's signs and the coffin).
+  - set_pose: {map: xeen_x3.odm, x: 17920, y: -4352, z: 992, yaw: 1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(49); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "If the dials are properly set"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [112140]}
+  - play_lua: {source: "click(50); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The Count wakes at nine and sleeps at nine."}}
+  - play_lua: {source: "close(); wait(0.3); click(54); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "A stitch in time."}}
+  - play_lua: {source: "close(); wait(0.3); click(55); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Lives of a cat."}}
+  - play_lua: {source: "close(); wait(0.3); click(48); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Only at night can you put up a fight."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The well before the liberation: black water.
+  - play_lua:
+      source: |
+        status()
+        click(56); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "black and tastes of iron", 1, true) then error("the well said: " .. seen) end
+  # The coffin: the dials are wrong.
+  - play_lua: {source: "click(46); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "none of them set as they should be"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The dial walk: 3, 6 and 12 turned to nine.
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(51); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(52); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(52); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(52); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "click(53); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - play_lua: {source: "if mapvar('x3_dial_1') ~= 9 or mapvar('x3_dial_2') ~= 9 or mapvar('x3_dial_3') ~= 9 then error('dials ' .. tostring(mapvar('x3_dial_1')) .. ' ' .. tostring(mapvar('x3_dial_2')) .. ' ' .. tostring(mapvar('x3_dial_3'))) end"}
+  - assert: {qbit_set: [112142]}
+  # D-89 (the coffin without the night condition): with the dials at nine the lid slides aside by day too.
+  - play_lua: {source: "click(46); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The lid slides aside."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_set: [112143]}
+  # The party waits for night (past 21:00): the crypt's iron door opens only at night.
+  - advance_game_time: {hours: 12}
+  - assert: {game_hour: 21}
+  - clear_hostiles: {radius: 3000}
+  # Down the coffin's stair (X3 event 47).
+  - play_lua: {source: "click(47)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd24.blv}
+  - assert: {party_position: {x: 0, y: 704, radius: 96, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3); close()"}
+  # The niches and their gnome vampires; the ossuary.
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -384, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -900, y: -384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 0, y: 512, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1280, y: 576, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The chapel and down its stair into the west catacomb.
+  - walk_to: {x: -1800, y: 576, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 6)"}
+  - walk_to: {x: -2400, y: 576, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: -2688, y: -500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2688, y: -2300, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # Draco's gallery, then east to the vault stair.
+  - walk_to: {x: -2000, y: -2496, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -500, y: -2496, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 990, y: -2496, z: -1280, z_tolerance: 120, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Only at night can you put up a fight."}}
+  - play_lua: {source: "close()"}
+  # It is night: the iron door opens and stays open.
+  - play_lua: {source: "click(18); wait(2); if not qbit(110940) then error('vault_open (110940) not set') end; if door_state(5) ~= 'open' then error('the iron door is not open: ' .. door_state(5)) end"}
+  # Draco's vault: the Count and his household.
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - walk_to: {x: 1500, y: -2496, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        wait(1)
+        if not qbit(112141) then error("q-c7.done (112141) not set by Draco's death") end
+        if experience(0) - recall("xp") < 10000 then error("Draco's 10,000 XP missing: " .. (experience(0) - recall("xp"))) end
+        for _ = 1, 3 do if not close() then break end end
+        wait(2)
+        if door_state(2) ~= "open" then error("the Count's stair is not open: " .. door_state(2)) end
+  # The sarcophagus's rhyme and the hoard.
+  - walk_to: {x: 2048, y: -2560, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "bid him farewell"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2688, y: -1800, z: -1248, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(5); close()"}
+  # Up the Count's stair and out by the coffin.
+  - walk_to: {x: 2048, y: -1700, z: -1280, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: -1250, z: -1280, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: 380, z: -450, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 800, y: 512, z: -50, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 512, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1800, z: 384, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(0.5)"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - play_lua: {source: "wait(1); close()"}
+  # The town well after the liberation: cured, and more likeable until dawn.
+  - setup_shortcut: {kind: set_condition, member_index: 0, condition: weak}
+  - press_action: {action: select_member, member_index: 0}
+  - play_lua:
+      source: |
+        status()
+        click(56); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "tastes faintly of garlic", 1, true) then error("the well said: " .. seen) end
+        -- the well cures Disease and Weakness (D-11.4; X3's SubtractValue clears each condition)
+        if string.find(conditions(0), "Weak", 1, true) or string.find(conditions(0), "Disease", 1, true) then
+          error("the X3 well (event 56) did not cure: " .. conditions(0))
+        end
+  # Du Monay Manor (X3, house 4105): The Count; Nosferatu for the Vampire.
+  - set_pose: {map: xeen_x3.odm, x: 19204, y: -1920, z: 960, yaw: 0.0, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: select_member, member_index: 2}
+  - play_lua: {source: "for _, i in ipairs({2}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Nosferatu topic: ' .. c) end end end"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4205}
+  - select_topic: {match_label: "The Count"}
+  - assert:
+      dialog: {text_contains: "Draco is gone. The town breathes."}
+  - select_topic: {match_label: "Nosferatu"}
+  - assert:
+      dialog: {text_contains: "Rise, Nosferatu."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        local c = classes()
+        log("classes after Du Monay: " .. c)
+        if not string.find(c, "Nosferatu", 1, true) then error("no Nosferatu: " .. c) end
+  - assert: {qbit_set: [112141, 112142, 112143, 110940]}

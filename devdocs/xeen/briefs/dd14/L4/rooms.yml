@@ -1,0 +1,1092 @@
+format: 0
+themes:
+  - id: theme:chapel
+    wall: {texture: cwb1, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: cfb1, size: [128, 128]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "The black chapel: dark red stone (cwb1) round dark flags (7tfb11)."
+  - id: theme:cistern
+    wall: {texture: twb1, size: [128, 256], scale: 2}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cfb1, size: [128, 128]}
+    reveal: {texture: twb1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The black cistern (7d13): pale slab walls (twb1) over black water (7wtrtyl), dark rock."
+  - id: theme:crypt
+    wall: {texture: 7tws2, size: [128, 256], scale: 2}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cfb1, size: [128, 128]}
+    reveal: {texture: twb1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "Zokarr's Tomb (7d13): dressed stone under its frieze (7tws2), big flags (7tfb1), dark vaults (cfb1); the family crypt and the sleeping hall."
+  - id: theme:dungeon
+    wall: {texture: twb2, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cfb1, size: [128, 128]}
+    reveal: {texture: twb1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The dungeon (7d13): brown block (twb2), big flags (7tfb1), dark rough vaults (cfb1), iron doors (t5d1)."
+  - id: theme:gallery
+    wall: {texture: cwb, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: cfb1, size: [128, 128]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "The long gallery: Navan's grey block (cwb), the stone its portraits (cwbport) are painted on; dark flags (7tfb11), coffers."
+  - id: theme:hall
+    wall: {texture: cwb, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: cfb1, size: [128, 128]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "The castle's halls: Navan's grey block (cwb) over a dark base course (cfb1), dark flags (7tfb11), coffered ceilings under pointed ribs (t5s1c2)."
+  - id: theme:library
+    wall: {texture: twb2, size: [128, 256]}
+    bands:
+      - {height: 48, surface: {texture: cfb1, size: [128, 128]}}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "The library and the study: brown block (twb2), dark flags (7tfb11), coffers."
+  - id: theme:service
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: tfb2, size: [128, 128]}
+    ceiling: {texture: twb2, size: [128, 256]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "Kitchen, cellar and the back stair: dark brick (wall), pale worn flags (tfb2), block ceilings (twb2)."
+  - id: theme:tower
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: xtslate, size: [128, 128]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The corner towers: dark brick (wall), flags, the cone's slate soffit (xtslate)."
+  - id: theme:walk
+    wall: {texture: hkm3b, size: [128, 256], scale: 2}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128], sky: true}
+    reveal: {texture: hkm2bs, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256]}
+    notes: "The wall walks and the landing, open to the sky: D4's towers kit outside (hkm3b slate-blue stone under its skull frieze, once up the 512 parapet), dark stone underfoot (cfb1)."
+  - id: theme:yard
+    wall: {texture: wall, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: t5s1c2, size: [128, 128], sky: true}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: twb1a, size: [128, 256]}
+    notes: "The courtyard, open to the sky: dark brick walls (wall), big worn flags (7tfb1)."
+defaults: {theme: theme:hall, ambient: 12}
+rooms:
+  - id: room:back_stair
+    name: Servants' back stair
+    outline: [[-4352, 256], [-2560, 256], [-2560, 1024], [-4352, 1024]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:service
+    platforms:
+      - {id: platform:back_head, rise: 32, surface: {texture: wall, size: [128, 256]}, outline: [[-2944, 256], [-2560, 256], [-2560, 1024], [-2944, 1024]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 608, notes: "The back stair's head (640) along its east wall: the Countess's rooms through it."}
+    flights:
+      - {from: [-4224, 832], to: [-2944, 832], open_below: 32, to_height: 640, width: 320, steps: 20, notes: "The servants' stair, twenty steps up east along the north wall."}
+    notes: "The servants' back stair, two storeys, behind the kitchen and the Countess's rooms: in from the kitchen under the head, west along the south side to the foot, up the north wall to the head."
+  - id: room:cellar
+    name: Cask cellar
+    outline: [[-2432, -1024], [-1408, -1024], [-1408, -384], [-2432, -384]]
+    floor: 0
+    ceiling: 448
+    theme: theme:service
+  - id: room:cells
+    name: The cells
+    outline: [[-2432, -256], [-1408, -256], [-1408, 1280], [-2432, 1280]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    platforms:
+      - {at: [-2112, 544], size: [8, 1216], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: "The cells' front: iron bars from the corridor's south end to its north end."}
+      - {at: [-2276, 384], size: [312, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: Bars between two cells.}
+      - {at: [-2276, 768], size: [312, 8], rise: 256, surface: {texture: xwcage, size: [128, 256]}, end_surface: {texture: xwiron, size: [128, 128], fit: false}, top_surface: {texture: xwiron, size: [128, 128], scale: 3}, notes: Bars between two cells.}
+  - id: room:chapel2
+    name: The black chapel
+    outline: [[0, -2176], [1280, -2176], [1280, -1152], [0, -1152]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:chapel
+    platforms:
+      - {id: platform:altar, at: [640, -2048], size: [512, 160], rise: 96, surface: {texture: cwb1, size: [128, 256], fit: false}, top_surface: {texture: twb1, size: [128, 256]}, notes: "The altar against the south wall, its cloth embroidered with a bat."}
+    beams:
+      - path: [[384, -2176], [384, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[384, -1152], [384, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[896, -2176], [896, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[896, -1152], [896, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:cistern
+    name: The black cistern
+    outline: [[1152, 384], [2944, 384], [2944, 3328], [1152, 3328]]
+    floor: -640
+    ceiling: -128
+    theme: theme:cistern
+    levels:
+      - id: level:pool
+        outline: [[1664, 640], [2688, 640], [2688, 3072], [1664, 3072]]
+        floor: -736
+        bank: 128
+        surface: {texture: 7wtrtyl, liquid: water}
+        notes: "The black water, banked so a party can wade out."
+    notes: "The castle's rain cistern: black water in the middle, a ledge 256 wide round it, the entrance ledge west; the chest on the far ledge."
+  - id: room:coffin_dorm
+    name: Sleeping hall
+    outline: [[-2688, -1024], [-1408, -1024], [-1408, 0], [-2688, 0]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:crypt
+    platforms:
+      - {at: [-2464, -832], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-2464, -512], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-2464, -192], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-1632, -832], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-1632, -512], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-1632, -192], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {id: platform:coffin_dorm_w1, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-2672, -888], [-2544, -912], [-2256, -880], [-2256, -784], [-2544, -752], [-2672, -776]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_dorm_w2, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-2672, -568], [-2544, -592], [-2256, -560], [-2256, -464], [-2544, -432], [-2672, -456]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_dorm_w3, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-2672, -248], [-2544, -272], [-2256, -240], [-2256, -144], [-2544, -112], [-2672, -136]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_dorm_e1, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-1424, -776], [-1552, -752], [-1840, -784], [-1840, -880], [-1552, -912], [-1424, -888]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_dorm_e2, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-1424, -456], [-1552, -432], [-1840, -464], [-1840, -560], [-1552, -592], [-1424, -568]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_dorm_e3, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-1424, -136], [-1552, -112], [-1840, -144], [-1840, -240], [-1552, -272], [-1424, -248]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+    beams:
+      - path: [[-2304, -1024], [-2304, -512]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-2304, 0], [-2304, -512]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1792, -1024], [-1792, -512]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1792, 0], [-1792, -512]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+    notes: "The household's coffins in two rows against the walls (west and east), six in all."
+  - id: room:countess
+    name: The Countess's rooms
+    outline: [[-2432, 128], [-1408, 128], [-1408, 1024], [-2432, 1024]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:hall
+    platforms:
+      - {id: platform:bed, at: [-2272, 768], size: [256, 384], rise: 32, surface: {texture: 7t1beds1, size: [256, 32]}, end_surface: {texture: 7t1beds1, size: [256, 32], fit: false}, top_surface: {texture: 7t1beds2, size: [128, 256]}, notes: The Countess's bed against the west wall.}
+      - {id: platform:dressing_table, at: [-1600, 960], size: [256, 96], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: "Her dressing table, and no mirror."}
+    beams:
+      - path: [[-2048, 128], [-2048, 576]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-2048, 1024], [-2048, 576]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:courtyard
+    name: The courtyard
+    outline: [[-1280, -1024], [1280, -1024], [1280, 1024], [-1280, 1024]]
+    floor: 0
+    ceiling: 1792
+    theme: theme:yard
+    platforms:
+      - {id: platform:yard_head, rise: 32, surface: {texture: wall, size: [128, 256]}, outline: [[-1280, -1024], [-640, -1024], [-640, -640], [-1280, -640]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 1248, notes: "The courtyard stair's head (1280) in the south-west corner, before the yard gate."}
+      - {id: platform:fountain, at: [128, 128], size: [512, 512], rise: 64, surface: {texture: twb1, size: [128, 256]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: The dry fountain's basin.}
+      - {at: [128, 128], size: [128, 128], rise: 192, surface: {texture: twb1, size: [128, 256]}, top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: The fountain's dry spout.}
+      - {at: [-384, 512], size: [192, 192], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: A gargoyle's plinth.}
+      - {at: [640, 512], size: [192, 192], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: A gargoyle's plinth.}
+      - {at: [128, -320], size: [192, 192], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: A gargoyle's plinth.}
+    flights:
+      - {from: [1152, -832], to: [-640, -832], to_height: 1280, width: 320, steps: 40, sides: {height: 48, thickness: 16, surface: {texture: wall, size: [128, 256]}}, notes: "The courtyard stair: forty steps of 32 up the south wall, rising west to its head."}
+    notes: "The castle's courtyard, open to the sky: the dry fountain with the gargoyles' plinths, the courtyard stair up the south wall to the yard gate, the kitchen west, the great hall's and the keep's double doors north."
+  - id: room:crypt
+    name: The family crypt
+    outline: [[-1280, 3968], [0, 3968], [0, 4992], [-1280, 4992]]
+    floor: 0
+    ceiling: 512
+    ceiling_points: [[-640, 3968, 832], [-640, 4992, 832]]
+    theme: theme:crypt
+    platforms:
+      - {at: [-1088, 4608], size: [224, 480], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-768, 4608], size: [224, 480], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-448, 4608], size: [224, 480], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-192, 4608], size: [224, 480], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {id: platform:coffin_crypt_dutchess, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-1144, 4816], [-1168, 4688], [-1136, 4400], [-1040, 4400], [-1008, 4688], [-1032, 4816]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_crypt_countess, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-824, 4816], [-848, 4688], [-816, 4400], [-720, 4400], [-688, 4688], [-712, 4816]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_crypt_count, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-504, 4816], [-528, 4688], [-496, 4400], [-400, 4400], [-368, 4688], [-392, 4816]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_crypt_lady, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-248, 4816], [-272, 4688], [-240, 4400], [-144, 4400], [-112, 4688], [-136, 4816]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+    notes: "The Blackfangs' family crypt: four stone coffins on biers, heads north; braziers in the corners."
+  - id: room:dstair
+    name: Dungeon stair
+    outline: [[-2432, 2560], [-1408, 2560], [-1408, 3968], [-2432, 3968]]
+    floor: -640
+    ceiling: 512
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:dstair_head, rise: 32, surface: {texture: twb2, size: [128, 256]}, outline: [[-2432, 2560], [-1408, 2560], [-1408, 2944], [-2432, 2944]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 608, notes: "The dungeon stair's head (0) behind the bar: the Count's hall east."}
+    flights:
+      - {from: [-1600, 3840], to: [-1600, 2944], open_below: 32, to_height: 0, width: 320, steps: 20, notes: Twenty steps of 32 down north into the crag from the head.}
+    notes: "The stair down into the crag, two storeys: the head behind the black iron bar (the Count's hall); down north along the east wall to the gaolers' post at the foot; under the head the doors into the question room and the undercroft."
+  - id: room:east_walk
+    name: East wall walk
+    outline: [[1312, -1024], [2432, -1024], [2432, 1024], [1312, 1024]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:walk
+  - id: room:great_hall
+    name: Great hall
+    outline: [[-2432, 1152], [-128, 1152], [-128, 2432], [-2432, 2432]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:crest_great, at: centre, length: 256, bottom: 160, height: 256, surface: {texture: xbfcrest, size: [128, 128], fit: true}, notes: Blackfang's arms (xbfcrest) on the end wall.}
+    platforms:
+      - {id: platform:long_table, at: [-1728, 1792], size: [1024, 256], rise: 80, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: "The long table, beside the line between the doors."}
+    beams:
+      - path: [[-2048, 1152], [-2048, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-2048, 2432], [-2048, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1536, 1152], [-1536, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1536, 2432], [-1536, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1024, 1152], [-1024, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1024, 2432], [-1024, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-512, 1152], [-512, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-512, 2432], [-512, 1792]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:keep_hall2
+    name: The keep's upper hall
+    outline: [[-2432, 1152], [-128, 1152], [-128, 2432], [-2432, 2432]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:hall
+    beams:
+      - path: [[-2048, 1152], [-2048, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-2048, 2432], [-2048, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1536, 1152], [-1536, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1536, 2432], [-1536, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1024, 1152], [-1024, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-1024, 2432], [-1024, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-512, 1152], [-512, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-512, 2432], [-512, 1792]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:keep_top
+    name: The bat roost
+    outline: [[-1280, 1792], [1280, 1792], [1280, 2944], [-1280, 2944]]
+    floor: 1280
+    ceiling: 2048
+    theme: theme:tower
+    platforms:
+      - {id: platform:roof_trapdoor, at: [128, 2432], size: [256, 256], rise: 16, surface: {texture: 7gt003b, size: [64, 64], scale: 4}, top_surface: {texture: 7gt003b, size: [64, 64], scale: 4}, bottom_surface: {texture: 7gt003b, size: [64, 64], scale: 4}, base: 752, notes: "The roof trapdoor, bolted from above (D-42 (7)), flush with the ceiling."}
+  - id: room:kitchen
+    name: Kitchen
+    outline: [[-2432, -256], [-1408, -256], [-1408, 1024], [-2432, 1024]]
+    floor: 0
+    ceiling: 512
+    theme: theme:service
+    platforms:
+      - {id: platform:hearth, at: [-1920, 960], size: [384, 96], rise: 48, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: The cold hearth on the north wall (a set piece).}
+      - {id: platform:kitchen_table, at: [-1920, 704], size: [384, 192], rise: 80, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: The kitchen table.}
+  - id: room:landing
+    name: Griffin's landing
+    outline: [[-1280, -2176], [1280, -2176], [1280, -1056], [-1280, -1056]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:walk
+    platforms:
+      - {at: [-1088, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-832, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [-576, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [576, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [832, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [1088, -1904], size: [184, 440], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {id: platform:coffin_landing_1, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-1032, -2112], [-1008, -1984], [-1040, -1696], [-1136, -1696], [-1168, -1984], [-1144, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_landing_2, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-776, -2112], [-752, -1984], [-784, -1696], [-880, -1696], [-912, -1984], [-888, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_landing_3, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[-520, -2112], [-496, -1984], [-528, -1696], [-624, -1696], [-656, -1984], [-632, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_landing_4, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[632, -2112], [656, -1984], [624, -1696], [528, -1696], [496, -1984], [520, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_landing_5, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[888, -2112], [912, -1984], [880, -1696], [784, -1696], [752, -1984], [776, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_landing_6, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[1144, -2112], [1168, -1984], [1136, -1696], [1040, -1696], [1008, -1984], [1032, -2112]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:perch, at: [256, -1600], size: [256, 256], rise: 24, surface: {texture: twb1, size: [128, 256]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: "The griffin's perch: a low block by the parapet where Ambrose's griffin waits (D-42 Q1)."}
+    notes: "The south wall walk's middle stretch, open to the sky: coffins in a row against the outer parapet, lids ajar; the clear walk down the middle; the inner parapet over the courtyard and the yard gate at the courtyard stair's head; the griffin's perch; the towers west and east."
+  - id: room:library
+    name: Library
+    outline: [[1408, -1024], [2432, -1024], [2432, 2432], [1408, 2432]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:library
+    platforms:
+      - {at: [2368, -640], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: twb2, size: [128, 256], fit: false}, top_surface: {texture: twb2, size: [128, 256]}, notes: A bookcase.}
+      - {at: [2368, 0], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: twb2, size: [128, 256], fit: false}, top_surface: {texture: twb2, size: [128, 256]}, notes: A bookcase.}
+      - {at: [2368, 640], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: twb2, size: [128, 256], fit: false}, top_surface: {texture: twb2, size: [128, 256]}, notes: A bookcase.}
+      - {at: [2368, 1280], size: [96, 512], rise: 256, surface: {texture: 7t1books, size: [128, 256]}, end_surface: {texture: twb2, size: [128, 256], fit: false}, top_surface: {texture: twb2, size: [128, 256]}, notes: A bookcase.}
+      - {id: platform:lectern, at: [1792, 640], size: [96, 96], rise: 112, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: xnpbook, size: [128, 128], fit: true}, notes: A lectern with The Blackfang Lineage.}
+    beams:
+      - path: [[1408, -640], [1920, -640]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, -640], [1920, -640]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[1408, -128], [1920, -128]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, -128], [1920, -128]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[1408, 384], [1920, 384]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, 384], [1920, 384]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[1408, 896], [1920, 896]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, 896], [1920, 896]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[1408, 1408], [1920, 1408]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, 1408], [1920, 1408]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[1408, 1920], [1920, 1920]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[2432, 1920], [1920, 1920]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:ne_tower
+    name: North-east tower
+    outline: [[1408, 1152], [2432, 1152], [2432, 2176], [1408, 2176]]
+    floor: 1280
+    ceiling: 1792
+    ceiling_points: [[1920, 1664, 2176]]
+    theme: theme:tower
+    platforms:
+      - {at: [2208, 1536], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {at: [2208, 1856], size: [440, 184], rise: 64, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, notes: The bier.}
+      - {id: platform:coffin_ne_1, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[2416, 1592], [2288, 1616], [2000, 1584], [2000, 1488], [2288, 1456], [2416, 1480]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+      - {id: platform:coffin_ne_2, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[2416, 1912], [2288, 1936], [2000, 1904], [2000, 1808], [2288, 1776], [2416, 1800]], top_surface: {texture: twb1, size: [128, 256]}, base: 64, notes: A stone coffin on its bier.}
+    notes: "A shuttered top storey; two coffins by the east wall."
+  - id: room:north_walk
+    name: North wall walk
+    outline: [[-1280, 1056], [1280, 1056], [1280, 1664], [-1280, 1664]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:walk
+  - id: room:nw_tower
+    name: North-west tower
+    outline: [[-2432, 1152], [-1408, 1152], [-1408, 2176], [-2432, 2176]]
+    floor: 1280
+    ceiling: 1792
+    ceiling_points: [[-1920, 1664, 2176]]
+    theme: theme:tower
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:gong, at: centre, length: 192, bottom: 96, height: 192, surface: {texture: xngong, size: [128, 128], fit: true}, notes: The bronze gong on the tower's west wall (aaze0045:6).}
+  - id: room:queen_cell
+    name: The Queen's cell
+    outline: [[-1280, -640], [-640, -640], [-640, 256], [-1280, 256]]
+    floor: -640
+    ceiling: -256
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:queen_bench, at: [-736, -192], size: [96, 384], rise: 64, surface: {texture: twb1, size: [128, 256]}, end_surface: {texture: twb1, size: [128, 256], fit: false}, top_surface: {texture: twb1, size: [128, 256]}, notes: A stone bench in the Queen's cell.}
+  - id: room:question
+    name: Question room
+    outline: [[-2432, 1408], [-1408, 1408], [-1408, 2432], [-2432, 2432]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    platforms:
+      - {at: [-2368, 1792], size: [64, 384], rise: 192, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A rack.}
+      - {at: [-1472, 1920], size: [64, 384], rise: 192, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: 7trimda, size: [256, 128]}, notes: A rack.}
+  - id: room:se_tower
+    name: South-east tower
+    outline: [[1408, -2432], [2688, -2432], [2688, -1152], [1408, -1152]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:se_head, rise: 32, surface: {texture: twb2, size: [128, 256]}, outline: [[1408, -2432], [1792, -2432], [1792, -1536], [2688, -1536], [2688, -1152], [1408, -1152]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 608, notes: "The tower's top storey (1280): a floor along its north and west walls over the stair."}
+      - {id: platform:coffin_se_loot, rise: 96, surface: {texture: twb1, size: [128, 256]}, outline: [[2640, -1256], [2512, -1232], [2224, -1264], [2224, -1360], [2512, -1392], [2640, -1368]], top_surface: {texture: twb1, size: [128, 256]}, base: 640, notes: "A stone coffin, its lid ajar."}
+    flights:
+      - {from: [2496, -2240], to: [1792, -2240], open_below: 32, to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 up the south wall, rising west to the top storey."}
+    notes: "The south-east tower, two storeys under its cone: its foot on L2 (the chapel west, the library north), the stair up the south wall to its top storey on L1 (the landing west, the east walk north)."
+  - id: room:shaft
+    name: Ladder shaft
+    outline: [[-2432, -1024], [-1408, -1024], [-1408, -384], [-2432, -384]]
+    floor: -640
+    ceiling: -128
+    theme: theme:dungeon
+  - id: room:south_gallery
+    name: Long gallery
+    outline: [[-1280, -2176], [-128, -2176], [-128, -1152], [-1280, -1152]]
+    floor: 640
+    ceiling: 1152
+    theme: theme:gallery
+    walls:
+      - wall: s
+        panels:
+          - {id: panel:portraits, offset: 96, length: 192, bottom: 96, height: 384, surface: {texture: cwbport-1, size: [128, 256], fit: true}, notes: "A Blackfang (a portrait: the find)."}
+          - {offset: 384, length: 192, bottom: 96, height: 384, surface: {texture: cwbport-3, size: [128, 256], fit: true}, notes: A Blackfang.}
+          - {offset: 672, length: 192, bottom: 96, height: 384, surface: {texture: cwbport-1, size: [128, 256], fit: true}, notes: A Blackfang.}
+          - {offset: 896, length: 192, bottom: 96, height: 384, surface: {texture: cwbport-3, size: [128, 256], fit: true}, notes: A Blackfang.}
+    beams:
+      - path: [[-896, -2176], [-896, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-896, -1152], [-896, -1664]]
+        width: 48
+        depth: 48
+        bottom: 976
+        bottom_end: 1112
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:stair_hall3
+    name: Grand stair hall
+    outline: [[0, 1152], [1280, 1152], [1280, 2432], [0, 2432]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:hall
+    platforms:
+      - {id: platform:grand_head, rise: 32, surface: {texture: ceb1sa, size: [128, 256]}, outline: [[0, 2048], [1280, 2048], [1280, 2432], [0, 2432]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 608, notes: "The grand stair's head gallery (640) across the hall's north end: the keep's upper hall west, the library east."}
+    flights:
+      - {from: [640, 1344], to: [640, 2048], open_below: 32, to_height: 640, width: 384, steps: 20, sides: {height: 48, thickness: 16, surface: {texture: cwb, size: [128, 256]}}, notes: "The grand stair: twenty steps of 32 from the keep door up north to the head gallery."}
+    notes: "The keep's ground floor, two storeys: the keep's double door from the courtyard, the grand stair up to its head gallery (L2), the Count's hall's double doors north under the gallery."
+  - id: room:study
+    name: The Count's study
+    outline: [[-1280, 2560], [-384, 2560], [-384, 3328], [-1280, 3328]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:library
+    platforms:
+      - {id: platform:desk, at: [-832, 3072], size: [384, 160], rise: 80, surface: {texture: 7trimda, size: [256, 128]}, end_surface: {texture: 7trimda, size: [256, 128], fit: false}, top_surface: {texture: desktop, size: [128, 64], fit: true}, notes: The Count's desk and his ledger.}
+    beams:
+      - path: [[-896, 2560], [-896, 2944]]
+        width: 48
+        depth: 48
+        bottom: 912
+        bottom_end: 1048
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-896, 3328], [-896, 2944]]
+        width: 48
+        depth: 48
+        bottom: 912
+        bottom_end: 1048
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:sw_tower
+    name: South-west tower
+    outline: [[-2688, -2432], [-1408, -2432], [-1408, -1152], [-2688, -1152]]
+    floor: 640
+    ceiling: 1792
+    theme: theme:tower
+    platforms:
+      - {id: platform:sw_head, rise: 32, surface: {texture: twb2, size: [128, 256]}, outline: [[-1792, -2432], [-1408, -2432], [-1408, -1152], [-2688, -1152], [-2688, -1536], [-1792, -1536]], top_surface: {texture: 7tfb1, size: [128, 128]}, bottom_surface: {texture: twb2, size: [128, 256]}, base: 608, notes: "The tower's top storey (1280): a floor along its north and east walls over the stair."}
+    flights:
+      - {from: [-2496, -2240], to: [-1792, -2240], open_below: 32, to_height: 1280, width: 320, steps: 20, notes: "Twenty steps of 32 up the south wall, rising east to the top storey."}
+    notes: "The south-west tower, two storeys under its cone: its foot on L2 (the long gallery east, the sleeping hall north), the stair up the south wall to its top storey on L1 (the landing east, the west walk north)."
+  - id: room:throne
+    name: The Count's hall
+    outline: [[-1280, 2560], [1280, 2560], [1280, 3840], [-1280, 3840]]
+    floor: 0
+    ceiling: 512
+    theme: theme:hall
+    walls:
+      - wall: w
+        panels:
+          - {id: panel:crest_throne, offset: 448, length: 256, bottom: 224, height: 256, surface: {texture: xbfcrest, size: [128, 128], fit: true}, notes: Blackfang's arms over the throne.}
+    platforms:
+      - {id: platform:dais, at: [-1024, 3264], size: [384, 640], rise: 32, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb1, size: [128, 256]}, notes: "The dais at the hall's west end: dark red stone (D-89, was marble)."}
+      - {id: platform:throne, at: [-1152, 3264], size: [128, 192], rise: 96, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, base: 32, notes: The black throne's seat.}
+      - {at: [-1232, 3264], size: [32, 192], rise: 288, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, base: 32, notes: The throne's back.}
+    beams:
+      - path: [[-896, 2560], [-896, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-896, 3840], [-896, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-384, 2560], [-384, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[-384, 3840], [-384, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[640, 2560], [640, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+      - path: [[640, 3840], [640, 3200]]
+        width: 48
+        depth: 48
+        bottom: 336
+        bottom_end: 472
+        surface: {texture: cwb, size: [128, 256]}
+  - id: room:undercroft
+    name: Pillared undercroft
+    outline: [[-1280, 384], [1024, 384], [1024, 3328], [-1280, 3328]]
+    floor: -640
+    ceiling: -256
+    theme: theme:dungeon
+    pillars:
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-736, 928], [-544, 928], [-544, 1120], [-736, 1120]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-736, 1568], [-544, 1568], [-544, 1760], [-736, 1760]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-736, 2208], [-544, 2208], [-544, 2400], [-736, 2400]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-736, 2784], [-544, 2784], [-544, 2976], [-736, 2976]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-96, 928], [96, 928], [96, 1120], [-96, 1120]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-96, 1568], [96, 1568], [96, 1760], [-96, 1760]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-96, 2208], [96, 2208], [96, 2400], [-96, 2400]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[-96, 2784], [96, 2784], [96, 2976], [-96, 2976]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[416, 928], [608, 928], [608, 1120], [416, 1120]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[416, 1568], [608, 1568], [608, 1760], [416, 1760]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[416, 2208], [608, 2208], [608, 2400], [416, 2400]]}
+      - {surface: {texture: cwb, size: [128, 256]}, outline: [[416, 2784], [608, 2784], [608, 2976], [416, 2976]]}
+    notes: "The source's dungeon hall: twelve square pillars in four rows of three under a low vault."
+  - id: room:west_walk
+    name: West wall walk
+    outline: [[-2432, -1024], [-1312, -1024], [-1312, 1024], [-2432, 1024]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:walk
+openings:
+  - id: open:back_kitchen
+    from: room:back_stair
+    to: room:kitchen
+    from_wall: e
+    to_wall: w
+    link: link:back_stair
+    along: 0.25
+    width: 256
+    height: 384
+  - id: open:cellar_kitchen
+    from: room:cellar
+    to: room:kitchen
+    from_wall: n
+    to_wall: s
+    link: link:cellar_kitchen
+    width: 224
+    height: 384
+  - id: open:cells_queen
+    from: room:cells
+    to: room:queen_cell
+    from_wall: e
+    to_wall: w
+    link: link:cells_queen
+    width: 224
+    height: 320
+    notes: "The cell's grille door, standing open."
+  - id: open:cells_shaft
+    from: room:cells
+    to: room:shaft
+    from_wall: s
+    to_wall: n
+    link: link:cells_shaft
+    width: 320
+    height: 384
+  - id: open:chapel_se2
+    from: room:chapel2
+    to: room:se_tower
+    from_wall: e
+    to_wall: w
+    link: link:chapel_se2
+    along: 0.3125
+    width: 384
+    height: 384
+  - id: open:countess_back
+    from: room:countess
+    to: room:back_stair
+    from_wall: w
+    to_wall: e
+    link: link:back_stair
+    along: 0.25
+    width: 256
+    height: 384
+  - id: open:countess_dorm
+    from: room:countess
+    to: room:coffin_dorm
+    from_wall: s
+    to_wall: n
+    link: link:countess_dorm
+    width: 224
+    height: 384
+  - id: open:dorm_sw2
+    from: room:coffin_dorm
+    to: room:sw_tower
+    from_wall: s
+    to_wall: n
+    link: link:dorm_sw2
+    along: 0.6
+    width: 384
+    height: 384
+  - id: open:dstair_question
+    from: room:dstair
+    to: room:question
+    from_wall: s
+    to_wall: n
+    link: link:foot_question
+    along: 0.3125
+    width: 224
+    height: 384
+  - id: open:dstair_undercroft
+    from: room:dstair
+    to: room:undercroft
+    from_wall: e
+    to_wall: w
+    link: link:foot_undercroft
+    along: 0.25
+    width: 320
+    height: 384
+  - id: open:east_parapet
+    from: room:east_walk
+    to: room:courtyard
+    from_wall: w
+    to_wall: e
+    width: 1536
+    height: full
+    sill: 224
+    notes: The east walk's inner parapet over the courtyard.
+  - id: open:east_se
+    from: room:se_tower
+    to: room:east_walk
+    from_wall: n
+    to_wall: s
+    link: link:east_se
+    width: 384
+    height: 384
+  - id: open:gallery_chapel
+    from: room:south_gallery
+    to: room:chapel2
+    from_wall: e
+    to_wall: w
+    link: link:gallery_chapel
+    width: 448
+    height: 448
+  - id: open:great_throne
+    from: room:great_hall
+    to: room:throne
+    from_wall: n
+    to_wall: s
+    link: link:great_throne
+    width: 448
+    height: 448
+    notes: The screens passage.
+  - id: open:hatch
+    from: room:cellar
+    to: room:shaft
+    in: floor
+    at: [-1664, -768]
+    size: [224, 224]
+    link: link:hatch
+    notes: "The hole under the cellar's trapdoor: the shaft's ladder comes up through it."
+  - id: open:keep_countess
+    from: room:keep_hall2
+    to: room:countess
+    from_wall: s
+    to_wall: n
+    link: link:keep_countess
+    width: 384
+    height: 384
+  - id: open:keep_head
+    from: room:keep_hall2
+    to: room:stair_hall3
+    from_wall: e
+    to_wall: w
+    link: link:grand_stair
+    along: 0.85
+    width: 320
+    height: 384
+  - id: open:keep_study
+    from: room:keep_hall2
+    to: room:study
+    from_wall: n
+    to_wall: s
+    link: link:keep_study
+    width: 224
+    height: 384
+  - id: open:kitchen_yard
+    from: room:kitchen
+    to: room:courtyard
+    from_wall: e
+    to_wall: w
+    link: link:kitchen_yard
+    width: 384
+    height: 384
+  - id: open:landing_parapet
+    from: room:landing
+    to: room:courtyard
+    from_wall: n
+    to_wall: s
+    along: 0.325
+    width: 1536
+    height: full
+    sill: 224
+    notes: The landing's inner parapet over the courtyard.
+  - id: open:landing_sw
+    from: room:sw_tower
+    to: room:landing
+    from_wall: e
+    to_wall: w
+    link: link:landing_sw
+    along: 0.3125
+    width: 384
+    height: 384
+  - id: open:library_head
+    from: room:library
+    to: room:stair_hall3
+    from_wall: w
+    to_wall: e
+    link: link:library_keep
+    along: 0.15
+    width: 320
+    height: 384
+  - id: open:ne_east
+    from: room:ne_tower
+    to: room:east_walk
+    from_wall: s
+    to_wall: n
+    link: link:ne_east
+    width: 384
+    height: 384
+  - id: open:north_keep
+    from: room:north_walk
+    to: room:keep_top
+    from_wall: n
+    to_wall: s
+    link: link:north_keep
+    width: 224
+    height: 384
+  - id: open:north_ne
+    from: room:north_walk
+    to: room:ne_tower
+    from_wall: e
+    to_wall: w
+    link: link:north_ne
+    width: 384
+    height: 384
+  - id: open:north_parapet
+    from: room:north_walk
+    to: room:courtyard
+    from_wall: s
+    to_wall: n
+    width: 2048
+    height: full
+    sill: 224
+    notes: The north walk's inner parapet over the courtyard.
+  - id: open:nw_north
+    from: room:nw_tower
+    to: room:north_walk
+    from_wall: e
+    to_wall: w
+    link: link:nw_north
+    width: 384
+    height: 384
+  - id: open:question_cells
+    from: room:question
+    to: room:cells
+    from_wall: s
+    to_wall: n
+    link: link:question_cells
+    width: 384
+    height: 384
+  - id: open:se2_library
+    from: room:se_tower
+    to: room:library
+    from_wall: n
+    to_wall: s
+    link: link:se2_library
+    width: 384
+    height: 384
+  - id: open:se_landing
+    from: room:se_tower
+    to: room:landing
+    from_wall: w
+    to_wall: e
+    link: link:se_landing
+    along: 0.6875
+    width: 384
+    height: 384
+  - id: open:stairhall_throne
+    from: room:stair_hall3
+    to: room:throne
+    from_wall: n
+    to_wall: s
+    link: link:stairhall_throne
+    along: 0.75
+    width: 448
+    height: 448
+  - id: open:sw2_gallery
+    from: room:sw_tower
+    to: room:south_gallery
+    from_wall: e
+    to_wall: w
+    link: link:sw2_gallery
+    along: 0.3125
+    width: 384
+    height: 384
+  - id: open:sw_west
+    from: room:sw_tower
+    to: room:west_walk
+    from_wall: n
+    to_wall: s
+    link: link:sw_west
+    width: 384
+    height: 384
+  - id: open:throne_crypt
+    from: room:throne
+    to: room:crypt
+    from_wall: n
+    to_wall: s
+    link: link:throne_crypt
+    along: 0.7
+    width: 224
+    height: 384
+  - id: open:throne_dstair
+    from: room:throne
+    to: room:dstair
+    from_wall: w
+    to_wall: e
+    link: link:dstair_down
+    along: 0.85
+    width: 256
+    height: 384
+    notes: "Behind the dais: the black iron bar onto the dungeon stair's head."
+  - id: open:undercroft_cells
+    from: room:undercroft
+    to: room:cells
+    from_wall: w
+    to_wall: e
+    link: link:undercroft_cells
+    width: 320
+    height: 320
+  - id: open:undercroft_cistern
+    from: room:undercroft
+    to: room:cistern
+    from_wall: e
+    to_wall: w
+    link: link:undercroft_cistern
+    width: 384
+    height: 320
+  - id: open:west_nw
+    from: room:west_walk
+    to: room:nw_tower
+    from_wall: n
+    to_wall: s
+    link: link:west_nw
+    width: 384
+    height: 384
+  - id: open:west_parapet
+    from: room:west_walk
+    to: room:courtyard
+    from_wall: e
+    to_wall: w
+    width: 1536
+    height: full
+    sill: 224
+    notes: The west walk's inner parapet over the courtyard.
+  - id: open:yard_gate
+    from: room:courtyard
+    to: room:landing
+    from_wall: s
+    to_wall: n
+    link: link:yard_stair
+    along: 0.125
+    width: 256
+    height: 384
+    notes: "The yard gate: the courtyard stair's head (1280) onto the landing; its bar on the stair's side."
+  - id: open:yard_great
+    from: room:courtyard
+    to: room:great_hall
+    from_wall: n
+    to_wall: s
+    link: link:yard_great
+    width: 448
+    height: 448
+  - id: open:yard_stairhall
+    from: room:courtyard
+    to: room:stair_hall3
+    from_wall: n
+    to_wall: s
+    link: link:yard_stairhall
+    width: 448
+    height: 448
+notes: "DD-14 Castle Blackfang: the dungeon at -640, the ground floor at 0, the upper floor at 640, the walls at 1280, in one frame (x east, y north, z up). Written by output/studio_cal/dd14/tools/gen.py (geo.py)."

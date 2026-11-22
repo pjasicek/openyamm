@@ -1,0 +1,99 @@
+# Xeen P5 (the Clouds of the Ancients, M42, D-56) quest hooks in the installed map, with their amounts: what A5's
+# playtests (devdocs/xeen/briefs/p5/L4/playtest_ending_*.yml) do not check. A level-61 party from a new game on P5.
+# - The Pharaoh's note and a Rest Stop sign (status line).
+# - The shrine without the Cube and the Scepter: the Pharaoh's refusal (aazex129), nothing taken, no award.
+# - The shrine with both and the four sleepers (granted and set by setup steps: the planes are another test): the
+#   items taken, m42.done 111840, award 417 to every member, 40,000 experience to each; the cinematic played out,
+#   the ceremony text once (111841).
+# - Roland (actor 2, npc 4405) "The wedding" and Kalindra (actor 0, npc 5001) "One world" under the pavilion.
+# - The shrine after: its else line, no second payment; a save and load: the couple still shown, no second ceremony.
+# - The disc back to the stair house (status line, entrance:fd03_roof).
+# The ending's look (the couple under the pavilion, the certificate after the ceremony window) was checked in a
+# visible run on 2026-11-21 (output/a3_s25/p5_ending/shots/, A3 25th session).
+# Quest logic: source/quests/m42.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/hooks_p5.yml --scenario-no-color
+id: xeen.hooks_p5
+title: "Xeen P5 hooks: the refusal, the shrine's payment and award, the couple's topics, the shrine after, the disc"
+world: xeen
+mode: faithful
+tags: [xeen, quests]
+steps:
+  - new_game_flow:
+      start_map: xeen_p5.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 61, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 61, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 61, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 61, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_p5.blv}
+  # The note and a Rest Stop sign.
+  - execute_event: {id: 27}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Signed, The Dragon Pharaoh"}}
+  - play_lua: {source: "close(); status(); click(29); wait(0.3); local seen = status(); if not string.find(seen, 'Rest Stop', 1, true) then error('the rest stop said: ' .. seen) end"}
+  # The shrine without the Cube and the Scepter.
+  - load_map: {map: xeen_p5.blv, pos: "0, -1200, 512"}
+  - play_lua: {source: "wait(1.5); for _ = 1, 3 do if not close() then break end end"}
+  - walk_to: {x: 0, y: -900, z: 520, z_tolerance: 200, radius: 160, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(37); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "you must have the Cube of Power and the Scepter of Temporal Distortion"}}
+  - play_lua: {source: "close(); if qbit(111840) then error('done without the items') end"}
+  # With both and the four sleepers.
+  - grant_item: {item_id: 12365, member_index: 0}
+  - grant_item: {item_id: 12366, member_index: 1}
+  - setup_shortcut: {kind: set_qbit, id: 111760}
+  - setup_shortcut: {kind: set_qbit, id: 111761}
+  - setup_shortcut: {kind: set_qbit, id: 111762}
+  - setup_shortcut: {kind: set_qbit, id: 111763}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(37)"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {qbit_set: [111840]}
+  - assert: {award_acquired: [{id: 417, member_index: 0}, {id: 417, member_index: 1}, {id: 417, member_index: 2}, {id: 417, member_index: 3}]}
+  - play_lua: {source: "if has_item(12365) or has_item(12366) then error('the items were not taken') end; for i = 0, 3 do if experience(i) - recall('xp' .. i) ~= 40000 then error('member ' .. i .. ' got ' .. (experience(i) - recall('xp' .. i))) end end"}
+  - advance_runtime: {seconds: 36, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "reading the vows"}}
+  - assert: {qbit_set: [111841]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {actor_visible: {actor_index: 2, monster_id: 11920, hidden: false}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11921, hidden: false}}
+  # The couple's topics: Roland (actor 2, npc 4405) and Kalindra (actor 0, npc 5001).
+  - interact_actor: {actor_index: 2}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 4405}}
+  - select_topic: {match_label: "The wedding"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Married on a cloud, by a dragon, with cake."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, source_id: 5001}}
+  - select_topic: {match_label: "One world"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "One world, and one sun."}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The shrine after: the else line, no second payment.
+  - walk_to: {x: 0, y: -900, z: 520, z_tolerance: 200, radius: 160, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "remember('xp', experience(0)); click(37); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "somebody has left cake"}}
+  - play_lua: {source: "close(); if experience(0) ~= recall('xp') then error('paid twice') end"}
+  # A save and load: the couple stays, no second ceremony.
+  - save_game: {name: hooks_p5_done}
+  - load_game: {name: hooks_p5_done}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - assert: {dialog: {active: false}}
+  - assert: {actor_visible: {actor_index: 2, monster_id: 11920, hidden: false}}
+  - assert: {actor_visible: {actor_index: 0, monster_id: 11921, hidden: false}}
+  # The disc back to the stair house.
+  - play_lua: {source: "status(); click(22); wait(1); local seen = status(); if not string.find(seen, 'drifts back along the cloud road', 1, true) then error('the disc said: ' .. seen) end"}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 4608, y: -3968, radius: 160}}

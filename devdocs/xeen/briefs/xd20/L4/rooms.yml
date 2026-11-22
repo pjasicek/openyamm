@@ -1,0 +1,79 @@
+format: 0
+themes:
+  - id: theme:arena
+    wall: {texture: t5bs, size: [128, 256], scale: 2}
+    bands:
+      - {height: 512, surface: {texture: t5s1b, size: [128, 256], scale: 2}}
+    floor: {texture: 6sandtyl, size: [128, 128], scale: 2}
+    ceiling: {texture: t5bs, size: [128, 256], sky: true}
+    reveal: {texture: t5bs, size: [128, 256]}
+    notes: "The war floor: MM7 The Arena 7d05's ring wall t5s1b (its two friezes over the 512 band), its plain grey stone t5bs above, the sand MM6 6sandtyl (X6's desert); the roof is sky."
+  - id: theme:lodge
+    wall: {texture: t5s1b, size: [128, 256], scale: 2}
+    floor: {texture: t5s1fl, size: [128, 128], scale: 2}
+    ceiling: {texture: t5bs, size: [128, 256]}
+    reveal: {texture: t5bs, size: [128, 256]}
+    notes: "The Hall of the War Games: 7d05's frieze wall t5s1b one panel high, flagstones t5s1fl, grey stone roof."
+  - id: theme:passage
+    wall: {texture: chb1, size: [128, 256]}
+    floor: {texture: t5s1fl, size: [128, 128], scale: 2}
+    ceiling: {texture: chb1, size: [128, 256]}
+    reveal: {texture: chb1, size: [128, 256]}
+    notes: "The gate passage cut into the cliff behind X6's portal: the portal's own stone chb1 (X6's thing:arena_gate), 7d05's flagstones."
+defaults: {theme: theme:arena, ambient: 24}
+rooms:
+  - id: room:floor
+    name: The war floor
+    outline: [[6366, -350], [6366, 350], [6098, 996], [5604, 1490], [4958, 1758], [4258, 1758], [3612, 1490], [3118, 996], [2850, 350], [2850, -350], [3118, -996], [3612, -1490], [4258, -1758], [4958, -1758], [5604, -1490], [6098, -996]]
+    floor: 0
+    ceiling: 1536
+    theme: theme:arena
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:booth_floor, at: centre, length: 256, bottom: 96, height: 256, surface: {texture: t5s1c, size: [128, 128], fit: true}, notes: "The master's booth window over the north gate, low enough to click from the sand (D-39)."}
+      - wall: 2
+        panels:
+          - {at: centre, length: 192, height: 384, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: "A beast door, shut for good (dressing)."}
+      - wall: 6
+        panels:
+          - {at: centre, length: 192, height: 384, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: "A beast door, shut for good (dressing)."}
+      - wall: 10
+        panels:
+          - {at: centre, length: 192, height: 384, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: "A beast door, shut for good (dressing)."}
+      - wall: 14
+        panels:
+          - {at: centre, length: 192, height: 384, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: "A beast door, shut for good (dressing)."}
+    ambient: 30
+    notes: "The arena: a round sand floor 3,584 across (sixteen sides), the ring wall's 512 band and plain stone above it to the sky at 1,536 (D-39: at least 1,280); the booth window north, four iron beast doors on the diagonals, the victors' gate west. Twenty ring marks at 1,300 from the middle, the party's mark in the middle facing the booth."
+  - id: room:gate_passage
+    name: Gate passage
+    outline: [[0, -224], [768, -224], [768, 224], [0, 224]]
+    floor: 0
+    ceiling: 448
+    theme: theme:passage
+    ambient: 20
+    notes: "The way in from X6's coach yard, 768 by 448: the arena gate's two leaves in its west wall (the way out), the lodge's door at its east end."
+  - id: room:lodge
+    name: Hall of the War Games
+    outline: [[800, -768], [2336, -768], [2336, 768], [800, 768]]
+    floor: 0
+    ceiling: 512
+    theme: theme:lodge
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:booth_lodge, at: centre, length: 256, bottom: 128, height: 256, surface: {texture: t5s1c, size: [128, 128], fit: true}, notes: "The Arena Master's booth window (Varro, 4609)."}
+    platforms:
+      - {id: platform:bench_n, rise: 48, surface: {texture: t5bs, size: [128, 256]}, outline: [[1184, 640], [1952, 640], [1952, 736], [1184, 736]], top_surface: {texture: t5s1fl, size: [128, 128]}, notes: A stone bench along the north wall.}
+      - {id: platform:bench_s, rise: 48, surface: {texture: t5bs, size: [128, 256]}, outline: [[1184, -736], [1952, -736], [1952, -640], [1184, -640]], top_surface: {texture: t5s1fl, size: [128, 128]}, notes: A stone bench along the south wall.}
+    ambient: 22
+    notes: "The lodge, 1,536 square and 512 high: stone benches along the north and south walls, wall torches, the Arena Master's booth window in the east wall. Varro sends the party onto the war floor from here (the arena's own move)."
+openings:
+  - id: open:passage_lodge
+    from: room:gate_passage
+    to: room:lodge
+    link: link:passage_lodge
+    width: 192
+    height: 384
+notes: "XD-20 The Warzone: x east, y north; the gate passage west (from X6's coach yard), the lodge, the war floor east (reached only by the Arena Master's challenge). Hand-written L4 (an arena of three rooms, from the approved graph devdocs/xeen/mockups/act4_graphs/xd20.graph.yml and D-39)."

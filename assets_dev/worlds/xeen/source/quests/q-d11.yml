@@ -1,0 +1,131 @@
+# Q-D11 Graalg's Ogres / Kramer's Bounty (QUESTS 2.2 Q-D11, 3.2: Hunter -> Bounty Hunter on the burning route).
+# Owner: A3. Format: QUESTS_FORMAT.md.
+# Graalg's ogres hold Ogre Pass (D2) and rob Kramer's caravans. Peace: the right words (a gift of gold, or, oddly,
+# "Bow low before us, slave", which makes him laugh) and he hands over 2 Energy Disks. War: burn both forts in DD-13
+# (Kramer's bounty and the promotion); a search of the forts finds the same 2 disks (map_gives, barred after a peace).
+# Either way the caravans get through, so Kramer's "Ogres" topic is the common hand-in (4,000); the burning route adds
+# the bounty (1,000 and gold, QUESTS rules: the violent route pays more), 5,000 per member in all.
+# Burning stays possible after a peace (D-12.3): a burned fort sets hostile, which closes Graalg's topics and turns
+# the ogres hostile; peaceful Hunters take Ranger Lord through Q-D10 instead.
+id: Q-D11
+title: "Graalg's Ogres"
+act: III
+kind: side
+status: full
+giver: 4914          # Kramer, caravan master (Kramer's Caravans, 4464); Graalg (5108, D2) the other side
+maps: [D1, D2, DD-13]
+level: 24
+block: 91
+after: [m7.sigil]
+source: "QUESTS Q-D11; dark/aaze0007:2-5 (Kramer), dark/aaze0015:7-26 (Graalg, the forts; the gift was 5,000 gold)"
+
+qbits:
+  started: {id: 113220, journal: "Graalg's Ogres rob Kramer's caravans in Ogre Pass. Kramer pays to be rid of them; Graalg might be talked round.",
+            until: [done]}
+  friends: {id: 113221, note: "Graalg likes you (a gift, or a good laugh); A2's relations.yml: the pass ogres (faction xeen_ogres_pass: 11066-11068, the Kennel Sabertooth 11413) friendly"}
+  hostile: {id: 113222, note: "A2's relations: Graalg 11064 and his Brutes 11065 (faction xeen_ogres_graalg, friendly at load) and the pass ogres (xeen_ogres_pass) turn hostile; a burned fort sets it"}
+  peace: {id: 113223, note: "Graalg gave the disks; the pass is safe"}
+  west_burned: {id: 113224, note: "D1's west fort outside swaps to its ruin (D-23, A6)"}
+  east_burned: {id: 113225, note: "D1's east fort outside swaps to its ruin (D-23, A6)"}
+  fort_disks: {id: 113226, note: "DD-13's fort search (A7)"}
+  done: {id: 113227, note: "Kramer paid for a safe pass"}
+  bounty_paid: {id: 113228, note: "Kramer's bounty for both forts; Bounty Hunter promotion"}
+
+autonotes:
+  pass: {id: 4510, text: "Ogre Pass, in Sprite Forest: Graalg's Ogres and their two forts. Kramer pays to be rid of them, a bounty if both forts burn.", category: Misc}
+
+items:
+  energy_disk: "2 (M18): Graalg's topic (peace) or DD-13's fort search (war)"
+
+npcs:
+  4914:              # Kramer
+    topics:
+      - n: 1
+        label: Ogres
+        states:
+          - when: {qbit: done}
+            text: "The caravans run through Ogre Pass on time. Nearly on time. On a day."
+          - when: {any: [{qbit: peace}, {all: [{qbit: west_burned}, {qbit: east_burned}]}]}
+            text: "Thank you so much for getting rid of the Ogres! My caravans can now get through the pass safely. Here, take this gold as a reward."
+            do: [{set: done}, {xp: 4000}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "There are still Ogres attacking my caravans. Please do something!"
+          - text: "These blasted Ogres are killing my business. Every time I try to get a caravan through Ogre Pass they attack it, stealing everything. Get rid of them for me. There is a reward, and a bounty if both their forts burn."
+            do: [{set: started}, {autonote: pass}]
+      - n: 2
+        label: Bounty
+        show: {all: [{qbit: west_burned}, {qbit: east_burned}, {not: {qbit: bounty_paid}}]}
+        text: "Two forts, burned to the ground. The bounty, as promised. And those of you who hunt for pay: the caravan guild has a title for hunters like you."
+        do: [{set: bounty_paid}, {xp: 1000}, {gold: 1000}, {promote: bounty}]
+  5108:              # Graalg
+    topics:
+      - n: 3
+        label: Gifts
+        show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
+        states:
+          - when: {gold: 1000}
+            text: "We accept gift and won't pull your arms out of sockets today. What do you want?"
+            do: [{pay: 1000}, {set: friends}, {set: started}]
+          - text: "Gift is gold. You have no gold. Why you talk?"
+      - n: 4
+        label: "Pharaoh's oath"
+        show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
+        text: "The Dragon Pharaoh is chief of nothing, now. Alamar is chief. We work for Alamar. We pull your arms out of socket now."
+        do: [{set: hostile}]
+      - n: 5
+        label: "Bow low, slave!"
+        show: {all: [{not: {qbit: friends}}, {not: {qbit: hostile}}]}
+        text: "Har Har Har! We LIKE! You make big laugh! You friends. What you need?"
+        do: [{set: friends}, {set: started}]
+      - n: 6
+        label: Energy disks
+        show: {all: [{qbit: friends}, {not: {qbit: hostile}}]}
+        states:
+          - when: {qbit: peace}
+            text: "We have no more energy disks."
+          - text: "We are Ogres! We take what we want. Yesterday, we took the Sardaj's Energy disks! (grunt) Here are two energy disks. Caravans? Fine. We let caravans pass. Boring, but fine."
+            do: [{give: energy_disk, count: 2}, {set: peace}, {set: started}]
+      - n: 7
+        label: Orcs
+        show: {all: [{qbit: friends}, {not: {qbit: hostile}}]}
+        text: "The Orcs captured a sprite a little while ago... Har! (snort) Har! They sacrifice them to their God sometimes."
+      - n: 8
+        label: Alamar
+        show: {all: [{qbit: friends}, {not: {qbit: hostile}}]}
+        text: "We didn't know you fight against Alamar. He pay us much gold to be on his side. Because we like you, we pretend you didn't say that."
+
+hooks:
+  pass_ogres:
+    map: D2
+    where: "Ogre Pass: Graalg and his ogres (talking actor 5108 between the forts); A6 turns them hostile on hostile, or on a fort burned"
+    reads: [hostile, west_burned, east_burned]
+  fort_west:
+    map: DD-13
+    where: "the west fort's hall (the map's message 'You've found an Ogre fort, but the Ogres are out hunting. Burn?'): Yes calls this"
+    sets: [west_burned, hostile]     # D-12.3: burning stays possible after peace; it closes Graalg's topics
+    once: true
+    text: "The fort collapses in a heap of burning timbers and smoldering ash."
+    else_text: "Ash, and a smell of burned ogre laundry."
+  fort_east:
+    map: DD-13
+    where: "the east fort's hall (the map's message 'You've found an Ogre fort, but the Ogres are out hunting. Burn?'): Yes calls this"
+    sets: [east_burned, hostile]     # D-12.3: burning stays possible after peace; it closes Graalg's topics
+    once: true
+    text: "The fort collapses in a heap of burning timbers and smoldering ash."
+    else_text: "Ash, and a smell of burned ogre laundry."
+  fort_search:
+    map: DD-13
+    gate: faction
+    where: "Graalg's strongbox in the east fort; the map places 2 Energy Disks (the war route's share; barred after a peace)"
+    requires: {not: {qbit: peace}}
+    sets: [fort_disks]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "You search the fort and find 2 energy disks."
+    fail_text: "Graalg's strongbox. Graalg is your friend. Graalg would notice."
+    else_text: "The strongbox is empty."
+
+rewards: {xp: "4000 (+1000 with the bounty)", gold: "1500 (+1000 bounty)", items: "2 Energy Disks", promotion: "Hunter -> Bounty Hunter (Dark, forts burned)"}
+notes:
+  - "relations.yml (A2, rules on 113221 and 113222; no Lua sets relations): xeen_ogres_pass (11066-11068, Kennel Sabertooth 11413) friendly on friends, hostile on hostile; xeen_ogres_graalg (Graalg 11064, his Brutes 11065) friendly from load until hostile. A fort burned sets hostile, so both turn."
+playthrough: "D1: Kramer (Ogres). D2: Graalg (Bow low, slave!; Energy disks). D1: Kramer (Ogres). War: DD-13, burn both forts, the strongbox; Kramer (Ogres; Bounty)."

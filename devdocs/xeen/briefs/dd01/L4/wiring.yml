@@ -1,0 +1,246 @@
+format: 0
+variables: [sluice_shut, grate_open, valio_shown]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {not: {qbit: arrived_once}}
+    once: true
+    effects:
+      - message: "THE CASTLEVIEW SEWER. The ladder from the square ends ankle-deep in something you decide is water. Down here the town's rats keep what they steal, Nadia's onyx necklace among it, in the nest of the Queen Rat they call Rooka. Four more shafts come down from the streets, their grates bolted from above: this hatch is the way back up."
+      - qbit: arrived_once
+    notes: "Say why the party is here (M16: the rats' nest; Q-D5's Rooka), on the first arrival only (arrived_once 117000)."
+  - id: evt:barrel_1
+    preset: text
+    source: deco:barrel_1
+    title: Barrel
+    text: The barrel is empty.
+    window: false
+    notes: dark/aaze0030.
+  - id: evt:bed
+    preset: script
+    source: platform:bed
+    title: Bed
+    lua: "if IsQBitSet(QBit(113104)) then evt.StatusText(\"The bed is empty, its blankets thrown back.\") else evt.SpeakNPC(4957) end"
+    notes: "Valio the Simple (NPC 4957, source/towns/d1.yml) talks from his bed ('Bed', dark/aaze0030): topic Rats (Q-D5). Words needed: an indoor monster with an npc id."
+  - id: evt:chest_cellar
+    preset: chest
+    source: chest:cellar
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Chest
+  - id: evt:chest_market
+    preset: chest
+    source: chest:market
+    title: Chest
+  - id: evt:chest_midden
+    preset: chest
+    source: chest:midden
+    title: Chest
+  - id: evt:chest_valio
+    preset: chest
+    source: chest:valio
+    title: Chest
+    effects:
+      - lua: "XeenQuests.hook(\"q-d5.valio_chest\")"
+    notes: "q-d5.valio_chest (A3): opened before Valio pays, he yells and gets out of bed (valio_angered 113104)."
+  - id: evt:culvert_water
+    preset: switch
+    source: mover:water
+    title: Flooded culvert
+    condition: {not: {map_var: sluice_shut}}
+    locked_text: The culvert lies drained.
+    effects:
+      - text: "The old culvert is flooded to its roof. Somewhere above, the town's sluice is pouring into it."
+    notes: The flooded culvert refuses the party while the sluice runs (Felix's hint names the sluice).
+  - id: evt:door_cross_east
+    preset: door
+    source: door:cross_east
+    title: Door
+  - id: evt:door_cross_west
+    preset: door
+    source: door:cross_west
+    title: Door
+  - id: evt:door_deep_outfall
+    preset: door
+    source: door:deep_outfall
+    title: Door
+  - id: evt:door_east_market
+    preset: door
+    source: door:east_market
+    title: Door
+  - id: evt:door_north_cross
+    preset: door
+    source: door:north_cross
+    title: Door
+  - id: evt:door_sluice_north
+    preset: door
+    source: door:sluice_north
+    title: Door
+  - id: evt:door_valio_overflow
+    preset: door
+    source: door:valio_overflow
+    title: Door
+  - id: evt:exit_hatch
+    preset: exit
+    source: exit:hatch
+    title: Ladder to the square
+    notes: "'Exit the Sewer?' (dark/aaze0030): the game's own leave window, to D1 by the square's hatch."
+  - id: evt:exit_outfall
+    preset: exit
+    source: exit:outfall
+    title: Outfall grate
+    condition: {qbit: outfall_unbarred}
+    locked_text: The grate is barred. The iron bar across it lifts out from this side.
+    notes: "To D1's mill gorge by the burnt mill, once the bar is lifted (the game's leave window)."
+  - id: evt:felix
+    preset: script
+    source: platform:felix_bench
+    title: Felix the Tinker
+    lua: evt.SpeakNPC(4958)
+    notes: "Felix the Tinker (NPC 4958, D-26): a flavour talk at his bench, the sluice hint; sells nothing."
+  - id: evt:grate
+    preset: switch
+    source: mover:grate
+    title: Sewer Drain
+    condition: {not: {map_var: grate_open}}
+    locked_text: The grate lies open over the ladder.
+    effects:
+      - text: The grate is bolted from below.
+    notes: "From above (D-26): 'The grate is bolted from below.'; 'Sewer Drain' is the source's name for a drain grate (dark/aaze0030)."
+  - id: evt:grate_bolt
+    preset: switch
+    source: switch:grate_bolt
+    title: Bolt
+    condition: {not: {map_var: grate_open}}
+    locked_text: "The bolt is drawn; the grate lies open above the ladder."
+    opens: [mover:grate]
+    sets: {map_var: grate_open}
+    effects:
+      - text: You draw the rusty bolt. The grate above the ladder scrapes aside onto the drain's walk.
+    notes: "poi:grate_bolt (D-26): the cellar's way up, a floor grate bolted from below, opened once from the cellar side."
+  - id: evt:green_liquid
+    preset: script
+    source: deco:green_liquid
+    title: Green Liquid
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11311)) then
+          evt.StatusText("You have had your share of the Endurance liquid.")
+          return
+      end
+      AddValue(BaseEndurance, 2)
+      SetPlayerBit(PlayerBit(11311))
+      evt.StatusText("+2 Endurance (permanent).")
+    notes: "Green Liquid (dark/aaze0030: '+5 Endurance (permanent).', rescaled to +2): once per character (player bit 11311, provisional)."
+  - id: evt:guard_bones
+    preset: script
+    source: deco:guard_bones
+    title: Bones
+    condition: {not: {qbit: guard_purse}}
+    sets: {qbit: guard_purse}
+    effects:
+      - gold: 150
+      - text: "A gate guard who fell through the grate long ago. His purse is still on his belt: 150 gold."
+    else_effects:
+      - text: Nothing here.
+    notes: "A guard's bones (D-26 find); afterwards 'Nothing here.' (dark/aaze0030)."
+  - id: evt:ladder_market
+    preset: text
+    source: panel:ladder_market
+    title: Sewer Drain
+    text: The grate is bolted from above. You hear the town over your head.
+    window: false
+    notes: "D-26: the four other shafts end at grates bolted from the street side; 'Sewer Drain' (dark/aaze0030)."
+  - id: evt:ladder_north
+    preset: text
+    source: panel:ladder_north
+    title: Sewer Drain
+    text: The grate is bolted from above. You hear the town over your head.
+    window: false
+    notes: "D-26: the four other shafts end at grates bolted from the street side; 'Sewer Drain' (dark/aaze0030)."
+  - id: evt:ladder_temple
+    preset: text
+    source: panel:ladder_temple
+    title: Sewer Drain
+    text: The grate is bolted from above. You hear the town over your head.
+    window: false
+    notes: "D-26: the four other shafts end at grates bolted from the street side; 'Sewer Drain' (dark/aaze0030)."
+  - id: evt:ladder_west
+    preset: text
+    source: panel:ladder_west
+    title: Sewer Drain
+    text: The grate is bolted from above. You hear the town over your head.
+    window: false
+    notes: "D-26: the four other shafts end at grates bolted from the street side; 'Sewer Drain' (dark/aaze0030)."
+  - id: evt:outfall_bar
+    preset: switch
+    source: switch:outfall_bar
+    title: Iron bar
+    effects:
+      - lua: "if IsQBitSet(QBit(117001)) then ClearQBit(QBit(117001)) evt.StatusText(\"You drop the iron bar back across the grate.\") else SetQBit(QBit(117001)) evt.StatusText(\"You lift the iron bar out of its brackets. The grate swings free on the mill gorge.\") end"
+    notes: "poi:outfall_bar (D-26): a two-state bar; lifted it sets q-d5.outfall_unbarred (117001, provisional), which this map's outfall exit and D1's grate (D1 event 222) read."
+  - id: evt:red_liquid
+    preset: script
+    source: deco:red_liquid
+    title: Red Liquid
+    lua: |-
+      if IsPlayerBitSet(PlayerBit(11310)) then
+          evt.StatusText("You have had your share of the Might liquid.")
+          return
+      end
+      AddValue(BaseMight, 2)
+      SetPlayerBit(PlayerBit(11310))
+      evt.StatusText("+2 Might (permanent).")
+    notes: "Red Liquid (dark/aaze0030: '+5 Might (permanent).', rescaled to +2): once per character (player bit 11310, provisional)."
+  - id: evt:rooka_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:rooka}}
+    lua: "XeenQuests.hook(\"q-d5.rooka\")"
+    once: true
+    notes: "goal:rooka: Rooka's death runs A3's once-hook q-d5.rooka (rooka_slain 113101, 3,000 XP)."
+  - id: evt:rubble_1
+    preset: text
+    source: deco:rubble_1
+    title: Rubble
+    text: Nothing here.
+    window: false
+    notes: "'Rubble' / 'Nothing here.' (dark/aaze0030)."
+  - id: evt:rubble_2
+    preset: text
+    source: deco:rubble_2
+    title: Rubble
+    text: Nothing here.
+    window: false
+    notes: "'Rubble' / 'Nothing here.' (dark/aaze0030)."
+  - id: evt:shiny_heap
+    preset: script
+    source: deco:shiny_heap
+    title: Heap of shiny things
+    lua: "XeenQuests.hook(\"m16.necklace\")"
+    notes: "goal:necklace: A3's once-hook m16.necklace (the onyx necklace 12332, necklace_found 111321)."
+  - id: evt:sluice_lever
+    preset: switch
+    source: switch:sluice_lever
+    title: Sluice lever
+    toggles: [mover:water, mover:sluice_gate]
+    effects:
+      - lua: "if IsAtLeast(MapVar(sluice_shut), 1) then SetValue(MapVar(sluice_shut), 0) evt.SimpleMessage(\"You heave the lever back. The sluice gate lifts and the town's water pours through it again; below, the old culvert floods to its roof.\") else SetValue(MapVar(sluice_shut), 1) evt.SimpleMessage(\"You throw your weight on the lever. Gears grind, crack and spit out of the sluice: the gremlins' wedge. The gate drops shut, the channel stills, and somewhere below you water drains away with a long gurgle.\") end"
+    notes: "poi:sluice (D-26): two states. Shut: the gate drops, the culvert's water sinks (the way to the nest); opened again: the water rises and the culvert floods. The map variable sluice_shut follows the lever (a refill resets both)."
+  - id: evt:valio_angry
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {qbit: valio_angered, not: {map_var: valio_shown}}
+    effects:
+      - show_actors: 20
+      - set:
+          var:
+            map_var: valio_shown
+          value: 1
+    notes: "q-d5.valio_angry: once valio_angered is set (on the chest, or on any later entry) the hidden monster Valio (11193) shows, hostile; the map variable keeps a looted corpse hidden, a refill resets both."
+notes: "DD-01's events, written by output/studio_cal/dd01/tools/dress.py."

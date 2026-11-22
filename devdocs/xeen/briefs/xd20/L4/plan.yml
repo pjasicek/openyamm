@@ -1,0 +1,72 @@
+format: 0
+level: L3
+pitch: "A crater in the Barbaric cliffs behind X6's coach yard: a passage through the cliff, the Hall of the War Games where Varro the Arena Master takes challenges, and the war floor, a round pit of sand open to the sky inside a ring wall."
+purpose: "The Warzone (MAPS XD-20, D-8.1, D-39): MM6-MM8's arena by tiers, Page to Lord, repeatable, any party level; gold and awards 46-49, no kill XP counted."
+mood: "Sun on sand, the ring wall's bronze friezes, iron beast doors, old bones by the wall; quiet until the master says go."
+datum: arrival
+spaces:
+  - id: room:floor
+    name: The war floor
+    kind: room
+    size: L
+    floor: 0
+    purpose: "The arena: a round sand floor under the sky, 20 ring marks, the party's mark in the middle, the booth window north, the victors' gate west."
+    empty: true
+  - id: room:gate_passage
+    name: Gate passage
+    kind: corridor
+    size: S
+    floor: 0
+    purpose: "The arrival (entrance:x6_yard): a passage cut into the cliff behind the portal's two leaves, torches on its walls, the lodge's door ahead."
+    empty: true
+  - id: room:lodge
+    name: Hall of the War Games
+    kind: room
+    size: M
+    floor: 0
+    purpose: "The lodge: stone benches by the walls, torches; the Arena Master's booth window in the east wall (Varro, topic 704)."
+    empty: true
+links:
+  - id: link:lodge_floor
+    from: room:lodge
+    to: room:floor
+    kind: teleport
+    notes: The Arena Master's challenge moves the party onto the floor's mark (the engine's arena).
+  - id: link:passage_lodge
+    from: room:gate_passage
+    to: room:lodge
+    kind: door
+entrances:
+  - id: entrance:x6_yard
+    space: room:gate_passage
+    kind: both
+    neighbour: exit:x6_yard
+    facing: e
+    how: "From and to X6's arena gate in the coach yard (entrance:xd20_gate): 256 inside the leaves, facing east."
+critical_path: [room:gate_passage, room:lodge, room:floor]
+return_path: [room:floor]
+goals:
+  - id: goal:challenge
+    space: room:lodge
+    kind: use
+    what: "Varro the Arena Master: a challenge, Page to Lord."
+  - id: goal:victory
+    space: room:floor
+    kind: kill
+    what: "Every opponent dead, then the booth window pays and gives the tier's award."
+set_pieces:
+  - id: set:war_floor
+    kind: scripted
+    spaces: [room:floor]
+    rule: "The engine's arena: the challenge's opponents on the ring marks, the party on its mark; no saving or Lloyd's Beacon in the map."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 512}
+totals:
+  chests: 0
+  doors: 1
+  floor_area_munits2: 11
+  loops: 0
+  monsters_about: 0
+  rooms: 3
+  sectors: 3
+notes: "Arena (MAPS: by tier, no class band). From the MU-6 graph devdocs/xeen/mockups/act4_graphs/xd20.graph.yml and D-39 (act4_a7_decisions.md, XD-20)."

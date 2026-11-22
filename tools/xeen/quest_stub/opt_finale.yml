@@ -1,0 +1,110 @@
+# The optional finale (tools/xeen/quest_stub.py): Q-F1 (D-57: the Dragon Tower's key from FD-01 and X7's gate; Alister
+# 5705 asks, the egg, the notes, the potion and the Tome once per character, Alister takes the egg and pays 5,000;
+# on X9 the Linguist's four books, a ball both ways, the Eye wrong then right for the Elder Staff and 8,000, the
+# well once a day, a crystal once) and Q-F2 (Sandro's door refused, then opened with his key; the twelve clues and the
+# descent's 6,000; three shrines 1,000/2,000/3,000; the Ultimate shrine's throw-out (no experience); the terminal's
+# Goober, SUPER Goober and Computer 2,000; the machine 10,000). The earlier acts' bits are `set:` steps. Owner: A3.
+name: Optional finale
+party: [Champion, Hero, Ninja, ArchMage]
+steps:
+  - set: m39.done
+  - set: q-d23.released
+  # Q-F1: the tower's gate
+  - hook: [q-f1.tower_door, false]
+  - expect: {last: "Key to the Dragon Tower"}
+  - give: dragon_tower_key
+  - hook: q-f1.tower_door
+  - expect: {item: dragon_tower_key}
+  - talk: [5705, Dragon egg]
+  - expect: {qbit: q-f1.started}
+  - talk: [5705, Dragon egg]
+  - expect: {last: "REAL courage"}
+  - hook: q-f1.note_fraud
+  - hook: q-f1.note_forever
+  - expect: {last: "forever, or really, really big"}
+  - hook: q-f1.egg
+  - hook: [q-f1.egg, false]
+  - expect: {qbit: q-f1.egg_taken, count: [dragon_egg, 1]}
+  - hook: q-f1.note_eye
+  - expect: {last: "Elder Staff"}
+  - hook: q-f1.endurance
+  - hook: q-f1.endurance
+  - expect: {stat: [Endurance, 2], player_bit: 11360, last: "drained"}
+  - hook: q-f1.tome
+  - hook: q-f1.tome
+  - expect: {player_bit: 11361, xp: 4000, last: "nothing new"}
+  - talk: [5705, Dragon egg]
+  - expect: {qbit: q-f1.alister_gone, no_item: dragon_egg, xp: 9000, last: "drink this egg potion"}
+  # X9: the books (no Linguist, then a Linguist), a ball (too weak a mind, then strong), the Eye, the well, a crystal
+  - hook: [q-f1.runes_in, false]
+  - expect: {last: "unable to understand"}
+  - set: xd07.linguist
+  - hook: q-f1.runes_in
+  - hook: q-f1.runes_fi
+  - hook: q-f1.runes_ni
+  - hook: q-f1.runes_ty
+  - expect: {last: "inscription: TY"}
+  - hook: q-f1.ball_mind
+  - expect: {last: "head ringing", stat: [Weak, 1]}
+  - actual: [Intellect, 60]
+  - hook: q-f1.ball_mind
+  - expect: {last: "limitless"}
+  - hook: q-f1.eye_wrong
+  - expect: {last: "Die fools!", not_qbit: q-f1.done}
+  - hook: q-f1.eye
+  - hook: [q-f1.eye, false]
+  - expect: {qbit: q-f1.done, item: elder_staff, xp: 17000}
+  - hook: q-f1.well
+  - hook: q-f1.well
+  - expect: {stat: [MightBonus, 20], last: "cool and refreshing"}
+  - hook: q-f1.crystal_1
+  - hook: q-f1.crystal_1
+  - expect: {player_bit: 11362, xp: 20000, last: "nothing more for you"}
+  # Q-F2: Sandro's door
+  - hook: [q-f2.door, false]
+  - expect: {last: "Key to the Dungeon of Death"}
+  - give: death_dungeon_key
+  - hook: q-f2.door
+  - expect: {qbit: [q-f2.door_open, q-f2.started], item: death_dungeon_key}
+  # the crossword: the descent refused, one wrong answer, the twelve, the descent
+  - hook: [q-f2.crossword, false]
+  - expect: {last: "not done yet"}
+  - hook: q-f2.clue_wrong
+  - hook: q-f2.clue_1a
+  - hook: q-f2.clue_5a
+  - hook: q-f2.clue_6a
+  - hook: q-f2.clue_13a
+  - hook: q-f2.clue_21a
+  - hook: q-f2.clue_24a
+  - hook: q-f2.clue_40a
+  - hook: q-f2.clue_44d
+  - hook: q-f2.clue_45d
+  - hook: q-f2.clue_47d
+  - hook: q-f2.clue_76d
+  - hook: [q-f2.crossword, false]
+  - hook: q-f2.clue_77d
+  - hook: q-f2.crossword
+  - hook: [q-f2.crossword, false]
+  - expect: {qbit: q-f2.crossword_done, xp: 26000}
+  - hook: q-f2.note
+  - expect: {last: "(signed) Sandro"}
+  - hook: q-f2.coffin
+  - hook: q-f2.shrine_minor
+  - hook: q-f2.shrine_lesser
+  - hook: q-f2.shrine_great
+  - hook: [q-f2.shrine_great, false]
+  - expect: {qbit: [q-f2.shrine_minor, q-f2.shrine_great], xp: 32000}
+  - hook: q-f2.gongs_reset
+  - expect: {last: "The gongs fall silent."}
+  - hook: q-f2.terminal_wrong
+  - expect: {last: "You are a Goober!"}
+  - hook: q-f2.terminal_wrong
+  - expect: {last: "SUPER Goober!"}
+  - hook: q-f2.terminal
+  - hook: [q-f2.terminal, false]
+  - expect: {qbit: q-f2.code_entered, xp: 34000}
+  - hook: q-f2.machine
+  - expect: {qbit: [q-f2.machine_broken, q-f2.done], xp: 44000}
+  - hook: q-f2.shrine_ultimate
+  - hook: [q-f2.shrine_ultimate, false]
+  - expect: {qbit: q-f2.ultimate_broken, xp: 44000, last: "taking you with it"}

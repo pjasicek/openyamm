@@ -1,0 +1,182 @@
+# Playtest of Sheltem's Pod (DD-22, L4): a level-58 party starts on D6 and comes in by the pod's hatch (D6's door:dd22
+# is A6's and does not lead here yet, so the step makes its move: entrance:d6_hatch, the airlock (0, -832, 0) facing
+# north, 512): position and facing asserted, dd22_arrived_once 117760. The airlock's door, the lower ring, lift A up to
+# deck 2, lift B up to deck 3: the blast door refuses (A3's dd22.blast_door fail text). Lift B down; the brig (its
+# locker), the security post: the console's own question, its Yes button (D-67): dd22.security_console, lockdown_released 117761, the blast
+# door's two leaves open; a second click: the hook's else text. Lift B up to the bridge: the log computer six times
+# (pages 1-6, autonote 4139 sheltem_log after the sixth), a seventh wraps to page 1; the main console's line; Sheltem's
+# locker. A save and a load: the blast door still open. Lift B down; the gun deck: Phaser Control's message, Yes button:
+# "Nothing happens." (dd22.weapons). Down the maintenance ladder (the loop) to the lower ring; the stores' locker; the
+# drive room: a dormant device, the tool rack once (an item, drive_find 117762), then "Nothing here.". Numbers are
+# ids.lock.yml's (events, doors). Run with --world xeen (output/studio_cal/dd22/four.sh).
+id: xeen.dd22.l4.walk
+title: Sheltem's Pod (DD-22 L4), the lockdown, the log, the weapons, the lockers and the drive rack
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_d6.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 58, skills: [], equipment: {}}
+  - assert: {map: xeen_d6.odm}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # In by D6's hatch (D6's door:dd22 will make this move): entrance:d6_hatch in the airlock, facing north.
+  - lua_event: {source: "evt.MoveToMap(0, -832, 0, 512, 0, 0, 0, 0, \"xeen_dd22.blv\")"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd22.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "log('arrival: ' .. party() .. ' / ' .. status()); close(); if not qbit(117760) then error('dd22_arrived_once not set') end"}
+  - assert: {party_position: {x: 0, y: -832, radius: 64, z_min: -8, z_max: 8, facing: 512, facing_within: 64}}
+  # The airlock's door, the lower ring (two Patrols), the shaft's foot.
+  - walk_to: {x: 0, y: -720, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 3)"}
+  - walk_to: {x: 0, y: -384, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1600)"}
+  - walk_to: {x: 0, y: 64, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # Lift A up to deck 2.
+  - walk_to: {x: -160, y: 256, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(3)"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "if door_state(1) ~= 'open' then error('lift A did not rise: ' .. door_state(1) .. ' / ' .. party()) end"}
+  - assert: {party_position: {x: -160, y: 256, radius: 96, z_min: 432, z_max: 464}}
+  # Lift B up to deck 3: the blast door refuses while the lockdown holds.
+  - walk_to: {x: 0, y: 64, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 160, y: 256, z: 448, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(3)"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "if door_state(2) ~= 'open' then error('lift B did not rise: ' .. door_state(2) .. ' / ' .. party()) end"}
+  - assert: {party_position: {x: 160, y: 256, radius: 96, z_min: 880, z_max: 912}}
+  - walk_to: {x: -160, y: 128, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -256, y: 352, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(4) ~= 'closed' or door_state(5) ~= 'closed' then error('the blast door does not start shut') end; status(); click(2); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The bridge door is sealed. Security lockdown."}}
+  - play_lua: {source: "close(); wait(1); if door_state(4) ~= 'closed' then error('the blast door opened before the release') end"}
+  # Lift B down; the brig and its locker; the security post.
+  - walk_to: {x: 160, y: 256, z: 896, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(23); wait(3)"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "if door_state(2) ~= 'closed' then error('lift B did not sink: ' .. door_state(2) .. ' / ' .. party()) end"}
+  - assert: {party_position: {x: 160, y: 256, radius: 96, z_min: 432, z_max: 464}}
+  - walk_to: {x: 0, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -360, y: 0, z: 448, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 6)"}
+  - walk_to: {x: -720, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -832, y: -340, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(5); if held() ~= 0 then stow() end; if gold() <= g then error('the guards locker gave no gold') end; close()"}
+  - walk_to: {x: -896, y: 320, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 9)"}
+  - walk_to: {x: -896, y: 720, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1200)"}
+  - walk_to: {x: -896, y: 920, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if mapvar('AmbientSound1') == 2 then error('the alarm is off before the release') end; click(30); wait(0.5)"}
+  # D-65 B1: no message before the prompt, so the prompt shows its own text.
+  - assert: {dialog: {active: true, text_contains: "Security lockdown: bridge sealed. Release?", action_label_present: "Yes"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The alarm cuts off mid-whoop."}}
+  - play_lua: {source: "close(); if not qbit(117761) then error('lockdown_released not set') end; if mapvar('AmbientSound1') ~= 2 then error('the alarm still runs') end; for _ = 1, 20 do if door_state(4) == 'open' and door_state(5) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' or door_state(5) ~= 'open' then error('the blast door did not open: ' .. door_state(4) .. ' ' .. door_state(5)) end"}
+  - play_lua: {source: "click(30); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Security lockdown: released."}}
+  - play_lua: {source: "close()"}
+  # Back by the brig to lift B, up to the bridge through the open blast door.
+  - walk_to: {x: -896, y: 320, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -720, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 160, y: 256, z: 448, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(3)"}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 160, y: 256, radius: 96, z_min: 880, z_max: 912}}
+  - walk_to: {x: -256, y: 300, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -256, y: 720, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  # The log computer: pages 1-6, the autonote after the sixth, the seventh click wraps to page 1.
+  - walk_to: {x: 840, y: 1088, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - assert: {autonote: {id: 4139, present: false}}
+  - play_lua: {source: "click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 1 of 6"}}
+  - play_lua: {source: "close(); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 2 of 6"}}
+  - play_lua: {source: "close(); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 3 of 6"}}
+  - play_lua: {source: "close(); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 4 of 6"}}
+  - play_lua: {source: "close(); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 5 of 6"}}
+  - play_lua: {source: "close(); click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 6 of 6"}}
+  - play_lua: {source: "close()"}
+  - assert: {autonote: {id: 4139, present: true}}
+  - play_lua: {source: "click(25); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Entry 1 of 6"}}
+  - play_lua: {source: "close()"}
+  # The main console; Sheltem's locker by the couch.
+  - walk_to: {x: -320, y: 1400, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(26); wait(0.5); local s = status(); if not string.find(s, 'malfunctioning', 1, true) then error('the main console said: ' .. s) end"}
+  - walk_to: {x: 0, y: 760, z: 896, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(6); if held() ~= 0 then stow() end; if gold() <= g then error('Sheltem locker gave no gold') end; close()"}
+  # A save and a load after the release: the blast door still open.
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close(); if door_state(4) ~= 'open' or door_state(5) ~= 'open' then error('the blast door after the load: ' .. door_state(4) .. ' ' .. door_state(5)) end; if not qbit(117761) then error('lockdown_released lost') end; if mapvar('AmbientSound1') ~= 2 then error('the alarm runs after the load') end"}
+  # Lift B down; the gun deck: Phaser Control's question, Yes.
+  - walk_to: {x: -256, y: 300, z: 896, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 160, y: 256, z: 896, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(23); wait(3)"}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 160, y: 256, radius: 96, z_min: 432, z_max: 464}}
+  - walk_to: {x: 0, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 360, y: 0, z: 448, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 7)"}
+  - walk_to: {x: 720, y: 0, z: 448, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 1020, y: 96, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Fire anyway?", action_label_present: "Yes"}}
+  - select_topic: {match_label: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Nothing happens."}}
+  - play_lua: {source: "close()"}
+  # Down the maintenance ladder (the loop) to the ladder room, out by the maintenance hatch to the lower ring.
+  - walk_to: {x: 960, y: 400, z: 448, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - climb: {ladder: maint, down: true, timeout_seconds: 40}
+  - play_lua: {source: "log('after the ladder: ' .. party())"}
+  - assert: {party_position: {x: 960, y: 150, radius: 160, z_min: -8, z_max: 8}}
+  - walk_to: {x: 880, y: 64, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 8)"}
+  - walk_to: {x: 576, y: 64, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 576, y: -384, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -384, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: 64, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  # The stores and their locker.
+  - walk_to: {x: -260, y: 96, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 10)"}
+  - walk_to: {x: -600, y: 96, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(1000)"}
+  - walk_to: {x: -640, y: 290, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(7); if held() ~= 0 then stow() end; if gold() <= g then error('the stores locker gave no gold') end; close()"}
+  # The drive room: a dormant device; the tool rack once, then "Nothing here.".
+  - walk_to: {x: -260, y: 96, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 144, y: 320, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 144, y: 720, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(2000)"}
+  - walk_to: {x: -448, y: 1060, z: -24, z_tolerance: 40, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "status(); click(9); wait(0.5); local s = status(); if not string.find(s, 'dormant', 1, true) then error('the device said: ' .. s) end"}
+  - walk_to: {x: 600, y: 1088, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "remember('pack', pack_items()); click(17); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "In the stasis generator's tool rack"}}
+  - play_lua: {source: "close(); if not qbit(117762) then error('drive_find not set') end; if held() == 0 and pack_items() == recall('pack') then error('the rack gave no item') end; log('rack item: held ' .. held() .. ' / ' .. pack_items()); if held() ~= 0 then stow() end"}
+  - play_lua: {source: "status(); click(17); wait(0.5); local s = status(); if not string.find(s, 'Nothing here.', 1, true) then error('the searched rack said: ' .. s) end"}

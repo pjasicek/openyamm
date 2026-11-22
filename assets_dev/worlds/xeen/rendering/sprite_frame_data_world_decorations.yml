@@ -1,0 +1,414 @@
+# The Xeen world's decoration sprites (sprite ids 27001-27999: the decoration number + 23000), loaded with the
+# engine's sprite frames while Xeen is the active world. Each is the engine's `pending` texture: every Xeen world
+# decoration is a 3D model (worlds/xeen/models/decorations.yml), so the sprite is never drawn. Lane S
+# (level_generation/decorations/xeen_greattree_claude/README.md); rows in worlds/xeen/models/decoration_data.txt.
+format_version: 1
+kind: world_decoration_sprite_frames
+package_id: xeen
+sprites:
+  - sprite_id: 27001
+    sprite_name: "xeen_greatcrown"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27002
+    sprite_name: "xeen_sandfall"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27003
+    sprite_name: "xeen_batstorm"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27004
+    sprite_name: "xeen_lavafall"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27005
+    sprite_name: "xeen_basalt1"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27006
+    sprite_name: "xeen_basalt2"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27007
+    sprite_name: "xeen_basalt3"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27008
+    sprite_name: "xeen_idol_demon"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27009
+    sprite_name: "xeen_idol_devil"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27010
+    sprite_name: "xeen_sphinx_north"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27011
+    sprite_name: "xeen_sphinx_south"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27012
+    sprite_name: "xeen_pegasus"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27013
+    sprite_name: "xeen_genielamp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27014
+    sprite_name: "xeen_boulder"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27015
+    sprite_name: "xeen_cagebird"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27016
+    sprite_name: "xeen_waterfall"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27017
+    sprite_name: "xeen_stonehand"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27018
+    sprite_name: "xeen_stonehand_l"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27019
+    sprite_name: "xeen_cube"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27020
+    sprite_name: "xeen_scepter"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27021
+    sprite_name: "xeen_cake"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27022
+    sprite_name: "xeen_bench"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27023
+    sprite_name: "xeen_sleeper_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27024
+    sprite_name: "xeen_sleeper_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27025
+    sprite_name: "xeen_sleeper_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27026
+    sprite_name: "xeen_sleeper_water"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27027
+    sprite_name: "xeen_statue_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27028
+    sprite_name: "xeen_statue_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27029
+    sprite_name: "xeen_statue_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27030
+    sprite_name: "xeen_statue_water"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27031
+    sprite_name: "xeen_pedestal_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27032
+    sprite_name: "xeen_pedestal_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27033
+    sprite_name: "xeen_pedestal_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27034
+    sprite_name: "xeen_pedestal_water"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27035
+    sprite_name: "xeen_dais_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27036
+    sprite_name: "xeen_dais_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27037
+    sprite_name: "xeen_dais_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27038
+    sprite_name: "xeen_dais_water"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27039
+    sprite_name: "xeen_wayup_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27040
+    sprite_name: "xeen_wayup_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27041
+    sprite_name: "xeen_wayup_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27042
+    sprite_name: "xeen_drownedbell"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27043
+    sprite_name: "xeen_throne"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27044
+    sprite_name: "xeen_throne_steel"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27045
+    sprite_name: "xeen_throne_gold"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27046
+    sprite_name: "xeen_statue_teal"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27047
+    sprite_name: "xeen_heartjar"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27048
+    sprite_name: "xeen_dragonegg"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27049
+    sprite_name: "xeen_lizard"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27050
+    sprite_name: "xeen_lectern"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27051
+    sprite_name: "xeen_skybarge_fire"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27052
+    sprite_name: "xeen_skybarge_air"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27053
+    sprite_name: "xeen_skybarge_earth"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27054
+    sprite_name: "xeen_skybarge_water"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27055
+    sprite_name: "xeen_skyboat"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27056
+    sprite_name: "xeen_emberfont"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27057
+    sprite_name: "xeen_firecamp"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0
+  - sprite_id: 27058
+    sprite_name: "xeen_balloonbasket"
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 1.0

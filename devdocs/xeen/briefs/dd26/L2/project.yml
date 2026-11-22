@@ -1,0 +1,38 @@
+format: 0
+id: xeen_dd26
+name: Olympus Sewer
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-26
+units: {plan_grid: 512}
+extent: {footprint_cells: [16, 10], climbs: n}
+map_stats:
+  id: 9178
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 6
+  trap_dice: 10
+  perception_difficulty: 20
+  refill_days: 672
+  music: 44
+  environment: stoneroom
+  lock_difficulty: 20
+  slots:
+    - {monster: Xeen Water Elemental, tier: 0, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:d7_stair
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:dd26_stair
+    arrival_hint: "On D7 (the Skyroads) in Olympus's gods' row, 512 south of the marble grate, facing east (A6's entrance:dd26_stair, (-8704, 8192, 1808) facing 0)."
+    notes: "D7 installed by A6: its door:dd26 (platform:sewer_grate, the marble grate at (-8704, 8704)) is to ask 'Descend into the sewer?' (aaze0037:1) and arrive at this map's entrance:d7_stair, the stair's foot (0, 0, 0) facing north (512); it stays sealed with a line until DD-26 is installed. The way out is the exit preset on the grate at the stair's top; 'Climb up to Olympus?' is its meaning (A3, a map-local line)."
+qbits:
+  bed_searched: 117806
+  dd26_arrived_once: 117800
+  drain_bl: 117803
+  drain_es: 117804
+  drain_ib: 117802
+  drain_tr: 117801
+  tribble_door: 117805
+notes: "Xeen design brief for a new map: DD-26 Olympus Sewer (the source's dark maze0038 under Olympus, aaze0038) as one BLV level at z 0 under D7's gods' row: a ring of marble and stone channels round Cyrano Jones's den (Pets Unlimited, A4's house 4815, npc 5614), four drains with the note's pieces TR, IB, BL, ES, and the tribble door (a typed password, TRIBBLES or TRIBBLE) into the offering vault. Side quest Q-D28 Cyrano's Tribble (A3: the sale at 25,000 gold, D-65 Q58). Size S (MAPS.md section 0, D-65): 6-15 sectors, 7-20 M units squared, doors 3-8, levels 55-62, party 56-60, treasure 6, music 44. Graph devdocs/xeen/mockups/act6_graphs/dd26.graph.yml with decider D-65 (mockups/act6_a8_decisions.md, which wins): Lesser Water Elemental 11625 55 x16 and Water Elemental 11710 62 x4, kill XP 75,056 for the party, 18.76k per member; walkways at least 256 wide and ceilings at least 320 over them for the Water Elemental's body (radius 100, 202 high; D-65 change 3); every door, grate, drain and the tribble door's landing on dry walkways (B2). Rest encounters 10 %: the water elementals at Dif 0 (Water Elemental 62 only; D-65 Q61, A2's row 9178). Map qbits 117800-117806; map_stats 9178."

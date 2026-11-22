@@ -1,0 +1,314 @@
+# MU-6 dungeon graph, a review file for phase 5 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# `mix` is the placed monster list by row (level, count); kill XP per member = sum of L(L+10) x count / 4 (MAPS §0).
+# The source's Great Pyramid (dark maze0083-0086, four levels, each a quadrant of 32 x 32 shrinking to 8 x 8; text
+# aaze0083-0086): L1 "the Royal Pyramid" for visitors (Reception, Overseer's Office, Visitor's Atrium, Information,
+# five talking statues, six torch levers, eight number niches 3-10); L2 four verse statues and the registry lock
+# (NCC-1701); L3 a teleport maze; L4 the Dragon Pharaoh's apartments (his throne, the Brew of Pure Power, an ornate bed,
+# a tapestry, a combination wall safe, the Prime Directive book, a button to Skyroad D2). One BLV of four stepped
+# floors, 768 apart (0, 768, 1536, 2304), each smaller than the one below, as the source's. Lane A8, session 10.
+format: mu6-0
+map: DD-15
+key: dd15
+name: Great Pyramid
+stands_on: D5 Desert of Doom (the Great Pyramid, 12 x 12 cells and 3,600 high in VARN stone; its green door on the north face)
+class: L
+band: "L: 50-75 sectors, 120-200 M units², four set pieces only, §0's 70 monsters, doors up to 25"
+size: "35 review rooms, about 58 sectors (the atrium four, the processional and the pad hall three each, the throne hall three); floors 10,240, 8,192, 6,144 and 4,096 square (the inside is independent of the outside, D-49 Q6): about 62 + 40 + 24 + 12 = 138 M units²; 21 doors (the green doors, the stair door, the antechamber and throne-hall doors as two-leaf pairs)"
+party: [44, 47]
+monsters:
+  levels: [42, 65]
+  boss: null
+  count: 70
+  groups: [2, 3]
+  families:
+    - "Pyramid mummies (11270): Tomb Mummy 42, Pyramid Guard 52, Royal Mummy 65, and Ghost Mummy 62 (tier D, D-57) in the Ancient pad maze: the family's `where` names the Great Pyramid; the source's L1 had 40 placed (two kinds)"
+    - "No boss: MAPS §0 names none; the Pharaoh is the peaceful placed-only row 11919 (D-56), not counted"
+  mix:
+    - {row: Tomb Mummy, id: 11270, level: 42, count: 34}
+    - {row: Pyramid Guard, id: 11271, level: 52, count: 24}
+    - {row: Ghost Mummy, id: 11273, level: 62, count: 6}
+    - {row: Royal Mummy, id: 11272, level: 65, count: 6}
+  kill_xp: "51.92k per member (207,666 / 4)"
+  kill_xp_target: "MAPS §0 DD-15: 70 monsters at 42-65, 50.4k: +3.0 %"
+  per_floor: "L1 30 (Tomb 20, Guard 10; eight of the Tombs hidden in the torch chapels' niches until their torch is lit), L2 20 (Tomb 10, Guard 8, Ghost 2), L3 12 (Tomb 4, Guard 4, Ghost 4), L4 8 (Royal 6, Guard 2)"
+treasure: {level: 5}
+role: "Story M28 (the Dragon Pharaoh takes his orb; Alamar is Sheltem; the lava round Corak's pod cools), M30 (the Chosen Ones: the Pass to Olympus) and M36 (the finale's errands); D-58's sky door to D7 after m30.done"
+role_short: "M28, M30, M36: the Dragon Pharaoh"
+set_piece: "Four: the Visitor's Atrium (the torch court and the stair door), the processional of the four verse statues ending at the registry door, the Ancient pad hall (L3), the Pharaoh's throne hall under the apex"
+sounds: "MM6 Tomb of VARN beds (`pan: false`, D-48); fire on each lit torch (placed, shown with the torch); a teleport whoosh on every pad; the Brew of Pure Power bubbling by the throne; wind at the sky door"
+music: 46
+textures:
+  family: "Pyramids: MM6 Tomb of VARN pyramid.blv (A6's assign: 'DD-15 Great Pyramid (D5): mm6/pyramid.blv, its lower Ancient levels in the ancient kit (sw set) to read apart'): egybigb/egybiga block walls, egywla/egywld hieroglyph walls, egyflore/egyflorc floors, egyceila/egyceilb carved ceilings, egytrma/egytrmc trims, egywlj and egycol32 pillars, egydrlgl/egydrlgr great doors (two leaves), egydrsml/egydrsmr doors, egyswbof/egyswbon the torch levers (off/on), egymeda/egymedb medallions; A6's xdpyrdor on the inside of the green doors and the stair door; xngold5 gilding in the throne hall; the ancient kit (sw set: swll4dk, swfloor2b, swceilf, swaled, trekscrn, xafield) on L3's pad hall, the cells and the sky-door corridor"
+  cap: 70
+  planned: 40
+  new: 1
+  new_names: "xdregplq: the brass registry plaque (sign, 128 x 64, 'REGISTRY NCC-1701'), placed once"
+  distinct_from: "XD-15 The Sphinx and FD-02 Southern Sphinx use the same VARN set (upper half; FD-02 the other half): DD-15 reads apart by the green stone and gold, the ancient sw kit on L3 and L4's sky corridor, and the torch levers; DD-16/DD-22 pods and DD-17 Alamar are sw/Lincoln throughout"
+floors:
+  - {floor: 3, name: "L4: the Pharaoh's apartments", height: 2304}
+  - {floor: 2, name: "L3: the pad maze (Ancient)", height: 1536}
+  - {floor: 1, name: "L2: the registry level", height: 768}
+  - {floor: 0, name: "L1: the Royal Pyramid", height: 0}
+spaces:
+  # L4, the apex
+  - {id: room:apex_landing, name: Apex landing, kind: stair, size: S, floor: 3, at: [5, 2], monsters: 2,
+     population: [{row: Royal Mummy, level: 65, count: 2}],
+     purpose: "The top of the maze stair: two Royal Mummies on guard at the antechamber's doors."}
+  - {id: room:antechamber, name: Antechamber, kind: hall, size: M, floor: 3, at: [6, 2], monsters: 6,
+     population: [{row: Royal Mummy, level: 65, count: 4}, {row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "Gilded columns, the Prime Directive book on its stand (m28.prime_directive), the throne hall's great doors (two leaves). The Pharaoh's lift arrives here after m28.done (open question 4)."}
+  - {id: room:throne_hall, name: Throne hall, kind: hall, size: L, floor: 3, at: [6, 1], set_piece: true, goal: true, monsters: 0,
+     purpose: "Under the apex: the throne on a stepped dais, gold and green stone, the Dragon Pharaoh standing at it (placed row 11919, npc 5453: `monsters[].npc`; topics M28 The orb, M30 Chosen Ones, M36). The Brew of Pure Power bubbling in a vat beside the dais (aaze0086:0's warning, open question 6). Quiet."}
+  - {id: room:bedchamber, name: Bedchamber, kind: room, size: S, floor: 3, at: [7, 1], chest: 5, monsters: 0,
+     purpose: "The ornate bed ('Nothing here.', aaze0086:3), the tapestry (its click shows the safe's numbers 20, 30, 1) and the wall safe (the chest, the source's Left/Right prompts, open question 7); a carved button opens a secret way to the sky corridor."}
+  - {id: room:sky_corridor, name: Sky door, kind: corridor, size: S, floor: 3, at: [6, 0], monsters: 0,
+     purpose: "Behind the throne: a short Ancient corridor (sw kit) to a door in the pyramid's face near the apex: 'Access Denied!' (aaze0086:5) before m30.done; after it the sky door both ways to D7 (d7.sky_door_dd15, D-58). Sealed with that line until D7 installs. Quiet (a map door)."}
+  # L3, the Ancient pad maze
+  - {id: room:maze_landing, name: Maze landing, kind: stair, size: S, floor: 2, at: [4, 2], monsters: 0,
+     purpose: "The top of the registry stair. The first pad's line (m28.maze) on the first arrival."}
+  - {id: room:pad_hall, name: Pad hall, kind: hall, size: L, floor: 2, at: [4, 1], set_piece: true, monsters: 4,
+     population: [{row: Ghost Mummy, level: 62, count: 2}, {row: Tomb Mummy, level: 42, count: 2}],
+     purpose: "A square hall of Ancient steel under a ceiling of small lights: five glyph pads in the floor, each a step plate moving the party (in-map, `{direct = true}`) to one cell; every cell has a pad back. The Ghost Mummies drift through the hall."}
+  - {id: room:cell_a, name: Cell of the sun, kind: room, size: S, floor: 2, at: [3, 1], chest: 5, monsters: 0,
+     purpose: "Pad 1: a sealed cell with a chest."}
+  - {id: room:cell_b, name: Cell of the eye, kind: room, size: S, floor: 2, at: [5, 2], monsters: 2,
+     population: [{row: Ghost Mummy, level: 62, count: 2}],
+     purpose: "Pad 2: two Ghost Mummies; a dead end with a find on the wall: the Overseer's lost map of the pads ('Sun, eye, scarab: dead ends. The bird, then the second bird.'), the maze's answer-giver."}
+  - {id: room:cell_c, name: Cell of the scarab, kind: room, size: S, floor: 2, at: [5, 1], monsters: 2,
+     population: [{row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "Pad 3: a guard post (two Pyramid Guards) and a weapon rack (dressing)."}
+  - {id: room:cell_d, name: Cell of the bird, kind: room, size: S, floor: 2, at: [4, 0], monsters: 2,
+     population: [{row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "Pad 4: the right way. Two Pyramid Guards; a second pad onward to the far cell."}
+  - {id: room:cell_e, name: Far cell, kind: room, size: S, floor: 2, at: [5, 0], monsters: 2,
+     population: [{row: Tomb Mummy, level: 42, count: 2}],
+     purpose: "Reached only by the bird cell's second pad: the apex stair's door, a pad back to the hall."}
+  # L2, the registry level
+  - {id: room:landing, name: Stair head, kind: stair, size: S, floor: 1, at: [4, 2], monsters: 0,
+     purpose: "The top of the grand stair from the atrium."}
+  - {id: room:processional, name: Processional, kind: hall, size: L, floor: 1, at: [4, 1], set_piece: true, monsters: 2,
+     population: [{row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "A long gallery with four statues on plinths, each speaking its verse as the party passes (aaze0084:1-4), ending at the bronze registry door."}
+  - {id: room:registry, name: Registry door, kind: room, size: S, floor: 1, at: [4, 0], monsters: 0,
+     purpose: "The bronze door with its lock (the prompt 'Registry?', m28.registry_lock, 1701 or NCC-1701; any other 'Incorrect!', aaze0084:7) and the brass plaque beside it (m28.registry_plaque, xdregplq): the answer in plain words."}
+  - {id: room:tomb_w, name: West tomb, kind: room, size: M, floor: 1, at: [3, 1], chest: 5, monsters: 5,
+     population: [{row: Tomb Mummy, level: 42, count: 3}, {row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "A burial chamber of six sarcophagi (dressing by the walls); a dead end with the grave goods' chest."}
+  - {id: room:cloister, name: North cloister, kind: corridor, size: M, floor: 1, at: [5, 0], monsters: 5,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 2}, {row: Ghost Mummy, level: 62, count: 1}],
+     purpose: "A pillared walk from the east tomb to the registry door's side: the level's loop."}
+  - {id: room:tomb_e, name: East tomb, kind: room, size: M, floor: 1, at: [5, 1], monsters: 5,
+     population: [{row: Tomb Mummy, level: 42, count: 3}, {row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "A royal tomb: a gilded sarcophagus; through it the cloister."}
+  - {id: room:embalmers, name: Embalmers' room, kind: room, size: S, floor: 1, at: [3, 2], monsters: 3,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Ghost Mummy, level: 62, count: 1}],
+     purpose: "Off the stair head: tables, jars and linen; a dead end with a find (a jar of embalming salts, a reagent)."}
+  # L1, the Royal Pyramid
+  - {id: room:entry, name: Entrance hall, kind: hall, size: M, floor: 0, at: [1, 1], monsters: 0,
+     purpose: "Inside the green doors (two leaves): the arrival (entrance:d5_door), the welcome statue speaking on approach (aaze0083:6), the exit preset ('Exit the Great Pyramid?', aaze0083:0). Quiet (D-11.3)."}
+  - {id: room:reception, name: Reception, kind: room, size: M, floor: 0, at: [1, 0], monsters: 3,
+     population: [{row: Tomb Mummy, level: 42, count: 3}],
+     purpose: "The door sign 'Reception' (aaze0083:1); benches by the walls, the history statue (aaze0083:8)."}
+  - {id: room:chapel_nw, name: North-west chapel, kind: room, size: S, floor: 0, at: [0, 0], monsters: 2,
+     population: [{row: Tomb Mummy, level: 42, count: 2}],
+     purpose: "Torch 2 on its lever (egyswbof/egyswbon); two Tomb Mummies hidden in the wall niches wake when it is lit (open question 2)."}
+  - {id: room:information, name: Information, kind: room, size: M, floor: 0, at: [1, 2], chest: 5, monsters: 3,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 1}],
+     purpose: "The door sign 'Information' (aaze0083:4); the visitors' strongbox (the chest: the source's find at (23,15))."}
+  - {id: room:chapel_ne, name: North-east chapel, kind: room, size: S, floor: 0, at: [0, 2], monsters: 2,
+     population: [{row: Tomb Mummy, level: 42, count: 2}],
+     purpose: "Torch 1 and the plaque by it (m28.torch_plaque: 'Light all four, and the way is open'); two hidden Tomb Mummies wake when it is lit."}
+  - {id: room:atrium, name: "Visitor's Atrium", kind: hall, size: L, floor: 0, at: [2, 1], set_piece: true, monsters: 4,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "The door sign 'Visitor's Atrium' (aaze0083:3). A tall court three storeys high with a sunken floor and four cold braziers echoing the four torches (each lights with its torch); the statue 'Don't forget to light the torches before trying the stairs.' (aaze0083:7, four for six); its south door opens on the south gallery, and across the gallery the stair door (two leaves of xdpyrdor): 'Access denied!' (aaze0083:12) until all four burn."}
+  - {id: room:stair_foot, name: Grand stair, kind: stair, size: M, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "Behind the stair door, across the south gallery from the atrium: the grand stair up to L2, the Pharaoh's lift beside it."}
+  - {id: room:lift_foot, name: "Pharaoh's lift", kind: stair, size: S, floor: 0, at: [6, 1], monsters: 0,
+     purpose: "Beside the grand stair: a gilded cage, still until m28.done, then two stops (here and the antechamber) both ways (open question 4)."}
+  - {id: room:west_gallery, name: West gallery, kind: corridor, size: M, floor: 0, at: [2, 0], monsters: 2,
+     population: [{row: Tomb Mummy, level: 42, count: 2}],
+     purpose: "The west side of the ring round the atrium."}
+  - {id: room:overseer, name: "Overseer's Office", kind: room, size: S, floor: 0, at: [4, 2], monsters: 0,
+     purpose: "Off the south-east chapel (the door sign 'Overseer's Office', aaze0083:2): a desk and a note (the eight numbers' answer-giver: 'Three to ten. Every year I forget. -- the Overseer'); the vault door, opened by the number hall (open question 3)."}
+  - {id: room:vault, name: "Overseer's vault", kind: room, size: S, floor: 0, at: [5, 2], chest: 5, monsters: 0,
+     purpose: "A dead end with the chest (T5) and the visitors' fees (gold)."}
+  - {id: room:chapel_sw, name: South-west chapel, kind: room, size: S, floor: 0, at: [3, 0], monsters: 3,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 1}],
+     purpose: "Torch 3; two hidden Tomb Mummies wake when it is lit; a Pyramid Guard keeps it."}
+  - {id: room:south_gallery, name: South gallery, kind: corridor, size: L, floor: 0, at: [3, 1], monsters: 4,
+     population: [{row: Tomb Mummy, level: 42, count: 1}, {row: Pyramid Guard, level: 52, count: 3}],
+     purpose: "The ring's south side behind the atrium: the atrium's south door on one side, the stair door (locked until the four torches burn) on the other."}
+  - {id: room:chapel_se, name: South-east chapel, kind: room, size: S, floor: 0, at: [3, 2], monsters: 3,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 1}],
+     purpose: "Torch 4; two hidden Tomb Mummies wake when it is lit; a Pyramid Guard keeps it."}
+  - {id: room:number_hall, name: Number hall, kind: hall, size: M, floor: 0, at: [2, 2], monsters: 4,
+     population: [{row: Tomb Mummy, level: 42, count: 2}, {row: Pyramid Guard, level: 52, count: 2}],
+     purpose: "The ring's east side: eight niches in a row, each asking its riddle ('I'm the smallest. What's my number?' ... aaze0083:13-38); two statues give the rule ('Enter the eight numbers to pass the test / They are in a row, so do your best.' and 'They total fifty-two / the rest is up to you.', aaze0083:9-10). All eight right open the Overseer's vault."}
+links:
+  # L1
+  - {id: link:entry_reception, from: room:entry, to: room:reception, kind: door}
+  - {id: link:entry_information, from: room:entry, to: room:information, kind: door}
+  - {id: link:entry_atrium, from: room:entry, to: room:atrium, kind: open, label: "Into the atrium"}
+  - {id: link:reception_chapel_nw, from: room:reception, to: room:chapel_nw, kind: door}
+  - {id: link:information_chapel_ne, from: room:information, to: room:chapel_ne, kind: door}
+  - {id: link:reception_west, from: room:reception, to: room:west_gallery, kind: open}
+  - {id: link:west_overseer, from: room:chapel_se, to: room:overseer, kind: door}
+  - {id: link:overseer_vault, from: room:overseer, to: room:vault, kind: locked, label: "Vault door", opened_by: state:numbers}
+  - {id: link:west_chapel_sw, from: room:west_gallery, to: room:chapel_sw, kind: open}
+  - {id: link:chapel_sw_south, from: room:chapel_sw, to: room:south_gallery, kind: open}
+  - {id: link:south_chapel_se, from: room:south_gallery, to: room:chapel_se, kind: open}
+  - {id: link:south_atrium, from: room:south_gallery, to: room:atrium, kind: door, label: "South door"}
+  - {id: link:chapel_se_numbers, from: room:chapel_se, to: room:number_hall, kind: open}
+  - {id: link:numbers_information, from: room:number_hall, to: room:information, kind: door}
+  - {id: link:atrium_stair, from: room:south_gallery, to: room:stair_foot, kind: locked, label: "Stair door", opened_by: state:torches}
+  # up
+  - {id: link:stair_l2, from: room:stair_foot, to: room:landing, kind: stair, label: "Grand stair"}
+  - {id: link:stair_liftfoot, from: room:stair_foot, to: room:lift_foot, kind: open}
+  - {id: link:lift, from: room:lift_foot, to: room:antechamber, kind: lift, label: "Pharaoh's lift", opened_by: state:m28}
+  # L2
+  - {id: link:landing_processional, from: room:landing, to: room:processional, kind: open}
+  - {id: link:processional_registry, from: room:processional, to: room:registry, kind: open}
+  - {id: link:registry_stair, from: room:registry, to: room:maze_landing, kind: locked, label: "Registry door, stair up", opened_by: state:registry}
+  - {id: link:processional_tomb_w, from: room:processional, to: room:tomb_w, kind: door}
+  - {id: link:processional_tomb_e, from: room:processional, to: room:tomb_e, kind: door}
+  - {id: link:tomb_e_cloister, from: room:tomb_e, to: room:cloister, kind: open}
+  - {id: link:cloister_registry, from: room:cloister, to: room:registry, kind: door}
+  - {id: link:landing_embalmers, from: room:landing, to: room:embalmers, kind: door}
+  # L3
+  - {id: link:landing_pads, from: room:maze_landing, to: room:pad_hall, kind: open}
+  - {id: link:pad1, from: room:pad_hall, to: room:cell_a, kind: teleport, label: "Pad: sun"}
+  - {id: link:pad2, from: room:pad_hall, to: room:cell_b, kind: teleport, label: "Pad: eye"}
+  - {id: link:pad3, from: room:pad_hall, to: room:cell_c, kind: teleport, label: "Pad: scarab"}
+  - {id: link:pad4, from: room:pad_hall, to: room:cell_d, kind: teleport, label: "Pad: bird"}
+  - {id: link:pad5, from: room:cell_d, to: room:cell_e, kind: teleport, label: "Second bird"}
+  - {id: link:stair_l4, from: room:cell_e, to: room:apex_landing, kind: stair, label: "Apex stair"}
+  # L4
+  - {id: link:apex_ante, from: room:apex_landing, to: room:antechamber, kind: door}
+  - {id: link:ante_throne, from: room:antechamber, to: room:throne_hall, kind: door, label: "Great doors"}
+  - {id: link:throne_bed, from: room:throne_hall, to: room:bedchamber, kind: door}
+  - {id: link:throne_sky, from: room:throne_hall, to: room:sky_corridor, kind: open, label: "Behind the throne"}
+  - {id: link:bed_sky, from: room:bedchamber, to: room:sky_corridor, kind: secret, label: "Carved button", opened_by: state:button}
+states:
+  - {id: state:torches, kind: lever, where: "room:chapel_ne, room:chapel_nw, room:chapel_sw, room:chapel_se",
+     what: "Four torch levers, two-state (map qbits 117561-117564, one per torch): pulling an unlit one lights it (fire shown, the atrium's matching brazier lit, its two niche mummies shown and hostile); a lit one says 'The lever is stuck.' (aaze0083:39). The fourth calls m28.torches (qbit 111561) and the stair door opens and stays open on every later load.",
+     opens: [link:atrium_stair]}
+  - {id: state:numbers, kind: puzzle, where: room:number_hall,
+     what: "Eight niches, each a text prompt ('I'm the smallest. What's my number?' 3 or Three ... 'I'm the largest.' 10 or Ten; aaze0083:13-38); a right answer 'Correct!' and a map qbit (117565-117572), a wrong one 'Wrong!' (aaze0083:16-17). All eight: map qbit 117573, the vault door opens. Answer-givers: the two rule statues (eight in a row, total 52: three to ten) and the Overseer's note.",
+     opens: [link:overseer_vault]}
+  - {id: state:registry, kind: password, where: room:registry,
+     what: "The prompt 'Registry?' (the source's 'Starfleet Registry Number NCC'): 1701 or NCC-1701 calls m28.registry_lock (qbit 111562), the door slides open and stays open; any other 'Incorrect!'. The plaque beside it says the answer plainly (m28.registry_plaque); the four statues' verses stay as the source's flavour.",
+     opens: [link:registry_stair]}
+  - {id: state:m28, kind: qbit, where: room:throne_hall, draw: false,
+     what: "m28.done (111563), set by the Pharaoh's topic 'The orb': from then on the Pharaoh's lift runs both ways between the grand stair and the antechamber (open question 4), so the M30 and M36 visits skip the climb.",
+     opens: [link:lift]}
+  - {id: state:m30, kind: qbit, where: room:throne_hall,
+     what: "m30.done (111600), set by the Pharaoh's topic 'Chosen Ones': the sky door opens both ways (d7.sky_door_dd15, D-58); before it 'Access Denied!' (aaze0086:5). Sealed until D7 installs.",
+     opens: [], draw: false}
+  - {id: state:button, kind: lever, where: room:bedchamber,
+     what: "A carved button in the bedchamber's wall (the source's L4 button): the secret door to the sky corridor opens one-way from the bedchamber side and stays open (map qbit 117575).",
+     opens: [link:bed_sky]}
+  - {id: state:safe, kind: puzzle, where: room:bedchamber,
+     what: "The wall safe: three prompts in the source's wording ('Enter Combination. ... Left?' / 'Right?' / 'Left?'), answers 20, 30, 1 (aaze0086:20-29); right: the chest opens (map qbit 117574); wrong: 'No Luck.' (aaze0086:19). The tapestry's click shows the numbers woven into its border (open question 7).",
+     opens: [], draw: false}
+  - {id: state:maze, kind: stage, where: room:pad_hall,
+     what: "No gate: the pads are step plates (in-map moves, `{direct = true}`), every cell has a pad back; m28.maze on the first arrival in the hall (once per save, map qbit 117576).",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d5_door, space: room:entry, at: [0, 1], kind: both, label: "D5: the green door",
+     arrival: "entrance:d5_door: (0, 4736, 0) in the entrance hall about 384 inside the green doors (the north wall at y 5,120), facing south (1536) into the pyramid (D-49's 'the green door, facing south')",
+     neighbour: "D5 (A6, installed): m28.door (the Key to the Ancient Pyramid 12348) on the green double door of the pyramid's north face; out by the exit preset ('Exit the Great Pyramid?', aaze0083:0) to entrance:dd15_door (0, -7168, 1248) facing 512, north, away from the door: matches the installed point"}
+  - {id: exit:d7_sky, space: room:sky_corridor, at: [8, 1], kind: both, label: "D7: the sky door (after M30)",
+     arrival: "entrance:d7_sky: in the sky corridor about 256 inside the door, facing into the pyramid (toward the throne)",
+     neighbour: "D7 (A6, not built): entrance:dd15_sky, D7's side 'pyramid_door' (D-58: both ways after m30.done; hook d7.sky_door_dd15 'Step out onto the Skyroads?'); the exit preset after the hook; sealed until D7 installs"}
+hooks:
+  - {hook: m28.door, space: "D5 (A6)", how: "the green door outside; listed for the pair, not placed here"}
+  - {hook: m28.torch_plaque, space: room:chapel_ne, how: "the plaque by the first torch (clicked)"}
+  - {hook: m28.torches, space: "room:chapel_ne/nw/sw/se", how: "the fourth torch's lever (whichever is last); once"}
+  - {hook: m28.registry_plaque, space: room:registry, how: "the brass plaque beside the lock (clicked)"}
+  - {hook: m28.registry_lock, space: room:registry, how: "the lock's prompt, the right answer; once"}
+  - {hook: m28.maze, space: room:pad_hall, how: "the first arrival in the pad hall (once, map qbit 117576)"}
+  - {hook: m28.prime_directive, space: room:antechamber, how: "the book on its stand (clicked); again: 'You learn nothing new from reading the book again.' (aaze0086:31)"}
+  - {hook: d7.sky_door_dd15, space: room:sky_corridor, how: "the sky door's click: true goes on to the exit preset (D-58)"}
+  - {hook: "npc 5453 (M28 The orb, M30 Chosen Ones, M36)", space: room:throne_hall, how: "the Dragon Pharaoh, placed row 11919 with `monsters[].npc: 5453` (D-56), peaceful, unkillable, not counted"}
+critical_path: [room:entry, room:information, room:chapel_ne, room:information, room:entry, room:reception, room:chapel_nw, room:reception, room:west_gallery, room:chapel_sw, room:south_gallery, room:chapel_se, room:south_gallery, room:atrium, room:south_gallery, room:stair_foot, room:landing, room:processional, room:registry, room:maze_landing, room:pad_hall, room:cell_d, room:cell_e, room:apex_landing, room:antechamber, room:throne_hall]
+return_path: [room:throne_hall, room:antechamber, room:lift_foot, room:stair_foot, room:south_gallery, room:atrium, room:entry]
+loops:
+  - {id: loop:ring, spaces: [room:entry, room:reception, room:west_gallery, room:chapel_sw, room:south_gallery, room:chapel_se, room:number_hall, room:information],
+     notes: "L1: the ring round the atrium, either way from the entrance hall."}
+  - {id: loop:atrium, spaces: [room:entry, room:atrium, room:south_gallery, room:chapel_sw, room:west_gallery, room:reception],
+     notes: "L1: through the atrium and out by its south door."}
+  - {id: loop:tombs, spaces: [room:processional, room:tomb_e, room:cloister, room:registry],
+     notes: "L2: from the processional through the east tomb and the cloister to the registry door, and back down the processional."}
+  - {id: loop:apartments, spaces: [room:throne_hall, room:bedchamber, room:sky_corridor],
+     notes: "L4: once the button is pressed, from the bedchamber by the secret door to the sky corridor and back behind the throne."}
+lines:
+  - {text: "Exit the Great Pyramid?", ref: "dark/aaze0083:0", where: "room:entry (the exit preset's meaning, D-24)"}
+  - {text: "The statue speaks as you approach it: Welcome to the Royal Pyramid! The Dragon Pharoah is currently indisposed, but a staff member will be with you shortly ...", ref: "dark/aaze0083:6", where: "room:entry (the welcome statue; the source's spelling 'Pharoah' kept in quotes)"}
+  - {text: "Don't forget to light six torches before trying the stairs.", ref: "dark/aaze0083:7", where: "room:atrium (four for six, to match m28's four torches)"}
+  - {text: "Built during the Creation, the Royal Dragon Pyramid has stood the test of time ...", ref: "dark/aaze0083:8", where: room:reception}
+  - {text: "Enter the eight numbers to pass the test / They are in a row, so do your best. -- They total fifty-two / the rest is up to you.", ref: "dark/aaze0083:9-10", where: room:number_hall}
+  - {text: "I'm the smallest. What's my number? ... I'm the largest. What's my number? / Wrong! / Correct!", ref: "dark/aaze0083:13-38, :16-17", where: "room:number_hall (the eight niches)"}
+  - {text: "Access denied! / The lever is stuck.", ref: "dark/aaze0083:12, :39", where: "room:atrium (the stair door before the torches), the torch chapels (a lit torch)"}
+  - {text: "1 - Total the dates is all you do / Then minus the number thirty-two ... 4 - Type in the passcode you now should know / To quickly get from this level below", ref: "dark/aaze0084:1-4", where: "room:processional (the four statues)"}
+  - {text: "Incorrect!", ref: "dark/aaze0084:7", where: room:registry}
+  - {text: "As you approach the Brew of Pure Power, the Dragon Pharaoh says, \"Get away from that! You'll hurt yourself!\"", ref: "dark/aaze0086:0", where: room:throne_hall}
+  - {text: "Nothing here. / Enter Combination. You think it's ... Left? / No Luck.", ref: "dark/aaze0086:3, :20-29, :19", where: room:bedchamber}
+  - {text: "The book is blank but for a single page in the middle that reads: Prime Directive: Obey the Ancients, Secondary Directive: Protect Xeen, Tertiary Directive: Complete the Destiny of Xeen. (the +1,000,000 experience dropped) / You learn nothing new from reading the book again.", ref: "dark/aaze0086:30-31", where: "room:antechamber (MAPS's original line for DD-15; open question 8)"}
+  - {text: "Access Denied!", ref: "dark/aaze0086:5", where: "room:sky_corridor (before m30.done)"}
+open_questions:
+  - q: "Count and mix (MAPS §0: 70 at 42-65, 50.4k; the source's L1 held 40 of two kinds; the Darkside dragons' row names the Great Pyramid too)."
+    options: ["(a) 70 Pyramid mummies: Tomb 42 x 34, Guard 52 x 24, Ghost 62 x 6 (L3 and L2), Royal 65 x 6 (L4): 51.92k (+3.0 %)",
+              "(b) (a) plus two Cloud Dragons 70 (11650) as an optional pair in a dragon gallery off L2's cloister (over the band, D-1.2's optional rule): 54.72k (+8.6 %)",
+              "(c) 70 with ten Royal Mummies (L3 and L4 heavier): about 53.9k (+7 %)"]
+    recommend: "(a)"
+    depends: "A2 (Act V recount; row 9168's slot)"
+  - q: "The torches (A3's m28 says four; the source has six levers that also bring monsters)."
+    options: ["(a) four torch levers in the four corner chapels round the atrium, the plaque by the first (nearest the door); each lit torch also lights its brazier in the atrium and wakes two Tomb Mummies hidden in the chapel's niches (hidden placed actors shown by the lever's event, DD-14's word); the fourth opens the stair door",
+              "(b) four torches, no waking mummies (the eight Tombs placed openly instead)",
+              "(c) the source's six torches (A3's hook text and plaque change)"]
+    recommend: "(a)"
+    depends: "A3 (only for c); nothing in the engine"
+  - q: "The number lock (the source's eight niches 3-10 on L1; QUESTS lists 'a number lock', which A3's m28 reads as L2's registry)."
+    options: ["(a) kept on L1 as an optional puzzle opening the Overseer's vault (a T5 chest and the visitors' fees); answer-givers: the two rule statues (eight in a row, total 52) and the Overseer's note ('Three to ten')",
+              "(b) on the critical path: the stair door needs the torches and the eight numbers (the source's order)",
+              "(c) dropped (the niches as flavour)"]
+    recommend: "(a)"
+    depends: "A3 (the note's text and the niches' lines as map-local lines)"
+  - q: "The return visits. M30 and M36 bring the party back to the Pharaoh twice; the climb is four floors and a pad maze."
+    options: ["(a) the Pharaoh's lift: from m28.done a two-stop lift beside the grand stair runs both ways to the antechamber (a quiet way up; the torches and registry stay open by their qbits anyway)",
+              "(b) no lift; after m28.done the pad hall's first pad leads straight to the far cell",
+              "(c) nothing: the party climbs each time (cleared floors stay cleared: the map does not refill)"]
+    recommend: "(a)"
+    depends: "nothing (lifts and qbit gates exist)"
+  - q: "The pyramid's wardens after M28 (the Pharaoh is the party's ally; his pyramid's mummies are hostile, as in the source)."
+    options: ["(a) they stay hostile (the pyramid's old wardens, mindless); the map does not refill, so a cleared pyramid stays quiet, and the lift (4) skips it",
+              "(b) a pyramid faction that turns peaceful on m28.done (relations by qbit, as DD-20's coven)"]
+    recommend: "(a)"
+    depends: "A2 (b only)"
+  - q: "The Brew of Pure Power (the source: the Pharaoh warns 'Get away from that! You'll hurt yourself!'; the vat's event is unclear)."
+    options: ["(a) the warning only (a set piece: the vat bubbles and glows by the dais)",
+              "(b) the warning on the first click; a second click drinks: fire damage to the clicking member, 'He did warn you.'",
+              "(c) a reward once per character (+2 to one statistic, D-4 size)"]
+    recommend: "(a)"
+    depends: "A3 (b or c: the lines)"
+  - q: "The wall safe (the source's combination 20-30-1; its event was never finished: 'Need to finish the wall safe event!!!', aaze0086:10)."
+    options: ["(a) a T5 chest behind the three Left/Right prompts (20, 30, 1), the numbers woven into the tapestry's border (its click shows them): the map's best chest",
+              "(b) a plain locked chest (lock 12, as D5's L/T)",
+              "(c) no safe"]
+    recommend: "(a)"
+    depends: "A3 (the tapestry's line)"
+  - q: "The Prime Directive book's text (MAPS: 'The Prime Directive book at the top' is DD-15's original line; A3's m28.prime_directive has a new text: 'No guardian shall interfere with the world it guards.')."
+    options: ["(a) the source's three directives (aaze0086:30) without the +1,000,000 experience; A3 changes the hook's text",
+              "(b) A3's text as it stands"]
+    recommend: "(a)"
+    depends: "A3"
+  - q: "Where the sky door is (D-58: the Pyramid's sky door both ways after m30.done)."
+    options: ["(a) behind the throne on L4: a short Ancient corridor to a door in the pyramid's face near the apex (the source's L4 button leads to Skyroad D2); 'Access Denied!' before m30.done",
+              "(b) a pad in the L3 maze"]
+    recommend: "(a)"
+    depends: "A6 (D7's entrance:dd15_sky and its height against the pyramid's apex at 3,600)"
+  - q: "Rest encounters."
+    options: ["(a) 10 % from the Pyramid mummies (D-39), none in the throne hall's rooms", "(b) 0"]
+    recommend: "(a)"
+    depends: "A2 (row 9168)"

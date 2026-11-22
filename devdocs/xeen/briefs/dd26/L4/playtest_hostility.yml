@@ -1,0 +1,59 @@
+# Hostility check of the Olympus Sewer (DD-26) (the XD-27 form; lane A8, 2026-11-21). The kinds: Lesser Water
+# Elemental 11625 (16) and Water Elemental 11710 (4), one faction (water_elementals, D-65 Q56), all hostile at load,
+# none peaceful. Both kinds spawned side by side in the cistern (nearer each other than the party) do not take each
+# other on. A Water Elemental spawned at the east culvert's far end comes up the culvert, through its mouth (320) and
+# at least 1,000 along the cistern's south walkway to within its attack range of the party there (D-67 item 7, D-68
+# Q2; it shoots, so it stops short of melee). Run with --world xeen --map xeen_dd26.blv (output/studio_cal/dd26/four.sh).
+id: xeen.dd26.l4.hostility
+title: 'Olympus Sewer (DD-26): the water elementals hostile, one faction, no infighting'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd26.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+      - {name: Hild, class: Paladin, level: 58, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+      - {name: Sefa, class: Knight, level: 58, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival line).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11625, hostile: true, min: 16, max: 16}}
+- assert: {actor_count: {monster_id: 11710, hostile: true, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11625, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11710, hostile: false, max: 0}}
+- note: 'D-67 item 7: a Water Elemental (11710, 202 high) spawned at the east culvert''s far (south) end sees the party
+    at the culvert''s mouth for 3 s, then the party moves out of its sight onto the cistern''s south walkway about
+    2,000 west of the mouth (0, 2144): it walks up the culvert, through the mouth (320 high) and at least 1,000 along
+    the walkway, and comes within its attack range (D-68 Q2). Its first attack is a missile (Water), so it stops to
+    shoot once it sees the party (about 750 off), not at melee range; being 1,000 or more from the mouth rules out an
+    elemental shooting from the mouth. The AI trace has no stuck or no-path event to assert. The placed ones are
+    killed first; the spawned one is actor 20.'
+- play_lua: {source: "clear_hostiles(9000)"}
+- set_pose: {map: xeen_dd26.blv, x: 2176, y: 2240, z: 0, yaw: -1.5708, pitch: 0.0}
+- spawn_actor: {monster_id: 11710, x: 2080, y: 320, z: 0}
+- advance_runtime: {seconds: 3}
+- assert: {actor_visible: {actor_index: 20, monster_id: 11710, far: {x: 2176, y: 2240, min_distance: 1200}}}
+- set_pose: {map: xeen_dd26.blv, x: 0, y: 2144, z: 0, yaw: 0.0, pitch: 0.0}
+- advance_runtime: {seconds: 50}
+- assert: {actor_visible: {actor_index: 20, monster_id: 11710, hidden: false, near: {x: 0, y: 2144, max_distance: 900}, report_state: true}}
+- assert: {actor_visible: {actor_index: 20, monster_id: 11710, hidden: false, far: {x: 2176, y: 2240, min_distance: 1000}}}
+- play_lua: {source: "clear_hostiles(9000)"}
+- note: 'The two kinds side by side on the cistern''s south walkway, nearer each other than the party (a monster takes
+    the nearest of its foes): they must not take each other on.'
+- set_pose: {map: xeen_dd26.blv, x: 0, y: 320, z: 0, yaw: 1.5708, pitch: 0.0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11625, x: -512, y: 2144, z: 0}
+- spawn_actor: {monster_id: 11710, x: -128, y: 2144, z: 0}
+- spawn_actor: {monster_id: 11625, x: 256, y: 2144, z: 0}
+- spawn_actor: {monster_id: 11710, x: 640, y: 2144, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11625, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11710, hurt: true, max: 0}}
+- console: {line: arena trace off}

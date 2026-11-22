@@ -1,0 +1,51 @@
+format: 0
+id: xeen_dd17
+name: Castle Alamar
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-17
+new: false
+units: {plan_grid: 512}
+extent: {footprint_cells: [16, 16], climbs: n}
+map_stats:
+  id: 9170
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 8
+  perception_difficulty: 5
+  refill_days: 672
+  music: 50
+  environment: stoneroom
+  lock_difficulty: 15
+  slots:
+    - {monster: Xeen Robot, tier: 2, per_marker: [1, 2], weight: 100}
+neighbours:
+  - id: exit:d6_gate
+    to: xeen_d6.odm
+    kind: door
+    arrival: entrance:dd17_gate
+    arrival_hint: "On D6's approach before Castle Alamar's gate, facing south away from it (A6's entrance:dd17_gate, (-6656, 4608, 2208) facing 1536)."
+    notes: "D6's door:dd17 (A6) names this map's entrance:d6_gate. The exit preset, m33.arrival's refusal and the leave after the cinematic all land at entrance:dd17_gate (D-61 Q17)."
+  - id: exit:d7_roof
+    to: xeen_d7.blv
+    kind: door
+    arrival: entrance:dd17_roof
+    arrival_hint: "On Castle Alamar's roof on D7's Skyroads, beside the hatch (A6's entrance:dd17_roof, (-18688, 8448, 1536) facing 1024)."
+    notes: "Q-D26's roof hatch (D-58, D-61 Q14): q-d26.alamar_hatch first ('Bolted from above.' until roof_unlocked 113521), then the exit preset. D7 installed 04:53 (A6); its door:dd17 names this map's entrance:d7_roof."
+qbits:
+  come_to_me: 117606
+  dd17_arrived_once: 117600
+  head_air_off: 117602
+  head_earth_off: 117604
+  head_fire_off: 117601
+  head_water_off: 117603
+  m33_done: 111662
+  m33_gate_open: 111661
+  m33_inside: 111660
+  m33_refused_once: 111664
+  m33_sundial_nine: 111663
+  q_d26_roof_unlocked: 113521
+  vault_open: 117605
+notes: "Xeen design brief for a new map: DD-17 Castle Alamar (the source's dark maze0049-0051: Castle Alamar Levels 1-3) as one BLV of three floors 640 apart on D6's mesa. Story M33 (A3's hooks m33.arrival, m33.sundials through Xeen.alamarSundial, m33.true_name_gate, m33.true_name_wrong, m33.sheltem) and Q-D26's roof hatch (q-d26.alamar_hatch). Class L: 50-75 sectors, 120-200 M units squared, four set pieces (the conveyor works, the dial hall, the trapdoor deck, Command Central), doors up to 25 (24; the four bridge slabs are mechanisms). Party 52-55, monsters 50-75, no boss. Graph devdocs/xeen/mockups/act5_graphs/dd17.graph.yml with decider D-61 (mockups/act5_a8_decisions.md, which wins): plate rides on the belts (Q11), four xafield leaves dropped by the Lava Heads (Q12), one two-state bridge slab per ring at nine with the dial's line (Q13), the hatch both ways while the castle stands (Q14), Sheltem 11924 and Corak 11912 placed hidden and shown by the cinematic (Q15), the dais plate asks first (Q16), the leave to D6's entrance:dd17_gate (Q17), six trapdoors to the chasm floor (Q18), the Power Juice +2 Might (Q19, A3's hook pending), 70 monsters (Q20): Patrol 11610 50 x30, Annihilator 11611 62 x20, Autobot 11612 75 x6, Lesser Fire 11620 / Air 11624 / Water 11625 / Earth 11626 Elemental 55 x2 each, Gamma Gazer 11572 65 x6; kill XP 275,380 for the party, 68.85k per member. Rest encounters 10 % robots Dif 2 (Q21, = A2's row 9170). Treasure 5 (the strongroom's hoard 6). Map qbits 117600-117639 (117600-117606 used); map_stats 9170, music 50."

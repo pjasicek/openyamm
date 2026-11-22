@@ -1,0 +1,59 @@
+# Hostility check of Bosco's Hall (DD-25) (the XD-27 form; lane A8, 2026-11-21). A town: no hostile kind. The eight
+# peaceful dwarves (D-62 Q34): Bosco's four guards (A2's 11054, faction xeen_bosco_hall; actors 0-1 at the gate, 2-3 in
+# the throne hall) and four townsfolk on MM7's Peasant Dwarf rows (actors 4 Male A 322, 5 Female A 313, 6 Male B 325,
+# 7 Female B 316). None is hostile at load, nor after a walk past the guards and through the great hall; a blow on a
+# townsfolk and a blow on a guard turn the struck one at most (the faction rules), never the hall. Run with --world
+# xeen --map xeen_dd25.blv (output/studio_cal/dd25/four.sh).
+id: xeen.dd25.l4.hostility
+title: "Bosco's Hall (DD-25): the guards and townsfolk peaceful; a blow starts no town war"
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd25.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run (the arrival line).
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11054, hostile: false, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 322, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 313, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 325, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {monster_id: 316, hostile: false, min: 1, max: 1}}
+- assert: {actor_count: {hostile: true, max: 0}}
+- note: A walk past the gate guards, through the gate hall into the great hall by the townsfolk.
+- walk_to: {x: 1600, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+- walk_to: {x: 600, y: 128, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+- walk_to: {x: -800, y: 400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+- advance_runtime: {seconds: 10}
+- assert: {actor_count: {hostile: true, max: 0}}
+- save_game: {name: dd25_peace}
+- note: 'One blow on a townsfolk (actor 4, the Peasant Dwarf by the north bench): the Peasant Dwarves are one faction
+    (MM7 data), so the four townsfolk turn (Wimps: they flee); the guards keep their posts, peaceful.'
+- damage_actor: {actor_index: 4, amount: 1}
+- advance_runtime: {seconds: 5}
+- assert: {actor_count: {monster_id: 11054, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11054, hostile: false, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 322, hostile: true, min: 1, max: 1}}
+- assert: {actor_count: {hostile: true, max: 4}}
+- note: 'From the peaceful save, one blow on a gate guard (actor 0): the guards near him turn (their faction), not the
+    throne hall''s pair 3,000 away, and no townsfolk.'
+- load_game: {name: dd25_peace}
+- advance_runtime: {seconds: 1}
+- assert: {actor_count: {hostile: true, max: 0}}
+- set_pose: {map: xeen_dd25.blv, x: 1900, y: 256, z: 0, yaw: 0.0, pitch: 0.0}
+- damage_actor: {actor_index: 0, amount: 1}
+- advance_runtime: {seconds: 5}
+- assert: {actor_count: {monster_id: 11054, hostile: true, min: 1, max: 2}}
+- assert: {actor_count: {monster_id: 313, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 322, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 325, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 316, hostile: true, max: 0}}

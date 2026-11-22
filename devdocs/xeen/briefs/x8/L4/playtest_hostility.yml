@@ -1,0 +1,150 @@
+# Hostility check of Cloudreach (X8): every kind hostile to the party, none fighting another (the
+# world's relations.yml).
+id: xeen.x8.l4.hostility
+title: 'Cloudreach (X8): foes hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x8.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 18
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11520
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11521
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11522
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11600
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11601
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11592
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11520
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11521
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11522
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11600
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11601
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11592
+      hostile: true
+      min: 1
+- note: 'Kinds of the map side by side on the half-way cloud, nearer each other than the party: they must not take each other
+    on.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11520
+    x: -300
+    y: 256
+    z: -64
+- spawn_actor:
+    monster_id: 11600
+    x: -172
+    y: 256
+    z: -64
+- spawn_actor:
+    monster_id: 11521
+    x: -44
+    y: 256
+    z: -64
+- spawn_actor:
+    monster_id: 11601
+    x: 84
+    y: 256
+    z: -64
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    actor_count:
+      monster_id: 11520
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11600
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11521
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11601
+      hurt: true
+      max: 0

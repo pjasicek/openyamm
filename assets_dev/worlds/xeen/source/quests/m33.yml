@@ -1,0 +1,203 @@
+# M33 Castle Alamar (QUESTS M33 ◆; Act V). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Sheltem's castle in the Forbidden Zone (DD-17, A8: conveyor halls, energy fields, the element sundials, the true-name
+# gate on L2). Without Corak's Soul Box Sheltem feels the party at the door and throws it out (the map moves the party
+# back to D6 when the arrival hook refuses). L2's gate opens only while the four element sundials (Fire, Air, Earth and Water
+# Time, dark/aaze0050:1-16) all read nine (Atlas in Olympus: "Alamar's birth number is nine", A4's flavour topic 5611) and the true name is given (Sheltem: M31's plaque, M28's
+# journal). At the top the party opens the box: Corak confronts Sheltem and starts the castle's self-destruct; the party
+# escapes with the Cube of Power (the cinematic is the map's), and Darkside's sun returns (Xeen.DarksideSkies reads
+# m33.done). The Pharaoh then sends the party after Lord Xeen if he still lives (M35).
+id: M33
+title: Castle Alamar
+act: V
+kind: main
+status: full
+giver: null
+giver_name: (Corak in the Soul Box, m32; Castle Alamar, DD-17)
+maps: [D6, DD-17]
+level: 53
+block: 33
+after: [m32.done]
+source: "QUESTS M33; dark/aaze0050:5-21 (the sundials and the true-name gate); dark/aaze0037:4, :25; dark/aaze0086:15; aaze0049:6-10, aaze0051:0; D-61 (devdocs/xeen/mockups/act5_a8_decisions.md)"
+
+qbits:
+  inside: {id: 111660, note: "the party passed the castle door with Corak's box (the arrival hook)"}
+  gate_open: {id: 111661, note: "L2's true-name gate approved (A8's prompt: Sheltem)"}
+  done: {id: 111662, journal: "Corak has destroyed Sheltem with his castle. You carry the Cube of Power, and Darkside's sun is whole again.",
+            until: [m36.started]}
+  refused_once: {id: 111664, note: "Sheltem's refusal at the door has been voiced once (D-38: the voice plays the first time only)"}
+  sundial_nine: {id: 111663, pending: "phase 5: written by Xeen.alamarSundial (xeen_common.lua), which DD-17 L2's four sundial events call (A8)", note: "set while all four sundials read nine, cleared otherwise"}
+  # DD-17's map qbits (block 117600-117639, D-61; A8's map writes and reads the rest of the block)
+  dd17_arrived_once: {id: 117600, map: DD-17, pending: "phase 5: DD-17 (A8): the first arrival"}
+  head_fire_off: {id: 117601, map: DD-17, note: "the Fire Head shut down (head_fire): its field on L2 drops (one-way, D-43)"}
+  head_air_off: {id: 117602, map: DD-17, note: "the Air Head shut down (head_air)"}
+  head_water_off: {id: 117603, map: DD-17, note: "the Water Head shut down (head_water)"}
+  head_earth_off: {id: 117604, map: DD-17, note: "the Earth Head shut down (head_earth)"}
+  vault_open: {id: 117605, map: DD-17, pending: "phase 5: DD-17 (A8): the robot bay's lever opens the strongroom"}
+  come_to_me: {id: 117606, map: DD-17, pending: "phase 5: DD-17 (A8): \"Come to ME!\" heard on the deck (dark/aaze0051:2)"}
+  dial_fire_nine: {id: 117611, map: DD-17, pending: "phase 5: DD-17's fire bridge slab reads it (A8)", note: "Fire Time reads nine (Xeen.alamarSundialsSync)"}
+  dial_air_nine: {id: 117612, map: DD-17, pending: "phase 5: DD-17's air bridge slab reads it (A8)", note: "Air Time reads nine"}
+  dial_water_nine: {id: 117613, map: DD-17, pending: "phase 5: DD-17's water bridge slab reads it (A8)", note: "Water Time reads nine"}
+  dial_earth_nine: {id: 117614, map: DD-17, pending: "phase 5: DD-17's earth bridge slab reads it (A8)", note: "Earth Time reads nine"}
+
+player_bits:
+  power_juice: {id: 11369, map: DD-17, note: "XEEN Power Juice: +2 Might (base), once per character (D-61 Q19; the source's +5 levels dropped)"}
+
+autonotes:
+  gate: {id: 4134, text: "Castle Alamar's true-name gate: the four sundials, Fire, Air, Earth and Water Time, must all read nine (Alamar's birth number, says Atlas in Olympus) and the gate asks for Alamar's true name, Sheltem.", category: Misc}
+
+awards:
+  sheltem: {id: 410, text: "Defeated Sheltem", sort: 2}
+
+items:
+  soul_box_corak: "M32's; taken at the confrontation"
+  cube_of_power: "the confrontation (sheltem hook); the Pharaoh's (Act VI)"
+
+npcs:
+  5453:              # The Dragon Pharaoh (DD-15 L4)
+    topics:
+      - n: 3
+        label: Lord Xeen
+        show: {qbit: done}
+        states:
+          - when: {qbit: m35.done}
+            text: "Ah! You warm my reptilian heart. Sheltem is gone, and the wicked 'Lord Xeen' creation with him. Keep the Cube and the Scepter together. The destiny of Xeen is in sight, and I will need you for it."
+          - text: "It is good to see you again, Chosen Ones. Xeen is returning to its proper orbit. But Sheltem's general, the monster that calls himself 'Lord Xeen' on the other side of the world, still lives and holds the Scepter of Temporal Distortion. Rid the world of him, in his cloud castle above Darzog's tower, and bring me the scepter."
+
+hooks:
+  robots_gone:
+    map: D6
+    where: "D6's load event (D-49 change 7, D-36's coven pattern): once Sheltem is destroyed (done), the map hides the robot patrols' groups on the mesa and the Alamar approach (no refill rule); it asks XeenQuests.can(\"m33.robots_gone\") and hides them when true"
+    requires: {qbit: done}
+    reads: [done]
+  castle_door:
+    map: D6
+    where: "Castle Alamar's gate in the Forbidden Zone"
+    text: "Castle Alamar. Every window is lit, and every one of them is looking at you. Enter?"
+  arrival:
+    map: DD-17
+    entrance: DD-17
+    sealed: "the finale: Corak's Soul Box"
+    where: "the gatehall (L1, entrance:d6_gate): the map's arrival event calls it; when it returns false the map moves the party back to D6's entrance:dd17_gate (so the refusal is a status line: the map change drops a message box)"
+    requires: {item: soul_box_corak}
+    sets: [inside]
+    do: [{autonote: gate}]   # the gate's rule as a note before the dial hall (G's question 41; Atlas gives the nine)
+    text: "The Soul Box hums very faintly in your pack. Nothing in the castle seems to notice you. That is the point."
+    fail_text: "A voice, everywhere at once: \"Chosen Ones. You have nothing I need to fear.\" The walls fold, and you stand outside the gate."
+    fail_status: true
+    locked: true     # the refusal is voiced (D-38), the first time only (refused_once)
+    fail_voice: {speaker: Sheltem, line: "Chosen Ones. You have nothing I need to fear."}
+    fail_sound: xeen_vo_sheltem_refusal
+    fail_sound_once: refused_once
+  arrival_gate:
+    map: D6
+    entrance: DD-17
+    sealed: "the finale: Corak's Soul Box, checked at D6's gate before the move (the seal of m33.arrival, moved out of DD-17 for F16)"
+    where: "Castle Alamar's gate on D6 (event 33): the map calls this before its move into DD-17 (A6, gen.py reads this hook); false keeps the party outside with the refusal on the status line, true moves it through the entrance window (trans row 5049)"
+    requires: {item: soul_box_corak}
+    fail_text: "A voice, everywhere at once: \"Chosen Ones. You have nothing I need to fear.\" The gate does not move. Corak's Soul Box would hide you from him."
+    fail_status: true
+    locked: true     # the refusal is voiced (D-38), the first time only (refused_once), as m33.arrival's
+    fail_voice: {speaker: Sheltem, line: "Chosen Ones. You have nothing I need to fear."}
+    fail_sound: xeen_vo_sheltem_refusal
+    fail_sound_once: refused_once
+  roof_arrival:
+    map: DD-17
+    entrance: DD-17
+    sealed: "the finale: Corak's Soul Box (from D7's roof)"
+    where: "the hatch room's ladder foot (entrance:d7_roof, the hatch from D7, D-61 Q14): the map's arrival event there calls it; when it returns false the map moves the party back to D7's entrance:dd17_roof (a status line, as arrival)"
+    requires: {item: soul_box_corak}
+    sets: [inside]
+    do: [{autonote: gate}]   # the gate's rule as a note before the dial hall (G's question 41; Atlas gives the nine)
+    text: "The Soul Box hums very faintly in your pack. The castle below the hatch does not notice you come down. That is the point."
+    fail_text: "A voice, everywhere at once: \"Chosen Ones. You have nothing I need to fear.\" The ladder bucks, and you are back on the roof in the smoke."
+    fail_status: true
+    locked: true     # the same voiced refusal, once over both ways in (refused_once)
+    fail_voice: {speaker: Sheltem, line: "Chosen Ones. You have nothing I need to fear."}
+    fail_sound: xeen_vo_sheltem_refusal
+    fail_sound_once: refused_once
+  head_fire:
+    map: DD-17
+    where: "L1, the Fire Head at the end of the fire belt (\"Lava Head\"; on approach the map shows dark/aaze0049:7 \"The Head speaks: Fire power field operational.\" while it runs): the map asks the question, Yes calls this; the Fire field over L2's Fire sundial drops (one-way, D-61 Q12)"
+    question: "Shut the field down?"
+    sets: [head_fire_off]
+    once: true
+    text: "The Head goes dark. Somewhere above, a field dies."
+    else_text: "The Fire Head is dark and cold."
+  head_air:
+    map: DD-17
+    where: "L1, the Air Head (dark/aaze0049:8 while it runs); as head_fire"
+    question: "Shut the field down?"
+    sets: [head_air_off]
+    once: true
+    text: "The Head goes dark. Somewhere above, a field dies."
+    else_text: "The Air Head is dark and cold."
+  head_water:
+    map: DD-17
+    where: "L1, the Water Head (dark/aaze0049:9 while it runs); as head_fire"
+    question: "Shut the field down?"
+    sets: [head_water_off]
+    once: true
+    text: "The Head goes dark. Somewhere above, a field dies."
+    else_text: "The Water Head is dark and cold."
+  head_earth:
+    map: DD-17
+    where: "L1, the Earth Head (dark/aaze0049:10 while it runs); as head_fire"
+    question: "Shut the field down?"
+    sets: [head_earth_off]
+    once: true
+    text: "The Head goes dark. Somewhere above, a field dies."
+    else_text: "The Earth Head is dark and cold."
+  power_juice:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-17
+    where: "the power juice find (\"XEEN Power Juice\", the label of dark/aaze0051:0; its +5 levels dropped, D-61 Q19): the map only calls this; the hook decides for the clicking member (player bit 11369)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11369))"}
+        text: "XEEN Power Juice. You have had yours, and your hands are still shaking."
+      - text: "XEEN Power Juice. It tastes of copper and lightning, and your arms feel like someone else's, someone stronger. (+2 Might, permanent)"
+        do: [{lua: "AddValue(BaseMight, 2)"}, {lua: "SetPlayerBit(PlayerBit(11369))"}]
+  sundials:
+    map: DD-17
+    where: "the four sundials of L2's dial hall, Fire, Air, Earth and Water Time (dark/aaze0050:1-16): each dial's event calls Xeen.alamarSundial(\"fire\"|\"air\"|\"earth\"|\"water\", eventId, continueStep) (xeen_common.lua): '<Element> Time. The sundial reads N. Turn?', Yes turns it on one hour (twelve readings, map variables dd17_sundial_<element>; starts 3, 6, 12, 7). The helper sets each dial's bit (dial_<element>_nine) while it reads nine and sundial_nine while all four do; turning to nine says \"The dial clicks home at nine. Somewhere below, stone grinds level.\", turning off nine \"Somewhere below, stone drops away.\" (D-61). It returns true when it turned the dial: the event then sets the ring's bridge slab from the dial's bit (level while set; the slab's grind with it). DD-17's load event calls Xeen.alamarSundialsSync() before it sets the slabs and the fields. No XeenQuests.hook call"
+    reads: [sundial_nine, dial_fire_nine, dial_air_nine, dial_water_nine, dial_earth_nine]
+  true_name_gate:
+    map: DD-17
+    gate: puzzle
+    where: "L2's gate: with all four sundials at nine it asks 'What is Alamar's true name?' (the map's prompt; 'Sheltem' calls this hook, any other answer calls true_name_wrong)"
+    requires: {all: [{lua: "Xeen.alamarSundialsSync()"}, {qbit: sundial_nine}]}   # the sync re-reads the dials (a reset map state)
+    sets: [gate_open]
+    once: true
+    text: "The time is right. The gate asks Alamar's true name. \"Sheltem,\" you say, and the gate says: Access approved!"
+    fail_text: "The time is not right. Access denied!"
+    else_text: "The gate stands open. It does not ask twice."
+  true_name_wrong:
+    map: DD-17
+    where: "L2's gate, a wrong name"
+    text: "Wrong! Access denied!"
+  sheltem:
+    map: DD-17
+    window: "a voiced line and a cinematic (Sheltem)"
+    gate: beat
+    where: "Command Central's dais plate before Sheltem's throne (D-61 Q16): the map asks the question, Yes calls this, so the room, the strongroom and the chests stay reachable first; the self-destruct cinematic (Sheltem 11924 and Corak 11912 shown by it) and the leave to D6's entrance:dd17_gate are the map's"
+    question: "Before the throne. Open the Soul Box?"
+    requires: {all: [{qbit: gate_open}, {item: soul_box_corak}]}
+    takes: [soul_box_corak]
+    gives: [cube_of_power]
+    sets: [done]
+    once: true
+    do: [{award: sheltem}, {xp: 35000}]
+    locked: true     # voiced (D-38): one sound with the three lines in order, Corak, Sheltem, Corak
+    voice:
+      - {speaker: Corak, line: "Sheltem."}
+      - {speaker: Sheltem, line: "Corak. You took your time."}
+      - {speaker: Corak, line: "The Cube! Take it and run!"}
+    sound: xeen_vo_sheltem_corak
+    text: "You throw the Soul Box to the ground. Corak steps out of it, taller than the room. \"Sheltem.\" \"Corak. You took your time.\" They close on each other, and the castle begins to shake itself apart. Corak's voice, from inside the light: \"The Cube! Take it and run!\" You run, with the Cube of Power, and behind you Castle Alamar folds into the ground."
+    fail_text: "Sheltem's throne room. The throne is empty, and the air says it will not be for long."
+
+riddles:
+  - {answer: "all four sundials at nine", where: "DD-17 L2's four sundials (m33.sundials)", said_by: "Atlas in Olympus (A4's flavour topic Nine, npc 5611) and the autonote m33.gate"}
+  - {answer: Sheltem, where: "DD-17 L2's true-name gate (m33.true_name_gate)", said_by: "Soul Storage's plaque in Olympus (m31.true_name_plaque) and M28's journal line"}
+
+rewards: {xp: 35000, gold: 0, items: "Cube of Power", award: "Defeated Sheltem"}
+playthrough: "D6: Castle Alamar's gate. DD-17: arrival (the Soul Box); L2: the four sundials to nine, the gate (Sheltem); the top: Sheltem. DD-15: the Pharaoh (Lord Xeen)."

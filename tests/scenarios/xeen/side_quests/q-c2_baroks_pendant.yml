@@ -1,0 +1,140 @@
+# Xeen side quest Q-C2, Barok's Pendant (X2), with its promotion T1-B, from a new game on Rivercity's Bridge Square.
+# The fountain is dry and a tavern patron blames the sorceresses; Barok (his hut, event 1) asks for his pendant; the
+# sorceresses' strongbox on the south quay (event 215) gives it and lets out their two apprentices; Barok takes it,
+# pays 14,000 experience each and the Enchant Item book and promotes the Sorcerer (Wizard) and the Archer (Warrior
+# Mage); the fountain then gives spell points and the patron's Barok topic is gone. A Sorcerer who joins later is
+# promoted, unpaid, by Barok's Promotion topic (T1-B). Outdoors the party is placed beside each house and prop
+# (tests/playthrough/PLAYBOOK.md §2). Quest logic: source/quests/q-c2.yml and t1-b.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c2_baroks_pendant.yml
+id: xeen.side_quests.q-c2
+title: "Xeen Q-C2: Barok's pendant from the sorceresses' strongbox, Wizard and Warrior Mage"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Mirel, class: Sorcerer, level: 6, skills: [], equipment: {}}
+          - {name: Brann, class: Archer, level: 6, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 6, skills: [], equipment: {}}
+          - {name: Osric, class: Cleric, level: 6, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if classes() ~= "Sorcerer Archer Knight Cleric" then error("party classes: " .. classes()) end
+  # The town fountain on Bridge Square (event 119), beside the start: dry before the pendant.
+  - play_lua:
+      source: |
+        status(); click(119)
+        local lines = status()
+        if not string.find(lines, "The fountain is dry", 1, true) then error("the fountain is not dry: " .. lines) end
+  # Bull's Tavern (event 23): the second of its two Tavern Patrons (NPC 4131, same label as 4132, so picked by id).
+  - execute_event: {id: 23}
+  - select_topic: {action_id: 4131, match_label: Tavern Patron}
+  - select_topic: {match_label: Barok}
+  - assert:
+      dialog: {text_contains: "Then they plugged the fountain"}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}   # the patron, then the tavern
+  # Barok's hut (event 1): Pendant (Q-C2 started); no Promotion yet.
+  - execute_event: {id: 1}
+  - assert:
+      dialog: {action_label_absent: Promotion}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "They keep their loot in a strongbox"}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "No pendant, no reward"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112040]}
+  # The sorceresses' strongbox on the south quay (event 215): the pendant, and their two apprentices come out.
+  - set_pose: {map: xeen_x2.odm, x: 4045, y: 4301, z: 615, yaw: -2.146, pitch: 0.0}
+  - assert: {actor_visible: {actor_index: 53, hidden: true}}
+  - assert: {actor_visible: {actor_index: 54, hidden: true}}
+  - play_lua: {source: "click(215); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[a pendant on a silver chain]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        -- D-90 (b) (A5's X2 2026-11-22): the strongbox is a chest holding the pendant; Take All.
+        if take_chest() then close() end
+        wait(0.5); for _ = 1, 3 do if not close() then break end wait(0.3) end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12152) ~= 1 then error("pendants from the strongbox: " .. item_count(12152)) end
+  - assert: {qbit_set: [112041]}
+  - assert: {actor_visible: {actor_index: 53, hidden: false}}
+  - assert: {actor_visible: {actor_index: 54, hidden: false}}
+  - clear_hostiles: {radius: 3000}
+  # The strongbox again: the emptied chest opens, nothing in it.
+  - play_lua:
+      source: |
+        click(215); wait(1)
+        if take_chest() then close() end
+        wait(0.5); for _ = 1, 3 do if not close() then break end wait(0.3) end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12152) ~= 1 then error("the strongbox gave a second pendant") end
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+  # Barok: the pendant back (Q-C2 done); 4,000 + 10,000 (T1-B's share) each, the Enchant Item book, the promotions.
+  - play_lua: {source: "for _, i in ipairs({0, 1}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the pendant hand-in: ' .. c) end end end"}
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "Thank you for returning my pendant"}
+  - assert:
+      dialog: {action_label_absent: Promotion}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [110204]}
+  - assert: {qbit_clear: [112040]}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        if has_item(12152) then error("Barok did not take the pendant") end
+        if item_count(429) ~= 1 then error("no Enchant Item book from Barok") end
+        if classes() ~= "Wizard WarriorMage Knight Cleric" then error("classes after Barok: " .. classes()) end
+        for i = 0, 3 do
+          local gained = experience(i) - recall("xp" .. i)
+          if gained ~= 14000 then error("member " .. i .. " gained " .. gained .. " experience, not 14000") end
+        end
+  # Barok again: the fountain line; the patron's Barok topic is gone.
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Pendant}
+  - assert:
+      dialog: {text_contains: "The fountain runs again"}
+  - press_action: {action: cancel_dialog}
+  - execute_event: {id: 23}
+  - select_topic: {action_id: 4131, match_label: Tavern Patron}
+  - assert:
+      dialog: {action_label_absent: Barok}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}   # the patron, then the tavern
+  # The fountain flows: +100 spell points.
+  - set_pose: {map: xeen_x2.odm, x: 0, y: 9728, z: 1041, yaw: -1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        status(); click(119)
+        local lines = status()
+        if not string.find(lines, "+100 Spell points", 1, true) then error("the fountain gave no spell points: " .. lines) end
+  # T1-B: a Sorcerer who joins after the quest. The console adds her as the game's hiring would (test setup, not a
+  # workaround); Barok's Promotion topic promotes her, unpaid, and is gone afterwards.
+  - console: {line: "player add Sorcerer Ysolde", expect_contains: "Added Ysolde"}
+  - play_lua: {source: "for _, i in ipairs({4}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Promotion topic: ' .. c) end end end"}
+  - play_lua: {source: "remember('xp4', experience(4))"}
+  - execute_event: {id: 1}
+  - select_topic: {match_label: Promotion}
+  - assert:
+      dialog: {text_contains: "Sorcerers rise as Wizards"}
+  - assert:
+      dialog: {action_label_absent: Promotion}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        if classes() ~= "Wizard WarriorMage Knight Cleric Wizard" then error("classes after Promotion: " .. classes()) end
+        if experience(4) ~= recall("xp4") then error("the Promotion topic paid experience") end

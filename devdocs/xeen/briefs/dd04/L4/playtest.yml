@@ -1,0 +1,167 @@
+# Playtest of the Gremlin Court (DD-04, L4): the peace route of Q-D1 through every mechanism.
+# A level-20 party comes in by the tiny door (the arrival window), walks through the peaceful burrow, down the
+# bolt-hole into the army's barracks (hostile: cleared; the pay chest), along the sappers' tunnel to its end at water
+# (the drains line), up the trapdoor stair into the larder (hostile: cleared), through the larder's door into the
+# wall's old cellar (hostile: cleared), the broken arch into the hall of pranks (the plunder, its chest), the waiting
+# room (the sign) and the court. Gettlewaithe speaks through his throne: his challenge (his first greeting,
+# aaze0029:83), "We come in peace" (:87), "The Mayor's demand" (:93, court_hostile: the court guards turn), the
+# treasury refused while he lives; the three guards die (guards_beaten), "Submit or die" (court_peace, court_won):
+# every gremlin of the map friendly. The servants' hatch opens from the court. Out by the tiny door to D1.
+# Played with --world xeen --map xeen_dd04.blv: the world's rows (court 11023-11026, army 11027), A3's hooks.
+# Numbers are ids.lock.yml's (events, doors); actors 0 Gettlewaithe, 1-3 the court guards.
+id: xeen.dd04.l4.walk
+title: The Gremlin Court (DD-04 L4), the army's loop, the court won by talk, out to D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd04.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 20, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_dd04.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 256, radius: 64, z_min: -8, z_max: 8}}
+  # A2's rows: the court, its guards and its king, the army; no other monster.
+  - assert: {actor_count: {monster_id: 11023, min: 1, max: 1}}
+  - assert: {actor_count: {monster_id: 11026, min: 3, max: 3}}
+  - assert: {actor_count: {monster_id: 11024, min: 11, max: 11}}
+  - assert: {actor_count: {monster_id: 11025, min: 2, max: 2}}
+  - assert: {actor_count: {monster_id: 11027, min: 11, max: 11}}
+  # Why the party is here: the arrival window, once (arrived_once 117040).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GREMLIN COURT"}}
+  - play_lua: {source: "close(); if not qbit(117040) then error('arrived_once not set') end"}
+  # The court side is peaceful, the army hostile.
+  - assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11025, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11026, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11027, hostile: false, max: 0}}
+  # The burrow, the bolt-hole down to the mighty army.
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 256, y: 1664, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 1664, z: -192, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1650, y: 1664, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 2750, y: 1536, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(3)
+        if gold() < g + 400 then error("the pay chest did not hold its 400 gold") end
+  # The sappers' tunnel to its end at water.
+  - walk_to: {x: 2560, y: 2100, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2560, y: 3000, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2848, y: 3700, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2848, y: 4300, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2720, y: 5000, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2720, y: 6000, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "status()"}
+  - walk_to: {x: 2720, y: 6500, z: -400, z_tolerance: 30, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        wait(0.5)
+        local s = status()
+        if not string.find(s, "town's drains", 1, true) then error("no drains line at the tunnel's end: " .. s) end
+  # Up the trapdoor stair into the larder.
+  - walk_to: {x: 2720, y: 5344, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2300, y: 5344, z: -320, z_tolerance: 100, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1860, y: 5344, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 4)"}
+  - walk_to: {x: 1450, y: 5344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1200}
+  - play_lua:
+      source: |
+        status(); click(21); wait(0.5)
+        if not string.find(status(), "Mayor's cheese", 1, true) then error("the larder table said nothing") end
+  # The larder's door, the wall's old cellar.
+  - walk_to: {x: 1408, y: 4980, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(9, 3)"}
+  - walk_to: {x: 1408, y: 4300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1408, y: 3000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11027, max: 0}}
+  # The broken arch into the hall of pranks: the plunder and its chest.
+  - walk_to: {x: 760, y: 2816, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: 2900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(14); wait(0.5)
+        if not string.find(status(), "missing things", 1, true) then error("the plunder said nothing") end
+        local g = gold()
+        loot_chest(4)
+        if gold() < g + 250 then error("the plunder chest did not hold its 250 gold") end
+  # The waiting room and its sign; the court's door.
+  - walk_to: {x: 0, y: 3200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(2); if door_state(5) ~= 'open' then error('the waiting room door: ' .. door_state(5)) end"}
+  - walk_to: {x: -150, y: 3776, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 20}
+  - assert: {dialog: {active: true, text_contains: "WAIT HERE. FOREVER."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 0, y: 3980, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(2); if door_state(1) ~= 'open' then error('the court door: ' .. door_state(1)) end"}
+  - walk_to: {x: 0, y: 4900, z: 2, z_tolerance: 8, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11026, hostile: true, max: 0}}
+  # The treasury refuses while Gettlewaithe lives (q-d1.throne's fail text, a status line since A3 35th).
+  - execute_event: {id: 5}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'The throne is occupied.', 1, true) then error('no line: ' .. s) end; if qbit(113028) then error('throne loot taken') end"}
+  # Gettlewaithe: the challenge, round one, the Mayor's demand.
+  - execute_event: {id: 22}
+  - assert: {dialog: {active: true, text_contains: "Imperator Primus of the Gremlins"}}
+  - select_topic: {match_label: "We come in peace"}
+  - assert: {dialog: {active: true, text_contains: "Your display of respect has earned you your lives."}}
+  - play_lua: {source: "if not qbit(113023) then error('round1 not set') end"}
+  - select_topic: {match_label: "The Mayor's demand"}
+  - assert: {dialog: {active: true, text_contains: "suffer the consequences of your audacity. Guards!"}}
+  - play_lua: {source: "close(); close(); wait(2); if not qbit(113024) then error('court_hostile not set') end"}
+  - assert: {actor_count: {monster_id: 11026, hostile: false, max: 0}}
+  # The three guards die: guards_beaten.
+  - damage_actor: {actor_index: 1, amount: 100000}
+  - damage_actor: {actor_index: 2, amount: 100000}
+  - damage_actor: {actor_index: 3, amount: 100000}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[a much paler shade of green]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(113025) then error('guards_beaten not set') end"}
+  # Submit or die: the gremlins submit.
+  - execute_event: {id: 22}
+  - assert: {dialog: {active: true, text_contains: "Back to petition the king?"}}
+  - select_topic: {match_label: "Submit or die"}
+  - assert: {dialog: {active: true, text_contains: "Yes, sir. I will do as you ask without delay."}}
+  - play_lua:
+      source: |
+        close(); close(); wait(2)
+        if not qbit(113026) or not qbit(113021) then error("court_peace or court_won not set") end
+        if qbit(113027) then error("gettlewaithe_slain set on the peace route") end
+  - assert: {actor_count: {monster_id: 11023, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11024, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11025, hostile: true, max: 0}}
+  # After a peace the treasury stays shut (the disks come through Snarfblad's gift).
+  - execute_event: {id: 5}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'The throne is occupied.', 1, true) then error('no line: ' .. s) end; if qbit(113028) then error('throne loot taken') end"}
+  # The servants' hatch from the court side.
+  - walk_to: {x: 760, y: 5248, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 2)"}
+  - walk_to: {x: 1250, y: 5248, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: 5000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Out the way the party came, by the tiny door to D1.
+  - walk_to: {x: 0, y: 4500, z: 2, z_tolerance: 8, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 3776, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2816, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 2150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 256, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 160, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, text_contains: "The Gremlin Court"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - assert: {party_position: {x: 2048, y: 11264, radius: 160, z_min: 1120, z_max: 1190}}

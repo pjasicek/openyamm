@@ -1,0 +1,275 @@
+{
+ "xdgodface": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.875,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdgodface_v1.txt",
+    "raw": "raw/xdgodface_v1.png",
+    "refs": [
+     "refs/xdgodface_v1_1.png",
+     "refs/xdgodface_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xdmayor": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.0,
+     "raw_size": [
+      1254,
+      1254
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdmayor_v1.txt",
+    "raw": "raw/xdmayor_v1.png",
+    "refs": [
+     "refs/xdmayor_v1_1.png",
+     "refs/xdmayor_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xdvdiam": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.087,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      1.053,
+      1.098,
+      1.114
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdvdiam_v1.txt",
+    "raw": "raw/xdvdiam_v1.png",
+    "refs": [
+     "refs/xdvdiam_v1_1.png",
+     "refs/xdvdiam_v1_2.png"
+    ],
+    "seam_raw": "raw/xdvdiam_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xdvemrld": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.297,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.893,
+      0.908,
+      0.941
+     ],
+     "seam_shift": [
+      1,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdvemrld_v1.txt",
+    "raw": "raw/xdvemrld_v1.png",
+    "refs": [
+     "refs/xdvemrld_v1_1.png",
+     "refs/xdvemrld_v1_2.png"
+    ],
+    "seam_raw": "raw/xdvemrld_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xdvruby": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.242,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.875,
+      0.936,
+      0.981
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdvruby_v1.txt",
+    "raw": "raw/xdvruby_v1.png",
+    "refs": [
+     "refs/xdvruby_v1_1.png",
+     "refs/xdvruby_v1_2.png"
+    ],
+    "seam_raw": "raw/xdvruby_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xdvsaph": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.276,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.817,
+      0.822,
+      0.816
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xdvsaph_v1.txt",
+    "raw": "raw/xdvsaph_v1.png",
+    "refs": [
+     "refs/xdvsaph_v1_1.png",
+     "refs/xdvsaph_v1_2.png"
+    ],
+    "seam_raw": "raw/xdvsaph_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xkmirror": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 1.0,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.975,
+      0.97,
+      0.963
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkmirror_v1.txt",
+    "raw": "raw/xkmirror_v1.png",
+    "refs": [
+     "refs/xkmirror_v1_1.png",
+     "refs/xkmirror_v1_2.png"
+    ],
+    "seam_raw": "raw/xkmirror_v1_seam.png",
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 2.596,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      1.05,
+      1.028,
+      1.04
+     ],
+     "seam_shift": [
+      0,
+      -1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xkmirror_v2.txt",
+    "raw": "raw/xkmirror_v2.png",
+    "refs": [
+     "refs/xkmirror_v2_1.png",
+     "refs/xkmirror_v2_2.png"
+    ],
+    "seam_raw": "raw/xkmirror_v2_seam.png",
+    "version": 2
+   }
+  ]
+ },
+ "xkshimmer": {
+  "chosen": 2,
+  "versions": [
+   {
+    "note": "",
+    "prompt": "prompts/xkshimmer_v1.txt",
+    "raw": "raw/xkshimmer_v1.png",
+    "refs": [
+     "refs/xkshimmer_v1_1.png",
+     "refs/xkshimmer_v1_2.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 0.55,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.996,
+      1.012,
+      1.032
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "Too saturated and too purple in v1: the blocks read as violet tiles. Keep the stone's own cream, tan and white colours clearly visible, as in the references, and lay the violet over it only as a faint translucent haze. Make the vertical bands of shimmering silver-violet light the main feature: several soft, wavering, top-to-bottom curtains of light across the wall, as an aurora or a heat haze. The castle should look like a pale ghost of itself, mostly silver-white with a lavender cast.",
+    "prompt": "prompts/xkshimmer_v2.txt",
+    "raw": "raw/xkshimmer_v2.png",
+    "refs": [
+     "refs/xkshimmer_v2_1.png",
+     "refs/xkshimmer_v2_2.png"
+    ],
+    "seam_raw": "raw/xkshimmer_v2_seam.png",
+    "version": 2
+   }
+  ]
+ }
+}

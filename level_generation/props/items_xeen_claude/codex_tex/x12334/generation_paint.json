@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint directly into the existing gray objects in image 1, a locked 1536x2048 RGBA atlas. Preserve its alpha channel and exact registration throughout. 3 columns x FOUR equal rows. Rows 1 and 3 have three edge-on thin disk side profiles, with tiny central raised domes. Rows 2 and 4 have one edge-on profile at left and one perfectly circular straight-down top view in middle; right cell fully transparent. Keep exact size and position in all cells. Rows 1 and 2 only: paint the Energy Disk's unlit base colours, weathered gray bronze metal engraved with the exact four-quadrant circuit motif from image 2, bright swirled blue-white energy crystal in the center. Match colours in image 3, ignore its magenta background. Respect orthographic foreshortening. No lighting, cast shadows, ambient occlusion, reflections, hot highlights, outlines, aura, ground, or text. Rows 3 and 4 only: material ID silhouettes. Every metal pixel including engraving is solid pure #FF0000, every gemstone pixel including the small side-profile dome is opaque pure #000000. Absolutely flat binary colours, no internal antialiasing, detail, outlines, shading or texture. All pixels outside the guide shapes and the two empty cells stay fully transparent. Output a single portrait 3:4 PNG.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "28bda40cf3f78816b7898df51c2f733a9f5dea7d4ce0174c829c5d5b3a462982"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "254906ed5afe1a9b74178f57f8d0d9fe8f83ef0ecf3a83b2091dadc444590acc"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "9d21e67eb8c83a1aa07a9fe002b76c24c15c4fcd6586eea57a2c3d76be18d122"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91d-bd96-7080-b778-83d30da207d2/exec-8268420e-78f3-4c20-b2c7-7301516bf368.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

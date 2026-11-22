@@ -1,0 +1,115 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# Two forts in one BLV (MAPS, Darkside): each fort's blockhouse with its cellar, joined by the ogres' run under the
+# pass. Two doors on D2 (entrance:dd13_west, entrance:dd13_east). Each fort has a burned stage keyed on its own
+# q-d11 qbit (D-23).
+format: mu6-0
+map: DD-13
+key: dd13
+name: Ogre Forts
+stands_on: D2 Sprite Forest and Ogre Pass
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [22, 26]
+monsters:
+  levels: [18, 30]
+  boss: null
+  count: 25
+  groups: [2, 3]
+  families:
+    - "Ogres A-C: Ogre 18 (12), Ogre Brute 22 (7), Ogre Chief 30 (2): the ones who stayed home while the rest are out hunting"
+    - "Wolves and cats B: Sabertooth 22 (4), the ogres' kennel"
+treasure: {level: 3}
+role: "Q-D11 Graalg's Ogres, the war route: burn both forts (Kramer's bounty, Bounty Hunter); Graalg's strongbox holds the 2 Energy Disks (barred after a peace)"
+role_short: "Q-D11 (burn)"
+set_piece: "Each fort's timber hall round its fire pit, hides on the walls: 'Burn?' sets it alight (XD-05's burning drums: faces to burning, fire lights, then charred)"
+stages:
+  - {id: stage:west_burned, qbit: q-d11.west_burned, quest: Q-D11, what: "The west fort burned (113224): its rooms charred (burning then burnt-out faces), its hall's roof fallen in round the fire pit, its ogres gone; the way in from D2 stays open in the ruin."}
+  - {id: stage:east_burned, qbit: q-d11.east_burned, quest: Q-D11, what: "The east fort burned (113225): the same; Graalg's strongbox still searchable (fort_search, 'The strongbox is empty.' once taken)."}
+floors:
+  - {floor: 0, name: "The forts", height: 0}
+  - {floor: -1, name: "Cellars and the ogres' run", height: -512}
+spaces:
+  # floor 0, west fort
+  - {id: room:gate_w, name: West fort gate, kind: room, size: S, floor: 0, at: [1, 0], monsters: 0,
+     purpose: "Inside the west fort's log gate: the yard's noise behind, the blockhouse door ahead. Burned: a doorway in black stumps."}
+  - {id: room:hall_w, name: West fort hall, kind: hall, size: L, floor: 0, at: [2, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "The west blockhouse's hall: a fire pit, bone-and-hide hangings, a long table of stolen plates. Empty: the ogres are out hunting. 'Burn?'"}
+  - {id: room:bunks_w, name: West bunkhouse, kind: room, size: M, floor: 0, at: [3, 0], monsters: 4,
+     population: [{family: Ogres, count: 4, strength: pack, rank: a, notes: "Sleeping off last night; hidden in the burned stage."}],
+     purpose: "Bunks of logs and furs, snoring ogres; a ladder down to the cellar."}
+  - {id: room:plunder_w, name: Plunder store, kind: room, size: M, floor: 0, at: [2, 1], chest: 3, monsters: 2,
+     population: [{family: Ogres, count: 2, strength: light, rank: a}],
+     purpose: "Kramer's stolen cargo in heaps: bolts of cloth, crates with his caravan mark, a strongbox (the chest). A trapdoor to the cellar."}
+  # floor 0, east fort
+  - {id: room:kennel_e, name: Kennel, kind: room, size: M, floor: 0, at: [5, 0], monsters: 4,
+     population: [{family: Wolves and cats, count: 4, strength: pack, rank: b, notes: "The ogres' sabertooths; they go with the ogres' relation."}],
+     purpose: "A pen of chewed logs behind a barred gate; sabertooths on chains; a ramp down to the east cellar."}
+  - {id: room:hall_e, name: East fort hall, kind: hall, size: L, floor: 0, at: [6, 0], set_piece: true, goal: true, monsters: 0,
+     purpose: "Graalg's own hall: a bigger fire pit, a seat of antlers, Alamar's gold on a hook for all to see. Empty: out hunting. 'Burn?'"}
+  - {id: room:gate_e, name: East fort gate, kind: room, size: S, floor: 0, at: [7, 0], monsters: 0,
+     purpose: "Inside the east fort's log gate. Burned: a doorway in black stumps."}
+  - {id: room:graalg, name: "Graalg's quarters", kind: room, size: M, floor: 0, at: [6, 1], goal: true, chest: 3, monsters: 2,
+     population: [{family: Ogres, count: 2, strength: heavy, rank: c, notes: "Two chiefs guard the chief's things."}],
+     purpose: "Furs, a bed the size of a cart, and Graalg's strongbox: the Sardaj's 2 Energy Disks (q-d11.fort_search, barred after a peace). A trapdoor to the cellar."}
+  # floor -1
+  - {id: room:cellar_w, name: West cellar, kind: cave, size: M, floor: -1, at: [3, 0], monsters: 3,
+     population: [{family: Ogres, count: 3, strength: light, rank: a}],
+     purpose: "Dug into the knoll under the blockhouse: barrels, smoked meat, the run's mouth."}
+  - {id: room:run, name: "The ogres' run", kind: corridor, size: L, floor: -1, at: [4, 0], monsters: 4,
+     population: [{family: Ogres, count: 2, strength: light, rank: a}, {family: Ogres, count: 2, strength: light, rank: b}],
+     purpose: "A long timbered tunnel under the pass between the forts; cart wheels rumble overhead where it passes under the road."}
+  - {id: room:cellar_e, name: East cellar, kind: cave, size: M, floor: -1, at: [5, 0], monsters: 3,
+     population: [{family: Ogres, count: 1, strength: light, rank: a}, {family: Ogres, count: 2, strength: light, rank: b}],
+     purpose: "Under the east blockhouse: Graalg's beer, a rack of clubs; the kennel ramp and the trapdoor to his quarters."}
+  - {id: room:loot_cave, name: "Sardaj loot", kind: cave, size: S, floor: -1, at: [4, 1], chest: 3, monsters: 3,
+     population: [{family: Ogres, count: 3, strength: pack, rank: b}],
+     purpose: "A side cave off the run: barbarian shields and bead-strung spears taken from Yog's Sardaj, and a broken disk case, empty. Brutes sit on the pile (the chest)."}
+links:
+  - {id: link:gatew_hall, from: room:gate_w, to: room:hall_w, kind: door}
+  - {id: link:hallw_bunks, from: room:hall_w, to: room:bunks_w, kind: door}
+  - {id: link:hallw_plunder, from: room:hall_w, to: room:plunder_w, kind: door}
+  - {id: link:bunks_cellar, from: room:bunks_w, to: room:cellar_w, kind: stair, label: ladder}
+  - {id: link:plunder_cellar, from: room:plunder_w, to: room:cellar_w, kind: stair, label: trapdoor}
+  - {id: link:cellarw_run, from: room:cellar_w, to: room:run, kind: open}
+  - {id: link:run_loot, from: room:run, to: room:loot_cave, kind: open}
+  - {id: link:run_cellare, from: room:run, to: room:cellar_e, kind: open}
+  - {id: link:cellare_kennel, from: room:cellar_e, to: room:kennel_e, kind: stair, label: ramp}
+  - {id: link:kennel_hall, from: room:kennel_e, to: room:hall_e, kind: door, notes: "The kennel's barred gate, opened from either side."}
+  - {id: link:halle_graalg, from: room:hall_e, to: room:graalg, kind: door}
+  - {id: link:graalg_cellar, from: room:graalg, to: room:cellar_e, kind: stair, label: trapdoor}
+  - {id: link:halle_gate, from: room:hall_e, to: room:gate_e, kind: door}
+states:
+  - {id: state:burn_w, kind: stage, where: room:hall_w,
+     what: "'Burn?' at the west hall's fire pit (q-d11.fort_west): sets q-d11.west_burned and q-d11.hostile (D-12.3). The hall's faces go to burning, pulsing fire lights, the hide hangings (destructibles) burn away; about 4 s later charred and the line. On every later load the west fort's rooms show their burned stage (D-23): charred faces by qbit, the hall's roof down round the pit, the west ogres hidden.",
+     opens: [], draw: false}
+  - {id: state:burn_e, kind: stage, where: room:hall_e,
+     what: "'Burn?' at the east hall's fire pit (q-d11.fort_east): sets q-d11.east_burned and q-d11.hostile. The same as the west; the kennel and Graalg's quarters charred, their monsters hidden, the strongbox still searchable.",
+     opens: [], draw: false}
+  - {id: state:peace, kind: qbit, where: "D2, Graalg at his parley fire",
+     what: "q-d11.friends: the forts' ogres (and their sabertooths) are peaceful (A2's relation). q-d11.peace bars the strongbox ('Graalg would notice.'). Burning stays possible after a peace and turns them hostile (D-12.3).",
+     opens: [], draw: false}
+  - {id: state:strongbox, kind: puzzle, where: room:graalg,
+     what: "q-d11.fort_search: 2 Energy Disks once, unless q-d11.peace; then 'The strongbox is empty.'",
+     opens: [], draw: false}
+exits:
+  - {id: exit:d2_west, space: room:gate_w, at: [0, 0], kind: both, label: "D2: west fort gate",
+     neighbour: "D2 entrance:dd13_west (door:dd13_west): the west fort's gate in its palisade on the knoll north of the road, facing it"}
+  - {id: exit:d2_east, space: room:gate_e, at: [8, 0], kind: both, label: "D2: east fort gate",
+     neighbour: "D2 entrance:dd13_east (door:dd13_east): the east fort's gate on its knoll south of the road; explicit arrival coordinates until A1 adds a second arrival per dungeon (D-4, XD-10)"}
+critical_path: [room:gate_w, room:hall_w, room:bunks_w, room:cellar_w, room:run, room:cellar_e, room:graalg, room:hall_e]
+return_path: [room:hall_e, room:gate_e]
+loops:
+  - {id: loop:west, spaces: [room:hall_w, room:bunks_w, room:cellar_w, room:plunder_w], notes: "Round the west blockhouse and its cellar."}
+  - {id: loop:east, spaces: [room:hall_e, room:kennel_e, room:cellar_e, room:graalg], notes: "Round the east blockhouse and its cellar."}
+  - {id: loop:pass, spaces: [room:gate_w, room:hall_w, room:bunks_w, room:cellar_w, room:run, room:cellar_e, room:graalg, room:hall_e, room:gate_e],
+     notes: "In at one gate, through the run, out at the other, back over the pass road on D2."}
+lines:
+  - {text: "You've found an Ogre fort, but the Ogres are out hunting. Burn?", ref: "dark/aaze0015:7", where: "room:hall_w, room:hall_e (the map's question)"}
+  - {text: "The fort collapses in a heap of burning timbers and smoldering ash.", ref: "dark/aaze0015:8 (experience dropped)", where: "room:hall_w, room:hall_e (q-d11.fort_west, fort_east)"}
+  - {text: "You search the fort and find 2 energy disks.", ref: "dark/aaze0015:23", where: "room:graalg (q-d11.fort_search)"}
+  - {text: "We are Ogres! We take what we want. Yesterday, we took the Sardaj's Energy disks!", ref: "dark/aaze0015:16", where: "room:loot_cave, scratched on the empty disk case (Graalg's own words, also his topic)"}
+open_questions:
+  - "Burning from inside: the party stays in the fort while it burns (XD-05's drum method: faces to burning, fire lights, then charred), the stage holds on later loads. Or a fade with the party set outside the fort's gate on D2?"
+  - "The halls are empty ('out hunting'): the 25 are the stay-behinds in bunks, stores, cellars and the run; the hunters are D2's yard ogres. Agreed?"
+  - "Four sabertooths (Wolves and cats, D2's family) as the ogres' kennel: they take the ogres' relation (peaceful with q-d11.friends). A2 row or map relation?"

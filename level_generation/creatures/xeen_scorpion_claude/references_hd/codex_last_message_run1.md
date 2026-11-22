@@ -1,0 +1,3 @@
+Saved [00_three_quarter.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/00_three_quarter.png) as an unresized 1536×1024 RGBA PNG from the built-in image generator. Both attempts and their prompts are in [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/generation_runs.json).
+
+The selected render has at least 128 px of visible clearance on every side, though faint alpha extends into the border. Only three far-side walking legs are clearly visible, so the eight-leg anatomy check remains unresolved after the permitted correction.

@@ -1,0 +1,205 @@
+# Q-D22 The Coven (QUESTS 2.2 Q-D22, 3.2: Great Druid -> Warlock, Dark). Owner: A3. Format: QUESTS_FORMAT.md.
+# Lakeside (D4) is the coven's town. Naomi the Prisoner, in the stocks on the square for failing the initiation test,
+# gives the quest and says the test's answer plainly (WITCH). The Lakeside Guild's door asks the riddle: the right
+# answer is the coven's "free membership" and opens the guild's stair down into the coven (DD-20); a wrong one drops
+# the party into DD-20's sewer half ("Wrong! Begone fools!"), so the riddle never bars the quest. Four more prisoners
+# sit in the coven's cells (Camilla, Aretha, Isabella, Rhett: hooks, no NPC ids needed); Naomi's stocks open when the
+# Head Witch dies, which makes five. Break the coven: kill the Head Witch, free the four, back to Naomi: Lakeside
+# liberated (q-d22.done opens the town's houses and the mirror; Xeen.Stages.lakeside). The ferry to the Isle runs from
+# day one (D-12.1). Joining the coven is the peaceful route (members only, before the Head Witch dies: the initiation
+# cauldron makes Great Druids Warlocks), breaking it the violent one; a party that joined may break it later (Naomi's
+# hand-in reads only the bits of the break). Either way the Head Witch's chest holds the Necropolis pass (members may
+# open it; the break route opens it over her body).
+# Experience: 8,000 per member (500 per cell, Naomi 6,000); the initiation pays nothing extra.
+id: Q-D22
+title: The Coven
+act: IV
+kind: side
+status: full
+giver: 5318                  # Naomi, Prisoner of the Coven (A4, d4.yml)
+maps: [D4, DD-20]
+level: 32
+block: 102
+after: []
+source: "QUESTS Q-D22; dark/aaze0033:4-8 (the riddle), :24-28 (the prisoners), :37-41 (their names); dark/aaze0034:7 (the journal page)"
+
+qbits:
+  dd20_arrived_once: {id: 117400, map: DD-20, note: "the map's own: first arrival in DD-20 (A8; block 117400-117439, provisional)"}
+  started: {id: 113440, journal: "The coven rules Lakeside. Naomi, in the stocks on the square, wants the prisoners in its cells freed and the coven broken.",
+            until: [done]}
+  done: {id: 113441, note: "the coven broken, Lakeside liberated (Xeen.Stages.lakeside; A4's doors open)"}
+  riddle_answered: {id: 113442, note: "the guild door's riddle answered: the coven's membership (D4's guild door, q-d22.guild_right)"}
+  camilla_freed: {id: 113443}
+  aretha_freed: {id: 113444}
+  isabella_freed: {id: 113445}
+  rhett_freed: {id: 113446}
+  head_witch_slain: {id: 113447}
+  pass_found: {id: 113448}
+  joined: {id: 113449, note: "the party joined the coven (initiation cauldron): Warlock promotion; the coven is peaceful to members"}
+
+player_bits:         # DD-20's brewery, once per character (D-42); the hooks decide and raise the tasting member
+  cauldron_personality: {id: 11345, map: DD-20, note: "the brewery's first cauldron: +2 Personality (base)"}
+  cauldron_endurance: {id: 11346, map: DD-20, note: "the second cauldron: +2 Endurance (base)"}
+  cauldron_speed: {id: 11347, map: DD-20, note: "the third cauldron: +2 Speed (base)"}
+
+autonotes:
+  coven: {id: 4620, text: "Lakeside's coven: the Guild's door asks 'What am I?' (the answer is witch). Four prisoners in the cells below, the Head Witch above them; Naomi in the stocks on the square.", category: Misc}
+  pass: {id: 4621, text: "The Head Witch keeps her pass to Necropolis in a chest in her room, in the coven's north-west corner.", category: Misc}
+
+awards:
+  lakeside: {id: 462, text: "Liberated Lakeside", sort: 2}
+
+items:
+  necropolis_pass: "the Head Witch's chest (DD-20, witch_chest hook); opens Necropolis (Q-D23, M-steps of Act V)"
+
+npcs:
+  5318:                      # Naomi, in the stocks on Lakeside's square (A6 places her; the stocks open when
+                             # head_witch_slain is set; she stays on the square after)
+    topics:
+      - n: 1
+        label: The coven
+        states:
+          - when: {qbit: done}
+            text: "Lakeside has its tavern back and I have my feet back. I keep checking on both."
+          - when: {all: [{qbit: head_witch_slain}, {qbit: camilla_freed}, {qbit: aretha_freed}, {qbit: isabella_freed}, {qbit: rhett_freed}]}
+            text: "The stocks fell open when the Head Witch died, and the others are out. Lakeside is ours again. The tavern was never destroyed, by the way. They only painted it gone."
+            do: [{set: done}, {award: lakeside}, {xp: 6000}, {gold: 2000}]
+          - when: {qbit: head_witch_slain}
+            text: "The Head Witch is dead and my stocks fell open. I'm staying until the others are out of the cells. Someone has to count them."
+          - when: {qbit: started}
+            text: "Four more of us are in the cells below the Guild, and the Head Witch above them. The Guild's door asks 'What am I?' The answer is witch."
+          - text: "They put me in the stocks for failing the initiation test. The test is the riddle at the Guild's door, 'What am I?', and the answer is witch. I said 'broom'. Four more of us are in the cells below. The good ones go to Castle Blackfang as guards; the rejects go to the Isle. Get them out, and break the coven."
+            do: [{set: started}, {autonote: coven}]
+      - n: 2
+        label: Necropolis pass
+        show: {all: [{qbit: started}, {not: {found: necropolis_pass}}]}   # D-90 5: the pass held once, not the chest opened
+        text: "Because they did this to me, I'll tell you where the Head Witch keeps her pass to Necropolis. It is in a chest in her room, in the north-west corner of the coven."
+        do: [{autonote: pass}]
+
+hooks:
+  guild_door:
+    map: D4
+    where: "the Lakeside Guild's door (house 4651). The door event calls this hook: it shows the riddle and returns true, and the map then asks \"What am I?\" (answer witch or witches: q-d22.guild_right; anything else: q-d22.guild_wrong). Once riddle_answered is set the hook returns false and the door simply opens"
+    requires: {not: {qbit: riddle_answered}}
+    reads: [riddle_answered]
+    text: "My first is in water but not in tear. My second is in hire but not in hear. My third is in tree but not in peer. My fourth is in race but not in fear. My last is in sharp but not in spear."
+  guild_right:
+    map: D4
+    where: "the right answer at the Guild's front door: the Guild opens (Grizel's house); members go down into the coven's hall (DD-20) by the cellar door round the back, D4's west-wall hatch door:dd20_guild (D-42 Q4)"
+    sets: [riddle_answered]
+    once: true
+    text: "Correct! As a reward, I give you free membership to the guild. Members use the cellar door round the back."
+  guild_wrong:
+    map: D4
+    where: "a wrong answer at the Guild's door: a trapdoor drops the party into DD-20's sump (entrance:d4_trapdoor, (3456, -640, -512) facing 0, one way); a status line, the move is the hook's (A8, A6: D4's door event calls only this)"
+    status: true
+    text: "Wrong! Begone fools! The floor of the porch drops away, and you land in the sewer under the Guild."
+    do: [{lua: "evt.MoveToMap(3456, -640, -512, 0, 0, 0, 0, 0, \"xeen_dd20.blv\", {direct = true})"}]
+  camilla:
+    map: DD-20
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the first cage in the coven's cells: Camilla the Captured (the map's 'Cage'; she walks out and is gone)"
+    sets: [camilla_freed]
+    once: true
+    do: [{xp: 500}]
+    text: "Thanks for getting me out of there. The witches turn people into monsters: the good ones guard Castle Blackfang, the rejects end up on the Isle of Lost Souls. There are others. Find them."
+    else_text: "Nothing here."
+  aretha:
+    map: DD-20
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the second cage in the coven's cells: Aretha the Helpless"
+    sets: [aretha_freed]
+    once: true
+    do: [{xp: 500}]
+    text: "Oh, thank you for rescuing me! The witches were going to use me for spare parts in their potions."
+    else_text: "Nothing here."
+  isabella:
+    map: DD-20
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the third cage in the coven's cells: Isabella the Victim, asleep"
+    sets: [isabella_freed]
+    once: true
+    do: [{xp: 500}]
+    text: "(yawn) Thank you for saving me from my hideous fate. I am forever in your debt. I'll be going now. See you."
+    else_text: "Nothing here."
+  rhett:
+    map: DD-20
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the fourth cage, at the cells' sewer end: Rhett the Wimp (his line points at q-d20.dragon)"
+    sets: [rhett_freed]
+    once: true
+    do: [{xp: 500}]
+    text: "Thank you for saving me. I'm tired of adventuring and I'm going home, but the dragon statuette is in the sewer below us. The witches caught me just as I was reaching for it."
+    else_text: "Nothing here."
+  head_witch:
+    map: DD-20
+    where: "the Head Witch's death (her room in the coven's north-west corner; A8: her group). Members of the coven (joined) find her peaceful until they attack"
+    sets: [head_witch_slain]
+  initiation:
+    map: DD-20
+    gate: faction
+    where: "the initiation cauldron in the coven's hall, at the foot of the Guild's stair (the map's question 'Drink?')"
+    requires: {all: [{qbit: riddle_answered}, {not: {qbit: head_witch_slain}}]}
+    reads: [joined]
+    states:          # no `once`: a later Great Druid of a member party drinks too, unpaid (D-74 item 4)
+      - when: {all: [{qbit: joined}, {promotable: coven}]}
+        text: "Another of the green ways drinks. The witches clap, politely. Warlock."
+        do: [{promote: coven}]
+      - when: {qbit: joined}
+        text: "You have had some. It is still toad."
+      - text: "The brew tastes of toad and ambition. 'Welcome, sisters,' says a witch, whatever you are. Those of you who walk the green ways come up from the cauldron Warlocks. Members may also help themselves to the Head Witch's chest. Politely."
+        do: [{set: joined}, {promote: coven}]
+    fail_text: "The cauldron is cold. Nobody here is initiating anybody."
+  witch_chest:
+    map: DD-20
+    gate: faction
+    where: "the Head Witch's chest in her room, the coven's north-west corner: the pass is an ordinary item in it with her treasure (F15, 2026-11-21); the map calls this after the chest opens (sets the bit once) and when it stays shut (the fail line)"
+    requires: {any: [{qbit: joined}, {qbit: head_witch_slain}]}
+    sets: [pass_found]
+    map_gives: {necropolis_pass: 1}
+    once: true
+    status: true   # F15: a window would close the open chest; the fail line is a remark
+    fail_status: true
+    fail_text: "The Head Witch's chest. The Head Witch is standing next to it."
+  coven_gone:
+    map: D4
+    where: "D4's load event (D-36.3): once the Head Witch is dead, the map hides the coven's two placed groups (the Witches' Circle, the reed cauldron); it asks XeenQuests.can(\"q-d22.coven_gone\") and hides them when true (keyed on her death, not done); the Circle's chest and skulls stay usable"
+    requires: {qbit: head_witch_slain}
+    reads: [head_witch_slain]
+
+  cauldron_personality:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-20
+    where: "the brewery's first cauldron (dark/aaze0033:29-30): the map only calls this; the hook decides for the clicking member (player bit 11345)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11345))"}
+        text: "You have had your fill."
+      - text: "Cauldron. You taste the brew, and the witches' charm rubs off on you a little. (+2 Personality, permanent)"
+        do: [{lua: "AddValue(BasePersonality, 2)"}, {lua: "SetPlayerBit(PlayerBit(11345))"}]
+  cauldron_endurance:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-20
+    where: "the brewery's second cauldron (dark/aaze0033:29, :31): the map only calls this; the hook decides for the clicking member (player bit 11346)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11346))"}
+        text: "You have had your fill."
+      - text: "Cauldron. It tastes of iron and old boots, and you feel you could take a beating. (+2 Endurance, permanent)"
+        do: [{lua: "AddValue(BaseEndurance, 2)"}, {lua: "SetPlayerBit(PlayerBit(11346))"}]
+  cauldron_speed:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-20
+    where: "the brewery's third cauldron (dark/aaze0033:29, :32): the map only calls this; the hook decides for the clicking member (player bit 11347)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11347))"}
+        text: "You have had your fill."
+      - text: "Cauldron. The brew is gone before you taste it, and so, nearly, are you. (+2 Speed, permanent)"
+        do: [{lua: "AddValue(BaseSpeed, 2)"}, {lua: "SetPlayerBit(PlayerBit(11347))"}]
+riddles:
+  - {answer: "witch (or witches)", where: "the Lakeside Guild's door (D4, q-d22.guild_door; a wrong answer drops into DD-20's sewer, so the riddle bars nothing)",
+     said_by: "Naomi the Prisoner (5318, topic The coven: 'the answer is witch')"}
+
+rewards: {xp: 8000, gold: 2000, award: "Liberated Lakeside", items: "the Necropolis pass (both routes)", promotion: "Great Druid -> Warlock (Dark, joining)"}
+notes:
+  - "relations.yml (A2): the coven's witches hostile; peaceful to the party while joined is set and head_witch_slain is not."
+  - "A6 places Naomi's stocks on the square (D4); A8 the cells, the cauldron, the Head Witch and her chest (DD-20)."
+playthrough: "D4: Naomi (The coven; Necropolis pass). D4: the Guild's door ('witch': guild_right; or guild_wrong into the sewer). DD-20: the four cages; [join: the cauldron]; the Head Witch; her chest. D4: Naomi (The coven)."

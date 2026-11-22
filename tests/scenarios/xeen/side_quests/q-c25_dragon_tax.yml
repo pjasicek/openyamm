@@ -1,0 +1,236 @@
+# Xeen side quest Q-C25, The Dragon Tax (X7, XD-18), with the Great Wyrm promotion, from a new game on X7 with a
+# Dragon in a level-62 party (the quest is level 50, the library beyond the dragons 60+) carrying the tax's 2,000 gold.
+# The tax road's end: the Dragon Cave's mouth (X7 event 40: "smells pretty bad", Yes) into XD-18's tax hall. The urn
+# before the tax (event 25, "looks hungry"); the inner door (event 14) open before the tax (D-89)
+# and nobody is thrown out. Scaldrith (house 4852, NPC 5702): The tax with gold and no
+# gems: refused; the gems (a new game carries none: the fee's 20 gems, logged CONVENTION); The tax: paid (2,000 gold
+# and 20 gems taken, tax_paid, autonote 4390), again "Paid in full"; the urn "empty and powerless". The waiting room's
+# lectern (event 26): Dragon Lore 1 (volume1, 2,000 XP each, Loremaster of Worms). Scaldrith: Great Wyrm (the Dragon
+# a Great Wyrm, 12,000 XP each once; wyrm). The inner door opens for good (118100); the cave walked as its L4 playtest
+# to the library: the scorched passage, the bone hall, the ledge road, the fire crossing, the stair, the great roost,
+# the ember gallery and the library's east leaves; The Art of Taxation refused, shelves 2-4 and 5 (volumes 2-5, 2,000
+# each, their titles), The Art of Taxation read (taxation, 2,000, Taxman Emeritus). The Dragon King and his hoard are
+# the map's, not the quest's, and are left alone. Outdoors the party is placed (PLAYBOOK §2); the cave is walked.
+# Routes: devdocs/xeen/briefs/x7/L4/playtest.yml (the tax road), xd18/L4/playtest.yml; tests/scenarios/xeen/
+# hooks_xd18.yml (the hooks). Quest logic: source/quests/q-c25.yml. Prep: prep/q-c25.md.
+#   python3 tests/scenarios/xeen/side_quests/run.py q-c25_
+id: xeen.side_quests.q-c25
+title: "Xeen Q-C25: the Dragon Tax paid, Dragon Lore read, a Great Wyrm and the Taxman Emeritus"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x7.odm
+      party:
+        gold: 2100
+        food: 20
+        members:
+          - {name: Ssarr, class: Dragon, level: 62, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 62, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 62, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 62, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x7.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [112500, 112501, 112502, 112503, 112504, 112505, 112506, 112507, 118100]}
+  # The tax road's end: the Dragon Cave's mouth (X7 event 40), Yes.
+  - set_pose: {map: xeen_x7.odm, x: -3891, y: 16589, z: 2144, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd18.blv}
+  - assert: {party_position: {x: 384, y: -3072, radius: 200, z_min: -80, z_max: 160}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The urn on the counter (event 25) before the tax.
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "It is empty, and it looks hungry."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The inner door (event 14) before the tax (D-89: the cave is open; the tax buys only the Dragon King's door and
+  # the Great Wyrm): it opens, and nobody is thrown out.
+  - walk_to: {x: 2560, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door is not open before the tax: ' .. door_state(2)) end; if not qbit(118100) then error('inner_door_open 118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  - assert: {qbit_clear: [112500]}
+  # Scaldrith (house 4852, event 18): The tax with 2,100 gold and no gems: refused.
+  - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_absent: "Great Wyrm"}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "No gems, no audience. No exceptions."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if gold() ~= 2100 then error('the refusal took gold: ' .. gold()) end"}
+  - assert: {qbit_clear: [112500]}
+  # The fee's gems: a new game's party carries none (the quest is level 50; a party there has found gems on the way).
+  - play_lua: {source: "log('CONVENTION loot q-c25 gems: 0 -> 20 (the tax fee; a new game carries no gems)')"}
+  - grant_item: {item_id: 180, count: 10, member_index: 1}
+  - grant_item: {item_id: 181, count: 10, member_index: 2}
+  - play_lua: {source: "if held() ~= 0 then stow() end; local g = item_count(180) + item_count(181); if g ~= 20 then error('gems granted: ' .. g) end"}
+  # The tax: paid (2,000 gold and 20 gems, tax_paid, autonote 4390); again: paid in full.
+  - play_lua: {source: "click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter."}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "Paid in full. Keep the receipt."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if gold() ~= 100 then error("the tax left " .. gold() .. " gold, not 100") end
+        local left = item_count(180) + item_count(181)
+        if left ~= 0 then error("the tax left " .. left .. " gems") end
+  - assert: {qbit_set: [112500]}
+  - assert: {autonote: {id: 4390}}
+  # The urn after the tax.
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "The urn is empty and powerless."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The waiting room's lectern (event 26): Dragon Lore, volume 1 (2,000 each, Loremaster of Worms), once.
+  - walk_to: {x: 1920, y: -2600, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 10)"}
+  - walk_to: {x: 1920, y: -1900, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(26); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 1: Worms.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("volume 1 paid member " .. i .. " " .. d) end
+        end
+        click(26); wait(0.7)
+  - assert: {dialog: {active: true, text_contains: "You have read it. It has not changed."}}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do if experience(i) - recall('x' .. i) ~= 2000 then error('volume 1 paid again') end end"}
+  - assert: {qbit_set: [112501]}
+  - assert: {award_acquired: [{id: 430, member_index: 0}, {id: 430, member_index: 3}]}
+  # Scaldrith: Great Wyrm (the Dragon rises; 12,000 each, once); again: nobody left to promote.
+  - walk_to: {x: 1920, y: -2700, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the Great Wyrm topic: ' .. c) end end end"}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "Great Wyrm"}}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "A dragon who pays tax and reads. Rarer than gold."}}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 12000 then error("Great Wyrm paid member " .. i .. " " .. d .. ", not 12000") end
+        end
+        if classes() ~= "GreatWyrm Knight Cleric Sorcerer" then error("classes after Scaldrith: " .. classes()) end
+        log("Great Wyrm: " .. classes())
+  - assert: {qbit_set: [112507]}
+  # The inner door opens now and for good (118100).
+  - walk_to: {x: 2560, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door is not open: ' .. door_state(2)) end; if not qbit(118100) then error('inner_door_open 118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  # The scorched passage, the bone hall, the ledge road, the fire crossing, the stair head and the stair.
+  - walk_to: {x: 3300, y: -3072, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 4400, y: -3072, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3500}
+  - walk_to: {x: 5568, y: -2500, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5568, y: -2000, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 7900, y: -1990, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 8560, y: -1984, z: 0, radius: 48, z_tolerance: 24, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 9000, y: -1700, z: 0, radius: 64, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 9950, y: -1984, z: 0, radius: 48, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 10048, y: -1800, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 10048, y: 900, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 60, close_dialogs: true}
+  # The great roost and the ember gallery to the library's east leaves.
+  - walk_to: {x: 8576, y: 900, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 8576, y: 0, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 4500}
+  - walk_to: {x: 8000, y: 0, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 4000, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 5400, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 4000, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: 3300, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 3000, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 6)"}
+  - walk_to: {x: 2600, y: -384, z: -1024, radius: 64, z_tolerance: 40, clear_hostiles: 2500, timeout_seconds: 40, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The ledger stand (event 24): The Art of Taxation before the Lore is read: refused.
+  - walk_to: {x: 1300, y: 0, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(24); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "Read the Lore first. Then we'll talk money."}}
+  - play_lua: {source: "close(); wait(0.3); if qbit(112506) then error('taxation set before the Lore') end"}
+  # Shelves 2-4 (events 27-29) and shelf 5 by the King's door (event 30): 2,000 each and their titles.
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end"}
+  - walk_to: {x: 1408, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(27); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 2: Lizards.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3); click(27); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "Dragon Lore, volume 2. Read."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 1920, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(28); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 3: Serpents.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 2432, y: -900, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(29); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 4: Drakes.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.3)"}
+  - walk_to: {x: 700, y: -256, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 192, y: -150, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(30); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 5: Dragons. "There is only one.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 8000 then error("volumes 2-5 paid member " .. i .. " " .. d .. ", not 8000") end
+        end
+  - assert: {qbit_set: [112502, 112503, 112504, 112505]}
+  # The Art of Taxation now (2,000 each, Taxman Emeritus), then its after-line.
+  - walk_to: {x: 1300, y: 0, z: -1024, radius: 48, z_tolerance: 40, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(24); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Art of Taxation, by Scaldrith. "Chapter One: Everyone pays. Chapter Two: See Chapter One."]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("The Art of Taxation paid member " .. i .. " " .. d) end
+        end
+        click(24); wait(0.7)
+  - assert: {dialog: {active: true, text_contains: "You know it by heart, regrettably."}}
+  - play_lua: {source: "close(); wait(0.3); log('Q-C25 done: ' .. classes() .. ', gold ' .. gold())"}
+  - assert: {qbit_set: [112500, 112501, 112502, 112503, 112504, 112505, 112506, 112507, 118100]}
+  - assert:
+      award_acquired:
+        - {id: 430, member_index: 0}
+        - {id: 431, member_index: 0}
+        - {id: 432, member_index: 1}
+        - {id: 433, member_index: 2}
+        - {id: 434, member_index: 3}
+        - {id: 435, member_index: 0}
+        - {id: 435, member_index: 3}

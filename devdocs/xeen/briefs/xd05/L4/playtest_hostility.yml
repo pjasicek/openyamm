@@ -2,7 +2,7 @@
 # its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
 id: xeen.xd05.l4.hostility
 title: 'the Orc Caves (XD-05): foes hostile to the party, no fights among them'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -39,57 +39,57 @@ steps:
     seconds: 2
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11030
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 272
+      monster_id: 11031
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 273
+      monster_id: 11032
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11300
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 206
+      monster_id: 11301
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 207
+      monster_id: 11302
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 400
+      monster_id: 11480
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 401
+      monster_id: 11481
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 402
+      monster_id: 11482
       hostile: false
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11301
       hostile: true
       min: 1
 - assert:
     actor_count:
-      monster_id: 273
+      monster_id: 11032
       hostile: true
       min: 1
 - assert:
@@ -107,17 +107,17 @@ steps:
     y: 850
     z: 0
 - spawn_actor:
-    monster_id: 271
+    monster_id: 11030
     x: -554
     y: 850
     z: 0
 - spawn_actor:
-    monster_id: 205
+    monster_id: 11300
     x: -458
     y: 850
     z: 0
 - spawn_actor:
-    monster_id: 400
+    monster_id: 11480
     x: -362
     y: 850
     z: 0
@@ -142,17 +142,17 @@ steps:
       max: 0
 - assert:
     actor_count:
-      monster_id: 271
+      monster_id: 11030
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 205
+      monster_id: 11300
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 400
+      monster_id: 11480
       hurt: true
       max: 0
 - assert:

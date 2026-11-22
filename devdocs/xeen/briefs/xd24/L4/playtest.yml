@@ -1,0 +1,124 @@
+# Playtest of Nightshadow Crypt (XD-24, L4; lane A7, agent:xeen-a7-xd24): the party's way from the coffin stair's foot
+# to Count Draco and back. The arrival line; a gnome coffin in the niches ("The coffin is empty.", aaze0029:3); the
+# ossuary's gnome vampires; the chapel's door, the black altar and the painted moon; the sexton's lockbox; down the
+# chapel stair into the catacombs; the gallery's portrait; round the catacomb loop through the feast hall (table, plate
+# chest); the vault stair's sign (aaze0029:6); the iron door, by day (D-89: no night condition since 2026-11-22):
+# it opens and sets the map qbit 110940; Draco's vault: the Count and his household killed,
+# the kill timer runs A3's q-c7.draco (q-c7.done 112141) and opens the Count's stair; the sarcophagus's rhyme
+# (aaze0029:8), the hoard; up the Count's stair to the stair foot; a save and load keeps the iron door and the stair
+# open; out by the coffin stair to X3. Numbers are ids.lock.yml's (events, doors). Run with
+# output/studio_cal/xd24/four.sh.
+id: xeen.xd24.l4.walk
+title: Nightshadow Crypt (XD-24 L4), down to Count Draco by night and back up his stair
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd24.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - assert: {map: xeen_xd24.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 704, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival line (a one-shot timer, map variable 0).
+  # (the headless runner opens no window from a timer: the step asserts that the event ran)
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  - play_lua: {source: "close()"}
+  - assert: {game_hour: 9}
+  # The niches: a gnome coffin, empty (aaze0029:3); the five gnome vampires.
+  - walk_to: {x: 0, y: 300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -384, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 192, y: -560, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(9); wait(0.5); local s = status(); log('coffin: ' .. s); if not string.find(s, 'The coffin is empty.', 1, true) then error('no coffin line: ' .. s) end"}
+  - walk_to: {x: -900, y: -384, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The ossuary: two pairs of gnome vampires among the bones.
+  - walk_to: {x: 0, y: 512, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1280, y: 576, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  # The chapel's door; the chapel: altar, moon, three gnome vampires.
+  - walk_to: {x: -1800, y: 576, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 6)"}
+  - walk_to: {x: -2400, y: 576, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: -2656, y: 760, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(1); wait(0.5); log('altar: ' .. status()); click(19); wait(0.5); local s = status(); log('moon: ' .. s); if not string.find(s, 'full moon', 1, true) then error('no moon line: ' .. s) end"}
+  # The sexton's room and his lockbox.
+  - walk_to: {x: -3150, y: 704, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 7)"}
+  - walk_to: {x: -3800, y: 640, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(6); close()"}
+  - play_lua: {source: "click(3); wait(0.5); log('cot: ' .. status())"}
+  # Down the chapel stair into the west catacomb.
+  - walk_to: {x: -3150, y: 704, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2688, y: -500, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2688, y: -2300, z: -640, z_tolerance: 60, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # Draco's gallery: the household vampire, a portrait.
+  - walk_to: {x: -2000, y: -2496, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1280, y: -2160, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(20); wait(0.5); local s = status(); log('portrait: ' .. s); if not string.find(s, 'same pale face', 1, true) then error('no portrait line: ' .. s) end"}
+  # Round the catacombs: the east catacomb, the feast hall (table, plate chest), back by the west catacomb.
+  - walk_to: {x: -576, y: -2700, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -576, y: -3600, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -760, y: -3290, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 3)"}
+  - walk_to: {x: -1600, y: -3290, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - walk_to: {x: -1600, y: -3800, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(23); wait(0.5); log('table: ' .. status())"}
+  - walk_to: {x: -2100, y: -3700, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(4); close()"}
+  - walk_to: {x: -2150, y: -3290, z: -640, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 4)"}
+  - walk_to: {x: -2752, y: -3290, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2752, y: -2496, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -500, y: -2496, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The vault stair: the sign over the iron door, then the door (D-89: it opens at any hour, by day here).
+  - walk_to: {x: 990, y: -2496, z: -1280, z_tolerance: 120, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(22); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Only at night can you put up a fight."}}
+  - play_lua: {source: "close()"}
+  - play_lua: {source: "click(18); wait(2); log('iron door: ' .. status()); if not qbit(110940) then error('vault_open (110940) not set') end; if door_state(5) ~= 'open' then error('the iron door is not open: ' .. door_state(5)) end"}
+  # Draco's vault: the Count and his household.
+  - walk_to: {x: 1500, y: -2496, z: -1280, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "wait(1); if not qbit(112141) then error('q-c7.done (112141) not set by the kill timer') end"}
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  - play_lua: {source: "close(); wait(0.5); close(); wait(2); if door_state(1) ~= 'open' then error('the Count stair base is not open: ' .. door_state(1)) end; if door_state(2) ~= 'open' then error('the Count stair top is not open: ' .. door_state(2)) end"}
+  - assert: {actor_visible: {actor_index: 7, monster_id: 11293, dead: true}}
+  # The sarcophagus's rhyme and the hoard.
+  - walk_to: {x: 2048, y: -2560, z: -1280, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(21); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "bid him farewell"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 2688, y: -1800, z: -1248, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(5); close()"}
+  # Up the Count's stair to the stair foot.
+  - walk_to: {x: 2048, y: -1700, z: -1280, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: -1250, z: -1280, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2048, y: 380, z: -450, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 800, y: 512, z: -50, z_tolerance: 80, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 512, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_position: {x: 0, y: 512, radius: 96, z_min: -8, z_max: 8}}
+  # A save and load: the iron door and the Count's stair stay open (the load events).
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - reload: {}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close(); wait(2); if door_state(5) ~= 'open' then error('the iron door shut after a load: ' .. door_state(5)) end; if door_state(2) ~= 'open' then error('the Count stair shut after a load: ' .. door_state(2)) end"}
+  # Out by the coffin stair to X3.
+  - walk_to: {x: 0, y: 1800, z: 384, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 17}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}

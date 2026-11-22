@@ -1,0 +1,23 @@
+{
+  "prompt": "Paint only the opaque grey pixels of guide_atlas.png (first input), preserving its alpha mask exactly. Output transparent 1536x1024 PNG. Three columns by two rows of 512px cells. Four narrow clipped-corner horizontal edge views, 446x54 pixels, centered at (256,256), (768,256), (1280,256), (256,768). Each shows only the subtly worn thick gold edge. One 446px diameter top-view disk centered at (768,768), crowned face upright. Lower right empty. All coordinates measured from canvas top left. Keep every object in exactly the same size, position, orthographic orientation and outline as the guide. Preserve all transparent gaps. King's Megacredit is a thick round gold token stamped with King Burlock's crown; match precisely the crown silhouette, points, round studs, curls, band and worn raised rim of design_reference.png. Use icon_x8.png for gold colour only; magenta is background. Paint unlit base colour, understated material variation and worn gold detail. No illumination, cast shadows, AO, hot highlights, reflections, glow, sparkles, outlines, text or ground. Do not crop or rearrange the sheet.",
+  "inputs": [
+    {
+      "path": "guide_atlas.png",
+      "sha256": "7a25aad7e4d5f2bbed3c2b3ae1d25ddb29126f70b9c0afc417d8933ba540240d"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "e2ef831711321f8596ea6ddedbfa15e89469cb4e9fc6c47f69af73c11df967e3"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "12f9a61929be259b6d46c2aadb672fd6d32d7e561b19620a1f64b5eca834c4c4"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f912-d49c-75c2-b4e5-1799adee5978/exec-c9780aa5-d96f-40e1-8562-e2a567ff4097.png",
+  "output": "paint_raw_v1.png",
+  "size": [
+    1536,
+    1024
+  ]
+}

@@ -1,0 +1,3 @@
+Saved [01_front.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/01_front.png) at 1536×1024 with at least 62 px of transparent margin on every side. Both built-in image generation attempts are documented in the [run record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_scorpion_claude/references_hd/generation_runs_01_front.json).
+
+The selected render shows four walking legs per side at the body. The rear feet overlap the adjacent legs, so only three foot tips per side are distinct.

@@ -1,0 +1,46 @@
+format: 0
+id: xeen_dd01
+name: Castleview Sewer
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-01
+units: {plan_grid: 512}
+extent: {footprint_cells: [20, 16], climbs: n}
+map_stats:
+  id: 9150
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 2
+  perception_difficulty: 3
+  refill_days: 672
+  music: 44
+  environment: stoneroom
+  lock_difficulty: 3
+  slots:
+    - {monster: Xeen Rat, tier: 3, per_marker: [2, 3], weight: 50}
+    - {monster: Xeen Gremlin, tier: 0, per_marker: [2, 3], weight: 30}
+    - {monster: Xeen Sewer Stalker, tier: 0, per_marker: [1, 2], weight: 20}
+neighbours:
+  - id: exit:d1_hatch
+    to: xeen_d1.odm
+    kind: door
+    arrival: [1088, 3328, 1228]
+    arrival_hint: "On D1 (Castleview Vale), beside the iron hatch at the square's south-east corner (192 west of it), facing west, away from it."
+    direction: 180
+    notes: "D1 installed by A6; its hatch (thing:dd01_hatch, sketch [66.5, 57.5] = (1280, 3328)) leads here (D1 door:dd01, the map's start at the ladder's foot). 'Exit the Sewer?' (dark/aaze0030) is the meaning of the game's leave window."
+  - id: exit:d1_outfall
+    to: xeen_d1.odm
+    kind: door
+    arrival: [7936, 8192, 833]
+    arrival_hint: "On D1, in the mill gorge before the sewer's outfall grate by the burnt mill, facing east, away from it."
+    direction: 0
+    notes: "D1's outfall grate (thing:dd01_outfall, sketch [79, 48] = (7680, 8192)) is barred from inside until this map's bar sets q-d5.outfall_unbarred (117001); D1's grate event (D1 event 222) reads it. D1's way in at the outfall should land at (4096, -4864, -512) facing west (this map's outfall, inside the grate): A6."
+qbits:
+  arrived_once: 117000
+  guard_purse: 117002
+  outfall_unbarred: 117001
+  rooka_slain: 113101
+  valio_angered: 113104
+notes: "Xeen design brief for a new map: DD-01 Castleview Sewer (the source's dark/aaze0030 sewer), story step M16 (Nadia's onyx necklace in the rats' nest, A3's hook m16.necklace) and side quest Q-D5 (Valio and Rooka the Rat Queen: hooks q-d5.rooka, q-d5.valio_chest, q-d5.valio_angry). Size M (MAPS.md section 0): 20-45 sectors, 30-90 M units squared, 50 monsters at levels 10-20, Rooka the Rat Queen 24, party 18-20, treasure 2 (hoard 3). Graph devdocs/xeen/mockups/act3_graphs/dd01.graph.yml with decider D-26 (mockups/act3_a8_decisions_a.md, which wins): one working hatch, four ladders to grates bolted from above, the outfall a two-way exit once its bar is lifted, the sluice's lever drains the flooded culvert (a sinking water mover), the cellar's floor grate bolted from below, Dire Rats 11393 for the Bat Queens. Rows (A2): rats 11390 (Dire Rat 11393, 21), night bats 11310 (Vampire Bat 11311, 8), gremlins 11020 (Gremlin 11020, 10; Gremlin Saboteur 11021, 3), sewer stalkers 11400 (Wererat 11400, 7; Rooka the Rat Queen 11403); Valio 11193 (45) placed hidden, shown when angered (D-1.2: not counted). Kill XP 16,104 for the party, 4.03k per member. Talking people (NPC rows of source/towns/d1.yml): Valio the Simple 4957 in his bed, Felix the Tinker 4958 at his bench. Map qbits 117000-117039 (provisional); player bits 11310, 11311 (the liquids, provisional). Map_stats 9150 (source/maps.yml: music 44, treasure 2)."

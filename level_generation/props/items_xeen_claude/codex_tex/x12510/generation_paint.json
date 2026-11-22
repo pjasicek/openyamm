@@ -1,0 +1,23 @@
+{
+  "prompt": "Precise object edit. Lock the pixel alpha and geometry of input 1 paint_mask_guide.png. Recolour its 10 grey objects in place on its original transparent 1536x2048 canvas, 3 columns by 4 rows of square cells. Keep all margins, holes, angles and blank cells exactly. In upper half only, paint unlit gold base colour with fine engraved gold leaf shoulders from design_reference.png and the warm gold and red enamel of icon_x8.png. Small five red enamel petal faces, gold rims and gold round center; rear mounting and backs gold. Render details inside existing forms only. No highlights, shadows, reflections, AO, outline, ground, text or glow. Lower half is a technical binary material-ID map duplicating upper views at exactly half a canvas height offset. All visible metal including gold petal rims, mount, center and band exactly pure opaque #FF0000. Enamel only exactly pure opaque #000000. No other colors, shading, texture, lines or blended internal edges in mask. Leave the open air and finger holes transparent. Geometry strictly follows grey guide, including the two thin diagonal edge views, the occluded flower in first cell, and larger open ring in middle of row two. Row two and four rightmost cells transparent. Use HD master and tiny icon only to inform paint, never their composition.\nCorrection: trace the first input literally. Preserve projected band thickness, inner ellipse, flower occlusion and petal contours exactly to the pixel in all cells. Do not draw individual red petal faces on the back side. On the ID map the entire metal structure must be a single uninterrupted solid red shape, all engraving invisible there. Strictly clean transparent negative space, without any stray speckles anywhere.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "4ce6af9821588f6932954ed5e5e68744015d15ed0e3b9a2892b1ffbd98712149"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "7f3a9c964eeda8f00f82f0f1e335ca946d1f7781779270796e325636e6f6ea48"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "c42b357ee023fe1a8595019ccc0b380cc5d6508ac3fb2bca555b103cf8311ae5"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f927-b240-74c2-8a87-6d572863c7ad/exec-a9589686-1cfc-488f-aca3-ee60cdecf34f.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

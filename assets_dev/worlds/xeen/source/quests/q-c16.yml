@@ -1,0 +1,47 @@
+# Q-C16 Cyclops Outpost (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Glom the Gnome King (X5, A4's 4524, his burrow 4272); the outpost is an outdoor destructible in the Land of the Giants
+# corner of X5 (cyclopes 36-50, the face's first trap pocket), so the quest is set high in Act III.
+id: Q-C16
+title: Cyclops Outpost
+act: III
+kind: side
+status: full
+giver: 4524          # Glom the Gnome King (X5)
+maps: [X5]
+level: 28
+block: 66
+after: []
+source: "QUESTS Q-C16; xeen/aaze0003 (Glom), aaze0004 (the outpost)"
+
+qbits:
+  started: {id: 112320, journal: "Cyclopes have built an outpost in the Land of the Giants and eat any gnome they catch. Glom wants it burnt.",
+            until: [done]}
+  outpost_burnt: {id: 112321, note: "X5 event 112, Burn? Yes (A6): the tents hidden, the outpost hook sets it"}
+  done: {id: 112322}
+
+npcs:
+  4524:              # Glom the Gnome King
+    topics:
+      - n: 1
+        label: Cyclopes
+        states:
+          - when: {qbit: done}
+            text: "Friends, you are always welcome here."
+          - when: {qbit: outpost_burnt}
+            text: "We saw the Cyclops' outpost burning in the distance. You have our eternal thanks. Songs will be sung in your honor for generations to come. Here, take these treasures. We know it isn't much, but it is all we have to give."
+            do: [{set: done}, {clear: started}, {xp: 6000}, {treasure: 4}, {gold: 1500}]
+          - when: {qbit: started}
+            text: "Every day the casualties increase. Find the cyclops as soon as you can. We are dying."
+          - text: "Oh mighty heroes, your fame precedes you. Recently, a group of cyclops established an outpost near our lands, in the Land of the Giants to the south-west. They are cruel monsters that eat anyone they can catch. Please destroy them for us. We will give you what we can in return for your help."
+            do: [{set: started}]
+
+hooks:
+  outpost:
+    map: X5
+    where: "the cyclops outpost in the Land of the Giants corner: the map asks \"You have found the Cyclops' outpost! Burn?\" and burns it (a destructible), then calls this"
+    sets: [outpost_burnt]
+    once: true
+    text: "You destroy the outpost. Glom will be pleased."
+
+rewards: {xp: 6000, gold: 1500}
+playthrough: "X5: Glom (Cyclopes). The outpost in the Land of the Giants. X5: Glom (Cyclopes)."

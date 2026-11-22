@@ -1,0 +1,51 @@
+# M11 Newcastle's keep (QUESTS M11, 4.1 stage 2). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# Ebenezer's Workers topic (m9.yml) hands over the Golem Stone once the keep stands.
+id: M11
+title: The Keep of Newcastle
+act: II
+kind: main
+status: full
+giver: 4403          # Emerson
+maps: [XD-07, X3, XD-13]
+level: 17
+block: 11
+after: [m9.walls]
+source: "QUESTS M11, 4.1; xeen/aaze0064:20, :23, :31; xeen/aaze0012:8"
+
+qbits:
+  started: {id: 111220, journal: "Emerson will build Newcastle's keep for 5 more Megacredits.", until: [keep]}
+  keep: {id: 111221, journal: "Newcastle has a keep. Ebenezer has news from his workers.", until: [stone_given],
+         note: "Newcastle stage 2: smith and training in the keep (A4, houses by stage)"}
+  stone_given: {id: 111222, journal: "Ebenezer's workers say the Golem Dungeon in the tundra, by the lagoon, is full of Megacredits.",
+                until: [m10.golem_credits]}
+
+autonotes:
+  keep: {id: 4013, text: "Newcastle: keep built (5 Megacredits). A smith and a training hall work there now.", category: Misc}
+
+items:
+
+npcs:
+  4403:              # Emerson
+    topics:
+      - n: 1
+        label: Keep
+        show: {qbit: m9.walls}
+        states:
+          - when: {qbit: keep}
+            text: "The keep's up. Smith on the ground floor, a training hall above. Ebenezer says the workers have news. They're always finding something."
+          - when: {all: [{qbit: started}, {items: [megacredit, 5]}]}
+            text: "Thanks! We'll have the work done by the time you get back to the site."
+            do: [{take: megacredit, count: 5}, {set: keep}, {autonote: keep}, {xp: 4000}]
+          - when: {qbit: started}
+            text: "You don't have enough Megacredits."
+          - text: "How about a keep to go with those walls? Just 5 Megacredits!"
+            do: [{set: started}]
+
+hooks:
+  keep:
+    map: X3
+    where: "the keep appears (BModel group by stage: Xeen.stageOf(\"newcastle\") >= 2); XD-13's stage 2"
+    reads: [keep]
+
+rewards: {xp: 4000, gold: 0}
+playthrough: "XD-07: Emerson (Keep), again with 5 Megacredits (XD-06's sixth and XD-08's). X3: Ebenezer (Workers): the Golem Stone."

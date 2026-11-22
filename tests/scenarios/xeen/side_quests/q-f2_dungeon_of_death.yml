@@ -1,0 +1,274 @@
+# Xeen side quest Q-F2, The Dungeon of Death (X7, FD-04's lower half), from a new game on X7 with a level-64 party
+# after M39 and Q-D23 (the Key to the Dragon Tower and Sandro's Key to the Dungeon of Death, given here). Mount
+# Firestone's crag (outdoors, placed): the Dragon Tower's gate (X7 event 66) into FD-04's gate hall. Walked from there:
+# Sandro's black iron door at the cellar well's head (event 75, q-f2.door: door_open 118130, started 114040, the key
+# kept), 32 steps down to the crossword hall: the descent refused ("not done yet"), the twelve clue plaques answered
+# (one wrong answer first: "Wrong!", nothing lit), the descent (event 47, q-f2.crossword: 6,000 each, 118143) and down
+# to Sandro's halls: a coffin that stays shut (q-f2.coffin); through the ballroom's double doors and the west game
+# room, the Shrines of Minor and Lesser Evil destroyed (1,000 / 2,000 each); Sandro's note on the Throne of the Dead;
+# the Shrine of Great Evil (3,000 each); the bone stair down to the gong hall: two gongs,
+# the lever refused, the chest resets them ("The gongs fall silent."), the four gongs and the lever (the shutter up,
+# 118144); the control room's main terminal (a wrong code "Goober", then COMPUTER, FD-03's heads' code: 2,000 each);
+# the Lord Xeen Machine (event 69, q-f2.machine: done 114041, 10,000 each). Back to the Shrine of Ultimate Evil: No,
+# then Yes: 70 Fire to each (immortal), its status line, out to X7 before the tower's gate (118148).
+# The crossword's plaques and the gongs are clicked from their halls (the runner's click() reaches a map's event
+# directly, as hooks_fd04.yml does); the party walks into each hall. Every walk clears 3,000 around it: the dungeon's
+# undead eradicate with a touch, which Immortal does not stop (D-82), so they are fought before they reach the party.
+# Routes: devdocs/xeen/briefs/fd04/L4/rooms.yml (rooms, floors z -1,024 / -1,792 / -2,560, openings; the walk is the
+# monsters' path map's), tests/scenarios/xeen/hooks_fd04.yml (events, answers, texts).
+# Quest logic: source/quests/q-f2.yml. tools/xeen/quest_stub/opt_finale.yml is the stub's run of the same hooks.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-f2_dungeon_of_death.yml --scenario-no-color
+id: xeen.side_quests.q-f2
+title: "Xeen Q-F2: Sandro's door, the crossword, the shrines, the gongs, the terminal and the Lord Xeen Machine"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x7.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 64, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 64, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 64, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 64, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [114040, 114041, 114043, 114044, 114045, 118130, 118143, 118144, 118145, 118148, 118149]}
+  # M39: Prince Roland freed; the Key to the Dragon Tower from FD-01's key vault (m39.key_box).
+  - console: {line: "qbit set 111781"}
+  - grant_item: {item_id: 12376, member_index: 0}
+  # Q-D23: Sandro released (q-d23.released) and his Key to the Dungeon of Death.
+  - console: {line: "qbit set 113462"}
+  - grant_item: {item_id: 12354, member_index: 1}
+  # Mount Firestone's crag: the Dragon Tower's gate into FD-04.
+  - set_pose: {map: xeen_x7.odm, x: -17920, y: 16179, z: 2592, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(66); wait(0.3)"}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_fd04.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Sandro's black iron door at the cellar well's head (event 75): the key opens it for good.
+  - walk_to: {x: 0, y: -700, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "if door_state(8) ~= 'closed' then error('Sandro door not shut') end; click(75); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The Key to the Dungeon of Death turns in the skull's eye."}}
+  - play_lua:
+      source: |
+        close(); for _ = 1, 20 do if door_state(8) == "open" then break end; wait(0.5) end
+        if door_state(8) ~= "open" then error("Sandro's door: " .. door_state(8)) end
+        if not qbit(118130) or not qbit(114040) then error("door_open or started not set") end
+        if not has_item(12354) then error("the door kept Sandro's key") end
+  # Down the cellar stair to the crossword hall: the descent refused.
+  # The crossword hall's undead strike from below as the party comes down (their touch eradicates, which Immortal does
+  # not stop: D-82): fought from the stair.
+  - walk_to: {x: 0, y: 900, z: -1024, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, clear_height: 1200, close_dialogs: true}
+  - walk_to: {x: 0, y: 2176, z: -1024, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, clear_height: 1200, close_dialogs: true}
+  - play_lua: {source: "log('crossword hall: ' .. conditions(0) .. ' | ' .. conditions(1) .. ' | ' .. conditions(2) .. ' | ' .. conditions(3) .. '; killed ' .. clear_hostiles(3000, 1200))"}
+  - walk_to: {x: 0, y: 3000, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(47); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Sorry, the crossword puzzle is not done yet. You may not descend!"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The twelve clue plaques: 45 Down wrong first ("Wrong!"), then the twelve answers; the undead still coming are
+  # fought between the plaques.
+  - walk_to: {x: 0, y: 2176, z: -1024, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, clear_height: 1200, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(3000, 1200); click(30); wait(0.5)"}
+  - answer_input: {text: "Darkstone"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Wrong!"}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        if qbit(118139) then error("a wrong answer lit 45 Down") end
+  - play_lua: {source: "click(30); wait(0.5)"}
+  - answer_input: {text: "Winterkill"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(20); wait(0.5)"}
+  - answer_input: {text: "Scepter"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(34); wait(0.5)"}
+  - answer_input: {text: "Vampire"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(36); wait(0.5)"}
+  - answer_input: {text: "Kalindra"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(18); wait(0.5)"}
+  - answer_input: {text: "Corak"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(22); wait(0.5)"}
+  - answer_input: {text: "Alamar"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(24); wait(0.5)"}
+  - answer_input: {text: "Necropolis"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(26); wait(0.5)"}
+  - answer_input: {text: "Sandcaster"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(28); wait(0.5)"}
+  - answer_input: {text: "Castleview"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(32); wait(0.5)"}
+  - answer_input: {text: "Sphinx"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(38); wait(0.5)"}
+  - answer_input: {text: "Mirror"}
+  - play_lua: {source: "close(); clear_hostiles(3000, 1200); wait(0.3); click(40); wait(0.5)"}
+  - answer_input: {text: "Xeen"}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for id = 118131, 118142 do if not qbit(id) then error("word " .. id .. " not lit") end end
+  # The descent: 6,000 each, once; down to Sandro's halls.
+  - walk_to: {x: 0, y: 3000, z: -1024, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(47); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You may pass. For completing the puzzle, here is your reward. (+6,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 6000 then error("the crossword paid member " .. i .. " " .. d) end end
+        if not qbit(118143) then error("crossword_done 118143 not set") end
+        for _ = 1, 20 do if door_state(5) == "open" then break end; wait(0.5) end
+        if door_state(5) ~= "open" then error("the descent: " .. door_state(5)) end
+  - walk_to: {x: 0, y: 4300, z: -1792, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 4800, z: -1792, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700)"}
+  # Do Not Disturb: a coffin stays shut.
+  - walk_to: {x: -700, y: 4800, z: -1792, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(52, 4)"}
+  - walk_to: {x: -1200, y: 4800, z: -1792, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(42); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You try to open the lid of the coffin, but it is too heavy and you are too weak. From inside, someone turns over."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The ballroom's double doors, the west game room: the Shrines of Lesser Evil (Minor, then Lesser).
+  - walk_to: {x: 0, y: 4800, z: -1792, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 5100, z: -1792, radius: 48, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "open_door(50, 1); if door_state(2) ~= 'open' then error('the ballroom pair: ' .. door_state(1) .. ' ' .. door_state(2)) end"}
+  - walk_to: {x: 0, y: 5760, z: -1792, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1568, y: 5760, z: -1792, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1568, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(82); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Shrine of Minor Evil."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Shrine of Minor Evil cracks and falls in. Something small and spiteful goes out of the room. (+1,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); wait(0.5); click(80); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Shrine of Lesser Evil."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Shrine of Lesser Evil breaks apart. The air in the gallery is easier to breathe. (+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 3000 then error("Minor and Lesser paid member " .. i .. " " .. d) end end
+        if not qbit(114043) or not qbit(114044) then error("shrine_minor or shrine_lesser not set") end
+  # The Throne of the Dead: Sandro's note.
+  - walk_to: {x: 0, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700); click(72); wait(0.5)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Gone to Necropolis, will return soon."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The Shrines of Great Evil: Great.
+  - walk_to: {x: 1500, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(78); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Shrine of Great Evil."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[The Shrine of Great Evil shatters with a sound like a scream cut short. (+3,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 3000 then error("Great paid member " .. i .. " " .. d) end end
+        if not qbit(114045) then error("shrine_great 114045 not set") end
+  # Down the bone stair to the gong hall: two gongs, the lever refused, the chest's reset.
+  - walk_to: {x: 0, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 8800, z: -2560, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 9300, z: -2560, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua:
+      source: |
+        clear_hostiles(700)
+        if door_state(9) ~= "closed" then error("the shutter does not start shut") end
+        status(); click(58); wait(0.5); click(60); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "The gong rings, and the lamp under it flares up.", 1, true) then error("gong: " .. s) end
+        click(68); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lever won't budge."}}
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        status(); click(16); wait(0.5); close(); wait(2.5)
+        local s = status() or ""
+        if not string.find(s, "The gongs fall silent.", 1, true) then error("no reset line: " .. s) end
+        if mapvar(2) ~= 0 or mapvar(3) ~= 0 then error("the chest did not reset the gongs") end
+  - play_lua:
+      source: |
+        click(58); wait(0.3); click(60); wait(0.3); click(62); wait(0.3); click(64); wait(0.3)
+        status(); click(68); wait(7)
+        if not qbit(118144) then error("q-f2.shutter_up 118144 not set") end
+        if door_state(9) ~= "open" then error("the shutter not up: " .. door_state(9)) end
+  # The control room's main terminal: a wrong code, then COMPUTER.
+  - walk_to: {x: 0, y: 10432, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -1344, y: 10432, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(98); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Main Terminal"}}
+  - answer_input: {text: "Goober"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The screen flashes with the response: You are a Goober!"}}
+  - play_lua: {source: "close(); wait(0.3); click(98); wait(0.5)"}
+  - answer_input: {text: "COMPUTER"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[CODE ACCEPTED. WELCOME, OPERATOR. Somewhere below, a great many fans slow down. (+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 2000 then error("the terminal paid member " .. i .. " " .. d) end end
+        if not qbit(118149) then error("code_entered 118149 not set") end
+  # The Lord Xeen Machine: destroyed, 10,000 each, done (the Autobots that came into the machine hall meanwhile die
+  # on the way: they block its doorway to maintenance).
+  - play_lua: {source: "clear_hostiles(1500)"}
+  - walk_to: {x: 0, y: 10432, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: -300, y: 11500, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(69); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Lord Xeen Machine. Destroy?"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 2.0, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "You pull the four cores out of the Lord Xeen Machine one by one."}}
+  - play_lua:
+      source: |
+        close(); wait(1); close()
+        if not qbit(118145) then error("machine_broken 118145 not set") end
+        if not qbit(114041) then error("q-f2.done 114041 not set") end
+        for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 10000 then error("the machine paid member " .. i .. " " .. d) end end
+        click(69); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The Lord Xeen Machine is dark and cold."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Back up the bone stair to the Shrine of Ultimate Evil: No, then Yes: out to X7.
+  - walk_to: {x: 0, y: 9300, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 0, y: 7300, z: -1792, z_tolerance: 120, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - walk_to: {x: 1500, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
+  - play_lua: {source: "click(84); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "The walls seem to lean on it, and dust runs from the ceiling. Destroy?"}}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if qbit(118148) then error('No broke the Ultimate shrine') end; click(84); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 3, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - assert: {party_position: {x: -17920, y: 16384, radius: 160}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; if not qbit(118148) then error('ultimate_broken 118148 not set') end"}
+  - assert: {qbit_set: [114040, 114041, 114043, 114044, 114045, 118130, 118143, 118144, 118145, 118148, 118149]}

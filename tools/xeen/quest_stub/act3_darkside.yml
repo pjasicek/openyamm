@@ -1,0 +1,85 @@
+# Act III's main steps on Darkside (tools/xeen/quest_stub.py): M14 Castleview's pass, M15 the orb, M16 Nadia's key,
+# M17 Ellinger, M18-M19 the disks and Kalindra's first two stages, M20 Megan; M26's last two stages (Act IV); Celia
+# and Derek's cottage (Q-C22's Darkside end). The disk sources are `give:` steps here (the Q-D files are outlines).
+# Owner: A3.
+name: Act III, Darkside main
+party: [Knight, Cleric, Thief, Sorcerer]
+steps:
+  - set: m7.sigil
+  - hook: m14.arrival
+  - expect: {qbit: m14.started}
+  - hook: [m14.gate, false]
+  - talk: [4951, Passes]
+  - expect: {no_item: castleview_pass}
+  - gold: 1000
+  - talk: [4951, Passes]
+  - expect: {item: castleview_pass, gold: 0}
+  - hook: m14.gate
+  - expect: {qbit: [m14.entered, world.inn_castleview], xp: 2000}
+  - hook: m14.gate_open
+  # M15
+  - talk: [4921, Fortune]
+  - talk: [4904, The orb]
+  - expect: {qbit: m15.orb, item: pharaoh_orb}
+  - talk: [4921, The orb]
+  - expect: {qbit: m15.read, xp: 5000}
+  # M16
+  - talk: [4921, Fortune]
+  - talk: [4922, Necklace]
+  - hook: m16.necklace
+  - talk: [4922, Necklace]
+  - expect: {qbit: m16.key, no_item: onyx_necklace, xp: 9000, gold: 1500}   # D-89: gold, not a key
+  - hook: [m16.outfall, false]
+  - set: m16.outfall_unbarred
+  - hook: m16.outfall
+  - expect: {qbit: m16.outfall_unbarred}
+  # M17
+  - hook: m17.tower_door
+  - hook: m17.question_right
+  - hook: m17.password
+  - hook: [m17.tower_lift, false]
+  - hook: [m17.runaway_chest, false]
+  - hidden: [4954, Energy discs]
+  - talk: [4954, Alamar]
+  - expect: {qbit: [m17.done, m18.started, m17.chest_still], xp: 17000}
+  - hook: m17.runaway_chest
+  - hook: m17.tower_lift
+  - hook: m18.sources_note
+  # M19: Ellinger takes the disks
+  - talk: [4954, Energy discs]
+  - give: [energy_disk, 3]
+  - talk: [4954, Energy discs]
+  - expect: {qbit: m19.started, not_qbit: m19.stage1}
+  - hook: [m19.ghost_castle, false]
+  - give: [energy_disk, 2]
+  - talk: [4954, Energy discs]
+  - expect: {qbit: m19.stage1, count: [energy_disk, 0], xp: 21000}
+  - hook: m19.ghost_castle
+  - hook: m19.first_entry
+  - hook: m19.safes
+  - give: [energy_disk, 2]
+  - give: [energy_disk, 4]
+  - talk: [4954, Energy discs]
+  - expect: {qbit: m19.stage2, count: [energy_disk, 1], xp: 25000}
+  # M20
+  - talk: [5004, The Queen]
+  - talk: [5005, Father]
+  - expect: {qbit: m20.started, item: lost_souls_key, xp: 28000}
+  - talk: [4921, Fortune]
+  # M26 (Act IV): stages 3 and 4 on Ellinger's second topic
+  - give: [energy_disk, 4]
+  - talk: [4954, Energy discs]
+  - expect: {qbit: m26.stage3, count: [energy_disk, 0], xp: 32000}    # D-16: stage 3 pays 4,000
+  - give: [energy_disk, 5]
+  - talk: [4954, Energy discs]
+  - expect: {qbit: m26.stage4, xp: 38000}    # D-16: stage 4 pays 6,000
+  - hook: m26.mirror_switch
+  # Q-C22's Darkside end: the cottage
+  - hook: [q-c22.cottage, false]
+  - set: q-c22.done
+  - expect: {qbit: q-c22.done}
+  - hook: q-c22.cottage
+  - expect: {qbit: q-c22.moved}
+  - talk: [4041, The sword]
+  - hidden: [4041, The sword]
+  - hook: [q-c22.derek_camp, false]

@@ -1,0 +1,54 @@
+# Q-C10 The Scarab of Imaging (QUESTS 2.1). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# The source pays the Moon Ray spell; no event teaches a spell (decision of 2026-11-20), so an item of treasure level 3.
+# The gargoyles took it to their eyrie on the Gargoyle Range (XD-26), not the source's desert.
+# Promotion T1-C (Druid -> Great Druid, Cleric -> Priest) is paid in Carlawna's hand-in (D-1, 2026-11-20): every eligible
+# member is promoted; t1-c.yml promotes those who join later (Carlawna, and the Autumn Druid's grove on X4).
+id: Q-C10
+title: The Scarab of Imaging
+act: II
+kind: side
+status: full
+giver: 4303          # Carlawna the Cleric (A4: towns/x4.yml)
+maps: [X4, XD-26]
+level: 18
+block: 60
+after: []
+source: "QUESTS Q-C10; xeen/aaze0010:9-11"
+
+qbits:
+  started: {id: 112200, journal: "Gargoyles stole Carlawna's Scarab of Imaging and carried it to their eyrie on the Gargoyle Range.", until: [done]}
+  done: {id: 112201}
+  scarab_found: {id: 112202}
+  hoist_winched: {id: 110880, map: XD-26, note: "the map's own: the winch lowered the fence's hoist (D-17, A7)"}
+
+items:
+  scarab_of_imaging: "the Scarab of Imaging; XD-26's top ledge; Carlawna takes it."
+
+npcs:
+  4303:              # Carlawna
+    topics:
+      - n: 1
+        label: Scarab
+        states:
+          - when: {qbit: done}
+            text: "The spell is finished. The gargoyles haven't been back. I like to think they heard what happened to the last ones."
+          - when: {item: scarab_of_imaging}
+            text: "Oh, thank you so much for recovering my Scarab. Now I can complete my spell. Take this; I was keeping it for whoever was brave enough. And the healers and druids among you: kneel. You have earned more than a trinket. Druids rise as Great Druids, Clerics as Priests."
+            do: [{take: scarab_of_imaging}, {set: done}, {clear: started}, {xp: 3000}, {treasure: 3}, {promote: seasons}, {xp: 6000}]
+          - when: {qbit: started}
+            text: "I see you haven't recovered my Scarab of Imaging yet. Remember that the gargoyles took it to their eyrie on the Gargoyle Range, north of here."
+          - text: "The other day I was using my Scarab of Imaging for one of my spells when out of the sky swooped a flock of gargoyles. While I was busy fending off their attack, one of them snatched my Scarab and they all flew off toward the Gargoyle Range. I know not why they took it, only that gargoyles are hired to steal things for people. I need the Scarab back to complete my spell, and I will reward you if you can return it to me."
+            do: [{set: started}]
+
+hooks:
+  scarab:
+    map: XD-26
+    where: "the gargoyles' nest of shiny things at the top of the eyrie"
+    sets: [scarab_found]
+    gives: [scarab_of_imaging]
+    once: true
+    text: "Among the gargoyles' shiny things: a jewelled scarab, and a tag on a string: \"Deliver to Asp: one scarab.\""
+    else_text: "The chest is empty."
+
+rewards: {xp: 9000, gold: 0}
+playthrough: "X4: Carlawna (Scarab). XD-26: the nest at the top. X4: Carlawna (Scarab): Druids and Clerics promoted."

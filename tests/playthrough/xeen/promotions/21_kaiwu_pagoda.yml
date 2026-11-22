@@ -1,0 +1,160 @@
+# Xeen promotion playthrough 21, block C: Q-C4 The Ninja Pagoda (X5, XD-22) and its promotion T1-D (Monk -> Initiate).
+# From a copy of the main chain's checkpoint 33 (X5's east pocket after the Cave of Illusion; the party Cavalier
+# Crusader Wizard Hunter has no Monk, so Kai Wu's hand-in pays and promotes nobody: README "What is checked" 3).
+# Outdoors the party is placed (PLAYBOOK 2): Kai Wu's Monastery (house 4270, X5 event 35) on the crag west of the
+# Frostspine: The Pagoda (Q-C4 started). The pagoda's north door on the shore below (X5 event 61, thing:pagoda) into
+# XD-22, walked: the entry hall's two ninjas, the kitchen door, the kitchen's two, up the kitchen ladder into the dojo
+# (its five), the west stair to the Hall of Screens, round the paper maze, the crane screen clicked (it breaks), the
+# crane stair to the armoury, the door to the moon gallery, the top stair to the clan master's hall: the Clan Master
+# and his Ninja Master (q-c4.clan_master: clan_master_slain). Back down the top stair, along the gallery and down the
+# clan's rope, the west stair, the kitchen ladder, out by the north door. Kai Wu: The Pagoda (Q-C4 done): food, 16,000
+# experience each, classes kept, no "Initiation" offered.
+# Quest logic: assets_dev/worlds/xeen/source/quests/q-c4.yml; routes: devdocs/xeen/briefs/xd22/L4/playtest.yml.
+# Prep: prep/C_pagoda.md.
+#   python3 tests/playthrough/xeen/promotions/run.py 21
+id: xeen.promotions.21_kaiwu_pagoda
+title: "Xeen promotions 21: Kai Wu's Ninja Pagoda (Q-C4, T1-D)"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_33.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - assert: {qbit_clear: [112080, 112081, 112082]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if classes() ~= 'Cavalier Crusader Wizard Hunter' then error('party: ' .. classes()) end"}
+  # Kai Wu's Monastery on the crag (house 4270, its door X5 event 35): The Pagoda (Q-C4 started).
+  - set_pose: {map: xeen_x5.odm, x: 1280, y: 16660, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4521}}
+  - assert: {dialog: {active: true, action_label_present: "The Pagoda"}}
+  - select_topic: {match_label: "The Pagoda"}
+  - assert: {dialog: {active: true, text_contains: "driven from my sacred home"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112080]}
+  # The pagoda's north door on the shore (X5 event 61, its panel at (320, 9472)): into XD-22's entry hall.
+  - set_pose: {map: xeen_x5.odm, x: 320, y: 9728, z: 992, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd22.blv}
+  - assert: {party_position: {x: 0, y: -256, radius: 200, z_min: -8, z_max: 8}}
+  - play_lua: {source: "wait(3); log('arrive: ' .. status()); close()"}
+  # The entry hall's two ninjas; west through the kitchen door to the kitchen's two.
+  - walk_to: {x: 0, y: -600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -400, y: -543, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 5)"}
+  - walk_to: {x: -1000, y: -500, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  # Up the kitchen ladder through the hatch into the dojo; its five ninjas.
+  - climb: {ladder: kitchen, timeout_seconds: 40}
+  - assert: {party_position: {x: -520, y: -384, radius: 100, z_min: 504, z_max: 520}}
+  - walk_to: {x: -100, y: -900, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1300}
+  # The west stair up to the Hall of Screens; round the paper maze by the west gap and the middle band.
+  - walk_to: {x: -896, y: -450, z: 512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -800, z: 512, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -1520, z: 990, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -560, y: -1520, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -560, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 700, close_dialogs: true}
+  - walk_to: {x: 290, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 700, close_dialogs: true}
+  - walk_to: {x: 290, y: -1500, z: 1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -1530, z: 1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  # The crane screen: clicked, it tears and falls away; the stair up behind it to the armoury and its two.
+  - play_lua: {source: "click(11); wait(1); local s = status(); log('crane: ' .. s); if not string.find(s, 'crane falls away', 1, true) then error('crane: ' .. s) end; close()"}
+  - walk_to: {x: 672, y: -1200, z: 1040, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -700, z: 1480, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 360, y: -700, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # (the clan master's hall is right above the armoury: the run's kill radius stays inside the room, 450)
+  - walk_to: {x: -200, y: -760, z: 1536, radius: 64, timeout_seconds: 30, clear_hostiles: 450, close_dialogs: true}
+  - clear_hostiles: {radius: 450}
+  # The armoury's door to the moon gallery and its two ninjas.
+  - walk_to: {x: -680, y: -752, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 1)"}
+  - walk_to: {x: -1010, y: -752, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - clear_hostiles: {radius: 450}
+  # The top stair to the clan master's hall: the Clan Master and his Ninja Master (the kill timer runs q-c4.clan_master).
+  - walk_to: {x: -1010, y: -1184, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: -1184, z: 1536, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The Clan Master (actor 2, on his dais at (200, -840, 2096)) is alive when the party reaches the foot of his stair
+  # (merge point 33 made clears storey-bound: `open_door(12, 1)`'s 1,500 clear at z 1536 used to reach his dais).
+  - assert: {qbit_clear: [112081]}
+  # His hall is fought from the stair (A3-promo session 7: at the stair head the reload run's settles let the hall's
+  # two knock a member Unconscious, 2 of 4 condition-logged probes; D-82 3, PLAYBOOK 5 kind 3).
+  - walk_to: {x: 60, y: -1184, z: 2010, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 60, y: -960, z: 2048, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua: {source: "wait(4); log('clan master hall: ' .. status() .. '; slain ' .. tostring(qbit(112081))); close()"}
+  - assert: {actor_visible: {actor_index: 2, dead: true}}
+  - assert: {qbit_set: [112081]}
+  # Back the way the party came (the clan's rope down from the gallery's east end catches a party walking away from its
+  # foot and carries it up again): the top stair, the gallery, the armoury, the crane stair, into the Hall of Screens.
+  - walk_to: {x: 40, y: -1184, z: 2000, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -700, y: -1184, z: 1540, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1010, y: -1184, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1010, y: -752, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(12, 1)"}
+  - walk_to: {x: -680, y: -752, z: 1536, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -200, y: -760, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 360, y: -700, z: 1536, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -700, z: 1480, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 672, y: -1200, z: 1040, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Through the maze to the west stair, down to the dojo, down the kitchen ladder, out by the entry hall's north door.
+  - walk_to: {x: 672, y: -1530, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 290, y: -1500, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 290, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -560, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -560, y: -1520, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -1520, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -800, z: 540, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -896, y: -450, z: 512, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -520, y: -384, z: 512, radius: 40, timeout_seconds: 30, close_dialogs: true}
+  - climb: {ladder: kitchen, down: true, timeout_seconds: 40}
+  - assert: {party_position: {x: -700, y: -384, radius: 160, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: -120, z: 0, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - execute_event: {id: 21}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 320, y: 9872, radius: 200, z_min: 985, z_max: 1010}}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  # Kai Wu: The Pagoda (Q-C4 done): food for the packs, 16,000 experience each; nobody is a Monk, so nobody promoted.
+  - set_pose: {map: xeen_x5.odm, x: 1280, y: 16660, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # D-82 point 5: no member down before Kai Wu's hand-in (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 21 before Kai Wu\\'s hand-in: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Kai Wu\\'s hand-in (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold())"}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {match_label: "The Pagoda"}
+  - assert: {dialog: {active: true, text_contains: "You have destroyed the Ninja Clan"}}
+  - assert: {dialog: {active: true, action_label_absent: "Initiation"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if held() ~= 0 then stow() end
+        local xp, xp3 = experience(0) - recall("xp"), experience(3) - recall("xp3")
+        if xp ~= 16000 or xp3 ~= 16000 then error("Kai Wu paid " .. xp .. " / " .. xp3 .. " experience, not 16000") end
+        if gold() ~= tonumber(recall("gold")) then error("gold changed: " .. recall("gold") .. " -> " .. gold()) end
+        if classes() ~= "Cavalier Crusader Wizard Hunter" then error("classes changed: " .. classes()) end
+        log("Q-C4 done: " .. classes() .. "; experience " .. experience(0) .. "; gold " .. gold())
+  - assert: {qbit_set: [112081, 112082]}
+  - assert: {qbit_clear: [112080]}
+  # Talked to again: the after-line, still no Initiation.
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, action_label_absent: "Initiation"}}
+  - select_topic: {match_label: "The Pagoda"}
+  - assert: {dialog: {active: true, text_contains: "The pagoda is quiet again"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - save_game: {name: "P21 Kai Wu's pagoda", path: output/playthrough/xeen/promotions/checkpoints/21_kaiwu_pagoda.oysav}

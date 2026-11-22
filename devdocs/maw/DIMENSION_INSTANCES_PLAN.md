@@ -113,8 +113,11 @@ refusal.
 
 ## For a hosted server (not decided)
 
-There is no multiplayer code (OY-287 is the request). Multiplayer's shape is **not decided**; the user will come back
-to it. What was said so far (Discord, relayed by the user 2026-11-17), as a starting point only:
+There is no multiplayer code (OY-287 is the request). On 2026-11-19 the user chose the shape: one solo run character
+per player on a host's world, the host's game as the server; see the
+[co-op design](../plans/MULTIPLAYER_LISTEN_SERVER_ARCHITECTURE.md), which proposes one open rift per world and how
+`MawGameState` splits between the world and the characters. A dedicated server is a later step there. What was said
+before that (Discord, relayed by the user 2026-11-17):
 
 - One character per player, parties formed among players; in effect solo play together, without a solo run's free
   scrolls and alchemy. Sharing skills and auras inside a party would be welcome.

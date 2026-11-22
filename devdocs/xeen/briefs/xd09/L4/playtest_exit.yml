@@ -1,0 +1,47 @@
+# Playtest of the Golem Dungeon's way out to X5 (XD-09, L4; lane A8, session 3, 2026-11-20): from the map's start on
+# the landing the party walks to the tundra door in the entry's south wall (event 28, evt:exit_x5, hint "Exit Golem
+# Dungeon"), uses it, takes OK in the game's "Do you wish to leave Golem Dungeon?" and arrives on X5 Winterkill Tundra
+# (xeen_x5.odm, A6) at 18688, -3457, 960, 120 north of the Golem Rocks' slab door, facing north (MoveToMap direction 512,
+# the convention of XD-06's X2 arrival); turned south from the same spot the party reaches the door. Run from assets_dev with --world xeen --map xeen_xd09.blv (output/studio_cal/xd09/
+# play.sh).
+id: xeen.xd09.l4.exit
+title: Golem Dungeon (XD-09 L4), out to X5
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd09.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 17, experience: 140000, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 17, experience: 140000, skills: [], equipment: {}}
+  - assert: {map: xeen_xd09.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 384, y: -2290, z: 192, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - set_pose: {map: xeen_xd09.blv, x: 384, y: -2290, z: 192, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {text_contains: "leave Golem Dungeon"}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 18688, y: -3457, radius: 128, z_min: 880, z_max: 1100}}
+  # The slab door is right behind the arrival: turned south, the same spot reaches it and leads back in (open since
+  # D-89, no Golem Stone).
+  - clear_hostiles: {radius: 3000}
+  - set_pose: {map: xeen_x5.odm, x: 18688, y: -3457, z: 961, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd09.blv}
+  - assert: {party_position: {x: 384, y: -2176, radius: 128, z_min: 150, z_max: 240}}

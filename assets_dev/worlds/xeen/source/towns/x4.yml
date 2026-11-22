@@ -1,0 +1,278 @@
+# X4 Burlock Savannah: Castle Burlock's walled village, Asp and the savannah (Act II). Owner: A4.
+# Format: devdocs/xeen/formats/TOWNS_FORMAT.md; checks: tools/xeen/towns.py.
+# Built (A5, installed 2026-11-20): the doors are the ones the L4 sketch draws (briefs/x4/L4/sketch.yml); NPC topics in
+# source/npcs/x4.yml (A3).
+#
+# Castle Burlock's village (WORLD_DESIGN 5.1): the royal seat's services stand in the walled village outside the
+#   castle (XD-07, xd07.yml) and need no Crusaders title; only the castle's throne room does. Training to 40 (x25).
+# Asp (cursed, QUESTS Q-C5): every house opens once q-c5.done is set (the door shows its closed text before), except
+#   the Travel Pit stables and the roadside temple at the town's edge and Sarah Slither's house, open from day one
+#   (WORLD_DESIGN 5.1, reviews/SCALE_AND_DENSITY 9). Adam and Eve, the quest givers, stand by the well.
+key: X4
+stem: xeen_x4.odm
+town: Burlock Savannah
+face: cloudside
+blocks:
+  houses: [4151, 4200]
+  npcs: [4301, 4400]
+
+# Coordinates come with the built map (A5); the names are fixed now (other towns' routes and Town Portal use them).
+arrivals:
+  # A5's L4 points and facings (briefs/x4/DOORS.md), Z checked against the installed map's terrain
+  burlock_square: {at: [-1536, 3584, 1312], direction: 1536, note: "Castle Burlock's village square, by the mirror (Town Portal)"}
+  burlock_stables: {at: [614, 4096, 1312], direction: 1024, note: "the Royal Stables' yard"}
+  asp_travel_pit: {at: [-7168, -10240, 1056], direction: 1024, note: "the Travel Pit at Asp's edge, outside the curse"}
+  asp_square: {at: [-12800, -11776, 1056], direction: 512, note: "Asp's square by the well and the mirror"}
+  x4_river_landing: {at: [9728, -18944, 736], direction: 1024, note: "Captain Nystor's upriver landing (Rivercity's boat, after Q-C23)"}
+
+houses:
+  # ---- Castle Burlock's village (town: Castle Burlock) ----
+  - id: 4151
+    door: building:burlock_weapons
+    town: Castle Burlock
+    was: 15
+    kind: weapon_shop
+    name: The Royal Armoury
+    owner: 4305
+    shop: {quality: 3}
+  - id: 4152
+    door: building:burlock_armour
+    town: Castle Burlock
+    was: 55
+    kind: armor_shop
+    name: Plate and Mail by Royal Appointment
+    owner: 4306
+    shop: {quality: 3}
+  - id: 4153
+    door: building:burlock_temple
+    town: Castle Burlock
+    was: 319
+    kind: temple
+    name: Chapel of the Crown
+    owner: 4307
+  - id: 4154
+    door: building:burlock_training
+    town: Castle Burlock
+    was: 1577
+    kind: training
+    name: The King's Lists
+    owner: 4308
+    training: {cap: 40, price: 25}
+  - id: 4155
+    door: building:burlock_stables
+    town: Castle Burlock
+    was: 462
+    kind: stables
+    name: Royal Stables of Burlock
+    owner: 4309
+    routes:
+      - {id: 408, to: vertigo_stables, days: [wed, sun], travel_days: 4}
+      - {id: 409, to: rivercity_stables, days: [tue, thu, sat], travel_days: 2}
+      - {id: 410, to: asp_travel_pit, days: [mon, fri], travel_days: 1}
+  - id: 4156
+    door: building:burlock_tavern
+    town: Castle Burlock
+    was: 250
+    kind: tavern
+    name: The Jousting Pig
+    owner: 4310
+  - id: 4157
+    door: thing:burlock_mirror
+    town: Castle Burlock
+    kind: mirror
+    name: The Mirror of Castle Burlock
+    mirror: {face: cloudside, town: Castle Burlock, arrival: burlock_square, qbit: 119003}
+    note: "On the village square. The King wants the Sixth Mirror, not this one."
+  - id: 4158
+    door: building:burlock_houses#1
+    town: Castle Burlock
+    kind: residence
+    name: Dame Ysolde's House
+    residents: [4311]
+  - id: 4159
+    door: building:burlock_houses#2
+    town: Castle Burlock
+    kind: residence
+    name: The Weathervane
+    residents: [4312]
+  - id: 4160
+    door: building:burlock_houses#3
+    town: Castle Burlock
+    kind: residence
+    name: Keeper of the Bestiary
+    residents: [4313]
+  - id: 4161
+    door: building:burlock_houses#4
+    town: Castle Burlock
+    kind: residence
+    name: Pomfrey House
+    residents: [4314]
+  - id: 4162
+    door: building:burlock_houses#5
+    town: Castle Burlock
+    kind: residence
+    name: The Royal Laundry
+    residents: [4315]
+  - id: 4163
+    door: building:burlock_houses#6
+    town: Castle Burlock
+    kind: residence
+    name: Wat's Cottage
+    residents: [4316]
+  - id: 4164
+    door: building:burlock_houses#7
+    town: Castle Burlock
+    kind: residence
+    name: The Bakehouse
+    residents: [4317]
+  - id: 4165
+    door: building:burlock_houses#8
+    town: Castle Burlock
+    kind: residence
+    name: Holt House
+    residents: [4318]
+
+  # ---- the savannah (outside any town) ----
+  - id: 4166
+    door: building:carlawna_hut
+    kind: residence
+    name: Carlawna's Hut
+    outside: true
+    residents: [4303]
+  - id: 4167
+    door: building:falagar_hut
+    kind: residence
+    name: Falagar's Hut
+    outside: true
+    residents: [4304]
+
+  # ---- Asp (town: Asp): open from day one ----
+  - id: 4170
+    door: building:asp_travel_pit
+    town: Asp
+    was: 461
+    kind: stables
+    name: The Travel Pit
+    owner: 4330
+    open_before: true
+    routes:
+      - {id: 411, to: burlock_stables, days: [tue, sat], travel_days: 1}
+      - {id: 412, to: rivercity_stables, days: [wed], travel_days: 3}
+      - {id: 431, to: sphinx_wells, days: [thu], travel_days: 2}   # X6's caravan stop (x6.yml)
+  - id: 4171
+    door: building:asp_shrine
+    town: Asp
+    was: 310
+    kind: temple
+    name: Roadside Shrine
+    owner: 4331
+    open_before: true
+  - id: 4172
+    door: building:asp_houses#1
+    town: Asp
+    kind: residence
+    name: Sarah Slither's House
+    residents: [4332]
+    note: "The cursed town's one open house (WORLD_DESIGN 5.1): the guildmistress and her lisp."
+    open_before: true
+  # ---- Asp: open once Asp is liberated (q-c5.done) ----
+  - id: 4173
+    door: building:asp_alchemist
+    town: Asp
+    was: 118
+    kind: alchemist
+    name: Snake Oil
+    owner: 4333
+    shop: {quality: 3}
+    opens: q-c5.done
+    closed_text: "The shutters are down. Something inside rattles the bottles and hisses."
+  - id: 4174
+    door: building:asp_armour
+    town: Asp
+    was: 55
+    kind: armor_shop
+    name: Scale House
+    owner: 4334
+    shop: {quality: 3}
+    opens: q-c5.done
+    closed_text: "The door is barred. A sign reads: Closed for moulting."
+  - id: 4175
+    door: building:asp_guild_earth
+    town: Asp
+    was: 147
+    kind: earth_guild
+    name: Asp Guild of Earth
+    owner: 4335
+    guild: {spells: 7}
+    opens: q-c5.done
+    closed_text: "The guild is locked. A note in a wobbly hand: Ssssee Sssarah."
+  - id: 4176
+    door: building:asp_guild_body
+    town: Asp
+    was: 165
+    kind: body_guild
+    name: Asp Guild of Body
+    owner: 4336
+    guild: {spells: 7}
+    opens: q-c5.done
+    closed_text: "The guild is locked. A note in a wobbly hand: Ssssee Sssarah."
+  - id: 4177
+    door: thing:asp_mirror
+    town: Asp
+    kind: mirror
+    name: The Mirror of Asp
+    opens: q-c5.done
+    closed_text: "The mirror is fogged with shed skin. It shows nothing."
+    mirror: {face: cloudside, town: Asp, arrival: asp_square, qbit: 119013}
+    note: "Not a Town Portal town (WORLD_DESIGN 3.3 lists six per face): its qbit 119013 is a mirror qbit only (A3 registers it)."
+  - {id: 4178, door: "building:asp_houses#2", town: Asp, kind: residence, name: Reed House, residents: [4337], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4179, door: "building:asp_houses#3", town: Asp, kind: residence, name: Moss Cottage, residents: [4338], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4180, door: "building:asp_houses#4", town: Asp, kind: residence, name: Brook House, residents: [4339], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4181, door: "building:asp_houses#5", town: Asp, kind: residence, name: Slade Residence, residents: [4340], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4182, door: "building:asp_houses#6", town: Asp, kind: residence, name: Ashworth House, residents: [4341], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4183, door: "building:asp_houses#7", town: Asp, kind: residence, name: The Potter's, residents: [4342], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4184, door: "building:asp_houses#8", town: Asp, kind: residence, name: Dale Residence, residents: [4343], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+  - {id: 4185, door: "building:asp_houses#9", town: Asp, kind: residence, name: Mother Ophidia's, residents: [4344], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers.", enter_sound: xeen_fortune}   # a fortune teller: AU's reading sound
+  - {id: 4186, door: "building:asp_houses#10", town: Asp, kind: residence, name: The Old Mill, residents: [4345], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
+
+npcs:
+  # ---- fixed in the first session (A3 has their topics) ----
+  - {id: 4301, name: Adam, title: Townsman of Asp, profession: Peasant, talks: true, house: none, place: "X4, Asp's square by the well (A5)", greet: ["The people of Asp are turning into snakes. My Eve has started to hiss.", "Any luck with the pedestals?"]}
+  - {id: 4302, name: Eve, title: Townswoman of Asp, profession: Peasant, talks: true, house: none, place: "X4, Asp's square by the well (A5)", greet: ["Ssso glad you came.", "Ssstill here?"]}
+  - {id: 4303, name: Carlawna, title: Cleric, profession: Healer, talks: true, greet: ["Gargoyles stole my Scarab of Imaging and flew off to their range.", "The scarab?"]}
+  - {id: 4304, name: Falagar, title: Wizard, profession: Spell Master, talks: true, greet: ["Bring me the Crystals of Piezoelectricity from Asp, and I'll tell you why.", "The crystals?"]}
+  # ---- Castle Burlock's village ----
+  - {id: 4305, name: Gareth, title: Royal Armourer, profession: Smith, teaches: [{skill: Axe, mastery: master}], greet: ["By royal appointment. The King has never bought a thing, but the sign looks good.", "Back for an edge?"]}
+  - {id: 4306, name: Hilda Ironsides, title: Mailwright, profession: Armorer, teaches: [{skill: Plate, mastery: expert}], greet: ["Plate is a house you wear. Learn to live in it.", "Mind the rivets."]}
+  - {id: 4307, name: Father Anselm, profession: Healer, teaches: [{skill: Light Magic, mastery: expert}], greet: ["The Chapel of the Crown heals all, Crusaders or not. The King insists on the first part.", "Blessings."]}
+  - {id: 4308, name: Sir Brack, profession: Weapons Master, teaches: [{skill: Armsmaster, mastery: master}], greet: ["Lance up, chin down. The lists train you to forty, and the ground trains you the rest.", "Back on the horse?"]}
+  - {id: 4309, name: Ned, title: Ostler, profession: Horseman, greet: ["Vertigo, Rivercity or Asp. The coaches go when the horses agree.", "Where to?"]}
+  - {id: 4310, name: Big Martha, title: Innkeeper, profession: Cook, greet: ["Sit. Eat. The pig is not the one from the sign.", "The usual?"]}
+  - {id: 4311, name: Dame Ysolde, profession: Arms Master, teaches: [{skill: Shield, mastery: master}], greet: ["Three years champion of the lists. A shield is not for hiding behind. It is for hitting with.", "Shields up."]}
+  - {id: 4312, name: Zephyra, title: Court Magician, profession: Wind Master, teaches: [{skill: Air Magic, mastery: master}], greet: ["The King wants a mirror. I gave him a weather report. We do not speak now.", "Windy today."]}
+  - {id: 4313, name: Professor Gilliam, title: Keeper of the Bestiary, profession: Scholar, teaches: [{skill: Identify Monster, mastery: expert}], greet: ["Know the beast before it knows you. Mind the cages on the way out.", "Seen anything new?"]}
+  - {id: 4314, name: Herald Pomfrey, profession: Scribe, greet: ["Hear ye! Nothing new. Hear ye anyway.", "Hear ye."]}
+  - {id: 4315, name: Tamsin, title: Royal Laundress, profession: Tailor, greet: ["The Prince's sheets come back folded just as I left them. Every week.", "Mind the wet sheets."]}
+  - {id: 4316, name: Old Wat, title: Retired Jouster, profession: Squire, greet: ["Forty years in the lists and I never once fell off. I was pushed. Every time.", "Pull up a stool."]}
+  - {id: 4317, name: Rosalie, title: Baker, profession: Cook, greet: ["Bread for the castle, buns for the guards, crusts for the fools.", "Still warm."]}
+  - {id: 4318, name: Sergeant Holt, title: King's Guard, profession: Guard, greet: ["The gate is for Crusaders. The village is for everyone. The tavern is for me.", "Move along. Politely."]}
+  # ---- the savannah ----
+  - {id: 4320, name: Joe the Merchant, title: Caravan Trader, profession: Merchant, house: none, place: "X4, his caravan on the river road (A5)", greet: ["Everything on the wagon is genuine. Mostly.", "Buying or browsing?"]}
+  - {id: 4321, name: The Autumn Druid, profession: Mystic, house: none, place: "X4, the Autumn Druid's grove (A5)", greet: ["The leaves fall here, and nowhere else on Xeen.", "The leaf?"]}
+  # ---- Asp ----
+  - {id: 4330, name: Wendel, title: Drover of the Travel Pit, profession: Horseman, greet: ["The pit is outside the town. So am I. Let's keep it that way.", "Burlock or Rivercity?"]}
+  - {id: 4331, name: Sister Mabel, profession: Healer, greet: ["I heal what walks in on two legs. The rest I pray for.", "Hurt again?"]}
+  - {id: 4332, name: Sarah Slither, title: Guildmistress of Asp, profession: Spell Master, talks: true, greet: ["I'll ssslip your name into the guild rollsss.", "Ssstill no cure?"], source: "MAPS X4: Sarah Slither's lisp"}
+  - {id: 4333, name: Doc Viper, title: Apothecary, profession: Alchemist, teaches: [{skill: Alchemy, mastery: master}], greet: ["Snake oil cures everything. I have checked.", "Another bottle?"]}
+  - {id: 4334, name: Grisla, title: Armourer, profession: Armorer, greet: ["Scale mail. Locally sourced.", "Need a fitting?"]}
+  - {id: 4335, name: Basil Coil, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: master}], greet: ["Stone does not shed its skin. Learn from it.", "Steady footing?"]}
+  - {id: 4336, name: Nessa Fang, title: Body Guildmistress, profession: Healer, teaches: [{skill: Body Magic, mastery: master}], greet: ["We cured ourselves of snakes. We can cure you of anything.", "Feeling whole?"]}
+  - {id: 4337, name: Fennick Reed, title: Farmer, profession: Farmer, teaches: [{skill: Regeneration, mastery: expert}], greet: ["When I was half a snake, I grew back my own tail. Twice. The knack stayed.", "Cut yourself? Wait a bit."]}
+  - {id: 4338, name: Old Moss, title: Townsman, profession: Peasant, greet: ["I hissed for a month. Still do when I sneeze.", "Bless me."]}
+  - {id: 4339, name: Tilda Brook, title: Weaver, profession: Weaver, greet: ["I weave the guild's robes. Sleeves were hard while we had no arms.", "Need a robe?"]}
+  - {id: 4340, name: Garret Slade, title: Labourer, profession: Laborer, greet: ["I dig the pedestal stones back in every spring.", "Mind the hole."]}
+  - {id: 4341, name: Nan Ashworth, title: Cook, profession: Cook, greet: ["We ate mice for a season. Never again.", "Hungry?"]}
+  - {id: 4342, name: Pell, title: Potter, profession: Potter, greet: ["My pots have scales painted on. The fashion stuck.", "Buy a pot."]}
+  - {id: 4343, name: Corin Dale, title: Cobbler, profession: Cobbler, greet: ["Boots again! I had nothing to make them for.", "New soles?"]}
+  - {id: 4344, name: Mother Ophidia, profession: Gypsy, greet: ["I saw the curse coming. Nobody listens to a woman who hisses.", "Cross my palm."]}
+  - {id: 4345, name: Lem Tallow, title: Miller, profession: Miller, greet: ["The mill turned all through the curse. Nobody could carry the flour.", "Flour?"]}

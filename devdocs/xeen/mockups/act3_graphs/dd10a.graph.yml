@@ -1,0 +1,81 @@
+# MU-6 dungeon graph, a review file for phase 3 (not a brief). See dd01.graph.yml's header. One of the three
+# Gemstone Mines pockets (DD-10A, B, C), each its own map; the open questions shared by the three are repeated.
+format: mu6-0
+map: DD-10A
+key: dd10a
+name: "Gemstone Mines, west pocket"
+stands_on: D1 Castleview Vale
+class: S
+band: "S: 6-15 sectors, 7-20 M units², 15-30 monsters, 0-3 chests, 3-8 doors (at most 15 sectors and 20 M units²)"
+party: [23, 27]
+monsters:
+  levels: [16, 28]
+  count: 20
+  groups: [2, 3]
+  families:
+    - "Arachnoids (11330): Arachnoid Hunter 18 (6), Arachnoid Queen 24 (4)"
+    - "Night bats (11310): Beholder Bat 20 (6)"
+    - "Giant crawlers (11360): Electrapede 20 (4)"
+  mix:
+    - {row: Arachnoid Hunter, id: 11331, level: 18, count: 6}
+    - {row: Arachnoid Queen, id: 11332, level: 24, count: 4}
+    - {row: Beholder Bat, id: 11312, level: 20, count: 6}
+    - {row: Electrapede, id: 11361, level: 20, count: 4}
+  kill_xp_target: "about 3.7k (60 of the group DD-10+11's 120 at 22.1k; this pocket 3.07k)"
+treasure: {level: 3}
+role: "Q-D7 (the gemsmiths: five rocks of a gem from the veins; the God of Minerals refills them for gold), repeatable"
+role_short: "Q-D7"
+set_piece: "Five ruby and five emerald veins in timbered galleries; the cobweb drift; bones that crumble, one heap that explodes"
+textures:
+  family: "Proposed (no Darkside mines family in dungeon_families yet): MM7 Nighon Tunnels 7d35 dark rock and timbering, the same for the three pockets"
+  cap: 30
+  planned: 14
+  new: "2 (ruby vein, emerald vein)"
+floors:
+  - {floor: 1, name: "West pocket: rubies, emeralds", height: 0}
+spaces:
+  - {id: room:a_adit, name: West adit, kind: corridor, size: S, floor: 1, at: [0, 0], monsters: 0,
+     purpose: "The timbered adit above the gemsmiths' row: the arrival."}
+  - {id: room:a_gallery, name: Timbered gallery, kind: corridor, size: M, floor: 1, at: [1, 0], monsters: 3,
+     population: [{row: Beholder Bat, level: 20, count: 3}], purpose: "Props and lagging; old carts."}
+  - {id: room:a_ruby, name: Ruby stope, kind: cave, size: L, floor: 1, at: [2, 0], set_piece: true, goal: true, monsters: 5,
+     population: [{row: Arachnoid Hunter, level: 18, count: 3}, {row: Electrapede, level: 20, count: 2}],
+     purpose: "Five ruby veins (q-d7.ruby_veins); 'You've got all this vein has to offer.' once picked."}
+  - {id: room:a_cobweb, name: Cobweb drift, kind: cave, size: M, floor: 1, at: [3, 0], monsters: 7,
+     population: [{row: Arachnoid Queen, level: 24, count: 4}, {row: Arachnoid Hunter, level: 18, count: 3}], purpose: "'Cobwebs' across the drift; the queens' den."}
+  - {id: room:a_bones, name: Bone pocket, kind: cave, size: S, floor: 1, at: [1, 1], chest: 3, monsters: 0,
+     purpose: "Miners' bones: 'The bones crumble to dust in your hands', one heap 'The bones explode!'; their chest."}
+  - {id: room:a_emerald, name: Emerald gallery, kind: cave, size: M, floor: 1, at: [2, 1], goal: true, monsters: 5,
+     population: [{row: Beholder Bat, level: 20, count: 3}, {row: Electrapede, level: 20, count: 2}], purpose: "Five emerald veins (q-d7.emerald_veins)."}
+  - {id: room:a_sump, name: Sump, kind: cave, size: S, floor: 1, at: [3, 1], chest: 3, monsters: 0, purpose: "Standing water and a strongbox."}
+links:
+  - {id: link:a1, from: room:a_adit, to: room:a_gallery, kind: door}
+  - {id: link:a2, from: room:a_gallery, to: room:a_ruby, kind: open}
+  - {id: link:a3, from: room:a_ruby, to: room:a_cobweb, kind: open}
+  - {id: link:a4, from: room:a_cobweb, to: room:a_sump, kind: door}
+  - {id: link:a5, from: room:a_sump, to: room:a_emerald, kind: door}
+  - {id: link:a6, from: room:a_emerald, to: room:a_bones, kind: open}
+  - {id: link:a7, from: room:a_bones, to: room:a_gallery, kind: open}
+states:
+  - {id: state:veins, kind: map_var, where: room:a_ruby,
+     what: "Each vein gives one rock once (a map variable per vein); the God of Minerals' refill (DD-10B) resets them (open question 2).", opens: [], draw: false}
+exits:
+  - {id: 'exit:d1_adit', space: 'room:a_adit', at: [0, 1], kind: both, label: 'D1: west adit', neighbour: 'D1 entrance:dd10a_adit (45, 22) facing south, above the gemsmiths'' row'}
+hooks:
+  - {hook: q-d7.ruby_veins, space: 'room:a_ruby', how: each of five veins (open question 2)}
+  - {hook: q-d7.emerald_veins, space: 'room:a_emerald', how: each of five veins}
+critical_path: [room:a_adit, room:a_gallery, room:a_ruby, room:a_cobweb, room:a_sump, room:a_emerald]
+return_path: [room:a_emerald, room:a_bones, room:a_gallery, room:a_adit]
+loops:
+  - {id: 'loop:a', spaces: ['room:a_gallery', 'room:a_ruby', 'room:a_cobweb', 'room:a_sump', 'room:a_emerald', 'room:a_bones'], notes: 'West: round the two veins.'}
+lines:
+  - {text: 'Exit the Gemstone Mines?', ref: 'dark/aaze0039:0', where: 'each adit (the exit preset''s meaning, D-24)'}
+  - {text: Diamond vein / Ruby vein / Emerald vein / Sapphire vein, ref: 'dark/aaze0039:1-4', where: the veins (hover)}
+  - {text: You've got all this vein has to offer., ref: 'dark/aaze0039:10', where: a picked vein}
+  - {text: The bones explode! / The bones crumble to dust in your hands, ref: 'dark/aaze0039:13-14', where: 'room:a_bones'}
+open_questions:
+  - "DD-10C stands on D6 (Act V, party 48-51) with Act III's band. (a) Keep it on D6 and raise the north pocket to D6's lower band (about 38-50), so diamonds (Hector's best gear, 10 gems) are Act V gear and the 20 monsters move from the Act III group to Act V (A2's recount) (proposed: the source put the diamond mine in the Forbidden Zone); (b) move the north pocket's adit to D1's mine hills by the D6 road (A6), Act III as planned; (c) a D6 adit right at the end of D1's mountain road, Act III monsters, the party walking a few hundred units of D6."
+  - "q-d7 has one refill bit for three pockets, cleared by the first pocket that refills, and each vein hook gives five rocks at once. Proposed: five veins per gem, one rock each (a map variable per vein); the God sets three bits (refill_a, refill_b, refill_c, A3) and each pocket's veins refill and clear their own. Requests to A3."
+  - "False veins and exploding bones: one false vein each in B and C ('A gem exploded!', some fire damage) and one bone heap in A ('The bones explode!'). Or only the crumbling bones (no traps)?"
+  - "Rock golems: the Sand Golem row (11590 A, 22) stands in for the mines' golems. A2 to give the mines a renamed tier ('Rock Golem 22') or keep the name?"
+  - "Textures: proposed MM7 Nighon Tunnels 7d35 for all three pockets (Darkside rock, not XD-02's red Snergle rock) plus four vein textures (one per gem). A6 to confirm or name another family."

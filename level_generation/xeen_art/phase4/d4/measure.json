@@ -1,0 +1,260 @@
+{
+ "land_cells": 6271,
+ "lake_cells": 983,
+ "water_share_of_box": 0.118,
+ "quiet_share": 0.585,
+ "areas": [
+  {
+   "id": "pop:mountain_gargoyles",
+   "land_cells": 684,
+   "big_cells": 10.7,
+   "all_cells": 684,
+   "count": 13
+  },
+  {
+   "id": "pop:snow_rocs",
+   "land_cells": 904,
+   "big_cells": 14.1,
+   "all_cells": 932,
+   "count": 12
+  },
+  {
+   "id": "pop:rimward_rocs",
+   "land_cells": 271,
+   "big_cells": 4.2,
+   "all_cells": 271,
+   "count": 8
+  },
+  {
+   "id": "pop:heath_rocs",
+   "land_cells": 624,
+   "big_cells": 9.8,
+   "all_cells": 624,
+   "count": 14
+  },
+  {
+   "id": "pop:circle_witches",
+   "land_cells": 71,
+   "big_cells": 1.1,
+   "all_cells": 71,
+   "count": 8
+  },
+  {
+   "id": "pop:reed_witches",
+   "land_cells": 47,
+   "big_cells": 0.7,
+   "all_cells": 80,
+   "count": 6
+  },
+  {
+   "id": "pop:octopods",
+   "land_cells": 1,
+   "big_cells": 0.0,
+   "all_cells": 161,
+   "count": 2
+  },
+  {
+   "id": "pop:octopods_east",
+   "land_cells": 1,
+   "big_cells": 0.0,
+   "all_cells": 242,
+   "count": 3
+  }
+ ],
+ "markers": 47,
+ "hostiles_by_area": {
+  "pop:mountain_gargoyles": 32.5,
+  "pop:snow_rocs": 24.0,
+  "pop:rimward_rocs": 16.0,
+  "pop:heath_rocs": 28.0
+ },
+ "placed_hostile": 19,
+ "hostiles_at_load": 119.5,
+ "kill_xp_per_member": 43711,
+ "height_min_land_box": 1097,
+ "height_max_land_box": 4187,
+ "relief_box": 3090,
+ "road_share": 0.012,
+ "lane_share": 0.015,
+ "first_fight": {
+  "entrance:south_road": [
+   [
+    2560,
+    "pop:rimward_rocs"
+   ],
+   [
+    13862,
+    "pop:octopods_east"
+   ]
+  ],
+  "entrance:west_road": [
+   [
+    4608,
+    "pop:heath_rocs"
+   ],
+   [
+    12309,
+    "pop:circle_witches"
+   ]
+  ],
+  "entrance:lakeside_square": [
+   [
+    8014,
+    "pop:heath_rocs"
+   ],
+   [
+    8704,
+    "pop:circle_witches"
+   ]
+  ],
+  "entrance:lakeside_dock": [
+   [
+    6818,
+    "pop:octopods_east"
+   ],
+   [
+    7241,
+    "pop:octopods"
+   ]
+  ],
+  "entrance:isle_landing": [
+   [
+    4636,
+    "pop:octopods_east"
+   ],
+   [
+    4654,
+    "pop:octopods"
+   ]
+  ]
+ },
+ "nearest_fight_to_a_town_door": [
+  2721,
+  "building:lk_houses#2",
+  "pop:heath_rocs"
+ ],
+ "poi_spots": 35,
+ "poi_groups": [
+  [
+   "entrance:dd12_door"
+  ],
+  [
+   "entrance:dd20_guild",
+   "building:lk_guild"
+  ],
+  [
+   "entrance:dd20_shaft"
+  ],
+  [
+   "entrance:dd23_lair"
+  ],
+  [
+   "entrance:blackfang_gate"
+  ],
+  [
+   "poi:obelisk"
+  ],
+  [
+   "poi:fountain_magic"
+  ],
+  [
+   "poi:warding_well"
+  ],
+  [
+   "poi:fountain_resilience"
+  ],
+  [
+   "poi:woodpile"
+  ],
+  [
+   "poi:cairn"
+  ],
+  [
+   "poi:mirabeth"
+  ],
+  [
+   "poi:genie_seat"
+  ],
+  [
+   "poi:genie_skerry"
+  ],
+  [
+   "poi:witches_circle"
+  ],
+  [
+   "poi:reed_cauldron"
+  ],
+  [
+   "poi:beached_boat"
+  ],
+  [
+   "poi:roc_nest"
+  ],
+  [
+   "poi:frozen_pilgrim"
+  ],
+  [
+   "poi:skerry_strongbox"
+  ],
+  [
+   "poi:roc_hunter"
+  ],
+  [
+   "poi:heath_wagon"
+  ],
+  [
+   "poi:circle_chest"
+  ],
+  [
+   "poi:hunters_hide"
+  ],
+  [
+   "poi:falls_chest"
+  ],
+  [
+   "poi:gibbet"
+  ],
+  [
+   "poi:isle_boat"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:signposts"
+  ],
+  [
+   "poi:mirror"
+  ],
+  [
+   "building:lk_smithy"
+  ],
+  [
+   "building:lk_tavern"
+  ],
+  [
+   "building:lk_temple"
+  ],
+  [
+   "building:lk_yachts"
+  ]
+ ],
+ "poi_spacing_median": 4128,
+ "poi_spacing_min": 512,
+ "poi_spacing_max": 12810,
+ "service_doors": 5,
+ "house_doors": 15,
+ "outdoor_chests": 10,
+ "dungeon_entrances": 4,
+ "farthest_land_from_anything": [
+  4830,
+  [
+   19,
+   56
+  ]
+ ],
+ "wild_land_share_over_3000": 0.07
+}

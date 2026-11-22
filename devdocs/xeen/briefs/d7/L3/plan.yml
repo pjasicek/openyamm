@@ -1,0 +1,1155 @@
+format: 0
+level: L3
+pitch: "The roads of the gods over the Darkside: a ring of cloud road round the whole sky with a corner at each element, floating Rest Stops along it, the sky bandits' tolls, the merchants of the elements with their riddles, and genies in lamps. Inside the ring, a road from the Dark Grove's rope crosses to Olympus on its marble cloud, past the Great Pyramid's sky door to the Sky Lake and its scarab sellers. Off a dead-end road in the north-west the Megadragon sleeps on Castle Alamar's roof."
+purpose: "Act V-VI's sky map (party 55-58; reached after M30): M31 (Soul Storage in Olympus, the true-name plaque, the prophecy statues), M38 (the four corners to the planes P1-P4), Olympus' services and grandmasters, the side content of the Skyroads (Q-D26 the Megadragon, Q-D27's lamps, the riddles, the tolls, the scarabs, two castaways' strongboxes), DD-26's door, and the roof ways up from eight Darkside dungeons."
+mood: "Amber and high: the Darkside's failing sun from above the clouds, the cloud sea below, white marble and gold in Olympus; deadpan signs along a highway in the sky ('Speeding??', 'Eat at Joe's'); polite robbers; the danger is played straight."
+datum: zone:olympus
+spaces:
+  - id: room:air_corner
+    name: The Air Corner
+    kind: room
+    extent: [4608, 4096]
+    shape: "the north-east corner cloud, its tip torn into streamers by a wind from below"
+    at: [28672, 18944]
+    floor: 1280
+    purpose: "Sky F1, 'Air Zone': 'What do you seek?'; 'Air' drops the party onto P2 (m38.corner_air). Rest Stop hut; entrance:p2_return. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:east_road_golems, actor: "11594", groups: 3, placed: true, hostile: true, notes: "3 Sky Golems (75) as one group, at (28160, 12800) on link:e1, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square F1; region east; falls from it land on D4 (entrance:d7_fall)."
+  - id: room:blackfang_hatch
+    name: Blackfang's hatch
+    kind: room
+    extent: [2048, 1792]
+    at: [25088, 15104]
+    floor: 1152
+    purpose: "Castle Blackfang's roof trapdoor (the source's 'Descend to Castle Blackfang?'; DD-14's roost): entrance:dd14_roof. A spur from the Air Corner."
+    notes: "Source square F1; region east; falls from it land on D4 (entrance:d7_fall)."
+  - id: room:broken_launch
+    name: The Broken Launch
+    kind: room
+    extent: [4096, 3584]
+    shape: a cloud with an old marble jetty and a launch with no boat (the source's 'Olympus Launch')
+    at: [-15360, -3584]
+    floor: 1152
+    purpose: "The gods' old launch, retired when Lucio's boats started sailing up from the jetties below; sky golems stand guard; a bottle in the jetty's planks ('Evil Genies NEVER let their victims off the hook--they will always kill someone.'); a lost traveller's pack. A rope bridge south to the genie's rock."
+    population:
+      - {id: pop:launch_golems, actor: "11594", groups: 3, placed: true, hostile: true, notes: "3 Sky Golems (75) as one group, at (-11264, 768) on link:olympus_west, walking: 300 or more inside the rim or the road edge"}
+      - {id: pop:east_dragons, actor: "11650", groups: 3, placed: true, hostile: true, notes: "3 Cloud Dragons (70) as one group, at (-20736, -4864) on link:launch_road, flying"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: a lost traveller's pack on the jetty}
+    notes: "Source square B3; region inner; falls from it land on D1 (entrance:d7_fall)."
+  - id: room:earth_corner
+    name: The Earth Corner
+    kind: room
+    extent: [4608, 4096]
+    shape: "the south-east corner cloud, grey and heavy, its tip crumbling like a cliff"
+    at: [28672, -18944]
+    floor: 768
+    purpose: "Sky F4, 'Earth Zone': 'What do you seek?'; 'Earth' drops the party onto P3 (m38.corner_earth). Rest Stop hut; entrance:p3_return. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "Source square F4; region south; falls from it land on D3 (entrance:d7_fall)."
+  - id: room:east_junction
+    name: The Eastern Tower's junction
+    kind: room
+    extent: [4096, 3584]
+    at: [28160, -5632]
+    floor: 1024
+    purpose: "Where the Sky Lake road meets the east road: a Rest Stop, a 'Speeding???' board, and DD-07's roof hatch (the source's 'Descend to the East Tower?'): entrance:dd07_roof. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:earth_road_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (28160, -11776) on link:e3, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square F3; region east; falls from it land on D3 (entrance:d7_fall)."
+  - id: room:east_rest
+    name: The East Rest Stop
+    kind: room
+    extent: [4096, 3328]
+    at: [16384, 18432]
+    floor: 1280
+    purpose: A Rest Stop (the source's E1 'Rest Stop') with a genie's lamp on its bench (the kind genie). Quiet.
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:air_road_golems, actor: "11594", groups: 2, placed: true, hostile: true, notes: "2 Sky Golems (75) as one group, at (22528, 18432) on link:n5, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square E1; region north; falls from it land on D4 (entrance:d7_fall)."
+  - id: room:fire_corner
+    name: The Fire Corner
+    kind: room
+    extent: [4608, 4096]
+    shape: "a broad corner cloud where the north and west roads meet; its outer tip ends in nothing over a red glow"
+    at: [-28672, 18944]
+    floor: 1280
+    purpose: "The Skyroads' north-west corner (Sky A1, 'Fire Zone'): the sky asks 'What do you seek?' at the tip; 'Fire' drops the party onto P1 (m38.corner_fire). A Rest Stop hut on the inner side; entrance:p1_return by it. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "Source square A1; region north; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:genie_rock
+    name: The Genie's Rock
+    kind: room
+    extent: [2048, 2048]
+    at: [-10240, -7168]
+    floor: 1024
+    purpose: "A lone cloud with a lamp on a rock: the angry genie, two thousand years late (Q-D27). The bottle at the Broken Launch warns about him."
+    notes: "Source square C3; region inner; falls from it land on D2 (entrance:d7_fall)."
+  - id: room:griffin_watch
+    name: The Griffin Watch
+    kind: room
+    extent: [3584, 3072]
+    shape: "a wide place in the north road, its south lip looking across the gap at the Megadragon's roost"
+    at: [-16384, 18432]
+    floor: 1280
+    purpose: "Griffins over the road (the source's B1); the second 'DANGER! Mega Dragon' board on the south lip, facing the roost 9,700 away; a genie's lamp in a crack of the cloud (the tired genie, one wish left)."
+    population:
+      - {id: pop:watch_griffins, actor: "11562", groups: 3, placed: true, hostile: true, notes: "3 Griffins (48) as one group, at (-16640, 19456), flying"}
+      - {id: pop:watch_griffins_b, actor: "11562", groups: 2, placed: true, hostile: true, notes: "2 Griffins (48) as one group, at (-9216, 18432) on link:n2, flying"}
+      - {id: pop:fire_road_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (-22272, 18432) on link:n1, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square B1; region north; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:mud_wharf
+    name: The Mud Wharf
+    kind: room
+    extent: [3584, 3328]
+    at: [28160, 5632]
+    floor: 1152
+    purpose: "The east toll ('You have invaded our territory. Appease us with 10,000 gold or face our wrath!') and the Merchant of the Elements with the muddy barge (Mud, the source's F2). Quiet but for the bandits."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:mud_road_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (28160, 0) on link:e2, walking: 300 or more inside the rim or the road edge"}
+      - {id: pop:bandits_east, actor: "Sky Bandit (A2 row asked, question 3)", groups: 2, placed: true, hostile: false, notes: "2 sky bandits at the toll, at (28928, 6656): peaceful until a refusal (their own faction); not counted at load"}
+    notes: "Source square F2; region east; falls from it land on D4 (entrance:d7_fall)."
+  - id: room:north_crossing
+    name: The North Crossing
+    kind: room
+    extent: [4096, 3584]
+    shape: a broad round cloud where the Olympus causeway leaves the north road
+    at: [-1536, 18432]
+    floor: 1280
+    purpose: "A Rest Stop (hut and sign) where the causeway to Olympus' north gate leaves the ring; the Merchant of the Elements with the dusty barge (Dust, the source's C1). Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "Source square C1; region north; falls from it land on D5 (entrance:d7_fall)."
+  - id: room:north_toll
+    name: The North Toll
+    kind: room
+    extent: [3072, 2816]
+    at: [5632, 18432]
+    floor: 1280
+    purpose: "The sky bandits' north toll ('Pay us 10,000 gold or else!'); a 'Speeding??' board; a short spur south to the Northern Tower's roof hatch. Quiet but for the bandits."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:north_road_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (9728, 18432) on link:n4, walking: 300 or more inside the rim or the road edge"}
+      - {id: pop:bandits_north, actor: "Sky Bandit (A2 row asked, question 3)", groups: 2, placed: true, hostile: false, notes: "2 sky bandits at the toll, at (5632, 19200): peaceful until a refusal (their own faction); not counted at load"}
+    notes: "Source square D1; region north; falls from it land on D5 (entrance:d7_fall)."
+  - id: room:north_tower_hatch
+    name: The Northern Tower's hatch
+    kind: room
+    extent: [2048, 1792]
+    at: [5632, 14848]
+    floor: 1152
+    purpose: "DD-08's roof hatch (the source's 'Descend to the North Tower?'): entrance:dd08_roof."
+    notes: "Source square D1; region north; falls from it land on D5 (entrance:d7_fall)."
+  - id: room:pyramid_cap
+    name: The Pyramid's Door
+    kind: room
+    extent: [4608, 4096]
+    shape: "a cloud round a golden capstone that floats a little above it, a door in its east face"
+    at: [9728, 2560]
+    floor: 1408
+    purpose: "The Great Pyramid's sky door (the source's D2 'Enter the Pyramid?'): DD-15's top, both ways after m30.done (entrance:dd15_sky). Cloud dragons circle it (the source's D2)."
+    population:
+      - {id: pop:cap_dragons, actor: "11650", groups: 3, placed: true, hostile: true, notes: "3 Cloud Dragons (70) as one group, at (4608, 4768), flying"}
+      - {id: pop:cap_dragons_b, actor: "11650", groups: 2, placed: true, hostile: true, notes: "2 Cloud Dragons (70) as one group, at (13056, -1024), flying"}
+    notes: "Source square D2; region inner; falls from it land on D5 (entrance:d7_fall)."
+  - id: room:roost
+    name: The Megadragon's Roost
+    kind: room
+    extent: [5120, 4096]
+    shape: "a high cloud round a black crag, gnawed bones, a hatch of Ancient metal under the dragon"
+    at: [-19456, 9216]
+    floor: 1536
+    purpose: "Q-D26 (optional): the Megadragon (125) sleeps on Castle Alamar's roof hatch ('Descend to Castle Alamar?' / 'The door is locked. Scratched on the surface are some words: The Megadragon has the key!'). Its hoard. A dead-end road from the Smoke Post; its leash circle stands 5,900 or more from every other walkable place."
+    population:
+      - {id: pop:megadragon, actor: "11654", groups: 1, placed: true, hostile: true, notes: "the Megadragon (125, Q-D26, optional), at (-19456, 9216) on Alamar's roof hatch, leash 1024; flying but leashed to the roost. Its leash circle stands 5,888 or more from every other walkable place (D-54's rule, Dragon Breath); not in the 50"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: the Megadragon's hoard (Q-D26's artifact)}
+    notes: "Source square B2; region west; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:rope_head
+    name: The Rope's Head
+    kind: room
+    extent: [5120, 3840]
+    shape: "a broad cloud on the west road's inner side; the Dark Grove rope comes up through a hole in it"
+    at: [-26624, -6144]
+    floor: 1024
+    purpose: "The Dark Grove rope's head (D1, after m30.done): entrance:d1_rope, 'Pull up the rope?' and the way back down. The 'XEEN Skyroad' board, an 'Eat at Joe's' board, a Rest Stop hut, and the Western Tower's hatch ('Enter West Tower?', DD-05). The inner road leaves east. Quiet. The arrival view."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:rope_griffins, actor: "11562", groups: 3, placed: true, hostile: true, notes: "3 Griffins (48) as one group, at (-27264, -2048) on link:w3, flying"}
+    notes: "Source square A3; region west; falls from it land on D1 (entrance:d7_fall)."
+  - id: room:sky_lake
+    name: The Sky Lake
+    kind: room
+    extent: [7168, 6144]
+    shape: "a wide cloud bowl holding a shallow lake, an island of cloud in it, stalls on the west shore"
+    at: [16896, -5120]
+    floor: 896
+    purpose: "The Sky Lake (the source's E3): four scarab sellers' stalls (Rahib, Wardoz the Blue, Clara the Cold, Dorion the Energy Merchant), two bottles washed up on the shore (the stranded islands' notes), the 'Sky Lake' board. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "Source square E3; region inner; falls from it land on D3 (entrance:d7_fall)."
+  - id: room:skywaymen_camp
+    name: The Skywaymen's Camp
+    kind: room
+    extent: [3840, 3328]
+    at: [-16384, -18432]
+    floor: 768
+    purpose: "The bandits' camp: a tarpaulin, a cold fire and their strongbox (the tolls go somewhere), a second 'Eat at Joe's' board; cloud golems drifted in and stayed."
+    population:
+      - {id: pop:camp_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (-16384, -18176), walking: 300 or more inside the rim or the road edge"}
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: the skywaymen's strongbox (the tolls)}
+    notes: "Source square B4; region south; falls from it land on D1 (entrance:d7_fall)."
+  - id: room:smoke_post
+    name: The Smoke Post
+    kind: room
+    extent: [3328, 3072]
+    at: [-28160, 4096]
+    floor: 1152
+    purpose: "The Merchant of the Elements with the smoking barge (Smoke, the source's A2) and the first 'DANGER! Mega Dragon' board at the foot of the dragon's road. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    notes: "Source square A2; region west; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:south_rest
+    name: The South Rest Stop
+    kind: room
+    extent: [4096, 3328]
+    at: [16384, -18432]
+    floor: 768
+    purpose: "A Rest Stop (the source's E4 'Rest Stop'); a bottle on the bench ('The test of the elements is merely difficult, not impossible.'). Quiet."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:earth_south_golems, actor: "11592", groups: 2, placed: true, hostile: true, notes: "2 Cloud Golems (50) as one group, at (21504, -18432) on link:s1, walking: 300 or more inside the rim or the road edge"}
+      - {id: pop:steam_road_golems, actor: "11592", groups: 3, placed: true, hostile: true, notes: "3 Cloud Golems (50) as one group, at (14080, -18432) on link:s2, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square E4; region south; falls from it land on D3 (entrance:d7_fall)."
+  - id: room:south_toll
+    name: Joe's Corner
+    kind: room
+    extent: [3584, 3072]
+    at: [-5632, -18432]
+    floor: 768
+    purpose: "The south toll ('Many apologies, good folks, but this is a robbery.'), under an 'Eat at Joe's' board with no Joe's anywhere. Quiet but for the bandits."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:bandits_south, actor: "Sky Bandit (A2 row asked, question 3)", groups: 2, placed: true, hostile: false, notes: "2 sky bandits at the toll, at (-5632, -19200): peaceful until a refusal (their own faction); not counted at load"}
+    notes: "Source square C4; region south; falls from it land on D2 (entrance:d7_fall)."
+  - id: room:south_tower_hatch
+    name: The Southern Tower's hatch
+    kind: room
+    extent: [2048, 1792]
+    at: [5632, -14592]
+    floor: 704
+    purpose: "DD-06's roof hatch (the source's 'Descend into the South Tower?'): entrance:dd06_roof."
+    notes: "Source square D4; region south; falls from it land on D2 (entrance:d7_fall)."
+  - id: room:steam_post
+    name: The Steam Post
+    kind: room
+    extent: [3328, 3072]
+    at: [5632, -18432]
+    floor: 768
+    purpose: "The Merchant of the Elements with the steaming barge (Steam, the source's D4); a spur north to the Southern Tower's hatch. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:south_griffins, actor: "11562", groups: 2, placed: true, hostile: true, notes: "2 Griffins (48) as one group, at (1024, -18432) on link:s3, flying"}
+    notes: "Source square D4; region south; falls from it land on D2 (entrance:d7_fall)."
+  - id: room:stranded_south
+    name: The second stranded island
+    kind: room
+    extent: [1536, 1280]
+    at: [-5888, -10752]
+    floor: 960
+    purpose: "'Help! I'm stranded on an air island in C3 at 7,0.' (the second bottle): a lean-to and a strongbox."
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: the second castaway's strongbox}
+    notes: "Source square C3; region inner; falls from it land on D2 (entrance:d7_fall)."
+  - id: room:stranded_west
+    name: The stranded traveller's island
+    kind: room
+    extent: [1536, 1280]
+    at: [-31104, 15104]
+    floor: 1280
+    purpose: "'Help! I'm stranded on an air island in A2 at 12,14.' (a bottle at the Sky Lake): a skeleton and his strongbox, on a lone cloud west of the West Lookout, out of the Megadragon's reach (D-58 D-2)."
+    treasure:
+      - {kind: chest, count: 1, tier: 6, notes: the stranded traveller's strongbox}
+    notes: "Source square A2; region west; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:water_corner
+    name: The Water Corner
+    kind: room
+    extent: [4608, 4096]
+    shape: "the south-west corner cloud, wet and blue-shadowed, its tip dripping"
+    at: [-28672, -18944]
+    floor: 768
+    purpose: "Sky A4, 'Water Zone': 'What do you seek?'; 'Water' drops the party onto P4 (m38.corner_water). Rest Stop hut; entrance:p4_return. On its inner side the roof hatches of Ellinger's Tower (DD-02) and Castle Kalindra (DD-03), as in the source's A4. Quiet."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:water_road_golems, actor: "11592", groups: 2, placed: true, hostile: true, notes: "2 Cloud Golems (50) as one group, at (-23040, -18432) on link:s5, walking: 300 or more inside the rim or the road edge"}
+    notes: "Source square A4; region south; falls from it land on D1 (entrance:d7_fall)."
+  - id: room:west_lookout
+    name: The West Lookout
+    kind: room
+    extent: [3072, 2816]
+    at: [-28160, 12288]
+    floor: 1216
+    purpose: "A wide place in the west road; griffins; a rope bridge east to the stranded traveller's island."
+    population:
+      - {id: pop:lookout_griffins, actor: "11562", groups: 2, placed: true, hostile: true, notes: "2 Griffins (48) as one group, at (-28160, 11072) on link:w4, flying"}
+    notes: "Source square A2; region west; falls from it land on D6 (entrance:d7_fall)."
+  - id: room:west_toll
+    name: The West Toll
+    kind: room
+    extent: [3072, 2816]
+    at: [-28160, -12288]
+    floor: 832
+    purpose: "The west toll ('Hold! The toll for passing this part of the road is 10,000 gold!'). Quiet but for the bandits."
+    safe: true
+    keep_clear: [spawns]
+    population:
+      - {id: pop:bandits_west, actor: "Sky Bandit (A2 row asked, question 3)", groups: 2, placed: true, hostile: false, notes: "2 sky bandits at the toll, at (-28928, -12288): peaceful until a refusal (their own faction); not counted at load"}
+    notes: "Source square A4; region west; falls from it land on D1 (entrance:d7_fall)."
+  - id: void:cloud_sea
+    name: The cloud sea
+    kind: void
+    purpose: "Open sky under the roads (below_horizon: sky); a fall lands on the surface map beneath, by the 3 x 2 zones (D6, D5, D4 north; D1, D2, D3 south) at entrance:d7_fall."
+  - id: zone:ol_dock
+    name: Lucio's dock
+    kind: zone
+    part_of: zone:olympus
+    extent: [2560, 2048]
+    at: [-256, 3072]
+    floor: 1792
+    purpose: "Lucio's Dock (house 4808) and a marble jetty running out south-east over the void, a celestial boat moored at its end: entrance:olympus_dock on the jetty."
+    safe: true
+    buildings:
+      - {id: building:ol_dock, type: house, service: Lucio's Dock, count: 1, doors: 1, footprint_cells: [1.5, 1.5], notes: "A4's house 4808; door at (-1152, 4224) facing s, floor 1792; Lucio lives here"}
+  - id: zone:ol_gods_row
+    name: The gods' row
+    kind: zone
+    part_of: zone:olympus
+    extent: [2816, 5632]
+    at: [-7680, 6912]
+    floor: 1792
+    purpose: "Zeus', Hera's and Athena's houses facing the square; Ligono waits in Hera's (Q-C19); Hermes' and Atlas' on the south lane; Adonis' on the west rim by the ants' lookout."
+    safe: true
+    buildings:
+      - {id: building:ol_zeus, type: house, service: House of Zeus, count: 1, doors: 1, footprint_cells: [2.5, 2], notes: "A4's house 4813; door at (-6656, 8192) facing e, floor 1792"}
+      - {id: building:ol_hera, type: house, service: House of Hera, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4814; door at (-6656, 6656) facing e, floor 1792; Ligono waits here"}
+      - {id: building:ol_athena, type: house, service: House of Athena, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4810; door at (-6656, 5120) facing e, floor 1792"}
+      - {id: building:ol_hermes, type: house, service: House of Hermes, count: 1, doors: 1, footprint_cells: [2, 1.5], notes: "A4's house 4811; door at (-6144, 4608) facing n, floor 1792"}
+      - {id: building:ol_atlas, type: house, service: House of Atlas, count: 1, doors: 1, footprint_cells: [2, 1.5], notes: "A4's house 4812; door at (-4352, 4608) facing n, floor 1792"}
+      - {id: building:ol_adonis, type: house, service: House of Adonis, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4809; door at (-8704, 6912) facing s, floor 1792; on the west rim, the ants' lookout terrace beside it"}
+  - id: zone:ol_market
+    name: The east lane
+    kind: zone
+    part_of: zone:olympus
+    extent: [2304, 5632]
+    at: [-1536, 6912]
+    floor: 1792
+    purpose: "The Forge of the Gods, the Nectar House and the Hall of Heroes, doors to the square."
+    safe: true
+    buildings:
+      - {id: building:ol_smith, type: house, service: The Forge of the Gods, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4801; door at (-2560, 8192) facing w, floor 1792"}
+      - {id: building:ol_tavern, type: house, service: The Nectar House, count: 1, doors: 1, footprint_cells: [2.5, 2], notes: "A4's house 4802; door at (-2560, 6656) facing w, floor 1792"}
+      - {id: building:ol_training, type: house, service: The Hall of Heroes, count: 1, doors: 1, footprint_cells: [3, 2], notes: "A4's house 4804; door at (-2560, 5120) facing w, floor 1792; open to the sky inside: \"No ceiling in this hall.\""}
+  - id: zone:ol_square
+    name: The gods' square
+    kind: zone
+    part_of: zone:olympus
+    extent: [2560, 2560]
+    at: [-4608, 7168]
+    floor: 1792
+    purpose: "The square: the Mirror of Olympus in its middle (entrance:olympus_square beside it), the four prophecy statues at its corners (m31.statue_1-4)."
+    safe: true
+  - id: zone:ol_temple_court
+    name: The temple court
+    kind: zone
+    part_of: zone:olympus
+    extent: [4608, 2048]
+    at: [-4608, 9856]
+    floor: 1792
+    purpose: "The Temple of Olympus facing the square, the Light and Spirit guilds either side; Soul Storage behind the temple's west wing."
+    safe: true
+    buildings:
+      - {id: building:ol_temple, type: house, service: Temple of Olympus, count: 1, doors: 1, footprint_cells: [4, 3], notes: "A4's house 4803; door at (-4608, 8960) facing s, floor 1792; a marble temple with a gold dome and a portico of six columns"}
+      - {id: building:ol_guild_light, type: house, service: Olympus Guild of Light, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4805; door at (-7680, 9216) facing s, floor 1792"}
+      - {id: building:ol_guild_spirit, type: house, service: Olympus Guild of Spirit, count: 1, doors: 1, footprint_cells: [2, 2], notes: "A4's house 4806; door at (-2304, 9216) facing s, floor 1792"}
+  - id: zone:olympus
+    name: Olympus
+    kind: town
+    extent: [9728, 7680]
+    shape: "a raised cloud paved in white marble, a low balustrade round its rim, three gates, the gods' houses round a square"
+    at: [-4608, 7168]
+    floor: 1792
+    relief: flat
+    purpose: "The city of the gods (WORLD_DESIGN 5.2; A4's d7.yml): six services, the mirror, Lucio's dock, the six gods' houses, Soul Storage with Sheltem's plaque (M31), the four prophecy statues, the Olympus Sewer's stair (DD-26). No monsters. The signature view."
+    safe: true
+    keep_clear: [spawns]
+    theme: "white marble (MM7 Celeste's Hwm/Hwp set), gold bands and domes, 7tws1f paving"
+    notes: "Source square C2; region inner; falls from it land on D5 (entrance:d7_fall)."
+regions:
+  - id: region:east
+    name: The east road
+    spaces: [room:air_corner, room:blackfang_hatch, room:mud_wharf, room:east_junction]
+    where: "Sky F1-F4 (over D4, D3)"
+  - id: region:inner
+    name: The inner road
+    spaces: [room:broken_launch, room:genie_rock, room:stranded_south, zone:olympus, room:pyramid_cap, room:sky_lake]
+    where: "Sky B3, C2, C3, D2, E3"
+  - id: region:north
+    name: The north road
+    spaces: [room:fire_corner, room:griffin_watch, room:north_crossing, room:north_toll, room:north_tower_hatch, room:east_rest]
+    where: "Sky A1-F1 (over D6, D5, D4)"
+  - id: region:south
+    name: The south road
+    spaces: [room:earth_corner, room:south_rest, room:steam_post, room:south_tower_hatch, room:south_toll, room:skywaymen_camp, room:water_corner]
+    where: "Sky A4-F4 (over D1, D2, D3)"
+  - id: region:west
+    name: The west road and the dragon
+    spaces: [room:west_toll, room:rope_head, room:smoke_post, room:west_lookout, room:stranded_west, room:roost]
+    where: "Sky A1-B4 (over D6, D1)"
+links:
+  - id: link:blackfang_spur
+    from: room:air_corner
+    to: room:blackfang_hatch
+    kind: path
+    width: 512
+    rise: -128
+    notes: "a narrow cloud road; 2,198 rim to rim"
+  - id: link:dragon_road
+    from: room:smoke_post
+    to: room:roost
+    kind: path
+    width: 768
+    rise: 384
+    notes: "a narrow cloud road; 6,217 rim to rim; the Megadragon's road: 'DANGER! Mega Dragon' at its foot; a dead end"
+  - id: link:e1
+    from: room:air_corner
+    to: room:mud_wharf
+    kind: road
+    width: 768
+    rise: -128
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 9,843 rim to rim"
+  - id: link:e2
+    from: room:mud_wharf
+    to: room:east_junction
+    kind: road
+    width: 768
+    rise: -128
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 7,962 rim to rim"
+  - id: link:e3
+    from: room:east_junction
+    to: room:earth_corner
+    kind: road
+    width: 768
+    rise: -256
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 9,696 rim to rim"
+  - id: link:genie_bridge
+    from: room:broken_launch
+    to: room:genie_rock
+    kind: bridge
+    width: 256
+    rise: -128
+    notes: "a rope bridge (X8's: t66floor deck, rope rails); 3,387 rim to rim"
+  - id: link:lake_east
+    from: room:sky_lake
+    to: room:east_junction
+    kind: road
+    width: 768
+    rise: 128
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 5,904 rim to rim"
+  - id: link:lake_road
+    from: room:pyramid_cap
+    to: room:sky_lake
+    kind: road
+    width: 768
+    rise: -512
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 5,181 rim to rim"
+  - id: link:launch_road
+    from: room:rope_head
+    to: room:broken_launch
+    kind: road
+    width: 768
+    rise: 128
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 7,134 rim to rim"
+  - id: link:n1
+    from: room:fire_corner
+    to: room:griffin_watch
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 8,431 rim to rim"
+  - id: link:n2
+    from: room:griffin_watch
+    to: room:north_crossing
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 11,177 rim to rim"
+  - id: link:n3
+    from: room:north_crossing
+    to: room:north_toll
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 3,797 rim to rim"
+  - id: link:n4
+    from: room:north_toll
+    to: room:east_rest
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 7,234 rim to rim"
+  - id: link:n5
+    from: room:east_rest
+    to: room:air_corner
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 8,099 rim to rim"
+  - id: link:north_hatch
+    from: room:north_toll
+    to: room:north_tower_hatch
+    kind: path
+    width: 512
+    rise: -128
+    notes: "a narrow cloud road; 1,362 rim to rim"
+  - id: link:olympus_east
+    from: zone:olympus
+    to: room:pyramid_cap
+    kind: road
+    width: 768
+    rise: -384
+    notes: "a causeway of white marble flags on a cloud tongue; 8,354 rim to rim; out of the east gate to the Pyramid's door"
+  - id: link:olympus_north
+    from: room:north_crossing
+    to: zone:olympus
+    kind: road
+    width: 768
+    rise: 512
+    notes: "a causeway of white marble flags on a cloud tongue; 6,365 rim to rim; the Olympus causeway, marble flags on a cloud, to the north gate"
+  - id: link:olympus_west
+    from: room:broken_launch
+    to: zone:olympus
+    kind: road
+    width: 768
+    rise: 640
+    notes: "a causeway of white marble flags on a cloud tongue; 9,023 rim to rim; up to Olympus' south-west gate"
+  - id: link:s1
+    from: room:earth_corner
+    to: room:south_rest
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 8,096 rim to rim"
+  - id: link:s2
+    from: room:south_rest
+    to: room:steam_post
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 7,140 rim to rim"
+  - id: link:s3
+    from: room:steam_post
+    to: room:south_toll
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 8,017 rim to rim"
+  - id: link:s4
+    from: room:south_toll
+    to: room:skywaymen_camp
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 7,119 rim to rim"
+  - id: link:s5
+    from: room:skywaymen_camp
+    to: room:water_corner
+    kind: road
+    width: 768
+    rise: 0
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 8,326 rim to rim"
+  - id: link:south_hatch
+    from: room:steam_post
+    to: room:south_tower_hatch
+    kind: path
+    width: 512
+    rise: -64
+    notes: "a narrow cloud road; 1,608 rim to rim"
+  - id: link:stranded_bridge
+    from: room:west_lookout
+    to: room:stranded_west
+    kind: bridge
+    width: 256
+    rise: 64
+    notes: "a rope bridge (X8's: t66floor deck, rope rails); 1,934 rim to rim"
+  - id: link:stranded_south_bridge
+    from: room:genie_rock
+    to: room:stranded_south
+    kind: bridge
+    width: 256
+    rise: -64
+    notes: "a rope bridge (X8's: t66floor deck, rope rails); 3,984 rim to rim"
+  - id: link:w1
+    from: room:water_corner
+    to: room:west_toll
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 3,345 rim to rim"
+  - id: link:w2
+    from: room:west_toll
+    to: room:rope_head
+    kind: road
+    width: 768
+    rise: 192
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 3,172 rim to rim"
+  - id: link:w3
+    from: room:rope_head
+    to: room:smoke_post
+    kind: road
+    width: 768
+    rise: 128
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 6,998 rim to rim"
+  - id: link:w4
+    from: room:smoke_post
+    to: room:west_lookout
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 5,387 rim to rim"
+  - id: link:w5
+    from: room:west_lookout
+    to: room:fire_corner
+    kind: road
+    width: 768
+    rise: 64
+    notes: "the Skyroad: cloud with a paved band of cloud-stone flags (7tws1f) down its middle; 3,424 rim to rim"
+loops:
+  - id: loop:east
+    spaces: [zone:olympus, room:pyramid_cap, room:sky_lake, room:east_junction, room:mud_wharf, room:air_corner, room:east_rest, room:north_toll, room:north_crossing]
+    notes: "Olympus' east gate, the Pyramid's door, the Sky Lake, up the east road and home by the north."
+  - id: loop:ring
+    spaces: [room:fire_corner, room:griffin_watch, room:north_crossing, room:north_toll, room:east_rest, room:air_corner, room:mud_wharf, room:east_junction, room:earth_corner, room:south_rest, room:steam_post, room:south_toll, room:skywaymen_camp, room:water_corner, room:west_toll, room:rope_head, room:smoke_post, room:west_lookout]
+    notes: "The Skyroad round the whole sky, 190,872 long through the islands' middles."
+  - id: loop:west
+    spaces: [room:rope_head, room:broken_launch, zone:olympus, room:north_crossing, room:griffin_watch, room:fire_corner, room:west_lookout, room:smoke_post]
+    notes: "The rope, the inner road to Olympus, out of its north gate and round by the Fire Corner."
+entrances:
+  - id: entrance:corner_air
+    space: room:air_corner
+    kind: exit
+    neighbour: plane:p2
+    how: "The Air Corner's tip: the sky asks 'What do you seek?'; 'Air' runs m38.corner_air and drops the party onto P2's entrance:d7_fall (corners.yml). at (30464, 20480)."
+  - id: entrance:corner_earth
+    space: room:earth_corner
+    kind: exit
+    neighbour: plane:p3
+    how: "The Earth Corner's tip: the sky asks 'What do you seek?'; 'Earth' runs m38.corner_earth and drops the party onto P3's entrance:d7_fall (corners.yml). at (30464, -20480)."
+  - id: entrance:corner_fire
+    space: room:fire_corner
+    kind: exit
+    neighbour: plane:p1
+    how: "The Fire Corner's tip: the sky asks 'What do you seek?'; 'Fire' runs m38.corner_fire and drops the party onto P1's entrance:d7_fall (corners.yml). at (-30464, 20480)."
+  - id: entrance:corner_water
+    space: room:water_corner
+    kind: exit
+    neighbour: plane:p4
+    how: "The Water Corner's tip: the sky asks 'What do you seek?'; 'Water' runs m38.corner_water and drops the party onto P4's entrance:d7_fall (corners.yml). at (-30464, -20480)."
+  - id: entrance:d1_rope
+    space: room:rope_head
+    kind: both
+    neighbour: rope:d1
+    facing: e
+    how: "D1's Dark Grove rope (m30.grove_rope, D-23): the top of the rope, facing east down the inner road. 'Pull up the rope?' here goes back down to D1's rope foot."
+    notes: "at (-24768, -6624), z 1024, facing e (MoveToMap direction 0)."
+  - id: entrance:dd02_roof
+    space: room:water_corner
+    kind: arrival
+    neighbour: roof:dd02
+    facing: ne
+    how: "DD-02 Ellinger's Tower's top floor (A8), one way up."
+    notes: "at (-27136, -18432), z 768, facing ne (MoveToMap direction 256)."
+  - id: entrance:dd03_roof
+    space: room:water_corner
+    kind: arrival
+    neighbour: roof:dd03
+    facing: ne
+    how: "DD-03 Castle Kalindra's third floor (A8; stage 4), one way up."
+    notes: "at (-27072, -19744), z 768, facing ne (MoveToMap direction 256)."
+  - id: entrance:dd05_roof
+    space: room:rope_head
+    kind: arrival
+    neighbour: roof:dd05
+    facing: e
+    how: "DD-05 Western Tower's roof (A8), one way up."
+    notes: "at (-27136, -5120), z 1024, facing e (MoveToMap direction 0)."
+  - id: entrance:dd06_roof
+    space: room:south_tower_hatch
+    kind: arrival
+    neighbour: roof:dd06
+    facing: s
+    how: "DD-06 Southern Tower's roof stair (A7), one way up."
+    notes: "at (5632, -14848), z 704, facing s (MoveToMap direction 1536)."
+  - id: entrance:dd07_roof
+    space: room:east_junction
+    kind: arrival
+    neighbour: roof:dd07
+    facing: w
+    how: "DD-07 Eastern Tower's roof (A7), one way up."
+    notes: "at (27136, -6144), z 1024, facing w (MoveToMap direction 1024)."
+  - id: entrance:dd08_roof
+    space: room:north_tower_hatch
+    kind: arrival
+    neighbour: roof:dd08
+    facing: n
+    how: "DD-08 Northern Tower's roof stair (A8), one way up."
+    notes: "at (5632, 15104), z 1152, facing n (MoveToMap direction 512)."
+  - id: entrance:dd14_roof
+    space: room:blackfang_hatch
+    kind: arrival
+    neighbour: roof:dd14
+    facing: ne
+    how: "DD-14 Castle Blackfang's roost trapdoor (A8), one way up."
+    notes: "at (25088, 14624), z 1152, facing ne (MoveToMap direction 256)."
+  - id: entrance:dd15_sky
+    space: room:pyramid_cap
+    kind: both
+    neighbour: door:dd15
+    facing: w
+    how: "DD-15 Great Pyramid's sky door (A8), both ways after m30.done."
+    notes: "at (11424, 2560), z 1408, facing w (MoveToMap direction 1024)."
+  - id: entrance:dd17_roof
+    space: room:roost
+    kind: both
+    neighbour: door:dd17
+    facing: w
+    how: "DD-17 Castle Alamar's roof hatch (A8): down with the Megadragon's key (Q-D26); up from Alamar's top floor once it is open."
+    notes: "at (-18688, 8448), z 1536, facing w (MoveToMap direction 1024)."
+  - id: entrance:dd26_stair
+    space: zone:olympus
+    kind: both
+    neighbour: door:dd26
+    facing: e
+    how: "DD-26 Olympus Sewer (A8, Q-D28): its stair under the marble grate."
+    notes: "at (-8704, 8192), z 1792, facing e (MoveToMap direction 0)."
+  - id: entrance:fall_d1
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d1
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fall_d2
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d2
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fall_d3
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d3
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fall_d4
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d4
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fall_d5
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d5
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fall_d6
+    space: void:cloud_sea
+    kind: exit
+    neighbour: fall:d6
+    how: "Any fall off the roads: under -1,000 (a one-second check) or onto the safety floor, A3's Xeen.skyFallD7() picks the surface map by the party's x, y and lands at its entrance:d7_fall with falling damage."
+  - id: entrance:fd01_roof
+    space: room:roost
+    kind: both
+    neighbour: door:fd01
+    facing: w
+    how: "FD-01 Alamar Depths' rubble shaft (A8, D-69 Q67): up the ladder after M33 once Q-D26's roof is unlocked; down by Alamar's roof hatch."
+    notes: "at (-18688, 8448), z 1536, facing w (MoveToMap direction 1024)."
+  - id: entrance:olympus_dock
+    space: zone:olympus
+    kind: arrival
+    neighbour: boat:lucio
+    facing: n
+    how: "Lucio's celestial boats from Castleview's and Sandcaster's jetties and Lakeside's dock (D-5.3, routes 424-426, after m30.done): the jetty's town end, facing into town. The boats only sail up. m31.arrival on the first landing."
+    notes: "at (-640, 3200), z 1792, facing n (MoveToMap direction 512)."
+  - id: entrance:olympus_square
+    space: zone:olympus
+    kind: arrival
+    neighbour: mirror:olympus
+    facing: n
+    how: "The Darkside mirrors (Olympus' 4807 once touched) and Town Portal: by the mirror."
+    notes: "at (-4608, 6400), z 1792, facing n (MoveToMap direction 512)."
+  - id: entrance:p1_return
+    space: room:fire_corner
+    kind: arrival
+    neighbour: plane:p1
+    facing: se
+    how: "P1's way out after the sleeper (corners.yml): by the Fire Corner's Rest Stop."
+    notes: "at (-27456, 17728), z 1280, facing se (MoveToMap direction 1792)."
+  - id: entrance:p2_return
+    space: room:air_corner
+    kind: arrival
+    neighbour: plane:p2
+    facing: sw
+    how: "P2's way out (corners.yml): by the Air Corner's Rest Stop."
+    notes: "at (27456, 17728), z 1280, facing sw (MoveToMap direction 1280)."
+  - id: entrance:p3_return
+    space: room:earth_corner
+    kind: arrival
+    neighbour: plane:p3
+    facing: nw
+    how: "P3's way out (corners.yml): by the Earth Corner's Rest Stop."
+    notes: "at (27136, -17408), z 768, facing nw (MoveToMap direction 768)."
+  - id: entrance:p4_return
+    space: room:water_corner
+    kind: arrival
+    neighbour: plane:p4
+    facing: ne
+    how: "P4's way out (corners.yml): by the Water Corner's Rest Stop."
+    notes: "at (-27456, -17728), z 768, facing ne (MoveToMap direction 256)."
+critical_path: [zone:olympus, room:north_crossing, room:griffin_watch, room:fire_corner, room:west_lookout, room:smoke_post, room:rope_head, room:west_toll, room:water_corner]
+return_path: [room:water_corner, room:west_toll, room:rope_head, room:broken_launch, zone:olympus]
+goals:
+  - id: goal:corners
+    space: room:fire_corner
+    kind: use
+    what: "Step off the four corners with the element's name (Fire, Air, Earth, Water)"
+    story: M38
+  - id: goal:megadragon
+    space: room:roost
+    kind: kill
+    what: "The Megadragon, for the hoard and the key to Alamar's roof (optional)"
+    story: Q-D26
+  - id: goal:soul_box
+    space: zone:ol_temple_court
+    kind: take
+    what: The Soul Box (12363) in Soul Storage
+    story: M31
+    gives:
+      qbit: m31_done
+  - id: goal:true_name
+    space: zone:ol_temple_court
+    kind: use
+    what: "Read the plaque: Alamar's true name is Sheltem"
+    story: M31
+    gives:
+      qbit: m31_true_name
+points_of_interest:
+  - id: poi:bottles
+    spaces: [room:broken_launch, room:earth_corner, room:sky_lake]
+    count: 4
+    kind: note
+    behaviour: "A readable note (A3 text asked). bottle_genies at (-14336, -4608): 'Evil Genies NEVER let their victims off the hook--they will always kill someone.' (aazex103:1); bottle_test at (28160, -17920): 'The test of the elements is merely difficult, not impossible.' (aazex103:2); bottle_a2 at (15360, -2848): 'Help!  I'm stranded on an air island in A2 at 12,14.' (aazex107:2); bottle_c3 at (19712, -4512): 'Help!  I'm stranded on an air island in C3 at 7,0.' (aazex107:3)"
+  - id: poi:corner_air
+    space: room:air_corner
+    kind: story_device
+    behaviour: "The road ends in nothing: 'Air Zone' (aazex109:0); 'What do you seek?' (:6). A step onto the tip asks (text input); the element's name runs m38.corner_air and drops the party onto its plane; any other answer m38.corner_wrong. The zone board within 400 (one spot). at (30464, 20480)."
+  - id: poi:corner_earth
+    space: room:earth_corner
+    kind: story_device
+    behaviour: "The road ends in nothing: 'Earth Zone' (aazex112:0); 'What do you seek?' (:5). A step onto the tip asks (text input); the element's name runs m38.corner_earth and drops the party onto its plane; any other answer m38.corner_wrong. The zone board within 400 (one spot). at (30464, -20480)."
+  - id: poi:corner_fire
+    space: room:fire_corner
+    kind: story_device
+    behaviour: "The road ends in nothing: 'Fire Zone' (aaze0089:0) on the tip's board; 'What do you seek?' (:6). A step onto the tip asks (text input); the element's name runs m38.corner_fire and drops the party onto its plane; any other answer m38.corner_wrong. The zone board within 400 (one spot). at (-30464, 20480)."
+  - id: poi:corner_water
+    space: room:water_corner
+    kind: story_device
+    behaviour: "The road ends in nothing: 'Water Zone' (aaze0092:0); 'What do you seek?' (:8). A step onto the tip asks (text input); the element's name runs m38.corner_water and drops the party onto its plane; any other answer m38.corner_wrong. The zone board within 400 (one spot). at (-30464, -20480)."
+  - id: poi:hatch_dd02
+    space: room:water_corner
+    kind: door
+    behaviour: "'Descend into Ellinger's Tower?' (aaze0092:5). at (-27232, -17984)."
+  - id: poi:hatch_dd03
+    space: room:water_corner
+    kind: door
+    behaviour: "'Descend into Castle Kalindra?' (aaze0092:6). at (-27008, -19360)."
+  - id: poi:hatch_dd05
+    space: room:rope_head
+    kind: door
+    behaviour: "'Enter West Tower?' (aaze0091:1). at (-27520, -4768)."
+  - id: poi:hatch_dd06
+    space: room:south_tower_hatch
+    kind: door
+    behaviour: "'Descend into the South Tower?' (aazex104:0). at (5632, -14336)."
+  - id: poi:hatch_dd07
+    space: room:east_junction
+    kind: door
+    behaviour: "'Descend to the East Tower?' (aazex111:4). at (26624, -5632)."
+  - id: poi:hatch_dd08
+    space: room:north_tower_hatch
+    kind: door
+    behaviour: "'Descend to the North Tower?' (aazex101:4). at (5632, 14592)."
+  - id: poi:hatch_dd14
+    space: room:blackfang_hatch
+    kind: door
+    behaviour: "'Descend to Castle Blackfang?' (aazex109:5). at (25088, 15104)."
+  - id: poi:hatch_dd17
+    space: room:roost
+    kind: door
+    behaviour: "'Descend to Castle Alamar?' / 'The door is locked.  Scratched on the surface are some words: The Megadragon has the key!' (aaze0089:4-5). at (-19456, 9216)."
+  - id: poi:lamps
+    spaces: [room:east_rest, room:genie_rock, room:griffin_watch]
+    count: 3
+    kind: curiosity
+    behaviour: "Q-D27's helper Xeen.genieLamp (A3 hooks asked: d7_tired, d7_kind, d7_angry). lamp_tired at (-17088, 17504): '(yawn)  The people before you used up two wishes.  There's one left.' (aaze0093:11-14); lamp_kind at (17440, 17568): 'Thank you for releasing me.  I like you, and I will grant you one wish.' (aazex105:11-14); lamp_angry at (-10240, -7168): 'What took you so long? ... Two thousand years is simply unacceptable.' (aaze0099:0-7); a wish trap"
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:merchants
+    spaces: [room:mud_wharf, room:north_crossing, room:smoke_post, room:steam_post]
+    count: 4
+    kind: riddle
+    behaviour: "A3 hook asked: the riddle (text input), the answer pays experience once (the source's 250,000, rescaled). merchant_smoke at (-28896, 3264): 'Between Fire and Air I constantly travel ... What's my cargo?' smoke (aaze0090:4-10); merchant_dust at (-1536, 17184): 'Between Air and Earth ...' dust (aaze0097:4-10); merchant_steam at (6496, -19136): 'Between Fire and Water ...' steam (aazex104:4-10); merchant_mud at (29056, 4736): 'Between Water and Earth ...' mud (aazex110:0-6)"
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:mirror
+    space: zone:ol_square
+    kind: mirror
+    behaviour: "The Mirror of Olympus (A4 house 4807; qbit 119012); house 4807 (thing:ol_mirror). at (-4608, 7168)."
+  - id: poi:ol_adonis
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Adonis (house 4809): A4's building:ol_adonis. At [-8704, 6912], facing s, floor 1792."
+  - id: poi:ol_athena
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Athena (house 4810): A4's building:ol_athena. At [-6656, 5120], facing e, floor 1792."
+  - id: poi:ol_atlas
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Atlas (house 4812): A4's building:ol_atlas. At [-4352, 4608], facing n, floor 1792."
+  - id: poi:ol_dock
+    space: zone:ol_dock
+    kind: house_door
+    behaviour: "Lucio's Dock (house 4808): A4's building:ol_dock. At [-1152, 4224], facing s, floor 1792."
+  - id: poi:ol_guild_light
+    space: zone:ol_temple_court
+    kind: house_door
+    behaviour: "Olympus Guild of Light (house 4805): A4's building:ol_guild_light. At [-7680, 9216], facing s, floor 1792."
+  - id: poi:ol_guild_spirit
+    space: zone:ol_temple_court
+    kind: house_door
+    behaviour: "Olympus Guild of Spirit (house 4806): A4's building:ol_guild_spirit. At [-2304, 9216], facing s, floor 1792."
+  - id: poi:ol_hera
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Hera (house 4814): A4's building:ol_hera. At [-6656, 6656], facing e, floor 1792."
+  - id: poi:ol_hermes
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Hermes (house 4811): A4's building:ol_hermes. At [-6144, 4608], facing n, floor 1792."
+  - id: poi:ol_smith
+    space: zone:ol_market
+    kind: house_door
+    behaviour: "The Forge of the Gods (house 4801): A4's building:ol_smith. At [-2560, 8192], facing w, floor 1792."
+  - id: poi:ol_tavern
+    space: zone:ol_market
+    kind: house_door
+    behaviour: "The Nectar House (house 4802): A4's building:ol_tavern. At [-2560, 6656], facing w, floor 1792."
+  - id: poi:ol_temple
+    space: zone:ol_temple_court
+    kind: house_door
+    behaviour: "Temple of Olympus (house 4803): A4's building:ol_temple. At [-4608, 8960], facing s, floor 1792."
+  - id: poi:ol_training
+    space: zone:ol_market
+    kind: house_door
+    behaviour: "The Hall of Heroes (house 4804): A4's building:ol_training. At [-2560, 5120], facing w, floor 1792."
+  - id: poi:ol_zeus
+    space: zone:ol_gods_row
+    kind: house_door
+    behaviour: "House of Zeus (house 4813): A4's building:ol_zeus. At [-6656, 8192], facing e, floor 1792."
+  - id: poi:prophecy_statues
+    space: zone:ol_square
+    count: 4
+    kind: statue
+    behaviour: "The four prophecy statues at the square's corners, A3's m31.statue_1-4 (the source's verses, dark/aaze0037:12-15): m31.statue_1 at (-5632, 8192); m31.statue_2 at (-3584, 8192); m31.statue_3 at (-5632, 6144); m31.statue_4 at (-3584, 6144)"
+  - id: poi:rope
+    space: room:rope_head
+    kind: door
+    behaviour: "'Pull up the rope?' (aaze0091:6); 'Descend to the Darkness Below?' (:5); 'Bucket o' Darkness' (:7). at (-25088, -6656)."
+  - id: poi:scarab_market
+    space: room:sky_lake
+    count: 4
+    kind: shop
+    behaviour: "Four stalls in a row on the Sky Lake's west shore, 384 apart (one spot by the census): Rahib the Scarab Merchant, Fire scarab 300 gems (aazex107:4-5) at (14336, -3584); Wardoz the Blue, electricity (aazex107:6-7) at (14592, -3328); Clara the Cold (aazex107:8-9) at (14880, -3104); Dorion the Energy Merchant, Kinetic Scarab 600 gems (aazex107:10-11) at (14080, -3840). How they sell is question 5."
+  - id: poi:sewer_stair
+    space: zone:ol_gods_row
+    kind: door
+    behaviour: "the Olympus Sewer's stair under a marble grate (DD-26, Q-D28). at (-8704, 8704)."
+  - id: poi:sky_door
+    space: room:pyramid_cap
+    kind: door
+    behaviour: "'Enter the Pyramid?' (aazex102:0); DD-15's sky door. at (11008, 2560)."
+  - id: poi:soul_storage
+    space: zone:ol_temple_court
+    kind: door
+    behaviour: "Soul Storage's vault door (needs m30.done); the box on the last shelf; m31.soul_storage. at (-6400, 9472)."
+  - id: poi:tolls
+    spaces: [room:mud_wharf, room:north_toll, room:south_toll, room:west_toll]
+    count: 4
+    kind: scripted
+    behaviour: "A3 hook asked: pay (the source's 10,000 gold, rescaled by A3) and the bandits wave the party on; refuse and they fight (question 3). toll_north at (5632, 18432): 'Pay us 10,000 gold or else!' / '1) OK. 2) Or else WHAT?' (aaze0097:2-3); toll_east at (28160, 6656): 'You have invaded our territory.  Appease us with 10,000 gold or face our wrath!' (aazex109:3-4); toll_south at (-6912, -18432): 'Many apologies, good folks, but this is a robbery. ...' (aazex100:2-3); toll_west at (-28160, -12288): 'Hold!  The toll for passing this part of the road is 10,000 gold!' (aaze0092:3-4)"
+    uses: {times: 1, per: party, reset: never}
+  - id: poi:true_name
+    space: zone:ol_temple_court
+    kind: sign
+    behaviour: "'All beings have a true name. Alamar's true name, for instance, is Sheltem.'; m31.true_name_plaque. at (-6400, 10496)."
+landmarks:
+  - id: landmark:capstone
+    space: room:pyramid_cap
+    what: "The Great Pyramid's golden capstone floating over its cloud, cloud dragons circling"
+    seen_from: [zone:olympus, room:sky_lake, room:rope_head]
+  - id: landmark:corner_glows
+    space: void:cloud_sea
+    what: "Under each corner's tip the cloud sea glows its element's colour (red, white wind, grey, blue)"
+    seen_from: [room:fire_corner, room:air_corner, room:earth_corner, room:water_corner]
+  - id: landmark:danger_road
+    space: room:smoke_post
+    what: "a board, hover only (not a POI): 'DANGER!  Mega Dragon' (aaze0090:0) at the dragon road's foot, at (-27360, 4896)"
+  - id: landmark:danger_watch
+    space: room:griffin_watch
+    what: "a board, hover only (not a POI): 'DANGER!  Mega Dragon' (aaze0093:0) on the south lip, facing the roost, at (-16384, 17408)"
+  - id: landmark:joes_camp
+    space: room:skywaymen_camp
+    what: "a board, hover only (not a POI): 'Eat at Joe's' (aaze0096:0), at (-17472, -17568)"
+  - id: landmark:joes_rope
+    space: room:rope_head
+    what: "a board, hover only (not a POI): 'Eat at Joe's' (aaze0091:0), at (-27488, -7424)"
+  - id: landmark:joes_south
+    space: room:south_toll
+    what: "a board, hover only (not a POI): 'Eat at Joe's' (aazex100:0), at (-6496, -17568)"
+  - id: landmark:lake_board
+    space: room:sky_lake
+    what: "a board, hover only (not a POI): 'Sky Lake' (aazex107:0), at (14176, -3744)"
+  - id: landmark:olympus
+    space: zone:olympus
+    what: "White marble and gold on a raised cloud: the temple's gold dome, the gates' gilded posts"
+    seen_from: [room:rope_head, room:broken_launch, room:north_crossing, room:pyramid_cap, room:griffin_watch, room:sky_lake]
+  - id: landmark:rest_air
+    space: room:air_corner
+    what: "a board, hover only (not a POI): 'Rest Stop', at (27456, 17728)"
+  - id: landmark:rest_earth
+    space: room:earth_corner
+    what: "a board, hover only (not a POI): 'Rest Stop', at (27392, -17664)"
+  - id: landmark:rest_east
+    space: room:east_rest
+    what: "a board, hover only (not a POI): 'Rest Stop' (aazex105:0), at (16384, 19456)"
+  - id: landmark:rest_fire
+    space: room:fire_corner
+    what: "a board, hover only (not a POI): 'Rest Stop' (aazex105:0), at (-27456, 17728)"
+  - id: landmark:rest_junction
+    space: room:east_junction
+    what: "a board, hover only (not a POI): 'Rest Stop', at (29152, -4640)"
+  - id: landmark:rest_north
+    space: room:north_crossing
+    what: "a board, hover only (not a POI): 'Rest Stop', at (-2560, 19456)"
+  - id: landmark:rest_rope
+    space: room:rope_head
+    what: "a board, hover only (not a POI): 'Rest Stop', at (-25344, -5088)"
+  - id: landmark:rest_south
+    space: room:south_rest
+    what: "a board, hover only (not a POI): 'Rest Stop' (aazex108:0), at (16384, -17408)"
+  - id: landmark:rest_water
+    space: room:water_corner
+    what: "a board, hover only (not a POI): 'Rest Stop', at (-27456, -17728)"
+  - id: landmark:roost
+    space: room:roost
+    what: A black crag on a high cloud with something huge asleep on it
+    seen_from: [room:griffin_watch, room:smoke_post, room:west_lookout, zone:olympus]
+  - id: landmark:rope
+    space: room:rope_head
+    what: The Dark Grove rope hanging into a hole in the cloud
+    seen_from: [room:broken_launch]
+  - id: landmark:skyroad_board
+    space: room:rope_head
+    what: "a board, hover only (not a POI): 'XEEN Skyroad' (aaze0092:1), at the inner road's start, facing the rope, at (-24928, -7008)"
+  - id: landmark:speeding_east
+    space: room:east_junction
+    what: "a board, hover only (not a POI): 'Speeding???' (aazex109:1), at (27392, -6784)"
+  - id: landmark:speeding_north
+    space: room:north_toll
+    what: "a board, hover only (not a POI): 'Speeding??' (aazex101:0), at (6464, 19104)"
+sightlines:
+  - id: view:arrival
+    from: room:rope_head
+    to: [landmark:olympus, landmark:capstone]
+    what: "The arrival: up the Dark Grove rope onto the Skyroad, the 'XEEN Skyroad' board at the inner road's start, the road east to the Broken Launch and its golems, Olympus' gold dome far off on the left, the capstone ahead, the Sky Lake's clouds on the right."
+    notes: "camera at (-24576, -6656), z 1200 (eye), yaw 24 degrees (east-north-east); Olympus 25,600 away"
+  - id: view:olympus
+    from: room:pyramid_cap
+    to: [landmark:olympus, landmark:roost]
+    what: "The signature: from the east causeway at the Pyramid's door, Olympus across the cloud roads, raised on its marble cloud, the north causeway and the inner road leaving it, under the Skyroads' amber sky."
+    notes: "camera at (6144, 4608), z 1616 (eye), yaw 164 degrees (west); the east gate 6,300 away, the city's middle 11,000"
+set_pieces:
+  - id: set:castaways
+    kind: puzzle
+    spaces: [room:sky_lake, room:stranded_west, room:stranded_south]
+    rule: "Two bottles at the Sky Lake name the source squares A2 at 12,14 and C3 at 7,0; each is a small island with a strongbox, both out of the Megadragon's reach (D-58 D-2)."
+    solution: Find the islands off the West Lookout and the Genie's Rock.
+  - id: set:corners
+    kind: scripted
+    spaces: [room:fire_corner, room:air_corner, room:earth_corner, room:water_corner]
+    rule: "corners.yml: each corner's tip asks 'What do you seek?' (the source's line); the element's name runs m38.corner_<element> and the map moves the party to its plane's entrance:d7_fall; another answer runs m38.corner_wrong. Each plane's way out returns to entrance:pN_return."
+  - id: set:fall
+    kind: scripted
+    spaces: [void:cloud_sea]
+    rule: "As X8 and X9: a one-second check moves a party below z -1,000 (and the room's floor at -6,000 catches the rest) through A3's Xeen.skyFall to the surface map under that part of the sky, at its entrance:d7_fall, with falling damage (about a third of a level-55 party's HP, D-6.2)."
+  - id: set:megadragon
+    kind: boss
+    spaces: [room:roost]
+    rule: "Q-D26 (optional): the Megadragon on Alamar's roof hatch. Its road leaves the Smoke Post with a 'DANGER! Mega Dragon' board; no other road comes within its breath. The hatch reads the source's lines until the key from its hoard opens it."
+  - id: set:riddles
+    kind: puzzle
+    spaces: [room:smoke_post, room:north_crossing, room:steam_post, room:mud_wharf]
+    rule: "The Merchants of the Elements: 'Between Fire and Air I constantly travel...What's my cargo?' smoke, dust (Air and Earth), steam (Fire and Water), mud (Water and Earth)."
+    solution: "smoke, dust, steam, mud"
+  - id: set:tolls
+    kind: ambush
+    spaces: [room:north_toll, room:mud_wharf, room:south_toll, room:west_toll]
+    rule: "Sky bandits stop the party at four places, each with its own line of the source; pay and pass (once), or refuse and the two bandits there fight. Question 3."
+height_bands:
+  - id: band:inner
+    range: [896, 1792]
+    spaces: [room:broken_launch, room:genie_rock, room:stranded_south, zone:olympus, room:pyramid_cap, room:sky_lake]
+    notes: "Olympus on the highest cloud (1,792); the Sky Lake's bowl the lowest (896)"
+  - id: band:north
+    level: 1280
+    spaces: [room:fire_corner, room:griffin_watch, room:north_crossing, room:north_toll, room:north_tower_hatch, room:east_rest]
+    notes: "the north road, the highest stretch of the ring"
+  - id: band:sea
+    level: -2000
+    spaces: [void:cloud_sea]
+    notes: "the cloud sea, far below"
+  - id: band:sides
+    range: [768, 1280]
+    spaces: [room:air_corner, room:blackfang_hatch, room:mud_wharf, room:east_junction, room:west_toll, room:rope_head, room:smoke_post, room:west_lookout, room:stranded_west, room:roost]
+    notes: the east and west roads climb from the south road to the north road (1:30 or gentler)
+  - id: band:south
+    level: 768
+    spaces: [room:earth_corner, room:south_rest, room:steam_post, room:south_tower_hatch, room:south_toll, room:skywaymen_camp, room:water_corner]
+    notes: the south road
+atmosphere: "Sky preset xeen_skyroads (alias xeenroads; Darkside's amber day with below_horizon: sky) in the open_sky block (a preset name, never the alias, lanes README); outdoor view at 2x; no weather; wind; music 30. No Fly (no BLV casts it). No lighting bake (open air, X8's rule)."
+totals:
+  chests: 5
+  placed_monsters: 50
+  points_of_interest: 56
+notes: "L2 (A6 sub-agent, sixteenth session, 2026-11-21): L1 with D-58 applied (L1 NOTES, 'D-58 applied'). Longest empty stretch: ring 8,128, inner road 6,956, north causeway 7,703; POI nearest-neighbour max 8,149 (D-1 <= 8,192). The Megadragon's leash circle 6,808 from every walkable place but its road (D-2, >= 5,888). Falls through A3's Xeen.skyFallD7 (six zones, Q10). 50 placed in 19 groups, the Megadragon and eight peaceful Sky Bandits uncounted."

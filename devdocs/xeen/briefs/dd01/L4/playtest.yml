@@ -1,0 +1,295 @@
+# Playtest of the Castleview Sewer (DD-01, L4): the critical path through every mechanism, the boss, the hooks and back.
+# A level-19 party arrives at the hatch ladder's foot (the arrival window: why it is here), walks into the drain cross,
+# east to the cellar's floor grate (bolted from below: refused from above, and the ladder is not taken down through
+# it), the market shaft (its chest, its bolted ladder) and the temple shaft (Green Liquid +2 Endurance once per
+# character), back west past the guild-row shaft (Red Liquid +2 Might, its bolted ladder), talks to Felix at his
+# bench and to Valio in his bed (topic Rats: Q-D5 started), goes down the overflow stair to the deep cistern and the
+# rat runs, where the flooded culvert refuses it; climbs back to the jammed sluice and works its lever: shut (the
+# culvert drains), open (it floods again), shut. Down again through the drained culvert and up the nest ramp: the
+# nest's monsters and Rooka die (q-d5.rooka: rooka_slain 113101), the heap of shiny things gives Nadia's necklace
+# (m16.necklace, once), the hoard; the bone slide, the midden's pack, the drowned cellar (its chest, its barrel), the
+# grate's bolt (once) and the ladder up into the east drain; back to Valio, who pays with his chest (no anger), the
+# gate shaft's bones (a purse once, then "Nothing here.") and back to the hatch. Numbers are ids.lock.yml's (events,
+# doors, chest events). Run with --world xeen --map xeen_dd01.blv (output/studio_cal/dd01/four.sh).
+id: xeen.dd01.l4.walk
+title: Castleview Sewer (DD-01 L4), the sluice, the drained culvert, Rooka's nest and the cellar's grate
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd01.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 19, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 19, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 19, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 19, skills: [], equipment: {}}
+  - assert: {map: xeen_dd01.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE CASTLEVIEW SEWER"}}
+  - assert: {dialog: {text_contains: "Nadia's onyx necklace"}}
+  - play_lua: {source: "close(); wait(0.5); if not qbit(117000) then error('arrived_once not set') end"}
+  # The drain cross; east to the floor grate.
+  - walk_to: {x: 0, y: -500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 480, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 1)"}
+  - walk_to: {x: 1100, y: -240, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 4300, y: -240, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - play_lua:
+      source: |
+        if door_state(8) ~= "closed" then error("the floor grate is open at the start: " .. door_state(8)) end
+        status()
+        click(20); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The grate is bolted from below.", 1, true) then error("the grate said: " .. seen) end
+  # Onto the shut grate, toward the ladder's top: the party stays on the drain's floor.
+  - walk_to: {x: 4720, y: -240, z: 0, radius: 48, timeout_seconds: 15, close_dialogs: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: 4700, y: -240, radius: 200, z_min: -8, z_max: 24}}
+  # The temple shaft: Green Liquid once per character, the bolted ladder.
+  - walk_to: {x: 4900, y: 160, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5504, y: 0, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - lua_event: {source: "SetValue(BaseEndurance, 10)"}
+  - play_lua:
+      source: |
+        status()
+        click(22); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "+2 Endurance (permanent).", 1, true) then error("the green liquid said: " .. seen) end
+  - lua_event: {source: "if not IsAtLeast(BaseEndurance, 12) or IsAtLeast(BaseEndurance, 13) then error('Endurance is not 12') end"}
+  - play_lua:
+      source: |
+        status()
+        click(22); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "had your share", 1, true) then error("a second drink said: " .. seen) end
+        status()
+        click(26); wait(0.5)
+        seen = status()
+        if not string.find(seen, "bolted from above", 1, true) then error("the temple ladder said: " .. seen) end
+  - lua_event: {source: "if IsAtLeast(BaseEndurance, 13) then error('a second drink raised Endurance') end"}
+  # The market shaft: its chest of dropped things.
+  - walk_to: {x: 3200, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(13, 4)"}
+  - walk_to: {x: 3200, y: 760, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "loot_chest(6); close()"}
+  - play_lua:
+      source: |
+        status()
+        click(24); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "bolted from above", 1, true) then error("the market ladder said: " .. seen) end
+  # Back west: the cross, the west drain, the guild-row shaft's Red Liquid.
+  - walk_to: {x: 3200, y: 200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 900, y: -240, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -480, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(11, 2)"}
+  - walk_to: {x: -1000, y: -240, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3584, y: 0, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - lua_event: {source: "SetValue(BaseMight, 10)"}
+  - play_lua:
+      source: |
+        status()
+        click(29); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "+2 Might (permanent).", 1, true) then error("the red liquid said: " .. seen) end
+        status()
+        click(27); wait(0.5)
+        seen = status()
+        if not string.find(seen, "bolted from above", 1, true) then error("the guild-row ladder said: " .. seen) end
+  - lua_event: {source: "if not IsAtLeast(BaseMight, 12) or IsAtLeast(BaseMight, 13) then error('Might is not 12') end"}
+  # Felix at his bench (a flavour talk), Valio in his bed (Q-D5 started).
+  - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2880, y: -2560, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(19); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "compass"}}
+  - press_action: {action: cancel_dialog}
+  - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2240, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(1)"}
+  - select_topic: {match_label: Rats}
+  - assert: {dialog: {text_contains: "Maybe you could kill the Queen Rat"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113100]}
+  # The overflow, its stair, the deep cistern, the rat runs; the culvert is flooded.
+  - walk_to: {x: -2040, y: -1728, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(16, 7)"}
+  - walk_to: {x: -1600, y: -1728, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -1152, y: -2200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1152, y: -3500, z: -430, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1152, y: -4000, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -200, y: -4288, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1280, y: -3360, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(10) ~= "closed" then error("the culvert's water is not up: " .. door_state(10)) end
+        status()
+        click(9); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "flooded to its roof", 1, true) then error("the culvert said: " .. seen) end
+  # Back up to the jammed sluice: shut, open (floods), shut.
+  - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1152, y: -4000, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1152, y: -2200, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1600, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1408, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1408, y: 800, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -1280, y: 1900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(34); wait(1)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The gate drops shut"}}
+  - play_lua:
+      source: |
+        close(); wait(7)
+        if door_state(10) ~= "open" then error("the culvert did not drain: " .. door_state(10)) end
+        if door_state(9) ~= "open" then error("the sluice gate did not drop: " .. door_state(9)) end
+        click(34); wait(1)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "floods to its roof"}}
+  - play_lua:
+      source: |
+        close(); wait(7)
+        if door_state(10) ~= "closed" then error("the culvert did not flood again: " .. door_state(10)) end
+        click(34); wait(1)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The gate drops shut"}}
+  - play_lua: {source: "close(); wait(7); if door_state(10) ~= 'open' then error('the culvert did not drain again') end"}
+  # Down again, through the drained culvert, up the nest ramp: the nest, Rooka.
+  - walk_to: {x: -1408, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1600, y: -1728, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1152, y: -2200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1152, y: -4000, z: -512, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: -3360, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 1280, y: -2496, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - assert: {party_position: {x: 1280, y: -2496, radius: 120, z_min: -520, z_max: -500}}
+  - walk_to: {x: 1280, y: -1600, z: -420, z_tolerance: 150, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2100, y: -1408, z: -240, z_tolerance: 80, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - assert: {actor_count: {monster_id: 11403, min: 1, max: 1}}
+  - clear_hostiles: {radius: 4000}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Rooka the Queen Rat is dead]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(113101) then error('rooka_slain not set') end"}
+  # The heap of shiny things: Nadia's necklace, once; the hoard.
+  - walk_to: {x: 3700, y: -2700, z: -224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(33); wait(1)"}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, 'onyx necklace', 1, true) then error('no line: ' .. s) end"}
+  - play_lua:
+      source: |
+        wait(0.5)
+        if not has_item(12332) and held() ~= 12332 then error("no onyx necklace") end
+        if not qbit(111321) then error("necklace_found not set") end
+        stow()
+        click(33); wait(1)
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if item_count(12332) ~= 1 then error("not one necklace: " .. item_count(12332)) end
+  - walk_to: {x: 3700, y: -1500, z: -224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(5); close()"}
+  # The bone slide, the midden's pack, the drowned cellar.
+  - walk_to: {x: 4100, y: -2048, z: -224, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5100, y: -2048, z: -470, z_tolerance: 80, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 5600, y: -2000, z: -480, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 6100, y: -1800, z: -480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(7); close()"}
+  - walk_to: {x: 5696, y: -1250, z: -480, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 4700, y: -1050, z: -480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "loot_chest(4); close()"}
+  - walk_to: {x: 5600, y: -360, z: -480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(2); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "The barrel is empty.", 1, true) then error("the barrel said: " .. seen) end
+  # The grate's bolt (once), the ladder up into the east drain.
+  - walk_to: {x: 4960, y: -110, z: -480, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        status()
+        click(21); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "draw the rusty bolt", 1, true) then error("the bolt said: " .. seen) end
+        wait(3)
+        if door_state(8) ~= "open" then error("the grate did not open: " .. door_state(8)) end
+        status()
+        click(21); wait(0.5)
+        seen = status()
+        if not string.find(seen, "The bolt is drawn", 1, true) then error("a second pull said: " .. seen) end
+  - walk_to: {x: 4720, y: -128, z: -480, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - climb: {ladder: cellar, timeout_seconds: 30}
+  - assert: {party_position: {x: 4496, y: -128, radius: 120, z_min: -8, z_max: 24}}
+  # Back to Valio: his reward is his chest, opened without anger.
+  - walk_to: {x: 900, y: -240, z: 0, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -480, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2240, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(3); wait(1)"}
+  - select_topic: {match_label: Rats}
+  - assert: {dialog: {text_contains: "Here is your reward: my chest"}}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [113102]}
+  - play_lua: {source: "loot_chest(8); close(); wait(0.5)"}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua:
+      source: |
+        close(); wait(1)
+        if not qbit(113103) then error("chest_opened not set") end
+        if qbit(113104) then error("Valio was angered by a paid chest") end
+  - assert: {actor_count: {monster_id: 11193, hostile: true, max: 1}}
+  # The gate shaft's bones: the purse once, then nothing.
+  - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1408, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1408, y: 800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -1000, y: 1152, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(15, 6)"}
+  - walk_to: {x: -500, y: 1152, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1920, y: 1300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1920, y: 1800, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        local before = gold()
+        status()
+        click(23); wait(0.5)
+        local seen = status()
+        if not string.find(seen, "His purse is still on his belt", 1, true) then error("the bones said: " .. seen) end
+        if gold() ~= before + 150 then error("the purse gave " .. (gold() - before)) end
+        status()
+        click(23); wait(0.5)
+        seen = status()
+        if not string.find(seen, "Nothing here.", 1, true) then error("the bones said again: " .. seen) end
+        status()
+        click(25); wait(0.5)
+        seen = status()
+        if not string.find(seen, "bolted from above", 1, true) then error("the gate ladder said: " .. seen) end
+  # Back to the hatch by the north drain's door into the cross.
+  - walk_to: {x: -256, y: 960, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(14, 5)"}
+  - walk_to: {x: -256, y: 450, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 0, y: -1000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {map: xeen_dd01.blv}

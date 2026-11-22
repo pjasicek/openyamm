@@ -1,0 +1,82 @@
+format: 0
+sectors:
+  room:airlock: 1
+  room:bridge: 2
+  room:bridge_ante: 3
+  room:brig: 4
+  room:drive: 5
+  room:gun_deck: 6
+  room:ladder: 7
+  room:ring0: 8
+  room:ring1: 9
+  room:security: 10
+  room:shaft0: 11
+  room:stores: 12
+events:
+  evt:arrive: 1
+  evt:blast: 2
+  evt:cell_1: 3
+  evt:cell_2: 4
+  evt:chest_brig: 5
+  evt:chest_couch: 6
+  evt:chest_stores: 7
+  evt:couch: 8
+  evt:device_1: 9
+  evt:device_2: 10
+  evt:door_airlock: 11
+  evt:door_brig: 12
+  evt:door_gun: 13
+  evt:door_maint: 14
+  evt:door_security: 15
+  evt:door_stores: 16
+  evt:drive_rack: 17
+  evt:generator: 18
+  evt:hatch: 19
+  evt:lift_a1: 20
+  evt:lift_a2: 21
+  evt:lift_b2: 22
+  evt:lift_b3: 23
+  evt:lockdown_load: 24
+  evt:log: 25
+  evt:main_console: 26
+  evt:phaser: 27
+  evt:photon: 28
+  evt:scan_console: 29
+  evt:security_console: 30
+doors:
+  door:airlock: 3
+  door:blast: 4
+  door:blast.leaf2: 5
+  door:brig: 6
+  door:gun: 7
+  door:maint: 8
+  door:security: 9
+  door:stores: 10
+  lift:a: 1
+  lift:b: 2
+  switch:lift_a1: 11
+  switch:lift_a2: 12
+  switch:lift_b2: 13
+  switch:lift_b3: 14
+containers:
+  chest:brig: 0
+  chest:couch: 1
+  chest:stores: 2
+map_vars:
+  log_page: 1
+  once.arrive: 0
+lights:
+  light:bridge_4: 1
+  light:bridge_5: 2
+  light:drive_3: 3
+  light:security_1: 4
+sounds:
+  sound:alarm: 1
+  sound:bed_bridge: 2
+  sound:bed_deck1: 3
+  sound:bed_deck2: 4
+decorations:
+  deco:stores_barrel_1: 0
+  deco:stores_barrel_2: 1
+  deco:stores_keg_1: 2
+  deco:stores_keg_2: 3

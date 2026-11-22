@@ -1,0 +1,112 @@
+format: 0
+sectors:
+  room:brood: 1
+  room:brood_stair: 2
+  room:cistern: 3
+  room:coil: 4
+  room:crystal_niche: 5
+  room:drain: 6
+  room:field_gate: 7
+  room:hidden_cache: 8
+  room:keeper: 9
+  room:machine_hall: 10
+  room:moulting: 11
+  room:pens: 12
+  room:stair: 13
+events:
+  evt:arrive: 1
+  evt:asp_door: 2
+  evt:brood_seen: 3
+  evt:cache_door: 4
+  evt:cages: 5
+  evt:chest_cache: 6
+  evt:chest_keeper: 7
+  evt:chest_moulting: 8
+  evt:cistern_seen: 9
+  evt:crystal_door: 10
+  evt:crystals: 11
+  evt:drain_reached: 12
+  evt:field: 13
+  evt:field_seen: 14
+  evt:grate: 15
+  evt:keeper_door: 16
+  evt:machine_seen: 17
+  evt:moulting_seen: 18
+  evt:pens_door: 19
+  evt:pens_seen: 20
+  evt:stair_door: 21
+  evt:straw_bed: 22
+  evt:studio_peaceful_groups: 26
+  evt:studio_relations: 27
+  evt:thanks: 23
+  evt:townsfolk_gone: 24
+  evt:transformer: 25
+  evt:visit_end: 28
+doors:
+  door:cache: 1
+  door:crystal: 2
+  door:field: 3
+  door:grate: 4
+  door:keeper: 5
+  door:keeper.leaf2: 9
+  door:pens: 6
+  door:pens.leaf2: 10
+  door:stair: 7
+  door:stair.leaf2: 11
+  mover:cage_gates: 8
+containers:
+  chest:cache: 0
+  chest:keeper: 1
+  chest:moulting: 2
+cogs:
+  platform:crown: 1
+map_vars:
+  drain_reached: 4
+  in_visit: 10
+  once.arrive: 0
+  once.brood_seen: 1
+  once.cistern_seen: 2
+  once.drain_reached: 3
+  once.field_seen: 5
+  once.machine_seen: 6
+  once.moulting_seen: 7
+  once.pens_seen: 8
+  once.thanks: 9
+lights:
+  light:coil_n: 1
+  light:coil_s: 2
+  light:field: 3
+  light:machine: 4
+  light:wreck: 5
+sounds:
+  sound:drip: 1
+  sound:hiss_brood: 2
+  sound:hiss_cistern: 3
+  sound:hum: 4
+decorations:
+  deco:basin_bones: 0
+  deco:basin_trash: 1
+  deco:brood_bones: 2
+  deco:brood_sack_1: 3
+  deco:brood_sack_2: 4
+  deco:brood_torch_e: 5
+  deco:brood_torch_w: 6
+  deco:brood_trash: 7
+  deco:cache_sack: 8
+  deco:cistern_sack_1: 9
+  deco:cistern_sack_2: 10
+  deco:cistern_torch_e: 11
+  deco:cistern_torch_w: 12
+  deco:coil_torch: 13
+  deco:crystals: 14
+  deco:drain_bones: 15
+  deco:keeper_bones: 16
+  deco:keeper_torch: 17
+  deco:machine_corpse: 18
+  deco:machine_torch_w: 19
+  deco:moulting_torch: 20
+  deco:moulting_trash: 21
+  deco:pens_bucket: 22
+  deco:pens_torch: 23
+  deco:stair_bones: 24
+  deco:stair_torch: 25

@@ -1,0 +1,84 @@
+# Q-D20 Luna's Statuettes (QUESTS 2.2 Q-D20, 3.2: Warrior Mage -> Master Archer, Light). Owner: A3.
+# Luna's altar needs three golden statuettes; the thieves sold them (Q-D19's ledger): the Pegasus to the heretics'
+# cleric (Western Tower L1, DD-05), the Dragon to the Head Witch (the Lakeside sewer, DD-20), the Griffin to the mages
+# of the Eastern Tower (DD-07 L2; D-9.3 moved it from Sandro's DD-21 so the whole quest is Act IV). Each returned pays
+# an item T5 (the source's +5 permanent levels, rescaled) and 3,000 each (9,000 per member); all three on the altar,
+# the promotion ("The altar" topic, nothing extra).
+id: Q-D20
+title: "Luna's Statuettes"
+act: IV
+kind: side
+status: full
+giver: 4952          # Luna the Druid (D1, Luna's grove)
+maps: [D1, DD-05, DD-20, DD-07]
+level: 34
+block: 100
+after: []
+source: "QUESTS Q-D20; dark/aaze0004:20-25 (Luna), dark/aaze0057:3-4 (Pegasus alcove), dark/aaze0033:25 and aaze0034:7 (the dragon); the source's Griffin was Sandro's (dark/aaze0035:29-30), moved to DD-07 by D-9.3"
+
+qbits:
+  started: {id: 113400, journal: "Luna the Druid's three golden statuettes were stolen from her altar: the Pegasus, the Dragon and the Griffin.",
+            until: [done]}
+  griffin_found: {id: 113403, note: "DD-07 L2 (A7)"}
+  pegasus_returned: {id: 113404}
+  dragon_returned: {id: 113405}
+  griffin_returned: {id: 113406}
+  done: {id: 113407, note: "the altar restored; Master Archer promotion"}
+
+autonotes:
+  thief: {id: 4600, text: "Luna's statuettes: start with the thieves of the Great Southern Tower. The fountain keeper near Venom Pond has its key.", category: Misc}
+
+items:
+  golden_pegasus: "DD-05 L1's alcove; Luna takes it"
+  golden_dragon: "DD-20's sewer; Luna takes it"
+  golden_griffin: "DD-07 L2, the mages' cabinet; Luna takes it"
+
+npcs:
+  4952:              # Luna
+    topics:
+      - n: 1
+        label: Statuettes
+        states:
+          - when: {qbit: done}
+            text: "I'm pleased to see you again, friends. Please come by more often!"
+          - when: {item: golden_pegasus}
+            text: "The Pegasus! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."
+            do: [{take: golden_pegasus}, {set: pegasus_returned}, {xp: 3000}, {treasure: 5}]
+          - when: {item: golden_dragon}
+            text: "The Dragon! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."
+            do: [{take: golden_dragon}, {set: dragon_returned}, {xp: 3000}, {treasure: 5}]
+          - when: {item: golden_griffin}
+            text: "The Griffin! You are truly great adventurers to have found this statuette. It goes back on the altar, and this is for you."
+            do: [{take: golden_griffin}, {set: griffin_returned}, {xp: 3000}, {treasure: 5}]
+          - when: {all: [{qbit: pegasus_returned}, {qbit: dragon_returned}, {qbit: griffin_returned}]}
+            text: "All three are on the altar. Look at the altar, please, not at me."
+          - when: {qbit: started}
+            text: "I see you haven't found all of the statuettes yet. The thieves sold them, I am sure of it. Thieves write down who buys."
+          - text: "Somehow the three golden statuettes that give my altar its magical aura have been stolen. Without it, I have no powers of healing. Start with the thieves of the Great Southern Tower; the keeper of the fountain near Venom Pond has a key."
+            do: [{set: started}, {autonote: thief}]
+      - n: 2
+        label: The altar
+        show: {all: [{qbit: pegasus_returned}, {qbit: dragon_returned}, {qbit: griffin_returned}, {not: {qbit: done}}]}
+        text: "You have found all of my statuettes! Now I can restore the altar's magical aura and regain my powers of healing. For you, great adventurers, shall share my powers. Those of you who fight with bow and spell alike, rise as Master Archers."
+        do: [{set: done}, {promote: statuettes}]
+
+hooks:
+  pegasus:
+    map: DD-05
+    where: "the Golden Pegasus on the north ledge of DD-05 L1's hall of alcoves: a ground item since D-90 (c) (A8, 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives it)"
+    map_gives: {golden_pegasus: 1}
+  dragon:
+    map: DD-20
+    where: "the Golden Dragon at the foot of the sewer niche in DD-20 (the dead adventurer's journal two steps short of it): a ground item since D-90 (c) (A8, 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives it)"
+    map_gives: {golden_dragon: 1}
+  griffin:
+    map: DD-07
+    where: "the mages' curio cabinet on the Eastern Tower's L2 (D-9.3): a chest since D-90 (A7, 2026-11-22), the statuette its item; the map calls this after it opens"
+    sets: [griffin_found]
+    map_gives: {golden_griffin: 1}
+    once: true
+    status: true   # D-90: over the open chest; a window would close it
+    text: "Statuette. A golden griffin in a mage's curio cabinet, labelled in a neat hand: 'Griffin, gold. Thaumic value: none. Bought anyway.'"
+
+rewards: {xp: 9000, gold: 0, items: "three items T5", promotion: "Warrior Mage -> Master Archer (Light)"}
+playthrough: "D1: Luna (Statuettes). DD-05 L1: the Pegasus; Luna. DD-20: the Dragon; Luna. DD-07 L2: the Griffin; Luna (Statuettes; The altar)."

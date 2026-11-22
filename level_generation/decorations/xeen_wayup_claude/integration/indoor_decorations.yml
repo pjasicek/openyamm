@@ -1,0 +1,18 @@
+  # The elemental planes' ways up (D-58 C5/C7; lane S session 8, level_generation/decorations/xeen_wayup_claude):
+  # additive shells scrolling upward, no collision (radius 0), origin at the column's foot centre on the floor.
+  # P3's dust shaft: over A6's pale disc (radius 176) in its ring of standing stones; 2,400 up to the bowl's sky.
+  - name: xeen_wayup_earth
+    model: worlds/xeen/models/xeen_deco_wayup_earth.glb
+    height: 2400
+    yaw: facing
+  # P2's updraft: mist streaming up from the ring of white stones (disc radius 176).
+  - name: xeen_wayup_air
+    model: worlds/xeen/models/xeen_deco_wayup_air.glb
+    height: 2000
+    yaw: facing
+  # P1's heat column: heat and embers rising in front of the molten sheet on the gully's back wall (half an
+  # ellipse 350 wide, 120 deep, 1,400 high); origin at the sheet's foot middle, facing = away from the wall.
+  - name: xeen_wayup_fire
+    model: worlds/xeen/models/xeen_deco_wayup_fire.glb
+    height: 1400
+    yaw: facing

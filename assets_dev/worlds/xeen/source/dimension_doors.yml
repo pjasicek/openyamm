@@ -1,0 +1,23 @@
+# Xeen's Dimension Door entry (owner: A2; format devdocs/xeen/lanes/TABLES.md "Dimension Door", the engine file's
+# header). tools/xeen/gen_maps.py copies everything below the marker line to data_tables/dimension_doors.yml; A1 lists
+# that file in world.yml (`dimension_doors`). Art and rects: A4's level_generation/ui/xeen_dimension_door_20261120/.
+# --- generated content below ---
+screens:
+  - backdrop: worlds/xeen/ui/gameplay/dimensional_travel/tpglobal5
+    places:
+      - {picture: [17, 100, 107, 136], hover: [0, 0, 128, 480]}
+      - {picture: [146, 99, 107, 136], hover: [128, 0, 128, 480]}
+      - {picture: [266, 99, 107, 136], hover: [256, 0, 128, 480]}
+      - {picture: [386, 99, 107, 136], hover: [384, 0, 128, 480]}
+      - {picture: [516, 99, 107, 136], hover: [512, 0, 128, 480]}
+doors:
+  - key: xeen
+    label: Xeen
+    place: 1                   # Xeen's new-game card order: the leftmost door (the engine's are 2-5)
+    pictures: {5: worlds/xeen/ui/gameplay/dimensional_travel/tpxeen5}
+    landings:
+      - {map: xeen_x1.odm}     # Vertigo, at the map's start (A5 may give `at` and `direction`)
+  - {key: enroth, pictures: {5: worlds/xeen/ui/gameplay/dimensional_travel/tpenroth5}}
+  - {key: antagarich, pictures: {5: worlds/xeen/ui/gameplay/dimensional_travel/tpantagarich5}}
+  - {key: jadame, pictures: {5: worlds/xeen/ui/gameplay/dimensional_travel/tpjadame5}}
+  - {key: chedian, pictures: {5: worlds/xeen/ui/gameplay/dimensional_travel/tpchedian5}}

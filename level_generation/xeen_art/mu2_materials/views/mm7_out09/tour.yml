@@ -1,0 +1,40 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/xeen_art/mu2_materials/views/mm7_out09
+exit: true
+settle_seconds: 2.5
+shots:
+  - name: centre-n
+    position: [0, 0, 5200]
+    yaw: 1.5708
+    pitch: -0.5
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]
+  - name: centre-s
+    position: [0, 0, 5200]
+    yaw: -1.5708
+    pitch: -0.5
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]
+  - name: sw-high
+    position: [-14000, -14000, 5200]
+    yaw: 0.785
+    pitch: -0.42
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]
+  - name: ne-high
+    position: [14000, 14000, 5200]
+    yaw: -2.356
+    pitch: -0.42
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]
+  - name: nw-high
+    position: [-14000, 14000, 5200]
+    yaw: -0.785
+    pitch: -0.42
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]
+  - name: se-high
+    position: [14000, -14000, 5200]
+    yaw: 2.356
+    pitch: -0.42
+    time: "12:00"
+    commands: ["sky weather 0", "weather clear"]

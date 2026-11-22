@@ -1,0 +1,97 @@
+format: 0
+id: xeen_d2
+name: Sprite Forest and Ogre Pass
+world: xeen
+kind: outdoor
+profile: odm
+map_code: D2
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9109
+  continent: 7
+  encounter_chance: 10
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 33
+  environment: forest
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Wolf, tier: 3, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Troll, tier: 3, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Dark Sprite, tier: 3, per_marker: [2, 3], weight: 25}
+neighbours:
+  - id: door:dd06
+    to: xeen_dd06.blv
+    kind: door
+    arrival_hint: Inside the Southern Tower's door.
+    condition: {item: south_tower_key}
+    notes: "DD-06 Southern Tower (A7): the thieves' den (q-d19.tower_door; key from Thaddeus, D3)."
+  - id: door:dd09
+    to: xeen_dd09.blv
+    kind: door
+    arrival_hint: "Inside the great tree's trunk, at the foot of the temple's first stair."
+    condition: {item: bark_key}
+    notes: "DD-09 Temple of Bark (A8): the door in the great tree's trunk (q-d9.bark_door)."
+  - id: door:dd10b
+    to: xeen_dd10b.blv
+    kind: door
+    arrival_hint: "In the adit's mouth, facing in."
+    notes: "DD-10B Gemstone Mines, east pocket (A7/A8): an adit in the Gemstone foothills."
+  - id: door:dd11a
+    to: xeen_dd11a.blv
+    kind: door
+    arrival_hint: At the bottom of the first pit.
+    notes: "DD-11A Troll Holes, first pocket (A7): a pit in the forest floor (q-d13.troll_holes)."
+  - id: door:dd11b
+    to: xeen_dd11b.blv
+    kind: door
+    arrival_hint: At the bottom of the second pit.
+    notes: "DD-11B, second pocket (A7)."
+  - id: door:dd11c
+    to: xeen_dd11c.blv
+    kind: door
+    arrival_hint: "At the bottom of the third pit, outside Hobstadt's hall."
+    notes: "DD-11C, third pocket with Hobstadt's throne (A7)."
+  - id: door:dd13_east
+    to: xeen_dd13.blv
+    kind: door
+    arrival_hint: Inside the east fort's gate.
+    notes: "DD-13, the east fort."
+  - id: door:dd13_west
+    to: xeen_dd13.blv
+    kind: door
+    arrival_hint: Inside the west fort's gate.
+    notes: "DD-13 Ogre Forts (A7), the west fort: one BLV, two entrances."
+  - id: edge:east
+    to: xeen_d3.odm
+    kind: edge
+    side: east
+    days: 5
+    arrival_side: west
+    approach: "The caravan road down from Ogre Pass's east mouth, at y 44."
+    notes: "D3 Sandcaster (A5): D3's west edge arrives at D2's east start (106, 44) facing west."
+  - id: edge:west
+    to: xeen_d1.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: "The Castleview road from D1's east edge, at y 60 (fixed with D1)."
+    notes: "D1 Castleview Vale: D1's own east edge arrives at D2's west start (21, 60) facing east."
+qbits:
+  east_fort_burned: 113225
+  ogres_friends: 113221
+  ogres_hostile: 113222
+  sprites_robbery: 113203
+  sprites_slain: 113208
+  west_fort_burned: 113224
+items:
+  bark_key: 12342
+  energy_disk: 12334
+  south_tower_key: 12339
+rules:
+  respawn: entrance:forest_edge
+notes: "D2 Sprite Forest and Ogre Pass (A6, 2026-11-20), built from the approved L1 with D-23. The west edge (D1) and the east edge (D3) are sealed with a sign until their maps are installed (D1_LIVE, D3_LIVE); each dungeon door shows its hook and a sealed line until its BLV is installed. Written by output/studio_cal/d2/tools/gen.py."

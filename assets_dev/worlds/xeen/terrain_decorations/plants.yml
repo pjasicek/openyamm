@@ -1,0 +1,79 @@
+# Xeen's ground plants: what grows on each ground material of the outdoor maps (F5, 2026-11-21; lanes A6/A5).
+# Hand-written. tools/terrain_materials.py writes each map's decoration file (<map>.yml) and the transition masks
+# (masks/) from it, by `plants --world xeen --map <map>.odm` and on every `weights` run, so a rebuilt map keeps its
+# plants. Families: MM7's plant library (Xeen's ground is MM7's tiles and materials). Rules as in MEADOW.md and
+# level_generation/terrain/decoration_rollout/README.md: grass and swamp grow plants, desert and dry dirt a sparse
+# dry scrub where the brief asks for it, snow, ice, ash and lava none.
+version: 1
+families_file: worlds/mm7/terrain_decorations/families_v2.yml
+mask_size: 64
+settings:
+  minimum_normal_z: 0.62
+  density_variation: 0.8
+  patch_size: 768
+  tall_grass_chance: 0.1
+  tall_grass_scale: 1.5
+# A grass tint is MM7's measured mat colour ([0.93, 0.89, 0.69], MEADOW.md); the tool multiplies it by the map's own
+# shade of the ground (world.yml maps.<map>.grass.shade), so the Darkside's darker, drier grass keeps its mats in tone.
+materials:
+  grass: {family: meadow, density: 0.8, tint: [0.93, 0.89, 0.69]}
+  swamp: {family: marsh_reed, density: 0.7}
+maps:
+  # X1 Vertigo Meadows: the lush start, New Sorpigal's density and range.
+  xeen_x1.odm:
+    settings: {near_distance: 3072, tall_grass_chance: 0.12, tall_grass_scale: 1.8}
+    materials:
+      grass: {family: meadow, density: 1.0, tint: [0.93, 0.89, 0.69]}
+  # X2 Rivercity and Lake Darzog: Free Haven's meadow.
+  xeen_x2.odm:
+    materials:
+      grass: {family: meadow, density: 0.75, tint: [0.93, 0.89, 0.69]}
+  # X3 Lifeforce Lagoon: lush, wet woodland grass and reed beds.
+  xeen_x3.odm:
+    materials:
+      grass: {family: woodland_grass, density: 0.85, tint: [0.93, 0.89, 0.69]}
+      swamp: {family: marsh_reed, density: 0.8}
+  # X4 Burlock Savannah: dry grassland; dead tufts on the cracked waste.
+  xeen_x4.odm:
+    materials:
+      grass: {family: dry_meadow, density: 0.65, tint: [0.93, 0.89, 0.69]}
+      wasteland: {family: dead_tuft, density: 0.5}
+  # X5 Winterkill Tundra: snowfields, the frozen mere and bare earth.
+  xeen_x5.odm: {enabled: false, reason: "X5 Winterkill Tundra: snow, ice and frozen earth grow no plants (plants.yml)"}
+  # X6 Desert of the Sphinx: sparse dry scrub on the sand, a few dead tufts on the cracked ground.
+  xeen_x6.odm:
+    materials:
+      desert: {family: dry_tuft, density: 0.35}
+      dirt: {family: dead_tuft, density: 0.2}
+  # X7 Mount Firestone: volcanic ash, cinder and stony red earth.
+  xeen_x7.odm: {enabled: false, reason: "X7 Mount Firestone: volcanic ground grows no plants (plants.yml)"}
+  # D1 Castleview Vale: the Darkside's dry, desaturated grass (the map's grass shade darkens the mats).
+  xeen_d1.odm:
+    materials:
+      grass: {family: dry_meadow, density: 0.75, tint: [0.93, 0.89, 0.69]}
+  # D2 Sprite Forest and Ogre Pass: dark forest floor.
+  xeen_d2.odm:
+    materials:
+      grass: {family: woodland_grass, density: 0.8, tint: [0.93, 0.89, 0.69]}
+  # D3 Sandcaster and the Aging Forest: woodland grass; dry scrub in the sands.
+  xeen_d3.odm:
+    materials:
+      grass: {family: woodland_grass, density: 0.7, tint: [0.93, 0.89, 0.69]}
+      desert: {family: dry_tuft, density: 0.35}
+  # D4 Lakeside and Blackfang: forest floor and shores; the uplands' snow bare.
+  xeen_d4.odm:
+    materials:
+      grass: {family: woodland_grass, density: 0.75, tint: [0.93, 0.89, 0.69]}
+  # D5 Desert of Doom: sparse dry scrub on the dunes, dead tufts on the cracked ground; snow bare.
+  xeen_d5.odm:
+    materials:
+      desert: {family: dry_tuft, density: 0.3}
+      dirt: {family: dead_tuft, density: 0.15}
+  # D6 The Forbidden Zone: ash, cinder and lava.
+  xeen_d6.odm: {enabled: false, reason: "D6 The Forbidden Zone: volcanic ground grows no plants (plants.yml)"}
+  # XD-17 Shangri-La, an open-air BLV: the hidden valley's lush meadow (its atmosphere.yml ground names the file
+  # this writes, xeen_xd17_blv.yml). The other open-air BLVs (X8, X9, D7, P1-P5) have no terrain ground.
+  xeen_xd17.blv:
+    settings: {near_distance: 3072, tall_grass_chance: 0.12, tall_grass_scale: 1.8}
+    materials:
+      grass: {family: meadow, density: 1.0, tint: [0.93, 0.89, 0.69]}

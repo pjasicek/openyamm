@@ -1,0 +1,305 @@
+format: 0
+variables: []
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - lua: |-
+          local x, y = evt.GetPartyPosition()
+          if x >= 0 and x <= 768 and y >= -384 and y <= 384 then
+              evt.StatusText("Heat on your face and a red glow far ahead. Behind you, daylight between a demon and a devil of black stone.", 6)
+          end
+    notes: "Say where the party is (a one-shot timer: the party arrives standing in the mouth). Only in the mouth (room:mouth): a party back from XD-17 arrives in the cool passage, where daylight behind would be wrong."
+  - id: evt:chest_ante
+    preset: chest
+    source: chest:ante
+    title: Chest
+  - id: evt:chest_ember
+    preset: chest
+    source: chest:ember
+    title: Chest
+  - id: evt:chest_slag
+    preset: chest
+    source: chest:slag
+    title: Chest
+  - id: evt:chest_trap_1
+    preset: script
+    source: chest:trap_1
+    title: Chest
+    condition: {not: {qbit: trap_1}}
+    effects:
+      - qbit: trap_1
+      - lua: "evt.PlaySoundName(\"explosion\", 1760, -2376, 64)"
+      - damage:
+          amount: 50
+          kind: fire
+          who: all
+      - text: "The chest explodes!"
+    else_effects:
+      - text: The chest is empty.
+    notes: "A trap chest (map qbit 118055): the first opening bursts it, Fire 50 on each member (about 10-15 % of a level-48 member's HP), 'The chest explodes!' (aaze0046:6); after that 'The chest is empty.' (aaze0046:2)."
+  - id: evt:chest_trap_2
+    preset: script
+    source: chest:trap_2
+    title: Chest
+    condition: {not: {qbit: trap_2}}
+    effects:
+      - qbit: trap_2
+      - lua: "evt.PlaySoundName(\"explosion\", 1928, -2376, 64)"
+      - damage:
+          amount: 50
+          kind: fire
+          who: all
+      - text: "The chest explodes!"
+    else_effects:
+      - text: The chest is empty.
+    notes: "A trap chest (map qbit 118056): the first opening bursts it, Fire 50 on each member (about 10-15 % of a level-48 member's HP), 'The chest explodes!' (aaze0046:6); after that 'The chest is empty.' (aaze0046:2)."
+  - id: evt:chest_trap_3
+    preset: script
+    source: chest:trap_3
+    title: Chest
+    condition: {not: {qbit: trap_3}}
+    effects:
+      - qbit: trap_3
+      - lua: "evt.PlaySoundName(\"explosion\", 2264, -2376, 64)"
+      - damage:
+          amount: 50
+          kind: fire
+          who: all
+      - text: "The chest explodes!"
+    else_effects:
+      - text: The chest is empty.
+    notes: "A trap chest (map qbit 118057): the first opening bursts it, Fire 50 on each member (about 10-15 % of a level-48 member's HP), 'The chest explodes!' (aaze0046:6); after that 'The chest is empty.' (aaze0046:2)."
+  - id: evt:chest_trap_4
+    preset: script
+    source: chest:trap_4
+    title: Chest
+    condition: {not: {qbit: trap_4}}
+    effects:
+      - qbit: trap_4
+      - lua: "evt.PlaySoundName(\"explosion\", 2432, -2376, 64)"
+      - damage:
+          amount: 50
+          kind: fire
+          who: all
+      - text: "The chest explodes!"
+    else_effects:
+      - text: The chest is empty.
+    notes: "A trap chest (map qbit 118058): the first opening bursts it, Fire 50 on each member (about 10-15 % of a level-48 member's HP), 'The chest explodes!' (aaze0046:6); after that 'The chest is empty.' (aaze0046:2)."
+  - id: evt:chest_trap_5
+    preset: script
+    source: chest:trap_5
+    title: Chest
+    condition: {not: {qbit: trap_5}}
+    effects:
+      - qbit: trap_5
+      - lua: "evt.PlaySoundName(\"explosion\", 2600, -2376, 64)"
+      - damage:
+          amount: 50
+          kind: fire
+          who: all
+      - text: "The chest explodes!"
+    else_effects:
+      - text: The chest is empty.
+    notes: "A trap chest (map qbit 118059): the first opening bursts it, Fire 50 on each member (about 10-15 % of a level-48 member's HP), 'The chest explodes!' (aaze0046:6); after that 'The chest is empty.' (aaze0046:2)."
+  - id: evt:chest_vault_real
+    preset: chest
+    source: chest:vault_real
+    title: Chest
+  - id: evt:chest_vents
+    preset: chest
+    source: chest:vents
+    title: Chest
+  - id: evt:cool_air
+    preset: script
+    source: room:cool_passage
+    trigger: step
+    condition: {qbit: way_open}
+    once: true
+    effects:
+      - lua: "XeenQuests.hook(\"q-c26.way\")"
+    notes: "The first step into the cool passage: q-c26.way's text ('Beyond the last cave, cool air ...')."
+  - id: evt:demon_skull
+    preset: script
+    source: platform:demon_altar
+    question: {ask: "The skull of a demon grins wickedly at you, and you have a sudden desire to smash it.  Destroy?", answers: [yes, y]}
+    title: Demon skull
+    condition: {not: {qbit: demon_skull}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c26.demon_skull\")"
+      - destroy: destructible:demon_skull
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", 5696, 4480, 140)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.demon_skull\")"
+    notes: "aaze0046:0: the source's question (a real choice). Yes: A3's q-c26.demon_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
+  - id: evt:demon_skull_load
+    preset: script
+    trigger: load
+    condition: {qbit: demon_skull}
+    effects:
+      - destroy: destructible:demon_skull
+    notes: A broken skull stays broken on every later load.
+  - id: evt:devil_skull
+    preset: script
+    source: platform:devil_altar
+    question: {ask: "The skull of a devil stares at you as though daring you to damage it.  Destroy?", answers: [yes, y]}
+    title: Devil skull
+    condition: {not: {qbit: devil_skull}}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c26.devil_skull\")"
+      - destroy: destructible:devil_skull
+      - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", 4736, 0, 140)"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.devil_skull\")"
+    notes: "aaze0046:1: the source's question (a real choice). Yes: A3's q-c26.devil_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
+  - id: evt:devil_skull_load
+    preset: script
+    trigger: load
+    condition: {qbit: devil_skull}
+    effects:
+      - destroy: destructible:devil_skull
+    notes: A broken skull stays broken on every later load.
+  - id: evt:door_shrine
+    preset: door
+    source: door:shrine
+    title: Iron door
+  - id: evt:door_vault
+    preset: door
+    source: door:vault
+    title: Door
+  - id: evt:door_way
+    preset: door
+    source: door:way
+    title: Bare rock
+    condition: {qbit: way_open}
+    action: open
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.way\")"
+    notes: "Before done the rock's click gives q-c26.way's fail text ('Bare rock, hot to the touch. ...'); after it stands open."
+  - id: evt:exit_x7
+    preset: exit
+    source: exit:mouth
+    title: Leave the Volcano Cave
+    notes: "Out to X7 (installed) at its named arrival entrance:xd16_mouth (512, 9728, 2240) facing west: the game's own leave window (D-24); 'Leave the Volcano Cave?' (aaze0046:5) is its meaning."
+  - id: evt:lever_1
+    preset: switch
+    source: switch:lever_1
+    title: First slab
+    condition: {not: {qbit: slab_1}}
+    opens: [door:slab_1]
+    effects:
+      - qbit: slab_1
+      - lua: "XeenQuests.hook(\"q-c26.lever\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.lever_down\")"
+    notes: "One-way (D-43): lowers the first slab (map qbit 118050); a second click gives 'The lever is down.'"
+  - id: evt:lever_2
+    preset: switch
+    source: switch:lever_2
+    title: Second slab
+    condition: {not: {qbit: slab_2}}
+    opens: [door:slab_2]
+    effects:
+      - qbit: slab_2
+      - lua: "XeenQuests.hook(\"q-c26.lever\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.lever_down\")"
+    notes: "One-way (D-43): lowers the second slab (map qbit 118051); a second click gives 'The lever is down.'"
+  - id: evt:lever_3
+    preset: switch
+    source: switch:lever_3
+    title: Third slab
+    condition: {not: {qbit: slab_3}}
+    opens: [door:slab_3]
+    effects:
+      - qbit: slab_3
+      - lua: "XeenQuests.hook(\"q-c26.lever\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.lever_down\")"
+    notes: "One-way (D-43): lowers the third slab (map qbit 118052); a second click gives 'The lever is down.'"
+  - id: evt:lever_4
+    preset: switch
+    source: switch:lever_4
+    title: Fourth slab
+    condition: {not: {qbit: slab_4}}
+    opens: [door:slab_4]
+    effects:
+      - qbit: slab_4
+      - lua: "XeenQuests.hook(\"q-c26.lever\")"
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c26.lever_down\")"
+    notes: "One-way (D-43): lowers the fourth slab (map qbit 118053); a second click gives 'The lever is down.'"
+  - id: evt:slab_1
+    preset: text
+    source: door:slab_1
+    title: First slab
+    text: A slab of black rock fills the passage. It does not move for you.
+    notes: "Clicking the slab itself: its lever is on the pillar in the lever hall."
+  - id: evt:slab_1_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_1}
+    opens: [door:slab_1]
+    notes: A lowered slab stays down on every later load.
+  - id: evt:slab_2
+    preset: text
+    source: door:slab_2
+    title: Second slab
+    text: A slab of black rock fills the passage. It does not move for you.
+    notes: "Clicking the slab itself: its lever is on the pillar in the lever hall."
+  - id: evt:slab_2_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_2}
+    opens: [door:slab_2]
+    notes: A lowered slab stays down on every later load.
+  - id: evt:slab_3
+    preset: text
+    source: door:slab_3
+    title: Third slab
+    text: A slab of black rock fills the passage. It does not move for you.
+    notes: "Clicking the slab itself: its lever is on the pillar in the lever hall."
+  - id: evt:slab_3_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_3}
+    opens: [door:slab_3]
+    notes: A lowered slab stays down on every later load.
+  - id: evt:slab_4
+    preset: text
+    source: door:slab_4
+    title: Fourth slab
+    text: A slab of black rock fills the passage. It does not move for you.
+    notes: "Clicking the slab itself: its lever is on the pillar in the lever hall."
+  - id: evt:slab_4_load
+    preset: switch
+    trigger: load
+    condition: {qbit: slab_4}
+    opens: [door:slab_4]
+    notes: A lowered slab stays down on every later load.
+  - id: evt:way_end
+    preset: exit
+    source: exit:way_end
+    title: The way to Shangri-La
+    notes: "Out to XD-17 (installed, A5) at its named arrival entrance:xd16_way (-1280, -4736, 4) facing north: the game's own leave window (D-24)."
+  - id: evt:way_grind
+    preset: script
+    trigger: timer
+    every: 1
+    condition: {all: [{qbit: way_open}, {not: {qbit: rock_drawn}}]}
+    opens: [door:way]
+    effects:
+      - qbit: rock_drawn
+      - lua: "evt.PlaySoundName(\"6stone door0101\", 4864, -16768, -1100)"
+    notes: "The skull that sets q-c26.done grinds the way's rock open within a second in the same visit (the skulls are two floors up); map qbit rock_drawn 118054 marks it drawn."
+  - id: evt:way_load
+    preset: script
+    trigger: load
+    condition: {qbit: way_open}
+    opens: [door:way]
+    effects:
+      - qbit: rock_drawn
+    notes: With q-c26.done the rock stands open on every load.

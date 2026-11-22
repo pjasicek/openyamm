@@ -1,0 +1,34 @@
+# D4 Lakeside: flavour topics of Lakeside's people (source/towns/d4.yml). Owner: A4. Format: QUESTS_FORMAT.md section 5
+# (talk only). The coven, its riddle and the five prisoners are A3's (Q-D22); the town's houses open with q-d22.done,
+# so most of these people speak after the coven.
+map: D4
+block: 181
+
+npcs:
+  5301:              # Grizel, Lakeside Guild (open before the town)
+    topics:
+      - {n: 1, label: The coven, text: "The coven meets under the town. I kept their books. I never read them. Well, I read the totals."}
+  5302:              # Bess Brewer
+    topics:
+      - {n: 2, label: The tavern, text: "The witches said the tavern was destroyed long ago. It was under a dust sheet and a spell. We found the ale still cold."}
+  5305:              # Captain Ferris Gull
+    topics:
+      - {n: 3, label: The Isle, text: "The Isle of Lost Souls takes in what the coven threw away. There's a dungeon under it, and something in there singing."}
+  5306:              # Old Gill
+    topics:
+      - {n: 4, label: Octopods, text: "Octopods in the deep water. They don't bite. They hug. Then they take you down for a better look."}
+  5309:              # Sir Malvern
+    topics:
+      - {n: 5, label: Blackfang, text: "Castle Blackfang sits on its crag in a storm of bats. You can't walk in. Nobody walks in. Some fly."}
+  5311:              # Tobbin
+    topics:
+      - {n: 6, label: Goblins, text: "Being a goblin was great. You can eat anything. Mum says I have to stop eating anything."}
+  5313:              # Reed
+    topics:
+      - {n: 7, label: Magic Mountain, text: "Two wizards camp on Magic Mountain. They argue about fountains all day. You can hear them from the reeds."}
+  5315:              # Widow Marsh
+    topics:
+      - {n: 8, label: The Isle, text: "If you go to the Isle of Lost Souls, look for a girl with my eyes. Or a goblin with them."}
+  5316:              # Skiff
+    topics:
+      - {n: 9, label: The sign, text: "\"This boat under repair.\" Best sign I ever painted. Kept the witches off it for two years."}

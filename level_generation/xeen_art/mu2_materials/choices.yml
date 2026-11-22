@@ -1,0 +1,533 @@
+# MU-2 choices per Xeen surface map (board.py writes this; edit MAPS there).
+X1:
+  name: mm7/out11.odm
+  reference_maps:
+  - mm7/7out02.odm
+  - mm7/out11.odm
+  layers:
+  - library: grass_meadow
+    role: meadow
+    tint: null
+  - library: grass_patchy
+    role: pasture
+    tint: null
+  - library: soil
+    role: fields, lanes
+    tint: null
+  - library: road_pebbles
+    role: roads
+    tint: null
+  - library: swamp
+    role: Toad Meadow
+    tint: null
+  - library: rock_cliff
+    role: cliffs, rim
+    tint: null
+  dressing:
+  - 7tree16
+  - 7tree13
+  - 7tree22
+  - tree38 (fruit)
+  - flower01
+  - flower02
+  - flower06
+  - 7rock09
+  - 7rock01
+  - tree41, tree42 (dead forest)
+  native_refs:
+  - xeen/grass.srf
+  - xeen/dirt.srf
+  - xeen/road.srf
+  - xeen/ltree.wal
+  - xeen/dedltree.wal
+  gap: 'Rim cliff face below the meadow: rock_cliff tinted pale (white cliffs).'
+X2:
+  name: mm7/7out03.odm
+  reference_maps:
+  - mm7/7out03.odm
+  layers:
+  - library: grass_meadow
+    role: meadow
+    tint: null
+  - library: soil
+    role: farmland
+    tint: null
+  - library: road_flagstone
+    role: city streets
+    tint: null
+  - library: road_pebbles
+    role: roads
+    tint: null
+  - library: sand_ripples
+    role: river banks
+    tint: null
+  - library: rock_cliff
+    role: cliffs, rim
+    tint: null
+  dressing:
+  - 7tree19
+  - 7tree28
+  - 7tree25
+  - flower03
+  - flower04
+  - flower05
+  - flower08
+  - flower11
+  - 7rock08
+  - 7rock09
+  native_refs:
+  - xeen/grass.srf
+  - xeen/water.srf
+  - xeen/road.srf
+  - xeen/ltree.wal
+  gap: 'Fairy woods: denser 7tree28 and flower clusters, no new art.'
+X3:
+  name: mm7/7out13.odm
+  reference_maps:
+  - mm7/7out13.odm
+  layers:
+  - library: swamp
+    role: marsh
+    tint: null
+  - library: mud_cracked
+    role: mud flats
+    tint:
+    - 0.8
+    - 0.85
+    - 0.75
+  - library: grass_patchy
+    role: rises
+    tint: null
+  - library: soil
+    role: paths
+    tint: null
+  - library: road_pebbles
+    role: Nightshadow streets
+    tint: null
+  - library: rock_cliff
+    role: cliffs
+    tint: null
+  dressing:
+  - swptree1
+  - swptree2
+  - tree60
+  - 7tree63
+  - tree65
+  - tree41 (dead)
+  - reeds (plants_v4 cells 4-9)
+  native_refs:
+  - xeen/swamp.srf
+  - xeen/grass.srf
+  - xeen/dwater.srf
+  - xeen/dtree.wal
+  gap: 'Tatalia counts tree33/tree36 too, which X1 found to be snowy firs: leave them out here.'
+X4:
+  name: mm8/out03.odm
+  reference_maps:
+  - mm8/out03.odm
+  layers:
+  - library: grass_patchy
+    role: savannah
+    tint:
+    - 1.1
+    - 1.0
+    - 0.75
+  - library: soil
+    role: tracks, fields
+    tint: null
+  - library: dirt_cracked
+    role: dry hollows
+    tint: null
+  - library: rock_red
+    role: red dwarf hills
+    tint: null
+  - library: rock_layered
+    role: Gargoyle Range
+    tint: null
+  - library: road_pebbles
+    role: roads
+    tint: null
+  dressing:
+  - tree29
+  - tree30
+  - tree10
+  - tree11
+  - tree12
+  - plant26
+  - plant27
+  - plant22
+  - plant23
+  - rock17
+  native_refs:
+  - xeen/grass.srf
+  - xeen/dirt.srf
+  - xeen/mount.wal
+  - xeen/ltree.wal
+  gap: Lava fields at the north-east edge borrow X7's gravel_volcanic.
+X5:
+  name: mm7/out10.odm
+  reference_maps:
+  - mm7/7out13.odm
+  - mm7/out10.odm
+  layers:
+  - library: snow
+    role: snowfields
+    tint: null
+  - library: rock_ground
+    role: wind-scoured ground
+    tint:
+    - 0.9
+    - 0.95
+    - 1.05
+  - library: soil_stony
+    role: tracks
+    tint: null
+  - library: road_pebbles
+    role: Winterkill streets
+    tint: null
+  - library: rock_cliff
+    role: glacier, rim
+    tint: null
+  dressing:
+  - tree33
+  - tree36 (MM7 snowy firs, seen here)
+  - 6tree17
+  - snotre01
+  - snotre03
+  - 6rock03
+  - 6rock07
+  native_refs:
+  - xeen/snow.srf
+  - xeen/snotree.wal
+  - xeen/snomnt.wal
+  gap: 'Frozen lakes: the water shader with an ice tint, or an ice ground material (not in the library).'
+X6:
+  name: mm8/out04.odm
+  reference_maps:
+  - mm7/7out06.odm
+  - mm8/out04.odm
+  layers:
+  - library: sand_ripples
+    role: dunes
+    tint: null
+  - library: sand_flat
+    role: pans, oasis rim
+    tint: null
+  - library: rock_red
+    role: mesas
+    tint: null
+  - library: dirt_cracked
+    role: bone fields
+    tint: null
+  - library: road_pebbles
+    role: caravan road
+    tint: null
+  dressing:
+  - bush13
+  - bush14
+  - bush15
+  - bush16
+  - 7rock08
+  - 7rock09
+  - plant50
+  - plant54
+  - rock07
+  - rock09
+  - palms (6tree21) at the oasis
+  native_refs:
+  - xeen/desert.srf
+  - xeen/palm.wal
+  - xeen/mount.wal
+  gap: 'Sand streaming off the rim: particles (weather), not a material.'
+X7:
+  name: mm6/outb1.odm
+  reference_maps:
+  - mm6/outb1.odm
+  - mm7/out10.odm
+  layers:
+  - library: gravel_volcanic
+    role: ash plains
+    tint: null
+  - library: ground_crust
+    role: lava crust
+    tint: null
+  - library: rock_cliff
+    role: cliffs
+    tint:
+    - 0.6
+    - 0.55
+    - 0.55
+  - library: soil_stony
+    role: southern slopes
+    tint: null
+  - library: slag_crust
+    role: cooled flows (Hesper source)
+    tint: null
+  dressing:
+  - 7rock01
+  - 7rock02
+  - 7rock03
+  - 7rock04
+  - 7rock07
+  - tree41, tree42 (burnt)
+  - dead bushes
+  native_refs:
+  - xeen/lava.srf
+  - xeen/scortch.srf
+  - xeen/lavamnt.wal
+  gap: 'slag_crust is a Hesper material, not in the engine library: add it or keep to ground_crust.'
+D1:
+  name: mm7/out11.odm
+  reference_maps:
+  - mm7/out11.odm
+  layers:
+  - library: grass_meadow
+    role: vale
+    tint:
+    - 0.85
+    - 0.9
+    - 0.85
+  - library: grass_patchy
+    role: pasture
+    tint:
+    - 0.9
+    - 0.9
+    - 0.85
+  - library: soil
+    role: melon fields, lanes
+    tint: null
+  - library: road_flagstone
+    role: Castleview
+    tint: null
+  - library: mud_cracked
+    role: acid pond rim
+    tint: null
+  - library: rock_cliff
+    role: cliffs
+    tint: null
+  dressing:
+  - tree41
+  - tree42 (Dark Grove)
+  - 7tree19
+  - 7tree04
+  - 7tree25
+  - flower16
+  - 7rock08
+  - 7rock09
+  native_refs:
+  - dark/grass.srf
+  - dark/road.srf
+  - dark/dtree.wal
+  - dark/grass.wal
+  gap: The Dark Grove's great tree with the rope is a new model (S lane).
+D2:
+  name: mm8/out07.odm
+  reference_maps:
+  - mm8/out07.odm
+  layers:
+  - library: grass_meadow
+    role: forest floor
+    tint:
+    - 0.75
+    - 0.85
+    - 0.75
+  - library: soil
+    role: paths
+    tint: null
+  - library: rock_layered
+    role: gemstone foothills
+    tint: null
+  - library: soil_stony
+    role: Ogre Pass
+    tint: null
+  - library: rock_cliff
+    role: cliffs
+    tint: null
+  dressing:
+  - tree12
+  - tree62a
+  - tree10
+  - tree18
+  - tree11
+  - tree25
+  - rock16
+  - plant47
+  native_refs:
+  - dark/grass.srf
+  - dark/dirt.srf
+  - dark/dtree.wal
+  - dark/dmount.wal
+  gap: 'Glowing mushrooms and crystal accents: new decorations (S lane); nothing shipped glows.'
+D3:
+  name: mm7/7out04.odm
+  reference_maps:
+  - mm6/outb3.odm
+  - mm7/7out04.odm
+  layers:
+  - library: sand_flat
+    role: desert edge
+    tint: null
+  - library: dirt_cracked
+    role: dry ground
+    tint: null
+  - library: grass_patchy
+    role: Aging Forest
+    tint:
+    - 1.1
+    - 0.95
+    - 0.75
+  - library: road_flagstone
+    role: Sandcaster, Crossroads
+    tint: null
+  - library: soil
+    role: tracks
+    tint: null
+  - library: rock_cliff
+    role: rim
+    tint: null
+  dressing:
+  - 6tree21
+  - cac3
+  - cac16
+  - cac24
+  - cac25
+  - autumn variants of 7tree19 / 7tree28 (trees_seasonal)
+  - flower16
+  native_refs:
+  - dark/desert.srf
+  - dark/grass.srf
+  - dark/croad.srf
+  - dark/ltree.wal
+  gap: 'Leaves falling all year in the Aging Forest: particles.'
+D4:
+  name: mm7/out09.odm
+  reference_maps:
+  - mm7/out09.odm
+  layers:
+  - library: grass_meadow
+    role: shore meadow
+    tint:
+    - 0.8
+    - 0.88
+    - 0.9
+  - library: soil
+    role: lanes
+    tint: null
+  - library: sand_ripples
+    role: shore
+    tint: null
+  - library: snow
+    role: north rapids
+    tint: null
+  - library: rock_cliff
+    role: Blackfang crag
+    tint:
+    - 0.7
+    - 0.7
+    - 0.75
+  - library: road_pebbles
+    role: Lakeside
+    tint: null
+  dressing:
+  - bush03
+  - flower16
+  - tree41
+  - tree42
+  - 7rock01
+  - 7rock03
+  - 7rock04
+  - 7rock05
+  - snotre01 (north)
+  native_refs:
+  - dark/water.srf
+  - dark/grass.srf
+  - dark/snow.srf
+  - dark/dsnotree.wal
+  gap: ''
+D5:
+  name: mm8/out04.odm
+  reference_maps:
+  - mm8/out04.odm
+  - mm8/out08.odm
+  layers:
+  - library: sand_ripples
+    role: dunes
+    tint:
+    - 1.05
+    - 1.0
+    - 0.9
+  - library: dirt_cracked
+    role: Perishing Sands
+    tint: null
+  - library: rock_red
+    role: highland edge
+    tint: null
+  - library: snow
+    role: northern highlands
+    tint: null
+  - library: soil_stony
+    role: tracks
+    tint: null
+  dressing:
+  - tree62c
+  - tree63b
+  - tree28
+  - rock10
+  - rock14
+  - rock24
+  - plant50
+  - plant54
+  native_refs:
+  - dark/desert.srf
+  - dark/snow.srf
+  - dark/dmount.wal
+  gap: The Parabolic Barrier is a BModel with an energy texture (ancient kit).
+D6:
+  name: mm8/out06.odm
+  reference_maps:
+  - mm6/outb1.odm
+  - mm8/out06.odm
+  layers:
+  - library: gravel_volcanic
+    role: ash waste
+    tint: null
+  - library: ground_crust
+    role: lava crust
+    tint: null
+  - library: mud_cracked
+    role: Necropolis grounds
+    tint:
+    - 0.8
+    - 0.8
+    - 0.8
+  - library: rock_cliff
+    role: cliffs
+    tint:
+    - 0.6
+    - 0.55
+    - 0.55
+  - library: road_flagstone
+    role: Necropolis, Alamar approach
+    tint:
+    - 0.8
+    - 0.8
+    - 0.85
+  - library: slag_crust
+    role: pod scars (Hesper source)
+    tint: null
+  dressing:
+  - dec05
+  - dec17
+  - tree28
+  - dec15
+  - dec13
+  - rock22
+  - rock52
+  - rock56
+  - plant48
+  native_refs:
+  - dark/lava.srf
+  - dark/scortch.srf
+  - dark/tflr.srf
+  - dark/dedltree.wal
+  gap: 'Ancient floor around the pods (Xeen tflr): a BModel apron with the ancient kit, not ground.'

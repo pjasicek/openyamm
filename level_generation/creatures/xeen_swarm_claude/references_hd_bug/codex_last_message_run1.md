@@ -1,0 +1,3 @@
+Saved the [Doom Bug three-quarter master](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_swarm_claude/references_hd_bug/00_three_quarter.png) as the original 1536×1024 transparent PNG from the built-in image generator. The visible silhouette clears every edge by at least 63 px. Both prompts and selection decisions are in the [run record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_swarm_claude/references_hd_bug/generation_runs.json).
+
+Two far-side feet are hidden in the selected view. The one corrective generation showed seven feet, so I kept the first image and stopped after Run 1.

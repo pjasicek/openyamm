@@ -1,0 +1,1592 @@
+# Xeen monsters (owner: A2, devdocs/xeen/lanes/A2.md). tools/xeen/gen_monsters.py writes data_tables/monster_data.txt,
+# monster_descriptors.txt and the world's relations.yml and modifiers.yml from this file.
+#
+# Numbers follow devdocs/xeen/MONSTERS_AND_ITEMS.md section 1 (no Xeen number carried over): HP = L^2/10 + 3L,
+# XP = L(L+10), AC and damage per hit from the curves below (BALANCE_PLAN 7.1 band medians), recovery by MM6-MM8's
+# bands, resistances from the level base, treasure level by monster level (MONSTERS_AND_ITEMS 4.1), gold and item
+# chance at MM7's rates per experience (BALANCE_PLAN 3.3, before MM9's x2.2).
+#
+# A family has a block of ten row ids: A, B, C at block+0..2, extra tiers and bosses at block+3..9. Ids never move once
+# a map uses them. `picture` names the family's own descriptors ("Xeen Goblin A/B/C"): map_stats spawn slots name the
+# family by it. Every family names one installed descriptor family whose sprites, sounds, size and speed the rows
+# borrow, as exactly one of:
+#   `stand_in`: the family has no model of its own yet; S's binding for its descriptors copies this family's 3D
+#     binding (the `model_stand_in` of ROADMAP 5.3; tools/xeen/standin_bindings.py), and `model` is the plan
+#     (MONSTERS_AND_ITEMS 2);
+#   `sprites`: S has bound the family's descriptors to its own model or Xeen colour tiers (worlds/xeen/models/
+#     actors.yml); the descriptor only lends sprite names and body size. `model` is then the installed model as
+#     actors.yml names it, and each tier and boss carries its `skin` (a tier's `model` where it differs from the
+#     family's). Skin and model are records for S and the docs; no table has a column for them.
+#
+# Tier fields (all optional but name and level): bonus (on-hit condition, the Bonus column: Poison1-3, Disease1-3,
+# Curse, Weak, Asleep, Afraid, Drunk, Insane, Paralyze, Uncon, Dead, Stone, Errad, BrkItem, BrkArmor, Brkweapon,
+# Steal, Age, DrainSP; "x2" after it raises its level), type (attack 1 damage type), missile, damage (dice, instead of
+# the curve), attack2 [type, dice, missile, chance], spell / spell2 [name, mastery N/E/M/G, skill, chance %],
+# resist (per school, over the family's), ac_x, hp_x, special (the Special column), look (the stand-in or sprites
+# tier it wears), fly (Y or N, the Fly column; else the borrowed row's), skin and model (above),
+# party (a tier's own relation to the party, which makes it a faction of its own), faction (a faction several rows share:
+# `name` is <family>_<name>, `other/name` another family's <other>_<name>, `other/` that family's own faction),
+# loot_kind (Weapon, Armor, Misc, Gem, Ring...), item_chance_x (the item chance times this; family or tier),
+# height and radius (the descriptor's collision body where it differs from the borrowed sprites'; family or tier),
+# modifiers (modifiers.yml entries for the tier rows; family or tier; a boss takes only its own),
+# stand_in (extra tiers D and later only: a whole installed descriptor with its letter, "ElemAir A", instead of the
+# family's by `look`).
+# no_arena (family or tier: true): the row gets the NoArena kind (data_tables/bolster_monsters.txt). Every boss,
+# extra tier (D and later: placed only), character, row friendly to the party at load and row taller than 1,000 gets it
+# without the field (D-39: XD-20's arena draws 11010-11699).
+# kind (family or tier: one name or a list): the engine's monster kinds (bolster_monsters Type, then ExtraType): Demon
+# for the Slayer Sword's SlayingDemon (D-2.3), Undead, Dragon, Ogre, Elemental, Titan, Elf for the slaying enchantments
+# of MM6-MM8 loot and the undead spells.
+# sounds (family, tier or boss): a set in worlds/xeen/audio/sounds.txt, <set>_attack, _death, _wince, _fidget into the
+# descriptor's four sound columns (devdocs/xeen/AUDIO.md table (a)); without it the borrowed descriptor's sounds stay.
+# Resistance values: imm, base (the level base), +N (base + N), 2x+20 (twice the base plus 20), or a number.
+# Bosses add: id, hp_x (3 unless given), modifiers (modifiers.yml entries), look (which tier's look they borrow) and
+# picture (the descriptor name, where two bosses share a display name; else "Xeen <name>").
+schema: xeen.monsters.v1
+
+curves:
+  # level -> value, straight lines between the points (band medians at the bands' middles)
+  ac: [[3, 5], [8, 8], [13, 14], [18, 15], [25, 20], [35, 30], [48, 35], [68, 50], [100, 90], [125, 100]]
+  damage: [[3, 3], [8, 8], [13, 11.5], [18, 16.5], [25, 22], [35, 30.5], [48, 38.5], [68, 50], [100, 72], [125, 85]]
+  # up to this level -> value
+  recovery: [[5, 100], [20, 90], [40, 80], [999, 70]]
+  resist_base: [[10, 0], [25, 5], [40, 15], [55, 18], [999, 30]]
+  treasure_level: [[12, 1], [22, 2], [34, 3], [49, 4], [74, 5], [999, 6]]
+  gold_per_1000_xp: [[5, 109], [10, 107], [15, 80], [20, 88], [30, 82], [40, 79], [55, 76], [80, 124], [999, 142]]
+  items_per_million_xp: [[5, 180], [10, 253], [15, 163], [20, 156], [30, 84], [40, 53], [55, 55], [80, 52], [999, 62]]
+  boss: {hp_x: 3, gold_x: 3, item_chance: 100, treasure_step: 1}
+
+defaults:
+  party: long          # relation toward the party (relations.yml): long, medium, short, close, friendly
+  resist: {}
+
+# Resistance themes (BALANCE_PLAN 3.2): referenced by a family's `theme`.
+themes:
+  undead: {mind: imm, body: 2x+20, spirit: 0}
+  spirit: {mind: imm, body: imm, spirit: 0, phys: 30}
+  construct: {mind: imm, spirit: imm, body: imm}
+  fire: {fire: imm, water: 0}
+  cold: {water: imm, fire: 0}
+  air: {air: imm, earth: 0}
+  earth: {earth: imm, air: 0}
+  demon: {fire: imm, mind: +20, water: 0}
+  vermin: {body: +20}
+  caster: {mind: +20, spirit: +20}
+
+families:
+  goblins:
+    block: 11010
+    name: Goblins (Cloudside)
+    picture: Xeen Goblin
+    sprites: BGoblin
+    model: worlds/xeen/models/xeen_gob2.glb  # MM6 goblin (mm6_gob2) with Xeen colour tiers
+    where: Witch Tower, X1
+    tiers:
+      A: {name: Goblin, level: 4, skin: xgob_a}
+      B: {name: Gremlin, level: 6, skin: xgob_b}
+      C: {name: Gremlin Guard, level: 10, skin: xgob_c, bonus: BrkItem}
+
+  gremlins:
+    block: 11020
+    name: Gremlins (Darkside)
+    picture: Xeen Gremlin
+    sprites: BGoblin
+    model: worlds/xeen/models/xeen_gob2.glb  # MM6 goblin (mm6_gob2), Darkside tiers
+    where: D1, Gremlin Court
+    tiers:
+      A: {name: Gremlin, level: 14, skin: xgob_b}
+      B: {name: Gremlin Saboteur, level: 18, skin: xgob_c, bonus: BrkItem}
+      C: {name: Gremlin Guard, level: 22, skin: xgob_d, bonus: Afraid}
+      # DD-04 (D-26): the court side (burrow, hall of pranks, waiting room, guards) is peaceful until q-d1
+      # court_hostile and friendly again on court_peace; the cellar, larder and army below are hostile until
+      # court_peace. Rows of their own, so D1's gremlins (A-C) never turn friendly. Placed only.
+      D: {id: 11024, name: Gremlin, level: 14, look: A, skin: xgob_b, faction: court, party: friendly,
+          note: DD-04 court side}
+      E: {id: 11025, name: Gremlin Saboteur, level: 18, look: B, skin: xgob_c, bonus: BrkItem, faction: court,
+          note: DD-04 court side}
+      F: {id: 11026, name: Gremlin Guard, level: 22, look: C, skin: xgob_d, bonus: Afraid, faction: court,
+          note: DD-04 court guards}
+      G: {id: 11027, name: Gremlin, level: 14, look: A, skin: xgob_b, faction: army, party: long,
+          note: DD-04 cellar, larder and army}
+      H: {id: 11028, name: Gremlin Saboteur, level: 18, look: B, skin: xgob_c, bonus: BrkItem, faction: army,
+          note: DD-04 cellar, larder and army}
+      I: {id: 11029, name: Gremlin Guard, level: 22, look: C, skin: xgob_d, bonus: Afraid, faction: army,
+          note: DD-04 cellar, larder and army}
+    bosses:
+      - {key: gettlewaithe, id: 11023, name: Gettlewaithe, level: 24, skin: xgob_d, look: C, bonus: Steal,
+         spell: [Fire Bolt, E, 6, 30], modifiers: [{blink: {on_hit_chance: 0.25}}], faction: king,
+         party: friendly, note: "D-37: his own faction, friendly at load and after court_peace; no court_hostile rule, so he turns only when struck"}
+
+  orcs:
+    block: 11030
+    name: Orcs
+    picture: Xeen Orc
+    sounds: xeen_orc   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Goblin
+    # MM7 goblin (mm7_m246) with Xeen tiers; its green skin is not a region (the Xeen orc is tan)
+    model: worlds/xeen/models/xeen_m246.glb
+    where: X1, Orc Caves, X7 south
+    resist: {fire: +10, air: +10, water: +10}
+    tiers:
+      A: {name: Orc, level: 5, skin: xorc_a}
+      B: {name: Orc Archer, level: 7, skin: xorc_b, missile: Arrow}
+      C: {sounds: xeen_orc_c, name: Orc Guard, level: 10, skin: xorc_c}
+    bosses:
+      - {sounds: xeen_orc_c, key: drum_master, id: 11033, name: Drum-Master, level: 12, skin: xorc_c, look: C,
+         modifiers: [{frenzy: {health_below: 0.5}}]}
+
+  orc_warband:
+    block: 11040
+    name: Orc warband
+    picture: Xeen Orc Warband
+    sounds: xeen_orc   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Goblin
+    model: worlds/xeen/models/xeen_m246.glb  # as Orcs; the Orc Shaman on the MM6 goblin shaman for its cast clip
+    where: Temple of Bark
+    resist: {fire: +10, air: +10, water: +10}
+    tiers:
+      A: {name: Orc Elite, level: 16, skin: xorc_d}
+      B: {name: Orc Shaman, level: 20, skin: xgob_e, model: worlds/xeen/models/xeen_gob2.glb,
+          spell: [IceBolt, E, 5, 25]}
+      C: {sounds: xeen_orc_c, name: Orc Captain, level: 26, skin: xorc_e, bonus: Afraid}
+      # DD-09's caged prisoner (D-27): peaceful by his own faction, not the orcs'; A3's NPC talks on this actor.
+      D: {id: 11044, name: Snog, level: 16, look: A, skin: xorc_d, faction: snog, party: friendly,
+          note: "DD-09's root cage ('imprisoned for refusing to do evil')"}
+    bosses:
+      - {sounds: xeen_orc_c, key: shaalth, id: 11043, name: Shaalth, level: 30, skin: xorc_e, look: C,
+         modifiers: [{frenzy: {health_below: 0.5}}]}
+
+  mad_dwarves:
+    block: 11050
+    name: Mad dwarves
+    picture: Xeen Mad Dwarf
+    sprites: BDwarf
+    model: worlds/xeen/models/xeen_dwa1.glb  # mm6_dwa1 with Xeen tiers
+    where: Red Dwarf Mines, Deep Mine
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    # Miners' gems (DECISIONS D-1.6): with the burrowers and random loot, a level-17 party holds about 10-30 gems.
+    loot_kind: Gem
+    item_chance_x: 5
+    tiers:
+      A: {name: Mad Dwarf, level: 7, skin: xdwa_a}
+      B: {name: Clan Sergeant, level: 10, skin: xdwa_b}
+      C: {name: Clan Guard, level: 12, skin: xdwa_c, bonus: BrkArmor}
+      # D-62 Q34: King Bosco's four hall guards (DD-25), peaceful, their own faction, placed only, not counted; at the
+      # King's Guard's level (11143, Castle Burlock's peaceful guard, 40). They stand at their posts (A8 places them off
+      # the walking lines) and carry no miners' gems. S: a new recolour on xeen_dwa1 (Xeen Mad Dwarf D).
+      D: {id: 11054, name: Bosco's Guard, level: 40, look: C, skin: xdwa_d, faction: bosco/hall, party: friendly, move: stand,
+          loot_kind: "", item_chance_x: 1, note: "DD-25 Bosco's Hall, the four guards (D-62); placed only, not counted"}
+    bosses:
+      - {key: clan_king, id: 11053, loot_kind: "", name: Clan King, level: 18, skin: xdwa_c, look: C, bonus: Uncon,
+         spell: [Paralyze, E, 4, 20], modifiers: [{charge: {}}, {spell_conditions: {spell1: asleep, spell1_minutes: 5}}]}
+
+  ogres:
+    block: 11060
+    name: Ogres
+    picture: Xeen Ogre
+    kind: Ogre
+    sprites: Ogre
+    model: worlds/xeen/models/xeen_ogr.glb  # mm6_ogr; only the horns take the tier colour
+    where: X2 crossings, X4, D2, Ogre Lair, Ogre Forts
+    resist: {fire: +5, air: +5, water: +5, earth: +5}
+    tiers:
+      A: {name: Ogre, level: 18, skin: xogr_a, attack2: [Phys, curve, Rock, 20]}
+      B: {name: Ogre Brute, level: 22, skin: xogr_b}
+      C: {name: Ogre Chief, level: 30, skin: xogr_c, bonus: Uncon}
+      # Graalg's own faction (D-23): he and his two Brutes stay peaceful whatever the pass ogres do, until A3's
+      # q-d11.hostile turns the faction (the 22 pass ogres are the family's, hostile at load).
+      D: {id: 11065, name: "Graalg's Brute", level: 22, look: B, skin: xogr_b, faction: graalg, party: friendly,
+          note: "D2 Ogre Pass, Graalg's guard (Ogre Brute's numbers)"}
+      # The pass ogres (D2's forts and road pairs, DD-13): hostile at load, friendly on q-d11 friends, hostile on q-d11
+      # hostile (a burned fort sets it); their own faction so the other maps' ogres never turn friendly. Placed only.
+      E: {id: 11066, name: Ogre, level: 18, look: A, skin: xogr_a, attack2: [Phys, curve, Rock, 20], faction: pass,
+          party: long, note: D2 Ogre Pass and DD-13}
+      F: {id: 11067, name: Ogre Brute, level: 22, look: B, skin: xogr_b, faction: pass, note: D2 Ogre Pass and DD-13}
+      G: {id: 11068, name: Ogre Chief, level: 30, look: C, skin: xogr_c, bonus: Uncon, faction: pass,
+          note: D2 Ogre Pass and DD-13}
+    bosses:
+      - {key: ogre_chieftain, id: 11063, name: Ogre Chieftain, level: 24, skin: xogr_c, look: C, note: XD-27's boss,
+         modifiers: [{charge: {}}]}
+      - {key: graalg, id: 11064, name: Graalg, level: 36, skin: xogr_c, look: C, note: D2 Ogre Pass,
+         modifiers: [{charge: {}}], faction: graalg, party: friendly}
+
+  trolls:
+    block: 11070
+    name: Trolls
+    picture: Xeen Troll
+    kind: Ogre
+    sprites: Troll
+    model: worlds/xeen/models/xeen_m476.glb  # MM8 troll (mm8_m476); Ice Troll own skin xtrl_a (S session 12)
+    where: X5 Troll Forest, Troll Warren, Troll Holes
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Troll, level: 18, skin: troll_a}
+      B: {name: Troll Guard, level: 28, skin: troll_b}
+      C: {name: Ice Troll, level: 38, skin: xtrl_a, resist: {water: imm, fire: 0}}
+      # Hobstadt's court (D-25 Q7): friendly at load, hostile on q-d13 hostile (relation_rules), placed in DD-11C.
+      D: {id: 11075, name: "Hobstadt's Guard", level: 28, look: B, skin: troll_b, faction: hobstadt, party: friendly,
+          note: "DD-11C, Hobstadt's court (Troll Guard's numbers)"}
+    bosses:
+      - {key: hobstadt, id: 11073, name: Hobstadt, level: 42, look: C, skin: troll_c, modifiers: [{frenzy: {health_below: 0.5}}],
+         faction: hobstadt, party: friendly}
+      - {key: troll_matron, id: 11074, name: Troll Matron, level: 32, look: B, skin: troll_b, modifiers: [{frenzy: {health_below: 0.5}}],
+         note: XD-23 Troll Warren (D-25)}
+
+  # The Troll Holes' own trolls (DD-11A/B/C, D-25 Q7): Hobstadt's tribute or trial makes them friendly, which the
+  # trolls of X5, XD-23 and D2 (the Trolls' rows) never are; a relation cannot be scoped to maps, so they are rows of
+  # their own with the Trolls' numbers.
+  warren_trolls:
+    block: 11690
+    name: Troll Holes trolls
+    picture: Xeen Warren Troll
+    kind: Ogre
+    sprites: Troll
+    model: worlds/xeen/models/xeen_m476.glb  # as the Trolls
+    where: DD-11A, DD-11B, DD-11C
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Troll, level: 18, skin: troll_a}
+      B: {name: Troll Guard, level: 28, skin: troll_b}
+      C: {name: Ice Troll, level: 38, skin: xtrl_a, resist: {water: imm, fire: 0}}
+
+  giants:
+    block: 11080
+    name: Giants and cyclopes
+    picture: Xeen Giant
+    stand_in: Cyclops
+    model: reuse MM8 cyclops, MM9 giant
+    where: X5 Land of the Giants corner, D5 (the Quivering Forest's wild cyclopes; the People at Gurodel's hold), Giants' Hall
+    resist: {mind: +10}
+    height: 300   # D-47 Q26: the drawn model stands about 310; low openings (128 x 256) keep giants out (D-32)
+    tiers:
+      # A-C are the wild giants (X5's corner, D5's Quivering Forest, D-49 Q2): the family's faction `xeen_giants`, always
+      # hostile; no Q-D16 rule reads it, so killing them never turns the People.
+      A: {name: Cyclops, level: 36, bonus: Afraid, attack2: [Phys, curve, Rock, 25]}
+      B: {name: Giant, level: 50, bonus: Uncon}
+      C: {name: Elder Giant, level: 62, bonus: Uncon}
+      # The People (D-47 Q22, Q23): Gurodel's household in DD-24 and his hold on D5, one faction
+      # (`xeen_giants_people`), peaceful at load, hostile on Q-D16 war, Q-D12 hostile or camp burned, or
+      # q-d16.hall_attacked (relation_rules). Levels 38/50/58 inside the hall's band; placed only.
+      D: {id: 11083, name: Cyclops, level: 38, look: A, bonus: Afraid, attack2: [Phys, curve, Rock, 25], faction: people,
+          party: friendly, note: "DD-24 and D5, the People (D-47)"}
+      E: {id: 11084, name: Giant, level: 50, look: B, bonus: Uncon, faction: people, note: "DD-24 and D5, the People (D-47)"}
+      F: {id: 11085, name: Elder Giant, level: 58, look: C, bonus: Uncon, faction: people,
+          note: "DD-24 and D5, the People (D-47)"}
+
+  minotaurs:
+    block: 11090
+    name: Minotaurs and gorgons
+    picture: Xeen Minotaur
+    stand_in: Minotaur
+    model: reuse MM8 minotaur (gorgon a bronze tier)
+    where: Dungeon of Lost Souls
+    ac_x: 1.3
+    resist: {mind: +10, spirit: +10, body: +10}
+    tiers:
+      A: {name: Minotaur, level: 38, bonus: Age}
+      B: {name: Gorgon, level: 45, bonus: Stone}
+      C: {name: Minotaur Lord, level: 55}
+
+  barbarians:
+    block: 11100
+    name: Barbarians
+    picture: Xeen Barbarian
+    stand_in: Barbarian
+    model: reuse mm6_bar1
+    where: X5 camps, D1 (Yog's Sardaj camp), X6
+    tiers:
+      A: {name: Barbarian, level: 14}
+      B: {name: Sardaj Warrior, level: 20, resist: {fire: +10, air: +10, water: +10, earth: +10}}
+      C: {name: Barbarian Chief, level: 28, resist: {fire: +10, air: +10, water: +10, earth: +10}}
+      # D6's archers' camp (D-49 Q3): bowmen on the archer body (sprites from the MM6 archers; S binds xeen_arc1 with two
+      # barbarian colour skins), their own hostile faction, untouched by Q-D12's Sardaj peace. Placed only.
+      D: {id: 11104, name: Barbarian Archer, level: 44, stand_in: BArcher B, missile: Arrow, faction: archers, party: long,
+          resist: {fire: +10, air: +10, water: +10, earth: +10}, note: "D6, the archers' camp (D-49)"}
+      E: {id: 11105, name: Archer Chief, level: 50, stand_in: BArcher C, missile: Arrow, faction: archers,
+          resist: {fire: +10, air: +10, water: +10, earth: +10}, note: "D6, the archers' camp (D-49)"}
+    bosses:
+      - {key: yog, id: 11103, name: Yog, level: 34, look: C, modifiers: [{charge: {}}]}
+
+  outlaws:
+    block: 11110
+    name: Outlaws
+    picture: Xeen Outlaw
+    sprites: BThief
+    model: worlds/xeen/models/xeen_thf.glb  # mm6_thf with Xeen tiers
+    where: Rivercity, Robbers' Den, Southern Tower
+    tiers:
+      A: {name: Rogue, level: 12, skin: xthf_a}
+      B: {name: Thief, level: 18, skin: xthf_b, bonus: Steal}
+      C: {name: Master Thief, level: 30, skin: xthf_c, bonus: Steal}
+      # The Master Thief's bodyguards (D-25): his faction, friendly to the party; DD-06.
+      D: {id: 11115, name: Inner Circle Guard, level: 30, skin: xthf_c, look: C, bonus: Steal, faction: inner_circle,
+          party: friendly, note: DD-06 Southern Tower (the Master Thief's numbers)}
+      # D-58 Q3: two at each of D7's four tolls (8), their own faction, peaceful at load; A3's toll hook turns only that
+      # toll's pair hostile on a refusal (D-6). Not counted (friendly); their 7.15k per member is in Act VI's "most
+      # experience". S: a sky skin on the thief body (no Meshy).
+      E: {id: 11116, name: Sky Bandit, level: 55, look: C, skin: xthf_e, bonus: Steal, faction: sky, party: friendly,
+          note: "D7, the tolls (D-58)"}
+    bosses:
+      - {key: robber_boss, id: 11113, name: Robber Boss, level: 22, skin: xthf_c, look: C, note: XD-21's boss (Q-C3),
+         bonus: Steal, modifiers: [{blink: {on_hit_chance: 0.2}}]}
+      - {key: master_thief, id: 11114, name: The Master Thief, level: 32, skin: xthf_d, look: C, bonus: Steal,
+         modifiers: [{blink: {on_hit_chance: 0.2}}], faction: inner_circle, party: friendly,
+         note: "DD-06 (D-25 Q4); NPC 5109 talks on this actor"}
+
+  ninjas:
+    block: 11120
+    name: Ninjas
+    picture: Xeen Ninja
+    sprites: BMonk
+    model: worlds/xeen/models/xeen_mnk1.glb  # MM6 monk (mm6_mnk1); Shadow Ninja own skin xmnk_a (S session 12)
+    where: Ninja Pagoda
+    recovery: 60
+    tiers:
+      A: {name: Ninja, level: 22, skin: mnk1_a, attack2: [Phys, curve, Arrow, 30]}
+      B: {name: Shadow Ninja, level: 30, skin: xmnk_a, attack2: [Phys, curve, Arrow, 30]}
+      C: {name: Ninja Master, level: 40, skin: mnk1_c, bonus: Uncon, attack2: [Phys, curve, Arrow, 30]}
+      # Shinobu's people (D-25 Q14): friendly, placed only, not counted; Shinobu (NPC 4530) stands on this row.
+      D: {id: 11124, name: Clan Survivor, level: 22, look: A, skin: mnk1_a, attack2: [Phys, curve, Arrow, 30], faction: clan,
+          party: friendly, note: XD-22 cellar after q-c4.done}
+    bosses:
+      - {key: clan_master, id: 11123, name: Clan Master, level: 42, look: C, skin: mnk1_c, bonus: Uncon,
+         attack2: [Phys, curve, Arrow, 30], modifiers: [{blink: {on_hit_chance: 0.2}}], note: XD-22 (D-25 Q4)}
+
+  evil_rangers:
+    block: 11130
+    name: Evil rangers
+    picture: Xeen Ranger
+    sprites: BArcher
+    model: worlds/xeen/models/xeen_arc1.glb  # mm6_arc1 with Xeen tiers
+    where: X2 north bank camps
+    tiers:
+      A: {name: Evil Archer, level: 8, skin: xarc_a, missile: Arrow, resist: {air: +20}}
+      B: {name: Evil Ranger, level: 12, skin: xarc_b, missile: Arrow, bonus: Poison2, resist: {body: +20}}
+      C: {name: Elite Ranger, level: 18, skin: xarc_c, missile: Arrow}
+
+  burlock_knights:
+    block: 11140
+    name: Burlock knights
+    picture: Xeen Knight
+    sprites: KnightPlate
+    model: worlds/xeen/models/xeen_kni.glb  # mm6_kni with Xeen tiers (the King's Guard too)
+    where: X4, Castle Burlock, Rivercity
+    ac_x: 1.3
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Jouster, level: 14, skin: xkni_a}
+      B: {name: Yang Knight, level: 20, skin: xkni_b, recovery: 70}
+      C: {name: Knight Captain, level: 26, skin: xkni_c}
+      D: {id: 11143, name: King's Guard, level: 40, skin: xkni_d, look: C, spell: [IceBolt, E, 8, 20], party: friendly,
+          note: "Castle Burlock only (XD-07); peaceful to the party, a faction of its own (D-4)"}
+    bosses:
+      - {key: captain_yang, id: 11144, name: Captain Yang, level: 30, skin: xkni_c, look: C, modifiers: [{charge: {}}]}
+
+  renegade_knights:
+    block: 11680
+    name: Renegade knights
+    picture: Xeen Renegade
+    stand_in: KnightPlate
+    model: "xeen_kni.glb as the Burlock knights (copy Xeen Knight A-C's bindings; a renegade tier later)"
+    where: X4 (D-11.2), the knights who left the King's service; hostile, a faction of their own
+    ac_x: 1.3
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Renegade Jouster, level: 14}
+      B: {name: Renegade Knight, level: 20, recovery: 70}
+      C: {name: Renegade Captain, level: 26}
+
+  dark_knights:
+    block: 11150
+    name: Dark knights
+    picture: Xeen Dark Knight
+    stand_in: KnightPlate
+    model: reuse mm6_kni (black and red tiers)
+    where: Northern Tower, the Dungeon of Death (FD-04, D-57)
+    ac_x: 1.3
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      # D-61 Q28: the Northern Tower's Slayer and Death Knights (placed and its rest slot) are xeen_voweless_knights,
+      # hostile until the Voweless oath (q-d17 oath 113344), friendly after; FD-04's Doom Knights stay the family's
+      # own faction, hostile.
+      A: {name: Slayer Knight, level: 45, faction: voweless/knights, party: long}
+      B: {name: Death Knight, level: 55, bonus: Afraid, faction: voweless/knights}
+      C: {name: Doom Knight, level: 75, bonus: Dead}
+
+  witches:
+    block: 11160
+    name: Witches
+    picture: Xeen Witch
+    sounds: xeen_witch   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Cleric Moon
+    model: worlds/xeen/models/xeen_witch.glb  # new pointed-hat witch, staff xeen_witch_staff.glb
+    where: Witch Tower, X1 Toad Meadow
+    ac_x: 0.7
+    theme: caster
+    tiers:
+      A: {name: Wicked Witch, level: 10, skin: witch_a, bonus: Curse, missile: Mind, type: Mind}
+      B: {name: Witch, level: 14, skin: witch_b, spell: [Lightning Bolt, E, 4, 30], resist: {air: imm}}
+      C: {sounds: xeen_witch_c, name: Elder Witch, level: 18, skin: witch_c, spell: [Psychic Shock, E, 5, 30], resist: {air: imm}}
+    bosses:
+      - {sounds: xeen_witch_c, key: head_witch, id: 11163, name: Head Witch, level: 20, skin: witch_c, look: C, bonus: Curse,
+         spell: [Lightning Bolt, M, 6, 35], spell2: [Psychic Shock, E, 6, 25], resist: {air: imm},
+         modifiers: [{blink: {on_hit_chance: 0.3}}]}
+
+  coven:
+    block: 11170
+    name: Coven
+    picture: Xeen Coven
+    sounds: xeen_coven   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    stand_in: Cleric Moon
+    model: as Witches
+    where: Lakeside Coven
+    ac_x: 0.7
+    theme: caster
+    tiers:
+      A: {name: Witch, level: 32, spell: [Lightning Bolt, M, 8, 30], resist: {air: imm}}
+      B: {name: Coven Witch, level: 40, spell: [Psychic Shock, M, 10, 30], resist: {air: imm}}
+      C: {sounds: xeen_coven_c, name: Coven Mother, level: 50, bonus: DrainSP, spell: [Mind Blast, M, 12, 30], resist: {air: imm}}
+    bosses:
+      # D-42 DD-20 Q2: the coven's head in the sewer, her group of three; her own skin on the witch model (S). She shares
+      # XD-04's display name (11163), never its act, so her picture is her own.
+      - {sounds: xeen_coven_c, key: coven_head_witch, id: 11173, name: Head Witch, picture: Xeen Coven Head Witch, skin: witch_d,
+         level: 45, look: C, bonus: DrainSP, spell: [Mind Blast, M, 10, 35], resist: {air: imm}, note: DD-20's boss}
+
+  sorceresses:
+    block: 11180
+    name: Sorceresses
+    picture: Xeen Sorceress
+    sounds: xeen_sorceress   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Druidess
+    model: worlds/xeen/models/xeen_sorc.glb  # S's female caster (image 31), skins sorc_a-c and Morgana's sorc_m (D-32)
+    where: Rivercity, Sandcaster
+    ac_x: 0.7
+    theme: caster
+    tiers:
+      A: {name: Sorceress, level: 30, skin: sorc_a, spell: [Fire Bolt, M, 8, 30]}
+      B: {name: Enchantress, level: 40, skin: sorc_b, spell: [Lightning Bolt, M, 10, 30], resist: {air: imm}}
+      C: {sounds: xeen_sorceress_c, name: Grand Sorceress, level: 55, skin: sorc_c, spell: [Psychic Shock, M, 12, 30]}
+      D: {id: 11184, name: Apprentice Sorceress, level: 12, skin: sorc_a, look: A, spell: [Fire Bolt, E, 4, 30],
+          note: placed only; Rivercity's sorceresses by Barok (Q-C2) where they are guarded (A5, 2026-11-20)}
+    bosses:
+      # D-4: tops the Tower of High Magic (XD-11); the map places her with carried_item_id 12260, the Librarian's Key.
+      # Block+3 is Morgana's (11183), so she takes 11185.
+      - {key: head_sorceress, id: 11185, name: Head Sorceress, level: 32, skin: sorc_a, look: A, spell: [Lightning Bolt, M, 8, 35],
+         resist: {air: imm}}
+      # D-32: her own skin on S's xeen_sorc (crimson cloth, black trim), so she differs from her tier-C guards.
+      - {sounds: xeen_sorceress_c, key: morgana, id: 11183, name: Morgana, level: 60, look: C, skin: sorc_m, spell: [Psychic Shock, M, 14, 35],
+         spell2: [Lightning Bolt, M, 14, 25], modifiers: [{blink: {on_hit_chance: 0.25}}]}
+
+  wizards:
+    block: 11190
+    name: Wizards
+    picture: Xeen Wizard
+    sprites: Sorcerer
+    model: worlds/xeen/models/xeen_sor1.glb  # mm6_sor1 with Xeen tiers
+    where: X6, Darzog's Tower, Sandcaster, Castle Basenji (XD-14)
+    ac_x: 0.7
+    theme: caster
+    tiers:
+      A: {name: Wizard, level: 36, skin: xsor_a, spell: [Fireball, E, 8, 30], resist: {fire: imm}}
+      B: {name: Sorcerer, level: 45, skin: xsor_b, spell: [IceBlast, M, 10, 30], resist: {water: imm}}
+      C: {name: Master Wizard, level: 60, skin: xsor_c, spell: [Incinerate, M, 12, 30], resist: {fire: imm}}
+      # D-39 XD-14 Q1: Castle Basenji's rank and file (16 placed); S recolours its own skin on xeen_sor1 (D-39).
+      D: {id: 11197, name: Cult Acolyte, level: 24, look: A, skin: xsor_d, spell: [Fire Bolt, E, 6, 30], note: "XD-14, placed only"}
+    bosses:
+      # D-39 XD-14 Q2: not DD-05's heretic Cult Leader 11223; his own skin from S (dark robe, wolf-grey trim), never
+      # Valio's xsor_b.
+      - {key: basenji_cult_leader, id: 11198, name: Basenji Cult Leader, level: 45, look: B, skin: xsor_e,
+         spell: [IceBlast, M, 10, 35], spell2: [Fireball, M, 10, 25], modifiers: [{blink: {on_hit_chance: 0.2}}],
+         note: XD-14's boss in the study}
+      - {key: valio, id: 11193, name: Valio, level: 45, skin: xsor_b, look: B, spell: [IceBlast, M, 10, 35]}
+      - {key: darzog, id: 11194, name: Baron Darzog, level: 55, skin: xsor_c, look: C,
+         spell: [Lightning Bolt, M, 12, 40], spell2: [Fireball, M, 12, 25], resist: {air: imm},
+         modifiers: [{blink: {on_hit_chance: 0.3}}],
+         note: XD-12's boss (M21); magic fails in his tower, so his spells are the danger only where the map allows them}
+      - {key: darzog_clone, id: 11195, name: Darzog's Clone, level: 45, skin: xsor_b, look: B,
+         hp_x: 1, boss_loot: false, spell: [Lightning Bolt, M, 10, 35], resist: {air: imm}}
+      - {key: xenoc, id: 11196, name: Xenoc, level: 60, skin: xsor_c, look: C, spell: [Incinerate, M, 14, 35],
+         spell2: [IceBlast, M, 14, 25], modifiers: [{blink: {on_hit_chance: 0.25}}]}
+
+  floating_mages:
+    block: 11200
+    name: Floating mages
+    picture: Xeen Floating Mage
+    sounds: xeen_mage   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    sprites: Warlock
+    model: worlds/xeen/models/xeen_m426.glb  # MM7 hovering warlock (mm7_m426) with Xeen tiers xfm_a-e
+    where: Eastern Tower (DD-07)
+    fly: Y   # D-39: the whole family floats (DD-07's well)
+    ac_x: 0.7
+    resist: {air: imm, fire: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Mystic Mage, level: 45, skin: xfm_a, spell: [Lightning Bolt, M, 10, 30]}
+      B: {name: Magic Mage, level: 55, skin: xfm_b, spell: [Meteor Shower, M, 10, 20]}
+      C: {sounds: xeen_mage_c, name: Mega Mage, level: 70, skin: xfm_c, spell: [Implosion, G, 12, 25]}
+      # D-39 DD-07 Q1: the tower's lower floors, under the Mystic Mage 45 (placed only).
+      D: {id: 11203, name: Floating Adept, level: 28, skin: xfm_d, look: A, spell: [Fire Bolt, E, 6, 30]}
+      E: {id: 11204, name: Floating Magus, level: 38, skin: xfm_e, look: A, spell: [Lightning Bolt, M, 8, 30]}
+
+  cultists:
+    block: 11210
+    name: Cultists
+    picture: Xeen Cultist
+    sprites: Cleric
+    model: worlds/xeen/models/xeen_cle.glb  # mm6_cle with Xeen tiers
+    where: Temple of Yak
+    tiers:
+      A: {name: Cleric of Yak, level: 14, skin: xcle_a, spell: [Sparks, E, 4, 25], resist: {air: +20}}
+      B: {name: Yak Priest, level: 20, skin: xcle_b, spell: [Fireball, E, 5, 25]}
+      C: {name: Yak Elder, level: 28, skin: xcle_c, spell: [Mind Blast, E, 6, 25]}
+    bosses:
+      - {key: yak_master, id: 11213, name: Yak Master, level: 35, skin: xcle_c, look: C, bonus: Curse,
+         spell: [Mind Blast, M, 8, 35], spell2: [Fireball, M, 8, 25], note: XD-06's boss}
+
+  heretics:
+    block: 11220
+    name: Heretics
+    picture: Xeen Heretic
+    sprites: Cleric
+    model: worlds/xeen/models/xeen_cle.glb  # mm6_cle, as Cultists
+    where: Western Tower of Mok (DD-05)
+    tiers:
+      A: {name: Mok Heretic, level: 25, skin: xcle_d, spell: [Mind Blast, E, 6, 25]}
+      B: {name: Heretic Priest, level: 35, skin: xcle_e, spell: [Harm, M, 8, 25]}
+      C: {name: Heretic Lord, level: 45, skin: xcle_f, spell: [Psychic Shock, M, 10, 30]}
+    bosses:
+      # D-42 DD-05 Q3: not XD-14's Basenji Cult Leader 11198; his own recoloured skin on xeen_cle (S).
+      - {key: mok_cult_leader, id: 11223, name: Cult Leader, level: 45, look: C, skin: xcle_g, spell: [Psychic Shock, M, 10, 35],
+         spell2: [Harm, M, 10, 25], note: DD-05's boss}
+
+  madmen:
+    block: 11230
+    name: Madmen
+    picture: Xeen Madman
+    sounds: xeen_madman   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    stand_in: PeasantM2
+    model: reuse peasant models
+    where: Rivercity, Castle Burlock, Castle Basenji (XD-14's cell)
+    party: medium
+    resist: {mind: +10}
+    tiers:
+      A: {name: Insane Beggar, level: 4, bonus: Insane}
+      B: {name: Mad Fool, level: 8, bonus: Insane}
+      C: {name: Raving Lunatic, level: 12, bonus: Insane, note: added so a spawn slot can never pick a missing tier}
+      # D-39 XD-14 Q4: behind the bars, freed by q-c8.peasant_freed (A3) and hidden on later loads; not counted.
+      D: {id: 11233, name: Trapped Peasant, level: 4, look: A, faction: basenji_prisoner, party: friendly,
+          note: "XD-14 only, placed only"}
+
+  skeletons:
+    block: 11240
+    name: Skeletons
+    picture: Xeen Skeleton
+    kind: Undead
+    sprites: Skeleton
+    model: worlds/xeen/models/xeen_ske.glb  # mm6_ske with Xeen tiers
+    where: X1 dead forest, Temple of Yak
+    theme: undead
+    tiers:
+      A: {name: Skeleton, level: 6, skin: xske_a}
+      B: {name: Spirit Bones, level: 12, skin: xske_b, bonus: Age}
+      C: {name: Skeleton Lord, level: 16, skin: xske_c, bonus: Curse}
+
+  rotting_dead:
+    block: 11250
+    name: Rotting dead
+    picture: Xeen Zombie
+    kind: Undead
+    sprites: Zombie
+    model: worlds/xeen/models/xeen_m438.glb  # MM7 zombie (mm7_m438) with Xeen tiers
+    where: X1, X3, Tomb of a Thousand Terrors
+    theme: undead
+    tiers:
+      A: {name: Zombie, level: 8, skin: xzom_a, bonus: Disease1}
+      B: {name: Ghoul, level: 12, skin: xzom_b, bonus: Paralyze}
+      C: {name: Grave Ghoul, level: 18, skin: xzom_c, bonus: Disease2}
+
+  spirits:
+    block: 11260
+    name: Spirits
+    picture: Xeen Spirit
+    kind: Undead
+    stand_in: BGhost
+    model: reuse mm6_gst, MM9 ghost
+    where: Winterkill, Tomb of a Thousand Terrors
+    theme: spirit
+    tiers:
+      A: {name: Polter-Fool, level: 18, bonus: Age}
+      B: {name: Tomb Guard, level: 26, bonus: Age}
+      C: {name: Tomb Terror, level: 40, bonus: Curse}
+      D: {id: 11263, name: Ghost Rider, level: 27, look: B, bonus: Age,
+          note: "Winterkill's third ghost wave (Q-C6, X5; D-13: level 26-28); placed only"}
+
+  pyramid_mummies:
+    block: 11270
+    name: Pyramid mummies
+    picture: Xeen Mummy
+    kind: Undead
+    sounds: xeen_mummy   # AU batch 2 (devdocs/xeen/AUDIO.md); off MM9's ids
+    # MM9 Mummy lends the sprite names and body only; S binds Xeen Mummy A-C to the Xeen copy (D-44).
+    sprites: MM9 Mummy
+    model: worlds/xeen/models/xeen_mummy.glb  # Xeen copy of MM9's mm9_mummy (D-44); never worlds/mm9/
+    where: Great Pyramid, Southern Sphinx (FD-02), Northern Sphinx (XD-15), Necropolis Sewer (DD-21, two Ghost Mummies 62
+      and the rest slot's Tomb Mummies, D-62)
+    theme: undead
+    resist: {water: +20, earth: +20, phys: 30}
+    tiers:
+      A: {name: Tomb Mummy, level: 42, skin: mummy_a, bonus: BrkItem}
+      B: {name: Pyramid Guard, level: 52, skin: mummy_b, bonus: Disease2}
+      C: {sounds: xeen_mummy_c, name: Royal Mummy, level: 65, skin: mummy_c, bonus: DrainSP}
+      # D-57 Q8 (FD-02): the source's Ghost and Phase Mummies at the band, placed only; S's recolours on xeen_mummy.
+      D: {sounds: xeen_mummy_c, id: 11273, name: Ghost Mummy, level: 62, look: C, skin: mummy_d, bonus: Age,
+          note: "FD-02 Southern Sphinx (16 placed, D-57); placed only"}
+      E: {sounds: xeen_mummy_c, id: 11274, name: Phase Mummy, level: 72, look: C, skin: mummy_e, bonus: DrainSP,
+          note: "FD-02 Southern Sphinx (4 placed, D-57); placed only"}
+
+  liches:
+    block: 11280
+    name: Liches
+    picture: Xeen Lich
+    kind: Undead
+    sprites: BLich
+    model: worlds/mm6/models/mm6_lch.glb  # A-C and Sandro; D/E on S's Xeen copy xeen_lch (session 13)
+    where: Necropolis, Kalindra's dungeon, the Dungeon of Death (FD-04, D-57), the finale, Necropolis Sewer (DD-21, three
+      Greater Liches 50 and Sandro, D-62)
+    theme: undead
+    tiers:
+      A: {name: Lich, level: 35, skin: lch_a, type: Ener, missile: Ener, bonus: Uncon}
+      B: {name: Greater Lich, level: 50, skin: lch_b, spell: [Shrapmetal, M, 10, 30]}
+      C: {name: Lich Lord, level: 65, skin: lch_c, spell: [Dragon Breath, M, 12, 25], bonus: Errad}
+      # D-57 Q30: ordinary tiers with ordinary HP (788, 978), no longer boss rows (FD-04's dungeon places 6 and 8).
+      # Descriptors Xeen Lich D / E (were Xeen Power Lich / Xeen Skeletal Lich); S's own recolour skins.
+      D: {id: 11284, name: Power Lich, level: 75, look: C, model: worlds/xeen/models/xeen_lch.glb, skin: xlch_d,
+          spell: [Dragon Breath, M, 14, 30],
+          note: "FD-04 Dungeon of Death (6 placed, D-57); placed only"}
+      E: {id: 11285, name: Skeletal Lich, level: 85, look: C, model: worlds/xeen/models/xeen_lch.glb, skin: xlch_e,
+          bonus: Errad, spell: [Dragon Breath, G, 16, 30],
+          note: "FD-04 Dungeon of Death (8 placed, D-57); placed only"}
+    bosses:
+      - {key: sandro, id: 11283, name: Sandro, level: 65, look: C, skin: lch_c, bonus: Dead, spell: [Finger of Death, M, 12, 20],
+         spell2: [Shrapmetal, M, 12, 30]}
+
+  vampires:
+    block: 11290
+    name: Vampires
+    picture: Xeen Vampire
+    kind: Undead
+    stand_in: Vampire
+    model: reuse MM8/MM9 vampires
+    where: Nightshadow, Castle Blackfang
+    theme: undead
+    resist: {water: +20, air: +20}
+    tiers:
+      A: {name: Gnome Vampire, level: 32, bonus: DrainSP}
+      B: {name: Vampire, level: 40, bonus: Weak}
+      C: {name: Vampire Lord, level: 50, bonus: Asleep}
+      # D-42 DD-14 Q2: the Count's three guards (placed only); a tier skin from S when the vampires are bound.
+      D: {id: 11295, name: Royal Vampire, level: 58, look: C, skin: xvam_d, bonus: Curse, note: "DD-14, placed only"}
+    bosses:
+      - {key: count_draco, id: 11293, name: Count Draco, level: 45, look: C, bonus: Weak,
+         modifiers: [{blink: {on_hit_chance: 0.25}}], note: XD-24 (Q-C7)}
+      - {key: count_blackfang, id: 11294, name: Count Blackfang, level: 70, look: C, bonus: DrainSP,
+         modifiers: [{blink: {on_hit_chance: 0.25}}], note: DD-14 (M27)}
+
+  bats:
+    block: 11300
+    name: Bats
+    picture: Xeen Bat
+    sprites: BBat
+    model: worlds/xeen/models/xeen_bat.glb  # mm6_bat with Xeen tiers
+    where: mines
+    party: medium
+    tiers:
+      A: {name: Giant Bat, level: 3, skin: xbat_a}
+      B: {name: Cave Bat, level: 6, skin: xbat_b}
+      C: {name: Mine Bat, level: 9, skin: xbat_c, bonus: Weak}
+
+  night_bats:
+    block: 11310
+    name: Night bats
+    picture: Xeen Night Bat
+    sprites: BBat
+    model: worlds/xeen/models/xeen_bat.glb  # mm6_bat; the Beholder Bat a red tier (no eye model)
+    height: 52   # F4: the bat model's top (BBat's 89 put the Beholder Bat's fire above it; check_actor_heights.py)
+    where: Nightshadow, Ellinger's Tower, Gemstone Mines
+    tiers:
+      A: {name: Bat Queen, level: 10, skin: xbat_d, bonus: Weak}
+      B: {name: Vampire Bat, level: 14, skin: xbat_e, bonus: DrainSP}
+      C: {name: Beholder Bat, level: 20, skin: xbat_f, type: Fire, missile: Fire, resist: {fire: imm}}
+
+  spiders:
+    block: 11320
+    name: Spiders
+    picture: Xeen Spider
+    sprites: BSpider
+    model: worlds/xeen/models/xeen_spi1.glb  # mm6_spi1 with Xeen tiers
+    where: mines
+    party: medium
+    theme: vermin
+    tiers:
+      A: {name: Giant Spider, level: 5, skin: xspi_a, bonus: Poison1}
+      B: {name: Cave Spider, level: 10, skin: xspi_b, bonus: Poison2}
+      C: {name: Huge Spider, level: 14, skin: xspi_c, bonus: Poison3}
+
+  arachnoids:
+    block: 11330
+    name: Arachnoids
+    picture: Xeen Arachnoid
+    sprites: BSpider
+    model: worlds/xeen/models/xeen_spi1.glb  # mm6_spi1, Darkside tiers
+    where: D1 Dark Grove
+    theme: vermin
+    tiers:
+      A: {name: Arachnoid, level: 14, skin: xspi_d, bonus: Poison2}
+      B: {name: Arachnoid Hunter, level: 18, skin: xspi_e, bonus: Poison2, attack2: [Body, curve, Body, 20]}
+      C: {name: Arachnoid Queen, level: 24, skin: xspi_f, bonus: Poison3}
+
+  swarms:
+    block: 11340
+    name: Swarms
+    picture: Xeen Swarm
+    sounds: xeen_swarm   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: BDragonFly
+    model: worlds/xeen/models/xeen_swarm.glb  # new swarm; the Doom Bug its own cricket model
+    # F4: the bodies' drawn tops (the swarm 148, the cricket 91), not BDragonFly's 242, which launched their missiles
+    # in the air above them (tools/xeen/check_actor_heights.py).
+    height: 148
+    where: Vertigo, Joe's Warehouse, Witch Tower
+    party: medium
+    ac_x: 0.7
+    resist: {water: +10, air: +10, phys: 20}
+    tiers:
+      # The Doom Bug is a walking cricket: not a flyer like the BDragonFly whose sprites it borrows.
+      A: {sounds: xeen_doombug, name: Doom Bug, level: 2, skin: bug_a, model: worlds/xeen/models/xeen_doombug.glb, fly: N, bonus: Poison1,
+          height: 91}
+      B: {name: Insect Swarm, level: 4, skin: swarm_b, fly: Y, recovery: 60}
+      C: {name: Stingers, level: 6, skin: swarm_c, fly: Y, bonus: Weak}
+
+  hornets:
+    block: 11350
+    name: Hornets
+    picture: Xeen Hornet
+    sounds: xeen_hornet   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    sprites: Wasp Warrior
+    model: worlds/xeen/models/xeen_m556.glb  # mm8_m556, sword and shield copies; Hell Hornet xwsp_a (S 12-13)
+    where: D3 Aging Forest
+    ac_x: 0.7
+    resist: {water: +10, air: +10, phys: 20}
+    tiers:
+      A: {name: Hell Hornet, level: 35, skin: xwsp_a, bonus: Poison2}
+      B: {name: Hornet Swarm, level: 42, skin: wasp_b, bonus: Age, recovery: 60}
+      C: {sounds: xeen_hornet_c, name: Hornet Queen, level: 50, skin: wasp_c, bonus: Poison3}
+
+  giant_crawlers:
+    block: 11360
+    name: Giant crawlers
+    picture: Xeen Crawler
+    stand_in: Spider
+    model: new (one arthropod rig, three meshes)
+    where: D1, Necropolis Sewer (DD-21, ten Cinder Roaches, D-62)   # D-31: no scorpions on X6
+    theme: vermin
+    tiers:
+      A: {name: Scorpion, level: 16, bonus: Poison2}
+      B: {name: Electrapede, level: 20, type: Air, bonus: Paralyze, resist: {air: imm}}
+      C: {name: Lava Roach, level: 26, type: Fire, resist: {fire: imm}}
+      # D-62 Q42: the source's sewer roach at level 40, placed only (rests never roll tier D, D-61 Q10). S: an ash
+      # recolour of mantis_lava on xeen_mantis.glb (Xeen Crawler D), no mesh, no Meshy.
+      D: {id: 11363, name: Cinder Roach, level: 40, type: Fire, look: C, resist: {fire: imm},
+          note: "DD-21 Necropolis Sewer (10 placed, two hidden in the Dead Food barrel, D-62); placed only"}
+
+  mantis_ants:
+    block: 11370
+    name: Mantis ants
+    picture: Xeen Mantis
+    stand_in: Spider
+    model: as Giant crawlers
+    where: D3
+    theme: vermin
+    tiers:
+      A: {name: Mantis Ant, level: 22, bonus: Poison2}
+      B: {name: Mantis Warrior, level: 30}
+      C: {name: Mantis Queen, level: 38, bonus: Poison3, resist: {body: imm}}
+
+  oozes:
+    block: 11380
+    name: Oozes
+    picture: Xeen Ooze
+    sprites: BOoze
+    model: worlds/xeen/models/xeen_ooz.glb  # mm6_ooz with Xeen tiers
+    where: Vertigo, Joe's Warehouse, sewers
+    party: medium
+    resist: {body: imm}
+    tiers:
+      A: {name: Slime, level: 2, skin: xooz_a, bonus: Poison1}
+      B: {name: Breeder Slime, level: 4, skin: xooz_b, note: splits (actor script, later)}
+      C: {name: Sewer Slug, level: 6, skin: xooz_c}
+    bosses:
+      - {key: wobbles, id: 11383, name: Wobbles, level: 4, skin: xooz_b, look: B, bonus: Poison1,
+         note: XD-01's boss (M2)}
+
+  rats:
+    block: 11390
+    name: Rats
+    picture: Xeen Rat
+    sprites: BRat
+    model: worlds/xeen/models/xeen_rat.glb  # mm6_rat with Xeen tiers
+    where: Vertigo, Castleview sewers
+    party: medium
+    tiers:
+      A: {name: Sewer Rat, level: 3, skin: xrat_a, bonus: Disease1}
+      B: {name: Plague Rat, level: 6, skin: xrat_b, bonus: Disease1}
+      C: {name: Giant Rat, level: 9, skin: xrat_c, bonus: Disease2}
+      D: {id: 11393, name: Dire Rat, level: 10, look: C, skin: xrat_d, bonus: Disease1, height: 74, radius: 50,
+          note: "DD-01 (D-26): replaces the 21 Bat Queens; S's tier xrat_d, 1.25x the Giant Rat (body 1.25x Rat C's
+            59/40), on Rat C's standing sprite (no sprite of its own: MM6 draws no rat sprite)"}
+
+  sewer_stalkers:
+    block: 11400
+    name: Sewer stalkers
+    picture: Xeen Sewer Stalker
+    sprites: Wererat Ratman Form Male
+    model: worlds/xeen/models/xeen_ratman.glb  # MM8 ratman (mm8_ratman) with Xeen tiers
+    where: Sandcaster, Necropolis sewers
+    resist: {body: +10, water: +10}
+    tiers:
+      A: {name: Wererat, level: 18, skin: xrtm_a, bonus: Disease2}
+      B: {name: Sewer Stalker, level: 25, skin: xrtm_b, bonus: Disease2}
+      C: {name: Stalker Matriarch, level: 35, skin: xrtm_c, bonus: Disease3}
+    bosses:
+      - {key: rat_queen, id: 11403, name: Rooka the Rat Queen, level: 24, skin: xrtm_c, look: C, bonus: Disease2,
+         modifiers: [{frenzy: {health_below: 0.5}}], note: DD-01's nest}
+
+  wolves:
+    block: 11410
+    name: Wolves and cats
+    picture: Xeen Wolf
+    stand_in: Dire Wolf
+    model: reuse MM8/MM9 wolf, MM9 bigfoot; new sabertooth
+    where: D2, X5
+    party: medium
+    tiers:
+      A: {name: Dark Wolf, level: 16}
+      # Bodies by S's models (S, 2026-11-20): the sabertooth (xeen_saber) stands 191, the Snow Beast (xeen_bf) ~215.
+      B: {name: Sabertooth, level: 22, skin: saber_a, height: 191, recovery: 60}
+      C: {name: Snow Beast, level: 28, skin: xbf_a, height: 215, resist: {water: imm, fire: 0}}
+      # DD-13's kennel (D-25): with the pass ogres, friendly on q-d11 friends, hostile on q-d11 hostile.
+      D: {id: 11413, name: Kennel Sabertooth, level: 22, look: B, skin: saber_a, height: 191, recovery: 60, faction: ogres/pass,
+          note: DD-13 Ogre Forts' kennel (Sabertooth's numbers)}
+
+  werewolves:
+    block: 11420
+    name: Werewolves
+    picture: Xeen Werewolf
+    sprites: Werewolf
+    model: worlds/xeen/models/xeen_wwf.glb  # mm6_wwf; the black fur is not a region
+    where: Castle Basenji, X6
+    resist: {fire: +5, air: +5, water: +5, earth: +5, mind: +5, spirit: +5, body: +5}
+    tiers:
+      A: {name: Wolfman, level: 20, skin: xwwf_a}
+      B: {name: Werewolf, level: 30, skin: xwwf_b, bonus: Disease2}
+      C: {name: Greater Werewolf, level: 40, skin: xwwf_c, bonus: Disease2}
+
+  burrowers:
+    block: 11430
+    name: Burrowers
+    picture: Xeen Mole
+    sounds: xeen_mole   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: BRat   # the rat's sprites and sounds; the body is the mole's (S's xeen_mole, 92 tall, 203 long)
+    model: worlds/xeen/models/xeen_mole.glb
+    where: mines
+    party: medium
+    loot_kind: Gem   # gems from the rock (DECISIONS D-1.6)
+    item_chance_x: 5
+    height: 92       # one size for all three, as Xeen draws them (S binds no scale_reference)
+    radius: 70
+    tiers:
+      A: {name: Tiger Mole, level: 6, skin: mole_a}
+      B: {name: Rock Mole, level: 9, skin: mole_b, resist: {earth: +20}}
+      C: {sounds: xeen_mole_c, name: Tunnel Mole, level: 12, skin: mole_c, bonus: BrkArmor, resist: {earth: +20}}
+
+  sand_burrowers:
+    block: 11440
+    name: Sand burrowers
+    picture: Xeen Sand Worm
+    sounds: xeen_worm   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    stand_in: Behemoth
+    model: worms on S's xeen_sandworm.glb (A, C); the Armadillo (B) on S's xeen_armadillo.glb
+    where: X6, D3 scrub
+    resist: {water: +20, earth: +20}
+    tiers:
+      # The worm's body as S built it (S session 6): standing height and the mound's radius, over the Behemoth's
+      # 256/160 and 256/190 (the to-hit radius follows the radius).
+      A: {name: Sand Worm, level: 30, model: worlds/xeen/models/xeen_sandworm.glb, skin: sandworm_a, height: 127,
+          radius: 130}
+      # S session 7: the armadillo 110 tall, about 264 long without the tail (radius 120 over the Behemoth's 175).
+      B: {sounds: xeen_armadillo, name: Armadillo, level: 38, bonus: Brkweapon, ac_x: 1.5, resist: {phys: 30},
+          model: worlds/xeen/models/xeen_armadillo.glb, skin: armadillo_a, height: 110, radius: 120}
+      C: {sounds: xeen_worm_c, name: Great Worm, level: 45, bonus: Uncon, model: worlds/xeen/models/xeen_sandworm.glb,
+          skin: sandworm_c, height: 146, radius: 149}
+
+  toads:
+    block: 11450
+    name: Toads
+    picture: Xeen Toad
+    sounds: xeen_toad   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Salamander
+    model: worlds/xeen/models/xeen_toad.glb  # new toad
+    where: X1 Toad Meadow, X3
+    party: medium
+    tiers:
+      A: {name: Giant Toad, level: 5, skin: toad_a}
+      B: {name: Bog Toad, level: 8, skin: toad_b, bonus: Asleep}
+      C: {sounds: xeen_toad_c, name: Swamp Toad, level: 11, skin: toad_c, bonus: Poison1}
+
+  swamp_things:
+    block: 11460
+    name: Swamp things
+    picture: Xeen Swamp Thing
+    sounds: xeen_swamp   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    sprites: Treant
+    model: worlds/xeen/models/xeen_m479.glb  # MM7 treant (mm7_m479) with Xeen tiers (S session 12)
+    where: X3
+    resist: {air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Swamp Thing, level: 20, skin: xswt_a}
+      B: {name: Bog Thing, level: 26, skin: xswt_b, bonus: Disease1}
+      C: {sounds: xeen_swamp_c, name: Marsh Horror, level: 32, skin: xswt_c, bonus: Paralyze, resist: {body: imm}}
+
+  octopods:
+    block: 11470
+    name: Octopods
+    picture: Xeen Octopod
+    sounds: xeen_octopod   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    stand_in: Sea Monster
+    model: worlds/xeen/models/xeen_octopod.glb  # S session 7: skins octopod_a-c, D as A
+    where: D4 lake (trap)
+    no_arena: true   # D-39: swimmers stay out of XD-20's draw
+    resist: {water: imm, body: +20}
+    # D-36: swimmers in the lake, MM9's Sea Monster Male profile (worlds/mm9/modifiers.yml 9177), the stand-in's body.
+    modifiers:
+      - {mm9_ai: {archetype: swimmer, movement: swim, attack_reach: 192, melee_sweep: 333, alert_radius: 3072,
+                  walk_speed: 256, run_speed: 256, fly_speed: 512, lunge_velocity: 576, head_turn: false}}
+    tiers:
+      # S session 7: the octopod's collision body per tier (over the Sea Monster's 120/50).
+      A: {name: Octopod, level: 50, bonus: Paralyze, skin: octopod_a, height: 80, radius: 60}
+      B: {name: Great Octopod, level: 60, bonus: Poison3, skin: octopod_b, height: 92, radius: 70}
+      C: {sounds: xeen_octopod_c, name: Kraken, level: 70, bonus: Poison3, skin: octopod_c, height: 104, radius: 80}
+      # D-52 (5): DD-14's cistern octopods, placed only: tier A's numbers and body, without the swimmer profile
+      # (`modifiers: []` keeps the family's off this row), on the ground and immobile. S may bind its descriptor to a
+      # grounded copy of the octopod (origin on the pool bed).
+      D: {id: 11473, name: Octopod, level: 50, bonus: Paralyze, look: A, move: stand, fly: N, modifiers: [],
+          skin: octopod_a, height: 80, radius: 60,
+          note: "DD-14's cistern, placed only; no swimmer AI (D-52)"}
+      # P4's mid-sea swimmers (S session 8: the deep octopod xeen_octopod_deep.glb, actors_deep.yml): tier B's numbers,
+      # body and the family's swimmer profile, placed only, on its own descriptor so S binds the deep model to it alone.
+      E: {id: 11474, name: Great Octopod, level: 60, bonus: Poison3, look: B, skin: octopod_b, height: 92, radius: 70,
+          note: "P4's two mid-sea groups, placed only (A6); 11471's numbers, the deep octopod's descriptor"}
+
+  serpents:
+    block: 11480
+    name: Serpents
+    picture: Xeen Snake
+    sprites: Cobra
+    model: worlds/xeen/models/xeen_cob.glb  # mm6_cob with Xeen tiers
+    where: X1
+    party: medium
+    theme: vermin
+    tiers:
+      A: {name: Giant Snake, level: 5, skin: xcob_a, bonus: Poison1}
+      B: {name: Viper, level: 8, skin: xcob_b, bonus: Poison2}
+      C: {name: Constrictor, level: 12, skin: xcob_c, bonus: Paralyze}
+
+  cobras:
+    block: 11490
+    name: Cobras
+    picture: Xeen Cobra
+    sprites: Cobra
+    model: worlds/xeen/models/xeen_cob.glb  # mm6_cob, Darkside tiers
+    where: Asp Undercroft, D3
+    theme: vermin
+    tiers:
+      A: {name: Guardian Asp, level: 30, skin: xcob_d, bonus: Afraid}
+      B: {name: Killer Cobra, level: 38, skin: xcob_e, bonus: Age}
+      C: {name: King Cobra, level: 45, skin: xcob_f, bonus: Poison3, resist: {body: imm}}
+
+  snake_men:
+    block: 11500
+    name: Snake men
+    picture: Xeen Snake Man
+    sounds: xeen_snakeman   # AU batch 2 (devdocs/xeen/AUDIO.md)
+    stand_in: Serpentmen
+    model: reuse MM8 serpentmen
+    where: Asp Undercroft
+    theme: vermin
+    tiers:
+      A: {name: Snake Man, level: 16}
+      B: {name: Snake Warrior, level: 20, bonus: Poison2}
+      C: {sounds: xeen_snakeman_c, name: Snake Lord, level: 26, spell: [Poison Spray, E, 6, 25]}
+
+  great_lizards:
+    block: 11510
+    name: Great lizards
+    picture: Xeen Iguanasaurus
+    sounds: xeen_lizard   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    stand_in: Thunder Lizard
+    model: reuse the MM6 lizard
+    where: D5
+    resist: {fire: +10, air: +10, water: +10, earth: +10}
+    tiers:
+      A: {name: Iguanasaurus, level: 42}
+      B: {name: Great Iguanasaurus, level: 50, bonus: Uncon}
+      C: {sounds: xeen_lizard_c, name: Ancient Iguanasaurus, level: 55, bonus: Insane}
+
+  harpies:
+    block: 11520
+    name: Harpies
+    picture: Xeen Harpy
+    sounds: xeen_harpy   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    stand_in: BHarpy
+    model: reuse mm6_hrp
+    where: X8 Cloudreach
+    resist: {mind: +20, spirit: +20}
+    tiers:
+      A: {name: Harpy, level: 14, bonus: Drunk}
+      B: {name: Harpy Hag, level: 18, bonus: Curse}
+      C: {sounds: xeen_harpy_c, name: Harpy Queen, level: 24, bonus: Weak}
+
+  sprites:
+    block: 11530
+    name: Sprites
+    picture: Xeen Sprite
+    sounds: xeen_sprite   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Will ' O Wisp
+    model: worlds/xeen/models/xeen_sprite.glb  # new small winged fey
+    where: X2 south woods, D2
+    ac_x: 0.8
+    tiers:
+      A: {name: Medusa Sprite, level: 10, skin: sprite_a, fly: Y, bonus: Stone,
+          note: the gaze; a rare stone at level 10 is the source's trick}
+      B: {name: Killer Sprite, level: 14, skin: sprite_b, fly: Y, type: Air, missile: Air, bonus: Curse}
+      C: {sounds: xeen_sprite_queen, name: Sprite Queen, level: 18, skin: sprite_c, fly: Y, type: Air, missile: Air, spell: [Sparks, E, 4, 25]}
+      # D2's treehouse village (D-23: the Sprites' tiers): peaceful until q-d10 robbery (relation_rules); rows of their
+      # own, so X2's and D2's wild sprites stay hostile. Placed only.
+      D: {id: 11537, name: Medusa Sprite, level: 10, look: A, skin: sprite_a, fly: Y, bonus: Stone, faction: village,
+          party: friendly, note: D2's treehouse village}
+      E: {id: 11538, name: Killer Sprite, level: 14, look: B, skin: sprite_b, fly: Y, type: Air, missile: Air,
+          bonus: Curse, faction: village, note: D2's treehouse village}
+    bosses:
+      - {sounds: xeen_sprite_queen, key: sharla, id: 11533, name: Sharla, level: 30, skin: sprite_c, fly: Y, look: C, type: Air, missile: Air,
+         spell: [Lightning Bolt, M, 8, 30], modifiers: [{blink: {on_hit_chance: 0.3}}], note: D2}
+
+  dark_sprites:
+    block: 11530   # shares the Sprites' block (D-23: 11534, 11535; the Queen's copy 11536)
+    name: Darkside sprites
+    picture: Xeen Dark Sprite
+    sounds: xeen_sprite   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    stand_in: Will ' O Wisp
+    model: "xeen_sprite.glb with two Darkside colour tiers (S; after the source's Darkside Medusa Sprite, image 53: orange skin, snake locks)"
+    where: D2's wild sprites (the eight village sprites stay on the Sprites' rows)
+    ac_x: 0.8
+    tiers:
+      A: {id: 11534, name: Gorgon Sprite, level: 16, fly: Y, type: Air, missile: Air, bonus: Stone}
+      B: {id: 11535, name: Elder Gorgon Sprite, level: 22, fly: Y, type: Air, missile: Air, bonus: Curse}
+      C: {sounds: xeen_sprite_queen, id: 11536, name: Sprite Queen, level: 18, fly: Y, type: Air, missile: Air, spell: [Sparks, E, 4, 25],
+          look: C, note: "the rare third of D2's slot (D-23), the Sprites' Queen 11532 again under this family's picture"}
+
+  gargoyles:
+    block: 11540
+    name: Gargoyles (Cloudside)
+    picture: Xeen Gargoyle
+    stand_in: BGargoyle
+    model: reuse mm6_gar
+    where: X4 range, Gargoyle Eyrie
+    resist: {earth: imm, water: +20}
+    tiers:
+      A: {name: Gargoyle, level: 16}
+      B: {name: Gargoyle Lord, level: 22, bonus: Paralyze, recovery: 70}
+      C: {name: Obsidian Gargoyle, level: 28, ac_x: 1.3}
+
+  gargoyles_mm:
+    block: 11550
+    name: Gargoyles (Magic Mountain)
+    picture: Xeen Mountain Gargoyle
+    stand_in: BGargoyle
+    model: reuse mm6_gar (Darkside tiers)
+    where: D4 Magic Mountain, Gargoyle Lair, Castle Blackfang (DD-14's walls)
+    resist: {earth: imm, water: +20}
+    tiers:
+      A: {name: Mountain Gargoyle, level: 30, note: B and C names are ours (MONSTERS_AND_ITEMS gives levels only)}
+      B: {name: Gargoyle Sentinel, level: 38, bonus: Paralyze, recovery: 70}
+      C: {name: Gargoyle Overlord, level: 45, ac_x: 1.3, bonus: Stone}
+
+  great_birds:
+    block: 11560
+    name: Great birds
+    picture: Xeen Roc
+    stand_in: Roc
+    model: reuse MM7 roc and griffin
+    where: X9, D4, D5, D6
+    resist: {mind: +20}
+    tiers:
+      A: {name: Vulture Roc, level: 30, bonus: Paralyze}
+      B: {name: Roc, level: 38}
+      C: {name: Griffin, level: 48}
+
+  eyes:
+    block: 11570
+    name: Eyes
+    picture: Xeen Eye
+    stand_in: BBeholder
+    model: reuse mm6_bh, MM9 eye
+    where: D6, Eastern Tower (DD-07, two Floating Eyes 40), Castle Alamar (DD-17, six Gamma Gazers, D-61)
+    resist: {fire: +10, air: +10, earth: +10}
+    tiers:
+      A: {name: Floating Eye, level: 40, bonus: Paralyze}
+      B: {name: Terrible Eye, level: 50, bonus: Insane}
+      C: {name: Gamma Gazer, level: 65, type: Ener, missile: Ener, spell: [Implosion, M, 10, 20],
+          resist: {fire: imm, air: imm, earth: imm}}
+
+  material_golems:
+    block: 11580
+    name: Material golems
+    picture: Xeen Golem
+    sounds: xeen_golem   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Golem
+    model: worlds/xeen/models/xeen_m254.glb  # MM7 golem (mm7_m254); the material colours only on the cloth
+    where: Golem Dungeon, Newcastle Keep, Darkstone Tower, Western Tower of Mok (DD-05), Sorcerers' Guild vault (DD-19)
+    ac_x: 1.3
+    theme: construct
+    tiers:
+      A: {name: Wood Golem, level: 18, skin: xgol_a, resist: {fire: 0, water: +20, earth: +20}}
+      B: {name: Stone Golem, level: 26, skin: xgol_b, resist: {earth: +20}}
+      C: {sounds: xeen_golem_c, name: Iron Golem, level: 40, skin: xgol_c, bonus: BrkArmor, resist: {phys: 20}}
+      # D-57 Q14 (FD-03 Darkstone Tower): the Onyx Golem's lesser kin, placed only; S's recolours of xgol_e.
+      D: {sounds: xeen_golem_c, id: 11585, name: Onyx Sentry, level: 62, look: C, skin: xgol_k, resist: {phys: 20},
+          note: "FD-03 Darkstone Tower (20 placed, D-57); placed only"}
+      E: {sounds: xeen_golem_c, id: 11586, name: Onyx Warden, level: 72, look: C, skin: xgol_l, bonus: BrkArmor, resist: {phys: 30},
+          note: "FD-03 Darkstone Tower (16 placed, D-57); placed only"}
+    bosses:
+      - {sounds: xeen_golem_c, key: diamond_golem, id: 11583, name: Diamond Golem, level: 50, skin: xgol_d, look: C, bonus: Brkweapon,
+         ac_x: 1.8, resist: {phys: 30}, modifiers: [never_staggers], note: XD-09's last hall}
+      - {sounds: xeen_golem_c, key: onyx_golem, id: 11584, name: Onyx Golem, level: 85, skin: xgol_e, look: C, ac_x: 1.5, resist: {phys: 30},
+         modifiers: [never_staggers], note: Darkstone Tower}
+
+  elemental_golems:
+    block: 11590
+    name: Elemental golems
+    picture: Xeen Elemental Golem
+    sounds: xeen_golem   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
+    sprites: Golem
+    model: worlds/xeen/models/xeen_m254.glb  # MM7 golem (mm7_m254); the elemental colours only on the cloth, no shader
+    where: X6 ruins, Cave of Illusion, the sky maps, Darkstone Tower (FD-03's Sky Golems, D-57)
+    ac_x: 1.2
+    theme: construct
+    tiers:
+      A: {name: Sand Golem, level: 22, skin: xgol_f, bonus: Asleep, resist: {earth: imm}}
+      B: {name: Water Golem, level: 28, skin: xgol_g, type: Water, resist: {water: imm}}
+      C: {name: Cloud Golem, level: 50, skin: xgol_h, type: Air, resist: {air: imm}}
+      D: {id: 11593, name: Lava Golem, level: 55, skin: xgol_i, look: C, type: Fire, bonus: Brkweapon,
+          resist: {fire: imm}}
+      E: {id: 11594, name: Sky Golem, level: 75, skin: xgol_j, look: C, type: Air, resist: {air: imm}}
+
+  magic_constructs:
+    block: 11600
+    name: Magic constructs
+    picture: Xeen Construct
+    stand_in: Plane Guardian
+    model: new (Flying Feet, Guardian, Carnage Hand, Xeen's Guard; Xeen's signature monsters)
+    where: Tower of High Magic, Darzog's Tower, Castle Xeen
+    theme: construct
+    resist: {mind: +20, spirit: +20}
+    tiers:
+      # A-C hover (S, 2026-11-20); Xeen's Guard walks (D-19).
+      A: {sounds: xeen_feet, name: Flying Feet, level: 18, bonus: Asleep, fly: Y}
+      B: {sounds: xeen_guardian, name: Guardian, level: 24, type: Ener, missile: Ener, bonus: DrainSP, ac_x: 1.5, fly: Y}
+      C: {sounds: xeen_hand, name: Carnage Hand, level: 35, bonus: BrkArmor, fly: Y}
+      # `look: B` only picks the stand-in descriptor (mm8_m592 m592_b) until S installs its own model xeen_guard
+      # before phase 5 (D-19); the source's attack is Energy.
+      # S session 7: xeen_guard.glb, 155 tall, radius 55 (over the stand-in's 160/90).
+      D: {sounds: xeen_xguard, id: 11603, name: Xeen's Guard, level: 60, look: B, ac_x: 1.6, type: Ener, fly: N,
+          model: worlds/xeen/models/xeen_guard.glb, skin: guard_a, height: 155, radius: 55, note: Castle Xeen elite}
+
+  robots:
+    block: 11610
+    name: Robots
+    picture: Xeen Robot
+    stand_in: BRobot
+    model: reuse mm6_rob1
+    where: Castle Alamar, D6, the Dungeon of Death (FD-04's machine floor, D-57), the Alamar Depths (FD-01,
+      Annihilator 11611 x 28 and Autobot 11612 x 6, D-69)
+    ac_x: 1.3
+    theme: construct
+    resist: {water: +20, earth: +20}
+    tiers:
+      A: {name: Patrol, level: 50, type: Ener, missile: Ener}
+      B: {name: Annihilator, level: 62, type: Ener, missile: Ener}
+      C: {name: Autobot, level: 75, type: Ener, missile: Ener, bonus: Errad}
+
+  elementals:
+    block: 11620
+    name: Elementals
+    picture: Xeen Elemental
+    kind: Elemental
+    sprites: ElemFire
+    model: worlds/xeen/models/xeen_fie1.glb  # mm6_fie1; E-G on the element families' models (S session 12)
+    where: the planes, D6, Castle Alamar (DD-17, two each of 11620 and 11624-11626 by the Lava Heads, D-61), Olympus Sewer
+      (DD-26, sixteen Lesser Water Elementals 11625, D-65)
+    resist: {fire: imm, phys: 30}
+    tiers:
+      # D-58 C6: one naming pattern per element, Lesser X Elemental 55, X Elemental 62, the source's name on the 70s
+      # (Fire Blower, Whirlwind, Earth Blaster, Tidal Terror), Sleeper's Guardian of X 75 (P1's test, with two 70s).
+      # Only the names changed on 11620-11623: D6, DD-16 and XD-19 place 11620-11622 by id.
+      A: {name: Lesser Fire Elemental, level: 55, skin: fie1_a, type: Fire}
+      B: {name: Fire Elemental, level: 62, skin: fie1_b, type: Fire, spell: [Fireball, M, 10, 20]}
+      C: {name: Fire Blower, level: 70, skin: fie1_c, type: Fire, spell: [Incinerate, M, 12, 20]}
+      D: {id: 11623, name: "Sleeper's Guardian of Fire", level: 75, look: C, skin: xfie_d, type: Fire, spell: [Incinerate, G, 14, 25],
+          note: "P1, the test's guardian (D-58 C3)"}
+      # XD-19's generator guards (D-47 Q10): one per element, each immune to its own element only (the family's fire
+      # immunity does not carry over); sprites and body from an installed elemental (`stand_in` on the tier), S binds
+      # them on the element families' Xeen copies (xeen_aie1, xeen_m210, xeen_m504). Placed only, two per generator.
+      # D-58: also the planes' Lesser tiers (P2, P4, P3), each in its element family's faction (`faction: <family>/`).
+      E: {id: 11624, name: Lesser Air Elemental, level: 55, stand_in: ElemAir A, model: worlds/xeen/models/xeen_aie1.glb,
+          skin: aie1_a, type: Air, resist: {fire: base, air: imm},
+          faction: air_elementals/, party: long, note: "XD-19, the air generator's guards (D-47); P2 (D-58)"}
+      F: {id: 11625, name: Lesser Water Elemental, level: 55, stand_in: Elemental Water A,
+          model: worlds/xeen/models/xeen_m210.glb, skin: m210_a, type: Water,
+          resist: {fire: base, water: imm}, faction: water_elementals/, party: long,
+          note: "XD-19, the water generator's guards (D-47); P4 (D-58); DD-26 x 16 (D-65)"}
+      G: {id: 11626, name: Lesser Earth Elemental, level: 55, stand_in: Elemental Earth A,
+          model: worlds/xeen/models/xeen_m504.glb, skin: xm504_sand, type: Earth,
+          resist: {fire: base, earth: imm}, faction: earth_elementals/, party: long,
+          note: "XD-19, the earth generator's guards (D-47); P3 (D-58)"}
+
+  # D-58 C6: the planes' 62, 70 and 75 tiers of air, water and earth (nine rows; the 55s are 11624-11626 above, in these
+  # families' factions). Each immune only to its own element (D-47); bodies S's Xeen copies of MM6's air, MM7's water
+  # and MM8's earth elementals with tier skins (no Meshy). Outside XD-20's arena range (11010-11699); the guardians (C) are
+  # placed only, hidden until the test (P-1, C3).
+  air_elementals:
+    block: 11700
+    name: Air elementals
+    picture: Xeen Air Elemental
+    kind: Elemental
+    sprites: ElemAir
+    model: worlds/xeen/models/xeen_aie1.glb  # mm6_aie1 with Xeen tiers (S sessions 12-13)
+    height: 150  # F4: the model's top (148); ElemAir C's 240 launched B and C's bolts above them
+    where: P2
+    resist: {air: imm, phys: 30}
+    tiers:
+      A: {name: Air Elemental, level: 62, look: B, skin: aie1_b, type: Air, spell: [Lightning Bolt, M, 10, 20]}
+      B: {name: Whirlwind, level: 70, look: C, skin: xaie_whirl, type: Air, spell: [Implosion, M, 12, 20]}
+      C: {name: "Sleeper's Guardian of Air", level: 75, look: C, skin: xaie_guard, type: Air, spell: [Implosion, G, 14, 25], no_arena: true,
+          note: "P2, the test's guardian (D-58 C3)"}
+
+  water_elementals:
+    block: 11710
+    name: Water elementals
+    picture: Xeen Water Elemental
+    kind: Elemental
+    sprites: Elemental Water
+    model: worlds/xeen/models/xeen_m210.glb  # mm7_m210 with Xeen tiers (S session 12)
+    where: P4, Olympus Sewer (DD-26, four Water Elementals 11710 by the cistern and vault, and its rests at Dif 0, D-65)
+    resist: {water: imm, phys: 30}
+    tiers:
+      A: {name: Water Elemental, level: 62, look: B, skin: m210_b, type: Water, spell: [IceBolt, M, 10, 20]}
+      B: {name: Tidal Terror, level: 70, look: C, skin: xm210_tidal, type: Water, spell: [IceBlast, M, 12, 20]}
+      C: {name: "Sleeper's Guardian of Water", level: 75, look: C, skin: xm210_guard, type: Water, spell: [IceBlast, G, 14, 25],
+          no_arena: true, note: "P4, the test's guardian (D-58 C3)"}
+
+  earth_elementals:
+    block: 11720
+    name: Earth elementals
+    picture: Xeen Earth Elemental
+    kind: Elemental
+    sprites: Elemental Earth
+    model: worlds/xeen/models/xeen_m504.glb  # mm8_m504 with Xeen tiers (S session 12)
+    where: P3
+    resist: {earth: imm, phys: 30}
+    tiers:
+      A: {name: Earth Elemental, level: 62, look: B, skin: m504_a, type: Earth, spell: [Blades, M, 10, 20]}
+      B: {name: Earth Blaster, level: 70, look: C, skin: xm504_blaster, type: Earth, spell: [Rock Blast, M, 12, 20]}
+      C: {name: "Sleeper's Guardian of Earth", level: 75, look: C, skin: xm504_guard, type: Earth, spell: [Rock Blast, G, 14, 25],
+          no_arena: true, note: "P3, the test's guardian (D-58 C3)"}
+
+  demons:
+    block: 11630
+    name: Demons
+    picture: Xeen Demon
+    kind: Demon
+    sprites: Demon
+    model: worlds/mm6/models/mm6_demon.glb  # S session 12: Devil red demon_c, Screamer green demon_b; Lord Xeen xeen_demon
+    where: Volcano Cave, Castle Xeen, Temple of Bark
+    theme: demon
+    tiers:
+      A: {name: Demon, level: 42, skin: demon_a, spell: [Fireball, M, 8, 25]}
+      B: {name: Devil, level: 50, skin: demon_c, spell: [IceBlast, M, 10, 25]}
+      C: {name: Screamer, level: 58, skin: demon_b, type: Body, bonus: Poison3}
+    bosses:
+      - {key: barkman, id: 11633, name: Barkman, level: 60, look: C, skin: demon_c, hp_x: 4, spell: [Incinerate, M, 12, 30],
+         modifiers: [{frenzy: {health_below: 0.4}}], note: DD-09, optional}
+      # Lord Xeen's HP (D-47 Q12): one sword-wielder of about level 50 needs about 20-30 landed blows. A blow of the
+      # Slayer Sword is 3d10 + 14 (30.5) + the Might bonus, + Armsmaster, doubled on demons (D-2.3, SlayingDemon on
+      # the sword and the Demon kind on the row): a trained Knight (Might bonus 9-10, Armsmaster ~10) 99-107, A7's
+      # skill-less level-50 fixture 74 (37 measured undoubled: 66 blows on 2,445 HP before the doubling landed). hp_x
+      # 2.25 (2,200 HP): the Knight 21-22 blows, the fixture 30 (was 2.5, 2,445: 23-25 and 33).
+      - {sounds: xeen_lordxeen, key: lord_xeen, id: 11634, name: Lord Xeen, level: 85, look: C, hp_x: 2.25,
+         model: worlds/xeen/models/xeen_demon.glb, skin: xdem_lx,
+         spell: [Dragon Breath, M, 14, 25], modifiers: [never_staggers],
+         note: "XD-19 (M35); harmed only by the Xeen Slayer Sword 12500: map damage hook, E11 (D-47)"}
+
+  cloud_dragons:
+    block: 11640
+    name: Dragons (Cloudside)
+    picture: Xeen Dragon
+    kind: Dragon
+    sprites: DragonCover
+    model: worlds/xeen/models/xeen_cdr1.glb  # mm6_cdr1 with tiers by their names (S session 12)
+    where: X2 lake, X7, Dragon Cave (XD-18), Dragon Tower (FD-04, D-57)
+    ac_x: 1.3
+    resist: {mind: +10, spirit: +10}
+    tiers:
+      A: {name: Water Dragon, level: 60, skin: xcdr_water, type: Water, missile: Water, spell: [IceBlast, M, 10, 25], resist: {water: imm}}
+      B: {name: Acid Dragon, level: 66, skin: xcdr_acid, type: Body, missile: Body, spell: [Poison Spray, M, 12, 25], resist: {body: imm}}
+      C: {name: Fire Dragon, level: 75, skin: xcdr_fire, type: Fire, missile: Fire, spell: [Dragon Breath, M, 12, 25], resist: {fire: imm}}
+      D: {id: 11643, name: Frost Dragon, level: 85, look: A, skin: xcdr_frost, type: Water, missile: Water, spell: [IceBlast, G, 14, 25],
+          resist: {water: imm}}
+    bosses:
+      - {sounds: xeen_dragonpet, key: xeens_pet, id: 11644, name: Xeen's Pet, level: 75, look: C, skin: xcdr_pet, type: Fire, missile: Fire,
+         spell: [Dragon Breath, M, 14, 30], resist: {fire: imm}, note: XD-19}
+      - {sounds: xeen_dragonking, key: dragon_king, id: 11645, name: Dragon King, level: 110, look: C, type: Fire, missile: Fire,
+         spell: [Dragon Breath, G, 18, 30], resist: {fire: imm}, modifiers: [never_staggers],
+         skin: xcdr_king, note: "XD-18, optional; own skin xcdr_king (black scales, gold edges, D-57 Q3)"}
+
+  dark_dragons:
+    block: 11650
+    name: Dragons (Darkside)
+    picture: Xeen Dark Dragon
+    kind: Dragon
+    sprites: Dragon
+    model: worlds/xeen/models/xeen_m492.glb  # mm8_m492 with tiers by their names (S session 12)
+    where: D7 Skyroads, Great Pyramid, Dragon Tower (FD-04, D-57)
+    ac_x: 1.3
+    resist: {mind: +20, spirit: +20}
+    tiers:
+      A: {name: Cloud Dragon, level: 70, skin: xdrg_cloud, type: Water, missile: Water, spell: [IceBlast, M, 12, 25]}
+      B: {name: Green Dragon, level: 80, skin: xdrg_green, type: Fire, missile: Fire, spell: [Dragon Breath, M, 14, 25]}
+      C: {name: Phase Dragon, level: 90, skin: xdrg_phase, type: Ener, missile: Ener, spell: [Dragon Breath, G, 16, 25]}
+    bosses:
+      # D-57 Q30: FD-04's crown; S's own violet-white recolour on a Xeen copy of m492.
+      - {sounds: xeen_energydragon, key: energy_dragon, id: 11653, name: Energy Dragon, level: 100, look: C, skin: xdrg_energy, hp_x: 2, type: Ener, missile: Ener,
+         spell: [Dragon Breath, G, 18, 30], note: "FD-04 Dragon Tower's crown (D-57)"}
+      - {sounds: xeen_megadragon, key: megadragon, id: 11654, name: Megadragon, level: 125, look: C, skin: m492, hp_x: 4, type: Ener, missile: Ener,
+         spell: [Dragon Breath, G, 20, 35], modifiers: [never_staggers],
+         note: "D7 on Castle Alamar's roof hatch, optional (Q-D26). Unique (D-58 D-3): its kill sets A3's Q-D26 qbit and
+           D7's load event keeps it hidden after that, through refills and map resets; in no spawn slot. Not counted on
+           the route: its 16,875 for the party (4.2k per member) is in Act VI's most experience (D-77). An actor script
+           later"}
+
+  hydras:
+    block: 11660
+    name: Hydras
+    picture: Xeen Hydra
+    sprites: BHydra
+    model: worlds/mm6/models/mm6_hyd.glb  # S session 12: Venomous Hydra green hyd_c, Great Hydra many-coloured hyd_b
+    where: X7
+    resist: {body: imm}
+    recovery: 60
+    tiers:
+      A: {name: Hydra, level: 45, skin: hyd_a, bonus: Poison2}
+      B: {name: Venomous Hydra, level: 55, skin: hyd_c, bonus: Poison3}
+      C: {name: Great Hydra, level: 65, skin: hyd_b, bonus: Poison3, attack2: [Water, curve, Water, 30]}
+
+  undead_dragons:
+    block: 11670
+    name: Undead dragons
+    picture: Xeen Bone Dragon
+    kind: [Undead, Dragon]
+    sprites: Bone Dragon
+    model: worlds/xeen/models/xeen_m616.glb  # mm8_m616 with Xeen tiers (S session 12)
+    where: Kalindra's dungeon, Southern Sphinx (FD-02's Dragon Mummies, D-57)
+    ac_x: 1.3
+    theme: undead
+    tiers:
+      A: {name: Bone Dragon, level: 45, skin: m616_a}
+      B: {name: Undead Dragon, level: 55, skin: xbdr_b, bonus: Disease2}
+      C: {name: Dragon Mummy, level: 65, skin: xbdr_c, type: Dark, bonus: Disease3}
+    bosses:
+      - {key: scraps, id: 11673, name: Scraps, level: 70, look: C, skin: xbdr_c, type: Dark, spell: [Dragon Breath, M, 12, 25],
+         note: DD-03, optional}
+
+# Relations that switch on quest bits (relations.yml rules with after_qbit; later rules win while active).
+relation_rules:
+  # Q-D11 Ogre Pass (D-23): the pass ogres and the kennel friendly on friends 113221, all hostile on hostile 113222.
+  - {faction: ogres_pass, relation: friendly, after_qbit: 113221}
+  - {faction: ogres_pass, relation: long, after_qbit: 113222}
+  - {faction: ogres_graalg, relation: long, after_qbit: 113222}
+  # Q-D13 Troll Holes (D-25 Q7): tribute 113261 or trial 113262 befriends the holes' trolls; hostile 113263 turns
+  # the court and the holes.
+  - {faction: warren_trolls, relation: friendly, after_qbit: 113261}
+  - {faction: warren_trolls, relation: friendly, after_qbit: 113262}
+  - {faction: warren_trolls, relation: long, after_qbit: 113263}
+  - {faction: trolls_hobstadt, relation: long, after_qbit: 113263}
+  # Q-D10 (D-23): the stick-up 113203 turns D2's village sprites.
+  - {faction: sprites_village, relation: long, after_qbit: 113203}
+  # Q-D1 Gremlin Court (D-26): court_hostile 113024 turns the court side; court_peace 113026 befriends court and army.
+  - {faction: gremlins_court, relation: long, after_qbit: 113024}
+  - {faction: gremlins_court, relation: friendly, after_qbit: 113026}
+  - {faction: gremlins_army, relation: friendly, after_qbit: 113026}
+  # Q-D22 (D-12.1, D-36): the coven is peaceful to members (joined 113449) until the Head Witch dies (113447); the
+  # later rule wins while both are set, so a party that joined and then broke the coven finds it hostile.
+  - {faction: coven, relation: friendly, after_qbit: 113449}
+  - {faction: coven, relation: long, after_qbit: 113447}
+  # D-37: Gettlewaithe friendly again after court_peace; no court_hostile rule (he turns only when struck himself).
+  - {faction: gremlins_king, relation: friendly, after_qbit: 113026}
+  # D-47 Q22: the People (DD-24's hall and D5's hold) turn on Q-D16 war 113321, Q-D12 hostile 113242 or camp_burned
+  # 113244, or q-d16.hall_attacked 113323 (A3, confirmed 2026-11-21); one blow in DD-24 or at D5's hold turns both.
+  - {faction: giants_people, relation: long, after_qbit: 113321}
+  - {faction: giants_people, relation: long, after_qbit: 113242}
+  - {faction: giants_people, relation: long, after_qbit: 113244}
+  - {faction: giants_people, relation: long, after_qbit: 113323}
+  # D-61 Q28: the Voweless oath (q-d17 oath 113344) befriends the Northern Tower's Slayer and Death Knights.
+  - {faction: voweless_knights, relation: friendly, after_qbit: 113344}
+
+# Named peaceful characters placed on maps (block 11900-11999): one row each, friendly to the party (relations.yml),
+# borrowing a whole installed descriptor (`stand_in`, with its tier letter).
+characters:
+  - {key: crodo, id: 11900, name: Crodo, level: 25, stand_in: Mage A, party: friendly,
+     note: "XD-12's prisoner (M21): the kindly old sorcerer in his secret cell; immobile, peaceful"}
+  # A8's talkers (2026-11-20), each its own friendly faction (character_<key>): bodies the engine peasants they stood on
+  # before, except Ellinger (a mage, not Crodo's look) and the two pen prisoners (the bedraggled human).
+  - {key: ellinger, id: 11901, name: Ellinger, level: 30, stand_in: Mage B, party: friendly,
+     note: "DD-02: the tower's master behind his desk (M17, M18, M19/M26); immobile, peaceful"}
+  - {key: nathan, id: 11902, name: Nathan, level: 15, stand_in: Bedraggled Human (peasant) A, party: friendly,
+     note: "DD-09: a prisoner in the root pens; immobile, peaceful"}
+  - {key: sky, id: 11903, name: Sky, level: 15, stand_in: Bedraggled Human (peasant) B, party: friendly,
+     note: "DD-09: a prisoner in the root pens; immobile, peaceful"}
+  - {key: alicia, id: 11904, name: Alicia the Just, level: 15, stand_in: Peasant Human1 FemaleA A, party: friendly,
+     note: "DD-09: a prisoner in the cell row; immobile, peaceful"}
+  - {key: sheewana, id: 11905, name: Princess Sheewana, level: 10, stand_in: Peasant Human2 FemaleA A, party: friendly,
+     note: "DD-09: Q-D10's princess in Shaalth's cage; her own faction, friendly; immobile"}
+  # D-42 (A8's Act IV graphs): DD-20's four prisoners in cages (each hidden by its freed bit) and DD-05's two clerics in
+  # cells; each its own friendly faction, immobile (`move: stand`), not counted.
+  - {key: camilla, id: 11906, name: Camilla the Captured, level: 10, stand_in: Peasant Human1 FemaleA B, party: friendly,
+     move: stand, note: "DD-20: a prisoner in the cages; immobile, peaceful"}
+  - {key: aretha, id: 11907, name: Aretha the Helpless, level: 10, stand_in: Peasant Human1 FemaleB A, party: friendly,
+     move: stand, note: "DD-20: a prisoner in the cages; immobile, peaceful"}
+  - {key: isabella, id: 11908, name: Isabella the Victim, level: 10, stand_in: Peasant Human1 FemaleC A, party: friendly,
+     move: stand, note: "DD-20: a prisoner in the cages; immobile, peaceful"}
+  - {key: rhett, id: 11909, name: Rhett the Wimp, level: 10, stand_in: Peasant Human1 MaleA A, party: friendly,
+     move: stand, note: "DD-20: a prisoner in the cages; immobile, peaceful"}
+  - {key: humble, id: 11910, name: Humble the Cleric, level: 25, stand_in: Cleric A, party: friendly, move: stand,
+     note: "DD-05: in a cell behind a door, the heretics' cleric body (S: a Heretic A binding, xcle_d); immobile, peaceful"}
+  - {key: pious, id: 11911, name: Pious the Cleric, level: 25, stand_in: Cleric A, party: friendly, move: stand,
+     note: "DD-05: in a cell behind a door, the heretics' cleric body (S: a Heretic A binding, xcle_d); immobile, peaceful"}
+  # D-47 Q20: Corak in his stasis couch (DD-16), shown on m29.done and hidden on m32.done; the map's MonsterDamage hook
+  # zeroes all damage to him; he talks from the console (5513). S: a recolour of an installed MM6-MM8 humanoid.
+  - {key: corak, id: 11912, name: Corak, level: 50, stand_in: Mage C, party: friendly, move: stand,
+     note: "DD-16: Corak in stasis; immobile, peaceful, unkillable (map damage hook)"}
+  # D-49 D6 change 6: Ambrose's griffin at Griffin Pass, tethered by his camp (shown until m25.done); MM7's griffin
+  # body, on the ground. S binds MM7's griffin.
+  - {key: tethered_griffin, id: 11913, name: Tethered Griffin, level: 30, stand_in: Griffin A, party: friendly,
+     move: stand, fly: N, note: "D6 Griffin Pass, Ambrose's mount; immobile, peaceful, not counted"}
+  # D-50 (X9, XD-17): Slick behind his prize stand on X9 (no NPC id; the booths and the stand are the clicks; S
+  # recolours the merchant body), and Shangri-La's two talkers on shipped bodies (A1's NPC-on-placed-monster word).
+  - {key: slick, id: 11914, name: Slick the Gamemaster, level: 20, stand_in: Merchant A, party: friendly, move: stand,
+     note: "X9, behind the prize stand; immobile, peaceful, not counted"}
+  # Lacey wanders by the well: Short is the engine's tightest wander (1,024), the nearest to D-50's 512.
+  - {key: lacey, id: 11915, name: Lacey, level: 25, stand_in: Unicorn A, party: friendly, move: Short,
+     modifiers: [{wander: {radius: 512}}],
+     note: "XD-17, by the well (MM8's unicorn); wanders 512 round it (D-50, merge point 22's modifier); peaceful, not counted"}
+  - {key: stumpy, id: 11916, name: Stumpy, level: 20, stand_in: Treant A, party: friendly, move: stand,
+     note: "XD-17, the orchard (MM7's treant); immobile, peaceful, not counted"}
+  # D-52 (6): Ambrose (D6's camp until m25.done, DD-14's landing from it; npc 5512) and the cursed Queen in DD-14's
+  # cell (npc 5001, hidden after done 111542): talking figures, immobile, unkillable through the maps' load events
+  # (SetMm9ActorCanReceiveDamage). Stand-in bodies until S's skins: MM6's plate knight for Ambrose, MM8's vampire
+  # woman in crimson for the Queen.
+  - {key: ambrose, id: 11917, name: Ambrose, level: 35, stand_in: KnightPlate A, party: friendly, move: stand,
+     note: "D6 Griffin Pass and DD-14's landing (npc 5512); immobile, peaceful, unkillable, not counted"}
+  - {key: queen, id: 11918, name: Queen Kalindra, level: 40, stand_in: Vampire Female Peasant C, party: friendly,
+     move: stand, fly: N, note: "DD-14's cell, cursed (npc 5001); immobile, peaceful, unkillable, not counted"}
+  # D-56 (P5, Clouds of the Ancients): the finale's three figures, each its own friendly faction, placed only, immobile,
+  # NoArena, not counted, unkillable through the map's load event (SetMm9ActorCanReceiveDamage). The Pharaoh stands
+  # behind the dais from the start and is the same row on DD-15 (A8); Roland and the wedded Queen stay hidden until the
+  # cinematic's cue. Bodies for S: the Pharaoh on a shipped reptile-headed humanoid S picks (MM8's lizardman villager
+  # until then; a headdress and a book, Meshy up to 30 credits only if no shipped body reads as npc15453), Roland on
+  # xeen_kni with a new skin, the wedded Queen on xeen_sorc with a new skin (npc14405, npc15001).
+  - {key: pharaoh, id: 11919, name: Dragon Pharaoh, level: 80, stand_in: Lizardmen Male (Peasant) A, party: friendly,
+     move: stand, fly: N, height: 230,   # S: the figure stands about 231 tall at scale 125 (the stand-in's 160)
+     note: "P5 behind the dais and DD-15 (npc 5453, D-56 Q5); immobile, peaceful, unkillable, not counted"}
+  - {key: roland, id: 11920, name: Prince Roland, level: 40, stand_in: KnightPlate A, party: friendly, move: stand,
+     fly: N, note: "P5 under the pavilion, hidden until the wedding (npc 4405, D-56 Q6); immobile, peaceful, unkillable, not counted"}
+  - {key: queen_wedding, id: 11921, name: Queen Kalindra, picture: Xeen Queen Kalindra Wedding, level: 40,
+     stand_in: Druidess A, party: friendly, move: stand, fly: N,
+     note: "P5 under the pavilion in her wedding look, hidden until the wedding (npc 5001; not 11918, DD-14's cursed body; D-56); immobile, peaceful, unkillable, not counted"}
+  # D-57 (FD-02, FD-04): talking figures (`monsters[].npc`), each its own friendly faction, placed only, immobile,
+  # NoArena, not counted, unkillable through the map's load event (SetMm9ActorCanReceiveDamage, D-52). Stand-in bodies
+  # until S's recolours of installed MM6-MM8 bodies: an old scholar for Picard, a druid for Alister.
+  - {key: picard, id: 11922, name: Picard the Aged, level: 30, stand_in: Mage A, party: friendly, move: stand, fly: N,
+     note: "FD-02, the Home of the Aged behind m40's stair door, in a very good chair (npc 5704, M40); immobile, peaceful, unkillable, not counted"}
+  # Alister is A4's npc 5705 (towns/fd04.yml); hidden when his paying talk closes (118147, kept on load).
+  - {key: alister, id: 11923, name: Alister, level: 40, stand_in: Cleric A, party: friendly, move: stand, fly: N,
+     note: "FD-04, the gate hall's west alcove (npc 5705, Q-F1); hidden on 118147; immobile, peaceful, unkillable, not counted"}
+  # D-61 (DD-17, DD-08): Sheltem on Castle Alamar's dais, hidden until the cinematic shows him (Q15; Corak 11912 placed
+  # hidden beside him), unkillable through the map's load event; S puts his look on an existing caster body (MM7's
+  # necromancer until then). The Voweless Knights (Q28): four figures hidden in the chapter hall's niches, shown by the
+  # oath and on every later load, on the Slayer Knight's look (S: Xeen Dark Knight A's binding, no new skin).
+  - {key: sheltem, id: 11924, name: Sheltem, level: 90, stand_in: Necromancer C, party: friendly, move: stand, fly: N,
+     note: "DD-17's dais, hidden until m33.sheltem's cinematic (D-61 Q15); immobile, peaceful, unkillable, not counted"}
+  - {key: voweless_knight, id: 11925, name: Voweless Knight, level: 45, stand_in: KnightPlate A, party: friendly,
+     move: stand, fly: N,
+     note: "DD-08's chapter-hall niches x 4, hidden until the oath (113344, D-61 Q28); immobile, peaceful, not counted"}
+  # D-62 Q41 (DD-21): Sandro risen by his bier after his one fall (map qbit 117727 sandro_fell), hidden at load; the
+  # map's events show and hide him and make him unkillable (DD-15's Pharaoh). The boss 11283's look (BLich C; S: Xeen
+  # Sandro's binding, lch_c on mm6_lch). His own descriptor: the boss holds "Xeen Sandro".
+  - {key: sandro_risen, id: 11926, name: Sandro, picture: Xeen Sandro Risen, level: 65, stand_in: BLich C,
+     party: friendly, move: stand, fly: N,
+     note: "DD-21 by his bier, hidden until his fall (117727, D-62 Q41); immobile, peaceful, unkillable, not counted"}
+  # F9 (2026-11-21): Sablewing, the dragon hermit (npc 4720, his portrait a gold dragon) and X7's Dragon Master,
+  # stood on a peasant row: "Peasant" on inspection, a peasant's body, killable. His own row on MM6's Gold Dragon
+  # (S: xeen_cdr1 skin cdr1_c, scaled to about 245 tall for his cave mouth). Unkillable as every placed talking figure
+  # (tools/xeen/key_npcs.py, events/common/xeen_key_npcs.lua).
+  - {key: sablewing, id: 11927, name: Sablewing, level: 40, stand_in: DragonCover C, party: friendly, move: stand,
+     fly: N, height: 245, radius: 120,
+     note: "X7 at his cave mouth (npc 4720, D-5.2, F9); immobile, peaceful, unkillable, not counted"}
+  # D91 §1 (2026-11-22): the seasons' old men, the Winter Druid (npc 4529, X5) and the Spring Druid (npc 4048, X1),
+  # whose portraits are old bearded men, on one robed old man's body (S: xeen_sor1 skin xsor_i, moss-green robe,
+  # white hair and beard). The NPC's name shows on inspection; this row's name is the fallback.
+  - {key: elder_druid, id: 11928, name: Elder Druid, level: 30, stand_in: Mage A, party: friendly, move: stand,
+     fly: N, note: "X5 (Winter Druid, npc 4529) and X1 (Spring Druid, npc 4048), D91 §1; immobile, peaceful, unkillable, not counted"}
+  # D91 §1 (2026-11-22, orchestrator): the seasons' women, the Autumn Druid (npc 4321, X4) and the Summer Druid (npc
+  # 4601, X6), whose portraits are druid women, on their own friendly row with MM6's Druidess A body (S: the same model
+  # and skin as row 517), so row 517 stays hostile and needs no map-wide relation.
+  - {key: druidess, id: 11929, name: Druidess, level: 30, stand_in: Druidess A, party: friendly, move: stand,
+     fly: N, note: "X4 (Autumn Druid, npc 4321) and X6 (Summer Druid, npc 4601), D91 §1; immobile, peaceful, unkillable, not counted"}
+
+# Relations between factions (the family key, a `faction`'s name, or character_<key>), each rule one way; `from` and
+# `to` may list several. A pair no rule covers keeps the engine table's relation, which has no row for Xeen ids, so
+# Xeen monsters leave each other alone; these rules say so outright where a story needs it.
+feuds:
+  # D-52 (6): DD-14's vampires and gargoyles, and the griffin, never fight Ambrose or the Queen, nor they them.
+  - {from: [vampires, gargoyles_mm, character_tethered_griffin], to: [character_ambrose, character_queen],
+     relation: friendly}
+  - {from: [character_ambrose, character_queen], to: [vampires, gargoyles_mm, character_tethered_griffin],
+     relation: friendly}
+
+# Names of placed indoor monsters (data_tables/english/place_mon.txt, world.yml idRanges.placed_monster_names 401-499;
+# A1's merge point 17): a studio `name:` on a placed monster takes the row of that name, so the living monster shows it
+# (without a row only the corpse does). One row per name; the map is a record.
+placed_names:
+  - {id: 401, name: Vexor the Black, map: DD-03}
+  - {id: 402, name: Clemon the Dead, map: DD-03}
+  - {id: 403, name: Saxar the Permanent, map: DD-03}
+  - {id: 404, name: Morgrath the Grey, map: DD-03}
+  - {id: 405, name: Ulvane the Unrepentant, map: DD-03}
+  - {id: 406, name: Iron Vithnipravad, map: DD-03}
+  - {id: 407, name: Argonax, map: DD-03}
+  - {id: 408, name: Mr Wobbles, map: XD-01}
+  - {id: 409, name: Mrs Wobbles, map: XD-01}
+  - {id: 410, name: Chief Librarian, map: XD-12}
+  - {id: 411, name: Gong Sentry, map: XD-03}
+  - {id: 412, name: Schoolmistress, map: XD-04}
+  - {id: 413, name: Goblin Warden, map: XD-04}
+  - {id: 414, name: Orc Shaman, map: XD-05}
+  - {id: 415, name: Tam, map: XD-05}

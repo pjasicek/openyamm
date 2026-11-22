@@ -1,0 +1,2022 @@
+# Xeen's ElevenLabs sound jobs (lane AU, devdocs/xeen/lanes/AU.md; the sound list is devdocs/xeen/AUDIO.md), run with
+# tools/run_elevenlabs.sh (tools/audio/README.md). Output names are the engine's sound names: install.py copies
+# out/<id>/<output>.wav to assets_dev/worlds/xeen/audio/xeen/<output>.wav and writes the world's sound rows
+# (assets_dev/worlds/xeen/audio/sounds.txt, ids 62000-63999: devdocs/xeen/AUDIO.md) from install.yml.
+# Prompts describe the sound; they never name a game, film or artist.
+#
+# Loudness (as Hesper's batch 3, design/kreegan_world/AUDIO.md): creature attack, wince and death lifted until their
+# loudest 100 ms reaches -9 dBFS, idle fidgets -11, heavy bodies (golems, worms) -8 with a 30 Hz high-pass and a low
+# shelf, picked toward loudness and low end; event one-shots -9 (quiet ones -11, the gong -7); peaks at -1 dBFS by a
+# look-ahead limiter, boost capped at 10 dB. Beds are loops levelled to -20 dBFS RMS, mono (they play as placed,
+# positional ambient sounds, devdocs/AMBIENT_SOUNDS.md).
+schema: openyamm.elevenlabs.jobs.v1
+budget: 140000                    # session 5 (2026-11-21): raised by the user's word ("use however much you need, if it makes sense")
+music: false                      # music stays MM6-MM8 tracks by number (ROADMAP Q9, devdocs/xeen/MUSIC.md)
+defaults:
+  kind: sfx
+  model: eleven_text_to_sound_v2
+  prompt_influence: 0.45
+  variants: 3
+  max_boost_db: 10
+  formats: [wav_48000, mp3_44100_192]
+jobs:
+  # === (a) Monster voices: the new creatures first ==================================================================
+  # One set per family (attack, wince, death, idle fidget); bigger tiers and bosses are the set pitched down (derived
+  # jobs), never a new generation.
+
+  # --- Toads (11450-11452; X1 Toad Meadow, X3) -----------------------------------------------------------------------
+  - id: xeen_toad_attack
+    group: "Monsters: toads"
+    use: Giant and Bog Toad attack (a tongue lash)
+    duration: 0.9
+    loudness_db: -9
+    prompt: >-
+      A huge toad lunging at its prey: a wet sticky tongue lashing out with a whip-like snap and a heavy slapping
+      smack, a short throaty croaking grunt, close
+  - id: xeen_toad_wince
+    group: "Monsters: toads"
+    use: toads hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A giant toad struck in a fight: a short strangled croak and a wet squelch, close"
+  - id: xeen_toad_death
+    group: "Monsters: toads"
+    use: toads' death
+    duration: 1.6
+    loudness_db: -9
+    prompt: >-
+      A huge toad dying: a long deflating gurgling croak that breaks off, its heavy wet body flopping onto mud
+  - id: xeen_toad_fidget
+    group: "Monsters: toads"
+    use: toads' idle fidget
+    duration: 1.6
+    loudness_db: -11
+    prompt: >-
+      A huge toad sitting in a marsh: two deep resonant bassy croaks with a throaty wet ribbit, slow breathing, close
+  - {id: xeen_toad_c_attack, kind: derived, from: [xeen_toad_attack], pitch: -2, group: "Monsters: toads", use: "Swamp Toad (C) attack, the set two semitones down"}
+  - {id: xeen_toad_c_wince, kind: derived, from: [xeen_toad_wince], pitch: -2, group: "Monsters: toads", use: "Swamp Toad hurt"}
+  - {id: xeen_toad_c_death, kind: derived, from: [xeen_toad_death], pitch: -2, group: "Monsters: toads", use: "Swamp Toad death"}
+  - {id: xeen_toad_c_fidget, kind: derived, from: [xeen_toad_fidget], pitch: -2, group: "Monsters: toads", use: "Swamp Toad fidget"}
+
+  # --- Witches (11160-11163, coven 11170-11172) ---------------------------------------------------------------------
+  - id: xeen_witch_attack
+    group: "Monsters: witches"
+    use: witches' attack (a hex flung)
+    duration: 1.1
+    loudness_db: -9
+    prompt: >-
+      An old crone witch casting a hex: a spiteful hissing snarl and a crackling whoosh of dark magic flung forward,
+      close
+  - id: xeen_witch_wince
+    group: "Monsters: witches"
+    use: witches hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "An old crone witch hurt: a short shrill pained shriek, close"
+  - id: xeen_witch_death
+    group: "Monsters: witches"
+    use: witches' death
+    duration: 1.8
+    loudness_db: -9
+    prompt: >-
+      An old crone witch dying: a long shrieking wail that warbles and fades into a rasping gasp, close
+  - id: xeen_witch_fidget
+    group: "Monsters: witches"
+    use: witches' idle fidget
+    duration: 1.6
+    variants: 4
+    loudness_db: -11
+    prompt: "An old crone witch cackling to herself: a short wicked high-pitched cackling laugh, raspy, close"
+  - {id: xeen_witch_c_attack, kind: derived, from: [xeen_witch_attack], pitch: -1.5, group: "Monsters: witches", use: "Elder Witch, Head Witch, Coven Mother attack, the set 1.5 semitones down"}
+  - {id: xeen_witch_c_wince, kind: derived, from: [xeen_witch_wince], pitch: -1.5, group: "Monsters: witches", use: "Elder Witch and the heads hurt"}
+  - {id: xeen_witch_c_death, kind: derived, from: [xeen_witch_death], pitch: -1.5, group: "Monsters: witches", use: "Elder Witch and the heads' death"}
+  - {id: xeen_witch_c_fidget, kind: derived, from: [xeen_witch_fidget], pitch: -1.5, group: "Monsters: witches", use: "Elder Witch and the heads' fidget"}
+
+  # --- Sprites (11530-11538; dark sprites 11534-11536) --------------------------------------------------------------
+  - id: xeen_sprite_attack
+    group: "Monsters: sprites"
+    use: Medusa and Killer Sprites' attack
+    duration: 0.9
+    loudness_db: -9
+    prompt: >-
+      A tiny malicious winged fairy attacking: a quick high spiteful giggle, a buzz of insect-like wings and a sharp
+      venomous snake hiss with a small sparkling magic zap
+  - id: xeen_sprite_wince
+    group: "Monsters: sprites"
+    use: sprites hurt
+    duration: 0.5
+    loudness_db: -9
+    prompt: "A tiny winged fairy hurt: a short high squeak of pain and a startled hiss"
+  - id: xeen_sprite_death
+    group: "Monsters: sprites"
+    use: sprites' death
+    duration: 1.4
+    loudness_db: -9
+    prompt: >-
+      A tiny winged fairy dying: a high falling shriek, its wings fluttering out, a fading tinkling sparkle
+  - id: xeen_sprite_fidget
+    group: "Monsters: sprites"
+    use: sprites' idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: >-
+      A tiny winged fairy hovering in a forest: a rapid soft buzz of wings, a mischievous high giggle, a faint hiss of
+      little snakes
+  - {id: xeen_sprite_queen_attack, kind: derived, from: [xeen_sprite_attack], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen and Sharla attack, the set two semitones down"}
+  - {id: xeen_sprite_queen_wince, kind: derived, from: [xeen_sprite_wince], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen hurt"}
+  - {id: xeen_sprite_queen_death, kind: derived, from: [xeen_sprite_death], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen death"}
+  - {id: xeen_sprite_queen_fidget, kind: derived, from: [xeen_sprite_fidget], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen fidget"}
+
+  # --- Swarms (11340-11342: Doom Bug, Insect Swarm, Stingers) -------------------------------------------------------
+  - id: xeen_swarm_attack
+    group: "Monsters: swarms"
+    use: swarms' attack
+    duration: 1.0
+    loudness_db: -9
+    prompt: >-
+      A swarm of angry stinging insects attacking: a dense buzzing rising sharply as it rushes close, many tiny
+      stinging zips
+  - id: xeen_swarm_wince
+    group: "Monsters: swarms"
+    use: swarms hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A swarm of insects swatted apart by a blow: a sudden angry burst of buzzing"
+  - id: xeen_swarm_death
+    group: "Monsters: swarms"
+    use: swarms' death
+    duration: 1.6
+    loudness_db: -9
+    prompt: >-
+      A swarm of insects dispersing: the dense buzzing breaking up and thinning away to a few last fading buzzes
+  - id: xeen_swarm_fidget
+    group: "Monsters: swarms"
+    use: swarms' idle fidget
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A dense swarm of insects hovering in one place: a steady droning buzz of many flickering wings"
+  - {id: xeen_doombug_attack, kind: derived, from: [xeen_swarm_attack], pitch: -3, group: "Monsters: swarms", use: "Doom Bug (A, one big beetle) attack, the set three semitones down"}
+  - {id: xeen_doombug_wince, kind: derived, from: [xeen_swarm_wince], pitch: -3, group: "Monsters: swarms", use: "Doom Bug hurt"}
+  - {id: xeen_doombug_death, kind: derived, from: [xeen_swarm_death], pitch: -3, group: "Monsters: swarms", use: "Doom Bug death"}
+  - {id: xeen_doombug_fidget, kind: derived, from: [xeen_swarm_fidget], pitch: -3, group: "Monsters: swarms", use: "Doom Bug fidget"}
+
+  # --- Flying Feet (11600, magic constructs A) ----------------------------------------------------------------------
+  - id: xeen_feet_attack
+    highpass_hz: 80               # a small body: the takes carry a sub-bass boom under the kick
+    group: "Monsters: Flying Feet"
+    use: Flying Feet's attack (a kick)
+    duration: 0.9
+    loudness_db: -9
+    prompt: >-
+      A pair of magical flying bare feet kicking: a fast flurry of small feathered wings, a whoosh and a hard
+      slapping fleshy kick impact, close
+  - id: xeen_feet_wince
+    highpass_hz: 80               # a small body: the takes carry a sub-bass boom under the kick
+    group: "Monsters: Flying Feet"
+    use: Flying Feet hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: Small feathered wings flapping in a startled flurry and a soft fleshy slap, close
+  - id: xeen_feet_death
+    highpass_hz: 80               # a small body: the takes carry a sub-bass boom under the kick
+    group: "Monsters: Flying Feet"
+    use: Flying Feet's death
+    duration: 1.5
+    loudness_db: -9
+    prompt: >-
+      Small feathered wings flapping weakly and stopping, two bare feet thudding down onto stone one after the other,
+      a few feathers settling
+  - id: xeen_feet_fidget
+    group: "Monsters: Flying Feet"
+    use: Flying Feet's idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: >-
+      Small feathered wings fluttering steadily as something hovers, and a light impatient tapping of bare toes on
+      stone
+  # --- Guardian (11601, magic constructs B: a floating chrome skull, lightning from the eyes) -----------------------
+  - id: xeen_guardian_attack
+    group: "Monsters: Guardian"
+    use: the Guardian's attack and its lightning shot
+    duration: 1.0
+    loudness_db: -9
+    prompt: >-
+      A floating polished metal skull firing lightning from its eyes: a sharp rising electric whine and a crackling
+      bright zap of an arc
+  - id: xeen_guardian_wince
+    group: "Monsters: Guardian"
+    use: the Guardian hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A hollow polished metal skull struck by a weapon: a bright metallic clang and ring with an electric sputter"
+  - id: xeen_guardian_death
+    group: "Monsters: Guardian"
+    use: the Guardian's death
+    duration: 1.8
+    loudness_db: -9
+    prompt: >-
+      A magical chrome skull destroyed: an electric overload crackle, a red gem cracking with a glassy snap and the
+      hollow metal skull clattering down on stone
+  - id: xeen_guardian_fidget
+    group: "Monsters: Guardian"
+    use: the Guardian's idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: >-
+      A floating enchanted metal skull: a low steady electric hum with faint crackles and a brief chatter of metal
+      teeth
+  # --- Carnage Hand (11602, magic constructs C) ---------------------------------------------------------------------
+  - id: xeen_hand_attack
+    group: "Monsters: Carnage Hand"
+    use: the Carnage Hand's attack (a crushing grab; it breaks armour)
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: >-
+      A huge disembodied hand crushing its victim: a fast whoosh, a heavy grabbing slap and a loud crunch of armour
+      plate bending and cracking
+  - id: xeen_hand_wince
+    group: "Monsters: Carnage Hand"
+    use: the Carnage Hand hurt
+    duration: 0.5
+    loudness_db: -9
+    prompt: "Giant knuckles struck by a weapon: a dull meaty thud and a sharp crack of joints"
+  - id: xeen_hand_death
+    group: "Monsters: Carnage Hand"
+    use: the Carnage Hand's death
+    duration: 1.6
+    loudness_db: -9
+    prompt: >-
+      A giant magical hand dying: its fingers cracking and clenching, a heavy fleshy thump onto stone and a fading
+      magical hum
+  - id: xeen_hand_fidget
+    group: "Monsters: Carnage Hand"
+    use: the Carnage Hand's idle fidget
+    duration: 1.6
+    loudness_db: -11
+    prompt: >-
+      A huge hand flexing: slow loud knuckle cracks one after another and fingertips drumming on stone
+  # --- Moles (11430-11432; mines) ----------------------------------------------------------------------------------
+  - id: xeen_mole_attack
+    group: "Monsters: moles"
+    use: Tiger and Rock Moles' attack
+    duration: 0.8
+    loudness_db: -9
+    prompt: >-
+      A large burrowing mole attacking: a quick snuffling snarl, digging claws scraping on gravel and a sharp biting
+      nip, close
+  - id: xeen_mole_wince
+    group: "Monsters: moles"
+    use: moles hurt
+    duration: 0.5
+    loudness_db: -9
+    prompt: "A large mole hurt: a short shrill squeal and a snort, close"
+  - id: xeen_mole_death
+    group: "Monsters: moles"
+    use: moles' death
+    duration: 1.3
+    loudness_db: -9
+    prompt: "A large mole dying: a squealing whimper fading out and a soft thump into loose dirt"
+  - id: xeen_mole_fidget
+    group: "Monsters: moles"
+    use: moles' idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: "A large mole idling underground: busy snuffling and sniffing, claws scratching at dirt and gravel"
+  - {id: xeen_mole_c_attack, kind: derived, from: [xeen_mole_attack], pitch: -2, group: "Monsters: moles", use: "Tunnel Mole (C) attack, the set two semitones down"}
+  - {id: xeen_mole_c_wince, kind: derived, from: [xeen_mole_wince], pitch: -2, group: "Monsters: moles", use: "Tunnel Mole hurt"}
+  - {id: xeen_mole_c_death, kind: derived, from: [xeen_mole_death], pitch: -2, group: "Monsters: moles", use: "Tunnel Mole death"}
+  - {id: xeen_mole_c_fidget, kind: derived, from: [xeen_mole_fidget], pitch: -2, group: "Monsters: moles", use: "Tunnel Mole fidget"}
+  # --- Sorceresses (11180-11185, Morgana 11183) -------------------------------------------------------------------
+  - id: xeen_sorceress_attack
+    group: "Monsters: sorceresses"
+    use: sorceresses' attack (a spell cast)
+    duration: 1.0
+    loudness_db: -9
+    prompt: >-
+      A young sorceress casting an attack spell: a sharp commanding female shout of effort and a crackling burst of
+      arcane energy, close
+  - id: xeen_sorceress_wince
+    group: "Monsters: sorceresses"
+    use: sorceresses hurt
+    duration: 0.5
+    loudness_db: -9
+    prompt: "A woman hurt in battle: a short sharp pained gasp, close"
+  - id: xeen_sorceress_death
+    group: "Monsters: sorceresses"
+    use: sorceresses' death
+    duration: 1.5
+    loudness_db: -9
+    prompt: >-
+      A sorceress dying: a falling female cry that fades out and a body collapsing with a soft rustle of robes
+  - id: xeen_sorceress_fidget
+    group: "Monsters: sorceresses"
+    use: sorceresses' idle fidget
+    duration: 1.4
+    loudness_db: -11
+    prompt: "A sorceress waiting: a soft impatient female sigh and a faint shimmering hum of magic"
+  - {id: xeen_sorceress_c_attack, kind: derived, from: [xeen_sorceress_attack], pitch: -1, group: "Monsters: sorceresses", use: "Grand Sorceress and Morgana attack, the set a semitone down"}
+  - {id: xeen_sorceress_c_wince, kind: derived, from: [xeen_sorceress_wince], pitch: -1, group: "Monsters: sorceresses", use: "Grand Sorceress hurt"}
+  - {id: xeen_sorceress_c_death, kind: derived, from: [xeen_sorceress_death], pitch: -1, group: "Monsters: sorceresses", use: "Grand Sorceress death"}
+  - {id: xeen_sorceress_c_fidget, kind: derived, from: [xeen_sorceress_fidget], pitch: -1, group: "Monsters: sorceresses", use: "Grand Sorceress fidget"}
+
+  # === (a) Monster voices: families on borrowed MM sounds that do not fit ===========================================
+  # --- Orcs (11030-11033, warband 11040-11043): MM6's small goblin cries and no fidget today ----------------------
+  - id: xeen_orc_attack
+    group: "Monsters: orcs"
+    use: orcs' attack
+    duration: 0.9
+    loudness_db: -9
+    prompt: >-
+      A brutish orc warrior swinging a crude axe: a guttural snarling grunt, a heavy whoosh and a meaty chop, close
+  - id: xeen_orc_wince
+    group: "Monsters: orcs"
+    use: orcs hurt
+    duration: 0.5
+    loudness_db: -9
+    prompt: "A brutish orc hurt: a short angry guttural grunt, close"
+  - id: xeen_orc_death
+    group: "Monsters: orcs"
+    use: orcs' death
+    duration: 1.5
+    loudness_db: -9
+    prompt: >-
+      A brutish orc warrior dying: a deep choking groan that breaks off and a heavy body hitting the dirt with a
+      rattle of crude armour
+  - id: xeen_orc_fidget
+    group: "Monsters: orcs"
+    use: orcs' idle fidget
+    duration: 1.4
+    loudness_db: -11
+    prompt: "A brutish orc idling: a low snorting growl, a guttural grumbling mutter and a sniff, close"
+  - {id: xeen_orc_c_attack, kind: derived, from: [xeen_orc_attack], pitch: -1.5, group: "Monsters: orcs", use: "Orc Guard, Orc Captain, Drum-Master, Shaalth attack, the set 1.5 semitones down"}
+  - {id: xeen_orc_c_wince, kind: derived, from: [xeen_orc_wince], pitch: -1.5, group: "Monsters: orcs", use: "the big orcs hurt"}
+  - {id: xeen_orc_c_death, kind: derived, from: [xeen_orc_death], pitch: -1.5, group: "Monsters: orcs", use: "the big orcs' death"}
+  - {id: xeen_orc_c_fidget, kind: derived, from: [xeen_orc_fidget], pitch: -1.5, group: "Monsters: orcs", use: "the big orcs' fidget"}
+  # --- Golems (11580-11584, elemental golems 11590-11594): no fidget today ----------------------------------------
+  - id: xeen_golem_attack
+    group: "Monsters: golems"
+    use: golems' attack
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: >-
+      A massive stone golem smashing its fist down: grinding stone joints, a heavy crushing rock impact and a deep
+      boom
+  - id: xeen_golem_wince
+    group: "Monsters: golems"
+    use: golems hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "Solid stone struck by a heavy weapon: a sharp rock crack and a trickle of gravel"
+  - id: xeen_golem_death
+    group: "Monsters: golems"
+    use: golems' death
+    duration: 2.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: >-
+      A huge stone golem crumbling apart: cracking rock giving way and a long rumbling collapse into a heap of rubble
+  - id: xeen_golem_fidget
+    group: "Monsters: golems"
+    use: golems' idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: "A massive stone golem shifting its weight: slow grinding of stone joints and a low rumble"
+  - {id: xeen_golem_c_attack, kind: derived, from: [xeen_golem_attack], pitch: -2, group: "Monsters: golems", use: "Iron Golem, Diamond and Onyx Golems attack, the set two semitones down"}
+  - {id: xeen_golem_c_wince, kind: derived, from: [xeen_golem_wince], pitch: -2, group: "Monsters: golems", use: "the big golems hurt"}
+  - {id: xeen_golem_c_death, kind: derived, from: [xeen_golem_death], pitch: -2, group: "Monsters: golems", use: "the big golems' death"}
+  - {id: xeen_golem_c_fidget, kind: derived, from: [xeen_golem_fidget], pitch: -2, group: "Monsters: golems", use: "the big golems' fidget"}
+  # --- Madmen (11230-11232): a peasant's sounds without a wince or fidget today -----------------------------------
+  - id: xeen_madman_attack
+    group: "Monsters: madmen"
+    use: madmen's attack
+    duration: 0.9
+    loudness_db: -9
+    prompt: "A raving madman lunging at someone: a wild cackling male shriek and a flailing slap, close"
+  - id: xeen_madman_wince
+    group: "Monsters: madmen"
+    use: madmen hurt
+    duration: 0.7
+    loudness_db: -9
+    prompt: "A crazed man hurt: a yelp of pain that turns into a nervous giggle, close"
+  - id: xeen_madman_death
+    group: "Monsters: madmen"
+    use: madmen's death
+    duration: 1.6
+    loudness_db: -9
+    prompt: "A crazed man dying: a long wheezing laugh that fades into a groan, and a body falling to the ground"
+  - id: xeen_madman_fidget
+    group: "Monsters: madmen"
+    use: madmen's idle fidget
+    duration: 1.8
+    loudness_db: -11
+    prompt: A raving lunatic mumbling meaningless gibberish to himself, a high giggle and an odd tuneless hum, close
+  # --- Harpies (11520-11522): a cockatrice, a peasant woman and a bat today ---------------------------------------
+  - id: xeen_harpy_attack
+    group: "Monsters: harpies"
+    use: harpies' attack
+    duration: 1.0
+    loudness_db: -9
+    prompt: >-
+      A harpy diving to claw: a piercing female-like screech, a beat of large feathered wings and a raking talon slash
+  - id: xeen_harpy_wince
+    group: "Monsters: harpies"
+    use: harpies hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A harpy hurt: a short harsh squawking screech, close"
+  - id: xeen_harpy_death
+    group: "Monsters: harpies"
+    use: harpies' death
+    duration: 1.6
+    loudness_db: -9
+    prompt: "A harpy dying: a long falling screech, wings flailing, and a body hitting the ground"
+  - id: xeen_harpy_fidget
+    group: "Monsters: harpies"
+    use: harpies' idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: "A harpy perched on a rock: harsh cackling chatter and a rustle of large ruffled feathers"
+  - {id: xeen_harpy_c_attack, kind: derived, from: [xeen_harpy_attack], pitch: -1.5, group: "Monsters: harpies", use: "Harpy Queen (C) attack, the set 1.5 semitones down"}
+  - {id: xeen_harpy_c_wince, kind: derived, from: [xeen_harpy_wince], pitch: -1.5, group: "Monsters: harpies", use: "Harpy Queen hurt"}
+  - {id: xeen_harpy_c_death, kind: derived, from: [xeen_harpy_death], pitch: -1.5, group: "Monsters: harpies", use: "Harpy Queen death"}
+  - {id: xeen_harpy_c_fidget, kind: derived, from: [xeen_harpy_fidget], pitch: -1.5, group: "Monsters: harpies", use: "Harpy Queen fidget"}
+  # --- Iguanasaurs (11510-11512): a crystal dragon today --------------------------------------------------------
+  - id: xeen_lizard_attack
+    group: "Monsters: iguanasaurs"
+    use: Iguanasaurs' attack
+    duration: 1.0
+    loudness_db: -8.5
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 3}
+    prompt: "A huge reptile snapping its jaws: a sharp rasping hiss and a heavy crunching jaw clamp, close"
+  - id: xeen_lizard_wince
+    group: "Monsters: iguanasaurs"
+    use: Iguanasaurs hurt
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A huge reptile hurt: a short rasping hissing grunt, close"
+  - id: xeen_lizard_death
+    group: "Monsters: iguanasaurs"
+    use: Iguanasaurs' death
+    duration: 1.8
+    loudness_db: -8.5
+    prompt: >-
+      A giant reptile dying: a long rasping hiss and a deep groaning rattle, a heavy body thudding down on sand
+  - id: xeen_lizard_fidget
+    group: "Monsters: iguanasaurs"
+    use: Iguanasaurs' idle fidget
+    duration: 1.5
+    loudness_db: -11
+    prompt: "A giant reptile idling: slow deep rasping breaths, a flicking hiss of its tongue and scales scraping"
+  - {id: xeen_lizard_c_attack, kind: derived, from: [xeen_lizard_attack], pitch: -2, group: "Monsters: iguanasaurs", use: "Ancient Iguanasaurus (C) attack, the set two semitones down"}
+  - {id: xeen_lizard_c_wince, kind: derived, from: [xeen_lizard_wince], pitch: -2, group: "Monsters: iguanasaurs", use: "Ancient Iguanasaurus hurt"}
+  - {id: xeen_lizard_c_death, kind: derived, from: [xeen_lizard_death], pitch: -2, group: "Monsters: iguanasaurs", use: "Ancient Iguanasaurus death"}
+  - {id: xeen_lizard_c_fidget, kind: derived, from: [xeen_lizard_fidget], pitch: -2, group: "Monsters: iguanasaurs", use: "Ancient Iguanasaurus fidget"}
+  # --- Sand worms (11440, 11442): a behemoth today ----------------------------------------------------------------
+  - id: xeen_worm_attack
+    group: "Monsters: sand worms"
+    use: Sand Worm attack
+    duration: 1.4
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: >-
+      A giant sand worm bursting up to bite: rushing pouring sand, a deep guttural roar and a huge wet maw clamping
+      shut
+  - id: xeen_worm_wince
+    group: "Monsters: sand worms"
+    use: Sand Worm hurt
+    duration: 0.8
+    loudness_db: -9
+    prompt: "A giant worm hurt: a deep wet bellowing groan"
+  - id: xeen_worm_death
+    group: "Monsters: sand worms"
+    use: Sand Worm death
+    duration: 2.2
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: >-
+      A giant sand worm dying: a long deep bellowing groan as its body thrashes and collapses into the sand
+  - id: xeen_worm_fidget
+    group: "Monsters: sand worms"
+    use: Sand Worm idle fidget
+    duration: 1.8
+    loudness_db: -11
+    prompt: "A giant worm moving under the desert: a deep rumbling slither, sand hissing and pouring"
+  - {id: xeen_worm_c_attack, kind: derived, from: [xeen_worm_attack], pitch: -2, group: "Monsters: sand worms", use: "Great Worm (C) attack, the set two semitones down"}
+  - {id: xeen_worm_c_wince, kind: derived, from: [xeen_worm_wince], pitch: -2, group: "Monsters: sand worms", use: "Great Worm hurt"}
+  - {id: xeen_worm_c_death, kind: derived, from: [xeen_worm_death], pitch: -2, group: "Monsters: sand worms", use: "Great Worm death"}
+  - {id: xeen_worm_c_fidget, kind: derived, from: [xeen_worm_fidget], pitch: -2, group: "Monsters: sand worms", use: "Great Worm fidget"}
+
+  # === (b) World and event sounds ====================================================================================
+  - id: xeen_gong
+    group: World and events
+    use: "the great gongs: XD-03 (now the shipped 6gong), DD-06, X5's ghost-wave gongs (Q-C6)"
+    duration: 6
+    variants: 5
+    loudness_db: -7
+    highpass_hz: 30
+    prompt: >-
+      A huge bronze temple gong struck once hard with a padded mallet: a deep shimmering roar that swells, then a long
+      ringing metallic decay, in a stone hall
+  - {id: xeen_gong_low, kind: derived, from: [xeen_gong], pitch: -3, group: World and events, use: "the larger gong (the second of a pair, or a deeper hall), the gong three semitones down"}
+  - id: xeen_mirror_touch
+    group: World and events
+    use: "a town mirror touched (the mirror network: Xeen.useMirror, first touch and the 'Where to?' prompt)"
+    duration: 2.0
+    variants: 4
+    loudness_db: -10
+    prompt: >-
+      A magic mirror waking at a touch: a soft glassy shimmering ripple, a faint rising hum and a delicate crystal
+      chime
+  - id: xeen_mirror_travel
+    group: World and events
+    use: the party steps through a mirror (before the move)
+    duration: 2.5
+    variants: 5
+    loudness_db: -9
+    prompt: >-
+      Stepping through a magic mirror: a rising glassy shimmer swelling into a soft rushing whoosh and a bright
+      crystalline chime
+  - id: xeen_pyramid_travel
+    group: World and events
+    use: an Ancient travel pyramid sends the party to the other face
+    duration: 3.5
+    variants: 4
+    loudness_db: -9
+    prompt: >-
+      An ancient machine teleporter activating: a deep rising electric hum, a pulsing resonant tone and a sudden soft
+      whooshing burst of energy
+  - id: xeen_sandfall_loop
+    group: World and events
+    use: "a sand-fall over the rim (X6's five xeen_sandfall, D-31): placed, looping, positional"
+    duration: 12
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -20
+    prompt: >-
+      A thick stream of dry sand pouring steadily over a high cliff edge: a constant soft hissing rush of falling
+      sand, close, no wind, no music
+  - id: xeen_sphinx_stir
+    group: World and events
+    use: "the Sphinx (X6, XD-15): the stone colossus stirs at the riddle and the door opens"
+    duration: 4
+    variants: 4
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 100, db: 4}
+    score_bias: power
+    prompt: >-
+      A colossal stone statue stirring: a deep grinding rumble of massive stone blocks shifting, sand pouring from
+      cracks and a heavy settling thud
+  - id: xeen_coffin_lid
+    group: World and events
+    use: "Count Draco's coffin on Nightshadow's square (X3, the lid and stair into XD-24, D-11.3); crypt coffins"
+    duration: 3
+    loudness_db: -9
+    prompt: >-
+      A heavy stone coffin lid being pushed open: a long grinding scrape of stone sliding on stone and a heavy thud as
+      it drops, a little dust
+  - id: xeen_reservoir_drain
+    group: World and events
+    use: "XD-10's plug pulled: the reservoir drains (before the bed is revealed)"
+    duration: 8
+    loudness_db: -8
+    highpass_hz: 30
+    prompt: >-
+      A large underground reservoir draining after a plug is pulled: a deep sucking gurgle, a rushing whirlpool of
+      water swirling down a drain and fading away to trickles and drips in a cave
+  - id: xeen_lift
+    group: World and events
+    use: "lifts: Ellinger's tower lift (DD-02) and any chain lift or moving platform"
+    duration: 4
+    loudness_db: -9
+    prompt: >-
+      A heavy wooden lift platform moving: chains rattling over an iron pulley, creaking timber and a solid clunk as
+      it stops
+  - id: xeen_winch
+    group: World and events
+    use: "winches: XD-26's hoist and drawn ladder (D-17), XD-21's plank bridge, XD-12's works gate"
+    duration: 3
+    loudness_db: -9
+    prompt: >-
+      A hand-cranked wooden winch hoisting a load: ratcheting gear clicks, a rope creaking under strain and a wooden
+      drum turning
+  - id: xeen_fortune
+    group: World and events
+    use: "fortune tellers and seers (the Darkside palm reader, the gypsies): a reading"
+    duration: 3
+    loudness_db: -11
+    prompt: >-
+      A fortune teller's mystical reading: a soft shimmering swell of a crystal ball, tinkling glass chimes and a low
+      warm hum
+  - id: xeen_spring_drink
+    group: World and events
+    use: "the Lifeforce Spring (X3, +2 Endurance) and the other fountains and shrines that grant a lasting gift"
+    duration: 2.5
+    variants: 4
+    loudness_db: -10
+    prompt: >-
+      Drinking from a magical spring: gentle bubbling water, a warm rising shimmer of healing magic and a soft
+      bell-like chime
+  - id: xeen_well_drink
+    group: World and events
+    use: "wells: 'The water is cool and refreshing.' (every well's click)"
+    duration: 2
+    loudness_db: -11
+    prompt: >-
+      Drinking from a stone village well: a wooden bucket splashing up, water poured into cupped hands and a quick
+      refreshing gulp
+  - id: xeen_obelisk
+    group: World and events
+    use: "the thirteen obelisks (A3's obelisks.<map>): an obelisk gives its word"
+    duration: 3
+    variants: 4
+    loudness_db: -9
+    # Second prompt (2026-11-20): the first four takes were a sub-bass hum alone (93-99 % under 150 Hz), no tone.
+    prompt: >-
+      An ancient stone obelisk awakening: a soft resonant hum swelling, then one clear bright bell-like crystal tone
+      ringing out high and pure and fading slowly, magical, no low rumble
+  - id: xeen_yard_gate
+    group: World and events
+    use: "the Warzone coach yard gate (X6, D-8.1); other heavy wooden yard and fort gates"
+    duration: 2.5
+    loudness_db: -9
+    prompt: >-
+      A heavy iron-bound wooden yard gate swinging open: a rusty creak of hinges, a latch clanking and a heavy thud
+      against the wall
+  - id: xeen_fire_ignite
+    group: World and events
+    use: "lairs and forts set alight (X1's orc outposts' drums, D2's burned ogre fort, the encampments): one-shot; the shipped 'raging fire loop' keeps burning"
+    duration: 4
+    loudness_db: -8
+    highpass_hz: 30
+    prompt: >-
+      A wooden fort catching fire: a whoosh of flames igniting, a crackling roar of burning timber and a wooden beam
+      cracking and collapsing
+  - id: xeen_phase_shift
+    group: World and events
+    use: "Castle Kalindra out of phase (DD-03 stages, D1's castle hill): the castle flickers or a stage changes"
+    duration: 5
+    variants: 5
+    loudness_db: -9
+    prompt: >-
+      A castle phasing in and out of reality: a deep warbling hum, shimmering glassy tones bending in pitch and a
+      ghostly whoosh fading away
+  - id: xeen_phase_loop
+    group: World and events
+    use: "Castle Kalindra's phase shimmer, placed and looping where the castle stands out of phase"
+    duration: 15
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -22
+    prompt: >-
+      A building caught out of phase with the world: a steady low warbling magical hum with slow shimmering glassy
+      overtones drifting in pitch, eerie, no music
+  - id: xeen_sky_gust
+    group: World and events
+    use: "the sky maps (X8, X9): a strong gust, placed with a wait over the shipped 'whistling wind'"
+    duration: 4
+    variants: 4
+    loudness_db: -10
+    prompt: >-
+      A strong high-altitude wind gust: a howling rush of wind sweeping past and whistling away, airy, no birds
+
+  # === (c) Ambience beds (placed, looping; mono) =====================================================================
+  # Indoor and the sky map: play now as placed ambient sounds (BLV scenes).
+  - id: xeen_amb_sewer
+    group: Ambience
+    use: "sewers (DD-01 Castleview Sewer, DD-18 Sandcaster Sewer)"
+    duration: 24
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -20
+    prompt: >-
+      Inside an old stone sewer tunnel: slow trickling and flowing dirty water, echoing drips, distant gurgling in
+      pipes and a faint hollow drone, no voices, no music, ambience
+  - id: xeen_amb_mine
+    group: Ambience
+    use: "mines (XD-02, XD-03, DD-10 Gemstone Mines)"
+    duration: 24
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -20
+    # Second prompt (2026-11-20): the first three takes were a sub-bass rumble alone (99 % under 150 Hz).
+    prompt: >-
+      Inside an old mine tunnel, close and detailed: water drops falling into small puddles and echoing, a far-off
+      metal pickaxe clinking on rock now and then, old wooden beams creaking, pebbles trickling down, quiet hollow air,
+      no low rumble, no bass drone, no voices, no music, ambience
+  - id: xeen_amb_tower
+    group: Ambience
+    use: "wizards' towers (XD-11 Tower of High Magic, XD-12 Darzog's Tower, DD-02 Ellinger's Tower, the towers of Mok)"
+    duration: 24
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -20
+    # Second prompt (2026-11-20): the first three takes were a sub-bass hum alone (96-100 % under 150 Hz).
+    prompt: >-
+      Inside a wizard's stone tower room: a soft warm mid-range magical hum like a singing crystal, slow faint
+      shimmering bell chimes, small sparkling crackles of magic, a gentle breeze at a high window, no low rumble, no
+      bass drone, no voices, no music, ambience
+  - id: xeen_amb_sky
+    group: Ambience
+    use: "the sky maps (X8 Cloudreach, X9 Clouds of Xeen): the open-air bed under the gusts"
+    duration: 24
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -20
+    prompt: >-
+      High above the clouds on a floating island: a strong steady wind rushing and whistling, gusts rising and
+      falling, vast airy open space, no birds, no music, ambience
+  # Outdoor maps: wait on the outdoor emitters (ROADMAP E9); made now so the maps get them when E9 lands.
+  - id: xeen_amb_meadow
+    group: Ambience
+    use: "Cloudside meadows (X1 Vertigo Meadows, X2's fields): waits on E9"
+    duration: 30
+    variants: 2
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A sunny meadow on a calm day: a light breeze through tall grass, distant songbirds, a few buzzing insects,
+      peaceful, no voices, no music, ambience
+  - id: xeen_amb_lagoon
+    group: Ambience
+    use: "X3 Lifeforce Lagoon, D4's lake shore: waits on E9"
+    duration: 30
+    variants: 2
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A warm swampy lagoon: frogs croaking, water lapping softly in the reeds, insects buzzing and distant marsh bird
+      calls, humid, no voices, no music, ambience
+  - id: xeen_amb_tundra
+    group: Ambience
+    use: "X5 Winterkill Tundra: waits on E9"
+    duration: 30
+    variants: 2
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A frozen tundra: cold wind howling low over snowfields, blowing snow hissing, the occasional creak of ice,
+      desolate, no voices, no music, ambience
+  - id: xeen_amb_savannah
+    group: Ambience
+    use: "X4 Burlock Savannah: waits on E9"
+    duration: 30
+    variants: 2
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A dry grassland savannah in the afternoon: warm wind in tall dry grass, a steady drone of cicadas and crickets,
+      a distant bird cry, no voices, no music, ambience
+  - id: xeen_amb_desert
+    group: Ambience
+    use: "X6 Desert of the Sphinx, D5 Desert of Doom: waits on E9"
+    duration: 30
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    # Session 3 (E9 live): the first prompt's two takes were 77-97 % below 80 Hz (wind rumble, no sand); the second
+    # asks for the hiss and the whistle and names no low sound, but its takes are 86-95 % below 80 Hz too: install.py
+    # high-passes the pick at 150 Hz (4th order) and levels it again (`bed_highpass_hz`), which brings the sand up.
+    bed_highpass_hz: 150
+    prompt: >-
+      Hot open desert in bright daylight: a dry wind gusting over sand dunes, fine sand grains hissing and skittering
+      across the ground, a thin airy whistle of wind over a dune crest, bright and dry, no animals, no voices, no
+      music, ambience
+  - id: xeen_amb_darkside
+    group: Ambience
+    use: "Darkside's surface under the amber, failing sun (D1-D4): waits on E9"
+    duration: 30
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    # Session 3 (E9 live): the first prompt's takes had nothing above 600 Hz (a drone, no crickets, no crow); the
+    # second leads with the crickets and the crow and drops "low", "deep" and "drone".
+    prompt: >-
+      Open grassland at a strange amber dusk: a steady chorus of crickets chirping near and far, a light dry breeze
+      rustling the grass, now and then a single crow cawing in the distance, calm but uneasy, no voices, no music,
+      ambience
+
+  # === (d) Voice lines (D-38, devdocs/xeen/DECISIONS.md; the sheet: devdocs/xeen/AUDIO.md (d)) =====================
+  # One Voice Design per speaker (eleven_ttv_v3, one request = three previews; the saved preview keeps the five voices
+  # as far apart as possible by a log-mel measure: voices.py), each line read three times with eleven_v3 (stability
+  # 0.5), a light treatment (size by formants, not pitch), and a take picked only if both local Whisper models read it
+  # (whisper_check.py). Texts are the locked `voice:` lines of the quest YAMLs (m5, m32, m33, m35, m42). Cap: 4 000
+  # credits committed for the voice work.
+
+  # --- The voices -----------------------------------------------------------------------------------------------------
+  - id: vd_burlock
+    group: "Voices: designs"
+    kind: voice_design
+    title: "King Burlock: the voice design"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen King Burlock"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror. No mirror? Get out of my sight! Thank you for rescuing Xeen from that foul spirit."
+    prompt: "A blustering, pompous old king: a plump, hearty, chesty mid-low male voice, loud and self-important, easily flustered and quick to splutter with indignation, comic and a little ridiculous but never silly-voiced, crisp diction, no accent. Close, dry studio recording."
+  - id: vd_lord_xeen
+    group: "Voices: designs"
+    kind: voice_design
+    title: "Lord Xeen: the voice design"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Lord Xeen"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "The King's little crusaders, all this way up. Kneel, and I may let you fall gently. You have no idea what you have broken. None at all."
+    prompt: "A cold, amused usurper lord: a very deep, smooth, dark bass voice, slow and unhurried, quietly mocking, a cruel smile in every word, never raised, velvet and menace, no accent. Close, dry studio recording."
+  - id: vd_sheltem
+    group: "Voices: designs"
+    kind: voice_design
+    title: "Sheltem: the voice design"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Sheltem"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Chosen Ones. You have nothing I need to fear. Corak. You took your time. I have kept this world since before your kind had names."
+    prompt: "An ancient, dry, contemptuous guardian gone wrong: an old man's thin, papery, clipped tenor-baritone, cold and exact, bored disdain, every word bitten off, a faint flat mechanical edge as if a machine were speaking through him, no accent. Close, dry studio recording."
+  - id: vd_corak
+    group: "Voices: designs"
+    kind: voice_design
+    title: "Corak: the voice design"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Corak"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Ah! A Soulbox! You have done well. I will hide in the box while you take me to him. Sheltem. The Cube! Take it and run!"
+    prompt: "A warm, measured ancient guardian: a calm, kind, resonant mid-low baritone, steady and reassuring, gentle authority, unhurried, with a faint smooth synthetic sheen like a wise machine that cares, no accent. Close, dry studio recording."
+  - id: vd_pharaoh
+    group: "Voices: designs"
+    kind: voice_design
+    title: "The Dragon Pharaoh: the voice design"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Dragon Pharaoh"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Let the two faces of Xeen be one world again. You must have the Cube of Power and the Scepter, and the four sleepers must be awakened."
+    prompt: "An ancient dragon king: a very old, warm, slow and solemn male voice, deep and breathy, kind, a soft dry hiss drawn out on the s sounds and a low reptilian rasp in the throat, enormous and gentle. Close, dry studio recording."
+  # Second requests for Corak and the Pharaoh: the first previews sat at 67-85 Hz beside Lord Xeen's (69-79 Hz), the
+  # closest pairs of the set; these ask for a lighter Corak and an older, thinner Pharaoh.
+  - id: vd_corak_2
+    group: "Voices: designs"
+    kind: voice_design
+    title: "Corak: the voice design, second request (lighter)"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Corak"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Ah! A Soulbox! You have done well. I will hide in the box while you take me to him. Sheltem. The Cube! Take it and run!"
+    prompt: "A warm, measured ancient guardian: a clear, kind, mid-range baritone, lighter and brighter than a bass, steady and reassuring, gentle authority, unhurried, with a faint smooth synthetic sheen like a wise machine that cares, no accent. Close, dry studio recording."
+  - id: vd_pharaoh_2
+    group: "Voices: designs"
+    kind: voice_design
+    title: "The Dragon Pharaoh: the voice design, second request (older, thinner)"
+    use: "Voice Design previews (three); the chosen one is saved as the voice"
+    voice_name: "Xeen Dragon Pharaoh"
+    model: eleven_ttv_v3
+    variants: 1
+    text: "Let the two faces of Xeen be one world again. You must have the Cube of Power and the Scepter, and the four sleepers must be awakened."
+    prompt: "An ancient dragon king, very old: a frail, breathy, slightly wheezing elderly male voice, thinner and higher with great age, warm and kindly, slow and solemn, a long dry hiss drawn out on every s and a soft reptilian rasp. Close, dry studio recording."
+
+  # --- The lines: three takes each (eleven_v3), then the speaker's treatment on every take -----------------------
+  - id: xeen_vo_burlock_charge_take
+    group: "Voices: lines"
+    kind: tts
+    use: "King Burlock: the takes, untreated (not installed)"
+    line: "King Burlock: Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror."
+    voice_id: tRHOdGZbt2VZzsIzwUVt
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[pompous, hearty] Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror."
+  - id: xeen_vo_burlock_charge
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_burlock_charge_take]
+    use: "m5 (aaze0064): the King charges the party (XD-07 throne room, the first audience)"
+    line: "King Burlock: Ah, more adventurers! I charge you with the quest of finding the Sixth Mirror."
+    shift: {pitch: 0, formant: -1}
+    room: {seconds: 0.35, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 70
+    loudness_db: -9
+  - id: xeen_vo_burlock_no_mirror_take
+    group: "Voices: lines"
+    kind: tts
+    use: "King Burlock: the takes, untreated (not installed)"
+    line: "King Burlock: NO MIRROR?!? Get out of my sight!"
+    voice_id: tRHOdGZbt2VZzsIzwUVt
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[indignant, sputtering] No mirror?!? Get out of my sight!"
+  - id: xeen_vo_burlock_no_mirror
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_burlock_no_mirror_take]
+    use: "m5 (aaze0064:13): every time the mirror topic is asked without it"
+    line: "King Burlock: NO MIRROR?!? Get out of my sight!"
+    shift: {pitch: 0, formant: -1}
+    room: {seconds: 0.35, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 70
+    loudness_db: -9
+  - id: xeen_vo_burlock_thanks_take
+    group: "Voices: lines"
+    kind: tts
+    use: "King Burlock: the takes, untreated (not installed)"
+    line: "King Burlock: Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though."
+    voice_id: tRHOdGZbt2VZzsIzwUVt
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "Thank you for rescuing Xeen from that foul spirit. [sighs] It is a pity about the mirror, though."
+  - id: xeen_vo_burlock_thanks
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_burlock_thanks_take]
+    use: "m35 (aaze0064:14): after Lord Xeen falls"
+    line: "King Burlock: Thank you for rescuing Xeen from that foul spirit. It is a pity about the mirror, though."
+    shift: {pitch: 0, formant: -1}
+    room: {seconds: 0.35, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 70
+    loudness_db: -9
+  - id: xeen_vo_corak_soulbox_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Corak: the takes, untreated (not installed)"
+    line: "Corak: Ah! A Soulbox! You have done well."
+    voice_id: whF5D6oEaYFpKDZUVZ5m
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    # The takes of "[warmly] Ah! A Soulbox!" and "[warmly] Ah... A Soulbox!" ran "Ah" and "a" together ("Ah, our
+    # soul box", "Ah, ah, soul box"): no take passed small.en; nor did "Ah! A soul box!" untagged ("Ah, soulbox").
+    # Fourth prompt: a pause tag between them.
+    prompt: "[warmly] Ah! [short pause] A Soulbox! You have done well."
+  - id: xeen_vo_corak_soulbox
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_corak_soulbox_take]
+    use: "m32: Corak takes the Soul Box (DD-16, his pod)"
+    line: "Corak: Ah! A Soulbox! You have done well."
+    shift: {pitch: 0, formant: -1}
+    ring: {hz: 40, mix: 0.05}
+    room: {seconds: 0.4, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 160
+    lowpass_hz: 6500
+    low_shelf: {hz: 300, db: 4}
+    loudness_db: -9
+  - id: xeen_vo_lord_xeen_sight_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Lord Xeen: the takes, untreated (not installed)"
+    line: "Lord Xeen: The King's little crusaders, all this way up. Kneel, and I may let you fall gently."
+    voice_id: oOrp7bZ4qg1Z5CS1ziP8
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    # The first three takes ("[slow, amused laugh] ..." at stability 0.5) skipped the laugh: each opens on "The
+    # King's" within the first second. Retaken at stability 0 ("Creative", which follows audio tags most closely)
+    # with the standard tag.
+    voice_settings: {stability: 0.0, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[laughs slowly] [amused] The King's little crusaders, all this way up. Kneel, and I may let you fall gently."
+  - id: xeen_vo_lord_xeen_sight
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_lord_xeen_sight_take]
+    use: "m35 lord_xeen_sight: first sight of Lord Xeen on his throne (XD-19), once per save"
+    line: "Lord Xeen: The King's little crusaders, all this way up. Kneel, and I may let you fall gently."
+    shift: {pitch: 0, formant: -2}
+    undertone: {semitones: -12, gain_db: -16, delay_ms: 10}
+    room: {seconds: 0.5, mix: 0.1, lowpass_hz: 2000}
+    highpass_hz: 50
+    loudness_db: -9
+  - id: xeen_vo_lord_xeen_death_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Lord Xeen: the takes, untreated (not installed)"
+    line: "Lord Xeen: You have no idea what you have broken."
+    voice_id: oOrp7bZ4qg1Z5CS1ziP8
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[dying, a bitter whisper] You have no idea what you have broken."
+  - id: xeen_vo_lord_xeen_death
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_lord_xeen_death_take]
+    use: "m35 lord_xeen: his death at the throne (XD-19), once per save"
+    line: "Lord Xeen: You have no idea what you have broken."
+    shift: {pitch: 0, formant: -2}
+    undertone: {semitones: -12, gain_db: -16, delay_ms: 10}
+    room: {seconds: 0.5, mix: 0.1, lowpass_hz: 2000}
+    highpass_hz: 50
+    loudness_db: -9
+  - id: xeen_vo_sheltem_refusal_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Sheltem: the takes, untreated (not installed)"
+    line: "Sheltem: Chosen Ones. You have nothing I need to fear."
+    voice_id: hZOe383KWOKL4H5rkLCx
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[coldly, contemptuous] Chosen Ones. You have nothing I need to fear."
+  - id: xeen_vo_sheltem_refusal
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_sheltem_refusal_take]
+    use: "m33: DD-17 door refusal without the Soul Box, first time only (refused_once)"
+    line: "Sheltem: Chosen Ones. You have nothing I need to fear."
+    shift: {pitch: 0, formant: -1.5}
+    ring: {hz: 40, mix: 0.12}
+    room: {seconds: 0.4, mix: 0.08, lowpass_hz: 2500}
+    highpass_hz: 200
+    lowpass_hz: 6500
+    loudness_db: -9
+  - id: xeen_vo_pharaoh_unification_take
+    group: "Voices: lines"
+    kind: tts
+    use: "The Dragon Pharaoh: the takes, untreated (not installed)"
+    line: "The Dragon Pharaoh: Let the two faces of Xeen be one world again."
+    voice_id: VwvG90kRuXE2gg0212hY
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[solemnly] Let the two faces of Xeen be one world again."
+  - id: xeen_vo_pharaoh_unification
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_pharaoh_unification_take]
+    use: "M42: the unification at the shrine (the ending)"
+    line: "The Dragon Pharaoh: Let the two faces of Xeen be one world again."
+    shift: {pitch: 0, formant: -2.5}
+    undertone: {semitones: -12, gain_db: -14, delay_ms: 12}
+    room: {seconds: 0.6, mix: 0.12, lowpass_hz: 2200}
+    highpass_hz: 50
+    loudness_db: -9
+  - id: xeen_vo_part_corak_sheltem_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Corak: the takes, untreated (not installed)"
+    line: "Corak: Sheltem."
+    voice_id: whF5D6oEaYFpKDZUVZ5m
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[gravely, recognising an old enemy] Sheltem."
+  - id: xeen_vo_part_corak_sheltem
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_part_corak_sheltem_take]
+    use: "part of xeen_vo_sheltem_corak (m33): Corak steps out of the box"
+    line: "Corak: Sheltem."
+    shift: {pitch: 0, formant: -1}
+    ring: {hz: 40, mix: 0.05}
+    room: {seconds: 0.4, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 160
+    lowpass_hz: 6500
+    low_shelf: {hz: 300, db: 4}
+    loudness_db: -9
+  - id: xeen_vo_part_sheltem_time_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Sheltem: the takes, untreated (not installed)"
+    line: "Sheltem: Corak. You took your time."
+    voice_id: hZOe383KWOKL4H5rkLCx
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[dry, contemptuous] Corak. You took your time."
+  - id: xeen_vo_part_sheltem_time
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_part_sheltem_time_take]
+    use: "part of xeen_vo_sheltem_corak (m33): Sheltem answers"
+    line: "Sheltem: Corak. You took your time."
+    shift: {pitch: 0, formant: -1.5}
+    ring: {hz: 40, mix: 0.12}
+    room: {seconds: 0.4, mix: 0.08, lowpass_hz: 2500}
+    highpass_hz: 200
+    lowpass_hz: 6500
+    loudness_db: -9
+  - id: xeen_vo_part_corak_cube_take
+    group: "Voices: lines"
+    kind: tts
+    use: "Corak: the takes, untreated (not installed)"
+    line: "Corak: The Cube! Take it and run!"
+    voice_id: whF5D6oEaYFpKDZUVZ5m
+    model: eleven_v3
+    formats: [wav_48000, mp3_44100_192]
+    voice_settings: {stability: 0.5, similarity_boost: 0.8}
+    variants: 3
+    prompt: "[urgent, strained] The Cube! Take it and run!"
+  - id: xeen_vo_part_corak_cube
+    group: "Voices: lines"
+    kind: derived
+    each: true
+    from: [xeen_vo_part_corak_cube_take]
+    use: "part of xeen_vo_sheltem_corak (m33): Corak, from inside the light"
+    line: "Corak: The Cube! Take it and run!"
+    shift: {pitch: 0, formant: -1}
+    ring: {hz: 40, mix: 0.05}
+    room: {seconds: 0.4, mix: 0.08, lowpass_hz: 3000}
+    highpass_hz: 160
+    lowpass_hz: 6500
+    low_shelf: {hz: 300, db: 4}
+    loudness_db: -9
+  - id: xeen_vo_sheltem_corak
+    group: "Voices: lines"
+    kind: derived
+    from: [xeen_vo_part_corak_sheltem, xeen_vo_part_sheltem_time, xeen_vo_part_corak_cube]
+    gap: 0.6
+    use: "m33: the Soul Box thrown down before Sheltem (DD-17): Corak, Sheltem, Corak in one sound"
+    line: "Corak: Sheltem. / Sheltem: Corak. You took your time. / Corak: The Cube! Take it and run!"
+    loudness_db: -9
+
+  # === Batch 2 (2026-11-20, session 2): monster and boss sets (AUDIO.md table (a), batch 2) =======================
+  # --- Pyramid mummies (11270-11272): off MM9's ids 50546-50553, silent without the MM9 package --------------------------
+  - id: xeen_mummy_attack
+    group: "Monsters: pyramid mummies"
+    use: "pyramid mummies' attack"
+    duration: 1.0
+    loudness_db: -9
+    prompt: "An ancient desiccated mummy lashing out: a dry rasping hiss from a withered throat, the creak of stiff old linen wrappings and a heavy dusty blow, close"
+  - id: xeen_mummy_wince
+    group: "Monsters: pyramid mummies"
+    use: "pyramid mummies hurt"
+    duration: 0.6
+    loudness_db: -9
+    prompt: "An ancient desiccated mummy struck: a dry papery rasping groan and a puff of dust, close"
+  - id: xeen_mummy_death
+    group: "Monsters: pyramid mummies"
+    use: "pyramid mummies' death"
+    duration: 2.0
+    loudness_db: -9
+    prompt: "An ancient mummy collapsing: a long dry wheezing moan fading out as brittle bones and old wrappings crumble into a heap of dust and sand"
+  - id: xeen_mummy_fidget
+    group: "Monsters: pyramid mummies"
+    use: "pyramid mummies' idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "An ancient mummy shambling in a stone tomb: a slow dry raspy breath, stiff wrappings creaking and one dragging footstep, close"
+  - {id: xeen_mummy_c_attack, kind: derived, from: [xeen_mummy_attack], pitch: -2, group: "Monsters: pyramid mummies", use: "Royal Mummy: pyramid mummies's attack, 2 semitones down"}
+  - {id: xeen_mummy_c_wince, kind: derived, from: [xeen_mummy_wince], pitch: -2, group: "Monsters: pyramid mummies", use: "Royal Mummy: pyramid mummies's wince, 2 semitones down"}
+  - {id: xeen_mummy_c_death, kind: derived, from: [xeen_mummy_death], pitch: -2, group: "Monsters: pyramid mummies", use: "Royal Mummy: pyramid mummies's death, 2 semitones down"}
+  - {id: xeen_mummy_c_fidget, kind: derived, from: [xeen_mummy_fidget], pitch: -2, group: "Monsters: pyramid mummies", use: "Royal Mummy: pyramid mummies's fidget, 2 semitones down"}
+  # --- Xeen's Guard (11603): Castle Xeen's walking energy construct, on the stand-in's sounds ----------------------------
+  - id: xeen_xguard_attack
+    group: "Monsters: Xeen's Guard"
+    use: "Xeen's Guard's attack"
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A massive enchanted armoured construct striking: a deep resonant energy hum surging into a crackling electric discharge and a heavy metallic impact, close"
+  - id: xeen_xguard_wince
+    group: "Monsters: Xeen's Guard"
+    use: "Xeen's Guard hurt"
+    duration: 0.6
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A massive enchanted metal construct hit: a ringing metallic clang with a brief sputter of crackling energy"
+  - id: xeen_xguard_death
+    group: "Monsters: Xeen's Guard"
+    use: "Xeen's Guard's death"
+    duration: 2.5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A massive enchanted armoured construct breaking down: its energy hum winds down and sputters out in sparks, then heavy metal plates crash onto a stone floor"
+  - id: xeen_xguard_fidget
+    group: "Monsters: Xeen's Guard"
+    use: "Xeen's Guard's idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A massive enchanted armoured construct standing guard: a low steady magical hum, a faint electric crackle and a heavy metallic shift of weight"
+  # --- Floating mages (11200-11202): the warlock stand-in, no fidget -----------------------------------------------------
+  - id: xeen_mage_attack
+    group: "Monsters: floating mages"
+    use: "floating mages' attack"
+    duration: 1.0
+    loudness_db: -9
+    prompt: "A hovering sorcerer hurling a spell: a sharp rising arcane whoosh charged with crackling energy under a short forceful male grunt, close"
+  - id: xeen_mage_wince
+    group: "Monsters: floating mages"
+    use: "floating mages hurt"
+    duration: 0.5
+    loudness_db: -9
+    prompt: "A hovering sorcerer hurt: a short sharp male grunt of pain with a flicker of sparkling magic, close"
+  - id: xeen_mage_death
+    group: "Monsters: floating mages"
+    use: "floating mages' death"
+    duration: 2.0
+    loudness_db: -9
+    prompt: "A hovering sorcerer dying: a long falling male cry, a magical shimmer collapsing and fading, and a body dropping to the ground"
+  - id: xeen_mage_fidget
+    group: "Monsters: floating mages"
+    use: "floating mages' idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A sorcerer floating in the air: a soft low magical hum, robes fluttering gently and a quiet wordless murmur, close"
+  - {id: xeen_mage_c_attack, kind: derived, from: [xeen_mage_attack], pitch: -1.5, group: "Monsters: floating mages", use: "Mega Mage: floating mages's attack, 1.5 semitones down"}
+  - {id: xeen_mage_c_wince, kind: derived, from: [xeen_mage_wince], pitch: -1.5, group: "Monsters: floating mages", use: "Mega Mage: floating mages's wince, 1.5 semitones down"}
+  - {id: xeen_mage_c_death, kind: derived, from: [xeen_mage_death], pitch: -1.5, group: "Monsters: floating mages", use: "Mega Mage: floating mages's death, 1.5 semitones down"}
+  - {id: xeen_mage_c_fidget, kind: derived, from: [xeen_mage_fidget], pitch: -1.5, group: "Monsters: floating mages", use: "Mega Mage: floating mages's fidget, 1.5 semitones down"}
+  # --- Coven (11170-11172): the coven's own voice, not the witches' set --------------------------------------------------
+  - id: xeen_coven_attack
+    group: "Monsters: the coven"
+    use: "the coven's attack"
+    duration: 1.2
+    loudness_db: -9
+    prompt: "Three old witches casting a curse together: harsh voices chanting one rising syllable in eerie unison, then a crackle of dark magic, no words, close"
+  - id: xeen_coven_wince
+    group: "Monsters: the coven"
+    use: "the coven hurt"
+    duration: 0.6
+    loudness_db: -9
+    prompt: "Several old witches hurt at once: a chorus of sharp shrieking gasps overlapping, close"
+  - id: xeen_coven_death
+    group: "Monsters: the coven"
+    use: "the coven's death"
+    duration: 2.2
+    loudness_db: -9
+    prompt: "A coven of old witches dying: overlapping wailing screams rising and fading into a whispering echo, no words"
+  - id: xeen_coven_fidget
+    group: "Monsters: the coven"
+    use: "the coven's idle fidget"
+    duration: 1.8
+    loudness_db: -11
+    prompt: "A coven of old witches murmuring together: low overlapping whispered muttering and a soft wicked cackle, no words"
+  - {id: xeen_coven_c_attack, kind: derived, from: [xeen_coven_attack], pitch: -1.5, group: "Monsters: the coven", use: "Coven Mother: the coven's attack, 1.5 semitones down"}
+  - {id: xeen_coven_c_wince, kind: derived, from: [xeen_coven_wince], pitch: -1.5, group: "Monsters: the coven", use: "Coven Mother: the coven's wince, 1.5 semitones down"}
+  - {id: xeen_coven_c_death, kind: derived, from: [xeen_coven_death], pitch: -1.5, group: "Monsters: the coven", use: "Coven Mother: the coven's death, 1.5 semitones down"}
+  - {id: xeen_coven_c_fidget, kind: derived, from: [xeen_coven_fidget], pitch: -1.5, group: "Monsters: the coven", use: "Coven Mother: the coven's fidget, 1.5 semitones down"}
+  # --- Hornets (11350-11352): huge insects, on the wasp warrior today ----------------------------------------------------
+  - id: xeen_hornet_attack
+    group: "Monsters: hornets"
+    use: "hornets' attack"
+    duration: 0.9
+    loudness_db: -9
+    prompt: "A giant hornet as big as a dog diving to sting: a loud angry buzzing whine rising sharply and a hard wet stab, close"
+  - id: xeen_hornet_wince
+    group: "Monsters: hornets"
+    use: "hornets hurt"
+    duration: 0.5
+    loudness_db: -9
+    # The first takes came out as sub-bass thumps (77-96 % under 150 Hz): re-prompted for the wing whine.
+    highpass_hz: 120
+    prompt: "A giant hornet hit: a sudden high-pitched angry whine of buzzing wings jumping in pitch and a dry chitinous crack, close"
+  - id: xeen_hornet_death
+    group: "Monsters: hornets"
+    use: "hornets' death"
+    duration: 1.6
+    loudness_db: -9
+    prompt: "A giant hornet dying: its loud buzzing sputters and spins down, wings fluttering out, a dry chitinous body hitting the ground"
+  - id: xeen_hornet_fidget
+    group: "Monsters: hornets"
+    use: "hornets' idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    # The first takes ("a deep ... droning buzz") were sub-bass alone (80-94 % under 150 Hz): re-prompted without
+    # "deep", for the buzzing whine a hornet makes.
+    highpass_hz: 120
+    prompt: "A giant hornet hovering in place: a loud steady angry buzzing whine of large wings, rough and raspy, with slow pitch wobbles, close"
+  - {id: xeen_hornet_c_attack, kind: derived, from: [xeen_hornet_attack], pitch: -2, group: "Monsters: hornets", use: "Hornet Queen: hornets's attack, 2 semitones down"}
+  - {id: xeen_hornet_c_wince, kind: derived, from: [xeen_hornet_wince], pitch: -2, group: "Monsters: hornets", use: "Hornet Queen: hornets's wince, 2 semitones down"}
+  - {id: xeen_hornet_c_death, kind: derived, from: [xeen_hornet_death], pitch: -2, group: "Monsters: hornets", use: "Hornet Queen: hornets's death, 2 semitones down"}
+  - {id: xeen_hornet_c_fidget, kind: derived, from: [xeen_hornet_fidget], pitch: -2, group: "Monsters: hornets", use: "Hornet Queen: hornets's fidget, 2 semitones down"}
+  # --- Armadillo (sand burrowers' tier B, 11441): its own set instead of the worm's --------------------------------------
+  - id: xeen_armadillo_attack
+    group: "Monsters: the Armadillo"
+    use: "the Armadillo's attack"
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A huge armoured armadillo charging and biting: a snorting grunt, armour plates clattering and a hard heavy thump, close"
+  - id: xeen_armadillo_wince
+    group: "Monsters: the Armadillo"
+    use: "the Armadillo hurt"
+    duration: 0.5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A huge armoured armadillo hurt: a short squealing snort and a rattle of hard plates, close"
+  - id: xeen_armadillo_death
+    group: "Monsters: the Armadillo"
+    use: "the Armadillo's death"
+    duration: 1.8
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A huge armoured armadillo dying: a long wheezing squeal fading out and a heavy plated body rolling over onto the ground with a clatter"
+  - id: xeen_armadillo_fidget
+    group: "Monsters: the Armadillo"
+    use: "the Armadillo's idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A huge armadillo rooting in dry sand: sniffing snorts, claws scratching and digging, armour plates clicking, close"
+  # --- Octopods (11470-11472): D4 lake swimmers, on the sea monster today ------------------------------------------------
+  - id: xeen_octopod_attack
+    group: "Monsters: octopods"
+    use: "octopods' attack"
+    duration: 1.1
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A giant octopus lashing out of the water: a heavy wet tentacle whipping through the air and slapping hard, water splashing, a deep gurgling hiss, close"
+  - id: xeen_octopod_wince
+    group: "Monsters: octopods"
+    use: "octopods hurt"
+    duration: 0.6
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A giant octopus hurt: a sharp wet squelch and a bubbling hiss, close"
+  - id: xeen_octopod_death
+    group: "Monsters: octopods"
+    use: "octopods' death"
+    duration: 2.2
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A giant octopus dying: a long gurgling, bubbling groan, tentacles thrashing weakly and splashing, then sinking with bubbles"
+  - id: xeen_octopod_fidget
+    group: "Monsters: octopods"
+    use: "octopods' idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A giant octopus in the shallows: wet slithering tentacles, soft squelches and bubbling water, close"
+  - {id: xeen_octopod_c_attack, kind: derived, from: [xeen_octopod_attack], pitch: -2, group: "Monsters: octopods", use: "Kraken: octopods's attack, 2 semitones down"}
+  - {id: xeen_octopod_c_wince, kind: derived, from: [xeen_octopod_wince], pitch: -2, group: "Monsters: octopods", use: "Kraken: octopods's wince, 2 semitones down"}
+  - {id: xeen_octopod_c_death, kind: derived, from: [xeen_octopod_death], pitch: -2, group: "Monsters: octopods", use: "Kraken: octopods's death, 2 semitones down"}
+  - {id: xeen_octopod_c_fidget, kind: derived, from: [xeen_octopod_fidget], pitch: -2, group: "Monsters: octopods", use: "Kraken: octopods's fidget, 2 semitones down"}
+  # --- Swamp things (11460-11462): X3, on the treant today ---------------------------------------------------------------
+  - id: xeen_swamp_attack
+    group: "Monsters: swamp things"
+    use: "swamp things' attack"
+    duration: 1.1
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A hulking bog monster of mud and rotting weeds striking: a deep wet gurgling roar and a heavy squelching slam of muddy limbs, close"
+  - id: xeen_swamp_wince
+    group: "Monsters: swamp things"
+    use: "swamp things hurt"
+    duration: 0.6
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A hulking mud and weed monster hurt: a wet bubbling grunt and a splatter of mud, close"
+  - id: xeen_swamp_death
+    group: "Monsters: swamp things"
+    use: "swamp things' death"
+    duration: 2.2
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A hulking bog monster collapsing: a long gurgling, bubbling moan as its body sloughs apart into wet mud and splashes into the bog"
+  - id: xeen_swamp_fidget
+    group: "Monsters: swamp things"
+    use: "swamp things' idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A hulking bog monster idling: slow wet squelching movement, dripping water and a low bubbling gurgle, close"
+  - {id: xeen_swamp_c_attack, kind: derived, from: [xeen_swamp_attack], pitch: -2, group: "Monsters: swamp things", use: "Marsh Horror: swamp things's attack, 2 semitones down"}
+  - {id: xeen_swamp_c_wince, kind: derived, from: [xeen_swamp_wince], pitch: -2, group: "Monsters: swamp things", use: "Marsh Horror: swamp things's wince, 2 semitones down"}
+  - {id: xeen_swamp_c_death, kind: derived, from: [xeen_swamp_death], pitch: -2, group: "Monsters: swamp things", use: "Marsh Horror: swamp things's death, 2 semitones down"}
+  - {id: xeen_swamp_c_fidget, kind: derived, from: [xeen_swamp_fidget], pitch: -2, group: "Monsters: swamp things", use: "Marsh Horror: swamp things's fidget, 2 semitones down"}
+  # --- Snake men (11500-11502): Asp Undercroft, on the serpentmen today --------------------------------------------------
+  - id: xeen_snakeman_attack
+    group: "Monsters: snake men"
+    use: "snake men's attack"
+    duration: 0.9
+    loudness_db: -9
+    prompt: "A snake-headed warrior lunging with a curved blade: a sharp venomous hiss, a whoosh and a slicing strike, close"
+  - id: xeen_snakeman_wince
+    group: "Monsters: snake men"
+    use: "snake men hurt"
+    duration: 0.5
+    loudness_db: -9
+    # The first takes were hiss alone (no energy under 600 Hz): re-prompted with a voiced cry under the hiss.
+    prompt: "A snake-headed humanoid hurt: a raspy reptilian shriek through bared fangs, voiced and throaty, ending in a hiss, close"
+  - id: xeen_snakeman_death
+    group: "Monsters: snake men"
+    use: "snake men's death"
+    duration: 1.8
+    loudness_db: -9
+    # The first takes were hiss alone (60 % above 8 kHz, nothing under 600 Hz): re-prompted with a voice and the fall.
+    prompt: "A snake-headed humanoid dying: a gurgling reptilian scream that trails off into a long weak hiss, then a heavy body slumping onto a stone floor"
+  - id: xeen_snakeman_fidget
+    group: "Monsters: snake men"
+    use: "snake men's idle fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: "A snake-headed humanoid waiting: a flicking tongue, soft sibilant hissing breaths and the scrape of scales, close"
+  - {id: xeen_snakeman_c_attack, kind: derived, from: [xeen_snakeman_attack], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's attack, 1.5 semitones down"}
+  - {id: xeen_snakeman_c_wince, kind: derived, from: [xeen_snakeman_wince], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's wince, 1.5 semitones down"}
+  - {id: xeen_snakeman_c_death, kind: derived, from: [xeen_snakeman_death], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's death, 1.5 semitones down"}
+  - {id: xeen_snakeman_c_fidget, kind: derived, from: [xeen_snakeman_fidget], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's fidget, 1.5 semitones down"}
+  # --- Boss: Lord Xeen (11634, XD-19), on the demon set today; no laugh or words (his voice lines are separate) ----------
+  - id: xeen_lordxeen_attack
+    group: "Bosses: Lord Xeen"
+    use: "Lord Xeen's attack"
+    duration: 1.5
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A powerful dark sorcerer lord striking with magic: a deep cold contemptuous grunt, a surge of roaring dark fire and a heavy concussive blast, close"
+  - id: xeen_lordxeen_wince
+    group: "Bosses: Lord Xeen"
+    use: "Lord Xeen hurt"
+    duration: 0.8
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A powerful dark lord hurt: a deep sharp snarl of pain and fury, close"
+  - id: xeen_lordxeen_death
+    group: "Bosses: Lord Xeen"
+    use: "Lord Xeen's death"
+    duration: 3.5
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "A powerful demonic lord dying: a long deep agonised roar that cracks into a hollow echoing scream, a wet tearing like a mask peeling away, and a fading rush of dark wind"
+  - id: xeen_lordxeen_fidget
+    group: "Bosses: Lord Xeen"
+    use: "Lord Xeen's idle fidget"
+    duration: 2.0
+    loudness_db: -11
+    prompt: "A powerful dark lord waiting on his throne: a slow deep menacing breath over a low rumbling hum of dark magic, close"
+  # --- Boss: the Dragon King (11645, XD-18) and, pitched up, Xeen's Pet (11644, XD-19), on the shipped dragon today ------
+  - id: xeen_dragonking_attack
+    group: "Bosses: the Dragon King"
+    use: "the Dragon King's attack"
+    duration: 2.0
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous ancient fire dragon attacking: a deafening deep roar that turns into a long rushing blast of fire breath, close"
+  - id: xeen_dragonking_wince
+    group: "Bosses: the Dragon King"
+    use: "the Dragon King hurt"
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous ancient dragon wounded: a sharp deep bellowing snarl of pain, close"
+  - id: xeen_dragonking_death
+    group: "Bosses: the Dragon King"
+    use: "the Dragon King's death"
+    duration: 3.5
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous ancient dragon dying: a long shuddering roar that weakens into a rattling groan, huge wings collapsing and a colossal body crashing to the ground"
+  - id: xeen_dragonking_fidget
+    group: "Bosses: the Dragon King"
+    use: "the Dragon King's idle fidget"
+    duration: 2.5
+    loudness_db: -11
+    prompt: "An enormous ancient dragon at rest: a slow deep rumbling growl in a vast chest, a smoky snort and the leathery shift of huge wings"
+  - {id: xeen_dragonpet_attack, kind: derived, from: [xeen_dragonking_attack], pitch: 2, group: "Bosses: the Dragon King", use: "Xeen's Pet (smaller): the Dragon King's attack, 2 semitones up"}
+  - {id: xeen_dragonpet_wince, kind: derived, from: [xeen_dragonking_wince], pitch: 2, group: "Bosses: the Dragon King", use: "Xeen's Pet (smaller): the Dragon King's wince, 2 semitones up"}
+  - {id: xeen_dragonpet_death, kind: derived, from: [xeen_dragonking_death], pitch: 2, group: "Bosses: the Dragon King", use: "Xeen's Pet (smaller): the Dragon King's death, 2 semitones up"}
+  - {id: xeen_dragonpet_fidget, kind: derived, from: [xeen_dragonking_fidget], pitch: 2, group: "Bosses: the Dragon King", use: "Xeen's Pet (smaller): the Dragon King's fidget, 2 semitones up"}
+  # --- Boss: the Energy Dragon (11653) and, pitched down, the Megadragon (11654, D7), on the shipped dragon today --------
+  - id: xeen_energydragon_attack
+    group: "Bosses: the Energy Dragon"
+    use: "the Energy Dragon's attack"
+    duration: 2.0
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous dragon made of crackling energy attacking: a deep roar layered with a buzzing electric hum that erupts into a sizzling lightning blast, close"
+  - id: xeen_energydragon_wince
+    group: "Bosses: the Energy Dragon"
+    use: "the Energy Dragon hurt"
+    duration: 1.0
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous energy dragon wounded: a sharp deep snarl with a burst of crackling sparks, close"
+  - id: xeen_energydragon_death
+    group: "Bosses: the Energy Dragon"
+    use: "the Energy Dragon's death"
+    duration: 3.5
+    variants: 5
+    loudness_db: -8
+    highpass_hz: 30
+    low_shelf: {hz: 120, db: 4}
+    score_bias: power
+    prompt: "An enormous energy dragon dying: a long roar breaking into a fading electric whine, sparks sputtering out and a massive body crashing down"
+  - id: xeen_energydragon_fidget
+    group: "Bosses: the Energy Dragon"
+    use: "the Energy Dragon's idle fidget"
+    duration: 2.5
+    loudness_db: -11
+    prompt: "An enormous energy dragon at rest: a deep slow rumbling breath over a steady low electric hum and occasional soft crackles"
+  - {id: xeen_megadragon_attack, kind: derived, from: [xeen_energydragon_attack], pitch: -3, group: "Bosses: the Energy Dragon", use: "the Megadragon: the Energy Dragon's attack, 3 semitones down"}
+  - {id: xeen_megadragon_wince, kind: derived, from: [xeen_energydragon_wince], pitch: -3, group: "Bosses: the Energy Dragon", use: "the Megadragon: the Energy Dragon's wince, 3 semitones down"}
+  - {id: xeen_megadragon_death, kind: derived, from: [xeen_energydragon_death], pitch: -3, group: "Bosses: the Energy Dragon", use: "the Megadragon: the Energy Dragon's death, 3 semitones down"}
+  - {id: xeen_megadragon_fidget, kind: derived, from: [xeen_energydragon_fidget], pitch: -3, group: "Bosses: the Energy Dragon", use: "the Megadragon: the Energy Dragon's fidget, 3 semitones down"}
+
+  # === Session 3 (2026-11-20): XD-19 and DD-16 (D-47, devdocs/xeen/mockups/act5_a7_decisions.md RELAYS -> AU) =======
+  # Shipped first: the four generators and DD-16's stasis field hum with the engine's `humming` (row 202, a steady
+  # 1.4 s loop; MM6's `reactor` is a 2.9 s one-shot swell, 26 dB spread, not a hum); nothing shipped in the engine or
+  # MM6-MM8 covers the
+  # five below (the stamping machines, a barrier's crackle and the three story one-shots: the shipped glass is a 0.3 s
+  # melee hit, the rumble 2 s of rumble). MM9's machinery and glass sounds are not Xeen dependencies (D-44).
+  - id: xeen_machine_stamp_loop
+    group: World and events
+    use: "XD-19's machine halls (D-47): the stamping machines, placed and looping; off when the machines stop"
+    duration: 12
+    loop: true
+    crossfade: 0.4
+    loop_rms_db: -20
+    prompt: >-
+      A great machine hall: heavy iron presses stamping in a slow steady rhythm, a short hiss of steam after each
+      blow, clanking chains and turning gears, metallic and echoing, no voices, no music
+  - id: xeen_barrier_loop
+    group: World and events
+    use: "XD-19's barrier fed by the four generators (D-47): placed and looping at the barrier; off when it falls"
+    duration: 10
+    loop: true
+    crossfade: 0.4
+    loop_rms_db: -22
+    prompt: >-
+      A shimmering magical force barrier: a constant crackling of electricity with sharp sparking snaps and a bright
+      buzzing hum, close, no voices, no music
+  - id: xeen_mirror_shatter
+    group: World and events
+    use: "XD-19's scepter cinematic (D-47 Q14): the great mirror shatters"
+    duration: 4
+    variants: 4
+    loudness_db: -7
+    prompt: >-
+      A huge ornate mirror shattering in a stone hall: a sharp crack, then a great burst of breaking glass and a
+      shower of shards raining onto a stone floor, ringing on into the hall's echo
+  - id: xeen_castle_groan
+    group: World and events
+    use: "XD-19 (D-47): Castle Xeen groans as it begins to fail (the cinematic after the mirror; the barrier falling)"
+    duration: 6
+    loudness_db: -8
+    highpass_hz: 30
+    prompt: >-
+      A vast stone castle straining and groaning: old timbers and stone blocks creaking under great weight, a long
+      grinding groan, cracking mortar, dust and small stones trickling down, a rumble beneath
+  - id: xeen_power_up
+    group: World and events
+    use: "DD-16 (D-47, optional): the old machine powers up (the blast door's power restored)"
+    duration: 3.5
+    loudness_db: -9
+    prompt: >-
+      An ancient machine powering up: an electric whine rising steadily in pitch over a building hum, ending in a
+      solid metallic clunk as it locks on, no music
+
+  # === Session 4 (2026-11-21): D-49 (D5, D6) and D-50 (X9, XD-17) ==================================================
+  # Shipped sounds first (devdocs/xeen/AUDIO.md "Session 4"): these are the uses no shipped or installed sound covers.
+  # Loops are 20 s or less (the beds' 30 s takes cost 1 200 committed each).
+  - id: xeen_amb_aspen
+    group: Ambience
+    use: "D5's Quivering Forest (D-49): the aspens' tremble, a zone bed (pan: false)"
+    duration: 20
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A grove of aspen trees in a steady breeze: thousands of small round leaves trembling and fluttering with a
+      constant bright shimmering rustle that swells and settles, a branch creaking now and then, airy and dry, no
+      birds, no voices, no music, ambience
+  - id: xeen_amb_ash
+    group: Ambience
+    use: "D6 The Forbidden Zone (D-49): the ash wind over the waste, the flats and the Ancient field (pan: false)"
+    duration: 20
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    # The wind beds' takes came out as sub-bass rumble before (desert, mine, tower): this prompt names no low sound
+    # and leads with the hiss and the crackle.
+    prompt: >-
+      A dead volcanic wasteland: a dry gusting wind whistling thinly over fields of grey ash and black rock, the soft
+      hiss of drifting ash, small sharp crackles and ticks of cooling lava crust near and far, bleak and empty, no
+      birds, no voices, no music, ambience
+  - id: xeen_amb_necropolis
+    group: Ambience
+    use: "D6's Necropolis (D-49): the hushed walled city of the dead, a town bed (pan: false)"
+    duration: 20
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A silent walled city of the dead: a faint cold breeze whistling softly through empty stone streets, an iron
+      chain clinking now and then against a gate, a loose wooden shutter creaking, dry leaves skittering over
+      flagstones, hushed and eerie, no voices, no music, ambience
+  - id: xeen_amb_fair
+    group: Ambience
+    use: "X9's carnival plaza (D-50): Slick's fair, placed over the plaza (pan: false)"
+    duration: 20
+    variants: 3
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A busy outdoor fair on a bright afternoon: a cheerful crowd chattering and laughing, people calling out at game
+      booths, wooden balls clacking against targets, a cheer going up now and then, a small hand bell rung in the
+      distance, lively and festive, no music, ambience
+  - id: xeen_amb_tavern
+    group: Ambience
+    use: "XD-17's Tavern Xanadu (D-50): the murmur heard by its door on the first street (a point sound, panned)"
+    duration: 15
+    variants: 3
+    loop: true
+    crossfade: 0.8
+    loop_rms_db: -20
+    prompt: >-
+      A cosy busy tavern heard through its open door: a warm murmur of many voices talking and laughing, mugs and
+      plates clinking, a chair scraping on a wooden floor, a fire crackling in the hearth, no music, ambience
+  - id: xeen_lavafall_loop
+    group: World and events
+    use: "D6's two lava falls over the rim (D-49), X7's lava falls (D-40's shared preset): placed, looping, panned"
+    duration: 12
+    variants: 3
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -20
+    prompt: >-
+      Molten lava pouring over a cliff edge: a thick heavy roaring flow, sizzling and hissing where it meets the air,
+      bubbling and spattering, sharp crackles of hot rock, continuous and powerful, close, no voices, no music
+  - id: xeen_forge_hammer
+    group: World and events
+    use: "XD-17's Arm and Hammer (D-50): the smith at work, a placed one-shot with a wait, by day"
+    duration: 5
+    variants: 3
+    loudness_db: -11
+    prompt: >-
+      A blacksmith hammering hot iron on an anvil: four ringing hammer blows in a steady rhythm, each a bright
+      metallic clang with a short ring, then two lighter taps, in a small open workshop
+  - id: xeen_striker_ding
+    group: World and events
+    use: "X9's high-striker (D-50, A3's m34.might_game): a win; the mallet, the puck and the bell"
+    duration: 3
+    variants: 4
+    loudness_db: -9
+    # The first prompt's four takes ("a fairground strength tester ...") are 3 s of dense crowd-like noise with the
+    # bell buried late in it (v2 at 2.3 s, cut off by the end): the second prompt names no fair and asks for silence
+    # around the sounds.
+    prompt: >-
+      A single bright brass bell struck hard once by a metal weight: first a dull wooden thump and a quick rising
+      metallic scrape, then a sharp clear ding that rings on and slowly fades, isolated on a silent background, no
+      crowd, no voices, no music
+
+  # === Session 5 (2026-11-21): D-56 (P5), D-58 (D7, P1-P4), the dungeons' asks (DD-15/17/21/22/25/26, FD-01), X7 ======
+  # Shipped and installed sounds first (devdocs/xeen/AUDIO.md "Session 5"); these are the uses nothing shipped covers or
+  # where the shipped stand-in reads wrong (DD-22's buzzer01 and tone2 are the menus' 0.3 s error buzz and beep).
+  # Wind and rumble beds came out as sub-bass before: these prompts lead with the mid and high band.
+  - id: xeen_far_chime
+    group: World and events
+    use: "P5's unification (D-56): one far chime; the four sleepers' chimes are its takes and pitches (derived below)"
+    duration: 5
+    variants: 4
+    loudness_db: -11
+    prompt: >-
+      A single large bronze temple bell struck once very far away across a vast open sky: a soft clear distant tone
+      with a long shimmering decay that fades slowly into silence, airy and spacious, isolated, no other sounds
+  # The four sleepers' chimes (D-56 shot 2): three different takes and a pitch, so four bells answer one another.
+  - {id: xeen_chime_1, kind: derived, from: [xeen_far_chime/v1.wav], pitch: 0, loudness_db: -11, group: World and events, use: "P5's unification: the first sleeper's far chime (cue in shot 2)"}
+  - {id: xeen_chime_2, kind: derived, from: [xeen_far_chime/v2.wav], pitch: 0, loudness_db: -11, group: World and events, use: "P5's unification: the second sleeper's far chime"}
+  - {id: xeen_chime_3, kind: derived, from: [xeen_far_chime/v4.wav], pitch: -2, loudness_db: -11, group: World and events, use: "P5's unification: the third sleeper's far chime"}
+  - {id: xeen_chime_4, kind: derived, from: [xeen_far_chime/v2.wav], pitch: -5, loudness_db: -11, group: World and events, use: "P5's unification: the fourth sleeper's far chime, the deepest"}
+  - id: xeen_wedding_fanfare
+    group: World and events
+    use: "P5's unification (D-56): the wedding, as the pavilion fades in (the cinematic's fourth shot)"
+    duration: 6
+    variants: 5
+    loudness_db: -9
+    prompt: >-
+      A short bright royal wedding fanfare: a few brass trumpets play a joyful rising call in a stately rhythm,
+      answered by a second trumpet, ending on a long held major chord that rings out over an open terrace,
+      festive and ceremonial, no drums, no voices
+  - id: xeen_corner_fire
+    group: Ambience
+    use: "D7's Fire Corner (D-58): the corner's hum at its tip, a point loop (panned)"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A magical gateway of fire: a steady roaring hum of flames swirling in a ring, bright crackling and spitting
+      sparks, a resonant singing tone at the heart of the fire, continuous, close, no voices, no music
+  - id: xeen_corner_air
+    group: Ambience
+    use: "D7's Air Corner (D-58): the corner's hum at its tip, a point loop (panned)"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A magical gateway of air: a whirling vortex of wind spinning in a ring, a high hollow whistling tone that
+      rises and falls, airy rushing and fluttering, continuous, close, no voices, no music
+  - id: xeen_corner_earth
+    group: Ambience
+    use: "D7's Earth Corner (D-58): the corner's hum at its tip, a point loop (panned)"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A magical gateway of stone: heavy rocks grinding slowly against each other in a ring, gravel and pebbles
+      clattering and trickling, a deep resonant stony hum with a gritty edge, continuous, close, no voices, no music
+  - id: xeen_corner_water
+    group: Ambience
+    use: "D7's Water Corner (D-58): the corner's hum at its tip, a point loop (panned)"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A magical gateway of water: a swirling ring of water turning in the air, splashing, gurgling and pouring,
+      a soft bubbling with a clear ringing tone beneath, continuous, close, no voices, no music
+  - id: xeen_dragon_call
+    group: World and events
+    use: "D7 (D-58): a cloud dragon's call far off over the roads, a placed one-shot with a long wait"
+    duration: 4
+    variants: 4
+    loudness_db: -11
+    prompt: >-
+      A great dragon calling far away across an open sky: a long echoing roar that rises into a shrill cry and
+      fades, distant, spacious, high in the air, no other sounds
+  - id: xeen_megadragon_sleep
+    group: World and events
+    use: "D7 (D-58, Q-D26): the Megadragon asleep on Castle Alamar's roof, a point loop at the roost (off on its kill)"
+    duration: 8
+    loop: true
+    crossfade: 0.5
+    loop_rms_db: -20
+    prompt: >-
+      A gigantic dragon fast asleep: slow deep rasping breaths in and out, a rattling growling snore on each breath,
+      a hiss of smoke escaping its nostrils, close, no other sounds
+  - id: xeen_bandit_whistle
+    group: World and events
+    use: "D7's tolls (D-58 D-6): the Sky Bandits' whistle when the party comes up to a toll"
+    duration: 2
+    variants: 4
+    loudness_db: -9
+    prompt: >-
+      A man whistling a sharp loud signal through his fingers outdoors: two piercing whistles, the second rising
+      higher, a call to his fellows, isolated, no other sounds
+  - id: xeen_amb_plane_fire
+    group: Ambience
+    use: "P1 the Elemental Plane of Fire (D-58): the bed over the crater (pan: false); D7's Fire Corner (panned)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    bed_highpass_hz: 150             # all takes 90 % and more below 150 Hz: the bubbling and hiss are kept
+    prompt: >-
+      A vast lake of molten lava in a crater: thick lava bubbling and popping, hissing steam vents, sudden spurts
+      of flame that roar and die away, sharp crackles of cooling crust near and far, hot and restless, no voices,
+      no music, ambience
+  - id: xeen_amb_plane_air
+    group: Ambience
+    use: "P2 the Elemental Plane of Air (D-58): the gale over the whole plane (pan: false); D7's Air Corner (panned)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    prompt: >-
+      A howling gale high in an open sky: strong wind whistling and shrieking in high tones, gusts that surge and
+      fall back, cloth-like flapping and roaring air, wild and endless, no voices, no music, ambience
+  - id: xeen_amb_plane_earth
+    group: Ambience
+    use: "P3 the Elemental Plane of Earth (D-58): the bed over the bowl (pan: false); D7's Earth Corner (panned)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    bed_highpass_hz: 80
+    # The first prompt ("Inside a vast hollow of living rock: stones shifting and grinding, gravel ...") gave sparse
+    # clatter at 1-3 kHz with near-silence between (-37 dBFS RMS at the peak limit, 12-24 dB spread): no body. The
+    # second asks for a constant grinding under the clatter; the high-pass keeps the sub-bass out.
+    prompt: >-
+      Deep inside a living mountain: a constant heavy grinding of huge stone slabs scraping slowly against each
+      other, a steady gravelly rumble with stones clattering, cracking and knocking over it, pebbles and dust
+      trickling down, no voices, no music, ambience
+  - id: xeen_amb_plane_water
+    group: Ambience
+    use: "P4 the Elemental Plane of Water (D-58): the surf over the sea (pan: false); D7's Water Corner (panned)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    bed_highpass_hz: 60
+    # The first prompt ("An endless sea around marble ruins: waves ... white spray hissing ...") gave spray hiss alone
+    # (centroid 7-9 kHz, nothing below 600 Hz): no wave body. The second leads with the wash and the roar of surf.
+    prompt: >-
+      Ocean waves rolling in one after another and breaking on a rocky shore: the full crash and wash of each wave,
+      foam surging up and draining back over stone steps with a gravelly hiss, a steady roar of surf between the
+      waves, no gulls, no voices, no music, ambience
+  - id: xeen_trapdoor
+    group: World and events
+    use: "DD-17's trapdoors (D-61 Q18): a hatched deck plate drops away under the party"
+    duration: 1.5
+    loudness_db: -9
+    prompt: >-
+      A heavy iron trapdoor suddenly dropping open in a metal floor: a sharp metallic clank of a released latch,
+      then a loud ringing clang as the hatch swings down and bangs against metal, echoing
+  - id: xeen_klaxon
+    group: World and events
+    use: "DD-17's self-destruct (D-61 Q15/Q17): the castle's alarm, a cinematic cue (the groan follows)"
+    duration: 6
+    variants: 4
+    loudness_db: -9
+    prompt: >-
+      A loud mechanical alarm klaxon blaring in a vast metal hall: three long harsh pulsing honks, each rising and
+      falling, echoing off metal walls, urgent, no voices, no music
+  - id: xeen_pod_alarm
+    group: World and events
+    use: "DD-22's security console (D-62): the pod's alarm, a point loop, off when the lockdown is released"
+    duration: 4
+    loop: true
+    crossfade: 0.2
+    loop_rms_db: -20
+    prompt: >-
+      An electronic warning alarm in a small metal room: a steady two-tone beeping siren repeating at an even rate,
+      high and insistent, slightly echoing, no voices, no music
+  - id: xeen_log_chirp
+    group: World and events
+    use: "DD-22's log (D-62): a page of the pod's log is read, an evt.PlaySoundName one-shot"
+    duration: 1
+    loudness_db: -11
+    prompt: >-
+      A short computer chirp: two quick bright electronic beeps rising in pitch, then a soft click, clean and
+      isolated, no other sounds
+  - id: xeen_torch_light
+    group: World and events
+    use: "DD-15's four torches (lit by their levers) and any wall torch lit by a script: a small flare, not a fire"
+    duration: 1.5
+    loudness_db: -11
+    prompt: >-
+      A single wall torch bursting into flame: a quick soft whoomph of catching fire, then crackling and a steady
+      small flame flickering, close, no other sounds
+  - id: xeen_brew_vat
+    group: World and events
+    use: "DD-15's Brew of Pure Power: the vat bubbling, a point loop (panned)"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A great vat of magical brew bubbling: thick liquid gurgling and popping, steam hissing, and a faint sparkling
+      shimmer of magic ringing over it, close, no voices, no music
+  - id: xeen_forge_hall_loop
+    group: Ambience
+    use: "DD-25's forge bay (D-62): distant hammering, a point loop in place of the anvil one-shot"
+    duration: 12
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      Hammering heard from across a great stone forge hall: several smiths beating hot metal on anvils at
+      different rhythms, ringing metallic clangs echoing off stone walls, bellows wheezing now and then, no voices,
+      no music
+  - id: xeen_heartbeat_loop
+    group: World and events
+    use: "DD-21's jar with Sandro's heart: a slow heartbeat at the jar, a point loop (off once the heart is taken)"
+    duration: 6
+    loop: true
+    crossfade: 0.3
+    loop_rms_db: -22
+    prompt: >-
+      A single slow heavy heartbeat, muffled as if through glass: a deep double thump repeating slowly and evenly,
+      faint wet pulsing between, eerie and close, no other sounds
+  - id: xeen_tribble_purr
+    group: Ambience
+    use: "DD-26's den (D-65): the tribbles purring, a point loop (panned)"
+    duration: 8
+    loop: true
+    crossfade: 0.5
+    loop_rms_db: -22
+    prompt: >-
+      Several small furry creatures purring together in a pile: soft rolling purrs, gentle trilling coos and
+      squeaks, contented and cosy, close, no voices, no music
+  - id: xeen_shaft_grit
+    group: World and events
+    use: "FD-01's rubble shaft (D-69): grit and small stones trickling down, a point loop beside the shipped wind"
+    duration: 8
+    loop: true
+    crossfade: 0.5
+    loop_rms_db: -22
+    prompt: >-
+      Grit and small stones trickling down a deep rubble shaft: a steady dry hiss of falling sand, pebbles ticking
+      and bouncing off stone, now and then a small rock clattering down, close, no voices, no music
+  - id: xeen_stasis_hum
+    group: World and events
+    use: "FD-01's stasis coffin (D-69): its cold hum, a point loop, off when the field drops"
+    duration: 10
+    loop: true
+    crossfade: 0.6
+    loop_rms_db: -22
+    prompt: >-
+      A cold crystalline stasis field: a steady glassy singing tone like a wet finger on a crystal glass, faint icy
+      crackles and a soft electric shimmer, eerie and still, close, no voices, no music
+  - id: xeen_metal_groan
+    group: World and events
+    use: "FD-01 (D-69, optional): settling metal groaning in the works, a placed one-shot with a long wait"
+    duration: 4
+    loudness_db: -11
+    prompt: >-
+      Huge metal beams settling in a ruined machine hall: a long deep metallic groan and creak, a few ringing
+      ticks as the metal cools, echoing in a vast space, no other sounds
+  - id: xeen_amb_volcano
+    group: Ambience
+    use: "X7 Volcano and Fire Corner (D-40): the bed over the ash flats, the basin and the crater (pan: false)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    bed_highpass_hz: 80              # v2 keeps its hiss and some rumble; the sub-bass below 80 Hz goes
+    prompt: >-
+      The slopes of an active volcano: hissing steam vents, distant lava bubbling and spattering, small rocks
+      tumbling down scree, hot dry wind whistling over ash, occasional sharp cracks of rock, no birds, no voices,
+      no music, ambience
+  - id: xeen_amb_night
+    group: Ambience
+    use: "Cloudside meadows and plains at night (X1, X2, X4, X5's pocket): the night bed under the day beds (pan: false)"
+    duration: 20
+    loop: true
+    crossfade: 1.0
+    loop_rms_db: -20
+    # The first prompt ("Open meadows on a warm calm night: a gentle chorus of crickets ...") gave a chirping band at
+    # 8-10 kHz alone (95-98 % above 8 kHz; no breeze, no owl): a thin whine at bed level. The second asks for lower
+    # insects, frogs and the breeze.
+    prompt: >-
+      A warm summer night in the countryside: a soft steady chorus of field crickets with warm mid-pitched chirps,
+      a few frogs croaking by a distant pond, a light breeze rustling the long grass, an owl hooting far away now
+      and then, calm and peaceful, no voices, no music, ambience

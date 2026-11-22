@@ -1,0 +1,74 @@
+# Xeen side quest Q-D27, Genie Lamps, D5's two (from a new game on D5, a level-42 party; outdoors the party is placed,
+# PLAYBOOK.md section 2). The hill shrine's lamp (event 55, q-d27.d5_hills): the three wishes, Gems (ten gems, item
+# 180); the dune lamp in the sand sea (event 56, q-d27.d5_dune): Experience (2,000 per member); each then cold and
+# paying nothing. The other wishes are the other maps' scenarios (q-d27_genie_lamps_d6.yml, _d7.yml) and
+# tests/scenarios/xeen/hooks_d5_d6.yml (here Experience and Gold).
+# Places: tests/scenarios/xeen/hooks_d5_d6.yml. Quest logic: source/quests/q-d27.yml, Xeen.genieLamp in xeen_common.lua.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d27_genie_lamps_d5.yml --scenario-no-color
+id: xeen.side_quests.q-d27.d5
+title: "Xeen Q-D27: D5's genie lamps, Gems and Experience"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 42, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 42, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 42, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 42, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d5.odm}
+  - assert: {qbit_clear: [113540, 113541]}
+  # The hill shrine's lamp (event 55): Gems.
+  - set_pose: {map: xeen_d5.odm, x: -20608, y: -17408, z: 2624, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gems', item_count(180)); click(55); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - assert: {dialog: {active: true, action_label_present: "Gems"}}
+  - answer_input: {text: "Gems"}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: true, text_contains: "ten gems roll out of the lamp, still warm."}}
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(180) - recall("gems") ~= 10 then error("d5_hills: Gems gave " .. (item_count(180) - recall("gems"))) end
+        if not qbit(113540) then error("q-d27.d5_hills 113540 not set") end
+        remember('gems', item_count(180))
+        click(55); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3); for _ = 1, 3 do if held() ~= 0 then stow() end end; if item_count(180) ~= recall('gems') then error('d5_hills: the cold lamp gave gems') end"}
+  # The dune lamp in the sand sea (event 56): Experience.
+  - set_pose: {map: xeen_d5.odm, x: 10624, y: -16384, z: 1632, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(56); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "I will grant you one of three wishes."}}
+  - assert: {dialog: {active: true, action_label_present: "Gems"}}
+  - answer_input: {text: "Experience"}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Things you never studied are suddenly familiar. (+2,000 experience)]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local d = experience(i) - recall("x" .. i)
+          if d ~= 2000 then error("d5_dune: Experience paid member " .. i .. " " .. d) end
+        end
+        if not qbit(113541) then error("q-d27.d5_dune 113541 not set") end
+        for i = 0, 3 do remember('x' .. i, experience(i)) end
+        click(56); wait(0.5)
+  - assert: {dialog: {active: true, text_contains: "The lamp is cold. Its genie has gone."}}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do if experience(i) ~= recall('x' .. i) then error('d5_dune: the cold lamp paid member ' .. i) end end"}
+  - assert: {qbit_set: [113540, 113541]}

@@ -1,0 +1,3 @@
+Generated [00b_three_quarter_high.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/00b_three_quarter_high.png) with the built-in image tool. The 1536×1024 transparent PNG shows the domed shell from above and the straight tail extending toward the upper left. The visible silhouette clears every edge by at least 94 px.
+
+Appended both attempts to [generation_runs.json](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_armadillo_claude/references_hd/generation_runs.json) and marked the corrective render as selected. It shows four visible claws on the near forefoot and three on the near hind foot, one fewer than requested on each.

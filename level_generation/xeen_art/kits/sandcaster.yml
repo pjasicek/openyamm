@@ -1,0 +1,420 @@
+# Xeen town building kit (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new ones made for the kit
+# (level_generation/xeen_art/kit_textures/towns: specs.yml, finished/<name>.png at 4x). Sizes are logical texels
+# (the x4 masters in level_generation/textures_x4/masters/<world>/<name>.png are 4x). `maps`: the shipped outdoor maps
+# that use the texture. Contact sheet: kits/sandcaster_sheet.png (kit_sheet.py). Roles follow Map Studio's house kits
+# (openyamm-studio/core/OutdoorBuildings.cpp: wall, window, door, post_left, post_right, roof, trim, gable, ridge).
+kit: sandcaster
+title: Sandcaster, the sandstone merchant city, and the Crossroads market
+look:
+- Smooth ochre sandstone with brick quoins, pointed windows, round grilles and arched plank doors, flat gravel and
+- terracotta roofs; a pink ashlar wizard quarter with statues and balconies; striped stall cloth. Sun-baked, warm.
+family_sources:
+- source: MM8 Ravage Roaming out08, the t07 set
+  why: a complete ochre sandstone house set in three grades (a ochre with quoins and cornice, b orange plain, c ochre with
+    brick quoins), with pointed, square, slit and round windows and single and double arched doors; reads as a dry desert-edge
+    town at MM8 brightness
+- source: MM6 Castle Ironfist outd3, the hc set (the city's high houses)
+  why: 'pink-beige ashlar with gothic leaded windows, a balcony, statue niches and a grand double door: the wizard quarter
+    (closed until Astra''s quest) and the guild buildings'
+- source: MM8 Garrote Gorge/Ravage Roaming t30
+  why: 'sandstone rubble and block walls, gate and paving: the city wall and the streets'
+- source: MM6 market tents (tentwal*, tentrf*, tentdor*)
+  why: the striped stall cloth for the Crossroads market and Sandcaster's awnings
+- source: Rejected
+  why: 'MM6 desert de* (red rock, rough); MM6 egy* (Egyptian temple, wrong culture); MM8 Alvar t05 (brown stucco, grey brick:
+    a temperate town); MM8 Ironsand t13 (troll fieldstone huts); MM7 Bracada hw (white plaster, not sandstone)'
+grades:
+  poor: t07 b (orange plain, slit and square windows) under t07b02 gravel
+  middle: t07 a (ochre, pointed windows, cornice) under t07b02 or t07a05
+  rich: t07 c (brick quoins, double doors) with desrf2a terracotta on pitched parts
+  service: hc (wizard quarter, guilds), t30 (walls, gate), MM6 tents (market)
+shipped:
+  wall plain:
+  - tex: mm8/t07a01
+    size: [128, 256]
+    maps: [out06.odm, out08.odm]
+    note: ochre sandstone (a)
+  - tex: mm8/t07a01b
+    size: [128, 256]
+    maps: [out08.odm]
+    note: ochre sandstone under a cornice (a)
+  - tex: mm8/t07b01
+    size: [128, 256]
+    maps: [out08.odm]
+    note: orange sandstone (b)
+  - tex: mm8/t07b06
+    size: [128, 256]
+    maps: [out08.odm]
+    note: orange sandstone, quoin right (b)
+  - tex: mm8/t07b07
+    size: [128, 256]
+    maps: [out08.odm]
+    note: orange sandstone, quoin left (b)
+  - tex: mm6/hcwall
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: pink ashlar'
+  - tex: mm6/hcw1ctr
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: ashlar between pilasters'
+  wall with window:
+  - tex: mm8/t07a02c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window (a)
+  - tex: mm8/t07a08c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window, quoin right (a)
+  - tex: mm8/t07a09c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window, quoin left (a)
+  - tex: mm8/t07a12
+    size: [128, 256]
+    maps: [out08.odm]
+    note: round grille (a)
+  - tex: mm8/t07b04a
+    size: [128, 256]
+    maps: [out08.odm]
+    note: square window (b)
+  - tex: mm8/t07b04c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: slit window (b)
+  - tex: mm8/t07c04b
+    size: [128, 256]
+    maps: [out08.odm]
+    note: square window (c)
+  - tex: mm8/t07c04c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window (c)
+  - tex: mm8/t07c08b
+    size: [128, 256]
+    maps: [out08.odm]
+    note: square window, quoin (c)
+  - tex: mm8/t07c08c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window, quoin (c)
+  - tex: mm8/t07c09b
+    size: [128, 256]
+    maps: [out08.odm]
+    note: square window, quoin left (c)
+  - tex: mm8/t07c09c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: pointed window, quoin left (c)
+  - tex: mm8/t07c12
+    size: [128, 256]
+    maps: [out08.odm]
+    note: round grille (c)
+  - tex: mm6/hcwindo
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: gothic leaded window'
+  - tex: mm6/hctriw
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: triple gothic window'
+  door:
+  - tex: mm8/t07a03a
+    size: [128, 256]
+    maps: [out08.odm]
+    note: arched plank door (a)
+  - tex: mm8/t07a03c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: arched double door, left (a)
+  - tex: mm8/t07a03d
+    size: [128, 256]
+    maps: [out08.odm]
+    note: arched double door, right (a)
+  - tex: mm8/t07b03c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: double door, left (b)
+  - tex: mm8/t07b03d
+    size: [128, 256]
+    maps: [out08.odm]
+    note: double door, right (b)
+  - tex: mm8/t07c03b
+    size: [128, 256]
+    maps: [out08.odm]
+    note: red arched door (c)
+  - tex: mm8/t07c03c
+    size: [128, 256]
+    maps: [out08.odm]
+    note: double door, left (c)
+  - tex: mm8/t07c03d
+    size: [128, 256]
+    maps: [out08.odm]
+    note: double door, right (c)
+  - tex: mm6/hclgdr
+    size: [256, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: grand double door 256x256'
+  - tex: mm6/hcsmdr
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: arched door'
+  - tex: mm6/hcdoor32
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: narrow door'
+  beam/post (end pieces):
+  - tex: mm8/t07c07
+    size: [128, 256]
+    maps: [out08.odm]
+    note: brick quoin (c)
+  - tex: mm8/t07a10a
+    size: [32, 128]
+    maps: [out08.odm]
+    note: post 32x128
+  - tex: mm6/hcw1le
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: pilaster left
+  - tex: mm6/hcw1re
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: pilaster right
+  - tex: mm6/hcw1leb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: pilaster left, balcony course
+  - tex: mm6/hcw1reb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: pilaster right, balcony course
+  roof:
+  - tex: mm8/t07b02
+    size: [128, 128]
+    maps: [out08.odm]
+    note: 'flat gravel roof (most houses: flat roofs behind a cornice)'
+  - tex: mm8/t07a05
+    size: [128, 128]
+    maps: [out08.odm]
+    note: brown flat tile
+  - tex: mm6/desrf2a
+    size: [128, 128]
+    maps: [outa2.odm]
+    note: 'terracotta pantiles (pitched: guilds, rich houses)'
+  - tex: mm6/desrf3a
+    size: [128, 128]
+    maps: [outa2.odm, outb2.odm, outb3.odm]
+    note: terracotta barrel tiles
+  gable/eave trim:
+  - tex: mm8/t07a11a
+    size: [128, 32]
+    maps: [out08.odm]
+    note: cornice/coping 128x32
+  - tex: mm8/t07a11b
+    size: [128, 32]
+    maps: [out08.odm]
+    note: cornice with brick band 128x32
+  foundation/plinth:
+  - tex: mm8/t30a05a
+    size: [128, 128]
+    maps: [out05.odm, out08.odm]
+    note: sandstone setts 128x128 (plinths, streets)
+  - tex: mm8/t30a05b
+    size: [128, 128]
+    maps: [out08.odm]
+    note: sandstone setts
+  - tex: mm8/t30a05c
+    size: [128, 128]
+    maps: [out05.odm, out08.odm]
+    note: sandstone flags
+  chimney:
+  - tex: mm8/t07a01
+    size: [128, 256]
+    maps: [out06.odm, out08.odm]
+    note: none needed (desert); a stack in t07a01 for the smithy
+  shutters/balcony:
+  - tex: mm6/hcbalcwb
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: 'wizard quarter: balcony window'
+  - tex: mm6/hcuniq2
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: statue niche (bust)
+  - tex: mm6/hcuniq3
+    size: [128, 256]
+    maps: [outd3.odm]
+    note: statue niche (robed figure)
+  shop sign blanks (shipped pictorial signs):
+  - tex: mm8/sgweap
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: weapons
+  - tex: mm8/sgarm
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: armour
+  - tex: mm8/sgmagic
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm, out13.odm]
+    note: magic
+  - tex: mm8/sgalch
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out06.odm, out13.odm]
+    note: alchemist
+  - tex: mm8/sgspell
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out06.odm, out07.odm, out13.odm]
+    note: guild
+  - tex: mm8/sgtvrn
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out04.odm, out05.odm, out06.odm, out07.odm, out08.odm]
+    note: tavern
+  - tex: mm8/sgtrain
+    size: [64, 64]
+    maps: [out01.odm, out02.odm, out03.odm, out05.odm, out06.odm]
+    note: training
+  - tex: mm8/sgstabl
+    size: [64, 64]
+    maps: [out02.odm, out03.odm, out04.odm, out05.odm, out06.odm]
+    note: stables
+  fence/wall:
+  - tex: mm8/t30c01
+    size: [128, 256]
+    maps: [out08.odm]
+    note: 'city wall: sandstone blocks'
+  - tex: mm8/t30d01
+    size: [128, 256]
+    maps: [out08.odm]
+    note: 'city wall: sandstone blocks, lighter'
+  - tex: mm8/t30e01
+    size: [128, 256]
+    maps: [out08.odm]
+    note: 'city wall: rubble'
+  - tex: mm8/t30a01
+    size: [128, 256]
+    maps: [out05.odm]
+    note: sandstone rubble wall
+  - tex: mm8/t30a03b1
+    size: [128, 256]
+    maps: [out05.odm, out08.odm]
+    note: city gate, left half
+  - tex: mm8/t30a03b2
+    size: [128, 256]
+    maps: [out05.odm, out08.odm]
+    note: city gate, right half
+  - tex: mm8/t30a04a
+    size: [128, 256]
+    maps: [out08.odm]
+    note: wall with slit
+  - tex: mm8/t30a06
+    size: [128, 256]
+    maps: [out08.odm]
+    note: wall end left
+  - tex: mm8/t30a07
+    size: [128, 256]
+    maps: [out08.odm]
+    note: wall end right
+  market stalls (Crossroads):
+  - tex: mm6/tentwal1
+    size: [128, 256]
+    maps: [outb3.odm, outd2.odm]
+    note: grey-white striped cloth
+  - tex: mm6/tentwal2
+    size: [128, 256]
+    maps: [outb3.odm, outd2.odm]
+    note: orange striped cloth
+  - tex: mm6/tentwal3
+    size: [128, 256]
+    maps: [outa2.odm, outb2.odm, outb3.odm, outc1.odm, outc3.odm, outd2.odm]
+    note: blue striped cloth
+  - tex: mm6/tentwal7a
+    size: [128, 256]
+    maps: [outb2.odm, outc3.odm, outd2.odm]
+    note: red striped cloth
+  - tex: mm6/tentwal7b
+    size: [128, 256]
+    maps: [outb2.odm, outc3.odm, outd2.odm]
+    note: red striped cloth
+  - tex: mm6/tentrf1
+    size: [256, 256]
+    maps: [outb3.odm, outd2.odm]
+    note: canvas roof, orange valance 256x256
+  - tex: mm6/tentrf2
+    size: [256, 256]
+    maps: [outb3.odm, outd2.odm]
+    note: striped roof, orange valance
+  - tex: mm6/tentrf3
+    size: [256, 256]
+    maps: [outb2.odm, outb3.odm, outc1.odm, outc3.odm, outd2.odm]
+    note: canvas roof, blue valance
+  - tex: mm6/tentdor1
+    size: [128, 256]
+    maps: [outb3.odm, outd2.odm]
+    note: tent door
+  - tex: mm6/tentdor3
+    size: [128, 256]
+    maps: [outa2.odm, outb2.odm, outb3.odm, outc1.odm, outc3.odm, outd2.odm]
+    note: tent door, blue
+  - tex: mm6/tentdor7
+    size: [256, 256]
+    maps: [outb2.odm, outc3.odm, outd2.odm]
+    note: tent door, red, 256x256
+new:
+- name: xsweapons
+  size: [128, 64]
+  kind: sign
+  note: WEAPONS painted sign
+- name: xsarmour
+  size: [128, 64]
+  kind: sign
+  note: ARMOUR painted sign
+- name: xsmagic
+  size: [128, 64]
+  kind: sign
+  note: MAGIC painted sign
+- name: xspotions
+  size: [128, 64]
+  kind: sign
+  note: POTIONS painted sign (alchemist)
+- name: xstemple
+  size: [128, 64]
+  kind: sign
+  note: TEMPLE painted sign
+- name: xstavern
+  size: [128, 64]
+  kind: sign
+  note: TAVERN painted sign
+- name: xstraining
+  size: [128, 64]
+  kind: sign
+  note: TRAINING painted sign
+- name: xscaravan
+  size: [128, 64]
+  kind: sign
+  note: CARAVANS painted sign (stables)
+- name: xsstfood
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: FOOD'
+- name: xsstrobes
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: ROBES'
+- name: xsstneck
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: NECKLACES'
+- name: xsstbelts
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: BELTS'
+- name: xsstboots
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: BOOTS'
+- name: xscaleb
+  size: [128, 32]
+  kind: sign
+  note: 'Crossroads stall board: CALEB THE INVENTOR'

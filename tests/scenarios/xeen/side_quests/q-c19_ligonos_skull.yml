@@ -1,0 +1,84 @@
+# Xeen side quest Q-C19, Ligono's Skull (X2), from a new game on Rivercity's Bridge Square. Ligono the Spirit (in the
+# surf in the south-west, the scene's actor 52) wants his skull; it lies on the ground in the rocks at the world's south-east
+# rim (a ground item, D-90 (c)); Ligono takes it, pays 4,000 experience each and the Recharge Item book and leaves for
+# Olympus (his Skull topic is gone); on the next load of X2 the surf is empty (X2's on-load event 221 hides group 55).
+# Outdoors the party is placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2). Quest logic:
+# source/quests/q-c19.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c19_ligonos_skull.yml
+id: xeen.side_quests.q-c19
+title: "Xeen Q-C19: Ligono's skull from the rim, and Ligono freed from the surf"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 200
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 7, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 7, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 7, skills: [], equipment: {}}
+          - {name: Osric, class: Cleric, level: 7, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 52, hidden: false}}
+  # Ligono in the surf: Skull (Q-C19 started).
+  - set_pose: {map: xeen_x2.odm, x: -18944, y: -19200, z: 1025, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 52}   # Ligono (NPC 4155), the scene's actor 52
+  - assert:
+      dialog: {action_label_absent: Warning}
+  - select_topic: {match_label: Skull}
+  - assert:
+      dialog: {text_contains: "lies near the edge of the world"}
+  - select_topic: {match_label: Skull}
+  - assert:
+      dialog: {text_contains: "I see you don't have my skull yet"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112381]}
+  # The rocks at the world's south-east rim: the skull on the ground (D-90 (c), A5's X2 2026-11-22; cell 96.6, 102.8).
+  - set_pose: {map: xeen_x2.odm, x: 16691, y: -19600, z: 1025, yaw: -1.5708, pitch: -0.3}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "if ground_items(12311) ~= 1 then error('the skull is not on the ground') end"}
+  - pick_up: {item_id: 12311, reach: 700}
+  - play_lua:
+      source: |
+        close(); wait(0.5)
+        if held() ~= 0 then stow() end
+        if item_count(12311) ~= 1 then error("no skull at the rim") end
+        if ground_items(12311) ~= 0 then error("the skull is still on the ground") end
+        for i = 0, 3 do remember("xp" .. i, experience(i)) end
+  # Ligono: the skull cast into the surf (Q-C19 done): 4,000 experience each and the Recharge Item book.
+  - set_pose: {map: xeen_x2.odm, x: -18944, y: -19200, z: 1025, yaw: -1.5708, pitch: 0.0}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 52}
+  - select_topic: {match_label: Skull}
+  - assert:
+      dialog: {text_contains: "My skull! Thank you!"}
+  - assert:
+      dialog: {action_label_absent: Skull}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [112380]}
+  - assert: {qbit_clear: [112381]}
+  - play_lua:
+      source: |
+        if held() ~= 0 then stow() end
+        if has_item(12311) then error("Ligono did not take the skull") end
+        if item_count(427) ~= 1 then error("no Recharge Item book from Ligono") end
+        for i = 0, 3 do
+          local gained = experience(i) - recall("xp" .. i)
+          if gained ~= 4000 then error("member " .. i .. " gained " .. gained .. " experience, not 4000") end
+        end
+  # Freed, Ligono leaves the surf at once (the hand-in hides X2's group 55, as the on-load event 221 does).
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 52, hidden: true}}
+  # The next load of X2: Ligono has left the surf.
+  - save_game: {name: "Q-C19", path: output/scenarios/xeen/q-c19.oysav}
+  - load_game: {path: output/scenarios/xeen/q-c19.oysav}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 52, hidden: true}}

@@ -19,14 +19,14 @@ themes:
     ceiling: {texture: twb2, size: [128, 256]}
     reveal: {texture: tfb2, size: [128, 128]}
     door: {texture: twb1, size: [128, 256]}
-    notes: "Fourth floor (L2 coven), the Temple of the Moon (MM7 7d06), the witches being the Moon's cult: dressed stone under a carved frieze (7tws2), the ram-skull frieze (tws2b) in the sanctum, dark flags (7tfb11), block ceilings (twb2), stone door slabs (twb1), the Moon seal (t1d1a-d)."
+    notes: "Fourth floor (L2 coven), the Temple of the Moon (MM7 7d06), the witches being the Moon's cult: dressed stone under a carved frieze (7tws2), dark flags (7tfb11), block ceilings (twb2), stone door slabs (twb1), the Moon seal (t1d1a-d). Phase 0 (2026-11-20): the sanctum's ram-skull frieze (tws2b) gave way to the plain frieze, so the Moon's emblems stay in the background (CHANGES XD04-5)."
   - id: theme:coven_stair
-    wall: {texture: wall, size: [128, 256]}
+    wall: {texture: twb2, size: [128, 256]}
     floor: {texture: 7tfb11, size: [128, 128]}
     ceiling: {texture: twb2, size: [128, 256]}
     reveal: {texture: tfb2, size: [128, 128]}
     door: {texture: twb1, size: [128, 256]}
-    notes: The roof stair behind the ward (7d06's dark brick 'wall').
+    notes: "The roof stair behind the ward: 7d06's block wall (twb2, the coven's ceilings); phase 0 (2026-11-20): it was 7d06's dark brick 'wall', the map's only use of it (texture budget)."
   - id: theme:nursery
     wall: {texture: twb1a, size: [128, 256]}
     floor: {texture: 7trimd, size: [128, 256]}
@@ -116,19 +116,14 @@ rooms:
     floor: 1920
     ceiling: 2560
     theme: theme:coven
-    walls:
-      - wall: south
-        surface: {texture: tws2b, size: [128, 256]}
-      - wall: north
-        surface: {texture: tws2b, size: [128, 256]}
     platforms:
       - {id: platform:circle_nw, at: [-2720, 448], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1a, size: [256, 256], scale: 1.25}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
       - {id: platform:circle_ne, at: [-2400, 448], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1b, size: [256, 256], scale: 1.25}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
       - {id: platform:circle_sw, at: [-2720, 128], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1c, size: [256, 256], scale: 1.25}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
       - {id: platform:circle_se, at: [-2400, 128], size: [320, 320], rise: 8, surface: {texture: tfb2, size: [128, 128]}, top_surface: {texture: t1d1d, size: [256, 256], scale: 1.25}, notes: "A quarter of the witch-mark circle: the Moon seal of 7d06 laid in the floor."}
-      - {at: [-3200, 288], size: [128, 256], rise: 72, surface: {texture: cwb1, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: The low altar by the circle.}
-      - {at: [-3584, -64], size: [96, 96], rise: 640, surface: {texture: tws2b, size: [128, 256]}, notes: Carved roof post.}
-      - {at: [-3584, 640], size: [96, 96], rise: 640, surface: {texture: tws2b, size: [128, 256]}, notes: Carved roof post.}
+      - {at: [-3200, 288], size: [128, 256], rise: 72, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: 7tfb11, size: [128, 128]}, notes: "The low altar by the circle: 7d06's stone blocks (phase 0; it was the red rock cwb1, the map's only use of it)."}
+      - {at: [-3584, -64], size: [96, 96], rise: 640, surface: {texture: trim11_32, size: [32, 64]}, notes: "A black timber roof post under the pitched roof (phase 0; it was carved with the Moon's ram skulls, tws2b)."}
+      - {at: [-3584, 640], size: [96, 96], rise: 640, surface: {texture: trim11_32, size: [32, 64]}, notes: "A black timber roof post under the pitched roof (phase 0; it was carved with the Moon's ram skulls, tws2b)."}
     ceiling_levels:
       - ceiling: 3008
         top_scale: [1, 0]
@@ -198,6 +193,7 @@ rooms:
       - {height: 192, surface: {texture: hwm2wall, size: [128, 256]}}
     platforms:
       - {at: [1600, -2048], size: [1024, 128], rise: 48, surface: {texture: trim11_32, size: [32, 64]}, top_surface: {texture: xwbrew, size: [128, 128], liquid: liquid}, notes: "The feeding trough: a plank trough of green slop."}
+      - {at: [1600, -2848], size: [192, 64], rise: 16, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, base: 256, notes: "Phase 0 (2026-11-20): the shelf over the straw pens on the south wall, where the source's skull shouts 'Goblins back to work!' (deco:skull_pens)."}
     ceiling_levels:
       - ceiling: 640
         top_scale: [1, 0]
@@ -302,7 +298,7 @@ rooms:
     walls:
       - wall: west
         panels:
-          - {at: centre, length: 512, height: 512, surface: {texture: xwcloudst, size: [512, 512]}, notes: "Behind the exit face of the cloud stair (the generated cloud stair, xwcloudst)."}
+          - {id: panel:cloud_stair, at: centre, length: 512, height: 512, surface: {texture: xwcloudst, size: [512, 512]}, notes: "Behind the exit face of the cloud stair (the generated cloud stair, xwcloudst), exit:cloud_stair to X8."}
     bands:
       - {height: 112, surface: {texture: hwm2wall, size: [128, 256]}}
     platforms:
@@ -316,6 +312,8 @@ rooms:
     slope: {to: 2560, toward: west, steps: 20}
     ceiling: 2944
     theme: theme:coven_stair
+    platforms:
+      - {at: [-4416, 608], size: [160, 64], rise: 16, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, base: 112, notes: "Phase 0 (2026-11-20): a shelf on the stair's north wall a few steps up from the ward, for the source's skull with the levitate hint (deco:skull_levitate)."}
     ambient: 26
     notes: "20 steps west from the warded door; L1's stair winding inside the conical roof is drawn straight."
   - id: room:rosebud_landing
@@ -493,6 +491,7 @@ rooms:
       - {at: [-3712, -856], size: [192, 48], rise: 16, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, base: 48, notes: A pillow.}
       - {at: [-3328, -856], size: [192, 48], rise: 16, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, base: 48, notes: A pillow.}
       - {at: [-2944, -856], size: [192, 48], rise: 16, surface: {texture: t2bedsht, size: [128, 256]}, top_surface: {texture: t2bedsht, size: [128, 256]}, base: 48, notes: A pillow.}
+      - {at: [-4032, -830], size: [128, 256], rise: 80, surface: {texture: 7t1books1, size: [128, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "Phase 0 (2026-11-20): the witches' dressing table under the mirror on the west wall, with the source's two vanity skulls on it (deco:skull_vanity_1, _2)."}
     ceiling_levels:
       - ceiling: 2624
         top_scale: [1, 0]

@@ -1,0 +1,215 @@
+# Playtest of the Gemstone Mines, east pocket (DD-10B, L4; lane A8, 2026-11-20): the loop through every mechanism and
+# Q-D7's refill with the real God of Minerals (D-27: pick, pay, re-enter, full).
+# A level-25 party comes in at the adit (the arrival window, once); nothing is dug yet. Through the adit's door, the
+# upper drift (pedes, bats), the side cut (the cart, the miners' chest); down the spiral ramp (bats) to its door, the
+# flooded drift (roaches, the chest); the God of Minerals' hall: his own line on the first step in, and his hook
+# (A3's q-d7.god_of_minerals, run by the map's own event as a click runs it) refuses: "The mountains are full. Empty
+# them first.", no gold taken. Up the throne stair: the Gem maker's throne hums; its door, the sapphire hall: five
+# sapphire veins, one rock each (q-d7.dug set), a spent vein says so, the false vein explodes once (fire to every
+# member) and is spent after. Back down the stair to the God, who now takes 10,000 gold, sets the three refill bits and
+# clears dug; a save and reload there refills nothing. Back out by the flooded drift and the ramp. Re-entered: this pocket's veins are full again, refill_b is
+# cleared (refill_a and refill_c stay for the other pockets), a vein gives a rock again and sets dug; the God then
+# names his price to a party short of 10,000.
+# A rock given while the hand is empty lands in the hand (as any GiveItem): the test stows it.
+# Played with --world xeen --map xeen_dd10b.blv (output/studio_cal/dd10b/four.sh). Numbers are ids.lock.yml's: events
+# 14-18 sapphire veins, 10 the false vein, 11 the God, 19 the throne, 2 the cart, 3-4 chests, 5-7 doors (doors 1 adit,
+# 2 ramp, 3 throne); map variables 3-7 the veins, 1 false_vein, 2 once.god_speaks.
+id: xeen.dd10b.l4.walk
+title: Gemstone Mines east pocket (DD-10B L4), the loop, five veins, the false vein, the God's refusal, payment, refill
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd10b.blv
+      party:
+        gold: 12000
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 25, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 25, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
+  - assert: {map: xeen_dd10b.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 192, radius: 64, z_min: -8, z_max: 8}}
+  # A2's rows, all placed and hostile (Stone Golem 26 for the graph's Sand Golem, D-27).
+  - assert: {actor_count: {monster_id: 11361, min: 6, max: 6}}
+  - assert: {actor_count: {monster_id: 11362, min: 4, max: 4}}
+  - assert: {actor_count: {monster_id: 11312, min: 6, max: 6}}
+  - assert: {actor_count: {monster_id: 11581, min: 4, max: 4}}
+  # Why the party is here: the arrival window, once (arrived_once 117200).
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "THE GEMSTONE MINES, EAST POCKET"}}
+  - play_lua: {source: "close(); if not qbit(117200) then error('arrived_once not set') end"}
+  - assert: {actor_count: {monster_id: 11581, hostile: false, max: 0}}
+  - play_lua: {source: "if qbit(113144) or qbit(113142) then error('q-d7.dug or refill_b set at the start') end"}
+  # The adit's door, the upper drift.
+  - walk_to: {x: 0, y: 760, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(5, 1)"}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1152, y: 2304, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  # The side cut: the cart, the miners' chest.
+  - walk_to: {x: 1152, y: 2780, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(2); wait(0.5)
+        if not string.find(status(), "ore cart", 1, true) then error("the cart said nothing: " .. status()) end
+        local g = gold()
+        loot_chest(3); close(); if held() ~= 0 then stow() end
+        if gold() < g + 450 then error("the miners' chest did not hold its 450 gold") end
+  # Down the spiral ramp (three bats) to its door.
+  - walk_to: {x: 1280, y: 2300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1800, z: -30, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1330, z: -120, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 750, y: 1280, z: -215, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 704, y: 440, z: -345, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 384, z: -470, z_tolerance: 80, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1600}
+  - assert: {actor_count: {monster_id: 11312, max: 3}}
+  - play_lua: {source: "open_door(6, 2)"}
+  # The flooded drift: the roaches, the chest.
+  - walk_to: {x: 2600, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 2480, y: -60, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        loot_chest(4); close(); if held() ~= 0 then stow() end
+        if gold() < g + 600 then error("the flooded drift's chest did not hold its 600 gold") end
+  # The God of Minerals' hall: his own line on the first step in; nothing dug yet, so he refuses and takes nothing.
+  - walk_to: {x: 3500, y: 256, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4100, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4800, y: 352, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if mapvar(2) ~= 1 then error("the God's line did not run on the step into his hall") end
+        if qbit(113144) then error("dug set before any vein") end
+        remember("gold_before_refusal", gold())
+  - execute_event: {id: 11}
+  - assert: {dialog: {active: true, text_contains: "The mountains are full. Empty them first."}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold_before_refusal") then error("the God took gold while nothing was dug") end
+        for _, b in ipairs({113141, 113142, 113143}) do if qbit(b) then error("refill bit " .. b .. " set by a refusal") end end
+  # Up the throne stair to the Gem maker's throne.
+  - walk_to: {x: 4608, y: 880, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4608, y: 1860, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4500, y: 2200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1800}
+  - play_lua:
+      source: |
+        status(); click(19); wait(0.5)
+        if not string.find(status(), "It was not made for you", 1, true) then error("the throne said nothing: " .. status()) end
+  # The throne hall's door, the sapphire hall: five veins, one rock each; the spent line; the false vein.
+  - walk_to: {x: 4120, y: 2432, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(7, 3)"}
+  - walk_to: {x: 3500, y: 2432, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2400}
+  - play_lua:
+      source: |
+        for _, e in ipairs({14, 15, 16, 17, 18}) do click(e); wait(0.3); if held() ~= 0 then stow() end end
+        if item_count(12359) ~= 5 then error("five sapphire veins gave " .. item_count(12359) .. " rocks") end
+        if not qbit(113144) then error("q-d7.dug not set by a sapphire vein") end
+        for v = 3, 7 do if mapvar(v) ~= 1 then error("sapphire vein variable " .. v .. " is " .. mapvar(v)) end end
+        click(16); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("no spent line: " .. status()) end
+        if item_count(12359) ~= 5 then error("a spent vein gave a rock") end
+  - walk_to: {x: 2400, y: 2700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - assert: {party_health: {full: true}}
+  - setup_shortcut: {kind: immortal, value: false}
+  - execute_event: {id: 10}
+  - assert: {dialog: {active: true, text_contains: "A gem exploded!"}}
+  - play_lua: {source: "close(); if mapvar(1) ~= 1 then error('false_vein not set') end"}
+  - assert: {party_health: {full: false}}
+  - assert: {member_points: {member_index: 3, health_min: 1}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua:
+      source: |
+        click(10); wait(0.3)
+        if not string.find(status(), "all this vein has to offer", 1, true) then error("the false vein exploded twice: " .. status()) end
+        if item_count(12359) ~= 5 then error("the false vein gave a rock") end
+  # Back down the stair to the God: dug is set, he takes 10,000 gold, sets the three refill bits and clears dug.
+  - walk_to: {x: 3700, y: 2432, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4300, y: 2432, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 2050, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4608, y: 880, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4800, y: 352, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "close(); remember('gold_before_payment', gold()); if gold() < 10000 then error('not enough gold to pay: ' .. gold()) end"}
+  - execute_event: {id: 11}
+  - assert: {dialog: {active: true, text_contains: "takes your gold"}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold_before_payment") - 10000 then error("the God did not take 10,000 gold: " .. gold()) end
+        for _, b in ipairs({113141, 113142, 113143}) do if not qbit(b) then error("refill bit " .. b .. " not set") end end
+        if qbit(113144) then error("dug not cleared by the payment") end
+        for v = 3, 7 do if mapvar(v) ~= 1 then error("a vein refilled before the pocket was re-entered") end end
+  # A save and a reload inside the visit refill nothing (A3, session 7: refill on a fresh entry only, in_visit).
+  - save_game: {name: dd10b_paid}
+  - load_game: {name: dd10b_paid}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        for v = 3, 7 do if mapvar(v) ~= 1 then error("a reload inside the visit refilled vein " .. v) end end
+        if not qbit(113142) then error("a reload inside the visit cleared refill_b") end
+  # Out by the flooded drift and the ramp (the return path).
+  - walk_to: {x: 4100, y: 300, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 3000, y: 256, z: -480, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2100, y: 384, z: -470, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 704, y: 440, z: -345, z_tolerance: 80, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 750, y: 1280, z: -215, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 1330, z: -120, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1280, y: 2300, z: 0, z_tolerance: 80, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2250, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  # Every monster is dead by now (they wander: a golem of the hall may have followed the party onto the ramp).
+  - clear_hostiles: {radius: 1500}
+  - assert: {actor_count: {monster_id: 11361, max: 0}}
+  - assert: {actor_count: {monster_id: 11362, max: 0}}
+  - assert: {actor_count: {monster_id: 11312, max: 0}}
+  - assert: {actor_count: {monster_id: 11581, max: 0}}
+  # Out by the adit onto D2 (the leave event ends the visit), then re-entered: this pocket refills (refill_b cleared;
+  # refill_a and refill_c stay for the other pockets).
+  - execute_event: {id: 9}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - load_map: {map: xeen_dd10b.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {map: xeen_dd10b.blv}
+  - play_lua:
+      source: |
+        close()
+        for v = 3, 7 do if mapvar(v) ~= 0 then error("vein variable " .. v .. " not refilled: " .. mapvar(v)) end end
+        if qbit(113142) then error("refill_b not cleared on entry") end
+        if not qbit(113141) or not qbit(113143) then error("the other pockets' refill bits were cleared") end
+        if mapvar(1) ~= 1 then error("the false vein came back with the veins") end
+        click(14); wait(0.3); if held() ~= 0 then stow() end
+        if item_count(12359) ~= 6 then error("a refilled sapphire vein gave no rock: " .. item_count(12359)) end
+        if not qbit(113144) then error("dug not set again by the refilled vein") end
+        click(14); wait(0.3); if held() ~= 0 then stow() end
+        if item_count(12359) ~= 6 then error("the refilled vein gave twice") end
+        remember("gold_short", gold())
+        if gold() >= 10000 then error("the party should be short of 10,000 now: " .. gold()) end
+  # Something is dug again but the party is short of 10,000: the God names his price and takes nothing.
+  - execute_event: {id: 11}
+  - assert: {dialog: {active: true, text_contains: "refills the mines for 10,000 gold"}}
+  - play_lua:
+      source: |
+        close()
+        if gold() ~= recall("gold_short") then error("the God took gold from a party short of his price") end
+        if not qbit(113144) or qbit(113142) then error("a refused payment changed the bits") end
+  # Re-entered once more: no second refill without a second payment.
+  - load_map: {map: xeen_dd10b.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        close()
+        if mapvar(3) ~= 1 then error("the picked vein refilled again without a payment") end
+        if mapvar(4) ~= 0 then error("an unpicked vein is spent") end

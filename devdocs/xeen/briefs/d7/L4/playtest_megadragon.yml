@@ -1,0 +1,91 @@
+# The Megadragon at its post; its hoard.
+# Written by output/studio_cal/d7/tools/gen_playtests.py; run with --world xeen --map xeen_d7.blv.
+id: xeen.d7.l4.megadragon
+title: 'The Skyroads (D7): the Megadragon holds its post on Alamar''s hatch with the party in sight (D-54); its hoard holds
+  Wyrmfang and the roof key'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d7.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 55
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 55
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_d7.blv
+- assert:
+    actor_count:
+      monster_id: 11654
+      near:
+      - -19456
+      - 9216
+      - 256
+      min: 1
+      max: 1
+- note: 'The party on its road in sight of the roost (immortal), 30 s: it stays at its post (D-54).'
+- set_pose:
+    map: xeen_d7.blv
+    x: -21926
+    y: 7762
+    z: 1506.4888595145417
+    yaw_degrees: 30
+    pitch: 0
+- advance_runtime:
+    seconds: 10.0
+- assert:
+    actor_count:
+      monster_id: 11654
+      near:
+      - -19456
+      - 9216
+      - 1280
+      min: 1
+      max: 1
+- advance_runtime:
+    seconds: 20.0
+- assert:
+    actor_count:
+      monster_id: 11654
+      near:
+      - -19456
+      - 9216
+      - 1280
+      min: 1
+      max: 1
+- note: 'Its hoard: Wyrmfang and the roof key.'
+- set_pose:
+    map: xeen_d7.blv
+    x: -18176
+    y: 9984
+    z: 1544
+    yaw_degrees: 90
+    pitch: 0
+- play_lua:
+    source: loot_chest(34); wait(1); while held() ~= 0 do stow() end; close(); if not has_item(12530) then error('no Wyrmfang')
+      end; if not has_item(12377) then error('no roof key') end

@@ -1,0 +1,3 @@
+Saved the [front view with sand mound](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sandworm_claude/references_hd/01_front.png) and its [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sandworm_claude/references_hd/generation_runs_01_front.json).
+
+The unresized 1024 × 1536 PNG shows six upright rings and a centered open maw. The visible silhouette clears every edge by at least 120 px at alpha ≥ 8/255. Trace alpha remains in the transparent margin.

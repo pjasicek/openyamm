@@ -74,6 +74,7 @@ events:
   evt:disc_call_bottom: 16
   evt:disc_call_top: 17
   evt:disc_grille: 18
+  evt:disc_restore: 62
   evt:disc_ride_top: 56
   evt:door_bedchamber: 19
   evt:door_cells: 57
@@ -119,20 +120,31 @@ events:
   evt:works_winch: 54
 doors:
   door:bedchamber: 7
+  door:bedchamber.leaf2: 36
   door:cells: 8
+  door:cells.leaf2: 37
   door:crypt: 9
+  door:crypt.leaf2: 38
   door:darzog_hall: 10
   door:darzog_hall.leaf2: 11
   door:darzog_study: 12
+  door:darzog_study.leaf2: 39
   door:disc_grille: 13
   door:guardroom: 14
+  door:guardroom.leaf2: 40
   door:library_stair: 15
+  door:library_stair.leaf2: 33
   door:portrait: 16
   door:quarters: 17
+  door:quarters.leaf2: 41
   door:smelter: 18
+  door:smelter.leaf2: 42
   door:storeroom: 19
+  door:storeroom.leaf2: 43
   door:study_nw: 20
+  door:study_nw.leaf2: 34
   door:study_sw: 21
+  door:study_sw.leaf2: 35
   door:works_gate: 22
   lift:disc: 1
   lift:trap1: 2
@@ -161,6 +173,7 @@ containers:
   chest:smelter: 7
   chest:storeroom: 8
 map_vars:
+  disc_down: 6
   once.arrive: 0
   once.crodo: 1
   once.darzog_dead: 2
@@ -178,6 +191,18 @@ lights:
   light:lightning_4: 8
   light:smelter: 9
   light:vats: 10
+sounds:
+  sound:cistern_drip: 1
+  sound:clone_vats: 2
+  sound:forge_lava: 3
+  sound:lightning_foot: 4
+  sound:lightning_high: 5
+  sound:smelter_pit: 6
+  sound:tower_bed: 11
+  sound:wind_e: 7
+  sound:wind_n: 8
+  sound:wind_s: 9
+  sound:wind_w: 10
 decorations:
   deco:cells_bones1: 0
   deco:cells_bones2: 1

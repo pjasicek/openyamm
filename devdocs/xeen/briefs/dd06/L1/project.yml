@@ -1,0 +1,34 @@
+format: 0
+id: xeen_dd06
+name: Southern Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-06
+units: {plan_grid: 512}
+extent: {footprint_cells: [8, 8], climbs: n}
+map_stats:
+  id: 9155
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 7
+  refill_days: 672
+  music: 34
+  environment: stone hall
+  lock_difficulty: 7
+  slots:
+    - {monster: Xeen Outlaw, tier: 1, per_marker: [2, 3], weight: 85}
+    - {monster: Xeen Wolf, tier: 1, per_marker: [1, 2], weight: 15}
+neighbours: []
+qbits:
+  chest_opened: 113383
+  inner_circle: 113385
+  ledger_read: 113381
+  master_slain: 113384
+  tower_disks: 113382
+items:
+  east_tower_key: 12340
+  energy_disk: 12334
+notes: "Xeen design brief, level L1: DD-06 Southern Tower (see L4/NOTES.md)."

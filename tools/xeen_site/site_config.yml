@@ -1,0 +1,143 @@
+# Hand-kept presentation data for the Xeen guide (tools/xeen_site/build_site.py). Everything else comes from the world
+# package assets_dev/worlds/xeen.
+
+site:
+  title: Xeen Guide
+  storeKey: "xeenguide."
+  homeTitle: World of Xeen
+  homeLead: "The World of Xeen as built in OpenYAMM: Clouds of Xeen and Darkside of Xeen on one world of 82 maps, with
+    every teacher, shop, quest giver, chest, well and exit; {npcs} people placed. Data comes straight from the game's
+    world package. The World of Xeen is an Experimental world, still being built: the guide follows the current
+    build."
+  worldName: the World of Xeen
+  travelFrom: xeen_x1
+  travelTo: xeen_d1
+  tocSections: [1, 2, 3, 4, 5, 6]
+  hideShopColumns: [tiers, enchanted, restock]
+  leads:
+    maps: "Journal maps of the surface maps and floor plans drawn from the geometry of every other map, with every point
+      of interest from the built maps. Pick a map; toggle marker types in its legend."
+    travel: "How the maps of Xeen connect: Cloudside above, Darkside below, the sky maps and the Elemental Planes; walking
+      edges with their travel days, coaches and boats by weekday, mirrors, travel pyramids and Town Portal. The world
+      map is a schematic; each tile is the map's own journal map."
+    teachers: "Every Expert, Master and Grandmaster lesson in the World of Xeen: three places per skill, Grandmasters
+      late or remote. A lesson needs the skill at 4 (Expert), 7 (Master) or 10 (Grandmaster), the previous mastery and
+      the class's cap; prices are before the Merchant skill. \"Opens\" is the quest or stage that opens the teacher's
+      house or the lesson."
+    promotions: "Promotions are attached to Xeen quests: a first tier on Cloudside, then a Light or a Dark second tier
+      on Darkside (each character takes one; a class with both offered chooses by the quest route), and the racial
+      promotions. Every eligible party member is promoted at once; members who join later are promoted by the same
+      person."
+    shops: "Weapon, armour, magic and alchemy shops stock by their house's quality as MM6-MM8 shops do: a standard shelf
+      and a special one (treasure levels 1-6), enchanted items among them. The stock rises town by town: Vertigo's
+      shops sell mostly plain gear, the late towns magic gear. Xeen's shops and treasure are MM6-MM8 items; the
+      setting \"MM9 loot in MM6-MM8\" does not apply to Xeen. Guilds sell the spellbooks of their school up to the guild's level
+      (Xeen's own copies of MM8's books, which also turn up in chests and on monsters); a Xeen guild needs no membership. Prices are the item's value times the house's multiplier, before the Merchant
+      skill."
+    bestiary: "Monsters of the World of Xeen by family, weakest to strongest; A, B and C are a family's three tiers,
+      bosses are listed apart. Outdoor maps place groups by family (spawn points); dungeons place each monster. Click
+      a row for its picture, attacks, spells, resistances, loot and where it lives."
+  itemNotes:
+    artifacts: "Xeen's own artifacts and relics: quest rewards and the treasure of named places. Random artifacts drop
+      as in MM6-MM8 (treasure level 6)."
+    quest: "Keys, passes and quest items of the World of Xeen. Ordinary weapons, armour and potions are the MM6-MM8
+      items."
+
+# The world map of the Travel section: one region per surface map, sky map and plane (grid cells, x to the east, y to
+# the south); dungeons join the region whose map leads into them (or `maps` below). `face` groups the nav.
+regions:
+  - {id: x8, name: Cloudreach, hub: xeen_x8, pos: [1.0, 0], face: Sky}
+  - {id: x9, name: Clouds of Xeen, hub: xeen_x9, pos: [2.2, 0], face: Sky}
+  - {id: x6, name: Desert of the Sphinx, hub: xeen_x6, pos: [0.0, 1.1], face: Cloudside}
+  - {id: x4, name: Burlock Savannah, hub: xeen_x4, pos: [1.6, 1.1], face: Cloudside}
+  - {id: x7, name: Mount Firestone, hub: xeen_x7, pos: [3.2, 1.1], face: Cloudside}
+  - {id: x5, name: Winterkill Tundra, hub: xeen_x5, pos: [0.0, 2.2], face: Cloudside}
+  - {id: x3, name: Lifeforce Lagoon, hub: xeen_x3, pos: [1.0, 2.2], face: Cloudside}
+  - {id: x2, name: Rivercity, hub: xeen_x2, pos: [2.1, 2.2], face: Cloudside}
+  - {id: x1, name: Vertigo Meadows, hub: xeen_x1, pos: [3.2, 2.2], face: Cloudside}
+  - {id: d6, name: The Forbidden Zone, hub: xeen_d6, pos: [0.0, 3.6], face: Darkside}
+  - {id: d5, name: Desert of Doom, hub: xeen_d5, pos: [1.1, 3.6], face: Darkside}
+  - {id: d4, name: Lakeside and Blackfang, hub: xeen_d4, pos: [2.2, 3.6], face: Darkside}
+  - {id: d1, name: Castleview Vale, hub: xeen_d1, pos: [0.0, 4.7], face: Darkside}
+  - {id: d2, name: Sprite Forest, hub: xeen_d2, pos: [1.1, 4.7], face: Darkside}
+  - {id: d3, name: Sandcaster, hub: xeen_d3, pos: [2.2, 4.7], face: Darkside}
+  - {id: d7, name: The Skyroads, hub: xeen_d7, pos: [3.3, 3.6], face: Darkside}
+  - {id: planes, name: Elemental Planes, hub: xeen_p1, pos: [3.3, 4.7], face: Planes, maps: [xeen_p1, xeen_p2, xeen_p3, xeen_p4, xeen_p5]}
+  - {id: arena, name: The Warzone, hub: xeen_xd20, pos: [4.3, 2.2], face: Cloudside, maps: [xeen_xd20]}
+
+# Dungeons whose way in the exits do not show (a hook or a staged door), by region id.
+region_of:
+  xeen_xd17: x7
+  xeen_dd25: d5
+  xeen_dd22: d6
+  xeen_fd01: d6
+  xeen_dd16: d6
+  xeen_xd19: x9
+
+# Promotions (Xeen.Promotions in events/common/xeen_common.lua): the group and its quests (source ids). The promoting
+# person or object and the class lines come from the quest files' `promote:` steps and the Lua table.
+promotions:
+  crusade: {path: Tier 1, quests: [t1-a, m4]}
+  pendant: {path: Tier 1, quests: [t1-b, q-c2]}
+  seasons: {path: Tier 1, quests: [t1-c, q-c10]}
+  pagoda: {path: Tier 1, quests: [q-c4]}
+  tiara: {path: Tier 1, quests: [t1-e, q-c3]}
+  dimitri: {path: Light, quests: [t2-a]}
+  heretics: {path: Light, quests: [q-d6, t2-later]}
+  sprites: {path: Light, quests: [q-d10, t2-later]}
+  statuettes: {path: Light, quests: [q-d20, t2-later]}
+  leafpoint: {path: Light, quests: [t2-leafpoint]}
+  drawkcab: {path: Light, quests: [q-d3, t2-later]}
+  quarter: {path: Light, quests: [q-d14, t2-later]}
+  jewel: {path: Light, quests: [q-d18, t2-later]}
+  knights: {path: Dark, quests: [q-d17]}
+  bounty: {path: Dark, quests: [q-d11, t2-later]}
+  southern: {path: Dark, quests: [q-d19, t2-later]}
+  sandro: {path: Dark, quests: [q-d23]}
+  coven: {path: Dark, quests: [q-d22]}
+  clan: {path: Dark, quests: [t2-clan]}
+  minotaur: {path: Racial, quests: [q-d25]}
+  troll: {path: Racial, quests: [q-d13]}
+  vampire: {path: Racial, quests: [q-c7]}
+  dragon: {path: Racial, quests: [q-c25]}
+  elf: {path: Racial, quests: [q-c17]}
+
+# Quest files that are not quests (systems the guide does not list).
+skip_quests: [world]
+
+# The main story's acts (devdocs/xeen/QUESTS.md section 1): the chapters; their titles win over the story files'.
+chapters:
+  - {id: 1, name: "Act I: Vermin"}
+  - {id: 2, name: "Act II: The King's Crusaders"}
+  - {id: 3, name: "Act III: The Land Below"}
+  - {id: 4, name: "Act IV: Unmasking"}
+  - {id: 5, name: "Act V: Two Thrones"}
+  - {id: 6, name: "Act VI: One World"}
+
+poi_types:
+  teacher: {name: Teacher, color: "#3b82f6", glyph: T, shown: true}
+  promoter: {name: Promotion, color: "#a855f7", glyph: P, shown: true}
+  quest: {name: Quest NPC, color: "#eab308", glyph: "!", shown: true}
+  vendor: {name: Shop, color: "#22c55e", glyph: $, shown: true}
+  guild: {name: Guild, color: "#0ea5e9", glyph: G, shown: true}
+  service: {name: Temple / tavern / bank / training, color: "#14b8a6", glyph: S, shown: true}
+  transport: {name: Stables / boat / pyramid, color: "#06b6d4", glyph: B, shown: true}
+  mirror: {name: Mirror, color: "#38bdf8", glyph: M, shown: true}
+  house: {name: Home, color: "#a3a3a3", glyph: h, shown: false}
+  npc: {name: Other NPC, color: "#94a3b8", glyph: n, shown: false}
+  objective: {name: Quest objective, color: "#facc15", glyph: Q, shown: true}
+  exit: {name: Exit, color: "#f43f5e", glyph: E, shown: true}
+  chest: {name: Chest / loose item, color: "#f59e0b", glyph: C, shown: true}
+  bonus: {name: Well / fountain / shrine, color: "#ec4899", glyph: W, shown: true}
+  lever: {name: Lever / mechanism, color: "#84cc16", glyph: L, shown: true}
+  hint: {name: Obelisk / clue, color: "#e879f9", glyph: "*", shown: true}
+  teleporter: {name: Teleporter, color: "#818cf8", glyph: "@", shown: true}
+  sign: {name: Sign / lore, color: "#c4b5a0", glyph: i, shown: false}
+  door: {name: Door, color: "#64748b", glyph: d, shown: false}
+  monster: {name: Monster, color: "#dc2626", glyph: m, shown: false}
+
+# In-game captures (capture_shots.py) reviewed as missing their subject.
+shot_exclude: []
+
+# Bestiary portraits (capture_monsters.py) that show nothing useful.
+monster_portrait_exclude: []

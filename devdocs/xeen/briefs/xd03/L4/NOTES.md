@@ -624,3 +624,261 @@ Dwarves the party's foes by `relations` instead of `evt:clan_hostile`'s Lua, kep
 `playtest_hostility.yml` (written by `output/studio_cal/hostility/gen_hostility_tests.py`) checks the slot and placed
 foes hostile, the peaceful ones peaceful and the map's kinds, spawned side by side near the party, not taking each other
 on; it passes twice, as do the map's other playtests.
+
+## Rebase, phase 0 (2026-11-20, lane A7)
+
+The design part of the rebase (`devdocs/xeen/CHANGES_FOR_BUILT_MAPS.md` A1-A3, A5, A7, XD03-1 to XD03-4) and the texture
+trim (ROADMAP §5.2, dungeon M cap 45; XD03-1: XD-03 counts as M). Still `world: mm7` on MM7 stand-in rows. Backup of the
+project before: `output/studio_cal/xd03/a7_backup/`; work, builds, logs and pictures: `output/studio_cal/xd03/a7/`
+(build `output/studio_cal/xd03/a7_build/`); asset root `output/studio_cal/a7/root_mines`. Edits by hand (small Python
+and sed replacements whose diffs were read), then `oymap fmt` and `oymap record --author agent:xeen-a7-mines`.
+
+**Monsters** (`output/studio_cal/a7/count.py xd03`):
+
+| | Before | After |
+|---|---|---|
+| Monsters | about 40 | about 40 (MAPS §0: 40) |
+| Levels | 8-30 (the Clan King a Dwarven Commander 231, level 30) | **8-12, the Clan King 20** |
+| The Clan King | Commander 231, `hp: 300` (ignored), named, `immobile`, carries the hoard key | **Dwarven Lieutenant 230** (level 20, 100 hit points), the nearest MM7 row to his boss level 18; named, `immobile`, carries the key as before; `hp` dropped |
+
+- Spawn points and placed monsters are unchanged: Dwarf points at tier a (Soldier 10), Spider points at b and c
+  (Venomous 8, Widowmaker 12), Troglodyte points at a (Drone 9), 14 placed Soldiers and the Gong Sentry (10), two hidden
+  Inferno Bats (9).
+- `project.yml` slots, for rest encounters: Dwarf difficulty 1 -> 0 (no Lieutenant 20 or Commander 30), Troglodyte
+  1 -> 0 (no Soldier 14 or Queen 19), and the Spider slot's share of rest encounters 25 -> 0 (Dwarves 60, Troglodytes 40):
+  every difficulty rolls the Spider family's level-5 Giant Spider now and then, under the band 6-12. The Spider spawn
+  points keep their fixed tiers.
+- The King's own boss row (level 18, his hit-point multiplier, his treasure; CHANGES A1) is **A2's**; the stand-in waits
+  for it. Kinds are unchanged, so `relations` and `playtest_hostility.yml` stand.
+
+**Treasure:** map_stats treasure level 3 -> **1**; the King's first hoard chest (`chest:hoard_1`: 450 gold, the ruby)
+4 -> **2**, his second 4 -> 1, the armoury 3 -> 1, the Red Dwarf vault 3 -> 1, the prospector's pack 2 -> 1; the three
+item spawns 2, 3, 2 -> 1. Fixed contents and the three heaps of gold unchanged.
+
+**Original lines** (CHANGES XD03-4, A5; the source text `reference/mm4_5_world_of_xeen/unpacked/text/xeen/aaze0035.txt.json`,
+the deepest of the dwarf mines):
+
+| Line | Source | Where |
+|---|---|---|
+| "Scribbled on a piece of parchment, a note reads: Robbers and thieves take a good look at your fate, should you decide to steal from these mines!" | aaze0035 #11 | a thief's skeleton just inside the King's hoard door (`deco:hoard_thief`, dec05, hover "Bones" as aaze0035 #18, `evt:hoard_thief`, a message window) |
+| "Dead men tell no tales." | aaze0035 #27 (also #10 as a note) | his scattered bones beside him (`deco:hoard_thief_bones`, dec29, `evt:hoard_bones`, a status line) |
+| "Nothing here but bones." | aaze0035 #8 | the prospector's skeleton in the mole warren, beside his pack (`deco:prospector`, `evt:prospector_bones`) |
+
+The Brakka inscription on the vault's lectern is shortened to "Cut in the old runes of the Red Dwarves: HERE BRAKKA
+THE FIRST CUT THE DEEP GALLERY. KEEP THE FIRE, KEEP THE SEAM." (the red seam, the singing stone and the fall of water
+answered nothing in the game).
+
+**Exits** (CHANGES A7): `exit:deep_cart` (the Deep Line head's east end) now leads to XD-02, `xeen_xd02.blv` at its
+Deep Line station ([4480, 4620, -1216], east of the cart and the brake wheel, facing west to the line's mouth), instead
+of Emerald Island; XD-02's `exit:deep_mine` and its cart arrive at this map's start. A move between the two dungeons
+asks no question, so `playtest_alarm.yml` no longer answers one. `exit:x1_shaft` to X1 unchanged.
+
+**Textures** (`oymap metrics`, palette.textures): **62 -> 45**; `texture_use.py --project` 43 -> 33. Repeats inside
+one family each, no family mixed:
+
+| Was | Now | Where | Note |
+|---|---|---|---|
+| the Forge's `ch2` chest (7 pictures) | `ch3` with `lid: v` | the armoury's chest | the Forge's other chest, as the King's two (`shots/09-armoury-chest.png`); the armoury chest is now as fine as the hoard's |
+| `ch004i` (7d34 bright iron) | `xnrustirn` | rails, cage, cart wheels, gong chains | XD-02's dark iron of the same Deep Line (its rails and cart); the two irons were one too many |
+| `7trimda` (7d34 planks) | `bemvwal` / `xnrustirn` / `trim9_32a` | barracks' bunk, table and bench tops (the Forge's plank, as their sides) / the cart's and the cage's floors (iron, as their sides) / the shaft head's landing | first tried `trim9_32a` on the cart: one blurred board; iron reads (`shots2/`) |
+| `vlcgnrc1`, `vlcgnrc2`, `vlcgnrc3` (the Forge's three granites) | `vlcwl3a` (the Forge's granite) / `xngong` | throne, gate bars and brackets, the smelter's lintel, the tower's roof, the dry gutters / the gong slabs' top rims | four near-alike speckled granites to one; the gong's rims now bronze |
+| `vlcwl1` | `vlcwl1lg` | the slag channel's and gutters' edges, the drain steps' risers | the same seamed volcanic rock, the large picture the hall's upper walls use |
+| `vlcflora` | `vlcflore` | the bridges' decks, the slag and drain steps' treads, the tower's floor | the hold's own floor (grey stones) instead of a second brown one |
+| `ctwl2` | `ctwl5` | the King's hall's four pillars, the dais edge | the hall's own dressed blocks |
+| `tfb2` (7d34 floor, one face) | `cfb1` | the hoard's floor | the mine's own floor |
+| `trim11_16` (one face) | `vlcwl3a` | the throne crest's two narrow ends | the crest's top stone; the build's squash note on these 40 x 192 ends is a speckled granite, not a picture |
+
+Not trimmed: the Stone City vault's three (`cwb`, `7cdb`, `7tfb1`: its own area, and the only old-dwarf work), the
+three door pictures (skull gate, slab doors, plank doors), the geode's four, the generated six.
+
+**Checks** (from `openyamm-studio/build-xeen/oymap` and `build-xeen/game/openyamm`): `validate` no issues; `build` 9
+warnings: the four placeholders (racks, gong, cart: older), the King's and the sentry's names (older), the two hoard urns
+`tcurn`/`urn` drawing nothing in an MM7 dungeon (older; this build's new check: no sprite or model binds them), the
+crest ends' squash (above); installed into the root; `audit --reach --solve`: 0 faces in one plane, no dead handler,
+nothing stranded or waiting, all 24 sectors reached, the King's key (item 2108) and the shaft lever (qbit 110031)
+reached in waves 4 and 5; info only: the gem clusters' and gold heaps' silent second clicks (older), the lectern's
+`history_read` never read; `fmt --check` clean. Playtests: `playtest.yml` (184 steps: new are the prospector's bones,
+the thief's note window and his bones) **4 of 4**, `playtest_alarm.yml` (46 steps: ends at XD-02's Deep Line station)
+**4 of 4**, `playtest_hostility.yml` (29 steps) **4 of 4** (`output/studio_cal/xd03/a7/run/summary.out`).
+
+**Pictures** (`output/studio_cal/xd03/a7/shots/`, sheet `sheet.jpg`, close-ups `close1.jpg`, cart before | after
+`cart_pair.jpg`, the cart's iron floor `shots2/`): the arrival and the cart, the gong with bronze rims, the bridges and
+steps, the barracks, the armoury's chest, the tower, the King's hall and the King on his dais, the dry gutter, the hoard
+with the thief's skeleton and his note's window, the shaft, the warren's prospector, the vault.
+
+**Still blocked** (phase 0 item 3): the Clan King's boss row (level 18, his hit points, frenzy) and the Mad Dwarf,
+Clan Sergeant, Spider 10/14, Tiger Mole and Bat Queen rows, the King's key 12021 (A2); qbits 110030-110031 and Story M3
+(A3); `world: xeen`, music by name and sounds (A1's install).
+
+## Into the world (2026-11-20, lane A7)
+
+Phase 0 step 3, on the recipe of XD-05's move (lane lead). Files before: `output/studio_cal/xd03/a7_backup_move/`;
+edits by `output/studio_cal/xd03/a7_move.py` (helpers `output/studio_cal/a7/movelib.py`), then `oymap fmt` and
+`oymap record --author agent:xeen-a7-move`.
+
+- `world: xeen`. Slots by A2's slot names, Dif, counts and weights kept: 1 `Xeen Mad Dwarf` (Dif 0), 2 `Xeen Spider`
+  (Dif 3, weight 0: out of rest encounters, whose a 5 and c 14 lie outside the band), 3 **`Xeen Mole`** (Dif 0)
+  instead of the troglodyte warrens.
+- Spawn points (each fixes its tier, so the map spreads over the band as the Soldiers 10 and Drones 9 did): Dwarves
+  `gallery`, `near_bank_1` a (Mad Dwarf 11050, 7), `near_bank_2`, `lookout` b (Clan Sergeant 11051, 10), `tower` c
+  (Clan Guard 11052, 12); Spiders both at **b** (Cave Spider 11321, 10; `geode_lower` was c, now Huge Spider 14
+  would be over the band); Moles `warren_east` a (Tiger Mole 11430, 6), `warren_south` b (Rock Mole 11431, 9),
+  `warren_west` c (Tunnel Mole 11432, 12).
+- Placed (the 15 Dwarven Soldiers by role): the barracks' five Mad Dwarves 11050 (7), the far bank's three and the
+  Gong Sentry (name kept) Clan Sergeants 11051 (10), the two gate guards and the King's four Clan Guards 11052 (12);
+  **the Clan King his boss row 11053** (18; `name` dropped, the row is named; `immobile` and his key kept); the
+  geode's two hidden Inferno Bats Mine Bats 11302 (9).
+- Monsters at load (`output/studio_cal/a7/xcount.py xd03`): **about 40** (MAPS §0: 40), levels **6-12, the King 18**.
+- Items: `clan_king_key` 12021 (A2), still carried by the King (`carries`). Chest contents (72, 185, 222, 180, 178)
+  and the gem clusters are engine items and stay.
+- `relations`: **all dropped** (they made MM7's Dwarves the party's foes and kept them apart from Spiders and
+  Troglodytes); the world's `relations.yml` does both for the Xeen families. No peaceful actor here.
+- Quest bits unchanged (110030-110031, A3's m3.yml). A3's `clan_king` and `shaft_lever` hooks only name the built
+  events (`xeen_quests.lua` defines no `m3.*` hook), so the map calls none.
+
+**Dressing pass** (the user's rule of 2026-11-20, `devdocs/xeen/formats/DRESSING.md` "Measurements"; checker
+`output/studio_cal/a7/dressing/check_dressing.py`, spots from `output/studio_cal/a7/dressing/suggest_moves.py`, edits
+`output/studio_cal/xd03/a7_dressing/batch1.py`). Findings **18 -> 0** (`output/studio_cal/xd03/a7_dressing_before.txt`,
+`a7_dressing_after.txt`):
+- moved: the armoury's barrel and cask (133 from its doorway) to its east wall, 440 apart; a plate on the barracks
+  table 80 along it; the breach's rock; the three standing flambeaux of the furnace hall nudged 16-96 off the walking
+  lines; the geode's crystal and stalagmite and the lower glow; the thief's skeleton and his bones in the hoard (64 and
+  96, still just inside the door and side by side); the furnace hall's trash heap;
+- removed: the barracks' east barrel (`barracks_barrel_1`, in its east doorway; the bunks and tables leave no free
+  wall; the west barrel stays).
+
+No exit of this map leads to an MM7 map (X1 and XD-02 only), so nothing was sealed here.
+
+**Balance** (the orchestrator, 2026-11-20: kill XP per member within MAPS §0 ±15 %, by the tier mix first). Figures from `tools/xeen/balance.py --detail` (A2) and the lane's copy `output/studio_cal/a7/xbalance.py`, which skips objects.yml item spawns: A2's tool reads every indoor spawn entry as a monster marker of slot 1, item spawns included (a defect reported to A2; the lane's copy differs by that one filter). Reports: `output/studio_cal/a7/balance_before.txt`, `xbalance_before.txt`, `balance_after_tool.txt`, `xbalance_after.txt`; edits `output/studio_cal/a7/balance_move.py`. The slots' Dif, per_marker and weight are unchanged, so A2's map_stats row needs no copy.
+
+| | Monsters | Kill XP per member (MAPS 1.4k) | Ratio, item spawns skipped | A2's tool |
+|---|---|---|---|---|
+| Before | 40 | 2.0k | 1.41 | 1.57 |
+| After | 40 | 1.5k | **1.08** | 1.24 (the three item spawns read as 7.5 Mad Dwarves) |
+
+- placed: the six Clan Guards 12 are gone: the two gate guards -> Mad Dwarves 11050, the King's four -> Clan Sergeants 11051 (his guard stays the hardest dwarves of the hall); the far bank's three Clan Sergeants -> Mad Dwarves; the barracks' five, the Gong Sentry (a Sergeant), the Clan King's boss row and the two Mine Bats unchanged;
+- spawn points: every Dwarf point at a (Mad Dwarf 7; `near_bank_2`, `lookout` were b, `tower` c); the warrens a, a, b (Tiger, Tiger, Rock Mole; were a, b, c); the spiders stay at b (Cave Spider 10).
+
+Count unchanged (about 40), levels **6-10, the King 18** (MAPS 6-12).
+
+**A3's playthrough stuck stepping off the trestle cart** (at [6528, 1123, 28], 3-9 s): the cart's side boards stood
+64 over its bottom, 40 over the deck at the landing (deck 28, boards 68): exactly the game's whole step, so a walk
+off the cart's side sometimes fails until it jumps or goes round by the open end. Both side boards are now 56 (32 over
+the deck, an ordinary tread); the buffer-end board stays 64. `playtest.yml` steps off over the south board as before.
+
+**Checks (final, 2026-11-20):** Studio checks against `output/studio_cal/a7/root_xeen` (its engine monster tables and, since this move, its engine items.txt carry the world's rows: `mk_studio_root.py`, then the lane's `mk_studio_root_items.py`, both write new files and rename); built into `output/studio_cal/xd03/a7_xbuild/`, installed with `oymap install --root assets_dev` and `--root output/studio_cal/a7/root_xgame`. Game checks with `build-xeen/game/openyamm --world xeen` from root_xgame (missing new world and engine files hard-linked into it with `cp -rl --update=none` twice during the move: a world.yml table, monster models; its X1 stand-in and XD-05 left as they were). `validate` no issues; `build` the older warnings (placeholders, the Gong
+Sentry's name, the hoard urns, the crest ends) plus the studio's hostility warning for the Xeen slots; `audit --reach
+--solve`: no warning, all 24 sectors, six steps, nothing stranded, the King's key 12021 carried and reached, exits to X1
+and XD-02 only; `fmt --check` clean; playtests **4 of 4**: `playtest.yml` 190 steps, `playtest_alarm.yml` 46 (ends at
+XD-02's Deep Line station), `playtest_hostility.yml` 29 (`output/studio_cal/a7/final3_four.out`). Balance 1.08 (A2's tool
+1.24: its item-spawn defect). Pictures: `output/studio_cal/xd03/a7_xshots/` (the Clan King on his dais with his four
+Clan Sergeants, the barracks' Mad Dwarves, the furnace tower) and `a7_xshots2/` (the armoury's barrels, the hoard's
+thief, the cart landing); looked at.
+
+## Lighting bake (2026-11-20, lane A7)
+
+Profile `tools/lighting/baked_indoors/profiles/xeen_xd03.yml` (16 units per texel, one 2048-wide page, 128 samples, 3
+bounces, light size 24; direct 2.0, bounce 5.0, ambient 0.9, ceiling 1.5: one calibration for the five, set on XD-05
+against the unbaked map). Baked with `bake_indoor.py --game-binary build-xeen/game/openyamm --sources
+output/studio_cal/xd05/a7_bake/xeen_sources` (Blender 5.3 in one process under a 16 GB cap; scripts in
+`output/studio_cal/xd05/a7_bake/scripts/`, passes kept in `output/studio_cal/xd03/a7_bake/bake/` for `--recompose`).
+`--sources` is a staged root of the world's own x4 masters (links to `level_generation/textures_xeen/finished/`): the
+bake needs a material for every face and the Xeen textures have no source in `assets_source/worlds/xeen/textures_x4/`
+yet. Installed `xeen_xd03.lighting` and `.bake.json` (new file, then rename).
+
+- Bake: 2048 x 784 (1.61 M texels), 1,868 charts for 2,346 of 2,446 faces (125 mover faces), 68 static lights; 74 s
+  Cycles, 86 s in all; `xeen_xd03.lighting` 2.97 MB, `.bake.json` 760 bytes.
+- Pictures `output/studio_cal/xd03/a7_bake/` (`baked/`, `unbaked/` with `--set video.lightmaps=false`, `compare.jpg`
+  baked left): 31.3 baked against 35.4 unbaked. The gallery, smelter, King's hall and geode match the unbaked map
+  (within 3 %); the slag channel and the flambeaux read as the light sources; the barracks (12 against 17) and the
+  barred antechamber (37 against 54) are darker, the antechamber's doors in shadow of their own frame. No black faces,
+  seams or leaks seen.
+- Switched lights (the bake keeps every BLV light as the map starts): `light:barracks_1`-`3` (BLV lights, off at start)
+  are not baked, so the barracks stay dark on the walls after the gong (actors are lit); `light:hall_south` (on at
+  start) is baked and stays lit after the King's wrath puts it out. The forge and gutter lights are pulsing: fine. The
+  fix is the map's: build an event-switched light as a pulsing light (constant pulse) as INDOOR_PULSING_LIGHTS.md says,
+  then re-bake.
+- Stale check: listed only for the world's own x4 masters (`worlds/xeen/textures_x4/*.png`), which have no home in
+  `assets_source` yet; with them in a source root at that path it lists nothing (checked), so installing the finished
+  masters there byte for byte clears it without a re-bake.
+- Playtest (`playtest.yml`, `assets_dev`, `--world xeen`): passed (`output/studio_cal/xd03/a7_bake/playtest.out`).
+- Re-bake after any rebuild of the map: `output/studio_cal/xd05/a7_bake/scripts/bake_one.sh 3`, then `install.py 3`.
+
+## Hooks, switched lights and D-7 dressing (2026-11-20, lane A7, second session)
+
+**Switched lights as steady pulsing lights.** A bake keeps every BLV light as the map starts (INDOOR_BAKED_LIGHTING.md, INDOOR_PULSING_LIGHTS.md "Switched lights"), so each light an event switches is now a scene light with `pulse: {intensity: [1, 1], frequency: 0.1}` (constant): it is not baked, and `lights_on` / `lights_off` switch it as before (`evt.SetLight` key 40000 + its ids.lock number). Script: `output/studio_cal/a7/hooks/pulse_lights.py`. Here: `light:hall_south` and `light:barracks_1-3` (the playtests' asserts now read key 40001).
+
+**Dressing (D-7.1, A1's recalibrated audit of 14:41).** `oymap audit --world xeen --reach --solve` on the installed map (scratch root `output/studio_cal/a7/root_d7`, lane script `output/studio_cal/a7/xcycle.sh`; walking-line pushes by `output/studio_cal/a7/dressing/fix_lines.py` and `d7_moves.py`): no error left. Changes: off the walking lines `hall_bucket`, `landing_rock_2`, `slag_lump_1`, `spoil_2` (also clear of the pilaster); `spoil_3` (between the furnace hall's lines) removed.
+
+### Dressing exceptions
+
+- None: no dressing warning left.
+
+## Build warnings (2026-11-20, merge point 11)
+
+Lane A7's warnings pass (oymap of merge point 11). Build warnings 8 → 5. Edited in the L4 YAML (the generators are
+retired, above); before: `output/studio_cal/a7w/backup/xd03/`.
+
+- **Hoard urns that drew nothing:** `deco:hoard_urn_1/2` (`tcurn`, `urn`: no model or sprite in this world) are now the
+  vase `dec97` (drawn in every dungeon). Its table radius is 100, which collided with the chests at the south wall and
+  stood in the hall door's line; the pair stands in the north-west corner along the diagonal wall ([2890, 6790],
+  [2960, 6600]), clear of the door, the chests, the gold heaps and the bowl.
+- **Crest ends squashed** (`vlcwl3a` on the throne crest's 40-wide ends, fitted): `end_surface` now says `fit: false`
+  (laid at its size, as every other granite face here).
+- **Tried and taken back:** two axes and a war hammer on each armoury rack (timber hafts, granite heads): the granite
+  heads merged into the granite dado behind and read as stone squares, not weapons
+  (`output/studio_cal/a7w/shots/xd03/rejected_racks/`). The racks stay as built (rails on posts).
+- **Placeholders kept** (each waits for a model):
+  - `rack_north`, `rack_south`: hanging dwarven axes and hammers (a weapon-rack model, or weapon decorations);
+  - `gong_model`: a bronze gong in a timber frame (built of eight bronze slabs until then);
+  - `cart_model`: an ore cart that can ride a mover (built of iron boards until a model can ride one).
+- **Kept:** the name "Gong Sentry" (corpse only until the world has a placed-monster name table).
+- Checks (root `output/studio_cal/a7w/root`): validate clean, audit `--reach --solve` no warning or error;
+  `playtest.yml`, `playtest_alarm.yml`, `playtest_hostility.yml` 4 of 4 each (`output/studio_cal/a7w/xd03_four.out`,
+  logs `output/studio_cal/xd03/a7_xrun/`). Pictures before | after, lightmaps off:
+  `output/studio_cal/a7w/shots/xd03/sheet.jpg`. Needs a re-bake after install (the crest's end faces changed).
+
+## Lamp rule (2026-11-20, lane A7, sixth session)
+
+A1's light check (`oymap audit`, `devdocs/xeen/formats/LIGHTS.md`) found 12 errors and 2 warnings; now none
+(root `output/studio_cal/a7/root_lights`, build `output/studio_cal/xd03/a7_xbuild`, its 5 build warnings unchanged).
+- The King's hall's eight `brzier00` (MM6's brazier hangs on chains) stood on the floor: the six round the walls and the
+  two forge braziers on their stands are log-pile fires (`dec04`, a standing fire with its own light) where they stood.
+- `gallery_torch_1`, `_2` (gong gallery, `floor_height: -128`) and `shaft_lamp` (shaft head, `floor_height: 1216`) had
+  heights counted from the room's floor (560, 1712), which put them above the roof and in the rock: now 176 and 150
+  over their landings.
+- `cut_torch_1` stood 17 behind the deep landing's rough north wall (the wall's surface lies 30 in from the outline
+  there): `at: [6848, 1495]`, 12 off the face, height 200 as before.
+
+## Texture fit (2026-11-20, merge point 16, lane A7, eighth session)
+
+- The geode dome's apex (the last ring, 8 triangles closing to a point) in the tiling crystal `xnquartz` (was the once-only crystal mouth `xnquartzcv`, cut on every triangle); `xnquartzcv` stays on the singing crystal wall.
+- The great gong: `evt.PlaySound(42682, ...)` → `evt.PlaySoundName("xeen_gong", 4912, 3640, 52)` (AU) in all nine strikes.
+- AU's mine bed `xeen_amb_mine` placed twice (`sound:landing_mine` at the Deep Line's landing, `sound:warren_mine` in the mole warren).
+- Audit: no `textures.*` finding.
+
+## Merge point 17 (2026-11-20, ninth session, lane A7)
+
+- The shaft head's landing top `trim9_32a` [256, 128] → `cfb1` [128, 128] (the other landing's boards): the build
+  keeps one size per texture and the buffer stop and rails give `trim9_32a` at [64, 32].
+- Build warning left beside the placeholders: `monster:gong_sentry` "Gong Sentry" has no place_mon row (A2).
+
+## Placed names (2026-11-20, tenth session, lane A7)
+
+A2's world `place_mon` rows give the living monsters their names: Gong Sentry 411 (`unique_name_index` in the installed
+scene). Rebuilt with the merge point 18 oymap: build warnings 5 → 4 (the name warnings gone; the "Kept: corpse only"
+lines above are history); installed with its bake; every playtest 4 of 4 from `assets_dev`
+(`output/studio_cal/a7/s10_names_xd03.out`).
+
+## Mine beds centred (2026-11-21, fifteenth session, lane A7 sub-agent)
+
+- D-48 (AUDIO.md "Indoor beds"): `sound:landing_mine` and `sound:warren_mine`, AU's `xeen_amb_mine` filling their
+  rooms, take `pan: false` (heard centred, the falloff kept). No generator writes the sound lines
+  (`tools/gen_objects.py` has none): edited in L4 `objects.yml` by hand.
+- `xcycle.sh`: build warnings 4 (the placeholders above), audit 0 errors, 0 warnings. Installed with bake (01:56:47),
+  stale bakes 0. From `assets_dev`, 4 of 4 each: `playtest` 190, `playtest_alarm` 46, `playtest_hostility` 29
+  (`output/studio_cal/a7/s15_xd03_four.out`).
+
+## Door pictures (2026-11-22, lane A7 twenty-seventh session)
+
+F12(b), the orchestrator's decision (plank-strip leaves titled Door show a door picture of the family): the three two-leaf plank doors (bemvwal strips: armoury, sentry, tower) show the mines' stone door cvdor1 on each leaf, the back stair's hinged door too; the two 'Plank door' titles are 'Door'. L4 objects.yml and wiring.yml by hand. Installed with the bake; build warnings and audit as before; tests 4 of 4.

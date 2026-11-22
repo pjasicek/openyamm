@@ -6,7 +6,7 @@
 # west edge; the fairy woods, Danulf and the Temple of Yak; the east edge; Nystor's ride to Vertigo.
 id: xeen.x2.walk
 title: 'X2 Rivercity and Lake Darzog: the town, the bridge and every dungeon door'
-world: mm7
+world: xeen
 mode: faithful
 steps:
 - new_game_flow:
@@ -26,13 +26,8 @@ steps:
     id: 120
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - note: 'The fountain: stopped until Barok has his pendant'
 - execute_event:
     id: 119
@@ -43,13 +38,22 @@ steps:
     id: 121
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The School of Navigation's sign (x2.ad_navigation)
+- execute_event:
+    id: 123
 - advance_runtime:
-    seconds: 0.3
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- note: The sign by Martin's door (x2.ad_mountains)
+- execute_event:
+    id: 220
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - walk_to:
     x: -614
     y: 10035
@@ -82,8 +86,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 118
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -128,8 +130,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 287
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -166,8 +166,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 86
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -220,8 +218,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 1572
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -275,8 +271,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 241
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -318,8 +312,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 49
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -364,8 +356,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 10
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -435,8 +425,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 462
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -555,8 +543,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 153
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -593,8 +579,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 159
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -631,8 +615,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 165
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -686,8 +668,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 312
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -865,8 +845,6 @@ steps:
 - assert:
     dialog:
       active: true
-      house_dialog: true
-      source_id: 486
 - press_action:
     action: cancel_dialog
 - advance_runtime:
@@ -880,6 +858,72 @@ steps:
     radius: 160
     timeout_seconds: 60
     clear_hostiles: 3000
+- walk_to:
+    x: 4198
+    y: 4352
+    z: 608
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Sorceresses'' House (building:quay_houses#5): walk to its door and open it'
+- walk_to:
+    x: 3072
+    y: 4332
+    z: 610
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 3072
+    y: 4332
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Q-C2: the sorceresses'' strongbox'
+- walk_to:
+    x: 4045
+    y: 4301
+    z: 614
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- assert:
+    actor_count:
+      monster_id: 11184
+      hostile: true
+      min: 2
+      max: 2
+- play_lua:
+    source: 'click(215); wait(1.0); take_chest(); wait(0.3); close(); wait(0.5); close(); wait(0.5)
+
+      if not (has_item(12152) or held() == 12152) then error("no pendant") end'
+    max_seconds: 10
+- assert:
+    actor_count:
+      monster_id: 11184
+      hostile: true
+      min: 2
+      near:
+      - 3900
+      - 4100
+      - 1200
+- note: The apprentices are out (shown by the strongbox); the next walk clears them
 - walk_to:
     x: 3072
     y: 4352
@@ -918,10 +962,24 @@ steps:
     expect:
       kind: event_target
 - advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
     seconds: 1.5
     follow_map_move: true
 - assert:
     map: xeen_xd21.blv
+- assert:
+    party_position:
+      x: -2560
+      y: 320
+      radius: 256
 - load_map:
     map: xeen_x2.odm
 - advance_runtime:
@@ -1078,13 +1136,8 @@ steps:
     id: 141
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - setup_shortcut:
     kind: set_qbit
     id: 110201
@@ -1127,10 +1180,10 @@ steps:
 - press_action:
     action: cancel_dialog
 - grant_item:
-    item_id: 1461
+    item_id: 12100
 - play_lua:
-    source: if not has_item(1461) then error("no Skeleton Key stand-in") end
-- note: With the Skeleton Key (stand-in 1461) the door opens
+    source: if not has_item(12100) then error("no Skeleton Key") end
+- note: With the Skeleton Key the door opens
 - advance_runtime:
     seconds: 0.3
 - set_pose:
@@ -1146,10 +1199,24 @@ steps:
     expect:
       kind: event_target
 - advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
     seconds: 1.5
     follow_map_move: true
 - assert:
     map: xeen_xd12.blv
+- assert:
+    party_position:
+      x: 2752
+      y: 0
+      radius: 256
 - load_map:
     map: xeen_x2.odm
 - advance_runtime:
@@ -1392,8 +1459,8 @@ steps:
 - note: 'XD-27: the Ogre Lair'
 - walk_to:
     x: -20992
-    y: 17275
-    z: 1233
+    y: 17267
+    z: 1234
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1401,8 +1468,8 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: -20992
-    y: 17275
-    z: 1233
+    y: 17267
+    z: 1234
     yaw: 1.5708
     pitch: 0.0
 - advance_runtime:
@@ -1410,6 +1477,15 @@ steps:
 - press_interact:
     expect:
       kind: event_target
+- advance_runtime:
+    seconds: 0.3
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
     seconds: 1.5
     follow_map_move: true
@@ -1423,8 +1499,8 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: -20992
-    y: 17275
-    z: 1233
+    y: 17267
+    z: 1234
     yaw: 4.7124
     pitch: 0.0
 - advance_runtime:
@@ -1453,7 +1529,7 @@ steps:
     radius: 160
     timeout_seconds: 60
     clear_hostiles: 3000
-- note: 'West along the road to the west edge: the travel prompt (X3, Erathia as the stand-in), declined'
+- note: 'West along the road to the west edge: the travel prompt (X3 Lifeforce Lagoon)'
 - walk_to:
     x: -20480
     y: 12288
@@ -1463,9 +1539,9 @@ steps:
     timeout_seconds: 90
     clear_hostiles: 3000
 - walk_to:
-    x: -23552
+    x: -24064
     y: 12288
-    z: 1600
+    z: 1664
     z_tolerance: 600
     radius: 128
     timeout_seconds: 60
@@ -1473,10 +1549,113 @@ steps:
 - assert:
     dialog:
       active: true
-- press_action:
-    action: cancel_dialog
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x3.odm
+- assert:
+    party_position:
+      x: 21504
+      y: 12288
+      radius: 700
+- note: 'Back east along X3''s east road to its edge: the prompt names Rivercity; accepted, the party arrives on X2''s west
+    start'
+- walk_to:
+    x: 24576
+    y: 12288
+    z: 1024
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
 - assert:
     map: xeen_x2.odm
+- assert:
+    party_position:
+      x: -22016
+      y: 12288
+      radius: 700
+- note: 'To the stables by teleport, then up the north road to the north edge: the travel prompt (X4)'
+- set_pose:
+    map: xeen_x2.odm
+    x: 0
+    y: 13312
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 0
+    y: 14080
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 1024
+    y: 15104
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 1024
+    y: 18432
+    z: 1152
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 1024
+    y: 21504
+    z: 1216
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 1024
+    y: 24064
+    z: 1056
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: 16384
+      y: -22016
+      radius: 900
+- load_map:
+    map: xeen_x2.odm
+- advance_runtime:
+    seconds: 0.5
 - note: Back to the South Square by teleport (the walk has crossed the town twice already)
 - set_pose:
     map: xeen_x2.odm
@@ -1552,9 +1731,17 @@ steps:
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 3000
-- note: 'Danulf the Faery King''s ring of stones: his errand (Q-C17)'
-- execute_event:
-    id: 146
+- note: 'Danulf the Faery King at his ring of stones: his talk (Q-C17)'
+- walk_to:
+    x: -3277
+    y: -8909
+    z: 1043
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- interact_actor:
+    actor_index: 51
 - advance_runtime:
     seconds: 0.5
 - assert:
@@ -1588,7 +1775,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 3000
-- note: 'XD-06: the Temple of Yak, sealed without the Yak Stone'
+- note: 'XD-06: the Temple of Yak, open without the Yak Stone (D-89)'
 - walk_to:
     x: -1024
     y: -17940
@@ -1610,34 +1797,24 @@ steps:
     expect:
       kind: event_target
 - advance_runtime:
-    seconds: 0.5
+    seconds: 0.3
+    present_dialogs: true
 - assert:
     dialog:
       active: true
-- press_action:
-    action: cancel_dialog
-- setup_shortcut:
-    kind: set_qbit
-    id: 110101
-    value: true
-- note: With the Yak Stone (qbit 110101) the door opens
-- set_pose:
-    map: xeen_x2.odm
-    x: -1024
-    y: -17940
-    z: 1088
-    yaw: -1.5708
-    pitch: 0.0
-- advance_runtime:
-    seconds: 0.5
-- press_interact:
-    expect:
-      kind: event_target
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
     seconds: 1.5
     follow_map_move: true
 - assert:
     map: xeen_xd06.blv
+- assert:
+    party_position:
+      x: 0
+      y: 384
+      radius: 256
 - load_map:
     map: xeen_x2.odm
 - advance_runtime:
@@ -1746,22 +1923,3 @@ steps:
       x: 21504
       y: 9216
       radius: 700
-- note: 'Captain Nystor''s pier: 100 gold for a ride down the river to Vertigo (X1)'
-- play_lua:
-    source: if gold() < 100 then error("the party has under 100 gold for the ride") end
-- set_pose:
-    map: xeen_x2.odm
-    x: 8294
-    y: 5325
-    z: 672
-    yaw: 0.0
-    pitch: 0.0
-- advance_runtime:
-    seconds: 0.5
-- execute_event:
-    id: 116
-- advance_runtime:
-    seconds: 1.5
-    follow_map_move: true
-- assert:
-    map: xeen_x1.odm

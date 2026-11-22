@@ -1,0 +1,14 @@
+{
+  "prompt": "Edit paint_mask_guide.png as a locked-alpha game texture projection sheet. Keep its transparent 3:4 canvas, 3 columns x 4 rows, all ten silhouettes at exact input coordinates and sizes. Preserve the unusual end-on projections as tiny tapered shapes. Do not expand, rearrange or rotate any view. Only replace grey pixels. Upper two rows: paint unlit albedo following design_reference.png and icon_x8.png, single-edged curved steel blade with subtle bevel facet, riveted steel collar, long dark brown wooden shaft with longitudinal grain and small steel butt cap. No lighting, shadows, highlights, outlines or added decoration. Lower two rows repeat the same views exactly, flat #FF0000 on every metal pixel, pure #FFFF00 on every wood pixel, no gradients, outlines, interior antialiasing or other colors. Keep all gaps and row 2 column 3 and row 4 column 3 fully transparent. No grid, text or background. Output 1536x2048 transparent PNG or nearest 3:4 size. Correct the silhouette spill: use the original grey guide's alpha as a hard stencil on BOTH halves. Lower red and yellow areas must have clean narrow edges exactly matching the guide with zero colored pixels beyond them. No extra blobs, border lines or fringes.",
+  "inputs": {
+    "paint_mask_guide.png": "e8a5bd2aecc5ce8df0b96ba5d1619246aa46a6aac20e8466779bda13771c08c3",
+    "design_reference.png": "e3b00007b75f0297ae5d6cccdf9d4711f391406f12e75bef1f6d1f265b8e1fd7",
+    "icon_x8.png": "70f1b2e8ac9cf5fd3cc64b3777fe064b5162e8420e773feb5650864189b66ff1"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f92c-5ebc-7b33-815d-db7b14335dc1/exec-3ccc45d9-f2f6-40a9-aa45-5add523a92ed.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

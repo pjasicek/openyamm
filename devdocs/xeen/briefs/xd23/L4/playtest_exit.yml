@@ -1,0 +1,41 @@
+# The Troll Warren's two ways out to X5 (Winterkill Tundra, installed): the mouth (evt:mouth_exit, 13) to the Troll
+# Forest 400 in front of X5's thing:warren mouth face (768, -14995), facing north (away from it), and the one-way smoke
+# hole (evt:smoke_hole, 18) on to the mound's crown (A6's crown point over the mound's middle, facing south). Leaving a
+# BLV for an ODM asks for confirmation (OK). Heights measured 2026-11-20 by dropping the party on X5: the ground in front
+# of the mouth 1,201 (arrival 1,210), the crown 1,635 (arrival 1,645); NOTES.md "Measured heights".
+id: xeen.xd23.l4.exit
+title: Troll Warren (XD-23 L4), out by the mouth and by the smoke hole to X5
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd23.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - assert: {map: xeen_xd23.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  # The mouth, both ways: out to the Troll Forest.
+  - walk_to: {x: 0, y: -120, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: 768, y: -14595, radius: 150, z_min: 1190, z_max: 1215}}
+  # The smoke hole, one way: out on to the mound's crown (the climb is playtest.yml's; here the party stands at the top).
+  - set_pose: {map: xeen_xd23.blv, x: 3400, y: -5824, z: 0, yaw_degrees: 0, pitch: 0}
+  - assert: {map: xeen_xd23.blv}
+  - execute_event: {id: 18}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x5.odm}
+  - assert: {party_position: {x: 768, y: -15616, radius: 150, z_min: 1625, z_max: 1650}}
+  - advance_runtime: {seconds: 3}
+  - assert: {party_position: {x: 768, y: -15616, radius: 200, z_min: 1625, z_max: 1650}}

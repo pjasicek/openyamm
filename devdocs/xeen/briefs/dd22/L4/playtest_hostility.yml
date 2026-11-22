@@ -1,0 +1,35 @@
+# Hostility check of Sheltem's Pod (DD-22, L4): the guard machines hostile to the party and no fights among them.
+# Placed: Patrol 11610 (14), Annihilator 11611 (6), one faction (A2's robots). Both kinds spawned side by side in the
+# airlock, nearer each other than the party (a monster takes the nearest of its foes): they must not take each other
+# on, and they go for the party. Run with --world xeen (output/studio_cal/dd22/four.sh).
+id: xeen.dd22.l4.hostility
+title: "Sheltem's Pod (DD-22): Patrols and Annihilators hostile, no fights among them"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd22.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 58, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 58, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 58, skills: [], equipment: {}}
+          - {name: Sefa, class: Wizard, level: 58, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11610, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11611, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11610, hostile: true, min: 14, max: 14}}
+  - assert: {actor_count: {monster_id: 11611, hostile: true, min: 6, max: 6}}
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11610, x: -160, y: -680, z: 0}
+  - spawn_actor: {monster_id: 11611, x: 160, y: -680, z: 0}
+  - spawn_actor: {monster_id: 11610, x: 0, y: -700, z: 0}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11610, hurt: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11611, hurt: true, max: 0}}

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Annotated figures for the story walkthrough (story/*.yml `figures`), written to tools/mm9_site/story/img/.
 
-    python3 tools/mm9_site/story_figures.py        # needs output/mm9_site (run build_site.py once) for the map image
+    python3 tools/mm9_site/story_figures.py             # needs output/mm9_site (run build_site.py once) for the map image
+    python3 tools/mm9_site/story_figures.py --capture   # one isolated game boot (about 30 s) first, for the captures
 
 darkpassageway_mirrors.webp: the desert of the Dark Passageway from above on the guide's own map image, with the
 gemstone, the four mirrors (their order, angle and clicks from 0), the light's path and the crystal it must reach.
@@ -9,17 +10,26 @@ Positions are the rebuilt map's (worlds/mm9/events/maps/darkpassageway.lua MIRRO
 PassageMirror.scr's targets. The in-game capture beside it (darkpassageway_mirrors_light.webp) is made by hand: a save
 with the mirrors set, a screenshot tour whose first shot runs `event 215` (the tour pauses the world, so the beams stay),
 cropped to the view.
+
+guberlandcity_markel_awards.webp: Markel's awards in his palace in Guberland City, the six Stuffed Dragons on the shelf
+under his sign (the other way to Yrsa's prize, citylua.py "Markel's awards"). A capture from the hall (--capture: the
+council's key 40 set and the map load event run again, so the hall is as the player finds it then), the HUD cropped
+away and the crosshair painted out.
 """
 from __future__ import annotations
 
+import argparse
 import json
+import os
 import re
+import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / "output/mm9_site"
+SHOTS = ROOT / "output/mm9_site_shots/story"
 OUT = Path(__file__).resolve().parent / "story/img"
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
@@ -35,6 +45,12 @@ MIRRORS = [                            # in the order the light reaches them: (p
 ]
 VIEW = (-7900, -2300, -14100, -5300)   # x min, x max, y min, y max of the figure
 SCALE = 0.16                           # pixels per unit
+
+# Markel's awards: Prize0-5 stand at x -1147..-891, y about -8594 (guberlandcity.scene.yml world_items), against the
+# north wall just inside the palace doors. The camera stands on the hall's axis and looks north at them.
+AWARDS_CAMERA = (-1019, -9150, 23)
+AWARDS_REFERENCE = (1920, 1080)        # the capture size the crop below is for
+AWARDS_CROP = (300, 200, 1560, 835)    # the shelf and the sign, without the top bar, buffs, minimap and party frame
 
 
 def map_presentation(map_id: str) -> dict:
@@ -127,5 +143,43 @@ def darkpassageway_mirrors() -> Path:
     return target
 
 
+def capture() -> None:
+    SHOTS.mkdir(parents=True, exist_ok=True)
+    for old in SHOTS.glob("*.png"):
+        old.unlink()
+    tour = SHOTS / "tour.yml"
+    x, y, z = AWARDS_CAMERA
+    tour.write_text(
+        f"output_dir: {SHOTS}\nsettle_seconds: 2.5\nexit: true\nshots:\n"
+        f"  - name: markel-awards\n    position: [{x}, {y}, {z}]\n    yaw: 1.5708\n    pitch: -0.03\n"
+        f"    time: \"11:00\"\n    settle_seconds: 4\n    commands: [\"qbit set 90040\", \"event 1\"]\n")
+    env = dict(os.environ, SDL_AUDIODRIVER="dummy")
+    subprocess.run([str(ROOT / "tools/run_game.sh"), "--isolated", "mm9guide_story", "--world", "mm9", "--map",
+                    "guberlandcity.blv", "--warmup", "3", "--seconds", "90", "--set",
+                    f"debug.screenshot_tour_path={tour}"], cwd=ROOT, env=env, check=True, timeout=300)
+
+
+def guberlandcity_markel_awards() -> Path | None:
+    from capture_monsters import remove_crosshair
+
+    shots = sorted(SHOTS.glob("*-markel-awards.png"))
+    if not shots:
+        return None
+    image = Image.open(shots[0]).convert("RGB")
+    remove_crosshair(image)
+    kx, ky = image.width / AWARDS_REFERENCE[0], image.height / AWARDS_REFERENCE[1]
+    crop = tuple(round(v * (kx if i % 2 == 0 else ky)) for i, v in enumerate(AWARDS_CROP))
+    size = (AWARDS_CROP[2] - AWARDS_CROP[0], AWARDS_CROP[3] - AWARDS_CROP[1])
+    OUT.mkdir(parents=True, exist_ok=True)
+    target = OUT / "guberlandcity_markel_awards.webp"
+    image.crop(crop).resize(size, Image.LANCZOS).save(target, "WEBP", quality=86, method=6)
+    return target
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--capture", action="store_true", help="capture the screenshots first (one game boot)")
+    if parser.parse_args().capture:
+        capture()
     print(darkpassageway_mirrors())
+    print(guberlandcity_markel_awards() or "guberlandcity_markel_awards: no capture (run with --capture)")

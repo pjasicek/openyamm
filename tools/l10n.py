@@ -56,7 +56,7 @@ TABLE_TEXT_COLUMNS = {
     "map_stats.txt": (3, [1]),
     "monster_data.txt": (2, [1, 17, 21]),   # name; attack 1 and 2 types (Phys, Ener ...), shown by Identify Monster
     "news_topics_profession.txt": (1, [1]),
-    "npc.txt": (2, [1]),
+    "npc.txt": (2, [1, 17]),   # name; Title (a world's rows: "{name}, {title}" in talks)
     "npc_greet.txt": (1, [1, 2]),
     "npc_names.txt": (1, [0, 1]),
     "npc_news.txt": (1, [1]),
@@ -68,6 +68,7 @@ TABLE_TEXT_COLUMNS = {
     "spells.txt": (2, [2, 4, 5, 6, 7, 8, 9]),
     "standard_item_enchants.txt": (3, [1]),
     "town_portal_switch.txt": (2, [13]),
+    "transport_locations.txt": (1, [15]),   # Name: a route's place, else its map's name (a world's rows)
     "english/Global.txt": (1, [1]),
     "english/autonote.txt": (1, [1]),
     "english/award_display_aliases.txt": (1, [3]),
@@ -747,6 +748,9 @@ WORLD_TABLE_TEXT_COLUMNS = {
     "hirelings.txt": {"name", "attack1_missile", "attack2_missile"},
     "transport_routes.txt": {"DestinationName", "DockName"},
     "service_venues.txt": {"name", "location"},
+    "npc.txt": {"Name", "Title"},
+    "transport_locations.txt": {"Name"},
+    "english/trans.txt": {"Transition Description"},
 }
 
 
@@ -906,11 +910,18 @@ def extract_yaml(template):
             extract_text_yaml(template, ENGINE / "data_tables" / name, "engine")
     if (ENGINE / "ui/certificates.yml").is_file():
         extract_text_yaml(template, ENGINE / "ui/certificates.yml", "engine")
+    # Dimension Door's door names, printed under the portals.
+    if (ENGINE / "data_tables" / "dimension_doors.yml").is_file():
+        extract_yaml_values(template, ENGINE / "data_tables" / "dimension_doors.yml", "engine",
+                            lambda keys, key: key == "label")
     for world in sorted(WORLDS.iterdir()):
         if not world.is_dir():
             continue
         if (world / "world.yml").is_file():
             extract_text_yaml(template, world / "world.yml", world.name)
+        if (world / "data_tables" / "dimension_doors.yml").is_file():
+            extract_yaml_values(template, world / "data_tables" / "dimension_doors.yml", world.name,
+                                lambda keys, key: key == "label")
         for path in sorted(world.rglob("*.cinematics.yml")):
             extract_text_yaml(template, path, world.name)
 
@@ -1726,7 +1737,7 @@ MMMERGE_TABLES = {
     "MapStats": ("map_stats.txt", "id", {"Name": 1}),
     "MessageScrolls": ("english/scroll.txt", "index", {"": 1}),
     "Monsters": ("monster_data.txt", "id", {"Name": 1}),
-    "NPCData": ("npc.txt", "id", {"Name": 1}),
+    "NPCData": ("npc.txt", "id", {"Name": 1, "Title": 17}),
     "NPCGreet1": ("npc_greet.txt", "id", {"0": 1}),
     "NPCGreet2": ("npc_greet.txt", "id", {"1": 2}),
     "NPCNews": ("npc_news.txt", "id", {"": 1}),

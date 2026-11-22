@@ -1,0 +1,197 @@
+# Darkside side quests of Acts III-IV (tools/xeen/quest_stub.py): Q-D11 Graalg's ogres (the peaceful route's disks,
+# then the forts burned for Kramer's bounty; the fort search refused after the peace), Q-D19 the Southern Tower (its
+# Ali Baba chest gives Q-D18's key), Q-D18 the Jewel of Ages, Q-D20 Luna's statuettes, Q-D6 the heretics of Mok,
+# Q-D15 Caleb's glass, Q-D3 the Drawkcab monks, T2-CLAN (Shinobu), T2-LEAFPOINT, Q-D21 Ector's ring. Q-D22 is not
+# played yet.
+# Map-placed Energy Disks (map_gives) are `give:` steps; a boss's death is a `set:` step. Owner: A3.
+name: Acts III-IV, Darkside side quests
+party: [Crusader, Priest, Initiate, Wizard, WarriorMage]
+steps:
+  - set: m7.sigil
+  # Q-D11, peaceful: Graalg laughs, gives the disks; Kramer pays
+  - talk: [4914, Ogres]
+  - expect: {qbit: q-d11.started}
+  - talk: [5108, "Bow low, slave!"]
+  - expect: {qbit: q-d11.friends}
+  - hidden: [5108, Gifts]
+  - hidden: [5108, "Pharaoh's oath"]
+  - talk: [5108, Energy disks]
+  - expect: {qbit: q-d11.peace, count: [energy_disk, 2]}
+  - talk: [5108, Energy disks]
+  - expect: {count: [energy_disk, 2]}
+  - talk: [5108, Alamar]
+  - talk: [5108, Orcs]
+  - hidden: [4914, Bounty]
+  - talk: [4914, Ogres]
+  - expect: {qbit: q-d11.done, xp: 4000, gold: 1500}
+  # Q-D11, violent: both forts burned (after the peace the strongbox stays shut); the bounty promotes the Hunter
+  - hook: q-d11.fort_west
+  - hook: [q-d11.fort_west, false]
+  - hidden: [4914, Bounty]
+  - hook: q-d11.fort_east
+  - hook: [q-d11.fort_search, false]
+  - class: [4, Hunter]
+  - talk: [4914, Bounty]
+  - expect: {qbit: q-d11.bounty_paid, class: [4, BountyHunter], xp: 5000, gold: 2500}
+  - hidden: [4914, Bounty]
+  # Q-D19: Thaddeus's key, the den, the chest (Q-D18's key), the ledger, the Master Thief
+  - hook: q-d19.tower_door   # D-89: the tower is open
+  - talk: [5246, Southern Tower]
+  - expect: {qbit: q-d19.started}
+  - hook: q-d19.tower_door
+  - hook: q-d19.guild_memo
+  - hook: q-d19.gongs
+  - hook: q-d19.ali_baba
+  - expect: {qbit: q-d19.chest_opened}
+  - hook: [q-d19.ali_baba, false]
+  - hook: q-d19.l3_disks
+  - give: [energy_disk, 2]
+  - hook: q-d19.ledger
+  - expect: {qbit: q-d19.ledger_read}
+  - class: [4, Rogue]
+  - talk: [5109, Inner circle]
+  - expect: {qbit: q-d19.inner_circle, class: [4, Assassin]}
+  - hidden: [5109, Inner circle]
+  # the Prince Book decides by the clicking member's player bits (11302 the Prince of Thieves' throne, 11296 read)
+  - hook: q-d19.prince_book
+  - expect: {last: "For the eyes of the prince only!", no_player_bit: 11296}
+  - player_bit: 11302
+  - hook: q-d19.prince_book
+  - expect: {player_bit: 11296, stat: [Luck, 2]}
+  - hook: q-d19.prince_book
+  - expect: {last: "You learn nothing new.", stat: [Luck, 2]}
+  - talk: [5246, Southern Tower]
+  - expect: {qbit: q-d19.done, xp: 10000, gold: 4000}
+  # Q-D18: the ledger names the Eastern Tower; the jewel, the disks, Ellinger's letter; the fountain; Nasir
+  - talk: [5246, Jewel of Ages]
+  - expect: {qbit: q-d18.started}
+  - hook: q-d18.tower_door
+  - give: jewel_of_ages   # D-90 (c): a ground item (q-d18.jewel is a map_gives record)
+  - hook: q-d18.l3_disks
+  - give: [energy_disk, 2]
+  - hook: q-d18.letter
+  - give: ellingers_letter   # D-90 (b): the letter is a chest item (map_gives)
+  - expect: {item: [jewel_of_ages, ellingers_letter], count: [energy_disk, 6]}
+  - hook: q-d18.fountain
+  - talk: [5246, Jewel of Ages]
+  - expect: {qbit: q-d18.done, item: jewel_of_ages, xp: 18000}
+  # DD-07's L4 (D-39): the fountain +1 all, the book +2 Intellect, once each; the Book of Great Power refuses
+  - hook: q-d18.minimal_fountain
+  - hook: q-d18.minimal_fountain
+  - expect: {stat: [Speed, 1], player_bit: 11336, last: "The water is cool and refreshing."}
+  - hook: q-d18.fantastic_book
+  - hook: q-d18.fantastic_book
+  - expect: {stat: [Intellect, 3], player_bit: 11337, last: "Your intellect is already fantastic!"}
+  - hook: q-d18.great_power_book
+  - expect: {last: "The book answers to no one living."}
+  - hook: q-d18.fountain
+  - talk: [5210, "Ellinger's letter"]
+  - expect: {qbit: q-d18.archmage, class: [3, ArchMage], no_item: ellingers_letter}
+  - hidden: [5210, "Ellinger's letter"]
+  # Q-D20: the Griffin from the Eastern Tower's L2
+  - talk: [4952, Statuettes]
+  - expect: {qbit: q-d20.started}
+  - hook: q-d20.griffin
+  - give: golden_griffin   # D-90 (b): the cabinet is a chest (map_gives)
+  - talk: [4952, Statuettes]
+  - expect: {qbit: q-d20.griffin_returned, no_item: golden_griffin, xp: 21000}
+  # Q-D6: the rope, the key, the clerics spared, the alcoves, the Pegasus, the front door
+  - talk: [4905, Heretics]
+  - expect: {qbit: q-d6.started}
+  - hook: q-d6.tower_rope
+  - talk: [4905, Heretics]
+  - hook: [q-d6.front_door, false]
+  - give: west_tower_key   # D-90 (c): a ground item (q-d6.tower_key is a map_gives record)
+  - expect: {item: west_tower_key}
+  - set: q-d6.leader_slain
+  - hook: q-d6.pious
+  - hook: q-d6.humble
+  - hook: q-d6.l1_alcoves
+  - give: [energy_disk, 2]
+  - give: golden_pegasus   # D-90 (c): a ground item (q-d20.pegasus is a map_gives record)
+  - hook: q-d6.front_door
+  - expect: {qbit: q-d6.tower_opened}
+  - hook: [q-d6.ground_door, false]
+  - hidden: [4905, The clerics]
+  - talk: [4905, Heretics]
+  - expect: {qbit: q-d6.done, class: [0, Hero], award: q-d6.dreyfus, xp: 30000, gold: 7000}
+  - expect: {class: [1, PriestLight]}
+  - talk: [4905, The clerics]
+  # Q-D20: the Pegasus and the Dragon; the altar promotes the Warrior Mage
+  - talk: [4952, Statuettes]
+  - give: golden_dragon   # D-90 (c): a ground item (q-d20.dragon is a map_gives record)
+  - talk: [4952, Statuettes]
+  - expect: {qbit: [q-d20.pegasus_returned, q-d20.dragon_returned], xp: 36000}
+  - talk: [4952, Statuettes]
+  - class: [4, WarriorMage]
+  - talk: [4952, The altar]
+  - expect: {qbit: q-d20.done, class: [4, MasterArcher], count: [energy_disk, 8]}
+  - hidden: [4952, The altar]
+  # Q-D15: Caleb's glass from the gargoyles
+  - talk: [5245, Magnifying glass]
+  - expect: {qbit: q-d15.started}
+  - hook: q-d15.roost
+  - hook: q-d15.glass
+  - talk: [5245, Magnifying glass]
+  - expect: {qbit: q-d15.done, no_item: calebs_glass, xp: 41000, gold: 9000}
+  # Q-D3: the lessons in order, Reger's door, the promotion
+  - hook: [q-d3.reger_door, false]
+  - talk: [4925, Lesson]
+  - expect: {not_qbit: q-d3.lesson3}
+  - talk: [4923, Lesson]
+  - talk: [4924, Lesson]
+  - talk: [4925, Lesson]
+  - talk: [4926, Lesson]
+  - expect: {qbit: q-d3.member, award: q-d3.drawkcab, xp: 43000}
+  - hook: q-d3.reger_door
+  - hook: q-d3.reger_wrong
+  - expect: {not_qbit: q-d3.word_said}
+  - hook: q-d3.reger_word
+  - hook: [q-d3.reger_word, false]
+  - talk: [4950, The word]
+  - expect: {not_qbit: q-d3.done, xp: 43000}     # D-12.2: the promotion waits for M20
+  - set: m20.started
+  - talk: [4950, The word]
+  - expect: {qbit: q-d3.done, class: [2, Master], xp: 52000, gold: 9000}    # D-16: Reger pays 9,000
+  # T2-CLAN: Shinobu in XD-22's cellar trains an Initiate as a Ninja (after q-c4.done; m20.started is set above)
+  - class: [3, Initiate]
+  - hidden: [4530, The clan]
+  - set: q-c4.done
+  - lua: "ClearQBit(bit('m20.started'))"   # A3 s38: before the Queen's walls rise, Shinobu says to come back
+  - talk: [4530, The clan]
+  - expect: {qbit: t2-clan.waiting, not_qbit: t2-clan.done, journal: t2-clan.waiting, class: [3, Initiate]}
+  - set: m20.started
+  - talk: [4530, The clan]
+  - expect: {qbit: t2-clan.done, class: [3, Ninja], xp: 55000, no_journal: t2-clan.waiting}
+  - class: [4, Initiate]
+  - talk: [4530, The clan]
+  - expect: {class: [4, Ninja], xp: 55000}                       # a second Ninja is not paid again
+  # T2-LEAFPOINT: Leafpoint makes a Great Druid an Arch Druid once Q-C15 is done
+  - class: [4, GreatDruid]
+  - talk: [5319, Civilized ones]
+  - expect: {not_qbit: t2-leafpoint.done, class: [4, GreatDruid]}
+  - set: q-c15.done
+  - talk: [5319, Civilized ones]
+  - expect: {qbit: t2-leafpoint.done, class: [4, ArchDruid], xp: 58000}
+  # Q-D21: Ector's ring from the woodpile; he lets the party keep it
+  - hook: [q-d21.woodpile, false]
+  - talk: [5320, The ring]
+  - expect: {qbit: q-d21.started}
+  - hook: q-d21.woodpile
+  - talk: [5320, The ring]
+  - expect: {qbit: q-d21.done, item: ectors_ring, xp: 61000}
+  # D-42: DD-05's fountains, DD-20's cauldrons, DD-12's Soul Waters, DD-19's potions (once per character each)
+  - hook: q-d6.fountain_fire
+  - hook: q-d6.fountain_fire
+  - expect: {stat: [FireResistance, 5], player_bit: 11341, last: "The water is cool and refreshing."}
+  - hook: q-d22.cauldron_speed
+  - hook: q-d22.cauldron_speed
+  - expect: {stat: [Speed, 3], player_bit: 11347, last: "You have had your fill."}
+  # Q-D22: a wrong answer at the Guild door drops the party into DD-20's sump (the hook's move, a status line).
+  - hook: q-d22.guild_wrong
+  - expect: {last: "you land in the sewer under the Guild."}
+  - hook: m24.soul_waters_l3
+  - hook: m24.soul_waters_l3
+  - expect: {player_bit: 11348, last: "Refreshing.", xp: 62000}
+  - hook: q-d14.purple_potion
+  - expect: {stat: [Speed, 5], player_bit: 11351}

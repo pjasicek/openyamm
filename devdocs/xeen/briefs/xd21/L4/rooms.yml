@@ -24,15 +24,15 @@ rooms:
     theme: theme:brick
     platforms:
       - {id: platform:desk, at: [4352, 3968], size: [128, 320], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The boss's desk: his ledger open on it."}
-      - {id: platform:hearth, at: [3904, 4544], size: [384, 128], rise: 32, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "The hearth against the north wall, west of the strongroom passage."}
+      - {id: platform:hearth, at: [3392, 4544], size: [320, 128], rise: 32, surface: {texture: twb2, size: [128, 256]}, top_surface: {texture: cfb1, size: [128, 128]}, notes: "The hearth against the north wall, west of the strongroom passage."}
       - {at: [3392, 3520], size: [256, 384], rise: 56, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: The boss's bed}
-      - {at: [3520, 4224], size: [256, 192], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Supper table}
+      - {at: [4096, 3520], size: [256, 192], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Supper table}
     ceiling_levels:
       - ceiling: 960
         top_scale: [1, 0]
         notes: Barrel vault north-south.
     ambient: 16
-    notes: "The boss's own rooms, 1,408 by 1,280 and 256 up: a desk with his ledger, a bed, a supper table, a hearth on the north wall with the strongroom catch beside it; the strongroom passage leaves the north wall."
+    notes: "The boss's own rooms, 1,408 by 1,280 and 256 up: a desk with his ledger, a bed with his chest beside it, a supper table in the south-east, a hearth on the north wall west of the strongroom passage with the catch between them; the passage leaves the north wall."
   - id: room:boss_stair
     name: Boss's stair
     outline: [[1664, 3712], [2944, 3712], [2944, 4224], [1664, 4224]]
@@ -78,29 +78,30 @@ rooms:
     walls:
       - wall: west
         panels:
-          - {id: panel:dues_box, at: centre, length: 96, bottom: 112, height: 96, surface: {texture: 7gt002c, size: [64, 64], fit: true}, notes: "The gang's dues box nailed to the wall, its slot scratched round with words."}
+          - {id: panel:dues_box, offset: 336, length: 96, bottom: 112, height: 96, surface: {texture: 7gt002c, size: [64, 64], fit: true}, notes: "The gang's dues box nailed to the wall, its slot scratched round with words."}
     platforms:
-      - {id: platform:dice_table, at: [-2432, 4224], size: [448, 224], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The dicing table, plank on trestles: dice, cups and coins on it."}
-      - {at: [-2432, 4448], size: [384, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
-      - {at: [-2432, 4000], size: [384, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
+      - {id: platform:dice_table, at: [-2944, 3968], size: [384, 224], rise: 72, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: "The dicing table, plank on trestles, in the south-west of the room (off the ways between the three doors): dice, cups and coins on it."}
+      - {at: [-2944, 4192], size: [320, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
+      - {at: [-2944, 3744], size: [320, 64], rise: 40, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Bench}
       - {at: [-1856, 3776], size: [192, 96], rise: 64, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Side table (the lamp)}
     ceiling_levels:
       - ceiling: 576
         top_scale: [1, 0]
         notes: Brick barrel vault north-south.
     ambient: 18
-    notes: "The robbers' common room, 1,536 by 1,280: a plank dicing table with benches in the middle, kegs along the walls, the dues box on the west wall. Arches east into the undercroft; a door north to the bunks."
+    notes: "The robbers' common room, 1,536 by 1,280: a plank dicing table with benches in the south-west, kegs and a barrel in the north corners, the dues box on the west wall north of the table. Arches east into the undercroft; a door north to the bunks."
   - id: room:fence_store
     name: Fence's store
     outline: [[1024, 5120], [2048, 5120], [2048, 6144], [1024, 6144]]
     floor: 0
+    store: true
     ceiling: 384
     theme: theme:brick
     platforms:
       - {at: [1856, 5888], size: [256, 128], rise: 64, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Counting table}
-      - {at: [1152, 5280], size: [192, 192], rise: 128, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate of stolen goods}
-      - {at: [1152, 5280], size: [128, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, base: 128, notes: Crate on the crate}
-      - {at: [1408, 5248], size: [256, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate}
+      - {at: [1232, 5232], size: [192, 192], rise: 128, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate of stolen goods}
+      - {at: [1232, 5232], size: [128, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, base: 128, notes: Crate on the crate}
+      - {at: [1480, 5216], size: [256, 128], rise: 96, surface: {texture: 7trimda, size: [256, 128]}, top_surface: {texture: 7t1books1, size: [128, 128]}, notes: Crate}
     ambient: 20
     notes: "The fence's store behind a good lock: crates and sacks of goods stolen in Rivercity, a counting table, the fence's chest."
   - id: room:quay_cellar

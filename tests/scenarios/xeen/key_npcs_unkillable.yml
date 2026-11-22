@@ -1,0 +1,45 @@
+# F9 (2026-11-21): every placed talking figure on a Xeen map takes no damage while it is peaceful
+# (events/common/xeen_key_npcs.lua, written by tools/xeen/key_npcs.py from the installed scenes). Derek, X1's ranger
+# (actor 75, NPC 4046, a peasant body with 6 HP), has no map event of his own: the world-wide load step protects him.
+# Thirty blows and a Fireball leave him whole and peaceful, and he still talks.
+id: xeen.key_npcs_unkillable
+title: 'Xeen: a placed talking figure survives the party''s blows and spells and stays peaceful (F9)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x1.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Hilda, class: Knight, level: 30, skills: [], equipment: {}}
+      - {name: Aldric, class: Cleric, level: 30, skills: [], equipment: {}}
+      - {name: Brann, class: Ranger, level: 30, skills: [], equipment: {}}
+      - {name: Mirel, class: Sorcerer, level: 30, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- play_lua:
+    source: wait(1); for _ = 1, 3 do if not close() then break end end
+- set_pose: {map: xeen_x1.odm, x: -11674, y: -7263, z: 640, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 75, monster_id: 371, dead: false, hp: 6, report_state: true}}
+- note: He is named as his talk names him, not by his peasant body (F9-R2)
+- assert: {actor_visible: {actor_index: 75, name: 'Derek, Ranger'}}
+- note: Thirty blows at Derek
+- party_attack: {actor_index: 75, member_index: 0, count: 30, kill: true, min_hit_rate: 0.025, report: true}
+- assert: {actor_visible: {actor_index: 75, monster_id: 371, dead: false, hp: 6, report_state: true}}
+- assert: {actor_count: {monster_id: 371, hostile: true, near: [-11674, -6963, 1000], max: 0}}
+- note: A Fireball at Derek (an area)
+- cast_spell: {member_index: 3, spell_id: 6, skill: 10, mastery: 3, actor_index: 75}
+- advance_runtime: {seconds: 2}
+- assert: {actor_visible: {actor_index: 75, monster_id: 371, dead: false, hp: 6, report_state: true}}
+- assert: {actor_count: {monster_id: 371, hostile: true, near: [-11674, -6963, 1000], max: 0}}
+- note: He still talks
+- play_lua:
+    source: for _ = 1, 3 do if not close() then break end end
+- set_pose: {map: xeen_x1.odm, x: -11674, y: -7163, z: 640, yaw: 1.5708, pitch: 0.0}
+- advance_runtime: {seconds: 0.5}
+- interact_actor: {actor_index: 75}
+- advance_runtime: {seconds: 0.5, present_dialogs: true}
+- assert:
+    dialog: {active: true, source_id: 4046}

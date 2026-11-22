@@ -1,0 +1,225 @@
+format: 0
+themes:
+  - id: theme:bones
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: xobones, size: [128, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The bone run: a passage paved with gnawed bones (xobones)."
+  - id: theme:dirt
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: 7dirttyl, size: [128, 128], scale: 2}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "The pocket: XD-23's MM7 red-brown dirt cave (7dirttyl) on walls, roofs and floors; hide flaps (xohide) for doors."
+  - id: theme:roots
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: xdbark, size: [128, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Root steps (xdbark, D2's bark) in the dirt: the trolls' stair."
+  - id: theme:straw
+    wall: {texture: 7dirttyl, size: [128, 128]}
+    floor: {texture: straw, size: [256, 256]}
+    ceiling: {texture: 7dirttyl, size: [128, 128]}
+    reveal: {texture: 7dirttyl, size: [128, 128]}
+    door: {texture: xohide, size: [128, 256]}
+    notes: "Nests and sleeping hollows: the same dirt, the floor deep in old straw (MM6 straw)."
+defaults: {theme: theme:dirt, ambient: 18}
+rooms:
+  - id: room:bone_run
+    name: Bone run
+    path: [[1024, -3328], [1024, -1824]]
+    width: 256
+    floor: -512
+    slope: {to: 0}
+    ceiling: -224
+    theme: theme:bones
+    ambient: 14
+    notes: "A low passage paved with bones, climbing from the ice den to the gnawed tunnel (the bone stair)."
+  - id: room:cold_slope
+    name: Cold slope
+    path: [[2176, -2176], [2176, -3328]]
+    width: 256
+    floor: 0
+    slope: {to: -512}
+    ceiling: 320
+    theme: theme:dirt
+    ambient: 16
+    notes: A slope down 512 to where the air turns cold.
+  - id: room:frost_seep
+    name: Frost seep
+    outline: [[1664, -4480], [2688, -4480], [2688, -3456], [1664, -3456]]
+    floor: -512
+    rough: {step: 224, depth: 72}
+    ceiling: -96
+    ceiling_points: [[2176, -3968, 0]]
+    theme: theme:dirt
+    ambient: 14
+    notes: "Where the pocket reaches under the world's rim: cold seeps in through cracks lit faintly by the stars below."
+  - id: room:hall
+    name: Hobstadt's hall
+    outline: [[1408, -768], [3456, -768], [3456, 768], [1408, 768]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 576
+    ceiling_points: [[1920, 0, 704], [2432, 0, 768], [2944, 0, 704]]
+    theme: theme:dirt
+    platforms:
+      - {id: platform:throne, at: [3250, 320], size: [192, 256], rise: 72, surface: {texture: t66cave, size: [128, 256]}, top_surface: {texture: t66cave, size: [128, 256]}, notes: "Hobstadt's throne of stacked boulders: its seat."}
+      - {at: [3386, 320], size: [80, 320], rise: 320, surface: {texture: t66cave, size: [128, 256]}, top_surface: {texture: t66cave, size: [128, 256]}, notes: "The throne's back, boulders stacked against the east wall."}
+    ambient: 20
+    notes: "A long earthen hall under root vaults, the court in two rows, Hobstadt's throne of stacked boulders at the east end; the guild's gold behind it, through the east wall south of the throne."
+  - id: room:hall_gate
+    name: Hall gate
+    outline: [[640, -384], [1280, -384], [1280, 384], [640, 384]]
+    floor: 0
+    ceiling: 448
+    theme: theme:dirt
+    ambient: 22
+    notes: "Before the two great log doors carved with troll faces; two of the court lean on their clubs here."
+  - id: room:hoard
+    name: The guild's gold
+    outline: [[3584, -640], [4224, -640], [4224, 0], [3584, 0]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 384
+    theme: theme:dirt
+    platforms:
+      - {id: platform:sacks, rise: 48, surface: {texture: xohide, size: [128, 256]}, outline: [[3850, -336], [3937, -410], [4045, -410], [4110, -327], [4045, -190], [3915, -190]], top_surface: {texture: xohide, size: [128, 256]}, notes: "Sacks stamped THIEVES' GUILD, heaped behind the throne."}
+    ambient: 16
+    notes: "Behind the throne: the Thieves' Guild's sacks (A3's q-d13.hoard) and the trolls' strongbox."
+  - id: room:ice_den
+    name: Ice trolls' den
+    outline: [[512, -4480], [1536, -4480], [1536, -3456], [512, -3456]]
+    floor: -512
+    rough: {step: 224, depth: 72}
+    ceiling: -96
+    theme: theme:dirt
+    ambient: 14
+    notes: "Frost on the roots, breath steaming: the den of the pale trolls who like it cold; their cache."
+  - id: room:kings_stair
+    name: The trolls' stair
+    path: [[-640, 0], [-1792, 0]]
+    width: 256
+    floor: 0
+    slope: {to: 384}
+    ceiling: 320
+    theme: theme:roots
+    ambient: 22
+    notes: "The trolls' own way in and out, beside the pit: root steps up a steep burrow to a sod hatch."
+  - id: room:pit
+    name: Pit bottom
+    outline: [[-209, -512], [209, -512], [512, -209], [512, 209], [209, 512], [-209, 512], [-512, 209], [-512, -209]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 512
+    theme: theme:dirt
+    platforms:
+      - {id: platform:mound, rise: 24, surface: {texture: xobones, size: [128, 256]}, outline: [[-350, 224], [-250, 150], [-125, 150], [-50, 233], [-125, 370], [-275, 370]], top_surface: {texture: xobones, size: [128, 256]}, notes: Earth and old bones under the hole.}
+    ceiling_levels:
+      - outline: [[-131, -320], [131, -320], [320, -131], [320, 131], [131, 320], [-131, 320], [-320, 131], [-320, -131]]
+        ceiling: 896
+        edge: {texture: 7dirttyl, size: [128, 128]}
+        surface: {texture: 7dirttyl, size: [128, 128], sky: true}
+        notes: "The widest troll hole's shaft, 896 up to D2's sky."
+    ambient: 30
+    notes: "The widest of the three pits, daylight 896 up; the hall's carved log doors straight ahead (east), the trolls' stair west, a hide flap south."
+  - id: room:side_tunnel
+    name: Gnawed tunnel
+    path: [[0, -640], [0, -1536], [1536, -1536]]
+    width: 320
+    floor: 0
+    ceiling: 320
+    theme: theme:dirt
+    ambient: 16
+    notes: "A tunnel away from the hall into the wild trolls' warren; the bone run comes up its south side."
+  - id: room:trophy
+    name: Trophy cave
+    outline: [[1664, -2048], [2688, -2048], [2688, -1024], [1664, -1024]]
+    floor: 0
+    rough: {step: 224, depth: 72}
+    ceiling: 448
+    ceiling_points: [[2176, -1536, 544]]
+    theme: theme:dirt
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:trophies, offset: 256, length: 512, bottom: 96, height: 224, surface: {texture: xohide, size: [128, 256]}, notes: Hides of the fallen nailed to the roots.}
+    ambient: 16
+    notes: "Shields, helms and hides of the fallen nailed to the roots; a chest among them; the cold slope down leaves the south wall."
+openings:
+  - id: open:den_run
+    from: room:ice_den
+    to: room:bone_run
+    link: link:den_run
+    width: 192
+    height: 256
+    notes: A door of lashed antlers and hide.
+  - id: open:gate_hall
+    from: room:hall_gate
+    to: room:hall
+    link: link:gate_hall
+    width: 320
+    height: 384
+    notes: "The carved log doors, open."
+  - id: open:hall_hoard
+    from: room:hall
+    to: room:hoard
+    link: link:hall_hoard
+    width: 256
+    height: 320
+    notes: "Open ground behind the throne, south of it."
+  - id: open:pit_gate
+    from: room:pit
+    to: room:hall_gate
+    link: link:pit_gate
+    width: 352
+    height: 384
+  - id: open:pit_stair
+    from: room:pit
+    to: room:kings_stair
+    link: link:pit_stair
+    width: 224
+    height: 288
+  - id: open:pit_tunnel
+    from: room:pit
+    to: room:side_tunnel
+    link: link:pit_tunnel
+    width: 224
+    height: 256
+    notes: "A hide flap: the warren beyond is not the court's."
+  - id: open:run_tunnel
+    from: room:bone_run
+    to: room:side_tunnel
+    link: link:run_tunnel
+    width: 192
+    height: 256
+  - id: open:seep_den
+    from: room:frost_seep
+    to: room:ice_den
+    link: link:seep_den
+    width: 384
+    height: 320
+  - id: open:slope_seep
+    from: room:cold_slope
+    to: room:frost_seep
+    link: link:trophy_seep
+    width: 224
+    height: 288
+  - id: open:trophy_slope
+    from: room:trophy
+    to: room:cold_slope
+    link: link:trophy_seep
+    width: 224
+    height: 288
+  - id: open:tunnel_trophy
+    from: room:side_tunnel
+    to: room:trophy
+    link: link:tunnel_trophy
+    width: 288
+    height: 288
+notes: "DD-11C Troll Holes, third pocket (Hobstadt's hall): floor 0 and the cold warren at -512; x east, y north. Written by output/studio_cal/dd11c/tools/gen.py."

@@ -1,0 +1,33 @@
+# The tiny door out of the Gremlin Court (DD-04) onto D1 (lane A8, 2026-11-20). From the map's start just inside the
+# door, the exit window (leave The Gremlin Court?), OK: the party stands on D1 (Castleview Vale, A6) just outside the
+# gremlins' burrow under the town wall east of the north gate (thing:dd04_burrow, its face at 2304, 10467), facing
+# north, away from it, and walks on north. Run with --world xeen --map xeen_dd04.blv (output/studio_cal/dd04/four.sh).
+id: xeen.dd04.l4.exit_d1
+title: The Gremlin Court (DD-04 L4), out by the tiny door to D1
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd04.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 20, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 20, skills: [], equipment: {}}
+  - assert: {map: xeen_dd04.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 0, y: 256, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: 128, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d1.odm}
+  - play_lua: {source: "log('arrival ' .. status())"}
+  - assert: {party_position: {x: 2048, y: 11264, radius: 128, z_min: 1120, z_max: 1190}}
+  # Facing north, away from the burrow: walking on takes the party along the outside of the wall, not back in.
+  - walk_to: {x: 2048, y: 11700, z: 1152, z_tolerance: 250, radius: 160, timeout_seconds: 30}
+  - assert: {map: xeen_d1.odm}

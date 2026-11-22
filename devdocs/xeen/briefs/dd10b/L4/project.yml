@@ -1,0 +1,43 @@
+format: 0
+id: xeen_dd10b
+name: "Gemstone Mines, east pocket"
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-10B
+units: {plan_grid: 512}
+extent: {footprint_cells: [11, 8], climbs: n}
+map_stats:
+  id: 9160
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 3
+  trap_dice: 3
+  perception_difficulty: 2
+  refill_days: 672
+  music: 18
+  environment: cave
+  lock_difficulty: 4
+  slots:
+    - {monster: Xeen Crawler, tier: 5, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Night Bat, tier: 5, per_marker: [2, 3], weight: 35}
+    - {monster: Xeen Golem, tier: 4, per_marker: [1, 2], weight: 30}
+neighbours:
+  - id: exit:d2_adit
+    to: xeen_d2.odm
+    kind: door
+    arrival: [-15360, 16384, 1696]
+    arrival_hint: "On D2, below the timbered adit in the Gemstone foothills (thing:dd10b_adit), at A6's return point, facing south, away from it."
+    direction: 270
+    notes: "D2 installed (A6). The party lands at A6's return point for D2's event 44, (-15360, 16384, 1696) facing 1536 (south). D2's door into this map lands at this map's start: (0, 192, 0), facing north (90)."
+qbits:
+  arrived_once: 117200
+  dug: 113144
+  refill_b: 113142
+items:
+  sapphire_rock: 12359
+notes: "Xeen design brief, DD-10B Gemstone Mines, east pocket (D2; Q-D7), class S, built from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd10b.graph.yml) with decider D-27 (mockups/act3_a8_decisions_b.md). Party 23-27, band 16-28, 20 placed monsters on A2's rows (no spawn points: the slots are the map card's only, encounter chance 0), treasure 3, music 18. Quest bits: q-d7.refill_b 113142, q-d7.dug 113144 (A3; the God's hook sets refill_a/b/c and clears dug); the map's arrived_once 117200 (provisional block 117200-117239). Items: sapphire rock 12359 (the hook's map_gives, one per vein)."
+identity:
+  shape: mine
+  family: 7d35
+  seen: ["a timbered adit and drift: timber sets, lagging, rails running in to the drift's bend, a cart of spoil in the side cut", "the sapphire hall round its rock pillar, every vein framed by blue crystal growing out of the rock", "the deep level: the flooded drift and the God of Minerals' face of crystal in the gold-veined rock"]

@@ -1,0 +1,60 @@
+# X6 Desert of the Sphinx: the desert's own bits and lines that belong to no quest. Quest topics: q-c1.yml (the Summer
+# Druid). Owner: A3. Format: QUESTS_FORMAT.md section 5.
+map: X6
+block: 156
+source: "D-8.1 (devdocs/xeen/DECISIONS.md): the Warzone coach yard"
+
+qbits:
+  warzone_gate: {id: 116100, note: "the coach yard's desert gate, opened from the desert side, sets it; A4's Warzone coach and A5's gate read it"}
+
+player_bits:         # X6's, per character (A5 wires them). 11332, 11334, 11335 freed (D-70 Q2: the Well of Accuracy, the sun
+                     # stones and the caravan cairn are party-daily by Xeen.usedToday, no player bit)
+  oasis_fountain: {id: 11330, map: X6, note: "the oasis fountain: +2 Endurance (base), once"}
+  shrine_energy: {id: 11331, map: X6, note: "the Shrine of Energy: +5 Air resistance (permanent), once (D-4)"}
+  waters_power: {id: 11333, map: X6, note: "the Waters of Great Power: +200 hit points, once a day (aaze0001:4)"}
+
+hooks:
+  warzone_gate:
+    map: X6
+    where: "the Warzone coach yard's desert gate: opening it from the desert side calls this (the map opens the gate); from then on it stays open from both sides"
+    sets: [warzone_gate]
+    once: true
+    text: "You lift the bar from the desert side, and the yard gate swings open. Beyond it a coach waits, its driver asleep under a sign: WARZONE. ALL COMERS."
+  warzone_gate_open:
+    map: X6
+    where: "the same gate from the yard side, or after it was opened: the door asks XeenQuests.can(\"x6.warzone_gate_open\"); before the bit, the fail text is Gorm's gate_line (towns/x6.yml, NPC 4605)"
+    requires: {qbit: warzone_gate}
+    reads: [warzone_gate]
+    fail_text: "The gate is barred. Gorm calls from the coach house door: \"The sand's no place for you yet. Arena or home.\""
+  saul_urn:
+    map: X6
+    where: "Saul's urn beside his hermitage (poi:saul_urn): flavour only, no effect (the source's 10,000-gold urn is not carried over; Saul teaches Meditation by talk, A4)"
+    text: "The urn is full of sand and old coins. Saul says the coins are for the sand."
+  sun_stones:
+    status: true   # F13: a touch effect answers on the status line
+    map: X6
+    where: "the ring of red standing stones on the south steppe (poi:sun_stones): the map gives every member +Fire resistance until rest, once a day for the party (Xeen.usedToday, D-70 Q2), then calls this"
+    text: "The Summer Druid's stones are warm long after dark. Their heat sinks into you. (+Fire resistance, until you rest)"
+  sun_stones_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: X6
+    where: "the same stones, clicked again the same day (the party has had their warmth)"
+    text: "The stones are warm, but you have had your share of their heat."
+  caravan_cairn:
+    status: true   # F13: a touch effect answers on the status line
+    map: X6
+    where: "the cairn by the desert road (poi:caravan_cairn): the map gives every member +Luck until rest, once a day for the party (Xeen.usedToday, D-70 Q2), then calls this"
+    text: "Every caravan adds a stone for luck on the crossing. You add yours, and feel luckier for it. (+Luck, until you rest)"
+  caravan_cairn_again:
+    status: true   # F13: a touch effect answers on the status line
+    map: X6
+    where: "the same cairn, clicked again the same day (the party has added its stones)"
+    text: "Your stone is already on the cairn. Piling on more would be greed, and the desert notices greed."
+
+# The Warzone's awards (D-39 XD-20 Q2): the engine's arena adds award 45 + tier (46-49) and counts the wins in their
+# %u. Xeen's wording, for A1's per-world override of those four rows (requested 2026-11-20; the generator cannot write
+# rows outside Xeen's award range 401-499, and an appended row would change MM6-MM8's text too):
+#   46  Won %u Page battles in the Warzone.
+#   47  Won %u Squire battles in the Warzone.
+#   48  Won %u Knight battles in the Warzone.
+#   49  Won %u Lord battles in the Warzone.

@@ -1,0 +1,133 @@
+# FD-01's bolted grate (D-69 change 4) from both sides: from the south gallery "Bolted from the other side."
+# (m39.grate_bolted) and the leaf stays shut; from the workshop "You draw the bolt." (m39.grate_bolt, 117843) and the
+# leaf rises; still open after a save and a reload; then the party walks through from the gallery side into the workshop.
+# Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
+id: xeen.fd01.l4.grate
+title: 'Alamar Depths (FD-01 L4): the bolted grate from both sides'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Paladin
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12365
+- lua_event:
+    source: evt.MoveToMap(0, 0, 0, 1024, 0, 0, 0, 0, "xeen_fd01.blv")
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- set_pose:
+    map: xeen_fd01.blv
+    x: -3328
+    y: -512
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 9000
+- play_lua:
+    source: status(); click(18); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Bolted from the other side.', 1, true)) then error('no bolted line from the gallery'
+      .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: wait(1)
+- play_lua:
+    source: if not (door_state(3) == 'closed') then error('the grate opened from the gallery side' .. ' / ' .. status() ..
+      ' / ' .. party()) end
+- set_pose:
+    map: xeen_fd01.blv
+    x: -3328
+    y: 400
+    z: 0
+    yaw_degrees: 270
+    pitch: 0
+- clear_hostiles:
+    radius: 9000
+- play_lua:
+    source: close(); status(); click(17); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'You draw the bolt.', 1, true)) then error("event 17 did not say 'You draw the bolt.'"
+      .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(3) == 'open' then break end; wait(0.5) end; if door_state(3) ~= 'open' then error('door
+      3 is ' .. door_state(3) .. ', not open') end
+- play_lua:
+    source: if not (qbit(117843)) then error('grate_bolt 117843 not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (door_state(3) == 'open') then error('the grate shut after a reload' .. ' / ' .. status() .. ' / ' .. party())
+      end
+- set_pose:
+    map: xeen_fd01.blv
+    x: -3328
+    y: -512
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- walk_to:
+    x: -3328
+    y: -200
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+- walk_to:
+    x: -3328
+    y: 400
+    z: 0
+    radius: 64
+    timeout_seconds: 40
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -3328
+      y: 400
+      radius: 96
+- play_lua:
+    source: 'log(''through the grate: '' .. party())'

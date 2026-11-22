@@ -1,0 +1,23 @@
+{
+  "prompt": "Precisely edit paint_mask_guide.png as a locked alpha stencil. Preserve its entire portrait 3:4 canvas and transparent padding. 1536x2048, three columns and four rows. Each shape remains exactly centered in its own 512 square, at exactly its original size. Paint inside the gray objects only. Rows 1-2 are five orthographic unlit albedo views of the Scarab of Imaging. Use design_reference.png as material/detail reference and icon_x8.png as color reference. Closed lapis lazuli blue wings with mineral veins, narrow gold setting and central gold division, gold-trimmed thorax and head motifs on the upright oval top view. All design features stay inside the solid convex outlines, nothing projecting. Front, back and two side views are very low shallow domes with flat bottoms precisely following the guide. No illumination, shading, ambient occlusion, hot highlights, reflections, ground, outline or text. Rows 3-4 repeat the exact same views at the exact same positions shifted by half a canvas height. Fill these as opaque, completely flat binary material IDs matching the paint above: pure black #000000 for all lapis, pure red #FF0000 for all metal. No other colors or blended interior boundaries. Empty cells at right in rows 2 and 4 stay completely transparent. Outside all silhouettes preserve the guide's exact transparent alpha. Correction: The oval in column 2 is a single smooth solid cabochon. Paint a scarab motif engraved flush on its oval surface. Omit the antennae and exterior legs from the references entirely. The outer edge is one uninterrupted oval gold bezel around a solid opaque blue stone; the matching mask has a single uninterrupted red oval perimeter and fully opaque black stone. Use the guide outline verbatim for every view.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "036cf85b5b08cdc1f11925aae016eaa24ce0c731284145c88714c5581ad81274"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "232fdddebfb5998f1e17261b325fd988d4d03c9a4771e75e2a3cc3b832b5f043"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "f0894141269c0f21e9dac09ade4896483c3eeb1680e4f89d4636d97418f4abea"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f91b-5c6c-79a1-a797-0830a3993f31/exec-b9419eeb-091f-45c1-b9d6-add27e07f733.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

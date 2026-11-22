@@ -1,0 +1,56 @@
+# Xeen side quest Q-D27, Genie Lamps: D4's two small lamps (the map lane's own, one small wish each, no choice; source/
+# quests/q-d27.yml's header). From a new game on D4, a level-36 party placed beside each (outdoors, PLAYBOOK.md
+# section 2): the seat's lamp (event 73, 5,000 gold, map variable 7) and the skerry's lamp (event 95, 8,000 gold,
+# map variable 8), each once; a second rub pays nothing and says so ("The lamp is cold. Its genie has gone back in for
+# good."; the skerry's "The lamp is cold and still wet. Its genie has gone."; A6, 2026-11-21 14:31-14:35).
+# Places: the scene's 7dec41 decorations (-14336, 10445, 2848) and (12800, -3123, 1056); devdocs/xeen/briefs/d4/L4/
+# sketch.yml thing:genie_lamp_seat, thing:genie_lamp_skerry. Map Lua: events/maps/xeen_d4.lua events 73, 95.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d27_genie_lamps_d4.yml --scenario-no-color
+id: xeen.side_quests.q-d27.d4
+title: "Xeen Q-D27: D4's two small genie lamps"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d4.odm}
+  # The seat's lamp (event 73).
+  - set_pose: {map: xeen_d4.odm, x: -14336, y: 10189, z: 2848, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        remember("gold", gold()); status(); click(73); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "grants you a small wish: 5,000 gold. 'Small wishes come true,'", 1, true) then error("D4's seat lamp said: " .. s) end
+        if gold() - recall("gold") ~= 5000 then error("D4's seat lamp paid " .. (gold() - recall("gold"))) end
+        click(73); wait(0.5)
+        if gold() - recall("gold") ~= 5000 then error("D4's seat lamp paid twice") end
+        local again = status() or ""
+        if not string.find(again, "The lamp is cold. Its genie has gone back in for good.", 1, true) then error("D4's seat lamp again said: " .. again) end
+  # The skerry's lamp (event 95).
+  - set_pose: {map: xeen_d4.odm, x: 12800, y: -3379, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua:
+      source: |
+        remember("gold", gold()); status(); click(95); wait(0.5)
+        local s = status() or ""
+        if not string.find(s, "The lamp is wet and the genie is cross about it, but it grants you a wish: 8,000 gold, mostly dry.", 1, true) then error("D4's skerry lamp said: " .. s) end
+        if gold() - recall("gold") ~= 8000 then error("D4's skerry lamp paid " .. (gold() - recall("gold"))) end
+        click(95); wait(0.5)
+        if gold() - recall("gold") ~= 8000 then error("D4's skerry lamp paid twice") end
+        local again = status() or ""
+        if not string.find(again, "The lamp is cold and still wet. Its genie has gone.", 1, true) then error("D4's skerry lamp again said: " .. again) end

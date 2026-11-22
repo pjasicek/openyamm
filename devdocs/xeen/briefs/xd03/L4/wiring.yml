@@ -152,7 +152,7 @@ events:
   - id: evt:door_back_stair
     preset: door
     source: door:back_stair
-    title: Plank door
+    title: Door
   - id: evt:door_barracks_e
     preset: door
     source: door:barracks_e
@@ -174,7 +174,7 @@ events:
   - id: evt:door_sentry
     preset: door
     source: door:sentry
-    title: Plank door
+    title: Door
   - id: evt:door_tower
     preset: door
     source: door:tower
@@ -256,7 +256,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -273,7 +273,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -290,7 +290,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -307,7 +307,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -324,7 +324,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -341,7 +341,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -358,7 +358,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -375,7 +375,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     else_effects:
       - text: The gong still hums.
     text: "BOOM! The great gong rolls through the hold. Doors crash open in the barracks."
@@ -410,6 +410,19 @@ events:
           var:
             map_var: in_gutter
           value: 0
+  - id: evt:hoard_bones
+    preset: text
+    source: deco:hoard_thief_bones
+    title: Bones
+    text: Dead men tell no tales.
+    notes: "Original line (aaze0035 #27, CHANGES XD03-4): the dead thief's scattered bones in the King's hoard."
+  - id: evt:hoard_thief
+    preset: text
+    source: deco:hoard_thief
+    title: Bones
+    text: "Scribbled on a piece of parchment, a note reads: Robbers and thieves take a good look at your fate, should you decide to steal from these mines!"
+    window: true
+    notes: "Original line (aaze0035 #11, CHANGES XD03-4): the note on a thief's skeleton just inside the King's hoard; the hover name is the original's (aaze0035 #18)."
   - id: evt:king_dead
     preset: script
     trigger: timer
@@ -447,12 +460,12 @@ events:
     source: platform:lectern
     title: Stone lectern
     effects:
-      - message: "Cut in the old runes of the Red Dwarves: HERE BRAKKA THE FIRST CUT THE DEEP GALLERY AND FOUND THE RED SEAM UNDER THE SINGING STONE. THE SEAM RUNS NORTH UNDER THE HILLS TO THE FALL OF WATER. KEEP THE FIRE, KEEP THE SEAM, KEEP FAITH."
+      - message: "Cut in the old runes of the Red Dwarves: HERE BRAKKA THE FIRST CUT THE DEEP GALLERY. KEEP THE FIRE, KEEP THE SEAM."
       - set:
           var:
             map_var: history_read
           value: 1
-    notes: "poi:history_tablet: the history of the mine (an autonote when the Xeen world has one)."
+    notes: "poi:history_tablet: the history of the mine (an autonote when the Xeen world has one). Shortened in the rebase (2026-11-20, CHANGES XD03-4): the seam, the singing stone and the fall of water answered nothing in the game."
   - id: evt:lever_a
     preset: switch
     source: switch:lever_a
@@ -485,6 +498,12 @@ events:
           var:
             map_var: gate_bar_b
           value: 1
+  - id: evt:prospector_bones
+    preset: text
+    source: deco:prospector
+    title: Bones
+    text: Nothing here but bones.
+    notes: "Original line (aaze0035 #8): the prospector's skeleton in the mole warren, beside his pack (the chest)."
   - id: evt:sentry_count
     preset: script
     trigger: timer
@@ -508,7 +527,7 @@ events:
             map_var: alarm_rung
           value: 1
       - lights_on: [light:barracks_1, light:barracks_2, light:barracks_3]
-      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySound(42682, 4912, 3640)"
+      - lua: "evt.CameraShake(0.4, 0.8); evt.PlaySoundName(\"xeen_gong\", 4912, 3640, 52)"
     text: "The sentry hammers the great gong! Doors crash open in the barracks."
     notes: "set:gong_alarm: about six seconds after seeing the party, if still alive, the sentry rings the gong."
   - id: evt:sentry_seen

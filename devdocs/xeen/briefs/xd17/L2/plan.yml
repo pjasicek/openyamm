@@ -1,0 +1,357 @@
+format: 0
+level: L2
+pitch: "Beyond the last cave, cool air, and the smell of grass. A green valley in the black flank of Mount Firestone, ringed by cliffs, with a well that makes you better at everything and people who know the answers. The town is small and very pleased with itself."
+purpose: "Act V's hidden town (Q-C26, party 48-52): five services from the source (D-5.1), the world's late Grandmasters in the Public Library, An Education and the hint people's houses, the +1 level well, the second travel pyramid (to Castle Alamar after M30), and a back way out to X7 that stays open once found."
+mood: "Cool and bright after the Volcano Cave: high sun, green lawns, white plaster, water falling; the black rim and Firestone's smoke over it as a reminder of where you are."
+datum: zone:court
+spaces:
+  - id: room:back_passage
+    name: The back passage
+    kind: corridor
+    extent: [2048, 384]
+    shape: "a slot of rock open to the sky, 384 wide, walls 1,500 high, bending once"
+    at: [-6656, 3584]
+    floor: [0, 128]
+    purpose: "D-40 (3): the valley's back way to X7's cleft. Its far end is the inside of the rockfall: the first exit shifts the stones (xd17.cleft_opened) and the cleft is two-way after."
+    safe: true
+  - id: room:cave_mouth
+    name: The cave mouth
+    kind: corridor
+    extent: [512, 768]
+    at: [-1280, -5632]
+    floor: [-128, -64]
+    clear_height: 448
+    purpose: "The end of XD-16's cool passage: a low black throat in the south cliff, 768 deep, rising into the light. entrance:xd16_way stands just outside it; its back is the way out to XD-16."
+    safe: true
+  - id: room:valley
+    name: The valley
+    kind: room
+    extent: [12928, 10368]
+    shape: "an uneven oval basin under black cliffs 2,300-3,300 high, longer east-west"
+    at: [0, 0]
+    floor: {level: 0, range: [-64, 384]}
+    clear_height: 9000
+    purpose: "The hidden valley: a lawn and lanes on nearly flat ground (terraces of 256 and 384 under the west and north cliffs), cool air, no monsters. Open to the sky; its walls and roof are sky faces beyond the crest."
+    safe: true
+    theme: "green valley floor (grass, flagstone lanes, packed earth by the doors), black basalt cliffs"
+    population:
+      - {id: pop:lacey, actor: "Lacey (monster 11915 Xeen Lacey, NPC 4719)", role: a white unicorn by the well, groups: 1, notes: "D-50 Q2: a placed peaceful actor on MM8's unicorn (Unicorn A), not counted; at [448, -384], wandering within 512 of her spot by the well. Her topic: 'The moons will align ...' (aaze0049:18), through A1's NPC-on-a-placed-monster word (D-47)."}
+      - {id: pop:stumpy, actor: "Stumpy (monster 11916 Xeen Stumpy, NPC 4718)", role: a talking tree in the orchard, groups: 1, notes: "D-50 Q2: a placed peaceful actor on MM7's treant, move stand, not counted (Leafpoint's pattern, D-36 (5)); at [4608, -2304]. Topic: the Druid of Summer (aaze0049:6), through A1's NPC-on-a-placed-monster word (D-47)."}
+  - id: void:rim
+    name: The cliffs and the sky
+    kind: void
+    purpose: "Black basalt cliffs 2,300 (south) to 3,300 (north-east) above the floor, a jagged crest, the room's sky faces beyond it. Over the north-east rim, Mount Firestone's summit as a backdrop (question 3)."
+    backdrop: true
+  - id: zone:court
+    name: The court
+    kind: zone
+    part_of: room:valley
+    extent: [2560, 3584]
+    at: [0, 0]
+    floor: 0
+    purpose: "The source's green court: a lawn ringed by a flagstone walk, the +1 level well in its middle, Lacey grazing by it; every lane of the valley starts at its corners."
+    buildings:
+      - {id: building:sally, type: house, service: "residence (the seer; hint: the mirror)", count: 1, doors: 1, footprint_cells: [1, 1], notes: "Psychic Sally's: a round hut, a starry painted roof. Floor 0, 576 high. A4: door:sally (house 4363, indoor id door:sally, door at [1632, -1280] facing w)."}
+  - id: zone:east_shore
+    name: The pool and the falls
+    kind: zone
+    part_of: room:valley
+    extent: [3584, 3328]
+    at: [4480, 2048]
+    floor: [-32, 0]
+    purpose: "A cold pool at the east cliff's foot, fed by a white fall from a notch 1,700 up the cliff; a stream leaves it south along the cliff foot. Princess Pilar's pavilion on the north shore, the Light guild's white tower west of it."
+    buildings:
+      - {id: building:guild_light, type: house, service: Light guild, count: 1, doors: 1, footprint_cells: [2, 2], notes: "Shangri-La Wizard's Guild: a round white tower with a gilded dome, the valley's tallest roof. Floor 0, 1536 high. A4: door:guild_light (house 4354, indoor id door:guild_light, door at [3200, 2112] facing s)."}
+      - {id: building:alexander, type: house, service: "residence (Body Building GM; hint: the Sphinx)", count: 1, doors: 1, footprint_cells: [1, 1.5], notes: "Alexander's House: a stout house with a yard of weights. Floor 0, 512 high. A4: door:alexander (house 4358, indoor id door:alexander, door at [1568, 1664] facing w)."}
+      - {id: building:pilar, type: house, service: "residence (Dodging GM; hint: the key)", count: 1, doors: 1, footprint_cells: [1.5, 1.5], notes: "Princess Pilar's Pavilion: a small garden house on the pool, white walls, a low dome and a door (D-50: a house, not an open gazebo). Floor 0, 576 high. A4: door:pilar (house 4359, indoor id door:pilar, door at [4480, 3328] facing s)."}
+  - id: zone:first_street
+    name: The first square
+    kind: zone
+    part_of: room:valley
+    extent: [3200, 2304]
+    at: [-1088, -3584]
+    floor: [-64, 0]
+    purpose: "From the cave mouth up to the court: a paved square with Tavern Xanadu on its west side and Arm and Hammer's long forge on its east, both doors on the square; the first houses a visitor passes."
+    buildings:
+      - {id: building:tavern_xanadu, type: house, service: tavern, count: 1, doors: 1, footprint_cells: [1.5, 2], notes: "Tavern Xanadu: two storeys, timber and white plaster, a broad porch on the street, the sign of a domed palace. Floor 0, 640 high. A4: door:tavern_xanadu (house 4353, indoor id door:tavern_xanadu, door at [-1856, -3072] facing e)."}
+      - {id: building:arm_and_hammer, type: house, service: weapon and armour shop, count: 1, doors: 2, footprint_cells: [3, 2], notes: "Arm and Hammer: a long stone forge, a chimney between two doors on the street, one sign of a raised arm, one of a hammer. Floor 0, 512 high. A4: door:arm_and_hammer_arms (house 4351, indoor id door:arm_and_hammer_arms, door at [-128, -3456] facing w), door:arm_and_hammer_armour (house 4365, indoor id door:arm_and_hammer_armour, door at [-128, -2688] facing w)."}
+      - {id: building:benedict, type: house, service: "residence (Unarmed GM; the crystal joke)", count: 1, doors: 1, footprint_cells: [1, 1.5], notes: "Benedict's House: a crooked little house, a weathervane that points the wrong way. Floor 0, 512 high. A4: door:benedict (house 4360, indoor id door:benedict, door at [-1984, -1920] facing e)."}
+      - {id: building:martok, type: house, service: residence (Dark Elf GM), count: 1, doors: 1, footprint_cells: [1.5, 1], notes: "Martok's Lodge: a log lodge, a bench by the door. Floor 0, 448 high. A4: door:martok (house 4364, indoor id door:martok, door at [-3712, -3008] facing n)."}
+  - id: zone:north_terrace
+    name: The pyramid terrace
+    kind: zone
+    part_of: room:valley
+    extent: [4608, 1536]
+    at: [0, 4032]
+    floor: 256
+    purpose: "A stone terrace against the north cliff, steps up from the court's north end: the travel pyramid in its middle, Murray's villa on its east end."
+    buildings:
+      - {id: building:murray, type: house, service: residence (Staff GM), count: 1, doors: 1, footprint_cells: [2.5, 2], notes: "Murray's Villa: the valley's biggest house, a portico and urns. Floor 256, 640 high. A4: door:murray (house 4362, indoor id door:murray, door at [1792, 3712] facing s)."}
+  - id: zone:north_west
+    name: The north-west lane
+    kind: zone
+    part_of: room:valley
+    extent: [4096, 1792]
+    at: [-3584, 2816]
+    floor: [0, 128]
+    purpose: "Maurice's house by the court, then the lane along the cliff foot to the back passage."
+    buildings:
+      - {id: building:an_education, type: house, service: "residence (Jack Alltrades, Learning GM)", count: 1, doors: 1, footprint_cells: [1.5, 2], notes: "An Education: a schoolhouse with a bell cote. Floor 0, 576 high. A4: door:an_education (house 4355, indoor id door:an_education, door at [-1600, 1344] facing e)."}
+      - {id: building:maurice, type: house, service: "residence (hint: the sword)", count: 1, doors: 1, footprint_cells: [1.5, 1.5], notes: "Maurice's House: a narrow house with a tall gable. Floor 0, 512 high. A4: door:maurice (house 4357, indoor id door:maurice, door at [-1856, 2304] facing e)."}
+  - id: zone:orchard
+    name: The orchard
+    kind: zone
+    part_of: room:valley
+    extent: [2560, 2560]
+    at: [4352, -2304]
+    floor: [0, 64]
+    purpose: "Fruit trees in uneven rows between the east lane and the stream; Stumpy stands in the middle; Elona's house at its west edge."
+    buildings:
+      - {id: building:elona, type: house, service: "residence (Bow GM; hint: the password)", count: 1, doors: 1, footprint_cells: [1.5, 1], notes: "Elona's House: a house hung with maps and a weathered pack. Floor 0, 512 high. A4: door:elona (house 4361, indoor id door:elona, door at [2560, -2784] facing n)."}
+  - id: zone:west_terrace
+    name: The west terrace
+    kind: zone
+    part_of: room:valley
+    extent: [2560, 4096]
+    at: [-3968, -256]
+    floor: [256, 384]
+    purpose: "Two low terraces under the west cliff: the Public Library's colonnade (256) and the Earth Temple, half sunk into the cliff foot (384); the signature camera on the library steps."
+    buildings:
+      - {id: building:earth_temple, type: house, service: temple, count: 1, doors: 1, footprint_cells: [2, 2], notes: "Earth Temple: squat dark stone, a turfed roof, half sunk into the west cliff foot. Floor 384, 768 high. A4: door:earth_temple (house 4352, indoor id door:earth_temple, door at [-4544, 704] facing e)."}
+      - {id: building:public_library, type: house, service: residence (three Grandmasters), count: 1, doors: 1, footprint_cells: [3, 2], notes: "Public Library: a pale stone hall, a colonnade and broad steps facing the court. Floor 256, 704 high. A4: door:public_library (house 4356, indoor id door:public_library, door at [-3584, -1280] facing e)."}
+links:
+  - id: link:east_lane
+    from: zone:court
+    to: zone:orchard
+    kind: path
+    width: 256
+  - id: link:first_street
+    from: zone:first_street
+    to: zone:court
+    kind: path
+    width: 384
+  - id: link:guild
+    from: zone:east_shore
+    to: zone:north_terrace
+    kind: path
+    width: 256
+    rise: 256
+  - id: link:mouth
+    from: room:cave_mouth
+    to: zone:first_street
+    kind: path
+    width: 384
+    rise: 128
+    purpose: Out of the throat into the light.
+  - id: link:north_west
+    from: zone:court
+    to: zone:north_west
+    kind: path
+    width: 256
+  - id: link:passage
+    from: zone:north_west
+    to: room:back_passage
+    kind: path
+    width: 384
+    rise: 128
+  - id: link:pool
+    from: zone:court
+    to: zone:east_shore
+    kind: path
+    width: 256
+  - id: link:pyramid_steps
+    from: zone:court
+    to: zone:north_terrace
+    kind: stairs
+    width: 640
+    rise: 256
+  - id: link:tavern_lane
+    from: zone:first_street
+    to: zone:west_terrace
+    kind: path
+    width: 256
+    notes: Past Benedict's and Martok's doors to the library steps.
+  - id: link:west_lane
+    from: zone:court
+    to: zone:west_terrace
+    kind: stairs
+    width: 384
+    rise: 256
+    notes: "Broad steps up to the library's colonnade; a second flight to the temple (384)."
+loops:
+  - id: loop:east
+    spaces: [zone:court, zone:east_shore, zone:north_terrace]
+    notes: Round the pool and the guild to the pyramid terrace.
+  - id: loop:west
+    spaces: [zone:first_street, zone:west_terrace, zone:court]
+    notes: "Up the first street, west to the library, back down to the court."
+entrances:
+  - id: entrance:cleft_back
+    space: room:back_passage
+    kind: exit
+    neighbour: exit:x7_cleft
+    how: "The inside of the rockfall at [-7680, 3712], an exit preset (D-24): its first use calls A3's xd17.cleft_opened ('You shift the last stones from the inside. The cleft is open both ways now.'), then X7's entrance:xd17_cleft (4096, 8192, 2496) facing west (1024)."
+  - id: entrance:d6_pyramid
+    space: zone:north_terrace
+    kind: both
+    neighbour: pyramid:alamar
+    facing: s
+    how: "The pyramid's portal face; arriving from the far pyramid at [0, 3200], floor 256, facing south over the court (Xeen.PyramidArrivals.shangrila, A3)."
+  - id: entrance:mouth_back
+    space: room:cave_mouth
+    kind: exit
+    neighbour: exit:xd16_way
+    how: "The back of the throat at [-1280, -5888]: an exit preset (D-24; the window's meaning \"Leave Shangri-La?\", aaze0049:32), to XD-16's entrance:xd17_way."
+  - id: entrance:x7_cleft
+    space: room:back_passage
+    kind: arrival
+    neighbour: exit:x7_cleft
+    facing: e
+    how: "From X7's cleft once cleft_open is set (X7's door:xd17, A3's xd17.cleft): [-7296, 4224], 384 inside the stones, facing east down the passage."
+  - id: entrance:xd16_way
+    space: zone:first_street
+    kind: arrival
+    neighbour: exit:xd16_way
+    facing: n
+    how: "From XD-16's cool passage (A7's q-c26.way): [-1280, -4736], floor -64, 512 out of the cave mouth, facing north into the valley. The arrival view (MU-4)."
+critical_path: [room:cave_mouth, zone:first_street, zone:court]
+goals:
+  - id: goal:well
+    space: zone:court
+    kind: use
+    what: Drink from the well (once per character).
+points_of_interest:
+  - id: poi:alexander
+    space: zone:court
+    kind: house_door
+    behaviour: "Alexander's House (house 4358): A4's door:alexander; indoor door id door:alexander. At [1568, 1664], facing w, floor 0."
+  - id: poi:an_education
+    space: zone:court
+    kind: house_door
+    behaviour: "An Education (house 4355): A4's door:an_education; indoor door id door:an_education. At [-1600, 1344], facing e, floor 0."
+  - id: poi:arm_and_hammer_armour
+    space: zone:first_street
+    kind: house_door
+    behaviour: "Arm and Hammer (house 4365): A4's door:arm_and_hammer_armour; indoor door id door:arm_and_hammer_armour. At [-128, -2688], facing w, floor 0."
+  - id: poi:arm_and_hammer_arms
+    space: zone:first_street
+    kind: house_door
+    behaviour: "Arm and Hammer (house 4351): A4's door:arm_and_hammer_arms; indoor door id door:arm_and_hammer_arms. At [-128, -3456], facing w, floor 0."
+  - id: poi:benedict
+    space: zone:first_street
+    kind: house_door
+    behaviour: "Benedict's House (house 4360): A4's door:benedict; indoor door id door:benedict. At [-1984, -1920], facing e, floor 0."
+  - id: poi:crystal
+    space: room:valley
+    kind: curiosity
+    behaviour: "The hidden crystal in the wall (Benedict's joke, aaze0049:14): a thumb-sized crystal set in the cliff by the cave mouth, at eye height, facing the valley. Clicked: A3's line (xd17.crystal, D-50 Q5)."
+  - id: poi:earth_temple
+    space: zone:west_terrace
+    kind: house_door
+    behaviour: "Earth Temple (house 4352): A4's door:earth_temple; indoor door id door:earth_temple. At [-4544, 704], facing e, floor 384."
+  - id: poi:elona
+    space: zone:orchard
+    kind: house_door
+    behaviour: "Elona's House (house 4361): A4's door:elona; indoor door id door:elona. At [2560, -2784], facing n, floor 0."
+  - id: poi:guild_light
+    space: zone:east_shore
+    kind: house_door
+    behaviour: "Shangri-La Wizard's Guild (house 4354): A4's door:guild_light; indoor door id door:guild_light. At [3200, 2112], facing s, floor 0."
+  - id: poi:martok
+    space: zone:first_street
+    kind: house_door
+    behaviour: "Martok's Lodge (house 4364): A4's door:martok; indoor door id door:martok. At [-3712, -3008], facing n, floor 0."
+  - id: poi:maurice
+    space: zone:north_west
+    kind: house_door
+    behaviour: "Maurice's House (house 4357): A4's door:maurice; indoor door id door:maurice. At [-1856, 2304], facing e, floor 0."
+  - id: poi:murray
+    space: zone:north_terrace
+    kind: house_door
+    behaviour: "Murray's Villa (house 4362): A4's door:murray; indoor door id door:murray. At [1792, 3712], facing s, floor 256."
+  - id: poi:pilar
+    space: zone:east_shore
+    kind: house_door
+    behaviour: "Princess Pilar's Pavilion (house 4359): A4's door:pilar; indoor door id door:pilar. At [4480, 3328], facing s, floor 0."
+  - id: poi:public_library
+    space: zone:west_terrace
+    kind: house_door
+    behaviour: "Public Library (house 4356): A4's door:public_library; indoor door id door:public_library. At [-3584, -1280], facing e, floor 256."
+  - id: poi:pyramid
+    space: zone:north_terrace
+    kind: pyramid
+    behaviour: "The travel pyramid: A3's hook xd17.pyramid, which calls Xeen.travelPyramid(\"shangrila\") after m30.done; before it \"The moons are not aligned. You are unable to pass.\" (aaze0049:25). Its portal face on the south side. D6's far end is not built (D-50 Q9)."
+    neighbour: pyramid:alamar
+    condition: {qbit: m30_done}
+  - id: poi:sally
+    space: zone:court
+    kind: house_door
+    behaviour: "Psychic Sally's (house 4363): A4's door:sally; indoor door id door:sally. At [1632, -1280], facing w, floor 0."
+  - id: poi:tavern_xanadu
+    space: zone:first_street
+    kind: house_door
+    behaviour: "Tavern Xanadu (house 4353): A4's door:tavern_xanadu; indoor door id door:tavern_xanadu. At [-1856, -3072], facing e, floor 0."
+  - id: poi:well
+    space: zone:court
+    kind: well
+    behaviour: "The source's well, A3's hook xd17.well (D-50 Q1): once per character (player bit) 20,000 experience and the award Found Shangri-La, with aaze0049:27's 'Congratulations, You found Shangri-La!'; after that 'The water is cool and refreshing.' (aaze0049:4)."
+    uses: {times: 1, per: character, reset: never}
+landmarks:
+  - id: landmark:falls
+    space: zone:east_shore
+    what: "The white fall on the east cliff into the cold pool (no event, not a POI: D-50 change 6)"
+    seen_from: [zone:first_street, zone:court, zone:west_terrace]
+  - id: landmark:guild_dome
+    space: zone:east_shore
+    what: "The Light guild's white tower and gilded dome, the tallest roof (1,536)"
+    seen_from: [zone:first_street, zone:court, zone:west_terrace, zone:orchard]
+  - id: landmark:pyramid
+    space: zone:north_terrace
+    what: The small stone pyramid on its terrace against the north cliff
+    seen_from: [zone:first_street, zone:court, zone:west_terrace]
+  - id: landmark:summit
+    space: void:rim
+    what: "Mount Firestone's black summit over the north-east rim, 5,600 above the floor (D-50 Q3; smoke only once A6/S have an effect)"
+    seen_from: [zone:first_street, zone:court, zone:west_terrace]
+sightlines:
+  - id: view:arrival
+    from: zone:first_street
+    to: [landmark:pyramid, landmark:guild_dome, landmark:falls, landmark:summit]
+    what: "Out of the cool passage's cave mouth, facing north: the first street between the tavern and the forge, the court and the well, the pyramid on its terrace against the north cliff, the white fall on the east cliff, Firestone's summit over the north-east rim. Camera [-1280, -4736], eye 106, looking 78 degrees."
+  - id: view:signature
+    from: zone:west_terrace
+    to: [zone:court, landmark:falls, landmark:guild_dome, landmark:summit]
+    what: "From the library steps across the valley to the east-north-east: the court with the well and Lacey, the houses, Pilar's pavilion on the pool, the white fall, the guild's gilded dome, the ring of black cliffs and, over them, Firestone's black summit. Camera [-3008, -1408], eye 554, looking 28 degrees (east 0, north 90)."
+height_bands:
+  - id: band:crest
+    range: [2304, 3328]
+    spaces: [void:rim]
+    notes: "the cliff crest: south 2,300, west and north 2,600-2,900, north-east 3,300"
+  - id: band:floor
+    range: [-128, 64]
+    spaces: [zone:court, zone:first_street, zone:orchard, zone:east_shore, room:cave_mouth]
+    notes: "the valley floor; the pool at -32"
+  - id: band:summit
+    level: 6400
+    spaces: [void:rim]
+    notes: "Firestone's summit, a backdrop about 12,000 from the court"
+  - id: band:terraces
+    range: [256, 384]
+    spaces: [zone:west_terrace, zone:north_terrace]
+    partly: [zone:north_west]
+states:
+  - id: state:cleft_shut
+    condition: {not: {qbit: cleft_open}}
+    atmosphere: "The back passage ends in fallen rock; daylight between the stones."
+    notes: "D-40 (3): the first exit that way opens it (xd17.cleft_opened); from then on X7 leads back in."
+atmosphere: "Open sky, Cloudside's fair preset (D-50 Q6), no theme, no ash, no weather, no ash inside the rim. Music 51. Sounds: the fall and the stream (AU), birds by day, the forge's hammer by the first street, the tavern's murmur."
+totals:
+  buildings: 14
+  chests: 0
+  doors: 15
+  placed_monsters: 0
+  points_of_interest: 18
+  residences: 10
+  services: 5
+  spawn_points: 0
+notes: "L2-L4 (A5, 2026-11-21): the approved L1 with D-50 (changes 1-8, Q1-Q9). The layout fitted to the studio's build (places_l2.py): terraces as parts of the floor with banks and ramps, buildings moved off them by 128-768, lanes on the compass axes, the pool's rim on the flat floor. Written by output/studio_cal/xd17/tools/gen.py."

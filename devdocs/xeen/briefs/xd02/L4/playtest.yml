@@ -1,28 +1,30 @@
 # Playtest of the Red Dwarf Mines (XD-02, L4): a level-6 party walks in by the adit (Gunther's errand shown once on
-# arrival), reads the clan's warning, takes the Torch Light scroll off the lamp rack, chips the sorting floor's vein,
+# arrival), reads the clan's warning, finds the Red Dwarf Smithy barred (and open once m3.done is set), takes the Torch Light scroll off the lamp rack, chips the sorting floor's vein,
 # finds the strongroom behind the chalk mark and loots the payroll chest; rides the trestle car over the chasm to the
 # Turntable by the riders' lever beside the station's gate, walks back by the foot drift (the rockfall comes down
 # behind it once), calls the car back with the station's lever and rides it again, back up by the riders' lever at
 # the Turntable's gate and down again; sets the points east, sees the trestle car refuse, rides the east cart down the
 # drowned line by its riders' lever, crosses the flooded working on its planks (tiger moles), chips its vein, drinks
 # the gold pool (twice: once only), rides back by the landing's riders' lever and sets the points back; fights into
-# the tally room (the Tallymaster named on entering) and takes the brake key from the clan's strongbox; reads the
+# the tally room (its strongbox named on entering), reads the dwarves' shopping list in the mess hall's barrel (the
+# barrel beside it is empty) and takes the brake key from the clan's strongbox; reads the
 # chapel's tablet and drinks the green pool; walks the west line through both ventilation doors, finds the west adit's
-# exit shut, works the winch (the fall goes, x4_adit_open); goes through the low gallery to the rim, chips the rim's
+# exit shut, works the winch (the fall goes, x4_adit_open, and daylight shows the way out to X4); goes through the low gallery to the rim, chips the rim's
 # vein, walks the spiral of ledges and ramps down the Open Stope, chips the south-east ramp's vein, crawls into the
 # spider galleries, cuts the web wall and drinks the blue pool, chips the south-west ramp's vein, comes down to the
 # floor, drinks the red pool (Might +2, and once only), mines the rich vein (the burrow breaks open: two tiger moles),
 # rides the hoist up to the rim by the floor's lever from inside the cage and down again by the riders' lever at the
 # rim stop (calling it with the rim's bell-pull in between), and at the Deep Line station finds the line and the cart
-# chained, frees the cart with the brake key (a window says what changed) and rides the cart down the Deep Line (the
-# exit asks first; the stand-in neighbour is Emerald Island).
+# chained ("The mine car doesn't move"), reads the note in the keg by the brake ("There are many DEEP mines."), frees
+# the cart with the brake key (a window says what changed) and rides the cart down the Deep Line to the Deep Mine
+# (XD-03), arriving at its start at the foot of the line (rebase phase 0, 2026-11-20).
 # Event, door, map-variable and light numbers are ids.lock.yml's. Nothing depends on chance: only the payroll chest
 # (fixed amethyst) and the strongbox (fixed key) are looted, after packs are checked for room, and every walk past a
 # spawn point clears hostiles near it; the placed tally guards and moles are met and killed by clear_hostiles where a
 # player would fight them.
 id: xeen.xd02.l4.walk
 title: Red Dwarf Mines (XD-02 L4), adit to the Deep Line, every ride, pool and vein
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -47,6 +49,18 @@ steps:
   - assert:
       dialog: {text_contains: "MAD DWARF CLAN"}
   - play_lua: {source: "if not close() then error('the clan sign opened no message window') end"}
+  # The Red Dwarf Smithy's door on the south wall (A4's house 4851): barred, with its message window, until M3 is done
+  # (m3.done 111061); with the bit set (the console, as Gunther's reward would) the door opens the smithy.
+  - play_lua: {source: "click(60); wait(1)"}
+  - assert:
+      dialog: {text_contains: "The smithy is barred. Behind the door, someone is sharpening something and swearing at the Mad Clan."}
+  - play_lua: {source: "if not close() then error('the barred smithy opened no message window') end"}
+  - console: {line: "qbit set 111061"}
+  - play_lua: {source: "click(60); wait(1)"}
+  - assert:
+      dialog: {active: true}
+  - play_lua: {source: "for i = 1, 3 do if not close() then break end wait(1) end"}
+  - console: {line: "qbit clear 111061"}
   # Down the haul drift (bats round the bend) to the Top Station.
   - walk_to: {x: 13000, y: 3392, z: 0, radius: 96, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 12736, y: 4400, z: -150, radius: 96, timeout_seconds: 60, clear_hostiles: 1200}
@@ -204,8 +218,8 @@ steps:
   - walk_to: {x: 8960, y: 4870, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
   - play_lua: {source: "click(26); wait(2)"}
   - assert: {state_dump_map_var: {index: 0, value: 0}}
-  # The camp: across the mess hall, up the tally steps, the iron-banded door, the tally room's guards and tallymaster,
-  # and the brake key in the clan's strongbox.
+  # The camp: across the mess hall, up the tally steps, the iron-banded door, the tally room's four guards, and the
+  # brake key in the clan's strongbox.
   - walk_to: {x: 8512, y: 6450, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 900}
   - walk_to: {x: 7360, y: 7000, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 500}
   - walk_to: {x: 7050, y: 7200, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 400}
@@ -215,15 +229,28 @@ steps:
         open_door(14, 13)
         if door_state(13) ~= "open" then error("the tally door did not open") end
   - clear_hostiles: {radius: 1500}
-  - assert: {actor_count: {monster_id: 229, near: [5800, 7200, 900], max: 0}}
-  - assert: {actor_count: {monster_id: 230, near: [5800, 7200, 900], max: 0}}
+  - assert: {actor_count: {monster_id: 11050, near: [5800, 7200, 900], max: 0}}
+  - assert: {actor_count: {monster_id: 11052, near: [5800, 7200, 900], max: 0}}
   - walk_to: {x: 5320, y: 7200, z: -288, radius: 64, timeout_seconds: 60, clear_hostiles: 900}
   - assert: {state_dump_map_var: {index: 19, value: 1}}
   - play_lua:
       source: |
         log("packs before the strongbox: " .. pack_items())
         loot_chest(8)
-        if not has_item(2111) then error("the strongbox did not hold the brake key") end
+        if not has_item(12011) then error("the strongbox did not hold the brake key") end
+  # The mess hall's provisions barrel: the dwarves' shopping list (original, aaze0033 #9), and the empty barrel beside it.
+  - walk_to: {x: 7050, y: 7200, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
+  - walk_to: {x: 8650, y: 6700, z: -384, radius: 96, timeout_seconds: 60, clear_hostiles: 1200}
+  - play_lua: {source: "click(57); wait(1)"}
+  - assert:
+      dialog: {text_contains: "orc's milk"}
+  - play_lua:
+      source: |
+        if not close() then error('the shopping list opened no message window') end
+        status()
+        click(56); wait(1)
+        local seen = status()
+        if not string.find(seen, "barrel is empty", 1, true) then error("the empty barrel said nothing: " .. seen) end
   # The bunk cut's door.
   - walk_to: {x: 7050, y: 7200, z: -384, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - walk_to: {x: 7328, y: 7420, z: -384, radius: 48, timeout_seconds: 60, clear_hostiles: 1200}
@@ -287,6 +314,7 @@ steps:
   - assert: {map: xeen_xd02.blv}
   - walk_to: {x: 2600, y: 5184, z: 256, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - assert: {party_position: {x: 2600, y: 5184, radius: 100, z_min: 248, z_max: 264}}
+  # The adit's mouth is open to X4 now (playtest_x4.yml takes it).
   # The low gallery to the rim, the rim's vein.
   - walk_to: {x: 4500, y: 5184, z: 40, radius: 64, timeout_seconds: 60, clear_hostiles: 800}
   - walk_to: {x: 7300, y: 5184, z: -370, radius: 64, timeout_seconds: 60, clear_hostiles: 800}
@@ -381,9 +409,9 @@ steps:
         click(38); wait(3)
         if gold() ~= before + 200 then error("the rich vein did not pay 200") end
         if door_state(11) ~= "open" then error("the burrow did not break open: " .. door_state(11)) end
-  - assert: {actor_count: {monster_id: 412, near: [6800, 4120, 900], min: 1}}
+  - assert: {actor_count: {monster_id: 11430, near: [6800, 4120, 900], min: 1}}
   - clear_hostiles: {radius: 900}
-  - assert: {actor_count: {monster_id: 412, near: [6800, 4120, 500], max: 0}}
+  - assert: {actor_count: {monster_id: 11430, near: [6800, 4120, 500], max: 0}}
   - pick_up: {item_id: 203}
   # The hoist: into the cage, up to the rim by the floor's lever (in reach from the cage); out; the rim's bell-pull
   # sends it down and brings it up again; back in and down by the riders' lever at the rim stop.
@@ -423,7 +451,19 @@ steps:
         click(47); wait(1)
         seen = status()
         if not string.find(seen, "chained", 1, true) then error("the chained cart did not say so: " .. seen) end
+        if not string.find(seen, "doesn't move", 1, true) then error("the chained cart lost its original line: " .. seen) end
         if door_state(17) ~= "closed" then error("the chain does not start in place") end
+  # The keg by the brake: "There are many DEEP mines." (original, aaze0034 #14).
+  - play_lua: {source: "click(58); wait(1)"}
+  - assert:
+      dialog: {text_contains: "many DEEP mines"}
+  - play_lua:
+      source: |
+        if not close() then error('the Deep Line note opened no message window') end
+        status()
+        click(59); wait(1)
+        local keg = status()
+        if not string.find(keg, "barrel is empty", 1, true) then error("the keg beside the note said nothing: " .. keg) end
         click(1); wait(3)
   # The brake's window says what changed and what to do next.
   - assert:
@@ -434,19 +474,23 @@ steps:
         wait(3)
         if door_state(17) ~= "open" then error("the brake key did not free the cart") end
         if not qbit(110021) then error("the brake did not set deep_line_unchained") end
-        if has_item(2111) then error("the brake key was not taken by the brake") end
+        if has_item(12011) then error("the brake key was not taken by the brake") end
         status()
         click(1); wait(1)
         local again = status()
         if not string.find(again, "slack", 1, true) then error("the freed brake's second click said nothing: " .. again) end
   - assert: {state_dump_map_var: {index: 18, value: 1}}
   - assert: {map: xeen_xd02.blv}
-  # Into the cart: it runs down the Deep Line (the exit face at the cutting's end does the same).
+  # Into the cart: it runs down the Deep Line (the exit face at the cutting's end does the same); a move into another
+  # dungeon asks no question (the stand-in Emerald Island did).
   - walk_to: {x: 4250, y: 4560, z: -1216, radius: 64, timeout_seconds: 60, clear_hostiles: 1200}
   - execute_event: {id: 47}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  - assert: {map: 7out01.odm}
+  # In the Deep Mine (XD-03) at its start, the foot of the Deep Line.
+  - assert: {map: xeen_xd03.blv}
+  - assert: {party_position: {x: 8192, y: 1088, radius: 128, z_min: 370, z_max: 400}}
   - play_lua:
       source: |
         if not qbit(110020) or not qbit(110021) then error("a quest bit was lost on leaving") end
@@ -460,5 +504,5 @@ steps:
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
   # On X1 in front of the timbered portal, and down the mine lane on foot.
   - assert: {map: xeen_x1.odm}
-  - assert: {party_position: {x: -10240, y: 16131, radius: 128, z_min: 1100, z_max: 1260}}
+  - assert: {party_position: {x: -10240, y: 15872, radius: 128, z_min: 1100, z_max: 1260, facing: 1536, facing_within: 40}}
   - walk_to: {x: -10240, y: 15700, z: 1120, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}

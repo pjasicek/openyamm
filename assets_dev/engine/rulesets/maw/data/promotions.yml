@@ -7,23 +7,33 @@
 # and Lich 299 (sorcerers, necromancers). MAW's own kinds take MM9's first tier as `mid` too: Healer 213 (Seraphim,
 # Shaman), Mercenary 127 (Death Knight), Scholar 205 (Elementalist). Chedian counts as a fourth world: two worlds make
 # a final class Elder (x1.25 HP and SP per level), three Ultimate (x1.5), all four Supreme (x1.75; ours, DEVIATIONS 183).
+# xeen (the World of Xeen, MAW's fifth world, devdocs/maw/XEEN_SUPPORT.md; MM9's rule): any of the quest bits that open
+# the line's Xeen tier-2 promotion, Light or Dark (Xeen.Promotions; the bit each later promoter's topic waits for):
+# Champion 114522 / Black Knight 113344 (knights, Death Knights), Hero 113127 / Villain 113344 (paladins), Ranger Lord
+# 113201 / Bounty Hunter 113228 (rangers), Master Archer 113407 / Sniper 113384 (archers), Priest of Light 113127 /
+# Dark 113462 (clerics, Seraphim), Arch Druid 114560 / Warlock 113449 (druids, Shamans), Master 113066 / Ninja 114540
+# (monks), Spy 113281 / Assassin 113384 (thieves), Archmage 113365 / Lich 113462 (sorcerers, necromancers;
+# Elementalists Archmage only), and the racial ones: Minotaur Lord 113500, War Troll 113262, Nosferatu 112141, Great
+# Wyrm 112507, Patriarch 112341 (the dark elves). MAW's own kinds take Xeen's first tier as `mid` too: Seasons 112201
+# (Seraphim, Shaman), Crusade 110047 (Death Knight), Pendant 110204 (Elementalist). Xeen counts as one more world:
+# Supreme stays at four worlds (any four of the five), the factor at x1.75.
 kinds:
-  1: {mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: 1537, mm8_award: 20, mm9: [90249]}  # Archer
-  2: {mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: 1546, mm8_award: 31, mm9: [90261]}  # Cleric
-  3: {mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: 1537, mm8_award: 20, mm9: [90280]}  # Dark Elf
-  4: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1543, mm8_qbit2: 1544, mm9: [90221]}  # Dragon
-  5: {mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: 1546, mm8_award: 31, mm9: [90280]}  # Druid
-  6: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1540, mm8_qbit2: 1541, mm9: [90221]}  # Knight
-  7: {mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: 1545, mm8_award: 29, mm9: [90221]}  # Minotaur
-  8: {mm6: [1645, 1646], mm7: [1574, 1575, 1576, 1577], mm8: 1538, mm8_qbit2: 1539, mm9: [90221]}  # Monk
-  9: {mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: 1545, mm8_award: 29, mm9: [90237]}  # Paladin
-  10: {mm6: [1657, 1658], mm7: [1580, 1581, 1582, 1583], mm8: 1537, mm8_award: 20, mm9: [90249]}  # Ranger
-  11: {mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: 1547, mm8_award: 33, mm9: [90227]}  # Thief
-  12: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1538, mm8_qbit2: 1539, mm9: [90221]}  # Troll
-  13: {mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: 1547, mm8_award: 33, mm9: [90227]}  # Vampire
-  14: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294, 90299]}  # Sorcerer
-  15: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294, 90299]}  # Necromancer
-  17: {mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: 1546, mm8_award: 31, mm9: [90261], mid: [1647, 1648, 1607, 1608, 90213]}  # Seraphim
-  18: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1540, mm8_qbit2: 1541, mm9: [90221], mid: [1643, 1644, 1566, 1567, 90127]}  # Death Knight
-  19: {mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: 1546, mm8_award: 31, mm9: [90280], mid: [1651, 1652, 1613, 1614, 90213]}  # Shaman
-  20: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294], mid: [1639, 1640, 1619, 1620, 90205]}  # Elementalist
+  1: {mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: 1537, mm8_award: 20, mm9: [90249], xeen: [113407, 113384]}  # Archer
+  2: {mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: 1546, mm8_award: 31, mm9: [90261], xeen: [113127, 113462]}  # Cleric
+  3: {mm6: [1657, 1658], mm7: [1586, 1587, 1588, 1589], mm8: 1537, mm8_award: 20, mm9: [90280], xeen: [112341]}  # Dark Elf
+  4: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1543, mm8_qbit2: 1544, mm9: [90221], xeen: [112507]}  # Dragon
+  5: {mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: 1546, mm8_award: 31, mm9: [90280], xeen: [114560, 113449]}  # Druid
+  6: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1540, mm8_qbit2: 1541, mm9: [90221], xeen: [114522, 113344]}  # Knight
+  7: {mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: 1545, mm8_award: 29, mm9: [90221], xeen: [113500]}  # Minotaur
+  8: {mm6: [1645, 1646], mm7: [1574, 1575, 1576, 1577], mm8: 1538, mm8_qbit2: 1539, mm9: [90221], xeen: [113066, 114540]}  # Monk
+  9: {mm6: [1637, 1638], mm7: [1592, 1593, 1594, 1595], mm8: 1545, mm8_award: 29, mm9: [90237], xeen: [113127, 113344]}  # Paladin
+  10: {mm6: [1657, 1658], mm7: [1580, 1581, 1582, 1583], mm8: 1537, mm8_award: 20, mm9: [90249], xeen: [113201, 113228]}  # Ranger
+  11: {mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: 1547, mm8_award: 33, mm9: [90227], xeen: [113281, 113384]}  # Thief
+  12: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1538, mm8_qbit2: 1539, mm9: [90221], xeen: [113262]}  # Troll
+  13: {mm6: [1657, 1658], mm7: [1562, 1563, 1564, 1565], mm8: 1547, mm8_award: 33, mm9: [90227], xeen: [112141]}  # Vampire
+  14: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294, 90299], xeen: [113365, 113462]}  # Sorcerer
+  15: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294, 90299], xeen: [113365, 113462]}  # Necromancer
+  17: {mm6: [1649, 1650], mm7: [1609, 1610, 1611, 1612], mm8: 1546, mm8_award: 31, mm9: [90261], xeen: [113127, 113462], mid: [1647, 1648, 1607, 1608, 90213, 112201]}  # Seraphim
+  18: {mm6: [1645, 1646], mm7: [1568, 1569, 1570, 1571], mm8: 1540, mm8_qbit2: 1541, mm9: [90221], xeen: [114522, 113344], mid: [1643, 1644, 1566, 1567, 90127, 110047]}  # Death Knight
+  19: {mm6: [1653, 1654], mm7: [1615, 1616, 1617, 1618], mm8: 1546, mm8_award: 31, mm9: [90280], xeen: [114560, 113449], mid: [1651, 1652, 1613, 1614, 90213, 112201]}  # Shaman
+  20: {mm6: [1641, 1642], mm7: [1621, 1622, 1623, 1624], mm8: 1548, mm8_award: 35, mm9: [90294], xeen: [113365], mid: [1639, 1640, 1619, 1620, 90205, 110204]}  # Elementalist

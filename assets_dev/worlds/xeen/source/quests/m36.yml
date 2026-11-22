@@ -1,0 +1,47 @@
+# M36 The Destiny of Xeen (QUESTS M36; Act VI). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+# With Sheltem gone (M33) and Lord Xeen dead (M35) the Dragon Pharaoh gives the finale's checklist, close to the
+# source's (dark/aaze0086:17): turn on the four machines at the corners of the other side (M37), wake the four
+# elemental sleepers (M38), free Prince Roland from the bottom of Sheltem's dungeon (M39), open the way to the cloud
+# above Darkstone Tower (M40, M41) and bring the Cube and the Scepter together at his shrine there (M42). He also names
+# the Skyroads' four corners and the word each one wants: the answer-giver of M38's corner question.
+id: M36
+title: The Destiny of Xeen
+act: VI
+kind: main
+status: full
+giver: 5453          # The Dragon Pharaoh (DD-15 L4)
+maps: [DD-15]
+level: 55
+block: 36
+after: [m33.done, m35.done]
+source: "QUESTS M36; dark/aaze0086:17; dark/aaze0025-0028 (the four Steps)"
+
+qbits:
+  started: {id: 111720, journal: "The Dragon Pharaoh's last task: wake the Reflectors and the four Sleepers, free Prince Roland, and bring the Cube and the Scepter to his shrine on the cloud above Darkstone Tower.",
+            until: [m42.done]}
+
+autonotes:
+  checklist: {id: 4136, text: "The Pharaoh's checklist: the four Reflectors at Cloudside's corners; the four Sleepers on the elemental planes; Prince Roland in the bottom of Sheltem's dungeon; the cloud above Darkstone Tower; the Cube and the Scepter at his shrine.", category: Misc}
+  corners: {id: 4137, text: "The Skyroads' corners: say Fire at the north-west corner, Air at the north-east, Earth at the south-east, Water at the south-west, then step off.", category: Misc}
+
+npcs:
+  5453:              # The Dragon Pharaoh
+    topics:
+      - n: 1
+        label: The destiny of Xeen
+        show: {all: [{qbit: m33.done}, {qbit: m35.done}]}
+        states:
+          - when: {qbit: m42.done}
+            text: "Xeen is one world, and the sun is where it belongs. I have nothing left to ask of you, Chosen Ones. That has not happened to me in a very long time."
+          - when: {qbit: started}
+            text: "The machines at the corners of the other side, the four sleepers on this side, Roland in Sheltem's dungeon, the cloud above Darkstone Tower. Then the Cube and the Scepter, together, at my shrine. Rest where you can."
+          - text: "Now, with the Cube and the Scepter in hand and the enemies of the world out of the way, the destiny of Xeen is in sight. Turn on the four machines in the corners of the other side of the world. Awaken the elemental sleepers on this side. Open the way to the cloud world above Darkstone Tower: Prince Roland and Queen Kalindra are getting married there. Oh, that reminds me. Have you rescued Prince Roland from the bottom of Sheltem's dungeon yet? If you haven't, that's one more little detail."
+            do: [{set: started}, {autonote: checklist}, {xp: 4000}]
+      - n: 2
+        label: The sleepers
+        show: {qbit: started}
+        text: "Each sleeper lies on its own plane, and the planes hang below the Skyroads. Stand at a corner of the roads and the sky asks what you seek. Name the element: Fire in the north-west, Air in the north-east, Earth in the south-east, Water in the south-west. Then step off. The sleepers wake only for the Chosen Ones, and only when the Reflectors are humming."
+        do: [{autonote: corners}]
+
+rewards: {xp: 4000, gold: 0}
+playthrough: "DD-15: the Pharaoh (The destiny of Xeen, The sleepers)."

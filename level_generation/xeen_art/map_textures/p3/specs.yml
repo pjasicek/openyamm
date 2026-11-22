@@ -1,0 +1,43 @@
+# P3 Plane of Earth's own textures (A6's planes sub-agent, seventeenth session, 2026-11-21; D-58 ROWS: Dungeon S, at
+# most 4 new, two named: xperubble and xpegeode). Made with level_generation/textures_xeen/xtex.py --project
+# level_generation/xeen_art/map_textures/p3; registered by the A6 lead from output/studio_cal/p3/tex/REGISTER_A6.yml.
+dungeons:
+  p3:
+    family_words: >-
+      the raw rock of Might and Magic VIII's caves and Might and Magic VI's rubble floors (gcav1flr, vlcflore): dull
+      grey-brown stone with fine grit and cracks, broken grey rubble, hand-painted in the games' soft painted manner
+      under flat even light
+textures:
+  xperubble:
+    dungeon: p3
+    size: [128, 128]
+    kind: picture
+    refs: [mm8/gcav1flr, mm6/vlcflore]
+    tone: {like: [mm8/gcav1flr], factor: 1.05}
+    family: map P3; MM8 gcav1flr (grey-brown rock floor) with MM6 vlcflore's broken grey rubble
+    where: P3's nine rockfall faces (PressurePlate platforms 192 x 192 on the terraces, once per face, fit; planes.rockfall)
+    standin: gcav1flr
+    what: >-
+      The grey-brown rock floor of the first reference seen from straight above, its colour, grit and cracks unchanged
+      at the edges of the picture, with a heap of freshly fallen rubble in the middle: a loose pile about half the
+      picture wide of sharp broken stones of the second reference's grey, from fist-sized chips to a few blocks the
+      size of a head, freshly split with paler clean faces and fine pale rock dust sprinkled round them, a few cracks
+      in the floor radiating from where the largest block struck. The outer quarter of the picture on every side is
+      plain rock floor that matches the first reference, so the face sits in a rock floor without a seam. No shadows
+      cast from above, no sky, no figures.
+  xpegeode:
+    dungeon: p3
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm6/vlcflord, mm8/gcav1wal]
+    tone: {like: [mm8/gcav1wal], factor: 1.0}
+    family: map P3; an amethyst geode's lining in the palette of MM6 vlcflord (blue crystals) and MM8 gcav1wal (brown rock)
+    where: the Geode Hall's split boulders (their split faces) and the Heart-geode's lining (scale 2, repeating)
+    standin: vlcflord
+    what: >-
+      The inside of a split geode seen face on: a dense lining of amethyst crystals, many small six-sided points of
+      violet and pale lilac quartz packed close together with a few larger crystals among them, darker purple in the
+      hollows between, here and there a band of milky white quartz and a thin streak of brown rock from the second
+      reference running through. Hand-painted in the manner of the references, soft flat even light, gentle facet
+      highlights only, no glow, no sparkles, no pattern centred, seamless in both directions.

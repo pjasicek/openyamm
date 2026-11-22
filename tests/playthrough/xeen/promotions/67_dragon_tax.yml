@@ -1,0 +1,167 @@
+# Xeen promotion playthrough 67, racial: Q-C25 The Dragon Tax (X7, XD-18; Dragon -> Great Wyrm). From a copy of the
+# main chain's 83 (X4 outside Castle Burlock, before segment 85 first crosses to Mount Firestone; Q-C25 not started;
+# the party Cavalier Hero ArchMage RangerLord, level 50 and more). East off X4's edge to X7 (85's edge); the party
+# placed at the Dragon Cave's mouth at the tax road's end (X7 event 40, "smells pretty bad", Yes) into XD-18's tax hall,
+# walked as A3-side's standalone: the urn (event 25) before the tax; Scaldrith (house 4852, NPC 5702) "The tax" with
+# about 70,000 gold and no gems: refused (the main chain's party carries no gems: the fee's 20 gems by a logged
+# CONVENTION, PLAYBOOK section 2, gems up to a fee); "The tax" paid (2,000 gold and 20 gems, tax_paid, autonote 4390),
+# again "Paid in full"; the urn after; the waiting room's lectern (event 26): Dragon Lore 1 (volume1, 2,000 each,
+# Loremaster of Worms). Scaldrith's "Great Wyrm" (shown from tax_paid and volume1, its states): nobody is a Dragon, so
+# "you have none with you", nothing paid and nobody promoted (README check 3: offered, with its nobody line). The
+# hand-in pays its 12,000 only when it promotes a Dragon (state 1), so a member is made a Dragon by a logged test
+# setup, as class_table.py's (SetPlayerClass; the party's classes kept and put back): "Great Wyrm" promotes him (wyrm,
+# 12,000 each), then says the nobody line again. The inner door (event 14) opens for good with the tax (118100). Out by
+# the mouth (event 11, OK) to X7. Not played: the cave's dragons and library (volumes 2-5, The Art of Taxation,
+# level 60+; A3-side's standalone plays them) and the Dragon King's hoard (the map's).
+# Quest logic: source/quests/q-c25.yml. Routes: tests/scenarios/xeen/side_quests/q-c25_dragon_tax.yml (prep/q-c25.md),
+# devdocs/xeen/briefs/x7/L4/playtest.yml, xd18/L4/playtest.yml. Prep: prep/F_racial.md.
+#   python3 tests/playthrough/xeen/promotions/run.py 67
+id: xeen.promotions.67_dragon_tax
+title: "Xeen promotions 67: the Dragon Tax (Q-C25), Dragon Lore and a Great Wyrm by a test setup"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_83.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - assert: {qbit_clear: [112500, 112501, 112507, 118100]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if classes() ~= 'Cavalier Hero ArchMage RangerLord' then error('party: ' .. classes()) end"}
+  # East off X4's edge to Mount Firestone (X7's entrance on its west edge; main 85's edge).
+  - set_pose: {map: xeen_x4.odm, x: 22016, y: -1280, z: 1056, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: 24064, y: -1280, z: 1056, z_tolerance: 1500, radius: 128, timeout_seconds: 60, clear_hostiles: 3000, expect: dialog}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: OK}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - assert: {party_position: {x: -22016, y: -1024, radius: 200}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The tax road's end: the Dragon Cave's mouth (X7 event 40), Yes.
+  - set_pose: {map: xeen_x7.odm, x: -3891, y: 16589, z: 2144, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 4000}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  - advance_runtime: {seconds: 0.3, present_dialogs: true}
+  # F16 (merge point 40): the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd18.blv}
+  - assert: {party_position: {x: 384, y: -3072, radius: 200, z_min: -80, z_max: 160}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The urn on the counter (event 25) before the tax.
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "It is empty, and it looks hungry."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # Scaldrith (house 4852, event 18): The tax with gold and no gems: refused, nothing taken.
+  - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "remember('gold', gold()); click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "The tax"}}
+  - assert: {dialog: {active: true, action_label_absent: "Great Wyrm"}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "No gems, no audience. No exceptions."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if gold() ~= tonumber(recall('gold')) then error('the refusal took gold') end"}
+  - assert: {qbit_clear: [112500]}
+  # The fee's gems: the chain's party carries none (it has not looted any it kept); exactly the shortfall.
+  - play_lua: {source: "local n = 0; for _, id in ipairs({177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990, 991, 992, 993, 994, 995, 996, 997}) do n = n + item_count(id) end; if n ~= 0 then error('the party has ' .. n .. ' gems now: grant only the shortfall') end; log('CONVENTION loot q-c25 gems: 0 -> 20 (the tax fee; the main chain party carries no gems at segment 83)')"}
+  - grant_item: {item_id: 180, count: 10, member_index: 1}
+  - grant_item: {item_id: 181, count: 10, member_index: 2}
+  - play_lua: {source: "for _ = 1, 3 do if held() ~= 0 then stow() end end; local g = item_count(180) + item_count(181); if g ~= 20 then error('gems granted: ' .. g) end"}
+  # The tax: paid (2,000 gold and 20 gems; tax_paid 112500, autonote 4390); again: paid in full.
+  - play_lua: {source: "remember('gold', gold()); click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "2,000 gold pieces and 20 gems fly from your packs and into the urn on the counter."}}
+  - select_topic: {match_label: "The tax"}
+  - assert: {dialog: {text_contains: "Paid in full. Keep the receipt."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        local paid = tonumber(recall("gold")) - gold()
+        if paid ~= 2000 then error("the tax took " .. paid .. " gold, not 2,000") end
+        local left = item_count(180) + item_count(181)
+        if left ~= 0 then error("the tax left " .. left .. " gems") end
+  - assert: {qbit_set: [112500]}
+  - assert: {autonote: {id: 4390}}
+  # The urn after the tax.
+  - walk_to: {x: 1536, y: -3460, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(25); wait(0.7)"}
+  - assert: {dialog: {active: true, text_contains: "The urn is empty and powerless."}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  # The waiting room's lectern (event 26): Dragon Lore, volume 1 (volume1 112501, 2,000 each, Loremaster of Worms).
+  - walk_to: {x: 1920, y: -2600, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 10)"}
+  - walk_to: {x: 1920, y: -1900, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  # D-82 point 5: no member down before Dragon Lore's volume 1 (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 67 before Dragon Lore\\'s volume 1: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Dragon Lore\\'s volume 1 (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(26); wait(0.7)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Dragon Lore, volume 1: Worms.]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); wait(0.3)
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 2000 then error("volume 1 paid member " .. i .. " " .. xp .. ", not 2000") end
+        end
+        click(26); wait(0.7)
+  - assert: {dialog: {active: true, text_contains: "You have read it. It has not changed."}}
+  - play_lua: {source: "close(); wait(0.3); for i = 0, 3 do if experience(i) - tonumber(recall('xp' .. i)) ~= 2000 then error('volume 1 paid again') end end"}
+  - assert: {qbit_set: [112501]}
+  - assert: {award_acquired: [{id: 430, member_index: 0}, {id: 430, member_index: 1}, {id: 430, member_index: 2}, {id: 430, member_index: 3}]}
+  # Scaldrith: Great Wyrm with nobody a Dragon: his nobody line; nothing paid, nobody promoted.
+  - walk_to: {x: 1920, y: -2700, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 1984, y: -3560, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  # D-82 point 5: no member down before Scaldrith's Great Wyrm (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 67 before Scaldrith\\'s Great Wyrm: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Scaldrith\\'s Great Wyrm (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "Great Wyrm"}}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for i = 0, 3 do if experience(i) ~= tonumber(recall('xp' .. i)) then error('paid member ' .. i .. ' with no Dragon') end end; if classes() ~= 'Cavalier Hero ArchMage RangerLord' then error('classes: ' .. classes()) end; if qbit(112507) then error('wyrm set with no Dragon') end"}
+  # The hand-in pays only when it promotes a Dragon: member 1 a Dragon by a logged test setup (class_table.py's).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+  - lua_event: {source: "if not SetPlayerClass(1, 'Dragon') then error('SetPlayerClass(1, Dragon)') end"}
+  - play_lua: {source: "if classes() ~= 'Cavalier Dragon ArchMage RangerLord' then error('setup: ' .. classes()) end; click(18); wait(0.8)"}
+  - assert: {dialog: {active: true, source_id: 5702, action_label_present: "Great Wyrm"}}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "A dragon who pays tax and reads. Rarer than gold."}}
+  - select_topic: {match_label: "Great Wyrm"}
+  - assert: {dialog: {text_contains: "Great Wyrms are made of dragons, and you have none with you."}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 12000 then error("Great Wyrm paid member " .. i .. " " .. xp .. ", not 12000") end
+        end
+        if classes() ~= "Cavalier GreatWyrm ArchMage RangerLord" then error("classes after Scaldrith: " .. classes()) end
+        log("Great Wyrm: " .. classes())
+  - assert: {qbit_set: [112507]}
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  # The inner door (event 14) opens now, for good (118100).
+  - walk_to: {x: 2560, y: -3072, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(14); wait(2); close(); if door_state(2) ~= 'open' then error('the inner door is not open: ' .. door_state(2)) end; if not qbit(118100) then error('inner_door_open 118100 not set') end"}
+  - assert: {map: xeen_xd18.blv}
+  # Out by the cave's mouth (event 11), OK.
+  - walk_to: {x: 140, y: -3072, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x7.odm}
+  - assert: {party_position: {x: -4096, y: 16896, radius: 256}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('Q-C25: ' .. classes() .. '; experience ' .. experience(0) .. '; gold ' .. gold())"}
+  - assert: {qbit_set: [112500, 112501, 112507, 118100]}
+  - save_game: {name: "P67 The Dragon Tax", path: output/playthrough/xeen/promotions/checkpoints/67_dragon_tax.oysav}

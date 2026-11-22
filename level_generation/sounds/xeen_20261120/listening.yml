@@ -1,0 +1,202 @@
+# Lane AU's picks by listening analysis (analyze.py: review/analysis.txt and the spectrogram sheets in review/sheets/),
+# merged into picks.yml (`choice`, `listening`) by merge_listening.py before `process`. A job without `choice` keeps
+# the tool's automatic pick; the note says why it was kept.
+xeen_toad_attack: {listening: "Kept v1: the only take with the full range (a snap's highs over a body thump, 33 % under 150 Hz); v2 is a sub-bass thud alone (98 %), v3 thin clicks."}
+xeen_toad_wince: {listening: "Kept v3: a pulsed croak like the other two, the cleanest decay; all three are close."}
+xeen_toad_death: {listening: "Kept v1: the deepest croak (f0 370 Hz, 88 % in 150-600 Hz) over a long fall, a big toad; v2 is a high pulse, v3 breaks off early."}
+xeen_toad_fidget: {choice: v3.wav, listening: "v3 over the score: exactly the asked two croaks with a breath's gap (the score took the gap for silence); v1 and v2 are one long churring croak."}
+xeen_witch_attack: {listening: "Kept v3: a hissing snarl on a broad crackle, the least limited (2 dB) and loudest natural take."}
+xeen_witch_wince: {listening: "Kept v3: a sustained shrill shriek with a clean end; v1 is cut off, v2 clipped (211 samples)."}
+xeen_witch_death: {listening: "Kept v2: the wail falls in pitch to the end as asked; v1 holds flat and stops dead, v3 clipped (100)."}
+xeen_witch_fidget: {listening: "Kept v4: six cackle syllables and a trailing rasp; every take clipped in the download (81-362), v4 among the least after v3, whose cackle is weaker."}
+xeen_sprite_attack: {listening: "Kept v1: a bright buzz and zap (77 % above 8 kHz) that reads small; all three similar."}
+xeen_sprite_wince: {listening: "Kept v3: a voiced squeak with mid body; v2 is mostly hiss."}
+xeen_sprite_death: {listening: "Kept v2: a falling shriek into a sparkle; v1 holds a steady tone."}
+xeen_sprite_fidget: {listening: "Kept v2: a light even wing buzz; v1 busier, v3 hissier."}
+xeen_swarm_attack: {listening: "Kept v1: the buzz rises and holds to the end; v3 dies after 0.1 s."}
+xeen_swarm_wince: {listening: "Kept v1: one sharp burst of buzzing."}
+xeen_swarm_death: {listening: "Kept v2: the buzz thins steadily away; all three close."}
+xeen_swarm_fidget: {listening: "Kept v1: an even drone; v2 swells in late (250 ms attack)."}
+xeen_feet_attack: {listening: "Kept v1: a wing whoosh then the kick (two events), least clipped (116 against 342-372); high-passed at 80 Hz, all three carried a sub-bass boom a small body should not have."}
+xeen_feet_wince: {listening: "Kept v3: a short flurry of flaps with a slap; v1 is too quiet (-20 dBFS after the boost), v2 a single burst."}
+xeen_feet_death: {choice: v1.wav, listening: "v1 over the score: two separate thuds 0.25 s apart, the two feet landing as asked; v2 and v3 are one thump with a rumble."}
+xeen_feet_fidget: {choice: v2.wav, listening: "v2 over the score: even, regular wing beats (15 a take) at a usable level; v1 is the same pattern 8 dB quieter, v3 a dense noise wash."}
+xeen_guardian_attack: {listening: "Kept v1: a rising tonal whine into a zap and a fading arc."}
+xeen_guardian_wince: {choice: v2.wav, listening: "v2 over the score: the only take with a bright metallic ring (clear partials, 73 % at 2.5-8 kHz); v1 and v3 are a dull sub thump with a faint ring."}
+xeen_guardian_death: {choice: v3.wav, listening: "v3 over the score: crackle, a pause, then separate clatters, the asked order (overload, gem, skull falling); v1 is one long crackle."}
+xeen_guardian_fidget: {listening: "Kept v3: regular electric pulses over a hum."}
+xeen_hand_attack: {listening: "Kept v1: whoosh, then a crunching grab at 40 %; nearly unclipped (1 against 189-385)."}
+xeen_hand_wince: {choice: v3.wav, listening: "v3 over the score: a thud with a broadband crack; v1 and v2 are a sub-bass thump alone (100 % under 150 Hz)."}
+xeen_hand_death: {listening: "Kept v3: cracks, a thump and a fading tail; v1 too short a tail, v2 clipped."}
+xeen_hand_fidget: {choice: v1.wav, listening: "v1 over the score: four distinct knuckle cracks one after another, as asked; v2 and v3 are one crack and a hum."}
+xeen_mole_attack: {listening: "Kept v3: snarl and scrape with a bite, the fullest."}
+xeen_mole_wince: {listening: "Kept v2: a voiced squeal (0.89 voiced); v1 and v3 are hissier."}
+xeen_mole_death: {listening: "Kept v1: a low whimper fading to a thump; v3 clipped (277)."}
+xeen_mole_fidget: {listening: "Kept v1: busy sniffing and scratching (8 events)."}
+xeen_sorceress_attack: {listening: "Kept v1: a voiced shout with a crackle; v2 clipped (265)."}
+xeen_sorceress_wince: {listening: "Kept v2: a short gasp; v1 needed the full boost, v3 clipped."}
+xeen_sorceress_death: {listening: "Kept v1: a falling cry, the least clipped (19)."}
+xeen_sorceress_fidget: {listening: "Kept v1: a soft sigh-hum (f0 270 Hz)."}
+xeen_orc_attack: {choice: v1.wav, listening: "v1 over the score: the only take with the weapon: a grunt, then the chop lands (a broadband hit at 0.66 s); v2 and v3 are a growl alone. 74 clipped samples, declipped."}
+xeen_orc_wince: {listening: "Kept v1: a clean short grunt (no clipping; v2 and v3 clipped 57 and 114)."}
+xeen_orc_death: {choice: v1.wav, listening: "v1 over the score: a groan that sinks into a broadband body-and-armour fall, unclipped; v3 (the score's) breaks off with no fall."}
+xeen_orc_fidget: {choice: v1.wav, listening: "v1 over the score: a short growl and snorts, nearly clean (11 clipped against 236 and 370)."}
+xeen_golem_attack: {listening: "Kept v1: grinding into a deep boom, the most power (score_bias power)."}
+xeen_golem_wince: {listening: "Kept v2: a short rock crack with debris."}
+xeen_golem_death: {listening: "Kept v1: cracking into a long rumbling collapse, the least clipped (54 against 272-306)."}
+xeen_golem_fidget: {listening: "Kept v1: a slow grind and rumble."}
+xeen_madman_attack: {listening: "Kept v3: a shriek and a slap, nearly clean."}
+xeen_madman_wince: {listening: "Kept v2: a yelp turning into a giggle."}
+xeen_madman_death: {listening: "Kept v2: a wheezing laugh into a groan, the least clipped (67 against 267-328)."}
+xeen_madman_fidget: {listening: "Kept v2: muttering with a giggle (7 events), clean."}
+xeen_harpy_attack: {listening: "Kept v2: a screech with a wing beat, nearly clean."}
+xeen_harpy_wince: {listening: "Kept v2: a squawk, the least clipped (34)."}
+xeen_harpy_death: {listening: "Kept v1: a falling screech; all three clipped in the download (269-392) and are declipped: listen first."}
+xeen_harpy_fidget: {listening: "Kept v1: harsh chatter and a rustle."}
+xeen_lizard_attack: {listening: "Kept v2: a hiss, then the jaw clamps at 85 % (one sharp transient); v3 is a pulsing rattle."}
+xeen_lizard_wince: {listening: "Kept v3: a rasping hiss-grunt, the least clipped (11)."}
+xeen_lizard_death: {listening: "Kept v2: a hiss and groan with a break and a fall; every take clipped (385-1288), declipped: listen first."}
+xeen_lizard_fidget: {listening: "Kept v2: slow rasping breaths, clean."}
+xeen_worm_attack: {listening: "Kept v1: sand rush, roar and a snap (three events) with the most low end."}
+xeen_worm_wince: {listening: "Kept v2: a deep wet bellow, the least clipped (90 against 241 and 707)."}
+xeen_worm_death: {listening: "Kept v2: a long bellow, nearly clean (8 clipped)."}
+xeen_worm_fidget: {listening: "Kept v1: a deep slithering rumble."}
+xeen_gong: {choice: v1.wav, listening: "v1 over the score: one clean strike, clear partials and a smooth natural decay, unclipped and only 3 dB limited; v2 (the score's) has a notch and a restart in its tail and needed 10 dB of limiting, v3 and v4 beat (8-10 events), v5 clipped."}
+xeen_mirror_touch: {listening: "Kept v2: a chime that wakes and rings away; v1 swells and stops dead."}
+xeen_mirror_travel: {listening: "Kept v5: a glassy rise into a rich band and a long fade, the most even of five."}
+xeen_pyramid_travel: {choice: v4.wav, listening: "v4 over the score: a rising hum that breaks into a burst at 40 % and fades, the asked shape; v2 (the score's) is a flat drone with no burst. v4 clipped 938 samples in the download (declipped): listen first."}
+xeen_sandfall_loop: {listening: "Kept v1: the evenest hiss (0.4 dB spread over 2 s windows), 75 % above 8 kHz like falling sand."}
+xeen_sphinx_stir: {listening: "Kept v3: grinding with separate stone knocks, the most power and least limited."}
+xeen_coffin_lid: {choice: v2.wav, listening: "v2 over the score: the scrape, a short gap, then the lid's thud and a 2.4 s decay; v1 and v3 scrape and stop dead with no drop."}
+xeen_reservoir_drain: {listening: "Kept v1: gurgles, then the rushing drain swelling and fading (4 s decay), unclipped."}
+xeen_lift: {listening: "Kept v1: chain rattle at an even level with the stop; all three close."}
+xeen_winch: {listening: "Kept v3: steady ratchet clicks and rope creak, nearly clean (4 clipped against 25 and 180)."}
+xeen_fortune: {listening: "Kept v1: a shimmering swell with chimes and a low hum under it."}
+xeen_spring_drink: {choice: v3.wav, listening: "v3 over the score: bubbling, then a rising glissando shimmer and bell partials, exactly the asked order; v2 (the score's) is bubbling and a hiss."}
+xeen_well_drink: {listening: "Kept v2: bucket splash, pour and a gulp."}
+xeen_obelisk: {listening: "Kept v4 of the second prompt: a swelling hum and a bell tone at 600-2 500 Hz (18 %), the clearest tone. The first prompt's four takes were sub-bass alone and are superseded."}
+xeen_yard_gate: {listening: "Kept v2: creak, latch, several knocks and the thud; the least clipped (11)."}
+xeen_fire_ignite: {listening: "Kept v2: the whoosh, then a roar that holds; v1 clipped 1 659 samples."}
+xeen_phase_shift: {choice: v3.wav, listening: "v3 over the score: shimmering partials bending in pitch over a rise and fall, the only take with audible glassy tones (60 % at 600-2 500 Hz); v4 (the score's) is a flat low hum."}
+xeen_phase_loop: {listening: "Kept v1: steady warbling partials; its level drifts slowly (14 dB spread over 2 s windows), v2 dips sharply."}
+xeen_sky_gust: {listening: "Kept v3: a long rise and fall of wind, the fullest."}
+xeen_amb_sewer: {listening: "Kept v3: trickles and drips, the evenest (2.2 dB) and brightest."}
+xeen_amb_mine: {listening: "Kept v2 of the second prompt: drips and knocks in the mid band, 6.7 dB spread; the first prompt's three takes were sub-bass rumble alone and are superseded."}
+xeen_amb_tower: {listening: "Kept v1 of the second prompt: chimes and sparkle with the evenest seam (v2 and v3 jump 0.09 at the wrap); bright, so place it quiet (volume 0.3-0.4). The first prompt's three takes were sub-bass alone."}
+xeen_amb_sky: {choice: v2.wav, listening: "v2 over the score: gusts rising and falling with a whistling band, as asked, and a clean wrap; v3 (the score's) is an even rush with no gusts and a 0.026 jump at the wrap."}
+xeen_amb_meadow: {listening: "Kept v1: breeze with birdsong at the top of the band; v2 is a steady insect band over sub rumble."}
+xeen_amb_lagoon: {choice: v1.wav, listening: "v1 over the score: frogs and a steady insect layer, the more even (7.7 against 10.1 dB); v2 is frog croaks alone."}
+xeen_amb_tundra: {choice: v1.wav, listening: "v1 over the score: a howling wind band at 150-300 Hz that swells and falls; v2 is sub rumble and hiss."}
+xeen_amb_savannah: {listening: "Kept v1: an even cicada drone with wind; v2 has a dropout at 60 %."}
+# --- (d) Voice lines (D-38): every take read by faster-whisper small.en and base.en (whisper_check.py; small.en exact,
+# base.en at most one word off, the names and "a" spoken as "ah" lenient); the pick among the passing takes by the
+# measures of voices.py (length, pitch, spread, HNR) against the brief. Picked without ears: confirm by ear.
+xeen_vo_burlock_charge: {choice: v3.wav, listening: "v3: all three pass and run 6.2 s; v3 has the widest pitch movement (14.2 semitones against 9.2-9.3), the most blustering read."}
+xeen_vo_burlock_no_mirror: {choice: v2.wav, listening: "v2: all three pass; v2 breaks after 'No!' (small.en hears 'No! Mirror!') and is the longest (3.4 s): the spluttering, indignant read; its brightness is the lowest of the three (centroid 1 338 Hz), the least shouted. v3's pitch jumps an octave (30.7 st spread), a squawk."}
+xeen_vo_burlock_thanks: {choice: v2.wav, listening: "v2: all three pass; the briskest (7.1 s against 7.6-7.8), the King's offhand regret."}
+xeen_vo_corak_soulbox: {choice: v1.wav, listening: "v1 of the fourth prompt (a [short pause] tag after 'Ah!'): base.en reads it exactly and small.en hears the article as 'ah'. Twelve takes over four prompts all run 'Ah' and 'a' together; v3 is heard as 'our soul box' and fails."}
+xeen_vo_lord_xeen_sight: {choice: v1.wav, listening: "v1 of the second prompt (stability 0, [laughs slowly]): opens with about two seconds of laughter (small.en tags the first two seconds as laughter), then the line, 10.6 s; v2's laugh is a stagier 'Ha ha ha!', v3's runs past three seconds (12.0 s). The first prompt's takes skipped the laugh."}
+xeen_vo_lord_xeen_death: {choice: v3.wav, listening: "v3: all three pass; the steadiest pitch (4.1 st spread against 31-32, where v1 and v2 croak an octave) and the cleanest end: its tail falls to -86 dBFS, the others hold a -60 dBFS hiss for 1.5 s."}
+xeen_vo_sheltem_refusal: {choice: v2.wav, listening: "v2: all three pass; the shortest (5.0 s) and the driest (HNR 2.1 dB: the whispered, papery voice)."}
+xeen_vo_pharaoh_unification: {choice: v1.wav, listening: "v1: v3 fails ('two faces I've seen'); of v1 and v2 v1 is deeper (61 Hz) and moves more (13.6 st), the old voice's warmth; v2 is flatter."}
+xeen_vo_part_corak_sheltem: {choice: v3.wav, listening: "v3: all three pass ('Shelton', a name); v3 sits at Corak's own pitch (105 Hz) where v1 and v2 read 183 Hz, a raised voice; low and grave."}
+xeen_vo_part_sheltem_time: {choice: v2.wav, listening: "v2: all three pass; the steadiest (13.1 st spread against 30-36), the bored, bitten-off read."}
+xeen_vo_part_corak_cube: {choice: v2.wav, listening: "v2: all three pass; raised (123 Hz) and clean (HNR 7.1): urgent without breaking."}
+# --- Batch 2 (session 2): picks by analyze.py's measures (review/analysis.txt, review/sheets/) and the tool's score.
+xeen_mummy_attack: {choice: v1.wav, listening: "v1 over the score: three events in the mid band (70 % at 600-2 500 Hz), the asked hiss, creak and blow; v3 (the score's) is mostly dust hiss above 8 kHz with a long tail."}
+xeen_mummy_wince: {listening: "Kept v3: one dry groan, the loudest natural take; all three close."}
+xeen_mummy_death: {choice: v3.wav, listening: "v3 over the score: a low moan (f0 131 Hz) with a crumbling low end (26 % under 150 Hz) over a 1.3 s decay; v2 (the score's) is a higher moan with no collapse under it."}
+xeen_mummy_fidget: {listening: "Kept v3: a raspy rattling breath (24 small events) in the mid band; 25 clipped samples repaired."}
+xeen_xguard_attack: {listening: "Kept v2: a deep energy hum (68 % under 150 Hz) and a bright discharge on top; v1 is a hiss alone (55 % above 8 kHz)."}
+xeen_xguard_wince: {listening: "Kept v1: a clang with low body and an electric crackle, the widest band; v2 is a thin ring alone."}
+xeen_xguard_death: {listening: "Kept v2: the hum winding down and two crashes, unclipped; v1 is sub-bass alone and clipped 1 005 samples."}
+xeen_xguard_fidget: {listening: "Kept v3: a hum with some mid (16 % at 150-600 Hz) and 8 small shifts; v1 and v2 are sub-bass hum alone, inaudible on small speakers."}
+xeen_mage_attack: {listening: "Kept v1: a whoosh with a low boom and a short grunt, unclipped; v2 and v3 clipped 35-52 samples."}
+xeen_mage_wince: {choice: v1.wav, listening: "v1 over the score: the same short grunt with more body (28 % at 150-600 Hz) and half the clipping of v2 (26 against 62)."}
+xeen_mage_death: {choice: v2.wav, listening: "v2 over the score: all three are one long falling cry clipped in the download (425-1 984 samples, repaired); v2 is the least clipped."}
+xeen_mage_fidget: {listening: "Kept v2: a low hum with four soft movements; quiet and low by nature."}
+xeen_coven_attack: {listening: "Kept v2: a chanted rising syllable in the 150-2 500 Hz band, unclipped; v1 and v3 clipped."}
+xeen_coven_wince: {choice: v1.wav, listening: "v1 over the score: the full asked 0.6 s with 2.4 dB of limiting; v2 is cut to 0.53 s and limited 7.7 dB."}
+xeen_coven_death: {listening: "Kept v1: overlapping wails with a slow 350 ms swell, unclipped; v2 clipped 1 617 samples."}
+xeen_coven_fidget: {choice: v2.wav, listening: "v2 over the score: whispering in the high band (33 % at 2.5-8 kHz) between murmurs, the asked whispered muttering; v3 is a low murmur alone (88 % at 150-600 Hz)."}
+xeen_hornet_attack: {listening: "Kept v1: a rising whine in the mid band (69 % at 600-2 500 Hz) and a stab; v2 and v3 clipped 117 samples and sit low."}
+xeen_hornet_wince: {choice: v3.wav, listening: "v3 of the second prompt: a crack and a buzz (two events), the brightest of the three (centroid 531 Hz). The first prompt's takes were sub-bass thumps (77-96 % under 150 Hz). A big hornet's wingbeat stays low (f0 100-150 Hz)."}
+xeen_hornet_death: {listening: "Kept v3: the buzz spins down over 0.8 s with mid content, unclipped; v1 clipped 149."}
+xeen_hornet_fidget: {choice: v2.wav, listening: "v2 of the second prompt: a steady buzzing whine with the most mid (46 % at 150-600 Hz, 20 % at 600-2 500); v1 is sub-bass alone. The first prompt ('deep ... droning') gave sub-bass alone."}
+xeen_armadillo_attack: {listening: "Kept v1: a snort and a hard thump with body, the least limited of the full takes."}
+xeen_armadillo_wince: {listening: "Kept v2: a snorting squeal with plate rattle (50 % at 2.5-8 kHz); 71 clipped samples repaired."}
+xeen_armadillo_death: {listening: "Kept v2: a wheezing squeal over 1.3 s with eight small clatters; v1 and v3 clipped 414-505."}
+xeen_armadillo_fidget: {listening: "Kept v2: sniffs and scratching in the high band (claws in sand), unclipped."}
+xeen_octopod_attack: {listening: "Kept v3: a heavy low slap and a splash (two events), the most power."}
+xeen_octopod_wince: {listening: "Kept v3: a wet squelch with a bright splash; v1 and v2 are thin hiss."}
+xeen_octopod_death: {listening: "Kept v1: a gurgling groan with five splashes, broad band; v2 is short (1.4 s) and limited 10 dB."}
+xeen_octopod_fidget: {listening: "Kept v3: squelches and bubbles; all three are short (0.7-0.9 s) once trimmed."}
+xeen_swamp_attack: {listening: "Kept v2: a wet roar and a heavy slam, unclipped, the most low end."}
+xeen_swamp_wince: {listening: "Kept v2: a bubbling grunt with a splatter, unclipped."}
+xeen_swamp_death: {listening: "Kept v2: a long gurgling moan with eleven splashes over a 1.3 s decay."}
+xeen_swamp_fidget: {listening: "Kept v2: slow squelches and drips, the least limited."}
+xeen_snakeman_attack: {listening: "Kept v1: a sharp hiss and a whoosh (81 % above 8 kHz); all three are hiss-led, which suits the family."}
+xeen_snakeman_wince: {choice: v1.wav, listening: "v1 of the second prompt: a voiced shriek (f0 564 Hz, 46 % at 600-2 500 Hz) ending in a hiss; v2 and v3 are hiss alone, as were all three takes of the first prompt."}
+xeen_snakeman_death: {choice: v3.wav, listening: "v3 of the second prompt: a voiced scream (22 % at 600-2 500 Hz) trailing into a hiss; v1 and v2 are hiss alone. No take has the body fall."}
+xeen_snakeman_fidget: {listening: "Kept v3: soft hissing breaths with four tongue flicks."}
+xeen_lordxeen_attack: {choice: v1.wav, listening: "v1 over the score (of five): a grunt and a blast with body in 150-600 Hz (29 %), two events; v2 (the score's) is a sub-bass boom (91 % under 150 Hz)."}
+xeen_lordxeen_wince: {listening: "Kept v3: a snarl in the 150-2 500 Hz band, the least clipped."}
+xeen_lordxeen_death: {listening: "Kept v2 (of five): a long roar into a scream over a 2.35 s decay; every take clipped in the download, v2 least (156 against 481-4 885)."}
+xeen_lordxeen_fidget: {listening: "Kept v1: slow breathing with mid content over the hum; v2 is low hum alone."}
+xeen_dragonking_attack: {listening: "Kept v4 (of five): a roar into a long rush, three events, 13 clipped samples against 217-1 179."}
+xeen_dragonking_wince: {listening: "Kept v2: a bellowing snarl, the least limited."}
+xeen_dragonking_death: {listening: "Kept v1 (of five): a shuddering roar into a groan and a crash, 1.8 s decay, among the least clipped (104)."}
+xeen_dragonking_fidget: {choice: v1.wav, listening: "v1 over the score: a rumbling growl with 44 % in 150-600 Hz and snorts; v2 and v3 are 76-89 % sub-bass."}
+xeen_energydragon_attack: {listening: "Kept v4 (of five): a roar with an electric layer (11 % at 2.5-8 kHz) and a blast, 89 clipped samples against 300-1 618."}
+xeen_energydragon_wince: {listening: "Kept v3: a snarl with crackle, the least limited."}
+xeen_energydragon_death: {choice: v5.wav, listening: "v5 over the score (of five): the longest (3.5 s) and least clipped in the download (549 against 1 036-3 734), a roar breaking down with sputter."}
+xeen_energydragon_fidget: {choice: v3.wav, listening: "v3 over the score: breath with 25 % in 150-600 Hz; v1 and v2 are sub-bass hum alone (92-94 %)."}
+# --- Session 3 (2026-11-20): the desert and Darkside beds again (E9 live), XD-19 and DD-16 (D-47) ------------------
+xeen_amb_desert: {choice: v2.wav, listening: "v2 of the second prompt, high-passed at 150 Hz at install (bed_highpass_hz): all three takes of the second prompt are again 86-99 % below 150 Hz; after the high-pass and re-levelling v2 keeps the most sand hiss (23 % above 8 kHz, against 11 % and 4 %) with a 10.5 dB spread over 2 s windows (gusts); v1 is the evener (8.2 dB) but mostly wind body; v3 stays a rumble (19 dB spread)."}
+xeen_amb_darkside: {choice: v2.wav, listening: "v2 of the second prompt: a steady chorus of cricket chirps at 2.5-8 kHz (60 %) over a breeze, one caw-like event mid-loop, the evenest (3.9 dB); v1 pulses on and off (16 dB), v3 is mostly a hiss above 8 kHz. The first prompt's two takes (nothing above 600 Hz) are superseded. Its seam step (0.067) lies inside the loop's own sample steps (84th percentile): no click."}
+xeen_machine_stamp_loop: {choice: v1.wav, listening: "v1: the most regular stamping (22 even blows in 11.6 s with steam between), 2.2 dB spread and a clean seam; v2 drops out for a second at a quarter, v3 has a long whoosh breaking the rhythm at a quarter."}
+xeen_barrier_loop: {choice: v3.wav, listening: "v3: a dense crackle of sparks over a buzz, the evenest (0.8 dB) with the most snaps (15 events); v1 is a smooth hiss with little crackle, v2 swells out of a 2 s near-silence (16 dB spread). Seam step inside the loop's own steps (76th percentile)."}
+xeen_mirror_shatter: {choice: v4.wav, listening: "v4: a crack at once, the burst, a decaying shower and a second fall of shards at two thirds, the asked order; v1 and v3 are a flat 4 s wash with no decay, v2 opens with almost a second of near-silence before the burst (bad for a cue)."}
+xeen_castle_groan: {choice: v3.wav, listening: "v3: a strong creaking groan (150-2 500 Hz) that breaks up into cracks and falls to a trickle over its last second and a half, the asked shape, at the -8 target; v1 stops dead at a quarter and comes back as a low hum, v2 is an even creak 6 dB quieter with no fall-off."}
+xeen_power_up: {choice: v2.wav, listening: "v2: a whine rising over a hum and the clunk at 2.5 s, then the ring-out: the asked shape; v1 and v3 hold one steady tone from the start (v3 89 % below 150 Hz)."}
+# --- Session 4 (2026-11-21): D-49 (D5, D6) and D-50 (X9, XD-17) ---------------------------------------------------
+xeen_amb_aspen: {listening: "Kept v3: an even broadband leaf rustle (94 % above 600 Hz, no birds), the evenest (4.6 dB over 2 s windows) and the smallest seam step; v1 and v2 swell and dip (6.3 and 9.0 dB)."}
+xeen_amb_ash: {listening: "Not installed: all three takes are a sustained tonal whistle (voiced 66-97 %, a line at 470-670 Hz) over sub-bass (64-95 % below 150 Hz), nothing above 600 Hz: no hiss, no crackle. D6's ash wind uses xeen_amb_desert (AUDIO.md Session 4)."}
+xeen_amb_necropolis: {listening: "Kept v2: a faint breeze with clinks, creaks and skitters spread over the loop (30 % at 150-600 Hz, 28 % above 600), 7.3 dB spread; v1 repeats one chain-clink burst at an even beat, v3 has long near-silences and loud bursts (16 dB)."}
+xeen_amb_fair: {listening: "Kept v3: an even crowd of voices (66 % at 600-2 500 Hz) with clacks and calls, 6.3 dB spread and the cleanest seam; v1 opens on a loud swell, v2 swells in the middle (10.6 dB)."}
+xeen_amb_tavern: {listening: "Kept v1: an even murmur of voices with clinks (3.4 dB spread); v2 and v3 have loud low thumps (chairs, 54 % below 150 Hz in v3) and 10-11 dB spreads."}
+xeen_lavafall_loop: {listening: "Kept v1: a thick even roar with crackle across the band, the evenest (1.4 dB); v2 and v3 step up in level a quarter of the way in and down again near the end (10.0 and 6.8 dB), which would be heard as a jump in a 12 s loop."}
+xeen_forge_hammer: {choice: v1.wav, listening: "v1 over the score: eleven blows at an even 0.38-0.44 s with the anvil's ring at 5.4 kHz, a smith at work; v3 (the score's) strikes twice as fast (18 blows at 0.25 s, riveting rather than smithing), v2 is irregular and ends on its loudest blow with a 300 Hz thud."}
+xeen_striker_ding: {choice: v1.wav, listening: "v1 of the second prompt: one strike and a clear bell ring (partials at 1.4 kHz) decaying evenly over 2.4 s to silence; v2 and v3 put a noisy burst after the ring and end on it, v4's scrape comes after the ding. The first prompt's four takes were 3 s of dense noise with the bell buried late (superseded)."}
+# --- Session 5 (2026-11-21): D-56 (P5), D-58 (D7, P1-P4), the dungeons' asks, X7 and the night bed ----------------
+xeen_far_chime: {listening: "Source of the four chimes (not installed itself): v1 (2.6 s, bright, partials 424/889/2 672 Hz), v2 (3.5 s, the cleanest bell, partials 593/1 047/1 500 Hz) and v4 (a 660 Hz bell ringing out to silence over 4 s) are single strikes; v3 has three extra knocks in its tail (onsets at 1.7, 2.6, 3.0 s)."}
+xeen_chime_1: {listening: "far chime v1 as it is: the brightest of the four bells."}
+xeen_chime_2: {listening: "far chime v2 as it is."}
+xeen_chime_3: {listening: "far chime v4 two semitones down (588 Hz), the longest ring-out (5.6 s)."}
+xeen_chime_4: {listening: "far chime v2 five semitones down: the deepest, the fourth sleeper answers last."}
+xeen_wedding_fanfare: {choice: v3.wav, listening: "v3 over the score: a rising C-E-G call (1 046, 1 318, 1 568 Hz) in five onsets, then a held F major chord (1 397/1 760/1 049 Hz) ringing out; v4 (the score's) is one held 1 393 Hz note for 4 s with no call, v1 and v5 open on a call but end on an ambiguous chord, v2 is three blocks with gaps."}
+xeen_corner_fire: {listening: "Not installed: all three are 90 % and more below 150 Hz (a rumble; no crackle even after a 150 Hz high-pass). The corners carry their plane's bed instead (AUDIO.md Session 5)."}
+xeen_corner_air: {listening: "Not installed: all three swell out of near-silence (dips to -41 to -65 dBFS against -14), not a constant hum. The Air Corner carries P2's gale."}
+xeen_corner_earth: {listening: "Not installed: each dips 15-25 dB for seconds (v1 -45, v2 -51, v3 -35). The Earth Corner carries P3's bed."}
+xeen_corner_water: {listening: "Not installed: v1 is near-silent for 6 s, v2 fades out at both ends, v3 dips to -57. The Water Corner carries P4's surf."}
+xeen_dragon_call: {listening: "Kept v4: a roar rising from 780 Hz into a shrill cry at 1.2-1.5 kHz that holds and fades, the asked shape; v1 and v3 are a level 460 Hz roar, v2 falls from 1 250 to 600 Hz."}
+xeen_megadragon_sleep: {listening: "Kept v2: slow breaths with a growl (65 % below 150 Hz, 30 % at 150-600), two breath cycles in the loop, a clean seam; v1 has a 1.2 kHz hiss jumping 9 dB, v3 long silences (23 dB)."}
+xeen_bandit_whistle: {choice: v1.wav, listening: "v1 over the score: two linked whistles, the first rising 1 780 to 2 045 Hz, the second peaking higher (2 083) and falling away to 1 280: a finger whistle to the crew; v2 (the score's) is one flat 2.1 kHz tone, v3 three separate pips, v4 three parts that fall."}
+xeen_amb_plane_fire: {choice: v3.wav, listening: "v3, high-passed at 150 Hz at install: all three takes are 90 % and more below 150 Hz; after the high-pass v3 keeps the bubbling (47 % at 150-600 Hz), pops (10 onsets) and hiss (15 % above 2.5 kHz) at a 3 dB spread, a lava lake; v2 high-passed is hiss alone (59 % above 2.5 kHz), v1 rumble."}
+xeen_amb_plane_air: {listening: "Kept v2: a broad howling gale (62 % at 600-2 500 Hz, 20 % at 150-600) with six gusts, 2.9 dB spread; v1 and v3 are narrower, more tonal whistles (tonality 4x and 2x v2's)."}
+xeen_amb_plane_earth: {choice: v3.wav, listening: "v3 of the second prompt, high-passed at 80 Hz at install: grinding at 80-150 Hz (39 %) under clatter at 600-2 500 Hz (42 %), 2.9 dB spread; it sits at -29.5 dBFS RMS (the knocks hold the peak), so place it at volume 0.9. v1 and v2 of the second prompt are 83 and 74 % below 80 Hz. The first prompt's takes were sparse clatter with near-silence between (superseded)."}
+xeen_amb_plane_water: {choice: v3.wav, listening: "v3 of the second prompt: a full surf (40 % at 150-600 Hz, 37 % at 600-2 500, 13 % above) with almost no sub-bass (3 %), 6.7 dB of wave swell; v1 (the score's) and v2 carry 16-28 % below 80 Hz. The first prompt's takes were spray hiss alone (centroid 7-9 kHz, superseded)."}
+xeen_trapdoor: {listening: "Kept v1: one immediate clang (onset at 0.1 s) ringing out over 0.6 s at 1.2-3.7 kHz, the party already falling; v2 and v3 put a latch click 0.9-1.2 s before the main clang (too slow for a drop)."}
+xeen_klaxon: {choice: v3.wav, listening: "v3 over the score: a harsh 825 Hz horn with its octave, sounding in long blasts broken by short dips, low and urgent; v4 (the score's) is a higher 1 390 Hz pulse train, closer to a siren, v1 and v2 one blast fading."}
+xeen_pod_alarm: {choice: v3.wav, listening: "v3 over the score: a two-tone beep (2 045 and 1 790 Hz) with gaps every 0.6 s, as asked; v1 (the score's) is a near-continuous 2 335 Hz tone, v2 a single 1 683 Hz beep. Its seam step lies inside the loop's own steps (78th percentile); 36 samples declipped."}
+xeen_log_chirp: {choice: v1.wav, listening: "v1 over the score: three quick rising steps (1 157, 1 590, 2 412 Hz) and a soft low click, the asked chirp, 0.4 s; v2 is one smooth sweep, v3 a drop and a held tone."}
+xeen_torch_light: {choice: v2.wav, listening: "v2 over the score: the whoomph swelling over 0.4 s and a quieter flicker after it; v1 is level throughout with no catch, v3 dips and rises again at the end."}
+xeen_brew_vat: {listening: "Not installed: all three are sparkle and hiss above 2.5 kHz (70-80 %) with nothing at 150-600 Hz, no bubbling, and dips of 20-60 dB. DD-15's vat keeps the shipped bubbling cauldron01 (a bubbling vat at 150-600 Hz)."}
+xeen_forge_hall_loop: {listening: "Kept v3: dense ringing hammer blows (48 onsets in 11.4 s, 70 % at 2.5-8 kHz) at an even level (1.9 dB), several smiths; v1 sparse with 7.7 dB swings, v2 duller. 68 samples declipped."}
+xeen_heartbeat_loop: {choice: v1.wav, listening: "v1 over the score: a regular double thump every 0.96 s (62 a minute), as asked; v2 (the score's) is irregular, v3 stops for its last 2 s. A heartbeat is low by nature (86 % below 80 Hz): place it close (radius 900). 54 samples declipped."}
+xeen_tribble_purr: {choice: v3.wav, listening: "v3 over the score: a rolling purr at 150-600 Hz (58 %) with coos, 1.4 dB spread; v1 (the score's) and v2 are 69-75 % below 80 Hz, a rumble more than a purr."}
+xeen_shaft_grit: {listening: "Kept v3: a sand hiss (39 % above 8 kHz) with pebble ticks (22 onsets); v1 and v2 are sparse ticks over near-silence (-59 to -65 dBFS between)."}
+xeen_stasis_hum: {listening: "Kept v2: a steady glassy tone at 829 Hz with a faint shimmer at 6.3 kHz, the evenest (0.6 dB): the wet-rimmed glass asked for."}
+xeen_metal_groan: {choice: v1.wav, listening: "v1 over the score: the longest groan (its body holds 1.1-1.5 s at 120-460 Hz) and a second creak at 0.9 s; v2 and v3 are single knocks decaying at once."}
+xeen_amb_volcano: {choice: v2.wav, listening: "v2 over the score, high-passed at 80 Hz at install: rumble at 80-150 Hz (35 %) under vent hiss and sizzle above 2.5 kHz (48 %); v1 and v3 are 72-77 % below 80 Hz with nothing above 600 Hz."}
+xeen_amb_night: {choice: v2.wav, listening: "v2 of the second prompt: a steady cricket chorus at 2.5-8 kHz (88 %), the Darkside crickets' band, 1.6 dB spread; v1 has a few frogs and the owl at 600-850 Hz but its crickets sit above 8 kHz (72 %), v3 96 % above 8 kHz. The first prompt's three takes were a chirping band at 8-10 kHz alone (superseded)."}

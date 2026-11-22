@@ -1,0 +1,36 @@
+format: 0
+id: xeen_dd24
+name: Giants' Hall
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-24
+units:
+  plan_grid: 512
+extent:
+  footprint_cells:
+  - 9
+  - 16
+  climbs: n
+map_stats:
+  id: 9177
+  encounter_chance: 0
+  treasure_level: 5
+  trap_dice: 4
+  perception_difficulty: 8
+  refill_days: 672
+  music: 31
+  environment: cave
+  lock_difficulty: 8
+  bolster: LowerToEqual
+  slots: []
+neighbours: []
+qbits:
+  friends: 113320
+  war: 113321
+  throne_searched: 113322
+  hall_attacked: 113323
+  war_announced: 113324
+  d12_hostile: 113242
+  d12_camp_burned: 113244
+notes: 'Xeen design brief, level L3: DD-24 Giants'' Hall, the plan and the to-scale shell (rooms.yml).'

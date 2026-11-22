@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png with its alpha and pixel coordinates locked. One transparent 1536x2048 portrait 3:4 texture projection atlas, 3 columns x 4 rows of square 512px cells. Preserve every contour, hole, size, view direction and registration of the grey renders. Row1 front/back/profile facing right. Row2 profile facing left/top-down/empty. Rows3 and 4 exactly duplicate geometry of rows1 and 2 as flat material-ID masks. Paint only the grey surfaces. Upper half unlit albedo: follow design_reference.png for details and icon_x8.png for colors. Strongman carnival prize doll, stuffed tan woven fabric round face and limbs, stitched seams, dark yarn curls and mustache, black eyes and rosy cheeks, cream/red horizontal striped suit, dark laced leather boots, painted wooden dumbbell with red and gold handle and navy round ends with cream stars. Scale and wrap details consistently around all views. No shadows, lighting, highlights, reflections, outlines, text or ground. Lower half strict solid categorical fills: pure blue #0000FF for cloth body, stitched features, hair, clothing and cloth cords; pure green #00FF00 for leather boots; pure yellow #FFFF00 for all wood including both ends and shaft of barbell regardless of paint color; pure red #FF0000 only for actual metal. No shading, textures, outlines, blends or gradients in mask. Both empty cells and everything outside original silhouettes fully transparent. Never rearrange, redraw or enlarge the objects.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "b245e64f7c9cd739ab5ca1debf66eb8d267e3f6c65928caf92870e6ff1fc9818"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "e9a966f413e7269e8eeca4e3b3d76006529651421105d8180dcb2a56d42c8c03"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "89c82be87e9e5d86e170a5134da57d2345c97b1fabad12fce27e65f6682c21a2"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e7-6299-7e62-80b4-328917daa616/exec-4560d52f-3274-426b-b28e-8bbf98b47a9f.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,80 @@
+# The Necropolis Sewer (DD-21, L4): Sandro across saves (D-62 Q41). A level-50 party of fighters, nobody Sandro could teach
+# (no Priest, no Wizard) starts at the stair's foot, opens the crypt's doors and kills Sandro (sandro_fell 117727). A
+# save and a load: the risen Sandro (11926) is shown and peaceful, the fallen body hidden; struck 40 times, he loses no
+# hit points and stays peaceful. With the heart (given by the test), the dais asks "Give Sandro his heart?" and, with
+# nobody to teach, releases him at once (q-d23.release): he is hidden, the grille lifts. A save and a load: he stays
+# hidden, the fallen body too, the grille open. Numbers are ids.lock.yml's and the actor indices of playtest.yml. Run
+# with --world xeen --map xeen_dd21.blv (output/studio_cal/dd21/four.sh).
+id: xeen.dd21.l4.reload
+title: Necropolis Sewer (DD-21 L4), the risen Sandro and the release across a save and a load
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd21.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+          - {name: Hild, class: Paladin, level: 50, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+          - {name: Sefa, class: Knight, level: 50, skills: [], equipment: {}}
+  - assert: {map: xeen_dd21.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - set_pose: {map: xeen_dd21.blv, x: 0, y: -1700, z: 0, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "clear_hostiles(700)"}
+  - walk_to: {x: 0, y: -1940, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(17); wait(3)"}
+  - walk_to: {x: 0, y: -2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "close(); clear_hostiles(900)"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "I am Sandro"}}
+  - play_lua: {source: "close(); wait(1); if not qbit(117727) then error('sandro_fell not set') end"}
+  # After the fall: a save and a load.
+  - save_game: {name: dd21_fell}
+  - load_game: {name: dd21_fell}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: false, dead: false}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: true}}
+  - assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+  # Struck, the risen Sandro takes no damage and stays peaceful.
+  - walk_to: {x: 288, y: -2960, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  # Cure what the fight left (Sandro's touch and spells; a disabled member makes no weapon attacks), then strike.
+  - lua_event: {source: "evt.ForPlayer(Players.All) for _, c in ipairs({Insane, Paralyzed, Asleep, Afraid, Unconscious, Dead, Stoned, Eradicated, Weak, Cursed, Drunk, PoisonedGreen, PoisonedYellow, PoisonedRed, DiseasedGreen, DiseasedYellow, DiseasedRed}) do SubtractValue(c, 0) end"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('before the strikes: ' .. party())"}
+  # The striking member is the active one (a run with member 1 active made 3 weapon attacks of 40). The cure above
+  # clears conditions, not hit points: a member left at 0 HP cannot be selected (A1: the select_member flake was Brokk at
+  # 0 HP), so member 0 is healed first.
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 500}
+  - press_action: {action: select_member, member_index: 0}
+  - party_attack: {actor_index: 16, member_index: 0, count: 40, kill: true, min_hit_rate: 0.025, report: true}
+  - play_lua: {source: "close()"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, dead: false, hp: 618, report_state: true}}
+  - assert: {actor_count: {monster_id: 11926, hostile: false, min: 1, max: 1}}
+  # The heart, the dais: Yes releases him at once (nobody to teach).
+  - lua_event: {source: "AddValue(InventoryItem(12353), 12353)"}
+  - walk_to: {x: -160, y: -2900, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -160, y: -3100, z: 32, radius: 48, timeout_seconds: 20, close_dialogs: false, expect: dialog}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, action_label_present: "Yes", text_contains: "My heart. You have it."}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Thank you for returning my heart."}}
+  - play_lua: {source: "close(); wait(1); if not qbit(113462) then error('released not set') end; if qbit(113463) then error('taught set') end; for _ = 1, 20 do if door_state(4) == 'open' then break end; wait(0.5) end; if door_state(4) ~= 'open' then error('the grille did not lift') end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  # After the release: a save and a load.
+  - walk_to: {x: 0, y: -2600, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - save_game: {name: dd21_released}
+  - load_game: {name: dd21_released}
+  - advance_runtime: {seconds: 1.5}
+  - play_lua: {source: "close(); if door_state(4) ~= 'open' then error('the grille shut after the load: ' .. door_state(4)) end"}
+  - assert: {actor_visible: {actor_index: 16, monster_id: 11926, hidden: true}}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11283, hidden: true}}
+  - assert: {actor_count: {monster_id: 11926, hostile: true, max: 0}}

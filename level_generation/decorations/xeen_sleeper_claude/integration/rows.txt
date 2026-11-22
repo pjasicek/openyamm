@@ -1,0 +1,8 @@
+# Final values for the reserved rows of assets_dev/worlds/xeen/models/decoration_data.txt (lane S merges).
+# Radius 290: the collision cylinder keeps the party (radius ~37) outside the couch's 322 half-length, so the camera
+# never enters the headrest at either end; along the flanks the party stands ~165 off the couch side.
+# row  name                 radius  height
+4023   xeen_sleeper_fire    290     206
+4024   xeen_sleeper_air     290     206
+4025   xeen_sleeper_earth   290     206
+4026   xeen_sleeper_water   290     206

@@ -1,0 +1,86 @@
+format: 0
+id: xeen_x7
+name: Mount Firestone
+world: xeen
+kind: outdoor
+profile: odm
+map_code: X7
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9105
+  continent: 6
+  encounter_chance: 10
+  treasure_level: 5
+  trap_dice: 5
+  perception_difficulty: 5
+  refill_days: 672
+  music: 26
+  environment: mountains
+  lock_difficulty: 10
+  slots:
+    - {monster: Xeen Orc, tier: 1, per_marker: [2, 3], weight: 21}
+    - {monster: Xeen Hydra, tier: 3, per_marker: [1, 3], weight: 40}
+    - {monster: Xeen Dragon, tier: 5, per_marker: [1, 2], weight: 39}
+neighbours:
+  - id: door:fd04
+    to: xeen_fd04.blv
+    kind: door
+    arrival_hint: Inside the Dragon Tower's gate.
+    notes: "FD-04 Dragon Tower and the Dungeon of Death (A7, phase 6; Q-F1, Q-F2, optional): D1's tower on its crag over the lava lake's north shore at the rim. Sealed until FD-04 exists."
+  - id: door:xd05
+    to: xeen_xd05.blv
+    kind: door
+    arrival_hint: Inside the Orc Caves' back gate.
+    condition: {qbit: orc_back_gate}
+    notes: "XD-05 Orc Caves (A7, built): the back gate on the south-east slopes, opened from inside (x1-tam's back_gate sets 110051); from the X7 side barred until then. XD-05 seals it with a rockfall until X7 exists (its L4 notes): A7 opens it when X7 is installed."
+  - id: door:xd16
+    to: xeen_xd16.blv
+    kind: door
+    arrival_hint: "Inside the Volcano Cave's mouth, on the first ledge above the lava."
+    notes: "XD-16 Volcano Cave (A7, phase 5; Q-C26): a cave mouth at Mount Firestone's west foot, two idols (a demon, a devil) flanking it. \"Enter the Volcano Cave?\" Sealed until XD-16 exists."
+  - id: door:xd17
+    to: xeen_xd17.blv
+    kind: door
+    arrival_hint: "In the valley's back passage, at the foot of the cleft's stair."
+    condition: {qbit: q_c26_done}
+    notes: "XD-17 Shangri-La (A5, phase 5; Q-C26): the valley's back gate, a cleft in the black rock east of the Volcano Cave. Shut by a rockfall from the X7 side until q-c26.done (both skulls smashed); the first way in stays the Volcano Cave (question 3). Sealed until XD-17 exists."
+  - id: door:xd18
+    to: xeen_xd18.blv
+    kind: door
+    arrival_hint: "Inside the Dragon Cave's mouth, before the Dragon Tax Office's counter (D-5.2)."
+    notes: "XD-18 Dragon Cave (A7, phase 6; Q-C25, optional): the cave in the crag over the north rim; Scaldrith's Dragon Tax Office (house 4852) is inside at its mouth, before the first dragon (D-5.2). \"The Dragon Cave smells pretty bad. Are you sure you wish to enter?\" Sealed until XD-18 exists."
+  - id: edge:south
+    to: xeen_x1.odm
+    kind: edge
+    side: south
+    days: 5
+    arrival_side: north
+    approach: "The north road in from the south edge at x 69, up from Vertigo's hills."
+    notes: "X1 Vertigo Meadows (A5, installed): its north road runs out to its y 0 at x 69 (built row: 1,600, the road 1,856), sealed with a sign until X7 exists; X1's arrival from X7 is entrance:north_road [69, 21]. The same x here; X1's east rim (x 104) goes on as X7's."
+  - id: edge:west
+    to: xeen_x4.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: "The Firestone road in from the west edge at y 66, up the valley under the Red Dwarf Range."
+    notes: "X4 Burlock Savannah (installed): its Firestone road (link:firestone_road) runs out to its x 128 at y 66 over a level span 60-72 at 1,300, sealed until X7 exists; X4's arrival from X7 is entrance:east_road [107, 66.5]. The same y here and the same span and height; X4's other east spans continue (rim 0-24, lava fields 24-60 at 1,800-2,600, red dwarf hills 72-128 at 1,900-2,700)."
+qbits:
+  cloud_7: 115046
+  m36_started: 111720
+  orc_back_gate: 110051
+  q_c14_started: 112280
+  q_c26_done: 112522
+  reflector_fire: 111741
+  rock_found: 112281
+items:
+  lava_rock: 12314
+rules:
+  weather: ash
+  rim:
+    cliff_x: 104
+    cliff_y: 24
+    fall: death
+    sides: [north, east]
+notes: "X7 Mount Firestone, MU-3 plan for the phase 5 review (A5, 2026-11-20). No geometry until a decider has approved it. Plan: plan.yml; to-scale layout: sketch.yml; air: atmosphere.yml; generator, drawings and review board: output/studio_cal/x7/ (tools/gen_l1.py writes these four files). Sky: the shipped fair preset with the ashen theme (A6 already lists xeen_x7.odm: ashen in the world sky.yml); ash fall needs a weather row (NOTES, requests). A trap map: mild south slopes, a quiet range, a deadly north."

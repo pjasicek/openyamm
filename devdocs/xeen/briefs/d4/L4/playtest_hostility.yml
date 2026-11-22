@@ -1,0 +1,425 @@
+# Hostility check of D4 (written by output/studio_cal/d4/tools/gen_hostility_d4.py).
+id: xeen.d4.l4.hostility
+title: 'D4 Lakeside and Blackfang: the coven by Q-D22, the octopods in the lake'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d4.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: At load (D-36)
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11170
+      hostile: true
+      min: 9
+- assert:
+    actor_count:
+      monster_id: 11171
+      hostile: true
+      min: 4
+- assert:
+    actor_count:
+      monster_id: 11172
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11470
+      hostile: true
+      min: 3
+- assert:
+    actor_count:
+      monster_id: 11471
+      hostile: true
+      min: 2
+- assert:
+    actor_count:
+      monster_id: 453
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 611
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 361
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 377
+      hostile: true
+      max: 0
+- note: 'The octopods 20 s later, the party on the Isle: each within its leash (+150) of its home'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - -2048
+      - 0
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 14
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 512
+      - 2304
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 15
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 11264
+      - -768
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 16
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 15104
+      - -1280
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 17
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 10752
+      - -5120
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 18
+      dead: false
+      report_state: true
+- note: The party on the waterfront nearest the south basin (cell 85, 83.5, dry land)
+- set_pose:
+    map: xeen_d4.odm
+    x: 10752
+    y: -9984
+    z: 1140
+    yaw: 1.5708
+    pitch: 0.0
+- note: 'The octopods 20 s later, the party on the waterfront: still in the water, each within its leash'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - -2048
+      - 0
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 14
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 512
+      - 2304
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 15
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 11264
+      - -768
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 16
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 15104
+      - -1280
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 17
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 10752
+      - -5120
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 18
+      dead: false
+      report_state: true
+- note: 'The party on the East Skerry (cell 89, 70: land), 2,400-2,900 from three octopods'
+- set_pose:
+    map: xeen_d4.odm
+    x: 12800
+    y: -3072
+    z: 1080
+    yaw: 1.5708
+    pitch: 0.0
+- note: 'The octopods 20 s later, the party on the skerry: they cannot leave the water, each within its leash'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - -2048
+      - 0
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 14
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 512
+      - 2304
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 15
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 11264
+      - -768
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 16
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 15104
+      - -1280
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 17
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 10752
+      - -5120
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 18
+      dead: false
+      report_state: true
+- note: 'The party in the water (cell 86, 68), 1,300 from the Great Octopod of the north basin: it swims'
+- set_pose:
+    map: xeen_d4.odm
+    x: 11264
+    y: -2048
+    z: 1056
+    yaw: 1.5708
+    pitch: 0.0
+- note: 'The octopods 20 s later, the party in the water: still within their leashes (octo_check.py: moved)'
+- advance_runtime:
+    seconds: 20
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - -2048
+      - 0
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 14
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 512
+      - 2304
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 15
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 11264
+      - -768
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 16
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11470
+      min: 1
+      near:
+      - 15104
+      - -1280
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 17
+      dead: false
+      report_state: true
+- assert:
+    actor_count:
+      monster_id: 11471
+      min: 1
+      near:
+      - 10752
+      - -5120
+      - 1650
+- assert:
+    actor_visible:
+      actor_index: 18
+      dead: false
+      report_state: true
+- note: 'q-d22.joined (113449): the coven peaceful to members (A2)'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113449
+    value: true
+- load_map:
+    map: xeen_d4.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_count:
+      monster_id: 11170
+      hostile: false
+      min: 9
+- assert:
+    actor_count:
+      monster_id: 11170
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11171
+      hostile: false
+      min: 4
+- assert:
+    actor_count:
+      monster_id: 11171
+      hostile: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11172
+      hostile: false
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11172
+      hostile: true
+      max: 0
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: false
+- note: 'The Head Witch slain (113447): the load event q-d22.coven_gone hides both groups; A2''s relation long again'
+- setup_shortcut:
+    kind: set_qbit
+    id: 113447
+    value: true
+- load_map:
+    map: xeen_d4.odm
+- advance_runtime:
+    seconds: 3
+- assert:
+    actor_visible:
+      actor_index: 0
+      hidden: true
+- assert:
+    actor_visible:
+      actor_index: 8
+      hidden: true
+- note: The Circle's chest still opens
+- set_pose:
+    map: xeen_d4.odm
+    x: -6554
+    y: -14541
+    z: 1460
+    yaw: 1.5708
+    pitch: 0.0
+- play_lua:
+    source: click(85); wait(0.5); close()

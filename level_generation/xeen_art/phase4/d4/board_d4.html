@@ -1,0 +1,229 @@
+<!doctype html><html><head><meta charset="utf-8"><title>D4 Lakeside mock-ups</title>
+<style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #6a3410; --card: #fffdf8;
+        --d3: #2a78d6; --d4: #eb6834; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 1800px; padding: 28px 32px 36px; }
+h1 { font-size: 30px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 18px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 1720px; }
+.grid { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept img { width: 100%; display: block; border-radius: 4px; }
+.concept p { margin: 6px 0 4px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 3px 7px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+.q li { margin: 7px 0; font-size: 13.5px; } .q b { color: #5a2a08; }
+.inset img { width: 100%; display: block; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.small { font-size: 12.5px; color: var(--muted); }
+code { font-size: 12.5px; }
+.key { font-size: 12.5px; color: var(--muted); margin: 4px 0 0; }
+.key i { display: inline-block; width: 22px; height: 0; vertical-align: 4px; margin-right: 5px; }
+</style></head><body><main>
+<h1>D4 Lakeside and Blackfang: MU-3 plan and MU-4 concepts</h1>
+<div class="sub">Phase 4 review (A6, 2026-11-20), for a decider before any geometry. Darkside's north-east corner,
+Act IV wilderness (party 35-38), the world rim on its north and east sides. <b>Octopod Lake</b> fills the middle with
+the <b>Isle of Lost Souls</b> (DD-12) a short row off <b>Lakeside</b>, the coven's low town of grey stone and slate on
+the south shore (A4's 15 doors and the mirror; Naomi in the stocks; the guild's riddle door into DD-20). Across the
+water <b>Castle Blackfang</b> crowns a black crag in a storm of bats; its gate at the crag's foot never opens. The Snow
+River comes down its rapids from a snowfield at the north rim; <b>Magic Mountain</b> (the wizards' camp, the gargoyles
+and DD-23, Ector's woodpile) rises over the <b>Forest of Peril</b> in the west. The lake falls over the east rim.
+Source: <code>devdocs/xeen/briefs/d4/L1/</code> (project, plan, sketch in Map Studio's schema, NOTES.md;
+<code>oymap validate</code> clean).</div>
+<div class="grid">
+<div>
+ <div class="card plan"><img src="plan_d4.png"></div>
+ <div class="card" style="margin-top:12px"><div class="legend">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival / entrance</span>
+<span><i class="sw" style="background:#111"></i>dungeon door, sealed gate</span>
+<span><i class="sw" style="background:#7a1f6a;border-radius:50%"></i>device (fountain, well, statue, lamp)</span>
+<span><i class="sw" style="background:#1d5fa8;border-radius:50%"></i>talking person / tree</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#c06000"></i>landmark</span>
+<span><i class="sw" style="background:#5a4630;border-radius:50%"></i>fork, signpost</span>
+<span><i class="sw" style="background:rgba(208,48,42,.25);border-color:#d0302a"></i>encounter area (rocs red, gargoyles brown, coven violet, octopods blue)</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px);border-color:#2e8b57"></i>kept clear</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.6"></i>MU-4 cameras</span>
+<span><i class="sw" style="background:#6e3b2a"></i>service door house (yellow dot: door)</span>
+<span><i class="sw" style="background:#8a6a52"></i>residence</span>
+</div>
+ <div style="margin-top:6px;color:#5d5a55;font-size:13px">128 x 128 cells of 512 units, north up; the dashed white
+ square is the playable area (cells 19-109). The land ends in rim cliffs at y 24 (north) and x 104 (east). <b>Shared
+ edges:</b> the Lakeside road crosses the south edge at <b>x 88</b> (D-28, D3 installed); the desert road crosses the
+ west edge at <b>y 80</b> (proposed for D5, not planned).</div></div>
+ <div class="two" style="margin-top:12px">
+ <div class="card inset"><h2 style="margin-top:0">Lakeside and the Isle (2.9x)</h2>
+  <img src="plan_d4.svg#svgView(viewBox(440,480,370,370))">
+  <p class="small">Guild 4651 west of the square (double door east: the riddle, DD-20), smithy 4653 east, tavern 4652
+  and temple 4654 south, Lakeside Yachts 4655 and the jetty (ferry 420 daily from day one; Lucio 426 after M30), ten
+  houses, the mirror 4656 and Naomi's stocks; Skiff's beached boat ("This boat under repair.") east of the
+  Boathouse; DD-20's sewer shaft by the jetty's foot. The Isle: landing jetty, ruined tower over DD-12's two-leaf
+  door.</p></div>
+ <div class="card inset"><h2 style="margin-top:0">D3 edge match (x 0-127)</h2>
+  <svg viewBox="0 0 640 250" width="100%" font-family="DejaVu Sans, sans-serif" font-size="11">
+<rect x="46.0" y="14" width="110.0" height="202" fill="#efeae0"/>
+<text x="101.0" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">2.6-3.4k</text>
+<rect x="156.0" y="14" width="265.8" height="202" fill="#f7f4ee"/>
+<text x="288.9" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.5-2k</text>
+<rect x="421.8" y="14" width="55.0" height="202" fill="#efeae0"/>
+<text x="449.3" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.75k</text>
+<rect x="476.8" y="14" width="45.8" height="202" fill="#f7f4ee"/>
+<text x="499.7" y="36" text-anchor="middle" fill="#5d5a55" font-size="9.5">1.9-2.4k</text>
+<rect x="522.6" y="14" width="110.0" height="202" fill="#efeae0"/>
+<text x="577.6" y="25" text-anchor="middle" fill="#5d5a55" font-size="9.5">0k</text>
+<line x1="46" x2="628" y1="216.0" y2="216.0" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="219.5" text-anchor="end" fill="#5d5a55">0</text>
+<line x1="46" x2="628" y1="165.5" y2="165.5" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="169.0" text-anchor="end" fill="#5d5a55">800</text>
+<line x1="46" x2="628" y1="115.0" y2="115.0" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="118.5" text-anchor="end" fill="#5d5a55">1,600</text>
+<line x1="46" x2="628" y1="64.5" y2="64.5" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="68.0" text-anchor="end" fill="#5d5a55">2,400</text>
+<line x1="46" x2="628" y1="14.0" y2="14.0" stroke="#d8d2c4" stroke-width="0.6"/>
+<text x="41" y="17.5" text-anchor="end" fill="#5d5a55">3,200</text>
+<text x="46.0" y="230" text-anchor="middle" fill="#5d5a55">0</text>
+<text x="133.1" y="230" text-anchor="middle" fill="#5d5a55">19</text>
+<text x="156.0" y="230" text-anchor="middle" fill="#5d5a55">24</text>
+<text x="421.8" y="230" text-anchor="middle" fill="#5d5a55">82</text>
+<text x="449.3" y="230" text-anchor="middle" fill="#5d5a55">88</text>
+<text x="476.8" y="230" text-anchor="middle" fill="#5d5a55">94</text>
+<text x="522.6" y="230" text-anchor="middle" fill="#5d5a55">104</text>
+<text x="628.0" y="230" text-anchor="middle" fill="#5d5a55">127</text>
+<text x="337.0" y="246" text-anchor="middle" fill="#5d5a55">x (cells); the crossing at x 88; the playable square from x 19</text>
+<line x1="449.3" x2="449.3" y1="14" y2="216" stroke="#5d5a55" stroke-width="0.8" stroke-dasharray="3 3"/>
+<polyline points="46.0,133.2 50.6,133.2 55.2,135.2 59.7,135.2 64.3,135.2 68.9,133.2 73.5,119.0 78.1,90.8 82.7,52.4 87.2,58.4 91.8,24.1 96.4,26.1 101.0,46.3 105.6,70.6 110.2,113.0 114.7,123.1 119.3,135.2 123.9,135.2 128.5,135.2 133.1,135.2 137.7,139.2 142.2,139.2 146.8,141.3 151.4,141.3 156.0,141.3 160.6,139.2 165.1,139.2 169.7,137.2 174.3,135.2 178.9,131.2 183.5,131.2 188.1,131.2 192.6,131.2 197.2,131.2 201.8,133.2 206.4,133.2 211.0,133.2 215.6,133.2 220.1,131.2 224.7,133.2 229.3,131.2 233.9,129.1 238.5,129.1 243.1,129.1 247.6,129.1 252.2,129.1 256.8,129.1 261.4,127.1 266.0,123.1 270.6,121.1 275.1,119.0 279.7,119.0 284.3,121.1 288.9,121.1 293.5,121.1 298.0,119.0 302.6,117.0 307.2,113.0 311.8,111.0 316.4,108.9 321.0,106.9 325.5,106.9 330.1,106.9 334.7,108.9 339.3,113.0 343.9,115.0 348.5,117.0 353.0,115.0 357.6,113.0 362.2,111.0 366.8,108.9 371.4,106.9 376.0,106.9 380.5,104.9 385.1,106.9 389.7,108.9 394.3,111.0 398.9,111.0 403.4,106.9 408.0,100.9 412.6,104.9 417.2,106.9 421.8,108.9 426.4,102.9 430.9,104.9 435.5,104.9 440.1,104.9 444.7,106.9 449.3,104.9 453.9,104.9 458.4,104.9 463.0,106.9 467.6,111.0 472.2,111.0 476.8,108.9 481.4,100.9 485.9,96.8 490.5,92.8 495.1,90.8 499.7,94.8 504.3,102.9 508.9,113.0 513.4,129.1 518.0,129.1 522.6,129.1 527.2,216.0 531.8,216.0 536.3,216.0 540.9,216.0 545.5,216.0 550.1,216.0 554.7,216.0 559.3,216.0 563.8,216.0 568.4,216.0 573.0,216.0 577.6,216.0 582.2,216.0 586.8,216.0 591.3,216.0 595.9,216.0 600.5,216.0 605.1,216.0 609.7,216.0 614.3,216.0 618.8,216.0 623.4,216.0 628.0,216.0" fill="none" stroke="var(--d3)" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="46.0" cy="133.2" r="6" fill="transparent"><title>D3 installed, y 19: x 0, 1,312</title></circle>
+<circle cx="82.7" cy="52.4" r="6" fill="transparent"><title>D3 installed, y 19: x 8, 2,592</title></circle>
+<circle cx="119.3" cy="135.2" r="6" fill="transparent"><title>D3 installed, y 19: x 16, 1,280</title></circle>
+<circle cx="156.0" cy="141.3" r="6" fill="transparent"><title>D3 installed, y 19: x 24, 1,184</title></circle>
+<circle cx="192.6" cy="131.2" r="6" fill="transparent"><title>D3 installed, y 19: x 32, 1,344</title></circle>
+<circle cx="229.3" cy="131.2" r="6" fill="transparent"><title>D3 installed, y 19: x 40, 1,344</title></circle>
+<circle cx="266.0" cy="123.1" r="6" fill="transparent"><title>D3 installed, y 19: x 48, 1,472</title></circle>
+<circle cx="302.6" cy="117.0" r="6" fill="transparent"><title>D3 installed, y 19: x 56, 1,568</title></circle>
+<circle cx="339.3" cy="113.0" r="6" fill="transparent"><title>D3 installed, y 19: x 64, 1,632</title></circle>
+<circle cx="376.0" cy="106.9" r="6" fill="transparent"><title>D3 installed, y 19: x 72, 1,728</title></circle>
+<circle cx="412.6" cy="104.9" r="6" fill="transparent"><title>D3 installed, y 19: x 80, 1,760</title></circle>
+<circle cx="449.3" cy="104.9" r="6" fill="transparent"><title>D3 installed, y 19: x 88, 1,760</title></circle>
+<circle cx="485.9" cy="96.8" r="6" fill="transparent"><title>D3 installed, y 19: x 96, 1,888</title></circle>
+<circle cx="522.6" cy="129.1" r="6" fill="transparent"><title>D3 installed, y 19: x 104, 1,376</title></circle>
+<circle cx="559.3" cy="216.0" r="6" fill="transparent"><title>D3 installed, y 19: x 112, 0</title></circle>
+<circle cx="595.9" cy="216.0" r="6" fill="transparent"><title>D3 installed, y 19: x 120, 0</title></circle>
+<polyline points="46.0,89.0 50.6,90.7 55.2,89.8 59.7,90.3 64.3,89.3 68.9,90.9 73.5,92.3 78.1,91.4 82.7,91.5 87.2,92.3 91.8,90.5 96.4,92.0 101.0,95.6 105.6,96.6 110.2,98.5 114.7,102.1 119.3,103.7 123.9,108.0 128.5,109.9 133.1,111.9 137.7,115.0 142.2,113.1 146.8,113.2 151.4,116.1 156.0,115.9 160.6,114.3 165.1,113.6 169.7,112.5 174.3,111.8 178.9,111.4 183.5,109.3 188.1,111.8 192.6,112.9 197.2,111.9 201.8,114.0 206.4,116.6 211.0,117.2 215.6,116.2 220.1,116.7 224.7,118.7 229.3,116.9 233.9,113.0 238.5,112.4 243.1,112.2 247.6,112.0 252.2,110.3 256.8,112.0 261.4,112.2 266.0,114.2 270.6,114.7 275.1,112.9 279.7,110.6 284.3,109.7 288.9,108.9 293.5,110.5 298.0,109.8 302.6,108.4 307.2,108.4 311.8,111.1 316.4,110.9 321.0,113.8 325.5,114.5 330.1,112.7 334.7,112.3 339.3,111.0 343.9,110.5 348.5,111.7 353.0,113.1 357.6,112.0 362.2,112.7 366.8,115.4 371.4,116.1 376.0,116.5 380.5,117.7 385.1,119.0 389.7,120.6 394.3,120.2 398.9,120.6 403.4,118.7 408.0,117.0 412.6,118.3 417.2,119.2 421.8,118.4 426.4,117.0 430.9,117.1 435.5,115.3 440.1,112.8 444.7,110.9 449.3,109.0 453.9,108.9 458.4,109.6 463.0,109.5 467.6,108.5 472.2,108.7 476.8,107.9 481.4,105.0 485.9,99.5 490.5,96.7 495.1,96.6 499.7,97.4 504.3,100.0 508.9,102.7 513.4,107.5 518.0,111.8 522.6,216.0 527.2,216.0 531.8,216.0 536.3,216.0 540.9,216.0 545.5,216.0 550.1,216.0 554.7,216.0 559.3,216.0 563.8,216.0 568.4,216.0 573.0,216.0 577.6,216.0 582.2,216.0 586.8,216.0 591.3,216.0 595.9,216.0 600.5,216.0 605.1,216.0 609.7,216.0 614.3,216.0 618.8,216.0 623.4,216.0 628.0,216.0" fill="none" stroke="var(--d4)" stroke-width="2" stroke-dasharray="6 3" stroke-linejoin="round"/>
+<circle cx="46.0" cy="89.0" r="6" fill="transparent"><title>D4 plan, y 109: x 0, 2,012</title></circle>
+<circle cx="82.7" cy="91.5" r="6" fill="transparent"><title>D4 plan, y 109: x 8, 1,972</title></circle>
+<circle cx="119.3" cy="103.7" r="6" fill="transparent"><title>D4 plan, y 109: x 16, 1,779</title></circle>
+<circle cx="156.0" cy="115.9" r="6" fill="transparent"><title>D4 plan, y 109: x 24, 1,586</title></circle>
+<circle cx="192.6" cy="112.9" r="6" fill="transparent"><title>D4 plan, y 109: x 32, 1,633</title></circle>
+<circle cx="229.3" cy="116.9" r="6" fill="transparent"><title>D4 plan, y 109: x 40, 1,570</title></circle>
+<circle cx="266.0" cy="114.2" r="6" fill="transparent"><title>D4 plan, y 109: x 48, 1,612</title></circle>
+<circle cx="302.6" cy="108.4" r="6" fill="transparent"><title>D4 plan, y 109: x 56, 1,705</title></circle>
+<circle cx="339.3" cy="111.0" r="6" fill="transparent"><title>D4 plan, y 109: x 64, 1,663</title></circle>
+<circle cx="376.0" cy="116.5" r="6" fill="transparent"><title>D4 plan, y 109: x 72, 1,576</title></circle>
+<circle cx="412.6" cy="118.3" r="6" fill="transparent"><title>D4 plan, y 109: x 80, 1,548</title></circle>
+<circle cx="449.3" cy="109.0" r="6" fill="transparent"><title>D4 plan, y 109: x 88, 1,695</title></circle>
+<circle cx="485.9" cy="99.5" r="6" fill="transparent"><title>D4 plan, y 109: x 96, 1,845</title></circle>
+<circle cx="522.6" cy="216.0" r="6" fill="transparent"><title>D4 plan, y 109: x 104, 0</title></circle>
+<circle cx="559.3" cy="216.0" r="6" fill="transparent"><title>D4 plan, y 109: x 112, 0</title></circle>
+<circle cx="595.9" cy="216.0" r="6" fill="transparent"><title>D4 plan, y 109: x 120, 0</title></circle>
+<text x="321.0" y="84.9" fill="#1d1d1f">D3 (installed)</text>
+<text x="321.0" y="139.8" fill="#1d1d1f">D4 (plan)</text>
+</svg>
+  <div class="key"><i style="border-top:2px solid var(--d3)"></i>D3 installed border row (y 19)
+  &nbsp; <i style="border-top:2px dashed var(--d4)"></i>D4 plan border row (y 109)</div>
+  <table style="margin-top:6px"><tr><th>Span</th><th>Form (both maps)</th><th class="n">D3</th><th class="n">D4</th>
+  <th class="n">mean diff</th></tr><tr><td>0-24</td><td>ridge 2,600-3,400</td><td class='n'>1,685</td><td class='n'>1,854</td><td class='n'>540</td></tr><tr><td>24-82</td><td>ridge 1,500-2,000</td><td class='n'>1,512</td><td class='n'>1,619</td><td class='n'>195</td></tr><tr><td>82-94</td><td>level 1750</td><td class='n'>1,736</td><td class='n'>1,645</td><td class='n'>103</td></tr><tr><td>94-104</td><td>ridge 1,900-2,400</td><td class='n'>1,744</td><td class='n'>1,797</td><td class='n'>114</td></tr><tr><td>104-128</td><td>level 0</td><td class='n'>57</td><td class='n'>0</td><td class='n'>57</td></tr></table>
+  <p class="small">D4's south rim repeats D3's north-edge spans word for word; the plan's border heights follow D3's
+  installed row (the drawing's land model). At x 88: D3 1,760, D4
+  1,695 (the build sets the road bed 1,750-1,760). Outside x 19 both rows are rim
+  (each map's picture of the other).</p></div>
+ </div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Encounter areas</h2>
+ <table>
+ <tr><th>Area</th><th>Monsters (A2's rows)</th><th class="n">At load</th></tr>
+ <tr><td>E1 Magic Mountain</td><td>Mountain Gargoyle 30, Sentinel 38, Overlord 45 (Dif 2), 13 markers [2,3]</td><td class="n">32.5</td></tr>
+ <tr><td>E2 Snow River uplands, rim corner</td><td>Vulture Roc 30, Roc 38, Griffin 48 (Dif 1), 12 markers [1,3]</td><td class="n">24</td></tr>
+ <tr><td>E3 Rimward crags</td><td>the same, 8 markers: the first fight from D3</td><td class="n">16</td></tr>
+ <tr><td>E5 the desert edge</td><td>the same, 14 markers: the first fight from D5</td><td class="n">28</td></tr>
+ <tr><td>E4 the coven (placed, gone with q-d22.done)</td><td>Witches' Circle 8 (Witch 32 x5, Coven Witch 40 x2, Coven Mother 50); the reeds 6</td><td class="n">14</td></tr>
+ <tr><td>E6 Octopod Lake, deep water only</td><td>Octopod 50 x3, Great Octopod 60 x2, round the skerries' lures</td><td class="n">5</td></tr>
+ </table></div>
+ <div class="card" style="margin-top:12px"><h2 style="margin-top:0">A3's hooks and A4's people on D4</h2>
+ <table>
+ <tr><th>Hook / person</th><th>Where</th></tr>
+ <tr><td><code>m25.blackfang_gate</code></td><td>the gatehouse at the crag's foot on the north shore (78, 53): never opens</td></tr>
+ <tr><td><code>obelisks.d4</code></td><td>Gull Knoll at Lakeside's west end (57, 81)</td></tr>
+ <tr><td><code>q-c24.cairn</code></td><td>five stones on the east shore (91, 84), the cache two paces north</td></tr>
+ <tr><td><code>q-d15.lair_door</code></td><td>DD-23's cave mouth in Magic Mountain's crags (46, 42)</td></tr>
+ <tr><td><code>q-d21.woodpile</code></td><td>the woodcutters' clearing on Magic Mountain (48, 51)</td></tr>
+ <tr><td><code>q-d22.guild_door / right / wrong</code></td><td>the guild's double door on the square (68, 89)</td></tr>
+ <tr><td>Naomi 5318, Slibo 5317, Ector 5320, Leafpoint 5319</td><td>the stocks; the wizards' camp; his cabin (34, 72); her grove (42, 61)</td></tr>
+ </table></div>
+</div>
+<div>
+ <div class="card concept"><h2 style="margin-top:0">MU-4 arrival view (from D3)</h2>
+  <img src="raw/d4_arrival_v1.png">
+  <p>Camera on Lakeside Brow (88, 102), 180 above the road, looking north: the road down past Well Fork to Lakeside on
+  the shore, the jetty, the Isle with its ruined tower, Castle Blackfang beyond, the falls at the east rim, Magic
+  Mountain far left. <b>Against the plan:</b> the painting brings the crag and the falls much nearer (the plan has
+  Blackfang about 28,000 away on the north shore and the falls behind the Rimward crags) and gives the castle
+  fairy-tale spires; L3 keeps the plan's distances and the towers kit's Darkside stone and cones.</p></div>
+ <div class="card concept"><h2>MU-4 signature view: Blackfang over the lake</h2>
+  <img src="raw/d4_signature_v1.png">
+  <p>Camera at the ferry jetty's end (72, 80), about 60 degrees, looking north-north-east: the Isle of Lost Souls ahead,
+  Castle Blackfang on its black crag in the storm of bats across the water, its sealed gatehouse at the crag's foot.
+  The view every party has before the ferry (M20) and again on every return; both of the map's promises (the Isle's
+  dungeon and the unreachable castle) in one look. <b>Against the plan:</b> the painting joins the Isle to the crag and
+  puts the gatehouse on the lake side under the castle; the plan keeps about 2,500 of deep water between them and the
+  gatehouse on the crag's west foot, facing the north-shore track (not the jetty). The pale sun stands behind the
+  castle; the glow over the north-east rim is only a warm horizon here.</p></div>
+ <div class="card"><h2 style="margin-top:0">Against MAPS (D4 sheet, §0 checklist)</h2>
+ <table>
+ <tr><th>Figure</th><th class="n">Plan</th><th>Target</th><th></th></tr>
+ <tr><td>Hostiles at load</td><td class="n">119.5</td><td>120</td><td class="ok">ok</td></tr>
+ <tr><td>Kill XP per member (MM7 tier odds)</td><td class="n">43,711</td><td>43.0k ±15 %</td><td class="ok">+2 %</td></tr>
+ <tr><td>Spawn markers (+ placed hostiles)</td><td class="n">47 (+19)</td><td>45-70</td><td class="ok">ok</td></tr>
+ <tr><td>Encounter areas (4,096²)</td><td class="n">4 + 2 camps + lake</td><td>3-8 of 6-30</td><td class="warn">Rimward 4.2</td></tr>
+ <tr><td>Quiet land (lake not counted)</td><td class="n">58 %</td><td>at least a third</td><td class="ok">ok</td></tr>
+ <tr><td>POIs (D-20 census, chained merge within 400)</td><td class="n">35</td><td>lake band 30-35</td><td class="warn">top</td></tr>
+ <tr><td>Outdoor chests, each with a reason</td><td class="n">10</td><td>4-10</td><td class="warn">top</td></tr>
+ <tr><td>Dungeon entrances</td><td class="n">4 + sealed gate</td><td>3-6</td><td class="ok">ok</td></tr>
+ <tr><td>Relief inside the box (land)</td><td class="n">1,097-4,187</td><td>at least 2,500</td><td class="ok">3,090</td></tr>
+ <tr><td>First fight from the D3 arrival</td><td class="n">2,560</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>First fight from the D5 arrival</td><td class="n">4,608</td><td>2,000-6,000</td><td class="ok">ok</td></tr>
+ <tr><td>Town arrivals: square / dock / Isle</td><td class="n">8,014 / 6,818 / 4,636</td><td>buffer 2,500</td><td class="ok">ok</td></tr>
+ <tr><td>Nearest fight to a Lakeside door</td><td class="n">2,721</td><td>2,500</td><td class="ok">ok</td></tr>
+ <tr><td>6,000 rule; wild land (D-11.5)</td><td class="n">4,830; 0.07</td><td>&le; 6,000; &le; 0.16</td><td class="ok">ok</td></tr>
+ <tr><td>Roads + lanes</td><td class="n">1.2 % + 1.5 %</td><td>1-4 %</td><td class="ok">ok</td></tr>
+ <tr><td>Houses drawn / d4.yml</td><td class="n">15 + mirror</td><td>4651-4666</td><td class="ok">ok</td></tr>
+ <tr><td>Obelisk; permanent device</td><td class="n">1; magic-resistance well</td><td>1; at least 1</td><td class="ok">ok</td></tr>
+ </table></div>
+ <div class="card q" style="margin-top:12px"><h2 style="margin-top:0">Open questions (DECIDE)</h2>
+ <ol>
+ <li><b>The storm of bats.</b> (a) 20-40 decorative bat models (S's <code>xeen_bat.glb</code>) on looping circling
+ paths round the towers (animated decorations, no AI); (b) a particle effect of small bat sprites over the keep;
+ (c) a few real, non-hostile bat actors. Proposed: (a).</li>
+ <li><b>The octopods in the water.</b> (a) swimmers that never leave deep water (MM9 AI movement <code>swim</code>,
+ A2's modifiers), a new octopod model; (b) stationary lurkers placed on the skerries; (c) no octopods on D4 (the lake
+ only looks dangerous). Proposed: (a), 5 placed.</li>
+ <li><b>The coven's witches after Q-D22.</b> (a) the two placed groups hidden at load once q-d22.done, peaceful to
+ members (q-d22.joined); (b) they stay, hostile, after the break. Proposed: (a).</li>
+ <li><b>DD-20's second way in.</b> Keep the source's sewer shaft by the jetty (open from day one, sealed with a line
+ until DD-20 exists) beside the guild's riddle door, or the guild door only. Proposed: keep both.</li>
+ <li><b>Leafpoint, a talking tree.</b> (a) a great old tree decoration whose click opens her dialogue (A3's speak
+ event); (b) an immobile actor with a tree model (S). Proposed: (a).</li>
+ <li><b>The ferry back from the Isle.</b> (a) a click at the Isle's jetty moves the party to lakeside_dock (A4 writes
+ the line); (b) one-way: Town Portal, the mirror or water walking. Proposed: (a).</li>
+ <li><b>D5's crossing at y 80</b> (a level valley at 1,500 out of the Forest of Peril), or nearer the source's
+ E1/D1 seam (y 60-64, under Magic Mountain). Proposed: y 80.</li>
+ <li><b>POIs 35 and chests 10</b> sit at the tops of their bands. Keep, or drop the third signpost's click and the
+ hunters' hide (33, 9). Proposed: keep.</li>
+ </ol></div>
+</div></div></main></body></html>

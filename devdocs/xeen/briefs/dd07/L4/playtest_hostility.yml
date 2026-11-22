@@ -1,0 +1,47 @@
+# Hostility check of the Eastern Tower (DD-07, L4; written by output/studio_cal/dd07/tools/gen_tests.py):
+# A2's floating mages (Floating Adept 11203, Floating Magus 11204, Mystic Mage 11200) and Floating Eyes
+# (11570) all hostile at load and after a save and load; side by side they do not fight each other and go for
+# the party. No window is open before the reload.
+id: xeen.dd07.l4.hostility
+title: 'the Eastern Tower (DD-07): floating mages and eyes hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd07.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - assert: {map: xeen_dd07.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11203, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11204, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11200, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11570, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11203, hostile: true, min: 15}}
+  - assert: {actor_count: {monster_id: 11204, hostile: true, min: 9}}
+  - assert: {actor_count: {monster_id: 11200, hostile: true, min: 4}}
+  - assert: {actor_count: {monster_id: 11570, hostile: true, min: 2}}
+  - reload: {}
+  - assert: {actor_count: {monster_id: 11203, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11204, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11200, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11570, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11203, hostile: true, min: 15}}
+  - note: 'A Floating Adept, a Floating Magus and a Floating Eye side by side in the door hall, nearer each other
+      than the party: they must not take each other on, and they go for the party.'
+  - console: {line: arena trace on}
+  - spawn_actor: {monster_id: 11203, x: -1600, y: -120, z: 16}
+  - spawn_actor: {monster_id: 11570, x: -1600, y: 120, z: 16}
+  - spawn_actor: {monster_id: 11204, x: -1500, y: 0, z: 16}
+  - advance_runtime: {seconds: 12}
+  - assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+  - assert: {ai_trace: {actor_index: last, event: target, target: party, min_count: 1}}
+  - assert: {actor_count: {monster_id: 11570, hurt: true, max: 0}}

@@ -1,0 +1,145 @@
+format: 0
+start:
+  room: room:gate_passage
+  at: [256, 0]
+  facing: e
+  notes: "entrance:x6_yard: in the gate passage 256 inside the leaves, facing east to the lodge's door (X6's door:xd20 arrives here)."
+arrivals:
+  - {entrance: entrance:x6_yard, room: room:gate_passage, at: [256, 0], facing: e, notes: "From X6's arena gate in the coach yard: 256 inside the leaves, facing east to the lodge's door."}
+arena:
+  monsters: [11010, 11699]
+  party:
+    room: room:floor
+    at: [4608, 0]
+    facing: n
+    notes: "The party's mark in the middle of the sand, facing the booth window."
+  ring:
+    room: room:floor
+    at: [4608, 0]
+    radius: 1300
+    count: 20
+    notes: "Twenty marks 1,300 from the middle (about 410 apart): room for the dragons a Knight's or Lord's fight can bring."
+  notes: "D-39 (1): every Xeen row less NoArena (A2's bolster_monsters, every boss, placed-only and peaceful tier, the octopods and Kraken, rows over 1,000 tall) and peasants."
+doors:
+  - id: door:lodge
+    opening: open:passage_lodge
+    kind: hinged
+    thickness: 24
+    surface: {texture: t5d1, size: [128, 256], fit: true}
+    back_surface: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The lodge's iron-bound door, one leaf 192 x 384 (7d05's t5d1)."
+sounds:
+  - {id: sound:floor_wind, room: room:floor, at: [4608, 0], sound: whistling wind, radius: 2600, inner_radius: 1200, volume: 0.35, notes: Desert wind over the crater.}
+lights:
+  - id: light:floor_sun
+    room: room:floor
+    at: [4608, 0]
+    height: 1400
+    radius: 4200
+    color: [255, 240, 214]
+    notes: X6's noon over the open floor.
+  - id: light:lodge_e
+    room: room:lodge
+    at: [2048, 0]
+    height: 360
+    radius: 1300
+    color: [230, 180, 120]
+  - id: light:lodge_w
+    room: room:lodge
+    at: [1024, 0]
+    height: 360
+    radius: 1300
+    color: [230, 180, 120]
+  - id: light:passage
+    room: room:gate_passage
+    at: [384, 0]
+    height: 300
+    radius: 800
+    color: [230, 180, 120]
+decorations:
+  - id: deco:bones_ne
+    room: room:floor
+    decoration: dec29
+    at: [5700, 1150]
+    notes: Bones in the sand by the ring wall (aaze0085:6).
+  - id: deco:bones_se
+    room: room:floor
+    decoration: dec29
+    at: [5900, -800]
+    notes: Bones in the sand by the ring wall.
+  - id: deco:bones_sw
+    room: room:floor
+    decoration: dec29
+    at: [3480, -1200]
+    notes: Bones in the sand by the ring wall.
+  - id: deco:lodge_torch_ne
+    room: room:lodge
+    decoration: torch01
+    wall: east
+    along: 0.21
+    height: 288
+    notes: A torch beside the booth window.
+  - id: deco:lodge_torch_nw
+    room: room:lodge
+    decoration: torch01
+    wall: west
+    along: 0.21
+    height: 288
+    notes: A torch by the door.
+  - id: deco:lodge_torch_se
+    room: room:lodge
+    decoration: torch01
+    wall: east
+    along: 0.79
+    height: 288
+    notes: A torch beside the booth window.
+  - id: deco:lodge_torch_sw
+    room: room:lodge
+    decoration: torch01
+    wall: west
+    along: 0.79
+    height: 288
+    notes: A torch by the door.
+  - id: deco:passage_torch_n
+    room: room:gate_passage
+    decoration: torch01
+    wall: north
+    along: 0.5
+    height: 224
+    notes: A torch on the passage's north wall.
+  - id: deco:passage_torch_s
+    room: room:gate_passage
+    decoration: torch01
+    wall: south
+    along: 0.5
+    height: 224
+    notes: A torch on the passage's south wall.
+exits:
+  - id: exit:victors_l
+    room: room:floor
+    at: [2850, -96]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_yard
+    notes: "The victors' gate, left leaf (south half of the floor's west side): out to the coach yard at any time (D-39); leaving before the win forfeits the challenge."
+  - id: exit:victors_r
+    room: room:floor
+    at: [2850, 96]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_yard
+    notes: "The victors' gate, right leaf."
+  - id: exit:yard_l
+    room: room:gate_passage
+    at: [0, -96]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_yard
+    notes: "The arena gate's left leaf seen from inside (south half; X6's chb1 portal)."
+  - id: exit:yard_r
+    room: room:gate_passage
+    at: [0, 96]
+    size: [192, 384]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:x6_yard
+    notes: The arena gate's right leaf seen from inside (north half).

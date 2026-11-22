@@ -1,0 +1,919 @@
+format: 0
+start:
+  room: room:hoist
+  at: [1376, 1472]
+  facing: s
+  notes: "A step inside the rope window, facing into the hoist room (south); D1's rope (entrance:d1_rope)."
+arrivals:
+  - {entrance: entrance:d1_rope, room: room:hoist, at: [1376, 1472], facing: s, notes: "D1's rope (q-d6.tower_rope): a step inside the window, facing into the room."}
+  - {entrance: entrance:d1_door, room: room:door_hall, at: [0, -1536], facing: n, notes: "D1's front door (once tower_opened): inside the door, facing north into the hall."}
+doors:
+  - id: door:chapel
+    opening: open:gallery_chapel
+    kind: hinged
+    leaves: 2
+    thickness: 16
+    speed: 80
+    surface: {texture: gtempdor1, size: [128, 256], fit: true}
+    back_surface: {texture: gtempdor1, size: [128, 256], fit: true}
+    notes: "The chapel's double doors: two leaves of d22's blue temple door, the right one mirrored, opening apart."
+  - id: door:dorm1
+    opening: open:dorm1_door_hall
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:dorm3
+    opening: open:fountains_dorm3
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:guardians
+    opening: open:door_hall_guardians
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:hoist
+    opening: open:hoist_gallery
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:humble
+    opening: open:dorm2_humble
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: Humble's cell door.
+  - id: door:kitchen
+    opening: open:kitchen_refectory
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:mirror
+    opening: open:mirror_door_hall
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:pious
+    opening: open:cloister_pious
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    notes: Pious's cell door.
+  - id: door:refectory
+    opening: open:refectory_fountains
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gcstdoor, size: [128, 256], fit: true}
+    back_surface: {texture: gcstdoor, size: [128, 256], fit: true}
+  - id: door:tap_panel
+    opening: open:tap_vestry
+    kind: slide_up
+    thickness: 16
+    speed: 80
+    surface: {texture: gston1wl, size: [128, 256]}
+    secret: true
+    back_surface: {texture: gtempw1, size: [128, 256]}
+    tile: true
+    notes: "The panel between the tapestry walk and the vestry: the button behind the middle tapestry slides it; from the vestry it opens by hand."
+  - id: door:vestry
+    opening: open:chapel_vestry
+    kind: hinged
+    hinge: left
+    thickness: 16
+    speed: 80
+    surface: {texture: gtempdor1, size: [128, 256], fit: true}
+    back_surface: {texture: gtempdor1, size: [128, 256], fit: true}
+sounds:
+  - {id: sound:chapel, room: room:chapel, at: [-1408, 1216], sound: campfire, radius: 1000, inner_radius: 250, volume: 0.25, notes: The braziers by the altar.}
+  - {id: sound:fountains2, room: room:fountains2, at: [-896, 1216], sound: water lapping loop, radius: 1100, inner_radius: 300, volume: 0.3, notes: The fire and lightning fountains.}
+  - {id: sound:fountains3, room: room:fountains3, at: [0, 0], sound: water lapping loop, radius: 1100, inner_radius: 300, volume: 0.3, notes: The cold and venom fountains.}
+  - {id: sound:hearth, room: room:kitchen2, at: [1280, -1472], sound: campfire, radius: 1100, inner_radius: 250, volume: 0.45, notes: The kitchen's hearth.}
+  - {id: sound:hoist_wind, room: room:hoist, at: [1376, 1664], sound: whistling wind, radius: 1300, inner_radius: 300, volume: 0.4, notes: Wind at the open rope window.}
+  - {id: sound:tower_bed, room: room:fountains3, at: [0, 0], height: 64, sound: xeen_amb_tower, radius: 4200, inner_radius: 2400, volume: 0.3, notes: "The tower of Mok's bed (AUDIO.md xeen_amb_tower, quiet): one source in the middle of the tower on L3, heard on every floor (no stacking); a bed, not panned (D-48).", pan: false}
+lights:
+  - id: light:alcoves
+    room: room:alcoves
+    at: [0, -64]
+    height: 400
+    radius: 1700
+    color: [255, 205, 160]
+  - id: light:bone_gallery
+    room: room:bone_gallery
+    at: [672, 800]
+    height: 360
+    radius: 1600
+    color: [255, 205, 160]
+  - id: light:cells
+    room: room:cells
+    at: [1024, -1216]
+    height: 360
+    radius: 1300
+    color: [255, 205, 160]
+  - id: light:chapel
+    room: room:chapel
+    at: [-704, 1216]
+    height: 640
+    radius: 2200
+    color: [255, 225, 180]
+  - id: light:cloister3
+    room: room:cloister3
+    at: [0, -960]
+    height: 360
+    radius: 2000
+    color: [255, 205, 160]
+  - id: light:door_hall
+    room: room:door_hall
+    at: [0, -1440]
+    height: 400
+    radius: 1400
+    color: [255, 190, 150]
+  - id: light:dorm1
+    room: room:dorm1
+    at: [-1376, -1216]
+    height: 360
+    radius: 1100
+    color: [255, 205, 160]
+  - id: light:dorm2
+    room: room:dorm2
+    at: [864, 992]
+    height: 360
+    radius: 1300
+    color: [255, 205, 160]
+  - id: light:dorm3
+    room: room:dorm3
+    at: [-192, 1184]
+    height: 360
+    radius: 1500
+    color: [255, 205, 160]
+  - id: light:fountains2
+    room: room:fountains2
+    at: [-896, 1024]
+    height: 400
+    radius: 1300
+    color: [255, 200, 170]
+  - id: light:fountains3
+    room: room:fountains3
+    at: [0, 0]
+    height: 400
+    radius: 1300
+    color: [200, 220, 255]
+  - id: light:guardians
+    room: room:guardians
+    at: [1376, -1440]
+    height: 360
+    radius: 900
+    color: [255, 205, 160]
+  - id: light:hoist
+    room: room:hoist
+    at: [1376, 1376]
+    height: 360
+    radius: 1100
+    color: [210, 220, 240]
+    notes: "Daylight from the rope window, failing."
+  - id: light:humble
+    room: room:humble
+    at: [1024, 1536]
+    height: 340
+    radius: 700
+    color: [255, 205, 160]
+  - id: light:kitchen2
+    room: room:kitchen2
+    at: [1280, -1152]
+    height: 360
+    radius: 1100
+    color: [255, 180, 120]
+  - id: light:landing2
+    room: room:landing2
+    at: [-1280, -1152]
+    height: 360
+    radius: 900
+    color: [255, 205, 160]
+  - id: light:landing3
+    room: room:landing3
+    at: [1376, 992]
+    height: 360
+    radius: 900
+    color: [255, 205, 160]
+  - id: light:mirror_hall
+    room: room:mirror_hall
+    at: [0, -896]
+    height: 360
+    radius: 800
+    color: [255, 205, 160]
+  - id: light:pious
+    room: room:pious
+    at: [0, -1504]
+    height: 340
+    radius: 700
+    color: [255, 205, 160]
+  - id: light:refectory
+    room: room:refectory
+    at: [0, -224]
+    height: 400
+    radius: 1700
+    color: [255, 205, 160]
+  - id: light:stair_hall1
+    room: room:stair_hall1
+    at: [1184, -704]
+    height: 360
+    radius: 1100
+    color: [255, 205, 160]
+  - id: light:tapestry_walk
+    room: room:tapestry_walk
+    at: [-224, -384]
+    height: 360
+    radius: 1100
+    color: [255, 205, 160]
+  - id: light:vestry
+    room: room:vestry
+    at: [-1088, 0]
+    height: 360
+    radius: 1000
+    color: [255, 205, 160]
+chests:
+  - id: chest:dorm3
+    room: room:dorm3
+    at: [544, 1600]
+    facing: s
+    treasure_level: 4
+    random_items: 2
+    gold: 1200
+    notes: The senior priest's locked chest beside his bed.
+  - id: chest:guardians
+    room: room:guardians
+    at: [1648, -1648]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 1500
+    notes: "The old temple's offering chest: the heretics never found the key (locked and trapped)."
+  - id: chest:kitchen
+    room: room:kitchen2
+    at: [1648, -1520]
+    facing: w
+    treasure_level: 4
+    random_items: 2
+    gold: 800
+    notes: The larder corner's chest.
+  - id: chest:vestry
+    room: room:vestry
+    at: [-1088, -560]
+    facing: n
+    treasure_level: 5
+    random_items: 3
+    gold: 2500
+    notes: "The Cult Leader's chest (the hoard, one level up)."
+monsters:
+  - id: monster:alcoves_1
+    room: room:alcoves
+    monster: 11220
+    at: [-512, -320]
+    facing: 270
+    group: 4
+  - id: monster:alcoves_2
+    room: room:alcoves
+    monster: 11220
+    at: [512, -320]
+    facing: 270
+    group: 4
+  - id: monster:bone_gallery_1
+    room: room:bone_gallery
+    monster: 11220
+    at: [672, 400]
+    facing: 270
+    group: 32
+  - id: monster:bone_gallery_2
+    room: room:bone_gallery
+    monster: 11220
+    at: [672, 800]
+    facing: 270
+    group: 32
+  - id: monster:bone_gallery_3
+    room: room:bone_gallery
+    monster: 11221
+    at: [560, 1100]
+    facing: 270
+    group: 32
+  - id: monster:cells_1
+    room: room:cells
+    monster: 11221
+    at: [1024, -1216]
+    facing: 270
+    group: 31
+  - id: monster:cells_2
+    room: room:cells
+    monster: 11221
+    at: [768, -1024]
+    facing: 270
+    group: 31
+  - id: monster:chapel_1
+    room: room:chapel
+    monster: 11222
+    at: [-1024, 960]
+    facing: 270
+    group: 30
+  - id: monster:chapel_2
+    room: room:chapel
+    monster: 11222
+    at: [-1024, 1472]
+    facing: 270
+    group: 30
+  - id: monster:chapel_3
+    room: room:chapel
+    monster: 11221
+    at: [-512, 960]
+    facing: 270
+    group: 30
+  - id: monster:chapel_4
+    room: room:chapel
+    monster: 11221
+    at: [-512, 1472]
+    facing: 270
+    group: 30
+  - id: monster:cloister3_1
+    room: room:cloister3
+    monster: 11221
+    at: [-1200, -960]
+    facing: 270
+    group: 20
+  - id: monster:cloister3_2
+    room: room:cloister3
+    monster: 11220
+    at: [-600, -960]
+    facing: 270
+    group: 20
+  - id: monster:cloister3_3
+    room: room:cloister3
+    monster: 11220
+    at: [600, -960]
+    facing: 270
+    group: 20
+  - id: monster:cloister3_4
+    room: room:cloister3
+    monster: 11221
+    at: [1200, -960]
+    facing: 270
+    group: 20
+  - id: monster:cult_leader
+    room: room:chapel
+    monster: 11223
+    at: [-1152, 1600]
+    facing: 0
+    group: 30
+    notes: "The Cult Leader (A2's boss row 11223, level 45, hp x3, his own skin by S) preaching at the altar; his death runs q-d6.cult_leader."
+  - id: monster:door_hall_1
+    room: room:door_hall
+    monster: 11222
+    at: [0, -1344]
+    facing: 270
+    group: 6
+  - id: monster:door_hall_2
+    room: room:door_hall
+    monster: 11582
+    at: [-512, -1440]
+    facing: 270
+    group: 6
+  - id: monster:door_hall_3
+    room: room:door_hall
+    monster: 11582
+    at: [512, -1440]
+    facing: 270
+    group: 6
+  - id: monster:door_hall_4
+    room: room:door_hall
+    monster: 11582
+    at: [-256, -1312]
+    facing: 270
+    group: 6
+  - id: monster:dorm1_1
+    room: room:dorm1
+    monster: 11220
+    at: [-1300, -1300]
+    facing: 270
+    group: 5
+  - id: monster:dorm1_2
+    room: room:dorm1
+    monster: 11220
+    at: [-1184, -320]
+    facing: 270
+    group: 5
+  - id: monster:dorm2_1
+    room: room:dorm2
+    monster: 11220
+    at: [448, 784]
+    facing: 270
+    group: 10
+  - id: monster:dorm2_2
+    room: room:dorm2
+    monster: 11220
+    at: [960, 928]
+    facing: 270
+    group: 10
+  - id: monster:dorm3_1
+    room: room:dorm3
+    monster: 11221
+    at: [-640, 960]
+    facing: 270
+    group: 22
+  - id: monster:dorm3_2
+    room: room:dorm3
+    monster: 11221
+    at: [-192, 1056]
+    facing: 270
+    group: 22
+  - id: monster:dorm3_3
+    room: room:dorm3
+    monster: 11220
+    at: [480, 960]
+    facing: 270
+    group: 22
+  - id: monster:fountains2_1
+    room: room:fountains2
+    monster: 11581
+    at: [-896, 1024]
+    facing: 270
+    group: 11
+  - id: monster:fountains2_2
+    room: room:fountains2
+    monster: 11581
+    at: [-256, 960]
+    facing: 270
+    group: 11
+  - id: monster:fountains3_1
+    room: room:fountains3
+    monster: 11221
+    at: [-320, 320]
+    facing: 270
+    group: 21
+  - id: monster:fountains3_2
+    room: room:fountains3
+    monster: 11221
+    at: [320, 320]
+    facing: 270
+    group: 21
+  - id: monster:fountains3_3
+    room: room:fountains3
+    monster: 11220
+    at: [0, -320]
+    facing: 270
+    group: 21
+  - id: monster:guardians_1
+    room: room:guardians
+    monster: 11581
+    at: [1216, -1600]
+    facing: 270
+    group: 7
+  - id: monster:guardians_2
+    room: room:guardians
+    monster: 11581
+    at: [1472, -1600]
+    facing: 270
+    group: 7
+  - id: monster:guardians_3
+    room: room:guardians
+    monster: 11581
+    at: [1568, -1296]
+    facing: 270
+    group: 7
+  - id: monster:humble
+    room: room:humble
+    monster: 11910
+    at: [1184, 1600]
+    facing: 270
+    group: 40
+    immobile: true
+    notes: "Humble the Cleric (A2's peaceful row 11910, faction xeen_character_humble): not counted; hidden for good by either answer (humble_spared or humble_slain)."
+  - id: monster:kitchen2_1
+    room: room:kitchen2
+    monster: 11220
+    at: [1100, -1150]
+    facing: 270
+    group: 13
+  - id: monster:kitchen2_2
+    room: room:kitchen2
+    monster: 11220
+    at: [1400, -1250]
+    facing: 270
+    group: 13
+  - id: monster:landing3_1
+    room: room:landing3
+    monster: 11220
+    at: [1200, 1056]
+    facing: 270
+    group: 23
+  - id: monster:landing3_2
+    room: room:landing3
+    monster: 11220
+    at: [1552, 1056]
+    facing: 270
+    group: 23
+  - id: monster:pious
+    room: room:pious
+    monster: 11911
+    at: [128, -1600]
+    facing: 90
+    group: 41
+    immobile: true
+    notes: "Pious the Cleric (A2's peaceful row 11911, faction xeen_character_pious): not counted; hidden for good by either answer (pious_spared or pious_slain)."
+  - id: monster:refectory_1
+    room: room:refectory
+    monster: 11220
+    at: [-300, -300]
+    facing: 270
+    group: 12
+  - id: monster:refectory_2
+    room: room:refectory
+    monster: 11220
+    at: [256, -512]
+    facing: 270
+    group: 12
+  - id: monster:refectory_3
+    room: room:refectory
+    monster: 11220
+    at: [-400, 300]
+    facing: 270
+    group: 12
+  - id: monster:refectory_4
+    room: room:refectory
+    monster: 11220
+    at: [96, 64]
+    facing: 270
+    group: 12
+  - id: monster:stair_hall1_1
+    room: room:stair_hall1
+    monster: 11220
+    at: [1184, -256]
+    facing: 270
+    group: 3
+  - id: monster:stair_hall1_2
+    room: room:stair_hall1
+    monster: 11220
+    at: [1500, -896]
+    facing: 270
+    group: 3
+items:
+  - id: item:golden_pegasus
+    room: room:alcoves
+    item: golden_pegasus
+    at: [0, 1152]
+    floor_height: 96
+    notes: The Golden Pegasus on the north alcove's ledge (Q-D20).
+  - id: item:west_tower_key
+    room: room:chapel
+    item: west_tower_key
+    at: [-1472, 1216]
+    floor_height: 2016
+    notes: The key to the Western Tower beside the candle on the altar (Q-D6).
+decorations:
+  - id: deco:alcove_sconce_e
+    room: room:alcoves
+    decoration: scon100
+    at: [960, 832]
+    wall: east
+    height: 432
+  - id: deco:alcove_sconce_n
+    room: room:alcoves
+    decoration: scon100
+    at: [0, 1216]
+    wall: north
+    height: 432
+  - id: deco:alcove_sconce_w
+    room: room:alcoves
+    decoration: scon100
+    at: [-960, 832]
+    wall: west
+    height: 432
+  - id: deco:altar_candle
+    room: room:chapel
+    decoration: cndlab0
+    at: [-1440, 1216]
+    floor_height: 2016
+    notes: The heretical candle on the altar.
+  - id: deco:cells_sconce_s
+    room: room:cells
+    decoration: scon100
+    at: [1056, -1728]
+    wall: south
+  - id: deco:cells_sconce_w
+    room: room:cells
+    decoration: scon100
+    at: [384, -960]
+    wall: west
+  - id: deco:chapel_brazier_n
+    room: room:chapel
+    decoration: dec02
+    at: [-1408, 1568]
+    notes: A standing candelabrum beside the altar.
+  - id: deco:chapel_brazier_s
+    room: room:chapel
+    decoration: dec02
+    at: [-1408, 864]
+    notes: A standing candelabrum beside the altar.
+  - id: deco:chapel_chandelier
+    room: room:chapel
+    decoration: chndlir0
+    at: [-704, 1216]
+    hangs: true
+  - id: deco:cloister_sconce_1
+    room: room:cloister3
+    decoration: scon100
+    at: [-960, -704]
+    wall: north
+  - id: deco:cloister_sconce_2
+    room: room:cloister3
+    decoration: scon100
+    at: [960, -704]
+    wall: north
+  - id: deco:cloister_sconce_3
+    room: room:cloister3
+    decoration: scon100
+    at: [-1088, -1216]
+    wall: south
+  - id: deco:cloister_sconce_4
+    room: room:cloister3
+    decoration: scon100
+    at: [1088, -1216]
+    wall: south
+  - id: deco:disc_e
+    room: room:alcoves
+    decoration: crysdisc
+    at: [896, 832]
+    floor_height: 96
+    notes: A disc on the east alcove's ledge.
+  - id: deco:disc_w
+    room: room:alcoves
+    decoration: crysdisc
+    at: [-896, 832]
+    floor_height: 96
+    notes: A disc on the west alcove's ledge.
+  - id: deco:door_hall_sconce_e
+    room: room:door_hall
+    decoration: scon100
+    at: [384, -1728]
+    wall: south
+  - id: deco:door_hall_sconce_w
+    room: room:door_hall
+    decoration: scon100
+    at: [-384, -1728]
+    wall: south
+  - id: deco:dorm1_sconce
+    room: room:dorm1
+    decoration: scon100
+    at: [-1728, -1280]
+    wall: 5
+  - id: deco:dorm2_sconce
+    room: room:dorm2
+    decoration: scon100
+    at: [1728, 896]
+    wall: east
+  - id: deco:dorm3_sconce_e
+    room: room:dorm3
+    decoration: scon100
+    at: [960, 1472]
+    wall: east
+  - id: deco:dorm3_sconce_w
+    room: room:dorm3
+    decoration: scon100
+    at: [-1344, 1088]
+    wall: west
+  - id: deco:fount2_sconce_1
+    room: room:fountains2
+    decoration: scon100
+    at: [-1408, 1344]
+    wall: north
+  - id: deco:fount2_sconce_2
+    room: room:fountains2
+    decoration: scon100
+    at: [-1024, 1344]
+    wall: north
+  - id: deco:fount2_sconce_3
+    room: room:fountains2
+    decoration: scon100
+    at: [-768, 1344]
+    wall: north
+  - id: deco:fount2_sconce_4
+    room: room:fountains2
+    decoration: scon100
+    at: [-384, 1344]
+    wall: north
+  - id: deco:fount3_sconce_1
+    room: room:fountains3
+    decoration: scon100
+    at: [-640, -224]
+    wall: west
+  - id: deco:fount3_sconce_2
+    room: room:fountains3
+    decoration: scon100
+    at: [-640, 224]
+    wall: west
+  - id: deco:fount3_sconce_3
+    room: room:fountains3
+    decoration: scon100
+    at: [640, -224]
+    wall: east
+  - id: deco:fount3_sconce_4
+    room: room:fountains3
+    decoration: scon100
+    at: [640, 224]
+    wall: east
+  - id: deco:gallery_bones_1
+    room: room:bone_gallery
+    decoration: 7dec18
+    at: [464, 1648]
+    notes: A heap of bones.
+  - id: deco:gallery_bones_2
+    room: room:bone_gallery
+    decoration: 7dec18
+    at: [880, 1648]
+    notes: A heap of bones.
+  - id: deco:gallery_bones_3
+    room: room:bone_gallery
+    decoration: dec29
+    at: [896, 160]
+    notes: A heap of bones.
+  - id: deco:gallery_sconce_e
+    room: room:bone_gallery
+    decoration: scon100
+    at: [960, 448]
+    wall: east
+  - id: deco:gallery_sconce_w
+    room: room:bone_gallery
+    decoration: scon100
+    at: [384, 640]
+    wall: west
+  - id: deco:guardians_sconce
+    room: room:guardians
+    decoration: scon100
+    at: [1376, -1152]
+    wall: north
+  - id: deco:hoist_barrel_1
+    room: room:hoist
+    decoration: bigbarel
+    at: [1088, 1088]
+  - id: deco:hoist_barrel_2
+    room: room:hoist
+    decoration: bigbarel
+    at: [1200, 1088]
+  - id: deco:hoist_sack_1
+    room: room:hoist
+    decoration: bag01
+    at: [1664, 1088]
+  - id: deco:hoist_sack_2
+    room: room:hoist
+    decoration: floursac
+    at: [1552, 1088]
+  - id: deco:hoist_sack_3
+    room: room:hoist
+    decoration: bag01
+    at: [1440, 1088]
+  - id: deco:hoist_sack_4
+    room: room:hoist
+    decoration: floursac
+    at: [1664, 1200]
+  - id: deco:hoist_sack_5
+    room: room:hoist
+    decoration: bag01
+    at: [1664, 1312]
+  - id: deco:hoist_sconce
+    room: room:hoist
+    decoration: scon100
+    at: [1024, 1136]
+    wall: west
+  - id: deco:humble_sconce
+    room: room:humble
+    decoration: scon100
+    at: [1344, 1536]
+    wall: east
+  - id: deco:kitchen_barrel_1
+    room: room:kitchen2
+    decoration: bigbarel
+    at: [1664, -1088]
+  - id: deco:kitchen_barrel_2
+    room: room:kitchen2
+    decoration: bigbarel
+    at: [1664, -1200]
+  - id: deco:kitchen_barrel_3
+    room: room:kitchen2
+    decoration: bigbarel
+    at: [896, -1216]
+  - id: deco:kitchen_barrel_4
+    room: room:kitchen2
+    decoration: bigbarel
+    at: [896, -1328]
+  - id: deco:kitchen_fire
+    room: room:kitchen2
+    decoration: ckfyr00
+    at: [1280, -1536]
+    floor_height: 672
+    notes: The fire on the hearth.
+  - id: deco:kitchen_lamp
+    room: room:kitchen2
+    decoration: chndlir0
+    at: [1280, -1344]
+    hangs: true
+    notes: A lamp over the hearth.
+  - id: deco:kitchen_sack_1
+    room: room:kitchen2
+    decoration: bag01
+    at: [896, -1536]
+  - id: deco:kitchen_sack_2
+    room: room:kitchen2
+    decoration: floursac
+    at: [1008, -1536]
+  - id: deco:landing2_sconce
+    room: room:landing2
+    decoration: scon100
+    at: [-1728, -1152]
+    wall: west
+  - id: deco:landing3_sconce
+    room: room:landing3
+    decoration: scon100
+    at: [1376, 1280]
+    wall: north
+  - id: deco:mirror_sconce
+    room: room:mirror_hall
+    decoration: scon100
+    at: [640, -896]
+    wall: east
+  - id: deco:pious_sconce
+    room: room:pious
+    decoration: scon100
+    at: [384, -1504]
+    wall: east
+  - id: deco:refectory_lamp_1
+    room: room:refectory
+    decoration: chndlir0
+    at: [512, 192]
+    hangs: true
+  - id: deco:refectory_lamp_2
+    room: room:refectory
+    decoration: chndlir0
+    at: [512, 448]
+    hangs: true
+  - id: deco:refectory_sconce
+    room: room:refectory
+    decoration: scon100
+    at: [-768, -256]
+    wall: west
+  - id: deco:stair_hall_sconce_1
+    room: room:stair_hall1
+    decoration: scon100
+    at: [1344, 192]
+    wall: 3
+  - id: deco:stair_hall_sconce_2
+    room: room:stair_hall1
+    decoration: scon100
+    at: [1376, -1088]
+    wall: 0
+  - id: deco:tap_sconce
+    room: room:tapestry_walk
+    decoration: scon100
+    at: [-224, -640]
+    wall: south
+  - id: deco:vestry_sconce
+    room: room:vestry
+    decoration: scon100
+    at: [-832, 256]
+    wall: east
+exits:
+  - id: exit:d1_door
+    room: room:door_hall
+    at: [0, -1728]
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d1_door
+    notes: "The tower's front door (one leaf, D1's 110-wide hkm3dr outside): warded until q-d6.front_door."
+  - id: exit:d1_rope
+    room: room:hoist
+    at: [1376, 1728]
+    size: [160, 320]
+    surface: {texture: 7solid01, size: [128, 256], fit: true}
+    to: exit:d1_rope
+    notes: "The open window where the heretics' rope ends: out and down the rope to D1."
+notes: "DD-05's contents, written by output/studio_cal/dd05/tools/gen.py: 12 doors (the chapel's a pair, one secret panel), 4 chests, 45 placed monsters and Humble and Pious, no spawn points."

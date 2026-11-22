@@ -1,0 +1,4 @@
+format: 0
+open_sky: {mode: open, preset: xeen_plane_water, view: outdoor, view_distance_scale: 1}
+daylight: {ambient_rgb: [96, 128, 132], sun_rgb: [210, 240, 236], night_scale_rgb: [255, 255, 255], sun_gain: 2}
+notes: "Sky preset `xeen_plane_water` by name (lanes README: a preset, never a texture alias): A6's Xeen preset (D-58 P4 Q3; assets_dev/worlds/xeen/rendering/sky/sky.yml by make_sky.py): a sea-green zenith over an aquamarine horizon, no sun disc, a bright diffuse light, slow cloud, below_horizon sky so the fog horizon reads as more sea; plane_air if it fails to resolve. Night scale 255: a plane keeps its light at every hour. D-58 Q3. L4: as L1 (D-58 Q3)."

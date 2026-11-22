@@ -1,0 +1,219 @@
+chapters:
+  - id: 6
+    title: "Act VI: One World"
+    intro: "With Sheltem gone (Castle Alamar) and Lord Xeen dead (Castle Xeen), the Dragon Pharaoh gives the last checklist: switch on the four Reflectors at Cloudside's corners, wake the four Elemental Sleepers on the planes below the Skyroads, free Prince Roland under Castle Alamar, open Darkstone Tower's roof with the Chime of Opening, and bring the Cube of Power and Xeen's Scepter to his shrine on the Clouds of the Ancients. The Reflectors must hum before any Sleeper wakes; Roland comes before the Southern Sphinx and Darkstone Tower; everything else can be done in any order. Expect level 55-65 monsters everywhere."
+    sections:
+      - title: "The Great Pyramid: the Dragon Pharaoh's checklist"
+        intro: "The Pharaoh waits in his throne hall on the Great Pyramid's top floor (Desert of Doom), where you met him in Act V."
+        giver: {map: xeen_dd15, npc: "The Dragon Pharaoh"}
+        quests:
+          - quest: m36
+            requires: "Castle Alamar done (the Cube of Power, Sheltem defeated) and Castle Xeen done (Xeen's Scepter, Lord Xeen dead). The topic does not appear until both are done."
+            steps:
+              - "Go to the Great Pyramid on the Desert of Doom. From Cloudside, take the travel pyramid on the knoll east of Vertigo to Castleview Vale, walk up the north road off the map's edge into the Forbidden Zone, then east over the border pass off its edge into the Desert of Doom. The pyramid's green doors face south, just south of the desert's centre."
+              - "Inside, cross the entrance hall and the atrium south to the stair door and on to the gilded cage beside the grand stair. Since your first audience the Pharaoh's lift runs both ways: click it to ride up to the antechamber (use 'Call the lift' if the cage is at the other stop), then walk north into the throne hall."
+              - "Talk to the Dragon Pharaoh: 'The destiny of Xeen'. He gives the checklist (4,000 XP each) and the journal and autonote list it: the four machines in the corners of the other side, the four sleepers, Prince Roland at the bottom of Sheltem's dungeon, the cloud above Darkstone Tower, then the Cube and the Scepter together at his shrine."
+              - "Ask 'The sleepers' as well. He gives the words for the Skyroads' corners, which the autonote keeps: Fire at the north-west corner, Air at the north-east, Earth at the south-east, Water at the south-west. The Sleepers wake only for the Chosen Ones and only when all four Reflectors hum."
+              - "Leave by the lift and the green doors. Asking 'The destiny of Xeen' again only repeats the list."
+            tips:
+              - "Keep the Cube of Power and Xeen's Scepter in your packs for the whole act: the shrine on the Clouds of the Ancients takes both at the end."
+              - "The Skyroads also have a door into the Great Pyramid (the Pyramid's Door on the Skyroads), handy once you are up there."
+            reward: "4,000 XP."
+            points:
+              - {map: xeen_dd15, name: "Lift: up"}
+            maps:
+              - map: xeen_dd15
+                show: [exit, door]
+                focus: "The Dragon Pharaoh"
+                caption: "The throne hall on the top floor; the gilded cage lift beside the grand stair takes you up and down."
+
+      - title: "Cloudside's corners: the four Reflectors"
+        intro: "Four Ancient machines stand on the world's rim at the corners of Cloudside. Each is a great bronze disc in a ring of stone; click it and answer the prompt 'Reflector. Activate?' with 'Yes'."
+        giver: {map: xeen_dd15, npc: "The Dragon Pharaoh"}
+        quests:
+          - quest: m37
+            requires: "The Pharaoh's checklist (The Destiny of Xeen). Before it a Reflector is cold and silent, its panel showing a closed dragon's eye."
+            steps:
+              - "Water Reflector, Vertigo Meadows: on the south-east rim corner, south-east of Toad Meadow beyond the drowned peddler's chest. Activate it: the creek beside it runs backwards for a moment (8,000 XP each)."
+              - "Fire Reflector, Mount Firestone: walk north off Vertigo Meadows' edge. The Reflector is on the spit where the north and east rims meet, in the far north-east. Dragons of levels 60-75 (water, acid and fire) nest around it: clear them before you click (8,000 XP)."
+              - "Air Reflector, Desert of the Sphinx: walk west off Mount Firestone into Burlock Savannah and west off its edge into the desert. The Reflector is on the rock spit where the west and north rims meet, in the far north-west, among werewolf packs (8,000 XP)."
+              - "Earth Reflector, Winterkill Tundra: walk south off the desert's edge into the tundra. The Reflector stands on its spur at the glacier's lip in the south-west, in the Land of the Giants, near the Waters of Great Magic; cyclopes roam the area (8,000 XP)."
+              - "Each Reflector pays once; clicking it again only hums. Nothing reports back: the Sleepers read all four."
+            tips:
+              - "The order does not matter. One good order is Vertigo Meadows, Mount Firestone, Desert of the Sphinx, Winterkill Tundra, which ends close to Darkstone Tower and Halon's Workshop for later."
+              - "The Waters of Great Magic beside the Earth Reflector's ledge restore 200 spell points."
+            reward: "8,000 XP per Reflector (32,000 XP in all)."
+            points:
+              - {map: xeen_x1, name: "Water Reflector"}
+              - {map: xeen_x7, name: "Fire Reflector"}
+              - {map: xeen_x6, name: "Air Reflector"}
+              - {map: xeen_x5, name: "The Earth Reflector"}
+            maps:
+              - map: xeen_x7
+                show: [exit, sign]
+                focus: "Fire Reflector"
+                caption: "Mount Firestone: the Fire Reflector on the north-east spit, in dragon country."
+              - map: xeen_x5
+                show: [exit, sign]
+                focus: "The Earth Reflector"
+                caption: "Winterkill Tundra: the Earth Reflector on the glacier's lip in the south-west."
+
+      - title: "The Skyroads: the four Elemental Sleepers"
+        intro: "The Skyroads (above the Darkside) are a square ring of roads with a corner at each compass point between; a plane hangs below each corner. Do the planes in a loop: north-west, north-east, south-east, south-west."
+        giver: {map: xeen_dd15, npc: "The Dragon Pharaoh"}
+        quests:
+          - quest: m38
+            requires: "The Chosen Ones (Act V) and all four Reflectors humming. Without them each Sleeper only answers 'The Guardian has not informed me of your status as Chosen Ones' or 'Awaiting Grunfeld field activation.'"
+            steps:
+              - "Climb to the Skyroads. In Castleview Vale, the Dark Grove's great tree stands west of the travel pyramid; its rope out of the sky (the entrance window, 'Do you wish to enter The Skyroads?', OK) now takes the Chosen Ones all the way up, free, every day. You arrive at the Rope's Head on the Skyroads' west road. Lucio's celestial boats from Castleview, Sandcaster and Lakeside also land in Olympus, in the middle of the Skyroads, twice a week."
+              - "Fire (north-west): walk north up the west road past the Smoke Post and the West Lookout to the Fire Corner. Step onto its tip: the sky asks 'What do you seek?'. Type 'Fire' and you step off onto the Plane of Fire's Cinder Shelf, standing and unhurt. Any other word: 'The sky says nothing.'"
+              - "Plane of Fire: walk west to the statue of Fire and read its plaque (Step One), then take the causeways north over the Ember Islet to the Crucible. Step on the test's plate and answer 'Yes' to 'Accept the test of Fire?': the Sleeper's Guardian of Fire (level 75) and two Fire Blowers rise from the pit. Kill all three and the gate to the Sleeper's chamber grinds open (it stays open). Go round the pit, over the obsidian bridge and west through the Sleeper's Gate; click the Fire Sleeper on his couch in the north-west hall (10,500 XP each, award 'Awakened the Fire Sleeper'). The return dais lights up beside him: step onto it and choose OK in the entrance window to go back to the Fire Corner's Rest Stop."
+              - "Air (north-east): walk east along the north road past the Griffin Watch and the North Crossing to the north toll, then past the East Rest Stop to the Air Corner. Answer 'Air' at its tip. On the Plane of Air, cross the south bridge to the Wind Statue's island (plaque, Step Two), then the east bridge to the Eye of the Winds and its test ('Accept the test of Air?', 'Yes'): the Sleeper's Guardian of Air and two Whirlwinds. When they are dead the wall of wind north of the test floor stills; go through it and up the Stair of Wind to the Sleeper's Aerie in the north-east and click the Air Sleeper (10,500 XP each). Take the dais back."
+              - "Earth (south-east): walk south along the east road past the east toll, the Mud Wharf and the Eastern Tower's junction to the Earth Corner; answer 'Earth'. On the Plane of Earth, go down into the bowl to the statue of Earth (plaque, Step Three), then south through the Pillar Field to the Anvil and its test ('Accept the test of Earth?', 'Yes'): the Sleeper's Guardian of Earth and two Earth Blasters. Their deaths sink the slab of the Root Stair; go down it south to the Earth Sleeper's couch (10,500 XP each) and take the dais back."
+              - "Water (south-west): walk west along the south road past the South Rest Stop, the Steam Post, the south toll and the Skywaymen's camp to the Water Corner; answer 'Water'. On the Plane of Water, follow the colonnades south-west to the statue of Water (plaque, Step Four), then west to the Whirlpool Court and its test ('Accept the test of Water?', 'Yes'): the Sleeper's Guardian of Water and two Tidal Terrors. When they die the Veil stills; go south through it to the Water Sleeper's shelf in the south-west (10,500 XP each) and take the dais back to the Water Corner's Rest Stop."
+              - "With all four awake the journal's sleepers are done. Each Sleeper repeats his line when clicked again and pays nothing more."
+            tips:
+              - "Three tolls stand on this loop (north, east and south roads) and a fourth on the west road south of the Rope's Head. Two Sky Bandits ask 10,000 gold; pay ('OK.', 'Take our money', 'Here you are', 'Here you go') or refuse and fight only that pair (level 55). A paid toll stays open until the map refills."
+              - "Each plane's way back is always open before the test too: the heat column, updraft, dust shaft or waterspout near where you landed (the entrance window, OK)."
+              - "The planes' vents, storm cells, rockfalls and spray faces hit the whole party for 50 elemental damage now and then; none lies on the path. Each plane also has two chests and a once-a-day font or pool (+20 resistance until you rest)."
+              - "The four plaques together spell the Ancients' plan: Step One, the machines; Step Two, the Sleepers; Step Three, the Cube and the Scepter; Step Four, the shrine on the cloud above Darkstone Tower."
+              - "After the Chosen Ones, the trapdoors on the roofs of Ellinger's Tower, Castle Kalindra and the Darkside's other towers also open up onto the Skyroads (one way up)."
+            reward: "10,500 XP per Sleeper (42,000 XP in all) and the awards 'Awakened the Fire, Air, Earth and Water Sleeper'."
+            points:
+              - {map: xeen_d7, name: "Plane of Fire of Xeen"}
+              - {map: xeen_d7, name: "Plane of Air of Xeen"}
+              - {map: xeen_d7, name: "Plane of Earth of Xeen"}
+              - {map: xeen_d7, name: "Plane of Water of Xeen"}
+              - {map: xeen_d1, name: "The Skyroads"}
+              - {map: xeen_p1, name: "The Fire Sleeper"}
+              - {map: xeen_p2, name: "The Air Sleeper"}
+              - {map: xeen_p2, name: "Test"}
+              - {map: xeen_p3, name: "The Earth Sleeper"}
+              - {map: xeen_p3, name: "Test"}
+              - {map: xeen_p4, name: "The Water Sleeper"}
+              - {map: xeen_p4, name: "Test"}
+            maps:
+              - map: xeen_d7
+                show: [exit, sign]
+                focus: "Plane of Fire of Xeen"
+                caption: "The Skyroads: the four corners (Fire north-west, Air north-east, Earth south-east, Water south-west), the Rope's Head on the west road and the tolls' Sky Bandits."
+              - map: xeen_p1
+                show: [exit]
+                focus: "Test"
+                caption: "The Plane of Fire: the Cinder Shelf in the south-east, the test at the Crucible and the Sleeper's hall in the north-west. The other planes follow the same pattern."
+
+      - title: "Under Castle Alamar: Prince Roland"
+        intro: "The real Prince Roland lies in a stasis coffin at the bottom of the Alamar Depths, under the ruin of Castle Alamar on the Forbidden Zone's mesa."
+        quests:
+          - quest: m39
+            requires: "Castle Alamar done (you carry the Cube of Power)."
+            steps:
+              - "Go to the ruin of Castle Alamar in the Forbidden Zone. From the Skyroads, take the 'Bucket o' Darkness' at the Rope's Head ('Descend to the Darkness Below?', 'Yes') down to Castleview Vale, then walk up the north road off its edge. The stair under the ruin is just north of the broken gatehouse on the mesa: with the Cube in your packs Sheltem's mark goes out and the entrance window opens ('A stair down under the ruin, where Sheltem's mark has gone out.'); choose OK."
+              - "In the first hall a statue boasts as you approach; it is only flavour. Walk west along the south gallery, north up the west side and east along the north side (the 'C'), then south to the lever hall."
+              - "Pull both levers in the lever hall, west and east, in either order: the status line says a distant wall grinds down into the floor ('The lever won't budge.' afterwards). The plaque in the Hall of Nine beside it ('Nine is the time.') is flavour."
+              - "Take the passage that opened west of the lever hall south, then east through the workshop into the key vault. Through the door north of the vault, in the warden's room, open the key chest: a key of black stone on a velvet cushion, Darkstone Tower's key (the chest also holds gold). Do not leave without it."
+              - "The skull door north of the warden's room asks for I.D.: with the Cube it says 'Access granted.' and stays open. Behind it, ride the lift down, open the Stasis vault and click Roland's coffin in the east."
+              - "Prince Roland thanks you, tells you the key to the cloud above Darkstone Tower lies in the Southern Sphinx, gives you the Amulet of the Southern Sphinx and goes home (40,000 XP each, award 'Rescued Prince Roland')."
+              - "Leave by the way you came: the lift up, the lever hall, round the C to the stair's top in the east ('Exit Alamar Depths')."
+              - "Optional: in Castle Burlock's throne room, Roland now stands beside his brother; King Burlock's 'My brother' thanks you."
+            tips:
+              - "Annihilators and Autobots (levels 62-75) patrol the depths. The bolted grate between the workshop and the south gallery can be opened from the workshop side as a shortcut."
+              - "In the key vault, a box holds the Key to the Dragon Tower, for the optional Dragon Tower and the Dungeon of Death. The depths also have three more chests and a dark Ancient pyramid in a nook in the west."
+              - "A ladder in the depths' north-west shaft leads up to the Skyroads (Castle Alamar's roof hatch under the Megadragon)."
+              - "After the Chosen Ones, Shangri-La's travel pyramid and the one near Castle Alamar's gate link Cloudside and the Forbidden Zone."
+            reward: "40,000 XP, the Amulet of the Southern Sphinx, the award 'Rescued Prince Roland'; the warden's chest gives Darkstone Tower's key."
+            points:
+              - {map: xeen_fd01, name: "The key chest in the warden's room"}
+              - {map: xeen_fd01, name: "Skull door"}
+              - {map: xeen_xd07, name: "King Burlock and Prince Roland"}
+            maps:
+              - map: xeen_fd01
+                show: [exit, door, lever]
+                focus: "Coffin"
+                caption: "The stair in from the ruin is at the east end; the lever hall is in the middle, the warden's chest and the skull door east of it, Roland's coffin below the lift."
+              - map: xeen_d6
+                show: [exit, transport]
+                focus: "Alamar Depths"
+                caption: "The stair down lies just north of Castle Alamar's gate on the mesa."
+
+      - title: "The way to the cloud: the Southern Sphinx and Darkstone Tower"
+        intro: "The Chime of Opening breaks the seal on Darkstone Tower's roof; Picard the Aged keeps it in the Southern Sphinx and trades it only for a widget."
+        quests:
+          - quest: m40
+            requires: "Prince Roland freed (the Amulet of the Southern Sphinx). Picard gives the Chime only for Halon's Widget (the side quest Lava for the Clock)."
+            steps:
+              - "Get the Widget first. Halon the Efficient lives in Halon's Workshop in the east of Winterkill Tundra, beside his frozen millpond. Ask 'Water clock': he wants magical lava to keep his clock running. The lava is the Ever-Hot Lava Rock, lying on the ground on the cooled-flow island in the lava lake under Mount Firestone's north rim, reached by its causeway (Lava Golems guard it); pick it up like any item. Bring it to Halon ('Water clock' again) and he pays with a widget (12,000 XP)."
+              - "The Southern Sphinx stands in the south-west of the Desert of the Sphinx. With Roland's amulet in your packs, click it: its jaw opens, and the entrance window shows the stair down ('The Sphinx's stone jaw stands open on a stair.'); choose OK."
+              - "Inside, the hall runs west from the entrance. Two side runs lead to the Preservation Rooms: the Swinging Death (north) and the Chopping Death (south). Their blades hit the party for small damage as you pass; a carved mask at each offers to stop them for good for 2,000 gold, and a 'clue' for 500 more that is only a joke ('There's one born every minute.')."
+              - "The six rune stones in the two Preservation Rooms teach the letters P, I, C (north room) and A, R, D (south room); after the sixth the game sums them up: P, I, C, A, R, D. The plaque at the foot of the stair of the name says 'Study the lessons to learn my name.'"
+              - "Take the stair of the name, north of the entrance. On the landing a voice asks 'What is my name?': answer 'Picard' ('Correct, come on up!'). A wrong answer gets 'Wrong.' and you can try again. The door at the top opens on the Home of the Aged."
+              - "Talk to Picard the Aged: 'Chime of Opening'. With the Widget in your packs he trades it for the Chime of Opening (20,000 XP each). Without it he sends you to Halon."
+              - "Leave by the hall and the steps at the east end ('Exit the Southern Sphinx')."
+            tips:
+              - "Picard's throne, the Throne of Legends, gives nothing; leave it."
+              - "The two great sarcophagi open only for a character with Might 60; the two flasks on the hall of embalming's table are Might Boosts, once per game."
+              - "The treasure heap in the stalls off the crypt in the far west is an illusion and wakes an angry voice. 'Don't feed the dragons': Dragon Mummies lie in the crypt."
+            reward: "20,000 XP from Picard and the Chime of Opening (12,000 XP from Halon for the lava)."
+            points:
+              - {map: xeen_x5, name: "Halon the Efficient"}
+              - {map: xeen_x7, name: "Ever-Hot Lava Rock"}
+              - {map: xeen_fd02, name: "Name landing"}
+            maps:
+              - map: xeen_fd02
+                show: [exit, door, sign]
+                focus: "Picard the Aged"
+                caption: "The entrance is at the east end; the Preservation Rooms lie west, the stair of the name north, Picard's Home of the Aged at its top."
+              - map: xeen_x6
+                show: [exit]
+                focus: "Southern Sphinx"
+                caption: "The Southern Sphinx in the south-west of the desert."
+
+          - quest: m41
+            requires: "Darkstone Tower's key (the warden's chest in the Alamar Depths) and the Chime of Opening."
+            steps:
+              - "Darkstone Tower stands in the middle of Winterkill Tundra, a black tower polished like a mirror. With the black key in your packs, click its door: the status line says 'The black key turns without a sound. So does the door.' and the entrance window opens; choose OK."
+              - "Each storey has a gong in the rotunda round the well in the middle of the tower, inside a ring gallery. Ringing it booms 'No Sound No Ground!' (on the status line), wakes that storey's onyx guards and raises the slab at the head of the stair to the next storey: kill the guards, then climb the stair onto the slab. Ground floor: from the door hall go through the inner gate (or the door to its east) into the ring gallery and on into the rotunda; ring the gong, then take the south passage to the south stair. Second storey: ring the gong and take the north passage to the north stair. Third storey: two gongs, west and east; ring both (the first raises the stair's top half way, the second the rest) and take the south stair to the top floor."
+              - "On the top floor the Onyx Golem (level 85, about 2,900 HP) stands in the hall of the skull in the middle, between the well and the seal; the hall's double doors open from the west gallery, and it is open to the east gallery. Kill it and the force field over the vault, north-west of the hall, drops; its chest holds 6,000 gold and treasure. The skull here is silent."
+              - "Shimmering air at the foot of the roof stair, on the north side, is the invisible seal ('An invisible seal prevents passage.'). Click it with the Chime of Opening in your packs: the seal breaks and the Chime is used up (27,000 XP each)."
+              - "Go up the roof stair to the hatch: the entrance window opens; choose OK to climb to the Clouds of the Ancients."
+            tips:
+              - "The plaques on the lower storeys and the four heads on the top floor show one row of letters each. When you have read all four on a storey, the game reads the columns down for you; they are farewells from the makers, not locks. The heads' line, 'TYPE \"COMPUTER\" ON LEVEL 4 OF THE DUNGEON OF DEATH', is kept as an autonote for the optional Dungeon of Death."
+              - "Onyx Sentries, Onyx Wardens and Sky Golems (levels 62-75) come in packs with each gong. Each storey has a chest."
+            reward: "27,000 XP; the way to the Clouds of the Ancients."
+            points:
+              - {map: xeen_fd03, name: "Gong"}
+              - {map: xeen_fd03, name: "Clouds of the Ancients"}
+            maps:
+              - map: xeen_fd03
+                show: [exit, door]
+                focus: "Shimmering air"
+                caption: "All four storeys share one plan: the door in the north, the gong rotunda round the well in the middle, the stairs alternately south (ground floor and third storey) and north (second storey), the seal and the roof stair on the north side."
+              - map: xeen_x5
+                show: [exit]
+                focus: "Darkstone Tower"
+                caption: "Darkstone Tower in the middle of the tundra."
+
+      - title: "The Clouds of the Ancients"
+        intro: "The roof hatch sets you down by the stair house on a ring of cloud road. Town Portal and Lloyd's Beacon work here; Fly does not, and a fall lands you on Winterkill Tundra."
+        quests:
+          - quest: m42
+            requires: "Darkstone Tower's seal broken, all four Sleepers awake, the Cube of Power and Xeen's Scepter in your packs."
+            steps:
+              - "Read the note on the post by the stair house's door: 'It's a long road ahead so rest where you can. But don't forget to recast your spells. Signed, The Dragon Pharaoh'."
+              - "The road has no short cut to the shrine. Follow the ring the long way: north up the east side past the east Rest Stop, west along the north side past the observatory ('The observatory is closed.'), south down the west side past the west Rest Stop and east along the south side to the south Rest Stop. The boards along the way name New World Computing's games; they are only signs."
+              - "From the south Rest Stop take the causeway north to the shrine's cloud in the middle and click the Pharaoh's shrine. It takes the Cube and the Scepter (40,000 XP each, award 'Made Xeen One World') and the unification plays: the Pharaoh's ceremony, the Sleepers answering and the wedding of Roland and Kalindra."
+              - "Close the ceremony's text and the completion certificate follows: the story is finished."
+              - "Afterwards, Prince Roland ('The wedding') and Queen Kalindra ('One world') stand under the pavilion north of the shrine. The cloud-stone disc beside the pavilion takes you back to the stair house."
+            tips:
+              - "Without the Cube, the Scepter or all four Sleepers, the shrine only lists what it needs; nothing is taken."
+              - "A chest beside the pavilion holds 2,000 gold and treasure."
+            reward: "40,000 XP, the award 'Made Xeen One World' and the completion certificate."
+            points:
+              - {map: xeen_p5, name: "A message"}
+              - {map: xeen_p5, name: "Prince Roland"}
+              - {map: xeen_p5, name: "Queen Kalindra"}
+            maps:
+              - map: xeen_p5
+                show: [exit, sign]
+                focus: "The Pharaoh's shrine"
+                caption: "The stair house in the south-east, the ring road round the edge, the causeway north from the south Rest Stop to the shrine and the pavilion in the middle."

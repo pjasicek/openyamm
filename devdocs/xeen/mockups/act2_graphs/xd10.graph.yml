@@ -1,0 +1,140 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-10
+key: xd10
+name: Cave of Illusion
+stands_on: X5 Winterkill Tundra
+class: M
+band: "M: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors"
+party: [17, 19]
+monsters:
+  levels: [18, 28]
+  boss: null
+  count: 50
+  groups: [2, 3]
+  families:
+    - "Magic constructs A-B: Flying Feet 18, Guardian 24 (the source's Guardians)"
+    - "Elemental golems B: Water Golem 28 (the source's; in the flooded and drained parts)"
+treasure: {level: 3, hoard: 3}
+role: "Story M12: a talking skull sells the Enchanted Key to the Tower of High Magic (gems)"
+role_short: "Story M12"
+set_piece: "Mirage walls that dissolve at a touch; a phantom safe; the bronze plug that drains the cave and lays bare its lower levels; talking skulls that sell stats and the key for gems"
+floors:
+  - {floor: 0, name: "Upper caves", height: 0}
+  - {floor: -1, name: "Drowned galleries", height: -640}
+  - {floor: -2, name: "Reservoir bed", height: -1280}
+spaces:
+  # floor 0
+  - {id: room:north_mouth, name: North mouth, kind: cave, size: S, floor: 0, at: [1, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}],
+     purpose: "Ice at the lip; the cave's breath is warm and wet."}
+  - {id: room:icicle_hall, name: Icicle hall, kind: cave, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: a}],
+     purpose: "Hanging ice; a side passage that ends in a safe."}
+  - {id: room:mirage_hall, name: Hall of Mirages, kind: cave, size: L, floor: 0, at: [3, 0], set_piece: true, monsters: 5,
+     population: [{family: Magic constructs, count: 5, strength: pack, rank: b}],
+     purpose: "Walls that shimmer like heat; two of them are mirages ('The mirage dissipates with your touch.'); the stair down to the ledge."}
+  - {id: room:frost_cavern, name: Frost cavern, kind: cave, size: M, floor: 0, at: [4, 0], monsters: 4,
+     population: [{family: Magic constructs, count: 4, strength: pack, rank: b}],
+     purpose: "Between the hall and the south mouth; the sluice door."}
+  - {id: room:south_mouth, name: South mouth, kind: cave, size: S, floor: 0, at: [5, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}],
+     purpose: "Out into the Troll Forest."}
+  - {id: room:mirage_cache, name: Behind the mirage, kind: cave, size: S, floor: 0, at: [1, 1], chest: 3, monsters: 0,
+     purpose: "The real treasure behind the phantom safe's wall; a Potion of Might among it (for the plug)."}
+  - {id: room:false_passage, name: Phantom safe, kind: cave, size: M, floor: 0, at: [2, 1], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}],
+     purpose: "A safe at the end: 'Your hand passes through the safe as though it were not there.' The wall behind it is a mirage."}
+  - {id: room:skulls_1, name: Skull alcoves, kind: cave, size: S, floor: 0, at: [4, 1], monsters: 0,
+     purpose: "Talking skulls: +2 to a stat for 10 gems each."}
+  - {id: room:sluice, name: Sluice, kind: room, size: M, floor: 0, at: [5, 1], set_piece: true, monsters: 3,
+     population: [{family: Magic constructs, count: 3, strength: heavy, rank: b}],
+     purpose: "A great bronze plug on a chain over the lower water. Pull it (Might): the water drains, the lower caves open."}
+  # floor -1
+  - {id: room:drowned, name: Drowned gallery, kind: cave, size: L, floor: -1, at: [2, 0], monsters: 4,
+     population: [{family: Elemental golems, count: 4, strength: heavy, rank: b}],
+     purpose: "Water to the roof until the plug is pulled; then a wet gallery, water golems left in its pools."}
+  - {id: room:ledge, name: Ledge over the water, kind: corridor, size: M, floor: -1, at: [3, 0], monsters: 0,
+     purpose: "Overlook: the flooded reservoir below and, once drained, its floor, a wreck and a grotto."}
+  - {id: room:mirror_maze, name: Mirror maze, kind: cave, size: M, floor: -1, at: [4, 0], set_piece: true, monsters: 5,
+     population: [{family: Magic constructs, count: 5, strength: pack, rank: b}],
+     purpose: "Ice walls that show the party themselves; one is a mirage."}
+  - {id: room:guard_post, name: Guardian post, kind: cave, size: M, floor: -1, at: [5, 0], chest: 3, monsters: 5,
+     population: [{family: Magic constructs, count: 5, strength: heavy, rank: b}],
+     purpose: "Guardians round a chest."}
+  - {id: room:echo_cave, name: Echo cave, kind: cave, size: S, floor: -1, at: [6, 0], monsters: 2,
+     population: [{family: Magic constructs, count: 2, strength: light, rank: a}],
+     purpose: "The cave answers in the party's own voices; a cache of gems (for the skulls)."}
+  - {id: room:skulls_2, name: Deep skull alcoves, kind: cave, size: S, floor: -1, at: [4, 1], monsters: 0,
+     purpose: "Behind the maze's mirage: skulls selling +3 for 20 gems and +5 for 50."}
+  # floor -2
+  - {id: room:sump, name: Sump, kind: cave, size: M, floor: -2, at: [1, 0], monsters: 3,
+     population: [{family: Elemental golems, count: 3, strength: pack, rank: b}],
+     purpose: "Where the water went: a roaring hole and the last water golems."}
+  - {id: room:wreck, name: Sunken boat, kind: room, size: S, floor: -2, at: [2, 0], chest: 3, monsters: 2,
+     population: [{family: Elemental golems, count: 2, strength: light, rank: b}],
+     purpose: "A boat on the drained floor, its strongbox intact."}
+  - {id: room:reservoir, name: Reservoir bed, kind: cave, size: L, floor: -2, at: [3, 0], set_piece: true, monsters: 5,
+     population: [{family: Elemental golems, count: 5, strength: pack, rank: b}],
+     purpose: "The drained floor: weed, shells, stranded water golems."}
+  - {id: room:grotto, name: Grotto of the great skull, kind: cave, size: M, floor: -2, at: [4, 0], goal: true, monsters: 0,
+     purpose: "The great skull: the key to the Tower of High Magic for gems (M12); +5 to Endurance, Accuracy or Might for 200."}
+  - {id: room:phantom_vault, name: Phantom vault, kind: cave, size: S, floor: -2, at: [5, 0], chest: 3, monsters: 2,
+     population: [{family: Elemental golems, count: 2, strength: heavy, rank: b}],
+     purpose: "Behind a mirage in the grotto: the cave's hoard."}
+links:
+  - {id: link:n_icicle, from: room:north_mouth, to: room:icicle_hall, kind: open}
+  - {id: link:icicle_mirage, from: room:icicle_hall, to: room:mirage_hall, kind: open}
+  - {id: link:mirage_frost, from: room:mirage_hall, to: room:frost_cavern, kind: open}
+  - {id: link:frost_s, from: room:frost_cavern, to: room:south_mouth, kind: open}
+  - {id: link:icicle_false, from: room:icicle_hall, to: room:false_passage, kind: open}
+  - {id: link:false_cache, from: room:false_passage, to: room:mirage_cache, kind: secret, label: mirage}
+  - {id: link:cache_n, from: room:mirage_cache, to: room:north_mouth, kind: secret, label: mirage}
+  - {id: link:frost_skulls, from: room:frost_cavern, to: room:skulls_1, kind: open}
+  - {id: link:frost_sluice, from: room:frost_cavern, to: room:sluice, kind: door}
+  - {id: link:mirage_ledge, from: room:mirage_hall, to: room:ledge, kind: stair}
+  - {id: link:ledge_maze, from: room:ledge, to: room:mirror_maze, kind: open}
+  - {id: link:maze_post, from: room:mirror_maze, to: room:guard_post, kind: open}
+  - {id: link:post_echo, from: room:guard_post, to: room:echo_cave, kind: open}
+  - {id: link:maze_skulls, from: room:mirror_maze, to: room:skulls_2, kind: secret, label: mirage}
+  - {id: link:ledge_drowned, from: room:ledge, to: room:drowned, kind: open, label: "plug pulled", opened_by: state:plug,
+     notes: "Water to the roof: a water face lowered by the plug (or swapped by qbit)."}
+  - {id: link:ledge_reservoir, from: room:ledge, to: room:reservoir, kind: stair, label: "steps: plug pulled", opened_by: state:plug}
+  - {id: link:drowned_wreck, from: room:drowned, to: room:wreck, kind: stair, label: "plug pulled", opened_by: state:plug}
+  - {id: link:wreck_sump, from: room:wreck, to: room:sump, kind: open}
+  - {id: link:wreck_reservoir, from: room:wreck, to: room:reservoir, kind: open}
+  - {id: link:reservoir_grotto, from: room:reservoir, to: room:grotto, kind: open}
+  - {id: link:grotto_vault, from: room:grotto, to: room:phantom_vault, kind: secret, label: mirage}
+states:
+  - {id: state:plug, kind: lever, where: room:sluice,
+     what: "Pull the plug: wants Might ('You aren't strong enough to pull the plug.'); the water falls over a few seconds, seen from the ledge. A Potion of Might lies behind the mirage near the north mouth.",
+     opens: [link:ledge_drowned, link:ledge_reservoir, link:drowned_wreck], draw: false}
+  - {id: state:enchanted_key, kind: item, where: room:grotto, what: "The great skull sells the Enchanted Key for gems (E13); it opens the Tower of High Magic (XD-11) on X3.", opens: []}
+exits:
+  - {id: exit:x5_north, space: room:north_mouth, at: [0, 0], kind: both, label: "X5: Ogre Hills, north mouth",
+     neighbour: "Cave mouth on X5 by the frozen lake in the Ogre Hills (source B3 0,2)"}
+  - {id: exit:x5_south, space: room:south_mouth, at: [6, 0], kind: both, label: "X5: Troll Forest, south mouth",
+     neighbour: "Cave mouth on X5 in the Troll Forest (source B4 2,15)"}
+critical_path: [room:north_mouth, room:icicle_hall, room:mirage_hall, room:frost_cavern, room:sluice, room:frost_cavern, room:mirage_hall,
+  room:ledge, room:reservoir, room:grotto]
+return_path: [room:grotto, room:reservoir, room:wreck, room:drowned, room:ledge, room:mirage_hall, room:frost_cavern, room:south_mouth]
+loops:
+  - {id: loop:mirages, spaces: [room:north_mouth, room:icicle_hall, room:false_passage, room:mirage_cache], notes: "Through the phantom safe's wall and back to the mouth: two mirages."}
+  - {id: loop:drained, spaces: [room:ledge, room:reservoir, room:wreck, room:drowned], notes: "Down the steps, up through the drowned gallery; closed until the plug is pulled."}
+  - {id: loop:through, spaces: [room:north_mouth, room:icicle_hall, room:mirage_hall, room:frost_cavern, room:south_mouth], notes: "In at one mouth, out at the other, back over X5."}
+lines:
+  - {text: "The mirage dissipates with your touch.", ref: "aaze0042:24", where: "every mirage wall"}
+  - {text: "Your hand passes through the safe as though it were not there.", ref: "aaze0042:72", where: room:false_passage}
+  - {text: "You aren't strong enough to pull the plug.", ref: "aaze0042:23", where: room:sluice}
+  - {text: "\"For 10 gems I'll increase your luck,\" the skull says.", ref: "aaze0042:26", where: room:skulls_1}
+  - {text: "\"For 300 gems I'll give you a key, the skull says.", ref: "aaze0045:48", where: room:grotto}
+  - {text: "The skull gives you the key to the tower of High Magic.", ref: "aaze0045:54", where: room:grotto}
+  - {text: "Leave the Cave of Illusion?", ref: "aaze0042:49", where: "both mouths"}
+open_questions:
+  - "Mirage walls: default with existing words, a wall-textured door that sinks at once when clicked, with the line. The walk-through kind (translucent faces, no collision; PLAN_YAML_NEEDS) needs a new studio and engine word. Which?"
+  - "Draining: a water face lowered as a mover, with the flooded passages closed until it is down. Check the engine draws and collides an indoor water face that moves; fallback: a qbit swap of two face sets (full, drained) with a fade."
+  - "The plug's Might check: the source wants Might 50. Proposed: one member's Might at least 30, or a Potion of Might (placed in the cave)."
+  - "Gem prices (source: 10, 20, 50, 200 gems; the key 300) and the stat rises (+2, +3, +5; source +10 at 200 gems) are A2's. Gem payment needs E13."
+  - "Which mouth is the arrival? Proposed north (Ogre Hills); either works, the plug and the grotto are central."
+  - "XD-10 stands on X5, set for party 24-28; the dungeon is 17-19. As XD-09: keep both mouths near X5's east edge."

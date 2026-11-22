@@ -1,0 +1,30 @@
+# The Gargoyle Lair's way out to D4 (Lakeside and Blackfang, installed): the cave mouth (evt:mouth, 11) to D4's named
+# arrival entrance:dd23_lair (-9216, 10752, 2304) facing south, before the lair's mouth in Magic Mountain's eastern
+# crags. Leaving a BLV for an ODM asks for confirmation (OK). Measured 2026-11-20: the party stands at (-9216, 10752)
+# z 2,305 on landing and 2 s later, on D4's ground at A6's point.
+id: xeen.dd23.l4.exit
+title: Gargoyle Lair (DD-23 L4), out by the cave mouth to D4
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd23.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 35, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 35, skills: [], equipment: {}}
+  - assert: {map: xeen_dd23.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 0, y: 256, radius: 64, z_min: -8, z_max: 8}}
+  - walk_to: {x: 0, y: 110, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 11}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: -9216, y: 10752, radius: 150, z_min: 2290, z_max: 2330}}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: -9216, y: 10752, radius: 200, z_min: 2290, z_max: 2330}}

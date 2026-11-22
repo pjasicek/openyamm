@@ -1,0 +1,154 @@
+# World of Xeen: a new MM6-MM8-style world on the story of Might and Magic IV and V (devdocs/xeen/README.md).
+# Owner: the orchestrator (devdocs/xeen/ROADMAP.md section 3). A1 adds the tableContributions entries as the engine
+# learns to read them; every other change goes through the orchestrator.
+# Decisions of 2026-11-20 (the user): Darkside interleaved from about level 14; MM6-MM8 Fly, refused on the sky maps
+# and planes; NPC portraits generated new with Xeen's sprites as references only.
+id: xeen
+name: World of Xeen
+contentSchemaVersion: 1
+# Decider D-44: Xeen borrows MM6-MM8 stand-in bodies (and MM7's terrain tileset) and never MM9.
+dependencies:
+  - engine
+  - mm6
+  - mm7
+  - mm8
+start:
+  map: xeen_x1.odm
+# X1 and X2 were built on MM7's terrain tileset (A1 merge point 1, W2).
+terrainTileset: mm7
+# D-55: the glow of Xeen's surface materials (Alamar's lit windows, energy fields) is content: drawn with Surface materials off too.
+surfaceGlowContent: true
+# Open-air BLV maps (sky maps, planes, finale, Shangri-La): outdoor spell rules; Fly stays refused there (WORLD_DESIGN §3.4).
+openAirMaps:
+  - xeen_x8.blv
+  - xeen_x9.blv
+  - xeen_xd17.blv
+  - xeen_d7.blv
+  - xeen_p1.blv
+  - xeen_p2.blv
+  - xeen_p3.blv
+  - xeen_p4.blv
+  - xeen_p5.blv
+idRanges:
+  # Checked free on 2026-11-20 against the engine tables and MM9 (devdocs/xeen/ROADMAP.md section 4).
+  qbits:
+    begin: 110000
+    end: 119999
+  items:
+    begin: 12000
+    end: 12999
+  objects:
+    begin: 22000
+    end: 22999
+  monsters:
+    begin: 11000
+    end: 11999
+  vendors:
+    begin: 31000
+    end: 31999
+  decorations:
+    begin: 4001
+    end: 4999
+  # 16-bit monster sound columns: under 65536, clear of MM9 (50000-59999) and Hesper (60000s); lane AU, AUDIO.md
+  sounds:
+    begin: 62000
+    end: 63999
+  # Indoor placed monsters' names (place_mon, `name:` in the studio); A2 writes data_tables/english/place_mon.txt
+  placed_monster_names:
+    begin: 401
+    end: 499
+  houses:
+    begin: 4001
+    end: 4999
+  # Entrance flavour lines shown in the standard entrance window (A1 merge point 40, D-90; A3 writes english/trans.txt)
+  transitions:
+    begin: 5001
+    end: 5999
+  npcs:
+    begin: 4001
+    end: 5999
+  npc_topics:
+    begin: 40000
+    end: 49999
+  autonotes:
+    begin: 4001
+    end: 4999
+  awards:
+    begin: 401
+    end: 499
+  transport:
+    begin: 401
+    end: 499
+  maps:
+    begin: 9101
+    end: 9199
+  roster:
+    begin: 401
+    end: 499
+  # One continent per face (6 Cloudside, 7 Darkside): Town Portal pages, skies and death maps go by face.
+  continents:
+    begin: 6
+    end: 7
+
+# A1 (devdocs/xeen/lanes/TABLES.md): the tables the world adds rows to, written by tools/xeen/build_world.py.
+# Monsters wider than 60 meet the level indoors, and plan their routes, at radius 60: the original engine let a body
+# through any doorway its centre fitted, and its dungeons have 128-wide passages (devdocs/ACTOR_PURSUIT_AND_REACH.md).
+# Decider D-32: big monsters are kept in by low openings (their height), not narrow ones.
+actorMovement:
+  levelRadiusLimit: 60
+tableContributions:
+  - {table: items, idDomain: items, mode: append, path: data_tables/items.txt, sourceIdColumn: 19, canonicalIdColumn: 18}
+  - {table: readable_scrolls, idDomain: items, mode: append, path: data_tables/readable_items.txt}
+  - {table: item_effects, idDomain: items, mode: append, path: data_tables/item_effects.txt}
+  - {table: item_sets, idDomain: items, mode: append, path: data_tables/item_sets.txt}
+  - {table: random_items, idDomain: items, mode: append, path: data_tables/random_items.txt}
+  - {table: complex_item_pictures, idDomain: items, mode: append, path: data_tables/complex_item_pictures.txt}
+  - {table: monster_data, idDomain: monsters, mode: append, path: data_tables/monster_data.txt}
+  - {table: monster_descriptors, idDomain: monsters, mode: append, path: data_tables/monster_descriptors.txt}
+  - {table: house_data, idDomain: houses, mode: append, path: data_tables/house_data.txt}
+  - {table: house_animations, idDomain: houses, mode: append, path: data_tables/house_animations.txt}
+  - {table: house_movies, idDomain: houses, mode: append, path: data_tables/house_movies.txt}
+  - {table: house_exits, idDomain: maps, mode: append, path: data_tables/house_exits.txt}
+  - {table: npc, idDomain: npcs, mode: append, path: data_tables/npc.txt}
+  - {table: npc_greet, idDomain: npcs, mode: append, path: data_tables/npc_greet.txt}
+  - {table: npc_topic, idDomain: npc_topics, mode: append, path: data_tables/npc_topic.txt}
+  - {table: npc_topic_text, idDomain: npc_topics, mode: append, path: data_tables/npc_topic_text.txt}
+  - {table: npc_news, idDomain: npc_topics, mode: append, path: data_tables/npc_news.txt}
+  - {table: teacher_topics, idDomain: npc_topics, mode: append, path: data_tables/teacher_topics.txt}
+  - {table: roster, idDomain: roster, mode: append, path: data_tables/roster.txt}
+  - {table: quests, idDomain: qbits, mode: append, path: data_tables/english/quests.txt}
+  - {table: autonote, idDomain: autonotes, mode: append, path: data_tables/english/autonote.txt}
+  - {table: awards, idDomain: awards, mode: append, path: data_tables/english/awards.txt}
+  - {table: map_stats, idDomain: maps, mode: append, path: data_tables/map_stats.txt}
+  - {table: bolster_maps, idDomain: maps, mode: append, path: data_tables/bolster_maps.txt}
+  - {table: outdoor_travels, idDomain: maps, mode: append, path: data_tables/outdoor_travels.txt}
+  - {table: map_navigation, idDomain: maps, mode: append, path: data_tables/map_navigation.txt}
+  - {table: transport_index, idDomain: houses, mode: append, path: data_tables/transport_index.txt}
+  - {table: transport_locations, idDomain: transport, mode: append, path: data_tables/transport_locations.txt}
+  - {table: continent_settings, idDomain: continents, mode: append, path: data_tables/continent_settings.txt}
+  - {table: town_portal_switch, idDomain: continents, mode: append, path: data_tables/town_portal_switch.txt}
+  - {table: new_game_continents, idDomain: continents, mode: append, path: data_tables/new_game_continents.yml}
+  - {table: trainer_places, idDomain: houses, mode: append, path: data_tables/trainer_places.txt}
+  - {table: dimension_doors, idDomain: continents, mode: append, path: data_tables/dimension_doors.yml}
+  - {table: edge_spans, idDomain: maps, mode: append, path: data_tables/edge_spans.yml}
+  - {table: decorations, idDomain: decorations, mode: append, path: models/decoration_data.txt}
+  - {table: sounds, idDomain: sounds, mode: append, path: audio/sounds.txt}
+  - {table: bolster_monsters, idDomain: monsters, mode: append, path: data_tables/bolster_monsters.txt}
+  - {table: place_mon, idDomain: placed_monster_names, mode: append, path: data_tables/english/place_mon.txt}
+  - {table: trans, idDomain: transitions, mode: append, path: data_tables/english/trans.txt}
+  # XD-20's arena awards in Xeen wording, rewording engine rows 46-49 while the party is in Xeen (A1 merge point 18).
+  - {table: award_texts, idDomain: awards, mode: override, path: data_tables/english/award_texts.txt}
+
+# World of Xeen completion certificate (A4, D-56; art worlds/xeen/icons_x2/xeenwinbg.png).
+completion:
+  qbit: 111840                # m42.done: the Pharaoh's shrine, then the unification cinematic and its text (D-56)
+  continent: Xeen
+  art: xeenwinbg              # worlds/xeen/icons_x2/xeenwinbg.png, 1280 x 960
+  headline: Congratulations!
+  text: >-
+    Sheltem is gone, and Corak with him. At the Pharaoh's shrine the Scepter and the Cube woke the Ancients' last
+    design: the Cloudside and the Darkside are one land under one sky. Prince Roland and Queen Kalindra are wed above
+    the clouds, and the people of Xeen will long tell of the adventurers who made their world whole.
+  layout:
+    text: [100, 80, 540, 410]
+    mark: [320, 422, 20]

@@ -1,0 +1,67 @@
+# Hostility check of the Northern Tower (DD-08) (the XD-27 form, both branches as DD-04's): the dark knights (Slayer
+# Knight 11150 x33, Death Knight 11151 x12) take A2's faction xeen_voweless_knights from their rows (no map relation):
+# hostile at load, none peaceful; the two kinds side by side do not fight each other. The four Voweless Knights
+# (11925, hidden) are peaceful. With the oath (113344, q-d17's bit set here as the hook does) every knight turns
+# friendly, the rows' faction rule (relations.yml after_qbit 113344; from the save made before the side-by-side test),
+# and stays so after a save and a load; still no infighting. Run with --world xeen (output/studio_cal/dd08/four.sh).
+id: xeen.dd08.l4.hostility
+title: 'Northern Tower (DD-08): knights hostile before the oath, friendly after, no infighting'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd08.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 50, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 50, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 50, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 50, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- advance_runtime: {seconds: 2, present_dialogs: true}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11150, hostile: true, min: 33, max: 33}}
+- assert: {actor_count: {monster_id: 11151, hostile: true, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11150, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11151, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11925, hostile: false, min: 4, max: 4}}
+- assert: {actor_count: {monster_id: 11925, hostile: true, max: 0}}
+- save_game: {name: dd08_calm}
+- note: 'Before the oath: the two kinds side by side in the drill yard, nearer each other than the party: they must not
+    take each other on.'
+- set_pose: {map: xeen_dd08.blv, x: 0, y: -400, z: 896, yaw_degrees: 270, pitch: 0}
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11150, x: -192, y: -900, z: 896}
+- spawn_actor: {monster_id: 11151, x: 0, y: -900, z: 896}
+- spawn_actor: {monster_id: 11150, x: 192, y: -900, z: 896}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11150, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11151, hurt: true, max: 0}}
+- console: {line: arena trace off}
+- note: 'The oath (113344, as q-d17.oath sets it): every knight turns friendly.'
+- load_game: {name: dd08_calm}
+- advance_runtime: {seconds: 1}
+- assert: {actor_count: {monster_id: 11150, hostile: true, min: 33, max: 33}}
+- lua_event: {source: "SetQBit(QBit(113344))"}
+- advance_runtime: {seconds: 2}
+- assert: {actor_count: {monster_id: 11150, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11151, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11150, hostile: false, min: 33, max: 33}}
+- assert: {actor_count: {monster_id: 11151, hostile: false, min: 12, max: 12}}
+- assert: {actor_count: {monster_id: 11925, hostile: true, max: 0}}
+- note: After a save and a load the knights are still friendly, and still leave each other alone.
+- reload: {}
+- advance_runtime: {seconds: 1.5}
+- play_lua: {source: "close(); if not qbit(113344) then error('oath lost on reload') end; log('reloaded')"}
+- assert: {actor_count: {monster_id: 11150, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11151, hostile: true, max: 0}}
+- assert: {actor_count: {monster_id: 11150, hostile: false, min: 33, max: 33}}
+- console: {line: arena trace on}
+- advance_runtime: {seconds: 8}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11150, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11151, hurt: true, max: 0}}
+- console: {line: arena trace off}

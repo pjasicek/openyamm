@@ -1,0 +1,855 @@
+format: 0
+themes:
+  - id: theme:dungeon
+    wall: {texture: dchb1, size: [128, 256]}
+    floor: {texture: 7tfb11, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: dchb1, size: [128, 256]}
+    door: {texture: t5d1, size: [128, 256], fit: true}
+    notes: "The dungeon: 7d33's dark cobble dchb1, dark flags 7tfb11, riveted iron doors t5d1."
+  - id: theme:gate
+    wall: {texture: hcwall, size: [128, 256]}
+    floor: {texture: cstyl, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: t3elr, size: [128, 256]}
+    door: {texture: xkportc, size: [256, 256], fit: true}
+    notes: "The gate passage and the bell tower: Castle Ironfist's white ashlar hcwall over grey flags cstyl, the kit's portcullis xkportc."
+  - id: theme:hall
+    wall: {texture: t3s2b1, size: [128, 256]}
+    bands:
+      - {height: 256, surface: {texture: t3s2b, size: [128, 256]}}
+    floor: {texture: t3s2fl1, size: [128, 128]}
+    ceiling: {texture: t3s2c, size: [128, 128]}
+    reveal: {texture: t3elr, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The restored royal halls: MM7 Titans' Stronghold cream marble t3s2b1 over the knotwork dado t3s2b, marble floor t3s2fl1, ceiling t3s2c (the royal kit's interior)."
+  - id: theme:royal
+    wall: {texture: t3s2b1, size: [128, 256]}
+    floor: {texture: tfb09, size: [128, 128]}
+    ceiling: {texture: t3s2c, size: [128, 128]}
+    reveal: {texture: t3elr, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The royal rooms and stairs: the cream marble over Castle Harmondale's flags tfb09."
+  - id: theme:wing
+    wall: {texture: chb1, size: [128, 256]}
+    bands:
+      - {height: 32, surface: {texture: 7tws1fa, size: [128, 32]}}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: tfb2, size: [128, 128]}
+    reveal: {texture: 7trimd, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The wings still out of phase: MM7 Castle Gryphonheart 7d33 brown cobble chb1, flags 7tfb1, dark ceiling tfb2, the arched oak doors chb1dl/chb1dr."
+  - id: theme:yard
+    wall: {texture: hcwall, size: [128, 256]}
+    floor: {texture: cstyl, size: [128, 128]}
+    ceiling: {texture: t3s2c, size: [128, 128], sky: true}
+    reveal: {texture: t3elr, size: [128, 256]}
+    door: {texture: chb1dl, size: [128, 256], fit: true}
+    notes: "The stable yard: the white ashlar round grey flags, open to the sky (sky faces)."
+defaults: {theme: theme:hall, ambient: 18}
+rooms:
+  - id: room:armory
+    name: Armory
+    outline: [[3712, -896], [4992, -896], [4992, 896], [3712, 896]]
+    floor: 0
+    ceiling: 512
+    theme: theme:wing
+    platforms:
+      - {id: platform:rack_n, at: [4352, 832], size: [768, 64], rise: 224, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A weapon rack.}
+      - {id: platform:rack_e, at: [4928, -192], size: [64, 640], rise: 224, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A weapon rack.}
+    ambient: 16
+    notes: "Racks of the guard's arms; a tougher safe (10-11-12, Guido's tip)."
+  - id: room:attic
+    name: Shimmering attic
+    outline: [[-1920, 3072], [256, 3072], [256, 3456], [-1536, 3456], [-1536, 4224], [-1920, 4224]]
+    floor: 1280
+    ceiling: 1664
+    theme: theme:wing
+    beams:
+      - path: [[-1280, 3072], [-1280, 3456]]
+        width: 48
+        depth: 48
+        bottom: 1568
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[-640, 3072], [-640, 3456]]
+        width: 48
+        depth: 48
+        bottom: 1568
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[0, 3072], [0, 3456]]
+        width: 48
+        depth: 48
+        bottom: 1568
+        surface: {texture: 7trimd, size: [128, 256]}
+    ambient: 12
+    notes: "Rafters still half out of phase: the last spirits; the roof walk from the bell tower to the Queen's court."
+  - id: room:banquet
+    name: Banquet Hall
+    outline: [[0, 1536], [1536, 1536], [1536, 2688], [0, 2688]]
+    floor: 0
+    ceiling: 576
+    theme: theme:wing
+    platforms:
+      - {id: platform:banquet_table, at: [768, 2176], size: [896, 160], rise: 80, surface: {texture: deskside, size: [64, 64]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: "The long banquet table, laid for a hundred years."}
+    ambient: 14
+    notes: A table laid for a feast nobody ate.
+  - id: room:bedchamber
+    name: Royal Bed Chamber
+    outline: [[2560, 4608], [3584, 4608], [3584, 5632], [2560, 5632]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:royal
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:queens_mirror, offset: 640, length: 128, bottom: 128, height: 256, surface: {texture: xmirror, size: [128, 128]}, notes: "The Queen's mirror; the wall safe behind it (m27.crown_safe)."}
+          - {id: panel:queens_mirror_ft, offset: 608, length: 192, bottom: 384, height: 32, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:queens_mirror_fb, offset: 608, length: 192, bottom: 96, height: 32, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:queens_mirror_fl, offset: 768, length: 32, bottom: 128, height: 256, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:queens_mirror_fr, offset: 608, length: 32, bottom: 128, height: 256, surface: {texture: t3elr, size: [128, 256]}}
+      - wall: west
+        panels:
+          - {id: panel:sign_bed, offset: 160, length: 128, bottom: 352, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Royal Bed Chamber."}
+          - {id: panel:sign_bed_ft, offset: 144, length: 160, bottom: 416, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_bed_fb, offset: 144, length: 160, bottom: 336, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_bed_fl, offset: 288, length: 16, bottom: 352, height: 64, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_bed_fr, offset: 144, length: 16, bottom: 352, height: 64, surface: {texture: 7trimd, size: [128, 256]}}
+      - wall: east
+        panels:
+          - {id: panel:banner_bc, offset: 160, length: 192, bottom: 128, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:royal_bed, at: [3264, 5312], size: [384, 448], rise: 80, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: The Queen's bed.}
+    ambient: 22
+    notes: "The Queen's room: the wall safe behind her mirror, the Queen's Brew and the Knight's Brew, the button 'Activate Mirror Portals?'."
+  - id: room:bell_tower
+    name: Bell tower
+    outline: [[-2048, 4352], [-1024, 4352], [-1024, 5376], [-2048, 5376]]
+    floor: 1280
+    ceiling: 2304
+    theme: theme:gate
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:slit_bell, offset: 448, length: 128, bottom: 192, height: 288, surface: {texture: xkarrow, size: [128, 256], fit: true}, notes: An arrow slit.}
+    beams:
+      - path: [[-2048, 4672], [-1024, 4672]]
+        width: 48
+        depth: 48
+        bottom: 2112
+        surface: {texture: 7trimd, size: [128, 256]}
+      - path: [[-2048, 5056], [-1024, 5056]]
+        width: 48
+        depth: 48
+        bottom: 2112
+        surface: {texture: 7trimd, size: [128, 256]}
+    ambient: 14
+    notes: "Ropes and a cracked bell high above; the vampires' roost."
+  - id: room:cells
+    name: The cell block
+    outline: [[2432, -3840], [4608, -3840], [4608, -2688], [2432, -2688]]
+    floor: -640
+    ceiling: -128
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:cellwall_1, at: [2848, -2944], size: [64, 512], rise: 512, surface: {texture: dchb1, size: [128, 256]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A cell's side wall.}
+      - {id: platform:cellwall_2, at: [3264, -2944], size: [64, 512], rise: 512, surface: {texture: dchb1, size: [128, 256]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A cell's side wall.}
+      - {id: platform:cellwall_3, at: [3680, -2944], size: [64, 512], rise: 512, surface: {texture: dchb1, size: [128, 256]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A cell's side wall.}
+      - {id: platform:cellwall_4, at: [4096, -2944], size: [64, 512], rise: 512, surface: {texture: dchb1, size: [128, 256]}, top_surface: {texture: tfb2, size: [128, 128]}, notes: A cell's side wall.}
+    ambient: 12
+    notes: "Five cells along the north wall, five liches (T2-A)."
+  - id: room:closet
+    name: Coat Closet
+    outline: [[3072, 384], [3584, 384], [3584, 896], [3072, 896]]
+    floor: 0
+    ceiling: 448
+    theme: theme:wing
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:hooks, offset: 128, length: 256, bottom: 160, height: 128, surface: {texture: 7trimd, size: [128, 256]}, notes: Coat hooks on a plank.}
+    ambient: 14
+    notes: "A dead end of coat hooks. Its back wall is an illusion (Carl the Mason: 'just keep walking')."
+  - id: room:cloud_flight
+    name: Cloud Stairs (flight)
+    outline: [[-1792, 1792], [-1280, 1792], [-1280, 2816], [-1792, 2816]]
+    floor: 0
+    slope: {to: 640, toward: north, steps: 20}
+    ceiling: 448
+    ceiling_slope: {to: 1088, toward: north}
+    theme: theme:royal
+    ambient: 16
+    notes: Twenty white steps up north to the second floor.
+  - id: room:cloud_foot
+    name: Cloud Stairs
+    outline: [[-2048, 1024], [-1024, 1024], [-1024, 1664], [-2048, 1664]]
+    floor: 0
+    ceiling: 576
+    theme: theme:royal
+    ambient: 20
+    notes: "The foot of a white stair up through painted clouds; until stage 2 the stair itself is mist."
+  - id: room:court3
+    name: The Queen's court
+    outline: [[384, 3072], [2432, 3072], [2432, 4480], [384, 4480]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:hall
+    walls:
+      - wall: south
+        panels:
+          - {id: door:chapel, offset: 512, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: Chapel of the Queen (house 4506).}
+          - {id: panel:chapel_r, offset: 384, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: door:treasury, offset: 1456, length: 160, bottom: 0, height: 320, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: The Royal Treasury (4507).}
+      - wall: east
+        panels:
+          - {id: door:training, offset: 384, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: The Queen's Proving Hall (4508).}
+          - {id: panel:training_r, offset: 256, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: door:forge, offset: 1024, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: The Queen's Forge (4509).}
+          - {id: panel:forge_r, offset: 896, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+      - wall: west
+        panels:
+          - {id: door:guard_barracks, offset: 384, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: The Queen's Guard (4511).}
+          - {id: panel:guard_barracks_r, offset: 256, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: panel:banner_c, offset: 800, length: 192, bottom: 128, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+    pillars:
+      - {at: [1024, 3584], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [1024, 4096], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [1792, 3584], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [1792, 4096], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+    ambient: 22
+    notes: "Five house doors (stage 4): Chapel of the Queen 4506, Royal Treasury 4507, the Queen's Proving Hall 4508, the Queen's Forge 4509, the Queen's Guard 4511."
+  - id: room:dstair
+    name: Dungeon stair (flight)
+    outline: [[5184, -2560], [5568, -2560], [5568, -1536], [5184, -1536]]
+    floor: 0
+    slope: {to: -640, toward: south, steps: 20}
+    ceiling: 448
+    ceiling_slope: {to: -192, toward: south}
+    theme: theme:dungeon
+    ambient: 16
+    notes: Twenty steps down south to the guardroom.
+  - id: room:dstair_head
+    name: Dungeon stair
+    outline: [[5120, -1408], [5632, -1408], [5632, -1024], [5120, -1024]]
+    floor: 0
+    ceiling: 448
+    theme: theme:dungeon
+    ambient: 14
+    notes: "The head of the dungeon stair: until stage 3 it ends in shimmering nothing."
+  - id: room:entrance
+    name: Entrance hall
+    outline: [[-896, -896], [1024, -896], [1024, 896], [-896, 896]]
+    floor: 0
+    ceiling: 768
+    theme: theme:hall
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:banner_e1, offset: 1440, length: 192, bottom: 192, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+          - {id: panel:banner_e2, offset: 160, length: 192, bottom: 192, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+      - wall: east
+        panels:
+          - {id: panel:sign_throne, offset: 1248, length: 192, bottom: 256, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Throne Room."}
+          - {id: panel:sign_throne_ft, offset: 1232, length: 224, bottom: 352, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_throne_fb, offset: 1232, length: 224, bottom: 240, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_throne_fl, offset: 1232, length: 16, bottom: 256, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_throne_fr, offset: 1440, length: 16, bottom: 256, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+      - wall: north
+        panels:
+          - {id: panel:sign_north, offset: 480, length: 192, bottom: 256, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: North Wing."}
+          - {id: panel:sign_north_ft, offset: 464, length: 224, bottom: 352, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_north_fb, offset: 464, length: 224, bottom: 240, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_north_fl, offset: 672, length: 16, bottom: 256, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_north_fr, offset: 464, length: 16, bottom: 256, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+    ambient: 22
+    notes: "White marble and purple banners: doors to the throne room (east), the north wing, and the shimmering wall of the stable yard (south)."
+  - id: room:gate
+    name: Gate passage
+    outline: [[-2048, -384], [-1024, -384], [-1024, 384], [-2048, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:gate
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:crest_gate, offset: 448, length: 128, bottom: 128, height: 256, surface: {texture: xkkalcrst, size: [128, 256], fit: true}, notes: "Kalindra's crest, her silver crescent and rose on purple, on the ashlar it was painted for."}
+      - wall: south
+        panels:
+          - {id: panel:slit_gate, offset: 448, length: 128, bottom: 96, height: 288, surface: {texture: xkarrow, size: [128, 256], fit: true}, notes: An arrow slit.}
+    ambient: 18
+    notes: "Inside Kalindra's gate: the arrival from D1 and the way out, under the portcullis and the Queen's crest."
+  - id: room:guardroom
+    name: Guardroom
+    outline: [[4736, -3840], [5888, -3840], [5888, -2688], [4736, -2688]]
+    floor: -640
+    ceiling: -128
+    theme: theme:dungeon
+    platforms:
+      - {id: platform:ledger_desk, at: [5760, -3328], size: [256, 128], rise: 80, surface: {texture: deskside, size: [64, 64]}, top_surface: {texture: desktop, size: [128, 64], scale: 2, offset: [0, 32]}, notes: "The guard's desk: the prisoner ledger."}
+    ambient: 14
+    notes: "The stair's foot; the prisoner ledger on the desk (t2-a.cells); the old well's low mouth south."
+  - id: room:kennel
+    name: Scraps' kennel
+    outline: [[768, -7296], [2944, -7296], [2944, -5760], [768, -5760]]
+    floor: -1152
+    ceiling: -128
+    theme: theme:dungeon
+    ambient: 10
+    notes: "An undead dragon on the bones of its dinners; the castle's hoard."
+  - id: room:kennel_stair
+    name: Kennel stair
+    outline: [[1440, -5632], [1760, -5632], [1760, -4480], [1440, -4480]]
+    floor: -640
+    slope: {to: -1152, toward: south, steps: 16}
+    ceiling: -352
+    ceiling_slope: {to: -864, toward: south}
+    theme: theme:dungeon
+    ambient: 16
+    notes: "A narrow, low stair down to Scraps' kennel: 320 wide and 288 high, lower than his body (D-32)."
+  - id: room:kitchen
+    name: Kitchen
+    outline: [[1664, 1024], [2944, 1024], [2944, 2304], [1664, 2304]]
+    floor: 0
+    ceiling: 512
+    theme: theme:wing
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:sign_kitchen, offset: 160, length: 192, bottom: 256, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Kitchen."}
+    platforms:
+      - {id: platform:kitchen_table, at: [2304, 1856], size: [448, 160], rise: 80, surface: {texture: deskside, size: [64, 64]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: The kitchen table.}
+      - {id: platform:carl_bench, at: [2816, 1600], size: [128, 256], rise: 48, surface: {texture: deskside, size: [64, 64]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: Carl the Mason's bench by the east wall.}
+    ambient: 18
+    notes: "Barrels, a larder of sun-dried lizard innards, Carl the Mason at his bench; the servants' passage south."
+  - id: room:l2_landing
+    name: Second-floor landing
+    outline: [[-2048, 2944], [-1024, 2944], [-1024, 3456], [-2048, 3456]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:royal
+    ambient: 18
+    notes: The Cloud Stairs' head.
+  - id: room:l3_landing
+    name: Third-floor landing
+    outline: [[-896, 4736], [256, 4736], [256, 5248], [-896, 5248]]
+    floor: 1280
+    ceiling: 1728
+    theme: theme:royal
+    ambient: 18
+    notes: The upper stair's head.
+  - id: room:maxsec
+    name: Maximum Security
+    outline: [[1152, -4352], [2304, -4352], [2304, -2944], [1152, -2944]]
+    floor: -640
+    ceiling: -128
+    theme: theme:dungeon
+    walls:
+      - wall: north
+        panels:
+          - {id: door:guido_cell, offset: 624, length: 160, bottom: 0, height: 320, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: Guido's Cell (house 4505).}
+      - wall: east
+        panels:
+          - {id: panel:sign_maxsec, offset: 640, length: 128, bottom: 352, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Maximum Security."}
+      - wall: south
+        panels:
+          - {id: panel:note_beware, offset: 96, length: 128, bottom: 224, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "A note: Beware of Scraps!"}
+          - {id: panel:note_feed, offset: 640, length: 128, bottom: 224, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "A note: Don't feed Scraps."}
+          - {id: panel:note_out, offset: 896, length: 128, bottom: 224, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "A note: Don't let Scraps out!"}
+    ambient: 14
+    notes: "Guido's Cell (4505, stage 3); the kennel's portcullis and its lever under three notes."
+  - id: room:north_wing
+    name: North Wing
+    outline: [[-896, 1024], [1536, 1024], [1536, 1408], [-896, 1408]]
+    floor: 0
+    ceiling: 512
+    theme: theme:wing
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:sign_banquet, offset: 1280, length: 192, bottom: 288, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Banquet Hall."}
+          - {id: panel:shimmer_nw, offset: 128, length: 256, bottom: 32, height: 448, surface: {texture: xkshimmer, size: [128, 128]}, notes: A stretch of wall still out of phase.}
+      - wall: south
+        panels:
+          - {id: panel:sign_stairs, offset: 288, length: 192, bottom: 288, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Cloud Stairs."}
+    ambient: 14
+    notes: "A long cobbled corridor still half out of phase: the Cloud Stairs at its west end, the banquet hall's doors."
+  - id: room:phase_gallery
+    name: Phase gallery
+    outline: [[2048, 1408], [2560, 1408], [2560, 2816], [2048, 2816]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:wing
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:shimmer_pg1, offset: 896, length: 384, bottom: 32, height: 416, surface: {texture: xkshimmer, size: [128, 128]}}
+      - wall: east
+        panels:
+          - {id: panel:shimmer_pg2, offset: 896, length: 384, bottom: 32, height: 416, surface: {texture: xkshimmer, size: [128, 128]}}
+    ambient: 14
+    notes: "A gallery whose outer wall still shimmers; the spirits pass through it."
+  - id: room:queens_gallery
+    name: The Queen's gallery
+    outline: [[384, 4608], [2432, 4608], [2432, 5632], [384, 5632]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:hall
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:tap_g1, offset: 1600, length: 128, bottom: 160, height: 320, surface: {texture: tap1, size: [128, 256], fit: true}}
+          - {id: panel:tap_g2, offset: 960, length: 128, bottom: 160, height: 320, surface: {texture: tap7, size: [128, 256], fit: true}}
+          - {id: panel:tap_g3, offset: 320, length: 128, bottom: 160, height: 320, surface: {texture: tap4, size: [128, 256], fit: true}}
+          - {id: panel:banner_g1, offset: 1248, length: 192, bottom: 128, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+          - {id: panel:banner_g2, offset: 608, length: 192, bottom: 128, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+    ambient: 20
+    notes: "Portraits of the Queen under her banners; Blackfang's servants waiting for her to come home."
+  - id: room:residences
+    name: Captain's corridor
+    outline: [[384, 2944], [2944, 2944], [2944, 3328], [384, 3328]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:royal
+    walls:
+      - wall: north
+        panels:
+          - {id: door:captain_quarters, offset: 2048, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: "Captain's Quarters (house 4502, Dimitri)."}
+          - {id: panel:captain_quarters_r, offset: 1920, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: door:megan_room, offset: 1280, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: Megan's Room (house 4503).}
+          - {id: panel:megan_room_r, offset: 1152, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: door:observatory, offset: 512, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: "The Observatory (house 4504, the telescope)."}
+          - {id: panel:observatory_r, offset: 384, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+    ambient: 18
+    notes: "Three house doors: Captain's Quarters (4502), Megan's Room (4503), the Observatory (4504)."
+  - id: room:sleeping
+    name: Sleeping Chambers
+    outline: [[384, 1664], [1920, 1664], [1920, 2816], [384, 2816]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:royal
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:sign_sleeping, offset: 928, length: 192, bottom: 352, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Sleeping Chambers."}
+          - {id: panel:sign_sleeping_ft, offset: 912, length: 224, bottom: 448, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_sleeping_fb, offset: 912, length: 224, bottom: 336, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_sleeping_fl, offset: 1120, length: 16, bottom: 352, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_sleeping_fr, offset: 912, length: 16, bottom: 352, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+    platforms:
+      - {id: platform:bed_1, at: [512, 1856], size: [160, 256], rise: 64, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A bed.}
+      - {id: platform:bed_2, at: [896, 1856], size: [160, 256], rise: 64, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A bed.}
+      - {id: platform:bed_3, at: [1280, 1856], size: [160, 256], rise: 64, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A bed.}
+      - {id: platform:bed_4, at: [512, 2560], size: [160, 256], rise: 64, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A bed.}
+      - {id: platform:bed_5, at: [1664, 1856], size: [160, 256], rise: 64, surface: {texture: 7t1beds, size: [256, 64]}, top_surface: {texture: 7t1beds, size: [256, 64]}, notes: A bed.}
+    ambient: 16
+    notes: "The household's dormitory, beds made up for a century."
+  - id: room:south_wing
+    name: South Wing
+    outline: [[1152, -1408], [4992, -1408], [4992, -1024], [1152, -1024]]
+    floor: 0
+    ceiling: 512
+    theme: theme:wing
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:sign_armory, offset: 800, length: 192, bottom: 256, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Armory."}
+          - {id: panel:shimmer_sw, offset: 1536, length: 256, bottom: 32, height: 448, surface: {texture: xkshimmer, size: [128, 128]}, notes: A stretch of wall still out of phase.}
+      - wall: south
+        panels:
+          - {id: panel:shimmer_sw2, offset: 512, length: 256, bottom: 32, height: 448, surface: {texture: xkshimmer, size: [128, 128]}}
+    ambient: 14
+    notes: "A cobbled corridor still half out of phase: the armory's door, the dungeon stair at its east end."
+  - id: room:throne
+    name: Throne Room
+    outline: [[1152, -896], [2944, -896], [2944, 896], [1152, 896]]
+    floor: 0
+    ceiling: 768
+    theme: theme:hall
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:tap_safe_w, offset: 1344, length: 128, bottom: 128, height: 320, surface: {texture: tap1, size: [128, 256], fit: true}, notes: "A tapestry: a safe behind it."}
+          - {id: panel:tap_safe_e, offset: 960, length: 128, bottom: 128, height: 320, surface: {texture: tap4, size: [128, 256], fit: true}, notes: "A tapestry: a safe behind it."}
+      - wall: east
+        panels:
+          - {id: panel:crest_throne, offset: 416, length: 192, bottom: 192, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+          - {id: panel:banner_throne, offset: 1184, length: 192, bottom: 192, height: 384, surface: {texture: xkkalban, size: [128, 256], fit: true}}
+      - wall: south
+        panels:
+          - {id: panel:sign_south, offset: 1312, length: 192, bottom: 288, height: 96, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: South Wing."}
+          - {id: panel:sign_south_ft, offset: 1296, length: 224, bottom: 384, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_south_fb, offset: 1296, length: 224, bottom: 272, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_south_fl, offset: 1296, length: 16, bottom: 288, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_south_fr, offset: 1504, length: 16, bottom: 288, height: 96, surface: {texture: 7trimd, size: [128, 256]}}
+      - wall: west
+        panels:
+          - {id: panel:tap_throne, offset: 1344, length: 128, bottom: 128, height: 320, surface: {texture: tap7, size: [128, 256], fit: true}}
+    pillars:
+      - {at: [1664, -640], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [1664, 640], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [2304, -640], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+      - {at: [2304, 640], size: [128, 128], surface: {texture: t3elr, size: [128, 256]}}
+    platforms:
+      - {id: platform:dais, at: [2752, 0], size: [320, 640], rise: 32, surface: {texture: t3s2fl1, size: [128, 128]}, top_surface: {texture: t3s2fl1, size: [128, 128]}, notes: The throne's dais.}
+      - {id: platform:kalindra_throne, at: [2816, 0], size: [160, 192], rise: 144, surface: {texture: t3elr, size: [128, 256]}, top_surface: {texture: tfb09, size: [128, 128]}, notes: "The Empty Throne: house 4501's door (A4's thing:kalindra_throne)."}
+      - {id: platform:throne_back, at: [2912, 0], size: [64, 224], rise: 416, surface: {texture: t3elr, size: [128, 256]}, top_surface: {texture: t3s2c, size: [128, 128]}, notes: The throne's tall back.}
+    ambient: 22
+    notes: "The empty throne on its dais, dust like snow; two safes behind tapestries; the coat closet east."
+  - id: room:upper_flight
+    name: Upper stair (flight)
+    outline: [[-640, 3584], [-128, 3584], [-128, 4608], [-640, 4608]]
+    floor: 640
+    slope: {to: 1280, toward: north, steps: 20}
+    ceiling: 1088
+    ceiling_slope: {to: 1728, toward: north}
+    theme: theme:royal
+    ambient: 16
+    notes: Twenty marble steps up north to the third floor.
+  - id: room:upper_foot
+    name: Upper stair
+    outline: [[-896, 2944], [256, 2944], [256, 3456], [-896, 3456]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:royal
+    ambient: 18
+    notes: "The foot of the upper stair: until stage 4 the stair is mist."
+  - id: room:vault_d
+    name: Dungeon vault
+    outline: [[2432, -4992], [3712, -4992], [3712, -3968], [2432, -3968]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    ambient: 14
+    notes: "Confiscated goods; a tougher safe (10-11-12); a secret door to Maximum Security."
+  - id: room:vaults
+    name: Vaults
+    outline: [[2688, 1408], [3712, 1408], [3712, 2304], [2688, 2304]]
+    floor: 640
+    ceiling: 1088
+    theme: theme:royal
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:disk_safe, offset: 384, length: 128, bottom: 64, height: 256, surface: {texture: t5d1, size: [128, 256], fit: true}, notes: "The disk safes: an iron door with six dials."}
+      - wall: west
+        panels:
+          - {id: panel:sign_vaults, offset: 64, length: 128, bottom: 352, height: 64, surface: {texture: sign128, size: [256, 128], fit: true}, notes: "Sign: Vaults."}
+          - {id: panel:sign_vaults_ft, offset: 48, length: 160, bottom: 416, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_vaults_fb, offset: 48, length: 160, bottom: 336, height: 16, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_vaults_fl, offset: 192, length: 16, bottom: 352, height: 64, surface: {texture: 7trimd, size: [128, 256]}}
+          - {id: panel:sign_vaults_fr, offset: 48, length: 16, bottom: 352, height: 64, surface: {texture: 7trimd, size: [128, 256]}}
+    ambient: 20
+    notes: "The disk safes (m24.disk_safes, 64-52-31, after Dimitri)."
+  - id: room:well
+    name: Old well
+    outline: [[3840, -5376], [5120, -5376], [5120, -3968], [3840, -3968]]
+    floor: -640
+    ceiling: 384
+    theme: theme:dungeon
+    ambient: 10
+    notes: "The castle well's dry bottom, a shaft of old stone overhead: two Bone Dragons, Iron Vithnipravad and Argonax."
+  - id: room:yard
+    name: Stable yard
+    outline: [[-1664, -3200], [1024, -3200], [1024, -1024], [-1664, -1024]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:yard
+    walls:
+      - wall: west
+        panels:
+          - {id: door:stables, offset: 1280, length: 128, bottom: 0, height: 256, surface: {texture: chb1dl, size: [128, 256], fit: true}, notes: "Kalindra Stables' door (house 4510, stage 4)."}
+          - {id: panel:stables_r, offset: 1152, length: 128, bottom: 0, height: 256, surface: {texture: chb1dr, size: [128, 256], fit: true}}
+          - {id: panel:yard_win_w, offset: 448, length: 128, bottom: 192, height: 256, surface: {texture: hcwindo, size: [128, 256], fit: true}}
+      - wall: south
+        panels:
+          - {id: panel:yard_win_s1, offset: 704, length: 128, bottom: 192, height: 256, surface: {texture: hcwindo, size: [128, 256], fit: true}}
+          - {id: panel:yard_win_s2, offset: 2240, length: 128, bottom: 192, height: 256, surface: {texture: hcwindo, size: [128, 256], fit: true}}
+          - {id: panel:crest_yard, offset: 1472, length: 128, bottom: 352, height: 256, surface: {texture: xkkalcrst, size: [128, 256], fit: true}, notes: "Kalindra's crest over the mirror, as wide as the glass (a wider crest is cut by the frame's columns)."}
+          - {id: panel:kalindra_mirror, offset: 1472, length: 128, bottom: 48, height: 256, surface: {texture: xmirror, size: [128, 128]}, notes: "The Mirror of Castle Kalindra (house 4512, A4's thing:kalindra_mirror)."}
+          - {id: panel:kalindra_mirror_ft, offset: 1440, length: 192, bottom: 304, height: 32, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:kalindra_mirror_fb, offset: 1440, length: 192, bottom: 16, height: 32, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:kalindra_mirror_fl, offset: 1440, length: 32, bottom: 48, height: 256, surface: {texture: t3elr, size: [128, 256]}}
+          - {id: panel:kalindra_mirror_fr, offset: 1600, length: 32, bottom: 48, height: 256, surface: {texture: t3elr, size: [128, 256]}}
+      - wall: east
+        panels:
+          - {id: panel:yard_win_e, offset: 832, length: 128, bottom: 192, height: 256, surface: {texture: hcwindo, size: [128, 256], fit: true}}
+    platforms:
+      - {id: platform:trough, at: [-1536, -1664], size: [64, 384], rise: 64, surface: {texture: 7trimd, size: [128, 256]}, top_surface: {texture: 7trimd, size: [128, 256]}, notes: A horse trough.}
+    ambient: 26
+    notes: "An open yard inside the castle walls (sky): Kalindra Stables (4510) and the Mirror of Castle Kalindra (4512), behind the stage-4 phase wall."
+openings:
+  - id: open:armory_south
+    from: room:armory
+    to: room:south_wing
+    link: link:armory_south
+    width: 256
+    height: 256
+  - id: open:attic_court
+    from: room:attic
+    to: room:court3
+    link: link:attic_court
+    width: 256
+    height: 320
+  - id: open:banquet_kitchen
+    from: room:banquet
+    to: room:kitchen
+    link: link:banquet_kitchen
+    width: 320
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:bell_attic
+    from: room:bell_tower
+    to: room:attic
+    link: link:bell_attic
+    width: 320
+    height: 320
+  - id: open:cells_maxsec
+    from: room:cells
+    to: room:maxsec
+    link: link:cells_maxsec
+    width: 320
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:closet_armory
+    from: room:closet
+    to: room:armory
+    link: link:closet_armory
+    width: 192
+    height: 320
+    reveal: {texture: chb1, size: [128, 256]}
+    notes: The illusory wall.
+  - id: open:cloud_gate
+    from: room:cloud_foot
+    to: room:cloud_flight
+    from_wall: north
+    to_wall: south
+    link: link:cloud
+    width: 384
+    height: 384
+    notes: The Cloud Stairs' phase leaf (stage 2).
+  - id: open:cloud_top
+    from: room:cloud_flight
+    to: room:l2_landing
+    from_wall: north
+    to_wall: south
+    link: link:cloud
+    width: full
+    height: 384
+    threshold: {texture: tfb09, size: [128, 128]}
+    reveal: {texture: t3s2b1, size: [128, 256]}
+    notes: "The flight's head: its marble walls run on (no dark pillar in the plane)."
+  - id: open:dstair_gate
+    from: room:dstair_head
+    to: room:dstair
+    from_wall: south
+    to_wall: north
+    link: link:dstair
+    width: 320
+    height: 384
+    notes: The dungeon stair's phase leaf (stage 3).
+  - id: open:dstair_guard
+    from: room:dstair
+    to: room:guardroom
+    from_wall: south
+    to_wall: north
+    link: link:dstair
+    width: 320
+    height: 384
+  - id: open:entrance_north
+    from: room:entrance
+    to: room:north_wing
+    link: link:entrance_north
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:entrance_throne
+    from: room:entrance
+    to: room:throne
+    link: link:entrance_throne
+    width: 384
+    height: 448
+    notes: The throne room's double doors.
+  - id: open:entrance_yard
+    from: room:entrance
+    to: room:yard
+    link: link:entrance_yard
+    width: 384
+    height: 384
+    notes: The yard's phase wall (stage 4).
+  - id: open:gallery_bed
+    from: room:queens_gallery
+    to: room:bedchamber
+    link: link:gallery_bed
+    width: 384
+    height: 448
+    notes: The bedchamber's doors.
+  - id: open:gallery_court
+    from: room:queens_gallery
+    to: room:court3
+    link: link:gallery_court
+    width: 512
+    height: 448
+    shape: arch
+    apex: 512
+  - id: open:gate_entrance
+    from: room:gate
+    to: room:entrance
+    link: link:gate_entrance
+    width: 320
+    height: 384
+    notes: The portcullis (stage 1).
+  - id: open:guard_cells
+    from: room:guardroom
+    to: room:cells
+    link: link:guard_cells
+    width: 256
+    height: 352
+  - id: open:guard_well
+    from: room:guardroom
+    to: room:well
+    link: link:guard_well
+    width: 320
+    height: 256
+    notes: The old well's low mouth (D-32).
+  - id: open:kennel_mouth
+    from: room:kennel_stair
+    to: room:kennel
+    from_wall: south
+    to_wall: north
+    link: link:kennel
+    width: 256
+    height: 256
+  - id: open:kitchen_throne
+    from: room:kitchen
+    to: room:throne
+    link: link:kitchen_throne
+    width: 192
+    height: 320
+    notes: The servants' passage.
+  - id: open:l2_upper
+    from: room:l2_landing
+    to: room:upper_foot
+    link: link:l2_upper
+    width: 320
+    height: 384
+  - id: open:l3_bell
+    from: room:l3_landing
+    to: room:bell_tower
+    link: link:l3_bell
+    width: 320
+    height: 384
+  - id: open:l3_gallery
+    from: room:l3_landing
+    to: room:queens_gallery
+    link: link:l3_gallery
+    width: 384
+    height: 384
+    shape: arch
+    apex: 416
+  - id: open:maxsec_kennel
+    from: room:maxsec
+    to: room:kennel_stair
+    from_wall: south
+    to_wall: north
+    link: link:kennel
+    width: 256
+    height: 288
+    notes: "The kennel's portcullis: 288 high (D-32)."
+  - id: open:maxsec_vault
+    from: room:maxsec
+    to: room:vault_d
+    link: link:maxsec_vault
+    width: 192
+    height: 288
+    reveal: {texture: dchb1, size: [128, 256]}
+    notes: The vault's secret door.
+  - id: open:north_banquet
+    from: room:north_wing
+    to: room:banquet
+    link: link:north_banquet
+    width: 384
+    height: 384
+    notes: The banquet hall's double doors.
+  - id: open:north_cloud
+    from: room:north_wing
+    to: room:cloud_foot
+    link: link:north_cloud
+    width: 320
+    height: 384
+  - id: open:phase_vaults
+    from: room:phase_gallery
+    to: room:vaults
+    link: link:phase_vaults
+    width: 384
+    height: 384
+    notes: The vault's double doors.
+  - id: open:res_sleeping
+    from: room:residences
+    to: room:sleeping
+    link: link:res_sleeping
+    width: 256
+    height: 256
+  - id: open:sleeping_phase
+    from: room:sleeping
+    to: room:phase_gallery
+    link: link:sleeping_phase
+    width: 384
+    height: 384
+    shape: arch
+    apex: 416
+  - id: open:south_dhead
+    from: room:south_wing
+    to: room:dstair_head
+    link: link:south_dhead
+    width: 320
+    height: 384
+  - id: open:throne_closet
+    from: room:throne
+    to: room:closet
+    link: link:throne_closet
+    width: 256
+    height: 256
+  - id: open:throne_south
+    from: room:throne
+    to: room:south_wing
+    link: link:throne_south
+    width: 384
+    height: 384
+    shape: arch
+    apex: 448
+  - id: open:upper_gate
+    from: room:upper_foot
+    to: room:upper_flight
+    from_wall: north
+    to_wall: south
+    link: link:upper
+    width: 384
+    height: 384
+    notes: The upper stair's phase leaf (stage 4).
+  - id: open:upper_res
+    from: room:upper_foot
+    to: room:residences
+    link: link:upper_res
+    width: 320
+    height: 384
+  - id: open:upper_top
+    from: room:upper_flight
+    to: room:l3_landing
+    from_wall: north
+    to_wall: south
+    link: link:upper
+    width: full
+    height: 384
+    threshold: {texture: tfb09, size: [128, 128]}
+    reveal: {texture: t3s2b1, size: [128, 256]}
+    notes: "The flight's head: its marble walls run on (no dark pillar in the plane)."
+  - id: open:vault_well
+    from: room:vault_d
+    to: room:well
+    link: link:vault_well
+    width: 256
+    height: 256
+    notes: Low (D-32).
+notes: "DD-03 at L3/L4: 34 rooms on four floors in the plan's frame (x east, y north). Written by output/studio_cal/dd03/tools/gen.py."

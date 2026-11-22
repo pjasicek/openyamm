@@ -1,0 +1,530 @@
+format: 0
+themes:
+  - id: theme:body
+    wall: {texture: egybiga, size: [256, 256]}
+    floor: {texture: egyflore, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egybiga, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The body: the Tomb of VARN's sandstone blocks (egybiga), its flags (egyflore), carved ceiling panels (egyceilb)."
+  - id: theme:cell
+    wall: {texture: egywalhb, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egywalhb, size: [256, 256]}
+    reveal: {texture: egywalhb, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The drop cell: rough sandstone (egywalhb), a sand heap."
+  - id: theme:dungeon
+    wall: {texture: egywld, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egybiga, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The hieroglyph dungeon: carved hieroglyph walls (egywld), drifted sand underfoot (egyflord)."
+  - id: theme:head
+    wall: {texture: egybigb, size: [256, 256]}
+    floor: {texture: egyflorc, size: [128, 128]}
+    ceiling: {texture: egyceild, size: [128, 128]}
+    reveal: {texture: egybigb, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The head: the darker blocks (egybigb), pale flags (egyflorc), framed ceilings (egyceild)."
+  - id: theme:library
+    wall: {texture: egywlf, size: [256, 256]}
+    floor: {texture: egyflord, size: [256, 256]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egybiga, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The scribes' library: gilded hieroglyphs (egywlf)."
+  - id: theme:stair
+    wall: {texture: egybiga, size: [256, 256]}
+    floor: {texture: egyflorc, size: [128, 128]}
+    ceiling: {texture: egyceilb, size: [128, 128]}
+    reveal: {texture: egybiga, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The throat and dungeon stairs: the body's blocks, pale flags on the treads."
+  - id: theme:throne
+    wall: {texture: egymeda, size: [256, 256]}
+    bands:
+      - {height: 576, surface: {texture: egymeda, size: [256, 256]}}
+      - {height: 640, surface: {texture: egytrmd, size: [64, 64]}}
+    floor: {texture: egyflora, size: [128, 128]}
+    ceiling: {texture: egyceila, size: [128, 128]}
+    reveal: {texture: egybiga, size: [256, 256]}
+    door: {texture: egywle, size: [128, 128]}
+    notes: "The throne rooms: fine brick (egymeda) under a lotus frieze (egytrmd), blue glazed tiles (egyflora), the inlaid star ceiling (egyceila)."
+defaults: {theme: theme:body, ambient: 12}
+rooms:
+  - id: room:belly_hall
+    name: The belly hall
+    outline: [[-1280, 2176], [1280, 2176], [1280, 5120], [-1280, 5120]]
+    floor: 0
+    ceiling: 832
+    theme: theme:body
+    bands:
+      - {height: 768, surface: {texture: egybiga, size: [256, 256]}}
+      - {height: 832, surface: {texture: egytrmb, size: [64, 64]}}
+    pillars:
+      - {at: [-768, 2944], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+      - {at: [-768, 3712], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+      - {at: [-768, 4480], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+      - {at: [768, 2944], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+      - {at: [768, 3712], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+      - {at: [768, 4480], size: [208, 208], surface: {texture: egycol64, size: [64, 256], scale: 3.25}}
+    ambient: 14
+    notes: "Under the vaulted back: six striped columns, the stripes' frieze; the crown door west, the veil door east (they open when the Sphinx is named); the haunch vault's door north."
+  - id: room:breast_gate
+    name: Breast gate
+    outline: [[-448, 0], [448, 0], [448, 704], [-448, 704]]
+    floor: 0
+    ceiling: 512
+    theme: theme:body
+    ambient: 18
+    notes: "Inside the breast between the paws: the arrival (entrance:x6_paws); the two-faced way out in the south wall; the paw hall ahead."
+  - id: room:drop_cell
+    name: Drop cell
+    outline: [[2304, 8320], [3072, 8320], [3072, 9088], [2304, 9088]]
+    floor: -640
+    ceiling: -128
+    theme: theme:cell
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:clue_1, offset: 256, length: 256, bottom: 128, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The first clue (aaze0084:2).}
+    platforms:
+      - {id: platform:sand_heap, rise: 24, surface: {texture: egyflord, size: [256, 256]}, outline: [[2448, 8432], [2752, 8400], [2944, 8480], [2960, 8640], [2816, 8752], [2512, 8720]], top_surface: {texture: egyflord, size: [256, 256]}, notes: "The sand heap under the closed shaft, where the wrong name lands the party."}
+    ambient: 8
+    notes: "Where the wrong name lands: a sand heap, the first clue, a door that opens from inside."
+  - id: room:dungeon_stair
+    name: Dungeon stair
+    outline: [[-192, 6272], [192, 6272], [192, 7296], [-192, 7296]]
+    floor: 0
+    slope: {to: -640, toward: north, steps: 20}
+    ceiling: 448
+    ceiling_slope: {to: -192, toward: north}
+    theme: theme:stair
+    ambient: 10
+    notes: Twenty steps down to the hieroglyph dungeon.
+  - id: room:east_lappet
+    name: East lappet
+    outline: [[1344, -3328], [2112, -3328], [2112, -2176], [1344, -2176]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:head
+    platforms:
+      - {id: platform:offering, at: [2048, -2752], size: [64, 192], rise: 96, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The offering niche's ledge: gems."}
+    ambient: 12
+    notes: "The east lappet: an offering niche with gems."
+  - id: room:gallery_e
+    name: East sarcophagus gallery
+    outline: [[1408, 832], [2176, 832], [2176, 3328], [1408, 3328]]
+    floor: 0
+    ceiling: 576
+    theme: theme:body
+    platforms:
+      - {id: platform:sarc_e1, at: [2048, 1280], size: [128, 320], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "A sarcophagus (clicked: empty)."}
+      - {id: platform:sarc_e2, at: [2048, 2112], size: [128, 320], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "A sarcophagus (clicked: empty)."}
+      - {id: platform:sarc_e3, at: [2048, 2944], size: [128, 320], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The last sarcophagus: a cache of gems in it."}
+    ambient: 12
+    notes: "Sarcophagi along the east flank: 'There is nothing in the sarcophagus.'; gems in the last one."
+  - id: room:gallery_w
+    name: West sarcophagus gallery
+    outline: [[-2176, 832], [-1408, 832], [-1408, 3328], [-2176, 3328]]
+    floor: 0
+    ceiling: 576
+    theme: theme:body
+    platforms:
+      - {id: platform:sarc_w1, at: [-2048, 1280], size: [128, 320], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "A sarcophagus (clicked: empty)."}
+      - {id: platform:sarc_w2, at: [-2048, 2944], size: [128, 320], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "A sarcophagus (clicked: empty)."}
+    ambient: 12
+    notes: "Sarcophagi in niches along the west flank; the great sarcophagus in the middle is a chest (Might 40)."
+  - id: room:glyph_e
+    name: East hieroglyph hall
+    outline: [[0, 8320], [2176, 8320], [2176, 9088], [0, 9088]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:clue_3, offset: 960, length: 256, bottom: 96, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The third clue (aaze0084:4).}
+      - wall: north
+        panels:
+          - {id: panel:clue_4, offset: 384, length: 256, bottom: 96, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The fourth clue (aaze0084:5).}
+    ambient: 12
+    notes: "Two more clue walls; the drop cell's door at its east end; the library open north."
+  - id: room:glyph_w
+    name: West hieroglyph hall
+    outline: [[-2304, 8320], [-128, 8320], [-128, 9088], [-2304, 9088]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:clue_2, offset: 1344, length: 256, bottom: 96, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The second clue (aaze0084:3).}
+    ambient: 12
+    notes: "A low hall of hieroglyph walls; the second clue; sand drifted in; the library's door north."
+  - id: room:haunch_vault
+    name: Vault of the haunches
+    outline: [[-896, 5248], [896, 5248], [896, 6144], [-896, 6144]]
+    floor: 0
+    ceiling: 576
+    theme: theme:body
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:sign_down, offset: 368, length: 160, bottom: 160, height: 160, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: "'Stairs down.' beside the dungeon stair (aaze0084:9)."}
+      - wall: west
+        panels:
+          - {offset: 288, length: 320, bottom: 64, height: 320, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: "Grave goods: statues in a niche."}
+      - wall: east
+        panels:
+          - {offset: 288, length: 320, bottom: 64, height: 320, surface: {texture: egyspca, size: [256, 256], fit: true}, notes: "Grave goods: statues in a niche."}
+    ambient: 12
+    notes: "Grave goods in niches, the vault's chest; the dungeon stair north."
+  - id: room:king_throne
+    name: King's throne
+    outline: [[-2432, 3712], [-1408, 3712], [-1408, 4864], [-2432, 4864]]
+    floor: 0
+    ceiling: 640
+    theme: theme:throne
+    platforms:
+      - {at: [-2232, 4288], size: [384, 576], rise: 48, surface: {texture: egywlc, size: [128, 256]}, top_surface: {texture: egyflora, size: [128, 128]}, notes: The King dais.}
+      - {id: platform:throne_king, at: [-2280, 4288], size: [176, 224], rise: 128, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The King seat: the King's throne (q-c9.throne_king)"}
+      - {at: [-2392, 4288], size: [48, 288], rise: 448, surface: {texture: egywlf, size: [256, 256]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: The King throne's carved back.}
+    ambient: 12
+    notes: The King's throne on its dais against the west wall.
+  - id: room:legend_throne
+    name: Throne of legends
+    outline: [[-1472, -4608], [-576, -4608], [-576, -3712], [-1472, -3712]]
+    floor: 1280
+    ceiling: 1920
+    theme: theme:throne
+    bands:
+      - {height: 576, surface: {texture: egymeda, size: [256, 256]}}
+      - {height: 640, surface: {texture: egytrmd, size: [64, 64]}}
+    platforms:
+      - {at: [-1024, -3912], size: [576, 384], rise: 48, surface: {texture: egywlc, size: [128, 256]}, top_surface: {texture: egyflora, size: [128, 128]}, notes: The legend dais.}
+      - {id: platform:throne_legend, at: [-1024, -3864], size: [224, 176], rise: 128, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The legend seat: the throne of legends, the old names Human, Elf, Gnome, Orc and Dwarf carved in it (q-c9.throne_legend)"}
+      - {at: [-1024, -3752], size: [288, 48], rise: 448, surface: {texture: egywlf, size: [256, 256]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: The legend throne's carved back.}
+      - {id: platform:book_heavens, at: [-1344, -4352], size: [96, 64], rise: 96, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: "A lectern: the Book of the Heavens (Starburst)."}
+      - {id: platform:book_sun, at: [-704, -4352], size: [96, 64], rise: 96, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: "A lectern: the Book of the Sun (Divine Intervention)."}
+    ambient: 12
+    notes: "In the nemes' crown: the throne of legends and two lecterns (Starburst, Divine Intervention)."
+  - id: room:library
+    name: Scribes' library
+    outline: [[-1280, 9216], [1152, 9216], [1152, 10624], [-1280, 10624]]
+    floor: -640
+    ceiling: -64
+    theme: theme:library
+    walls:
+      - wall: west
+        panels:
+          - {id: panel:clue_5, offset: 192, length: 256, bottom: 128, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The fifth clue (aaze0084:6).}
+      - wall: north
+        panels:
+          - {id: panel:hieroglyphs, offset: 1024, length: 384, bottom: 128, height: 384, surface: {texture: egywlspc, size: [256, 256], fit: true}, notes: "The end wall: the scribes' summary, the whole riddle (A3's q-c9.hieroglyphs)."}
+    platforms:
+      - {at: [-1088, 9760], size: [96, 576], rise: 320, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywle, size: [128, 128]}, notes: Shelves of clay tablets along the west wall.}
+      - {id: platform:tablets, at: [960, 9760], size: [96, 576], rise: 320, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywle, size: [128, 128]}, notes: Shelves of clay tablets along the east wall.}
+      - {id: platform:lectern, at: [-256, 10368], size: [96, 64], rise: 96, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egyflorb, size: [128, 128]}, notes: "The scribes' lectern, where the books were: a gem left on it."}
+    ambient: 12
+    notes: "Shelves of clay tablets, the scribes' lectern, a chest; the fifth clue and the summary."
+  - id: room:neck_landing
+    name: Neck landing
+    outline: [[448, -2816], [1216, -2816], [1216, -2048], [448, -2048]]
+    floor: 1280
+    ceiling: 1856
+    theme: theme:head
+    ambient: 12
+    notes: "The top of the throat stair; passages west and east into the lappets."
+  - id: room:paw_hall
+    name: Hall of the paws
+    outline: [[-1280, 832], [1280, 832], [1280, 2048], [-1280, 2048]]
+    floor: 0
+    ceiling: 704
+    theme: theme:body
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:sign_up, offset: 2352, length: 160, bottom: 160, height: 160, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: "'Stairs up.' over the throat stair's mouth (aaze0082:13)."}
+    bands:
+      - {height: 640, surface: {texture: egybiga, size: [256, 256]}}
+      - {height: 704, surface: {texture: egytrmb, size: [64, 64]}}
+    pillars:
+      - {at: [-640, 1184], size: [176, 176], surface: {texture: egycol64, size: [64, 256], scale: 2.75}}
+      - {at: [-640, 1696], size: [176, 176], surface: {texture: egycol64, size: [64, 256], scale: 2.75}}
+      - {at: [640, 1184], size: [176, 176], surface: {texture: egycol64, size: [64, 256], scale: 2.75}}
+      - {at: [640, 1696], size: [176, 176], surface: {texture: egycol64, size: [64, 256], scale: 2.75}}
+    ambient: 16
+    notes: "Under the chest: two rows of striped columns, braziers between them, the throat stair's mouth in the south-east, the galleries west and east."
+  - id: room:queen_throne
+    name: Queen's throne
+    outline: [[1408, 3712], [2432, 3712], [2432, 4864], [1408, 4864]]
+    floor: 0
+    ceiling: 640
+    theme: theme:throne
+    platforms:
+      - {at: [1920, 4664], size: [576, 384], rise: 48, surface: {texture: egywlc, size: [128, 256]}, top_surface: {texture: egyflora, size: [128, 128]}, notes: The Queen dais.}
+      - {id: platform:throne_queen, at: [1920, 4712], size: [224, 176], rise: 128, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The Queen seat: the Queen's throne (q-c9.throne_queen)"}
+      - {at: [1920, 4824], size: [288, 48], rise: 448, surface: {texture: egywlf, size: [256, 256]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: The Queen throne's carved back.}
+    ambient: 12
+    notes: "The Queen's throne against the east wall; the loose panel with the carved mask beside it."
+  - id: room:riddle
+    name: The riddle chamber
+    outline: [[-448, -4864], [2112, -4864], [2112, -3456], [-448, -3456]]
+    floor: 1280
+    ceiling: 2048
+    theme: theme:head
+    walls:
+      - wall: north
+        panels:
+          - {id: panel:plaque_1, offset: 1536, length: 256, bottom: 160, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The first hieroglyph plaque (aaze0082:2).}
+          - {id: panel:plaque_2, offset: 768, length: 256, bottom: 160, height: 256, surface: {texture: egytrmc, size: [64, 64], fit: true, uneven: true}, notes: The second hieroglyph plaque (aaze0082:3).}
+      - wall: south
+        panels:
+          - {offset: 960, length: 128, bottom: 448, height: 128, surface: {texture: egyswbof, size: [32, 32], scale: 4}, notes: "The west eye: a slit of light from outside."}
+          - {offset: 1472, length: 128, bottom: 448, height: 128, surface: {texture: egyswbof, size: [32, 32], scale: 4}, notes: The east eye.}
+    bands:
+      - {height: 704, surface: {texture: egybigb, size: [256, 256]}}
+      - {height: 768, surface: {texture: egytrmc, size: [64, 64]}}
+    levels:
+      - id: level:pit
+        outline: [[640, -4352], [1024, -4352], [1024, -3968], [640, -3968]]
+        floor: 1088
+        notes: "The shaft under the sun disc, 192 deep: the disc fills it and sinks into it."
+    ambient: 12
+    notes: "Behind the face: the eyes' two bars of light, two plaques, the sun disc over its shaft; two iron guardians. The legend door west."
+  - id: room:stair_foot
+    name: Stair foot
+    outline: [[-512, 7424], [512, 7424], [512, 8192], [-512, 8192]]
+    floor: -640
+    ceiling: -192
+    theme: theme:dungeon
+    ambient: 12
+    notes: The foot of the dungeon stair.
+  - id: room:thieves_throne
+    name: Thieves' throne
+    outline: [[2560, 4032], [3200, 4032], [3200, 4544], [2560, 4544]]
+    floor: 0
+    ceiling: 448
+    theme: theme:throne
+    bands:
+      - {height: 384, surface: {texture: egymeda, size: [256, 256]}}
+      - {height: 448, surface: {texture: egytrmd, size: [64, 64]}}
+    platforms:
+      - {id: platform:throne_thieves, at: [3104, 4288], size: [128, 192], rise: 112, surface: {texture: egywle, size: [128, 128]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: "The Thieves' throne: a plain seat in a closet (q-c9.throne_thieves)."}
+      - {at: [3168, 4288], size: [32, 224], rise: 384, surface: {texture: egywlf, size: [256, 256]}, top_surface: {texture: egywlc, size: [128, 256]}, notes: Its back.}
+    ambient: 12
+    notes: "A closet behind the loose panel: the Prince of Thieves' throne."
+  - id: room:throat_stair
+    name: Throat stair
+    outline: [[640, -1920], [1024, -1920], [1024, 704], [640, 704]]
+    floor: 0
+    slope: {to: 1280, toward: south, steps: 40}
+    ceiling: 512
+    ceiling_slope: {to: 1792, toward: south}
+    theme: theme:stair
+    ambient: 10
+    notes: "A straight stair of 40 steps up the throat, 1,280 to the head."
+  - id: room:west_lappet
+    name: West lappet
+    outline: [[-448, -3328], [320, -3328], [320, -2176], [-448, -2176]]
+    floor: 1280
+    ceiling: 1792
+    theme: theme:head
+    ambient: 12
+    notes: "Inside the striped lappet before the west shoulder: a priest's chest."
+openings:
+  - id: open:belly_haunch
+    from: room:belly_hall
+    to: room:haunch_vault
+    from_wall: 2
+    to_wall: 0
+    link: link:belly_haunch
+    width: 256
+    height: 320
+  - id: open:belly_king
+    from: room:belly_hall
+    to: room:king_throne
+    from_wall: 3
+    to_wall: 1
+    link: link:belly_king
+    width: 384
+    height: 384
+    notes: "The crown door: two carved leaves (egydrsml, egydrsmr: Horus in the double crown)."
+  - id: open:belly_queen
+    from: room:belly_hall
+    to: room:queen_throne
+    from_wall: 1
+    to_wall: 3
+    link: link:belly_queen
+    width: 192
+    height: 384
+    notes: "The veil door: one carved leaf (egydrsmc: veiled women in relief)."
+  - id: open:drop_ge
+    from: room:drop_cell
+    to: room:glyph_e
+    from_wall: 3
+    to_wall: 1
+    link: link:drop_out
+    width: 256
+    height: 320
+    notes: "The drop cell's door: it opens from inside and stays open (D-39)."
+  - id: open:dstair_foot
+    from: room:dungeon_stair
+    to: room:stair_foot
+    from_wall: 2
+    to_wall: 0
+    link: link:dstair_down
+    width: 320
+    height: 384
+  - id: open:el_riddle
+    from: room:east_lappet
+    to: room:riddle
+    from_wall: 0
+    to_wall: 2
+    link: link:el_riddle
+    width: 384
+    height: 448
+  - id: open:foot_gw
+    from: room:stair_foot
+    to: room:glyph_w
+    from_wall: 2
+    to_wall: 0
+    link: link:foot_gw
+    width: 320
+    height: 384
+  - id: open:gate_paws
+    from: room:breast_gate
+    to: room:paw_hall
+    from_wall: 2
+    to_wall: 0
+    link: link:gate_paws
+    width: 512
+    height: 448
+  - id: open:ge_belly
+    from: room:gallery_e
+    to: room:belly_hall
+    from_wall: 3
+    to_wall: 1
+    link: link:ge_belly
+    width: 384
+    height: 448
+  - id: open:ge_library
+    from: room:glyph_e
+    to: room:library
+    from_wall: 2
+    to_wall: 0
+    link: link:library_ge
+    along: 0.4444
+    width: 384
+    height: 384
+  - id: open:gw_belly
+    from: room:gallery_w
+    to: room:belly_hall
+    from_wall: 1
+    to_wall: 3
+    link: link:gw_belly
+    width: 384
+    height: 448
+  - id: open:gw_ge
+    from: room:glyph_w
+    to: room:glyph_e
+    from_wall: 1
+    to_wall: 3
+    link: link:gw_ge
+    width: 384
+    height: 384
+  - id: open:gw_library
+    from: room:glyph_w
+    to: room:library
+    from_wall: 2
+    to_wall: 0
+    link: link:gw_library
+    width: 256
+    height: 320
+  - id: open:haunch_dstair
+    from: room:haunch_vault
+    to: room:dungeon_stair
+    from_wall: 2
+    to_wall: 0
+    link: link:haunch_dstair
+    width: 320
+    height: 384
+  - id: open:neck_el
+    from: room:neck_landing
+    to: room:east_lappet
+    from_wall: 1
+    to_wall: 3
+    link: link:neck_el
+    width: 320
+    height: 384
+  - id: open:neck_wl
+    from: room:neck_landing
+    to: room:west_lappet
+    from_wall: 3
+    to_wall: 1
+    link: link:neck_wl
+    width: 320
+    height: 384
+  - id: open:paws_ge
+    from: room:paw_hall
+    to: room:gallery_e
+    from_wall: 1
+    to_wall: 3
+    link: link:paws_ge
+    width: 384
+    height: 448
+  - id: open:paws_gw
+    from: room:paw_hall
+    to: room:gallery_w
+    from_wall: 3
+    to_wall: 1
+    link: link:paws_gw
+    width: 384
+    height: 448
+  - id: open:paws_throat
+    from: room:paw_hall
+    to: room:throat_stair
+    from_wall: 0
+    to_wall: 2
+    link: link:paws_throat
+    width: 320
+    height: 384
+  - id: open:queen_thieves
+    from: room:queen_throne
+    to: room:thieves_throne
+    from_wall: 1
+    to_wall: 3
+    link: link:queen_thieves
+    width: 256
+    height: 320
+    notes: "The loose panel: the mask carved on it (egywlspa); a secret door."
+  - id: open:riddle_legend
+    from: room:riddle
+    to: room:legend_throne
+    from_wall: 3
+    to_wall: 1
+    link: link:riddle_legend
+    width: 512
+    height: 256
+    notes: "The legend door: two leaves (egydrlgl, egydrlgr: the pharaoh enthroned under the sun)."
+  - id: open:throat_neck
+    from: room:throat_stair
+    to: room:neck_landing
+    from_wall: 0
+    to_wall: 2
+    link: link:throat_up
+    width: 320
+    height: 384
+    notes: "The head of the throat stair, 1,280 over the paw hall."
+  - id: open:wl_riddle
+    from: room:west_lappet
+    to: room:riddle
+    from_wall: 0
+    to_wall: 2
+    link: link:wl_riddle
+    width: 384
+    height: 448
+notes: "XD-15 The Sphinx at L4: the body at 0 (breast gate, paw hall, the two sarcophagus galleries, the belly hall with the crown and veil doors, the King's, Queen's and Thieves' thrones, the haunch vault), the head at 1,280 up the throat stair (neck landing, lappets, the riddle chamber, the throne of legends), the hieroglyph dungeon at -640 down the dungeon stair (stair foot, two halls, the scribes' library, the drop cell). x east, y north; the Sphinx faces south. Written by output/studio_cal/xd15/tools/gen.py."

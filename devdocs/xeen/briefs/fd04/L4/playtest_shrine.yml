@@ -1,0 +1,110 @@
+# The shrines (D-57 Q26; written by output/studio_cal/fd04/tools/gen_tests.py): Minor Evil broken by its
+# question (its experience once); the Ultimate's question carries the tell; No leaves it; Yes: A3's Fire
+# damage and line, the shake, 118148, and the throw (leave, no window: D-63 13) out to X7's entrance:fd04_door, the
+# party alive.
+id: xeen.fd04.l4.shrine
+title: 'Dragon Tower (FD-04 L4): the Shrines of Minor and Ultimate Evil'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd04.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 63
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 63
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd04.blv
+- play_lua:
+    source: wait(2); close()
+- console:
+    line: tp 1500 7000 -1792
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- setup_shortcut:
+    kind: immortal
+    value: true
+- clear_hostiles:
+    radius: 8000
+- play_lua:
+    source: 'click(57); wait(0.5); local s = tostring(status()); log(''fountain: '' .. s); if not string.find(s, ''Ahh, refreshing'',
+      1, true) then error(''fountain line: '' .. s) end'
+- assert:
+    member_points:
+      member_index: 1
+      health_min: 150
+- setup_shortcut:
+    kind: immortal
+    value: false
+- play_lua:
+    source: click(82); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+    present_dialogs: true
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, [[Shrine of Minor Evil cracks]], 1, true) then error(''status
+      line: '' .. s) end'
+- play_lua:
+    source: close(); wait(0.5); close(); if not qbit(114043) then error('shrine_minor 114043 not set') end
+- play_lua:
+    source: click(84); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: walls seem to lean
+- answer_input:
+    text: 'No'
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.5); if qbit(118148) then error('No broke the Ultimate shrine') end
+- play_lua:
+    source: click(84); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x7.odm
+- assert:
+    dialog:
+      active: false
+- play_lua:
+    source: 'local s = tostring(status()); log(''ultimate: '' .. s .. '' | '' .. party()); if not qbit(118148) then error(''ultimate_broken
+      118148 not set'') end'
+- play_lua:
+    source: 'log(''after the shrine: '' .. party()); for i = 0, 3 do local c = tostring(conditions(i)); log(''member '' ..
+      i .. '': '' .. c); if string.find(c, ''Dead'', 1, true) or string.find(c, ''Eradicated'', 1, true) then error(''the
+      shrine killed member '' .. i) end end'
+- assert:
+    party_position:
+      x: -17920
+      y: 16384
+      radius: 200
+      z_min: 2400
+      z_max: 2800

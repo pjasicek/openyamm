@@ -1,0 +1,233 @@
+# Hand-kept map points of the Xeen guide (tools/xeen_site/build_site.py reads this after the generated points).
+#
+# rename: <map id>: <point id>: {n: name, d: detail, t: type}  -- a generic point the scripts name poorly ("Lava
+#   Head" four times, "Button"); point ids are the generated ones (e<event>, a<actor>, c<chest>).
+# add: <map id>: - {id, t, x, y, z, n, d, quests}  -- a puzzle piece the scripts cannot place or name (world
+#   coordinates; z picks the storey indoors).
+#
+# solutions: <map id>: {map: [phrases], <point id>: [pieces]}  -- what the map's puzzles check (D-79): phrases no
+#   point of the map may say again, and short pieces (rune syllables, obelisk words) that only that point may not say.
+#   A phrase of three letters or fewer matches only as written ("THE", "FI"); longer ones in any case.
+#
+# Player text only, as everywhere in the guide (D-76, D-79): no developer wording and no puzzle answers or solutions; a
+# point says what a thing is, what it asks and what it does, never how to solve it (no value, order, pairing, route,
+# word or pieces of one). A cut clue keeps its lead-in and ends with a full stop. The build stops on any of them.
+
+rename:
+  xeen_dd17:
+    e21: {d: "A sundial in its alcove; each turn moves it on one hour"}
+    e22: {d: "A sundial in its alcove; each turn moves it on one hour"}
+    e23: {d: "A sundial in its alcove; each turn moves it on one hour"}
+    e24: {d: "A sundial in its alcove; each turn moves it on one hour"}
+    e48: {n: "Air Head"}
+    e50: {n: "Earth Head"}
+    e52: {n: "Fire Head"}
+    e54: {n: "Water Head"}
+  xeen_xd06:
+    e10: {n: "Pool button (first)", d: "One of the three buttons that raise and sink the stones in the pool"}
+    e11: {n: "Pool button (second)", d: "One of the three buttons that raise and sink the stones in the pool"}
+    e12: {n: "Pool button (third)", d: "One of the three buttons that raise and sink the stones in the pool"}
+  xeen_fd01:
+    e20: {n: "Key vault box", d: "The box in the key vault: it holds the Key to the Dragon Tower", t: objective,
+          quests: [q-f1]}
+    e28: {d: "A plaque in the Hall of Nine."}  # D-79
+  xeen_xd11:
+    e17: {n: "Lift gate, first floor"}
+    e18: {n: "Gate lever, first floor"}
+    e19: {n: "Lift gate, second floor"}
+    e20: {n: "Gate lever, second floor"}
+    e21: {n: "Lift gate, top floor"}
+    e22: {n: "Gate lever, top floor"}
+
+  # D-79: clues cut before the solution (the walkthroughs keep it).
+  xeen_d1:
+    e190: {d: "Carved into the obelisk, the first of six words."}
+  xeen_d2:
+    e43: {d: "Carved into the obelisk, the second of six words."}
+    e88: {d: "You put your ear to the stone. It whispers one word. Then, rudely: 'Go away.'"}
+  xeen_d3:
+    e134: {d: "Carved into the obelisk, the third of six words."}
+  xeen_d4:
+    e78: {d: "Carved into the obelisk, the fourth of six words."}
+  xeen_d5:
+    e49: {d: "Carved into the obelisk, the fifth of six words."}
+    e46: {d: "The Enchanted Boulder speaks the first line of its riddle."}
+    e47: {d: "The Enchanted Boulder speaks the second line of its riddle."}
+    e42: {d: "The Enchanted Boulder speaks the third line of its riddle."}
+    e43: {d: "The Enchanted Boulder speaks the fourth line of its riddle."}
+    e44: {d: "The Enchanted Boulder speaks the fifth line of its riddle."}
+    e45: {d: "The Enchanted Boulder speaks the sixth line of its riddle."}
+  xeen_d6:
+    e85: {d: "Carved into the obelisk, the last of six words."}
+  xeen_d7:
+    e126: {d: "All beings have a true name."}
+  xeen_dd09:
+    e6: {d: "Only a scrap of the original text remains legible."}
+    e21: {n: "East dial", d: "A dial reading 1 to 4; each turn moves it on one."}
+    e22: {n: "North dial", d: "A dial reading 1 to 4; each turn moves it on one."}
+    e23: {n: "West dial", d: "A dial reading 1 to 4; each turn moves it on one."}
+  xeen_dd12:
+    e64: {d: "Carved over the gate: NEVER UNDERESTIMATE THE POWER OF POSITIVE THINKING."}
+    e87: {d: "An inscription on the statue's plinth."}
+    e88: {d: "A plaque on the plinth, with a riddle about the levers."}
+    e89: {d: "A plaque on the plinth, with a riddle about the levers."}
+    e66: {d: "One of the levers of the lever hall.", t: "lever"}
+    e67: {d: "One of the levers of the lever hall.", t: "lever"}
+    e68: {d: "One of the levers of the lever hall.", t: "lever"}
+    e69: {d: "One of the levers of the lever hall.", t: "lever"}
+    e70: {d: "One of the levers of the lever hall.", t: "lever"}
+    e71: {d: "One of the levers of the lever hall.", t: "lever"}
+    e72: {d: "One of the levers of the lever hall.", t: "lever"}
+    e73: {d: "One of the levers of the lever hall.", t: "lever"}
+    e74: {d: "One of the levers of the lever hall.", t: "lever"}
+    e75: {d: "One of the levers of the lever hall.", t: "lever"}
+    e76: {d: "One of the levers of the lever hall.", t: "lever"}
+    e77: {d: "One of the levers of the lever hall.", t: "lever"}
+  xeen_dd15:
+    e51: {d: "A map of the pads, pinned to the wall and forgotten: the Overseer's."}
+    e60: {d: "The statue speaks as you approach it."}
+    e61: {d: "The statue speaks as you approach it."}
+    e69: {d: "A tapestry of the Dragon Pharaoh among the stars."}
+    e84: {d: "The first of four verses carved on the statue."}
+    e85: {d: "The first of four verses carved on the statue."}
+    e88: {d: "The third of four verses carved on the statue."}
+    e89: {d: "The third of four verses carved on the statue."}
+  xeen_dd26:
+    e6: {d: "You find a piece of a note."}
+    e7: {d: "You find a piece of a note."}
+    e8: {d: "You find a piece of a note."}
+    e9: {d: "You find a piece of a note."}
+  xeen_fd02:
+    e40: {d: "The strange writings seem to give a lesson about one letter."}
+    e41: {d: "The strange writings seem to give a lesson about one letter."}
+    e42: {d: "The strange writings seem to give a lesson about one letter."}
+    e43: {d: "The strange writings seem to give a lesson about one letter."}
+    e44: {d: "The strange writings seem to give a lesson about one letter."}
+    e45: {d: "The strange writings seem to give a lesson about one letter."}
+  xeen_x1:
+    e75: {d: "Carved into the obelisk, the first of seven words."}
+  xeen_x2:
+    e168: {d: "Carved into the obelisk, the second of seven words."}
+  xeen_x3:
+    e105: {d: "Carved into the obelisk, the third of seven words."}
+    e50: {d: "A sign about the hours the Count keeps."}
+    e51: {d: "A sundial on the dial walk; each turn moves it on one hour."}
+    e52: {d: "A sundial on the dial walk; each turn moves it on one hour."}
+    e53: {d: "A sundial on the dial walk; each turn moves it on one hour."}
+  xeen_x4:
+    e139: {d: "Carved into the obelisk, the fourth of seven words."}
+    e98: {d: "A message appears in the stone, in rhyme."}
+  xeen_x5:
+    e73: {d: "Carved into the obelisk, the fifth of seven words."}
+    e66: {d: "A rhyme on the plaque about the northern gongs: the well can make you strong, but the order is up to you."}
+  xeen_x6:
+    e36: {d: "Carved into the obelisk, the sixth of seven words."}
+    e81: {d: "The Sphinx's door between its paws. The first click: 'The stone between the paws slides aside, as if it had been waiting for someone to knock.' Click again to go in."}
+  xeen_x7:
+    e13: {d: "Carved into the obelisk, the last of seven words."}
+  xeen_x9:
+    e28: {d: "A short sign on the brink."}
+    e46: {d: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription."}
+    e47: {d: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription."}
+    e48: {d: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription."}
+    e49: {d: "You decipher the strange Dragon Runes and are puzzled by the simplicity of the inscription."}
+  xeen_xd18:
+    e14: {d: "The inner door out of the tax hall, into the dragons' side of the cave. It opens for anyone."}
+    e7: {d: "Until the dragon tax is paid: '\"Tax first,\" says the door in Scaldrith's voice. It stays shut.'"}
+  xeen_xd12:
+    e10: {d: "Crodo the Overseer, thin and grey, gets up from his stool. \"Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.\" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."}
+  xeen_xd13:
+    e15: {d: "Scratched into the stone: the first of five numbered syllables."}
+    e4: {d: "Scratched into the stone: the second of five numbered syllables."}
+    e20: {d: "Scratched into the stone: the third of five numbered syllables."}
+    e36: {d: "Scratched into the stone: the fourth of five numbered syllables."}
+    e24: {d: "Scratched into the stone: the last of five numbered syllables. Someone did not trust his own memory."}
+  xeen_xd15:
+    e8: {d: "Hieroglyphs: the first line of a riddle."}
+    e9: {d: "Hieroglyphs: the second line of a riddle."}
+    e10: {d: "Hieroglyphs: the third line of a riddle."}
+    e11: {d: "Hieroglyphs: the fourth line of a riddle."}
+    e12: {d: "Hieroglyphs: the fifth line of a riddle."}
+    e25: {d: "Hieroglyphs, and under them a riddle in five lines."}
+  xeen_xd21:
+    e20: {d: "The Robber Boss's ledger. Takings by the week; a royal tiara, 'not to be fenced'; and at the foot, underlined twice, a warning about the strongroom passage. Darts for anyone who forgets. That means you, Weasel."}
+  xeen_xd25:
+    e14: {d: "A message appears in the stone over the wall of light."}
+
+add: {}
+
+solutions:
+  # D-79: the Dragon Rune books' syllables spell x9's typed answer (Infinity), so they count as that answer.
+  xeen_d1:
+    e190: ["DIG"]
+  xeen_d2:
+    e43: ["BENEATH"]
+    e88: ["BENEATH"]
+  xeen_d3:
+    e134: ["THE"]
+  xeen_d4:
+    e78: ["BROKEN"]
+  xeen_d5:
+    e49: ["TRAVEL"]
+    map: ["also in pear", "also in lair", "also in tale", "also in quail", "not in gale", "also in sight"]
+  xeen_d6:
+    e85: ["PYRAMID"]
+  xeen_d7:
+    map: ["true name, for instance"]
+  xeen_dd09:
+    map: ["Western dials", "Northern to 2", "Eastern to 3"]
+  xeen_dd12:
+    map: ["Turn all dials up", "Answer gladly", "third from the top", "Reserve's portcullis rises"]
+  xeen_dd15:
+    map: ["the bird, then", "Sun, eye, scarab", "fifty-two", "twenty, left", "thirty-two", "forty-two", "divide by three"]
+  xeen_dd26:
+    e6: ["BL"]
+    e7: ["ES"]
+    e8: ["IB"]
+    e9: ["TR"]
+  xeen_fd01:
+    map: ["Nine is the time"]
+  xeen_fd02:
+    e40: ["letter \"A\""]
+    e41: ["letter \"C\""]
+    e42: ["letter \"D\""]
+    e43: ["letter \"I\""]
+    e44: ["letter \"P\""]
+    e45: ["letter \"R\""]
+  xeen_x1:
+    e75: ["SEEK"]
+  xeen_x2:
+    e168: ["THE"]
+  xeen_x3:
+    e105: ["HOARD"]
+    map: ["wakes at nine", "sleeps at nine"]
+  xeen_x4:
+    e139: ["BURIED"]
+    map: ["southwest corner", "Begin with red", "Alternate the colors"]
+  xeen_x5:
+    e73: ["FOR"]
+    map: ["Bang twice"]
+  xeen_x6:
+    e36: ["THE"]
+  xeen_x7:
+    e13: ["SPHINX"]
+  xeen_x9:
+    e28: ["9N"]
+    e46: ["FI"]
+    e47: ["IN"]
+    e48: ["NI"]
+    e49: ["TY"]
+  xeen_xd12:
+    map: ["laboratory"]
+  xeen_xd13:
+    e15: ["la"]
+    e4: ["bo"]
+    e20: ["ra"]
+    e36: ["to"]
+    e24: ["ry"]
+  xeen_xd15:
+    map: ["not in defiant", "not in mule", "not in stitch", "not in Girard", "not in Queen"]
+  xeen_xd21:
+    map: ["throw the catch"]
+  xeen_xd25:
+    map: ["Alternate the colors"]

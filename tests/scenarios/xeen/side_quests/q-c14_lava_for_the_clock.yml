@@ -1,0 +1,77 @@
+# Xeen side quest Q-C14, Lava for the Water Clock (X5, X7), from a new game on X5. Halon the Efficient in his workshop
+# (X5 event 43, house 4274): Water clock (started), and again (the "wasting time" line). Overland to Mount Firestone:
+# the Ever-Hot Lava Rock on the ground on the cooled-flow island of X7's lava lake (a ground item since D-90 (c),
+# picked up). Back to Halon: the rock for his Widget (done, 12,000 XP).
+# The party travels overland and its events are clicked by id (PLAYBOOK.md section 2: outdoors the party may be
+# placed). Quest logic: source/quests/q-c14.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c14_lava_for_the_clock.yml --scenario-no-color
+id: xeen.side_quests.q-c14
+title: "Xeen Q-C14: Halon's water clock; the Ever-Hot Lava Rock from X7's lava lake"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+      party:
+        gold: 200
+        food: 40
+        members:
+          - {name: Hilda, class: Knight, level: 40, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 40, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 40, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 40, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112280, 112282]}
+  # Halon's Workshop (X5 event 43): Water clock (started), and again.
+  - play_lua: {source: "click(43); wait(0.5)"}
+  - assert:
+      dialog: {active: true, source_id: 4526}
+  - select_topic: {match_label: Water clock}
+  - assert:
+      dialog: {text_contains: "If I had some magical lava from Mount Firestone"}
+  - select_topic: {match_label: Water clock}
+  - assert:
+      dialog: {text_contains: "You don't have the lava!"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112280]}
+  # Overland to X7: the Ever-Hot Lava Rock on the ground on the cooled-flow island (D-90 (c), A5's X7 2026-11-22; cell
+  # 35, 44). Outdoors the party is placed (PLAYBOOK §2) beside the rock, north-west of it.
+  - travel: {map: xeen_x7.odm, days: 3}
+  - assert: {map: xeen_x7.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_x7.odm, x: -14991, y: 10383, z: 1650, yaw: -0.785, pitch: -0.3}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "if ground_items(12314) ~= 1 then error('the lava rock is not on the ground') end"}
+  - pick_up: {item_id: 12314, reach: 700}
+  - play_lua:
+      source: |
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12314) ~= 1 then error("the island gave " .. item_count(12314) .. " lava rocks") end
+        if ground_items(12314) ~= 0 then error("the lava rock is still on the ground") end
+  # Back to Halon: the rock for his Widget.
+  - travel: {map: xeen_x5.odm, days: 3}
+  - assert: {map: xeen_x5.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; remember('xp', experience(0)); click(43); wait(0.5)"}
+  - assert:
+      dialog: {active: true, source_id: 4526}
+  - select_topic: {match_label: Water clock}
+  - assert:
+      dialog: {text_contains: "Take this widget as payment."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if not qbit(112282) then error("done 112282 not set") end
+        if qbit(112280) then error("started not cleared") end
+        if item_count(12314) ~= 0 then error("Halon left the lava rock") end
+        if item_count(12315) ~= 1 then error("no Widget") end
+        if experience(0) < recall("xp") + 12000 then error("Halon paid " .. (experience(0) - recall("xp")) .. " experience") end
+        log("Q-C14 done: experience " .. experience(0))

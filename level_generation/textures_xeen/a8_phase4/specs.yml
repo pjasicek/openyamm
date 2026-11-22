@@ -1,0 +1,113 @@
+# Lane A8 (2026-11-20, decision D-42): the five new textures of A8's Act IV dungeons DD-05, DD-12 and DD-14, each placed
+# once per face (fit). See ../README.md for the kinds and the finishing.
+dungeons:
+  dd05:
+    family_words: >-
+      the Towers of Mok of the Darkside of Xeen, built like the Castle of Air and the Temple of the Sun of Might and
+      Magic VIII: grey dressed stone, pale marble, gold and blue mosaic, and tapestries in the style of Might and Magic
+      VII's woven hangings with their patterned borders
+  dd12:
+    family_words: >-
+      the Maze of Might and Magic VII, the Dungeon of Lost Souls under a ruined tower: grey and red-brown dressed
+      dungeon stone, heavy iron-barred grate doors, dark bronze, dim and old
+  dd14:
+    family_words: >-
+      Castle Navan of Might and Magic VII, the vampire Count Blackfang's castle: grey-green dressed castle stone,
+      dark slate, black iron, and woven tapestries in the style of Might and Magic VII's hangings
+textures:
+  xmoktap:
+    dungeon: dd05
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/ceb1tap8, mm7/tap1, mm8/gtempw1]
+    tone: {like: [mm7/ceb1tap8], factor: 0.9}
+    family: MM7 woven tapestries (ceb1tap8, tap1) in MM8 d27/d22 halls
+    where: DD-05's tapestry walk, three hangings once per face (the button behind the middle one)
+    standin: ceb1tap8
+    what: >-
+      A tall woven tapestry hanging seen straight on, filling the whole canvas, woven in the same style as the
+      references: a deep blue border with a small repeating gold and white pattern on all four edges, and on a cream
+      and gold field in the middle the emblem of the sun god Mok: a large golden sun disc with straight and wavy rays,
+      and in the sun's centre a single wide-open human eye, blue iris, looking straight out. Over the sun someone has
+      daubed a crude heretic's sign in thick dark red paint with a brush: a broken circle slashed through by one
+      diagonal stroke, with drips running down from it onto the field below. The weave texture shows; the daub sits on
+      top of the weave and soaks into it. No rod, no wall, the tapestry reaches every edge.
+  xlsplaque:
+    dungeon: dd12
+    size: [256, 64]
+    art: [256, 64]
+    kind: sign
+    refs: [mm7/cwb, mm7/ceb1sa, mm7/cwb1]
+    tone: {like: [mm7/cwb], factor: 1.0}
+    family: MM7 d02 grey dungeon stone (cwb)
+    where: DD-12's first gate, over it on the north wall, once
+    standin: cwb1gold
+    what: >-
+      A long carved stone plaque: one slab of weathered grey dressed stone like the references, with a raised plain
+      moulded border all round, and cut deep into it in two lines of plain Roman capitals, shadowed in the grooves:
+      "NEVER UNDERESTIMATE THE POWER" on the first line and "OF POSITIVE THINKING" on the second, evenly spaced and
+      fully readable. The stone is old, a few chips at the corners, dust in the letters.
+  xlsgate:  # v1 failed (a whole sun per leaf); the finished file is the left half of xlsgatefull, cut at its seam
+    dungeon: dd12
+    size: [128, 256]
+    kind: picture
+    refs: [mm7/c1d1, mm7/ceb1dl, mm7/cwb]
+    tone: {like: [mm7/c1d1], factor: 1.1}
+    family: MM7 d02 iron grate door (c1d1)
+    where: DD-12's five gates, the left leaf of each (the right leaf shows it mirrored)
+    standin: c1d1
+    what: >-
+      The LEFT leaf of a tall double gate, seen straight on, filling the whole canvas: a heavy frame of dark riveted
+      iron round all four edges, inside it a grid of thick dark iron bars like the reference grate, and behind the bars
+      a flat plate of dark bronze bearing, against the RIGHT edge of the canvas, the left HALF of a big smiling sun: a
+      half disc whose straight cut edge lies exactly on the right edge of the canvas at mid height, with half a round
+      cheerful face (one eye, half a broad grin, half a nose) and bronze rays fanning out to the left. Mirrored, a
+      second leaf completes the sun into one smiling face where the leaves meet. Old, dark, a little verdigris on the
+      bronze, the iron rusty at the rivets.
+  xlsglass:
+    dungeon: dd12
+    size: [128, 128]
+    kind: picture
+    refs: [mm7/cwb, mm7/cwb1, mm7/ceb1sa]
+    tone: {like: [mm7/cwb], factor: 0.95}
+    family: MM7 d02 grey dungeon stone (cwb)
+    where: DD-12 L1, four hourglasses in wall niches, once per face
+    standin: cwb1gold
+    what: >-
+      A square stone wall panel seen straight on, filling the whole canvas: grey dressed stone blocks like the
+      references round the edges, and in the middle a shallow round-arched niche cut into the wall, darker inside, with
+      a plain stone sill. In the niche stands a large old hourglass: two clear glass bulbs in a dark wooden frame with
+      turned posts and round end plates, pale sand half run down into the lower bulb, a thin trickle falling. Dim and
+      old, a few cobwebs in the niche's corners.
+  xbfcrest:
+    dungeon: dd14
+    size: [128, 128]
+    kind: picture
+    refs: [mm7/ceb1sa, mm7/ceb1tap8, mm7/cwb]
+    tone: {like: [mm7/ceb1sa], factor: 0.8}
+    family: MM7 Castle Navan 7d32 stone (ceb1sa) with a painted heraldic shield
+    where: DD-14, once over the Count's throne and once on the great hall's end wall
+    standin: ceb1tap8
+    what: >-
+      Count Blackfang's coat of arms, seen straight on, filling the whole canvas: a square panel of dark grey-green
+      dressed castle stone like the first reference, and on it a large heater-shaped heraldic shield, painted slate
+      grey with a thin black iron rim, bearing a black bat with spread wings seen from the front, its mouth open and a
+      single long red fang showing. Above the shield a small black iron count's coronet. Painted flat, heraldic, a
+      little worn, the stone round the shield plain.
+  xlsgatefull:
+    dungeon: dd12
+    size: [256, 256]
+    kind: picture
+    refs: [mm7/c1d1, mm7/ceb1dl, mm7/cwb]
+    tone: {like: [mm7/c1d1], factor: 1.3}
+    family: MM7 d02 iron grate door (c1d1)
+    where: not used in a map; the source of xlsgate (its left half; the right leaf mirrors it)
+    standin: c1d1
+    what: >-
+      A square double gate of two leaves seen straight on, filling the whole canvas, perfectly left-right symmetric
+      about its vertical centre line, where the two leaves meet in a thin dark seam: each leaf has a heavy frame of
+      dark riveted iron round its edges and a grid of thick dark iron bars like the reference grate, and behind the
+      bars, centred exactly on the seam, one big round smiling sun face in dark bronze: two eyes, a round nose and a
+      wide happy grin, straight and wavy bronze rays all round it, the sun's disc about half the gate's width across.
+      The seam runs down the middle of the face. Old and dark, a little verdigris on the bronze, the iron rusty at the
+      rivets, but the sun's face clearly readable.

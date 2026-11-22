@@ -1,0 +1,89 @@
+# The water: surface swimming free.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.swim
+title: 'Plane of Water (P4): swimming at the surface costs no breath over 20 s (D-58 P4 Q1)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- clear_hostiles:
+    radius: 40000
+- note: Into the open sea and up to its surface (D-58 P4 Q1).
+- movement_segment:
+    input: none
+    seconds: 2.5
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -1800
+      y: -1800
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -1800
+      y: -1800
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- assert:
+    water:
+      state: surface
+      eye_under: false
+      breath_min: 0.99
+- advance_runtime:
+    seconds: 20
+- note: 'After 20 s at the surface: still at the surface, breath full, no drowning tick.'
+- assert:
+    water:
+      eye_under: false
+      breath_min: 0.99
+      drowning_ticks_max: 0
+      foot_z_min: -201
+      foot_z_max: -193
+      state: surface
+- assert:
+    party_position:
+      x: -1800
+      y: -1800
+      radius: 300
+      z_min: -260
+      z_max: -60

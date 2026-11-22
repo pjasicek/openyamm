@@ -1,0 +1,734 @@
+format: 0
+level: L1
+pitch: 'Under Winterkill Tundra, behind a slab door in the Golem Rocks, the golem-makers'' house: a hall with a statue and
+  a rhyme, and four homes round it. The Wood is a hollow trunk with four living boughs to cut; the Stone a quarry of nine
+  blocks, six over glowing rocks that light the lamps over the Iron door; the Iron a forge, its key, and three tumblers that
+  draw the bolts of a great lock in the floor; below it the Diamond Golem and its vault, where the last five King''s Megacredits
+  wait, and a stair back up to the entry.'
+purpose: 'Story step M10 (the last five King''s Megacredits for Newcastle''s keep) and the title Master of Golems (party award
+  and 3,000 experience). Party 16 to 18 (MAPS section 0): 45 golems in groups of one or two (23 wood 18, 16 stone 26, 5 iron
+  40) and the Diamond Golem 50; treasure level 3, the vault a level-4 hoard. Three material puzzles in order, two-state mechanisms
+  only (D-4).'
+mood: 'A workshop of stone that still works: lamplit block brick round the statue, the warm grain of the wood hall, the quarry''s
+  dust and dripping water, the forge''s red coals, then the cold blue of the diamond level.'
+datum: hub floor
+spaces:
+- id: room:hub
+  name: Hall of the Plaque
+  kind: room
+  size: L
+  extent:
+  - 2560
+  - 2560
+  floor: 0
+  clear_height: 1152
+  purpose: 'The statue and its rhyme; four plaque doors: Wood (open), Stone, Iron, Diamond.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:entry
+  name: Entry stair
+  kind: room
+  size: S
+  extent:
+  - 768
+  - 1024
+  floor: 0
+  clear_height: 768
+  purpose: Down from X5's slab door; the Diamond door's stair arrives here.
+- id: room:vault_stair
+  name: Vault stair
+  kind: corridor
+  size: S
+  extent:
+  - 1600
+  - 512
+  floor:
+  - -640
+  - 0
+  clear_height: 448
+  purpose: 'The way out: up to the Diamond door by the entry, opened from below.'
+- id: room:diamond_vault
+  name: Diamond vault
+  kind: room
+  size: S
+  extent:
+  - 768
+  - 960
+  floor: -640
+  clear_height: 512
+  purpose: The hoard (tier 4) with the Megacredits; the plaque 'Master of Golems I now dub thee.'
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 4
+- id: room:diamond_hall
+  name: Diamond hall
+  kind: room
+  size: L
+  extent:
+  - 1792
+  - 1984
+  floor: -640
+  clear_height: 832
+  purpose: Crystal pillars; the Diamond Golem; its death opens the vault.
+  population:
+  - actor: Diamond Golem 11583 (boss row)
+    groups: 1
+    notes: placed, boss
+  - actor: Iron Golem 11582
+    groups: 1
+    notes: placed
+- id: room:diamond_stair
+  name: Diamond stair
+  kind: corridor
+  size: S
+  extent:
+  - 384
+  - 1920
+  floor:
+  - -640
+  - -32
+  clear_height: 624
+  purpose: Below the great lock.
+- id: room:forge
+  name: Iron forge
+  kind: room
+  size: L
+  extent:
+  - 1792
+  - 2048
+  floor: 0
+  clear_height: 768
+  purpose: 'Home of the Iron: hearth, anvils and a cooling trough; the Iron Key in the forge chest.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: c
+    notes: Iron Golem 11582
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+- id: room:furnace
+  name: Furnace passage
+  kind: corridor
+  size: M
+  extent:
+  - 1280
+  - 960
+  floor: 0
+  clear_height: 512
+  purpose: Hot passage from the forge to the north tumbler.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: c
+    notes: Iron Golem 11582
+- id: room:tumbler_n
+  name: North tumbler
+  kind: room
+  size: S
+  extent:
+  - 896
+  - 896
+  floor: 0
+  clear_height: 576
+  purpose: Tumbler lever 1; through a slot you see its bolt in the great lock.
+- id: room:lock_hall
+  name: Hall of the Great Lock
+  kind: room
+  size: L
+  extent:
+  - 2048
+  - 2304
+  floor: 0
+  clear_height: 896
+  purpose: A lock as big as a door in the floor, three bolts in view; tumbler lever 2 here.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: c
+    notes: Iron Golem 11582
+- id: room:tumbler_e
+  name: East tumbler
+  kind: room
+  size: S
+  extent:
+  - 768
+  - 1024
+  floor: 0
+  clear_height: 576
+  purpose: Tumbler lever 3.
+- id: room:stone_stair
+  name: Stone stair
+  kind: corridor
+  size: S
+  extent:
+  - 512
+  - 1536
+  floor:
+  - 0
+  - 512
+  clear_height: 448
+  purpose: Up 512 from the plaque hall's Stone door.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+- id: room:quarry_s
+  name: South gallery
+  kind: corridor
+  size: M
+  extent:
+  - 3712
+  - 512
+  floor: 512
+  clear_height: 512
+  purpose: A gallery over the block field's south side; the lamp gallery leaves it.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+- id: room:lamp_gallery
+  name: Lamp gallery
+  kind: corridor
+  size: S
+  extent:
+  - 384
+  - 1920
+  floor: 512
+  clear_height: 384
+  purpose: 'A window high in the hub''s north wall: the six lamps over the Iron door seen from the stone level.'
+- id: room:quarry
+  name: The block field
+  kind: room
+  size: L
+  extent:
+  - 2560
+  - 2048
+  floor: 256
+  clear_height: 1024
+  purpose: Nine stone blocks, each sliding into its own recess when pushed; six hide glowing rocks.
+  population:
+  - slot: 1
+    groups: 3
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+- id: room:quarry_w
+  name: West quarry gallery
+  kind: corridor
+  size: M
+  extent:
+  - 512
+  - 2048
+  floor: 512
+  clear_height: 512
+  purpose: A gallery above the block field; you see which blocks are pushed.
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+- id: room:quarry_e
+  name: East quarry gallery
+  kind: corridor
+  size: M
+  extent:
+  - 512
+  - 2048
+  floor: 512
+  clear_height: 512
+  purpose: The other side of the field.
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+- id: room:mason
+  name: Masons' store
+  kind: room
+  size: S
+  extent:
+  - 1024
+  - 1024
+  floor: 512
+  clear_height: 384
+  purpose: Chisels and a chest.
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: b
+    notes: Stone Golem 11581
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+- id: room:trunk
+  name: The trunk
+  kind: room
+  size: L
+  extent:
+  - 3520
+  - 1280
+  floor: 0
+  clear_height: 576
+  purpose: 'Home of the Wood: the round, vaulted inside of a hollow trunk crossed by bough beams; branches off both sides.'
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:branch_ln
+  name: Low branch, north
+  kind: room
+  size: M
+  extent:
+  - 1024
+  - 1024
+  floor: 0
+  clear_height: 640
+  purpose: 'A branch-end: a living bough to cut.'
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:branch_ls
+  name: Low branch, south
+  kind: room
+  size: M
+  extent:
+  - 1024
+  - 1024
+  floor: 0
+  clear_height: 640
+  purpose: 'A branch-end: a living bough to cut.'
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:crown
+  name: The crown
+  kind: room
+  size: M
+  extent:
+  - 1472
+  - 2048
+  floor: 0
+  clear_height: 1024
+  purpose: Where the trunk splits into the high branches.
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:branch_hn
+  name: High branch, north
+  kind: room
+  size: M
+  extent:
+  - 1024
+  - 1024
+  floor: 256
+  clear_height: 640
+  purpose: 'A high branch-end: a bough to cut.'
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:branch_hs
+  name: High branch, south
+  kind: room
+  size: M
+  extent:
+  - 1024
+  - 1024
+  floor: 256
+  clear_height: 640
+  purpose: 'A high branch-end: a bough to cut.'
+  population:
+  - slot: 1
+    groups: 2
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:canopy_n
+  name: North canopy walk
+  kind: corridor
+  size: S
+  extent:
+  - 1920
+  - 384
+  floor:
+  - 0
+  - 256
+  clear_height: 512
+  purpose: Canopy walk from the low branch up to the high branch.
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+- id: room:canopy_s
+  name: South canopy walk
+  kind: corridor
+  size: S
+  extent:
+  - 1920
+  - 384
+  floor:
+  - 0
+  - 256
+  clear_height: 512
+  purpose: Canopy walk, south.
+- id: room:heartwood
+  name: Heartwood
+  kind: room
+  size: S
+  extent:
+  - 960
+  - 768
+  floor: 0
+  clear_height: 512
+  purpose: 'The tree''s heart: a seed chest.'
+  population:
+  - slot: 1
+    groups: 1
+    per_marker:
+    - 1
+    - 2
+    rank: a
+    notes: Wood Golem 11580
+  treasure:
+  - kind: chest
+    count: 1
+    tier: 3
+links:
+- id: link:entry_hub
+  from: room:hub
+  to: room:entry
+  kind: open
+- id: link:hub_trunk
+  from: room:hub
+  to: room:trunk
+  kind: door
+- id: link:hub_stone
+  from: room:hub
+  to: room:stone_stair
+  kind: door
+  opened_by: set:wood
+- id: link:hub_forge
+  from: room:hub
+  to: room:forge
+  kind: door
+  opened_by: set:stone
+- id: link:lamp_window
+  from: room:lamp_gallery
+  to: room:hub
+  kind: overlook
+- id: link:vault_entry
+  from: room:vault_stair
+  to: room:entry
+  kind: door
+  one_way: true
+  opens_from: room:vault_stair
+- id: link:vault_stair_vault
+  from: room:vault_stair
+  to: room:diamond_vault
+  kind: open
+- id: link:dhall_vault
+  from: room:diamond_hall
+  to: room:diamond_vault
+  kind: door
+  opened_by: set:diamond
+- id: link:dstair_dhall
+  from: room:diamond_stair
+  to: room:diamond_hall
+  kind: open
+- id: link:great_lock
+  from: room:lock_hall
+  to: room:diamond_stair
+  kind: stairs
+  condition:
+    all:
+    - item: 12261
+    - map_var: bolt_n
+    - map_var: bolt_e
+    - map_var: bolt_s
+  opened_by: set:iron
+- id: link:forge_furnace
+  from: room:forge
+  to: room:furnace
+  kind: open
+- id: link:furnace_tn
+  from: room:furnace
+  to: room:tumbler_n
+  kind: open
+- id: link:tn_lock
+  from: room:tumbler_n
+  to: room:lock_hall
+  kind: open
+- id: link:tn_slot
+  from: room:tumbler_n
+  to: room:lock_hall
+  kind: open
+- id: link:forge_lock
+  from: room:forge
+  to: room:lock_hall
+  kind: door
+- id: link:lock_te
+  from: room:lock_hall
+  to: room:tumbler_e
+  kind: open
+- id: link:te_slot
+  from: room:lock_hall
+  to: room:tumbler_e
+  kind: open
+- id: link:sstair_landing
+  from: room:stone_stair
+  to: room:quarry_s
+  kind: open
+- id: link:landing_lamp
+  from: room:lamp_gallery
+  to: room:quarry_s
+  kind: open
+- id: link:rail_s
+  from: room:quarry_s
+  to: room:quarry
+  kind: overlook
+- id: link:sstair_qw
+  from: room:quarry_s
+  to: room:quarry_w
+  kind: open
+- id: link:sstair_qe
+  from: room:quarry_s
+  to: room:quarry_e
+  kind: open
+- id: link:rail_w
+  from: room:quarry_w
+  to: room:quarry
+  kind: overlook
+- id: link:qw_quarry
+  from: room:quarry_w
+  to: room:quarry
+  kind: open
+- id: link:rail_e
+  from: room:quarry_e
+  to: room:quarry
+  kind: overlook
+- id: link:quarry_qe
+  from: room:quarry_e
+  to: room:quarry
+  kind: open
+- id: link:qe_mason
+  from: room:quarry_e
+  to: room:mason
+  kind: door
+- id: link:trunk_ln
+  from: room:trunk
+  to: room:branch_ln
+  kind: open
+- id: link:trunk_ls
+  from: room:trunk
+  to: room:branch_ls
+  kind: open
+- id: link:trunk_crown
+  from: room:trunk
+  to: room:crown
+  kind: open
+- id: link:crown_hn
+  from: room:crown
+  to: room:branch_hn
+  kind: open
+- id: link:crown_hs
+  from: room:crown
+  to: room:branch_hs
+  kind: open
+- id: link:crown_heart
+  from: room:crown
+  to: room:heartwood
+  kind: open
+- id: link:canopy_n
+  from: room:branch_ln
+  to: room:canopy_n
+  kind: open
+- id: link:canopy_s
+  from: room:branch_ls
+  to: room:canopy_s
+  kind: open
+loops:
+- id: loop:canopy_n
+  spaces:
+  - room:trunk
+  - room:branch_ln
+  - room:canopy_n
+  - room:branch_hn
+  - room:crown
+- id: loop:canopy_s
+  spaces:
+  - room:trunk
+  - room:branch_ls
+  - room:canopy_s
+  - room:branch_hs
+  - room:crown
+- id: loop:quarry
+  spaces:
+  - room:quarry_s
+  - room:quarry_w
+  - room:quarry
+  - room:quarry_e
+- id: loop:iron
+  spaces:
+  - room:forge
+  - room:furnace
+  - room:tumbler_n
+  - room:lock_hall
+  notes: Round the forge (the graph's order forge, north tumbler, furnace becomes forge, furnace, north tumbler).
+entrances:
+- id: entrance:x5
+  space: room:entry
+  kind: both
+  neighbour: door:x5
+  notes: From X5's Golem Dungeon door (m10.golem_door, open since D-89) and back out by the same door (exit:x5).
+critical_path:
+- room:entry
+- room:hub
+- room:trunk
+- room:branch_ln
+- room:branch_ls
+- room:crown
+- room:branch_hn
+- room:branch_hs
+- room:crown
+- room:trunk
+- room:hub
+- room:stone_stair
+- room:quarry_s
+- room:quarry_w
+- room:quarry
+- room:quarry_e
+- room:quarry_s
+- room:stone_stair
+- room:hub
+- room:forge
+- room:furnace
+- room:tumbler_n
+- room:lock_hall
+- room:tumbler_e
+- room:lock_hall
+- room:diamond_stair
+- room:diamond_hall
+- room:diamond_vault
+return_path:
+- room:diamond_vault
+- room:vault_stair
+- room:entry
+goals:
+- id: goal:credits
+  space: room:diamond_vault
+  notes: Five King's Megacredits (m10.golem_vault) and Master of Golems.
+keys:
+- id: key:iron
+  grants:
+    item: 12261
+  found_in: room:forge
+  how: chest
+  notes: The Iron Key 12261 in the forge chest.
+states:
+- id: set:wood
+  condition:
+    map_var: stone_open
+  opens:
+  - link:hub_stone
+  notes: Four boughs cut (destructibles; the plaque counts them), then the statue touched.
+- id: set:stone
+  condition:
+    map_var:
+      name: rocks
+      at_least: 6
+  opens:
+  - link:hub_forge
+  notes: 'Six glowing rocks bared (six of nine blocks pushed): six lamps lit.'
+- id: set:iron
+  condition:
+    map_var: lid_open
+  opens:
+  - link:great_lock
+  notes: The Iron Key and the three tumbler levers drawn.
+- id: set:diamond
+  condition:
+    qbit: 110600
+  opens:
+  - link:dhall_vault
+  notes: The Diamond Golem slain.
+- id: set:return
+  condition:
+    map_var: diamond_open
+  opens:
+  - link:vault_entry
+  notes: The Diamond door opened from the vault stair.
+diagram:
+  file: diagram.txt
+notes: 'Class M (MAPS: 20-45 sectors, 30-90 M units², 45-75 monsters, 3-7 chests, 6-16 doors). From the MU-6 graph devdocs/xeen/mockups/act2_graphs/xd09.graph.yml
+  and decider D-4. Rooms added to the graph: the south gallery (the stair''s landing over the field), the lamp gallery (the
+  window onto the lamps), two canopy walks, the vault stair. Original lines (aaze0081): the plaque rhyme (:0, m10.golem_plaque),
+  Home of the Wood/Stone/Iron/Diamond (:2-5) over the four doors, ''Stone Block - Glowing Rock'' (:12), ''All is set ... Master
+  of Golems I now dub thee.'' (:1) and ''King''s Megacredit!'' (:11) in m10.golem_vault, ''Exit Golem Dungeon?'' (:10) at
+  the tundra door out to X5.'

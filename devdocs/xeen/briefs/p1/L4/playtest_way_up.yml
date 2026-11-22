@@ -1,0 +1,74 @@
+# The way up asks A3's m38.way_up_fire question, then moves to D7's entrance:p1_return.
+# Written by output/studio_cal/p1/tools/gen_playtests.py; run with --world xeen --map xeen_p1.blv.
+id: xeen.p1.l4.way_up
+title: 'Plane of Fire (P1): the heat column asks before it lifts the party to D7 (D-58 C5)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p1.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p1.blv
+- note: 'The heat column: ''Ride the heat back to the Skyroads?'' No stays on P1'
+- play_lua:
+    source: click(10); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: Close
+- select_topic:
+    match_label: Close
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    map: xeen_p1.blv
+- play_lua:
+    source: close()
+- note: 'Yes: up to D7''s entrance:p1_return'
+- play_lua:
+    source: click(10); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 2.0
+    follow_map_move: true
+- assert:
+    map: xeen_d7.blv
+- assert:
+    party_position:
+      x: -27456
+      y: 17728
+      radius: 256

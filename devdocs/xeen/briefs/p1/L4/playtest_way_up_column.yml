@@ -1,0 +1,54 @@
+# The heat column's decoration.
+# Written by output/studio_cal/p1/tools/gen_playtests.py; run with --world xeen --map xeen_p1.blv.
+id: xeen.p1.l4.way_up_column
+title: 'Plane of Fire (P1): S''s heat column asks like the way up (D-58 C5)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p1.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p1.blv
+- note: S's heat column asks too (session 20)
+- play_lua:
+    source: click(18); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 2.0
+    follow_map_move: true
+- assert:
+    map: xeen_d7.blv

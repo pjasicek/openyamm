@@ -1,0 +1,108 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+format: mu6-0
+map: XD-22
+key: xd22
+name: Ninja Pagoda
+stands_on: X5 Winterkill Tundra (the mere's north-east shore)
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [25, 29]
+monsters:
+  levels: [22, 40]
+  boss: Clan Master 42
+  count: 27
+  groups: [2, 3]
+  families:
+    - "Ninjas A-C: Ninja 22 (19), Shadow Ninja 30 (6), Ninja Master 40 (1); shuriken at range (attack2)"
+    - "The Clan Master 42: no row yet (open question; A2's boss slot 11123)"
+    - "Shinobu (4530) and the clan's survivors in the cellar after q-c4.done: peaceful, not counted"
+treasure: {level: 3, hoard: 4}
+role: "Q-C4 The Ninja Pagoda (Kai Wu; T1-D Monk to Initiate); T2-CLAN (Shinobu: Initiate to Ninja, Act IV)"
+role_short: "Q-C4, T1-D, T2-CLAN"
+set_piece: "Five storeys of dark timber round paper screens the party can cut through; the Hall of Screens, where shadows move behind the paper; the clan master under the top roof"
+floors:
+  - {floor: 4, name: "Fifth storey", height: 2048}
+  - {floor: 3, name: "Fourth storey", height: 1536}
+  - {floor: 2, name: "Third storey", height: 1024}
+  - {floor: 1, name: "Second storey", height: 512}
+  - {floor: 0, name: "Ground storey", height: 0}
+  - {floor: -1, name: "Cellar", height: -448}
+spaces:
+  # fifth storey
+  - {id: room:master_hall, name: "Clan master's hall", kind: hall, size: M, floor: 4, at: [1, 0], set_piece: true, boss: true, goal: true,
+     chest: 4, boss_label: "Master 42 + 1 m", monsters: 2,
+     population: [{actor: Clan Master, level: 42, role: boss, placed: true, strength: boss}, {family: Ninjas, count: 1, strength: heavy, rank: c}],
+     purpose: "Under the steep top roof: a dais, a gong, the clan's banner. The clan master and his Ninja Master; the clan's strongbox (tier 4) behind the dais."}
+  # fourth storey
+  - {id: room:gallery, name: Moon gallery, kind: corridor, size: M, floor: 3, at: [1, 0], monsters: 2,
+     population: [{family: Ninjas, count: 2, strength: light, rank: a}],
+     purpose: "A railed walk round the fourth storey under the eaves, open to the sky over the mere; the stair to the top, and the clan's climbing rope down."}
+  - {id: room:armoury, name: Armoury, kind: room, size: M, floor: 3, at: [3, 0], chest: 3, monsters: 2,
+     population: [{family: Ninjas, count: 2, strength: heavy, rank: b}],
+     purpose: "Racks of blades, bows and shuriken; a chest of the clan's best."}
+  # third storey
+  - {id: room:screens, name: Hall of Screens, kind: hall, size: L, floor: 2, at: [2, 0], set_piece: true, monsters: 6,
+     population: [{family: Ninjas, count: 4, strength: heavy, rank: b, notes: "Behind the paper: they step out as screens break."}, {family: Ninjas, count: 2, strength: light, rank: a}],
+     purpose: "A maze of paper screens (indoor destructibles) lit from behind, so shapes move on the paper. Walk the maze or cut straight through; the stair up shows through the screen painted with a crane."}
+  # second storey
+  - {id: room:dojo, name: Dojo, kind: hall, size: L, floor: 1, at: [1, 0], monsters: 5,
+     population: [{family: Ninjas, count: 5, strength: pack, rank: a}],
+     purpose: "The training floor: straw targets bristling with shuriken, a weapon wall; the west stair up and the kitchen ladder down."}
+  - {id: room:dorm, name: Sleeping loft, kind: room, size: M, floor: 1, at: [3, 0], monsters: 3,
+     population: [{family: Ninjas, count: 3, strength: light, rank: a}],
+     purpose: "Rolled mats in rows; a sliding door and a paper wall to the dojo."}
+  # ground storey
+  - {id: room:kitchen, name: "Monks' kitchen", kind: room, size: S, floor: 0, at: [0, 0], monsters: 2,
+     population: [{family: Ninjas, count: 2, strength: light, rank: a}],
+     purpose: "Kai Wu's old kitchen, the rice jars smashed; a ladder up through a hatch into the dojo."}
+  - {id: room:porch, name: Entry hall, kind: room, size: S, floor: 0, at: [1, 0], monsters: 2,
+     population: [{family: Ninjas, count: 2, strength: light, rank: a}],
+     purpose: "Inside the barred door: the monks' bell, Kai Wu's broom where he dropped it."}
+  - {id: room:shrine, name: Shrine hall, kind: hall, size: M, floor: 0, at: [2, 0], monsters: 3,
+     population: [{family: Ninjas, count: 3, strength: pack, rank: a}],
+     purpose: "Kai Wu's shrine, defiled: the clan's mark painted over the altar; the east stair up; a draught under the altar mat."}
+  # cellar
+  - {id: room:cellar, name: Clan cellar, kind: room, size: M, floor: -1, at: [2, 0], chest: 3, goal: true, monsters: 0,
+     purpose: "The clan's storeroom: rope, black cloth, rice, a chest. After q-c4.done Shinobu and the clan's survivors sit here (T2-CLAN)."}
+links:
+  - {id: link:porch_shrine, from: room:porch, to: room:shrine, kind: door}
+  - {id: link:porch_kitchen, from: room:porch, to: room:kitchen, kind: door}
+  - {id: link:shrine_cellar, from: room:shrine, to: room:cellar, kind: secret, label: "hatch under the altar mat",
+     notes: "A trapdoor; the click on the mat: 'A draught comes up between the floorboards.' and it lifts."}
+  - {id: link:shrine_dorm, from: room:shrine, to: room:dorm, kind: stair, label: east stair}
+  - {id: link:dorm_dojo, from: room:dorm, to: room:dojo, kind: door, label: sliding door}
+  - {id: link:dorm_dojo_paper, from: room:dorm, to: room:dojo, kind: secret, label: "paper wall: break",
+     notes: "A destructible screen; ninjas wait behind it."}
+  - {id: link:dojo_kitchen, from: room:dojo, to: room:kitchen, kind: stair, label: ladder}
+  - {id: link:dojo_screens, from: room:dojo, to: room:screens, kind: stair, label: west stair}
+  - {id: link:screens_armoury, from: room:screens, to: room:armoury, kind: stair, label: "behind the crane screen",
+     opened_by: state:crane}
+  - {id: link:armoury_gallery, from: room:armoury, to: room:gallery, kind: door}
+  - {id: link:gallery_master, from: room:gallery, to: room:master_hall, kind: stair, label: top stair}
+  - {id: link:gallery_rope, from: room:gallery, to: room:screens, kind: stair, label: "rope",
+     notes: "The clan's climbing rope through a slot in the floor (a climbable ladder), down into the screens' far corner."}
+states:
+  - {id: state:crane, kind: puzzle, where: room:screens, what: "The stair up stands behind the screen painted with a crane; its shape shows through the lit paper. Strike the screen (an indoor destructible) and it falls.",
+     opens: [link:screens_armoury], draw: false}
+  - {id: state:clan_master, kind: kill, where: room:master_hall, what: "The clan master's death (a kill timer, as XD-05's drums): q-c4.clan_master sets q-c4.clan_master_slain (112081) and gives 'You have dishonored the Ninjas ...'.", opens: [], draw: false}
+  - {id: state:clan_return, kind: stage, where: room:cellar, what: "q-c4.done (112082, at Kai Wu): on load the cellar shows Shinobu (4530, a talking actor) and four peaceful survivors; the chest stays as it was.", opens: [], draw: false}
+exits:
+  - {id: exit:x5_pagoda, space: room:porch, at: [1, 1], kind: both, label: "X5: the pagoda door",
+     neighbour: "The pagoda's north door on X5 (thing:pagoda, storey_1's north wall, cells about [62.5, 43.5], floor 1,000); the exit arrives 400 north of the door facing north"}
+critical_path: [room:porch, room:shrine, room:dorm, room:dojo, room:screens, room:armoury, room:gallery, room:master_hall]
+return_path: [room:master_hall, room:gallery, room:screens, room:dojo, room:kitchen, room:porch]
+loops:
+  - {id: loop:lower, spaces: [room:porch, room:shrine, room:dorm, room:dojo, room:kitchen], notes: "Up the east stair, down the kitchen ladder."}
+  - {id: loop:upper, spaces: [room:screens, room:armoury, room:gallery], notes: "Up behind the crane, back down the clan's rope."}
+lines:
+  - {text: "You have dishonored the Ninjas by entering the Pagoda. They surely will not return to reclaim it.", ref: "aaze0003:5", where: "room:master_hall (q-c4.clan_master)"}
+  - {text: "I am a peace loving old monk driven from my sacred home. I used to live in the Pagoda due south from here until the Evil Ninja clan drove me out.", ref: "aaze0003:15", where: "X5, Kai Wu (the giver); echoed by his broom and bell in room:porch"}
+  - {text: "There are still Ninja in my Pagoda. I cannot go home until they are gone.", ref: "aaze0003:16", where: "X5, Kai Wu"}
+  - {text: "You have destroyed the Ninja Clan that drove me from my sacred home. I am eternally grateful. As payment for your services, please let me fill your packs with food.", ref: "aaze0003:17", where: "X5, Kai Wu"}
+open_questions:
+  - "The clan master has no monster row. A boss in the Ninjas' block (11123, 'Clan Master', 42, look C, blink on hit like Draco), or the Ninja Master 40 placed as the boss with no row of its own?"
+  - "Shinobu's survivors are Ninjas, hostile by default. A peaceful placed-only tier (Ninjas D 'Clan Survivor', party friendly, as the King's Guard), or Shinobu alone in the cellar?"
+  - "Inside and outside: X5's pagoda is 1,536 × 1,024 at the ground storey, narrowing to 832 × 320 at the top; fights with five ninjas need more. Twice the outside in plan (the shipped way: nobody measures), or keep the outside's size with fewer, smaller rooms per storey?"
+  - "Paper screens: indoor destructibles with a translucent paper texture lit from behind (one new texture). Check that a destructible face can be translucent and that monsters wait behind an unbroken screen."
+  - "Ninjas' shuriken (attack2 Arrow, 30 %) at party 25-29 in narrow storeys: keep, or drop attack2 for the Ninja tier inside?"

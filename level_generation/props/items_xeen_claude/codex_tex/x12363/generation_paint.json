@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit paint_mask_guide.png directly, locking its alpha channel. 1536x2048 portrait 3:4. Paint only the existing guide pixels, at their precise shapes and locations. Three columns by four rows with large transparent gutters. Top half: front, back, left / right, top, empty. Paint these five views as unlit base colour, dark mottled iron domed Soul Box with worn tarnished silver fittings and rivets, keyhole on front. Match design_reference.png detail and icon_x8.png colour. Preserve guide orthographic angles and proportions, every gap, plate and opening. No directional lighting, shadows, AO, highlights, reflections, outlines, text or backdrop. Bottom half: same five guide silhouettes and empty cell, every single visible pixel of each object uniformly solid pure red RGB(255,0,0) since all parts are metal. No internal markings or blends. All pixels beyond original silhouettes remain fully transparent. Correction: strictly clip all material-mask ink to the original guide alpha stencil. Five isolated crisp solid-red cutouts floating on perfectly clean transparent space, no red dust, spray or fringes anywhere. Match the guide canvas exactly.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "ae5f9fe355227dad5c1933c9d896e84d825eda50b3064162a403887c65a619e6"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "5ac955661154ffcc88ad7e241ad0b2edb3b522840ff61b559b33fbef2c7fa88e"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "b96f3859620ecdcd2621717d7df41219af9bc268a463b612c0e03d6950482c8b"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f922-398f-73a2-8bf1-c519b98abd60/exec-e94eef9e-d7ba-4d14-a19f-0286d6c12305.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,79 @@
+# T2-LATER: tier-2 promotions for members who join later or reach the class later (QUESTS 3.2). Owner: A3 (A3-promo,
+# 2026-11-21). Format: devdocs/xeen/formats/QUESTS_FORMAT.md. Each tier-2 quest below promotes every eligible member in
+# its hand-in and pays there (its own file); like the T1 files and T2-A/T2-CLAN/T2-LEAFPOINT, the promoter then keeps a
+# topic that promotes members who are eligible later, unpaid (MM9's composite model, Xeen.Promotions). Light or Dark:
+# the topic of a route shows only after that route's hand-in (Sharla's after the polite route, Kramer's after the
+# bounty, the Master Thief's after the inner circle). The map-hook promoters' later paths (Q-D13's throne and Hobstadt,
+# Q-D22's cauldron, Q-D23 at Master Morbius): see D-74 (devdocs/xeen/reviews/D74_DECISION.md); they live in their files.
+id: T2-LATER
+title: The later promotions
+act: IV
+kind: promotion
+status: full
+giver: 4905          # Dreyfus (the first of several)
+maps: [D1, D2, D3, DD-06]
+level: 30
+block: 123
+after: []
+source: "QUESTS 3.2; MM9's composite model (Promote our eligible characters.)"
+
+npcs:
+  4905:              # Dreyfus, High Priest of Mok (Q-D6: Crusader -> Hero, Priest -> Priest of Light)
+    topics:
+      - n: 1
+        label: Mok's blessing
+        show: {all: [{qbit: q-d6.done}, {promotable: heretics}]}
+        text: "Another servant of the light who has not knelt to Mok? Kneel. Crusaders rise as Heroes, Priests as Priests of Light. Mind the candles."
+        do: [{promote: heretics}]
+  5101:              # Sharla (Q-D10, the polite route: Hunter -> Ranger Lord)
+    topics:
+      - n: 2
+        label: Forest lords
+        show: {all: [{qbit: q-d10.done}, {qbit: q-d10.polite}, {promotable: sprites}]}
+        text: "Another hunter the forest has not met? It has now. Walk it as its lord."
+        do: [{promote: sprites}]
+  4952:              # Luna (Q-D20: Warrior Mage -> Master Archer)
+    topics:
+      - n: 3
+        label: The altar's light
+        show: {all: [{qbit: q-d20.done}, {promotable: statuettes}]}
+        text: "The altar still hums. Bow and spell together? Stand in its light. Rise, Master Archer."
+        do: [{promote: statuettes}]
+  5217:              # Astra (Q-D14: Rogue -> Spy)
+    topics:
+      - n: 4
+        label: The guilds' word
+        show: {all: [{qbit: q-d14.done}, {promotable: quarter}]}
+        text: "The guilds still talk about you. This one walks unseen too? Then the word is Spy."
+        do: [{promote: quarter}]
+  5210:              # Nasir, Light Guildmaster of Sandcaster (Q-D18: Wizard -> Archmage)
+    topics:
+      - n: 5
+        label: Archmage's robes
+        show: {all: [{qbit: q-d18.archmage}, {promotable: jewel}]}
+        text: "Ellinger's letter is in my files, and it says 'the bearer'. Close enough. Wizards, take the robes."
+        do: [{promote: jewel}]
+  4914:              # Kramer (Q-D11, the bounty: Hunter -> Bounty Hunter)
+    topics:
+      - n: 6
+        label: Guild title
+        show: {all: [{qbit: q-d11.bounty_paid}, {promotable: bounty}]}
+        text: "A hunter who works for pay? The caravan guild's title is yours too. Bounty Hunter. It comes with a form."
+        do: [{promote: bounty}]
+  4950:              # Brother Reger (Q-D3: Initiate -> Master)
+    topics:
+      - n: 7
+        label: Masters
+        show: {all: [{qbit: q-d3.done}, {promotable: drawkcab}]}
+        text: "Another walker of the inner way? Master you are now. Backwards, naturally."
+        do: [{promote: drawkcab}]
+  5109:              # The Master Thief (Q-D19, the inner circle: Warrior Mage -> Sniper, Rogue -> Assassin)
+    topics:
+      - n: 8
+        label: New members
+        show: {all: [{qbit: q-d19.inner_circle}, {not: {qbit: q-d19.master_slain}}, {promotable: southern}]}
+        text: "More hands for my trade? The ledger has room. Inner circle. Don't touch the chest on your way out."
+        do: [{promote: southern}]
+
+rewards: {xp: 0, gold: 0}
+playthrough: "tests/playthrough/xeen/promotions/: the class table at each promoter after his quest (class_table.py)."

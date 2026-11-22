@@ -15,7 +15,13 @@ target_mib: 64
 max_mib: 128
 core_max_mib: 24
 # The worlds a release ships.
-worlds: [mm6, mm7, mm8, mm9]
+worlds: [mm6, mm7, mm8, mm9, xeen]
+# A world leaves out each cooked model texture (models/textures/<key>.oytex) that the engine or a world it depends on
+# (world.yml dependencies) ships identically; the game reads that copy (tools/package_runtime_assets.py
+# share_model_textures, GltfModelLoader's fallback for such textures, on from the release after 2.8). Content format
+# stays 1: an installed updater refuses a new version whose index names another format, and an old binary never runs
+# this content (desktop installs app and content together; Android promotes content only under its own APK).
+share_model_textures: true
 packages:
   engine:
     # Small and changed in almost every release.
@@ -85,6 +91,25 @@ packages:
       textures_x4:       {buckets: {desktop: 9, android: 1}}
       textures_x2:       {buckets: {desktop: 1, android: 3}}
       surface_materials_x4: {buckets: {desktop: 14, android: 1}}
+  # The World of Xeen (devdocs/xeen, lane P 2026-11-22): depends on engine, mm6, mm7 and mm8 (D-44), so with
+  # share_model_textures its models ship only the textures those packages lack. Its audio (IMA ADPCM, about 19 MB)
+  # rides in its own pack as MM9's does; the generated tables and the sky presets stay in the core pack. Its models
+  # (about 390 MB desktop after sharing) keep the worlds' ten buckets.
+  xeen:
+    core: [data_tables, events, rendering, terrain_decorations, terrain_materials]
+    domains:
+      audio:             {buckets: 1}
+      ui:                {buckets: 1}
+      icons_x2:          {buckets: 1}
+      world_items:       {buckets: 1, group: model}
+      # The maps' own files are small (6 MB); the bakes (32 units per texel) get their own packs.
+      maps:
+        buckets: 1
+        split:
+          lighting: {extensions: [.lighting], buckets: 4}
+      textures_x4:       {buckets: {desktop: 2, android: 1}}
+      textures_x2:       {buckets: {desktop: 1, android: 1}}
+      surface_materials_x4: {buckets: {desktop: 1, android: 1}}
 # A language pack's fonts, sounds and videos (assets_dev/languages/<id>/engine and worlds/<world>): optional packs
 # "lang-<id>.<package>.<folder>[.<bucket>]" with a language field, downloaded only for a language the player chose.
 # ship: false leaves a folder out of releases. Sounds and videos ship from 2.0 (the user's decision, 2026-11-11); desktop

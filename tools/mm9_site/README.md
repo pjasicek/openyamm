@@ -11,6 +11,11 @@ python3 tools/mm9_site/capture_monsters.py --jobs 3  # optional, about 8 min: be
 python3 tools/mm9_site/build_site.py --skip-images   # picks up the screenshots, reuses converted map images
 ```
 
+The Xeen guide (`tools/xeen_site/`) is built on this tool: it shares `web/app.js` and `style.css` (a world's own texts
+come in `GUIDE.site`; without it the page is this guide) and loads `build_site.py` as a module for its readers, story
+and FAQ loaders and items. Keep both working: after a change here, build both guides, and check that this guide's
+`data/guide.js` and pages did not change unless meant to.
+
 Open `output/mm9_site/index.html` directly or serve the folder (`python3 -m http.server -d output/mm9_site`).
 Public copy: https://jasicek.net/openyamm/mm9-guide/, updated with `tools/mm9_site/deploy.sh` (rsync to the server, then
 sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).
@@ -33,7 +38,10 @@ sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).
   quest id, map, marker type and giver.
 - `story/img/`: pictures a walkthrough entry shows under its steps (`figures: [{img, caption}]`, copied to
   `img/story/`). `story_figures.py` draws the annotated ones from the map data and the site's own map images (run
-  `build_site.py` once first); its docstring says how the in-game captures beside them were made.
+  `build_site.py` once first) and, with `--capture`, takes the in-game ones it can script (Markel's awards) in one
+  isolated game boot; its docstring says how the others were made.
+- A walkthrough entry's `shortcut` is a way past the quest's work that the rework added (Markel's awards instead of
+  the Thing's games): the page shows it as a marked box above the walkthrough, also while the walkthrough is closed.
 - `extra_pois.yml`: quest props and puzzle pieces the generator cannot find on its own (imp gates, bell ropes, book
   tables, the Thing's games), placed at their MM9 DAT objects, and renames of generated points.
 - `faq/faq.yml`: the FAQ page's questions and answers (continent travel, promotions, where the skills MM9 lacks are

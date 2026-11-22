@@ -1,0 +1,982 @@
+# Playtest of Cloudreach (X8, L4; written by output/studio_cal/x8/tools/gen_playtests.py). From the Witch
+# Clouds' stair head over every island, bridge and causeway: nests burnt (A3's hooks), the explorer's
+# statue, the rhymes, the telescope, the offering statues, the four chests. Run with --world xeen --map
+# xeen_x8.blv.
+id: xeen.x8.l4
+title: 'Cloudreach (X8 L4): every island, bridge and causeway walked; nests, statues, telescope and chests used'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x8.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 18
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); close()
+- assert:
+    map: xeen_x8.blv
+- assert:
+    party_position:
+      x: 11520
+      y: -6802
+      radius: 160
+      z_min: -16
+      z_max: 40
+- note: 'The Witch Clouds: the landing, the causeway, the offering terrace.'
+- walk_to:
+    x: 11520
+    y: -5232
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 10354
+    y: -4527
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 9078
+    y: -3319
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: 7803
+    y: -2110
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 6656
+    y: -1024
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- play_lua:
+    source: click(12); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: kept for Crusaders
+- play_lua:
+    source: if not close() then error('evt:offering_1 showed no window') end
+- setup_shortcut:
+    kind: set_qbit
+    id: 110047
+- play_lua:
+    source: click(13); wait(0.5); if held() ~= 0 then stow() end; close()
+- note: 'The spires: two nests to burn.'
+- walk_to:
+    x: 7776
+    y: -127
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 9158
+    y: 978
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: 10540
+    y: 2083
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 11776
+    y: 3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- play_lua:
+    source: click(9); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(115021) then error(''nest 1: its bit is not set'') end'
+- play_lua:
+    source: click(10); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(115022) then error(''nest 2: its bit is not set'') end'
+- walk_to:
+    x: 11137
+    y: 4907
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 10715
+    y: 6120
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 10293
+    y: 7332
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- walk_to:
+    x: 9728
+    y: 8360
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- clear_hostiles:
+    radius: 3000
+- walk_to:
+    x: 9984
+    y: 8800
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(3); wait(1); if held() ~= 0 then stow() end; close()
+- walk_to:
+    x: 11181
+    y: 10071
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- walk_to:
+    x: 12258
+    y: 10895
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: 13334
+    y: 11718
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 896
+    z_tolerance: 200
+- walk_to:
+    x: 14080
+    y: 11988
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 896
+    z_tolerance: 200
+- play_lua:
+    source: click(6); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Super Explorer
+- play_lua:
+    source: if not close() then error('evt:explorer showed no window') end
+- play_lua:
+    source: if not qbit(115020) then error('the explorer\'s bit is not set') end
+- walk_to:
+    x: 13334
+    y: 11718
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 896
+    z_tolerance: 200
+- walk_to:
+    x: 12258
+    y: 10895
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: 11181
+    y: 10071
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- walk_to:
+    x: 9728
+    y: 8360
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- walk_to:
+    x: 10293
+    y: 7332
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 640
+    z_tolerance: 200
+- walk_to:
+    x: 10715
+    y: 6120
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 448
+    z_tolerance: 200
+- walk_to:
+    x: 11137
+    y: 4907
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 11776
+    y: 3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 10540
+    y: 2083
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: 9158
+    y: 978
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: 7776
+    y: -127
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 6656
+    y: -1024
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- note: 'The long bridge: the half-way cloud, then the High Magic Clouds.'
+- walk_to:
+    x: 5102
+    y: -725
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 2881
+    y: -298
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 32
+    z_tolerance: 200
+- walk_to:
+    x: 660
+    y: 129
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 256
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: -573
+    y: 498
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: -2645
+    y: 1375
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 96
+    z_tolerance: 200
+- walk_to:
+    x: -4716
+    y: 2251
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -5656
+    y: 2432
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- note: The rhymes show only past the Linguist gate (A3's xd07.runes reads qbit 116240)
+- setup_shortcut:
+    kind: set_qbit
+    id: 116240
+- play_lua:
+    source: click(16); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Illusion holds Magic's key
+- play_lua:
+    source: if not close() then error('evt:rhyme_3 showed no window') end
+- walk_to:
+    x: -7168
+    y: 3224
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- play_lua:
+    source: click(17); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: brass telescope
+- play_lua:
+    source: if not close() then error('evt:telescope showed no window') end
+- play_lua:
+    source: loot_chest(5); wait(1); if held() ~= 0 then stow() end; close()
+- note: 'The long ramp up to the golem heights: a dead end.'
+- walk_to:
+    x: -7786
+    y: 4579
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -9020
+    y: 6224
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -10254
+    y: 7869
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: -11264
+    y: 8416
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- clear_hostiles:
+    radius: 4000
+- walk_to:
+    x: -11136
+    y: 10216
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(2); wait(1); if held() ~= 0 then stow() end; close()
+- walk_to:
+    x: -10254
+    y: 7869
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 768
+    z_tolerance: 200
+- walk_to:
+    x: -9020
+    y: 6224
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 512
+    z_tolerance: 200
+- walk_to:
+    x: -7786
+    y: 4579
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -6656
+    y: 3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- note: 'Round the High Magic loop: the garden, the stair landing, the lantern cloud.'
+- walk_to:
+    x: -8787
+    y: 2662
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -10363
+    y: 2359
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 192
+    z_tolerance: 200
+- walk_to:
+    x: -11938
+    y: 2056
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: -13312
+    y: 1292
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- play_lua:
+    source: click(15); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: Taxman then must have his bit
+- play_lua:
+    source: if not close() then error('evt:rhyme_2 showed no window') end
+- walk_to:
+    x: -12692
+    y: 811
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: -11873
+    y: -485
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: -11054
+    y: -1782
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -10240
+    y: -3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -9839
+    y: -4406
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -9402
+    y: -5863
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: -8965
+    y: -7319
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- walk_to:
+    x: -8704
+    y: -8192
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- walk_to:
+    x: -8448
+    y: -8692
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- play_lua:
+    source: loot_chest(4); wait(1); if held() ~= 0 then stow() end; close()
+- walk_to:
+    x: -8965
+    y: -7319
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- walk_to:
+    x: -9402
+    y: -5863
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: -9839
+    y: -4406
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -10240
+    y: -3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -9457
+    y: -1731
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -8549
+    y: -174
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: -7642
+    y: 1381
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -6656
+    y: 3072
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -5539
+    y: 4653
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -4749
+    y: 5773
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -3958
+    y: 6892
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -256
+    z_tolerance: 200
+- walk_to:
+    x: -3584
+    y: 7424
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -256
+    z_tolerance: 200
+- walk_to:
+    x: -3958
+    y: 6892
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -256
+    z_tolerance: 200
+- walk_to:
+    x: -4749
+    y: 5773
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: -5539
+    y: 4653
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- note: Back over the long bridge to the witch's perch.
+- walk_to:
+    x: -4716
+    y: 2251
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 256
+    z_tolerance: 200
+- walk_to:
+    x: -2645
+    y: 1375
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 96
+    z_tolerance: 200
+- walk_to:
+    x: -573
+    y: 498
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: 0
+    y: 256
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: 660
+    y: 129
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: 2881
+    y: -298
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 32
+    z_tolerance: 200
+- walk_to:
+    x: 5102
+    y: -725
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 6656
+    y: -1024
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 7803
+    y: -2110
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 128
+    z_tolerance: 200
+- walk_to:
+    x: 9078
+    y: -3319
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 64
+    z_tolerance: 200
+- walk_to:
+    x: 10354
+    y: -4527
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 11520
+    y: -5632
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 11176
+    y: -6867
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: 0
+    z_tolerance: 200
+- walk_to:
+    x: 10833
+    y: -8103
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -64
+    z_tolerance: 200
+- walk_to:
+    x: 10489
+    y: -9340
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- walk_to:
+    x: 10240
+    y: -10240
+    radius: 96
+    timeout_seconds: 60
+    clear_hostiles: 2500
+    close_dialogs: true
+    z: -128
+    z_tolerance: 200
+- play_lua:
+    source: click(11); wait(0.5)
+- answer_input:
+    text: 'Yes'
+- advance_runtime:
+    seconds: 1
+- play_lua:
+    source: 'close(); if not qbit(115023) then error(''nest 3: its bit is not set'') end'
+- play_lua:
+    source: click(14); wait(0.5)
+- assert:
+    dialog:
+      active: true
+      text_contains: credits for King to hold
+- play_lua:
+    source: if not close() then error('evt:rhyme_1 showed no window') end
+- play_lua:
+    source: for k = 115020, 115023 do if not qbit(k) then error('bit ' .. k .. ' not set') end end
+- assert:
+    map: xeen_x8.blv

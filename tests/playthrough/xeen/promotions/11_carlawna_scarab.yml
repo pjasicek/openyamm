@@ -1,0 +1,166 @@
+# Xeen promotion playthrough 11, block B: Q-C10 The Scarab of Imaging (X4, XD-26), the T1-C promotion (Druid -> Great
+# Druid, Cleric -> Priest) paid in Carlawna's hand-in. From a copy of the main chain's 21 (X4 outside Castle Burlock,
+# Q-C10 not started). Carlawna's hut (the party placed at its door, PLAYBOOK §2): Scarab (started). The eyrie's cave
+# mouth on the Gargoyle Range (placed at it); XD-26 walked along A7's playtest route (devdocs/xeen/briefs/xd26/L4/
+# playtest.yml): the shaft floor, the low ledge's ladder, the rock ramp to the bridge level, the bridge, the fence's
+# room (its door), the winch (the hoist comes down: hoist_winched), the hoist up to the high ledge, the roost ladder,
+# the great nest (q-c10.scarab: the Scarab 12312, scarab_found); down the roost ladder, the drop to the west ledge, off
+# the bridge's torn end to the shaft floor, out by the mouth. Carlawna again (Scarab): the scarab taken, Q-C10 done,
+# 3,000 + 6,000 experience each and a level-3 treasure; nobody in the party (Cavalier Crusader Wizard Hunter) is a
+# Druid or a Cleric, so classes are kept and her "Ordination" is not offered (README check 3).
+# Quest logic: source/quests/q-c10.yml, t1-c.yml. Prep: prep/B_seasons.md.
+#   python3 tests/playthrough/xeen/promotions/run.py 11
+id: xeen.promotions.11_carlawna_scarab
+title: "Xeen promotions 11: Carlawna's Scarab of Imaging (Q-C10, T1-C)"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/00_main_21.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x4.odm}
+  - assert: {qbit_clear: [112200, 112201, 112202]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end; if classes() ~= 'Cavalier Crusader Wizard Hunter' then error('party: ' .. classes()) end"}
+  # Carlawna's Hut (building:carlawna_hut, house 4166, event 61): her talk opens. Scarab: Q-C10 started.
+  - set_pose: {map: xeen_x4.odm, x: -12210, y: 5154, z: 1376, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4303, action_label_absent: "Ordination"}}
+  - select_topic: {match_label: Scarab}
+  - assert: {dialog: {active: true, text_contains: "out of the sky swooped a flock of gargoyles"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [112200]}
+  # The Gargoyle Eyrie's cave mouth (thing:xd26_eyrie, X4 event 118; x4/DOORS.md: the party faces its dark face).
+  - set_pose: {map: xeen_x4.odm, x: -9216, y: 11208, z: 1824, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_xd26.blv}
+  - assert: {party_position: {x: 1344, y: -1000, radius: 300, z_min: -80, z_max: 120}}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The shaft floor; the low ledge's ladder.
+  - walk_to: {x: 1344, y: -300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1344, y: 300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 110, y: 448, z: 0, radius: 40, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - climb: {ladder: ledge_low, timeout_seconds: 30}
+  - assert: {party_position: {x: -192, y: 448, radius: 100, z_min: 504, z_max: 520}}
+  # West along the low ledge, the rock ramp up to the bridge level, the rope bridge east.
+  - walk_to: {x: -400, y: 448, z: 512, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1600, y: 450, z: 512, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: -1600, y: 1300, z: 650, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1300, y: 1600, z: 950, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -800, y: 1600, z: 1024, z_tolerance: 20, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -300, y: 1536, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1000, y: 1536, z: 1024, z_tolerance: 30, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2500, y: 1536, z: 1024, z_tolerance: 30, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {party_position: {x: 2500, y: 1536, radius: 100, z_min: 1016, z_max: 1032}}
+  # The fence's door (event 1, door 5's leaf), the fence's room; the winch (event 13) brings the hoist down.
+  - walk_to: {x: 2816, y: 1900, z: 1024, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2950, y: 1344, z: 1024, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "open_door(5, 1)"}
+  - walk_to: {x: 3400, y: 1344, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 3600, y: 1560, z: 1024, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(13); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "comes creaking down on its ropes"}}
+  - play_lua: {source: "close(); wait(6); if not qbit(110880) then error('hoist_winched not set') end; if door_state(5) ~= 'closed' then error('the winch did not lower the hoist: ' .. door_state(5)) end"}
+  # The hoist (event 16) up to the high ledge, the roost ladder, the great nest (event 9: q-c10.scarab).
+  - walk_to: {x: 2816, y: 1900, z: 1024, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2816, y: 2368, z: 1024, radius: 40, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(16); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The platform creaks on its ropes and moves"}}
+  - play_lua: {source: "close(); wait(6)"}
+  - assert: {party_position: {x: 2816, y: 2368, radius: 120, z_min: 1500, z_max: 1544}}
+  - walk_to: {x: 2500, y: 2368, z: 1536, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1280, y: 2470, z: 1536, radius: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - climb: {ladder: roost, timeout_seconds: 30}
+  - assert: {party_position: {x: 1280, y: 2780, radius: 100, z_min: 2040, z_max: 2056}}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1280, y: 2950, z: 2048, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "click(9); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[a jewelled scarab]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12312) ~= 1 then error("no Scarab of Imaging: " .. pack_items()) end
+        if not qbit(112202) then error("scarab_found not set") end
+  # Down: the roost ladder, the drop from the high ledge to the west ledge, off the bridge's torn end (a fall of 1,024
+  # to the shaft floor; A7's route), the mouth.
+  - walk_to: {x: 1280, y: 2800, z: 2048, radius: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - climb: {ladder: roost, down: true, timeout_seconds: 30}
+  - assert: {party_position: {x: 1280, y: 2470, radius: 140, z_min: 1528, z_max: 1544}}
+  - walk_to: {x: -576, y: 2300, z: 1536, radius: 40, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "log('JUMP XD-26: the drop of 512 from the high ledge to the west ledge (A7 route)')"}
+  - movement_segment: {input: forward, seconds: 0.9, start: {map: xeen_xd26.blv, x: -576, y: 2300, z: 1536, yaw_degrees: 270, pitch: 0}, expect_stop: {map: xeen_xd26.blv, x: -576, y: 1900, z: 1024, yaw_degrees: 270, pitch: 0}, loose_tolerance: true, tolerance_xy: 2000, tolerance_z: 1000}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: -576, y: 1850, radius: 300, z_min: 976, z_max: 1100}}   # XD-26 cave pass (A7, uneven ledge floor; its playtest)
+  - walk_to: {x: 1024, y: 1536, z: 1024, z_tolerance: 30, radius: 48, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "log('JUMP XD-26: off the bridge where its rail is torn, a fall of 1,024 to the shaft floor (A7 route)')"}
+  - movement_segment: {input: forward, seconds: 2.5, start: {map: xeen_xd26.blv, x: 1024, y: 1536, z: 1024, yaw_degrees: 270, pitch: 0}, expect_stop: {map: xeen_xd26.blv, x: 1024, y: 1100, z: 0, yaw_degrees: 270, pitch: 0}, loose_tolerance: true, tolerance_xy: 2000, tolerance_z: 1500}
+  - advance_runtime: {seconds: 1.5}
+  - assert: {party_position: {x: 1024, y: 700, radius: 800, z_min: -8, z_max: 8}}
+  - walk_to: {x: 1344, y: 300, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 1344, y: -1060, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  # The mouth's exit (event 8): out to the Gargoyle Range.
+  - execute_event: {id: 8}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x4.odm}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if item_count(12312) ~= 1 then error('the scarab lost on the way out') end"}
+  # The Chapel of the Crown (house 4153) on the way: a member the eyrie's Gargoyles paralysed is cured as a player
+  # would (D-82 3); nothing happens when nobody is down.
+  - set_pose: {map: xeen_x4.odm, x: -3584, y: 5172, z: 1312, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - heal_at_temple: {house: 4153, min: 0}
+  # Carlawna: the Scarab back (Q-C10 done): 3,000 + 6,000 experience each, a treasure; nobody promoted.
+  - set_pose: {map: xeen_x4.odm, x: -12210, y: 5154, z: 1376, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  # D-82 point 5: no member down before Carlawna's Scarab hand-in (it reads every member's experience or class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 11 before Carlawna\\'s Scarab hand-in: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before Carlawna\\'s Scarab hand-in (D-82 5): ' .. table.concat(down, ' | ')) end"}
+  - play_lua: {source: "for i = 0, 3 do remember('xp' .. i, experience(i)) end; local n = 0; for _, c in string.gmatch(pack_items(), '(%d+)x(%d+)') do n = n + tonumber(c) end; remember('items', n)"}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, source_id: 4303}}
+  - select_topic: {match_label: Scarab}
+  - assert: {dialog: {active: true, text_contains: "Druids rise as Great Druids, Clerics as Priests"}}
+  - assert: {dialog: {active: true, action_label_absent: "Ordination"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        wait(0.5)
+        for _ = 1, 3 do if held() ~= 0 then stow() end wait(0.2) end
+        if has_item(12312) then error("Carlawna did not take the scarab") end
+        for i = 0, 3 do
+          local xp = experience(i) - tonumber(recall("xp" .. i))
+          if xp ~= 9000 then error("member " .. i .. ": Carlawna paid " .. xp .. " experience, not 9000") end
+        end
+        local n = 0
+        for _, c in string.gmatch(pack_items(), "(%d+)x(%d+)") do n = n + tonumber(c) end
+        -- the scarab out, the treasure in
+        if n < tonumber(recall("items")) then error("no treasure from Carlawna: " .. pack_items()) end
+        if classes() ~= "Cavalier Crusader Wizard Hunter" then error("classes changed: " .. classes()) end
+        log("Q-C10 done, nobody promoted: " .. classes() .. "; experience " .. experience(0) .. "; packs " .. pack_items())
+  - assert: {qbit_set: [112201]}
+  - assert: {qbit_clear: [112200]}
+  # Asked again: the done line; still no Ordination.
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {match_label: Scarab}
+  - assert: {dialog: {active: true, text_contains: "The spell is finished", action_label_absent: "Ordination"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - save_game: {name: "P11 Carlawna's Scarab", path: output/playthrough/xeen/promotions/checkpoints/11_carlawna_scarab.oysav}

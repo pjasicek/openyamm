@@ -1,0 +1,117 @@
+# Playtest of the roof hatch (FD-03, L4; written by output/studio_cal/fd03/tools/gen_tests.py): from the roof
+# stair's head (entrance:p5_stair, the seal broken) the hatch's own Yes/No (D-66, A3's m41.roof_exit question):
+# No stays, Yes moves at once to P5's entrance:fd03_roof (4608, -3968, 0) facing north; measured.
+id: xeen.fd03.l4.roof
+title: Darkstone Tower (FD-03 L4), the hatch up to P5
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_fd03.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 61
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 61
+        skills: []
+        equipment: {}
+- assert:
+    map: xeen_fd03.blv
+- play_lua:
+    source: wait(2); close()
+- setup_shortcut:
+    kind: immortal
+    value: true
+- setup_shortcut:
+    kind: set_qbit
+    id: 111820
+    value: true
+- reload: {}
+- play_lua:
+    source: wait(8); close()
+- console:
+    line: tp 224 1904 3072
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: close(); wait(0.3); close()
+- assert:
+    party_position:
+      x: 224
+      y: 1904
+      radius: 96
+      z_min: 3064
+      z_max: 3080
+- play_lua:
+    source: click(16); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- play_lua:
+    source: close()
+- advance_runtime:
+    seconds: 1.0
+    present_dialogs: true
+- play_lua:
+    source: close(); wait(0.5); close()
+- assert:
+    map: xeen_fd03.blv
+- assert:
+    party_position:
+      x: 224
+      y: 1904
+      radius: 96
+      z_min: 3064
+      z_max: 3080
+- play_lua:
+    source: click(16); wait(0.5)
+- advance_runtime:
+    seconds: 0.5
+    present_dialogs: true
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_p5.blv
+- play_lua:
+    source: 'log(''landing: '' .. status())'
+- clear_hostiles:
+    radius: 6000
+- advance_runtime:
+    seconds: 4.0
+- assert:
+    party_position:
+      x: 4608
+      y: -3968
+      radius: 160
+      z_min: -60
+      z_max: 60
+      facing: 512
+      facing_within: 40

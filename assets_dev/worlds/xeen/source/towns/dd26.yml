@@ -1,0 +1,22 @@
+# DD-26 Olympus Sewer: Cyrano Jones' Pets Unlimited, the closed den in the middle of the drains' ring under Olympus
+# (D-65 Q57; MAPS D7; source dark/aaze0038). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# Built 2026-11-21 (A4, 15th session) on A8's L4: the counter's door `door:pets_unlimited` (a panel in the den's north
+# wall), event `evt:pets_unlimited` (12) enters 4815; ids fixed by D-65. A walk-in den with Cyrano's counter as the
+# house door ("Pets Unlimited", :19, over the counter; "Cyrano sells the password.", :12,
+# on the den's map door, A8). A residence, so that his topics show: the Tribble's sale at 25,000 gold, "Maybe some
+# other time." and the TRIBBLES line are A3's (`source/quests/q-d28.yml`). Own file, sharing D7's id block, because
+# house_data takes the map's own map_id (as dd25.yml shares D5's). No arrival: the sewer is entered from D7's grate
+# (`entrance:d7_stair`, the map lanes' points).
+key: DD-26
+stem: xeen_dd26.blv
+town: Olympus Sewer
+face: darkside
+blocks:
+  houses: [4801, 4850]
+  npcs: [5601, 5700]
+
+houses:
+  - {id: 4815, door: door:pets_unlimited, kind: residence, name: Pets Unlimited, residents: [5614], note: "D-65 Q57: Cyrano's counter, a panel in the den's north wall (A8's L4, evt:pets_unlimited 12)"}
+
+npcs:
+  - {id: 5614, name: Cyrano Jones, title: Salesman, profession: Trader, talks: true, greet: ["Pets Unlimited! Soft, quiet, and loyal to whoever pays for them.", "Back again? They remember you, you know."], source: "dark/aaze0038:13 (name and title; D-21 drops the leading 'the'); :14, :15, :18 are A3's topics (D-65 Q58)"}

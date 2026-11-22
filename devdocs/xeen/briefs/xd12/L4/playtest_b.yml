@@ -3,12 +3,12 @@
 # works gate refuses before its winch (its message names the assembly hall); the library stair door refuses without
 # the key (its message names the Chief Librarian's cabinet); the west walk's trapdoor drops the party to the works and
 # its winch raises it again with the party on it; the Book of Might in the Study of the Arm (past its trapdoor) works
-# once per character; the trapdoor is taken again on purpose as a quick way down; out by the tower door to X2's
-# island (played in a mount with X2's build: output/studio_cal/xd12/mount_x2.sh).
-# Numbers as in playtest.yml.
+# once per character; the trapdoor is taken again on purpose as a quick way down; out by the tower door onto Lake
+# Darzog's island on X2 (A5's xeen_x2.odm, installed in the world), at DOORS.md's arrival for door:xd12. Played from
+# assets_dev with --world xeen --map xeen_xd12.blv (output/studio_cal/xd12/xfour.sh). Numbers as in playtest.yml.
 id: xeen.xd12.l4.locks
-title: Darzog's Tower (XD-12 L4), the locks before their answers, a trapdoor and its winch, out to X2
-world: mm7
+title: Darzog's Tower (XD-12 L4), the locks before their answers, a trapdoor and its winch, to the tower door
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -23,7 +23,9 @@ steps:
           - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
   - assert: {map: xeen_xd12.blv}
   - setup_shortcut: {kind: immortal, value: true}
-  - play_lua: {source: "wait(3); close()"}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Darzog's Tower. The Skeleton Key turns"}}
+  - play_lua: {source: "close()"}
   - assert: {state_dump_map_var: {index: 0, value: 1}}
   # The guardroom off the gate hall: its plank door and its chest.
   - walk_to: {x: 2496, y: 1500, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
@@ -94,13 +96,10 @@ steps:
   - play_lua:
       source: |
         if door_state(5) ~= "open" then error("the study's trapdoor moved under a walk round it: " .. door_state(5)) end
-        click(5); wait(1)
-  - assert:
-      dialog: {text_contains: "+5 Might"}
+        click(5); wait(0.5)
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, '+5 Might', 1, true) then error('no line: ' .. s) end"}
   - play_lua:
       source: |
-        if not close() then error("the Book of Might opened no message window") end
-        status()
         click(5); wait(1)
         local seen = status()
         if not string.find(seen, "already learned", 1, true) then error("the Book of Might worked twice: " .. seen) end
@@ -152,8 +151,10 @@ steps:
   - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 2900, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - execute_event: {id: 41}
+  # The tower door (exit:lake_island) asks to leave and sets the party down on the island, 400 east of the tower's
+  # door, facing the jetty (DOORS.md, door:xd12: -15631, 3014, 768, facing east).
+  - assert: {dialog: {active: true, text_contains: "Darzog's Tower"}}
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  # On the island in X2, in front of the tower door (X2's DOORS.md arrival), facing the jetty.
   - assert: {map: xeen_x2.odm}
   - assert: {party_position: {x: -15631, y: 3014, radius: 160, z_min: 700, z_max: 900}}

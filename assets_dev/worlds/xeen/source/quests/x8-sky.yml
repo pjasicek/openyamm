@@ -1,0 +1,64 @@
+# X8-SKY Cloudreach's own rewards: the explorer's statue on the highest rock and the harpy nests to burn (A6's X8
+# brief, room:explorers_rock, room:nest_spires, room:witch_perch). Ours in form, the source's in substance: the statue
+# dubs "Super Explorer" (xeen/aaze0025) but its +1 level becomes +2 Speed (QUESTS rules: no permanent levels); each nest
+# burnt pays a little, burn-the-camp style (QUESTS 4.3). Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: X8-SKY
+title: Cloudreach
+act: II
+kind: ours
+status: full
+giver: null
+giver_name: (the sky map itself)
+maps: [X8]
+level: 19
+block: 141
+after: []
+source: "briefs/x8/L1 (A6); xeen/aaze0025 (the explorer, \"Harpy Nest. Destroy?\")"
+
+qbits:
+  explorer: {id: 115020, note: "X8's explorer statue (hook explorer_statue)"}
+  nest_1: {id: 115021, note: "the first nest on the spires (X8, hook nest_1)"}
+  nest_2: {id: 115022, note: "the second nest on the spires (X8, hook nest_2)"}
+  nest_3: {id: 115023, note: "the nest on the witch's perch (X8, hook nest_3; the queen's great nest in the eyrie is her hoard, not a nest to burn: L2)"}
+
+awards:
+  super_explorer: {id: 406, text: "Dubbed Super Explorer by the statue on Cloudreach's highest rock", sort: 3}
+
+hooks:
+  explorer_statue:
+    status: true   # F13: a touch effect answers on the status line
+    else_status: true
+    map: X8
+    where: "the explorer's statue on the explorer's rock (room:explorers_rock), the highest pinnacle"
+    sets: [explorer]
+    once: true
+    do: [{award: super_explorer}, {stat: speed, value: 2}]
+    text: "The statue's stone mouth moves: \"I dub all who find me 'Super Explorer'.\" You feel lighter on your feet. +2 Speed."
+    else_text: "The statue is silent."
+  nest_1:
+    map: X8
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the first harpy nest on the nest spires (room:nest_spires): the map asks \"Harpy Nest. Destroy?\" and burns it (a destructible), then calls this"
+    sets: [nest_1]
+    once: true
+    do: [{xp: 500}]
+    text: "Bones, feathers and stolen trinkets go up together. The harpies will nest somewhere lower."
+  nest_2:
+    map: X8
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the second harpy nest on the nest spires, as nest_1"
+    sets: [nest_2]
+    once: true
+    do: [{xp: 500}]
+    text: "Bones, feathers and stolen trinkets go up together. The harpies will nest somewhere lower."
+  nest_3:
+    map: X8
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the nest on the witch's perch (room:witch_perch), as nest_1"
+    sets: [nest_3]
+    once: true
+    do: [{xp: 500}]
+    text: "The nest burns, and the smoke drifts down through a gap in the cloud toward Vertigo."
+
+rewards: {xp: 1500, gold: 0}
+playthrough: "X8: burn the three nests; climb to the explorer's rock: the statue."

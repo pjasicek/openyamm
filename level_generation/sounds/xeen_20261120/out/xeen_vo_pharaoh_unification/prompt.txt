@@ -1,0 +1,21 @@
+derived: xeen_vo_pharaoh_unification_take
+
+kind: derived
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+undertone:
+  semitones: -12
+  gain_db: -14
+  delay_ms: 12
+shift:
+  pitch: 0
+  formant: -2.5
+room:
+  seconds: 0.6
+  mix: 0.12
+  lowpass_hz: 2200
+highpass_hz: 50
+loudness_db: -9
+line: 'The Dragon Pharaoh: Let the two faces of Xeen be one world again.'

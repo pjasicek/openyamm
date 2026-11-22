@@ -1,0 +1,97 @@
+# Playtest of the Troll Holes' second pocket (DD-11B, L4; lane A7, agent:xeen-a7-dd11): the pit to the expired
+# adventurers and the second letter, down the clay drop to the vats, Troll Juice, the brewers' den, back up the root stair
+# and out to the burrow's top. A level-23 party lands at the pit's bottom (the map's start, where D2's second hole drops
+# it): the landing line; the gallery's trolls; the fallen root swings up; a skeleton ("Expired Adventurer" / "Nothing
+# here.", aaze0040:3-4), the thief's satchel (the second letter, our paraphrase of aaze0040:6-7), the strongbox; the clay
+# drop (one way) onto the vat rim; the juice pit's guards; Troll Juice (A3's q-d13.troll_juice text; +2 Endurance and
+# Poisoned, player bit 11294), again (troll_juice_again); the brewers' log door and chest; the grub pens, the root stair
+# up to the fungus cave (the loop), the hide flap and the burrow up. Every window closed, a save and load.
+# Numbers are ids.lock.yml's: events (click), doors (open_door), chests (loot_chest by event).
+id: xeen.dd11b.l4.walk
+title: Troll Holes, second pocket (DD-11B L4), the pit to the second letter, Troll Juice and the burrow up
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11b.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 23, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 23, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 23, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 23, skills: [], equipment: {}}
+  - assert: {map: xeen_dd11b.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 96, y: -32, radius: 64, z_min: -8, z_max: 32}}
+  - play_lua: {source: "wait(3); local s = status(); log('arrive: ' .. s); if not string.find(s, 'fell in here before you', 1, true) then error('no landing line: ' .. s) end; close()"}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, min: 12}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, min: 8}}
+  # The gnawed gallery; the fallen root swings up.
+  - walk_to: {x: 1000, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - walk_to: {x: 1408, y: 60, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(10, 3)"}
+  - walk_to: {x: 1408, y: 560, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The expired adventurers: a skeleton, the satchel's letter, the strongbox.
+  - walk_to: {x: 1250, y: 640, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "close(); click(13); wait(0.5); local s = status(); log('skeleton: ' .. s); if not string.find(s, 'Nothing here.', 1, true) then error('skeleton: ' .. s) end"}
+  - walk_to: {x: 1250, y: 820, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(11); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The wide one is the King's."}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 1620, y: 880, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(4); close(); if gold() < g + 350 then error('the strongbox held no gold') end"}
+  # East along the gallery and down the clay drop (one way) onto the vat rim.
+  - walk_to: {x: 1408, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2400, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2752, y: 0, z: -448, z_tolerance: 40, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1); local s = status(); log('landed: ' .. s); if not string.find(s, 'no climbing back up', 1, true) then error('no landing line: ' .. s) end; close()"}
+  - clear_hostiles: {radius: 1500}
+  # The juice pit and its guards; Troll Juice, then again.
+  - walk_to: {x: 3700, y: -192, z: -448, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: 3980, y: -192, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "if string.find(conditions(0), 'Poison', 1, true) then error('poisoned before the juice: ' .. conditions(0)) end; click(8); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[This stuff is poisonous, but the experience improves you.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); local c = conditions(0); log('after the juice: ' .. c .. ' / ' .. party()); if not string.find(c, 'Poison', 1, true) then error('not poisoned: ' .. c) end"}
+  - play_lua: {source: "click(8); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[You have had enough Troll Juice for one lifetime.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # The brewers' den behind its log door, and its chest.
+  - walk_to: {x: 5000, y: -128, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(2, 1)"}
+  - walk_to: {x: 5450, y: -128, z: -448, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 5720, y: -380, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "local g = gold(); loot_chest(3); close(); if gold() < g + 450 then error('the brewers held no gold') end"}
+  # Back to the rim, the grub pens, up the root stair to the fungus cave (the loop).
+  - walk_to: {x: 5400, y: -128, z: -448, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 5000, y: -128, z: -448, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 4352, y: 550, z: -448, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 3000, y: -128, z: -448, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2944, y: -1100, z: -448, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: 2520, y: -1344, z: -448, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: -1344, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 960, y: -1040, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - assert: {actor_count: {monster_id: 11690, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11691, hostile: true, max: 0}}
+  # The hide flap and the burrow up.
+  - walk_to: {x: 600, y: -1152, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(5, 2)"}
+  - walk_to: {x: -600, y: -1152, z: 340, z_tolerance: 60, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # Every window closed, then a save and load: the fallen root stays up.
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(1); close(); if door_state(3) ~= 'open' then error('fallen root: ' .. door_state(3)) end"}
+  - assert: {map: xeen_dd11b.blv}

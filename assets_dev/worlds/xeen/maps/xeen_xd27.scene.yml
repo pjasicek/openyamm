@@ -1,0 +1,387 @@
+format_version: 1
+kind: indoor_scene
+source:
+  geometry_file: xeen_xd27.blv
+environment:
+  sky_texture: ""
+  day_bits_raw: 0
+  map_extra_bits_raw: 0
+  ceiling: 1024
+  flags:
+    foggy: false
+    raining: false
+    snowing: false
+    underwater: false
+    no_terrain: false
+    always_dark: false
+    always_light: false
+    always_foggy: false
+    red_fog: false
+  fog:
+    weak_distance: 4096
+    strong_distance: 8192
+initial_state:
+  location:
+    respawn_count: 0
+    last_respawn_day: 0
+    reputation: 0
+    alert_status: 0
+  visible_outlines:
+    bitset_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  face_attribute_overrides: []
+  decoration_flags: []
+  actors:
+    - actor_index: 0
+      name: Ogre Chieftain
+      npc_id: 0
+      attributes: 524288
+      hp: 390
+      hostility_type: 0
+      monster_info_id: 11063
+      monster_id: 816
+      radius: 63
+      height: 177
+      move_speed: 280
+      position:
+        x: 2752
+        y: 6400
+        z: 128
+      initial_yaw_units: 1024
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 13
+      current_action_animation: 0
+      carried_item_id: 12170
+      group: 2
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 1
+      name: Boulder Thrower
+      npc_id: 0
+      attributes: 524288
+      hp: 86
+      hostility_type: 0
+      monster_info_id: 11060
+      monster_id: 504
+      radius: 63
+      height: 177
+      move_speed: 240
+      position:
+        x: 2960
+        y: 5952
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 13
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 2
+      name: Boulder Thrower
+      npc_id: 0
+      attributes: 524288
+      hp: 86
+      hostility_type: 0
+      monster_info_id: 11060
+      monster_id: 504
+      radius: 63
+      height: 177
+      move_speed: 240
+      position:
+        x: 2960
+        y: 6560
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 13
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+    - actor_index: 3
+      name: Boulder Thrower
+      npc_id: 0
+      attributes: 524288
+      hp: 86
+      hostility_type: 0
+      monster_info_id: 11060
+      monster_id: 504
+      radius: 63
+      height: 177
+      move_speed: 240
+      position:
+        x: 2752
+        y: 6848
+        z: 128
+      initial_yaw_units: 0
+      sprite_ids: [0, 0, 0, 0]
+      sector_id: 13
+      current_action_animation: 0
+      carried_item_id: 0
+      group: 3
+      ally: 0
+      unique_name_index: 0
+  sprite_objects: []
+  chests: []
+  doors:
+    - door_index: 0
+      legacy_attributes: 0
+      door_id: 1
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935]
+      face_ids: [829, 830, 831, 832, 833]
+      sector_ids: [10]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [-160, 160, 160, -160, 160, 160, -160, -160, -160, 160, 160, -160]
+      y_offsets: [1092, 1092, 1092, 1092, 1116, 1116, 1116, 1116, 1116, 1116, 1116, 1116]
+      z_offsets: [0, 0, 384, 384, 0, 384, 384, 0, 384, 384, 0, 0]
+      mover:
+        rotation:
+          pivot: [-160, 1104, 0]
+          axis: [0, 0, 1]
+          open_degrees: -90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 1
+      legacy_attributes: 0
+      door_id: 2
+      time_since_triggered_ms: 0
+      direction: [0, 0, 0]
+      move_length: 900
+      open_speed: 600
+      close_speed: 600
+      state: 2
+      vertex_ids: [936, 937, 938, 939, 940, 941, 942, 943]
+      face_ids: [834, 835, 836, 837, 838]
+      sector_ids: [2]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
+      x_offsets: [-3140, -3140, -3140, -3140, -3164, -3164, -3164, -3164]
+      y_offsets: [3664, 3888, 3888, 3664, 3664, 3888, 3888, 3664]
+      z_offsets: [32, 32, 320, 320, 320, 320, 32, 32]
+      mover:
+        rotation:
+          pivot: [-3152, 3888, 32]
+          axis: [0, 0, 1]
+          open_degrees: 90
+          open_away: true
+        easing: sine
+        bodies: reverse
+    - door_index: 2
+      legacy_attributes: 0
+      door_id: 3
+      time_since_triggered_ms: 0
+      direction: [0, 0, -65536]
+      move_length: 256
+      open_speed: 96
+      close_speed: 96
+      state: 2
+      vertex_ids: [944, 945, 946, 947, 948, 949, 950, 951]
+      face_ids: [839, 840, 841, 842, 843, 844]
+      sector_ids: [5]
+      delta_us: [0, 0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0, 0]
+      x_offsets: [288, -288, -288, 288, 288, 288, -288, -288]
+      y_offsets: [1132, 1132, 1132, 1132, 1164, 1164, 1164, 1164]
+      z_offsets: [440, 440, 400, 400, 440, 400, 440, 400]
+    - door_index: 3
+      legacy_attributes: 0
+      door_id: 4
+      time_since_triggered_ms: 0
+      direction: [0, 65327, 5226]
+      move_length: 803
+      open_speed: 400
+      close_speed: 400
+      state: 2
+      vertex_ids: [952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 965, 966, 967]
+      face_ids: [845, 846, 847, 848, 849, 850, 851, 852, 853, 854]
+      sector_ids: [13]
+      delta_us: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      x_offsets: [2798, 2706, 2706, 2798, 2864, 2864, 2864, 2864, 2798, 2798, 2706, 2706, 2640, 2640, 2640, 2640]
+      y_offsets: [4592, 4592, 4592, 4592, 4658, 4658, 4750, 4750, 4816, 4816, 4816, 4816, 4750, 4750, 4658, 4658]
+      z_offsets: [176, 176, 64, 64, 176, 64, 176, 64, 176, 64, 176, 64, 176, 64, 176, 64]
+    - door_index: 4
+      legacy_attributes: 0
+      door_id: 5
+      time_since_triggered_ms: 0
+      direction: [0, 65327, 5226]
+      move_length: 803
+      open_speed: 400
+      close_speed: 400
+      state: 2
+      vertex_ids: [968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983]
+      face_ids: [855, 856, 857, 858, 859, 860, 861, 862, 863, 864]
+      sector_ids: [13]
+      delta_us: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      x_offsets: [2777, 2711, 2711, 2777, 2824, 2824, 2824, 2824, 2777, 2777, 2711, 2711, 2664, 2664, 2664, 2664]
+      y_offsets: [4616, 4616, 4616, 4616, 4663, 4663, 4729, 4729, 4776, 4776, 4776, 4776, 4729, 4729, 4663, 4663]
+      z_offsets: [256, 256, 176, 176, 256, 176, 256, 176, 256, 176, 256, 176, 256, 176, 256, 176]
+    - door_index: 5
+      legacy_attributes: 0
+      door_id: 7
+      time_since_triggered_ms: 0
+      direction: [0, 0, 65536]
+      move_length: 112
+      open_speed: 160
+      close_speed: 160
+      state: 2
+      vertex_ids: [984, 985, 986, 987, 988, 989, 990, 991]
+      face_ids: [865, 866, 867, 868, 869, 870]
+      sector_ids: [13]
+      delta_us: [0, 0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0, 0]
+      x_offsets: [2904, 2600, 2600, 2904, 2904, 2904, 2600, 2600]
+      y_offsets: [5620, 5620, 5620, 5620, 5644, 5644, 5644, 5644]
+      z_offsets: [112, 112, 64, 64, 112, 64, 112, 64]
+  variables:
+    map: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    decor: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+party_start_points:
+  - start_index: 0
+    source_name: StartPoint0
+    position: [0, 448, 0]
+    direction_degrees: 90
+loot_containers:
+  - source_id: xeen:xeen_xd27:bundle
+    source_object_index: 0
+    source_name: bundle
+    position:
+      x: -2752
+      y: 2880
+      z: 192
+    container_id: 0
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 150
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd27:cargo
+    source_object_index: 1
+    source_name: cargo
+    position:
+      x: -3968
+      y: 4128
+      z: 32
+    container_id: 1
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 300
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 2
+  - source_id: xeen:xeen_xd27:chief
+    source_object_index: 2
+    source_name: chief
+    position:
+      x: -2336
+      y: 4288
+      z: 32
+    container_id: 2
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 2
+    treasure_type: 0
+    gold: 0
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+  - source_id: xeen:xeen_xd27:strongbox
+    source_object_index: 3
+    source_name: strongbox
+    position:
+      x: -3808
+      y: 3696
+      z: 32
+    container_id: 3
+    kind: chest
+    presentation: wooden chest
+    random_treasure_level: 3
+    treasure_type: 0
+    gold: 800
+    gold_only: false
+    random: true
+    ai_drop: false
+    trap_level: 0
+    should_repopulate: true
+    fixed_items: []
+    remove_when_empty: false
+    random_records: 3
+pulsing_lights:
+  - key: 40001
+    position: [-2272, 3840, 152]
+    color: [255, 140, 70]
+    intensity: [0.7, 1, 1, 0.2]
+    radius: [1300, 1300, 1, 0.2]
+    start_on: true
+  - key: 40002
+    position: [-2176, 2560, 312]
+    color: [255, 140, 70]
+    intensity: [0.7, 1, 1.1, 0.4]
+    radius: [1300, 1300, 1.1, 0.4]
+    start_on: true
+  - key: 40003
+    position: [-192, 3136, -88]
+    color: [255, 150, 70]
+    intensity: [0.75, 1, 1.3, 0.1]
+    radius: [2200, 2200, 1.3, 0.1]
+    start_on: true
+  - key: 40004
+    position: [256, 5728, 504]
+    color: [255, 140, 70]
+    intensity: [0.7, 1, 1.2, 0.5]
+    radius: [1300, 1300, 1.2, 0.5]
+    start_on: true
+  - key: 40005
+    position: [320, 1700, 120]
+    color: [255, 140, 70]
+    intensity: [0.7, 1, 1.2, 0.7]
+    radius: [1100, 1100, 1.2, 0.7]
+    start_on: true
+ambient_sounds:
+  - key: 1
+    sound: 7campfire
+    position: [-192, 3136, -64]
+    inner_radius: 400
+    outer_radius: 1600
+    volume: 0.6
+    loop: true
+    start_on: true
+  - key: 2
+    sound: rushing water loop
+    position: [3680, 6176, -256]
+    inner_radius: 1400
+    outer_radius: 3600
+    volume: 0.8
+    loop: true
+    start_on: true

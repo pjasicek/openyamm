@@ -1,0 +1,3 @@
+Saved the [primary three-quarter reference](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sorc_claude/references_hd/00_three_quarter.png) as an unresized 1024×1536 RGBA PNG. Run 1 used the built-in image generator and one corrective generation. Both prompts, input hashes, and the selection reason are in the [generation record](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_sorc_claude/references_hd/generation_runs.json).
+
+The visible figure clears every edge by at least 113 px. Faint residual alpha below 8/255 remains in the margins.

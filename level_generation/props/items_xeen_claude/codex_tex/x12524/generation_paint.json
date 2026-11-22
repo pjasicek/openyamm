@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST image, paint_mask_guide.png, by colouring only its existing grey pixels. Preserve its exact alpha channel and coordinates on the full 1536x2048 3:4 canvas. The second image is the approved design, third the icon colour reference (ignore magenta). Five projected views in a 3-column 2-row layout, repeated exactly 1024 pixels below for material IDs. Each cell 512x512. Preserve ALL the large transparent gutters. The first three views are thin horizontal strips vertically centered in each cell. Row 2: another thin long fore-edge on left, portrait rectangular cover in center, empty right. Paint rows 1-2 as unlit diffuse albedo: white ivory grained leather, gold corner fittings, raised single diagonally oriented gold leaf with branching veins as designed, warm parchment page edges. Match the orthographic guides exactly, never rotate or resize a view. No illumination, AO, shadows, hot highlights, reflections, outlines, text, aura, extra details or objects. Rows 3-4 are the identical silhouettes and material divisions as above but strictly solid pure #00FF00 leather, #FF0000 metal including the full gold leaf, #FFFF00 paper, #0000FF only if actual cloth. Each mask pixel one exact RGB, no texture, gradients, outlines or antialiased colour blends. Empty cells in column 3 rows 2 and 4 stay transparent. All original gaps and background alpha zero.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "1e88be65f8a29430d0581adf3f772a1979b319414149bb1de455afcdbee107c6"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "556540c29843c919ebbef15f006a87f3e52f073f2ba6f78b907c4b001ef177ad"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "41f5362c32be2479baecbbdf2e1c7770d637f2b66897c3369a3224a2eb7f0685"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f929-a6ba-7482-9330-0d3a23a28258/exec-efa9688e-843b-4159-84cf-bde86bad16ff.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

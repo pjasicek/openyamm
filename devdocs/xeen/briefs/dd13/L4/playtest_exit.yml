@@ -1,0 +1,54 @@
+# The Ogre Forts' two ways out to D2 (Sprite Forest and Ogre Pass, installed): the west gate (evt:exit_w, 15; the map's
+# start) to A6's point in front of the west fort's gate (4096, 13824, 2016) facing south, and the east gate (evt:exit_e,
+# 14) to A6's point in front of the east fort's gate (11776, 11776, 2048) facing north. Leaving a BLV for an ODM asks for
+# confirmation (OK). Measured 2026-11-20: the party stands at z 2017 (west) and 2049 (east) 2 s after landing, on D2's
+# ground at A6's points.
+id: xeen.dd13.l4.exit
+title: Ogre Forts (DD-13 L4), out by the west gate and by the east gate to D2
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd13.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 24, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 24, skills: [], equipment: {}}
+  - assert: {map: xeen_dd13.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {party_position: {x: 0, y: -64, radius: 64, z_min: -8, z_max: 8}}
+  # The west gate: its two leaves part, the gateway, the exit.
+  - walk_to: {x: 0, y: -130, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(8, 4); if door_state(4) ~= 'open' then error('west gate: ' .. door_state(4)) end; if door_state(5) ~= 'open' then error('west gate leaf 2: ' .. door_state(5)) end"}
+  - walk_to: {x: 0, y: -470, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 15}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "log('west landing: ' .. status())"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('west landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 4096, y: 13824, radius: 160, z_min: 2000, z_max: 2035}}
+  # The east gate: D2's door arrives at the explicit inside point (7552, 32, 0) facing south (D-25 Q10); the gate's two
+  # leaves behind, the gateway, the exit.
+  - set_pose: {map: xeen_dd13.blv, x: 7552, y: 32, z: 0, yaw_degrees: 270, pitch: 0}
+  - assert: {map: xeen_dd13.blv}
+  - play_lua: {source: "wait(1); close()"}
+  - advance_runtime: {seconds: 1}
+  - assert: {party_position: {x: 7552, y: 32, radius: 48, z_min: -8, z_max: 8}}
+  - walk_to: {x: 7552, y: 100, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(7, 2); if door_state(2) ~= 'open' or door_state(3) ~= 'open' then error('east gate: ' .. door_state(2) .. ' ' .. door_state(3)) end"}
+  - walk_to: {x: 7552, y: 470, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 14}
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d2.odm}
+  - play_lua: {source: "log('east landing: ' .. status())"}
+  - advance_runtime: {seconds: 2}
+  - play_lua: {source: "log('east landing after 2 s: ' .. status())"}
+  - assert: {party_position: {x: 11776, y: 11776, radius: 160, z_min: 2032, z_max: 2065}}

@@ -1,0 +1,89 @@
+# Xeen side quest Q-C18, The Holy Book of Elvenkind (X2, X5), from a new game on X2. Tito the Elf Priest (his chapel in
+# Rivercity) lost the book in the Troll Forest; it lies in the snow beside a torn pack by the troll warren on X5, a
+# ground item since D-90 (c) (A6, X5 2026-11-22; q-c18.book is a map_gives record, event 108 unused). The party travels there and back overland (PLAYBOOK.md §2: outdoors the party may be placed
+# and travel), takes the book and brings it to Tito, who pays. His Spirit teaching then opens (A4's teacher gate).
+# Quest logic: source/quests/q-c18.yml; X5 events: devdocs/xeen/briefs/x5/L4/sketch.yml (thing:holy_book).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c18_holy_book.yml --scenario-no-color
+id: xeen.side_quests.q-c18
+title: "Xeen Q-C18: the Holy Book of Elvenkind back to Tito"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 200
+        food: 30
+        members:
+          - {name: Hilda, class: Knight, level: 25, skills: [], equipment: {}}
+          - {name: Aldric, class: Paladin, level: 25, skills: [], equipment: {}}
+          - {name: Mirel, class: Sorcerer, level: 25, skills: [], equipment: {}}
+          - {name: Brann, class: Ranger, level: 25, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x2.odm}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Tito's Chapel (X2 event 5, house 4097): Holy Book (Q-C18 started).
+  - set_pose: {map: xeen_x2.odm, x: 7232, y: -5888, z: 1000, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4153}   # the chapel's one resident talks at once
+  - select_topic: {match_label: Holy Book}
+  - assert:
+      dialog: {text_contains: "In my haste to escape I dropped the Holy Book of Elvenkind"}
+  - select_topic: {match_label: Holy Book}
+  - assert:
+      dialog: {text_contains: "I see you haven't found the Holy Book of Elvenkind"}
+  - assert: {dialog: {action_label_absent: "Master Spirit Magic"}}   # no teaching before the book is home
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {dialog: {active: false}}
+  - assert: {qbit_set: [112360]}
+  - assert: {qbit_clear: [112361]}
+  # Overland to X5, the Troll Forest: the book on the ground by the torn pack at the troll warren (cell 68.85, 92.4).
+  - travel: {map: xeen_x5.odm, days: 4}
+  - assert: {map: xeen_x5.odm}
+  - set_pose: {map: xeen_x5.odm, x: 2355, y: -14241, z: 1300, yaw: -1.5708, pitch: -0.3}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 1.0}
+  - walk_to: {x: 2483, y: -14720, z: 962, z_tolerance: 700, radius: 192, timeout_seconds: 90, clear_hostiles: 3000}
+  - play_lua: {source: "if ground_items(12524) ~= 1 then error('the Holy Book is not on the ground') end"}
+  - pick_up: {item_id: 12524, reach: 700}
+  - play_lua:
+      source: |
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12524) ~= 1 then error("no Holy Book from the ground by the torn pack") end
+        if ground_items(12524) ~= 0 then error("the Holy Book is still on the ground") end
+  # Back to Rivercity; Tito: Holy Book (Q-C18 done), 5000 experience each and 1500 gold.
+  - travel: {map: xeen_x2.odm, days: 4}
+  - assert: {map: xeen_x2.odm}
+  - set_pose: {map: xeen_x2.odm, x: 7232, y: -5888, z: 1000, yaw: 0.0, pitch: 0.0}
+  - play_lua: {source: "remember('xp', experience(0)); remember('gold', gold())"}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert:
+      dialog: {active: true, source_id: 4153}
+  - select_topic: {match_label: Holy Book}
+  - assert:
+      dialog: {text_contains: "You have recovered the Holy Book of Elvenkind!"}
+  - select_topic: {match_label: Holy Book}
+  - assert:
+      dialog: {text_contains: "The Book is home."}
+  - play_lua:
+      source: |
+        local xp, g = experience(0) - recall('xp'), gold() - recall('gold')
+        log("Q-C18 reward: experience +" .. xp .. ", gold +" .. g)
+        if xp ~= 5000 or g ~= 1500 then error("Tito paid " .. xp .. " experience and " .. g .. " gold, not 5000 and 1500") end
+        if has_item(12524) then error("Tito did not take the book") end
+  # "Ask me about the spirit whenever you like": Tito now teaches Master Spirit Magic (towns/x2.yml `opens:
+  # q-c18.done`, the RegisterCanShowTopic gate in xeen_quests.lua).
+  - assert: {dialog: {action_label_present: "Holy Book"}}
+  - assert: {dialog: {action_label_present: "Master Spirit Magic"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "close()"}
+  - assert: {dialog: {active: false}}
+  - assert: {qbit_set: [112361]}
+  - assert: {qbit_clear: [112360]}

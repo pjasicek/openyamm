@@ -1,0 +1,30 @@
+# Vertigo's dimensional travel pedestal (devdocs/maw/XEEN_SUPPORT.md section 7), the world's own as New Sorpigal's,
+# Ravenshore's, Harmondale's and Sturmford City's: the pedestal and orb on Vertigo Square
+# (worlds/xeen/maps/xeen_x1_dimensional_travel.scene.yml) open the continents' portals (event 1777,
+# events/maps/xeen_x1_dimensional_travel.lua) in every ruleset, here Standard and MAW. The steps run the pedestal's
+# event: a headless keyboard pick finds no decoration (New Sorpigal's pedestal neither). The other continents'
+# pedestals list Xeen's door (worlds/xeen/data_tables/dimension_doors.yml, landing at Vertigo): New Sorpigal's opens
+# the same screen.
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/dimensional_travel_vertigo.yml --scenario-no-color
+id: xeen.dimensional_travel_vertigo
+title: "Xeen: Vertigo's dimensional travel pedestal opens the continents' portals, Standard and MAW"
+world: xeen
+mode: faithful
+tags: [xeen, travel, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 1777}
+  - assert: {dimension_door: {pending: true}}
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      ruleset: {id: maw, difficulty: maw, progression: horizontal}
+  - assert: {dimension_door: {pending: false}}
+  - execute_event: {id: 1777}
+  - assert: {dimension_door: {pending: true}}
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: horizontal}
+  - execute_event: {id: 1777}
+  - assert: {dimension_door: {pending: true}}

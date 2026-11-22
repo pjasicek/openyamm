@@ -1,0 +1,14 @@
+A hulking bog monster of mud and rotting weeds striking: a deep wet gurgling roar and a heavy squelching slam of muddy limbs, close
+
+kind: sfx
+duration: 1.1
+loop: false
+variants: 3
+model: eleven_text_to_sound_v2
+prompt_influence: 0.45
+highpass_hz: 30
+low_shelf:
+  hz: 120
+  db: 4
+loudness_db: -8
+score_bias: power

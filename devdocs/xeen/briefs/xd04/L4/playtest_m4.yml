@@ -4,11 +4,12 @@
 # climbs the tower again to the face door without its key and without having freed Rosebud (the door's message names
 # the keyhole and the coven's key), goes back down to the herb loft for the key in the witches' stores, opens the face
 # door with it, crosses the sanctum, and the ward over the roof stair falls for the Crusaders; up the roof stair,
-# through the hatch onto the roof, and away up the cloud stair to the X8 stand-in.
+# through the hatch onto the roof (the source's skull on the stair gives its levitate hint, phase 0), and to the
+# cloud stair, sealed with a message until X8 exists.
 # Numbers are ids.lock.yml's. Nothing depends on chance: every walk past a spawn point clears hostiles near it.
 id: xeen.xd04.l4.m4
 title: Witch Tower (XD-04 L4), after M4, the broken balcony's drop, the ward and the cloud stair
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -24,6 +25,7 @@ steps:
   - assert: {map: xeen_xd04.blv}
   - setup_shortcut: {kind: immortal, value: true}
   - setup_shortcut: {kind: set_qbit, id: 110047}
+  - setup_shortcut: {kind: set_qbit, id: 110046}
   # Up the east and west stairs to the third floor.
   - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
@@ -76,7 +78,7 @@ steps:
   - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
   - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
   # The face door without its key: its message names the keyhole and the coven's key.
-  - play_lua: {source: "if qbit(110044) or has_item(2187) then error('this walk comes to the door without Rosebud and without the key') end; click(34); wait(1)"}
+  - play_lua: {source: "if qbit(110044) or has_item(12034) then error('this walk comes to the door without Rosebud and without the key') end; click(34); wait(1)"}
   - assert:
       dialog: {text_contains: "the coven's own key would fit it"}
   - play_lua: {source: "if not close() then error('the locked face opened no message window') end; wait(1); if door_state(15) ~= 'closed' then error('the face opened without its key') end"}
@@ -92,7 +94,7 @@ steps:
       source: |
         loot_chest(47)
         if held() ~= 0 then stow() end
-        if not has_item(2187) then error("the witches' stores did not hold the coven's key") end
+        if not has_item(12034) then error("the witches' stores did not hold the coven's key") end
   - walk_to: {x: 200, y: 1824, z: 1472, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: -520, y: 1824, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: -896, y: 1750, z: 1280, radius: 64, timeout_seconds: 30, clear_hostiles: 1200}
@@ -101,7 +103,7 @@ steps:
   - walk_to: {x: -2600, y: 1312, z: 1920, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}
   - walk_to: {x: -3072, y: 1080, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
   - play_lua: {source: "click(34); wait(4); if door_state(15) ~= 'open' then error('the face did not open to the coven key') end"}
-  # The sanctum, and the ward falls for the Crusaders.
+  # The sanctum, and the ward falls (the Head Witch is dead, D-89).
   - walk_to: {x: -3072, y: 700, z: 1920, radius: 64, timeout_seconds: 30, clear_hostiles: 1500}
   - clear_hostiles: {radius: 3200}
   - play_lua: {source: "wait(2); clear_hostiles(3200); wait(4); clear_hostiles(3200); wait(1)"}
@@ -113,6 +115,12 @@ steps:
         if door_state(19) ~= "open" then error("the ward did not fall for the Crusaders: " .. door_state(19)) end
   # The roof stair, the hatch, the roof.
   - walk_to: {x: -4250, y: 448, z: 1920, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
+  # A few steps up, the source's skull on its shelf (phase 0): the levitate hint, in a message window.
+  - walk_to: {x: -4592, y: 520, z: 2112, z_tolerance: 64, radius: 64, timeout_seconds: 30}
+  - play_lua: {source: "click(54); wait(1)"}
+  - assert:
+      dialog: {text_contains: "use the levitate spell before you enter the cloud world"}
+  - play_lua: {source: "if not close() then error('the roof stair skull opened no message window') end"}
   - walk_to: {x: -5300, y: 448, z: 2528, radius: 64, timeout_seconds: 40}
   - play_lua:
       source: |
@@ -122,10 +130,12 @@ steps:
   - play_lua: {source: "wait(1)"}
   - assert: {party_position: {x: -5800, y: 448, radius: 100, z_min: 2552, z_max: 2568}}
   - assert: {state_dump_map_var: {index: 13, value: 1}}
-  # The cloud stair: up to the X8 stand-in.
+  # The cloud stair: up to X8's Witch Clouds.
   - walk_to: {x: -7150, y: 448, z: 2560, radius: 64, timeout_seconds: 30}
   - execute_event: {id: 15}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
   - select_topic: {match_label: "OK"}
-  - advance_runtime: {seconds: 1.0, follow_map_move: true}
-  - assert: {map: 7out01.odm}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x8.blv}
+  - assert: {party_position: {x: 11520, y: -6802, radius: 128, z_min: -80, z_max: 200}}
   - play_lua: {source: "if not qbit(110047) then error('m4_crusaders was lost') end"}

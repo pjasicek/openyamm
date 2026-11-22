@@ -1,0 +1,132 @@
+# FD-01's levers in the other order (D-69 change 10): east, then west, each its status line ("Far to the east, a wall
+# grinds down into the floor.", "Far to the west, ..."), its qbit (117842, 117841), its slab down and the lever thrown
+# (D-71 P2: the arm with its grip swung over to hang from the pivot); both slabs down and both levers thrown after a save and a reload; then "The lever won't budge."
+# from both, and from each lever's pivot boss, and nothing moves.
+# Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
+id: xeen.fd01.l4.levers
+title: 'Alamar Depths (FD-01 L4): the levers east then west, a reload, then the lever won''t budge'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d6.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Paladin
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 58
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Knight
+        level: 58
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- advance_runtime:
+    seconds: 2
+- play_lua:
+    source: close()
+- grant_item:
+    item_id: 12365
+- lua_event:
+    source: evt.MoveToMap(0, 0, 0, 1024, 0, 0, 0, 0, "xeen_fd01.blv")
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_fd01.blv
+- advance_runtime:
+    seconds: 2
+    present_dialogs: true
+- play_lua:
+    source: close()
+- set_pose:
+    map: xeen_fd01.blv
+    x: -3456
+    y: 2496
+    z: 0
+    yaw_degrees: 90
+    pitch: 0
+- clear_hostiles:
+    radius: 9000
+- play_lua:
+    source: close(); status(); click(22); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Far to the east, a wall grinds down into the floor.', 1, true)) then error("event
+      22 did not say 'Far to the east, a wall grinds down into the floor.'" .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (qbit(117842)) then error('slab_east not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(8) == 'open' then break end; wait(0.5) end; if door_state(8) ~= 'open' then error('door
+      8 is ' .. door_state(8) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(20) == 'open' then break end; wait(0.5) end; if door_state(20) ~= 'open' then error('door
+      20 is ' .. door_state(20) .. ', not open') end
+- play_lua:
+    source: close(); status(); click(23); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), 'Far to the west, a wall grinds down into the floor.', 1, true)) then error("event
+      23 did not say 'Far to the west, a wall grinds down into the floor.'" .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (qbit(117841)) then error('slab_west not set' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(9) == 'open' then break end; wait(0.5) end; if door_state(9) ~= 'open' then error('door
+      9 is ' .. door_state(9) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(22) == 'open' then break end; wait(0.5) end; if door_state(22) ~= 'open' then error('door
+      22 is ' .. door_state(22) .. ', not open') end
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- reload: {}
+- advance_runtime:
+    seconds: 3
+    present_dialogs: true
+- play_lua:
+    source: for i = 1, 4 do if not close() then break end wait(0.3) end
+- play_lua:
+    source: if not (door_state(9) == 'open' and door_state(8) == 'open') then error('a slab came back after a reload' .. '
+      / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(22) == 'open' then break end; wait(0.5) end; if door_state(22) ~= 'open' then error('door
+      22 is ' .. door_state(22) .. ', not open') end
+- play_lua:
+    source: for _ = 1, 30 do if door_state(20) == 'open' then break end; wait(0.5) end; if door_state(20) ~= 'open' then error('door
+      20 is ' .. door_state(20) .. ', not open') end
+- play_lua:
+    source: close(); status(); click(22); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 22 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: close(); status(); click(23); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 23 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: close(); status(); click(60); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 60 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: close(); status(); click(58); wait(0.8)
+- play_lua:
+    source: if not (string.find(status(), "The lever won't budge.", 1, true)) then error('event 58 did not say "The lever
+      won\'t budge."' .. ' / ' .. status() .. ' / ' .. party()) end
+- play_lua:
+    source: if not (door_state(9) == 'open' and door_state(8) == 'open') then error('a second pull moved a slab' .. ' / '
+      .. status() .. ' / ' .. party()) end

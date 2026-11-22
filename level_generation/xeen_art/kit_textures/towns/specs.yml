@@ -1,0 +1,558 @@
+# New face textures of the Xeen town building kits (A6): cloudside_town (xc), darkside_town (xl), sandcaster (xs).
+# Made with level_generation/textures_xeen/xtex.py --project level_generation/xeen_art/kit_textures/towns; the kits
+# themselves (shipped textures by role, and these) are level_generation/xeen_art/kits/<kit>.yml.
+# Format as level_generation/textures_xeen/specs.yml. One entry per texture:
+#   size: [w, h]     logical texels (the project's `size`); the master is 4x that, x2 and x1 are reductions.
+#   art: [w, h]      the aspect the picture is seen at in the map, when the face stretches it (`fit`).
+#   kind:            sign (a board on grey, cropped), picture, tile (full-bleed, made seamless by a seam pass), edit,
+#                    cutout
+#   refs:            family masters sent as references (level_generation/textures_x4/masters/<world>/<name>.png); a
+#                    sign's first ref also gives its layout guide's board colour
+#   tone:            {like: [names], factor: f} the linear mean luma of those masters times f; or {luma: L}
+#   family:          the family in words (prompt and kit notes)
+#   what:            the content, in the prompt's words
+# `dungeon:` names the kit (xtex.py reads the kit's family_words from `dungeons:`).
+dungeons:
+  cloudside_town:
+    family_words: >-
+      Harmondale, the home town of Might and Magic VII: half-timbered houses of cream and ochre plaster between dark
+      brown oak beams, grey weathered plank walls, rough fieldstone, thatch and wooden shingle roofs, and the town's
+      hanging shop signs of painted wooden boards in iron-cornered frames; warm, cheerful and bright
+  darkside_town:
+    family_words: >-
+      the stone towns of Might and Magic VIII (Ravenshore's dock quarter and Regna): low houses of grey rounded
+      boulder-stone between dark weathered timber posts, grey dressed ashlar with carved friezes, plank doors with
+      iron straps and dark blue-grey slate roofs; cool, desaturated and dry
+  sandcaster:
+    family_words: >-
+      the sandstone towns of Might and Magic VIII (Ravage Roaming) and the merchant houses of Might and Magic VI:
+      smooth warm ochre sandstone walls with brick quoins, pointed windows and round iron grilles, arched plank
+      doors, terracotta tile and gravel roofs, striped market-tent cloth and painted wooden shop signs; sun-baked,
+      warm and dry
+textures:
+  # ================================================================ cloudside_town: named shop signs (Xeen's shops)
+  # A board over a shop door or hanging from a bracket, 128 x 64 (a face of 128 x 64 units shows it 1:1).
+  xcnorman:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/sgweapon]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), the weaponsmith, over the door
+    standin: sgweapon
+    what: >-
+      Norman's weapon shop sign: a signboard of three horizontal dark brown oak planks like the first reference,
+      in a thin oak frame with small iron corner plates. At the left end a painted black iron anvil with a
+      smith's hammer resting on it and three orange sparks. Beside it, painted by hand in thick cream-white
+      sign-painter's capitals with a dark red shadow, the small word "NORMAN'S" on a first line and the large word
+      "IRONWORKS" under it. The paint slightly worn where the wood grain shows through.
+  xcgilbert:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/sgmagi, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.15}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), the magic shop
+    standin: sgmagi
+    what: >-
+      Gilbert's magic shop sign: a wooden signboard painted deep midnight blue, in a thin dark oak frame with
+      small iron corner plates. At the left end a painted crooked purple wizard's hat under a pale crescent moon and
+      two small gold stars. Beside it, painted in curly gold capitals with a thin dark outline, "GILBERT'S" on a
+      first line and the larger word "HEXES" under it. The blue paint a little faded and chipped at the edges.
+  xcgeraldn:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/7hhr1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), Lady Geraldine's Tavern
+    standin: 7sgtvrn
+    what: >-
+      A tavern sign: a wooden signboard painted bottle green, in a thin dark oak frame with small iron corner
+      plates and a fine gold painted line inside the frame. At the left end a painted pewter tankard overflowing
+      with white foam. Beside it, in cream-white painted capitals with a dark shadow, the smaller words
+      "LADY GERALDINE'S" on a first line and the large word "TAVERN" under it. Slightly worn paint.
+  xcthylon:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7sgtrain, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), Thylon's Training
+    standin: 7sgtrain
+    what: >-
+      A training hall sign: a signboard of three horizontal dark brown oak planks like the first reference, in a
+      thin oak frame with small iron corner plates. At the left end a painted round red and white archery target
+      with one arrow in its centre. Beside it, in thick cream-white painted capitals with a dark red shadow,
+      "THYLON'S" on a first line and the large word "TRAINING" under it. Paint a little worn.
+  xcmylo:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/sign01-1]
+    tone: {like: [mm7/7sgtvrn], factor: 1.3}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), Mylo's Maps
+    standin: sign01-1
+    what: >-
+      A mapmaker's sign: a wooden signboard painted the yellowed cream of old parchment, in a thin dark oak frame
+      with small iron corner plates. At the left end a painted half-unrolled map with a red compass rose and a
+      dotted path. Beside it, in dark brown painted capitals with flourishes, the words "MYLO'S MAPS" large on
+      one line, and under it in small letters "ALL OF XEEN, MOSTLY". Slightly worn paint.
+  xcadvinn:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7hhr1d, mm7/7sgarm]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Vertigo (X1), the Adventurer's Inn (the roster)
+    standin: 7sgtvrn
+    what: >-
+      An inn sign: a signboard of three horizontal dark brown oak planks like the first reference, in a carved oak
+      frame with small iron corner plates. At the left end a painted round blue and gold shield with a sword and a
+      wooden staff crossed behind it. Beside it, in gold painted capitals with a dark shadow, the word
+      "ADVENTURER'S" on a first line and the large word "INN" under it. Paint a little worn.
+  xcrcsmith:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/sgweapon]
+    tone: {like: [mm7/7sgtvrn], factor: 1.15}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), the weaponsmith
+    standin: sgweapon
+    what: >-
+      A weaponsmith's sign in a rough part of town: a signboard of three horizontal weathered dark oak planks like
+      the first reference, one plank split, in a thin oak frame with rusty iron corner plates. At the left end a
+      painted smith's hammer and tongs crossed. Beside it, in cream-white painted capitals with a dark red shadow,
+      "RIVERCITY" on a first line and the large word "SMITHING" under it. The paint scratched and chipped, a
+      scrawled black X scratched into one corner.
+  xcwitch:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7sgalch, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.1}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), the magic shop
+    standin: sgmagi
+    what: >-
+      A witch's shop sign: a wooden signboard painted dark plum purple, in a thin black-stained oak frame with small
+      iron corner plates. At the left end a painted round black iron cauldron on three legs, bubbling bright green
+      with a curl of purple smoke. Beside it, in sickly yellow-green painted capitals with a black outline,
+      "WITCH'S" on a first line and the large word "CAULDRON" under it. Slightly worn paint.
+  xcpraypay:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/sgtempl, mm7/7hhr1b]
+    tone: {like: [mm7/7sgtvrn], factor: 1.45}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), the temple
+    standin: sgtempl
+    what: >-
+      A temple's sign: a wooden signboard painted off-white, in a thin dark oak frame with small gilded corner
+      plates. At the left end a painted golden ankh with a little pile of gold coins at its foot. Beside it, in
+      gold painted capitals with a brown outline, the large words "PRAY N PAY" on one line, and under them in
+      small dark red letters "HEALING WHILE YOU WAIT". Slightly worn paint.
+  xcbull:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/7sgstabl]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), Bull's Tavern
+    standin: 7sgtvrn
+    what: >-
+      A tavern sign: a signboard of three horizontal dark brown oak planks like the first reference, in a thin oak
+      frame with small iron corner plates. At the left end a painted head of a red-brown bull with curved white
+      horns and a brass ring in its nose. Beside it, in thick cream-white painted capitals with a dark red shadow,
+      "BULL'S" on a first line and the large word "TAVERN" under it. Paint worn, a few knife marks.
+  xcstreet:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/hhm1b1]
+    tone: {like: [mm7/7sgtvrn], factor: 1.15}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), Street Fightin' (training)
+    standin: 7sgtrain
+    what: >-
+      A street-fighting school's sign: a crude board of three rough unpainted grey-brown planks like the second
+      reference, nailed together with big iron nails, no frame. At the left end two clenched bare fists painted in
+      flesh colour with red knuckles. Beside them, brushed on roughly in bold red letters, "STREET FIGHTIN'" on one
+      line, and under it in smaller white letters "NO RULES". The letters uneven and dripping a little.
+  xcarnold:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/7sgtrain]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), skill row, Arnold's Gym
+    standin: 7sgtrain
+    what: >-
+      A gymnasium's sign: a wooden signboard painted brick red, in a thin dark oak frame with small iron corner
+      plates. At the left end a painted heavy black iron barbell with two round iron weights. Beside it, in bold
+      cream-white painted capitals with a dark outline, the large words "ARNOLD'S GYM" on one line, and under them
+      in small letters "LIFT, GRUNT, REPEAT". Slightly worn paint.
+  xclindon:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/hhm1d, mm7/hhm1b1]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Rivercity (X2), skill row, Lindon's Temps (paid work)
+    standin: sign01-1
+    what: >-
+      A hiring office's sign: a signboard of three horizontal dark brown oak planks like the first reference, in a
+      thin oak frame with small iron corner plates. At the left end a painted shovel and a pickaxe crossed. Beside
+      them, in cream-white painted capitals with a dark red shadow, the large words "LINDON'S TEMPS" on one line,
+      and under them in small letters "HONEST WORK, FAIR PAY". Slightly worn paint.
+  xcsnakeoil:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7sgalch, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.3}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Asp (X4), the alchemist (after the curse is lifted)
+    standin: 7sgalch
+    what: >-
+      An alchemist's sign: a wooden signboard painted mustard yellow, in a thin dark oak frame with small iron
+      corner plates, a painted green snake winding along the whole frame. At the left end a painted tall green
+      glass bottle with a cork, a small green snake coiled round it. Beside it, in dark green painted capitals with
+      a black outline, the large words "SNAKE OIL" on one line, and under them in small letters "CURES WHAT AILS
+      YOU". Slightly worn paint.
+  xcscale:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7sgarm, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Asp (X4), the armourer
+    standin: 7sgarm
+    what: >-
+      An armourer's sign: a signboard of three horizontal dark brown oak planks like the first reference, in a
+      thin oak frame with small iron corner plates. At the left end a painted breastplate made of overlapping green
+      snake scales with a brass rim. Beside it, in cream-white painted capitals with a dark green shadow, the large
+      words "SCALE HOUSE" on one line, and under them in small letters "ARMOUR". Slightly worn paint.
+  xctravpit:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/7sgstabl, mm7/hhm1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.2}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Asp (X4), the stables (Travel Pit), open from day one
+    standin: 7sgstabl
+    what: >-
+      A stable's sign: a signboard of three horizontal dark brown oak planks like the first reference, in a thin
+      oak frame with small iron corner plates. At the left end a painted brown horse's head in a bridle above a
+      winding road. Beside it, in thick cream-white painted capitals with a dark red shadow, the large words
+      "TRAVEL PIT" on one line, and under them in small letters "COACHES DAILY". Slightly worn paint.
+  xctrove:
+    dungeon: cloudside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm7/7sgtvrn, mm7/sgmagi, mm7/7hhr1d]
+    tone: {like: [mm7/7sgtvrn], factor: 1.1}
+    family: MM7 Harmondale shop signs and hh timber
+    where: Nightshadow (X3), the magic shop (after the curse is lifted)
+    standin: sgmagi
+    what: >-
+      A magic shop's sign in a gloomy vampire town: a wooden signboard painted very dark blue-black, in a thin
+      black oak frame with small iron corner plates, a small black bat painted in one top corner. At the left end a
+      painted open treasure chest spilling gold coins and a red gem, a soft gold glow above it. Beside it, in gold
+      painted capitals with a dark red shadow, "TREASURE" on a first line and "TROVE" under it. Slightly worn paint.
+  # ================================================================ darkside_town
+  xlslate:
+    dungeon: darkside_town
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t06a05, mm8/t09a01, mm8/t06b05]
+    tone: {like: [mm8/t06a05], factor: 1.25}
+    family: MM8 Ravenshore t06 slate, for Regna's t09 ashlar houses
+    where: roofs of the better (t09 ashlar) houses and civic buildings; middle houses keep t06a05
+    standin: t06a05
+    what: >-
+      A roof of neatly cut slate, repeating: overlapping horizontal rows of thin rectangular slates with square-cut
+      lower edges, laid in straight courses, each row offset by half a slate from the one below, eight rows over the
+      height of the canvas. Dark blue-grey and charcoal slate like the first reference, each slate a slightly
+      different cool grey, faint pale lichen spots on a few, dry and matte, a thin dark shadow line under each row.
+  xlslatemos:
+    dungeon: darkside_town
+    size: [128, 128]
+    kind: tile
+    wrap: uv
+    refs: [mm8/t06a05, mm8/t06a01, mm8/t06b05]
+    tone: {like: [mm8/t06a05], factor: 1.05}
+    family: MM8 Ravenshore t06 slate and boulder stone
+    where: roofs of the poor houses and sheds
+    standin: t06a05
+    what: >-
+      An old roof of rough split slate, repeating: overlapping rows of irregular dark grey slabs with ragged
+      broken lower edges, a few slipped or cracked, laid in uneven courses about six rows over the height of the
+      canvas. Dark grey and greenish slate like the first reference, with dry grey-green moss and pale yellow-grey
+      lichen crusting the gaps and the lower edges, desaturated, dry and matte.
+  xlinn:
+    dungeon: darkside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t06a03, mm8/sginn, mm8/t09a01]
+    tone: {like: [mm8/t06a03], factor: 1.3}
+    family: MM8 t06 dark timber and the MM8 shop signs
+    where: Castleview (D1), the Adventurer's Inn (the roster)
+    standin: sginn
+    what: >-
+      An inn sign: a signboard of three horizontal dark grey-brown weathered planks like the first reference, in a
+      plank frame with black iron straps and rivets at the corners. At the left end a painted round grey-blue
+      shield with a sword and a wooden staff crossed behind it. Beside it, in faded off-white painted capitals,
+      "ADVENTURER'S" on a first line and the large word "INN" under it. Muted, weathered colours, the paint dry and
+      flaking.
+  xlstorage:
+    dungeon: darkside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t06a03, mm8/sgbank, mm8/t09a01]
+    tone: {like: [mm8/t06a03], factor: 1.3}
+    family: MM8 t06 dark timber and the MM8 shop signs
+    where: Castleview (D1), the Public Storage house (the chest puzzles)
+    standin: sgbank
+    what: >-
+      A storehouse sign: a signboard of three horizontal dark grey-brown weathered planks like the first reference,
+      in a plank frame with black iron straps and rivets at the corners. At the left end a painted iron-bound
+      wooden chest with a big padlock. Beside it, in faded off-white painted capitals, "PUBLIC" on a first line and
+      the large word "STORAGE" under it, and at the bottom in small letters "OPEN AT YOUR OWN RISK". Muted,
+      weathered colours, the paint dry and flaking.
+  xlferry:
+    dungeon: darkside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t06a03, mm8/sgtvrn, mm8/t06a01]
+    tone: {like: [mm8/t06a03], factor: 1.3}
+    family: MM8 t06 dark timber and the MM8 shop signs
+    where: Lakeside (D4), the ferry landing to the Isle of Lost Souls
+    standin: sgstabl
+    what: >-
+      A ferry sign: a signboard of three horizontal dark grey-brown weathered planks like the first reference, in
+      a plank frame with black iron straps and rivets at the corners. At the left end a painted small dark rowing
+      boat with a lantern on a pole at its bow. Beside it, in faded off-white painted capitals, the large word
+      "FERRY" on a first line and under it in smaller letters "TO THE ISLE OF LOST SOULS". Muted, weathered
+      colours, the paint dry and flaking, a little green damp stain at the bottom.
+  xljail:
+    dungeon: darkside_town
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t06a03, mm8/t09a01, mm8/sgarm]
+    tone: {like: [mm8/t06a03], factor: 1.25}
+    family: MM8 t06 dark timber and t09 ashlar
+    where: Castleview (D1), the jail
+    standin: t09c12b
+    what: >-
+      A jail sign: a heavy board of three horizontal dark grey-brown weathered planks like the first reference,
+      bound with flat black iron straps and big rivets, no paint colours but off-white. At the left end a painted
+      large black iron key crossed with a pair of iron shackles. Beside it, in plain faded off-white painted
+      capitals, "CASTLEVIEW" on a first line and the large word "JAIL" under it. Weathered and grim.
+  # ================================================================ sandcaster: painted shop signs
+  xsweapons:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgweap, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the weaponsmith
+    standin: sgweap
+    what: >-
+      A desert merchant's sign: a wooden board painted sun-faded turquoise, in a frame of warm reddish wood like the
+      first reference with small brass corner plates. At the left end two painted curved steel scimitars crossed,
+      gold hilts. Beside them, in bold cream-white painted capitals with an ochre shadow, the word "WEAPONS". The
+      paint sun-bleached and cracked, sand caught in the grain.
+  xsarmour:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgarm, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the armourer
+    standin: sgarm
+    what: >-
+      A desert merchant's sign: a wooden board painted sun-faded brick red, in a frame of warm reddish wood like the
+      first reference with small brass corner plates. At the left end a painted round brass shield and a pointed
+      steel helmet with a mail neck guard. Beside them, in bold cream-white painted capitals with a dark shadow,
+      the word "ARMOUR". The paint sun-bleached and cracked, sand caught in the grain.
+  xsmagic:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgmagic, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.4}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the magic shop (and the wizard quarter's second one)
+    standin: sgmagic
+    what: >-
+      A desert merchant's sign: a wooden board painted sun-faded deep indigo, in a frame of warm reddish wood like
+      the first reference with small brass corner plates. At the left end a painted glowing crystal ball on a brass
+      stand under three small gold stars. Beside it, in gold painted capitals with a dark shadow, the word "MAGIC".
+      The paint sun-bleached and cracked, sand caught in the grain.
+  xspotions:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgalch, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the alchemist
+    standin: sgalch
+    what: >-
+      A desert merchant's sign: a wooden board painted sun-faded saffron yellow, in a frame of warm reddish wood
+      like the first reference with small brass corner plates. At the left end three painted round glass flasks,
+      one red, one blue, one green, with corks. Beside them, in bold dark brown painted capitals, the word
+      "POTIONS". The paint sun-bleached and cracked, sand caught in the grain.
+  xstemple:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm7/sgtempl, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.6}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the temple
+    standin: sgtempl
+    what: >-
+      A desert temple's sign: a wooden board painted sun-faded white, in a frame of warm reddish wood like the first
+      reference with small brass corner plates. At the left end a painted golden sun disc with straight rays. Beside
+      it, in gold painted capitals with a brown outline, the word "TEMPLE". The paint sun-bleached and cracked,
+      sand caught in the grain.
+  xstavern:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgtvrn, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the tavern
+    standin: sgtvrn
+    what: >-
+      A desert tavern's sign: a wooden board painted sun-faded olive green, in a frame of warm reddish wood like the
+      first reference with small brass corner plates. At the left end a painted round terracotta wine jug and two
+      clay cups. Beside them, in bold cream-white painted capitals with a dark shadow, the word "TAVERN". The paint
+      sun-bleached and cracked, sand caught in the grain.
+  xstraining:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgtrain, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the training hall (and Barticus' gym in the sewer)
+    standin: sgtrain
+    what: >-
+      A desert training hall's sign: a wooden board painted sun-faded ochre orange, in a frame of warm reddish wood
+      like the first reference with small brass corner plates. At the left end two painted wooden quarterstaffs
+      crossed over a small round target. Beside them, in bold cream-white painted capitals with a dark shadow, the
+      word "TRAINING". The paint sun-bleached and cracked, sand caught in the grain.
+  xscaravan:
+    dungeon: sandcaster
+    size: [128, 64]
+    kind: sign
+    refs: [mm8/t07a03a, mm8/sgstabl, mm8/t07a01]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 sandstone and doors, MM8 shop signs
+    where: Sandcaster (D3), the stables (the caravan)
+    standin: sgstabl
+    what: >-
+      A caravan office's sign: a wooden board painted sun-faded sky blue, in a frame of warm reddish wood like the
+      first reference with small brass corner plates. At the left end a painted brown pack mule laden with bundles
+      and a water skin. Beside it, in bold cream-white painted capitals with a dark shadow, the word "CARAVANS".
+      The paint sun-bleached and cracked, sand caught in the grain.
+  # ---------------------------------------------------------------- sandcaster: Crossroads stall boards (D3)
+  # A narrow board along a stall's awning (MM6 tent cloth), 128 x 32.
+  xsstfood:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal2, mm8/sgtvrn]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), the food stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in bold cream-white capitals with an ochre shadow the word "FOOD", with a small painted
+      round loaf of bread on its left and a sliced melon on its right. Sun-bleached paint.
+  xsstrobes:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal3, mm8/sgmagic]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), the robe stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in bold cream-white capitals with a blue shadow the word "ROBES", with a small painted
+      blue hooded robe on its left and a folded red cloth on its right. Sun-bleached paint.
+  xsstneck:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal7a, mm8/sginn]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), the necklace stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in gold capitals with a dark shadow the word "NECKLACES", with a small painted gold
+      necklace with a red pendant at each end. Sun-bleached paint.
+  xsstbelts:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal1, mm8/sgarm]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), the belt stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in bold cream-white capitals with an ochre shadow the word "BELTS", with a small painted
+      coiled leather belt with a brass buckle at each end. Sun-bleached paint.
+  xsstboots:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal7b, mm8/sgarm]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), the boot stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in bold cream-white capitals with a dark red shadow the word "BOOTS", with a small
+      painted brown leather boot at each end. Sun-bleached paint.
+  xscaleb:
+    dungeon: sandcaster
+    size: [128, 32]
+    kind: sign
+    refs: [mm8/t07a03a, mm6/tentwal2, mm8/sgspell]
+    tone: {like: [mm8/t07a03a], factor: 1.5}
+    family: MM8 t07 doors, MM6 market tents
+    where: Crossroads (D3), Caleb the inventor's stall
+    standin: s_east
+    what: >-
+      A long narrow market-stall board of one warm reddish plank like the first reference with brass nails at the
+      ends. Painted on it in bold cream-white capitals with a dark shadow the words "CALEB THE INVENTOR", with a
+      small painted brass cogwheel at the left end and a small brass spring at the right end. Sun-bleached paint.

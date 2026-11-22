@@ -1,0 +1,81 @@
+# Q-C26 Shangri-La (QUESTS 2.1 Q-C26; Act V). Owner: A3. In the Volcano Cave (XD-16, X7) a demon skull and a devil
+# skull stand on altars; smashing both opens the hidden way to Shangri-La (XD-17; the source's +250k each is MM6-MM8
+# sized here). The map's two skull events call the hooks; the way (a door or a lava bridge, A7's choice) reads
+# `done`, and A4's Shangri-La houses and teachers open on it (towns/xd17.yml, teachers_plan `when: Q-C26`).
+id: Q-C26
+title: Shangri-La
+act: V
+kind: side
+status: full
+giver: null
+giver_name: (the Volcano Cave's two skulls; Shangri-La's people point back to it)
+maps: [XD-16, XD-17]
+level: 40
+block: 76
+after: []
+source: "QUESTS Q-C26; research MM4 3b (Volcano Cave, Shangri-La)"
+
+qbits:
+  demon_skull: {id: 112520, note: "the demon skull smashed"}
+  devil_skull: {id: 112521, note: "the devil skull smashed"}
+  done: {id: 112522,
+         note: "XD-16 opens the way; XD-17's houses open (A4, A7)"}
+  xd16_slab_1: {id: 118050, map: XD-16, note: "the map's own: the first lever stone pulled, its slab down (A7; q-c26.lever)"}
+  xd16_slab_2: {id: 118051, map: XD-16, note: "the map's own: the second lever stone (A7)"}
+  xd16_slab_3: {id: 118052, map: XD-16, note: "the map's own: the third lever stone (A7)"}
+  xd16_slab_4: {id: 118053, map: XD-16, note: "the map's own: the fourth lever stone (A7)"}
+  xd16_rock_drawn: {id: 118054, map: XD-16, note: "the map's own: the way's rock drawn open after done (A7; q-c26.way)"}
+  xd16_trap_1: {id: 118055, map: XD-16, note: "the map's own: a trap chest burst (A7; five, 118055-118059)"}
+  xd16_trap_2: {id: 118056, map: XD-16, note: "the map's own: a trap chest burst (A7)"}
+  xd16_trap_3: {id: 118057, map: XD-16, note: "the map's own: a trap chest burst (A7)"}
+  xd16_trap_4: {id: 118058, map: XD-16, note: "the map's own: a trap chest burst (A7)"}
+  xd16_trap_5: {id: 118059, map: XD-16, note: "the map's own: a trap chest burst (A7)"}
+
+autonotes:
+  valley: {id: 4260, text: "Shangri-La: the hidden valley beyond the Volcano Cave, on Mount Firestone. Its people know a great deal, and teach the rest.", category: Misc}
+
+hooks:
+  demon_skull:
+    map: XD-16
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the demon skull on its altar (clicked, the map asks xeen/aaze0046:0, \"The skull of a demon grins wickedly at you, and you have a sudden desire to smash it. Destroy?\"; Yes calls the hook)"
+    states:
+      - when: {qbit: demon_skull}
+        text: "Splinters of horn and a scorch mark."
+      - when: {qbit: devil_skull}
+        text: "The demon skull bursts like a coal under a hammer. Somewhere ahead, rock grinds on rock: the way the two skulls kept shut is open."
+        do: [{set: demon_skull}, {set: done}, {autonote: valley}, {xp: 5000}]
+        alternative: true    # the demon skull second; the devil skull first pays the same
+      - text: "The demon skull bursts like a coal under a hammer. The cave goes on burning, but something in it has stopped watching you."
+        do: [{set: demon_skull}, {xp: 5000}]
+  devil_skull:
+    map: XD-16
+    status: true   # D-90: experience, a find's answer or a death on the status line
+    where: "the devil skull on its altar (clicked, the map asks xeen/aaze0046:1, \"The skull of a devil stares at you as though daring you to damage it. Destroy?\"; Yes calls the hook)"
+    states:
+      - when: {qbit: devil_skull}
+        text: "Splinters of black bone and a smell of sulphur."
+      - when: {qbit: demon_skull}
+        text: "The devil skull cracks in two and both halves scream. Somewhere ahead, rock grinds on rock: the way the two skulls kept shut is open."
+        do: [{set: devil_skull}, {set: done}, {autonote: valley}, {xp: 5000}]
+      - text: "The devil skull cracks in two and both halves scream. The cave goes on burning, but something in it has stopped watching you."
+        do: [{set: devil_skull}, {xp: 5000}]
+        alternative: true
+  way:
+    map: XD-16
+    gate: puzzle
+    where: "the hidden way from XD-16's last cave into Shangri-La (D-47 Q4): a rock slab across the cave's last passage is a door. Before done its click calls this (the fail line); the skull that sets done grinds the slab open in the same visit (open on every later load, map qbit 118054); the first step into the cool passage beyond calls this for its line (the map's once), and the passage ends in the exit to XD-17's entrance:xd16_way. The only way in until the party has left the valley once by its back passage, which opens X7's cleft at [73, 48] from inside (D-40: xd17.cleft_opened, xd17.cleft)"
+    requires: {qbit: done}
+    text: "Beyond the last cave, cool air, and the smell of grass."
+    fail_text: "Bare rock, hot to the touch. Two skulls in the cave behind you seem to be grinning about it."
+  lever:
+    map: XD-16
+    where: "each of the four lever stones round the black pillar in the lever hall (D-47 Q3; hover names its slab, 'First slab' ... 'Fourth slab'): the pull, one-way; the map lowers that lever's slab across the gate run"
+    text: "The lever stone drops into its socket. Down the gate run, a slab of black rock grinds into the floor."
+  lever_down:
+    map: XD-16
+    where: "a lever stone already pulled"
+    text: "The lever is down."
+
+rewards: {xp: 10000, gold: 0}
+playthrough: "X7: the Volcano Cave. XD-16: both skulls; the way to Shangri-La (XD-17)."

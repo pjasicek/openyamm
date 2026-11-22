@@ -1,0 +1,665 @@
+format: 0
+themes:
+  - id: theme:diamond
+    wall: {texture: gtempw3, size: [128, 256]}
+    floor: {texture: gtempflr, size: [128, 128]}
+    ceiling: {texture: gtemprf, size: [128, 128]}
+    reveal: {texture: gtempw1, size: [128, 256]}
+    door: {texture: gtempdor1, size: [128, 256]}
+    notes: "Home of the Diamond: MM8 Prison of the Lord of Fire (d37): pale ice marble gtempw3, blue brick gtempflr underfoot, the gold mosaic ceiling gtemprf, the rune door gtempdor1."
+  - id: theme:forge
+    wall: {texture: d2wlactr, size: [128, 256]}
+    floor: {texture: 6voltyl, size: [128, 128]}
+    ceiling: {texture: d2ceil1, size: [256, 256]}
+    reveal: {texture: vlcwl3a, size: [128, 256]}
+    door: {texture: cvdor1, size: [128, 256]}
+    notes: "Home of the Iron: MM6 Gharik's Forge (6d18): soot brick d2wlactr, volcanic tile 6voltyl, the beam ceiling d2ceil1, the dark iron rock vlcwl3a in the doorways, the iron-bound door cvdor1."
+  - id: theme:quarry
+    wall: {texture: cwb1, size: [128, 256]}
+    floor: {texture: cfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: hdr1dl, size: [128, 256]}
+    notes: "The block field and the masons' store: Stone City's rough rock cwb1 on walls and roof, its rough floor cfb1."
+  - id: theme:stone_hall
+    wall: {texture: cwb, size: [128, 256]}
+    floor: {texture: 7tfb1, size: [128, 128]}
+    ceiling: {texture: cwb1, size: [128, 256]}
+    reveal: {texture: cwb, size: [128, 256]}
+    door: {texture: hdr1dl, size: [128, 256]}
+    notes: "The Hall of the Plaque, the entry and the stone galleries: MM7 Stone City (7d24): block brick cwb on walls, tan flags 7tfb1 underfoot, the mountain's rough rock cwb1 overhead."
+  - id: theme:wood
+    wall: {texture: cbeam5, size: [64, 512]}
+    floor: {texture: bemstrt1, size: [256, 32]}
+    ceiling: {texture: d8ceild, size: [256, 256]}
+    reveal: {texture: bemdk4, size: [32, 256]}
+    door: {texture: d2smldor, size: [128, 256]}
+    notes: "Home of the Wood: MM6 Warlord's Fortress (6d16): its wood grain cbeam5 on the walls (a hollow trunk's grain), its beam planks bemstrt1 underfoot, its earth ceiling d8ceild, dark bark-red wood bemdk4 in the doorways."
+defaults: {theme: theme:stone_hall, ambient: 22}
+rooms:
+  - id: room:branch_hn
+    name: "High branch, north"
+    outline: [[-6144, 1088], [-5120, 1088], [-5120, 2112], [-6144, 2112]]
+    floor: 256
+    ceiling: 896
+    theme: theme:wood
+    platforms:
+      - {id: platform:bough_hn, at: [-5632, 2064], size: [640, 96], rise: 128, surface: {texture: bemdk4, size: [32, 256]}, top_surface: {texture: bemdk4, size: [32, 256]}, bottom_surface: {texture: bemdk4, size: [32, 256]}, base: 96, notes: "A living bough grown out of the wall: cut it (click, or blows)."}
+    ambient: 22
+    notes: "A high branch-end with its bough; the north canopy walk leaves east."
+  - id: room:branch_hs
+    name: "High branch, south"
+    outline: [[-6144, -2112], [-5120, -2112], [-5120, -1088], [-6144, -1088]]
+    floor: 256
+    ceiling: 896
+    theme: theme:wood
+    platforms:
+      - {id: platform:bough_hs, at: [-5632, -2064], size: [640, 96], rise: 128, surface: {texture: bemdk4, size: [32, 256]}, top_surface: {texture: bemdk4, size: [32, 256]}, bottom_surface: {texture: bemdk4, size: [32, 256]}, base: 96, notes: "A living bough grown out of the wall: cut it (click, or blows)."}
+    ambient: 22
+    notes: "A high branch-end with its bough; the south canopy walk leaves east."
+  - id: room:branch_ln
+    name: "Low branch, north"
+    outline: [[-3456, 704], [-2432, 704], [-2432, 1728], [-3456, 1728]]
+    floor: 0
+    ceiling: 640
+    theme: theme:wood
+    platforms:
+      - {id: platform:bough_ln, at: [-2816, 1680], size: [512, 96], rise: 128, surface: {texture: bemdk4, size: [32, 256]}, top_surface: {texture: bemdk4, size: [32, 256]}, bottom_surface: {texture: bemdk4, size: [32, 256]}, base: 96, notes: "A living bough grown out of the wall: cut it (click, or blows)."}
+    ambient: 22
+    notes: "A branch-end: a living bough grows across the north wall. The north canopy walk leaves west."
+  - id: room:branch_ls
+    name: "Low branch, south"
+    outline: [[-3456, -1728], [-2432, -1728], [-2432, -704], [-3456, -704]]
+    floor: 0
+    ceiling: 640
+    theme: theme:wood
+    platforms:
+      - {id: platform:bough_ls, at: [-2816, -1680], size: [512, 96], rise: 128, surface: {texture: bemdk4, size: [32, 256]}, top_surface: {texture: bemdk4, size: [32, 256]}, bottom_surface: {texture: bemdk4, size: [32, 256]}, base: 96, notes: "A living bough grown out of the wall: cut it (click, or blows)."}
+    ambient: 22
+    notes: "A branch-end with its bough; the south canopy walk leaves west."
+  - id: room:canopy_n
+    name: North canopy walk
+    path: [[-3520, 1408], [-5056, 1408]]
+    width: 384
+    floor: 0
+    slope: {to: 256}
+    ceiling: 512
+    theme: theme:wood
+    ambient: 24
+    notes: "A walk climbing 256 from the low branch to the high branch, north."
+  - id: room:canopy_s
+    name: South canopy walk
+    path: [[-3520, -1408], [-5056, -1408]]
+    width: 384
+    floor: 0
+    slope: {to: 256}
+    ceiling: 512
+    theme: theme:wood
+    ambient: 24
+    notes: The south walk.
+  - id: room:crown
+    name: The crown
+    outline: [[-6400, -1024], [-4928, -1024], [-4928, 1024], [-6400, 1024]]
+    floor: 0
+    ceiling: 1024
+    theme: theme:wood
+    flights:
+      - {from: [-5632, 384], to: [-5632, 1024], to_height: 256, width: 256, steps: 8, riser: {texture: bemdk4, size: [32, 256]}, tread: {texture: bemstrt1, size: [256, 32]}, notes: "Steps up to the high branch, north."}
+      - {from: [-5632, -384], to: [-5632, -1024], to_height: 256, width: 256, steps: 8, riser: {texture: bemdk4, size: [32, 256]}, tread: {texture: bemstrt1, size: [256, 32]}, notes: "Steps up to the high branch, south."}
+    ambient: 22
+    notes: "Where the trunk splits: a hall 1,472 by 2,048, steps up to the two high branches, the heartwood west."
+  - id: room:diamond_hall
+    name: Diamond hall
+    outline: [[3328, -3072], [5120, -3072], [5120, -1088], [3328, -1088]]
+    floor: -640
+    ceiling: 192
+    theme: theme:diamond
+    pillars:
+      - {surface: {texture: gcrysc3, size: [64, 128]}, outline: [[3923, -2576], [3840, -2528], [3757, -2576], [3757, -2672], [3840, -2720], [3923, -2672]]}
+      - {surface: {texture: gcrysc3, size: [64, 128]}, outline: [[3923, -1488], [3840, -1440], [3757, -1488], [3757, -1584], [3840, -1632], [3923, -1584]]}
+      - {surface: {texture: gcrysc3, size: [64, 128]}, outline: [[4691, -2576], [4608, -2528], [4525, -2576], [4525, -2672], [4608, -2720], [4691, -2672]]}
+      - {surface: {texture: gcrysc3, size: [64, 128]}, outline: [[4691, -1488], [4608, -1440], [4525, -1488], [4525, -1584], [4608, -1632], [4691, -1584]]}
+    platforms:
+      - {id: platform:diamond_dais, at: [4224, -2496], size: [768, 512], rise: 32, surface: {texture: gtempw1, size: [128, 256]}, top_surface: {texture: gtempflr, size: [128, 128]}, notes: A low dais where the Diamond Golem stands.}
+      - {at: [3456, -2304], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3528, -2344], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3400, -2248], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3504, -2232], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4992, -2304], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4920, -2344], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [5048, -2248], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4944, -2232], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3456, -1216], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3528, -1256], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3400, -1160], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3504, -1144], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4736, -1232], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4664, -1272], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4792, -1176], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4688, -1160], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3712, -1712], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3784, -1752], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3656, -1656], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3760, -1640], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4736, -1712], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4664, -1752], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4792, -1656], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4688, -1640], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3968, -2960], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4040, -3000], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [3912, -2904], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4016, -2888], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4480, -2960], size: [64, 64], rise: 288, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4408, -3000], size: [44, 44], rise: 176, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4536, -2904], size: [36, 36], rise: 120, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+      - {at: [4432, -2888], size: [28, 28], rise: 88, surface: {texture: gcrysc3, size: [64, 128]}, top_surface: {texture: gcrysc3, size: [64, 128]}, top_size: [8, 8], notes: A crystal shard of the diamond hall.}
+    ambient: 20
+    notes: "A cold hall 1,792 by 1,984 and 832 high under the lock hall's south end: four crystal pillars, the Diamond Golem on its dais; the vault door in the west wall."
+  - id: room:diamond_stair
+    name: Diamond stair
+    outline: [[4032, -960], [4416, -960], [4416, 960], [4032, 960]]
+    floor: -640
+    slope: {to: -32, toward: north, steps: 19, riser: {texture: gtempw1, size: [128, 256]}, tread: {texture: gtempflr, size: [128, 128]}}
+    ceiling: -16
+    theme: theme:diamond
+    ambient: 22
+    notes: "Below the great lock: a stairwell in the lock hall's floor, 19 steps down south to the Diamond hall; its upper half opens to the hall above through the lock's hole."
+  - id: room:diamond_vault
+    name: Diamond vault
+    outline: [[2496, -2112], [3264, -2112], [3264, -1152], [2496, -1152]]
+    floor: -640
+    ceiling: -128
+    theme: theme:diamond
+    ambient: 24
+    notes: "The golems' hoard behind the Diamond hall: the vault chest (five King's Megacredits, a level-4 hoard and the plaque 'Master of Golems'). Sealed until the Diamond Golem falls."
+  - id: room:entry
+    name: Entry stair
+    outline: [[0, -2368], [768, -2368], [768, -1344], [0, -1344]]
+    floor: 0
+    ceiling: 768
+    theme: theme:stone_hall
+    levels:
+      - id: level:landing
+        outline: [[0, -2368], [768, -2368], [768, -1920], [0, -1920]]
+        floor: 192
+        edge: {texture: cwb, size: [128, 256]}
+        notes: The landing inside the tundra door.
+    flights:
+      - {from: [384, -1600], to: [384, -1920], width: 448, steps: 6, riser: {texture: cwb, size: [128, 256]}, tread: {texture: 7tfb1, size: [128, 128]}, notes: Six steps down from the landing to the entry floor.}
+    ambient: 20
+    notes: "Down from X5's slab door: a landing and six steps, the hub north through a wide arch, the Diamond door east (opened from below)."
+  - id: room:forge
+    name: Iron forge
+    outline: [[1344, -768], [3136, -768], [3136, 1280], [1344, 1280]]
+    floor: 0
+    ceiling: 768
+    theme: theme:forge
+    platforms:
+      - {id: platform:hearth, at: [1792, 1120], size: [384, 192], rise: 96, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: orfyrlga, size: [256, 256]}, notes: "The forge's hearth against the north wall, its coals lava-bright (orfyrlga)."}
+      - {id: platform:trough, at: [2240, -704], size: [512, 96], rise: 56, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: 6voltyl, size: [128, 128]}, notes: The cooling trough along the south wall.}
+      - {id: platform:anvil_1, at: [1920, -448], size: [160, 72], rise: 56, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: An anvil's waist.}
+      - {at: [1920, -448], size: [208, 80], rise: 32, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, bottom_surface: {texture: vlcwl3a, size: [128, 256]}, base: 56, notes: The anvil's face.}
+      - {id: platform:anvil_2, at: [2560, -448], size: [160, 72], rise: 56, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, notes: An anvil's waist.}
+      - {at: [2560, -448], size: [208, 80], rise: 32, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: vlcwl3a, size: [128, 256]}, bottom_surface: {texture: vlcwl3a, size: [128, 256]}, base: 56, notes: The anvil's face.}
+      - {at: [1472, 960], size: [160, 128], rise: 72, surface: {texture: bemdk4, size: [32, 256]}, top_surface: {texture: bemdk4, size: [32, 256]}, top_size: [96, 112], notes: "The forge's bellows, a leather wedge on its frame beside the hearth."}
+      - {at: [1792, 1152], size: [512, 256], rise: 352, surface: {texture: d2wlactr, size: [128, 256]}, top_surface: {texture: d2wlactr, size: [128, 256]}, bottom_surface: {texture: vlcwl3a, size: [128, 256]}, base: 384, notes: "The iron hood over the hearth, its chimney up into the roof."}
+    ambient: 26
+    notes: "Home of the Iron: a soot-black forge 1,792 by 2,048, its hearth along the north wall, two anvils, a cooling trough; the forge chest holds the Iron Key."
+  - id: room:furnace
+    name: Furnace passage
+    path: [[2560, 1344], [2560, 1920], [3456, 1920]]
+    width: 384
+    floor: 0
+    ceiling: 512
+    theme: theme:forge
+    walls:
+      - wall: 1
+        panels:
+          - {at: centre, length: 512, bottom: 64, height: 128, surface: {texture: orfyrlga, size: [256, 256], scale: 0.5}, notes: "A furnace mouth in the passage's wall, its fire showing."}
+    ambient: 20
+    notes: "Hot passage behind the lock hall from the forge to the north tumbler, a furnace mouth glowing in its wall."
+  - id: room:heartwood
+    name: Heartwood
+    outline: [[-7424, -384], [-6464, -384], [-6464, 384], [-7424, 384]]
+    floor: 0
+    ceiling: 512
+    theme: theme:wood
+    ambient: 24
+    notes: "The tree's heart: a seed chest."
+  - id: room:hub
+    name: Hall of the Plaque
+    outline: [[-1280, -1280], [1280, -1280], [1280, 1280], [-1280, 1280]]
+    floor: 0
+    ceiling: 1152
+    theme: theme:stone_hall
+    walls:
+      - wall: east
+        panels:
+          - {id: panel:lamp_1, offset: 1216, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 1 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+          - {id: panel:lamp_2, offset: 1376, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 2 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+          - {id: panel:lamp_3, offset: 1536, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 3 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+          - {id: panel:lamp_4, offset: 1696, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 4 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+          - {id: panel:lamp_5, offset: 1856, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 5 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+          - {id: panel:lamp_6, offset: 2016, length: 96, bottom: 528, height: 96, surface: {texture: vlcwl3a, size: [128, 256], scale: 0.75}, notes: "Lamp 6 of six over the Iron door: dark iron until a glowing rock of the block field is bared (then lava-bright orfyrlga and a light)."}
+    pillars:
+      - {at: [-704, -704], size: [192, 192], surface: {texture: cwb, size: [128, 256]}}
+      - {at: [-704, 704], size: [192, 192], surface: {texture: cwb, size: [128, 256]}}
+      - {at: [704, -704], size: [192, 192], surface: {texture: cwb, size: [128, 256]}}
+      - {at: [704, 704], size: [192, 192], surface: {texture: cwb, size: [128, 256]}}
+    platforms:
+      - {id: platform:statue_dais, at: [0, 0], size: [512, 512], rise: 32, surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: 7tfb1, size: [128, 128]}, notes: "The statue's dais, one step up."}
+      - {id: platform:plaque, at: [0, 0], size: [224, 224], rise: 128, surface: {texture: 7tfb1, size: [128, 128]}, top_surface: {texture: cwb, size: [128, 256]}, base: 32, notes: "The statue's plinth with the plaque (m10.golem_plaque): clicked, it shows the rhyme; with the four boughs cut, touching it opens the Stone door."}
+    ambient: 26
+    notes: "The hub, 2,560 square and 1,152 high: four pillars round a golem-maker's statue on a dais, its plinth carrying the rhyme. Four plaque doors: Home of the Wood (west), Home of the Stone (north), Home of the Iron (east, six dark lamps over it), Home of the Diamond (by the entry). A window high in the north wall from the lamp gallery."
+  - id: room:lamp_gallery
+    name: Lamp gallery
+    path: [[-448, 2880], [-448, 1344]]
+    width: 384
+    floor: 512
+    ceiling: 896
+    theme: theme:stone_hall
+    ambient: 22
+    notes: "A passage from the south gallery to a window high in the hub's north wall: from it the six lamps over the Iron door are seen."
+  - id: room:lock_hall
+    name: Hall of the Great Lock
+    outline: [[3200, -1024], [5248, -1024], [5248, 1280], [3200, 1280]]
+    floor: 0
+    ceiling: 896
+    theme: theme:forge
+    walls:
+      - wall: south
+        panels:
+          - {offset: 960, length: 128, bottom: 58, height: 128, surface: {texture: vlcwl1, size: [128, 256]}, notes: "A plate of veined rock behind the lever, so that it shows on the soot brick."}
+    platforms:
+      - {id: platform:lock_hearth, at: [5136, -704], size: [224, 448], rise: 96, surface: {texture: vlcwl3a, size: [128, 256]}, top_surface: {texture: orfyrlga, size: [256, 256]}, notes: "The golem forge: a casting hearth against the east wall in the south-east corner, its coals lava-bright, the iron pot on them."}
+    ambient: 26
+    notes: "A hall 2,048 by 2,304: a lock as big as a door in the floor over the diamond stair, three bolts holding it; tumbler lever 2 on the south wall; the golem forge (a casting hearth, its pot and a brazier) in the south-east corner."
+  - id: room:mason
+    name: Masons' store
+    outline: [[1920, 4352], [2944, 4352], [2944, 5376], [1920, 5376]]
+    floor: 512
+    ceiling: 896
+    theme: theme:quarry
+    platforms:
+      - {id: platform:bench, at: [2432, 5280], size: [512, 128], rise: 72, surface: {texture: bemstrt1, size: [256, 32]}, top_surface: {texture: bemstrt1, size: [256, 32]}, notes: A masons' bench along the north wall.}
+    ambient: 22
+    notes: "The golem-masons' store: a bench, cut stone, a chest."
+  - id: room:quarry
+    name: The block field
+    outline: [[-1280, 3520], [1280, 3520], [1280, 5568], [-1280, 5568]]
+    floor: 256
+    ceiling: 1280
+    theme: theme:quarry
+    flights:
+      - {from: [-448, 5376], to: [-1280, 5376], to_height: 512, width: 256, steps: 8, riser: {texture: cwb, size: [128, 256]}, tread: {texture: 7tfb1, size: [128, 128]}, notes: Steps up along the north wall to the west gallery's doorway.}
+      - {from: [448, 5376], to: [1280, 5376], to_height: 512, width: 256, steps: 8, riser: {texture: cwb, size: [128, 256]}, tread: {texture: 7tfb1, size: [128, 128]}, notes: Steps up to the east gallery's doorway.}
+    ambient: 28
+    notes: "Home of the Stone: a quarry floor 2,560 by 2,048, 256 below the galleries and open to them over rails; nine stone blocks in three rows, each beside its own empty recess."
+  - id: room:quarry_e
+    name: East quarry gallery
+    outline: [[1344, 3520], [1856, 3520], [1856, 5568], [1344, 5568]]
+    floor: 512
+    ceiling: 1024
+    theme: theme:stone_hall
+    ambient: 22
+    notes: "The other side of the field; the masons' store east."
+  - id: room:quarry_s
+    name: South gallery
+    outline: [[-1856, 2944], [1856, 2944], [1856, 3456], [-1856, 3456]]
+    floor: 512
+    ceiling: 1024
+    theme: theme:stone_hall
+    ambient: 22
+    notes: "A gallery across the block field's south side, looking down at the nine blocks over a rail; the galleries west and east and the lamp gallery leave it."
+  - id: room:quarry_w
+    name: West quarry gallery
+    outline: [[-1856, 3520], [-1344, 3520], [-1344, 5568], [-1856, 5568]]
+    floor: 512
+    ceiling: 1024
+    theme: theme:stone_hall
+    ambient: 22
+    notes: "A gallery above the block field; from it you see which blocks are pushed."
+  - id: room:stone_stair
+    name: Stone stair
+    outline: [[128, 1344], [640, 1344], [640, 2880], [128, 2880]]
+    floor: 0
+    slope: {to: 512, toward: north, steps: 16, riser: {texture: cwb, size: [128, 256]}, tread: {texture: 7tfb1, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: 960, toward: north}
+    theme: theme:stone_hall
+    ambient: 22
+    notes: Up 512 from the Stone door to the galleries.
+  - id: room:trunk
+    name: The trunk
+    outline: [[-1600, -640], [-1472, -606], [-1378, -512], [-1344, -384], [-1344, 384], [-1378, 512], [-1472, 606], [-1600, 640], [-4608, 640], [-4736, 606], [-4830, 512], [-4864, 384], [-4864, -384], [-4830, -512], [-4736, -606], [-4608, -640]]
+    floor: 0
+    ceiling: 576
+    ceiling_points: [[-1600, -640, 576], [-1472, -606, 720], [-1378, -512, 845], [-1344, -384, 934], [-1344, 384, 934], [-1378, 512, 845], [-1472, 606, 720], [-1600, 640, 576], [-4608, 640, 576], [-4736, 606, 720], [-4830, 512, 845], [-4864, 384, 934], [-4864, -384, 934], [-4830, -512, 845], [-4736, -606, 720], [-4608, -640, 576], [-4608, -480, 872], [-4608, -320, 964], [-4608, -160, 1010], [-4608, 0, 1024], [-4608, 160, 1010], [-4608, 320, 964], [-4608, 480, 872], [-4096, -480, 872], [-4096, -320, 964], [-4096, -160, 1010], [-4096, 0, 1024], [-4096, 160, 1010], [-4096, 320, 964], [-4096, 480, 872], [-3584, -480, 872], [-3584, -320, 964], [-3584, -160, 1010], [-3584, 0, 1024], [-3584, 160, 1010], [-3584, 320, 964], [-3584, 480, 872], [-3072, -480, 872], [-3072, -320, 964], [-3072, -160, 1010], [-3072, 0, 1024], [-3072, 160, 1010], [-3072, 320, 964], [-3072, 480, 872], [-2560, -480, 872], [-2560, -320, 964], [-2560, -160, 1010], [-2560, 0, 1024], [-2560, 160, 1010], [-2560, 320, 964], [-2560, 480, 872], [-2048, -480, 872], [-2048, -320, 964], [-2048, -160, 1010], [-2048, 0, 1024], [-2048, 160, 1010], [-2048, 320, 964], [-2048, 480, 872], [-1600, -480, 872], [-1600, -320, 964], [-1600, -160, 1010], [-1600, 0, 1024], [-1600, 160, 1010], [-1600, 320, 964], [-1600, 480, 872]]
+    theme: theme:wood
+    pillars:
+      - {at: [-4224, -384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+      - {at: [-4224, 384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+      - {at: [-3712, -384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+      - {at: [-3712, 384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+      - {at: [-2176, -384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+      - {at: [-2176, 384], size: [160, 160], surface: {texture: bemdk4, size: [32, 256]}}
+    beams:
+      - path: [[-4480, -640], [-4480, 640]]
+        width: 64
+        depth: 64
+        bottom: 448
+        surface: {texture: bemdk4, size: [32, 256]}
+        notes: A bough beam across the trunk (the fortress's bark-red wood).
+      - path: [[-3968, -640], [-3968, 640]]
+        width: 64
+        depth: 64
+        bottom: 448
+        surface: {texture: bemdk4, size: [32, 256]}
+        notes: A bough beam across the trunk (the fortress's bark-red wood).
+      - path: [[-3200, -640], [-3200, 640]]
+        width: 64
+        depth: 64
+        bottom: 448
+        surface: {texture: bemdk4, size: [32, 256]}
+        notes: A bough beam across the trunk (the fortress's bark-red wood).
+      - path: [[-2688, -640], [-2688, 640]]
+        width: 64
+        depth: 64
+        bottom: 448
+        surface: {texture: bemdk4, size: [32, 256]}
+        notes: A bough beam across the trunk (the fortress's bark-red wood).
+      - path: [[-1920, -640], [-1920, 640]]
+        width: 64
+        depth: 64
+        bottom: 448
+        surface: {texture: bemdk4, size: [32, 256]}
+        notes: A bough beam across the trunk (the fortress's bark-red wood).
+    ambient: 22
+    notes: "Home of the Wood: a long round-ended hall 3,520 by 1,280, the inside of a hollow trunk: wood grain under a barrel vault rising to 1,024, bough beams across it every 512, root posts; branches off both sides, the crown at the west end."
+  - id: room:tumbler_e
+    name: East tumbler
+    outline: [[5312, -128], [6080, -128], [6080, 896], [5312, 896]]
+    floor: 0
+    ceiling: 576
+    theme: theme:forge
+    walls:
+      - wall: west
+        panels:
+          - {offset: 736, length: 128, bottom: 58, height: 128, surface: {texture: vlcwl1, size: [128, 256]}, notes: "A plate of veined rock behind the lever, so that it shows on the soot brick."}
+    ambient: 26
+    notes: "Tumbler lever 3; its bolt seen through a slot in the west wall."
+  - id: room:tumbler_n
+    name: North tumbler
+    outline: [[3520, 1344], [4416, 1344], [4416, 2240], [3520, 2240]]
+    floor: 0
+    ceiling: 576
+    theme: theme:forge
+    walls:
+      - wall: south
+        panels:
+          - {offset: 416, length: 128, bottom: 58, height: 128, surface: {texture: vlcwl1, size: [128, 256]}, notes: "A plate of veined rock behind the lever, so that it shows on the soot brick."}
+    ambient: 26
+    notes: "Tumbler lever 1; through a slot in the south wall its bolt is seen at the great lock."
+  - id: room:vault_stair
+    name: Vault stair
+    outline: [[832, -1888], [2432, -1888], [2432, -1376], [832, -1376]]
+    floor: 0
+    slope: {to: -640, toward: east, steps: 20, riser: {texture: gtempw1, size: [128, 256]}, tread: {texture: gtempflr, size: [128, 128]}}
+    ceiling: 448
+    ceiling_slope: {to: -192, toward: east}
+    theme: theme:diamond
+    ambient: 22
+    notes: "The way out: 20 steps up from the Diamond vault to the Diamond door by the entry, which opens from this side only."
+openings:
+  - id: open:canopy_n_high
+    from: room:canopy_n
+    to: room:branch_hn
+    link: link:canopy_n
+    width: 320
+    height: 384
+  - id: open:canopy_n_low
+    from: room:branch_ln
+    to: room:canopy_n
+    link: link:canopy_n
+    width: 320
+    height: 384
+  - id: open:canopy_s_high
+    from: room:canopy_s
+    to: room:branch_hs
+    link: link:canopy_s
+    width: 320
+    height: 384
+  - id: open:canopy_s_low
+    from: room:branch_ls
+    to: room:canopy_s
+    link: link:canopy_s
+    width: 320
+    height: 384
+  - id: open:crown_heart
+    from: room:crown
+    to: room:heartwood
+    link: link:crown_heart
+    width: 320
+    height: 384
+  - id: open:crown_hn
+    from: room:crown
+    to: room:branch_hn
+    link: link:crown_hn
+    width: 256
+    height: 384
+  - id: open:crown_hs
+    from: room:crown
+    to: room:branch_hs
+    link: link:crown_hs
+    width: 256
+    height: 384
+  - id: open:dhall_vault
+    from: room:diamond_hall
+    to: room:diamond_vault
+    link: link:dhall_vault
+    width: 256
+    height: 384
+  - id: open:dstair_dhall
+    from: room:diamond_stair
+    to: room:diamond_hall
+    link: link:dstair_dhall
+    width: 320
+    height: 448
+  - id: open:entry_vstair
+    from: room:vault_stair
+    to: room:entry
+    link: link:vault_entry
+    width: 256
+    height: 384
+  - id: open:forge_furnace
+    from: room:forge
+    to: room:furnace
+    from_wall: north
+    to_wall: 5
+    link: link:forge_furnace
+    width: 320
+    height: 448
+  - id: open:forge_lock
+    from: room:forge
+    to: room:lock_hall
+    link: link:forge_lock
+    along: 0.25
+    width: 256
+    height: 384
+  - id: open:furnace_tn
+    from: room:furnace
+    to: room:tumbler_n
+    link: link:furnace_tn
+    width: 320
+    height: 448
+  - id: open:great_lock
+    from: room:lock_hall
+    to: room:diamond_stair
+    in: floor
+    at: [4224, 376]
+    size: [352, 1136]
+    link: link:great_lock
+    notes: The great lock's hole over the upper half of the diamond stair (the lid mover lies over it).
+  - id: open:hub_entry
+    from: room:hub
+    to: room:entry
+    link: link:entry_hub
+    width: 448
+    height: 576
+    shape: arch
+    apex: 704
+  - id: open:hub_forge
+    from: room:hub
+    to: room:forge
+    link: link:hub_forge
+    along: 0.5625
+    width: 256
+    height: 384
+  - id: open:hub_stone
+    from: room:hub
+    to: room:stone_stair
+    link: link:hub_stone
+    width: 256
+    height: 384
+  - id: open:hub_trunk
+    from: room:hub
+    to: room:trunk
+    link: link:hub_trunk
+    width: 256
+    height: 384
+  - id: open:hub_window
+    from: room:lamp_gallery
+    to: room:hub
+    link: link:lamp_window
+    width: 256
+    height: 256
+    sill: 64
+    notes: A window from the lamp gallery high in the hub's north wall (576 to 832 over the hub floor).
+  - id: open:lamp_gallery
+    from: room:lamp_gallery
+    to: room:quarry_s
+    link: link:landing_lamp
+    width: 320
+    height: 384
+  - id: open:landing_qe
+    from: room:quarry_s
+    to: room:quarry_e
+    link: link:sstair_qe
+    width: 384
+    height: 448
+  - id: open:landing_qw
+    from: room:quarry_s
+    to: room:quarry_w
+    link: link:sstair_qw
+    width: 384
+    height: 448
+  - id: open:lock_te
+    from: room:lock_hall
+    to: room:tumbler_e
+    link: link:lock_te
+    along: 0.8125
+    width: 192
+    height: 448
+  - id: open:qe_mason
+    from: room:quarry_e
+    to: room:mason
+    link: link:qe_mason
+    width: 256
+    height: 384
+  - id: open:qe_quarry
+    from: room:quarry_e
+    to: room:quarry
+    link: link:quarry_qe
+    along: 0.09375
+    width: 256
+    height: 384
+  - id: open:qw_quarry
+    from: room:quarry_w
+    to: room:quarry
+    link: link:qw_quarry
+    along: 0.90625
+    width: 256
+    height: 384
+  - id: open:rail_e
+    from: room:quarry_e
+    to: room:quarry
+    link: link:rail_e
+    along: 0.6
+    width: 1280
+    height: 352
+    sill: 72
+  - id: open:rail_s
+    from: room:quarry_s
+    to: room:quarry
+    link: link:rail_s
+    width: 1792
+    height: 352
+    sill: 72
+    notes: The south gallery's rail over the block field.
+  - id: open:rail_w
+    from: room:quarry_w
+    to: room:quarry
+    link: link:rail_w
+    along: 0.4
+    width: 1280
+    height: 352
+    sill: 72
+    notes: The west gallery's rail.
+  - id: open:stair_south
+    from: room:stone_stair
+    to: room:quarry_s
+    link: link:sstair_landing
+    width: 448
+    height: 384
+  - id: open:te_slot
+    from: room:lock_hall
+    to: room:tumbler_e
+    link: link:te_slot
+    along: 0.4921875
+    width: 256
+    height: 112
+    sill: 16
+    notes: The east tumbler's slot.
+  - id: open:tn_lock
+    from: room:tumbler_n
+    to: room:lock_hall
+    link: link:tn_lock
+    along: 0.2857142857142857
+    width: 256
+    height: 448
+  - id: open:tn_slot
+    from: room:tumbler_n
+    to: room:lock_hall
+    link: link:tn_slot
+    along: 0.7857142857142857
+    width: 256
+    height: 112
+    sill: 16
+    notes: "The north tumbler's slot: a low gap in the wall through which its bolt is seen."
+  - id: open:trunk_crown
+    from: room:trunk
+    to: room:crown
+    link: link:trunk_crown
+    width: 640
+    height: 704
+    shape: arch
+    apex: 832
+  - id: open:trunk_ln
+    from: room:trunk
+    to: room:branch_ln
+    link: link:trunk_ln
+    width: 384
+    height: 512
+  - id: open:trunk_ls
+    from: room:trunk
+    to: room:branch_ls
+    link: link:trunk_ls
+    width: 384
+    height: 512
+  - id: open:vstair_vault
+    from: room:vault_stair
+    to: room:diamond_vault
+    link: link:vault_stair_vault
+    width: 384
+    height: 384
+notes: "XD-09 Golem Dungeon at L4 (x east, y north; the hub floor 0, the stone level 256 to 512, the diamond level -640). Four families, one per area: MM7 Stone City (7d24) for the hub, the entry and the stone level; MM6 Warlord's Fortress (6d16) for the wood; MM6 Gharik's Forge (6d18) for the iron; MM8 Prison of the Lord of Fire (d37) for the diamond. Written by output/studio_cal/xd09/tools/gen.py."

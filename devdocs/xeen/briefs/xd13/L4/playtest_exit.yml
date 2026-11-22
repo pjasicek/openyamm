@@ -1,0 +1,27 @@
+# Playtest of Newcastle Keep's way out onto X3 (XD-13, L4; lane A7, agent:xeen-a7-xd13): the keep's gate (event 13,
+# evt:gate_door) leads to A5's arrival on X3's Newcastle site, 400 south of the hatch (thing:xd13_stair), facing south.
+# Leaving a BLV for an ODM shows a confirmation, answered OK. Run with output/studio_cal/xd13/play.sh.
+id: xeen.xd13.l4.exit
+title: Newcastle Keep (XD-13 L4), the gate out onto X3's Newcastle site
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd13.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, skills: [], equipment: {}}
+  - assert: {map: xeen_xd13.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - walk_to: {x: 0, y: 200, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 13}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_x3.odm}
+  - advance_runtime: {seconds: 2.0}
+  - play_lua: {source: "close()"}
+  - assert: {party_position: {x: 10496, y: 15216, radius: 160, z_min: 1600, z_max: 1900}}

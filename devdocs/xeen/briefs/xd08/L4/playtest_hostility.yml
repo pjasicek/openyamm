@@ -1,0 +1,155 @@
+# Hostility check of the Tomb of a Thousand Terrors (XD-08), after XD-05's and XD-07's (devdocs/xeen/ACT2_BUILD.md,
+# "Hostility pass"): Grave Ghouls 11252, Polter-Fools 11260, Tomb Guards 11261 and Skeleton Lords 11242 hostile to the
+# party and not fighting each other. Written by output/studio_cal/xd08 (by hand).
+id: xeen.xd08.l4.hostility
+title: 'Tomb of a Thousand Terrors (XD-08): its undead hostile to the party, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd08.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 15
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 15
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 15
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 15
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the world's relations.yml sets each family's relation to the party).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 11252
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11260
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11261
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11242
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11252
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11260
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11261
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 11242
+      hostile: true
+      min: 1
+- note: 'Into the Hall of Welcome: its own spirits cleared, then the map''s four kinds side by side by the west wall, nearer
+    each other than the party (a monster takes the nearest of its foes): none may take another on.'
+- walk_to:
+    x: 0
+    y: 1100
+    z: 0
+    radius: 64
+    timeout_seconds: 30
+    clear_hostiles: 1500
+    close_dialogs: true
+- clear_hostiles:
+    radius: 2500
+- walk_to:
+    x: 300
+    y: 1300
+    z: 0
+    radius: 64
+    timeout_seconds: 30
+    close_dialogs: true
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 11252
+    x: -640
+    y: 1200
+    z: 0
+- spawn_actor:
+    monster_id: 11260
+    x: -528
+    y: 1200
+    z: 0
+- spawn_actor:
+    monster_id: 11261
+    x: -416
+    y: 1200
+    z: 0
+- spawn_actor:
+    monster_id: 11242
+    x: -304
+    y: 1200
+    z: 0
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 11252
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11260
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11261
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 11242
+      hurt: true
+      max: 0

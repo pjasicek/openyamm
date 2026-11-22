@@ -1,0 +1,145 @@
+# Lake Darzog's three Water Dragons (D-54; written by output/studio_cal/x2/tools/gen_lake_dragons.py):
+# leashed at home, X9's fall landing unhurt, then killed for Medin's boat (Q-C13).
+id: xeen.x2.l4.lake_dragons
+title: 'X2 Lake Darzog: the leashed Water Dragons stay home, X9''s fall landing is safe, and killing them frees Medin''s boat
+  (D-54)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x2.odm
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 46
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 46
+        skills: []
+        equipment: {}
+- play_lua:
+    source: wait(3); close()
+- note: The three lake dragons are the build's actors 44-46
+- assert:
+    actor_visible:
+      actor_index: 44
+      monster_id: 11640
+      dead: false
+- assert:
+    actor_visible:
+      actor_index: 45
+      monster_id: 11640
+      dead: false
+- assert:
+    actor_visible:
+      actor_index: 46
+      monster_id: 11640
+      dead: false
+- note: 'X9''s fall landing (entrance:x9_fall): a level-46 party stands there 30 s and nobody is hurt'
+- set_pose:
+    map: xeen_x2.odm
+    x: -15360
+    y: 3072
+    z: 768
+    yaw_degrees: 0
+    pitch: 0
+- advance_runtime:
+    seconds: 30.0
+- assert:
+    party_position:
+      x: -15360
+      y: 3072
+      radius: 256
+- assert:
+    party_health:
+      full: true
+- advance_runtime:
+    seconds: 30.0
+- assert:
+    party_health:
+      full: true
+- note: 'After 60 s: each Water Dragon within its leash + 256 of its home (D-54)'
+- assert:
+    actor_count:
+      monster_id: 11640
+      near:
+      - -20992
+      - 8192
+      - 1280
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11640
+      near:
+      - -22784
+      - 3072
+      - 1024
+      min: 1
+      max: 1
+- assert:
+    actor_count:
+      monster_id: 11640
+      near:
+      - -18432
+      - -3584
+      - 1280
+      min: 1
+      max: 1
+- note: 'Group 80 killed: evt:lake_beasts sets lake_beasts_slain (110201)'
+- damage_actor:
+    actor_index: 44
+    amount: 100000
+- damage_actor:
+    actor_index: 45
+    amount: 100000
+- damage_actor:
+    actor_index: 46
+    amount: 100000
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    actor_count:
+      monster_id: 11640
+      max: 0
+- assert:
+    qbit_set:
+    - 110201
+- play_lua:
+    source: wait(0.5); close()
+- note: 'Medin''s boat runs: the party is rowed to the island'
+- set_pose:
+    map: xeen_x2.odm
+    x: -9779
+    y: 1536
+    z: 700
+    yaw_degrees: 180
+    pitch: 0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 141
+- advance_runtime:
+    seconds: 1.5
+- assert:
+    map: xeen_x2.odm
+- assert:
+    party_position:
+      x: -14848
+      y: 1792
+      radius: 256

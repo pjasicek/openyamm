@@ -1,0 +1,45 @@
+# T2-CLAN The Clan's Return: Initiate -> Ninja (QUESTS 3.2, Dark: "return to the Ninja Pagoda, side with the clan").
+# Owner: A3. Format: devdocs/xeen/formats/QUESTS_FORMAT.md. After Q-C4 the pagoda is Kai Wu's again by day; the clan's
+# survivors gather in its cellar under the master's heir (XD-22, A7), who respects whoever beat her father. Gated like
+# the Drawkcab route (D-12.2): she trains only once the Queen's castle is rising (m20.started, about level 30-32). Pays
+# 3,000 once (D-16: a promotion on content already paid). The heir is Shinobu (A4's 4530, in towns/x5.yml).
+id: T2-CLAN
+title: The Clan's Return
+act: IV
+kind: promotion
+status: full
+giver: 4530          # Shinobu, the clan master's heir (XD-22's cellar; a talking actor A7 places)
+maps: [XD-22]
+level: 32
+block: 121
+after: [q-c4.done]
+source: "QUESTS 3.2 (Initiate: Ninja, return to the Ninja Pagoda); D-12.2 (the m20.started gate); D-16 (3,000)"
+
+qbits:
+  done: {id: 114540, note: "the heir trained the party's Initiates as Ninja (paid once)"}
+  waiting: {id: 114541, note: "Shinobu told an Initiate to come back once the Queen's castle is rising",
+            journal: "Shinobu, in the Ninja Pagoda's cellar, will make your Initiates Ninja once Queen Kalindra's walls are rising.",
+            until: [done]}
+
+npcs:
+  4530:              # Shinobu
+    topics:
+      - n: 1
+        label: The clan
+        show: {qbit: q-c4.done}
+        states:
+          - when: {all: [{qbit: done}, {promotable: clan}]}
+            text: "Another one who walks quietly? Good. The clan has room."
+            do: [{promote: clan}]
+          - when: {qbit: done}
+            text: "The old monk sweeps upstairs. We let him. A clan that hides under a temple is never found."
+          - when: {all: [{promotable: clan}, {qbit: m20.started}]}
+            text: "You killed my father. He would say that was the point of him. The clan follows strength, and you are strong. Kneel, Initiates, and rise in the shadows."
+            do: [{set: done}, {xp: 3000}, {promote: clan}]
+          - when: {promotable: clan}
+            text: "Strong, yes. Ready, no. Come back when Queen Kalindra's walls are rising, and I will teach you what my father knew."
+            do: [{set: waiting}]
+          - text: "My father's killers. Sit, if you like. Nobody here will try it twice."
+
+rewards: {xp: 3000, gold: 0, promotion: "Initiate -> Ninja (Dark)"}
+playthrough: "XD-22 cellar: Shinobu (The clan): Initiates become Ninja (after q-c4.done and m20.started)."

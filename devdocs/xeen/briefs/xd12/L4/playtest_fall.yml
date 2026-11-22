@@ -1,0 +1,38 @@
+# A fall from Darzog's Tower (XD-12, L4; lane A8, 2026-11-20, merge point 10 and D-24). The party drops from the keep
+# into the outside band east of the tower (room:out_e, "Island and lake, east"; the windows' sills are at 880, the
+# battlements higher): the step event evt:fall_e leaves for X2 at once (the studio's `leave` is direct since merge
+# point 10), so the party stands on Lake Darzog's island in front of the tower door (-15631, 3014, 768) with no
+# "Do you wish to leave?" window, and the status line says what happened. Played from assets_dev with --world xeen
+# --map xeen_xd12.blv (output/studio_cal/xd12/xfour.sh).
+id: xeen.xd12.l4.fall
+title: Darzog's Tower (XD-12 L4), a fall from the keep lands on X2's island with no window
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd12.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 33, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 33, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 33, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
+  - assert: {map: xeen_xd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - play_lua: {source: "close(); wait(1)"}
+  - assert: {dialog: {active: false}}
+  # Out of the keep's east window, in the air above the island's grass east of the tower, facing away from it.
+  - set_pose: {map: xeen_xd12.blv, x: 5200, y: 0, z: 1100, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 4.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -15631, y: 3014, radius: 160, z_min: 700, z_max: 900}}
+  - assert: {dialog: {active: false}}
+  # The event's status line ("You fall from the tower ...", set before the move) does not survive the map change:
+  # status() is empty on X2 (asked of A1, 2026-11-20). Logged, not asserted.
+  - play_lua: {source: "log('status after the fall: [' .. tostring(status()) .. ']')"}
+  - advance_runtime: {seconds: 2.0}
+  - assert: {map: xeen_x2.odm}
+  - assert: {dialog: {active: false}}

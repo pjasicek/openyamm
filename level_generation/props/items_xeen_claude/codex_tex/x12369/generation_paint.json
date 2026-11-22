@@ -1,0 +1,14 @@
+{
+  "prompt": "Edit paint_mask_guide.png directly as a locked transparent stencil. Copy its entire 1536x2048 portrait canvas, 3 columns x 4 rows of square cells. Retain the exact alpha channel and all ten existing silhouettes, gaps, outlines, dimensions and placement. Recolour only existing object pixels. Rows 1 and 2: front, back, facing right / facing left, overhead, empty. Paint flat unlit base colour from design_reference.png, matching icon_x8.png palette: round stuffed carnival-prize knight doll, warm linen face and arms, brown yarn fringe, dark button eyes and embroidered smiling mouth, grey felt helmet with slit visor, grey felt padded armour, pauldrons and skirt, light running stitches, brown fabric legs and boots. Match fabric weave and seam details across all views; painted colour only, no lighting, shadows, AO or highlights. Rows 3 and 4 are the exact same five silhouettes, entirely flat pure material ID colours: all cloth, felt, stuffing covers, yarn hair, embroidery, fabric legs and boots pure blue #0000FF; matte solid button eyes pure yellow #FFFF00; actual leather or fur pure green #00FF00 and actual metal pure red #FF0000 only if present. No mask shading, noise, outlines or antialiased colour blends. Middle right and bottom right empty. Keep transparent outside and in openings. No captions, ground, redraw, scale or re-layout. Correction: bottom half must consist of five perfectly clean solid cutout icons with hard perimeters on alpha zero. Preserve original guide's negative space in every cell; absolutely no blue dust, stippling, shadows, rim pixels, or translucent fields. Trace guide contours exactly in place. Flat blue as in a single-colour screenprint.",
+  "inputs": {
+    "paint_mask_guide.png": "f6489be5508e4a0f987ca3cbff8ad8b2333aecb42e660d63b35a4bc3183c3557",
+    "design_reference.png": "774fc54c800d713582eeaffe2a06bca4f15583da4f4edac09d6b0902d0565472",
+    "icon_x8.png": "f31255d6e551150b28891077be05aad2e5468cbedf523f416f8f21972fcf8885"
+  },
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e8-eca9-7e72-b3cd-3264f829cee5/exec-e197441b-f853-49ca-a3fb-44a9019dd79d.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

@@ -1,0 +1,3 @@
+Saved [01_front.png](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/01_front.png). The symmetric front view shows eight distinct hooked tips, mustard ring suckers, two blue eyes, and five facial folds.
+
+Verified the 1536×1024 RGBA PNG has at least 101 px of fully transparent margin on every side. One corrective generation improved the framing. I cleaned stray alpha at native resolution and recorded both prompts and the selection in the [generation log](/home/pjasicek/github/OpenYAMM/level_generation/creatures/xeen_octopod_claude/references_hd/generation_runs_01_front.json).

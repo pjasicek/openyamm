@@ -1,0 +1,13 @@
+format: 0
+mist:
+  layer:
+    color_rgb: [118, 116, 114]
+    base_height: 320
+    falloff_height: 300
+    visibility: 1500
+    max_opacity: 0.6
+    noise: 0.45
+    noise_size: 900
+    drift: [10, -6]
+    follow_daylight: false
+notes: "D-25 Q5: the burn's smoke, a harmless grey mist over all three floors (densest at and below 320). It is drawn at share 0 on every load (evt:smoke_clear) and only the burn draws it in, over 60 s (evt.SetMist(1, 60)). Capped: visibility 1,500 and at most 60 % cover, so a lit wall 1,500 away stays visible (about 38 % covered at the player's 100 %, 52 % at 200 %)."

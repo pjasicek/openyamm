@@ -1,0 +1,121 @@
+# Hand-written overrides of tools/xeen/texture_classes.py (A6 reviews them): a texture name and the fields that
+# replace what the tool measured (class: tile, trim_u, trim_v, feature; door: single, wing, tile; twin;
+# storey_stack: edge, module). A key with * or ? names every texture it matches; a texture's own key wins.
+#
+# Door wings, A1 2026-11-20: the shipped pictures named as a left and right twin, each the other's mirror image,
+# whose door runs to the meeting edge with the frame or arch on the hinge side only (looked at one by one in
+# output/xeen_a1/doors/sheets/twins.png, zoom.png). The twins the shipped maps hang as pairs of leaves are found
+# by the tool itself (gtrldrl/gtrldrr, gkp103a/gkp103b, a2b/a2c, a1b/a2d, gcs05a/gcs05b, gnecdr1l/gnecdr1r,
+# gnecdr4l/gnecdr4r, grdor1a/grdor1b, hdr1dl/hdr1dr, hhm1d/hhm1d2, t1d1a/t1d1b).
+# A6 review (2026-11-20, session 8): all 18 twins checked on twins.png and zoom.png: each is a half door with its
+# frame or arch on the hinge side only and the meeting edge plain (chb1d, ckd, hkm1d, t66b03 confirmed on zoom.png);
+# egydrlgl/egydrlgr are two framed scenes rather than mirrors, still one pair; the t65 faces are MM8's carved-door
+# pairs (out01's temple and dungeon doors). Every wing is a picture placed once per leaf, so each is `class: feature`
+# (the tool measured t65a05*, t65b05*, t31b03*, t66b03* as trim_v and t65o12* as tile).
+textures:
+  7cddl: {class: feature, door: wing, twin: 7cddr}
+  7cddr: {class: feature, door: wing, twin: 7cddl}
+  cddl: {class: feature, door: wing, twin: cddr}
+  cddr: {class: feature, door: wing, twin: cddl}
+  ceb1dl: {class: feature, door: wing, twin: ceb1dr}
+  ceb1dr: {class: feature, door: wing, twin: ceb1dl}
+  chb1dl: {class: feature, door: wing, twin: chb1dr}
+  chb1dr: {class: feature, door: wing, twin: chb1dl}
+  ckdl: {class: feature, door: wing, twin: ckdr}
+  ckdr: {class: feature, door: wing, twin: ckdl}
+  cwdl: {class: feature, door: wing, twin: cwdr}
+  cwdr: {class: feature, door: wing, twin: cwdl}
+  egydrlgl: {class: feature, door: wing, twin: egydrlgr}
+  egydrlgr: {class: feature, door: wing, twin: egydrlgl}
+  egydrsml: {class: feature, door: wing, twin: egydrsmr}
+  egydrsmr: {class: feature, door: wing, twin: egydrsml}
+  hkm1dl: {class: feature, door: wing, twin: hkm1dr}
+  hkm1dr: {class: feature, door: wing, twin: hkm1dl}
+  hnrdl: {class: feature, door: wing, twin: hnrdr}
+  hnrdr: {class: feature, door: wing, twin: hnrdl}
+  hwr1dl: {class: feature, door: wing, twin: hwr1dr}
+  hwr1dr: {class: feature, door: wing, twin: hwr1dl}
+  t65a05al: {class: feature, door: wing, twin: t65a05ar}
+  t65a05ar: {class: feature, door: wing, twin: t65a05al}
+  t65a05bl: {class: feature, door: wing, twin: t65a05br}
+  t65a05br: {class: feature, door: wing, twin: t65a05bl}
+  t65b05l: {class: feature, door: wing, twin: t65b05r}
+  t65b05r: {class: feature, door: wing, twin: t65b05l}
+  t65o12l: {class: feature, door: wing, twin: t65o12r}
+  t65o12r: {class: feature, door: wing, twin: t65o12l}
+  t66b03l: {class: feature, door: wing, twin: t66b03r}
+  t66b03r: {class: feature, door: wing, twin: t66b03l}
+  t6s1dl: {class: feature, door: wing, twin: t6s1dr}
+  t6s1dr: {class: feature, door: wing, twin: t6s1dl}
+  t31b03a: {class: feature, door: wing, twin: t31b03b}
+  t31b03b: {class: feature, door: wing, twin: t31b03a}
+  # F2 (feedback fix, A6, 2026-11-21): shipped house-door wings the tool read as plain pictures, each a left or right
+  # half of one double door (arch or frame on the hinge side, the meeting edge plain; output/xeen_fb/f2/*.png). Xeen's
+  # houses had hung one of them alone as a single door (Vertigo Town Hall's 7hhr1d2, the t06/t07/t09 town doors).
+  7hhr1d1: {class: feature, door: wing, twin: 7hhr1d2}
+  7hhr1d2: {class: feature, door: wing, twin: 7hhr1d1}
+  t06a03: {class: feature, door: wing, twin: t06b03}
+  t06b03: {class: feature, door: wing, twin: t06a03}
+  t06c03: {class: feature, door: wing, twin: t06d03}
+  t06d03: {class: feature, door: wing, twin: t06c03}
+  t07a03c: {class: feature, door: wing, twin: t07a03d}
+  t07a03d: {class: feature, door: wing, twin: t07a03c}
+  t07b03c: {class: feature, door: wing, twin: t07b03d}
+  t07b03d: {class: feature, door: wing, twin: t07b03c}
+  t07c03c: {class: feature, door: wing, twin: t07c03d}
+  t07c03d: {class: feature, door: wing, twin: t07c03c}
+  t09a03a: {class: feature, door: wing, twin: t09a03b}
+  t09a03b: {class: feature, door: wing, twin: t09a03a}
+  # Xeen: the Rosebud door's quarters (XD-03, face_quarters.py): xwface1-2 the west leaf, 3-4 the east leaf.
+  xwface1: {class: feature, door: wing, twin: xwface3}
+  xwface2: {class: feature, door: wing, twin: xwface4}
+  xwface3: {class: feature, door: wing, twin: xwface1}
+  xwface4: {class: feature, door: wing, twin: xwface2}
+  # Xeen wings made to be hung mirrored on the second leaf (one texture, `mirror: true`; A6, 2026-11-21): the tool
+  # reads xdpyrdor's name as a single door and xdgiantd as no door.
+  xdpyrdor: {class: feature, door: wing}
+  xdgiantd: {class: feature, door: wing}
+  xlsgate: {class: feature, door: wing}
+  # Storey panels (decision D-41, seed lists by A1 2026-11-20; A6 reviews and adds): `edge` is a footing or eaves
+  # panel meant once per wall (stacked whole once per storey up a wall: an error); `module` is made to repeat once
+  # per storey (the half-timber frames, one window or slit per storey, cage bars: no finding). Unlisted: a warning.
+  hkm3b: {storey_stack: edge}
+  hkm3elw: {storey_stack: edge}
+  hkm3el: {storey_stack: edge}
+  hkm3er: {storey_stack: edge}
+  hkm3erw: {storey_stack: edge}
+  t07b0*: {storey_stack: edge}
+  hhm2b2: {storey_stack: module}
+  hhm2bw: {storey_stack: module}
+  hhm2el: {storey_stack: module}
+  hhm2er: {storey_stack: module}
+  hhm3b: {storey_stack: module}
+  hhm3bw2: {storey_stack: module}
+  hhm3el2: {storey_stack: module}
+  hhm3er2a: {storey_stack: module}
+  gbwin: {storey_stack: module}
+  strwin1: {storey_stack: module}
+  deswin1: {storey_stack: module}
+  whwin: {storey_stack: module}
+  pgwino: {storey_stack: module}
+  hcwindo: {storey_stack: module}
+  xkarrow: {storey_stack: module}
+  xwcage: {class: trim_u, storey_stack: module}
+  # A6 (2026-11-20, after merge point 17): MM7's shop signs (the tool measured them tile: their edges are plain
+  # wood) are pictures meant once; Xeen's cage bars and portcullis band repeat across only.
+  7sg*: {class: feature}
+  xkportc: {class: trim_u}
+  xfgrid: {class: tile}      # A7 (FD-04): the crossword cells are meant to repeat (s32)
+  # A6's storey_stack review (2026-11-20, session 10; sheet output/studio_cal/a6/tf/storey_kin.png): MM7's Nighon
+  # panels with the carved frieze at the top (eaves) and Bracada's timber panels with the carved wainscot at the foot
+  # are meant once per wall; Harmondale's half-timber and plaster storeys (rich, middle and poor: plain, windowed and
+  # the end posts) repeat once per storey. Bracada's stone hwm2*/hwp1* (plinth band and pilasters) stay unlisted.
+  hkm1b1: {storey_stack: edge}
+  hkm1bw: {storey_stack: edge}
+  hwm1b: {storey_stack: edge}
+  hwm1bsw: {storey_stack: edge}
+  hwm1el2: {storey_stack: edge}
+  hhm?b*: {storey_stack: module}
+  hhm?e*: {storey_stack: module}
+  hhp?b*: {storey_stack: module}
+  hhp?e*: {storey_stack: module}

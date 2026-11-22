@@ -6,7 +6,7 @@
 # by the mouth. Numbers are ids.lock.yml's (events, doors, map variables); actor 0 the Drum-Master, 4 Tam.
 id: xeen.xd05.l4.walk
 title: Orc Caves (XD-05 L4), mouth to the great drum and out by the ledge
-world: mm7
+world: xeen
 mode: faithful
 steps:
   - new_game_flow:
@@ -41,9 +41,18 @@ steps:
   - walk_to: {x: 1056, y: 2400, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
   - walk_to: {x: 900, y: 2000, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
   - clear_hostiles: {radius: 1500}
+  # The drum asks the orc outposts' question (aaze0019): No leaves it beating, Yes burns it.
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - answer_input: {text: "No"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
+  - assert: {state_dump_map_var: {index: 8, value: 0}}
+  - play_lua: {source: "click(13); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
-        click(13); wait(1)
+        close()
         if mapvar("AmbientSound2") ~= 2 then error("the signal drum's beat did not stop") end
   - assert: {state_dump_map_var: {index: 5, value: 1}}
   - play_lua: {source: "wait(6)"}
@@ -101,9 +110,12 @@ steps:
   - clear_hostiles: {radius: 2000}
   - assert: {actor_visible: {actor_index: 3, dead: true}}
   - walk_to: {x: -2650, y: 7200, z: -192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "click(15); wait(0.5)"}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
-        click(15); wait(1)
+        close()
         if mapvar("AmbientSound3") ~= 2 then error("the spirit drum's beat did not stop") end
         if qbit(110050) then error("war_drums_burned set after two drums") end
   - assert: {state_dump_map_var: {index: 5, value: 2}}
@@ -122,7 +134,10 @@ steps:
   - play_lua:
       source: |
         if mapvar("AmbientSound1") ~= 2 then error("the great drum's beat did not stop with him") end
-        click(10); wait(1)
+        click(10); wait(0.5)
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "close()"}
   - assert: {state_dump_map_var: {index: 7, value: 1}}
   - assert: {state_dump_map_var: {index: 5, value: 3}}
   - advance_runtime: {seconds: 3.0}
@@ -151,6 +166,6 @@ steps:
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
   # On X1's north hills in front of the cave mouth, and down the hill on foot.
   - assert: {map: xeen_x1.odm}
-  - assert: {party_position: {x: 9216, y: 16643, radius: 128, z_min: 1300, z_max: 1450}}
+  - assert: {party_position: {x: 9216, y: 16384, radius: 128, z_min: 1300, z_max: 1450, facing: 1536, facing_within: 40}}
   - walk_to: {x: 9216, y: 16200, z: 1284, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "if not qbit(110050) or not qbit(110052) then error('a quest bit was lost') end"}

@@ -1,0 +1,229 @@
+# Xeen side quest Q-D22, The Coven (D4, DD-20), from a new game on D4 with a Great Druid in a level-36 party; both
+# ways in, the joining and then the breaking. Naomi in the stocks on Lakeside's square (5318): The coven (started,
+# autonote 4620), Necropolis pass (autonote 4621). The Guild's door (D4 event 1): the riddle, "broom": q-d22.guild_wrong's
+# status line and the trapdoor into DD-20's sump (entrance:d4_trapdoor); up the sump ladder (DD-20 event 34) to the
+# jetty shaft on D4. The door again, "witch": q-d22.guild_right (riddle_answered); the Guild's back stair (D4 event 49)
+# into the coven hall (entrance:d4_guild). The initiation cauldron: Yes, joined, the Great Druid becomes a Warlock and
+# the coven is friendly. Through the gaol and down the cell stair: the four cages (Camilla, Aretha, Isabella, Rhett:
+# 500 XP each). Back up and through the Moon seal to the Head Witch's room among friendly witches: her chest opens to
+# a member (the Necropolis pass); she dies (head_witch_slain, the coven hostile). Back by the brewery and the walk to
+# the hall and up the back stair (DD-20 event 33). Naomi: The coven (done: 6,000 XP, 2,000 gold, Liberated Lakeside;
+# 8,000 XP per member in all); the Necropolis pass topic is gone.
+# Routes: devdocs/xeen/briefs/d4/L4/playtest.yml (the guild door 1, the back stair 49, the shaft, Naomi actor 19),
+# devdocs/xeen/briefs/dd20/L4/playtest.yml (the walk; here the cells are reached from the hall).
+# Quest logic: source/quests/q-d22.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d22_the_coven.yml --scenario-no-color
+id: xeen.side_quests.q-d22
+title: "Xeen Q-D22: Lakeside's coven by the trapdoor and the back stair, joined and then broken"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Mirel, class: GreatDruid, level: 36, skills: [], equipment: {}}
+          - {name: Hilda, class: Knight, level: 36, skills: [], equipment: {}}
+          - {name: Aldric, class: Cleric, level: 36, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 36, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d4.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; log('classes: ' .. classes())"}
+  - assert: {qbit_clear: [113440, 113441, 113442, 113443, 113444, 113445, 113446, 113447, 113448, 113449]}
+  # Naomi in the stocks: The coven (started), Necropolis pass.
+  - set_pose: {map: xeen_d4.odm, x: 3686, y: -13363, z: 1120, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - interact_actor: {actor_index: 19}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, source_id: 5318}
+  - select_topic: {match_label: "The coven"}
+  - assert:
+      dialog: {text_contains: "I said 'broom'."}
+  - select_topic: {match_label: "Necropolis pass"}
+  - assert:
+      dialog: {text_contains: "in the north-west corner of the coven"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113440]}
+  # The Guild's door: the riddle, a wrong answer: the trapdoor into DD-20's sump.
+  - set_pose: {map: xeen_d4.odm, x: 2028, y: -12800, z: 1120, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "status(); click(1); wait(0.5)"}
+  - answer_input: {text: "broom"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - play_lua:
+      source: |
+        local seen = status()
+        if not string.find(seen, "Wrong! Begone fools!", 1, true) then error("the wrong answer's status line: " .. seen) end
+        if qbit(113442) then error("riddle_answered set by a wrong answer") end
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: 3456, y: -640, radius: 128, z_min: -544, z_max: -480}}
+  # Up the sump ladder (DD-20 event 34) to D4's jetty shaft.
+  - clear_hostiles: {radius: 3000}
+  - execute_event: {id: 34}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: 3072, y: -9728, radius: 160}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The door again, "witch": membership (riddle_answered); the Guild's back stair into the coven hall.
+  - set_pose: {map: xeen_d4.odm, x: 2028, y: -12800, z: 1120, yaw: 3.1416, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "click(1); wait(0.5)"}
+  - answer_input: {text: "witch"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, text_contains: "free membership to the guild"}
+  - play_lua: {source: "close(); wait(0.3); if not qbit(113442) then error('riddle_answered 113442 not set') end"}
+  - execute_event: {id: 49}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd20.blv}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {party_position: {x: -640, y: -384, radius: 128, z_min: -32, z_max: 32}}
+  # The initiation cauldron: Yes (joined; the Great Druid becomes a Warlock; the coven friendly).
+  - clear_hostiles: {radius: 1500}
+  - walk_to: {x: -128, y: -100, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the cauldron: ' .. c) end end end"}
+  - play_lua: {source: "click(39); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "Drink"}}
+  - answer_input: {text: "Yes"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "The brew tastes of toad and ambition."}}
+  - play_lua:
+      source: |
+        close()
+        if not qbit(113449) then error("joined 113449 not set") end
+        if classes() ~= "Warlock Knight Cleric Sorcerer" then error("the coven's promotion: " .. classes()) end
+  - advance_runtime: {seconds: 2}
+  - assert: {actor_count: {monster_id: 11170, hostile: true, max: 0}}
+  - assert: {actor_count: {monster_id: 11173, hostile: true, max: 0}}
+  # Through the gaol and down the cell stair to the four cages.
+  - walk_to: {x: 600, y: 1344, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(27, 5)"}
+  - walk_to: {x: 1300, y: 1344, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: 2700, y: 1344, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 4400, y: 1344, z: -256, z_tolerance: 120, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2000}
+  - play_lua: {source: "remember('xp', experience(1))"}
+  - walk_to: {x: 4864, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, [[Thanks for getting me out of there.]], 1, true) then error('status line: ' .. s) end"}   # D-90
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 5632, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(8); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[spare parts in their potions]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  - walk_to: {x: 6400, y: 1300, z: -256, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "click(12); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[(yawn) Thank you for saving me]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close()"}
+  # A hostile by the fourth cage blocks the walk (A8 26th): it is fought, and its experience kept out of the cages' sum.
+  - play_lua: {source: "remember('xp_walk', experience(1))"}
+  - walk_to: {x: 7168, y: 1300, z: -256, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
+  - play_lua: {source: "remember('xp', recall('xp') + experience(1) - recall('xp_walk'))"}
+  - play_lua: {source: "click(14); wait(0.5)"}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[the dragon statuette is in the sewer below us]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close()
+        if experience(1) - recall("xp") ~= 2000 then error("the four cages paid " .. (experience(1) - recall("xp"))) end
+  - assert: {qbit_set: [113443, 113444, 113445, 113446]}
+  # Back up to the hall, through the Moon seal to the Head Witch's room: her chest opens to a member.
+  - walk_to: {x: 4400, y: 1344, z: -256, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2700, y: 1344, z: 0, z_tolerance: 120, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1300, y: 1344, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'open' then open_door(27, 5) end"}
+  - walk_to: {x: 600, y: 1344, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: 1750, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(28, 6)"}
+  - walk_to: {x: -640, y: 2350, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -2880, y: 2450, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(30, 9)"}
+  - walk_to: {x: -2880, y: 3200, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(23, 1)"}
+  - walk_to: {x: -2880, y: 4000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -3550, y: 4300, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua:
+      source: |
+        loot_chest(54); close()
+        if not qbit(113448) then error("pass_found 113448 not set by her chest") end
+        if not has_item(12336) and held() ~= 12336 then error("no Necropolis pass") end
+  # The Head Witch dies: head_witch_slain, the coven hostile again.
+  - assert: {actor_count: {monster_id: 11173, hostile: false, min: 1}}
+  - damage_actor: {actor_index: 26, amount: 100000}
+  - advance_runtime: {seconds: 4}
+  - assert: {qbit_set: [113447]}
+  - clear_hostiles: {radius: 2500}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Back by the brewery, the walk and the Moon seal to the hall; up the back stair (DD-20 event 33).
+  - walk_to: {x: -2250, y: 4032, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(24, 2)"}
+  - walk_to: {x: -1500, y: 3750, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -320, y: 3000, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "open_door(31, 10)"}
+  - walk_to: {x: -320, y: 2400, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - walk_to: {x: -640, y: 2250, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - play_lua: {source: "if door_state(6) ~= 'open' then open_door(28, 6) end"}
+  - walk_to: {x: -640, y: 1500, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - walk_to: {x: -128, y: -100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -640, y: -384, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
+  - execute_event: {id: 33}
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_d4.odm}
+  - assert: {party_position: {x: -1024, y: -13312, radius: 160}}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Naomi: The coven (done: 6,000 XP, 2,000 gold, Liberated Lakeside); the pass topic is gone.
+  - set_pose: {map: xeen_d4.odm, x: 3686, y: -13363, z: 1120, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "remember('gold', gold()); remember('xp', experience(1))"}
+  - interact_actor: {actor_index: 19}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, source_id: 5318}
+  - assert:
+      dialog: {action_label_absent: "Necropolis pass"}
+  - select_topic: {match_label: "The coven"}
+  - assert:
+      dialog: {text_contains: "They only painted it gone."}
+  - select_topic: {match_label: "The coven"}
+  - assert:
+      dialog: {text_contains: "I keep checking on both."}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        if not qbit(113441) then error("q-d22.done 113441 not set") end
+        if gold() - recall("gold") ~= 2000 then error("Naomi paid " .. (gold() - recall("gold")) .. " gold") end
+        if experience(1) - recall("xp") ~= 6000 then error("Naomi paid " .. (experience(1) - recall("xp")) .. " XP") end
+        log("Q-D22 done: " .. classes())

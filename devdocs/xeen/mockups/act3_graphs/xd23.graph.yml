@@ -1,0 +1,101 @@
+# MU-6 dungeon graph, a review file for gate G1 (not a brief). Vocabulary follows Map Studio's plan.yml where it
+# fits (spaces, links, kind, size, floor, population, entrances); `at` is the review picture's grid cell only.
+# Staged once: q-c15.lair_burnt (112301) swaps the warren to its burnt state on every later load.
+format: mu6-0
+map: XD-23
+key: xd23
+name: Troll Warren
+stands_on: X5 Winterkill Tundra (the Troll Forest)
+class: S
+band: "S: at most 15 sectors and 20 M units², 15-30 monsters, 0-3 chests, 3-8 doors"
+party: [25, 29]
+monsters:
+  levels: [18, 28]
+  boss: Troll Matron 32
+  count: 28
+  groups: [2, 3]
+  families:
+    - "Trolls A-B: Troll 18 (20), Troll Guard 28 (7); Ice Troll 38 left out (over the band)"
+    - "The Troll Matron 32: no row yet (open question; A2's boss slot 11074 beside Hobstadt's 11073)"
+treasure: {level: 3, hoard: 4}
+role: "Q-C15 Troll Problem (Thickbark): the Matron's death, then her hearth burnt, sets q-c15.lair_burnt"
+role_short: "Q-C15"
+set_piece: "Burn the warren from inside: the Matron's hearth hall, her bedding and the gnawed bark go up, smoke fills the tunnels and draws up the chimney the fire unplugs"
+stages:
+  - {id: stage:0, qbit: null, quest: Q-C15, what: "The warren as found: straw beds, hide curtains, bark piles, the trolls."}
+  - {id: stage:1, qbit: q-c15.lair_burnt, quest: Q-C15, what: "Burnt: charred faces shown and beds, curtains and bark piles gone (destructibles left broken), smoke mist cleared, no trolls placed."}
+floors:
+  - {floor: 0, name: "Under the mound", height: 0}
+  - {floor: -1, name: "Sleeping tunnels", height: -512}
+  - {floor: -2, name: "The Matron's hearth", height: -1024}
+spaces:
+  # floor 0
+  - {id: room:mouth, name: Warren mouth, kind: cave, size: S, floor: 0, at: [1, 0], monsters: 2,
+     population: [{family: Trolls, count: 2, strength: light, rank: a}],
+     purpose: "Inside the barricade of bones and frozen hides the party pulled aside; the stench."}
+  - {id: room:bone_hall, name: Gnawing hall, kind: cave, size: M, floor: 0, at: [2, 0], monsters: 4,
+     population: [{family: Trolls, count: 4, strength: pack, rank: a}],
+     purpose: "Strips of gnawed bark everywhere (Thickbark's complaint), bones, a tunnel down."}
+  - {id: room:larder, name: Larder, kind: cave, size: M, floor: 0, at: [1, 1], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: pack, rank: a}],
+     purpose: "Frozen carcasses on hooks behind a hide flap; a crawlway down to the spring."}
+  - {id: room:chimney, name: Smoke chimney, kind: shaft, size: S, floor: 0, at: [3, 0], monsters: 0,
+     purpose: "The top of the hearth's chimney, a hole in the mound's crown; roots for handholds."}
+  # floor -1
+  - {id: room:spring, name: Cold spring, kind: cave, size: M, floor: -1, at: [1, 0], monsters: 3,
+     population: [{family: Trolls, count: 2, strength: light, rank: a}, {family: Trolls, count: 1, strength: heavy, rank: b}],
+     purpose: "A meltwater pool where the trolls lick their wounds; the way down to the deep."}
+  - {id: room:sleeping, name: Sleeping hollows, kind: cave, size: L, floor: -1, at: [2, 0], monsters: 5,
+     population: [{family: Trolls, count: 5, strength: pack, rank: a}],
+     purpose: "Straw beds in scooped hollows (destructibles that burn); hides hung for warmth."}
+  - {id: room:rock_pile, name: Rock store, kind: cave, size: S, floor: -1, at: [4, 0], chest: 3, monsters: 1,
+     population: [{family: Trolls, count: 1, strength: heavy, rank: b}],
+     purpose: "What trolls find valuable: fist-sized rocks, hides, bones, and a dead hunter's pack among them."}
+  # floor -2
+  - {id: room:nursery, name: Whelping den, kind: cave, size: M, floor: -2, at: [1, 0], chest: 3, monsters: 4,
+     population: [{family: Trolls, count: 4, strength: pack, rank: a}],
+     purpose: "Young trolls in a nest of rags; a heap of shiny things they play with (a chest)."}
+  - {id: room:guard_tunnel, name: Guard tunnel, kind: corridor, size: M, floor: -2, at: [2, 0], monsters: 3,
+     population: [{family: Trolls, count: 3, strength: heavy, rank: b}],
+     purpose: "The Matron's guards; hide curtains across the tunnel to her hearth and the den."}
+  - {id: room:hearth, name: "The Matron's hearth", kind: cave, size: L, floor: -2, at: [3, 0], set_piece: true, boss: true, goal: true,
+     chest: 4, boss_label: "Matron 32 + 2 m", monsters: 3,
+     population: [{actor: Troll Matron, level: 32, role: boss, placed: true, strength: boss}, {family: Trolls, count: 2, strength: heavy, rank: b}],
+     purpose: "A great fire pit under a soot-black chimney stuffed with hides; the Matron's bedding of straw and bark round it; her hoard (tier 4). After her death: 'Destroy the lair?'"}
+links:
+  - {id: link:mouth_bone, from: room:mouth, to: room:bone_hall, kind: open}
+  - {id: link:mouth_larder, from: room:mouth, to: room:larder, kind: door, label: hide flap}
+  - {id: link:bone_sleeping, from: room:bone_hall, to: room:sleeping, kind: stair, label: tunnel down}
+  - {id: link:larder_spring, from: room:larder, to: room:spring, kind: stair, label: crawlway}
+  - {id: link:sleeping_spring, from: room:sleeping, to: room:spring, kind: open}
+  - {id: link:sleeping_rocks, from: room:sleeping, to: room:rock_pile, kind: open}
+  - {id: link:spring_guard, from: room:spring, to: room:guard_tunnel, kind: stair, label: slope down}
+  - {id: link:guard_nursery, from: room:guard_tunnel, to: room:nursery, kind: door, label: hide curtain}
+  - {id: link:guard_hearth, from: room:guard_tunnel, to: room:hearth, kind: door, label: hide curtain}
+  - {id: link:hearth_chimney, from: room:hearth, to: room:chimney, kind: one_way, label: "chimney: lair burnt",
+     opened_by: state:burn, notes: "The hide plug burns away; root handholds (a climbable ladder) up to the mound's crown. Climb only; from above it is a smoke hole."}
+states:
+  - {id: state:matron, kind: kill, where: room:hearth, what: "The Troll Matron's death (a kill timer, as XD-05's drums): the hearth's click then asks 'Destroy the lair?'; before it, the trolls' fire only.", opens: [], draw: false}
+  - {id: state:burn, kind: qbit, where: room:hearth, what: "Yes at the hearth: q-c15.lair sets lair_burnt (112301). Its event breaks the warren's destructibles (beds, hide curtains, bark piles: evt.DamageDestructible), sets a grey smoke mist (evt.SetMist) that a timer thickens for a minute, and opens the chimney.",
+     opens: [link:hearth_chimney]}
+exits:
+  - {id: exit:x5_mouth, space: room:mouth, at: [0, 0], kind: both, label: "X5: the warren's mouth",
+     neighbour: "The barrow mound's mouth in the Troll Forest (X5 thing:warren, cells about [65.5, 94.5]); the exit arrives 400 in front of the mouth, facing away"}
+  - {id: exit:x5_crown, space: room:chimney, at: [4, 0], kind: out, label: "X5: the mound's crown",
+     neighbour: "X5, on the mound's top beside the smoke holes (explicit coordinates; one way out)"}
+critical_path: [room:mouth, room:bone_hall, room:sleeping, room:spring, room:guard_tunnel, room:hearth]
+return_path: [room:hearth, room:chimney]
+loops:
+  - {id: loop:upper, spaces: [room:mouth, room:bone_hall, room:sleeping, room:spring, room:larder], notes: "Down the tunnel or down the larder's crawlway."}
+  - {id: loop:chimney, spaces: [room:mouth, room:bone_hall, room:sleeping, room:spring, room:guard_tunnel, room:hearth, room:chimney], notes: "Out up the chimney once the lair burns, back in at the mouth over X5."}
+lines:
+  - {text: "The stench of this cave tells you that Trolls have been living in it. It is filled with things that Trolls find valuable: Bones, straw beds, fist-sized rocks and hides. Destroy the lair?", ref: "aaze0008:2", where: "room:hearth (the burn question, after the Matron); its first sentence as the step message in room:mouth"}
+  - {text: "You burn everything you can, and what you cannot burn you throw outside.", ref: "aaze0008:3", where: room:hearth}
+  - {text: "They gnaw on our bark to sharpen their teeth in a most uncivilized fashion. Friends don't gnaw on friend's bark.", ref: "aaze0007:6", where: "X5, Thickbark (the giver); the gnawed bark in room:bone_hall"}
+  - {text: "Thank you for killing the trolls, civilized ones.", ref: "aaze0007:8", where: "X5, Thickbark"}
+open_questions:
+  - "The Troll Matron has no row: a boss in the Trolls' block (11074, 'Troll Matron', 32, look B, frenzy below half health like Hobstadt), or a Troll Guard 28 placed as her with no row?"
+  - "The burn: two lines exist, the source's 'You burn everything you can, and what you cannot burn you throw outside.' and A3's hook text ('The bedding and the gnawed bark catch at once ...'). Show the source's first, then A3's? Proposed both, in that order."
+  - "Smoke: a grey evt.SetMist thickened by a timer for about a minute, no damage. Or a timer that hurts the party a little each few seconds until it leaves the deep, to push it up the chimney?"
+  - "The chimney exit lands on X5 by explicit coordinates (a one-way out, as XD-10's second mouth needs). Keep it, or leave the warren only by its mouth?"
+  - "X5's mouth reads 'choked with bones and frozen hides from within'. Its click with the map built: 'You drag the frozen hides aside.' and in (proposed), or a barricade destructible just inside?"

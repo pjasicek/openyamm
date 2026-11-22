@@ -1,0 +1,23 @@
+{
+  "prompt": "Edit the FIRST image, the 1536x2048 transparent paint_mask_guide atlas, in place. Treat its alpha channel as a locked stencil. Second image supplies scrollwork, gemstone and metal design only; third supplies palette, discard magenta. Retain exact guide canvas and registration. Three columns by FOUR rows (512 px cells), huge blank spaces are intentional. All views EXCEPT middle column rows 2 and 4 are extremely thin horizontal slices or empty. Do not turn these into upright pendants. Rows 1 and 2 paint unlit base color silver scrollwork, oval violet cabochon with subtle mineral facets and interior swirls, short silver chain loop. Fit the design into the grey silhouette. No lighting, hot highlights, reflections, shadows, glow, outlines, text or ground. Rows 3 and 4 are the SAME views as above in the same pixel coordinates offset vertically by 1024px but exact categorical material ID masks ONLY. Solid pure #FF0000 everywhere on metal including chain and decorations; solid opaque #000000 on stone; #0000FF only on cloth or hair (none here). No texture, shading, outlines or blended interior mask colors. All background including every link hole fully transparent. Third column rows 2 and 4 entirely transparent. Never enlarge, move, rotate, reconstruct, crop or redesign any view. Return a single transparent 3:4 PNG. Correction: keep the guide's narrow polygonal main body, distinct wider upper bail block and angular open chain with individually open links. Trace the first input's pixels, applying ornament only inside. On the lower half use perfectly uniform solid red metal shapes like a binary segmentation label, absolutely no relief detail. Preserve the original silhouette exactly.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "c0f8f98f56116530b61cd79fadf65dcde734d5cb9743e6ae3dcb63e660925e3e"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "e00221817b3fdfb0b1b1ba988b3459ac8c120b68574e45980b5176b90952cce5"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "7b133578785eaab9fd0dece497959f2322a990b44d72ca98969f4dd9a4198ea9"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f928-e4e2-78a0-a3b5-fd0e52fcfc4f/exec-d50f8675-d12c-47e4-b4fc-02ff87201d16.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    1086,
+    1448
+  ]
+}

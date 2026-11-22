@@ -1,0 +1,240 @@
+# Q-D10 Princess Sheewana (QUESTS 2.2 Q-D10, 3.2: Hunter -> Ranger Lord on the polite route). Owner: A3.
+# Sharla's three answers: polite ("Certainly."), mercenary ("What will you give us?": more gold), robbery ("This is a
+# stick up!": the sprites attack). Orcs under Shaalth hold Sheewana in the Temple of Bark (DD-09; Nibbler's key, Q-D9).
+# Freeing her (her topic in DD-09) is the common step on every route: the quest's experience, and she moves to Sharla's
+# treehouse (4553). Sharla then pays: polite 2 disks + promotion, mercenary 2 disks + more gold; robbers nothing.
+# Energy Disks (M18: 2 + 2): Sharla's 2 (topic); the robbery route's alternative is the same 2 in her treehouse chest
+# after the sprites are dead (map_gives, barred once she has paid), as the source's "In this treehouse there once
+# lived many sprites..."; and 2 in the temple's root alcoves ("Feed me! Give gem?", one gem each, map_gives).
+id: Q-D10
+title: Princess Sheewana
+act: III
+kind: side
+status: full
+giver: 5101          # Sharla, Queen of the Sprites (Sharla's Treehouse, 4553)
+maps: [D2, DD-09]
+level: 23
+block: 90
+after: [m7.sigil]
+source: "QUESTS Q-D10; dark/aaze0012:22-34 (Sharla), dark/aaze0075:18-21 (Sheewana, Shaalth), dark/aaze0077:0, :14 (the alcoves)"
+
+qbits:
+  started: {id: 113200, journal: "The Orcs have kidnapped Princess Sheewana, a sister of the Sprites, into the Temple of Bark. Sharla asks for help.",
+            until: [done]}
+  polite: {id: 113201, note: "'Certainly.'"}
+  mercenary: {id: 113202, note: "'What will you give us?'"}
+  robbery: {id: 113203, note: "'This is a stick up!': A2's relations.yml turns D2's village sprites (xeen_sprites_village) hostile"}
+  shaalth_slain: {id: 113204, note: "DD-09, Shaalth the Orc King's death (hook shaalth)"}
+  cage_opened: {id: 113205, note: "DD-09, Sheewana's cage (hook cage)"}
+  sheewana_freed: {id: 113206, note: "Sheewana's topic: she goes home to 4553"}
+  done: {id: 113207, note: "Sharla paid"}
+  sprites_slain: {id: 113208, note: "D2 sets it when the treehouse village's sprites are dead (robbery; hook sprites_slain)"}
+  treehouse_looted: {id: 113209, note: "D2's treehouse chest (hook treehouse)"}
+  root_west: {id: 113210, note: "DD-09's west root alcove (hook root_west)"}
+  root_east: {id: 113211, note: "DD-09's east root alcove (hook root_east)"}
+  thanks_nathan: {id: 113212, note: "Nathan thanked the party (DD-09's pens)"}
+  thanks_sky: {id: 113213, note: "Sky thanked the party (DD-09's pens)"}
+  thanks_snog: {id: 113214, note: "Snog thanked the party (DD-09's cells)"}
+  thanks_alicia: {id: 113215, note: "Alicia thanked the party (DD-09's cells)"}
+  disciples: {id: 113216, note: "the Crystal Water drunk after the Disciples' dials and lever (D-27; hook crystal_water)"}
+  dd09_arrived_once: {id: 117120, map: DD-09, note: "the map's own: first arrival in DD-09 (A8)"}
+  prisoners_freed: {id: 117121, map: DD-09, note: "the map's own: the pens' lever freed the four prisoners; they are hidden on the next entry (A8, D-27)"}
+
+player_bits:         # DD-09's, once per character (A8's provisional numbers, D-27)
+  red_flask: {id: 11315, map: DD-09, note: "the Chapel of Sap's red flask: +2 Might (base)"}
+  blue_flask: {id: 11316, map: DD-09, note: "the Chapel of Sap's blue flask: +2 Personality (base)"}
+  black_barrel: {id: 11317, map: DD-09, note: "the sap store's black barrel: +1 to all seven stats and one year of age"}
+  fountain_fire: {id: 11306, map: DD-09, note: "the crown's fire fountain drunk (D-37: once per character; was map qbit 117122; dark/aaze0077)"}
+  fountain_air: {id: 11307, map: DD-09, note: "the crown's air fountain drunk (D-37: once per character; was map qbit 117123)"}
+  fountain_water: {id: 11308, map: DD-09, note: "the crown's water fountain drunk (D-37: once per character; was map qbit 117124)"}
+  fountain_body: {id: 11309, map: DD-09, note: "the crown's body fountain drunk (D-37: once per character; was map qbit 117125)"}
+
+awards:
+  disciple: {id: 418, text: "Disciple of Bark", sort: 30}
+
+autonotes:
+  temple: {id: 4500, text: "Princess Sheewana is held by Shaalth's Orcs in the Temple of Bark, the great tree in Sprite Forest. Nibbler has the key.", category: Misc}
+  freed: {id: 4501, text: "Sheewana is free and on her way home to Sharla's treehouse.", category: Misc}
+
+items:
+  energy_disk: "2 from Sharla (or her treehouse chest, robbery), 2 in DD-09's root alcoves (M18)"
+
+npcs:
+  5101:              # Sharla
+    topics:
+      - n: 1
+        label: Sheewana
+        states:
+          - when: {qbit: robbery}
+            text: "You came into our forest with your hands on your purses and ours. We pay nothing to robbers."
+          - when: {qbit: done}
+            text: "We are always pleased to see heroes such as yourselves. You are welcome in our forest."
+          - when: {all: [{qbit: sheewana_freed}, {qbit: polite}]}
+            text: "Thank you! It is good to see her back. Here is your reward. And those of you who hunt: the forest has taught you all it can. Walk it now as its lords."
+            do: [{set: done}, {give: energy_disk, count: 2}, {gold: 1000}, {promote: sprites}]
+          - when: {qbit: sheewana_freed}
+            text: "Thank you! It is good to see her back. Here is your reward: two Energy Disks and a LOT of gold, as agreed."
+            do: [{set: done}, {give: energy_disk, count: 2}, {gold: 3000}]
+          - when: {any: [{qbit: polite}, {qbit: mercenary}]}
+            text: "You have not rescued her yet. Keep trying. We think she was taken by the Orcs into the Temple of Bark."
+          - text: "I am Sharla, First of the Sprites. We have a problem. The Orcs have kidnapped one of our sisters. Can you help her?"
+            do: [{set: started}, {autonote: temple}]
+      - n: 2
+        label: Certainly
+        show: {all: [{qbit: started}, {not: {qbit: polite}}, {not: {qbit: mercenary}}, {not: {qbit: robbery}}]}
+        text: "Thank you so much! Go to the Temple of Bark and free her!"
+        do: [{set: polite}]
+      - n: 3
+        label: "What's in it for us?"
+        show: {all: [{qbit: started}, {not: {qbit: polite}}, {not: {qbit: mercenary}}, {not: {qbit: robbery}}]}
+        text: "We have two Energy Disks and some gold to give you after you rescue her. A LOT of gold? Very well. A lot. Go to the Temple of Bark and free her!"
+        do: [{set: mercenary}]
+      - n: 4
+        label: This is a stick up!
+        show: {all: [{qbit: started}, {not: {qbit: polite}}, {not: {qbit: mercenary}}, {not: {qbit: robbery}}]}
+        text: "Sisters, we are under attack! Stop them!"
+        do: [{set: robbery}]
+  5107:              # Princess Sheewana (DD-09 until freed)
+    topics:
+      - n: 5
+        label: Home
+        states:
+          - when: {qbit: sheewana_freed}
+            text: "Take me home. Oh, you did. How proper."
+          - when: {qbit: cage_opened}
+            text: "Thank you for freeing me. I will return now to my sisters and tell them of your heroic deed!"
+            do: [{set: sheewana_freed}, {autonote: freed}, {xp: 6000}, {move_npc: [5107, 4553]}]
+          - text: "You came for me? Oh, how proper. The cage is locked, and Shaalth keeps the key on his belt."
+
+  5111:              # Nathan (DD-09, a prisoner; A4's d2.yml)
+    topics:
+      - n: 6
+        label: Thanks
+        states:
+          - when: {qbit: thanks_nathan}
+            text: "Orcs can't jump. Remember that, and their ledges are yours."
+          - text: "Thank you for rescuing me from these foul orcs. Remember, Orcs can't jump."
+            do: [{set: thanks_nathan}, {xp: 500}]
+  5112:              # Sky (DD-09, a prisoner; A4's d2.yml)
+    topics:
+      - n: 7
+        label: Thanks
+        states:
+          - when: {qbit: thanks_sky}
+            text: "The sun! Somewhere up there. I'm going to go and look at it for a week."
+          - text: "Thank you for saving me. I haven't seen the sun in days!"
+            do: [{set: thanks_sky}, {xp: 500}]
+  5113:              # Snog (DD-09, a prisoner; A4's d2.yml)
+    topics:
+      - n: 8
+        label: Thanks
+        states:
+          - when: {qbit: thanks_snog}
+            text: "Snog not do evil. Snog not go back in cell either."
+          - text: "The rest of the Orcs imprisoned me for refusing to do evil. Thanks for getting me out of there."
+            do: [{set: thanks_snog}, {xp: 500}]
+  5114:              # Alicia the Just (DD-09, a prisoner; A4's d2.yml)
+    topics:
+      - n: 9
+        label: Thanks
+        states:
+          - when: {qbit: thanks_alicia}
+            text: "Don't drink the Shaman's tea. I mean it."
+          - text: "The Orc Shaman tells lies, and his tea is poisonous. Watch yourself."
+            do: [{set: thanks_alicia}, {xp: 500}]
+
+hooks:
+  voice:
+    map: DD-09
+    where: "the temple's first hall, at the trunk: a voice from the wood"
+    text: "A voice bellows: 'Feed the roots and the tree shall bear fruit! Feed the limbs and suffer the wrath of BARKMAN!'"
+  root_west:
+    map: DD-09
+    gate: beat
+    where: "the west alcove at the foot of the trunk (a root alcove): 'Feed me! Give gem?' One gem; the map places 1 Energy Disk"
+    requires: {lua: "Xeen.gemCount() >= 1"}
+    sets: [root_west]
+    once: true
+    do: [{lua: "Xeen.payGems(1)"}]
+    map_gives: {energy_disk: 1}
+    text: "The root drinks the gem. The bark parts on an Energy Disc."
+    fail_text: "Feed me! Give gem? (You have no gem. The root sulks.)"
+    else_text: "The root is fed."
+  root_east:
+    map: DD-09
+    gate: beat
+    where: "the east root alcove, as the west one: 1 Energy Disk for one gem"
+    requires: {lua: "Xeen.gemCount() >= 1"}
+    sets: [root_east]
+    once: true
+    do: [{lua: "Xeen.payGems(1)"}]
+    map_gives: {energy_disk: 1}
+    text: "The root drinks the gem. The bark parts on an Energy Disc."
+    fail_text: "Feed me! Give gem? (You have no gem. The root sulks.)"
+    else_text: "The root is fed."
+  limb_alcoves:
+    map: DD-09
+    where: "the alcoves in the branches above (limb alcoves): 'Feed me! Give gem?' too, but a gem here wakes Barkman (optional, level 60; A8 places him)"
+    text: "The limb swallows the gem. Deep in the trunk, something very large and very wooden wakes up."
+  book_of_ascension:
+    map: DD-09
+    where: "the Book of Ascension in the Disciples' chapel (D-27): the dials' order and the Crystal Water"
+    text: "Only a scrap of the original text remains legible: ...set the Western dials to 1, Northern to 2, and Eastern to 3. To join the Way of Bark, pull lever and drink of the Crystal Water."
+  crystal_water:
+    map: DD-09
+    where: "the Crystal Water in the Disciples' chapel, after the right dials and the lever (D-27): the map opens the vault (treasure 3); every member becomes a Disciple of Bark (award, no stat). Before the lever the map shows the source's 'The water is stagnant.'"
+    sets: [disciples]
+    once: true
+    do: [{award: disciple}, {lua: "evt.PlaySoundName(\"xeen_spring_drink\")"}]
+    text: "You are hereby dubbed a Disciple of Bark!"
+    else_text: "The water is cool and refreshing."
+  dark_water:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-09
+    where: "the Dark Water beside it (D-27): the map poisons the clicking member and takes about a tenth of HP, never a death"
+    text: "The poisonous water burns your throat as you take a long drink. Violent tremors wrack your body. They pass, which is more than the water intended."
+  kettle:
+    map: DD-09
+    where: "the Orc Shaman's kettle (D-27): the map shows this, then asks \"Drink?\"; Yes poisons the clicking member (kettle_drunk); repeatable"
+    text: "Other beings say that we Orcs just aren't civilized. I now invite you in for a cup of tea to debate on this issue."
+  kettle_drunk:
+    map: DD-09
+    where: "the kettle, after Yes"
+    text: "The tea is hot, sweet and poisonous. The debate is over, and the Orcs won it."
+  shaalth:
+    map: DD-09
+    where: "Shaalth the Orc King's death (monster 11043, his hall)"
+    sets: [shaalth_slain]
+  cage:
+    map: DD-09
+    gate: order
+    where: "Sheewana's cage in Shaalth's hall: opens with Shaalth dead (his key)"
+    requires: {qbit: shaalth_slain}
+    sets: [cage_opened]
+    once: true
+    text: "Shaalth's key turns in the cage lock. The princess steps out and straightens her wings."
+    fail_text: "A cage of woven roots, locked. The princess inside waves politely."
+    else_text: "The cage is open and empty."
+  sprites_hostile:
+    map: D2
+    where: "the treehouse village's sprites: hostile once robbery is set (A6)"
+    reads: [robbery]
+  sprites_slain:
+    map: D2
+    where: "the treehouse village's sprites all dead (A6)"
+    sets: [sprites_slain]
+  treehouse:
+    map: D2
+    where: "the chest in Sharla's treehouse (4553's tree): the robbery route's 2 Energy Disks, the same two Sharla pays otherwise"
+    requires: {all: [{qbit: sprites_slain}, {not: {qbit: done}}]}
+    sets: [treehouse_looted]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "In this treehouse there once lived many sprites, but someone murdered the lot of them. You find two energy disks."
+    fail_text: "A sprite's chest, with a sprite sitting on it."
+    else_text: "An empty chest in an empty tree."
+
+rewards: {xp: 6000, gold: "1000 (polite) or 3000 (mercenary)", items: "2 Energy Disks (+2 in the alcoves)", promotion: "Hunter -> Ranger Lord (Light, polite route)"}
+notes:
+  - "relations.yml (A2, a rule on 113203, the stick-up; no Lua sets relations): D2's village sprites (xeen_sprites_village) friendly until it is set, then hostile for good. Snog (DD-09) talks on actor row 11044."
+playthrough: "D2: Sharla (Sheewana; Certainly). DD-09 (Nibbler's key): the root alcoves (2 gems); kill Shaalth; the cage; Sheewana (Home). D2: Sharla (Sheewana)."

@@ -1,0 +1,697 @@
+format: 0
+start:
+  room: room:mouth
+  at: [384, -3072]
+  facing: e
+  notes: "entrance:x7_mouth: 384 inside the mouth, facing east toward the office's front."
+arrivals:
+  - {entrance: entrance:x7_mouth, room: room:mouth, at: [384, -3072], facing: e, notes: "384 inside X7's mouth, facing east toward the office's front and its doorway (X7's door:xd18, A5)."}
+doors:
+  - id: door:grate
+    opening: open:throne_hoard
+    kind: slide_up
+    thickness: 16
+    speed: 48
+    surface: {texture: xkportc, size: [256, 256]}
+    tile: true
+    notes: "The hoard's grate behind the dais: it rises at the Dragon King's death (118101) and stays up on every load."
+  - id: door:inner
+    opening: open:hall_scorch
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtrlrf3, size: [128, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The inner door: it opens to everyone (D-89; q-c25.inner_door, 118100 keeps it open); from the passage it always opens."
+  - id: door:king
+    opening: open:kings_throne
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtrlrf3, size: [128, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The King's door: two bronze leaves 384 wide in all, 288 high (D-32)."
+  - id: door:library_e
+    opening: open:ember_library
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtrlrf3, size: [128, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: "The library's east leaves (288 high, D-32)."
+  - id: door:library_n
+    opening: open:frost_library
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtrlrf3, size: [128, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: The library's north leaves (288 high).
+  - id: door:waiting
+    opening: open:hall_waiting
+    kind: hinged
+    leaves: 2
+    thickness: 24
+    edge_surface: {texture: gtrlrf3, size: [128, 128]}
+    pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    back_pictures:
+      - [{texture: gkp103a, size: [128, 256]}, {texture: gkp103b, size: [128, 256]}]
+    notes: The waiting room's doors (gkp103a/gkp103b).
+ladders:
+  - {id: ladder:pool, room: room:pools, at: [9600, 1552], facing: s, height: 64, exit: [9600, 1472], grab_at_top: true, surface: {texture: bemv, size: [32, 256], uneven: true}, notes: "F14: rungs out of the steaming pool onto its south bank."}
+sounds:
+  - {id: sound:bed, room: room:roost, at: [6656, -832], sound: humming, radius: 9000, inner_radius: 4000, volume: 0.35, notes: The cave's hum under both floors (D-48)., pan: false}
+  - {id: sound:mouth, room: room:mouth, at: [200, -3072], sound: whistling wind, radius: 1400, inner_radius: 300, volume: 0.3, notes: X7's wind at the mouth., pan: false}
+  - {id: sound:wind, room: room:starwell, at: [4736, 2300], sound: whistling wind, radius: 2600, inner_radius: 900, volume: 0.45, notes: The wind over the rim through the slot., pan: false}
+lights:
+  - id: light:crossing
+    room: room:crossing
+    at: [8960, -1728]
+    height: 96
+    radius: 1100
+    color: [255, 120, 60]
+    brightness: 14
+    notes: Warm air through the cracks.
+  - id: light:daylight
+    room: room:mouth
+    at: [96, -3072]
+    height: 320
+    radius: 1400
+    color: [255, 236, 200]
+    brightness: 30
+    notes: Daylight from X7 through the mouth.
+  - id: light:egg
+    room: room:egg
+    at: [8960, -3008]
+    height: 96
+    radius: 900
+    color: [255, 120, 60]
+    brightness: 14
+    notes: The nest's warmth.
+  - id: light:ember_1
+    room: room:ember
+    at: [3600, -384]
+    height: 64
+    radius: 900
+    color: [255, 120, 60]
+    brightness: 16
+    notes: Embers in the cracks.
+  - id: light:ember_2
+    room: room:ember
+    at: [4500, -384]
+    height: 64
+    radius: 900
+    color: [255, 120, 60]
+    brightness: 16
+    notes: Embers in the cracks.
+  - id: light:hoard
+    room: room:hoard
+    at: [-3840, -128]
+    height: 160
+    radius: 900
+    color: [235, 170, 100]
+    brightness: 18
+    notes: Gold in the dark.
+  - id: light:pool
+    room: room:pools
+    at: [9600, 1792]
+    height: 160
+    radius: 1400
+    color: [255, 120, 60]
+    brightness: 16
+    notes: The hot pool's glow.
+  - id: light:roost_1
+    room: room:roost
+    at: [6000, -600]
+    height: 300
+    radius: 1800
+    color: [255, 120, 60]
+    brightness: 14
+    notes: Embers on the roost's floor.
+  - id: light:roost_2
+    room: room:roost
+    at: [7400, 0]
+    height: 300
+    radius: 1800
+    color: [255, 120, 60]
+    brightness: 14
+    notes: Embers on the roost's floor.
+  - id: light:slot
+    room: room:starwell
+    at: [4736, 2500]
+    height: 900
+    radius: 2600
+    color: [170, 200, 255]
+    brightness: 28
+    notes: Starlight and cold through the slot.
+  - id: light:throne
+    room: room:throne
+    at: [-2624, -128]
+    height: 400
+    radius: 2200
+    color: [235, 170, 100]
+    brightness: 18
+    notes: The gold's glow round the dais.
+  - id: light:torch_01
+    room: room:tax_hall
+    at: [1164, -3584]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_02
+    room: room:tax_hall
+    at: [2676, -2800]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_03
+    room: room:waiting
+    at: [1600, -2292]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_04
+    room: room:library
+    at: [908, -600]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_05
+    room: room:library
+    at: [2932, -600]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_06
+    room: room:library
+    at: [1408, 372]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_07
+    room: room:library
+    at: [2432, 372]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_08
+    room: room:kings_door
+    at: [-256, 116]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_09
+    room: room:kings_door
+    at: [512, -628]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:torch_10
+    room: room:mouth
+    at: [512, -2700]
+    height: 256
+    radius: 800
+    color: [235, 170, 100]
+  - id: light:vent_1
+    room: room:vents
+    at: [6600, -4600]
+    height: 96
+    radius: 1200
+    color: [230, 220, 120]
+    brightness: 14
+    notes: Steam glowing over a vent.
+  - id: light:vent_2
+    room: room:vents
+    at: [8600, -4400]
+    height: 96
+    radius: 1200
+    color: [230, 220, 120]
+    brightness: 14
+    notes: Steam glowing over a vent.
+chests:
+  - id: chest:den
+    room: room:den
+    at: [11728, 1792]
+    kind: gt002
+    facing: n
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The east den's chest (T6).
+  - id: chest:egg
+    room: room:egg
+    at: [9472, -3536]
+    kind: gt002
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The mother's hoard by the wall (T6).
+  - id: chest:hoard
+    room: room:hoard
+    at: [-4304, -128]
+    kind: gt002
+    facing: s
+    treasure_level: 6
+    random_items: 5
+    gold: 8000
+    notes: The King's chest (T6).
+  - id: chest:rime
+    room: room:rime
+    at: [-208, 768]
+    kind: gt002
+    facing: s
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The frozen hoard (T6).
+  - id: chest:strongbox
+    room: room:last
+    at: [2720, -5072]
+    kind: gt002
+    facing: e
+    treasure_level: 6
+    random_items: 3
+    gold: 4000
+    notes: The knight's strongbox (T6).
+monsters:
+  - id: monster:bone_hall_1
+    room: room:bone_hall
+    monster: 11641
+    at: [4400, -3500]
+    facing: 90
+    group: 10
+  - id: monster:bone_hall_2
+    room: room:bone_hall
+    monster: 11641
+    at: [4900, -3100]
+    facing: 90
+    group: 10
+  - id: monster:bone_hall_3
+    room: room:bone_hall
+    monster: 11641
+    at: [5400, -2560]
+    facing: 90
+    group: 14
+  - id: monster:bone_hall_4
+    room: room:bone_hall
+    monster: 11641
+    at: [5770, -2900]
+    facing: 90
+    group: 14
+  - id: monster:crossing_1
+    room: room:crossing
+    monster: 11642
+    at: [8800, -1600]
+    facing: 180
+    group: 15
+  - id: monster:crossing_2
+    room: room:crossing
+    monster: 11642
+    at: [9200, -1900]
+    facing: 180
+    group: 15
+  - id: monster:den_1
+    room: room:den
+    monster: 11642
+    at: [11000, 1550]
+    facing: 180
+    group: 22
+  - id: monster:den_2
+    room: room:den
+    monster: 11642
+    at: [11450, 2050]
+    facing: 180
+    group: 22
+  - id: monster:egg_1
+    room: room:egg
+    monster: 11642
+    at: [8960, -3008]
+    facing: 90
+    group: 16
+  - id: monster:ember_1
+    room: room:ember
+    monster: 11642
+    at: [3700, -400]
+    facing: 0
+    group: 25
+  - id: monster:ember_2
+    room: room:ember
+    monster: 11642
+    at: [4300, -380]
+    facing: 0
+    group: 25
+  - id: monster:frost_1
+    room: room:frost
+    monster: 11643
+    at: [1800, 1200]
+    facing: 0
+    group: 28
+  - id: monster:frost_2
+    room: room:frost
+    monster: 11643
+    at: [2600, 1100]
+    facing: 0
+    group: 28
+  - id: monster:hollows_1
+    room: room:hollows
+    monster: 11641
+    at: [4400, -4500]
+    facing: 0
+    group: 11
+  - id: monster:hollows_2
+    room: room:hollows
+    monster: 11641
+    at: [4900, -4900]
+    facing: 0
+    group: 11
+  - id: monster:hollows_3
+    room: room:hollows
+    monster: 11641
+    at: [5100, -4300]
+    facing: 180
+    group: 12
+  - id: monster:king
+    room: room:throne
+    monster: 11645
+    at: [-2624, -128]
+    facing: 0
+    group: 33
+    notes: "The Dragon King (11645, 110; S's skin xcdr_king to come) on top of his mound of gold."
+  - id: monster:library_1
+    room: room:library
+    monster: 11643
+    at: [1500, -300]
+    facing: 270
+    group: 31
+  - id: monster:library_2
+    room: room:library
+    monster: 11643
+    at: [2400, -200]
+    facing: 270
+    group: 31
+  - id: monster:old_roost_1
+    room: room:old_roost
+    monster: 11642
+    at: [6900, 1100]
+    facing: 0
+    group: 23
+  - id: monster:old_roost_2
+    room: room:old_roost
+    monster: 11642
+    at: [7400, 1700]
+    facing: 0
+    group: 23
+  - id: monster:old_roost_3
+    room: room:old_roost
+    monster: 11642
+    at: [6800, 1800]
+    facing: 0
+    group: 24
+  - id: monster:pools_1
+    room: room:pools
+    monster: 11642
+    at: [8700, 1560]
+    facing: 0
+    group: 20
+  - id: monster:pools_2
+    room: room:pools
+    monster: 11642
+    at: [8800, 2120]
+    facing: 0
+    group: 20
+  - id: monster:pools_3
+    room: room:pools
+    monster: 11642
+    at: [10400, 1800]
+    facing: 180
+    group: 21
+  - id: monster:rime_1
+    room: room:rime
+    monster: 11643
+    at: [100, 1400]
+    facing: 0
+    group: 29
+  - id: monster:rime_2
+    room: room:rime
+    monster: 11643
+    at: [750, 1400]
+    facing: 0
+    group: 29
+  - id: monster:rime_3
+    room: room:rime
+    monster: 11643
+    at: [450, 900]
+    facing: 0
+    group: 30
+  - id: monster:roost_1
+    room: room:roost
+    monster: 11642
+    at: [5800, -1000]
+    facing: 0
+    group: 17
+  - id: monster:roost_2
+    room: room:roost
+    monster: 11642
+    at: [6300, -300]
+    facing: 0
+    group: 17
+  - id: monster:roost_3
+    room: room:roost
+    monster: 11642
+    at: [7400, -800]
+    facing: 180
+    group: 18
+  - id: monster:roost_4
+    room: room:roost
+    monster: 11642
+    at: [7000, 100]
+    facing: 180
+    group: 18
+  - id: monster:roost_5
+    room: room:roost
+    monster: 11643
+    at: [6000, 200]
+    facing: 270
+    group: 19
+  - id: monster:roost_6
+    room: room:roost
+    monster: 11643
+    at: [6800, -1100]
+    facing: 90
+    group: 19
+  - id: monster:starwell_1
+    room: room:starwell
+    monster: 11643
+    at: [4200, 1500]
+    facing: 90
+    group: 26
+  - id: monster:starwell_2
+    room: room:starwell
+    monster: 11643
+    at: [5000, 2000]
+    facing: 90
+    group: 26
+  - id: monster:starwell_3
+    room: room:starwell
+    monster: 11643
+    at: [5300, 1200]
+    facing: 90
+    group: 27
+  - id: monster:throne_1
+    room: room:throne
+    monster: 11643
+    at: [-1700, 300]
+    facing: 0
+    group: 32
+  - id: monster:throne_2
+    room: room:throne
+    monster: 11643
+    at: [-1700, -800]
+    facing: 0
+    group: 32
+  - id: monster:vents_1
+    room: room:vents
+    monster: 11641
+    at: [7200, -4600]
+    facing: 180
+    group: 13
+  - id: monster:vents_2
+    room: room:vents
+    monster: 11641
+    at: [7900, -4500]
+    facing: 180
+    group: 13
+decorations:
+  - id: deco:bones_1
+    room: room:bone_hall
+    decoration: dec29
+    at: [4150, -3700]
+  - id: deco:bones_2
+    room: room:bone_hall
+    decoration: 7dec18
+    at: [5700, -3650]
+  - id: deco:bones_3
+    room: room:bone_hall
+    decoration: dec19
+    at: [4200, -2500]
+  - id: deco:bones_4
+    room: room:mouth
+    decoration: dec29
+    at: [700, -3350]
+  - id: deco:bones_5
+    room: room:hollows
+    decoration: dec29
+    at: [4200, -5200]
+  - id: deco:bones_6
+    room: room:roost
+    decoration: dec19
+    at: [5400, 300]
+  - id: deco:bones_7
+    room: room:throne
+    decoration: 7dec18
+    at: [-1000, 600]
+  - id: deco:bowls_1
+    room: room:throne
+    decoration: dec32
+    at: [-2250, 150]
+  - id: deco:bowls_2
+    room: room:hoard
+    decoration: dec32
+    at: [-3700, -420]
+  - id: deco:ember_1
+    room: room:ember
+    decoration: Brnrock0
+    at: [3600, -700]
+    notes: Embers in the cracks of the dragon road.
+  - id: deco:ember_2
+    room: room:ember
+    decoration: Brnrock0
+    at: [4500, -60]
+    notes: Embers in the cracks of the dragon road.
+  - id: deco:goblet_1
+    room: room:throne
+    decoration: 7dec46
+    at: [-2300, 420]
+  - id: deco:goblet_2
+    room: room:throne
+    decoration: 7dec48
+    at: [-2300, -560]
+  - id: deco:goblet_3
+    room: room:hoard
+    decoration: 7dec46
+    at: [-3700, 160]
+  - id: deco:knight
+    room: room:last
+    decoration: dec05
+    at: [2720, -4736]
+    floor_height: 24
+    notes: The knight's remains.
+  - id: deco:skull_1
+    room: room:bone_hall
+    decoration: 7dec20
+    at: [5100, -3700]
+  - id: deco:steam_1
+    room: room:vents
+    decoration: smoke
+    at: [6600, -4600]
+    notes: Yellow steam from a vent.
+  - id: deco:steam_2
+    room: room:vents
+    decoration: smoke
+    at: [7600, -5000]
+    notes: Yellow steam from a vent.
+  - id: deco:steam_3
+    room: room:vents
+    decoration: smoke
+    at: [8600, -4400]
+    notes: Yellow steam from a vent.
+  - id: deco:steam_4
+    room: room:pools
+    decoration: smoke
+    at: [9400, 1792]
+    floor_height: -1088
+    notes: Steam off the hot pool.
+  - id: deco:steam_5
+    room: room:pools
+    decoration: smoke
+    at: [9850, 1800]
+    floor_height: -1088
+    notes: Steam off the hot pool.
+  - id: deco:torch_01
+    room: room:tax_hall
+    decoration: torch01
+    at: [1164, -3584]
+    height: 224
+  - id: deco:torch_02
+    room: room:tax_hall
+    decoration: torch01
+    at: [2676, -2800]
+    height: 224
+  - id: deco:torch_03
+    room: room:waiting
+    decoration: torch01
+    at: [1600, -2292]
+    height: 224
+  - id: deco:torch_04
+    room: room:library
+    decoration: torch01
+    at: [908, -600]
+    height: 224
+  - id: deco:torch_05
+    room: room:library
+    decoration: torch01
+    at: [2932, -600]
+    height: 224
+  - id: deco:torch_06
+    room: room:library
+    decoration: torch01
+    at: [1408, 372]
+    height: 224
+  - id: deco:torch_07
+    room: room:library
+    decoration: torch01
+    at: [2432, 372]
+    height: 224
+  - id: deco:torch_08
+    room: room:kings_door
+    decoration: torch01
+    at: [-256, 116]
+    height: 224
+  - id: deco:torch_09
+    room: room:kings_door
+    decoration: torch01
+    at: [512, -628]
+    height: 224
+  - id: deco:torch_10
+    room: room:mouth
+    decoration: torch01
+    at: [512, -2700]
+    height: 224
+  - id: deco:urn
+    room: room:tax_hall
+    decoration: dec97
+    at: [1536, -3632]
+    floor_height: 104
+    notes: The brass urn on the counter's sill.
+exits:
+  - id: exit:mouth
+    room: room:mouth
+    wall: west
+    size: [512, 448]
+    surface: {texture: 7solid01, size: [256, 128], fit: true, uneven: true}
+    to: exit:x7_mouth
+    notes: "The cave mouth: X7's daylight on the rim crag."

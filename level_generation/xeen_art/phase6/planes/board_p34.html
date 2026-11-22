@@ -1,0 +1,144 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Planes p34</title><style>
+:root { --bg: #f4f1ea; --ink: #1d1d1f; --muted: #5d5a55; --rule: #d8d2c4; --accent: #6a3410; --card: #fffdf8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 "DejaVu Sans", sans-serif; }
+main { width: 2200px; padding: 28px 32px 36px; }
+h1 { font-size: 32px; margin: 0 0 4px; }
+h2 { font-size: 19px; margin: 22px 0 8px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+h3 { font-size: 16px; margin: 12px 0 6px; }
+.sub { color: var(--muted); margin-bottom: 14px; max-width: 2100px; }
+.row { display: grid; grid-template-columns: 1090px 1fr; gap: 24px; align-items: start; margin-bottom: 18px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; }
+.plan img { width: 1060px; height: 1060px; display: block; }
+.concept { position: relative; }
+.concept img.c { width: 100%; display: block; border-radius: 4px; }
+.concept img.b { position: absolute; left: 22px; top: 52px; width: 270px; border: 3px solid #fff; }
+.concept p { margin: 6px 0 4px; color: var(--muted); font-size: 13.5px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 3px 7px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.n { text-align: right; white-space: nowrap; }
+.ok { color: #1f6b35; font-weight: 600; } .warn { color: #a05a00; font-weight: 600; }
+.q li { margin: 7px 0; font-size: 13.5px; } .q b { color: #5a2a08; }
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.small { font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-block; margin: 2px 14px 2px 0; font-size: 13px; }
+.sw { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; margin-right: 5px; border: 1px solid #555; }
+code { font-size: 12.5px; }
+</style></head><body><main>
+<h1>P3 Plane of Earth of Xeen and P4 Plane of Water of Xeen: phase 6 L1 (MU-3 plans, MU-4 concepts)</h1>
+<div class="sub">A6's planes sub-agent, 2026-11-21. One family for the four elemental planes: arrival from a D7 corner (quiet) &rarr; the statue and its plaque &rarr; the test of the element ('Accept the test?' raises the guardians: the Sleeper's Guardian 75 and two Greater elementals 70) &rarr; the sleeper's chamber behind the gate the test opens (the couch, the test's chest) &rarr; the return dais to D7; the way up at the arrival is always open. 27 placed in 10 groups of 2-3 plus the test's 3; the source's nine hazard squares; small M by floor. Plans drawn on the proposed defaults of the open questions. Briefs: <code>devdocs/xeen/briefs/p3/L1/</code>, <code>devdocs/xeen/briefs/p4/L1/</code> (oymap fmt, fmt --check, validate: clean).</div>
+<div class="legend small">
+<span><i class="sw" style="background:#0b6b3a"></i>arrival (entrance:d7_fall)</span>
+<span><i class="sw" style="background:#111;border-radius:50%"></i>way up (to D7, always)</span>
+<span><i class="sw" style="background:#777;border-radius:50%"></i>return dais (to D7, after the sleeper)</span>
+<span><i class="sw" style="background:#7a1f6a"></i>statue and plaque</span>
+<span><i class="sw" style="background:#e0a800"></i>test pedestal</span>
+<span><i class="sw" style="background:#1d5fa8"></i>sleeper's couch</span>
+<span><i class="sw" style="background:#b8860b;transform:rotate(45deg)"></i>chest</span>
+<span><i class="sw" style="background:#9b59b6;border-radius:50%"></i>device or find</span>
+<span><i class="sw" style="background:#d0302a;border-radius:50%"></i>group (count x level)</span>
+<span><i class="sw" style="background:#fff;border:2px dashed #7a0f0a;border-radius:50%"></i>the test's guardians</span>
+<span><i class="sw" style="background:#ffb020"></i>hazard cell</span>
+<span><i class="sw" style="background:repeating-linear-gradient(45deg,#2e8b57 0 2px,transparent 2px 6px)"></i>quiet (no spawns)</span>
+<span><i class="sw" style="background:#ffe27a"></i>the walk (ticks every 2,048)</span>
+<span><i class="sw" style="background:#1f6fd1;opacity:.5"></i>MU-4 camera</span>
+<span><i class="sw" style="background:#000"></i>sleeper's gate (opens on the passed test)</span>
+</div>
+<h2>P3 Plane of Earth of Xeen: a cavern-like bowl under a dust sky</h2>
+<div class="row">
+<div class="card plan"><img src="p3/plan_p3.png"></div>
+<div>
+<div class="card concept">
+<img class="c" src="raw/p3_arrival_v1.png"><img class="b" src="p3/blockout_p3.png">
+<p>MU-4 arrival concept <code>raw/p3_arrival_v1.png</code> (one codex exec, no retry); inset: the blockout from the same camera.</p>
+<p style="color:#1d1d1f">`planes_concepts.py p3`: one `codex exec`, first attempt, 62 s; raw `planes/raw/p3_arrival_v1.png` with its prompt and log. References: the arrival blockout, the Darkside day sky (for the manner of dim amber light), MM8&#x27;s `gwspotwl` and `gwsphlfl`. It shows the Dust Ledge&#x27;s packed earth, the seated granite giant on its plinth left, a field of standing stones in the middle, the Anvil&#x27;s cracked bedrock ringed by monoliths right, the Sleeper&#x27;s Hollow glowing amber under the overhang between them, scree and boulders in the drops, crystals in the walls and a brown dust sky. Against the plan (the plan wins at L2-L3): the bowl reads shallow (the scree lies 1,024 under the arrival, the Hollow 768); the walls read as quarried steps rather than leaning cavern walls; the Pillar Field is squared monoliths, the plan&#x27;s are rough pillars like petrified trees.</p></div>
+<div class="card" style="margin-top:12px"><p class="small" style="margin:0 0 6px">The Plane of Earth of Xeen: a bowl of raw stone under a ceiling of brown dust, its walls leaning in like a cavern&#x27;s. Terraces step down the pit past a quarry no one finished, a hall of split geodes and a field of stone pillars; at the bottom the Anvil, a floor of bare bedrock ringed by monoliths where the test of Earth waits, and below it, down the Root Stair, the Sleeper&#x27;s Hollow.</p><table><tr><th>Figure</th><th>Plan</th><th></th></tr>
+<tr><td>Form</td><td>a cavern-like bowl under a dust sky</td><td></td></tr>
+<tr><td>Room</td><td>26 x 26 cells; floors 23.1 x 22.6</td><td></td></tr>
+<tr><td>Walkable floor (S 7-20, M 30-90 M units)</td><td>49.5 M</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Scree</td><td>91.3 M, 65 % of the basin; farthest from a way out 4,189</td><td></td></tr>
+<tr><td>Placed hostiles (30)</td><td>30 = 27 in 10 groups + 3 in the test</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Levels (55-70, guardian 75)</td><td>55-75, mean 60.3</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Kill XP per member (31.0k)</td><td>32.04k (+3.3 %)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>First fight (1,500-4,000)</td><td>2,947</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Quiet arrival</td><td>0 on the landing</td><td><span class="ok">ok</span></td></tr>
+<tr><td>POIs (C8: 10-12)</td><td>10 (median spacing 2,969)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Chests (C8: 2)</td><td>2 (T6) + 1 find</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Hazard cells (source 9)</td><td>9, 0 on the walk</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Walk: arrival &gt; test &gt; sleeper &gt; out</td><td>10,414 + 5,456 + 1,000 = 16,870 (44 s)</td><td></td></tr>
+<tr><td>Textures (S cap 30, 4 new)</td><td>about 15, 2 new (xperubble, xpegeode)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sky</td><td>xeen_plane_earth (shipped)</td><td></td></tr>
+</table>
+<table style="margin-top:8px"><tr><th>Hostiles by row</th><th class="n">n</th><th class="n">XP each</th></tr>
+<tr><td>Lesser Earth Elemental (11626)</td><td class="n">15</td><td class="n">3,575</td></tr>
+<tr><td>Earth Elemental (11720)</td><td class="n">9</td><td class="n">4,464</td></tr>
+<tr><td>Earth Blaster (11721)</td><td class="n">5</td><td class="n">5,600</td></tr>
+<tr><td>Sleeper&#x27;s Guardian of Earth (11722)</td><td class="n">1</td><td class="n">6,375</td></tr>
+</table><h3>Hooks placed</h3><ul class="small"><li><code>m38.corner_earth</code> (D7's south-east corner) drops the party onto <code>entrance:d7_fall</code></li><li><code>m38.plaque_earth</code>: the statue's plaque (Step text)</li><li><code>m38.test_earth</code>: 'Accept the test of Earth?' at the pedestal; yes shows the guardians</li><li><code>m38.sleeper_earth</code>: the couch, three states; awake sets m38.earth and award 414</li><li>the way up and the return dais: exit presets to D7's <code>entrance:p3_return</code></li><li>new (A3): the map variable test_passed (the gate), the hazard line, device and find lines</li></ul></div>
+</div></div>
+<h2>P4 Plane of Water of Xeen: a drowned temple in a shallow sea</h2>
+<div class="row">
+<div class="card plan"><img src="p4/plan_p4.png"></div>
+<div>
+<div class="card concept">
+<img class="c" src="raw/p4_arrival_v1.png"><img class="b" src="p4/blockout_p4.png">
+<p>MU-4 arrival concept <code>raw/p4_arrival_v1.png</code> (one codex exec, no retry); inset: the blockout from the same camera.</p>
+<p style="color:#1d1d1f">`planes_concepts.py p4`: one `codex exec`, first attempt, 59 s; raw `planes/raw/p4_arrival_v1.png` with its prompt and log. References: the arrival blockout, X9&#x27;s approved concept (light and stone), MM8&#x27;s `gtempw1` and `gtempflr`. It shows the colonnade walk with steps down to clear green water on both sides, the statue of Water pouring her jar into the fountain, the Sleeper&#x27;s Grotto glowing blue under its arch, the Whirlpool Court&#x27;s broken columns round a turning pool right, the coral terrace and the wrecked ship left, sea stacks and arches in the mist. Against the plan: the sky is painted as a rippling sea surface seen from below (an underwater ceiling): striking, but it says &#x27;under the sea&#x27; while the party swims at a surface; question 3 decides the preset; the grotto stands nearer and larger than drawn; the statue stands at the walk&#x27;s end, the plan puts it mid-forecourt.</p></div>
+<div class="card" style="margin-top:12px"><p class="small" style="margin:0 0 6px">The Plane of Water of Xeen: a temple drowned in a sea with no shore, its colonnades standing out of green water under a sky the colour of the sea. Spray blows over the walks; a ship lies wrecked in the south court though there is no coast to wreck on. In the west the Whirlpool Court, where the test of Water turns in the pool, and beyond a falling veil of water, the Sleeper&#x27;s Grotto.</p><table><tr><th>Figure</th><th>Plan</th><th></th></tr>
+<tr><td>Form</td><td>a drowned temple in a shallow sea</td><td></td></tr>
+<tr><td>Room</td><td>26 x 26 cells; floors 21.9 x 21.0</td><td></td></tr>
+<tr><td>Walkable floor (S 7-20, M 30-90 M units)</td><td>43.7 M</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sea</td><td>97.2 M, 69 % of the basin; farthest from a way out 5,432</td><td></td></tr>
+<tr><td>Placed hostiles (30)</td><td>30 = 27 in 10 groups + 3 in the test</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Levels (55-70, guardian 75)</td><td>55-75, mean 60.6</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Kill XP per member (31.0k)</td><td>32.38k (+4.4 %)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>First fight (1,500-4,000)</td><td>3,291</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Quiet arrival</td><td>0 on the landing</td><td><span class="ok">ok</span></td></tr>
+<tr><td>POIs (C8: 10-12)</td><td>10 (median spacing 1,669)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Chests (C8: 2)</td><td>2 (T6) + 1 find</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Hazard cells (source 9)</td><td>9, 0 on the walk</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Walk: arrival &gt; test &gt; sleeper &gt; out</td><td>7,891 + 7,340 + 975 = 16,206 (42 s)</td><td></td></tr>
+<tr><td>Textures (S cap 30, 4 new)</td><td>about 16, 3 new (xpwspray, xpwcoral, xpwhull)</td><td><span class="ok">ok</span></td></tr>
+<tr><td>Sky</td><td>xeen_plane_water (shipped)</td><td></td></tr>
+</table>
+<table style="margin-top:8px"><tr><th>Hostiles by row</th><th class="n">n</th><th class="n">XP each</th></tr>
+<tr><td>Lesser Water Elemental (11625)</td><td class="n">12</td><td class="n">3,575</td></tr>
+<tr><td>Water Elemental (11710)</td><td class="n">7</td><td class="n">4,464</td></tr>
+<tr><td>Great Octopod (11471)</td><td class="n">5</td><td class="n">4,200</td></tr>
+<tr><td>Tidal Terror (11711)</td><td class="n">5</td><td class="n">5,600</td></tr>
+<tr><td>Sleeper&#x27;s Guardian of Water (11712)</td><td class="n">1</td><td class="n">6,375</td></tr>
+</table><h3>Hooks placed</h3><ul class="small"><li><code>m38.corner_water</code> (D7's south-west corner) drops the party onto <code>entrance:d7_fall</code></li><li><code>m38.plaque_water</code>: the statue's plaque (Step text)</li><li><code>m38.test_water</code>: 'Accept the test of Water?' at the pedestal; yes shows the guardians</li><li><code>m38.sleeper_water</code>: the couch, three states; awake sets m38.water and award 415</li><li>the way up and the return dais: exit presets to D7's <code>entrance:p4_return</code></li><li>new (A3): the map variable test_passed (the gate), the hazard line, device and find lines</li></ul></div>
+</div></div>
+<h2>Corner contract (corners.yml, unchanged) and the ways out</h2><div class="card"><table><tr><th>Plane</th><th>D7 corner</th><th>Hook</th><th>Arrives at</th><th>Returns to (D7)</th><th>Ways out (C5 default)</th><th>Falls</th></tr>
+<tr><td>P3 Earth</td><td>south-east (Sky F4)</td><td><code>m38.corner_earth</code></td><td><code>entrance:d7_fall</code> (C2: no damage)</td><td><code>entrance:p3_return</code></td><td>the way up (always) and the return dais (after the sleeper)</td><td>into the scree (falling damage), scree slopes back up (Q1)</td></tr>
+<tr><td>P4 Water</td><td>south-west (Sky A4)</td><td><code>m38.corner_water</code></td><td><code>entrance:d7_fall</code> (C2: no damage)</td><td><code>entrance:p4_return</code></td><td>the way up (always) and the return dais (after the sleeper)</td><td>none: the sea (swimming, current back), steps out (Q1)</td></tr>
+</table></div>
+<h2>Open questions (drawn on the defaults)</h2><div class="cols2"><div class="card"><h3>Common to all four: asked once, in P1's NOTES and on board_p12</h3><p class="small">Not repeated here; these plans are drawn on their defaults:</p><ul class="small"><li><b>C1</b> The plane as a map: size and form: (a)</li><li><b>C2</b> The arrival from D7: falling damage: (a)</li><li><b>C3</b> What the test of the element is: (a)</li><li><b>C4</b> What the passed test opens: (a): the guardian guards the sleeper; one gate, no burning chest to explain.</li><li><b>C5</b> The way out (corners.yml default_way_out): (a)</li><li><b>C6</b> The guardians and the greater elementals: rows and names: (b): the names are the source&#x27;s and read well in the Xeen voice.</li><li><b>C7</b> The sleepers and the statues: what stands there: (a)</li><li><b>C8</b> Points of interest and chests per plane: (a)</li></ul></div><div class="card">
+<h3>P3</h3><ol class="q" style="list-style:none;padding-left:0">
+<li><b>P3 Q1 The form: a cavern-like bowl or open sky under xeen_plane_earth.</b> (a) A bowl: terraces stepping down a pit whose walls lean in like a cavern&#x27;s, open to the `xeen_plane_earth` dust sky (open-air BLV); drops into the scree hurt, scree slopes lead back up. (b) A true cavern: a closed BLV with a rock ceiling and no sky (MM8&#x27;s eleme is a BLV); the preset unused. (c) Floating rock islands in the dust sky, as P2 but heavy (falls caught). <i>Evidence:</i> corners.yml and lanes README give P3 the `xeen_plane_earth` preset (dust, no sun); MM8&#x27;s eleme is a cave; the source&#x27;s plane is open ground. <b>Default: (a): the preset, the closure and the way down into the earth.</b> <i>Depends:</i> L2 geometry; the preset; the drop rule.</li>
+<li><b>P3 Q2 Falling rock or quakes.</b> (a) The source&#x27;s nine rockfall cells (1 in 3: 50 physical to each member) with a short camera shake when one hits. (b) Quakes: every few minutes the whole plane shakes (evt.CameraShake) and rock falls on the nine cells for a few seconds (a timed set piece). (c) No hazard beyond the drops. <i>Evidence:</i> maze0027: nine squares call one event: random 1-3, on 3 Damage 50 type 0 (physical). evt.CameraShake exists (MM9 cutscenes). <b>Default: (a)</b> <i>Depends:</i> A3&#x27;s line; xperubble; A1&#x27;s floor-event check.</li>
+<li><b>P3 Q3 Only elementals on P3?.</b> (a) Yes: Lesser Earth Elementals (55, 11626), Earth Elementals (62) and Greater Earth Elementals (70), as the source (eight Earth Blasters). (b) Add two Onyx Golems (11584, 85) as the Root Stair&#x27;s wardens (over the band). (c) Add Diamond Golems (11583, 50) in the quarry (under the band). <i>Evidence:</i> monsters.yml: no other earth family at 55-70 (material golems stop at 50, then 85). <b>Default: (a)</b> <i>Depends:</i> A2&#x27;s rows (C6); kill XP.</li>
+</ol>
+<h3>P4</h3><ol class="q" style="list-style:none;padding-left:0">
+<li><b>P4 Q1 How water works for a party without Water Walk.</b> (a) MM9&#x27;s water volumes, already in the engine for BLVs: the party swims at the surface with no breath lost, dives at will (breath 15 s, then 1/6 of maximum HP every 2 s), no falling damage into water; steps out at every walk&#x27;s foot; the outer sea&#x27;s current carries swimmers back; Water Walk does nothing yet (the engine&#x27;s open item); nothing on the critical path needs swimming. (b) MM6-MM8&#x27;s rule: deep water drowns without Water Walk (the outdoor tiles&#x27; damage); the party keeps to the walks. (c) The sea as decoration under invisible walls: walks only. <i>Evidence:</i> devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md (done: swim, dive, breath, drowning, current; open: Water Walk on a volume). The source&#x27;s plane is all water and walkable. <b>Default: (a)</b> <i>Depends:</i> L2 water volumes; A1 only if Water Walk should lift the party onto the sea.</li>
+<li><b>P4 Q2 Diving.</b> (a) No dive anywhere: the wreck&#x27;s hold is half flooded and waded; diving is only for whoever falls in. (b) One optional dive: the ship&#x27;s strongbox lies in the flooded hold, 6 s under at most (breath 15 s). (c) The Grotto reached by a dive under the sea arch instead of the Veil. <i>Evidence:</i> MM9&#x27;s breath is 15 s; drowning is 1/6 HP every 2 s. A plane at party 56-60 can take a short dive; a required one would be the world&#x27;s first. <b>Default: (a)</b> <i>Depends:</i> The wreck&#x27;s L2 shape.</li>
+<li><b>P4 Q3 Sky (no shipped plane_water).</b> (a) A new Xeen preset `xeen_plane_water` (A6, data only, after approval): sea-green zenith, aquamarine horizon, no sun disc, a bright diffuse light, slow caustic cloud, below_horizon sky. (b) The engine&#x27;s `underwater` (no sky drawn, flat fog): reads as the sea bed, at odds with swimming at a surface. (c) Shipped `plane_air` (blue open sky). <i>Evidence:</i> WORLD_DESIGN §4 names `underwater` for the water plane; the engine library has no plane_water; `underwater` draws no sky at all. <b>Default: (a); (c) until A6 writes it</b> <i>Depends:</i> atmosphere.yml; A6&#x27;s sky file (a new preset).</li>
+<li><b>P4 Q4 Octopods on the Plane of Water.</b> (a) Two groups of Great Octopods (11471, 60, the swimmer profile of D-36) in the open water between the walks: a reason not to swim. (b) Elementals only, as the source (eight Tidal Terrors). (c) Krakens (70) instead. <i>Evidence:</i> monsters.yml: octopods are this world&#x27;s only swimmers at 50-70; D-36 gave them MM9&#x27;s swimmer AI. <b>Default: (a)</b> <i>Depends:</i> A2 (the D4 row reused), S (none new).</li>
+</ol>
+</div></div>
+<h2>Requests</h2><div class="card"><table><tr><th>Lane</th><th>For</th><th>What</th></tr>
+<tr><td>A2</td><td>all four</td><td>landed 2026-11-21: map_stats rows 9115-9118 as D-58&#x27;s ROWS, the nine C6 rows (Air 11700-11702, Water 11710-11712, Earth 11720-11722) and the Fire family&#x27;s new names (11620-11623); nothing more asked but treasure 6 for the two chests a plane.</td></tr>
+<tr><td>A3</td><td>all four</td><td>written by the sixteenth session&#x27;s start: m38.test_&lt;element&gt;_passed (qbits 111764-111767, through Xeen.planeTestCheck), m38.way_up_&lt;element&gt; and m38.dais_&lt;element&gt; (the exit presets&#x27; lines), Xeen.toPlane and Xeen.PlaneArrivals (C2), SkyFalls `p2`, and source/npcs/planes.yml (hazards, devices, finds, notes); still asked: ORIGINAL_LINES rows aaze0025:0, 2-8 and aaze0026-0028:0-7.</td></tr>
+<tr><td>S</td><td>all four</td><td>C7: one sleeper and one couch with four element skins, four statues from the elemental models on one plinth with a plaque, the pedestal and the dais (P5&#x27;s disc in each element&#x27;s stone), the way-up effects, the per-plane devices; the nine elemental tier skins (C6). Until they land, L4 builds their spots by name and marks them blocked (no stand-ins).</td></tr>
+<tr><td>D7</td><td>all four</td><td>the four corners&#x27; drops land on entrance:d7_fall here (Xeen.PlaneArrivals, A3); both ways out land on D7&#x27;s entrance:pN_return by the corner&#x27;s rest stop (corners.yml), facing the road.</td></tr>
+<tr><td>A1</td><td>all four</td><td>confirm only (D-58 relays 1, 2 and 4): hidden placed actors shown mid-visit in an open-air BLV, PressurePlate faces in an open-air sector, water volumes, constant currents and swimmers under an open-air BLV&#x27;s outdoor view.</td></tr>
+<tr><td>O</td><td>all four</td><td>openAirMaps for P1-P4 at install; MAPS §0 and §3&#x27;s P rows as D-58&#x27;s ROWS AND NUMBERS.</td></tr>
+<tr><td>A2</td><td>P3</td><td>row 9117: environment quarry, music 3; the Earth rows of C6 (62, 70, the guardian 75); Lesser Earth Elemental 11626 used on P3 (15 placed).</td></tr>
+<tr><td>A6</td><td>P3</td><td>new textures xperubble and xpegeode, registered; xeen_plane_earth checked under an open-air BLV.</td></tr>
+<tr><td>S</td><td>P3</td><td>the statue of Earth; the Heart-geode; the quarry&#x27;s half-cut blocks with a pick; the Anvil&#x27;s twelve monoliths (shipped standing stones if they fit).</td></tr>
+<tr><td>A2</td><td>P4</td><td>row 9118: environment underwater, music 7; the Water rows of C6 (62, 70, the guardian 75); Lesser Water Elemental 11625 (12 placed) and Great Octopod 11471 (5 placed, swimmers) used on P4.</td></tr>
+<tr><td>A6</td><td>P4</td><td>the new preset xeen_plane_water (Q3); new textures xpwspray, xpwcoral, xpwhull, registered.</td></tr>
+<tr><td>S</td><td>P4</td><td>the statue of Water in a fountain basin; the Drowned Bell; the wrecked ship (hull, masts, hold); the Whirlpool Court&#x27;s broken columns; the waterspout effect.</td></tr>
+<tr><td>A1</td><td>P4</td><td>confirm water volumes, their current and the swimmer AI run under an open-air BLV with an outdoor view (MM9&#x27;s were all roofed or regions).</td></tr>
+</table></div></main></body></html>

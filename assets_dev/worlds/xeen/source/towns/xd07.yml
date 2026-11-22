@@ -1,0 +1,49 @@
+# XD-07 Castle Burlock: the royal court (Act II). Owner: A4. Format: devdocs/xeen/formats/TOWNS_FORMAT.md.
+# Built (A7, installed 2026-11-20): the court's four rooms of the graph (devdocs/xeen/mockups/act2_graphs/xd07.graph.yml);
+# each door is the source of a house event in briefs/xd07/L4/wiring.yml (the throne room's door is the throne itself).
+# The services of Castle Burlock are in its walled village on X4 (x4.yml, town: Castle Burlock): they need no title.
+key: XD-07
+stem: xeen_xd07.blv
+town: Castle Burlock
+face: cloudside
+blocks:
+  houses: [4201, 4250]
+  npcs: [4401, 4500]
+houses:
+  - id: 4201
+    door: platform:throne
+    kind: throne
+    name: Throne Room
+    owner: 4401
+    residents: [4405]
+    town: Castle Burlock
+    opens: m4.done
+    closed_text: "Only Crusaders are allowed to enter Castle Burlock."
+    note: "Behind the gatehouse portcullis, which opens for Crusaders too; the throne (evt:throne) asks again so the audience never opens to a party let in some other way."
+  - id: 4202
+    door: door:advisor
+    kind: residence
+    name: Royal Advisor's Study
+    residents: [4402]
+    town: Castle Burlock
+  - id: 4203
+    door: door:builder
+    kind: residence
+    name: Master Builder's Office
+    residents: [4403]
+    town: Castle Burlock
+  - id: 4204
+    door: door:roxanne_parlour
+    kind: residence
+    name: The Princess's Parlour
+    residents: [4404]
+    town: Castle Burlock
+npcs:
+  - {id: 4401, name: King Burlock, profession: Noble, talks: true, greet: ["Only Crusaders may stand before the throne. Have you found my mirror?", "NO MIRROR?!? Get out of my sight!"], source: "xeen/aaze0064:13"}
+  - {id: 4402, name: Artemus, title: Royal Advisor, profession: Counselor, talks: true, greet: ["The King hears little these days but the word 'mirror'.", "A quiet word, Crusaders?"]}
+  - {id: 4403, name: Emerson, title: Royal Engineer, profession: Carpenter, talks: true, greet: ["Walls, keeps, dungeons. Bring me Megacredits and I'll build you a castle.", "Megacredits?"]}
+  - {id: 4404, name: Princess Roxanne, profession: Noble, talks: true, greet: ["Don't look so disappointed. I'm not a damsel in distress, but there is a quest you could perform for me.", "Any news of my tiara?"], source: "xeen/aaze0066:0"}
+  # 4405: the impostor's greetings until m35.done (Lord Xeen wore Roland's face); then the real Roland's, at court after
+  # M39 and on P5 (A2's row 11920), switched by A3's evt.SetNPCGreeting(4405, 4406) where m35.done is set
+  - {id: 4405, name: Prince Roland, profession: Noble, talks: true, greet: ["Welcome, Crusaders. My brother has great need of you.", "Still here? How loyal."],
+     greet_after: [{id: 4406, after: m35.done, greet: ["Crusaders. The last face I saw before the coffin was Alamar's. Yours are a great improvement.", "Still here? Good. A coffin is poor company."]}]}

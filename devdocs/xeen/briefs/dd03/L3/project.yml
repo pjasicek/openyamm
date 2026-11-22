@@ -1,0 +1,42 @@
+format: 0
+id: xeen_dd03
+name: Castle Kalindra
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-03
+units: {plan_grid: 512}
+extent: {footprint_cells: [16, 25], climbs: n}
+map_stats:
+  id: 9152
+  bolster: LowerToEqual
+  encounter_chance: 0
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 29
+  environment: stoneroom
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Spirit, tier: 1, per_marker: [2, 3], weight: 40}
+    - {monster: Xeen Lich, tier: 0, per_marker: [1, 2], weight: 25}
+    - {monster: Xeen Vampire, tier: 1, per_marker: [2, 3], weight: 35}
+neighbours:
+  - id: exit:d1_gate
+    to: xeen_d1.odm
+    kind: door
+    arrival: [-9728, -3072, 1664]
+    arrival_hint: "On D1's forecourt before Castle Kalindra's gate (entrance:dd03_gate): A6's return point, facing west, away from the gate."
+    direction: 180
+    notes: "D1 installed (A6). D1's gate (event 123) lands at this map's start: (-1600, 0, 0) facing east (0)."
+qbits:
+  arrived_once: 117320
+  m19_safes: 111383
+  m24_safes: 111483
+  m27_crown: 111541
+  stage1: 111381
+  stage2: 111382
+  stage3: 111521
+  stage4: 111522
+notes: "Xeen design brief, DD-03 Castle Kalindra (staged; D1; M19, M24, M26, M27, T2-A), class M, from the MU-6 graph (devdocs/xeen/mockups/act3_graphs/dd03.graph.yml) with decider D-26 (mockups/act3_a8_decisions_a.md). Party 30-40, levels 26-45, Scraps 70 optional; 54 placed monsters on the world's rows (spirits 11261-11263, Lich 11280, Bone Dragon 11670, vampires 11290-11291; Scraps 11673), no spawn points, encounter chance 0; treasure 4 (the kennel's hoard 5); music 29. Stages by A3's qbits 111381, 111382, 111521, 111522; the map's arrived_once 117320 (provisional block 117320-117359). Player bits 11320 (Queen's Brew), 11321 (Knight's Brew), provisional."

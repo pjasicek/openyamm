@@ -1,0 +1,40 @@
+# Hostility check of the Gemstone Mines, north pocket (DD-10C) (the XD-27 form; lane A8, 2026-11-21, D-62). The kinds:
+# Floating Eye 11570 and Terrible Eye 11571 (eyes), Patrol 11610 (robots): all hostile to the party by their rows, no map
+# relations. At load every one is hostile; the kinds side by side do not take each other on. Run with --world xeen
+# --map xeen_dd10c.blv.
+id: xeen.dd10c.l4.hostility
+title: 'the Gemstone Mines, north pocket (DD-10C): every monster hostile, no fights among them'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_dd10c.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 48, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 48, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 48, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 48, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- note: The map entry events run.
+- advance_runtime: {seconds: 2}
+- play_lua: {source: "close()"}
+- assert: {actor_count: {monster_id: 11570, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11570, hostile: true, min: 14}}
+- assert: {actor_count: {monster_id: 11571, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11571, hostile: true, min: 4}}
+- assert: {actor_count: {monster_id: 11610, hostile: false, max: 0}}
+- assert: {actor_count: {monster_id: 11610, hostile: true, min: 2}}
+- note: 'The kinds of the map side by side in the adit, nearer each other than the party (a monster takes the nearest
+    of its foes): they must not take each other on.'
+- console: {line: arena trace on}
+- spawn_actor: {monster_id: 11570, x: -96, y: 640, z: 120}
+- spawn_actor: {monster_id: 11571, x: 96, y: 640, z: 120}
+- spawn_actor: {monster_id: 11610, x: 0, y: 800, z: 0}
+- advance_runtime: {seconds: 12}
+- assert: {ai_trace: {event: target, target: actor, max_count: 0, report: true}}
+- assert: {actor_count: {monster_id: 11570, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11571, hurt: true, max: 0}}
+- assert: {actor_count: {monster_id: 11610, hurt: true, max: 0}}

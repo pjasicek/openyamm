@@ -1,0 +1,192 @@
+# Xeen side quest Q-D16, Gurodel's giants (D5, DD-24), both routes from one talk. A level-46 party on the Desert of
+# Doom walks to Gurodel's fire in the giants' hold (scene actor 6, npc 5452): The People. A save there.
+# Peace: Friendship (two Energy Disks, 12,000 experience); the great doors (D5 event 40) into the Giants' Hall; the
+# People stay friendly; the law stone; up the Great Stair, the throne hall's doors; the throne and the hoard refuse at
+# peace ("Gurodel would notice."). Then one blow at a giant turns the hall (hall_attacked): the throne gives a friend
+# nothing ("Whatever the People had to give, they gave you in friendship.", throne_searched).
+# War (the save loaded): Your hall (war); the great doors; at the threshold the People's challenge (war_threshold,
+# once: war_announced); the People hostile; up the stair fighting; the throne: two Energy Disks and 14,000 experience,
+# then only blood; the hoard opens. Out of the hall by its doors to D5's hold.
+# Routes: devdocs/xeen/briefs/d5/L4/playtest.yml (the hold lane, Gurodel, the doors), dd24/L4/playtest.yml.
+# Quest logic: source/quests/q-d16.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-d16_gurodels_giants.yml --scenario-no-color
+id: xeen.side_quests.q-d16
+title: "Xeen Q-D16: Gurodel's friendship, and his hall taken by force"
+world: xeen
+mode: faithful
+tags: [xeen, side_quest]
+steps:
+  - new_game_flow:
+      start_map: xeen_d5.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 46, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 46, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 46, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 46, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_d5.odm}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [113320, 113321, 113322, 113323, 113324]}
+  # The hold lane to Gurodel's fire; his talk.
+  - set_pose: {map: xeen_d5.odm, x: 9216, y: 7424, z: 2592, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_count: {monster_id: 11083, hostile: true, max: 0}}
+  - interact_actor: {actor_index: 6}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, source_id: 5452}
+  - select_topic: {match_label: "The People"}
+  - assert:
+      dialog: {text_contains: "What do you want of the"}
+  - save_game: {name: "Q-D16 at Gurodel's fire", path: output/side_quests/xeen/q-d16_gurodel.oysav}
+  # ---- Peace: Friendship.
+  - play_lua: {source: "remember('xp', experience(0))"}
+  - select_topic: {match_label: "Friendship"}
+  - assert:
+      dialog: {text_contains: "they hum when we sleep"}
+  - press_action: {action: cancel_dialog}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12334) ~= 2 then error("Gurodel's disks: " .. item_count(12334)) end
+        if experience(0) - recall("xp") ~= 12000 then error("Friendship paid " .. (experience(0) - recall("xp"))) end
+  - assert: {qbit_set: [113320]}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  - assert: {map: xeen_dd24.blv}
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {actor_count: {monster_id: 11084, hostile: true, max: 0}}
+  - walk_to: {x: 0, y: 800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -860, y: 1100, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: -860, y: 1720, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(10); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "NO SANE PEOPLE SUPPORT A TYRANT"}}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -900, y: 1344, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 1850, z: 0, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 500, z_tolerance: 120, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 4500, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(8)"}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: 0, y: 5300, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - walk_to: {x: 0, y: 5780, z: 1024, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "close(); status(); click(11); wait(1); local s = tostring(status()); if not string.find(s, 'Gurodel would notice.', 1, true) then error('status line: ' .. s) end"}
+  - play_lua: {source: "close()"}
+  - walk_to: {x: -512, y: 6150, z: 1024, radius: 48, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'open' then click(5) end"}
+  - advance_runtime: {seconds: 4}
+  - walk_to: {x: -512, y: 6600, z: 1024, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  - play_lua: {source: "click(2); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "Gurodel would notice."}}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11084, hostile: true, max: 0}}
+  - assert: {qbit_clear: [113321, 113322, 113323, 113324]}
+  # A friend who then strikes one of the People (D-47 Q22): the hall turns, and the throne has nothing more to give.
+  - damage_actor: {actor_index: 0, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "log('struck: ' .. status()); close(); if not qbit(113323) then error('hall_attacked 113323 not set') end"}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  # The giants' blows knock members out (Immortal keeps their health, not their senses: D-82): the hall is fought at
+  # once.
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "log('after the hall: ' .. conditions(0) .. ' | ' .. conditions(1) .. ' | ' .. conditions(2) .. ' | ' .. conditions(3))"}
+  - walk_to: {x: -512, y: 6150, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 5780, z: 1024, radius: 48, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "close(); remember('xp', experience(0)); click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[they gave you in friendship]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) ~= 2 then error('the friend took disks from the throne: ' .. item_count(12334)) end; if experience(0) ~= recall('xp') then error('the friend was paid at the throne') end"}
+  - assert: {qbit_set: [113322, 113323]}
+  # ---- War: the save at Gurodel's fire; Your hall.
+  - load_game: {path: output/side_quests/xeen/q-d16_gurodel.oysav}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_d5.odm}
+  - assert: {qbit_clear: [113320, 113321]}
+  - interact_actor: {actor_index: 6}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      dialog: {active: true, source_id: 5452}
+  - select_topic: {match_label: "Your hall"}
+  - assert:
+      dialog: {text_contains: "come and take it"}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [113321]}
+  - play_lua: {source: "click(40); wait(0.5)"}
+  # F16: the standard entrance window.
+  - assert: {dialog: {active: true, action_label_present: "OK"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.5, follow_map_move: true}
+  # At war the longhall's giants are on the party as it comes in, and their blows knock members out for good under
+  # Immortal (D-82): they are fought at once.
+  - clear_hostiles: {radius: 2500}
+  - assert: {map: xeen_dd24.blv}
+  # The threshold (the first step into the longhall): the People's challenge, once.
+  - advance_runtime: {seconds: 2, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {actor_count: {monster_id: 11084, hostile: false, max: 0}}
+  - walk_to: {x: 0, y: 1100, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua:
+      source: |
+        if not qbit(113324) then
+          log("ISSUE DD-24: the party arrives inside room:threshold, so its step event (q-d16.war_threshold) does not fire on the way in (A7); it shows when the party steps back into the threshold")
+        end
+  - walk_to: {x: 0, y: 500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "close(); if not qbit(113324) then error('war_announced not set: the challenge never showed') end"}
+  # Up the Great Stair fighting; the throne: two disks and 14,000 experience; then only blood; the hoard opens.
+  - walk_to: {x: 0, y: 800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 1850, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 500, z_tolerance: 120, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 4500, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "click(8); for _ = 1, 8 do clear_hostiles(3000); wait(0.5) end"}
+  - walk_to: {x: 0, y: 5300, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 0, y: 5780, z: 1024, radius: 48, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - play_lua: {source: "close(); remember('xp', experience(0)); click(11); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[find two energy disks]], 1, true) then error("status line: " .. s) end
+  - play_lua:
+      source: |
+        close(); for _ = 1, 3 do if held() ~= 0 then stow() end end
+        if item_count(12334) ~= 2 then error("the throne's disks: " .. item_count(12334)) end
+        if experience(0) - recall("xp") ~= 14000 then error("the throne paid " .. (experience(0) - recall("xp"))) end
+        click(11); wait(1)
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Nothing left on it but the blood.]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12334) ~= 2 then error('the disks were given twice') end"}
+  - walk_to: {x: -512, y: 6150, z: 1024, radius: 48, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "if door_state(5) ~= 'open' then click(5) end; for _ = 1, 8 do clear_hostiles(3000); wait(0.5) end"}
+  - walk_to: {x: -512, y: 6600, z: 1024, radius: 64, timeout_seconds: 40, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua:
+      source: |
+        local g = gold()
+        for _ = 1, 3 do
+          loot_chest(2)
+          if held() ~= 0 then stow() end
+          if gold() >= g + 5000 then return end
+        end
+        error("the hoard held no gold at war")
+  - play_lua: {source: "close(); wait(0.5); close()"}
+  - assert: {qbit_set: [113321, 113322, 113324]}
+  - assert: {qbit_clear: [113320]}

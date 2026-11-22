@@ -1,0 +1,23 @@
+{
+  "prompt": "Canvas 1536 pixels wide by 2048 pixels high (width 75% of height). Preserve the input guide canvas exactly. Use all the generous transparent padding around each small figure. Each row is only one quarter of canvas height. Front doll extends horizontally only from x=101 to 411 in its 512-wide cell, vertically from y=33 to 479. Never zoom to fill the cells. True transparent PNG RGBA background. Face and fists are stuffed cloth and MUST be pure BLUE like the cape on the lower half. NO lighting or glow on flat mask colors. Edit image 1, the exact orthographic paint_mask_guide, preserving its alpha and geometry pixel-for-pixel. Image 2 supplies the approved surface design and image 3 the palette. One 1536x2048 transparent 3:4 PNG, three columns by four rows of 512px square cells. Paint only existing grey pixels without moving, enlarging or redesigning any view. Row 1 front, back, profile facing right. Row 2 profile facing left, directly overhead, empty. Rows 3 and 4 exactly repeat those positions as material segmentation. Upper two rows unlit base color of Lord Xeen stuffed carnival-prize doll: near-black felt armor, dark red felt cape, tan cloth face and fists, stern stitched brows eyes and frown, ochre seams, bronze-colored spikes and studs matching reference. Match facets, engraving and stitching scaled to each projection. No cast shadow, AO, light, reflection, highlights, glow, outlines, text or ground. Lower two rows fill every existing silhouette pixel with flat pure material-ID colors only: #0000FF for all cloth including felt armor, face, hands, cape, thread and hair; #00FF00 for actual leather or fur; #FF0000 for actual metal including bronze fittings; #FFFF00 for actual matte nonmetal solids. No shading, outlines, texture or antialiased color blends inside masks. Preserve every transparent gap and the two empty rightmost cells in rows 2 and 4. Copy exact positions and silhouette from guide.",
+  "inputs": [
+    {
+      "path": "paint_mask_guide.png",
+      "sha256": "2645b31314c6873f14c2596adba1be821bfb8013287fa4a6a3f928f89d67788e"
+    },
+    {
+      "path": "design_reference.png",
+      "sha256": "a7095da955402d80f27f0b9be3b2eed3c2489819769599500e2c332a90facdc4"
+    },
+    {
+      "path": "icon_x8.png",
+      "sha256": "c87a9d79ce4bbb7729415570970617d6b29a5e614f6ff7cceb05d85b1db962be"
+    }
+  ],
+  "original_output_path": "/home/pjasicek/.codex/generated_images/01a1f9e9-2ec6-7110-8a80-c711a83ba297/exec-c5c5aa2d-a6c1-4901-af52-22aa248f3a70.png",
+  "output": "paint_mask_raw_v1.png",
+  "size": [
+    887,
+    1774
+  ]
+}

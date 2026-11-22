@@ -1,0 +1,412 @@
+# P-2: no way to the Grotto but through the Veil.
+# Written by output/studio_cal/p4/tools/gen_playtests.py; run with --world xeen --map xeen_p4.blv.
+id: xeen.p4.l4.bypass
+title: 'Plane of Water (P4): before the test nobody reaches the Grotto: the Veil holds; from the court or the sea the colonnade
+  and the Grotto''s rim stand out of reach (P-2)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 60
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 60
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(2); close()
+- assert:
+    map: xeen_p4.blv
+- clear_hostiles:
+    radius: 40000
+- note: 'Straight into the Veil: the party stays on the court.'
+- movement_segment:
+    input: forward
+    seconds: 3.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4096
+      y: 185
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- assert:
+    party_position:
+      x: -4096
+      y: -124
+      radius: 120
+      z_min: 120
+      z_max: 144
+- note: 'Off the court west of the flank, into the sea, then swimming at the Veil''s colonnade: it stands 196 and more over
+    the water.'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4996
+      y: 65
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4996
+      y: 65
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: -4996
+      y: -1134
+      radius: 900
+      z_min: -1100
+      z_max: 40
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4996
+      y: -1534
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4996
+      y: -1534
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4996
+      y: -1534
+      z: -197
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4996
+      y: -1534
+      z: -197
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -4516
+      y: -1534
+      radius: 300
+      z_min: -1100
+      z_max: 40
+- note: 'Off the court east of the flank, into the sea, then swimming at the Veil''s colonnade: it stands 196 and more over
+    the water.'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -3196
+      y: 65
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -3196
+      y: 65
+      z: 128
+      yaw_degrees: -90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 2.0
+- assert:
+    party_position:
+      x: -3196
+      y: -1134
+      radius: 900
+      z_min: -1100
+      z_max: 40
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -3196
+      y: -1534
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -3196
+      y: -1534
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- movement_segment:
+    input: forward
+    seconds: 5.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -3196
+      y: -1534
+      z: -197
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -3196
+      y: -1534
+      z: -197
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -3676
+      y: -1534
+      radius: 300
+      z_min: -1100
+      z_max: 40
+- note: 'From the sea against the Grotto''s rim (256 over the water): the party stays in the water.'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -5796
+      y: -4224
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -5796
+      y: -4224
+      z: -420
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- movement_segment:
+    input: forward
+    seconds: 6.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -5796
+      y: -4224
+      z: -197
+      yaw_degrees: 0
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -5796
+      y: -4224
+      z: -197
+      yaw_degrees: 0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -4946
+      y: -4224
+      radius: 1300
+      z_min: -1100
+      z_max: 40
+- note: 'From the sea against the Grotto''s rim (256 over the water): the party stays in the water.'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -2396
+      y: -4224
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -2396
+      y: -4224
+      z: -420
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- movement_segment:
+    input: forward
+    seconds: 6.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -2396
+      y: -4224
+      z: -197
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -2396
+      y: -4224
+      z: -197
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -3246
+      y: -4224
+      radius: 1300
+      z_min: -1100
+      z_max: 40
+- note: 'From the sea against the Grotto''s rim (256 over the water): the party stays in the water.'
+- movement_segment:
+    input: none
+    seconds: 1.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4096
+      y: -5824
+      z: -420
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4096
+      y: -5824
+      z: -420
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    fly_up: true
+- movement_segment:
+    input: forward
+    seconds: 6.0
+    actor_collision: false
+    actor_ai: false
+    start:
+      map: xeen_p4.blv
+      x: -4096
+      y: -5824
+      z: -197
+      yaw_degrees: 90
+      pitch: 0
+    expect_stop:
+      map: xeen_p4.blv
+      x: -4096
+      y: -5824
+      z: -197
+      yaw_degrees: 90
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -4096
+      y: -5024
+      radius: 1300
+      z_min: -1100
+      z_max: 40

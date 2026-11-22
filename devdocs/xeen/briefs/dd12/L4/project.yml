@@ -1,0 +1,47 @@
+format: 0
+id: xeen_dd12
+name: Dungeon of Lost Souls
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: DD-12
+units: {plan_grid: 512}
+extent: {footprint_cells: [26, 11], climbs: n}
+map_stats:
+  id: 9165
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 3
+  perception_difficulty: 3
+  refill_days: 672
+  music: 20
+  environment: cave
+  lock_difficulty: 6
+  slots:
+    - {monster: Xeen Minotaur, tier: 0, per_marker: [2, 3], weight: 75}
+    - {monster: Xeen Minotaur, tier: 1, per_marker: [1, 2], weight: 25}
+neighbours:
+  - id: exit:d4_door
+    to: xeen_d4.odm
+    kind: door
+    arrival: entrance:dd12_door
+    arrival_hint: "On D4's Isle of Lost Souls, a step south of the ruined tower's door, facing south down the path to the jetty (A6's entrance:dd12_door, (4096, -3072, 1376), facing 1536)."
+    notes: "D4 installed (A6). D4's door:dd12 (m24.isle_door, lost_souls_key) is to land at this map's entrance:d4_isle in the entrance hall: (0, -352, 0) facing north (512)."
+qbits:
+  arrived_once: 117440
+  bird_freed: 111480
+  gate1: 117441
+  gate2: 117442
+  gate3: 117443
+  gate4: 117444
+  gate5: 117445
+  throne_done: 113500
+items:
+  lost_souls_key: 12344
+  songbird_of_serenity: 12526
+notes: "Xeen design brief, DD-12 Dungeon of Lost Souls (D4's Isle of Lost Souls; Story M24 The Songbird of Serenity, Q-D25 The Minotaur's Labyrinth), class M, built from the MU-6 graph (devdocs/xeen/mockups/act4_graphs/dd12.graph.yml) with decider D-42 (mockups/act4_a8_decisions.md), which wins. Party 37-39; 45 placed monsters of the minotaur family (D-42 (1)): 11090 Minotaur 38 (30), 11091 Gorgon 45 (12), 11092 Minotaur Lord 55 (3). Kill XP 95,145 for the party, 23.79k per member. Rest encounters 10 % from the minotaurs only (D-42). Treasure 4 (the Reserve's hoard 5), music 20. M24's and Q-D25's bits through A3's hooks; the map's qbits 117440 (arrived_once, A3's) and 117441-117445 (the five gates answered Yes), block 117440-117479. Player bits 11348-11349 (the Soul Waters) are A3's, set by the hooks. Map card 9165."
+identity:
+  shape: hall
+  family: d02
+  seen: ["the ruined tower's round base open to the Darkside sky, bones and fallen masonry by the gate", "floors 3-5 cut into dark wet rock: rock pillars, low brick arches, side cells, the Soul Waters", "the Soul Maze's ivy over broken masonry spelling SHELTEM, Alamar's statues and the aviary"]

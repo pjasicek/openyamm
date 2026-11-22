@@ -1,0 +1,139 @@
+# Q-D18 The Jewel of Ages (QUESTS 2.2 Q-D18, 3.2: Wizard -> Archmage, Light). Owner: A3. Format: QUESTS_FORMAT.md.
+# The thieves sold Thaddeus's jewel to the mages of the Great Eastern Tower (DD-07; its key from Q-D19's Ali Baba
+# chest). The jewel lies on L3 with 2 Energy Disks (M18, map_gives). Thaddeus dips it in the fountain and gives it back:
+# the fountain only needed to remember it, and A2's jewel_of_ages is a relic the party keeps (aging immunity). The
+# Fountain of Youth then removes magical aging. On the top floor, a letter sealed by Ellinger for "the Guildmaster of
+# Sandcaster" names the bearer an Archmage; Nasir, master of Sandcaster's Guild of Light, reads it and promotes.
+# DD-07 is an Act IV map (D-9.3: party 36-40); Q-D18 is set for level 36. The Griffin statuette (Q-D20) is on its L2.
+# Experience: 8,000 per member (Thaddeus); Nasir's promotion pays nothing extra.
+# D-39 (DD-07's L4): the Fountain of Minimal Abilities +1 to every statistic and the Book of Fantastic Knowledge +2
+# Intellect, once per character each (player bits below; the hooks decide); the Book of Great Power refuses everyone,
+# for good. The Fountain of Life (it heals) and the Bubbling Vat (dressing) are the map's.
+id: Q-D18
+title: The Jewel of Ages
+act: IV
+kind: side
+status: full
+giver: 5246          # Thaddeus, fountain keeper (D3)
+maps: [D3, DD-07]
+level: 36
+block: 98
+after: [q-d19.started]   # D-89: was q-d19.chest_opened (the Eastern Tower key, retired)
+source: "QUESTS Q-D18; dark/aaze0024:16-21 (Thaddeus, the fountain), dark/aaze0067:0-1 (L3)"
+
+qbits:
+  started: {id: 113360, journal: "The Jewel of Ages was stolen from Thaddeus's fountain, and its waters turned to venom. Find the jewel.",
+            until: [done]}
+  tower_disks: {id: 113362, note: "DD-07 L3 (A7)"}
+  letter_found: {id: 113363, note: "DD-07's top floor (A7)"}
+  done: {id: 113364, note: "the fountain restored: the Fountain of Youth works"}
+  archmage: {id: 113365, note: "Nasir read Ellinger's letter"}
+
+player_bits:         # DD-07 L4, once per character (D-39); the hooks decide and raise the clicking member
+  minimal_fountain: {id: 11336, map: DD-07, note: "the Fountain of Minimal Abilities: +1 to all seven statistics (base)"}
+  fantastic_book: {id: 11337, map: DD-07, note: "the Book of Fantastic Knowledge: +2 Intellect (base)"}
+
+autonotes:
+  tower: {id: 4580, text: "The Jewel of Ages is in the Great Eastern Tower, east of Sandcaster, with the mages who bought it. The key was in the thieves' Ali Baba chest.", category: Misc}
+  letter: {id: 4581, text: "Ellinger's sealed letter, for the Guildmaster of Sandcaster: Nasir, of the Guild of Light.", category: Misc}
+
+items:
+  jewel_of_ages: "DD-07 L3 (jewel hook); Thaddeus only needs it, the party keeps the relic"
+  ellingers_letter: "DD-07's top floor (letter hook); Nasir takes it"
+  energy_disk: "2 on DD-07 L3 (M18)"
+
+npcs:
+  5246:              # Thaddeus
+    topics:
+      - n: 1
+        label: Jewel of Ages
+        states:
+          - when: {qbit: done}
+            text: "You can now come and drink here whenever you feel the effects of unnatural aging. The jewel keeps you; the water keeps everyone else."
+          - when: {item: jewel_of_ages}
+            text: "You've found the Jewel of Ages! Let me dip it in the fountain. See: the waters remember it. Keep the jewel; the fountain only needed to see it once. Drink here whenever you feel the effects of unnatural aging."
+            do: [{set: done}, {xp: 8000}]
+          - when: {qbit: q-d19.ledger_read}
+            text: "Sold to the mages of the Eastern Tower, east of here by the rim. Mages don't steal. They acquire, and then they study. Go and interrupt them."
+            do: [{set: started}, {autonote: tower}]
+          - when: {qbit: started}
+            text: "Without the Jewel of Ages, I cannot restore the fountain. See if you can find a clue to its whereabouts in the Great Southern Tower."
+          - text: "A terrible thing has happened. The Jewel of Ages has been stolen from its place in the fountain. Now the once youth-giving waters have turned back to venom. If you recover the jewel, I'll be able to restore the fountain."
+            do: [{set: started}]
+      - n: 3
+        label: Hornets
+        states:
+          - when: {qbit: done}
+            text: "Stung in the Aging Forest? Those hornets don't take blood, they take years. Drink from the fountain and have them back."
+          - text: "Stay out from under the great oak. Its hornets don't take blood, they take years. My fountain used to give them back. Now it is venom, like everything else round here."
+  5210:              # Nasir, Light Guildmaster of Sandcaster
+    topics:
+      - n: 2
+        label: "Ellinger's letter"
+        show: {all: [{item: ellingers_letter}, {not: {qbit: archmage}}]}
+        text: "Ellinger's seal. 'To the Guildmaster of Sandcaster: the bearer has earned the robes of an Archmage.' Ellinger never wrote that about anyone. Those of you in a Wizard's robe, take these instead. The rest of you may hold the letter."
+        do: [{take: ellingers_letter}, {set: archmage}, {promote: jewel}]
+
+hooks:
+  tower_door:
+    map: D3
+    where: "the Great Eastern Tower's door, east of Sandcaster by the rim (D3): the door event calls this hook and enters DD-07 when it returns true"
+    entrance: DD-07
+    sets: [started]
+    do: [{autonote: tower}]
+  jewel:
+    map: DD-07
+    where: "the mages' vault on L3: the jewel on a stand (the source's 'Jewel'); a ground item on the stand since D-90 (A7, 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives it)"
+    map_gives: {jewel_of_ages: 1}
+  l3_disks:
+    map: DD-07
+    where: "the alcoves beside the vault on L3: the map places 2 Energy Disks"
+    sets: [tower_disks]
+    once: true
+    map_gives: {energy_disk: 2}
+    text: "Disc. Two Energy Disks, wired into a mage's experiment that no longer needs them."
+    else_text: "Loose wires where the disks were."
+  letter:
+    map: DD-07
+    where: "the top floor's study: the sealed letter in the writing box on the desk (a chest, D-90, A7 2026-11-22); the map calls this after it opens"
+    sets: [letter_found]
+    map_gives: {ellingers_letter: 1}
+    once: true
+    status: true   # D-90: over the open chest; a window would close it
+    do: [{autonote: letter}]
+    text: "A letter sealed with Ellinger's mark, addressed 'To the Guildmaster of Sandcaster'. He left it where only those who could climb this tower would find it."
+  fountain:
+    status: true   # F13: a touch effect answers on the status line
+    map: D3
+    where: "the Fountain of Youth by Venom Pond, beside Thaddeus's hut: venom before done (the map's own poison), youth after"
+    reads: [done]
+    states:
+      - when: {qbit: done}
+        text: "The fountain removes all effects of unnatural aging."
+        do: [{lua: "Xeen.renewAges()"}, {lua: "evt.PlaySoundName(\"xeen_spring_drink\")"}]
+      - text: "The water is venom-green and smells of it. Thaddeus shakes his head at you from his door."
+  minimal_fountain:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-07
+    where: "the Fountain of Minimal Abilities in L4's laboratory: the map only calls this; the hook decides for the drinking member (player bit 11336)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11336))"}
+        text: "The water is cool and refreshing."
+      - text: "Fountain of Minimal Abilities. Your statistics have increased! (+1 to every statistic, permanent)"
+        do: [{lua: "for _, stat in ipairs({BaseMight, BaseIntellect, BasePersonality, BaseEndurance, BaseSpeed, BaseAccuracy, BaseLuck}) do AddValue(stat, 1) end"}, {lua: "SetPlayerBit(PlayerBit(11336))"}]
+  fantastic_book:
+    status: true   # F13: a touch effect answers on the status line
+    map: DD-07
+    where: "the Book of Fantastic Knowledge in L4's study: the map only calls this; the hook decides for the reading member (player bit 11337)"
+    states:
+      - when: {lua: "IsPlayerBitSet(PlayerBit(11337))"}
+        text: "Your intellect is already fantastic!"
+      - text: "The Book of Fantastic Knowledge. You close it knowing a little more than you did, and suspecting a great deal more. (+2 Intellect, permanent)"
+        do: [{lua: "AddValue(BaseIntellect, 2)"}, {lua: "SetPlayerBit(PlayerBit(11337))"}]
+  great_power_book:
+    map: DD-07
+    where: "the Book of Great Power in L4's study: every member, every time (D-39: a final refusal; no key, no condition)"
+    text: "A magic aura around the book pushes you back. The book answers to no one living."
+
+rewards: {xp: 8000, gold: 0, items: "the Jewel of Ages (relic, kept); 2 Energy Disks; L4's fountain (+1 all) and book (+2 Intellect) once per character", promotion: "Wizard -> Archmage (Light, Ellinger's letter to Nasir)"}
+playthrough: "D3: Thaddeus (Jewel of Ages). D3: the Eastern Tower door (Q-D19's key). DD-07: L3's jewel and disks, the top floor's letter. D3: Thaddeus (Jewel of Ages); the fountain; Nasir (Ellinger's letter)."

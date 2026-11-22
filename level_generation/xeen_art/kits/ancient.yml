@@ -1,0 +1,286 @@
+# Xeen landmark kit: Ancient technology (A6, 2026-11-20). Shipped MM6-MM8 textures by role, Hesper candidates, then
+# the new ones (level_generation/xeen_art/kit_textures/landmarks). Sizes are logical texels; `maps` the shipped maps
+# using the texture. Contact sheet: kits/ancient_sheet.png (landmark_sheet.py).
+kit: ancient
+title: Ancient technology (Castle Alamar, the crashed pods, Castle Xeen's machines, the Parabolic Barrier, travel pyramids)
+look:
+- 'MM6''s Control Center: dark teal-grey and verdigris steel, rust, riveted plates and pipes, green and red energy grids;'
+- 'MM7''s crashed Lincoln for the pods: dark hull steel with green light strips and consoles; new outer plating and fields.'
+family_sources:
+- source: 'MM6 Control Center sci-fi.blv (the sw set; also the Hive''s swfloor2b): main family'
+  why: 'the Ancients'' own installation in the series that Xeen begins (the Guardian''s control centre of MM6): Xeen''s
+    Ancients are the same makers, so Castle Alamar and Castle Xeen''s machines read as their work. Dark teal steel walls,
+    rusted girders, glowing green lattices, red grates, consoles; 60 textures, used in no other shipped dungeon, so it reads
+    as new'
+- source: 'MM7 The Lincoln 7d23 (the a and sfw sets): the pods'
+  why: 'MM7''s crashed Ancient starship: grey hull steel with green light strips, capsule panels and screen consoles (sfpnlon/sfpnloff);
+    the escape pods are small ships of the same makers. Kept to the pods so they read apart from Alamar'
+- source: 'MM8 Plane between Planes pbp.odm (gn_mtl01-03: the Large Shield, the elemental prisons)'
+  why: plain brushed metal at outdoor scale for big surfaces (the Parabolic Barrier's frame, pyramid cladding); too plain
+    for walls alone, hence the new panelled plating xahull
+- source: 'Hesper (Kreegan world) kits K1/K3/K9, design/kreegan_world/art: NOT shipped, reuse candidates only'
+  why: Hesper's Ancients are white ceramic and tarnished gold; beside MM6's teal steel they read as another civilisation,
+    so they are not the base. Reusable where a whole area can take that cleaner look, counted in Xeen's new-texture budget
+    (450) since no shipped world carries them; see hesper_reuse
+per_site:
+  DD-17 Castle Alamar (D6, L): outside xahull on gn_mtl, xaenergy pylons; inside the sw set (swll4dk main, swll5dk, swall1-5,
+    swfloor2b), conveyor halls swr2dk/swr4dk, energy fields xafield, the true-name gate swdoora
+  DD-16 Corak's Pod, DD-22 Sheltem's Pod (D6): outside xahullbn (burnt, in the lava field); Corak's inside the Lincoln set
+    (a3b, sfw7a, consoles sfpnlon); Sheltem's inside the sw set (swll5dk main walls, D-67; red accents swrdk2, swared),
+    so the two read apart
+  XD-19 Castle Xeen (X9): its machines (guard-making machines, elemental generators) as sw panels with xaenergy, barriers
+    xafield; the castle itself is MM8 Escaton's Palace (dungeon_families castles)
+  Parabolic Barrier, travel pyramids: gn_mtl frames, xahull cladding, xafield curtain, xaenergy pylons
+  FD-01 Alamar Depths: the sw set's braced panels (swall4 in the galleries and passages, swall2 in the halls) on swankdk
+    plate floors, with xahullbn where the castle came down; no swll5dk main walls, no red accents (D-69). Confirmed at
+    the 08:28 install: 17 shipped textures (sw set, swgirder ribs, swceilf, swdoora/b/c, xafield, gn_mtl02/03), 0 new
+shipped:
+  wall:
+  - tex: mm6/swll4dk
+    size: [128, 256]
+    maps: [oracle.blv, sci-fi.blv]
+    note: dark teal panel wall with conduits (Control Center main wall)
+  - tex: mm6/swall5
+    size: [128, 256]
+    maps: [6d01.blv, 6t6.blv, oracle.blv, sci-fi.blv, sewer.blv]
+    note: blue-teal tiled panel
+  - tex: mm6/swall1
+    size: [128, 256]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: teal panel in a frame
+  - tex: mm6/swall4
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: crossed-brace panel, red grime
+  - tex: mm6/swall3
+    size: [128, 256]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: grille panel
+  - tex: mm6/swall2
+    size: [128, 256]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: diamond-brace panel
+  - tex: mm7/a3b
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: dark hull wall with conduit ribs'
+  - tex: mm7/a2b
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: grey panel with ribbed edge'
+  - tex: mm7/a2d
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: grey panel'
+  - tex: mm7/sfw7a
+    size: [128, 256]
+    maps: [7out15.odm, 7d23.blv]
+    note: 'Lincoln: dark ribbed hull plating'
+  energy panel / glowing:
+  - tex: mm6/swll3dk
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: green glowing tubes
+  - tex: mm6/swaled
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: machine column with blue light
+  - tex: mm6/swared
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: machine column with red light
+  - tex: mm6/swll5dk
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: dark panel with red pilot light
+  - tex: mm6/swflora
+    size: [256, 256]
+    maps: [sci-fi.blv]
+    note: glowing green lattice (floor, field)
+  - tex: mm6/swflorb
+    size: [128, 128]
+    maps: [hive.blv, pyramid.blv, sci-fi.blv]
+    note: green lattice, small
+  - tex: mm6/swrdk2
+    size: [128, 128]
+    maps: [sci-fi.blv]
+    note: red-lit grate
+  - tex: mm7/a1b
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: green energy capsule'
+  - tex: mm7/a4b
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: cyan reactor panel'
+  - tex: mm7/sfw2
+    size: [128, 256]
+    maps: [7out15.odm, 7d23.blv]
+    note: 'Lincoln: green light strips'
+  - tex: mm7/sfw3
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: green light strips, banded'
+  console/screen:
+  - tex: mm6/trekscrn
+    size: [128, 64]
+    maps: [oracle.blv, sci-fi.blv]
+    note: grey console face 128 x 64
+  - tex: mm6/swor2
+    size: [256, 256]
+    maps: [sci-fi.blv]
+    note: machine panel with pipes and dials 256
+  - tex: mm6/swwala
+    size: [256, 256]
+    maps: [oracle.blv, sci-fi.blv]
+    note: conduit wall 256
+  - tex: mm7/sfpnlon
+    size: [128, 64]
+    maps: [7d23.blv]
+    note: 'Lincoln: lit screen console 128 x 64'
+  - tex: mm7/sfpnloff
+    size: [128, 64]
+    maps: [7d23.blv]
+    note: 'Lincoln: dark screen console'
+  door/gate:
+  - tex: mm6/swdoora
+    size: [256, 256]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: heavy riveted blast door 256
+  - tex: mm6/swdoorb
+    size: [256, 256]
+    maps: [sci-fi.blv]
+    note: cross-braced door 256
+  - tex: mm6/swtrpnl
+    size: [128, 256]
+    maps: [hive.blv, sci-fi.blv]
+    note: skull-mask panel (sealed door)
+  - tex: mm6/swtrdk
+    size: [128, 256]
+    maps: [sci-fi.blv]
+    note: skull-mask panel, dark
+  - tex: mm7/a2c
+    size: [128, 256]
+    maps: [7out15.odm, 7d23.blv]
+    note: 'Lincoln: grey door panel'
+  trim:
+  - tex: mm6/swr2dk
+    size: [64, 64]
+    maps: [oracle.blv, sci-fi.blv]
+    note: diagonal-striped trim 64
+  - tex: mm6/swr4dk
+    size: [64, 64]
+    maps: [sci-fi.blv]
+    note: spiked trim 64
+  - tex: mm6/swr1dk
+    size: [64, 64]
+    maps: [sci-fi.blv]
+    note: striped trim 64
+  - tex: mm6/swhorzad
+    size: [32, 32]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: blue panel strip 32
+  - tex: mm6/swhorzdb
+    size: [32, 32]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: blue panel strip, dark 32
+  - tex: mm6/swrt2
+    size: [64, 64]
+    maps: [sci-fi.blv]
+    note: bulb column 64
+  pillar/girder:
+  - tex: mm6/swgirder
+    size: [64, 64]
+    maps: [outa1.odm, oracle.blv, pyramid.blv, sci-fi.blv]
+    note: riveted plate 64
+  - tex: mm7/a3bs
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: hull wall with pipe'
+  floor:
+  - tex: mm6/swfloor2b
+    size: [128, 128]
+    maps: [outa1.odm, hive.blv, sci-fi.blv]
+    note: dark grey metal floor (Control Center, Hive)
+  - tex: mm6/swfloor5a
+    size: [128, 128]
+    maps: [6d01.blv, pyramid.blv, sci-fi.blv]
+    note: red grid floor
+  - tex: mm6/swankdk
+    size: [128, 128]
+    maps: [oracle.blv, sci-fi.blv]
+    note: teal plate floor
+  - tex: mm7/sfw7b
+    size: [128, 256]
+    maps: [7out15.odm, 7d23.blv]
+    note: 'Lincoln: green floor plating'
+  - tex: mm7/sfw1a
+    size: [128, 256]
+    maps: [7d23.blv]
+    note: 'Lincoln: grated floor'
+  ceiling:
+  - tex: mm6/swceilge
+    size: [256, 256]
+    maps: [pyramid.blv, sci-fi.blv]
+    note: rust ceiling panel with glyph 256
+  - tex: mm6/swceilf
+    size: [256, 256]
+    maps: [sci-fi.blv]
+    note: rust ceiling panel 256
+  - tex: mm6/swcirc2
+    size: [256, 256]
+    maps: [6t6.blv, sci-fi.blv, sewer.blv]
+    note: blue-green circle ceiling 256
+  outer surfacing (outdoor):
+  - tex: mm8/gn_mtl01
+    size: [128, 128]
+    maps: [elema.odm, elemf.odm, elemw.odm, out01.odm, out02.odm, out04.odm, out06.odm, out07.odm]
+    maps_more: 7
+    note: pale brushed metal (MM8 Plane between Planes)
+  - tex: mm8/gn_mtl02
+    size: [128, 128]
+    maps: [elema.odm, elemf.odm, elemw.odm, out01.odm, out02.odm, out04.odm, out06.odm, out07.odm]
+    maps_more: 8
+    note: mid metal
+  - tex: mm8/gn_mtl03
+    size: [128, 128]
+    maps: [elema.odm, elemf.odm, elemw.odm, out01.odm, out02.odm, out04.odm, out06.odm, out07.odm]
+    maps_more: 13
+    note: dark metal
+hesper_reuse:
+- tex: design/kreegan_world/art/textures_k9_lattice/masters/hnshield.png
+  size: [128, 256]
+  use: energy field alternative (violet hex); xafield made instead in the cyan of MM6/MM7
+- tex: design/kreegan_world/art/textures_out1/masters/hodome.png
+  size: [128, 128]
+  use: 'hex dome plates: the Parabolic Barrier''s dome, if it takes the white Ancient look'
+- tex: design/kreegan_world/art/textures_k3_transit/masters/htbulk.png
+  size: [256, 256]
+  use: 'round glyph-lock bulkhead (htbulkon lit): Alamar''s true-name gate, if a white-and-gold gate is wanted'
+- tex: design/kreegan_world/art/textures_d0/masters/hes_lander_hull.png
+  size: [128, 128]
+  use: 'crashed lander hull (and hes_lander_hull_torn): the pods'' outer hull in the white look'
+- tex: design/kreegan_world/art/textures_d0/masters/hes_col_strip_white.png
+  size: [128, 32]
+  use: light strips (white, red, dead) for any Ancient interior
+- note: 'Method reused in full: K1''s family source first, state variants ("the SAME ... as attached"), glow painted in
+    its own colour; P5 Clouds of the Ancients could take Hesper K1 whole (65 textures exist) as the clean Ancient layer'
+new:
+- name: xahull
+  size: [256, 256]
+  kind: tile
+  note: outer hull plating in the sw palette at house-kit scale (Alamar, pods, pyramids)
+- name: xahullbn
+  size: [256, 256]
+  kind: tile
+  note: the same plating scorched and buckled (crashed pods, Alamar's damage)
+- name: xafield
+  size: [128, 256]
+  kind: tile
+  note: dark blue force field with glowing cyan hex lines (shields, barriers, the Parabolic Barrier); v2, v1 read as pool
+    water
+- name: xaenergy
+  size: [128, 256]
+  kind: tile
+  note: teal steel panel with glowing cyan conduits (generators, pylons); the conduit lies on the tile's side edges after
+    the seam roll, so a face showing one conduit centred takes a u offset of 64

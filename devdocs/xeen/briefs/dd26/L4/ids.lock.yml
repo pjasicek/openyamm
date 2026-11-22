@@ -1,0 +1,86 @@
+format: 0
+sectors:
+  room:cistern: 1
+  room:conduit: 2
+  room:den: 3
+  room:east: 4
+  room:outfall: 5
+  room:spill: 6
+  room:stair: 7
+  room:tdoor: 8
+  room:vault: 9
+  room:west: 10
+events:
+  evt:arrive: 1
+  evt:bed: 2
+  evt:chest_spill: 3
+  evt:chest_vault: 4
+  evt:den_door: 5
+  evt:drain_bl: 6
+  evt:drain_es: 7
+  evt:drain_ib: 8
+  evt:drain_tr: 9
+  evt:exit: 10
+  evt:outfall_grate: 11
+  evt:pets_unlimited: 12
+  evt:scroll: 13
+  evt:spill_grate: 14
+  evt:tribble_back: 15
+  evt:tribble_door: 16
+  evt:tribble_load: 17
+  evt:voice: 18
+doors:
+  door:den: 1
+  door:den.leaf2: 2
+  door:outfall_grate: 3
+  door:spill_grate: 4
+  door:tribble: 5
+  door:tribble.leaf2: 6
+containers:
+  chest:spill: 0
+  chest:vault: 1
+map_vars:
+  once.arrive: 0
+sounds:
+  sound:basin: 1
+  sound:bed_cistern: 2
+  sound:bed_conduit: 3
+  sound:cistern_drip: 4
+  sound:conduit_water_e: 5
+  sound:conduit_water_w: 6
+  sound:outfall: 7
+  sound:tribbles: 8
+decorations:
+  deco:cage_counter_1: 0
+  deco:cage_counter_2: 1
+  deco:cage_counter_3: 2
+  deco:cage_west_1: 3
+  deco:cage_west_2: 4
+  deco:den_bowl: 5
+  deco:sconce_0: 6
+  deco:sconce_1: 7
+  deco:sconce_10: 8
+  deco:sconce_11: 9
+  deco:sconce_12: 10
+  deco:sconce_13: 11
+  deco:sconce_14: 12
+  deco:sconce_15: 13
+  deco:sconce_16: 14
+  deco:sconce_17: 15
+  deco:sconce_18: 16
+  deco:sconce_19: 17
+  deco:sconce_2: 18
+  deco:sconce_3: 19
+  deco:sconce_4: 20
+  deco:sconce_5: 21
+  deco:sconce_6: 22
+  deco:sconce_7: 23
+  deco:sconce_8: 24
+  deco:sconce_9: 25
+  deco:vault_coin_1: 26
+  deco:vault_coin_2: 27
+  deco:vault_cup_1: 28
+  deco:vault_cup_2: 29
+  deco:vault_cup_3: 30
+  deco:vault_statue: 31
+  deco:vault_vase: 32

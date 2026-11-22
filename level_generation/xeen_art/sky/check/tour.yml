@@ -1,0 +1,88 @@
+output_dir: /home/pjasicek/github/OpenYAMM/level_generation/xeen_art/sky/check
+exit: true
+settle_seconds: 3
+shots:
+  - name: xeen_darkside_day-07
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "07:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_day"]
+  - name: xeen_darkside_day-12
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_day"]
+  - name: xeen_darkside_day-19
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "19:40"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_day"]
+  - name: xeen_darkside_fading-07
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "07:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_fading"]
+  - name: xeen_darkside_fading-12
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_fading"]
+  - name: xeen_darkside_fading-19
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "19:40"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_fading"]
+  - name: xeen_darkside_failing-07
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "07:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_failing"]
+  - name: xeen_darkside_failing-12
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_failing"]
+  - name: xeen_darkside_failing-19
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "19:40"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_failing"]
+  - name: fair-07
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "07:00"
+    commands: ["weather clear", "sky weather 0", "sky preset fair"]
+  - name: fair-12
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky weather 0", "sky preset fair"]
+  - name: fair-19
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "19:40"
+    commands: ["weather clear", "sky weather 0", "sky preset fair"]
+  - name: xeen_darkside_day-night
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "23:30"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_darkside_day"]
+  - name: xeen_cloud_sea-12
+    position: [-14000, -14000, 4000]
+    yaw: 0.785
+    pitch: -0.12
+    time: "12:00"
+    commands: ["weather clear", "sky weather 0", "sky preset xeen_cloud_sea"]

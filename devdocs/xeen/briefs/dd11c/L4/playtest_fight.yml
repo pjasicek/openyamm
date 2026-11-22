@@ -1,0 +1,62 @@
+# Playtest of Hobstadt's hall (DD-11C, L4; lane A7, agent:xeen-a7-dd11): the fight route. Hobstadt speaks before his
+# throne (NPC 5110): "Fight to the death" sets q-d13.hostile (113263): his court (Hobstadt's Guard 11075) and he turn
+# hostile, and so do the wild trolls (A2's rules). His death (actor 12, killed here outright) runs A3's q-d13.hobstadt
+# (hobstadt_slain 113264) and the map's line; the throne without a Troll member reads "The throne is vacant."
+# (q-d13.throne's fail text, aaze0040:8-9); the sacks open to his killers (q-d13.hoard). Every window closed, a save and
+# load: his group stays hidden, the court stays hostile. Actor indices follow objects.yml's monsters sorted by id: 0-1
+# the bone run, 2-3 the frost seep, 4-9 the hall's court, 10-11 the gate's, 12 Hobstadt, 13-14 the ice den, 15-17 the
+# gnawed tunnel, 18-20 the trophy cave.
+id: xeen.dd11c.l4.fight
+title: Troll Holes, Hobstadt's hall (DD-11C L4), the fight to the death, the vacant throne and the hoard
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_dd11c.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 27, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 27, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 27, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 27, skills: [], equipment: {}}
+  - assert: {map: xeen_dd11c.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); close()"}
+  - set_pose: {map: xeen_dd11c.blv, x: 2688, y: 0, z: 0, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - assert: {dialog: {active: true}}
+  - select_topic: {match_label: "Fight to the death"}
+  - assert: {dialog: {active: true, text_contains: "Good."}}
+  - play_lua: {source: "close(); close(); wait(3); if not qbit(113263) then error('hostile 113263 not set') end"}
+  - assert: {actor_count: {monster_id: 11075, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11073, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11690, hostile: false, max: 0}}
+  - assert: {actor_count: {monster_id: 11692, hostile: false, max: 0}}
+  # The throne while he fights: no talk.
+  - play_lua: {source: "click(16); wait(0.5); local s = status(); log('throne fighting: ' .. s); if not string.find(s, 'done talking', 1, true) then error('throne: ' .. s) end"}
+  # His death: q-d13.hobstadt and the map's line.
+  - damage_actor: {actor_index: 12, amount: 100000}
+  - advance_runtime: {seconds: 3}
+  - assert: {actor_visible: {actor_index: 12, dead: true}}
+  - play_lua: {source: "local s = status(); log('slain: ' .. s); if not qbit(113264) then error('hobstadt_slain 113264 not set') end; if not string.find(s, 'falls across the foot of his throne', 1, true) then error('no line: ' .. s) end"}
+  - clear_hostiles: {radius: 4000}
+  # The vacant throne (no Troll member: its fail text), the sacks to his killers.
+  - set_pose: {map: xeen_dd11c.blv, x: 3000, y: 120, z: 0, yaw_degrees: 45, pitch: 0}
+  - play_lua: {source: "click(16); wait(1)"}
+  - assert: {dialog: {active: true, text_contains: "The throne is vacant."}}
+  - play_lua: {source: "close(); if qbit(113265) then error('throne_taken without a troll') end"}
+  - set_pose: {map: xeen_dd11c.blv, x: 3800, y: -320, z: 0, yaw_degrees: 0, pitch: 0}
+  - play_lua: {source: "click(15); wait(1)"}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        if not string.find(s, [[Sacks of gold, each stamped THIEVES' GUILD]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if not qbit(113266) then error('done 113266 not set') end"}
+  # Every window closed, then a save and load: Hobstadt's group hidden, the court hostile.
+  - play_lua: {source: "close(); wait(1); close()"}
+  - reload: {}
+  - play_lua: {source: "wait(2); close()"}
+  - assert: {actor_visible: {actor_index: 12, hidden: true}}
+  - assert: {actor_count: {monster_id: 11073, hostile: false, max: 0}}

@@ -1,0 +1,138 @@
+# Xeen playthrough, segment 07: the Deep Mine (XD-03) and the Clan King (M3). From the foot of the Deep Line, walked:
+# the cart down the last pitch, the sentry cut, the gallery door (the gong sentry dies at once), the gong rung by the
+# party (the barracks open and their sergeants are fought), lever A in the barracks (the lower bar), the north span,
+# the furnace tower's lever B (the upper bar), the King's Gate, his guard, the King himself (clan_king_slain), his key
+# from his corpse, the hoard door, the shaft lever (escape_shaft_open), the cage up to the shaft head and out onto
+# X1's hilltop. Mayor Gunther then pays: M3 done, the Red Dwarf Badge of Courage.
+# Route: devdocs/xeen/briefs/xd03/L4/playtest.yml. Quest logic: source/quests/m3.yml.
+#   python3 tests/playthrough/xeen/run.py 07
+id: xeen.playthrough.07_deep_mine
+title: "Xeen playthrough 07: the Deep Mine walked to the Clan King, out by his shaft, and Gunther's badge"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough]
+steps:
+  - load_game: {path: output/playthrough/xeen/checkpoints/05_red_dwarf_mines.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_xd03.blv}
+  - assert: {qbit_clear: [110030, 110031]}
+  # The mouth ledge and onto the cart: it rides down the trestle with the party on it.
+  - walk_to: {x: 7720, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7380, y: 1088, z: 384, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 7200, y: 1088, z: 412, radius: 48, timeout_seconds: 30}
+  - play_lua: {source: "wait(9); if door_state(12) ~= 'open' then error('the cart did not ride down: ' .. door_state(12)) end"}
+  - assert: {party_position: {x: 6420, y: 1088, radius: 140, z_min: 20, z_max: 36}}
+  # Off the cart and up the sentry cut.
+  - walk_to: {x: 6528, y: 1350, z: 0, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 6528, y: 2050, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2450, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6560, y: 2560, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 6272, y: 2752, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  - walk_to: {x: 5300, y: 2752, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 900}
+  # The gallery door; the gong sentry behind it is killed at once.
+  - play_lua: {source: "open_door(23, 9)"}
+  - walk_to: {x: 4950, y: 2752, z: -128, radius: 64, timeout_seconds: 30, clear_hostiles: 1100}
+  - clear_hostiles: {radius: 1100}
+  # The party rings the gong: the barracks' doors fly open and their sergeants come and are fought on the gallery.
+  - walk_to: {x: 4912, y: 3520, z: -128, radius: 48, timeout_seconds: 30, clear_hostiles: 600}
+  - play_lua:
+      source: |
+        click(29); wait(3)
+        if door_state(3) ~= "open" or door_state(4) ~= "open" then error("the gong did not open the barracks") end
+        wait(6)
+        clear_hostiles(2600)
+  # Down the gallery stair, through the barracks to lever A (the lower bar of the King's Gate).
+  - walk_to: {x: 5008, y: 2380, z: -128, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 5008, y: 1820, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 4600, y: 2600, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4672, y: 4800, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4672, y: 5040, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - play_lua:
+      source: |
+        click(36); wait(7)
+        if door_state(14) ~= "open" then error("lever A did not lift the lower bar: " .. door_state(14)) end
+  # Back to the hall and over the north span to the far bank.
+  - walk_to: {x: 4672, y: 4800, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 4000, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4424, y: 3650, z: -512, radius: 64, timeout_seconds: 40, clear_hostiles: 1200}
+  - walk_to: {x: 4200, y: 3550, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 3900, y: 3560, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1200}
+  - walk_to: {x: 3600, y: 3650, z: -512, radius: 48, timeout_seconds: 30, clear_hostiles: 1500}
+  - clear_hostiles: {radius: 1500}
+  # The furnace tower: its stair, its door, lever B (the upper bar).
+  - walk_to: {x: 3200, y: 3900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2700, y: 3328, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2440, y: 3328, z: -490, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 2160, y: 3328, z: -256, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "open_door(24, 10)"}
+  - walk_to: {x: 1700, y: 3328, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  - walk_to: {x: 1360, y: 3328, z: -256, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(37); wait(6)
+        if door_state(13) ~= "open" then error("lever B did not lift the upper bar: " .. door_state(13)) end
+  # Down the tower stair to the antechamber: the King's Gate opens with both bars up.
+  - walk_to: {x: 2160, y: 3328, z: -256, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 2700, y: 3328, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3200, y: 3950, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3200, y: 4400, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 700}
+  - walk_to: {x: 3200, y: 4520, z: -512, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(27); wait(8)
+        if door_state(6) ~= "open" or door_state(7) ~= "open" then
+          error("the King's Gate did not open with both bars up: " .. door_state(6) .. door_state(7))
+        end
+  # The King's hall: his guard, then the King (m3.clan_king).
+  - walk_to: {x: 3320, y: 4540, z: -512, radius: 40, timeout_seconds: 30}
+  - walk_to: {x: 3320, y: 4760, z: -512, radius: 40, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: 3200, y: 4900, z: -512, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - play_lua: {source: "clear_hostiles(1100); wait(5)"}
+  - play_lua: {source: "clear_hostiles(2000); wait(5)"}
+  - assert: {actor_visible: {actor_index: 7, dead: true}}
+  - play_lua: {source: "if not qbit(110030) then error('the King\\'s death did not set clan_king_slain') end"}
+  # His key from his corpse; the hoard door behind the throne; the shaft lever (m3.shaft_lever).
+  - walk_to: {x: 3000, y: 5900, z: -512, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 6080, z: -320, radius: 96, timeout_seconds: 30}
+  - interact_actor: {actor_index: 7}
+  - play_lua: {source: "wait(1); if not has_item(12021) then error('the King\\'s corpse did not hold his key') end"}
+  - walk_to: {x: 3000, y: 6380, z: -320, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3200, y: 6420, z: -320, radius: 40, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(22); wait(4)
+        if door_state(8) ~= "open" then error("the hoard door did not open with the key: " .. door_state(8)) end
+  - walk_to: {x: 3200, y: 6800, z: -320, radius: 64, timeout_seconds: 30}
+  - walk_to: {x: 3480, y: 7230, z: -320, radius: 48, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(41); wait(2)
+        if not qbit(110031) then error("the shaft lever did not set escape_shaft_open") end
+  # The cage up to the shaft head, and out onto X1's hilltop.
+  - walk_to: {x: 3520, y: 7104, z: -320, radius: 48, timeout_seconds: 30}
+  - walk_to: {x: 3904, y: 7168, z: -304, radius: 64, timeout_seconds: 30}
+  - play_lua:
+      source: |
+        click(3); wait(12)
+        if door_state(11) ~= "open" then error("the cage did not rise: " .. door_state(11)) end
+  - walk_to: {x: 4290, y: 7168, z: 1216, radius: 64, timeout_seconds: 30}
+  - execute_event: {id: 26}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: -1024, y: 17565, radius: 128, z_min: 1380, z_max: 1620}}
+  - walk_to: {x: -1024, y: 17100, z: 1363, z_tolerance: 200, radius: 128, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  # The town hall: Gunther's Dwarves (M3 done, the badge).
+  - execute_event: {id: 9}
+  - select_topic: {match_label: Dwarves}
+  - assert:
+      dialog: {text_contains: "Red Dwarf Badge of Courage"}
+  - press_action: {action: cancel_dialog}
+  - assert: {qbit_set: [111061, 110030, 110031]}
+  - assert: {qbit_clear: [111060]}
+  - play_lua: {source: "log('M3 done: experience ' .. experience(0) .. ', gold ' .. gold())"}
+  - save_game: {name: "07 Deep Mine", path: output/playthrough/xeen/checkpoints/07_deep_mine.oysav}

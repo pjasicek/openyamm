@@ -1,0 +1,60 @@
+# X5 Winterkill Tundra: flavour topics of Winterkill, Kai Wu's monastery, Glom's burrow and the pass
+# (source/towns/x5.yml) for the people with no quest role. Owner: A4. Format: QUESTS_FORMAT.md section 5 (talk only).
+# Quest topics are A3's: Mayor Randon (q-c6), Kai Wu (q-c4), Glom (q-c16), Halon (q-c14), Thickbark (q-c15), the
+# Winter Druid (q-c1). Winterkill's houses open with q-c6.done, so their people speak after the ghosts.
+map: X5
+block: 172
+source: "xeen/aaze0032 (Winterkill), dark/aaze0006 (Freeda)"
+
+npcs:
+  4501:              # Casper, the Mindmeld Guild (open before the town)
+    topics:
+      - {n: 1, label: The rolls, text: "The guild is closed to all newcomers, so I can't enter your name on the rolls. If I receive a gift of 1000 gold, however, I may fall asleep with the roll book open. (wink, wink)", source: "xeen/aaze0032:1"}
+      - n: 2
+        label: Ghosts
+        states:
+          - when: {qbit: q-c6.done}
+            text: "The ghosts are gone. It's very quiet. I liked it better when I could blame the noise on them."
+          - text: "The ghosts don't bother the guild. We think about them very hard and they leave. The mayor tried it. It didn't work for him."
+  4503:              # Ulla, The Frozen Flagon
+    topics:
+      - {n: 3, label: The gongs, text: "The gongs still hang in the square. We polish them. We don't ring them."}
+  4504:              # Father Ingram
+    topics:
+      - {n: 4, label: Ghostslayers, text: "Ghostslayers Extraordinaire. The mayor had the plaque engraved before you'd finished. He's an optimist."}
+  4506:              # Bjorn Fellmonger
+    topics:
+      - {n: 5, label: Trolls, text: "The trolls in the forest gnaw on the trees. The trees complain. Yes, the trees."}
+  4508:              # Grimwald, ghost hunter
+    topics:
+      - {n: 6, label: The Acme, text: "The Acme Ghost Visualization System. Point it at a ghost, see a ghost. Point it at anything else, see a ghost. Excellent value."}
+  4509:              # Sven
+    topics:
+      - {n: 7, label: Giants, text: "Cyclopes live in the south-west, past the frozen lakes. One eye each, and they still saw me first."}
+  4511:              # Pieter Frost, trapper
+    topics:
+      - {n: 8, label: The pagoda, text: "Kai Wu's old pagoda is full of ninja now. You won't see them. That's the point of ninja."}
+  4513:              # Old Knut, ice fisher
+    topics:
+      - {n: 9, label: The skull, text: "There's a cave in the hills where a skull talks. It sells things, for gems. I paid it three for a fish. It lied."}
+  4514:              # Ragnhild, herder
+    topics:
+      - {n: 10, label: The forest, text: "Something stomps about in the snowy forest at night. Too heavy for a troll. The goats won't go near that hill."}
+  4517:              # Bram, woodcutter
+    topics:
+      - {n: 11, label: Trees, text: "Don't cut the trees at the forest's edge. Some of them talk. One asked me to stop. Politely."}
+  4518:              # Liesl
+    topics:
+      - {n: 12, label: Ghosts, text: "The ghosts said the gongs hurt their ears. I think they were just lonely."}
+  4519:              # Tobin Snow, town clerk
+    topics:
+      - {n: 13, label: The ledger, text: "Four hundred names in the old ledger. Forty in the new. Some days the old one feels more crowded."}
+  4522:              # Brother Lin, Hall of Stillness
+    topics:
+      - {n: 14, label: The pagoda, text: "Our brothers in the pagoda chose the dark path. Kai Wu still sets their places at dinner."}
+  4525:              # Fizzwick, the steward's burrow
+    topics:
+      - {n: 15, label: The black tower, text: "The black tower on the rim? Sealed. Old as the world. His Majesty says not to knock."}
+  4527:              # Freeda, the high pass
+    topics:
+      - {n: 16, label: Mountains, text: "My name you have heard, and you come to me to learn how to climb mountains. Climbing is mostly not falling. The rest is legs.", source: "dark/aaze0006:15 (close)"}

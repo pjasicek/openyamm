@@ -4,9 +4,11 @@
     python3 tools/maw_site/build_site.py [--out DIR] [--skip-images]
 
 Chedian's maps and teachers come from the MM9 guide's data (output/mm9_site/data/guide.js): build that first.
+Xeen's come from the Xeen guide's (output/xeen_site/data/guide.js); without it the guide is built without Xeen.
 """
 
 import argparse
+import csv
 import hashlib
 import json
 import re
@@ -31,6 +33,9 @@ MM9_SITE = REPO / 'output' / 'mm9_site'
 MM9_BALANCE = REPO / 'assets_dev' / 'engine' / 'rulesets' / 'maw' / 'worlds' / 'mm9' / 'balance.yml'
 # MAW's rows on MM9 people: the Hag's skill reset and Dimensional Maps, the Jarls' bounty offices.
 MM9_MAW_DIALOGUE = REPO / 'assets_dev' / 'engine' / 'rulesets' / 'maw' / 'worlds' / 'mm9' / 'dialogue.yml'
+XEEN_SITE = REPO / 'output' / 'xeen_site'
+XEEN_BALANCE = REPO / 'assets_dev' / 'engine' / 'rulesets' / 'maw' / 'worlds' / 'xeen' / 'balance.yml'
+XEEN_MAP_STATS = REPO / 'assets_dev' / 'worlds' / 'xeen' / 'data_tables' / 'map_stats.txt'
 CONTENT = HERE / 'content'
 
 CONTINENTS = [
@@ -38,6 +43,7 @@ CONTINENTS = [
     {'id': 'antagarich', 'name': 'Antagarich', 'world': 'mm7', 'game': 'Might and Magic VII'},
     {'id': 'jadame', 'name': 'Jadame', 'world': 'mm8', 'game': 'Might and Magic VIII'},
     {'id': 'chedian', 'name': 'Chedian', 'world': 'mm9', 'game': 'Might and Magic IX'},
+    {'id': 'xeen', 'name': 'Xeen', 'world': 'xeen', 'game': 'World of Xeen (MM4 + MM5)'},
 ]
 
 # Marker types: the MM9 guide's, plus the MM6-MM8 house kinds. Order is the legend order.
@@ -67,11 +73,17 @@ POI_TYPES = {
 # Chedian markers the MAW guide leaves out: monster levels and loot follow MAW, not MM9.
 MM9_DROPPED = {'monster', 'loot', 'breakable', 'trap', 'door'}
 MM9_GUIDE_URL = 'https://jasicek.net/openyamm/mm9-guide/'
+# Xeen markers the MAW guide leaves out, as Chedian's; signs are the Xeen guide's lore texts. Mirrors are teleporters.
+XEEN_DROPPED = MM9_DROPPED | {'sign'}
+XEEN_RETYPED = {'mirror': 'teleporter'}
+XEEN_GUIDE_URL = 'https://jasicek.net/openyamm/xeen-guide/'
+# The Xeen guide's region faces, in the order the continent page lists them.
+XEEN_FACES = ['Cloudside', 'Sky', 'Darkside', 'Planes']
 
 # Class ids whose icon file has a shorter name.
 CLASS_ICONS = {'assassinthiefline': 'assassin'}
 
-SECTIONS = ['start', 'progression', 'chedian', 'promotions', 'classes', 'crafting', 'tips', 'combat', 'loot', 'spells',
+SECTIONS = ['start', 'progression', 'chedian', 'xeen', 'promotions', 'classes', 'crafting', 'tips', 'combat', 'loot', 'spells',
             'deviations']
 
 
@@ -83,9 +95,20 @@ def load_mm9_guide():
     return json.loads(text[text.index('{'):text.rindex('}') + 1])
 
 
-def chedian_levels():
-    """Chedian's MAW map levels from balance.yml, in map_levels.yml's shape."""
-    data = yaml.safe_load(MM9_BALANCE.read_text())
+def load_xeen_guide():
+    """The Xeen guide's data, or None (with a warning) when it has not been built."""
+    path = XEEN_SITE / 'data' / 'guide.js'
+    if not path.exists():
+        print(f'warning: {path.relative_to(REPO)} is missing: building without Xeen '
+              '(run python3 tools/xeen_site/build_site.py first)', file=sys.stderr)
+        return None
+    text = path.read_text()
+    return json.loads(text[text.index('{'):text.rindex('}') + 1])
+
+
+def balance_levels(path):
+    """MM9's or Xeen's MAW map levels from its balance.yml, in map_levels.yml's shape."""
+    data = yaml.safe_load(path.read_text())
     bands, starters, madness, madness_start = {}, [], {}, []
     for file_name, entry in (data.get('maps') or {}).items():
         if entry.get('band'):
@@ -102,7 +125,7 @@ def chedian_levels():
 
 def chedian_maps(mm9, out, skip_images):
     """The MM9 guide's maps for Chedian: its images, regions and markers, without MM9's monster levels."""
-    levels_data = chedian_levels()
+    levels_data = balance_levels(MM9_BALANCE)
     regions = {region['id']: region for region in mm9['regions']}
     dialogue = yaml.safe_load(MM9_MAW_DIALOGUE.read_text())
     topics = {}
@@ -141,6 +164,68 @@ def chedian_maps(mm9, out, skip_images):
             if entry.get('thumb'):
                 copy_asset(MM9_SITE / entry['thumb'], out / entry['thumb'])
     return maps
+
+
+def xeen_refill_days():
+    """Xeen's map_stats.txt refill days by file name (MawMonsterRules::mapRespawnDays: no never-refill row is Xeen's)."""
+    days = {}
+    for row in csv.reader(XEEN_MAP_STATS.read_text(encoding='latin-1').splitlines(), delimiter='\t'):
+        if len(row) > 6 and row[0].strip().isdigit() and row[2].strip():
+            days[row[2].strip().lower()] = world_maps.as_int(row[6].strip())
+    return days
+
+
+def xeen_maps(xeen, out, skip_images):
+    """The Xeen guide's maps for Xeen, as chedian_maps: its images, regions and markers, without monsters and loot.
+    A map's file is the balance.yml key of its stem (XD-17 is an open-air BLV the Xeen guide calls outdoor)."""
+    levels_data = balance_levels(XEEN_BALANCE)
+    refills = xeen_refill_days()
+    regions = {region['id']: region for region in xeen['regions']}
+    maps = []
+    for m in xeen['maps']:
+        entry = {key: m[key] for key in ('id', 'name', 'kind', 'floors', 'floorNames', 'defaultFloor', 'thumb')
+                 if key in m}
+        files = [f'{m["id"]}{ext}' for ext in ('.odm', '.blv') if f'{m["id"]}{ext}' in levels_data['bands']]
+        file_name = files[0] if files else f'{m["id"]}.{"odm" if m["kind"] == "outdoor" else "blv"}'
+        entry.update({'continent': 'xeen', 'world': 'xeen', 'file': file_name,
+                      'region': regions[m['region']]['name'] if m.get('region') in regions else '',
+                      'refill_days': refills.get(file_name, 0)})
+        levels = world_maps.map_levels(file_name, levels_data)
+        if levels:
+            entry['levels'] = levels
+        pois = []
+        for poi in m['pois']:
+            kind = XEEN_RETYPED.get(poi['t'], poi['t'])
+            if kind in XEEN_DROPPED or kind not in POI_TYPES:
+                continue
+            keep = {key: poi[key] for key in ('id', 'n', 'd', 'u', 'v', 'f', 'map', 'people') if key in poi}
+            keep['t'] = kind
+            if poi.get('promo'):
+                keep['k'] = f'{poi["promo"]} promotion'
+            pois.append(keep)
+        entry['pois'] = pois
+        entry['xeen'] = f'{XEEN_GUIDE_URL}#map-{m["id"]}'
+        maps.append(entry)
+        if not skip_images:
+            for floor in entry['floors']:
+                copy_asset(XEEN_SITE / floor['img'], out / floor['img'])
+            if entry.get('thumb'):
+                copy_asset(XEEN_SITE / entry['thumb'], out / entry['thumb'])
+    return maps
+
+
+def xeen_regions(xeen, maps):
+    """The Xeen guide's regions by face (Cloudside, the sky, Darkside, the planes), each face's in level order; the
+    Warzone (an arena, band 1) last."""
+    levels = {m['id']: m['levels']['band'][1] for m in maps if m.get('levels')}
+    arenas = {m['id'] for m in maps if m.get('levels', {}).get('arena')}
+
+    def order(region):
+        face = region.get('face', '')
+        return (region.get('hub') in arenas, XEEN_FACES.index(face) if face in XEEN_FACES else len(XEEN_FACES),
+                levels.get(region.get('hub'), 999))
+    return [{'id': r['id'], 'name': r['name'] if r.get('face', '') in ('', 'Planes') or r['id'] == 'arena'
+             else f'{r["name"]} ({r["face"]})', 'maps': r['maps']} for r in sorted(xeen['regions'], key=order)]
 
 
 def copy_asset(source, target):
@@ -261,11 +346,14 @@ def main():
     started = time.time()
 
     mm9 = load_mm9_guide()
+    xeen = load_xeen_guide()
     maps = [one_floor(entry) for entry in world_maps.build(out, skip_images=args.skip_images)]
     maps += chedian_maps(mm9, out, args.skip_images)
+    xeen_list = xeen_maps(xeen, out, args.skip_images) if xeen else []
+    maps += xeen_list
     map_stats(maps, out / 'work' / 'floor_areas.json')
-    teacher_data = teachers.build()
-    class_data = classes.build()
+    teacher_data = teachers.build(xeen=xeen)
+    class_data = classes.build(xeen=xeen)
     mark_people(maps, teacher_data, class_data)
     for cls in class_data['classes']:
         icon = CONTENT / 'img' / f'class_{CLASS_ICONS.get(cls["id"], cls["id"])}.png'
@@ -280,11 +368,13 @@ def main():
     chedian_regions = [{'id': r['id'], 'name': r['name'], 'maps': r['maps']} for r in mm9['regions']]
     guide = {
         'generated': time.strftime('%Y-%m-%d'),
-        'continents': CONTINENTS,
+        'continents': [c for c in CONTINENTS if xeen or c['id'] != 'xeen'],
         'chedianRegions': chedian_regions,
+        'xeenRegions': xeen_regions(xeen, xeen_list) if xeen else [],
         'poiTypes': POI_TYPES,
         'maps': maps,
         'mm9Guide': MM9_GUIDE_URL,
+        'xeenGuide': XEEN_GUIDE_URL,
         **teacher_data,
         **class_data,
         'content': sections,

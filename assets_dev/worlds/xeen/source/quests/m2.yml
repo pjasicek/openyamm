@@ -1,0 +1,121 @@
+# M2 Joe the Exterminator (QUESTS M2; CHANGES_FOR_BUILT_MAPS X1-11, X1-13, XD01-2). Owner: A3.
+# Format: devdocs/xeen/formats/QUESTS_FORMAT.md.
+id: M2
+title: Joe the Exterminator
+act: I
+kind: main
+status: full
+giver: 4003          # Mayor Gunther pays; the drunk (4030) and Fenwick (4027) give the clues
+maps: [X1, XD-01]
+level: 2
+block: 2
+after: [m1.started]
+source: "QUESTS M2; xeen/aaze0028:2, :7, :15-16, :22, :26-27, :49, :63"
+
+qbits:
+  started: {id: 111040, journal: "A drunk in Lady Geraldine's Tavern says Joe the Exterminator breeds the pests in his warehouse.",
+            until: [done]}
+  joe_invoice_found: {id: 110010, map: XD-01}
+  joe_pair_slain: {id: 110011, map: XD-01, note: "the Wobbles, the mated pair, dead (bonus)"}
+  culvert_grate_open: {id: 110012, map: XD-01, note: "set inside XD-01; opens X1's riverbank grate"}
+  done: {id: 111041}
+
+autonotes:
+  invoice: {id: 4002, text: "Joe's invoice: Breeder Slimes, 1 mated pair, 287 gold. 5 Doom Bugs at 145 each, 725 gold. Total: 1012 gold. Mayor Gunther will want to see it."}
+
+awards:
+  citizen: {id: 401, text: "Received Vertigo's Outstanding Citizenship Award", sort: 2}
+
+items:
+  warehouse_key: "Joe's warehouse key; under the rain barrel in Joe's yard (X1); opens XD-01's loading door. Was MM7 2176."
+  joes_invoice: "Joe's invoice; the crate in XD-01's storeroom; Gunther takes it. Was MM7 1530."
+  pen_key: "map-local key of XD-01's pens (A7). Was MM7 2110."
+
+npcs:
+  4003:              # Mayor Gunther
+    topics:
+      - n: 1
+        label: Joe's invoice
+        show: {all: [{item: joes_invoice}, {not: {qbit: done}}]}
+        states:
+          - text: "Thank you for cleaning up Vertigo and discovering Joe's treachery. Now it makes sense why the extermination of the pests was taking so long. I present you with the outstanding citizenship award and this treasure. Congratulations. Oh, one more thing. I have received a message from the dwarves who reside in the Red Dwarf Range. They have urgently requested help and promise great reward to whoever is brave enough to come. Apparently, their mines have been invaded by the Mad Dwarf Clan, preventing them from mining. Help them and report back."
+            do: [{take: joes_invoice}, {set: done}, {clear: started}, {clear: m1.started}, {xp: 1500}, {gold: 1000}, {award: citizen},
+                 {move_npc: [4045, 0]}, {set: m3.started}]
+  4030:              # Dudley, the drunk in Lady Geraldine's Tavern
+    topics:
+      - n: 2
+        label: Joe
+        states:
+          - when: {qbit: done}
+            text: "Joe's gone. (hic) Good riddance. (hicup) Who's buying?"
+          - text: "He...he (hic) breeeds (hicup) Breeeeeds them in the (hic) warehouse (hicup)"
+            do: [{set: started}]
+  4027:              # Fenwick, the retired cutpurse
+    topics:
+      - n: 3
+        label: Joe's key
+        show: {all: [{qbit: started}, {not: {found: warehouse_key}}]}   # D-90 5: the key held once
+        text: "Joe keeps his warehouse key under the rain barrel in his yard. Everybody knows. Nobody looks."
+  4045:              # Joe the Exterminator (moved out when M2 is done)
+    topics:
+      - n: 4
+        label: Pests
+        text: "Two years ago, I came to this town on contract to control the vermin infestation. It has been a long, hard job, but I've just about got the situation under control."
+      - n: 5
+        label: Warehouse
+        text: "My warehouse? Strictly off limits. Dangerous chemicals. I don't even carry the key on me."
+
+hooks:
+  rain_barrel:
+    map: X1
+    where: "the warehouse key at the foot of the rain barrel in Joe's yard, south bank: a ground item since D-90 (c) (A5, X1 2026-11-22), picked up like any item; no event calls this hook (it records that the map gives the key)"
+    map_gives: {warehouse_key: 1}
+  warehouse_door:
+    map: X1
+    where: "XD-01's loading door in Joe's yard"
+    entrance: XD-01
+    sealed: "Joe's locked warehouse; the key lies by the rain barrel in sight of the door (D-89, as MM6's Goblinwatch key)"
+    needs: [warehouse_key]
+    fail_text: "The warehouse door is locked. KEEP OUT. THIS MEANS YOU, GUNTHER. A rain barrel stands by the door. Joe is the kind of man who hides keys in rain barrels."
+  invoice_crate:
+    map: XD-01
+    where: "the invoice crate in Joe's storeroom (built: chest:invoice, evt:invoice_crate): the invoice is an ordinary item in it (F15, 2026-11-21); the hook shows what it says (a note to read, over the open crate), the autonote and the bit, once"
+    window: "a note to read (Joe's invoice: D-90's one exception)"
+    sets: [joe_invoice_found]
+    map_gives: {joes_invoice: 1}
+    once: true
+    do: [{autonote: invoice}]
+    text: "Inside the crate you find a piece of paper that reads: \"Breeder Slimes, 1 mated pair, 287. 5 Doom Bugs at 145 each, 725. Total: 1012 gold.\" It appears that Joe has been buying monsters and distributing them around town! Mayor Gunther will want to hear about this."
+  wobbles:
+    map: XD-01
+    where: "the mated pair and all they split into dead (built: evt:mated_pair, kills of group 2)"
+    sets: [joe_pair_slain]
+  culvert:
+    map: XD-01
+    where: "the river grate lifted from inside (built: evt:culvert_grate)"
+    sets: [culvert_grate_open]
+  culvert_x1:
+    map: X1
+    where: "X1's riverbank grate: barred until XD-01 opens it"
+    reads: [culvert_grate_open]
+  out_of_business:
+    map: X1
+    where: "Joe's shop door (house 4041): after M2 a sign instead of the house"
+    reads: [done]
+    requires: {qbit: done}
+    text: "A sign hanging on the side of the desk reads: 'Out of Business'"
+  gate_sign:
+    map: X1
+    where: "the sign at Vertigo's west gate"
+    reads: [done]
+    states:
+      - when: {qbit: done}
+        text: "Thank you."
+      - text: "Please help clean up our beautiful town."
+  temple_name:
+    map: X1
+    where: "the Slime Temple door: house 4009 before M2, 4010 (Temple of Vertigo) after (A4)"
+    reads: [done]
+
+rewards: {xp: 1500, gold: 1000}
+playthrough: "Tavern: the drunk (Joe). Fenwick (Joe's key). Rain barrel. Into XD-01, the crate, out. Gunther (Joe's invoice)."

@@ -1,0 +1,53 @@
+# Xeen promotion playthrough 23, the class table (README "What is checked" 5): X5: Kai Wu's Initiation (T1-D), after 21.
+# Written by class_table.py (do not edit by hand): per row of Xeen.Promotions, round 1 gives the members the
+# row's "from" classes and classes it must leave alone (a logged test setup through SetPlayerClass), picks the
+# promote and asserts every class; round 2 has nobody eligible and the promote is not offered. The party's own
+# classes are put back at the end.
+#   python3 tests/playthrough/xeen/promotions/run.py 23
+id: xeen.promotions.23_kaiwu_table
+title: "Xeen promotions 23: the class table, X5"
+world: xeen
+mode: faithful
+tags: [xeen, playthrough, promotions]
+steps:
+  - load_game: {path: output/playthrough/xeen/promotions/checkpoints/21_kaiwu_pagoda.oysav}
+  - setup_shortcut: {kind: immortal}
+  - assert: {map: xeen_x5.odm, qbit_set: [112081]}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; for _ = 1, 3 do if held() ~= 0 then stow() end end"}
+  # The party's own classes, kept for the end (class ids in global variables; the names remembered for the check).
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do evt.SetGlobalVar('Playthrough.Class' .. i, GetPlayerClass(i)) end"}
+  - play_lua: {source: 'remember("classes_start", classes()) log("CLASSES at start: " .. classes())'}
+
+  # D-82 point 5: no member down before the rounds (each reads every member's class).
+  - play_lua: {source: "local shown, down = {}, {}; for i = 0, 3 do local c = conditions(i); shown[#shown + 1] = '[' .. c .. ']'; for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious'}) do if (' ' .. c .. ' '):find(' ' .. n .. ' ', 1, true) then down[#down + 1] = 'member ' .. i .. ' ' .. c; break end end end; log('PARTY 23 before the class table: ' .. table.concat(shown, ' ')); if #down > 0 then error('PARTY DOWN before the class table (D-82 5): ' .. table.concat(down, ' | ')) end"}
+
+  # pagoda: Monk -> Initiate. Kai Wu (T1-D): "Initiation".
+  # Round 1: Monk Initiate Peasant Knight -> Initiate Initiate Peasant Knight.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Monk') then error('SetPlayerClass(0, Monk)') end if not SetPlayerClass(1, 'Initiate') then error('SetPlayerClass(1, Initiate)') end if not SetPlayerClass(2, 'Peasant') then error('SetPlayerClass(2, Peasant)') end if not SetPlayerClass(3, 'Knight') then error('SetPlayerClass(3, Knight)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES pagoda round 1 set: " .. c) if c ~= "Monk Initiate Peasant Knight" then error("expected Monk Initiate Peasant Knight, got " .. c) end'}
+  - set_pose: {map: xeen_x5.odm, x: 1280, y: 16660, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, action_label_present: "Initiation"}}
+  - select_topic: {match_label: "Initiation"}
+  - assert: {dialog: {active: true, text_contains: "Sit. Breathe. Stand up."}}
+  - play_lua: {source: 'local c = classes() log("CLASSES pagoda round 1 promoted: " .. c) if c ~= "Initiate Initiate Peasant Knight" then error("expected Initiate Initiate Peasant Knight, got " .. c) end'}
+  # Nobody left: the promote is no longer offered.
+  - assert: {dialog: {active: true, action_label_absent: "Initiation"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # Round 2: Initiate Peasant Knight Sorcerer, none of them eligible: the promote is not offered.
+  - lua_event: {source: "if not SetPlayerClass(0, 'Initiate') then error('SetPlayerClass(0, Initiate)') end if not SetPlayerClass(1, 'Peasant') then error('SetPlayerClass(1, Peasant)') end if not SetPlayerClass(2, 'Knight') then error('SetPlayerClass(2, Knight)') end if not SetPlayerClass(3, 'Sorcerer') then error('SetPlayerClass(3, Sorcerer)') end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES pagoda round 2 set: " .. c) if c ~= "Initiate Peasant Knight Sorcerer" then error("expected Initiate Peasant Knight Sorcerer, got " .. c) end'}
+  - set_pose: {map: xeen_x5.odm, x: 1280, y: 16660, z: 1888, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - assert: {dialog: {active: true, action_label_absent: "Initiation"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES pagoda round 2 kept: " .. c) if c ~= "Initiate Peasant Knight Sorcerer" then error("expected Initiate Peasant Knight Sorcerer, got " .. c) end'}
+
+  # The party's own classes back.
+  - lua_event: {source: "for i = 0, evt.GetPartyMemberCount() - 1 do if not SetPlayerClass(i, evt.GetGlobalVar('Playthrough.Class' .. i, -1)) then error('restore ' .. i) end evt.SetGlobalVar('Playthrough.Class' .. i, 0) end"}
+  - play_lua: {source: 'local c = classes() log("CLASSES restored: " .. c) if c ~= recall("classes_start") then error("expected " .. recall("classes_start") .. ", got " .. c) end'}
+  - save_game: {name: "P23 class table", path: output/playthrough/xeen/promotions/checkpoints/23_kaiwu_table.oysav}
